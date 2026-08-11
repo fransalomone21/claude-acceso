@@ -1,0 +1,65 @@
+# NIVEL 1 - SEGURO
+#
+# Bloatware puro: nada del sistema depende de estos paquetes.
+# Ninguno afecta llamadas, datos moviles, camara, teclado ni pagos.
+# Todo es reversible con:  ./acceso.sh restaurar
+#
+# El script solo toca los que REALMENTE existan en tu telefono.
+
+# --- AR / emojis / juguetes de camara ---
+com.samsung.android.aremoji                   # AR Emoji
+com.samsung.android.aremojieditor             # Editor de AR Emoji
+com.samsung.android.arzone                    # AR Zone
+com.sec.android.mimage.avatarstickers         # Stickers de avatar
+com.samsung.android.service.livedrawing       # Dibujo en vivo (S Pen)
+com.samsung.android.app.dofviewer             # Visor de profundidad de campo
+com.samsung.android.visionintelligence        # Bixby Vision
+
+# --- Bixby completo (asistente de Samsung) ---
+com.samsung.android.bixby.agent               # Bixby
+com.samsung.android.bixby.agent.dummy
+com.samsung.android.bixby.service
+com.samsung.android.bixby.wakeup              # escucha permanente "Hi Bixby": gasta bateria
+com.samsung.android.bixbyvision.framework
+com.samsung.android.app.settings.bixby
+com.samsung.systemui.bixby2
+
+# --- Contenido promocional y telemetria de Samsung ---
+com.samsung.android.app.spage                 # Samsung Free / Samsung Daily
+com.samsung.android.rubin.app                 # "Servicio de personalizacion": perfilado de uso
+com.samsung.android.app.social                # Contenido social
+com.samsung.sree                              # Samsung Global Goals
+com.samsung.android.app.tips                  # Consejos
+com.samsung.android.tvplus                    # Samsung TV Plus
+com.samsung.android.app.updatecenter
+com.samsung.android.beaconmanager              # escaneo de beacons Bluetooth en segundo plano
+com.samsung.android.privateshare
+com.samsung.android.app.omcagent               # configuracion de operador / promos
+com.samsung.android.themestore                # Tienda de temas
+
+# --- Migracion desde otro telefono (ya no la necesitas) ---
+com.samsung.android.smartswitchassistant
+com.sec.android.easyMover.Agent
+
+# --- Apps de terceros preinstaladas (reinstalables desde Play Store) ---
+com.facebook.katana
+com.facebook.system
+com.facebook.appmanager
+com.facebook.services
+com.linkedin.android
+com.netflix.mediaclient
+com.netflix.partner.activation
+com.spotify.music
+com.microsoft.skydrive                        # OneDrive
+com.microsoft.office.officehubrow
+com.microsoft.appmanager                      # Enlace con Windows (si no lo usas)
+com.amazon.appmanager
+com.amazon.mShop.android.shopping
+
+# --- Apps de Google duplicadas o de nicho (reinstalables desde Play Store) ---
+com.google.android.apps.tachyon               # Google Meet
+com.google.android.videos                     # Google TV
+com.google.android.apps.youtube.music
+com.google.android.projection.gearhead        # Android Auto (si no usas auto)
+com.google.ar.core                            # ARCore
+com.google.android.apps.subscriptions.red     # Google One

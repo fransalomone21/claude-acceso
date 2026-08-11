@@ -1,0 +1,5 @@
+# Los informes contienen datos de tu telefono (apps instaladas, serial, cuentas).
+# Se quedan en tu maquina y no se suben al repositorio.
+informes/*
+!informes/.gitkeep
+*.zip

@@ -1,0 +1,73 @@
+# PAQUETES QUE NUNCA HAY QUE DESINSTALAR EN UN SAMSUNG
+#
+# Los modulos de este kit leen este archivo y se niegan a tocar cualquier
+# paquete que aparezca aca, aunque lo agregues por error a otra lista.
+#
+# Motivo por bloque al final de cada linea.
+
+# --- Nucleo de Android: romperlos deja el telefono inutilizable ---
+android
+com.android.systemui
+com.android.settings
+com.android.phone
+com.android.server.telecom
+com.android.providers.settings
+com.android.providers.telephony
+com.android.providers.contacts
+com.android.providers.media
+com.android.providers.media.module
+com.android.providers.downloads
+com.android.externalstorage
+com.android.permissioncontroller
+com.android.packageinstaller
+com.android.certinstaller
+com.android.keychain
+com.android.shell
+com.android.se
+com.android.bluetooth
+com.android.nfc                              # documentado: su remocion provoca crashes
+com.android.wifi.resources
+com.android.networkstack
+com.android.cellbroadcastreceiver             # alertas de emergencia y sismos
+
+# --- Servicios de Google necesarios para que funcionen tus apps ---
+com.google.android.gms
+com.google.android.gsf
+com.android.vending                           # Play Store + Play Protect (antimalware)
+com.google.android.permissioncontroller
+com.google.android.ext.services
+com.google.android.providers.media.module
+
+# --- Nucleo Samsung: teclado, telefonia, launcher, seguridad ---
+com.samsung.android.honeyboard                # teclado; sacarlo cuelga otros teclados
+com.sec.android.app.launcher                  # One UI Home
+com.samsung.android.app.aodservice
+com.samsung.android.dialer
+com.samsung.android.incallui
+com.samsung.android.app.telephonyui
+com.samsung.android.smartcallprovider
+com.sec.android.app.callsetting
+com.samsung.android.fmm                       # Find My Mobile; sacarlo provoca crashes
+com.sec.android.diagmonagent                  # documentado: su remocion provoca crashes
+com.samsung.android.scpm                      # dependencias en varias apps del sistema
+com.samsung.android.smartmirroring            # su remocion cuelga launcher y reproductor
+com.samsung.android.app.smartcapture          # rompe captura y grabacion de pantalla
+com.samsung.android.providers.contacts
+com.samsung.android.MtpApplication
+com.samsung.android.setting.multisound
+com.samsung.android.mdx.kit
+com.samsung.android.wifi.resources
+com.sec.android.app.SecSetupWizard
+com.sec.android.soagent                       # agente de actualizaciones del sistema
+com.wssyncmldm                                # actualizaciones de firmware (FOTA)
+com.sec.android.systemupdate
+
+# --- Knox / seguridad: se desactivan solos si no los usas, no los borres ---
+com.samsung.android.knox.attestation
+com.samsung.android.knox.containeragent
+com.samsung.knox.securefolder
+com.samsung.android.bio.face.service
+com.samsung.faceservice
+com.samsung.android.biometrics.app.setting
+com.samsung.android.samsungpassautofill       # si lo usas como gestor de contrasenas
+com.samsung.android.rampart                   # Auto Blocker: es proteccion, no bloat

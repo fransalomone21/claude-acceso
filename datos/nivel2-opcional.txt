@@ -1,0 +1,51 @@
+# NIVEL 2 - OPCIONAL (revisalos UNO POR UNO)
+#
+# Estos NO rompen el telefono, pero son apps que mucha gente si usa.
+# Sacalos solo si estas seguro de que no los usas o de que tenes reemplazo.
+#
+# El script te va a preguntar por cada uno por separado en este nivel.
+
+# --- Ecosistema Samsung: sacalos solo si no usas la marca a fondo ---
+com.sec.android.app.samsungapps               # Galaxy Store (sin ella no actualizas apps Samsung)
+com.samsung.android.scloud                    # Samsung Cloud (perdes su backup)
+com.samsung.android.mobileservice             # Samsung Social / cuentas compartidas
+com.samsung.android.app.sharelive             # Quick Share
+com.samsung.android.forest                    # Bienestar digital de Samsung
+com.samsung.android.app.routines              # Modos y Rutinas (util para bateria, ver docs)
+com.samsung.android.voc                       # Samsung Members (util para diagnostico de bateria)
+com.samsung.android.app.contacts              # Contactos de Samsung: SOLO si usas Google Contactos
+
+# --- Apps propias con alternativa en Play Store ---
+com.sec.android.app.sbrowser                  # Samsung Internet
+com.samsung.android.messaging                 # Mensajes de Samsung: SOLO si ya usas otra app de SMS
+com.samsung.android.app.notes                 # Samsung Notes: exporta tus notas ANTES
+com.sec.android.app.popupcalculator            # Calculadora
+com.sec.android.app.clockpackage               # Reloj y alarmas: SOLO si tenes reemplazo probado
+com.samsung.android.calendar
+com.sec.android.gallery3d                     # Galeria: SOLO si usas Google Fotos
+com.sec.android.app.myfiles                   # Mis Archivos
+
+# --- Gaming (si no jugas, es puro proceso en segundo plano) ---
+com.samsung.android.game.gamehome             # Game Launcher
+com.samsung.android.game.gametools            # Game Booster
+com.samsung.android.game.gos                  # Game Optimizing Service (limita rendimiento)
+
+# --- Accesorios que no tenes ---
+com.samsung.android.app.watchmanager           # Galaxy Wearable
+com.samsung.android.mateagent                  # emparejado de wearables
+com.samsung.android.wear.shealth
+com.samsung.android.easysetup                  # configuracion de accesorios cercanos
+com.samsung.android.oneconnect                 # SmartThings
+com.samsung.android.smartthings.rc
+com.sec.android.app.dexonpc                    # Samsung DeX
+com.samsung.desktopsystemui                    # UI de DeX
+
+# --- Familia / menores ---
+com.samsung.android.kidsinstaller
+com.samsung.android.app.kidshome
+com.google.android.apps.kids.familylink
+
+# --- Pagos: sacalos SOLO si no tenes tarjetas cargadas ---
+com.samsung.android.spay                       # Samsung Pay / Wallet
+com.samsung.android.spayfw
+com.samsung.android.samsungpass                # Samsung Pass
