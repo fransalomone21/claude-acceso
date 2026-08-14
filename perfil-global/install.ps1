@@ -1,4 +1,5 @@
-# install.ps1 — Instala perfil-global en %USERPROFILE%\.claude\
+# install.ps1 - Instala perfil-global en %USERPROFILE%\.claude\
+# NOTA: ASCII puro - no usar tildes ni caracteres especiales en este archivo.
 #
 # Ejecutar desde la RAIZ del repositorio:
 #   .\perfil-global\install.ps1
@@ -7,7 +8,7 @@
 #   .\perfil-global\install.ps1 -RepoRoot "C:\ruta\al\repo"
 
 param(
-    [string]$RepoRoot = $PSScriptRoot | Split-Path -Parent
+    [string]$RepoRoot = (Split-Path $PSScriptRoot -Parent)
 )
 
 $ErrorActionPreference = 'Stop'
@@ -29,14 +30,12 @@ Write-Host "  Fuente : $source"
 Write-Host "  Destino: $dest"
 Write-Host ""
 
-# Validar que la fuente existe
 if (-not (Test-Path $source)) {
     Fail "No se encontro 'perfil-global' en: $source"
     Fail "Verificar que se ejecuta desde la raiz del repositorio."
     exit 1
 }
 
-# Crear estructura de destino
 New-Item -ItemType Directory -Force -Path $dest      | Out-Null
 New-Item -ItemType Directory -Force -Path $skillsDir | Out-Null
 Info "Carpetas destino verificadas."
@@ -71,13 +70,12 @@ if (-not (Test-Path $skillSrc)) {
     Ok "$skillName\SKILL.md -> $skillDst"
 }
 
-# Resultado final
 Write-Host ""
 if ($ok) {
     Write-Host "Instalacion completada." -ForegroundColor Green
     Write-Host "Verificar con: .\perfil-global\verify-install.ps1"
 } else {
-    Write-Host "Instalacion con errores — revisar los mensajes FAIL de arriba." -ForegroundColor Red
+    Write-Host "Instalacion con errores - revisar los mensajes FAIL de arriba." -ForegroundColor Red
     exit 1
 }
 Write-Host ""
