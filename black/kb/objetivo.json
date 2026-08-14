@@ -1,6 +1,5 @@
 {
   "_nota": "Identidad del juego. TODO lo demás en kb/ depende de version_activa: las direcciones NO son portables entre versiones. Confirmá los datos de TU copia con `python3 herramientas/pine.py info` y actualizá este archivo.",
-
   "juego": "BLACK",
   "desarrollador": "Criterion Games",
   "editor": "Electronic Arts",
@@ -12,10 +11,8 @@
     "confianza": "probable",
     "nota": "Criterion era dueña de RenderWare; BLACK usa su stack interno. A confirmar buscando cadenas 'RenderWare'/'rw' en el ELF."
   },
-
   "version_activa": "NTSC-U",
   "_version_activa_ayuda": "Poné acá la clave de `versiones` que corresponde a tu copia (por ejemplo \"NTSC-U\"). Sin esto, pnach.py no compila.",
-
   "versiones": {
     "NTSC-U": {
       "serial": "SLUS-21376",
@@ -24,7 +21,7 @@
       "elf": "SLUS_213.76",
       "region": "Estados Unidos",
       "confirmada": true,
-      "fuente_crc": "confirmado el 2026-08-14 en la notebook de Fran, leyendo el log de arranque de una PCSX2 2.6.3 real (líneas 'Serial: SLUS-21376 / Version: 1.00 / CRC: 5C891FF1' al cargar el ISO). Mismo dato que expondría pine.py info, por la misma fuente (VMManager::GetDiscSerial/GetDiscCRC); no hace falta re-confirmar por PINE."
+      "fuente_crc": "confirmado por pine.py info el 2026-08-14T14:53:06+00:00"
     },
     "PAL": {
       "serial": "SLES-53831",
@@ -35,7 +32,6 @@
       "fuente_crc": "sin confirmar"
     }
   },
-
   "memoria": {
     "ram_ee": {
       "inicio": "0x00000000",
