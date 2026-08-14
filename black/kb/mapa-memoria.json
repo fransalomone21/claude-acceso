@@ -1,0 +1,37 @@
+{
+  "_esquema": {
+    "id": "identificador corto y estable, en snake_case. Es la clave que usan las herramientas.",
+    "nombre": "nombre legible",
+    "direccion": "string hexadecimal '0x00XXXXXX', o null si todavía no se conoce",
+    "tipo": "u8|u16|u32|u64|i8|i16|i32|i64|f32",
+    "version": "clave de kb/objetivo.json#versiones a la que aplica esta dirección",
+    "estable": "true si la dirección es fija entre partidas; false si es dinámica (hay que llegar por puntero)",
+    "base": "id de la estructura y offset, cuando la dirección es dinámica. Ej: 'jugador+0x1C'",
+    "confianza": "confirmado | probable | hipotesis | descartado",
+    "evidencia": "CÓMO se supo. Sin esto la entrada no vale nada.",
+    "descubierto": "fecha ISO",
+    "notas": "texto libre"
+  },
+
+  "_disciplina": [
+    "Una entrada entra como 'hipotesis'. Sube a 'probable' cuando la observación se repite.",
+    "Sube a 'confirmado' SÓLO cuando escribir el valor produce el efecto esperado en pantalla.",
+    "Si una dirección resulta ser dinámica, no la borres: marcá estable=false y anotá la cadena de punteros.",
+    "Nunca borres una entrada descartada. Saber qué NO es ahorra repetir el trabajo."
+  ],
+
+  "entradas": [
+    {
+      "id": "vida_jugador",
+      "nombre": "Vida actual del jugador",
+      "direccion": null,
+      "tipo": "u32",
+      "version": null,
+      "estable": null,
+      "confianza": "hipotesis",
+      "evidencia": "PENDIENTE DE IMPORTAR. En una sesión previa (PC de Fran, debugger de PCSX2) se localizaron 4-5 candidatos de vida y se identificó la rutina de daño. Esos valores NO están en este repositorio todavía.",
+      "descubierto": null,
+      "notas": "Primera tarea del proyecto: recuperar esos valores, o re-localizarlos con escanear.py (20 minutos de trabajo). Anotar también QUÉ versión del juego era, porque si era otra región las direcciones no sirven."
+    }
+  ]
+}

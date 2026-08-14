@@ -1,0 +1,55 @@
+# Plantilla de mod. Copiala, renombrala y editala.
+#
+# Cada archivo .toml de esta carpeta es UN mod, que se convierte en un bloque
+# activable dentro del .pnach. Compilá con:
+#     python3 herramientas/pnach.py compilar --instalar
+#
+# REGLA DEL PROYECTO: no se escribe una dirección acá hasta que esté en
+# kb/mapa-memoria.json con confianza "confirmado". Este archivo es la salida
+# del trabajo de ingeniería, no el lugar donde se prueba a ver qué pasa.
+
+nombre = "Ejemplo — no hace nada"
+autor = "proyecto BLACK"
+descripcion = "Plantilla de referencia. Dejala deshabilitada."
+habilitado = false
+
+# `cuando` por defecto para todos los parches del archivo:
+#   arranque  se aplica una vez al bootear     (bueno para tablas estáticas)
+#   continuo  se reescribe cada frame          (bueno para valores que el juego pisa)
+#   ambos     las dos cosas
+#   gui       sólo cuando lo activás en PCSX2
+cuando = "continuo"
+
+
+# --- Parche de DATO: escribe un valor en una dirección ------------------------
+[[parche]]
+direccion = 0x00200000
+tipo = "u32"          # u8 u16 u32 u64 i8 i16 i32 i64 f32 · o byte short word double
+valor = 500
+nota = "vida máxima del jugador"
+
+# Los flotantes se declaran como tales y se convierten a su representación IEEE.
+# [[parche]]
+# direccion = 0x00200010
+# tipo = "f32"
+# valor = 2.5
+# nota = "multiplicador de velocidad"
+
+
+# --- Parche de CÓDIGO: escribe una instrucción, escrita en assembly -----------
+# Se ensambla al compilar, así que en el .toml queda legible lo que hace.
+# Un [[parche]] = una instrucción = una palabra de 32 bits.
+#
+# [[parche]]
+# direccion = 0x0010A2B4
+# asm = "nop"
+# nota = "anula el `sw v0, 0x1C(s0)` que descuenta la vida -> vida infinita"
+#
+# [[parche]]
+# direccion = 0x0010A150
+# asm = "addiu v0, zero, 999"
+# nota = "vida inicial: era `addiu v0, zero, 100`"
+#
+# Para ver qué instrucción hay hoy en una dirección:
+#     python3 herramientas/pine.py leer 0x0010A2B4 --tipo u32
+#     python3 herramientas/mips.py des 0x0010A2B4 0x<la palabra que salió>

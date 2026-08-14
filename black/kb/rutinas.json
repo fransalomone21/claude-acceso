@@ -1,0 +1,38 @@
+{
+  "_esquema": {
+    "id": "snake_case estable",
+    "nombre": "nombre legible que le pusimos nosotros",
+    "direccion": "string hexadecimal de la primera instrucción",
+    "fin": "dirección de la última instrucción, si se conoce",
+    "version": "clave de kb/objetivo.json#versiones",
+    "descripcion": "qué hace, en una o dos frases",
+    "convencion": "qué llega en a0..a3 y qué vuelve en v0. Esto es lo más valioso de todo.",
+    "llamadores": "lista de direcciones que la llaman",
+    "llama_a": "lista de ids de otras rutinas",
+    "puntos_de_parche": "lista de {direccion, instruccion_original, efecto_si_se_modifica}",
+    "confianza": "confirmado | probable | hipotesis | descartado",
+    "evidencia": "cómo se llegó a ella (breakpoint, referencia cruzada, string cercano...)"
+  },
+
+  "_como_se_encuentra_una_rutina": [
+    "1. Poné un breakpoint de escritura sobre la dirección del dato (PCSX2: Debugger > Memory > right-click > Add breakpoint).",
+    "2. Provocá el evento en el juego. El debugger para en la instrucción que escribe.",
+    "3. Esa instrucción está DENTRO de la rutina, no es su principio. Subí en el desensamblado hasta el prólogo (addiu sp, sp, -N).",
+    "4. Anotá acá la dirección del prólogo, no la del breakpoint.",
+    "5. Mirá el call stack del debugger para llenar `llamadores`."
+  ],
+
+  "entradas": [
+    {
+      "id": "aplicar_dano",
+      "nombre": "Rutina de daño / actualización de vida",
+      "direccion": null,
+      "version": null,
+      "descripcion": "Escribe la vida nueva del jugador. Identificada en la sesión previa en la PC de Fran; falta importar la dirección concreta.",
+      "convencion": null,
+      "confianza": "hipotesis",
+      "evidencia": "PENDIENTE DE IMPORTAR desde la sesión anterior.",
+      "notas": "Es el ancla de todo el proyecto. Desde acá salen: quién llama (el atacante), con qué parámetro (el daño), y sobre qué estructura escribe (el jugador)."
+    }
+  ]
+}

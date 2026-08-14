@@ -1,0 +1,48 @@
+{
+  "_esquema": {
+    "id": "snake_case estable",
+    "nombre": "nombre legible",
+    "tamano": "bytes que ocupa una instancia, si se conoce",
+    "como_llegar": "cómo se obtiene el puntero base en tiempo de ejecución",
+    "campos": "lista de {offset, tipo, id, descripcion, confianza}",
+    "confianza": "confirmado | probable | hipotesis"
+  },
+
+  "_metodo": [
+    "Con una dirección conocida (ej: la vida), volcá ±0x200 alrededor con inspeccionar.py.",
+    "Los campos relacionados viven cerca: vida y vida_max suelen estar a pocos bytes.",
+    "Un u32 que empieza con 0x00 o 0x01 y es múltiplo de 4 suele ser un PUNTERO. inspeccionar.py los marca.",
+    "El primer u32 de un objeto de C++ suele ser el puntero a la vtable. Si dos objetos comparten vtable, son de la misma clase: así se encuentra la lista de enemigos.",
+    "Confirmá cada campo escribiéndolo y mirando la pantalla. Un campo sin confirmar es una conjetura."
+  ],
+
+  "entradas": [
+    {
+      "id": "jugador",
+      "nombre": "Estructura del jugador",
+      "tamano": null,
+      "como_llegar": null,
+      "confianza": "hipotesis",
+      "campos": [],
+      "notas": "Objetivo inmediato una vez recuperada la dirección de vida: volcar el entorno y mapear vida_max, munición, estado."
+    },
+    {
+      "id": "enemigo",
+      "nombre": "Estructura de enemigo / NPC",
+      "tamano": null,
+      "como_llegar": null,
+      "confianza": "hipotesis",
+      "campos": [],
+      "notas": "Se llega comparando vtables con la del jugador, o desde el argumento 'atacante' de aplicar_dano."
+    },
+    {
+      "id": "arma",
+      "nombre": "Definición de arma",
+      "tamano": null,
+      "como_llegar": null,
+      "confianza": "hipotesis",
+      "campos": [],
+      "notas": "Muy probablemente sea una TABLA estática de N entradas contiguas (daño, cadencia, cargador, dispersión). Si es así, un solo hallazgo desbloquea todas las armas de golpe. Es el mod con mejor relación esfuerzo/resultado del proyecto."
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "_nota": "Identidad del juego. TODO lo demás en kb/ depende de version_activa: las direcciones NO son portables entre versiones. Confirmá los datos de TU copia con `python3 herramientas/pine.py info` y actualizá este archivo.",
+
+  "juego": "BLACK",
+  "desarrollador": "Criterion Games",
+  "editor": "Electronic Arts",
+  "anio": 2006,
+  "plataforma": "PlayStation 2",
+  "cpu": "MIPS R5900 (Emotion Engine), little-endian, 32 bits",
+  "motor": {
+    "base": "RenderWare 3.x + tecnología propia de Criterion",
+    "confianza": "probable",
+    "nota": "Criterion era dueña de RenderWare; BLACK usa su stack interno. A confirmar buscando cadenas 'RenderWare'/'rw' en el ELF."
+  },
+
+  "version_activa": null,
+  "_version_activa_ayuda": "Poné acá la clave de `versiones` que corresponde a tu copia (por ejemplo \"NTSC-U\"). Sin esto, pnach.py no compila.",
+
+  "versiones": {
+    "NTSC-U": {
+      "serial": "SLUS-21376",
+      "crc": "5C891FF1",
+      "elf": "SLUS_213.76",
+      "region": "Estados Unidos",
+      "confirmada": false,
+      "fuente_crc": "comunidad (pnach 5C891FF1 documentado en foros); confirmar con pine.py info"
+    },
+    "PAL": {
+      "serial": "SLES-53831",
+      "crc": null,
+      "elf": "SLES_538.31",
+      "region": "Europa",
+      "confirmada": false,
+      "fuente_crc": "sin confirmar"
+    }
+  },
+
+  "memoria": {
+    "ram_ee": {
+      "inicio": "0x00000000",
+      "fin": "0x02000000",
+      "tamano": "32 MiB",
+      "nota": "El offset dentro de eeMemory.bin del savestate ES la dirección EE. Las direcciones de .pnach usan el mismo espacio."
+    },
+    "region_kernel": {
+      "inicio": "0x00000000",
+      "fin": "0x00100000",
+      "nota": "Kernel de la PS2. No escanear acá: es ruido."
+    },
+    "region_juego": {
+      "inicio": "0x00100000",
+      "fin": "0x02000000",
+      "nota": "Donde vive el ELF y los datos del juego. Es la región por defecto de escanear.py."
+    }
+  }
+}
