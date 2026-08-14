@@ -16,6 +16,65 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-14 (5) — Bug de raíz: OneDrive redirige Documentos, todo lo que asumía `~/Documents` fallaba
+
+**Máquina:** notebook de Fran (Windows, PCSX2 2.6.3) · **Modelo:** Sonnet
+
+**Objetivo:** el usuario apretó F1 (savestate guardado, confirmado en
+pantalla: "Saved state to slot 1"), pero `escanear.py nuevo vida --pedir`
+decía que no encontraba ningún archivo nuevo.
+
+**Causa real:** en esta notebook, Windows tiene "Documentos" redirigido a
+OneDrive. La carpeta real es `C:\Users\frans\OneDrive\Documents\PCSX2\...`,
+no `C:\Users\frans\Documents\PCSX2\...`. `estado.py` y `pnach.py` asumían la
+segunda (`os.path.expanduser("~") + "Documents"`), que en esta máquina no
+existe o no es la que usa PCSX2 — así que la detección automática fallaba en
+silencio, sin ningún error claro, para savestates, `.ini` y carpeta de
+cheats por igual. Confirmado dos veces por el usuario: una vez por el log de
+arranque (entrada anterior) y una segunda vez con una captura de
+`Configuración > Carpetas` de PCSX2, mostrando las seis carpetas reales bajo
+`OneDrive\Documents\PCSX2\`.
+
+**Resultado:**
+
+- `estado.py`: nueva `_documentos_windows()`, que le pregunta a Windows
+  directamente (`SHGetFolderPathW` + `CSIDL_PERSONAL`) en vez de adivinar.
+  Esta API sigue la redirección de OneDrive igual que la moderna
+  (documentado por Microsoft, por compatibilidad hacia atrás).
+  `_candidatos_documentos_windows()` la usa como primera opción y cae a
+  `~/Documents` y `~/OneDrive/Documents` como respaldo si la API falla.
+- `carpeta_savestates()` (estado.py) y `_ruta_ini_pcsx2()` /
+  `carpeta_cheats()` (pnach.py) ahora usan esta lista en vez de una sola
+  ruta fija. Un solo punto de arreglo, tres lugares que lo necesitaban.
+- 4 pruebas nuevas (total: 85). Importante ser honesto sobre el límite de lo
+  que se puede probar acá: `_documentos_windows()` en sí (la llamada a
+  `ctypes`/`SHGetFolderPathW`) es imposible de ejecutar fuera de Windows —
+  esta sesión corre en Linux. Lo que sí se prueba, en cualquier sistema, es
+  que la función no truena fuera de Windows (devuelve `None` de entrada) y
+  que la lista de candidatos de respaldo es correcta. La llamada real a la
+  API de Windows queda sin verificar por ejecución; sólo por lectura
+  cuidadosa contra la documentación de Microsoft.
+- Confirmado el nombre real de los savestates:
+  `SLUS-21376 (5C891FF1).<slot>.p2s` (más `.p2s.backup`). No hacía falta
+  ningún cambio para esto: `ultimo_savestate()` ya buscaba con un patrón
+  `*.p2s` genérico, que no distingue el nombre exacto.
+
+**No funcionó / pendiente de verificar:**
+
+- No hay forma de confirmar desde acá que `_documentos_windows()` funciona
+  de verdad en Windows real — sólo que el resto del sistema no se rompe si
+  falla. **Esto es lo primero a validar en la próxima corrida en la
+  notebook**: si `escanear.py nuevo vida --pedir` encuentra el savestate
+  solo (sin `--desde` a mano), la API funcionó. Si sigue fallando, hay que
+  revisar `_documentos_windows()` con más cuidado — ahí sí, con acceso real
+  a Windows para poder iterar.
+
+**Sigue:** confirmar `--pedir` sin `--desde` manual en la próxima corrida.
+Si funciona, seguir con el checkpoint 1 (la vida del jugador) que ya había
+quedado desbloqueado a mano con `--desde` apuntando al `.p2s` real.
+
+---
+
 ## 2026-08-14 (4) — Checkpoint 0 cerrado: PINE confirmado en vivo
 
 **Máquina:** notebook de Fran (Windows, PCSX2 2.6.3) · **Modelo:** Sonnet

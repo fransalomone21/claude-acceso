@@ -15,6 +15,7 @@ from __future__ import annotations
 import io
 import json
 import os
+import platform
 import shutil
 import struct
 import subprocess
@@ -157,6 +158,22 @@ try:
     ok(False, "savestate sin eeMemory.bin debería fallar")
 except estado.EstadoError:
     ok(True, "savestate sin eeMemory.bin falla con mensaje claro")
+
+print("== estado: ubicar 'Documentos' aunque OneDrive lo haya redirigido ==")
+# La API de Windows (SHGetFolderPathW) no se puede probar fuera de Windows:
+# platform.system() != "Windows" hace que _documentos_windows() devuelva None
+# de entrada, sin tocar ctypes. Lo que SÍ se prueba acá, en cualquier
+# sistema, es que ante eso el resto de la lógica no se cae: cae a las rutas
+# heredadas (~/Documents y ~/OneDrive/Documents), sin duplicados.
+if platform.system() != "Windows":
+    ok(estado._documentos_windows() is None,
+       "fuera de Windows, _documentos_windows() no intenta nada y da None")
+candidatos_docs = estado._candidatos_documentos_windows()
+esperado_base = os.path.join(os.path.expanduser("~"), "Documents")
+esperado_onedrive = os.path.join(os.path.expanduser("~"), "OneDrive", "Documents")
+ok(esperado_base in candidatos_docs, "incluye ~/Documents como candidato")
+ok(esperado_onedrive in candidatos_docs, "incluye ~/OneDrive/Documents como candidato")
+ok(len(candidatos_docs) == len(set(candidatos_docs)), "sin candidatos duplicados")
 
 
 # =============================================================================

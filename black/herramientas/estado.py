@@ -52,13 +52,61 @@ class EstadoError(RuntimeError):
     pass
 
 
+def _documentos_windows() -> str | None:
+    """
+    La carpeta "Documentos" real de Windows, preguntándole al sistema en vez
+    de adivinar `~/Documents`. Hace falta: cuando OneDrive redirige
+    Documentos -algo que Windows hace solo, el usuario no lo elige a
+    propósito- `~/Documents` puede no existir, y todo lo que dependía de esa
+    ruta se rompe en silencio. Pasó de verdad: en una notebook real,
+    Documentos estaba en `~/OneDrive/Documents`, y `escanear.py --pedir`
+    nunca encontraba el savestate que PCSX2 sí había guardado.
+
+    SHGetFolderPathW con CSIDL_PERSONAL sigue la redirección igual que la
+    API moderna (Microsoft lo documenta así, por compatibilidad hacia atrás
+    con este método viejo). No se puede probar esta función fuera de
+    Windows; por eso es best-effort con un try/except amplio y quien la
+    llama siempre tiene un candidato de respaldo.
+    """
+    if platform.system() != "Windows":
+        return None
+    try:
+        import ctypes
+        CSIDL_PERSONAL = 5
+        SHGFP_TYPE_CURRENT = 0
+        buf = ctypes.create_unicode_buffer(1024)
+        ctypes.windll.shell32.SHGetFolderPathW(  # type: ignore[attr-defined]
+            None, CSIDL_PERSONAL, None, SHGFP_TYPE_CURRENT, buf
+        )
+        return buf.value or None
+    except Exception:
+        return None
+
+
+def _candidatos_documentos_windows() -> list[str]:
+    """
+    Todas las rutas de Documentos que vale la pena probar: la real primero
+    (si la API contestó), después las dos ubicaciones típicas por si la API
+    falló o devolvió algo raro.
+    """
+    vistos: list[str] = []
+    real = _documentos_windows()
+    if real:
+        vistos.append(real)
+    base = os.path.expanduser("~")
+    for candidato in (os.path.join(base, "Documents"), os.path.join(base, "OneDrive", "Documents")):
+        if candidato not in vistos:
+            vistos.append(candidato)
+    return vistos
+
+
 def carpeta_savestates() -> str | None:
     """Dónde guarda PCSX2 los savestates en este sistema."""
     sistema = platform.system()
     candidatos = []
     if sistema == "Windows":
-        docs = os.path.join(os.path.expanduser("~"), "Documents", "PCSX2", "sstates")
-        candidatos.append(docs)
+        for docs in _candidatos_documentos_windows():
+            candidatos.append(os.path.join(docs, "PCSX2", "sstates"))
         appdata = os.environ.get("APPDATA")
         if appdata:
             candidatos.append(os.path.join(appdata, "PCSX2", "sstates"))

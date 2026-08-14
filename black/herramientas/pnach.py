@@ -42,6 +42,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mips  # noqa: E402
+import estado  # noqa: E402
 
 try:
     import tomllib
@@ -80,7 +81,11 @@ def _ruta_ini_pcsx2() -> str | None:
     sistema = platform.system()
     candidatos = []
     if sistema == "Windows":
-        candidatos.append(os.path.join(os.path.expanduser("~"), "Documents", "PCSX2", "inis", "PCSX2.ini"))
+        # No alcanza con `~/Documents`: si OneDrive redirigió Documentos (algo
+        # frecuente y que el usuario no elige a propósito), esa ruta no
+        # existe. estado.py pregunta primero a Windows cuál es la real.
+        for docs in estado._candidatos_documentos_windows():
+            candidatos.append(os.path.join(docs, "PCSX2", "inis", "PCSX2.ini"))
     elif sistema == "Darwin":
         candidatos.append(os.path.expanduser("~/Library/Application Support/PCSX2/inis/PCSX2.ini"))
     else:
@@ -139,7 +144,8 @@ def carpeta_cheats() -> str | None:
     sistema = platform.system()
     candidatos = []
     if sistema == "Windows":
-        candidatos.append(os.path.join(os.path.expanduser("~"), "Documents", "PCSX2", "cheats"))
+        for docs in estado._candidatos_documentos_windows():
+            candidatos.append(os.path.join(docs, "PCSX2", "cheats"))
     elif sistema == "Darwin":
         candidatos.append(os.path.expanduser("~/Library/Application Support/PCSX2/cheats"))
     else:
