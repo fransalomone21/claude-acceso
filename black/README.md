@@ -118,6 +118,27 @@ python3 herramientas/pnach.py listar
 python3 herramientas/pnach.py compilar --instalar
 ```
 
+### `fijar_objetivo.py` — confirmar la identidad del juego
+
+Le pregunta a PCSX2 el serial y el CRC reales por PINE y actualiza
+`kb/objetivo.json` solo: marca la versión como confirmada y la deja como
+`version_activa`. Es el paso que cierra el checkpoint 0.
+
+```bash
+python3 herramientas/fijar_objetivo.py
+```
+
+### `windows/preparar_entorno.ps1` — automatizar todo lo anterior en Windows
+
+Hace de punta a punta lo que describe `docs/01-entorno.md`: detecta Python,
+instala numpy, activa PINE, apaga la compresión de savestates, abre PCSX2 y
+corre `fijar_objetivo.py` al final. Pide UAC al arrancar.
+
+```powershell
+cd black\herramientas\windows
+.\preparar_entorno.ps1 -IsoPath "D:\Juegos\BLACK.iso"
+```
+
 ---
 
 ## Cómo se trabaja

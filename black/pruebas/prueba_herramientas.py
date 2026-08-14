@@ -335,6 +335,60 @@ ok(all(r.endswith(".28100") for r in pine.rutas_socket(28100)),
    "slot no estándar agrega sufijo", str(pine.rutas_socket(28100)))
 
 
+# =============================================================================
+print("== fijar_objetivo: persistencia de identidad (sin PCSX2) ==")
+import fijar_objetivo  # noqa: E402
+
+objetivo_base = {
+    "version_activa": None,
+    "versiones": {
+        "NTSC-U": {
+            "serial": "SLUS-21376",
+            "crc": "5C891FF1",
+            "confirmada": False,
+            "fuente_crc": "comunidad, sin confirmar",
+        },
+        "PAL": {"serial": "SLES-53831", "crc": None, "confirmada": False},
+    },
+}
+
+# caso 1: serial conocido, CRC coincide -> se confirma y queda activa
+info_ok = {"serial": "SLUS-21376", "crc": "5c891ff1", "titulo": "Black",
+           "version_pcsx2": "PCSX2 2.0.0", "version_juego": "1.00", "estado": "corriendo"}
+act, msgs = fijar_objetivo.aplicar_info(objetivo_base, info_ok)
+ok(act["version_activa"] == "NTSC-U", "serial conocido activa esa versión")
+ok(act["versiones"]["NTSC-U"]["confirmada"] is True, "la marca confirmada")
+ok(act["versiones"]["NTSC-U"]["crc"] == "5C891FF1", "normaliza el CRC a mayúsculas")
+ok(objetivo_base["versiones"]["NTSC-U"]["confirmada"] is False,
+   "no muta el dict original (función pura)")
+
+# caso 2: CRC no coincide con el anotado -> avisa fuerte, pisa con el observado
+info_distinto = dict(info_ok, crc="AABBCCDD")
+act2, msgs2 = fijar_objetivo.aplicar_info(objetivo_base, info_distinto)
+ok(act2["versiones"]["NTSC-U"]["crc"] == "AABBCCDD", "pisa el CRC con el observado")
+ok(any("AVISO" in m and "5C891FF1" in m and "AABBCCDD" in m for m in msgs2),
+   "avisa la discrepancia con ambos valores", str(msgs2))
+
+# caso 3: serial que no está en ninguna versión conocida -> crea entrada nueva
+info_nuevo = {"serial": "SLES-99999", "crc": "11223344", "titulo": "Black",
+              "version_pcsx2": "PCSX2 2.0.0", "version_juego": "1.00", "estado": "corriendo"}
+act3, msgs3 = fijar_objetivo.aplicar_info(objetivo_base, info_nuevo)
+ok("SLES-99999" in act3["versiones"], "serial desconocido crea una entrada nueva")
+ok(act3["version_activa"] == "SLES-99999", "la nueva entrada queda activa")
+ok(act3["versiones"]["SLES-99999"]["confirmada"] is True, "la entrada nueva nace confirmada")
+ok("PAL" in act3["versiones"], "no borra las otras versiones ya anotadas")
+
+# caso 4: sin serial (PCSX2 en el menú, sin juego) -> error claro, no un KeyError
+try:
+    fijar_objetivo.aplicar_info(objetivo_base, {"serial": "", "crc": ""})
+    ok(False, "sin serial debería fallar")
+except fijar_objetivo.FijarObjetivoError as e:
+    ok("juego cargado" in str(e), "el mensaje explica que hay que cargar el juego", str(e))
+
+r = correr(["herramientas/fijar_objetivo.py", "--help"])
+ok(r.returncode == 0, "fijar_objetivo.py --help no rompe", (r.stderr or r.stdout)[:200])
+
+
 shutil.rmtree(tmp, ignore_errors=True)
 
 # =============================================================================

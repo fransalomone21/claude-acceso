@@ -5,6 +5,48 @@ Cómo dejar una máquina lista para trabajar. Hay que hacerlo una vez por equipo
 
 ---
 
+## 0. Windows: el camino automático
+
+Si PCSX2 ya está instalado (con o sin BLACK cargado), este script hace por
+vos los pasos 1 a 5 de más abajo: detecta Python, instala numpy, activa PINE,
+apaga la compresión de savestates, abre PCSX2 si hace falta, y confirma la
+identidad del juego en `kb/objetivo.json`.
+
+```powershell
+cd black\herramientas\windows
+.\preparar_entorno.ps1
+```
+
+Va a pedir permisos de administrador (UAC) al arrancar — aceptalo. Con una
+ISO a mano, para que también abra el juego directo:
+
+```powershell
+.\preparar_entorno.ps1 -IsoPath "D:\Juegos\BLACK.iso"
+```
+
+Si PowerShell se queja de la política de ejecución de scripts, corré esto una
+vez (afecta sólo a tu usuario, no hace falta admin):
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+**Qué hace exactamente, y qué NO hace:**
+
+- Antes de tocar el `.ini` de PCSX2, guarda una copia (`PCSX2.ini.respaldo-<fecha>`)
+  al lado del original.
+- Si PCSX2 ya está corriendo, **no toca el `.ini`**: PCSX2 lo pisaría con lo
+  que tiene en memoria al cerrarse, así que editarlo en ese momento no serviría
+  de nada. Te avisa y hay que cerrarlo primero.
+- No fuerza el cierre de ningún proceso, nunca.
+- Todo lo que hace queda en un log dentro de `black/volcados/diagnostico-entorno-<fecha>.txt`.
+- Ver `.\preparar_entorno.ps1 -?` para las opciones (`-Pcsx2Exe`, `-SinElevar`,
+  `-SinPatchIni`, `-EsperaSegundos`).
+
+Si algo sale mal o preferís entender cada paso, seguí manual desde el punto 1.
+
+---
+
 ## 1. PCSX2
 
 Necesitás **PCSX2 2.x** (la rama con la interfaz Qt). Es la que trae el

@@ -63,6 +63,8 @@ Todas tienen `--help` y se corren desde `black/`.
 | `mips.py` | ensamblar/desensamblar R5900 para parches de código |
 | `estado.py` | leer `eeMemory.bin` de un savestate |
 | `pnach.py` | compilar `mods/*.toml` al `.pnach` que carga PCSX2 |
+| `fijar_objetivo.py` | confirma serial/CRC contra PCSX2 y actualiza `kb/objetivo.json` solo |
+| `windows/preparar_entorno.ps1` | Windows: automatiza el checkpoint 0 completo (pide UAC) |
 
 Requisitos: Python 3.11+. `numpy` es opcional pero conviene (sin él, el primer
 filtro tiene que ser por valor exacto).
