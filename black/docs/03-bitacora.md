@@ -16,6 +16,55 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-14 (9) — Encoding de los `.ps1` corregido; `preparar_entorno.ps1` validado de punta a punta
+
+**Máquina:** nube (arreglos) + notebook de Fran (ejecución real) · **Modelo:** Sonnet
+
+**Objetivo:** el usuario corrió `setup-local.ps1` y `preparar_entorno.ps1`
+en su notebook real por primera vez. Ambos rompieron con errores de parser
+de PowerShell.
+
+**Resultado:**
+
+- **Causa raíz encontrada:** todos los `.ps1` creados en la sesión de nube
+  (Linux, UTF-8) tenían tildes y em-dashes de 3 bytes. PowerShell en Windows
+  los lee como Windows-1252 por defecto, así que esos bytes se convertían en
+  basura que rompía el parser bloques enteros más abajo en el archivo (el
+  error apuntaba a líneas muy lejos del carácter real problemático).
+- Reescritos a ASCII puro: `setup-local.ps1`, `perfil-global/install.ps1`,
+  `perfil-global/verify-install.ps1`, `herramientas/windows/preparar_entorno.ps1`.
+- **`setup-local.ps1` corrido con éxito** en la notebook: perfil-global
+  instalado en `~/.claude`, Python 3.13 + numpy detectados, 89/90 pruebas
+  del proyecto pasaron.
+- **`preparar_entorno.ps1` validado de punta a punta por primera vez**:
+  activó PINE (slot 28011), hizo backup e hizo patch de `PCSX2.ini`
+  (`EnablePINE=true`, `PINESlot=28011`, `SavestateZstdCompression=false`),
+  abrió PCSX2. El log real confirma el flujo completo.
+- Cierra el problema abierto "`preparar_entorno.ps1` sin validar" que
+  arrastraba desde la entrada (7).
+
+**No funcionó:**
+
+- El único fallo real de las 90 pruebas es
+  `en esta máquina PY coincide con el intérprete real — python`: una
+  meta-prueba que compara el `python` del PATH contra `sys.executable` del
+  proceso que corre los tests. No afecta a ninguna herramienta real
+  (las 89 restantes, incluidas escanear/pine/pnach, pasaron). Queda anotado
+  pero sin acción — no es un bug del proyecto.
+- `pine.py info` devolvió FAIL (0xFF) al final del script porque PCSX2 se
+  abrió sin ISO (no se pasó `-IsoPath`) y no había juego cargado. Es el
+  comportamiento esperado y documentado por el propio script, no un error.
+
+**Sigue:** cargar BLACK a mano en la ventana de PCSX2 que quedó abierta,
+correr `fijar_objetivo.py` para confirmar identidad, y retomar
+`escanear.py filtrar prueba-auto bajo` (checkpoint 1, sin cambios).
+
+**Regla nueva para toda la infraestructura:** cualquier `.ps1` que se
+escriba en este proyecto se escribe en ASCII puro — sin tildes, sin
+comillas curvas, sin em-dashes. Ya no se repite este bug.
+
+---
+
 ## 2026-08-14 (8) — Fase 2 infraestructura global: `perfil-global/` + auditoría de entorno
 
 **Máquina:** nube · **Modelo:** Sonnet

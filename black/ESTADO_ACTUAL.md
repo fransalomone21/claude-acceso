@@ -13,16 +13,14 @@ razón y esto está desactualizado: corregirlo.
 
 ## Infraestructura global
 
-`perfil-global/` creado en la raíz del repo (rama
-`claude/infraestructura-global-fase-2-45vjd9`). Contiene:
+`perfil-global/` instalado y verificado en la notebook de Fran
+(`%USERPROFILE%\.claude\`). `setup-local.ps1` corrido con éxito: Python,
+numpy y las 89/90 pruebas del proyecto pasan (la única que falla es una
+meta-prueba sin impacto real, ver bitácora 2026-08-14 (9)).
 
-- `CLAUDE.md` global → instalar en `%USERPROFILE%\.claude\CLAUDE.md`
-- `engineering-orchestrator/SKILL.md` → metodología completa de ingeniería
-- `install.ps1` / `verify-install.ps1` → instalador + verificación
-
-**Pendiente del usuario**: correr `.\perfil-global\install.ps1` desde la
-raíz del repo en su PC, luego `.\perfil-global\verify-install.ps1`.
-Después abrir Claude Code LOCAL para continuar con BLACK.
+`herramientas/windows/preparar_entorno.ps1` **validado de punta a punta**
+en corrida real: activó PINE, parcheó `PCSX2.ini` con backup, abrió PCSX2.
+Sólo falta el último paso — cargar BLACK a mano — porque se abrió sin ISO.
 
 ---
 
@@ -69,24 +67,31 @@ arreglo activo.
 
 ## Problemas abiertos
 
-- No se validó `herramientas/windows/preparar_entorno.ps1` de punta a punta
-  en ninguna corrida real; todo lo que funcionó en la notebook se hizo con
-  pasos manuales (activar PINE a mano, clonar a mano). El script en sí queda
-  sin verificar por ejecución.
 - Nada de BLACK en sí (vida, rutinas, estructuras, tablas) está confirmado
   todavía — es la fase 1 recién arrancando.
 
 ## Próxima acción
 
-En la notebook, con `prueba-auto` ya creada:
+Con PCSX2 ya abierto en la notebook (lo dejó abierto `preparar_entorno.ps1`,
+sin ISO):
+
 ```powershell
-git pull
+# 1. Cargar BLACK a mano en PCSX2 (System > Boot ISO, o similar)
+# 2. Confirmar identidad:
+cd black
+python herramientas\fijar_objetivo.py
+# 3. Retomar el filtro (crear sesión nueva si prueba-auto ya no sirve):
 python herramientas\escanear.py filtrar prueba-auto bajo
 ```
 Si el daño ya se tomó antes de crear la sesión (savestate posterior al daño),
 puede hacer falta `nuevo` de nuevo con una foto tomada ANTES del daño.
 Alternar `bajo`/`subio` unas 3-4 veces hasta que queden pocos candidatos
 (`escanear.py listar prueba-auto`).
+
+**Modelo/esfuerzo recomendado para retomar esta noche:** Sonnet, effort
+medio. Es procedimiento mecánico (filtrar, alternar, listar), no
+investigación nueva. Subir a Opus recién si aparece la primera hipótesis
+real sobre una dirección y hay que leer desensamblado (checkpoint 2).
 
 ## Riesgos relevantes
 

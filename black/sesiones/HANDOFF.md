@@ -5,22 +5,23 @@ eso, `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva,
 sin memoria del chat anterior, retome exactamente donde quedó esta.
 
 Última actualización: 2026-08-14, sesión en la nube (Sonnet), Fase 2
-infraestructura global + auditoría de entorno.
+infraestructura global + corrección de encoding + validación end-to-end
+de `preparar_entorno.ps1` en la notebook real.
 
 ---
 
 **OBJECTIVE**
 Checkpoint 1: encontrar la dirección de memoria de la vida del jugador.
-(La Fase 2 de infraestructura global ya está terminada — ver abajo.)
+(La infraestructura global — Fase 2 — está terminada y validada.)
 
 **CURRENT STATE**
-Infraestructura Fase 2 completa: `perfil-global/` creado en la raíz del
-repo con CLAUDE.md global, SKILL.md de engineering-orchestrator, install.ps1
-y verify-install.ps1. Pendiente de instalar en la PC local del usuario.
-
-El proyecto BLACK en sí está exactamente igual que al final de la sesión 7:
-entorno resuelto en la notebook, `escanear.py` funciona, sesión `prueba-auto`
-creada, falta el primer filtro real.
+`perfil-global/` instalado y verificado en `~/.claude` de la notebook.
+`preparar_entorno.ps1` corrido de punta a punta con éxito: PINE activo,
+`PCSX2.ini` parchado, PCSX2 abierto (sin ISO — falta cargar BLACK a mano).
+El proyecto BLACK en sí sigue igual que al final de la sesión 7: `escanear.py`
+funciona, sesión `prueba-auto` creada, falta el primer filtro real — con el
+agregado de que ahora hace falta reconfirmar identidad porque PCSX2 se
+reinició sin el juego cargado.
 
 **CONFIRMED FACTS**
 Ver tabla completa en `ESTADO_ACTUAL.md`. Resumen: `SLUS-21376` /
@@ -64,20 +65,17 @@ Ninguna de BLACK todavía.
 - ¿`preparar_entorno.ps1` funciona de punta a punta? Sin validar todavía.
 
 **NEXT ACTION**
-En la PC local del usuario:
+Infraestructura ya instalada y validada — no hace falta repetir el setup.
+Con PCSX2 abierto en la notebook (quedó así, sin ISO):
 
-1. Instalar el perfil global (una vez):
-   ```powershell
-   git pull
-   .\perfil-global\install.ps1
-   .\perfil-global\verify-install.ps1
-   ```
-
-2. Abrir Claude Code LOCAL y retomar BLACK:
-   ```powershell
-   cd black
-   python herramientas\escanear.py filtrar prueba-auto bajo
-   ```
+```powershell
+# 1. Cargar BLACK a mano en PCSX2
+# 2. Confirmar identidad:
+cd black
+python herramientas\fijar_objetivo.py
+# 3. Retomar el filtro:
+python herramientas\escanear.py filtrar prueba-auto bajo
+```
 
 Si la sesión `prueba-auto` ya no sirve (PCSX2 reiniciado), crear nueva
 sesión con `nuevo` y tomar foto antes del daño.
@@ -87,6 +85,12 @@ sesión con `nuevo` y tomar foto antes del daño.
 - No asumir `python3`, `.` en `.pnach`, o `cheats` como nombre fijo.
 - No intentar trabajo en vivo de BLACK desde una sesión cloud.
 - No crear triggers/webhooks de monitoreo sin propósito claro (ya hubo huérfanos).
+- No escribir ningún `.ps1` con tildes, comillas curvas o em-dashes — UTF-8
+  se lee como Windows-1252 en PowerShell y rompe el parser (bitácora 9).
+  Todo script de PowerShell de este proyecto es ASCII puro, sin excepción.
+- El fallo de la prueba "PY coincide con el intérprete real" en
+  `prueba_herramientas.py` es una meta-prueba sin impacto — no investigar,
+  no es un bug del proyecto.
 
 **TOOLS / ENVIRONMENT**
 Python 3.11+, numpy opcional. Windows: `herramientas/windows/preparar_entorno.ps1`.
