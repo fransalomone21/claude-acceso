@@ -232,6 +232,35 @@ ok("2.5" in r.stdout, "detecta el float 2.5 en el entorno")
 
 
 # =============================================================================
+print("== pnach: lectura de carpetas reales desde PCSX2.ini ==")
+import pnach  # noqa: E402
+
+ini_prueba = os.path.join(tmp, "PCSX2-prueba", "inis", "PCSX2.ini")
+os.makedirs(os.path.dirname(ini_prueba), exist_ok=True)
+with open(ini_prueba, "w") as f:
+    f.write(
+        "[Folders]\n"
+        "Cheats = cheats_ws\n"
+        "Savestates = sstates\n"
+        "[EmuCore]\n"
+        "EnablePINE = true\n"
+    )
+
+ok(pnach._leer_carpeta_de_ini("Cheats", "cheats", ruta_ini=ini_prueba)
+   == os.path.join(tmp, "PCSX2-prueba", "cheats_ws"),
+   "lee la carpeta real del .ini en vez de asumir el nombre de fábrica",
+   pnach._leer_carpeta_de_ini("Cheats", "cheats", ruta_ini=ini_prueba))
+ok(pnach._leer_carpeta_de_ini("Savestates", "sstates", ruta_ini=ini_prueba)
+   == os.path.join(tmp, "PCSX2-prueba", "sstates"),
+   "resuelve rutas relativas contra la raíz de datos (padre de inis/)")
+ok(pnach._leer_carpeta_de_ini("Patches", "patches", ruta_ini=ini_prueba)
+   == os.path.join(tmp, "PCSX2-prueba", "patches"),
+   "clave ausente del .ini cae al valor de fábrica, no revienta")
+ok(pnach._leer_carpeta_de_ini("Cheats", "cheats", ruta_ini="/no/existe/PCSX2.ini") is None,
+   ".ini inexistente devuelve None en vez de tirar una excepción")
+
+
+# =============================================================================
 print("== pnach: compilación ==")
 ruta_obj = os.path.join(RAIZ, "kb", "objetivo.json")
 with open(ruta_obj) as f:
@@ -263,7 +292,7 @@ with open(mod_prueba, "w") as f:
     )
 
 r = correr(["herramientas/pnach.py", "compilar", "--solo", "zz-prueba"])
-salida_pnach = os.path.join(RAIZ, "construido", "SLUS-21376.5C891FF1.pnach")
+salida_pnach = os.path.join(RAIZ, "construido", "SLUS-21376_5C891FF1.pnach")
 ok(r.returncode == 0, "pnach compilar", (r.stderr or r.stdout).strip()[:400])
 if os.path.exists(salida_pnach):
     texto = open(salida_pnach).read()

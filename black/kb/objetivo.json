@@ -13,17 +13,18 @@
     "nota": "Criterion era dueña de RenderWare; BLACK usa su stack interno. A confirmar buscando cadenas 'RenderWare'/'rw' en el ELF."
   },
 
-  "version_activa": null,
+  "version_activa": "NTSC-U",
   "_version_activa_ayuda": "Poné acá la clave de `versiones` que corresponde a tu copia (por ejemplo \"NTSC-U\"). Sin esto, pnach.py no compila.",
 
   "versiones": {
     "NTSC-U": {
       "serial": "SLUS-21376",
       "crc": "5C891FF1",
+      "version_juego": "1.00",
       "elf": "SLUS_213.76",
       "region": "Estados Unidos",
-      "confirmada": false,
-      "fuente_crc": "comunidad (pnach 5C891FF1 documentado en foros); confirmar con pine.py info"
+      "confirmada": true,
+      "fuente_crc": "confirmado el 2026-08-14 en la notebook de Fran, leyendo el log de arranque de una PCSX2 2.6.3 real (líneas 'Serial: SLUS-21376 / Version: 1.00 / CRC: 5C891FF1' al cargar el ISO). Mismo dato que expondría pine.py info, por la misma fuente (VMManager::GetDiscSerial/GetDiscCRC); no hace falta re-confirmar por PINE."
     },
     "PAL": {
       "serial": "SLES-53831",

@@ -16,6 +16,69 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-14 (3) — Primera corrida real en la notebook: identidad confirmada, dos bugs encontrados
+
+**Máquina:** notebook de Fran (Windows, PCSX2 2.6.3) · **Modelo:** Sonnet
+
+**Objetivo:** correr `preparar_entorno.ps1` por primera vez en una máquina real.
+
+**Resultado:**
+
+- **Identidad del juego confirmada de verdad**, leyendo el log de arranque de
+  PCSX2 (no por PINE todavía, no sé si esa parte del script llegó a correr):
+  `Serial: SLUS-21376`, `Version: 1.00`, `CRC: 5C891FF1`. Coincide
+  exactamente con lo que tenía anotado como "según la comunidad, sin
+  confirmar". `kb/objetivo.json`: `confirmada: true`, `version_activa:
+  "NTSC-U"`.
+- **Bug real encontrado y arreglado**: el nombre de archivo `.pnach` que
+  generaba `pnach.py` usaba un punto como separador
+  (`SLUS-21376.5C891FF1.pnach`), pero PCSX2 2.6.3 real usa guión bajo
+  (`SLUS-21376_5C891FF1.pnach` — visible en el log: "Found 1 cheats in
+  ...\SLUS-21376_5C891FF1.pnach"). Con el separador viejo, el archivo que
+  generábamos **nunca lo iba a cargar PCSX2**, sin ningún error visible.
+  Corregido.
+- **Segundo bug de la misma familia**: `carpeta_cheats()` asumía que la
+  carpeta se llama `cheats` por convención. En esta instalación real se
+  llama `cheats_ws` (customizado en el `.ini` del usuario, no es el default
+  de fábrica). Arreglado de raíz: ahora se lee la ruta real de la sección
+  `[Folders]` del `PCSX2.ini` del usuario en vez de asumir el nombre — con
+  el default de fábrica (`cheats`) como último recurso si no hay `.ini`
+  todavía. 5 pruebas nuevas para esto (total: 81).
+- Detalle de infraestructura: `Documents` de este usuario está redirigido a
+  OneDrive (`C:\Users\frans\OneDrive\Documents\PCSX2\...`).
+  `[Environment]::GetFolderPath('MyDocuments')` en PowerShell y
+  `os.path.expanduser("~/Documents")` en Python resuelven esto solos, así
+  que no hace falta ningún ajuste — lo anoto para no perder tiempo
+  reinvestigándolo si vuelve a aparecer.
+
+**No funcionó / no se pudo confirmar:**
+
+- Lo que pegó el usuario fue **el log interno de PCSX2** (Tools > Show Log),
+  no la salida de `preparar_entorno.ps1`. No hay forma de saber desde acá si
+  el script: detectó Python, instaló numpy, activó `EnablePINE` en el `.ini`,
+  o si `fijar_objetivo.py` llegó a correr. El BIOS falló dos veces al
+  arrancar (`Configured BIOS ... does not exist`) y hubo ~70s de
+  `Applying settings...` sueltos que sugieren que alguien corrigió la
+  carpeta del BIOS a mano desde la GUI — compatible con que el script sí
+  lanzó PCSX2 con la ISO, pegó contra el error de BIOS, y ahí se paró.
+- El juego SÍ terminó cargando y corriendo (hay Pausing/Resuming en el log
+  hasta el segundo 211), así que en el momento en que se pegó este log la
+  ventana estaba disponible para probar PINE en vivo — pero no se probó
+  todavía en esta conversación.
+
+**Sigue:** con el juego corriendo, confirmar PINE en caliente:
+```powershell
+cd black
+python herramientas\pine.py info
+```
+Si devuelve datos, correr `python herramientas\fijar_objetivo.py` (aunque
+`kb/objetivo.json` ya quedó confirmado por otra vía, esto valida que el canal
+PINE en sí funciona, que es lo que hace falta para todo lo que sigue). Si
+`pine.py info` no conecta, revisar a mano en PCSX2: `Settings > Advanced >
+PINE Settings` → Enable PINE, slot 28011.
+
+---
+
 ## 2026-08-14 (2) — Automatización del checkpoint 0 en Windows
 
 **Máquina:** nube (sin PCSX2) · **Modelo:** Sonnet

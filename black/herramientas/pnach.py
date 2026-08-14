@@ -16,8 +16,13 @@ FORMATO DE SALIDA (verificado contra pcsx2/Patch.cpp)
       cuando: 0 al arrancar · 1 continuo · 2 ambos · 3 al activarlo en la GUI
       cpu   : EE | IOP
       tipo  : byte(8) short(16) word(32) double(64) extended bytes
-    El archivo va en la carpeta `cheats` de PCSX2, con nombre
-    <SERIAL>.<CRC>.pnach  (por ejemplo SLUS-21376.5C891FF1.pnach).
+    El archivo va en la carpeta `Cheats` que indique el .ini de PCSX2 (por
+    defecto se llama `cheats`, pero en instalaciones reales puede tener otro
+    nombre — este módulo lee el .ini en vez de asumirlo), con nombre
+    <SERIAL>_<CRC>.pnach  (por ejemplo SLUS-21376_5C891FF1.pnach — con guión
+    bajo, verificado contra el log de una PCSX2 2.6.3 real; versiones viejas
+    de la documentación de la comunidad usan un punto como separador y están
+    desactualizadas).
 
 USO
     python3 pnach.py compilar                 # todos los mods habilitados
@@ -71,7 +76,66 @@ def _exigir_tomllib() -> None:
         )
 
 
+def _ruta_ini_pcsx2() -> str | None:
+    sistema = platform.system()
+    candidatos = []
+    if sistema == "Windows":
+        candidatos.append(os.path.join(os.path.expanduser("~"), "Documents", "PCSX2", "inis", "PCSX2.ini"))
+    elif sistema == "Darwin":
+        candidatos.append(os.path.expanduser("~/Library/Application Support/PCSX2/inis/PCSX2.ini"))
+    else:
+        xdg = os.environ.get("XDG_CONFIG_HOME", os.path.expanduser("~/.config"))
+        candidatos.append(os.path.join(xdg, "PCSX2", "inis", "PCSX2.ini"))
+        candidatos.append(os.path.expanduser("~/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini"))
+    for c in candidatos:
+        if os.path.isfile(c):
+            return c
+    return None
+
+
+def _leer_carpeta_de_ini(
+    clave: str, relativo_por_defecto: str, ruta_ini: str | None = None
+) -> str | None:
+    """
+    Lee una ruta de la sección [Folders] del PCSX2.ini real, en vez de
+    adivinar el nombre convencional. Hace falta: en instalaciones reales el
+    nombre puede no ser el de fábrica (una PCSX2 2.6.3 real observada tenía
+    la carpeta de cheats configurada como `cheats_ws`, no `cheats`).
+
+    `ruta_ini` es para las pruebas: sin pasarlo, se busca el .ini real.
+    """
+    ruta_ini = ruta_ini if ruta_ini is not None else _ruta_ini_pcsx2()
+    if not ruta_ini or not os.path.isfile(ruta_ini):
+        return None
+    # .../PCSX2/inis/PCSX2.ini -> .../PCSX2  (los folders son relativos a esto)
+    raiz_datos = os.path.dirname(os.path.dirname(ruta_ini))
+
+    en_seccion = False
+    valor = None
+    with open(ruta_ini, encoding="utf-8", errors="replace") as f:
+        for linea in f:
+            t = linea.strip()
+            if t.startswith("[") and t.endswith("]"):
+                en_seccion = (t == "[Folders]")
+                continue
+            if en_seccion and "=" in t:
+                k, _, v = t.partition("=")
+                if k.strip() == clave:
+                    valor = v.strip()
+                    break
+
+    if valor is None:
+        valor = relativo_por_defecto
+    return valor if os.path.isabs(valor) else os.path.join(raiz_datos, valor)
+
+
 def carpeta_cheats() -> str | None:
+    desde_ini = _leer_carpeta_de_ini("Cheats", "cheats")
+    if desde_ini:
+        return desde_ini
+
+    # No hay .ini todavía (PCSX2 nunca corrió en esta máquina): convención de
+    # fábrica, sólo como último recurso.
     sistema = platform.system()
     candidatos = []
     if sistema == "Windows":
@@ -208,7 +272,7 @@ def cmd_compilar(args) -> int:
     if not bloques:
         raise PnachError("ningún mod quedó seleccionado")
 
-    nombre_archivo = f"{objetivo['serial']}.{objetivo['crc'].upper()}.pnach"
+    nombre_archivo = f"{objetivo['serial']}_{objetivo['crc'].upper()}.pnach"
     cabecera = [
         f"gametitle=BLACK ({objetivo['serial']}) [{objetivo['version']}]",
         "comment=Generado por black/herramientas/pnach.py — NO editar a mano.",
