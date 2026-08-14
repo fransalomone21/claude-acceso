@@ -10,7 +10,8 @@ informes/*
 # hallazgo, forzalo con `git add -f` y explica en la bitacora por que.
 black/volcados/*
 !black/volcados/.gitkeep
-black/construido/
+black/construido/*
+!black/construido/.gitkeep
 *.p2s
 *.ee.bin
 
