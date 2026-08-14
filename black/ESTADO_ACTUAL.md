@@ -11,6 +11,21 @@ razón y esto está desactualizado: corregirlo.
 
 ---
 
+## Infraestructura global
+
+`perfil-global/` creado en la raíz del repo (rama
+`claude/infraestructura-global-fase-2-45vjd9`). Contiene:
+
+- `CLAUDE.md` global → instalar en `%USERPROFILE%\.claude\CLAUDE.md`
+- `engineering-orchestrator/SKILL.md` → metodología completa de ingeniería
+- `install.ps1` / `verify-install.ps1` → instalador + verificación
+
+**Pendiente del usuario**: correr `.\perfil-global\install.ps1` desde la
+raíz del repo en su PC, luego `.\perfil-global\verify-install.ps1`.
+Después abrir Claude Code LOCAL para continuar con BLACK.
+
+---
+
 ## Objetivo actual
 
 Checkpoint 1 del plan: encontrar la dirección de memoria de la **vida del

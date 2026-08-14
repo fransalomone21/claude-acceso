@@ -16,6 +16,41 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-14 (8) — Fase 2 infraestructura global: `perfil-global/` + auditoría de entorno
+
+**Máquina:** nube · **Modelo:** Sonnet
+
+**Objetivo:** crear el perfil global reutilizable entre proyectos
+(`perfil-global/`) y hacer una auditoría de arquitectura de entorno
+para el proyecto BLACK.
+
+**Resultado:**
+
+- `perfil-global/CLAUDE.md` — config global mínima para `~/.claude/`.
+  5 reglas absolutas + puntero al skill.
+- `perfil-global/engineering-orchestrator/SKILL.md` — metodología
+  completa: modelo, effort, contexto, memoria, evidencia, investigación,
+  subagents, handoff, cambio de sesión, costos, verificación, no repetición.
+- `perfil-global/install.ps1` — instalador PowerShell con backup del
+  CLAUDE.md anterior, sin destructivo.
+- `perfil-global/verify-install.ps1` — verificación rápida de la
+  instalación.
+- Auditoría de entorno completada (ver respuesta de sesión). Conclusión:
+  LOCAL como entorno primario de BLACK; cloud sólo para código/docs.
+
+**No funcionó:** nada — es trabajo de infraestructura pura.
+
+**Decisión de arquitectura:** el cloud no puede ejecutar PCSX2, Ghidra
+ni PINE. Todo el trabajo "en vivo" de BLACK (escaneo, breakpoints,
+escritura de memoria) debe correr en la máquina local del usuario.
+El cloud tiene valor sólo para escribir y revisar herramientas.
+
+**Sigue:** Checkpoint 1 de BLACK sin cambio (ver `ESTADO_ACTUAL.md`).
+Antes de retomar BLACK, el usuario debe: instalar perfil-global en
+`%USERPROFILE%\.claude\`; luego abrir Claude Code local y retomar.
+
+---
+
 ## 2026-08-14 (7) — Infraestructura de continuidad: `ESTADO_ACTUAL.md` + `sesiones/HANDOFF.md`
 
 **Máquina:** nube · **Modelo:** Sonnet
