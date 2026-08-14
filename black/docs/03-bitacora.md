@@ -16,6 +16,51 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-14 (4) — Checkpoint 0 cerrado: PINE confirmado en vivo
+
+**Máquina:** notebook de Fran (Windows, PCSX2 2.6.3) · **Modelo:** Sonnet
+
+**Objetivo:** cerrar lo que quedó pendiente de la entrada anterior — confirmar
+que PINE responde en caliente, no sólo por el log de arranque.
+
+**Resultado:**
+
+- `pine.py info` conectó (`tcp:127.0.0.1:28011`) y devolvió exactamente lo
+  esperado: `SLUS-21376`, CRC `5c891ff1`, versión `1.00`, estado `corriendo`.
+  El primer intento falló (`WinError 10061`, conexión rechazada): el usuario
+  acababa de tildar "Activar PINE" en la GUI de PCSX2, pero el proceso ya
+  corriendo no levanta el socket hasta reiniciarse. Con PCSX2 reiniciado,
+  conectó a la primera.
+- `fijar_objetivo.py` corrió sin fricción y confirmó `NTSC-U` como
+  `version_activa` — coincide con lo que ya había quedado anotado por el log
+  en la entrada anterior. Dos caminos de evidencia independientes
+  (log de arranque y PINE en vivo) dando el mismo resultado.
+- `pruebas/prueba_herramientas.py`: **81 de 81** en la máquina real, con
+  numpy instalado. Primera vez que la batería corre fuera de la nube.
+- En el camino se detectó y se resolvió el problema de que el repo nunca
+  había quedado clonado en esta notebook (las instrucciones de clonado
+  iniciales se habían salteado). Quedó en
+  `C:\Users\frans\Desktop\claude-acceso`, con un atajo `black` agregado al
+  perfil de PowerShell del usuario para pararse ahí de un comando.
+
+**No funcionó / fricciones para la próxima:**
+
+- El flujo de "clonar + moverse a la carpeta" en PowerShell tuvo varias
+  vueltas por confusión de directorio de trabajo (cada ventana nueva de
+  PowerShell arranca en `system32`). Ya resuelto con el atajo `black`, pero
+  vale tenerlo presente: en la próxima sesión en esta máquina, arrancar
+  directo con `black` en vez de re-explicar rutas.
+- Sigue sin confirmarse si `preparar_entorno.ps1` llegó a correr de punta a
+  punta alguna vez en esta máquina — el camino real terminó siendo manual
+  (activar PINE a mano en la GUI, clonar a mano). No es un problema para
+  seguir adelante, pero el script de automatización queda sin validar en la
+  práctica.
+
+**Sigue:** checkpoint 1 — el ancla de la vida del jugador, con
+`escanear.py`. Ver `docs/02-metodologia.md` escalón 1.
+
+---
+
 ## 2026-08-14 (3) — Primera corrida real en la notebook: identidad confirmada, dos bugs encontrados
 
 **Máquina:** notebook de Fran (Windows, PCSX2 2.6.3) · **Modelo:** Sonnet
