@@ -8,7 +8,8 @@ Es el índice, no el manual: leelo entero, y de ahí saltá a lo que haga falta.
 
 | Si la tarea es… | Leer |
 |---|---|
-| retomar el proyecto, saber en qué anda | `docs/03-bitacora.md` (sólo las 2 entradas de arriba) + `kb/mapa-memoria.json` |
+| retomar el proyecto, saber en qué anda | `ESTADO_ACTUAL.md` (entero — es corto) |
+| entender cómo se llegó a algo, o qué no funcionó antes | `docs/03-bitacora.md` |
 | buscar una dirección o rutina nueva | `docs/02-metodologia.md` |
 | configurar una máquina desde cero | `docs/01-entorno.md` |
 | planificar, priorizar, decidir qué sigue | `docs/04-plan.md` |

@@ -16,6 +16,44 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-14 (7) — Infraestructura de continuidad: `ESTADO_ACTUAL.md` + `sesiones/HANDOFF.md`
+
+**Máquina:** nube · **Modelo:** Sonnet
+
+**Objetivo:** el usuario pidió aplicar una especificación externa
+("orquestador de ingeniería") sobre memoria, evidencia y continuidad entre
+sesiones. Se evaluó punto por punto en vez de aplicarla literal.
+
+**Resultado:**
+
+- Cerrados triggers/webhooks huérfanos de la sesión anterior (dos
+  `send_later` y la suscripción al PR #1) — no había nada corriendo caro,
+  pero tampoco tenía sentido dejarlo.
+- `ESTADO_ACTUAL.md` (raíz del proyecto): índice operativo compacto. Se lee
+  entero al retomar, en vez de la bitácora completa.
+- `sesiones/HANDOFF.md`: paquete de traspaso entre sesiones, formato fijo
+  (objetivo, hechos, hipótesis, qué no repetir, próxima acción).
+- `CLAUDE.md`: la tabla de "qué leer" ahora manda primero a
+  `ESTADO_ACTUAL.md`; la bitácora completa queda para cuando hace falta el
+  detalle de cómo se llegó a algo.
+
+**Decisión explícita de NO hacer lo que pedía la spec al pie de la letra:**
+partir `kb/*.json` en carpetas por estado de confianza
+(`confirmed/hypotheses/...`) habría roto todas las herramientas que ya leen
+esos archivos (`pnach.py`, `escanear.py`, etc.), y el campo `confianza` que
+ya tiene cada entrada cumple la misma función. Se adaptó en vez de clonar
+literal.
+
+**No funcionó:** nada — es trabajo de infraestructura, no de BLACK en sí.
+
+**Sigue:** el checkpoint 1 sigue siendo el mismo (ver `ESTADO_ACTUAL.md`).
+Pendiente, sin decidir todavía si vale la pena: preparar un skill/CLAUDE.md
+*global* (fuera del repo, en `~/.claude/` del usuario) con la filosofía de
+ingeniería reutilizable entre proyectos — quedó explícitamente pausado para
+no seguir gastando en esta sesión.
+
+---
+
 ## 2026-08-14 (6) — Confirmado: la detección automática de Documentos anda en Windows real. Y otro bug chico de la misma familia
 
 **Máquina:** notebook de Fran (Windows) · **Modelo:** Sonnet
