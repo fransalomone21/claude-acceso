@@ -245,6 +245,25 @@ r = correr(["herramientas/escanear.py", "nuevo", "prueba", "--tipo", "f32", "--d
 r = correr(["herramientas/escanear.py", "filtrar", "prueba", "=2.5", "--desde", sa])
 ok("0x00200010" in r.stdout, "escaneo de f32 encuentra el 2.5",
    (r.stderr or r.stdout).strip()[:300])
+
+# Foto repetida: comparar un savestate contra sí mismo con un filtro relativo.
+# Pasó de verdad en la notebook y devolvía "0 candidatos" sin ninguna señal de
+# que el problema era el procedimiento y no los datos.
+shutil.rmtree(ses_dir, ignore_errors=True)
+correr(["herramientas/escanear.py", "nuevo", "prueba", "--tipo", "u32", "--desde", sa])
+r = correr(["herramientas/escanear.py", "filtrar", "prueba", "bajo", "--desde", sa])
+ok(r.returncode != 0, "filtro relativo sobre la MISMA foto falla en vez de dar 0",
+   (r.stdout or r.stderr).strip()[:300])
+ok("MISMO savestate" in (r.stderr + r.stdout),
+   "el error dice explícitamente que la foto está repetida",
+   (r.stderr or r.stdout).strip()[:300])
+ok("0 candidatos" not in r.stdout, "no se reporta un 0 engañoso")
+
+# ...pero un filtro de valor exacto SÍ puede reusar la misma foto: no compara
+# contra nada anterior.
+r = correr(["herramientas/escanear.py", "filtrar", "prueba", "=100", "--desde", sa])
+ok(r.returncode == 0, "filtro de valor exacto sí puede reusar la misma foto",
+   (r.stderr or r.stdout).strip()[:300])
 shutil.rmtree(ses_dir, ignore_errors=True)
 
 

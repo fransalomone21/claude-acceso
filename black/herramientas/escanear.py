@@ -200,8 +200,15 @@ class Sesion:
 
 
 # --- obtención de fotos de memoria -------------------------------------------
-def foto_savestate(ruta_p2s: str | None, pedir: bool, espera: float) -> tuple[bytes, str]:
-    """Devuelve (32 MB de RAM del EE, descripción de dónde salió)."""
+def foto_savestate(ruta_p2s: str | None, pedir: bool, espera: float):
+    """
+    Devuelve (32 MB de RAM del EE, descripción, ruta absoluta, mtime).
+
+    La ruta y el mtime son la "huella" de la foto: sirven para detectar que
+    dos pasos de una sesión salieron del MISMO archivo, que es un error
+    silencioso muy fácil de cometer (comparar una foto contra sí misma
+    siempre da cero candidatos, sin ningún síntoma de que algo anduvo mal).
+    """
     if pedir:
         from pine import Pine, PineError  # import perezoso: sólo si hace falta
         try:
@@ -238,7 +245,43 @@ def foto_savestate(ruta_p2s: str | None, pedir: bool, espera: float) -> tuple[by
             ) from e
 
     ruta = ruta_p2s or mod_estado.ultimo_savestate()
-    return mod_estado.leer_ee(ruta), f"savestate:{os.path.basename(ruta)}"
+    return (mod_estado.leer_ee(ruta), f"savestate:{os.path.basename(ruta)}",
+            os.path.abspath(ruta), os.path.getmtime(ruta))
+
+
+def _huella(ruta: str, mtime: float) -> dict:
+    return {"ruta": ruta, "mtime": mtime}
+
+
+def _exigir_foto_nueva(s: "Sesion", filtro: dict, ruta: str, mtime: float) -> None:
+    """
+    Un filtro relativo (bajo/subio/igual/cambio) compara la foto de ahora
+    contra la del paso anterior. Si las dos salieron del mismo archivo, la
+    comparación no significa nada: `bajo` da cero candidatos, `igual` da
+    todos, y en ninguno de los dos casos hay un síntoma de que el problema
+    fue el procedimiento y no los datos. Mejor frenar y decirlo.
+
+    Los filtros de valor exacto (=N) sí pueden reusar la misma foto: ahí no
+    se compara contra nada anterior, se busca dentro de esa misma foto.
+    """
+    if filtro["clase"] != "relativo":
+        return
+    previa = s.meta.get("ultima_fuente")
+    if not previa:
+        return
+    if previa.get("ruta") == ruta and previa.get("mtime") == mtime:
+        raise EscaneoError(
+            f"Esta foto es EL MISMO savestate que el paso anterior "
+            f"({os.path.basename(ruta)}).\n"
+            f"Un filtro '{filtro['op']}' compara contra la lectura anterior, así que "
+            "comparar una foto contra sí misma no puede dar nada útil.\n\n"
+            "Lo que falta es un savestate NUEVO, tomado DESPUÉS de que el valor "
+            "cambiara en el juego:\n"
+            f"  1. En el juego, hacé que cambie (que te peguen, disparar, curarte).\n"
+            f"  2. {PY} escanear.py filtrar {s.nombre} {filtro['op']}\n"
+            "     (por defecto pide el savestate solo por PINE; si PCSX2 no está "
+            "conectado, guardalo a mano con F1 primero)"
+        )
 
 
 def foto_vivo(offsets, tipo: str) -> tuple[object, str]:
@@ -350,10 +393,11 @@ def buscar_exacto_bytes(ram: bytes, valor: int, tipo: str,
 def cmd_nuevo(args) -> int:
     s = Sesion(args.nombre)
     s.crear(args.tipo, args.inicio, args.fin, args.paso)
-    ram, fuente = foto_savestate(args.desde, args.pedir, args.espera)
+    ram, fuente, ruta, mtime = foto_savestate(args.desde, args.pedir, args.espera)
     with open(s.ruta_snap, "wb") as f:
         f.write(ram)
     s.meta["origen_inicial"] = fuente
+    s.meta["ultima_fuente"] = _huella(ruta, mtime)
     s.guardar_meta()
     total = (args.fin - args.inicio) // s.meta["paso"]
     print(f"sesión '{args.nombre}' creada  [{args.tipo}]")
@@ -377,7 +421,8 @@ def _filtrar_sin_numpy(s: "Sesion", filtro: dict, args) -> int:
     fmt = {"u8": "<B", "i8": "<b", "u16": "<H", "i16": "<h", "u32": "<I",
            "i32": "<i", "u64": "<Q", "i64": "<q", "f32": "<f"}[tipo]
     cands = s.candidatos_py()
-    ram, fuente = foto_savestate(args.desde, args.pedir, args.espera)
+    ram, fuente, ruta, mtime = foto_savestate(args.desde, args.pedir, args.espera)
+    _exigir_foto_nueva(s, filtro, ruta, mtime)
 
     if filtro["clase"] == "relativo":
         if cands is None:
@@ -429,6 +474,7 @@ def _filtrar_sin_numpy(s: "Sesion", filtro: dict, args) -> int:
                 pares.append((o, val))
 
     s.guardar_candidatos_py([o for o, _ in pares], [v for _, v in pares])
+    s.meta["ultima_fuente"] = _huella(ruta, mtime)
     s.anotar_paso(args.filtro, fuente, len(pares))
     print(f"quedaron {len(pares):,} candidatos   (fuente: {fuente})")
     if pares and len(pares) <= 20:
@@ -457,12 +503,16 @@ def cmd_filtrar(args) -> int:
         and not args.desde
     )
 
+    huella_nueva = None
     if usar_vivo:
+        # PINE lee el estado de AHORA: nunca puede ser una foto repetida.
         actuales, fuente = foto_vivo(cands, tipo)
         anteriores = s.valores()
         offsets = cands
     else:
-        ram, fuente = foto_savestate(args.desde, args.pedir, args.espera)
+        ram, fuente, ruta, mtime = foto_savestate(args.desde, args.pedir, args.espera)
+        _exigir_foto_nueva(s, filtro, ruta, mtime)
+        huella_nueva = _huella(ruta, mtime)
         arr = np.frombuffer(ram, dtype=s.dtype)
         if cands is None:
             paso_elem = s.meta["paso"] // s.ancho or 1
@@ -487,6 +537,8 @@ def cmd_filtrar(args) -> int:
     offsets = offsets[mascara]
     actuales = actuales[mascara]
     s.guardar_candidatos(offsets, actuales)
+    if huella_nueva:
+        s.meta["ultima_fuente"] = huella_nueva
     s.anotar_paso(args.filtro, fuente, int(offsets.size))
 
     # Una vez que el conjunto es chico, el snapshot de 32 MB ya no sirve.
@@ -582,9 +634,14 @@ def main(argv=None) -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     def comunes(p):
-        p.add_argument("--desde", help="archivo .p2s concreto (por defecto, el más reciente)")
+        p.add_argument("--desde", help="archivo .p2s concreto (si se pasa, no se pide nada por PINE)")
+        # Pedir el savestate es el comportamiento correcto por defecto: cada paso
+        # de un escaneo necesita una foto NUEVA. Dejarlo opt-in hacía muy fácil
+        # comparar sin querer una foto contra sí misma.
         p.add_argument("--pedir", action="store_true",
-                       help="pedirle el savestate a PCSX2 por PINE antes de leer")
+                       help="(ya es el default) pedirle el savestate a PCSX2 por PINE")
+        p.add_argument("--no-pedir", action="store_true",
+                       help="no pedir nada: usar el savestate más reciente que haya en disco")
         p.add_argument("--espera", type=float, default=8.0,
                        help="segundos a esperar el savestate pedido")
 
@@ -621,6 +678,13 @@ def main(argv=None) -> int:
     p_p.set_defaults(func=cmd_poner)
 
     args = ap.parse_args(argv)
+
+    # Un solo lugar donde se decide si se pide savestate, para que todos los
+    # comandos se comporten igual: se pide siempre, salvo que hayas apuntado a
+    # un archivo concreto o lo hayas desactivado a mano.
+    if hasattr(args, "pedir"):
+        args.pedir = not args.no_pedir and not args.desde
+
     try:
         return args.func(args)
     except (EscaneoError, mod_estado.EstadoError) as e:
