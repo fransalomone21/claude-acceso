@@ -58,6 +58,14 @@ except ImportError:  # pragma: no cover
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VOLCADOS = os.path.join(RAIZ, "volcados")
 
+# Para los "próximo paso: corré..." que se imprimen en runtime. "python3" está
+# bien en la documentación (Linux/Mac), pero un mensaje que el propio script
+# imprime tiene que decir el comando que YA está corriendo, sea cual sea: en
+# Windows suele ser "python" a secas, y "python3" ahí no existe.
+PY = os.path.basename(sys.executable)
+if PY.lower().endswith(".exe"):
+    PY = PY[:-4]
+
 # Región útil de la RAM del EE. Abajo de 0x100000 vive el kernel, no el juego.
 INICIO_DEF = 0x0010_0000
 FIN_DEF = 0x0200_0000
@@ -125,7 +133,7 @@ class Sesion:
         if not os.path.exists(self.ruta_meta):
             raise EscaneoError(
                 f"No existe la sesión '{self.nombre}'. Creala con:\n"
-                f"  python3 escanear.py nuevo {self.nombre} --tipo u32"
+                f"  {PY} escanear.py nuevo {self.nombre} --tipo u32"
             )
         with open(self.ruta_meta) as f:
             self.meta = json.load(f)
@@ -353,7 +361,7 @@ def cmd_nuevo(args) -> int:
     print(f"  región 0x{args.inicio:08X}-0x{args.fin:08X}, paso {s.meta['paso']}")
     print(f"  ~{total:,} posiciones en juego")
     print(f"\nAhora hacé que el valor cambie en el juego y filtrá:")
-    print(f"  python3 escanear.py filtrar {args.nombre} bajo")
+    print(f"  {PY} escanear.py filtrar {args.nombre} bajo")
     return 0
 
 
@@ -427,7 +435,7 @@ def _filtrar_sin_numpy(s: "Sesion", filtro: dict, args) -> int:
         for i, (o, v) in enumerate(pares):
             print(f"  [{i:>3}] 0x{o:08X}  = {v}")
     elif pares:
-        print(f"  python3 escanear.py listar {s.nombre}")
+        print(f"  {PY} escanear.py listar {s.nombre}")
     return 0
 
 
@@ -489,7 +497,7 @@ def cmd_filtrar(args) -> int:
     if offsets.size and offsets.size <= 20:
         _mostrar(offsets, actuales, tipo, 20)
     elif offsets.size:
-        print(f"  python3 escanear.py listar {args.nombre}")
+        print(f"  {PY} escanear.py listar {args.nombre}")
     return 0
 
 

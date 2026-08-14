@@ -16,6 +16,37 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-14 (6) — Confirmado: la detección automática de Documentos anda en Windows real. Y otro bug chico de la misma familia
+
+**Máquina:** notebook de Fran (Windows) · **Modelo:** Sonnet
+
+**Objetivo:** validar la entrada anterior — si `escanear.py nuevo --pedir`
+encuentra el savestate solo, sin `--desde` a mano.
+
+**Resultado:**
+
+- **Confirmado.** `python herramientas\escanear.py nuevo prueba-auto --tipo
+  u32 --pedir` encontró `SLUS-21376 (5C891FF1).00.p2s` sin ayuda. La API de
+  Windows (`SHGetFolderPathW`) funciona como se esperaba; ya no hace falta
+  el `--desde` manual.
+- Al filtrar, el mensaje que imprime `escanear.py` decía `python3
+  escanear.py filtrar ...` — pero en esta máquina el comando es `python`
+  a secas; `python3` ni siquiera existe (Windows lo redirige a la
+  Microsoft Store). El propio mensaje de ayuda llevó al usuario a un error.
+  Bug de la misma familia que el de Documentos: asumir una convención en vez
+  de preguntarle al sistema. Arreglado con `PY = os.path.basename(sys.executable)`
+  (sin el `.exe`), así el mensaje siempre dice el intérprete que está
+  corriendo de verdad, sea cual sea. 2 pruebas nuevas (total: 87).
+
+**No funcionó:** nada — fue puro seguimiento de la corrida anterior.
+
+**Sigue:** con `prueba-auto` ya creada y el usuario habiendo tomado daño en
+el juego, correr `python herramientas\escanear.py filtrar prueba-auto bajo`
+(ahora el mensaje de ayuda ya dice el comando correcto solo). El objetivo
+sigue siendo el mismo: encontrar la dirección de la vida.
+
+---
+
 ## 2026-08-14 (5) — Bug de raíz: OneDrive redirige Documentos, todo lo que asumía `~/Documents` fallaba
 
 **Máquina:** notebook de Fran (Windows, PCSX2 2.6.3) · **Modelo:** Sonnet

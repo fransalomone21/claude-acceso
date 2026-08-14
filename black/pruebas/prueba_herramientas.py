@@ -187,6 +187,15 @@ except ImportError:
     hay_numpy = False
 print(f"   (numpy {'presente' if hay_numpy else 'ausente'}: se prueba ese camino)")
 
+# Los "próximo paso: corré..." que imprime el script tienen que decir el
+# comando que YA está corriendo, no "python3" fijo -en Windows suele ser
+# "python", donde "python3" ni existe (pasó de verdad: llevó a un usuario
+# real a un error). No se puede fingir sys.executable de Windows acá, pero
+# sí probar que la limpieza del ".exe" funciona como debería.
+ok(not escanear.PY.lower().endswith(".exe"), "PY nunca incluye el sufijo .exe")
+ok(escanear.PY == "python3", "en esta máquina PY coincide con el intérprete real",
+   escanear.PY)
+
 ok(escanear.parsear_filtro("=100", "u32") == {"clase": "valor", "op": "==", "val": 100},
    "parsear '=100'")
 ok(escanear.parsear_filtro("bajo", "u32")["op"] == "bajo", "parsear 'bajo'")
