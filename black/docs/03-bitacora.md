@@ -16,6 +16,119 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-15 (10) — **CHECKPOINT 1 CERRADO**: vida del jugador confirmada en `0x005A8DA8`
+
+**Máquina:** notebook (local) · **Modelo:** Sonnet, después Opus (innecesario, ver abajo)
+
+**Objetivo:** cerrar el escalón 1 — confirmar cuál de los 5 candidatos era la vida.
+
+**Resultado:**
+
+- **`0x005A8DA8` = vida del jugador, `f32`, NTSC-U — `confirmado`.**
+- Daño por golpe: **26.0 constante**.
+- Máximo observado: ~440 tras curación, pero se vio 649.79 en otra — el techo
+  real no está determinado.
+- `0x006CF54C` = **segmentos dibujados de la barra del HUD** (rango 2..8), valor
+  **derivado**, no fuente. Esto explica el crash de la sesión anterior: escribirle
+  999 le metió un índice fuera de rango al render.
+- `0x0040E6A0` **descartado**: cambia en cada muestreo a 10 Hz, siempre bajando.
+  Es un timer del motor.
+
+**Cómo se confirmó (tres capas de evidencia):**
+
+1. **Correlación temporal.** `vigilar.py` a 10 Hz durante 90s
+   (`volcados/correlacion-vida-2.csv`) contra los eventos que narraba el usuario:
+   sube ~210 en cada curación (t=7.0s, t=84.8s), baja exactamente 26.0 por golpe
+   (t=32-33s, t=69s, t=87s).
+2. **Causalidad.** Al escribir 130.0 en `0x005A8DA8`, el HUD (`0x006CF54C`) se
+   recalculó solo de 8 a 1. La lógica del juego lee esta dirección.
+3. **En pantalla.** Se escribió 333.0 y el usuario vio bajar la barra de vida
+   **mientras la munición quedaba intacta** — lo que descartó la hipótesis
+   alternativa de que fuera munición de reserva (el HUD mostraba `440`, muy
+   cerca del máximo de vida observado).
+
+**No funcionó / callejones:**
+
+- **Auditoría de automatización del debugger.** Se verificó a fondo si Claude
+  podía manejar breakpoints solo: la tabla de opcodes de PINE es contigua
+  `0x00`-`0x0F` (read/write/savestate/metadata) y **no tiene opcode de
+  breakpoint** — no depende de la versión de PCSX2. Existe un `DebugServer` TCP
+  (puerto 21512) que sí los maneja, pero es una **build custom** de PCSX2
+  (proyecto PCSX2-MCP), no la oficial. Se comprobó en la máquina: sólo escucha
+  28011 (PINE), el binario es `C:\Program Files\PCSX2\PCSX2\pcsx2-qt.exe`
+  estándar. **Conclusión: sin build parchada, los breakpoints son manuales.**
+- **Pero no hicieron falta.** El replanteo que destrabó todo: la pregunta no era
+  "cómo pongo un breakpoint" sino "cómo correlaciono un valor con un evento
+  observable". Para eso, **muestrear (`vigilar.py`) le gana a los breakpoints**:
+  es sólo lectura, cero riesgo de crash, y no requiere manos en el debugger.
+- **El recuerdo de "vida máxima ~1200" era incorrecto** (es ~440+). Se hizo bien
+  en no usarlo como filtro fuerte.
+- `escanear.py poner` con valores arbitrarios quedó **desaconsejado** como método
+  de confirmación: crasheó el emulador. El camino seguro es muestrear primero y
+  escribir sólo valores dentro del rango ya observado.
+- **Opus no era necesario.** Se cambió a Opus previendo lectura de desensamblado,
+  pero el checkpoint se cerró sin abrir el debugger. Sonnet alcanzaba.
+
+**Bug encontrado:** `vigilar.py analizar` crashea con un traceback al imprimir la
+sección "primeros" de los escalones. El análisis se hizo leyendo el CSV directo.
+Pendiente de arreglar.
+
+**Sigue:** determinar si `0x005A8DA8` es **estable o dinámica** (recargar el nivel
+y releer: si mantiene la vida, sirve directo en un `.pnach`; si tiene basura, hay
+que llegar por puntero). Después, primer mod real. El escalón 2 (rutina de daño
+por breakpoint) queda para cuando se quiera el parche elegante — no está en el
+camino crítico del primer mod funcionando.
+
+---
+
+## 2026-08-15 (9) — Checkpoint 1: escaneo diferencial de vida, primer intento de `poner` crashea
+
+**Máquina:** notebook (local) · **Modelo:** Sonnet
+
+**Objetivo:** escalón 1 — encontrar la dirección de la vida del jugador
+(ver `docs/02-metodologia.md`).
+
+**Resultado:**
+
+- Sesión `prueba-auto` (de sesiones anteriores) descartada: había quedado en
+  0 candidatos por comparar un savestate contra sí mismo. No se reutiliza.
+- Sesión nueva `vida-jugador` (`u32`, región `0x00100000-0x02000000`)
+  creada con foto inicial por PINE.
+- Filtrado diferencial alternando `bajo`/`subio`/`igual` en 8 rondas reales
+  contra el juego: 8.126.464 → 155.744 → 37.057 → 7.548 → 4.979 → 2.620 →
+  962 → (igual: sin cambio) → 197 → 31 → **5 candidatos**.
+- Nota de método: para floats positivos, el orden de bits como entero sin
+  signo preserva el orden numérico — el filtrado `u32` sigue siendo válido
+  aunque el dato real termine siendo `f32`.
+- Candidatos finales:
+  - `0x005A8DA8` — float, cientos, venía bajando
+  - `0x0065F458` — float, <1, venía bajando
+  - `0x006CF54C` — entero chico, bajó limpio 3→2→(999 de prueba)
+  - `0x01E68FA4` — entero, salto grande entre rondas
+  - `0x01E73EB0` — entero, cayó de 4162 a 0
+
+**No funcionó:**
+
+- `poner vida-jugador --indice 2 --valor 999` (dirección `0x006CF54C`)
+  **crasheó el emulador a pantalla negra**. Ese candidato queda marcado
+  como riesgoso para escritura directa — probablemente no sea la vida en
+  bruto sino un índice, puntero o campo de estado sensible a rango. No
+  reintentar `poner` con valores grandes ahí sin motivo nuevo.
+- Recuerdo del usuario de que la vida máxima ronda ~1200 (impreciso, sin
+  confirmar). Un chequeo estático sobre los candidatos en ese rango no
+  alcanzó a decidir por sí solo (demasiados candidatos posibles tanto en
+  lectura entera como float) — no usar como filtro fuerte, sólo como
+  desempate al final.
+
+**Sigue:** abandonar más pruebas de `poner` a ciegas. Pasar al escalón 2
+(`docs/02-metodologia.md`): abrir el debugger de PCSX2 (`Tools > Show
+Debugger`), poner breakpoints de **Write** en los candidatos restantes
+(sin necesidad de escribir nada — no hay riesgo de crash) y dejar que el
+emulador frene solo en la instrucción real que escribe la vida al recibir
+daño. Recargar el savestate antes de seguir (el juego quedó crasheado).
+
+---
+
 ## 2026-08-14 (8) — Fase 2 infraestructura global: `perfil-global/` + auditoría de entorno
 
 **Máquina:** nube · **Modelo:** Sonnet

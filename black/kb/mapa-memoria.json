@@ -24,14 +24,38 @@
     {
       "id": "vida_jugador",
       "nombre": "Vida actual del jugador",
-      "direccion": null,
-      "tipo": "u32",
-      "version": null,
+      "direccion": "0x005A8DA8",
+      "tipo": "f32",
+      "version": "ntsc_u",
       "estable": null,
-      "confianza": "hipotesis",
-      "evidencia": "PENDIENTE DE IMPORTAR. En una sesión previa (PC de Fran, debugger de PCSX2) se localizaron 4-5 candidatos de vida y se identificó la rutina de daño. Esos valores NO están en este repositorio todavía.",
-      "descubierto": null,
-      "notas": "Primera tarea del proyecto: recuperar esos valores, o re-localizarlos con escanear.py (20 minutos de trabajo). Anotar también QUÉ versión del juego era, porque si era otra región las direcciones no sirven."
+      "confianza": "confirmado",
+      "evidencia": "Escaneo diferencial (escanear.py, sesión 'vida-jugador', 8 rondas: 8.126.464 -> 5 candidatos) + confirmación cruzada independiente con la búsqueda nativa de PCSX2 en modo float (coincidieron 0x005A8DA8 y 0x0065F458) + correlación temporal con vigilar.py a 10 Hz sobre 90s (volcados/correlacion-vida-2.csv): sube ~210 en cada curación narrada por el usuario (t=7.0s y t=84.8s) y baja exactamente 26.0 por cada golpe recibido (t=32-33s, t=69s, t=87s). EVIDENCIA CAUSAL: al escribir 130.0 en esta dirección, el valor de 0x006CF54C (segmentos del HUD) se recalculó solo de 8 a 1 sin tocarlo — o sea, la lógica del juego LEE esta dirección. CONFIRMADO EN PANTALLA: se escribió 333.0 por PINE y el usuario reportó que la barra de vida bajó mientras el contador de munición (440, arriba a la derecha) quedó intacto — lo que además descarta que sea munición de reserva.",
+      "descubierto": "2026-08-15",
+      "notas": "Máximo observado ~440 tras curación, pero llegó a 649.79 en otra curación: el techo real no está determinado. Daño por golpe = 26.0 constante. NO es entero: se observó en 396.8941955566406, lo que descarta que sea un contador de munición. Falta determinar estable vs dinámica (recargar nivel y releer)."
+    },
+    {
+      "id": "hud_segmentos_vida",
+      "nombre": "Segmentos dibujados de la barra de vida (valor derivado)",
+      "direccion": "0x006CF54C",
+      "tipo": "u32",
+      "version": "ntsc_u",
+      "estable": null,
+      "confianza": "probable",
+      "evidencia": "Se mueve en los MISMOS timestamps exactos que vida_jugador en volcados/correlacion-vida-2.csv, pero en rango 2..8 en vez de continuo. Al escribir 130.0 en vida_jugador, este valor pasó solo de 8 a 1: es derivado, no fuente.",
+      "descubierto": "2026-08-15",
+      "notas": "PELIGRO: escribirle 999 CRASHEÓ el emulador a pantalla negra (sesión 2026-08-15). Es un índice del dibujado del HUD; fuera del rango 0..8 rompe el render. No escribir valores arbitrarios acá. Para modificar la vida, usar vida_jugador (0x005A8DA8), que es la fuente."
+    },
+    {
+      "id": "descartado_contador_rapido",
+      "nombre": "Contador/timer rápido del motor (descartado como vida)",
+      "direccion": "0x0040E6A0",
+      "tipo": "f32",
+      "version": "ntsc_u",
+      "estable": null,
+      "confianza": "descartado",
+      "evidencia": "Apareció en la búsqueda nativa de PCSX2 como candidato float. vigilar.py a 10 Hz mostró 448 cambios en 448 muestras (cambia en CADA muestreo), siempre bajando, a ritmo perfectamente regular. La vida no se mueve sola cuando nadie ataca.",
+      "descubierto": "2026-08-15",
+      "notas": "Se conserva la entrada a propósito: saber qué NO es ahorra repetir el escaneo."
     }
   ]
 }
