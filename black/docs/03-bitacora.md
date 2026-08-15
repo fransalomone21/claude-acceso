@@ -16,6 +16,27 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-15 (13) — Fase 1 cerrada: `0x005A8DA8` confirmada estática
+
+**Máquina:** notebook · **Modelo:** Sonnet
+
+**Objetivo:** determinar si la dirección de vida es estática o dinámica entre cargas de nivel.
+
+**Resultado:**
+
+- Leída la dirección al iniciar la sesión: 333.0 (valor escrito en la sesión anterior).
+- Recarga de nivel: la dirección devolvió **750.0** (HP inicial coherente, no basura).
+- Dos golpes recibidos: **698.0** = 750 − 2×26. El daño de 26.0 se mantiene exacto.
+- **`0x005A8DA8` es ESTÁTICA.** Sobrevive recargas y sigue siendo la fuente de vida.
+- `kb/mapa-memoria.json`: `estable: true`, evidencia actualizada.
+- `ESTADO_ACTUAL.md`: Fase 1 cerrada, próxima acción = Fase 2 (rutina de daño, Opus + debugger de PCSX2).
+
+**No funcionó:** nada — experimento limpio en un solo intento.
+
+**Sigue:** Fase 2. Breakpoint de escritura en `0x005A8DA8` desde el debugger de PCSX2 GUI → encontrar la instrucción `sw` → rutina de daño → estructura del jugador. Modelo: **Opus**.
+
+---
+
 ## 2026-08-15 (12) — el mismo `Δ` en `inspeccionar.py`, y una sola definición para los dos
 
 **Máquina:** PC · **Modelo:** Opus

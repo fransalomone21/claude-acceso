@@ -24,8 +24,7 @@ Skills disponibles: `/engineering-orchestrator`, `/spec-interview`,
 
 ## Objetivo actual
 
-**Checkpoint 1 CERRADO.** Sigue: determinar si la dirección de vida es
-estable o dinámica, y de ahí al primer mod real.
+**Fase 1 CERRADA.** `0x005A8DA8` confirmada como estática. Sigue: **Fase 2** — rutina de daño y estructura del jugador. Usar **Opus** para el análisis de desensamblado.
 
 ## Estado
 
@@ -39,6 +38,7 @@ punta. La vida del jugador está localizada y confirmada en pantalla.
 |---|---|
 | Identidad: `SLUS-21376`, CRC `5C891FF1`, versión `1.00`, NTSC-U | `pine.py info` en vivo + log de arranque de PCSX2 → `kb/objetivo.json` |
 | **Vida del jugador = `0x005A8DA8`, tipo `f32`** | escaneo diferencial + búsqueda nativa de PCSX2 (coincidieron) + correlación temporal 90s + escritura de 333.0 con efecto visto en pantalla → `kb/mapa-memoria.json` |
+| **`0x005A8DA8` es ESTÁTICA** | recarga de nivel → 750.0 (HP inicial coherente); 2 golpes → 698.0 = 750−2×26. Sobrevive recargas y responde al daño exacto. `kb/mapa-memoria.json#vida_jugador.estable = true` |
 | **Daño por golpe = 26.0 constante** | 10 escalones idénticos en `volcados/correlacion-vida-2.csv` |
 | `0x006CF54C` = segmentos del HUD (derivado, no fuente) | se recalculó solo de 8 a 1 al escribir en `0x005A8DA8` |
 | PINE funciona en la notebook (TCP 127.0.0.1:28011) | conexión real confirmada |
@@ -69,22 +69,14 @@ escritura de 130.0 y 333.0 por PINE con efecto confirmado en pantalla.
   trackeado: hace `rmtree` de `construido/` al terminar. Hay que restaurarlo a
   mano (`git checkout -- black/construido/.gitkeep`) antes de commitear.
 - No se validó `herramientas/windows/preparar_entorno.ps1` de punta a punta.
-- Falta saber si `0x005A8DA8` es estable entre cargas de nivel.
-
 ## Próxima acción
 
-Determinar estable vs dinámica (escalón 1 de `docs/02-metodologia.md`):
+**Fase 2 — Rutina de daño y estructura del jugador** (`docs/04-plan.md`). Requiere **Opus** y el debugger de PCSX2 (GUI, Debug > CPU > Memory breakpoints):
 
-```powershell
-cd black
-python herramientas\pine.py leer 0x005A8DA8 --tipo f32   # anotar el valor
-# recargar el nivel / morir y volver a cargar en el juego
-python herramientas\pine.py leer 0x005A8DA8 --tipo f32   # ¿sigue siendo vida?
-```
-
-Si mantiene un valor de vida coherente → **estática**, sirve directo en un
-`.pnach` de escritura constante (vida infinita sin tocar la rutina). Si tiene
-basura → dinámica, hay que llegar por puntero (escalón 3).
+1. Poner un **breakpoint de escritura** en `0x005A8DA8`.
+2. Recibir un golpe → el debugger para en la instrucción `sw` que escribe la vida.
+3. Subir al prólogo → dirección de la rutina de daño → `kb/rutinas.json`.
+4. Del `sw rt, off(rs)` sacar el puntero al jugador y el offset → volcar la estructura con `inspeccionar.py`.
 
 ## Riesgos relevantes
 
