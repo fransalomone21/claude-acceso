@@ -52,15 +52,24 @@ Ver `ESTADO_ACTUAL.md`. Lo nuevo:
 ```
 
 **NEXT ACTION**
-Necesita al usuario jugando, dos minutos:
+Necesita al usuario jugando, dos minutos. **Con WATCHPOINT, no con breakpoint
+de ejecución** (el de ejecución crashea el emulador — ver DO NOT REPEAT):
 ```
-python herramientas/depurador.py bp poner 0x0013C120 --descripcion "store de dano"
+python herramientas/pine.py savestate --slot 5
+python herramientas/depurador.py vigilante poner 0x005A8DA8 --tipo write --accion break
 python herramientas/depurador.py esperar --segundos 120
 ```
-Recibir un golpe. Si para ahí → **confirmado**, y `registros` + `pila` dan el
-atacante y el daño. Después `bp limpiar`.
+Recibir un golpe. Al pausar, `esperar` imprime el PC y el código alrededor.
+**Si el PC es `0x0013C120` → confirmado.** Es evidencia independiente: no se
+puso el breakpoint sobre la dirección sospechada, se dejó que el juego la
+delatara. Después: `vigilante quitar 0x005A8DA8` y `continuar`.
 
 **DO NOT REPEAT**
+- **NO usar breakpoints de EJECUCION (`bp poner`): matan el emulador.**
+  `bp poner 0x0013C120` corto la conexion a mitad del comando y el proceso
+  desaparecio. Los **watchpoints** (`vigilante`) en cambio pausan y resumen
+  limpio decenas de veces — es el camino. `depurador.py` ahora exige
+  `--se-que-crashea` para dejarte poner uno de ejecucion.
 - **NO lanzar flujos multi-agente sin sondear primero.** Van dos sesiones
   seguidas quemando cientos de miles de tokens en paralelizar preguntas que se
   contestaban con cuatro comandos secuenciales. Lección 9 de

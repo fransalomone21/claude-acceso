@@ -74,9 +74,25 @@ candidatos a instrucción de escritura de la vida.
 - La vida **no se escribe** mientras el jugador está quieto: un watchpoint de
   escritura no dispara solo. El de **lectura** sí, y por eso fue el camino.
 
-**Sigue:** confirmar con efecto. `bp poner 0x0013C120` + recibir un golpe. Si
-para ahí, la Fase 2 se cierra. Después: ¿la rutina es genérica (jugador y
-enemigos comparten `+0x2F8`)? Si lo es, caen las Fases 3 y 5 juntas.
+**Addendum del cierre — los breakpoints de ejecución matan el emulador.**
+Al intentar confirmar la rutina con `bp poner 0x0013C120`, el `set_breakpoint`
+cortó la conexión a mitad del comando y el proceso `pcsx2-qt.exe` desapareció.
+Contrasta con evidencia dura de la misma sesión: los **watchpoints** pausaron y
+resumieron limpio decenas de veces (control sobre el timer, y lectura sobre la
+vida). O sea: **watchpoints sí, breakpoints de ejecución no.**
+
+Lo caro no fue el crash (el savestate estaba hecho): fue no haberlo previsto
+teniendo la evidencia delante. El plan decía "un breakpoint de memoria" y se
+ejecutó un breakpoint de ejecución, que es otra cosa. `depurador.py` ahora
+exige `--se-que-crashea` para `bp poner`, y el guard corre **antes de
+conectar** — así avisa aunque el emulador esté caído.
+
+**Sigue:** confirmar con efecto, pero con **watchpoint de escritura** sobre
+`0x005A8DA8` y recibiendo un golpe. Si al pausar el PC es `0x0013C120`, la
+rutina queda confirmada — y es evidencia más fuerte que un breakpoint puesto a
+mano sobre la dirección que ya se sospechaba: se deja que el juego la delate.
+Después: ¿la rutina es genérica (jugador y enemigos comparten `+0x2F8`)? Si lo
+es, caen las Fases 3 y 5 juntas.
 
 ---
 

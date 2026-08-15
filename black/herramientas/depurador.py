@@ -364,12 +364,16 @@ def main(argv=None) -> int:
     p_cad.add_argument("direccion", type=_entero)
     p_cad.add_argument("--max", type=int, default=256)
 
-    p_bp = sub.add_parser("bp", help="breakpoints de ejecucion")
+    p_bp = sub.add_parser(
+        "bp", help="breakpoints de ejecucion (PELIGROSO: crashean el emulador)")
     sbp = p_bp.add_subparsers(dest="accion", required=True)
     b1 = sbp.add_parser("poner")
     b1.add_argument("direccion", type=_entero)
     b1.add_argument("--condicion", default=None)
     b1.add_argument("--descripcion", default=None)
+    b1.add_argument("--se-que-crashea", action="store_true",
+                    help="obligatorio: set_breakpoint mato el emulador en la "
+                         "prueba del 2026-08-15. Usa 'vigilante' en su lugar.")
     b2 = sbp.add_parser("quitar")
     b2.add_argument("direccion", type=_entero)
     sbp.add_parser("listar")
@@ -415,6 +419,21 @@ def main(argv=None) -> int:
     p_pila.add_argument("--max", type=int, default=32)
 
     args = ap.parse_args(argv)
+
+    # Los chequeos de seguridad van ANTES de conectar: son validación de
+    # argumentos, no dependen del emulador, y si el usuario se equivocó
+    # conviene decírselo aunque el emulador esté caído.
+    if args.cmd == "bp" and args.accion == "poner" and not args.se_que_crashea:
+        print(
+            "error: los breakpoints de EJECUCION crashean esta build.\n"
+            "  Evidencia: 2026-08-15, 'bp poner 0x0013C120' cerro el\n"
+            "  pcsx2-qt.exe en el acto (conexion cortada a mitad del comando,\n"
+            "  proceso muerto, nada escuchando en 21512).\n"
+            "  Los WATCHPOINTS en cambio funcionan bien:\n"
+            "    python depurador.py vigilante poner <dir> --tipo write --accion break\n"
+            "  Si igual querés intentarlo: --se-que-crashea (con savestate antes).",
+            file=sys.stderr)
+        return 2
 
     try:
         with Depurador(args.anfitrion, args.puerto, cpu=args.cpu) as d:
@@ -471,6 +490,7 @@ def _despachar(d: Depurador, args) -> int:
 
     elif c == "bp":
         if args.accion == "poner":
+            # El guard vive en main(), antes de conectar.
             d.poner_bp(args.direccion, args.condicion, args.descripcion)
             print(f"breakpoint en {_hex(args.direccion)}")
         elif args.accion == "quitar":

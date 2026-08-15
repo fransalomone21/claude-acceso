@@ -52,6 +52,7 @@ punta. La vida del jugador está localizada y confirmada en pantalla.
 | **`gp` del juego = `0x004157F0`** | `depurador.py evaluar "gp"`, y `gp - 0x7150 = 0x0040E6A0` coincidió con la dirección vigilada |
 | Los watchpoints funcionan en la build parcheada, y el PC de la pausa **es** la instrucción que accedió | prueba de control sobre `0x0040E6A0`: pausó en `0x002B6B14` = `sw a2,-0x7150(gp)`, y `gp-0x7150` da exactamente la dirección vigilada |
 | **`--accion log` NO cuenta hits** (es un stub, igual que `MemCheck::Log()`) | control sobre el timer del motor: el valor cambiaba entre lecturas y el contador quedó en 0. Hay que usar `--accion break` |
+| **Los breakpoints de EJECUCIÓN crashean el emulador** | `bp poner 0x0013C120` cortó la conexión a mitad del comando y mató el proceso (nada escuchando en 21512). Los **watchpoints** en cambio pausaron y resumieron limpio decenas de veces. `depurador.py` ahora exige `--se-que-crashea` para `bp poner` |
 | **Código del juego en `0x00100000-0x003BFFFF`** | `xref.py mapa` (densidad ≥88%) + los 69 candidatos a store caen todos ahí |
 | **Datos/globales en `~0x0042xxxx-0x0045xxxx`** | histograma de `lui`: 0x0041 ×4922, 0x0044 ×2084, 0x0043 ×639 |
 | El checkbox "Log" del breakpoint de PCSX2 no imprime nada | `MemCheck::Log()` es un stub vacío en el fuente de PCSX2 |
@@ -99,15 +100,23 @@ escritura de 130.0 y 333.0 por PINE con efecto confirmado en pantalla.
 ## Próxima acción
 
 **NECESITA AL USUARIO JUGANDO** (recibir un golpe). Es el paso que cierra la
-Fase 2, y son dos minutos:
+Fase 2, y son dos minutos.
+
+**Con WATCHPOINT, no con breakpoint de ejecución** — el de ejecución crashea
+el emulador (ver hechos confirmados):
 
 ```
-python herramientas/depurador.py bp poner 0x0013C120 --descripcion "store de dano"
+python herramientas/pine.py savestate --slot 5
+python herramientas/depurador.py vigilante poner 0x005A8DA8 --tipo write --accion break
 python herramientas/depurador.py esperar --segundos 120
 ```
 
-Que el usuario se deje pegar. Si para ahí: **confirmado**, y `registros` +
-`pila` dan el atacante y el daño. Después, `bp limpiar`.
+Que el usuario reciba un golpe. Al pausar, `esperar` imprime el PC y el código
+alrededor. **Si el PC es `0x0013C120`, la rutina de daño queda `confirmado`** —
+y es evidencia independiente, más fuerte que un breakpoint puesto a mano sobre
+la dirección que ya se sospechaba.
+
+Después: `vigilante quitar 0x005A8DA8` y `continuar`.
 
 Luego, en orden:
 
