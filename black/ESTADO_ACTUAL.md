@@ -24,12 +24,16 @@ Skills disponibles: `/engineering-orchestrator`, `/spec-interview`,
 
 ## Objetivo actual
 
-**Fase 2 — instrucción de daño CONFIRMADA en `0x0013BD20`.** Se instaló un
-PCSX2 parcheado con `DebugServer` (proyecto PCSX2-MCP) y se escribió
-`herramientas/depurador.py` para hablarle. Un watchpoint de lectura dio la
-base real y el offset `0x2F8`; uno de escritura, con un golpe real, dio la
-instrucción exacta: `swc1 f20,0x2F8(s2)` en `0x0013BD20`. Falta **el efecto**
-— nopearla y ver vida infinita en pantalla.
+**Fase 2 — CERRADA.** Vida infinita confirmada con efecto: `nop` en
+`0x0013BD20` (`swc1 f20,0x2F8(s2)` → `0x00000000`), probado contra fuego real
+de AK47 en el primer nivel, vida estable durante varios minutos de combate.
+Sin probar: si cubre otras fuentes de daño (cuerpo a cuerpo, caídas,
+explosiones) además de proyectiles.
+
+**Siguiente:** decidir Fase 3 — ¿la rutina es genérica (abre Fases 3 y 5
+juntas)?, tabla de armas, o empezar a explorar el ISO (carpetas `data/`,
+`levels/`, `guns/`, vistas ahora por el usuario) para mapear contenido sin
+depender del emulador en vivo.
 
 ## Estado
 
