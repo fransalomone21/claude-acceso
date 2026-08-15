@@ -399,6 +399,34 @@ ok(vigilar.parsear_objetivo("0x2038A0:vida:u32")["direccion"] == 0x2038A0,
    "parsear objetivo con nombre y tipo")
 ok(vigilar.parsear_objetivo("0x2038A0")["tipo"] == "u32", "tipo por defecto u32")
 
+# El 'Δ' de la línea "primeros:" mataba el comando entero con
+# UnicodeEncodeError cuando la salida se redirigía en Windows (cp1252, sin
+# U+0394). El análisis se imprimía hasta "intervalo" y ahí cortaba. La prueba
+# de arriba no lo veía porque llama a analizar() en proceso contra un
+# StringIO, que no codifica nada: hay que cruzar la misma frontera que el uso
+# real —un subproceso con la salida redirigida— o el bug queda invisible.
+
+
+class _FlujoFalso:
+    def __init__(self, encoding):
+        self.encoding = encoding
+
+
+ok(vigilar.simbolo_delta(_FlujoFalso("utf-8")) == "Δ", "con UTF-8 se usa 'Δ'")
+ok(vigilar.simbolo_delta(_FlujoFalso("cp1252")) == "d",
+   "con cp1252 cae a 'd' en vez de reventar")
+ok(vigilar.simbolo_delta(_FlujoFalso(None)) == "d", "flujo sin encoding: 'd'")
+
+entorno_cp1252 = dict(os.environ, PYTHONIOENCODING="cp1252")
+r = correr(["herramientas/vigilar.py", "analizar", csv_prueba, "--columna", "vida"],
+           env=entorno_cp1252, encoding="cp1252", errors="replace")
+ok(r.returncode == 0, "analizar por CLI con la salida en cp1252 no revienta",
+   (r.stderr or r.stdout).strip()[-400:])
+ok("primeros:" in r.stdout and "t=" in r.stdout.split("primeros:")[1],
+   "la línea 'primeros:' se imprime entera", (r.stderr or r.stdout).strip()[-400:])
+ok("2.50 unidades/segundo" in r.stdout,
+   "el análisis llega hasta el final por CLI", r.stdout.strip()[-400:])
+
 
 # =============================================================================
 print("== pine: armado del protocolo (sin PCSX2) ==")

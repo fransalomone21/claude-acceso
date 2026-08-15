@@ -48,6 +48,42 @@ class VigilarError(RuntimeError):
     pass
 
 
+def simbolo_delta(flujo=None) -> str:
+    """'Δ' si la salida sabe escribirlo; 'd' si no.
+
+    En Windows, cuando la salida se redirige (a un archivo, a un pipe, o a
+    otra herramienta que la captura), Python deja de hablarle a la consola y
+    codifica con la página de códigos local — cp1252 acá. cp1252 no tiene
+    U+0394, así que un print con 'Δ' adentro muere con UnicodeEncodeError y
+    se lleva puesta la línea entera. Pasó de verdad: `analizar` imprimía todo
+    y reventaba justo en 'primeros:', la única línea con 'Δ'.
+    """
+    flujo = flujo if flujo is not None else sys.stdout
+    codificacion = getattr(flujo, "encoding", None) or "ascii"
+    try:
+        "Δ".encode(codificacion)
+    except (UnicodeEncodeError, LookupError):
+        return "d"
+    return "Δ"
+
+
+def tolerar_salida_pobre() -> None:
+    """Que un carácter no representable degrade la salida, no que la corte.
+
+    Red de seguridad para el resto del texto (ñ, ±, tildes): bajo una
+    codificación aún más pobre que cp1252 —un `LC_ALL=C` en Linux deja stdout
+    en ASCII— también reventarían. Con errors='replace' salen como '?' y el
+    análisis se termina de imprimir. No se toca la codificación del flujo:
+    forzar UTF-8 acá arreglaría 'Δ' pero convertiría 'tamaño' en mojibake en
+    las consolas que hoy lo muestran bien.
+    """
+    for flujo in (sys.stdout, sys.stderr):
+        try:
+            flujo.reconfigure(errors="replace")
+        except (AttributeError, ValueError, OSError):
+            pass
+
+
 def parsear_objetivo(texto: str) -> dict:
     """'0x2038A0:vida:u32' -> {direccion, nombre, tipo}. tipo por defecto u32."""
     partes = texto.split(":")
@@ -172,10 +208,13 @@ def analizar(ruta: str, columna: str | None, tolerancia: float) -> None:
                 print(f"    -> ritmo REGULAR: ~{1 / med:.2f} veces por segundo")
                 if len(set(round(d, 6) for d in deltas)) == 1:
                     print(f"    -> tasa efectiva: {deltas[0] / med:.2f} unidades/segundo")
-        print("    primeros:", ", ".join(f"t={t:.2f}s Δ{d:+g}" for t, d in grupo[:5]))
+        delta = simbolo_delta()
+        print("    primeros:",
+              ", ".join(f"t={t:.2f}s {delta}{d:+g}" for t, d in grupo[:5]))
 
 
 def main(argv=None) -> int:
+    tolerar_salida_pobre()
     ap = argparse.ArgumentParser(description="Muestreo temporal de memoria por PINE")
     sub = ap.add_subparsers(dest="cmd", required=True)
 

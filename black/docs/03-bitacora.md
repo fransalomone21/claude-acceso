@@ -16,6 +16,55 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-15 (11) — `vigilar.py analizar` arreglado: el `Δ` mataba el comando
+
+**Máquina:** PC · **Modelo:** Opus
+
+**Objetivo:** arreglar el bug que dejó la entrada (10): `analizar` imprimía el
+análisis y reventaba con traceback justo al llegar a `primeros:`, así que
+`volcados/correlacion-vida-2.csv` hubo que leerlo a mano.
+
+**Resultado:**
+
+- **Causa raíz: `UnicodeEncodeError` por el `Δ` (U+0394) de la línea
+  `primeros:`.** Cuando la salida se redirige en Windows (a un archivo, a un
+  pipe, o a una herramienta que la captura), Python deja de hablarle a la
+  consola y codifica con la página de códigos local — `cp1252` acá, que no
+  tiene U+0394. El `print` entero muere. No era un problema de los datos: el
+  CSV no tenía nada raro. Por eso cortaba **siempre** en el mismo lugar y las
+  líneas anteriores salían bien: `ñ`, `±` y las tildes sí existen en cp1252;
+  el `Δ` era el único carácter fuera del juego.
+- **Arreglo** (`herramientas/vigilar.py`): `simbolo_delta()` elige `Δ` o `d`
+  según lo que la salida sepa codificar, y `tolerar_salida_pobre()` pone
+  `errors="replace"` en stdout/stderr como red para el resto del texto (bajo
+  `LC_ALL=C`, con stdout en ASCII, también reventarían `ñ` y `±`). No se
+  fuerza UTF-8 en el flujo a propósito: arreglaría el `Δ` pero convertiría
+  `tamaño` en mojibake en las consolas que hoy lo muestran bien.
+- **Evidencia:** con `PYTHONIOENCODING=cp1252` sobre un CSV sintético de 900
+  filas, la versión vieja sale con código 1 y traceback (`vigilar.py:175`); la
+  nueva imprime el análisis entero y sale con 0. En UTF-8 el `Δ` se sigue
+  viendo; en ASCII degrada a `d` y `?` sin cortar.
+- `pruebas/prueba_herramientas.py`: 96 comprobaciones, todo bien.
+
+**No funcionó / lo que hay que mirar:**
+
+- **La prueba que ya existía no podía ver este bug, y eso es lo importante.**
+  Llamaba a `vigilar.analizar()` en proceso con `redirect_stdout` a un
+  `StringIO`, que no codifica nada: pasaba en verde mientras el comando real
+  fallaba el 100% de las veces. La prueba nueva cruza la misma frontera que el
+  uso real — subproceso, salida redirigida, `PYTHONIOENCODING=cp1252` — y
+  falla contra el código viejo.
+- **`herramientas/inspeccionar.py:162` tiene el mismo `Δ`** en la cabecera de
+  `comparar`. Es el mismo bug esperando, en la herramienta hermana del mismo
+  flujo. **No se tocó** (queda fuera del alcance de esta tarea), pero va a
+  crashear igual apenas se redirija la salida.
+
+**Sigue:** lo que ya venía — determinar si `0x005A8DA8` es estable o dinámica
+entre cargas de nivel (ver `ESTADO_ACTUAL.md`). `analizar` ya se puede usar
+sin leer los CSV a mano.
+
+---
+
 ## 2026-08-15 (10) — **CHECKPOINT 1 CERRADO**: vida del jugador confirmada en `0x005A8DA8`
 
 **Máquina:** notebook (local) · **Modelo:** Sonnet, después Opus (innecesario, ver abajo)

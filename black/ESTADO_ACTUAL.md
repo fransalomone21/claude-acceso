@@ -65,9 +65,9 @@ escritura de 130.0 y 333.0 por PINE con efecto confirmado en pantalla.
 
 ## Problemas abiertos
 
-- **Bug**: `vigilar.py analizar` crashea con traceback al imprimir la sección
-  "primeros" de los escalones. El análisis hubo que hacerlo leyendo el CSV a
-  mano. Pendiente de arreglar.
+- **`herramientas/inspeccionar.py:162` tiene el mismo `Δ` que rompía a
+  `vigilar.py`**: va a crashear con `UnicodeEncodeError` apenas se redirija la
+  salida de `comparar` en Windows. Sin arreglar (ver bitácora 2026-08-15 (11)).
 - No se validó `herramientas/windows/preparar_entorno.ps1` de punta a punta.
 - Falta saber si `0x005A8DA8` es estable entre cargas de nivel.
 

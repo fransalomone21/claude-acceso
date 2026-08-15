@@ -129,6 +129,27 @@ archivo?).
 
 ---
 
+## 8. Una prueba que no cruza la misma frontera que el uso real no prueba el uso real
+
+Si el uso real atraviesa un límite (un proceso, una consola, una red, un
+archivo) y la prueba lo saltea llamando a la función por adentro, lo que se
+está probando es la lógica, no la herramienta. Los bugs viven en el límite.
+
+**Origen:** `vigilar.py analizar` fallaba el 100% de las veces desde la línea
+de comandos —`UnicodeEncodeError` al imprimir un `Δ` que la página de códigos
+de Windows no tiene— mientras su prueba pasaba en verde. La prueba llamaba a
+`analizar()` en proceso contra un `StringIO`, que no codifica nada: nunca
+tocaba el límite donde estaba el bug. Costó una sesión entera de analizar
+CSVs a mano, y el bug quedó anotado como "pendiente" en vez de detectado.
+
+**Cómo aplicarla:** preguntate por dónde entra el usuario y hacé que al menos
+una prueba entre por ahí: si se usa por CLI, corré el CLI en un subproceso
+con la salida redirigida; si se usa por red, hablale por el socket. Las
+pruebas en proceso siguen sirviendo para la lógica — pero no las cuentes como
+cobertura del comando.
+
+---
+
 ## Protocolo para agregar una lección
 
 Una entrada nueva entra sólo si cumple las tres:
