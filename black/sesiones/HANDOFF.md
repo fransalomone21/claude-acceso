@@ -93,6 +93,13 @@ Python 3.13 (`python`, no `python3`), numpy instalado. Node.js v24.19.0.
 en 28011. Herramientas nuevas: `depurador.py`, `volcar_vivo.py`.
 `gh` NO está instalado. Claude Code LOCAL.
 
+**REPO / RAMAS**
+La rama de trabajo es `claude/black-game-reverse-engineering-ricv3t`. El
+proyecto del teléfono está **suspendido** y el **PR #1 queda abierto sin
+mergear a propósito**: mergearlo mezclaría los dos proyectos, y el usuario
+pidió explícitamente que no se mezclen. `gh` no está instalado, así que el
+panel de CI no puede leer el estado del PR — es esperable, no es un problema.
+
 **MODEL RECOMMENDATION**
 **Sonnet** para ejecutar los runbooks. Opus sólo si hay que leer desensamblado
 nuevo de verdad.
