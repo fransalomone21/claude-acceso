@@ -35,6 +35,29 @@ juntas)?, tabla de armas, o empezar a explorar el ISO (carpetas `data/`,
 `levels/`, `guns/`, vistas ahora por el usuario) para mapear contenido sin
 depender del emulador en vivo.
 
+**ISO ya relevado (2026-08-15):** `Black.iso` montado en `D:\` (no
+desmontado). Estructura: `LEVELS/LEVEL_00..08` (sin 02) con `FPGUNS/` por
+nivel y `STG_NNNN/GUNS.BIN` por stage; `SLUS_213.76` es el ejecutable
+principal. La búsqueda del float `26.0` (daño) en `GUNS.BIN` no dio nada —
+esos archivos son geometría de arma en el nivel, no tabla de stats. En
+`SLUS_213.76` sí hay 4 coincidencias de `26.0`, pero el offset de archivo no
+alinea con las 5 direcciones RAM conocidas sin parsear los program headers
+del ELF. Detalle en `docs/03-bitacora.md` (16).
+
+**Test de genericidad — intentado en vivo, no confirmado (2026-08-15, entrada
+17):** dos enemigos murieron (3-4 tiros de AK en difícil) antes de que el
+escaneo diferencial convergiera en su dirección de vida — el enfoque no
+escala con enemigos frágiles. Como compensación se desensambló con `mips.py`
+el bloque candidato (`0x0013C060-0x0013C180`) contra el del jugador
+(`0x0013BC80-0x0013BDA0`): estructura IDÉNTICA (chequeo de estado en `+0xC4`,
+hasta dos llamadas condicionales, store de vida en `+0x2F8` con clamp de
+muerte), sólo cambia qué registro hace de base (`s1`/`s0` vs `s0`/`s2`).
+Refuerza mucho la hipótesis de rutina genérica, **pero sigue sin haber efecto
+visto en pantalla sobre un enemigo real — no confirmado (regla 1)**.
+Próximo intento más barato: pistola (menos daño por tiro, más rondas de
+filtro) o un enemigo que aguante más golpes, en vez de AK + soldado raso en
+difícil.
+
 ## Estado
 
 Entorno resuelto en la notebook (Windows, PCSX2 2.6.3, PINE en 28011).

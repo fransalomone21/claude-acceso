@@ -16,6 +16,110 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-15 (16) — Estructura del ISO montado, sin pegarle a la tabla de armas
+
+**Máquina:** notebook · **Modelo:** Sonnet
+
+**Objetivo:** con la Fase 2 cerrada, relevar qué hay "a mano" en el ISO antes
+de volver a hurgar en vivo, para no depender del emulador para todo.
+
+**Resultado:**
+
+- **`Black.iso` (3.9 GB) montado en `D:\` con `Mount-DiskImage`** (no estaba
+  montado; lo que el usuario había visto antes fue una sesión anterior de
+  Explorador). Estructura de primer nivel: `IOP/` (módulos IOP), `LANGUAGE/`,
+  `LEVELS/` (`GLOBAL/` + `LEVEL_00`..`LEVEL_08`, sin `LEVEL_02`), `SOUND/`,
+  `VIDEOS/`, `CHARS/` (incluye `GUNS/`), `DATA/`, `EXPORT/FRONTEND/`,
+  `GLOBDATA.BIN`, `SYSTEM.CNF`, **`SLUS_213.76`** (el ejecutable principal).
+- Cada nivel trae su propio `FPGUNS/` (modelos/animaciones de primera persona
+  por arma: AK1, AK5, AS5, ASR, BNS, HV5, HVY, PS5, PST, RPG, SH5, SHG, SM5,
+  SMG, SN5, SNR — códigos de 3 letras, probablemente el prefijo real de cada
+  arma en el juego) y subcarpetas `STG_NNNN/` con `GUNS.BIN` / `GUNS_S.BIN`
+  por stage.
+- **Hipótesis de tabla de armas NO confirmada por este camino.** Se buscó el
+  float `26.0` (daño confirmado del jugador) en `LEVEL_00/STG_0001/GUNS.BIN`
+  y `GUNS_S.BIN`: cero coincidencias — esos archivos son geometría/spawn de
+  armas en el nivel, no una tabla de stats. En `SLUS_213.76` sí aparecen 4
+  coincidencias de `26.0` (offsets de archivo 2960626, 3006466, 3086690,
+  3087238), contra los 5 sitios ya conocidos en RAM
+  (`0x0042C3AC`..`0x0042D56C`, ver `ESTADO_ACTUAL.md`). El espaciado entre los
+  4 offsets de archivo NO coincide con el espaciado entre las 5 direcciones de
+  RAM con una base lineal simple — esperable en un ELF con program headers no
+  contiguos. **No vale la pena seguir esto sin parsear los program headers del
+  ELF**; más barato confirmarlo en vivo con un watchpoint de lectura sobre
+  `0x0042C3AC` (ya estaba planeado en `ESTADO_ACTUAL.md`).
+
+**No funcionó:**
+
+- Buscar el offset RAM↔archivo a ojo asumiendo un `base` constante. Un ELF PS2
+  no necesariamente mapea `.text`/`.data`/`.rodata` de forma contigua; hace
+  falta leer `Elf32_Phdr` (offset, vaddr, filesz) para traducir bien.
+
+**Sigue:** volver al trabajo en vivo — test de genericidad de la rutina de
+daño (`0x0013C120`), que era el próximo paso antes de esta desviación al ISO.
+El ISO queda montado en `D:\` por si hace falta volver (no se desmontó).
+
+---
+
+## 2026-08-15 (17) — Dos enemigos muertos antes de converger; la estática dice "genérica"
+
+**Máquina:** notebook · **Modelo:** Sonnet
+
+**Objetivo:** confirmar EN VIVO si `0x0013C120` es el brazo de daño de una
+entidad genérica (test de la hipótesis abierta), localizando primero la vida
+de un enemigo por escaneo diferencial (mismo método que con el jugador).
+
+**Resultado:**
+
+- **Dos intentos de escaneo diferencial sobre enemigos, ninguno convergió.**
+  AK47 en dificultad difícil mata al enemigo en 3-4 tiros, y el escaneo
+  reduce candidatos ~5-6× por ronda (arranca en ~8.1M posiciones): no alcanza
+  el número de rondas antes de que el enemigo muera. Enemigo 1: murió en 874
+  candidatos. Enemigo 2: murió en 5.521; un filtro `entre=1:2000` (sin
+  necesidad de disparo nuevo) lo bajó a 885, y una poda manual a valores
+  enteros lo bajó a 142 — pero sigue siendo ruido del motor (flags en 1.0,
+  bloques en 128.0, nada que se vea como vida de enemigo), no un candidato
+  limpio. **La vida del enemigo sigue sin localizarse.**
+- **Lección de proceso, ya aplicada a mitad de sesión:** en el primer enemigo
+  hubo un desfase real — corrí `filtrar bajo` antes de que el tiro del
+  usuario llegara a impactar, lo que probablemente descartó el candidato
+  verdadero en esa ronda (un filtro relativo compara contra la foto anterior;
+  si nada cambió entre dos fotos, el candidato real queda fuera igual que el
+  ruido). Se corrigió el protocolo: esperar la confirmación explícita del
+  usuario ("ya" DESPUÉS de disparar) antes de correr el filtro.
+- **Desensamblado con `mips.py` del bloque candidato (`0x0013C060-0x0013C180`)
+  contra el bloque confirmado del jugador (`0x0013BC80-0x0013BDA0`).** Mismo
+  patrón exacto: lectura de un campo de estado en `+0xC4` (`lw ??,0xC4(base)`),
+  comparación contra valores pequeños (3/4 en el candidato, 1 en el jugador),
+  hasta dos llamadas condicionales a subrutinas, y recién ahí el store de la
+  vida en `+0x2F8` con clamp (dos brazos: piso de muerte y resta normal).
+  El bloque del jugador usa `s0`/`s2` como base; el candidato usa `s1`/`s0`.
+  Estructura idéntica, sólo cambia la asignación de registros — consistente
+  con una rutina genérica de "entidad recibe daño" inlineada dos veces por el
+  compilador para distintos call sites, tal como venía la hipótesis. **Sigue
+  siendo hipótesis, no confirmación**: no hay efecto visto en pantalla sobre
+  un enemigo real.
+
+**No funcionó:**
+
+- Escanear diferencialmente la vida de un enemigo con AK47 en difícil: muere
+  antes de converger. El enfoque no escala con enemigos frágiles.
+- Podar por "valor entero razonable" (`entre=1:2000` + filtro manual de parte
+  fraccionaria) no alcanza para aislar un candidato: hay demasiadas
+  constantes enteras del motor (1.0, 128.0, 320.0...) en ese rango.
+
+**Sigue:** para la próxima sesión en vivo, dos caminos más baratos que seguir
+grindeando con la AK en difícil:
+1. Usar el arma de MENOR daño (pistola) contra un enemigo normal — más tiros
+   antes de morir, más rondas de filtro antes de que se acabe.
+2. Buscar un enemigo que aguante más golpes (armadura pesada / mini-boss) en
+   vez de un soldado raso.
+Ninguno de los dos se probó todavía. La confirmación de genericidad sigue
+pendiente del efecto en pantalla — la evidencia estática es fuerte pero no
+alcanza sola (regla 1 del proyecto).
+
+---
+
 ## 2026-08-15 (15) — La base estaba mal: la rutina de daño en dos horas
 
 **Máquina:** notebook · **Modelo:** Opus
