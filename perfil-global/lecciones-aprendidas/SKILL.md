@@ -165,10 +165,21 @@ secuenciales**, donde cada resultado redirigió al siguiente y el primero mató
 la hipótesis de trabajo. Un fan-out habría corrido los cuatro contra la
 hipótesis equivocada.
 
+**REINCIDENCIA (2026-08-15, tarde):** volvió a pasar. 11 agentes, ~100k
+tokens, para construir un cliente de un protocolo **cuyo fuente ya se había
+leído en esa misma sesión**. Se abortó a mitad y se hizo directo: el cliente
+salió en un solo archivo, y los cuatro comandos siguientes localizaron la
+rutina que llevaba dos sesiones sin aparecer. La lección estaba escrita y no
+se consultó: **una skill de consulta no se dispara sola.**
+
 **Cómo aplicarla:** antes de paralelizar, contestá dos preguntas. ¿Esto ya lo
 sé? ¿El paso 2 depende del resultado del paso 1? Si la primera es sí o la
 segunda es sí, es secuencial. Sondeo barato primero, herramienta después,
 paralelismo sólo si queda superficie ancha.
+
+**Y el mecanismo, porque la disciplina sola falló dos veces:** el chequeo se
+inyecta ahora por hook `UserPromptSubmit` en cada prompt
+(`perfil-global/recordatorio-transversal.md`). Ver lección 11.
 
 ---
 
@@ -188,6 +199,64 @@ lo que sí funcionó, en el mismo comando.
 **Cómo aplicarla:** diseñá el primer sondeo para que sea capaz de refutar,
 no de confirmar. Y cuando dé cero, no lo trates como "no encontré": preguntate
 qué premisa acaba de caerse.
+
+---
+
+## 11. Una regla que depende de recordarla no es una regla: es una intención
+
+Escribir una lección no la instala. Si cumplirla depende de que el ejecutor
+decida consultarla, va a fallar exactamente cuando más falta hace: bajo apuro,
+que es cuando se toman los atajos caros.
+
+**Origen:** la lección 9 estaba escrita, era precisa, y se violó igual dos
+sesiones seguidas. La segunda vez el usuario lo señaló: *"eso pasa porque no
+implementaste bien las skills, deben ser transversales"*. Tenía razón —
+además se descubrió que `skipWorkflowUsageWarning: true` estaba silenciando el
+aviso de costo del propio sistema. Había un freno y estaba desconectado.
+
+**Cómo aplicarla:** cuando una lección se repite, no la reescribas más fuerte
+— eso es subir el volumen de algo que ya nadie escucha. Convertila en
+mecanismo. Escala, de menos a más confiable:
+
+| Nivel | Mecanismo | Se dispara |
+|---|---|---|
+| 1 | Skill de consulta | sólo si alguien la invoca |
+| 2 | Línea en `CLAUDE.md` | si se leyó el archivo |
+| 3 | **Hook** (`UserPromptSubmit`) | **siempre, sin excepción** |
+| 4 | Permiso denegado / validación | imposible saltearlo |
+
+Y antes de agregar un freno, **revisá si ya existe uno desactivado**. Silenciar
+un aviso es la forma más barata de romper un sistema de seguridad.
+
+Costo: un hook se inyecta en cada prompt, así que tiene que ser corto y en
+ASCII (Windows lo lee como cp1252 y los acentos salen como mojibake).
+
+---
+
+## 12. Cuando el espacio de búsqueda no se achica, sospechá del parámetro
+
+Si una búsqueda bien hecha devuelve demasiados candidatos y ningún criterio
+los desempata, el problema puede no estar en el desempate sino en que se está
+buscando lo que no es. Antes de invertir en filtrar, verificá la premisa que
+generó la búsqueda.
+
+**Origen:** dos sesiones tratando de desempatar 69 candidatos a "instrucción
+que escribe la vida". El desempate era imposible porque la búsqueda usaba el
+offset `+0x28`, derivado de una base de struct que se había **inferido** por
+escaneo de punteros y era falsa. La base real (`0x005A8AB0`, offset `+0x2F8`)
+se obtuvo leyendo el **registro base en vivo** al disparar un watchpoint. Con
+el parámetro corregido, la misma búsqueda pasó de 69 candidatos a 8 y la
+rutina apareció en el desensamblado de los dos primeros.
+
+**Cómo aplicarla:** todo valor *inferido* que después se usa como parámetro de
+búsqueda es una hipótesis disfrazada de dato. Marcalo como tal y buscá la
+forma de **observarlo directamente** antes de construir encima. Preguntá:
+"¿este número lo vi, o lo deduje?".
+
+Corolario práctico: para anclar una estructura, un watchpoint de **lectura**
+sobre un campo conocido es mejor entrada que uno de escritura — dispara solo
+(el HUD lee cada frame), no necesita provocar nada, y el registro base al
+pausar da la respuesta directa.
 
 ---
 
