@@ -222,8 +222,13 @@ mecanismo. Escala, de menos a más confiable:
 |---|---|---|
 | 1 | Skill de consulta | sólo si alguien la invoca |
 | 2 | Línea en `CLAUDE.md` | si se leyó el archivo |
-| 3 | **Hook** (`SessionStart`, `UserPromptSubmit`) | **siempre, sin excepción** |
+| 3 | **Hook** (`SessionStart`, `UserPromptSubmit`) | siempre — **si está bien cableado** |
 | 4 | Permiso denegado / validación | imposible saltearlo |
+
+El "si está bien cableado" no es una salvedad retórica: el primer hook que se
+escribió con esta tabla no disparó ni una vez, y nadie se enteró hasta que el
+usuario lo reclamó. Un hook roto es *peor* que no tener hook, porque figura
+como resuelto. Ver lección 13.
 
 Y antes de agregar un freno, **revisá si ya existe uno desactivado**. Silenciar
 un aviso es la forma más barata de romper un sistema de seguridad.
@@ -265,6 +270,56 @@ Corolario práctico: para anclar una estructura, un watchpoint de **lectura**
 sobre un campo conocido es mejor entrada que uno de escritura — dispara solo
 (el HUD lee cada frame), no necesita provocar nada, y el registro base al
 pausar da la respuesta directa.
+
+---
+
+## 13. El comando que le das a otro programa lo ejecuta el shell de ÉL
+
+Cuando escribís un comando dentro de un archivo de configuración —un hook, un
+paso de CI, un `command:` de YAML— no lo corre tu terminal: lo corre el
+programa que lee esa configuración, con el shell que ese programa elija. Toda
+sintaxis específica de un shell es una bomba de tiempo, y el fallo es
+silencioso porque nadie ve el comando ejecutarse.
+
+**Origen:** el hook `SessionStart` que obliga a abrir cada sesión con
+Fase/Modelo/Contexto quedó instalado y **nunca disparó**. El comando era:
+
+```
+powershell -NoProfile -Command "Get-Content -Raw -ErrorAction SilentlyContinue
+((Join-Path $env:USERPROFILE '.claude\apertura-proyecto.md'))"
+```
+
+Correcto en PowerShell. Pero el harness lo pasa por Git Bash, y bash expande
+`$env` —una variable que no existe— antes de que PowerShell vea nada: la ruta
+llegaba como `:USERPROFILE\.claude\...`. Resultado: `exit 1`, **stdout de cero
+bytes y stderr vacío**. El `-ErrorAction SilentlyContinue` remató el asunto
+convirtiendo el error en silencio.
+
+Costó días de sesiones abiertas sin el protocolo, y el usuario tuvo que
+señalarlo. El commit que lo introdujo decía "verificado […] ejecutando el
+comando del hook: sale limpio" — verificado en PowerShell, que es justamente
+el único shell donde no falla.
+
+**Cómo aplicarla:**
+
+1. Un comando de configuración no puede contener sintaxis de ningún shell:
+   nada de `$VAR`, `$env:VAR`, `%VAR%`, comillas anidadas ni sustitución. Sólo
+   un ejecutable, una **ruta absoluta entre comillas** y argumentos simples.
+   Toda la lógica va adentro de un script, donde ya nadie la reinterpreta.
+2. **Nunca silencies errores en un hook.** `-ErrorAction SilentlyContinue` y
+   `2>/dev/null` convierten "está roto" en "no dijo nada", que es idéntico a
+   "funcionó y no tenía nada que decir".
+3. Si el efecto no es observable, hacelo observable. El lanzador escribe una
+   línea en `~/.claude/hooks/disparos.log` cada vez que corre: es la única
+   forma de contestar "¿disparó?" sin adivinar.
+4. Probalo con el shell del otro programa, no con el tuyo.
+
+**Trampa encontrada al arreglarlo:** en Windows 11, `Get-Command bash.exe`
+resuelve a `WindowsApps\bash.exe`, que es **WSL** — un Linux real que no ve
+`C:/Users/...` y contesta "No such file or directory" a cualquier ruta de
+Windows. El harness usa Git Bash (`MINGW64`). Probar en el bash equivocado da
+un rojo tan falso como el verde que se estaba tratando de arreglar; verificá
+con `uname -s`.
 
 ---
 

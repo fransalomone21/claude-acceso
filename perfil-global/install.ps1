@@ -19,6 +19,7 @@ $dest      = Join-Path $env:USERPROFILE '.claude'
 # es ~/.claude/skills/ (NO claude-code-skills/). Ver docs oficiales:
 # https://code.claude.com/docs/en/skills#where-skills-live
 $skillsDir = Join-Path $dest 'skills'
+$hooksDir  = Join-Path $dest 'hooks'
 $now       = Get-Date -Format 'yyyyMMdd-HHmmss'
 $ok        = $true
 
@@ -41,6 +42,7 @@ if (-not (Test-Path $source)) {
 
 New-Item -ItemType Directory -Force -Path $dest      | Out-Null
 New-Item -ItemType Directory -Force -Path $skillsDir | Out-Null
+New-Item -ItemType Directory -Force -Path $hooksDir  | Out-Null
 Info "Carpetas destino verificadas."
 
 # --- 1. CLAUDE.md global ---
@@ -119,6 +121,18 @@ foreach ($g in $ganchos) {
     }
 }
 
+# El lanzador que invocan TODOS los hooks. Ver el encabezado de ese archivo
+# para el detalle de por que el comando no puede vivir en settings.json.
+$lanzadorSrc = Join-Path $source 'hooks\emitir-contexto.ps1'
+$lanzador    = Join-Path $hooksDir 'emitir-contexto.ps1'
+
+if (-not (Test-Path $lanzadorSrc)) {
+    Fail "Falta el lanzador de hooks: $lanzadorSrc"
+} else {
+    Copy-Item $lanzadorSrc $lanzador -Force
+    Ok "hooks\emitir-contexto.ps1 -> $hooksDir"
+}
+
 # --- 4. Registrar los hooks en settings.json ---
 $settingsPath = Join-Path $dest 'settings.json'
 
@@ -139,30 +153,56 @@ try {
     foreach ($g in $ganchos) {
         $evento  = $g.Evento
         $archivo = $g.Archivo
-        $hookCmd = 'powershell -NoProfile -Command "Get-Content -Raw -ErrorAction SilentlyContinue ((Join-Path $env:USERPROFILE ''.claude\' + $archivo + '''))"'
 
-        # Marcador de deduplicacion: el nombre del archivo dentro del comando.
-        $marcador = [regex]::Escape($archivo)
-        $yaEsta = $false
+        # El comando NO puede contener sintaxis de ningun shell. Solo una ruta
+        # absoluta entre comillas y un argumento. Nada de $env:, %VAR% ni
+        # comillas anidadas: el harness lo pasa por un shell POSIX y cualquiera
+        # de esas cosas se rompe en silencio.
+        $hookCmd = 'powershell -NoProfile -ExecutionPolicy Bypass -File "' +
+                   $lanzador + '" ' + $archivo
+
+        $existentes = @()
         if ($h.PSObject.Properties.Name -contains $evento) {
-            $json = $h.$evento | ConvertTo-Json -Depth 10
-            if ($json -match $marcador) { $yaEsta = $true }
+            $existentes = @($h.$evento)
         }
 
-        if ($yaEsta) {
-            Info "Hook $evento ($archivo) ya estaba configurado."
+        # Separar lo que habla de ESTE archivo de lo que no. Las entradas
+        # ajenas se respetan; las propias se reemplazan aunque ya existan,
+        # porque una entrada vieja y rota tambien "ya esta configurada".
+        $ajenas  = @()
+        $propias = @()
+        foreach ($e in $existentes) {
+            $txt = $e | ConvertTo-Json -Depth 10 -Compress
+            if ($txt -match [regex]::Escape($archivo)) { $propias += $e }
+            else { $ajenas += $e }
+        }
+
+        $correcta = $false
+        if ($propias.Count -eq 1) {
+            $hs = @($propias[0].hooks)
+            if ($hs.Count -eq 1 -and $hs[0].command -eq $hookCmd) { $correcta = $true }
+        }
+
+        if ($correcta) {
+            Info "Hook $evento ($archivo) ya estaba correcto."
             continue
+        }
+
+        if ($propias.Count -gt 0) {
+            Warn "Hook $evento ($archivo): habia una definicion vieja, se reemplaza."
         }
 
         $entrada = [PSCustomObject]@{
             hooks = @([PSCustomObject]@{ type = 'command'; command = $hookCmd })
         }
+        $nuevo = @($ajenas) + @($entrada)
+
         if ($h.PSObject.Properties.Name -contains $evento) {
-            $h.$evento = @($h.$evento) + $entrada
+            $h.$evento = $nuevo
         } else {
-            $h | Add-Member -NotePropertyName $evento -NotePropertyValue @($entrada)
+            $h | Add-Member -NotePropertyName $evento -NotePropertyValue $nuevo
         }
-        Ok "Hook $evento agregado ($archivo)"
+        Ok "Hook $evento configurado ($archivo)"
         $cambio = $true
     }
 
