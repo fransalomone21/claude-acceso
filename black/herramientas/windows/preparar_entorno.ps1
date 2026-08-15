@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Deja una máquina Windows lista para el proyecto BLACK: Python, numpy,
+    Deja una maquina Windows lista para el proyecto BLACK: Python, numpy,
     PINE activado y savestates sin comprimir en PCSX2, y confirma la
     identidad del juego contra kb/objetivo.json.
 
@@ -8,36 +8,39 @@
     Automatiza el checkpoint 0. Hace, en orden:
       1. Se re-lanza con permisos de administrador (UAC) si hace falta.
       2. Busca Python 3.11+ e instala numpy si falta.
-      3. Corre la batería de pruebas del proyecto (no necesita PCSX2).
-      4. Encuentra la instalación de PCSX2 (o usa la que le pases).
-      5. Le prende PINE (slot 28011) y le apaga la compresión de
-         savestates en su .ini — con backup antes de tocar nada.
-      6. Si PCSX2 no estaba abierto, lo abre (y el ISO, si se lo pasás).
+      3. Corre la bateria de pruebas del proyecto (no necesita PCSX2).
+      4. Encuentra la instalacion de PCSX2 (o usa la que le pases).
+      5. Le prende PINE (slot 28011) y le apaga la compresion de
+         savestates en su .ini - con backup antes de tocar nada.
+      6. Si PCSX2 no estaba abierto, lo abre (y el ISO, si se lo pasas).
       7. Espera a que PINE conteste y corre pine.py info.
-      8. Si el juego está cargado, confirma serial/CRC en kb/objetivo.json.
+      8. Si el juego esta cargado, confirma serial/CRC en kb/objetivo.json.
       9. Deja un log completo en black/volcados/.
 
     Nada de esto necesita en realidad permisos de administrador: los
-    archivos que toca están todos dentro de tu carpeta de usuario. Se pide
-    UAC de todas formas porque así se pidió, y de paso evita problemas si
-    tu Python está instalado "para todos los usuarios" (bajo Program Files).
+    archivos que toca estan todos dentro de tu carpeta de usuario. Se pide
+    UAC de todas formas porque asi se pidio, y de paso evita problemas si
+    tu Python esta instalado "para todos los usuarios" (bajo Program Files).
+
+    NOTA: Este archivo usa ASCII puro para evitar problemas de encoding
+    en PowerShell en Windows (UTF-8 sin BOM se lee como Windows-1252).
 
 .PARAMETER Pcsx2Exe
     Ruta al ejecutable de PCSX2. Si no se pasa, se busca solo.
 
 .PARAMETER IsoPath
     Ruta a la ISO de BLACK. Si se pasa y PCSX2 no estaba abierto, se lanza
-    directo con esa ISO. Si no se pasa, abrís el juego vos a mano.
+    directo con esa ISO. Si no se pasa, abris el juego vos a mano.
 
 .PARAMETER EsperaSegundos
-    Cuánto esperar a que PINE conteste después de abrir PCSX2. Por defecto 90.
+    Cuanto esperar a que PINE conteste despues de abrir PCSX2. Por defecto 90.
 
 .PARAMETER SinElevar
-    No pedir UAC. Usalo si ya corrés la consola como administrador, o si
-    preferís que no se re-lance el script.
+    No pedir UAC. Usalo si ya corres la consola como administrador, o si
+    preferis que no se re-lance el script.
 
 .PARAMETER SinPatchIni
-    No tocar el .ini de PCSX2. Sólo diagnostica y corre las pruebas.
+    No tocar el .ini de PCSX2. Solo diagnostica y corre las pruebas.
 
 .EXAMPLE
     .\preparar_entorno.ps1
@@ -69,7 +72,7 @@ $RepoBlack = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 
 if (-not (Test-Path (Join-Path $RepoBlack 'CLAUDE.md'))) {
     Write-Host "No encuentro black/CLAUDE.md desde $RepoBlack." -ForegroundColor Red
-    Write-Host "Este script tiene que vivir en black/herramientas/windows/. Si lo moviste, volvé a ponerlo ahí." -ForegroundColor Red
+    Write-Host "Este script tiene que vivir en black/herramientas/windows/. Si lo moviste, volvelo a poner ahi." -ForegroundColor Red
     exit 1
 }
 
@@ -86,7 +89,7 @@ function Titulo($texto) {
     Write-Host "== $texto ==" -ForegroundColor Cyan
 }
 
-function Ok($texto) { Write-Host "  [ok] $texto" -ForegroundColor Green }
+function Ok($texto)       { Write-Host "  [ok] $texto" -ForegroundColor Green }
 function Advertir($texto) { Write-Host "  [!] $texto" -ForegroundColor Yellow }
 function Fallar($texto) {
     Write-Host "  [error] $texto" -ForegroundColor Red
@@ -95,7 +98,7 @@ function Fallar($texto) {
 }
 
 # ============================================================================
-# 1. UAC — re-lanzarse elevado si hace falta
+# 1. UAC - re-lanzarse elevado si hace falta
 # ============================================================================
 Titulo 'Permisos'
 
@@ -107,10 +110,10 @@ if ($esAdmin) {
     Ok 'ya corriendo como administrador'
 }
 elseif ($SinElevar) {
-    Advertir 'sin -SinElevar se pediría UAC; seguimos sin admin porque lo pediste así'
+    Advertir 'sin -SinElevar se pediria UAC; seguimos sin admin porque lo pediste asi'
 }
 else {
-    Write-Host '  pidiendo UAC (va a aparecer el diálogo de Windows)...' -ForegroundColor Yellow
+    Write-Host '  pidiendo UAC (va a aparecer el dialogo de Windows)...' -ForegroundColor Yellow
     $listaArgs = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$PSCommandPath`"")
     foreach ($clave in $PSBoundParameters.Keys) {
         $valor = $PSBoundParameters[$clave]
@@ -125,14 +128,14 @@ else {
     Stop-Transcript | Out-Null
     try {
         Start-Process -FilePath 'powershell.exe' -ArgumentList $listaArgs -Verb RunAs -ErrorAction Stop
-        # se relanzó con éxito: la instancia elevada sigue desde acá, esta se cierra
+        # se relanzo con exito: la instancia elevada sigue desde aca, esta se cierra
         exit 0
     }
     catch {
-        # cancelaste el UAC, o falló la elevación: seguimos sin admin en vez de
+        # cancelaste el UAC, o fallo la elevacion: seguimos sin admin en vez de
         # morir, porque casi nada de esto necesita admin de verdad
         Start-Transcript -Path $RutaLog -Append | Out-Null
-        Advertir 'cancelaste el UAC o falló la elevación. Sigo sin permisos de administrador.'
+        Advertir 'cancelaste el UAC o fallo la elevacion. Sigo sin permisos de administrador.'
     }
 }
 
@@ -154,7 +157,7 @@ function Buscar-Python {
         try {
             # Out-String junta toda la salida en un solo string: si -match
             # se aplicara sobre un array, $Matches puede quedar sin poblar
-            # o arrastrar el match de una iteración anterior del loop.
+            # o arrastrar el match de una iteracion anterior del loop.
             $salida = (& $c.Exe @($c.Pre) '--version' 2>&1 | Out-String)
         }
         catch { continue }
@@ -171,7 +174,7 @@ function Buscar-Python {
 
 $py = Buscar-Python
 if ($null -eq $py) {
-    Fallar 'No encontré Python 3.11+ en el PATH (probé python, python3, py -3.11, py -3). Instalalo desde https://python.org/downloads/ marcando "Add python.exe to PATH", y volvé a correr este script.'
+    Fallar 'No encontre Python 3.11+ en el PATH (probe python, python3, py -3.11, py -3). Instalalo desde https://python.org/downloads/ marcando "Add python.exe to PATH", y vuelve a correr este script.'
 }
 Ok "$($py.Version)  ($($py.Exe) $($py.Pre -join ' '))"
 
@@ -182,17 +185,17 @@ try {
     Ok 'numpy instalado (o ya estaba)'
 }
 catch {
-    Advertir "no pude instalar numpy: $_. Las herramientas igual funcionan, más lentas en escaneos completos."
+    Advertir "no pude instalar numpy: $_. Las herramientas igual funcionan, mas lentas en escaneos completos."
 }
 
 # ============================================================================
-# 3. Batería de pruebas del proyecto (no necesita PCSX2)
+# 3. Bateria de pruebas del proyecto (no necesita PCSX2)
 # ============================================================================
 Titulo 'Pruebas del proyecto'
 $rutaPruebas = Join-Path $RepoBlack 'pruebas\prueba_herramientas.py'
 & $py.Exe @($py.Pre) $rutaPruebas
 if ($LASTEXITCODE -ne 0) {
-    Advertir 'las pruebas fallaron. Seguimos igual, pero revisá la salida de arriba antes de confiar en el resto.'
+    Advertir 'las pruebas fallaron. Seguimos igual, pero revisa la salida de arriba antes de confiar en el resto.'
 }
 else {
     Ok 'todas las pruebas pasaron'
@@ -213,7 +216,7 @@ function Resolver-Atajo($rutaLnk) {
 }
 
 function Buscar-Pcsx2 {
-    # 1. atajos conocidos (escritorio, menú inicio)
+    # 1. atajos conocidos (escritorio, menu inicio)
     $carpetasAtajos = @(
         [Environment]::GetFolderPath('Desktop')
         [Environment]::GetFolderPath('CommonDesktopDirectory')
@@ -231,7 +234,7 @@ function Buscar-Pcsx2 {
         }
     }
 
-    # 2. carpetas de instalación típicas
+    # 2. carpetas de instalacion tipicas
     $raices = @(
         $env:ProgramFiles
         ${env:ProgramFiles(x86)}
@@ -258,7 +261,7 @@ if ($Pcsx2Exe -and (Test-Path $Pcsx2Exe)) {
     Ok "PCSX2 en: $Pcsx2Exe"
 }
 else {
-    Advertir 'no encontré el ejecutable de PCSX2 solo. Pasalo con -Pcsx2Exe "C:\ruta\a\pcsx2.exe". Sigo sin poder abrirlo ni tocar su configuración automáticamente.'
+    Advertir 'no encontre el ejecutable de PCSX2 solo. Pasalo con -Pcsx2Exe "C:\ruta\a\pcsx2.exe". Sigo sin poder abrirlo ni tocar su configuracion automaticamente.'
     $Pcsx2Exe = $null
 }
 
@@ -267,8 +270,8 @@ else {
 # ============================================================================
 function Set-ValorIni {
     <#
-        Edita (o inserta) UNA clave dentro de UNA sección de un archivo .ini
-        estilo PCSX2, tocando sólo esa línea. No reordena ni toca el resto
+        Edita (o inserta) UNA clave dentro de UNA seccion de un archivo .ini
+        estilo PCSX2, tocando solo esa linea. No reordena ni toca el resto
         del archivo.
     #>
     param(
@@ -286,12 +289,12 @@ function Set-ValorIni {
     # PCSX2 escribe sus .ini como "Clave = Valor" (con espacios); mantenemos
     # el mismo estilo para que un diff del archivo se vea prolijo.
     if ($idxSeccion -eq -1) {
-        # la sección no existe: se agrega entera al final
+        # la seccion no existe: se agrega entera al final
         $nuevas = $Lineas + @('', $encabezado, "$Clave = $Valor")
         return $nuevas
     }
 
-    # buscar la clave dentro del bloque de esa sección
+    # buscar la clave dentro del bloque de esa seccion
     $idxFinSeccion = $Lineas.Count
     for ($i = $idxSeccion + 1; $i -lt $Lineas.Count; $i++) {
         if ($Lineas[$i] -match '^\s*\[.+\]\s*$') { $idxFinSeccion = $i; break }
@@ -304,13 +307,13 @@ function Set-ValorIni {
         }
     }
 
-    # la sección existe pero la clave no: se inserta justo debajo del encabezado
+    # la seccion existe pero la clave no: se inserta justo debajo del encabezado
     $antes = $Lineas[0..$idxSeccion]
     $despues = if ($idxSeccion + 1 -le $Lineas.Count - 1) { $Lineas[($idxSeccion + 1)..($Lineas.Count - 1)] } else { @() }
     return $antes + @("$Clave = $Valor") + $despues
 }
 
-Titulo 'Configuración de PCSX2 (PINE + savestates)'
+Titulo 'Configuracion de PCSX2 (PINE + savestates)'
 
 if ($SinPatchIni) {
     Advertir '-SinPatchIni: no se toca el .ini'
@@ -318,7 +321,7 @@ if ($SinPatchIni) {
 else {
     $procesoActivo = Get-Process -Name '*pcsx2*' -ErrorAction SilentlyContinue
     if ($procesoActivo) {
-        Advertir "PCSX2 ya está corriendo (PID $($procesoActivo[0].Id)). Si edito el .ini ahora, PCSX2 lo pisa con lo que tiene en memoria al cerrarse. Cerralo, corré este script de nuevo, y volvelo a abrir después — o cambiá los ajustes a mano en Settings > Advanced."
+        Advertir "PCSX2 ya esta corriendo (PID $($procesoActivo[0].Id)). Si edito el .ini ahora, PCSX2 lo pisa con lo que tiene en memoria al cerrarse. Cerralo, corre este script de nuevo, y volvelo a abrir despues - o cambia los ajustes a mano en Settings > Advanced."
     }
     else {
         $rutaIniDocumentos = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'PCSX2\inis\PCSX2.ini'
@@ -337,7 +340,7 @@ else {
         }
 
         if (-not $rutaIni) {
-            Advertir "no encontré PCSX2.ini (ni en Documentos ni junto al ejecutable). Si es la primera vez que corrés PCSX2, abrilo una vez, dejalo generar su configuración, cerralo, y volvé a correr este script."
+            Advertir "no encontre PCSX2.ini (ni en Documentos ni junto al ejecutable). Si es la primera vez que corres PCSX2, abrilo una vez, dejalo generar su configuracion, cerralo, y vuelve a correr este script."
         }
         else {
             Ok "ini encontrado: $rutaIni"
@@ -355,7 +358,7 @@ else {
                 Ok 'EnablePINE = true, PINESlot = 28011, SavestateZstdCompression = false'
             }
             catch {
-                Advertir "no pude editar el .ini ($_). Si quedó un archivo .respaldo-* al lado, el original está intacto ahí. Activá PINE y desactivá la compresión a mano en Settings > Advanced."
+                Advertir "no pude editar el .ini ($_). Si quedo un archivo .respaldo-* al lado, el original esta intacto ahi. Activa PINE y desactiva la compresion a mano en Settings > Advanced."
             }
         }
     }
@@ -369,7 +372,7 @@ Titulo 'PCSX2'
 $yaCorria = [bool](Get-Process -Name '*pcsx2*' -ErrorAction SilentlyContinue)
 
 if ($yaCorria) {
-    Ok 'PCSX2 ya estaba abierto; lo dejo como está'
+    Ok 'PCSX2 ya estaba abierto; lo dejo como esta'
 }
 elseif ($Pcsx2Exe) {
     Write-Host "  abriendo PCSX2..."
@@ -383,7 +386,7 @@ elseif ($Pcsx2Exe) {
                 Advertir "la ISO '$IsoPath' no existe; abro PCSX2 sin cargar nada"
             }
             Start-Process -FilePath $Pcsx2Exe -ErrorAction Stop
-            Ok 'lanzado sin ISO — cargá BLACK a mano cuando abra'
+            Ok 'lanzado sin ISO - carga BLACK a mano cuando abra'
         }
     }
     catch {
@@ -412,7 +415,7 @@ Write-Host ''
 $comandoPine = "$($py.Exe) $($py.Pre -join ' ') herramientas\pine.py info".Trim() -replace '\s+', ' '
 
 if (-not $puertoListo) {
-    Advertir "PINE no contestó en $EsperaSegundos s. Puede que PCSX2 siga cargando, que PINE no haya quedado activado (revisá Settings > Advanced > PINE Settings a mano), o que necesite un juego cargado. Corré '$comandoPine' desde black\ cuando esté listo."
+    Advertir "PINE no contesto en $EsperaSegundos s. Puede que PCSX2 siga cargando, que PINE no haya quedado activado (revisa Settings > Advanced > PINE Settings a mano), o que necesite un juego cargado. Corre '$comandoPine' desde black\ cuando este listo."
 }
 else {
     Ok 'PINE responde'
@@ -426,7 +429,7 @@ else {
     }
     else {
         $comandoFijar = "$($py.Exe) $($py.Pre -join ' ') herramientas\fijar_objetivo.py".Trim() -replace '\s+', ' '
-        Advertir "pine.py info devolvió error. Si PCSX2 está en el menú (sin juego cargado), es normal: cargá BLACK y corré a mano desde black\: $comandoFijar"
+        Advertir "pine.py info devolvio error. Si PCSX2 esta en el menu (sin juego cargado), es normal: carga BLACK y corre a mano desde black\: $comandoFijar"
     }
     Pop-Location
 }
@@ -436,6 +439,6 @@ else {
 # ============================================================================
 Titulo 'Listo'
 Write-Host "  log completo en: $RutaLog"
-Write-Host '  si kb/objetivo.json cambió, revisalo y hacé commit + push.'
+Write-Host '  si kb/objetivo.json cambio, revisalo y hace commit + push.'
 
 Stop-Transcript | Out-Null

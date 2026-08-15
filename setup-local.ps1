@@ -1,14 +1,10 @@
-# setup-local.ps1 — Prepara el entorno local completo para el proyecto BLACK
+# setup-local.ps1 - Prepara el entorno local completo para el proyecto BLACK
+# NOTA: Este archivo debe mantenerse en ASCII puro (sin tildes ni caracteres
+#       especiales) para que PowerShell en Windows lo pueda leer sin importar
+#       la configuracion de codificacion del sistema.
 #
-# Ejecutar UNA VEZ despues de clonar o hacer git pull:
+# Ejecutar UNA VEZ desde la raiz del repo despues de clonar o hacer git pull:
 #   .\setup-local.ps1
-#
-# Que hace:
-#   1. Instala el perfil global de Claude en %USERPROFILE%\.claude\
-#   2. Verifica Python 3.11+
-#   3. Crea carpetas locales que git ignora
-#   4. Corre las pruebas de herramientas del proyecto
-#   5. Te dice exactamente que hacer despues
 
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
@@ -21,7 +17,7 @@ function Step($msg) { Write-Host ""; Write-Host "--- $msg ---" -ForegroundColor 
 
 Write-Host ""
 Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "  Setup local — proyecto BLACK / claude-acceso" -ForegroundColor Cyan
+Write-Host "  Setup local - proyecto BLACK / claude-acceso" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 
 # -----------------------------------------------------------------------
@@ -30,9 +26,12 @@ Step "1/4  Perfil global de Claude"
 $installScript = Join-Path $root 'perfil-global\install.ps1'
 if (Test-Path $installScript) {
     & $installScript
-    if ($LASTEXITCODE -ne 0) { Fail "install.ps1 termino con error $LASTEXITCODE" }
+    if ($LASTEXITCODE -ne 0) {
+        Fail "install.ps1 termino con error $LASTEXITCODE"
+    }
 } else {
-    Fail "No se encontro perfil-global\install.ps1 — verificar que estas en la raiz del repo"
+    Fail "No se encontro perfil-global\install.ps1"
+    Fail "Verificar que se ejecuta desde la raiz del repo."
 }
 
 # -----------------------------------------------------------------------
@@ -52,26 +51,24 @@ foreach ($cmd in @('python', 'python3')) {
 if (-not $py) {
     Fail "Python 3.11+ no encontrado. Instalar desde https://python.org y volver a correr este script."
 } else {
-    # numpy
     $np = & $py -c "import numpy; print('numpy', numpy.__version__)" 2>&1
     if ($LASTEXITCODE -eq 0) {
         Ok $np
     } else {
         Warn "numpy no instalado. Instalando..."
         & $py -m pip install numpy --quiet
-        if ($LASTEXITCODE -eq 0) { Ok "numpy instalado" }
-        else                      { Warn "numpy no se pudo instalar — el primer filtro tendra que ser por valor exacto" }
+        if ($LASTEXITCODE -eq 0) {
+            Ok "numpy instalado"
+        } else {
+            Warn "numpy no se pudo instalar - el primer filtro tendra que ser por valor exacto"
+        }
     }
 }
 
 # -----------------------------------------------------------------------
 Step "3/4  Carpetas locales"
 # -----------------------------------------------------------------------
-$localDirs = @(
-    'black\volcados',
-    'black\construido'
-)
-foreach ($d in $localDirs) {
+foreach ($d in @('black\volcados', 'black\construido')) {
     $path = Join-Path $root $d
     New-Item -ItemType Directory -Force -Path $path | Out-Null
     Ok "$d/"
@@ -88,10 +85,13 @@ if ($py) {
         & $py pruebas/prueba_herramientas.py
         $testExit = $LASTEXITCODE
         Pop-Location
-        if ($testExit -eq 0) { Ok "Pruebas pasaron" }
-        else                  { Fail "Pruebas fallaron (ver output arriba)" }
+        if ($testExit -eq 0) {
+            Ok "Pruebas pasaron"
+        } else {
+            Fail "Pruebas fallaron (ver output arriba)"
+        }
     } else {
-        Warn "prueba_herramientas.py no encontrado — salteando"
+        Warn "prueba_herramientas.py no encontrado - salteando"
     }
 }
 
@@ -101,7 +101,7 @@ Write-Host "==========================================" -ForegroundColor Cyan
 if ($ok) {
     Write-Host "  Setup OK" -ForegroundColor Green
 } else {
-    Write-Host "  Setup con errores — resolver los FAIL de arriba" -ForegroundColor Red
+    Write-Host "  Setup con errores - resolver los FAIL de arriba" -ForegroundColor Red
 }
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
@@ -110,7 +110,7 @@ Write-Host ""
 Write-Host "  A) Configurar PCSX2 (hacer solo una vez por maquina):"
 Write-Host "     cd black\herramientas\windows"
 Write-Host "     .\preparar_entorno.ps1"
-Write-Host "     (Pide UAC — aceptar. Con ISO: .\preparar_entorno.ps1 -IsoPath 'D:\BLACK.iso')"
+Write-Host "     (Pide UAC - aceptar. Con ISO: .\preparar_entorno.ps1 -IsoPath 'D:\BLACK.iso')"
 Write-Host ""
 Write-Host "  B) Retomar el escaneo de la vida del jugador:"
 Write-Host "     cd black"

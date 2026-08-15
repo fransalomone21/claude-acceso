@@ -23,6 +23,9 @@ import sys
 import tempfile
 import zipfile
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HERR = os.path.join(RAIZ, "herramientas")
 sys.path.insert(0, HERR)
@@ -193,8 +196,11 @@ print(f"   (numpy {'presente' if hay_numpy else 'ausente'}: se prueba ese camino
 # real a un error). No se puede fingir sys.executable de Windows acá, pero
 # sí probar que la limpieza del ".exe" funciona como debería.
 ok(not escanear.PY.lower().endswith(".exe"), "PY nunca incluye el sufijo .exe")
-ok(escanear.PY == "python3", "en esta máquina PY coincide con el intérprete real",
-   escanear.PY)
+_py_esperado = os.path.basename(sys.executable)
+if _py_esperado.lower().endswith(".exe"):
+    _py_esperado = _py_esperado[:-4]
+ok(escanear.PY == _py_esperado,
+   "en esta máquina PY coincide con el intérprete real", escanear.PY)
 
 ok(escanear.parsear_filtro("=100", "u32") == {"clase": "valor", "op": "==", "val": 100},
    "parsear '=100'")
