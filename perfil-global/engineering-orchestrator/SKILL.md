@@ -95,6 +95,16 @@ sesión. Anotar es parte de encontrar.
 
 - **`confirmado`** significa una sola cosa: se escribió el valor / aplicó el
   cambio y se vio el efecto en pantalla (o el output real). Nada más cuenta.
+- **Descartar la alternativa.** Antes de declarar algo confirmado, nombrá la
+  segunda explicación más plausible y diseñá el test que la mata. Correlación
+  fuerte + causalidad + alternativa descartada = confirmado. Sin lo último,
+  es `probable`.
+- **La regla aplica a tus propias capacidades.** "No puedo hacer X" es una
+  afirmación sobre el mundo y necesita evidencia igual que cualquier otra.
+  Verificá antes de declarar algo imposible. Ver `/lecciones-aprendidas` § 1.
+- **Observar antes que intervenir.** Cuando dos métodos responden la misma
+  pregunta, usá el que no modifica el sistema observado. La intervención se
+  reserva para cuando la observación ya no alcanza.
 - **`hipotesis`** es una observación útil, no una afirmación.
   "Probablemente sea la vida máxima" → `hipotesis`. "Es la vida máxima" sin
   haberlo verificado → mentira que después cuesta horas desarmar.
@@ -273,3 +283,10 @@ la misma explicación a mano la próxima vez. Todo skill nuevo debe incluir una
 sección de **gotchas** (errores encontrados durante el desarrollo y cómo se
 evitaron) para que la próxima ejecución no los repita — ver el patrón de
 "No repetición" arriba.
+
+Cuando lo que falló fue el **proceso** y no el código, no va a un skill nuevo:
+va a `/lecciones-aprendidas`, que acumula esos errores con su origen concreto
+y qué hacer distinto. Leerlo al empezar cualquier investigación o debugging.
+
+El bucle completo (qué revisar antes de cada commit) está en el `CLAUDE.md`
+global, sección **Autoperfeccionamiento**. Corre siempre, sin preguntar.

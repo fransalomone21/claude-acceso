@@ -38,11 +38,27 @@ respuesta).
 Para tareas triviales o mecánicas, saltar ambos pasos — el costo de la
 entrevista/chequeo no se justifica.
 
-## Capturar aprendizajes
+## Autoperfeccionamiento — siempre activo, sin preguntar
 
-Cuando resuelvas un problema de un tipo que va a volver a aparecer,
-convertilo en skill reusable con `skill-creator` en vez de repetir la misma
-explicación a mano la próxima vez. Instalar toda skill nueva en
-`perfil-global/<nombre>/SKILL.md` de este repo (no directo en `~/.claude/`)
-y correr `perfil-global/install.ps1` — así queda commiteada y disponible en
-cualquier máquina donde se instale este perfil.
+Al cerrar cualquier tarea no trivial, **antes del commit**, correr este
+chequeo y actuar. No preguntar si conviene: hacerlo y reportarlo.
+
+1. **¿Falló algo por *cómo* se trabajó, no por lo que decía el código?**
+   → agregarlo a `/lecciones-aprendidas` (tiene el protocolo y el criterio
+   de qué entra y qué no).
+2. **¿Se repitió una explicación o un procedimiento que ya se dio antes?**
+   → convertirlo en skill con `skill-creator`.
+3. **¿Quedó algo mecánico que se hizo a mano?**
+   → evaluarlo contra el criterio de Automatización de
+   `/engineering-orchestrator` (sin criterio + 80% tolerable = automatizar;
+   si no, augmentar sin reemplazar el juicio humano).
+4. **¿Un verificador confirmó una precondición en vez de un efecto?**
+   → arreglarlo. Ver lección 7 de `/lecciones-aprendidas`.
+
+Toda skill nueva se instala en `perfil-global/<nombre>/SKILL.md` de este repo
+(nunca directo en `~/.claude/`) y se corre `perfil-global/install.ps1` — así
+queda commiteada y disponible en cualquier máquina donde se instale el
+perfil. `install.ps1` levanta solo cualquier carpeta nueva con `SKILL.md`.
+
+Skill de consulta: `/lecciones-aprendidas` — leerlo al empezar una tarea de
+investigación o debugging.
