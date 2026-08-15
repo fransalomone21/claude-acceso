@@ -61,6 +61,68 @@ El ISO queda montado en `D:\` por si hace falta volver (no se desmontó).
 
 ---
 
+## 2026-08-15 (18) — `0x0013C120` FALSIFICADO por efecto; los "8 candidatos" nunca fueron el conjunto real
+
+**Máquina:** notebook · **Modelo:** Opus
+
+**Objetivo:** cerrar Fase 3 (¿es genérica la rutina de daño?).
+
+**Resultado:**
+
+- **Se replanteó el test entero.** Veníamos buscando la dirección de vida de
+  un enemigo para poner un watchpoint. No hacía falta: la pregunta de la Fase
+  3 se contesta **sin localizar nada** — nopear `0x0013C120` y mirar si los
+  enemigos dejan de recibir daño. Mismo movimiento que cerró la Fase 2.
+- **`0x0013C120` NO es el brazo de daño de los enemigos. FALSIFICADO por
+  efecto.** Se nopeó en vivo por PINE (`0xE61602F8` → `0x00000000`), el
+  usuario descargó la AK sobre un enemigo y murió normal, en 4-5 balas.
+  **Confound descartado:** se releyó `0x0013C120` DESPUÉS del test y seguía en
+  `0`, así que el nop aguantó — el test es válido. Restaurado.
+- **Las escrituras de código por PINE persisten y el recompilador las
+  respeta.** El nop del jugador (`0x0013BD20`) seguía puesto horas después.
+- **Los "8 candidatos" de la sesión anterior nunca fueron el conjunto real.**
+  `xref.py stores 0x2F8 --fpu` filtra por cercanía a un `sub.s`/`add.s`, y ese
+  filtro **deja afuera a `0x0013BD20` y a `0x0013C120`**, que son justamente
+  los dos sitios que sí importaban. Se enumeró el conjunto verdadero a mano
+  (decodificando `swc1` = opcode `0x39`, offset `0x2F8`): **24 stores**,
+  listados con su codificación en `volcados/stores-2f8-originales.txt`.
+- **Test decisivo montado pero NO ejecutado** (se acabó el contexto): se
+  nopearon los 24 a la vez, verificado 24/24, y se restauraron los 24 con 0
+  discrepancias. Falta el disparo del usuario.
+- **Descartado el atajo del último nivel.** Los saves de GameFAQs para Black
+  son Max Drive / CodeBreaker / X-Port — no son memory cards ni savestates de
+  PCSX2. Usarlos pide bajar un binario de un fan site y convertirlo con
+  herramientas de terceros que no tenemos. No lo vale: el problema real es
+  "un enemigo que aguante más golpes", no "el último nivel".
+
+**No funcionó:**
+
+- **Atajo estructural sobre el pool de entidades.** Se volcó
+  `0x00580000-0x00600000` en vivo y se buscó la forma del struct del jugador
+  (`+0xC4` estado chico, `+0x2F8` vida f32 entera). Dio 12 candidatos, y
+  **ninguno sostuvo su valor en una relectura** — es memoria dinámica
+  reciclada (partículas/física), no una tabla de entidades. Descartado.
+- Proponer la pistola como "arma más débil": el usuario ya había dicho que la
+  AK es la que menos daño hace. Error de lectura, no de método.
+
+**Sigue:** UN solo experimento, ya preparado y barato:
+
+```
+# nopear los 24 (la lista con codificaciones esta en volcados/stores-2f8-originales.txt)
+# disparar a un enemigo con la AK
+```
+
+- Si el enemigo se vuelve **invulnerable** → el camino de daño del enemigo
+  está entre los 24; bisecar (12, 6, 3...) — 4-5 disparos y cae.
+- Si muere **igual, en 4-5 balas** → **la vida del enemigo NO está en
+  `+0x2F8`**. Eso redirige la búsqueda entera: el struct del enemigo sería
+  distinto del struct del jugador, y habría que buscar su offset de vida
+  desde cero.
+
+Los dos resultados son informativos. Es el mejor experimento disponible.
+
+---
+
 ## 2026-08-15 (17) — Dos enemigos muertos antes de converger; la estática dice "genérica"
 
 **Máquina:** notebook · **Modelo:** Sonnet

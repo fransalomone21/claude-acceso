@@ -44,8 +44,36 @@ esos archivos son geometría de arma en el nivel, no tabla de stats. En
 alinea con las 5 direcciones RAM conocidas sin parsear los program headers
 del ELF. Detalle en `docs/03-bitacora.md` (16).
 
-**Test de genericidad — intentado en vivo, no confirmado (2026-08-15, entrada
-17):** dos enemigos murieron (3-4 tiros de AK en difícil) antes de que el
+**`0x0013C120` FALSIFICADO (2026-08-15, entrada 18).** No es el brazo de daño
+de los enemigos: se nopeó en vivo, el enemigo murió normal en 4-5 balas de
+AK, y el nop seguía puesto al releerlo después (test válido). La hipótesis de
+"rutina genérica" en ese sitio **cae**.
+
+**Los "8 candidatos" nunca fueron el conjunto real.** `xref.py stores 0x2F8
+--fpu` filtra por cercanía a `sub.s`/`add.s` y deja afuera a `0x0013BD20` y
+`0x0013C120`, los dos que importaban. El conjunto verdadero son **24 stores
+`swc1` a `+0x2F8`**, enumerados con su codificación en
+`volcados/stores-2f8-originales.txt`.
+
+**Savestate del punto exacto donde quedó esto: slot 6**
+(`SLUS-21376 (5C891FF1).06.p2s`, 2026-08-15 19:45). Jugador en el nivel 1 con
+el nop de vida infinita puesto y los 24 stores ya restaurados. Cargarlo para
+retomar el experimento sin volver a jugar.
+
+**PRÓXIMA ACCIÓN — un solo experimento, ya preparado:** nopear los 24 (la
+lista con codificaciones está en ese archivo), pedirle al usuario que le
+dispare a un enemigo con la AK, y restaurar. Si el enemigo se vuelve
+invulnerable → bisecar (12, 6, 3...), 4-5 disparos y cae. Si muere igual en
+4-5 balas → **la vida del enemigo NO está en `+0x2F8`** y hay que buscar el
+offset del struct del enemigo desde cero. Los dos resultados sirven. Ya se
+verificó que nopear los 24 y restaurarlos funciona sin residuo (24/24 puestos,
+0 discrepancias al restaurar); falta sólo el disparo.
+
+**Confirmado de paso:** las escrituras de CÓDIGO por PINE persisten y el
+recompilador las respeta (el nop del jugador seguía puesto horas después).
+
+**Test de genericidad — primer intento, superado por la entrada 18
+(2026-08-15, entrada 17):** dos enemigos murieron (3-4 tiros de AK en difícil) antes de que el
 escaneo diferencial convergiera en su dirección de vida — el enfoque no
 escala con enemigos frágiles. Como compensación se desensambló con `mips.py`
 el bloque candidato (`0x0013C060-0x0013C180`) contra el del jugador
