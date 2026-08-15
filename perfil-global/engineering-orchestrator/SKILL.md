@@ -31,6 +31,59 @@ En la práctica:
 
 ---
 
+## Ingeniería de sistemas — lo mínimo que cambia decisiones
+
+Adaptado de NASA/SP-2016-6105, NPR 7123.1, NPR 7150.2 y las *Power of Ten*
+de JPL. El detalle está en `referencias/ingenieria-de-sistemas.md` — **leerlo
+sólo cuando la tarea lo pida**, no por las dudas.
+
+**1. Graduar el rigor por lo que se pierde si falla.** Es la regla que hace
+aplicable a todo lo demás sin ahogarse en ceremonia. NASA clasifica el
+software por criticidad y le pide distintos requisitos a cada clase; hacé lo
+mismo:
+
+| Nivel | Si falla | Rigor |
+|---|---|---|
+| Crítico | se pierde trabajo irrecuperable o plata | revisión humana, test previo, no automatizar |
+| Importante | cuesta horas | test, evidencia registrada, reversible |
+| Descartable | se vuelve a correr | directo, sin ceremonia |
+
+La mayoría del trabajo es descartable. No le cobres el precio de los otros dos.
+
+**2. Verificación ≠ validación.** *Verificar* = ¿lo construimos bien (cumple
+el requisito escrito)? *Validar* = ¿construimos lo correcto (sirve para la
+necesidad real)? **Se puede verificar perfecto y fallar la validación
+entera** — construir con precisión la cosa equivocada es el modo de falla más
+caro. Al cerrar algo, contestá las dos por separado.
+
+**3. Un requisito que no se puede testear no es un requisito.** Si no podés
+escribir el test junto al requisito, todavía no está listo. Atómico,
+inequívoco, y dice *qué*, no *cómo*.
+
+**4. Riesgo = probabilidad × consecuencia**, y lo que hace útil un registro
+de riesgos no es la lista sino que cada entrada tenga un **disparador
+observable** ("si pasa X, actuamos"). Estrategias: mitigar / aceptar /
+vigilar / evitar.
+
+**5. Dejá margen.** NASA nunca planifica al 100% de la capacidad. Contexto y
+presupuesto de tokens son recursos con margen: planificar una sesión que usa
+todo el contexto garantiza que el resumen se lleve puesto justo lo que no se
+puede aproximar. Margen no es desperdicio.
+
+**6. Puertas con criterio de salida explícito, escrito ANTES de empezar.**
+"Una fase = un chat y no se pasa sin cerrar la anterior" ya es una puerta;
+lo que suele faltar es escribir de antemano qué la da por cerrada.
+
+**7. Bajar y subir.** Descomponer hasta un nivel implementable, después
+integrar y **verificar de la pieza más chica hacia arriba**. La verificación
+va en la subida, no al final.
+
+**8. Preferí reglas que una herramienta pueda chequear** antes que reglas que
+dependan de la disciplina de quien escribe — es el principio de diseño de las
+*Power of Ten* y la lección 11 de `/lecciones-aprendidas` aplicada al código.
+
+---
+
 ## Selección de modelo
 
 | Modelo | Cuándo usarlo |

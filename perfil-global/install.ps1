@@ -62,6 +62,11 @@ if (-not (Test-Path $claudeSrc)) {
 # --- 2. Todas las skills de perfil-global/<nombre>/SKILL.md ---
 # Cualquier carpeta nueva con SKILL.md que se agregue a perfil-global/ se
 # instala automaticamente, sin tener que tocar este script.
+#
+# Se copia la CARPETA ENTERA, no solo el SKILL.md: una skill puede traer
+# subcarpetas (por ejemplo referencias/) que se leen bajo demanda. Copiar
+# solo el SKILL.md dejaba esos archivos sin instalar y los enlaces internos
+# apuntaban a la nada. Ver leccion 7 de lecciones-aprendidas.
 $skillDirs = Get-ChildItem -Path $source -Directory -ErrorAction SilentlyContinue
 
 if (-not $skillDirs -or $skillDirs.Count -eq 0) {
@@ -76,12 +81,84 @@ if (-not $skillDirs -or $skillDirs.Count -eq 0) {
         }
 
         $skillDstDir = Join-Path $skillsDir $skillName
-        $skillDst    = Join-Path $skillDstDir 'SKILL.md'
 
         New-Item -ItemType Directory -Force -Path $skillDstDir | Out-Null
-        Copy-Item $skillSrc $skillDst -Force
-        Ok "$skillName/SKILL.md -> $skillDst"
+        Copy-Item -Path (Join-Path $dir.FullName '*') -Destination $skillDstDir -Recurse -Force
+
+        $extra = Get-ChildItem -Path $skillDstDir -Recurse -File |
+                 Where-Object { $_.Name -ne 'SKILL.md' }
+        if ($extra) {
+            Ok "$skillName -> $skillDstDir  (SKILL.md + $($extra.Count) archivo(s) de apoyo)"
+        } else {
+            Ok "$skillName/SKILL.md -> $skillDstDir"
+        }
     }
+}
+
+# --- 3. Archivos sueltos que van a ~/.claude/ ---
+# recordatorio-transversal.md lo lee el hook UserPromptSubmit en cada prompt.
+$sueltos = @('recordatorio-transversal.md')
+foreach ($nombre in $sueltos) {
+    $src = Join-Path $source $nombre
+    if (Test-Path $src) {
+        Copy-Item $src (Join-Path $dest $nombre) -Force
+        Ok "$nombre -> $dest"
+    } else {
+        Warn "No se encontro $nombre en $source"
+    }
+}
+
+# --- 4. Hook UserPromptSubmit en settings.json ---
+# Es el unico mecanismo que corre SIEMPRE, sin depender de que alguien
+# invoque una skill. Ver leccion 11 de lecciones-aprendidas.
+$settingsPath = Join-Path $dest 'settings.json'
+$hookCmd = 'powershell -NoProfile -Command "Get-Content -Raw -ErrorAction SilentlyContinue ((Join-Path $env:USERPROFILE ''.claude\recordatorio-transversal.md''))"'
+
+try {
+    if (Test-Path $settingsPath) {
+        Copy-Item $settingsPath "$settingsPath.bak-$now" -Force
+        $settings = Get-Content -Raw $settingsPath | ConvertFrom-Json
+    } else {
+        $settings = New-Object PSObject
+    }
+
+    $yaEsta = $false
+    if ($settings.PSObject.Properties.Name -contains 'hooks') {
+        $json = $settings.hooks | ConvertTo-Json -Depth 10
+        if ($json -match 'recordatorio-transversal') { $yaEsta = $true }
+    }
+
+    if ($yaEsta) {
+        Info "El hook del recordatorio ya estaba configurado."
+    } else {
+        $entrada = [PSCustomObject]@{
+            hooks = @([PSCustomObject]@{ type = 'command'; command = $hookCmd })
+        }
+        if ($settings.PSObject.Properties.Name -contains 'hooks') {
+            $h = $settings.hooks
+            if ($h.PSObject.Properties.Name -contains 'UserPromptSubmit') {
+                $h.UserPromptSubmit = @($h.UserPromptSubmit) + $entrada
+            } else {
+                $h | Add-Member -NotePropertyName 'UserPromptSubmit' -NotePropertyValue @($entrada)
+            }
+        } else {
+            $nuevo = [PSCustomObject]@{ UserPromptSubmit = @($entrada) }
+            $settings | Add-Member -NotePropertyName 'hooks' -NotePropertyValue $nuevo
+        }
+        $settings | ConvertTo-Json -Depth 10 | Out-File $settingsPath -Encoding utf8
+        Ok "Hook UserPromptSubmit agregado en $settingsPath"
+    }
+
+    # skipWorkflowUsageWarning silencia el aviso de costo de los workflows.
+    # Es un freno del sistema: si esta apagado, se avisa.
+    if ($settings.PSObject.Properties.Name -contains 'skipWorkflowUsageWarning' -and
+        $settings.skipWorkflowUsageWarning -eq $true) {
+        Warn "skipWorkflowUsageWarning esta en true: el aviso de costo de los"
+        Warn "workflows esta silenciado. Conviene sacarlo de settings.json."
+    }
+} catch {
+    Warn "No se pudo actualizar settings.json automaticamente: $($_.Exception.Message)"
+    Warn "Agregar el hook UserPromptSubmit a mano. Hay respaldo en $settingsPath.bak-$now"
 }
 
 Write-Host ""
