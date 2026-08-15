@@ -24,12 +24,12 @@ Skills disponibles: `/engineering-orchestrator`, `/spec-interview`,
 
 ## Objetivo actual
 
-**Fase 2 — rutina de daño LOCALIZADA.** Se instaló un PCSX2 parcheado con
-`DebugServer` (proyecto PCSX2-MCP) y se escribió `herramientas/depurador.py`
-para hablarle. Con un watchpoint de lectura cayó la pieza que faltaba: la base
-del objeto era otra, el offset de la vida es `0x2F8` y la rutina de daño está
-en `0x0013C0DC-0x0013C120`. Falta **confirmar con efecto** (parchear y ver
-vida infinita en pantalla).
+**Fase 2 — instrucción de daño CONFIRMADA en `0x0013BD20`.** Se instaló un
+PCSX2 parcheado con `DebugServer` (proyecto PCSX2-MCP) y se escribió
+`herramientas/depurador.py` para hablarle. Un watchpoint de lectura dio la
+base real y el offset `0x2F8`; uno de escritura, con un golpe real, dio la
+instrucción exacta: `swc1 f20,0x2F8(s2)` en `0x0013BD20`. Falta **el efecto**
+— nopearla y ver vida infinita en pantalla.
 
 ## Estado
 
@@ -47,7 +47,9 @@ punta. La vida del jugador está localizada y confirmada en pantalla.
 | **Daño por golpe = 26.0 constante** | 10 escalones idénticos en `volcados/correlacion-vida-2.csv` |
 | `0x006CF54C` = segmentos del HUD (derivado, no fuente) | se recalculó solo de 8 a 1 al escribir en `0x005A8DA8` |
 | **La vida NO es un global: es `jugador+0x2F8`** | `xref.py absoluto 0x005A8DA8` → 0 instrucciones la arman. Base real **`0x005A8AB0`**, leída del registro en vivo (`a2`) al disparar un watchpoint de lectura. `0x005A8AB0 + 0x2F8 = 0x005A8DA8` exacto |
-| **Rutina de daño en `0x0013C0DC`-`0x0013C120`** | watchpoint de lectura → 3 lectores → offset real 0x2F8 → `xref.py stores 0x2F8` bajó de 69 a 8 candidatos → desensamblado: `sub.s f22,f22,f21` / `c.le.s` / `bc1f` / `swc1 f22,0x2F8(s0)`. `kb/rutinas.json#aplicar_dano` |
+| **La instrucción que aplica daño al JUGADOR es `0x0013BD20`** (`swc1 f20,0x2F8(s2)`) | watchpoint de ESCRITURA sobre `0x005A8DA8` + golpe real → paró en `0x0013BD20` con `s2 = 0x005A8AB0` (base del jugador), `f21 = 26.0` (daño) y `f20 = 724.0 = 750.0−26.0`. Se predijo 724.0 antes de reanudar y al continuar la vida quedó en 724.0. `kb/rutinas.json#aplicar_dano` |
+| **`0x0013C120` NO era el brazo del jugador** | en el mismo instante tenía `f22 = 0.0` y `s0 = 0x590D90`, que no es el objeto del jugador. La sesión anterior eligió mal entre los 8 candidatos |
+| **Los crashes del emulador son corrupción de heap del parche, NO OneDrive** | Visor de eventos: dos crashes con firma idéntica `0xc0000374` (`STATUS_HEAP_CORRUPTION`) en `ntdll.dll+0x112165`. `source/DebugServer.cpp` muta `CBreakPoints` desde el hilo del socket (`std::thread(clientHandler).detach()`), sin mutex ni marshalling al hilo de CPU |
 | **1200.0 y 750.0 hardcodeados en el HUD** | `lui at,0x4496` (=1200.0) y `lui at,0x443B`+`ori 0x8000` (=750.0), seguidos de `div.s f12, vida, esa constante`, en los 3 sitios lectores |
 | **`gp` del juego = `0x004157F0`** | `depurador.py evaluar "gp"`, y `gp - 0x7150 = 0x0040E6A0` coincidió con la dirección vigilada |
 | Los watchpoints funcionan en la build parcheada, y el PC de la pausa **es** la instrucción que accedió | prueba de control sobre `0x0040E6A0`: pausó en `0x002B6B14` = `sw a2,-0x7150(gp)`, y `gp-0x7150` da exactamente la dirección vigilada |
@@ -76,16 +78,28 @@ punta. La vida del jugador está localizada y confirmada en pantalla.
   (¿dificultad? ¿tipo de entidad?).
 - **`0x0065F458` (f32, 0.23..0.59) es probablemente el ratio del HUD**: el
   resultado de `div.s f12, vida, 1200.0`. 750/1200 = 0.625, del mismo orden.
-- **Los crashes del emulador pueden ser culpa de OneDrive, no del debugger.**
-  Los dos crashes de la sesión tuvieron el mismo prólogo: `pine.py savestate`
-  y, segundos o minutos después, muerte del proceso sin ventana de error. El
-  data dir de PCSX2 está en `OneDrive\Documents\PCSX2` (337 MB): cada
-  savestate son ~32 MB sin comprimir que OneDrive agarra para subir —
-  lockeando y escaneando el archivo— mientras PCSX2 todavía lo está usando.
-  **Test (2 minutos, riesgo cero): mover el data dir de PCSX2 fuera de
-  OneDrive y repetir.** Si no vuelve a crashear, era eso. Hasta entonces no
-  atribuirle los crashes al debugger: el segundo murió sola, sin que el
-  watchpoint disparara y sin que el usuario tocara nada.
+- **OneDrive quedó DESCARTADO como causa de los crashes** (2026-08-15, noche).
+  El Visor de eventos de Windows tiene los dos crashes con firma idéntica:
+  excepción `0xc0000374` (`STATUS_HEAP_CORRUPTION`), módulo `ntdll.dll` +
+  `0x112165`, proceso `PCSX2-MCP\pcsx2-qt.exe`. OneDrive no puede producir
+  eso: un archivo lockeado da errores de E/S, no corrupción de heap dentro del
+  proceso. Además OneDrive no estaba corriendo y los savestates no tienen
+  atributos de Files-On-Demand.
+- **La causa probable es un defecto de threading del parche.**
+  `source/DebugServer.cpp` (viene con la build) atiende cada cliente en
+  `std::thread(clientHandler, sock).detach()` y desde ahí llama directo a
+  `CBreakPoints::AddBreakPoint` / `AddMemCheck` / `ClearAllBreakPoints`, sin un
+  solo mutex y sin marshalling al hilo de CPU — mientras el hilo de emulación
+  lee esos mismos contenedores. Explica los tres síntomas: los breakpoints de
+  EJECUCION matan al instante (fuerzan invalidación del caché del recompilador
+  mientras el EE ejecuta desde él), los watchpoints aguantan decenas de veces
+  y después mueren (corrompen menos por operación, pero acumulan), y "murió
+  sola sin que nadie tocara nada" (la corrupción detona asincrónicamente).
+  **El savestate es el DETECTOR, no la causa**: reservar ~48 MB fuerza un
+  recorrido del heap y ahí Windows encuentra el daño ya hecho. Por eso los dos
+  crashes cayeron 3 y 5 segundos después de un savestate.
+  Mitigación a probar (barata, no requiere recompilar): pausar el EE antes de
+  toda mutación de breakpoint y reanudar después.
 - **Tabla de armas**: el daño de 26.0 aparece cinco veces agrupadas en la
   región de datos (`0x0042C3AC`, `0x0042C5EC`, `0x0042C92C`, `0x0042CCFC`,
   `0x0042D56C`). Huele a tabla de descriptores de arma.
@@ -109,33 +123,33 @@ escritura de 130.0 y 333.0 por PINE con efecto confirmado en pantalla.
 - No se validó `herramientas/windows/preparar_entorno.ps1` de punta a punta.
 ## Próxima acción
 
-**NECESITA AL USUARIO JUGANDO** (recibir un golpe). Es el paso que cierra la
-Fase 2, y son dos minutos.
+**Fase 2 tiene la instrucción localizada y confirmada. Falta el efecto.**
 
-**Con WATCHPOINT, no con breakpoint de ejecución** — el de ejecución crashea
-el emulador (ver hechos confirmados):
+**(1) Vida infinita — el test que cierra la fase.** `nop` sobre `0x0013BD20`
+(`swc1 f20,0x2F8(s2)`, codificación `0xE65402F8` → `0x00000000`), recibir
+golpes y ver que la vida no baja. Guardar la codificación original para poder
+revertir. Puede no cubrir el camino de muerte, que sigue sin ubicarse.
+
+**(2) ¿La rutina es genérica?** Vigilar la vida de un enemigo, o watchpoint de
+lectura sobre su objeto, y ver si el store que dispara es `0x0013C120`. Si los
+dos brazos son de la misma función, se ganan las Fases 3 y 5 de un saque.
+
+**NO sacar savestate antes de los experimentos.** Los dos crashes cayeron 3 y
+5 segundos después de un savestate: la corrupción de heap ya estaba hecha y la
+reserva de ~48 MB es lo que la hace detonar. El savestate es el detector, no
+la causa (ver hechos confirmados).
+
+Runbook que funcionó, para repetirlo:
 
 ```
-python herramientas/pine.py savestate --slot 5
 python herramientas/depurador.py vigilante poner 0x005A8DA8 --tipo write --accion break
-python herramientas/depurador.py esperar --segundos 120
+# recibir un golpe
+python herramientas/depurador.py estado                 # da el PC
+python herramientas/depurador.py evaluar s2             # da la base de la entidad
+python herramientas/depurador.py registros --categoria 2  # f20 = valor a escribir, f21 = dano
+python herramientas/depurador.py vigilante quitar 0x005A8DA8
+python herramientas/depurador.py continuar
 ```
-
-Que el usuario reciba un golpe. Al pausar, `esperar` imprime el PC y el código
-alrededor. **Si el PC es `0x0013C120`, la rutina de daño queda `confirmado`** —
-y es evidencia independiente, más fuerte que un breakpoint puesto a mano sobre
-la dirección que ya se sospechaba.
-
-Después: `vigilante quitar 0x005A8DA8` y `continuar`.
-
-Luego, en orden:
-
-**(1) Vida infinita.** `nop` sobre `0x0013C120` (`swc1 f22,0x2F8(s0)`,
-codificación `0xE61602F8`). Ojo: no cubre el clamp de muerte de `0x0013C0F0`;
-puede hacer falta nopear los dos.
-
-**(2) ¿La rutina es genérica?** Breakpoint en `0x0013C120` y matar a un
-enemigo. Si para, se ganaron las Fases 3 y 5 de un saque.
 
 **(3) Tabla de armas.** Sigue pendiente y ahora es más barato: `depurador.py
 vigilante poner 0x0042C3AC --tipo read --accion break` dice quién lee el 26.0.
