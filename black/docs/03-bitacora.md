@@ -16,6 +16,70 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-15 (15) — La base estaba mal: la rutina de daño en dos horas
+
+**Máquina:** notebook · **Modelo:** Opus
+
+**Objetivo:** instalar el PCSX2 parcheado (PCSX2-MCP) y desempatar los 69
+candidatos a instrucción de escritura de la vida.
+
+**Resultado:**
+
+- **Se instaló el PCSX2 parcheado y se escribió `herramientas/depurador.py`**,
+  un cliente del `DebugServer` (JSON por newline sobre TCP 21512). **No hizo
+  falta registrar el MCP ni reiniciar la sesión**: el protocolo está
+  documentado en el fuente del parche, así que se habla directo desde Python.
+  Eso preservó el contexto entero de la sesión.
+- **La base del objeto del jugador estaba MAL.** No es `0x005A8D80` sino
+  **`0x005A8AB0`**, y la vida es **`+0x2F8`**, no `+0x28`. Los 69 candidatos
+  estaban buscando el offset equivocado: el problema estaba mal planteado.
+- **Cómo se destrabó:** un watchpoint de **lectura** sobre la vida. El juego la
+  lee cada frame para dibujar el HUD, así que dispara al instante y sin que el
+  usuario tenga que hacer nada. Al pausar, se leyó el **registro base en vivo**
+  (`a2 = 0x005A8AB0`) — eso es lo que dio la base real. Confirmado:
+  `0x005A8AB0 + 0x2F8 = 0x005A8DA8` exacto.
+- **Rehecha la búsqueda con el offset correcto: de 69 candidatos a 8**, todos
+  agrupados en `0x00134xxx-0x0013Cxxx`.
+- **Rutina de daño localizada** (`probable`, falta confirmar con efecto):
+  ```
+  0x0013C0DC  sub.s  f22, f22, f21     ; vida = vida - daño
+  0x0013C0E0  c.le.s f22, f20          ; ¿por debajo del piso?
+  0x0013C0E8  bc1f   ->0x0013C120
+  0x0013C0F0  swc1   f20, 0x2F8(s0)    ; muerte: clamp al piso
+  0x0013C120  swc1   f22, 0x2F8(s0)    ; DAÑO NORMAL
+  ```
+- **1200.0 y 750.0 hardcodeados** en el código que lee la vida
+  (`div.s f12, vida, 1200.0`). **El recuerdo de "vida máxima ~1200" era
+  correcto**; el handoff anterior lo había declarado falso. Es el denominador
+  de la barra del HUD.
+- **`gp = 0x004157F0`**, dato nuevo: permite resolver todos los accesos
+  `gp`-relativos del desensamblado.
+- Herramienta nueva: `herramientas/volcar_vivo.py` — vuelca la RAM del EE por
+  `read_memory` (64 KB por viaje). Los 2.8 MB de código salen en segundos;
+  con `pine.py` habrían sido 350 mil viajes.
+
+**No funcionó:**
+
+- **`--accion log` de los watchpoints no cuenta nada.** Es el mismo stub vacío
+  que `MemCheck::Log()` del PCSX2 oficial; el parche no lo arregla. Se detectó
+  con una prueba de control sobre el timer del motor: el valor cambiaba entre
+  lecturas y el contador seguía en 0. **Hay que usar `--accion break`.**
+- **`OnBreakpointHit()` del parche es un stub** ("Future: notify connected
+  clients"). No hay aviso asincrónico: `esperar` hace polling de `status`.
+- **Los savestates viejos no cargan** en la build parcheada: se declara versión
+  "Unknown" y rechaza los de la 2.6.3. No son intercambiables en ningún sentido.
+- **Se volvió a quemar contexto con un flujo multi-agente** (~100k tokens) para
+  un trabajo que después se hizo directo en unos pocos comandos. Es la lección
+  9 otra vez, y estaba escrita. Ver `/lecciones-aprendidas`.
+- La vida **no se escribe** mientras el jugador está quieto: un watchpoint de
+  escritura no dispara solo. El de **lectura** sí, y por eso fue el camino.
+
+**Sigue:** confirmar con efecto. `bp poner 0x0013C120` + recibir un golpe. Si
+para ahí, la Fase 2 se cierra. Después: ¿la rutina es genérica (jugador y
+enemigos comparten `+0x2F8`)? Si lo es, caen las Fases 3 y 5 juntas.
+
+---
+
 ## 2026-08-15 (14) — Fase 2 sin debugger: la vida es un campo, no un global
 
 **Máquina:** notebook · **Modelo:** Opus

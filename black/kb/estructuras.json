@@ -20,10 +20,16 @@
     {
       "id": "jugador",
       "nombre": "Estructura del jugador",
-      "base": "0x005A8D80",
-      "tamano": null,
-      "como_llegar": "POR PUNTERO, no por absoluto. `xref.py absoluto 0x005A8DA8` da CERO: no hay una sola instrucción en los 32 MB que arme esa dirección con lui+addiu/ori, ni aparece como palabra suelta. O sea que 'estática' no significa 'global': el cargador de nivel asigna el objeto siempre en la misma posición porque el orden de asignación es determinista. La base 0x005A8D80 sale de `xref.py punteros 0x005A8DA8`: es el único candidato a distancia corta (+0x28) y figura como valor en 0x004C5E1C y 0x004C5E30.",
-      "confianza": "probable",
+      "base": "0x005A8AB0",
+      "base_descartada": "0x005A8D80",
+      "tamano": ">= 0x8B0",
+      "como_llegar": "POR PUNTERO, no por absoluto. `xref.py absoluto 0x005A8DA8` da CERO. La base se leyó EN VIVO: con un watchpoint de lectura sobre 0x005A8DA8, al disparar se leyó el registro base y dio a2 = 0x005A8AB0, con la instrucción `lwc1 f01, 0x2F8(a2)`. Verificado: 0x005A8AB0 + 0x2F8 = 0x005A8DA8 exacto.",
+      "confianza": "confirmado",
+      "campos_nuevos_2026_08_15": [
+        {"offset": "0x2F8", "tipo": "f32", "id": "vida", "confianza": "confirmado", "descripcion": "vida actual = 0x005A8DA8 en absoluto. ESTE es el offset real; el 0x28 de abajo salía de la base equivocada."},
+        {"offset": "0x32C", "tipo": "u32", "id": "sin_identificar_32C", "confianza": "hipotesis", "descripcion": "se lee con `lw t0, 0x32C(s0)` inmediatamente después de escribir la vida, en las dos ramas (daño normal y muerte)."},
+        {"offset": "0x8B0", "tipo": "u8", "id": "bandera_golpeado", "confianza": "hipotesis", "descripcion": "se le escribe 1 con `sb v0, 0x8B0(s0)` justo después del store de daño normal. Candidato a 'recibió daño este frame'. Fija el tamaño mínimo del objeto en 0x8B0."}
+      ],
       "campos": [
         {"offset": "0x10", "tipo": "f32", "id": "colision_a", "valor_visto": 4.4998, "confianza": "hipotesis", "descripcion": "radio de cápsula de colisión (par con +0x14)"},
         {"offset": "0x14", "tipo": "f32", "id": "colision_b", "valor_visto": 4.4998, "confianza": "hipotesis", "descripcion": "idéntico a +0x10"},
@@ -42,7 +48,7 @@
       ],
       "evidencia": "volcados/ee-03.bin (savestate SLUS-21376 (5C891FF1).03.p2s, gameplay real: vida = 649.79345703125, el mismo valor de curación registrado en la sesión anterior). Volcado leído con estado.py extraer, analizado con xref.py.",
       "descubierto": "2026-08-15",
-      "notas": "El primer u32 (+0x00 = 0x1C566000) NO parece puntero a vtable. Puede que 0x005A8D80 no sea el inicio real del objeto sino un sub-objeto o un offset interno. Pendiente: confirmar con vigilar.py sobre los 0x60 bytes mientras el jugador se mueve — los campos de posición deberían moverse."
+      "notas": "CORREGIDO 2026-08-15 (tarde): la base NO es 0x005A8D80. Esa sospecha ya estaba anotada acá ('el primer u32 no parece puntero a vtable') y era correcta. La base real es 0x005A8AB0 y la vida está en +0x2F8, leído del registro base en vivo con un watchpoint. TODOS los offsets de la lista `campos` de abajo están calculados contra la base vieja y por lo tanto están CORRIDOS 0x2D0: el campo que figura como +0x10 es en realidad +0x2E0, el +0x28 es +0x2F8, etc. No se reetiquetaron uno por uno porque ninguno estaba confirmado; se dejan como registro histórico. Para volver a mapear la estructura hay que rehacerlo desde 0x005A8AB0."
     },
     {
       "id": "enemigo",

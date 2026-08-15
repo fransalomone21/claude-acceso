@@ -4,94 +4,98 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para
 eso, `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva,
 sin memoria del chat anterior, retome exactamente donde quedó esta.
 
-Última actualización: 2026-08-15, notebook local (Opus), Fase 2 avanzada sin
-debugger.
+Última actualización: 2026-08-15 (tarde), notebook local (Opus), rutina de
+daño localizada con el PCSX2 parcheado.
 
 ---
 
 **OBJECTIVE**
-Fase 2 — rutina de daño y estructura del jugador. **3 de 4 objetivos cubiertos**
-por análisis estático en frío. Falta identificar cuál instrucción escribe la
-vida.
+Fase 2 — rutina de daño. **Localizada, falta confirmarla con efecto.**
 
 **CURRENT STATE**
-La vida (`0x005A8DA8`, f32) **no es un global**: es el campo `+0x28` de un
-objeto cuya base es `0x005A8D80`. "Estática" significa que el cargador de nivel
-lo asigna siempre en el mismo lugar, no que sea una variable global. Esto se
-determinó sin abrir el debugger, con `xref.py` sobre un savestate.
+Se instaló el PCSX2 parcheado (PCSX2-MCP) que expone un `DebugServer` en TCP
+21512, y se escribió `herramientas/depurador.py` para hablarle directo desde
+Python. **No hace falta registrar ningún MCP ni reiniciar la sesión.**
+
+Con eso cayó la pieza que faltaba: **la base del objeto del jugador estaba
+mal**. Era `0x005A8AB0`, no `0x005A8D80`, y la vida es `+0x2F8`, no `+0x28`.
+Los 69 candidatos de la sesión anterior buscaban el offset equivocado.
 
 **CONFIRMED FACTS**
-Ver `ESTADO_ACTUAL.md`. Lo nuevo de esta sesión:
-- `xref.py absoluto 0x005A8DA8` → **cero**. Ninguna instrucción arma esa
-  dirección; no figura como palabra suelta. Se llega por puntero.
-- Base del jugador `0x005A8D80` (probable), vida en `+0x28`, layout coherente
-  (cápsula de colisión +0x10/+0x14, altura 1.65 en +0x18).
-- Código del juego: `0x00100000-0x003BFFFF`. Datos: `~0x0042xxxx-0x0045xxxx`.
-- 69 candidatos a instrucción de escritura (`stores 0x28 --fpu`), todos dentro
-  de la región de código.
+Ver `ESTADO_ACTUAL.md`. Lo nuevo:
+- Base real del jugador: `0x005A8AB0`. Vida = `+0x2F8`. Leído del registro
+  base EN VIVO (`a2`) al disparar un watchpoint de lectura, no inferido.
+- `gp = 0x004157F0`.
+- Los watchpoints funcionan, y el PC de la pausa **es** la instrucción que
+  accedió (probado: `gp-0x7150` = la dirección vigilada, exacto).
+- `1200.0` y `750.0` están hardcodeados en el lector de vida del HUD.
 
 **ACTIVE HYPOTHESES**
-- `jugador+0x30` (`0x005A8DB0`) = vida máxima. Vale `FLT_MAX` → probablemente
-  no hay techo.
-- El 26.0 agrupado en `0x0042C3AC`+4 sitios más = tabla de armas.
-- `0x005A8D80` puede no ser el inicio real del objeto (el primer u32 no parece
-  vtable).
-
-**RECENT EXPERIMENTS**
-`volcados/ee-03.bin` — 32 MB extraídos de `SLUS-21376 (5C891FF1).03.p2s` con
-`estado.py extraer`. Vida = 649.79345703125, coherente con la sesión anterior.
-(`volcados/` está en `.gitignore`: el .bin vive sólo en la notebook, se
-regenera en un comando.)
+- La rutina de daño puede ser **genérica** (jugador Y enemigos): el offset
+  `0x2F8` se usa con `s0`, `s1`, `s2`, `a1` y `a2` como base. Si lo es, se
+  ganan las Fases 3 y 5 juntas.
+- Vida máxima = **1200.0** (no `FLT_MAX`). Falta ver qué elige la rama entre
+  1200.0 y 750.0.
+- `0x0065F458` = el ratio del HUD (`vida / 1200.0`).
 
 **IMPORTANT ADDRESSES**
 ```
-0x005A8D80  base   objeto del jugador        PROBABLE
-0x005A8DA8  f32    vida (= base+0x28)        CONFIRMADO
-0x005A8DB0  f32    vida máxima? (base+0x30)  HIPOTESIS — vale FLT_MAX
-0x006CF54C  u32    segmentos del HUD         derivado — NO escribir fuera de 0..8
-0x0042C3AC  f32    26.0, ¿tabla de armas?    HIPOTESIS
-0x0040E6A0  f32    timer del motor           DESCARTADO
+0x005A8AB0  base   objeto del jugador          CONFIRMADO (leido de a2 en vivo)
+0x005A8DA8  f32    vida (= base+0x2F8)         CONFIRMADO
+0x0013C120  code   swc1 f22,0x2F8(s0) DANO     PROBABLE  <- nopear = vida infinita
+0x0013C0DC  code   sub.s f22,f22,f21           PROBABLE  <- multiplicador de dano
+0x0013C0F0  code   swc1 f20,0x2F8(s0) MUERTE   PROBABLE
+0x001F93E0  code   lector de vida del HUD      PROBABLE
+0x004157F0  ptr    gp del juego                CONFIRMADO
+0x006CF54C  u32    segmentos del HUD           derivado — NO escribir fuera de 0..8
+0x005A8D80  ---    BASE VIEJA, DESCARTADA
 ```
 
 **NEXT ACTION**
-Ver `ESTADO_ACTUAL.md#próxima-acción`: tres caminos baratos (a/b/c), y el
-breakpoint sólo al final para desempatar.
+Necesita al usuario jugando, dos minutos:
+```
+python herramientas/depurador.py bp poner 0x0013C120 --descripcion "store de dano"
+python herramientas/depurador.py esperar --segundos 120
+```
+Recibir un golpe. Si para ahí → **confirmado**, y `registros` + `pila` dan el
+atacante y el daño. Después `bp limpiar`.
 
 **DO NOT REPEAT**
-- **No paralelizar una investigación antes de sondearla.** Se gastaron ~500k
-  tokens en 10 agentes para preguntas que ya estaban contestadas en el
-  contexto o que se resolvían con dos comandos locales. Lo que funcionó fueron
-  cuatro comandos secuenciales. Ver lección 9 de `/lecciones-aprendidas`.
-- **No asumir que una dirección estática se direcciona por absoluto.** Fue la
-  hipótesis de trabajo y era falsa.
-- **No planificar alrededor del checkbox "Log" del breakpoint de PCSX2**:
-  `MemCheck::Log()` es un stub vacío, no imprime nada.
-- **No buscar el debugger en el menú Tools.** En PCSX2 2.x:
-  `Tools > Show Advanced Settings` → `Debug > Open Debugger`.
-- **Si el dato es f32, el store es `swc1`, no `sw`.**
-- **No usar `escanear.py poner` con valores arbitrarios.** Crasheó el emulador.
-- **No confiar en el recuerdo de "vida máxima ~1200"**: es falso.
+- **NO lanzar flujos multi-agente sin sondear primero.** Van dos sesiones
+  seguidas quemando cientos de miles de tokens en paralelizar preguntas que se
+  contestaban con cuatro comandos secuenciales. Lección 9 de
+  `/lecciones-aprendidas` — leerla ANTES de empezar, no después.
+- **No inferir la base de un struct por escaneo de punteros.** Se hizo eso y
+  dio `0x005A8D80`, que era falso y costó una sesión entera. La forma correcta:
+  watchpoint sobre el campo conocido y leer el **registro base** al disparar.
+- **Un watchpoint de LECTURA es mejor punto de entrada que uno de escritura**:
+  dispara solo (el HUD lee cada frame) y no necesita que el usuario provoque
+  nada.
+- **`--accion log` no cuenta hits**: es un stub. Usar `--accion break`.
+- **`OnBreakpointHit()` del parche es un stub**: no hay aviso asincrónico,
+  `esperar` hace polling.
+- **Los savestates de la build parcheada y los de la 2.6.3 oficial NO son
+  intercambiables** (la parcheada se declara versión "Unknown").
+- No usar `escanear.py poner` con valores arbitrarios: crasheó el emulador.
+- No escribir en `0x006CF54C` fuera del rango 0..8.
 
 **OPEN QUESTIONS**
-- ¿Cuál de los 69 candidatos escribe la vida?
-- ¿`0x005A8DB0` es la vida máxima?
-- ¿`0x0042C3AC` es la tabla de armas?
-- ¿`0x005A8D80` es el inicio real del objeto?
-- ¿Sigue vivo el issue #5343 de PCSX2 (breakpoints de memoria cuelgan la
-  emulación en x64 Windows)? Figura cerrado, no se halló el commit que lo
-  arregla. Probar con savestate y sobre una dirección inocua primero.
+- ¿Parchear `0x0013C120` da vida infinita en pantalla? (el test que cierra la fase)
+- ¿La rutina de daño es genérica o sólo del jugador?
+- ¿Qué elige la rama entre 1200.0 y 750.0?
+- ¿Dónde está el prólogo de la rutina de daño? (se localizó el cuerpo, no el inicio)
+- ¿`0x0042C3AC` es la tabla de armas? Ahora es barato: watchpoint de lectura.
 
 **TOOLS / ENVIRONMENT**
-Python 3.13 (`python`, no `python3`), numpy instalado. PCSX2 2.6.3 oficial en
-`C:\Program Files\PCSX2\PCSX2\pcsx2-qt.exe` (build del 28/01/2026), PINE en
-28011. Data dir en `C:\Users\frans\OneDrive\Documents\PCSX2`.
-**`gh` NO está instalado** — sin él no se puede mirar el PR ni el CI.
-Herramienta nueva: `herramientas/xref.py`.
-Claude Code LOCAL, no cloud.
+Python 3.13 (`python`, no `python3`), numpy instalado. Node.js v24.19.0.
+**PCSX2 PARCHEADO** en `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
+— es el que hay que abrir, NO el de Program Files. DebugServer en 21512, PINE
+en 28011. Herramientas nuevas: `depurador.py`, `volcar_vivo.py`.
+`gh` NO está instalado. Claude Code LOCAL.
 
 **MODEL RECOMMENDATION**
-**Sonnet** para (a), (b) y (c) — son correr herramientas y leer salidas. Opus
-recién cuando haya que leer el desensamblado de la rutina de daño de verdad.
+**Sonnet** para ejecutar los runbooks. Opus sólo si hay que leer desensamblado
+nuevo de verdad.
 
 **EFFORT RECOMMENDATION**
 Medio.

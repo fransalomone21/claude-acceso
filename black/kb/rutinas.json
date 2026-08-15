@@ -27,12 +27,32 @@
       "id": "aplicar_dano",
       "nombre": "Rutina de daño / actualización de vida",
       "direccion": null,
-      "version": null,
-      "descripcion": "Escribe la vida nueva del jugador. Identificada en la sesión previa en la PC de Fran; falta importar la dirección concreta.",
-      "convencion": null,
-      "confianza": "hipotesis",
-      "evidencia": "PENDIENTE DE IMPORTAR desde la sesión anterior.",
-      "notas": "Es el ancla de todo el proyecto. Desde acá salen: quién llama (el atacante), con qué parámetro (el daño), y sobre qué estructura escribe (el jugador)."
+      "fin": null,
+      "version": "ntsc_u",
+      "descripcion": "Resta el daño a la vida de una entidad y la escribe de vuelta en entidad+0x2F8, con clamp a un piso (muerte). El prólogo todavía no se ubicó: lo que está localizado es el cuerpo, no el principio.",
+      "convencion": "El puntero a la entidad viaja en s0 (también se vieron s1/s2 en variantes). f22 = vida, f21 = daño, f20 = piso al que se clampea (0.0 esperado, sin confirmar).",
+      "confianza": "probable",
+      "puntos_de_parche": [
+        {"direccion": "0x0013C120", "instruccion_original": "swc1 f22, 0x2F8(s0)", "codificacion": "0xE61602F8", "efecto_si_se_modifica": "nop acá = vida infinita por el camino normal de daño. OJO: no cubre el clamp de muerte de 0x0013C0F0."},
+        {"direccion": "0x0013C0DC", "instruccion_original": "sub.s f22, f22, f21", "codificacion": "0x4615B581", "efecto_si_se_modifica": "acá se resta el daño. Insertar un escalado sobre f21 antes = multiplicador de daño recibido."},
+        {"direccion": "0x0013C0F0", "instruccion_original": "swc1 f20, 0x2F8(s0)", "codificacion": "0xE61402F8", "efecto_si_se_modifica": "clamp de muerte: se ejecuta sólo cuando vida-daño <= piso."}
+      ],
+      "evidencia": "Watchpoint de LECTURA sobre 0x005A8DA8 con el DebugServer del PCSX2 parcheado (2026-08-15). Disparó al instante en tres sitios; el registro base leído en vivo (a2 = 0x005A8AB0) reveló que el offset real es 0x2F8, no 0x28. Rehecha la búsqueda con `xref.py stores 0x2F8 --base 0x00100000 --fpu` sobre volcados/codigo-vivo.bin: de 69 candidatos quedaron 8, todos en 0x00134xxx-0x0013Cxxx. El desensamblado de dos de ellos muestra el patrón sub.s / c.le.s / bc1f / swc1 en las dos ramas.",
+      "notas": "FALTA CONFIRMAR CON EFECTO: nadie vio todavía que parchear 0x0013C120 dé vida infinita. Es 'probable', no 'confirmado'. El test es un breakpoint en 0x0013C120 y recibir un golpe: si para ahí, cerrado. HIPOTESIS FUERTE: el offset 0x2F8 se usa con s0, s1, s2, a1 y a2 como base en distintos sitios — puede ser una rutina GENERICA de 'entidad recibe daño', compartida por jugador y enemigos. Si es así, esto también abre la Fase 3 y la Fase 5."
+    },
+    {
+      "id": "hud_ratio_vida",
+      "nombre": "Normalización de la barra de vida del HUD",
+      "direccion": null,
+      "version": "ntsc_u",
+      "descripcion": "Divide la vida por una constante para obtener el ratio 0..1 con el que se dibuja la barra. Elige entre dos constantes según una rama (`beqz v0`): 1200.0 o 750.0.",
+      "convencion": "Puntero a la entidad en a2 (también visto en s0 y a1). Devuelve el ratio en f12.",
+      "confianza": "probable",
+      "puntos_de_parche": [
+        {"direccion": "0x001F93EC", "instruccion_original": "lui at, 0x4496", "efecto_si_se_modifica": "cambia el denominador 1200.0 — sólo afecta cómo se DIBUJA la barra, no la vida real."}
+      ],
+      "evidencia": "Watchpoint de lectura sobre 0x005A8DA8. Tres sitios idénticos salvo el registro base: 0x0013A454 (s0), 0x001EEBD8 (a1), 0x001F93E0 (a2). El desensamblado muestra `lwc1 f01,0x2F8(base)` seguido de `lui at,0x4496` / `mtc1` / `div.s f12, f01, f00`. Constantes decodificadas: 0x44960000 = 1200.0, 0x443B8000 = 750.0.",
+      "notas": "ACA APARECE EL 1200. El HANDOFF anterior declaraba falso el recuerdo de 'vida máxima ~1200'; el 1200.0 está hardcodeado en el código que lee la vida. Queda por determinar qué selecciona la rama entre 1200.0 y 750.0 (¿dificultad? ¿tipo de entidad?). También es el candidato natural a explicar 0x0065F458 (f32, rango observado 0.23..0.59): sería este ratio."
     }
   ]
 }
