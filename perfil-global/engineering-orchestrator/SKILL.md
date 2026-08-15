@@ -31,6 +31,31 @@ En la práctica:
 
 ---
 
+## Apertura de una sesión de proyecto
+
+**Toda sesión que toque un proyecto abre con estas tres líneas, antes de
+trabajar.** No al final ni si sobra lugar: primero.
+
+```
+Fase     : en qué fase está, y QUÉ LA CIERRA (criterio de salida concreto)
+Modelo   : el recomendado para esta etapa y por qué
+Contexto : seguir en este chat | conviene uno nuevo, y por qué
+```
+
+- Si la fase anterior **no quedó cerrada**, decirlo antes de empezar otra.
+- **Chat nuevo** cuando cambia la fase, el contexto pasó ~50%, o lo que sigue
+  no necesita nada de lo hablado. Un resumen degrada primero los datos que no
+  se pueden aproximar: direcciones, offsets, versiones, valores de registros.
+- El **modelo también se avisa a mitad de sesión**, cuando cambia el tipo de
+  trabajo (desensamblado/arquitectura → Opus; ejecutar runbook → Sonnet;
+  mecánico → Haiku).
+
+Esto no depende de acordarse: lo inyecta un hook `SessionStart`
+(`perfil-global/apertura-proyecto.md`). Ver lección 11 de
+`/lecciones-aprendidas`.
+
+---
+
 ## Ingeniería de sistemas — lo mínimo que cambia decisiones
 
 Adaptado de NASA/SP-2016-6105, NPR 7123.1, NPR 7150.2 y las *Power of Ten*

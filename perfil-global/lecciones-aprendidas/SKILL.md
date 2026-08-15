@@ -222,14 +222,22 @@ mecanismo. Escala, de menos a más confiable:
 |---|---|---|
 | 1 | Skill de consulta | sólo si alguien la invoca |
 | 2 | Línea en `CLAUDE.md` | si se leyó el archivo |
-| 3 | **Hook** (`UserPromptSubmit`) | **siempre, sin excepción** |
+| 3 | **Hook** (`SessionStart`, `UserPromptSubmit`) | **siempre, sin excepción** |
 | 4 | Permiso denegado / validación | imposible saltearlo |
 
 Y antes de agregar un freno, **revisá si ya existe uno desactivado**. Silenciar
 un aviso es la forma más barata de romper un sistema de seguridad.
 
-Costo: un hook se inyecta en cada prompt, así que tiene que ser corto y en
-ASCII (Windows lo lee como cp1252 y los acentos salen como mojibake).
+**Elegir el evento por frecuencia, que es lo que fija el costo:**
+
+| Evento | Dispara | Sirve para |
+|---|---|---|
+| `SessionStart` | una vez por sesión | protocolos de apertura; puede ser largo |
+| `UserPromptSubmit` | en cada prompt | chequeos cortos; cada línea se paga N veces |
+
+Los archivos inyectados van en **ASCII**: la consola de Windows los lee como
+cp1252 y los acentos salen como mojibake — el mismo bug que documenta
+`salida.py` en el proyecto BLACK.
 
 ---
 

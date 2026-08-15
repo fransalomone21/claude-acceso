@@ -95,24 +95,32 @@ if (-not $skillDirs -or $skillDirs.Count -eq 0) {
     }
 }
 
-# --- 3. Archivos sueltos que van a ~/.claude/ ---
-# recordatorio-transversal.md lo lee el hook UserPromptSubmit en cada prompt.
-$sueltos = @('recordatorio-transversal.md')
-foreach ($nombre in $sueltos) {
-    $src = Join-Path $source $nombre
+# --- 3. Archivos que lee cada hook, y su evento ---
+# Los hooks son el unico mecanismo que corre SIEMPRE, sin depender de que
+# alguien invoque una skill. Ver leccion 11 de lecciones-aprendidas.
+#
+#   SessionStart      dispara UNA vez por sesion  -> puede ser largo
+#   UserPromptSubmit  dispara en CADA prompt      -> tiene que ser corto
+#
+# Los .md van en ASCII a proposito: la consola de Windows los lee como cp1252
+# y los acentos salen mojibake.
+$ganchos = @(
+    @{ Evento = 'SessionStart';     Archivo = 'apertura-proyecto.md' },
+    @{ Evento = 'UserPromptSubmit'; Archivo = 'recordatorio-transversal.md' }
+)
+
+foreach ($g in $ganchos) {
+    $src = Join-Path $source $g.Archivo
     if (Test-Path $src) {
-        Copy-Item $src (Join-Path $dest $nombre) -Force
-        Ok "$nombre -> $dest"
+        Copy-Item $src (Join-Path $dest $g.Archivo) -Force
+        Ok "$($g.Archivo) -> $dest"
     } else {
-        Warn "No se encontro $nombre en $source"
+        Warn "No se encontro $($g.Archivo) en $source"
     }
 }
 
-# --- 4. Hook UserPromptSubmit en settings.json ---
-# Es el unico mecanismo que corre SIEMPRE, sin depender de que alguien
-# invoque una skill. Ver leccion 11 de lecciones-aprendidas.
+# --- 4. Registrar los hooks en settings.json ---
 $settingsPath = Join-Path $dest 'settings.json'
-$hookCmd = 'powershell -NoProfile -Command "Get-Content -Raw -ErrorAction SilentlyContinue ((Join-Path $env:USERPROFILE ''.claude\recordatorio-transversal.md''))"'
 
 try {
     if (Test-Path $settingsPath) {
@@ -122,31 +130,45 @@ try {
         $settings = New-Object PSObject
     }
 
-    $yaEsta = $false
-    if ($settings.PSObject.Properties.Name -contains 'hooks') {
-        $json = $settings.hooks | ConvertTo-Json -Depth 10
-        if ($json -match 'recordatorio-transversal') { $yaEsta = $true }
+    if (-not ($settings.PSObject.Properties.Name -contains 'hooks')) {
+        $settings | Add-Member -NotePropertyName 'hooks' -NotePropertyValue (New-Object PSObject)
     }
+    $h = $settings.hooks
+    $cambio = $false
 
-    if ($yaEsta) {
-        Info "El hook del recordatorio ya estaba configurado."
-    } else {
+    foreach ($g in $ganchos) {
+        $evento  = $g.Evento
+        $archivo = $g.Archivo
+        $hookCmd = 'powershell -NoProfile -Command "Get-Content -Raw -ErrorAction SilentlyContinue ((Join-Path $env:USERPROFILE ''.claude\' + $archivo + '''))"'
+
+        # Marcador de deduplicacion: el nombre del archivo dentro del comando.
+        $marcador = [regex]::Escape($archivo)
+        $yaEsta = $false
+        if ($h.PSObject.Properties.Name -contains $evento) {
+            $json = $h.$evento | ConvertTo-Json -Depth 10
+            if ($json -match $marcador) { $yaEsta = $true }
+        }
+
+        if ($yaEsta) {
+            Info "Hook $evento ($archivo) ya estaba configurado."
+            continue
+        }
+
         $entrada = [PSCustomObject]@{
             hooks = @([PSCustomObject]@{ type = 'command'; command = $hookCmd })
         }
-        if ($settings.PSObject.Properties.Name -contains 'hooks') {
-            $h = $settings.hooks
-            if ($h.PSObject.Properties.Name -contains 'UserPromptSubmit') {
-                $h.UserPromptSubmit = @($h.UserPromptSubmit) + $entrada
-            } else {
-                $h | Add-Member -NotePropertyName 'UserPromptSubmit' -NotePropertyValue @($entrada)
-            }
+        if ($h.PSObject.Properties.Name -contains $evento) {
+            $h.$evento = @($h.$evento) + $entrada
         } else {
-            $nuevo = [PSCustomObject]@{ UserPromptSubmit = @($entrada) }
-            $settings | Add-Member -NotePropertyName 'hooks' -NotePropertyValue $nuevo
+            $h | Add-Member -NotePropertyName $evento -NotePropertyValue @($entrada)
         }
+        Ok "Hook $evento agregado ($archivo)"
+        $cambio = $true
+    }
+
+    if ($cambio) {
         $settings | ConvertTo-Json -Depth 10 | Out-File $settingsPath -Encoding utf8
-        Ok "Hook UserPromptSubmit agregado en $settingsPath"
+        Ok "settings.json actualizado: $settingsPath"
     }
 
     # skipWorkflowUsageWarning silencia el aviso de costo de los workflows.
