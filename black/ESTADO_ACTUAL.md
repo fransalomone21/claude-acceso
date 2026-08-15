@@ -76,6 +76,16 @@ punta. La vida del jugador está localizada y confirmada en pantalla.
   (¿dificultad? ¿tipo de entidad?).
 - **`0x0065F458` (f32, 0.23..0.59) es probablemente el ratio del HUD**: el
   resultado de `div.s f12, vida, 1200.0`. 750/1200 = 0.625, del mismo orden.
+- **Los crashes del emulador pueden ser culpa de OneDrive, no del debugger.**
+  Los dos crashes de la sesión tuvieron el mismo prólogo: `pine.py savestate`
+  y, segundos o minutos después, muerte del proceso sin ventana de error. El
+  data dir de PCSX2 está en `OneDrive\Documents\PCSX2` (337 MB): cada
+  savestate son ~32 MB sin comprimir que OneDrive agarra para subir —
+  lockeando y escaneando el archivo— mientras PCSX2 todavía lo está usando.
+  **Test (2 minutos, riesgo cero): mover el data dir de PCSX2 fuera de
+  OneDrive y repetir.** Si no vuelve a crashear, era eso. Hasta entonces no
+  atribuirle los crashes al debugger: el segundo murió sola, sin que el
+  watchpoint disparara y sin que el usuario tocara nada.
 - **Tabla de armas**: el daño de 26.0 aparece cinco veces agrupadas en la
   región de datos (`0x0042C3AC`, `0x0042C5EC`, `0x0042C92C`, `0x0042CCFC`,
   `0x0042D56C`). Huele a tabla de descriptores de arma.

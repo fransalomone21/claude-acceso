@@ -51,11 +51,22 @@ Ver `ESTADO_ACTUAL.md`. Lo nuevo:
 0x005A8D80  ---    BASE VIEJA, DESCARTADA
 ```
 
-**NEXT ACTION**
-Necesita al usuario jugando, dos minutos. **Con WATCHPOINT, no con breakpoint
-de ejecución** (el de ejecución crashea el emulador — ver DO NOT REPEAT):
+**NEXT ACTION — PASO 0 PRIMERO, es el que puede estar rompiendo todo**
+
+El emulador murió DOS veces en la sesión anterior. El sospechoso número uno no
+es el debugger sino **OneDrive**: el data dir de PCSX2 está en
+`C:\Users\frans\OneDrive\Documents\PCSX2` (337 MB) y cada savestate son ~32 MB
+sin comprimir que OneDrive agarra para subir mientras PCSX2 los usa. Los dos
+crashes vinieron después de un `savestate`, y el segundo ocurrió **sola, sin
+que el watchpoint disparara y sin que el usuario tocara nada**.
+
+**Paso 0 (2 min, riesgo cero):** en PCSX2, `Settings > Folders` (o el .ini),
+mover el data dir a algo fuera de OneDrive, por ejemplo `C:\PCSX2-datos`.
+Después repetir el experimento. Si no vuelve a crashear, era eso — anotarlo.
+
+**Paso 1** — necesita al usuario jugando. **Con WATCHPOINT, no con breakpoint
+de ejecución** (el de ejecución crashea seguro — ver DO NOT REPEAT):
 ```
-python herramientas/pine.py savestate --slot 5
 python herramientas/depurador.py vigilante poner 0x005A8DA8 --tipo write --accion break
 python herramientas/depurador.py esperar --segundos 120
 ```
@@ -64,7 +75,16 @@ Recibir un golpe. Al pausar, `esperar` imprime el PC y el código alrededor.
 puso el breakpoint sobre la dirección sospechada, se dejó que el juego la
 delatara. Después: `vigilante quitar 0x005A8DA8` y `continuar`.
 
+**Plan B si sigue crasheando** (no depende del debugger, y es el método que ya
+cerró la Fase 1): `vigilar.py` muestreando la vida a 20 Hz mientras el usuario
+juega y narra los golpes, más `volcar_vivo.py` para el análisis en frío. Más
+lento, pero cero riesgo de crash.
+
 **DO NOT REPEAT**
+- **NO relanzar el emulador y reintentar lo mismo sin diagnosticar.** Paso dos
+  veces en la misma sesion: crasheo, se relanzo a ciegas, volvio a crashear.
+  La segunda muerte fue la que dio el dato bueno (murio SOLA, sin daño, sin
+  error) y recien ahi aparecio la hipotesis de OneDrive. Diagnosticar primero.
 - **NO usar breakpoints de EJECUCION (`bp poner`): matan el emulador.**
   `bp poner 0x0013C120` corto la conexion a mitad del comando y el proceso
   desaparecio. Los **watchpoints** (`vigilante`) en cambio pausan y resumen
