@@ -3,9 +3,17 @@
 #
 # Ejecutar desde cualquier lugar:
 #   .\perfil-global\verify-install.ps1
+#
+# O pasando la ruta del repo (para saber que skills deberian estar instaladas):
+#   .\perfil-global\verify-install.ps1 -RepoRoot "C:\ruta\al\repo"
 
+param(
+    [string]$RepoRoot = (Split-Path $PSScriptRoot -Parent)
+)
+
+$source    = Join-Path $RepoRoot 'perfil-global'
 $dest      = Join-Path $env:USERPROFILE '.claude'
-$skillsDir = Join-Path $dest 'claude-code-skills'
+$skillsDir = Join-Path $dest 'skills'
 $pass      = $true
 
 function CheckFile($path, $label) {
@@ -37,11 +45,23 @@ Write-Host "=== Verificacion de perfil-global ===" -ForegroundColor Cyan
 Write-Host "  Destino: $dest"
 Write-Host ""
 
-CheckDir  $dest                                                          '.claude/'
-CheckDir  $skillsDir                                                     '.claude/claude-code-skills/'
-CheckFile (Join-Path $dest 'CLAUDE.md')                                  'CLAUDE.md'
-CheckDir  (Join-Path $skillsDir 'engineering-orchestrator')              '.claude/claude-code-skills/engineering-orchestrator/'
-CheckFile (Join-Path $skillsDir 'engineering-orchestrator\SKILL.md')    'engineering-orchestrator/SKILL.md'
+CheckDir  $dest                          '.claude/'
+CheckDir  $skillsDir                     '.claude/skills/'
+CheckFile (Join-Path $dest 'CLAUDE.md')  'CLAUDE.md'
+
+if (Test-Path $source) {
+    $skillDirs = Get-ChildItem -Path $source -Directory -ErrorAction SilentlyContinue
+    foreach ($dir in $skillDirs) {
+        $skillName = $dir.Name
+        $skillSrc  = Join-Path $dir.FullName 'SKILL.md'
+        if (Test-Path $skillSrc) {
+            CheckDir  (Join-Path $skillsDir $skillName)              ".claude/skills/$skillName/"
+            CheckFile (Join-Path $skillsDir "$skillName\SKILL.md")   "$skillName/SKILL.md"
+        }
+    }
+} else {
+    Write-Host "  [WARN] No se encontro perfil-global en $source - no se puede listar que skills esperar." -ForegroundColor Yellow
+}
 
 Write-Host ""
 if ($pass) {
@@ -49,10 +69,10 @@ if ($pass) {
     Write-Host ""
     Write-Host "Notas:"
     Write-Host "  - CLAUDE.md carga automaticamente en toda sesion de Claude Code."
-    Write-Host "  - El skill /engineering-orchestrator esta disponible si Claude Code"
-    Write-Host "    soporta skills globales en ~/.claude/claude-code-skills/."
-    Write-Host "  - Si no lo detecta, copiar engineering-orchestrator/ al .claude/"
-    Write-Host "    del proyecto concreto."
+    Write-Host "  - Las skills en ~/.claude/skills/<nombre>/ se invocan con /<nombre>"
+    Write-Host "    o Claude las usa solas cuando son relevantes."
+    Write-Host "  - Si ~/.claude/skills/ no existia al iniciar la sesion de Claude"
+    Write-Host "    Code, hay que reiniciarla una vez para que la detecte."
 } else {
     Write-Host "Verificacion FALLIDA - ejecutar .\perfil-global\install.ps1 primero." -ForegroundColor Red
     exit 1

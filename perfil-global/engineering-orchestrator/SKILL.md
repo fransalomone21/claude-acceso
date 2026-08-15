@@ -1,9 +1,33 @@
+---
+name: engineering-orchestrator
+description: Metodologia completa de ingenieria - seleccion de modelo, effort, contexto, memoria, evidencia, investigacion, subagents, handoff, control de costos, verificacion, automatizacion y el triangulo de hierro (costo/planning/performance por encima de velocidad de respuesta). Invocar al empezar cualquier tarea de ingenieria nueva o ante una decision de arquitectura, modelo, effort o subagents.
+---
+
 # Engineering Orchestrator
 
 Use this skill when you need the full engineering methodology: model selection,
 effort, context, memory, evidence, research, subagents, handoff, session
-change, cost control, verification, or no-repetition rules. Invoke at the
-start of a new engineering project, or when making any architectural decision.
+change, cost control, verification, automation, or no-repetition rules. Invoke
+at the start of a new engineering project, or when making any architectural
+decision.
+
+---
+
+## Triángulo de hierro
+
+Ante conflicto, el orden de prioridad es **costo, planning (alcance y calidad
+de la decisión), performance (del sistema resultante)** — por encima de
+velocidad de respuesta. Cuando haga falta, se sacrifica tiempo de respuesta
+antes que recortar cualquiera de esas tres.
+
+En la práctica:
+- Preferir un análisis más lento pero completo a una respuesta rápida e
+  incompleta.
+- No cortar investigación, verificación o subagents de análisis para ahorrar
+  tiempo de turno.
+- Esto no es licencia para gastar de más: effort alto y Opus siguen
+  reservados para cuando el problema lo justifica (ver abajo). Rigor no es
+  sinónimo de gastar más — es sinónimo de no cortar camino.
 
 ---
 
@@ -125,6 +149,11 @@ Reglas:
   que ser autocontenido.
 - Background por defecto. Foreground sólo cuando el próximo paso depende
   del resultado del subagent.
+- **Perspectivas diversas.** Cuando hay más de un enfoque razonable para una
+  decisión (arquitectura, estrategia de debugging, diseño de una función),
+  lanzar 2-3 Agents en paralelo con el mismo problema en vez de decidir en
+  base a una sola pasada. Comparar resultados y quedarte con la mejor
+  combinación — no promediar ciegamente.
 
 ---
 
@@ -215,3 +244,32 @@ Principios:
 
 Cuando algo falla, el trabajo no termina al constatar el fallo — termina
 cuando se entiende la causa raíz y se documenta para que no vuelva a pasar.
+
+---
+
+## Automatización
+
+Automatizar (dejar que un script, hook o subagent corra sin revisión humana
+en el medio) sólo cuando se cumplen las dos condiciones a la vez:
+
+- La tarea **no requiere criterio** ("taste") — es mecánica y el resultado
+  correcto es objetivamente verificable.
+- Un resultado **"80% bueno" es aceptable** si algo sale mal. Si una falla
+  silenciosa cuesta caro (plata, datos, horas de debugging, un commit
+  irreversible), no se automatiza sin un punto de revisión humana.
+
+Si no se cumplen las dos, el camino correcto es **aumentar el proceso con
+IA, no reemplazarlo**: la persona sigue decidiendo, Claude prepara el
+terreno (borradores, análisis, opciones comparadas) pero no ejecuta la parte
+que requiere criterio.
+
+---
+
+## Capturar aprendizajes como skill
+
+Cuando una conversación resuelve un problema de un tipo que va a volver a
+aparecer, convertirla en skill reusable con `skill-creator` en vez de repetir
+la misma explicación a mano la próxima vez. Todo skill nuevo debe incluir una
+sección de **gotchas** (errores encontrados durante el desarrollo y cómo se
+evitaron) para que la próxima ejecución no los repita — ver el patrón de
+"No repetición" arriba.

@@ -15,7 +15,10 @@ $ErrorActionPreference = 'Stop'
 
 $source    = Join-Path $RepoRoot 'perfil-global'
 $dest      = Join-Path $env:USERPROFILE '.claude'
-$skillsDir = Join-Path $dest 'claude-code-skills'
+# NOTA: la carpeta correcta que Claude Code detecta para skills personales
+# es ~/.claude/skills/ (NO claude-code-skills/). Ver docs oficiales:
+# https://code.claude.com/docs/en/skills#where-skills-live
+$skillsDir = Join-Path $dest 'skills'
 $now       = Get-Date -Format 'yyyyMMdd-HHmmss'
 $ok        = $true
 
@@ -56,24 +59,39 @@ if (-not (Test-Path $claudeSrc)) {
     Ok "CLAUDE.md -> $claudeDst"
 }
 
-# --- 2. Skill: engineering-orchestrator ---
-$skillName   = 'engineering-orchestrator'
-$skillSrc    = Join-Path $source "$skillName\SKILL.md"
-$skillDstDir = Join-Path $skillsDir $skillName
-$skillDst    = Join-Path $skillDstDir 'SKILL.md'
+# --- 2. Todas las skills de perfil-global/<nombre>/SKILL.md ---
+# Cualquier carpeta nueva con SKILL.md que se agregue a perfil-global/ se
+# instala automaticamente, sin tener que tocar este script.
+$skillDirs = Get-ChildItem -Path $source -Directory -ErrorAction SilentlyContinue
 
-if (-not (Test-Path $skillSrc)) {
-    Fail "Falta fuente: $skillSrc"
+if (-not $skillDirs -or $skillDirs.Count -eq 0) {
+    Warn "No se encontraron subcarpetas de skills en: $source"
 } else {
-    New-Item -ItemType Directory -Force -Path $skillDstDir | Out-Null
-    Copy-Item $skillSrc $skillDst -Force
-    Ok "$skillName\SKILL.md -> $skillDst"
+    foreach ($dir in $skillDirs) {
+        $skillName = $dir.Name
+        $skillSrc  = Join-Path $dir.FullName 'SKILL.md'
+
+        if (-not (Test-Path $skillSrc)) {
+            continue
+        }
+
+        $skillDstDir = Join-Path $skillsDir $skillName
+        $skillDst    = Join-Path $skillDstDir 'SKILL.md'
+
+        New-Item -ItemType Directory -Force -Path $skillDstDir | Out-Null
+        Copy-Item $skillSrc $skillDst -Force
+        Ok "$skillName/SKILL.md -> $skillDst"
+    }
 }
 
 Write-Host ""
 if ($ok) {
     Write-Host "Instalacion completada." -ForegroundColor Green
     Write-Host "Verificar con: .\perfil-global\verify-install.ps1"
+    Write-Host ""
+    Write-Host "IMPORTANTE: si ~/.claude/skills/ no existia antes de esta" -ForegroundColor Yellow
+    Write-Host "instalacion, reiniciar Claude Code para que detecte la" -ForegroundColor Yellow
+    Write-Host "carpeta nueva (solo hace falta la primera vez)." -ForegroundColor Yellow
 } else {
     Write-Host "Instalacion con errores - revisar los mensajes FAIL de arriba." -ForegroundColor Red
     exit 1

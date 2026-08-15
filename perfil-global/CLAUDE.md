@@ -23,4 +23,26 @@ Invocalo al principio de cualquier tarea de ingeniería nueva, o cuando haya
 que tomar una decisión sobre modelo / effort / arquitectura / subagents.
 Cubre: selección de modelo, selección de effort, optimización de contexto,
 memoria, evidencia, investigación, subagents, handoff, cambio de sesión,
-control de costos, verificación, no repetición.
+control de costos, verificación, no repetición, automatización, y el
+triángulo de hierro (costo/planning/performance por encima de velocidad de
+respuesta).
+
+## Antes de construir algo no trivial
+
+1. `/spec-interview` — entrevista para sacar el spec (problema, alcance,
+   decisiones, plan, verificación) antes de tocar código.
+2. `/verify-before-build` — chequeo de tres capas (CLAUDE.md actualizado,
+   permisos de herramientas, zonas de validación humana) antes de la
+   primera línea de código.
+
+Para tareas triviales o mecánicas, saltar ambos pasos — el costo de la
+entrevista/chequeo no se justifica.
+
+## Capturar aprendizajes
+
+Cuando resuelvas un problema de un tipo que va a volver a aparecer,
+convertilo en skill reusable con `skill-creator` en vez de repetir la misma
+explicación a mano la próxima vez. Instalar toda skill nueva en
+`perfil-global/<nombre>/SKILL.md` de este repo (no directo en `~/.claude/`)
+y correr `perfil-global/install.ps1` — así queda commiteada y disponible en
+cualquier máquina donde se instale este perfil.
