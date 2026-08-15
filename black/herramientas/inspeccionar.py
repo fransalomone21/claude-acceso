@@ -40,6 +40,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import estado as mod_estado  # noqa: E402
+from salida import simbolo_delta, tolerar_salida_pobre  # noqa: E402
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -159,7 +160,9 @@ def cmd_comparar(args) -> int:
 
     print(f"{len(cambios)} campo(s) cambiaron en 0x{args.direccion:08X}"
           f"..0x{args.direccion + args.largo:08X}\n")
-    print(f"{'dirección':<12} {'off':>6}  {'antes':>12} -> {'ahora':>12}  {'Δ':>12}  pistas")
+    delta = simbolo_delta()
+    print(f"{'dirección':<12} {'off':>6}  {'antes':>12} -> {'ahora':>12}  "
+          f"{delta:>12}  pistas")
     print("-" * 84)
     for i, a, b in cambios:
         d = args.direccion + i
@@ -201,6 +204,7 @@ def _entero(t: str) -> int:
 
 
 def main(argv=None) -> int:
+    tolerar_salida_pobre()
     ap = argparse.ArgumentParser(description="Inspector de estructuras en memoria del EE")
     sub = ap.add_subparsers(dest="cmd", required=True)
 

@@ -51,6 +51,19 @@ def correr(args: list[str], **kw) -> subprocess.CompletedProcess:
     )
 
 
+# Correr un comando con la salida redirigida y codificada como la página de
+# códigos de Windows. Es la frontera donde se rompen los comandos que imprimen
+# 'Δ' (ver herramientas/salida.py): un print entero muere con
+# UnicodeEncodeError y se lleva puesto el comando. Llamar a las funciones en
+# proceso NO lo detecta, porque un StringIO no codifica nada — por eso los dos
+# bugs de este tipo llegaron a producción con las pruebas en verde.
+CP1252 = {
+    "env": dict(os.environ, PYTHONIOENCODING="cp1252"),
+    "encoding": "cp1252",
+    "errors": "replace",
+}
+
+
 # =============================================================================
 print("== mips: codificaciones conocidas ==")
 # Valores verificados a mano contra el formato de instrucción MIPS I/R/J.
@@ -281,6 +294,26 @@ ok(r.returncode == 0, "inspeccionar volcar", (r.stderr or "").strip()[:300])
 ok("0x00200000" in r.stdout and "100" in r.stdout, "muestra el valor del ancla")
 ok("2.5" in r.stdout, "detecta el float 2.5 en el entorno")
 
+print("== inspeccionar: comparar con la salida redirigida en cp1252 ==")
+# El 'Δ' de la cabecera de `comparar` mataba el comando entero: imprimía
+# "N campo(s) cambiaron" y moría antes de mostrar un solo campo, que es todo
+# lo que el comando tiene para dar. Dentro de la región comparada, ram_b
+# difiere de ram_a en 0x00200000: 100 -> 80.
+bin_a = os.path.join(tmp, "comparar-a.bin")
+r = correr(["herramientas/inspeccionar.py", "comparar", "0x200000",
+            "--largo", "0x40", "--desde", sa, "--guardar", bin_a], **CP1252)
+ok(r.returncode == 0, "comparar --guardar toma la primera instantánea",
+   (r.stderr or r.stdout).strip()[-300:])
+
+r = correr(["herramientas/inspeccionar.py", "comparar", "0x200000",
+            "--largo", "0x40", "--desde", sb, "--contra", bin_a], **CP1252)
+ok(r.returncode == 0, "comparar --contra en cp1252 no revienta",
+   (r.stderr or r.stdout).strip()[-400:])
+ok("0x00200000" in r.stdout, "la tabla de cambios se imprime, no sólo el conteo",
+   (r.stderr or r.stdout).strip()[-400:])
+ok("100 ->" in r.stdout and "80" in r.stdout, "muestra el antes y el después",
+   r.stdout.strip()[-400:])
+
 
 # =============================================================================
 print("== pnach: lectura de carpetas reales desde PCSX2.ini ==")
@@ -372,6 +405,31 @@ shutil.rmtree(os.path.join(RAIZ, "construido"), ignore_errors=True)
 
 
 # =============================================================================
+print("== salida: elegir símbolos que la consola sepa escribir ==")
+import salida  # noqa: E402
+
+
+class _FlujoFalso:
+    def __init__(self, encoding):
+        self.encoding = encoding
+
+
+ok(salida.simbolo_delta(_FlujoFalso("utf-8")) == "Δ", "con UTF-8 se usa 'Δ'")
+ok(salida.simbolo_delta(_FlujoFalso("cp1252")) == "d",
+   "con cp1252 cae a 'd' en vez de reventar")
+ok(salida.simbolo_delta(_FlujoFalso("ascii")) == "d", "con ASCII también cae a 'd'")
+ok(salida.simbolo_delta(_FlujoFalso(None)) == "d", "flujo sin encoding: 'd'")
+
+# Las dos herramientas que imprimen deltas tienen que usar la MISMA función:
+# la primera versión de esto vivía suelta en vigilar.py y por eso
+# inspeccionar.py se quedó con el bug.
+import inspeccionar  # noqa: E402
+
+ok(inspeccionar.simbolo_delta is salida.simbolo_delta,
+   "inspeccionar usa la función compartida, no una copia")
+
+
+# =============================================================================
 print("== vigilar: análisis de series temporales ==")
 csv_prueba = os.path.join(tmp, "regen.csv")
 with open(csv_prueba, "w") as f:
@@ -405,21 +463,8 @@ ok(vigilar.parsear_objetivo("0x2038A0")["tipo"] == "u32", "tipo por defecto u32"
 # de arriba no lo veía porque llama a analizar() en proceso contra un
 # StringIO, que no codifica nada: hay que cruzar la misma frontera que el uso
 # real —un subproceso con la salida redirigida— o el bug queda invisible.
-
-
-class _FlujoFalso:
-    def __init__(self, encoding):
-        self.encoding = encoding
-
-
-ok(vigilar.simbolo_delta(_FlujoFalso("utf-8")) == "Δ", "con UTF-8 se usa 'Δ'")
-ok(vigilar.simbolo_delta(_FlujoFalso("cp1252")) == "d",
-   "con cp1252 cae a 'd' en vez de reventar")
-ok(vigilar.simbolo_delta(_FlujoFalso(None)) == "d", "flujo sin encoding: 'd'")
-
-entorno_cp1252 = dict(os.environ, PYTHONIOENCODING="cp1252")
 r = correr(["herramientas/vigilar.py", "analizar", csv_prueba, "--columna", "vida"],
-           env=entorno_cp1252, encoding="cp1252", errors="replace")
+           **CP1252)
 ok(r.returncode == 0, "analizar por CLI con la salida en cp1252 no revienta",
    (r.stderr or r.stdout).strip()[-400:])
 ok("primeros:" in r.stdout and "t=" in r.stdout.split("primeros:")[1],

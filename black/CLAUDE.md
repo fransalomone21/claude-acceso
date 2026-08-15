@@ -67,6 +67,11 @@ Todas tienen `--help` y se corren desde `black/`.
 | `fijar_objetivo.py` | confirma serial/CRC contra PCSX2 y actualiza `kb/objetivo.json` solo |
 | `windows/preparar_entorno.ps1` | Windows: automatiza el checkpoint 0 completo (pide UAC) |
 
+`salida.py` está en la misma carpeta pero **no es un comando**: es la
+biblioteca que usan las demás para no morirse imprimiendo cuando la consola
+de Windows no sabe escribir un carácter. Si agregás un símbolo raro a la
+salida de una herramienta, leé su encabezado primero.
+
 Requisitos: Python 3.11+. `numpy` es opcional pero conviene (sin él, el primer
 filtro tiene que ser por valor exacto).
 

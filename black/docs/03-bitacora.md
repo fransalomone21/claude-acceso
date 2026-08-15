@@ -16,6 +16,55 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-15 (12) — el mismo `Δ` en `inspeccionar.py`, y una sola definición para los dos
+
+**Máquina:** PC · **Modelo:** Opus
+
+**Objetivo:** cerrar el pendiente que dejó la entrada (11): `inspeccionar.py`
+tenía el mismo `Δ` (U+0394) que hacía crashear a `vigilar.py`.
+
+**Resultado:**
+
+- **Reproducido antes de tocar nada**, con dos savestates sintéticos y
+  `PYTHONIOENCODING=cp1252`: `inspeccionar.py comparar` moría con
+  `UnicodeEncodeError` en `inspeccionar.py:162`. **Acá era peor que en
+  `vigilar`**: el `Δ` está en la *cabecera* de la tabla, así que el comando
+  imprimía "3 campo(s) cambiaron" y se moría antes de mostrar un solo campo —
+  o sea, perdía exactamente lo único que tiene para dar.
+- **Las dos funciones se movieron a `herramientas/salida.py`**, y ahora
+  `vigilar.py` e `inspeccionar.py` importan de ahí. No se duplicaron.
+- **Por qué un módulo y no una copia:** `inspeccionar.py` no puede importar
+  `vigilar.py` (este hace `from pine import ...` a nivel de módulo, mientras
+  que `inspeccionar` importa `pine` adentro de las funciones justo para poder
+  trabajar desde savestates sin PCSX2 abierto). Y duplicar un workaround de
+  codificación en dos archivos es literalmente cómo se llegó a este bug: la
+  primera versión vivió suelta en `vigilar.py` y su hermana quedó rota. El
+  proyecto ya comparte así (`pnach.py` importa `mips` y `estado`).
+- Como `vigilar.py` reexporta lo que importa, las pruebas que ya existían
+  siguen andando sin tocarlas.
+- `pruebas/prueba_herramientas.py`: **102 comprobaciones, todo bien.**
+
+**No funcionó / lo que hay que mirar:**
+
+- Nada se rompió en el camino. Lo que sí quedó claro es que la prueba nueva
+  tenía que correr el **CLI de verdad**: se verificó que falla contra el
+  `inspeccionar.py` viejo (código 1 + traceback) y pasa contra el nuevo. Una
+  prueba de regresión que no falla contra el código roto no prueba nada.
+- Quedan cinco herramientas más (`escanear`, `pnach`, `estado`, `pine`,
+  `fijar_objetivo`) que imprimen tildes y `ñ` sin llamar a
+  `tolerar_salida_pobre()`. Hoy no las rompe nada (cp1252 tiene esos
+  caracteres), pero bajo `LC_ALL=C` reventarían igual. **No se tocaron**: no
+  hay evidencia de que esté pasando, y el arreglo está a una línea el día que
+  pase.
+- **`pruebas/prueba_herramientas.py` borra un archivo trackeado**: hace
+  `rmtree` de `construido/` al final y se lleva puesto `construido/.gitkeep`.
+  Hay que restaurarlo a mano después de cada corrida. Sigue sin arreglar.
+
+**Sigue:** sin cambios respecto de la entrada (11) — determinar si
+`0x005A8DA8` es estable o dinámica entre cargas de nivel.
+
+---
+
 ## 2026-08-15 (11) — `vigilar.py analizar` arreglado: el `Δ` mataba el comando
 
 **Máquina:** PC · **Modelo:** Opus
