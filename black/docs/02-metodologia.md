@@ -78,7 +78,17 @@ menos de veinte.
 ## Escalón 2 — De la dirección a la rutina
 
 Acá entra el debugger de PCSX2, que es lo único que esta caja de herramientas
-no reemplaza. `Tools > Show Debugger`.
+no reemplaza. `Tools > Show Advanced Settings` (tildarlo) y después
+`Debug > Open Debugger` — en PCSX2 2.x no está en el menú Tools.
+
+**Antes de abrirlo, probá `xref.py`.** Buena parte de lo que se busca con un
+breakpoint se saca en frío de un volcado, sin pausar el juego y sin riesgo:
+`xref.py absoluto` dice si el dato es un global o un campo de un objeto,
+`xref.py punteros` da la base del objeto, y `xref.py stores` lista las
+instrucciones candidatas. El breakpoint queda para desempatar, que es un solo
+tiro en vez de una sesión entera de clicks.
+
+**Ojo con el store:** si el dato es `f32`, la instrucción es `swc1`, no `sw`.
 
 1. En la pestaña **Memory**, andá a la dirección de la vida.
 2. Click derecho → **Add breakpoint** → tipo **Write**.

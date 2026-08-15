@@ -60,6 +60,7 @@ Todas tienen `--help` y se corren desde `black/`.
 | `pine.py` | hablarle a PCSX2 en vivo: leer, escribir, volcar, pedir savestates |
 | `escanear.py` | escaneo diferencial de los 32 MB. El reemplazo de Cheat Engine |
 | `inspeccionar.py` | mirar el entorno de una dirección: punteros, floats, texto |
+| `xref.py` | quién toca un dato: referencias cruzadas en frío sobre un volcado. **Probalo antes de abrir el debugger** |
 | `vigilar.py` | series temporales. Contesta "¿cada cuánto?" y "¿de a cuánto?" |
 | `mips.py` | ensamblar/desensamblar R5900 para parches de código |
 | `estado.py` | leer `eeMemory.bin` de un savestate |

@@ -24,7 +24,7 @@ Skills disponibles: `/engineering-orchestrator`, `/spec-interview`,
 
 ## Objetivo actual
 
-**Fase 1 CERRADA.** `0x005A8DA8` confirmada como estática. Sigue: **Fase 2** — rutina de daño y estructura del jugador. Usar **Opus** para el análisis de desensamblado.
+**Fase 2 EN CURSO, 3 de 4 objetivos cubiertos sin debugger.** Estructura del jugador mapeada, mapa de memoria acotado, candidata a vida máxima encontrada. Falta desempatar cuál de las 69 instrucciones candidatas escribe la vida.
 
 ## Estado
 
@@ -41,6 +41,10 @@ punta. La vida del jugador está localizada y confirmada en pantalla.
 | **`0x005A8DA8` es ESTÁTICA** | recarga de nivel → 750.0 (HP inicial coherente); 2 golpes → 698.0 = 750−2×26. Sobrevive recargas y responde al daño exacto. `kb/mapa-memoria.json#vida_jugador.estable = true` |
 | **Daño por golpe = 26.0 constante** | 10 escalones idénticos en `volcados/correlacion-vida-2.csv` |
 | `0x006CF54C` = segmentos del HUD (derivado, no fuente) | se recalculó solo de 8 a 1 al escribir en `0x005A8DA8` |
+| **La vida NO es un global: es `jugador+0x28`** | `xref.py absoluto 0x005A8DA8` → 0 instrucciones la arman, 0 literales en 32 MB. Base `0x005A8D80` por `xref.py punteros` → `kb/estructuras.json#jugador` |
+| **Código del juego en `0x00100000-0x003BFFFF`** | `xref.py mapa` (densidad ≥88%) + los 69 candidatos a store caen todos ahí |
+| **Datos/globales en `~0x0042xxxx-0x0045xxxx`** | histograma de `lui`: 0x0041 ×4922, 0x0044 ×2084, 0x0043 ×639 |
+| El checkbox "Log" del breakpoint de PCSX2 no imprime nada | `MemCheck::Log()` es un stub vacío en el fuente de PCSX2 |
 | PINE funciona en la notebook (TCP 127.0.0.1:28011) | conexión real confirmada |
 | PINE **no** tiene opcodes de breakpoint | tabla de opcodes contigua `0x00`-`0x0F` en `herramientas/pine.py` |
 | El `DebugServer` (puerto 21512) que sí maneja breakpoints **no está en esta máquina** | `Get-NetTCPConnection`: sólo escucha 28011; binario oficial en `C:\Program Files\PCSX2\` |
@@ -50,9 +54,15 @@ punta. La vida del jugador está localizada y confirmada en pantalla.
 
 ## Hipótesis activas
 
-- **Vida máxima**: se observó ~440 tras una curación y 649.79 tras otra. El
-  techo real **no está determinado**. Puede no haber techo, o depender del
-  ítem de curación.
+- **Vida máxima**: candidata encontrada en `jugador+0x30` (`0x005A8DB0`), que
+  vale `FLT_MAX`. Si es eso, **no hay techo** — lo que explica los ~440 y
+  649.79 observados sin llegar nunca a un límite. Test: escribirle un finito
+  y curarse.
+- **Tabla de armas**: el daño de 26.0 aparece cinco veces agrupadas en la
+  región de datos (`0x0042C3AC`, `0x0042C5EC`, `0x0042C92C`, `0x0042CCFC`,
+  `0x0042D56C`). Huele a tabla de descriptores de arma.
+- **`0x005A8D80` puede no ser el inicio real del objeto**: el primer u32 no
+  parece un puntero a vtable. Podría ser un sub-objeto.
 - `0x0065F458` (f32, rango 0.23..0.59) sigue sin identificar. Se movía mucho
   durante el juego; podría ser un ratio normalizado o algo de física.
 
@@ -71,12 +81,33 @@ escritura de 130.0 y 333.0 por PINE con efecto confirmado en pantalla.
 - No se validó `herramientas/windows/preparar_entorno.ps1` de punta a punta.
 ## Próxima acción
 
-**Fase 2 — Rutina de daño y estructura del jugador** (`docs/04-plan.md`). Requiere **Opus** y el debugger de PCSX2 (GUI, Debug > CPU > Memory breakpoints):
+Tres caminos, todos baratos y sin debugger. En orden de costo:
 
-1. Poner un **breakpoint de escritura** en `0x005A8DA8`.
-2. Recibir un golpe → el debugger para en la instrucción `sw` que escribe la vida.
-3. Subir al prólogo → dirección de la rutina de daño → `kb/rutinas.json`.
-4. Del `sw rt, off(rs)` sacar el puntero al jugador y el offset → volcar la estructura con `inspeccionar.py`.
+**(a) Confirmar que `0x005A8D80` es el jugador.** `vigilar.py` sobre los 0x60
+bytes del objeto mientras el usuario se mueve y dispara: los campos de posición
+tienen que moverse. Sólo lectura, cero riesgo.
+
+**(b) Matar o confirmar la vida máxima.** Escribir un finito en `0x005A8DB0`
+(`jugador+0x30`, hoy `FLT_MAX`) y curarse. Si la vida topa ahí, confirmado.
+Es un flotante, no un índice de render: bajo riesgo.
+
+**(c) Buscar la tabla de armas.** `inspeccionar.py` sobre `0x0042C3AC` y las
+otras cuatro apariciones agrupadas de 26.0. Si hay periodicidad, es la tabla, y
+es el mod con mejor relación esfuerzo/resultado del proyecto.
+
+Recién después, si hace falta desempatar los 69 candidatos a instrucción de
+escritura: **un** breakpoint de memoria en `0x005A8DA8` (Write + Change, size
+4). Precaución obligatoria: savestate antes, y probar el mecanismo sobre una
+dirección inocua primero — ver riesgos.
+
+Reproducir el análisis de esta sesión:
+
+```
+python herramientas/estado.py extraer "<savestate.p2s>" volcados/ee.bin
+python herramientas/xref.py absoluto 0x005A8DA8 volcados/ee.bin
+python herramientas/xref.py punteros 0x005A8DA8 volcados/ee.bin
+python herramientas/xref.py stores 0x28 volcados/ee.bin --fpu
+```
 
 ## Riesgos relevantes
 

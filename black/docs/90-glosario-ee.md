@@ -28,6 +28,8 @@ Referencia para no re-deducir lo mismo cada vez. El EE es un **MIPS R5900**,
 |---|---|
 | `lw rt, off(rs)` | carga 32 bits de `[rs+off]` |
 | `sw rt, off(rs)` | **guarda** 32 bits en `[rs+off]` ← el objetivo de los breakpoints |
+| `swc1 ft, off(rs)` | guarda un **float** en `[rs+off]`. Si el dato es `f32`, el store es éste y no `sw` |
+| `sub.s fd, fs, ft` | resta de floats. Cerca de un `swc1` a un campo de vida = rutina de daño |
 | `lh`/`lhu`/`lb`/`lbu` | carga 16/8 bits (con y sin signo) |
 | `sh`/`sb` | guarda 16/8 bits |
 | `addiu rt, rs, N` | `rt = rs + N`. Con `rs = zero` es cargar una constante |

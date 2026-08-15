@@ -76,7 +76,8 @@ importa cuando vas a hacer treinta savestates en una tarde.
 
 ### Debugger
 
-`Tools > Show Debugger`. Es la única pieza que estas herramientas no
+`Tools > Show Advanced Settings` (tildarlo) y después `Debug > Open Debugger`.
+En PCSX2 2.x **no** está en el menú Tools. Es la única pieza que estas herramientas no
 reemplazan: los breakpoints de ejecución y de escritura son lo que convierte
 una dirección en una rutina.
 

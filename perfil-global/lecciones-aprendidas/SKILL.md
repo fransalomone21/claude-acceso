@@ -150,6 +150,47 @@ cobertura del comando.
 
 ---
 
+## 9. Sondear es secuencial; paralelizar antes de sondear es tirar plata
+
+El fan-out sirve cuando hay superficie **ancha e independiente** que cubrir.
+No sirve cuando cada paso decide cuál es el paso siguiente — que es la forma
+normal de una investigación. Y nunca sirve mandar a investigar lo que ya está
+en el contexto: cada agente arranca en frío y vuelve a derivarlo.
+
+**Origen:** se lanzaron 10 agentes (~500k tokens) a investigar en paralelo el
+entorno de debugging de un emulador. La mitad de las preguntas ya estaban
+contestadas en la conversación, y una se resolvía con dos comandos locales.
+Lo que efectivamente destrabó el problema fueron **cuatro comandos
+secuenciales**, donde cada resultado redirigió al siguiente y el primero mató
+la hipótesis de trabajo. Un fan-out habría corrido los cuatro contra la
+hipótesis equivocada.
+
+**Cómo aplicarla:** antes de paralelizar, contestá dos preguntas. ¿Esto ya lo
+sé? ¿El paso 2 depende del resultado del paso 1? Si la primera es sí o la
+segunda es sí, es secuencial. Sondeo barato primero, herramienta después,
+paralelismo sólo si queda superficie ancha.
+
+---
+
+## 10. El sondeo que da CERO es el más informativo
+
+Un resultado vacío no es un intento fallido: es una hipótesis muerta, y matar
+la hipótesis equivocada temprano vale más que confirmar diez detalles de la
+correcta. Por eso el primer sondeo debe ser el que **puede** dar cero.
+
+**Origen:** se dio por sentado que un dato con dirección fija se direcciona
+por absoluto, y se planificó todo alrededor de buscar esa instrucción. El
+primer barrido devolvió cero coincidencias en 32 MB. Ese cero reveló que
+"dirección fija" significaba otra cosa —un objeto que el cargador siempre
+pone en el mismo lugar, alcanzado por puntero— y reorientó la búsqueda hacia
+lo que sí funcionó, en el mismo comando.
+
+**Cómo aplicarla:** diseñá el primer sondeo para que sea capaz de refutar,
+no de confirmar. Y cuando dé cero, no lo trates como "no encontré": preguntate
+qué premisa acaba de caerse.
+
+---
+
 ## Protocolo para agregar una lección
 
 Una entrada nueva entra sólo si cumple las tres:

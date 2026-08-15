@@ -46,6 +46,31 @@
       "notas": "PELIGRO: escribirle 999 CRASHEÓ el emulador a pantalla negra (sesión 2026-08-15). Es un índice del dibujado del HUD; fuera del rango 0..8 rompe el render. No escribir valores arbitrarios acá. Para modificar la vida, usar vida_jugador (0x005A8DA8), que es la fuente."
     },
     {
+      "id": "vida_maxima_candidata",
+      "nombre": "Vida máxima del jugador (candidata)",
+      "direccion": "0x005A8DB0",
+      "tipo": "f32",
+      "version": "ntsc_u",
+      "estable": null,
+      "base": "jugador+0x30",
+      "confianza": "hipotesis",
+      "evidencia": "Vale 0x7F7FFFFF = FLT_MAX en volcados/ee-03.bin. Está a +0x30 de la base del objeto del jugador (0x005A8D80), dos campos después de la vida. FLT_MAX es el centinela habitual de 'sin límite'. NO CONFIRMADO: falta escribirle un valor finito, curarse y ver si la vida topa ahí.",
+      "descubierto": "2026-08-15",
+      "notas": "Si se confirma, cierra la pregunta abierta desde el checkpoint 1 (se vio 440 y 649.79 en curaciones distintas y nunca se encontró techo): no habría techo. El test es barato y de bajo riesgo — es un flotante, no un índice de render como 0x006CF54C."
+    },
+    {
+      "id": "region_codigo",
+      "nombre": "Región de código del juego (.text)",
+      "direccion": "0x00100000",
+      "tipo": "u32",
+      "version": "ntsc_u",
+      "estable": true,
+      "confianza": "probable",
+      "evidencia": "xref.py mapa sobre volcados/ee-03.bin: densidad de opcodes conocidos >=88% sobre palabras no nulas en 0x00100000-0x003BFFFF. Corroborado de forma independiente: los 69 candidatos a instrucción de escritura de la vida (xref.py stores 0x28 --fpu) caen TODOS dentro de ese rango.",
+      "descubierto": "2026-08-15",
+      "notas": "Los datos/globales del juego viven en ~0x0042xxxx-0x0045xxxx: es la región que el código direcciona con 'lui _,0x0041' (4922 sitios), 'lui _,0x0043' (639) y 'lui _,0x0044' (2084). Acotar los barridos a estos dos rangos en vez de a los 32 MB."
+    },
+    {
       "id": "descartado_contador_rapido",
       "nombre": "Contador/timer rápido del motor (descartado como vida)",
       "direccion": "0x0040E6A0",

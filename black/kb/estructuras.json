@@ -20,11 +20,29 @@
     {
       "id": "jugador",
       "nombre": "Estructura del jugador",
+      "base": "0x005A8D80",
       "tamano": null,
-      "como_llegar": null,
-      "confianza": "hipotesis",
-      "campos": [],
-      "notas": "Objetivo inmediato una vez recuperada la dirección de vida: volcar el entorno y mapear vida_max, munición, estado."
+      "como_llegar": "POR PUNTERO, no por absoluto. `xref.py absoluto 0x005A8DA8` da CERO: no hay una sola instrucción en los 32 MB que arme esa dirección con lui+addiu/ori, ni aparece como palabra suelta. O sea que 'estática' no significa 'global': el cargador de nivel asigna el objeto siempre en la misma posición porque el orden de asignación es determinista. La base 0x005A8D80 sale de `xref.py punteros 0x005A8DA8`: es el único candidato a distancia corta (+0x28) y figura como valor en 0x004C5E1C y 0x004C5E30.",
+      "confianza": "probable",
+      "campos": [
+        {"offset": "0x10", "tipo": "f32", "id": "colision_a", "valor_visto": 4.4998, "confianza": "hipotesis", "descripcion": "radio de cápsula de colisión (par con +0x14)"},
+        {"offset": "0x14", "tipo": "f32", "id": "colision_b", "valor_visto": 4.4998, "confianza": "hipotesis", "descripcion": "idéntico a +0x10"},
+        {"offset": "0x18", "tipo": "f32", "id": "altura", "valor_visto": 1.65, "confianza": "hipotesis", "descripcion": "1.65 = altura humana en metros"},
+        {"offset": "0x20", "tipo": "f32", "id": "sin_identificar_20", "valor_visto": -145.8251, "confianza": "hipotesis", "descripcion": "magnitud de coordenada de mundo"},
+        {"offset": "0x24", "tipo": "f32", "id": "sin_identificar_24", "valor_visto": 0.8333, "confianza": "hipotesis", "descripcion": "5/6 exacto — ratio o escala"},
+        {"offset": "0x28", "tipo": "f32", "id": "vida", "confianza": "confirmado", "descripcion": "vida actual. Es 0x005A8DA8 en absoluto. Ver kb/mapa-memoria.json#vida_jugador"},
+        {"offset": "0x2C", "tipo": "f32", "id": "sin_identificar_2C", "valor_visto": 4.0, "confianza": "hipotesis"},
+        {"offset": "0x30", "tipo": "f32", "id": "vida_maxima", "valor_visto": 3.4028234663852886e38, "confianza": "hipotesis", "descripcion": "FLT_MAX (0x7F7FFFFF). Centinela clásico de 'sin límite'. Si es la vida máxima, explica por qué nunca se encontró techo: no hay. SIN CONFIRMAR — el test es escribirle un valor finito y curarse."},
+        {"offset": "0x34", "tipo": "f32", "id": "sin_identificar_34", "valor_visto": 10000.0, "confianza": "hipotesis"},
+        {"offset": "0x38", "tipo": "f32", "id": "sin_identificar_38", "valor_visto": 1.0, "confianza": "hipotesis", "descripcion": "1.0 — candidato a multiplicador de daño recibido"},
+        {"offset": "0x3C", "tipo": "f32", "id": "sin_identificar_3C", "valor_visto": 1.0, "confianza": "hipotesis"},
+        {"offset": "0x48", "tipo": "f32", "id": "sin_identificar_48", "valor_visto": 1.0, "confianza": "hipotesis"},
+        {"offset": "0x58", "tipo": "ptr", "id": "puntero_a", "valor_visto": "0x00597810", "confianza": "hipotesis"},
+        {"offset": "0x5C", "tipo": "ptr", "id": "puntero_b", "valor_visto": "0x005A8FA0", "confianza": "hipotesis", "descripcion": "apunta cerca del propio objeto: probable objeto hermano o siguiente en una lista"}
+      ],
+      "evidencia": "volcados/ee-03.bin (savestate SLUS-21376 (5C891FF1).03.p2s, gameplay real: vida = 649.79345703125, el mismo valor de curación registrado en la sesión anterior). Volcado leído con estado.py extraer, analizado con xref.py.",
+      "descubierto": "2026-08-15",
+      "notas": "El primer u32 (+0x00 = 0x1C566000) NO parece puntero a vtable. Puede que 0x005A8D80 no sea el inicio real del objeto sino un sub-objeto o un offset interno. Pendiente: confirmar con vigilar.py sobre los 0x60 bytes mientras el jugador se mueve — los campos de posición deberían moverse."
     },
     {
       "id": "enemigo",
@@ -42,7 +60,7 @@
       "como_llegar": null,
       "confianza": "hipotesis",
       "campos": [],
-      "notas": "Muy probablemente sea una TABLA estática de N entradas contiguas (daño, cadencia, cargador, dispersión). Si es así, un solo hallazgo desbloquea todas las armas de golpe. Es el mod con mejor relación esfuerzo/resultado del proyecto."
+      "notas": "Muy probablemente sea una TABLA estática de N entradas contiguas (daño, cadencia, cargador, dispersión). Si es así, un solo hallazgo desbloquea todas las armas de golpe. Es el mod con mejor relación esfuerzo/resultado del proyecto. PISTA FUERTE (2026-08-15): el flotante 26.0 (0x41D00000) — el daño exacto por golpe medido — aparece 71 veces en el volcado, y cinco de ellas caen agrupadas en la región de datos del juego: 0x0042C3AC, 0x0042C5EC, 0x0042C92C, 0x0042CCFC, 0x0042D56C. Esa región (0x0042xxxx-0x0045xxxx) es la que el código direcciona con 'lui _,0x0043' (639 sitios). Siguiente paso: volcar el entorno de esas cinco con inspeccionar.py y buscar la periodicidad de la tabla."
     }
   ]
 }

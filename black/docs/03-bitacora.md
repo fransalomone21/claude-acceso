@@ -16,6 +16,69 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-15 (14) — Fase 2 sin debugger: la vida es un campo, no un global
+
+**Máquina:** notebook · **Modelo:** Opus
+
+**Objetivo:** decidir el entorno de la Fase 2 (¿instalar una build parchada de
+PCSX2 para tener breakpoints automatizables?) y arrancar la rutina de daño.
+
+**Resultado:**
+
+- **La pregunta del entorno se disolvió.** Cuatro comandos sobre un savestate
+  que ya estaba en disco entregaron tres de los cuatro objetivos de la Fase 2,
+  sin debugger, sin instalar nada y sin riesgo.
+- **`0x005A8DA8` NO es un global.** Cero instrucciones en los 32 MB arman esa
+  dirección (`lui`+`addiu`/`ori`), y no aparece como palabra suelta. "Estática"
+  significaba que el cargador de nivel asigna el objeto siempre en la misma
+  posición, no que sea una variable global. Se llega por puntero.
+- **Base del objeto del jugador: `0x005A8D80`, vida en `+0x28`** (probable).
+  Único candidato a distancia corta; figura como valor en `0x004C5E1C` y
+  `0x004C5E30`. Layout coherente: cápsula de colisión en +0x10/+0x14, altura
+  1.65 en +0x18, vida en +0x28. → `kb/estructuras.json#jugador`.
+- **`FLT_MAX` en `+0x30`** (hipótesis fuerte): candidato a vida máxima. Si es
+  eso, cierra la pregunta abierta desde el checkpoint 1 — no hay techo.
+  → `kb/mapa-memoria.json#vida_maxima_candidata`.
+- **Mapa de memoria:** código en `0x00100000-0x003BFFFF`, datos en
+  `~0x0042xxxx-0x0045xxxx`. Corroborado por dos vías independientes.
+- **Pista de la tabla de armas:** el flotante 26.0 (el daño exacto por golpe)
+  aparece cinco veces agrupadas en la región de datos. → `kb/estructuras.json#arma`.
+- **Herramienta nueva: `herramientas/xref.py`** — automatiza los cuatro
+  sondeos (`absoluto`, `punteros`, `stores`, `mapa`). Se hicieron a mano una
+  vez; a la segunda ya no.
+
+**No funcionó / callejones:**
+
+- **Se gastó ~500k tokens en un workflow de 10 agentes** para investigar el
+  entorno. Fue un error de criterio: la mitad de lo que se mandó a investigar
+  ya estaba en el contexto de la conversación, y cada agente arrancó en frío a
+  re-derivarlo. Lo que destrabó el problema fueron cuatro comandos secuenciales
+  donde cada uno dependía del anterior — exactamente la forma que un fan-out
+  hace peor. → lección 9 de `/lecciones-aprendidas`.
+- **La hipótesis inicial era falsa.** Se dio por sentado que una dirección
+  estática se direcciona por absoluto. El primer sondeo la mató (0 resultados)
+  y eso fue lo más informativo de la sesión. → lección 10.
+- **El checkbox "Log" del breakpoint de memoria de PCSX2 no sirve:**
+  `MemCheck::Log()` es un stub vacío en el fuente. Se había planificado
+  alrededor de esa función (jugar con logging y leer `emulog.txt` después).
+- **La ruta del menú del debugger estaba mal en tres documentos**
+  (`Tools > Show Debugger`). En PCSX2 2.x es `Tools > Show Advanced Settings`
+  y después `Debug > Open Debugger`. Corregido.
+- **`sw` vs `swc1`:** cuatro documentos decían que la vida la escribe un `sw`.
+  Es `f32`: la instrucción es `swc1`. Corregido.
+- **Riesgo abierto:** issue #5343 de PCSX2 (los breakpoints de memoria cuelgan
+  la emulación en builds x64 de Windows) figura cerrado pero no se encontró el
+  commit que lo arregla. Probar con savestate y sobre una dirección inocua.
+- **PCSX2-MCP:** revisado el fuente, no el binario. Ver `docs/01-entorno.md`.
+
+**Sigue:** desempatar los 69 candidatos a instrucción de escritura. Tres
+caminos baratos, en orden de costo: (a) `vigilar.py` sobre los 0x60 bytes del
+objeto para confirmar que `0x005A8D80` es el jugador; (b) escribir un finito en
+`+0x30` y curarse, para matar o confirmar la vida máxima; (c) `inspeccionar.py`
+sobre `0x0042C3AC` a ver si es la tabla de armas.
+
+---
+
 ## 2026-08-15 (13) — Fase 1 cerrada: `0x005A8DA8` confirmada estática
 
 **Máquina:** notebook · **Modelo:** Sonnet
