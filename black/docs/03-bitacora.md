@@ -16,6 +16,127 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-16 (24) — El instrumental: Ghidra decompila el ELF, y con eso cayó el formato del contenedor
+
+**Máquina:** notebook (sin PCSX2) · **Modelo:** Opus
+
+**Objetivo:** dejar de escribir parsers a mano. Buscar en internet el
+instrumental certificado que falte, instalarlo, probarlo, y rematar el ISO.
+
+**Resultado — el proyecto pasó de desensamblar a decompilar, y eso destrabó
+en la misma sesión un formato que llevaba días anotado como "falta
+entender".**
+
+### 1. Ghidra 12.1.2 + Emotion Engine Reloaded
+
+`mips.py` y `capstone` desensamblan; Ghidra devuelve **C**. Montaje completo en
+`docs/06-herramientas-externas.md`, puente en `herramientas/decompilar.py`
+(`info` / `c` / `funciones` / `xref`).
+
+**9842 funciones y 16514 símbolos** sobre un ELF que no trae tabla de
+símbolos. Y el mapa de memoria del EE completo —VU0/VU1, scratchpad,
+registros de GS— que coincide exactamente con la tabla de secciones que
+habíamos leído a mano en la entrada 23: dos fuentes independientes diciendo
+lo mismo.
+
+**Las dos trampas, las dos pagadas:**
+
+- **`Ghidra\Extensions\`, no `Extensions\Ghidra\`.** Las dos carpetas existen.
+  Descomprimir en la segunda deja la extensión instalada y no cargada. Es la
+  lección 7 otra vez, y lo que la detectó fue preguntar por el **efecto**
+  (¿aparece el lenguaje `r5900`?), no por el archivo.
+- **Sin `-processor`, Ghidra elige `MIPS:LE:64:64-32R6addr`** —MIPS Release 6,
+  otra ISA— y termina con `Analysis succeeded`, exit code 0, **1 función en
+  2,6 MB de código** y cero decompilación. Con
+  `-processor "r5900:LE:32:default"`, 9842. De ahí sale la lección 18.
+
+**Control positivo, y no es decorativo:** `decompilar.py info` decompila
+`0x00142B90` y busca el `100.0` de la Fase 4b. Eso es lo que delató el
+lenguaje equivocado las dos veces.
+
+### 2. El contenedor `.BIN`, resuelto leyendo el parser
+
+La cadena `GlobData.bin` (`0x003F2AD8`) tiene un solo xref de código:
+`FUN_00105858`, la máquina de estados de arranque, que pide el archivo con
+callback `0x00105D48`. **Ese callback no parsea: relocaliza.**
+
+```c
+*(int *)(base + 0x04) += base;   // y +0x08, +0x0C, +0x10, +0x14, +0x18
+```
+
+**Los u32 de la cabecera son offsets relativos que el cargador convierte en
+punteros absolutos en el lugar.** Por eso la hipótesis vieja de "tabla de
+offsets creciente" no cerraba: no es una tabla ordenada, es una cabecera de
+layout fijo donde cada ranura es una sección y no vienen en orden. El mismo
+mecanismo es recursivo hacia adentro, con la cantidad en `+0x00` (u8) y
+registros de paso fijo (`0x24` en una sección, `0x20` en otra).
+
+**Verificado con dos controles positivos que no se ajustaron para que
+dieran:**
+
+- La tabla de armas está en `GLOBDATA.BIN + 0x00130E20`, dirección conocida de
+  la entrada 23 por firma estructural. Según la cabecera recién decodificada
+  cae dentro de la sección de `0x00130C80`, a `+0x1A0`. Encaja.
+- En `STLEVEL.BIN`, la sección declarada en `0x80` arranca con los bytes de
+  `"bg1_shg"` — la tabla de nombres de entidades ya documentada.
+
+**No aplica a todos:** `LEVELDAT.BIN` da tres ranuras fuera de rango y
+`GUNS.BIN` tiene un tamaño en `+0x00` en vez de una cantidad. Usan otro
+layout, y el camino para sacarlo es el mismo.
+
+### 3. vgmstream r2117 — los `.AWD` están abiertos
+
+Es el parser certificado de audio de juegos y trae `RenderWare AWD header` de
+fábrica. **36 archivos, 1385 streams** catalogados con
+`herramientas/awd.py catalogo`.
+
+Lo valioso no es el audio: son **los nombres**. `STG_0001/AIWPNS.AWD` (*AI
+Weapons*) dice qué armas usa la IA en cada nivel, con los nombres en clave que
+les puso Criterion, que son **referencias a películas**: `WeWere` (*We Were
+Soldiers*), `BlackHd` (*Black Hawk Down*), `KarlDH` y `DieHard2` (*Die Hard*),
+`LKiss` (*The Long Kiss Goodnight*), `Rock`, `Commando`, `Navy`, `Alias`. Es
+una fuente de nombres **independiente del binario**, que es justo lo que le
+falta a los 17 registros de la tabla de armas.
+
+### 4. Evidencia de terceros que cruza con la nuestra
+
+El código público de vida infinita para `SLUS-21376` es
+**`205A8DA8 44960000`**: escribir el f32 `1200.0` en **`0x005A8DA8`**. Esa es
+exactamente el ancla que este proyecto confirmó por efecto en la Fase 1, por
+un camino totalmente distinto — y de paso fija el "lleno" en 1200.0, el mismo
+que aparece hardcodeado en el divisor del HUD.
+
+Tres pistas nuevas, ninguna verificada por nosotros:
+`2015515C 240303E7` = `addiu $v1,$zero,999` → lógica de **munición** en
+`0x0015515C`; `2015787C 00000000` = nop → **recarga** en `0x0015787C`;
+`205A8A9C 3C888889` = `1/60` → **delta de tiempo por frame** en `0x005A8A9C`.
+
+**No funcionó / se descartó:**
+
+- **PCSX2-MCP** (`hkmodd/PCSX2-MCP`): promete 30 herramientas de depuración por
+  MCP, pero exige bajar y correr un **`pcsx2-qt.exe` parcheado** de un repo de
+  18 estrellas. No se instaló: es un ejecutable sin firmar de un tercero sin
+  reputación, y encima toca justo la capa de depuración que ya sabemos que
+  corrompe el heap en el PCSX2 oficial. La decisión es de Fran, no de la
+  sesión.
+- **mcp-pine**: limpio y sin build modificado, pero sólo expone memoria y
+  savestates. `pine.py` ya hace todo eso y además vuelca 32 MB en 3 s.
+  Redundante.
+- **No existe script de QuickBMS ni plugin de Noesis para BLACK.** El hilo de
+  referencia (ResHax #514) es gente pidiendo lo mismo. El formato era nuestro
+  para resolver, y se resolvió.
+- Las bases de datos de cheats devuelven **403** a un fetch directo. Los
+  códigos se leyeron de resúmenes de búsqueda: van al `kb/` como transcripción,
+  no como cita verificada.
+
+**Sigue:** Fase 5a (el mod con pnach) y 5b. Para 5b el terreno cambió: ahora se
+lee el C del método virtual #8 en vez de 514 instrucciones, y ahí ya se ve que
+la zona entra como argumento propio (`param_4 & 0xff`, con `0xFF` = "sin
+zona") y que `[enemigo+0x26C]` tiene el arreglo de índices de hueso en `+0x0C`
+indexado por un byte de `+0x19` — el mismo arreglo que llena `resolver_huesos`.
+
+---
+
 ## 2026-08-16 (23) — Barrido del ISO: la tabla de armas SÍ estaba adentro, y aparecieron los nombres de hueso
 
 **Máquina:** notebook (PCSX2 no hizo falta) · **Modelo:** Opus

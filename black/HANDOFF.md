@@ -78,6 +78,20 @@ virtual #8**, no la rutina de daño.
 
 Entradas baratas, en orden:
 
+0bis. **Leer el método virtual #8 en C, que ahora se puede.**
+   `python herramientas/decompilar.py c 0x00133FA8`. De la primera lectura ya
+   salió esto, y conviene arrancar de acá:
+
+   - La zona llega como **argumento propio del método**, no se calcula
+     adentro: `param_4 & 0xff`, con **`0xFF` = "sin zona"** y un caso especial
+     para el valor **`4`** que consulta `FUN_00138320([victima+0x328])` contra
+     `0x28` y `0x2A` (parecen ids de tipo de personaje).
+   - **`[enemigo+0x26C]`** es un objeto con **un arreglo de ints en `+0x0C`
+     indexado por un byte de `+0x19`** — el MISMO arreglo que llena
+     `kb/rutinas.json#resolver_huesos` con los índices de hueso. Es el enlace
+     entre las dos mitades del problema, y salió solo al leer el C.
+   - `[enemigo+0x31C]` acumula daño, y hay un `/ 2400.0` cerca.
+
 0. **La que salió del barrido del ISO del 2026-08-16, y es la más barata de
    todas: contar los huesos.** El ELF tiene un `const char*[11]` de nombres de
    hueso en `0x003BCE70` (`NECK`, `MIDSPINE`, `LOWERSPINE`, `SHOULDER/ELBOW/
@@ -134,6 +148,14 @@ Entradas baratas, en orden:
   enemigos; sólo escribe las palabras que hoy son factores plausibles, así no
   pisa los denormales de las zonas 17-23.
 - **`herramientas/armas.py`** — lo mismo para la tabla de armas.
+- **`herramientas/decompilar.py`** (nueva, 2026-08-16) — **Ghidra desde
+  Python**. `info` (corre el control positivo), `c <dir>` (decompila a C),
+  `funciones`, `xref <dir>`. Es el salto grande de esta sesión: 9842 funciones
+  y 16514 símbolos sobre un ELF sin tabla de símbolos. Montaje en
+  `docs/06-herramientas-externas.md`. **Correr `info` antes de creerle nada.**
+- **`herramientas/awd.py`** (nueva, 2026-08-16) — los `.AWD` vía vgmstream.
+  `catalogo D:/` da 1385 streams; `AIWPNS.AWD` dice qué armas usa la IA en cada
+  nivel, con nombres puestos por Criterion.
 - **`herramientas/tablas.py`** (nueva, 2026-08-16) — reconocimiento en frío
   sobre el ELF o un volcado: `esquemas` / `punteros` / `flotantes` / `vecinos`.
   `--base 0xFF000` para el ELF del ISO, `0` para un volcado. Va al revés que

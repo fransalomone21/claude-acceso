@@ -71,6 +71,18 @@
       "notas": "Los datos/globales del juego viven en ~0x0042xxxx-0x0045xxxx: es la región que el código direcciona con 'lui _,0x0041' (4922 sitios), 'lui _,0x0043' (639) y 'lui _,0x0044' (2084). Acotar los barridos a estos dos rangos en vez de a los 32 MB."
     },
     {
+      "id": "codigos_de_terceros",
+      "nombre": "Direcciones publicadas por la comunidad de cheats (SLUS-21376 / 5C891FF1)",
+      "direccion": null,
+      "tipo": "u32",
+      "version": "ntsc_u",
+      "estable": true,
+      "confianza": "hipotesis",
+      "evidencia": "2026-08-16, busqueda web. Codigos publicos para SLUS-21376 y el CRC 5C891FF1, en formato .pnach crudo (no cifrado). Se recuperaron de indices de gamehacking.org / supercheats / ps2-home; los sitios devuelven 403 a un fetch directo, asi que las lineas se leyeron de los resumenes de busqueda y NO de la pagina abierta: tratarlas como transcripcion, no como cita verificada.",
+      "descubierto": "2026-08-16",
+      "notas": "VALOR PRINCIPAL: el codigo de vida infinita publicado es `205A8DA8 44960000`, o sea escribir el f32 1200.0 en 0x005A8DA8. Esa es EXACTAMENTE la direccion que este proyecto confirmo por efecto de forma independiente en la Fase 1, y ademas fija el 'lleno' en 1200.0, que es el mismo 1200.0 hardcodeado que aparece en el divisor del HUD (kb/rutinas.json#hud_ratio_vida). Confirmacion cruzada de terceros del ancla del proyecto. LAS OTRAS TRES SON PISTAS NUEVAS, ninguna verificada por nosotros: `2015515C 240303E7` es `addiu $v1,$zero,999` en 0x0015515C, o sea hay logica de MUNICION ahi; `2015787C 00000000` es un nop en 0x0015787C, logica de RECARGA; `205A8A9C 3C888889` escribe 0.0166667 (=1/60) en 0x005A8A9C, candidato a DELTA DE TIEMPO POR FRAME, que cae a -0x14 del objeto del jugador (0x005A8AB0) y por lo tanto es un global vecino, no un campo del jugador; `1040DF74 00000002` escribe un u16 en 0x0040DF74, que cae en .sdata (0x0040D980-0x0040E57F), coherente con que ahi viven los globales chicos direccionados por $gp."
+    },
+    {
       "id": "tabla_nombres_huesos",
       "nombre": "Tabla de nombres de hueso (const char*[11])",
       "direccion": "0x003BCE70",

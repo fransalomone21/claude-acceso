@@ -462,10 +462,17 @@
         },
         {
           "offset": "0x08",
-          "tipo": "?",
-          "id": "desconocido",
-          "descripcion": "no lo lee 0x00142B90. En las zonas 17-22 tiene floats (0.34, 1.02, 0.204, 0.11333) que parecen del mismo juego de valores, corridos un campo",
-          "confianza": "hipotesis"
+          "tipo": "u8",
+          "id": "bandera_a",
+          "descripcion": "CORREGIDO 2026-08-16 con la decompilacion de Ghidra: SI lo lee 0x00142B90. La version anterior de esta ficha decia 'no lo lee' y que eran floats corridos; era una lectura incompleta del desensamblado. En C: `*(char *)(pfVar2 + 2)`, o sea el byte de +0x08. Se consulta cuando el escalar de entrada es > 0 y decide una de las dos banderas de salida (param_7).",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x09",
+          "tipo": "u8",
+          "id": "bandera_b",
+          "descripcion": "El byte de +0x09, en C `*(char *)((int)pfVar2 + 9)`. Es el que se consulta cuando el escalar de entrada es <= 0. Junto con bandera_a determina las dos salidas booleanas de la rutina, y esas salidas son las que habilitan o no el factor 0.7 final.",
+          "confianza": "probable"
         }
       ],
       "perfil_observado_nivel_1": {

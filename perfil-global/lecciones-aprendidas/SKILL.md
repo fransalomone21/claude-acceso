@@ -477,6 +477,73 @@ aparece, el negativo no vale nada.
 negativo tiene que decirlo en su propia salida o en su `--help`. "NADA" sin
 mencionar el radio de búsqueda es una respuesta que miente.
 
+---
+
+## 18. "Succeeded" no es un resultado: es la herramienta contándote de sí misma
+
+Cuando una herramienta elige sola un parámetro crítico —el target, el
+dialecto, la codificación, el esquema— esa elección es **una hipótesis suya**,
+no un dato. Y si se equivoca, no falla: hace el trabajo entero sobre la
+premisa equivocada y te reporta éxito, con código de salida 0.
+
+**Origen:** se instaló Ghidra con la extensión de PlayStation 2 para
+decompilar el ejecutable de un juego. El análisis terminó con
+`INFO REPORT: Analysis succeeded`, exit code 0, 29 segundos. Perfecto.
+
+Salvo que había elegido `MIPS:LE:64:64-32R6addr` —MIPS Release 6, una ISA
+distinta de la del procesador real— y el resultado era **1 función en 2,6 MB
+de código**. Los `ERROR Pcode error` en el log parecían ruido de fondo y eran
+el síntoma. Forzando el procesador correcto: **9842 funciones**.
+
+En la misma instalación, antes, había pasado la versión suave del mismo error:
+la extensión se descomprimió en `Extensions/Ghidra/` en vez de
+`Ghidra/Extensions/`. Las dos carpetas existen, ninguna dio error, y la
+extensión simplemente no se cargó (lección 7).
+
+Lo que destapó las dos cosas fue el mismo chequeo: decompilar una función
+cuyo comportamiento **ya estaba confirmado por otra vía** y buscar la
+constante que tenía que aparecer. Tres minutos de trabajo que evitaron
+construir una sesión entera sobre un desensamblado vacío.
+
+**Cómo aplicarla:**
+
+1. Cuando montes una herramienta nueva, tu primer uso no es el trabajo real:
+   es un **caso cuya respuesta ya conocés**. Si no tenés ninguno, conseguilo
+   antes de confiar en el primero de verdad.
+2. Preguntá qué eligió la herramienta y **hacelo imprimir**. `succeeded` no
+   dice nada; `Using Language/Compiler: r5900:LE:32` sí. Si la salida no te
+   dice qué configuración usó, esa es la primera pregunta.
+3. Buscá el **número absurdo**. 1 función en 2,6 MB, 0 filas en una tabla
+   poblada, 3 ms para algo que debería tardar un minuto. Un resultado
+   plausible-pero-chico es más peligroso que un error.
+4. Mirá los mensajes que descartaste como ruido. `ERROR` repetido en un
+   proceso "exitoso" es una contradicción, no un detalle.
+
+Es la misma familia que la 14 (un cero sólo vale si la herramienta podía dar
+distinto de cero) y la 7 (instalado no es instalado hasta que se verificó el
+efecto). La diferencia: acá la herramienta no calla — **afirma que salió
+bien**, que es mucho más difícil de dudar.
+
+**El caso barato que le pasa a todo el mundo: la codificación.** En la misma
+sesión, un reemplazo de texto en tres archivos Markdown se hizo con
+`Get-Content -Raw | ... | Set-Content -Encoding utf8`. Salió sin un solo
+error. Y corrompió los tres: PowerShell 5.1 **lee** con la codificación ANSI
+del sistema, así que los bytes UTF-8 de cada acento se interpretaron como dos
+caracteres cp1252 y `-Encoding utf8` los escribió de nuevo, ahora
+doble-codificados. `á` quedó como `Ã¡`, mil veces por archivo, más un BOM
+regalado.
+
+Fue reversible —decodificar UTF-8, re-codificar cp1252— pero sólo porque se
+notó **en el mismo turno**. Commiteado, se hubiera vuelto ruido permanente en
+el historial.
+
+La regla práctica: **un editor de texto no es un pipeline de shell.** Para
+buscar y reemplazar en un archivo con contenido no-ASCII, usá una herramienta
+que preserve bytes (el editor del agente, `python` con `encoding=` explícito,
+`sed` en un entorno UTF-8), nunca un round-trip por el shell. Y si tenés que
+usarlo igual, el control positivo es una línea: contar cuántos acentos y
+cuántos `Ã` hay antes y después.
+
 ## Protocolo para agregar una lección
 
 Una entrada nueva entra sólo si cumple las tres:

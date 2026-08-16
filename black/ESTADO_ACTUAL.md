@@ -65,6 +65,54 @@ python herramientas/zonas.py listar volcados/ee-vivo.bin
 
 ---
 
+## Instrumental externo (2026-08-16) — el proyecto ahora DECOMPILA
+
+Detalle y montaje en `docs/06-herramientas-externas.md`.
+
+| Herramienta | Versión | Para qué | Control positivo |
+|---|---|---|---|
+| **Ghidra + Emotion Engine Reloaded** | 12.1.2 / v2.1.36 | decompilar el ELF a C. **9842 funciones, 16514 símbolos** donde el ELF no trae ninguno | `decompilar.py info` decompila `0x00142B90` y busca el `100.0` de la Fase 4b |
+| **pyghidra** | 3.1.0 | manejar Ghidra desde Python, sin GUI | — |
+| **vgmstream** | r2117 | abrir los `.AWD` (RenderWare Audio) | `AIWPNS.AWD` del nivel 1 = 29 streams con nombre |
+
+**Dos trampas del montaje, las dos ya pagadas.** La extensión va en
+`Ghidra\Extensions\`, **no** en `Extensions\Ghidra\` (las dos carpetas
+existen). Y el import necesita **`-processor "r5900:LE:32:default"`**: sin
+eso Ghidra elige MIPS Release 6, dice `Analysis succeeded` y deja **1
+función** en 2,6 MB de código. Lección 18.
+
+**Descartadas a propósito:** `PCSX2-MCP` exige correr un `pcsx2-qt.exe`
+parcheado de un repo de 18 estrellas — no se instaló, y la decisión de hacerlo
+es de Fran. `mcp-pine` es limpio pero redundante con `pine.py`. **No existe
+script de QuickBMS ni plugin de Noesis para BLACK**: el formato era nuestro.
+
+---
+
+## Formato del contenedor `.BIN` — RESUELTO (2026-08-16)
+
+Estuvo días anotado como "falta entender". Cayó **decompilando el cargador**,
+no mirando bytes. El callback de `GlobData.bin` (`0x00105D48`) no parsea:
+**relocaliza**. Los u32 de la cabecera son offsets relativos que el cargador
+convierte en punteros absolutos sumándoles la base, en el lugar:
+
+```c
+*(int *)(base + 0x04) += base;   // y +0x08, +0x0C, +0x10, +0x14, +0x18
+```
+
+Por eso fallaba la hipótesis de "tabla de offsets creciente": no es una tabla
+ordenada, es una cabecera de layout fijo donde cada ranura es una sección.
+Recursivo hacia adentro: cantidad en `+0x00` (u8), registros de paso fijo.
+
+Verificado con dos controles que no se ajustaron para que dieran: la tabla de
+armas (`0x00130E20`, conocida de antes) cae dentro de la sección de
+`0x00130C80` a `+0x1A0`; y en `STLEVEL.BIN` la sección de `0x80` arranca con
+`"bg1_shg"`. Ficha en `kb/rutinas.json#fixup_contenedor_bin`.
+
+**No aplica a `LEVELDAT.BIN` ni a `GUNS.BIN`**: usan otro layout. Se resuelven
+igual — xref de su cadena de ruta, decompilar su callback.
+
+---
+
 ## Barrido del ISO (2026-08-16) — reconocimiento, nada confirmado por efecto
 
 Cinco cosas que cambian dónde buscar. Detalle en `docs/05-iso.md`, cómo se
@@ -98,7 +146,7 @@ llegó en la entrada 23 de la bitácora.
 | Hecho | Evidencia |
 |---|---|
 | Identidad: `SLUS-21376`, CRC `5C891FF1`, versión `1.00`, NTSC-U | `pine.py info` en vivo + log de arranque → `kb/objetivo.json` |
-| **Vida del jugador = `0x005A8DA8`** (`jugador 0x005A8AB0 + 0x2F8`, f32) | escaneo diferencial + correlación temporal + escritura con efecto en pantalla |
+| **Vida del jugador = `0x005A8DA8`** (`jugador 0x005A8AB0 + 0x2F8`, f32) | escaneo diferencial + correlación temporal + escritura con efecto en pantalla. **Y confirmación independiente de terceros (2026-08-16):** el código público de vida infinita para este serial es `205A8DA8 44960000` — la misma dirección, con `1200.0` como valor de "lleno" |
 | **Daño al jugador: `0x0013BD20`** (`swc1 f20,0x2F8(s2)`, `0xE65402F8`) | watchpoint de escritura + golpe real; nop = vida infinita, probado contra fuego de AK |
 | **El puntero de clase está en `objeto+0x10`**, no en `+0x00` | vtable del jugador `0x003DC5F8`; reconfirmado en 2026-08-16 por `lw $v0,0x10($t3)` en `0x0015BAE4` |
 | **Método virtual #8 (`vtable+0x4C`) = "recibir daño"** | censo de las 279 vtables: sólo dos clases escriben en `+0x2F8` |

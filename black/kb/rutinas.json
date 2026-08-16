@@ -152,6 +152,20 @@
       "notas": "ACA APARECE EL 1200. El HANDOFF anterior declaraba falso el recuerdo de 'vida máxima ~1200'; el 1200.0 está hardcodeado en el código que lee la vida. Queda por determinar qué selecciona la rama entre 1200.0 y 750.0 (¿dificultad? ¿tipo de entidad?). También es el candidato natural a explicar 0x0065F458 (f32, rango observado 0.23..0.59): sería este ratio."
     },
     {
+      "id": "fixup_contenedor_bin",
+      "nombre": "Arreglo de punteros del contenedor .BIN (callback de GlobData.bin)",
+      "direccion": "0x00105D48",
+      "fin": "0x00106007",
+      "version": "ntsc_u",
+      "descripcion": "NO es un parser: es una pasada de RELOCALIZACION. Toma el bloque recien cargado en el heap y convierte los u32 de su cabecera, que son offsets relativos al inicio del archivo, en punteros absolutos sumandoles la direccion de carga. Despues baja recursivamente y hace lo mismo dentro de cada seccion, donde los offsets son relativos a la seccion, no al archivo.",
+      "convencion": "Sin argumentos: toma el bloque de FUN_001092F8(). Fija las ranuras +0x04, +0x08, +0x0C, +0x10, +0x14 y +0x18 de la cabecera. En la seccion de +0x0C: el u8 de +0x00 es la CANTIDAD, el u32 de +0x04 es un offset relativo a la propia seccion, y los registros son de 0x24. En la de +0x10: la cantidad esta en +0x01, los registros son de 0x20 y cada uno tiene sus propios fixups en +0x08, +0x0C, +0x10, +0x14 y +0x18 relativos al registro.",
+      "confianza": "probable",
+      "llamadores": ["0x00105858"],
+      "evidencia": "2026-08-16. Decompilado con Ghidra 12.1.2 + ghidra-emotionengine-reloaded. Camino: la cadena 'GlobData.bin' esta en 0x003F2AD8; su unico xref de codigo es 0x00105ADC dentro de FUN_00105858 (maquina de estados de arranque), donde se pide el archivo con FUN_001093C0(streamer, ruta, 8, 1, 0x105D48, ...) y 0x105D48 es el callback de post-carga. VERIFICADO CONTRA LOS ARCHIVOS REALES: en GLOBDATA.BIN las seis ranuras dan offsets validos (0x80, 0xF9300, 0x130C80, 0x132F80, 0x133800, 0x133F80) y la tabla de armas —cuya posicion 0x00130E20 ya se conocia por otra via— cae dentro de la seccion de 0x00130C80, a +0x1A0. Segundo control independiente: en STLEVEL.BIN la seccion declarada en 0x80 arranca con los bytes de 'bg1_shg', que es la tabla de nombres de entidades ya documentada.",
+      "descubierto": "2026-08-16",
+      "notas": "ESTO EXPLICA POR QUE FALLABA LA HIPOTESIS VIEJA de 'tabla de offsets creciente': no es una tabla ordenada, es una cabecera de layout fijo donde cada ranura es una seccion distinta y no tienen por que venir en orden. NO APLICA A TODOS LOS .BIN: LEVELDAT.BIN da tres ranuras fuera de rango y GUNS.BIN tiene un tamano en +0x00 en vez de una cantidad. Esos dos usan otro layout y se resuelven igual — xref de su cadena de ruta, decompilar su callback."
+    },
+    {
       "id": "resolver_huesos",
       "nombre": "Resolver los 11 nombres de hueso a índices y cachearlos en el personaje",
       "direccion": "0x001381E0",
@@ -202,6 +216,7 @@
       ],
       "evidencia": "CONFIRMADO POR EFECTO 2026-08-16. Se escribieron los 36 factores de zona en 3.0 (= 300 de dano por impacto, contra 100.0 de vida) con herramientas/zonas.py, y el usuario reporto que los enemigos mueren de UNA bala donde antes hacian falta cuatro. Corroboracion por medicion sobre el pool: linea de base volcados/ee-4b-antes.bin (#2=100.0, #6=49.0, #9=100.0, #11=100.0, resto 0) contra volcados/ee-4b-post.bin, donde los CUATRO que estaban vivos quedaron en 0.0 y aparecieron cuatro spawns nuevos en 100.0 exactos. El dato fuerte es que NO hay un solo valor intermedio en los 32 slots: con 25.5 por bala tendria que haber enemigos en 74.5 / 49 / 23.5 en cualquier instante del tiroteo, y no hay ninguno. CONFOUND DESCARTADO (leccion 16): se releyeron 0x00709F40, 0x00709F70 y 0x00709F7C DESPUES del test y las tres seguian en 3.0, o sea que el parche aguanto y no es un falso positivo por perdida. Restaurado 36/36 sin discrepancias. Analisis previo que lo predijo: 0 copias de descriptores de arma fuera de la tabla; 25.5 inexistente como inmediato en el codigo (con control positivo lui 0x4496 = 17 sitios); 0.255 presente exactamente 9 veces en los 32 MB, las 9 dentro de la tabla de zonas.",
       "descubierto": "2026-08-16",
+      "decompilacion_ghidra_2026_08_16": "Ghidra 12.1.2 + ghidra-emotionengine-reloaded devuelve el cuerpo en C y coincide con el desensamblado a mano, lo que vale como verificacion cruzada de las dos lecturas. Nucleo: `pfVar2 = (float *)(*param_1 + param_2 * 0xc); if (escalar < 0.0) fVar3 = *pfVar2; else fVar3 = pfVar2[1]; fVar3 = fVar3 * 100.0;` y al final `if ((param_9 != 0) && (*param_7 != 1) && (*param_8 != 1)) fVar3 = fVar3 * 0.7;`. LO QUE AGREGA: el campo de +0x08 del registro de zona NO es un float corrido, son DOS BYTES DE BANDERAS en +0x08 y +0x09 que la rutina lee para armar sus dos salidas booleanas (ver kb/estructuras.json#zona_impacto). Ademas la zona entra como `char` con signo, y en el llamador (metodo virtual #8 del enemigo, FUN_00133FA8) llega como argumento propio: `param_4 & 0xff`, donde 0xFF significa 'sin zona' y el valor 4 tiene un caso especial que consulta FUN_00138320([victima+0x328]) contra 0x28 y 0x2A.",
       "notas_mod": "Para un mod de dano de salida hay dos palancas. (a) Los factores por zona, que son POR TIPO DE PERSONAJE y viven en el heap: hay que buscarlos por cadena en cada arranque, no sirven para un .pnach. (b) El 100.0 de 0x00142CA0 (lui $at,0x42C8), que es codigo del ELF, direccion fija, y escala TODO el dano de salida de una sola vez. Para el pnach va (b)."
     }
   ]

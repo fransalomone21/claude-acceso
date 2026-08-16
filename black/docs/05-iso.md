@@ -392,13 +392,86 @@ de `.rodata` apuntándose a sí misma.
 
 ## Formatos de archivo
 
-### El contenedor con alineación 128
+### El contenedor con alineación 128 — RESUELTO (2026-08-16)
 
-Varios `.BIN` arrancan con `{u32 algo, u32 0x80, ...}` y bloques alineados a
-`0x80`. La cabecera **no** es una tabla de offsets creciente — se probó y los
-valores no crecen monótonamente. Falta entender el formato; lo que sí sirve
-es que **el texto adentro está sin comprimir**, así que `strings` sobre estos
-archivos rinde.
+Estuvo anotado como "falta entender el formato" durante días. La respuesta no
+salió de mirar bytes: salió de **decompilar el cargador** con Ghidra.
+
+**Cómo se llegó, en cuatro pasos.** La cadena `GlobData.bin` está en
+`0x003F2AD8`; `decompilar.py xref` da un único llamador,
+**`FUN_00105858`** — la máquina de estados de arranque. Ahí se ve el pedido de
+archivo asíncrono:
+
+```c
+FUN_001093c0(streamer, PTR_s_GlobData_bin, 8, 1, /*callback=*/0x105d48, ...);
+```
+
+Y el callback **`0x00105D48`** es el parser. No parsea: **arregla punteros**.
+
+```c
+iVar2 = base_del_bloque_cargado;
+*(int *)(iVar2 + 0x04) += iVar2;      // <- la clave
+*(int *)(iVar2 + 0x08) += iVar2;
+*(int *)(iVar2 + 0x0C) += iVar2;
+*(int *)(iVar2 + 0x10) += iVar2;
+*(int *)(iVar2 + 0x14) += iVar2;
+*(int *)(iVar2 + 0x18) += iVar2;
+```
+
+**Los u32 de la cabecera son offsets relativos al inicio del archivo, y el
+cargador los convierte EN EL LUGAR en punteros absolutos sumándoles la
+dirección de carga.** Por eso la vieja hipótesis de "tabla de offsets
+creciente" falló: no es una tabla ordenada, es una **cabecera de layout fijo**
+donde cada ranura es una sección distinta, y no tienen por qué venir en orden.
+
+El mismo mecanismo es **recursivo**, y ahí aparece el patrón de registros:
+
+```c
+pbVar7 = *(byte **)(iVar2 + 0x0C);                    // una sección
+*(byte **)(pbVar7 + 4) = pbVar7 + *(int *)(pbVar7 + 4);   // relativo a SÍ MISMA
+for (i = 0; i < *pbVar7; i++)                          // pbVar7[0] = CANTIDAD (u8)
+    FUN_00382c70(*(int *)(pbVar7 + 4) + i * 0x24);     // registros de 0x24
+
+iVar6 = *(int *)(iVar2 + 0x10);
+*(int *)(iVar6 + 4) += iVar6;
+if (*(char *)(iVar6 + 1) != 0)                         // cantidad en +0x01 acá
+    ... registros de 0x20, cada uno con sus propios fixups en +0x08..+0x18
+```
+
+O sea, la forma general de un bloque es
+`{u8 cantidad, ..., u32 offset_relativo_a_este_bloque, ...}` y los registros
+tienen paso fijo. **El paso y la posición de la cantidad cambian por
+sección** — no hay un encabezado universal.
+
+#### Verificación contra los archivos reales
+
+| Archivo | Ranuras `+0x04..+0x18` válidas | Veredicto |
+|---|---|---|
+| `GLOBDATA.BIN` | 6/6 → `0x80`, `0xF9300`, `0x130C80`, `0x132F80`, `0x133800`, `0x133F80` | encaja |
+| `STLEVEL.BIN` | 4/6 (dos en cero) → `0x80`, `0x04`, `0x680`, `0x240600` | encaja |
+| `STUNIT01.BIN` | 2/6 → `0x480`, `0x80` | encaja |
+| `UNIT_01.BIN` | 5/6 | encaja |
+| `LEVELDAT.BIN` | 3/6 **fuera de rango** | **otro layout** |
+| `GUNS.BIN` | `+0x00` es un tamaño (`0x24000`), no una cantidad | **otro layout** |
+
+> **CONTROL POSITIVO — el que convierte esto en un hallazgo.** La tabla de
+> armas está en `GLOBDATA.BIN + 0x00130E20`, y eso ya estaba establecido por
+> otra vía (firma estructural de `Range/Power/falloff`). Según la cabecera
+> recién decodificada, cae **dentro de la sección que arranca en `0x00130C80`,
+> a `+0x1A0` de su inicio**. La predicción no se ajustó para que diera: la
+> dirección era conocida de antes.
+>
+> Segundo control, independiente: en `STLEVEL.BIN`, la sección que la cabecera
+> declara en `0x80` arranca con los bytes `62 67 31 5F 73 68 67` = `"bg1_shg"`
+> — la tabla de nombres de entidades que ya estaba documentada acá.
+
+**Lo que sigue sin saberse:** qué es cada sección (sólo se identificó la de
+armas y la de nombres), y el layout de `LEVELDAT.BIN` y `GUNS.BIN`, que usan
+otro juego de ranuras. El camino está claro: buscar el `xref` de su cadena de
+ruta y decompilar su callback, igual que acá.
+
+Lo que ya se sabía y se mantiene: **el texto adentro está sin comprimir**, así
+que `strings` sobre estos archivos rinde.
 
 | Archivo | Cabecera | Contenido útil |
 |---|---|---|
@@ -408,6 +481,57 @@ archivos rinde.
 | `GUNS.BIN` (227 KB) | `0x25580, 0x80` | geometría de armas |
 | `UNIT_01.BIN` (9 MB) | `18, …` | geometría del nivel (`AircraftCrumpled`…) |
 | `LEVELDAT.BIN` (763 KB) | `11, 0B, 0x5057C` | datos del nivel |
+
+### Audio: los `.AWD` están abiertos
+
+`.AWD` es un **RenderWare Audio Wave Dictionary** y **vgmstream lo lee de
+fábrica**. No hizo falta escribir parser. Herramienta:
+`herramientas/awd.py` (ver `06-herramientas-externas.md` para el montaje).
+
+```bash
+python herramientas/awd.py listar "D:/LEVELS/LEVEL_01/STG_0001/AIWPNS.AWD"
+python herramientas/awd.py catalogo D:/ --json kb/catalogo-awd.json
+```
+
+**36 archivos, 1385 streams**, PS-ADPCM de 4 bits, 16-22 kHz mono. Y lo que
+importa acá: **muchos traen los nombres que les puso Criterion**.
+
+`STG_0001/AIWPNS.AWD` = *AI Weapons*: **dice qué armas usa la IA en cada
+nivel**. Es una fuente de nombres independiente del binario, y por eso sirve
+para cruzar contra los 17 registros de la tabla de armas, que hoy se
+identifican por perfil de parámetros porque el código de 3 letras está
+corrido.
+
+| Nivel | Armas de la IA (prefijo `E_`) |
+|---|---|
+| 00 | `BlackHd`, `Lkiss2`, `Mac10`, `Uzi` |
+| 01 | `DieHard2`, `Mac10`, `Uzi`, `WeWere` |
+| 03 | `Alias`, `Commando`, `Hvy`, `KarlDH`, `LKiss` |
+| 04 | `Hvy`, `Mac10`, `Rock`, `Uzi`, `WeWere` |
+| 05 | `Alias`, `Hvy`, `LKiss`, `Mac10`, `Uzi` |
+| 06 | `Hvy`, `Mac10`, `Uzi` |
+| 07 | `Hvy`, `LKiss`, `Mac10`, `Navy`, `Uzi` |
+| 08 | `Alias`, `Hvy`, `KarlDH`, `Mac10`, `Uzi` |
+
+**Los nombres en clave son referencias a películas** — el equipo bautizó los
+sets de sonido por la película de donde sacaron el arma: `WeWere` (*We Were
+Soldiers*, M16), `BlackHd` (*Black Hawk Down*), `DieHard2` y `KarlDH` (*Die
+Hard*), `LKiss` (*The Long Kiss Goodnight*), `Rock` (*The Rock*), `Commando`,
+`Navy`, `Alias`. **El mapeo nombre-en-clave → arma real es hipótesis**, salvo
+los que se llaman por su nombre (`Mac10`, `Uzi`, `Hvy`, `Rpg`).
+
+Cada arma trae el set `_S0` (inicio), `_M0..M3` (variantes del cuerpo) y `_E0`
+(final). Los genéricos que aparecen sueltos: `Distant0`, `MgnDst*` (magnum a
+distancia), `Shtg0`, `Snpr0`, `Pstl*`, `MCHNGN*`, `SBMCHGN*`, `Silenced0`,
+`CarrieSnpr`.
+
+`SOUND/PAUDIO.AWD` (*Player Audio*) tiene 6 streams **sin nombres**: vgmstream
+devuelve `1`..`6`. Es un resultado honesto —ese archivo no trae tabla de
+nombres— no una falla de la herramienta.
+
+Lo que vgmstream **no** abre, y devuelve `failed opening` limpio: `.SSH`,
+`.BKS`, `.SLB`, `.WDD`, `.DB`. El par `.SSH` + `.BKS` parece cabecera + banco
+de streams; sigue sin atacarse.
 
 ### Tablas de transición de animación
 
