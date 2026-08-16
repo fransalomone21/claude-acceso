@@ -54,8 +54,9 @@
       "id": "enemigo",
       "nombre": "Estructura de enemigo / NPC",
       "clase_vtable": "0x003DCA78",
-      "tamano": "0x360 (stride medido entre objetos consecutivos del pool)",
-      "como_llegar": "Por CLASE, no por escaneo de valores. El puntero a la vtable de la clase esta en objeto+0x10 (NO en +0x00, que es cero). Buscar el u32 0x003DCA78 alineado en la RAM del EE: cada ocurrencia es objeto+0x10, asi que base = ocurrencia - 0x10. Dio exactamente 32 objetos, contiguos desde 0x0058FE90 hasta 0x005972D0 con paso 0x360: es un POOL preasignado de tamano fijo.",
+      "tamano": "0x3C0 (stride medido entre objetos consecutivos del pool, verificado por herramientas/clases.py)",
+      "como_llegar": "Por CLASE, no por escaneo de valores. El puntero a la vtable de la clase esta en objeto+0x10 (NO en +0x00, que es cero). Buscar el u32 0x003DCA78 alineado en la RAM del EE: cada ocurrencia es objeto+0x10, asi que base = ocurrencia - 0x10. Dio exactamente 32 objetos, contiguos desde 0x0058FE90 con paso 0x3C0: es un POOL preasignado de tamano fijo. Comando: `python herramientas/clases.py objetos <volcado> 0x003DCA78`.",
+      "cruce_con_sesion_anterior": "0x00590D90 es uno de los 32 objetos de este pool. Es exactamente la direccion que la sesion del 2026-08-15 vio en el registro s0 al disparar el watchpoint en 0x0013C120 y descarto con la frase 'no es el objeto del jugador'. Tenia razon: era un ENEMIGO. Confirmacion cruzada independiente de que el pool esta bien identificado.",
       "confianza": "probable",
       "campos": [
         {"offset": "0x10", "tipo": "ptr", "id": "puntero_clase", "valor_visto": "0x003DCA78", "confianza": "confirmado", "descripcion": "Puntero a la vtable de la clase. Identico para los 32 objetos del pool. Es el ancla para encontrarlos."},
