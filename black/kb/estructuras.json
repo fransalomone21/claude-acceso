@@ -386,14 +386,14 @@
           "tipo": "f32",
           "id": "factor_a",
           "descripcion": "factor de daño usado cuando [impacto+0x48] < 0. daño = factor * 100.0",
-          "confianza": "probable"
+          "confianza": "confirmado"
         },
         {
           "offset": "0x04",
           "tipo": "f32",
           "id": "factor_b",
           "descripcion": "factor de daño usado en el resto de los casos",
-          "confianza": "probable"
+          "confianza": "confirmado"
         },
         {
           "offset": "0x08",
@@ -412,8 +412,8 @@
         "0.11333 -> 11.33": "zonas 21, 22 — extremidades",
         "0.204 -> 20.4": "zona 20"
       },
-      "confianza": "probable",
-      "evidencia": "Ver kb/rutinas.json#calcular_dano_zona. Pendiente el test por efecto."
+      "confianza": "confirmado",
+      "evidencia": "Ver kb/rutinas.json#calcular_dano_zona. Confirmado por efecto 2026-08-16."
     }
   ]
 }

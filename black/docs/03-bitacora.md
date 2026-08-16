@@ -16,7 +16,7 @@ Formato de cada entrada:
 
 ---
 
-## 2026-08-16 (22) — FASE 4b: el daño de salida del jugador NO sale de la tabla de armas
+## 2026-08-16 (22) — FASE 4b CERRADA: el daño de salida del jugador sale de las ZONAS DE IMPACTO
 
 **Máquina:** notebook · **Modelo:** Opus
 
@@ -88,9 +88,30 @@ salió la **lección 16** de `/lecciones-aprendidas`.
   registros de `0x1E0` en los 32 MB además de la conocida tiene Powers de
   0.4-1.0, que no son daño. No hay segunda tabla.
 
-**Sigue:** el test por efecto, que es lo único que falta para cerrar la fase.
-`zonas.py escribir 3.0` ya está PUESTO en memoria (36/36). Falta una bala al
-cuerpo de un enemigo: tiene que morir de una. Después, restaurar y Fase 5.
+**CONFIRMADO POR EFECTO, misma sesión.** Con los 36 factores en `3.0` (= 300
+de daño contra 100.0 de vida), el usuario reportó que los enemigos **mueren de
+una bala** donde antes hacían falta cuatro.
+
+Corroboración por medición sobre el pool, no sólo por impresión:
+
+| | `ee-4b-antes.bin` | `ee-4b-post.bin` |
+|---|---|---|
+| #2 | 100.0 | **0.0** |
+| #6 | 49.0 | **0.0** |
+| #9 | 100.0 | **0.0** |
+| #11 | 100.0 | **0.0** |
+| #4, #5, #13, #15 | 0.0 | 100.0 (spawns nuevos) |
+
+El dato fuerte no es que murieran: es que **no hay un solo valor intermedio en
+los 32 slots**. Con 25.5 por bala, en cualquier instante de un tiroteo tiene
+que haber alguien en 74.5, 49 o 23.5. No hay ninguno.
+
+**Confound descartado (lección 16, la que salió de esta misma sesión):** se
+releyeron `0x00709F40`, `0x00709F70` y `0x00709F7C` **después** del test y las
+tres seguían en `3.0`. El parche aguantó, así que no es un falso positivo por
+pérdida. Restaurado 36/36 sin discrepancias.
+
+**Sigue:** Fase 5. Chat nuevo — ver `HANDOFF.md`.
 
 ---
 

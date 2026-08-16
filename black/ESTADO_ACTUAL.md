@@ -20,8 +20,8 @@ razón y esto está desactualizado: corregirlo.
 | 2 — rutina de daño del jugador | **cerrada, confirmada por efecto** |
 | 3 — enemigos | **cerrada, confirmada por efecto** (2026-08-16) |
 | 4 — tabla de armas | **cerrada**, pero sólo gobierna el daño que se le hace AL jugador |
-| 4b — daño de SALIDA del jugador | **resuelto en análisis; falta el test por efecto** |
-| 5 — daño de enemigos por arma | siguiente |
+| 4b — daño de SALIDA del jugador | **cerrada, confirmada por efecto** (2026-08-16) |
+| 5 — qué elige la zona de impacto | siguiente |
 
 **Fase 4 — lo que se cerró, y con qué alcance.** La tabla de armas: **17
 registros de `0x1E0`**, con dos bloques de parámetros de `0x30` (`+0x90`
@@ -40,10 +40,17 @@ daño = factor_de_zona * 100.0        calculado en 0x00142B90
 ```
 
 Esa función **ignora** el daño que le llega en `$f12`. Torso = `0.255` → los
-`25.5` medidos; cabeza = `1.02` → 102, mata de un tiro. Ficha en
-`kb/estructuras.json#zona_impacto` y `kb/rutinas.json#calcular_dano_zona`,
-las dos en `probable` hasta que se vea el efecto. Herramienta:
-`herramientas/zonas.py`.
+`25.5` medidos; cabeza = `1.02` → 102, mata de un tiro. **Confirmado por
+efecto:** con los 36 factores en `3.0` los enemigos mueren de una bala, y el
+parche se releyó después del test (seguía en 3.0). Fichas en
+`kb/estructuras.json#zona_impacto` y `kb/rutinas.json#calcular_dano_zona`.
+Herramienta: `herramientas/zonas.py`.
+
+**Para el mod de daño, la palanca es otra.** Los factores por zona son **por
+tipo de personaje** y viven en el heap: hay que buscarlos por cadena en cada
+arranque, así que no sirven para un `.pnach`. El `100.0` de **`0x00142CA0`**
+(`lui $at,0x42C8`) es código del ELF, dirección fija, y escala **todo** el
+daño de salida de una sola vez. Ese es el que va al pnach.
 
 **Ninguna de las dos tablas tiene dirección fija:** las dos viven en el heap y
 se mueven entre niveles y partidas. Siempre se buscan sobre un volcado fresco:
@@ -54,9 +61,7 @@ python herramientas/armas.py listar volcados/ee-vivo.bin
 python herramientas/zonas.py listar volcados/ee-vivo.bin
 ```
 
-**Lo único que falta para cerrar 4b:** una bala al cuerpo de un enemigo con
-los factores de zona escritos en 3.0 (ya puestos, ver *Estado de la máquina*).
-Si muere de una, la fase cierra. Ver `HANDOFF.md`.
+**Lo que sigue:** Fase 5 — qué elige el número de zona. Ver `HANDOFF.md`.
 
 ---
 
@@ -72,7 +77,7 @@ Si muere de una, la fase cierra. Ver `HANDOFF.md`.
 | **Clase del enemigo = `0x003DCA78`** — 32 objetos, pool desde `0x0058FE90`, paso `0x3C0`, vida `100.0` en `+0x2F8` | `clases.py`, y confirmado por efecto |
 | **Daño al enemigo: `0x00134654`** (`0xE61402F8`); clamp de muerte `0x00134514` | nop puesto → cargador entero de AK sin matarlo; nop seguía puesto al releerlo |
 | **Tabla de armas: 17 registros de `0x1E0`, `Power` en bloque+`0x18`** — gobierna el daño que se le hace **al jugador** | `Power = 300` → reacción de arma pesada en pantalla al recibir disparos |
-| **El daño de salida del jugador NO usa `Power`**: sale de `zona * 100.0` en `0x00142B90` | 0 copias de descriptores fuera de la tabla; `25.5` no existe como inmediato (control positivo OK); `0.255` aparece 9 veces en 32 MB y las 9 en la tabla de zonas. **Falta el test por efecto** |
+| **El daño de salida del jugador NO usa `Power`**: sale de `zona * 100.0` en `0x00142B90` | factores en 3.0 → mueren de UNA bala; cero valores intermedios en los 32 slots del pool; parche releído después del test y seguía puesto |
 | **Objeto de arma por tirador: `0x006DE770 + n*0x110`**, descriptor en `+0x0C`, **dueño en `+0x10`**. El del jugador es `0x006DE770` | volcado: `+0x10` = `0x005A8AB0` (jugador); los siguientes, enemigos del pool |
 | **Daño = `Power * (falloff + (1-falloff)*arg/Range)`**, calculado en `0x0015B20C` | desensamblado; con `falloff = 1` da constante, que es lo que se midió en la Fase 1 (10 escalones de 26.0) |
 | **Cola de daño diferido = global `0x00414AD0`** (16 registros de `0x20`, contador en `0x00414CD0`) | `lui 0x41 + addiu 0x4AD0` en `0x0015B308`; único llamador de la encoladora |
@@ -121,13 +126,11 @@ Si muere de una, la fase cierra. Ver `HANDOFF.md`.
   `0x0013BD20` en nop = **vida infinita del jugador PUESTA**.
   `0x00134654` restaurado a `0xE61402F8` (los enemigos mueren normal).
   Los 34 `Power` de la tabla **restaurados 34/34**, sin discrepancias.
-  **Los 36 factores de zona ESCRITOS EN 3.0** (= 300 de daño por impacto),
-  originales en `volcados/zonas-originales.json`. Restaurar con:
-  `python herramientas/zonas.py restaurar volcados/zonas-originales.json`
+  Los 36 factores de zona **restaurados 36/36**, sin discrepancias.
 - Savestate del punto de trabajo en el **slot 6**. `volcados/ee-06.bin` es su
   RAM. De esta sesión: `ee-4b.bin` (tabla de zonas intacta, el bueno para
-  releer valores originales) y `ee-4b-antes.bin` (pool con #6 en 49.0,
-  #2/#9/#11 en 100.0 — la línea de base del test pendiente).
+  releer valores originales), `ee-4b-antes.bin` y `ee-4b-post.bin` (las dos
+  puntas de la medición que cerró la Fase 4b).
 
 ## Problemas abiertos
 

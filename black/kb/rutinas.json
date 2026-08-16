@@ -160,7 +160,7 @@
       "descripcion": "Devuelve cuánto daño recibe realmente una entidad por un impacto. NO usa el daño que le llega: lo IGNORA y calcula el suyo a partir de la zona del cuerpo golpeada. Es el eslabón que faltaba para explicar por qué escribir Power=300 en los 34 campos de la tabla de armas no cambió el daño del jugador.",
       "convencion": "$a0 = [[victima+0x328]+0x3C], puntero al personaje; $a1 = número de ZONA (byte con signo, se multiplica por 0xC en 0x00142BC4); $a2 = base de la tabla de zonas, cargada en 0x00142BF4 con lw $a2,($a0); $t1 = tipo de daño; sp+0x150 = 'Weapon Impact Level' del tirador ([[tirador+0x2A4]+0x108]). DEVUELVE el daño en $f0. El $f12 de entrada NO se lee en ningún punto de la función.",
       "formula": "s0 = tabla + zona*0xC; f1 = [s0+0x00] si [impacto+0x48] < 0, si no [s0+0x04]; daño = f1 * 100.0 (el lui $at,0x42C8 de 0x00142CA0, mul.s en 0x00142CAC). Después, en 0x00142DF4-0x00142E04, se multiplica por 0.7 (lui 0x3F33 + ori 0x3333) sólo si el impact level no es cero y ninguno de los dos flags de salida quedó en 1.",
-      "confianza": "probable",
+      "confianza": "confirmado",
       "llamadores": [
         "0x0013434C"
       ],
@@ -173,8 +173,9 @@
           "confianza": "hipotesis"
         }
       ],
-      "evidencia": "2026-08-16, desensamblado con capstone (MIPS64 + skipdata) sobre volcados/ee-4b.bin, más tres sondeos offline: (1) CERO copias byte-a-byte de los 34 bloques de parámetros de arma fuera de la tabla, o sea que no hay copia por instancia; (2) el float 25.5 NO existe como inmediato en el código (barrido de lui rX,0x41CC en 0x00100000-0x003C0000, con control positivo: lui 0x4496 = 1200.0 dio 17 sitios), o sea que se calcula; (3) el float 0.255 aparece EXACTAMENTE 9 veces en los 32 MB y las 9 están dentro de la tabla de zonas 0x00709F40, que es la de los enemigos vivos 2..14 — y 0.255 * 100.0 = 25.5, el daño medido del jugador. Falta el test por efecto (escribir el factor y ver morir al enemigo de una bala) para pasar a confirmado.",
-      "descubierto": "2026-08-16"
+      "evidencia": "CONFIRMADO POR EFECTO 2026-08-16. Se escribieron los 36 factores de zona en 3.0 (= 300 de dano por impacto, contra 100.0 de vida) con herramientas/zonas.py, y el usuario reporto que los enemigos mueren de UNA bala donde antes hacian falta cuatro. Corroboracion por medicion sobre el pool: linea de base volcados/ee-4b-antes.bin (#2=100.0, #6=49.0, #9=100.0, #11=100.0, resto 0) contra volcados/ee-4b-post.bin, donde los CUATRO que estaban vivos quedaron en 0.0 y aparecieron cuatro spawns nuevos en 100.0 exactos. El dato fuerte es que NO hay un solo valor intermedio en los 32 slots: con 25.5 por bala tendria que haber enemigos en 74.5 / 49 / 23.5 en cualquier instante del tiroteo, y no hay ninguno. CONFOUND DESCARTADO (leccion 16): se releyeron 0x00709F40, 0x00709F70 y 0x00709F7C DESPUES del test y las tres seguian en 3.0, o sea que el parche aguanto y no es un falso positivo por perdida. Restaurado 36/36 sin discrepancias. Analisis previo que lo predijo: 0 copias de descriptores de arma fuera de la tabla; 25.5 inexistente como inmediato en el codigo (con control positivo lui 0x4496 = 17 sitios); 0.255 presente exactamente 9 veces en los 32 MB, las 9 dentro de la tabla de zonas.",
+      "descubierto": "2026-08-16",
+      "notas_mod": "Para un mod de dano de salida hay dos palancas. (a) Los factores por zona, que son POR TIPO DE PERSONAJE y viven en el heap: hay que buscarlos por cadena en cada arranque, no sirven para un .pnach. (b) El 100.0 de 0x00142CA0 (lui $at,0x42C8), que es codigo del ELF, direccion fija, y escala TODO el dano de salida de una sola vez. Para el pnach va (b)."
     }
   ]
 }
