@@ -544,6 +544,53 @@ que preserve bytes (el editor del agente, `python` con `encoding=` explícito,
 usarlo igual, el control positivo es una línea: contar cuántos acentos y
 cuántos `Ã` hay antes y después.
 
+## 19. El repo es la memoria del proyecto, no la de la máquina
+
+**Qué pasó.** El runbook decía "PCSX2-MCP: no se instaló, la decisión es de
+Fran". Fran lo bajó y lo descomprimió en `Descargas` el 2026-08-15, junto con
+el instalador de Node que hace falta. Durante varias sesiones seguidas, cada
+una leyó el runbook, repitió "no está instalado" y siguió de largo. La
+herramienta estaba a un `dir` de distancia. Lo cortó Fran, no la sesión:
+*"si está instalado en descargas y por muchas sesiones lo ignoraste, que no
+vuelva a pasar"*.
+
+**Por qué es de proceso y no de código.** La regla 2 del perfil —"el repo es
+la memoria"— es correcta y se aplicó bien. El error fue extenderla de más: el
+repo recuerda **lo que decidimos**, no **lo que hay en el disco**. Un archivo
+markdown no puede enterarse de que apareció una carpeta nueva. Y como el
+documento sonaba autoritativo y estaba actualizado, nadie fue a mirar.
+
+Es la 7 al revés. La 7 dice "instalado no es instalado hasta que verificaste
+el efecto". Ésta dice lo simétrico y menos obvio: **"no instalado" tampoco es
+"no instalado" hasta que miraste.** Un negativo escrito en un documento
+envejece igual que un positivo, y envejece peor: nadie lo revisa porque cierra
+con lo que uno ya cree.
+
+**Cómo aplicarla:**
+
+1. **El estado del entorno se mide, no se lee.** Cualquier proyecto que
+   dependa de instrumental externo necesita un comando que mire la máquina y
+   lo devuelva. En BLACK es `herramientas/inventario.py`, y corre al abrir la
+   sesión, antes que nada.
+2. Ese comando tiene que tener una categoría explícita para lo que se nos
+   escapó: **"bajado pero sin incorporar"**. Un chequeo binario
+   presente/ausente no la habría encontrado, porque PCSX2-MCP no estaba
+   instalado — estaba *disponible*, que es distinto y más fácil de perder.
+3. Cuando un documento diga que algo falta, **verificalo antes de repetirlo**.
+   Repetir un negativo ajeno es propagarlo sin costo aparente, y el costo real
+   es que se vuelve verdad por repetición.
+4. Si el usuario bajó algo a mano, es porque lo quiere usado. Un ítem en
+   `Descargas` con el nombre de una herramienta del runbook es una instrucción,
+   no ruido.
+
+**Lo que costó:** varias sesiones sin una capacidad que ya estaba pagada. Y
+peor: el mismo error tapaba `PCSX2SaveStateImporter.java`, que venía adentro
+de la extensión de Ghidra desde el día que se instaló, estaba documentado en
+el propio runbook como "el primer experimento de la sesión que viene", y
+tampoco se usó. Dos herramientas útiles paradas por la misma causa.
+
+---
+
 ## Protocolo para agregar una lección
 
 Una entrada nueva entra sólo si cumple las tres:

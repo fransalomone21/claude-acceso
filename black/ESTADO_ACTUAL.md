@@ -2,8 +2,8 @@
 
 Índice operativo compacto. **Esto se lee primero**, entero, en cualquier
 sesión nueva — es más rápido que releer la bitácora. Para el detalle de cómo
-se llegó a cada cosa, ir a `docs/03-bitacora.md`; para qué hacer después, a
-`docs/04-plan.md`.
+se llegó a cada cosa, ir a `docs/03-bitacora.md`; para el instrumental, a
+`docs/06-herramientas-externas.md`.
 
 Se actualiza cada vez que cambia algo real. No es historial — para eso está
 la bitácora. Si una línea de acá contradice la bitácora, la bitácora tiene
@@ -11,89 +11,153 @@ razón y esto está desactualizado: corregirlo.
 
 ---
 
-## Dónde estamos
+## Lo primero de cualquier sesión
 
-| Fase | Estado |
-|---|---|
-| 0 — entorno | cerrada |
-| 1 — ancla (vida del jugador) | cerrada |
-| 2 — rutina de daño del jugador | **cerrada, confirmada por efecto** |
-| 3 — enemigos | **cerrada, confirmada por efecto** (2026-08-16) |
-| 4 — tabla de armas | **cerrada**, pero sólo gobierna el daño que se le hace AL jugador |
-| 4b — daño de SALIDA del jugador | **cerrada, confirmada por efecto** (2026-08-16) |
-| 5 — qué elige la zona de impacto | siguiente |
-
-**Fase 4 — lo que se cerró, y con qué alcance.** La tabla de armas: **17
-registros de `0x1E0`**, con dos bloques de parámetros de `0x30` (`+0x90`
-jugador, `+0xC0` IA) y `Power` en `+0x18` de cada bloque. Escribir
-`Power = 300` cambió el daño que el jugador **recibe** (reacción de arma
-pesada en pantalla) — eso está confirmado. **No** cambió el daño que el
-jugador **hace**, y nunca iba a cambiarlo: son dos sistemas distintos. Ficha
-en `kb/estructuras.json#arma`, cálculo en
-`kb/rutinas.json#calcular_dano_por_arma`.
-
-**Fase 4b — la respuesta.** El daño de salida del jugador sale de una tabla
-por **zona de impacto** colgada del personaje de la víctima, no de `Power`:
-
-```
-daño = factor_de_zona * 100.0        calculado en 0x00142B90
+```powershell
+python herramientas/inventario.py          # qué hay en LA MÁQUINA
+python herramientas/decompilar.py info     # control positivo de Ghidra
 ```
 
-Esa función **ignora** el daño que le llega en `$f12`. Torso = `0.255` → los
-`25.5` medidos; cabeza = `1.02` → 102, mata de un tiro. **Confirmado por
-efecto:** con los 36 factores en `3.0` los enemigos mueren de una bala, y el
-parche se releyó después del test (seguía en 3.0). Fichas en
-`kb/estructuras.json#zona_impacto` y `kb/rutinas.json#calcular_dano_zona`.
-Herramienta: `herramientas/zonas.py`.
-
-**Para el mod de daño, la palanca es otra.** Los factores por zona son **por
-tipo de personaje** y viven en el heap: hay que buscarlos por cadena en cada
-arranque, así que no sirven para un `.pnach`. El `100.0` de **`0x00142CA0`**
-(`lui $at,0x42C8`) es código del ELF, dirección fija, y escala **todo** el
-daño de salida de una sola vez. Ese es el que va al pnach.
-
-**Ninguna de las dos tablas tiene dirección fija:** las dos viven en el heap y
-se mueven entre niveles y partidas. Siempre se buscan sobre un volcado fresco:
-
-```
-python herramientas/pine.py volcar 0x0 0x2000000 volcados/ee-vivo.bin
-python herramientas/armas.py listar volcados/ee-vivo.bin
-python herramientas/zonas.py listar volcados/ee-vivo.bin
-```
-
-**Lo que sigue:** Fase 5 — qué elige el número de zona. Ver `HANDOFF.md`.
+**El repo es la memoria del proyecto, no la de la máquina.** Antes de decir
+que una herramienta "no está instalada", se corre `inventario.py`. Esa regla
+nació de un error real: PCSX2-MCP estaba bajado en `Descargas` desde el
+2026-08-15 y varias sesiones seguidas lo dieron por ausente porque el repo lo
+decía.
 
 ---
 
-## Instrumental externo (2026-08-16) — el proyecto ahora DECOMPILA
+## Mapa de fases — de mayor a menor abstracción
 
-Detalle y montaje en `docs/06-herramientas-externas.md`.
+Cuatro niveles. Se baja de nivel sólo cuando el de arriba tiene su criterio de
+salida cumplido. `docs/04-plan.md` tiene el detalle histórico por fase; **este
+mapa manda**.
 
-| Herramienta | Versión | Para qué | Control positivo |
+```
+N0  OBJETIVO       Modificar BLACK con criterio, y que el cambio sobreviva
+                   a cerrar el emulador.
+     └─ cierra cuando exista un artefacto (ISO o pnach) que alguien más
+        pueda usar sin repetir la investigación.
+
+N1  CAPACIDADES    Cuatro, independientes entre sí.
+     ├─ A. LEER LA MÁQUINA VIVA .......................... CERRADA
+     │     PINE, escaneo diferencial, savestates, watchpoints.
+     ├─ B. LEER EL CÓDIGO ................................ CERRADA
+     │     Ghidra + r5900, 9842 funciones. Y desde 2026-08-16,
+     │     la RAM viva ADENTRO de Ghidra (`decompilar.py estado`).
+     ├─ C. LEER EL ISO ................................... ABIERTA  <-- acá estamos
+     │     Contenedor .BIN resuelto. Faltan .WDD .DB .BKS .SSH .SLB.
+     └─ D. ESCRIBIR .......................................ABIERTA
+           pnach: listo para probar. ISO permanente: falta el in-place.
+
+N2  FASES DEL JUEGO
+     0  entorno ........................................... cerrada
+     1  ancla: vida del jugador ........................... cerrada
+     2  rutina de daño del jugador ........................ cerrada, por efecto
+     3  enemigos .......................................... cerrada, por efecto
+     4  tabla de armas .................................... cerrada (daño AL jugador)
+     4b daño de SALIDA del jugador ........................ cerrada, por efecto
+     5a mod de daño ...................................... PARQUEADA (ver abajo)
+     5b qué elige la zona de impacto ..................... pendiente, es Opus
+     6  exprimir el ISO ................................... ABIERTA, es la prioridad
+
+N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
+     6.1  ¿el ELF tiene LBAs hardcodeados?  -> decide in-place vs rebuild
+     6.2  .DB  : firma '..FT' en 6-7        -> qué son los 139 archivos
+     6.3  .WDD : byte1 = 0x02, 16K/64K      -> qué es el byte 0
+     6.4  .SLB : magia "KING"               -> buscar el formato por esa magia
+     6.5  patrón de ImHex del contenedor .BIN -> commitear en `patrones/`
+     6.6  parche in-place de GLOBDATA.BIN sobre una COPIA del ISO
+```
+
+**Por qué 5a está parqueada:** Fran decidió el 2026-08-16 exprimir el ISO
+**antes** de volver al emulador. El pnach de `0x00142CA0` sigue siendo válido
+y es media hora de trabajo cuando se retome; no se perdió nada.
+
+---
+
+## Fase 6 — el ISO. Lo que se sabe al 2026-08-16
+
+### El hallazgo que decide el camino de escritura
+
+Reconstruir un ISO de PS2 **reasigna los LBA de todos los archivos**, aunque
+no cambie ningún byte de contenido. Y en la era PS2 era práctica corriente que
+el ejecutable llevara **LBAs hardcodeados** en vez de leer la TOC de ISO9660.
+Un ISO reconstruido puede arrancar bien y fallar tres niveles después, sin
+decir por qué.
+
+**Conclusión: el parche in-place es el camino, y no por comodidad.** Los
+`Power` son f32 de 4 bytes; el archivo no cambia de tamaño, el layout no se
+toca, los LBA quedan donde estaban. `mkps2iso` es el plan B.
+
+**Tarea 6.1, la que decide todo:** buscar LBAs hardcodeados en el ELF. Si los
+hay, "reconstruir el ISO" pasa a callejón cerrado formalmente.
+
+### Firmas de cabecera — `herramientas/firmas.py` (nueva)
+
+Se busca **por posición de byte**, no por u32: un entero en little-endian
+mezcla los cuatro bytes y esconde justo la constante que uno busca.
+
+| Familia | N | Tamaños | Firma encontrada |
 |---|---|---|---|
-| **Ghidra + Emotion Engine Reloaded** | 12.1.2 / v2.1.36 | decompilar el ELF a C. **9842 funciones, 16514 símbolos** donde el ELF no trae ninguno | `decompilar.py info` decompila `0x00142B90` y busca el `100.0` de la Fase 4b |
-| **pyghidra** | 3.1.0 | manejar Ghidra desde Python, sin GUI | — |
-| **vgmstream** | r2117 | abrir los `.AWD` (RenderWare Audio) | `AIWPNS.AWD` del nivel 1 = 29 streams con nombre |
+| `.SLB` | 9 | 720 B – 23 KB | **`01 00 00 00` + `"KING"` + `00 00 00 00`**, los 12 bytes constantes en 9/9 |
+| `.WDD` | 141 | **16384 o 65536 exactos** | **byte 1 = `0x02` en 141/141**; byte 0 varía (19 valores) |
+| `.DB` | 139 | 504–725 KB | **byte 0 = `0x00`, bytes 6-7 = `"FT"` en 139/139**; byte 1 sólo `0x14`/`0x94`; byte 5 sólo `0x12`/`0x14`/`0x15` |
 
-**Dos trampas del montaje, las dos ya pagadas.** La extensión va en
-`Ghidra\Extensions\`, **no** en `Extensions\Ghidra\` (las dos carpetas
-existen). Y el import necesita **`-processor "r5900:LE:32:default"`**: sin
-eso Ghidra elige MIPS Release 6, dice `Analysis succeeded` y deja **1
-función** en 2,6 MB de código. Lección 18.
+**Ninguno de los archivos del ISO es un RenderWare binary stream plano**
+(0/141, 0/139, 0/9): los primeros 12 bytes no parsean como cabecera de chunk
+RW con tamaño coherente. O sea que los formatos son contenedores de Criterion;
+puede haber streams RW **adentro**, pero no en la primera capa.
 
-**Descartadas a propósito:** `PCSX2-MCP` exige correr un `pcsx2-qt.exe`
-parcheado de un repo de 18 estrellas — no se instaló, y la decisión de hacerlo
-es de Fran. `mcp-pine` es limpio pero redundante con `pine.py`. **No existe
-script de QuickBMS ni plugin de Noesis para BLACK**: el formato era nuestro.
+`.WDD` con tamaño potencia de dos exacta = búfer de tamaño fijo, no stream.
+`GRDPIN.WDD` es `0C 02 00 00` y después **todo ceros**: un búfer vacío. Eso
+sostiene la lectura de "slot de tamaño fijo" y no la de "archivo comprimido".
+
+### El encuadre que cambió
+
+BLACK corre sobre **RenderWare**, de la propia Criterion. Dejamos de buscar
+"herramientas para BLACK" —no existen— y pasamos a buscar "herramientas para
+RenderWare", que sobran: RW Analyze, Magic.TXD, RWview, rw-parser, y **el SDK
+original de RenderWare 3.10 para PS2 está en archive.org**, con headers. Ver
+`docs/06-herramientas-externas.md`.
+
+**Dato de terceros, sin verificar:** dos personas distintas en ResHax dicen
+que **la versión de Xbox del mismo juego usa formatos más simples**. Si la
+geometría se traba, comparar contra el build de Xbox es una entrada barata.
+
+---
+
+## Instrumental — verificado 2026-08-16 con `inventario.py`
+
+| Herramienta | Estado |
+|---|---|
+| Ghidra 12.1.2 + extensión EE Reloaded v2.1.36 | instalado |
+| pyghidra 3.1.0 · capstone 5.0.9 · numpy 2.5.2 | instalado |
+| **pycdlib 1.20.0** · **zstandard** · **kaitaistruct** | **instalados 2026-08-16** |
+| **ImHex 1.38.1** (winget, va SIN `--scope user`) | **instalado 2026-08-16** |
+| ffmpeg 9.0 (winget `Gyan.FFmpeg`) | ya estaba |
+| vgmstream r2117 | instalado |
+
+**Bajado por Fran y pendiente de que lo corra ÉL:** `PCSX2-MCP-v1.0.0-win64`
+en `Descargas`, descomprimido, con `setup-mcp.bat`, el `pcsx2-mcp-server/` ya
+poblado y `node-v24.19.0-x64.msi` al lado. Trae un `pcsx2-qt.exe` sin firmar
+que reemplaza al emulador: bajarlo y ejecutarlo es decisión suya. Una vez que
+él lo corre, la sesión lo usa.
+
+**La RAM viva adentro de Ghidra — funcionando desde el 2026-08-16.**
+`decompilar.py estado` carga un savestate sobre una **copia** del programa
+(`/SLUS_213.76_estado`), nunca sobre el limpio. Pisa `.data`, `.sdata`,
+`.sbss`, `.bss`, `.lit4`, `.vudata`, `.gcc_except_table`, y crea **`.other`
+con 28,7 MB de heap navegable** desde `0x0049BFBC`. Control positivo pasado:
+`jugador+0x10 = 0x003DC5F8` y vida `437.57`.
 
 ---
 
 ## Formato del contenedor `.BIN` — RESUELTO (2026-08-16)
 
-Estuvo días anotado como "falta entender". Cayó **decompilando el cargador**,
-no mirando bytes. El callback de `GlobData.bin` (`0x00105D48`) no parsea:
-**relocaliza**. Los u32 de la cabecera son offsets relativos que el cargador
-convierte en punteros absolutos sumándoles la base, en el lugar:
+Cayó **decompilando el cargador**, no mirando bytes. El callback de
+`GlobData.bin` (`0x00105D48`) no parsea: **relocaliza**. Los u32 de la
+cabecera son offsets relativos que el cargador convierte en punteros absolutos
+sumándoles la base, en el lugar:
 
 ```c
 *(int *)(base + 0x04) += base;   // y +0x08, +0x0C, +0x10, +0x14, +0x18
@@ -104,40 +168,31 @@ ordenada, es una cabecera de layout fijo donde cada ranura es una sección.
 Recursivo hacia adentro: cantidad en `+0x00` (u8), registros de paso fijo.
 
 Verificado con dos controles que no se ajustaron para que dieran: la tabla de
-armas (`0x00130E20`, conocida de antes) cae dentro de la sección de
-`0x00130C80` a `+0x1A0`; y en `STLEVEL.BIN` la sección de `0x80` arranca con
-`"bg1_shg"`. Ficha en `kb/rutinas.json#fixup_contenedor_bin`.
+armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
+`STLEVEL.BIN` la sección de `0x80` arranca con `"bg1_shg"`. Ficha en
+`kb/rutinas.json#fixup_contenedor_bin`.
 
-**No aplica a `LEVELDAT.BIN` ni a `GUNS.BIN`**: usan otro layout. Se resuelven
-igual — xref de su cadena de ruta, decompilar su callback.
+**No aplica a `LEVELDAT.BIN` ni a `GUNS.BIN`**: usan otro layout.
 
 ---
 
-## Barrido del ISO (2026-08-16) — reconocimiento, nada confirmado por efecto
-
-Cinco cosas que cambian dónde buscar. Detalle en `docs/05-iso.md`, cómo se
-llegó en la entrada 23 de la bitácora.
+## Barrido del ISO (2026-08-16) — reconocimiento
 
 1. **La tabla de armas está en `GLOBDATA.BIN + 0x00130E20`** — 17 registros de
-   `0x1E0`, mismo conteo y mismo paso que en RAM, paso verificado por dos
-   anclas (Magnum en `+2`, HVY en `+10`). Habilita un mod **permanente** por
-   ISO. `probable`: nadie editó el archivo ni vio el efecto.
-   **Corrige un callejón que estaba anotado como cerrado** — ver abajo.
+   `0x1E0`, paso verificado por dos anclas (Magnum en `+2`, HVY en `+10`).
+   Habilita el mod permanente. `probable`: nadie editó el archivo todavía.
 2. **Nombres de hueso en `0x003BCE70`** (`const char*[11]`: `NECK`,
    `MIDSPINE`, `LOWERSPINE`, `SHOULDER/ELBOW/UPPERLEG/KNEE_LT/RT`). Los
-   resuelve a índices `0x001381E0` y los cachea en `personaje+0x0C..+0x38`.
-   El esqueleto tiene la cantidad en `+0x5C` y el arreglo de nombres en
-   `+0x60`. Es material de Fase 5b, **no** la respuesta: 11 nombres contra 24
-   registros de zona.
-3. **Mapa exacto del ELF** desde la tabla de secciones: `.data 0x003BC380`,
-   `.rodata 0x003F2280`, `.lit4 0x0040D800`, `.sdata 0x0040D980`,
-   `.bss 0x0040EC80`. Y **`$gp = 0x004157F0`** (sección `.reginfo`).
-4. **561 globales se direccionan por `$gp`** (3051 accesos). Ninguno aparece
-   buscando `lui`+`addiu`. Si `xref.py absoluto` da NADA entre `0x0040D7F0` y
-   `0x0041D7F0`, la hipótesis buena es `$gp`.
-5. **El middleware de IA es Kynapse** y trae los nombres de sus tunables:
-   `CShooterAgent` declara `GunRange` y `MaxInaccuracy`. Ahí empieza el hilo
-   de "enemigos que erran más".
+   resuelve a índices `0x001381E0`. Material de Fase 5b, **no** la respuesta:
+   11 nombres contra 24 registros de zona.
+3. **Mapa exacto del ELF**: `.data 0x003BC380`, `.rodata 0x003F2280`,
+   `.lit4 0x0040D800`, `.sdata 0x0040D980`, `.bss 0x0040EC80`, y
+   **`$gp = 0x004157F0`**.
+4. **561 globales se direccionan por `$gp`** (3051 accesos). Si
+   `xref.py absoluto` da NADA entre `0x0040D7F0` y `0x0041D7F0`, la hipótesis
+   buena es `$gp`.
+5. **El middleware de IA es Kynapse**: `CShooterAgent` declara `GunRange` y
+   `MaxInaccuracy`.
 
 ---
 
@@ -145,100 +200,77 @@ llegó en la entrada 23 de la bitácora.
 
 | Hecho | Evidencia |
 |---|---|
-| Identidad: `SLUS-21376`, CRC `5C891FF1`, versión `1.00`, NTSC-U | `pine.py info` en vivo + log de arranque → `kb/objetivo.json` |
-| **Vida del jugador = `0x005A8DA8`** (`jugador 0x005A8AB0 + 0x2F8`, f32) | escaneo diferencial + correlación temporal + escritura con efecto en pantalla. **Y confirmación independiente de terceros (2026-08-16):** el código público de vida infinita para este serial es `205A8DA8 44960000` — la misma dirección, con `1200.0` como valor de "lleno" |
-| **Daño al jugador: `0x0013BD20`** (`swc1 f20,0x2F8(s2)`, `0xE65402F8`) | watchpoint de escritura + golpe real; nop = vida infinita, probado contra fuego de AK |
-| **El puntero de clase está en `objeto+0x10`**, no en `+0x00` | vtable del jugador `0x003DC5F8`; reconfirmado en 2026-08-16 por `lw $v0,0x10($t3)` en `0x0015BAE4` |
-| **Método virtual #8 (`vtable+0x4C`) = "recibir daño"** | censo de las 279 vtables: sólo dos clases escriben en `+0x2F8` |
-| **Clase del enemigo = `0x003DCA78`** — 32 objetos, pool desde `0x0058FE90`, paso `0x3C0`, vida `100.0` en `+0x2F8` | `clases.py`, y confirmado por efecto |
-| **Daño al enemigo: `0x00134654`** (`0xE61402F8`); clamp de muerte `0x00134514` | nop puesto → cargador entero de AK sin matarlo; nop seguía puesto al releerlo |
-| **Tabla de armas: 17 registros de `0x1E0`, `Power` en bloque+`0x18`** — gobierna el daño que se le hace **al jugador** | `Power = 300` → reacción de arma pesada en pantalla al recibir disparos |
-| **El daño de salida del jugador NO usa `Power`**: sale de `zona * 100.0` en `0x00142B90` | factores en 3.0 → mueren de UNA bala; cero valores intermedios en los 32 slots del pool; parche releído después del test y seguía puesto |
-| **Objeto de arma por tirador: `0x006DE770 + n*0x110`**, descriptor en `+0x0C`, **dueño en `+0x10`**. El del jugador es `0x006DE770` | volcado: `+0x10` = `0x005A8AB0` (jugador); los siguientes, enemigos del pool |
-| **Daño = `Power * (falloff + (1-falloff)*arg/Range)`**, calculado en `0x0015B20C` | desensamblado; con `falloff = 1` da constante, que es lo que se midió en la Fase 1 (10 escalones de 26.0) |
-| **Cola de daño diferido = global `0x00414AD0`** (16 registros de `0x20`, contador en `0x00414CD0`) | `lui 0x41 + addiu 0x4AD0` en `0x0015B308`; único llamador de la encoladora |
-| **El esquema de campos de arma está en texto en el ELF**, `0x004008A0`-`0x004009C8` | `Range`, `Power`, `Num Bullets In Clip`, `CommonParams`/`PlayerParams`/`AIParams`… rodata muerta pero legible |
-| Daño de AK47 = 26.0 al jugador; 25.5 del jugador al enemigo | 10 escalones idénticos en `volcados/correlacion-vida-2.csv`; y medición del pool 2026-08-16 |
-| `0x006CF54C` = segmentos del HUD (derivado, no fuente) | se recalculó solo al escribir en la vida |
-| **1200.0 y 750.0 hardcodeados en el HUD** | `lui at,0x4496` / `lui at,0x443B`+`ori 0x8000` + `div.s` en los 3 sitios lectores |
-| **Código del juego en `0x00100000-0x003BFFFF`**; datos `~0x0042xxxx-0x0045xxxx` | `xref.py mapa` + histograma de `lui` |
-| **Mapeo del ELF: `offset_archivo = vaddr - 0xFF000`**, un solo `PT_LOAD` | verificado 6/6 contra encodings observados en vivo |
-| **Los breakpoints de EJECUCIÓN crashean el emulador**; los watchpoints no | `bp poner` mató el proceso; los watchpoints aguantaron decenas de veces |
-| **Los crashes son corrupción de heap del parche, no OneDrive** | Visor de eventos: `0xc0000374` en `ntdll.dll`; `DebugServer.cpp` muta `CBreakPoints` desde el hilo del socket sin mutex |
-| **`--accion log` no cuenta hits** (es un stub) | `MemCheck::Log()` vacío en el fuente de PCSX2 |
+| Identidad: `SLUS-21376`, CRC `5C891FF1`, versión `1.00`, NTSC-U | `pine.py info` + log de arranque → `kb/objetivo.json` |
+| **Vida del jugador = `0x005A8DA8`** (`jugador 0x005A8AB0 + 0x2F8`, f32) | escaneo diferencial + escritura con efecto. **Confirmación independiente de terceros:** el código público es `205A8DA8 44960000` |
+| **Daño al jugador: `0x0013BD20`** (`swc1 f20,0x2F8(s2)`) | watchpoint + golpe real; nop = vida infinita |
+| **El puntero de clase está en `objeto+0x10`** | vtable del jugador `0x003DC5F8`; reconfirmado por el cargador de savestates el 2026-08-16 |
+| **Método virtual #8 (`vtable+0x4C`) = "recibir daño"** | censo de las 279 vtables |
+| **Clase del enemigo = `0x003DCA78`** — 32 objetos, pool `0x0058FE90`, paso `0x3C0`, vida `100.0` en `+0x2F8` | `clases.py`, confirmado por efecto |
+| **Daño al enemigo: `0x00134654`**; clamp de muerte `0x00134514` | nop puesto → cargador entero de AK sin matarlo |
+| **Tabla de armas: 17 registros de `0x1E0`, `Power` en bloque+`0x18`** — gobierna el daño que se le hace **al jugador** | `Power = 300` → reacción de arma pesada en pantalla |
+| **El daño de salida del jugador NO usa `Power`**: sale de `zona * 100.0` en `0x00142B90` | factores en 3.0 → mueren de UNA bala; parche releído después del test |
+| **Objeto de arma por tirador: `0x006DE770 + n*0x110`**, dueño en `+0x10` | volcado: `+0x10` = `0x005A8AB0` |
+| **Cola de daño diferido = global `0x00414AD0`** (16 registros de `0x20`) | `lui 0x41 + addiu 0x4AD0` en `0x0015B308` |
+| **Mapeo del ELF: `offset_archivo = vaddr - 0xFF000`**, un solo `PT_LOAD` | verificado 6/6 |
+| **Los breakpoints de EJECUCIÓN crashean el emulador**; los watchpoints no | `bp poner` mató el proceso |
 | Un volcado completo de los 32 MB por PINE tarda **~3 s** | medido 2026-08-16 |
 
 ## Callejones cerrados — no repetir
 
 - **Los cinco `26.0` de `0x0042C3AC..0x0042D56C` NO son la tabla de armas.**
-  Están en BSS, se les escribió 300.0 y no cambió ningún daño; además
-  ensucian el HUD (aparecen dos barras negras en pantalla). Restaurados.
-- ~~**La tabla de armas no está en el ISO ni en el ELF.**~~ **REABIERTO
-  2026-08-16: sí está**, en `GLOBDATA.BIN + 0x00130E20`. Aquel resultado era un
-  falso negativo: la prueba comparaba la ventana de 96 bytes alrededor del
-  `26.0` de la RAM viva, y esa ventana arranca con tres punteros al heap que en
-  el archivo son offsets chicos. Lo que sigue en pie es que **`GUNS.BIN` no es
-  la tabla** (es geometría, cero apariciones del `26.0`) y que la tabla se
-  copia al heap por stage.
-- **`0x0013C120` es el método #9 de la clase del JUGADOR**, no el brazo de
-  daño de los enemigos. Falsificado por efecto.
-- **El escaneo diferencial no sirve para la vida de un enemigo**: muere en 4
-  balas y el filtro necesita más rondas de las que da. Por clase salió en una
-  pasada.
-- Los saves de GameFAQs son Max Drive/CodeBreaker: no se pueden usar sin
-  herramientas de terceros.
+  Están en BSS, se les escribió 300.0 y no cambió nada; además ensucian el HUD.
+- ~~**La tabla de armas no está en el ISO.**~~ **REABIERTO: sí está**, en
+  `GLOBDATA.BIN + 0x00130E20`. Lo que sigue en pie: **`GUNS.BIN` no es la
+  tabla** (es geometría).
+- **`0x0013C120` es el método #9 de la clase del JUGADOR.** Falsificado por efecto.
+- **El escaneo diferencial no sirve para la vida de un enemigo**: muere en 4 balas.
+- **No hay script de QuickBMS ni plugin de Noesis para BLACK.** Reverificado
+  2026-08-16 en ResHax #514: el hilo no tiene una sola línea técnica.
+- **Los archivos del ISO no son RenderWare binary streams planos.** 0/141 `.WDD`,
+  0/139 `.DB`, 0/9 `.SLB`. Medido con `firmas.py` el 2026-08-16.
 
 ## Hipótesis activas
 
-- **Vida máxima = 1200.0**, no `FLT_MAX`; está hardcodeada en el código que
-  lee la vida. Falta determinar qué elige la rama entre 1200.0 y 750.0
-  (¿dificultad? ¿tipo de entidad?).
-- `arma+0x18` (valores 25, 10, 50) es candidato a **cargador**. Sin
-  confirmar: no se comparó contra el número del HUD.
-- El código de 3 letras de `arma+0x1C0` está **corrido un registro** respecto
-  de los parámetros. Para identificar un arma, guiarse por el perfil de
-  parámetros y no por ese campo.
-- `0x0065F458` (f32, 0.23..0.59) sigue sin identificar; probable ratio del HUD.
+- **Vida máxima = 1200.0**, hardcodeada. Falta qué elige entre 1200.0 y 750.0.
+- `arma+0x18` (25, 10, 50) es candidato a **cargador**. Sin confirmar.
+- El código de 3 letras de `arma+0x1C0` está **corrido un registro**.
+- `.SLB` con magia `"KING"` es la tabla de nombres del sistema de audio; el
+  trío `.BKS` (banco, hasta 117 MB) + `.SSH` (cabeceras) + `.SLB` (índice)
+  parece ser un solo sistema. Sin verificar.
 
 ## Estado de la máquina
 
-- **Instalado 2026-08-16, fuera del repo:**
-  `C:\Users\frans\herramientas\ghidra_12.1.2_PUBLIC` (con la extensión EE en
-  `Ghidra\Extensions\ghidra-emotionengine-reloaded`),
-  `C:\Users\frans\herramientas\vgmstream\vgmstream-cli.exe`,
-  `C:\Users\frans\herramientas\SLUS_213.76` (copia del ELF),
-  proyecto de Ghidra ya analizado en
-  `C:\Users\frans\herramientas\ghidra-proyectos2\BLACK`. `pip`: `pyghidra`.
-  Verificar con `python herramientas/decompilar.py info`.
-  El proyecto `ghidra-proyectos` (sin el 2) quedó con el análisis MALO de
-  MIPS R6: **no usarlo**, y se puede borrar.
-- **Autorización vigente de Fran (2026-08-16):** instalar lo que haga falta
-  sin preguntar. Runbook en `docs/06-herramientas-externas.md`. La única
-  excepción es el `pcsx2-qt.exe` parcheado de PCSX2-MCP, que lo baja él.
-- PCSX2 2.6.3 en la notebook, PINE en 28011. ISO montado en `D:`.
-- **Parches vivos en memoria** (se pierden al recargar el emulador):
-  `0x0013BD20` en nop = **vida infinita del jugador PUESTA**.
-  `0x00134654` restaurado a `0xE61402F8` (los enemigos mueren normal).
-  Los 34 `Power` de la tabla **restaurados 34/34**, sin discrepancias.
-  Los 36 factores de zona **restaurados 36/36**, sin discrepancias.
-- Savestate del punto de trabajo en el **slot 6**. `volcados/ee-06.bin` es su
-  RAM. De esta sesión: `ee-4b.bin` (tabla de zonas intacta, el bueno para
-  releer valores originales), `ee-4b-antes.bin` y `ee-4b-post.bin` (las dos
-  puntas de la medición que cerró la Fase 4b).
+- **Fuera del repo:** `C:\Users\frans\herramientas\ghidra_12.1.2_PUBLIC`
+  (extensión EE en `Ghidra\Extensions\ghidra-emotionengine-reloaded`),
+  `...\vgmstream\vgmstream-cli.exe`, `...\SLUS_213.76` (copia del ELF),
+  proyecto Ghidra en `...\ghidra-proyectos2\BLACK` — **y ahora también
+  `/SLUS_213.76_estado`, la copia con la RAM viva encima**.
+  `ghidra-proyectos` (sin el 2) tiene el análisis MALO de MIPS R6: no usarlo.
+- **Autorización vigente de Fran:** instalar lo que haga falta sin preguntar.
+- PCSX2 2.6.3, PINE en 28011. **ISO montado en `D:`.**
+- **Parche vivo en memoria** (se pierde al recargar): `0x0013BD20` en nop =
+  **vida infinita del jugador PUESTA**. Todo lo demás restaurado.
+- Savestates en `C:\Users\frans\OneDrive\Documents\PCSX2\sstates\`. El del
+  punto de trabajo es el **slot 6**.
 
 ## Problemas abiertos
 
+- **ONEDRIVE.** `Escritorio`, `Documentos` e `Imágenes` siguen redirigidos a
+  `C:\Users\frans\OneDrive\`. El proceso de OneDrive **no está corriendo**, así
+  que el riesgo está dormido, pero el data dir de PCSX2 (savestates de 32 MB
+  sin comprimir) vive adentro y es **sospechoso principal de las dos muertes
+  de PCSX2 del 2026-08-15**. El repo sí está afuera y así tiene que quedar.
+  Script listo y sin correr: `herramientas/windows/sacar-de-onedrive.ps1`.
+  **Esto va en su propia sesión, no al final de una larga.**
 - **`pruebas/prueba_herramientas.py` borra `construido/.gitkeep`**, que está
-  trackeado: hace `rmtree` de `construido/` al terminar. Restaurarlo a mano
-  (`git checkout -- black/construido/.gitkeep`) antes de commitear.
+  trackeado. Restaurarlo con `git checkout -- black/construido/.gitkeep`.
+- `armas.py`, `zonas.py`, `tablas.py`, `firmas.py` e `inventario.py` no tienen
+  test en `pruebas/`.
 - No se validó `herramientas/windows/preparar_entorno.ps1` de punta a punta.
-- `armas.py`, `zonas.py` y `tablas.py` no tienen test en `pruebas/`.
-- La cabecera del contenedor con alineación 128 (`GLOBDATA.BIN`, `STLEVEL.BIN`)
-  sigue sin entenderse. No bloquea nada hoy: el contenido va sin comprimir.
 
 ## Riesgos relevantes
 
 - Las direcciones son válidas sólo para NTSC-U / `5C891FF1`. No portan a PAL.
-- **No escribir valores arbitrarios en `0x006CF54C`**: es un índice del render
-  del HUD y escribirle 999 crasheó el emulador a pantalla negra.
-- No escribir en `0x0042Cxxx`: es zona de HUD, ensucia la pantalla.
+- **No escribir valores arbitrarios en `0x006CF54C`**: índice de render, crashea.
+- No escribir en `0x0042Cxxx`: zona de HUD, ensucia la pantalla.
+- **Nunca editar el ISO original.** 3,9 GB por copia; hay 165 GB libres.

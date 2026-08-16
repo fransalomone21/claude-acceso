@@ -1,12 +1,61 @@
 # Herramientas externas — el instrumental que no escribimos nosotros
 
 Qué se adoptó, con qué versión exacta, cómo se monta y —sobre todo— **cómo se
-verifica que funciona**. Levantado el 2026-08-16.
+verifica que funciona**. Levantado el 2026-08-16, reescrito el 2026-08-16
+después del barrido de instrumental.
 
 Las herramientas de `black/herramientas/` son nuestras y se prueban con
 `pruebas/prueba_herramientas.py`. Éstas son de terceros: el riesgo no es que
 tengan bugs, es que **funcionen mal en silencio**. Cada una de acá abajo lleva
 su control positivo, que es un caso cuya respuesta ya conocemos por otra vía.
+
+---
+
+## REGLA NUEVA: el inventario se corre, no se lee
+
+```powershell
+python herramientas/inventario.py
+```
+
+**Antes de decir que algo "no está instalado", se corre esto.** No alcanza con
+leer este documento.
+
+El 2026-08-16 Fran señaló un error de proceso real: `PCSX2-MCP` estaba bajado y
+descomprimido en `Descargas` desde el 2026-08-15 y varias sesiones seguidas lo
+dieron por ausente, porque el repo decía que no se había instalado. **El repo
+es la memoria del proyecto, no la de la máquina.** Un documento no puede
+enterarse de que apareció una carpeta nueva en Descargas.
+
+`inventario.py` mira la máquina de verdad y contesta cuatro cosas:
+
+1. qué instrumental está presente, con versión y ruta;
+2. **qué está BAJADO PERO SIN INCORPORAR** — la categoría que se nos escapó;
+3. qué falta del runbook de este documento;
+4. qué carpetas del proyecto siguen adentro de OneDrive.
+
+---
+
+## Estado de instalación — verificado 2026-08-16
+
+| Herramienta | Estado | Dónde |
+|---|---|---|
+| Ghidra 12.1.2 | instalado | `C:\Users\frans\herramientas\ghidra_12.1.2_PUBLIC` |
+| extensión EE Reloaded v2.1.36 | instalado | `…\Ghidra\Extensions\ghidra-emotionengine-reloaded` |
+| pyghidra 3.1.0 | instalado | pip |
+| capstone 5.0.9 | instalado | pip |
+| numpy 2.5.2 | instalado | pip |
+| **pycdlib 1.20.0** | **instalado 2026-08-16** | pip |
+| **ImHex 1.38.1** | **instalado 2026-08-16** | winget `WerWolv.ImHex` |
+| **ffmpeg 9.0** | ya estaba | winget `Gyan.FFmpeg` |
+| **zstandard** | **instalado 2026-08-16** | pip |
+| **kaitaistruct** | **instalado 2026-08-16** | pip |
+| vgmstream r2117 | instalado | `C:\Users\frans\herramientas\vgmstream\vgmstream-cli.exe` |
+| copia del ELF | presente | `C:\Users\frans\herramientas\SLUS_213.76` |
+| proyecto Ghidra analizado | presente | `C:\Users\frans\herramientas\ghidra-proyectos2\BLACK` |
+
+**Trampa de winget con ImHex:** `--scope user` falla con
+`No applicable installer found` y sale con código 16. El paquete trae un
+instalador **wix (MSI) de máquina**, no de usuario. Va sin `--scope`.
 
 ---
 
@@ -106,11 +155,60 @@ el 100.0 aparece en la decompilación: SI -> BIEN
   `uGpffff81ac` y compañía).
 - 16514 símbolos donde el ELF no trae **ninguno**.
 
-### Cómo se usa
+---
 
-`herramientas/decompilar.py` — `info`, `c <dir>`, `funciones`, `xref <dir>`.
-No se llama `ghidra.py` a propósito: taparía el paquete Java `ghidra` que
-importa `pyghidra`, que es la misma trampa que `dis.py`.
+## La RAM viva adentro del decompilador — `decompilar.py estado`
+
+La extensión trae `PCSX2SaveStateImporter.java`, un script de GUI que carga un
+savestate de PCSX2 en los bloques de memoria del programa. **Estuvo instalado
+y sin usar varias sesiones.** Ahora está envuelto en la CLI del proyecto, sin
+GUI y con control positivo propio:
+
+```powershell
+python herramientas/decompilar.py estado --savestate "...\SLUS-21376 (5C891FF1).06.p2s"
+python herramientas/decompilar.py c 0x00142B90 --estado
+```
+
+**Qué destraba.** El ELF estático tiene `.bss` en cero y el heap directamente
+no existe. Con el savestate encima, el decompilador ve los valores reales de
+los 561 globales por `$gp`, y **los 31,5 MB de heap quedan como un bloque
+`.other` navegable**: la tabla de armas, la tabla de zonas y el pool de
+enemigos dejan de ser offsets en un `.bin` y pasan a ser memoria con
+referencias cruzadas y tipos.
+
+**Nunca toca el programa limpio.** Copia `/SLUS_213.76` a
+`/SLUS_213.76_estado` y trabaja sobre la copia, así el control positivo de
+`info` sigue corriendo contra el ELF tal como salió del ISO.
+
+### Tres cosas que costaron, anotadas
+
+1. **El paquete Java `ghidra` no existe hasta que arranca la JVM.** Un
+   `from ghidra.util.task import ConsoleTaskMonitor` arriba del archivo, o
+   antes de `pyghidra.start()`, da `ModuleNotFoundError: No module named
+   'ghidra'` y parece que falta la instalación. Los imports de Java van
+   **adentro** de la función, después de abrir el proyecto.
+2. **`DomainFolder.createFile` no tiene overload para `DomainFile`.** Sus dos
+   firmas son `(String, DomainObject, TaskMonitor)` y
+   `(String, java.io.File, TaskMonitor)`. Para duplicar un programa del
+   proyecto va `DomainFile.copyTo(carpeta, monitor)` y después `setName`.
+3. **El script de la extensión no filtra por espacio de direcciones.** Los
+   pseudo-bloques del ELF (`_elfHeader`, `_elfSectionHeaders`) arrancan todos
+   en `0x00000000` y entrarían al reemplazo. Nuestra versión sólo toca bloques
+   del espacio por defecto, y saltea el bloque que se pase del final del
+   buffer.
+
+### El control positivo
+
+Dos hechos de la Fase 2, confirmados por efecto, que **viven en el heap** — o
+sea que no pueden dar bien si el savestate no se cargó, o se cargó corrido:
+
+```
+jugador+0x10 = 0x003DC5F8   (el puntero de clase del jugador)
+vida 0x005A8DA8             (f32 plausible, 0 < v <= 1200)
+```
+
+Si alguno falla, **no guarda la copia**. Un importador que carga mal en
+silencio es peor que uno que no carga.
 
 ---
 
@@ -136,120 +234,77 @@ Qué **no** abre: `.SSH`, `.BKS`, `.SLB`, `.WDD`, `.DB`. Devuelve
 
 ---
 
-## Pendiente de instalar — runbook para la sesión que viene
-
-**Autorización de Fran, 2026-08-16:** *"quiero que instales todo lo necesario
-sin objeciones, te doy el permiso"*. Vale para todo lo de esta lista. La
-única excepción está marcada abajo y no es una objeción: es una cosa que la
-sesión no puede hacer y él sí, en treinta segundos.
-
-Orden por valor sobre lo que falta del proyecto, no por facilidad.
-
-### 1. `pycdlib` — editar el ISO. Es lo que destraba el mod permanente
-
-Lo más valioso de la lista. La tabla de armas está en
-`GLOBDATA.BIN + 0x00130E20` y editarla ahí da un mod que **sobrevive a cerrar
-el emulador sin `.pnach`**. Falta poder escribir el ISO de vuelta.
-
-```powershell
-python -m pip install pycdlib
-```
-
-Camino a probar, en orden de menos a más invasivo:
-
-1. **Parche in-place**: los `Power` son f32 de 4 bytes, el archivo no cambia
-   de tamaño, así que en teoría alcanza con escribir esos bytes en el sector
-   correspondiente del `.iso` sin rehacer nada. Hay que ubicar el LBA de
-   `GLOBDATA.BIN` y sumar el offset. **Es el camino bueno**: no toca el layout,
-   y los ISO de PS2 tienen LBAs que el ejecutable puede tener hardcodeados.
-2. Si eso falla, `pycdlib` para extraer / modificar / reescribir.
-
-**Control positivo obligatorio antes de tocar nada:** copiar el ISO, editar
-la copia, montar la copia, y comprobar que `GLOBDATA.BIN + 0x00130E20` tiene
-el valor nuevo **y** que el resto del archivo es byte-idéntico. Recién
-después, arrancar PCSX2 con la copia.
-
-> **Riesgo real:** 3,9 GB por copia. Hay 167 GB libres, alcanza, pero no
-> dejar tres copias dando vueltas. Y **nunca** editar el ISO original.
-
-### 2. ImHex — el editor hexadecimal con lenguaje de patrones
+## ImHex 1.38.1 — el editor hexadecimal con lenguaje de patrones
 
 Para lo que queda opaco: `.WDD`, `.DB`, `.BKS`, `.SSH`, `.SLB`. Permite
 escribir el layout como un patrón y verlo aplicado sobre el archivo, que es
 mucho más rápido que iterar con scripts de Python.
 
-```powershell
-winget install --id WerWolv.ImHex --scope user
-```
+**Primer trabajo concreto, ya definido:** escribir el patrón del contenedor
+`.BIN` ya resuelto (ver `05-iso.md`) y aplicarlo a `GLOBDATA.BIN` para
+etiquetar las seis secciones de una. El patrón se guarda en el repo, en
+`patrones/`, no en la carpeta de ImHex — si no está commiteado, no existe.
 
-Primer trabajo concreto: escribir el patrón del **contenedor `.BIN`** ya
-resuelto (ver `05-iso.md`) y aplicarlo a `GLOBDATA.BIN` para etiquetar las
-seis secciones de una.
+---
 
-### 3. ffmpeg — los 419 MB de `VIDEOS/`
+## El frente RenderWare — barrido del 2026-08-16
 
-`.M2V` es MPEG-2 elemental. Con ffmpeg se ven, se miden y —lo que importa—
-se puede evaluar si se pueden reemplazar respetando el tamaño.
+BLACK corre sobre **RenderWare**, de la propia Criterion. Eso significa que
+buena parte de lo que queda opaco (`.WDD`, `.DB`, y probablemente los modelos)
+**no es un formato de BLACK: es un formato de RenderWare**, y RenderWare está
+documentado y tiene herramientas hechas por la comunidad de GTA desde hace
+veinte años.
 
-```powershell
-winget install --id Gyan.FFmpeg --scope user
-```
+Es el cambio de encuadre más útil que salió del barrido: dejamos de buscar
+"herramientas para BLACK" —que no existen— y pasamos a buscar "herramientas
+para RenderWare", que sobran.
 
-### 4. QuickBMS y Noesis — el último intento sobre modelos y texturas
+### Lo que hay, en orden de valor
 
-Ya está verificado que **no existe script para BLACK** (ver más abajo). Pero
-los dos traen detección genérica y plugins de RenderWare que pueden morder
-los `.WDD` de 65536 bytes exactos de `FPGUNS/`, que tienen pinta de TXD.
+| Herramienta | Qué es | Dónde |
+|---|---|---|
+| **RenderWare SDK 3.10 PS2** | el SDK original de Criterion, con headers y docs. **La fuente de verdad de los formatos.** | [archive.org/details/rw310-ps2](https://archive.org/details/rw-310-ps2) |
+| **RenderWare Engine v36** | otra copia del engine, versión 3.6 | [archive.org/details/rw-36-031126](https://archive.org/details/rw-36-031126) |
+| **RW Analyze 0.4** | visor **y editor** de RW binary streams: jerarquía de chunks, hex, exportar/importar secciones | [steve-m.com](http://steve-m.com/downloads/tools/rwanalyze/) · [GTAForums](https://gtaforums.com/topic/128451-reltool-rw-analyze/) |
+| **Magic.TXD** | editor universal de texture dictionaries, **soporta PS2** | [ps2-home](https://www.ps2-home.com/forum/viewtopic.php?t=1060) |
+| **RWview** | visor de jerarquía RW por consola — scriptable, que es lo que nos sirve | [misternebula/RWview](https://github.com/misternebula/RWview) |
+| **rw-parser / rw-parser-ng** | parsers de RW binary stream en TypeScript, código legible | [Timic3/rw-parser](https://github.com/Timic3/rw-parser) · [DepsCian/rw-parser-ng](https://github.com/DepsCian/rw-parser-ng) |
+| **rwsreader** | lector de RenderWare 3.7 Binary Stream | [sourceforge](https://rwsreader.sourceforge.net/) |
+| **Heavy Iron Modding wiki** | la mejor referencia abierta del formato RW | [heavyironmodding.org/wiki/RenderWare](https://heavyironmodding.org/wiki/RenderWare) |
 
-- QuickBMS: <https://aluigi.altervista.org/quickbms.htm>
-- Noesis: <https://richwhitehouse.com/index.php?content=inc_projects.php>
+**La hipótesis barata que sale de acá, y que hay que matar primero:** un RW
+binary stream arranca con una cabecera de chunk de 12 bytes —tipo (u32),
+tamaño (u32), versión (u32)—. Los `.WDD` de `FPGUNS/` miden **65536 bytes
+exactos**, que es sospechoso de "búfer de tamaño fijo", no de stream. Leer los
+primeros 12 bytes de uno y ver si el tipo cae en la tabla de chunks conocida
+(`0x16` = TXD/texture dictionary, `0x10` = clump/DFF) decide el camino en un
+minuto. Está pendiente.
 
-Prioridad baja: es exploratorio, y si no muerden, se cierra el callejón y se
-anota.
+---
 
-### 5. Kaitai Struct — formalizar lo que ya entendimos
+## ISO de PS2 — el hallazgo que decide el mod permanente
 
-```powershell
-python -m pip install kaitaistruct
-winget install --id kaitai-io.kaitai_struct_compiler --scope user   # necesita Java, ya está
-```
+| Herramienta | Qué hace | Dónde |
+|---|---|---|
+| **pycdlib** (instalado) | leer/escribir ISO9660 desde Python | pip |
+| **mkps2iso** | constructor **y dumper** de imágenes UDF de PS2. El hermano PS2 de mkpsxiso | [N4gtan/mkps2iso](https://github.com/N4gtan/mkps2iso) |
+| **mkpsxiso / dumpsxiso** | el de PSX. Documenta la estructura a XML y reconstruye | [Lameguy64/mkpsxiso](https://github.com/lameguy64/mkpsxiso) |
+| **isodump** | extracción + layout XML | [Lameguy64/isodump](https://github.com/Lameguy64/isodump) |
 
-Convierte el formato del contenedor `.BIN` de un párrafo en `05-iso.md` a un
-`.ksy` ejecutable que genera el parser. Vale la pena **sólo después** de tener
-el patrón de ImHex andando: si el layout todavía se está descubriendo,
-formalizarlo es prematuro.
+**El hallazgo que importa, y que confirma lo que ya intuíamos:** reconstruir un
+ISO **reasigna los LBA de los archivos**, aunque no cambie ningún contenido. Y
+en la era PS2 era práctica corriente que el ejecutable llevara **LBAs
+hardcodeados** en vez de leer la TOC de ISO9660. O sea: un ISO reconstruido
+puede arrancar y fallar más tarde, en un nivel cualquiera, sin decir por qué.
 
-### La excepción: el `pcsx2-qt.exe` parcheado de PCSX2-MCP
+**Conclusión operativa: el parche in-place es el camino, y no por comodidad.**
+Los `Power` de la tabla de armas son f32 de 4 bytes: el archivo no cambia de
+tamaño, el layout no se toca, los LBA quedan donde estaban. Reconstruir con
+`mkps2iso` es el plan B, y sólo si el in-place resulta imposible.
 
-Es la única cosa de la lista que no voy a bajar y ejecutar, y el motivo no es
-que dude del proyecto: **es un ejecutable sin firmar, publicado por un tercero
-sin trayectoria, que reemplaza al emulador entero.** Ejecutar binarios de
-fuentes no verificadas es de las pocas cosas que no hago aunque me lo
-autoricen — y decírtelo una vez y seguir es más útil que discutirlo.
-
-**Lo que sí puedo hacer, y cubre casi todo lo que ese MCP prometía:**
-
-**a) La importación de savestates de Ghidra.** La extensión
-`ghidra-emotionengine-reloaded` **importa savestates de PCSX2**. O sea:
-memoria viva del juego, adentro de Ghidra, con las 9842 funciones y el
-decompilador encima. Es mejor que un lector de memoria por MCP para todo lo
-que sea análisis, y no necesita ningún binario raro. **Esto ya está instalado
-y sin usar** — es el primer experimento de la sesión que viene.
-
-**b) `mcp-pine`, si querés el acceso directo desde el agente:**
-
-```powershell
-claude mcp add pine --scope user mcp-pine
-```
-
-Paquete de npm, no toca PCSX2 (usa el servidor PINE oficial, que se prende en
-Ajustes → Avanzado). Lo había descartado por redundante con `pine.py` y sigue
-siéndolo, pero instalarlo es gratis y no tiene riesgo.
-
-**c) Si igual querés PCSX2-MCP**, bajá vos el release de
-<https://github.com/hkmodd/PCSX2-MCP>, corré `setup-mcp.bat`, y en la sesión
-siguiente lo uso sin problema: el límite es bajarlo y ejecutarlo, no usarlo
-una vez que vos decidiste correrlo.
+**Test barato pendiente, y es el que decide todo:** buscar en el ELF si hay
+LBAs hardcodeados. Si los hay, reconstruir queda descartado formalmente y se
+anota como callejón cerrado antes de entrar.
 
 ---
 
@@ -257,26 +312,61 @@ una vez que vos decidiste correrlo.
 
 Está acá para que nadie lo vuelva a investigar.
 
-### PCSX2-MCP (`hkmodd/PCSX2-MCP`) — descartado por riesgo
+### El hilo de ResHax — verificado de nuevo el 2026-08-16
+
+[ResHax #514](https://reshax.com/topic/514-black-ps2xbox-bin-db/) sigue siendo
+el único lugar donde se habla del tema, y **sigue sin tener una sola línea
+técnica**: ni cabeceras, ni offsets, ni magic bytes, ni scripts, ni plugins.
+
+Lo que sí aporta, y es nuevo para nosotros:
+
+- **h3x3r** (2024-02-20) dice haberlo reverseado hace años y **que la versión
+  de Xbox es más fácil**. No publicó nada.
+- **shak-otay** (2024-04-25) confirma lo de Xbox y muestra un modelo convertido
+  (`Unit_02.bin`). Tampoco publicó método.
+- Cuatro usuarios distintos pidieron importadores entre abril y agosto de 2024.
+  Nadie contestó con nada técnico.
+
+**Dato accionable:** dos personas independientes dicen que **la versión de
+Xbox del mismo juego tiene formatos más simples**. Si los `.BIN` de geometría
+se traban, comparar contra el build de Xbox es una entrada barata — el
+contenido es el mismo juego, y las diferencias de empaquetado suelen delatar
+la estructura. Es hipótesis de terceros, sin verificar.
+
+**Confirmado: el formato de los `.BIN` de BLACK es nuestro para resolver.** Y
+se resolvió leyendo el parser con Ghidra — ver `05-iso.md`.
+
+### PCSX2-MCP (`hkmodd/PCSX2-MCP`) — bajado por Fran, pendiente de que él lo corra
 
 Promete 30 herramientas de depuración por MCP: breakpoints, registros de 128
-bits, desensamblado, watchpoints, call stacks. Suena perfecto para este
-proyecto.
+bits, desensamblado, watchpoints, call stacks.
 
-**No se instaló, y la razón no es técnica.** Funciona con un
-**`pcsx2-qt.exe` pre-compilado que hay que bajar del release** de un
-repositorio de 18 estrellas: un ejecutable sin firmar, de un tercero sin
-reputación, que reemplaza al emulador. Bajar y ejecutar binarios de fuentes
-no verificadas no es una decisión que tome la herramienta: la toma el usuario,
-con el riesgo a la vista.
+**Estado real al 2026-08-16** (lo dice `inventario.py`, no este documento):
 
-Y hay un antecedente que pesa: ya está documentado en `ESTADO_ACTUAL.md` que
-el servidor de depuración del **PCSX2 oficial** corrompe el heap
-(`DebugServer.cpp` muta `CBreakPoints` desde el hilo del socket sin mutex) y
-que los breakpoints de ejecución matan el proceso. Un fork no auditado de esa
-misma capa no es la forma de arreglarlo.
+```
+C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\      (descomprimido)
+C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64.zip   (54,9 MB)
+C:\Users\frans\Downloads\node-v24.19.0-x64.msi        (Node, que hace falta)
+```
 
-Si algún día se quiere, la decisión es de Fran, no de la sesión.
+Trae `pcsx2-qt.exe` (12,9 MB), `setup-mcp.bat` y `pcsx2-mcp-server/` con su
+`node_modules` ya poblado. **Fran lo bajó el 2026-08-15 y las sesiones
+siguientes no lo miraron** — ese es el error que originó `inventario.py`.
+
+**Lo que falta, y lo hace Fran, no la sesión:** correr `setup-mcp.bat` y
+arrancar ese `pcsx2-qt.exe`. Es un ejecutable **sin firmar** que reemplaza al
+emulador entero; bajarlo y ejecutarlo es una decisión del usuario, con el
+riesgo a la vista. Una vez que él lo corre, la sesión lo usa sin problema.
+
+Y hay un antecedente que pesa: ya está documentado que el servidor de
+depuración del **PCSX2 oficial** corrompe el heap (`DebugServer.cpp` muta
+`CBreakPoints` desde el hilo del socket sin mutex) y que los breakpoints de
+ejecución matan el proceso. Un fork no auditado de esa misma capa no es la
+forma de arreglarlo.
+
+**Lo que ya lo reemplaza en gran parte:** `decompilar.py estado`, arriba. La
+RAM viva adentro de Ghidra, con las 9842 funciones y el decompilador encima,
+es mejor que un lector de memoria por MCP para todo lo que sea análisis.
 
 ### mcp-pine (`dmang-dev/mcp-pine`) — descartado por redundante
 
@@ -291,16 +381,12 @@ destraba nada.
 Queda anotado como alternativa si alguna vez hace falta manejar PCSX2 desde
 un cliente que no sea Claude Code.
 
-### QuickBMS y los foros — no hay script para BLACK
+### QuickBMS y Noesis — no hay script para BLACK
 
-Se buscó script `.bms` o plugin de Noesis para los formatos de BLACK. **No
-existe público.** El hilo de referencia es
-[ResHax #514](https://reshax.com/topic/514-black-ps2xbox-bin-db/), donde
-varios piden lo mismo y un usuario dice haberlo reverseado hace años sin
-publicar nada. Nadie posteó cabecera, offsets ni herramienta.
-
-Conclusión operativa: **el formato de los `.BIN` de BLACK es nuestro para
-resolver.** Y se resolvió leyendo el parser con Ghidra — ver `05-iso.md`.
+Se buscó script `.bms` o plugin de Noesis. **No existe público**, reverificado
+el 2026-08-16. Prioridad baja y encuadre cambiado: lo que hay que probar no es
+"un script de BLACK" sino **los plugins de RenderWare**, que es la sección de
+arriba.
 
 ---
 

@@ -35,11 +35,27 @@ EL PROCESADOR SE FUERZA, NO SE DEDUCE
     2,6 MB de código y cero decompilación. Verificalo siempre con
     `decompilar.py info`, que corre el control positivo.
 
+SAVESTATES: LA RAM VIVA ADENTRO DEL DECOMPILADOR
+    `decompilar.py estado` mete los 32 MB de un savestate de PCSX2 en el
+    programa de Ghidra. Es lo que la extensión trae como script de GUI
+    (`PCSX2SaveStateImporter.java`), pero sin GUI y con control positivo.
+
+    Lo que destraba: el ELF estático tiene `.bss` en cero y el heap ni
+    existe. Con el savestate cargado, el decompilador ve los valores reales
+    de los 561 globales por `$gp`, y el heap entero (tabla de armas, tabla de
+    zonas, pool de enemigos) queda navegable como un bloque más.
+
+    NUNCA toca el programa limpio: copia `/SLUS_213.76` a
+    `/SLUS_213.76_estado` y trabaja sobre la copia. El control positivo de
+    `info` sigue corriendo contra el original.
+
 EJEMPLOS
     python herramientas/decompilar.py info
     python herramientas/decompilar.py c 0x00142B90
     python herramientas/decompilar.py funciones --desde 0x00142000 --hasta 0x00143000
     python herramientas/decompilar.py xref 0x003BCE70
+    python herramientas/decompilar.py estado --savestate ".../SLUS-21376 (5C891FF1).06.p2s"
+    python herramientas/decompilar.py c 0x00142B90 --estado
 """
 
 from __future__ import annotations
@@ -61,15 +77,32 @@ PROYECTOS = os.environ.get(
     str(Path.home() / "herramientas" / "ghidra-proyectos2"))
 PROYECTO = os.environ.get("BLACK_GHIDRA_PROYECTO", "BLACK")
 PROGRAMA = os.environ.get("BLACK_GHIDRA_PROGRAMA", "/SLUS_213.76")
+# La copia con la RAM viva encima. NUNCA se escribe sobre PROGRAMA.
+PROGRAMA_ESTADO = os.environ.get("BLACK_GHIDRA_PROGRAMA_ESTADO", "/SLUS_213.76_estado")
 
 # La rutina de daño por zona de impacto. Confirmada POR EFECTO en la Fase 4b:
 # daño = factor_de_zona * 100.0, y la función IGNORA el $f12 que le llega.
 # Si la decompilación de esto no muestra un 100.0, Ghidra está mal montado.
 CONTROL = 0x00142B90
 
+# El mapa principal del EE. Arriba de esto hay scratchpad, registros y demás,
+# que no salen del eeMemory.bin de un savestate.
+MAX_DIR_EE = 0x10000000
 
-def abrir():
-    """Devuelve (contexto, programa). El contexto hay que cerrarlo."""
+# Control positivo del cargador de savestates. Los dos hechos son de la Fase 2,
+# confirmados POR EFECTO, y viven en el HEAP: si el savestate no se cargó, o se
+# cargó corrido, estos dos no pueden dar bien por casualidad.
+CTL_JUGADOR = 0x005A8AB0          # el objeto del jugador
+CTL_CLASE_EN = 0x10               # el puntero de clase está en objeto+0x10
+CTL_CLASE_JUGADOR = 0x003DC5F8    # y vale esto
+CTL_VIDA = 0x005A8DA8             # jugador+0x2F8, f32
+
+
+def abrir_proyecto():
+    """El proyecto de Ghidra, abierto una sola vez por proceso."""
+    global _PROYECTO
+    if _PROYECTO is not None:
+        return _PROYECTO
     os.environ["GHIDRA_INSTALL_DIR"] = GHIDRA
     if not Path(GHIDRA).is_dir():
         raise SystemExit(f"no existe la instalación de Ghidra: {GHIDRA}\n"
@@ -79,9 +112,24 @@ def abrir():
     except ImportError:
         raise SystemExit("falta pyghidra: pip install pyghidra")
     pyghidra.start(verbose=False)
-    proyecto = pyghidra.open_project(PROYECTOS, PROYECTO)
-    ctx = pyghidra.program_context(proyecto, PROGRAMA)
+    _PROYECTO = pyghidra.open_project(PROYECTOS, PROYECTO)
+    return _PROYECTO
+
+
+_PROYECTO = None
+
+
+def abrir(programa: str | None = None):
+    """Devuelve (contexto, programa). El contexto hay que cerrarlo."""
+    import pyghidra
+    proyecto = abrir_proyecto()
+    ctx = pyghidra.program_context(proyecto, programa or PROGRAMA)
     return ctx, ctx.__enter__()
+
+
+def cual_programa(args) -> str:
+    """El programa que pidió la línea de comandos: el limpio o el del savestate."""
+    return PROGRAMA_ESTADO if getattr(args, "estado", False) else PROGRAMA
 
 
 def decompilador(prog):
@@ -153,7 +201,7 @@ def cmd_info(args) -> int:
 
 
 def cmd_c(args) -> int:
-    ctx, prog = abrir()
+    ctx, prog = abrir(cual_programa(args))
     try:
         dec = decompilador(prog)
         f, c = decompilar_en(prog, dec, args.direccion)
@@ -170,7 +218,7 @@ def cmd_c(args) -> int:
 
 
 def cmd_funciones(args) -> int:
-    ctx, prog = abrir()
+    ctx, prog = abrir(cual_programa(args))
     try:
         fm = prog.getFunctionManager()
         salida = []
@@ -197,7 +245,7 @@ def cmd_funciones(args) -> int:
 
 
 def cmd_xref(args) -> int:
-    ctx, prog = abrir()
+    ctx, prog = abrir(cual_programa(args))
     try:
         addr = a_dir(prog, args.direccion)
         fm = prog.getFunctionManager()
@@ -209,6 +257,171 @@ def cmd_xref(args) -> int:
             print(f"    0x{desde.getOffset():08X}  {r.getReferenceType()}"
                   f"   {f.getName() if f else '-'}")
         return 0
+    finally:
+        ctx.__exit__(None, None, None)
+
+
+# --------------------------------------------------------------------------
+# La RAM viva adentro de Ghidra
+# --------------------------------------------------------------------------
+
+
+def _jbytes(datos: bytes):
+    """bytes de Python -> byte[] de Java, sin copiar de a uno."""
+    import jpype
+    try:
+        return jpype.JArray(jpype.JByte)(datos)
+    except Exception:
+        import numpy as np
+        return jpype.JArray(jpype.JByte)(np.frombuffer(datos, dtype=np.int8))
+
+
+def _copiar_programa(proyecto, monitor, rehacer: bool) -> str:
+    """
+    Deja `/SLUS_213.76_estado` listo como copia del programa limpio.
+
+    Se copia a propósito: el savestate PISA `.data`, `.sdata` y `.bss` con los
+    valores vivos, y el control positivo de `info` tiene que poder seguir
+    corriendo contra el ELF tal como salió del ISO.
+    """
+    raiz = proyecto.getProjectData().getRootFolder()
+    nom_orig = PROGRAMA.lstrip("/")
+    nom_dest = PROGRAMA_ESTADO.lstrip("/")
+    existente = raiz.getFile(nom_dest)
+    if existente is not None and rehacer:
+        existente.delete()
+        existente = None
+    if existente is not None:
+        return "reusada"
+    orig = raiz.getFile(nom_orig)
+    if orig is None:
+        raise SystemExit(f"no existe {PROGRAMA} en {PROYECTOS}/{PROYECTO}")
+    # `createFile` NO tiene overload que tome un DomainFile: sus dos firmas son
+    # (String, DomainObject, TaskMonitor) y (String, java.io.File, TaskMonitor).
+    # Para duplicar un programa del proyecto va `copyTo`, que elige el nombre
+    # solo, y después se renombra.
+    nuevo = orig.copyTo(raiz, monitor)
+    nuevo.setName(nom_dest)
+    return "creada"
+
+
+def _cargar_ee(prog, datos: bytes, monitor):
+    """
+    Mete los 32 MB del savestate en los bloques escribibles y crea `.other`
+    con todo el resto de la RAM — que es donde vive el heap.
+
+    Réplica de `PCSX2SaveStateImporter.java` de la extensión, con dos arreglos:
+    sólo toca bloques del espacio de direcciones por defecto (el script de la
+    extensión no filtra, y los pseudo-bloques del ELF arrancan todos en 0), y
+    no escribe un bloque que se pase del final del buffer.
+    """
+    import jpype
+    from java.io import ByteArrayInputStream
+
+    mem = prog.getMemory()
+    espacio = prog.getAddressFactory().getDefaultAddressSpace()
+    n = len(datos)
+    tocados, saltados = [], []
+    tope = 0
+
+    for b in list(mem.getBlocks()):
+        ini = b.getStart()
+        if ini.getAddressSpace() != espacio or b.isOverlay():
+            continue
+        fin = b.getEnd().getOffset()
+        if fin > tope and fin < MAX_DIR_EE:
+            tope = fin
+        if not (b.isWrite() and not b.isExecute()):
+            continue
+        off = int(ini.getOffset())
+        tam = int(b.getSize())
+        if off + tam > n:
+            saltados.append((str(b.getName()), off, tam))
+            continue
+        if not b.isInitialized():
+            b = mem.convertToInitialized(b, jpype.JByte(0))
+            b.setRead(True)
+            b.setWrite(True)
+        b.putBytes(b.getStart(), _jbytes(datos[off:off + tam]))
+        tocados.append((str(b.getName()), off, tam))
+
+    inicio_otro = tope + 1
+    heap = 0
+    if inicio_otro < n:
+        resto = datos[inicio_otro:n]
+        heap = len(resto)
+        dir_otro = espacio.getAddress(inicio_otro)
+        existente = mem.getBlock(".other")
+        if existente is None:
+            blk = mem.createInitializedBlock(
+                ".other", dir_otro, ByteArrayInputStream(_jbytes(resto)),
+                len(resto), monitor, False)
+            blk.setRead(True)
+            blk.setWrite(True)
+        else:
+            existente.putBytes(dir_otro, _jbytes(resto))
+    return tocados, saltados, inicio_otro, heap
+
+
+def _u32(prog, direccion: int) -> int:
+    espacio = prog.getAddressFactory().getDefaultAddressSpace()
+    return int(prog.getMemory().getInt(espacio.getAddress(direccion))) & 0xFFFFFFFF
+
+
+def cmd_estado(args) -> int:
+    import struct
+
+    import estado as savestates  # el lector de .p2s del proyecto
+
+    ruta = args.savestate or savestates.ultimo_savestate()
+    print(f"  savestate  : {ruta}")
+    try:
+        datos = savestates.leer_ee(ruta)
+    except savestates.EstadoError as e:
+        print(f"  [MAL] {e}")
+        return 1
+    print(f"  eeMemory   : {len(datos):,} bytes")
+
+    # El paquete Java `ghidra` no existe hasta que arranca la JVM, y quien la
+    # arranca es abrir_proyecto(). El orden de estas dos líneas no es estético.
+    proyecto = abrir_proyecto()
+    from ghidra.util.task import ConsoleTaskMonitor
+    monitor = ConsoleTaskMonitor()
+    print(f"  copia      : {PROGRAMA_ESTADO} ({_copiar_programa(proyecto, monitor, args.rehacer)})")
+
+    import pyghidra
+    ctx = pyghidra.program_context(proyecto, PROGRAMA_ESTADO)
+    prog = ctx.__enter__()
+    try:
+        with pyghidra.transaction(prog, "cargar savestate de PCSX2"):
+            tocados, saltados, inicio_otro, heap = _cargar_ee(prog, datos, monitor)
+
+        print(f"\n  bloques pisados con la RAM viva ({len(tocados)}):")
+        for nom, off, tam in tocados:
+            print(f"    {nom:<20} 0x{off:08X}  {tam:>10,} B")
+        for nom, off, tam in saltados:
+            print(f"    {nom:<20} 0x{off:08X}  {tam:>10,} B   SALTADO (fuera del buffer)")
+        print(f"\n  .other (el heap)     0x{inicio_otro:08X}  {heap:>10,} B")
+
+        print(f"\n  === CONTROL POSITIVO del cargador ===")
+        print("  Dos hechos de la Fase 2, confirmados por efecto, que viven en el HEAP.")
+        clase = _u32(prog, CTL_JUGADOR + CTL_CLASE_EN)
+        crudo = _u32(prog, CTL_VIDA)
+        vida = struct.unpack("<f", struct.pack("<I", crudo))[0]
+        ok_clase = clase == CTL_CLASE_JUGADOR
+        ok_vida = 0.0 < vida <= 1200.0
+        print(f"  jugador+0x10 = 0x{clase:08X}  (esperado 0x{CTL_CLASE_JUGADOR:08X})"
+              f"  -> {'SI -> BIEN' if ok_clase else 'NO -> SOSPECHAR'}")
+        print(f"  vida 0x{CTL_VIDA:08X} = {vida:.2f}"
+              f"  -> {'SI -> BIEN' if ok_vida else 'NO -> SOSPECHAR'}")
+
+        if ok_clase and ok_vida:
+            prog.getDomainFile().save(monitor)
+            print(f"\n  guardado. Usalo con --estado:")
+            print(f"    python herramientas/decompilar.py c 0x00142B90 --estado")
+            return 0
+        print("\n  NO se guardó: el control positivo no pasó.")
+        return 1
     finally:
         ctx.__exit__(None, None, None)
 
@@ -238,6 +451,18 @@ def main(argv=None) -> int:
     x = sub.add_parser("xref", help="referencias a una dirección, con función contenedora")
     x.add_argument("direccion", type=lambda s: int(s, 0))
     x.set_defaults(func=cmd_xref)
+
+    e = sub.add_parser(
+        "estado",
+        help="cargar un savestate de PCSX2 encima de una COPIA del programa")
+    e.add_argument("--savestate", help="ruta al .p2s (default: el más reciente)")
+    e.add_argument("--rehacer", action="store_true",
+                   help="descartar la copia anterior y rehacerla desde el ELF limpio")
+    e.set_defaults(func=cmd_estado)
+
+    for sp in (c, f, x):
+        sp.add_argument("--estado", action="store_true",
+                        help="usar la copia con la RAM viva del savestate encima")
 
     args = p.parse_args(argv)
     return args.func(args)
