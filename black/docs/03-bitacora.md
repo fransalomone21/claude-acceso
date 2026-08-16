@@ -16,6 +16,95 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-16 (23) — Barrido del ISO: la tabla de armas SÍ estaba adentro, y aparecieron los nombres de hueso
+
+**Máquina:** notebook (PCSX2 no hizo falta) · **Modelo:** Opus
+
+**Objetivo:** revisar el ISO buscando tablas y estructuras que no estuvieran
+fichadas. Reconocimiento, no confirmación: todo esto es análisis estático.
+
+**Resultado — cinco hallazgos, ordenados por lo que valen.**
+
+**1. La tabla de armas está en `GLOBDATA.BIN + 0x00130E20`.** 17 registros de
+`0x1E0`, el mismo conteo y el mismo paso que en RAM, con los bloques de
+parámetros en `+0x90` y `+0xC0`. El paso quedó verificado por dos anclas
+independientes: desde el primer registro, el Magnum cae exacto en `+2` y la
+HVY en `+10`. Habilita un mod **permanente** editando el ISO, sin `.pnach`.
+Ficha en `kb/estructuras.json#arma.origen_en_el_iso`, tabla completa en
+`docs/05-iso.md`. **`probable`, no `confirmado`**: nadie editó el archivo
+todavía ni vio el efecto.
+
+**Esto corrige un callejón que estaba anotado como cerrado.** `05-iso.md` decía
+"la tabla de armas NO está en el ISO". La prueba de entonces comparaba la
+**ventana de 96 bytes** alrededor del `26.0` de la RAM viva contra los
+archivos — y esa ventana arranca con tres punteros al heap, que en el archivo
+son offsets chicos. No podía coincidir nunca. Lo que la encontró fue buscar por
+**firma estructural**: los tripletes `(Range, Power, falloff)` de los perfiles
+ya medidos, que son invariantes entre archivo y RAM. De ahí sale la lección 17.
+
+**2. Los nombres de hueso, y la función que los resuelve.** En `0x003BCE70`,
+dirección fija de `.data`, hay un `const char*[11]`: `NECK`, `MIDSPINE`,
+`LOWERSPINE`, `SHOULDER_LT/RT`, `ELBOW_LT/RT`, `UPPERLEG_LT/RT`, `KNEE_LT/RT`.
+Los consume un solo sitio, `0x001381E0`, que al construir un personaje los
+resuelve a índices y los cachea en `personaje+0x0C..+0x38`. Su ayudante
+`0x00138298` expone el layout del esqueleto: `+0x5C` cantidad de huesos,
+`+0x60` arreglo de nombres.
+
+Es la entrada barata a la **Fase 5b**, pero **no es la respuesta**: son 11
+nombres contra 24 registros de `0xC` en la tabla de zonas, y faltan cabeza,
+pelvis, manos y pies. Que zona == índice de hueso es hipótesis.
+
+**3. El ELF tiene tabla de secciones con nombres reales.** El mapa que traía
+el documento era una estimación por histograma; ahora está el declarado:
+`.data` en `0x003BC380`, `.rodata` en `0x003F2280`, `.lit4` en `0x0040D800`,
+`.sdata`/`.sbss`/`.bss`. Y **`$gp = 0x004157F0`**, de la sección `.reginfo`.
+
+**4. `$gp` explica un agujero de método.** Hay **3051 accesos con base `$gp`**
+en **561 offsets distintos**. Ninguno de esos 561 globales aparece jamás en una
+búsqueda de `lui`+`addiu`. Si `xref.py absoluto` da NADA para algo entre
+`0x0040D7F0` y `0x0041D7F0`, la hipótesis buena es `$gp`, no "es un campo de un
+objeto".
+
+**5. El middleware de IA es Kynapse (Kynogon), y viene con los nombres
+puestos.** `.rodata` trae nombres de tipo de C++ sin demanglear del namespace
+`Kaim` y, al lado de cada clase, **los nombres de sus parámetros**:
+`CShooterAgent` declara `GunRange`, `MaxInaccuracy`, `DangerousConeAngle`,
+`AimAtTargetInterval`. Ahí empieza el hilo de "enemigos que erran más", no en
+la tabla de armas. También aparecen completos los esquemas de `Collision.cfg`,
+`AIWeapon.cfg` y `DSP.cfg`, cuyos archivos no están en el ISO.
+
+**Herramientas.** Nueva: **`herramientas/tablas.py`** — `esquemas` (racimos de
+cadenas contiguas = nombres de campo), `punteros` (corridas de punteros a
+cadena = tablas de nombres), `flotantes`, `vecinos`. Va al revés que las otras:
+no parte de un dato conocido, barre buscando forma de tabla. `--base 0xFF000`
+para el ELF, `0` para un volcado.
+
+**Arreglo en `xref.py`:** el `--radio` de `absoluto` era 8 y daba **falsos
+NADA**. El par que arma `0x003BCE70` tiene el `lui` en `0x001381E4` y el
+`addiu` en `0x00138208`, **nueve** instrucciones después. Subido a 16 y
+verificado: ahora encuentra el sitio. Las 102 comprobaciones de
+`pruebas/prueba_herramientas.py` siguen en verde.
+
+**No funcionó:**
+
+- Buscar la tabla de zonas de impacto en el ISO por el float `0.255`: no está.
+  Coherente con que sea por tipo de personaje y se arme al cargar el stage.
+- `tablas.py punteros` sobre el archivo entero devuelve 106 corridas y la mitad
+  es ruido de `.rodata` apuntándose a sí misma. Hay que acotar con
+  `--desde`/`--hasta` a `.data`.
+- La cabecera del contenedor con alineación 128 sigue sin entenderse. No se
+  avanzó y no se insistió.
+
+**Nada de esto está confirmado por efecto.** Es reconocimiento estático: dice
+dónde mirar, no qué es verdad. El único que cambia el plan es el punto 1.
+
+**Sigue:** Fase 5a (el mod con pnach, ya decidido) y después 5b. Con lo de hoy,
+5b arranca con dos entradas concretas en vez de una: los índices de hueso
+cacheados en `personaje+0x0C`, y volcar en vivo `[[enemigo]+0x5C]` y
+`[[enemigo]+0x60]` para ver si el esqueleto tiene 24 huesos o 11.
+
+---
+
 ## 2026-08-16 (22) — FASE 4b CERRADA: el daño de salida del jugador sale de las ZONAS DE IMPACTO
 
 **Máquina:** notebook · **Modelo:** Opus

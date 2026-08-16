@@ -440,6 +440,43 @@ observador **no vio suceder** —un contador que bajó, un objeto que apareció
 muerto— eso es un estado final, no un efecto observado. La causa quedó
 inferida. Anotalo como lo que es.
 
+---
+
+## 17. Un negativo vale lo que valga el parámetro de la búsqueda
+
+Una búsqueda que no encuentra nada prueba dos cosas a la vez, y hay que
+separarlas: o la cosa no está, o la buscaste mal. Si el resultado negativo se
+anota como "no está" y encima se archiva como callejón cerrado, nadie lo vuelve
+a mirar — y el dato estaba ahí todo el tiempo.
+
+**Origen — el mismo día, tres veces.**
+
+1. Se buscó una tabla de datos dentro de los archivos de un juego copiando la
+   **ventana de bytes crudos** que rodeaba al dato en memoria viva. Cero
+   coincidencias, en nueve archivos. Se anotó "la tabla no está en el ISO" y
+   quedó como callejón cerrado durante días. Estaba: la ventana arrancaba con
+   tres punteros al heap, que en el archivo son offsets chicos. Buscando por
+   **firma estructural** —los campos invariantes, no los bytes— apareció en el
+   primer intento, con el conteo y el paso exactos.
+2. Una herramienta de referencias cruzadas devolvía "NADA" para una dirección
+   que **sí** estaba referenciada. Su ventana de búsqueda eran 8 instrucciones
+   y el par que armaba la dirección estaba a 9.
+3. La misma herramienta no podía encontrar 561 globales del programa porque se
+   direccionan por registro base (`$gp`) y ella buscaba otro patrón. Nunca
+   había avisado de esa limitación.
+
+**Cómo aplicarla:** antes de anotar un negativo, contestá "¿con qué parámetro
+lo busqué, y qué asume ese parámetro?". Si la búsqueda depende de bytes que
+pueden cambiar entre las dos representaciones (punteros, offsets, padding,
+endianness, compresión), buscá por lo **invariante**: la estructura, las
+relaciones entre campos, los valores que tienen significado. Y corré siempre un
+**control positivo** — buscá algo que sabés que está. Si el control tampoco
+aparece, el negativo no vale nada.
+
+**Corolario para herramientas:** una herramienta que puede devolver un falso
+negativo tiene que decirlo en su propia salida o en su `--help`. "NADA" sin
+mencionar el radio de búsqueda es una respuesta que miente.
+
 ## Protocolo para agregar una lección
 
 Una entrada nueva entra sólo si cumple las tres:

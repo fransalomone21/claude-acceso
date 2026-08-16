@@ -369,11 +369,76 @@
           "lectura": "ASR, el fusil de asalto. 26.0 es exactamente el dano confirmado en la Fase 1"
         }
       ],
+      "origen_en_el_iso": {
+        "archivo": "GLOBDATA.BIN (raíz del ISO)",
+        "offset": "0x00130E20",
+        "cantidad": 17,
+        "paso": "0x1E0",
+        "confianza": "probable",
+        "descripcion": "La tabla NO se genera en runtime: está en el ISO, con el mismo conteo (17) y el mismo paso (0x1E0) que en RAM, y los dos bloques de parámetros en +0x90 y +0xC0. Se editaría el ISO para un mod PERMANENTE, sin .pnach y sin escribir en memoria. NO CONFIRMADO POR EFECTO: nadie editó el archivo todavía ni vio el cambio en pantalla.",
+        "evidencia": "2026-08-16. Búsqueda por FIRMA ESTRUCTURAL sobre los 585 archivos del ISO, no por ventana de bytes: los tripletes (Range, Power, falloff) de los perfiles ya medidos en vivo. ASR 60/26/1 -> 6 apariciones, todas en GLOBDATA.BIN; Magnum 1000/500 -> 1, ahí mismo; HVY 100/100/1 -> 1. El paso de 0x1E0 quedó verificado por DOS anclas independientes: desde el primer registro, el Magnum cae exacto en +2 registros y la HVY en +10.",
+        "corrige": "docs/05-iso.md decía 'la tabla de armas NO está en el ISO'. Era un falso negativo: aquella prueba comparaba la ventana de 96 bytes alrededor del 26.0 de la RAM viva, y esa ventana arranca con tres punteros al heap que en el archivo son offsets chicos. Nunca podía coincidir.",
+        "sin_resolver": [
+          "En el archivo el código de 3 letras de +0x1C0 parece alinear BIEN con los parámetros del mismo registro (SMG con Range=30, ASR con 60, HVY con 100/100), al revés de lo observado en RAM, donde estaba corrido un registro. Uno de los dos está mal leído. Hasta resolverlo, identificar armas por el perfil de parámetros.",
+          "Los 0x90 bytes iniciales de cada registro no son los tres punteros de la ficha de RAM: en el archivo son seis sub-entradas de 0x18 con forma {offset, offset, offset, contador, ?, ?}. La resolución a punteros la hace el cargador."
+        ]
+      },
       "esquema_del_ejecutable": "El propio SLUS_213.76 trae los nombres de los campos en 0x004008A0-0x004009C8: 'Projectile Type', 'Weapon Impact Level', 'Num Bullets Per Burst', 'Num Bullets In Clip', 'Muzzle Offset', 'Range', 'Power', 'Time Between Bullets', 'Time Between Bursts', 'Num Bullets Per Spread', 'Likelyhood Of Ricochet', 'Max Ricochet Angle', 'Max Spread Angle', 'Accuracy Fall Off Time', 'Accuracy Fall Off Over Time'; y las secciones 'CommonParams' (0x00400858) / 'PlayerParams' (0x00400868) / 'AIParams' (0x00400878). Son rodata MUERTA: `xref.py absoluto` da cero para todas, con control positivo (otros strings de la misma region si tienen referencias). Documentan el formato aunque el parser del juego sea binario.",
       "evidencia": "2026-08-16. Camino: (1) del desensamblado de 0x0015B118 sale que el descriptor de dano llega como [$a0+0x0C]; (2) BFS de punteros desde el objeto del jugador (0x005A8AB0) hasta profundidad 3 buscando objetos cuyo +0x0C apunte a algo con forma de descriptor -> 7 aciertos, todos en 0x01842xxx; (3) volcar esa region en bloques de 0x30 mostro el patron periodico de 0x1E0 con dos bloques de parametros; (4) escritura de 300.0 en los 34 Power y medicion del pool de enemigos.",
       "descubierto": "2026-08-16",
       "callejon_cerrado": "Los cinco 26.0 de 0x0042C3AC / 0x0042C5EC / 0x0042C92C / 0x0042CCFC / 0x0042D56C NO son la tabla. Estan en BSS, se les escribio 300.0 y el dano no cambio en ninguna direccion. Lo que SI cambio fue el HUD: aparecieron dos barras negras translucidas en pantalla al escribir, y desaparecieron al restaurar los cuatro valores a 26.0 — causalidad confirmada en los dos sentidos, no solo correlacion. Encaja con que el arreglo de 0x006CF4E0 apunta a registros de 0x50 bytes en 0x0042CD40+n*0x50, justo al lado. O sea que esa zona es de HUD y NO hay que escribirle. No volver a esa pista.",
       "notas": "PENDIENTE Y CONCRETO: el dano de SALIDA del jugador NO cambio al escribir estos 34 campos. Con Power = 300 en toda la tabla, el disparo del jugador siguio quitando exactamente 25.5 por bala (medido dos veces sobre el mismo enemigo: 100 -> 74.5 -> 49). O sea que el proyectil del jugador toma su dano de otro lado — una copia en la instancia del arma, u otra rutina distinta de 0x0015B118. Ese es el proximo hilo, y ademas explica el 25.5 contra el 26.0 nominal."
+    },
+    {
+      "id": "esqueleto",
+      "nombre": "Esqueleto del personaje (nombres de hueso)",
+      "como_llegar": "esqueleto = [personaje+0x00]. Lo lee kb/rutinas.json#buscar_hueso_por_nombre en 0x001382B4.",
+      "confianza": "probable",
+      "campos": [
+        {
+          "offset": "0x5C",
+          "tipo": "i32",
+          "id": "cantidad_huesos",
+          "confianza": "probable",
+          "descripcion": "Tope del bucle de búsqueda (`lw $v0,0x5c($v1)` + `blez`). Si es <= 0, la búsqueda no entra."
+        },
+        {
+          "offset": "0x60",
+          "tipo": "ptr",
+          "id": "nombres",
+          "confianza": "probable",
+          "descripcion": "Puntero a un arreglo de const char* con el nombre de cada hueso, indexado de a 4 bytes (`sll $v1,$s0,2` + `lw $v0,0x60($a0)`). ES EL ARREGLO QUE HAY QUE VOLCAR EN VIVO para saber cuántos huesos tiene un personaje y cómo se llaman — que es justo lo que falta para decidir si el número de zona de impacto es un índice de hueso."
+        }
+      ],
+      "evidencia": "Desensamblado estático del ELF del ISO, 2026-08-16. Ver kb/rutinas.json#buscar_hueso_por_nombre.",
+      "descubierto": "2026-08-16",
+      "notas": "SIN CONFIRMAR POR EFECTO. El test barato es volcar en vivo [[enemigo+0x00]+0x5C] y [[enemigo+0x00]+0x60] sobre un volcado fresco y ver si el conteo se parece a 24 (los registros de la tabla de zonas) o a 11 (los nombres cacheados)."
+    },
+    {
+      "id": "mapa_huesos_personaje",
+      "nombre": "Índices de hueso cacheados en el personaje",
+      "como_llegar": "personaje + 0x0C. Once u32 consecutivos, hasta +0x38.",
+      "tamano": "0x2C",
+      "confianza": "probable",
+      "campos": [
+        {
+          "offset": "0x0C",
+          "tipo": "i32[11]",
+          "id": "indices",
+          "confianza": "probable",
+          "descripcion": "Índice de hueso de cada uno de los 11 nombres de la tabla 0x003BCE70, en ese orden: NECK, MIDSPINE, LOWERSPINE, SHOULDER_LT, ELBOW_LT, SHOULDER_RT, ELBOW_RT, UPPERLEG_LT, KNEE_LT, UPPERLEG_RT, KNEE_RT. Los resuelve por nombre kb/rutinas.json#resolver_huesos al construir el personaje. OJO: si un nombre de la tabla es nulo, esa vuelta NO escribe y el destino igual avanza, así que el mapeo posición<->nombre puede correrse."
+        },
+        {
+          "offset": "0x28",
+          "tipo": "f32[4]",
+          "id": "constantes_copiadas",
+          "confianza": "hipotesis",
+          "descripcion": "En [personaje+0x00]+0x28, no en el personaje. La misma rutina copia ahí los cuatro floats de 0x003F5128: 0, 5, 12, 22. Sin identificar; los vecinos de 0x003F5110 son 1, 0.5, 0.4, 0.3, 0.2, 0.2, que tienen pinta de rampa."
+        }
+      ],
+      "evidencia": "Desensamblado estático del ELF del ISO, 2026-08-16. Ver kb/rutinas.json#resolver_huesos.",
+      "descubierto": "2026-08-16",
+      "notas": "MATERIAL DE FASE 5b, NO LA RESPUESTA. Son 11 índices contra 24 registros de 0xC en la tabla de zonas de impacto, y faltan los nombres obvios (cabeza, pelvis, manos, pies). Que el byte de zona de 0x00142B90 salga de acá es HIPÓTESIS y hay que falsificarla o confirmarla, no darla por buena porque encaja lindo."
     },
     {
       "id": "zona_impacto",

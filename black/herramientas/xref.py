@@ -152,9 +152,14 @@ def cmd_absoluto(args) -> int:
         print("    0x%08X" % a)
 
     if not hallazgos and not literales:
-        print("\n  NADA. El dato no se direcciona por absoluto ni figura como")
-        print("  puntero directo. Casi seguro es un CAMPO de un objeto: probá")
-        print("  'xref.py punteros' para encontrar la base.")
+        print("\n  NADA por absoluto. ANTES de creerle a este negativo:")
+        print("    1. Subí el radio: --radio 24. El default de 8 daba falsos")
+        print("       NADA (0x003BCE70 tiene el par a 9 instrucciones).")
+        print("    2. Si la dirección cae entre 0x0040D7F0 y 0x0041D7F0, se")
+        print("       direcciona por $gp = 0x004157F0 y esta búsqueda NO la ve:")
+        print("       son 561 globales, 3051 accesos. Ver docs/05-iso.md.")
+        print("    3. Recién ahí: puede ser un CAMPO de un objeto. Probá")
+        print("       'xref.py punteros' para encontrar la base.")
     return 0
 
 
@@ -309,8 +314,11 @@ def main(argv=None) -> int:
                          help="¿hay código que arme esta dirección literal?")
     p_a.add_argument("direccion", type=_entero)
     p_a.add_argument("volcado")
-    p_a.add_argument("--radio", type=int, default=8,
-                     help="instrucciones a mirar tras el lui")
+    p_a.add_argument("--radio", type=int, default=16,
+                     help="instrucciones a mirar tras el lui. Era 8 y daba "
+                          "falsos 'NADA': el par que arma 0x003BCE70 tiene "
+                          "el lui en 0x001381E4 y el addiu en 0x00138208, "
+                          "nueve instrucciones después")
     p_a.set_defaults(func=cmd_absoluto)
 
     p_p = sub.add_parser("punteros", parents=[comun],

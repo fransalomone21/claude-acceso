@@ -71,6 +71,30 @@
       "notas": "Los datos/globales del juego viven en ~0x0042xxxx-0x0045xxxx: es la región que el código direcciona con 'lui _,0x0041' (4922 sitios), 'lui _,0x0043' (639) y 'lui _,0x0044' (2084). Acotar los barridos a estos dos rangos en vez de a los 32 MB."
     },
     {
+      "id": "tabla_nombres_huesos",
+      "nombre": "Tabla de nombres de hueso (const char*[11])",
+      "direccion": "0x003BCE70",
+      "tipo": "u32",
+      "version": "ntsc_u",
+      "estable": true,
+      "confianza": "probable",
+      "evidencia": "Análisis estático del ELF del ISO (SLUS_213.76) el 2026-08-16 con herramientas/tablas.py punteros. Once punteros consecutivos a .rodata: NECK, MIDSPINE, LOWERSPINE, SHOULDER_LT, ELBOW_LT, SHOULDER_RT, ELBOW_RT, UPPERLEG_LT, KNEE_LT, UPPERLEG_RT, KNEE_RT. Está en .data (0x003BC380-0x003F215C según la tabla de secciones), así que la dirección es fija. La consume un solo sitio: kb/rutinas.json#resolver_huesos, que arma la dirección con lui en 0x001381E4 + addiu en 0x00138208.",
+      "descubierto": "2026-08-16",
+      "notas": "ES LA ENTRADA BARATA A LA FASE 5b, pero no es la respuesta: son 11 nombres contra 24 registros de 0xC en la tabla de zonas de impacto, y faltan cabeza, pelvis, manos y pies. Que zona == índice de hueso es HIPÓTESIS. OJO CON LA HERRAMIENTA: `xref.py absoluto 0x003BCE70` decía NADA porque el --radio por defecto era 8 y el par lui/addiu está a 9 instrucciones. Ya se subió a 16."
+    },
+    {
+      "id": "registro_gp",
+      "nombre": "Valor de $gp del ejecutable",
+      "direccion": "0x004157F0",
+      "tipo": "u32",
+      "version": "ntsc_u",
+      "estable": true,
+      "confianza": "probable",
+      "evidencia": "Sección .reginfo del ELF (ri_gp_value), leída el 2026-08-16. No hay ningún `lui $gp` en .text: lo pone el cargador. Corroboración indirecta: hay 3051 instrucciones con base $gp en 561 offsets distintos, y todos caen dentro de la ventana de ±32 KB alrededor de este valor, que cubre .lit4, .sdata, .sbss y el principio de .bss.",
+      "descubierto": "2026-08-16",
+      "notas": "IMPORTA PARA NO SACAR CONCLUSIONES FALSAS: 561 globales del juego se direccionan por $gp y NINGUNA aparece en una búsqueda de lui+addiu. Si xref.py absoluto da NADA para una dirección entre 0x0040D7F0 y 0x0041D7F0, probá antes la hipótesis $gp que la de 'es un campo de un objeto'."
+    },
+    {
       "id": "descartado_contador_rapido",
       "nombre": "Contador/timer rápido del motor (descartado como vida)",
       "direccion": "0x0040E6A0",

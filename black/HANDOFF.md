@@ -78,6 +78,28 @@ virtual #8**, no la rutina de daño.
 
 Entradas baratas, en orden:
 
+0. **La que salió del barrido del ISO del 2026-08-16, y es la más barata de
+   todas: contar los huesos.** El ELF tiene un `const char*[11]` de nombres de
+   hueso en `0x003BCE70` (`NECK`, `MIDSPINE`, `LOWERSPINE`, `SHOULDER/ELBOW/
+   UPPERLEG/KNEE_LT/RT`) que `0x001381E0` resuelve a índices y cachea en
+   `personaje+0x0C..+0x38`. Y el esqueleto declara su tamaño:
+
+   ```
+   esqueleto = [personaje+0x00]
+   [esqueleto+0x5C] = cantidad de huesos
+   [esqueleto+0x60] = arreglo de const char* con los nombres
+   ```
+
+   **El test es de dos lecturas sobre un volcado fresco**: tomá un enemigo del
+   pool (`0x0058FE90 + n*0x3C0`), seguí `[+0x00]` y leé `+0x5C` y `+0x60`. Si
+   la cantidad de huesos es ~24 y los nombres se pueden volcar, el número de
+   zona es casi seguro un índice de hueso y la Fase 5b se cierra leyendo una
+   lista. Si son 11, la hipótesis se cae y hay que ir por el camino 1.
+
+   **No la des por buena porque encaja lindo:** son 11 nombres contra 24
+   registros de `0xC` en la tabla de zonas, y faltan cabeza, pelvis, manos y
+   pies. Es hipótesis.
+
 1. Subir por los llamadores del método #8 hasta encontrar quién arma ese
    byte. Los 37 sitios ya están enumerados en la evidencia de
    `kb/rutinas.json#calcular_dano_por_arma`.
@@ -112,6 +134,10 @@ Entradas baratas, en orden:
   enemigos; sólo escribe las palabras que hoy son factores plausibles, así no
   pisa los denormales de las zonas 17-23.
 - **`herramientas/armas.py`** — lo mismo para la tabla de armas.
+- **`herramientas/tablas.py`** (nueva, 2026-08-16) — reconocimiento en frío
+  sobre el ELF o un volcado: `esquemas` / `punteros` / `flotantes` / `vecinos`.
+  `--base 0xFF000` para el ELF del ISO, `0` para un volcado. Va al revés que
+  las otras: no parte de un dato conocido. Todo lo que devuelve es hipótesis.
 - **`pine.py volcar 0x0 0x2000000`** tarda **~3 s**. Volcar y trabajar
   offline es mucho más barato que leer dirección por dirección.
 
@@ -127,6 +153,18 @@ Entradas baratas, en orden:
 - `capstone` necesita `CS_MODE_MIPS64 + skipdata=True`; en `MIPS32` devuelve
   cero instrucciones sin avisar (lección 14).
 - **No llamar `dis.py` a un script**: colisiona con el módulo `dis` de la stdlib.
+- **Un "NADA" de `xref.py absoluto` no prueba nada si el `--radio` es chico.**
+  El par que arma `0x003BCE70` tiene el `lui` y el `addiu` a **nueve**
+  instrucciones, y el default era 8. Ya se subió a 16, pero el reflejo tiene
+  que ser subirlo antes de creerle a un negativo.
+- **561 globales se direccionan por `$gp` (`0x004157F0`)** y ninguna aparece
+  buscando `lui`+`addiu`. Entre `0x0040D7F0` y `0x0041D7F0`, esa es la
+  explicación de un negativo, no "es un campo de un objeto".
+- **Buscar una estructura por ventana de bytes crudos contra un archivo del
+  ISO da falsos negativos**: los punteros al heap de la RAM son offsets chicos
+  en el archivo. Se busca por firma **estructural** — campos invariantes. Así
+  apareció la tabla de armas en `GLOBDATA.BIN`, después de estar anotada como
+  "no está en el ISO".
 - **`pruebas/prueba_herramientas.py` borra `construido/.gitkeep`** (hace
   `rmtree` de `construido/`). Restaurarlo con
   `git checkout -- black/construido/.gitkeep` antes de commitear.

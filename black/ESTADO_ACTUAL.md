@@ -65,6 +65,34 @@ python herramientas/zonas.py listar volcados/ee-vivo.bin
 
 ---
 
+## Barrido del ISO (2026-08-16) — reconocimiento, nada confirmado por efecto
+
+Cinco cosas que cambian dónde buscar. Detalle en `docs/05-iso.md`, cómo se
+llegó en la entrada 23 de la bitácora.
+
+1. **La tabla de armas está en `GLOBDATA.BIN + 0x00130E20`** — 17 registros de
+   `0x1E0`, mismo conteo y mismo paso que en RAM, paso verificado por dos
+   anclas (Magnum en `+2`, HVY en `+10`). Habilita un mod **permanente** por
+   ISO. `probable`: nadie editó el archivo ni vio el efecto.
+   **Corrige un callejón que estaba anotado como cerrado** — ver abajo.
+2. **Nombres de hueso en `0x003BCE70`** (`const char*[11]`: `NECK`,
+   `MIDSPINE`, `LOWERSPINE`, `SHOULDER/ELBOW/UPPERLEG/KNEE_LT/RT`). Los
+   resuelve a índices `0x001381E0` y los cachea en `personaje+0x0C..+0x38`.
+   El esqueleto tiene la cantidad en `+0x5C` y el arreglo de nombres en
+   `+0x60`. Es material de Fase 5b, **no** la respuesta: 11 nombres contra 24
+   registros de zona.
+3. **Mapa exacto del ELF** desde la tabla de secciones: `.data 0x003BC380`,
+   `.rodata 0x003F2280`, `.lit4 0x0040D800`, `.sdata 0x0040D980`,
+   `.bss 0x0040EC80`. Y **`$gp = 0x004157F0`** (sección `.reginfo`).
+4. **561 globales se direccionan por `$gp`** (3051 accesos). Ninguno aparece
+   buscando `lui`+`addiu`. Si `xref.py absoluto` da NADA entre `0x0040D7F0` y
+   `0x0041D7F0`, la hipótesis buena es `$gp`.
+5. **El middleware de IA es Kynapse** y trae los nombres de sus tunables:
+   `CShooterAgent` declara `GunRange` y `MaxInaccuracy`. Ahí empieza el hilo
+   de "enemigos que erran más".
+
+---
+
 ## Hechos confirmados
 
 | Hecho | Evidencia |
@@ -97,8 +125,13 @@ python herramientas/zonas.py listar volcados/ee-vivo.bin
 - **Los cinco `26.0` de `0x0042C3AC..0x0042D56C` NO son la tabla de armas.**
   Están en BSS, se les escribió 300.0 y no cambió ningún daño; además
   ensucian el HUD (aparecen dos barras negras en pantalla). Restaurados.
-- **La tabla de armas no está en el ISO ni en el ELF.** Se carga por stage al
-  heap, y `GUNS.BIN` **no** aparece literal en RAM (0/24 archivos).
+- ~~**La tabla de armas no está en el ISO ni en el ELF.**~~ **REABIERTO
+  2026-08-16: sí está**, en `GLOBDATA.BIN + 0x00130E20`. Aquel resultado era un
+  falso negativo: la prueba comparaba la ventana de 96 bytes alrededor del
+  `26.0` de la RAM viva, y esa ventana arranca con tres punteros al heap que en
+  el archivo son offsets chicos. Lo que sigue en pie es que **`GUNS.BIN` no es
+  la tabla** (es geometría, cero apariciones del `26.0`) y que la tabla se
+  copia al heap por stage.
 - **`0x0013C120` es el método #9 de la clase del JUGADOR**, no el brazo de
   daño de los enemigos. Falsificado por efecto.
 - **El escaneo diferencial no sirve para la vida de un enemigo**: muere en 4
@@ -138,7 +171,9 @@ python herramientas/zonas.py listar volcados/ee-vivo.bin
   trackeado: hace `rmtree` de `construido/` al terminar. Restaurarlo a mano
   (`git checkout -- black/construido/.gitkeep`) antes de commitear.
 - No se validó `herramientas/windows/preparar_entorno.ps1` de punta a punta.
-- `armas.py` no tiene test en `pruebas/`.
+- `armas.py`, `zonas.py` y `tablas.py` no tienen test en `pruebas/`.
+- La cabecera del contenedor con alineación 128 (`GLOBDATA.BIN`, `STLEVEL.BIN`)
+  sigue sin entenderse. No bloquea nada hoy: el contenido va sin comprimir.
 
 ## Riesgos relevantes
 

@@ -152,6 +152,33 @@
       "notas": "ACA APARECE EL 1200. El HANDOFF anterior declaraba falso el recuerdo de 'vida máxima ~1200'; el 1200.0 está hardcodeado en el código que lee la vida. Queda por determinar qué selecciona la rama entre 1200.0 y 750.0 (¿dificultad? ¿tipo de entidad?). También es el candidato natural a explicar 0x0065F458 (f32, rango observado 0.23..0.59): sería este ratio."
     },
     {
+      "id": "resolver_huesos",
+      "nombre": "Resolver los 11 nombres de hueso a índices y cachearlos en el personaje",
+      "direccion": "0x001381E0",
+      "fin": "0x00138294",
+      "version": "ntsc_u",
+      "descripcion": "Al construir un personaje, recorre la tabla de nombres de hueso de 0x003BCE70 (11 entradas) y por cada nombre pide el índice de hueso al esqueleto, guardándolo en objeto+0x0C+i*4. Después copia 4 floats de 0x003F5128 (0, 5, 12, 22) a [objeto]+0x28 y llama a 0x001415A8.",
+      "convencion": "$a0 = el objeto personaje. $s1 = ese objeto; $s0 = destino, arranca en $s1+0x0C y avanza de a 4; $s3 = 0x003BCE70 (armado con lui en 0x001381E4 + addiu en 0x00138208); $s2 = 10, contador de 11 vueltas. Un nombre nulo salta la entrada sin avanzar el destino.",
+      "confianza": "probable",
+      "llama_a": ["buscar_hueso_por_nombre"],
+      "evidencia": "Desensamblado estático del ELF del ISO con capstone (CS_MODE_MIPS64 + skipdata), 2026-08-16. Se llegó desde la tabla de nombres: se enumeraron todas las direcciones que el código arma con lui+addiu/lw/sw dentro de 0x003BCE00-0x003BCF00 y sólo UN sitio toma la dirección 0x003BCE70 en vez de leer un valor.",
+      "descubierto": "2026-08-16",
+      "notas": "ES MATERIAL DE FASE 5b, no una respuesta. Deja once índices de hueso cacheados en offsets FIJOS del personaje (0x0C..0x38). Lo que falta es ver si el byte de zona que entra a 0x00142B90 sale de este arreglo o del esqueleto completo. Sin resolver: son 11 huesos contra 24 registros de zona."
+    },
+    {
+      "id": "buscar_hueso_por_nombre",
+      "nombre": "Índice de hueso a partir de su nombre (búsqueda lineal por strcmp)",
+      "direccion": "0x00138298",
+      "version": "ntsc_u",
+      "descripcion": "Recorre los nombres de hueso del esqueleto del personaje comparando con strcmp y devuelve el índice del que coincide. Su valor real es que EXPONE EL LAYOUT DEL ESQUELETO.",
+      "convencion": "$a0 = objeto personaje, $a1 = nombre buscado. esqueleto = [objeto+0x00]; [esqueleto+0x5C] = cantidad de huesos; [esqueleto+0x60] = array de const char* con los nombres. Llama a strcmp en 0x00360838. Devuelve el índice en $v0.",
+      "confianza": "probable",
+      "llamadores": ["0x0013821C"],
+      "evidencia": "Desensamblado estático del ELF, 2026-08-16. El bucle es explícito: `lw $v0,0x5c($v1)` como tope, `lw $v0,0x60($a0)` como base del arreglo, `sll $v1,$s0,2` para indexar y `jal 0x360838` con el nombre de cada entrada.",
+      "descubierto": "2026-08-16",
+      "notas": "De acá salen los dos offsets del esqueleto que van a kb/estructuras.json#esqueleto. Ninguno de los dos está confirmado por efecto todavía."
+    },
+    {
       "id": "calcular_dano_zona",
       "nombre": "Daño efectivo por ZONA DE IMPACTO — el daño de SALIDA del jugador",
       "direccion": "0x00142B90",
