@@ -43,13 +43,19 @@ apertura con `#modulo(...)`, teoría con deducción explícita, ecuaciones etiqu
 cierre con `#tp(...)`. La numeración de ejercicios, ecuaciones y figuras se reinicia sola
 en cada `#modulo(...)`: no agregar contadores a mano.
 
+## Decisiones ya tomadas — no reabrir
+
+- **El apunte NO resuelve los TPs.** Confirmado por Fran el 2026-08-16: las
+  resoluciones las hace él. El apunte aporta el *sustento teórico* y ejercicios
+  *análogos* con los mismos números, como modelo de resolución. No agregar soluciones
+  de los prácticos.
+- **El destinatario primario es el docente**, y en segundo lugar los alumnos. De ahí el
+  peso puesto en las deducciones completas (de dónde sale cada fórmula) por encima de la
+  ejercitación.
+- **La fila del proyecto ya está en la tabla del `CLAUDE.md` raíz.**
+
 ## Pendientes explícitos
 
-- **Agregar la fila de este proyecto a la tabla del `CLAUDE.md` raíz** (rama
-  `claude/apunte-electronica-analogica`, carpeta `electronica-analogica/`, ACTIVO).
-- **Decisión de cátedra sin confirmar**: hoy el apunte trae ejercicios resueltos
-  *análogos* a los TPs, con los mismos números, pero no resuelve los TPs. Si Fran quiere
-  que los resuelva directamente, hay que cambiar el criterio.
 - **Los circuitos son ASCII.** Se leen bien, pero si el apunte se va a imprimir y repartir
   conviene evaluar redibujarlos como vectores con CeTZ (paquete de Typst). Es trabajo
   puramente estético y no bloquea nada.

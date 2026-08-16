@@ -198,10 +198,16 @@
         #set text(size: 10pt)
         #set par(justify: true)
         #align(left)[
-          *Como usar este apunte.* Cada modulo abre con lo que vas a poder hacer al
-          terminarlo y cierra con los trabajos practicos de la catedra que lo ponen
-          a prueba. Las *cajas verdes* son ejercicios resueltos paso a paso: no los
-          leas, rehacelos en papel. Las *cajas rojas* marcan los errores que mas se
+          *Como usar este apunte.* Sirve para dos cosas: preparar la clase y
+          estudiarla. Cada modulo abre con lo que hay que poder hacer al terminarlo,
+          desarrolla la teoria con las deducciones completas — de donde sale cada
+          formula, no solo cual es — y cierra con los trabajos practicos de la
+          catedra que la ponen a prueba.
+
+          Las *cajas verdes* son ejercicios resueltos paso a paso, analogos a los TPs
+          y con sus mismos numeros: son modelo de resolucion, no reemplazan al
+          practico. Las *cajas azules* son definiciones e ideas clave, el nucleo que
+          hay que saber explicar. Las *cajas rojas* marcan los errores que mas se
           repiten en el laboratorio y en las evaluaciones. Las *cajas amarillas* son
           practica de banco: como conectar, que escala usar, que no tocar. Las
           *cajas violetas* atan cada tema con el TP correspondiente de la guia.
