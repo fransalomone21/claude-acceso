@@ -200,6 +200,11 @@ lo que sí funcionó, en el mismo comando.
 no de confirmar. Y cuando dé cero, no lo trates como "no encontré": preguntate
 qué premisa acaba de caerse.
 
+**Salvedad, y no es menor:** antes de leer un cero como hallazgo, asegurate de
+que la herramienta *podía* dar distinto de cero. Un cero puede ser una
+hipótesis muerta o puede ser la herramienta rota, y desde afuera se ven
+idénticos. Ver lección 14.
+
 ---
 
 ## 11. Una regla que depende de recordarla no es una regla: es una intención
@@ -320,6 +325,43 @@ resuelve a `WindowsApps\bash.exe`, que es **WSL** — un Linux real que no ve
 Windows. El harness usa Git Bash (`MINGW64`). Probar en el bash equivocado da
 un rojo tan falso como el verde que se estaba tratando de arreglar; verificá
 con `uname -s`.
+
+---
+
+## 14. Un cero sólo vale si la herramienta podía dar distinto de cero
+
+Antes de interpretar un barrido vacío, corré la misma herramienta contra un
+caso donde ya sabés la respuesta. Sin ese control positivo, "no hay nada" y
+"la herramienta no funciona" son indistinguibles — y la segunda se disfraza
+de hallazgo, que es la peor forma de estar equivocado.
+
+**Origen:** para decidir qué clase de entidad era la de los enemigos, se
+desensambló el mismo método virtual de ocho clases contando cuáles escribían
+en el campo de vida. **Las ocho dieron cero stores.** Leído como dato, eso
+significaba "esa ranura de la vtable no es la rutina de daño" y tiraba abajo
+la hipótesis entera. Era un bug: `capstone` en `CS_MODE_MIPS32` se corta en la
+primera instrucción propia del R5900 —que aparece en el prólogo de casi toda
+función— y devuelve **cero instrucciones sin lanzar ningún error**. Con
+`CS_MODE_MIPS64` + `skipdata=True` las mismas ocho funciones se
+desensamblaron enteras y dos escribían en el campo de vida, que era la
+respuesta buscada. Lo que lo destapó fue desensamblar una dirección cuyo
+contenido ya se conocía de una sesión anterior: salió bien, y la
+contradicción delató la herramienta.
+
+**Cómo aplicarla:** cuando montes un barrido, elegí de antemano un caso
+positivo conocido y metelo en la misma corrida. Si el control no aparece en
+los resultados, lo que falló es el instrumento y todavía no sabés nada del
+problema. Vale para grep con la regex mal escrita, para un filtro de fechas
+que descarta todo, y para cualquier parser que degrade en silencio en vez de
+tirar excepción.
+
+**Corolario:** una herramienta con un filtro incorporado lleva adentro una
+hipótesis, y filtra según *esa* hipótesis, no según la tuya. En el mismo
+proyecto, un buscador de instrucciones traía un filtro "sólo las que tengan
+una resta flotante cerca" — razonable, y excluía exactamente las dos que
+importaban. El conjunto de candidatos con el que se venía trabajando desde
+hacía dos sesiones nunca había sido el conjunto real. Cuando un resultado
+filtrado te esté costando caro, mirá qué decidió la herramienta por vos.
 
 ---
 

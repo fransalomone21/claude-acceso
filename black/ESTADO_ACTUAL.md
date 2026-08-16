@@ -30,6 +30,30 @@ de AK47 en el primer nivel, vida estable durante varios minutos de combate.
 Sin probar: si cubre otras fuentes de daño (cuerpo a cuerpo, caídas,
 explosiones) además de proyectiles.
 
+**Fase 3 — RESUELTA ESTÁTICAMENTE, falta el efecto (2026-08-16).** La clase
+del enemigo es **`0x003DCA78`** (32 objetos, pool de paso `0x3C0` desde
+`0x0058FE90`, vida `100.0` en `+0x2F8`). Su rutina de daño es
+**`0x00133FA8`**, con el brazo normal en **`0x00134654`** y el clamp de
+muerte en `0x00134514`.
+
+> **LO PRIMERO AL RETOMAR — 10 segundos, cierra la Fase 3:**
+> ```
+> python herramientas/pine.py escribir 0x00134654 0 --tipo u32
+> ```
+> Disparar a un enemigo. Si no recibe daño, **confirmado**. Restaurar con
+> `python herramientas/pine.py escribir 0x00134654 0xE61402F8 --tipo u32`.
+> Ojo con el precedente: `0x0013C120` parecía igual de sólido por analogía
+> estructural y resultó ser otro método de la clase del JUGADOR.
+
+**Fase 4 — la pista del `26.0` es más débil de lo que parecía.** La región
+BSS donde aparece cinco veces resultó ser un bloque de **parámetros sueltos**
+(147 direcciones tomadas de a una con `addiu`, vecindario heterogéneo
+`33, -75, 4, 136, 30, 94, 26, 1, 1, 0.7`), no una tabla de armas. Y la tabla
+**no está en el ISO**: 0/5 ventanas de bytes coinciden con archivo alguno. Lo
+que sí se sabe ahora: **el daño llega como argumento en `$f12`**, o sea que
+lo calcula el llamador, y hay **34 sitios de llamada** al método virtual #8.
+Ese es el hilo. Detalle en `docs/05-iso.md`.
+
 **Siguiente:** decidir Fase 3 — ¿la rutina es genérica (abre Fases 3 y 5
 juntas)?, tabla de armas, o empezar a explorar el ISO (carpetas `data/`,
 `levels/`, `guns/`, vistas ahora por el usuario) para mapear contenido sin
