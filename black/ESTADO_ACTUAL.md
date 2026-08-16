@@ -11,237 +11,113 @@ razón y esto está desactualizado: corregirlo.
 
 ---
 
-## Infraestructura global
+## Dónde estamos
 
-`perfil-global/` instalado y **verificado funcionando** en la notebook
-(2026-08-15). Las skills viven en `~/.claude/skills/` — no en
-`claude-code-skills/`, que era un path equivocado y por eso nunca cargaban.
+| Fase | Estado |
+|---|---|
+| 0 — entorno | cerrada |
+| 1 — ancla (vida del jugador) | cerrada |
+| 2 — rutina de daño del jugador | **cerrada, confirmada por efecto** |
+| 3 — enemigos | **cerrada, confirmada por efecto** (2026-08-16) |
+| 4 — tabla de armas | **cerrada en su parte central, confirmada por efecto** (2026-08-16) |
+| 5 — daño de enemigos por arma | siguiente |
 
-Skills disponibles: `/engineering-orchestrator`, `/spec-interview`,
-`/verify-before-build`.
+**Fase 4 — lo que se cerró.** La tabla de armas: **17 registros de `0x1E0`**,
+con dos bloques de parámetros de `0x30` (`+0x90` jugador, `+0xC0` IA) y
+`Power` en `+0x18` de cada bloque. Se escribió `Power = 300` en los 34 campos
+y dos enemigos murieron de un solo impacto (100 → 0) por fuego amigo, más el
+cambio de reacción en pantalla a "arma pesada" que reportó el usuario. Ficha
+completa en `kb/estructuras.json#arma`, cadena de causalidad en
+`kb/rutinas.json#calcular_dano_por_arma`.
+
+**La tabla NO tiene dirección fija:** se carga por stage desde
+`Levels\Level_NN\Stg_NNNN\Guns.bin` al heap. Se busca por firma:
+
+```
+python herramientas/pine.py volcar 0x0 0x2000000 volcados/ee-vivo.bin
+python herramientas/armas.py listar volcados/ee-vivo.bin
+```
+
+**Fase 4 — lo que quedó abierto, y es el próximo paso.** Con `Power = 300` en
+**toda** la tabla, el disparo del jugador siguió quitando exactamente **25.5**
+por bala (medido dos veces sobre el mismo enemigo: `100 → 74.5 → 49`). El
+daño de SALIDA del jugador sale de otro lado. Ver `HANDOFF.md`.
 
 ---
-
-## Objetivo actual
-
-**Fase 2 — CERRADA.** Vida infinita confirmada con efecto: `nop` en
-`0x0013BD20` (`swc1 f20,0x2F8(s2)` → `0x00000000`), probado contra fuego real
-de AK47 en el primer nivel, vida estable durante varios minutos de combate.
-Sin probar: si cubre otras fuentes de daño (cuerpo a cuerpo, caídas,
-explosiones) además de proyectiles.
-
-**Fase 3 — CERRADA (2026-08-16), confirmada por efecto.** La clase del
-enemigo es **`0x003DCA78`** (32 objetos, pool de paso `0x3C0` desde
-`0x0058FE90`, vida `100.0` en `+0x2F8`). Su rutina de daño es
-**`0x00133FA8`**, con el brazo normal en **`0x00134654`** y el clamp de
-muerte en `0x00134514`. Con `0x00134654` nopeado, un cargador entero de AK
-sobre un enemigo no lo mató; el nop seguía puesto al releerlo después. Ya
-restaurado.
-
-**Siguiente: Fase 4 — la tabla de armas. Chat nuevo, ver `HANDOFF.md`.**
-
-**Fase 4 — la pista del `26.0` es más débil de lo que parecía.** La región
-BSS donde aparece cinco veces resultó ser un bloque de **parámetros sueltos**
-(147 direcciones tomadas de a una con `addiu`, vecindario heterogéneo
-`33, -75, 4, 136, 30, 94, 26, 1, 1, 0.7`), no una tabla de armas. Y la tabla
-**no está en el ISO**: 0/5 ventanas de bytes coinciden con archivo alguno. Lo
-que sí se sabe ahora: **el daño llega como argumento en `$f12`**, o sea que
-lo calcula el llamador, y hay **34 sitios de llamada** al método virtual #8.
-Ese es el hilo. Detalle en `docs/05-iso.md`.
-
-**Siguiente:** decidir Fase 3 — ¿la rutina es genérica (abre Fases 3 y 5
-juntas)?, tabla de armas, o empezar a explorar el ISO (carpetas `data/`,
-`levels/`, `guns/`, vistas ahora por el usuario) para mapear contenido sin
-depender del emulador en vivo.
-
-**ISO ya relevado (2026-08-15):** `Black.iso` montado en `D:\` (no
-desmontado). Estructura: `LEVELS/LEVEL_00..08` (sin 02) con `FPGUNS/` por
-nivel y `STG_NNNN/GUNS.BIN` por stage; `SLUS_213.76` es el ejecutable
-principal. La búsqueda del float `26.0` (daño) en `GUNS.BIN` no dio nada —
-esos archivos son geometría de arma en el nivel, no tabla de stats. En
-`SLUS_213.76` sí hay 4 coincidencias de `26.0`, pero el offset de archivo no
-alinea con las 5 direcciones RAM conocidas sin parsear los program headers
-del ELF. Detalle en `docs/03-bitacora.md` (16).
-
-**`0x0013C120` FALSIFICADO (2026-08-15, entrada 18).** No es el brazo de daño
-de los enemigos: se nopeó en vivo, el enemigo murió normal en 4-5 balas de
-AK, y el nop seguía puesto al releerlo después (test válido). La hipótesis de
-"rutina genérica" en ese sitio **cae**.
-
-**Los "8 candidatos" nunca fueron el conjunto real.** `xref.py stores 0x2F8
---fpu` filtra por cercanía a `sub.s`/`add.s` y deja afuera a `0x0013BD20` y
-`0x0013C120`, los dos que importaban. El conjunto verdadero son **24 stores
-`swc1` a `+0x2F8`**, enumerados con su codificación en
-`volcados/stores-2f8-originales.txt`.
-
-**Savestate del punto exacto donde quedó esto: slot 6**
-(`SLUS-21376 (5C891FF1).06.p2s`, 2026-08-15 19:45). Jugador en el nivel 1 con
-el nop de vida infinita puesto y los 24 stores ya restaurados. Cargarlo para
-retomar el experimento sin volver a jugar.
-
-**PRÓXIMA ACCIÓN — un solo experimento, ya preparado:** nopear los 24 (la
-lista con codificaciones está en ese archivo), pedirle al usuario que le
-dispare a un enemigo con la AK, y restaurar. Si el enemigo se vuelve
-invulnerable → bisecar (12, 6, 3...), 4-5 disparos y cae. Si muere igual en
-4-5 balas → **la vida del enemigo NO está en `+0x2F8`** y hay que buscar el
-offset del struct del enemigo desde cero. Los dos resultados sirven. Ya se
-verificó que nopear los 24 y restaurarlos funciona sin residuo (24/24 puestos,
-0 discrepancias al restaurar); falta sólo el disparo.
-
-**Confirmado de paso:** las escrituras de CÓDIGO por PINE persisten y el
-recompilador las respeta (el nop del jugador seguía puesto horas después).
-
-**Test de genericidad — primer intento, superado por la entrada 18
-(2026-08-15, entrada 17):** dos enemigos murieron (3-4 tiros de AK en difícil) antes de que el
-escaneo diferencial convergiera en su dirección de vida — el enfoque no
-escala con enemigos frágiles. Como compensación se desensambló con `mips.py`
-el bloque candidato (`0x0013C060-0x0013C180`) contra el del jugador
-(`0x0013BC80-0x0013BDA0`): estructura IDÉNTICA (chequeo de estado en `+0xC4`,
-hasta dos llamadas condicionales, store de vida en `+0x2F8` con clamp de
-muerte), sólo cambia qué registro hace de base (`s1`/`s0` vs `s0`/`s2`).
-Refuerza mucho la hipótesis de rutina genérica, **pero sigue sin haber efecto
-visto en pantalla sobre un enemigo real — no confirmado (regla 1)**.
-Próximo intento más barato: pistola (menos daño por tiro, más rondas de
-filtro) o un enemigo que aguante más golpes, en vez de AK + soldado raso en
-difícil.
-
-## Estado
-
-Entorno resuelto en la notebook (Windows, PCSX2 2.6.3, PINE en 28011).
-Identidad confirmada. Pipeline de escaneo y muestreo funcionando de punta a
-punta. La vida del jugador está localizada y confirmada en pantalla.
 
 ## Hechos confirmados
 
 | Hecho | Evidencia |
 |---|---|
-| Identidad: `SLUS-21376`, CRC `5C891FF1`, versión `1.00`, NTSC-U | `pine.py info` en vivo + log de arranque de PCSX2 → `kb/objetivo.json` |
-| **Vida del jugador = `0x005A8DA8`, tipo `f32`** | escaneo diferencial + búsqueda nativa de PCSX2 (coincidieron) + correlación temporal 90s + escritura de 333.0 con efecto visto en pantalla → `kb/mapa-memoria.json` |
-| **`0x005A8DA8` es ESTÁTICA** | recarga de nivel → 750.0 (HP inicial coherente); 2 golpes → 698.0 = 750−2×26. Sobrevive recargas y responde al daño exacto. `kb/mapa-memoria.json#vida_jugador.estable = true` |
-| **Daño por golpe = 26.0 constante** | 10 escalones idénticos en `volcados/correlacion-vida-2.csv` |
-| `0x006CF54C` = segmentos del HUD (derivado, no fuente) | se recalculó solo de 8 a 1 al escribir en `0x005A8DA8` |
-| **La vida NO es un global: es `jugador+0x2F8`** | `xref.py absoluto 0x005A8DA8` → 0 instrucciones la arman. Base real **`0x005A8AB0`**, leída del registro en vivo (`a2`) al disparar un watchpoint de lectura. `0x005A8AB0 + 0x2F8 = 0x005A8DA8` exacto |
-| **La instrucción que aplica daño al JUGADOR es `0x0013BD20`** (`swc1 f20,0x2F8(s2)`) | watchpoint de ESCRITURA sobre `0x005A8DA8` + golpe real → paró en `0x0013BD20` con `s2 = 0x005A8AB0` (base del jugador), `f21 = 26.0` (daño) y `f20 = 724.0 = 750.0−26.0`. Se predijo 724.0 antes de reanudar y al continuar la vida quedó en 724.0. `kb/rutinas.json#aplicar_dano` |
-| **`0x0013C120` NO era el brazo del jugador** | en el mismo instante tenía `f22 = 0.0` y `s0 = 0x590D90`, que no es el objeto del jugador. La sesión anterior eligió mal entre los 8 candidatos |
-| **Los crashes del emulador son corrupción de heap del parche, NO OneDrive** | Visor de eventos: dos crashes con firma idéntica `0xc0000374` (`STATUS_HEAP_CORRUPTION`) en `ntdll.dll+0x112165`. `source/DebugServer.cpp` muta `CBreakPoints` desde el hilo del socket (`std::thread(clientHandler).detach()`), sin mutex ni marshalling al hilo de CPU |
-| **1200.0 y 750.0 hardcodeados en el HUD** | `lui at,0x4496` (=1200.0) y `lui at,0x443B`+`ori 0x8000` (=750.0), seguidos de `div.s f12, vida, esa constante`, en los 3 sitios lectores |
-| **`gp` del juego = `0x004157F0`** | `depurador.py evaluar "gp"`, y `gp - 0x7150 = 0x0040E6A0` coincidió con la dirección vigilada |
-| Los watchpoints funcionan en la build parcheada, y el PC de la pausa **es** la instrucción que accedió | prueba de control sobre `0x0040E6A0`: pausó en `0x002B6B14` = `sw a2,-0x7150(gp)`, y `gp-0x7150` da exactamente la dirección vigilada |
-| **`--accion log` NO cuenta hits** (es un stub, igual que `MemCheck::Log()`) | control sobre el timer del motor: el valor cambiaba entre lecturas y el contador quedó en 0. Hay que usar `--accion break` |
-| **Los breakpoints de EJECUCIÓN crashean el emulador** | `bp poner 0x0013C120` cortó la conexión a mitad del comando y mató el proceso (nada escuchando en 21512). Los **watchpoints** en cambio pausaron y resumieron limpio decenas de veces. `depurador.py` ahora exige `--se-que-crashea` para `bp poner` |
-| **Código del juego en `0x00100000-0x003BFFFF`** | `xref.py mapa` (densidad ≥88%) + los 69 candidatos a store caen todos ahí |
-| **Datos/globales en `~0x0042xxxx-0x0045xxxx`** | histograma de `lui`: 0x0041 ×4922, 0x0044 ×2084, 0x0043 ×639 |
-| El checkbox "Log" del breakpoint de PCSX2 no imprime nada | `MemCheck::Log()` es un stub vacío en el fuente de PCSX2 |
-| PINE funciona en la notebook (TCP 127.0.0.1:28011) | conexión real confirmada |
-| PINE **no** tiene opcodes de breakpoint | tabla de opcodes contigua `0x00`-`0x0F` en `herramientas/pine.py` |
-| El `DebugServer` (puerto 21512) que sí maneja breakpoints **no está en esta máquina** | `Get-NetTCPConnection`: sólo escucha 28011; binario oficial en `C:\Program Files\PCSX2\` |
-| "Documentos" redirigido a OneDrive en la notebook | log de PCSX2 + captura de Configuración > Carpetas |
-| Carpeta de cheats real: `cheats_ws` | misma captura |
-| Savestates: `<SERIAL> (<CRC>).<slot>.p2s` · pnach: `<SERIAL>_<CRC>.pnach` | listado real + log de PCSX2 |
+| Identidad: `SLUS-21376`, CRC `5C891FF1`, versión `1.00`, NTSC-U | `pine.py info` en vivo + log de arranque → `kb/objetivo.json` |
+| **Vida del jugador = `0x005A8DA8`** (`jugador 0x005A8AB0 + 0x2F8`, f32) | escaneo diferencial + correlación temporal + escritura con efecto en pantalla |
+| **Daño al jugador: `0x0013BD20`** (`swc1 f20,0x2F8(s2)`, `0xE65402F8`) | watchpoint de escritura + golpe real; nop = vida infinita, probado contra fuego de AK |
+| **El puntero de clase está en `objeto+0x10`**, no en `+0x00` | vtable del jugador `0x003DC5F8`; reconfirmado en 2026-08-16 por `lw $v0,0x10($t3)` en `0x0015BAE4` |
+| **Método virtual #8 (`vtable+0x4C`) = "recibir daño"** | censo de las 279 vtables: sólo dos clases escriben en `+0x2F8` |
+| **Clase del enemigo = `0x003DCA78`** — 32 objetos, pool desde `0x0058FE90`, paso `0x3C0`, vida `100.0` en `+0x2F8` | `clases.py`, y confirmado por efecto |
+| **Daño al enemigo: `0x00134654`** (`0xE61402F8`); clamp de muerte `0x00134514` | nop puesto → cargador entero de AK sin matarlo; nop seguía puesto al releerlo |
+| **Tabla de armas: 17 registros de `0x1E0`, `Power` en bloque+`0x18`** | `Power = 300` → dos enemigos muertos de un impacto (100→0) + reacción de arma pesada en pantalla |
+| **Daño = `Power * (falloff + (1-falloff)*arg/Range)`**, calculado en `0x0015B20C` | desensamblado; con `falloff = 1` da constante, que es lo que se midió en la Fase 1 (10 escalones de 26.0) |
+| **Cola de daño diferido = global `0x00414AD0`** (16 registros de `0x20`, contador en `0x00414CD0`) | `lui 0x41 + addiu 0x4AD0` en `0x0015B308`; único llamador de la encoladora |
+| **El esquema de campos de arma está en texto en el ELF**, `0x004008A0`-`0x004009C8` | `Range`, `Power`, `Num Bullets In Clip`, `CommonParams`/`PlayerParams`/`AIParams`… rodata muerta pero legible |
+| Daño de AK47 = 26.0 al jugador; 25.5 del jugador al enemigo | 10 escalones idénticos en `volcados/correlacion-vida-2.csv`; y medición del pool 2026-08-16 |
+| `0x006CF54C` = segmentos del HUD (derivado, no fuente) | se recalculó solo al escribir en la vida |
+| **1200.0 y 750.0 hardcodeados en el HUD** | `lui at,0x4496` / `lui at,0x443B`+`ori 0x8000` + `div.s` en los 3 sitios lectores |
+| **Código del juego en `0x00100000-0x003BFFFF`**; datos `~0x0042xxxx-0x0045xxxx` | `xref.py mapa` + histograma de `lui` |
+| **Mapeo del ELF: `offset_archivo = vaddr - 0xFF000`**, un solo `PT_LOAD` | verificado 6/6 contra encodings observados en vivo |
+| **Los breakpoints de EJECUCIÓN crashean el emulador**; los watchpoints no | `bp poner` mató el proceso; los watchpoints aguantaron decenas de veces |
+| **Los crashes son corrupción de heap del parche, no OneDrive** | Visor de eventos: `0xc0000374` en `ntdll.dll`; `DebugServer.cpp` muta `CBreakPoints` desde el hilo del socket sin mutex |
+| **`--accion log` no cuenta hits** (es un stub) | `MemCheck::Log()` vacío en el fuente de PCSX2 |
+| Un volcado completo de los 32 MB por PINE tarda **~3 s** | medido 2026-08-16 |
+
+## Callejones cerrados — no repetir
+
+- **Los cinco `26.0` de `0x0042C3AC..0x0042D56C` NO son la tabla de armas.**
+  Están en BSS, se les escribió 300.0 y no cambió ningún daño; además
+  ensucian el HUD (aparecen dos barras negras en pantalla). Restaurados.
+- **La tabla de armas no está en el ISO ni en el ELF.** Se carga por stage al
+  heap, y `GUNS.BIN` **no** aparece literal en RAM (0/24 archivos).
+- **`0x0013C120` es el método #9 de la clase del JUGADOR**, no el brazo de
+  daño de los enemigos. Falsificado por efecto.
+- **El escaneo diferencial no sirve para la vida de un enemigo**: muere en 4
+  balas y el filtro necesita más rondas de las que da. Por clase salió en una
+  pasada.
+- Los saves de GameFAQs son Max Drive/CodeBreaker: no se pueden usar sin
+  herramientas de terceros.
 
 ## Hipótesis activas
 
-- **La rutina de daño podría ser GENÉRICA**, no del jugador. El offset `0x2F8`
-  aparece con `s0`, `s1`, `s2`, `a1` y `a2` como base en distintos sitios. Si
-  es "una entidad recibe daño", esto abre de una las Fases 3 y 5. Test: poner
-  un breakpoint en `0x0013C120` y matar a un enemigo — si para, es genérica.
-- **Vida máxima = 1200.0**, no `FLT_MAX`. El `0x005A8DB0` con `FLT_MAX` sigue
-  ahí, pero el 1200.0 está hardcodeado en el código que lee la vida. El
-  recuerdo original de "~1200" era correcto; el `HANDOFF` que lo declaró falso
-  se equivocó. Falta determinar qué elige la rama entre 1200.0 y 750.0
+- **Vida máxima = 1200.0**, no `FLT_MAX`; está hardcodeada en el código que
+  lee la vida. Falta determinar qué elige la rama entre 1200.0 y 750.0
   (¿dificultad? ¿tipo de entidad?).
-- **`0x0065F458` (f32, 0.23..0.59) es probablemente el ratio del HUD**: el
-  resultado de `div.s f12, vida, 1200.0`. 750/1200 = 0.625, del mismo orden.
-- **OneDrive quedó DESCARTADO como causa de los crashes** (2026-08-15, noche).
-  El Visor de eventos de Windows tiene los dos crashes con firma idéntica:
-  excepción `0xc0000374` (`STATUS_HEAP_CORRUPTION`), módulo `ntdll.dll` +
-  `0x112165`, proceso `PCSX2-MCP\pcsx2-qt.exe`. OneDrive no puede producir
-  eso: un archivo lockeado da errores de E/S, no corrupción de heap dentro del
-  proceso. Además OneDrive no estaba corriendo y los savestates no tienen
-  atributos de Files-On-Demand.
-- **La causa probable es un defecto de threading del parche.**
-  `source/DebugServer.cpp` (viene con la build) atiende cada cliente en
-  `std::thread(clientHandler, sock).detach()` y desde ahí llama directo a
-  `CBreakPoints::AddBreakPoint` / `AddMemCheck` / `ClearAllBreakPoints`, sin un
-  solo mutex y sin marshalling al hilo de CPU — mientras el hilo de emulación
-  lee esos mismos contenedores. Explica los tres síntomas: los breakpoints de
-  EJECUCION matan al instante (fuerzan invalidación del caché del recompilador
-  mientras el EE ejecuta desde él), los watchpoints aguantan decenas de veces
-  y después mueren (corrompen menos por operación, pero acumulan), y "murió
-  sola sin que nadie tocara nada" (la corrupción detona asincrónicamente).
-  **El savestate es el DETECTOR, no la causa**: reservar ~48 MB fuerza un
-  recorrido del heap y ahí Windows encuentra el daño ya hecho. Por eso los dos
-  crashes cayeron 3 y 5 segundos después de un savestate.
-  Mitigación a probar (barata, no requiere recompilar): pausar el EE antes de
-  toda mutación de breakpoint y reanudar después.
-- **Tabla de armas**: el daño de 26.0 aparece cinco veces agrupadas en la
-  región de datos (`0x0042C3AC`, `0x0042C5EC`, `0x0042C92C`, `0x0042CCFC`,
-  `0x0042D56C`). Huele a tabla de descriptores de arma.
-- **`0x005A8D80` puede no ser el inicio real del objeto**: el primer u32 no
-  parece un puntero a vtable. Podría ser un sub-objeto.
-- `0x0065F458` (f32, rango 0.23..0.59) sigue sin identificar. Se movía mucho
-  durante el juego; podría ser un ratio normalizado o algo de física.
+- `arma+0x18` (valores 25, 10, 50) es candidato a **cargador**. Sin
+  confirmar: no se comparó contra el número del HUD.
+- El código de 3 letras de `arma+0x1C0` está **corrido un registro** respecto
+  de los parámetros. Para identificar un arma, guiarse por el perfil de
+  parámetros y no por ese campo.
+- `0x0065F458` (f32, 0.23..0.59) sigue sin identificar; probable ratio del HUD.
 
-## Último experimento
+## Estado de la máquina
 
-`vigilar.py grabar` a 10 Hz durante 90s sobre 6 candidatos mientras el
-usuario jugaba y narraba cada curación y cada golpe. El CSV
-(`volcados/correlacion-vida-2.csv`) mostró la correlación exacta. Después,
-escritura de 130.0 y 333.0 por PINE con efecto confirmado en pantalla.
+- PCSX2 2.6.3 en la notebook, PINE en 28011. ISO montado en `D:`.
+- **Parches vivos en memoria** (se pierden al recargar el emulador):
+  `0x0013BD20` en nop = **vida infinita del jugador PUESTA**.
+  `0x00134654` restaurado a `0xE61402F8` (los enemigos mueren normal).
+  Los 34 `Power` de la tabla **restaurados 34/34**, sin discrepancias.
+- Savestate del punto de trabajo en el **slot 6**. `volcados/ee-06.bin` es su
+  RAM; `volcados/ee-vivo.bin` es un volcado en vivo de esta sesión.
 
 ## Problemas abiertos
 
 - **`pruebas/prueba_herramientas.py` borra `construido/.gitkeep`**, que está
-  trackeado: hace `rmtree` de `construido/` al terminar. Hay que restaurarlo a
-  mano (`git checkout -- black/construido/.gitkeep`) antes de commitear.
+  trackeado: hace `rmtree` de `construido/` al terminar. Restaurarlo a mano
+  (`git checkout -- black/construido/.gitkeep`) antes de commitear.
 - No se validó `herramientas/windows/preparar_entorno.ps1` de punta a punta.
-## Próxima acción
-
-**Fase 2 tiene la instrucción localizada y confirmada. Falta el efecto.**
-
-**(1) Vida infinita — el test que cierra la fase.** `nop` sobre `0x0013BD20`
-(`swc1 f20,0x2F8(s2)`, codificación `0xE65402F8` → `0x00000000`), recibir
-golpes y ver que la vida no baja. Guardar la codificación original para poder
-revertir. Puede no cubrir el camino de muerte, que sigue sin ubicarse.
-
-**(2) ¿La rutina es genérica?** Vigilar la vida de un enemigo, o watchpoint de
-lectura sobre su objeto, y ver si el store que dispara es `0x0013C120`. Si los
-dos brazos son de la misma función, se ganan las Fases 3 y 5 de un saque.
-
-**NO sacar savestate antes de los experimentos.** Los dos crashes cayeron 3 y
-5 segundos después de un savestate: la corrupción de heap ya estaba hecha y la
-reserva de ~48 MB es lo que la hace detonar. El savestate es el detector, no
-la causa (ver hechos confirmados).
-
-Runbook que funcionó, para repetirlo:
-
-```
-python herramientas/depurador.py vigilante poner 0x005A8DA8 --tipo write --accion break
-# recibir un golpe
-python herramientas/depurador.py estado                 # da el PC
-python herramientas/depurador.py evaluar s2             # da la base de la entidad
-python herramientas/depurador.py registros --categoria 2  # f20 = valor a escribir, f21 = dano
-python herramientas/depurador.py vigilante quitar 0x005A8DA8
-python herramientas/depurador.py continuar
-```
-
-**(3) Tabla de armas.** Sigue pendiente y ahora es más barato: `depurador.py
-vigilante poner 0x0042C3AC --tipo read --accion break` dice quién lee el 26.0.
-Es sólo lectura.
-
-Reproducir el análisis de esta sesión (necesita el PCSX2 parcheado corriendo):
-
-```
-python herramientas/depurador.py vigilante poner 0x005A8DA8 --tipo read --accion break
-python herramientas/depurador.py estado          # da el PC del lector
-python herramientas/depurador.py evaluar "a2"    # da la base real del objeto
-python herramientas/volcar_vivo.py 0x00100000 0x003C0000 volcados/codigo-vivo.bin
-python herramientas/xref.py stores 0x2F8 volcados/codigo-vivo.bin --base 0x00100000 --fpu
-```
+- `armas.py` no tiene test en `pruebas/`.
 
 ## Riesgos relevantes
 
 - Las direcciones son válidas sólo para NTSC-U / `5C891FF1`. No portan a PAL.
-- **No escribir valores arbitrarios en `0x006CF54C`**: es un índice del
-  render del HUD y escribirle 999 crasheó el emulador a pantalla negra.
-- Guardar savestate antes de cada experimento de escritura.
+- **No escribir valores arbitrarios en `0x006CF54C`**: es un índice del render
+  del HUD y escribirle 999 crasheó el emulador a pantalla negra.
+- No escribir en `0x0042Cxxx`: es zona de HUD, ensucia la pantalla.

@@ -16,6 +16,87 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-16 (21) — FASE 4: la tabla de armas, encontrada y confirmada por efecto
+
+**Máquina:** notebook · **Modelo:** Opus
+
+**Objetivo:** Fase 4 — la tabla de armas.
+
+**Resultado — la tabla:**
+
+- **17 registros de `0x1E0` bytes**, en `0x01842220..0x01844020` durante esta
+  sesión. Cada uno tiene **dos bloques de parámetros de `0x30`**: `+0x90` para
+  cuando el arma la usa el **jugador**, `+0xC0` para cuando la usa la **IA**.
+  Dentro de cada bloque: `+0x14` Range, **`+0x18` Power (el daño)**, `+0x1C`
+  falloff.
+- **La dirección NO es fija.** La tabla se carga **por stage** desde
+  `Levels\Level_NN\Stg_NNNN\Guns.bin` al **heap**. Por eso no estaba ni en el
+  ELF ni en BSS, y por eso `herramientas/armas.py` la **busca por firma** en
+  vez de tenerla hardcodeada.
+- **Confirmado por efecto:** se escribió `Power = 300.0` en los 34 campos y se
+  midió el pool de enemigos antes y después. Dos enemigos pasaron de `100.0` a
+  `0.0` **de un solo impacto** (delta 100, clamp desde 300) por fuego amigo
+  entre enemigos, donde antes hacían falta cuatro balas. En paralelo el
+  usuario reportó —sin que se le preguntara por eso— que la reacción en
+  pantalla al recibir disparos cambió a la de **arma pesada** (barra de daño
+  grande, más temblor), igual que escopeta/RPG/Magnum. Restaurado 34/34 sin
+  discrepancias.
+- Los perfiles se leen solos: `1000/500` (Magnum, el one-hit-kill), `25/38` +
+  `20/133.3` con falloff 0 (escopeta), `100/100` (HVY), `60/26` (ASR — y 26.0
+  es exactamente el daño confirmado en la Fase 1).
+
+**Resultado — la cadena de causalidad del daño, completa:**
+
+| Dónde | Qué |
+|---|---|
+| `0x0015B118` | calcula el daño: `Power * (falloff + (1-falloff)*arg/Range)`, con el descriptor en `[$a0+0x0C]` |
+| `0x0015B2D8` | camino directo: `mov.s $f12,$f21` → método virtual #8 |
+| `0x0015B320` | camino diferido: encola en el global **`0x00414AD0`** (16 registros de `0x20`, contador en `0x00414CD0`) |
+| `0x0015BA80` | vacía la cola: `lw $v0,0x10(víctima)` → `lw $v1,0x4c($v0)` → `jalr` |
+
+Eso cierra el "el daño llega en `$f12` y no se sabe de dónde" que quedó
+abierto en la entrada 20, y **vuelve a confirmar que el puntero de clase está
+en `objeto+0x10`**.
+
+**Resultado — el esquema, escrito en el propio ejecutable:**
+
+`0x004008A0`-`0x004009C8` tiene los nombres de los campos de arma en texto:
+`Projectile Type`, `Weapon Impact Level`, `Num Bullets Per Burst`, `Num
+Bullets In Clip`, `Muzzle Offset`, `Range`, **`Power`**, `Time Between
+Bullets`, `Max Spread Angle`, `Accuracy Fall Off Time`… y las secciones
+`CommonParams` / `PlayerParams` / `AIParams`. Son **rodata muerta** (`xref.py
+absoluto` da cero, con control positivo sobre otros strings de la misma
+región), pero documentan el formato. De ahí salió el nombre "Power" y la
+hipótesis de los dos bloques, que después resultó cierta.
+
+**No funcionó:**
+
+- **Los cinco `26.0` de `0x0042C3AC..0x0042D56C` no son la tabla.** Se les
+  escribió `300.0` y el daño no cambió en ninguna dirección. Peor: aparecieron
+  dos barras negras translúcidas en pantalla, coherente con que esa zona es
+  del HUD (el arreglo de `0x006CF4E0` apunta a registros de `0x50` en
+  `0x0042CD40+n*0x50`, al lado). Restaurados. **Pista cerrada, no volver.**
+- Buscar `GUNS.BIN` cargado literal en RAM: 0 coincidencias con ventanas de
+  24 bytes distintos de los 24 archivos del ISO. Se carga procesado.
+- Buscar el `25.5` medido como constante en los 32 MB: 6 apariciones, ninguna
+  con forma de descriptor. El daño se calcula, no está guardado.
+- La primera firma de búsqueda de la tabla en `armas.py` era demasiado laxa
+  (`0 < x <= 20000`) y devolvía **402** "registros" de geometría: floats
+  basura de magnitud `1e-43` pasan cualquier test que sólo mire el signo. Con
+  mínimos realistas (Range ≥ 1, Power ≥ 0.1) quedaron los 17 reales.
+- `dis.py` como nombre de script rompe el import de `capstone`: colisiona con
+  el módulo `dis` de la stdlib.
+
+**Lo que quedó abierto, y es concreto:** con `Power = 300` en **toda** la
+tabla, el disparo del jugador siguió quitando exactamente **25.5** por bala
+(medido dos veces sobre el mismo enemigo: `100 → 74.5 → 49`). O sea que el
+proyectil del jugador toma su daño de **otro lado**. Eso además explica el
+`25.5` contra el `26.0` nominal.
+
+**Sigue:** el daño de salida del jugador. Ver `HANDOFF.md`.
+
+---
+
 ## 2026-08-15 (16) — Estructura del ISO montado, sin pegarle a la tabla de armas
 
 **Máquina:** notebook · **Modelo:** Sonnet

@@ -276,6 +276,14 @@ sobre un campo conocido es mejor entrada que uno de escritura — dispara solo
 (el HUD lee cada frame), no necesita provocar nada, y el registro base al
 pausar da la respuesta directa.
 
+Segundo corolario: **un filtro que sólo acota por arriba no filtra.** Buscando
+registros con "alcance y daño positivos y menores que 20000" salieron 402
+falsos positivos, porque basura binaria leída como flotante da números
+diminutos (`1e-43`) que pasan cualquier prueba de signo. Con cotas por abajo
+realistas —un arma no tiene alcance de un centímetro— quedaron los 17 reales.
+Cuando definas un rango de plausibilidad, escribí las dos cotas y justificá
+las dos.
+
 ---
 
 ## 13. El comando que le das a otro programa lo ejecuta el shell de ÉL
@@ -362,6 +370,42 @@ una resta flotante cerca" — razonable, y excluía exactamente las dos que
 importaban. El conjunto de candidatos con el que se venía trabajando desde
 hacía dos sesiones nunca había sido el conjunto real. Cuando un resultado
 filtrado te esté costando caro, mirá qué decidió la herramienta por vos.
+
+---
+
+## 15. Preguntá si el dato es estático antes de buscarlo como estático
+
+Antes de barrer un binario buscando una tabla de configuración, contestá una
+pregunta más barata: **¿este dato viene horneado en el ejecutable, o se carga
+en tiempo de ejecución desde otro lado?** Las dos formas se buscan distinto y
+en lugares distintos, y confundirlas no te da un resultado peor: te da un
+resultado *falso* que además parece bueno.
+
+**Origen:** se buscó la tabla de armas de un juego dentro del ejecutable y de
+su BSS. Aparecieron cinco lugares con el valor de daño exacto ya confirmado
+por otra vía, rodeados de números plausibles. Se les escribió un valor nuevo
+en memoria viva y **no cambió ningún daño**; encima esa zona resultó ser del
+HUD y aparecieron dos barras negras en pantalla. Media sesión, un experimento
+quemado y una corrupción visual. La tabla se cargaba **por nivel, desde un
+archivo, al heap** — o sea que su dirección cambia entre partidas y no podía
+estar en ningún volcado estático. Y el dato que lo decía estaba **a la vista
+desde el principio**: una cadena de formato con la ruta del archivo
+(`.../Stg_%04u/Guns%s.bin`) que ya se había leído y anotado, sin sacarle la
+conclusión.
+
+**Cómo aplicarla:** cuando busques una tabla de parámetros, empezá por las
+cadenas de rutas y de formato del binario. Una ruta a un archivo de datos, un
+nombre de sección de config, o un mensaje de error sobre un archivo que falta,
+te dicen que el dato **se carga** — y entonces buscarlo en el ejecutable es
+tiempo tirado. El síntoma de haberse equivocado en esto es característico:
+encontrás candidatos que *parecen* perfectos por su contenido y no responden
+cuando los tocás. Contenido plausible sin respuesta a la escritura = estás en
+una copia, un caché o algo homónimo, no en la fuente.
+
+**Corolario:** el mismo error tiene una versión más general. Un valor puede
+existir en varios lugares a la vez —la fuente, una copia por instancia, un
+caché de render— y todos muestran el número correcto. El único que importa es
+el que, al escribirlo, cambia el comportamiento. Ver también la lección 5.
 
 ---
 

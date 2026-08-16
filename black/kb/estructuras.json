@@ -86,12 +86,44 @@
     },
     {
       "id": "arma",
-      "nombre": "Definición de arma",
-      "tamano": null,
-      "como_llegar": null,
-      "confianza": "hipotesis",
-      "campos": [],
-      "notas": "Muy probablemente sea una TABLA estática de N entradas contiguas (daño, cadencia, cargador, dispersión). Si es así, un solo hallazgo desbloquea todas las armas de golpe. Es el mod con mejor relación esfuerzo/resultado del proyecto. PISTA FUERTE (2026-08-15): el flotante 26.0 (0x41D00000) — el daño exacto por golpe medido — aparece 71 veces en el volcado, y cinco de ellas caen agrupadas en la región de datos del juego: 0x0042C3AC, 0x0042C5EC, 0x0042C92C, 0x0042CCFC, 0x0042D56C. Esa región (0x0042xxxx-0x0045xxxx) es la que el código direcciona con 'lui _,0x0043' (639 sitios). Siguiente paso: volcar el entorno de esas cinco con inspeccionar.py y buscar la periodicidad de la tabla."
+      "nombre": "Registro de arma (tabla de armas)",
+      "tamano": "0x1E0",
+      "cantidad": 17,
+      "direccion_observada": "0x01842220 .. 0x01844020 (2026-08-16, nivel 1)",
+      "es_estatica": false,
+      "como_llegar": "NO tiene direccion fija. La tabla se carga POR STAGE desde 'Levels\\Level_NN\\Stg_NNNN\\Guns.bin' al HEAP, asi que cambia entre niveles y entre partidas. Se busca por FIRMA sobre un volcado fresco: `python3 herramientas/armas.py listar <volcado>`. La firma es que los dos bloques de parametros (+0x90 y +0xC0) tengan a la vez Range en [1,20000], Power en [0.1,20000] y falloff en {0} U [0.001,1], y que haya al menos 8 registros consecutivos a paso 0x1E0.",
+      "confianza": "confirmado",
+      "confirmado_por": "EFECTO, 2026-08-16. Se escribio Power = 300.0 en los 34 campos (17 registros x 2 bloques) y se midio el pool de enemigos antes y despues: dos enemigos pasaron de 100.0 a 0.0 de un solo impacto (delta 100, clamp desde 300) por fuego amigo entre enemigos, cuando antes hacian falta cuatro balas. En paralelo, y sin que se le preguntara por eso, el usuario reporto que la reaccion en pantalla al recibir disparos cambio a la de arma pesada (barra de dano grande, mas temblor), que es el mismo efecto de escopeta/RPG/Magnum. Restaurado 34/34 sin discrepancias.",
+      "campos": [
+        {"offset": "0x00", "tipo": "ptr", "id": "modelo_a", "confianza": "hipotesis", "descripcion": "Tres punteros consecutivos (+0x00, +0x04, +0x08) al mismo rango del heap. Probables modelo / animaciones / textura."},
+        {"offset": "0x0C", "tipo": "u32", "id": "color", "valor_visto": "0xFF7F7F7F", "confianza": "hipotesis", "descripcion": "Parece RGBA."},
+        {"offset": "0x10", "tipo": "u32", "id": "municion_max", "valor_visto": "120, 200, 160, 150", "confianza": "hipotesis"},
+        {"offset": "0x14", "tipo": "u32", "id": "municion_inicial", "valor_visto": "50, 80, 180, 90", "confianza": "hipotesis"},
+        {"offset": "0x18", "tipo": "u32", "id": "cargador", "valor_visto": "25, 10, 50", "confianza": "hipotesis", "descripcion": "Candidato a 'Num Bullets In Clip'. SIN confirmar: no se comparo todavia contra el numero del HUD."},
+        {"offset": "0x90", "tipo": "bloque", "id": "params_jugador", "tamano": "0x30", "confianza": "confirmado", "descripcion": "Parametros de dano cuando el arma la usa el JUGADOR. Es el `PlayerParams` del esquema de 0x00400868."},
+        {"offset": "0xC0", "tipo": "bloque", "id": "params_ia", "tamano": "0x30", "confianza": "confirmado", "descripcion": "Idem cuando la usa la IA (`AIParams`, 0x00400878). ESTE es el que se confirmo por efecto."},
+        {"offset": "0x1C0", "tipo": "char[4]", "id": "codigo", "valor_visto": "ASR, SMG, PST, RPG, HVY", "confianza": "probable", "descripcion": "Codigo de 3 letras, los mismos que las carpetas FPGUNS/ del ISO. OJO: la correspondencia registro <-> codigo esta CORRIDA UN REGISTRO respecto de los parametros; no se resolvio si el codigo pertenece al registro que lo contiene o al siguiente. Para identificar un arma conviene guiarse por el perfil de parametros, no por este campo."}
+      ],
+      "bloque_de_parametros": {
+        "tamano": "0x30",
+        "campos": [
+          {"offset": "0x14", "tipo": "f32", "id": "range", "confianza": "confirmado", "descripcion": "Divisor de la interpolacion. NO es alcance maximo en el sentido de 'mas alla no llega'."},
+          {"offset": "0x18", "tipo": "f32", "id": "power", "confianza": "confirmado", "descripcion": "EL DANO. Con falloff = 1 es el dano constante. Nombre tomado del esquema del propio ejecutable (0x00400918 = 'Power')."},
+          {"offset": "0x1C", "tipo": "f32", "id": "falloff", "confianza": "confirmado", "descripcion": "Fraccion minima, 0..1. Vale 1.0 en casi todas las armas, y por eso el dano observado es constante — coincide con los 10 escalones identicos de 26.0 medidos en la Fase 1."}
+        ],
+        "formula": "dano = power * (falloff + (1 - falloff) * arg / range), calculada en 0x0015B20C"
+      },
+      "perfiles_leidos": [
+        {"base": "0x018425E0", "jugador": "1000 / 500", "ia": "1000 / 200", "lectura": "Magnum: en BLACK mata de un tiro y 500 contra 100 HP encaja"},
+        {"base": "0x01842400", "jugador": "25 / 38", "ia": "20 / 133.3", "lectura": "escopeta: alcance corto, falloff 0 en el bloque IA (unico caso), dano total alto"},
+        {"base": "0x018434E0", "jugador": "100 / 100", "ia": "1000 / 70", "lectura": "HVY, ametralladora pesada"},
+        {"base": "0x018429A0", "jugador": "60 / 26", "ia": "1000 / 26", "lectura": "ASR, el fusil de asalto. 26.0 es exactamente el dano confirmado en la Fase 1"}
+      ],
+      "esquema_del_ejecutable": "El propio SLUS_213.76 trae los nombres de los campos en 0x004008A0-0x004009C8: 'Projectile Type', 'Weapon Impact Level', 'Num Bullets Per Burst', 'Num Bullets In Clip', 'Muzzle Offset', 'Range', 'Power', 'Time Between Bullets', 'Time Between Bursts', 'Num Bullets Per Spread', 'Likelyhood Of Ricochet', 'Max Ricochet Angle', 'Max Spread Angle', 'Accuracy Fall Off Time', 'Accuracy Fall Off Over Time'; y las secciones 'CommonParams' (0x00400858) / 'PlayerParams' (0x00400868) / 'AIParams' (0x00400878). Son rodata MUERTA: `xref.py absoluto` da cero para todas, con control positivo (otros strings de la misma region si tienen referencias). Documentan el formato aunque el parser del juego sea binario.",
+      "evidencia": "2026-08-16. Camino: (1) del desensamblado de 0x0015B118 sale que el descriptor de dano llega como [$a0+0x0C]; (2) BFS de punteros desde el objeto del jugador (0x005A8AB0) hasta profundidad 3 buscando objetos cuyo +0x0C apunte a algo con forma de descriptor -> 7 aciertos, todos en 0x01842xxx; (3) volcar esa region en bloques de 0x30 mostro el patron periodico de 0x1E0 con dos bloques de parametros; (4) escritura de 300.0 en los 34 Power y medicion del pool de enemigos.",
+      "descubierto": "2026-08-16",
+      "callejon_cerrado": "Los cinco 26.0 de 0x0042C3AC / 0x0042C5EC / 0x0042C92C / 0x0042CCFC / 0x0042D56C NO son la tabla. Estan en BSS, se les escribio 300.0 y el dano no cambio en ninguna direccion; ademas ensucian el HUD (aparecieron dos barras negras translucidas en pantalla), coherente con que el arreglo de 0x006CF4E0 apunta a registros de 0x50 bytes en 0x0042CD40+n*0x50, justo al lado. Restaurados a 26.0. No volver a esa pista.",
+      "notas": "PENDIENTE Y CONCRETO: el dano de SALIDA del jugador NO cambio al escribir estos 34 campos. Con Power = 300 en toda la tabla, el disparo del jugador siguio quitando exactamente 25.5 por bala (medido dos veces sobre el mismo enemigo: 100 -> 74.5 -> 49). O sea que el proyectil del jugador toma su dano de otro lado — una copia en la instancia del arma, u otra rutina distinta de 0x0015B118. Ese es el proximo hilo, y ademas explica el 25.5 contra el 26.0 nominal."
     }
   ]
 }

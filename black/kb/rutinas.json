@@ -59,6 +59,36 @@
       "notas": "CONFIRMADO POR EFECTO 2026-08-16. El análisis estático (llegar a la clase por vtable y desensamblar el método virtual #8) predijo el punto de parche exacto, y el efecto en pantalla lo validó a la primera: cargador entero de AK sobre un enemigo, sin daño. Vale la pena registrar el contraste de método: dos sesiones de escaneo diferencial no habían podido ni localizar la vida del enemigo, porque muere en 4 balas y el filtro necesita más rondas. Por clase salió en una pasada y sin tocar el emulador. Antecedente que obligó a la cautela: 0x0013C120 parecía igual de sólido por analogía estructural y resultó ser el método #9 de la clase del JUGADOR."
     },
     {
+      "id": "calcular_dano_por_arma",
+      "nombre": "Cálculo del daño desde el descriptor del arma",
+      "direccion": "0x0015B118",
+      "fin": "0x0015B32C",
+      "version": "ntsc_u",
+      "descripcion": "Toma el descriptor de daño del arma y calcula cuánto daño hace este impacto, después lo entrega a la víctima. Es el eslabón que faltaba entre la tabla de armas y la rutina de daño: hasta acá el daño llegaba en $f12 'de la nada'.",
+      "convencion": "$a0 = objeto que tiene el arma; su campo +0x0C es el DESCRIPTOR de daño (bloque de 0x30 de kb/estructuras.json#arma). $a1 = objeto del impacto; +0x24 = entidad víctima, +0x2C = byte de flags. $f12 = argumento escalar que entra a la interpolación (se copia a $f20 en 0x0015B170). Devuelve 1 en $v0 si aplicó daño.",
+      "formula": "En 0x0015B20C: f2=1.0; f0=[desc+0x14] (Range); f1=[desc+0x1C] (falloff); f3=[desc+0x18] (Power); f0=f20/f0; f2=1.0-f1; f1=f3*f1; f0=f0*f3; f0=f0*f2; f21=f0+f1. O sea daño = Power*(falloff + (1-falloff)*arg/Range). Con falloff=1 el daño es CONSTANTE e igual a Power, que es el caso de casi todas las armas — y explica los 10 escalones idénticos de 26.0 de la Fase 1.",
+      "confianza": "confirmado",
+      "llamadores": ["0x001599D0", "0x00159A70", "0x00159FF4", "0x0015AF1C", "0x0015AFC8"],
+      "dos_caminos": "Desde acá el daño sale por uno de dos caminos, según $s5: (a) 0x0015B2D8, llamada DIRECTA al método virtual #8 de la víctima con mov.s $f12,$f21; (b) 0x0015B31C, se ENCOLA con jal 0x0015B8F8 pasando $a0 = 0x00414AD0. Ver la entrada cola_de_dano.",
+      "puntos_de_parche": [
+        {"direccion": "0x0015B238", "instruccion_original": "add.s $f21, $f0, $f1", "efecto_si_se_modifica": "es la suma final de la fórmula. Reemplazarla por un mov.s desde un registro con un valor fijo daría daño constante para TODAS las armas, sin tocar la tabla.", "confianza": "hipotesis"}
+      ],
+      "evidencia": "2026-08-16, análisis estático sobre volcados/codigo-vivo.bin con capstone (CS_MODE_MIPS64 + skipdata). Se enumeraron los 37 sitios de llamada al método virtual #8 con el patrón `lw rX,0x4c(rY)` + `jalr rX`, y se hizo backward-slice de $f12 en cada uno. Sólo seis tenían definición dentro de 64 instrucciones; una de ellas, 0x0015BAEC (`lwc1 $f12,0x14($s0)`), llevó a la cola de daño, y de ahí al único llamador de la encoladora, que es esta función. El descriptor quedó confirmado por efecto al escribirle Power (ver kb/estructuras.json#arma).",
+      "descubierto": "2026-08-16"
+    },
+    {
+      "id": "cola_de_dano",
+      "nombre": "Cola de daño diferido",
+      "direccion": "0x0015B8F0",
+      "version": "ntsc_u",
+      "descripcion": "Buffer de 16 impactos que se acumulan durante el frame y se aplican todos juntos al final. El objeto de la cola es el GLOBAL 0x00414AD0: 16 registros de 0x20 bytes seguidos del contador en +0x200 (= 0x00414CD0).",
+      "convencion": "Registro de 0x20: +0x10 puntero a la entidad víctima, +0x14 f32 daño, +0x18 f32 distancia, +0x1C u8 flags. Tres funciones: 0x0015B8F0 resetear (sw zero,0x200(a0)); 0x0015B8F8 agregar (a0=cola, a2=víctima, $f12=daño, $f13=dist, a3=flags) — si ya hay 16 reemplaza el de menor +0x18; 0x0015BA80 vaciar, que por cada registro hace lw $v0,0x10(víctima) -> lw $v1,0x4c($v0) -> jalr, o sea llama al método virtual #8.",
+      "confianza": "probable",
+      "notas": "Este camino NO es el de las balas: después de que el usuario disparara, el contador 0x00414CD0 estaba en 0 y el registro 0 en ceros. Es la rama que se toma cuando $s5 == 0 en 0x0015B2C4, probablemente daño de área (explosiones). El vaciado en 0x0015BA80 vuelve a confirmar que el puntero de clase está en objeto+0x10.",
+      "evidencia": "2026-08-16, desensamblado. 0x0015B8F8 tiene un solo llamador en los 32 MB (0x0015B320) y ahí $a0 se arma con lui 0x41 + addiu 0x4AD0 = 0x00414AD0. 0x0015BA80 tiene un solo llamador (0x0015AD3C).",
+      "descubierto": "2026-08-16"
+    },
+    {
       "id": "hud_ratio_vida",
       "nombre": "Normalización de la barra de vida del HUD",
       "direccion": null,
