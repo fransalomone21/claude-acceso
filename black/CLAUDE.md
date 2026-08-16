@@ -13,6 +13,7 @@ Es el índice, no el manual: leelo entero, y de ahí saltá a lo que haga falta.
 | buscar una dirección o rutina nueva | `docs/02-metodologia.md` |
 | configurar una máquina desde cero | `docs/01-entorno.md` |
 | planificar, priorizar, decidir qué sigue | `docs/04-plan.md` |
+| tocar el ISO, un formato de archivo, o el ELF | `docs/05-iso.md` |
 | leer desensamblado del EE | `docs/90-glosario-ee.md` |
 | escribir o compilar un mod | `mods/ejemplo-plantilla.toml` + `herramientas/pnach.py --help` |
 
@@ -62,7 +63,8 @@ Todas tienen `--help` y se corren desde `black/`.
 | `inspeccionar.py` | mirar el entorno de una dirección: punteros, floats, texto |
 | `xref.py` | quién toca un dato: referencias cruzadas en frío sobre un volcado. **Probalo antes de abrir el debugger** |
 | `vigilar.py` | series temporales. Contesta "¿cada cuánto?" y "¿de a cuánto?" |
-| `mips.py` | ensamblar/desensamblar R5900 para parches de código |
+| `mips.py` | ensamblar/desensamblar R5900. **No decodifica FPU** — para eso, `capstone` (ver `docs/05-iso.md`) |
+| `clases.py` | clases de entidad por vtable: qué objetos hay de cada clase y cuál es su rutina de daño |
 | `estado.py` | leer `eeMemory.bin` de un savestate |
 | `pnach.py` | compilar `mods/*.toml` al `.pnach` que carga PCSX2 |
 | `fijar_objetivo.py` | confirma serial/CRC contra PCSX2 y actualiza `kb/objetivo.json` solo |
