@@ -72,10 +72,12 @@ hipótesis de los dos bloques, que después resultó cierta.
 **No funcionó:**
 
 - **Los cinco `26.0` de `0x0042C3AC..0x0042D56C` no son la tabla.** Se les
-  escribió `300.0` y el daño no cambió en ninguna dirección. Peor: aparecieron
-  dos barras negras translúcidas en pantalla, coherente con que esa zona es
-  del HUD (el arreglo de `0x006CF4E0` apunta a registros de `0x50` en
-  `0x0042CD40+n*0x50`, al lado). Restaurados. **Pista cerrada, no volver.**
+  escribió `300.0` y el daño no cambió en ninguna dirección. Lo que sí cambió
+  fue el HUD: aparecieron dos barras negras translúcidas en pantalla al
+  escribir y **desaparecieron al restaurar** — causalidad confirmada en los
+  dos sentidos. Encaja con que el arreglo de `0x006CF4E0` apunta a registros
+  de `0x50` en `0x0042CD40+n*0x50`, al lado. Esa zona es de HUD: no
+  escribirle. **Pista cerrada, no volver.**
 - Buscar `GUNS.BIN` cargado literal en RAM: 0 coincidencias con ventanas de
   24 bytes distintos de los 24 archivos del ISO. Se carga procesado.
 - Buscar el `25.5` medido como constante en los 32 MB: 6 apariciones, ninguna
