@@ -61,6 +61,40 @@ El ISO queda montado en `D:\` por si hace falta volver (no se desmontó).
 
 ---
 
+## 2026-08-16 (20) — FASE 3 CERRADA: enemigos invulnerables, confirmado por efecto
+
+**Máquina:** notebook · **Modelo:** Opus
+
+**Objetivo:** el test que faltaba de la entrada 19.
+
+**Resultado:**
+
+- **`0x00134654` nopeado (`0xE61402F8` → `0x00000000`). El usuario le vació un
+  cargador entero de AK a un enemigo y siguió vivo.** Confirmado por efecto.
+- **Confound descartado:** se releyó `0x00134654` DESPUÉS de la prueba y
+  seguía en `0x00000000`. El nop aguantó, así que no es un falso positivo por
+  pérdida del parche. Restaurado a `0xE61402F8` al terminar.
+- Con eso quedan confirmados de un saque: la **clase del enemigo**
+  (`0x003DCA78`), la **vida en `+0x2F8`** y la **rutina `0x00133FA8`**. El
+  análisis estático había predicho el punto de parche exacto y acertó a la
+  primera.
+- `kb/rutinas.json#aplicar_dano_enemigo` y `kb/estructuras.json#enemigo`
+  pasaron de `probable` a **`confirmado`**.
+
+**Lo que vale la pena registrar del método:** dos sesiones de escaneo
+diferencial no habían logrado ni **localizar** la vida de un enemigo — muere
+en 4 balas y el filtro necesita más rondas de las que da. Por **clase**
+(vtable → método virtual #8 → desensamblado) salió en una sola pasada, sin
+tocar el emulador y trabajando sobre un savestate. Cuando un método no
+converge, conviene preguntarse si el objeto de búsqueda está bien elegido
+antes de insistir con más rondas.
+
+**No funcionó:** nada nuevo. El test salió a la primera.
+
+**Sigue:** **Fase 4 — la tabla de armas.** Chat nuevo (ver `HANDOFF.md`).
+
+---
+
 ## 2026-08-16 (19) — La clase del enemigo, por vtable: Fase 3 resuelta estáticamente
 
 **Máquina:** notebook · **Modelo:** Opus

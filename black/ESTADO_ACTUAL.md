@@ -30,20 +30,15 @@ de AK47 en el primer nivel, vida estable durante varios minutos de combate.
 Sin probar: si cubre otras fuentes de daño (cuerpo a cuerpo, caídas,
 explosiones) además de proyectiles.
 
-**Fase 3 — RESUELTA ESTÁTICAMENTE, falta el efecto (2026-08-16).** La clase
-del enemigo es **`0x003DCA78`** (32 objetos, pool de paso `0x3C0` desde
+**Fase 3 — CERRADA (2026-08-16), confirmada por efecto.** La clase del
+enemigo es **`0x003DCA78`** (32 objetos, pool de paso `0x3C0` desde
 `0x0058FE90`, vida `100.0` en `+0x2F8`). Su rutina de daño es
 **`0x00133FA8`**, con el brazo normal en **`0x00134654`** y el clamp de
-muerte en `0x00134514`.
+muerte en `0x00134514`. Con `0x00134654` nopeado, un cargador entero de AK
+sobre un enemigo no lo mató; el nop seguía puesto al releerlo después. Ya
+restaurado.
 
-> **LO PRIMERO AL RETOMAR — 10 segundos, cierra la Fase 3:**
-> ```
-> python herramientas/pine.py escribir 0x00134654 0 --tipo u32
-> ```
-> Disparar a un enemigo. Si no recibe daño, **confirmado**. Restaurar con
-> `python herramientas/pine.py escribir 0x00134654 0xE61402F8 --tipo u32`.
-> Ojo con el precedente: `0x0013C120` parecía igual de sólido por analogía
-> estructural y resultó ser otro método de la clase del JUGADOR.
+**Siguiente: Fase 4 — la tabla de armas. Chat nuevo, ver `HANDOFF.md`.**
 
 **Fase 4 — la pista del `26.0` es más débil de lo que parecía.** La región
 BSS donde aparece cinco veces resultó ser un bloque de **parámetros sueltos**
