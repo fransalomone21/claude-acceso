@@ -1,0 +1,1378 @@
+
+== p1 ==
+Conceptos básicos de la Electrónica Aplicada
+Esteban Lemos
+6 de Febrero de 2015
+Año Cuarto
+Espacio Aplicaciones de Electrónica Analógica
+Edición 1ra
+Código AEA4-15-01
+1
+== p2 ==
+ÍNDICE
+Contents
+I Mediciones 4
+1 Errores 4
+1.1 Tipos de errores . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+2 El multímetro o (TESTER) 8
+2.1 Deﬁniciones . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+2.2 Clase de un instrumento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+2.3 Clasiﬁcación de los instrumentos . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+2.4 Medición de diferencia de potencial . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+2.5 Medición de Intensidad de corriente . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+2.6 Medición de resistencia eléctrica . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+3 Expansión del rango de un instrumento 12
+3.1 Expansión del rango un amperímetro. . . . . . . . . . . . . . . . . . . . . . . . . . 13
+3.2 Expansión del rango un voltímetro. . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+4 Señales. 15
+4.1 Deﬁniciones . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+4.2 Representación matemática de las señales . . . . . . . . . . . . . . . . . . . . . . . 16
+4.3 Señales periódicas de uso en electrónica . . . . . . . . . . . . . . . . . . . . . . . . 19
+5 Uso del osciloscópio 30
+5.1 ¿Qué el osciloscopio? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+5.2 Diagrama en bloques del osciloscopio . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+5.3 Medición de señales periódicas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34
+II Fuentes lineales 37
+6 Tensión o corriente alterna 37
+6.1 Modiﬁcar el valor pico de la tensión alterna de red. . . . . . . . . . . . . . . . . . . 39
+6.2 Modiﬁcar el valor medio de la tensión alterna de red . . . . . . . . . . . . . . . . . 39
+7 El diodo 40
+7.1 Descripción . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+7.2 Clasiﬁcación . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+7.3 Polarización y Juntura . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+7.4 Curva del diodo . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+7.5 Usos del diodo . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+III Sistemas de control ON/OFF. 41
+8 El Relé 41
+2
+== p3 ==
+ÍNDICE
+9 El transistor bipolar 41
+9.1 Descripción . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+9.2 Polarización . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+9.3 Análisis de circuitos de control típicos. . . . . . . . . . . . . . . . . . . . . . . . . . 41
+9.4 Diseño de un circuito de control ON/OFF. . . . . . . . . . . . . . . . . . . . . . . . 41
+3
+== p4 ==
+1 ERRORES
+Part I
+Mediciones
+El proceso de medición generalmente requiere el uso de un instrumento como medio físico para
+determinar la magnitud de una variable. Los instrumentos constituyen una extensión de las
+facultades humanas y en muchos caos permiten a una persona determinar el valor de una cantidad
+desconocida, la cual no podría medirse utilizando solamente las facultades sensoriales. Por lo tanto
+un instrumento puede deﬁnirse así:dispositivo para determinar el valor o la magnitud de una
+cantidad o variable.El instrumento electrónico, como lo indica su nombre, se basa en principios
+eléctricos o electrónico para efectuar una medición, el mismo puede ser un aparato sencillo y
+de construcción simple . Sin embargo el desarrollo de la tecnología, demanda la elaboración de
+mejores instrumentos.
+1 Errores
+Un error puede entenderse como unadesviación a partir del valor real de la variable medida.
+1.1 Tipos de errores
+Existen diversos mecanismos por los cuales se puede producir un error al medir, debido a esto y
+a que siempre es deseable poder mejorar los resultados en un proceso de releva miento de datos;
+es importante tener en cuenta de que manera se está produciendo el error y la fuente del mismo.
+Los errores se pueden producir de dos formas:
+•Errores sistemáticos Son Aquellos que se producen en todas las mediciones, son fácil-
+mente detectables y pueden ser corregidos.
+•Errores aleatorios son aquellos que se producen en cualquier momento y de cualquier
+manera, por lo tanto, no son fácilmente detectables, es muy difícil corregir o mejorar las
+condiciones de medición frente a este tipo de errores.
+A su vez la fuente de los errores puede ser:
+•El instrumento utilizado para medir Las causas de errores atribuibles al instrumento,
+pueden deberse a defectos de fabricación (dado que es imposible construir aparatos perfec-
+tos). Estos pueden ser deformaciones, falta de linealidad, imperfecciones mecánicas, falta de
+paralelismo, etcétera.
+•El método utilizado para la medición o uso del instrumento Este error lo provoca la
+colocación incorrecta de las caras de medición de los instrumentos, con respecto de las
+piezas por medir. O no seguir el procedimiento indicado por el fabricante.
+•El observador u operario del instrumento Muchas de las causas del error aleatorio se
+deben al operador, por ejemplo: falta de agudeza visual, descuido, cansancio, alteraciones
+emocionales,etcétera. Para reducir este tipo de errores es necesario adiestrar al operador.
+•Las condiciones medioambientales Entre las causas de errores se encuentran las condi-
+ciones ambientales en que se hace la medición;entre las principales destacan la temperatura,
+la humedad, el polvo y las vibraciones o interferencias (ruido) electromagnéticas extrañas.
+Prof: Esteban Lemos AEA 4
+== p5 ==
+1 ERRORES
+1.1 Tipos de errores
+•El procesamiento matemático de los valores obtenidos Los errores numéricos se generan
+con el uso de aproximaciones para representar las operaciones y cantidades matemáticas. Es-
+tosincluyendetruncamientoqueresultanderepresentaraproximadamenteunprocedimiento
+matemático exacto, y los errores de redondeo, que resultan de presentar aproximadamente
+números exactos.
+Es importante entender, que no es posible realizar mediciones libres de errores, dada esta reali-
+dad ineludible, es necesario poder lidiar con los errores que se producen en el proceso de medi-
+ción. Aquellos que se dedican a la instrumentación se manejan con tolerancias y porcentajes de
+desviación de los valores medidos respecto de los reales.
+1.1.1 Error Absoluto
+Se deﬁne comola diferencia entre el valor de la medida y el valor tomado como exacto. Puede
+ser positivo o negativo según si la medida es superior al valor real o inferior. Tiene las mismas
+unidades que la magnitud bajo análisis. Para el análisis matemático del error absoluto, se lo deﬁne
+como:
+∆x=|Xi−Xv| (1.1)
+Donde:
+•∆x : es el error absoluto.
+•Xi : es el valor indicado por el instrumento o medido.
+•Xv : es el valor verdadero o real.
+1.1.2 Error relativo y porcentual
+El error Relativoes el cociente (la división) entre el error absoluto y el valor exacto, el mismo no
+tiene unidad o es a dimensional. Si se multiplica por 100 se obtiene el tanto por ciento (%) de
+error. Al igual que el error absoluto puede ser positivo o negativo (según lo sea el error absoluto)
+porque puede ser por exceso o por defecto. no tiene unidades. Para el análisis matemático del
+error relativo, se lo deﬁne como:
+e = ∆x
+Xv
+=|Xi−Xv|
+Xv
+(1.2)
+Y al porcentual como:
+e% =e·100 (1.3)
+1.1.3 Error límite o tolerancia
+Muchas veces los fabricantes nos informan cual puede ser la máxima desviación de alguna de las
+especiﬁcaciones de un objeto. Por ejemplo un fabricante de resistores nos indica con una banda
+dorada que el valor de resistencia indicado puede como máximo desviarse un 5% por encima o por
+debajo de dicho valor.
+Si por ejemplo tuviésemos resistores de 100Ω del 5% de tolerancia, entonces nuestros resistores
+podrían tener valores que oscilarían entre:
+Prof: Esteban Lemos AEA 5
+== p6 ==
+1 ERRORES
+1.1 Tipos de errores
+•Un mínimo de100Ω−5Ω = 95Ω
+•Y un máximo de100Ω + 5Ω = 105Ω
+Una forma de notar esto sería:
+R =Ri±∆R
+Donde:
+•Ri: es el valor nominal o indicado de resistencia (el valor comercial).
+•∆R: es el máximo error absoluto (error límite indicado por el fabricante).
+En nuestro caso:
+R = 100Ω±5Ω
+Ejemplo 1.1 Suponga que usted ha realizado una medición de un resistor del 1% que tiene un
+valor indicado de 10 KΩ y la medición arroja un resultado de 9991Ω. En primer lugar, si no
+se tiene en cuenta el error efectuado al medir ¿Cuál sería el error absoluto de fabricación del
+resistor? En segundo ¿Cuál es el error relativo? Finalmente ¿Se encuentra el valor de resistencia
+dentro de los valores indicados por el fabricante?
+1. Para poder obtener el error absoluto solicitado se procederá a aplicar la expresión 1.1.1
+entonces:
+∆x =|Xi−Xv|=|9991Ω−10000Ω|= 9Ω
+2. Para obtener el error relativo se procederá a aplicar la expresión 1.1.2 entonces:
+e = ∆x
+Xv
+= 9Ω
+10000Ω = 0, 0009
+Observe como la unidad se cancela y queda una magnitud a dimensional.
+3. Para saber si el valor de resistencia obtenido se encuentra dentro de lo especiﬁcado por el
+fabricante debemos obtener el error porcentual y compararlo con la tolerancia o error límite
+indicado.
+e% =e·100 = 0, 09%
+Claramente el valor obtenido está por debajo de 1% indicado por el fabricante.
+1.1.4 Valor promedio o nominal
+Cuando es necesario mejorar la adquisición de datos en las mediciones (minimizar los errores),
+una de las técnicas empleadas, es adquirir de la misma magnitud varios valores que provienen de
+repetir la medición de dicha magnitud utilizando más de un instrumento cambiando el observador.
+Al juego de valores se les calcula el valor promedio (media aritmética) cuya expresión es el cociente
+entre la sumatoria de todos los valores obtenidos y el número total de mediciones realizadas:
+⟨⟨X⟩⟩=
+∑n
+i=1Xi
+n (1.4)
+Donde
+Prof: Esteban Lemos AEA 6
+== p7 ==
+1 ERRORES
+1.1 Tipos de errores
+• ⟨⟨X⟩⟩: es el promedio de las mediciones realizadas.
+•i : es un número natural que se utiliza para indicar un valor determinado en el conjunto
+total de valores obtenidos al medir.
+•n : es el total de mediciones realizadas.
+Ejemplo 1.2 Cuatro observadores realizaron un conjunto de mediciones independientes de ten-
+sión que se registraron como: 117,02 V, 117,11 V, 117,08 V, 117,03V. Calcúlese 1) el valor
+promedio; 2) el rango de error.
+1. Para calcular el promedio se hará uso de la expresión 1.4 :
+⟨⟨V⟩⟩= V1 +V2 +V3 +V4
+4 ⇒
+⟨⟨V⟩⟩= 117, 02V + 117, 11V + 117, 08V + 117, 03V
+4 = 117, 06V
+2. El rango está comprendido entre el máximo valor y el mínimo por lo tanto debemos calcular
+los errores absolutos por encima del valor promedio y por debajo. Recordando la expresión
+de error absoluto 1.1.1 .
+∆(+) =|VMAX−⟨⟨V⟩⟩|y ∆ (−) =|Vmin−⟨⟨V⟩⟩|⇒
+∆(+) =|117, 11V−117, 06V|= 0, 05V y ∆ (−) =|117, 02V−117, 06V|= 0, 04V
+Podemos ﬁnalmente escribir el resultado de la medición como:
+V =⟨⟨V⟩⟩+∆(+)−∆(−) = 117, 06V +, 05V−0, 04V
+también se puede obtener el promedio del error absoluto:
+⟨⟨∆⟩⟩= ∆(+) +∆(−)
+2 = 0, 05V + 0, 04V
+2 = 0, 045V
+y escribir:
+V =⟨⟨V⟩⟩±⟨⟨∆⟩⟩= 117, 06V±0, 045V
+o elegir el máximo error absoluto por encima o por debajo del valor promedio en este caso
+sería:
+V =⟨⟨V⟩⟩±∆MAX = 117, 06V±0, 05V
+Prof: Esteban Lemos AEA 7
+== p8 ==
+2 EL MULTÍMETRO O (TESTER)
+2 El multímetro o (TESTER)
+Cada magnitud física desde una fuerza, una presión, una distancia; hasta tensión, corriente, re-
+sistencia, requiere de un instrumento de medición para poder conocer el valor de la misma. En el
+caso de magnitudes eléctricas se cuenta con los siguientes instrumentos:
+(a) Voltímetros Analógicos y digitales para medir la
+tensión
+(b) Amperímetro digitales y
+analógicos para medir la corriente
+(c) Ohmiometro
+para medir la re-
+sistencia
+Figure 2.1: Instrumentos de medición de magnitudes eléctricas
+A pesar de ser todas estas magnitudes distintas y necesitar instrumentos especíﬁcos; hoy en día
+existen muchos tipos distintos de instrumentos combinados (multímetros o tester) con múltiples
+prestaciones. No es posible analizar todas las opciones que el mercado de instrumentos tiene para
+ofrecer, pero si determinadas características generales que se pueden observar en un instrumento
+estandarizado.
+(a) Analógicos
+ (b) Digitales
+Figure 2.2: Multímetros comerciales
+2.1 Deﬁniciones
+Para poder comparar distintos instrumentos y conocer sus limitaciones es necesario tener en cuenta
+los siguientes conceptos o deﬁniciones.
+•Precisión : Es el grado de concordancia dentro de un grupo de mediciones o instrumentos.
+A su vez se compone de dos características conformidad y cifras signiﬁcativas
+•Exactitud : Se reﬁere al grado de aproximación o conformidad al valor real de la cantidad
+medida.
+Prof: Esteban Lemos AEA 8
+== p9 ==
+2 EL MULTÍMETRO O (TESTER)
+2.2 Clase de un instrumento
+•Escala : Es un patrón convencional de medición, consiste en un instrumento capaz de
+representar con gran ﬁdelidad gráﬁca, verbal o simbólica el estado de una variable.
+•Sensibilidad : Es la mínima variación de la magnitud que se está midiendo que puede ser
+detectada por el instrumento.
+•Rango : Es el conjunto de valores dentro de los límites superior e inferior de medida en los
+cuales el instrumento es capaz de trabajar en forma conﬁable
+•Alcance de un instrumento: Se deﬁne como la diferencia entre los valores máximos y mínimo
+del Rango. Así si se cuenta con un termómetro que puede medir entre -50◦C y +50◦C; el
+alcance será 100◦C. Si el instrumento tiene su mínimo en cero es la mayor medida que se
+puede registrar con el instrumento.
+•Resolución: Es la fracción más pequeña que puede ser medida u observada de la magnitud
+que se está midiendo con la exactitud que posee el instrumento.
+•Linealidad : Para que un instrumento sea lineal, su sensibilidad debe de mantenerse con-
+stante en todo su rango.
+Exactitud
+Precisión
+Figure 2.3: Ilustración de los conceptos de exactitud y precisión
+2.2 Clase de un instrumento
+Debido a que los instrumentos indicadores de basan en el principio del “método Relativo” en
+contraposición al “método absoluto”; previamente a su uso, la escala de los mismos debe ser
+“calibrada o tarada” mediante comparación con un patrón.
+Todas las fuentes de error que hemos señalado, incluso las que corresponden a la calibración, o
+por motivos de uniformidad en la construcción, son en general reunidas en un valor característico
+que establece cual es el error total que comete el instrumento o Error Instrumental.
+Prof: Esteban Lemos AEA 9
+== p10 ==
+2 EL MULTÍMETRO O (TESTER)
+2.2 Clase de un instrumento
+Al respecto las normas de fabricación de los instrumentos eléctricos indicadores, coinciden en
+deﬁnir como límite del error o clase él mayor error, absoluto que comete el aparato en, cualquier
+parte de su campo de medida, (en él total o en parte de su escala) sea aquel positivo o negativo,
+referido al valor máximo (alcance).
+La clase se expresa por la fórmula:
+C% = ∆MAX
+Alcance·100 (2.1)
+Por lo que el error máximo en cualquier caso estará dado por:
+∆MAX =±C%·Alcance
+100 (2.2)
+Esto signiﬁca que cualquier lectura que efectuemos en división exacta de la escala, y dentro
+del campo de medida, tendrá un error absoluto máximo que denominamos “error por calibración”
+o directamente por clase de valor±∆MAX.
+Note que al tomar la división exacta de la escala no se introduce otro tipo de error que se
+comete cuando se efectúan lecturas no exactas (error de apreciación) y que no depende de la
+calibración del aparato.
+De acuerdo a las normas vigentes en los distintos países, los fabricantes deben indicar en forma
+visible cual es la correspondiente clase del aparato.
+Norma Clase Límite de error en porcentual (±)
+IRAM (Argentina) 0,25 0,25
+0,5 0,50
+1 1,00
+1,5 1,50
+2 2,00
+3 3,00
+VDE (Alemania) E 0,10
+F 0,20
+G 0,30
+H 1,5
+Z 2,5
+ASA (Norteamericana) 0,25 0,25
+0,5 0,50
+1 1,00
+1,5 1,50
+Ejemplo 2.1 ¿Cuál será el máximo error absoluto de un instrumento clase Z de la norma VDE
+Alemana que tiene un alcance de escala de 100 V?
+Reemplazando en la ecuación 2.2
+∆MAX =±2, 5%·100V
+100 =±2, 5V
+El máximo error absoluto posible es de 2,5V por encima o por debajo del valor real.
+Prof: Esteban Lemos AEA 10
+== p11 ==
+2 EL MULTÍMETRO O (TESTER)
+2.3 Clasiﬁcación de los instrumentos
+2.3 Clasiﬁcación de los instrumentos
+2.3.1 Digital
+Un instrumento digital, se caracteriza por contener un sistema de conversión de la magnitud a
+números binarios que luego procesa internamente para brindar una visualización o lectura directa
+en una pantalla o display.
+•La gran ventaja del instrumento digital, es que no permite al observador interpretar la
+medición realizada, ya que el resultado de la misma es directamente visualizado por este,
+evitando parte de los errores que si se suelen dar con los instrumentos analógicos.En los
+instrumentos digitales el único error será el de clase..
+•Otragranventajaenlosinstrumentosquemidentensióneslagranimpedanciadeentradadel
+mismo, esto permite alterar lo menos posible las mediciones cuando se conecta el instrumento
+al circuito.
+•La desventaja del instrumento digital es que necesita de un determinado tiempo para realizar
+la medición. A este tiempo se lo denominamuestreo; si la variable varía muy rápidamente, no
+es posible al instrumento detectar correctamente a la misma, apareciendo lo que se denomina
+error de cuantiﬁcación.
+2.3.2 Analógico
+Un instrumento analógico cuenta con una etapa que se denomina de adecuación de la señal y luego
+alimenta directamente un indicador electromecánico con la señal adecuada.
+•Como se mencionó antes estos instrumentos suelen llevar al observador poco entrenado o
+distraído a cometer errores de lectura. Se denomina a este tipo de error, error de paralaje.
+•Otras desventajas de los instrumentos analógicos son su fragilidad respecto del mecanismo
+de bobina móvil y la necesidad de ser recalibrados para mantener su exactitud y precisión.
+•Como ventaja se puede mencionar que para medir ciertas magnitudes no requieren ali-
+mentación (exceptuando aquellos que tienen un circuito de adecuación activo a la entrada).
+•Otra ventaja es que en algunos casos al observador entrenado se le facilita la medición de
+magnitudes que varían en el tiempo, a pesar de que no requiere del tiempo de muestreo, el
+sistema de la bobina móvil tiene inercia mecánica, por lo que variaciones muy rápidas no
+serán detectadas.
+2.4 Medición de diferencia de potencial
+El procedimiento para medir diferencia de potencial o tensión con un multímetro es el siguiente:
+1. Se debe de seleccionar en el multímetro la opción «V».
+2. Si el multímetro no es auto-rango, se debe de elegir el mayor de los rangos para evitar
+posibles daños al instrumento (sabiendo de antemano que la magnitud a medir no podría
+sobrepasar este valor máximo).
+3. Se conectan las puntas en paralelo con el elemento que entre sus bornes tiene la diferencia
+de potencial que deseamos conocer.
+4. Si se observa que el instrumento indica 0,00 V o un valor muy pequeño, se debe de reducir
+el rango para aumentar la precisión de la medida.
+Prof: Esteban Lemos AEA 11
+== p12 ==
+3 EXPANSIÓN DEL RANGO DE UN INSTRUMENTO
+2.5 Medición de Intensidad de corriente
+2.5 Medición de Intensidad de corriente
+1. Se debe de seleccionar el multímetro en la opción «I».
+2. Si el multímetro no es auto-rango, se debe de elegir el mayor de los rangos para evitar
+posibles daños al instrumento (sabiendo de antemano que la magnitud a medir no podría
+sobrepasar este valor máximo).
+3. Para el caso particular de la medición de corriente es importante destacar, que la mayoría
+de los instrumentos, requieren que las puntas se conecten en un conector especialmente
+designado para tal propósito.
+4. Se abre el circuito para intercalar el instrumento en aquella RAMA por la cual circula la
+corriente que deseamos conocer
+5. Si se observa que el instrumento indica 0,00 A o un valor muy pequeño, se debe de reducir
+el rango para aumentar la precisión de la medida.
+2.6 Medición de resistencia eléctrica
+1. Para poder medir resistencia eléctrica en necesario en primera instancia desconectar el re-
+sistor del circuito en el que se encuentra cumpliendo su función (a menos que el resistor ya
+estuviese desconectado).
+2. Se conectan las puntas del instrumento en paralelo con el resistor que se quiere medir.
+3. Si el instrumento no es auto-rango se debe de ir buscando la opción del rango que nos muestre
+mayor cantidad de cifras signiﬁcativas en la pantalla del instrumento. Si el instrumento es
+analógico se buscara aquella opción que muestre a la aguja en los
+3 Expansión del rango de un instrumento
+Un voltímetro o amperímetro, tanto digital como analógico, tendrá siempre un rango indicado por
+el fabricante. Muchas veces es necesario expandir el rango original para poder medir tensiones o
+corrientes más grandes.
+Para poder llevar a cabo la expansión del rango se trabajará con un modelo del instrumento
+el cual se puede apreciar en cada caso en la ﬁgura 3.1 .
+RS
+RM
+I IS Im Im
+V
++
+−
++
+−
+Galvanómetro
+D’Arsonval
+Rm
+D’Arsonval
+Galvanómetro Rm
+Figure 3.1: Modelos utilizados para voltímetros y amperímetros de CD
+Donde:
+Prof: Esteban Lemos AEA 12
+== p13 ==
+3 EXPANSIÓN DEL RANGO DE UN INSTRUMENTO
+3.1 Expansión del rango un amperímetro.
+•RS: es la resistencia de derivación o de SHUNT.
+•RM: es la resistencia multiplicadora.
+•Rm: es la resistencia interna del Galvanómetro.
+•I : es la corriente que se quiere medir .
+•V : es la tensión que se quiere medir.
+•IS: es la corriente que es derivada por la resistencia de SHUNT.
+•Im: es la corriente de deﬂexión a plena escala del galvanómetro.
+3.1 Expansión del rango un amperímetro.
+Para el caso básico de un amperímetro de corriente continua (CD) y si se está utilizando un
+galvanómetro. Debido a que el movimiento de la bobina es muy delicado, requiere de corrientes
+muy pequeñas para rotar. Si es necesario medir corrientes elevadas, se conecta una resistencia de
+derivación (SHUNT ver ﬁgura 3.2) que en la ﬁgura 3.1 es denominadaRS .
+La resistencia necesaria de derivación se calcula aplicando el análisis tradicional de circuitos.
+1. Ya que la resistenciaRS se encuentra en paralelo con el galvanómetro las caídas de tensión
+en ambos deben de ser las mismas:
+VRS =VRm entonces I S·RS =Im·Rm (3.1)
+2. Como queremos calcular la resistencia de derivaciónRS necesaria:
+=⇒RS = Im·Rm
+IS
+(3.2)
+3. Teniendo en cuenta que la corriente totalI es igual a la suma de las corrienteIm e IS
+RS = Im·Rm
+I−Im
+(3.3)
+Para cada valor de corriente necesaria a escala completa se puede calcular la resistencia de
+derivación adecuada.
+Ejemplo 3.1 Se cuenta con un galvanómetro de 1mA con una resistencia interna de 100Ω , el
+cual se quiere utilizar como un amperímetro de 0 a 100mA. ¿Cuál será la resistencia de derivación
+necesaria?
+Reemplazando directamente en la ecuación 3.3:
+Rs = 1mA·100Ω
+100mA−1mA = 1.01Ω
+Prof: Esteban Lemos AEA 13
+== p14 ==
+3 EXPANSIÓN DEL RANGO DE UN INSTRUMENTO
+3.2 Expansión del rango un voltímetro.
+Figure 3.2: Resistencias de SHUNT típicas
+3.2 Expansión del rango un voltímetro.
+Un voltímetro, tanto digital como analógico, tendrá siempre un rango indicado por el fabricante.
+Muchas veces es necesario expandir el rango original para poder medir tensiones mas grandes.
+LA adición de una resistencia en serie o multiplicadora Convierte al galvanómetro básico en
+un voltímetro de CD. Como se puede ver en la ﬁgura 3.1 la resistenciaRM limita la corriente
+a través del galvanómetro de forma de que no se exceda la corriente máxima de deﬂexiónIm
+a plena escala. Aplicando nuevamente las leyes fundamentales se puede calcular la resistencia
+multiplicadora necesaria:
+1. Dado queRM yRm están en serie que la suma de las caídas de ambas debe de ser la tensión
+aplicada a los terminales ver ﬁgura 3.1.
+V =VRM +VRm (3.4)
+2. También se puede decir que por ambos circula la misma corriente por lo tanto:
+V =Im·(RM +Rm) o V =Im·RM +Im·Rm (3.5)
+3. Despejando RM:
+V−im·Rm =im·RM (3.6)
+=⇒RM = V−Im·Rm
+Im
+= V
+Im
+−Rm (3.7)
+Ejemplo 3.2 Suponga que posee un galvanómetro de 100Ω de Rm cuya corriente máxima a
+plena escalaIm es de 1mA y con el mismo quiere medir tensiones de 0 a 10V.
+Utilizando directamente la ecuación 3.7 se procederá a reemplazar y calcular:
+RM = 10V
+1mA−100Ω = 10000Ω −100Ω = 9900Ω
+3.2.1 Voltímetro de rangos múltiples
+Si se requiere de un instrumento con múltiples rangos, se debe de contar con un llave selectora y
+diferentes resistencia multiplicadoras según el rango requerido.
+Prof: Esteban Lemos AEA 14
+== p15 ==
+4 SEÑALES.
+R1
+R2
+R3
+Rm
+Va
+Vb
+Vc
++
+−
+Figure 3.3: Voltímetro multirrango de CD
+Ejemplo 3.3 Suponga que quiere para el circuito de la ﬁgura 3.3 calcular las tres resistencias de
+modo de poder medir tensiones a) de 0 a 100V, b) de 0 a 500v y c) de 0 a 1000V. El galvanometro
+tiene unaRm de 100 Ω de unaIm de 1mA.
+•de 0 a 100V :
+RM(a) = V
+Im
+−Rm = 100V
+1mA−100Ω = 99900Ω
+•de 0 a 500V :
+RM(b) = V
+Im
+−Rm = 500V
+1mA−100Ω = 499900Ω
+•de 0 a 1000V :
+RM(c) = V
+Im
+−Rm = 1000V
+1mA −100Ω = 999900Ω
+4 Señales.
+4.1 Deﬁniciones
+Muchas veces en electrónica y electricidad, aparecen variables o magnitudes eléctricas que mod-
+iﬁcan su valor acorde va pasando el tiempo, por lo que no se puede decir que un único valor
+represente a dicha magnitud. Para poder encarar el análisis de de estas magnitudes que van
+cambiando conforme va pasando el tiempo es necesario deﬁnir algunos conceptos.
+Una SEÑAL puede ser deﬁnida como una función que contiene información, generalmente
+sobre el estado o conducta de un sistema físico. Hay señales que pueden tomar la forma de patrón
+que varía en el tiempo o en el espacio. Pueden ser representadas matemáticamente como funciones
+de una o más variables independientes
+La variable independiente que de la representación matemática de una señal puede ser continua
+o discreta.
+Prof: Esteban Lemos AEA 15
+== p16 ==
+4 SEÑALES.
+4.2 Representación matemática de las señales
+4.2 Representación matemática de las señales
+A efectos de poder analizar cual una variable física en el tiempo, suele ser de mucha utilizar
+representar la misma gráﬁcamente en un GRÁFICO CARTESIANO DE COORDENADAS OR-
+TOGONALES. Por ejemplo cuando los médico cardiólogos, estudian el corazón de un paciente,
+suelen realizar los electrocardiogramas; los cuales son representaciones gráﬁcas de una variable
+física (en este caso la actividad eléctrica del corazón).
+Figure 4.1: Representación gráﬁca de la actividad eléctrica del corazón y del ritmo cardíaco. Se
+usa para el diagnóstico de enfermedades.
+Para poder darle a la señal una representación en el tiempo, es necesario asignarle a la misma
+una función del tiempo. Es decir que el tiempo será la variable independiente de la función
+o aquella que no está sujeta a otras variables (esto se entiende dado que el tiempo transcurre
+invariable e inevitablemente) y la magnitud que queremos analizar será la variable que depende
+del tiempo.
+y =funci ´on(t) =s(t)
+Otro ejemplo de una variable que varía en el tiempo es el nivel de precipitaciones de un lugar
+determinado
+Prof: Esteban Lemos AEA 16
+== p17 ==
+4 SEÑALES.
+4.2 Representación matemática de las señales
+Figure 4.2: El nivel de precipitaciones depende del tiempo
+4.2.1 Clasiﬁcación
+Por el tipo de variable independiente:
+•Señales continuas en el tiempo :son aquellas deﬁnidas cobre un continuo de tiempo y son
+representadas por funciones de variable continua
+t
+− 2
+− 1
+1
+2 f(t)
+0
+Figure 4.3: Tiempo continuo.
+•Señales discretas en el tiempo :son aquellas deﬁnidas en tiempos discretos, esto determina
+que estén representadas por una secuencia de números
+Prof: Esteban Lemos AEA 17
+== p18 ==
+4 SEÑALES.
+4.2 Representación matemática de las señales
+t
+− 1
+1 f(t+T)
+0
+Figure 4.4: Tiempo discreto
+La forma en la que varía la magnitud a estudiar en función del tiempo, permite deﬁnir tres tipos
+de señales:
+•Señales Periódicas :son aquellas que repiten el juego completos de sus valores a intervalos
+regulares en el tiempo. Por ejemplo si un reloj hace sonar una campana todas las horas,
+cada vez que la campana suena es señal de que comienza una nueva hora y lógicamente esta
+señal sonora se repetirá dentro de una hora exacta.
+t
+− 1
+1 f(t)
+0
+Figure 4.5: En las señales periódicas la gráﬁca reﬂeja la repetición regular de los valores en el
+tiempo.
+•Señales Pseudo periódicas : son aquellas que guardan una relación de regularidad en el
+tiempo, pero sin embargo sus valores se ven afectados. Un ejemplo de esto es unECO, ya
+que regularmente volverá a sonar o aparecer, pero a medida que pasa el tiempo, el volumen
+va disminuyendo. Otro ejemplo es una nota pulsada en un instrumento, esta sonará siempre
+igual (será siempre la misma nota), pero su volumen irá desapareciendo conforme transcurra
+el tiempo.
+t
+− 1
+1 f(t)
+0
+Figure 4.6: Las señales pseudo periódicas mantienen la regularidad en la forma, pero con cambios
+en la amplitud en el transcurso del tiempo.
+•Señales aperiódicas : son señales irregulares en el tiempo.
+Prof: Esteban Lemos AEA 18
+== p19 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+t
+− 1
+1 f(t)
+0
+Figure 4.7: Tiempo continuo.
+•Señales Aleatorias :son aquellas que no poseen regularidad alguna, los valores que toma la
+señal en determinado momento son totalmente dependientes del azar. El ejemplo típico es
+el ruido, ya sea sonoro, como eléctrico u de otra naturaleza.
+t
+− 1
+1 f(t)
+0
+Figure 4.8: Tiempo continuo.
+4.2.2 Parámetros de una señal o valores característicos asociados
+•Valor máximo o valor pico : Es el máximo valor que puede tomar una señal
+•Valor pico a pico : Es la diferencia entre el máximo valor que puede tomar la señal y el
+mínimo (pudiendo ser este negativo).
+•Valor medio : Es el valor promedio de la señal en un intervalo de tiempo determinado. Para
+el caso de señales periódicas, se toma como intervalo el período de la señal ver sección 4.3 .
+•Valor eﬁcaz : Es el valor cuadrático medio de la señal en un intervalo de tiempo determinado
+ver sección 4.3 .
+4.3 Señales periódicas de uso en electrónica
+Para poder encarar el estudio de las señales periódicas es necesario deﬁnir:
+•Período (T): es el tiempo que debe transcurrir para abarcar un juego completo de valores de
+una señal periódica, no es necesario empezar a contabilizar el período (T) desde el momento
+que la señal toma un valor nulo, sino que se puede empezar a tomar a partir de cualquier
+instante tal como se ve en la ﬁgura 4.9a la unidad del período es el segundos.
+•Ciclo : es un juego completo de valores contenidos en un período, como se ejempliﬁca en la
+ﬁgura 4.9b
+•Frecuencia (f) : es el número de ciclos por unidad de tiempo, está directamente relacionada
+con el período por la expresión 4.1.
+Prof: Esteban Lemos AEA 19
+== p20 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+f = N ´umerodeciclos
+Tiempotranscurrido = unciclo
+unper ´ıodo= 1
+T (4.1)
+t
+s(t)
+T
+T
+T
+(a)
+t
+s(t)
+ciclo
+(b)
+Figure 4.9
+4.3.1 Función senoidal
+Es de especial interés en electrónica y electricidad ya que permite describir entre otras; la variación
+de la tensión alterna producida por los generadores eléctricos utilizados para abastecer de elec-
+tricidad a las ciudades, pero además los alternadores de los coches y los generadores hogareños,
+directamente deﬁniéndola como señal senoidal.
+Su representación gráﬁca en un gráﬁco cartesiano es:
+− 2 − 1 1 2
+t
+s(t)
+0
+Vp
+−Vp
+T
+Figure 4.10: Función senoidal representada en un gráﬁco cartesiano
+Se puede observar en el gráﬁco 4.10 que:
+•La gráﬁca es continua (es decir que no hay cambios abruptos en la curva determinada por
+esta función).
+•La forma se repite en intervalos regulares de tiempo, por lo que se deduce que es una función
+periódica.
+•Los valores que toma la función no sobrepasan elVp o el−Vp entendiéndose entonces que
+existe un valor máximo y un valor mínimo.
+Expresión trigonométrica La función en el tiempo para deﬁnir una señal senoidal es:
+s(t) =Vp·sin(2πf·t +φ) (4.2)
+Prof: Esteban Lemos AEA 20
+== p21 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+Donde:
+•s(t) : indica ques es una señal función del tiempo.
+•Vp : es la amplitud de la señal o valor máximo. También se denomina valor pico, pudiéndose
+notar Vp , ˆV o simplementeA.
+•π: es el número irracional que surge de la relación entre el diámetro y el perímetro de
+cualquier circunferencia.
+•f : se denomina frecuencia y resulta de la cantidad de veces que se repite un juego completo
+de valores de la señal en un segundo, su unidad es el[Hz] = 1
+seg o Herzt .
+•t : es el tiempo, aquí cumple la función de variable independiente, esto signiﬁca que no tiene
+un valor predeterminado, sino que puede tomar cualquier valor desde−∞a +∞.
+•φ: es la fase inicial y determina el desplazamiento de la señal en el tiempo, la unidad es el
+radián.
+En la ﬁgura 4.12 se observan los cambios en la representación gráﬁca de la señal cuando
+se cambiar los parámetros de la expresión trigonométrica. En todos los casos se observa
+la misma forma en la señal, los cambios ocurren en el valor máximo o amplitudA, en la
+frecuencia o cantidad de ciclos por segundof y en la fase inicialφ.
+–En la ﬁgura 4.12a se observan 4 amplitudes (A) diferentes (2 ; 1,5 ; 1 ; 0,5).
+–En la ﬁgura 4.12b se observa 4 frecuencias (f) o 4 período (T) diferentes.
+–En la ﬁgura 4.12c se observa como la señal se desplaza dadas las 5 diferentes fases
+iniciales.
+Ejemplo 4.1 La tensión de línea o de red que alimenta nuestras casas, es sin duda alguna, la
+tensión variable más conocida. Muchos saben que la misma es alterna pero realmente ¿De qué
+manera varía esos valores de tensión en el tiempo? La respuesta es según la función senoidal, la
+misma puede escribirse utilizando la expresión 4.2 de la siguiente manera:
+s(t) = 311v·sin(2π·50Hz·t)
+•De la mismo podemos ver que el valor máximo o amplitud (A) es igual a 311v, que la
+frecuencia (f) es de 50 Hz y que la fase inicial (φ) es igual a cero1
+•También podemos observar como se asigna la unidad volt a la expresión dado que hablemos
+de una tensión. La gráﬁca de la función se ve en la ﬁgura 4.11 .
+− 20 − 10 10 20
+t[ms]
+− 300
+100
+200
+300
+v(t)[V]
+0
+VP = 311V
+VP P = 622V
+−VP = − 311V
+T=20msT=20ms
+Figure 4.11
+1La fase inicial de cualquier señal no suele ser relevante a menos que se compare con la de otra señal.
+Prof: Esteban Lemos AEA 21
+== p22 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+− 2 − 1 1 2
+t
+− 2
+− 1
+1
+2 f(t)
+0
+(a) Cambia la amplitudA o valor picoVp
+− 2 − 1 1 2
+t
+− 2
+− 1
+1
+2 f(t)
+0
+(b) Cambia la frecuenciaf
+− 2 − 1 1 2
+t
+− 2
+− 1
+1
+2 f(t)
+0
+(c) Cambia la fase inicialφ
+Figure 4.12
+4.3.2 Como proceder a obtener el gráﬁco de una función senoidal asociada a una
+tensión
+Cualquier función que sea continua, puede ser plasmada en un gráﬁco cartesiano asignándole
+valores a la variable independiente y calculando la expresión matemática para obtener la variable
+dependiente. Sin embargo esto no es necesario, si uno ya conoce la función de antemano. Como se
+Prof: Esteban Lemos AEA 22
+== p23 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+ha señalado anteriormente la forma que se obtiene con una función senoidal es siempre la misma,
+lo único que está sujeto a modiﬁcarse son los parámetros (A) , (f) , (φ).
+Ejemplo 4.2 Suponga se cuenta con la siguiente expresión:s1(t) = 5V·sin(2π·100Hz·t), la
+cual se quiere visualizar en un gráﬁco que contenga dos ciclos de la misma.
+•Lo primero que debemos de detectar son los parámetros (A) , (f) , (φ).
+–A que también denominamosVP es evidentemente 5V.
+–f es la frecuencia de la señal, que en este caso es de100Hz .
+–φla fase inicial no aparece en esta expresión, cuando esto sucede, se interpreta que la
+misma es nula.
+•Seguidamente conviene calcular el períodoT para asignar la escala a nuestro gráﬁco, ya que
+un ciclo completo de esta señal estará comprendido en un período:
+–De la expresión 4.1
+T = 1
+f = 1
+100Hz = 0, 01s = 10ms
+claramente el período o tiempo que debe de paras para que se complete un juego de valores
+es de 10 mili segundo o10ms.
+•Con todos estos datos de la señal, pasamos al gráﬁco.
+–Elegimos la escala horizontal (eje del tiempos )en función del período que en este caso
+es de 10ms, y como queremos graﬁcar dos ciclos, deberemos de tomar no menos de
+20ms ver ﬁgura 4.13a
+–Elegimos la escala vertical (eje de la tensión) en función del valor pico que en este caso
+es de 5V.
+•Marcamos aquellos puntos que corresponden a pares ordenados que determinan máximos y
+nulos. Dichos valores siempre se dan para el mismo lugar dentro de un período ver ﬁgura
+4.13b .
+–Los valores nulos:
+s1(t) = 0 para t =
+{
+0,T
+2,T
+}
+en nuestro ejemplo:
+T = 10ms → T
+2 = 5ms
+–Los valores máximos y mínimos:
+Prof: Esteban Lemos AEA 23
+== p24 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+S1(t) =Vp si t = T
+4
+S1(t) =−Vp si t = 3
+4·T
+en nuestro ejemplo:
+T = 10ms → T
+4 = 2, 5ms y 3
+4·T = 7, 5ms
+•Unimos los puntos según la curva conocida (la función senoidal)2 ver ﬁgura 4.13c .
+t[ms]
+s1(t)
+0
+5V
+− 5V
+5 10 15 20
+(a) Selección de la escala
+t[ms]
+s1(t)
+0
+5V
+− 5V
+5 10 15 20
+(b) Se marcan los valores que una senoidal debe de
+tomar en T
+4, T
+2, 3·T
+4 y T .
+t[ms]
+s1(t)
+0
+5V
+− 5V 10ms
+5 10 15 20
+(c) gráﬁca de la expresións1(t) = 5V ·sin(2π·100Hz ·t)
+Figure 4.13
+Ejemplo 4.3 Supongamos que la misma señal del ejemplo 4.2 ahora tiene una fase inicial (φ)
+de 45◦.
+Primero debemos de tener en cuenta que el ángulo de la fase hay que pasarlo a radianes, esto
+se realiza de la siguiente manera:
+´anguloenradianes = (´anguloengradossexagesimales )·π
+180◦
+En nuestro caso:
+φ[rad] = 45◦·π
+180◦ = π
+4 [rad]
+Ahora podemos escribir la expresión de la función que representa a nuestra señal:
+2Si se quiere mayor precisión en el trazado, se deben de calcular los valores intermedios de la función
+Prof: Esteban Lemos AEA 24
+== p25 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+s2(t) = 5V·sin(2π·100Hz·t + π
+4 )
+•Para graﬁcar ahora la expresión dada, se debe de repetir el procedimiento anterior; con un
+paso previo que determine cuantos milisegundos debemos mover la señal hacia el tiempo
+positivo o hacia el tiempo negativo en el gráﬁco.
+–Para encontrar el desplazamiento se iguala el contenido del paréntesis a cero.
+2π·100Hz·t + π
+4 = 0
+–Luego se despeja el tiempo (t).
+t =−
+π
+4
+2π·100Hz =−1, 25·10−3s
+El resultado es de -1,25 ms, esto quiere decir que la señal se ha desplazado hacia el tiempo
+negativo
+•El gráﬁco que se obtiene es idéntico pero a todos los valores de tiempo anteriores se les debe
+de restar 1,25ms ver ﬁgura 4.14
+t[ms]
+s1(t)
+0
+5V
+− 5V 10ms
+1, 25
+5 10 15 20
+Figure 4.14: gráﬁca de la expresións1(t) = 5V·sin(2π·100Hz·t + π
+4 ),notar que el corrimiento es
+de 1,25ms hacia el tiempo negativo tanto de los valores nulos como de los máximos y los mínimos.
+Ejemplo 4.4 Suponga que no se cuenta con la expresión, en vez de ella se nos brindan datos:
+Vp = 3v , T = 1µs, y se sabe que el desplazamiento es de−0, 75µs(se indica que la variación de
+tensión es senoidal). Con estos parámetros se quiere graﬁcar la función de la señal y adicional-
+mente se quiere escribir la función.
+•Para graﬁcar la señal, no es necesario tener la función, puesto que contamos con los datos
+que hubiésemos extraído de la misma; basta con:
+–Trazar los ejes de coordenadas.
+–Elegir la escala apropiada para ambos ejes.
+Dado que el período es de1µssimplemente debemos decidir cuantos ciclos buscamos
+graﬁcar; supongamos que queremos dos ciclos ver ﬁgura 4.15a .
+–Marcar los puntos principales (cruces por cero, máximos y mínimos).
+Prof: Esteban Lemos AEA 25
+== p26 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+∗Como el período es de1µslos cruces por cero se estarían dando en{0µs; 0, 5µsy1µs};
+pero dado que la señal se ha desplazado−0, 75µsdichos cruces son realmente
+{−0, 75µs;−0, 25µsy0, 25µs}.
+∗De la misma forma, el máximo se estará dando en0, 25µs−0, 75µs=−0, 5µsy
+el mínimo en0, 75µs−0, 75µs= 0s.
+–Unir los puntos respetando la forma senoidal ver ﬁgura 4.15b .
+t[µs]
+s3(t)
+0
+3V
+− 3V
+0,25 0,5 0,75 1-0,25-0,5-0,75-1
+(a) Selección de la escala y marcado de los puntos máximos, mínimos y ceros. Se observan en azul algunos
+puntos adicionales.
+t[µs]
+s3(t)
+0
+3V
+− 3V
+0,25 0,5 0,75 1-0,25-0,5-0,75-1
+T=1µs
+(b) Unión de los puntos respetando la forma senoidal.
+Figure 4.15: Notar como el primer punto del juego de valores quedó desplazado en−0.75µs.
+•Finalmente la expresión des3(t) puede ser encontrada, pero dado que los datos de frecuencia
+y fase inicial no se encuentran en el enunciado debemos proceder a calcular los mismo antes
+que nada.
+–Para calcular la frecuencia basta con calcular la inversa del período que es dato.
+f = 1
+T = 1
+1µs= 1
+1·10−6s = 1000000Hz o 1·106Hz o 1MHz
+–Para calcular la fase inicialφbasta con despejarla de la expresión trigonométrica de
+s3(t) para el tiempo dado (−0, 75µs) entonces:
+s3(t) = 3V·sin(2π·1MHz·t +φ)
+reemplazando port =−0, 75µs.
+s3(−0, 75µs) = 3V·sin(2π·1MHz·(−0, 75µs) +φ)
+y siendos3(−0, 75µs) = 0V.
+0V = 3V·sin(2π·1MHz·(−0, 75µs) +φ)
+Prof: Esteban Lemos AEA 26
+== p27 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+luego:
+0V
+3V =sin(2π·1MHz·(−0, 75µs) +φ) ⇒0 =sin(2π·1MHz·(−0, 75µs) +φ)
+Para que el valor del seno sea igual a cero se deben de dar determinados valores en
+la expresión 2π·1MHz·(−0, 75µs) +φ, entre los que están{0,π,2π,....,nπ}, es de
+nuestro interés únicamente{0}entonces:
+2π·1MHz·(−0, 75µs) +φ= 0 ⇒ φ= 2π·1MHz·0, 75µs
+Finalmente:
+φ= 2π·1·106Hz·0, 75·10−6s = 3
+2π
+Si el valor lo queremos en grados sexagesimales
+φ= 180◦
+π·3
+2π= 270◦
+La expresión ﬁnal des3(t) es:
+S3(t) = 3V·sin
+(
+2π·1MHz·t + 3
+2π
+)
+4.3.3 Como proceder a obtener la expresión trigonométrica de una función senoidal
+a partir de un gráﬁco.
+Dado lo visto anteriormente, se puede proceder tanto a la obtención de un gráﬁco a partir de una
+función; como a la obtención de una función a partir de un gráﬁco. En el segundo caso la premisa
+es tratar de encontrar aquellos valores característicos que nos permitan rápidamente escribir la
+expresión de la función.
+Ejemplo 4.5 Suponga el gráﬁco de la ﬁgura 4.16.
+•Los valores máximos y mínimos se pueden ver marcados con círculos azules.
+–El valor pico o máximo:VP = 2mV
+–El valor mínimo:−VP =−2mV
+–El valor pico a pico:VPP = ˆˆV =VP−(−VP ) = 2·VP = 4mV
+•El período de la misma se ve en el intervalo naranja.
+–El mismo por ejemplo se encuentra comprendido entreti =−0, 75ms y tf = 0, 25ms.
+Pudiéndose calcular como:T =tf−ti = 0, 25ms−(−0, 75ms) = 1ms.
+–La frecuencia la calculamos como la inversa del período :f = 1
+T = 1
+1ms = 1KHz.
+•La fase inicial se encuentra marcada también con un intervalo en naranja, pudiendo observar
+que el desplazamiento es de0, 25ms hacia el tiempo negativo.
+Prof: Esteban Lemos AEA 27
+== p28 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+–Para calcularφprocedemos a igualar a cero el argumento de la expresión trigonométrica
+de la función senoidal ver ecuación 4.2:
+2π·f·t +φ= 0 donde t =−0, 25msy f = 1KHz
+=⇒φ=−2π·f·t =−2π·1KHz·(−0, 25ms)
+=⇒φ= π
+2 o 90◦
+Finalmente la expresión resultante es:
+v(t) = 2V·sin
+(
+2π·1KHz·t + π
+2
+)
+− 2 − 1 1 2
+t[ms]
+− 4
+− 2
+2
+4 v(t)[mV]
+0
+T
+T
+Faseinicial
+Figure 4.16
+4.3.4 Valor medio de una señal senoidal
+A partir de la deﬁnición dada en la sección 4.2.2 . Se entiende que para obtener el valor medio
+de una señal, deben de sumarse todos los valores que la misma toma en un tiempo determinado y
+luego efectuar el cociente entre el resultado de dicha suma y el tiempo; cuando la señal es periódica
+el tiempo utilizado es el período.
+Una interpretación física del valor medio sería:
+Es el valor que debería tomar una señal constante, para transportar en el mismo sentido que la
+señal periódica, idéntica carga neta, en un intervalo de tiempo igual a un período de esta
+Para el caso particular de una señal senoidal, se puede observar por simple inspección de la
+gráﬁca de la misma, que existen tantos valores positivos como negativos y por lo tanto al sumarlos,
+el total de esta suma debería dar cero ver ﬁgura 4.17 .
+Prof: Esteban Lemos AEA 28
+== p29 ==
+4 SEÑALES.
+4.3 Señales periódicas de uso en electrónica
+t[s]
+S(t)
+0
+T
+T
+2
+Figure 4.17: Se observa la misma cantidad de valores positivos como negativos, por esto el valor
+medio de la señal senoidal siempre es CERO.
+4.3.5 Valor eﬁcaz de una señal senoidal
+A partir de la deﬁnición dada en la sección 4.2.2. Se entiende que para obtener el valor eﬁcaz
+de una señal, deben de sumarse todos los valores que la misma toma en un tiempo determinado,
+pero previamente elevándolos al cuadrado, luego dividir dicha suma por el tiempo utilizado y
+ﬁnalmente efectuar la raíz cuadrada.
+Esta operación resulta a simple vista imposible, dado que todos los valores que una señal
+continua toma en el tiempo son inﬁnitos. Existe una herramienta del cálculo en matemática que
+permite realizar dicha operación, sin embargo la misma será analizada en el futuro.
+La interpretación física del valor eﬁcaz de una señal en electrónica va a ser:
+El el valor que debería de tener una señal constante para disipar en un intervalo de tiempo igual
+a un período, sobre idéntico resistor, igual cantidad de energía que la señal periódica en cuestión
+Vef R
+(a) generador de tensión constante =
+Vef
+VP R
+(b) Generador de tensión senoidal de
+valorVP
+Figure 4.18
+Una señal senoidal va a tener un valor de tensión eﬁcaz igual a:
+Vef = VP√
+2 (4.3)
+La señal senoidal más conocida es aquella que está asociada a la tensión alterna de línea que
+llega a nuestros hogares por medio de la red eléctrica. El valor que se nos indica de tensión cuando
+nos referimos a ella (220V) es efectivamente el valor eﬁcaz de dicha señal, para conocer el valor
+pico debemos utilizar la expresión 4.3 .
+Prof: Esteban Lemos AEA 29
+== p30 ==
+5 USO DEL OSCILOSCÓPIO
+Si V ef = 220V =⇒VP =Vef·
+√
+2 ≊ 311V
+t[s]
+S(t)2
+0
+(VP )2
+T
+T
+2
+Figure 4.19: Al ser el valor cuadrático medio, los valores negativos desaparecen cuando se eleva
+al cuadrado, esto indica que el valor eﬁcaz de una señal senoidal es mayor que CERO
+5 Uso del osciloscópio
+5.1 ¿Qué el osciloscopio?
+Figure 5.1: Algunos Osciloscopios
+Consiste de un instrumento de medición y como tal tiene todas las características vistas ante-
+riormente (Rango, Escala, Precisión, Exactitud, etc). El osciloscopio tiene como característica
+principal que permite observar en una pantalla la forma que describe la variación de ladiferencia
+de potencialpresente en a su entrada (que podría ser o no una señal), permitiendo de esta forma
+adquirir mediante el uso del mismo variada información a saber:
+•Formas de onda y/o tipos de señales.
+•Valores máximos y/o mínimos frecuencia y período.
+•Adicionalmente un observador avesado, puede llegar a detectar comportamiento indeseables
+o erraticos en algún equipamiento que esté bajo prueba.
+Prof: Esteban Lemos AEA 30
+== p31 ==
+5 USO DEL OSCILOSCÓPIO
+5.2 Diagrama en bloques del osciloscopio
+(a) (b) (c)
+Figure 5.2: Algunas formas de onda en la pantalla de un osciloscopio
+5.2 Diagrama en bloques del osciloscopio
+Los osciloscopios disponibles en el mercado son de una gran variedad, sin embargo podemos inicial-
+mente clasiﬁcarlos según la forma de adquirir y representar la medición en dos tipos principales:
+•Osciloscopios digitales.
+–Estos osciloscopios realizan una conversión analógica a digital de la variable de entrada
+(diferencia de potencial), la cual es luego procesada mediante un microprocesador y
+guardada en una memoria. Finalmente la representación se suele realizar en una pan-
+talla del tipo LCD o LED.
+•Osciloscopios analógicos.
+–Estos osciloscópios procesan las señales analógicas de forma directa para luego generar
+una representación de las mismas en una pantalla del tipo TRC (Tubo de Rayos Catódi-
+cos)
+Figure 5.3: Esquema básico de un osciloscopio digital
+Prof: Esteban Lemos AEA 31
+== p32 ==
+5 USO DEL OSCILOSCÓPIO
+5.2 Diagrama en bloques del osciloscopio
+Figure 5.4: Esquema básico de un osciloscopio analógico
+A pesar de las disferencias entre los osciloscopios digitales y los analógicos, existen entre ambos
+tres partes que realizan procesos similares.
+5.2.1 Ampliﬁcador/Atenuador vertical
+Ver Figura 5.5 A Actúa como ampliﬁcador/atenuador de la señal de entrada que ingresa al el
+directamente, ﬁja la posición de la señal en el eje “Y” y procesa la señal para enviar información
+al bloque de disparo. Este bloque consta como mínimo de:
+•Una ﬁcha de entrada tipo BNC, para conectar una punta de prueba que luego será utilizada
+para llevar la señal desde el circuito al instrumento.
+•Un selector de escala que deﬁne volts/div. Para visualizar señales de algunos mili volts y
+señales de varios volts dentro de la misma pantalla.
+•Una llave selectora para permitir el ingreso al instrumento de señales con valor medio mayor
+a cero (DC), la eliminación de la componente de continua (AC) y directamente la conexión
+del canal a masa (GND).
+•También un ajuste de posición para calibrar el cero. Puede llegar a existir una llave para
+invertir la señal 180˚ y alguna llave para aumentar la señal x5 o x10 veces según modelo.
+El bloque Horizontal o de control de barrido genera a grandes rasgos una señal diente de sierra
+encargada de barrer la pantalla de izquierda a derecha de manera que junto con este barrido y
+la deﬂexión del haz de electrones en el TRC (CRT) quede impresa en pantalla la señal que se
+está midiendo. La sincronización de la señal de barrido con la señal de entrada proviene del
+bloque de disparo (trigger). Este bloque cuenta como mínimo de: Una perilla que nos permite
+ﬁjar la escala de visualización horizontal conﬁgurando un valor de tiempo para cada división de
+Prof: Esteban Lemos AEA 32
+== p33 ==
+5 USO DEL OSCILOSCÓPIO
+5.2 Diagrama en bloques del osciloscopio
+la cuadricula de la pantalla en seg. / div. Muchas veces sobre la perilla de selección de la base
+de tiempo o escala horizontal se encuentra una perilla mas pequeña que nos permite sacar de
+calibración o variar libremente la base de tiempo para el valor seleccionado con la perilla mas
+grande. Se cuenta también con una perilla de ajuste de posición para facilitar ubicar la señal en
+alguna posición conveniente de la cuadricula de pantalla para por ejemplo tomar mediciones. En
+algunos instrumentos se cuenta con la posibilidad de controlar el eje “X” para de esta manera
+ampliar la gama de mediciones posibles.
+5.2.2 Base de tiempo o de control de barrido.
+Ver Figura 5.5B Genera una señal diente de sierra encargada de barrer la pantalla de izquierda
+a derecha de manera que junto con este barrido y la deﬂexión del haz de electrones en el TRC
+(CRT en inglés) quede impresa en pantalla la señal que se está midiendo. La sincronización de
+la señal de barrido con la señal de entrada proviene del bloque de disparo (trigger). Este bloque
+cuenta como mínimo de:
+•Una perilla que nos permite ﬁjar la escala de visualización horizontal conﬁgurando un valor
+de tiempo para cada división de la cuadricula de la pantalla en seg. / div. Muchas veces
+sobre la perilla de selección de la base de tiempo o escala horizontal se encuentra una perilla
+mas pequeña que nos permite sacar de calibración o variar libremente la base de tiempo
+para el valor seleccionado con la perilla mas grande.
+•Una perilla de ajuste de posición para facilitar ubicar la señal en alguna posición conveniente
+de la cuadricula de pantalla para por ejemplo tomar mediciones. En algunos instrumentos
+se cuenta con la posibilidad de controlar el eje “X” para de esta manera ampliar la gama de
+mediciones posibles.
+5.2.3 Disparo o trigger
+Ver Figura 5.5 C Permite sincronizar la señal en pantalla para poder visualizar la misma de
+manera detenida, para lograr esto es preciso indicar mediante la combinación de algunos inter-
+ruptores si la señal de sincronismo se generará internamente o será ingresada al instrumento, si es
+generada internamente cual será la fuente de señal para comparar (en caso de que el osciloscopio
+tenga mas de un canal). También se puede ajustar manualmente el nivel de disparo deseado o
+si el instrumento lo permite, seleccionar en automático. Es probable que los instrumento mas
+modernos posean también diferentes opciones respecto de cómo se tomará la señal patron para
+generar el disparo.
+Prof: Esteban Lemos AEA 33
+== p34 ==
+5 USO DEL OSCILOSCÓPIO
+5.3 Medición de señales periódicas
+A
+B
+C
+Figure 5.5: Osciloscopio PROTEK disponible en la escuela.
+5.3 Medición de señales periódicas
+Para comenzar a medir se recomienda primeramente conﬁgurar el instrumento para poder visu-
+alizar correctamente el canal 1 «CH1» o «CHA» para ello:
+1. Lo primero a veriﬁcar es el buen funcionamiento de los instrumentos, cables y puntas de
+osciloscopio.
+(a) Las puntas de osciloscopio, tanto las realizadas por los alumnos, como las originales de
+los instrumentos, se deben de probar utilizando la salida de calibración del osciloscopio.
+(b) Dicha salida debería entregar una señal cuadrada de 1Vpp y 1KHz (esto puede variar
+dependiendo del osciloscopio en cuestión). ver ﬁgura 5.6
+(c) Conﬁgure la escala vertical teniendo en cuenta que la señal a visualizar es de 1Vpp.
+(d) Apague o inhabilite, la función (Volts Variable)generalmente una perilla más pequeña
+concentrica ubicada sobre la perilla que gradúa la escala vertical.
+(e) Apague o inhabilite la función de ampliﬁcación vertical (generalmente algún botón con
+la leyenda X10/X5).
+(f) Conﬁgure el acoplamiento de la entrada del canal 1 o A «CH1» o «CHA» a CC
+(acoplamiento de continua).
+(g) Conﬁgure la fuente de disparo para el canal 1 “CH1” Desconecte o ponga al mínimo la
+retención de disparo.
+(h) Seleccione el modo automático.
+(i) Conﬁgure el modo de disparo (trigger) hasta que la señal se detenga en la pantalla.
+(j) Conﬁgure la base de tiempo taniendo en cuanta que la señal posee una frecuencia de
+1KHz.
+Prof: Esteban Lemos AEA 34
+== p35 ==
+5 USO DEL OSCILOSCÓPIO
+5.3 Medición de señales periódicas
+2. Puede proceder a medir reajustando las escalas y el disparo hasta observar una señal quieta
+ocupando la pantalla con uno o dos ciclos preferentemente. ver ﬁgura 5.7
+Figure 5.6: Señal que debería de prueba de poderse observar en la pantalla
+Figure 5.7: Visualización de señales senoidales en un osciloscópio analógico
+Posiblemente aun no pueda visualizar la señal lo que puede ocurrir y su solución es:
+Prof: Esteban Lemos AEA 35
+== p36 ==
+5 USO DEL OSCILOSCÓPIO
+5.3 Medición de señales periódicas
+Problema Posible causa
+El haz desapareció de la pantalla
+1. Posiblemente la escala vertical es muy pequeña
+aumentar la relación volt/div.
+2. El nivel de continua (valor medio de la señal)
+puede ser elevado, probar de colocar el canal en
+CA.
+3. Aumentar el brillo.
+La señal se mueve
+constantemente de izquierda a
+derecha.
+1. Si la señal es muy pequeña, el sistema de
+disparo no puede sincronizar, probar entonces
+de bajar la relación de volt/div. de la escala
+vertical.
+2. Intentar ajustar el nivel de disparo (trigger)
+manualmente.
+Se ve una línea bastante gruesa
+en la pantalla o por el contrario
+se ve únicamente una porción del
+ciclo de la señal.
+1. Posiblemente haya que ajustar la escala de
+tiempo aumentando o bajando la relación de la
+escala horizontal.
+Solo se ve una línea horizontal
+1. Revisar si el canal está conﬁgurado en (GND)
+pasarlo a DC o AC.
+2. Asegurarse de que la punta está correctamente
+conectada.
+3. Revisar la escala vertical.
+4. Asegurarse de que el nivel de señal es lo
+suﬁcientemente alto.
+Una vez podemos visualizar la señal en pantalla, será posible obtener de la misma los valores
+característicos.
+Prof: Esteban Lemos AEA 36
+== p37 ==
+6 TENSIÓN O CORRIENTE ALTERNA
+Part II
+Fuentes lineales
+Figure 5.8: Diagrama en bloques de una fuente de alimentación
+6 Tensión o corriente alterna
+Como se estudió anteriormente, la energía eléctrica que alimenta los equipos de uso domésticos
+o de uso profesional/industrial, etc. se distribuye desde las centrales generadoras hacia nuestros
+hogares a través de la red eléctrica conformada por cables, transformadores y subestaciones.
+Dicha energía se presenta de forma potencial, es decir que la misma estará latente hasta el
+momento en que decidamos cerrar el circuito eléctrico; por ejemplo conectando al toma corrientes
+de nuestro hogar una resistencia ver ﬁgura 6.1. A su vez la circulación de cargas no es continua
+sino que una determinada cantidad de tiempo circula en un sentido y otra en el sentido opuesto;
+esto es debido a que la diferencia de potencial presente en el toma corriente es variable, siendo su
+forma de variación tal que en el tiempo puede ser descripta mediante una función senoidal (ver
+sección 4.3.2). A este tipo de energía potencial variable presente en la red y en nuestros hogares,
+se la denomina alternada; más precisamente tensión o diferencia de potencia alternada o alterna
+(TENSIÓN ALTERNA) o como se denomina en forma abreviadaAC, que es el acrónimo de
+(alternate current).
+Esta tensión alternagenera, por supuesto en un circuito cerrado, una corriente también alterna
+tal como se describió anteriormente ver ﬁgura 6.1 .
+Prof: Esteban Lemos AEA 37
+== p38 ==
+6 TENSIÓN O CORRIENTE ALTERNA
+v(t)
+A
+RCarga
+B
+I
++
+-
+(a) la corriente circula de A hacia B
+v(t)
+A
+RCarga
+B
+I
+-
++
+(b) la corriente circula de B hacia A
+Figure 6.1: Se observa como la corriente alterna su sentido de circulación
+En muchos casos las características de la tensión alterna (senoidal) disponible son adecuadas
+para conectar directamente un artefacto, por ejemplo:
+•Una lámpara
+•Una Heladera
+•Un ventilador
+Estos artefactos están especialmente diseñados para funcionar correctamente con la tensión alterna
+de la red cuyos valores característicos son:
+1. Tensión eﬁcaz :Vef = 220V
+2. Tensión pico :Vp =Vef·
+√
+2 ≊ 220V·1, 4142 ≊ 311V
+3. Frecuencia : 50 Hertz
+Para estos valores la función característica (ya descripta en la sección 4.3.2) es:
+VLinea = 311V·sen(2π·50Hz·t) (6.1)
+A pesar de que muchos artefactos pueden tomar energía directamente de la tensión de red;
+no todos los artefactos electrónicos disponibles en la actualidad están preparados o pueden ser
+conectados directamente a la tensión alterna disponible. Es el caso de computadoras portátiles,
+cargadores de celulares, videojuegos y muchos otros componentes electrónicos que se encuentran
+en el interior de la mayoría de los artefactos hogareños.
+Generalmente los artefactos electrónicos requieren de una adaptación o modiﬁcación de los
+parámetros que la tensión de RED posee.
+Una fuente de alimentación es un tipo de circuito o dispositivo electrónico encargado de proveer
+la energía necesaria para otro circuito o dispositivo que requiere determinadas características de
+tensión y/o corriente para funcionar.
+Prof: Esteban Lemos AEA 38
+== p39 ==
+6 TENSIÓN O CORRIENTE ALTERNA
+6.1 Modiﬁcar el valor pico de la tensión alterna de red.
+6.1 Modiﬁcar el valor pico de la tensión alterna de red.
+Tal como se mencionó anteriormente muchas veces será necesario procesar la energía alterna
+disponible en la red eléctrica, para esta tarea se encomendará a las fuentes ver ﬁgura 5.8.
+El primer componente de las fuentes lineales, por lo general, es un transformador.
+6.1.1 El transformador
+Consiste en una máquina eléctrica que es capaz de transformar el valor pico de la tensión alterna
+que se le aplica en otro, que puede ser mayor o que puede ser menor.
+El transformador ideal mantiene la potencia de salida igual a la potencia de entrada.
+Figure 6.2: Algunos transformadores
+La señal de salida sigue siendo alternada y mantiene (idealmente) la forma y la frecuencia
+original de la señal, por lo que unicamente se verá transformado a la salida, el valor pico y el valor
+eﬁcaz de la señal de entrada.
+6.2 Modiﬁcar el valor medio de la tensión alterna de red
+El rectiﬁcador
+El Filtro
+El regulador
+La carga
+Prof: Esteban Lemos AEA 39
+== p40 ==
+7 EL DIODO
+7 El diodo
+7.1 Descripción
+7.2 Clasiﬁcación
+7.2.1 Usos del diodo
+7.2.2 Tipos de diodos
+7.3 Polarización y Juntura
+7.3.1 Polarización directa
+7.3.2 Polarización inversa
+7.4 Curva del diodo
+7.5 Usos del diodo
+7.5.1 Protección
+7.5.2 Rectiﬁcador de 1/2 onda
+7.5.3 Rectiﬁcador de OC
+1. Fuente con punto Medio
+2. Fuente con puente rectiﬁcador.
+7.5.4 Regulador
+•Tensión de zener
+•conexionado
+•Cálculo.
+Prof: Esteban Lemos AEA 40
+== p41 ==
+BIBLIOGRAFÍA
+Part III
+Sistemas de control ON/OFF.
+Elcontroldedispositivosquerequierengrandescantidadesdeenergíaparafuncionar, esdeespecial
+importancia en la industria, sin embargo, los mismos también son requeridos para aplicaciones de
+tipo hogareñas; ya sea en el creciente campo de la demótica como en juguetes u otros dispositivos
+electrónicos de uso cotidiano.
+Un esquema típico de control puede ser:
+8 El Relé
+9 El transistor bipolar
+9.1 Descripción
+9.1.1 Clasiﬁcación
+9.1.2 Usos
+9.2 Polarización
+9.2.1 Parámetros Híbridos «HFE»
+9.2.2 Circuitos de polarización
+9.3 Análisis de circuitos de control típicos.
+9.4 Diseño de un circuito de control ON/OFF.
+References
+[1] Willian D. Cooper Alber D. Helfrick.Instrumentación Electrónica Moderna y Técnicas de
+Medición. Prentice Hall Hispanoamérica S.A., 1 edition, 1991.
+[2] Dr. Ing. Ricardo Armentano.Análisis de Señales y Sistemas. Ed. Rocamora, 1996.
+[3] Werner Damm and David Harel. LSCs: Breathing life into message sequence charts.Formal
+Methods in System Design, 19(1):45–80, July 2001.
+[4] Werner Damm and Bernd Westphal. Live and let die: LSC-based veriﬁcation of UML-models.
+Science of of Computer Programming, 55(1–3):117–159, March 2005.
+[5] Hartmut Ehrig and Martin Grosse-Rhode, editors. April 2002.
+[6] W Edward Gettys, Malcolm J Skove, and Frederick J Keller. Física clásica y moderna.
+McGraw-Hill Interamericana de España, 1992.
+[7] David Harel and Rami Marelly.Come, Let’s Play: Scenario-Based Programming Using LSCs
+and the Play-Engine. Springer-Verlag, 2003.
+[8] ITU-T. ITU-T Recommendation Z.120: Message Sequence Chart (MSC). ITU-T, 1999.
+Prof: Esteban Lemos AEA 41
+== p42 ==
+BIBLIOGRAFÍA
+[9] Jochen Klose. Live Sequence Charts: A Graphical Formalism for the Speciﬁcation of Com-
+munication Behavior. PhD thesis, Carl von Ossietzky Universität Oldenburg, 2003.
+[10] Jochen Klose and Bernd Westphal. Relating LSC speciﬁcations to UML models. In Ehrig
+and Grosse-Rhode [5], pages 130–137.
+[11] Sjouke Mauw and Victor Bos. Drawing Message Sequence Charts with LATEX. TUGBoat,
+22(1-2):87–92, March/June 2001.
+[12] Adel S. Sedra and Kenneth C. Smith.Microelectronic Circuits (Oxford Series in Electrical
+and Computer Engineering). Oxford University Press, 6 edition, 12 2009.
+[13] Marcos O. Pueyo y Carlos Marco.Análisis de los Modelos Circuitales. Arbó, 2 edition, 1993.
+Prof: Esteban Lemos AEA 42

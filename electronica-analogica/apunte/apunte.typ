@@ -15,4 +15,9 @@
 )
 
 #include "modulos/m1-mediciones.typ"
-#include "modulos/pendientes.typ"
+#include "modulos/m2-senales.typ"
+#include "modulos/m3-transformadores.typ"
+#include "modulos/m4-diodos.typ"
+#include "modulos/m5-fuentes.typ"
+#include "modulos/m6-transistores.typ"
+#include "modulos/anexos.typ"

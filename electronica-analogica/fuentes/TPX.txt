@@ -1,0 +1,508 @@
+
+== p1 ==
+Escuela de Educación Secundaria Técnica Nro de Vicente
+López
+Eduardo Ader
+Aplicaciones de Electrónica Analógica - 4to Año
+Guía de Trabajos Prácticos - I Cuatrimestre
+Autor:
+Guillermo Ruisi
+Marzo 2023
+== p2 ==
+ÍNDICE
+Índice
+I Trabajo Práctico N ro 0 2
+Introducción: Mediciones 2
+II Trabajo Práctico N ro 1 3
+Errores en Mediciones Electricas 3
+Consignas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+III Trabajo Práctico N ro 2 4
+Uso del Multimetro - Circuito Serie 4
+Consignas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+IV Trabajo Práctico N ro 3 7
+Uso del Multimetro - Circuito Paralelo 7
+Consignas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+V Trabajo Práctico N ro 4 10
+Introducción al Análisis de Señales 10
+Consignas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+VI Trabajo Práctico N ro 5 12
+Manejo del Osciloscopio 12
+Consignas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+VII Anexo 1 14
+Expansión de Rango de un Intrumento 14
+Consignas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+1
+== p3 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre INTRODUCCIÓN: MEDICIONES
+Parte I
+Trabajo Práctico Nro 0
+Introducción: Mediciones
+Usando como recurso el ducumental”En su justa medida”, responder las siguientes preguntas:
+1. ¿Cómo se llama la ciencia que estudia las mediciones?.
+2. ¿Qué significa medir?
+3. ¿Qué es un patrón y para qué sirve?
+4. ¿Qué factores pueden modificar una medición?
+5. ¿Cuáles son las unidades básicas del Sistema Internacional de Medidas?
+6. ¿Qué se entiende por magnitud?
+7. ¿A qué se llama unidad de medida?
+8. ¿Por qué hay incertidumbre en una medición?
+9. ¿Qué es el error en una medición?
+10. ¿Qué es un error aleatorio?
+11. ¿Qué método me permitira mejorar una medición?
+12. ¿Cómo se caracteriza la exactitud de una medición?
+13. ¿Quién controla el sistema de medidas en Argentina?
+Si desea volver a ver el video, podrá acceder a él escaneando el siguiente códico QR:
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+2 de 15
+== p4 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre ERRORES EN MEDICIONES ELECTRICAS
+Parte II
+Trabajo Práctico Nro 1
+Errores en Mediciones Electricas
+Consignas
+1. Elegir dos resistores cualquira e indicar:
+a) El error absoluto de cada resistor.
+b) El error relativo porcentual de cada resistor.
+c) El error absuluto y relativo porcentual al conectarlos en serie.
+d) El error absuluto y relativo porcentual al conectarlos en paralelo.
+2. Disponer de un voltímetro analogico y armar el siguiente circuito:
+Vi
++
+−
+12V
+4k7Ω
+R1
+1kΩR2
+a) Identificar, del voltímetro utilizado:
+1) La resolución
+2) El rango y el alcance.
+3) Clase del intrumento.
+4) El error maximo debido a la clase.
+3. Con el voltimetro, medir y registar la tension en laR2 bajo el punto de vista de 5 persona y calcular:
+a) El promedio de mediciones.
+b) El rango de error.
+4. Utilizando un tester digital, medir una vez más la tensión deR2. A continuación, viendo el manual del
+instumento, calcular el error con la escala seleccionada.
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+3 de 15
+== p5 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre USO DEL MULTIMETRO - CIRCUITO SERIE
+Parte III
+Trabajo Práctico Nro 2
+Uso del Multimetro - Circuito Serie
+Consignas
+Armar en el protoboard el siguiente circuito:
+Vi
++
+−
+9V
+1kΩ
+R1
+1kΩR2
+1kΩ
+R3
+Circuito 1
+1. ¿Qué configuración reconoce haber armado? Justifique su respuesta:
+2. Realizar, mediante el uso de un multímetro, la medición del valor cada una de las resistencias y complete
+la tabla 1.
+Resistencia Valor nominal Valor medido Tolerancia Valor minimo Valor máximo
+R1
+R2
+R3
+RT
+Tabla 1
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+4 de 15
+== p6 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre USO DEL MULTIMETRO - CIRCUITO SERIE
+Consignas
+3. Realizar, mediante el uso de un multímetro, la medición de las corrientes de cada uno de las resistencias
+(abriendo el circuito donde corresponda). Luego, completar la tabla 2.
+Corriente Valores medidos Valor teóricos Calculos con valores medidos
+IR1
+IR2
+IR3
+IRT
+Tabla 2
+Recordar:
+IT = Vi
+RT
+e IR1 = VR1
+R1
+e IR2 = VR2
+R2
+e IR3 = VR3
+R3
+4. Realizar, mediante un multímetro, la medición de la tension aplicada por la fuente (Vi). También, mida
+las caidas detensiones sobre todos las resistencias y complete la tabla 3.
+Tensión Valores medidos Valor teóricos Calculos con valores medidos
+VR1
+VR2
+VR3
+Vi
+Tabla 3
+Recordar:
+Vi =IT ·RT y VR1 =IT ·R1 y VR2 =IT ·R2 y VR3 =IT ·R3
+5. ¿Son iguales las caidas tensiones medidas, o presentan alguna diferencia entre ellas?¿Deberían acaso
+ser iguales? Explique lo sucedido y por qué:
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+5 de 15
+== p7 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre USO DEL MULTIMETRO - CIRCUITO SERIE
+Consignas
+6. ¿Cómo son las mediciones de corriente entre ellas? Justifique.
+7. ¿Son iguales los valores medidos a los cálculos teóricos? Justifique.
+8. Elabore una conclusión sobre las diferencias entre los valores medidos y los valores calculados en forma
+teórica, así como las diferencias entre los valores indicados por el fabricante ¿Cómo puedo saber de
+antemano que error o diferencia máxima o mínima voy a encontrar en un futuro circuito?
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+6 de 15
+== p8 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre USO DEL MULTIMETRO - CIRCUITO PARALELO
+Parte IV
+Trabajo Práctico Nro 3
+Uso del Multimetro - Circuito Paralelo
+Consignas
+Armar en el protoboard el siguiente circuito:
+Vi
++
+−
+9V 1kΩR1 1kΩ R2 1kΩR3
+Circuito 1
+1. ¿Qué configuración reconoce haber armado? Justifique su respuesta:
+2. Realizar, mediante el uso de un multímetro, la medición del valor cada una de las resistencias y complete
+la tabla 1.
+Resistencia Valor nominal Valor medido Tolerancia Valor minimo Valor máximo
+R1
+R2
+R3
+RT
+Tabla 1
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+7 de 15
+== p9 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre USO DEL MULTIMETRO - CIRCUITO PARALELO
+Consignas
+3. Realizar, mediante el uso de un multímetro, la medición de las corrientes de cada uno de las resistencias
+(abriendo el circuito donde corresponda). Luego, completar la tabla 2.
+Corriente Valores medidos Valor teóricos Calculos con valores medidos
+IR1
+IR2
+IR3
+IRT
+Tabla 2
+Recordar:
+IT = Vi
+RT
+e I1 = Vi
+R1
+e I2 = Vi
+R2
+e I3 = Vi
+R3
+4. Realizar, mediante un multímetro, la medición de la tension aplicada por la fuente (V1). También, mida
+las caidas detensiones sobre todos las resistencias y complete la tabla 3.
+Tensión Valores medidos Valor teóricos Calculos con valores medidos
+VR1
+VR2
+VR3
+VT
+Tabla 3
+Recordar:
+VT =IT ·RT y V1 =I1 ·R1 y V2 =I2 ·R2 y V3 =I3 ·R3
+5. ¿Son iguales las corrientes medidas, o presentan alguna diferencia entre ellas?¿Deberían acaso ser
+iguales? Explique lo sucedido:
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+8 de 15
+== p10 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre USO DEL MULTIMETRO - CIRCUITO PARALELO
+Consignas
+6. ¿Cómo son las mediciones de tensión entre ellas? Justifique.
+7. ¿Son iguales los valores medidos a los cálculos teóricos? Justifique.
+8. Nuevamente, elabore una conclusión sobre las diferencias entre los valores medidos y los valores calcula-
+dos en forma teórica, así como las diferencias entre los valores indicados por el fabricante ¿Cómo puedo
+saber de antemano que error o diferencia máxima o mínima voy a encontrar en un futuro circuito?
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+9 de 15
+== p11 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre INTRODUCCIÓN AL ANÁLISIS DE SEÑALES
+Parte V
+Trabajo Práctico Nro 4
+Introducción al Análisis de Señales
+Consignas
+1. En hoja aparte manuscrita investigue y desarrolle los siguientes conceptos:
+a) ¿Qué es una señal? ¿Por qué nos interesan las señales en electrónica?
+b) ¿Qué tipos de señales hay? De cada una, ejemplifique y de ser posible; grafique en un gráfico de
+coordenadas cartesianas ortogonales o adjunte ejemplos impresos.
+c) ¿Qué significa parámetro? ¿Cuáles son los parámetros más importantes de una señal periódica?
+2. Para las siguientes señales periódicas indique, marcando en el gráfico en esta misma hoja, donde están
+los parámetros característicos:
+Senoide
+Cuadrada
+Rampa
+Diente de sierra
+Triangular
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+10 de 15
+== p12 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre INTRODUCCIÓN AL ANÁLISIS DE SEÑALES
+Consignas
+3. Para las siguientes señales indique los valores de todos sus parámetros característicos y escriba las
+funciones de las mismas, respete la nomenclatura.
+v(Volts )
+0
+5
+10
+15
+−5
+−10
+−15
+t1s 2s 3s−1s−2s−3s
+Señal 1
+Señal 2
+Señal 3
+4. Pasar de sistema sexagesimal a rad o viceversa según corresponda:
+a) 90o=
+b) 45o=
+c) 270o=
+d) π=
+e) 3
+8 ·π=
+f) −π
+3 =
+5. A partir de la frecuencia obtener el período y la velocidad angular:
+f = 1kHz ω = T=
+6. A partir del período obtener la velocidad angular y la frecuencia:
+T = 35ms ω = f=
+7. A partir de la velocidad angular obtener el período y la frecuencia:
+ω = 31416Hz T= f=
+8. En hoja aparte grafique a escala las siguientes señales:
+a) v1(t) = 10 ·sen(2π · 50 ·t)=
+b) v2(t) = 5 ·sen(2π · 314 ·t)=
+c) v3(t) = 5 ·sen(2π · 100 ·t + π
+2 )=
+d) v4(t) = 7 ·sen(2π · 50 ·t − 90o)=
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+11 de 15
+== p13 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre MANEJO DEL OSCILOSCOPIO
+Parte VI
+Trabajo Práctico Nro 5
+Manejo del Osciloscopio
+Consignas
+1. Mediante el generador de audio y el osciloscópio configure señales que cumplen con los siguientes
+parámetros:
+a) Senoidal: VPP =2V y f=1000Hz
+b) Senoidal: VP=3V y f=1500Hz
+c) Senoidal: Vef=2,42V yω = 6280 1
+s
+Ademas, para cada caso, medir la tensión entregada por el generador, usando la sección de CC y CA
+del multimetro. Sacar conclusiones.
+2. Graficar las señales, indicando cómo configuró el atenuador vertical y la base de tiempo.
+T eXtronics 1−v,1,01
+CH I CH II
+Y-pos I Y-pos IIVolts/Div
+V mV
+50
+.1.2.51
+2
+5
+10205 10
+20
+Volts/Div
+V mV
+50
+.1.2.51
+2
+5
+10205 10
+20
+PowerOn/Off
+Focus
+Intens
+X-pos
+Time/Div
+s µs
+ms
+.5125102050.1.2.5125102050.1.2.5
+T eXtronics 1−v,1,01
+CH I CH II
+Y-pos I Y-pos IIVolts/Div
+V mV
+50
+.1.2.51
+2
+5
+10205 10
+20
+Volts/Div
+V mV
+50
+.1.2.51
+2
+5
+10205 10
+20
+PowerOn/Off
+Focus
+Intens
+X-pos
+Time/Div
+s µs
+ms
+.5125102050.1.2.5125102050.1.2.5
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+12 de 15
+== p14 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre MANEJO DEL OSCILOSCOPIO
+Consignas
+T eXtronics 1−v,1,01
+CH I CH II
+Y-pos I Y-pos IIVolts/Div
+V mV
+50
+.1.2.51
+2
+5
+10205 10
+20
+Volts/Div
+V mV
+50
+.1.2.51
+2
+5
+10205 10
+20
+PowerOn/Off
+Focus
+Intens
+X-pos
+Time/Div
+s µs
+ms
+.5125102050.1.2.5125102050.1.2.5
+3. Indicar, para cada señal:VP, −VP, VPP , Vef, T, f, ω. Escribir la v(t) de cada señal.
+4. Para el siguiente circuito:
+Filtro pasa bajos RC
+1kΩ
+1µF
++
+−
+Vin
++
+−
+Vout
+Medir lavo, sivi tiene 1VPP y f=160Hz. Luego, llevar la frecuencia a 1,6kHz. Y por último, a 1,6MHz.
+Sacar conclusiones.
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+13 de 15
+== p15 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre EXPANSIÓN DE RANGO DE UN INTRUMENTO
+Parte VII
+Anexo 1
+Expansión de Rango de un Intrumento
+Consignas
+En la electrónica, existes diversos componentes que sirven para medir variables físicas, por ejemplo, la
+temperatura.
+Uno de los sensores que mas se emplean para medir esta magnitud se llama PT100. Este es, en definitiva,
+una resistencia que varía con la temperatura. A 0°C, esta resistencia mide 100Ω.
+Foto de una PT100 real
+Sin embargo, como se ve en la foto, para unir el sensor a un circuito, se usan dos cables (en general de
+cobre). Por lo tanto, estos tienen una cierta resistencia que me afecta la medición.
+Si el circuito al cual conecto la PT100 es el siguiente:
++
+−
+20V
+220ΩR2
+RC1
+ϑ
+100ΩPT 100
+RC2
+220ΩR1
+50ΩR3
+Circuito al cual conecto el sensor. La PT100 se dibujó en rojo, y sus cables de conexión como dos resistencias
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+14 de 15
+== p16 ==
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs I Cuatrimestre EXPANSIÓN DE RANGO DE UN INTRUMENTO
+Consignas
+Se pide, si la temperatura es de 0°C (o sea, que la PT100 = 100Ω):
+1. Calcular la resistencia de cable 1 (RC1) y la resistencia de cable 2 (RC2), si para ambos su sección es
+de 1mm2 y su longitud es de 35 metros (recordar que el coeficiente de resistividad del cobre es de 1,75
+· 10−8 Ω·m)
+2. Calcular la resistencia total del circuito (agregar al análisis las resistencias de los cables).
+3. Calcular la corriente total del circuito.
+4. De alguna manera, se pudo determinar que la corriente de la resistencia 1 es de 74mA. Para confirmarlo,
+se debe medir con un tester o amperímetro.
+a) ¿Cómo haría usted para conectar el intrumento? Dibujelo y justifique.
+b) Si mi instrumento tiene un rango de 1mA, no podria usarlo, se quemaría. Por lo tanto, puedo
+aumentar el rango del instrumento, por ejemplo, hasta 100mA. Si se sabe que su resistencia
+interna es de 100Ω:
+1) Dibuje cómo conectaría la resistencia derivadora en el circuito.
+2) Calcule dicha resistencia.
+5. También, se supo que la tensión en la resistencia 3 es de 3,7V. Si se quiere medir dicha magnitud:
+a) Dibuje en el circuito y explique cómo conectar el instrumento. Justifique
+b) Ya que el voltimetro que se tiene no posee el rango necesario para medir esta tensión, se desea
+expandirlo hasta 10V. Si la maxima corriente que soporta es de 1mA, y su resistencia interna es
+de 50Ω:
+1) Dibuje en el circuito cómo colocar la resistencia multiplicadora. Justifique.
+2) Calcule dicha resistenca.
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+15 de 15

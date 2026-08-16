@@ -127,6 +127,12 @@
   set par(justify: true, leading: 0.68em, spacing: 0.95em)
   set heading(numbering: "1.1.1")
   set math.equation(numbering: "(1)")
+  // La coma decimal del castellano no debe llevar espacio detras: por defecto
+  // Typst la trata como separador y agrega un espacio ("15, 6" en vez de "15,6").
+  show math.equation: eq => {
+    show ",": it => math.class("normal", it)
+    eq
+  }
   set enum(indent: 6pt, spacing: 0.8em)
   set list(indent: 6pt, spacing: 0.8em, marker: ([•], [–], [·]))
   set table(stroke: 0.4pt + luma(180))

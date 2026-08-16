@@ -71,18 +71,26 @@ Ninguna medición coincide con el valor verdadero $X_v$. La diferencia es el err
 
 === Resolución, rango, alcance y clase
 
-#definicion("Los cuatro parámetros del instrumento")[
-  *Resolución*: la mínima variación que el instrumento puede distinguir (en un
-  analógico, el valor de una división; en un digital, el último dígito).
-  *Rango*: el conjunto de valores que puede medir en la escala elegida (por ejemplo,
-  0 a 30 V). *Alcance*: el valor máximo de esa escala (30 V), también llamado fondo de
-  escala. *Clase*: el error máximo del instrumento expresado en porcentaje *del
-  alcance*, no de la lectura.
+#definicion("Los parámetros que definen a un instrumento")[
+  *Rango*: el conjunto de valores entre los límites inferior y superior en los que el
+  instrumento trabaja de forma confiable (por ejemplo, de 0 a 30 V).
+  *Alcance*: la diferencia entre el valor máximo y el mínimo del rango. Si el mínimo es
+  cero — el caso habitual — el alcance coincide con la mayor medida posible: 30 V.
+  *Sensibilidad*: la mínima variación de la magnitud que el instrumento alcanza a
+  detectar. *Resolución*: la fracción más pequeña que puede leerse con la exactitud que
+  el instrumento posee (en un analógico, una división de la escala; en un digital, el
+  último dígito). *Linealidad*: un instrumento es lineal si su sensibilidad se mantiene
+  constante en todo el rango. *Clase*: el mayor error absoluto que comete el aparato en
+  cualquier punto de su campo de medida, expresado en porcentaje *del alcance*, no de
+  la lectura.
 ]
 
-El error por clase es la trampa más habitual del módulo:
+En la Argentina las clases están normalizadas por IRAM: 0,25 — 0,5 — 1 — 1,5 — 2 — 3.
+La norma alemana VDE usa letras (E, F, G, H, Z), donde la clase Z equivale a 2,5 %.
 
-$ E_c = "clase"[%] / 100 dot "alcance" $ <ec-clase>
+El error por clase es la trampa más habitual del módulo. De la definición de clase,
+
+$ C% = Delta_"MAX" / "Alcance" dot 100 quad arrow.r.double quad Delta_"MAX" = plus.minus (C% dot "Alcance") / 100 $ <ec-clase>
 
 Como $E_c$ es constante para toda la escala pero la lectura no, *el error relativo
 empeora cuanto más abajo se lee en la escala*. De ahí la regla de laboratorio: elegir
@@ -97,17 +105,17 @@ el segundo es fijo y vale una cuenta del último dígito mostrado.
   ¿Entre qué valores está la tensión real?
 
   *1. Error por clase*, con la @ec-clase:
-  $ E_c = 2,5/100 dot 30 "V" = 0,75 "V" $
+  $ Delta_"MAX" = plus.minus (2,5 dot 30 "V")/100 = plus.minus 0,75 "V" $
 
   *2. Intervalo de la medición*: $V = 9,6 plus.minus 0,75$ V, es decir, la tensión real
   está entre 8,85 V y 10,35 V.
 
   *3. Error relativo porcentual*:
-  $ epsilon_r = 0,75/9,6 dot 100 = 7,8% $
+  $ epsilon_r = (0,75)/(9,6) dot 100 = 7,8% $
 
   *Conclusión*: un instrumento "de 2,5%" arrastró un error de *7,8%* porque se leyó a
   menos de un tercio de la escala. Si el mismo instrumento se hubiera puesto en la
-  escala de 10 V: $E_c = 0,25$ V y $epsilon_r = 2,6%$ — tres veces mejor, con el
+  escala de 10 V: $Delta_"MAX" = 0,25$ V y $epsilon_r = 2,6%$ — tres veces mejor, con el
   mismo aparato y la misma señal.
 ]
 
@@ -203,91 +211,138 @@ $20 000 dot 10 = 200 "k"Omega$.
 
 == Expansión de rango
 
-Un instrumento de bobina móvil se define por dos datos: la corriente de plena escala
-$I_g$ (la que hace llegar la aguja al fondo) y su resistencia interna $R_i$. Para medir
-más de lo que ese movimiento admite, se le agrega una resistencia.
+El instrumento de base es el *galvanómetro de D'Arsonval*, una bobina móvil que se
+define por dos datos y nada más:
 
-=== Amperímetro: resistencia shunt (derivadora)
+- $I_m$: la *corriente de deflexión a plena escala*, la que hace llegar la aguja al fondo.
+- $R_m$: la *resistencia interna* de la bobina.
 
-Se coloca *en paralelo* con el instrumento, para que la corriente sobrante se desvíe
-por ella.
+Como el movimiento es delicado, $I_m$ es del orden del miliampere. Para medir más de lo
+que ese movimiento admite, se le agrega una resistencia. Dónde se agrega es lo que
+decide si el aparato es un amperímetro o un voltímetro.
 
-#circuito([Expansión de rango de un amperímetro con shunt])[
+#atencion[
+  Cuidado con la letra: en la notación de la cátedra $R_m$ (minúscula) es la resistencia
+  *interna* del galvanómetro, y $R_M$ (mayúscula) es la *multiplicadora*. No son lo
+  mismo y aparecen en la misma fórmula.
+]
+
+=== Amperímetro: resistencia shunt o de derivación
+
+Se coloca *en paralelo* con el galvanómetro, para que la corriente sobrante se desvíe
+por ella y al instrumento le llegue solo $I_m$.
+
+#circuito([Expansión de rango de un amperímetro con resistencia de shunt])[
 ```
-                    Ig
-             ┌────( G )────┐        G: instrumento, Ri
-             │    Ri       │
-   ──── It ──┤             ├──── It ────
-             │             │
-             └──/\/\/\/\───┘        Rsh: shunt
-                  Rsh
-                  Ish = It - Ig
+                     Im
+              ┌────( G )────┐       G : galvanómetro (Rm, Im)
+              │     Rm      │
+    ──── I ───┤             ├──── I ────
+              │             │
+              └──/\/\/\/\───┘       Rs: resistencia de shunt
+                    Rs
+                    Is = I - Im
 ```
 ]
 
-Al estar en paralelo, ambas ramas tienen la misma tensión:
-$ I_g dot R_i = I_"sh" dot R_"sh" $
-y por la primera ley de Kirchhoff $I_"sh" = I_t - I_g$. Reemplazando:
+Al estar en paralelo, las caídas de tensión en ambas ramas son iguales:
 
-$ R_"sh" = (I_g dot R_i) / (I_t - I_g) $ <ec-shunt>
+$ V_(R_S) = V_(R_m) quad arrow.r.double quad I_S dot R_S = I_m dot R_m $ <ec-shunt-kvl>
 
-Definiendo el *factor de multiplicación* $n = I_t \/ I_g$, la fórmula queda en su forma
-más cómoda:
+Como interesa despejar la derivación, $R_S = (I_m dot R_m) \/ I_S$; y por la primera ley
+de Kirchhoff la corriente total se reparte, $I_S = I - I_m$. Reemplazando:
 
-$ R_"sh" = R_i / (n - 1) $ <ec-shunt-n>
+$ R_S = (I_m dot R_m) / (I - I_m) $ <ec-shunt>
+
+Si se define el *factor de multiplicación* $n = I \/ I_m$ — cuántas veces se agranda el
+rango — la expresión queda en su forma más rápida de usar:
+
+$ R_S = R_m / (n - 1) $ <ec-shunt-n>
 
 === Voltímetro: resistencia multiplicadora
 
-Se coloca *en serie* con el instrumento, para que absorba la tensión sobrante.
+Se coloca *en serie* con el galvanómetro, para que absorba la tensión sobrante y limite
+la corriente a $I_m$.
 
-#circuito([Expansión de rango de un voltímetro con multiplicadora])[
+#circuito([Expansión de rango de un voltímetro con resistencia multiplicadora])[
 ```
-        Rm                Ig
-   o──/\/\/\/\──────────( G )──────o
-   │                     Ri        │
-   │<─────── V a medir ──────────> │
+         RM                 Im
+    o──/\/\/\/\───────────( G )──────o
+    │                      Rm        │
+    │<───────── V a medir ──────────>│
 ```
 ]
 
-Recorriendo la malla con la segunda ley de Kirchhoff, y sabiendo que por ambos elementos
-circula la misma $I_g$:
-$ V = I_g dot R_m + I_g dot R_i $
+Al estar en serie, la tensión aplicada se reparte entre ambos, y por ambos circula la
+misma corriente $I_m$:
 
-$ R_m = V/I_g - R_i $ <ec-mult>
+$ V = V_(R_M) + V_(R_m) = I_m dot R_M + I_m dot R_m = I_m (R_M + R_m) $ <ec-mult-kvl>
 
-Con el factor $m = V \/ (I_g dot R_i)$, o sea la relación entre la tensión nueva y la que
-el instrumento medía solo:
+Despejando la multiplicadora:
 
-$ R_m = R_i (m - 1) $ <ec-mult-m>
+$ R_M = (V - I_m dot R_m) / I_m = V/I_m - R_m $ <ec-mult>
 
 #clave[
-  Las dos expansiones son duales y conviene memorizarlas juntas: *shunt en paralelo y se
-  divide* por $(n-1)$; *multiplicadora en serie y se multiplica* por $(m-1)$. Si el
-  resultado da negativo, el instrumento ya medía más de lo pedido y la expansión no tiene
-  sentido.
+  Las dos expansiones son duales y conviene memorizarlas juntas: la *shunt va en
+  paralelo* y desvía corriente; la *multiplicadora va en serie* y absorbe tensión. Si
+  alguna de las dos da negativa, el instrumento ya medía más de lo pedido y la expansión
+  no tiene sentido: revisar el enunciado.
 ]
 
-#ejercicio("Shunt y multiplicadora sobre el circuito del sensor PT100")[
-  Un instrumento de $I_g = 1$ mA y $R_i = 100 Omega$ debe medir una corriente de hasta
-  *100 mA*. Otro, de $I_g = 1$ mA y $R_i = 50 Omega$, debe medir hasta *10 V*.
+=== Voltímetro de rangos múltiples
+
+Un voltímetro comercial no tiene una multiplicadora sino varias, seleccionadas por una
+llave. Cada rango se calcula por separado con la @ec-mult, usando siempre la misma
+$I_m$ y la misma $R_m$.
+
+#circuito([Voltímetro multirrango: una multiplicadora por escala])[
+```
+   Va o──/\/\/\──┐
+        R1       │
+   Vb o──/\/\/\──┤ llave      Im
+        R2       ├──selectora──( G )──o
+   Vc o──/\/\/\──┘              Rm
+        R3
+```
+]
+
+#ejercicio("Shunt y multiplicadora del Anexo 1")[
+  Un galvanómetro de $I_m = 1$ mA y $R_m = 100 Omega$ debe medir corriente hasta
+  *100 mA*. Otro, de $I_m = 1$ mA y $R_m = 50 Omega$, debe medir tensión hasta *10 V*.
 
   *1. Shunt del amperímetro.* Factor de multiplicación:
-  $ n = I_t/I_g = (100 "mA")/(1 "mA") = 100 $
+  $ n = I/I_m = (100 "mA")/(1 "mA") = 100 $
   Con la @ec-shunt-n:
-  $ R_"sh" = R_i/(n-1) = (100 Omega)/(99) = 1,01 Omega $
+  $ R_S = R_m/(n-1) = (100 Omega)/(99) = 1,01 Omega $
   Verificación por el camino largo, con la @ec-shunt:
-  $ R_"sh" = (1 "mA" dot 100 Omega)/(100 "mA" - 1 "mA") = (0,1 "V")/(99 "mA") = 1,01 Omega $
-  Los 99 mA sobrantes circulan por la shunt y solo 1 mA entra al instrumento.
+  $ R_S = (1 "mA" dot 100 Omega)/(100 "mA" - 1 "mA") = (0,1 "V")/(99 "mA") = 1,01 Omega $
+  Los 99 mA sobrantes circulan por la shunt y solo 1 mA entra al galvanómetro.
 
   *2. Multiplicadora del voltímetro.* Con la @ec-mult:
-  $ R_m = V/I_g - R_i = (10 "V")/(1 "mA") - 50 Omega = 10 000 - 50 = 9950 Omega $
-  Sin multiplicadora, ese instrumento llegaba a
-  $V = I_g R_i = 1 "mA" dot 50 Omega = 50$ mV. Con los 9950 $Omega$ en serie llega a 10 V:
-  un factor $m = 200$.
+  $ R_M = V/I_m - R_m = (10 "V")/(1 "mA") - 50 Omega = 10 000 - 50 = 9950 Omega $
+  Sin multiplicadora, ese instrumento llegaba apenas a
+  $V = I_m dot R_m = 1 "mA" dot 50 Omega = 50$ mV. Con los 9950 $Omega$ en serie llega a
+  10 V: doscientas veces más.
 
-  *Atención al valor de la shunt*: 1,01 $Omega$ es una resistencia que no existe en la
-  serie comercial E24 y cuya tolerancia domina el error total del amperímetro. En la
-  práctica se construye con alambre calibrado, no con un resistor de carbón.
+  *Atención al valor de la shunt*: 1,01 $Omega$ no existe en la serie comercial E24, y su
+  tolerancia domina el error total del amperímetro. En la práctica se construye con
+  alambre calibrado, no con un resistor de carbón.
+]
+
+#ejercicio("Voltímetro de tres rangos")[
+  Con un galvanómetro de $R_m = 100 Omega$ e $I_m = 1$ mA se quiere un voltímetro de tres
+  escalas: 0–100 V, 0–500 V y 0–1000 V. Calcular las tres multiplicadoras.
+
+  Se aplica la @ec-mult una vez por rango, sin cambiar $I_m$ ni $R_m$:
+  $ R_(M(a)) = (100 "V")/(1 "mA") - 100 Omega = 100 000 - 100 = 99 900 Omega $
+  $ R_(M(b)) = (500 "V")/(1 "mA") - 100 Omega = 500 000 - 100 = 499 900 Omega $
+  $ R_(M(c)) = (1000 "V")/(1 "mA") - 100 Omega = 1 000 000 - 100 = 999 900 Omega $
+
+  *Observación*: cuanto mayor el rango, más despreciable se vuelve $R_m$ frente a
+  $V\/I_m$. En la escala de 1000 V, ignorar los 100 $Omega$ del galvanómetro
+  introduciría un error del 0,01 %; en una escala de 1 V sería un disparate.
+  La *sensibilidad* de este voltímetro es $1\/I_m = 1000 Omega\/"V"$ en todas sus
+  escalas: es una característica del movimiento, no del rango.
 ]
 
 #ejercicio("Resistencia de los cables de un sensor PT100")[
