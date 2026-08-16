@@ -18,6 +18,15 @@ Cuestan cuatro renglones y evitan el modo de falla caro: una sesión entera
 gastada en la fase equivocada, con el modelo equivocado, en un chat que ya
 no tenía lugar para pensar el problema difícil.
 
+**Y una cuarta línea cuando el contexto dice chat nuevo:**
+
+```
+Retomar  : ver el bloque al final de esta respuesta
+```
+
+Ver *El mensaje de retome*, más abajo. Es obligatorio: sin él, "chat nuevo"
+es una orden de tirar el contexto sin decir cómo recuperarlo.
+
 ## Por qué en TODA respuesta y no una vez
 
 Porque las tres variables cambian **dentro** de una misma sesión, no entre
@@ -82,6 +91,48 @@ que cuestan una sesión entera de recuperar. Por eso el corte se hace **antes**
 de necesitarlo, y el handoff se apoya en el repo (`ESTADO_ACTUAL.md`,
 `HANDOFF.md`, `kb/`), nunca en el historial del chat.
 
+## El mensaje de retome
+
+Cuando el cuadro dice **chat nuevo**, la respuesta termina con un bloque de
+código listo para copiar y pegar como primer mensaje del chat siguiente.
+
+**Por qué es obligatorio y no un lujo.** Un `HANDOFF.md` en el repo contesta
+"qué sigue"; el mensaje de retome contesta "**qué le digo al chat nuevo para
+que lo lea**". Sin él, el usuario abre un chat vacío y tiene que reconstruir
+de memoria qué archivos importan — que es exactamente el trabajo que el
+handoff venía a evitar. El síntoma es conocido: la sesión nueva arranca
+preguntando cosas que estaban escritas.
+
+### Las seis cosas que lleva, siempre
+
+1. **Qué leer, en orden, y qué NO leer.** Rutas exactas. El "qué no" importa
+   tanto como el "qué": leer los cuatro documentos por las dudas quema el
+   contexto que después falta.
+2. **La fase que se abre y su criterio de salida.** El mismo criterio
+   observable del cuadro, no una versión aguada.
+3. **El modelo, y por qué.** Si el tramo cambia de modelo a mitad, decir
+   dónde está el corte.
+4. **El estado de la máquina.** Qué está instalado y **en qué ruta**, qué hay
+   montado, qué parches viven sólo en memoria y se pierden al recargar el
+   emulador, qué servicios tienen que estar levantados. Esto no está en el
+   repo porque no es del proyecto: es de la máquina, y es lo primero que se
+   pierde.
+5. **Lo que ya está resuelto y no hay que rehacer.** Las direcciones
+   confirmadas, los callejones cerrados.
+6. **El primer comando concreto.** Uno, ejecutable, que deje ver enseguida si
+   el entorno está sano. Ideal: el que corre un control positivo.
+
+### Cómo se escribe
+
+- **Literal, no descriptivo.** "Leé `black/ESTADO_ACTUAL.md`", no "ponete al
+  día con el estado".
+- **No se resume.** Si una ruta, un offset o un hash no entra cómodo, entra
+  igual. Un mensaje de retome largo cuesta unos miles de tokens; recuperar un
+  offset perdido cuesta una sesión.
+- **No se pega el chat anterior.** El historial no es el handoff: el `kb/` y
+  la bitácora sí.
+- **Va al final de la respuesta**, no en el medio, para que se copie de una.
+
 ## Decidir, no preguntar
 
 El cuadro es una **decisión anunciada**, no un menú. No terminar un turno con
@@ -103,9 +154,13 @@ recordarla no es una regla (lección 11). El cuadro está en tres niveles:
 
 | Nivel | Dónde | Dispara |
 |---|---|---|
-| Regla | punto 6 de `perfil-global/CLAUDE.md` | si se leyó el archivo |
+| Regla | puntos **6 y 7** de `perfil-global/CLAUDE.md` | si se leyó el archivo |
 | Hook `SessionStart` | `perfil-global/apertura-proyecto.md` | una vez por sesión |
 | Hook `UserPromptSubmit` | `perfil-global/recordatorio-transversal.md` | **en cada prompt** |
+
+El mensaje de retome está cableado en los tres niveles, igual que el cuadro:
+el punto 7 de `CLAUDE.md`, y el bloque "SI EL CUADRO DICE CHAT NUEVO" de los
+dos archivos inyectados.
 
 El `UserPromptSubmit` es el que sostiene el "en toda respuesta"; el
 `SessionStart` solo cubría la primera. Los dos archivos inyectados van en

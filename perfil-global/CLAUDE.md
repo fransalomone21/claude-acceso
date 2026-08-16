@@ -27,6 +27,23 @@ proyecto las complementan; nunca las derogan.
    ingeniero, no del usuario. Ver `/cuadro-de-fase` para el detalle y los
    casos borde.
 
+7. **Si el cuadro dice "chat nuevo", la respuesta lleva el MENSAJE DE
+   RETOME.** Una cuarta línea en el cuadro (`Retomar : ver el bloque al
+   final`) y, al final de la respuesta, un bloque de código listo para pegar
+   como primer mensaje del chat siguiente.
+
+   Decir "conviene chat nuevo" sin dejar el mensaje es ordenar tirar el
+   contexto sin decir cómo recuperarlo. El mensaje lleva, con rutas exactas:
+   qué leer y qué no, la fase que se abre y su criterio de salida, el modelo,
+   **el estado de la máquina** (qué hay instalado y dónde, qué está montado,
+   qué parches vivos hay), lo que ya está resuelto, y el primer comando
+   concreto. No se resume: si una ruta o un offset no entra, entra igual.
+
+   **Nunca se gasta un turno —ni menos un chat— sólo en cerrar la sesión.**
+   El mensaje sale en la misma respuesta en la que se decide cortar. Pedir un
+   mensaje más para "guardar el estado" es cobrar un turno entero de contexto
+   por algo que ya tenía que estar escrito.
+
 ## Metodología completa
 
 Skill disponible: `/engineering-orchestrator`

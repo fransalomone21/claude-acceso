@@ -3,14 +3,35 @@
 Copiá esto como primer mensaje del chat nuevo:
 
 ```
-Leé black/CLAUDE.md, black/ESTADO_ACTUAL.md y la primera entrada de
-black/docs/03-bitacora.md. La Fase 4b quedó cerrada y confirmada por efecto:
-el daño de salida del jugador es zona_de_impacto * 100.0. Arrancá por el mod
-de daño con pnach (es corto), y después Fase 5.
+Proyecto BLACK, rama claude/black-game-reverse-engineering-ricv3t.
+
+Leé en este orden y nada más:
+  black/CLAUDE.md
+  black/ESTADO_ACTUAL.md   (entero, es corto)
+  black/HANDOFF.md         (entero)
+  black/docs/06-herramientas-externas.md   (el runbook de instalación)
+No leas la bitácora salvo que algo no cierre.
+
+FASE 5a — el mod de daño permanente. Cierra cuando el daño del jugador salga
+cambiado con PCSX2 recién arrancado y sin que nadie escriba nada a mano.
+Modelo: Sonnet.
+
+Primero, control positivo del entorno (tiene que decir "SI -> BIEN"):
+    python herramientas/decompilar.py info
+
+Después, en este orden:
+1. Instalá lo pendiente del runbook. Tenés mi permiso, no preguntes.
+   Prioridad: pycdlib > ImHex > ffmpeg. La excepción del pcsx2-qt.exe
+   parcheado está explicada ahí; esa la bajo yo.
+2. Probá la importación de savestate de PCSX2 en Ghidra: está instalada y sin
+   usar, y es lo que reemplaza al MCP que no instalaste.
+3. Mod de daño: el pnach sobre 0x00142CA0 (lui $at,0x42C8 = 100.0), y en
+   paralelo el mod permanente editando GLOBDATA.BIN + 0x00130E20 en una COPIA
+   del ISO. Nunca el original.
 ```
 
-Con eso alcanza. **No pegues el chat anterior.** El `kb/` y la bitácora son la
-memoria; el historial no hace falta y cuesta diez veces más.
+**No pegues el chat anterior.** El `kb/` y la bitácora son la memoria; el
+historial no hace falta y cuesta diez veces más.
 
 ---
 

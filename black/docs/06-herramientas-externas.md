@@ -136,6 +136,123 @@ Qué **no** abre: `.SSH`, `.BKS`, `.SLB`, `.WDD`, `.DB`. Devuelve
 
 ---
 
+## Pendiente de instalar — runbook para la sesión que viene
+
+**Autorización de Fran, 2026-08-16:** *"quiero que instales todo lo necesario
+sin objeciones, te doy el permiso"*. Vale para todo lo de esta lista. La
+única excepción está marcada abajo y no es una objeción: es una cosa que la
+sesión no puede hacer y él sí, en treinta segundos.
+
+Orden por valor sobre lo que falta del proyecto, no por facilidad.
+
+### 1. `pycdlib` — editar el ISO. Es lo que destraba el mod permanente
+
+Lo más valioso de la lista. La tabla de armas está en
+`GLOBDATA.BIN + 0x00130E20` y editarla ahí da un mod que **sobrevive a cerrar
+el emulador sin `.pnach`**. Falta poder escribir el ISO de vuelta.
+
+```powershell
+python -m pip install pycdlib
+```
+
+Camino a probar, en orden de menos a más invasivo:
+
+1. **Parche in-place**: los `Power` son f32 de 4 bytes, el archivo no cambia
+   de tamaño, así que en teoría alcanza con escribir esos bytes en el sector
+   correspondiente del `.iso` sin rehacer nada. Hay que ubicar el LBA de
+   `GLOBDATA.BIN` y sumar el offset. **Es el camino bueno**: no toca el layout,
+   y los ISO de PS2 tienen LBAs que el ejecutable puede tener hardcodeados.
+2. Si eso falla, `pycdlib` para extraer / modificar / reescribir.
+
+**Control positivo obligatorio antes de tocar nada:** copiar el ISO, editar
+la copia, montar la copia, y comprobar que `GLOBDATA.BIN + 0x00130E20` tiene
+el valor nuevo **y** que el resto del archivo es byte-idéntico. Recién
+después, arrancar PCSX2 con la copia.
+
+> **Riesgo real:** 3,9 GB por copia. Hay 167 GB libres, alcanza, pero no
+> dejar tres copias dando vueltas. Y **nunca** editar el ISO original.
+
+### 2. ImHex — el editor hexadecimal con lenguaje de patrones
+
+Para lo que queda opaco: `.WDD`, `.DB`, `.BKS`, `.SSH`, `.SLB`. Permite
+escribir el layout como un patrón y verlo aplicado sobre el archivo, que es
+mucho más rápido que iterar con scripts de Python.
+
+```powershell
+winget install --id WerWolv.ImHex --scope user
+```
+
+Primer trabajo concreto: escribir el patrón del **contenedor `.BIN`** ya
+resuelto (ver `05-iso.md`) y aplicarlo a `GLOBDATA.BIN` para etiquetar las
+seis secciones de una.
+
+### 3. ffmpeg — los 419 MB de `VIDEOS/`
+
+`.M2V` es MPEG-2 elemental. Con ffmpeg se ven, se miden y —lo que importa—
+se puede evaluar si se pueden reemplazar respetando el tamaño.
+
+```powershell
+winget install --id Gyan.FFmpeg --scope user
+```
+
+### 4. QuickBMS y Noesis — el último intento sobre modelos y texturas
+
+Ya está verificado que **no existe script para BLACK** (ver más abajo). Pero
+los dos traen detección genérica y plugins de RenderWare que pueden morder
+los `.WDD` de 65536 bytes exactos de `FPGUNS/`, que tienen pinta de TXD.
+
+- QuickBMS: <https://aluigi.altervista.org/quickbms.htm>
+- Noesis: <https://richwhitehouse.com/index.php?content=inc_projects.php>
+
+Prioridad baja: es exploratorio, y si no muerden, se cierra el callejón y se
+anota.
+
+### 5. Kaitai Struct — formalizar lo que ya entendimos
+
+```powershell
+python -m pip install kaitaistruct
+winget install --id kaitai-io.kaitai_struct_compiler --scope user   # necesita Java, ya está
+```
+
+Convierte el formato del contenedor `.BIN` de un párrafo en `05-iso.md` a un
+`.ksy` ejecutable que genera el parser. Vale la pena **sólo después** de tener
+el patrón de ImHex andando: si el layout todavía se está descubriendo,
+formalizarlo es prematuro.
+
+### La excepción: el `pcsx2-qt.exe` parcheado de PCSX2-MCP
+
+Es la única cosa de la lista que no voy a bajar y ejecutar, y el motivo no es
+que dude del proyecto: **es un ejecutable sin firmar, publicado por un tercero
+sin trayectoria, que reemplaza al emulador entero.** Ejecutar binarios de
+fuentes no verificadas es de las pocas cosas que no hago aunque me lo
+autoricen — y decírtelo una vez y seguir es más útil que discutirlo.
+
+**Lo que sí puedo hacer, y cubre casi todo lo que ese MCP prometía:**
+
+**a) La importación de savestates de Ghidra.** La extensión
+`ghidra-emotionengine-reloaded` **importa savestates de PCSX2**. O sea:
+memoria viva del juego, adentro de Ghidra, con las 9842 funciones y el
+decompilador encima. Es mejor que un lector de memoria por MCP para todo lo
+que sea análisis, y no necesita ningún binario raro. **Esto ya está instalado
+y sin usar** — es el primer experimento de la sesión que viene.
+
+**b) `mcp-pine`, si querés el acceso directo desde el agente:**
+
+```powershell
+claude mcp add pine --scope user mcp-pine
+```
+
+Paquete de npm, no toca PCSX2 (usa el servidor PINE oficial, que se prende en
+Ajustes → Avanzado). Lo había descartado por redundante con `pine.py` y sigue
+siéndolo, pero instalarlo es gratis y no tiene riesgo.
+
+**c) Si igual querés PCSX2-MCP**, bajá vos el release de
+<https://github.com/hkmodd/PCSX2-MCP>, corré `setup-mcp.bat`, y en la sesión
+siguiente lo uso sin problema: el límite es bajarlo y ejecutarlo, no usarlo
+una vez que vos decidiste correrlo.
+
+---
+
 ## Lo que se evaluó y se DESCARTÓ
 
 Está acá para que nadie lo vuelva a investigar.

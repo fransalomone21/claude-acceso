@@ -202,6 +202,19 @@ llegó en la entrada 23 de la bitácora.
 
 ## Estado de la máquina
 
+- **Instalado 2026-08-16, fuera del repo:**
+  `C:\Users\frans\herramientas\ghidra_12.1.2_PUBLIC` (con la extensión EE en
+  `Ghidra\Extensions\ghidra-emotionengine-reloaded`),
+  `C:\Users\frans\herramientas\vgmstream\vgmstream-cli.exe`,
+  `C:\Users\frans\herramientas\SLUS_213.76` (copia del ELF),
+  proyecto de Ghidra ya analizado en
+  `C:\Users\frans\herramientas\ghidra-proyectos2\BLACK`. `pip`: `pyghidra`.
+  Verificar con `python herramientas/decompilar.py info`.
+  El proyecto `ghidra-proyectos` (sin el 2) quedó con el análisis MALO de
+  MIPS R6: **no usarlo**, y se puede borrar.
+- **Autorización vigente de Fran (2026-08-16):** instalar lo que haga falta
+  sin preguntar. Runbook en `docs/06-herramientas-externas.md`. La única
+  excepción es el `pcsx2-qt.exe` parcheado de PCSX2-MCP, que lo baja él.
 - PCSX2 2.6.3 en la notebook, PINE en 28011. ISO montado en `D:`.
 - **Parches vivos en memoria** (se pierden al recargar el emulador):
   `0x0013BD20` en nop = **vida infinita del jugador PUESTA**.

@@ -7,6 +7,16 @@ tres lineas. No al final, no si sobra lugar: primero.
   Modelo   : el recomendado para esta etapa y por que
   Contexto : seguir en este chat | conviene uno nuevo, y por que
 
+Y CUANDO EL CUADRO DIGA "CHAT NUEVO", una cuarta linea:
+
+  Retomar  : ver el bloque al final de esta respuesta
+
+...mas el MENSAJE DE RETOME al final, en un bloque de codigo, listo para
+pegar. Lleva: que leer y que no, la fase que se abre y su criterio de salida,
+el modelo, el estado de la maquina (que hay instalado y donde, que esta
+montado, que parches vivos hay), lo que ya esta resuelto, y el primer comando.
+Con rutas exactas: si no entra, entra igual. Detalle en /cuadro-de-fase.
+
 Reglas que sostienen eso:
 
 - Si la fase anterior no quedo cerrada, decirlo ANTES de empezar otra.
