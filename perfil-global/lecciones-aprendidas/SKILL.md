@@ -409,6 +409,37 @@ el que, al escribirlo, cambia el comportamiento. Ver también la lección 5.
 
 ---
 
+## 16. Un efecto confirmado en UN sentido no confirma el sentido inverso
+
+Cuando un parámetro parece simétrico —atacante/víctima, entrada/salida,
+lectura/escritura— una intervención sólo prueba la dirección que efectivamente
+ejercitó. Anotar la otra como confirmada es inventar evidencia, y se paga con
+media sesión buscando por qué "el mismo parámetro no obedece".
+
+**Origen:** se escribió un valor alto en los 34 campos de daño de la tabla de
+armas de un juego. El efecto se vio y fue real: el **jugador** empezó a
+recibir el daño de un arma pesada. Eso se anotó como "la tabla de armas es la
+tabla de daño, confirmada por efecto". Pero el daño que el jugador **hacía**
+siguió clavado en 25.5 por bala, y eso quedó registrado como una anomalía a
+explicar. No era una anomalía: el daño de salida nunca había salido de esa
+tabla. Sale de una tabla distinta, por **zona de impacto**, multiplicada por
+100 — y la función que lo calcula ignora por completo el daño que le llega.
+El experimento había probado "arma → daño recibido por el jugador" y la ficha
+lo generalizó a "arma → daño". En el medio se atribuyeron a fuego amigo dos
+muertes de enemigos que nadie vio ocurrir.
+
+**Cómo aplicarla:** al anotar un efecto, escribí la dirección en la frase, no
+el parámetro suelto: no "Power controla el daño" sino "Power controla el daño
+que **recibe** el jugador". Y antes de cerrar, preguntate cuál es el sentido
+inverso y si el experimento lo tocó. Si no lo tocó, va como hipótesis. Vale
+igual para "el cliente puede escribir" ⇏ "el cliente puede leer", y para "la
+migración sube" ⇏ "la migración baja".
+
+**Corolario:** cuando la evidencia de un efecto es un cambio que el
+observador **no vio suceder** —un contador que bajó, un objeto que apareció
+muerto— eso es un estado final, no un efecto observado. La causa quedó
+inferida. Anotalo como lo que es.
+
 ## Protocolo para agregar una lección
 
 Una entrada nueva entra sólo si cumple las tres:

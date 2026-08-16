@@ -7,7 +7,6 @@
     "campos": "lista de {offset, tipo, id, descripcion, confianza}",
     "confianza": "confirmado | probable | hipotesis"
   },
-
   "_metodo": [
     "Con una dirección conocida (ej: la vida), volcá ±0x200 alrededor con inspeccionar.py.",
     "Los campos relacionados viven cerca: vida y vida_max suelen estar a pocos bytes.",
@@ -15,7 +14,6 @@
     "OJO: en BLACK el puntero de clase NO está en el primer u32 del objeto (ahí hay cero), sino en +0x10. Verificado 2026-08-16 contra el objeto del jugador. Buscar ese u32 en la RAM enumera todos los objetos de la clase. Ver la entrada `vtable_entidad`.",
     "Confirmá cada campo escribiéndolo y mirando la pantalla. Un campo sin confirmar es una conjetura."
   ],
-
   "entradas": [
     {
       "id": "jugador",
@@ -26,25 +24,135 @@
       "como_llegar": "POR PUNTERO, no por absoluto. `xref.py absoluto 0x005A8DA8` da CERO. La base se leyó EN VIVO: con un watchpoint de lectura sobre 0x005A8DA8, al disparar se leyó el registro base y dio a2 = 0x005A8AB0, con la instrucción `lwc1 f01, 0x2F8(a2)`. Verificado: 0x005A8AB0 + 0x2F8 = 0x005A8DA8 exacto.",
       "confianza": "confirmado",
       "campos_nuevos_2026_08_15": [
-        {"offset": "0x2F8", "tipo": "f32", "id": "vida", "confianza": "confirmado", "descripcion": "vida actual = 0x005A8DA8 en absoluto. ESTE es el offset real; el 0x28 de abajo salía de la base equivocada."},
-        {"offset": "0x32C", "tipo": "u32", "id": "sin_identificar_32C", "confianza": "hipotesis", "descripcion": "se lee con `lw t0, 0x32C(s0)` inmediatamente después de escribir la vida, en las dos ramas (daño normal y muerte)."},
-        {"offset": "0x8B0", "tipo": "u8", "id": "bandera_golpeado", "confianza": "hipotesis", "descripcion": "se le escribe 1 con `sb v0, 0x8B0(s0)` justo después del store de daño normal. Candidato a 'recibió daño este frame'. Fija el tamaño mínimo del objeto en 0x8B0."}
+        {
+          "offset": "0x2F8",
+          "tipo": "f32",
+          "id": "vida",
+          "confianza": "confirmado",
+          "descripcion": "vida actual = 0x005A8DA8 en absoluto. ESTE es el offset real; el 0x28 de abajo salía de la base equivocada."
+        },
+        {
+          "offset": "0x32C",
+          "tipo": "u32",
+          "id": "sin_identificar_32C",
+          "confianza": "hipotesis",
+          "descripcion": "se lee con `lw t0, 0x32C(s0)` inmediatamente después de escribir la vida, en las dos ramas (daño normal y muerte)."
+        },
+        {
+          "offset": "0x8B0",
+          "tipo": "u8",
+          "id": "bandera_golpeado",
+          "confianza": "hipotesis",
+          "descripcion": "se le escribe 1 con `sb v0, 0x8B0(s0)` justo después del store de daño normal. Candidato a 'recibió daño este frame'. Fija el tamaño mínimo del objeto en 0x8B0."
+        }
       ],
       "campos": [
-        {"offset": "0x10", "tipo": "f32", "id": "colision_a", "valor_visto": 4.4998, "confianza": "hipotesis", "descripcion": "radio de cápsula de colisión (par con +0x14)"},
-        {"offset": "0x14", "tipo": "f32", "id": "colision_b", "valor_visto": 4.4998, "confianza": "hipotesis", "descripcion": "idéntico a +0x10"},
-        {"offset": "0x18", "tipo": "f32", "id": "altura", "valor_visto": 1.65, "confianza": "hipotesis", "descripcion": "1.65 = altura humana en metros"},
-        {"offset": "0x20", "tipo": "f32", "id": "sin_identificar_20", "valor_visto": -145.8251, "confianza": "hipotesis", "descripcion": "magnitud de coordenada de mundo"},
-        {"offset": "0x24", "tipo": "f32", "id": "sin_identificar_24", "valor_visto": 0.8333, "confianza": "hipotesis", "descripcion": "5/6 exacto — ratio o escala"},
-        {"offset": "0x28", "tipo": "f32", "id": "vida", "confianza": "confirmado", "descripcion": "vida actual. Es 0x005A8DA8 en absoluto. Ver kb/mapa-memoria.json#vida_jugador"},
-        {"offset": "0x2C", "tipo": "f32", "id": "sin_identificar_2C", "valor_visto": 4.0, "confianza": "hipotesis"},
-        {"offset": "0x30", "tipo": "f32", "id": "vida_maxima", "valor_visto": 3.4028234663852886e38, "confianza": "hipotesis", "descripcion": "FLT_MAX (0x7F7FFFFF). Centinela clásico de 'sin límite'. Si es la vida máxima, explica por qué nunca se encontró techo: no hay. SIN CONFIRMAR — el test es escribirle un valor finito y curarse."},
-        {"offset": "0x34", "tipo": "f32", "id": "sin_identificar_34", "valor_visto": 10000.0, "confianza": "hipotesis"},
-        {"offset": "0x38", "tipo": "f32", "id": "sin_identificar_38", "valor_visto": 1.0, "confianza": "hipotesis", "descripcion": "1.0 — candidato a multiplicador de daño recibido"},
-        {"offset": "0x3C", "tipo": "f32", "id": "sin_identificar_3C", "valor_visto": 1.0, "confianza": "hipotesis"},
-        {"offset": "0x48", "tipo": "f32", "id": "sin_identificar_48", "valor_visto": 1.0, "confianza": "hipotesis"},
-        {"offset": "0x58", "tipo": "ptr", "id": "puntero_a", "valor_visto": "0x00597810", "confianza": "hipotesis"},
-        {"offset": "0x5C", "tipo": "ptr", "id": "puntero_b", "valor_visto": "0x005A8FA0", "confianza": "hipotesis", "descripcion": "apunta cerca del propio objeto: probable objeto hermano o siguiente en una lista"}
+        {
+          "offset": "0x10",
+          "tipo": "f32",
+          "id": "colision_a",
+          "valor_visto": 4.4998,
+          "confianza": "hipotesis",
+          "descripcion": "radio de cápsula de colisión (par con +0x14)"
+        },
+        {
+          "offset": "0x14",
+          "tipo": "f32",
+          "id": "colision_b",
+          "valor_visto": 4.4998,
+          "confianza": "hipotesis",
+          "descripcion": "idéntico a +0x10"
+        },
+        {
+          "offset": "0x18",
+          "tipo": "f32",
+          "id": "altura",
+          "valor_visto": 1.65,
+          "confianza": "hipotesis",
+          "descripcion": "1.65 = altura humana en metros"
+        },
+        {
+          "offset": "0x20",
+          "tipo": "f32",
+          "id": "sin_identificar_20",
+          "valor_visto": -145.8251,
+          "confianza": "hipotesis",
+          "descripcion": "magnitud de coordenada de mundo"
+        },
+        {
+          "offset": "0x24",
+          "tipo": "f32",
+          "id": "sin_identificar_24",
+          "valor_visto": 0.8333,
+          "confianza": "hipotesis",
+          "descripcion": "5/6 exacto — ratio o escala"
+        },
+        {
+          "offset": "0x28",
+          "tipo": "f32",
+          "id": "vida",
+          "confianza": "confirmado",
+          "descripcion": "vida actual. Es 0x005A8DA8 en absoluto. Ver kb/mapa-memoria.json#vida_jugador"
+        },
+        {
+          "offset": "0x2C",
+          "tipo": "f32",
+          "id": "sin_identificar_2C",
+          "valor_visto": 4.0,
+          "confianza": "hipotesis"
+        },
+        {
+          "offset": "0x30",
+          "tipo": "f32",
+          "id": "vida_maxima",
+          "valor_visto": 3.4028234663852886e+38,
+          "confianza": "hipotesis",
+          "descripcion": "FLT_MAX (0x7F7FFFFF). Centinela clásico de 'sin límite'. Si es la vida máxima, explica por qué nunca se encontró techo: no hay. SIN CONFIRMAR — el test es escribirle un valor finito y curarse."
+        },
+        {
+          "offset": "0x34",
+          "tipo": "f32",
+          "id": "sin_identificar_34",
+          "valor_visto": 10000.0,
+          "confianza": "hipotesis"
+        },
+        {
+          "offset": "0x38",
+          "tipo": "f32",
+          "id": "sin_identificar_38",
+          "valor_visto": 1.0,
+          "confianza": "hipotesis",
+          "descripcion": "1.0 — candidato a multiplicador de daño recibido"
+        },
+        {
+          "offset": "0x3C",
+          "tipo": "f32",
+          "id": "sin_identificar_3C",
+          "valor_visto": 1.0,
+          "confianza": "hipotesis"
+        },
+        {
+          "offset": "0x48",
+          "tipo": "f32",
+          "id": "sin_identificar_48",
+          "valor_visto": 1.0,
+          "confianza": "hipotesis"
+        },
+        {
+          "offset": "0x58",
+          "tipo": "ptr",
+          "id": "puntero_a",
+          "valor_visto": "0x00597810",
+          "confianza": "hipotesis"
+        },
+        {
+          "offset": "0x5C",
+          "tipo": "ptr",
+          "id": "puntero_b",
+          "valor_visto": "0x005A8FA0",
+          "confianza": "hipotesis",
+          "descripcion": "apunta cerca del propio objeto: probable objeto hermano o siguiente en una lista"
+        }
       ],
       "evidencia": "volcados/ee-03.bin (savestate SLUS-21376 (5C891FF1).03.p2s, gameplay real: vida = 649.79345703125, el mismo valor de curación registrado en la sesión anterior). Volcado leído con estado.py extraer, analizado con xref.py.",
       "descubierto": "2026-08-15",
@@ -60,11 +168,45 @@
       "confianza": "confirmado",
       "confirmado_por": "EFECTO, 2026-08-16: se nopeo el brazo de dano normal que este analisis predijo (0x00134654) y el usuario le vacio un cargador de AK a un enemigo sin matarlo. El nop seguia puesto al releerlo despues de la prueba. Eso valida de una vez la clase, el offset de vida y la rutina.",
       "campos": [
-        {"offset": "0x10", "tipo": "ptr", "id": "puntero_clase", "valor_visto": "0x003DCA78", "confianza": "confirmado", "descripcion": "Puntero a la vtable de la clase. Identico para los 32 objetos del pool. Es el ancla para encontrarlos."},
-        {"offset": "0xC4", "tipo": "u32", "id": "estado", "valor_visto": 1, "confianza": "hipotesis", "descripcion": "Vale 1 en los 32 objetos del savestate. En el jugador vale 2. El metodo de dano lo compara contra 3 y 4 en el bloque 0x0013C060."},
-        {"offset": "0x2F8", "tipo": "f32", "id": "vida", "valor_visto": 100.0, "confianza": "confirmado", "descripcion": "MISMO offset que el jugador. En el savestate: 25 objetos en 0.0 (sin spawnear o muertos), 5 en 100.0 (vivos), 2 en FLT_MAX (invulnerables, probables aliados con guion). Corroboracion independiente: 100.0 / 26.0 de dano por bala de AK = 3.85, o sea 4 balas, que es exactamente lo que el usuario reporto dos veces sin que se le preguntara."},
-        {"offset": "0x2FC", "tipo": "f32", "id": "sin_identificar_2FC", "valor_visto": 1.0, "confianza": "hipotesis", "descripcion": "Vale 1.0 en los 32. Candidato a multiplicador de dano recibido o a vida normalizada."},
-        {"offset": "0x32C", "tipo": "u32", "id": "sin_identificar_32C", "confianza": "hipotesis", "descripcion": "Se lee con `lw` inmediatamente despues del store de vida, en los dos brazos. MISMO offset que en el jugador: refuerza que los dos structs comparten layout por herencia."}
+        {
+          "offset": "0x10",
+          "tipo": "ptr",
+          "id": "puntero_clase",
+          "valor_visto": "0x003DCA78",
+          "confianza": "confirmado",
+          "descripcion": "Puntero a la vtable de la clase. Identico para los 32 objetos del pool. Es el ancla para encontrarlos."
+        },
+        {
+          "offset": "0xC4",
+          "tipo": "u32",
+          "id": "estado",
+          "valor_visto": 1,
+          "confianza": "hipotesis",
+          "descripcion": "Vale 1 en los 32 objetos del savestate. En el jugador vale 2. El metodo de dano lo compara contra 3 y 4 en el bloque 0x0013C060."
+        },
+        {
+          "offset": "0x2F8",
+          "tipo": "f32",
+          "id": "vida",
+          "valor_visto": 100.0,
+          "confianza": "confirmado",
+          "descripcion": "MISMO offset que el jugador. En el savestate: 25 objetos en 0.0 (sin spawnear o muertos), 5 en 100.0 (vivos), 2 en FLT_MAX (invulnerables, probables aliados con guion). Corroboracion independiente: 100.0 / 26.0 de dano por bala de AK = 3.85, o sea 4 balas, que es exactamente lo que el usuario reporto dos veces sin que se le preguntara."
+        },
+        {
+          "offset": "0x2FC",
+          "tipo": "f32",
+          "id": "sin_identificar_2FC",
+          "valor_visto": 1.0,
+          "confianza": "hipotesis",
+          "descripcion": "Vale 1.0 en los 32. Candidato a multiplicador de dano recibido o a vida normalizada."
+        },
+        {
+          "offset": "0x32C",
+          "tipo": "u32",
+          "id": "sin_identificar_32C",
+          "confianza": "hipotesis",
+          "descripcion": "Se lee con `lw` inmediatamente despues del store de vida, en los dos brazos. MISMO offset que en el jugador: refuerza que los dos structs comparten layout por herencia."
+        }
       ],
       "evidencia": "2026-08-16, analisis estatico offline sobre volcados/ee-06.bin (savestate slot 6) mas el ELF del ISO. Metodo: (1) se hallo el puntero de clase del jugador en +0x10; (2) se barrio la region de datos buscando vtables con el layout 'funcion cada 8 bytes desde +0x0C', dando 279; (3) se desensamblo el metodo virtual #8 (offset +0x4C) de cada una con capstone y se conto cuales escriben en +0x2F8. CENSO COMPLETO: solo DOS clases lo hacen, la del jugador (0x003DC5F8) y esta. Sin ambiguedad.",
       "descubierto": "2026-08-16",
@@ -76,9 +218,25 @@
       "confianza": "confirmado",
       "como_llegar": "El puntero de clase vive en objeto+0x10, no en +0x00.",
       "campos": [
-        {"offset": "0x00", "tipo": "u32", "id": "cero_a", "descripcion": "Las primeras tres palabras son cero en todas las vtables observadas."},
-        {"offset": "0x0C", "tipo": "ptr", "id": "metodo_0", "descripcion": "Primer puntero a funcion. A partir de aca las entradas van cada 8 bytes: metodo_n esta en 0x0C + 8*n. Los 4 bytes intermedios son cero (probable offset de thunk para herencia multiple)."},
-        {"offset": "0x4C", "tipo": "ptr", "id": "metodo_8_recibir_dano", "confianza": "probable", "descripcion": "METODO VIRTUAL #8. En la clase del jugador vale 0x0013BB78 (rutina de dano CONFIRMADA); en la clase del enemigo vale 0x00133FA8. Es la unica ranura cuyo contenido escribe en vida+0x2F8. El indice de un metodo virtual se conserva entre clases hermanas: por eso esta ranura es el ancla para encontrar la rutina de dano de CUALQUIER clase de entidad nueva."}
+        {
+          "offset": "0x00",
+          "tipo": "u32",
+          "id": "cero_a",
+          "descripcion": "Las primeras tres palabras son cero en todas las vtables observadas."
+        },
+        {
+          "offset": "0x0C",
+          "tipo": "ptr",
+          "id": "metodo_0",
+          "descripcion": "Primer puntero a funcion. A partir de aca las entradas van cada 8 bytes: metodo_n esta en 0x0C + 8*n. Los 4 bytes intermedios son cero (probable offset de thunk para herencia multiple)."
+        },
+        {
+          "offset": "0x4C",
+          "tipo": "ptr",
+          "id": "metodo_8_recibir_dano",
+          "confianza": "probable",
+          "descripcion": "METODO VIRTUAL #8. En la clase del jugador vale 0x0013BB78 (rutina de dano CONFIRMADA); en la clase del enemigo vale 0x00133FA8. Es la unica ranura cuyo contenido escribe en vida+0x2F8. El indice de un metodo virtual se conserva entre clases hermanas: por eso esta ranura es el ancla para encontrar la rutina de dano de CUALQUIER clase de entidad nueva."
+        }
       ],
       "evidencia": "Barrido de la region de datos respaldada por archivo (0x003BC330-0x0040E580) sobre volcados/ee-06.bin: 279 bloques con este layout. Las funciones 0x0013BB78 y 0x0013BDF8 son referenciadas desde UN SOLO lugar cada una en los 32 MB, y las dos caen en la misma vtable (0x003DC644 y 0x003DC64C), separadas por 8 bytes: son los metodos #8 y #9 de la clase del jugador.",
       "descubierto": "2026-08-16",
@@ -96,35 +254,166 @@
       "alcance_de_la_confirmacion": "Lo confirmado por efecto es: (a) que esto ES la tabla de armas, (b) el paso de 0x1E0, (c) que el campo +0x18 del bloque +0xC0 es el dano de las armas de la IA. NO esta confirmado el bloque +0x90 (ver su ficha): escribirle no cambio el dano del jugador.",
       "confirmado_por": "EFECTO, 2026-08-16. Se escribio Power = 300.0 en los 34 campos (17 registros x 2 bloques) y se midio el pool de enemigos antes y despues: dos enemigos pasaron de 100.0 a 0.0 de un solo impacto (delta 100, clamp desde 300) por fuego amigo entre enemigos, cuando antes hacian falta cuatro balas. En paralelo, y sin que se le preguntara por eso, el usuario reporto que la reaccion en pantalla al recibir disparos cambio a la de arma pesada (barra de dano grande, mas temblor), que es el mismo efecto de escopeta/RPG/Magnum. Restaurado 34/34 sin discrepancias.",
       "campos": [
-        {"offset": "0x00", "tipo": "ptr", "id": "modelo_a", "confianza": "hipotesis", "descripcion": "Tres punteros consecutivos (+0x00, +0x04, +0x08) al mismo rango del heap. Probables modelo / animaciones / textura."},
-        {"offset": "0x0C", "tipo": "u32", "id": "color", "valor_visto": "0xFF7F7F7F", "confianza": "hipotesis", "descripcion": "Parece RGBA."},
-        {"offset": "0x10", "tipo": "u32", "id": "municion_max", "valor_visto": "120, 200, 160, 150", "confianza": "hipotesis"},
-        {"offset": "0x14", "tipo": "u32", "id": "municion_inicial", "valor_visto": "50, 80, 180, 90", "confianza": "hipotesis"},
-        {"offset": "0x18", "tipo": "u32", "id": "cargador", "valor_visto": "25, 10, 50", "confianza": "hipotesis", "descripcion": "Candidato a 'Num Bullets In Clip'. SIN confirmar: no se comparo todavia contra el numero del HUD."},
-        {"offset": "0x90", "tipo": "bloque", "id": "params_jugador", "tamano": "0x30", "confianza": "hipotesis", "descripcion": "Se SUPONE que son los parametros de dano cuando el arma la usa el JUGADOR, por analogia con el `PlayerParams` del esquema de 0x00400868 y por su posicion respecto del bloque de la IA. NO ESTA CONFIRMADO, y hay evidencia en contra: se le escribio Power = 300.0 y el dano de salida del jugador no cambio (siguio en 25.5 por bala). O el jugador usa una copia de este bloque en otro lado, o este bloque es otra cosa. No tratarlo como confirmado hasta que una escritura acá cambie algo visible."},
-        {"offset": "0xC0", "tipo": "bloque", "id": "params_ia", "tamano": "0x30", "confianza": "confirmado", "descripcion": "Idem cuando la usa la IA (`AIParams`, 0x00400878). ESTE es el que se confirmo por efecto."},
-        {"offset": "0x1C0", "tipo": "char[4]", "id": "codigo", "valor_visto": "ASR, SMG, PST, RPG, HVY", "confianza": "probable", "descripcion": "Codigo de 3 letras, los mismos que las carpetas FPGUNS/ del ISO. OJO: la correspondencia registro <-> codigo esta CORRIDA UN REGISTRO respecto de los parametros; no se resolvio si el codigo pertenece al registro que lo contiene o al siguiente. Para identificar un arma conviene guiarse por el perfil de parametros, no por este campo."}
+        {
+          "offset": "0x00",
+          "tipo": "ptr",
+          "id": "modelo_a",
+          "confianza": "hipotesis",
+          "descripcion": "Tres punteros consecutivos (+0x00, +0x04, +0x08) al mismo rango del heap. Probables modelo / animaciones / textura."
+        },
+        {
+          "offset": "0x0C",
+          "tipo": "u32",
+          "id": "color",
+          "valor_visto": "0xFF7F7F7F",
+          "confianza": "hipotesis",
+          "descripcion": "Parece RGBA."
+        },
+        {
+          "offset": "0x10",
+          "tipo": "u32",
+          "id": "municion_max",
+          "valor_visto": "120, 200, 160, 150",
+          "confianza": "hipotesis"
+        },
+        {
+          "offset": "0x14",
+          "tipo": "u32",
+          "id": "municion_inicial",
+          "valor_visto": "50, 80, 180, 90",
+          "confianza": "hipotesis"
+        },
+        {
+          "offset": "0x18",
+          "tipo": "u32",
+          "id": "cargador",
+          "valor_visto": "25, 10, 50",
+          "confianza": "hipotesis",
+          "descripcion": "Candidato a 'Num Bullets In Clip'. SIN confirmar: no se comparo todavia contra el numero del HUD."
+        },
+        {
+          "offset": "0x90",
+          "tipo": "bloque",
+          "id": "params_jugador",
+          "tamano": "0x30",
+          "confianza": "hipotesis",
+          "descripcion": "Se SUPONE que son los parametros de dano cuando el arma la usa el JUGADOR, por analogia con el `PlayerParams` del esquema de 0x00400868 y por su posicion respecto del bloque de la IA. NO ESTA CONFIRMADO, y hay evidencia en contra: se le escribio Power = 300.0 y el dano de salida del jugador no cambio (siguio en 25.5 por bala). O el jugador usa una copia de este bloque en otro lado, o este bloque es otra cosa. No tratarlo como confirmado hasta que una escritura acá cambie algo visible."
+        },
+        {
+          "offset": "0xC0",
+          "tipo": "bloque",
+          "id": "params_ia",
+          "tamano": "0x30",
+          "confianza": "confirmado",
+          "descripcion": "Idem cuando la usa la IA (`AIParams`, 0x00400878). ESTE es el que se confirmo por efecto."
+        },
+        {
+          "offset": "0x1C0",
+          "tipo": "char[4]",
+          "id": "codigo",
+          "valor_visto": "ASR, SMG, PST, RPG, HVY",
+          "confianza": "probable",
+          "descripcion": "Codigo de 3 letras, los mismos que las carpetas FPGUNS/ del ISO. OJO: la correspondencia registro <-> codigo esta CORRIDA UN REGISTRO respecto de los parametros; no se resolvio si el codigo pertenece al registro que lo contiene o al siguiente. Para identificar un arma conviene guiarse por el perfil de parametros, no por este campo."
+        }
       ],
       "bloque_de_parametros": {
         "tamano": "0x30",
         "campos": [
-          {"offset": "0x14", "tipo": "f32", "id": "range", "confianza": "confirmado", "descripcion": "Divisor de la interpolacion. NO es alcance maximo en el sentido de 'mas alla no llega'."},
-          {"offset": "0x18", "tipo": "f32", "id": "power", "confianza": "confirmado", "descripcion": "EL DANO. Con falloff = 1 es el dano constante. Nombre tomado del esquema del propio ejecutable (0x00400918 = 'Power')."},
-          {"offset": "0x1C", "tipo": "f32", "id": "falloff", "confianza": "confirmado", "descripcion": "Fraccion minima, 0..1. Vale 1.0 en casi todas las armas, y por eso el dano observado es constante — coincide con los 10 escalones identicos de 26.0 medidos en la Fase 1."}
+          {
+            "offset": "0x14",
+            "tipo": "f32",
+            "id": "range",
+            "confianza": "confirmado",
+            "descripcion": "Divisor de la interpolacion. NO es alcance maximo en el sentido de 'mas alla no llega'."
+          },
+          {
+            "offset": "0x18",
+            "tipo": "f32",
+            "id": "power",
+            "confianza": "confirmado",
+            "descripcion": "EL DANO. Con falloff = 1 es el dano constante. Nombre tomado del esquema del propio ejecutable (0x00400918 = 'Power')."
+          },
+          {
+            "offset": "0x1C",
+            "tipo": "f32",
+            "id": "falloff",
+            "confianza": "confirmado",
+            "descripcion": "Fraccion minima, 0..1. Vale 1.0 en casi todas las armas, y por eso el dano observado es constante — coincide con los 10 escalones identicos de 26.0 medidos en la Fase 1."
+          }
         ],
         "formula": "dano = power * (falloff + (1 - falloff) * arg / range), calculada en 0x0015B20C"
       },
       "perfiles_leidos": [
-        {"base": "0x018425E0", "jugador": "1000 / 500", "ia": "1000 / 200", "lectura": "Magnum: en BLACK mata de un tiro y 500 contra 100 HP encaja"},
-        {"base": "0x01842400", "jugador": "25 / 38", "ia": "20 / 133.3", "lectura": "escopeta: alcance corto, falloff 0 en el bloque IA (unico caso), dano total alto"},
-        {"base": "0x018434E0", "jugador": "100 / 100", "ia": "1000 / 70", "lectura": "HVY, ametralladora pesada"},
-        {"base": "0x018429A0", "jugador": "60 / 26", "ia": "1000 / 26", "lectura": "ASR, el fusil de asalto. 26.0 es exactamente el dano confirmado en la Fase 1"}
+        {
+          "base": "0x018425E0",
+          "jugador": "1000 / 500",
+          "ia": "1000 / 200",
+          "lectura": "Magnum: en BLACK mata de un tiro y 500 contra 100 HP encaja"
+        },
+        {
+          "base": "0x01842400",
+          "jugador": "25 / 38",
+          "ia": "20 / 133.3",
+          "lectura": "escopeta: alcance corto, falloff 0 en el bloque IA (unico caso), dano total alto"
+        },
+        {
+          "base": "0x018434E0",
+          "jugador": "100 / 100",
+          "ia": "1000 / 70",
+          "lectura": "HVY, ametralladora pesada"
+        },
+        {
+          "base": "0x018429A0",
+          "jugador": "60 / 26",
+          "ia": "1000 / 26",
+          "lectura": "ASR, el fusil de asalto. 26.0 es exactamente el dano confirmado en la Fase 1"
+        }
       ],
       "esquema_del_ejecutable": "El propio SLUS_213.76 trae los nombres de los campos en 0x004008A0-0x004009C8: 'Projectile Type', 'Weapon Impact Level', 'Num Bullets Per Burst', 'Num Bullets In Clip', 'Muzzle Offset', 'Range', 'Power', 'Time Between Bullets', 'Time Between Bursts', 'Num Bullets Per Spread', 'Likelyhood Of Ricochet', 'Max Ricochet Angle', 'Max Spread Angle', 'Accuracy Fall Off Time', 'Accuracy Fall Off Over Time'; y las secciones 'CommonParams' (0x00400858) / 'PlayerParams' (0x00400868) / 'AIParams' (0x00400878). Son rodata MUERTA: `xref.py absoluto` da cero para todas, con control positivo (otros strings de la misma region si tienen referencias). Documentan el formato aunque el parser del juego sea binario.",
       "evidencia": "2026-08-16. Camino: (1) del desensamblado de 0x0015B118 sale que el descriptor de dano llega como [$a0+0x0C]; (2) BFS de punteros desde el objeto del jugador (0x005A8AB0) hasta profundidad 3 buscando objetos cuyo +0x0C apunte a algo con forma de descriptor -> 7 aciertos, todos en 0x01842xxx; (3) volcar esa region en bloques de 0x30 mostro el patron periodico de 0x1E0 con dos bloques de parametros; (4) escritura de 300.0 en los 34 Power y medicion del pool de enemigos.",
       "descubierto": "2026-08-16",
       "callejon_cerrado": "Los cinco 26.0 de 0x0042C3AC / 0x0042C5EC / 0x0042C92C / 0x0042CCFC / 0x0042D56C NO son la tabla. Estan en BSS, se les escribio 300.0 y el dano no cambio en ninguna direccion. Lo que SI cambio fue el HUD: aparecieron dos barras negras translucidas en pantalla al escribir, y desaparecieron al restaurar los cuatro valores a 26.0 — causalidad confirmada en los dos sentidos, no solo correlacion. Encaja con que el arreglo de 0x006CF4E0 apunta a registros de 0x50 bytes en 0x0042CD40+n*0x50, justo al lado. O sea que esa zona es de HUD y NO hay que escribirle. No volver a esa pista.",
       "notas": "PENDIENTE Y CONCRETO: el dano de SALIDA del jugador NO cambio al escribir estos 34 campos. Con Power = 300 en toda la tabla, el disparo del jugador siguio quitando exactamente 25.5 por bala (medido dos veces sobre el mismo enemigo: 100 -> 74.5 -> 49). O sea que el proyectil del jugador toma su dano de otro lado — una copia en la instancia del arma, u otra rutina distinta de 0x0015B118. Ese es el proximo hilo, y ademas explica el 25.5 contra el 26.0 nominal."
+    },
+    {
+      "id": "zona_impacto",
+      "nombre": "Registro de zona de impacto (daño de salida contra esa entidad)",
+      "tamano": "0xC",
+      "como_llegar": "p = [victima+0x328]; q = [p+0x3C]; base = [q]; registro = base + zona*0xC. Hay una tabla POR TIPO DE PERSONAJE y vive en el HEAP: la dirección cambia entre niveles y entre partidas. herramientas/zonas.py la busca siguiendo esta cadena desde el pool de enemigos.",
+      "campos": [
+        {
+          "offset": "0x00",
+          "tipo": "f32",
+          "id": "factor_a",
+          "descripcion": "factor de daño usado cuando [impacto+0x48] < 0. daño = factor * 100.0",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x04",
+          "tipo": "f32",
+          "id": "factor_b",
+          "descripcion": "factor de daño usado en el resto de los casos",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x08",
+          "tipo": "?",
+          "id": "desconocido",
+          "descripcion": "no lo lee 0x00142B90. En las zonas 17-22 tiene floats (0.34, 1.02, 0.204, 0.11333) que parecen del mismo juego de valores, corridos un campo",
+          "confianza": "hipotesis"
+        }
+      ],
+      "perfil_observado_nivel_1": {
+        "_nota": "tabla 0x00709F40, la de los enemigos 2..14. Multiplicar por 100 para el daño. Un enemigo tiene 100.0 de vida.",
+        "1.02 -> 102": "zonas 2 y 11 — mata de un solo impacto. Cabeza.",
+        "0.51 -> 51": "zonas 0, 1, 13, 14",
+        "0.34 -> 34": "zonas 3, 8, 10, 15",
+        "0.255 -> 25.5": "zonas 4, 5, 9, 12, 16 — el TORSO. Es el daño medido del jugador en la Fase 1, y 25.5*4 = 102 > 100 explica las cuatro balas que costaba matarlos.",
+        "0.11333 -> 11.33": "zonas 21, 22 — extremidades",
+        "0.204 -> 20.4": "zona 20"
+      },
+      "confianza": "probable",
+      "evidencia": "Ver kb/rutinas.json#calcular_dano_zona. Pendiente el test por efecto."
     }
   ]
 }

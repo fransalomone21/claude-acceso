@@ -14,6 +14,18 @@ proyecto las complementan; nunca las derogan.
    diseñar para requerimientos hipotéticos.
 5. **Checkpoint antes de parar.** `ESTADO_ACTUAL.md` + `HANDOFF.md` +
    commit + push. Sin esos tres pasos, la próxima sesión arranca de cero.
+6. **Cuadro de fase en TODA respuesta**, no sólo al abrir el chat. Tres
+   líneas, arriba de todo, antes de cualquier otra cosa:
+
+   ```
+   Fase     : cuál es, y QUÉ LA CIERRA (criterio de salida concreto)
+   Modelo   : el que corresponde a este tramo, y por qué
+   Contexto : seguir acá | conviene chat nuevo, y por qué
+   ```
+
+   Se decide, no se pregunta: es una llamada de criterio del rol de
+   ingeniero, no del usuario. Ver `/cuadro-de-fase` para el detalle y los
+   casos borde.
 
 ## Metodología completa
 

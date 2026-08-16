@@ -13,7 +13,6 @@
     "confianza": "confirmado | probable | hipotesis | descartado",
     "evidencia": "cómo se llegó a ella (breakpoint, referencia cruzada, string cercano...)"
   },
-
   "_como_se_encuentra_una_rutina": [
     "1. Poné un breakpoint de escritura sobre la dirección del dato (PCSX2: Debugger > Memory > right-click > Add breakpoint).",
     "2. Provocá el evento en el juego. El debugger para en la instrucción que escribe.",
@@ -21,7 +20,6 @@
     "4. Anotá acá la dirección del prólogo, no la del breakpoint.",
     "5. Mirá el call stack del debugger para llenar `llamadores`."
   ],
-
   "entradas": [
     {
       "id": "aplicar_dano",
@@ -34,10 +32,34 @@
       "confianza": "confirmado",
       "notas_mod": "MOD DE VIDA INFINITA CERRADO 2026-08-15 (noche): nop en 0x0013BD20 (0xE65402F8 -> 0x00000000), probado contra fuego real de AK47 en el primer nivel, vida estable en 225.49 durante varios minutos de combate. Falta ver si cubre TODAS las fuentes de daño (armas cuerpo a cuerpo, caídas, explosiones) o sólo proyectiles — sólo se probó con AK47.",
       "puntos_de_parche": [
-        {"direccion": "0x0013BD20", "instruccion_original": "swc1 f20, 0x2F8(s2)", "codificacion": "0xE65402F8", "efecto_si_se_modifica": "ESTE es el que escribe la vida del JUGADOR al recibir daño. nop acá = VIDA INFINITA, confirmado en vivo: recibiendo fuego real de AK47 (nivel 1) con el nop puesto, la vida no bajó de 225.49. Único punto de parche necesario para este mod — no hizo falta tocar 0x0013C0F0.", "confianza": "confirmado"},
-        {"direccion": "0x0013C120", "instruccion_original": "swc1 f22, 0x2F8(s0)", "codificacion": "0xE61602F8", "efecto_si_se_modifica": "NO es el brazo del jugador: al disparar el watchpoint, f22 = 0.0 y s0 = 0x590D90, que no es el objeto del jugador. Candidato a ser el brazo de OTRA entidad — reforzado por desensamblado 2026-08-15 (16): el bloque 0x0013C060-0x0013C180 repite el MISMO patrón de estado que el bloque del jugador (`lw v1,0xC4(s1)` comparando contra 3 y 4, dos llamadas condicionales a 0x0014A438/0x00152A50, y recién después el store en +0x2F8), sólo que con s1/s0 en vez de s0/s2. Misma forma, offsets idénticos, base distinta: sigue sin verse el EFECTO en un enemigo real (confianza se mantiene en hipótesis, no confirmado).", "confianza": "descartado", "explicacion_definitiva_2026_08_16": "YA SE SABE QUE ES: el metodo virtual #9 de la clase del JUGADOR. La funcion que lo contiene (0x0013BDF8) esta referenciada desde un solo lugar en los 32 MB, la vtable 0x003DC64C, que es la del jugador (0x003DC5F8) en la ranura +0x54 — pegada a la ranura +0x4C que tiene la rutina de dano confirmada. Por eso el codigo era estructuralmente identico (misma clase, metodos vecinos) y por eso nopearlo no afecto a los enemigos (no es de ellos). Misterio cerrado.", "descartado_por": "FALSIFICADO POR EFECTO 2026-08-15 (18): se nopeo en vivo (0xE61602F8 -> 0x00000000), el usuario descargo la AK sobre un enemigo y murio normal en 4-5 balas. Se releyo 0x0013C120 DESPUES del test y seguia en 0, o sea que el nop aguanto: el test es valido, no es un falso negativo por perdida del parche. NO es el brazo de dano de los enemigos."},
-        {"direccion": "0x0013C0DC", "instruccion_original": "sub.s f22, f22, f21", "codificacion": "0x4615B581", "efecto_si_se_modifica": "acá se resta el daño. Insertar un escalado sobre f21 antes = multiplicador de daño recibido."},
-        {"direccion": "0x0013C0F0", "instruccion_original": "swc1 f20, 0x2F8(s0)", "codificacion": "0xE61402F8", "efecto_si_se_modifica": "clamp de muerte: se ejecuta sólo cuando vida-daño <= piso."}
+        {
+          "direccion": "0x0013BD20",
+          "instruccion_original": "swc1 f20, 0x2F8(s2)",
+          "codificacion": "0xE65402F8",
+          "efecto_si_se_modifica": "ESTE es el que escribe la vida del JUGADOR al recibir daño. nop acá = VIDA INFINITA, confirmado en vivo: recibiendo fuego real de AK47 (nivel 1) con el nop puesto, la vida no bajó de 225.49. Único punto de parche necesario para este mod — no hizo falta tocar 0x0013C0F0.",
+          "confianza": "confirmado"
+        },
+        {
+          "direccion": "0x0013C120",
+          "instruccion_original": "swc1 f22, 0x2F8(s0)",
+          "codificacion": "0xE61602F8",
+          "efecto_si_se_modifica": "NO es el brazo del jugador: al disparar el watchpoint, f22 = 0.0 y s0 = 0x590D90, que no es el objeto del jugador. Candidato a ser el brazo de OTRA entidad — reforzado por desensamblado 2026-08-15 (16): el bloque 0x0013C060-0x0013C180 repite el MISMO patrón de estado que el bloque del jugador (`lw v1,0xC4(s1)` comparando contra 3 y 4, dos llamadas condicionales a 0x0014A438/0x00152A50, y recién después el store en +0x2F8), sólo que con s1/s0 en vez de s0/s2. Misma forma, offsets idénticos, base distinta: sigue sin verse el EFECTO en un enemigo real (confianza se mantiene en hipótesis, no confirmado).",
+          "confianza": "descartado",
+          "explicacion_definitiva_2026_08_16": "YA SE SABE QUE ES: el metodo virtual #9 de la clase del JUGADOR. La funcion que lo contiene (0x0013BDF8) esta referenciada desde un solo lugar en los 32 MB, la vtable 0x003DC64C, que es la del jugador (0x003DC5F8) en la ranura +0x54 — pegada a la ranura +0x4C que tiene la rutina de dano confirmada. Por eso el codigo era estructuralmente identico (misma clase, metodos vecinos) y por eso nopearlo no afecto a los enemigos (no es de ellos). Misterio cerrado.",
+          "descartado_por": "FALSIFICADO POR EFECTO 2026-08-15 (18): se nopeo en vivo (0xE61602F8 -> 0x00000000), el usuario descargo la AK sobre un enemigo y murio normal en 4-5 balas. Se releyo 0x0013C120 DESPUES del test y seguia en 0, o sea que el nop aguanto: el test es valido, no es un falso negativo por perdida del parche. NO es el brazo de dano de los enemigos."
+        },
+        {
+          "direccion": "0x0013C0DC",
+          "instruccion_original": "sub.s f22, f22, f21",
+          "codificacion": "0x4615B581",
+          "efecto_si_se_modifica": "acá se resta el daño. Insertar un escalado sobre f21 antes = multiplicador de daño recibido."
+        },
+        {
+          "direccion": "0x0013C0F0",
+          "instruccion_original": "swc1 f20, 0x2F8(s0)",
+          "codificacion": "0xE61402F8",
+          "efecto_si_se_modifica": "clamp de muerte: se ejecuta sólo cuando vida-daño <= piso."
+        }
       ],
       "evidencia": "CONFIRMADO 2026-08-15 (noche) con watchpoint de ESCRITURA sobre 0x005A8DA8, recibiendo un golpe real. El emulador paró en pc = 0x0013BD20 = `swc1 f20, 0x2F8(s2)`. Los cuatro datos cerraron a la vez: s2 = 0x005A8AB0 (base del jugador, exacta), 0x005A8AB0 + 0x2F8 = 0x005A8DA8, f21 = 26.0 (la constante de daño ya conocida) y f20 = 724.0 = 750.0 - 26.0. Después se predijo el valor ANTES de reanudar y al continuar la vida quedó en 724.0: causalidad, no correlación. Evidencia independiente en el sentido fuerte — el breakpoint NO se puso sobre la dirección sospechada, se vigiló el dato y el juego delató la instrucción. Antecedente: watchpoint de LECTURA que dio el offset real 0x2F8 (no 0x28) y bajó `xref.py stores 0x2F8 --fpu` de 69 candidatos a 8.",
       "notas": "OJO: el candidato que traía el handoff (0x0013C120) NO era el del jugador. La sesión anterior eligió mal entre los 8 candidatos. En el momento del golpe, ese sitio tenía f22 = 0.0 y s0 = 0x590D90, que no es el objeto del jugador. Los dos sitios están a 0x400 y usan el MISMO offset 0x2F8 con registros base distintos (s2 vs s0): sigue en pie la hipótesis de una rutina GENERICA de 'entidad recibe daño' con un brazo por tipo de entidad — si se confirma, abre Fase 3 y Fase 5 juntas. FALTA EL TEST DE EFECTO: nadie vio todavía vida infinita. El test es nopear 0x0013BD20 (0xE65402F8 -> 0x00000000) y recibir golpes. No cubre necesariamente el camino de muerte."
@@ -52,8 +74,20 @@
       "convencion": "Puntero a la entidad en s0. f20 = resultado ya restado (lo que se escribe en el brazo normal). f21 = 0.0, el piso, cargado con `mtc1 zero,f21` y escrito en el brazo de muerte. Mismo esquema que la del jugador salvo que ahí el piso viaja en f22.",
       "confianza": "confirmado",
       "puntos_de_parche": [
-        {"direccion": "0x00134654", "instruccion_original": "swc1 f20, 0x2F8(s0)", "codificacion": "0xE61402F8", "efecto_si_se_modifica": "DAÑO NORMAL al enemigo. nop acá = ENEMIGOS INVULNERABLES. CONFIRMADO POR EFECTO 2026-08-16: con el nop puesto, el usuario le vació un cargador entero de AK a un enemigo y siguió vivo. Se releyó 0x00134654 DESPUÉS de la prueba y seguía en 0x00000000, así que el nop aguantó: no es un falso positivo por pérdida del parche. Restaurado a 0xE61402F8 al terminar.", "confianza": "confirmado"},
-        {"direccion": "0x00134514", "instruccion_original": "swc1 f21, 0x2F8(s0)", "codificacion": "0xE61502F8", "efecto_si_se_modifica": "CLAMP DE MUERTE: escribe 0.0 cuando vida-daño <= 0. nop acá = el enemigo no llega nunca a 0 por este camino (puede no cubrir el camino de muerte entero).", "confianza": "probable"}
+        {
+          "direccion": "0x00134654",
+          "instruccion_original": "swc1 f20, 0x2F8(s0)",
+          "codificacion": "0xE61402F8",
+          "efecto_si_se_modifica": "DAÑO NORMAL al enemigo. nop acá = ENEMIGOS INVULNERABLES. CONFIRMADO POR EFECTO 2026-08-16: con el nop puesto, el usuario le vació un cargador entero de AK a un enemigo y siguió vivo. Se releyó 0x00134654 DESPUÉS de la prueba y seguía en 0x00000000, así que el nop aguantó: no es un falso positivo por pérdida del parche. Restaurado a 0xE61402F8 al terminar.",
+          "confianza": "confirmado"
+        },
+        {
+          "direccion": "0x00134514",
+          "instruccion_original": "swc1 f21, 0x2F8(s0)",
+          "codificacion": "0xE61502F8",
+          "efecto_si_se_modifica": "CLAMP DE MUERTE: escribe 0.0 cuando vida-daño <= 0. nop acá = el enemigo no llega nunca a 0 por este camino (puede no cubrir el camino de muerte entero).",
+          "confianza": "probable"
+        }
       ],
       "evidencia": "2026-08-16, análisis estático offline. Se llegó por CLASE, no por escaneo: el método virtual #8 (vtable+0x4C) de la clase del jugador es la rutina de daño confirmada, así que se desensambló esa misma ranura en las 279 vtables halladas y se contó cuáles escriben en +0x2F8. Censo completo: sólo dos, la del jugador y ésta. El desensamblado muestra el patrón idéntico de dos brazos (`mtc1 zero,f21` / `c.ole.s f20,f21` / `bc1fl` / store de muerte, y aparte el store normal). Corroboración numérica independiente: los objetos de la clase tienen vida 100.0 y el daño de AK medido es 26.0, lo que da 4 balas para matar — exactamente lo que el usuario reportó dos veces sin que se le preguntara.",
       "notas": "CONFIRMADO POR EFECTO 2026-08-16. El análisis estático (llegar a la clase por vtable y desensamblar el método virtual #8) predijo el punto de parche exacto, y el efecto en pantalla lo validó a la primera: cargador entero de AK sobre un enemigo, sin daño. Vale la pena registrar el contraste de método: dos sesiones de escaneo diferencial no habían podido ni localizar la vida del enemigo, porque muere en 4 balas y el filtro necesita más rondas. Por clase salió en una pasada y sin tocar el emulador. Antecedente que obligó a la cautela: 0x0013C120 parecía igual de sólido por analogía estructural y resultó ser el método #9 de la clase del JUGADOR."
@@ -68,10 +102,21 @@
       "convencion": "$a0 = objeto que tiene el arma; su campo +0x0C es el DESCRIPTOR de daño (bloque de 0x30 de kb/estructuras.json#arma). $a1 = objeto del impacto; +0x24 = entidad víctima, +0x2C = byte de flags. $f12 = argumento escalar que entra a la interpolación (se copia a $f20 en 0x0015B170). Devuelve 1 en $v0 si aplicó daño.",
       "formula": "En 0x0015B20C: f2=1.0; f0=[desc+0x14] (Range); f1=[desc+0x1C] (falloff); f3=[desc+0x18] (Power); f0=f20/f0; f2=1.0-f1; f1=f3*f1; f0=f0*f3; f0=f0*f2; f21=f0+f1. O sea daño = Power*(falloff + (1-falloff)*arg/Range). Con falloff=1 el daño es CONSTANTE e igual a Power, que es el caso de casi todas las armas — y explica los 10 escalones idénticos de 26.0 de la Fase 1.",
       "confianza": "confirmado",
-      "llamadores": ["0x001599D0", "0x00159A70", "0x00159FF4", "0x0015AF1C", "0x0015AFC8"],
+      "llamadores": [
+        "0x001599D0",
+        "0x00159A70",
+        "0x00159FF4",
+        "0x0015AF1C",
+        "0x0015AFC8"
+      ],
       "dos_caminos": "Desde acá el daño sale por uno de dos caminos, según $s5: (a) 0x0015B2D8, llamada DIRECTA al método virtual #8 de la víctima con mov.s $f12,$f21; (b) 0x0015B31C, se ENCOLA con jal 0x0015B8F8 pasando $a0 = 0x00414AD0. Ver la entrada cola_de_dano.",
       "puntos_de_parche": [
-        {"direccion": "0x0015B238", "instruccion_original": "add.s $f21, $f0, $f1", "efecto_si_se_modifica": "es la suma final de la fórmula. Reemplazarla por un mov.s desde un registro con un valor fijo daría daño constante para TODAS las armas, sin tocar la tabla.", "confianza": "hipotesis"}
+        {
+          "direccion": "0x0015B238",
+          "instruccion_original": "add.s $f21, $f0, $f1",
+          "efecto_si_se_modifica": "es la suma final de la fórmula. Reemplazarla por un mov.s desde un registro con un valor fijo daría daño constante para TODAS las armas, sin tocar la tabla.",
+          "confianza": "hipotesis"
+        }
       ],
       "evidencia": "2026-08-16, análisis estático sobre volcados/codigo-vivo.bin con capstone (CS_MODE_MIPS64 + skipdata). Se enumeraron los 37 sitios de llamada al método virtual #8 con el patrón `lw rX,0x4c(rY)` + `jalr rX`, y se hizo backward-slice de $f12 en cada uno. Sólo seis tenían definición dentro de 64 instrucciones; una de ellas, 0x0015BAEC (`lwc1 $f12,0x14($s0)`), llevó a la cola de daño, y de ahí al único llamador de la encoladora, que es esta función. El descriptor quedó confirmado por efecto al escribirle Power (ver kb/estructuras.json#arma).",
       "descubierto": "2026-08-16"
@@ -97,10 +142,39 @@
       "convencion": "Puntero a la entidad en a2 (también visto en s0 y a1). Devuelve el ratio en f12.",
       "confianza": "probable",
       "puntos_de_parche": [
-        {"direccion": "0x001F93EC", "instruccion_original": "lui at, 0x4496", "efecto_si_se_modifica": "cambia el denominador 1200.0 — sólo afecta cómo se DIBUJA la barra, no la vida real."}
+        {
+          "direccion": "0x001F93EC",
+          "instruccion_original": "lui at, 0x4496",
+          "efecto_si_se_modifica": "cambia el denominador 1200.0 — sólo afecta cómo se DIBUJA la barra, no la vida real."
+        }
       ],
       "evidencia": "Watchpoint de lectura sobre 0x005A8DA8. Tres sitios idénticos salvo el registro base: 0x0013A454 (s0), 0x001EEBD8 (a1), 0x001F93E0 (a2). El desensamblado muestra `lwc1 f01,0x2F8(base)` seguido de `lui at,0x4496` / `mtc1` / `div.s f12, f01, f00`. Constantes decodificadas: 0x44960000 = 1200.0, 0x443B8000 = 750.0.",
       "notas": "ACA APARECE EL 1200. El HANDOFF anterior declaraba falso el recuerdo de 'vida máxima ~1200'; el 1200.0 está hardcodeado en el código que lee la vida. Queda por determinar qué selecciona la rama entre 1200.0 y 750.0 (¿dificultad? ¿tipo de entidad?). También es el candidato natural a explicar 0x0065F458 (f32, rango observado 0.23..0.59): sería este ratio."
+    },
+    {
+      "id": "calcular_dano_zona",
+      "nombre": "Daño efectivo por ZONA DE IMPACTO — el daño de SALIDA del jugador",
+      "direccion": "0x00142B90",
+      "fin": "0x00142E2C",
+      "version": "ntsc_u",
+      "descripcion": "Devuelve cuánto daño recibe realmente una entidad por un impacto. NO usa el daño que le llega: lo IGNORA y calcula el suyo a partir de la zona del cuerpo golpeada. Es el eslabón que faltaba para explicar por qué escribir Power=300 en los 34 campos de la tabla de armas no cambió el daño del jugador.",
+      "convencion": "$a0 = [[victima+0x328]+0x3C], puntero al personaje; $a1 = número de ZONA (byte con signo, se multiplica por 0xC en 0x00142BC4); $a2 = base de la tabla de zonas, cargada en 0x00142BF4 con lw $a2,($a0); $t1 = tipo de daño; sp+0x150 = 'Weapon Impact Level' del tirador ([[tirador+0x2A4]+0x108]). DEVUELVE el daño en $f0. El $f12 de entrada NO se lee en ningún punto de la función.",
+      "formula": "s0 = tabla + zona*0xC; f1 = [s0+0x00] si [impacto+0x48] < 0, si no [s0+0x04]; daño = f1 * 100.0 (el lui $at,0x42C8 de 0x00142CA0, mul.s en 0x00142CAC). Después, en 0x00142DF4-0x00142E04, se multiplica por 0.7 (lui 0x3F33 + ori 0x3333) sólo si el impact level no es cero y ninguno de los dos flags de salida quedó en 1.",
+      "confianza": "probable",
+      "llamadores": [
+        "0x0013434C"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00142CAC",
+          "instruccion_original": "mul.s $f20, $f1, $f0",
+          "codificacion": "0x46000D02",
+          "efecto_si_se_modifica": "es donde el factor de zona se convierte en daño. Cambiar el 100.0 de 0x00142CA0 escala TODO el daño de salida contra cualquier víctima de una sola vez, sin tocar las tablas por personaje.",
+          "confianza": "hipotesis"
+        }
+      ],
+      "evidencia": "2026-08-16, desensamblado con capstone (MIPS64 + skipdata) sobre volcados/ee-4b.bin, más tres sondeos offline: (1) CERO copias byte-a-byte de los 34 bloques de parámetros de arma fuera de la tabla, o sea que no hay copia por instancia; (2) el float 25.5 NO existe como inmediato en el código (barrido de lui rX,0x41CC en 0x00100000-0x003C0000, con control positivo: lui 0x4496 = 1200.0 dio 17 sitios), o sea que se calcula; (3) el float 0.255 aparece EXACTAMENTE 9 veces en los 32 MB y las 9 están dentro de la tabla de zonas 0x00709F40, que es la de los enemigos vivos 2..14 — y 0.255 * 100.0 = 25.5, el daño medido del jugador. Falta el test por efecto (escribir el factor y ver morir al enemigo de una bala) para pasar a confirmado.",
+      "descubierto": "2026-08-16"
     }
   ]
 }

@@ -1,3 +1,9 @@
+ABRIR LA RESPUESTA CON EL CUADRO (siempre, no solo al empezar el chat):
+  Fase     : cual es, y QUE LA CIERRA
+  Modelo   : el que corresponde a este tramo, y por que
+  Contexto : seguir aca | chat nuevo, y por que
+Se decide, no se pregunta. Detalle en /cuadro-de-fase.
+
 CHEQUEO TRANSVERSAL (antes de actuar):
 1. Ya lo se o esta en el contexto? -> no lo mandes a investigar de nuevo.
 2. El paso 2 depende del paso 1? -> es SECUENCIAL. Nada de fan-out.

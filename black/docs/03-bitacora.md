@@ -16,6 +16,84 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-16 (22) — FASE 4b: el daño de salida del jugador NO sale de la tabla de armas
+
+**Máquina:** notebook · **Modelo:** Opus
+
+**Objetivo:** cerrar el pendiente de la entrada 21 — con `Power = 300` en los
+34 campos, el disparo del jugador seguía quitando 25.5 por bala.
+
+**Resultado — está resuelto, y la respuesta era que la pregunta estaba mal
+planteada.** El daño de salida del jugador no sale de la tabla de armas
+**porque nunca salió de ahí**. Sale de una tabla por **zona de impacto** que
+cuelga del personaje de la víctima:
+
+```
+daño = factor_de_zona * 100.0        (y a veces * 0.7)
+```
+
+Se calcula en **`0x00142B90`**, que **ignora** el daño que le llega en `$f12`
+y devuelve el suyo en `$f0`. El llamador (`0x0013434C`, dentro del método #8
+del enemigo) lo toma como daño efectivo, hace `sub.s $f1,$f20,$f22` y lo
+escribe en `+0x2F8` — que es exactamente el `swc1` de `0x00134654` que ya
+estaba confirmado desde la Fase 3.
+
+Perfil de la tabla del nivel 1 (`0x00709F40`, registros de `0xC`):
+
+| factor | daño | zonas |
+|---|---|---|
+| 1.02 | **102** | 2, 11 — cabeza: mata de un tiro |
+| 0.51 | 51 | 0, 1, 13, 14 |
+| 0.34 | 34 | 3, 8, 10, 15 |
+| **0.255** | **25.5** | 4, 5, 9, 12, 16 — **el torso** |
+| 0.204 | 20.4 | 20 |
+| 0.11333 | 11.33 | 21, 22 — extremidades |
+
+`25.5 * 4 = 102 > 100`: de ahí salen las cuatro balas que costaba matarlos.
+
+**Cómo se llegó, en tres sondeos offline sobre un solo volcado:**
+
+1. **Cero copias.** Se buscaron los 34 bloques de parámetros de arma
+   byte-a-byte fuera de la tabla: **0 copias**. Eso mató la hipótesis 1 del
+   handoff (que la instancia del arma del jugador tuviera la suya).
+2. **El `25.5` no está en el código.** Barrido de `lui rX,0x41CC` en
+   `0x00100000-0x003C0000`: **cero sitios**, con control positivo en la misma
+   corrida (`lui 0x4496` = 1200.0 dio 17). O sea: se calcula.
+3. **El `0.255` sí está, y en un solo lugar.** Aparece **exactamente 9 veces
+   en los 32 MB** y las nueve caen dentro de la tabla de zonas de los
+   enemigos vivos. `0.255 * 100 = 25.5`.
+
+También quedó identificado el **objeto de arma por tirador**: registros de
+`0x110` en `0x006DE770 + n*0x110`, con el descriptor en `+0x0C` y el **dueño
+en `+0x10`**. El del jugador es `0x006DE770` (`+0x10 = 0x005A8AB0`), los
+siguientes son de los enemigos del pool. Y un arreglo paralelo de `0x24` en
+`0x006E18B8` donde `+0x0` es siempre PlayerParams y `+0x4` es el descriptor
+**activo** (Player para el jugador, AI para la IA).
+
+**Lo que esto corrige de la entrada 21.** El `Power = 300` sí cambió algo real
+—el jugador pasó a **recibir** daño de arma pesada— y eso sigue en pie. Lo que
+no corresponde es la generalización: la tabla de armas gobierna el daño que se
+le hace **al jugador**, no el que el jugador **hace**. Las dos muertes de
+enemigos atribuidas a fuego amigo no las vio nadie ocurrir: se infirieron de
+un pool que apareció en 0. Es un estado final, no un efecto observado. De ahí
+salió la **lección 16** de `/lecciones-aprendidas`.
+
+**No funcionó:**
+
+- La primera lectura de la cadena de punteros se comió una indirección
+  (`lw $a0,0x3c($a1)` es una **carga**, no aritmética de direcciones) y las
+  tablas dieron todas cero. El barrido independiente del float `0.255`
+  —que no dependía de la cadena— fue el que destrabó y de paso la corrigió.
+- Buscar una segunda tabla de armas (por `Guns_S.bin`): la única corrida de
+  registros de `0x1E0` en los 32 MB además de la conocida tiene Powers de
+  0.4-1.0, que no son daño. No hay segunda tabla.
+
+**Sigue:** el test por efecto, que es lo único que falta para cerrar la fase.
+`zonas.py escribir 3.0` ya está PUESTO en memoria (36/36). Falta una bala al
+cuerpo de un enemigo: tiene que morir de una. Después, restaurar y Fase 5.
+
+---
+
 ## 2026-08-16 (21) — FASE 4: la tabla de armas, encontrada y confirmada por efecto
 
 **Máquina:** notebook · **Modelo:** Opus
