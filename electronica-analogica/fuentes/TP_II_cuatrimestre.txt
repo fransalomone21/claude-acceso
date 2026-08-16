@@ -1,0 +1,248 @@
+
+===== PAGINA 1 =====
+Escuela de Educación Secundaria Técnica Nro de Vicente
+López
+Eduardo Ader
+Aplicaciones de Electrónica Analógica - 4to Año
+Guía de Trabajos Prácticos - II Cuatrimestre
+Autor:
+Guillermo Ruisi
+Octubre 2024
+===== PAGINA 2 =====
+ÍNDICE
+Índice
+I Trabajo Práctico N ro 6 2
+Polarización del diodo 2
+II Trabajo Práctico N ro 7 4
+Fuentes de alimentación 4
+III Trabajo Práctico N ro 8 6
+Fuente de Alimentación con Regulador Zener 6
+1
+===== PAGINA 3 =====
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs II Cuatrimestre POLARIZACIÓN DEL DIODO
+Parte I
+Trabajo Práctico Nro 6
+Polarización del diodo
+1. Armar el siguiente circuito en el protoboard:
+VS
+R
+A
+A
+D
+V V
+Como lo marca el esquema, se deberá medir la corriete totalID y la tensión del diodoVD. Para ello,
+se deberá variar el valor de la fuente de alimentación para registrar:
+VS [V] IT [mA] VR [V] VD [V]
+0
+0,1
+0,2
+0,3
+0,4
+0,5
+0,6
+0,7
+0,8
+0,9
+1
+1,2
+Además, tiene que realizar misma opreación, pero cam-
+biando la polarización del diodo. Al finalizar, se deberá
+pasar punto a punto todos los valores a un par de ejes.
+El objetivo es obtener una curva similiar a la presenta-
+da a la derecha. Para ello, utilice una hoja milimetrada
+con la escala mas adecuada en ambos ejes. Sacar con-
+clusiones.
+−1,5 −1 −0,5 0,5 1 1,5−1
+5
+10
+15
+20
+Vd (V)
+Id (mA)Directa
+Inversa
+2. Siempre que usamos un LED hay que colocarle una resistencia en serie para protegerlo. Se busca siempre
+que la intensidad que pasa por el LED no sobrepase los 20 mA, ya que si lo hace éste podría destruirse.
+Armar un circuito con una resistencia de 330Ω, un LED y aumentar la tensión de alimentación hasta
+llegar a 20mA. Medir la tensión del LED y repetir con otros colores. Sacar conclusiones.
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+2 de 7
+===== PAGINA 4 =====
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs II Cuatrimestre POLARIZACIÓN DEL DIODO
+3. Utilizando la hoja de datos del diodo 1N4007, completa la siguiente tabla con los valores correspon-
+dientes. Luego, explica brevemente qué significa cada una de las características listadas.
+Característica Valor
+Tensión inversa repetitiva máxima (VRRM)
+Tensión inversa máxima (VR)
+Corriente directa máxima (IF)
+Corriente de pico no repetitiva (IFSM)
+Tensión directa (VF)
+Corriente inversa (IR)
+Tiempo de recuperación inversa (trr)
+Capacitancia (Cj)
+Cuadro 1: Características del diodo de propósito general 1N4007
+A continuación, debes escribir una breve explicación de qué representa cada una de las características
+que completaste en la tabla:
+Tensión inversa repetitiva máxima (VRRM):Explicar qué significa esta característica y cómo
+afecta al funcionamiento del diodo.
+Tensión inversa máxima (VR):Describir qué es la tensión inversa máxima y cómo influye en la
+protección del circuito.
+Corriente directa máxima (IF):Explicar qué representa la corriente directa máxima y su relación
+con la conducción del diodo.
+Corriente de pico no repetitiva (IFSM):Definir esta característica y en qué condiciones es
+importante.
+Tensión directa (VF):Indicar qué representa este valor en la operación del diodo.
+Corriente inversa (IR):Explicar qué significa esta corriente y cuándo ocurre en el diodo.
+Tiempo de recuperación inversa (trr):Explicar cómo afecta este valor la velocidad de conmu-
+tación del diodo.
+Capacitancia (Cj):Describir la importancia de la capacitancia en el comportamiento del diodo.
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+3 de 7
+===== PAGINA 5 =====
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs II Cuatrimestre FUENTES DE ALIMENTACIÓN
+Parte II
+Trabajo Práctico Nro 7
+Fuentes de alimentación
+Objetivos
+Realizar cálculos y mediciones de tensiones, corrientes, rizado (ripple), y la tensión continua de salida
+en circuitos con rectificadores de media onda y onda completa con puente de diodos.
+Montar y medir las salidas de una fuente doble utilizando un transformador con punto medio.
+Capturar y analizar las señales más significativas en el osciloscopio.
+Parte 1: Rectificador de Media Onda
+Cálculo Teórico
+Calcular la tensión continua de salida (Vout) para una entrada deVin = 12VRM S, considerando una
+resistencia de carga deR = 1kΩ.
+Calcular la corriente máxima por el diodo y la potencia disipada en la carga.
+Rizado: Calcular el rizado en la tensión de salida con capacitor de filtrado de100µF.
+Montaje y Mediciones
+Armar el circuito en el protoboard con un diodo 1N4007 y una resistencia de carga de1kΩ.
+Medir con multímetro la tensión de entrada (CA) y latensión continua de salida (CC)sin carga y
+con carga.
+Medir el rizadode la señal con capacitor de100µF y registrar los valores pico a pico del rizado.
+Capturar las señalesmás significativas en el osciloscopio: entrada CA, salida CC antes y después del
+filtrado.
+Preguntas
+Comparar la tensión continua calculada con la medida.
+¿Cómo afecta el capacitor de filtrado al rizado? Explicar y comparar los valores medidos del rizado con
+los valores teóricos.
+Parte 2: Rectificador de Onda Completa con Puente de Diodos
+Cálculo Teórico
+Para una entrada deVin = 12VRM S, calcular latensión continua de salida(Vout).
+Calcular la corriente máxima por cada diodo y la potencia disipada en la resistencia de carga (1kΩ).
+Rizado: Calcular el rizado en la salida con de filtrado de100µF.
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+4 de 7
+===== PAGINA 6 =====
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs II Cuatrimestre FUENTES DE ALIMENTACIÓN
+Montaje y Mediciones
+Armarelcircuitodelpuentedediodosenelprotoboardutilizandocuatrodiodos1N4007yunaresistencia
+de 1kΩ.
+Medir latensión continua de salida (CC)sin carga y con carga utilizando el multímetro.
+Medir el rizadode la señal rectificada y filtrada, y registrar los valores pico a pico.
+Capturar las señalesen el osciloscopio de entrada y salida antes y después del filtrado.
+Preguntas
+¿Cómo se compara latensión continua de salidamedida con la calculada?
+¿Qué efecto tiene el capacitor de filtrado en el rizado? Comparar los valores medidos y calculados.
+Parte 3: Fuente Doble con Transformador de Punto Medio
+Cálculo Teórico
+Dado un transformador con punto medio de12VRM S en cada bobina secundaria, calcular lastensiones
+continuas de salida positivas y negativasde la fuente doble.
+Calcular la corriente por cada rama de la fuente para una carga de1kΩ.
+Rizado: Calcular el rizado en las tensiones positivas y negativas con de filtrado de100µF.
+Montaje y Mediciones
+Armar el circuito utilizando el transformador de punto medio y cuatro diodos 1N4007 como puente de
+diodos.
+Medir las tensiones continuas de salida positivas y negativas (CC)con el multímetro sin y con
+carga.
+Medir el rizadode las señales positiva y negativa, registrando los valores pico a pico.
+Capturar las señalesen el osciloscopio de las tensiones de salida antes y después del filtrado.
+Preguntas
+Comparar lastensiones continuas de salidacalculadas con las medidas.
+¿Cómo afecta el filtrado al rizado de cada rama? Comparar los valores medidos con los calculados.
+Conclusiones
+Comparar los resultados obtenidos de las mediciones con los cálculos teóricos.
+Analizar cómo el capacitor de filtrado mejora las señales en cada etapa y cómo afecta el rizado.
+Registrar y comentar sobre las formas de onda capturadas y los valores de tensión continua medidos.
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+5 de 7
+===== PAGINA 7 =====
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs II Cuatrimestre FUENTE DE ALIMENTACIÓN CON REGULADOR ZENER
+Parte III
+Trabajo Práctico Nro 8
+Fuente de Alimentación con Regulador Zener
+Objetivo
+El objetivo de este trabajo es analizar el funcionamiento de una fuente de alimentación regulada con
+un diodo zener (1N4733). Se espera que realicen los cálculos teóricos y mediciones prácticas necesarias, y
+registren tanto las señales observadas como los parámetros relevantes para la etapa de regulación y la etapa
+sin regular.
+Para el siguiente circuito:
+Análisis Teórico
+Fuente sin regular:
+• Calcular la tensión de salida sin regulación a la salida del puente de diodos y del capacitor.
+• Determinar el valor pico de la señal rectificada de CA.
+• Calcular elripple de la señal de salida sin regulación considerando la carga, utilizando las fórmulas
+proporcionadas en el PDF adjunto.
+• Utilizar una resistencia de cargaRL = 1kΩ para todas las mediciones, que es un valor adecuado
+para obtener resultados visibles y claros en las mediciones prácticas.
+Regulador Zener (1N4733):
+• Calcular la resistencia limitadoraRs para asegurar el correcto funcionamiento del zener, utilizando
+el valor de 5 V como referencia de salida regulada.
+• Determinar la corriente mínima de mantenimiento del zener, que debe ser de al menos 5 mA, y
+verificar que se cumpla en todo momento.
+• Calcular la corriente máxima que circula por el zener, así como la potencia disipada porRs y el
+diodo zener, siguiendo las fórmulas del PDF.
+• Asegurarse de que la resistencia limitadora y el zener no excedan sus límites de potencia.
+Mediciones Prácticas
+Fuente sin regular:
+• Medir la tensión de salida en el punto 2 (antes del regulador zener) utilizando una resistencia de
+carga deRL = 1kΩ.
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+6 de 7
+===== PAGINA 8 =====
+E.E.S.T. N◦ 1 V.L.
+AEA
+Guía TPs II Cuatrimestre FUENTE DE ALIMENTACIÓN CON REGULADOR ZENER
+• Usar el osciloscopio para medir elripple de la señal rectificada sin regular. Capturar y guardar una
+imagen de la forma de onda.
+Fuente regulada:
+• Medir la tensión de salida en el punto 3 (después del regulador zener) y comparar con el valor
+teórico, utilizando la misma carga deRL = 1kΩ.
+• Observar en el osciloscopio la señal después del regulador zener y capturar la forma de onda.
+Comparar la señal regulada con la señal sin regular, evaluando la reducción delripple.
+Registro de Resultados
+Registrar todos los cálculos realizados para la etapa sin regulación y para la etapa reguladora con zener,
+utilizando las fórmulas detalladas en el PDF adjunto.
+Incluir todas las mediciones tomadas, tanto de la señal sin regular como de la regulada, y comparar con
+los valores teóricos.
+Adjuntar las capturas de pantalla de las formas de onda observadas con el osciloscopio, destacando el
+ripple antes y después de la regulación.
+Conclusiones
+Comparar los valores calculados y medidos. Explicar posibles diferencias.
+Evaluar el funcionamiento del diodo zener en la estabilización de la tensión y la reducción delripple,
+asegurándose de que la corriente mínima de mantenimiento del zener se cumpla en todo momento.
+Señales clave a capturar con el osciloscopio
+Salida del puente de diodos (sin regular, punto 2):Forma de onda rectificada yripple.
+Salida después del regulador zener (punto 3):Forma de onda regulada yripple reducido.
+Escuela de Educación Secundaria Técnica N◦ 1 - Vicente López
+Cerrito N◦ 3966 (1605) Villa Adelina, Partido de Vicente López.
+Tel:(011) 47350174 – email: tecnica1vl@gmail.com
+7 de 7
