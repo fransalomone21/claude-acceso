@@ -12,7 +12,7 @@
     "Con una dirección conocida (ej: la vida), volcá ±0x200 alrededor con inspeccionar.py.",
     "Los campos relacionados viven cerca: vida y vida_max suelen estar a pocos bytes.",
     "Un u32 que empieza con 0x00 o 0x01 y es múltiplo de 4 suele ser un PUNTERO. inspeccionar.py los marca.",
-    "El primer u32 de un objeto de C++ suele ser el puntero a la vtable. Si dos objetos comparten vtable, son de la misma clase: así se encuentra la lista de enemigos.",
+    "OJO: en BLACK el puntero de clase NO está en el primer u32 del objeto (ahí hay cero), sino en +0x10. Verificado 2026-08-16 contra el objeto del jugador. Buscar ese u32 en la RAM enumera todos los objetos de la clase. Ver la entrada `vtable_entidad`.",
     "Confirmá cada campo escribiéndolo y mirando la pantalla. Un campo sin confirmar es una conjetura."
   ],
 
@@ -53,11 +53,34 @@
     {
       "id": "enemigo",
       "nombre": "Estructura de enemigo / NPC",
-      "tamano": null,
-      "como_llegar": null,
-      "confianza": "hipotesis",
-      "campos": [],
-      "notas": "Se llega comparando vtables con la del jugador, o desde el argumento 'atacante' de aplicar_dano."
+      "clase_vtable": "0x003DCA78",
+      "tamano": "0x360 (stride medido entre objetos consecutivos del pool)",
+      "como_llegar": "Por CLASE, no por escaneo de valores. El puntero a la vtable de la clase esta en objeto+0x10 (NO en +0x00, que es cero). Buscar el u32 0x003DCA78 alineado en la RAM del EE: cada ocurrencia es objeto+0x10, asi que base = ocurrencia - 0x10. Dio exactamente 32 objetos, contiguos desde 0x0058FE90 hasta 0x005972D0 con paso 0x360: es un POOL preasignado de tamano fijo.",
+      "confianza": "probable",
+      "campos": [
+        {"offset": "0x10", "tipo": "ptr", "id": "puntero_clase", "valor_visto": "0x003DCA78", "confianza": "confirmado", "descripcion": "Puntero a la vtable de la clase. Identico para los 32 objetos del pool. Es el ancla para encontrarlos."},
+        {"offset": "0xC4", "tipo": "u32", "id": "estado", "valor_visto": 1, "confianza": "hipotesis", "descripcion": "Vale 1 en los 32 objetos del savestate. En el jugador vale 2. El metodo de dano lo compara contra 3 y 4 en el bloque 0x0013C060."},
+        {"offset": "0x2F8", "tipo": "f32", "id": "vida", "valor_visto": 100.0, "confianza": "probable", "descripcion": "MISMO offset que el jugador. En el savestate: 25 objetos en 0.0 (sin spawnear o muertos), 5 en 100.0 (vivos), 2 en FLT_MAX (invulnerables, probables aliados con guion). Corroboracion independiente: 100.0 / 26.0 de dano por bala de AK = 3.85, o sea 4 balas, que es exactamente lo que el usuario reporto dos veces sin que se le preguntara."},
+        {"offset": "0x2FC", "tipo": "f32", "id": "sin_identificar_2FC", "valor_visto": 1.0, "confianza": "hipotesis", "descripcion": "Vale 1.0 en los 32. Candidato a multiplicador de dano recibido o a vida normalizada."},
+        {"offset": "0x32C", "tipo": "u32", "id": "sin_identificar_32C", "confianza": "hipotesis", "descripcion": "Se lee con `lw` inmediatamente despues del store de vida, en los dos brazos. MISMO offset que en el jugador: refuerza que los dos structs comparten layout por herencia."}
+      ],
+      "evidencia": "2026-08-16, analisis estatico offline sobre volcados/ee-06.bin (savestate slot 6) mas el ELF del ISO. Metodo: (1) se hallo el puntero de clase del jugador en +0x10; (2) se barrio la region de datos buscando vtables con el layout 'funcion cada 8 bytes desde +0x0C', dando 279; (3) se desensamblo el metodo virtual #8 (offset +0x4C) de cada una con capstone y se conto cuales escriben en +0x2F8. CENSO COMPLETO: solo DOS clases lo hacen, la del jugador (0x003DC5F8) y esta. Sin ambiguedad.",
+      "descubierto": "2026-08-16",
+      "notas": "FALTA LA CONFIRMACION POR EFECTO. Todo lo de arriba es analisis estatico: fuerte y cerrado, pero nadie vio todavia el efecto en pantalla (regla 1). El test que lo cierra es nopear 0x00134654 (dano normal) y comprobar que los enemigos no reciben dano. Ver kb/rutinas.json#aplicar_dano_enemigo."
+    },
+    {
+      "id": "vtable_entidad",
+      "nombre": "Layout de vtable de las clases de entidad",
+      "confianza": "confirmado",
+      "como_llegar": "El puntero de clase vive en objeto+0x10, no en +0x00.",
+      "campos": [
+        {"offset": "0x00", "tipo": "u32", "id": "cero_a", "descripcion": "Las primeras tres palabras son cero en todas las vtables observadas."},
+        {"offset": "0x0C", "tipo": "ptr", "id": "metodo_0", "descripcion": "Primer puntero a funcion. A partir de aca las entradas van cada 8 bytes: metodo_n esta en 0x0C + 8*n. Los 4 bytes intermedios son cero (probable offset de thunk para herencia multiple)."},
+        {"offset": "0x4C", "tipo": "ptr", "id": "metodo_8_recibir_dano", "confianza": "probable", "descripcion": "METODO VIRTUAL #8. En la clase del jugador vale 0x0013BB78 (rutina de dano CONFIRMADA); en la clase del enemigo vale 0x00133FA8. Es la unica ranura cuyo contenido escribe en vida+0x2F8. El indice de un metodo virtual se conserva entre clases hermanas: por eso esta ranura es el ancla para encontrar la rutina de dano de CUALQUIER clase de entidad nueva."}
+      ],
+      "evidencia": "Barrido de la region de datos respaldada por archivo (0x003BC330-0x0040E580) sobre volcados/ee-06.bin: 279 bloques con este layout. Las funciones 0x0013BB78 y 0x0013BDF8 son referenciadas desde UN SOLO lugar cada una en los 32 MB, y las dos caen en la misma vtable (0x003DC644 y 0x003DC64C), separadas por 8 bytes: son los metodos #8 y #9 de la clase del jugador.",
+      "descubierto": "2026-08-16",
+      "notas": "Esto REEMPLAZA la premisa vieja de _metodo, que decia que el puntero a vtable es el primer u32 del objeto. En BLACK no lo es: +0x00 es cero y el puntero de clase esta en +0x10. Esa premisa equivocada es la que hizo que la ficha del jugador anotara 'el primer u32 no parece un puntero a vtable' y que la Fase 3 no arrancara durante dos sesiones."
     },
     {
       "id": "arma",

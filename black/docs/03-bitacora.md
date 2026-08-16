@@ -61,6 +61,92 @@ El ISO queda montado en `D:\` por si hace falta volver (no se desmontó).
 
 ---
 
+## 2026-08-16 (19) — La clase del enemigo, por vtable: Fase 3 resuelta estáticamente
+
+**Máquina:** notebook · **Modelo:** Opus
+
+**Objetivo:** trabajo autónomo nocturno. Analizar el ISO y avanzar lo posible
+sin el usuario.
+
+**Resultado — el mapeo del ELF, verificado:**
+
+- `D:/SLUS_213.76` es un ELF MIPS de **un solo `PT_LOAD`**:
+  **`offset_archivo = vaddr − 0xFF000`**. **Verificado 6/6** contra encodings
+  observados en vivo en sesiones anteriores (`0x0013BD20`, `0x0013C120`, etc.).
+  No es un supuesto.
+- `filesz=0x30E580`, `memsz=0x39BFBC`: lo respaldado por archivo llega hasta
+  RAM **`0x0040E580`**; de ahí a `0x0049BFBC` es **BSS**. `.text` =
+  `0x00100000..0x00396F48`, `.vutext` hasta `~0x003BC330`, datos hasta
+  `0x0040E580`. **Las constantes de daño (`0x0042C3AC`...) están en BSS**: no
+  existen en el ejecutable, se llenan en runtime.
+- Sin tabla de símbolos. Las 105 secciones son casi todas microcódigo de VU.
+
+**Resultado — LA CLASE DEL ENEMIGO (lo importante):**
+
+- **El puntero de clase NO está en el primer u32 del objeto, está en `+0x10`.**
+  En `+0x00` hay cero. Esa premisa equivocada (heredada de `_metodo` en
+  `kb/estructuras.json`) es la razón por la que la Fase 3 no arrancó en dos
+  sesiones y por la que la ficha del jugador decía "el primer u32 no parece un
+  puntero a vtable".
+- Clase del jugador = **`0x003DC5F8`**. Layout de vtable: punteros a función
+  cada 8 bytes desde `+0x0C` (los 4 bytes del medio en cero).
+- **`0x0013C120` quedó explicado del todo.** Su función (`0x0013BDF8`) está
+  referenciada desde **un solo lugar en los 32 MB**: `0x003DC64C`, que es la
+  vtable del jugador en `+0x54`. La rutina confirmada del jugador
+  (`0x0013BB78`) está en `0x003DC644` = `+0x4C`. Son los **métodos virtuales
+  #8 y #9 de la MISMA clase, el del jugador**. Por eso el código era
+  estructuralmente idéntico y por eso nopearlo no tocó a los enemigos.
+- **Método #8 (`vtable+0x4C`) = "recibir daño".** Como el índice de un método
+  virtual se conserva entre clases hermanas, se barrió la región de datos
+  buscando vtables con ese layout (**279**), se desensambló la ranura `+0x4C`
+  de cada una con `capstone` y se contó cuáles escriben en `+0x2F8`.
+  **CENSO COMPLETO: sólo DOS.** La del jugador y **`0x003DCA78`**.
+- **Clase del enemigo = `0x003DCA78`.** 32 objetos, pool contiguo
+  `0x0058FE90..0x005972D0` con paso `0x360`. Vida en **`+0x2F8`, igual que el
+  jugador**. En el savestate: 25 en `0.0`, **5 en `100.0`**, 2 en `FLT_MAX`.
+- **Rutina de daño del enemigo = `0x00133FA8`** (514 instrucciones), con los
+  dos brazos: **`0x00134654`** `swc1 f20,0x2F8(s0)` (daño normal, el punto de
+  parche para enemigos invulnerables) y **`0x00134514`** `swc1 f21,0x2F8(s0)`
+  con `f21 = 0.0` (clamp de muerte). **Los dos ya estaban en la lista de 24
+  stores de la entrada 18** — lo que faltaba no era encontrarlos, era el
+  criterio para elegirlos.
+- **Corroboración numérica que nadie fue a buscar:** vida de enemigo `100.0` ÷
+  daño de AK `26.0` = 3.85 → **4 balas**. Es exactamente lo que el usuario
+  reportó dos veces esta noche, sin que se le preguntara.
+- **Corroboración en vivo parcial:** con el juego corriendo, 4 de los 32
+  objetos seguían en la misma dirección con el mismo puntero de clase y vidas
+  `0.0 / 100.0 / FLT_MAX`. El layout no es un artefacto del savestate.
+
+**No funcionó:**
+
+- **La tabla de armas NO se carga literal de ningún archivo del ISO.** Se tomó
+  la ventana de 96 bytes alrededor de cada uno de los 5 sitios de `26.0` en la
+  RAM viva y se buscó en `GLOBDATA.BIN`, `SLUS_213.76`, `LEVELDAT.BIN`,
+  `STLEVEL.BIN`, `GUNS.BIN`, `GUNS_S.BIN`, `UNIT_01.BIN`, `STUNIT01.BIN`,
+  `TRANS_CH.BIN`: **cero coincidencias, 5 de 5**. La premisa que cae es "se
+  carga literal"; o se transforma al cargar, o la ventana contiene punteros
+  resueltos en runtime.
+- `xref.py stores --fpu` sigue siendo engañoso: su filtro por cercanía a
+  `sub.s` excluye justo los stores que importan (ya anotado en la entrada 18).
+- Barrer entidades por "vida plausible en `+0x2F8`" da **621 clases**: filtro
+  inútil. El umbral `> 0.0` deja pasar denormales. El discriminador bueno no
+  era el valor sino la **clase**.
+- `capstone` en `CS_MODE_MIPS32` **se corta en la primera instrucción R5900**
+  (`sq`/`lq` del prólogo) y devuelve cero instrucciones sin avisar. Hay que
+  usar `CS_MODE_MIPS64` + `skipdata=True`. Un desensamblado vacío parecía un
+  resultado ("esta función no escribe en `+0x2F8`") y era un bug.
+
+**Herramienta nueva:** `pip install capstone`. `mips.py` no decodifica FPU
+(mostraba `cop1 0x4615A501`), que es justo lo que importa en estas rutinas.
+
+**Sigue:** **la confirmación por efecto, que es lo único que falta.** Nopear
+**`0x00134654`** (`0xE61402F8` → `0`) y comprobar que los enemigos no reciben
+daño. Diez segundos con PCSX2 corriendo. Ojo con el precedente de la entrada
+18: `0x0013C120` parecía igual de sólido por analogía y era otra cosa — por
+eso esto está en `probable`, no en `confirmado`.
+
+---
+
 ## 2026-08-15 (18) — `0x0013C120` FALSIFICADO por efecto; los "8 candidatos" nunca fueron el conjunto real
 
 **Máquina:** notebook · **Modelo:** Opus
