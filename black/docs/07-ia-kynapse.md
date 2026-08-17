@@ -113,18 +113,54 @@ comportamientos disponibles y no características por escribir de cero.
 
 ---
 
-## Qué habilita esto, y qué NO
+## MEDIDO: el registro de reflexión NO se inicializa. Kynapse está linkeado, no corriendo
 
-**Habilita** dejar de adivinar: cada metaclase es una dirección FIJA de `.bss`,
-o sea un ancla estable para encontrar en RAM los objetos de esa clase, igual
-que el puntero de vtable en `objeto+0x10` sirvió para encontrar el pool de
-enemigos.
+Esta sección se escribió primero diciendo que cada metaclase era "un ancla
+estable para encontrar los objetos en RAM". **Se midió y es falso**, así que
+queda corregida en el lugar en vez de borrada: el error tiene más valor
+anotado que escondido.
 
-**NO habilita** todavía leer un valor. Falta el paso siguiente, y es concreto:
-volcar la RAM con un nivel cargado y buscar qué objetos referencian cada
-metaclase, para llegar del nombre al dato. Ese es el próximo hilo de la Fase 7.
+La prueba, sobre `volcados/ee-nivel-mod0.bin` —un volcado desde la dirección 0,
+con un nivel cargado, 32 enemigos en el pool y varios vivos peleando—:
 
-**Y una advertencia honesta:** nada de esto está confirmado por efecto. Lo
-confirmado es que los nombres y el árbol existen y que el código los usa. Que
-escribirle a `VisualAcuteness` cambie lo que un enemigo ve es una **hipótesis
-muy bien fundada**, no un hecho, hasta que alguien lo escriba y lo vea.
+```
+metaclases con algún byte distinto de cero: 0 de 182
+referencias desde el heap a cualquiera de las 23 clases CEntity*: 0
+```
+
+Las 182 viven en `.bss` y `.bss` arranca en cero. El accesor perezoso
+(`if (DAT_0049aad8 == 0) { ... }`) **nunca se ejecutó**. Si la IA del juego
+usara este sistema de reflexión, al menos una metaclase estaría inicializada
+mientras hay enemigos disparando.
+
+**Conclusión, acotada a lo medido:** el árbol de clases de Kynapse existe en el
+binario y el código que lo registraría también, pero **no se ejecuta durante
+el juego**. Es código enlazado y muerto — probablemente el enlazador se trajo
+la biblioteca entera.
+
+### Qué sigue valiendo de todo esto, entonces
+
+Vale como **mapa de diseño, no como manija de runtime**:
+
+- Dice qué conceptos maneja la IA de la que partió BLACK, con los nombres de
+  quien la escribió. Cuando `estructura.py` encuentre un `f32` sin identificar
+  en el enemigo, "velocidad máxima", "agudeza visual" y "bando" son hipótesis
+  con nombre y no invenciones.
+- Dice que agacharse y saltar (`CActionCrouch`, `CActionJump`) son conceptos
+  del motor de IA de origen. Que BLACK los use es otra pregunta.
+
+### Y qué queda abierto, dicho con precisión
+
+**No está establecido que BLACK ejecute NADA de Kynapse.** Lo único medido es
+que su reflexión no arranca. La creencia previa del proyecto —"el middleware de
+IA es Kynapse"— se apoyaba en que los nombres están en `.rodata`, y eso prueba
+que la biblioteca se enlazó, no que corra.
+
+**El test barato que lo settlea**, para cuando se retome: poner un watchpoint
+de ejecución sobre una función de Kynapse con un nivel andando. Si no se
+dispara nunca, la biblioteca es peso muerto y toda la dificultad de la IA hay
+que buscarla en el código propio de Criterion.
+
+> Ojo con el instrumento: los breakpoints de EJECUCIÓN crashean esta build de
+> PCSX2 (ver `ESTADO_ACTUAL.md`). Habría que hacerlo con un watchpoint de
+> lectura sobre una constante que use esa función, no con `bp poner`.

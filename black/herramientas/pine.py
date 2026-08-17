@@ -438,6 +438,16 @@ def main(argv=None) -> int:
     p_ss = sub.add_parser("savestate", help="pide un savestate")
     p_ss.add_argument("--slot", dest="ss_slot", type=int, default=0)
 
+    # `cargarestado` estaba implementado en la clase Pine desde siempre y sin
+    # exponer. Es lo que permite correr un experimento sin nadie al teclado:
+    # cargar un estado conocido, medir, cargarlo de nuevo, medir otra cosa.
+    # Sin esto, cada condición experimental depende de que alguien vuelva a
+    # ponerse en la misma posición, que es justo lo que no se puede repetir.
+    p_ls = sub.add_parser("cargarestado",
+                          help="carga un savestate: el punto de partida "
+                               "reproducible de cualquier experimento")
+    p_ls.add_argument("--slot", dest="ss_slot", type=int, default=0)
+
     args = ap.parse_args(argv)
 
     try:
@@ -480,6 +490,12 @@ def main(argv=None) -> int:
             elif args.cmd == "savestate":
                 p.guardar_estado(args.ss_slot)
                 print(f"savestate pedido en slot {args.ss_slot}")
+            elif args.cmd == "cargarestado":
+                p.cargar_estado(args.ss_slot)
+                print(f"savestate {args.ss_slot} pedido para cargar")
+                print("  PCSX2 lo hace de forma ASÍNCRONA: esperá a que la "
+                      "lectura de una dirección conocida dé el valor esperado "
+                      "antes de medir nada.")
     except PineError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1

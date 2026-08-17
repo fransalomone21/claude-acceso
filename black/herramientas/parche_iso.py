@@ -297,6 +297,79 @@ def cmd_verificar(args) -> int:
     return 0
 
 
+def cmd_campo(args) -> int:
+    """Escribir CUALQUIER campo del bloque de parámetros, no sólo `Power`.
+
+    `armas` existe porque `Power` fue el primero que se confirmó; esto
+    generaliza. El bloque de `0x30` tiene mucho más que daño: en `+0x20` hay
+    valores de 0.04 a 1.8 que son segundos entre balas, o sea **cadencia**, que
+    para subir la dificultad pesa tanto como el daño.
+
+    La precondición cambia respecto de `armas`: acá no se sabe qué rango es
+    plausible para un campo que todavía no está identificado, así que en vez de
+    validar el valor se EXIGE ver el valor viejo. `--esperado` obliga a que lo
+    que hay sea lo que uno cree que hay, y si no, aborta."""
+    iso = Path(args.iso)
+    if not iso.exists():
+        raise SystemExit("  no existe %s. Corré `preparar` primero." % iso)
+    entradas, _ = enumerar_iso(str(iso))
+    e = buscar_archivo(entradas, GLOBDATA)
+    base = e["lba"] * SECTOR
+
+    bloques = {"jugador": [BLOQUE_JUGADOR], "ia": [BLOQUE_IA],
+               "ambos": [BLOQUE_JUGADOR, BLOQUE_IA]}[args.bloque]
+    cuales = range(N_REGISTROS) if args.indices is None else args.indices
+
+    objetivos = []
+    with open(iso, "rb") as fh:
+        for i in cuales:
+            for b in bloques:
+                off = base + TABLA + i * PASO + b + args.offset
+                fh.seek(off)
+                crudo = fh.read(4)
+                viejo = struct.unpack("<f", crudo)[0]
+                if args.esperado is not None and abs(viejo - args.esperado) > 1e-4:
+                    raise SystemExit(
+                        "  ABORTA: en el registro %d (%s) hay %g y esperabas %g."
+                        % (i, "jugador" if b == BLOQUE_JUGADOR else "ia",
+                           viejo, args.esperado))
+                objetivos.append((off, viejo, i, b))
+
+    print("\n  campo +0x%02X del bloque de parámetros, %d sitios"
+          % (args.offset, len(objetivos)))
+    for off, viejo, i, b in objetivos:
+        destino = (viejo * args.factor) if args.factor is not None else args.valor
+        print("    reg %2d %-8s 0x%010X  %g -> %g"
+              % (i, "jugador" if b == BLOQUE_JUGADOR else "ia", off,
+                 viejo, destino))
+    if args.simular:
+        return 0
+
+    malos = 0
+    with open(iso, "r+b") as fh:
+        for off, viejo, i, b in objetivos:
+            destino = (viejo * args.factor) if args.factor is not None else args.valor
+            fh.seek(off)
+            fh.write(struct.pack("<f", destino))
+        fh.flush()
+        os.fsync(fh.fileno())
+    with open(iso, "rb") as fh:
+        for off, viejo, i, b in objetivos:
+            destino = (viejo * args.factor) if args.factor is not None else args.valor
+            fh.seek(off)
+            leido = struct.unpack("<f", fh.read(4))[0]
+            if abs(leido - destino) > max(1e-4, abs(destino) * 1e-5):
+                malos += 1
+                print("    NO QUEDÓ: 0x%X vale %r" % (off, leido))
+    print("  escritos y releídos OK: %d/%d" % (len(objetivos) - malos, len(objetivos)))
+    return 1 if malos else 0
+
+
+def _entero(t: str) -> int:
+    """Acepta 0x20 y 32 por igual: los offsets se piensan en hexadecimal."""
+    return int(t, 0)
+
+
 def _lista_indices(t: str) -> list[int]:
     return [int(x) for x in t.replace(" ", "").split(",") if x != ""]
 
@@ -336,6 +409,25 @@ def main(argv=None) -> int:
     p_a.add_argument("--simular", action="store_true",
                      help="mostrar qué se escribiría, sin escribir")
     p_a.set_defaults(func=cmd_armas)
+
+    p_c = sub.add_parser("campo",
+                         help="escribir cualquier campo del bloque de parámetros")
+    p_c.add_argument("--iso", required=True, help="LA COPIA, nunca el original")
+    p_c.add_argument("--offset", type=_entero, required=True,
+                     help="offset dentro del bloque (0x14 Range, 0x18 Power, "
+                          "0x1C falloff, 0x20 candidato a segundos entre balas)")
+    grupo = p_c.add_mutually_exclusive_group(required=True)
+    grupo.add_argument("--valor", type=float, help="valor absoluto a escribir")
+    grupo.add_argument("--factor", type=float,
+                       help="multiplicar el valor actual por esto; conserva las "
+                            "diferencias entre armas, que es lo que se quiere "
+                            "cuando se sube la dificultad")
+    p_c.add_argument("--bloque", choices=["jugador", "ia", "ambos"], default="ia")
+    p_c.add_argument("--indices", type=_lista_indices, default=None)
+    p_c.add_argument("--esperado", type=float, default=None,
+                     help="abortar si el valor actual no es este")
+    p_c.add_argument("--simular", action="store_true")
+    p_c.set_defaults(func=cmd_campo)
 
     p_v = sub.add_parser("verificar", help="diff byte a byte de los dos ISO")
     p_v.add_argument("--original", required=True)

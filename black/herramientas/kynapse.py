@@ -225,6 +225,63 @@ def cmd_arbol(args) -> int:
     return 0
 
 
+def cmd_instancias(args) -> int:
+    """El puente entre el NOMBRE y el DATO.
+
+    Cada metaclase vive en una dirección fija de `.bss`. Un objeto de esa
+    clase la referencia —igual que el puntero de vtable en `objeto+0x10` de
+    las entidades del juego—, así que buscar esa dirección como palabra
+    alineada en un volcado enumera los objetos vivos de la clase.
+
+    Lo que se informa es CUÁNTOS hay y DÓNDE. Qué campo de cada objeto es el
+    valor útil sigue siendo trabajo de `estructura.py` y de escribirle para ver
+    el efecto; esto acota la búsqueda de 32 MB a un puñado de direcciones."""
+    datos = json.loads(Path(args.json).read_text(encoding="utf-8"))
+    d = Path(args.volcado).read_bytes()
+
+    clases = datos["clases"]
+    if args.filtro:
+        clases = [c for c in clases if args.filtro.lower() in c["nombre"].lower()]
+    if not clases:
+        print("  ninguna clase coincide con %r" % args.filtro)
+        return 1
+
+    print("\n  volcado: %s  (%s MB)" % (args.volcado, len(d) // (1 << 20)))
+    print("  clases miradas: %d\n" % len(clases))
+    print("  %-42s %-12s %s" % ("clase", "metaclase", "referencias en RAM"))
+
+    con_refs = []
+    for c in clases:
+        if not c["metaclase"]:
+            continue
+        meta = int(c["metaclase"], 16)
+        pat = struct.pack("<I", meta)
+        sitios, i = [], 0
+        while len(sitios) < args.tope:
+            i = d.find(pat, i)
+            if i < 0:
+                break
+            if i % 4 == 0:
+                sitios.append(i)
+            i += 4
+        # el propio objeto de metaclase y su vecindario en .bss no cuentan:
+        # lo que interesa son las referencias desde el HEAP.
+        heap = [s for s in sitios if s >= args.desde]
+        print("  %-42s %-12s %d  (heap: %d)  %s"
+              % (c["nombre"][:42], c["metaclase"], len(sitios), len(heap),
+                 " ".join("0x%08X" % s for s in heap[:3])))
+        if heap:
+            con_refs.append((c["nombre"], heap))
+
+    print("\n  clases con al menos una referencia desde el heap: %d/%d"
+          % (len(con_refs), len(clases)))
+    if not con_refs:
+        print("  Ninguna. O el volcado no es de adentro de un nivel, o los")
+        print("  objetos no guardan la metaclase en un campo directo: en ese")
+        print("  caso el ancla hay que buscarla en la vtable, no en el objeto.")
+    return 0
+
+
 def _entero(t: str) -> int:
     return int(t, 0)
 
@@ -248,6 +305,17 @@ def main(argv=None) -> int:
     a = sub.add_parser("arbol", help="imprimir el árbol de herencia")
     a.add_argument("json")
     a.set_defaults(func=cmd_arbol)
+
+    i = sub.add_parser("instancias",
+                       help="qué objetos de la RAM referencian cada metaclase")
+    i.add_argument("json")
+    i.add_argument("volcado", help="volcado de la RAM del EE, desde la dirección 0")
+    i.add_argument("--filtro", help="sólo las clases cuyo nombre contenga esto")
+    i.add_argument("--desde", type=_entero, default=0x00500000,
+                   help="a partir de qué dirección cuenta como heap")
+    i.add_argument("--tope", type=int, default=64,
+                   help="cuántas referencias buscar por clase")
+    i.set_defaults(func=cmd_instancias)
 
     args = p.parse_args(argv)
     return args.func(args)
