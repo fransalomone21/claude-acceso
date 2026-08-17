@@ -164,6 +164,14 @@ La sintesis que se lee sola al abrir sesion es
 
 **Costo:** una corrida perdida  ·  black  ·  2026-08-17
 
+### Un costo recurrente y uno unico no se suman en el mismo total
+
+**Regla:** Antes de sumar costos, escribi al lado de cada uno CADA CUANTO se paga. Lo que se paga por turno se multiplica por la cantidad de turnos; recien ahi se comparan. El factor limitante puede ser el sumando mas chico del cuadro.
+
+**Sintoma:** Un cuadro de medicion prolijo que suma cuatro archivos y da un TOTAL redondo. El archivo mas grande salta a la vista y parece obviamente el problema a atacar. El mas chico ni se mira.
+
+**Costo:** casi una fase entera apuntada al archivo equivocado  ·  perfil  ·  2026-08-17
+
 ## Antes de confiar en una herramienta
 
 ### Instalado no es instalado hasta que se verifico el efecto
@@ -300,4 +308,4 @@ La sintesis que se lee sola al abrir sesion es
 
 ---
 
-Total: 34 lecciones.
+Total: 35 lecciones.

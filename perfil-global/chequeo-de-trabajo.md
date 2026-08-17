@@ -1,4 +1,4 @@
-CHEQUEO DE TRABAJO - la sintesis de las 34 lecciones que ya costaron tiempo.
+CHEQUEO DE TRABAJO - la sintesis de las 35 lecciones que ya costaron tiempo.
 
 Esto no se consulta: se inyecta. Cada linea es un error que ya se cometio al
 menos una vez y volvio a costar caro por no estar a mano en el momento.
@@ -38,6 +38,10 @@ ANTES DE MEDIR
     hallazgos.
   - Un valor entero y acotado que acompana a uno continuo es el espejo, no la
     fuente. Escribi en el continuo.
+  - Un costo que se paga UNA VEZ y uno que se paga POR TURNO no van en el
+    mismo total. Anota al lado de cada sumando cada cuanto se paga y
+    multiplica antes de comparar: el factor limitante puede ser el sumando
+    mas chico del cuadro.
 
 ANTES DE CONFIAR EN UNA HERRAMIENTA
   - Que eligio ella sola? Target, dialecto, codificacion, esquema: esa
@@ -73,16 +77,15 @@ AL LEER UN NEGATIVO
   - Antes de un trabajo de inferencia largo: la respuesta no estara ya
     escrita en el artefacto? Simbolos, debug info, RTTI, cadenas, .rodata.
 
-LA MAQUINA Y EL REPO
+AL LEER EL ESTADO DE LA MAQUINA
   - El estado del entorno se MIDE, no se lee. Un documento no se entera de
     que aparecio una carpeta nueva. Ojo con la categoria "bajado pero sin
     incorporar". Si un documento dice que algo falta, verificalo antes de
     repetirlo.
-  - El repo es la memoria; el chat no. Un hallazgo sin commitear vale cero.
+  - Un archivo que un hook inyecta se lee UNA vez, al abrir la sesion.
+    Editarlo a mitad de sesion no tiene efecto en esa sesion: hay que correr
+    install.ps1 y abrir una sesion nueva para verlo.
 
-AL CERRAR
-  - ESTADO_ACTUAL + HANDOFF + commit + push. Los cuatro.
-  - Fallo algo por COMO se trabajo y no por lo que decia el codigo?
-      python perfil-global/herramientas/aprender.py agregar --titulo ...
-    El sintoma se escribe como se veia ANTES de entenderlo: es la unica
-    forma de reconocerlo la proxima vez.
+(El cierre de sesion --checkpoint, commit, y el registro de una leccion nueva
+con aprender.py-- es la regla 5 y el autoperfeccionamiento de CLAUDE.md. No se
+repite aca: un dato que vive en dos lados diverge.)

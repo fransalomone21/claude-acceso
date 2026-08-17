@@ -130,18 +130,3 @@ HACER ES UN OFICIO, Y TIENE REGLAS  (Hunt & Thomas, Pragmatic Programmer, 1999)
     que entenderlo entero -- porque el dia que cambie el contexto vas a estar
     solo con eso. Mismo criterio para una biblioteca, para un asistente y para
     el codigo que escribe un modelo.
-
-PENDIENTES DE ESTA CAPA
-  Los tres libros estan leidos y foldeados. Falta la integracion del Nivel 0
-  dentro de CLAUDE.md, que se hace con los tres leidos y no antes.
-
-  Dos cosas que abrio Pragmatic Programmer y que no son de esta capa:
-  (a) el chequeo de trabajo defiende contra el PARALELISMO falso ("el paso 2
-  depende del 1 -> secuencial, nada de fan-out") pero no contra la SECUENCIA
-  falsa: una lista se escribe en orden porque asi se piensa, no porque las
-  dependencias sean esas. Falta el procedimiento -- escribi los pasos y
-  despues pregunta, flecha por flecha, cual existe de verdad.
-  (b) verify-install.ps1 verifica por efecto, que es lo correcto, pero nadie
-  rompio la instalacion a proposito para ver si se pone en rojo: por la regla
-  del saboteador, hoy es una alarma sin probar.
-  Detalle de las dos en perfil-global/pilares/pragmatic-programmer.md.

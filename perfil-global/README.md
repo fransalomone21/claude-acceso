@@ -23,22 +23,47 @@ confiable que su costo permite.
 | Nivel | Mecanismo | Dispara | Qué vive acá |
 |---|---|---|---|
 | 4 | permiso denegado / validación | imposible saltearlo | (nada todavía) |
-| 3 | **hook** `SessionStart` | una vez por sesión — puede ser largo | `pilares.md` (**Nivel 0**: los fundamentos destilados de los libros) · `apertura-proyecto.md` (el cuadro de fase) · `chequeo-de-trabajo.md` (las 32 lecciones comprimidas) |
-| 3 | **hook** `UserPromptSubmit` | **en cada prompt** — tiene que ser corto | `recordatorio-transversal.md` (cuadro + chequeo de 5 puntos) |
-| 2 | `CLAUDE.md` global | si se leyó el archivo (se carga solo) | las 7 reglas absolutas |
+| 3 | **hook** `SessionStart` | una vez por sesión — puede ser largo | `pilares.md` · `apertura-proyecto.md` · `chequeo-de-trabajo.md` |
+| 3 | **hook** `UserPromptSubmit` | **en cada prompt** — tiene que ser corto | `recordatorio-transversal.md` |
+| 2 | `CLAUDE.md` global | se carga solo, una vez por sesión | las 11 reglas absolutas |
 | 1 | skill de consulta | sólo si alguien la invoca | las 6 skills de abajo |
 
 Los archivos que se inyectan van en **ASCII puro**: la consola de Windows los
-lee como cp1252 y los acentos salen mojibake.
+lee como cp1252 y los acentos salen mojibake. `CLAUDE.md` no pasa por hook, así
+que ahí sí van acentos.
+
+## El contrato de capas — qué lleva cada archivo, y qué no
+
+Las cinco capas que se leen solas se solapaban: el cuadro de fase estaba
+completo en tres archivos y el cierre de sesión en tres. Un dato que vive en
+dos lados diverge, y encima se paga en cada sesión. El reparto es por **cuándo
+hace falta la información**, no por tema:
+
+| Archivo | Trabajo exclusivo | Nunca lleva |
+|---|---|---|
+| `pilares.md` | **por qué** — los fundamentos destilados de los libros (Nivel 0) | reglas operativas, pendientes, estado de proyecto |
+| `CLAUDE.md` | **qué** — las reglas normativas, la tabla de memorias, el índice de skills | el desarrollo operativo de una regla |
+| `chequeo-de-trabajo.md` | **cómo falla** — errores ya cometidos, agrupados por la situación que los dispara | reglas de sesión, protocolo de cierre |
+| `apertura-proyecto.md` | **el protocolo de sesión** — cuadro de fase, mensaje de retome, cuándo cortar | fundamentos, lecciones |
+| `recordatorio-transversal.md` | **el disparador** — lo mínimo para no olvidarlo en el instante de actuar | cualquier spec: apunta al de arriba, no lo copia |
+
+La regla que ordena el reparto: **el que dispara más seguido lleva menos**. Un
+char en `recordatorio-transversal.md` cuesta N veces lo que el mismo char en un
+`SessionStart`, porque se re-inyecta en cada turno. Por eso es el archivo más
+chico y el único que tiene prohibido explicar algo.
+
+Cuando una regla necesita su fundamento, `CLAUDE.md` **apunta** al pilar en vez
+de repetirlo (`*(Pilar: la regla del saboteador.)*`). Si una regla y su pilar
+se contradicen, gana el pilar y la regla se reescribe en el mismo turno.
 
 ## Las skills
 
 | Skill | Para qué | Cuándo |
 |---|---|---|
-| `/cuadro-de-fase` | las tres líneas que abren toda respuesta, y el mensaje de retome | si el cuadro se dejó de poner, o no se sabe qué escribir en una línea |
+| `/cuadro-de-fase` | los casos borde de las tres líneas y del mensaje de retome | si el cuadro se dejó de poner, o no se sabe qué escribir en una línea |
 | `/enrutador-modelo` | qué corre en Opus, Sonnet y Haiku — y la autocalibración cuando el tramo no sale | al empezar un tramo nuevo, o ante la tentación de preguntar qué modelo usar |
 | `/engineering-orchestrator` | la metodología completa: evidencia, contexto, subagents, handoff, costos, ingeniería de sistemas | al empezar una tarea de ingeniería nueva o ante una decisión de arquitectura |
-| `/lecciones-aprendidas` | los 26 errores de proceso con su caso concreto | antes de investigar o debuggear |
+| `/lecciones-aprendidas` | los 34 errores de proceso con su caso concreto | antes de investigar o debuggear |
 | `/spec-interview` | sacar el spec antes de tocar código | antes de construir algo no trivial |
 | `/verify-before-build` | chequeo de tres capas antes de la primera línea | después del spec, antes de construir |
 
@@ -49,7 +74,7 @@ se registra una vez y se lee en tres formatos, según lo que haga falta:
 
 | Capa | Archivo | Cuándo entra | Costo |
 |---|---|---|---|
-| Síntesis | `chequeo-de-trabajo.md` | **sola**, en cada sesión | ~70 líneas |
+| Síntesis | `chequeo-de-trabajo.md` | **sola**, en cada sesión | ~65 líneas |
 | Índice | `aprendizaje/lecciones.jsonl` → `aprender.py digesto` | cuando se busca una regla puntual | ~35 líneas |
 | Historia | `lecciones-aprendidas/SKILL.md` | cuando la lección aplica y hace falta el caso | 800 líneas |
 
@@ -78,11 +103,12 @@ sintetizar, no**.
 
 ```
 perfil-global/
-  CLAUDE.md                    las 7 reglas -> se copia a ~/.claude/CLAUDE.md
+  CLAUDE.md                    las 11 reglas -> se copia a ~/.claude/CLAUDE.md
   pilares.md                   NIVEL 0: los libros destilados. Hook SessionStart (ASCII)
-  apertura-proyecto.md         inyectado por hook SessionStart (ASCII)
-  chequeo-de-trabajo.md        inyectado por hook SessionStart (ASCII)
-  recordatorio-transversal.md  inyectado por hook UserPromptSubmit (ASCII)
+  apertura-proyecto.md         protocolo de sesion. Hook SessionStart (ASCII)
+  chequeo-de-trabajo.md        las lecciones foldeadas. Hook SessionStart (ASCII)
+  recordatorio-transversal.md  el disparador. Hook UserPromptSubmit (ASCII)
+  PENDIENTES.md                lo que le falta al perfil mismo. NO se inyecta
   install.ps1 / verify-install.ps1
   hooks/emitir-contexto.ps1    el lanzador unico de los cuatro hooks
   herramientas/aprender.py     registro de lecciones, global
@@ -109,11 +135,8 @@ Una carpeta nueva con un `SKILL.md` adentro se instala sola: no hay que tocar
 5. **El presupuesto del plan gana** sobre cualquier instrucción de
    exhaustividad, incluida `ultracode`.
 
-## Pendiente conocido
+## Pendientes
 
-`perfil-global/` vive en la rama de BLACK del repo `claude-acceso` por razones
-históricas. Aplica a todo, así que su lugar natural es un repositorio propio.
-Mientras se trabaje desde este repo no molesta: lo instalado en `~/.claude/`
-funciona en cualquier carpeta de la máquina, y `origen.txt` hace que
-`aprender.py` escriba siempre acá. Lo que se rompe el día que haya un repo de
-verdad separado es **actualizar** el perfil desde allá.
+En [`PENDIENTES.md`](PENDIENTES.md) — incluido el de sacar `perfil-global/` a
+su propio repositorio. No se inyecta por hook: es estado de este proyecto, y
+una sesión de otro proyecto no gana nada leyéndolo.

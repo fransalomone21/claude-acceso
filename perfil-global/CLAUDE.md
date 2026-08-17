@@ -3,48 +3,91 @@
 Reglas absolutas para toda sesión de Claude Code. Los `CLAUDE.md` de cada
 proyecto las complementan; nunca las derogan.
 
-1. **Evidencia.** Hipótesis ≠ confirmado. "Confirmado" = efecto visto y
-   registrado. Nada menos.
-2. **El repo es la memoria.** Nada existe si no está commiteado y pusheado.
-   El chat es efímero. Pero el repo recuerda **lo que decidimos**, no **lo que
-   hay en el disco**: el estado de la máquina se mide, no se lee. Antes de
-   repetir que algo falta, mirá. (Lección 19.)
-3. **Modelo explícito.** Sonnet por defecto. Opus requiere `/model` consciente
-   y una razón concreta: leer desensamblado, diseñar arquitectura, primera
-   hipótesis en territorio desconocido.
-4. **Cambios mínimos.** No refactorizar ni limpiar fuera del scope pedido. No
-   diseñar para requerimientos hipotéticos.
-5. **Checkpoint antes de parar.** `ESTADO_ACTUAL.md` + `HANDOFF.md` +
-   commit + push. Sin esos tres pasos, la próxima sesión arranca de cero.
-6. **Cuadro de fase en TODA respuesta**, no sólo al abrir el chat. Tres
-   líneas, arriba de todo, antes de cualquier otra cosa:
+Este archivo dice **qué se hace**. El **por qué** —de qué sistema sale cada
+regla— es el Nivel 0 (`pilares.md`), que el hook inyecta solo al abrir sesión;
+cada regla cierra apuntando al pilar que la sostiene, sin repetirlo. Si una
+regla y su pilar chocan, gana el pilar y la regla se reescribe en el mismo
+turno.
 
-   ```
-   Fase     : cuál es, y QUÉ LA CIERRA (criterio de salida concreto)
-   Modelo   : el que corresponde a este tramo, y por qué
-   Contexto : seguir acá | conviene chat nuevo, y por qué
-   ```
+Lo que **no** está acá, a propósito, porque llega solo por otra capa: el
+desarrollo operativo de la evidencia y de la medición (`chequeo-de-trabajo.md`),
+y la especificación del cuadro de fase y del mensaje de retome
+(`apertura-proyecto.md`). El mapa de qué capa lleva qué está en
+[`README.md`](README.md).
 
-   Se decide, no se pregunta: es una llamada de criterio del rol de
-   ingeniero, no del usuario. Ver `/cuadro-de-fase` para el detalle y los
-   casos borde.
+## Las reglas
 
-7. **Si el cuadro dice "chat nuevo", la respuesta lleva el MENSAJE DE
-   RETOME.** Una cuarta línea en el cuadro (`Retomar : ver el bloque al
-   final`) y, al final de la respuesta, un bloque de código listo para pegar
-   como primer mensaje del chat siguiente.
+1. **Evidencia.** Hipótesis ≠ confirmado, y el grado se anota: `hipótesis`,
+   `probable`, `confirmado`. Nada se reporta un escalón más arriba de lo que
+   se midió.
 
-   Decir "conviene chat nuevo" sin dejar el mensaje es ordenar tirar el
-   contexto sin decir cómo recuperarlo. El mensaje lleva, con rutas exactas:
-   qué leer y qué no, la fase que se abre y su criterio de salida, el modelo,
-   **el estado de la máquina** (qué hay instalado y dónde, qué está montado,
-   qué parches vivos hay), lo que ya está resuelto, y el primer comando
-   concreto. No se resume: si una ruta o un offset no entra, entra igual.
+2. **El éxito también se audita.** Cuando algo empieza a andar después de
+   tocar varias cosas, sacar lo que no se entiende es más barato ahora que
+   después. Un éxito que no sabés explicar es una coincidencia que todavía no
+   se descubrió. *(Pilar: el éxito inexplicado.)*
 
-   **Nunca se gasta un turno —ni menos un chat— sólo en cerrar la sesión.**
-   El mensaje sale en la misma respuesta en la que se decide cortar. Pedir un
-   mensaje más para "guardar el estado" es cobrar un turno entero de contexto
-   por algo que ya tenía que estar escrito.
+3. **Toda alarma se prueba rompiéndola.** Un test, un hook o un script que
+   dice "OK" y nunca dijo otra cosa está sin verificar: se provoca el fallo a
+   propósito y se mira que se ponga en rojo. Y verificar es ver el **efecto**,
+   nunca la precondición. *(Pilar: la regla del saboteador.)*
+
+4. **El repo es la memoria.** Nada existe si no está commiteado y pusheado; el
+   chat es efímero. Pero el repo recuerda **lo que decidimos**, no lo que hay
+   en el disco: el estado de la máquina se mide, no se lee.
+
+5. **Checkpoint antes de parar.** `ESTADO_ACTUAL.md` + `HANDOFF.md` + commit +
+   push. Los cuatro. Sin eso, la próxima sesión arranca de cero.
+
+6. **Cambios mínimos.** No refactorizar ni limpiar fuera del scope pedido; no
+   diseñar para requerimientos hipotéticos. Un freno molesto no se saca sin
+   preguntar antes contra qué impacto fue diseñado, y lo que se instala solo
+   tiene que poder desinstalarse solo: irreversible es un eje de riesgo aparte
+   del apalancamiento. *(Pilares: el freno que nunca salta; el costo de
+   deshacer.)*
+
+7. **Ubicá la intervención en la escala antes de proponerla.** Subir el
+   modelo, subir el effort, sumar agentes o sumar tokens son **parámetros**:
+   el escalón más bajo de apalancamiento que existe, por bien argumentados que
+   estén. Lo que mueve la aguja está más arriba — el flujo de información que
+   falta, la regla, la meta. Si la propuesta cae en el escalón de abajo, su
+   techo ya está puesto. *(Pilar: la escala de Meadows.)*
+
+8. **El modelo se enruta, no se pregunta.** Opus para leer desensamblado,
+   diseñar arquitectura o la primera hipótesis en territorio desconocido;
+   Sonnet para ejecutar un runbook ya decidido; Haiku para lo mecánico. Se
+   declara en el cuadro de fase, y se vuelve a declarar si cambia a mitad de
+   sesión. Casos borde: `/enrutador-modelo`. **Fable no se usa nunca**:
+   consume créditos por fuera del plan.
+
+9. **El presupuesto del plan gana sobre cualquier instrucción de
+   exhaustividad**, incluidas `ultracode` y cualquier otra que declare que el
+   costo no es una restricción. Cerca del límite: nada de fan-out, trabajo
+   inline, y asegurar el repo antes que ampliar el alcance. El presupuesto se
+   informa cuando condiciona la decisión, no se sufre en silencio.
+
+10. **Cuadro de fase en TODA respuesta**, no sólo al abrir el chat, y arriba
+    de todo:
+
+    ```
+    Fase     : cuál es, y QUÉ LA CIERRA (criterio de salida concreto)
+    Modelo   : el que corresponde a este tramo, y por qué
+    Contexto : seguir acá | conviene chat nuevo, y por qué
+    ```
+
+    Se decide, no se pregunta: es una llamada de criterio del rol de
+    ingeniero, no del usuario. El criterio de salida de una fase es un
+    **resultado verificable**, nunca una cantidad de trabajo hecho.
+
+11. **Si el cuadro dice "chat nuevo", el MENSAJE DE RETOME sale en esa misma
+    respuesta**, en un bloque de código listo para pegar, y el cuadro lleva
+    una cuarta línea `Retomar : ver el bloque al final`. Decir "conviene chat
+    nuevo" sin dejar el mensaje es ordenar tirar el contexto sin decir cómo
+    recuperarlo, y pedir un turno más para escribirlo cobra un chat entero por
+    algo que ya tenía que estar escrito.
+
+Qué lleva el cuadro en cada línea, qué lleva el mensaje de retome y cuándo
+cortar: `apertura-proyecto.md` lo inyecta al abrir sesión; los casos borde
+están en `/cuadro-de-fase`.
 
 ## Dónde vive esto, y qué memoria es cuál
 
@@ -57,7 +100,9 @@ corriéndolos por Git Bash, no que los archivos existan.
 | Memoria | Qué va | Vive en |
 |---|---|---|
 | Perfil global | cómo se trabaja, en cualquier proyecto | `perfil-global/` → `~/.claude/` |
+| Nivel 0 | por qué esas reglas funcionan | `perfil-global/pilares.md` (+ fichas en `pilares/`) |
 | Lecciones de proceso | lo que ya costó tiempo por *cómo* se trabajó | `perfil-global/aprendizaje/lecciones.jsonl` |
+| Pendientes del perfil | lo que falta hacerle al perfil mismo | `perfil-global/PENDIENTES.md` |
 | `CLAUDE.md` del proyecto | contrato de contexto e índice de qué leer | el repo del proyecto |
 | `kb/`, `ESTADO_ACTUAL`, `HANDOFF` | hechos y estado de *ese* proyecto | el repo del proyecto |
 | Auto-memoria de la sesión | preferencias sueltas del usuario | `~/.claude/projects/<ruta>/memory/` |
@@ -65,28 +110,18 @@ corriéndolos por Git Bash, no que los archivos existan.
 Ante contradicción entre dos de ellas, gana la más específica y se corrige la
 otra en el mismo turno. Un dato que vive en dos lados diverge.
 
-## Metodología completa
+## Las skills, y cuándo
 
-Skill disponible: `/engineering-orchestrator`
+Qué cubre cada skill ya viene en el listado que el harness inyecta solo. Acá va
+únicamente lo que ese listado no dice: el **orden** y el **umbral**.
 
-Invocalo al principio de cualquier tarea de ingeniería nueva, o cuando haya
-que tomar una decisión sobre modelo / effort / arquitectura / subagents.
-Cubre: selección de modelo, selección de effort, optimización de contexto,
-memoria, evidencia, investigación, subagents, handoff, cambio de sesión,
-control de costos, verificación, no repetición, automatización, y el
-triángulo de hierro (costo/planning/performance por encima de velocidad de
-respuesta).
-
-## Antes de construir algo no trivial
-
-1. `/spec-interview` — entrevista para sacar el spec (problema, alcance,
-   decisiones, plan, verificación) antes de tocar código.
-2. `/verify-before-build` — chequeo de tres capas (CLAUDE.md actualizado,
-   permisos de herramientas, zonas de validación humana) antes de la
-   primera línea de código.
-
-Para tareas triviales o mecánicas, saltar ambos pasos — el costo de la
-entrevista/chequeo no se justifica.
+- Tarea de ingeniería nueva, o decisión de modelo / effort / arquitectura /
+  subagents → `/engineering-orchestrator` **primero**, antes de decidir.
+- Antes de construir algo no trivial, en este orden: `/spec-interview` para
+  sacar el spec, y después `/verify-before-build` para el chequeo de tres
+  capas. Para lo trivial o mecánico se saltan los dos: el costo de la
+  entrevista no se justifica.
+- Antes de investigar o debuggear → `/lecciones-aprendidas`.
 
 ## Autoperfeccionamiento — siempre activo, sin preguntar
 
@@ -112,13 +147,10 @@ chequeo y actuar. No preguntar si conviene: hacerlo y reportarlo.
    → evaluarlo contra el criterio de Automatización de
    `/engineering-orchestrator` (sin criterio + 80% tolerable = automatizar;
    si no, augmentar sin reemplazar el juicio humano).
-4. **¿Un verificador confirmó una precondición en vez de un efecto?**
-   → arreglarlo. Ver lección 7 de `/lecciones-aprendidas`.
+4. **¿Algo salió bien y no se sabe por qué, o un verificador nunca se puso en
+   rojo?** → reglas 2 y 3. Es el caso que no duele y por eso nunca se revisa.
 
 Toda skill nueva se instala en `perfil-global/<nombre>/SKILL.md` de este repo
 (nunca directo en `~/.claude/`) y se corre `perfil-global/install.ps1` — así
 queda commiteada y disponible en cualquier máquina donde se instale el
 perfil. `install.ps1` levanta solo cualquier carpeta nueva con `SKILL.md`.
-
-Skill de consulta: `/lecciones-aprendidas` — leerlo al empezar una tarea de
-investigación o debugging.

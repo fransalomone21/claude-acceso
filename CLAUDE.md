@@ -35,20 +35,11 @@ Instalar o actualizar en una máquina:
 ```
 
 Copia el `CLAUDE.md` global, todas las skills (carpeta entera, incluidas sus
-`referencias/`), los tres archivos que inyectan los hooks, `herramientas/` y
+`referencias/`), los cuatro archivos que inyectan los hooks, `herramientas/` y
 el puntero `origen.txt` que las hace escribir de vuelta en este repo — con
 respaldo previo y de forma idempotente. `verify-install.ps1` comprueba el
 **efecto** de los hooks corriéndolos por Git Bash, no que los archivos estén.
 
-> **Pendiente conocido, y ya no hipotético:** apareció `electronica-analogica/`
-> en el árbol de trabajo de esta rama (sin trackear, 2026-08-17), que es
-> justo la condición que este pendiente esperaba. `perfil-global/` aplica a
-> todo y su lugar natural es un repositorio propio; la solución no es mergear
-> ramas, porque los proyectos no se mezclan.
->
-> Mientras tanto está mitigado, no resuelto: lo instalado en `~/.claude/`
-> funciona en cualquier carpeta de la máquina, y `~/.claude/aprendizaje/origen.txt`
-> hace que `aprender.py` escriba siempre en este repo aunque se lo invoque
-> desde otro lado. Lo que sigue roto el día que haya un repo separado de
-> verdad es **actualizar** el perfil desde allá. Sacarlo a su propio
-> repositorio es una decisión de Fran: implica un remoto nuevo.
+Sus pendientes —incluido el de sacarlo a su propio repositorio, cuya condición
+ya se dio con la aparición de `electronica-analogica/`— están en
+[`perfil-global/PENDIENTES.md`](perfil-global/PENDIENTES.md).
