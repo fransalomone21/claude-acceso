@@ -37,10 +37,21 @@ LAS TRES CAPAS, Y CUAL DISPARA SOLA
 USO
     python aprender.py agregar --titulo "..." --costo "..." \
         --sintoma "..." --regla "..." [--grupo proceso] [--proyecto black]
+    python aprender.py exito --titulo "..." --explicacion "..." \
+        [--descartado "..."] [--proyecto black]
     python aprender.py listar [--grupo medicion] [--proyecto black]
     python aprender.py digesto            # todas las reglas, agrupadas
     python aprender.py donde              # que archivo esta usando y por que
     python aprender.py regenerar          # reescribe LECCIONES.md
+
+REGLA 2 -- EL EXITO TAMBIEN SE AUDITA
+    `agregar` registra fracasos: cuesta tiempo, se ve el sintoma, se escribe
+    la regla. `exito` es lo contrario y necesita otros campos: no hay costo
+    ni sintoma, hay una EXPLICACION causal de por que funciono (la regla 2 de
+    CLAUDE.md dice que un exito sin explicar es una coincidencia todavia no
+    descubierta) y, si aplica, que se DESCARTO por no entenderse. No entra al
+    mismo indice por grupo que las lecciones: tiene su propia seccion en
+    LECCIONES.md.
 """
 from __future__ import annotations
 
@@ -162,7 +173,8 @@ def escribir_md(lecciones: list[dict], md: Path) -> None:
         "",
     ]
     for clave, titulo in GRUPOS:
-        delgrupo = [l for l in lecciones if l.get("grupo") == clave]
+        delgrupo = [l for l in lecciones
+                    if l.get("tipo") != "exito" and l.get("grupo") == clave]
         if not delgrupo:
             continue
         p += ["## %s" % titulo, ""]
@@ -178,12 +190,41 @@ def escribir_md(lecciones: list[dict], md: Path) -> None:
             p.append("")
             p.append("**Costo:** %s  ·  %s" % (l["costo"], "  ·  ".join(meta)))
             p.append("")
-    sueltas = [l for l in lecciones if l.get("grupo") not in NOMBRES_GRUPO]
+
+    exitos = [l for l in lecciones if l.get("tipo") == "exito"]
+    if exitos:
+        p += [
+            "## Exitos auditados", "",
+            "Regla 2 de `CLAUDE.md`: un exito que no se explica es una",
+            "coincidencia que todavia no se descubrio. Cada entrada dice POR",
+            "QUE funciono -- no solo que funciono -- y, si aplica, que se",
+            "descarto en el camino por no entenderse.", "",
+        ]
+        for l in exitos:
+            p.append("### %s" % l["titulo"])
+            p.append("")
+            meta = [x for x in (l.get("proyecto"), l.get("fecha")) if x]
+            if l.get("ref"):
+                meta.append("ver `%s`" % l["ref"])
+            p.append("**Por que funciono:** %s" % l["explicacion"])
+            p.append("")
+            if l.get("descartado"):
+                p.append("**Se descarto por no explicarse:** %s" % l["descartado"])
+                p.append("")
+            p.append("**%s**" % "  ·  ".join(meta))
+            p.append("")
+
+    sueltas = [l for l in lecciones
+               if l.get("tipo") != "exito" and l.get("grupo") not in NOMBRES_GRUPO]
     if sueltas:
         p += ["## Sin agrupar", ""]
         for l in sueltas:
             p += ["### %s" % l["titulo"], "", "**Regla:** %s" % l["regla"], ""]
-    p += ["---", "", "Total: %d lecciones." % len(lecciones), ""]
+
+    total_lecciones = len(lecciones) - len(exitos)
+    p += ["---", "",
+          "Total: %d lecciones, %d exitos auditados."
+          % (total_lecciones, len(exitos)), ""]
     with io.open(md, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(p))
 
@@ -240,10 +281,45 @@ def cmd_listar(a) -> int:
         print("no hay lecciones que cumplan el filtro")
         return 0
     for l in lecciones:
-        print("  [%s] %-12s %s" % (l.get("fecha", "?"),
-                                   l.get("proyecto", "-"), l["titulo"]))
-        print("       %s" % l["regla"])
+        etiqueta = "[exito]" if l.get("tipo") == "exito" else ""
+        print("  [%s] %-12s %s %s" % (l.get("fecha", "?"),
+                                      l.get("proyecto", "-"), l["titulo"],
+                                      etiqueta))
+        print("       %s" % (l.get("regla") or l.get("explicacion") or ""))
     print("\n  total: %d" % len(lecciones))
+    return 0
+
+
+def cmd_exito(a) -> int:
+    raiz = raiz_repo(a.repo)
+    jsonl, md = rutas(raiz)
+    lecciones = leer(jsonl)
+
+    if any(l["titulo"].lower() == a.titulo.lower() for l in lecciones):
+        print("ya hay una entrada con ese titulo; no se duplica.")
+        print("Si la explicacion cambio, se corrige la vieja: editar")
+        print("lecciones.jsonl a mano y correr 'regenerar'.")
+        return 1
+
+    nueva = {
+        "titulo": a.titulo,
+        "tipo": "exito",
+        "explicacion": a.explicacion,
+        "fecha": a.fecha or date.today().isoformat(),
+        "proyecto": a.proyecto,
+    }
+    if a.descartado:
+        nueva["descartado"] = a.descartado
+    if a.ref:
+        nueva["ref"] = a.ref
+
+    jsonl.parent.mkdir(parents=True, exist_ok=True)
+    with io.open(jsonl, "a", encoding="utf-8", newline="\n") as f:
+        f.write(json.dumps(nueva, ensure_ascii=False) + "\n")
+    lecciones.append(nueva)
+    escribir_md(lecciones, md)
+
+    print("registrado (exito auditado): %s" % nueva["titulo"])
     return 0
 
 
@@ -317,6 +393,18 @@ def main() -> int:
                     help="seccion de la version larga, si la hay")
     pa.add_argument("--fecha", default=None)
     pa.set_defaults(fn=cmd_agregar)
+
+    pe = sub.add_parser("exito",
+                        help="registra un exito auditado (regla 2 de CLAUDE.md)")
+    pe.add_argument("--titulo", required=True)
+    pe.add_argument("--explicacion", required=True,
+                    help="POR QUE funciono -- causal, no correlacion")
+    pe.add_argument("--descartado", default=None,
+                    help="que se saco por no explicarse, si aplica")
+    pe.add_argument("--proyecto", default="general")
+    pe.add_argument("--ref", default=None)
+    pe.add_argument("--fecha", default=None)
+    pe.set_defaults(fn=cmd_exito)
 
     pl = sub.add_parser("listar", help="lecciones, con filtros")
     pl.add_argument("--grupo", default=None)

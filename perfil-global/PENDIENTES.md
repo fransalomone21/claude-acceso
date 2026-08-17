@@ -68,16 +68,32 @@ Falta el procedimiento — escribir los pasos y después preguntar, flecha por
 flecha, cuál dependencia existe de verdad. Detalle en
 [`pilares/pragmatic-programmer.md`](pilares/pragmatic-programmer.md).
 
-## 3. La asimetría del registro
+## 3. La asimetría del registro — RESUELTO (2026-08-17)
 
-34 lecciones, 34 fracasos, cero registros de qué salió bien. `aprender.py` sólo
-sabe registrar lo que costó tiempo.
+36 lecciones, 36 fracasos, cero registros de qué salió bien. `aprender.py`
+sólo sabía registrar lo que costó tiempo.
 
-Tiene dos respaldos ahora: el "éxito inexplicado" de Hunt & Thomas dice que el
-éxito no revisado es el caso más peligroso, no el más seguro — y es la regla 2
-de `CLAUDE.md`, que hoy no tiene dónde escribirse. Cierra cuando el registro
-acepte una entrada de éxito con su explicación, o cuando se decida
-explícitamente que no corresponde y se escriba por qué.
+Se agregó el subcomando `aprender.py exito --titulo ... --explicacion ...
+[--descartado ...] [--proyecto ...]`. Deliberadamente no reusa los campos de
+`agregar` (`costo`/`sintoma`/`regla`): un éxito no tiene costo ni síntoma,
+tiene una **explicación causal** de por qué funcionó — la regla 2 de
+`CLAUDE.md` dice que un éxito sin explicar es una coincidencia todavía no
+descubierta — y, si aplica, qué se **descartó** en el camino por no
+entenderse. Las entradas llevan `"tipo": "exito"` y caen en su propia sección
+de `LECCIONES.md` ("Éxitos auditados"), separada de los grupos de lecciones
+porque no comparten la taxonomía `GRUPOS` (que es de orden de lectura al
+abrir sesión, pensada para fracasos).
+
+Probado por efecto, no por precondición: se registró una entrada de prueba
+real (`exito`), se confirmó que apareció en `LECCIONES.md` bajo la sección
+nueva y que `listar`/`digesto` no rompen con una entrada sin `regla`/`grupo`
+(`listar` ahora cae a `explicacion` cuando no hay `regla`), y después se sacó
+del `.jsonl` y se regeneró el índice para no dejar basura en el registro.
+
+No hace falta seguir foldeando esto en `chequeo-de-trabajo.md`: la regla 2 ya
+vive ahí (Nivel 0, sección Pragmatic Programmer) como disciplina a aplicar,
+no como comando a recordar — lo que faltaba era sólo el mecanismo de
+registro, y ese es el que se cierra acá.
 
 ## 4. `perfil-global/` debería ser su propio repositorio
 

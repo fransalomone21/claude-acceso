@@ -316,4 +316,4 @@ La sintesis que se lee sola al abrir sesion es
 
 ---
 
-Total: 36 lecciones.
+Total: 36 lecciones, 0 exitos auditados.
