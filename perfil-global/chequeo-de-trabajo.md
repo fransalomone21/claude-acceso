@@ -1,4 +1,4 @@
-CHEQUEO DE TRABAJO - la sintesis de las 33 lecciones que ya costaron tiempo.
+CHEQUEO DE TRABAJO - la sintesis de las 34 lecciones que ya costaron tiempo.
 
 Esto no se consulta: se inyecta. Cada linea es un error que ya se cometio al
 menos una vez y volvio a costar caro por no estar a mano en el momento.
@@ -58,6 +58,10 @@ ANTES DE CONFIAR EN UNA HERRAMIENTA
     te movieron el piso, no el archivo. Y su stdout tiene tope: contenido que
     vas a leer vos se escribe a archivo y se abre con la herramienta de leer,
     no se transporta por el shell.
+  - La herramienta de leer tiene SU PROPIO tope, y no se estima por
+    caracteres/4. Medi la razon real chars/token en el primer tramo chico y
+    dimensiona el resto con esa. Texto cortado en lineas cuesta casi el doble
+    por caracter que la prosa corrida: reflowealo ANTES de medir.
 
 AL LEER UN NEGATIVO
   - Un negativo prueba dos cosas a la vez: que no esta, o que lo buscaste

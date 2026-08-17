@@ -222,6 +222,14 @@ La sintesis que se lee sola al abrir sesion es
 
 **Costo:** cinco viajes de ida y vuelta en una sola sesion de lectura  ·  general  ·  2026-08-17
 
+### El costo en tokens no se estima por caracteres sobre cuatro
+
+**Regla:** Texto que vas a leer VOS: medi la razon real chars/token en el primer tramo chico y dimensiona el resto con esa. El texto cortado en lineas cuesta ~2,3 chars/token contra ~3,5 de prosa corrida, asi que reflowealo ANTES de medir. Y cada herramienta de lectura tiene su propio tope, distinto del tope del stdout del shell.
+
+**Sintoma:** escribi un tramo del tamano que habia calculado a mano y la herramienta de leer lo rechazo por el DOBLE de tokens de los estimados; parecia que el archivo se habia generado mal
+
+**Costo:** dos viajes de mas y un tramo reextraido y partido en dos  ·  perfil  ·  2026-08-17
+
 ## Como se trabaja
 
 ### Observar antes que intervenir
@@ -292,4 +300,4 @@ La sintesis que se lee sola al abrir sesion es
 
 ---
 
-Total: 33 lecciones.
+Total: 34 lecciones.

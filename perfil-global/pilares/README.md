@@ -55,7 +55,11 @@ y el pilar son los **8 puntos** que quedaron en el cuerpo de la skill bajo
 |---|---|---|---|
 | **Leverage Points** (Meadows, 1999, 21 pp.) | [`leverage-points.md`](leverage-points.md) | sí — 4 líneas en `pilares.md` | `~/Downloads/Leverage_Points.pdf` |
 | **Thinking in Systems** (Meadows, 2008, 235 pp.) | [`thinking-in-systems.md`](thinking-in-systems.md) | sí — 6 líneas en `pilares.md` | `~/Downloads/Meadows-2008.-Thinking-in-Systems.pdf` |
-| The Pragmatic Programmer (Hunt & Thomas, 348 pp., ed. portuguesa) | pendiente | — | `~/Downloads/o-programador-pragmatico.pdf` |
+| **The Pragmatic Programmer** (Hunt & Thomas, 1999, 348 pp., ed. brasileña de la 1ª ed.) | [`pragmatic-programmer.md`](pragmatic-programmer.md) | sí — 7 líneas en `pilares.md` | `~/Downloads/o-programador-pragmatico.pdf` |
+
+Los tres libros del Nivel 0 están leídos y foldeados. Lo que queda de esta
+capa es **integrarla dentro de `CLAUDE.md`**, que era la tarea que esperaba a
+tener los tres — no antes.
 
 El destilado vive en `perfil-global/pilares.md` (ASCII), que es **Nivel 0** y
 lo inyecta su propio hook `SessionStart`. Esta carpeta guarda las fichas
