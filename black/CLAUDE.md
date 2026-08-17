@@ -74,6 +74,7 @@ Todas tienen `--help` y se corren desde `black/`.
 | `estado.py` | leer `eeMemory.bin` de un savestate |
 | `pnach.py` | compilar `mods/*.toml` al `.pnach` que carga PCSX2 |
 | `fijar_objetivo.py` | confirma serial/CRC contra PCSX2 y actualiza `kb/objetivo.json` solo |
+| `aprender.py` | **autoaprendizaje**: registra y lista las lecciones de proceso. `digesto` es lo que se lee al abrir sesión |
 | `windows/preparar_entorno.ps1` | Windows: automatiza el checkpoint 0 completo (pide UAC) |
 
 `salida.py` está en la misma carpeta pero **no es un comando**: es la
@@ -103,10 +104,22 @@ alcance, decilo en vez de simular resultados.
 
 Cambiá de modelo con `/model`. Fable queda fuera (consume créditos aparte).
 
+## Autoaprendizaje — se corre solo, no se pregunta
+
+Al abrir: `python herramientas/aprender.py digesto`. Son cinco líneas y evitan
+repetir un error que ya costó tiempo.
+
+Al cerrar, si algo falló **por cómo se trabajó** y no por lo que decía el
+código: `python herramientas/aprender.py agregar --titulo ... --costo ...
+--sintoma ... --regla ...`. El síntoma se escribe como se veía **antes** de
+entenderlo, que es la única forma de reconocerlo la próxima vez.
+
 ## Al cerrar cualquier sesión
 
 1. Actualizar `kb/` con lo que se haya averiguado.
 2. Agregar una entrada arriba de todo en `docs/03-bitacora.md`.
-3. Commit y push a `claude/black-game-reverse-engineering-ricv3t`.
+3. Registrar las lecciones de proceso con `aprender.py agregar`.
+4. Actualizar `ESTADO_ACTUAL.md` y `sesiones/HANDOFF.md`.
+5. Commit y push a `claude/black-game-reverse-engineering-ricv3t`.
 
-Sin esos tres pasos, la próxima sesión arranca de cero.
+Sin esos pasos, la próxima sesión arranca de cero.

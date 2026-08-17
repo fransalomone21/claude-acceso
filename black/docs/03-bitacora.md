@@ -16,6 +16,101 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-17 (26) — E4 cerrado: el arma del enemigo sale de un array paralelo, no del objeto de arma
+
+**Máquina:** PC, con PCSX2 vivo · **Modelo:** Opus (layout e hipótesis en territorio nuevo)
+
+**Objetivo:** Fase 7 (a) — encontrar por efecto el campo que fija el arma que
+usa un enemigo.
+
+**Resultado: encontrado y confirmado por efecto, con dos lecturas
+independientes que coinciden.**
+
+### 1. El señuelo, y por qué era tan convincente
+
+`arma_obj + 0x0C` es el **único** u32 de los `0x110` bytes del objeto de arma
+que cae dentro de la tabla de armas, y en 10 de 10 objetos cae **alineado a
+registro** con offset de bloque `+0x90` constante. Jugador en reg 0 y 1,
+enemigos en reg 4 y 5. Imposible pedir un candidato con mejor cara.
+
+**Está falsificado.** Se apuntaron los ocho objetos de arma de enemigo al
+registro 6 (RPG, `TBB` de IA `3.500` contra `0.070` del reg 5: 50× más lento),
+con la escritura verificada en los ocho, y el fuego entrante no se movió:
+127 impactos en 24.9 s contra 121 del baseline, escalón intacto.
+
+### 2. La técnica que destrabó todo: que la tabla diga su propio nombre
+
+En vez de adivinar qué enemigo dispara, se le escribió a cada registro un
+`Power` de IA **único y distinguible** —`100 + r`— y se midió el escalón de
+daño. **El tamaño del impacto nombra el registro.**
+
+Resultado: escalón de **105 exacto**, sin mezcla. Los atacantes usan el
+**registro 5**, todos. Y de paso quedó confirmado que `registro + 0xD8` es el
+`Power` que la IA le aplica al jugador.
+
+Repetido **con los ocho `+0x0C` apuntando al reg 6 al mismo tiempo**: el
+escalón siguió en 105. Ahí `+0x0C` quedó falsificado sin vuelta.
+
+### 3. Dos estructuras nuevas que nadie había visto
+
+Buscando en los 32 MB *quién referencia al registro 5* aparecieron dos:
+
+- **Directorio de armas en `0x01842084`, 17 entradas de `0x20`**, justo antes
+  de la tabla. Cada entrada tiene cinco punteros al registro que le toca:
+  `+0x00→reg+0x050`, `+0x04→reg+0x070`, `+0x14→reg+0x090`,
+  `+0x18→reg+0x1A0`, `+0x1C→reg+0x1C0`.
+- **Array de instancias en `0x006E18B8`, paso `0x24`, 10 entradas** — una por
+  objeto de arma, en el mismo orden, correspondencia 1:1 verificada registro
+  por registro. Cada entrada guarda **dos** punteros:
+  `+0x00 → registro+0x90` (bloque del jugador) y
+  **`+0x04 → registro+0xC0` (bloque de IA)**.
+
+### 4. La confirmación
+
+Marcadores puestos y los ocho punteros de bloque de IA movidos al registro 6:
+
+| | control (reg 5) | tratamiento (reg 6) | lo que predecía la tabla |
+|---|---|---|---|
+| escalón de daño | 105 | **106 constante** | `Power` reg 6 = 106 |
+| intervalo entre impactos | 133 ms | **3534 ms** | `TBB` de IA reg 6 = **3.500 s** |
+| impactos en 25 s | 116 | **6** | cadencia de RPG |
+
+El daño **y** la cadencia se movieron juntos a los valores exactos del
+registro 6, con la cadencia predicha en 3.500 s y medida en 3.534 s. Dos
+observables independientes, una sola causa.
+
+### 5. Layout del registro de arma, corregido
+
+Cada registro de `0x1E0` tiene **dos bloques de parámetros**: el del jugador en
+`+0x90` y **el de la IA en `+0xC0`**. Dentro de un bloque,
+`Power = bloque+0x18` y `TimeBetweenBullets = bloque+0x20`.
+
+O sea `Power` de IA en `+0xD8` y `TBB` de IA en `+0xE0`. **Corrige la entrada
+anterior**, que ubicaba el bloque de IA en `+0x90`: eso era el bloque del
+jugador. La pista que lo delató es que `+0xE0` del reg 0 vale `0.150`, que es
+exactamente el "0.15 original" anotado en E1b.
+
+**No funcionó:**
+
+- **`arma_obj + 0x0C`**, ya contado. Un puntero real a la tabla que no gobierna
+  nada observable. El mejor señuelo que dio el proyecto hasta ahora.
+- **Suponer que los tiradores eran los de vida `FLT_MAX`** (pool 0 y 1). Son los
+  que apuntan al reg 4, y el escalón medido **nunca** fue 104: no disparan.
+  Costó un experimento entero, y lo arregló el marcado, que no supone nada.
+- **La primera corrida A/B no recargó el savestate entre condiciones.** Diseño
+  flojo mío; se rehízo con recarga.
+- **Medir daño con el mod puesto no discrimina armas:** el parche aplastó los
+  17 `Power` de IA a `5.0`, así que cambiar de registro no cambia el daño.
+  Por eso hizo falta marcar la tabla con valores únicos.
+
+**Sigue:** Fase 7 (b) — qué dato fija **qué tipo** de enemigo aparece. La
+entrada barata es E5 (`STLEVEL.BIN`, el truco de los 11 caracteres). Y queda
+abierto de acá: **de dónde sale el valor del puntero de `+0x04`** al spawnear
+—o sea, dónde está escrito "este enemigo lleva el arma 5"— que es lo que hace
+falta para cambiarlo de forma permanente en el ISO y no sólo en RAM.
+
+---
+
 ## 2026-08-17 (25) — El mod permanente existe: 24 impactos de −5.0, y el ISO reconstruido no queda cerrado
 
 **Máquina:** PC, con PCSX2 vivo · **Modelo:** Sonnet, sin necesidad de subir

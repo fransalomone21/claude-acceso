@@ -12,14 +12,12 @@
     "descubierto": "fecha ISO",
     "notas": "texto libre"
   },
-
   "_disciplina": [
     "Una entrada entra como 'hipotesis'. Sube a 'probable' cuando la observación se repite.",
     "Sube a 'confirmado' SÓLO cuando escribir el valor produce el efecto esperado en pantalla.",
     "Si una dirección resulta ser dinámica, no la borres: marcá estable=false y anotá la cadena de punteros.",
     "Nunca borres una entrada descartada. Saber qué NO es ahorra repetir el trabajo."
   ],
-
   "entradas": [
     {
       "id": "vida_jugador",
@@ -117,6 +115,66 @@
       "evidencia": "Apareció en la búsqueda nativa de PCSX2 como candidato float. vigilar.py a 10 Hz mostró 448 cambios en 448 muestras (cambia en CADA muestreo), siempre bajando, a ritmo perfectamente regular. La vida no se mueve sola cuando nadie ataca.",
       "descubierto": "2026-08-15",
       "notas": "Se conserva la entrada a propósito: saber qué NO es ahorra repetir el escaneo."
+    },
+    {
+      "id": "arma_bloque_ia_por_instancia",
+      "nombre": "puntero al bloque de IA del arma, por instancia",
+      "direccion": "0x006E18B8",
+      "tipo": "u32",
+      "version": "ntscu_1_00",
+      "estable": true,
+      "base": "array de 10 entradas, paso 0x24; el campo es +0x04",
+      "confianza": "confirmado",
+      "evidencia": "2026-08-17. Movidos los 8 punteros de enemigo de reg5+0xC0 a reg6+0xC0 con la tabla marcada Power=100+r: escalon de dano 105 -> 106 constante Y cadencia 133 ms -> 3534 ms, coincidiendo las dos con el registro 6 (Power 106, TBB de IA 3.500 s). Series en volcados/e4-D-marcado.csv y volcados/e4-F-bloque-ia.csv",
+      "notas": "ES EL CAMPO QUE FIJA EL ARMA DE UN ENEMIGO. +0x00 de la misma entrada es el puntero al bloque del jugador (registro+0x90). Correspondencia 1:1 y en el mismo orden con los objetos de arma de 0x006DE770 + n*0x110."
+    },
+    {
+      "id": "arma_bloque_ia_power",
+      "nombre": "Power del bloque de IA del registro de arma",
+      "direccion": null,
+      "tipo": "f32",
+      "version": "ntscu_1_00",
+      "estable": false,
+      "base": "tabla_armas + r*0x1E0 + 0xD8",
+      "confianza": "confirmado",
+      "evidencia": "2026-08-17. Escrito Power=100+r en los 17 registros: el escalon de dano medido paso a 105 exacto, sin mezcla, nombrando el registro 5 como el que usan los atacantes. Es tambien el campo que el mod del ISO aplasta a 5.0",
+      "notas": "bloque de IA = registro+0xC0; Power = bloque+0x18. NO confundir con +0xA8, que es el Power del bloque del JUGADOR."
+    },
+    {
+      "id": "arma_bloque_ia_tbb",
+      "nombre": "TimeBetweenBullets del bloque de IA",
+      "direccion": null,
+      "tipo": "f32",
+      "version": "ntscu_1_00",
+      "estable": false,
+      "base": "tabla_armas + r*0x1E0 + 0xE0",
+      "confianza": "confirmado",
+      "evidencia": "2026-08-17. El reg 6 declara 3.500 s y, apuntado el bloque de IA de los enemigos a ese registro, el intervalo medido entre impactos fue 3534 ms (control: 133 ms). Prediccion cuantitativa acertada",
+      "notas": "bloque de IA = registro+0xC0; TBB = bloque+0x20. El reg 0 vale 0.150, que es el '0.15 original' anotado en E1b."
+    },
+    {
+      "id": "directorio_armas",
+      "nombre": "directorio de armas (17 entradas de 0x20)",
+      "direccion": "0x01842084",
+      "tipo": "u32",
+      "version": "ntscu_1_00",
+      "estable": true,
+      "base": null,
+      "confianza": "probable",
+      "evidencia": "2026-08-17. Barrido de punteros a la tabla sobre volcados/ee-e4.bin: 17 entradas de paso 0x20 con cinco punteros cada una (+0x00->reg+0x50, +0x04->reg+0x70, +0x14->reg+0x90, +0x18->reg+0x1A0, +0x1C->reg+0x1C0)",
+      "notas": "Candidato a ser la estructura que el codigo indexa por numero de arma. Sin tocar todavia."
+    },
+    {
+      "id": "arma_obj_ptr_tabla",
+      "nombre": "puntero a la tabla dentro del objeto de arma (DESCARTADO)",
+      "direccion": null,
+      "tipo": "u32",
+      "version": "ntscu_1_00",
+      "estable": false,
+      "base": "arma_obj+0x0C",
+      "confianza": "descartado",
+      "evidencia": "2026-08-17. Unico u32 del objeto de 0x110 que cae en la tabla, alineado a registro con offset de bloque +0x90 constante, en 10 de 10. Apuntados los ocho objetos de enemigo al registro 6 (TBB 50x mas lento), con escritura verificada en los ocho: 127 impactos en 24.9 s contra 121 del baseline y escalon intacto. Repetido con la tabla marcada: el escalon siguio en 105, no paso a 106",
+      "notas": "SENUELO. Alineacion no es causalidad. El campo real es arma_bloque_ia_por_instancia."
     }
   ]
 }

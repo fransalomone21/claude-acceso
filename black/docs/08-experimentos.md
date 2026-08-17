@@ -140,7 +140,55 @@ morir.
 **Qué abre:** subir la dificultad **sin tocar el daño** — un BLACK sin
 regeneración es otro juego, y es un cambio de una constante.
 
-### E4 · Cambiarle el arma a un enemigo
+### E4 · Cambiarle el arma a un enemigo — **CONFIRMADO 2026-08-17**
+
+**El campo es `0x006E18B8 + n*0x24 + 0x04`**: el puntero al bloque de IA
+(`registro+0xC0`) del registro de arma. No está en el objeto de arma.
+
+| | control (reg 5) | tratamiento (reg 6) | lo que predecía la tabla |
+|---|---|---|---|
+| escalón de daño | 105 | **106 constante** | `Power` reg 6 = 106 |
+| intervalo entre impactos | 133 ms | **3534 ms** | `TBB` de IA reg 6 = **3.500 s** |
+| impactos en 25 s | 116 | **6** | cadencia de RPG |
+
+Dos observables independientes se movieron juntos a los valores exactos del
+registro pedido, con la cadencia predicha en 3.500 s y medida en 3.534 s.
+
+#### La técnica que lo destrabó, y sirve para cualquier tabla indexada
+
+El problema no era leer la tabla: era saber **qué fila estaba usando** el juego.
+Se resolvió **marcando cada fila con un valor único y observable** —`Power = 100 + r`—
+y leyendo el efecto en pantalla. **El tamaño del impacto nombra la fila.** Una
+sola corrida de 25 s identificó la fila sin suponer nada sobre qué entidad
+disparaba, que es justo la suposición que había hecho fallar el intento previo.
+
+Generalizable: *si no sabés qué entrada de una tabla se está usando, hacé que
+cada entrada produzca un efecto distinguible y dejá que el juego te lo diga.*
+
+#### Los dos señuelos, y qué enseñan
+
+1. **`arma_obj + 0x0C`.** Único u32 del objeto de `0x110` bytes que cae en la
+   tabla, **alineado a registro**, en 10 de 10 objetos, con jugador y enemigos
+   en registros coherentes con lo que llevan. No gobierna nada: apuntados los
+   ocho a un registro 50× más lento, el fuego entrante no se movió.
+   **Alineación no es causalidad.**
+2. **"Los tiradores son los de vida `FLT_MAX`".** Falso. Ésos usan el registro 4
+   y el escalón nunca fue 104. Una suposición sobre *quién* actúa se cuela sin
+   hacer ruido y arruina la lectura de un experimento por lo demás correcto.
+
+#### Layout corregido del registro de arma
+
+Dos bloques por registro de `0x1E0`: **jugador en `+0x90`, IA en `+0xC0`**.
+Dentro del bloque, `Power = +0x18`, `TimeBetweenBullets = +0x20`. La pista que
+lo delató: `+0xE0` (TBB de IA) del reg 0 vale `0.150`, exactamente el "0.15
+original" que había quedado anotado en E1b.
+
+**Lo que queda abierto:** de dónde sale el valor de ese puntero **al spawnear**.
+Hace falta para hacer el cambio permanente en el ISO y no sólo en RAM.
+
+---
+
+### E4 (original) · Cambiarle el arma a un enemigo
 
 Idea de Fran. Cada tirador tiene su objeto de arma en `0x006DE770 + n*0x110`,
 con el dueño en `+0x10` (ya establecido). Si ese objeto guarda un **índice a
