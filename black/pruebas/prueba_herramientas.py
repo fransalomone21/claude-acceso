@@ -401,7 +401,10 @@ ok(r.returncode != 0 and "version_activa" in (r.stderr + r.stdout),
 with open(ruta_obj, "w") as f:
     f.write(obj_original)
 os.remove(mod_prueba)
-shutil.rmtree(os.path.join(RAIZ, "construido"), ignore_errors=True)
+# Sólo el .pnach que generó esta prueba: rmtree() sobre toda la carpeta se
+# llevaba puesto construido/.gitkeep, que está trackeado en git.
+if os.path.exists(salida_pnach):
+    os.remove(salida_pnach)
 
 
 # =============================================================================
@@ -540,6 +543,181 @@ except fijar_objetivo.FijarObjetivoError as e:
 
 r = correr(["herramientas/fijar_objetivo.py", "--help"])
 ok(r.returncode == 0, "fijar_objetivo.py --help no rompe", (r.stderr or r.stdout)[:200])
+
+
+# =============================================================================
+print("== armas: encontrar la tabla en un volcado sintético (sin PCSX2) ==")
+import armas  # noqa: E402
+
+
+def _escribir_registro_arma(d, base, power_jugador, power_ia,
+                             rango=50.0, fall=0.5, codigo=b"ASR"):
+    for blo, power in ((armas.BLOQUES[0], power_jugador), (armas.BLOQUES[1], power_ia)):
+        struct.pack_into("<f", d, base + blo + armas.OFF_RANGE, rango)
+        struct.pack_into("<f", d, base + blo + armas.OFF_POWER, power)
+        struct.pack_into("<f", d, base + blo + armas.OFF_FALLOFF, fall)
+    d[base + armas.OFF_CODIGO:base + armas.OFF_CODIGO + len(codigo)] = codigo
+
+
+dump_armas = bytearray(armas.HEAP_FIN)
+base0 = armas.HEAP_INI + 0x100000
+N_REGISTROS = 8
+for i in range(N_REGISTROS):
+    _escribir_registro_arma(dump_armas, base0 + i * armas.PASO,
+                             power_jugador=100.0 + i, power_ia=50.0 + i)
+
+bases = armas.buscar_tabla(dump_armas)
+ok(bases == [base0 + i * armas.PASO for i in range(N_REGISTROS)],
+   f"buscar_tabla encuentra los {N_REGISTROS} registros sintéticos, en orden",
+   str([hex(b) for b in bases]))
+
+campos = armas.campos_power(bases)
+ok(len(campos) == N_REGISTROS * 2, "campos_power: dos Power por registro (jugador + IA)")
+ok(struct.unpack_from("<f", dump_armas, campos[0])[0] == 100.0,
+   "el primer campo Power es el del jugador, registro 0")
+
+# control negativo: un Power = NaN invalida el registro entero, no sólo el campo
+saboteado = bytearray(dump_armas)
+struct.pack_into("<f", saboteado, base0 + armas.BLOQUES[0] + armas.OFF_POWER, float("nan"))
+ok(armas._registro_valido(saboteado, base0) is False,
+   "un Power = NaN invalida el registro (regla del saboteador)")
+ok(len(armas.buscar_tabla(saboteado)) < N_REGISTROS,
+   "con un registro roto, la corrida ya no mide 8 -> buscar_tabla no la cuenta entera")
+
+
+# =============================================================================
+print("== zonas: cadena de punteros hasta la tabla de zonas (sin PCSX2) ==")
+import zonas  # noqa: E402
+
+dump_zonas = bytearray(zonas.RAM_FIN)
+enemigo_base = 0x00500000
+componente_addr = 0x00510000
+personaje_ptr_addr = 0x00520000
+zona_base = 0x00530000
+
+struct.pack_into("<I", dump_zonas, enemigo_base + zonas.OFF_VTABLE, zonas.CLASE_ENEMIGO)
+struct.pack_into("<I", dump_zonas, enemigo_base + zonas.OFF_COMPONENTE, componente_addr)
+struct.pack_into("<I", dump_zonas, componente_addr + zonas.OFF_PERSONAJE, personaje_ptr_addr)
+struct.pack_into("<I", dump_zonas, personaje_ptr_addr, zona_base)
+struct.pack_into("<f", dump_zonas, zona_base + 0 * zonas.PASO_ZONA + zonas.OFF_A, 1.5)
+# señuelo: un denormal en OFF_B de la zona 1, con la forma de "basura reinterpretada"
+struct.pack_into("<f", dump_zonas, zona_base + 1 * zonas.PASO_ZONA + zonas.OFF_B, 1e-43)
+
+enemigos = zonas.bases_de_enemigos(dump_zonas)
+ok(enemigos == [enemigo_base], "bases_de_enemigos sigue el puntero de clase en +0x10",
+   str([hex(e) for e in enemigos]))
+
+tablas_zonas = zonas.buscar_tablas(dump_zonas)
+ok(tablas_zonas == {zona_base: [0]},
+   "buscar_tablas sigue la cadena componente->personaje->tabla",
+   str({hex(k): v for k, v in tablas_zonas.items()}))
+
+dirs_zonas = zonas.campos(dump_zonas, [zona_base])
+ok(dirs_zonas == [zona_base + zonas.OFF_A],
+   "campos() sólo lista el factor plausible, descarta el denormal señuelo",
+   str([hex(d) for d in dirs_zonas]))
+
+
+# =============================================================================
+print("== tablas: funciones puras de recorte y detección ==")
+import tablas  # noqa: E402
+
+ok(tablas.recorte(b"\x00" * 100, base=0x1000, desde=0x1010, hasta=0x1020) == (0x10, 0x20),
+   "recorte convierte direcciones EE a offsets de archivo")
+try:
+    tablas.recorte(b"\x00" * 100, base=0, desde=0x50, hasta=0x10)
+    ok(False, "recorte con rango vacío debería fallar")
+except SystemExit:
+    ok(True, "recorte con rango invertido falla en vez de devolver basura")
+
+datos_tabla = b"XX" + b"Hola\x00" + b"resto"
+ok(tablas.cadena_en(datos_tabla, 2) == "Hola", "cadena_en lee una cadena ASCII con NUL")
+ok(tablas.cadena_en(b"A" * 100, 0) is None,
+   "cadena_en: sin NUL dentro del largo máximo, no hay cadena")
+ok(tablas.cadena_en(b"\x01\x02\x00", 0) is None,
+   "cadena_en rechaza bytes no imprimibles aunque terminen en NUL")
+
+ok(tablas.float_plausible(0.0) is True, "float_plausible: cero es válido (campo sin usar)")
+ok(tablas.float_plausible(3.5) is True, "float_plausible: valor típico de parámetro")
+ok(tablas.float_plausible(1e-43) is False, "float_plausible rechaza denormales (basura)")
+ok(tablas.float_plausible(float("nan")) is False, "float_plausible rechaza NaN")
+ok(tablas.fmt_float(5.0) == "5", "fmt_float sin parte decimal se ve como entero")
+ok(tablas.fmt_float(2.5) == "2.5", "fmt_float conserva decimales")
+
+ok(tablas.parece_nombre_de_campo("MaxYawSpeed") is True,
+   "parece_nombre_de_campo acepta CamelCase de una palabra")
+ok(tablas.parece_nombre_de_campo("Num Bullets In Clip") is True,
+   "parece_nombre_de_campo acepta varias palabras con mayúscula inicial")
+ok(tablas.parece_nombre_de_campo("hola") is False,
+   "parece_nombre_de_campo rechaza minúscula inicial")
+ok(tablas.parece_nombre_de_campo("a") is False, "parece_nombre_de_campo rechaza muy corto")
+
+archivo_vecinos = os.path.join(tmp, "vecinos.bin")
+buf_vecinos = bytearray(0x40)
+struct.pack_into("<f", buf_vecinos, 0x10, 3.5)
+with open(archivo_vecinos, "wb") as f:
+    f.write(bytes(buf_vecinos))
+r = correr(["herramientas/tablas.py", "vecinos", archivo_vecinos, "0x10", "--radio", "0x10"])
+ok(r.returncode == 0, "tablas.py vecinos no rompe", (r.stderr or r.stdout)[:300])
+ok("f32 3.5" in r.stdout and "<--" in r.stdout,
+   "vecinos marca el centro y decodifica el float plantado", r.stdout[:400])
+
+
+# =============================================================================
+print("== firmas: firma por posición de byte, y detección de RW stream (sin PCSX2) ==")
+import firmas  # noqa: E402
+
+tmp_firmas = tempfile.mkdtemp(prefix="black-firmas-")
+for i in range(3):
+    with open(os.path.join(tmp_firmas, f"archivo{i}.TST"), "wb") as f:
+        f.write(bytes([0xAB, 0x10 + i]) + b"\x00" * 30)
+
+r_tst = firmas.analizar(tmp_firmas, "TST", 4)
+ok(r_tst is not None and len(r_tst["archivos"]) == 3, "firmas: encuentra los 3 .TST")
+ok(r_tst["columnas"][0][0xAB] == 3, "firmas: byte 0 constante en 3/3 archivos")
+ok(len(r_tst["columnas"][1]) == 3, "firmas: byte 1 varía, 3 valores distintos")
+ok(r_tst["rw"] == 0, "firmas: los .TST sintéticos no son RenderWare binary stream")
+
+rw_payload = b"\x00" * 20
+rw_bytes = struct.pack("<III", 0x0F, len(rw_payload), 0x1803FFFF) + rw_payload
+with open(os.path.join(tmp_firmas, "geo.RW"), "wb") as f:
+    f.write(rw_bytes)
+r_rw = firmas.analizar(tmp_firmas, "RW", 12)
+ok(r_rw is not None and r_rw["rw"] == 1,
+   "firmas: control positivo — SÍ detecta un RW stream plano armado a mano")
+
+ok(firmas.es_rw_stream(rw_bytes[:12], len(rw_bytes)) == (True, "Geometry"),
+   "es_rw_stream reconoce chunk Geometry con tamaño coherente")
+ok(firmas.es_rw_stream(b"\xff" * 12, 100) == (False, ""),
+   "es_rw_stream rechaza una cabecera sin tipo RW conocido")
+shutil.rmtree(tmp_firmas, ignore_errors=True)
+
+
+# =============================================================================
+print("== inventario: el chequeo de OneDrive mira la carpeta EN USO, no una vieja ==")
+import inventario  # noqa: E402
+
+_orig_carpeta_savestates = estado.carpeta_savestates
+try:
+    estado.carpeta_savestates = lambda: r"C:\Users\alguien\Documents\PCSX2\sstates"
+    fila = next(f for f in inventario.revisar_onedrive() if "savestates" in f["nombre"])
+    ok(fila["en_onedrive"] is False,
+       "carpeta en uso fuera de OneDrive: no se marca en riesgo (el falso positivo original)")
+
+    estado.carpeta_savestates = lambda: r"C:\Users\alguien\OneDrive\Documents\PCSX2\sstates"
+    fila2 = next(f for f in inventario.revisar_onedrive() if "savestates" in f["nombre"])
+    ok(fila2["en_onedrive"] is True,
+       "carpeta en uso SÍ redirigida a OneDrive: la alarma prende (probado rompiéndola)")
+
+    estado.carpeta_savestates = lambda: None
+    fila3 = next(f for f in inventario.revisar_onedrive() if "savestates" in f["nombre"])
+    ok(fila3["existe"] is False and fila3["en_onedrive"] is False,
+       "sin ninguna candidata en el sistema: no revienta, no reporta un riesgo falso")
+finally:
+    estado.carpeta_savestates = _orig_carpeta_savestates
+
+r = correr(["herramientas/inventario.py", "--help"])
+ok(r.returncode == 0, "inventario.py --help no rompe", (r.stderr or r.stdout)[:200])
 
 
 shutil.rmtree(tmp, ignore_errors=True)

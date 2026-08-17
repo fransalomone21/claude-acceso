@@ -99,7 +99,7 @@ def grabar(objetivos: list[dict], hz: float, segundos: float, salida: str) -> st
     n = 0
     t0 = time.perf_counter()
 
-    with Pine() as p, open(salida, "w", newline="") as f:
+    with Pine() as p, open(salida, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(columnas)
         print(f"grabando {len(objetivos)} dirección(es) a {hz} Hz durante {segundos}s…")

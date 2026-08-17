@@ -344,24 +344,22 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 
 ## Problemas abiertos
 
-- ~~**ONEDRIVE.**~~ **RESUELTO, y `inventario.py` está dando un falso
-  positivo.** Los savestates nuevos se escriben en
-  `C:\Users\frans\Documents\PCSX2\sstates\` — o sea que `Documentos` ya no
-  está redirigido. Lo que queda en `C:\Users\frans\OneDrive\Documents\PCSX2\`
-  son **copias viejas** (la más reciente es del 2026-08-16 20:34) que nadie
-  actualiza. `inventario.py` mira si esa carpeta *existe* y por eso grita.
-  **Arreglar el chequeo**: tiene que mirar dónde escribe PCSX2 hoy, no si
-  sobrevive una carpeta vieja. Borrar las copias viejas es aparte y sin apuro.
-- **`vigilar.py` abría `kb/mapa-memoria.json` sin `encoding="utf-8"`** y sin
-  necesitarlo: cualquier `grabar --dir` moría con `UnicodeDecodeError` en
-  cp1252. Arreglado el 2026-08-17 (además ahora ni abre el kb si no hay
-  `--de-kb`). **Vale la pena barrer las otras herramientas buscando el mismo
-  `open()` sin encoding.**
-- **`pruebas/prueba_herramientas.py` borra `construido/.gitkeep`**, que está
-  trackeado. Restaurarlo con `git checkout -- black/construido/.gitkeep`.
-- `armas.py`, `zonas.py`, `tablas.py`, `firmas.py` e `inventario.py` no tienen
-  test en `pruebas/`.
-- No se validó `herramientas/windows/preparar_entorno.ps1` de punta a punta.
+- **`herramientas/windows/preparar_entorno.ps1` sigue sin validar de punta a
+  punta.** No se tocó a propósito el 2026-08-17: pide UAC (bloquea en una
+  sesión no interactiva) y puede relanzar PCSX2 / tocar su `.ini`, y ahora
+  mismo el emulador tiene una sesión viva con PINE conectado — correrlo sin
+  avisar arriesgaba esa sesión. Necesita terminal interactiva y, si se
+  prueba con `-SinPatchIni` primero, no toca el `.ini`; el flujo completo
+  (con el patch) mejor con el emulador cerrado.
+
+**Cerrados el 2026-08-17** (detalle completo en `docs/03-bitacora.md`,
+entrada 27): el falso positivo de OneDrive en `inventario.py` (ahora usa
+`estado.carpeta_savestates()` en vez de una ruta vieja hardcodeada, probado
+por efecto en los dos sentidos); `construido/.gitkeep` ya no lo borra
+`prueba_herramientas.py`; `armas.py`, `zonas.py`, `tablas.py`, `firmas.py` e
+`inventario.py` tienen test nuevo (138 comprobaciones en verde); y el
+`open()` de escritura en `vigilar.py::grabar()` que le faltaba
+`encoding="utf-8"`.
 
 ## Riesgos relevantes
 

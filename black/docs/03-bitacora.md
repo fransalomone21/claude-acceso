@@ -16,6 +16,60 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-17 (27) — Deuda chica de N1 cerrada: falso positivo de OneDrive, .gitkeep, tests faltantes, encoding
+
+**Máquina:** PC, sin PCSX2 (no hacía falta) · **Modelo:** Sonnet (refactor de herramientas ya decididas)
+
+**Objetivo:** cerrar los ítems anotados en "Problemas abiertos" de
+`ESTADO_ACTUAL.md`: el falso positivo de OneDrive en `inventario.py`, el
+`.gitkeep` que se borraba solo, la falta de test para cinco herramientas, y
+el `open()` sin `encoding` que quedó pendiente de barrer.
+
+**Resultado:**
+
+1. **`inventario.py` — falso positivo de OneDrive, corregido.** El chequeo
+   comparaba la existencia de una ruta vieja hardcodeada
+   (`~/OneDrive/Documents/PCSX2`) en vez de preguntar cuál es la carpeta de
+   savestates REAL hoy. Ahora usa `estado.carpeta_savestates()` (la misma
+   función que ya usan las herramientas que leen savestates, que pregunta a
+   Windows con `SHGetFolderPathW` y sigue la redirección de verdad).
+   Probado por efecto en los dos sentidos: con el estado real de la máquina
+   no marca riesgo (antes sí, falso positivo); con `carpeta_savestates()`
+   forzada a devolver una ruta dentro de OneDrive, la alarma prende.
+2. **`construido/.gitkeep` — ya no lo borra la suite.** La causa era
+   `shutil.rmtree(RAIZ/"construido")` al final de la prueba de `pnach.py`,
+   que se llevaba puesto todo el directorio. Ahora borra sólo el `.pnach`
+   que la prueba generó.
+3. **Cobertura nueva en `pruebas/prueba_herramientas.py`** para las cinco
+   herramientas que no tenían test: `armas.py` (`buscar_tabla`,
+   `campos_power`, control negativo con `Power = NaN`), `zonas.py` (cadena de
+   punteros enemigo→componente→personaje→tabla, con un denormal señuelo
+   descartado), `tablas.py` (funciones puras de recorte/detección + smoke
+   test de `vecinos` por CLI), `firmas.py` (`es_rw_stream` con control
+   positivo y negativo, `analizar()` sobre archivos sintéticos) e
+   `inventario.py` (`revisar_onedrive()` con los tres casos: fuera de
+   OneDrive, dentro de OneDrive, sin candidata). 138 comprobaciones en verde.
+4. **`vigilar.py` — mismo bug de encoding que ya se había arreglado del lado
+   de lectura, esta vez del lado de escritura.** `grabar()` abría el CSV de
+   salida con `open(salida, "w", newline="")`, sin `encoding="utf-8"`
+   explícito. Reproducido el fallo real fuera del código del proyecto (un
+   nombre de columna con `Δ` tira `UnicodeEncodeError` bajo cp1252) y
+   confirmado que con `encoding="utf-8"` explícito no depende del locale.
+
+**No funcionó:** el primer test que escribí para `cadena_en()` (sin NUL
+cerca) estaba mal construido — el buffer sintético SÍ tenía un NUL dentro del
+rango, así que la prueba fallaba por el test, no por el código. Corregido con
+un buffer sin ningún NUL.
+
+**Sigue:** `herramientas/windows/preparar_entorno.ps1` sigue sin validar de
+punta a punta — deliberadamente no se tocó en esta sesión: pide UAC
+(bloquea en una sesión no interactiva) y puede relanzar/tocar el `.ini` de
+PCSX2, que ahora mismo tiene una sesión viva con PINE conectado. Validarlo
+necesita una terminal interactiva y el emulador cerrado o en un momento en
+que reabrirlo no rompa nada en curso.
+
+---
+
 ## 2026-08-17 (26) — E4 cerrado: el arma del enemigo sale de un array paralelo, no del objeto de arma
 
 **Máquina:** PC, con PCSX2 vivo · **Modelo:** Opus (layout e hipótesis en territorio nuevo)

@@ -40,6 +40,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from salida import tolerar_salida_pobre  # noqa: E402
+import estado  # noqa: E402
 
 HERR = Path.home() / "herramientas"
 DESCARGAS = Path.home() / "Downloads"
@@ -107,8 +108,14 @@ BAJADAS_A_MANO = [
 
 # El proyecto NO quiere nada suyo adentro de OneDrive: sincroniza mientras el
 # emulador y git escriben, y ya fue sospechoso de dos muertes de PCSX2.
-RIESGOS_ONEDRIVE = [
-    ("data dir de PCSX2", Path.home() / "OneDrive" / "Documents" / "PCSX2"),
+#
+# La carpeta de savestates NO se hardcodea: se pregunta cuál es la real con
+# `estado.carpeta_savestates()` (la misma función que usan las herramientas
+# que leen savestates). Antes esto miraba si existía la ruta vieja
+# `~/OneDrive/Documents/PCSX2` y gritaba "ADENTRO DE ONEDRIVE" aunque PCSX2
+# llevara días escribiendo en otro lado — una copia vieja que sobrevive no
+# es lo mismo que "Documentos sigue redirigido hoy".
+RIESGOS_ONEDRIVE_ESTATICOS = [
     ("repo claude-acceso", Path(__file__).resolve().parents[2]),
 ]
 
@@ -178,10 +185,20 @@ def revisar_descargas() -> list[dict]:
 
 def revisar_onedrive() -> list[dict]:
     filas = []
-    for nombre, p in RIESGOS_ONEDRIVE:
-        dentro = "onedrive" in str(p).lower()
+
+    savestates = estado.carpeta_savestates()
+    if savestates:
+        p = Path(savestates)
+        filas.append({"nombre": "carpeta de savestates (en uso hoy)", "ruta": str(p),
+                      "existe": True, "en_onedrive": "onedrive" in str(p).lower()})
+    else:
+        filas.append({"nombre": "carpeta de savestates (en uso hoy)",
+                      "ruta": "ninguna candidata existe todavía",
+                      "existe": False, "en_onedrive": False})
+
+    for nombre, p in RIESGOS_ONEDRIVE_ESTATICOS:
         filas.append({"nombre": nombre, "ruta": str(p),
-                      "existe": p.exists(), "en_onedrive": dentro})
+                      "existe": p.exists(), "en_onedrive": "onedrive" in str(p).lower()})
     return filas
 
 
