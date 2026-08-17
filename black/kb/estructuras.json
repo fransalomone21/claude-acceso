@@ -336,6 +336,15 @@
             "descripcion": "EL DANO. Con falloff = 1 es el dano constante. Nombre tomado del esquema del propio ejecutable (0x00400918 = 'Power')."
           },
           {
+            "offset": "0x20",
+            "tipo": "f32",
+            "id": "tiempo_entre_balas",
+            "confianza": "confirmado",
+            "descripcion": "SEGUNDOS ENTRE BALAS DENTRO DE UNA RAFAGA. Nombre tomado del esquema del propio ejecutable ('Time Between Bullets', 0x00400920). Valores por arma: 0.05 el fusil, 0.059, 0.06, 0.07, 0.1, 0.15, 0.3, 1.0, y 3.5 el RPG. NO gobierna el volumen total de fuego: eso lo gobierna el ciclo de cubrirse y recargar, que es independiente.",
+            "confirmado_por": "EFECTO, 2026-08-17, con herramientas/experimento.py. Diseno: savestate como condicion inicial repetible, vida inflada a 1e6 para que la muerte no truncara la ventana, 4 repeticiones alternando A/B de 35 s, y prediccion registrada ANTES de correr. La metrica correcta no son los impactos por minuto sino el hueco DENTRO de la rafaga, separado del hueco entre rafagas: la observacion de que los enemigos disparan, se cubren y recargan implica que el volumen total lo gobierna el ciclo de cobertura y no la cadencia. Resultado con factor 0.2: hueco intra-rafaga 133.17 ms (+-0.04) -> 66.53 ms (+-0.08), o sea 555 dispersiones de separacion; hueco entre rafagas 850 -> 1017 ms, que NO supera el ruido, exactamente como predijo la hipotesis. Replicas: 158/157/158/159 impactos en control y 238/237/238/240 en tratamiento. Informe crudo en volcados/exp-cadencia-0x20.json.",
+            "cuantizacion": "LA CADENCIA ESTA CUANTIZADA A FRAMES Y TIENE PISO. 133.2 ms son 4 frames a 30 fps y 66.6 ms son 2. Se pidio un factor 0.2 y el motor entrego 0.5: el piso observado es de 2 frames, o sea ~15 disparos por segundo. Consecuencia de diseno: este campo tiene un TECHO de dificultad y bajarlo mas alla de 2 frames no hace nada."
+          },
+          {
             "offset": "0x1C",
             "tipo": "f32",
             "id": "falloff",
