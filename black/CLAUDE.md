@@ -67,6 +67,8 @@ Todas tienen `--help` y se corren desde `black/`.
 | `mips.py` | ensamblar/desensamblar R5900. **No decodifica FPU** — para eso, `capstone` (ver `docs/05-iso.md`) |
 | `decompilar.py` | **Ghidra desde Python: el ELF en C.** Correr `info` primero — trae el control positivo |
 | `tablas.py` | buscar tablas en frío sobre el ELF o un volcado, sin partir de un dato conocido |
+| `lbas.py` | la tabla de LBAs del ISO, y buscarlos en un binario **con control positivo y piso de ruido**. Con eso se cerró 6.1 |
+| `parche_iso.py` | **el mod permanente**: editar un archivo adentro del ISO, in-place, sin reconstruirlo. `preparar` / `armas` / `verificar` |
 | `awd.py` | los `.AWD` de audio vía vgmstream. Ahí están los nombres que puso Criterion |
 | `clases.py` | clases de entidad por vtable: qué objetos hay de cada clase y cuál es su rutina de daño |
 | `estado.py` | leer `eeMemory.bin` de un savestate |

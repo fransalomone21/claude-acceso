@@ -35,8 +35,11 @@ mapa manda**.
 ```
 N0  OBJETIVO       Modificar BLACK con criterio, y que el cambio sobreviva
                    a cerrar el emulador.
-     └─ cierra cuando exista un artefacto (ISO o pnach) que alguien más
-        pueda usar sin repetir la investigación.
+     └─ CUMPLIDO el 2026-08-17 para la tabla de armas: existe
+        `Black-mod-armas.iso` (artefacto) y `herramientas/parche_iso.py`
+        (el procedimiento repetible que lo produce), y el efecto está
+        confirmado en RAM tras arrancar ese ISO. Sigue abierto para
+        cualquier OTRA cosa que se quiera modificar.
 
 N1  CAPACIDADES    Cuatro, independientes entre sí.
      ├─ A. LEER LA MÁQUINA VIVA .......................... CERRADA
@@ -45,9 +48,11 @@ N1  CAPACIDADES    Cuatro, independientes entre sí.
      │     Ghidra + r5900, 9842 funciones. Y desde 2026-08-16,
      │     la RAM viva ADENTRO de Ghidra (`decompilar.py estado`).
      ├─ C. LEER EL ISO ................................... ABIERTA  <-- acá estamos
-     │     Contenedor .BIN resuelto. Faltan .WDD .DB .BKS .SSH .SLB.
-     └─ D. ESCRIBIR .......................................ABIERTA
-           pnach: listo para probar. ISO permanente: falta el in-place.
+     │     Contenedor .BIN resuelto, LBAs resueltos (6.1).
+     │     Faltan .WDD .DB .BKS .SSH .SLB.
+     └─ D. ESCRIBIR ...................................... CERRADA
+           pnach: listo para probar. ISO permanente: **anda**, in-place,
+           confirmado por efecto (`parche_iso.py`).
 
 N2  FASES DEL JUEGO
      0  entorno ........................................... cerrada
@@ -61,12 +66,12 @@ N2  FASES DEL JUEGO
      6  exprimir el ISO ................................... ABIERTA, es la prioridad
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
-     6.1  ¿el ELF tiene LBAs hardcodeados?  -> decide in-place vs rebuild
+     6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo
      6.2  .DB  : firma '..FT' en 6-7        -> qué son los 139 archivos
      6.3  .WDD : byte1 = 0x02, 16K/64K      -> qué es el byte 0
      6.4  .SLB : magia "KING"               -> buscar el formato por esa magia
      6.5  patrón de ImHex del contenedor .BIN -> commitear en `patrones/`
-     6.6  parche in-place de GLOBDATA.BIN sobre una COPIA del ISO
+     6.6  parche in-place de GLOBDATA.BIN .. CERRADA, confirmado por efecto
 ```
 
 **Por qué 5a está parqueada:** Fran decidió el 2026-08-16 exprimir el ISO
@@ -75,22 +80,48 @@ y es media hora de trabajo cuando se retome; no se perdió nada.
 
 ---
 
-## Fase 6 — el ISO. Lo que se sabe al 2026-08-16
+## Fase 6 — el ISO. Lo que se sabe al 2026-08-17
 
-### El hallazgo que decide el camino de escritura
+### 6.1 CERRADA — el ELF **no** lleva LBAs horneados
 
-Reconstruir un ISO de PS2 **reasigna los LBA de todos los archivos**, aunque
-no cambie ningún byte de contenido. Y en la era PS2 era práctica corriente que
-el ejecutable llevara **LBAs hardcodeados** en vez de leer la TOC de ISO9660.
-Un ISO reconstruido puede arrancar bien y fallar tres niveles después, sin
-decir por qué.
+La pregunta era si el juego lee sectores escritos a mano, porque eso cerraría
+`mkps2iso` como camino. **No los lee.** Resuelve por nombre contra la TOC, en
+runtime, vía `IOP/GTFSCDVD.IRX` (módulo `gtfsdvd`, el sistema de archivos de
+Criterion), que importa `cdvdman` y falla con `Error reading TOC` /
+`ERROR: Exceeded maximum files per disk (%d)`. Un LBA horneado no necesitaría
+leer ninguna TOC.
 
-**Conclusión: el parche in-place es el camino, y no por comodidad.** Los
-`Power` son f32 de 4 bytes; el archivo no cambia de tamaño, el layout no se
-toca, los LBA quedan donde estaban. `mkps2iso` es el plan B.
+Medición, con control positivo y piso de ruido del mismo rango numérico:
+**0 de 1644 valores** aparecen como inmediato `lui`+`ori`/`addiu` en el ELF
+(31.760 `lui` indexados), y los literales sueltos están al nivel de los
+señuelos, desalineados y en `.text`. El detalle completo, los números y las
+dos trampas que hubo que desactivar están en **`docs/05-iso.md`**.
 
-**Tarea 6.1, la que decide todo:** buscar LBAs hardcodeados en el ELF. Si los
-hay, "reconstruir el ISO" pasa a callejón cerrado formalmente.
+**El parche in-place sigue siendo el camino preferido** —no cambia el layout,
+ni la TOC, ni el CRC del ELF, así que los savestates y los `.pnach` siguen
+valiendo— pero ahora por razones medidas. `mkps2iso` queda **abierto** como
+plan B, con tres condiciones anotadas en `docs/05-iso.md`.
+
+### 6.6 CERRADA — el mod permanente funciona, confirmado por efecto
+
+`herramientas/parche_iso.py` edita un archivo **adentro** del ISO sin
+reconstruirlo: `offset_en_el_iso = LBA * 2048 + offset_en_el_archivo`.
+
+Artefacto vivo: **`Black-mod-armas.iso`**, al lado del original, con los 17
+`Power` del bloque de IA en `5.0`. Verificado byte a byte contra el original:
+**17 rangos de diferencia, todos dentro de `GLOBDATA.BIN`, cero diferencias en
+la TOC.**
+
+**Confirmado por efecto el 2026-08-17:** se arrancó el emulador con ese ISO y
+la tabla de armas en RAM (`0x01742220`) trae `Power = 5` en los 17 registros
+del bloque de IA, con el bloque del jugador intacto. **La tabla ya está cargada
+antes de que el jugador tenga vida** (vida = `0.0`, pantalla de "press START"),
+o sea que sale de `GLOBDATA.BIN` al arrancar y **no** por stage.
+
+> **Trampa que hay que decir en voz alta: un savestate tapa el mod.** Restaura
+> la RAM entera, tabla de armas incluida, con los valores de antes del parche.
+> Para ver el efecto hay que empezar o seguir un nivel, no cargar un estado
+> guardado previo.
 
 ### Firmas de cabecera — `herramientas/firmas.py` (nueva)
 
@@ -136,12 +167,14 @@ geometría se traba, comparar contra el build de Xbox es una entrada barata.
 | **ImHex 1.38.1** (winget, va SIN `--scope user`) | **instalado 2026-08-16** |
 | ffmpeg 9.0 (winget `Gyan.FFmpeg`) | ya estaba |
 | vgmstream r2117 | instalado |
+| **`herramientas/lbas.py`** — tabla de LBAs del ISO y búsqueda con controles | **nueva 2026-08-17** |
+| **`herramientas/parche_iso.py`** — editar un archivo adentro del ISO, in-place | **nueva 2026-08-17** |
 
-**Bajado por Fran y pendiente de que lo corra ÉL:** `PCSX2-MCP-v1.0.0-win64`
-en `Descargas`, descomprimido, con `setup-mcp.bat`, el `pcsx2-mcp-server/` ya
-poblado y `node-v24.19.0-x64.msi` al lado. Trae un `pcsx2-qt.exe` sin firmar
-que reemplaza al emulador: bajarlo y ejecutarlo es decisión suya. Una vez que
-él lo corre, la sesión lo usa.
+**PCSX2-MCP: YA ESTÁ EN USO.** Fran lo ejecutó el 2026-08-16. El emulador que
+corre es su `pcsx2-qt.exe` (build `d75a0ad`), con DebugServer en 21512 y PINE
+en 28011, los dos verificados. El servidor MCP en sí (`pcsx2-mcp-server/`,
+Node) sigue sin levantarse — y **no hace falta**: `pine.py` y `depurador.py`
+cubren lectura, escritura, volcado, savestates y watchpoints.
 
 **La RAM viva adentro de Ghidra — funcionando desde el 2026-08-16.**
 `decompilar.py estado` carga un savestate sobre una **copia** del programa
@@ -211,6 +244,8 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 | **El daño de salida del jugador NO usa `Power`**: sale de `zona * 100.0` en `0x00142B90` | factores en 3.0 → mueren de UNA bala; parche releído después del test |
 | **Objeto de arma por tirador: `0x006DE770 + n*0x110`**, dueño en `+0x10` | volcado: `+0x10` = `0x005A8AB0` |
 | **Cola de daño diferido = global `0x00414AD0`** (16 registros de `0x20`) | `lui 0x41 + addiu 0x4AD0` en `0x0015B308` |
+| **MOD PERMANENTE EN EL ISO: anda.** Editar `GLOBDATA.BIN` in-place cambia el daño en pantalla | **2026-08-17. Cadena entera: 17 campos a `5.0` en el archivo → `Power = 5` en la tabla de RAM al arrancar → `vigilar.py` midió 24 impactos y los 24 son de exactamente `-5.0` (vida 750→630, salto constante, sin varianza). Antes del parche el escalón era `26.0`.** Serie en `volcados/vida-mod-armas.csv` |
+| **El ELF NO lleva LBAs horneados**; resuelve por nombre contra la TOC | 0/1644 inmediatos en el ELF con control positivo y piso de ruido; `gtfsdvd` lee la TOC. Ver `docs/05-iso.md` |
 | **Mapeo del ELF: `offset_archivo = vaddr - 0xFF000`**, un solo `PT_LOAD` | verificado 6/6 |
 | **Los breakpoints de EJECUCIÓN crashean el emulador**; los watchpoints no | `bp poner` mató el proceso |
 | Un volcado completo de los 32 MB por PINE tarda **~3 s** | medido 2026-08-16 |
@@ -238,7 +273,7 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
   trío `.BKS` (banco, hasta 117 MB) + `.SSH` (cabeceras) + `.SLB` (índice)
   parece ser un solo sistema. Sin verificar.
 
-## Estado de la máquina
+## Estado de la máquina — verificado 2026-08-17, madrugada
 
 - **Fuera del repo:** `C:\Users\frans\herramientas\ghidra_12.1.2_PUBLIC`
   (extensión EE en `Ghidra\Extensions\ghidra-emotionengine-reloaded`),
@@ -247,21 +282,40 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
   `/SLUS_213.76_estado`, la copia con la RAM viva encima**.
   `ghidra-proyectos` (sin el 2) tiene el análisis MALO de MIPS R6: no usarlo.
 - **Autorización vigente de Fran:** instalar lo que haga falta sin preguntar.
-- PCSX2 2.6.3, PINE en 28011. **ISO montado en `D:`.**
-- **Parche vivo en memoria** (se pierde al recargar): `0x0013BD20` en nop =
-  **vida infinita del jugador PUESTA**. Todo lo demás restaurado.
-- Savestates en `C:\Users\frans\OneDrive\Documents\PCSX2\sstates\`. El del
-  punto de trabajo es el **slot 6**.
+- **El emulador que corre es el de PCSX2-MCP**, no el de Program Files:
+  `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
+  (build `d75a0ad`). Trae DebugServer en 21512 y **PINE en 28011**, los dos
+  verificados andando. Fran ya lo ejecutó: dejó de ser "bajado sin incorporar".
+- **Los dos ISO, en la misma carpeta**
+  `C:\Program Files\PCSX2\PCSX2\games\Black [NTSC]\`:
+  `Black.iso` (original, 3.919.609.856 B, **no tocar nunca**) y
+  `Black-mod-armas.iso` (parcheado, mismo tamaño exacto).
+  Accesos directos en `C:\Users\frans\Desktop\BLACK\`:
+  `ABRIR-BLACK-ORIGINAL.bat` y `ABRIR-BLACK-MOD-ARMAS.bat`.
+- El original queda montado en `D:` para las herramientas que leen archivos
+  sueltos. `lbas.py` y `parche_iso.py` **no lo necesitan**: leen el `.iso`.
+- **Parches vivos en memoria: NINGUNO.** El emulador se reinició el 2026-08-17,
+  así que el nop de vida infinita en `0x0013BD20` **ya no está puesto**.
+- Savestates en **`C:\Users\frans\Documents\PCSX2\sstates\`** (ya NO en
+  OneDrive; la carpeta de OneDrive quedó con copias viejas y confunde).
+  Slot 6 = el punto de trabajo histórico. **Slot 9 = la partida que Fran tenía
+  abierta el 2026-08-16 a las 23:39**, guardada antes de reiniciar.
 
 ## Problemas abiertos
 
-- **ONEDRIVE.** `Escritorio`, `Documentos` e `Imágenes` siguen redirigidos a
-  `C:\Users\frans\OneDrive\`. El proceso de OneDrive **no está corriendo**, así
-  que el riesgo está dormido, pero el data dir de PCSX2 (savestates de 32 MB
-  sin comprimir) vive adentro y es **sospechoso principal de las dos muertes
-  de PCSX2 del 2026-08-15**. El repo sí está afuera y así tiene que quedar.
-  Script listo y sin correr: `herramientas/windows/sacar-de-onedrive.ps1`.
-  **Esto va en su propia sesión, no al final de una larga.**
+- ~~**ONEDRIVE.**~~ **RESUELTO, y `inventario.py` está dando un falso
+  positivo.** Los savestates nuevos se escriben en
+  `C:\Users\frans\Documents\PCSX2\sstates\` — o sea que `Documentos` ya no
+  está redirigido. Lo que queda en `C:\Users\frans\OneDrive\Documents\PCSX2\`
+  son **copias viejas** (la más reciente es del 2026-08-16 20:34) que nadie
+  actualiza. `inventario.py` mira si esa carpeta *existe* y por eso grita.
+  **Arreglar el chequeo**: tiene que mirar dónde escribe PCSX2 hoy, no si
+  sobrevive una carpeta vieja. Borrar las copias viejas es aparte y sin apuro.
+- **`vigilar.py` abría `kb/mapa-memoria.json` sin `encoding="utf-8"`** y sin
+  necesitarlo: cualquier `grabar --dir` moría con `UnicodeDecodeError` en
+  cp1252. Arreglado el 2026-08-17 (además ahora ni abre el kb si no hay
+  `--de-kb`). **Vale la pena barrer las otras herramientas buscando el mismo
+  `open()` sin encoding.**
 - **`pruebas/prueba_herramientas.py` borra `construido/.gitkeep`**, que está
   trackeado. Restaurarlo con `git checkout -- black/construido/.gitkeep`.
 - `armas.py`, `zonas.py`, `tablas.py`, `firmas.py` e `inventario.py` no tienen

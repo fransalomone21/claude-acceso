@@ -91,6 +91,159 @@ R5900 (`sq`/`lq`, que aparecen en el prólogo de casi toda función) y devuelve
 
 ---
 
+## ¿El ELF lleva LBAs horneados? — RESUELTO, NO (2026-08-16)
+
+**Era la tarea 6.1, y decidía el camino de escritura.** Reconstruir un ISO de
+PS2 reasigna el LBA de los 585 archivos aunque no cambie un byte de contenido.
+Si el juego llevara sectores escritos a mano, `mkps2iso` quedaba cerrado como
+camino y el parche in-place pasaba a ser el único. **No los lleva.** El plan B
+sigue vivo, con dos condiciones que están más abajo.
+
+### La geografía del disco, primero
+
+| | |
+|---|---|
+| archivos | 585 |
+| sectores declarados en el PVD | 1.913.872 (3,65 GiB) |
+| rango de LBA con datos | **1.050.000 .. 1.903.423** = `0x100590 .. 0x1D0B3F` |
+| antes del primer archivo | 1.050.000 sectores = **2,05 GiB de relleno** |
+
+Ese relleno de cabecera es deliberado: empuja los datos al **borde exterior**
+del DVD, que es donde el lector va más rápido. No es desperdicio, es layout.
+
+La tabla completa está en **`kb/lbas-iso.json`**, y se rehace con:
+
+```bash
+python herramientas/lbas.py tabla "<ruta>/Black.iso" --json kb/lbas-iso.json
+```
+
+### El confundido que había que desactivar antes de medir
+
+Los LBA de este ISO van de `0x100590` a `0x1D0B3F`. **El `.text` de BLACK va de
+`0x00100000` a `0x00396F47`.** O sea que *cualquier puntero a código del juego
+parece un LBA*, y también cualquier par de índices `u16` chicos empaquetados en
+un `u32`. Contar apariciones sin un piso de ruido del **mismo rango numérico**
+no mide nada.
+
+Por eso `lbas.py buscar` corre siempre con dos controles:
+
+- **positivo**: mete una aguja distintiva sacada del propio objetivo (no cero,
+  pocas apariciones) y verifica que el barrido la encuentre. Si eso falla,
+  cualquier "no hay LBAs" es un bug y no un hallazgo;
+- **negativo**: la **misma cantidad** de valores inventados del **mismo rango**,
+  buscados en las **mismas cinco codificaciones**.
+
+### La medición sobre el ELF
+
+`SLUS_213.76`, 3.371.868 bytes, base `0xFF000`. Conjunto real 1644 valores
+(585 LBA más sus vecinos ±1); conjunto señuelo 1644, semilla 20260816.
+Control positivo: aguja `0x70000C28` en el offset `0x1008`, 1 aparición,
+encontrada.
+
+| codificación | reales | señuelos |
+|---|---|---|
+| `u32` LE suelto | 31/1644 | 22/1644 |
+| `u32` BE suelto | 23/1644 | 12/1644 |
+| `LBA*2048` LE | 18/1644 | 13/1644 |
+| **inmediato `lui`+`ori`/`addiu`** | **0/1644** | **0/1644** |
+| inmediato del offset en bytes | 0/1644 | 0/1644 |
+
+**Forma de los 83 golpes literales: 11 alineados a 4, corrida contigua más
+larga = 1, y 74 de 83 adentro de `.text`.** Una tabla de LBAs es lo contrario:
+alineada, contigua y en `.data`. El leve exceso sobre los señuelos se explica
+solo: los LBA reales vienen en tríos consecutivos (`1068005/6/7`) porque se
+buscan con sus vecinos ±1, así que un mismo sitio de ruido marca tres valores;
+los señuelos son uniformes y marcan uno. Por sitio independiente, real ≈ ruido.
+
+> **La fila que más pesa es la de los inmediatos, y hay que entender por qué.**
+> Un valor de 32 bits **no existe como palabra contigua dentro del código**
+> MIPS: se arma con dos instrucciones de 16 bits. Buscar `u32` en `.text` no lo
+> vería nunca. Con 31.760 `lui` indexados y radio 16, **ni un solo par** arma un
+> LBA ni un offset de sector — ni de los reales ni de los inventados.
+>
+> Y antes de creerle a ese cero se falsificó el agujero obvio: el EE compila en
+> ABI de 64 bits y podría usar `daddiu` (opcode `0x19`), que el buscador no
+> mira. Se midió con qué opcode se completa cada `lui` del ELF:
+> `addiu` 9182, `lw` 6880, `ori` 5626, `sw` 573… **`daddiu`: cero apariciones.**
+> El buscador cubre las formas que este binario realmente usa.
+
+### El barrido de los 585 archivos, y la única corrida que asustaba
+
+`lbas.py buscar --profundo` sobre el ISO montado entero. La métrica de "exceso
+sobre el ruido" marca 408 archivos, y **eso es un artefacto de la métrica**, no
+un hallazgo: en bancos de audio y video de decenas de MB la estadística de
+bytes no es uniforme. Lo que discrimina de verdad es la **corrida contigua**.
+
+Sólo dos archivos tienen corridas ≥ 5: `LEVEL_06/UNIT_01.BIN` (10) y
+`LEVEL_04/UNIT_05.BIN` (8). **Se miraron los bytes, no se supuso.** La corrida
+de 10 es el valor `0x001D001D` repetido diez veces, rodeado de `0x001D0022`,
+`0x001D7722`, `0x051D001D`, `0x000A001D`: son **pares de índices `u16`** de la
+geometría que caen dentro de la ventana numérica de los LBA. No es una tabla de
+sectores.
+
+### La evidencia estructural: quién traduce ruta → sector
+
+Las dos anteriores son negativas. Esta es positiva, y es la que cierra.
+
+**Todo pedido de archivo del ELF es una ruta de texto con `printf`**, no un
+número:
+
+```
+GlobData.bin                              Levels\Level_%02u\LevelDat.bin
+Levels\Level_%02u\Unit_%02d.bin           Levels\Level_%02u\Stg_%04u\StLevel.bin
+Levels\Level_%02u\Stg_%04d\StUnit%02d.bin Language/Strings/Main%s.bin
+sound\streams\%s.ssh                      Export\FrontEnd\FEMain.bin
+```
+
+Y quien las resuelve es **`IOP/GTFSCDVD.IRX`**, un módulo del IOP cuyo nombre
+interno es **`gtfsdvd`** — el sistema de archivos propio de Criterion. Importa
+`cdvdman` (lectura de sectores cruda) y trae exactamente tres mensajes de
+error:
+
+```
+Error reading TOC
+ERROR: Exceeded maximum directories per disk (%d)
+ERROR: Exceeded maximum files per disk (%d)
+```
+
+Un módulo que **lee la TOC del disco y arma su tabla de archivos en memoria**,
+con un tope por disco. Eso es resolución en runtime. Un LBA horneado no
+necesitaría leer ninguna TOC, y un tope por disco no tendría sentido.
+
+### Veredicto y sus condiciones
+
+**`mkps2iso` NO está cerrado: sigue siendo un plan B viable.** Pero el parche
+in-place sigue siendo el camino preferido, y ahora por razones medidas y no por
+miedo:
+
+| | in-place | reconstruir |
+|---|---|---|
+| bytes que cambian | sólo los editados | el layout entero |
+| LBA de los 585 archivos | intactos | reasignados |
+| CRC del ELF (⇒ savestates y `.pnach`) | intacto | intacto si no se toca el ELF |
+| relleno de 2,05 GiB del borde exterior | intacto | **hay que reproducirlo a mano** |
+| sirve para agrandar un archivo | **no** | sí |
+
+Tres condiciones para el día que haya que reconstruir:
+
+1. **No exceder los máximos de `gtfsdvd`.** Reconstruir el mismo árbol no puede
+   excederlos; agregar archivos, sí. *Los números exactos no se sacaron* — ver
+   el hilo abierto de abajo.
+2. **Reproducir el relleno de cabecera** o aceptar que todo se corre al borde
+   interno del disco. No rompe nada, pero cambia el tiempo de búsqueda, y BLACK
+   transmite audio y video desde el disco.
+3. **No tocar el ELF**, o los savestates y los `.pnach` dejan de aplicar.
+
+> **Hilo abierto, anotado como tal.** Los máximos de archivos y directorios de
+> `gtfsdvd` no se pudieron leer en frío: un `.IRX` es un ELF **reubicable**, sus
+> inmediatos valen cero hasta que el cargador los parchea, así que reconstruir
+> pares `lui`/`addiu` sobre el archivo no da nada (se intentó: 1 sitio, y
+> apuntaba cuatro bytes adentro de una cadena). El camino que sí sirve es leer
+> el módulo **ya cargado** en la RAM del IOP con el juego corriendo. No es
+> urgente: sólo importa si algún día se agregan archivos al ISO.
+
+---
+
 ## Estructura
 
 585 archivos, 1,63 GB reales (el ISO son 3,9 GB con relleno).

@@ -63,10 +63,16 @@ def parsear_objetivo(texto: str) -> dict:
 
 
 def objetivos_de_kb(ids: list[str]) -> list[dict]:
+    # Sin ids no hay nada que buscar, y abrir el kb igual era el bug: cualquier
+    # invocación con --dir suelto moría leyendo un JSON que ni necesitaba.
+    if not ids:
+        return []
     ruta = os.path.join(KB, "mapa-memoria.json")
     if not os.path.exists(ruta):
         raise VigilarError(f"no existe {ruta}")
-    with open(ruta) as f:
+    # encoding EXPLÍCITO: el kb tiene acentos y la consola de Windows abre en
+    # cp1252, que se ahoga con el primer byte >= 0x80. Ver salida.py.
+    with open(ruta, encoding="utf-8") as f:
         mapa = json.load(f)
     por_id = {e["id"]: e for e in mapa.get("entradas", [])}
     salida = []
@@ -122,7 +128,7 @@ def grabar(objetivos: list[dict], hz: float, segundos: float, salida: str) -> st
 
 
 def analizar(ruta: str, columna: str | None, tolerancia: float) -> None:
-    with open(ruta) as f:
+    with open(ruta, encoding="utf-8", newline="") as f:
         filas = list(csv.DictReader(f))
     if not filas:
         raise VigilarError("el CSV está vacío")

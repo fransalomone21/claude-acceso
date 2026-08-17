@@ -16,6 +16,92 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-17 (25) — El mod permanente existe: 24 impactos de −5.0, y el ISO reconstruido no queda cerrado
+
+**Máquina:** PC, con PCSX2 vivo · **Modelo:** Sonnet, sin necesidad de subir
+
+**Objetivo:** tarea 6.1 — decidir con evidencia si el ELF lee LBAs
+hardcodeados, porque eso definía si `mkps2iso` seguía siendo un camino.
+
+**Resultado: 6.1 y 6.6 cerradas las dos, y el objetivo N0 del proyecto
+cumplido para la tabla de armas.**
+
+### 1. Los LBA: no están horneados. `mkps2iso` sigue vivo
+
+Herramienta nueva: **`herramientas/lbas.py`**. Saca la tabla real de LBAs del
+`.iso` con `pycdlib` —sin montarlo— y la busca en un binario en **cinco
+codificaciones**, con **control positivo** (una aguja distintiva del propio
+objetivo) y **control negativo** (la misma cantidad de valores inventados del
+mismo rango, en las mismas codificaciones).
+
+El resultado sobre el ELF: **0 de 1644 valores** aparecen como inmediato
+`lui`+`ori`/`addiu`, con 31.760 `lui` indexados. Los literales sueltos están al
+nivel de los señuelos, 11 de 83 alineados a 4, corrida contigua máxima 1, y 74
+de 83 adentro de `.text`.
+
+La evidencia positiva la dio **`IOP/GTFSCDVD.IRX`** (módulo `gtfsdvd`, el
+sistema de archivos de Criterion): importa `cdvdman` y trae `Error reading
+TOC`, `ERROR: Exceeded maximum directories per disk (%d)` y `ERROR: Exceeded
+maximum files per disk (%d)`. Lee la TOC y arma su tabla en runtime. Un LBA
+horneado no leería ninguna TOC. Números completos en `docs/05-iso.md`.
+
+### 2. El mod permanente, confirmado por efecto en las tres capas
+
+Herramienta nueva: **`herramientas/parche_iso.py`**. Edita un archivo adentro
+del ISO sin reconstruirlo: `offset_iso = LBA * 2048 + offset_en_el_archivo`.
+Los tres pasos están separados (`preparar` / `armas` / `verificar`) para que
+ninguna invocación sola pueda escribirle al original.
+
+```
+17 campos a 5.0 en GLOBDATA.BIN
+  -> diff: 17 rangos, todos en GLOBDATA.BIN, CERO en la TOC
+  -> arranque del ISO parcheado: Power = 5 en los 17 registros de IA en RAM
+  -> jugador quieto bajo fuego: 24 impactos, los 24 de exactamente -5.0
+```
+
+Antes del parche el escalón era **26.0**. Serie cruda en
+`volcados/vida-mod-armas.csv`.
+
+### 3. Dos cosas que la evidencia dio vuelta
+
+- **La tabla de armas NO se carga por stage.** Se carga al arrancar, desde
+  `GLOBDATA.BIN`: estaba completa en RAM en la pantalla de "press START", con
+  el jugador todavía en vida `0.0`. La ficha del `kb` decía lo contrario y
+  quedó corregida.
+- **OneDrive ya no es un problema y `inventario.py` da un falso positivo.**
+  Los savestates nuevos se escriben en `C:\Users\frans\Documents\PCSX2\`. Lo
+  que queda en OneDrive son copias viejas que nadie actualiza.
+
+**No funcionó:**
+
+- **El primer veredicto de `lbas.py` estaba mal calibrado y decía "por encima
+  del ruido".** Yo había expandido el conjunto real con los vecinos ±1 (1644
+  valores) y dejado 600 señuelos: comparaba conjuntos de distinto tamaño. Con
+  los dos en 1644, la señal desaparece. **Un control negativo mal dimensionado
+  fabrica hallazgos.**
+- **El control positivo inicial no probaba nada**: la aguja sacada del offset
+  `0x1000` valía `0x00000000`, que aparece en todos lados. Ahora la herramienta
+  elige una aguja no nula y de pocas apariciones.
+- **Reconstruir pares `lui`/`addiu` sobre un `.IRX` no sirve.** Un IRX es un
+  ELF *reubicable*: los inmediatos valen cero hasta que el cargador los
+  parchea. Por eso no se pudieron sacar en frío los máximos de archivos y
+  directorios de `gtfsdvd`. Camino que sí serviría: leer el módulo ya cargado
+  en la RAM del IOP.
+- **Las corridas de 10 y 8 golpes en `UNIT_01.BIN` / `UNIT_05.BIN` asustaron
+  media hora.** Se miraron los bytes: es `0x001D001D` repetido, o sea pares de
+  índices `u16` de la geometría que caen en la ventana numérica de los LBA.
+  Ruido, pero sólo se supo mirándolo.
+- **`vigilar.py` estaba roto en Windows** y nadie lo había notado: abría
+  `kb/mapa-memoria.json` sin `encoding="utf-8"` —y sin necesitarlo— así que
+  cualquier `grabar --dir` moría con `UnicodeDecodeError`. Arreglado, más otros
+  cuatro `open()` en modo texto sin encoding en `escanear.py` y `pnach.py`.
+
+**Sigue:** las cuatro tareas de formato que quedan de la Fase 6 — 6.2 (`.DB`),
+6.3 (`.WDD`), 6.4 (`.SLB`) y 6.5 (patrón de ImHex). Y, cuando se retome el
+emulador, la Fase 5b: qué elige la zona de impacto.
+
+---
+
 ## 2026-08-16 (24) — El instrumental: Ghidra decompila el ELF, y con eso cayó el formato del contenedor
 
 **Máquina:** notebook (sin PCSX2) · **Modelo:** Opus
