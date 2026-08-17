@@ -591,6 +591,98 @@ tampoco se usó. Dos herramientas útiles paradas por la misma causa.
 
 ---
 
+## Un control mal dimensionado fabrica hallazgos
+
+**Origen.** Buscando LBAs hardcodeados en un ejecutable, el conjunto real se
+expandió con los vecinos ±1 —1644 valores— y el de señuelos quedó en 600. La
+herramienta informó "los valores reales aparecen POR ENCIMA del ruido" y era
+mentira: por valor, las dos tasas eran idénticas. Con los dos conjuntos en
+1644, la señal desaparecía.
+
+En la misma corrida, el control positivo tampoco probaba nada: la aguja se
+sacaba de un offset fijo y ahí había `0x00000000`, que aparece miles de veces.
+"Aguja encontrada" era verdad y era inútil.
+
+**Cómo aplicarla.** Un control vale sólo si es simétrico con lo que compara:
+
+- el **negativo** tiene que tener **la misma cantidad de elementos, del mismo
+  rango, buscados en las mismas codificaciones**. Si expandís el conjunto real,
+  expandí el señuelo;
+- el **positivo** tiene que ser **distintivo**: no nulo, pocas apariciones. Una
+  aguja que está en todos lados no prueba que el detector funcione.
+
+Y el corolario: cuando el rango de lo que buscás coincide con el rango de algo
+abundante en el material —ahí, los LBA caían justo en el rango de direcciones
+del `.text`—, sin señuelos del mismo rango no estás midiendo nada.
+
+## La dirección base de un volcado es parte de la medición
+
+**Origen.** Se volcó la RAM con `pine.py volcar 0x00100000 ...` y se analizó
+con herramientas que asumen que el byte 0 del archivo es la dirección 0. Todo
+apareció `0x100000` más abajo. Se llegó a escribir en el `kb` que "el heap se
+corrió entre sesiones" y a *arreglar* otra herramienta con esa premisa falsa.
+No se había movido nada.
+
+**Lo que costó:** una hora, un dato falso a punto de quedar commiteado, y una
+herramienta modificada con una justificación inventada.
+
+**Cómo aplicarla.** Un volcado sin su dirección base es un archivo de bytes sin
+significado. Anotala junto al archivo, y si una herramienta la asume, que
+**avise sola** cuando no se cumple (`pine.py volcar` ahora lo hace). Y ante un
+"esto se movió": antes de creerle al mundo, revisá el instrumento — un
+desplazamiento constante y redondo es casi siempre de la medición.
+
+## La métrica equivocada no falsifica: mide otra cosa con cara de resultado
+
+**Origen.** Para probar si un campo era la cadencia de tiro enemiga se midieron
+**impactos por minuto**. No dio diferencia, y la conclusión iba a ser "no es la
+cadencia". Mirando la pantalla, Fran señaló que los enemigos disparan, **se
+cubren y recargan**: o sea que el volumen total lo gobierna el ciclo de
+cobertura, no el tiempo entre balas. Separando los intervalos en dos
+poblaciones —huecos cortos dentro de la ráfaga, huecos largos entre ráfagas— el
+efecto apareció con 555 dispersiones de separación y varianza de ±0.04 ms.
+
+**Cómo aplicarla.** Antes de medir, escribí **por qué mecanismo** la variable
+debería llegar a la métrica. Si en el camino hay un proceso que domina, la
+métrica no puede ver el efecto, y un negativo no significa nada. Preguntale al
+que mira el sistema funcionando qué está pasando: esa observación vale más que
+otra corrida.
+
+## La ventana de medición tiene que sobrevivir al modo de falla
+
+**Origen.** Un A/B de 60 s por condición sobre "el jugador bajo fuego": murió a
+los 55 s de la condición A, y la condición B entera midió una pantalla de
+derrota. Sesenta segundos de un número quieto, y el experimento entero perdido.
+
+**Cómo aplicarla.** Preguntá qué puede **terminar** la ventana antes de tiempo
+y desactivalo, aunque sea artificialmente. Acá se resolvió inflando la vida a
+un millón: **la vida dejó de ser la vida y pasó a ser un contador de impactos**.
+De paso desapareció el ruido de la regeneración. Un instrumento puede usar una
+variable del sistema para algo distinto de lo que el sistema la usa.
+
+## Buscá si la respuesta ya está escrita antes de inferirla
+
+**Origen.** Con el objetivo de mapear dos estructuras de ~550 campos, el plan
+era peinar offsets cruzando estadística y desensamblado. Fran lo cortó con una
+imagen: *antes de buscar el reloj grano por grano en la playa, fijate si no lo
+tenés puesto*. Dos chequeos de cinco minutos cambiaron el rumbo: el ejecutable
+**no** traía DWARF (`.debug_str` medía 1 byte) pero **sí** traía RTTI, y de ahí
+salieron 182 clases con nombre y jerarquía, mecánicamente.
+
+**Cómo aplicarla.** Antes de arrancar un trabajo de inferencia largo, gastá
+diez minutos en descartar que el artefacto ya contenga la respuesta: símbolos,
+información de depuración, RTTI, cadenas de esquema, tablas de reflexión,
+nombres de campo en `.rodata`. El costo es fijo y chico; el ahorro, si acierta,
+es de días. Y si no acierta, cerraste un callejón con evidencia en vez de
+sospecharlo.
+
+> Nota honesta sobre este caso: el RTTI resultó ser de una biblioteca de
+> terceros **linkeada pero muerta** —0 de 182 metaclases inicializadas—, así
+> que sirvió como mapa de diseño y no como manija de runtime. El chequeo siguió
+> valiendo la pena: costó minutos y cerró dos hipótesis con medición.
+
+---
+
 ## Protocolo para agregar una lección
 
 Una entrada nueva entra sólo si cumple las tres:
