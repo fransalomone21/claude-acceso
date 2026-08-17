@@ -12,6 +12,30 @@ estén escritos.
 Esto es distinto de la bitácora de un proyecto: la bitácora registra qué pasó
 en *ese* proyecto. Esto registra cómo trabajar mejor en *cualquiera*.
 
+## Las tres capas, y cuál dispara sola
+
+Este archivo es **la versión larga**: el caso concreto de cada lección, que es
+lo que hace que se reconozca la próxima vez. Es caro de leer entero, así que
+no se lee entero.
+
+| Capa | Archivo | Cuándo entra |
+|---|---|---|
+| Síntesis | `perfil-global/chequeo-de-trabajo.md` | **sola**, hook `SessionStart` |
+| Índice | `perfil-global/aprendizaje/lecciones.jsonl` | `aprender.py digesto` |
+| Historia | este archivo | cuando una lección aplica y hace falta el caso |
+
+Registrar una lección nueva **no es editar este archivo**:
+
+```
+python perfil-global\herramientas\aprender.py agregar --titulo ... \
+    --costo ... --sintoma ... --regla ... --grupo ... --proyecto ...
+```
+
+Eso escribe el índice desde cualquier carpeta de la máquina. Este archivo se
+edita a mano sólo cuando la lección **necesita su historia** para entenderse
+—que es el caso de casi todas las de abajo—, y ahí la entrada del índice
+apunta acá con su `ref`.
+
 ---
 
 ## 1. "No puedo" es una afirmación sobre el mundo y necesita evidencia
@@ -591,7 +615,7 @@ tampoco se usó. Dos herramientas útiles paradas por la misma causa.
 
 ---
 
-## Un control mal dimensionado fabrica hallazgos
+## 20. Un control mal dimensionado fabrica hallazgos
 
 **Origen.** Buscando LBAs hardcodeados en un ejecutable, el conjunto real se
 expandió con los vecinos ±1 —1644 valores— y el de señuelos quedó en 600. La
@@ -615,7 +639,7 @@ Y el corolario: cuando el rango de lo que buscás coincide con el rango de algo
 abundante en el material —ahí, los LBA caían justo en el rango de direcciones
 del `.text`—, sin señuelos del mismo rango no estás midiendo nada.
 
-## La dirección base de un volcado es parte de la medición
+## 21. La dirección base de un volcado es parte de la medición
 
 **Origen.** Se volcó la RAM con `pine.py volcar 0x00100000 ...` y se analizó
 con herramientas que asumen que el byte 0 del archivo es la dirección 0. Todo
@@ -632,7 +656,7 @@ significado. Anotala junto al archivo, y si una herramienta la asume, que
 "esto se movió": antes de creerle al mundo, revisá el instrumento — un
 desplazamiento constante y redondo es casi siempre de la medición.
 
-## La métrica equivocada no falsifica: mide otra cosa con cara de resultado
+## 22. La métrica equivocada no falsifica: mide otra cosa con cara de resultado
 
 **Origen.** Para probar si un campo era la cadencia de tiro enemiga se midieron
 **impactos por minuto**. No dio diferencia, y la conclusión iba a ser "no es la
@@ -648,7 +672,7 @@ métrica no puede ver el efecto, y un negativo no significa nada. Preguntale al
 que mira el sistema funcionando qué está pasando: esa observación vale más que
 otra corrida.
 
-## La ventana de medición tiene que sobrevivir al modo de falla
+## 23. La ventana de medición tiene que sobrevivir al modo de falla
 
 **Origen.** Un A/B de 60 s por condición sobre "el jugador bajo fuego": murió a
 los 55 s de la condición A, y la condición B entera midió una pantalla de
@@ -660,7 +684,7 @@ un millón: **la vida dejó de ser la vida y pasó a ser un contador de impactos
 De paso desapareció el ruido de la regeneración. Un instrumento puede usar una
 variable del sistema para algo distinto de lo que el sistema la usa.
 
-## Buscá si la respuesta ya está escrita antes de inferirla
+## 24. Buscá si la respuesta ya está escrita antes de inferirla
 
 **Origen.** Con el objetivo de mapear dos estructuras de ~550 campos, el plan
 era peinar offsets cruzando estadística y desensamblado. Fran lo cortó con una
@@ -680,6 +704,75 @@ sospecharlo.
 > terceros **linkeada pero muerta** —0 de 182 metaclases inicializadas—, así
 > que sirvió como mapa de diseño y no como manija de runtime. El chequeo siguió
 > valiendo la pena: costó minutos y cerró dos hipótesis con medición.
+
+---
+
+## 25. Un mecanismo de captura que vive en un proyecto captura un solo proyecto
+
+Una lección de proceso es, **por definición**, la que va a volver a pasar en
+otro proyecto — el punto 3 del protocolo de acá abajo. O sea: exactamente la
+clase de cosa que no puede guardarse adentro de uno.
+
+**Origen:** `aprender.py` se escribió en `black/herramientas/` y funcionaba
+perfecto: registro append-only, digesto para abrir sesión, sin duplicados. Y
+justamente porque funcionaba, el problema tardó en verse. Al revisarlo, el
+registro tenía **cinco lecciones, las cinco del mismo proyecto y del mismo
+día**, mientras esta skill —la global, la que se lee en cualquier repo— se
+seguía editando a mano, que es el nivel 1 de la tabla de la lección 11: el que
+sólo dispara si alguien se acuerda. Todo lo aprendido fuera de BLACK desde
+que la herramienta existe: cero entradas. No porque no hubiera lecciones, sino
+porque no tenían dónde caer.
+
+Y había un segundo error adentro del primero: el registro vivía en
+`black/kb/`. Correcto para BLACK, pero la versión global tenía la tentación de
+escribir en `~/.claude/`, que **no se commitea**. Un registro de aprendizaje
+que vive sólo en la máquina se pierde con la máquina.
+
+**Cómo aplicarla:** el instrumental que implementa una regla global vive donde
+vive la regla, no en el proyecto donde apareció por primera vez. Y su fuente de
+verdad es el repo; lo instalado en `~/.claude/` es una copia, con un puntero de
+vuelta al repo (`origen.txt`) para que escribir desde cualquier carpeta siga
+cayendo donde se respalda.
+
+**Corolario general:** cuando construyas una herramienta para un proceso,
+preguntate si el proceso es de *este* proyecto o de *cómo trabajás*. Si es lo
+segundo y la herramienta quedó adentro del proyecto, ya sabés cuál va a ser el
+síntoma: la herramienta anda bien y el registro está casi vacío.
+
+---
+
+## 26. Antes de adoptar un método traído de afuera, auditá qué parte ya corre
+
+Un documento externo bien escrito propone una arquitectura completa y suena
+toda nueva. Adoptarla entera duplica lo que ya tenías —y el duplicado se paga
+en cada respuesta, para siempre—; descartarla entera tira lo poco que era
+nuevo. Las dos salidas fáciles son caras.
+
+**Origen:** un documento de "pipeline metadev" de 116 líneas, escrito con
+otro modelo, proponía nueve mecanismos para el proyecto. Auditados uno por uno
+contra lo que ya corría: **cinco ya estaban implementados** (bucle de
+contexto = `ESTADO_ACTUAL`/`HANDOFF`/`kb`; bucle de metacognición =
+`aprender.py` + esta skill; system prompt duro = `CLAUDE.md` global + hooks;
+limpieza de historial = el cuadro de fase y su mensaje de retome;
+autorregulación de esfuerzo = `enrutador-modelo`), **uno estaba pero
+incompleto**, **dos eran nuevos y se adoptaron**, y **uno había que
+rechazarlo con razón**: un bloque de telemetría al final de cada respuesta que
+era, campo por campo, el cuadro de fase que ya va al principio — Hito Técnico
+= Fase, Calibración = Modelo, Saturación = Contexto, Payload = mensaje de
+retome. Agregarlo habría costado un bloque duplicado en **cada** respuesta a
+cambio de nada.
+
+**Cómo aplicarla:** auditá ítem por ítem y clasificá cada uno en cuatro
+cajones, por escrito: *ya está* (dónde) · *está pero roto o a medias* (qué
+falta) · *es nuevo* (dónde se implementa) · *no aplica* (por qué). El cajón
+que más se saltea es el segundo, y es el que importa: "ya está" dicho sin
+mirar es la forma más barata de dejar algo roto marcado como resuelto — la
+lección 19 al revés.
+
+**Y guardá la auditoría, no sólo la conclusión.** Si el documento vuelve a
+aparecer en seis meses —o lo trae otra persona— la pregunta va a ser la misma,
+y sin la tabla se rehace el trabajo entero. Acá quedó en
+`perfil-global/referencias/`, junto al documento original.
 
 ---
 

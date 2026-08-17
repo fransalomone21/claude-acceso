@@ -1,6 +1,20 @@
 #!/usr/bin/env python3
 """Autoaprendizaje del proyecto: registro append-only de lecciones de proceso.
 
+    DEPRECADO (2026-08-17). Usar la version GLOBAL:
+
+        python ..\\perfil-global\\herramientas\\aprender.py agregar ...
+        (o, desde cualquier carpeta de la maquina:
+         python %USERPROFILE%\\.claude\\herramientas\\aprender.py agregar ...)
+
+    Las 5 lecciones que habia en black/kb/aprendizaje.jsonl ya estan migradas
+    a perfil-global/aprendizaje/lecciones.jsonl. Este script se deja para
+    poder leer el historico; escribir aca crea una segunda fuente de verdad.
+
+    Por que: una leccion de proceso es, por definicion, la que va a volver a
+    pasar en OTRO proyecto. Guardada adentro de uno, no la ve nadie mas. Ver
+    la leccion 25 de /lecciones-aprendidas.
+
 Una leccion entra aca si costo tiempo por COMO se trabajo, no por lo que decia
 el codigo. Un bug en el juego va a la bitacora; "supuse quien disparaba y medi
 el experimento equivocado" va aca.

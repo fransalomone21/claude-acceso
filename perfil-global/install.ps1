@@ -20,6 +20,8 @@ $dest      = Join-Path $env:USERPROFILE '.claude'
 # https://code.claude.com/docs/en/skills#where-skills-live
 $skillsDir = Join-Path $dest 'skills'
 $hooksDir  = Join-Path $dest 'hooks'
+$herrDir   = Join-Path $dest 'herramientas'
+$aprDir    = Join-Path $dest 'aprendizaje'
 $now       = Get-Date -Format 'yyyyMMdd-HHmmss'
 $ok        = $true
 
@@ -43,6 +45,8 @@ if (-not (Test-Path $source)) {
 New-Item -ItemType Directory -Force -Path $dest      | Out-Null
 New-Item -ItemType Directory -Force -Path $skillsDir | Out-Null
 New-Item -ItemType Directory -Force -Path $hooksDir  | Out-Null
+New-Item -ItemType Directory -Force -Path $herrDir   | Out-Null
+New-Item -ItemType Directory -Force -Path $aprDir    | Out-Null
 Info "Carpetas destino verificadas."
 
 # --- 1. CLAUDE.md global ---
@@ -108,6 +112,7 @@ if (-not $skillDirs -or $skillDirs.Count -eq 0) {
 # y los acentos salen mojibake.
 $ganchos = @(
     @{ Evento = 'SessionStart';     Archivo = 'apertura-proyecto.md' },
+    @{ Evento = 'SessionStart';     Archivo = 'chequeo-de-trabajo.md' },
     @{ Evento = 'UserPromptSubmit'; Archivo = 'recordatorio-transversal.md' }
 )
 
@@ -132,6 +137,28 @@ if (-not (Test-Path $lanzadorSrc)) {
     Copy-Item $lanzadorSrc $lanzador -Force
     Ok "hooks\emitir-contexto.ps1 -> $hooksDir"
 }
+
+# --- 3b. Herramientas del perfil, y como vuelven al repo ---
+#
+# aprender.py se copia a ~/.claude/herramientas/ para poder invocarlo desde
+# CUALQUIER carpeta de la maquina, no solo desde este repo. Pero el registro
+# de lecciones NO vive en ~/.claude: vive en el repo, que es lo que se
+# commitea. origen.txt es como la copia instalada encuentra el camino de
+# vuelta. Sin el, una leccion aprendida en otro proyecto se escribiria en un
+# archivo local que nadie respalda -- que es exactamente el error que esta
+# herramienta existe para no repetir.
+$herrSrc = Join-Path $source 'herramientas'
+if (Test-Path $herrSrc) {
+    Copy-Item -Path (Join-Path $herrSrc '*') -Destination $herrDir -Recurse -Force
+    $n = @(Get-ChildItem -Path $herrDir -File).Count
+    Ok "herramientas\ -> $herrDir  ($n archivo(s))"
+} else {
+    Warn "No se encontro la carpeta herramientas\ en $source"
+}
+
+$origen = Join-Path $aprDir 'origen.txt'
+Set-Content -LiteralPath $origen -Value $RepoRoot -Encoding ascii
+Ok "origen.txt -> $origen  ($RepoRoot)"
 
 # --- 4. Registrar los hooks en settings.json ---
 $settingsPath = Join-Path $dest 'settings.json'
@@ -221,6 +248,36 @@ try {
 } catch {
     Warn "No se pudo actualizar settings.json automaticamente: $($_.Exception.Message)"
     Warn "Agregar el hook UserPromptSubmit a mano. Hay respaldo en $settingsPath.bak-$now"
+}
+
+# --- 5. El chequeo que se puede chequear ---
+#
+# chequeo-de-trabajo.md es la sintesis CURADA de las lecciones: sintetizar
+# requiere criterio, asi que no se genera sola. El riesgo obvio es que se
+# atrase -- que se registren lecciones nuevas y la unica capa que se lee sola
+# siga hablando de las viejas. Eso no se resuelve con disciplina: se resuelve
+# comparando el numero que declara el chequeo contra el registro real.
+# (Power of Ten #8 / leccion 11: mejor una regla que una herramienta pueda
+# chequear que una que dependa de acordarse.)
+$jsonl   = Join-Path $source 'aprendizaje\lecciones.jsonl'
+$chequeo = Join-Path $source 'chequeo-de-trabajo.md'
+
+if ((Test-Path $jsonl) -and (Test-Path $chequeo)) {
+    $reales = @(Get-Content -LiteralPath $jsonl |
+                Where-Object { $_.Trim().Length -gt 0 }).Count
+    $texto  = Get-Content -Raw -LiteralPath $chequeo
+    $m      = [regex]::Match($texto, '(\d+)\s+lecciones')
+
+    if (-not $m.Success) {
+        Warn "chequeo-de-trabajo.md no declara cuantas lecciones sintetiza."
+        Warn "Agregar 'las N lecciones' en la primera linea para poder chequearlo."
+    } elseif ([int]$m.Groups[1].Value -ne $reales) {
+        Warn "chequeo-de-trabajo.md dice $($m.Groups[1].Value) lecciones y el registro tiene $reales."
+        Warn "Hay lecciones sin foldear en la unica capa que se lee sola."
+        Warn "Revisar: python perfil-global\herramientas\aprender.py digesto"
+    } else {
+        Ok "chequeo-de-trabajo.md al dia ($reales lecciones)"
+    }
 }
 
 Write-Host ""

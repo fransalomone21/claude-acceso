@@ -6,7 +6,9 @@ proyecto las complementan; nunca las derogan.
 1. **Evidencia.** Hipótesis ≠ confirmado. "Confirmado" = efecto visto y
    registrado. Nada menos.
 2. **El repo es la memoria.** Nada existe si no está commiteado y pusheado.
-   El chat es efímero.
+   El chat es efímero. Pero el repo recuerda **lo que decidimos**, no **lo que
+   hay en el disco**: el estado de la máquina se mide, no se lee. Antes de
+   repetir que algo falta, mirá. (Lección 19.)
 3. **Modelo explícito.** Sonnet por defecto. Opus requiere `/model` consciente
    y una razón concreta: leer desensamblado, diseñar arquitectura, primera
    hipótesis en territorio desconocido.
@@ -44,6 +46,25 @@ proyecto las complementan; nunca las derogan.
    mensaje más para "guardar el estado" es cobrar un turno entero de contexto
    por algo que ya tenía que estar escrito.
 
+## Dónde vive esto, y qué memoria es cuál
+
+El perfil se edita en `perfil-global/` del repo `claude-acceso` y se instala
+con `perfil-global\install.ps1`. `~/.claude/` es una **copia instalada**: si
+algo se edita ahí, se pierde en la próxima instalación. Verificar con
+`perfil-global\verify-install.ps1` — que comprueba el efecto de los hooks
+corriéndolos por Git Bash, no que los archivos existan.
+
+| Memoria | Qué va | Vive en |
+|---|---|---|
+| Perfil global | cómo se trabaja, en cualquier proyecto | `perfil-global/` → `~/.claude/` |
+| Lecciones de proceso | lo que ya costó tiempo por *cómo* se trabajó | `perfil-global/aprendizaje/lecciones.jsonl` |
+| `CLAUDE.md` del proyecto | contrato de contexto e índice de qué leer | el repo del proyecto |
+| `kb/`, `ESTADO_ACTUAL`, `HANDOFF` | hechos y estado de *ese* proyecto | el repo del proyecto |
+| Auto-memoria de la sesión | preferencias sueltas del usuario | `~/.claude/projects/<ruta>/memory/` |
+
+Ante contradicción entre dos de ellas, gana la más específica y se corrige la
+otra en el mismo turno. Un dato que vive en dos lados diverge.
+
 ## Metodología completa
 
 Skill disponible: `/engineering-orchestrator`
@@ -73,8 +94,18 @@ Al cerrar cualquier tarea no trivial, **antes del commit**, correr este
 chequeo y actuar. No preguntar si conviene: hacerlo y reportarlo.
 
 1. **¿Falló algo por *cómo* se trabajó, no por lo que decía el código?**
-   → agregarlo a `/lecciones-aprendidas` (tiene el protocolo y el criterio
-   de qué entra y qué no).
+   → registrarlo, con la herramienta, no a mano:
+
+   ```
+   python perfil-global\herramientas\aprender.py agregar --titulo ... \
+       --costo ... --sintoma ... --regla ... --grupo ... --proyecto ...
+   ```
+
+   El síntoma se escribe **como se veía antes de entenderlo**: es la única
+   forma de reconocerlo la próxima vez. Corre desde cualquier carpeta de la
+   máquina y escribe siempre en el repo. El criterio de qué entra y qué no
+   está en `/lecciones-aprendidas`; si la lección necesita el caso completo
+   para entenderse, la versión larga va también a esa skill.
 2. **¿Se repitió una explicación o un procedimiento que ya se dio antes?**
    → convertirlo en skill con `skill-creator`.
 3. **¿Quedó algo mecánico que se hizo a mano?**

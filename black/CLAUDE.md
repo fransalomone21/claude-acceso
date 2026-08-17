@@ -106,13 +106,26 @@ Cambiá de modelo con `/model`. Fable queda fuera (consume créditos aparte).
 
 ## Autoaprendizaje — se corre solo, no se pregunta
 
-Al abrir: `python herramientas/aprender.py digesto`. Son cinco líneas y evitan
-repetir un error que ya costó tiempo.
+**Al abrir no hay que hacer nada:** el hook `SessionStart` del perfil global
+inyecta `chequeo-de-trabajo.md`, la síntesis de las 31 lecciones. Si hace
+falta el listado completo:
+`python ../perfil-global/herramientas/aprender.py digesto`.
 
 Al cerrar, si algo falló **por cómo se trabajó** y no por lo que decía el
-código: `python herramientas/aprender.py agregar --titulo ... --costo ...
---sintoma ... --regla ...`. El síntoma se escribe como se veía **antes** de
-entenderlo, que es la única forma de reconocerlo la próxima vez.
+código, se registra en el **registro global**, no en el del proyecto:
+
+```
+python ../perfil-global/herramientas/aprender.py agregar --proyecto black \
+    --grupo evidencia|busqueda|medicion|herramientas|proceso|entorno \
+    --titulo ... --costo ... --sintoma ... --regla ...
+```
+
+El síntoma se escribe como se veía **antes** de entenderlo, que es la única
+forma de reconocerlo la próxima vez.
+
+`herramientas/aprender.py` y `kb/aprendizaje.jsonl` quedan **deprecados**: sus
+5 lecciones ya están migradas al registro global. Escribir ahí crearía una
+segunda fuente de verdad. Ver lección 25 de `/lecciones-aprendidas`.
 
 ## Al cerrar cualquier sesión
 

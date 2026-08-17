@@ -19,22 +19,36 @@ contexto del proyecto, las reglas y el índice de qué leer según la tarea.
 
 ## `perfil-global/` — el perfil de Claude, no un proyecto
 
-Es la metodología transversal (skills, hook, lecciones aprendidas) que aplica
-a **cualquier** proyecto, no sólo a BLACK. Vive en esta rama por razones
-históricas: se creó acá.
+Es la metodología transversal (reglas, skills, hooks, lecciones aprendidas)
+que aplica a **cualquier** proyecto, no sólo a BLACK. Vive en esta rama por
+razones históricas: se creó acá.
+
+**El mapa está en [`perfil-global/README.md`](perfil-global/README.md)**: qué
+hay, en qué nivel de mecanismo vive cada regla, y las cinco cosas que hay que
+saber sin leer nada.
 
 Instalar o actualizar en una máquina:
 
 ```powershell
 .\perfil-global\install.ps1
+.\perfil-global\verify-install.ps1
 ```
 
 Copia el `CLAUDE.md` global, todas las skills (carpeta entera, incluidas sus
-`referencias/`), el `recordatorio-transversal.md`, y configura el hook
-`UserPromptSubmit` en `~/.claude/settings.json` — con respaldo previo y de
-forma idempotente.
+`referencias/`), los tres archivos que inyectan los hooks, `herramientas/` y
+el puntero `origen.txt` que las hace escribir de vuelta en este repo — con
+respaldo previo y de forma idempotente. `verify-install.ps1` comprueba el
+**efecto** de los hooks corriéndolos por Git Bash, no que los archivos estén.
 
-> **Pendiente conocido:** si algún día se reactiva otro proyecto en otra rama,
-> `perfil-global/` no va a estar ahí. La solución no es mergear ramas (los
-> proyectos no se mezclan) sino sacarlo a su propio repositorio. Mientras haya
-> un solo proyecto activo, no hace falta.
+> **Pendiente conocido, y ya no hipotético:** apareció `electronica-analogica/`
+> en el árbol de trabajo de esta rama (sin trackear, 2026-08-17), que es
+> justo la condición que este pendiente esperaba. `perfil-global/` aplica a
+> todo y su lugar natural es un repositorio propio; la solución no es mergear
+> ramas, porque los proyectos no se mezclan.
+>
+> Mientras tanto está mitigado, no resuelto: lo instalado en `~/.claude/`
+> funciona en cualquier carpeta de la máquina, y `~/.claude/aprendizaje/origen.txt`
+> hace que `aprender.py` escriba siempre en este repo aunque se lo invoque
+> desde otro lado. Lo que sigue roto el día que haya un repo separado de
+> verdad es **actualizar** el perfil desde allá. Sacarlo a su propio
+> repositorio es una decisión de Fran: implica un remoto nuevo.

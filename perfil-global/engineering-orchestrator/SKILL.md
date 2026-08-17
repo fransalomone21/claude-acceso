@@ -150,6 +150,11 @@ defecto; es caro y lento para tareas que no lo justifican.
   el contexto que hace falta para razonar el problema difícil.
 - **Limpiá al final de turno.** Si el turno generó datos intermedios en el
   chat, resumilos en el archivo correcto antes de cerrar.
+- **Segmentá con etiquetas cuando el prompt mezcla capas.** Cuando un mensaje
+  lleva a la vez contexto, código y restricciones, marcarlas
+  (`<contexto>`, `<codigo>`, `<restricciones>`) separa lo que hay que respetar
+  de lo que hay que procesar. Vale para prompts largos y heterogéneos; en un
+  pedido corto es ceremonia y no se usa.
 
 ---
 
@@ -306,6 +311,12 @@ OBJETIVO → CAMBIOS MÍNIMOS → VERIFICACIÓN → COSTO → BENEFICIO → STOP
 
 ## Verificación
 
+- **Primero: ¿esta sesión llega al entorno real?** Una sesión en la nube no
+  ve el emulador, el debugger ni los puertos de tu máquina; una sesión local
+  sí. Si el criterio de salida requiere un entorno al alcance de la máquina y
+  esta sesión no lo tiene, **decilo en vez de simular el resultado** — y
+  proponé lo que sí se puede hacer desde acá (escribir herramientas, leer
+  volcados ya commiteados, documentar).
 - Verificar en el entorno real, no sólo en revisión de código.
 - Si la tarea afecta una herramienta, correrla y mirar el output.
 - Si la tarea afecta comportamiento en vivo (PCSX2, PINE, debugger),

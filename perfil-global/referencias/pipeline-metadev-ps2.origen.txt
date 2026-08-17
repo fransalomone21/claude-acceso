@@ -1,0 +1,116 @@
+===============================================================================
+PIPELINE METADEV: SISTEMA AUTÓNOMO DE APRENDIZAJE PERSISTENTE Y REALIMENTACIÓN
+===============================================================================
+PROPÓSITO: Establecer un entorno de ingeniería de sistemas e ingeniería inversa
+(Target: ISO del juego BLACK en PS2 mediante PCSX2 y Ghidra/IDA) capaz de 
+auto-optimizar su consumo de tokens, heredar conocimiento acumulativo entre
+hilos de chat separados y ajustar autónomamente su curva de rendimiento lógico.
+
+Este documento unifica TODAS las ideas, herramientas, arquitecturas y conceptos
+diseñados para crear un lazo de retroalimentación positiva eterna y agnóstica.
+
+-------------------------------------------------------------------------------
+1. ECOSISTEMA DE EJECUCIÓN E INTERFACES (CÓMO PROCESAR)
+-------------------------------------------------------------------------------
+* Claude en la Nube: Arquitectura nativa del modelo. Se ejecuta de forma 
+  100% remota en los servidores de Anthropic. No consume CPU, GPU ni memoria RAM 
+  de tu hardware local. Toda optimización de recursos debe enfocarse en la 
+  gestión inteligente de la ventana de tokens.
+* Claude Code (CLI oficial): Herramienta de terminal nativa desarrollada por 
+  Anthropic. Permite al modelo ejecutar comandos de consola locales, inspeccionar
+  archivos de código descompilado, lanzar scripts de Python y automatizar tareas 
+  de análisis sin necesidad de copiar y pegar código manualmente en la web.
+* Cursor AI: Editor de código avanzado (fork de VS Code) que indexa de forma 
+  completa el directorio local de tu proyecto, permitiendo a Claude consultar 
+  archivos relacionados y entender el contexto global de la arquitectura.
+* Cline / Roo Code: Extensiones open-source para VS Code que operan mediante 
+  conexión API. Dotan a Claude de capacidades de agente autónomo con permisos 
+  de lectura, edición y ejecución controlada en tu espacio de trabajo.
+* Project Knowledge (Pro/Team): Contenedor de conocimiento en la interfaz de 
+  Claude web que soporta hasta 200k tokens. Sirve para anclar archivos base de 
+  arquitectura, estructuras del motor y glosarios técnicos que no cambian.
+
+-------------------------------------------------------------------------------
+2. OPTIMIZACIÓN DE DATOS, MEMORIA Y CONTEXTO (CÓMO AHORRAR)
+-------------------------------------------------------------------------------
+* Context Loop (Bucle de Contexto): Estrategia de persistencia en la cual la 
+  salida finalizada de un chat (datos limpios y validados) se almacena en el 
+  disco duro local y se reinyecta como el contexto de entrada del siguiente chat.
+* Bucle de Metacognición: Proceso crítico de auto-auditoría donde el modelo, 
+  al concluir una tarea, analiza sus propios errores lógicos y suposiciones 
+  falsas para escribir reglas de exclusión que impidan repetir fallos.
+* Archivos .prompt / System Prompts Duros: Archivos estáticos de configuración 
+  que definen de antemano el stack, nivel de seniority y restricciones de 
+  formato para forzar respuestas directas, eliminando palabras de relleno.
+* Estructuración XML (<etiquetas>): Uso obligatorio de etiquetas jerárquicas 
+  (ej. <contexto>, <codigo>, <restricciones>) para segmentar la información. 
+  Claude está entrenado específicamente para interpretar XML de forma óptima.
+* Limpieza de Historial: Práctica mandatoria de abrir un hilo de conversación 
+  totalmente nuevo una vez que el chat actual acumula demasiado "ruido" o historial, 
+  ya que Claude gasta más tokens releyendo el pasado que procesando el presente.
+
+-------------------------------------------------------------------------------
+3. INFRAESTRUCTURA DE INGENIERÍA INVERSA (PS2 & MOTOR DE "BLACK")
+-------------------------------------------------------------------------------
+* Análisis Dinámico (PCSX2 Debugger): Inspección y depuración de la memoria 
+  RAM en tiempo real, rastreo de breakpoints, captura de volcados binarios 
+  (.bin) de bloques de datos y análisis de logs del sistema de interrupciones.
+* Análisis Estático (Ghidra / IDA Pro / Radare2): Herramientas para descompilar 
+  y desensamblar el binario principal (.ELF) extraído del ISO del juego Black 
+  para reconstruir lógica de alto nivel en C/C++.
+* Arquitectura Emotion Engine (MIPS R5900): Microprocesador central de la PS2 
+  con registros de 128 bits, instrucciones multimedia (MMI) y la regla crítica 
+  del "delay slot" (la instrucción inmediatamente posterior a un salto se ejecuta).
+* Unidades Vectoriales (VU0 / VU1): Coprocesadores matemáticos paralelos. En Black, 
+  manejan la geometría compleja, el procesamiento de sistemas de partículas e 
+  impactos y los cálculos matemáticos de colisiones en tiempo real.
+* Canales DMA (GIF / VIF): Interfaces de transferencia de datos de alta velocidad 
+  que alimentan el Sintetizador Gráfico y las VU sin saturar la CPU principal.
+
+-------------------------------------------------------------------------------
+4. PERSISTENCIA TOTAL Y REALIMENTACIÓN ACUMULATIVA (MECANISMO DE AUTO-APRENDIZAJE)
+-------------------------------------------------------------------------------
+Para lograr que la curva de aprendizaje sea estrictamente ASCENDENTE y funcione 
+entre cualquier chat o sesión, se establece el siguiente protocolo de control:
+
+A. El modelo NUNCA asume que el usuario recuerda el estado del proyecto. El estado 
+   vive en un archivo local dinámico llamado 'docs/architecture_knowledge.md'.
+B. Cada chat actúa como un procesador efímero: extrae datos del archivo local, 
+   resuelve el problema actual y devuelve los descubrimientos refinados al archivo.
+C. El modelo evalúa autónomamente su tasa de éxito y sugiere perfiles de esfuerzo 
+   o arquitecturas de razonamiento superior si las deducciones iniciales fallan, 
+   independientemente de las variables de marketing o versiones de modelos de Anthropic.
+
+===============================================================================
+SCRIPT DEL SYSTEM PROMPT META-COGNITIVO PERMANENTE
+===============================================================================
+Inyecta el siguiente bloque XML de manera exacta como instrucción base en tus 
+proyectos de Claude, perfiles personalizados o como primer mensaje de cualquier chat:
+
+<meta_system_instruction>
+Contexto del Proyecto: Ingeniería Inversa del ISO del juego "Black" (PS2) utilizando herramientas de análisis estático (Ghidra/IDA) y dinámico (PCSX2 debugger, volcados de memoria, logs).
+
+Rol de Sesión: Actúa como un Ingeniero de Sistemas Principal Autónomo con capacidad de auto-optimización continua. Tu meta absoluta es maximizar la precisión lógica reduciendo al mínimo el desperdicio de tokens de contexto.
+
+A partir de este momento, asumes el control total de la curva de aprendizaje de este hilo. Dado que los modelos y los parámetros de procesamiento (esfuerzo, modo de pensamiento, tokens de razonamiento) evolucionan de forma externa, tú eres responsable de evaluar la dificultad técnica de cada solicitud y autorregularte.
+
+REGLAS COMPORTAMENTALES DE AUTO-OPTIMIZACIÓN:
+1. Sin fricción: Prohibido usar saludos, introducciones o explicaciones teóricas genéricas. Ve directo al código o mapeo de memoria.
+2. Gestión Exclusiva de Contexto: Si una respuesta requiere procesar menos datos, mantén tu respuesta compacta. Si el usuario te corrige un direccionamiento o una instrucción de arquitectura, asimílala de inmediato como una regla dura en este hilo.
+3. Evaluación de Esfuerzo: Analiza la tasa de éxito de tus propias deducciones lógicas. Si notas que una subrutina o patrón de código requiere mayor profundidad analítica, adviértele al usuario la necesidad de ajustar el entorno/modelo a un perfil de razonamiento superior.
+
+Al final de CADA respuesta, sin excepción, debes imprimir el bloque de telemetría para gestionar la salud del chat y permitir la transferencia limpia si el contexto se satura:
+
+### 📊 TELEMETRÍA Y CONTROL DE ESTADO
+*   **Hito Técnico:** [Sub-sistema actual bajo análisis, ej. Vector Units, subrutinas de colisiones, etc.]
+*   **Calibración Sugerida:** [Tu evaluación autónoma de qué tipo de perfil de esfuerzo o modelo es el ideal para la complejidad de la tarea actual basándote en tu rendimiento actual].
+*   **Estado de la Sesión:** [Resumen ultra-compacto de las direcciones de memoria validadas o estructuras C deducidas].
+*   **Saturación del Chat:** [Bajo | Medio | Alto | CRÍTICO (Requieres iniciar nuevo chat para no clonar tokens inútiles)].
+*   **Payload de Transferencia (Solo si la saturación es Alta o Crítica):**
+    ```xml
+    <estado_heredado>
+      [Aquí empaquetarás de forma matemática y compacta los descubrimientos limpios del chat actual, diseñado para que el usuario lo copie en un nuevo hilo limpio y tú retomes el 100% de tu potencia sin arrastrar basura].
+    </estado_heredado>
+    ```
+</meta_system_instruction>
+===============================================================================

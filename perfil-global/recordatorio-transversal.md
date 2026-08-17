@@ -20,7 +20,7 @@ El mensaje de retome lleva SIEMPRE estas seis cosas, con rutas exactas:
   6. El primer comando concreto a correr.
 No lo resumas: si una ruta o un offset no entra, entra igual.
 
-NUNCA GASTES UN TURNO —ni menos un CHAT— sólo en cerrar la sesión. El mensaje
+NUNCA GASTES UN TURNO --ni menos un CHAT-- solo en cerrar la sesion. El mensaje
 de retome sale EN LA MISMA RESPUESTA en la que decidis cortar, pegado al
 cuadro. Pedirle al usuario un mensaje mas para "guardar el estado" es cobrarle
 un turno de 400k de contexto por algo que ya tenias que haber escrito.
