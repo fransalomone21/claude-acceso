@@ -1,0 +1,1462 @@
+{
+ "elf": "C:\\Users\\frans\\herramientas\\SLUS_213.76",
+ "registrador": "0x00370168",
+ "clases": [
+  {
+   "nombre": "ComputeAccessWaysTraversal",
+   "mangleado": "26ComputeAccessWaysTraversal",
+   "metaclase": "0x0049BD20",
+   "padre": "0x0049BCC0",
+   "sitio": "0x00392E2C",
+   "padre_nombre": "Kaim::CGraphTraversal"
+  },
+  {
+   "nombre": "ComputeVisibilityTraversal",
+   "mangleado": "26ComputeVisibilityTraversal",
+   "metaclase": "0x0049BD30",
+   "padre": "0x0049BCC0",
+   "sitio": "0x00393264",
+   "padre_nombre": "Kaim::CGraphTraversal"
+  },
+  {
+   "nombre": "FindNearestEdgeTraversal",
+   "mangleado": "24FindNearestEdgeTraversal",
+   "metaclase": "0x0049BD00",
+   "padre": "0x0049BCC0",
+   "sitio": "0x00392B1C",
+   "padre_nombre": "Kaim::CGraphTraversal"
+  },
+  {
+   "nombre": "FindNearestLocallyVisibleTraversal",
+   "mangleado": "34FindNearestLocallyVisibleTraversal",
+   "metaclase": "0x0049BCF0",
+   "padre": "0x0049BCC0",
+   "sitio": "0x0039261C",
+   "padre_nombre": "Kaim::CGraphTraversal"
+  },
+  {
+   "nombre": "FindNearestVertexTraversal",
+   "mangleado": "26FindNearestVertexTraversal",
+   "metaclase": "0x0049BCD0",
+   "padre": "0x0049BCC0",
+   "sitio": "0x00391ED4",
+   "padre_nombre": "Kaim::CGraphTraversal"
+  },
+  {
+   "nombre": "FindNearestVisibleTraversal",
+   "mangleado": "27FindNearestVisibleTraversal",
+   "metaclase": "0x0049BCE0",
+   "padre": "0x0049BCC0",
+   "sitio": "0x0039226C",
+   "padre_nombre": "Kaim::CGraphTraversal"
+  },
+  {
+   "nombre": "Kaim::CAccessWaysData",
+   "mangleado": "Q24Kaim15CAccessWaysData",
+   "metaclase": "0x0049BD10",
+   "padre": "0x0049BB20",
+   "sitio": "0x00392D84",
+   "padre_nombre": "Kaim::CGraphData"
+  },
+  {
+   "nombre": "Kaim::CAction",
+   "mangleado": "Q24Kaim7CAction",
+   "metaclase": "0x0049B010",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038B514",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CActionAcceleration",
+   "mangleado": "Q24Kaim19CActionAcceleration",
+   "metaclase": "0x0049A9C8",
+   "padre": "0x0049A9D8",
+   "sitio": "0x00389874",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionActivate",
+   "mangleado": "Q24Kaim15CActionActivate",
+   "metaclase": "0x0049AB28",
+   "padre": "0x0049A9D8",
+   "sitio": "0x0038ABBC",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionAttribute",
+   "mangleado": "Q24Kaim16CActionAttribute",
+   "metaclase": "0x0049A9D8",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038995C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CActionAttributeClass",
+   "mangleado": "Q24Kaim21CActionAttributeClass",
+   "metaclase": "0x0049B030",
+   "padre": "0x0040EBD0",
+   "sitio": "0x0038B674",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CActionClass",
+   "mangleado": "Q24Kaim12CActionClass",
+   "metaclase": "0x0049B020",
+   "padre": "0x0040EBE8",
+   "sitio": "0x0038B5F4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CActionCrouch",
+   "mangleado": "Q24Kaim13CActionCrouch",
+   "metaclase": "0x0049A9E8",
+   "padre": "0x0049A9D8",
+   "sitio": "0x00389A24",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionHeadRotate",
+   "mangleado": "Q24Kaim17CActionHeadRotate",
+   "metaclase": "0x0049AB38",
+   "padre": "0x0049A9D8",
+   "sitio": "0x0038AC84",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionJump",
+   "mangleado": "Q24Kaim11CActionJump",
+   "metaclase": "0x0049A9F8",
+   "padre": "0x0049A9D8",
+   "sitio": "0x00389AEC",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionRotate",
+   "mangleado": "Q24Kaim13CActionRotate",
+   "metaclase": "0x0049AA08",
+   "padre": "0x0049A9D8",
+   "sitio": "0x00389BB4",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionShoot",
+   "mangleado": "Q24Kaim12CActionShoot",
+   "metaclase": "0x0049AA18",
+   "padre": "0x0049A9D8",
+   "sitio": "0x00389C7C",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionSpeed",
+   "mangleado": "Q24Kaim12CActionSpeed",
+   "metaclase": "0x0049AA28",
+   "padre": "0x0049A9D8",
+   "sitio": "0x00389D74",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionSteering",
+   "mangleado": "Q24Kaim15CActionSteering",
+   "metaclase": "0x0049AA38",
+   "padre": "0x0049A9D8",
+   "sitio": "0x00389E3C",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionTorsoRotate",
+   "mangleado": "Q24Kaim18CActionTorsoRotate",
+   "metaclase": "0x0049AB48",
+   "padre": "0x0049A9D8",
+   "sitio": "0x0038AD64",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CActionVerticalSpeed",
+   "mangleado": "Q24Kaim20CActionVerticalSpeed",
+   "metaclase": "0x0049AB58",
+   "padre": "0x0049A9D8",
+   "sitio": "0x0038AE44",
+   "padre_nombre": "Kaim::CActionAttribute"
+  },
+  {
+   "nombre": "Kaim::CAgent",
+   "mangleado": "Q24Kaim6CAgent",
+   "metaclase": "0x0049A948",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038BABC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CAgentClass",
+   "mangleado": "Q24Kaim11CAgentClass",
+   "metaclase": "0x0049B040",
+   "padre": "0x0040EBC8",
+   "sitio": "0x0038BB94",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CAllocator",
+   "mangleado": "Q24Kaim10CAllocator",
+   "metaclase": "0x0049B980",
+   "padre": "0x0049B970",
+   "sitio": "0x0038D720",
+   "padre_nombre": "Kaim::CBaseAllocator"
+  },
+  {
+   "nombre": "Kaim::CAllocator",
+   "mangleado": "Q24Kaim10CAllocator",
+   "metaclase": "0x0049B980",
+   "padre": "0x0049B970",
+   "sitio": "0x0038D7F0",
+   "padre_nombre": "Kaim::CBaseAllocator"
+  },
+  {
+   "nombre": "Kaim::CAllocator",
+   "mangleado": "Q24Kaim10CAllocator",
+   "metaclase": "0x0049B980",
+   "padre": "0x0049B970",
+   "sitio": "0x0038D9A4",
+   "padre_nombre": "Kaim::CBaseAllocator"
+  },
+  {
+   "nombre": "Kaim::CAstarData",
+   "mangleado": "Q24Kaim10CAstarData",
+   "metaclase": "0x0049BD40",
+   "padre": "0x0049BB20",
+   "sitio": "0x0039357C",
+   "padre_nombre": "Kaim::CGraphData"
+  },
+  {
+   "nombre": "Kaim::CBaseAllocator",
+   "mangleado": "Q24Kaim14CBaseAllocator",
+   "metaclase": "0x0049B970",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038D70C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CBaseAllocator",
+   "mangleado": "Q24Kaim14CBaseAllocator",
+   "metaclase": "0x0049B970",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038D7DC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CBaseAllocator",
+   "mangleado": "Q24Kaim14CBaseAllocator",
+   "metaclase": "0x0049B970",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038D884",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CBaseAllocator",
+   "mangleado": "Q24Kaim14CBaseAllocator",
+   "metaclase": "0x0049B970",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038D990",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CBaseAllocator",
+   "mangleado": "Q24Kaim14CBaseAllocator",
+   "metaclase": "0x0049B970",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038DAC0",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CBaseService",
+   "mangleado": "Q24Kaim12CBaseService",
+   "metaclase": "0x0049AB98",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038E714",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CBasicAllocator",
+   "mangleado": "Q24Kaim15CBasicAllocator",
+   "metaclase": "0x0049B990",
+   "padre": "0x0049B980",
+   "sitio": "0x0038D734",
+   "padre_nombre": "Kaim::CAllocator"
+  },
+  {
+   "nombre": "Kaim::CBrain",
+   "mangleado": "Q24Kaim6CBrain",
+   "metaclase": "0x0049B090",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038C36C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CBrainClass",
+   "mangleado": "Q24Kaim11CBrainClass",
+   "metaclase": "0x0049B0A0",
+   "padre": "0x0040EBF0",
+   "sitio": "0x0038C5DC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CBrainService",
+   "mangleado": "Q24Kaim13CBrainService",
+   "metaclase": "0x0049B950",
+   "padre": "0x0049AB98",
+   "sitio": "0x0038D3C4",
+   "padre_nombre": "Kaim::CBaseService"
+  },
+  {
+   "nombre": "Kaim::CBrainServiceClass",
+   "mangleado": "Q24Kaim18CBrainServiceClass",
+   "metaclase": "0x0049BA50",
+   "padre": "0x0040EC00",
+   "sitio": "0x0038E874",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CConstraint",
+   "mangleado": "Q24Kaim11CConstraint",
+   "metaclase": "0x0049BBB0",
+   "padre": "0x0049BBE0",
+   "sitio": "0x003909DC",
+   "padre_nombre": "Kaim::IConstraint"
+  },
+  {
+   "nombre": "Kaim::CConstraintConeVisionStealthPath",
+   "mangleado": "Q24Kaim32CConstraintConeVisionStealthPath",
+   "metaclase": "0x0049BB50",
+   "padre": "0x0049BBB0",
+   "sitio": "0x00390384",
+   "padre_nombre": "Kaim::CConstraint"
+  },
+  {
+   "nombre": "Kaim::CConstraintPointToFleePath",
+   "mangleado": "Q24Kaim26CConstraintPointToFleePath",
+   "metaclase": "0x0049BB60",
+   "padre": "0x0049BBB0",
+   "sitio": "0x00390424",
+   "padre_nombre": "Kaim::CConstraint"
+  },
+  {
+   "nombre": "Kaim::CConstraintShortestPath",
+   "mangleado": "Q24Kaim23CConstraintShortestPath",
+   "metaclase": "0x0049BB30",
+   "padre": "0x0049BBB0",
+   "sitio": "0x0039022C",
+   "padre_nombre": "Kaim::CConstraint"
+  },
+  {
+   "nombre": "Kaim::CConstraintShortestPath",
+   "mangleado": "Q24Kaim23CConstraintShortestPath",
+   "metaclase": "0x0049BB30",
+   "padre": "0x0049BBB0",
+   "sitio": "0x003904E8",
+   "padre_nombre": "Kaim::CConstraint"
+  },
+  {
+   "nombre": "Kaim::CConstraintStealthPath",
+   "mangleado": "Q24Kaim22CConstraintStealthPath",
+   "metaclase": "0x0049BB40",
+   "padre": "0x0049BBB0",
+   "sitio": "0x003902DC",
+   "padre_nombre": "Kaim::CConstraint"
+  },
+  {
+   "nombre": "Kaim::CData",
+   "mangleado": "Q24Kaim5CData",
+   "metaclase": "0x0049B080",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038C8EC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CDataReader",
+   "mangleado": "Q24Kaim11CDataReader",
+   "metaclase": "0x0049BFB0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00396F1C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CDynamicAvoidanceClass",
+   "mangleado": "Q24Kaim22CDynamicAvoidanceClass",
+   "metaclase": "0x0049BE80",
+   "padre": "0x0040EC38",
+   "sitio": "0x00394984",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CEntity",
+   "mangleado": "Q24Kaim7CEntity",
+   "metaclase": "0x0049B4E8",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038CB7C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CEntityAttribute",
+   "mangleado": "Q24Kaim16CEntityAttribute",
+   "metaclase": "0x0049AA58",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00389FE4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CEntityAttributeClass",
+   "mangleado": "Q24Kaim21CEntityAttributeClass",
+   "metaclase": "0x0049B528",
+   "padre": "0x0040EBD8",
+   "sitio": "0x0038CEE4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CEntityCanFly",
+   "mangleado": "Q24Kaim13CEntityCanFly",
+   "metaclase": "0x0049AA48",
+   "padre": "0x0049AA58",
+   "sitio": "0x00389F04",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityClass",
+   "mangleado": "Q24Kaim12CEntityClass",
+   "metaclase": "0x0049B518",
+   "padre": "0x0040EBF8",
+   "sitio": "0x0038CE64",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CEntityDefinition",
+   "mangleado": "Q24Kaim17CEntityDefinition",
+   "metaclase": "0x0049B050",
+   "padre": "0x0049B080",
+   "sitio": "0x0038BF2C",
+   "padre_nombre": "Kaim::CData"
+  },
+  {
+   "nombre": "Kaim::CEntityEyePosition",
+   "mangleado": "Q24Kaim18CEntityEyePosition",
+   "metaclase": "0x0049AA68",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A0AC",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityGunPosition",
+   "mangleado": "Q24Kaim18CEntityGunPosition",
+   "metaclase": "0x0049AA78",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A1A4",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityHeadDirection",
+   "mangleado": "Q24Kaim20CEntityHeadDirection",
+   "metaclase": "0x0049AA88",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A29C",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityHearingAcuteness",
+   "mangleado": "Q24Kaim23CEntityHearingAcuteness",
+   "metaclase": "0x0049AA98",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A394",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityHeight",
+   "mangleado": "Q24Kaim13CEntityHeight",
+   "metaclase": "0x0049AAA8",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A474",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityKneePosition",
+   "mangleado": "Q24Kaim19CEntityKneePosition",
+   "metaclase": "0x0049AAB8",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A55C",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityLength",
+   "mangleado": "Q24Kaim13CEntityLength",
+   "metaclase": "0x0049AAC8",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A654",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityManager",
+   "mangleado": "Q24Kaim14CEntityManager",
+   "metaclase": "0x0049BEC0",
+   "padre": "0x0049B950",
+   "sitio": "0x00394D4C",
+   "padre_nombre": "Kaim::CBrainService"
+  },
+  {
+   "nombre": "Kaim::CEntityMaxSpeed",
+   "mangleado": "Q24Kaim15CEntityMaxSpeed",
+   "metaclase": "0x0049AAD8",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A73C",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityTeamSide",
+   "mangleado": "Q24Kaim15CEntityTeamSide",
+   "metaclase": "0x0049AAE8",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A81C",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityTorsoOrientation",
+   "mangleado": "Q24Kaim23CEntityTorsoOrientation",
+   "metaclase": "0x0049AAF8",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A8E4",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityVisualAcuteness",
+   "mangleado": "Q24Kaim22CEntityVisualAcuteness",
+   "metaclase": "0x0049AB08",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038A9BC",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CEntityWidth",
+   "mangleado": "Q24Kaim12CEntityWidth",
+   "metaclase": "0x0049AB18",
+   "padre": "0x0049AA58",
+   "sitio": "0x0038AAD4",
+   "padre_nombre": "Kaim::CEntityAttribute"
+  },
+  {
+   "nombre": "Kaim::CFindNearestData",
+   "mangleado": "Q24Kaim16CFindNearestData",
+   "metaclase": "0x0049BB10",
+   "padre": "0x0049BB20",
+   "sitio": "0x0038FFA4",
+   "padre_nombre": "Kaim::CGraphData"
+  },
+  {
+   "nombre": "Kaim::CFleeAgent",
+   "mangleado": "Q24Kaim10CFleeAgent",
+   "metaclase": "0x0049A908",
+   "padre": "0x0049A948",
+   "sitio": "0x00389274",
+   "padre_nombre": "Kaim::CAgent"
+  },
+  {
+   "nombre": "Kaim::CFollowerAgent",
+   "mangleado": "Q24Kaim14CFollowerAgent",
+   "metaclase": "0x0049A958",
+   "padre": "0x0049A948",
+   "sitio": "0x003894B4",
+   "padre_nombre": "Kaim::CAgent"
+  },
+  {
+   "nombre": "Kaim::CFreeList",
+   "mangleado": "Q24Kaim9CFreeList",
+   "metaclase": "0x0049B9C0",
+   "padre": "0x0049B970",
+   "sitio": "0x0038DAD4",
+   "padre_nombre": "Kaim::CBaseAllocator"
+  },
+  {
+   "nombre": "Kaim::CFreeListBlock",
+   "mangleado": "Q24Kaim14CFreeListBlock",
+   "metaclase": "0x0049B9E0",
+   "padre": "0x0049B9A0",
+   "sitio": "0x0038DC3C",
+   "padre_nombre": "Kaim::CPoolBasedAllocator"
+  },
+  {
+   "nombre": "Kaim::CGap",
+   "mangleado": "Q24Kaim4CGap",
+   "metaclase": "0x0049BDD0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0039404C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGapDynamicAvoidance",
+   "mangleado": "Q24Kaim20CGapDynamicAvoidance",
+   "metaclase": "0x0049BE00",
+   "padre": "0x0049BDC0",
+   "sitio": "0x00394204",
+   "padre_nombre": "Kaim::IDynamicAvoidance"
+  },
+  {
+   "nombre": "Kaim::CGapDynamicAvoidance::CCandidateTarget",
+   "mangleado": "Q34Kaim20CGapDynamicAvoidance16CCandidateTarget",
+   "metaclase": "0x0049BDF0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x003941AC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGapManager",
+   "mangleado": "Q24Kaim11CGapManager",
+   "metaclase": "0x0049BE60",
+   "padre": "0x0040EBC0",
+   "sitio": "0x003946EC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGotoAgent",
+   "mangleado": "Q24Kaim10CGotoAgent",
+   "metaclase": "0x0049A968",
+   "padre": "0x0049A948",
+   "sitio": "0x00389534",
+   "padre_nombre": "Kaim::CAgent"
+  },
+  {
+   "nombre": "Kaim::CGraphData",
+   "mangleado": "Q24Kaim10CGraphData",
+   "metaclase": "0x0049BB20",
+   "padre": "0x0040EBC0",
+   "sitio": "0x003900B4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGraphDataClass",
+   "mangleado": "Q24Kaim15CGraphDataClass",
+   "metaclase": "0x0049BC30",
+   "padre": "0x0040EC28",
+   "sitio": "0x00390F24",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGraphManager",
+   "mangleado": "Q24Kaim13CGraphManager",
+   "metaclase": "0x0049BC00",
+   "padre": "0x0049AB88",
+   "sitio": "0x00390CCC",
+   "padre_nombre": "Kaim::CWorldService"
+  },
+  {
+   "nombre": "Kaim::CGraphManager::CGraphMap",
+   "mangleado": "Q34Kaim13CGraphManager9CGraphMap",
+   "metaclase": "0x0049BBF0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00390C74",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGraphPoint",
+   "mangleado": "Q24Kaim11CGraphPoint",
+   "metaclase": "0x0049A8F8",
+   "padre": "0x0049A928",
+   "sitio": "0x003891E4",
+   "padre_nombre": "Kaim::CPointWrapper"
+  },
+  {
+   "nombre": "Kaim::CGraphTraversal",
+   "mangleado": "Q24Kaim15CGraphTraversal",
+   "metaclase": "0x0049BCC0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00391DBC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGraphTraversal",
+   "mangleado": "Q24Kaim15CGraphTraversal",
+   "metaclase": "0x0049BCC0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00391EC0",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGraphTraversal",
+   "mangleado": "Q24Kaim15CGraphTraversal",
+   "metaclase": "0x0049BCC0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00392258",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGraphTraversal",
+   "mangleado": "Q24Kaim15CGraphTraversal",
+   "metaclase": "0x0049BCC0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00392608",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGraphTraversal",
+   "mangleado": "Q24Kaim15CGraphTraversal",
+   "metaclase": "0x0049BCC0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00392B08",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGraphTraversal",
+   "mangleado": "Q24Kaim15CGraphTraversal",
+   "metaclase": "0x0049BCC0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00393250",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CGraphWrapper",
+   "mangleado": "Q24Kaim13CGraphWrapper",
+   "metaclase": "0x0049BC10",
+   "padre": "0x0049BC20",
+   "sitio": "0x00390E04",
+   "padre_nombre": "Kaim::CPointContainerWrapper"
+  },
+  {
+   "nombre": "Kaim::CHeuristic",
+   "mangleado": "Q24Kaim10CHeuristic",
+   "metaclase": "0x0049BBC0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00390B34",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CHeuristicClass",
+   "mangleado": "Q24Kaim15CHeuristicClass",
+   "metaclase": "0x0049BBD0",
+   "padre": "0x0040EC30",
+   "sitio": "0x00390ABC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CHeuristicEuclidianDistance",
+   "mangleado": "Q24Kaim27CHeuristicEuclidianDistance",
+   "metaclase": "0x0049BB80",
+   "padre": "0x0049BBC0",
+   "sitio": "0x00390614",
+   "padre_nombre": "Kaim::CHeuristic"
+  },
+  {
+   "nombre": "Kaim::CHideAgent",
+   "mangleado": "Q24Kaim10CHideAgent",
+   "metaclase": "0x0049A978",
+   "padre": "0x0049A948",
+   "sitio": "0x003895AC",
+   "padre_nombre": "Kaim::CAgent"
+  },
+  {
+   "nombre": "Kaim::CInfoEntity",
+   "mangleado": "Q24Kaim11CInfoEntity",
+   "metaclase": "0x0049BEB0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00394CBC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPath",
+   "mangleado": "Q24Kaim5CPath",
+   "metaclase": "0x0049BC90",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00391514",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPathCostData",
+   "mangleado": "Q24Kaim13CPathCostData",
+   "metaclase": "0x0049BC40",
+   "padre": "0x0049BB20",
+   "sitio": "0x00391104",
+   "padre_nombre": "Kaim::CGraphData"
+  },
+  {
+   "nombre": "Kaim::CPathCostHeuristic",
+   "mangleado": "Q24Kaim18CPathCostHeuristic",
+   "metaclase": "0x0049BBA0",
+   "padre": "0x0049BBC0",
+   "sitio": "0x003907D4",
+   "padre_nombre": "Kaim::CHeuristic"
+  },
+  {
+   "nombre": "Kaim::CPathFinder",
+   "mangleado": "Q24Kaim11CPathFinder",
+   "metaclase": "0x0049BD60",
+   "padre": "0x0049B940",
+   "sitio": "0x0039390C",
+   "padre_nombre": "Kaim::IPathFinder"
+  },
+  {
+   "nombre": "Kaim::CPathFinder::CConstraintInfo",
+   "mangleado": "Q34Kaim11CPathFinder15CConstraintInfo",
+   "metaclase": "0x0049BD50",
+   "padre": "0x0040EBC0",
+   "sitio": "0x003938B4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPathObject",
+   "mangleado": "Q24Kaim11CPathObject",
+   "metaclase": "0x0049BC60",
+   "padre": "0x0049B4E8",
+   "sitio": "0x0039126C",
+   "padre_nombre": "Kaim::CEntity"
+  },
+  {
+   "nombre": "Kaim::CPathObject::CLinkedEdge",
+   "mangleado": "Q34Kaim11CPathObject11CLinkedEdge",
+   "metaclase": "0x0049BC50",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0039121C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPathObjectManager",
+   "mangleado": "Q24Kaim18CPathObjectManager",
+   "metaclase": "0x0049BC80",
+   "padre": "0x0049AB88",
+   "sitio": "0x00391494",
+   "padre_nombre": "Kaim::CWorldService"
+  },
+  {
+   "nombre": "Kaim::CPathWay",
+   "mangleado": "Q24Kaim8CPathWay",
+   "metaclase": "0x0049ABE8",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038B3CC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPathWayAgent",
+   "mangleado": "Q24Kaim13CPathWayAgent",
+   "metaclase": "0x0049A988",
+   "padre": "0x0049A948",
+   "sitio": "0x0038964C",
+   "padre_nombre": "Kaim::CAgent"
+  },
+  {
+   "nombre": "Kaim::CPathWayManager",
+   "mangleado": "Q24Kaim15CPathWayManager",
+   "metaclase": "0x0049AB78",
+   "padre": "0x0049AB88",
+   "sitio": "0x0038AF8C",
+   "padre_nombre": "Kaim::CWorldService"
+  },
+  {
+   "nombre": "Kaim::CPathWayManager::CPathWayMap",
+   "mangleado": "Q34Kaim15CPathWayManager11CPathWayMap",
+   "metaclase": "0x0049AB68",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038AF34",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPointContainerWrapper",
+   "mangleado": "Q24Kaim22CPointContainerWrapper",
+   "metaclase": "0x0049BC20",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00390E9C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPointContainerWrapperClass",
+   "mangleado": "Q24Kaim27CPointContainerWrapperClass",
+   "metaclase": "0x0049BA30",
+   "padre": "0x0040EC18",
+   "sitio": "0x0038E334",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPointInfoClass",
+   "mangleado": "Q24Kaim15CPointInfoClass",
+   "metaclase": "0x0049BA40",
+   "padre": "0x0040EC10",
+   "sitio": "0x0038E414",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPointMapper",
+   "mangleado": "Q24Kaim12CPointMapper",
+   "metaclase": "0x0049ABA8",
+   "padre": "0x0049AB88",
+   "sitio": "0x0038B124",
+   "padre_nombre": "Kaim::CWorldService"
+  },
+  {
+   "nombre": "Kaim::CPointPair",
+   "mangleado": "Q24Kaim10CPointPair",
+   "metaclase": "0x0049BC70",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0039143C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPointWrapper",
+   "mangleado": "Q24Kaim13CPointWrapper",
+   "metaclase": "0x0049A928",
+   "padre": "0x0040EBC0",
+   "sitio": "0x003893E4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CPoolBasedAllocator",
+   "mangleado": "Q24Kaim19CPoolBasedAllocator",
+   "metaclase": "0x0049B9A0",
+   "padre": "0x0049B980",
+   "sitio": "0x0038D804",
+   "padre_nombre": "Kaim::CAllocator"
+  },
+  {
+   "nombre": "Kaim::CRepulsorDynamicAvoidance",
+   "mangleado": "Q24Kaim25CRepulsorDynamicAvoidance",
+   "metaclase": "0x0049BDB0",
+   "padre": "0x0049BDC0",
+   "sitio": "0x00393F0C",
+   "padre_nombre": "Kaim::IDynamicAvoidance"
+  },
+  {
+   "nombre": "Kaim::CScript",
+   "mangleado": "Q24Kaim7CScript",
+   "metaclase": "0x0049ABF8",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038B42C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CScriptManager",
+   "mangleado": "Q24Kaim14CScriptManager",
+   "metaclase": "0x0049ABC8",
+   "padre": "0x0049AB88",
+   "sitio": "0x0038B29C",
+   "padre_nombre": "Kaim::CWorldService"
+  },
+  {
+   "nombre": "Kaim::CScriptManager::CScriptMap",
+   "mangleado": "Q34Kaim14CScriptManager10CScriptMap",
+   "metaclase": "0x0049ABB8",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038B244",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CScriptWP",
+   "mangleado": "Q24Kaim9CScriptWP",
+   "metaclase": "0x0049ABD8",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038B31C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CShooterAgent",
+   "mangleado": "Q24Kaim13CShooterAgent",
+   "metaclase": "0x0049A9A8",
+   "padre": "0x0049A948",
+   "sitio": "0x00389754",
+   "padre_nombre": "Kaim::CAgent"
+  },
+  {
+   "nombre": "Kaim::CSound",
+   "mangleado": "Q24Kaim6CSound",
+   "metaclase": "0x0049BE90",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00394B64",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CSoundManager",
+   "mangleado": "Q24Kaim13CSoundManager",
+   "metaclase": "0x0049BEA0",
+   "padre": "0x0049AB88",
+   "sitio": "0x00394BF4",
+   "padre_nombre": "Kaim::CWorldService"
+  },
+  {
+   "nombre": "Kaim::CSpatialGraph",
+   "mangleado": "Q24Kaim13CSpatialGraph",
+   "metaclase": "0x0049BCA0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0039159C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CSphereConstraint",
+   "mangleado": "Q24Kaim17CSphereConstraint",
+   "metaclase": "0x0049BB70",
+   "padre": "0x0049BB30",
+   "sitio": "0x003904FC",
+   "padre_nombre": "Kaim::CConstraintShortestPath"
+  },
+  {
+   "nombre": "Kaim::CTeam",
+   "mangleado": "Q24Kaim5CTeam",
+   "metaclase": "0x0049BAB0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038EF74",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CTeamClass",
+   "mangleado": "Q24Kaim10CTeamClass",
+   "metaclase": "0x0049BAC0",
+   "padre": "0x0040EC20",
+   "sitio": "0x0038F254",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CTeamDefinition",
+   "mangleado": "Q24Kaim15CTeamDefinition",
+   "metaclase": "0x0049B060",
+   "padre": "0x0049B080",
+   "sitio": "0x0038BFCC",
+   "padre_nombre": "Kaim::CData"
+  },
+  {
+   "nombre": "Kaim::CTimeManager",
+   "mangleado": "Q24Kaim12CTimeManager",
+   "metaclase": "0x0049BA90",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038ED74",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CTimeManager::CEntityInfo",
+   "mangleado": "Q34Kaim12CTimeManager11CEntityInfo",
+   "metaclase": "0x0049BA70",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038EC84",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CTimeManager::CTeamInfo",
+   "mangleado": "Q34Kaim12CTimeManager9CTeamInfo",
+   "metaclase": "0x0049BA80",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038ECFC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CTraceResult",
+   "mangleado": "Q24Kaim12CTraceResult",
+   "metaclase": "0x0049B0B0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038C874",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CVertexTraversal",
+   "mangleado": "Q24Kaim16CVertexTraversal",
+   "metaclase": "0x0049A938",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00389434",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CWanderAgent",
+   "mangleado": "Q24Kaim12CWanderAgent",
+   "metaclase": "0x0049A9B8",
+   "padre": "0x0049A948",
+   "sitio": "0x003897FC",
+   "padre_nombre": "Kaim::CAgent"
+  },
+  {
+   "nombre": "Kaim::CWorld",
+   "mangleado": "Q24Kaim6CWorld",
+   "metaclase": "0x0049BAA0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038EE5C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CWorldService",
+   "mangleado": "Q24Kaim13CWorldService",
+   "metaclase": "0x0049AB88",
+   "padre": "0x0049AB98",
+   "sitio": "0x0038AFEC",
+   "padre_nombre": "Kaim::CBaseService"
+  },
+  {
+   "nombre": "Kaim::CWorldServiceClass",
+   "mangleado": "Q24Kaim18CWorldServiceClass",
+   "metaclase": "0x0049BA60",
+   "padre": "0x0040EBE0",
+   "sitio": "0x0038E8F4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::CXmlDataReader",
+   "mangleado": "Q24Kaim14CXmlDataReader",
+   "metaclase": "0x0049BFA0",
+   "padre": "0x0049BFB0",
+   "sitio": "0x00396EAC",
+   "padre_nombre": "Kaim::CDataReader"
+  },
+  {
+   "nombre": "Kaim::CZeroHeuristic",
+   "mangleado": "Q24Kaim14CZeroHeuristic",
+   "metaclase": "0x0049BB90",
+   "padre": "0x0049BBC0",
+   "sitio": "0x0039072C",
+   "padre_nombre": "Kaim::CHeuristic"
+  },
+  {
+   "nombre": "Kaim::EntityTracker",
+   "mangleado": "Q24Kaim13EntityTracker",
+   "metaclase": "0x0049BDE0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00394134",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::IConstraint",
+   "mangleado": "Q24Kaim11IConstraint",
+   "metaclase": "0x0049BBE0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00390B8C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::IConstraintClass",
+   "mangleado": "Q24Kaim16IConstraintClass",
+   "metaclase": "0x0049B960",
+   "padre": "0x0040EC08",
+   "sitio": "0x0038D484",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::IDynamicAvoidance",
+   "mangleado": "Q24Kaim17IDynamicAvoidance",
+   "metaclase": "0x0049BDC0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00393FAC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Kaim::IPathFinder",
+   "mangleado": "Q24Kaim11IPathFinder",
+   "metaclase": "0x0049B940",
+   "padre": "0x0049B950",
+   "sitio": "0x0038D2B4",
+   "padre_nombre": "Kaim::CBrainService"
+  },
+  {
+   "nombre": "Kaim::RecursiveFlightTraversal",
+   "mangleado": "Q24Kaim24RecursiveFlightTraversal",
+   "metaclase": "0x0049A918",
+   "padre": "0x0049A938",
+   "sitio": "0x0038934C",
+   "padre_nombre": "Kaim::CVertexTraversal"
+  },
+  {
+   "nombre": "Q24Kaimt10CStringMap2ZPFRQ24Kaim11CPathFinderRQ24Kaim4MoveRCQ24Kaim7CVector_UcUi16",
+   "mangleado": "Q24Kaimt10CStringMap2ZPFRQ24Kaim11CPathFinderRQ24Kaim4MoveRCQ24Kaim7CVector_UcUi16",
+   "metaclase": "0x0049BDA0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00393DDC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt10CStringMap2ZPFRQ24Kaim11CPathFinderRQ24Kaim7CVectorUcUc_PQ24Kaim7CVertexUi16",
+   "mangleado": "Q24Kaimt10CStringMap2ZPFRQ24Kaim11CPathFinderRQ24Kaim7CVectorUcUc_PQ24Kaim7CVertexUi16",
+   "metaclase": "0x0049BD80",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00393D3C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt10CStringMap2ZPFRQ24Kaim11CPathFinderRQ24Kaim7CVector_UcUi16",
+   "mangleado": "Q24Kaimt10CStringMap2ZPFRQ24Kaim11CPathFinderRQ24Kaim7CVector_UcUi16",
+   "metaclase": "0x0049BD90",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00393D8C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt10CStringMap2ZPFRQ24Kaim11CPathFinder_UcUi16",
+   "mangleado": "Q24Kaimt10CStringMap2ZPFRQ24Kaim11CPathFinder_UcUi16",
+   "metaclase": "0x0049BD70",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00393CEC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt8CVarList1ZPQ24Kaim14CBaseAllocator",
+   "mangleado": "Q24Kaimt8CVarList1ZPQ24Kaim14CBaseAllocator",
+   "metaclase": "0x0049B9F0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038DCAC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt8CVarList1ZPQ24Kaim14CFreeListBlock",
+   "mangleado": "Q24Kaimt8CVarList1ZPQ24Kaim14CFreeListBlock",
+   "metaclase": "0x0049B9B0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038DA34",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt8CVarList1ZPQ24Kaim5CTeam",
+   "mangleado": "Q24Kaimt8CVarList1ZPQ24Kaim5CTeam",
+   "metaclase": "0x0049B4F8",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038CBFC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt8CVarList1ZPQ24Kaim7CEntity",
+   "mangleado": "Q24Kaimt8CVarList1ZPQ24Kaim7CEntity",
+   "metaclase": "0x0049B0C0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038C97C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt8CVarList1ZPQ24Kaim7CVertex",
+   "mangleado": "Q24Kaimt8CVarList1ZPQ24Kaim7CVertex",
+   "metaclase": "0x0049BAD0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038F384",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt8CVarList1ZQ24Kaim4CGap",
+   "mangleado": "Q24Kaimt8CVarList1ZQ24Kaim4CGap",
+   "metaclase": "0x0049BE50",
+   "padre": "0x0040EBC0",
+   "sitio": "0x00394674",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q24Kaimt8CVarList1ZQ34Kaim20CGapDynamicAvoidance16CCandidateTarget",
+   "mangleado": "Q24Kaimt8CVarList1ZQ34Kaim20CGapDynamicAvoidance16CCandidateTarget",
+   "metaclase": "0x0049BE10",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0039430C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim14CBaseAllocator5CCell",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim14CBaseAllocator5CCell",
+   "metaclase": "0x0049BA00",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038DD5C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim14CBaseAllocator9CIterator",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim14CBaseAllocator9CIterator",
+   "metaclase": "0x0049BA10",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038DEE4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim14CFreeListBlock5CCell",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim14CFreeListBlock5CCell",
+   "metaclase": "0x0049BA20",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038DF94",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim14CFreeListBlock9CIterator",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim14CFreeListBlock9CIterator",
+   "metaclase": "0x0049B9D0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038DB8C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim5CTeam5CCell",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim5CTeam5CCell",
+   "metaclase": "0x0049B508",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038CD04",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim5CTeam9CIterator",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim5CTeam9CIterator",
+   "metaclase": "0x0049B070",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038C074",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim7CEntity5CCell",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim7CEntity5CCell",
+   "metaclase": "0x0049B0D0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038CA2C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim7CEntity9CIterator",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim7CEntity9CIterator",
+   "metaclase": "0x0049A998",
+   "padre": "0x0040EBC0",
+   "sitio": "0x003896FC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim7CVertex5CCell",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim7CVertex5CCell",
+   "metaclase": "0x0049BAE0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038F434",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZPQ24Kaim7CVertex9CIterator",
+   "mangleado": "Q34Kaimt8CVarList1ZPQ24Kaim7CVertex9CIterator",
+   "metaclase": "0x0049BAF0",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0038F4E4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZQ24Kaim4CGap5CCell",
+   "mangleado": "Q34Kaimt8CVarList1ZQ24Kaim4CGap5CCell",
+   "metaclase": "0x0049BE70",
+   "padre": "0x0040EBC0",
+   "sitio": "0x003947A4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZQ24Kaim4CGap9CIterator",
+   "mangleado": "Q34Kaimt8CVarList1ZQ24Kaim4CGap9CIterator",
+   "metaclase": "0x0049BE40",
+   "padre": "0x0040EBC0",
+   "sitio": "0x003945FC",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZQ34Kaim20CGapDynamicAvoidance16CCandidateTarget5CCell",
+   "mangleado": "Q34Kaimt8CVarList1ZQ34Kaim20CGapDynamicAvoidance16CCandidateTarget5CCell",
+   "metaclase": "0x0049BE20",
+   "padre": "0x0040EBC0",
+   "sitio": "0x003943C4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "Q34Kaimt8CVarList1ZQ34Kaim20CGapDynamicAvoidance16CCandidateTarget9CIterator",
+   "mangleado": "Q34Kaimt8CVarList1ZQ34Kaim20CGapDynamicAvoidance16CCandidateTarget9CIterator",
+   "metaclase": "0x0049BE30",
+   "padre": "0x0040EBC0",
+   "sitio": "0x0039454C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "SaveFastBinaryGraphTraversal",
+   "mangleado": "28SaveFastBinaryGraphTraversal",
+   "metaclase": "0x0049BCB0",
+   "padre": "0x0049BCC0",
+   "sitio": "0x0039179C",
+   "padre_nombre": "Kaim::CGraphTraversal"
+  },
+  {
+   "nombre": "__array_type_info",
+   "mangleado": "17__array_type_info",
+   "metaclase": "0x0049BF30",
+   "padre": "0x0040EC48",
+   "sitio": "0x00371244",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "__attr_type_info",
+   "mangleado": "16__attr_type_info",
+   "metaclase": "0x0049BF80",
+   "padre": "0x0040EC48",
+   "sitio": "0x00371474",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "__builtin_type_info",
+   "mangleado": "19__builtin_type_info",
+   "metaclase": "0x0049BF70",
+   "padre": "0x0040EC48",
+   "sitio": "0x00371404",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "__class_type_info",
+   "mangleado": "17__class_type_info",
+   "metaclase": "0x0049BEE0",
+   "padre": "0x0049BEF0",
+   "sitio": "0x0037049C",
+   "padre_nombre": "__user_type_info"
+  },
+  {
+   "nombre": "__func_type_info",
+   "mangleado": "16__func_type_info",
+   "metaclase": "0x0049BF60",
+   "padre": "0x0040EC48",
+   "sitio": "0x00371394",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "__pointer_type_info",
+   "mangleado": "19__pointer_type_info",
+   "metaclase": "0x0049BF90",
+   "padre": "0x0040EC48",
+   "sitio": "0x003714E4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "__ptmd_type_info",
+   "mangleado": "16__ptmd_type_info",
+   "metaclase": "0x0049BF40",
+   "padre": "0x0040EC48",
+   "sitio": "0x003712B4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "__ptmf_type_info",
+   "mangleado": "16__ptmf_type_info",
+   "metaclase": "0x0049BF50",
+   "padre": "0x0040EC48",
+   "sitio": "0x00371324",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "__si_type_info",
+   "mangleado": "14__si_type_info",
+   "metaclase": "0x0049BF00",
+   "padre": "0x0049BEF0",
+   "sitio": "0x0037052C",
+   "padre_nombre": "__user_type_info"
+  },
+  {
+   "nombre": "__user_type_info",
+   "mangleado": "16__user_type_info",
+   "metaclase": "0x0049BEF0",
+   "padre": "0x0040EC48",
+   "sitio": "0x003705B4",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "bad_cast",
+   "mangleado": "8bad_cast",
+   "metaclase": "0x0049BF20",
+   "padre": "0x0040EC40",
+   "sitio": "0x00370704",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "bad_exception",
+   "mangleado": "13bad_exception",
+   "metaclase": "0x0049BED0",
+   "padre": "0x0040EC40",
+   "sitio": "0x0037002C",
+   "padre_nombre": null
+  },
+  {
+   "nombre": "bad_typeid",
+   "mangleado": "10bad_typeid",
+   "metaclase": "0x0049BF10",
+   "padre": "0x0040EC40",
+   "sitio": "0x0037066C",
+   "padre_nombre": null
+  }
+ ]
+}

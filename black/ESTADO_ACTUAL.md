@@ -113,7 +113,7 @@ Artefacto vivo: **`Black-mod-armas.iso`**, al lado del original, con los 17
 la TOC.**
 
 **Confirmado por efecto el 2026-08-17:** se arrancó el emulador con ese ISO y
-la tabla de armas en RAM (`0x01742220`) trae `Power = 5` en los 17 registros
+la tabla de armas en RAM (`0x01842220`) trae `Power = 5` en los 17 registros
 del bloque de IA, con el bloque del jugador intacto. **La tabla ya está cargada
 antes de que el jugador tenga vida** (vida = `0.0`, pantalla de "press START"),
 o sea que sale de `GLOBDATA.BIN` al arrancar y **no** por stage.

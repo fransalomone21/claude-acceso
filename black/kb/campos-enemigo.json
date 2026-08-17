@@ -1,0 +1,2727 @@
+{
+ "volcado": "volcados/ee-nivel-mod0.bin",
+ "vtable": "0x003DCA78",
+ "paso": "0x3C0",
+ "instancias": 32,
+ "metodos_con_codigo": 46,
+ "campos": [
+  {
+   "offset": 0,
+   "tipo": "f32",
+   "nota": "5 valores distintos",
+   "accesos": [
+    [
+     1,
+     "lw"
+    ],
+    [
+     3,
+     "lw"
+    ],
+    [
+     3,
+     "sd"
+    ],
+    [
+     5,
+     "lbu"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     17,
+     "lq"
+    ],
+    [
+     17,
+     "lw"
+    ],
+    [
+     17,
+     "lwc1"
+    ],
+    [
+     17,
+     "sq"
+    ],
+    [
+     18,
+     "lw"
+    ],
+    [
+     19,
+     "lb"
+    ],
+    [
+     19,
+     "sq"
+    ],
+    [
+     24,
+     "lw"
+    ],
+    [
+     25,
+     "lw"
+    ],
+    [
+     29,
+     "lbu"
+    ],
+    [
+     29,
+     "ld"
+    ],
+    [
+     29,
+     "lh"
+    ],
+    [
+     42,
+     "lbu"
+    ],
+    [
+     42,
+     "sb"
+    ]
+   ],
+   "muestra": "0 -4.44089e-15 -2.68435e+08 1.2467e+10"
+  },
+  {
+   "offset": 4,
+   "tipo": "u32",
+   "nota": "4 valores distintos",
+   "accesos": [
+    [
+     8,
+     "sw"
+    ],
+    [
+     9,
+     "sw"
+    ],
+    [
+     11,
+     "sw"
+    ],
+    [
+     20,
+     "sw"
+    ],
+    [
+     24,
+     "lbu"
+    ]
+   ],
+   "muestra": "0x00000000 0x72AE2D2C 0xB8C86120 0xB8C189E9"
+  },
+  {
+   "offset": 8,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     1,
+     "lw"
+    ],
+    [
+     4,
+     "lwc1"
+    ],
+    [
+     5,
+     "sw"
+    ],
+    [
+     25,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 12,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     1,
+     "lbu"
+    ],
+    [
+     4,
+     "lwc1"
+    ],
+    [
+     5,
+     "lw"
+    ],
+    [
+     5,
+     "sw"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     11,
+     "lw"
+    ],
+    [
+     18,
+     "lw"
+    ],
+    [
+     25,
+     "lbu"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 16,
+   "tipo": "ptr_clase",
+   "nota": "el puntero de clase",
+   "accesos": [
+    [
+     1,
+     "lw"
+    ],
+    [
+     4,
+     "lw"
+    ],
+    [
+     5,
+     "sw"
+    ],
+    [
+     17,
+     "lw"
+    ],
+    [
+     17,
+     "sq"
+    ],
+    [
+     19,
+     "sq"
+    ],
+    [
+     24,
+     "lw"
+    ],
+    [
+     25,
+     "lw"
+    ]
+   ],
+   "muestra": "0x003DCA78"
+  },
+  {
+   "offset": 20,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     5,
+     "swc1"
+    ],
+    [
+     20,
+     "lh"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 24,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     1,
+     "lh"
+    ],
+    [
+     5,
+     "lbu"
+    ],
+    [
+     5,
+     "sb"
+    ],
+    [
+     8,
+     "lbu"
+    ],
+    [
+     8,
+     "sb"
+    ],
+    [
+     11,
+     "lbu"
+    ],
+    [
+     18,
+     "lbu"
+    ],
+    [
+     20,
+     "lw"
+    ],
+    [
+     25,
+     "lh"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 28,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     1,
+     "lw"
+    ],
+    [
+     5,
+     "lw"
+    ],
+    [
+     25,
+     "lw"
+    ],
+    [
+     29,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 32,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lwc1"
+    ],
+    [
+     8,
+     "lh"
+    ],
+    [
+     17,
+     "sq"
+    ],
+    [
+     19,
+     "sq"
+    ],
+    [
+     20,
+     "lw"
+    ],
+    [
+     24,
+     "lh"
+    ],
+    [
+     29,
+     "lw"
+    ]
+   ],
+   "muestra": "0 -73.0137 -70.9405 -81.3797"
+  },
+  {
+   "offset": 36,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     24,
+     "lw"
+    ],
+    [
+     29,
+     "lw"
+    ]
+   ],
+   "muestra": "0 -2.95436 -2.96906 -3.48665"
+  },
+  {
+   "offset": 40,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 30.4468 34.4601 28.3919"
+  },
+  {
+   "offset": 44,
+   "tipo": "f32",
+   "nota": "4 valores distintos",
+   "accesos": [],
+   "muestra": "0 1.08125 1.16756 1.16821"
+  },
+  {
+   "offset": 48,
+   "tipo": "ptr",
+   "nota": "5 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ],
+    [
+     8,
+     "sb"
+    ],
+    [
+     17,
+     "lbu"
+    ],
+    [
+     17,
+     "lw"
+    ],
+    [
+     19,
+     "sq"
+    ],
+    [
+     20,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x005ACA60 0x005AD060 0x005AC760"
+  },
+  {
+   "offset": 52,
+   "tipo": "ptr",
+   "nota": "14 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x00FDA6B4 0x0058FEC4 0x005B65B4"
+  },
+  {
+   "offset": 56,
+   "tipo": "ptr",
+   "nota": "14 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ],
+    [
+     29,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x00590284 0x005AC788 0x005B6714"
+  },
+  {
+   "offset": 60,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     8,
+     "lbu"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     17,
+     "lbu"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 64,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ],
+    [
+     17,
+     "lw"
+    ],
+    [
+     20,
+     "sw"
+    ],
+    [
+     20,
+     "swc1"
+    ],
+    [
+     29,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 68,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     8,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 72,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     29,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 76,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     20,
+     "swc1"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 80,
+   "tipo": "f32",
+   "nota": "7 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ],
+    [
+     17,
+     "lw"
+    ]
+   ],
+   "muestra": "0 53.5323 72.909 43.882"
+  },
+  {
+   "offset": 84,
+   "tipo": "ptr",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ],
+    [
+     17,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x0058FE90 0x00590250 0x00590610"
+  },
+  {
+   "offset": 88,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     17,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 92,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 96,
+   "tipo": "f32",
+   "nota": "9 valores distintos",
+   "accesos": [],
+   "muestra": "0 -3.8147e-06 1.90735e-06 0.00158107"
+  },
+  {
+   "offset": 100,
+   "tipo": "f32",
+   "nota": "9 valores distintos",
+   "accesos": [],
+   "muestra": "0 0.985565 0.985558 0.98555"
+  },
+  {
+   "offset": 104,
+   "tipo": "f32",
+   "nota": "8 valores distintos",
+   "accesos": [],
+   "muestra": "0 -0.0152454 -0.015245 -0.0152435"
+  },
+  {
+   "offset": 108,
+   "tipo": "f32",
+   "nota": "4 valores distintos",
+   "accesos": [
+    [
+     29,
+     "lw"
+    ]
+   ],
+   "muestra": "0 1.08125 1.16756 1.16821"
+  },
+  {
+   "offset": 112,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lq"
+    ]
+   ],
+   "muestra": "1 0.69214 0.369575 0.847084"
+  },
+  {
+   "offset": 116,
+   "tipo": "f32",
+   "nota": "12 valores distintos",
+   "accesos": [],
+   "muestra": "0 -0.0039381 -0.649876 -0.234919"
+  },
+  {
+   "offset": 120,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 0.721763 0.929201 0.531445"
+  },
+  {
+   "offset": 124,
+   "tipo": "u32",
+   "nota": "3 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x43000000 0x01937E70"
+  },
+  {
+   "offset": 128,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lq"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     9,
+     "lw"
+    ],
+    [
+     11,
+     "lw"
+    ]
+   ],
+   "muestra": "0 -0 -0.530969 -0.976021"
+  },
+  {
+   "offset": 132,
+   "tipo": "f32",
+   "nota": "12 valores distintos",
+   "accesos": [
+    [
+     8,
+     "lw"
+    ]
+   ],
+   "muestra": "1 0.0366624 -0.107951 0.0861168"
+  },
+  {
+   "offset": 136,
+   "tipo": "f32",
+   "nota": "12 valores distintos",
+   "accesos": [],
+   "muestra": "0 0.846597 0.189025 -0.211694"
+  },
+  {
+   "offset": 140,
+   "tipo": "u32",
+   "nota": "6 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x43000000 0x0189CF30 0x0189D560"
+  },
+  {
+   "offset": 144,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lq"
+    ],
+    [
+     8,
+     "lw"
+    ]
+   ],
+   "muestra": "0 -0.721763 -0.929201 -0.0228181"
+  },
+  {
+   "offset": 148,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0 -0 -0.99932 -0.752335"
+  },
+  {
+   "offset": 152,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "1 0.69214 0.369575 0.0289652"
+  },
+  {
+   "offset": 156,
+   "tipo": "u32",
+   "nota": "6 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x43000000 0x00000055 0x00000056"
+  },
+  {
+   "offset": 160,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     4,
+     "lh"
+    ],
+    [
+     4,
+     "lq"
+    ],
+    [
+     4,
+     "sq"
+    ],
+    [
+     5,
+     "lq"
+    ],
+    [
+     17,
+     "lq"
+    ],
+    [
+     42,
+     "lq"
+    ]
+   ],
+   "muestra": "0 -72.8844 -70.9775 -80.8568"
+  },
+  {
+   "offset": 164,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     4,
+     "lw"
+    ]
+   ],
+   "muestra": "0 -3.69858 -3.69815 -3.53802"
+  },
+  {
+   "offset": 168,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 30.3206 34.4358 27.558"
+  },
+  {
+   "offset": 172,
+   "tipo": "f32",
+   "nota": "3 valores distintos",
+   "accesos": [],
+   "muestra": "0 128 1.00974e-28"
+  },
+  {
+   "offset": 176,
+   "tipo": "ptr",
+   "nota": "15 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x005B6C60 0x005B5D40 0x0058FE90"
+  },
+  {
+   "offset": 180,
+   "tipo": "ptr",
+   "nota": "6 valores distintos",
+   "accesos": [
+    [
+     9,
+     "lw"
+    ],
+    [
+     17,
+     "lw"
+    ],
+    [
+     24,
+     "lw"
+    ],
+    [
+     41,
+     "sw"
+    ],
+    [
+     42,
+     "sw"
+    ]
+   ],
+   "muestra": "0x00000000 0x00587F20 0x00587F70 0x005880B0"
+  },
+  {
+   "offset": 184,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [
+    [
+     17,
+     "lw"
+    ]
+   ],
+   "muestra": "0x0189D010 0x0189D640 0x0189DC70 0x0189E2A0"
+  },
+  {
+   "offset": 188,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [
+    [
+     20,
+     "sw"
+    ]
+   ],
+   "muestra": "0x0189D4D0 0x0189DB00 0x0189E130 0x0189E760"
+  },
+  {
+   "offset": 192,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     29,
+     "lwc1"
+    ]
+   ],
+   "muestra": "10000 76.6674 73.0518 84.9638"
+  },
+  {
+   "offset": 196,
+   "tipo": "int_chico",
+   "nota": "CONSTANTE en 32/32",
+   "accesos": [
+    [
+     4,
+     "lw"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     18,
+     "lw"
+    ],
+    [
+     19,
+     "lw"
+    ],
+    [
+     41,
+     "sw"
+    ]
+   ],
+   "muestra": "0x00000001"
+  },
+  {
+   "offset": 200,
+   "tipo": "int_chico",
+   "nota": "2 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lbu"
+    ],
+    [
+     29,
+     "lbu"
+    ]
+   ],
+   "muestra": "0x00000000 0x00000002"
+  },
+  {
+   "offset": 204,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 208,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "1 0.69214 0.369575 0.430703"
+  },
+  {
+   "offset": 212,
+   "tipo": "u32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0xAF000000"
+  },
+  {
+   "offset": 216,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 0.721763 0.929201 -0.902493"
+  },
+  {
+   "offset": 220,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0 20.4006"
+  },
+  {
+   "offset": 224,
+   "tipo": "f32",
+   "nota": "5 valores distintos",
+   "accesos": [
+    [
+     4,
+     "sq"
+    ]
+   ],
+   "muestra": "0 -0.0132441 0.0958895 0.0142892"
+  },
+  {
+   "offset": 228,
+   "tipo": "f32",
+   "nota": "5 valores distintos",
+   "accesos": [],
+   "muestra": "1 0.999832 0.994661 0.999897"
+  },
+  {
+   "offset": 232,
+   "tipo": "f32",
+   "nota": "5 valores distintos",
+   "accesos": [],
+   "muestra": "0 0.0127005 -0.0381385 0.00160223"
+  },
+  {
+   "offset": 236,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0 20.4006"
+  },
+  {
+   "offset": 240,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -0.721642 -0.92424 0.902493"
+  },
+  {
+   "offset": 244,
+   "tipo": "f32",
+   "nota": "5 valores distintos",
+   "accesos": [],
+   "muestra": "0 -0.0183496 0.103196 -0.0143787"
+  },
+  {
+   "offset": 248,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "1 0.692023 0.367602 0.430703"
+  },
+  {
+   "offset": 252,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0 20.4006"
+  },
+  {
+   "offset": 256,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     42,
+     "sb"
+    ]
+   ],
+   "muestra": "0 -72.8844 -70.9775 -80.8568"
+  },
+  {
+   "offset": 260,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -2.43191 -2.69815 -2.08802"
+  },
+  {
+   "offset": 264,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lbu"
+    ],
+    [
+     8,
+     "lbu"
+    ]
+   ],
+   "muestra": "0 30.3206 34.4358 27.558"
+  },
+  {
+   "offset": 268,
+   "tipo": "f32",
+   "nota": "3 valores distintos",
+   "accesos": [],
+   "muestra": "0 128 1.00974e-28"
+  },
+  {
+   "offset": 272,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     4,
+     "sq"
+    ],
+    [
+     41,
+     "sw"
+    ]
+   ],
+   "muestra": "0 0.823119 0.31429 0.17843"
+  },
+  {
+   "offset": 276,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     41,
+     "sw"
+    ]
+   ],
+   "muestra": "0 0.0473848 -0.194016 0.950974"
+  },
+  {
+   "offset": 280,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     29,
+     "lw"
+    ],
+    [
+     41,
+     "sw"
+    ]
+   ],
+   "muestra": "0 0.565231 0.929444 -0.252607"
+  },
+  {
+   "offset": 284,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0 20.4006"
+  },
+  {
+   "offset": 288,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     4,
+     "sq"
+    ],
+    [
+     42,
+     "lw"
+    ]
+   ],
+   "muestra": "0 -0.316343 0.184946 0.841001"
+  },
+  {
+   "offset": 292,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     9,
+     "lw"
+    ],
+    [
+     33,
+     "lw"
+    ],
+    [
+     42,
+     "sw"
+    ]
+   ],
+   "muestra": "0 0.864915 0.972805 -0.0141308"
+  },
+  {
+   "offset": 296,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 0.38785 0.140629 0.540848"
+  },
+  {
+   "offset": 300,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0 20.4006"
+  },
+  {
+   "offset": 304,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     4,
+     "sq"
+    ]
+   ],
+   "muestra": "0 -0.471581 -0.93133 0.510763"
+  },
+  {
+   "offset": 308,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     42,
+     "sb"
+    ]
+   ],
+   "muestra": "0 -0.498211 0.127731 -0.308946"
+  },
+  {
+   "offset": 312,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     41,
+     "sb"
+    ],
+    [
+     42,
+     "sb"
+    ]
+   ],
+   "muestra": "0 0.727193 0.341505 -0.802291"
+  },
+  {
+   "offset": 316,
+   "tipo": "u32",
+   "nota": "3 valores distintos",
+   "accesos": [
+    [
+     24,
+     "lbu"
+    ],
+    [
+     29,
+     "lbu"
+    ],
+    [
+     42,
+     "sb"
+    ]
+   ],
+   "muestra": "0x00000000 0x43000000 0x01937E70"
+  },
+  {
+   "offset": 320,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     4,
+     "sq"
+    ],
+    [
+     41,
+     "sw"
+    ]
+   ],
+   "muestra": "0 -73.7883 -71.9308 -81.7457"
+  },
+  {
+   "offset": 324,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -3.15378 -2.42524 -3.5008"
+  },
+  {
+   "offset": 328,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 31.1057 34.6484 28.6376"
+  },
+  {
+   "offset": 332,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 336,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [
+    [
+     24,
+     "lbu"
+    ],
+    [
+     24,
+     "sb"
+    ],
+    [
+     26,
+     "lbu"
+    ],
+    [
+     26,
+     "sb"
+    ],
+    [
+     27,
+     "lbu"
+    ],
+    [
+     27,
+     "sb"
+    ],
+    [
+     41,
+     "sb"
+    ],
+    [
+     41,
+     "sh"
+    ]
+   ],
+   "muestra": "0 0.430704 0.995241 0.981126"
+  },
+  {
+   "offset": 340,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     24,
+     "lbu"
+    ],
+    [
+     24,
+     "sb"
+    ],
+    [
+     37,
+     "sb"
+    ],
+    [
+     41,
+     "sb"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 344,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [
+    [
+     24,
+     "lw"
+    ],
+    [
+     27,
+     "sw"
+    ],
+    [
+     41,
+     "sw"
+    ]
+   ],
+   "muestra": "0 -0.902493 -0.0974389 -0.193371"
+  },
+  {
+   "offset": 348,
+   "tipo": "ptr",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x01937E70"
+  },
+  {
+   "offset": 352,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 356,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0 1"
+  },
+  {
+   "offset": 360,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 364,
+   "tipo": "ptr",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x0189DB90 0x0189E1C0 0x0189EE20"
+  },
+  {
+   "offset": 368,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0 0.902493 0.0974389 0.193371"
+  },
+  {
+   "offset": 372,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 376,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0 0.430704 0.995241 0.981126"
+  },
+  {
+   "offset": 380,
+   "tipo": "int_chico",
+   "nota": "3 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x00000058 0x00000059"
+  },
+  {
+   "offset": 384,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0 -81.1932 -74.7644 -75.7349"
+  },
+  {
+   "offset": 388,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0 -3.58904 -3.59149 -3.57732"
+  },
+  {
+   "offset": 392,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0 29.4507 21.4393 22.7184"
+  },
+  {
+   "offset": 396,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 400,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     4,
+     "lq"
+    ],
+    [
+     17,
+     "sq"
+    ]
+   ],
+   "muestra": "0 -72.8844 -70.9775 -81.0105"
+  },
+  {
+   "offset": 404,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -3.69858 -3.69815 -3.589"
+  },
+  {
+   "offset": 408,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 30.3206 34.4358 29.5379"
+  },
+  {
+   "offset": 412,
+   "tipo": "u32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x11000000"
+  },
+  {
+   "offset": 416,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 420,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 424,
+   "tipo": "f32",
+   "nota": "CONSTANTE en 32/32",
+   "accesos": [],
+   "muestra": "1"
+  },
+  {
+   "offset": 428,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 432,
+   "tipo": "f32",
+   "nota": "12 valores distintos",
+   "accesos": [],
+   "muestra": "0 4.61197 53.1525 -55.8069"
+  },
+  {
+   "offset": 436,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0 -0.83333 1.52955 8.7999"
+  },
+  {
+   "offset": 440,
+   "tipo": "f32",
+   "nota": "12 valores distintos",
+   "accesos": [],
+   "muestra": "0 -59.397 -14.4303 11.8838"
+  },
+  {
+   "offset": 444,
+   "tipo": "f32",
+   "nota": "4 valores distintos",
+   "accesos": [],
+   "muestra": "0 2.7866e-06 0.000300911 0.00165351"
+  },
+  {
+   "offset": 448,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -72.8844 -70.9775 -81.1932"
+  },
+  {
+   "offset": 452,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -3.69858 -3.69815 -3.58904"
+  },
+  {
+   "offset": 456,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 30.3206 34.4358 29.4507"
+  },
+  {
+   "offset": 460,
+   "tipo": "u32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x11000000"
+  },
+  {
+   "offset": 464,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0 -0.000181802 -0.000181834 -0.00018185"
+  },
+  {
+   "offset": 468,
+   "tipo": "f32",
+   "nota": "7 valores distintos",
+   "accesos": [],
+   "muestra": "0 1 0.999998 0.839089"
+  },
+  {
+   "offset": 472,
+   "tipo": "f32",
+   "nota": "13 valores distintos",
+   "accesos": [],
+   "muestra": "0 -2.04282e-05 -2.02788e-05 -2.01639e-05"
+  },
+  {
+   "offset": 476,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0 128"
+  },
+  {
+   "offset": 480,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 484,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 488,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 492,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 496,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 500,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 504,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 508,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 512,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 516,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 520,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 524,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 528,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -72.8844 -70.9775 -80.8718"
+  },
+  {
+   "offset": 532,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -3.69858 -3.69815 -3.53912"
+  },
+  {
+   "offset": 536,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 30.3206 34.4358 27.547"
+  },
+  {
+   "offset": 540,
+   "tipo": "f32",
+   "nota": "3 valores distintos",
+   "accesos": [],
+   "muestra": "0 128 1.00974e-28"
+  },
+  {
+   "offset": 544,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -72.8844 -70.9775 -80.9052"
+  },
+  {
+   "offset": 548,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -3.69858 -3.69815 -3.54094"
+  },
+  {
+   "offset": 552,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 30.3206 34.4358 27.5247"
+  },
+  {
+   "offset": 556,
+   "tipo": "f32",
+   "nota": "4 valores distintos",
+   "accesos": [],
+   "muestra": "0 128 1.00974e-28 5.60519e-45"
+  },
+  {
+   "offset": 560,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -72.8844 -70.9775 -80.9502"
+  },
+  {
+   "offset": 564,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 -3.69858 -3.69815 -3.53633"
+  },
+  {
+   "offset": 568,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0 30.3206 34.4358 27.4973"
+  },
+  {
+   "offset": 572,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0 128"
+  },
+  {
+   "offset": 576,
+   "tipo": "f32",
+   "nota": "15 valores distintos",
+   "accesos": [],
+   "muestra": "0 577.6 530.633 550.633"
+  },
+  {
+   "offset": 580,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 584,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 588,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 592,
+   "tipo": "ptr",
+   "nota": "4 valores distintos",
+   "accesos": [],
+   "muestra": "0x00597790 0x005977C0 0x005977A0 0x005977B0"
+  },
+  {
+   "offset": 596,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 600,
+   "tipo": "f32",
+   "nota": "4 valores distintos",
+   "accesos": [
+    [
+     5,
+     "swc1"
+    ]
+   ],
+   "muestra": "0 1 -93.662 -95.6016"
+  },
+  {
+   "offset": 604,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ]
+   ],
+   "muestra": "0x006312F0 0x00632470 0x006335F0 0x00634770"
+  },
+  {
+   "offset": 608,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [],
+   "muestra": "0x00631310 0x00632490 0x00633610 0x00634790"
+  },
+  {
+   "offset": 612,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [],
+   "muestra": "0x00631330 0x006324B0 0x00633630 0x006347B0"
+  },
+  {
+   "offset": 616,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [],
+   "muestra": "0x00631350 0x006324D0 0x00633650 0x006347D0"
+  },
+  {
+   "offset": 620,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [
+    [
+     8,
+     "lw"
+    ],
+    [
+     11,
+     "lw"
+    ],
+    [
+     18,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00631370 0x006324F0 0x00633670 0x006347F0"
+  },
+  {
+   "offset": 624,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 628,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 632,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 636,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 640,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 644,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 648,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 652,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 656,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 660,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 664,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 668,
+   "tipo": "ptr",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x0058FE90 0x00590250 0x00590610"
+  },
+  {
+   "offset": 672,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [],
+   "muestra": "0x00631400 0x00632580 0x00633700 0x00634880"
+  },
+  {
+   "offset": 676,
+   "tipo": "ptr",
+   "nota": "5 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     19,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x006DE7A0 0x006DE8B0 0x006DEBE0"
+  },
+  {
+   "offset": 680,
+   "tipo": "ptr",
+   "nota": "6 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x006DE9C0 0x006DEAD0 0x006DE7A0"
+  },
+  {
+   "offset": 684,
+   "tipo": "f32",
+   "nota": "CONSTANTE en 32/32",
+   "accesos": [],
+   "muestra": "1"
+  },
+  {
+   "offset": 688,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 692,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 696,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 700,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 704,
+   "tipo": "u32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00020000 0xFF020000"
+  },
+  {
+   "offset": 708,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 712,
+   "tipo": "u32",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0xFFFFFFFF"
+  },
+  {
+   "offset": 716,
+   "tipo": "f32",
+   "nota": "4 valores distintos",
+   "accesos": [],
+   "muestra": "0 -32 -1.7281e+38 -32.001"
+  },
+  {
+   "offset": 720,
+   "tipo": "u32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x19355000 0x13385000 0x192E4F00"
+  },
+  {
+   "offset": 724,
+   "tipo": "u32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0xE6281814 0xE2201B13 0xE623171A"
+  },
+  {
+   "offset": 728,
+   "tipo": "u32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0xFCEFED18 0xFCEFE80F 0xFDF0FC1C"
+  },
+  {
+   "offset": 732,
+   "tipo": "int_chico",
+   "nota": "5 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000100 0x000001FF 0x000001FD 0x000001FE"
+  },
+  {
+   "offset": 736,
+   "tipo": "f32",
+   "nota": "12 valores distintos",
+   "accesos": [
+    [
+     4,
+     "swc1"
+    ]
+   ],
+   "muestra": "0 59.5758 55.0765 57.0582"
+  },
+  {
+   "offset": 740,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [
+    [
+     4,
+     "lwc1"
+    ],
+    [
+     4,
+     "swc1"
+    ]
+   ],
+   "muestra": "0 0.0536027 0.106951 63.0137"
+  },
+  {
+   "offset": 744,
+   "tipo": "f32",
+   "nota": "3 valores distintos",
+   "accesos": [
+    [
+     4,
+     "lw"
+    ],
+    [
+     17,
+     "lwc1"
+    ],
+    [
+     17,
+     "swc1"
+    ]
+   ],
+   "muestra": "1.65 1.46667 1.2"
+  },
+  {
+   "offset": 748,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     4,
+     "lwc1"
+    ],
+    [
+     4,
+     "sw"
+    ],
+    [
+     4,
+     "swc1"
+    ],
+    [
+     17,
+     "lwc1"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 752,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 756,
+   "tipo": "f32",
+   "nota": "15 valores distintos",
+   "accesos": [],
+   "muestra": "0 13.8333 518.167 530.833"
+  },
+  {
+   "offset": 760,
+   "tipo": "f32",
+   "nota": "3 valores distintos",
+   "accesos": [
+    [
+     8,
+     "lwc1"
+    ],
+    [
+     8,
+     "swc1"
+    ],
+    [
+     11,
+     "lwc1"
+    ],
+    [
+     11,
+     "swc1"
+    ],
+    [
+     18,
+     "lwc1"
+    ],
+    [
+     18,
+     "swc1"
+    ]
+   ],
+   "muestra": "0 FLT_MAX 100"
+  },
+  {
+   "offset": 764,
+   "tipo": "f32",
+   "nota": "CONSTANTE en 32/32",
+   "accesos": [
+    [
+     17,
+     "lwc1"
+    ]
+   ],
+   "muestra": "1"
+  },
+  {
+   "offset": 768,
+   "tipo": "f32",
+   "nota": "12 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lwc1"
+    ]
+   ],
+   "muestra": "FLT_MAX 528.367 547.9 228.133"
+  },
+  {
+   "offset": 772,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "10000 76.59 72.9706 84.9"
+  },
+  {
+   "offset": 776,
+   "tipo": "f32",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "1 0.41221 0.476833 0.43223"
+  },
+  {
+   "offset": 780,
+   "tipo": "f32",
+   "nota": "CONSTANTE en 32/32",
+   "accesos": [],
+   "muestra": "1"
+  },
+  {
+   "offset": 784,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     17,
+     "lwc1"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 788,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [
+    [
+     17,
+     "lwc1"
+    ]
+   ],
+   "muestra": "0 4"
+  },
+  {
+   "offset": 792,
+   "tipo": "f32",
+   "nota": "2 valores distintos",
+   "accesos": [
+    [
+     11,
+     "lwc1"
+    ]
+   ],
+   "muestra": "0.6 0.8"
+  },
+  {
+   "offset": 796,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [
+    [
+     8,
+     "lwc1"
+    ],
+    [
+     8,
+     "swc1"
+    ]
+   ],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 800,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 804,
+   "tipo": "ptr",
+   "nota": "6 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x0109A0A0 0x0109CD50 0x01094EA0"
+  },
+  {
+   "offset": 808,
+   "tipo": "ptr",
+   "nota": "4 valores distintos",
+   "accesos": [
+    [
+     8,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x00598110 0x00597F90 0x00597F50"
+  },
+  {
+   "offset": 812,
+   "tipo": "ptr",
+   "nota": "6 valores distintos",
+   "accesos": [
+    [
+     4,
+     "lw"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     9,
+     "lw"
+    ],
+    [
+     11,
+     "lw"
+    ],
+    [
+     17,
+     "lw"
+    ],
+    [
+     18,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x004EAFB0 0x004E8FE0 0x004E3070"
+  },
+  {
+   "offset": 816,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [
+    [
+     3,
+     "lw"
+    ],
+    [
+     4,
+     "lw"
+    ],
+    [
+     5,
+     "lw"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     17,
+     "lw"
+    ],
+    [
+     18,
+     "lw"
+    ]
+   ],
+   "muestra": "0x0122C000 0x0122C240 0x0122C480 0x0122C6C0"
+  },
+  {
+   "offset": 820,
+   "tipo": "int_chico",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x0000000B"
+  },
+  {
+   "offset": 824,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 828,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 832,
+   "tipo": "int_chico",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x00000001"
+  },
+  {
+   "offset": 836,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 840,
+   "tipo": "ptr",
+   "nota": "3 valores distintos",
+   "accesos": [
+    [
+     3,
+     "sw"
+    ]
+   ],
+   "muestra": "0x00000000 0x006565E0 0x00656770"
+  },
+  {
+   "offset": 844,
+   "tipo": "ptr",
+   "nota": "5 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x00699200 0x006A1C80 0x006A6300"
+  },
+  {
+   "offset": 848,
+   "tipo": "ptr",
+   "nota": "2 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ],
+    [
+     17,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x0058E708"
+  },
+  {
+   "offset": 852,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [],
+   "muestra": "0x00630300 0x00631480 0x00632600 0x00633780"
+  },
+  {
+   "offset": 856,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [],
+   "muestra": "0x00630380 0x00631500 0x00632680 0x00633800"
+  },
+  {
+   "offset": 860,
+   "tipo": "ptr",
+   "nota": "32 valores distintos",
+   "accesos": [],
+   "muestra": "0x0189CF00 0x0189D530 0x0189DB60 0x0189E190"
+  },
+  {
+   "offset": 864,
+   "tipo": "ptr",
+   "nota": "2 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x0138BA00"
+  },
+  {
+   "offset": 868,
+   "tipo": "ptr",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x01841800"
+  },
+  {
+   "offset": 872,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 876,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 880,
+   "tipo": "int_chico",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x00000001"
+  },
+  {
+   "offset": 884,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 888,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 892,
+   "tipo": "int_chico",
+   "nota": "16 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x00000002 0x00000003 0x00000037"
+  },
+  {
+   "offset": 896,
+   "tipo": "u32",
+   "nota": "6 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0xFFFFFFFF 0x00000001 0x00000002"
+  },
+  {
+   "offset": 900,
+   "tipo": "u32",
+   "nota": "CONSTANTE en 32/32",
+   "accesos": [],
+   "muestra": "0x02400070"
+  },
+  {
+   "offset": 904,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  },
+  {
+   "offset": 908,
+   "tipo": "int_chico",
+   "nota": "4 valores distintos",
+   "accesos": [
+    [
+     3,
+     "sw"
+    ],
+    [
+     4,
+     "lw"
+    ],
+    [
+     5,
+     "lw"
+    ],
+    [
+     8,
+     "lw"
+    ],
+    [
+     9,
+     "lw"
+    ],
+    [
+     11,
+     "lw"
+    ],
+    [
+     17,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x00000002 0x00000004 0x00000001"
+  },
+  {
+   "offset": 912,
+   "tipo": "u32",
+   "nota": "3 valores distintos",
+   "accesos": [
+    [
+     4,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x00000001 0xFFFFFFFF"
+  },
+  {
+   "offset": 916,
+   "tipo": "int_chico",
+   "nota": "3 valores distintos",
+   "accesos": [
+    [
+     8,
+     "sw"
+    ]
+   ],
+   "muestra": "0x00000000 0x0000000B 0x00000001"
+  },
+  {
+   "offset": 920,
+   "tipo": "int_chico",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x00000001"
+  },
+  {
+   "offset": 924,
+   "tipo": "int_chico",
+   "nota": "4 valores distintos",
+   "accesos": [
+    [
+     18,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x00000024 0x0000001E 0x0000001D"
+  },
+  {
+   "offset": 928,
+   "tipo": "int_chico",
+   "nota": "2 valores distintos",
+   "accesos": [],
+   "muestra": "0x00000000 0x00000001"
+  },
+  {
+   "offset": 932,
+   "tipo": "int_chico",
+   "nota": "2 valores distintos",
+   "accesos": [
+    [
+     8,
+     "lw"
+    ],
+    [
+     18,
+     "lw"
+    ]
+   ],
+   "muestra": "0x00000000 0x00000001"
+  },
+  {
+   "offset": 936,
+   "tipo": "u32",
+   "nota": "5 valores distintos",
+   "accesos": [
+    [
+     4,
+     "lbu"
+    ],
+    [
+     4,
+     "sb"
+    ],
+    [
+     17,
+     "lbu"
+    ],
+    [
+     17,
+     "sb"
+    ]
+   ],
+   "muestra": "0x00000000 0x00000001 0x01000001 0x01010001"
+  },
+  {
+   "offset": 940,
+   "tipo": "u32",
+   "nota": "3 valores distintos",
+   "accesos": [
+    [
+     5,
+     "lbu"
+    ],
+    [
+     17,
+     "lbu"
+    ]
+   ],
+   "muestra": "0x00000000 0x01000100 0x00000100"
+  },
+  {
+   "offset": 944,
+   "tipo": "u32",
+   "nota": "3 valores distintos",
+   "accesos": [
+    [
+     4,
+     "lbu"
+    ],
+    [
+     8,
+     "sb"
+    ],
+    [
+     11,
+     "sb"
+    ],
+    [
+     17,
+     "lbu"
+    ]
+   ],
+   "muestra": "0x00000000 0x01000001 0x01000000"
+  },
+  {
+   "offset": 948,
+   "tipo": "ptr",
+   "nota": "2 valores distintos",
+   "accesos": [
+    [
+     17,
+     "lbu"
+    ]
+   ],
+   "muestra": "0x00000000 0x01010000"
+  },
+  {
+   "offset": 952,
+   "tipo": "u32",
+   "nota": "3 valores distintos",
+   "accesos": [
+    [
+     8,
+     "lbu"
+    ],
+    [
+     18,
+     "lbu"
+    ]
+   ],
+   "muestra": "0x00000000 0x5F485300 0x5F4D5400"
+  },
+  {
+   "offset": 956,
+   "tipo": "cero",
+   "nota": "cero en todas",
+   "accesos": [],
+   "muestra": "0x00000000"
+  }
+ ]
+}
