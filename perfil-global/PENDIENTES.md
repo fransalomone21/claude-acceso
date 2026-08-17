@@ -10,18 +10,51 @@ entera de que alguien lo cerró.
 
 ---
 
-## 1. La alarma sin probar — `verify-install.ps1`
+## 1. La alarma sin probar — `verify-install.ps1` — RESUELTO (2026-08-17)
 
 `verify-install.ps1` verifica por **efecto** (corre los hooks por Git Bash y
-mide lo que emiten), que es lo correcto. Pero nadie rompió la instalación a
-propósito para ver si se pone en rojo. Por la regla del saboteador (regla 3 de
-`CLAUDE.md`), hoy es una alarma sin probar: no sabemos si verifica o si
-siempre dice que sí.
+mide lo que emiten), que es lo correcto. Pero nadie había roto la instalación
+a propósito para ver si se pone en rojo. Por la regla del saboteador (regla 3
+de `CLAUDE.md`), era una alarma sin probar: no se sabía si verificaba o si
+siempre decía que sí.
 
-Cierra cuando: se rompan a propósito los cuatro modos de falla —archivo
-faltante, archivo vacío, hook mal registrado en `settings.json`, comando de
-hook con `$VAR` sin escapar— y cada uno ponga el script en rojo con un mensaje
-que diga cuál es. Es una tarde de trabajo y cierra el círculo de la lección 7.
+Se rompieron los cuatro modos, de a uno, sobre la instalación viva de
+`~/.claude/` (con respaldo previo de `settings.json` y de
+`hooks/emitir-contexto.ps1`, restaurados y verificados bit a bit iguales al
+original después de cada modo):
+
+1. **Archivo de hook faltante** (`emitir-contexto.ps1` renombrado) → ROJO.
+   `[FAIL] hooks/emitir-contexto.ps1 - no encontrado` + los 4 hooks fallan por
+   efecto (exit=127).
+2. **Archivo de hook vacío** (truncado a 0 bytes) → ROJO. `[FAIL]
+   hooks/emitir-contexto.ps1 existe pero parece vacio (0 bytes)` + los 4 hooks
+   fallan por efecto (exit=0, sin salida) — el mismo síntoma exacto de la
+   lección 13 que el propio script cita en su comentario.
+3. **Hook mal registrado en `settings.json`** (la clave `UserPromptSubmit`
+   escrita como `userPromptSubmit`) → dio VERDE la primera vez. Es el hallazgo
+   de la fase: `-contains` y el acceso `.hooks.$evento` de PowerShell son
+   case-**insensitive** por default, así que el chequeo de registro nunca
+   distinguía mayúsculas de minúsculas — aunque el harness real sí es
+   case-sensitive (confirmado en el mismo experimento: el validador de
+   settings.json del propio Claude Code rechazó `userPromptSubmit` como
+   "Not a recognized hook event" al intentar editarlo con la herramienta Edit).
+   Corregido en el mismo turno (no se reportó el hallazgo y se dejó para
+   después, por la propia instrucción de este archivo): la búsqueda de la
+   propiedad ahora usa `-ceq` para exigir el nombre exacto. Re-probado el
+   mismo modo contra el script corregido → ROJO, `[FAIL] settings.json no
+   define el hook UserPromptSubmit (nombre exacto, distingue
+   mayusculas/minusculas)`.
+4. **Comando de hook con `$VAR` sin escapar** (`$env:USERPROFILE` en vez de la
+   ruta resuelta) → ROJO, con doble confirmación: el chequeo estático lo
+   nombra (`el comando expande variables de shell`) y el chequeo de efecto
+   también falla porque bash no resuelve `$env:` (exit=127).
+
+Instalación restaurada y verificada en verde al cerrar, con los mismos cuatro
+números de control positivo que al abrir la fase (2649/5247/8042/1422 chars).
+Cierra el círculo de la lección 7 y confirma la regla 3 de `CLAUDE.md`: la
+alarma no "siempre decía que sí" en tres de los cuatro modos, pero sí lo hacía
+en el cuarto hasta que se la rompió — que es exactamente el caso que la regla
+existe para atrapar.
 
 ## 2. La secuencia falsa
 

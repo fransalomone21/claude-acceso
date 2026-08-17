@@ -1,4 +1,4 @@
-CHEQUEO DE TRABAJO - la sintesis de las 35 lecciones que ya costaron tiempo.
+CHEQUEO DE TRABAJO - la sintesis de las 36 lecciones que ya costaron tiempo.
 
 Esto no se consulta: se inyecta. Cada linea es un error que ya se cometio al
 menos una vez y volvio a costar caro por no estar a mano en el momento.
@@ -57,6 +57,10 @@ ANTES DE CONFIAR EN UNA HERRAMIENTA
   - Un comando adentro de un archivo de configuracion lo corre el shell del
     OTRO programa: nada de $VAR, %VAR%, comillas anidadas. Y nunca silencies
     errores ahi.
+  - El tool Bash de esta sesion es Git Bash (POSIX sh), no PowerShell: envolver
+    'powershell -Command "...$env:VAR..."' ahi hace que el shell POSIX expanda
+    el $ ANTES de que PowerShell vea el string. Sintaxis de PowerShell ($env:,
+    variables, comillas anidadas) va por el tool de PowerShell dedicado.
   - El cwd de una herramienta de shell sobrevive entre llamadas aunque el
     resto del estado no. "No such file or directory" sobre algo que existe =
     te movieron el piso, no el archivo. Y su stdout tiene tope: contenido que

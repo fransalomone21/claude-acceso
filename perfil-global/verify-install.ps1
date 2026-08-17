@@ -81,15 +81,23 @@ if (-not (Test-Path $settingsPath)) {
     Write-Host "  [FAIL] settings.json no encontrado: $settingsPath" -ForegroundColor Red
     $pass = $false
 } else {
+    # -contains y el acceso .hooks.$evento son case-INSENSITIVE en PowerShell por
+    # default: "userPromptSubmit" pasaba como si fuera "UserPromptSubmit" aunque
+    # el harness real (case-sensitive) lo ignora. Se busca la propiedad con -ceq
+    # para exigir el nombre exacto. Ver PENDIENTES.md #1 - modo 3 del saboteador.
     try {
         $st = Get-Content -Raw $settingsPath | ConvertFrom-Json
         foreach ($evento in @('SessionStart', 'UserPromptSubmit')) {
-            if (-not $st.hooks -or -not ($st.hooks.PSObject.Properties.Name -contains $evento)) {
-                Write-Host "  [FAIL] settings.json no define el hook $evento" -ForegroundColor Red
+            $propExacta = $null
+            if ($st.hooks) {
+                $propExacta = $st.hooks.PSObject.Properties | Where-Object { $_.Name -ceq $evento }
+            }
+            if (-not $propExacta) {
+                Write-Host "  [FAIL] settings.json no define el hook $evento (nombre exacto, distingue mayusculas/minusculas)" -ForegroundColor Red
                 $pass = $false
                 continue
             }
-            foreach ($entrada in @($st.hooks.$evento)) {
+            foreach ($entrada in @($propExacta.Value)) {
                 foreach ($hk in @($entrada.hooks)) {
                     $comandos += [PSCustomObject]@{ Evento = $evento; Comando = $hk.command }
                 }

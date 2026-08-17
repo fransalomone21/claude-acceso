@@ -306,6 +306,14 @@ La sintesis que se lee sola al abrir sesion es
 
 **Costo:** varias sesiones sin dos herramientas que ya estaban bajadas y pagadas  ·  black  ·  2026-08-17  ·  ver `lecciones-aprendidas#19`
 
+### El tool Bash es Git Bash: no correr powershell -Command con $env: adentro
+
+**Regla:** Para correr PowerShell con sintaxis $env: o $variable, usar el tool PowerShell dedicado, nunca el tool Bash envolviendo 'powershell -Command "..."' -- el tool Bash es Git Bash (POSIX sh), y parsea el string antes de pasarlo
+
+**Sintoma:** Copy-Item $env:USERPROFILE\... via el tool Bash tira 'no se encuentra la ruta :USERPROFILE\...' -- el shell POSIX del tool Bash expande $env como variable bash vacia ANTES de que powershell -Command reciba el string
+
+**Costo:** un llamado perdido  ·  perfil  ·  2026-08-17
+
 ---
 
-Total: 35 lecciones.
+Total: 36 lecciones.
