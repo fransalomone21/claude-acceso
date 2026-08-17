@@ -53,8 +53,8 @@ y el pilar son los **8 puntos** que quedaron en el cuerpo de la skill bajo
 
 | Libro | Ficha | Pilar foldeado | Fuente |
 |---|---|---|---|
-| **Leverage Points** (Meadows, 1999, 21 pp.) | [`leverage-points.md`](leverage-points.md) | sí — 3 líneas en `pilares.md` | `~/Downloads/Leverage_Points.pdf` |
-| Thinking in Systems (Meadows, 2008, 235 pp.) | pendiente | — | `~/Downloads/Meadows-2008.-Thinking-in-Systems.pdf` |
+| **Leverage Points** (Meadows, 1999, 21 pp.) | [`leverage-points.md`](leverage-points.md) | sí — 4 líneas en `pilares.md` | `~/Downloads/Leverage_Points.pdf` |
+| **Thinking in Systems** (Meadows, 2008, 235 pp.) | [`thinking-in-systems.md`](thinking-in-systems.md) | sí — 6 líneas en `pilares.md` | `~/Downloads/Meadows-2008.-Thinking-in-Systems.pdf` |
 | The Pragmatic Programmer (Hunt & Thomas, 348 pp., ed. portuguesa) | pendiente | — | `~/Downloads/o-programador-pragmatico.pdf` |
 
 El destilado vive en `perfil-global/pilares.md` (ASCII), que es **Nivel 0** y
@@ -78,3 +78,34 @@ Y el **control positivo antes de leer** (lección 14): buscar en el texto
 extraído algo que tiene que estar sí o sí —el título, los encabezados
 numerados, el índice—. Si no aparece, lo que falló es la extracción y todavía
 no sabés nada del libro.
+
+Dos cosas que ya costaron viajes de más y que en el libro 3 van a costar más,
+porque *The Pragmatic Programmer* está en edición portuguesa y viene lleno de
+no-ASCII:
+
+1. **La consola de esta máquina es cp1252: `print` del texto extraído explota.**
+   No con acentos —con las **ligaduras tipográficas** que mete el PDF: `ﬁ`,
+   `ﬂ`, `ﬀ`. El error es `UnicodeEncodeError: 'charmap' codec can't encode
+   character 'ﬁ'`, y sale a mitad de la impresión, así que parece que
+   falló la extracción y no la salida. Normalizar a ASCII antes de imprimir:
+
+   ```python
+   import unicodedata
+   MAPA = {'ﬀ': 'ff', 'ﬁ': 'fi', 'ﬂ': 'fl',
+           'ﬃ': 'ffi', 'ﬄ': 'ffl',
+           '‘': "'", '’': "'", '“': '"', '”': '"',
+           '–': '-', '—': '--', '…': '...', ' ': ' '}
+   for k, v in MAPA.items():
+       s = s.replace(k, v)
+   s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode()
+   ```
+
+2. **No transportes el texto por stdout del shell.** Tiene tope: arriba de
+   ~30 KB te devuelve "Output too large" y te guarda un archivo que igual hay
+   que abrir con la herramienta de lectura — un viaje de más por cada tramo.
+   Escribí el rango a archivo y leelo con la herramienta de leer, o dimensioná
+   el tramo en ~20 páginas antes del primer intento. (Lección 33.)
+
+**Ancla de páginas:** anotar en la ficha el offset entre la página del PDF y la
+del libro impreso (en Meadows 2008 es `PDF = libro + 17`). Las anclas de la
+ficha van con el número **del libro**, que es el que se puede chequear después.

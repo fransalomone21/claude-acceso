@@ -1,4 +1,4 @@
-CHEQUEO DE TRABAJO - la sintesis de las 32 lecciones que ya costaron tiempo.
+CHEQUEO DE TRABAJO - la sintesis de las 33 lecciones que ya costaron tiempo.
 
 Esto no se consulta: se inyecta. Cada linea es un error que ya se cometio al
 menos una vez y volvio a costar caro por no estar a mano en el momento.
@@ -55,7 +55,9 @@ ANTES DE CONFIAR EN UNA HERRAMIENTA
     errores ahi.
   - El cwd de una herramienta de shell sobrevive entre llamadas aunque el
     resto del estado no. "No such file or directory" sobre algo que existe =
-    te movieron el piso, no el archivo.
+    te movieron el piso, no el archivo. Y su stdout tiene tope: contenido que
+    vas a leer vos se escribe a archivo y se abre con la herramienta de leer,
+    no se transporta por el shell.
 
 AL LEER UN NEGATIVO
   - Un negativo prueba dos cosas a la vez: que no esta, o que lo buscaste

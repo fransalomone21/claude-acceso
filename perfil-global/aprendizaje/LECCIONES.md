@@ -214,6 +214,14 @@ La sintesis que se lee sola al abrir sesion es
 
 **Costo:** dos comandos fallidos y un 'no such file or directory' que parecia un archivo borrado  ·  general  ·  2026-08-17
 
+### Un documento largo se lee con la herramienta de leer, no por stdout del shell
+
+**Regla:** Si el contenido lo vas a leer vos, no lo pases por stdout del shell: escribilo a archivo y abrilo con la herramienta de lectura, que es la que esta hecha para eso y no tiene tope. El shell es para producir el archivo, no para transportarlo. Si igual vas a imprimir, dimensiona el tramo por debajo del tope antes del primer intento, no despues del primer rebote.
+
+**Sintoma:** Corres un comando que imprime un tramo del documento y en vez del texto te vuelve 'Output too large (61.2KB). Full output saved to: ...'. Lo abris con la herramienta de leer, funciona, y repetis el ciclo en el tramo siguiente sin darte cuenta de que cada tramo esta costando dos llamadas en vez de una.
+
+**Costo:** cinco viajes de ida y vuelta en una sola sesion de lectura  ·  general  ·  2026-08-17
+
 ## Como se trabaja
 
 ### Observar antes que intervenir
@@ -284,4 +292,4 @@ La sintesis que se lee sola al abrir sesion es
 
 ---
 
-Total: 32 lecciones.
+Total: 33 lecciones.

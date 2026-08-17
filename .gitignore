@@ -15,5 +15,11 @@ black/construido/*
 *.p2s
 *.ee.bin
 
+# --- perfil-global/pilares ---
+# Texto crudo extraido de los PDF de los libros (PyMuPDF). Son cientos de
+# miles de chars, se regeneran con un comando, y el PDF no es nuestro.
+# Lo que se versiona es la ficha destilada, no la fuente.
+perfil-global/pilares/_*.txt
+
 __pycache__/
 *.pyc
