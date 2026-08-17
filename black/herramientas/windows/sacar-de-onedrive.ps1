@@ -57,7 +57,9 @@ $MAPA = @{
     'My Pictures' = 'Pictures'
 }
 
-$CLAVE  = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
+# OJO: no llamar a esta variable $CLAVE. PowerShell no distingue mayusculas en
+# nombres de variables, y el $clave del foreach de mas abajo la pisaria.
+$RUTA_USF = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
 $CLAVE2 = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
 $PERFIL = $env:USERPROFILE
 
@@ -93,7 +95,7 @@ if ($Aplicar) {
 $errores = 0
 foreach ($clave in $Carpetas) {
     $nombre  = $MAPA[$clave]
-    $actual  = (Get-ItemProperty -Path $CLAVE -Name $clave).$clave
+    $actual  = (Get-ItemProperty -Path $RUTA_USF -Name $clave).$clave
     $destino = Join-Path $PERFIL $nombre
 
     Escribir ""
@@ -125,6 +127,9 @@ foreach ($clave in $Carpetas) {
 
     # /E subdirectorios incluidos vacios; /XJ ignora junctions (evita bucles);
     # NO se usa /MOVE a proposito: nada se borra del origen.
+    # /NFL /NDL /NJH /NJS silencian la salida de robocopy: no cuelga, pero
+    # no imprime nada mientras copia archivos grandes. Se avisa antes.
+    Escribir "    copiando (sin salida hasta que termine, puede tardar)..."
     robocopy $origen $destino /E /COPY:DAT /XJ /R:1 /W:1 /NFL /NDL /NJH /NJS | Out-Null
     $rc = $LASTEXITCODE
     if ($rc -ge 8) {
@@ -132,11 +137,18 @@ foreach ($clave in $Carpetas) {
         $errores++
         continue
     }
-    Escribir "    [OK] copiado (robocopy rc=$rc)" Green
+    $copiados = (Get-ChildItem $destino -Force -ErrorAction SilentlyContinue | Measure-Object).Count
+    Escribir "    [OK] copiado (robocopy rc=$rc, $copiados elementos ahora en destino)" Green
 
-    Set-ItemProperty -Path $CLAVE  -Name $clave -Value $destino -Type ExpandString
+    Set-ItemProperty -Path $RUTA_USF -Name $clave -Value $destino -Type ExpandString
     Set-ItemProperty -Path $CLAVE2 -Name $clave -Value $destino -ErrorAction SilentlyContinue
-    Escribir "    [OK] registro apuntando a $destino" Green
+    $verificado = (Get-ItemProperty -Path $RUTA_USF -Name $clave).$clave
+    if ($verificado -ne $destino) {
+        Escribir "    [MAL] el registro no quedo en $destino (quedo en $verificado)" Red
+        $errores++
+        continue
+    }
+    Escribir "    [OK] registro apuntando a $destino, verificado" Green
 }
 
 Escribir ""
