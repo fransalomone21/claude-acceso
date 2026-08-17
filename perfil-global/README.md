@@ -23,7 +23,7 @@ confiable que su costo permite.
 | Nivel | Mecanismo | Dispara | Qué vive acá |
 |---|---|---|---|
 | 4 | permiso denegado / validación | imposible saltearlo | (nada todavía) |
-| 3 | **hook** `SessionStart` | una vez por sesión — puede ser largo | `apertura-proyecto.md` (el cuadro de fase) · `chequeo-de-trabajo.md` (las 32 lecciones comprimidas) |
+| 3 | **hook** `SessionStart` | una vez por sesión — puede ser largo | `pilares.md` (**Nivel 0**: los fundamentos destilados de los libros) · `apertura-proyecto.md` (el cuadro de fase) · `chequeo-de-trabajo.md` (las 32 lecciones comprimidas) |
 | 3 | **hook** `UserPromptSubmit` | **en cada prompt** — tiene que ser corto | `recordatorio-transversal.md` (cuadro + chequeo de 5 puntos) |
 | 2 | `CLAUDE.md` global | si se leyó el archivo (se carga solo) | las 7 reglas absolutas |
 | 1 | skill de consulta | sólo si alguien la invoca | las 6 skills de abajo |
@@ -79,15 +79,17 @@ sintetizar, no**.
 ```
 perfil-global/
   CLAUDE.md                    las 7 reglas -> se copia a ~/.claude/CLAUDE.md
+  pilares.md                   NIVEL 0: los libros destilados. Hook SessionStart (ASCII)
   apertura-proyecto.md         inyectado por hook SessionStart (ASCII)
   chequeo-de-trabajo.md        inyectado por hook SessionStart (ASCII)
   recordatorio-transversal.md  inyectado por hook UserPromptSubmit (ASCII)
   install.ps1 / verify-install.ps1
-  hooks/emitir-contexto.ps1    el lanzador unico de los tres hooks
+  hooks/emitir-contexto.ps1    el lanzador unico de los cuatro hooks
   herramientas/aprender.py     registro de lecciones, global
   aprendizaje/
     lecciones.jsonl            la fuente de verdad (append-only)
     LECCIONES.md               generado; no editar a mano
+  pilares/                     las fichas largas de cada libro + el protocolo
   referencias/                 material externo auditado, con su veredicto
   <skill>/SKILL.md             una carpeta por skill; install.ps1 las levanta solas
 ```

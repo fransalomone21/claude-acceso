@@ -110,7 +110,13 @@ if (-not $skillDirs -or $skillDirs.Count -eq 0) {
 #
 # Los .md van en ASCII a proposito: la consola de Windows los lee como cp1252
 # y los acentos salen mojibake.
+# El orden del array es el orden de inyeccion en una instalacion desde cero:
+# Nivel 0 (fundamentos) antes que el protocolo de apertura y que el chequeo.
+# En una instalacion incremental el gancho nuevo queda al final igual, y no se
+# corrige a proposito: el orden de inyeccion es un parametro, y gastar
+# ingenieria en un parametro es exactamente lo que pilares.md dice que no.
 $ganchos = @(
+    @{ Evento = 'SessionStart';     Archivo = 'pilares.md' },
     @{ Evento = 'SessionStart';     Archivo = 'apertura-proyecto.md' },
     @{ Evento = 'SessionStart';     Archivo = 'chequeo-de-trabajo.md' },
     @{ Evento = 'UserPromptSubmit'; Archivo = 'recordatorio-transversal.md' }

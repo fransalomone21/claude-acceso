@@ -247,12 +247,27 @@ aviso de costo del propio sistema. Había un freno y estaba desconectado.
 — eso es subir el volumen de algo que ya nadie escucha. Convertila en
 mecanismo. Escala, de menos a más confiable:
 
-| Nivel | Mecanismo | Se dispara |
-|---|---|---|
-| 1 | Skill de consulta | sólo si alguien la invoca |
-| 2 | Línea en `CLAUDE.md` | si se leyó el archivo |
-| 3 | **Hook** (`SessionStart`, `UserPromptSubmit`) | siempre — **si está bien cableado** |
-| 4 | Permiso denegado / validación | imposible saltearlo |
+| Nivel | Mecanismo | Se dispara | Leverage point |
+|---|---|---|---|
+| 1 | Skill de consulta | sólo si alguien la invoca | información que existe y no fluye |
+| 2 | Línea en `CLAUDE.md` | si se leyó el archivo | flujo pasivo |
+| 3 | **Hook** (`SessionStart`, `UserPromptSubmit`) | siempre — **si está bien cableado** | **#6** estructura de los flujos de información |
+| 4 | Permiso denegado / validación | imposible saltearlo | **#5** las reglas del sistema |
+| 5 | El sistema se modifica a sí mismo (`aprender.py` + el chequeo de `install.ps1`) | cuando el propio sistema detecta que le falta una regla | **#4** auto-organización |
+| 6 | Cambiar la **meta** (el triángulo de hierro) | reordena todo lo de abajo sin tocarlo | **#3** metas |
+| 7 | Cambiar el **paradigma** ("el repo es la memoria") | de ahí salen las siete reglas | **#2** paradigma |
+
+Esta escalera se derivó empíricamente —a fuerza de repetir un error dos
+sesiones seguidas— y después resultó ser, escalón por escalón, la lista de
+*leverage points* de Donella Meadows en el tramo que cubría. Los niveles 5 a 7
+son los que le faltaban y se agregaron al leerla. Ver
+`perfil-global/pilares/leverage-points.md`, hallazgo 1.
+
+La consecuencia práctica es la que más se usa: **ante una regla que se
+incumple, la pregunta no es "¿cómo la escribo más fuerte?"** —eso es subir el
+volumen de algo que ya nadie escucha— sino, en orden: ¿falta un flujo de
+información (nivel 3)? ¿falta una regla dura (nivel 4)? ¿o lo que está mal es
+la meta (nivel 6)?
 
 El "si está bien cableado" no es una salvedad retórica: el primer hook que se
 escribió con esta tabla no disparó ni una vez, y nadie se enteró hasta que el
