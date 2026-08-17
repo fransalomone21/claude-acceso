@@ -12,6 +12,26 @@ La version larga, con el caso concreto de cada una, esta en la skill
 /lecciones-aprendidas. El indice completo:
   python perfil-global/herramientas/aprender.py digesto
 
+ANTES DE EJECUTAR UNA LISTA DE PASOS ESCRITA EN ORDEN
+  - Una lista sale lineal porque asi piensa la mayoria de la gente, no porque
+    las dependencias sean esas (Hunt & Thomas, Sec 28, p.172 -- la pina
+    colada: 12 pasos escritos y ejecutados en orden, 5 podian arrancar
+    juntos). Es el error simetrico del "el paso 2 depende del 1? ->
+    secuencial" de mas abajo: ese guarda contra paralelizar lo que depende de
+    verdad; este guarda contra secuenciar lo que en realidad es
+    independiente.
+  - Procedimiento, para listas de 4+ pasos que se van a ejecutar o delegar
+    (subagentes, plan, workflow): para CADA paso, pregunta que necesita que
+    SOLO un paso anterior produzca -- un dato, un archivo, un estado, un
+    efecto de lado. No "que escribi antes en la lista".
+  - Flecha unicamente cuando esa respuesta es concreta y nombrable. Si no
+    podes nombrar que produce el paso anterior que el siguiente consume, no
+    hay flecha -- aunque los hayas escrito o ejecutado en ese orden.
+  - Los pasos sin flecha entrante arrancan todos juntos. Los que comparten el
+    mismo padre y no tienen flecha entre si, tambien. Los dos chequeos se
+    preguntan JUNTOS al armar la lista, no por separado: son el mismo error
+    visto desde lados opuestos.
+
 ANTES DE CREERLE A UN RESULTADO
   - Confirmado = intervine en la causa y VI el efecto. Correlacion fuerte es
     'probable'. Nombra la segunda explicacion mas plausible y disena el test
@@ -89,6 +109,11 @@ AL LEER EL ESTADO DE LA MAQUINA
   - Un archivo que un hook inyecta se lee UNA vez, al abrir la sesion.
     Editarlo a mitad de sesion no tiene efecto en esa sesion: hay que correr
     install.ps1 y abrir una sesion nueva para verlo.
+  - La etiqueta de modelo de un mensaje de retome es una hipotesis de quien
+    lo escribio, no un hecho verificado sobre el contenido real. Re-chequeala
+    contra la tabla de enrutador-modelo recien DESPUES de leer el material,
+    no antes: "diseno" no significa Opus si la decision de fondo ya estaba
+    tomada en una sesion anterior y lo que falta es redactarla o aplicarla.
 
 (El cierre de sesion --checkpoint, commit, y el registro de una leccion nueva
 con aprender.py-- es la regla 5 y el autoperfeccionamiento de CLAUDE.md. No se

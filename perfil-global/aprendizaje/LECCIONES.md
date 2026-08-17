@@ -296,6 +296,14 @@ La sintesis que se lee sola al abrir sesion es
 
 **Costo:** se evito: 4 de 5 ideas centrales ya estaban implementadas y una habria duplicado el cuadro de fase en cada respuesta  ·  perfil  ·  2026-08-17  ·  ver `lecciones-aprendidas#26`
 
+### Cuadro hereda 'Opus' del mensaje de retome sin re-chequear tras leer el material
+
+**Regla:** la etiqueta de modelo de un mensaje de retome es una hipotesis de la sesion QUE LO ESCRIBIO, no un hecho verificado sobre el contenido. Se re-chequea contra la tabla de enrutador-modelo recien despues de leer el material real, no antes de. El criterio no es la palabra 'diseno': es si la decision de fondo sigue abierta (Opus) o ya esta tomada y falta redactarla/aplicarla (Sonnet)
+
+**Sintoma:** el mensaje de retome de la sesion anterior decia 'Modelo: Opus (diseno de procedimiento nuevo, territorio desconocido)', y la sesion nueva repitio esa etiqueta en el cuadro de apertura sin re-chequearla; al leer PENDIENTES.md y pilares.md el diseno ya estaba resuelto casi entero de una sesion previa, y lo que quedaba era redactarlo en dos archivos y probarlo en un caso -- trabajo de Sonnet
+
+**Costo:** un turno de cuadro de fase mal declarado, sealado por el usuario en vez de detectado solo  ·  perfil  ·  2026-08-17  ·  ver `enrutador-modelo, seccion 'Autocalibracion'`
+
 ## La maquina
 
 ### El repo es la memoria del proyecto, no la de la maquina
@@ -316,4 +324,4 @@ La sintesis que se lee sola al abrir sesion es
 
 ---
 
-Total: 36 lecciones, 0 exitos auditados.
+Total: 37 lecciones, 0 exitos auditados.

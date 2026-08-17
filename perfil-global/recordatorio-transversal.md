@@ -14,6 +14,8 @@ contexto: releelo ahi, no lo pidas de nuevo.
 ANTES DE ACTUAR:
 1. Ya lo se o esta en el contexto? -> no lo mandes a investigar de nuevo.
 2. El paso 2 depende del paso 1? -> es SECUENCIAL. Nada de fan-out.
+   Y al reves: la lista salio lineal porque asi se penso, no porque haya
+   flecha real? -> ver "antes de ejecutar una lista" en chequeo-de-trabajo.
 3. Sondeo barato local primero (1-4 comandos). Fan-out solo si SOBREVIVE
    superficie ancha e independiente despues del sondeo Y el presupuesto del
    plan lo banca: el presupuesto gana sobre ultracode y sobre cualquier

@@ -56,17 +56,54 @@ alarma no "siempre decía que sí" en tres de los cuatro modos, pero sí lo hac�
 en el cuarto hasta que se la rompió — que es exactamente el caso que la regla
 existe para atrapar.
 
-## 2. La secuencia falsa
+## 2. La secuencia falsa — RESUELTO (2026-08-17)
 
-El chequeo transversal defiende contra el **paralelismo** falso ("el paso 2
+El chequeo transversal defendía contra el **paralelismo** falso ("el paso 2
 depende del 1 → secuencial, nada de fan-out") pero no contra la **secuencia**
 falsa: una lista se escribe en orden porque así se piensa, no porque las
-dependencias sean ésas. Hunt & Thomas, cap. 5, p. 172: la piña colada, 12
-pasos escritos en orden, 5 podían arrancar a la vez.
+dependencias sean ésas. Hunt & Thomas, cap. 5, §28, p. 172: la piña colada,
+12 pasos escritos y ejecutados en orden, de los que 5 podían arrancar a la
+vez.
 
-Falta el procedimiento — escribir los pasos y después preguntar, flecha por
-flecha, cuál dependencia existe de verdad. Detalle en
-[`pilares/pragmatic-programmer.md`](pilares/pragmatic-programmer.md).
+**Procedimiento** (agregado a
+[`chequeo-de-trabajo.md`](chequeo-de-trabajo.md), sección "antes de ejecutar
+una lista de pasos escrita en orden"): para listas de 4+ pasos que se van a
+ejecutar o delegar, para cada paso preguntar qué necesita que **sólo** un
+paso anterior produzca — un dato, un archivo, un estado, un efecto de lado —
+y no "qué escribí antes en la lista". Flecha únicamente cuando esa respuesta
+es concreta y nombrable. Pointer barato agregado también en
+`recordatorio-transversal.md` (que se inyecta cada turno) apuntando a la
+sección completa, para que el guardia simétrico se use en la práctica y no
+sólo se lea una vez al abrir sesión.
+
+**Probado en un caso concreto**: la propia lista de esta tarea, escrita como
+naturalmente hubiera salido —
+`1. leer PENDIENTES → 2. leer pilares p.172 → 3. elegir caso de prueba →
+4. diseñar el procedimiento → 5. aplicarlo al caso → 6. escribirlo en
+chequeo-de-trabajo → 7. agregar el pointer → 8. cerrar el pendiente →
+9. commit` — una cadena lineal de 9. Aplicado el procedimiento, flecha por
+flecha:
+
+- **1, 2 y 3 no tienen flecha entre sí.** Leer PENDIENTES no produce nada que
+  necesite la lectura de pilares, y viceversa (ya se habían corrido en
+  paralelo, sin planearlo así). Elegir el caso de prueba tampoco necesitaba
+  el contenido de ninguna lectura ni del procedimiento ya diseñado — sólo
+  necesitaba que existiera una lista real de pasos, y ésa ya existía antes de
+  leer nada. Hallazgo real: el orden natural pone "elegir caso" después de
+  "diseñar" porque se siente como su continuación lógica, pero la
+  dependencia no existe — es exactamente el efecto que describe Hunt &
+  Thomas.
+- 4 sí depende de 1 y 2 (necesita el pedido exacto y el vocabulario de la
+  fuente). 5 depende de 3 y 4. 6 depende de 4 (y condicionalmente de 5, sólo
+  si el test hubiera obligado a revisar el diseño — no fue el caso). 7
+  depende de 6 (necesita el nombre de la sección para referenciarla). 8
+  depende de 5, 6 y 7. 9 depende de 6, 7 y 8.
+- Grafo real: primera ola de **3** arranques independientes (1, 2, 3), no de
+  2 como asumía la lista lineal. Un caso chico, pero el mismo error que la
+  piña colada: la lista escrita en orden ocultaba un fan-out real.
+
+Cierra el pendiente: no alcanzaba con documentar el procedimiento en
+abstracto, y acá quedó aplicado a un caso con el resultado a la vista.
 
 ## 3. La asimetría del registro — RESUELTO (2026-08-17)
 
