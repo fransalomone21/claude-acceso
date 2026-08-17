@@ -63,7 +63,12 @@ N2  FASES DEL JUEGO
      4b daño de SALIDA del jugador ........................ cerrada, por efecto
      5a mod de daño ...................................... PARQUEADA (ver abajo)
      5b qué elige la zona de impacto ..................... pendiente, es Opus
-     6  exprimir el ISO ................................... ABIERTA, es la prioridad
+     6  exprimir el ISO ................................... 6.1 y 6.6 CERRADAS
+     7  arquitectura de entidades y de la IA .............. ABIERTA <-- acá estamos
+        Sirve al objetivo que fijó Fran el 2026-08-17: hacer BLACK más
+        difícil y meterle cambios tipo remaster (armas, tipos de enemigo,
+        coop). El plan de experimentos está en `docs/08-experimentos.md`
+        y los requisitos contra los que se valida, en `docs/00-conops.md`.
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo
@@ -169,6 +174,9 @@ geometría se traba, comparar contra el build de Xbox es una entrada barata.
 | vgmstream r2117 | instalado |
 | **`herramientas/lbas.py`** — tabla de LBAs del ISO y búsqueda con controles | **nueva 2026-08-17** |
 | **`herramientas/parche_iso.py`** — editar un archivo adentro del ISO, in-place | **nueva 2026-08-17** |
+| **`herramientas/experimento.py`** — banco A/B con savestate, vida inflada y predicción registrada | **nueva 2026-08-17** |
+| **`herramientas/kynapse.py`** — las 182 clases de la IA, con nombre y padre | **nueva 2026-08-17** |
+| **`herramientas/estructura.py`** — campos de una clase, cruzando instancias con los métodos de su vtable | **nueva 2026-08-17** |
 
 **PCSX2-MCP: YA ESTÁ EN USO.** Fran lo ejecutó el 2026-08-16. El emulador que
 corre es su `pcsx2-qt.exe` (build `d75a0ad`), con DebugServer en 21512 y PINE
@@ -246,6 +254,9 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 | **Cola de daño diferido = global `0x00414AD0`** (16 registros de `0x20`) | `lui 0x41 + addiu 0x4AD0` en `0x0015B308` |
 | **MOD PERMANENTE EN EL ISO: anda.** Editar `GLOBDATA.BIN` in-place cambia el daño en pantalla | **2026-08-17. Cadena entera: 17 campos a `5.0` en el archivo → `Power = 5` en la tabla de RAM al arrancar → `vigilar.py` midió 24 impactos y los 24 son de exactamente `-5.0` (vida 750→630, salto constante, sin varianza). Antes del parche el escalón era `26.0`.** Serie en `volcados/vida-mod-armas.csv` |
 | **El ELF NO lleva LBAs horneados**; resuelve por nombre contra la TOC | 0/1644 inmediatos en el ELF con control positivo y piso de ruido; `gtfsdvd` lee la TOC. Ver `docs/05-iso.md` |
+| **`arma + bloque + 0x20` = `Time Between Bullets`** (segundos entre balas dentro de una ráfaga) | **2026-08-17, `experimento.py`, 4 réplicas A/B con predicción registrada: hueco intra-ráfaga 133.17 ms → 66.53 ms con factor 0.2, 555 dispersiones de separación, y el hueco entre ráfagas sin moverse. Está CUANTIZADA A FRAMES (2/4/5 frames a 30 fps) y la relación NO es proporcional** |
+| **El jugador REGENERA vida**: `+0.5` por tick, ~3,6/s | medido con `vigilar.py` el 2026-08-17. Nunca antes anotado; explica que se estabilice en vez de morir |
+| **El daño recibido no es exactamente el `Power`** | con `Power = 5`: 5.00 exacto a distancia media, pero mediana 4.50 y mínimo 1.90 a quemarropa. Sin explicar — es el experimento E2 |
 | **Mapeo del ELF: `offset_archivo = vaddr - 0xFF000`**, un solo `PT_LOAD` | verificado 6/6 |
 | **Los breakpoints de EJECUCIÓN crashean el emulador**; los watchpoints no | `bp poner` mató el proceso |
 | Un volcado completo de los 32 MB por PINE tarda **~3 s** | medido 2026-08-16 |
@@ -298,8 +309,17 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
   así que el nop de vida infinita en `0x0013BD20` **ya no está puesto**.
 - Savestates en **`C:\Users\frans\Documents\PCSX2\sstates\`** (ya NO en
   OneDrive; la carpeta de OneDrive quedó con copias viejas y confunde).
-  Slot 6 = el punto de trabajo histórico. **Slot 9 = la partida que Fran tenía
-  abierta el 2026-08-16 a las 23:39**, guardada antes de reiniciar.
+  **`pine.py cargarestado --slot N` los carga**, así que una sesión puede
+  correr experimentos sin nadie al teclado.
+
+  | slot | qué es |
+  |---|---|
+  | **3** | **la condición experimental**: jugador pegado a dos tiradores cerca del primer auto del nivel 1, con la **vida ya inflada a ~1e6** para que la muerte no trunque una medición. Es el que usa `experimento.py`. |
+  | 4 | mismo nivel, distancia media, vida normal |
+  | 6 | el punto de trabajo histórico |
+  | 7, 8 | capturas intermedias del 2026-08-17 |
+  | 9 | la partida que Fran tenía abierta el 2026-08-16 a las 23:39 |
+  | 10 | pegado a los tiradores pero con poca vida: **muere en segundos**, no sirve de condición inicial |
 
 ## Problemas abiertos
 

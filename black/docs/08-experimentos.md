@@ -84,6 +84,38 @@ por minuto* y dio "sin diferencia", porque el volumen total lo gobierna el
 ciclo de cobertura. La métrica equivocada no falsifica una hipótesis: mide
 otra cosa y lo dice con cara de resultado.
 
+#### E1b · La contraprueba en la otra dirección, y lo que falsificó
+
+Se corrió el mismo diseño con factor **×3**, prediciendo que si la relación
+fuera proporcional el hueco iría a ~450 ms.
+
+| parámetro | hueco intra-ráfaga | frames a 30 fps |
+|---|---|---|
+| 0.03 (×0.2) | 66.6 ms | 2 |
+| 0.15 (original) | 133.2 ms | 4 |
+| 0.45 (×3) | **166.9 ms** | **5** |
+
+**La predicción de linealidad quedó falsificada.** Lo que sobrevive es fuerte
+igual: la dirección es consistente en los dos sentidos, la varianza entre
+repeticiones es de ±0.0 a ±0.08 ms, y los tres puntos caen en múltiplos
+exactos de un frame. O sea que el campo **es** la cadencia y **está
+cuantizada**; lo que no se sabe es la función de transferencia.
+
+> **El confundido que hay que resolver antes de buscarle la ley.** Los tres
+> puntos se midieron con **dos tiradores disparando a la vez**, así que el
+> hueco observado es la mezcla de dos series intercaladas y no el intervalo de
+> un arma sola. Ajustarle una curva a eso sería ajustarle una curva a un
+> artefacto del montaje.
+>
+> **Arreglo:** un savestate con **un solo enemigo** a la vista. Con el banco ya
+> armado, repetir la serie completa cuesta diez minutos.
+
+También, en el ×3, el hueco **entre** ráfagas sí se movió (866 → 739 ms, 15
+dispersiones) y los impactos por ráfaga cayeron de 12.15 a 7.16. O sea que las
+ráfagas no son de N balas fijas: al alargar el tiempo entre balas entran menos
+balas por ráfaga. Eso dice que **la ráfaga está limitada por tiempo, no por
+munición**, y es otra pieza del modelo de dificultad.
+
 ### E2 · ¿Por qué el daño recibido es 4.50 y no 5.00?
 
 Con `Power = 5` escrito en el ISO, los impactos a distancia media dieron
