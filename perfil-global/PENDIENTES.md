@@ -132,18 +132,36 @@ vive ahí (Nivel 0, sección Pragmatic Programmer) como disciplina a aplicar,
 no como comando a recordar — lo que faltaba era sólo el mecanismo de
 registro, y ese es el que se cierra acá.
 
-## 4. `perfil-global/` debería ser su propio repositorio
+## 4. `perfil-global/` debería ser su propio repositorio — MIGRADO (2026-08-17)
 
-Vive en la rama de BLACK de `claude-acceso` por razones históricas: se creó
-ahí. Aplica a todo, así que su lugar natural es un repositorio propio — y la
-condición que este pendiente esperaba ya se dio: apareció `electronica-analogica/`
-en el árbol de trabajo de esta rama (2026-08-17).
+Vivía en la rama de BLACK de `claude-acceso` por razones históricas. Ahora
+tiene repositorio propio y privado:
+**https://github.com/fransalomone21/perfil-global**.
 
-Mitigado, no resuelto: lo instalado en `~/.claude/` funciona en cualquier
-carpeta de la máquina, y `~/.claude/aprendizaje/origen.txt` hace que
-`aprender.py` escriba siempre en este repo aunque se lo invoque desde otro
-lado. Lo que sigue roto el día que haya un repo separado de verdad es
-**actualizar** el perfil desde allá.
+**Cómo se migró**: `git subtree split -P perfil-global -b perfil-global-history`
+sobre esta rama, para llevarse los 27 commits reales que tocaron la carpeta
+(no un commit único con el estado actual — se conserva el "por qué" de cada
+regla, regla 2 de `CLAUDE.md`). Esa rama se pusheó como `main` del repo nuevo,
+que Fran creó vacío y privado en GitHub (no hay `gh` CLI instalado en esta
+máquina, así que la creación del repo fue manual). Clonado en
+`C:\Users\frans\Desktop\perfil-global\` — hermano de `claude-acceso`, no
+adentro.
 
-Es una decisión de Fran: implica un remoto nuevo. La solución no es mergear
-ramas — los proyectos no se mezclan.
+**Probado por efecto, no por precondición**: `install.ps1` corrido desde el
+repo nuevo detectó por sí solo (con el mismo mecanismo de siempre, sin tocar
+código) el número de lecciones desactualizado en el encabezado de
+`chequeo-de-trabajo.md` (decía 36, el registro ya tenía 37 — corregido en
+ambos repos). `verify-install.ps1` dio verde con los cuatro hooks emitiendo
+por efecto bajo Git Bash. `aprender.py donde`, corrido desde una carpeta
+neutral (`Desktop`), confirmó que `origen.txt` apunta al repo nuevo. Se
+registró una entrada de prueba real con `aprender.py agregar`, se confirmó
+por `grep` que apareció en el `.jsonl` del repo **nuevo** y no en el de
+`claude-acceso` (1 vs. 0), y después se sacó y se regeneró el índice.
+
+**Mitigado, no cerrado del todo**: por decisión explícita, `perfil-global/`
+queda de **espejo temporal** acá, en `claude-acceso`, sin editar contenido
+más allá de este párrafo — se borra en una sesión aparte, una vez que unos
+días de uso real confirmen que la instalación desde el repo nuevo sigue
+sólida. Mientras el espejo exista, **instalar siempre desde el repo nuevo**
+(`C:\Users\frans\Desktop\perfil-global\install.ps1`): correrlo desde acá
+volvería a pisar `origen.txt` apuntando a `claude-acceso`.

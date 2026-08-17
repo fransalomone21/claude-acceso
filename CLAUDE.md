@@ -17,29 +17,24 @@ contexto del proyecto, las reglas y el índice de qué leer según la tarea.
 
 ---
 
-## `perfil-global/` — el perfil de Claude, no un proyecto
+## `perfil-global/` — MOVIDO a su propio repositorio (2026-08-17)
 
-Es la metodología transversal (reglas, skills, hooks, lecciones aprendidas)
-que aplica a **cualquier** proyecto, no sólo a BLACK. Vive en esta rama por
-razones históricas: se creó acá.
-
-**El mapa está en [`perfil-global/README.md`](perfil-global/README.md)**: qué
-hay, en qué nivel de mecanismo vive cada regla, y las cinco cosas que hay que
-saber sin leer nada.
-
-Instalar o actualizar en una máquina:
+Era la metodología transversal (reglas, skills, hooks, lecciones aprendidas)
+que aplica a **cualquier** proyecto, no sólo a BLACK, y vivía en esta rama por
+razones históricas. Ahora vive en
+**https://github.com/fransalomone21/perfil-global** (privado), clonado
+localmente en `C:\Users\frans\Desktop\perfil-global\` — hermano de este repo,
+no adentro. Instalar o actualizar en una máquina, desde ESE repo, no desde
+acá:
 
 ```powershell
-.\perfil-global\install.ps1
-.\perfil-global\verify-install.ps1
+.\install.ps1
+.\verify-install.ps1
 ```
 
-Copia el `CLAUDE.md` global, todas las skills (carpeta entera, incluidas sus
-`referencias/`), los cuatro archivos que inyectan los hooks, `herramientas/` y
-el puntero `origen.txt` que las hace escribir de vuelta en este repo — con
-respaldo previo y de forma idempotente. `verify-install.ps1` comprueba el
-**efecto** de los hooks corriéndolos por Git Bash, no que los archivos estén.
-
-Sus pendientes —incluido el de sacarlo a su propio repositorio, cuya condición
-ya se dio con la aparición de `electronica-analogica/`— están en
-[`perfil-global/PENDIENTES.md`](perfil-global/PENDIENTES.md).
+La copia que sigue en esta rama es un **espejo temporal**, sin editar: se
+borra en una sesión aparte una vez confirmado el uso real desde el repo
+nuevo. Correr `install.ps1` desde acá pisaría `origen.txt` apuntando de
+vuelta a `claude-acceso`. Detalle completo de la migración —cómo se conservó
+la historia real de commits, cómo se probó por efecto— en
+[`perfil-global/PENDIENTES.md`](perfil-global/PENDIENTES.md), sección 4.

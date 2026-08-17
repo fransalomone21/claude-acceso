@@ -1,4 +1,4 @@
-CHEQUEO DE TRABAJO - la sintesis de las 36 lecciones que ya costaron tiempo.
+CHEQUEO DE TRABAJO - la sintesis de las 37 lecciones que ya costaron tiempo.
 
 Esto no se consulta: se inyecta. Cada linea es un error que ya se cometio al
 menos una vez y volvio a costar caro por no estar a mano en el momento.
