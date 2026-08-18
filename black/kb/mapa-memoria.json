@@ -175,6 +175,84 @@
       "confianza": "descartado",
       "evidencia": "2026-08-17. Unico u32 del objeto de 0x110 que cae en la tabla, alineado a registro con offset de bloque +0x90 constante, en 10 de 10. Apuntados los ocho objetos de enemigo al registro 6 (TBB 50x mas lento), con escritura verificada en los ocho: 127 impactos en 24.9 s contra 121 del baseline y escalon intacto. Repetido con la tabla marcada: el escalon siguio en 105, no paso a 106",
       "notas": "SENUELO. Alineacion no es causalidad. El campo real es arma_bloque_ia_por_instancia."
+    },
+    {
+      "id": "stlevel_l00_base",
+      "nombre": "STLEVEL.BIN de LEVEL_00/STG_0001, cargado en RAM",
+      "direccion": "0x01412400",
+      "tipo": "u32",
+      "version": "ntscu_100",
+      "estable": false,
+      "base": null,
+      "confianza": "confirmado",
+      "evidencia": "Huella de tamano: los 7 chunks bc1_ del archivo caen en RAM en base+offset_de_archivo, 7/7 exactos (0xc28->0x1413028, 0x17a8->0x1413ba8, 0x175a8->0x14299a8, 0x8439c->0x149679c, 0xb3afc->0x14c5efc, 0xb45e4->0x14c69e4, 0xe6a64->0x14f8e64). Carga literal, sin relocalizacion.",
+      "descubierto": "2026-08-17",
+      "notas": "Dinamica: vale para el savestate slot 3. El juego guarda punteros VIVOS adentro de esta imagen (p.ej. 0x01412900 = descriptor de escuadra Enemy0_Mid), asi que editar bytes aca edita datos vivos del nivel."
+    },
+    {
+      "id": "stunit01_l00_base",
+      "nombre": "STUNIT01.BIN de LEVEL_00/STG_0001, cargado en RAM",
+      "direccion": "0x01053000",
+      "tipo": "u32",
+      "version": "ntscu_100",
+      "estable": false,
+      "base": null,
+      "confianza": "confirmado",
+      "evidencia": "Los 2 chunks bc1_rg1_mil del archivo (0x2a8 y 0x3f65c) caen en 0x10532a8 y 0x109265c. 2/2, y los tamanos declarados (0x15e70, 0x292dc) coinciden con el archivo y con ningun otro STLEVEL.",
+      "descubierto": "2026-08-17",
+      "notas": "Es la prueba de que el personaje del RPG (bc1_rg1_mil) YA esta residente durante LEVEL_00/STG_0001 aunque el STLEVEL de ese stage no lo nombre. Mata el modo de falla que predecia E5 (\"falta el modelo\")."
+    },
+    {
+      "id": "dir_recursos_arma_stlevel",
+      "nombre": "Directorio de recursos de arma del stage, dentro de STLEVEL",
+      "direccion": "0x01412480",
+      "tipo": "u32",
+      "version": "ntscu_100",
+      "estable": false,
+      "base": "stlevel_l00_base+0x80",
+      "confianza": "probable",
+      "evidencia": "7 registros de paso 0x28 con nombre[0x10] en +0x00 (bg1_pst, bg1_shg, 0001_bg1_smg, 0001_bg1_ak1, 0001_bg1_asr, bg1_rpg, 0001_bg1_sm5), un ID de 64 bits en +0x10/+0x14 y un puntero a descriptor de escuadra. Ningun byte se escribio todavia.",
+      "descubierto": "2026-08-17",
+      "notas": "Los hi de los ID comparten 0x5446xxxx. 0001_bg1_ak1 apunta a Enemy0_Mid, que es la escuadra de los cinco tiradores activos: corrobora de forma independiente la hipotesis \"el codigo de 3 letras de arma+0x1C0 esta corrido un registro\" (medimos registro 5 y el nivel dice ak1, no asr)."
+    },
+    {
+      "id": "descriptor_escuadra",
+      "nombre": "Descriptores de escuadra del stage (Enemy0_Mid, Team0_Tom, ...)",
+      "direccion": "0x01412600",
+      "tipo": "u32",
+      "version": "ntscu_100",
+      "estable": false,
+      "base": "stlevel_l00_base+0x200",
+      "confianza": "confirmado",
+      "evidencia": "Nueve descriptores con nombre en +0x00: Enemy0_None (x3), Enemy0_Mid (x2), Enemy1_Low, Team0_Tom, Team1_Matt, Enemy0_High. El campo +0x58 del registro de entidad (0x0065FD00) apunta a uno de ellos, y la particion que produce coincide EXACTAMENTE con la particion por registro de arma ya confirmada en 7a: idx0/idx1 (reg 4, vida FLT_MAX, no disparan) -> Team0_Tom / Team1_Matt; idx2..idx7 (reg 5) -> Enemy1_Low / Enemy0_Mid.",
+      "descubierto": "2026-08-17",
+      "notas": "Team0_Tom y Team1_Matt son los COMPANEROS de escuadra del jugador, no enemigos. Eso explica por si solo el callejon cerrado \"los de vida FLT_MAX no son los tiradores\"."
+    },
+    {
+      "id": "registro_entidad_ia",
+      "nombre": "Registro por entidad con IA (posicion, escuadra, handles)",
+      "direccion": "0x0065FD00",
+      "tipo": "u32",
+      "version": "ntscu_100",
+      "estable": false,
+      "base": null,
+      "confianza": "probable",
+      "evidencia": "Apuntado por +0x08 del array de 0x24 de 7a (0x006E18B8). 8 registros de paso 0x80 para las 8 entidades armadas no-jugador del savestate 3. +0x10..+0x18 son la posicion XYZ (floats coherentes), +0x58 el puntero a la escuadra, +0x50 el handle de faccion (dos valores: uno para los dos companeros, otro para los seis enemigos).",
+      "descubierto": "2026-08-17",
+      "notas": "Ningun campo se escribio todavia: por eso probable y no confirmado. +0x5C toma valores 2/3/4 y es candidato a indice de tipo o de dificultad."
+    },
+    {
+      "id": "array_shooters_0x24",
+      "nombre": "Array de portadores de arma, paso 0x24 (ampliado en 7b)",
+      "direccion": "0x006E18B8",
+      "tipo": "u32",
+      "version": "ntscu_100",
+      "estable": true,
+      "base": null,
+      "confianza": "confirmado",
+      "evidencia": "7a lo confirmo por efecto para +0x04. En 7b se leyeron los 0x24 completos: +0x00/+0x04 punteros a los bloques jugador/IA del registro de arma, +0x08 puntero al registro de entidad de 0x80, +0x20 puntero al objeto de arma (0x006DE770+n*0x110, en +0x30). 10 entradas usadas, n=0 es el jugador.",
+      "descubierto": "2026-08-17",
+      "notas": "n=0 y n=8 tienen +0x00 == +0x04 (mismo bloque para jugador e IA) y +0x08 nulo. n=1,2 usan registro 4; n=3..7 y n=9 usan registro 5."
     }
   ]
 }

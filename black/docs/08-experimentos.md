@@ -203,6 +203,38 @@ medio, es reversible y se puede repetir.
 
 Idea de Fran, y encaja perfecto con la restricción de parche in-place.
 
+> **CORRECCIÓN 2026-08-17 — leer esto antes que lo de abajo.** El diseño que
+> sigue nombra `LEVEL_01` porque el savestate de trabajo se llamaba "nivel 1".
+> **Es el nivel equivocado: el savestate slot 3 está en `LEVEL_00`.** Medido
+> por huella de tamaño de los chunks residentes en RAM, no por el nombre.
+>
+> Y `LEVEL_00/STG_0001/STLEVEL.BIN` **no tiene los cuatro nombres**: sólo
+> `bc1_lr1_mil` y `bc1_so1_mil`. `bc1_rg1_mil` y `bc1_sk1_mil` son de
+> `LEVEL_01`.
+>
+> Lo que **sí** sobrevive, y mejora el experimento:
+> 1. **`bc1_rg1_mil` está residente igual** en `LEVEL_00`, cargado desde
+>    `LEVELS/LEVEL_00/STG_0001/STUNIT01.BIN`. O sea que el modo de falla que
+>    E5 predecía ("falta el modelo") **no aplica acá**.
+> 2. **No hace falta tocar el ISO para probarlo.** Los archivos de stage se
+>    cargan literales en RAM: `STLEVEL.BIN` de `LEVEL_00` en **`0x01412400`**,
+>    `STUNIT01.BIN` en **`0x01053000`**, con
+>    `direccion = base + offset_en_el_archivo` verificado en 9/9 anclas. La
+>    escritura de prueba es en RAM, reversible; el ISO recién después.
+> 3. **El observable no necesita ojos**, igual que en E4: si un `so1` pasa a
+>    ser un `rg1`, cambia el registro de arma que le toca en
+>    `0x006E18B8 + n*0x24 + 0x04`, y eso se lee con `pine.py`.
+>
+> Lo que falta para correrlo: **encontrar la lista de puntos de spawn** dentro
+> de la imagen de `STLEVEL`. Las apariciones "grupo B" de los nombres (las de
+> tag `0x3f800000`, con floats alrededor) y el campo `+0x5C` del registro de
+> entidad `0x0065FD00` —toma 2/3/4— son las dos entradas.
+>
+> **Y un negativo que orienta:** no hay **ni un** `u32` alineado en los 32 MB
+> que apunte a la cabecera, al nombre o al payload de esos chunks. Como
+> punteros a la imagen de `STLEVEL` sí existen, eso dice que el personaje se
+> resuelve **por ID/nombre, no por puntero cacheado**.
+
 `STG_0001/STLEVEL.BIN` nombra las entidades **en texto plano**. En
 `LEVELS/LEVEL_01/STG_0001/STLEVEL.BIN` hay 4 nombres `bc1_` distintos, 8
 apariciones, y **los cuatro miden exactamente 11 caracteres**:

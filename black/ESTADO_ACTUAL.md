@@ -70,7 +70,14 @@ N2  FASES DEL JUEGO
             de IA del registro de arma. Daño 105→106 y cadencia
             133ms→3534ms a la vez, las dos coincidiendo con el reg 6.
         7b  qué dato fija QUÉ TIPO de enemigo aparece .... ABIERTA
-            entrada barata: E5, `STLEVEL.BIN`, el truco de los 11 caracteres.
+            **El experimento se rediseñó el 2026-08-17 y ahora es barato.**
+            Los archivos de stage se cargan LITERALES en RAM
+            (`STLEVEL.BIN` de `LEVEL_00` en **`0x01412400`**, 7/7 anclas),
+            así que la prueba se hace **en RAM, reversible**, y recién
+            después se lleva al ISO. Falta: encontrar la lista de puntos
+            de spawn adentro de esa imagen. **OJO: E5 tal como estaba
+            escrito apuntaba a `LEVEL_01` y el savestate 3 está en
+            `LEVEL_00`.**
         7c  de dónde sale el puntero al spawnear ......... ABIERTA
             hace falta para hacerlo permanente en el ISO, no sólo en RAM.
         Sirve al objetivo que fijó Fran el 2026-08-17: hacer BLACK más
@@ -263,6 +270,10 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 | **Layout del registro de arma: DOS bloques.** Jugador en `+0x90`, **IA en `+0xC0`**. Dentro del bloque, `Power = +0x18` y `TimeBetweenBullets = +0x20`. O sea `Power` de IA en `+0xD8`, `TBB` de IA en `+0xE0` | marcado único por registro (`Power = 100+r`) → el escalón medido nombró el registro. Corrige la lectura previa que ponía el bloque de IA en `+0x90` |
 | **Directorio de armas en `0x01842084`**, 17 entradas de `0x20`, justo antes de la tabla. Cinco punteros por entrada: `+0x00→reg+0x50`, `+0x04→reg+0x70`, `+0x14→reg+0x90`, `+0x18→reg+0x1A0`, `+0x1C→reg+0x1C0` | barrido de punteros a la tabla sobre `volcados/ee-e4.bin`. `probable`: no se tocó todavía |
 | **Los enemigos del arranque del nivel 1 usan el registro 5** (ASR); los dos del pool con vida `FLT_MAX` usan el 4 y **no disparan** | escalón de 105 exacto, sin mezcla con 104, en 116 impactos |
+| **Los archivos de stage se cargan LITERALES en RAM, sin relocalizar**: `direccion = base + offset_en_el_archivo`. `LEVEL_00/STG_0001/STLEVEL.BIN` → **`0x01412400`**; `STUNIT01.BIN` del mismo stage → **`0x01053000`** | **2026-08-17. 7/7 y 2/2 chunks `bc1_` caen exactos, y los tamaños declarados desempatan el archivo de origen. Habilita probar en RAM —reversible, sin copiar 3,9 GB— cualquier edición que después vaya al ISO** |
+| **Los dos del pool con vida `FLT_MAX` son los COMPAÑEROS de escuadra**: `Team0_Tom` y `Team1_Matt` | el `+0x58` del registro de entidad (`0x0065FD00`, paso `0x80`) apunta a un descriptor de escuadra **con el nombre en texto** dentro de la imagen de `STLEVEL`. La partición que produce coincide exacto con la de registro de arma de 7a |
+| **Cadena entidad→escuadra**: `0x006E18B8 + n*0x24` `+0x08` → registro de entidad `0x0065FD00 + k*0x80`; de ahí `+0x10..+0x18` = posición XYZ, `+0x58` = escuadra, `+0x50` = facción | leído en el savestate 3. `probable`: ningún campo se escribió todavía |
+| **El savestate 3 está en `LEVEL_00`, NO en `LEVEL_01`** | huella de tamaño de los chunks residentes (`0x15e40`/`0x10700`/`0xb60`) contra los dos `STLEVEL.BIN`. El nombre "nivel 1" del savestate era engañoso |
 | **Cola de daño diferido = global `0x00414AD0`** (16 registros de `0x20`) | `lui 0x41 + addiu 0x4AD0` en `0x0015B308` |
 | **MOD PERMANENTE EN EL ISO: anda.** Editar `GLOBDATA.BIN` in-place cambia el daño en pantalla | **2026-08-17. Cadena entera: 17 campos a `5.0` en el archivo → `Power = 5` en la tabla de RAM al arrancar → `vigilar.py` midió 24 impactos y los 24 son de exactamente `-5.0` (vida 750→630, salto constante, sin varianza). Antes del parche el escalón era `26.0`.** Serie en `volcados/vida-mod-armas.csv` |
 | **El ELF NO lleva LBAs horneados**; resuelve por nombre contra la TOC | 0/1644 inmediatos en el ELF con control positivo y piso de ruido; `gtfsdvd` lee la TOC. Ver `docs/05-iso.md` |
@@ -301,6 +312,11 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 - **Vida máxima = 1200.0**, hardcodeada. Falta qué elige entre 1200.0 y 750.0.
 - `arma+0x18` (25, 10, 50) es candidato a **cargador**. Sin confirmar.
 - El código de 3 letras de `arma+0x1C0` está **corrido un registro**.
+  **Corroborado de forma independiente el 2026-08-17:** el directorio de
+  recursos de arma del stage (`STLEVEL+0x80`) asocia `0001_bg1_ak1` con la
+  escuadra `Enemy0_Mid`, que es la de los cinco tiradores que medimos usando
+  el **registro 5** — anotado como "ASR". Sigue sin ser `confirmado`: nadie
+  escribió nada para probarlo.
 - `.SLB` con magia `"KING"` es la tabla de nombres del sistema de audio; el
   trío `.BKS` (banco, hasta 117 MB) + `.SSH` (cabeceras) + `.SLB` (índice)
   parece ser un solo sistema. Sin verificar.

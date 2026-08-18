@@ -4,116 +4,99 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-Última actualización: **2026-08-17**, PC con PCSX2 vivo. Fase 7 (a) cerrada.
+Última actualización: **2026-08-17**, PC con PCSX2 vivo. Fase 7b **abierta y
+rediseñada**; 7a cerrada.
 
 ---
 
 ## 1. QUÉ LEER, EN ORDEN
 
 1. `black/ESTADO_ACTUAL.md` — entero, es corto.
-2. `black/APRENDIZAJE.md` — **nuevo**: las lecciones de proceso acumuladas.
-   Cinco, cortas. Se lee antes de diseñar un experimento, no después.
-3. `black/docs/08-experimentos.md` — el método y la batería E1..E6.
-4. `black/docs/00-conops.md` — sólo si hay que decidir **en qué** trabajar.
+2. `black/docs/03-bitacora.md`, **sólo la entrada (28)** — es la de esta
+   sesión y trae el mapa RAM↔archivo que cambia el costo de todo lo que sigue.
+3. `black/docs/08-experimentos.md`, **el recuadro de CORRECCIÓN de E5**
+   antes que el cuerpo de E5, que apunta al nivel equivocado.
 
-**NO leer** salvo que la tarea lo pida: la bitácora entera, `docs/90-glosario-ee.md`,
-`docs/06-herramientas-externas.md`. La entrada (26) de la bitácora tiene el
-detalle de cómo cayó E4, si hace falta.
+**NO leer** salvo que la tarea lo pida: `docs/01-entorno.md` (la máquina ya
+está configurada, 13/13 en `inventario.py`), `docs/05-iso.md` (fase 6 ya está
+resuelta en lo que importa acá), `docs/90-glosario-ee.md` hasta que haga falta
+desensamblado, y nada de `perfil-global/`.
 
 ## 2. LA FASE QUE SE ABRE, Y QUÉ LA CIERRA
 
-**Fase 7 — arquitectura de entidades y de la IA.** La mitad (a) está cerrada.
+**Fase 7b — qué dato fija QUÉ TIPO de enemigo aparece.**
 
-- **7a — qué campo fija el ARMA de un enemigo: CERRADA 2026-08-17.**
-  Es `0x006E18B8 + n*0x24 + 0x04`.
-- **7b — qué dato fija QUÉ TIPO de enemigo aparece: ABIERTA.** ← *lo que sigue*
-  **La cierra:** cambiar por efecto el tipo de enemigo que aparece en un nivel.
-  Entrada barata: **E5**, `STLEVEL.BIN`, el truco de los 11 caracteres
-  (`bc1_so1_mil` → `bc1_rg1_mil`, 11 bytes sobre 11, el LBA no se mueve).
-- **7c — de dónde sale el puntero de `+0x04` al spawnear: ABIERTA.**
-  Hace falta para hacer el cambio de arma **permanente en el ISO**, no sólo en
-  RAM. Hoy el cambio se pierde al reiniciar.
+**Cierra cuando** se pueda cambiar qué enemigo aparece y **verlo por efecto**:
+un `so1` que pasa a ser un `rg1` tiene que cambiar el registro de arma que le
+toca en `0x006E18B8 + n*0x24 + 0x04`, leíble con `pine.py` sin mirar la
+pantalla. Que el dato "parezca el indicado" no cierra nada.
 
-## 3. MODELO
+**7c** (de dónde sale el puntero al spawnear) sigue abierta y ahora es más
+barata: la imagen del stage está en RAM en dirección conocida.
 
-**Sonnet 5** para 7b: es correr `parche_iso.py` sobre `STLEVEL.BIN` y mirar el
-resultado, con el banco ya construido.
-**Opus** sólo para 7c, que es leer desensamblado para encontrar quién escribe
-`0x006E18B8 + n*0x24 + 0x04` al spawnear.
-**Fable: prohibido, sin excepción** (consume créditos aparte del plan).
+## 3. LO QUE ESTA SESIÓN DEJÓ RESUELTO — no rehacer
 
-Ver `perfil-global/enrutador-modelo/SKILL.md`.
+1. **Los archivos de stage se cargan LITERALES en RAM**, sin relocalizar:
 
-## 4. ESTADO DE LA MÁQUINA
+   | archivo | base en EE | anclas |
+   |---|---|---|
+   | `LEVELS/LEVEL_00/STG_0001/STLEVEL.BIN` (2.502.240 B) | **`0x01412400`** | 7/7 |
+   | `LEVELS/LEVEL_00/STG_0001/STUNIT01.BIN` (326.432 B) | **`0x01053000`** | 2/2 |
 
-- **El emulador que corre NO es el de Program Files.** Es
-  `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
-  (build `d75a0ad`), con **DebugServer en 21512 y PINE en 28011**. Atajos en
-  `C:\Users\frans\Desktop\BLACK\`: `ABRIR-BLACK-ORIGINAL.bat` y
-  `ABRIR-BLACK-MOD-ARMAS.bat`.
-- **OJO: lo que estaba corriendo esta sesión es `Black-mod-armas.iso`**, no el
-  original. Se detectó por efecto: el escalón de daño era −5, no −26. Verificar
-  siempre cuál está montado antes de interpretar una medición de daño.
-- **Dos ISO** en `C:\Program Files\PCSX2\PCSX2\games\Black [NTSC]\`:
-  `Black.iso` (original, 3.919.609.856 B, **nunca editar**) y
-  `Black-mod-armas.iso` (`Power` de IA en `5.0` en los 17 registros).
-  El original queda montado en `D:`.
-- **Savestates** en `C:\Users\frans\Documents\PCSX2\sstates\`, se cargan con
-  `python herramientas/pine.py cargarestado --slot N`. La carga es **asíncrona**:
-  esperar leyendo `0x005A8DA8` hasta que dé ~999345.
-  **Slot 3 = la condición experimental**, y ahora se sabe más de él: jugador con
-  vida ~1e6, **ocho enemigos con arma**, de los cuales los del pool 0 y 1 tienen
-  vida `FLT_MAX` y **no disparan** (usan el reg 4); los que disparan usan el
-  **reg 5**. Slot 4 = distancia media, vida normal. Slot 10 = no sirve.
-- **Parches vivos en memoria: NINGUNO.** Los 17 `Power` y los punteros se
-  restauraron y se verificó la restauración por lectura.
-- Ghidra 12.1.2 + EE Reloaded en `C:\Users\frans\herramientas\ghidra_12.1.2_PUBLIC`,
-  proyecto en `...\ghidra-proyectos2\BLACK` (el de `ghidra-proyectos` **sin el 2**
-  tiene análisis malo de MIPS R6: no usarlo). Copia del ELF en
-  `C:\Users\frans\herramientas\SLUS_213.76`, mapeo `offset = vaddr - 0xFF000`.
-- Volcado fresco del slot 3: **`volcados/ee-e4.bin`** (32 MB, desde la dirección 0).
+   `direccion = base + offset_en_el_archivo`. **Por eso ya no hace falta
+   copiar 3,9 GB para probar una edición del nivel: se prueba en RAM,
+   reversible, y recién si anda se lleva al ISO con `parche_iso.py`.**
 
-## 5. LO QUE YA ESTÁ RESUELTO — NO REHACER
+2. **El savestate slot 3 está en `LEVEL_00`, no en `LEVEL_01`.** El plan de E5
+   nombraba `LEVEL_01` por el nombre del savestate. Medido por huella de
+   tamaño de los chunks residentes.
 
-- **7a: el arma del enemigo se fija en `0x006E18B8 + n*0x24 + 0x04`**, el
-  puntero al bloque de IA (`registro+0xC0`). Array de 10 entradas, paso `0x24`,
-  1:1 y en el mismo orden con los objetos de arma de `0x006DE770 + n*0x110`.
-  Confirmado por **dos** observables: daño 105→106 y cadencia 133 ms→3534 ms.
-- **`arma_obj + 0x0C` NO es el arma.** Señuelo perfecto, falsificado por efecto.
-  No volver a intentarlo.
-- **Layout del registro de arma (`0x1E0`): dos bloques.** Jugador en `+0x90`,
-  **IA en `+0xC0`**. `Power = bloque+0x18`, `TimeBetweenBullets = bloque+0x20`.
-  O sea `Power` de IA en `+0xD8`, `TBB` de IA en `+0xE0`.
-- **Directorio de armas en `0x01842084`**, 17 entradas de `0x20`, cinco punteros
-  cada una. `probable`, sin tocar.
-- **6.1: el ELF no lleva LBAs horneados.** Resuelve por nombre contra la TOC.
-- **6.6: el parche in-place del ISO anda**, confirmado en las tres capas.
-- **Kynapse está linkeado pero MUERTO**: 0 de 182 metaclases. No buscar sus
-  objetos en RAM. El ELF no trae DWARF ni RTTI de Criterion.
-- **Volcar SIEMPRE desde 0**: las herramientas asumen que el byte 0 del archivo
-  es la dirección EE 0.
-- Tabla de armas: `0x01842220` en RAM, `GLOBDATA.BIN + 0x00130E20` en el ISO,
-  17 registros de `0x1E0`. Pool de enemigos: `0x0058FE90`, 32 objetos, paso `0x3C0`.
+3. **`LEVEL_00/STG_0001` sólo tiene `bc1_lr1_mil` y `bc1_so1_mil`.**
+   `bc1_rg1_mil` (el del RPG) está residente igual, cargado desde
+   `STUNIT01.BIN` del mismo stage. El modo de falla que E5 predecía —"falta el
+   modelo"— **no aplica en `LEVEL_00`**.
 
-## 6. EL PRIMER COMANDO
+4. **Cadena entidad → escuadra:**
+   `0x006E18B8 + n*0x24` `+0x08` → **registro de entidad `0x0065FD00 + k*0x80`**
+   (`+0x10..+0x18` posición XYZ, `+0x50` facción, `+0x58` escuadra, `+0x5C`
+   toma 2/3/4). El `+0x58` apunta a un **descriptor con nombre en texto**
+   dentro de la imagen de `STLEVEL`: `Enemy0_None`, `Enemy0_Mid`,
+   `Enemy1_Low`, `Enemy0_High`, `Team0_Tom`, `Team1_Matt`.
 
-```powershell
-cd C:\Users\frans\Desktop\claude-acceso\black
-python herramientas/inventario.py
-python herramientas/aprender.py digesto
-```
+5. **Los dos de vida `FLT_MAX` son los COMPAÑEROS del jugador** (`Team0_Tom`,
+   `Team1_Matt`). Cierra por qué no disparan, que estaba como callejón sin
+   explicación.
 
-Y después **E5** (7b): el truco de los 11 caracteres sobre `STLEVEL.BIN`.
+6. **Corroboración de una hipótesis vieja:** el directorio de recursos de arma
+   del stage (`STLEVEL+0x80`, 7 registros de paso `0x28`) asocia
+   `0001_bg1_ak1` con `Enemy0_Mid` — la escuadra de los tiradores que medimos
+   usando el **registro 5**, anotado como "ASR". Es lo que predice
+   *"el código de 3 letras está corrido un registro"*. Sigue en `hipotesis`:
+   nadie escribió nada para probarlo.
 
-```powershell
-python herramientas/lbas.py buscar LEVELS/LEVEL_01/STG_0001/STLEVEL.BIN
-python herramientas/parche_iso.py preparar --help
-```
+7. **Negativo que orienta:** **0** `u32` alineados en los 32 MB apuntan a la
+   cabecera, al nombre o al payload de los chunks `bc1_`. Como sí existen
+   punteros a la imagen de `STLEVEL`, el personaje se resuelve **por
+   ID/nombre, no por puntero cacheado**.
 
-La operación es reemplazar `bc1_so1_mil` por `bc1_rg1_mil` **in-place**, 11
-bytes sobre 11, en una **copia** del ISO. Predicción a registrar antes: si el
-nombre es una clave a una tabla del mismo nivel, funciona; si el modelo de ese
-enemigo no está cargado en el stage, falta el modelo — y ahí se aprende dónde
-vive la lista de recursos, que es lo que hace falta para R6.
+## 4. LO QUE SIGUE, CONCRETO
 
-**Y antes de medir cualquier daño, verificar qué ISO está montado.**
+1. Volcar la imagen del stage y buscar **la lista de puntos de spawn**:
+
+   ```
+   python herramientas/pine.py volcar 0x01412400 0x262BE0 volcados/stlevel-l00.bin
+   ```
+
+   Entradas: las apariciones "grupo B" de los nombres (tag `0x3f800000`, con
+   floats alrededor) y el campo `+0x5C` del registro de entidad.
+2. Escritura de prueba **en RAM**, 4 u 11 bytes, reversible.
+3. Si anda, recién ahí `parche_iso.py` y el ISO.
+
+## 5. ESTADO DE LA MÁQUINA AL CERRAR
+
+- PCSX2 (`pcsx2-qt.exe`, build `d75a0ad`) **corriendo con el ISO ORIGINAL**,
+  PINE en 28011, DebugServer en 21512.
+- **Savestate slot 3 cargado.** Vida del jugador ~`999245`.
+- **Cero escrituras, cero parches vivos.** Esta sesión fue toda lectura.
+- Un savestate tapa cualquier mod en RAM: para ver el efecto de una edición
+  del ISO hay que jugar el nivel, no cargar un estado guardado previo.

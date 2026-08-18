@@ -16,6 +16,111 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-17 (28) — 7b: el nivel entero está en RAM en una dirección conocida, y E5 apuntaba al nivel equivocado
+
+**Máquina:** PC, PCSX2 corriendo con el ISO original · **Modelo:** Opus
+(hipótesis primera en territorio desconocido) · **Esfuerzo:** alto, sin fan-out
+
+**Objetivo:** abrir 7b — qué dato fija **qué tipo** de enemigo aparece —
+entrando por la vía barata que dejaba anotada `docs/08-experimentos.md`: E5,
+el truco de los 11 caracteres sobre `STLEVEL.BIN`.
+
+**Resultado:** 7b **no cerró** (nada cambió todavía en pantalla), pero el
+experimento quedó rediseñado y mucho más barato, y cayeron cinco cosas nuevas.
+
+1. **E5, tal como estaba escrito, apuntaba al nivel equivocado.** El plan
+   nombraba `LEVELS/LEVEL_01/STG_0001/STLEVEL.BIN` porque el savestate se
+   llamaba "nivel 1". **El savestate slot 3 está en `LEVEL_00`, no en
+   `LEVEL_01`.** Medido por huella de tamaño, no por el nombre: los chunks
+   `bc1_` residentes en RAM declaran `0x15e40` (lr1), `0x10700` (so1) y
+   `0xb60` (asr_goggles), que son los tamaños de **`LEVEL_00`**; los de
+   `LEVEL_01` son `0x15e20`, `0x10740` y no tiene `asr_goggles`.
+
+2. **Y `LEVEL_00/STG_0001` no tiene los cuatro nombres de 11 caracteres.**
+   Sólo tiene `bc1_lr1_mil` y `bc1_so1_mil`. `bc1_rg1_mil` (el del RPG) y
+   `bc1_sk1_mil` viven en `LEVEL_01`. O sea que el truco del mismo largo, en
+   el nivel donde de verdad estamos, tiene menos piezas de las que el plan
+   suponía.
+
+3. **Pero el personaje del RPG *sí* está residente igual.** Sale de otro
+   archivo: **`LEVELS/LEVEL_00/STG_0001/STUNIT01.BIN`**, que trae
+   `bc1_rg1_mil` con tamaño `0x15e70`. Eso **mata el modo de falla que E5
+   predecía** ("si el `.WDD`/`.DB` del modelo no está cargado, va a faltar el
+   modelo"): en `LEVEL_00` está cargado.
+
+4. **EL HALLAZGO GRANDE — los archivos de stage se cargan LITERALES, sin
+   relocalizar, en una dirección fija de EE:**
+
+   | archivo | base en EE | anclas |
+   |---|---|---|
+   | `LEVEL_00/STG_0001/STLEVEL.BIN` | **`0x01412400`** | **7/7** |
+   | `LEVEL_00/STG_0001/STUNIT01.BIN` | **`0x01053000`** | **2/2** |
+
+   `direccion_en_ram = base + offset_en_el_archivo`, sin excepción, para los
+   nueve chunks `bc1_` de los dos archivos. **Consecuencia práctica: cualquier
+   edición que se quiera hacer permanente en el ISO se puede probar antes en
+   RAM, reversible, sin copiar 3,9 GB y sin reiniciar el emulador.** Eso
+   cambia el costo y el riesgo de todo el resto de la fase 7.
+
+   Y no es una copia muerta: el juego guarda **punteros vivos adentro de esa
+   imagen** (ver punto 5), así que escribir ahí escribe datos vivos del nivel.
+
+5. **La cadena entidad → escuadra, confirmada por coincidencia con 7a.**
+   Ampliando el array de 7a (`0x006E18B8`, paso `0x24`): su `+0x08` apunta a
+   un **registro por entidad de paso `0x80` en `0x0065FD00`**, y el `+0x58`
+   de ese registro apunta a un **descriptor de escuadra con nombre en texto**,
+   adentro de la imagen de `STLEVEL`. Los nombres son
+   `Enemy0_None`, `Enemy0_Mid`, `Enemy1_Low`, `Enemy0_High`, **`Team0_Tom`** y
+   **`Team1_Matt`**.
+
+   La partición que produce `+0x58` **coincide exactamente** con la partición
+   por registro de arma ya confirmada en 7a: los dos de vida `FLT_MAX` que no
+   disparan (registro 4) son `Team0_Tom` y `Team1_Matt`, y los seis que
+   disparan (registro 5) son `Enemy1_Low` y `Enemy0_Mid`. **Los de `FLT_MAX`
+   son los compañeros de escuadra del jugador** — eso explica de una el
+   callejón cerrado que decía "los de vida `FLT_MAX` no son los tiradores".
+
+6. **Corroboración independiente de una hipótesis vieja.** El directorio de
+   recursos de arma del stage (`STLEVEL+0x80`, 7 registros de paso `0x28`)
+   asocia **`0001_bg1_ak1` con `Enemy0_Mid`**, que es justo la escuadra de los
+   cinco tiradores activos. Medimos por efecto que usan el **registro 5**, y
+   el registro 5 estaba anotado como "ASR". Es exactamente lo que predice la
+   hipótesis abierta **"el código de 3 letras de `arma+0x1C0` está corrido un
+   registro"**. Dos fuentes que no se hablan dicen lo mismo.
+
+**No funcionó:**
+
+- **Buscar quién apunta a los chunks de personaje: cero.** Barrido de los
+  32 MB por `u32` alineado igual a la cabecera, al nombre o al payload de los
+  cuatro chunks `bc1_`: **0 referencias**. Como punteros a la imagen de
+  `STLEVEL` sí existen (el `+0x58` cae adentro), el cero dice algo: **el
+  personaje se resuelve por ID/nombre, no por puntero cacheado**. Lo que el
+  negativo *no* descarta: puntero desalineado, offset relativo en vez de
+  absoluto, o que las entidades que usan esos chunks todavía no spawnearon.
+- **No se descifró el ID de 64 bits** de los recursos (`+0x10`/`+0x14` del
+  directorio de armas). Los `hi` comparten `0x5446xxxx` y `0001_bg1_smg` y
+  `0001_bg1_sm5` tienen el **mismo** `hi`, así que no parece un hash plano.
+- **No se tocó un solo byte.** Todo lo de arriba es lectura. Por eso los
+  registros nuevos de `kb/` que no se movieron van como `probable`, no como
+  `confirmado`.
+
+**Sigue:** el experimento de 7b, ahora rediseñado y barato:
+
+1. Volcar la imagen de `STLEVEL` de `LEVEL_00` (`0x01412400`, 2.502.240 B) y
+   buscar **la lista de puntos de spawn** — el registro que dice "acá aparece
+   un `so1`". Entrada: las cuatro apariciones "grupo B" (tag `0x3f800000`) y
+   el campo `+0x5C` del registro de entidad (toma 2/3/4).
+2. Con eso, la escritura de prueba es **en RAM**, 11 bytes o 4 bytes,
+   reversible, y recién si anda se lleva al ISO con `parche_iso.py`.
+3. Observable sin ojos, como en E4: si un `so1` pasa a ser un `rg1`, el
+   registro de arma que le toca en `0x006E18B8+n*0x24+0x04` tiene que cambiar,
+   y eso se lee con `pine.py`.
+
+**Estado de la máquina al cerrar:** emulador corriendo con el ISO **original**,
+savestate slot 3 cargado, **cero escrituras, cero parches vivos**.
+
+---
+
 ## 2026-08-17 (27) — Deuda chica de N1 cerrada: falso positivo de OneDrive, .gitkeep, tests faltantes, encoding
 
 **Máquina:** PC, sin PCSX2 (no hacía falta) · **Modelo:** Sonnet (refactor de herramientas ya decididas)
