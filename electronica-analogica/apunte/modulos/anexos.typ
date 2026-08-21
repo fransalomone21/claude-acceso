@@ -2,7 +2,8 @@
 
 #modulo("Anexos", [
   Material de consulta rápida: código de colores, series de valores comerciales,
-  formulario completo de la materia, símbolos y normas de seguridad del laboratorio.
+  formulario completo de las dos partes, las dos secuencias de lectura posibles,
+  símbolos y normas de seguridad del laboratorio.
 ])
 
 == Código de colores de resistores
@@ -130,6 +131,161 @@ $ I_E = I_B + I_C quad quad beta = h_"FE" = I_C/I_B quad quad
 
 $ V_"BE(on)" approx 0,7 "V" quad quad V_"CE(sat)" approx 0,2 "V" quad quad
   P = V_"CE(sat)" dot I_C $
+
+=== Módulo 7 — Leyes de Kirchhoff
+
+$ sum_k i_k = 0 quad ("nodo o superficie cerrada") quad quad
+  sum_k v_k = 0 quad ("lazo") quad quad p = v i quad quad sum_k p_k = 0 $
+
+$ R_"serie" = sum R_k quad quad 1/R_"par" = sum 1/R_k quad quad
+  v_2 = V (R_2)/(R_1+R_2) quad quad i_1 = I (R_2)/(R_1+R_2) $
+
+$ "LKC independientes" = n - 1 quad quad "LKT independientes" = b - n + 1 $
+
+$ R_Y = (product "las dos" Delta "que tocan el terminal")/(sum "las tres" Delta)
+  quad quad R_Delta = (sum "los tres productos de a pares")/(R_Y "opuesta") $
+
+=== Módulo 8 — Nodos y mallas
+
+$ bold(G) bold(v) = bold(i): quad G_(k k) = sum G "del nodo" k, quad
+  G_(k j) = - sum G "entre" k "y" j $
+$ i_k = sum I "de las fuentes que entran al nodo" k $
+
+$ bold(R) bold(i) = bold(v): quad R_(k k) = sum R "del perímetro" k, quad
+  R_(k j) = - sum R "compartidas" $
+$ v_k = sum V "de la malla, positiva la que empuja a favor del giro" $
+
+#table(
+  columns: (auto, auto, auto),
+  align: (left, left, left),
+  table.header([], [*Qué la rompe*], [*Cómo se arregla*]),
+  [Nodos], [fuente de tensión flotante],
+    [*supernodo*: LKC de la superficie + $v_k - v_j = V_s$],
+  [Mallas], [fuente de corriente compartida],
+    [*supermalla*: LKT salteando la rama + $i_k - i_j = I_s$],
+)
+
+=== Módulo 9 — Teoremas
+
+$ V_"th" = V_"vacío" quad quad I_N = I_"corto" quad quad
+  R_"th" = R_N = (V_"vacío")/(I_"corto") = lr((v_t)/(i_t)|)_("indep. anuladas") $
+
+$ R_L = R_"th" quad arrow.r quad p_"máx" = (V_"th"^2)/(4 R_"th"), quad eta = 50% $
+
+$ V_"th"^"Millman" = (sum V_k \/ R_k)/(sum 1\/R_k) quad quad
+  R_"th"^"Millman" = 1/(sum 1\/R_k) $
+
+Anular una fuente: tensión $arrow.r$ cortocircuito, corriente $arrow.r$ circuito abierto.
+*Las controladas no se anulan nunca.*
+
+=== Módulo 10 — Transitorios
+
+$ i_C = C (dif v)/(dif t) quad quad v_L = L (dif i)/(dif t) quad quad
+  w_C = 1/2 C v^2 quad quad w_L = 1/2 L i^2 $
+
+$ v_C (0^+) = v_C (0^-) quad quad i_L (0^+) = i_L (0^-) $
+
+$ x(t) = x(infinity) + [x(0^+) - x(infinity)] e^(-t\/tau) quad quad
+  tau = R_"th" C quad "o" quad tau = L/R_"th" $
+
+$ omega_0 = 1/sqrt(L C) quad quad alpha = R/(2L) "(serie)" quad "o" quad
+  alpha = 1/(2 R C) "(paralelo)" quad quad zeta = alpha/omega_0 = 1/(2Q) $
+
+$ alpha > omega_0 arrow.r "sobreamortiguado" quad quad
+  alpha = omega_0 arrow.r "crítico" quad quad
+  alpha < omega_0 arrow.r "subamortiguado" $
+$ "en el caso subamortiguado:" quad omega_d = sqrt(omega_0^2 - alpha^2) quad quad
+  "SP" = e^(-pi zeta \/ sqrt(1 - zeta^2)) $
+
+=== Módulo 11 — Fasores y potencia
+
+$ overline(Z)_R = R quad quad overline(Z)_L = j omega L quad quad
+  overline(Z)_C = 1/(j omega C) quad quad
+  overline(Z) = R + j X = |Z| angle theta $
+
+$ P = V I cos theta ["W"] quad quad Q = V I sin theta ["VAr"] quad quad
+  S = V I ["VA"] = sqrt(P^2 + Q^2) quad quad "f.d.p." = cos theta = P/S $
+
+$ Q_C = P (tan theta - tan theta') quad arrow.r quad C = (Q_C)/(omega V^2)
+  quad ("corrección del" cos phi) $
+
+$ omega_0 = 1/sqrt(L C) quad quad Q_"serie" = (omega_0 L)/R quad quad
+  "BW" = f_0/Q quad quad V_L = V_C = Q dot V $
+
+$ overline(Z)_L = overline(Z)_"th"^* quad ("máxima transferencia en alterna") $
+
+=== Módulo 12 — Bode y filtros
+
+$ A_"dB" = 20 log_10 (V_2/V_1) = 10 log_10 (P_2/P_1) quad quad
+  -3 "dB" arrow.r 1/sqrt(2) "en tensión", 1/2 "en potencia" $
+
+$ "Pasa bajos": overline(H) = 1/(1 + j omega\/omega_c) quad quad
+  "Pasa altos": overline(H) = (j omega\/omega_c)/(1 + j omega\/omega_c) quad quad
+  f_c = 1/(2 pi R C) $
+
+Polo simple: $-20$ dB/déc y $-90 degree$. Cero simple: $+20$ dB/déc y $+90 degree$.
+En el quiebre: $-3$ dB y $-45 degree$.
+
+$ v_"cuad" (t) = (4V)/pi sum_(n "impar") 1/n sin(n omega t) quad quad
+  t_r = 2,2 tau approx (0,35)/(f_c) $
+
+=== Módulo 13 — Cuadripolos y AO
+
+$ bold(z): V = bold(z) I quad quad bold(y): I = bold(y) V quad quad
+  bold(h): (V_1, I_2) "de" (I_1, V_2) quad quad bold(A B C D): "cascada" $
+
+Recíproco $arrow.r z_12 = z_21$. Transistor en emisor común: $h_(f e) = beta$.
+
+*Reglas de oro del AO* (realimentación negativa, sin saturar):
+$v_+ = v_-$ y $i_+ = i_- = 0$.
+
+$ "Inversor": v_s = -(R_2)/(R_1) v_e quad quad
+  "No inversor": v_s = (1 + (R_2)/(R_1)) v_e quad quad
+  "Seguidor": v_s = v_e $
+
+$ "Integrador": v_s = -1/(R C) integral v_e dif t quad quad
+  "Derivador": v_s = -R C (dif v_e)/(dif t) quad quad
+  G dot "BW" = "GBW" $
+
+== Dos órdenes de lectura
+
+El apunte se puede recorrer de dos maneras, según para qué se lo use.
+
+#figure(
+  table(
+    columns: (auto, auto),
+    align: (left, left),
+    table.header(
+      [*Orden de la materia (E.E.S.T. N.º 1)*],
+      [*Orden de Teoría de Circuitos (UNSAM)*],
+    ),
+    [*1.* Mediciones y expansión de rango], [*7.* Elementos, convenciones y Kirchhoff],
+    [*2.* Señales periódicas e instrumental], [*8.* Nodos, supernodos, mallas, supermallas],
+    [*3.* Electromagnetismo y transformadores], [*9.* Teoremas de circuitos],
+    [*4.* Diodos y rectificación], [*10.* Transitorios (natural y forzada)],
+    [*5.* Fuentes lineales y zener], [*11.* Fasores y régimen permanente senoidal],
+    [*6.* BJT en conmutación y relés], [*12.* Bode, filtrado y señales poliarmónicas],
+    [*7 a 13.* Fundamentos de análisis de circuitos], [*13.* Cuadripolos y operacional],
+    [], [*1 a 6.* como aplicación y laboratorio],
+  ),
+  caption: [El mismo material, en las dos secuencias],
+)
+
+*Por qué la Parte I no se reordenó.* Los módulos 1 a 6 siguen el orden del temario y de
+las guías de trabajos prácticos de la cátedra, y cada uno cierra con el TP que le
+corresponde: alterar esa secuencia rompería la correspondencia con el laboratorio, que es
+lo que le da sentido al curso de la escuela. La Parte II, en cambio, está ordenada
+íntegramente según la secuencia de *Teoría de Circuitos*, que es autónoma y no depende de
+los prácticos.
+
+*Cómo se cruzan.* Los temas de la Parte II que la Parte I ya toca de manera aplicada se
+cruzan por referencia y no se repiten: el valor eficaz y el osciloscopio están en el
+Módulo 2 y se retoman en el 11 y el 12; el transformador del Módulo 3 reaparece en la
+potencia aparente del 11; el filtro capacitivo del Módulo 5 es el transitorio del 10; y el
+$beta$ del transistor del Módulo 6 es el $h_(f e)$ del 13. Quien dicte la materia en el
+orden de la escuela puede usar la Parte II como fundamento al que volver; quien la use
+para preparar Teoría de Circuitos, leerla de corrido y tomar la Parte I como banco de
+ejemplos reales.
 
 == Símbolos usados en el apunte
 

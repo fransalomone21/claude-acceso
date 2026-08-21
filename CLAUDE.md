@@ -6,7 +6,8 @@ no se mezclan**: cada uno vive en su rama y ahí se queda.
 | Rama | Proyecto | Dónde | Estado |
 |---|---|---|---|
 | `claude/black-game-reverse-engineering-ricv3t` | Ingeniería reversa de **BLACK** (PS2) sobre PCSX2 | `black/` | **ACTIVO** |
-| `claude/apunte-electronica-analogica` | Apunte de **Aplicaciones de Electrónica Analógica** (4.º año) en Typst | `electronica-analogica/` | **ACTIVO** |
+| `claude/manual-analogica-tr0mk6` | Apunte de **Aplicaciones de Electrónica Analógica** (4.º año) en Typst — Parte I (materia y TPs) + Parte II (fundamentos de análisis de circuitos, orden de Teoría de Circuitos UNSAM) | `electronica-analogica/` | **ACTIVO** |
+| `claude/apunte-electronica-analogica` | Idem, versión anterior de 43 páginas (solo Parte I) | `electronica-analogica/` | superada por la de arriba |
 | `claude/phone-optimization-cleanup-vfdbb9` | Kit de diagnóstico y optimización Samsung vía ADB | raíz | suspendido (2026-08-15) |
 
 La de teléfono está suspendida por decisión del usuario; no se mergea ni se

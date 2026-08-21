@@ -56,6 +56,28 @@
   supplement: [Figura],
 )
 
+// ---------- Divisor de parte ----------
+#let parte(numero, titulo, bajada) = {
+  pagebreak(weak: true)
+  page(numbering: none, header: none, footer: none, margin: (x: 2.6cm, y: 3.4cm))[
+    #align(center + horizon)[
+      #text(size: 10.5pt, tracking: 2pt, fill: luma(110))[#upper[Parte #numero]]
+      #v(0.25cm)
+      #line(length: 32%, stroke: 0.6pt + luma(160))
+      #v(0.9cm)
+      #text(size: 27pt, weight: "bold", fill: c-azul)[#titulo]
+      #v(0.5cm)
+      #line(length: 100%, stroke: 1.5pt + c-azul)
+      #v(1.1cm)
+      #block(width: 90%, inset: 14pt, fill: c-gris, radius: 4pt)[
+        #set text(size: 10pt)
+        #set par(justify: true)
+        #align(left)[#bajada]
+      ]
+    ]
+  ]
+}
+
 // ---------- Apertura de modulo ----------
 #let modulo(titulo, resumen) = {
   pagebreak(weak: true)
@@ -95,7 +117,11 @@
     header: context {
       let n = counter(page).get().first()
       if n <= 1 { return }
-      let previos = query(selector(heading.where(level: 1)).before(here()))
+      // .before(here()) deja afuera el titulo que arranca en ESTA misma pagina — el
+      // encabezado se compone antes que el cuerpo — y el modulo salia con el nombre del
+      // anterior. Se filtra por numero de pagina en su lugar.
+      let pag = here().page()
+      let previos = query(heading.where(level: 1)).filter(h => h.location().page() <= pag)
       let titulo-actual = if previos.len() > 0 {
         let h = previos.last()
         let num = counter(heading).at(h.location()).first()
@@ -122,7 +148,7 @@
     lang: "es",
     region: "ar",
     size: 10.5pt,
-    font: ("Libertinus Serif", "Georgia", "Times New Roman"),
+    font: ("Libertinus Serif", "Linux Libertine O", "Georgia", "Times New Roman"),
   )
   set par(justify: true, leading: 0.68em, spacing: 0.95em)
   set heading(numbering: "1.1.1")
@@ -188,7 +214,7 @@
       #v(1.8cm)
       #text(size: 13pt, fill: luma(80))[#subtitulo]
       #v(0.35cm)
-      #text(size: 31pt, weight: "bold", fill: c-azul)[#titulo]
+      #par(justify: false)[#text(size: 31pt, weight: "bold", fill: c-azul)[#titulo]]
       #v(0.5cm)
       #line(length: 100%, stroke: 1.5pt + c-azul)
       #v(0.35cm)
@@ -211,6 +237,13 @@
           repiten en el laboratorio y en las evaluaciones. Las *cajas amarillas* son
           practica de banco: como conectar, que escala usar, que no tocar. Las
           *cajas violetas* atan cada tema con el TP correspondiente de la guia.
+
+          El apunte tiene *dos partes*. La *Parte I* (modulos 1 a 6) sigue el temario y
+          las guias de la catedra. La *Parte II* (modulos 7 a 13) desarrolla los
+          fundamentos de analisis de circuitos —Kirchhoff, nodos y mallas, teoremas,
+          transitorios, fasores, Bode y filtrado, cuadripolos y operacional— en el orden
+          de la materia Teoria de Circuitos de la UNSAM. El anexo trae el formulario
+          completo y las dos secuencias de lectura posibles.
         ]
       ]
       #v(1fr)
@@ -222,7 +255,7 @@
   ]
 
   // ---- Indice ----
-  page(numbering: none)[
+  page(numbering: none, header: none, footer: none)[
     #text(size: 20pt, weight: "bold", fill: c-azul)[Indice]
     #v(0.3cm)
     #line(length: 100%, stroke: 1pt + c-azul)
