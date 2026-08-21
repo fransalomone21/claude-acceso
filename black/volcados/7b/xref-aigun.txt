@@ -1,0 +1,2 @@
+  1 referencias a 0x003F4848
+    0x001368D0  PARAM   FUN_00136848

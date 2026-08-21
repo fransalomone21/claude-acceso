@@ -4,23 +4,25 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-Última actualización: **2026-08-21**, PC, **sin correr el juego**. Fase 7b
-sigue abierta y volvió a cambiar de forma: ahora se ataca **en frío, desde el
-ELF**.
+Última actualización: **2026-08-21 (noche)**, PC, **sin correr el juego**.
+Fase 7b sigue abierta, pero por primera vez **hay una estructura concreta que
+volcar**: la lista de personajes por unidad.
 
 ---
 
 ## 1. QUÉ LEER, EN ORDEN
 
 1. `black/ESTADO_ACTUAL.md` — entero, es corto.
-2. `black/docs/03-bitacora.md`, **sólo la entrada (29)**.
+2. `black/docs/03-bitacora.md`, **sólo la entrada (30)**. La (29) ya está
+   resumida acá abajo.
 3. `python herramientas/ubicaciones.py` — **no es un documento, es un
-   comando.** Dónde vive cada archivo que no está en el repo, medido. Si algo
-   crítico está en rojo, arreglar eso antes de cualquier otra cosa.
+   comando.** Si algo crítico sale en rojo, arreglar eso antes que nada.
+4. Los volcados de esta sesión, que son la materia prima del próximo paso:
+   `volcados/7b/fun-001e2d38.c` (el enumerador) y
+   `volcados/7b/fun-00136848-aigun.c` (el cargador de armas de IA).
 
 **NO leer** salvo que la tarea lo pida: `docs/01-entorno.md`, `docs/05-iso.md`,
-`docs/90-glosario-ee.md` hasta que haga falta desensamblado, y nada de
-`perfil-global/`.
+`docs/90-glosario-ee.md`, y nada de `perfil-global/`.
 
 ## 2. LA FASE QUE SIGUE ABIERTA, Y QUÉ LA CIERRA
 
@@ -29,77 +31,80 @@ ELF**.
 **Cierra cuando** se cambie qué enemigo aparece y se vea **por efecto**: un
 `so1` que pasa a ser `rg1` tiene que cambiar el registro de arma que le toca
 en `0x006E18B8 + n*0x24 + 0x04`, leíble con `pine.py` sin mirar la pantalla.
+Segundo observable, más barato: el camino de error
+`'AI gun model not found: %s'` (`0x003F4848`) — si la sustitución rompe, el
+juego lo dice.
 
-**Ahora hay un segundo observable, más barato**: el ELF tiene un camino de
-error explícito (`'AI gun model not found: %s'`, `0x003F4848`). Si la
-sustitución rompe, el juego lo dice.
-
-**Lo único que traba el experimento sigue siendo el mismo:** falta la lista de
-puntos de spawn.
+**Lo que trababa el experimento —"falta la lista de puntos de spawn"— dejó de
+ser un agujero y pasó a ser una dirección concreta a volcar.** Ver el punto 3.
 
 ## 3. LO QUE ESTA SESIÓN DEJÓ RESUELTO — no rehacer
 
-1. **`Enemy0_Mid` y compañía NO están escritos en ningún lado.** Cero
-   ocurrencias en `STLEVEL.BIN`, cero en `STUNIT01.BIN`, cero en los ~2.900
-   archivos del ISO. **Se arman en runtime**, con estos formatos del ELF:
+**Todo `probable`: es lectura de decompilado, no se escribió un byte.**
+
+1. **`'Enemy%d_%s'` tiene UNA sola referencia**, `0x001E2DE4`, dentro de
+   **`FUN_001E2D38`**. Es el enumerador de enemigos y compañeros del stage.
+
+2. **El layout que faltaba, entero:**
 
    ```
-   va 0x003F8108  'Enemy%d_%s'      va 0x003F8118  'Team%d_%s'
+   objeto de stage  (el recurso tipo 0x0B que carga FUN_00128480)
+     +0x04  ptr -> array de registros de UNIDAD, paso 0x28
+     +0x08  cantidad de unidades
+     +0x10  ptr -> tabla de nombres (u64) : +0x08 cantidad, +0x0C array de 0x10
+
+   registro de UNIDAD (paso 0x28)
+     +0x18  ptr -> array ENEMIGOS   +0x20  cantidad
+     +0x1C  ptr -> array COMPANEROS +0x24  cantidad
+
+   registro de PERSONAJE (paso 0xB0)   <-- LA LISTA QUE FALTABA
+     +0x00  buffer de nombre (destino del sprintf, FUN_0035D728)
+     +0x88  INDICE DE TIPO   (lo que 7b busca)
+     +0x94  se registra en el sistema de sonido (FUN_0027B950)
    ```
 
-   **No volver a barrer el disco buscándolos.**
+3. **`+0x88` es un enum de hasta 33 valores, no de 7.** `FUN_001E3018` acepta
+   `idx < 0x21` y salta por la jumptable `PTR_LAB_003F8130`; la tabla de 7
+   punteros de `0x003BD3F8` se lee **desde adentro** (`0x001E3044`, su única
+   referencia). `None/Low/Mid/High/Matt/Tom/Carrie` **era el codominio, no el
+   dominio**.
 
-2. **Tabla de piezas en `.data`: `0x003BD3F8`**, siete `char*` consecutivos:
+4. **Quién carga el stage:** `FUN_00128480`, en `0x00128958`. Máquina de
+   estados con **nivel en `+0x5AAC` y stage en `+0x5AAD`** (los dos `u8`).
+   Pide `FUN_00108458(DAT_0040F4C4, 0x0B, idx)` → `+0x5AF0`. Si falla, arma la
+   ruta con `0x003F4388` y va al disco.
 
-   ```
-   [0]None  [1]Low  [2]Mid  [3]High  [4]Matt  [5]Tom  [6]Carrie
-   ```
+5. **El cargador de armas de IA, entero** (`FUN_00136848`):
+   `id = FUN_00272610(nombre, 0xE69A1DD748000000)` → `FUN_00108120(...)` → si
+   0, error `0x003F4848`; si no, `FUN_00135C78(actor,0,res,0)` y
+   `actor+0x3B4 = 0`. El arma de IA se resuelve **por nombre**.
 
-   (cadenas en `0x003F7EA8`, `..EB0`, `..EB8`, `..EC0`, `..EC8`, `..ED0`,
-   `..ED8`). Índices 0-3 = grado de amenaza; 4-6 = nombres propios.
+6. **El ID de 64 bits tiene codec de ida y vuelta y hay que desarchivarlo.**
+   `FUN_00272610(texto, base)` codifica, **`FUN_00272488(id, buffer)`
+   decodifica** — el bucle de `stage+0x10` la usa y después recorta espacios a
+   la derecha: cadena empaquetada de ancho fijo. La (28) lo daba por "no vale
+   la pena"; es la llave para escribir nombres nuevos en vez de sustituir 11
+   bytes a ciegas.
 
-3. **REENCUADRE IMPORTANTE — `+0x58` es candidato a espejo, no a fuente.**
-   Esas cadenas viven en el bloque de
-   `../Export/ValueDB/Sound/ps2/AIWeapon.cfg`, rodeadas de `EnemyWeapon`,
-   `MaxEnemiesSoundedPerFrame`, `Emphasis Decay Frames`, `BulletBy`, `Rate`:
-   son **claves de configuración de sonido de arma de IA**. Que la partición
-   por `+0x58` coincida exacto con la de registro de arma de 7a se explica
-   sin invocar "descriptor de escuadra": **dos enemigos con la misma arma
-   comparten grupo de mezcla**. El handoff anterior lo daba como la vía de
-   entrada a 7b; **hay que tratarlo con más desconfianza**.
+**De la sesión anterior (29), sigue valiendo y NO se rehace:**
 
-4. **Hay una lista de armas POR NIVEL, y el ELF la nombra:**
-
-   ```
-   0x003F4848  'AI gun model not found: %s'
-   0x003F4864  'Please ask a designer to add it to the '
-   0x003F488D  'weaponList.txt file for this level'
-   ```
-
-   Es el directorio `STLEVEL+0x80` (7 registros de paso `0x28`) que ya
-   conocíamos. Y es **el modo de falla que E5 predecía, con mensaje propio**.
-
-5. **Las rutas de nivel se construyen** (`.rodata`, desde `0x003F4348`):
-   `Levels\Level_%02u\Stg_%04u\StLevel.bin`, `...\StUnit%02d.bin`,
-   `...\Guns%s.bin`, `...\LevelDat.bin`, `...\Unit_%02d.bin`, `...\fpguns\`.
-
-6. **Los dos grupos de los nombres `bc1_`, caracterizados — ninguno es lista
-   de spawn.** Los dos son entradas de recurso con tamaño declarado:
-
-   | | grupo A (cabecera de chunk) | grupo B (`1.0f` + tamaño) |
-   |---|---|---|
-   | `so1` | `0x175a8` tam `0x10700` | `0x8439c` tam `0x2ad9c` |
-   | `lr1` | `0x17a8` tam `0x15e40` | `0xb3afc` tam `0x2f6fc` |
-   | `rg1` | **STUNIT01** `0x2a8` tam `0x15e70` | **STUNIT01** `0x3f65c` tam `0x292dc` |
-
-   Grupo A lleva `flags = 0x00101001` en `-8` y el tamaño en `-4`. Grupo B
-   lleva tres pares `008a0105`/`3f800000` antes del tamaño. **`rg1` tiene los
-   dos y con estructura idéntica a `so1`: la sustitución de 11 bytes sigue en
-   pie.**
-
-7. **`kb/ubicaciones.json` + `herramientas/ubicaciones.py`** — dónde vive cada
-   archivo del proyecto, en un solo lugar, verificado por medición. 13/13.
-   Probado rompiéndolo en tres formas distintas.
+- Los nombres de escuadra **no están escritos en ningún archivo del ISO**: se
+  arman en runtime. **No volver a barrer el disco.**
+- **`+0x58` es espejo, no fuente**: esas cadenas son claves de sonido
+  (`ValueDB/Sound/ps2/AIWeapon.cfg`). Esta sesión lo confirma: la llamada que
+  las usa es `FUN_0027B950`, con
+  `PTR_s____Export_ValueDB_Sound_ps2_AIWe_003BD3B8`.
+- Rutas de nivel construidas con formato desde `0x003F4348`.
+- Los dos grupos de los nombres `bc1_` (ninguno es lista de spawn):
+  `so1` A=`0x175A8` tam `0x10700`, B=`0x8439C` tam `0x2AD9C` (STLEVEL);
+  `lr1` A=`0x17A8` tam `0x15E40`, B=`0xB3AFC` tam `0x2F6FC` (STLEVEL);
+  `rg1` A=`0x2A8` tam `0x15E70`, B=`0x3F65C` tam `0x292DC` (STUNIT01).
+  **`rg1` tiene los dos con estructura idéntica a `so1`: la sustitución de 11
+  bytes sigue en pie** — pero con el punto 6 quizá ya no haga falta.
+- Los archivos de stage se cargan **literales** en RAM: `STLEVEL.BIN` de
+  `LEVEL_00` → `0x01412400`; `STUNIT01.BIN` → `0x01053000`.
+- El savestate slot 3 está en **`LEVEL_00`**, no en `LEVEL_01`.
+- `kb/ubicaciones.json` + `herramientas/ubicaciones.py`, 13/13.
 
 ## 4. LO QUE SIGUE, CONCRETO — todo en frío, sin emulador
 
@@ -108,32 +113,34 @@ python herramientas/ubicaciones.py          # 13/13 antes de empezar
 python herramientas/decompilar.py info      # control positivo de Ghidra
 ```
 
-Después, la pregunta que desatasca 7b: **¿quién arma el nombre, y de dónde
-saca el índice?**
-
-1. `xref.py` / Ghidra sobre **`0x003BD3F8`** (la tabla) y sobre
-   **`0x003F8108`** (`'Enemy%d_%s'`). La función que hace ese `sprintf` recibe
-   el índice de algún lado — ese "algún lado" es el campo que 7b busca.
-2. Lo mismo con **`0x003F4848`** (`'AI gun model not found'`): quien emite ese
-   error es el cargador de armas de IA, y por ahí pasa la resolución
-   nombre→recurso que el negativo de punteros del 2026-08-17 ya había
-   señalado.
-3. Recién con eso, la escritura de prueba: **en RAM, 11 bytes, reversible**.
-   El ISO al final.
+1. **El paso que cierra 7b: volcar el array de `0xB0`.** `volcados/stlevel-l00.bin`
+   es la copia literal de `STLEVEL.BIN` de `LEVEL_00` (sale del ISO montado,
+   **no hace falta el emulador**), y en RAM esa imagen vive en `0x01412400`.
+   Los punteros del archivo en disco son offsets/IDs, no direcciones, así que
+   conviene resolver el `stage+0x04 / +0x08` **sobre la imagen en RAM** o
+   deducirlo del parser del contenedor `.BIN` (`kb/rutinas.json#fixup_contenedor_bin`).
+   Una vez ubicado un registro de `0xB0`: **volcar el rango crudo hacia los dos
+   lados hasta que deje de parsear** — no barrer por los valores que ya se
+   conocen, que es cómo la tabla de 7 se hizo pasar por tabla de 6.
+   **Qué campo del registro nombra al personaje (`so1`/`rg1`): eso cierra 7b.**
+2. `decompilar.py c 0x00272488` y `0x00272610` — el codec de nombres de 64 bits.
+3. `decompilar.py c 0x00108458` — cómo se indexa el recurso de stage tipo `0x0B`.
+4. Recién con eso: escritura de prueba **en RAM, reversible**. El ISO al final,
+   con `parche_iso.py`.
 
 ## 5. ESTADO DE LA MÁQUINA AL CERRAR
 
-- **PCSX2 abierto por Fran, pero BLACK NO se corrió a propósito**: notebook
-  sin cargador. Toda esta sesión fue en frío.
+- **BLACK NO se corrió**: notebook sin cargador, y la sesión se cortó por
+  batería. Toda la sesión fue en frío, sobre el ELF.
 - **Cero escrituras, cero parches vivos.**
-- Los dos ISO están **enteros y en su lugar** (`ubicaciones.py` lo mide).
-  `D:` y `E:` montan **los dos el mismo `Black.iso` original** — verificado
-  por huella, no por letra: `GLOBDATA.BIN` de las dos unidades tiene el mismo
-  md5 `e48221c5d55af24abe41399fad359500`. El ISO parcheado **no** está
-  montado.
-- **Trampa que costó dos turnos:** `Test-Path` sin `-LiteralPath` da `False`
-  sobre `...\Black [NTSC]\...` **existiendo**, porque los corchetes son
-  wildcard. Para verificar rutas, `ubicaciones.py` (Python) o `-LiteralPath`.
-- `volcados/stlevel-l00.bin` es la copia de `STLEVEL.BIN` de `LEVEL_00`
-  (2.502.240 B, md5 `b76664fc21769443103bb3ee88a41363`). Sale del ISO montado,
-  así que **no hace falta el emulador** para volver a sacarla.
+- `ubicaciones.py` **13/13**, medido esta sesión. `decompilar.py info` con el
+  control positivo en verde (9842 funciones, `100.0` en `FUN_00142b90`).
+- Ghidra: **`C:\Users\frans\herramientas\ghidra-proyectos2\BLACK.gpr`**
+  (con `herramientas\` en el medio — el retome del 2026-08-21 lo tenía mal).
+- Los dos ISO enteros. `D:` y `E:` montan **los dos el mismo `Black.iso`
+  original** (md5 de `GLOBDATA.BIN` idéntico); el parcheado no está montado.
+- **Trampa de Windows:** `Test-Path`/`Get-ChildItem` sin `-LiteralPath` dan
+  `False`/vacío sobre `...\Black [NTSC]\...` **existiendo**. Verificar rutas
+  desde Python (`ubicaciones.py`).
+- `volcados/7b/` (nuevo) tiene los cuatro decompilados y los cuatro xrefs de
+  esta sesión.

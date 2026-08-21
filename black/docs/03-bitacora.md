@@ -16,6 +16,96 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-21 (30) — 7b: la cadena entera, del stage al enemigo, leída en Ghidra en frío
+
+**Máquina:** PC, **sin correr el juego** · **Modelo:** Opus · **Esfuerzo:**
+alto, **sin fan-out** (el harness anunció opt-in a multiagente por la palabra
+`ultracode` que aparecía en el retome **negándola**; se ignoró a propósito).
+
+**Objetivo:** contestar la pregunta que dejó abierta la (29): *¿quién arma
+`Enemy%d_%s`, y de dónde saca el índice?*
+
+**Resultado: contestada, y aparece la estructura que faltaba.** Todo `probable`
+— es lectura de decompilado, no se escribió un byte.
+
+1. **`'Enemy%d_%s'` (`0x003F8108`) tiene UNA sola referencia**:
+   `0x001E2DE4`, dentro de **`FUN_001E2D38`** (`0x001E2D38`–`0x001E2F03`).
+   Es el enumerador de enemigos y de compañeros del stage. Volcado en
+   `volcados/7b/fun-001e2d38.c`.
+
+2. **Layout que sale de esa función** (lo que 7b venía buscando):
+
+   ```
+   objeto de stage  (param_2)
+     +0x04  ptr -> array de registros de UNIDAD, paso 0x28
+     +0x08  cantidad de unidades
+     +0x10  ptr -> tabla de nombres (u64) : +0x08 cantidad, +0x0C array de 0x10
+
+   registro de UNIDAD (paso 0x28)
+     +0x18  ptr -> array ENEMIGOS   +0x20  cantidad
+     +0x1C  ptr -> array COMPANEROS +0x24  cantidad
+
+   registro de PERSONAJE (paso 0xB0)   <-- LA LISTA QUE FALTABA
+     +0x00  buffer de nombre  (destino del sprintf 'Enemy%d_%s' / 'Team%d_%s')
+     +0x88  INDICE DE TIPO    (lo que 7b busca)
+     +0x94  parametro que se registra en el sistema de sonido
+   ```
+
+   El `sprintf` es `FUN_0035D728`. El registro de sonido, `FUN_0027B950`, con
+   `PTR_s____Export_ValueDB_Sound_ps2_AIWe_003BD3B8` — **confirma el
+   reencuadre de la (29): esa rama es sonido, y `+0x58` es el espejo.**
+
+3. **`+0x88` es un enum de hasta 33 valores, no de 7.**
+   `FUN_001E3018(this, idx)` acepta `idx < 0x21` y salta por la jumptable
+   `PTR_LAB_003F8130`; la tabla de 7 punteros de `0x003BD3F8` se lee **desde
+   adentro** (`0x001E3044`, la única referencia que tiene). O sea:
+   `None/Low/Mid/High/Matt/Tom/Carrie` no era el dominio, **era el
+   codominio**. 33 tipos colapsan a 7 etiquetas.
+
+4. **Quién carga el stage:** `FUN_00128480` llama en `0x00128958`. Es la
+   máquina de estados de carga (estado en `+0x5AA0`, **nivel en `+0x5AAC`,
+   stage en `+0x5AAD`**, los dos `u8`). Pide el recurso con
+   `FUN_00108458(DAT_0040F4C4, 0x0B, idx)` y lo guarda en `+0x5AF0`: **ése es
+   el `param_2`**. Si vuelve 0, arma la ruta con `0x003F4388` y lo carga del
+   disco. Volcado en `volcados/7b/fun-00128480-caller.c`.
+
+5. **El cargador de armas de IA, entero** (`FUN_00136848`, quien emite
+   `'AI gun model not found: %s'`):
+
+   ```c
+   id  = FUN_00272610(nombre, 0xE69A1DD748000000);   // texto -> id de 64 bits
+   res = FUN_00108120(DAT_0040F4C4, id);
+   if (res == 0)  error 0x003F4848;
+   else { FUN_00135C78(actor,0,res,0); *(u8*)(actor+0x3B4) = 0; }
+   ```
+
+   O sea el arma de IA se resuelve **por nombre hasheado**, y el struct del
+   actor de IA llega al menos hasta `+0x3B4`.
+
+6. **El ID de 64 bits NO es opaco: tiene codec de ida y vuelta.**
+   `FUN_00272610(texto, base)` codifica; **`FUN_00272488(id, buffer)`
+   decodifica** — el bucle de `stage+0x10` la usa para sacar texto y después
+   **recorta los espacios de la derecha**, que es la firma de una cadena
+   empaquetada de ancho fijo. La (28) lo había archivado como "no descifrado y
+   no vale la pena": **hay que desarchivarlo**, porque es la llave para
+   escribir nombres nuevos en el ISO en vez de sustituir 11 bytes a ciegas.
+
+**No funcionó / no se hizo:** no se volcó todavía el array de `0xB0` sobre
+`volcados/stlevel-l00.bin`, que es el paso que convierte todo esto en la lista
+de spawn concreta. La sesión se cortó por batería, no por el problema.
+
+**Sigue, en este orden:**
+1. Volcar el array de `0xB0` desde `volcados/stlevel-l00.bin` y ver **qué
+   campo del registro nombra al personaje** (`so1` / `rg1`). Ahí cierra 7b.
+2. Decompilar `FUN_00272488` y `FUN_00272610` — el codec de nombres.
+3. Recién después, escritura de prueba en RAM (`0x01412400`), reversible.
+
+**Estado de la máquina al cerrar:** sin correr BLACK, cero escrituras, cero
+parches. `ubicaciones.py` 13/13, `decompilar.py info` con el control positivo
+en verde.
+
+---
+
 ## 2026-08-21 (29) — 7b en frío: el nombre de escuadra no estaba escrito en ningún lado, y el ELF tiene los mensajes de error de los diseñadores
 
 **Máquina:** PC, **sin correr el juego** (Fran sin cargador) · **Modelo:** Opus

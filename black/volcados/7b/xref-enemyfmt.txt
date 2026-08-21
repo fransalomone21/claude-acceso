@@ -1,0 +1,2 @@
+  1 referencias a 0x003F8108
+    0x001E2DE4  PARAM   FUN_001e2d38
