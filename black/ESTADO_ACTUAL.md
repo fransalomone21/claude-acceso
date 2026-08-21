@@ -14,9 +14,20 @@ razón y esto está desactualizado: corregirlo.
 ## Lo primero de cualquier sesión
 
 ```powershell
+python herramientas/ubicaciones.py         # DÓNDE está cada cosa, medido
 python herramientas/inventario.py          # qué hay en LA MÁQUINA
 python herramientas/decompilar.py info     # control positivo de Ghidra
 ```
+
+**Las rutas no se copian a mano nunca más.** Viven en `kb/ubicaciones.json`,
+en un solo lugar, y `ubicaciones.py` las mide (sale con código 1 si falta algo
+crítico). Para usarlas en un script:
+`python herramientas/ubicaciones.py ruta iso_original`.
+
+> **Trampa de Windows que ya costó dos turnos:** `Test-Path` y `Get-ChildItem`
+> sin `-LiteralPath` dan **False / vacío** sobre rutas que existen, si la ruta
+> tiene corchetes — y la carpeta de los ISO es `...\Black [NTSC]\`. Los
+> corchetes son wildcard. Por eso el verificador está en Python.
 
 **El repo es la memoria del proyecto, no la de la máquina.** Antes de decir
 que una herramienta "no está instalada", se corre `inventario.py`. Esa regla
@@ -75,9 +86,17 @@ N2  FASES DEL JUEGO
             (`STLEVEL.BIN` de `LEVEL_00` en **`0x01412400`**, 7/7 anclas),
             así que la prueba se hace **en RAM, reversible**, y recién
             después se lleva al ISO. Falta: encontrar la lista de puntos
-            de spawn adentro de esa imagen. **OJO: E5 tal como estaba
-            escrito apuntaba a `LEVEL_01` y el savestate 3 está en
-            `LEVEL_00`.**
+            de spawn. **OJO: E5 tal como estaba escrito apuntaba a
+            `LEVEL_01` y el savestate 3 está en `LEVEL_00`.**
+            **2026-08-21, en frío:** los nombres de escuadra NO están
+            escritos en ningún archivo del ISO — se arman con
+            `'Enemy%d_%s'` (`0x003F8108`) sobre la tabla de 7 punteros
+            de **`0x003BD3F8`** (`None/Low/Mid/High/Matt/Tom/Carrie`).
+            Y esas cadenas son claves de **sonido** (`AIWeapon.cfg`), así
+            que **`+0x58` es candidato a espejo, no a fuente**. La lista
+            de spawn sigue sin aparecer; la vía nueva es Ghidra sobre
+            quién arma ese nombre y quién emite `'AI gun model not
+            found'` (`0x003F4848`).
         7c  de dónde sale el puntero al spawnear ......... ABIERTA
             hace falta para hacerlo permanente en el ISO, no sólo en RAM.
         Sirve al objetivo que fijó Fran el 2026-08-17: hacer BLACK más
@@ -192,6 +211,7 @@ geometría se traba, comparar contra el build de Xbox es una entrada barata.
 | **`herramientas/experimento.py`** — banco A/B con savestate, vida inflada y predicción registrada | **nueva 2026-08-17** |
 | **`herramientas/kynapse.py`** — las 182 clases de la IA, con nombre y padre | **nueva 2026-08-17** |
 | **`herramientas/estructura.py`** — campos de una clase, cruzando instancias con los métodos de su vtable | **nueva 2026-08-17** |
+| **`herramientas/ubicaciones.py`** + `kb/ubicaciones.json` — dónde vive cada archivo fuera del repo, medido, con código de salida | **nueva 2026-08-21**. 13/13 en verde, y probada rompiéndola en tres formas |
 
 **PCSX2-MCP: YA ESTÁ EN USO.** Fran lo ejecutó el 2026-08-16. El emulador que
 corre es su `pcsx2-qt.exe` (build `d75a0ad`), con DebugServer en 21512 y PINE
@@ -276,6 +296,9 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 | **El savestate 3 está en `LEVEL_00`, NO en `LEVEL_01`** | huella de tamaño de los chunks residentes (`0x15e40`/`0x10700`/`0xb60`) contra los dos `STLEVEL.BIN`. El nombre "nivel 1" del savestate era engañoso |
 | **Cola de daño diferido = global `0x00414AD0`** (16 registros de `0x20`) | `lui 0x41 + addiu 0x4AD0` en `0x0015B308` |
 | **MOD PERMANENTE EN EL ISO: anda.** Editar `GLOBDATA.BIN` in-place cambia el daño en pantalla | **2026-08-17. Cadena entera: 17 campos a `5.0` en el archivo → `Power = 5` en la tabla de RAM al arrancar → `vigilar.py` midió 24 impactos y los 24 son de exactamente `-5.0` (vida 750→630, salto constante, sin varianza). Antes del parche el escalón era `26.0`.** Serie en `volcados/vida-mod-armas.csv` |
+| **Los nombres de escuadra se ARMAN en runtime, no están en el ISO**: `'Enemy%d_%s'` en `0x003F8108` y `'Team%d_%s'` en `0x003F8118`, con las piezas en la tabla de 7 punteros de **`0x003BD3F8`** (`None/Low/Mid/High/Matt/Tom/Carrie`) | **2026-08-21, en frío.** `Enemy0_Mid` da 0 ocurrencias en `STLEVEL.BIN`, 0 en `STUNIT01.BIN` y 0 en los ~2.900 archivos del ISO. Las cadenas de formato están en `.rodata` y la tabla en `.data`. **Cuidado con el encuadre**: viven en el bloque de `ValueDB/Sound/ps2/AIWeapon.cfg` — son claves de **sonido** de arma de IA, así que la coincidencia con la partición de 7a se explica por "misma arma = mismo grupo de mezcla" |
+| **Hay una lista de armas POR NIVEL, y el ELF la nombra**: `'AI gun model not found: %s'` (`0x003F4848`) + `'weaponList.txt file for this level'` | 2026-08-21. Es el directorio `STLEVEL+0x80` ya conocido, y **es el modo de falla que E5 predecía, con mensaje propio** — un observable de error más barato que la pantalla |
+| **Las rutas de nivel se construyen con formato**, no están horneadas: `Levels\Level_%02u\Stg_%04u\StLevel.bin` (`0x003F4388`), `...\StUnit%02d.bin`, `...\Guns%s.bin`, `...\LevelDat.bin`, `...\Unit_%02d.bin` | 2026-08-21, `.rodata`. Corrobora 6.1 desde otro lado y expone nivel/stage/unidad como parámetros |
 | **El ELF NO lleva LBAs horneados**; resuelve por nombre contra la TOC | 0/1644 inmediatos en el ELF con control positivo y piso de ruido; `gtfsdvd` lee la TOC. Ver `docs/05-iso.md` |
 | **`arma + bloque + 0x20` = `Time Between Bullets`** (segundos entre balas dentro de una ráfaga) | **2026-08-17, `experimento.py`, 4 réplicas A/B con predicción registrada: hueco intra-ráfaga 133.17 ms → 66.53 ms con factor 0.2, 555 dispersiones de separación, y el hueco entre ráfagas sin moverse. Está CUANTIZADA A FRAMES (2/4/5 frames a 30 fps) y la relación NO es proporcional** |
 | **El jugador REGENERA vida**: `+0.5` por tick, ~3,6/s | medido con `vigilar.py` el 2026-08-17. Nunca antes anotado; explica que se estabilice en vez de morir |
@@ -334,14 +357,16 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
   `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
   (build `d75a0ad`). Trae DebugServer en 21512 y **PINE en 28011**, los dos
   verificados andando. Fran ya lo ejecutó: dejó de ser "bajado sin incorporar".
-- **Los dos ISO, en la misma carpeta**
-  `C:\Program Files\PCSX2\PCSX2\games\Black [NTSC]\`:
+- **Los dos ISO, en la misma carpeta** — reverificado el 2026-08-21, enteros:
   `Black.iso` (original, 3.919.609.856 B, **no tocar nunca**) y
-  `Black-mod-armas.iso` (parcheado, mismo tamaño exacto).
+  `Black-mod-armas.iso` (parcheado, mismo tamaño exacto). **La ruta no se
+  copia acá**: `python herramientas/ubicaciones.py ruta iso_original`.
   Accesos directos en `C:\Users\frans\Desktop\BLACK\`:
   `ABRIR-BLACK-ORIGINAL.bat` y `ABRIR-BLACK-MOD-ARMAS.bat`.
-- El original queda montado en `D:` para las herramientas que leen archivos
-  sueltos. `lbas.py` y `parche_iso.py` **no lo necesitan**: leen el `.iso`.
+- **`D:` y `E:` montan los dos el MISMO `Black.iso` original.** Verificado por
+  huella, no por letra: `GLOBDATA.BIN` de las dos unidades tiene el mismo md5
+  `e48221c5d55af24abe41399fad359500`. **El ISO parcheado no está montado.**
+  `lbas.py` y `parche_iso.py` no necesitan montaje: leen el `.iso`.
 - **Parches vivos en memoria: NINGUNO.** El emulador se reinició el 2026-08-17,
   así que el nop de vida infinita en `0x0013BD20` **ya no está puesto**.
 - Savestates en **`C:\Users\frans\Documents\PCSX2\sstates\`** (ya NO en

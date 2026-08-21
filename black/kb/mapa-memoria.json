@@ -253,6 +253,58 @@
       "evidencia": "7a lo confirmo por efecto para +0x04. En 7b se leyeron los 0x24 completos: +0x00/+0x04 punteros a los bloques jugador/IA del registro de arma, +0x08 puntero al registro de entidad de 0x80, +0x20 puntero al objeto de arma (0x006DE770+n*0x110, en +0x30). 10 entradas usadas, n=0 es el jugador.",
       "descubierto": "2026-08-17",
       "notas": "n=0 y n=8 tienen +0x00 == +0x04 (mismo bloque para jugador e IA) y +0x08 nulo. n=1,2 usan registro 4; n=3..7 y n=9 usan registro 5."
+    },
+    {
+      "id": "tabla_nombres_escuadra_elf",
+      "nombre": "Tabla de nombres de escuadra/amenaza (7 punteros a char*, en .data del ELF)",
+      "direccion": "0x003BD3F8",
+      "tipo": "u32",
+      "version": "ntscu_100",
+      "estable": true,
+      "base": null,
+      "confianza": "probable",
+      "evidencia": "Barrido de u32 alineados en el ELF apuntando a las cadenas de 0x003F7EA8..0x003F7ED8. Siete entradas consecutivas: [0]None [1]Low [2]Mid [3]High [4]Matt [5]Tom [6]Carrie. Medido en frio sobre la copia del ELF (ver kb/ubicaciones.json#elf_copia) el 2026-08-21. NADIE ESCRIBIO NADA todavia: por eso es probable y no confirmado.",
+      "descubierto": "2026-08-21",
+      "notas": "Con esta tabla, los nombres que la sesion del 2026-08-17 leyo en RAM (Enemy0_Mid, Team0_Tom, Enemy1_Low) se explican como sprintf de 'Enemy%d_%s' / 'Team%d_%s' con el %s salido de aca. Indices 0-3 = grado de amenaza; 4-6 = nombres propios de companeros. OJO CON EL ENCUADRE: las cadenas viven en el bloque de ValueDB/Sound/ps2/AIWeapon.cfg, rodeadas de EnemyWeapon, MaxEnemiesSoundedPerFrame y Emphasis Decay Frames. Son claves de configuracion de SONIDO de arma de IA. Que la particion coincida con la de registro de arma de 7a no prueba que gobierne el spawn: dos enemigos con la misma arma comparten grupo de mezcla."
+    },
+    {
+      "id": "formato_nombre_escuadra",
+      "nombre": "printf que construye el nombre de escuadra: Enemy%d_%s y Team%d_%s",
+      "direccion": "0x003F8108",
+      "tipo": "u8",
+      "version": "ntscu_100",
+      "estable": true,
+      "base": null,
+      "confianza": "confirmado",
+      "evidencia": "Cadenas literales en .rodata del ELF: 0x003F8108 'Enemy%d_%s', 0x003F8118 'Team%d_%s'. Es un hecho sobre el artefacto (la cadena esta ahi y se lee), no una hipotesis de comportamiento.",
+      "descubierto": "2026-08-21",
+      "notas": "Explica el negativo del 2026-08-21: 'Enemy0_Mid' da CERO ocurrencias en STLEVEL.BIN, en STUNIT01.BIN y en los ~2900 archivos del ISO entero. El nombre no esta escrito en ningun lado: se arma en runtime. El handoff del 2026-08-17 decia que el descriptor de escuadra vivia dentro de la imagen de STLEVEL; la direccion cae ahi, pero el TEXTO no sale de ese archivo."
+    },
+    {
+      "id": "formatos_ruta_stage",
+      "nombre": "Formatos de ruta de los archivos de nivel (se construyen, no estan hardcodeados)",
+      "direccion": "0x003F4388",
+      "tipo": "u8",
+      "version": "ntscu_100",
+      "estable": true,
+      "base": null,
+      "confianza": "confirmado",
+      "evidencia": "Cadenas contiguas en .rodata: 0x003F4348 'Levels\\Level_%02u\\LevelDat.bin', 0x003F4368 'Levels\\Level_%02u\\fpguns\\', 0x003F4388 'Levels\\Level_%02u\\Stg_%04u\\StLevel.bin', 0x003F43B8 'Levels\\Level_%02u\\Stg_%04u\\Guns%s.bin', 0x003F4508 'Levels\\Level_%02u\\Unit_%02d.bin', 0x003F4528 'Levels\\Level_%02u\\Stg_%04d\\StUnit%02d.bin'.",
+      "descubierto": "2026-08-21",
+      "notas": "Corrobora 6.1 desde otro lado: el ELF resuelve por NOMBRE construido, no por LBA. Y expone el numero de nivel/stage/unidad como parametros, que es la palanca para hacerle cargar otra cosa."
+    },
+    {
+      "id": "error_ai_gun_model",
+      "nombre": "Mensaje de error del cargador de armas de IA: AI gun model not found",
+      "direccion": "0x003F4848",
+      "tipo": "u8",
+      "version": "ntscu_100",
+      "estable": true,
+      "base": null,
+      "confianza": "confirmado",
+      "evidencia": "Cadenas en .rodata: 0x003F4848 'AI gun model not found: %s', 0x003F4864 'Please ask a designer to add it to the ', 0x003F488D 'weaponList.txt file for this level'.",
+      "descubierto": "2026-08-21",
+      "notas": "ES EL MODO DE FALLA QUE E5 PREDECIA, con nombre y con mensaje propio. Confirma que existe una lista de armas POR NIVEL, que es el directorio de recursos de arma del stage ya conocido en STLEVEL+0x80 (7 registros de paso 0x28). Antes de correr el experimento conviene buscar quien referencia esta cadena: el camino de error es un observable mas barato y mas especifico que mirar la pantalla."
     }
   ]
 }

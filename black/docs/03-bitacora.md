@@ -16,6 +16,98 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-21 (29) — 7b en frío: el nombre de escuadra no estaba escrito en ningún lado, y el ELF tiene los mensajes de error de los diseñadores
+
+**Máquina:** PC, **sin correr el juego** (Fran sin cargador) · **Modelo:** Opus
+(inferencia sobre estructura desconocida) · **Esfuerzo:** alto, sin fan-out
+
+**Objetivo:** avanzar 7b sin emulador, sobre el ISO y el ELF.
+
+**Resultado:** 7b sigue abierta —no se escribió un byte, y cierra por efecto—
+pero cambió de forma, y el trabajo en frío rindió más por token que las dos
+sesiones en caliente anteriores.
+
+1. **El negativo que resultó ser la respuesta.** `Enemy0_Mid`, `Team0_Tom` y
+   compañía dan **cero ocurrencias** en `STLEVEL.BIN`, cero en `STUNIT01.BIN`
+   y cero en los ~2.900 archivos del ISO entero. No estaban mal buscados: **no
+   están escritos en ninguna parte**. El ELF los arma en runtime, y ahí están
+   los formatos, en `.rodata`:
+
+   ```
+   va 0x003F8108  'Enemy%d_%s'
+   va 0x003F8118  'Team%d_%s'
+   ```
+
+2. **La tabla de piezas, en `.data`: `0x003BD3F8`**, siete punteros a `char*`
+   consecutivos — `[0]None [1]Low [2]Mid [3]High [4]Matt [5]Tom [6]Carrie`.
+   La séptima (`Carrie`) apareció recién al volcar el rango crudo: el barrido
+   inicial buscaba los seis nombres ya conocidos y la tabla "terminaba" justo
+   en seis.
+
+3. **Reencuadre que hay que decir en voz alta:** esas cadenas viven en el
+   bloque de `../Export/ValueDB/Sound/ps2/AIWeapon.cfg`, rodeadas de
+   `EnemyWeapon`, `MaxEnemiesSoundedPerFrame`, `Emphasis Decay Frames`,
+   `BulletBy` y `Rate`. Son **claves de configuración de sonido de arma de
+   IA**. Que la partición por `+0x58` coincida exacto con la partición por
+   registro de arma de 7a ahora tiene una explicación más barata que
+   "descriptor de escuadra": **dos enemigos con la misma arma comparten grupo
+   de mezcla**. O sea que `+0x58` es candidato a **espejo, no a fuente**, y
+   perseguirlo para 7b es perseguir el reflejo.
+
+4. **El modo de falla de E5 tiene mensaje propio en el ELF:**
+
+   ```
+   0x003F4848  'AI gun model not found: %s'
+   0x003F4864  'Please ask a designer to add it to the '
+   0x003F488D  'weaponList.txt file for this level'
+   ```
+
+   Confirma que hay una **lista de armas por nivel** —el directorio
+   `STLEVEL+0x80`, 7 registros de paso `0x28`, que ya conocíamos— y da un
+   observable de error **más específico y más barato que la pantalla**.
+
+5. **Las rutas del stage se construyen, no están horneadas** (`0x003F4348` en
+   adelante): `Levels\Level_%02u\Stg_%04u\StLevel.bin`,
+   `...\StUnit%02d.bin`, `...\Guns%s.bin`, `...\LevelDat.bin`,
+   `...\Unit_%02d.bin`, `...\fpguns\`. Corrobora 6.1 desde otro lado y expone
+   nivel/stage/unidad como parámetros.
+
+6. **Los dos "grupos" de los nombres `bc1_` quedaron caracterizados**, y
+   ninguno es una lista de spawn: los dos son entradas de recurso con tamaño
+   declarado. Grupo A = cabecera de chunk (`flags 0x00101001` + tamaño +
+   nombre); grupo B = tres pares `008a0105`/`1.0f` + tamaño + nombre. `rg1`
+   tiene los dos, en `STUNIT01.BIN` (`0x2a8` y `0x3f65c`), con estructura
+   idéntica a la de `so1` — o sea que la sustitución de 11 bytes sigue en pie.
+
+7. **`kb/ubicaciones.json` + `herramientas/ubicaciones.py`** (nuevos): dónde
+   vive cada archivo que no está en el repo, en un solo lugar, con un
+   verificador que lo **mide** y sale con código 1 si falta algo crítico.
+   13/13 en verde. Probado rompiéndolo en tres formas (ruta ausente, tamaño
+   distinto, carpeta declarada como archivo): las tres se ponen en rojo.
+
+**No funcionó:**
+
+- **`Test-Path` mintió.** Reporté que la carpeta de los ISO no existía y que
+  la máquina se había desconfigurado. Falso: los corchetes de `Black [NTSC]`
+  son wildcard en PowerShell si no se pasa `-LiteralPath`. Los dos ISO están
+  enteros. Lección registrada.
+- **La ruta de Ghidra del mensaje de retome estaba mal** (`~\ghidra-proyectos2`
+  en vez de `~\herramientas\ghidra-proyectos2`), y la verifiqué desde ahí en
+  vez de contra `decompilar.py:77`, que la tenía bien. `ESTADO_ACTUAL.md`
+  estaba correcto: abrevia con `...\` y yo leí mal la abreviatura.
+- **Sigue sin aparecer la lista de puntos de spawn.** Es lo único que traba
+  el experimento.
+
+**Sigue:** buscar quién referencia `0x003F4848` y la tabla `0x003BD3F8` con
+Ghidra (`decompilar.py`, en frío, sin emulador). La función que arma
+`Enemy%d_%s` recibe el índice de algún lado, y ese "algún lado" es el campo
+que 7b busca.
+
+**Estado de la máquina al cerrar:** PCSX2 abierto por Fran pero **sin correr
+BLACK a propósito** (notebook sin cargador). Cero escrituras, cero parches.
+
+---
+
 ## 2026-08-17 (28) — 7b: el nivel entero está en RAM en una dirección conocida, y E5 apuntaba al nivel equivocado
 
 **Máquina:** PC, PCSX2 corriendo con el ISO original · **Modelo:** Opus

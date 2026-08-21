@@ -720,6 +720,48 @@ r = correr(["herramientas/inventario.py", "--help"])
 ok(r.returncode == 0, "inventario.py --help no rompe", (r.stderr or r.stdout)[:200])
 
 
+# =============================================================================
+print("== ubicaciones: se pone en rojo cuando una ruta se rompe (probado rompiéndolo) ==")
+import ubicaciones  # noqa: E402
+
+tmp_ub = tempfile.mkdtemp(prefix="black-ub-")
+_archivo = os.path.join(tmp_ub, "existe.bin")
+with open(_archivo, "wb") as _fh:
+    _fh.write(b"0123456789")
+
+# el caso sano: existe, es archivo, y el tamaño declarado coincide
+ok(ubicaciones.revisar_una("x", {"ruta": _archivo, "tipo": "archivo",
+                                 "tam": 10, "critico": True})["ok"] is True,
+   "ruta sana con tamaño correcto: verifica")
+
+# los tres sabotajes. Si alguno diera ok=True, el verificador no verifica nada.
+ok(ubicaciones.revisar_una("x", {"ruta": os.path.join(tmp_ub, "no-esta.bin"),
+                                 "tipo": "archivo", "critico": True})["ok"] is False,
+   "ruta ausente: se marca en rojo")
+ok(ubicaciones.revisar_una("x", {"ruta": _archivo, "tipo": "archivo",
+                                 "tam": 999, "critico": True})["ok"] is False,
+   "existe pero con OTRO tamaño: se marca en rojo (el archivo cambió abajo)")
+ok(ubicaciones.revisar_una("x", {"ruta": tmp_ub, "tipo": "archivo",
+                                 "critico": True})["ok"] is False,
+   "carpeta declarada como archivo: se marca en rojo")
+ok(ubicaciones.revisar_una("x", {"ruta": tmp_ub, "tipo": "carpeta",
+                                 "critico": True})["ok"] is True,
+   "esa misma carpeta declarada como carpeta: verifica")
+
+# la trampa que originó la herramienta: corchetes en la ruta.
+_con_corchetes = os.path.join(tmp_ub, "Black [NTSC]")
+os.makedirs(_con_corchetes)
+ok(ubicaciones.revisar_una("x", {"ruta": _con_corchetes, "tipo": "carpeta",
+                                 "critico": True})["ok"] is True,
+   "ruta CON CORCHETES: verifica igual (en PowerShell sin -LiteralPath daría False)")
+
+r = correr(["herramientas/ubicaciones.py", "ruta", "clave-que-no-existe"])
+ok(r.returncode == 2, "pedir una clave inexistente falla con código 2",
+   (r.stderr or r.stdout)[:200])
+
+shutil.rmtree(tmp_ub, ignore_errors=True)
+
+
 shutil.rmtree(tmp, ignore_errors=True)
 
 # =============================================================================
