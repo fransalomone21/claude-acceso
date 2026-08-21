@@ -3,23 +3,34 @@
 ## Cuadro de fase para abrir el próximo chat
 
 ```
-Fase     : Fase 1 CERRADA (apunte completo, 43 pág., compila y verificado
-           por render). Lo que sigue es Fase 2 — revisión pedagógica con
-           el apunte usado en clase. La cierra: Fran dicta al menos un
-           módulo y marca qué falta o qué sobra.
-Modelo   : Sonnet 5 para ajustes de redacción y agregados menores.
-           Opus solo si hay que agregar deducciones nuevas.
-Contexto : chat nuevo. El apunte está en el repo y se lee solo; arrastrar
-           este contexto no aporta nada.
+Fase     : Fase 1 CERRADA (apunte completo, 44 pág.) y Fase 1b CERRADA
+           (figuras vectoriales, 30 en total, verificador en verde y
+           probado rompiéndolo). Lo que sigue es Fase 2 — revisión
+           pedagógica con el apunte usado en clase. La cierra: Fran dicta
+           al menos un módulo y marca qué falta o qué sobra.
+Modelo   : Sonnet 5 para ajustes de redacción, retoques de figuras y
+           agregados menores. Opus solo si hay que agregar deducciones
+           nuevas o diseñar una figura desde cero.
+Esfuerzo : medio, sin fan-out. El trabajo que queda es de una sola
+           cabeza sobre un documento que ya existe; la amplitud no compra
+           nada acá.
+Contexto : chat nuevo. El apunte y su documentación están en el repo y se
+           leen solos; arrastrar contexto no aporta.
 ```
 
 ## Lo primero que hay que hacer
 
-1. `cd electronica-analogica/apunte && typst compile apunte.typ apunte.pdf` — confirmar
-   que sigue compilando antes de tocar nada.
-2. Leer `ESTADO_ACTUAL.md`, en particular las tres decisiones de contenido.
+```bash
+cd electronica-analogica/apunte && python verificar.py
+```
 
-## Trampas de Typst ya pagadas — no volver a pisarlas
+Tiene que dar "Todo en verde". Si da rojo, arreglar eso antes de tocar nada más.
+Después leer `ESTADO_ACTUAL.md` (las tres decisiones de contenido) y, si se van a
+tocar figuras, `docs/figuras.md` entero.
+
+## Trampas ya pagadas — no volver a pisarlas
+
+### De Typst / tipografía
 
 - **Coma decimal antes de `/`**: `16,3/1000` se dibuja como "16" más la fracción 3/1000.
   Escribir siempre `(16,3)/(1000)` con paréntesis.
@@ -30,18 +41,39 @@ Contexto : chat nuevo. El apunte está en el repo y se lee solo; arrastrar
 - **Unidades con micro**: `6667 mu "F"` sale con espacio feo. Escribir `"6667 µF"`.
 - **No hay poppler en la máquina**: la herramienta Read no abre PDFs. Para leer uno,
   extraer texto con `pypdf` (ya instalado) — ver `fuentes/_extraer.py`.
-- **Verificar por render, no por compilación.** `typst compile apunte.typ "chk-{p}.png"
-  --ppi 80 --pages N` y mirar la imagen. Los dos defectos que se encontraron habrían
-  pasado desapercibidos mirando solo el fuente, y el PDF compilaba igual.
+
+### De las figuras
+
+Las seis trampas de `zap`/CeTZ están en [`docs/figuras.md`](docs/figuras.md), sección 6,
+con el síntoma exacto de cada una. Las dos que más cuestan:
+
+- `wire(..., i: ...)` aborta la compilación en zap 0.6.0. Usar el ayudante `corriente()`.
+- Las patas del transistor no están alineadas con su punto de inserción: todo lo que
+  cuelga de un BJT va con coordenadas relativas a `"Q.c"` / `"Q.b"` / `"Q.e"`.
+
+### De método
+
+- **Verificar por render, no por compilación.** Todos los defectos de figura que
+  aparecieron compilaban perfecto. Mirar el PNG:
+  `typst compile biblioteca/galeria.typ "biblioteca/_g{0p}.png" --ppi 120`.
+- **Nada de `str.replace('', ...)` para editar un archivo.** Un slice mal acotado
+  (`s[s.index(a):s.index(b)]` con `b` antes que `a`) devuelve cadena vacía, y
+  `replace("")` inserta el texto entre *cada* carácter del archivo. Pasó una vez y hubo
+  que reescribir `graficos.typ` entero. Si se edita con script: verificar que el trozo
+  buscado exista y sea único, y afirmarlo con `assert` antes de reemplazar.
 
 ## Cómo se agrega o edita contenido
 
 Un archivo por módulo en `apunte/modulos/`. `m1-mediciones.typ` es el modelo canónico:
 apertura con `#modulo(...)`, teoría con deducción explícita, ecuaciones etiquetadas
 `<ec-...>` y referenciadas con `@ec-...`, cajas `#definicion` / `#clave` / `#atencion` /
-`#laboratorio`, ejercicios con `#ejercicio`, circuitos con `#circuito(...)` en ASCII, y
-cierre con `#tp(...)`. La numeración de ejercicios, ecuaciones y figuras se reinicia sola
-en cada `#modulo(...)`: no agregar contadores a mano.
+`#laboratorio`, ejercicios con `#ejercicio`, figuras con
+`#circuito([epígrafe])[#fig-loquesea()]`, y cierre con `#tp(...)`. La numeración de
+ejercicios, ecuaciones y figuras se reinicia sola en cada `#modulo(...)`: no agregar
+contadores a mano.
+
+Para agregar una figura nueva, el procedimiento de cinco pasos está en `docs/figuras.md`,
+sección 4. Lo importante: **agregarla también a `galeria.typ`**, o el verificador da rojo.
 
 ## Decisiones ya tomadas — no reabrir
 
@@ -52,11 +84,16 @@ en cada `#modulo(...)`: no agregar contadores a mano.
 - **El destinatario primario es el docente**, y en segundo lugar los alumnos. De ahí el
   peso puesto en las deducciones completas (de dónde sale cada fórmula) por encima de la
   ejercitación.
+- **Las figuras se dibujan con Typst, no con LaTeX.** El razonamiento completo está en
+  `docs/figuras.md`, sección 1. No reabrirlo salvo que aparezca un símbolo que `zap` no
+  tenga y que no se pueda componer a mano.
 - **La fila del proyecto ya está en la tabla del `CLAUDE.md` raíz.**
 
 ## Pendientes explícitos
 
-- **Los circuitos son ASCII.** Se leen bien, pero si el apunte se va a imprimir y repartir
-  conviene evaluar redibujarlos como vectores con CeTZ (paquete de Typst). Es trabajo
-  puramente estético y no bloquea nada.
 - **Sin verificar contra el apunte interactivo** de Moodle, que sigue sin poder leerse.
+- **Retoques finos de figura que quedaron aceptables pero no perfectos**: en
+  `graf-respuesta-rc` la punta de flecha del eje x roza el rótulo `f/f_c`; en
+  `graf-curva-zener` el rótulo `V_Z` queda muy cerca del eje. Ninguno molesta la lectura.
+- **La galería no cubre el caso "figura en el contexto del texto"**: se mira aparte. Los
+  problemas de salto de página o de ancho aparecen solo al compilar el apunte entero.

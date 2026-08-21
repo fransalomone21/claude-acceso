@@ -4,13 +4,14 @@
 //  Compilar el documento principal, no este archivo.
 // =====================================================================
 
-// ---------- Paleta ----------
-#let c-azul   = rgb("#1B4F72")   // titulos y definiciones
-#let c-verde  = rgb("#1E8449")   // ejercicios resueltos
-#let c-rojo   = rgb("#922B21")   // seguridad / errores frecuentes
-#let c-ambar  = rgb("#B9770E")   // notas de laboratorio
-#let c-viole  = rgb("#6C3483")   // vinculo con los TPs de la catedra
-#let c-gris   = rgb("#F4F6F7")
+// ---------- Paleta y biblioteca de figuras ----------
+// La paleta vive en biblioteca/paleta.typ para que las figuras usen los
+// mismos colores sin importar este archivo (seria un ciclo). Los dos
+// imports de abajo re-exportan las figuras: cada modulo hace
+// `#import "../plantilla.typ": *` y con eso ya tiene fig-* y graf-*.
+#import "biblioteca/paleta.typ": *
+#import "biblioteca/circuitos.typ": *
+#import "biblioteca/graficos.typ": *
 
 // ---------- Contadores propios ----------
 #let cont-ej = counter("ejercicio")
@@ -160,7 +161,7 @@
     ]
   ]
 
-  // Codigo / circuitos ASCII
+  // Bloques de codigo (ya no hay circuitos en ASCII: ver biblioteca/)
   show raw.where(block: true): it => block(
     width: auto,
     fill: white,

@@ -1,8 +1,10 @@
 # Estado actual — Apunte de Aplicaciones de Electrónica Analógica (4.º año)
 
-**Fecha:** 2026-08-16
+**Fecha:** 2026-08-21
 **Rama:** `claude/apunte-electronica-analogica`
-**Estado: APUNTE COMPLETO.** 43 páginas, los 6 módulos redactados más anexos.
+**Estado: APUNTE COMPLETO, CON FIGURAS VECTORIALES.** 44 páginas, los 6 módulos
+redactados más anexos, y las 24 figuras que antes eran dibujos en ASCII ahora
+dibujadas como vectores, más 6 gráficos nuevos.
 
 ## Qué es esto
 
@@ -18,21 +20,66 @@ cd electronica-analogica/apunte && typst compile apunte.typ apunte.pdf
 Typst **0.15.1** instalado vía `winget install Typst.Typst`. No hace falta LaTeX ni
 pandoc. Para trabajar con vista viva: `typst watch apunte.typ apunte.pdf`.
 
+Los tres paquetes de dibujo (`cetz` 0.5.2, `zap` 0.6.0, `cetz-plot` 0.1.4) los baja
+Typst solo la primera vez y quedan cacheados en
+`%LOCALAPPDATA%\typst\packages\preview\`. **No hay nada que instalar a mano.**
+
+## Cómo se verifica
+
+```bash
+cd electronica-analogica/apunte && python verificar.py
+```
+
+Cuatro chequeos, todos sobre efectos y **todos probados rompiéndolos a propósito**:
+que el apunte compile, que la galería compile, que no haya quedado ningún circuito en
+ASCII, y que toda figura de la biblioteca esté en la galería (una figura que nadie
+mira se rompe sin que se entere nadie).
+
+Para mirar las figuras sin compilar las 44 páginas:
+
+```bash
+typst watch biblioteca/galeria.typ biblioteca/galeria.pdf
+```
+
 ## Contenido por módulo
 
-| Módulo | Tema | Ejercicios resueltos |
-|---|---|---|
-| 1 | Mediciones y expansión de rango | 5 |
-| 2 | Señales periódicas e instrumental | 4 |
-| 3 | Electromagnetismo y transformadores | 2 |
-| 4 | Diodos y rectificación | 2 |
-| 5 | Fuentes lineales (incluye zener) | 3 |
-| 6 | BJT en conmutación y relés | 2 |
-| — | Anexos: código de colores, series E12/E24, formulario, símbolos, seguridad | — |
+| Módulo | Tema | Ejercicios resueltos | Figuras |
+|---|---|---|---|
+| 1 | Mediciones y expansión de rango | 5 | 4 |
+| 2 | Señales periódicas e instrumental | 4 | 4 |
+| 3 | Electromagnetismo y transformadores | 2 | 2 |
+| 4 | Diodos y rectificación | 2 | 9 |
+| 5 | Fuentes lineales (incluye zener) | 3 | 5 |
+| 6 | BJT en conmutación y relés | 2 | 4 |
+| — | Anexos: código de colores, series E12/E24, formulario, símbolos, seguridad | — | 2 |
 
 Todos los módulos llevan: teoría con deducción explícita, ecuaciones numeradas y
-referenciadas, circuitos en ASCII, cajas de definición / idea clave / cuidado /
-laboratorio, y una caja final que ata el módulo con el TP correspondiente de la cátedra.
+referenciadas, **figuras vectoriales**, cajas de definición / idea clave / cuidado /
+laboratorio, y una caja final que ata el módulo con el TP correspondiente.
+
+## Las figuras (2026-08-21)
+
+Documentación completa —herramientas, por qué esas, cómo agregar una, y las trampas
+que ya costaron tiempo— en [`docs/figuras.md`](docs/figuras.md).
+
+**Resumen:** los dibujos en ASCII se reemplazaron por figuras vectoriales hechas con
+`zap` (símbolos de circuito según IEC/IEEE) y `cetz-plot` (curvas con ejes estilo
+libro de texto), las dos sobre `cetz`. Todo corre adentro de Typst: se descartó
+CircuiTikZ porque obligaba a instalar LaTeX y a mantener un segundo toolchain con un
+paso de conversión por figura.
+
+La biblioteca vive en `apunte/biblioteca/` con una función por figura (`fig-*` para
+esquemas, `graf-*` para curvas). El módulo la llama por nombre y no sabe cómo está
+dibujada.
+
+**Seis gráficos nuevos**, que el apunte describía en palabras y no mostraba:
+
+- `graf-respuesta-rc` — respuesta del pasa bajos, con $f_c$ y el punto de −3 dB (M2).
+- `graf-media-onda` y `graf-onda-completa` — entrada contra salida rectificada (M4).
+- `graf-rizado` — la salida con y sin capacitor, con la cota de ΔV_r (M5).
+- `graf-curva-zener` — la característica del zener con vértice, I_Zmín e I_Zmáx (M5).
+- `graf-recta-de-carga` — curvas de salida del BJT con la recta de carga, corte y
+  saturación marcados (M6).
 
 ## Decisiones de contenido y por qué
 
@@ -54,16 +101,19 @@ con el apunte oficial: si no, el alumno estudia con dos idiomas distintos.
 
 ## Evidencia (qué está confirmado y cómo)
 
-- **Compila** → `apunte.pdf`, 43 páginas. Confirmado por ejecución.
-- **Se ve bien** → verificado por render a PNG y lectura visual de páginas de muestra de
-  los módulos 4 y 5. Que compile no prueba que se vea bien.
-- **Dos defectos encontrados y corregidos por ese render**, no por leer el fuente:
-  1. En Typst, una coma decimal seguida de `/` parte el número: `16,3/1000` se dibujaba
-     como "16" seguido de la fracción 3/1000. Corregido con paréntesis en las seis
-     expresiones afectadas.
-  2. Typst trata la coma como separador y le agrega un espacio detrás: los decimales
-     salían como "15, 6". Corregido globalmente en `plantilla.typ` con una regla
-     `show` que reclasifica la coma como átomo normal.
+- **Compila** → `apunte.pdf`, 44 páginas. Confirmado por ejecución.
+- **Las 30 figuras se ven bien** → confirmado por render a PNG de la galería completa y
+  lectura visual, más render del apunte entero y revisión de las páginas con figuras
+  grandes. Que compile no prueba que se vea bien: todos los defectos encontrados
+  —rótulos encimados, texto que se salía de las cajas, patas de transistor cableadas en
+  diagonal— compilaban perfecto.
+- **El verificador funciona** → confirmado rompiéndolo cuatro veces a propósito (error de
+  sintaxis en un módulo, error de sintaxis en la galería, un bloque ASCII devuelto a su
+  lugar, una figura definida sin agregar a la galería). Las cuatro dieron rojo, y verde
+  de nuevo al restaurar.
+- **Dos defectos de tipografía encontrados por render en la sesión anterior**, ya
+  corregidos y con la regla puesta en `plantilla.typ` (coma decimal antes de `/`, y
+  espacio detrás de la coma).
 
 ## Fuentes
 

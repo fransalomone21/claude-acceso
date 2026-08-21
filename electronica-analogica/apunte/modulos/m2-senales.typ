@@ -141,18 +141,10 @@ para las señales simétricas puras el valor medio siempre da cero.
 )
 
 #circuito([Las tres formas de onda y sus parámetros])[
-```
-   SENOIDAL                CUADRADA               TRIANGULAR
-     ___                  ┌────┐    ┌────┐          /\      /\
-    /   \       ▲ Vp      │    │    │    │   ▲Vp    /  \    /  \    ▲Vp
-   /     \      │         │    │    │    │   │     /    \  /    \   │
-  ──────────    ▼ 0    ───┤    ├────┤    ├── ▼0   ──────\/──────\/  ▼0
-         \   /            │    │    │    │              \  /
-          \_/             └────┘    └────┘               \/
-  |<-- T -->|          |<--- T --->|                |<-- T -->|
-
-  Vef = Vp/√2           Vef = Vp                    Vef = Vp/√3
-```
+#graf-formas-de-onda()
+#pie-figura[Las tres pueden tener el mismo $V_p$ y el mismo período $T$ y calentar
+  distinto: $V_"ef" = V_p slash sqrt(2)$ para la senoidal, $V_"ef" = V_p$ para la
+  cuadrada y $V_"ef" = V_p slash sqrt(3)$ para la triangular.]
 ]
 
 #atencion[
@@ -265,20 +257,7 @@ pantalla LCD). Más allá de esa diferencia, los tres bloques centrales son los 
 === Los tres bloques
 
 #circuito([Diagrama en bloques del osciloscopio])[
-```
-              ┌─────────────────┐
-   señal ──►  │  A. AMPLIFICADOR│──────────────┐
-   (BNC)      │   / ATENUADOR   │              │      ┌──────────┐
-              │     VERTICAL    │              ├─────►│ PANTALLA │
-              │   (Volts/Div)   │              │      │  TRC/LCD │
-              └────────┬────────┘              │      └──────────┘
-                       │                       │
-                       ▼                       │
-              ┌─────────────────┐    ┌─────────┴───────┐
-              │  C. DISPARO     │───►│ B. BASE DE TIEMPO│
-              │    (TRIGGER)    │    │   (Time/Div)     │
-              └─────────────────┘    └──────────────────┘
-```
+#fig-bloques-osciloscopio()
 ]
 
 *A — Amplificador/atenuador vertical.* Adapta la señal de entrada al rango de la pantalla
@@ -404,14 +383,7 @@ frecuencia $X_C$ tiende a cero (el capacitor es casi un cortocircuito). Poniendo
 un C en divisor, esa dependencia se convierte en un filtro.
 
 #circuito([Filtro pasa bajos RC])[
-```
-          R
-   o───/\/\/\───┬───o
-                │
-  Vin          ═╪═ C      Vout
-                │
-   o────────────┴───o
-```
+#fig-filtro-rc()
 ]
 
 Como es un divisor de tensión donde el elemento inferior es el capacitor:
@@ -425,6 +397,12 @@ $ 1/(2 pi f_c C) = R quad arrow.r.double quad f_c = 1/(2 pi R C) $ <ec-fc>
 
 En $f_c$ la salida no es la mitad de la entrada sino
 $V_"in"\/sqrt(2) = 0,707 V_"in"$ — es el famoso punto de $-3$ dB.
+
+#circuito([Respuesta del filtro pasa bajos: qué deja pasar y qué atenúa])[
+#graf-respuesta-rc()
+#pie-figura[Por debajo de $f_c$ la señal pasa casi entera; por encima, la salida
+  cae. En $f_c$ vale 0,707 de la entrada, que es el punto de $-3$ dB.]
+]
 
 #ejercicio("Filtro RC de 1 kΩ y 1 µF a tres frecuencias")[
   Con $V_"in" = 1 V_(p p)$, calcular $V_"out"$ a 160 Hz, 1,6 kHz y 1,6 MHz.
