@@ -102,11 +102,22 @@ con el apunte oficial: si no, el alumno estudia con dos idiomas distintos.
 ## Evidencia (qué está confirmado y cómo)
 
 - **Compila** → `apunte.pdf`, 44 páginas. Confirmado por ejecución.
-- **Las 30 figuras se ven bien** → confirmado por render a PNG de la galería completa y
-  lectura visual, más render del apunte entero y revisión de las páginas con figuras
-  grandes. Que compile no prueba que se vea bien: todos los defectos encontrados
-  —rótulos encimados, texto que se salía de las cajas, patas de transistor cableadas en
-  diagonal— compilaban perfecto.
+- **26 de las 30 figuras se ven bien** → confirmado por render a PNG y lectura visual.
+- **`graf-curva-diodo` está MAL y se publicó igual** (2026-08-21). Los dos rótulos largos
+  —"tensión de ruptura" y "corriente de fuga"— están anclados a la izquierda del marco
+  pero el texto corre hacia la derecha y cruza el eje vertical, encima de las marcas de
+  10 y 20 mA; las dos líneas guía atraviesan el gráfico y se confunden con la curva.
+- **Las figuras de las páginas 1 a 4 de la galería quedaron SIN reverificar** después de
+  las dos últimas rondas de retoques. El render que se miró es anterior a esos cambios.
+  Concretamente: todo el Módulo 1, `fig-filtro-rc`, `graf-formas-de-onda`,
+  `graf-curva-diodo`, los dos transformadores, las seis de diodos y las dos de
+  rectificación. Hay que mirarlas de nuevo antes de darlas por buenas.
+- **Causa de los dos puntos anteriores, y lo que hay que cambiar**: los rótulos se ubican
+  en coordenadas de DATOS, donde un mismo número significa distinto en cada gráfico (en
+  la curva del diodo, 1 mA vertical son 3,5 pt y 0,1 V horizontal son 3 mm), y el texto
+  no sabe cuánto mide, así que cruza el eje sin avisar. El arreglo no es correr rótulos a
+  mano otra vez: es que adentro de los ejes solo entren marcas cortas y que el texto
+  largo se ubique contra el marco del gráfico, en coordenadas de lienzo.
 - **El verificador funciona** → confirmado rompiéndolo cuatro veces a propósito (error de
   sintaxis en un módulo, error de sintaxis en la galería, un bloque ASCII devuelto a su
   lugar, una figura definida sin agregar a la galería). Las cuatro dieron rojo, y verde

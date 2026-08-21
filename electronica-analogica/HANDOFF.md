@@ -91,6 +91,15 @@ sección 4. Lo importante: **agregarla también a `galeria.typ`**, o el verifica
 
 ## Pendientes explícitos
 
+- **PRIMERO: `graf-curva-diodo` está roto y publicado.** Ver ESTADO_ACTUAL.md. Y las
+  figuras de las páginas 1 a 4 de la galería no se reverificaron después de los últimos
+  retoques: el render que se miró es anterior a esos cambios.
+- **El sistema de anotación de los gráficos hay que cambiarlo, no parchearlo.** Rótulo
+  largo adentro de los ejes = bomba de tiempo. Regla nueva: adentro sólo marcas cortas
+  (un número, una letra, "0,7 V"); el texto largo va contra el marco, en coordenadas de
+  lienzo, con una línea guía al punto. Y `verificar.py` tiene que fallar si un `nota(` o
+  `flecha-nota(` adentro de un `plot.annotate` lleva más de ~18 caracteres — ese chequeo
+  habría agarrado exactamente los dos rótulos que se rompieron. Probarlo rompiéndolo.
 - **Sin verificar contra el apunte interactivo** de Moodle, que sigue sin poder leerse.
 - **Retoques finos de figura que quedaron aceptables pero no perfectos**: en
   `graf-respuesta-rc` la punta de flecha del eje x roza el rótulo `f/f_c`; en
