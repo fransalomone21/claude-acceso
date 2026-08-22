@@ -4,124 +4,167 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-Última actualización: **2026-08-22**, PC, **con el juego corriendo**.
-**7b CERRADA, con negativo confirmado.** `+0x78` de un personaje fija el
-modelo visual del arma, no el bloque de IA que la dispara de verdad. Lo que
-sigue (7c) es leer desensamblado para encontrar quién escribe de verdad el
-array de `0x006E18B8` al spawnear — no es jugar ni escribir memoria.
+Última actualización: **2026-08-22**, PC, **en frío sobre el ELF** (el
+emulador no hizo falta en ningún momento).
+**7c CERRADA, con respuesta.** El bloque de IA del arma **no lo elige ningún
+campo**: es el descriptor de arma **+`0x30`**, un offset fijo en una sola
+instrucción. Lo que sigue (7d) es el último eslabón: quién decide **qué
+descriptor** le toca a cada enemigo.
+
+> **La sesión terminó con un apagado de la máquina** (ver §5). El hallazgo
+> estaba escrito en `kb/` pero sin commitear; se recuperó y ya está pusheado
+> en `143b880`. Nada quedó pendiente de escribir.
 
 ---
 
 ## 1. QUÉ LEER, EN ORDEN
 
-1. `black/ESTADO_ACTUAL.md` — el bloque de **7b** en N2 (ya dice CERRADA,
-   negativo) y la fila de `+0x78` en la tabla de hechos.
-2. `black/docs/03-bitacora.md`, **sólo la entrada (33)**. La (32) está
-   resumida acá abajo si hace falta más detalle de cómo se armó el ISO.
+1. `black/ESTADO_ACTUAL.md` — el bloque **7c/7d** en N2 y las dos primeras
+   filas de la tabla de hechos.
+2. `black/docs/03-bitacora.md`, **sólo la entrada (34)**. Es larga pero es
+   toda la cadena; la (33) ya está resumida acá abajo.
+3. `black/kb/rutinas.json`, las entradas `arma_instancia_init` y
+   `arma_instancia_asignar` — tienen la convención de llamada y los puntos
+   de parche con las instrucciones originales.
 
-**NO leer** salvo que la tarea lo pida: `docs/01-entorno.md`, `docs/05-iso.md`,
-`docs/90-glosario-ee.md`, las entradas (29)–(32), y nada de `perfil-global/`.
+**NO leer** salvo que la tarea lo pida: `docs/01-entorno.md`,
+`docs/05-iso.md`, `docs/90-glosario-ee.md`, las entradas (29)–(33), y nada
+de `perfil-global/`.
 
 ## 2. LA FASE, Y QUÉ LA CIERRA
 
-**7b está cerrada.** La pregunta que sigue abierta es **7c — de dónde sale
-el puntero que el juego escribe en `0x006E18B8 + n*0x24 + 0x04` al spawnear
-un enemigo.** Cierra cuando se identifique la función que hace esa escritura
-(por xref al array, en frío, sobre el ELF) y de qué campo del registro de
-personaje —o de qué otra tabla— saca el valor.
+**7d — quién escribe `slot_0x110 + 0xEC`**, o sea quién decide qué descriptor
+de arma se le asigna al slot **antes** de que `FUN_0015D060` lo lea y se lo
+pase a `FUN_00158F50`.
 
-**Por qué no es `+0x78`, medido:** `Black-mod-7b.iso` (parche en
-`STLEVEL.BIN` de `E_BLACKHD_M0`, `+0x78 → RPG0`) jugado hasta `LEVEL_00`,
-expuesto a los enemigos, array de 10 completo. El registro en RAM YA leía
-`+0x78 = 'RPG0'` y aun así `n=4,5,6,7,9` seguían apuntando al bloque de IA
-de siempre (`0x01842C40`, igual que el control `n=3`). Las dos mitades
-confirmadas: la causa se escribió (se ve en el propio registro) y el efecto
-no se produjo (se ve en el array). Detalle completo, con las direcciones
-exactas de cada lectura: bitácora (33).
+**Cierra cuando** se identifique la instrucción que escribe ese campo y de
+dónde saca el valor — y, con eso, si el arma del enemigo se puede fijar desde
+un archivo del ISO (que es lo que se viene buscando desde 7a) o si es un
+puntero que sólo existe en runtime.
 
-**Candidatos sin probar, quedaron anotados en `kb/estructuras.json`:**
-`personaje+0x8C` (`DISTANT0=4, MGNDST0=4, MGNDST2=6, RPG0=3` — mismo grupo
-que el arma pero con menos resolución) y `personaje+0xA8` (float, coincide
-con facción más que con arma). Ninguno se probó: Fran decidió cerrar 7b con
-el negativo en vez de parchear el ISO de nuevo.
+**Por qué éste es el eslabón que importa:** es el único punto de la cadena
+donde todavía hay una *decisión*. Todo lo de abajo ya está resuelto y es
+mecánico:
 
-**Por qué 7c es mejor camino que seguir probando campos a ciegas:** ya se
-probó el candidato con más evidencia circunstancial (`+0x78`, el único que
-particionaba con resolución completa) y falló. Seguir con `+0x8C`/`+0xA8`
-es la misma apuesta de nuevo. Leer quién escribe el array de verdad
-contesta la pregunta una sola vez, para cualquier campo que sea.
+```
+slot_0x110 + 0xEC  =  descriptor de arma      <-- 7d: ESTO no se sabe quién lo escribe
+        │
+        ├─ FUN_0015D060 (0x0015D060) lo lee, elige la entrada n del pool
+        │  (primer byte libre de manager+0x10) y llama a
+        │
+        └─ FUN_00158F50 (0x00158F50):
+              entrada+0x08 = descriptor          (bloque del jugador)
+              entrada+0x0C = descriptor + 0x30   (bloque de IA)  <-- offset FIJO
+```
 
-**Modelo: OPUS.** Es desensamblado nuevo (xref sobre `0x006E18B8`, subir al
-llamador, leer en C) — territorio de formar hipótesis, no de ejecutar un
-runbook. **Esfuerzo: alto, sin fan-out** — es lectura de un solo hilo.
+**Camino concreto, ya acotado:** stores a `+0xEC` en el rango del subsistema
+`0x00155000`–`0x0015D200`. La técnica que funcionó en 7c está en el §6.
 
 ## 3. LO QUE ESTA SESIÓN DEJÓ RESUELTO — no rehacer
 
-- **`+0x78` de un personaje = modelo VISUAL del arma, confirmado.**
-  `FUN_00136848` compone `<+0x78>_LOD` y carga esa geometría. No toca el
-  array de `0x006E18B8`.
-- **El array de armas se llena progresivamente al spawnear, no con el
-  stage.** Con el jugador en `LEVEL_00` pero sin ver enemigos, `n=9` daba
-  puntero nulo. Hace falta estar expuesto a los tiradores para leer las 10
-  entradas con sentido. `kb/mapa-memoria.json#array_shooters_0x24` tiene la
-  nota.
-- **El parche de ISO funciona de punta a punta, confirmado por tercera vez**
-  (ya lo habían confirmado 6.6 y 7a): `parche_iso.py` edita in-place, el
-  juego carga el valor nuevo en RAM al leer el archivo del stage. La técnica
-  no es lo que falló acá — falló la hipótesis sobre qué campo leer.
-- **`entidad+0x58` es el puntero al registro de personaje** (paso `0xB0`),
-  no una escuadra. Sigue valiendo de la (32)/(31).
-- Estructura completa del registro de personaje, con offsets y confianza:
-  `kb/estructuras.json`, no hace falta releer la bitácora para eso.
+- **`FUN_00158F50` @ `0x00158F50`–`0x0015911F` es la función que escribe el
+  puntero de `0x006E18B8 + n*0x24 + 0x04`.** Confirmado.
+  - `0x00159008  addiu $4, $16, 0x30` → rama **NPC**: `entrada+0x0C =
+    descriptor + 0x30`.
+  - `0x00158FF4  sw $16, 0xc($17)` → rama **jugador**: sin desplazar.
+  - Discriminante: `*(int*)(*(int*)(slot+0xF0) + 0xC4) == 2` → jugador.
+- **`+0x8C` y `+0xA8` del registro de personaje quedan DESCARTADOS por
+  lectura.** No participan de la cadena. No gastar un parche de ISO en
+  probarlos: la (33) ya había refutado `+0x78` por efecto, y ahora se sabe
+  *por qué* ninguno de los tres podía funcionar.
+- **La base real del pool es `0x006E18B0`, paso `0x24`, `0x32` (50)
+  entradas**, hasta `0x006E1FB8`. La base vieja `0x006E18B8` que usa todo el
+  `kb/` es `entrada_0 + 0x08`: **coincide entrada por entrada**, así que
+  nada de lo anotado se invalida, pero los offsets están corridos 8.
+  Layout real en `kb/mapa-memoria.json#arma_bloque_ia_por_instancia`.
+- **`n` no significa nada.** Es el primer byte libre del array de ocupación
+  de `manager+0x10`, recorrido linealmente por `FUN_0015D060`. Por eso el
+  array se llenaba progresivamente al spawnear y el orden no es estable.
+- **La cadena de punteros hasta lo estático:** pool `0x006E18B0` → manager
+  `0x005AE880` → global `.bss` **`0x0040F4E0`** (malloc de `0xFE0` en
+  `FUN_001020C0` @ `0x00102478`, init en `FUN_0015C970`).
+- **Los perfiles de arma son una tabla de paso `0x30`** en `0x01842xxx`; el
+  par (jugador, IA) es siempre `(X, X+0x30)`. Si los dos punteros de una
+  entrada son **iguales**, es el jugador.
+- Sigue valiendo de antes: `+0x78` = modelo **visual** del arma
+  (`FUN_00136848`); `entidad+0x58` = puntero al registro de personaje (paso
+  `0xB0`), no escuadra; el parche de ISO in-place **anda**, confirmado tres
+  veces.
 
 ## 4. LO QUE SIGUE, CONCRETO
 
 ```
 python herramientas/ubicaciones.py          # control positivo del entorno
 python herramientas/decompilar.py info      # control positivo de Ghidra
-python herramientas/xref.py --help          # repasar la sintaxis antes de usarlo
 ```
 
-1. `xref.py` (o `decompilar.py xref`) sobre **`0x006E18B8`** en frío, sobre
-   el ELF (`kb/ubicaciones.json#elf_copia`) — quién escribe ahí, no quién lee.
-2. Subir al llamador hasta la función que decide el registro de arma al
-   spawnear un enemigo.
-3. `decompilar.py c <función>` y leerla en C. Buscar de qué campo del
-   registro de personaje (o de qué otra tabla, si no es el registro) sale
-   el índice o el puntero.
-4. Control positivo con un dato ya conocido: la función tiene que producir
-   `0x01842C40` para un `E_BLACKHD_M0` o `E_LKISS2_M0` sin parchear.
+1. Buscar los **stores a `+0xEC`** en `0x00155000`–`0x0015D200`, con el
+   decodificador manual del §6 (no con `capstone` — ver la trampa ahí).
+2. Para cada candidato, `decompilar.py c <dirección>` y leer de dónde sale
+   el valor.
+3. **Control positivo obligatorio:** la función tiene que poder producir
+   `0x01842C10` para un `E_BLACKHD_M0` en `LEVEL_00` — es el descriptor que
+   los cinco enemigos de la (33) tenían de verdad, medido en RAM.
+4. Si aparece un índice o un nombre, cruzarlo contra `STLEVEL.BIN` con
+   `herramientas/id64.py`, que ya está probado.
 
-No hace falta jugar para este paso — es lectura en frío sobre el ELF. Si
-hace falta un control con RAM viva, `decompilar.py estado` trae el heap
-del savestate adentro de Ghidra sin necesidad de PCSX2 corriendo.
+**No hace falta el emulador.** Si en algún momento hace falta RAM viva,
+`decompilar.py estado` trae el savestate adentro de Ghidra sin PCSX2
+corriendo, y `volcados/ee-e4.bin` (32 MB, array poblado) ya está commiteado.
 
 ## 5. ESTADO DE LA MÁQUINA AL CERRAR
 
-- **PCSX2 quedó abierto** con **`Black-mod-7b.iso`** cargado, PID nuevo de
-  esta sesión (se cerró el proceso viejo y se relanzó para garantizar el
-  ISO correcto). Ejecutable:
+- **LA MÁQUINA SE APAGÓ SOLA** durante la sesión, después de que Fran
+  cambiara el renderizado a la **GPU discreta** porque BLACK corría a
+  **10 fps en el menú** (no debería). **Esto NO está diagnosticado** y no es
+  parte de 7d — es un tema de entorno, aparte. Si vuelve a pasar, ver §7.
+- **PCSX2 quedó abierto** antes del apagado (PID 3836), con
+  `Black-mod-7b.iso`. Después del apagado **no se relanzó**: dar por hecho
+  que **no está corriendo**. Ejecutable:
   `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
-  (NO el de Program Files). PINE 28011 responde.
-- **RAM LIMPIA.** El nop de vida infinita en `0x0013BD20` (puesto para que
-  Fran se expusiera a los enemigos sin morir) **se restauró y se releyó**:
-  vuelve a valer `0xE65402F8`. Cero parches vivos.
-- El jugador murió una vez en la sesión (antes de que el nop tomara
-  efecto) y respawneó; no se registró en qué punto exacto del nivel quedó.
-- **`Black-mod-7b.iso` no se tocó en esta sesión** (no hizo falta: la
-  pregunta se contestó, no se abrió una hipótesis nueva que necesitara
-  parche nuevo). `Black-mod-armas.iso` tampoco.
-- Nuevo lanzador: `C:\Users\frans\Desktop\BLACK\ABRIR-BLACK-MOD-7B.bat`
-  (mismo patrón que los otros dos de esa carpeta).
-- **Se borró `black/HANDOFF.md`** (raíz del proyecto): era una copia
-  huérfana de la Fase 6, sin tocar desde el commit `9792a5f`, y contradecía
-  a este archivo. Este (`sesiones/HANDOFF.md`) es el único canónico — así
-  lo señala `black/CLAUDE.md`.
-- `ubicaciones.py` 13/13 al abrir esta sesión. Las rutas NO se copian a
-  mano: `python herramientas/ubicaciones.py ruta iso_original`.
-- **OJO, fuera del proyecto:** `perfil-global/` sigue desincronizado entre
-  ramas. No correr `perfil-global/install.ps1` desde esta rama.
+  (NO el de Program Files). Lanzador:
+  `C:\Users\frans\Desktop\BLACK\ABRIR-BLACK-MOD-7B.bat`.
+- **RAM LIMPIA, cero parches vivos.** El nop de vida infinita de
+  `0x0013BD20` se había restaurado y releído en la sesión anterior
+  (`0xE65402F8`), y esta sesión **no escribió un solo byte en memoria**:
+  fue toda lectura en frío.
+- **Ningún ISO se tocó.** `Black-mod-7b.iso` y `Black-mod-armas.iso` están
+  como estaban.
+- `ubicaciones.py` **13/13** al abrir. Las rutas no se copian a mano:
+  `python herramientas/ubicaciones.py ruta <clave>`.
+- Archivos temporales de la sesión (`black/funciones.txt`,
+  `black/xref40F4E0.txt`) **se perdieron en el apagado y no hacen falta**:
+  se regeneran con `decompilar.py funciones` y `decompilar.py xref`.
 
----
+## 6. LA TÉCNICA QUE FUNCIONÓ EN 7C — reusarla en 7D
 
-READY FOR NEW SESSION
+Dos trampas que ya costaron tiempo, las dos evitables:
+
+1. **`capstone` no sirve para desensamblar el `.text` del EE de corrido.**
+   Con `CS_MODE_MIPS32` se detiene **a las 2 instrucciones** en el primer
+   opcode propio del R5900. Para barrer patrones, **decodificar a mano**:
+   son campos fijos y alcanza con `struct.unpack_from`.
+   `.text` empieza en el offset de archivo `0x1000` y en la dirección
+   `0x00100000` (o sea, `addr = 0x100000 + (off - 0x1000)`).
+2. **Un xref sobre una dirección de heap siempre da 0.** Antes de gastarlo,
+   mirar si cae dentro de alguna sección (`decompilar.py info` las lista).
+   Si cae fuera, el camino es **subir la cadena de punteros** buscando quién
+   *contiene* el valor en un volcado, hasta llegar a algo `< 0x0049BFBC`,
+   que ya es estático y sí tiene xrefs.
+
+Y el criterio que hizo confiable el resultado: **el parámetro de búsqueda
+que sirve es el que discrimina**. Los `sw` con offsets `{4,8,C}` dieron 339
+candidatos (inútil); `addiu rX,rX,0x24` —el paso del pool— dio 32, y uno cayó
+dentro de la misma función a la que había llegado la cadena de punteros por
+otro lado. **Dos vías independientes convergiendo** es lo que cerró la fase,
+no una sola vía con más esfuerzo.
+
+## 7. PENDIENTES QUE NO SON DE LA FASE
+
+- **BLACK a 10 fps en el menú y la máquina apagándose sola.** Sin
+  diagnosticar. Es entorno, no ingeniería reversa: merece su propia sesión y
+  su propio criterio de salida (probablemente térmico o de alimentación, dado
+  que apareció al pasar a GPU discreta). **No mezclarlo con 7d.**
+- **Fase 5a — pnach sobre `0x00142CA0`** (daño de salida del jugador).
+  **PARQUEADA a propósito**, sigue lista para cuando Fran quiera volver al
+  emulador por ese lado.

@@ -76,6 +76,7 @@ N2  FASES DEL JUEGO
      5b qué elige la zona de impacto ..................... pendiente, es Opus
      6  exprimir el ISO ................................... 6.1 y 6.6 CERRADAS
      7  arquitectura de entidades y de la IA .............. ABIERTA <-- acá estamos
+        (7a, 7b y 7c cerradas; la abierta es 7d)
         7a  qué campo fija el ARMA de un enemigo ......... CERRADA 2026-08-17
             por efecto: `0x006E18B8 + n*0x24 + 0x04`, el puntero al bloque
             de IA del registro de arma. Daño 105→106 y cadencia
@@ -131,8 +132,38 @@ N2  FASES DEL JUEGO
             `PTR_LAB_003F8130`): la tabla de 7 de `0x003BD3F8` era el
             **codominio**, no el dominio. **La "lista de spawn" dejó de ser
             un agujero: es el array de `0xB0` y lo que falta es volcarlo.**
-        7c  de dónde sale el puntero al spawnear ......... ABIERTA
-            hace falta para hacerlo permanente en el ISO, no sólo en RAM.
+        7c  de dónde sale el puntero al spawnear ......... CERRADA 2026-08-22
+            **En frío, sobre el ELF, sin tocar el emulador. Ver bitácora
+            (34).** Lo escribe **`FUN_00158F50`** (`0x00158F50`), y el
+            valor **no sale de ningún campo del registro de personaje**:
+            el bloque de IA es **el descriptor de arma + `0x30`**, un
+            offset FIJO puesto en una sola instrucción,
+            **`0x00159008: addiu $4, $16, 0x30`**. El jugador —único caso
+            distinto, discriminado por `*(*(slot+0xF0)+0xC4) == 2`— usa el
+            descriptor sin desplazar (`0x00158FF4`). **No hay selección, no
+            hay tabla, no hay índice**, así que `+0x8C` y `+0xA8` quedan
+            **descartados por lectura**, sin gastar otro parche de ISO.
+            Eso explica del todo el negativo de 7b: los cinco enemigos
+            daban `0x01842C40` porque es `0x01842C10 + 0x30`.
+            **Tres correcciones de estructura que salieron de paso:**
+            (a) la base real del pool es **`0x006E18B0`, 50 entradas**, no
+            `0x006E18B8` con 10 — la vieja es `entrada_0+0x08`, coincide
+            entrada por entrada pero con los offsets corridos 8;
+            (b) **`n` no significa nada**: es el primer byte libre del
+            array de ocupación de `manager+0x10` (`FUN_0015D060`);
+            (c) el pool cuelga del manager `0x005AE880`, que vive en la
+            global `.bss` **`0x0040F4E0`** (malloc de `0xFE0` en
+            `FUN_001020C0`, init en `FUN_0015C970`).
+            **Por qué el xref directo daba 0 y no era un bug:**
+            `0x006E18B8` es heap — `.bss` termina en `0x0049BFBC` y no hay
+            una sola `lui rX,0x006E` en `.text`. Regla nueva: antes de
+            gastar un xref, mirar si la dirección cae dentro de alguna
+            sección (`decompilar.py info` las lista).
+        7d  quién escribe `slot_0x110 + 0xEC` ............. ABIERTA <-- acá estamos
+            Es el descriptor de arma que `FUN_0015D060` le pasa a
+            `FUN_00158F50`. **Ahí está el punto donde se le puede cambiar
+            el arma a un enemigo de verdad**, y con él la Fase 7 entera.
+            Camino ya acotado: stores a `+0xEC` en `0x00155000`–`0x0015D200`.
         Sirve al objetivo que fijó Fran el 2026-08-17: hacer BLACK más
         difícil y meterle cambios tipo remaster (armas, tipos de enemigo,
         coop). El plan de experimentos está en `docs/08-experimentos.md`
@@ -320,7 +351,8 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 | **Tabla de armas: 17 registros de `0x1E0`, `Power` en bloque+`0x18`** — gobierna el daño que se le hace **al jugador** | `Power = 300` → reacción de arma pesada en pantalla |
 | **El daño de salida del jugador NO usa `Power`**: sale de `zona * 100.0` en `0x00142B90` | factores en 3.0 → mueren de UNA bala; parche releído después del test |
 | **Objeto de arma por tirador: `0x006DE770 + n*0x110`**, dueño en `+0x10` | volcado: `+0x10` = `0x005A8AB0` |
-| **EL ARMA DEL ENEMIGO SE FIJA EN `0x006E18B8 + n*0x24 + 0x04`** — puntero al bloque de IA (`registro+0xC0`) del registro de arma. Array de 10 entradas, paso `0x24`, 1:1 con los objetos de arma y en el mismo orden. `+0x00` es el puntero al bloque del jugador (`registro+0x90`) | **2026-08-17, confirmado por efecto con DOS observables: escalón de daño 105→106 y cadencia 133 ms→3534 ms, las dos coincidiendo con el registro 6 (`Power` 106, `TBB` de IA 3.500 s). Series en `volcados/e4-D-marcado.csv` y `volcados/e4-F-bloque-ia.csv`** |
+| **EL ARMA DEL ENEMIGO SE FIJA EN `0x006E18B8 + n*0x24 + 0x04`** — puntero al bloque de IA (`registro+0xC0`) del registro de arma. Array de **50** entradas, paso `0x24`, base real **`0x006E18B0`** (la base vieja es `entrada_0+0x08`: coincide entrada por entrada, offsets corridos 8). `n` es sólo el primer slot libre, no un id. `+0x00` es el puntero al bloque del jugador (`registro+0x90`) | **2026-08-17, confirmado por efecto con DOS observables: escalón de daño 105→106 y cadencia 133 ms→3534 ms, las dos coincidiendo con el registro 6 (`Power` 106, `TBB` de IA 3.500 s). Series en `volcados/e4-D-marcado.csv` y `volcados/e4-F-bloque-ia.csv`** |
+| **EL BLOQUE DE IA NO SE ELIGE: ES EL DESCRIPTOR DE ARMA `+0x30`, FIJO** — lo escribe `FUN_00158F50` en `0x00159008` (`addiu $4,$16,0x30`) para todo NPC; el jugador (`*(*(slot+0xF0)+0xC4)==2`) usa el descriptor sin desplazar. El descriptor le llega de `slot_0x110+0xEC` vía `FUN_0015D060`. El pool cuelga del manager `0x005AE880` ← global `.bss` `0x0040F4E0` | **2026-08-22, en frío sobre el ELF, bitácora (34). Dos vías independientes convergen en `FUN_0015C970` (cadena de punteros, y búsqueda de `addiu rX,rX,0x24`), y dos controles positivos pasivos cierran contra `volcados/ee-e4.bin`: `entrada+0x00 == 0` y `0x006DE784 == 0x006E18B0`** |
 | **Layout del registro de arma: DOS bloques.** Jugador en `+0x90`, **IA en `+0xC0`**. Dentro del bloque, `Power = +0x18` y `TimeBetweenBullets = +0x20`. O sea `Power` de IA en `+0xD8`, `TBB` de IA en `+0xE0` | marcado único por registro (`Power = 100+r`) → el escalón medido nombró el registro. Corrige la lectura previa que ponía el bloque de IA en `+0x90` |
 | **Directorio de armas en `0x01842084`**, 17 entradas de `0x20`, justo antes de la tabla. Cinco punteros por entrada: `+0x00→reg+0x50`, `+0x04→reg+0x70`, `+0x14→reg+0x90`, `+0x18→reg+0x1A0`, `+0x1C→reg+0x1C0` | barrido de punteros a la tabla sobre `volcados/ee-e4.bin`. `probable`: no se tocó todavía |
 | **Los enemigos del arranque del nivel 1 usan el registro 5** (ASR); los dos del pool con vida `FLT_MAX` usan el 4 y **no disparan** | escalón de 105 exacto, sin mezcla con 104, en 116 impactos |
