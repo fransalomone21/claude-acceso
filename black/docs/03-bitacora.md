@@ -16,6 +16,122 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-22 (32) — 7b EN VIVO: el arma no la fija `+0x18`, la fija `+0x78`
+
+**Máquina:** PC, **con el juego corriendo** (primera sesión en vivo desde el
+2026-08-17) · **Modelo:** Sonnet · **Esfuerzo:** medio, **sin fan-out**.
+
+**Objetivo:** cerrar 7b por efecto — escribir `+0x18` de un registro de
+personaje y ver cambiar el registro de arma en `0x006E18B8 + n*0x24 + 0x04`.
+
+**Resultado: el experimento estaba apuntado al campo equivocado y al personaje
+equivocado. Los dos errores se encontraron midiendo, no leyendo.**
+
+### 1. El savestate y el codec verifican
+
+`ubicaciones.py` 13/13, `id64.py autotest` 13 casos / 0 fallas. Cargado el
+slot 3, los `+0x18` de los personajes en RAM coinciden byte a byte con el
+volcado en frío de la (31): `0x01412618` = `0xA79C744648E00000` = `PSTL0`.
+El stage es el que se volcó.
+
+### 2. `PSTL0` no está instanciado — se le escribió a un personaje ausente
+
+El array de armas está **lleno**: 10/10 entradas, `n=0` y `n=8` son del
+jugador (`+0x00 == +0x04`, `+0x08 = 0`) y las 8 restantes tienen entidad.
+Siguiendo `entidad+0x58` se ve a qué registro de personaje apunta cada una:
+
+| n | bloque IA | entidad | `+0x58` → personaje | facción `+0x50` |
+|---|---|---|---|---|
+| 1 | `0x01842A60` | `0x0065FD00` | `0x01412A80` `MCHNGNM0` | `0x005A3890` |
+| 2 | `0x01842A60` | `0x0065FD80` | `0x01412B30` `SBMCHGNM0` | `0x005A3890` |
+| 3 | `0x01842C40` | `0x0065FE00` | `0x014129B0` `E_LKISS2_M0` | `0x005A3870` |
+| 4..7, 9 | `0x01842C40` | `0x0065FE80`.. | `0x01412900` `E_BLACKHD_M0` | `0x005A3870` |
+
+**Sólo 4 de los 9 personajes están instanciados.** `PSTL0` (`0x01412600`) no
+tiene ninguna entidad apuntándole: la escritura que pedía el handoff no podía
+producir efecto ni aunque la hipótesis fuera correcta.
+
+**Y `entidad+0x58` no es "descriptor de escuadra": es el puntero al registro
+de personaje de paso `0xB0`.** Eso reconcilia la lectura de 7a con la (31):
+el `+0x00` de ese bloque es el destino del `sprintf`, y leído en vivo da
+`'Enemy0_None'`, `'Enemy0_Mid'`, `'Enemy1_Low'`, `'Team0_Tom'`,
+`'Team1_Matt'`. La facción `+0x50` parte exactamente en COMP/ENEM.
+
+**De regalo, el mapeo de `+0x88` leído en vivo** (era una fase aparte):
+`0 → None`, `1 → Low`, `2 → Mid`, `8 → Matt`, `0x10 → Tom`.
+
+### 3. El campo que particiona como el arma es `+0x78`, no `+0x18`
+
+Diff de los `0xB0` bytes de los 4 registros instanciados, agrupando por bloque
+de IA (`MCHNGNM0`+`SBMCHGNM0` → `0x01842A60`; `E_LKISS2_M0`+`E_BLACKHD_M0` →
+`0x01842C40`). Campos que particionan **exactamente** como el arma: `+0x00`
+(que es efecto, no causa), **`+0x78`**, `+0x8C` y `+0xA8`. **`+0x18` no**, y
+`+0x88` tampoco.
+
+`+0x78` decodificado en los 9 personajes:
+
+| personaje (`+0x18`) | `+0x78` | `+0x8C` |
+|---|---|---|
+| `PSTL0`, `SHTG0` | `DISTANT0` | 4 |
+| `E_MAC10_M0`, `E_BLACKHD_M0`, `E_LKISS2_M0`, `E_UZI_M0` | `MGNDST0` | 4 |
+| `MCHNGNM0`, `SBMCHGNM0` | `MGNDST2` | 6 |
+| `RPG0` | `RPG0` | 3 |
+
+Encaja con el desensamblado: `FUN_00136848` hace
+`FUN_00272610(nombre, 0xE69A1DD748000000)`, y ese id64 **decodifica a
+`'_LOD'`**. O sea compone `<nombre>_LOD` y carga un **modelo de arma**, con
+`'AI gun model not found: %s'` como falla. `MGNDST0_LOD`, `DISTANT0_LOD`,
+`RPG0_LOD` son exactamente esa forma.
+
+**Hipótesis corregida de 7b:** `+0x18` fija el modelo **del personaje**;
+**`+0x78` fija el modelo del arma de IA**. Sigue `probable`: falta el efecto.
+
+### 4. La escritura en caliente no puede cerrar 7b, y ahora se sabe por qué
+
+Dos escrituras, las dos restauradas y releídas:
+
+1. `0x01412618` (`+0x18` de `PSTL0`) ← `E_UZI_M0`. Sin cambios.
+2. `0x01412978` (`+0x78` de `E_BLACKHD_M0`, 5 entidades vivas) ← `RPG0`.
+   Sin cambios.
+
+**Control positivo corrido antes de creerle al "ninguno"**: 3 de 8 entidades
+cambiaron su posición XYZ en 3 s, así que el emulador avanza y el canal de
+medición está vivo. El negativo es real.
+
+**El campo se lee al spawnear.** En el slot 3 ya está todo spawneado y el
+array está lleno, así que no hay nada que reasignar. Y **no hay savestate
+anterior a la carga del stage**: los slots 01 y 02, que pesan 15 MB contra los
+45-51 MB del resto, también están dentro de `LEVEL_00` con el stage ya
+enumerado. Un savestate restaura toda la RAM, así que tampoco sirve para ver
+el efecto de un parche de ISO.
+
+### 5. El ISO: offsets ubicados y únicos
+
+`STLEVEL.BIN` de `LEVEL_00` se carga **literal**: RAM `0x01412400` = offset
+`0x000` del archivo, sin fixup. Verificado por búsqueda: el id64 de `PSTL0`
+aparece **una sola vez** en los 2,5 MB, en `0x218` — que es exactamente
+`0x01412618 - 0x01412400`.
+
+Offset del archivo dentro del ISO: **`0x804D6800`** (LBA 1051053).
+
+| qué | offset archivo | offset ISO | valor actual |
+|---|---|---|---|
+| `+0x78` de `E_BLACKHD_M0` | `0x578` | `0x804D6D78` | `MGNDST0` |
+| `+0x18` de `E_LKISS2_M0` | `0x5C8` | `0x804D6DC8` | `E_LKISS2_M0` |
+
+**No funcionó:** la escritura en caliente, por la razón estructural de arriba
+—no es que la hipótesis esté mal—. Y el plan del handoff apuntaba a `PSTL0`,
+que no está instanciado, y a `+0x18`, que no particiona como el arma.
+
+**Sigue:** el ISO parcheado. Un solo experimento discrimina los dos campos:
+cambiar `+0x78` de `E_BLACKHD_M0` a `RPG0` **y** `+0x18` de `E_LKISS2_M0` a
+otro modelo. Si la hipótesis es correcta, el bloque de IA de `n=4,5,6,7,9`
+cambia y el de `n=3` **no**. Las dos mitades se leen con `pine.py`, sin mirar
+la pantalla. **Requiere jugar hasta `LEVEL_00` con el ISO parcheado: no hay
+atajo por savestate.**
+
+---
+
 ## 2026-08-22 (31) — 7b: el array de `0xB0` volcado, y el nombre del personaje está en `+0x18`
 
 **Máquina:** PC, **sin correr el juego** · **Modelo:** Opus · **Esfuerzo:**

@@ -81,8 +81,26 @@ N2  FASES DEL JUEGO
             de IA del registro de arma. Daño 105→106 y cadencia
             133ms→3534ms a la vez, las dos coincidiendo con el reg 6.
         7b  qué dato fija QUÉ TIPO de enemigo aparece .... ABIERTA
-            (la lista ya está volcada y el campo del nombre
-             identificado: falta la escritura que lo pruebe)
+            **2026-08-22, EN VIVO — el experimento estaba apuntado mal, y
+            ahora está armado bien (ver bitácora (32)).**
+            `+0x18` es el modelo DEL PERSONAJE. **El arma la fija `+0x78`**
+            (`DISTANT0`/`MGNDST0`/`MGNDST2`/`RPG0`), que es el único campo
+            —además de `+0x8C` y `+0xA8`— que particiona igual que el
+            bloque de IA. Encaja con `FUN_00136848`, que compone
+            `<nombre>_LOD` (`0xE69A1DD748000000` decodifica a `'_LOD'`).
+            `entidad+0x58` NO es escuadra: **es el puntero al registro de
+            personaje** — sólo 4 de los 9 están instanciados, y `PSTL0`
+            (el que el plan viejo iba a escribir) **no lo está**.
+            La escritura EN CALIENTE no puede cerrarla: el campo se lee al
+            spawnear, el array está lleno 10/10, y **ningún savestate es
+            anterior a la carga del stage** (01 y 02 también están dentro
+            de `LEVEL_00`). Control positivo corrido: el emulador avanzaba.
+            **Cierra con el ISO `Black-mod-7b.iso`, ya parcheado y
+            verificado** (2 rangos de 7 B en `STLEVEL.BIN`, TOC intacta):
+            `+0x78` de `E_BLACKHD_M0` → `RPG0` y `+0x18` de `E_LKISS2_M0`
+            → `E_BLACKHD_M0`. Si la hipótesis vale, el bloque de IA de
+            `n=4,5,6,7,9` cambia y el de `n=3` no. **Falta jugar hasta
+            `LEVEL_00` con ese ISO: no hay atajo por savestate.**
             **El experimento se rediseñó el 2026-08-17 y ahora es barato.**
             Los archivos de stage se cargan LITERALES en RAM
             (`STLEVEL.BIN` de `LEVEL_00` en **`0x01412400`**, 7/7 anclas),
@@ -306,7 +324,9 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 | **Los enemigos del arranque del nivel 1 usan el registro 5** (ASR); los dos del pool con vida `FLT_MAX` usan el 4 y **no disparan** | escalón de 105 exacto, sin mezcla con 104, en 116 impactos |
 | **Los archivos de stage se cargan LITERALES en RAM, sin relocalizar**: `direccion = base + offset_en_el_archivo`. `LEVEL_00/STG_0001/STLEVEL.BIN` → **`0x01412400`**; `STUNIT01.BIN` del mismo stage → **`0x01053000`** | **2026-08-17. 7/7 y 2/2 chunks `bc1_` caen exactos, y los tamaños declarados desempatan el archivo de origen. Habilita probar en RAM —reversible, sin copiar 3,9 GB— cualquier edición que después vaya al ISO** |
 | **Los dos del pool con vida `FLT_MAX` son los COMPAÑEROS de escuadra**: `Team0_Tom` y `Team1_Matt` | el `+0x58` del registro de entidad (`0x0065FD00`, paso `0x80`) apunta a un descriptor de escuadra **con el nombre en texto** dentro de la imagen de `STLEVEL`. La partición que produce coincide exacto con la de registro de arma de 7a |
-| **Cadena entidad→escuadra**: `0x006E18B8 + n*0x24` `+0x08` → registro de entidad `0x0065FD00 + k*0x80`; de ahí `+0x10..+0x18` = posición XYZ, `+0x58` = escuadra, `+0x50` = facción | leído en el savestate 3. `probable`: ningún campo se escribió todavía |
+| **Cadena entidad→personaje**: `0x006E18B8 + n*0x24` `+0x08` → registro de entidad `0x0065FD00 + k*0x80`; de ahí `+0x10..+0x18` = posición XYZ, **`+0x58` = puntero al REGISTRO DE PERSONAJE de paso `0xB0`** (no una escuadra), `+0x50` = facción | **2026-08-22, en vivo.** Los 4 destinos son `0x01412900/9B0/A80/B30`, direcciones exactas del array volcado en la (31), y su `+0x00` leído en vivo da `Enemy0_Mid`/`Enemy1_Low`/`Team0_Tom`/`Team1_Matt`. La facción `+0x50` parte exacto en COMP/ENEM |
+| **El arma de IA la fija `personaje+0x78`, NO `+0x18`** — `+0x18` es el modelo del personaje; `+0x78` es el modelo del arma y vale `DISTANT0`/`MGNDST0`/`MGNDST2`/`RPG0`. `FUN_00136848` compone `<+0x78>_LOD` (el id64 `0xE69A1DD748000000` decodifica a `'_LOD'`) | **2026-08-22.** Diff de los `0xB0` bytes de los 4 registros instanciados: `+0x78`, `+0x8C` y `+0xA8` particionan exacto como el bloque de IA; `+0x18` y `+0x88` no. `probable`: falta el efecto, el ISO ya está parcheado |
+| **Mapeo de `+0x88` a las 7 etiquetas, leído en vivo**: `0→None`, `1→Low`, `2→Mid`, `8→Matt`, `0x10→Tom` | **2026-08-22.** `+0x00` del registro de personaje después del `sprintf`, contra el `+0x88` del volcado en frío. Sale gratis sin mapear la jumptable `PTR_LAB_003F8130` |
 | **El savestate 3 está en `LEVEL_00`, NO en `LEVEL_01`** | huella de tamaño de los chunks residentes (`0x15e40`/`0x10700`/`0xb60`) contra los dos `STLEVEL.BIN`. El nombre "nivel 1" del savestate era engañoso |
 | **Cola de daño diferido = global `0x00414AD0`** (16 registros de `0x20`) | `lui 0x41 + addiu 0x4AD0` en `0x0015B308` |
 | **MOD PERMANENTE EN EL ISO: anda.** Editar `GLOBDATA.BIN` in-place cambia el daño en pantalla | **2026-08-17. Cadena entera: 17 campos a `5.0` en el archivo → `Power = 5` en la tabla de RAM al arrancar → `vigilar.py` midió 24 impactos y los 24 son de exactamente `-5.0` (vida 750→630, salto constante, sin varianza). Antes del parche el escalón era `26.0`.** Serie en `volcados/vida-mod-armas.csv` |

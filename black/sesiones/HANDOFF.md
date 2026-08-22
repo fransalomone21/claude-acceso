@@ -4,168 +4,175 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-Última actualización: **2026-08-22**, PC, **sin correr el juego**.
-La lista de personajes está volcada y el campo que los nombra, identificado.
-**7b sigue abierta**: cierra por efecto, y todavía no se escribió un byte.
+Última actualización: **2026-08-22**, PC, **con el juego corriendo**.
+**7b sigue abierta**, pero ya no le falta pensar: le falta **jugar**. El
+experimento que la cierra está armado, parcheado y verificado en un ISO.
 
 ---
 
 ## 1. QUÉ LEER, EN ORDEN
 
-1. `black/ESTADO_ACTUAL.md` — entero, es corto.
-2. `black/docs/03-bitacora.md`, **sólo la entrada (31)**. La (30) y la (29)
-   están resumidas acá abajo.
-3. `python herramientas/id64.py --help` — **no es un documento, es la
-   herramienta nueva**, y es la llave de todo lo que sigue.
+1. `black/ESTADO_ACTUAL.md` — sólo el bloque de **7b** en N2 y las tres filas
+   nuevas de la tabla de hechos (`+0x58`, `+0x78`, `+0x88`).
+2. `black/docs/03-bitacora.md`, **sólo la entrada (32)**. La (31) está
+   resumida acá abajo.
 
 **NO leer** salvo que la tarea lo pida: `docs/01-entorno.md`, `docs/05-iso.md`,
-`docs/90-glosario-ee.md`, la entrada (30), y nada de `perfil-global/`.
+`docs/90-glosario-ee.md`, las entradas (29), (30) y (31), y nada de
+`perfil-global/`.
 
 ## 2. LA FASE, Y QUÉ LA CIERRA
 
 **Fase 7b — qué dato fija QUÉ TIPO de enemigo aparece.**
 
-**Cierra POR EFECTO**, no por lectura: cambiar `+0x18` de un registro de
-personaje y ver que cambia el registro de arma que le toca en
-`0x006E18B8 + n*0x24 + 0x04`, leíble con `pine.py` sin mirar la pantalla.
+**Cierra POR EFECTO, y el efecto ya no se puede ver en caliente.** Hay que
+arrancar **`Black-mod-7b.iso`**, llegar a `LEVEL_00` **jugando** y leer:
+
+```
+python herramientas/pine.py leer 0x006E1948   # n=4, +0x04 -> bloque de IA
+```
+
+| entrada | qué tiene que pasar si la hipótesis vale |
+|---|---|
+| `n = 4, 5, 6, 7, 9` (`E_BLACKHD_M0`) | el bloque de IA **cambia**: deja de ser `0x01842C40` |
+| `n = 3` (`E_LKISS2_M0`) | el bloque de IA **NO cambia**: sigue `0x01842C40` |
+
+Ése es el par: una mitad mueve `+0x78`, la otra mueve `+0x18` y es el control.
+Si cambian las dos, o no cambia ninguna, la hipótesis se cae y hay que mirar
+`+0x8C` y `+0xA8`, que particionan igual.
 Observable de error más barato: `'AI gun model not found: %s'` (`0x003F4848`).
 
-La parte de lectura **ya está hecha**. Lo que falta es la escritura.
+**NO SIRVE cargar un savestate**: restaura toda la RAM y anula el parche.
+Los slots 01 y 02 (15 MB, parecían anteriores) también están **dentro** de
+`LEVEL_00` con el stage ya enumerado. **No hay atajo. Hay que jugar.**
 
 ## 3. LO QUE ESTA SESIÓN DEJÓ RESUELTO — no rehacer
 
-**Todo `probable`: cero escrituras.**
+### El plan viejo estaba apuntado a dos cosas equivocadas
 
-### El campo que nombra al personaje es `+0x18`, y es un id64
+1. **`+0x18` NO fija el arma.** Es el modelo **del personaje**. El campo que
+   particiona exactamente como el bloque de IA es **`+0x78`**
+   (`DISTANT0` / `MGNDST0` / `MGNDST2` / `RPG0`), junto con `+0x8C` y `+0xA8`.
+   `+0x88` tampoco particiona. Encaja con `FUN_00136848`, que compone
+   `<nombre>_LOD`: el id64 `0xE69A1DD748000000` **decodifica a `'_LOD'`**.
+2. **`PSTL0` no está instanciado** en el savestate 3. Escribirle no podía
+   producir efecto ni con la hipótesis correcta.
 
-**No es `+0x00`.** `+0x00` es el destino del `sprintf` `'Enemy%d_%s'`: se
-llena en runtime y en disco está vacío. Por eso la (29) barrió el ISO y no
-encontró los nombres.
+### `entidad+0x58` es el puntero al REGISTRO DE PERSONAJE, no una escuadra
 
-```
-registro de PERSONAJE (paso 0xB0)
-  +0x00  buffer que el sprintf pisa en runtime  -- INUTIL en frio
-  +0x18  id64 del MODELO  <-- EL NOMBRE. Lo que 7b buscaba
-  +0x20 / +0x28 / +0x30   id64 de las variantes M1 / M2 / M3
-  +0x68 / +0x70           id64 de las variantes S0 / E0
-  +0x78  id64 de otra familia: MGNDST0 / MGNDST2 / DISTANT0 / RPG0
-  +0x88  indice de tipo (FUN_001E3018 exige < 0x21). En L00: 0,0,2,2,1,0x10,8,0,4
-  +0x94  parametro de sonido (FUN_0027B950)
+Corrige la lectura de 7a. Sólo **4 de los 9** personajes están vivos:
 
-registro de UNIDAD (paso 0x28)
-  +0x00  nombre ASCII       +0x10  el MISMO nombre como id64 (control cruzado)
-  +0x18  ptr enemigos       +0x20  cantidad
-  +0x1C  ptr companeros     +0x24  cantidad
-  (si la cantidad es 0, el puntero es BASURA -- 0xFF072380 en L00 -- no un nulo)
+| n | bloque IA | `+0x58` → personaje | `+0x00` en vivo | facción |
+|---|---|---|---|---|
+| 1 | `0x01842A60` | `0x01412A80` `MCHNGNM0` | `Team0_Tom` | `0x005A3890` |
+| 2 | `0x01842A60` | `0x01412B30` `SBMCHGNM0` | `Team1_Matt` | `0x005A3890` |
+| 3 | `0x01842C40` | `0x014129B0` `E_LKISS2_M0` | `Enemy1_Low` | `0x005A3870` |
+| 4,5,6,7,9 | `0x01842C40` | `0x01412900` `E_BLACKHD_M0` | `Enemy0_Mid` | `0x005A3870` |
 
-objeto de stage = la cabecera del contenedor, en 0x01412400
-  +0x04  ptr array de unidades    +0x08  cantidad (7 en L00)
-  +0x10  seccion de nombres: +0x08 cantidad, +0x0C offset RELATIVO A LA SECCION
-```
+`n=0` y `n=8` son del jugador (`+0x00 == +0x04`, `+0x08 = 0`). El array está
+**lleno, 10/10**.
 
-Los 9 personajes de `LEVEL_00`, con su unidad:
+### `+0x78` de los 9 personajes, y el mapeo de `+0x88` gratis
 
 ```
-bg1_pst      ENEM  PSTL0          +0x88=0     @0x01412600
-bg1_shg      ENEM  SHTG0          +0x88=0     @0x01412700
-0001_bg1_smg ENEM  E_MAC10_M0     +0x88=2     @0x01412800
-0001_bg1_ak1 ENEM  E_BLACKHD_M0   +0x88=2     @0x01412900
-0001_bg1_ak1 ENEM  E_LKISS2_M0    +0x88=1     @0x014129B0
-0001_bg1_asr COMP  MCHNGNM0       +0x88=0x10  @0x01412A80
-0001_bg1_asr COMP  SBMCHGNM0      +0x88=8     @0x01412B30
-bg1_rpg      ENEM  RPG0           +0x88=0     @0x01412C00
-0001_bg1_sm5 ENEM  E_UZI_M0       +0x88=4     @0x01412D00
+PSTL0, SHTG0                                    -> DISTANT0  (+0x8C = 4)
+E_MAC10_M0, E_BLACKHD_M0, E_LKISS2_M0, E_UZI_M0 -> MGNDST0   (+0x8C = 4)
+MCHNGNM0, SBMCHGNM0                             -> MGNDST2   (+0x8C = 6)
+RPG0                                            -> RPG0      (+0x8C = 3)
 ```
 
-### El codec de 64 bits: `herramientas/id64.py`
+**`+0x88` → etiqueta, leído en vivo** (esto era otra fase y salió gratis):
+`0 → None`, `1 → Low`, `2 → Mid`, `8 → Matt`, `0x10 → Tom`. **No hace falta
+mapear la jumptable `PTR_LAB_003F8130` para estos cinco.**
 
-`FUN_00272488` es **base-40, 12 caracteres, escrito de atrás hacia adelante**.
-`0=' '`, `1='-'`, `2='/'`, `3..12='0'..'9'`, `13..38='A'..'Z'`, `39='_'`.
-**Sin minúsculas.** Ya está portado y con `autotest` **probado en rojo** (se
-rompió a propósito de dos formas distintas).
+### Por qué la escritura en caliente NO puede cerrar 7b
 
-```
-python herramientas/id64.py decodificar 0xA79C744648E00000   # -> 'PSTL0'
-python herramientas/id64.py codificar E_UZI_M0
-python herramientas/id64.py buscar volcados/stlevel-l00.bin --min-relleno 2
-python herramientas/id64.py autotest
-```
+Dos escrituras hechas, **las dos restauradas y releídas**:
+`0x01412618` (`+0x18` de `PSTL0`) ← `E_UZI_M0`, y `0x01412978` (`+0x78` de
+`E_BLACKHD_M0`) ← `RPG0`. **Sin cambios en el array de armas, las dos veces.**
 
-### LAS TRAMPAS QUE YA SE PAGARON — no volver a caer
+**El negativo es real, no un instrumento muerto:** control positivo corrido
+antes de creerle — 3 de 8 entidades cambiaron su XYZ en 3 s. El emulador
+avanzaba.
 
-1. **En disco los punteros NO son offsets del archivo.** Son relativos a la
-   sección `0x80`: el fixup hace `base + 0x80 + valor`. Sobre el ISO crudo el
-   puntero de la unidad 0 da `0x180`, que cae **dentro del propio array de
-   unidades**, y el parseo produce bloques plausibles pero **falsos**.
-   **Trabajar sobre `volcados/ee-03.bin` en `0x01412400`**, donde el fixup ya
-   está aplicado (99.60% idéntico al archivo en los primeros 64 KB).
-2. **`+0x88 < 0x21` NO sirve como prueba de layout.** Con el layout equivocado
-   daba 7/9 y un paso inventado de `0xAC` daba 8/9, porque casi todos los
-   valores reales son `0` y el cero pasa cualquier test de rango. Con el
-   layout correcto da 9/9. **Correr siempre el control negativo.**
-3. **Buscar ids en un archivo sin exigir relleno es ruido**: el codec es
-   total, así que "alfabeto válido" da 79.048 nombres distintos en
-   `STLEVEL.BIN`. Con `--min-relleno 2` quedan 88 y son todos reales.
+La razón es estructural: **el campo se lee al spawnear**, en el slot 3 ya
+está todo spawneado y el array está lleno. No es que la hipótesis esté mal.
 
-**De las sesiones (29) y (30), sigue valiendo y NO se rehace:**
+### El ISO: cargado literal, offsets únicos
 
-- Los nombres de escuadra **no están escritos como texto en el ISO**.
-  **No volver a barrer el disco** — ahora se sabe por qué: son id64.
-- **`+0x58` es espejo, no fuente**: son claves de sonido
-  (`ValueDB/Sound/ps2/AIWeapon.cfg`, vía `FUN_0027B950`).
-- `'Enemy%d_%s'` (`0x003F8108`) tiene **una sola** referencia: `0x001E2DE4`,
-  dentro de `FUN_001E2D38` (el enumerador).
-- `FUN_001E3018`: `idx < 0x21` (**33** valores), jumptable `PTR_LAB_003F8130`.
-  La tabla de 7 de `0x003BD3F8` (`None/Low/Mid/High/Matt/Tom/Carrie`) es el
-  **codominio**, no el dominio.
-- Carga de stage: `FUN_00128480`, nivel en `+0x5AAC` y stage en `+0x5AAD`
-  (`u8`); `FUN_00108458(DAT_0040F4C4, 0x0B, idx)` → `+0x5AF0`.
-  `FUN_00108458` es un **lookup en una tabla en RAM** (paso `0x0C`, hasta 17
-  entradas, resultado en `+0xD40`): no ayuda a ubicar nada dentro del archivo.
-- Cargador de arma de IA `FUN_00136848`:
-  `id = FUN_00272610(nombre, 0xE69A1DD748000000)` → `FUN_00108120(...)`; si 0,
-  error `0x003F4848`. El actor de IA llega al menos a `+0x3B4`.
-- Grupos `bc1_` (ninguno es lista de spawn): `so1` A=`0x175A8`/`0x10700`,
-  B=`0x8439C`/`0x2AD9C`; `lr1` A=`0x17A8`/`0x15E40`, B=`0xB3AFC`/`0x2F6FC`;
-  `rg1` A=`0x2A8`/`0x15E70`, B=`0x3F65C`/`0x292DC` (STUNIT01).
-- `STLEVEL.BIN` L00 → `0x01412400`; `STUNIT01.BIN` → `0x01053000`.
-- Savestate slot 3 está en **`LEVEL_00`**.
+RAM `0x01412400` = offset **`0x000`** del archivo, **sin fixup**. Verificado:
+el id64 de `PSTL0` aparece **una sola vez** en los 2,5 MB de `STLEVEL.BIN`,
+en `0x218` = `0x01412618 - 0x01412400`.
+
+`STLEVEL.BIN` de `LEVEL_00` dentro del ISO: offset **`0x804D6800`**, LBA
+1051053.
+
+**`Black-mod-7b.iso` YA ESTÁ PARCHEADO Y VERIFICADO** (`parche_iso.py
+verificar`: 2 rangos de 7 B, sólo en `STLEVEL.BIN`, TOC intacta):
+
+| qué | offset ISO | de | a |
+|---|---|---|---|
+| `+0x78` de `E_BLACKHD_M0` | `0x804D6D78` | `MGNDST0` | `RPG0` |
+| `+0x18` de `E_LKISS2_M0` | `0x804D6DC8` | `E_LKISS2_M0` | `E_BLACKHD_M0` |
+
+El modelo de reemplazo es `E_BLACKHD_M0` **a propósito**: está garantizado
+residente (5 entidades lo usan), así que un fallo de carga no puede
+confundirse con el resultado.
+
+### De la (31), sigue valiendo y NO se rehace
+
+- Registro de **personaje**, paso `0xB0`: `+0x00` buffer del `sprintf`
+  (inútil en frío) · `+0x18` id64 del modelo · `+0x20/+0x28/+0x30` variantes
+  M1/M2/M3 · `+0x68/+0x70` variantes S0/E0 · **`+0x78` modelo del arma** ·
+  `+0x88` índice de tipo · `+0x94` sonido.
+- Registro de **unidad**, paso `0x28`: `+0x00` nombre ASCII · `+0x10` el mismo
+  en id64 · `+0x18` ptr enemigos · `+0x20` cant · `+0x1C` ptr compañeros ·
+  `+0x24` cant (cantidad 0 ⇒ el puntero es **basura**, no un nulo).
+- Stage = cabecera en `0x01412400`: `+0x04` ptr unidades, `+0x08` cantidad (7).
+- **En disco los punteros son relativos a la sección `0x80`**, no al archivo.
+  Sobre el ISO crudo el parseo da bloques plausibles pero **falsos**.
+  Los **id64 sí** se pueden buscar directo, y son únicos.
+- **No volver a barrer el ISO por texto**: los nombres son id64.
+- `herramientas/id64.py` — base-40, 12 chars, de atrás hacia adelante.
+  `0=' ' 1='-' 2='/' 3..12='0'..'9' 13..38='A'..'Z' 39='_'`. Sin minúsculas.
+  `autotest` **probado en rojo** (13 casos).
+- `+0x58` del **registro de arma** es espejo de sonido, no fuente.
+- Buscar id64 sin `--min-relleno 2` es ruido (79.048 nombres en `STLEVEL.BIN`).
 
 ## 4. LO QUE SIGUE, CONCRETO
 
 ```
-python herramientas/ubicaciones.py          # 13/13 antes de empezar
-python herramientas/decompilar.py info      # control positivo de Ghidra
-python herramientas/id64.py autotest        # el codec
+python herramientas/ubicaciones.py          # 13/13 el 2026-08-22
+python herramientas/id64.py autotest        # 13 casos, 0 fallas
 ```
 
-1. **Lo que cierra 7b: la escritura de prueba, EN RAM y reversible.**
-   Con el juego en `LEVEL_00`, escribir en `0x01412600 + 0x18` el id64 de otro
-   modelo (por ejemplo el de `E_UZI_M0`, `0x68C077EC2EA7B000`) y mirar el
-   registro de arma en `0x006E18B8 + n*0x24 + 0x04`. Guardar el valor viejo
-   antes: son 8 bytes, la vuelta atrás es trivial.
-   **Pregunta abierta**: `+0x18` se lee durante la carga del stage, así que
-   quizá haya que escribir **antes** de que se enumere — o forzar una recarga.
-2. `decompilar.py c 0x00272610` — el lado codificador, para confirmar que
-   `id64.py codificar` produce exactamente lo mismo que el juego.
-3. Recién con el efecto visto: el ISO, con `parche_iso.py`.
+1. **Arrancar PCSX2 con `Black-mod-7b.iso`** y jugar hasta `LEVEL_00`.
+   El ISO parcheado **no está montado en D: ni en E:** (los dos montan el
+   original). Se carga desde PCSX2, no hace falta montarlo.
+2. Leer el array y comparar contra la tabla de la sección 2.
+3. Si cierra: `+0x78` pasa a `confirmado` y se abre el mod de tipos de enemigo.
+   Si no cierra: los candidatos que quedan son `+0x8C` (4/4/6/3) y `+0xA8`
+   (`7.0f` enemigos / `0.8f` compañeros), y se parchea `+0x8C` en un ISO nuevo.
 
 ## 5. ESTADO DE LA MÁQUINA AL CERRAR
 
-- **BLACK NO se corrió. Cero escrituras, cero parches vivos.**
-- `ubicaciones.py` **13/13**, medido esta sesión. `decompilar.py info` en
-  verde. `id64.py autotest` en verde, **y probado en rojo**.
+- **PCSX2 quedó abierto** con el **ISO ORIGINAL** y el savestate 3 cargado.
+  Ejecutable: `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
+  (NO el de Program Files). PINE 28011 responde.
+- **RAM LIMPIA: las dos escrituras fueron restauradas y releídas al cerrar**
+  (`0x01412618` = `PSTL0`, `0x01412978` = `MGNDST0`). Cero parches vivos.
+- **`Black-mod-7b.iso` es nuevo de esta sesión.** `Black-mod-armas.iso`
+  (el mod de daño de 6.6) **no se tocó**. Quedan ~85 GB libres en `C:`.
+- `ubicaciones.py` 13/13. Las rutas NO se copian a mano:
+  `python herramientas/ubicaciones.py ruta iso_original`
 - Ghidra: `C:\Users\frans\herramientas\ghidra-proyectos2\BLACK.gpr`.
-- `D:` y `E:` montan **los dos el `Black.iso` original**; el parcheado no está
-  montado.
 - **Trampa de Windows:** `Test-Path`/`Get-ChildItem` sin `-LiteralPath` dan
-  `False` sobre `...\Black [NTSC]\...` **existiendo**. Verificar desde Python.
-- **OJO, fuera del proyecto:** `perfil-global/` está **desincronizado entre
-  ramas**. La copia instalada en `~/.claude` tiene **45** lecciones; la rama de
-  BLACK tiene **37** commiteadas. **Correr `perfil-global/install.ps1` desde
-  esta rama pisaría la copia instalada y perdería 8 lecciones.** No se corrió.
-  Las 2 lecciones nuevas de esta sesión están en `lecciones.jsonl` (39) pero
-  **no** se foldearon en `chequeo-de-trabajo.md` por eso mismo.
+  `False` sobre `...\Black [NTSC]\...` **existiendo**. Y **Git Bash convierte
+  rutas tipo `/LEVELS/...` en `C:/Program Files/Git/LEVELS/...`**: los
+  argumentos de ruta interna del ISO van por **PowerShell**, no por Bash.
+- **OJO, fuera del proyecto:** `perfil-global/` sigue **desincronizado entre
+  ramas**. La copia instalada en `~/.claude` tiene **45** lecciones; la rama
+  de BLACK tiene 37. **No correr `perfil-global/install.ps1` desde esta rama.**
 
 ---
 
