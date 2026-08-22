@@ -237,6 +237,62 @@
       "evidencia": "2026-08-22. Portado a herramientas/id64.py y validado contra la tabla de camaras de STLEVEL.BIN L00 (seccion 0x261300): los 12 IDs decodifican a CAM_BLOWDOOR, CAM_INTRO, CAM_RPGTOWER, CAM_START, CAM_TRUCK, CAM_XROADS, CITY_START y DEATHCAM01..06, Y SALEN EN ORDEN ALFABETICO -- un orden que un codec equivocado no produce por casualidad. El autotest se probo rompiendolo de dos formas (alfabeto corrido y orden de escritura invertido) y se pone en rojo con exit 1 en las dos.",
       "descubierto": "2026-08-22",
       "notas": "El codec es TOTAL: todo u64 da 12 caracteres, asi que buscar 'nombres validos' en un archivo sin exigir relleno a la derecha es ruido -- 79.048 nombres distintos en STLEVEL.BIN. Con relleno >= 2 quedan 88 y son todos reales."
+    },
+    {
+      "id": "arma_instancia_init",
+      "nombre": "Inicializa una entrada del pool de armas activas (0x24)",
+      "direccion": "0x00158F50",
+      "fin": "0x0015911F",
+      "version": "ntscu_1_00",
+      "descripcion": "Rellena una entrada de 0x24 del pool de armas activas. Escribe entrada+0x08 = descriptor de arma (param_3) y entrada+0x0C = EL BLOQUE DE IA. La eleccion es un offset FIJO, no una seleccion por tabla: si *(*(param_2+0xF0)+0xC4) == 2 (el jugador) entrada+0x0C = param_3; en cualquier otro caso (todo NPC) entrada+0x0C = param_3 + 0x30.",
+      "convencion": "a0 = entrada del pool (0x006E18B0 + n*0x24). a1 = slot de arma de 0x110 del manager. a2 = descriptor de arma (param_3). a3 = pasa a FUN_001e18b0. Devuelve 1.",
+      "llamadores": [
+        "0x0015D10C"
+      ],
+      "llama_a": [
+        "FUN_00155178",
+        "FUN_001e2be8",
+        "FUN_00135570",
+        "FUN_00138320",
+        "FUN_001e18b0"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00159008",
+          "instruccion_original": "addiu $4, $16, 0x30",
+          "efecto_si_se_modifica": "cambia QUE bloque usa la IA de TODO NPC: el inmediato 0x30 es el unico lugar donde se elige. 0x00 haria que los NPC usen el bloque del jugador."
+        },
+        {
+          "direccion": "0x00159014",
+          "instruccion_original": "sw $4, 0xc($17)",
+          "efecto_si_se_modifica": "la escritura misma del bloque de IA en la entrada (rama NPC)"
+        },
+        {
+          "direccion": "0x00158FF4",
+          "instruccion_original": "sw $16, 0xc($17)",
+          "efecto_si_se_modifica": "la misma escritura, rama jugador (param_3 sin desplazar)"
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-22, en frio sobre el ELF. Cadena completa medida, no supuesta: 0x006E18B8 no se construye en ningun lado del .text (0 instrucciones 'lui rX,0x006E' en las 680k palabras de .text) porque es heap -- .bss termina en 0x0049BFBC. El pool cuelga del descriptor 0x005AE880, apuntado UNICAMENTE por la global .bss 0x0040F4E0. FUN_001020c0 hace DAT_0040f4e0 = malloc(0xFE0) y lo inicializa con FUN_0015C970, que pide 0x708 = 0x32*0x24 para el campo +0x0C y corre el constructor de entrada FUN_00158F08 cada 0x24. Control positivo pasivo sobre ee-e4.bin: la funcion predice entrada+0x00 = 0 y entrada+0x0C = entrada+0x08 + 0x30 para los seis NPC, y el volcado lo cumple exacto (0x01842A30/0x01842A60, 0x01842C10/0x01842C40).",
+      "notas": "CIERRA LA FASE 7c CON RESPUESTA NEGATIVA UTIL: el bloque de IA NO se elige por ningun campo del registro de personaje (+0x78, +0x8C, +0xA8: ninguno interviene). Es descriptor+0x30, un offset fijo del mismo descriptor de arma. Por eso el experimento 7b no podia mover el array tocando +0x78. La pregunta que queda (7d) es quien escribe el descriptor: *(slot0x110 + 0xEC)."
+    },
+    {
+      "id": "arma_instancia_asignar",
+      "nombre": "Asigna entrada(s) del pool de armas activas a una entidad al spawnear",
+      "direccion": "0x0015D060",
+      "fin": "0x0015D197",
+      "version": "ntscu_1_00",
+      "descripcion": "Recorre el array de ocupacion (manager+0x10, 0x32 bytes) buscando el primer indice libre, calcula la entrada como manager+0x0C + n*0x24 y llama a FUN_00158F50. Corre hasta dos veces: iVar6=0 arma primaria con descriptor *(slot+0xEC), iVar6=1 arma secundaria con *(*(slot+0xEC)+0xA0). Deja el puntero a la entrada de vuelta en slot+0xF4 (primaria) y slot+0xF8 (secundaria), y marca ocupado el byte n.",
+      "convencion": "a0 = manager de armas (*0x0040F4E0). a1 = slot de arma de 0x110. a2 = se pasa tal cual a FUN_00158F50.",
+      "llamadores": [],
+      "llama_a": [
+        "arma_instancia_init"
+      ],
+      "puntos_de_parche": [],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-22, en frio. Unico llamador de FUN_00158F50 segun xref de Ghidra (0x0015D10C). Control positivo sobre ee-e4.bin: el codigo escribe slot+0xF4 = entrada, y el volcado tiene 0x006DE784 (= slot0 0x006DE690 + 0xF4) valiendo 0x006E18B0, la base exacta del pool.",
+      "notas": "El indice n del array de 0x006E18B8 sale de aca: es el primer byte libre del array de ocupacion, no un id de entidad. Explica que el array se llene progresivamente al spawnear."
     }
   ]
 }

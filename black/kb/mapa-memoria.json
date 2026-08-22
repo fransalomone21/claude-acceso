@@ -123,10 +123,10 @@
       "tipo": "u32",
       "version": "ntscu_1_00",
       "estable": true,
-      "base": "array de 10 entradas, paso 0x24; el campo es +0x04",
+      "base": "El pool REAL empieza en 0x006E18B0, paso 0x24, 0x32 (50) entradas, hasta 0x006E1FB8. La base 0x006E18B8 usada hasta ahora es entrada_0+0x08: coincide entrada por entrada, pero los offsets estan corridos 8. Layout real de la entrada: +0x00 int (=*(descriptor+0x90), suele quedar 0), +0x04 slot de arma de 0x110, +0x08 descriptor de arma (bloque del jugador), +0x0C BLOQUE DE IA = +0x08 + 0x30, +0x10 registro de entidad, +0x14 int, +0x18 halfword, +0x1A byte, +0x20 byte.",
       "confianza": "confirmado",
       "evidencia": "2026-08-17. Movidos los 8 punteros de enemigo de reg5+0xC0 a reg6+0xC0 con la tabla marcada Power=100+r: escalon de dano 105 -> 106 constante Y cadencia 133 ms -> 3534 ms, coincidiendo las dos con el registro 6 (Power 106, TBB de IA 3.500 s). Series en volcados/e4-D-marcado.csv y volcados/e4-F-bloque-ia.csv",
-      "notas": "ES EL CAMPO QUE FIJA EL ARMA DE UN ENEMIGO. +0x00 de la misma entrada es el puntero al bloque del jugador (registro+0x90). Correspondencia 1:1 y en el mismo orden con los objetos de arma de 0x006DE770 + n*0x110."
+      "notas": "ES EL CAMPO QUE FIJA EL ARMA DE UN ENEMIGO. +0x00 de la misma entrada es el puntero al bloque del jugador (registro+0x90). Correspondencia 1:1 y en el mismo orden con los objetos de arma de 0x006DE770 + n*0x110. | 2026-08-22 (7c, en frio): el pool NO es estatico ni referenciado literalmente por el codigo (.bss termina en 0x0049BFBC; cero 'lui rX,0x006E' en .text). Cuelga del manager 0x005AE880, que vive en la global .bss 0x0040F4E0 (malloc de 0xFE0 en FUN_001020c0, init en FUN_0015C970: +0x04 = 0x2F bloques de 0x110, +0x08 = 0x2F bytes, +0x0C = ESTE pool, +0x10 = 0x32 bytes de ocupacion). Lo escribe FUN_00158F50 (0x00158F50), llamado solo desde FUN_0015D060 (0x0015D10C). El bloque de IA es descriptor+0x30, offset FIJO -- no lo elige ningun campo del personaje. La base '0x006DE770 + n*0x110' que decia esta nota esta corrida: el array de slots empieza en 0x006DE690."
     },
     {
       "id": "arma_bloque_ia_power",

@@ -16,6 +16,179 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-22 (34) — 7c CERRADA: el bloque de IA no se elige, es el descriptor de arma **+0x30** fijo
+
+**Máquina:** PC, lectura **en frío** sobre el ELF (PCSX2 no hizo falta) ·
+**Modelo:** Opus · **Esfuerzo:** alto, sin fan-out.
+
+**Objetivo:** encontrar la función que escribe el puntero de
+`0x006E18B8 + n*0x24 + 0x04` al spawnear un enemigo, y de qué campo saca el
+valor.
+
+**Resultado: cerrada, y la respuesta es que NO sale de ningún campo del
+registro de personaje. El bloque de IA es el descriptor de arma desplazado
+`+0x30`, un offset fijo en el código.**
+
+### 1. Por qué el xref directo daba cero — y no era un bug de la herramienta
+
+`decompilar.py xref 0x006E18B8` devuelve **0 referencias**. No es que Ghidra
+falle: **el código nunca arma esa dirección como literal.** Medido: cero
+instrucciones `lui rX, 0x006E` en todo `.text` (0x00100000–0x00396F47).
+
+La razón es que la dirección está **fuera del ejecutable**. Las secciones
+llegan hasta `.bss` = 0x0040EC80–0x0049BFBC; 0x006E18B8 está muy después, o
+sea es **heap asignado en runtime**. Se alcanza sólo por puntero.
+
+> **Regla que sale de acá:** antes de gastar un xref sobre una dirección,
+> mirar si cae dentro de alguna sección del ELF (`decompilar.py info` las
+> lista). Si cae fuera, el xref va a dar cero **siempre**, y el camino es
+> subir la cadena de punteros hasta una global estática.
+
+### 2. La cadena de punteros, subida a mano sobre `volcados/ee-e4.bin`
+
+Buscando quién contiene el valor de la dirección, escalón por escalón:
+
+| Se busca | Aparece en | Qué es |
+|---|---|---|
+| `0x006E18B8` | **nadie** | la base estaba corrida (ver 3) |
+| `0x006E18B0` | `0x005AE88C`, `0x005AEFD0`, `0x006DE784` | la base **real** del pool |
+| `0x005AE880` | **`0x0040F4E0`** | global estática en `.bss` ← acá termina la cadena |
+
+`0x0040F4E0` sí tiene xrefs: **114**, con una sola escritura, en `0x00102478`
+dentro de `FUN_001020c0` (el init global de subsistemas):
+`DAT_0040f4e0 = FUN_00107cf8(0xfe0)` — un objeto de **0xFE0 bytes**.
+
+### 3. La base del array estaba corrida 8 bytes — el layout real
+
+El constructor del manager es **`FUN_0015c970`** (`FUN_001020c0` lo llama con
+la global). Ahí está el pool, con su tamaño escrito en el propio código:
+
+```
+*(param_1 + 0x04) = FUN_00107d20(0x31F0);   // 0x2F(47) bloques de 0x110 -> 0x006DE690
+*(param_1 + 0x08) = FUN_00107d20(0x2F);     // 47 bytes                  -> 0x006E1880
+*(param_1 + 0x0C) = FUN_00107d20(0x708);    // 0x32(50) x 0x24  <-- EL POOL -> 0x006E18B0
+*(param_1 + 0x10) = FUN_00107d20(0x32);     // 50 bytes: array de OCUPACIÓN
+```
+
+O sea: **la base es `0x006E18B0` y son 50 entradas, no 10.** Las 10 que
+veíamos eran las ocupadas. Cada entrada se inicializa con `FUN_00158f08`.
+
+Layout real de la entrada de `0x24`, con el equivalente en la numeración
+vieja (la que usa todo el `kb/`, base `0x006E18B8`):
+
+| offset real | qué es | equivale a |
+|---|---|---|
+| `+0x00` | int, copiado de `perfil+0x90` | — |
+| `+0x04` | puntero al bloque de `0x110` del propio manager | — |
+| `+0x08` | **puntero al perfil de arma del JUGADOR** | base vieja `+0x00` |
+| `+0x0C` | **puntero al perfil de arma de la IA** | base vieja **`+0x04`** |
+| `+0x10` | puntero al registro de entidad (`0x0065FD00 + k*0x80`) | base vieja `+0x08` |
+| `+0x14`, `+0x18` (halfword), `+0x1C` (float), `+0x20` (byte) | resto | — |
+
+**El `kb/` existente no se invalida:** `base_vieja + n*0x24 + 0x04` es
+exactamente `entrada_n + 0x0C`. Los tres campos que ya estaban anotados
+caen donde decía. Lo que cambia es que ahora se sabe **por qué**.
+
+### 4. La función, y la línea exacta
+
+**`FUN_00158f50` @ `0x00158F50`–`0x0015911F` (464 bytes).**
+Firma: `(entrada, bloque_0x110, descriptor_arma, param_4)`.
+
+Las dos ramas, leídas en el desensamblado crudo (no sólo en la decompilación):
+
+```
+0x00158FD0  lw    $2, 0xc4($4)      ; *(bloque+0xF0) + 0xC4
+0x00158FD4  bne   $5, ...           ; ¿== 2?  -> es el JUGADOR
+...
+0x00158FF4  sw    $16, 0xc($17)     ; RAMA JUGADOR:  entrada+0x0C = descriptor
+...
+0x00159008  addiu $4, $16, 0x30     ; RAMA NPC:      descriptor + 0x30
+0x00159014  sw    $4,  0xc($17)     ;                entrada+0x0C = descriptor+0x30
+```
+
+**Ésta es la respuesta de 7c.** El discriminante es
+`*(int*)(*(int*)(bloque+0xF0) + 0xC4) == 2` → jugador. Todo lo que no sea 2
+—o sea, todo NPC— se lleva **el mismo descriptor de arma desplazado `+0x30`**.
+
+**No hay selección, no hay tabla, no hay índice.** Por eso ni `+0x8C` ni
+`+0xA8` del registro de personaje iban a servir: no participan de esta
+cadena. Los dos candidatos que quedaban de la (32) quedan **descartados por
+lectura**, sin gastar un parche de ISO en probarlos.
+
+### 5. El llamador: de dónde sale el descriptor, y de dónde sale `n`
+
+`FUN_00158f50` tiene **un solo llamador**: `FUN_0015d060`
+(`0x0015D060`–`0x0015D197`), en `0x0015D10C`. Hace dos vueltas, una por arma:
+
+```
+iVar2 = *(bloque + 0xEC);                    // vuelta 0: arma PRIMARIA
+iVar2 = *(*(bloque + 0xEC) + 0xA0);          // vuelta 1: arma SECUNDARIA
+...
+iVar3 = iVar5 * 0x24 + *(manager + 0x0C);    // <-- LA ENTRADA n DEL POOL
+FUN_00158f50(iVar3, bloque, iVar2, param_3);
+*(iVar3 + 4) = bloque;
+*(*(manager + 0x10) + iVar5) = 1;            // marca el slot como ocupado
+*(bloque + 0xF4) = iVar3;                    // (o +0xF8 para la secundaria)
+```
+
+Dos cosas más que salen gratis de acá:
+
+- **`n` no significa nada.** Es el primer byte libre del array de ocupación
+  de `manager+0x10`, recorrido linealmente. Explica por qué el array se
+  llenaba progresivamente al spawnear, y por qué el orden no es estable.
+- **El descriptor de arma sale de `bloque_0x110 + 0xEC`.** Ése es el
+  siguiente eslabón, y es la Fase 7d.
+
+### 6. Dos controles positivos pasivos, cerrados contra el volcado
+
+Ninguno se buscó a propósito: son predicciones del código que el volcado ya
+tenía escritas desde antes.
+
+1. `*entrada = *(int*)(descriptor+0x90)`, con un `if` que lo pisa a 0 →
+   en `ee-e4.bin`, `entrada+0x00` vale **0**. ✔
+2. `*(bloque + 0xF4) = entrada` → `0x006DE690 + 0xF4 = 0x006DE784`, que en
+   `ee-e4.bin` vale **`0x006E18B0`**, exactamente la entrada 0 del pool. ✔
+   Ése era el tercer apuntador misterioso de la tabla del punto 2.
+
+### 7. De yapa: los perfiles de arma son una tabla de paso `0x30`
+
+Los valores del volcado (`0x018422B0`, `0x01842490`, `0x01842A30`/`A60`,
+`0x01842C10`/`C40`) son **todos múltiplos de `0x30` desde `0x018422B0`**, y el
+par (jugador, IA) es siempre `(X, X+0x30)` — consistente con el `addiu +0x30`
+del código. Cuando los dos punteros de una entrada son **iguales**, es el
+jugador (rama `== 2`).
+
+**Y esto cierra la 7b por lectura:** los cinco enemigos daban todos
+`0x01842C40` porque `0x01842C40 = 0x01842C10 + 0x30`, y `0x01842C10` es el
+descriptor que les llegó por `bloque+0xEC`. `+0x78` nunca estuvo en esa
+cadena. El negativo medido de la (33) y el desensamblado de acá dicen lo
+mismo por dos caminos independientes.
+
+**No funcionó** (los parámetros de búsqueda que hubo que descartar, cada uno
+por dar demasiados candidatos o ninguno):
+
+- `xref` directo sobre `0x006E18B8` → 0, por la razón del punto 1.
+- Ventanas de `sw` con offsets `{4,8,C}` sobre el mismo registro base →
+  **339 candidatos**. Parámetro inútil: ese patrón es cualquier constructor
+  de cualquier struct del juego.
+- `addiu rX,rY,0x90` junto a `addiu rX,rY,0xC0` (asumiendo que los perfiles
+  se calculaban como `registro+0x90` y `registro+0xC0`) → **15 hits, ninguno
+  relevante**. La suposición estaba mal: son dos punteros a una tabla de
+  `0x30`, no dos campos de un registro.
+- Lo que sí funcionó fue lo barato: `addiu rX,rX,0x24` (incremento de
+  puntero por el paso del pool) → **32 hits**, y uno de ellos, `0x0015CA74`,
+  cayó dentro de `FUN_0015c970` — la misma función a la que llegó, por
+  separado, la cadena de punteros. **Dos vías independientes convergieron en
+  la misma función**, que es lo que la vuelve confiable.
+
+**Sigue (7d):** quién escribe `bloque_0x110 + 0xEC`, o sea quién decide qué
+descriptor de arma se le asigna al slot antes de que `FUN_0015d060` lo lea.
+Ahí está el punto donde se puede cambiar el arma de un enemigo de verdad.
+Camino: xref sobre stores a `+0xEC` en el rango del subsistema
+(`0x00155000`–`0x0015D200`), que ya está acotado.
+
+---
+
 ## 2026-08-22 (33) — 7b, el experimento completo: `+0x78` NO gobierna el array de armas — REFUTADO
 
 **Máquina:** PC, **con el juego corriendo**, `Black-mod-7b.iso` · **Modelo:**
