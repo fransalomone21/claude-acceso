@@ -114,10 +114,12 @@ corriendo, y `volcados/ee-e4.bin` (32 MB, array poblado) ya está commiteado.
 
 ## 5. ESTADO DE LA MÁQUINA AL CERRAR
 
-- **LA MÁQUINA SE APAGÓ SOLA** durante la sesión, después de que Fran
-  cambiara el renderizado a la **GPU discreta** porque BLACK corría a
-  **10 fps en el menú** (no debería). **Esto NO está diagnosticado** y no es
-  parte de 7d — es un tema de entorno, aparte. Si vuelve a pasar, ver §7.
+- **La máquina se apagó durante la sesión, y NO fue una falla.** Medido en
+  el visor de eventos, no supuesto: el apagado de las **19:39** es un evento
+  **1074 (User32)** — apagado **ordenado, iniciado por software**, disparado
+  por `C:\WINDOWS\SysWOW64\shutdown.exe`. **Cero eventos Kernel-Power 41**
+  en el día (los últimos son de julio), o sea **no hubo corte de energía, ni
+  apagado térmico, ni cuelgue**. Detalle y lectura en §7.
 - **PCSX2 quedó abierto** antes del apagado (PID 3836), con
   `Black-mod-7b.iso`. Después del apagado **no se relanzó**: dar por hecho
   que **no está corriendo**. Ejecutable:
@@ -161,10 +163,27 @@ no una sola vía con más esfuerzo.
 
 ## 7. PENDIENTES QUE NO SON DE LA FASE
 
-- **BLACK a 10 fps en el menú y la máquina apagándose sola.** Sin
-  diagnosticar. Es entorno, no ingeniería reversa: merece su propia sesión y
-  su propio criterio de salida (probablemente térmico o de alimentación, dado
-  que apareció al pasar a GPU discreta). **No mezclarlo con 7d.**
+- **BLACK a 10 fps en el menú, y el apagado.** Es entorno, no ingeniería
+  reversa: **no mezclarlo con 7d.** Lo que ya está medido, para no volver a
+  empezar de cero:
+  - **El apagado no es una falla de hardware.** Evento **1074**, apagado
+    ordenado lanzado por `SysWOW64\shutdown.exe` (un proceso de 32 bits),
+    y **ningún Kernel-Power 41**. La hipótesis "térmico o alimentación"
+    queda **refutada por medición**, no descartada por opinión.
+  - **La explicación que encaja** —y que hay que confirmar antes de darla
+    por buena— es que el cambio a **GPU discreta** en las MSI conmuta el
+    modo gráfico (MSHybrid ↔ Discrete) y **ese cambio exige apagar**: el
+    panel del fabricante lo aplica llamando a `shutdown.exe` él mismo. O
+    sea: no se apagó sola, **la apagó el propio cambio que Fran acababa de
+    hacer**. `hipótesis`, no confirmado.
+  - **Los 10 fps son consistentes con lo mismo:** antes del cambio, PCSX2
+    estaba renderizando por la **iGPU**. Cómo cerrarlo: volver a abrir
+    BLACK ahora que el modo discreto quedó aplicado y **medir los fps en el
+    mismo menú**. Si suben, la causa era ésa y las dos cosas eran un solo
+    problema. Ése es el criterio de salida, y cuesta dos minutos.
+  - Otros tres apagados del día (15:40, 18:31, 18:49) los inició
+    `StartMenuExperienceHost.exe`: son Fran apagando a mano desde el menú
+    Inicio. No tienen nada que ver.
 - **Fase 5a — pnach sobre `0x00142CA0`** (daño de salida del jugador).
   **PARQUEADA a propósito**, sigue lista para cuando Fran quiera volver al
   emulador por ese lado.
