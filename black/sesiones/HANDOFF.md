@@ -5,174 +5,122 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
 Última actualización: **2026-08-22**, PC, **con el juego corriendo**.
-**7b sigue abierta**, pero ya no le falta pensar: le falta **jugar**. El
-experimento que la cierra está armado, parcheado y verificado en un ISO.
+**7b CERRADA, con negativo confirmado.** `+0x78` de un personaje fija el
+modelo visual del arma, no el bloque de IA que la dispara de verdad. Lo que
+sigue (7c) es leer desensamblado para encontrar quién escribe de verdad el
+array de `0x006E18B8` al spawnear — no es jugar ni escribir memoria.
 
 ---
 
 ## 1. QUÉ LEER, EN ORDEN
 
-1. `black/ESTADO_ACTUAL.md` — sólo el bloque de **7b** en N2 y las tres filas
-   nuevas de la tabla de hechos (`+0x58`, `+0x78`, `+0x88`).
-2. `black/docs/03-bitacora.md`, **sólo la entrada (32)**. La (31) está
-   resumida acá abajo.
+1. `black/ESTADO_ACTUAL.md` — el bloque de **7b** en N2 (ya dice CERRADA,
+   negativo) y la fila de `+0x78` en la tabla de hechos.
+2. `black/docs/03-bitacora.md`, **sólo la entrada (33)**. La (32) está
+   resumida acá abajo si hace falta más detalle de cómo se armó el ISO.
 
 **NO leer** salvo que la tarea lo pida: `docs/01-entorno.md`, `docs/05-iso.md`,
-`docs/90-glosario-ee.md`, las entradas (29), (30) y (31), y nada de
-`perfil-global/`.
+`docs/90-glosario-ee.md`, las entradas (29)–(32), y nada de `perfil-global/`.
 
 ## 2. LA FASE, Y QUÉ LA CIERRA
 
-**Fase 7b — qué dato fija QUÉ TIPO de enemigo aparece.**
+**7b está cerrada.** La pregunta que sigue abierta es **7c — de dónde sale
+el puntero que el juego escribe en `0x006E18B8 + n*0x24 + 0x04` al spawnear
+un enemigo.** Cierra cuando se identifique la función que hace esa escritura
+(por xref al array, en frío, sobre el ELF) y de qué campo del registro de
+personaje —o de qué otra tabla— saca el valor.
 
-**Cierra POR EFECTO, y el efecto ya no se puede ver en caliente.** Hay que
-arrancar **`Black-mod-7b.iso`**, llegar a `LEVEL_00` **jugando** y leer:
+**Por qué no es `+0x78`, medido:** `Black-mod-7b.iso` (parche en
+`STLEVEL.BIN` de `E_BLACKHD_M0`, `+0x78 → RPG0`) jugado hasta `LEVEL_00`,
+expuesto a los enemigos, array de 10 completo. El registro en RAM YA leía
+`+0x78 = 'RPG0'` y aun así `n=4,5,6,7,9` seguían apuntando al bloque de IA
+de siempre (`0x01842C40`, igual que el control `n=3`). Las dos mitades
+confirmadas: la causa se escribió (se ve en el propio registro) y el efecto
+no se produjo (se ve en el array). Detalle completo, con las direcciones
+exactas de cada lectura: bitácora (33).
 
-```
-python herramientas/pine.py leer 0x006E1948   # n=4, +0x04 -> bloque de IA
-```
+**Candidatos sin probar, quedaron anotados en `kb/estructuras.json`:**
+`personaje+0x8C` (`DISTANT0=4, MGNDST0=4, MGNDST2=6, RPG0=3` — mismo grupo
+que el arma pero con menos resolución) y `personaje+0xA8` (float, coincide
+con facción más que con arma). Ninguno se probó: Fran decidió cerrar 7b con
+el negativo en vez de parchear el ISO de nuevo.
 
-| entrada | qué tiene que pasar si la hipótesis vale |
-|---|---|
-| `n = 4, 5, 6, 7, 9` (`E_BLACKHD_M0`) | el bloque de IA **cambia**: deja de ser `0x01842C40` |
-| `n = 3` (`E_LKISS2_M0`) | el bloque de IA **NO cambia**: sigue `0x01842C40` |
+**Por qué 7c es mejor camino que seguir probando campos a ciegas:** ya se
+probó el candidato con más evidencia circunstancial (`+0x78`, el único que
+particionaba con resolución completa) y falló. Seguir con `+0x8C`/`+0xA8`
+es la misma apuesta de nuevo. Leer quién escribe el array de verdad
+contesta la pregunta una sola vez, para cualquier campo que sea.
 
-Ése es el par: una mitad mueve `+0x78`, la otra mueve `+0x18` y es el control.
-Si cambian las dos, o no cambia ninguna, la hipótesis se cae y hay que mirar
-`+0x8C` y `+0xA8`, que particionan igual.
-Observable de error más barato: `'AI gun model not found: %s'` (`0x003F4848`).
-
-**NO SIRVE cargar un savestate**: restaura toda la RAM y anula el parche.
-Los slots 01 y 02 (15 MB, parecían anteriores) también están **dentro** de
-`LEVEL_00` con el stage ya enumerado. **No hay atajo. Hay que jugar.**
+**Modelo: OPUS.** Es desensamblado nuevo (xref sobre `0x006E18B8`, subir al
+llamador, leer en C) — territorio de formar hipótesis, no de ejecutar un
+runbook. **Esfuerzo: alto, sin fan-out** — es lectura de un solo hilo.
 
 ## 3. LO QUE ESTA SESIÓN DEJÓ RESUELTO — no rehacer
 
-### El plan viejo estaba apuntado a dos cosas equivocadas
-
-1. **`+0x18` NO fija el arma.** Es el modelo **del personaje**. El campo que
-   particiona exactamente como el bloque de IA es **`+0x78`**
-   (`DISTANT0` / `MGNDST0` / `MGNDST2` / `RPG0`), junto con `+0x8C` y `+0xA8`.
-   `+0x88` tampoco particiona. Encaja con `FUN_00136848`, que compone
-   `<nombre>_LOD`: el id64 `0xE69A1DD748000000` **decodifica a `'_LOD'`**.
-2. **`PSTL0` no está instanciado** en el savestate 3. Escribirle no podía
-   producir efecto ni con la hipótesis correcta.
-
-### `entidad+0x58` es el puntero al REGISTRO DE PERSONAJE, no una escuadra
-
-Corrige la lectura de 7a. Sólo **4 de los 9** personajes están vivos:
-
-| n | bloque IA | `+0x58` → personaje | `+0x00` en vivo | facción |
-|---|---|---|---|---|
-| 1 | `0x01842A60` | `0x01412A80` `MCHNGNM0` | `Team0_Tom` | `0x005A3890` |
-| 2 | `0x01842A60` | `0x01412B30` `SBMCHGNM0` | `Team1_Matt` | `0x005A3890` |
-| 3 | `0x01842C40` | `0x014129B0` `E_LKISS2_M0` | `Enemy1_Low` | `0x005A3870` |
-| 4,5,6,7,9 | `0x01842C40` | `0x01412900` `E_BLACKHD_M0` | `Enemy0_Mid` | `0x005A3870` |
-
-`n=0` y `n=8` son del jugador (`+0x00 == +0x04`, `+0x08 = 0`). El array está
-**lleno, 10/10**.
-
-### `+0x78` de los 9 personajes, y el mapeo de `+0x88` gratis
-
-```
-PSTL0, SHTG0                                    -> DISTANT0  (+0x8C = 4)
-E_MAC10_M0, E_BLACKHD_M0, E_LKISS2_M0, E_UZI_M0 -> MGNDST0   (+0x8C = 4)
-MCHNGNM0, SBMCHGNM0                             -> MGNDST2   (+0x8C = 6)
-RPG0                                            -> RPG0      (+0x8C = 3)
-```
-
-**`+0x88` → etiqueta, leído en vivo** (esto era otra fase y salió gratis):
-`0 → None`, `1 → Low`, `2 → Mid`, `8 → Matt`, `0x10 → Tom`. **No hace falta
-mapear la jumptable `PTR_LAB_003F8130` para estos cinco.**
-
-### Por qué la escritura en caliente NO puede cerrar 7b
-
-Dos escrituras hechas, **las dos restauradas y releídas**:
-`0x01412618` (`+0x18` de `PSTL0`) ← `E_UZI_M0`, y `0x01412978` (`+0x78` de
-`E_BLACKHD_M0`) ← `RPG0`. **Sin cambios en el array de armas, las dos veces.**
-
-**El negativo es real, no un instrumento muerto:** control positivo corrido
-antes de creerle — 3 de 8 entidades cambiaron su XYZ en 3 s. El emulador
-avanzaba.
-
-La razón es estructural: **el campo se lee al spawnear**, en el slot 3 ya
-está todo spawneado y el array está lleno. No es que la hipótesis esté mal.
-
-### El ISO: cargado literal, offsets únicos
-
-RAM `0x01412400` = offset **`0x000`** del archivo, **sin fixup**. Verificado:
-el id64 de `PSTL0` aparece **una sola vez** en los 2,5 MB de `STLEVEL.BIN`,
-en `0x218` = `0x01412618 - 0x01412400`.
-
-`STLEVEL.BIN` de `LEVEL_00` dentro del ISO: offset **`0x804D6800`**, LBA
-1051053.
-
-**`Black-mod-7b.iso` YA ESTÁ PARCHEADO Y VERIFICADO** (`parche_iso.py
-verificar`: 2 rangos de 7 B, sólo en `STLEVEL.BIN`, TOC intacta):
-
-| qué | offset ISO | de | a |
-|---|---|---|---|
-| `+0x78` de `E_BLACKHD_M0` | `0x804D6D78` | `MGNDST0` | `RPG0` |
-| `+0x18` de `E_LKISS2_M0` | `0x804D6DC8` | `E_LKISS2_M0` | `E_BLACKHD_M0` |
-
-El modelo de reemplazo es `E_BLACKHD_M0` **a propósito**: está garantizado
-residente (5 entidades lo usan), así que un fallo de carga no puede
-confundirse con el resultado.
-
-### De la (31), sigue valiendo y NO se rehace
-
-- Registro de **personaje**, paso `0xB0`: `+0x00` buffer del `sprintf`
-  (inútil en frío) · `+0x18` id64 del modelo · `+0x20/+0x28/+0x30` variantes
-  M1/M2/M3 · `+0x68/+0x70` variantes S0/E0 · **`+0x78` modelo del arma** ·
-  `+0x88` índice de tipo · `+0x94` sonido.
-- Registro de **unidad**, paso `0x28`: `+0x00` nombre ASCII · `+0x10` el mismo
-  en id64 · `+0x18` ptr enemigos · `+0x20` cant · `+0x1C` ptr compañeros ·
-  `+0x24` cant (cantidad 0 ⇒ el puntero es **basura**, no un nulo).
-- Stage = cabecera en `0x01412400`: `+0x04` ptr unidades, `+0x08` cantidad (7).
-- **En disco los punteros son relativos a la sección `0x80`**, no al archivo.
-  Sobre el ISO crudo el parseo da bloques plausibles pero **falsos**.
-  Los **id64 sí** se pueden buscar directo, y son únicos.
-- **No volver a barrer el ISO por texto**: los nombres son id64.
-- `herramientas/id64.py` — base-40, 12 chars, de atrás hacia adelante.
-  `0=' ' 1='-' 2='/' 3..12='0'..'9' 13..38='A'..'Z' 39='_'`. Sin minúsculas.
-  `autotest` **probado en rojo** (13 casos).
-- `+0x58` del **registro de arma** es espejo de sonido, no fuente.
-- Buscar id64 sin `--min-relleno 2` es ruido (79.048 nombres en `STLEVEL.BIN`).
+- **`+0x78` de un personaje = modelo VISUAL del arma, confirmado.**
+  `FUN_00136848` compone `<+0x78>_LOD` y carga esa geometría. No toca el
+  array de `0x006E18B8`.
+- **El array de armas se llena progresivamente al spawnear, no con el
+  stage.** Con el jugador en `LEVEL_00` pero sin ver enemigos, `n=9` daba
+  puntero nulo. Hace falta estar expuesto a los tiradores para leer las 10
+  entradas con sentido. `kb/mapa-memoria.json#array_shooters_0x24` tiene la
+  nota.
+- **El parche de ISO funciona de punta a punta, confirmado por tercera vez**
+  (ya lo habían confirmado 6.6 y 7a): `parche_iso.py` edita in-place, el
+  juego carga el valor nuevo en RAM al leer el archivo del stage. La técnica
+  no es lo que falló acá — falló la hipótesis sobre qué campo leer.
+- **`entidad+0x58` es el puntero al registro de personaje** (paso `0xB0`),
+  no una escuadra. Sigue valiendo de la (32)/(31).
+- Estructura completa del registro de personaje, con offsets y confianza:
+  `kb/estructuras.json`, no hace falta releer la bitácora para eso.
 
 ## 4. LO QUE SIGUE, CONCRETO
 
 ```
-python herramientas/ubicaciones.py          # 13/13 el 2026-08-22
-python herramientas/id64.py autotest        # 13 casos, 0 fallas
+python herramientas/ubicaciones.py          # control positivo del entorno
+python herramientas/decompilar.py info      # control positivo de Ghidra
+python herramientas/xref.py --help          # repasar la sintaxis antes de usarlo
 ```
 
-1. **Arrancar PCSX2 con `Black-mod-7b.iso`** y jugar hasta `LEVEL_00`.
-   El ISO parcheado **no está montado en D: ni en E:** (los dos montan el
-   original). Se carga desde PCSX2, no hace falta montarlo.
-2. Leer el array y comparar contra la tabla de la sección 2.
-3. Si cierra: `+0x78` pasa a `confirmado` y se abre el mod de tipos de enemigo.
-   Si no cierra: los candidatos que quedan son `+0x8C` (4/4/6/3) y `+0xA8`
-   (`7.0f` enemigos / `0.8f` compañeros), y se parchea `+0x8C` en un ISO nuevo.
+1. `xref.py` (o `decompilar.py xref`) sobre **`0x006E18B8`** en frío, sobre
+   el ELF (`kb/ubicaciones.json#elf_copia`) — quién escribe ahí, no quién lee.
+2. Subir al llamador hasta la función que decide el registro de arma al
+   spawnear un enemigo.
+3. `decompilar.py c <función>` y leerla en C. Buscar de qué campo del
+   registro de personaje (o de qué otra tabla, si no es el registro) sale
+   el índice o el puntero.
+4. Control positivo con un dato ya conocido: la función tiene que producir
+   `0x01842C40` para un `E_BLACKHD_M0` o `E_LKISS2_M0` sin parchear.
+
+No hace falta jugar para este paso — es lectura en frío sobre el ELF. Si
+hace falta un control con RAM viva, `decompilar.py estado` trae el heap
+del savestate adentro de Ghidra sin necesidad de PCSX2 corriendo.
 
 ## 5. ESTADO DE LA MÁQUINA AL CERRAR
 
-- **PCSX2 quedó abierto** con el **ISO ORIGINAL** y el savestate 3 cargado.
-  Ejecutable: `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
+- **PCSX2 quedó abierto** con **`Black-mod-7b.iso`** cargado, PID nuevo de
+  esta sesión (se cerró el proceso viejo y se relanzó para garantizar el
+  ISO correcto). Ejecutable:
+  `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
   (NO el de Program Files). PINE 28011 responde.
-- **RAM LIMPIA: las dos escrituras fueron restauradas y releídas al cerrar**
-  (`0x01412618` = `PSTL0`, `0x01412978` = `MGNDST0`). Cero parches vivos.
-- **`Black-mod-7b.iso` es nuevo de esta sesión.** `Black-mod-armas.iso`
-  (el mod de daño de 6.6) **no se tocó**. Quedan ~85 GB libres en `C:`.
-- `ubicaciones.py` 13/13. Las rutas NO se copian a mano:
-  `python herramientas/ubicaciones.py ruta iso_original`
-- Ghidra: `C:\Users\frans\herramientas\ghidra-proyectos2\BLACK.gpr`.
-- **Trampa de Windows:** `Test-Path`/`Get-ChildItem` sin `-LiteralPath` dan
-  `False` sobre `...\Black [NTSC]\...` **existiendo**. Y **Git Bash convierte
-  rutas tipo `/LEVELS/...` en `C:/Program Files/Git/LEVELS/...`**: los
-  argumentos de ruta interna del ISO van por **PowerShell**, no por Bash.
-- **OJO, fuera del proyecto:** `perfil-global/` sigue **desincronizado entre
-  ramas**. La copia instalada en `~/.claude` tiene **45** lecciones; la rama
-  de BLACK tiene 37. **No correr `perfil-global/install.ps1` desde esta rama.**
+- **RAM LIMPIA.** El nop de vida infinita en `0x0013BD20` (puesto para que
+  Fran se expusiera a los enemigos sin morir) **se restauró y se releyó**:
+  vuelve a valer `0xE65402F8`. Cero parches vivos.
+- El jugador murió una vez en la sesión (antes de que el nop tomara
+  efecto) y respawneó; no se registró en qué punto exacto del nivel quedó.
+- **`Black-mod-7b.iso` no se tocó en esta sesión** (no hizo falta: la
+  pregunta se contestó, no se abrió una hipótesis nueva que necesitara
+  parche nuevo). `Black-mod-armas.iso` tampoco.
+- Nuevo lanzador: `C:\Users\frans\Desktop\BLACK\ABRIR-BLACK-MOD-7B.bat`
+  (mismo patrón que los otros dos de esa carpeta).
+- **Se borró `black/HANDOFF.md`** (raíz del proyecto): era una copia
+  huérfana de la Fase 6, sin tocar desde el commit `9792a5f`, y contradecía
+  a este archivo. Este (`sesiones/HANDOFF.md`) es el único canónico — así
+  lo señala `black/CLAUDE.md`.
+- `ubicaciones.py` 13/13 al abrir esta sesión. Las rutas NO se copian a
+  mano: `python herramientas/ubicaciones.py ruta iso_original`.
+- **OJO, fuera del proyecto:** `perfil-global/` sigue desincronizado entre
+  ramas. No correr `perfil-global/install.ps1` desde esta rama.
 
 ---
 

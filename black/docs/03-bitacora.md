@@ -16,6 +16,74 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-22 (33) — 7b, el experimento completo: `+0x78` NO gobierna el array de armas — REFUTADO
+
+**Máquina:** PC, **con el juego corriendo**, `Black-mod-7b.iso` · **Modelo:**
+Sonnet · **Esfuerzo:** medio, sin fan-out.
+
+**Objetivo:** cerrar 7b jugando hasta `LEVEL_00` con el ISO parcheado de la
+(32) y leyendo el array de `0x006E18B8` para `n=3,4,5,6,7,9`.
+
+**Resultado: la escritura del lado causa SE CONFIRMÓ, y el efecto predicho
+NO SE PRODUJO. La hipótesis queda REFUTADA, no "abierta".**
+
+### 1. El array no estaba poblado hasta estar expuesto a los enemigos
+
+Primera lectura, en `LEVEL_00` pero sin ver tiradores: `n=9` daba
+`0x00000000` (sin entidad) y `n=4,5,7` seguían en el baseline. Confirma que
+el array se llena progresivamente al spawnear, no todo junto con el stage.
+Segunda lectura, ya expuesto: los 6 `n` dan valor no nulo. **El array
+completo sólo se puede leer con el jugador cerca de los enemigos.**
+
+### 2. El parche SÍ está en RAM — confirmado leyendo el propio registro
+
+| campo | dirección | valor decodificado |
+|---|---|---|
+| `E_BLACKHD_M0 +0x18` (nombre) | `0x01412918` | `'E_BLACKHD_M0'` — sin cambios, correcto |
+| `E_BLACKHD_M0 +0x78` (arma) | `0x01412978` | **`'RPG0'`** — el parche del ISO cargó |
+| `E_LKISS2_M0 +0x78` (arma, control) | `0x01412A28` | `'MGNDST0'` — sin cambios, correcto |
+
+El registro de personaje en RAM **es exactamente el que se pidió**: el
+`+0x78` de `E_BLACKHD_M0` pasó de `MGNDST0` a `RPG0`, y nada más se movió.
+
+### 3. El array de armas NO se movió — para ningún `n`
+
+| n | baseline (32) | expuesto, ahora |
+|---|---|---|
+| 3 | `0x01842C40` | `0x01842C40` |
+| 4 | `0x01842C40` | `0x01842C40` |
+| 5 | `0x01842C40` | `0x01842C40` |
+| 6 | `0x01842C40` | `0x01842C40` |
+| 7 | `0x01842C40` | `0x01842C40` |
+| 9 | `0x01842C40` | `0x01842C40` |
+
+Los `n=4,5,6,7,9` (los cuatro tiradores de `E_BLACKHD_M0` con array
+completo) **siguen apuntando al mismo bloque de IA que antes del parche**,
+pese a que su propio registro de personaje ya dice `RPG0`. `n=3`
+(`E_LKISS2_M0`, control) tampoco se movió, como correspondía.
+
+**No funcionó:** la hipótesis "`+0x78` fija el bloque de IA que usa el
+array de `0x006E18B8`". Está refutada con las dos mitades confirmadas: se
+escribió el campo (evidencia de causa) y se leyó el efecto sin que cambiara
+(evidencia de no-efecto). No es un negativo por falta de medición — es un
+negativo medido.
+
+**Lectura correcta, ahora:** `+0x78` decide el **modelo visual** del arma
+(`FUN_00136848` compone `<+0x78>_LOD`, confirmado en la (32) por
+desensamblado). El array de `0x006E18B8` — que gobierna `Power` y `TBB`, o
+sea el comportamiento real de combate — se resuelve por **otra vía**, ya sea
+en el spawn desde un campo distinto o desde una tabla que no pasa por
+`personaje+0x78`. Los candidatos que quedan sin probar de la (32) son
+`+0x8C` y `+0xA8` — los otros dos campos que particionaban igual que el
+bloque de IA en el diff de los 4 registros instanciados.
+
+**Sigue:** decidir si 7b se cierra acá (con el hallazgo negativo anotado, que
+ya es información real: el modelo del arma y el comportamiento de IA son dos
+sistemas separados) o se prueba `+0x8C`/`+0xA8` con un parche nuevo del ISO.
+Es una decisión de alcance, no técnica — se la pregunté a Fran.
+
+---
+
 ## 2026-08-22 (32) — 7b EN VIVO: el arma no la fija `+0x18`, la fija `+0x78`
 
 **Máquina:** PC, **con el juego corriendo** (primera sesión en vivo desde el

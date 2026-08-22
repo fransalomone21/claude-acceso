@@ -80,27 +80,29 @@ N2  FASES DEL JUEGO
             por efecto: `0x006E18B8 + n*0x24 + 0x04`, el puntero al bloque
             de IA del registro de arma. Daño 105→106 y cadencia
             133ms→3534ms a la vez, las dos coincidiendo con el reg 6.
-        7b  qué dato fija QUÉ TIPO de enemigo aparece .... ABIERTA
-            **2026-08-22, EN VIVO — el experimento estaba apuntado mal, y
-            ahora está armado bien (ver bitácora (32)).**
-            `+0x18` es el modelo DEL PERSONAJE. **El arma la fija `+0x78`**
-            (`DISTANT0`/`MGNDST0`/`MGNDST2`/`RPG0`), que es el único campo
-            —además de `+0x8C` y `+0xA8`— que particiona igual que el
-            bloque de IA. Encaja con `FUN_00136848`, que compone
-            `<nombre>_LOD` (`0xE69A1DD748000000` decodifica a `'_LOD'`).
+        7b  qué dato fija QUÉ TIPO de enemigo aparece .... CERRADA, negativo
+            **2026-08-22, EXPERIMENTO COMPLETO — REFUTADO (ver bitácora
+            (33)).** `+0x18` es el modelo DEL PERSONAJE. `+0x78` fija el
+            **modelo visual del arma** (`DISTANT0`/`MGNDST0`/`MGNDST2`/
+            `RPG0`), confirmado con `FUN_00136848` componiendo
+            `<nombre>_LOD`. Pero **no gobierna el array de armas de IA**
+            (`0x006E18B8`, `Power`/`TBB`): con `Black-mod-7b.iso` jugado
+            hasta `LEVEL_00` y expuesto a los enemigos, el registro de
+            `E_BLACKHD_M0` en RAM YA lee `+0x78 = 'RPG0'` (el parche cargó),
+            y sin embargo `n=4,5,6,7,9` **siguen apuntando al mismo bloque
+            de IA de antes** (`0x01842C40`, igual que el control `n=3`). Las
+            dos mitades del experimento están medidas: se confirmó la causa
+            (el campo cambió en RAM) y se confirmó el no-efecto (el array no
+            se movió). **`+0x78` decide sólo el modelo visual; el
+            comportamiento de IA se resuelve por otra vía.** Candidatos sin
+            probar: `+0x8C` y `+0xA8`, los otros dos campos que particionaban
+            igual que el bloque de IA en el diff de la (32).
             `entidad+0x58` NO es escuadra: **es el puntero al registro de
             personaje** — sólo 4 de los 9 están instanciados, y `PSTL0`
-            (el que el plan viejo iba a escribir) **no lo está**.
-            La escritura EN CALIENTE no puede cerrarla: el campo se lee al
-            spawnear, el array está lleno 10/10, y **ningún savestate es
-            anterior a la carga del stage** (01 y 02 también están dentro
-            de `LEVEL_00`). Control positivo corrido: el emulador avanzaba.
-            **Cierra con el ISO `Black-mod-7b.iso`, ya parcheado y
-            verificado** (2 rangos de 7 B en `STLEVEL.BIN`, TOC intacta):
-            `+0x78` de `E_BLACKHD_M0` → `RPG0` y `+0x18` de `E_LKISS2_M0`
-            → `E_BLACKHD_M0`. Si la hipótesis vale, el bloque de IA de
-            `n=4,5,6,7,9` cambia y el de `n=3` no. **Falta jugar hasta
-            `LEVEL_00` con ese ISO: no hay atajo por savestate.**
+            **no lo está**. **Fran decidió cerrar 7b con el negativo**: no
+            se probaron `+0x8C`/`+0xA8`, quedan anotados como candidatos en
+            `kb/estructuras.json` para si se retoma la pregunta de "qué
+            arma usa realmente la IA" más adelante.
             **El experimento se rediseñó el 2026-08-17 y ahora es barato.**
             Los archivos de stage se cargan LITERALES en RAM
             (`STLEVEL.BIN` de `LEVEL_00` en **`0x01412400`**, 7/7 anclas),

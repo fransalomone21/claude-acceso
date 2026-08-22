@@ -645,9 +645,9 @@
         {
           "offset": "0x78",
           "tipo": "u64",
-          "id": "nombre_modelo_arma_id64",
-          "confianza": "probable",
-          "descripcion": "EL CAMPO QUE FIJA EL ARMA DE IA. Vale DISTANT0 / MGNDST0 / MGNDST2 / RPG0. Es el UNICO campo de nombre que particiona exactamente igual que el bloque de IA de 0x006E18B8+n*0x24+0x04 sobre los 4 personajes instanciados (MGNDST2 -> 0x01842A60 = registro 4; MGNDST0 -> 0x01842C40 = registro 5). Encaja con FUN_00136848, que compone <nombre>_LOD: el id64 0xE69A1DD748000000 decodifica a '_LOD'. Falta el efecto: la escritura en caliente no retroactua (se lee al spawnear), y el ISO Black-mod-7b.iso ya esta parcheado para probarlo."
+          "id": "nombre_modelo_visual_arma_id64",
+          "confianza": "confirmado",
+          "descripcion": "EL MODELO VISUAL DEL ARMA, no el comportamiento de IA. Vale DISTANT0 / MGNDST0 / MGNDST2 / RPG0. FUN_00136848 compone <nombre>_LOD (el id64 0xE69A1DD748000000 decodifica a '_LOD') y carga esa geometria. REFUTADO como selector del bloque de IA: 2026-08-22, Black-mod-7b.iso parcheado (E_BLACKHD_M0 +0x78 -> RPG0) jugado hasta LEVEL_00 con el jugador expuesto a los enemigos -- el registro en RAM YA lee 'RPG0' y sin embargo n=4,5,6,7,9 de 0x006E18B8+n*0x24+0x04 siguen apuntando al MISMO bloque de IA de antes del parche (0x01842C40, igual que el control n=3). Bitacora (33)."
         },
         {
           "offset": "0x88",
@@ -661,7 +661,7 @@
           "tipo": "u32",
           "id": "candidato_grupo_arma",
           "confianza": "hipotesis",
-          "descripcion": "Particiona igual que el arma, pero con MENOS resolucion que +0x78: DISTANT0 y MGNDST0 comparten el valor 4. Valores: DISTANT0=4, MGNDST0=4, MGNDST2=6, RPG0=3. Es el candidato de repuesto si +0x78 no da efecto."
+          "descripcion": "Particiona igual que el arma, pero con MENOS resolucion que +0x78: DISTANT0 y MGNDST0 comparten el valor 4. Valores: DISTANT0=4, MGNDST0=4, MGNDST2=6, RPG0=3. CANDIDATO VIGENTE: +0x78 quedo refutado como selector del bloque de IA (bitacora (33)), asi que este sigue sin probar. No se probo en 7b porque Fran decidio cerrar la fase con el negativo en vez de parchear el ISO otra vez."
         },
         {
           "offset": "0x94",
@@ -675,7 +675,7 @@
           "tipo": "f32",
           "id": "candidato_float_faccion",
           "confianza": "hipotesis",
-          "descripcion": "Tambien particiona como el arma, pero solo en dos valores y coincide con la faccion: 7.0f en los enemigos, 0.8f en los companeros. Mas parecido a un parametro de IA que a un selector."
+          "descripcion": "Tambien particiona como el arma, pero solo en dos valores y coincide con la faccion: 7.0f en los enemigos, 0.8f en los companeros. Mas parecido a un parametro de IA que a un selector. Sin probar -- 7b se cerro con +0x78 refutado (bitacora (33)) sin testear este campo."
         }
       ]
     }

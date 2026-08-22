@@ -252,7 +252,7 @@
       "confianza": "confirmado",
       "evidencia": "7a lo confirmo por efecto para +0x04. En 7b se leyeron los 0x24 completos: +0x00/+0x04 punteros a los bloques jugador/IA del registro de arma, +0x08 puntero al registro de entidad de 0x80, +0x20 puntero al objeto de arma (0x006DE770+n*0x110, en +0x30). 10 entradas usadas, n=0 es el jugador.",
       "descubierto": "2026-08-17",
-      "notas": "n=0 y n=8 tienen +0x00 == +0x04 (mismo bloque para jugador e IA) y +0x08 nulo. n=1,2 usan registro 4; n=3..7 y n=9 usan registro 5."
+      "notas": "n=0 y n=8 tienen +0x00 == +0x04 (mismo bloque para jugador e IA) y +0x08 nulo. n=1,2 usan registro 4; n=3..7 y n=9 usan registro 5. Se llena progresivamente al spawnear: con el jugador en LEVEL_00 pero sin ver enemigos, n=9 daba puntero nulo. 2026-08-22: se probo si personaje+0x78 (modelo de arma) reasigna estas entradas -- NO. Con Black-mod-7b.iso (E_BLACKHD_M0 +0x78 -> RPG0, confirmado en RAM) y el array 10/10 poblado, n=4,5,6,7,9 siguieron apuntando al registro 5 de siempre. Bitacora (33)."
     },
     {
       "id": "tabla_nombres_escuadra_elf",
