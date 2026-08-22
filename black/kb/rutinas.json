@@ -160,7 +160,9 @@
       "descripcion": "NO es un parser: es una pasada de RELOCALIZACION. Toma el bloque recien cargado en el heap y convierte los u32 de su cabecera, que son offsets relativos al inicio del archivo, en punteros absolutos sumandoles la direccion de carga. Despues baja recursivamente y hace lo mismo dentro de cada seccion, donde los offsets son relativos a la seccion, no al archivo.",
       "convencion": "Sin argumentos: toma el bloque de FUN_001092F8(). Fija las ranuras +0x04, +0x08, +0x0C, +0x10, +0x14 y +0x18 de la cabecera. En la seccion de +0x0C: el u8 de +0x00 es la CANTIDAD, el u32 de +0x04 es un offset relativo a la propia seccion, y los registros son de 0x24. En la de +0x10: la cantidad esta en +0x01, los registros son de 0x20 y cada uno tiene sus propios fixups en +0x08, +0x0C, +0x10, +0x14 y +0x18 relativos al registro.",
       "confianza": "probable",
-      "llamadores": ["0x00105858"],
+      "llamadores": [
+        "0x00105858"
+      ],
       "evidencia": "2026-08-16. Decompilado con Ghidra 12.1.2 + ghidra-emotionengine-reloaded. Camino: la cadena 'GlobData.bin' esta en 0x003F2AD8; su unico xref de codigo es 0x00105ADC dentro de FUN_00105858 (maquina de estados de arranque), donde se pide el archivo con FUN_001093C0(streamer, ruta, 8, 1, 0x105D48, ...) y 0x105D48 es el callback de post-carga. VERIFICADO CONTRA LOS ARCHIVOS REALES: en GLOBDATA.BIN las seis ranuras dan offsets validos (0x80, 0xF9300, 0x130C80, 0x132F80, 0x133800, 0x133F80) y la tabla de armas —cuya posicion 0x00130E20 ya se conocia por otra via— cae dentro de la seccion de 0x00130C80, a +0x1A0. Segundo control independiente: en STLEVEL.BIN la seccion declarada en 0x80 arranca con los bytes de 'bg1_shg', que es la tabla de nombres de entidades ya documentada.",
       "descubierto": "2026-08-16",
       "notas": "ESTO EXPLICA POR QUE FALLABA LA HIPOTESIS VIEJA de 'tabla de offsets creciente': no es una tabla ordenada, es una cabecera de layout fijo donde cada ranura es una seccion distinta y no tienen por que venir en orden. NO APLICA A TODOS LOS .BIN: LEVELDAT.BIN da tres ranuras fuera de rango y GUNS.BIN tiene un tamano en +0x00 en vez de una cantidad. Esos dos usan otro layout y se resuelven igual — xref de su cadena de ruta, decompilar su callback."
@@ -174,7 +176,9 @@
       "descripcion": "Al construir un personaje, recorre la tabla de nombres de hueso de 0x003BCE70 (11 entradas) y por cada nombre pide el índice de hueso al esqueleto, guardándolo en objeto+0x0C+i*4. Después copia 4 floats de 0x003F5128 (0, 5, 12, 22) a [objeto]+0x28 y llama a 0x001415A8.",
       "convencion": "$a0 = el objeto personaje. $s1 = ese objeto; $s0 = destino, arranca en $s1+0x0C y avanza de a 4; $s3 = 0x003BCE70 (armado con lui en 0x001381E4 + addiu en 0x00138208); $s2 = 10, contador de 11 vueltas. Un nombre nulo salta la entrada sin avanzar el destino.",
       "confianza": "probable",
-      "llama_a": ["buscar_hueso_por_nombre"],
+      "llama_a": [
+        "buscar_hueso_por_nombre"
+      ],
       "evidencia": "Desensamblado estático del ELF del ISO con capstone (CS_MODE_MIPS64 + skipdata), 2026-08-16. Se llegó desde la tabla de nombres: se enumeraron todas las direcciones que el código arma con lui+addiu/lw/sw dentro de 0x003BCE00-0x003BCF00 y sólo UN sitio toma la dirección 0x003BCE70 en vez de leer un valor.",
       "descubierto": "2026-08-16",
       "notas": "ES MATERIAL DE FASE 5b, no una respuesta. Deja once índices de hueso cacheados en offsets FIJOS del personaje (0x0C..0x38). Lo que falta es ver si el byte de zona que entra a 0x00142B90 sale de este arreglo o del esqueleto completo. Sin resolver: son 11 huesos contra 24 registros de zona."
@@ -187,7 +191,9 @@
       "descripcion": "Recorre los nombres de hueso del esqueleto del personaje comparando con strcmp y devuelve el índice del que coincide. Su valor real es que EXPONE EL LAYOUT DEL ESQUELETO.",
       "convencion": "$a0 = objeto personaje, $a1 = nombre buscado. esqueleto = [objeto+0x00]; [esqueleto+0x5C] = cantidad de huesos; [esqueleto+0x60] = array de const char* con los nombres. Llama a strcmp en 0x00360838. Devuelve el índice en $v0.",
       "confianza": "probable",
-      "llamadores": ["0x0013821C"],
+      "llamadores": [
+        "0x0013821C"
+      ],
       "evidencia": "Desensamblado estático del ELF, 2026-08-16. El bucle es explícito: `lw $v0,0x5c($v1)` como tope, `lw $v0,0x60($a0)` como base del arreglo, `sll $v1,$s0,2` para indexar y `jal 0x360838` con el nombre de cada entrada.",
       "descubierto": "2026-08-16",
       "notas": "De acá salen los dos offsets del esqueleto que van a kb/estructuras.json#esqueleto. Ninguno de los dos está confirmado por efecto todavía."
@@ -218,6 +224,19 @@
       "descubierto": "2026-08-16",
       "decompilacion_ghidra_2026_08_16": "Ghidra 12.1.2 + ghidra-emotionengine-reloaded devuelve el cuerpo en C y coincide con el desensamblado a mano, lo que vale como verificacion cruzada de las dos lecturas. Nucleo: `pfVar2 = (float *)(*param_1 + param_2 * 0xc); if (escalar < 0.0) fVar3 = *pfVar2; else fVar3 = pfVar2[1]; fVar3 = fVar3 * 100.0;` y al final `if ((param_9 != 0) && (*param_7 != 1) && (*param_8 != 1)) fVar3 = fVar3 * 0.7;`. LO QUE AGREGA: el campo de +0x08 del registro de zona NO es un float corrido, son DOS BYTES DE BANDERAS en +0x08 y +0x09 que la rutina lee para armar sus dos salidas booleanas (ver kb/estructuras.json#zona_impacto). Ademas la zona entra como `char` con signo, y en el llamador (metodo virtual #8 del enemigo, FUN_00133FA8) llega como argumento propio: `param_4 & 0xff`, donde 0xFF significa 'sin zona' y el valor 4 tiene un caso especial que consulta FUN_00138320([victima+0x328]) contra 0x28 y 0x2A.",
       "notas_mod": "Para un mod de dano de salida hay dos palancas. (a) Los factores por zona, que son POR TIPO DE PERSONAJE y viven en el heap: hay que buscarlos por cadena en cada arranque, no sirven para un .pnach. (b) El 100.0 de 0x00142CA0 (lui $at,0x42C8), que es codigo del ELF, direccion fija, y escala TODO el dano de salida de una sola vez. Para el pnach va (b)."
+    },
+    {
+      "id": "codec_id64",
+      "nombre": "Codec de nombres de 64 bits (base-40, 12 caracteres)",
+      "direccion": "0x00272488",
+      "fin": "0x0027257B",
+      "version": "ntsc_u",
+      "descripcion": "FUN_00272488 DECODIFICA un u64 a 12 caracteres; FUN_00272610 codifica. Es base-40 de ancho fijo, escrito de atras hacia adelante. Alfabeto: 0=' ', 1='-', 2='/', 3..12='0'..'9', 13..38='A'..'Z', 39='_'. Sin minusculas. El relleno va a la DERECHA y por eso el consumidor recorta espacios ahi.",
+      "convencion": "FUN_00272488(id64, buffer): escribe 12 chars y un cero en +0xC. Usa FUN_00290AC0 (resto por 0x28) y FUN_002904F0 (division por 0x28).",
+      "confianza": "probable",
+      "evidencia": "2026-08-22. Portado a herramientas/id64.py y validado contra la tabla de camaras de STLEVEL.BIN L00 (seccion 0x261300): los 12 IDs decodifican a CAM_BLOWDOOR, CAM_INTRO, CAM_RPGTOWER, CAM_START, CAM_TRUCK, CAM_XROADS, CITY_START y DEATHCAM01..06, Y SALEN EN ORDEN ALFABETICO -- un orden que un codec equivocado no produce por casualidad. El autotest se probo rompiendolo de dos formas (alfabeto corrido y orden de escritura invertido) y se pone en rojo con exit 1 en las dos.",
+      "descubierto": "2026-08-22",
+      "notas": "El codec es TOTAL: todo u64 da 12 caracteres, asi que buscar 'nombres validos' en un archivo sin exigir relleno a la derecha es ruido -- 79.048 nombres distintos en STLEVEL.BIN. Con relleno >= 2 quedan 88 y son todos reales."
     }
   ]
 }

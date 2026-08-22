@@ -16,6 +16,106 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-22 (31) — 7b: el array de `0xB0` volcado, y el nombre del personaje está en `+0x18`
+
+**Máquina:** PC, **sin correr el juego** · **Modelo:** Opus · **Esfuerzo:**
+alto, **sin fan-out** (el harness volvió a anunciar opt-in a multiagente por
+la palabra `ultracode` del retome, que la **niega**; se ignoró a propósito,
+igual que en la (30)).
+
+**Objetivo:** el paso que la (30) dejó pendiente — volcar el array de `0xB0` y
+contestar **qué campo del registro nombra al personaje**.
+
+**Resultado: contestado.** Todo `probable`: cero escrituras.
+
+### 1. El campo es `+0x18`, y es un id64 — no `+0x00`
+
+`+0x00` **no sirve para identificar nada en frío**: es el destino del
+`sprintf` `'Enemy%d_%s'`, o sea se llena en runtime, y en el archivo de disco
+está vacío. Eso explica por qué la (29) barrió el ISO buscando nombres de
+escuadra y no encontró ninguno.
+
+El nombre real vive en **`+0x18`, empaquetado como id de 64 bits**. Los 9
+personajes de `LEVEL_00`:
+
+| unidad | tipo | `+0x18` | `+0x88` |
+|---|---|---|---|
+| `bg1_pst` | enemigo | `PSTL0` | 0 |
+| `bg1_shg` | enemigo | `SHTG0` | 0 |
+| `0001_bg1_smg` | enemigo | `E_MAC10_M0` | 2 |
+| `0001_bg1_ak1` | enemigo | `E_BLACKHD_M0` | 2 |
+| `0001_bg1_ak1` | enemigo | `E_LKISS2_M0` | 1 |
+| `0001_bg1_asr` | compañero | `MCHNGNM0` | 0x10 |
+| `0001_bg1_asr` | compañero | `SBMCHGNM0` | 8 |
+| `bg1_rpg` | enemigo | `RPG0` | 0 |
+| `0001_bg1_sm5` | enemigo | `E_UZI_M0` | 4 |
+
+El registro tiene además una serie de variantes del mismo nombre: `+0x20`,
+`+0x28`, `+0x30` son `M1`/`M2`/`M3`, `+0x68` es `S0` y `+0x70` es `E0`.
+
+### 2. El codec de 64 bits, portado y probado
+
+`FUN_00272488` es **base-40 de ancho fijo, 12 caracteres, escrito de atrás
+hacia adelante**. Alfabeto: `0=' '`, `1='-'`, `2='/'`, `3..12='0'..'9'`,
+`13..38='A'..'Z'`, `39='_'`. Sin minúsculas.
+
+Está portado a **`herramientas/id64.py`**. La validación no fue "parece que
+anda": los 12 IDs de la tabla de cámaras de `STLEVEL.BIN` decodifican a
+`CAM_BLOWDOOR`, `CAM_INTRO`, `CAM_RPGTOWER`, `CAM_START`, `CAM_TRUCK`,
+`CAM_XROADS`, `CITY_START` y `DEATHCAM01..06` — **y salen en orden
+alfabético**, que es un orden que un codec equivocado no produce por
+casualidad. El `autotest` se probó **rompiéndolo dos veces** (alfabeto corrido
+una posición, y orden de escritura invertido): se pone en rojo con `exit 1` en
+las dos.
+
+### 3. El error que costó la mitad de la sesión: disco vs RAM
+
+Se intentó resolver el layout **sobre el archivo del ISO**, teniéndolo a mano.
+No funciona: en disco los punteros `unidad+0x18`/`+0x1C` son **offsets
+relativos a la sección `0x80`, no al archivo**. El fixup hace
+`base + 0x80 + valor`. Sin eso, el puntero de la unidad 0 da `0x180`, que cae
+**dentro del propio array de unidades** — y el parseo produce bloques
+plausibles pero falsos.
+
+Sobre `volcados/ee-03.bin` (savestate slot 3, `LEVEL_00`, con la imagen
+cargada literal en `0x01412400` — 99.60% de los primeros 64 KB idénticos al
+archivo del ISO) los punteros ya están arreglados y **todo cae solo**.
+
+El handoff de la (30) ya lo decía: *"conviene resolver sobre la imagen en
+RAM"*. Se fue al disco igual porque estaba más a mano. Registrado como
+lección.
+
+### 4. El test que casi hace pasar un layout falso
+
+Se validó el paso del registro mirando si `+0x88 < 0x21`. Con el layout
+**equivocado** daba **7/9**, y un paso inventado de `0xAC` daba **8/9**. El
+test no discrimina porque **la mayoría de los valores reales son `0`**, y el
+cero pasa cualquier test de rango. Lo que lo salvó fue haber corrido el
+control negativo. Con el layout correcto da **9/9**. Registrado como lección.
+
+### 5. Cómo NO buscar ids en un archivo
+
+El codec es **total**: todo `u64` decodifica a 12 caracteres. Filtrar sólo por
+"alfabeto válido" sobre `STLEVEL.BIN` da **79.048 nombres distintos**: ruido
+puro. Lo que separa la señal es el **relleno de espacios a la derecha**: con
+`>= 2` quedan **88**, y son todos reales — incluidos los 7 `BG1_*` que
+coinciden uno a uno con los nombres ASCII de las unidades, que es control
+cruzado independiente.
+
+**No funcionó / no se hizo:** no se escribió un solo byte, así que **7b sigue
+abierta**: cierra por efecto, no por lectura. Falta la sustitución de prueba
+en RAM y su verificación en `0x006E18B8 + n*0x24 + 0x04`.
+
+**Sigue, en este orden:**
+1. Escritura de prueba **en RAM**, reversible, sobre `+0x18` de un registro.
+2. `decompilar.py c 0x00272610` — el lado codificador, para escribir nombres.
+3. El ISO al final, con `parche_iso.py`.
+
+**Estado de la máquina al cerrar:** BLACK no se corrió, cero escrituras, cero
+parches. `ubicaciones.py` 13/13, `decompilar.py info` en verde.
+
+---
+
 ## 2026-08-21 (30) — 7b: la cadena entera, del stage al enemigo, leída en Ghidra en frío
 
 **Máquina:** PC, **sin correr el juego** · **Modelo:** Opus · **Esfuerzo:**

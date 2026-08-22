@@ -501,6 +501,169 @@
       },
       "confianza": "confirmado",
       "evidencia": "Ver kb/rutinas.json#calcular_dano_zona. Confirmado por efecto 2026-08-16."
+    },
+    {
+      "id": "stage_l00",
+      "nombre": "Objeto de stage (recurso tipo 0x0B)",
+      "base": "0x01412400",
+      "version": "ntsc_u",
+      "confianza": "probable",
+      "como_llegar": "Es la cabecera misma del contenedor STLEVEL.BIN cargado en RAM. FUN_001E2D38 lo recibe como param_2.",
+      "evidencia": "2026-08-22. Leido en frio de volcados/ee-03.bin (savestate slot 3, LEVEL_00), donde STLEVEL.BIN de LEVEL_00 esta cargado literal en 0x01412400 (99.60% de los primeros 64 KB identicos al archivo del ISO; las diferencias son exactamente los punteros que el fixup arregla). Layout tomado del decompilado FUN_001E2D38 (volcados/7b/fun-001e2d38.c), NO de barrer por valores conocidos.",
+      "campos": [
+        {
+          "offset": "0x04",
+          "tipo": "ptr",
+          "id": "array_unidades",
+          "confianza": "probable",
+          "descripcion": "-> array de registros de UNIDAD, paso 0x28. En disco es un offset RELATIVO A LA SECCION 0x80, no al archivo: el fixup hace base + 0x80 + valor. Ese detalle es lo que hacia fallar el parseo sobre el archivo crudo."
+        },
+        {
+          "offset": "0x08",
+          "tipo": "u32",
+          "id": "cantidad_unidades",
+          "confianza": "probable",
+          "descripcion": "7 en LEVEL_00. El fixup NO lo toca: es cantidad, no puntero."
+        },
+        {
+          "offset": "0x10",
+          "tipo": "ptr",
+          "id": "seccion_nombres",
+          "confianza": "probable",
+          "descripcion": "-> seccion con +0x08 cantidad y +0x0C offset RELATIVO A LA SECCION del array de 0x10. En LEVEL_00 son 12 camaras (CAM_*, CITY_START, DEATHCAM01..06), en orden alfabetico."
+        }
+      ]
+    },
+    {
+      "id": "unidad_stage",
+      "nombre": "Registro de UNIDAD del stage (paso 0x28)",
+      "base": "0x01412480",
+      "version": "ntsc_u",
+      "confianza": "probable",
+      "evidencia": "2026-08-22. Leido en frio de volcados/ee-03.bin (savestate slot 3, LEVEL_00), donde STLEVEL.BIN de LEVEL_00 esta cargado literal en 0x01412400 (99.60% de los primeros 64 KB identicos al archivo del ISO; las diferencias son exactamente los punteros que el fixup arregla). Layout tomado del decompilado FUN_001E2D38 (volcados/7b/fun-001e2d38.c), NO de barrer por valores conocidos.",
+      "como_llegar": "stage+0x04. Las 7 de LEVEL_00: bg1_pst, bg1_shg, 0001_bg1_smg, 0001_bg1_ak1, 0001_bg1_asr, bg1_rpg, 0001_bg1_sm5.",
+      "campos": [
+        {
+          "offset": "0x00",
+          "tipo": "char[0x10]",
+          "id": "nombre_ascii",
+          "confianza": "probable",
+          "descripcion": "nombre en ASCII, terminado en cero."
+        },
+        {
+          "offset": "0x10",
+          "tipo": "u64",
+          "id": "nombre_id64",
+          "confianza": "probable",
+          "descripcion": "el MISMO nombre, en base-40 (ver rutina codec_id64). Redundante con el ASCII y por eso util como control cruzado: los 7 coinciden."
+        },
+        {
+          "offset": "0x18",
+          "tipo": "ptr",
+          "id": "array_enemigos",
+          "confianza": "probable",
+          "descripcion": "-> array de registros de PERSONAJE, paso 0xB0. Si la cantidad es 0, aca hay basura (0xFF072380 en L00), no un nulo."
+        },
+        {
+          "offset": "0x1C",
+          "tipo": "ptr",
+          "id": "array_companeros",
+          "confianza": "probable",
+          "descripcion": "idem, companeros."
+        },
+        {
+          "offset": "0x20",
+          "tipo": "u32",
+          "id": "cantidad_enemigos",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x24",
+          "tipo": "u32",
+          "id": "cantidad_companeros",
+          "confianza": "probable"
+        }
+      ]
+    },
+    {
+      "id": "personaje_stage",
+      "nombre": "Registro de PERSONAJE del stage (paso 0xB0)",
+      "base": "0x01412600",
+      "version": "ntsc_u",
+      "confianza": "probable",
+      "tamano": "0xB0",
+      "evidencia": "2026-08-22. Leido en frio de volcados/ee-03.bin (savestate slot 3, LEVEL_00), donde STLEVEL.BIN de LEVEL_00 esta cargado literal en 0x01412400 (99.60% de los primeros 64 KB identicos al archivo del ISO; las diferencias son exactamente los punteros que el fixup arregla). Layout tomado del decompilado FUN_001E2D38 (volcados/7b/fun-001e2d38.c), NO de barrer por valores conocidos.",
+      "como_llegar": "unidad+0x18 (enemigos) o unidad+0x1C (companeros), mas indice * 0xB0. En LEVEL_00 son 9 en total.",
+      "campos": [
+        {
+          "offset": "0x00",
+          "tipo": "char[]",
+          "id": "buffer_nombre_runtime",
+          "confianza": "probable",
+          "descripcion": "DESTINO del sprintf FUN_0035D728 con 'Enemy%d_%s' / 'Team%d_%s'. En el archivo de disco esta vacio: se llena en runtime. Por eso buscar texto aca sobre el ISO no da nada."
+        },
+        {
+          "offset": "0x18",
+          "tipo": "u64",
+          "id": "nombre_modelo_id64",
+          "confianza": "probable",
+          "descripcion": "EL CAMPO QUE NOMBRA AL PERSONAJE -- lo que la fase 7b buscaba. base-40. Los 9 de LEVEL_00: PSTL0, SHTG0, E_MAC10_M0, E_BLACKHD_M0, E_LKISS2_M0, MCHNGNM0, SBMCHGNM0, RPG0, E_UZI_M0."
+        },
+        {
+          "offset": "0x20",
+          "tipo": "u64",
+          "id": "variante_m1",
+          "confianza": "probable",
+          "descripcion": "mismo nombre con sufijo M1. Junto a +0x28 (M2) y +0x30 (M3) forma una serie M0..M3."
+        },
+        {
+          "offset": "0x28",
+          "tipo": "u64",
+          "id": "variante_m2",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x30",
+          "tipo": "u64",
+          "id": "variante_m3",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x68",
+          "tipo": "u64",
+          "id": "variante_s0",
+          "confianza": "probable",
+          "descripcion": "sufijo S0."
+        },
+        {
+          "offset": "0x70",
+          "tipo": "u64",
+          "id": "variante_e0",
+          "confianza": "probable",
+          "descripcion": "sufijo E0."
+        },
+        {
+          "offset": "0x78",
+          "tipo": "u64",
+          "id": "grupo_distancia",
+          "confianza": "hipotesis",
+          "descripcion": "otra familia de nombres: MGNDST0 / MGNDST2 / DISTANT0 / RPG0. No sigue el patron M0..M3."
+        },
+        {
+          "offset": "0x88",
+          "tipo": "u32",
+          "id": "indice_de_tipo",
+          "confianza": "probable",
+          "descripcion": "lo consume FUN_001E3018, que exige idx < 0x21 y salta por PTR_LAB_003F8130. En L00 los 9 valores son 0,0,2,2,1,0x10,8,0,4: los 9 dentro de rango. CUIDADO: ese test es debil como prueba de layout porque la mayoria son 0 -- con el layout EQUIVOCADO daba 7/9 y un paso de 0xAC daba 8/9."
+        },
+        {
+          "offset": "0x94",
+          "tipo": "?",
+          "id": "param_sonido",
+          "confianza": "probable",
+          "descripcion": "se pasa a FUN_0027B950 junto con ValueDB/Sound/ps2/AIWeapon.cfg."
+        }
+      ]
     }
   ]
 }

@@ -64,6 +64,14 @@ La sintesis que se lee sola al abrir sesion es
 
 **Costo:** un experimento entero  ·  black  ·  2026-08-17
 
+### Un test predictivo cuyo valor esperado es cero no discrimina nada
+
+**Regla:** Se valido un paso de struct viendo si el campo +0x88 caia bajo 0x21. Como casi todos los valores reales son 0, el layout EQUIVOCADO daba 7/9 y un paso inventado daba 8/9. Antes de usar un campo como prueba, preguntar que fraccion del espacio de valores cuenta como exito: si 0 pasa el test y 0 esta en todos lados, el test no prueba nada. Correr siempre el control negativo con un parametro que se sabe falso.
+
+**Sintoma:** El test da 7/9 o 8/9 y uno lo lee como 'casi confirmado' en vez de 'no concluyente'.
+
+**Costo:** casi se acepta un layout de struct equivocado  ·  black  ·  2026-08-22
+
 ## Antes de buscar, y al leer un resultado vacio
 
 ### El sondeo que da CERO es el mas informativo
@@ -304,6 +312,14 @@ La sintesis que se lee sola al abrir sesion es
 
 **Costo:** un turno de cuadro de fase mal declarado, sealado por el usuario en vez de detectado solo  ·  perfil  ·  2026-08-17  ·  ver `enrutador-modelo, seccion 'Autocalibracion'`
 
+### Si el handoff ofrece dos fuentes y recomienda una, esa se prueba primero
+
+**Regla:** El handoff decia 'conviene resolver los punteros sobre la imagen en RAM, en disco son offsets'. Se fue igual al archivo de disco porque ya estaba a mano. En disco los punteros eran relativos a la seccion y no al archivo, asi que apuntaban DENTRO de otra tabla. Cuando una fuente esta explicitamente marcada como la que tiene el dato ya resuelto, se usa esa primero aunque la otra parezca mas directa.
+
+**Sintoma:** La estructura parsea 'casi bien': los primeros campos dan valores creibles y los ultimos dan basura, y uno empieza a inventar pasos alternativos (0xAC, 0xD8) y a medir periodicidades para salvar el parseo.
+
+**Costo:** media docena de pasos y un layout equivocado que casi se da por bueno  ·  black  ·  2026-08-22
+
 ## La maquina
 
 ### El repo es la memoria del proyecto, no la de la maquina
@@ -324,4 +340,4 @@ La sintesis que se lee sola al abrir sesion es
 
 ---
 
-Total: 37 lecciones, 0 exitos auditados.
+Total: 39 lecciones, 0 exitos auditados.
