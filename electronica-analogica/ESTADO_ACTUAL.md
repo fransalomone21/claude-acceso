@@ -1,6 +1,6 @@
 # Estado actual — Apunte de Aplicaciones de Electrónica Analógica (4.º año)
 
-**Fecha:** 2026-08-21
+**Fecha:** 2026-08-23
 **Rama:** `claude/manual-analogica-tr0mk6`
 **Estado: APUNTE COMPLETO EN DOS PARTES.** 97 páginas, 13 módulos más anexos.
 
@@ -32,10 +32,11 @@ pandoc. Para trabajar con vista viva: `typst watch apunte.typ apunte.pdf`.
 cd electronica-analogica/apunte && python verificar.py
 ```
 
-Cuatro chequeos, todos sobre efectos y **todos probados rompiéndolos a propósito**:
-que el apunte compile, que la galería compile, que no haya quedado ningún circuito en
-ASCII, y que toda figura de la biblioteca esté en la galería (una figura que nadie
-mira se rompe sin que se entere nadie).
+Cinco chequeos, todos sobre efectos y **todos probados rompiéndolos a propósito**:
+que el apunte compile, que la galería compile, que no haya aparecido ASCII fuera de la
+deuda declarada, que toda figura de la biblioteca esté en la galería (una figura que
+nadie mira se rompe sin que se entere nadie), y que ningún rótulo de más de 18
+caracteres haya quedado adentro de un `plot.annotate`.
 
 Para mirar las figuras sin compilar las 44 páginas:
 
@@ -165,32 +166,69 @@ con el apunte oficial: si no, el alumno estudia con dos idiomas distintos.
   funciona es fijar la columna de la barra vertical y hacer que la diagonal avance de a
   una columna por fila.
 
-### Evidencia de las figuras (de la sesión de vectorización)
+### Evidencia de las figuras (al 2026-08-23)
 
-- **Compila** → `apunte.pdf`, 44 páginas. Confirmado por ejecución.
-- **26 de las 30 figuras se ven bien** → confirmado por render a PNG y lectura visual.
-- **`graf-curva-diodo` está MAL y se publicó igual** (2026-08-21). Los dos rótulos largos
-  —"tensión de ruptura" y "corriente de fuga"— están anclados a la izquierda del marco
-  pero el texto corre hacia la derecha y cruza el eje vertical, encima de las marcas de
-  10 y 20 mA; las dos líneas guía atraviesan el gráfico y se confunden con la curva.
-- **Las figuras de las páginas 1 a 4 de la galería quedaron SIN reverificar** después de
-  las dos últimas rondas de retoques. El render que se miró es anterior a esos cambios.
-  Concretamente: todo el Módulo 1, `fig-filtro-rc`, `graf-formas-de-onda`,
-  `graf-curva-diodo`, los dos transformadores, las seis de diodos y las dos de
-  rectificación. Hay que mirarlas de nuevo antes de darlas por buenas.
-- **Causa de los dos puntos anteriores, y lo que hay que cambiar**: los rótulos se ubican
-  en coordenadas de DATOS, donde un mismo número significa distinto en cada gráfico (en
-  la curva del diodo, 1 mA vertical son 3,5 pt y 0,1 V horizontal son 3 mm), y el texto
-  no sabe cuánto mide, así que cruza el eje sin avisar. El arreglo no es correr rótulos a
-  mano otra vez: es que adentro de los ejes solo entren marcas cortas y que el texto
-  largo se ubique contra el marco del gráfico, en coordenadas de lienzo.
-- **El verificador funciona** → confirmado rompiéndolo cuatro veces a propósito (error de
-  sintaxis en un módulo, error de sintaxis en la galería, un bloque ASCII devuelto a su
-  lugar, una figura definida sin agregar a la galería). Las cuatro dieron rojo, y verde
-  de nuevo al restaurar.
-- **Dos defectos de tipografía encontrados por render en la sesión anterior**, ya
-  corregidos y con la regla puesta en `plantilla.typ` (coma decimal antes de `/`, y
-  espacio detrás de la coma).
+- **Las 30 figuras se ven bien** → confirmado por render a PNG de las 8 páginas de la
+  galería, **completas y después del último retoque**. La deuda de las páginas 1 a 4 sin
+  reverificar queda saldada.
+- **`graf-curva-diodo` está arreglada.** Los dos rótulos largos ya no cruzan el eje.
+- **La causa era doble, y la segunda mitad no se sabía**: además de que las anotaciones
+  van en coordenadas de datos, **cetz-plot recorta la anotación contra el área del
+  gráfico** y empuja el texto hacia adentro tanto más cuanto más largo es. Por eso dos
+  rótulos largos pedidos en esquinas opuestas terminaban encimados en el centro. Se
+  comprobó por render con dos etiquetas de prueba de distinto largo en las mismas
+  esquinas. La salida es `rotulo-marco`, que dibuja *fuera* del plot.
+- **Cinco defectos más, encontrados en la pasada completa** y ninguno reportado antes:
+  1. `graf-respuesta-rc` tenía un rótulo de 32 caracteres adentro de los ejes — la figura
+     que la sesión anterior daba por bien resuelta. La encontró sola la alarma nueva.
+  2. `graf-media-onda` y `graf-onda-completa`: "entrada" salía escrito *encima* del eje
+     del tiempo, empujado por el mismo recorte.
+  3. `fig-multiplicadora`: el rótulo `R_M` del resistor y el de la flecha `I_m` se
+     dibujaban uno sobre el otro.
+  4. `fig-rele-completo`: el `1N4007` quedaba pisado por el símbolo del diodo.
+  5. `graf-rizado`: "sin capacitor" se montaba sobre la curva.
+- **El verificador ahora corre cinco chequeos**, y el quinto se probó rompiéndolo:
+  un rótulo de 27 caracteres adentro de un `plot.annotate` da rojo, y verde al
+  restaurar. También se probó rompiendo el chequeo 3 con ASCII nuevo en un módulo de la
+  Parte I.
+- **Deuda abierta y enumerada**: los módulos 7 a 13 conservan **15 circuitos en ASCII**.
+  Están declarados uno por uno en `ASCII_PENDIENTE` dentro de `verificar.py`, con la
+  cuenta exacta, para que la alarma siga sirviendo mientras tanto.
+
+## El programa real de Teoría de Circuitos (2026-08-23)
+
+Hasta ahora el contenido de la Parte II se había derivado de la ficha web de la carrera.
+Fran aportó los documentos de la cátedra, y **la ficha estaba equivocada en lo básico**:
+
+- La materia es de **Ingeniería en Sistemas Espaciales**, **1.º cuatrimestre**, no de
+  Electrónica en el 5.º. Cursada 2C 2026, modalidad bimodal, Campus Miguelete.
+  Profesor: Gabriel Sanca.
+- Bibliografía obligatoria: **Nilsson-Riedel** (primero), Alexander-Sadiku, Hayt-Kemmerly
+  y Dorf-Svoboda.
+- El marco didáctico pide **tres perspectivas por concepto**: análisis teórico,
+  simulación computacional y validación experimental. Uno de los cinco resultados de
+  aprendizaje es *comunicar mediante informes técnicos*.
+
+**Lo que el apunte ya cubre**: leyes básicas, Ohm, Kirchhoff, nodos y mallas,
+superposición, Thévenin/Norton, máxima transferencia, fuentes ideales y reales, C y L,
+RC/RL/RLC, respuesta natural y forzada, valores medio y eficaz, fasores, impedancia y
+admitancia, potencias, factor de potencia, resonancia, Q, Bode, frecuencias de corte,
+ancho de banda, decibel, cuadripolos, AO ideal y sus limitaciones y las seis
+configuraciones básicas.
+
+**Lo que falta, y está pendiente**: sistemas trifásicos (estrella y triángulo, tensiones
+de fase y línea, potencias); filtros activos con Butterworth de orden N, Sallen-Key,
+ganancia unitaria y diseño por plantillas; la forma zpk y los polos y ceros en el plano
+complejo, con la relación unívoca entre la posición de los polos, ζ y Q; la respuesta en
+frecuencia del RLC serie según de dónde se tome la salida; el amplificador diferencial y
+el de instrumentación; la impedancia reflejada del transformador y los equivalentes serie
+y paralelo; y la simulación como tercera pata.
+
+**Decisión de convención, tomada por Fran el 2026-08-23**: el apunte adopta el **fasor en
+valor de pico** como convención por defecto —que es la de los cuatro libros de la
+cátedra— y publica además la conversión explícita a valor eficaz, porque la Parte I
+trabaja en eficaz (multímetro en CA). Hoy los módulos 11 y 12 están escritos en eficaz:
+**la conversión está pendiente**.
 
 ## Fuentes
 

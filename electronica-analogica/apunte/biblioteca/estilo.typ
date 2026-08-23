@@ -126,6 +126,90 @@
   cetz.draw.content((x - largo, y), text(size: letra-figura, cuerpo), anchor: "east", padding: 2pt)
 }
 
+// ---------- Rótulos largos: FUERA del plot, en coordenadas de lienzo ----------
+//
+// El problema que esto resuelve, en dos capas:
+//
+// 1. `nota` y `flecha-nota` ubican el texto en coordenadas de DATOS, donde el
+//    mismo número mide distinto en cada gráfico (en la curva del diodo, 1 mA
+//    vertical son 3,5 pt y 0,1 V horizontal son 3 mm). El texto no sabe cuánto
+//    mide, así que un rótulo largo cruza el eje sin que nadie se entere.
+//
+// 2. Y adentro de `plot.annotate(resize: false)` no alcanza con calcular bien
+//    la posición: cetz-plot RECORTA la anotación contra el área del gráfico, y
+//    cuanto más largo es el texto más lo empuja hacia adentro. Dos rótulos
+//    largos pedidos en esquinas opuestas terminan encimados en el centro.
+//    Comprobado por render con las etiquetas IZQUIERDA/DERECHA.
+//
+// Por eso estos ayudantes dibujan FUERA de `ejes-libro`, como hermanos suyos
+// dentro del mismo `grafico({ ... })`, donde las coordenadas son las del
+// lienzo —las mismas unidades de `tam`— y no las toca nadie.
+//
+// LA REGLA: adentro de los ejes, sólo marcas cortas — un número, una letra,
+// "0,7 V". Todo texto de más de tres palabras va con `rotulo-marco`.
+
+// Descripción del rectángulo visible: los mismos números que se le pasan a
+// `ejes-libro`, escritos UNA vez por figura.
+#let marco(x-min, x-max, y-min, y-max, tam: (7, 4.2)) = (
+  x: (x-min, x-max),
+  y: (y-min, y-max),
+  tam: tam,
+)
+
+// Dato -> lienzo. Es la única conversión de escala del sistema, y está en un
+// solo lugar a propósito.
+#let a-lienzo(m, p) = (
+  (p.at(0) - m.x.at(0)) / (m.x.at(1) - m.x.at(0)) * m.tam.at(0),
+  (p.at(1) - m.y.at(0)) / (m.y.at(1) - m.y.at(0)) * m.tam.at(1),
+)
+
+// Las nueve posiciones, cada una con el ancla que hace crecer el texto HACIA
+// ADENTRO del gráfico: anclado por la esquina que mira al borde, el texto no
+// se escapa por ese lado por más largo que sea.
+#let _esquinas = (
+  "arriba-izq": (0, 1, "north-west"),
+  "arriba-cen": (0.5, 1, "north"),
+  "arriba-der": (1, 1, "north-east"),
+  "izq": (0, 0.5, "west"),
+  "der": (1, 0.5, "east"),
+  "abajo-izq": (0, 0, "south-west"),
+  "abajo-cen": (0.5, 0, "south"),
+  "abajo-der": (1, 0, "south-east"),
+)
+
+// Rótulo largo contra el marco. `hacia` es un punto en coordenadas de DATO:
+// si se lo pasa, tira una guía fina desde el rótulo hasta ahí.
+// `dx`/`dy` corren el rótulo en FRACCIÓN del lado, no en unidades de dato, así
+// el mismo número significa lo mismo en los ocho gráficos.
+#let rotulo-marco(
+  m,
+  donde,
+  cuerpo,
+  hacia: none,
+  dx: 0,
+  dy: 0,
+  color: black,
+  tam: letra-figura,
+) = {
+  let (fx, fy, ancla) = _esquinas.at(donde)
+  // Margen para despegar el texto del borde y de la punta de flecha del eje.
+  let mx = if donde.ends-with("izq") { 0.01 } else if donde.ends-with("der") { -0.01 } else { 0 }
+  let my = if donde.starts-with("arriba") { -0.02 } else if donde.starts-with("abajo") { 0.02 } else { 0 }
+  let pos = (
+    (fx + dx + mx) * m.tam.at(0),
+    (fy + dy + my) * m.tam.at(1),
+  )
+  if hacia != none {
+    cetz.draw.line(
+      pos,
+      a-lienzo(m, hacia),
+      stroke: 0.45pt + luma(150),
+      mark: (end: "straight", scale: 0.28),
+    )
+  }
+  cetz.draw.content(pos, text(size: tam, fill: color, cuerpo), anchor: ancla, padding: 3pt)
+}
+
 // ---------- Paneles lado a lado ----------
 // Varias figuras chicas bajo una sola epigrafe, cada una con su rotulo.
 // Se usa donde el original comparaba dos casos ("directa / inversa").

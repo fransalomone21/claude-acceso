@@ -96,6 +96,15 @@ typst compile biblioteca/galeria.typ "biblioteca/_g{0p}.png" --ppi 120
 
 Los `.png` están en `.gitignore`: son artefactos de trabajo, no fuente.
 
+En una sesión en la nube, donde no hay binario `typst` y el registro de
+paquetes está bloqueado, lo mismo se hace desde Python pasándole el caché:
+
+```python
+import typst
+typst.compile("biblioteca/galeria.typ", output="_g{0p}.png",
+              format="png", ppi=105, package_cache_path=CACHE)
+```
+
 **Que compile no prueba que se vea bien.** Casi todos los defectos que aparecieron
 —rótulos encimados, textos que se salían de las cajas, flechas que apuntaban al
 lado equivocado— compilaban perfecto. Hay que *mirar* el render.
@@ -167,7 +176,7 @@ prenden pasando `x-tick-step` / `y-tick-step`.
 python verificar.py
 ```
 
-Cuatro chequeos, todos sobre **efectos**:
+Cinco chequeos, todos sobre **efectos**:
 
 1. `apunte.typ` compila de verdad.
 2. `galeria.typ` compila de verdad.
@@ -175,11 +184,27 @@ Cuatro chequeos, todos sobre **efectos**:
 4. Toda figura definida en la biblioteca aparece en `galeria.typ`. Una figura
    que no está en la galería no se mira nunca, y una figura que nadie mira se
    rompe sin que se entere nadie.
+5. Ningún `nota(` ni `flecha-nota(` adentro de un `plot.annotate` lleva más de
+   18 caracteres. Ese es el límite entre "marca corta" y "rótulo", y es la
+   alarma que habría agarrado sola los dos rótulos rotos de `graf-curva-diodo`.
 
-Los cuatro se probaron **rompiéndolos a propósito** (error de sintaxis en un
-módulo, error de sintaxis en la galería, un bloque ASCII devuelto a su lugar, y
-una figura definida sin agregar a la galería): los cuatro dieron rojo, y verde
-de nuevo al restaurar. Una alarma que nunca sonó está sin verificar.
+El chequeo 3 lleva una lista `ASCII_PENDIENTE` con los módulos de la Parte II
+que todavía tienen circuitos en ASCII y **con la cuenta exacta de cada uno**:
+así el chequeo sigue dando rojo si aparece ASCII en cualquier otro módulo o si
+en éstos aparece más del que ya había. La lista tiene que llegar a vacía cuando
+se vectorice la Parte II. Un rojo permanente no lo mira nadie; una deuda sin
+enumerar tampoco se paga.
+
+En una sesión en la nube no hay binario `typst` en el PATH y `packages.typst.org`
+está bloqueado por el proxy de egreso. `verificar.py` cae al módulo de Python y
+usa el caché de paquetes cuya ruta se le pasa en `TYPST_PACKAGE_CACHE`. En la
+máquina de escritorio no hace falta nada de esto.
+
+Los cinco se probaron **rompiéndolos a propósito** (error de sintaxis en un
+módulo, error de sintaxis en la galería, un bloque ASCII devuelto a su lugar,
+una figura definida sin agregar a la galería, y un rótulo de 27 caracteres
+metido adentro de un `plot.annotate`): los cinco dieron rojo, y verde de nuevo
+al restaurar. Una alarma que nunca sonó está sin verificar.
 
 ---
 
@@ -216,6 +241,32 @@ golpes. Leerlo antes de pelearse con algo.
   valores, y conviene calcular cuántas unidades de dato entran en un centímetro
   antes de acomodar rótulos. Y siempre `plot.annotate(..., resize: false)`, para
   que la anotación no estire los ejes.
+
+- **Un rótulo largo adentro de `plot.annotate` no se queda donde uno lo pone.**
+  Ésta es la que costó la figura publicada rota, y tiene dos capas. La primera:
+  las anotaciones van en coordenadas de DATOS, y el texto no sabe cuánto mide,
+  así que un rótulo anclado al borde izquierdo cruza el eje vertical sin avisar.
+  La segunda, que es peor porque es invisible en el fuente: **cetz-plot recorta
+  la anotación contra el área del gráfico**, y cuanto más largo es el texto más
+  lo empuja hacia adentro. Dos rótulos largos pedidos en esquinas opuestas
+  terminan encimados en el centro. Comprobado por render con dos etiquetas
+  IZQUIERDA/DERECHA: la de dos letras quedó casi en su lugar y la de nueve se
+  corrió media figura.
+
+  La salida es `rotulo-marco(...)` de `estilo.typ`, que dibuja **fuera** del
+  plot —como hermano de `ejes-libro` adentro del mismo `grafico({ ... })`—,
+  donde las coordenadas son las del lienzo y no las toca nadie. Se le pasa el
+  `marco(...)` de la figura, una de las ocho posiciones del borde, y opcionalmente
+  un punto de dato al que tirar una guía. Adentro de los ejes quedan sólo las
+  marcas cortas: un número, una letra, "0,7 V". El chequeo 5 de `verificar.py`
+  hace cumplir el límite.
+
+- **El rótulo automático de un símbolo de zap cae arriba, justo donde va la
+  flecha de corriente.** En `fig-multiplicadora`, el `label: $R_M$` del resistor
+  y el rótulo de la flecha `corriente(...)` se dibujaban uno encima del otro y
+  el resultado era ilegible. Subir la flecha no alcanza: lo que funciona es
+  apagar el rótulo con `label: none` y poner el texto a mano por debajo con
+  `cetz.draw.content`.
 
 - **El puente de Graetz no se puede dibujar sin un cruce.** Con la fuente de un
   lado y la carga del otro, dos conductores tienen que cruzarse sí o sí. Está

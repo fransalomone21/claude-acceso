@@ -76,9 +76,13 @@
 // gráfico. La rama inversa va con la escala exagerada — si fuese a
 // escala, la fuga de µA sería una línea pegada al eje y no se vería
 // nada. Eso está dicho adentro del propio dibujo.
+// El marco se declara una vez: lo usan `ejes-libro` para el tamaño y
+// `rotulo-marco` para ubicar los rótulos largos contra el borde.
+#let _m-diodo = marco(-1.5, 1.15, -4.6, 23, tam: (8.2, 4.8))
+
 #let graf-curva-diodo() = grafico({
   ejes-libro(
-    tam: (8.2, 4.8),
+    tam: _m-diodo.tam,
     x-label: $v_D " [V]"$,
     y-label: $i_D " [mA]"$,
     x-min: -1.5,
@@ -107,22 +111,28 @@
           // umbral de conducción
           guia((0.7, 0), (0.7, 3.4))
           marca-x(0.7, [0,7 V], largo: 1.0)
-          flecha-nota((0.95, 15.5), (0.85, 13.5), [zona de\ conducción], ancla: "west", color: c-dato)
-          flecha-nota((-1.46, 7.5), (-0.62, -0.3), [corriente de fuga $I_R$\ (escala exagerada)], ancla: "west")
-          flecha-nota((-1.46, 15.5), (-1.19, -2.6), [tensión de ruptura $V_R$], ancla: "west")
-          nota((-1.48, 22), text(fill: luma(100))[polarización inversa], ancla: "west", tam: 8pt)
-          nota((0.06, 22), text(fill: luma(100))[polarización directa], ancla: "west", tam: 8pt)
         },
       )
     },
+  )
+  // Los rótulos largos van FUERA del plot, contra el marco (ver estilo.typ).
+  // Adentro de plot.annotate cetz-plot los recorta y los encima en el centro.
+  rotulo-marco(_m-diodo, "arriba-izq", text(fill: luma(100))[polarización inversa], tam: 8pt)
+  rotulo-marco(_m-diodo, "arriba-der", text(fill: luma(100))[polarización directa], tam: 8pt)
+  rotulo-marco(_m-diodo, "izq", [tensión de ruptura $V_R$], hacia: (-1.17, -2.4), dy: -0.06)
+  rotulo-marco(
+    _m-diodo, "abajo-cen", [corriente de fuga $I_R$ (escala exagerada)],
+    hacia: (-0.72, -0.36), dx: 0.1,
   )
 })
 
 // Entrada senoidal contra salida rectificada. `salida` es la función
 // que transforma la senoidal: media onda o valor absoluto.
+#let _m-rect = marco(-0.1, 2.3, -1.55, 1.85, tam: (5.2, 2.1))
+
 #let _rectificacion(salida, rotulo) = grafico({
   ejes-libro(
-    tam: (5.2, 2.1),
+    tam: _m-rect.tam,
     x-label: $t$,
     y-label: $v$,
     x-min: -0.1,
@@ -147,12 +157,14 @@
         {
           guia((0, 1), (2.25, 1))
           marca-y(1, $V_p$, largo: 0.05)
-          nota((2.27, 1.62), text(fill: c-dato)[#rotulo], ancla: "east")
-          nota((1.78, -1.15), text(fill: luma(120))[entrada], ancla: "center")
         },
       )
     },
   )
+  // Antes iban con `nota` adentro del plot y cetz-plot los empujaba contra el
+  // eje: "entrada" quedaba escrito encima de la línea del tiempo.
+  rotulo-marco(_m-rect, "arriba-der", text(fill: c-dato)[#rotulo])
+  rotulo-marco(_m-rect, "abajo-der", text(fill: luma(120))[entrada], hacia: (1.75, -0.98))
 })
 
 #let graf-media-onda() = _rectificacion(v => calc.max(v, 0), [salida: media onda])
@@ -164,9 +176,11 @@
 
 // Respuesta del filtro pasa bajos RC: la frecuencia de corte es donde
 // la salida cae a 0,707 de la entrada (−3 dB).
+#let _m-rc = marco(-0.25, 5.9, -0.12, 1.22, tam: (7.4, 3.4))
+
 #let graf-respuesta-rc() = grafico({
   ejes-libro(
-    tam: (7.4, 3.4),
+    tam: _m-rc.tam,
     x-label: $f slash f_c$,
     y-label: $V_"sal" slash V_"in"$,
     x-min: -0.25,
@@ -188,12 +202,16 @@
           marca-y(0.707, [0,707], largo: 0.07)
           marca-y(1, [1], largo: 0.07)
           marca-x(1, [$f_c$], largo: 0.045)
-          flecha-nota((1.75, 0.95), (1.15, 0.72), [frecuencia de corte:\ cae a $-3$ dB], ancla: "west")
           nota((0.15, 0.35), text(fill: luma(90))[pasa], ancla: "west")
           nota((3.1, 0.32), text(fill: luma(90))[atenúa], ancla: "west")
         },
       )
     },
+  )
+  // 32 caracteres: no entra adentro de los ejes. Lo agarró el chequeo 5.
+  rotulo-marco(
+    _m-rc, "arriba-der", [frecuencia de corte:\ cae a $-3$ dB],
+    hacia: (1.13, 0.71),
   )
 })
 
@@ -202,9 +220,11 @@
 // ---------------------------------------------------------------
 
 // El rizado: qué agrega el capacitor a la salida del rectificador.
+#let _m-rizado = marco(-0.1, 2.55, -0.22, 1.55, tam: (7.6, 2.9))
+
 #let graf-rizado() = grafico({
   ejes-libro(
-    tam: (7.6, 2.9),
+    tam: _m-rizado.tam,
     x-label: $t$,
     y-label: $v_s$,
     x-min: -0.1,
@@ -244,20 +264,26 @@
             stroke: 0.6pt + c-trazo,
             mark: (start: "straight", end: "straight", scale: 0.3),
           )
-          nota((0.8, 0.9), [$Delta V_r$], ancla: "west")
-          nota((2.5, 1.42), text(fill: c-dato)[salida con capacitor], ancla: "east")
-          nota((2.5, 0.3), text(fill: luma(120))[sin capacitor], ancla: "east")
+          // ΔV_r es marca corta y va adentro, pero corrida a la derecha de
+          // la cota para no montarse sobre la curva.
+          nota((0.79, 0.895), [$Delta V_r$], ancla: "west")
         },
       )
     },
   )
+  rotulo-marco(_m-rizado, "arriba-der", text(fill: c-dato)[salida con capacitor])
+  // Debajo del eje del tiempo no hay nada dibujado —la señal rectificada
+  // nunca es negativa—, así que ahí el rótulo no pisa ni necesita guía.
+  rotulo-marco(_m-rizado, "abajo-cen", text(fill: luma(120))[sin capacitor])
 })
 
 // Curva característica del zener. Es la del diodo común, pero acá el
 // cuadrante que importa es el inverso: es donde el zener trabaja.
+#let _m-zener = marco(-1.55, 1.1, -23, 19, tam: (8.6, 5.2))
+
 #let graf-curva-zener() = grafico({
   ejes-libro(
-    tam: (8.6, 5.2),
+    tam: _m-zener.tam,
     x-label: $v_D$,
     y-label: $i_D$,
     x-min: -1.55,
@@ -300,14 +326,15 @@
           nota((0.12, -4.0), [$I_(Z "mín")$], ancla: "west")
           nota((0.12, -6.8), text(fill: luma(110), size: 7.5pt)[$approx 10 %$ de $I_(Z "máx")$], ancla: "west")
           nota((0.12, -18.2), [$I_(Z "máx")$], ancla: "west")
-          flecha-nota((-1.52, -8.0), (-1.02, -1.6), [vértice], ancla: "west")
-          nota((-1.52, 16.5), text(fill: luma(100))[región de\ polarización inversa], ancla: "west", tam: 8pt)
-          nota((0.12, 16.5), text(fill: luma(100))[región de\ polarización directa], ancla: "west", tam: 8pt)
-          flecha-nota((0.64, 9.0), (0.79, 3.0), [0,7 V], ancla: "east")
+          // "vértice" es marca corta: queda adentro, apuntando al codo.
+          flecha-nota((-1.42, -7.0), (-1.04, -1.7), [vértice], ancla: "west")
+          flecha-nota((0.62, 8.5), (0.79, 3.0), [0,7 V], ancla: "east")
         },
       )
     },
   )
+  rotulo-marco(_m-zener, "arriba-izq", text(fill: luma(100))[región de\ polarización inversa], tam: 8pt)
+  rotulo-marco(_m-zener, "arriba-der", text(fill: luma(100))[región de\ polarización directa], tam: 8pt)
 })
 
 // ---------------------------------------------------------------

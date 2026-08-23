@@ -78,9 +78,13 @@
 #let fig-multiplicadora() = esquema({
   import zap: *
   node("a", (0, 0), fill: false)
-  resistor("RM", (0.5, 0), (2.4, 0), label: $R_M$)
+  // El rótulo automático de zap cae ARRIBA del símbolo, justo donde va la
+  // flecha de corriente, y los dos textos se encimaban. Se apaga y se pone
+  // $R_M$ a mano por debajo (la salida recomendada en docs/figuras.md).
+  resistor("RM", (0.5, 0), (2.4, 0), label: none)
+  cetz.draw.content((1.45, -0.28), text(size: letra-figura)[$R_M$], anchor: "north")
   round-meter("G", (2.9, 0), (4.3, 0), measurand: "G", label: $R_m$)
-  corriente((1.05, 0.3), (1.75, 0.3), $I_m$)
+  corriente((1.05, 0.32), (1.75, 0.32), $I_m$)
   wire((0, 0), (0.5, 0))
   wire((2.4, 0), (2.9, 0))
   wire((4.3, 0), (4.8, 0))
@@ -646,7 +650,7 @@
   inductor("L", (rel: (1.3, 0), to: sup), (rel: (1.3, 0), to: col))
   cetz.draw.content((rel: (1.95, 2.05), to: "Q.c"), text(size: letra-figura)[bobina\ del relé], anchor: "west")
   diode("Dp", (rel: (-1.3, 0), to: col), (rel: (-1.3, 0), to: sup), label: none)
-  cetz.draw.content((rel: (-1.5, 2.05), to: "Q.c"), text(size: letra-figura)[$D$\ 1N4007], anchor: "east")
+  cetz.draw.content((rel: (-1.85, 2.05), to: "Q.c"), text(size: letra-figura)[$D$\ 1N4007], anchor: "east")
   // transistor
   wire("Q.e", e-masa)
   ground("GND", e-masa)
