@@ -76,7 +76,7 @@ N2  FASES DEL JUEGO
      5b qué elige la zona de impacto ..................... pendiente, es Opus
      6  exprimir el ISO ................................... 6.1 y 6.6 CERRADAS
      7  arquitectura de entidades y de la IA .............. ABIERTA <-- acá estamos
-        (7a, 7b y 7c cerradas; la abierta es 7d)
+        (7a, 7b, 7c y 7d cerradas; la abierta es 7e)
         7a  qué campo fija el ARMA de un enemigo ......... CERRADA 2026-08-17
             por efecto: `0x006E18B8 + n*0x24 + 0x04`, el puntero al bloque
             de IA del registro de arma. Daño 105→106 y cadencia
@@ -159,11 +159,57 @@ N2  FASES DEL JUEGO
             una sola `lui rX,0x006E` en `.text`. Regla nueva: antes de
             gastar un xref, mirar si la dirección cae dentro de alguna
             sección (`decompilar.py info` las lista).
-        7d  quién escribe `slot_0x110 + 0xEC` ............. ABIERTA <-- acá estamos
-            Es el descriptor de arma que `FUN_0015D060` le pasa a
-            `FUN_00158F50`. **Ahí está el punto donde se le puede cambiar
-            el arma a un enemigo de verdad**, y con él la Fase 7 entera.
-            Camino ya acotado: stores a `+0xEC` en `0x00155000`–`0x0015D200`.
+        7d  quién escribe `slot_0x110 + 0xEC` ............. CERRADA 2026-08-23
+            **En frío sobre el ELF, sin abrir el emulador. Ver bitácora (35).**
+            Lo escribe **una sola instrucción**, `0x00156318:
+            `sw $v0, 0xEC($s0)`, dentro de **`FUN_00156278`** — el
+            constructor del slot de `0x110`, tres instrucciones antes de la
+            llamada a `FUN_0015D060` que lo lee. El barrido de stores a
+            `+0xEC` en `0x00155000`–`0x0015D200` dio **54 accesos y un solo
+            store**.
+            **El valor sale de `directorio_armas[b] + 0x08`**: una tabla de
+            **17 registros de paso `0x20`** en `0x01842090`, con el conteo en
+            `*(*mgr+1)`. `b` es un **byte** que también queda en `slot+0x00`.
+            **Y el giro: `b` no es un dato guardado, se resuelve POR NOMBRE.**
+            El registro `+0x00` de la tabla es un **id64**, y los **cinco**
+            llamadores de `FUN_0015cef0` hacen todos lo mismo: barren los 17
+            comparando ese id64 contra un u64 y usan el índice que matchea
+            (`0xFF` si no matchea ninguno). Los 17 nombres decodificados:
+            `BG1_PST SHG SNR SMG ASR AK1 RPG GRL SM3 P90 HVY MGN M16 RM1 GK1
+            MP1 BNS`.
+            **Las cuatro fuentes del nombre:** `entidad+0x3C0` / `+0x3C8`
+            (jugador, `FUN_00139c68`); el literal `BG1_AK1` **hardcodeado en
+            el `.text`** (`FUN_0015ef48` case `0x0A`); el literal `BG1_SNR`
+            (`FUN_001784f0`); y `descriptor+0x28` por la cadena data-driven
+            `FUN_00178978`→`FUN_00178bc0`→`FUN_00138c80`→`FUN_001327f0`.
+            **RESPUESTA A LA PREGUNTA ABIERTA DESDE 7a: SÍ se puede fijar
+            desde el ISO**, y son 8 bytes. La vía más barata es el literal
+            `BG1_AK1` del ELF, porque `bg1_rpg` **ya está** en la lista de
+            assets de LEVEL_00 (`dir_recursos_arma_stlevel`) y no hay que
+            agregarle nada al nivel.
+            **Control positivo cumplido:** prediciendo `+0xE8` y `+0xEC` desde
+            `slot+0x00` sobre `ee-e4.bin`, **8/8 slots exactos**, y
+            `b=0x05` → `0x01842C10`, el descriptor que la (33) había medido
+            en RAM. Dos cruces no buscados: `b=0x05` = `BG1_AK1` (los
+            enemigos llevan AK) y `b=0x00` = `BG1_PST` (el jugador arranca
+            con pistola).
+        7e  el ÍNDICE DE MÓDULOS del nivel ................. ABIERTA <-- acá estamos
+            Salió de una pregunta de Fran a mitad de la sesión de 7d: en vez
+            de subir la cadena de llamadas eslabón por eslabón cada vez que
+            se quiere tocar algo, buscar si el juego tiene un índice. **Lo
+            tiene.** El stage es un **stream de registros tipados de `0x10`
+            bytes** `{u32 tipo, u32 ptr, u64 payload}` precedido por
+            `{u32 count, u32 array}`, y **`FUN_0015ef48` (`0x0015EF48`) es su
+            dispatcher: 61 casos, tipos `0x03`–`0x44`**. Ese `switch` **es el
+            esquema del archivo de nivel**: una rama por tipo de módulo. El
+            case `0x0A` es el spawn de personaje (confirmado por otra vía: es
+            el que lleva el literal `BG1_AK1`).
+            **Cierra cuando** los 61 casos estén traducidos a un esquema en
+            `kb/` que diga, por cada tipo, qué estructura consume y qué
+            subsistema toca — y con al menos **un tipo distinto del `0x0A`
+            verificado por efecto**, para que el esquema no quede en papel.
+            Es la vía de mayor apalancamiento que hay abierta: sirve igual a
+            la Fase 6 (exprimir el ISO) que a la 7.
         Sirve al objetivo que fijó Fran el 2026-08-17: hacer BLACK más
         difícil y meterle cambios tipo remaster (armas, tipos de enemigo,
         coop). El plan de experimentos está en `docs/08-experimentos.md`
@@ -352,6 +398,9 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 | **El daño de salida del jugador NO usa `Power`**: sale de `zona * 100.0` en `0x00142B90` | factores en 3.0 → mueren de UNA bala; parche releído después del test |
 | **Objeto de arma por tirador: `0x006DE770 + n*0x110`**, dueño en `+0x10` | volcado: `+0x10` = `0x005A8AB0` |
 | **EL ARMA DEL ENEMIGO SE FIJA EN `0x006E18B8 + n*0x24 + 0x04`** — puntero al bloque de IA (`registro+0xC0`) del registro de arma. Array de **50** entradas, paso `0x24`, base real **`0x006E18B0`** (la base vieja es `entrada_0+0x08`: coincide entrada por entrada, offsets corridos 8). `n` es sólo el primer slot libre, no un id. `+0x00` es el puntero al bloque del jugador (`registro+0x90`) | **2026-08-17, confirmado por efecto con DOS observables: escalón de daño 105→106 y cadencia 133 ms→3534 ms, las dos coincidiendo con el registro 6 (`Power` 106, `TBB` de IA 3.500 s). Series en `volcados/e4-D-marcado.csv` y `volcados/e4-F-bloque-ia.csv`** |
+| **EL ARMA SE ELIGE POR NOMBRE, NO POR ÍNDICE.** `slot_0x110+0xEC` (el descriptor) lo escribe **una sola instrucción, `0x00156318 sw $v0,0xEC($s0)`** en `FUN_00156278`, con el valor `directorio_armas[b]+0x08` (17 registros de `0x20` en `0x01842090`). El byte `b` **no está guardado en ningún lado**: los 5 llamadores de `FUN_0015cef0` barren los 17 comparando el **id64** de `rec+0x00`. Nombres: `BG1_PST SHG SNR SMG ASR AK1 RPG GRL SM3 P90 HVY MGN M16 RM1 GK1 MP1 BNS` | **2026-08-23, en frío, bitácora (35). 54 accesos a `+0xEC` en el subsistema y UN solo store. Control positivo sobre `ee-e4.bin`: 8/8 slots predichos exacto desde `slot+0x00`, y `b=0x05` → `0x01842C10`, el descriptor medido en la (33). Cruces no buscados: `b=0x05`=`BG1_AK1` y `b=0x00`=`BG1_PST`** |
+| **EL ARMA DEL ENEMIGO SÍ SE PUEDE FIJAR DESDE EL ISO** — la pregunta abierta desde 7a. Son 8 bytes: el id64 literal de `BG1_AK1` en `FUN_0015ef48` case `0x0A`, o la lista de assets del nivel (`dir_recursos_arma_stlevel`, 7 registros de `0x28` en `STLEVEL+0x80`). Un arma nueva tiene que estar EN esa lista; **`bg1_rpg` ya está en LEVEL_00**, así que AK1→RPG no requiere tocar el nivel | **2026-08-23, por lectura. Literal `0x5446127297C60000` en el `.text`, decodificado con `id64.py`. Falta la confirmación POR EFECTO: el parche no se hizo todavía** |
+| **El nivel tiene un ÍNDICE DE MÓDULOS**: stream de registros de `0x10` `{u32 tipo, u32 ptr, u64 payload}`, y `FUN_0015ef48` es su dispatcher con **61 casos, tipos `0x03`–`0x44`**. El case `0x0A` es el spawn de personaje | **2026-08-23, leído en Ghidra — `probable`, no ejecutado. El case `0x0A` sí está confirmado por otra vía: lleva el literal `BG1_AK1` y los cinco enemigos tienen justo ese descriptor** |
 | **EL BLOQUE DE IA NO SE ELIGE: ES EL DESCRIPTOR DE ARMA `+0x30`, FIJO** — lo escribe `FUN_00158F50` en `0x00159008` (`addiu $4,$16,0x30`) para todo NPC; el jugador (`*(*(slot+0xF0)+0xC4)==2`) usa el descriptor sin desplazar. El descriptor le llega de `slot_0x110+0xEC` vía `FUN_0015D060`. El pool cuelga del manager `0x005AE880` ← global `.bss` `0x0040F4E0` | **2026-08-22, en frío sobre el ELF, bitácora (34). Dos vías independientes convergen en `FUN_0015C970` (cadena de punteros, y búsqueda de `addiu rX,rX,0x24`), y dos controles positivos pasivos cierran contra `volcados/ee-e4.bin`: `entrada+0x00 == 0` y `0x006DE784 == 0x006E18B0`** |
 | **Layout del registro de arma: DOS bloques.** Jugador en `+0x90`, **IA en `+0xC0`**. Dentro del bloque, `Power = +0x18` y `TimeBetweenBullets = +0x20`. O sea `Power` de IA en `+0xD8`, `TBB` de IA en `+0xE0` | marcado único por registro (`Power = 100+r`) → el escalón medido nombró el registro. Corrige la lectura previa que ponía el bloque de IA en `+0x90` |
 | **Directorio de armas en `0x01842084`**, 17 entradas de `0x20`, justo antes de la tabla. Cinco punteros por entrada: `+0x00→reg+0x50`, `+0x04→reg+0x70`, `+0x14→reg+0x90`, `+0x18→reg+0x1A0`, `+0x1C→reg+0x1C0` | barrido de punteros a la tabla sobre `volcados/ee-e4.bin`. `probable`: no se tocó todavía |

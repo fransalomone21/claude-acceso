@@ -16,6 +16,143 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-23 (35) — 7d CERRADA: el arma se elige POR NOMBRE (id64), y sí se puede fijar desde el ISO
+
+**Máquina:** PC · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Objetivo:** quién escribe `slot_0x110 + 0xEC`, el descriptor de arma que
+`FUN_0015D060` le pasa a `FUN_00158F50`. Con eso, decidir si el arma de un
+enemigo se puede fijar desde un archivo del ISO — la pregunta abierta desde 7a.
+
+**Resultado: CERRADA, y con respuesta afirmativa.** Todo en frío sobre el ELF y
+el volcado; **no se abrió el emulador ni se escribió un byte en RAM.**
+
+### 1. La instrucción, y de dónde saca el valor
+
+**`0x00156318  sw $v0, 0xEC($s0)`**, dentro de **`FUN_00156278`**
+(`0x00156278`–`0x00156383`), el constructor del slot de arma de `0x110`.
+Está **tres instrucciones antes** de la llamada a `FUN_0015D060` — o sea, la
+escritura y la lectura viven en la misma función. El barrido de stores a
+`+0xEC` en `0x00155000`–`0x0015D200` dio **54 accesos y un solo STORE**: éste.
+El barrido de control sobre el `.text` entero dio 31 stores a `+0xEC`, y
+ninguno de los otros 30 está en el subsistema de armas.
+
+```c
+*(u32*)(slot + 0xE8) = FUN_0015d210(DAT_0040f4e0, b);   // &tabla[b]
+*(u32*)(slot + 0xEC) = FUN_0015d228(DAT_0040f4e0, b);   // tabla[b].+0x08  <-- EL DESCRIPTOR
+FUN_0015d060(DAT_0040f4e0, slot, param_4);
+```
+
+Las dos rutinas son de una línea:
+
+```
+FUN_0015d210(mgr, b) =            *(*mgr + 4) + b*0x20        // (b<<24)>>19 = b*0x20
+FUN_0015d228(mgr, b) = *(u32*)(   *(*mgr + 4) + b*0x20 + 8 )
+```
+
+O sea: **una tabla de 17 registros de paso `0x20`**, base en `*(*mgr + 4)`
+(= `0x01842090` en el volcado), conteo en `*(*mgr + 1)` = **17**. El descriptor
+de arma es el campo `+0x08` de esa tabla. `b` es el `param_3` del constructor,
+**un byte**, que además queda guardado en `slot+0x00`.
+
+### 2. El giro: `b` no es un dato guardado, se resuelve POR NOMBRE
+
+El registro `+0x00` de esa tabla es un **id64** (el codec de `id64.py`). Los
+**cinco** llamadores de `FUN_0015cef0` hacen todos exactamente lo mismo: barren
+linealmente los 17 registros comparando `rec+0x00` contra un u64, y el índice
+donde matchea es `b`. Si no matchea ninguno, `b = 0xFF`.
+
+Los 17 nombres, decodificados:
+
+| b | nombre | b | nombre | b | nombre |
+|---|---|---|---|---|---|
+| 0x00 | `BG1_PST` | 0x06 | `BG1_RPG` | 0x0C | `BG1_M16` |
+| 0x01 | `BG1_SHG` | 0x07 | `BG1_GRL` | 0x0D | `BG1_RM1` |
+| 0x02 | `BG1_SNR` | 0x08 | `BG1_SM3` | 0x0E | `BG1_GK1` |
+| 0x03 | `BG1_SMG` | 0x09 | `BG1_P90` | 0x0F | `BG1_MP1` |
+| 0x04 | `BG1_ASR` | 0x0A | `BG1_HVY` | 0x10 | `BG1_BNS` |
+| 0x05 | `BG1_AK1` | 0x0B | `BG1_MGN` | | |
+
+Las **cuatro fuentes del nombre**, todas medidas:
+
+- **`FUN_00139c68`** — `entidad+0x3C0` (primaria) y `entidad+0x3C8`
+  (secundaria), los dos u64. Es el camino del jugador.
+- **`FUN_0015ef48` case `0x0A`** — el literal **`0x5446127297C60000`
+  (`BG1_AK1`) hardcodeado en el `.text`**.
+- **`FUN_001784f0`** — el literal `0x54461524B8230000` (`BG1_SNR`).
+- **`FUN_0015c3c8`** — el byte directo desde `*(iVar6+0x44)`: es el re-arme /
+  pickup, no el spawn.
+
+Y la cadena data-driven completa:
+`FUN_00178978`/`FUN_00178ae8` → `FUN_00178bc0(param_7)` → `descriptor+0x28`
+→ `FUN_00138c80` → `FUN_001327f0(param_5)` → `FUN_0015cef0`.
+
+### 3. Control positivo — 8/8, y dos confirmaciones cruzadas que no se buscaron
+
+Contra `volcados/ee-e4.bin`, prediciendo `+0xE8` y `+0xEC` a partir del byte
+`slot+0x00` para los ocho slots vivos: **los ocho, exactos.**
+
+```
+slot0 b=0x00  +0xEC=0x018422B0   entidad 0x005A8AB0 (jugador)
+slot1 b=0x04  +0xEC=0x01842A30
+slot2 b=0x04  +0xEC=0x01842A30
+slot3..7 b=0x05  +0xEC=0x01842C10   <-- los cinco E_BLACKHD_M0 de la (33)
+```
+
+`b=0x05` da **`0x01842C10`**, que es exactamente el descriptor que la (33)
+había medido en RAM. **Control positivo obligatorio cumplido.** Y dos cosas que
+no se estaban buscando y cierran solas:
+
+- `b=0x05` es **`BG1_AK1`** — y los enemigos de LEVEL_00 llevan AK.
+- `b=0x00` es **`BG1_PST`** — y el jugador arranca con pistola. Además
+  `entidad(jugador)+0x3C0` vale literalmente `BG1_PST`.
+- El conteo `*(*mgr+1)` = **17**, el mismo 17 de la tabla de armas de `0x1E0`
+  ya conocida.
+
+### 4. La respuesta a 7a: SÍ, se puede fijar desde el ISO
+
+Dos vías, las dos de 8 bytes:
+
+1. **El literal del ELF.** `FUN_0015ef48` case `0x0A` lleva `BG1_AK1` escrito a
+   mano. Cambiarlo por otro id64 cambia el arma de todo lo que spawnee por ese
+   caso. `id64.py codificar` produce el u64 nuevo.
+2. **La tabla de assets de armas del nivel, en `STLEVEL.BIN`.** En RAM, en
+   `0x01412480` (= `stage+0x04`, con `stage+0x08` = 7): **7 registros de paso
+   `0x28`**, cada uno `{nombre ASCII de 16 bytes, id64 en +0x10, puntero en
+   +0x18, flags en +0x1C, conteo en +0x20}`. Para LEVEL_00 son
+   `bg1_pst`, `bg1_shg`, `0001_bg1_smg`, `0001_bg1_ak1`, `0001_bg1_asr`,
+   `bg1_rpg`, `0001_bg1_sm5`.
+
+**Un arma nueva tiene que estar en esa lista de 7 para que el nivel la tenga
+cargada.** Por eso el experimento más barato que existe es AK1 → RPG:
+**`bg1_rpg` ya está en la lista de LEVEL_00**, así que no hay que agregar nada.
+
+**No funcionó / se descartó:**
+
+- **No hay un solo `sd` a `+0x3C0` en todo el `.text`** (32 accesos al
+  inmediato `0x3C0`, y los únicos stores son spills de `$sp`). O sea:
+  `entidad+0x3C0` **no se escribe con una instrucción propia**, llega por copia
+  en bloque. Buscar "quién lo escribe" con un barrido de stores ahí habría dado
+  cero y no habría sido un bug.
+- Los cinco enemigos tienen `entidad+0x3C0 = 0` en el volcado, así que **no
+  vinieron por `FUN_00139c68`**. Eso es lo que mandó a mirar los otros
+  llamadores, y es lo que destapó el literal hardcodeado.
+
+**Hallazgo lateral, y abre la fase que sigue: el índice de módulos del stage.**
+Salió de una pregunta de Fran a mitad de sesión — en vez de subir la cadena de
+llamadas eslabón por eslabón, buscar si el juego tiene un índice. Lo tiene.
+El stage es un **stream de registros tipados de `0x10` bytes**
+`{u32 tipo, u32 ptr, u64 payload}`, precedido por `{u32 count, u32 array}`, y
+**`FUN_0015ef48` (`0x0015EF48`) es su dispatcher: 61 casos, tipos `0x03`–`0x44`**.
+Ese `switch` **es el esquema del archivo de nivel**: una rama por tipo de
+módulo. El case `0x0A` es el spawn de personaje. Enumerarlo entero da el mapa
+de todo lo que un nivel puede contener, sin entrar módulo por módulo.
+
+**Sigue:** 7e — enumerar los 61 casos de `FUN_0015ef48` y traducirlos a un
+esquema del stream de nivel en `kb/`. Y, en paralelo y barato, el experimento
+AK1 → RPG sobre el literal del ELF, que valida la vía 1 por efecto.
+
+---
+
 ## 2026-08-22 (34) — 7c CERRADA: el bloque de IA no se elige, es el descriptor de arma **+0x30** fijo
 
 **Máquina:** PC, lectura **en frío** sobre el ELF (PCSX2 no hizo falta) ·

@@ -293,6 +293,110 @@
       "confianza": "confirmado",
       "evidencia": "2026-08-22, en frio. Unico llamador de FUN_00158F50 segun xref de Ghidra (0x0015D10C). Control positivo sobre ee-e4.bin: el codigo escribe slot+0xF4 = entrada, y el volcado tiene 0x006DE784 (= slot0 0x006DE690 + 0xF4) valiendo 0x006E18B0, la base exacta del pool.",
       "notas": "El indice n del array de 0x006E18B8 sale de aca: es el primer byte libre del array de ocupacion, no un id de entidad. Explica que el array se llene progresivamente al spawnear."
+    },
+    {
+      "id": "arma_slot_constructor",
+      "nombre": "Constructor del slot de arma de 0x110: ESCRIBE slot+0xEC (el descriptor)",
+      "direccion": "0x00156278",
+      "fin": "0x00156383",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_00156278(slot, entidad, b, param_4). Inicializa el slot de arma de 0x110. Escribe slot+0x00 = b (byte), slot+0xF0 = entidad, slot+0xFC = entidad+0x280, y sobre todo: slot+0xE8 = FUN_0015d210(mgr,b) = puntero al registro b de la tabla de 17, y slot+0xEC = FUN_0015d228(mgr,b) = tabla17[b] campo +0x08 = EL DESCRIPTOR DE ARMA. Tres instrucciones despues llama a FUN_0015d060, que es quien lee ese +0xEC. CIERRA LA FASE 7d.",
+      "convencion": "a0 = slot de 0x110. a1 = entidad (va a slot+0xF0). a2 = b, INDICE DE ARMA de un byte. a3 = pasa a FUN_0015d060. Devuelve 1.",
+      "llamadores": [
+        "0x0015CF6C (FUN_0015cef0)",
+        "0x00158DEC (FUN_00158ae0, manejador del evento 'GET WEAPON')"
+      ],
+      "llama_a": [
+        "FUN_0015d210",
+        "FUN_0015d228",
+        "FUN_0015d060",
+        "FUN_0020bc00",
+        "FUN_0027c278",
+        "FUN_00209ec8"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00156318",
+          "instruccion_original": "sw $v0, 0xEC($s0)",
+          "efecto_si_se_modifica": "ES LA ESCRITURA DEL DESCRIPTOR DE ARMA en el slot. Unico store a +0xEC en todo el subsistema 0x00155000-0x0015D200: de 54 accesos al inmediato 0xEC en ese rango, 53 son loads y este es el unico store."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23, en frio sobre el ELF. Control positivo sobre volcados/ee-e4.bin: prediciendo slot+0xE8 y slot+0xEC a partir del byte slot+0x00, los OCHO slots vivos dan exacto. b=0x05 -> 0x01842C10, que es el descriptor que la bitacora (33) habia medido en RAM para los cinco E_BLACKHD_M0. Dos cruces no buscados que confirman: b=0x05 decodifica a BG1_AK1 (los enemigos llevan AK) y b=0x00 a BG1_PST (el jugador arranca con pistola).",
+      "descubierto": "2026-08-23",
+      "notas": "El byte b NO es un dato guardado en ningun lado: se resuelve POR NOMBRE. Ver arma_indice_desde_tabla y arma_resolver_por_nombre."
+    },
+    {
+      "id": "arma_indice_desde_tabla",
+      "nombre": "Las dos rutinas de una linea que indexan la tabla de 17 armas",
+      "direccion": "0x0015D210",
+      "fin": "0x0015D243",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_0015d210(mgr,b) devuelve *(*mgr+4) + b*0x20, el puntero al registro b de la tabla de 17 (va a slot+0xE8). FUN_0015d228 @ 0x0015D228 devuelve *(u32*)( *(*mgr+4) + b*0x20 + 8 ), EL DESCRIPTOR DE ARMA (va a slot+0xEC). El b*0x20 esta escrito como (b<<24)>>19, que ademas extiende el signo del byte: b=0xFF da -0x20.",
+      "convencion": "a0 = manager de armas (*0x0040F4E0). a1 = b, indice de arma de un byte.",
+      "llamadores": [
+        "0x001562F0 y 0x00156310 (FUN_00156278)"
+      ],
+      "llama_a": [],
+      "puntos_de_parche": [],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23. Verificado contra ee-e4.bin: *0x0040F4E0 = 0x005AE880, *mgr = 0x01842080, tabla = *(0x01842080+4) = 0x01842090, conteo = *(u8*)(0x01842080+1) = 17. Los 8 slots vivos cumplen la formula exacto.",
+      "descubierto": "2026-08-23",
+      "notas": "El conteo 17 coincide con los 17 registros de 0x1E0 de la tabla de armas ya conocida. El registro de la tabla es {u64 id64 del nombre en +0x00, u32 descriptor en +0x08, u32 en +0x0C, u32 en +0x10, ...} con paso 0x20."
+    },
+    {
+      "id": "arma_resolver_por_nombre",
+      "nombre": "El arma se elige por NOMBRE id64, no por indice: el barrido lineal de los 5 llamadores",
+      "direccion": "0x0015CEF0",
+      "fin": "0x0015CFDF",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_0015cef0(mgr, entidad, b, x) toma el primer slot libre del array de ocupacion mgr+0x08, calcula slot = mgr[1] + i*0x110 y llama al constructor FUN_00156278. Pero lo importante esta ARRIBA: sus CINCO llamadores calculan b todos de la misma forma -- barren linealmente los 17 registros de la tabla comparando el id64 de rec+0x00 contra un u64, y el indice donde matchea es b; si no matchea ninguno, b = 0xFF.",
+      "convencion": "a0 = manager (*0x0040F4E0). a1 = entidad duena. a2 = b (byte). Devuelve el puntero al slot de 0x110.",
+      "llamadores": [
+        "0x00139F68 y 0x00139FE0 (FUN_00139c68): nombre desde entidad+0x3C0 (primaria) y entidad+0x3C8 (secundaria). Es el camino del jugador.",
+        "0x00132930 (FUN_001327f0): nombre desde param_5, que llega de descriptor+0x28 via FUN_00138c80 <- FUN_00178bc0(param_7) <- FUN_00178978 / FUN_00178ae8. Camino data-driven.",
+        "0x0015F0C4 -> FUN_00138df8 -> FUN_001327f0 (FUN_0015ef48 case 0x0A): nombre LITERAL 0x5446127297C60000 = BG1_AK1, hardcodeado en el .text.",
+        "0x001785C8 (FUN_001784f0): nombre LITERAL 0x54461524B8230000 = BG1_SNR.",
+        "0x0015C7F8 (FUN_0015c3c8): b directo desde *(iVar6+0x44). Es re-arme / pickup, no spawn."
+      ],
+      "llama_a": [
+        "FUN_00156278"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "FUN_0015ef48 case 0x0A (~0x0015F0B0)",
+          "instruccion_original": "literal u64 0x5446127297C60000 (BG1_AK1)",
+          "efecto_si_se_modifica": "cambia el arma de todo lo que spawnee por el case 0x0A del stream de nivel. Es un literal de 8 bytes: se reemplaza por el id64 de otra arma (id64.py codificar). bg1_rpg YA esta en la lista de assets de LEVEL_00, asi que AK1 -> RPG no requiere agregar nada al nivel."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23, en frio. El xref de Ghidra da exactamente 5 llamadores y los cinco tienen el mismo barrido lineal. Control positivo: entidad del jugador 0x005A8AB0 + 0x3C0 = 0x544614B7182C0000 = BG1_PST, y el jugador tiene b = 0x00 = BG1_PST en el volcado.",
+      "descubierto": "2026-08-23",
+      "notas": "NO hay un solo 'sd' a +0x3C0 en todo el .text (32 accesos al inmediato 0x3C0, y los unicos stores son spills de $sp): el campo llega por copia en bloque, no por una instruccion propia. Los cinco enemigos tienen entidad+0x3C0 = 0 en el volcado, o sea NO vinieron por FUN_00139c68 -- eso es lo que mando a mirar los otros llamadores y destapo el literal hardcodeado."
+    },
+    {
+      "id": "stage_stream_dispatcher",
+      "nombre": "EL INDICE DE MODULOS DEL NIVEL: dispatcher de 61 tipos sobre el stream del stage",
+      "direccion": "0x0015EF48",
+      "fin": "0x0015FDBF",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_0015ef48(registro, lista, p3, p4). 'lista' es {u32 count, u32 array}; el array son registros de 0x10 bytes {u32 tipo, u32 ptr, u64 payload}. La funcion es un switch sobre el tipo con 61 casos, tipos 0x03 a 0x44. ESE SWITCH ES EL ESQUEMA DEL ARCHIVO DE NIVEL: una rama por tipo de modulo. 'registro' (param_1) trae un array de handles por tipo (piVar10[2], [4], [5], [9], ...). El case 0x0A es el spawn de personaje, y es el que lleva el arma BG1_AK1 literal.",
+      "convencion": "a0 = registro de handles por tipo. a1 = {count, array de registros de 0x10}.",
+      "llamadores": [
+        "0x0012DCA8 (FUN_0012dab8), a su vez desde FUN_00129360 y FUN_0012be80"
+      ],
+      "llama_a": [
+        "FUN_00174430",
+        "FUN_00138df8",
+        "FUN_001650f8",
+        "FUN_00165210",
+        "y uno o mas por cada caso"
+      ],
+      "puntos_de_parche": [],
+      "confianza": "probable",
+      "evidencia": "2026-08-23, leido en Ghidra, no ejecutado. 61 etiquetas 'case' contadas en la decompilacion, tipos 0x03-0x44. El case 0x0A esta confirmado por otra via: es el que lleva el literal BG1_AK1, y los cinco enemigos de LEVEL_00 tienen justo ese descriptor (0x01842C10).",
+      "descubierto": "2026-08-23",
+      "notas": "ES LA VIA DE MAYOR APALANCAMIENTO PARA LAS FASES 6 Y 7: en vez de subir la cadena de llamadas eslabon por eslabon para cada cosa que se quiera tocar, enumerar los 61 casos da el mapa de todo lo que un nivel puede contener. Abre la fase 7e. Salio de una pregunta de Fran: buscar el indice en vez de recorrer los modulos."
     }
   ]
 }

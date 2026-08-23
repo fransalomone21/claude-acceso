@@ -155,14 +155,14 @@
     {
       "id": "directorio_armas",
       "nombre": "directorio de armas (17 entradas de 0x20)",
-      "direccion": "0x01842084",
+      "direccion": "0x01842090",
       "tipo": "u32",
       "version": "ntscu_1_00",
       "estable": true,
-      "base": null,
-      "confianza": "probable",
-      "evidencia": "2026-08-17. Barrido de punteros a la tabla sobre volcados/ee-e4.bin: 17 entradas de paso 0x20 con cinco punteros cada una (+0x00->reg+0x50, +0x04->reg+0x70, +0x14->reg+0x90, +0x18->reg+0x1A0, +0x1C->reg+0x1C0)",
-      "notas": "Candidato a ser la estructura que el codigo indexa por numero de arma. Sin tocar todavia."
+      "base": "*( *(0x0040F4E0) + 4 ). El 0x01842084 que decia antes es el PUNTERO a la tabla, no la tabla.",
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23, CONFIRMADO por codigo, no solo por barrido. FUN_0015d228 (0x0015D228) devuelve *(u32*)( *(*mgr+4) + b*0x20 + 8 ) y eso es exactamente lo que termina en slot+0xEC, el descriptor de arma. El conteo esta en *(u8*)(*mgr+1) = 17. Control positivo sobre volcados/ee-e4.bin: prediciendo slot+0xE8 y slot+0xEC desde el byte slot+0x00, los 8 slots vivos dan exacto, y b=0x05 -> 0x01842C10, el descriptor que la bitacora (33) habia medido en RAM. Barrido previo del 2026-08-17: 17 entradas de paso 0x20 con cinco punteros cada una.",
+      "notas": "EL REGISTRO EMPIEZA CON UN id64, no con un puntero: rec+0x00 es el u64 del NOMBRE del arma y rec+0x08 es el descriptor. Los 17 nombres, decodificados con id64.py: 0x00 BG1_PST, 0x01 BG1_SHG, 0x02 BG1_SNR, 0x03 BG1_SMG, 0x04 BG1_ASR, 0x05 BG1_AK1, 0x06 BG1_RPG, 0x07 BG1_GRL, 0x08 BG1_SM3, 0x09 BG1_P90, 0x0A BG1_HVY, 0x0B BG1_MGN, 0x0C BG1_M16, 0x0D BG1_RM1, 0x0E BG1_GK1, 0x0F BG1_MP1, 0x10 BG1_BNS. El juego NO indexa esta tabla por numero: barre los 17 comparando rec+0x00 contra un id64 y usa el indice donde matchea. Ver kb/rutinas.json#arma_resolver_por_nombre."
     },
     {
       "id": "arma_obj_ptr_tabla",
@@ -305,6 +305,45 @@
       "evidencia": "Cadenas en .rodata: 0x003F4848 'AI gun model not found: %s', 0x003F4864 'Please ask a designer to add it to the ', 0x003F488D 'weaponList.txt file for this level'.",
       "descubierto": "2026-08-21",
       "notas": "ES EL MODO DE FALLA QUE E5 PREDECIA, con nombre y con mensaje propio. Confirma que existe una lista de armas POR NIVEL, que es el directorio de recursos de arma del stage ya conocido en STLEVEL+0x80 (7 registros de paso 0x28). Antes de correr el experimento conviene buscar quien referencia esta cadena: el camino de error es un observable mas barato y mas especifico que mirar la pantalla."
+    },
+    {
+      "id": "slot_arma_0x110_descriptor",
+      "nombre": "Descriptor de arma del slot de 0x110 (slot+0xEC) -- el campo que abrio y cerro la fase 7d",
+      "direccion": "0x006DE77C",
+      "tipo": "u32",
+      "version": "ntscu_1_00",
+      "estable": false,
+      "base": "slot_arma_0x110+0xEC, con slot0 = 0x006DE690 y paso 0x110",
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23. Lo escribe UNA sola instruccion: 0x00156318 'sw $v0, 0xEC($s0)', en FUN_00156278. Barrido de stores a +0xEC en 0x00155000-0x0015D200: 54 accesos al inmediato 0xEC, 53 loads y ese unico store. El valor es directorio_armas[b].+0x08. Control positivo sobre ee-e4.bin: 8/8 slots predichos exacto desde el byte slot+0x00.",
+      "descubierto": "2026-08-23",
+      "notas": "Layout util del slot de 0x110: +0x00 = b (byte, indice de arma); +0xE8 = &directorio_armas[b]; +0xEC = descriptor de arma; +0xF0 = entidad duena; +0xF4 / +0xF8 = entradas del pool de 0x24 (primaria / secundaria); +0xFC = entidad+0x280. FUN_0015d060 lee +0xEC y se lo pasa a FUN_00158F50, que pone descriptor en entrada+0x08 y descriptor+0x30 en entrada+0x0C (el bloque de IA, fase 7c)."
+    },
+    {
+      "id": "entidad_arma_nombre_id64",
+      "nombre": "Nombre id64 del arma primaria / secundaria en la entidad (entidad+0x3C0 / +0x3C8)",
+      "direccion": null,
+      "tipo": "u64",
+      "version": "ntscu_1_00",
+      "estable": false,
+      "base": "entidad+0x3C0 (primaria) y entidad+0x3C8 (secundaria)",
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23. FUN_00139c68 los lee con 'ld $a1, 0x3C0($s1)' (0x00139D58 y 0x00139E6C) y barre los 17 registros de directorio_armas buscando el que tenga ese id64 en +0x00. Control positivo: la entidad del jugador (0x005A8AB0) tiene +0x3C0 = 0x544614B7182C0000 = BG1_PST, y su slot tiene b = 0x00 = BG1_PST.",
+      "descubierto": "2026-08-23",
+      "notas": "NO hay un solo 'sd' a +0x3C0 en todo el .text: de 32 accesos al inmediato 0x3C0, los unicos stores son spills de $sp. El campo llega por COPIA EN BLOQUE. Las cinco entidades de enemigo del volcado tienen +0x3C0 = 0, o sea NO se arman por este camino: van por FUN_0015ef48 case 0x0A, que lleva el id64 de BG1_AK1 hardcodeado en el .text."
+    },
+    {
+      "id": "stage_stream_registros",
+      "nombre": "El stream de modulos del nivel: {count, array} de registros de 0x10, con 61 tipos",
+      "direccion": null,
+      "tipo": "u32",
+      "version": "ntscu_1_00",
+      "estable": false,
+      "base": "param_2 de FUN_0015ef48: {u32 count en +0x00, u32 array en +0x04}",
+      "confianza": "probable",
+      "evidencia": "2026-08-23, leido en Ghidra. FUN_0015ef48 recorre el array con paso 0x10 y hace switch sobre el u32 de +0x00: 61 casos, tipos 0x03 a 0x44. El registro es {u32 tipo, u32 ptr, u64 payload}. El case 0x0A esta confirmado por otra via: spawnea personaje con el id64 de BG1_AK1 literal, y los cinco enemigos de LEVEL_00 tienen justo ese descriptor (0x01842C10).",
+      "descubierto": "2026-08-23",
+      "notas": "ES EL INDICE DE MODULOS DEL NIVEL. En vez de subir la cadena de llamadas eslabon por eslabon cada vez que se quiere tocar algo, enumerar los 61 casos da el mapa de todo lo que un nivel puede contener. Abre la fase 7e. Ver kb/rutinas.json#stage_stream_dispatcher."
     }
   ]
 }
