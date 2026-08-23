@@ -126,18 +126,27 @@ python herramientas/decompilar.py info      # control positivo de Ghidra
 python herramientas/barrer.py autotest      # control positivo del barredor
 ```
 
-**Vía A — 7e, el índice de módulos (es la fase):**
+**Vía A — 7e, el índice de módulos (es la fase).** El paso 1 YA ESTÁ HECHO y
+está en **`kb/stage-modulos.json`**: los 61 tipos con su handler, `0x03`–`0x44`,
+**45 handlers distintos** (los tipos `0x03`–`0x08` caen por fall-through en el
+mismo `FUN_00174430` que el `0x09`). Empezar por ahí, no por decompilar de nuevo.
 
-1. `python herramientas/decompilar.py c 0x0015EF48` y enumerar los 61 casos.
-   Para cada uno: qué función llama, y de qué campo del registro de `0x10`
-   saca el argumento (`puVar8[1]` = el puntero, `*(u64*)(puVar8+2)` = el
-   payload de 8 bytes, que en varios casos es un **id64** — decodificarlo con
-   `id64.py`).
-2. Anclar contra el nivel real: el stage de LEVEL_00 está cargado literal en
-   **`0x01412400`** dentro de `volcados/ee-e4.bin`, así que cada tipo se puede
-   cruzar contra bytes de verdad sin abrir el emulador.
-3. El case `0x0A` ya está resuelto y es el ancla.
-4. **Para cerrar hace falta un tipo verificado POR EFECTO**, no sólo leído.
+1. Identificar handlers: `decompilar.py c <handler>` y ver qué construye. Los
+   45 son independientes entre sí — es el único tramo de toda la fase 7 que
+   admitiría paralelizar, si alguna vez el presupuesto lo banca.
+2. **La pregunta abierta que hay que resolver primero:** el layout del registro
+   (`{u32 tipo, u32 ptr, u64 payload}`, paso `0x10`) está **leído, no verificado
+   contra datos**. Un barrido de `ee-e4.bin` buscando rachas de registros con
+   tipo en `0x03`–`0x44` dio: (a) tres rachas **puras de tipo `0x2D`** con id64
+   reales — 246 registros desde `0x0109F7D0`, nombres `LW0001781`, `LW0001324`…
+   — que **encajan** con el layout; y (b) falsos positivos en `.data` que son
+   contadores secuenciales `0x03,0x04,0x05…`. **El stream MIXTO no apareció.**
+   Dos hipótesis: se libera después de procesarse, o el layout es otro. Se
+   decide mirando `FUN_0012dab8` (`0x0012DAB8`), que es quien arma `param_2`.
+3. Anclar contra el nivel real: el stage de LEVEL_00 está cargado literal en
+   **`0x01412400`** dentro de `volcados/ee-e4.bin`.
+4. El case `0x0A` ya está resuelto y es el ancla: es el único tipo confirmado.
+5. **Para cerrar hace falta un tipo verificado POR EFECTO**, no sólo leído.
 
 **Vía B — validar 7d por efecto (barata, no bloquea):** parchear el literal
 `0x5446127297C60000` (`BG1_AK1`) por el de `BG1_RPG` en el ELF dentro del ISO,

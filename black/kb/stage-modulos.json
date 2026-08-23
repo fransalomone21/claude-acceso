@@ -1,0 +1,589 @@
+{
+  "_que_es": "El INDICE DE MODULOS del archivo de nivel de BLACK. FUN_0015ef48 (0x0015EF48-0x0015FDBF) recorre un stream de registros y hace switch sobre el tipo: 61 casos, 0x03 a 0x44. Cada tipo llama a UN constructor. Este switch ES el esquema del archivo de nivel: una rama por tipo de modulo.",
+  "_layout_del_registro": "LEIDO, NO VERIFICADO CONTRA DATOS: paso 0x10, {u32 tipo en +0x00, u32 ptr en +0x04, u64 payload en +0x08}. Sale de puVar8[0] / puVar8[1] / *(u64*)(puVar8+2) en la decompilacion. En el case 0x0A el payload de +0x08 se usa como posicion y el ptr de +0x04 se deferencia (+0x10). PENDIENTE: encontrar la instancia del stream en RAM. Un barrido de volcados/ee-e4.bin buscando rachas de registros de 0x10 con tipo en 0x03-0x44 dio tres rachas puras de tipo 0x2D con nombres id64 reales (LW0001781...), 246 registros desde 0x0109F7D0 -- que encajan con el layout -- y falsos positivos en .data (contadores secuenciales 0x03,0x04,0x05...). El stream mixto no aparecio: puede estar liberado despues de procesarse, o el layout puede ser otro. hipotesis.",
+  "_lista": "{count, array} delante del array: param_2 de FUN_0015ef48 es {u32 count en +0x00, u32 array en +0x04}.",
+  "_param_1": "El primer parametro trae arrays de handles por tipo (piVar10[2], [4], [5], [9], ...), y el dispatcher lleva un contador propio por familia de tipos (iVar14, iStack_e8, iStack_dc, iStack_e4, iStack_e0, ...). O sea: la salida de cada tipo va a su propio array.",
+  "_como_se_identifica_un_tipo": "1) decompilar su handler y ver que construye; 2) cruzar contra el nivel real: STLEVEL.BIN de LEVEL_00 esta cargado literal en 0x01412400 dentro de volcados/ee-e4.bin; 3) si el payload de +0x08 es un id64, decodificarlo con herramientas/id64.py -- el tipo 0x2D da nombres LW0001xxx. UN TIPO NO SE DA POR IDENTIFICADO HASTA VERIFICARLO POR EFECTO.",
+  "_evidencia": "2026-08-23, leido en Ghidra sobre SLUS_213.76, no ejecutado. 61 etiquetas 'case' contadas en la decompilacion. El unico tipo confirmado por otra via es el 0x0A.",
+  "_fase": "7e. Cierra cuando los 61 esten identificados y al menos UNO distinto del 0x0A este verificado por efecto.",
+  "tipos": [
+    {
+      "tipo": "0x03",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x04",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x05",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x06",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x07",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x08",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x09",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x0A",
+      "handler": "FUN_00138c40",
+      "handler_extra": [
+        "FUN_00138df8"
+      ],
+      "fall_through": false,
+      "nombre": "spawn de personaje",
+      "confianza": "confirmado",
+      "notas": "Lleva el id64 de BG1_AK1 (0x5446127297C60000) LITERAL. Llama a FUN_00138c40 y FUN_00138df8 -> FUN_001327f0 -> FUN_0015cef0. Es el camino por el que se arman los cinco enemigos de LEVEL_00. Punto de parche de 8 bytes para cambiarles el arma."
+    },
+    {
+      "tipo": "0x0B",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x0C",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x0F",
+      "handler": "FUN_001650f8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x10",
+      "handler": "FUN_00165210",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x11",
+      "handler": "FUN_00165330",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x12",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x13",
+      "handler": "FUN_001621a8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x14",
+      "handler": "FUN_00162600",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x15",
+      "handler": "FUN_00160f60",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x16",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x17",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x18",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x19",
+      "handler": "FUN_00161940",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x1A",
+      "handler": "FUN_00161af0",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x1B",
+      "handler": "FUN_00161ef0",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x1C",
+      "handler": "FUN_001615a8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x1D",
+      "handler": "FUN_001631b0",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x1E",
+      "handler": "FUN_00161730",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x1F",
+      "handler": "FUN_00161418",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x20",
+      "handler": "FUN_001614e8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x22",
+      "handler": "FUN_00161660",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x23",
+      "handler": "FUN_00163250",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x25",
+      "handler": "FUN_00162758",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x26",
+      "handler": "FUN_001628e8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x27",
+      "handler": "FUN_00162a60",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x28",
+      "handler": "FUN_00162f28",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x29",
+      "handler": "FUN_00162d10",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x2A",
+      "handler": "FUN_0016acb8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x2B",
+      "handler": "FUN_0014ec10",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x2C",
+      "handler": "FUN_00126710",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x2D",
+      "handler": "FUN_00175980",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x2E",
+      "handler": "FUN_00164e50",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x2F",
+      "handler": "FUN_001dc690",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x30",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x31",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x32",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x34",
+      "handler": "FUN_001835b8",
+      "handler_extra": [
+        "FUN_001836a8"
+      ],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x35",
+      "handler": "FUN_00107cf8",
+      "handler_extra": [
+        "FUN_00174858",
+        "FUN_0017bdc0"
+      ],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x36",
+      "handler": "FUN_00161d78",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x37",
+      "handler": "FUN_00174d48",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x38",
+      "handler": "FUN_00174df0",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x39",
+      "handler": "FUN_001750e8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x3A",
+      "handler": "FUN_00175250",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x3B",
+      "handler": "FUN_001752f8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x3C",
+      "handler": "FUN_001753b8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x3D",
+      "handler": "FUN_00175460",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x3E",
+      "handler": "FUN_00175520",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x3F",
+      "handler": "FUN_001755c8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x40",
+      "handler": "FUN_00175668",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x41",
+      "handler": "FUN_00153b60",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x42",
+      "handler": "FUN_001630e8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x43",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    },
+    {
+      "tipo": "0x44",
+      "handler": "FUN_00163e08",
+      "handler_extra": [
+        "FUN_00166d50",
+        "FUN_00166c30",
+        "FUN_00166c60",
+        "FUN_00166c90",
+        "FUN_00166cc0",
+        "FUN_00166cf0",
+        "FUN_00166d20",
+        "FUN_00166d80",
+        "FUN_00166db0",
+        "FUN_00166de0",
+        "FUN_00166e10",
+        "FUN_00166c00",
+        "FUN_00166e40",
+        "FUN_00166e70",
+        "FUN_00166ea0",
+        "FUN_00166ed0",
+        "FUN_00166f00",
+        "FUN_00166f30",
+        "FUN_00176fb0",
+        "FUN_00167208",
+        "FUN_001604a0"
+      ],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null
+    }
+  ]
+}
