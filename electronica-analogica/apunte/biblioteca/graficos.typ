@@ -118,11 +118,27 @@
   // Los rótulos largos van FUERA del plot, contra el marco (ver estilo.typ).
   // Adentro de plot.annotate cetz-plot los recorta y los encima en el centro.
   rotulo-marco(_m-diodo, "arriba-izq", text(fill: luma(100))[polarización inversa], tam: 8pt)
-  rotulo-marco(_m-diodo, "arriba-der", text(fill: luma(100))[polarización directa], tam: 8pt)
-  rotulo-marco(_m-diodo, "izq", [tensión de ruptura $V_R$], hacia: (-1.17, -2.4), dy: -0.06)
+  // En dos renglones, no en una línea corrida a la izquierda: un solo
+  // renglón de 20 caracteres no entra ni corrido — a la izquierda lo
+  // bastante para no cruzar la rama exponencial (pegada al borde derecho),
+  // ya cruza el eje $i_D$ del otro lado. Partido en dos, "polarización" es
+  // angosto y entra completo en la franja libre entre el eje y la curva.
+  rotulo-marco(_m-diodo, "arriba-der", text(fill: luma(100))[polarización\ directa], tam: 8pt, dx: -0.15)
+  // Apunta más arriba en la propia rama de ruptura (-1,3 mA en vez de -2,4):
+  // más abajo la guía terminaba metida en el rótulo de "corriente de fuga".
+  rotulo-marco(_m-diodo, "izq", [tensión de ruptura $V_R$], hacia: (-1.148, -1.3), dy: -0.06)
+  // A la izquierda del eje, no centrado: centrado el texto mide más que la
+  // mitad izquierda del marco y termina cruzando el 0 y el 0,7 V del lado
+  // derecho. En dos renglones y sin guía entra entero de ese lado: con guía,
+  // el trazo hacia la curva viaja casi tan inclinado como la caja del rótulo
+  // es ancha, y la atraviesa de punta a punta en vez de salir por un borde
+  // (el mismo problema que "frecuencia de corte", ver más arriba).
+  // dx corre todo el bloque a la derecha del tramo casi vertical de la
+  // ruptura (que vive en v entre -1,18 y -1,14): pegado al borde izquierdo,
+  // ese tramo le atravesaba las dos líneas.
   rotulo-marco(
-    _m-diodo, "abajo-cen", [corriente de fuga $I_R$ (escala exagerada)],
-    hacia: (-0.72, -0.36), dx: 0.1,
+    _m-diodo, "abajo-izq", [corriente de fuga $I_R$ \ (escala exagerada)],
+    tam: 7.3pt, dx: 0.15, dy: -0.025,
   )
 })
 
@@ -164,7 +180,11 @@
   // Antes iban con `nota` adentro del plot y cetz-plot los empujaba contra el
   // eje: "entrada" quedaba escrito encima de la línea del tiempo.
   rotulo-marco(_m-rect, "arriba-der", text(fill: c-dato)[#rotulo])
-  rotulo-marco(_m-rect, "abajo-der", text(fill: luma(120))[entrada], hacia: (1.75, -0.98))
+  // Sin guía: desde la esquina inferior derecha el texto crece hacia
+  // arriba-izquierda, la misma dirección que una guía hacia la curva de
+  // entrada — la guía terminaba dibujada encima de la palabra. La curva
+  // punteada pasa lo bastante cerca del rótulo como para no necesitarla.
+  rotulo-marco(_m-rect, "abajo-der", text(fill: luma(120))[entrada])
 })
 
 #let graf-media-onda() = _rectificacion(v => calc.max(v, 0), [salida: media onda])
@@ -209,10 +229,12 @@
     },
   )
   // 32 caracteres: no entra adentro de los ejes. Lo agarró el chequeo 5.
-  rotulo-marco(
-    _m-rc, "arriba-der", [frecuencia de corte:\ cae a $-3$ dB],
-    hacia: (1.13, 0.71),
-  )
+  // Sin guía: el punto ya está marcado adentro del plot con las dos líneas
+  // punteadas y el tick de f_c; una guía desde la esquina superior derecha
+  // viaja casi horizontal hacia ese punto y atraviesa el rótulo entero, que
+  // es ancho y bajo (el caso contrario al de "tensión de ruptura", donde la
+  // guía cae casi vertical y sale del rótulo enseguida).
+  rotulo-marco(_m-rc, "arriba-der", [frecuencia de corte:\ cae a $-3$ dB])
 })
 
 // ---------------------------------------------------------------
@@ -220,7 +242,10 @@
 // ---------------------------------------------------------------
 
 // El rizado: qué agrega el capacitor a la salida del rectificador.
-#let _m-rizado = marco(-0.1, 2.55, -0.22, 1.55, tam: (7.6, 2.9))
+// y-min baja hasta -0,5 (y no -0,22) a propósito: "sin capacitor" va debajo
+// del eje, y con -0,22 el margen que le quedaba era de dos milésimas de
+// unidad — tocaba el eje en cualquier redondeo de fuente.
+#let _m-rizado = marco(-0.1, 2.55, -0.5, 1.55, tam: (7.6, 2.9))
 
 #let graf-rizado() = grafico({
   ejes-libro(
@@ -229,7 +254,7 @@
     y-label: $v_s$,
     x-min: -0.1,
     x-max: 2.55,
-    y-min: -0.22,
+    y-min: -0.5,
     y-max: 1.55,
     {
       // sin capacitor: onda completa pelada
@@ -334,7 +359,13 @@
     },
   )
   rotulo-marco(_m-zener, "arriba-izq", text(fill: luma(100))[región de\ polarización inversa], tam: 8pt)
-  rotulo-marco(_m-zener, "arriba-der", text(fill: luma(100))[región de\ polarización directa], tam: 8pt)
+  // Mismo problema que en graf-curva-diodo: el segundo renglón ("polarización
+  // directa", 20 caracteres) es tan ancho como el primero, y a la altura de
+  // ese renglón la rama directa ya subió pegada al borde derecho. En tres
+  // renglones cortos entra en la franja libre entre el eje y la curva.
+  // Tres renglones a 8pt llegaban justo hasta pisar "0,7 V"; a 7pt entran
+  // con margen.
+  rotulo-marco(_m-zener, "arriba-der", text(fill: luma(100))[región de\ polarización\ directa], tam: 7pt, dx: -0.15)
 })
 
 // ---------------------------------------------------------------
@@ -376,7 +407,10 @@
           // de la familia de curvas no entra nada legible.
           flecha-nota((1.3, 28.5), (0.75, 23.8), [saturación], ancla: "west", color: c-dato)
           flecha-nota((5.4, 28.5), (4.2, 15.8), [recta de carga], ancla: "west", color: c-dato)
-          flecha-nota((10.9, -4.3), (11.9, -0.55), [corte], ancla: "east", color: c-dato)
+          // A la DERECHA de Vcc, no a la izquierda: del lado izquierdo el
+          // rótulo caía pegado al eje y al tick de Vcc, con la guía
+          // encimada a las dos cosas. A la derecha no hay nada más.
+          flecha-nota((12.7, -2.6), (12.15, -0.4), [corte], ancla: "west", color: c-dato)
           nota((13.4, 29.5), text(fill: c-aux)[$I_B$ crece], ancla: "east")
           cetz.draw.line(
             (13.7, 6),

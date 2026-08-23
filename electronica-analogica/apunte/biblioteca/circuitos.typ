@@ -246,7 +246,9 @@
   resistor("R", (0.5, 2.2), (2.1, 2.2), label: $R$)
   wire((2.1, 2.2), (2.9, 2.2))
   led("D", (2.9, 2.2), (2.9, 0.7), label: none)
-  cetz.draw.content((2.5, 1.45), text(size: letra-figura)[LED\ $V_F$], anchor: "east")
+  // Más separado del símbolo: a 2,5 el rótulo quedaba pegado al vértice del
+  // triángulo del LED.
+  cetz.draw.content((2.15, 1.45), text(size: letra-figura)[LED\ $V_F$], anchor: "east")
   wire((2.9, 0.7), (2.9, 0))
   wire((2.9, 0), (0, 0))
   corriente((2.0, -0.32), (1.1, -0.32), $I_F$, ancla: "north")
@@ -466,7 +468,10 @@
     cetz.draw.line((7.4, 0.4), (7.4, 1.2), stroke: trazo-cable + c-trazo)
     cetz.draw.line((7.4, 1.2), (9.4, 1.2), stroke: trazo-cable + c-trazo)
     flecha((9.4, 1.2), (9.4, 1.7))
-    cetz.draw.content((8.4, 0.62), text(size: letra-figura, fill: luma(100))[barrido horizontal], anchor: "south")
+    // A la derecha del tramo vertical que sube a la pantalla, no centrado
+    // sobre él: centrado, el texto (más ancho que el hueco entre las dos
+    // patas verticales) quedaba con la pata izquierda atravesándolo.
+    cetz.draw.content((9.55, 1.45), text(size: letra-figura, fill: luma(100))[barrido horizontal], anchor: "west")
   },
 )
 

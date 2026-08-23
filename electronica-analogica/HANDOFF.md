@@ -3,38 +3,34 @@
 ## Cuadro de fase para abrir el próximo chat
 
 ```
-Fase     : Las figuras de la Parte II están CERRADAS. Las 15 dibujadas, el
-           apunte sin un solo circuito en ASCII, ASCII_PENDIENTE borrada de
-           verificar.py y el chequeo 3 reescrito y reprobado rompiéndolo.
-           Pasada completa de las 12 páginas de la galería, posterior al
-           último retoque.
-           Lo que sigue: arreglar los OCHO defectos de la PARTE I que esa
-           misma pasada encontró y que estaban dados por buenos. Están
-           listados en ESTADO_ACTUAL.md con el síntoma de cada uno.
-           LA CIERRA: las ocho figuras corregidas y una pasada completa
-           nueva de la galería después del último retoque.
-Modelo   : Sonnet 5. Es mover puntos de anclaje de rótulos, con el defecto
-           ya diagnosticado y un patrón único para casi todos.
-Esfuerzo : medio, sin fan-out. Un solo criterio visual y un solo archivo
-           (graficos.typ, más un toque en circuitos.typ).
+Fase     : Los OCHO defectos de la Parte I (rótulos atravesados por su
+           propia guía, o por la curva) están corregidos y verificados por
+           render — pasada completa de las 12 páginas de la galería,
+           posterior al último retoque. Ver ESTADO_ACTUAL.md, sección "Los
+           ocho defectos de la PARTE I — corregidos", para el detalle de
+           cada arreglo y el patrón general (guía cruza rótulo cuando su
+           pendiente es más chica que el cociente alto/ancho de la caja de
+           texto).
+           Lo que sigue: Fase 2 — Convenciones (ver "Plan de fases" abajo).
+           LA CIERRA: el bloque de convenciones al frente del apunte, y la
+           conversión de los módulos 11-12 a fasor en valor de pico con la
+           caja de equivalencia a eficaz al lado.
+Modelo   : Sonnet 5 para escribir el bloque de convenciones (redacción según
+           un criterio ya decidido). Opus si al convertir a valor de pico
+           aparecen ejercicios donde el resultado numérico no cierra por dos
+           caminos — ahí es diagnóstico, no ejecución.
+Esfuerzo : medio, sin fan-out. Contenido nuevo más revisión ejercicio por
+           ejercicio de los módulos 11 y 12.
 Contexto : chat nuevo.
-Rama     : claude/manual-analogica-tr0mk6  (la de figuras ya se mergeó acá)
+Rama     : claude/manual-analogica-tr0mk6
 ```
-
-**El defecto de la Parte I, en una línea**: la línea de guía de un rótulo le
-pasa por encima al propio rótulo, porque el texto está anclado de manera que
-crece *hacia* el punto al que apunta la guía en vez de en contra. Se arregla
-cambiando el ancla —o el `donde` de `rotulo-marco`— para que el texto crezca
-alejándose. Dos casos no son eso y hay que mirarlos aparte: la curva roja que
-cruza "polarización directa" en `graf-curva-diodo` y en `graf-curva-zener`
-(ahí lo que sobra es el rótulo, que está adentro del área de la curva), y el
-`V_F` de `fig-led-limitadora`, que cae sobre el símbolo.
 
 ## Lo primero que hay que hacer
 
 1. `cd electronica-analogica/apunte && typst compile apunte.typ apunte.pdf` — confirmar
    que sigue compilando antes de tocar nada.
-2. Leer `ESTADO_ACTUAL.md`, en particular las cinco decisiones de contenido.
+2. Leer `ESTADO_ACTUAL.md`, en particular las cinco decisiones de contenido y la
+   sección de los ocho defectos ya corregidos (para no reabrirla).
 
 ## Trampas de Typst ya pagadas — no volver a pisarlas
 
@@ -214,10 +210,17 @@ Son también un buen criterio para los gráficos del propio apunte.
 - **El Bode en matplotlib** ya está resuelto, con la tipografía del apunte y con la
   alarma que aborta si la reescritura de fuente falla. No volver a intentarlo en
   cetz-plot.
-- **CUIDADO con la frase que sigue**: era verdad para 22 de los 30, no para los 30. La
-  pasada del 2026-08-23 posterior a la Parte II encontró ocho defectos en la Parte I.
-- Los 22 esquemáticos están bien y se revisaron de nuevo el 2026-08-23.
+- **Las 45 figuras están verificadas por render, pasada completa de las 12 páginas
+  de la galería, posterior al último retoque (2026-08-23).** Incluye los ocho
+  defectos de la Parte I (`graf-curva-diodo`, `graf-curva-zener`, `graf-media-onda`,
+  `graf-onda-completa`, `graf-respuesta-rc`, `graf-rizado`, `fig-bloques-osciloscopio`,
+  `fig-led-limitadora`, `graf-recta-de-carga`), ya corregidos — no reabrirlos sin
+  render nuevo que muestre un defecto concreto.
 - El sistema de anotación ya está rediseñado: `rotulo-marco` dibuja fuera del plot.
-  No volver a acomodar rótulos a mano en coordenadas de datos.
+  No volver a acomodar rótulos a mano en coordenadas de datos. Y si un `rotulo-marco`
+  lleva `hacia` (guía): la guía cruza el rótulo cuando su pendiente es más chica que
+  el cociente alto/ancho de la caja de texto. Antes de agregar una guía a un rótulo
+  ancho, preguntar si el punto ya está marcado por otro medio adentro del plot — si sí,
+  no hace falta.
 - Typst contra LaTeX: decidido y documentado en `docs/figuras.md`. No reabrir.
 - El merge de las dos ramas ya está hecho. Es un solo documento y una sola biblioteca.

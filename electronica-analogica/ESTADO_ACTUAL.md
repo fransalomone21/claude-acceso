@@ -220,33 +220,38 @@ páginas de la galería, posterior al último retoque, y están limpias.
   —matplotlib pone los nombres entre comillas simples— así que la figura no se
   publicó con otra letra.
 
-### Seis figuras de la PARTE I están rotas, y estaban dadas por buenas
+### Los ocho defectos de la PARTE I — corregidos (2026-08-23)
 
-Aparecieron en la pasada completa del 2026-08-23 posterior a la Parte II. **Son previas
-a esa sesión**: se comprobó abriendo el `apunte.pdf` publicado, donde se ven idénticas,
-así que no las causó ningún cambio nuevo. La afirmación de más arriba —"las 30 figuras
-se ven bien, confirmado por render"— **no se sostiene**, y ésta es la tercera vez que
-`graf-curva-diodo` se da por buena estando rota.
+Aparecieron en la pasada completa del 2026-08-23 posterior a la Parte II. **Eran
+previos a esa sesión**: se comprobaron abriendo el `apunte.pdf` publicado, donde se
+veían idénticos, así que no los causó ningún cambio nuevo. La afirmación de más
+arriba —"las 30 figuras se ven bien, confirmado por render"— **no se sostenía**, y
+`graf-curva-diodo` se había dado por buena estando rota dos veces antes de ésta.
 
-El defecto dominante es uno solo y se repite: **la línea de guía de un rótulo le pasa
-por encima al propio rótulo**, o la curva le pasa por encima al rótulo que la nombra.
+El defecto dominante era uno solo y se repetía: **la línea de guía de un rótulo le
+pasaba por encima al propio rótulo**, o la curva le pasaba por encima al rótulo que
+la nombra. Los nueve casos (ocho filas, dos figuras comparten la última):
 
-| Figura | Qué se ve |
-|---|---|
-| `graf-curva-diodo` | la curva cruza "polarización directa"; "corriente de fuga $I_R$ (escala exagerada)" cruza el eje vertical y choca con el `0` y con "0,7 V" |
-| `graf-curva-zener` | la curva cruza "región de polarización directa" |
-| `graf-media-onda` y `graf-onda-completa` | la línea de guía atraviesa la palabra "entrada" |
-| `graf-respuesta-rc` | la línea de guía atraviesa "frecuencia de corte:" |
-| `graf-rizado` | "sin capacitor" queda montado sobre la curva punteada y sobre el eje de tiempo |
-| `fig-bloques-osciloscopio` | la flecha atraviesa "barrido horizontal" |
-| `fig-led-limitadora` | el rótulo `V_F` cae sobre el símbolo del LED |
-| `graf-recta-de-carga` | la guía atraviesa "corte", que además queda sobre el eje |
+| Figura | Qué se veía | Cómo se arregló |
+|---|---|---|
+| `graf-curva-diodo` | la curva cruzaba "polarización directa"; "corriente de fuga $I_R$ (escala exagerada)" cruzaba el eje vertical y chocaba con el `0` y con "0,7 V" | "directa" partido en dos renglones y corrido con `dx`, lejos de donde la rama exponencial sube pegada al borde; "corriente de fuga" a dos renglones, sin guía (la guía viajaba tan inclinada como ancho el rótulo, y lo atravesaba entero) |
+| `graf-curva-zener` | la curva cruzaba "región de polarización directa" | mismo tratamiento: tres renglones cortos a 7pt, corridos con `dx`, lejos de la rama directa |
+| `graf-media-onda` y `graf-onda-completa` | la línea de guía atravesaba "entrada" | se sacó la guía: el rótulo queda pegado a la curva de todos modos |
+| `graf-respuesta-rc` | la línea de guía atravesaba "frecuencia de corte:" | se sacó la guía: el punto ya está marcado adentro del plot con las líneas punteadas y el tick de $f_c$ |
+| `graf-rizado` | "sin capacitor" quedaba montado sobre la curva punteada y sobre el eje de tiempo | se bajó el `y-min` del marco de −0,22 a −0,5: el margen que quedaba debajo del eje era de dos milésimas de unidad |
+| `fig-bloques-osciloscopio` | la flecha atravesaba "barrido horizontal" | rótulo movido a la derecha del tramo vertical, en vez de centrado sobre el hueco entre las dos patas |
+| `fig-led-limitadora` | el rótulo `V_F` caía sobre el símbolo del LED | más separación horizontal del símbolo (de 2,5 a 2,15) |
+| `graf-recta-de-carga` | la guía atravesaba "corte", que además quedaba sobre el eje | rótulo movido al lado derecho de $V_"cc"$, que estaba vacío, en vez de al izquierdo (pegado al eje y al tick) |
 
-**No se tocaron**: están fuera del alcance de esta fase, que era la Parte II, y
-mezclarlas en el mismo commit habría borroneado el cambio. Es la primera cosa a hacer
-en la próxima sesión, y es más chica de lo que parece: casi todas se arreglan corriendo
-el punto de anclaje del rótulo para que el texto crezca *en contra* de la guía, no hacia
-ella.
+**Patrón que se repitió en la corrección misma, y vale para la próxima vez que se
+toque un rótulo con guía**: la guía cruza el rótulo cuando su pendiente es más chica
+que el cociente alto/ancho de la caja de texto (la guía viaja "a lo largo" del
+rótulo en vez de salir por un borde corto). Se resuelve sacando la guía cuando el
+punto ya está marcado por otro medio adentro del plot, o partiendo el texto en más
+renglones angostos para que la caja sea más alta que ancha.
+
+Verificado por render, pasada completa de las 12 páginas de la galería posterior al
+último retoque — no sólo las cinco páginas donde estaban los ocho defectos.
 
 ## El programa real de Teoría de Circuitos (2026-08-23)
 
