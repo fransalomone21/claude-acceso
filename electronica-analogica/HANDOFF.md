@@ -46,6 +46,26 @@ Contexto : chat nuevo. El apunte está en el repo y se lee solo; arrastrar
   pasado desapercibidos mirando solo el fuente, y el PDF compilaba igual en todos los
   casos.
 
+### De las figuras
+
+Las seis trampas de `zap`/CeTZ están en [`docs/figuras.md`](docs/figuras.md), sección 6,
+con el síntoma exacto de cada una. Las dos que más cuestan:
+
+- `wire(..., i: ...)` aborta la compilación en zap 0.6.0. Usar el ayudante `corriente()`.
+- Las patas del transistor no están alineadas con su punto de inserción: todo lo que
+  cuelga de un BJT va con coordenadas relativas a `"Q.c"` / `"Q.b"` / `"Q.e"`.
+
+### De método
+
+- **Verificar por render, no por compilación.** Todos los defectos de figura que
+  aparecieron compilaban perfecto. Mirar el PNG:
+  `typst compile biblioteca/galeria.typ "biblioteca/_g{0p}.png" --ppi 120`.
+- **Nada de `str.replace('', ...)` para editar un archivo.** Un slice mal acotado
+  (`s[s.index(a):s.index(b)]` con `b` antes que `a`) devuelve cadena vacía, y
+  `replace("")` inserta el texto entre *cada* carácter del archivo. Pasó una vez y hubo
+  que reescribir `graficos.typ` entero. Si se edita con script: verificar que el trozo
+  buscado exista y sea único, y afirmarlo con `assert` antes de reemplazar.
+
 ## Cómo se agrega o edita contenido
 
 Un archivo por módulo en `apunte/modulos/`. `m1-mediciones.typ` es el modelo canónico de
@@ -78,6 +98,24 @@ vertical y hacer que la diagonal avance exactamente una columna por fila.
   TP 7 Fuentes de alimentación · TP 8 Fuente con regulador zener · Anexo 1 PT100 en
   puente. **No hay ningún TP de filtro RC**, contra lo que decía este handoff antes.
 - **La fila del proyecto ya está en la tabla del `CLAUDE.md` raíz.**
+
+## Pendientes de la sesión de figuras
+
+- **PRIMERO: `graf-curva-diodo` está roto y publicado.** Ver ESTADO_ACTUAL.md. Y las
+  figuras de las páginas 1 a 4 de la galería no se reverificaron después de los últimos
+  retoques: el render que se miró es anterior a esos cambios.
+- **El sistema de anotación de los gráficos hay que cambiarlo, no parchearlo.** Rótulo
+  largo adentro de los ejes = bomba de tiempo. Regla nueva: adentro sólo marcas cortas
+  (un número, una letra, "0,7 V"); el texto largo va contra el marco, en coordenadas de
+  lienzo, con una línea guía al punto. Y `verificar.py` tiene que fallar si un `nota(` o
+  `flecha-nota(` adentro de un `plot.annotate` lleva más de ~18 caracteres — ese chequeo
+  habría agarrado exactamente los dos rótulos que se rompieron. Probarlo rompiéndolo.
+- **Sin verificar contra el apunte interactivo** de Moodle, que sigue sin poder leerse.
+- **Retoques finos de figura que quedaron aceptables pero no perfectos**: en
+  `graf-respuesta-rc` la punta de flecha del eje x roza el rótulo `f/f_c`; en
+  `graf-curva-zener` el rótulo `V_Z` queda muy cerca del eje. Ninguno molesta la lectura.
+- **La galería no cubre el caso "figura en el contexto del texto"**: se mira aparte. Los
+  problemas de salto de página o de ancho aparecen solo al compilar el apunte entero.
 
 ## Pendientes explícitos
 

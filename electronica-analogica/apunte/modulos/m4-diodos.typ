@@ -31,18 +31,10 @@ impurezas controladas.
 === Polarización
 
 #circuito([Polarización directa e inversa del diodo])[
-```
-      DIRECTA (conduce)                 INVERSA (no conduce)
-
-    ┌───►│───/\/\/\──┐              ┌───│◄───/\/\/\──┐
-    │    ▲    R      │              │    ▲     R     │
-    │  ánodo         │              │  cátodo        │
-    └──── + V - ─────┘              └──── + V - ─────┘
-
-   El + de la fuente al ánodo.      El + de la fuente al cátodo.
-   Vence la barrera: I circula.     Ensancha la barrera: I ≈ 0.
-   VD ≈ 0,7 V (silicio).            Solo pasa la corriente de fuga IR.
-```
+#fig-polarizacion-diodo()
+#pie-figura[Con el $+$ de la fuente en el ánodo, la barrera se vence y la
+  corriente circula con $V_D approx 0,7$ V. Con el $+$ en el cátodo, la barrera se
+  ensancha y solo pasa la corriente de fuga.]
 ]
 
 *Polarización directa*: el positivo de la fuente al ánodo (material P). El campo aplicado
@@ -59,19 +51,7 @@ trabajar ahí).
 === Curva característica
 
 #circuito([Curva característica del diodo])[
-```
-                          ID (mA)
-                            ▲
-                         20 ┤          ╱
-                            │         ╱   ← directa: sube casi vertical
-                         10 ┤        ╱       a partir de ~0,7 V
-                            │       ╱
-   ─────────────────────────┼──────╯──────────►  VD (V)
-    -100 V         -1  IR   │ 0,3  0,7   1
-                            │
-   ruptura ──►  ┊           │
-                ┊ (µA, exagerada)
-```
+#graf-curva-diodo()
 ]
 
 La curva no es una recta: el diodo *no es una resistencia*. La relación real la describe
@@ -130,14 +110,7 @@ portadores. Funciona igual que cualquier diodo, con dos diferencias que importan
 )
 
 #circuito([LED con resistencia limitadora])[
-```
-        R
-   o──/\/\/\──►│──o
-   │            ▲   LED
-  Vcc          VF
-   │
-   o──────────────o
-```
+#fig-led-limitadora()
 ]
 
 La malla da $V_"cc" = I_F dot R + V_F$, y despejando la resistencia:
@@ -175,19 +148,10 @@ $ R = (V_"cc" - V_F) / I_F $ <ec-led>
 === Contra inversión de polaridad
 
 #circuito([Dos formas de proteger contra polaridad invertida])[
-```
-   EN SERIE                          EN PARALELO (con fusible)
-
-   o───►│────┬────o                  o──┬───[FUS]───┬───o
-        ▲    │                          │           │
-       D    ═╪═  circuito               ▼ D        ═╪═ circuito
-             │   protegido              │           │
-   o─────────┴────o                  o──┴───────────┴───o
-
-   Simple, pero pierde 0,7 V         No pierde tensión. Si se invierte,
-   siempre y limita la corriente.    el diodo conduce, quema el fusible
-                                     y salva el circuito.
-```
+#fig-proteccion-polaridad()
+#pie-figura[La de la izquierda es más simple, pero pierde 0,7 V siempre. La de
+  la derecha no pierde tensión: si se invierte la alimentación el diodo conduce,
+  quema el fusible y salva el circuito.]
 ]
 
 *En serie*: si la alimentación se conecta al revés, el diodo queda en inversa y no circula
@@ -216,15 +180,9 @@ lineal.
 === Rectificador de media onda
 
 #circuito([Rectificador de media onda])[
-```
-              D
-    ┌────────►│────────┬───────o
-    │                  │              ENTRADA        SALIDA
-   ( ~ )  Vp          [ ] RL            /\  /\        /\    /\
-    │                  │               /  \/  \      /  \  /  \
-    └──────────────────┴───────o      ────────────  ────\/────\/──►
-                                          \/  \/     (falta media onda)
-```
+#fig-rectificador-media-onda()
+#v(6pt)
+#graf-media-onda()
 ]
 
 Un solo diodo. Deja pasar el semiciclo positivo y bloquea el negativo. El valor medio de
@@ -239,17 +197,9 @@ $ V_"cc" = V_p / pi = 0,318 dot V_p $ <ec-media-onda>
 === Rectificador de onda completa con punto medio
 
 #circuito([Onda completa con transformador de punto medio])[
-```
-             D1
-      A ────►│──────┬───────o
-      │             │
-   (((│             │              ENTRADA        SALIDA
-   (((├── M ────────┼──[ ] RL       /\  /\        /\/\/\/\
-   (((│             │              /  \/  \      /\/\/\/\/\
-      │             │             ────────────  ───────────►
-      B ────►│──────┘                  \/  \/    (los dos semiciclos)
-             D2
-```
+#fig-rectificador-punto-medio()
+#v(6pt)
+#graf-onda-completa()
 ]
 
 Aprovecha la contrafase del punto medio: cuando A es positivo conduce D1, cuando B es
@@ -265,18 +215,9 @@ $ V_"cc" = (2 V_p) / pi = 0,637 dot V_p $ <ec-onda-completa>
 === Puente de Graetz
 
 #circuito([Puente rectificador de Graetz])[
-```
-                    ┌───►│───┬───►│───┐
-                    │  D1    │   D2   │
-       ┌────────────┤        │        ├──────┬───── + salida
-       │            │        │        │      │
-      ( ~ )         └───│◄───┴───│◄───┘     [ ] RL
-       │            │  D3        D4   │      │
-       └────────────┴─────────────────┴──────┴───── - salida
-
-   Semiciclo positivo: conducen D1 y D4.   Ambos casos: la corriente
-   Semiciclo negativo: conducen D3 y D2.   atraviesa RL en el mismo sentido.
-```
+#fig-puente-graetz()
+#pie-figura[En el semiciclo positivo conducen $D_1$ y $D_4$; en el negativo,
+  $D_3$ y $D_2$. En los dos casos la corriente atraviesa $R_L$ en el mismo sentido.]
 ]
 
 Cuatro diodos, sin necesidad de punto medio. En cada semiciclo conducen dos diodos en

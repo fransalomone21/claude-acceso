@@ -14,21 +14,9 @@ alternadamente, con tres terminales: *base* (B), *colector* (C) y *emisor* (E). 
 tipos, NPN y PNP, que funcionan igual pero con las polaridades invertidas.
 
 #circuito([Símbolos y polaridades del transistor bipolar])[
-```
-          NPN                             PNP
-
-           C                               C
-           │                               │
-           ▼                               ▲
-    B ────┤                         B ────┤          La flecha va
-           ▲  ← flecha SALIENDO            ▼  ← ENTRANDO   en el EMISOR
-           │     del emisor                │
-           E                               E
-
-   VC > VB > VE                    VE > VB > VC
-   La corriente entra por C        La corriente entra por E
-   y sale por E.                   y sale por C.
-```
+#fig-simbolos-bjt()
+#pie-figura[En el NPN, $V_C > V_B > V_E$: la corriente entra por el colector y
+  sale por el emisor. En el PNP es al revés, $V_E > V_B > V_C$.]
 ]
 
 La ley que gobierna las corrientes es la primera de Kirchhoff aplicada al componente:
@@ -72,6 +60,14 @@ Una corriente chica en la base controla una corriente grande en el colector. Un 
   zona activa lo más rápido posible en vez de quedarse en ella.
 ]
 
+#circuito([Curvas de salida y recta de carga: la conmutación usa solo los extremos])[
+#graf-recta-de-carga()
+#pie-figura[Cada curva azul es un valor de $I_B$. La recta roja son los puntos que
+  permite el circuito exterior ($V_"cc"$ y la carga). El transistor trabaja donde se
+  cruzan: arriba a la izquierda en saturación, abajo a la derecha en corte, y en la
+  conmutación no se queda en el medio.]
+]
+
 === Los valores de trabajo que hay que memorizar
 
 - $V_(upright("BE")(upright("on")))approx 0,7$ V — la base es una juntura PN como cualquier diodo.
@@ -84,19 +80,7 @@ Este es el procedimiento completo, y se hace *siempre en este orden*: de la carg
 la base, nunca al revés.
 
 #circuito([Etapa de conmutación con transistor NPN])[
-```
-                            +Vcc (12 V)
-                              │
-                             [ ] CARGA (relé, lámpara…)
-                              │
-              RB              ├──── C
-   Vin o────/\/\/\────────────┤       ← IC
-        (0 V ó 5 V)     IB    ▼
-                              │
-                              E
-                              │
-                             ─┴─  masa
-```
+#fig-conmutacion-npn()
 ]
 
 *Paso 1 — La carga fija $I_C$.* Se calcula la corriente que la carga necesita:
@@ -149,24 +133,7 @@ críticas son la *tensión y corriente de bobina* — lo que el transistor debe 
 === El diodo volante: no es opcional
 
 #circuito([Etapa completa con relé y diodo de protección])[
-```
-                        +12 V
-                          │
-                    ┌─────┴─────┐
-                    │           │
-                    ▲ D         ) BOBINA        ┌── contactos NA
-                    │ 1N4007    ) del relé      │   (a la carga de
-                    │           │               │    potencia)
-                    └─────┬─────┘  ───────────  ┘
-                          │
-            RB            ├──── C
-   Vin o───/\/\/\─────────┤
-        1,5 kΩ            ▼
-                          │
-                          E
-                          │
-                         ─┴─
-```
+#fig-rele-completo()
 ]
 
 La bobina del relé es un *inductor*: almacena energía en su campo magnético. Cuando el

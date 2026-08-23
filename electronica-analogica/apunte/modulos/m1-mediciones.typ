@@ -177,17 +177,7 @@ $ epsilon_T = (epsilon_1 R_2 + epsilon_2 R_1) / (R_1 + R_2) $ <ec-paralelo>
 == El multímetro y el efecto de carga
 
 #circuito([Conexión correcta del voltímetro (paralelo) y del amperímetro (serie)])[
-```
-        VOLTIMETRO                        AMPERIMETRO
-     (en PARALELO con R)              (en SERIE, hay que ABRIR)
-
-   ┌───────( V )───────┐                      ┌──( A )──┐
-   │                   │                      │         │
-   ├──────/\/\/\───────┤            ──────────┘  /\/\/\ └────────
-   │         R         │                            R
-   │                   │
-   o                   o
-```
+#fig-conexion-instrumentos()
 ]
 
 El voltímetro se conecta *en paralelo* y por eso debe tener resistencia interna
@@ -233,16 +223,9 @@ Se coloca *en paralelo* con el galvanómetro, para que la corriente sobrante se 
 por ella y al instrumento le llegue solo $I_m$.
 
 #circuito([Expansión de rango de un amperímetro con resistencia de shunt])[
-```
-                     Im
-              ┌────( G )────┐       G : galvanómetro (Rm, Im)
-              │     Rm      │
-    ──── I ───┤             ├──── I ────
-              │             │
-              └──/\/\/\/\───┘       Rs: resistencia de shunt
-                    Rs
-                    Is = I - Im
-```
+#fig-shunt()
+#pie-figura[El galvanómetro tiene resistencia interna $R_m$ y se desvía a plena
+  escala con $I_m$. El shunt deriva el resto: $I_S = I - I_m$.]
 ]
 
 Al estar en paralelo, las caídas de tensión en ambas ramas son iguales:
@@ -265,12 +248,7 @@ Se coloca *en serie* con el galvanómetro, para que absorba la tensión sobrante
 la corriente a $I_m$.
 
 #circuito([Expansión de rango de un voltímetro con resistencia multiplicadora])[
-```
-         RM                 Im
-    o──/\/\/\/\───────────( G )──────o
-    │                      Rm        │
-    │<───────── V a medir ──────────>│
-```
+#fig-multiplicadora()
 ]
 
 Al estar en serie, la tensión aplicada se reparte entre ambos, y por ambos circula la
@@ -296,14 +274,7 @@ llave. Cada rango se calcula por separado con la @ec-mult, usando siempre la mis
 $I_m$ y la misma $R_m$.
 
 #circuito([Voltímetro multirrango: una multiplicadora por escala])[
-```
-   Va o──/\/\/\──┐
-        R1       │
-   Vb o──/\/\/\──┤ llave      Im
-        R2       ├──selectora──( G )──o
-   Vc o──/\/\/\──┘              Rm
-        R3
-```
+#fig-multirrango()
 ]
 
 #ejercicio("Shunt y multiplicadora del Anexo 1")[

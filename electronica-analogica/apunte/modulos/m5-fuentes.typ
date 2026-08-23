@@ -13,20 +13,7 @@ ejemplo, 5 V de continua estables. Entre una cosa y la otra hay cuatro etapas, y
 resuelve *un solo* problema.
 
 #circuito([Diagrama en bloques de una fuente de alimentación lineal])[
-```
-  220 V~   ┌──────────────┐  ┌─────────────┐  ┌────────┐  ┌───────────┐
-  50 Hz ──►│TRANSFORMADOR │─►│ RECTIFICADOR│─►│ FILTRO │─►│ REGULADOR │──► CARGA
-           └──────────────┘  └─────────────┘  └────────┘  └───────────┘
-                 (1)               (2)            (3)          (4)
-
-    ①              ②                ③               ④
-    /\  /\        /\/\/\/\        ‾‾\_/‾‾\_/‾‾    ‾‾‾‾‾‾‾‾‾‾‾
-   /  \/  \      /\/\/\/\/\       (rizado chico)  (continua pura)
-  ─────────►    ──────────►       ───────────►    ───────────►
-  alterna       un solo signo,    casi continua   continua estable
-  17 Vp         valor medio ≠ 0   con ripple      e independiente
-                                                  de la carga
-```
+#fig-bloques-fuente()
 ]
 
 + *Transformador*: baja el valor pico de 311 V a algo manejable, y aísla galvánicamente el
@@ -51,15 +38,9 @@ se carga hasta el pico cuando el rectificador entrega, y alimenta a la carga con
 energía mientras el rectificador no entrega nada.
 
 #circuito([Filtro capacitivo a la salida del rectificador])[
-```
-   ──┬──►│──┬──────┬───────o +          Vsal
-     │      │      │                     ▲   ΔVr
-   ( ~ )   ═╪═ C  [ ] RL             Vp ─┤ ╱\__╱\__╱\    ← con C
-     │      │      │                     │╱   ╲╱   ╲╱
-   ──┴──────┴──────┴───────o -           │  ╱\  ╱\  ╱\   ← sin C
-                                       0 ┼─╱──╲╱──╲╱──╲──► t
-                                          |← 1/fr →|
-```
+#fig-filtro-capacitivo()
+#v(6pt)
+#graf-rizado()
 ]
 
 === Deducción del rizado
@@ -183,19 +164,17 @@ carga*. El regulador resuelve las dos cosas.
   fabrica con valores normalizados: 3,3 V; 4,7 V; 5,1 V; 6,2 V; 9,1 V; 12 V…
 ]
 
-#circuito([Regulador paralelo con diodo zener])[
-```
-              Rs
-    o───────/\/\/\───┬────────┬───────o
-    │         Is     │   Iz   │  IL
-   Vin              ▲ ┃ Dz   [ ] RL      Vsal = Vz
-  (con             ─┴─         │
-  ripple)           │          │
-    o───────────────┴──────────┴───────o
+#circuito([Curva característica del zener: el codo inverso es su zona de trabajo])[
+#graf-curva-zener()
+#pie-figura[Pasado el vértice, la tensión queda clavada en $V_Z$ aunque la corriente
+  cambie muchísimo: eso es lo que regula. Hay que quedarse entre $I_(Z "mín")$ —por
+  debajo la regulación se pierde— e $I_(Z "máx")$ —por encima se quema.]
+]
 
-   Is = Iz + IL          El zener se dibuja CON EL CÁTODO
-                         HACIA ARRIBA: trabaja en inversa.
-```
+#circuito([Regulador paralelo con diodo zener])[
+#fig-regulador-zener()
+#pie-figura[$I_S = I_Z + I_L$. El zener va con el cátodo hacia arriba: trabaja
+  en polarización inversa.]
 ]
 
 El zener va *en paralelo* con la carga, y una resistencia $R_S$ *en serie* limita la

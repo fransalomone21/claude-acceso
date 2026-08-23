@@ -31,18 +31,7 @@
 )
 
 #circuito([Cómo se lee un resistor de cuatro bandas])[
-```
-        ┌─────────────────────┐
-   ─────┤ ▮  ▮  ▮      ▮ ├─────
-        └─┬──┬──┬──────┬┘
-          │  │  │      └── tolerancia (dorado/plateado, separada del resto)
-          │  │  └───────── multiplicador
-          │  └──────────── 2.º dígito
-          └─────────────── 1.er dígito
-
-   Ejemplo: amarillo-violeta-rojo-dorado
-            4      7        ×100   ±5%   =  4700 Ω ± 5 %  =  4k7
-```
+#fig-codigo-colores()
 ]
 
 #laboratorio[
@@ -290,23 +279,7 @@ ejemplos reales.
 == Símbolos usados en el apunte
 
 #circuito([Símbolos de circuito])[
-```
-   RESISTOR      CAPACITOR      CAPACITOR       DIODO        DIODO
-                                ELECTROLÍTICO                ZENER
-   ──/\/\/\──    ──┤├──         ──┤┃──         ──►│──        ──►┃──
-      ó [ ]         ═╪═            + -           ánodo→cátodo
-
-   BOBINA /      TRANSFORMADOR   FUENTE CC     FUENTE CA     MASA
-   RELÉ                                                       │
-   ──)))))──     )))|(((         ──┤├──         ──( ~ )──    ─┴─
-                 )))|(((          + long/       tilde         ▽
-                                  - corto
-
-   LED           GALVANÓMETRO    TRANSISTOR    LLAVE         FUSIBLE
-                                 NPN
-   ──►│──        ──( G )──        ver M6       ──/ ──       ──[▬]──
-     ↗↗                                         o  o
-```
+#fig-tabla-simbolos()
 ]
 
 == Seguridad en el laboratorio

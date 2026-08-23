@@ -53,18 +53,7 @@ transformador también sirva como *aislación galvánica*, que es una función d
 tan importante como la de cambiar la tensión.
 
 #circuito([Transformador reductor de 220 V a 12 V])[
-```
-         PRIMARIO          NÚCLEO          SECUNDARIO
-                        ┌───────────┐
-    o────┐              │███████████│              ┌────o
-         │  )))))))     │███████████│     (((((((  │
-  220 V  │  )))))))     │███████████│     (((((((  │  12 V
-   (CA)  │  )))))))     │███████████│     (((((((  │  (CA)
-         │              │███████████│              │
-    o────┘              └───────────┘              └────o
-           N1 espiras                  N2 espiras
-              (muchas)                    (pocas)
-```
+#fig-transformador()
 ]
 
 === Relación de transformación
@@ -146,18 +135,9 @@ Es el que permite armar una *fuente doble* ($+V$ y $-V$ respecto de masa), y el 
 la parte 3 del TP N.º 7.
 
 #circuito([Secundario con punto medio: dos tensiones en contrafase])[
-```
-                        ┌──────o  A     ─┐
-                        │                │  12 V
-              (((((((   │                │
-   220 V      (((((((   ├──────o  M  ────┤  punto medio (masa)
-    (CA)      (((((((   │                │
-                        │                │  12 V
-                        └──────o  B     ─┘
-
-     Entre A y B: 24 Vef      Entre A y M: 12 Vef
-                              Entre B y M: 12 Vef  (en contrafase con A)
-```
+#fig-transformador-punto-medio()
+#pie-figura[Entre A y B hay 24 V eficaces; entre A y M, 12 V; entre B y M,
+  otros 12 V, pero en contrafase con los de A.]
 ]
 
 El secundario es un solo bobinado con una derivación en la mitad exacta. Tomando ese punto

@@ -1,2 +1,5 @@
 ﻿*.png
 
+
+# la imagen de referencia de estilo SI se versiona
+!docs/referencia/*.png
