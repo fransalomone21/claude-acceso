@@ -27,18 +27,8 @@ conectar la caja a otras cajas sin volver a mirar jamás lo que tiene adentro.
 ]
 
 #circuito([El cuadripolo y sus cuatro variables])[
-```
-              I1  →                    ←  I2
-         o────────────┬───────────────────────o
-                      │                       │
-      +               │      CUADRIPOLO       │              +
-     V1               │    (lineal, sin       │             V2
-      -               │  fuentes internas)    │              -
-                      │                       │
-         o────────────┴───────────────────────o
-
-    Convención: las dos corrientes se dibujan ENTRANDO al cuadripolo.
-```
+#fig-cuadripolo()
+#pie-figura[Convención: las dos corrientes se dibujan *entrando* al cuadripolo.]
 ]
 
 === Los cuatro juegos de parámetros
@@ -194,38 +184,10 @@ $ v_"sal" = A_"ol" (v_+ - v_-) quad arrow.r quad
 === Las configuraciones básicas
 
 #circuito([Amplificador inversor y amplificador no inversor])[
-```
-                     INVERSOR
-
-                    R2
-            ┌────[/////]──────┐
-            │                 │
-      R1    │    |\           │
-Ve ──[/////]┴────|−\          │
-                 |  \         │
-                 |   \────────┴───o  Vs
-                 |   /
-        ┌────────|+ /
-        │        | /
-        │        |/
-       ─┴─
-       GND                              Vs = −(R2/R1)·Ve
-
-
-                   NO INVERSOR
-
-                    R2
-            ┌────[/////]──────┐
-            │                 │
-            │    |\           │
-            ├────|−\          │
-      R1    │    |  \         │
-   ┌─[/////]┘    |   \────────┴───o  Vs
-   │             |   /
-   │   Ve ───────|+ /
-  ─┴─            | /
-  GND            |/                     Vs = (1 + R2/R1)·Ve
-```
+#fig-ao-inversor-no-inversor()
+#pie-figura[Inversor: $overline(V)_s = -(R_2 \/ R_1) overline(V)_e$. No
+  inversor: $overline(V)_s = (1 + R_2 \/ R_1) overline(V)_e$, siempre mayor o
+  igual que 1 y del mismo signo.]
 ]
 
 *Inversor.* Con la entrada $+$ a masa, la Regla 1 pone el nodo $-$ en 0 V. Entonces la

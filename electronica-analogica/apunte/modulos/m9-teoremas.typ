@@ -89,19 +89,7 @@ este módulo son atajos, y todos salen de la misma propiedad.
 == Transformación de fuentes
 
 #circuito([Las dos fuentes reales, equivalentes vistas desde los bornes])[
-```
-        MODELO DE TENSION                    MODELO DE CORRIENTE
-
-      ┌───[/////]────o a                    ┌────────┬─────o a
-      │      Rs      │                      │        │
-     (+)             │                     (↑)      [ ]
-     ( Vs )          │          ⟺          ( Is )    [ ] Rp
-     (-)             │                     (│)      [ ]
-      │              │                      │        │
-      └──────────────o b                    └────────┴─────o b
-
-         Vs = Is · Rp            Is = Vs / Rs            Rs = Rp
-```
+#fig-fuentes-reales()
 ]
 
 Las dos redes son indistinguibles *desde los bornes* $a$–$b$ si entregan la misma tensión

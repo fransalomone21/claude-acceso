@@ -56,15 +56,23 @@ símbolo y está compuesto a mano (bobina + contactos + acople punteado).
 apunte/
 ├── apunte.typ            documento principal
 ├── plantilla.typ         estilo del documento; importa y reexporta la biblioteca
-├── verificar.py          los cuatro chequeos (ver sección 5)
+├── verificar.py          los cinco chequeos (ver sección 5)
 ├── modulos/*.typ         el texto; llama a las figuras por nombre
 └── biblioteca/
     ├── paleta.typ        los colores, en un solo lugar
     ├── estilo.typ        grosores, tamaños, envoltorios y ayudas de anotación
     ├── circuitos.typ     una función `fig-<tema>()` por esquema
     ├── graficos.typ      una función `graf-<tema>()` por curva
-    └── galeria.typ       banco de pruebas: renderiza TODAS las figuras juntas
+    ├── galeria.typ       banco de pruebas: renderiza TODAS las figuras juntas
+    └── figuras/          la única figura que NO se dibuja adentro de Typst
+        ├── generar-bode.py         el script que la genera
+        └── bode-amplificador.svg   el resultado, commiteado
 ```
+
+**Por qué `figuras/` cuelga de `biblioteca/` y no del apunte.** Cuando se compila
+*sólo* la galería, el root del sandbox de Typst es `biblioteca/`, y un `../` desde
+ahí da `path would escape the project root`. Con el SVG adentro, la misma ruta
+relativa funciona compilando la galería y compilando el apunte.
 
 El contrato es el **nombre**: el módulo escribe `#fig-shunt()` y no sabe ni le
 importa cómo está dibujado. Cambiar un dibujo no toca el texto.
@@ -188,17 +196,24 @@ Cinco chequeos, todos sobre **efectos**:
    18 caracteres. Ese es el límite entre "marca corta" y "rótulo", y es la
    alarma que habría agarrado sola los dos rótulos rotos de `graf-curva-diodo`.
 
-El chequeo 3 lleva una lista `ASCII_PENDIENTE` con los módulos de la Parte II
-que todavía tienen circuitos en ASCII y **con la cuenta exacta de cada uno**:
-así el chequeo sigue dando rojo si aparece ASCII en cualquier otro módulo o si
-en éstos aparece más del que ya había. La lista tiene que llegar a vacía cuando
-se vectorice la Parte II. Un rojo permanente no lo mira nadie; una deuda sin
-enumerar tampoco se paga.
+El chequeo 3 **ya no tiene excepciones**. Mientras la Parte II conservó sus
+circuitos en ASCII, llevó una lista `ASCII_PENDIENTE` con la cuenta exacta por
+módulo —para que la alarma siguiera sirviendo con la deuda abierta—. La deuda se
+saldó el 2026-08-23 y la lista se borró junto con la rama que la toleraba: hoy
+cualquier `#circuito(...)` que arranque con un bloque de código es rojo. Un rojo
+permanente no lo mira nadie; una deuda sin enumerar tampoco se paga; y una
+excepción que sobrevive a lo que la justificaba es peor que las dos cosas.
 
 En una sesión en la nube no hay binario `typst` en el PATH y `packages.typst.org`
 está bloqueado por el proxy de egreso. `verificar.py` cae al módulo de Python y
 usa el caché de paquetes cuya ruta se le pasa en `TYPST_PACKAGE_CACHE`. En la
 máquina de escritorio no hace falta nada de esto.
+
+El chequeo 3 se reescribió al borrar la lista, así que se volvió a probar
+rompiéndolo: un bloque ASCII devuelto a `m9-teoremas.typ` da rojo con código de
+salida 1 y nombra el archivo y la cuenta; al restaurarlo, verde con código 0. Un
+verificador reescrito es un verificador sin verificar, aunque el anterior
+estuviera probado.
 
 Los cinco se probaron **rompiéndolos a propósito** (error de sintaxis en un
 módulo, error de sintaxis en la galería, un bloque ASCII devuelto a su lugar,
@@ -268,6 +283,34 @@ golpes. Leerlo antes de pelearse con algo.
   apagar el rótulo con `label: none` y poner el texto a mano por debajo con
   `cetz.draw.content`.
 
+- **Un borde punteado que pasa por el medio de un `−` lo convierte en `+`.**
+  En `fig-supermalla`, el recuadro de la supermalla cortaba justo el signo menos
+  de la fuente de 20 V, y la figura mostraba dos bornes positivos. Compilaba
+  perfecto y en el fuente no se ve. Regla: un `recuadro-super` se lleva adentro
+  los rótulos de lo que encierra, o los deja bien afuera; nunca por el medio.
+
+- **Los símbolos de zap en la variante IEC no dicen lo que hace falta.** La
+  variante por defecto es `iec`, y ahí `isource` es un círculo con una raya
+  *perpendicular* a la corriente: **no muestra hacia dónde va**, que es
+  exactamente el dato con el que se plantea la ecuación de nodos. Y `opamp` es
+  un rectángulo con los signos adentro, no el triángulo que el alumno ve en
+  todos lados. Las dos se arreglan pasando `variant: "ieee"` al símbolo. `vsource`
+  y `dvsource` en IEC tampoco traen polaridad: el `+` y el `−` van a mano.
+
+- **El valor de un componente no entra al lado de un símbolo vertical.** Un
+  `label: $R_2 = 4 Omega$` sobre un resistor rotado mide más de una unidad de
+  lienzo y se lleva por delante al vecino —además de caer sobre una punta, por
+  la trampa del `anchor` de más abajo—. La salida es `valor(pos, $R_2$, $4 Omega$)`
+  de `estilo.typ`, que lo apila en dos renglones y ocupa menos de la mitad.
+
+- **La galería tiene que aplicar las mismas reglas tipográficas que el apunte.**
+  `galeria.typ` no importa `plantilla.typ`, así que le faltaba la regla
+  `show ","` que le saca el espacio a la coma decimal: componía `53, 13` donde el
+  apunte compone `53,13`. Eso convierte al banco de pruebas en un proxy infiel —
+  se mira la galería, se aprueba, y en el apunte se ve distinto. La regla está
+  duplicada a propósito en `galeria.typ`, con un comentario que lo dice: si
+  cambia en `plantilla.typ`, cambia ahí.
+
 - **El puente de Graetz no se puede dibujar sin un cruce.** Con la fuente de un
   lado y la carga del otro, dos conductores tienen que cruzarse sí o sí. Está
   resuelto con un salto (`_salto`), que es la convención inequívoca.
@@ -283,8 +326,9 @@ golpes. Leerlo antes de pelearse con algo.
 
 ## 7. Qué figuras hay
 
-30 en total. Las 24 que reemplazan a los dibujos en ASCII, más 6 gráficos que el
-apunte no tenía y que estaban descritos solo en palabras.
+**45 en total**, y ya no queda ningún circuito en ASCII en todo el apunte. Las 30
+de la Parte I (24 que reemplazaron dibujos en ASCII más 6 gráficos que el apunte
+sólo describía en palabras) y las 15 de la Parte II, agregadas el 2026-08-23.
 
 | Módulo | Figuras |
 |---|---|
@@ -294,6 +338,57 @@ apunte no tenía y que estaban descritos solo en palabras.
 | 4 — Diodos | `fig-polarizacion-diodo`, `graf-curva-diodo`, `fig-led-limitadora`, `fig-proteccion-polaridad`, `fig-rectificador-media-onda`, **`graf-media-onda`**, `fig-rectificador-punto-medio`, **`graf-onda-completa`**, `fig-puente-graetz` |
 | 5 — Fuentes | `fig-bloques-fuente`, `fig-filtro-capacitivo`, **`graf-rizado`**, `fig-regulador-zener`, **`graf-curva-zener`** |
 | 6 — Transistores | `fig-simbolos-bjt`, `fig-conmutacion-npn`, `fig-rele-completo`, **`graf-recta-de-carga`** |
+| 7 — Kirchhoff | `fig-nodos-y-mallas`, `fig-delta-estrella` |
+| 8 — Nodal y mallas | `fig-nodal-basico`, `fig-supernodo`, `fig-mallas-basico`, `fig-supermalla`, `fig-nodal-controlada` |
+| 9 — Teoremas | `fig-fuentes-reales` |
+| 10 — Transitorios | `fig-rc-primer-orden` |
+| 11 — Fasores | `fig-rlc-serie`, `graf-diagrama-fasorial` |
+| 12 — Frecuencia | `fig-pasabajos-pasaaltos`, **`graf-bode-amplificador`** |
+| 13 — Cuadripolos y AO | `fig-cuadripolo`, `fig-ao-inversor-no-inversor` |
 | Anexos | `fig-codigo-colores`, `fig-tabla-simbolos` |
 
-En **negrita**, las nuevas.
+En **negrita**, las que no salen de un dibujo en ASCII previo (los 6 gráficos de
+la Parte I y el Bode).
+
+### La notación de los métodos de análisis
+
+Las figuras de los módulos 7 y 8 no son sólo circuitos: llevan encima la notación
+del método. Está resuelta **una vez** en `estilo.typ` y no figura por figura,
+porque cinco figuras que inventan cada una su forma de marcar un nodo son cinco
+notaciones distintas para la misma cosa:
+
+| Ayudante | Qué dibuja |
+|---|---|
+| `marca-nodo(pos, etiqueta, hacia:)` | el punto de unión más su número adentro de un círculo, en una de ocho direcciones |
+| `nodo-referencia(pos, etiqueta:)` | lo mismo más el símbolo de tierra colgando; sale en diagonal por defecto porque en un nodo de referencia hay un cable horizontal y otro vertical |
+| `giro-malla(centro, etiqueta)` | la flecha circular de la corriente de malla, horaria por defecto |
+| `recuadro-super(a, b, etiqueta)` | el recuadro punteado del supernodo y de la supermalla: la misma marca para los dos, porque las dos dicen "esto de acá adentro se trata como una sola ecuación" |
+| `rotulo(pos, cuerpo)` / `valor(pos, nombre, val)` | texto puesto a mano, y nombre-más-valor en dos renglones |
+
+### La excepción: el Bode va en matplotlib
+
+`graf-bode-amplificador` es la única figura que **no** se dibuja adentro de Typst.
+cetz-plot no hace bien los ejes logarítmicos, y un Bode sin décadas parejas no es
+un Bode. Se genera con matplotlib y se incrusta el SVG:
+
+```bash
+cd electronica-analogica/apunte
+python biblioteca/figuras/generar-bode.py
+```
+
+El SVG **se commitea**: el apunte tiene que compilar en una máquina sin Python.
+El script está para regenerarlo, no para correr en cada compilación.
+
+Dos detalles que hacen que la figura no se note como un cuerpo extraño, y que
+están explicados en el encabezado del script:
+
+- `svg.fonttype = "none"` deja el texto como texto y con el *nombre* de la familia
+  adentro del SVG. Typst la resuelve con su propio catálogo al compilar, así que la
+  figura queda escrita en la misma tipografía que el cuerpo del apunte.
+- Libertinus Serif la trae Typst adentro y no es una fuente del sistema, así que
+  matplotlib no la ve. Maqueta con Times New Roman —métricas parecidas— y después
+  el script reescribe la familia en el SVG. **Si no reescribe ninguna, aborta**:
+  la primera versión no reescribió nada porque matplotlib pone los nombres entre
+  comillas simples, y sin esa alarma la figura se habría publicado con otra letra.
+
+Las curvas cualitativas siguen en cetz-plot, que es donde funciona.

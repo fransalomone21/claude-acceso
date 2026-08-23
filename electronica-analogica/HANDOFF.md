@@ -3,17 +3,32 @@
 ## Cuadro de fase para abrir el próximo chat
 
 ```
-Fase     : Fase 1c CERRADA. Las 30 figuras verificadas por render en una
-           pasada COMPLETA posterior al último retoque; verificar.py con
-           cinco chequeos, los cinco probados rompiéndolos.
-           Lo que sigue es Fase 2 — el contenido, con el programa real de
-           la cátedra en la mano. Ver "Plan de fases" más abajo.
-Modelo   : Opus 5 para la conversión de fasores y los temas nuevos con
-           deducción (trifásicos, Sallen-Key, zpk). Sonnet 5 para
-           vectorizar la Parte II figura por figura, que es mecánico.
-Contexto : chat nuevo. El apunte y estos documentos se leen solos.
+Fase     : Las figuras de la Parte II están CERRADAS. Las 15 dibujadas, el
+           apunte sin un solo circuito en ASCII, ASCII_PENDIENTE borrada de
+           verificar.py y el chequeo 3 reescrito y reprobado rompiéndolo.
+           Pasada completa de las 12 páginas de la galería, posterior al
+           último retoque.
+           Lo que sigue: arreglar los OCHO defectos de la PARTE I que esa
+           misma pasada encontró y que estaban dados por buenos. Están
+           listados en ESTADO_ACTUAL.md con el síntoma de cada uno.
+           LA CIERRA: las ocho figuras corregidas y una pasada completa
+           nueva de la galería después del último retoque.
+Modelo   : Sonnet 5. Es mover puntos de anclaje de rótulos, con el defecto
+           ya diagnosticado y un patrón único para casi todos.
+Esfuerzo : medio, sin fan-out. Un solo criterio visual y un solo archivo
+           (graficos.typ, más un toque en circuitos.typ).
+Contexto : chat nuevo.
 Rama     : claude/manual-analogica-tr0mk6  (la de figuras ya se mergeó acá)
 ```
+
+**El defecto de la Parte I, en una línea**: la línea de guía de un rótulo le
+pasa por encima al propio rótulo, porque el texto está anclado de manera que
+crece *hacia* el punto al que apunta la guía en vez de en contra. Se arregla
+cambiando el ancla —o el `donde` de `rotulo-marco`— para que el texto crezca
+alejándose. Dos casos no son eso y hay que mirarlos aparte: la curva roja que
+cruza "polarización directa" en `graf-curva-diodo` y en `graf-curva-zener`
+(ahí lo que sobra es el rótulo, que está adentro del área de la curva), y el
+`V_F` de `fig-led-limitadora`, que cae sobre el símbolo.
 
 ## Lo primero que hay que hacer
 
@@ -104,7 +119,11 @@ vertical y hacer que la diagonal avance exactamente una columna por fila.
 
 - **La conversión de fasores a valor de pico** en los módulos 11 y 12, con la caja de
   equivalencia a eficaz. Decidido, no hecho. Es lo primero de la Fase 2.
-- **15 circuitos en ASCII** en los módulos 7 a 13, enumerados en `ASCII_PENDIENTE`.
+- ~~**15 circuitos en ASCII** en los módulos 7 a 13, enumerados en `ASCII_PENDIENTE`.~~
+  **HECHO el 2026-08-23.** Las 15 están dibujadas, `ASCII_PENDIENTE` se borró y el
+  chequeo 3 volvió a ser un rojo simple. En su lugar quedó pendiente otra cosa: los
+  **ocho defectos de la Parte I** que encontró la pasada completa (ver
+  `ESTADO_ACTUAL.md`).
 - **Los temas del programa que faltan** — la lista completa está en `ESTADO_ACTUAL.md`,
   sección "El programa real de Teoría de Circuitos".
 - **Nadie leyó el Nilsson-Riedel todavía.** Fran lo tiene en Descargas; ninguna sesión
@@ -187,6 +206,16 @@ Son también un buen criterio para los gráficos del propio apunte.
 
 ## Lo que NO hay que rehacer
 
+- **Las 15 figuras de la Parte II** (módulos 7 a 13) están dibujadas y verificadas por
+  render el 2026-08-23, en una pasada completa posterior al último retoque.
+- **Los ayudantes de notación de `estilo.typ`** —`marca-nodo`, `nodo-referencia`,
+  `giro-malla`, `recuadro-super`, `rotulo`, `valor`— ya están y se usan en cinco
+  figuras. No inventar una notación nueva por figura.
+- **El Bode en matplotlib** ya está resuelto, con la tipografía del apunte y con la
+  alarma que aborta si la reescritura de fuente falla. No volver a intentarlo en
+  cetz-plot.
+- **CUIDADO con la frase que sigue**: era verdad para 22 de los 30, no para los 30. La
+  pasada del 2026-08-23 posterior a la Parte II encontró ocho defectos en la Parte I.
 - Los 22 esquemáticos están bien y se revisaron de nuevo el 2026-08-23.
 - El sistema de anotación ya está rediseñado: `rotulo-marco` dibuja fuera del plot.
   No volver a acomodar rótulos a mano en coordenadas de datos.

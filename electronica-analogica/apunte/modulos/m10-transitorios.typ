@@ -200,16 +200,7 @@ exponencialmente con constante $tau$*. Para usarla hacen falta exactamente tres 
 ]
 
 #circuito([Circuito RC de primer orden con fuente])[
-```
-              t=0
-       ┌───o   o───[/////]───┬──────────┬─────
-       │      S      R1=5kΩ  │          │
-      (+)                    │          │
-      ( 20V )              ═╪═ C       [ ] R2 = 20kΩ
-      (-)                   2µF        [ ]
-       │                     │          │
-       └─────────────────────┴──────────┴─────
-```
+#fig-rc-primer-orden()
 ]
 
 #ejercicio("RC con fuente, por el método de los tres datos")[

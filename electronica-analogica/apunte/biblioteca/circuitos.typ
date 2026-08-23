@@ -796,3 +796,465 @@
     })),
   )))
 }
+
+
+// ---------------------------------------------------------------
+//  Módulo 7 — Kirchhoff y topología
+// ---------------------------------------------------------------
+//
+//  De acá en adelante las figuras llevan encima la NOTACIÓN del método
+//  —el número del nodo, el giro de la malla, el recuadro del supernodo—.
+//  Los ayudantes que la dibujan (marca-nodo, nodo-referencia, giro-malla,
+//  recuadro-super) están en estilo.typ, resueltos una sola vez.
+//
+//  Dos cosas verificadas por render que no son obvias:
+//
+//  - Las fuentes de corriente van con variant "ieee". El símbolo IEC de zap
+//    es un círculo con una raya y NO muestra hacia dónde va la corriente,
+//    que es justo el dato con el que se plantea la ecuación de nodos.
+//
+//  - Los valores de un resistor vertical van con `valor(...)` en dos
+//    renglones y nunca con el `label:` de zap: el rótulo automático de un
+//    símbolo rotado cae sobre una punta, y un `$R = 4 Omega$` en una sola
+//    línea mide más de una unidad de lienzo y pisa al vecino.
+
+// El circuito de dos nodos esenciales y dos mallas, con la topología marcada.
+#let fig-nodos-y-mallas() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  vsource("V1", (0, yb), (0, ya), label: none)
+  rotulo((-0.45, 1.62), $+$, ancla: "east")
+  rotulo((-0.45, 0.78), $-$, ancla: "east")
+  rotulo((-0.75, 1.2), $V_1$, ancla: "east")
+  wire((0, ya), (0.6, ya))
+  resistor("R1", (0.6, ya), (2.0, ya), label: $R_1$)
+  wire((2.0, ya), (2.6, ya))
+  resistor("R2", (2.6, ya), (2.6, yb), label: none)
+  rotulo((3.02, 1.2), $R_2$)
+  wire((2.6, ya), (3.2, ya))
+  resistor("R3", (3.2, ya), (4.6, ya), label: $R_3$)
+  wire((4.6, ya), (5.2, ya))
+  isource("I1", (5.2, yb), (5.2, ya), label: none, variant: "ieee")
+  rotulo((5.8, 1.2), $I_1$)
+  wire((0, yb), (5.2, yb))
+  giro-malla((1.3, 1.2), [1])
+  giro-malla((4.1, 1.2), [2])
+  marca-nodo((2.6, ya), [a], hacia: "n")
+  nodo-referencia((2.6, yb), etiqueta: [b], nombre: "gb")
+})
+
+// Las dos redes de tres terminales del teorema de Kennelly.
+#let fig-delta-estrella() = paneles(
+  (
+    "Triángulo (Δ)",
+    esquema({
+      import zap: *
+      let (a, b, c) = ((1.65, 3.2), (0, 0), (3.3, 0))
+      resistor("Rc", b, a, label: $R_c$)
+      resistor("Rb", a, c, label: $R_b$)
+      resistor("Ra", b, c, label: $R_a$)
+      marca-nodo(a, [a], hacia: "n")
+      marca-nodo(b, [b], hacia: "so")
+      marca-nodo(c, [c], hacia: "se")
+    }),
+  ),
+  (
+    "Estrella (Y)",
+    esquema({
+      import zap: *
+      let (a, n, b, c) = ((1.65, 3.2), (1.65, 1.45), (0, 0), (3.3, 0))
+      resistor("R1", a, n, label: none)
+      rotulo((1.88, 2.32), $R_1$)
+      resistor("R2", n, b, label: $R_2$)
+      resistor("R3", n, c, label: $R_3$)
+      marca-nodo(a, [a], hacia: "n")
+      marca-nodo(b, [b], hacia: "so")
+      marca-nodo(c, [c], hacia: "se")
+      // El nodo central tiene tres ramas encima: las unicas direcciones libres
+      // son el este y el oeste, y el este lo ocupa el rotulo de R3.
+      marca-nodo(n, [n], hacia: "o", sep: 0.9)
+    }),
+  ),
+)
+
+// ---------------------------------------------------------------
+//  Módulo 8 — Análisis nodal y de mallas
+// ---------------------------------------------------------------
+
+// Dos nodos incógnita entre dos fuentes de corriente: el caso base del nodal.
+#let fig-nodal-basico() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.3)
+  let (x1, x2) = (1.7, 5.2)
+  let yc = 1.15
+  isource("Ia", (0, yb), (0, ya), label: none, variant: "ieee")
+  rotulo((-0.7, yc), [6 A], ancla: "east")
+  wire((0, ya), (x1, ya))
+  resistor("R1", (x1, ya), (x1, yb), label: none)
+  valor((x1 + 0.42, yc), $R_1$, $2 Omega$)
+  wire((x1, ya), (2.3, ya))
+  resistor("R2", (2.3, ya), (4.6, ya), label: $R_2 = 4 Omega$)
+  wire((4.6, ya), (x2, ya))
+  resistor("R3", (x2, ya), (x2, yb), label: none)
+  valor((x2 + 0.42, yc), $R_3$, $4 Omega$)
+  wire((x2, ya), (6.9, ya))
+  isource("Ib", (6.9, yb), (6.9, ya), label: none, variant: "ieee")
+  rotulo((7.6, yc), [2 A])
+  wire((0, yb), (6.9, yb))
+  marca-nodo((x1, ya), [1], hacia: "n")
+  marca-nodo((x2, ya), [2], hacia: "n")
+  nodo-referencia((3.45, yb), etiqueta: [0], nombre: "g0")
+})
+
+// Fuente de tensión entre dos nodos incógnita: no se le puede escribir la
+// corriente que la atraviesa, así que los dos nodos y la fuente se envuelven
+// en un supernodo y se les escribe UNA sola ecuación de corrientes.
+//
+// La geometría de acá está atada: el borde de abajo del recuadro tiene que
+// pasar por los conductores que bajan a los resistores —ahí es donde se
+// escribe la LKC— sin cortar ni el cuerpo del resistor ni el círculo de la
+// fuente. Por eso la barra de arriba está a 2,9 y no a 2,3.
+#let fig-supernodo() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.9)
+  let (x1, x2) = (1.7, 5.4)
+  let yc = 1.45
+  isource("Ia", (0, yb), (0, ya), label: none, variant: "ieee")
+  rotulo((-0.7, yc), [4 A], ancla: "east")
+  wire((0, ya), (x1, ya))
+  resistor("R1", (x1, ya), (x1, yb), label: none)
+  valor((x1 + 0.42, yc), $R_1$, $2 Omega$)
+  wire((x1, ya), (2.6, ya))
+  vsource("V12", (2.6, ya), (4.5, ya), label: none)
+  rotulo((2.9, ya + 0.38), $-$, ancla: "south")
+  rotulo((4.2, ya + 0.38), $+$, ancla: "south")
+  rotulo((3.55, ya + 0.38), [12 V], ancla: "south")
+  wire((4.5, ya), (x2, ya))
+  resistor("R2", (x2, ya), (x2, yb), label: none)
+  valor((x2 + 0.42, yc), $R_2$, $6 Omega$)
+  wire((x2, ya), (6.6, ya))
+  wire((6.6, ya), (6.6, yb))
+  wire((0, yb), (6.6, yb))
+  marca-nodo((x1, ya), [1], hacia: "no")
+  marca-nodo((x2, ya), [2], hacia: "ne")
+  nodo-referencia((3.3, yb), etiqueta: [0], nombre: "g0")
+  recuadro-super((1.15, 2.25), (6.2, 3.82), [supernodo], donde: "n")
+})
+
+// El mismo circuito del nodal, resuelto ahora por corrientes de malla.
+#let fig-mallas-basico() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  vsource("V1", (0, yb), (0, ya), label: none)
+  rotulo((-0.45, 1.62), $+$, ancla: "east")
+  rotulo((-0.45, 0.78), $-$, ancla: "east")
+  rotulo((-0.75, 1.2), [$V_1 = 12$ V], ancla: "east")
+  wire((0, ya), (0.6, ya))
+  resistor("R1", (0.6, ya), (2.0, ya), label: $R_1 = 2 Omega$)
+  wire((2.0, ya), (2.9, ya))
+  resistor("R2", (2.9, ya), (2.9, yb), label: none)
+  valor((3.32, 1.2), $R_2$, $4 Omega$)
+  wire((2.9, ya), (3.9, ya))
+  resistor("R3", (3.9, ya), (5.3, ya), label: $R_3 = 6 Omega$)
+  wire((5.3, ya), (5.9, ya))
+  vsource("V2", (5.9, yb), (5.9, ya), label: none)
+  rotulo((6.35, 1.62), $+$)
+  rotulo((6.35, 0.78), $-$)
+  rotulo((6.65, 1.2), [$V_2 = 6$ V])
+  wire((0, yb), (5.9, yb))
+  giro-malla((1.45, 1.2), $i_A$)
+  giro-malla((4.55, 1.2), $i_B$)
+  marca-nodo((2.9, ya), [a], hacia: "n")
+  marca-nodo((2.9, yb), [b], hacia: "s")
+})
+
+// Fuente de corriente compartida por dos mallas: el recorrido la saltea, y las
+// dos mallas pasan a ser una sola. El recuadro se lleva adentro también los
+// rótulos de la fuente: si el borde punteado pasa por el medio de un signo
+// menos, lo convierte en un más. Pasó, y se vio en el render.
+#let fig-supermalla() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  let xm = 3.2
+  vsource("V", (0, yb), (0, ya), label: none)
+  rotulo((-0.45, 1.62), $+$, ancla: "east")
+  rotulo((-0.45, 0.78), $-$, ancla: "east")
+  rotulo((-0.72, 1.2), [20 V], ancla: "east")
+  wire((0, ya), (0.7, ya))
+  resistor("R1", (0.7, ya), (2.1, ya), label: $R_1 = 2 Omega$)
+  wire((2.1, ya), (xm, ya))
+  isource("I4", (xm, yb), (xm, ya), label: none, variant: "ieee")
+  rotulo((xm + 0.68, 1.2), [4 A])
+  wire((xm, ya), (4.3, ya))
+  resistor("R2", (4.3, ya), (5.7, ya), label: $R_2 = 6 Omega$)
+  wire((5.7, ya), (6.4, ya))
+  wire((6.4, ya), (6.4, yb))
+  wire((0, yb), (6.4, yb))
+  giro-malla((1.6, 1.2), $i_A$)
+  giro-malla((4.95, 1.2), $i_B$)
+  recuadro-super((-1.75, -0.55), (7.0, ya + 0.9), [supermalla], donde: "n")
+})
+
+// Nodal con una fuente controlada: la corriente de control se marca sobre la
+// rama de donde sale, porque la ecuación de vínculo la necesita nombrada.
+#let fig-nodal-controlada() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.3)
+  let (x1, x2) = (1.7, 5.2)
+  let yc = 1.15
+  isource("Ia", (0, yb), (0, ya), label: none, variant: "ieee")
+  rotulo((-0.7, yc), [2 A], ancla: "east")
+  wire((0, ya), (x1, ya))
+  resistor("R1", (x1, ya), (x1, yb), label: none)
+  valor((x1 - 0.42, yc), $R_1$, $3 Omega$, ancla: "east")
+  corriente((x1 + 0.42, 1.5), (x1 + 0.42, 0.8), $i_x$, ancla: "west")
+  wire((x1, ya), (2.3, ya))
+  resistor("R2", (2.3, ya), (4.6, ya), label: $R_2 = 6 Omega$)
+  wire((4.6, ya), (x2, ya))
+  resistor("R3", (x2, ya), (x2, yb), label: none)
+  valor((x2 + 0.42, yc), $R_3$, $3 Omega$)
+  wire((x2, ya), (7.0, ya))
+  disource("Ib", (7.0, yb), (7.0, ya), label: none, variant: "ieee")
+  rotulo((7.7, 1.4), $2 i_x$)
+  rotulo((7.7, 0.9), text(fill: c-viole)[CCCS])
+  wire((0, yb), (7.0, yb))
+  marca-nodo((x1, ya), [1], hacia: "n")
+  marca-nodo((x2, ya), [2], hacia: "n")
+  nodo-referencia((3.45, yb), etiqueta: [0], nombre: "g0")
+})
+
+
+// ---------------------------------------------------------------
+//  Módulo 9 — Teoremas de redes
+// ---------------------------------------------------------------
+
+// Las dos fuentes reales de la transformación de fuentes.
+#let fig-fuentes-reales() = paneles(
+  (
+    "Modelo de tensión",
+    esquema({
+      import zap: *
+      vsource("Vs", (0, 0), (0, 2.2), label: none)
+      rotulo((-0.45, 1.52), $+$, ancla: "east")
+      rotulo((-0.45, 0.68), $-$, ancla: "east")
+      rotulo((-0.75, 1.1), $V_s$, ancla: "east")
+      wire((0, 2.2), (0.6, 2.2))
+      resistor("Rs", (0.6, 2.2), (2.0, 2.2), label: $R_s$)
+      wire((2.0, 2.2), (2.8, 2.2))
+      wire((0, 0), (2.8, 0))
+      node("a", (2.8, 2.2), fill: false)
+      node("b", (2.8, 0), fill: false)
+      rotulo((3.0, 2.2), $a$)
+      rotulo((3.0, 0), $b$)
+    }),
+  ),
+  (
+    "Modelo de corriente",
+    esquema({
+      import zap: *
+      isource("Is", (0, 0), (0, 2.2), label: none, variant: "ieee")
+      rotulo((-0.7, 1.1), $I_s$, ancla: "east")
+      wire((0, 2.2), (1.5, 2.2))
+      resistor("Rp", (1.5, 2.2), (1.5, 0), label: none)
+      rotulo((1.92, 1.1), $R_p$)
+      wire((1.5, 2.2), (2.8, 2.2))
+      wire((0, 0), (2.8, 0))
+      node("a", (2.8, 2.2), fill: false)
+      node("b", (2.8, 0), fill: false)
+      rotulo((3.0, 2.2), $a$)
+      rotulo((3.0, 0), $b$)
+    }),
+  ),
+)
+
+// ---------------------------------------------------------------
+//  Módulo 10 — Transitorios
+// ---------------------------------------------------------------
+
+// RC de primer orden con fuente y llave: el circuito del método de los tres datos.
+#let fig-rc-primer-orden() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  vsource("V", (0, yb), (0, ya), label: none)
+  rotulo((-0.45, 1.62), $+$, ancla: "east")
+  rotulo((-0.45, 0.78), $-$, ancla: "east")
+  rotulo((-0.75, 1.2), [20 V], ancla: "east")
+  wire((0, ya), (0.5, ya))
+  switch("S", (0.5, ya), (1.7, ya), label: none)
+  rotulo((1.1, ya + 0.5), $t = 0$, ancla: "south")
+  rotulo((1.1, ya - 0.18), $S$, ancla: "north")
+  wire((1.7, ya), (2.2, ya))
+  resistor("R1", (2.2, ya), (3.6, ya), label: $R_1 = 5 "k"Omega$)
+  wire((3.6, ya), (4.4, ya))
+  capacitor("C", (4.4, ya), (4.4, yb), label: none)
+  valor((4.82, 1.2), $C$, $2 "µF"$)
+  wire((4.4, ya), (6.0, ya))
+  resistor("R2", (6.0, ya), (6.0, yb), label: none)
+  valor((6.42, 1.2), $R_2$, $20 "k"Omega$)
+  wire((0, yb), (6.0, yb))
+})
+
+// ---------------------------------------------------------------
+//  Módulo 11 — Fasores
+// ---------------------------------------------------------------
+
+// RLC serie alimentado por una fuente senoidal.
+#let fig-rlc-serie() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  acvsource("V", (0, yb), (0, ya), label: none)
+  rotulo((-0.7, 1.2), [$overline(V) = 100 angle 0 degree$ V\ $omega = 1000$ rad/s], ancla: "east")
+  wire((0, ya), (0.6, ya))
+  resistor("R", (0.6, ya), (2.0, ya), label: $R = 30 Omega$)
+  corriente((0.15, ya - 0.4), (0.95, ya - 0.4), $overline(I)$, ancla: "north")
+  wire((2.0, ya), (2.7, ya))
+  inductor("L", (2.7, ya), (4.1, ya), label: [$L = 60$ mH])
+  wire((4.1, ya), (4.8, ya))
+  capacitor("C", (4.8, ya), (6.2, ya), label: $C = 50 "µF"$)
+  wire((6.2, ya), (6.9, ya))
+  wire((6.9, ya), (6.9, yb))
+  wire((0, yb), (6.9, yb))
+})
+
+// ---------------------------------------------------------------
+//  Módulo 12 — Respuesta en frecuencia
+// ---------------------------------------------------------------
+
+// El mismo RC, con la salida tomada en dos lugares distintos.
+#let _celda-rc(alto: false) = esquema({
+  import zap: *
+  let (yb, ya) = (-0.6, 1.1)
+  node("in+", (0, ya), fill: false)
+  node("in-", (0, yb), fill: false)
+  if alto {
+    capacitor("C", (0, ya), (2.2, ya), label: $C$)
+    node("m", (2.2, ya))
+    resistor("R", (2.2, ya), (2.2, yb), label: none)
+    rotulo((2.62, 0.25), $R$)
+  } else {
+    resistor("R", (0, ya), (2.2, ya), label: $R$)
+    node("m", (2.2, ya))
+    capacitor("C", (2.2, ya), (2.2, yb), label: none)
+    rotulo((2.62, 0.25), $C$)
+  }
+  node("m2", (2.2, yb))
+  wire((2.2, ya), (3.6, ya))
+  wire((0, yb), (3.6, yb))
+  node("out+", (3.6, ya), fill: false)
+  node("out-", (3.6, yb), fill: false)
+  rotulo((-0.15, 0.25), $overline(V)_e$, ancla: "east")
+  rotulo((3.75, 0.25), $overline(V)_s$)
+})
+
+#let fig-pasabajos-pasaaltos() = paneles(
+  ("Pasa bajos: salida sobre C", _celda-rc()),
+  ("Pasa altos: salida sobre R", _celda-rc(alto: true)),
+)
+
+// ---------------------------------------------------------------
+//  Módulo 13 — Cuadripolos y amplificador operacional
+// ---------------------------------------------------------------
+
+// La caja de dos puertos con sus cuatro variables. Las dos corrientes entran:
+// es la convención del apunte y la que hace simétricas las cuatro matrices.
+#let fig-cuadripolo() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.2)
+  let (xi, xd) = (1.1, 5.1)
+  cetz.draw.rect(
+    (xi, yb - 0.25),
+    (xd, ya + 0.25),
+    stroke: trazo-simbolo + c-trazo,
+    fill: white,
+  )
+  // El texto va en una caja de ancho FIJO y centrada. Sin ancho, cetz lo deja
+  // crecer en una sola linea y se sale del rectangulo por los dos lados.
+  cetz.draw.content(
+    ((xi + xd) / 2, (ya + yb) / 2),
+    box(width: 3.3cm)[
+      #set text(size: letra-figura)
+      #set par(justify: false, leading: 0.5em)
+      #align(center)[CUADRIPOLO\ (lineal, sin fuentes\ independientes internas)]
+    ],
+  )
+  wire((0, ya), (xi, ya))
+  wire((0, yb), (xi, yb))
+  wire((xd, ya), (5.8, ya))
+  wire((xd, yb), (5.8, yb))
+  node("e1", (0, ya), fill: false)
+  node("e2", (0, yb), fill: false)
+  node("s1", (5.8, ya), fill: false)
+  node("s2", (5.8, yb), fill: false)
+  corriente((0.35, ya + 0.35), (1.05, ya + 0.35), $overline(I)_1$)
+  corriente((5.45, ya + 0.35), (4.75, ya + 0.35), $overline(I)_2$)
+  // Cotas de las dos tensiones de puerto.
+  rotulo((-0.18, ya - 0.25), $+$, ancla: "east")
+  rotulo((-0.18, yb + 0.25), $-$, ancla: "east")
+  rotulo((-0.6, (ya + yb) / 2), $overline(V)_1$, ancla: "east")
+  rotulo((5.98, ya - 0.25), $+$)
+  rotulo((5.98, yb + 0.25), $-$)
+  rotulo((6.4, (ya + yb) / 2), $overline(V)_2$)
+})
+
+// Las dos configuraciones básicas del amplificador operacional.
+// El opamp va con variant "ieee": el símbolo IEC de zap es un rectángulo con
+// los signos adentro, y el triángulo es el que ve el alumno en todos lados.
+#let _ao-inversor() = esquema({
+  import zap: *
+  let (cx, cy) = (2.9, 1.5)
+  opamp("A", (cx, cy), variant: "ieee")
+  let (xm, xo) = (cx - 0.9, cx + 0.9)
+  let (ym, yp) = (cy + 0.45, cy - 0.45)
+  // rama de entrada
+  node("m", (1.4, ym))
+  wire((1.4, ym), (xm, ym))
+  resistor("R1", (0, ym), (1.4, ym), label: $R_1$)
+  wire((-0.7, ym), (0, ym))
+  node("e", (-0.7, ym), fill: false)
+  rotulo((-0.88, ym), $overline(V)_e$, ancla: "east")
+  // realimentación
+  wire((1.4, ym), (1.4, 3.5))
+  resistor("R2", (1.4, 3.5), (2.8, 3.5), label: $R_2$)
+  wire((2.8, 3.5), (4.4, 3.5))
+  wire((4.4, 3.5), (4.4, cy))
+  wire((xo, cy), (5.1, cy))
+  node("s", (5.1, cy), fill: false)
+  rotulo((5.28, cy), $overline(V)_s$)
+  // entrada no inversora a masa
+  wire((xm, yp), (1.4, yp))
+  wire((1.4, yp), (1.4, 0.4))
+  ground("G", (1.4, 0.4))
+})
+
+#let _ao-no-inversor() = esquema({
+  import zap: *
+  let (cx, cy) = (2.9, 1.5)
+  opamp("A", (cx, cy), variant: "ieee")
+  let (xm, xo) = (cx - 0.9, cx + 0.9)
+  let (ym, yp) = (cy + 0.45, cy - 0.45)
+  // R1 de la inversora a masa
+  node("m", (1.4, ym))
+  wire((1.4, ym), (xm, ym))
+  resistor("R1", (0, ym), (1.4, ym), label: $R_1$)
+  wire((-0.7, ym), (0, ym))
+  wire((-0.7, ym), (-0.7, 0.4))
+  ground("G", (-0.7, 0.4))
+  // realimentación
+  wire((1.4, ym), (1.4, 3.5))
+  resistor("R2", (1.4, 3.5), (2.8, 3.5), label: $R_2$)
+  wire((2.8, 3.5), (4.4, 3.5))
+  wire((4.4, 3.5), (4.4, cy))
+  wire((xo, cy), (5.1, cy))
+  node("s", (5.1, cy), fill: false)
+  rotulo((5.28, cy), $overline(V)_s$)
+  // la señal entra por la no inversora
+  wire((0.4, yp), (xm, yp))
+  node("e", (0.4, yp), fill: false)
+  rotulo((0.22, yp), $overline(V)_e$, ancla: "east")
+})
+
+#let fig-ao-inversor-no-inversor() = paneles(
+  ("Inversor", _ao-inversor()),
+  ("No inversor", _ao-no-inversor()),
+  sep: 22pt,
+)

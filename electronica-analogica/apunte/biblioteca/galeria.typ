@@ -18,6 +18,15 @@
 #set page(paper: "a4", margin: 1.6cm, numbering: "1")
 #set text(lang: "es", size: 10pt, font: ("Libertinus Serif", "Georgia", "Times New Roman"))
 
+// La MISMA regla de la coma decimal que aplica plantilla.typ. Sin esto la
+// galeria compone "53, 13" donde el apunte compone "53,13", y deja de ser un
+// proxy fiel de lo que se va a publicar: se mira la galeria y se aprueba algo
+// que en el apunte se ve distinto. Si cambia en plantilla.typ, cambia aca.
+#show math.equation: eq => {
+  show ",": it => math.class("normal", it)
+  eq
+}
+
 #let muestra(nombre, fig) = block(width: 100%, breakable: false, above: 14pt, below: 14pt)[
   #block(width: 100%, fill: rgb("#EEF2F5"), inset: (x: 6pt, y: 4pt), radius: 2pt)[
     #text(size: 8pt, font: ("DejaVu Sans Mono", "Consolas"), fill: rgb("#1B4F72"))[#nombre]
@@ -79,3 +88,32 @@
 = Anexos
 #muestra("fig-codigo-colores()", fig-codigo-colores())
 #muestra("fig-tabla-simbolos()", fig-tabla-simbolos())
+
+= Modulo 7 — Kirchhoff y topologia
+#muestra("fig-nodos-y-mallas()", fig-nodos-y-mallas())
+#muestra("fig-delta-estrella()", fig-delta-estrella())
+
+= Modulo 8 — Nodal y mallas
+#muestra("fig-nodal-basico()", fig-nodal-basico())
+#muestra("fig-supernodo()", fig-supernodo())
+#muestra("fig-mallas-basico()", fig-mallas-basico())
+#muestra("fig-supermalla()", fig-supermalla())
+#muestra("fig-nodal-controlada()", fig-nodal-controlada())
+
+= Modulo 9 — Teoremas
+#muestra("fig-fuentes-reales()", fig-fuentes-reales())
+
+= Modulo 10 — Transitorios
+#muestra("fig-rc-primer-orden()", fig-rc-primer-orden())
+
+= Modulo 11 — Fasores
+#muestra("fig-rlc-serie()", fig-rlc-serie())
+
+= Modulo 12 — Respuesta en frecuencia
+#muestra("fig-pasabajos-pasaaltos()", fig-pasabajos-pasaaltos())
+
+= Modulo 13 — Cuadripolos y AO
+#muestra("fig-cuadripolo()", fig-cuadripolo())
+#muestra("fig-ao-inversor-no-inversor()", fig-ao-inversor-no-inversor())
+#muestra("graf-diagrama-fasorial()", graf-diagrama-fasorial())
+#muestra("graf-bode-amplificador()", graf-bode-amplificador())

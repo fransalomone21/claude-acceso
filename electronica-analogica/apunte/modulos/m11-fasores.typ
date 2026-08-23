@@ -122,18 +122,7 @@ Aplicando la @ec-deriv-fasor a las tres relaciones constitutivas:
 ]
 
 #circuito([RLC serie en régimen permanente senoidal])[
-```
-          R = 30Ω        L = 60mH         C = 50µF
-    ┌────[/////]────────( 0000 )──────────┤ ├──────┐
-    │      →I                                      │
-   (~)                                             │
-   ( V = 100 V eficaces, ω = 1000 rad/s            │
-   (~)                                             │
-    │                                              │
-    └──────────────────────────────────────────────┘
-
-    XL = ωL = 1000·0,06 = 60Ω        XC = 1/(ωC) = 1/(1000·50µ) = 20Ω
-```
+#fig-rlc-serie()
 ]
 
 #ejercicio("RLC serie: impedancia, corriente y el diagrama fasorial")[
@@ -177,21 +166,11 @@ Aplicando la @ec-deriv-fasor a las tres relaciones constitutivas:
 ]
 
 #circuito([Diagrama fasorial del ejercicio, con $overline(I)$ como referencia])[
-```
-                    ↑ (imaginario)
-                    │
-          VL = 120 ─┤
-                    │
-                    │      V = 100 ∠53,13° (respecto de I)
-           VL+VC ───┤     ╱
-            = 80    │   ╱
-                    │ ╱  53,13°
-      ──────────────┼──────────────→  I  (referencia)  y  VR = 60
-                    │
-                    │
-           VC = 40 ─┤
-                    │
-```
+#graf-diagrama-fasorial()
+#pie-figura[$overline(V)_L$ y $overline(V)_C$ están en contrafase: su suma vale
+  $120 - 40 = 80$ V y queda perpendicular a $overline(V)_R$. Por eso
+  $sqrt(60^2 + 80^2) = 100$ V, y por eso 120 V sobre el inductor conviven con
+  100 V de fuente.]
 ]
 
 == Potencia en alterna

@@ -33,12 +33,14 @@ cd electronica-analogica/apunte && python verificar.py
 ```
 
 Cinco chequeos, todos sobre efectos y **todos probados rompiéndolos a propósito**:
-que el apunte compile, que la galería compile, que no haya aparecido ASCII fuera de la
-deuda declarada, que toda figura de la biblioteca esté en la galería (una figura que
-nadie mira se rompe sin que se entere nadie), y que ningún rótulo de más de 18
-caracteres haya quedado adentro de un `plot.annotate`.
+que el apunte compile, que la galería compile, que no quede **ningún** circuito en
+ASCII (el chequeo 3 ya no tiene excepciones: la lista `ASCII_PENDIENTE` se borró al
+llegar a cero el 2026-08-23, y se volvió a probar rompiéndolo después de reescribirlo),
+que toda figura de la biblioteca esté en la galería (una figura que nadie mira se rompe
+sin que se entere nadie), y que ningún rótulo de más de 18 caracteres haya quedado
+adentro de un `plot.annotate`.
 
-Para mirar las figuras sin compilar las 44 páginas:
+Para mirar las figuras sin compilar las 98 páginas:
 
 ```bash
 typst watch biblioteca/galeria.typ biblioteca/galeria.pdf
@@ -168,9 +170,11 @@ con el apunte oficial: si no, el alumno estudia con dos idiomas distintos.
 
 ### Evidencia de las figuras (al 2026-08-23)
 
-- **Las 30 figuras se ven bien** → confirmado por render a PNG de las 8 páginas de la
-  galería, **completas y después del último retoque**. La deuda de las páginas 1 a 4 sin
-  reverificar queda saldada.
+- ~~**Las 30 figuras se ven bien** → confirmado por render a PNG de las 8 páginas de la
+  galería, **completas y después del último retoque**.~~ **ESTO ERA FALSO.** La pasada
+  del 2026-08-23 posterior a la Parte II encontró ocho defectos en la Parte I, listados
+  más abajo. Se deja tachado y no borrado: la afirmación equivocada es el dato, porque
+  es lo que hizo que la sesión siguiente no las mirara.
 - **`graf-curva-diodo` está arreglada.** Los dos rótulos largos ya no cruzan el eje.
 - **La causa era doble, y la segunda mitad no se sabía**: además de que las anotaciones
   van en coordenadas de datos, **cetz-plot recorta la anotación contra el área del
@@ -191,9 +195,58 @@ con el apunte oficial: si no, el alumno estudia con dos idiomas distintos.
   un rótulo de 27 caracteres adentro de un `plot.annotate` da rojo, y verde al
   restaurar. También se probó rompiendo el chequeo 3 con ASCII nuevo en un módulo de la
   Parte I.
-- **Deuda abierta y enumerada**: los módulos 7 a 13 conservan **15 circuitos en ASCII**.
-  Están declarados uno por uno en `ASCII_PENDIENTE` dentro de `verificar.py`, con la
-  cuenta exacta, para que la alarma siga sirviendo mientras tanto.
+### Las 15 figuras de la Parte II (2026-08-23, sesión siguiente)
+
+**La deuda quedó saldada: no hay un solo circuito en ASCII en todo el apunte.** Son 45
+figuras. Las 15 nuevas se verificaron por render en una pasada **completa** de las 12
+páginas de la galería, posterior al último retoque, y están limpias.
+
+- **La notación de los métodos se resolvió una vez, en `estilo.typ`** —`marca-nodo`,
+  `nodo-referencia`, `giro-malla`, `recuadro-super`, más `rotulo` y `valor`— y recién
+  después se dibujaron las cinco figuras que la usan. Dibujarlas una por una habría
+  dado cinco notaciones distintas para la misma cosa.
+- **Cuatro trampas nuevas, todas encontradas por render y ninguna visible en el
+  fuente.** Están en `docs/figuras.md`, sección 6. La peor: el borde punteado del
+  recuadro de la supermalla pasaba por el medio del signo `−` de la fuente y lo
+  convertía en `+`; la figura mostraba dos bornes positivos y compilaba perfecto.
+- **La galería no aplicaba la regla de la coma decimal** de `plantilla.typ`: componía
+  `53, 13` donde el apunte compone `53,13`. Era un banco de pruebas *infiel* —se
+  miraba la galería, se aprobaba, y en el apunte se veía distinto—. Se le duplicó la
+  regla, con el comentario que lo explica.
+- **El Bode va en matplotlib**, como estaba decidido, y es la única figura que no se
+  dibuja adentro de Typst. Sale con la MISMA tipografía que el cuerpo del apunte:
+  `svg.fonttype = "none"` más una reescritura de la familia en el SVG. El script
+  aborta si no reescribe ninguna, y esa alarma saltó de verdad en el primer intento
+  —matplotlib pone los nombres entre comillas simples— así que la figura no se
+  publicó con otra letra.
+
+### Seis figuras de la PARTE I están rotas, y estaban dadas por buenas
+
+Aparecieron en la pasada completa del 2026-08-23 posterior a la Parte II. **Son previas
+a esa sesión**: se comprobó abriendo el `apunte.pdf` publicado, donde se ven idénticas,
+así que no las causó ningún cambio nuevo. La afirmación de más arriba —"las 30 figuras
+se ven bien, confirmado por render"— **no se sostiene**, y ésta es la tercera vez que
+`graf-curva-diodo` se da por buena estando rota.
+
+El defecto dominante es uno solo y se repite: **la línea de guía de un rótulo le pasa
+por encima al propio rótulo**, o la curva le pasa por encima al rótulo que la nombra.
+
+| Figura | Qué se ve |
+|---|---|
+| `graf-curva-diodo` | la curva cruza "polarización directa"; "corriente de fuga $I_R$ (escala exagerada)" cruza el eje vertical y choca con el `0` y con "0,7 V" |
+| `graf-curva-zener` | la curva cruza "región de polarización directa" |
+| `graf-media-onda` y `graf-onda-completa` | la línea de guía atraviesa la palabra "entrada" |
+| `graf-respuesta-rc` | la línea de guía atraviesa "frecuencia de corte:" |
+| `graf-rizado` | "sin capacitor" queda montado sobre la curva punteada y sobre el eje de tiempo |
+| `fig-bloques-osciloscopio` | la flecha atraviesa "barrido horizontal" |
+| `fig-led-limitadora` | el rótulo `V_F` cae sobre el símbolo del LED |
+| `graf-recta-de-carga` | la guía atraviesa "corte", que además queda sobre el eje |
+
+**No se tocaron**: están fuera del alcance de esta fase, que era la Parte II, y
+mezclarlas en el mismo commit habría borroneado el cambio. Es la primera cosa a hacer
+en la próxima sesión, y es más chica de lo que parece: casi todas se arreglan corriendo
+el punto de anclaje del rótulo para que el texto crezca *en contra* de la guía, no hacia
+ella.
 
 ## El programa real de Teoría de Circuitos (2026-08-23)
 

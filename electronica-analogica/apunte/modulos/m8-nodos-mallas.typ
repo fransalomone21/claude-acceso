@@ -74,17 +74,7 @@ y de ahí sale la regla que evita tener que deducirla cada vez.
 ]
 
 #circuito([Circuito para el análisis nodal])[
-```
-            (1)          R2 = 4Ω          (2)
-      ┌──────●──────────[/////]───────────●──────┐
-      │      │                            │      │
-     (↑)    [ ]                          [ ]    (↑)
-     ( 6A )  [ ] R1 = 2Ω                  [ ] R3 = 4Ω   ( 2A )
-     (│)    [ ]                          [ ]    (│)
-      │      │                            │      │
-      └──────●────────────────────────────●──────┘
-            (0)  ← referencia            (0)
-```
+#fig-nodal-basico()
 ]
 
 #ejercicio("Análisis nodal de dos nodos")[
@@ -151,19 +141,10 @@ ampliada de la LKC del Módulo 7: la ley vale para cualquier superficie cerrada.
 ]
 
 #circuito([Supernodo: la fuente de 12 V queda encerrada])[
-```
-              ╭ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ╮
-              │      (1)     12 V      (2)      │   ← supernodo
-      ┌───────│───────●───(−│+)─────────●───────│──┐
-      │       ╰ ─ ─ ─ ┼─ ─ ─ ─ ─ ─ ─ ─ ─┼─ ─ ─ ─╯  │
-      │               │                 │          │
-     (↑)             [ ]               [ ]         │
-     ( 4A )           [ ] R1 = 2Ω       [ ] R2 = 6Ω │
-     (│)             [ ]               [ ]         │
-      │               │                 │          │
-      └───────────────●─────────────────●──────────┘
-                     (0)  ← referencia
-```
+#fig-supernodo()
+#pie-figura[El borde punteado corta los dos conductores que bajan a $R_1$ y a
+  $R_2$: por ahí es por donde se escribe la única ecuación de corrientes del
+  supernodo.]
 ]
 
 #ejercicio("Circuito con supernodo")[
@@ -247,18 +228,9 @@ $ (sum_(R in k) R) i_k - sum_j (sum_(R in k inter j) R) i_j = V_k $ <ec-malla>
 ]
 
 #circuito([El circuito del Ejercicio 7.2, ahora por mallas])[
-```
-         R1 = 2Ω        (a)        R3 = 6Ω
-    ┌───[/////]──────────●───────[/////]────┐
-    │                    │                  │
-   (+)                  [ ]                (+)
-   ( V1 = 12V   ↻ iA    [ ] R2 = 4Ω   ↻ iB  ( V2 = 6V
-   (-)                  [ ]                (-)
-    │                    │                  │
-    └────────────────────●──────────────────┘
-                        (b)
-        Rama compartida: R2, recorrida por (iA - iB)
-```
+#fig-mallas-basico()
+#pie-figura[$R_2$ es la rama compartida y la recorren las dos corrientes de
+  malla en sentidos opuestos: por ella circula $i_A - i_B$.]
 ]
 
 #ejercicio("El mismo circuito del 7.2, con dos ecuaciones en vez de tres")[
@@ -309,19 +281,10 @@ escribe la ecuación de esa malla.
 ]
 
 #circuito([Supermalla: la rama de la fuente de 4 A se saltea en el recorrido])[
-```
-         R1 = 2Ω                          R2 = 6Ω
-    ┌───[/////]────────────●────────────[/////]───┐
-    │                      │                      │
-   (+)                    (↑)                     │
-   ( 20V     ↻ iA         ( 4A )       ↻ iB       │
-   (-)                    (│)                     │
-    │                      │                      │
-    └──────────────────────●──────────────────────┘
-
-    Recorrido de la SUPERMALLA:  20V → R1 → (saltea la fuente) → R2 → vuelta
-    Restricción de la fuente  :  iA - iB = 4 A
-```
+#fig-supermalla()
+#pie-figura[Recorrido de la supermalla: 20 V $arrow.r R_1 arrow.r$ (saltea la
+  fuente) $arrow.r R_2 arrow.r$ vuelta. La ecuación que falta la aporta la
+  fuente: $i_A - i_B = 4$ A.]
 ]
 
 #ejercicio("Circuito con supermalla")[
@@ -372,17 +335,7 @@ simetría*: los términos que se mudaron del lado derecho al izquierdo caen fuer
 diagonal sin su pareja. Eso es esperable y no es un error.
 
 #circuito([Nodal con una fuente controlada por corriente])[
-```
-            (1)          R2 = 6Ω          (2)
-      ┌──────●──────────[/////]───────────●──────┐
-      │      │                            │      │
-     (↑)    [ ]  ↓ ix                    [ ]    (↑)
-     ( 2A )  [ ] R1 = 3Ω                  [ ] R3 = 3Ω  ( 2·ix )
-     (│)    [ ]                          [ ]    (│)     ← CCCS
-      │      │                            │      │
-      └──────●────────────────────────────●──────┘
-            (0)  ← referencia
-```
+#fig-nodal-controlada()
 ]
 
 #ejercicio("Análisis nodal con una fuente controlada (CCCS)")[

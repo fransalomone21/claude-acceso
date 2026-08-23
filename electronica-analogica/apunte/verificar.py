@@ -77,48 +77,27 @@ def compila(entrada, nombre):
     return True
 
 
-# Deuda declarada: los módulos de la Parte II todavía tienen sus circuitos en
-# ASCII. Están enumerados uno por uno a propósito, con la cuenta exacta: así
-# el chequeo sigue siendo rojo si aparece ASCII en cualquier OTRO módulo, o si
-# en éstos aparece MÁS del que ya había. La lista tiene que llegar a vacía en
-# la fase que vectorice la Parte II; un rojo permanente no lo mira nadie, pero
-# una deuda sin enumerar tampoco se paga.
-ASCII_PENDIENTE = {
-    "m7-kirchhoff.typ": 2,
-    "m8-nodos-mallas.typ": 5,
-    "m9-teoremas.typ": 1,
-    "m10-transitorios.typ": 1,
-    "m11-fasores.typ": 2,
-    "m12-bode.typ": 2,
-    "m13-cuadripolos-ao.typ": 2,
-}
+# La Parte II ya no tiene circuitos en ASCII. La lista `ASCII_PENDIENTE`, que
+# llevaba la deuda modulo por modulo con la cuenta exacta de cada uno, se borro
+# al llegar a cero junto con la rama que la toleraba. El chequeo vuelve a ser un
+# rojo simple: cualquier `#circuito(...)` que arranque con un bloque de codigo
+# es una falla, sin excepciones que mantener.
 
 
 def sin_ascii():
     malos = []
-    deuda = []
     carpeta = os.path.join(AQUI, "modulos")
     for f in sorted(os.listdir(carpeta)):
         if not f.endswith(".typ"):
             continue
         s = io.open(os.path.join(carpeta, f), encoding="utf-8").read()
         n = len(re.findall(r"#circuito\(\[[^\]]*\]\)\[\s*\n```", s))
-        if not n:
-            continue
-        permitido = ASCII_PENDIENTE.get(f, 0)
-        if n > permitido:
-            malos.append(u"%s (%d, se esperaban %d)" % (f, n, permitido))
-        else:
-            deuda.append(u"%s (%d)" % (f, n))
+        if n:
+            malos.append(u"%s (%d)" % (f, n))
     if malos:
         fallas.append(
-            u"apareció ASCII nuevo donde no estaba declarado: " + u", ".join(malos)
-        )
-    elif deuda:
-        total = sum(int(d.rsplit("(", 1)[1][:-1]) for d in deuda)
-        print(
-            u"  ok  ningún circuito ASCII fuera de la deuda declarada "
-            u"(%d pendientes en la Parte II)" % total
+            u"quedaron circuitos dibujados en ASCII adentro de un #circuito(): "
+            + u", ".join(malos)
         )
     else:
         print(u"  ok  ningún circuito quedó en ASCII")

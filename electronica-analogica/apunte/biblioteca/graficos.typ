@@ -390,3 +390,105 @@
     },
   )
 })
+
+
+// ---------------------------------------------------------------
+//  Módulo 11 — Diagrama fasorial
+// ---------------------------------------------------------------
+
+// El diagrama fasorial del RLC serie del Ejercicio 11.1, con la corriente
+// como referencia horizontal.
+//
+// No lleva `ejes-libro` ni `plot.add`: no es una curva, son vectores, y
+// cetz-plot no aporta nada acá salvo el recorte de las anotaciones. Los ejes
+// se dibujan a mano, que son dos líneas.
+//
+// La construcción es de punta a cola, no todos los fasores desde el origen:
+// V̄R y después (V̄L + V̄C) perpendicular, y V̄ cierra el polígono. Es lo que
+// dice el texto del ejercicio, y es lo que hace evidente que 120 V sobre el
+// inductor conviva con 100 V de fuente.
+
+// Volts por unidad de lienzo. Un solo número: si la figura queda chica o
+// grande se toca acá y no las once coordenadas.
+#let _fasor-escala = 28.0
+#let _fv(v) = v / _fasor-escala
+
+#let graf-diagrama-fasorial() = grafico({
+  let (vr, vl, vc, vx) = (_fv(60), _fv(120), _fv(40), _fv(80))
+  let punta = (vr, vx)
+
+  // --- ejes ---
+  cetz.draw.line(
+    (-0.5, 0),
+    (4.0, 0),
+    stroke: 0.6pt + c-trazo,
+    mark: (end: "straight", scale: 0.4),
+  )
+  cetz.draw.line(
+    (0, -1.8),
+    (0, 5.0),
+    stroke: 0.6pt + c-trazo,
+    mark: (end: "straight", scale: 0.4),
+  )
+  rotulo((0.12, 4.95), [imaginario], ancla: "north-west", color: luma(100))
+  rotulo((4.1, 0), [eje real\ (referencia $overline(I)$)], color: luma(100))
+
+  // --- construcción punteada: el rectángulo que cierra el polígono ---
+  cetz.draw.line((0, vx), punta, stroke: punteado)
+  cetz.draw.line((0, vl), (vr + 0.35, vl), stroke: punteado)
+  cetz.draw.line((0, -vc), (vr + 0.35, -vc), stroke: punteado)
+
+  // --- los fasores ---
+  let flecha(desde, hasta, color, grosor) = cetz.draw.line(
+    desde,
+    hasta,
+    stroke: grosor + color,
+    mark: (end: "straight", scale: 0.42),
+  )
+
+  // V̄R sobre el eje real: en serie, la corriente es la referencia
+  flecha((0, 0), (vr, 0), c-aux, 1.0pt)
+  // V̄L + V̄C, perpendicular, apoyada en la punta de V̄R
+  flecha((vr, 0), punta, c-aux, 1.0pt)
+  // la resultante cierra el polígono
+  flecha((0, 0), punta, c-dato, 1.4pt)
+
+  // V̄L y V̄C sueltos sobre el eje imaginario, para que se vea de dónde sale
+  // la resta: 120 arriba, 40 abajo, y la diferencia es lo que quedó arriba.
+  flecha((0, 0), (0, vl), c-aux, 1.0pt)
+  flecha((0, 0), (0, -vc), c-aux, 1.0pt)
+
+  // --- ángulo ---
+  cetz.draw.arc(
+    (0, 0),
+    start: 0deg,
+    stop: 53.13deg,
+    radius: 0.9,
+    anchor: "origin",
+    stroke: 0.5pt + c-dato,
+  )
+  rotulo((1.0, 0.33), text(fill: c-dato)[53,13°])
+
+  // --- rótulos ---
+  rotulo((vr / 2, -0.14), [$overline(V)_R = 60$ V], ancla: "north", color: c-aux)
+  rotulo((vr + 0.16, vx / 2), [$overline(V)_L + overline(V)_C = 80$ V], color: c-aux)
+  rotulo((punta.at(0) + 0.2, punta.at(1) + 0.42), [$overline(V) = 100 angle 53,13 degree$ V], color: c-dato)
+  rotulo((vr + 0.45, vl), [$overline(V)_L = 120$ V], color: c-aux)
+  rotulo((vr + 0.45, -vc), [$overline(V)_C = 40$ V], color: c-aux)
+})
+
+// ---------------------------------------------------------------
+//  Módulo 12 — Bode con décadas reales
+// ---------------------------------------------------------------
+
+// La única figura del apunte que NO se dibuja adentro de Typst. El eje
+// logarítmico de cetz-plot no da décadas parejas, y un Bode sin décadas no es
+// un Bode: se genera con matplotlib y se incrusta el SVG.
+//
+// El SVG está commiteado, así que el apunte compila en una máquina sin Python.
+// Para regenerarlo, desde `apunte/`:  python biblioteca/figuras/generar-bode.py
+// El porqué de cada decisión está en el encabezado de ese script.
+#let graf-bode-amplificador() = align(
+  center,
+  image("figuras/bode-amplificador.svg", width: 95%),
+)

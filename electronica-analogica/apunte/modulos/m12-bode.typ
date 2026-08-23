@@ -68,19 +68,10 @@ son toda la información: dan las dos curvas sin necesidad de calcular punto por
 == Filtro pasa bajos RC
 
 #circuito([Pasa bajos y pasa altos: el mismo circuito, otra salida])[
-```
-        PASA BAJOS                              PASA ALTOS
-
-    ──[/////]──┬───o                        ──────┤├──────┬───o
-        R      │                                   C      │
-      Ve      ═╪═ C   Vs                    Ve           [ ] R   Vs
-               │                                         [ ]
-    ───────────┴───o                        ─────────────┴───o
-
-    Vs se toma sobre C:                     Vs se toma sobre R:
-    a f→0 el C es abierto  ⇒ Vs = Ve        a f→0 el C es abierto ⇒ Vs = 0
-    a f→∞ el C es corto    ⇒ Vs = 0         a f→∞ el C es corto   ⇒ Vs = Ve
-```
+#fig-pasabajos-pasaaltos()
+#pie-figura[Con la salida sobre $C$: a $f arrow.r 0$ el capacitor es un abierto
+  y $overline(V)_s = overline(V)_e$; a $f arrow.r infinity$ es un corto y
+  $overline(V)_s = 0$. Con la salida sobre $R$ pasa exactamente al revés.]
 ]
 
 Es un divisor de tensión con impedancias. La salida se toma sobre el capacitor:
@@ -190,21 +181,10 @@ $+90 degree$ a $0 degree$.
 + Corregir $3$ dB en cada quiebre y dibujar la curva suave.
 
 #circuito([Bode asintótico del amplificador del Ejercicio 12.1])[
-```
-   |H| dB
-    60 ┤
-       │                ┌────────────────────────┐
-    46 ┤          ┌─────┘  banda de paso (46 dB) └──┐
-       │        ╱                                     ╲
-    26 ┤      ╱  +20 dB/déc                -20 dB/déc  ╲
-       │    ╱                                            ╲
-     6 ┤  ╱                                                ╲
-       └──┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──→ ω (log)
-          1     10     10²    10³    10⁴    10⁵    10⁶    10⁷
-                 ↑                            ↑
-              ωz = 100                    ωp2 = 10⁵
-              ωp1 = 100 (juntos)
-```
+#graf-bode-amplificador()
+#pie-figura[Las asíntotas quiebran en $omega_(p 1) = 10^2$ y
+  $omega_(p 2) = 10^5$ rad/s. La curva exacta va $3$ dB por debajo de la
+  asíntota en cada quiebre: ésa es la corrección del cuarto paso del método.]
 ]
 
 #ejercicio("Bode de un amplificador acoplado por capacitor")[

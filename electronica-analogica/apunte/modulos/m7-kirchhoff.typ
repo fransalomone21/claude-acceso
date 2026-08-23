@@ -159,24 +159,10 @@ definiciones parecen obvias hasta que un circuito tiene diez ramas.
 ]
 
 #circuito([El mismo circuito, con los nodos y las mallas marcados])[
-```
-         R1        (a)        R3
-    ┌───[///]───────●───────[///]───┐
-    │               │               │
-    │               │               │
-   (+)             [ ]             (↑)
-   ( V1 )          [ ] R2          ( I1 )      ← malla 1: V1-R1-R2
-   (-)             [ ]             (↓)         ← malla 2: R2-R3-I1
-    │               │               │
-    └───────────────●───────────────┘
-                   (b)
-                (referencia)
-
-    Nodos esenciales : (a) y (b)              → n = 2
-    Ramas esenciales : V1+R1, R2, R3+I1       → b = 3
-    Mallas           : 2
-    Un lazo que NO es malla: V1-R1-R3-I1 (rodea a R2)
-```
+#fig-nodos-y-mallas()
+#pie-figura[Nodos esenciales: $a$ y $b$, o sea $n = 2$. Ramas esenciales:
+  $V_1 + R_1$, $R_2$ y $R_3 + I_1$, o sea $b = 3$. Mallas: 2. Un lazo que *no*
+  es malla: $V_1$–$R_1$–$R_3$–$I_1$, porque rodea a $R_2$.]
 ]
 
 #atencion[
@@ -332,18 +318,7 @@ resistores en los que ningún par comparte exclusivamente corriente ni tensión.
 transformación $Delta$–Y las destraba.
 
 #circuito([Las dos redes de tres terminales, equivalentes vistas desde afuera])[
-```
-        TRIANGULO (Δ)                        ESTRELLA (Y)
-
-            (a)                                  (a)
-            ╱ ╲                                   │
-       Rc  ╱   ╲  Rb                              [ ] R1
-          ╱     ╲                                  │
-        (b)─────(c)                               (n)
-            Ra                              R2 [ ]   [ ] R3
-                                               │       │
-                                              (b)     (c)
-```
+#fig-delta-estrella()
 ]
 
 La equivalencia se impone pidiendo que la resistencia medida entre cada par de

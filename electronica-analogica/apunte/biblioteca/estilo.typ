@@ -250,3 +250,142 @@
     padding: 3pt,
   )
 }
+
+// ---------- Notación de los métodos de análisis (Parte II) ----------
+//
+// Los circuitos de los módulos 7 y 8 no se dibujan solos: llevan encima la
+// notación del método —el número del nodo, el giro de la corriente de malla,
+// el recuadro del supernodo—. Eso no existe en la Parte I.
+//
+// Está resuelto UNA vez acá, y no figura por figura, por la razón de siempre:
+// cinco figuras que inventan cada una su forma de marcar un nodo son cinco
+// notaciones distintas para la misma cosa, y el alumno las lee como si
+// significaran cosas distintas.
+
+// Las ocho direcciones en las que puede salir un rótulo desde un punto.
+// Las diagonales van normalizadas para que el rótulo quede a la misma
+// distancia del punto en las ocho.
+#let _rumbos = (
+  "n": (0, 1),
+  "s": (0, -1),
+  "e": (1, 0),
+  "o": (-1, 0),
+  "ne": (0.71, 0.71),
+  "no": (-0.71, 0.71),
+  "se": (0.71, -0.71),
+  "so": (-0.71, -0.71),
+)
+
+// Nodo rotulado: el punto de unión, más su número adentro de un círculo.
+// El círculo distingue al rótulo del nodo de cualquier otro texto de la
+// figura, que es justo lo que el paréntesis del ASCII trataba de hacer.
+#let marca-nodo(
+  pos,
+  etiqueta,
+  hacia: "n",
+  sep: 0.52,
+  color: c-azul,
+  punto: true,
+) = {
+  let (ux, uy) = _rumbos.at(hacia)
+  let centro = (pos.at(0) + ux * sep, pos.at(1) + uy * sep)
+  if punto {
+    cetz.draw.circle(pos, radius: 0.075, fill: c-trazo, stroke: none)
+  }
+  cetz.draw.circle(centro, radius: 0.2, fill: white, stroke: 0.55pt + color)
+  cetz.draw.content(centro, text(size: letra-figura - 0.5pt, fill: color, etiqueta))
+}
+
+// Nodo de referencia: el mismo rótulo, más el símbolo de tierra colgando.
+// `sep-tierra` es cuánto baja el símbolo respecto del nodo.
+// `hacia` sale en diagonal por defecto: el nodo de referencia tiene el cable
+// horizontal de la rama y el vertical de la tierra, y un rotulo en "e" o en "s"
+// cae justo encima de uno de los dos.
+#let nodo-referencia(
+  pos,
+  etiqueta: [0],
+  nombre: "ref",
+  hacia: "se",
+  sep-tierra: 0.55,
+  color: c-azul,
+) = {
+  let pie = (pos.at(0), pos.at(1) - sep-tierra)
+  cetz.draw.line(pos, pie, stroke: trazo-cable + c-trazo)
+  zap.ground(nombre, pie)
+  marca-nodo(pos, etiqueta, hacia: hacia, color: color)
+}
+
+// Corriente de malla: la flecha circular que se dibuja en el hueco de la
+// malla, con su nombre en el centro. Horaria por defecto, que es la
+// convención que usa el apunte y la que hace que la resistencia compartida
+// entre en las dos ecuaciones con signo menos.
+#let giro-malla(
+  centro,
+  etiqueta,
+  radio: 0.44,
+  sentido: "horario",
+  color: c-viole,
+) = {
+  let (ini, fin) = if sentido == "horario" { (125deg, -145deg) } else { (55deg, 325deg) }
+  cetz.draw.arc(
+    centro,
+    start: ini,
+    stop: fin,
+    radius: radio,
+    anchor: "origin",
+    stroke: 0.6pt + color,
+    mark: (end: "straight", scale: 0.35),
+  )
+  cetz.draw.content(centro, text(size: letra-figura, fill: color, etiqueta))
+}
+
+// Recuadro punteado que encierra una región del circuito: el supernodo
+// (la fuente de tensión con sus dos nodos adentro) y la supermalla (las dos
+// mallas que comparten la rama de la fuente de corriente). Es la misma
+// marca para las dos cosas a propósito: las dos dicen "esto de acá adentro
+// se trata como una sola ecuación".
+#let _bordes-recuadro = (
+  "n": (0.5, 1, "south"),
+  "s": (0.5, 0, "north"),
+  "e": (1, 0.5, "west"),
+  "o": (0, 0.5, "east"),
+  "ne": (1, 1, "south-west"),
+  "no": (0, 1, "south-east"),
+)
+
+#let recuadro-super(
+  a,
+  b,
+  etiqueta,
+  donde: "n",
+  color: c-viole,
+  radio: 0.2,
+) = {
+  cetz.draw.rect(
+    a,
+    b,
+    stroke: (paint: color, thickness: 0.65pt, dash: "dashed"),
+    radius: radio,
+  )
+  let (x0, x1) = (calc.min(a.at(0), b.at(0)), calc.max(a.at(0), b.at(0)))
+  let (y0, y1) = (calc.min(a.at(1), b.at(1)), calc.max(a.at(1), b.at(1)))
+  let (fx, fy, ancla) = _bordes-recuadro.at(donde)
+  let pos = (x0 + fx * (x1 - x0), y0 + fy * (y1 - y0))
+  cetz.draw.content(pos, text(size: letra-figura, fill: color, etiqueta), anchor: ancla, padding: 3pt)
+}
+
+// ---------- Rótulos puestos a mano en un esquema ----------
+// El rótulo automático de zap cae mal cada vez que el símbolo está rotado o el
+// texto es largo (docs/figuras.md, sección 6). La salida es apagarlo con
+// `label: none` y poner el texto acá, en coordenadas del lienzo.
+#let rotulo(pos, cuerpo, ancla: "west", color: black, tam: letra-figura) = cetz.draw.content(
+  pos,
+  text(size: tam, fill: color, cuerpo),
+  anchor: ancla,
+  padding: 3pt,
+)
+
+// Nombre y valor de un componente, en dos renglones. Un `$R_2 = 4 Omega$` al
+// lado de un resistor vertical mide más de una unidad de lienzo y se lleva por
+// delante lo que tenga al lado; apilado mide menos de la mitad y entra.
+#let valor(pos, nombre, val, ancla: "west") = rotulo(pos, [#nombre\ #val], ancla: ancla)
