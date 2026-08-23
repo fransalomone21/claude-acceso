@@ -16,6 +16,141 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-23 (36) — 7e paso 1 CERRADO: el layout del registro, verificado contra datos, y el stream encontrado
+
+**Máquina:** PC · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Objetivo:** el paso bloqueante de 7e. El layout del registro del stage
+(`{u32 tipo, u32 ptr, u64 payload}`, paso `0x10`) estaba **leído, no verificado
+contra datos**, y la sesión anterior no había encontrado el stream mixto en RAM.
+Identificar los 45 handlers sobre un layout sin verificar es tirar esfuerzo.
+
+**Resultado: el paso 1 está cerrado**, y el layout salió **corregido**, no sólo
+confirmado. Todo en frío sobre el ELF y `volcados/ee-e4.bin`; **el emulador no
+se abrió y no se escribió un byte.**
+
+### 1. Quién arma `param_2` — `FUN_0012dab8`
+
+```c
+FUN_0015ef48(piVar4 + 0x10,                    // param_1: arrays de handles
+             *(u32 *)(piVar4[4] + 4),          // param_2: DOBLE INDIRECCION
+             piVar4[1],
+             *(u8 *)((int)piVar4 + 0x39));
+```
+
+`param_2` **no** es `piVar4 + algo`: `piVar4[4]` es un puntero a una cabecera, y
+el `{count, array}` sale de `+4` de esa cabecera. Y `piVar4` no es una struct
+suelta: es un sub-bloque de `base+0x4990` y `base+0x5210`, **dos slots de
+`0x880` que alternan** (`*(u8*)(iVar5+0x5aae) ^= 1` en `FUN_00129360`) — el
+cargador de nivel está **doble-buffereado**. El tag de estado es `*piVar4 ==
+0x1C`.
+
+### 2. El layout, VERIFICADO CONTRA DATOS — y corregido
+
+```
++0x00  u32  tipo    (el case del switch)
++0x04  u32  ptr     BLOB DE DATOS del modulo, TAMANO VARIABLE
++0x08  u64  id64    NOMBRE DEL MODULO   <-- CORRECCION
+```
+
+La `kb` decía que el `u64` de `+0x08` se usaba **como posición** (leído del case
+`0x0A`). **Es el id64 del nombre**, y decodifica con `herramientas/id64.py`
+(autotest 13 casos, en verde) a nombres reales:
+
+```
+0x72AE2D2C5038CAD2 -> 'GP0101001527'
+0x90CD810C5B2A9800 -> 'LW0001781'
+```
+
+Y `+0x04` se confirma como blob desde un handler **distinto** del case `0x0A`:
+`FUN_00174430` (tipos `0x03`–`0x09`) hace su propio `switch(*param_3)` y usa
+`*(int *)(param_3 + 4)` como su estructura.
+
+### 3. El stream, encontrado — y el parámetro que lo encontró
+
+**`descriptor 0x01092800 = {count=857, array=0x0109F590}`.**
+
+Lo que la sesión anterior buscaba —el stream mixto— estaba ahí: 857 registros,
+**41 tipos distintos**. La racha "pura de `0x2D`" que se había visto era un
+tramo de adentro de este mismo array.
+
+**Por qué no aparecía: el parámetro de búsqueda.** Buscar rachas por *rango de
+tipo* (`0x03`–`0x44`) da **817 rachas** y se ahoga en contadores secuenciales de
+`.data`. El parámetro que discrimina es la **monotonía estricta del puntero de
+`+0x04`**: los blobs están contiguos y ascendentes, y un contador no. Con
+monotonía, el barrido de los 32 MB da **3 candidatos**, y sólo uno tiene tipos
+reales. Es el tercer caso medido de la misma lección (`sw {4,8,C}`→339;
+`addiu 0x24`→32; stores a `+0xEC`→1).
+
+**Control positivo, dos derivaciones independientes:**
+
+- el `count` **leído** del descriptor = **857**;
+- el largo del array **derivado por monotonía**, sin mirar el descriptor = **857**.
+- Además los blobs **teselan** `0x010928B0`–`0x0109F540` sin solaparse (tamaños
+  16–192 B) y el array de registros arranca 80 bytes después. El chunk entero es
+  contiguo: descriptor, blobs, array.
+
+### 4. Lo que dicen los nombres
+
+| familia | tipos | qué sugiere |
+|---|---|---|
+| `SQTOM`, `SQMATT` | `0x01`, `0x02` | **escuadra** |
+| `LW0001xxx` | `0x2D` (256) | objeto de física / pathfinding |
+| `SD0101xxxxx` | `0x2E`, `0x2F`, `0x30` | sonido (hipótesis) |
+| `WD0101xxxxx` | `0x1F`, `0x20`, `0x43` | sin identificar |
+| `FX0101000004` | `0x33` | efecto (hipótesis) |
+| `GP01010xxxxx` | el grueso | el contenido del nivel |
+
+**`SQTOM`/`SQMATT` cruza con un hallazgo previo que no se buscaba:** la tabla de
+7 punteros de `0x003BD3F8` (`None/Low/Mid/High/Matt/Tom/Carrie`), encontrada el
+2026-08-21 por la vía de los nombres de escuadra.
+
+**Tipo `0x2D` nombrado por evidencia de lectura:** su handler `FUN_00175980`
+referencia `0x003F54A0` = `'Message to Level Designer / Physics object %s tagged
+for Pathfinding collision has been removed without reexporting the world view'`.
+
+**Tamaño de blob por tipo** (= tamaño de la struct que consume), fijo en 20 de
+los 38 tipos con instancias: `0x1C`/`0x1D`=16 B · `0x1A`/`0x1F`/`0x20`/`0x2B`/
+`0x44`=32 · `0x01`/`0x02`/`0x14`/`0x18`/`0x23`/`0x29`/`0x2E`/`0x38`/`0x3D`=48 ·
+`0x2F`/`0x33`/`0x39`=64 · `0x43`=80 · `0x32`=96 · `0x3B`=160 · `0x30`=192.
+
+### 5. Dos cosas que NO cerraron, y hay que decirlas
+
+- **CERO registros de tipo `0x0A` en el stream**, y LEVEL_00 tiene cinco
+  enemigos. El `0x0A` sigue confirmado por la vía de 7d (el literal `BG1_AK1`),
+  pero **no viene de este stream**. O hay un segundo stream ya liberado, o los
+  enemigos entran por otro lado. **Pregunta abierta, no darla por sabida.**
+- **El stream lleva tipos que este dispatcher no despacha:** `0x01`, `0x02` y
+  `0x33` aparecen en los datos y **no están entre los 61 casos** — caen en el
+  `default`. O sea que el `switch` de `FUN_0015ef48` **no es el esquema completo
+  del archivo**: es el esquema de lo que *este* dispatcher construye.
+
+**No funcionó:**
+- Suponer que `piVar4[4]` era `0x01412400` (el STLEVEL.BIN cargado). No lo es:
+  `0x01412400` es una cabecera de pares `{count, ptr}` cuyo primer array
+  (`{10, 0x01412480}`) es la **lista de recursos de arma** del nivel
+  (`bg1_pst`, `bg1_shg`, `bg1_smg`, `bg1_ak1`, `bg1_asr`, `bg1_rpg`…). Sirvió
+  de rebote: confirma que `bg1_rpg` está cargado en LEVEL_00, que es la premisa
+  de la Vía B de 7d.
+- **Nombrar handlers por las cadenas que referencian rinde poco.** Se hizo la
+  herramienta (`tipos_modulo.py`) y se barrieron los 70 handlers: **sólo
+  `FUN_00175980` tiene cadena**. Los handlers son constructores finos y las
+  cadenas viven en los callees. La herramienta queda, pero no es la palanca.
+
+**Herramientas nuevas, las dos con autotest PROBADO EN ROJO:**
+- `herramientas/stream_modulos.py` — `buscar` / `resumen` / `listar` /
+  `autotest` (5 casos, 2 sabotajes; el sabotaje (a) cuantifica el punto: sin la
+  monotonía, 41 streams en vez de 3).
+- `herramientas/tipos_modulo.py` — `cadenas` / `barrer` / `autotest`
+  (1 caso, 3 sabotajes).
+
+**Sigue:** 7e sigue abierta. Falta identificar los tipos y **verificar al menos
+uno distinto del `0x0A` POR EFECTO** — y eso **sí necesita el emulador**. El
+candidato más barato es el `0x2D` (256 instancias, física/pathfinding): romper
+o mover sus blobs debería verse. La otra punta suelta es de dónde salen los
+cinco enemigos, ya que del stream de `0x01092800` no salen.
+
+---
+
 ## 2026-08-23 (35) — 7d CERRADA: el arma se elige POR NOMBRE (id64), y sí se puede fijar desde el ISO
 
 **Máquina:** PC · **Modelo:** Opus, esfuerzo alto, sin fan-out

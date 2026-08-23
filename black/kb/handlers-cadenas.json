@@ -1,0 +1,433 @@
+{
+  "FUN_00107cf8": {
+    "tipos": [
+      "0x35"
+    ],
+    "cadenas": []
+  },
+  "FUN_00126710": {
+    "tipos": [
+      "0x2C"
+    ],
+    "cadenas": []
+  },
+  "FUN_00138c40": {
+    "tipos": [
+      "0x0A"
+    ],
+    "cadenas": []
+  },
+  "FUN_00138df8": {
+    "tipos": [
+      "0x0A"
+    ],
+    "cadenas": []
+  },
+  "FUN_0014ec10": {
+    "tipos": [
+      "0x2B"
+    ],
+    "cadenas": []
+  },
+  "FUN_00153b60": {
+    "tipos": [
+      "0x41"
+    ],
+    "cadenas": []
+  },
+  "FUN_001604a0": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00160f60": {
+    "tipos": [
+      "0x15"
+    ],
+    "cadenas": []
+  },
+  "FUN_00161418": {
+    "tipos": [
+      "0x1F"
+    ],
+    "cadenas": []
+  },
+  "FUN_001614e8": {
+    "tipos": [
+      "0x20"
+    ],
+    "cadenas": []
+  },
+  "FUN_001615a8": {
+    "tipos": [
+      "0x1C"
+    ],
+    "cadenas": []
+  },
+  "FUN_00161660": {
+    "tipos": [
+      "0x22"
+    ],
+    "cadenas": []
+  },
+  "FUN_00161730": {
+    "tipos": [
+      "0x1E"
+    ],
+    "cadenas": []
+  },
+  "FUN_00161940": {
+    "tipos": [
+      "0x19"
+    ],
+    "cadenas": []
+  },
+  "FUN_00161af0": {
+    "tipos": [
+      "0x1A"
+    ],
+    "cadenas": []
+  },
+  "FUN_00161d78": {
+    "tipos": [
+      "0x36"
+    ],
+    "cadenas": []
+  },
+  "FUN_00161ef0": {
+    "tipos": [
+      "0x1B"
+    ],
+    "cadenas": []
+  },
+  "FUN_001621a8": {
+    "tipos": [
+      "0x13"
+    ],
+    "cadenas": []
+  },
+  "FUN_00162600": {
+    "tipos": [
+      "0x14"
+    ],
+    "cadenas": []
+  },
+  "FUN_00162758": {
+    "tipos": [
+      "0x25"
+    ],
+    "cadenas": []
+  },
+  "FUN_001628e8": {
+    "tipos": [
+      "0x26"
+    ],
+    "cadenas": []
+  },
+  "FUN_00162a60": {
+    "tipos": [
+      "0x27"
+    ],
+    "cadenas": []
+  },
+  "FUN_00162d10": {
+    "tipos": [
+      "0x29"
+    ],
+    "cadenas": []
+  },
+  "FUN_00162f28": {
+    "tipos": [
+      "0x28"
+    ],
+    "cadenas": []
+  },
+  "FUN_001630e8": {
+    "tipos": [
+      "0x42"
+    ],
+    "cadenas": []
+  },
+  "FUN_001631b0": {
+    "tipos": [
+      "0x1D"
+    ],
+    "cadenas": []
+  },
+  "FUN_00163250": {
+    "tipos": [
+      "0x23"
+    ],
+    "cadenas": []
+  },
+  "FUN_00163e08": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00164e50": {
+    "tipos": [
+      "0x2E"
+    ],
+    "cadenas": []
+  },
+  "FUN_001650f8": {
+    "tipos": [
+      "0x0F"
+    ],
+    "cadenas": []
+  },
+  "FUN_00165210": {
+    "tipos": [
+      "0x10"
+    ],
+    "cadenas": []
+  },
+  "FUN_00165330": {
+    "tipos": [
+      "0x11"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166c00": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166c30": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166c60": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166c90": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166cc0": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166cf0": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166d20": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166d50": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166d80": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166db0": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166de0": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166e10": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166e40": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166e70": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166ea0": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166ed0": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166f00": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00166f30": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_00167208": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_0016acb8": {
+    "tipos": [
+      "0x2A"
+    ],
+    "cadenas": []
+  },
+  "FUN_00174430": {
+    "tipos": [
+      "0x03",
+      "0x04",
+      "0x05",
+      "0x06",
+      "0x07",
+      "0x08",
+      "0x09"
+    ],
+    "cadenas": []
+  },
+  "FUN_00174858": {
+    "tipos": [
+      "0x35"
+    ],
+    "cadenas": []
+  },
+  "FUN_00174d48": {
+    "tipos": [
+      "0x37"
+    ],
+    "cadenas": []
+  },
+  "FUN_00174df0": {
+    "tipos": [
+      "0x38"
+    ],
+    "cadenas": []
+  },
+  "FUN_001750e8": {
+    "tipos": [
+      "0x39"
+    ],
+    "cadenas": []
+  },
+  "FUN_00175250": {
+    "tipos": [
+      "0x3A"
+    ],
+    "cadenas": []
+  },
+  "FUN_001752f8": {
+    "tipos": [
+      "0x3B"
+    ],
+    "cadenas": []
+  },
+  "FUN_001753b8": {
+    "tipos": [
+      "0x3C"
+    ],
+    "cadenas": []
+  },
+  "FUN_00175460": {
+    "tipos": [
+      "0x3D"
+    ],
+    "cadenas": []
+  },
+  "FUN_00175520": {
+    "tipos": [
+      "0x3E"
+    ],
+    "cadenas": []
+  },
+  "FUN_001755c8": {
+    "tipos": [
+      "0x3F"
+    ],
+    "cadenas": []
+  },
+  "FUN_00175668": {
+    "tipos": [
+      "0x40"
+    ],
+    "cadenas": []
+  },
+  "FUN_00175980": {
+    "tipos": [
+      "0x2D"
+    ],
+    "cadenas": [
+      [
+        "0x003F54A0",
+        "Message to Level Designer\nPhysics object %s tagged for Pathfinding collision has been removed without reexporting the world view\nReexport the world view and save it to get rid of that message"
+      ]
+    ]
+  },
+  "FUN_00176fb0": {
+    "tipos": [
+      "0x44"
+    ],
+    "cadenas": []
+  },
+  "FUN_0017bdc0": {
+    "tipos": [
+      "0x35"
+    ],
+    "cadenas": []
+  },
+  "FUN_001835b8": {
+    "tipos": [
+      "0x34"
+    ],
+    "cadenas": []
+  },
+  "FUN_001836a8": {
+    "tipos": [
+      "0x34"
+    ],
+    "cadenas": []
+  },
+  "FUN_001dc690": {
+    "tipos": [
+      "0x2F"
+    ],
+    "cadenas": []
+  }
+}

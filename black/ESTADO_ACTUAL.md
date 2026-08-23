@@ -210,6 +210,31 @@ N2  FASES DEL JUEGO
             verificado por efecto**, para que el esquema no quede en papel.
             Es la vía de mayor apalancamiento que hay abierta: sirve igual a
             la Fase 6 (exprimir el ISO) que a la 7.
+            **PASO 1 CERRADO 2026-08-23** (bitácora (36), en frío, sin abrir el
+            emulador). El layout estaba **leído, no verificado**; ahora está
+            **medido, y salió corregido**: `+0x08` **NO es una posición, es el
+            id64 del NOMBRE** del módulo (`GP0101001527`, `LW0001781`,
+            `SQTOM`). `+0x04` es el **blob de datos**, de tamaño variable.
+            **El stream mixto apareció: `0x01092800 = {count=857,
+            array=0x0109F590}`**, 41 tipos distintos — la racha "pura de
+            `0x2D`" de la sesión anterior era un tramo de adentro. Lo encontró
+            un **parámetro distinto**, no más esfuerzo: por rango de tipo son
+            817 rachas; exigiendo **monotonía estricta del puntero de `+0x04`**
+            son 3, y una sola con tipos reales. Control positivo: el `count`
+            leído y el largo derivado por monotonía dan **857 los dos**, por
+            caminos independientes.
+            **Dos cosas que quedaron abiertas y no hay que dar por sabidas:**
+            (a) **cero registros `0x0A` en ese stream**, y LEVEL_00 tiene cinco
+            enemigos — el `0x0A` sigue confirmado por 7d, pero **no sale de
+            acá**; (b) los tipos `0x01`/`0x02` (`SQTOM`/`SQMATT`, escuadra) y
+            `0x33` (`FX0101000004`) **están en los datos y no entre los 61
+            casos**: caen en el `default`, así que el `switch` es el esquema de
+            lo que *este* dispatcher construye, **no del archivo entero**.
+            Lo que falta para cerrar 7e es la **verificación por efecto**, y
+            **ésa sí necesita el emulador**. Candidato más barato: el `0x2D`
+            (256 instancias, física/pathfinding).
+            Herramientas nuevas, las dos con autotest **probado en rojo**:
+            `herramientas/stream_modulos.py` y `herramientas/tipos_modulo.py`.
         Sirve al objetivo que fijó Fran el 2026-08-17: hacer BLACK más
         difícil y meterle cambios tipo remaster (armas, tipos de enemigo,
         coop). El plan de experimentos está en `docs/08-experimentos.md`
@@ -387,6 +412,9 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 
 | Hecho | Evidencia |
 |---|---|
+| **El stream de módulos del nivel: `0x01092800 = {count=857, array=0x0109F590}`**, 41 tipos distintos, registros de `0x10` | dos derivaciones independientes dan 857: el `count` leído y el largo por monotonía del puntero. Los blobs teselan `0x010928B0`–`0x0109F540` sin solaparse. `stream_modulos.py autotest` |
+| **Layout del registro: `+0x00` tipo, `+0x04` blob (tamaño variable), `+0x08` ID64 DEL NOMBRE** — `+0x08` NO es una posición | los id64 decodifican a `GP0101001527`, `LW0001781`, `SQTOM`, `SD0101000007`. `FUN_00174430` (tipos `0x03`–`0x09`) deferencia `param_3+4` como su struct |
+| **Tipo `0x2D` = objeto de física registrado en el pathfinding** (256 instancias en LEVEL_00) | su handler `FUN_00175980` referencia `0x003F54A0`: `'Physics object %s tagged for Pathfinding collision…'`. **Evidencia de lectura, no de efecto** |
 | Identidad: `SLUS-21376`, CRC `5C891FF1`, versión `1.00`, NTSC-U | `pine.py info` + log de arranque → `kb/objetivo.json` |
 | **Vida del jugador = `0x005A8DA8`** (`jugador 0x005A8AB0 + 0x2F8`, f32) | escaneo diferencial + escritura con efecto. **Confirmación independiente de terceros:** el código público es `205A8DA8 44960000` |
 | **Daño al jugador: `0x0013BD20`** (`swc1 f20,0x2F8(s2)`) | watchpoint + golpe real; nop = vida infinita |
