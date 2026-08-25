@@ -192,16 +192,26 @@ $ overline(Z)_R = R quad quad overline(Z)_L = j omega L quad quad
   overline(Z)_C = 1/(j omega C) quad quad
   overline(Z) = R + j X = |Z| angle theta $
 
-$ P = V I cos theta ["W"] quad quad Q = V I sin theta ["VAr"] quad quad
-  S = V I ["VA"] = sqrt(P^2 + Q^2) quad quad "f.d.p." = cos theta = P/S $
+Fasor en *valor de pico*: $overline(V) = V_m angle phi$ para
+$v(t) = V_m cos(omega t + phi)$, con $V_"ef" = V_m \/ sqrt(2)$.
 
-$ Q_C = P (tan theta - tan theta') quad arrow.r quad C = (Q_C)/(omega V^2)
+$ P = 1/2 V_m I_m cos theta ["W"] quad quad
+  Q = 1/2 V_m I_m sin theta ["VAr"] quad quad S = 1/2 V_m I_m ["VA"] $
+
+$ S = sqrt(P^2 + Q^2) quad quad "f.d.p." = cos theta = P/S $
+
+$ "en eficaz, las mismas tres sin el" 1/2: quad P = V_"ef" I_"ef" cos theta quad
+  Q = V_"ef" I_"ef" sin theta quad S = V_"ef" I_"ef" $
+
+$ Q_C = P (tan theta - tan theta') quad arrow.r quad C = (Q_C)/(omega V_"ef"^2)
   quad ("corrección del" cos phi) $
 
 $ omega_0 = 1/sqrt(L C) quad quad Q_"serie" = (omega_0 L)/R quad quad
   "BW" = f_0/Q quad quad V_L = V_C = Q dot V $
 
-$ overline(Z)_L = overline(Z)_"th"^* quad ("máxima transferencia en alterna") $
+$ overline(Z)_L = overline(Z)_"th"^* quad arrow.r quad
+  P_"máx" = (V_(m,"th")^2)/(8 R_"th") = (V_("ef","th")^2)/(4 R_"th")
+  quad ("máxima transferencia en alterna") $
 
 === Módulo 12 — Bode y filtros
 

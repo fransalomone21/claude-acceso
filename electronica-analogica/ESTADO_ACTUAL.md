@@ -285,8 +285,98 @@ y paralelo; y la simulación como tercera pata.
 **Decisión de convención, tomada por Fran el 2026-08-23**: el apunte adopta el **fasor en
 valor de pico** como convención por defecto —que es la de los cuatro libros de la
 cátedra— y publica además la conversión explícita a valor eficaz, porque la Parte I
-trabaja en eficaz (multímetro en CA). Hoy los módulos 11 y 12 están escritos en eficaz:
-**la conversión está pendiente**.
+trabaja en eficaz (multímetro en CA). ~~Hoy los módulos 11 y 12 están escritos en eficaz:
+la conversión está pendiente.~~ **HECHO el 2026-08-25** — ver la sección siguiente.
+
+## Fase 2 — Convenciones y fasor en pico (2026-08-25)
+
+**Cerrada.** El apunte tiene ahora 103 páginas.
+
+### El bloque de convenciones
+
+`apunte/modulos/convenciones.typ`, incluido desde `apunte.typ` **antes** del divisor de
+la Parte I. Seis apartados: (A) mayúsculas, minúsculas y barras, con la tabla de qué
+significa cada forma de escribir una magnitud; (B) convención de signos pasiva; (C) nodo
+de referencia; (D) sentido de las corrientes de malla y del recorrido; (E) el fasor en
+valor de pico, con la tabla de equivalencia a eficaz; (F) números, unidades y ángulos.
+
+Va como **sección de nivel 1 sin número**, con el ayudante `seccion(...)` nuevo de
+`plantilla.typ`: un `heading` con `numbering: none` **no incrementa el contador**, así
+que el bloque entra al frente sin correr la numeración de los trece módulos. La
+contrapartida es que adentro no pueden ir headings de nivel 2 ni 3 —se numerarían
+«0.1»—, y por eso los apartados son texto destacado (`apartado(...)`, local al archivo)
+y no títulos. Hubo que tocar dos lugares más de `plantilla.typ`: el `show heading` de
+nivel 1 (pedirle `counter(heading).display()` a un heading sin número devuelve el del
+módulo anterior) y el encabezado de página.
+
+### La conversión a valor de pico
+
+- **Módulo 11**: convertido entero. La caja de definición del fasor declara el convenio
+  y remite al bloque de convenciones. Las tres potencias llevan el factor $1/2$
+  (`<ec-potencias>`), con la forma en eficaz publicada al lado. Máxima transferencia
+  pasó a $V_(m,th)^2/(8 R_th) = V_(ef,th)^2/(4 R_th)$. Los tres ejercicios reconvertidos.
+- **Módulo 12**: **no había nada que convertir**. Todo el módulo trabaja con cocientes
+  —$H$, decibeles, $f_c$, BW, amplitudes relativas de los armónicos— y el $sqrt(2)$ se
+  cancela arriba y abajo. Se le agregó un párrafo a la definición de función de
+  transferencia que lo dice explícitamente, para que nadie vuelva a preguntárselo.
+- **Anexo 14.2**: el formulario del Módulo 11 reescrito en pico, con la línea en eficaz
+  al lado y la fórmula de máxima transferencia completa.
+
+### Cómo se verificó cada ejercicio
+
+Los cinco chequeos de `verificar.py` en verde, más render página por página de todo lo
+tocado (5–8, 78–86, 101). Y la aritmética por **dos caminos independientes**, corrida en
+Python:
+
+| Ejercicio | Primer camino | Segundo camino |
+|---|---|---|
+| 11.1 | $P = ½ V_m I_m cos θ = 60$ W, $Q = 80$ VAr, $S = 100$ VA | $P_R = I_ef^2 R = 60$ W y $Q = I_ef^2 (X_L - X_C) = 80$ VAr; **y un tercero**, $V_ef I_ef cos θ = 60$ W |
+| 11.2 | $C = Q_C/(ω V_ef^2) = 145$ µF | los datos son eficaces por ser de línea: se declaró explícito y la cuenta no cambia |
+| 11.3 | $Q = ω_0 L/R = 2,5$, $V_L = 25$ V pico | $Q = 1/(2ζ)$ con el $ζ = 0,2$ del Módulo 10; y $V_L/V = 2,5$ da igual en pico que en eficaz |
+| 12.2 | tabla de $|H|$ en 500/1500/2500/3500 Hz | recalculada con $1/sqrt(1+(f/f_c)^2)$: 0,954 / 0,728 / 0,537 / 0,414 |
+
+El paso 7 del Ejercicio 11.1 se agregó justamente para eso: es el único lugar del apunte
+donde el factor $1/2$ se usa y se comprueba en el mismo ejercicio.
+
+### El puente de Graetz estaba mal dibujado
+
+Lo encontró Fran mirando la figura, no ninguno de los cinco chequeos.
+
+`fig-puente-graetz` tenía `diode("D2", ar, de)`: **ánodo en el vértice de salida y cátodo
+en el borne derecho de la fuente**, o sea al revés. Con ese sentido, en el semiciclo
+positivo D1 y D2 quedaban en serie y en directa de `iz` a `de`, cortocircuitando la
+fuente por un camino de mucha menor resistencia que $R_L$. La figura compilaba, se veía
+prolija, y el pie de figura y el texto del Módulo 4 —que dicen «conducen D1 y D4»— eran
+**correctos**: sólo estaba mal el dibujo. Corregido a `diode("D2", de, ar)` y verificado
+por render con zoom sobre los cuatro triángulos.
+
+**La lección de proceso, y es la que importa**: las 45 figuras estaban «verificadas por
+render», pero esa pasada preguntaba *¿se lee bien?* —rótulos cruzados, guías encima del
+texto, curvas pisando etiquetas—. Nunca preguntó *¿el circuito es correcto?*. Son dos
+verificaciones distintas y sólo se hizo una. Falta una pasada de **lectura eléctrica**
+sobre las 45 figuras: seguir la corriente, chequear polaridades y sentidos de los
+semiconductores. Entra como pendiente explícito en el `HANDOFF.md`.
+
+De paso, en la misma figura: el rótulo `v_e` de la fuente estaba forzado con
+`anchor: "east"` y le caía encima del círculo, comiéndose el subíndice. Se le sacó el
+anclaje forzado.
+
+### Tres trampas de Typst nuevas
+
+1. **El ángulo negativo escrito como cadena.** `angle "−53,13" degree` mete un espacio
+   detrás del símbolo de ángulo, y si el número **no** tiene coma decimal mete otro
+   delante del grado: sale `2∠ −90 °`. Resuelto con el ayudante `ang(...)` de
+   `plantilla.typ`, que reclasifica la cadena como `math.class("unary", ...)` y la deja
+   igual que un ángulo positivo escrito con números sueltos: `2∠−53,13°`. Con
+   `"normal"` alcanza sólo si el número tiene coma; con `"unary"` anda en los dos casos.
+   Probado con render, no deducido.
+2. **`mu "F"` mete el espacio en el medio** —`145μ F`—. Ya estaba en el HANDOFF; había un
+   caso vivo en el Módulo 11. Va `"145 µF"` como cadena entera.
+3. **Las fórmulas largas del anexo se pisan con el número de ecuación.** Volvió a pasar
+   al alargar la línea de potencias con el factor $1/2$. Se parte en dos ecuaciones. El
+   anexo no tiene ninguna alarma que lo agarre: se ve por render o no se ve.
+
+
 
 ## Fuentes
 

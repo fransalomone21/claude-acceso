@@ -23,6 +23,13 @@ todas las demás. Todo eso es *respuesta en frecuencia*.
   Es un número complejo *para cada* $omega$. Su módulo dice cuánto amplifica o atenúa el
   circuito a esa frecuencia; su argumento, cuánto desfasa. Las dos curvas —módulo y fase
   contra frecuencia— son la respuesta en frecuencia del circuito.
+
+  *No depende del convenio de fasores.* $overline(H)$ es un cociente entre dos fasores,
+  así que el $sqrt(2)$ que separa el valor de pico del eficaz se cancela arriba y abajo:
+  el módulo, la fase, los decibeles, la frecuencia de corte y el ancho de banda dan
+  exactamente lo mismo se haya escrito el circuito en pico —como en la Parte II— o en
+  eficaz —como en la Parte I—. Todo este módulo se lee igual en las dos escalas; lo
+  único que hay que respetar es no mezclarlas dentro de la misma cuenta.
 ]
 
 Como $overline(H)$ sale de resolver el circuito con impedancias, siempre resulta un

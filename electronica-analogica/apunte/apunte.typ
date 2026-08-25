@@ -19,6 +19,11 @@
 )
 
 // ---------------------------------------------------------------------
+// Va antes de las dos partes y SIN numero de modulo: son los acuerdos que
+// rigen todo el documento, no un tema. Ver `seccion` en plantilla.typ.
+#include "modulos/convenciones.typ"
+
+// ---------------------------------------------------------------------
 #parte(1, "La materia y sus trabajos prácticos", [
   Los seis módulos de esta parte siguen el temario de la cátedra y el orden de las guías
   de trabajos prácticos: cada uno cierra con el TP que lo pone a prueba en el

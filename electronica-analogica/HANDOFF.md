@@ -3,24 +3,22 @@
 ## Cuadro de fase para abrir el próximo chat
 
 ```
-Fase     : Los OCHO defectos de la Parte I (rótulos atravesados por su
-           propia guía, o por la curva) están corregidos y verificados por
-           render — pasada completa de las 12 páginas de la galería,
-           posterior al último retoque. Ver ESTADO_ACTUAL.md, sección "Los
-           ocho defectos de la PARTE I — corregidos", para el detalle de
-           cada arreglo y el patrón general (guía cruza rótulo cuando su
-           pendiente es más chica que el cociente alto/ancho de la caja de
-           texto).
-           Lo que sigue: Fase 2 — Convenciones (ver "Plan de fases" abajo).
-           LA CIERRA: el bloque de convenciones al frente del apunte, y la
-           conversión de los módulos 11-12 a fasor en valor de pico con la
-           caja de equivalencia a eficaz al lado.
-Modelo   : Sonnet 5 para escribir el bloque de convenciones (redacción según
-           un criterio ya decidido). Opus si al convertir a valor de pico
-           aparecen ejercicios donde el resultado numérico no cierra por dos
-           caminos — ahí es diagnóstico, no ejecución.
-Esfuerzo : medio, sin fan-out. Contenido nuevo más revisión ejercicio por
-           ejercicio de los módulos 11 y 12.
+Fase     : Fase 2 (Convenciones + fasor en pico) CERRADA el 2026-08-25. El
+           bloque de convenciones está al frente del apunte —sección de nivel
+           1 sin número, seis apartados—, el Módulo 11 está convertido entero
+           a valor de pico con la caja de equivalencia a eficaz, el Módulo 12
+           resultó no tener nada que convertir (es todo cocientes) y se le
+           dejó dicho por qué, y el formulario del anexo está reescrito. Los
+           cinco chequeos en verde y la aritmética de los cuatro ejercicios
+           comprobada por dos caminos, corridos en Python. Detalle completo en
+           ESTADO_ACTUAL.md, sección "Fase 2".
+           Lo que sigue: Fase 3 — Los temas que faltan (ver "Plan de fases").
+           Pero antes conviene la PASADA DE LECTURA ELÉCTRICA de las 45
+           figuras: ver "Pendientes explícitos".
+Modelo   : Sonnet 5 para escribir contenido nuevo de la Fase 3 según el
+           programa ya publicado. Opus si aparece un tema donde haya que
+           decidir el enfoque (trifásica y zpk son los dos candidatos).
+Esfuerzo : medio, sin fan-out. Contenido secuencial.
 Contexto : chat nuevo.
 Rama     : claude/manual-analogica-tr0mk6
 ```
@@ -48,6 +46,22 @@ Rama     : claude/manual-analogica-tr0mk6
 - **`v_square` no es un subíndice**: dibuja un cuadrado vacío. Usar `v_"cuad"`.
 - **Etiquetas de ecuación repetidas**: Typst falla al compilar. `<ec-fc>` ya está tomada
   por el Módulo 2; la del Módulo 12 es `<ec-fc-rc>`.
+- **Ángulo negativo escrito como cadena**: `angle "−53,13" degree` mete un espacio detrás
+  del símbolo de ángulo, y si el número *no* tiene coma decimal mete otro delante del
+  grado (`2∠ −90 °`). Va con el ayudante `ang(...)` de `plantilla.typ`:
+  `$60 angle ang("−53,13°") thin "V"$`. Usa `math.class("unary", ...)`, que es la única
+  clase que anda con coma y sin coma.
+- **Referencias `@ec-...` entre módulos distintos**: no sirven. El contador de ecuaciones
+  se reinicia en cada `#modulo(...)`, así que "Ecuación 4" desde otro módulo no lleva a
+  ningún lado. Se cita por nombre de módulo o de sección.
+- **Fórmulas largas en el anexo**: se pisan con el número de ecuación, y ninguna alarma lo
+  agarra. Se parten en dos ecuaciones. Volvió a pasar el 2026-08-25.
+- **Sección de nivel 1 sin número**: `heading(level: 1, numbering: none)` **no incrementa**
+  el contador, que es justo lo que hace falta para meter las convenciones al frente sin
+  correr los módulos. Pero adentro no van headings de nivel 2 ni 3 (saldrían "0.1"), y
+  hay que ramificar tanto el `show heading.where(level: 1)` como el encabezado de página:
+  pedirle `counter(heading).display()` a un heading sin número devuelve el del módulo
+  anterior. Ya está hecho: el ayudante es `seccion(...)`.
 - **Encabezado de página**: no usar `.before(here())` para saber en qué módulo se está —
   no ve el título que arranca en esa misma página y el encabezado sale con el módulo
   anterior. La plantilla filtra por número de página; está resuelto, no revertirlo.
@@ -113,8 +127,19 @@ vertical y hacer que la diagonal avance exactamente una columna por fila.
 
 ## Pendientes explícitos
 
-- **La conversión de fasores a valor de pico** en los módulos 11 y 12, con la caja de
-  equivalencia a eficaz. Decidido, no hecho. Es lo primero de la Fase 2.
+- ~~**La conversión de fasores a valor de pico** en los módulos 11 y 12.~~ **HECHA el
+  2026-08-25.** Ver `ESTADO_ACTUAL.md`, sección "Fase 2".
+- **PASADA DE LECTURA ELÉCTRICA de las 45 figuras — pendiente, y es lo más urgente.**
+  El 2026-08-25 apareció que `fig-puente-graetz` tenía el D2 al revés: en el semiciclo
+  positivo D1 y D2 quedaban en serie y en directa, cortocircuitando la fuente por un
+  camino de menor resistencia que la carga. Ya está corregido. Lo que importa es *por
+  qué no lo agarró nadie*: las 45 figuras están verificadas por render, pero esa pasada
+  pregunta **¿se lee bien?** —rótulos cruzados, guías encima del texto— y nunca preguntó
+  **¿el circuito es correcto?**. Falta la segunda: seguir la corriente figura por figura,
+  chequear el sentido de cada semiconductor y la polaridad de cada fuente. Los
+  candidatos con más riesgo son los que tienen varios diodos o un BJT:
+  `fig-rectificador-punto-medio`, `fig-proteccion-polaridad`, `fig-regulador-zener`,
+  `fig-rele-completo`, `fig-conmutacion-npn`, `fig-led-limitadora`.
 - ~~**15 circuitos en ASCII** en los módulos 7 a 13, enumerados en `ASCII_PENDIENTE`.~~
   **HECHO el 2026-08-23.** Las 15 están dibujadas, `ASCII_PENDIENTE` se borró y el
   chequeo 3 volvió a ser un rojo simple. En su lugar quedó pendiente otra cosa: los
@@ -170,14 +195,17 @@ de esto y todo sigue funcionando como antes.
 
 ## Plan de fases
 
-**Fase 2 — Convenciones.** Es lo que Fran pidió explícitamente ("quiero que dejes toda
+**Fase 2 — Convenciones. CERRADA el 2026-08-25.** Es lo que Fran pidió explícitamente ("quiero que dejes toda
 convención fácilmente clara; de ahí saca ejercicios mi profe"). Un bloque de convenciones
 al frente del apunte: convención de signos pasiva, sentido de las corrientes de malla,
 nodo de referencia, notación de mayúsculas y minúsculas, unidades. Y la decisión ya
 tomada: **fasor en valor de pico por defecto** (la de Nilsson-Riedel y los otros tres
 libros de la cátedra), **con la conversión a eficaz publicada al lado**, porque la Parte I
 trabaja en eficaz. Hoy los módulos 11 y 12 están escritos en eficaz: hay que convertir las
-cuentas y revisar cada ejercicio. Es la fase que más contenido mueve.
+cuentas y revisar cada ejercicio. Es la fase que más contenido mueve. — Hecho: el
+Módulo 11 convertido entero, el 12 resultó ser todo cocientes y no necesitaba conversión
+(se le dejó dicho por qué), el formulario del anexo reescrito y los cuatro ejercicios
+comprobados por dos caminos.
 
 **Fase 3 — Los temas que faltan**, en el orden del programa: sistemas trifásicos;
 la forma zpk y los polos y ceros en el plano complejo con la relación unívoca entre
@@ -224,3 +252,10 @@ Son también un buen criterio para los gráficos del propio apunte.
   no hace falta.
 - Typst contra LaTeX: decidido y documentado en `docs/figuras.md`. No reabrir.
 - El merge de las dos ramas ya está hecho. Es un solo documento y una sola biblioteca.
+- **El convenio de fasor en valor de pico y su tabla de equivalencia a eficaz** están
+  escritos y verificados. No reabrir la discusión pico/eficaz: la decisión es de Fran y
+  la ejecución está hecha. Lo único que sigue abierto es que Fran confirme contra el
+  Nilsson-Riedel de sus Descargas (ver "Pendientes explícitos").
+- **La aritmética de los ejercicios 11.1, 11.2, 11.3 y 12.2** está comprobada por dos
+  caminos independientes y corrida en Python el 2026-08-25. No rehacerla sin un motivo
+  concreto.

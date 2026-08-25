@@ -49,6 +49,16 @@
   )
 }
 
+// ---------- Angulo de un fasor ----------
+// `angle "−53,13" degree` mete un espacio detras del simbolo del angulo, y si
+// el numero NO tiene coma decimal mete otro delante del grado: sale
+// "2∠ −90 °". Es porque la cadena entra como atomo de texto. La clase "unary"
+// la deja pegada de los dos lados y queda igual que un angulo positivo escrito
+// con numeros sueltos: "2∠−53,13°", "50∠53,13°". ("normal" alcanza cuando el
+// numero tiene coma decimal, pero no cuando no la tiene: probado con render.)
+// Uso: $60 angle ang("−53,13°") thin "V"$
+#let ang(valor) = math.class("unary", valor)
+
 // ---------- Circuito en ASCII ----------
 #let circuito(cap, body) = figure(
   align(center, body),
@@ -101,6 +111,32 @@
   ]
 }
 
+// ---------- Seccion sin numero (va ANTES de los modulos) ----------
+// Un heading de nivel 1 con `numbering: none` no incrementa el contador de
+// headings, asi que el bloque de convenciones puede ir al frente del apunte
+// sin correr la numeracion de los trece modulos. La contrapartida: adentro
+// no van headings de nivel 2 o 3, porque se numerarian "0.1".
+#let seccion(titulo, resumen) = {
+  pagebreak(weak: true)
+  cont-ej.update(0)
+  counter(math.equation).update(0)
+  counter(figure.where(kind: "circuito")).update(0)
+  counter(figure.where(kind: table)).update(0)
+  heading(level: 1, numbering: none, titulo)
+  block(
+    width: 100%,
+    fill: c-gris,
+    stroke: (left: 2.5pt + c-azul),
+    inset: (x: 11pt, y: 10pt),
+    radius: (right: 3pt),
+    below: 16pt,
+  )[
+    #text(size: 9.5pt, weight: "bold", fill: c-azul, tracking: 0.3pt)[PARA QUE SIRVE ESTA SECCION]
+    #v(-2pt)
+    #text(size: 9.5pt)[#resumen]
+  ]
+}
+
 // ---------- Documento ----------
 #let apunte(
   titulo: "",
@@ -125,8 +161,12 @@
       let previos = query(heading.where(level: 1)).filter(h => h.location().page() <= pag)
       let titulo-actual = if previos.len() > 0 {
         let h = previos.last()
-        let num = counter(heading).at(h.location()).first()
-        [Modulo #num — #h.body]
+        if h.numbering == none {
+          h.body
+        } else {
+          let num = counter(heading).at(h.location()).first()
+          [Modulo #num — #h.body]
+        }
       } else [Apuntes de la materia]
       set text(size: 8.5pt, fill: luma(105))
       grid(
@@ -166,9 +206,15 @@
 
   // Titulos
   show heading.where(level: 1): it => {
+    // Las secciones sin numero (las convenciones) llevan otro rotulo: pedirle
+    // `counter(heading).display()` a un heading que no numera devuelve el
+    // numero del modulo ANTERIOR, no el suyo.
+    let rotulo = if it.numbering == none [SECCION PRELIMINAR] else [
+      MODULO #counter(heading).display()
+    ]
     block(above: 0pt, below: 14pt)[
       #text(size: 9pt, fill: c-azul, weight: "bold", tracking: 1.2pt)[
-        MODULO #counter(heading).display()
+        #rotulo
       ]
       #v(-6pt)
       #text(size: 19pt, fill: c-azul, weight: "bold")[#it.body]

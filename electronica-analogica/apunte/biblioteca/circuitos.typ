@@ -373,7 +373,11 @@
   import zap: *
   let (iz, ar, de, ab) = ((1.9, 0), (3.4, 1.5), (4.9, 0), (3.4, -1.5))
   diode("D1", iz, ar, label: none)
-  diode("D2", ar, de, label: none)
+  // D2 va de `de` a `ar`: ANODO en el borne derecho de la fuente, CATODO en
+  // el vertice positivo de salida. Al reves (ar -> de) queda en serie y en
+  // directa con D1 durante el semiciclo positivo, y los dos juntos cortocircuitan
+  // la fuente por un camino de menor resistencia que R_L.
+  diode("D2", de, ar, label: none)
   diode("D3", ab, iz, label: none)
   diode("D4", ab, de, label: none)
   cetz.draw.content((2.15, 1.15), text(size: letra-figura, $D_1$), anchor: "east")
@@ -387,7 +391,9 @@
   // entrada de alterna: una punta al vértice izquierdo, la otra al
   // derecho, rodeando el puente por abajo
   wire(iz, (0.3, 0))
-  acvsource("V", (0.3, -2.7), (0.3, 0), label: (content: $v_e$, anchor: "east"))
+  // El rotulo va con el anclaje por defecto: forzando "east" queda sobre el
+  // borde del circulo y la "e" del subindice se pierde adentro del simbolo.
+  acvsource("V", (0.3, -2.7), (0.3, 0), label: $v_e$)
   wire((0.3, -2.7), (6.0, -2.7))
   wire((6.0, -2.7), (6.0, 0))
   wire((6.0, 0), de)
