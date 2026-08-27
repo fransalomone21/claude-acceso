@@ -50,6 +50,16 @@ Write-Host ""
 Write-Host "=== invariante: un archivo, un repo dueno ===" -ForegroundColor Cyan
 Write-Host "  Una carpeta con su propio .git NO puede estar tracked por claude-acceso."
 Write-Host "  Se rompio una vez y costo 23 lecciones perdidas. Ver MAPA.md, seccion 4."
+#
+# Esta alarma FUE PROBADA rompiendo el caso a proposito (2026-08-27):
+#   - repo externo con sub/archivo.md tracked, y DESPUES git init en sub/
+#     -> [FAIL], detecta 1 archivo. ROJO.
+#   - el mismo arbol sin tracking cruzado -> [OK]. VERDE.
+# Nota del primer intento fallido: sabotear con "git add -f" sobre un repo YA
+# anidado no rompe nada -- git ignora esos archivos y el indice queda vacio, asi
+# que la alarma daba verde porque el escenario estaba sano, no porque fuera
+# ciega. El caso roto solo se produce en el orden real: primero tracked,
+# despues clonado adentro.
 Write-Host ""
 
 $roto = $false
