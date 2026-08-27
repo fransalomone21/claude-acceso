@@ -17,3 +17,17 @@ black/construido/*
 
 __pycache__/
 *.pyc
+
+# --- perfil-global ---
+
+# Es su PROPIO repositorio (github.com/fransalomone21/perfil-global), clonado aca
+
+# adentro para que este a mano desde el punto de entrada unico. Que claude-acceso
+
+# tambien lo trackeara creaba dos historias sobre los mismos archivos: paso de
+
+# verdad, y costo 23 lecciones que vivian en un repo y no en el otro (2026-08-27).
+
+# Un archivo, un repo dueno. Si falta la carpeta, correr bootstrap.ps1.
+
+perfil-global/
