@@ -45,6 +45,7 @@ C:\Users\frans\Desktop\
 │   │   │   └── repaso-iise\            guion + audios — terminado
 │   │   └── seguimiento\
 │   │       └── caso-tio\             ← REPO PROPIO · ignorado acá · NO se pushea
+│   │       └── coaching\             ← REPO PROPIO PRIVADO · ignorado acá
 │   │
 │   └── archivo\
 │       └── RAMAS.md                  qué quedó en las ramas viejas
@@ -57,6 +58,17 @@ C:\Users\frans\Desktop\
 `PlanosGasista\` es material de trabajo sin proyecto asociado. Si algún día se
 trabaja sobre eso con Claude, entra como proyecto en `proyectos/documentos/`.
 
+## 1.bis `claude-acceso` es PÚBLICO
+
+Verificado el 2026-08-27: `api.github.com/repos/fransalomone21/claude-acceso`
+responde **200 sin autenticar**. `perfil-global` responde 404, o sea privado.
+
+**Consecuencia, y es la que ordena la tabla de abajo:** nada personal se
+commitea en `claude-acceso`. Datos de salud, físicos, de alimentación,
+seriales de equipos o informes de dispositivos van a un repo propio, privado o
+sin remote. No es una preferencia: es la diferencia entre un dato privado y un
+dato publicado.
+
 ## 2. Quién es dueño de qué
 
 | Carpeta | Repo dueño | Se pushea a |
@@ -64,6 +76,7 @@ trabaja sobre eso con Claude, entra como proyecto en `proyectos/documentos/`.
 | `claude-acceso/` (todo salvo lo de abajo) | `claude-acceso` | `github.com/fransalomone21/claude-acceso` |
 | `perfil-global/` | `perfil-global` | `github.com/fransalomone21/perfil-global` |
 | `proyectos/seguimiento/caso-tio/` | `caso-tio` (local) | **a ningún lado** — datos de salud de un familiar |
+| `proyectos/seguimiento/coaching/` | `coaching` (local) | GitHub **privado** — falta crear el remote |
 
 **La regla que sostiene esta tabla: un archivo, un repo dueño.** Si una carpeta
 tiene su propio `.git`, `claude-acceso` la ignora en el mismo turno en que

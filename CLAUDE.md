@@ -54,8 +54,14 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 | Proyecto | Qué es | Estado |
 |---|---|---|
 | `caso-tio/` | Caso clínico familiar → guía para la familia | vivo, **repo aparte, no se pushea acá** |
+| [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **abierto, sin arrancar** — el PDP ya tiene la entrevista hecha |
 
 ---
+
+> **`claude-acceso` es un repositorio PÚBLICO.** Nada personal —datos de
+> salud, físicos, de alimentación, seriales, informes de dispositivos— se
+> commitea acá. Para eso están las carpetas ignoradas de la tabla de arriba,
+> que tienen su propio repo. `perfil-global` sí es privado.
 
 ## Las cuatro reglas de la estructura
 

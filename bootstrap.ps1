@@ -78,7 +78,7 @@ Get-ChildItem -Path $raiz -Directory -Recurse -Depth 3 -Force |
     }
 
 # Las carpetas ignoradas que no se pueden clonar de ningun lado
-$sinRemote = @("proyectos/seguimiento/caso-tio")
+$sinRemote = @("proyectos/seguimiento/caso-tio", "proyectos/seguimiento/coaching")
 foreach ($c in $sinRemote) {
     if (-not (Test-Path (Join-Path $raiz $c))) {
         Write-Host "  [WARN] falta $c y no tiene remote: solo existe en la maquina" -ForegroundColor Yellow

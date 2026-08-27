@@ -5,6 +5,7 @@
 # (2026-08-27). Un archivo, un repo dueno. Si falta alguna, ver bootstrap.ps1.
 perfil-global/
 proyectos/seguimiento/caso-tio/
+proyectos/seguimiento/coaching/
 
 # --- datos de la maquina o de terceros: se quedan aca, no se pushean ---
 # Los informes del telefono llevan apps instaladas, serial y cuentas.
