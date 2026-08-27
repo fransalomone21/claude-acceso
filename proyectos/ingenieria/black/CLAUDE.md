@@ -4,6 +4,18 @@ Ingeniería reversa de **BLACK** (PS2, Criterion Games, 2006) sobre PCSX2, para
 modificarlo con criterio. Este archivo se carga solo al empezar una sesión.
 Es el índice, no el manual: leelo entero, y de ahí saltá a lo que haga falta.
 
+**Naturaleza:** `ingenieria`. Antes de trabajar acá se lee
+[`plantillas/naturalezas/ingenieria.md`](../../../plantillas/naturalezas/ingenieria.md):
+evidencia, confirmado-por-efecto, versión del dato, y las trampas de creerle a
+una herramienta.
+
+> **Pendiente de estructura (2026-08-27):** este proyecto todavía no tiene
+> `PDP.md`. Sus fases y criterios de salida viven repartidos entre
+> `ESTADO_ACTUAL.md` y `docs/04-plan.md`, que es de donde salió el problema que
+> la fase 7e ya arrastra. Al abrir la próxima fase, armarlo con
+> [`plantillas/PDP.md`](../../../plantillas/PDP.md) — el criterio de salida se
+> escribe **antes** de empezar la fase, no después.
+
 ## Qué leer según lo que se vaya a hacer
 
 | Si la tarea es… | Leer |
@@ -109,13 +121,13 @@ Cambiá de modelo con `/model`. Fable queda fuera (consume créditos aparte).
 **Al abrir no hay que hacer nada:** el hook `SessionStart` del perfil global
 inyecta `chequeo-de-trabajo.md`, la síntesis de las 31 lecciones. Si hace
 falta el listado completo:
-`python ../perfil-global/herramientas/aprender.py digesto`.
+`python ../../../perfil-global/herramientas/aprender.py digesto`.
 
 Al cerrar, si algo falló **por cómo se trabajó** y no por lo que decía el
 código, se registra en el **registro global**, no en el del proyecto:
 
 ```
-python ../perfil-global/herramientas/aprender.py agregar --proyecto black \
+python ../../../perfil-global/herramientas/aprender.py agregar --proyecto black \
     --grupo evidencia|busqueda|medicion|herramientas|proceso|entorno \
     --titulo ... --costo ... --sintoma ... --regla ...
 ```
@@ -133,6 +145,6 @@ segunda fuente de verdad. Ver lección 25 de `/lecciones-aprendidas`.
 2. Agregar una entrada arriba de todo en `docs/03-bitacora.md`.
 3. Registrar las lecciones de proceso con `aprender.py agregar`.
 4. Actualizar `ESTADO_ACTUAL.md` y `sesiones/HANDOFF.md`.
-5. Commit y push a `claude/black-game-reverse-engineering-ricv3t`.
+5. Commit y push a `main`.
 
 Sin esos pasos, la próxima sesión arranca de cero.

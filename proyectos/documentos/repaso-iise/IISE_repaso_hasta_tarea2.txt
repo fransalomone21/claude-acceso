@@ -1,0 +1,409 @@
+REPASO ORAL. INTRODUCCIÓN A LA INGENIERÍA DE SISTEMAS ESPACIALES.
+CLASE UNO COMPLETA Y CLASE DOS HASTA LA TAREA DOS DEL PENSAMIENTO SISTÉMICO.
+
+
+BLOQUE UNO. LA INICIATIVA CDIO.
+
+CDIO significa: Concebir, Diseñar, Implementar y Operar. Repito: Concebir, Diseñar, Implementar y Operar.
+
+¿Por qué surgió la iniciativa CDIO? Porque había un vacío entre las necesidades de la industria y lo que se enseñaba en las universidades en las carreras de ingeniería.
+
+Después de la Segunda Guerra Mundial, la mayoría de los profesores de las universidades americanas venían de la industria, y por eso incorporaban a sus clases las necesidades prácticas. Pero con el tiempo las universidades se centraron cada vez más en hacer investigación básica, y los aspectos científicos se impusieron en los programas. La ingeniería se convirtió en la enseñanza de las ciencias de la ingeniería. Y se descuidó el trabajo de las capacidades personales e interpersonales de los estudiantes.
+
+El objetivo de CDIO es acentuar esas capacidades sin disminuir el aprendizaje de las competencias específicas de la disciplina.
+
+La transformación cultural que se busca es la siguiente. Hasta ahora se enseñaban ciencias de la ingeniería, en un contexto de investigación y desarrollo, con una mirada reduccionista y un trabajo individual. Lo deseado, en cambio, es hacer ingeniería, en un contexto de producto, con una mirada integradora, y trabajando en equipo.
+
+Las cuatro categorías de competencias del programa CDIO son. Primera: conocimiento técnico y razonamiento. Segunda: competencias y atributos personales y profesionales. Tercera: competencias interpersonales, es decir, trabajo en equipo y comunicación. Y cuarta: concebir, diseñar, implementar y operar sistemas en el contexto de la empresa y la sociedad.
+
+En la carrera, la progresión es así. La materia de introducción cubre la fase Concebir y algo de Diseñar, Implementar y Operar. El Proyecto Integrador uno cubre Concebir y algo de Diseñar. El Proyecto Integrador dos cubre Concebir, Diseñar y algo de Implementar. El Proyecto Integrador tres cubre Concebir, Diseñar, Implementar y algo de Operar. Y el Proyecto Integrador cuatro cubre las cuatro fases completas.
+
+
+BLOQUE DOS. CIENCIA, TECNOLOGÍA E INGENIERÍA.
+
+Este es un tema clásico de examen. Son tres actividades de la racionalidad humana según sus fines. Son de igual importancia. Están relacionadas fuertemente, íntimamente, pero son independientes entre sí. Cada una es una actividad en sí misma, con su propia naturaleza.
+
+La ciencia son sistemas teóricos de explicación de dominios fenoménicos. Son justificaciones. Tiene carácter descriptivo.
+
+La tecnología es control de procesos, control de la acción. Es una actividad orientada al control de procesos.
+
+La ingeniería son reglas exitosas de transformación. Es una actividad orientada a crear productos, sistemas y procesos. Y el diseño es un acto puro de la mente, caracterizado por la creatividad.
+
+Una frase para citar: la ingeniería se encuentra más cercana en naturaleza y semejanza a las ciencias de la cultura que a las ciencias naturales.
+
+Sobre la actividad del ingeniero. Hay un cliente y hay interesados, en inglés customer and stakeholder, que tienen necesidades de un producto o de un sistema. Debemos satisfacer esas necesidades a través de un proyecto que nos permita alcanzar esas metas u objetivos exitosamente. Es una cultura de satisfacción de necesidades de un cliente o mercado, de los requerimientos de un producto, de un artefacto, de un sistema.
+
+
+BLOQUE TRES. DEFINICIÓN DE PROYECTO Y TRIÁNGULO DE HIERRO.
+
+Definición de proyecto. Un proyecto es un conjunto de tareas que están relacionadas unas con otras, que tienen un objetivo común para ser completadas dentro de ciertas especificaciones, es decir performance o desempeño, y que tienen definida una fecha para empezar y una fecha de terminación, es decir planificación.
+
+Repito los tres elementos de la definición: tareas relacionadas, objetivo común dentro de especificaciones, y fechas de inicio y fin definidas.
+
+El triángulo de hierro. Los tres vértices son: planificación, en inglés schedule; desempeño, en inglés performance; y costos. En el centro está el riesgo. Atención al detalle: es un triángulo de hierro solamente si las tres variables están restringidas.
+
+La autoridad máxima del proyecto es el Jefe de Proyecto, y debe balancear el proyecto con estas tres variables: performance técnica, costos y planificación, dirigiendo y controlando el riesgo.
+
+El ciclo de dirección de un proyecto de sistema es. Primero la empresa elige qué producto o sistema va a desarrollar. Luego viene la preparación del proyecto, el comienzo, la planificación, el monitoreo, el control, la adaptación y el aprendizaje del proyecto. Y finalmente el proyecto terminado, y el próximo proyecto.
+
+Diferencia entre investigación y desarrollo. La investigación y el desarrollo de tecnología usan métodos no estructurados, son difíciles de planificar y son no predecibles. El desarrollo de producto o sistema, en cambio, usa métodos estructurados, es generalmente planeado y es predecible. Nuestro foco en la materia es el desarrollo de producto y sistema.
+
+
+BLOQUE CUATRO. LAS TRES DISCIPLINAS Y SUS HERRAMIENTAS.
+
+Hay que distinguir tres actividades relacionadas dentro de un proyecto.
+
+Primera. Dirección de proyecto. Se trata de tareas de gestión para la mejor utilización de los recursos en los procesos de ingeniería de sistemas, para implementar el conjunto de objetivos. Sus herramientas típicas son: el método del camino crítico, la matriz de estructura de diseño, y la dinámica de sistemas.
+
+Segunda. Ingeniería de sistemas. Se trata de los procesos y herramientas que habilitan la implementación exitosa de la arquitectura, y que permiten entender y diseñar el sistema. Sus herramientas típicas son: la tabla ene cuadrado, la tabla Q F D, la selección de conceptos, el análisis y verificación de los requerimientos, el análisis de la tabla de tiempos, los diagramas de flujo funcional, y el diseño robusto.
+
+Tercera. Arquitectura de sistemas. Es acerca del ADN de los artefactos propiamente dichos: cómo está organizado el producto. Sus temas son el concepto, la forma, la función y su descomposición.
+
+Punto importante para el examen: la arquitectura de sistemas es una función del ingeniero de sistemas. Y el arquitecto es un especialista, no un generalista.
+
+Los ingenieros especialistas son los ingenieros civiles, mecánicos, estructuralistas, mecatrónicos, eléctricos, electrónicos, térmicos, y demás.
+
+
+BLOQUE CINCO. QUÉ ES LA INGENIERÍA DE SISTEMAS.
+
+A la ingeniería de sistemas se la llama el arte de la gestión de la complejidad. Emergió como una disciplina profesional distinta, en respuesta directa a la complejidad creciente de los proyectos de nuevos desarrollos.
+
+Primera definición. La ingeniería de sistemas es un enfoque robusto para la creación, diseño, construcción, integración y operación de productos y sistemas complejos. El enfoque consiste en: identificar y cuantificar las metas de un sistema; crear alternativas, conceptos y diseños de sistema; evaluar la performance de las alternativas de diseño; seleccionar e implementar el mejor diseño; verificar que el diseño esté apropiadamente construido e integrado; y evaluar cuán bien el sistema cumple las metas.
+
+Este enfoque es iterativo, con sucesivos incrementos en la resolución del baseline del sistema. Y ojo, porque esto se pregunta: el baseline contiene los requerimientos, los detalles de diseño, los planes de verificación, y la estimación de costos y performance.
+
+Segunda definición. La ingeniería de sistemas es una disciplina que se concentra en el diseño y aplicación del todo, es decir del sistema, como distinto de las partes. Involucra el problema en su completitud, en su totalidad, teniendo en cuenta todas las facetas, todas las variables, las relaciones sociales y los aspectos técnicos.
+
+Tercera definición. La ingeniería de sistemas es un proceso iterativo, de arriba hacia abajo, de síntesis, desarrollo y operación de los sistemas del mundo real, que satisfacen de manera cercana a lo óptimo todo el rango de requerimientos del sistema.
+
+Cuarta definición, la de INCOSE, que conviene saber bien. La ingeniería de sistemas es un enfoque interdisciplinario, y los medios para permitir la realización de sistemas exitosos. Se focaliza en definir las necesidades del cliente y la funcionalidad requerida tempranamente en el ciclo de desarrollo del proyecto, documentando los requerimientos, y luego procediendo con la síntesis del diseño y la validación del sistema, mientras considera el problema en su completitud: operaciones, costos y planificación, performance, entrenamiento y soporte, ensayos, manufactura, y eliminación o fin de ciclo. La ingeniería de sistemas considera ambas necesidades, la del negocio y la técnica del cliente, con la meta de suministrar un producto de calidad que satisfaga las necesidades del cliente.
+
+Qué es INCOSE. Es el Consejo Internacional de Ingeniería de Sistemas. Es una organización sin fines de lucro, fundada para desarrollar y diseminar los principios interdisciplinarios y las prácticas que habilitan la realización de sistemas exitosos. Su misión es compartir, promover y avanzar la mejor ingeniería de sistemas a través del mundo, para el beneficio de la humanidad y el planeta. Su visión es ser la autoridad en el mundo de la ingeniería de sistemas.
+
+Los dominios de aplicación son muchos: espacial, aeroespacial y aeronáutico; nuclear; infraestructura urbana; sistemas de comunicación; sistemas de datos e información; sistemas de salud; sistemas de potencia eléctrica; producción y construcción; transporte; sistema financiero; sistema de educación. Todos son sistemas complejos donde interactúan tecnología, personas y procesos.
+
+
+BLOQUE SEIS. DEFINICIÓN DE SISTEMA SEGÚN INCOSE.
+
+Primera definición. Un sistema es una combinación de interacción de elementos organizados para alcanzar un propósito establecido.
+
+Segunda definición. Un sistema es un conjunto de elementos integrados o ensamblados que realizan objetivos definidos. Estos elementos incluyen productos, es decir hardware, software y firmware; procesos; personas; información; técnicas; facilidades; servicios; y otros elementos de soporte.
+
+Un principio fundamental. Cada sistema opera como un elemento de un sistema más grande, y a su vez está compuesto de sistemas más chicos. Se habla entonces del sistema ene, del sistema ene más uno, y del sistema ene menos uno.
+
+Desplegando el sistema. Un sistema es un compuesto integrado de gente, productos y procesos, para satisfacer necesidades y objetivos establecidos por el cliente. Retengan esa tríada: gente, productos y procesos.
+
+En un proyecto espacial, el sistema está integrado por personas especializadas en diferentes áreas o disciplinas de la ingeniería: el subsistema térmico, el subsistema de estructuras, el subsistema de potencia, el subsistema de control de actitud, y así. Esta variedad de personas piensa al sistema como un producto compuesto por hardware y software, a ser desarrollado como partes del sistema.
+
+
+BLOQUE SIETE. HISTORIA DE LA INGENIERÍA DE SISTEMAS.
+
+Ha habido gente haciendo ingeniería de sistemas desde la antigüedad. En las grandes obras había procesos complejos que debían comunicarse, y el sistema era tan grande que no podía ser manejado por una o dos personas. Con semejantes proyectos hay que estandarizar los procesos y las herramientas.
+
+Ejemplos históricos, con sus fechas. El sistema de distribución de agua en la Mesopotamia, cuatro mil años antes de Cristo. El sistema de irrigación en Egipto y las pirámides, tres mil trescientos años antes de Cristo. El sistema urbano de Atenas, cuatrocientos años antes de Cristo. El sistema de rutas romano y el de distribución de agua romano, trescientos años antes de Cristo. El transporte de agua en el canal del Erie, en el siglo diecinueve. El sistema telefónico de Estados Unidos, en mil ochocientos setenta y siete. Y el sistema de distribución de energía eléctrica de Estados Unidos, en mil ochocientos ochenta.
+
+Ahora las referencias modernas, que son las más preguntadas.
+
+Año mil novecientos treinta y siete. Se forma un equipo multidisciplinario para analizar el sistema de defensa aéreo británico.
+
+Entre mil novecientos treinta y nueve y mil novecientos cuarenta y cinco, los Laboratorios Bell desarrollan el sistema NIKE, para el ejército de Estados Unidos. Acá es donde se comenzó a usar el término ingeniería de sistemas. La necesidad era defenderse de ataques aéreos de aviones jet, con misiles tierra aire, algo que los equipos de la época no podían hacer. Se necesitaba alta velocidad y precisión. Era un programa muy complejo que involucraba muchas tecnologías juntas. Frente a un problema difícil, se optó por poner a todos juntos y coordinados, asegurando el producto en un equipo de ingeniería de sistemas.
+
+Recordar entonces: el término ingeniería de sistemas fue desarrollado alrededor de mil novecientos cuarenta, en Estados Unidos, durante y después de la Segunda Guerra Mundial, y principalmente comenzó en el programa de misiles Nike.
+
+Entre mil novecientos cincuenta y cuatro y mil novecientos sesenta y cuatro, el programa de misiles balísticos intercontinentales ATLAS, coordinado por la Ramo Wooldridge Corporation. Produjo el primer misil balístico intercontinental. Involucró dieciocho mil científicos e ingenieros, diecisiete contratistas, doscientos subcontratistas y doscientos mil proveedores. En Atlas se estableció firmemente la ingeniería de sistemas como enfoque para la gestión del proyecto, y se identificaron tempranamente los desafíos clave, como el problema de la re-entrada. Se contrastan dos esquemas: el enfoque de contratista principal, y el enfoque de ingeniería de sistemas.
+
+Entre mil novecientos cincuenta y uno y mil novecientos ochenta, el sistema SAGE de defensa aérea, definido y gestionado por el MIT. Sus aspectos claves fueron: fue el primer proyecto que usó computadoras para procesar información y controlar procesos; los ingenieros jugaron un rol de gestión clave; fue un complejo militar, industrial y universitario, con el Lincoln Laboratory del MIT y la corporación MITRE; e inspiró la creación de ARPANET.
+
+Y finalmente la formalización. La NASA realiza el primer gran esfuerzo de formalizar la ingeniería de sistemas con el programa Apollo. El proyecto era un conjunto de diferentes sistemas y capacidades que debían trabajar juntas. La NASA es realmente la que comenzó a documentar plenamente esta disciplina durante la era Apollo, generando gran cantidad de manuales, los handbooks de ingeniería de sistemas.
+
+Resumen de la línea temporal: Nike, alrededor de mil novecientos cuarenta, nace el término. Atlas, se establece el enfoque. SAGE, computadoras y rol de gestión. Apollo, formalización definitiva en documentos y estándares.
+
+
+AHORA COMIENZA LA CLASE DOS. ARQUITECTURA DE SISTEMAS Y PENSAMIENTO SISTÉMICO. EL TEXTO BASE ES EL DE CRAWLEY, CAMERON Y SELVA.
+
+
+BLOQUE OCHO. ARQUITECTURA DE SISTEMAS.
+
+La definición más importante, y hay que saberla textual. La arquitectura es una descripción abstracta de las entidades de un sistema y de la relación entre esas entidades. En los sistemas construidos por humanos, esta arquitectura puede representarse como un conjunto de decisiones.
+
+Repito. La arquitectura es una descripción abstracta de las entidades de un sistema y de la relación entre esas entidades.
+
+Otros puntos clave. La arquitectura connota el ADN del sistema, y es la base para la ventaja competitiva. El proceso de establecer la arquitectura es tanto una ciencia como un arte; no es un proceso lineal que resulte en una solución óptima. Todo sistema construido por humanos tiene una arquitectura. Y la afirmación central del texto es que la creatividad estructurada es mejor que la creatividad no estructurada.
+
+Existe un fenómeno darwiniano: los sistemas que incorporan los errores del pasado no sobreviven, mientras que aquellos que incorporan arquitecturas sólidas generalmente sobreviven, e incluso prosperan.
+
+Sobre las decisiones tempranas. En el diseño de sistemas complejos, muchas de las primeras decisiones arquitectónicas se toman sin un conocimiento completo del eventual alcance del sistema. Y sin embargo tienen un enorme impacto en el diseño final: limitan la cobertura del rendimiento, restringen los sitios de fabricación potenciales, y así sucesivamente. Además, las arquitecturas rara vez se eligen de una sola vez: se definen iterativamente por una serie de elecciones, ordenadas de acuerdo con su influencia en el rendimiento del sistema.
+
+Una frase para recordar: equivocarse en la arquitectura hunde el barco, pero hacerlo correctamente simplemente crea una plataforma en la que la ejecución del producto puede florecer o fracasar. El éxito no está asegurado.
+
+Ahora los casos de estudio.
+
+Caso uno, éxito. En junio de mil novecientos sesenta y dos, la NASA tomó la decisión de usar una cápsula especial dedicada para descender a la superficie de la Luna desde la órbita lunar, en lugar de descender con el Módulo de Comando y Servicio. Esa cápsula fue más tarde llamada Módulo Lunar. Esta decisión implicó que el Módulo Lunar tendría que encontrarse en órbita lunar con el Módulo de Comando y Servicio, y soportar una transferencia de tripulación entre ambos vehículos. La decisión se tomó en el primer año del programa, siete años antes de que la maniobra se ejecutara, antes de que se contratara a la mayoría del personal y antes de que se adjudicaran los contratos de diseño. Sin embargo la decisión fue formativa: eliminó muchos diseños posibles, dio a los equipos un punto de partida, y guió el trabajo de cientos de miles de ingenieros.
+
+Caso dos, fracaso. El sistema nacional de satélites ambientales de órbita polar, NPOESS. Se creó en mil novecientos noventa y cuatro a partir de la fusión de dos programas de satélites meteorológicos, uno civil, de predicción del clima, y uno militar, de imágenes del tiempo y de nubes. La fusión prometía un ahorro de mil trescientos millones de dólares. Pero hubo dos decisiones arquitectónicas malas. La primera: incluir la capacidad de superconjunto de instrumentos de ambos programas, suponiendo que la complejidad funcional se escalaría linealmente con la suma de los dos programas. La segunda: enumerar nuevas funciones independientes del concepto del sistema. Por ejemplo, el instrumento VIIRS debía realizar las tareas de tres instrumentos, con menos masa y volumen que un solo instrumento histórico. Además, no se designó un arquitecto de sistemas responsable de administrar estos intercambios en los primeros años. El programa se canceló en dos mil diez, con ocho mil quinientos millones de dólares, contra una estimación original de seis mil quinientos millones.
+
+Otros ejemplos de complejidad creciente. Los autos de hoy tienen rutinariamente setenta procesadores conectados por hasta cinco buses. El buque portacontenedores más grande transporta dieciocho mil contenedores, contra cuatrocientos ochenta en mil novecientos cincuenta. BMW calculó que ofreció mil quinientos millones de configuraciones potenciales a sus clientes en dos mil cuatro. Y la ley de Augustine: el costo unitario de un avión de combate aumentó exponencialmente desde mil novecientos diez hasta mil novecientos ochenta, pronosticando que en dos mil cincuenta y tres todo el presupuesto de defensa de Estados Unidos alcanzaría para obtener exactamente un avión.
+
+Una distinción conceptual que suele preguntarse. Principios, métodos y herramientas. Los principios son los fundamentos subyacentes y duraderos, que son siempre, o casi siempre, válidos. Los métodos son las formas de organizar enfoques y tareas para lograr un fin concreto; deben estar fundamentados en principios y son usualmente aplicables. Las herramientas son las formas contemporáneas de facilitar el proceso, y son aplicables a veces.
+
+
+BLOQUE NUEVE. PENSAMIENTO DE SISTEMA, O PENSAMIENTO SISTÉMICO.
+
+Definición, y atención al contraste final, que es una pregunta típica. El pensamiento sistémico es pensar en una pregunta, en una circunstancia o en un problema explícitamente como un sistema, es decir, como un conjunto de entidades interrelacionadas. No es pensar sistemáticamente. Repito: pensamiento sistémico no es pensamiento sistemático.
+
+Ahora la definición de sistema que usa este texto, y que hay que saber de memoria. Un sistema es un conjunto de entidades y sus relaciones, cuya funcionalidad es mayor que la suma de las entidades individuales.
+
+Esta definición tiene dos partes importantes. Primera parte: un sistema está formado por entidades que interactúan o están interrelacionadas. Segunda parte: cuando las entidades interactúan, aparece una función que es mayor que, o distinta de, las funciones de las entidades individuales.
+
+Las entidades son simplemente los trozos que conforman el conjunto. También se las llama partes, módulos, rutinas, ensamblajes o subsistemas. Las relaciones pueden ser estáticas, como en una conexión, o dinámicas e interactivas, como en un intercambio de bienes.
+
+El ejemplo del ladrillo. Si algo es uniforme en su consistencia, no es un sistema. Un ladrillo, a nivel macroscópico, no es un sistema porque no contiene entidades. Pero un muro de ladrillos sí califica como sistema, porque contiene entidades, que son los ladrillos y el mortero, y relaciones, que son el intercambio de carga y la geometría. Y al revés: si un conjunto de entidades no tiene relaciones, por ejemplo una persona en Ucrania y una bolsa de arroz en Asia, no constituyen un sistema.
+
+Un concepto estrechamente relacionado es el adjetivo complejo, que en su sentido original y primario significa tener muchas entidades y relaciones.
+
+Otra distinción que se pregunta: sistema y producto no son lo mismo. Un producto es algo que es, o tiene el potencial de ser, intercambiado. Por lo tanto, algunos productos no son sistemas, por ejemplo el arroz, y algunos sistemas no son productos, por ejemplo el sistema solar. Pero muchas de las cosas que construimos son a la vez productos y sistemas, y por eso las dos palabras se mezclan en el uso común.
+
+Y una generalización fundamental. Todos los sistemas están compuestos por entidades que también son sistemas, y todos los sistemas son entidades de sistemas más grandes. Como la elección inicial de qué es el sistema es arbitraria, lo que importa es que elijamos un límite del sistema que sea útil, de modo que enfoquemos nuestra lente de pensamiento sistémico en la parte más importante del problema.
+
+
+BLOQUE DIEZ. LAS CUATRO TAREAS DEL PENSAMIENTO SISTÉMICO.
+
+Estas cuatro tareas son el núcleo del tema. Hay que saberlas en orden.
+
+Tarea uno: identificar el sistema, su forma y su función.
+
+Tarea dos: identificar las entidades del sistema, sus formas y funciones, y los límites y el contexto del sistema.
+
+Tarea tres: identificar las relaciones entre las entidades en el sistema y en el límite, así como su forma y su función.
+
+Tarea cuatro: identificar las propiedades emergentes del sistema, según la función de las entidades y sus interacciones funcionales.
+
+Repito las cuatro, más cortas. Uno: el sistema, su forma y su función. Dos: las entidades, sus formas y funciones, el límite y el contexto. Tres: las relaciones entre entidades, formales y funcionales. Cuatro: las propiedades emergentes.
+
+Nosotros vamos a ver en detalle la tarea uno y la tarea dos, pero antes hay que entender el concepto de lo emergente, porque atraviesa todo.
+
+
+BLOQUE ONCE. LO EMERGENTE.
+
+El pensamiento de sistema enfatiza la segunda propiedad de la definición: la funcionalidad del sistema es mayor que la suma de las entidades individuales. Esa frase describe lo emergente, que es el poder y la magia de los sistemas.
+
+Definición. La emergencia se refiere a lo que aparece, se materializa o emerge cuando un sistema funciona. La obtención de lo que emerge deseado es la razón por la cual construimos sistemas. Y una frase clave: comprender la emergencia es la meta y el arte del pensamiento sistémico.
+
+Qué emerge cuando un sistema se une y se integra. De manera más obvia y crucial, emerge la función. La función es lo que hace un sistema: sus acciones, resultados o salidas. En un sistema diseñado, diseñamos para que emerja la función primaria deseable anticipada. Por ejemplo, los automóviles transportan personas. Esta función primaria suele estar vinculada al beneficio producido por el sistema.
+
+Ahora la clasificación de los emergentes, que es un cuadro de doble entrada y cae mucho en examen. Los emergentes pueden ser anticipados o no anticipados, y pueden ser deseables o no deseables. Cuatro combinaciones, con los ejemplos del automóvil.
+
+Anticipado y deseable: los autos transportan personas; los autos nos mantienen cálidos o frescos; los autos entretienen a las personas.
+
+Anticipado y no deseable: los autos queman hidrocarburos.
+
+No anticipado y deseable: los autos crean un sentido de libertad personal en las personas.
+
+No anticipado y no deseable: los autos pueden matar personas.
+
+El ejemplo canónico de emergencia. Consideren dos elementos: arena, y un tubo de vidrio con forma de embudo. La arena es un material natural y no tiene función anticipada. Un embudo concentra o canaliza un flujo. Sin embargo, cuando se juntan, surge una función nueva: medir el tiempo. Es el reloj de arena. Dos elementos mecánicos producen un sistema informativo que mantiene un registro de la abstracción llamada tiempo.
+
+Además de la función, emerge la performance o desempeño. El desempeño es cuán bien funciona un sistema o ejecuta sus funciones. Es un atributo de la función del sistema. Por ejemplo: ¿cuán rápido el auto transporta personas? ¿con qué precisión el reloj de arena mantiene el tiempo? El ejemplo del equipo de fútbol: la función de todos los equipos de fútbol es la misma, marcar más goles que el oponente; pero algunos equipos tienen mejor performance que otros, ganan más partidos.
+
+Y también emergen otros atributos de operación: confiabilidad, mantenibilidad, operabilidad, seguridad y robustez. Se los llama las bilidades, en inglés the ilities. A diferencia de la función y la performance, que tienden a crear valor de inmediato, el valor creado por las bilidades tiende a surgir a lo largo de todo el ciclo de vida del sistema.
+
+El principio de lo emergente, con sus dos citas. Russell Ackoff: un sistema no es la suma de sus partes, sino el producto de las interacciones de esas partes. Y Aristóteles, en la Metafísica: el todo es más que la suma de las partes.
+
+El principio dice: a medida que se juntan las entidades de un sistema, su interacción hará que emerjan funciones, comportamientos, desempeños y otras propiedades intrínsecas. Considere e intente predecir las propiedades emergentes anticipadas e imprevistas del sistema. Como consecuencia de lo que emerge, el cambio se propaga de manera impredecible, y es difícil predecir cómo un cambio en una entidad influirá en las propiedades emergentes.
+
+Y muy importante, el criterio de éxito y fracaso. El éxito del sistema ocurre cuando emergen las propiedades anticipadas. La falla del sistema ocurre cuando las propiedades emergentes anticipadas no aparecen, o cuando aparecen propiedades emergentes no deseadas y no anticipadas.
+
+Un ejemplo natural de emergente: el huracán Katrina en Nueva Orleans.
+
+Resumen del bloque. Un sistema es un conjunto de entidades y sus relaciones cuya funcionalidad es mayor que la suma de las entidades individuales. Casi cualquier cosa puede considerarse un sistema, porque casi todo contiene entidades y relaciones. La emergencia ocurre cuando la funcionalidad del sistema es mayor que la suma de las funcionalidades individuales consideradas por separado. Comprender lo emergente es la meta y el arte del pensamiento sistémico. Y la función, el desempeño y las bilidades surgen a medida que operan los sistemas, y están estrechamente relacionados con el beneficio y el valor.
+
+
+BLOQUE DOCE. TAREA UNO. IDENTIFICAR EL SISTEMA, SU FORMA Y SU FUNCIÓN.
+
+Los sistemas tienen simultáneamente las características de forma y función.
+
+La forma es lo que el sistema es. La función es lo que el sistema hace. Repito: la forma es lo que el sistema es; la función es lo que el sistema hace.
+
+Detalle de la forma. La forma es la encarnación física o informativa que existe, o tiene el potencial de existir. La forma tiene figura, configuración, arreglo o disposición, es decir layout. Durante un período de tiempo, la forma es estática y perseverante, aunque puede ser alterada, creada o destruida. La forma es lo que se construye: el creador del sistema lo construye, escribe, pinta, compone o fabrica. La forma no es función, pero es necesaria para entregar la función. Decimos que la forma es el instrumento de la función.
+
+Detalle de la función. La función es lo que hace un sistema: son las actividades, operaciones y transformaciones que causan, crean o contribuyen al desempeño. La función es la acción para la cual una cosa existe o se emplea. La función no es forma, pero la función requiere un instrumento de forma. La emergencia se produce en el dominio funcional. La función, el desempeño, las bilidades y las emergencias son todas cuestiones de funcionalidad. La función es más abstracta que la forma y, como se trata de transiciones, es más difícil de diagramar.
+
+Ahora el desglose más importante de este bloque. La función consiste en un proceso y un operando.
+
+El proceso es la parte de la función que es pura acción o transformación, y por lo tanto es la parte que cambia el estado del operando.
+
+El operando es la cosa cuyo estado cambia mediante el proceso.
+
+La función es inherentemente transitoria: implica un cambio en el estado del operando, ya sea creación, destrucción o alteración de algún aspecto de su estado. En las organizaciones, la función a veces se denomina rol o responsabilidades.
+
+Los cuatro ejemplos que usa el libro, con su forma, su proceso y su operando. Conviene saberlos.
+
+Primero, el sistema amplificador. Su forma es el circuito amplificador. Su proceso es la amplificación. Su operando es la señal de salida. La señal de salida amplificada es el operando relacionado con el valor, y producirla es la razón principal por la que construimos el dispositivo.
+
+Segundo, el equipo de diseño, llamado Team X. Su forma es el colectivo de los individuos, el equipo. Su proceso es el desarrollo. Su operando es el diseño. Además de la función primaria, un sistema construido puede entregar funciones secundarias.
+
+Tercero, el sistema circulatorio humano. Su forma es el colectivo del corazón, pulmones, venas, arterias y capilares. Su proceso es el suministro. Su operando es el oxígeno. Aunque también se podría decir que la función es absorber el dióxido de carbono de las células, o, más generalmente, mantener en equilibrio la química del gas de las células.
+
+Cuarto, el sistema solar. Su forma es el sol, los planetas y los cuerpos menores. Su proceso es mantener. Su operando es el flujo solar constante. Es decir, el sistema solar mantiene un flujo de energía solar aproximadamente constante hacia los planetas.
+
+De acá sale una idea importante. En los sistemas construidos por el hombre, la función principal generalmente es clara. En los sistemas evolucionados o naturales, la función principal es más difícil de discernir y está sujeta a interpretación, porque no hay una declaración de intención de diseño de un diseñador. El problema con el sistema solar no es que no tenga función, sino que tiene demasiadas.
+
+Una conexión con el mundo de los negocios. La distinción entre forma y función también aparece en lo que los negocios llaman bienes y servicios. Los bienes son productos tangibles, están del lado de la forma. Los servicios son productos menos tangibles y más orientados a procesos, están del lado de la función. Cada sistema puede venderse como forma, que entrega valor desempeñando la función, o como función, es decir servicio, que implícitamente requiere del instrumento de forma para ser ejecutado.
+
+Y ahora la idea más elegante del capítulo. En cada sistema siempre se pueden identificar tres características canónicas: el instrumento de la forma, que es algo que es; el proceso, que es la transformación; y el operando, que es lo que se transforma. Todos los sistemas tienen estas tres características.
+
+Cuando Noam Chomsky desarrolló la gramática transformacional, la gramática universal, proponiendo la estructura profunda que subyace a todo lenguaje natural humano, descubrió que esa estructura tiene tres partes: un sustantivo que es el instrumento de la acción, que es lo que nosotros llamamos forma; un verbo que describe la acción, que es lo que llamamos proceso; y un sustantivo que es el objeto de la acción, que es lo que llamamos operando. Por lo tanto, el modelo sustantivo, verbo, sustantivo, o instrumento, proceso, operando, es fundamental para todos los sistemas, o fundamental para la forma en que el cerebro humano entiende todos los sistemas.
+
+Resumen de la tarea uno. Todos los sistemas tienen forma, que es lo que el sistema es, y función, que es lo que el sistema hace. La forma es el instrumento de la función. La función se desglosa en proceso, que es la transformación, y operando, que es el objeto que se transforma o cuyo estado cambia. La función principal de la mayoría de los sistemas construidos por el hombre generalmente es clara. La función principal de los sistemas evolucionados es más difícil de discernir. Y la representación instrumento, proceso, operando se parece mucho a la estructura profunda del lenguaje natural, sustantivo, verbo, objeto, según la gramática universal de Chomsky.
+
+
+BLOQUE TRECE. TAREA DOS. IDENTIFICAR LAS ENTIDADES DEL SISTEMA, EL LÍMITE Y EL CONTEXTO.
+
+Ya establecimos que un sistema en sí mismo puede considerarse como una entidad única que tiene forma y función. Ahora examinamos cómo un sistema se descompone en entidades, cada una de las cuales también tiene forma y función. Estas entidades están representadas por abstracciones. La selección de las entidades está guiada por el pensamiento holístico y por el enfoque. Y el sistema está rodeado por un límite que lo separa de su contexto.
+
+Una aclaración de vocabulario. A veces se usa la palabra elemento, cuyos sinónimos son parte, pieza, módulo o subsistema, cuando se quiere enfatizar algún aspecto de la forma del sistema. La palabra entidad, cuyos sinónimos son unidad y cosa, tiende a evocar genéricamente tanto la forma como la función.
+
+Ahora las cuatro operaciones que hay que distinguir bien, porque es fácil confundirlas. Se ordenan en dos pares.
+
+En el dominio de la forma. Romper un sistema en partes más pequeñas de forma se llama descomposición. Y reunir las piezas en la forma del sistema se llama agregación.
+
+En el dominio de la función. Dividir la función del sistema en las funciones de las entidades se llama zooming, es decir acercarse. Y cuando las funciones de las entidades se combinan para producir la función del sistema, encontramos la propiedad de lo emergente.
+
+Repito el paralelo, que es lo que se pregunta. Forma: descomposición y agregación. Función: zooming y emergencia.
+
+Un ejemplo de la tabla del libro. El circuito amplificador se descompone en dos resistencias y el amplificador operacional. Las resistencias uno y dos tienen la función de establecer la ganancia, y el amplificador operacional tiene la función de amplificar el voltaje. El equipo X se descompone en sus miembros: Amelia interpreta requerimientos, Juan desarrolla conceptos, José evalúa y aprueba el diseño. Y el sistema circulatorio se descompone en el corazón, que bombea sangre, los pulmones, y los capilares, que intercambian gases con los órganos. Noten que la función de cada entidad también se escribe como un proceso y un operando.
+
+A veces, en el pensamiento sistémico, es útil pensar solo en la función y en el zooming, por ejemplo pensar el circuito amplificador en términos de amplificación y ajuste de ganancia. Este tipo de pensamiento funcional se usa a menudo al principio del análisis y del diseño. Otras veces alcanza con razonar sobre la forma y la descomposición, como cuando se desarrolla una lista de piezas. Razonar sobre la forma o la función por separado es una conveniencia; no implica que ambas no estén presentes o que no estén vinculadas.
+
+Ahora, los cinco problemas que enfrenta el pensador de sistemas en esta tarea. Son cinco y conviene memorizarlos en orden.
+
+Uno: definir la descomposición inicial en entidades.
+Dos: identificar las entidades potenciales utilizando el pensamiento holístico.
+Tres: bajar a las entidades relevantes utilizando el enfoque.
+Cuatro: crear abstracciones para las entidades.
+Cinco: definir los límites del sistema y separar el sistema del contexto.
+
+Vamos uno por uno.
+
+Problema uno. La descomposición inicial. El nivel de dificultad depende de si el sistema está compuesto de elementos distintos, es modular, o es integral.
+
+Cuando el sistema está formado por entidades claramente distintas, la descomposición es obvia y fácil. El equipo X está formado por tres personas; cualquier otra descomposición no tendría sentido. El sistema solar está claramente formado por el sol, los planetas y los cuerpos más pequeños. La descomposición inequívoca es un rasgo de los sistemas formados por entidades discretas: una flota de barcos, una manada de caballos, un bosque de árboles, una biblioteca de libros.
+
+Para los sistemas fundamentalmente modulares, la descomposición es más desafiante pero todavía relativamente clara. Y acá está la definición de módulo, que es importante: los módulos son relativamente independientes, especialmente en función; las relaciones internas son densas dentro de un módulo, y las relaciones entre los módulos son más débiles o menos densas.
+
+Los sistemas integrales son los más difíciles de descomponer. Los sistemas integrales no se pueden dividir fácilmente con su función intacta. A menudo son sistemas altamente interconectados, como los componentes del mecanismo de dirección de un automóvil: llantas, ruedas, suspensión, engranajes de dirección y columna; algunos de los cuales además son componentes de otros sistemas, como la calidad de marcha y el manejo. Otros ejemplos de elementos integrales son las piezas forjadas complejas, las piezas mecanizadas y los circuitos integrados. Y muchos sistemas de información son altamente integrales.
+
+Entonces, para el examen: entidades discretas, fácil; modular, medio; integral, difícil.
+
+Problema dos. El pensamiento holístico. El holismo insiste en la interconexión íntima de las cosas, en la idea del todo. Pensar de manera holística es pensar deliberadamente sobre el todo. El pensamiento holístico busca identificar todas las entidades, y otros problemas, que podrían ser importantes para el sistema. Pensamos de manera holística para poder ver todos los aspectos del sistema en cuestión, teniendo en cuenta las influencias y las consecuencias de cualquier cosa que pueda interactuar con el sistema. Usamos el holismo para expandir nuestro pensamiento sobre el problema.
+
+El principio del holismo dice: cada sistema funciona como parte de un sistema más grande, o de varios sistemas más grandes, y cada uno está compuesto de sistemas más pequeños. Piense de manera holística sobre todas estas relaciones, y desarrolle arquitecturas que estén en armonía con los sistemas más grandes, más pequeños y similares.
+
+Y muy importante el contraste: el holismo sostiene que todas las cosas existen y actúan como conjuntos, no solo como la suma de sus partes. Su sentido es el opuesto al reduccionismo, que sugiere que las cosas pueden entenderse explicando cuidadosamente sus partes. Repito: holismo es lo opuesto a reduccionismo.
+
+Las citas del principio del holismo. Eliel Saarinen: diseñe siempre una cosa considerándola en su próximo contexto más amplio, una silla en una habitación, una habitación en una casa, una casa en un entorno, un entorno en un plano de la ciudad. Y John Donne: ningún hombre es una isla, entera de sí misma; cada hombre es un pedazo del continente, una parte de lo principal.
+
+El pensamiento holístico pone los problemas y las incógnitas en el radar para analizarlos. Y hay dos tipos de incógnitas. Los conocidos desconocidos: sabemos que existen, pero no tenemos información suficiente. Y los desconocidos desconocidos: no sabemos que existen, por lo que no podemos evaluar su importancia. El objetivo es identificar la mayor cantidad posible de incógnitas para poder considerar su importancia potencial.
+
+Los métodos para estimular el pensamiento holístico son cuatro. Lluvia de ideas, estructurada y no estructurada. Desarrollo de marcos que aseguren cubrir todos los temas relevantes. Analizar desde distintas perspectivas. Y pensar explícitamente en el contexto.
+
+Problema tres. El enfoque, en inglés focus. La cantidad de problemas identificables que influirán en un sistema en cualquier momento está más allá de la capacidad de comprensión. Uno debe identificar los problemas más críticos y consecuentes, y centrarse en ellos.
+
+La pregunta central del enfoque es: ¿es esta entidad importante para el resultado que me interesa?
+
+El dato duro: el cerebro humano solo puede razonar sobre siete más menos dos elementos a la vez. Esto viene del trabajo de George Miller, de mil novecientos cincuenta y seis, titulado el mágico número siete, más o menos dos.
+
+El método del enfoque tiene tres pasos. Uno: identificar una lista amplia de entidades potencialmente importantes. Dos: seleccionar hasta siete para enfocarse en un momento dado. Tres: cambiar el conjunto de entidades si las circunstancias cambian. Y hay que asegurar que el conjunto elegido sea lo suficientemente amplio para cubrir el problema, y lo suficientemente reducido para analizarlo con los recursos disponibles.
+
+El principio de enfoque agrega: para mantener una estrecha consideración de los temas importantes, uno debe estar preparado para dejar a otros atrás. Una frase muy citable: el fracaso rara vez ocurre en los aspectos en los que te enfocas. Y otra recomendación: concéntrese en las cuestiones difíciles, y evite la tentación de abordar primero las más fáciles.
+
+Las citas del principio de enfoque. Sherlock Holmes: no veo más que tú, pero me he entrenado para darme cuenta de lo que veo. Y Henry David Thoreau: la pregunta no es lo que miras, sino lo que ves.
+
+Problema cuatro. Crear abstracciones. Una abstracción permite representar entidades del sistema de forma simplificada, enfocándose en lo esencial. Es la expresión de la cualidad sin el objeto completo; una representación que conserva lo intrínseco y oculta el detalle innecesario. Crear abstracciones implica dos cosas: destacar los detalles importantes de la entidad, y ocultar la complejidad no necesaria para la pregunta actual.
+
+Ejemplos. En el equipo X, resumimos a una persona fisiológica y psicológicamente compleja en un miembro del equipo que podría crear conceptos. En el sistema circulatorio, abstrajimos el complejo órgano llamado corazón en una simple bomba. En el sistema solar, abstrajimos toda la masa sólida, el ecosistema y la población del planeta Tierra en una esfera.
+
+Las cuatro pautas para crear abstracciones. Primera: crear abstracciones de forma y función con la información importante representada en la superficie y con los detalles menos importantes ocultos. Segunda: crear abstracciones que permitan la representación de relaciones apropiadas. Tercera: crear abstracciones en el nivel correcto de descomposición o agregación. Cuarta: crear el número mínimo de abstracciones que representen efectivamente los aspectos del sistema en cuestión.
+
+Es posible crear abstracciones poco útiles. Por ejemplo, violaríamos la primera pauta si abstrajéramos un amplificador operacional como una fuente de calor: sería técnicamente correcto, pero no sacaría a la superficie el papel importante de la entidad, que es la amplificación. Y violaríamos la tercera pauta si representáramos demasiados detalles sobre los componentes internos del amplificador operacional.
+
+Además, las abstracciones no son únicas. Cuál abstracción es la correcta depende de la naturaleza de la pregunta, circunstancia o problema en cuestión. Normalmente no se pueden hacer abstracciones universales.
+
+Y un dato numérico que suele preguntarse. En el ejemplo del equipo X, se mantuvieron como abstracciones a los tres individuos, Juan, José y Amelia, pero se abstrajeron dos personas en Marketing y su función en análisis de mercado, y otras dos en Operaciones y su función en planificación de manufactura y cadena de suministros. Esta reducción de siete entidades a cinco parece trivial, pero como las relaciones entre entidades escalan como ene cuadrado, se redujeron las relaciones posibles de cuarenta y nueve a veinticinco. Una mejora significativa. Retengan esto: las relaciones escalan como ene cuadrado.
+
+Problema cinco. Definir el límite del sistema y separarlo del contexto. El límite delimita lo que está dentro y lo que está fuera del sistema. Separa el sistema de su contexto, que es lo que lo rodea pero es relevante.
+
+¿Por qué es importante? Porque ayuda a concentrarse en un conjunto manejable de entidades, y porque permite claridad en el alcance y en las responsabilidades.
+
+Los criterios para trazar el límite son. Incluir las entidades que necesitamos analizar, si el objetivo es comprender. Incluir lo necesario para el diseño, si el objetivo es diseñar. Incluir lo que debemos implementar y operar, si se trata de entregar valor. Respetar los límites formales, es decir leyes, contratos y normas. Considerar las tradiciones o convenciones vigentes. Y cumplir con las definiciones de interfaz y los estándares, por ejemplo con los proveedores.
+
+Y una idea que conecta con la tarea tres: cuando una relación cruza un límite, define una interfaz externa entre el sistema y el contexto. Estas interfaces externas son críticas para el sistema.
+
+Resumen de la tarea dos. Primero: todo sistema está compuesto por entidades, que a su vez pueden ser sistemas. Segundo: la dificultad para definir la composición varía, siendo fácil en sistemas con entidades distintas, media en sistemas modulares, y difícil en sistemas integrales. Tercero: el pensamiento holístico ayuda a encontrar entidades relevantes, pero puede producir demasiadas para un análisis útil. Cuarto: el enfoque ayuda a reducir las entidades a aquellas que deben considerarse en ese momento, aunque el conjunto puede cambiar con el tiempo y la actividad. Quinto: la creación de abstracciones ayuda a traer a la superficie los detalles esenciales de una entidad, mientras oculta el resto de la complejidad. Y sexto: la definición de un límite separa el sistema del contexto.
+
+
+BLOQUE CATORCE. REPASO RELÁMPAGO DE DEFINICIONES.
+
+Voy a decir el término y después la definición. Traten de contestar antes que yo.
+
+CDIO. Concebir, Diseñar, Implementar y Operar.
+
+Ciencia. Sistemas teóricos de explicación de dominios fenoménicos, de carácter descriptivo.
+
+Tecnología. Control de procesos, control de la acción.
+
+Ingeniería. Reglas exitosas de transformación, orientada a crear productos, sistemas y procesos.
+
+Proyecto. Conjunto de tareas relacionadas, con objetivo común, dentro de especificaciones, con fecha de inicio y de fin.
+
+Triángulo de hierro. Performance, costos y planificación, con el riesgo en el centro.
+
+Baseline. Requerimientos, detalles de diseño, planes de verificación y estimación de costos y performance.
+
+INCOSE. Consejo Internacional de Ingeniería de Sistemas, organización sin fines de lucro.
+
+Sistema, según INCOSE. Una combinación de interacción de elementos organizados para alcanzar un propósito establecido.
+
+Sistema, según Crawley. Un conjunto de entidades y sus relaciones, cuya funcionalidad es mayor que la suma de las entidades individuales.
+
+Arquitectura. Una descripción abstracta de las entidades de un sistema y de la relación entre esas entidades. También, un conjunto de decisiones.
+
+Pensamiento sistémico. Pensar una pregunta, circunstancia o problema explícitamente como un sistema. No es pensar sistemáticamente.
+
+Forma. Lo que el sistema es. Es el instrumento de la función. Es estática.
+
+Función. Lo que el sistema hace. Se compone de proceso y operando.
+
+Proceso. La parte de la función que es pura acción o transformación, y que cambia el estado del operando.
+
+Operando. La cosa cuyo estado cambia mediante el proceso.
+
+Emergencia. Lo que aparece, se materializa o emerge cuando un sistema funciona. Ocurre en el dominio funcional.
+
+Performance. Cuán bien el sistema ejecuta su función. Es un atributo de la función.
+
+Bilidades. Confiabilidad, mantenibilidad, operabilidad, seguridad y robustez. Crean valor a lo largo del ciclo de vida.
+
+Descomposición y agregación. Dividir y reunir, en el dominio de la forma.
+
+Zooming y emergencia. Dividir y combinar, en el dominio de la función.
+
+Holismo. Todas las cosas existen y actúan como conjuntos, no solo como la suma de sus partes. Es lo opuesto al reduccionismo.
+
+Enfoque. Reducir a las entidades críticas, con el límite de siete más menos dos.
+
+Abstracción. Representación que muestra lo esencial y oculta el detalle innecesario.
+
+Límite y contexto. Lo que está dentro del sistema, y lo que lo rodea siendo relevante.
+
+Interfaz externa. Una relación que cruza el límite del sistema.
+
+Sistema modular. Relaciones densas dentro del módulo, y débiles entre módulos.
+
+Sistema integral. No se puede dividir con su función intacta. Es el más difícil de descomponer.
+
+Conocidos desconocidos. Sabemos que existen, pero no tenemos información suficiente.
+
+Desconocidos desconocidos. No sabemos que existen, y por eso no podemos evaluar su importancia.
+
+Fin del repaso. Éxito en el examen.

@@ -1,0 +1,566 @@
+INFORME TÉCNICO DE TRASPASO — VERSIÓN CORREGIDA DEFINITIVA
+MSI Sword 15 A12VF / MS-1585
+Problemas de batería, apagado anómalo, BIOS y Secure Boot
+
+OBJETIVO
+Este documento resume toda la información relevante de las sesiones sobre la MSI Sword 15 A12VF, distinguiendo hechos confirmados, pruebas realizadas, resultados e hipótesis no verificadas. Está pensado para entregárselo a otro asistente técnico (Claude) para continuar el diagnóstico sin repetir innecesariamente procedimientos ya realizados.
+
+===============================================================================
+1. EQUIPO
+===============================================================================
+
+Notebook:
+- Marca: MSI
+- Marketing name: MSI Sword 15 A12VF
+- Modelo / Product Model: MS-1585
+- CPU: Intel Core i7-12650H
+- GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+- Sistema operativo: Windows 11
+- Modo de arranque: UEFI
+- BIOS: E18IMS.30D
+- BIOS build: fecha de 2023 observada en BIOS
+- La BIOS también muestra datos de EC Version / EC Build, pero sus valores exactos no fueron registrados.
+- BIOS: MSI Click BIOS.
+
+La identificación crítica para cualquier procedimiento de BIOS es:
+MS-1585 + E18IMS.30D.
+No asumir compatibilidad con otra BIOS solo porque otro producto MSI comparta chasis o marketing name.
+
+===============================================================================
+2. PROBLEMA ORIGINAL DE BATERÍA
+===============================================================================
+
+Antes del problema de Secure Boot existía un problema con la batería.
+
+Síntomas:
+- Windows mostraba la batería trabada aproximadamente en 13 %.
+- Al desconectar el cargador, la notebook se apagaba.
+- El usuario indicó que la batería físicamente parecía estar bien y sospechaba un problema de software/gestión/lectura de batería.
+- La notebook había funcionado normalmente anteriormente.
+
+No quedó confirmado si la causa exacta era batería, EC, firmware, calibración o software.
+
+===============================================================================
+3. EVENTO QUE PRECEDIÓ AL PROBLEMA DE SECURE BOOT
+===============================================================================
+
+Secuencia temporal conocida:
+
+1. La batería estaba mostrando aproximadamente 13 %.
+2. La notebook se apagaba al desconectarla de la corriente.
+3. El usuario desconectó la notebook.
+4. Mantuvo presionado el botón de encendido durante aproximadamente un minuto.
+5. Después de eso la notebook comenzó un comportamiento de encendido/apagado o ciclo de power.
+6. Mientras se estaba encendiendo y apagando, el usuario presionó nuevamente el botón de encendido una vez.
+7. Posteriormente apareció el problema de Secure Boot.
+
+IMPORTANTE:
+La relación temporal está confirmada, pero NO está demostrado que ese procedimiento haya causado la falla de Secure Boot.
+No afirmar como hecho que el EC reset haya corrompido la NVRAM o el firmware.
+
+===============================================================================
+4. PROBLEMA ACTUAL DE SECURE BOOT
+===============================================================================
+
+Con Secure Boot activado, después del logo de MSI aparece:
+
+Secure Boot Violation
+Invalid signature detected.
+Check Secure Boot Policy in Setup.
+
+Al aceptar el mensaje con OK, la notebook vuelve a MSI Click BIOS.
+
+PRUEBA CRÍTICA:
+Cuando Secure Boot Support se desactiva, Windows arranca normalmente.
+
+Esto demuestra:
+- Windows puede arrancar.
+- El SSD es accesible.
+- Existe un Windows Boot Manager funcional al menos hasta el punto de poder iniciar Windows con Secure Boot desactivado.
+- El fallo se produce específicamente cuando el firmware intenta validar la cadena de arranque bajo Secure Boot.
+
+===============================================================================
+5. CONFIGURACIÓN DE ARRANQUE CONFIRMADA
+===============================================================================
+
+- Boot mode: UEFI.
+- CSM: deshabilitado.
+- En Boot:
+  Hard Disk: Windows Boot Manager.
+- En UEFI Hard Disk Drive BBS Priorities:
+  Boot Option #1 = Windows Boot Manager (SSD).
+
+Por lo tanto, no parece ser un simple problema de seleccionar el SSD incorrectamente en lugar de Windows Boot Manager.
+
+===============================================================================
+6. CONFIGURACIÓN DE SECURE BOOT OBSERVADA
+===============================================================================
+
+Dentro de Security -> Secure Boot se observaron:
+
+- System Mode: Deployed
+- Secure Boot Support: Enabled
+- Secure Boot: Active
+- Secure Boot Mode: Custom
+
+Dentro de Key Management:
+- Factory Default Key Provisioning: Enabled
+- Install All Factory Default Keys
+
+IMPORTANTE:
+La frase que aparece en la descripción de Secure Boot Support, similar a:
+"activated when Platform Key (PK) is enrolled, System Mode User/Deployed, and CSM function is disabled"
+es la DESCRIPCIÓN de la opción, no necesariamente una lectura independiente del estado actual de todos esos componentes.
+
+===============================================================================
+7. PROCEDIMIENTO DE FACTORY DEFAULT KEYS YA REALIZADO
+===============================================================================
+
+Se hizo:
+
+1. Entrar a Secure Boot.
+2. Cambiar Secure Boot Mode a Custom.
+3. Entrar en Key Management.
+4. Ejecutar:
+   Install All Factory Default Keys
+5. Volver a Standard.
+6. Intentar arrancar con Secure Boot activado.
+
+RESULTADO:
+No solucionó el problema.
+El error continuó siendo:
+
+Secure Boot Violation
+Invalid signature detected.
+
+IMPORTANTE:
+NO afirmar que "las claves están correctamente configuradas" solo porque Factory Default Keys fueron instaladas.
+La operación confirma que se ejecutó la carga de claves de fábrica, pero NO se verificó el contenido exacto de DB/DBX ni la presencia de todas las autoridades/certificados actuales que Windows puede necesitar, especialmente en el contexto de la transición de certificados Secure Boot de 2011 a 2023.
+
+Por lo tanto:
+- Factory Default Keys fueron instaladas: CONFIRMADO.
+- Que la cadena de confianza actual sea suficiente para el boot manager: NO CONFIRMADO.
+
+===============================================================================
+8. TRUSTED COMPUTING / TPM
+===============================================================================
+
+En BIOS aparece Trusted Computing con:
+
+Security Device Support
+
+Descripción:
+"Enables or disables BIOS support for security device. O.S. will not show security device. TCG EFI protocol and INT1A interface will not be available."
+
+No se realizó ninguna modificación relevante de esta opción durante el diagnóstico.
+
+No hay evidencia de que TPM/Trusted Computing sea actualmente la causa.
+
+===============================================================================
+9. LO QUE SE PROBÓ EN BIOS
+===============================================================================
+
+Realizado:
+- Entrar a BIOS mediante DEL/Supr.
+- Acceder a Security -> Secure Boot.
+- Cambiar a Custom para acceder a Key Management.
+- Ejecutar Install All Factory Default Keys.
+- Volver a Standard.
+- Mantener UEFI.
+- Mantener CSM deshabilitado.
+- Seleccionar Windows Boot Manager como primera opción.
+
+Resultado:
+El problema persistió.
+
+Por lo tanto NO tiene sentido repetir indefinidamente:
+- Install All Factory Default Keys.
+- Custom <-> Standard.
+- Cambiar repetidamente Boot Option #1.
+porque esas acciones ya fueron probadas y no resolvieron el problema.
+
+===============================================================================
+10. INTERPRETACIÓN ACTUAL DEL SECURE BOOT VIOLATION
+===============================================================================
+
+La evidencia más fuerte es:
+
+Secure Boot OFF:
+-> Windows arranca normalmente.
+
+Secure Boot ON:
+-> BIOS encuentra el Windows Boot Manager.
+-> Se produce:
+   "Secure Boot Violation - Invalid signature detected"
+-> Vuelve a BIOS.
+
+Esto apunta a un problema en la cadena de confianza/validación de arranque UEFI, no a una imposibilidad general de arrancar Windows.
+
+Posibilidades aún abiertas:
+
+A) El firmware no confía en el certificado/cadena que firma el componente EFI utilizado para arrancar Windows.
+
+B) La base de datos de Secure Boot (DB/DBX) no contiene o no conserva la cadena de confianza requerida.
+
+C) El bootloader EFI de Windows es antiguo, fue reemplazado, está corrupto o no corresponde a una cadena de firma aceptada por la configuración actual.
+
+D) Hay una interacción/bug de firmware en la BIOS E18IMS.30D relacionada con Secure Boot/certificados.
+
+E) El evento de apagado/ciclo de encendido dejó alguna variable EFI/NVRAM en un estado inconsistente.
+
+Ninguna de las anteriores, por separado, está demostrada.
+
+===============================================================================
+11. CONTEXTO ACTUAL DE CERTIFICADOS SECURE BOOT
+===============================================================================
+
+Debe considerarse el contexto actual de 2026:
+
+Microsoft está realizando la transición desde certificados/autoridades Secure Boot de 2011 hacia certificados de 2023, y los certificados de 2011 tienen fechas de expiración en 2026.
+
+Esto es relevante porque un equipo puede:
+- mostrar Secure Boot como Active,
+- tener Factory Default Keys,
+- pero aun así no aceptar un boot manager si la cadena de confianza disponible en DB no contiene el certificado necesario o fue restaurada/reemplazada incorrectamente.
+
+Por eso no debe asumirse que "Factory Default Keys instaladas" equivale automáticamente a "toda la cadena de confianza actual de Windows está correcta".
+
+===============================================================================
+12. PROCEDIMIENTOS DE REPARACIÓN MENCIONADOS PERO NO EJECUTADOS
+===============================================================================
+
+NO se ejecutó todavía:
+
+- Reconstrucción del Windows Boot Manager mediante BCDBOOT.
+- Reparación desde un USB oficial de instalación de Windows 11.
+- Ejecución de la herramienta oficial de recuperación de Secure Boot de MSI.
+- Ejecución de SecureBootRecovery.efi.
+- Actualización/reflasheo de BIOS.
+- Reset completo de CMOS/BIOS.
+- Reinstalación de Windows.
+- Eliminación manual de todas las variables de Secure Boot.
+- Verificación criptográfica de bootmgfw.efi.
+- Inspección completa de DB/DBX.
+- Verificación de la presencia de certificados actuales de Microsoft Secure Boot.
+- Prueba mediante Linux Live.
+
+Los comandos mencionados en la conversación como posibles pasos fueron:
+
+mountvol S: /S
+bcdboot C:\Windows /s S: /f UEFI
+
+pero NO fueron ejecutados.
+
+===============================================================================
+13. HERRAMIENTA SECURE BOOT RECOVERY
+===============================================================================
+
+Se investigó el procedimiento oficial de recuperación de Secure Boot de MSI para el error:
+
+"Secure Boot Violation - Invalid signature detected"
+
+MSI documenta un procedimiento mediante USB FAT32 y arranque desde F11.
+
+También se investigó la utilidad de Microsoft:
+
+SecureBootRecovery.efi
+
+y la estructura de USB:
+
+EFI\BOOT\bootx64.efi
+
+Sin embargo:
+
+- NO se ejecutó la herramienta.
+- NO se verificó durante la sesión que el archivo concreto usado fuera el paquete oficial específico de MSI para MS-1585/E18IMS.30D.
+- NO debe utilizarse un archivo de una fuente no oficial.
+- Antes de ejecutar la herramienta, verificar la documentación oficial de MSI/Microsoft y su aplicabilidad exacta.
+
+Microsoft también documenta actualmente un mecanismo de Secure Boot Recovery basado en SecureBootRecovery.efi para casos en los que la cadena de confianza del boot manager debe repararse.
+
+===============================================================================
+14. PENDRIVE UTILIZADO PARA PREPARAR LA REPARACIÓN
+===============================================================================
+
+Pendrive:
+- Capacidad: 16 GB.
+- Inicialmente estaba en NTFS.
+- En la PC de escritorio funcionaba cuando estaba en NTFS.
+- Luego se formateó desde Windows como FAT32 con formato rápido.
+
+Después de eso apareció un problema particular en la PC de escritorio con ese pendrive.
+
+===============================================================================
+15. PROBLEMA DEL PENDRIVE EN LA PC DE ESCRITORIO
+===============================================================================
+
+En la PC de escritorio con Windows 11:
+
+1. Se conecta el pendrive.
+2. Inicialmente aparece como unidad/disco.
+3. Al intentar abrirlo, el Explorador se queda esperando.
+4. Después de aproximadamente un minuto, Windows muestra:
+   Unknown USB Device / USB desconocido.
+5. En Administrador de dispositivos:
+   General UDisk USB Device
+   y posteriormente:
+   Unknown USB Device (Device Descriptor Request Failed)
+6. Código de error:
+   Code 43
+7. Mensaje exacto:
+   "Windows detuvo este dispositivo porque informó de problemas. (Código 43)"
+   "Error en una solicitud del descriptor de dispositivo USB."
+
+===============================================================================
+16. PRUEBA CRÍTICA DEL PENDRIVE
+===============================================================================
+
+El mismo pendrive de 16 GB funciona normalmente en otra notebook:
+
+ASUS X555L
+
+Con Windows 10 o una versión cercana de Windows 8/10.
+
+Esto demuestra que el pendrive no está simplemente muerto.
+
+También se recuerda que el pendrive había funcionado previamente en la MSI antes del problema.
+
+===============================================================================
+17. PRUEBAS USB EN LA PC DE ESCRITORIO
+===============================================================================
+
+Se probaron:
+
+- Puertos frontales.
+- Puertos traseros.
+- USB 2.0/negros.
+- Otros puertos disponibles.
+
+El problema persistió.
+
+También se hizo:
+- desinstalación/reinstalación de dispositivos USB desde Administrador de dispositivos.
+- eliminación/reconocimiento del dispositivo USB desconocido.
+- apagado completo y descarga eléctrica.
+- reinstalación del AMD Chipset Driver.
+
+Resultado:
+El pendrive continúa fallando en esa PC.
+
+===============================================================================
+18. DISKPART
+===============================================================================
+
+En la PC problemática se ejecutó:
+
+diskpart
+list disk
+
+Con el pendrive conectado.
+
+Resultado:
+list disk se congela.
+
+Esto demuestra que el problema no se limita al Explorador; Windows tiene problemas al consultar el dispositivo de almacenamiento USB.
+
+===============================================================================
+19. FLAGS OBSERVADAS EN ADMINISTRADOR DE DISPOSITIVOS
+===============================================================================
+
+Se observaron:
+
+01806400DN_HAS_PROBLEM
+DN_DISABLEABLE
+DN_REMOVABLE
+DN_NT_ENUMERATOR
+DN_NT_DRIVER
+
+Estas son banderas/estados de Plug and Play y no constituyen por sí solas la causa del problema.
+
+===============================================================================
+20. CHIPSET AMD
+===============================================================================
+
+La PC de escritorio utiliza plataforma AMD B450/AM4.
+
+Se instaló/reinstaló:
+AMD Chipset Drivers.
+
+No se instaló el paquete AMD RAID.
+
+Resultado:
+El problema USB con el pendrive persistió.
+
+===============================================================================
+21. INTERPRETACIÓN DEL PROBLEMA DEL PENDRIVE
+===============================================================================
+
+Este problema debe separarse del problema Secure Boot de la MSI.
+
+El pendrive funciona en la ASUS X555L y anteriormente funcionó en la MSI.
+
+La PC de escritorio tiene un problema de enumeración USB con ese dispositivo:
+
+USB Device Descriptor Request Failed / Code 43.
+
+No se determinó la causa exacta.
+
+Posibilidades:
+- incompatibilidad/estado del controlador USB de esa PC con ese dispositivo;
+- problema específico de firmware/controladora UDisk del pendrive;
+- problema de Windows 11 en esa PC;
+- problema de negociación USB;
+- estructura/estado interno del dispositivo después del formateo.
+
+No se debe concluir que FAT32 esté "mal" para un pendrive de 16 GB.
+FAT32 es perfectamente válido para una unidad de 16 GB.
+
+===============================================================================
+22. BATERÍA + SECURE BOOT: RELACIÓN
+===============================================================================
+
+Secuencia temporal:
+
+Batería trabada en 13 %
+-> la notebook se apagaba al desconectar el cargador
+-> apagado/pulsación larga del botón Power
+-> ciclo de encendido/apagado
+-> pulsación adicional del botón Power
+-> después aparece Secure Boot Violation
+
+Esto justifica investigar firmware/EC/UEFI/NVRAM como contexto, pero NO demuestra que la batería o el EC hayan causado directamente el fallo de Secure Boot.
+
+===============================================================================
+23. HECHOS CONFIRMADOS
+===============================================================================
+
+- Notebook: MSI Sword 15 A12VF.
+- Modelo: MS-1585.
+- BIOS: E18IMS.30D.
+- Windows 11.
+- UEFI.
+- CSM deshabilitado.
+- Windows Boot Manager es Boot Option #1.
+- Con Secure Boot Support desactivado, Windows arranca.
+- Con Secure Boot Support activado, aparece:
+  Secure Boot Violation - Invalid signature detected.
+- Factory Default Keys fueron instaladas.
+- Volver a Standard no resolvió.
+- El problema empezó después de un evento anómalo de batería/power cycling, pero la causalidad no está demostrada.
+- Pendrive de 16 GB funciona en la ASUS X555L.
+- En la PC de escritorio, el pendrive produce Code 43 / Device Descriptor Request Failed.
+- Se probaron múltiples puertos USB de la PC de escritorio.
+- Se reinstalaron dispositivos USB.
+- Se reinstaló AMD Chipset Driver.
+- DiskPart list disk se congela con el pendrive conectado.
+
+===============================================================================
+24. NO CONFIRMADO / NO AFIRMAR COMO HECHO
+===============================================================================
+
+No está confirmado que:
+- el EC reset haya corrompido NVRAM;
+- el bootmgfw.efi esté dañado;
+- el BCD esté dañado;
+- la BIOS E18IMS.30D tenga un bug;
+- las claves de Secure Boot estén completas/actualizadas;
+- DB/DBX tenga todos los certificados necesarios;
+- SecureBootRecovery.efi sea imprescindible;
+- sea necesario reinstalar Windows;
+- el SSD tenga una falla;
+- el pendrive esté dañado.
+
+===============================================================================
+25. SIGUIENTES PASOS TÉCNICOS RECOMENDADOS
+===============================================================================
+
+PRIORIDAD 1:
+Con Secure Boot desactivado, entrar a Windows y obtener:
+
+bcdedit /enum
+
+Registrar las secciones:
+Windows Boot Manager
+Windows Boot Loader
+
+Especialmente:
+path
+device
+description
+
+PRIORIDAD 2:
+Comprobar el estado del arranque:
+
+msinfo32
+
+Registrar:
+BIOS Mode
+Secure Boot State
+
+PRIORIDAD 3:
+Montar la partición EFI y comprobar sus archivos:
+
+mountvol S: /S
+dir S:\EFI\Microsoft\Boot
+
+No modificar ni borrar nada todavía.
+
+PRIORIDAD 4:
+Verificar qué archivo EFI está siendo utilizado y comprobar su firma digital.
+
+PRIORIDAD 5:
+Investigar oficialmente:
+MS-1585
+E18IMS.30D
+Secure Boot Violation
+Invalid signature detected
+
+y comprobar la herramienta específica de recuperación de MSI.
+
+PRIORIDAD 6:
+Verificar la documentación actual de Microsoft sobre Secure Boot 2026, certificados de 2023 y SecureBootRecovery.efi.
+
+PRIORIDAD 7:
+Solo si corresponde, reconstruir el arranque EFI con BCDBOOT o utilizar la recuperación oficial de Secure Boot.
+
+===============================================================================
+26. REGLAS PARA NO REPETIR PRUEBAS INNECESARIAMENTE
+===============================================================================
+
+No repetir como primera medida:
+- Install All Factory Default Keys.
+- Cambiar repetidamente Custom/Standard.
+- Cambiar Boot Option #1.
+- Probar puertos USB una y otra vez.
+- Reinstalar el AMD chipset otra vez.
+
+Esas acciones ya se realizaron y no resolvieron el problema.
+
+No reinstalar Windows como primera medida.
+No flashear una BIOS de otra variante sin verificar compatibilidad exacta.
+
+===============================================================================
+27. CONCLUSIÓN TÉCNICA DE TRASPASO
+===============================================================================
+
+El sistema NO presenta un fallo general de arranque de Windows.
+
+La evidencia decisiva es:
+
+Secure Boot OFF -> Windows arranca normalmente.
+Secure Boot ON -> BIOS rechaza la cadena de arranque por:
+"Invalid signature detected"
+
+Las Factory Default Keys fueron instaladas sin resolver el problema.
+
+Por lo tanto, la investigación debe centrarse en la cadena de confianza de Secure Boot:
+- DB/DBX/certificados;
+- certificados Secure Boot 2023;
+- Windows Boot Manager/EFI;
+- política de firma;
+- comportamiento de la BIOS E18IMS.30D;
+- posible recuperación de Secure Boot mediante la herramienta oficial de MSI/Microsoft.
+
+El problema de batería y el evento de power cycling son antecedentes importantes, pero su relación causal con Secure Boot no está demostrada.
+
+Este documento diferencia intencionadamente entre hechos comprobados e hipótesis para que otro asistente pueda continuar el diagnóstico sin asumir conclusiones no verificadas.

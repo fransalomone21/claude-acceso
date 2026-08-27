@@ -1,39 +1,31 @@
-# Los informes contienen datos de tu telefono (apps instaladas, serial, cuentas).
-# Se quedan en tu maquina y no se suben al repositorio.
-informes/*
-!informes/.gitkeep
-*.zip
+# --- repos con dueno propio ---
+# Estas carpetas tienen su PROPIO .git. Si este repo tambien las trackeara,
+# habria dos historias sobre los mismos archivos. Paso de verdad con
+# perfil-global y costo 23 lecciones que vivian en un repo y no en el otro
+# (2026-08-27). Un archivo, un repo dueno. Si falta alguna, ver bootstrap.ps1.
+perfil-global/
+proyectos/seguimiento/caso-tio/
 
-# --- proyecto black ---
-# Volcados de memoria y sesiones de escaneo: archivos de 32 MB que no tiene
-# sentido versionar. Si un volcado concreto importa para documentar un
-# hallazgo, forzalo con `git add -f` y explica en la bitacora por que.
-black/volcados/*
-!black/volcados/.gitkeep
-black/construido/*
-!black/construido/.gitkeep
+# --- datos de la maquina o de terceros: se quedan aca, no se pushean ---
+# Los informes del telefono llevan apps instaladas, serial y cuentas.
+proyectos/ingenieria/telefono-samsung/informes/*
+!proyectos/ingenieria/telefono-samsung/informes/.gitkeep
+# Los volcados crudos del diagnostico de la notebook llevan serial de BIOS,
+# variables UEFI y 600 KB de eventos del sistema. El INFORME.md destilado si
+# se versiona: es lo que tiene valor y lo que no expone nada.
+proyectos/ingenieria/diagnostico-msi/datos-crudos/
+
+# --- proyecto black: archivos de 32 MB que no tiene sentido versionar ---
+# Si un volcado concreto importa para documentar un hallazgo, forzalo con
+# `git add -f` y explica en la bitacora por que.
+proyectos/ingenieria/black/volcados/*
+!proyectos/ingenieria/black/volcados/.gitkeep
+proyectos/ingenieria/black/construido/*
+!proyectos/ingenieria/black/construido/.gitkeep
 *.p2s
 *.ee.bin
 
-# --- perfil-global/pilares ---
-# Texto crudo extraido de los PDF de los libros (PyMuPDF). Son cientos de
-# miles de chars, se regeneran con un comando, y el PDF no es nuestro.
-# Lo que se versiona es la ficha destilada, no la fuente.
-perfil-global/pilares/_*.txt
-
+# --- generales ---
+*.zip
 __pycache__/
 *.pyc
-
-# --- perfil-global ---
-
-# Es su PROPIO repositorio (github.com/fransalomone21/perfil-global), clonado aca
-
-# adentro para que este a mano desde el punto de entrada unico. Que claude-acceso
-
-# tambien lo trackeara creaba dos historias sobre los mismos archivos: paso de
-
-# verdad, y costo 23 lecciones que vivian en un repo y no en el otro (2026-08-27).
-
-# Un archivo, un repo dueno. Si falta la carpeta, correr bootstrap.ps1.
-
-perfil-global/
