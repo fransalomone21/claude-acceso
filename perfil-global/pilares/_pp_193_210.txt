@@ -1,0 +1,235 @@
+[p193] Enquanto Voce Esta Codificando O senso comum diz quando um projeto esta na fase de codificacao, o trabalho e quase todo mecanico, com a transcricao do projeto para a forma de instrucoes executaveis. Achamos que essa atitude e a grande razao para muitos programas acabarem ficando deselegantes, ineficientes, mal estruturados, de dificil manutencao e ate mesmo errados.
+A codificacao nao e mecanica. Se fosse, todas as ferramentas CASE nas quais as pessoas colocavam suas esperancas no inicio dos anos 80 teriam substituido os programadores ha muito tempo. Ha decisoes a serem tomadas a cada minuto - decisoes que requerem ponderacao e julgamento cuidadosos se o esperado for que o programa resultante tenha uma vida longa, precisa e produtiva.
+Desenvolvedores que nao pensam ativamente em seu codigo estao programando com base no acaso - o codigo pode funcionar, mas nao ha uma razao especifica para isso ocorrer. Em Programacao baseada no acaso, defendemos um envolvimento mais positivo com o processo de codificacao.
+Embora a maioria dos codigos que escrevemos seja executada rapidamente, ocasionalmente desenvolvemos algoritmos que tem o potencial de travar mesmo os processadores mais rapidos. Em Velocidade do algoritmo, discutimos maneiras de estimar a velocidade do codigo e fornecemos algumas dicas de como identificar possiveis problemas antes de eles ocorrerem.
+Os programadores pragmaticos consideram criticamente todos os codigos, inclusive os de sua propria autoria. Vemos constantemente que ha espaco para melhorias em nossos programas e projetos. Em Refatoracao, examinaremos tecnicas que ajudam a corrigir codigos existentes mesmo enquanto estamos no meio de um projeto.
+[p194] Algo que deve ser lembrado sempre que voce estiver produzindo codigo e que sera preciso testa-lo. Torne o codigo facil de testar e aumentara a probabilidade de ele ser realmente testado, um raciocinio que desenvolvemos em Codigo que seja facil de testar.
+Para concluir, em Assistentes do mal, recomendamos que voce tome cuidado com ferramentas que criam muito codigo em seu nome a menos que saiba o que esta fazendo.
+A maioria de nos dirige um carro quase sempre no piloto automatico nao mandamos explicitamente nosso pe pressionar um pedal ou nosso braco virar a direcao - apenas pensamos "diminua a velocidade e vire a direita". No entanto, motoristas prudentes avaliam constantemente a situacao, atentos a possiveis problemas e se preparando para o caso do inesperado ocorrer. O mesmo acontece na codificacao - pode ser basicamente rotina, mas manter-se alerta ao que se faz pode evitar um desastre.
+PROGRAMACAO BASEADA NO ACASO
+Ja assistiu a antigos filmes de guerra em preto e branco? O soldado cansado sai cuidadosamente do mato. Ha uma clareira a frente: haveria alguma mina terrestre ou e seguro passar? Nao ha indicacao de que seja um campo minado - nenhuma placa, arame farpado ou buracos. O soldado examina minuciosamente o solo a sua frente com sua baioneta e recua, esperando uma explosao. Ela nao ocorre. Portanto, ele avanca cuidadosamente pelo campo durante algum tempo, examinando e esquadrinhando ao caminhar. Finalmente, convencido de que o campo e seguro, ele se recompoe e caminha orgulhosamente, so para acabar sendo feito em pedacos.
+As procuras iniciais do soldado por minas nao revelaram nada, mas isso foi apenas sorte. Ele foi levado a uma falsa conclusao - com resultados desastrosos.
+Como desenvolvedores, tambem trabalhamos em campos minados. Ha centenas de armadilhas so esperando para nos capturar todo dia. Lembrando do conto do soldado, devemos tomar cuidado para nao chegar a conclusoes falsas. Devemos evitar a programacao por coincidencia - confiando na sorte e em sucessos acidentais - e favorecer a programacao deliberada.
+[p195] Como programar com base no acaso Suponhamos que Fred recebesse uma tarefa de programacao. Ele digita algum codigo, testa-o e parece funcionar. Fred digita mais algum codigo, testao e ele ainda parece funcionar. Apos varias semanas codificando dessa forma, o programa para subitamente de funcionar e, depois de horas tentando corrigi-lo, ele ainda nao sabe por que isso ocorreu. Fred pode acabar passando muito tempo examinando esse trecho de codigo sem conseguir corrigi-lo. Independente do que faca, ele nao parece funcionar direito.
+Fred nao sabe o motivo de o codigo estar falhando porque nao sabe nem mesmo por que ele funcionou. Ele parecia funcionar, dados os "testes" limitados que Fred fez, mas isso foi apenas uma coincidencia. Amparado por uma falsa confianca, Fred deixou de se preocupar cedo demais. A maioria das pessoas inteligentes pode conhecer alguem como Fred, mas somos mais espertos. Nao confiamos em coincidencias - confiamos? Em algumas situacoes, acabamos confiando. As vezes, pode ser facil confundir uma feliz coincidencia com um plano intencional. Examinemos alguns exemplos.
+Acidentes de implementacao Acidentes de implementacao sao coisas que ocorrem simplesmente porque e dessa maneira que o codigo esta escrito atualmente. Voce acaba confiando em condicoes limitrofes ou de erro nao documentadas.
+Suponhamos que voce chamasse uma rotina com dados invalidos. A rotina responde de uma maneira especifica e voce codifica baseado nessa resposta. Mas o autor nao pretendia que a rotina funcionasse dessa forma isso nao foi nem mesmo considerado. Quando a rotina for "corrigida", seu codigo pode travar. No caso mais extremo, a rotina que voce chamou pode nem mesmo ter sido projetada para fazer o que voce quer, mas parece funcionar bem. Chamar coisas na ordem errada, ou no contexto errado, e um problema relacionado.
+paint(g);
+invalidate();
+validate();
+revalidate();
+repaint();
+paintImmediately(r);
+Aqui, parece que Fred esta desesperadamente tentando exibir algo na tela. Mas essas rotinas nao foram projetadas para serem chamadas dessa maneira; embora parecam funcionar, e apenas uma coincidencia.
+[p196] Para nao deixar por menos, quando o componente finalmente for exibido, Fred nao tentara remover as chamadas incorretas. "Agora esta funcionando, melhor deixar assim..." E facil se deixar enganar por essa linha de raciocinio. Por que se arriscar a mexer em algo que esta funcionando? Podemos pensar em varias razoes:
+Pode nao estar funcionando realmente - pode apenas parecer que
+*
+esta funcionando.
+A condicao limitrofe em que voce esta se baseando pode ser apenas
+*
+acidental. Em outras circunstancias (talvez uma resolucao de tela diferente), ela pode se comportar diferentemente.
+O comportamento nao documentado pode mudar na proxima versao
+*
+da biblioteca.
+Chamadas adicionais e desnecessarias tornam o codigo mais lento.
+*
+Chamadas adicionais tambem aumentam o risco de introducao de
+*
+novos erros causados por elas proprias.
+Para codigos que voce escrever que outros chamarao, os principios basicos da boa modularizacao e da ocultacao da implementacao por tras de interfaces pequenas e bem documentadas podem ajudar. Um contrato bem especificado (consulte Projeto por contrato, pagina 131) pode ajudar a eliminar mal entendidos.
+Para rotinas que voce chamar, confie apenas em comportamento documentado. Se nao puder, por alguma razao, documente bem sua suposicao. Acidentes de contexto Voce tambem pode ter "acidentes de contexto". Suponhamos que estivesse criando um modulo utilitario. So porque atualmente voce esta codificando para um ambiente de GUI, o modulo tem de depender do fato de uma GUI estar presente? Voce esta pensando em usuarios que falam portugues? Usuarios alfabetizados? Em que mais esta confiando que nao e garantido?
+Suposicoes implicitas As coincidencias podem enganar em todos os niveis - da geracao de requisitos ao teste. O teste e particularmente propenso a falsas causalidades e resultados acidentais. E facil supor que X cause Y, mas, como dissemos em Depurando, pagina 112: nao suponha, prove.
+[p197] Em todos os niveis, as pessoas agem fazendo muitas suposicoes - mas raramente essas suposicoes sao documentadas e, com frequencia, sao conflitantes entre diferentes desenvolvedores. Suposicoes nao baseadas em fatos bem estabelecidos sao a ruina de todos os projetos.
+Nao programe por coincidencia Como programar deliberadamente Queremos passar menos tempo codificando indiscriminadamente, detectar e corrigir erros o mais cedo possivel no ciclo de desenvolvimento e, acima de tudo, gerar menos erros. Programar deliberadamente pode ajudar:
+Esteja sempre consciente do que esta fazendo. Fred foi deixando len-
+*
+tamente as coisas sairem de controle, ate nao ter mais alternativa, como o sapo de Sopa de pedras e sapos cozidos, pagina 29.
+Nao codifique as cegas. Tentar construir um aplicativo que voce
+*
+nao conhece detalhadamente, ou usar uma tecnologia com qual nao esta familiarizado, e um convite a ser enganado pelas coincidencias.
+Aja de acordo com um plano, estando ele em sua cabeca, no verso do
+*
+guardanapo de um aperitivo ou em um documento de grande porte impresso por uma ferramenta CASE.
+Confie apenas em coisas confiaveis. Nao dependa de acidentes ou
+*
+suposicoes. Se nao souber a diferenca em circunstancias especificas, suponha o pior.
+Documente suas suposicoes. A secao
+*
+Projeto por contrato, pagina 131, pode ajuda-lo a refinar as suposicoes em sua propria mente e a comunica-las para os outros.
+Nao teste apenas seu codigo, teste tambem suas suposicoes. Nao
+*
+suponha. Teste realmente. Escreva uma assercao para testar suas suposicoes (consulte Programacao assertiva, pagina 144). Se sua assercao estiver certa, voce tera melhorado a documentacao em seu codigo. Se descobrir que sua suposicao esta errada, considere-se com sorte.
+Priorize seu esforco. Gaste tempo nos aspectos importantes: quase
+*
+sempre, essas sao as partes dificeis. Se nao construir os aspectos
+[p198] basicos ou a infraestrutura corretamente, penduricalhos chamativos serao irrelevantes.
+Nao seja escravo da historia. Nao deixe codigos existentes ditarem
+*
+regras para codigos futuros. Todos os codigos podem ser substituidos se nao forem mais apropriados. Mesmo dentro de um programa, nao deixe o que voce ja fez restringir o que fara a seguir - preparese para refatorar (consulte Refatoracao, pagina 206). Essa decisao pode afetar o cronograma do projeto. Supoe-se que o impacto seja menor do que o custo de nao fazer a alteracao.
+Portanto, da proxima vez que algo parecer estar funcionando, mas voce nao souber por que, verifique se nao e apenas uma coincidencia. As secoes relacionadas sao:
+Sopa de pedras e sapos cozidos
+*
+, pagina 29 Depurando,
+*
+pagina 112 Projeto por contrato,
+*
+pagina 131 Programacao assertiva,
+*
+pagina 144 Vinculacao temporal,
+*
+pagina 172 Refatoracao,
+*
+pagina 206 Tudo se resume a escrever,
+*
+pagina 270 Exercicios 31. Consegue identificar algumas coincidencias no fragmento de codigo C a seguir? Suponha que esse codigo estivesse embutido no meio de uma rotina de biblioteca.
+fprintf(stderr, "Error, continue?");
+gets(buf);
+32. Esse trecho de codigo C pode funcionar durante algum tempo, em certas maquinas. Em seguida, pode nao funcionar. O que ha de errado? /* Reduz a string a seus ultimos caracteres de tamanho maximo */ void string_tail(char *string, int maxlen) { int len = strlen(string);
+if (len > maxlen) { strcpy(string, string + (len - maxlen));
+} } 1 Voce tambem pode exagerar aqui. Uma vez, conhecemos um desenvolvedor que reescreveu todo codigo fonte que recebeu porque tinha suas proprias convencoes de nomeacao. Resposta na p. 320 Resposta na p. 320
+[p199] 33. Esse codigo vem de um conjunto de rastreamento Java de uso geral. A funcao grava uma string em um arquivo de log. Ela passa em seu teste de unidade, mas falha quando um dos desenvolvedores da Web a usa. Em que coincidencia se baseia?
+public static void debug(String s) throws IOException { FileWriter fw = new FileWriter("debug.log", true);
+fw.write(s);
+fw.flush();
+fw.close();
+}
+VELOCIDADE DO ALGORITMO
+Em Estimando, pagina 86, falamos sobre estimar coisas como quanto tempo demora cruzar a cidade ou quanto tempo um projeto demorara para terminar. No entanto, ha outro tipo de estimativa que os programadores pragmaticos usam quase todo dia: estimar os recursos que os algoritmos usam - tempo, processador, memoria e assim por diante.
+Esse tipo de estimativa com frequencia e crucial. Se pudesse escolher entre duas maneiras de fazer algo, qual voce selecionaria? Voce sabe por quanto tempo seu programa e executado com 1.000 registros, mas como ele se adaptara a 1.000.000? Que partes do codigo precisam de otimizacao?
+Sabe-se que essas perguntas podem ser respondidas com o uso do bom senso, alguma analise e uma maneira de escrever aproximacoes chamada notacao do "grande O".
+O que queremos dizer com estimativa de algoritmos?
+A maioria dos algoritmos incomuns manipula algum tipo de entrada variavel - a classificacao de n strings, a inversao de uma matriz m x n ou a descriptografia de uma mensagem com uma chave de n bits. Normalmente, o tamanho dessa entrada afeta o algoritmo: quanto maior a entrada, maior o tempo de execucao ou maior o uso de memoria.
+Se o relacionamento fosse sempre linear (de modo que o tempo aumentasse em proporcao direta ao valor de n), esta secao nao seria importante. No entanto, algoritmos mais relevantes nao sao lineares. A boa noticia e que muitos sao sublineares. Uma busca binaria, por exemplo, nao precisa examinar cada candidato quando encontra uma ocorrencia. A ma noticia Resposta na p. 321
+[p200] e que outros algoritmos sao consideravelmente piores que lineares; os requisitos de memoria ou tempos de execucao aumentam bem mais rapido que n. Um algoritmo que leva um minuto para processar 10 itens pode levar toda uma existencia para processar cem.
+Descobrimos que sempre que escrevemos algo contendo loops ou chamadas recursivas, inconscientemente verificamos os requisitos de tempo de execucao e memoria. Raramente esse processo e formal e sim uma rapida confirmacao de que o que estamos fazendo e sensato dadas as circunstancias. No entanto, as vezes nos vemos realmente executando uma analise mais detalhada. E ai que a notacao O() se torna util.
+A notacao O( ) A notacao O() e uma maneira matematica de lidar com aproximacoes. Quando escrevemos que uma rotina de classificacao especifica classifica n registros no tempo O(n 2), estamos dizendo que o tempo gasto no pior dos casos variara segundo o quadrado de n. Dobre o numero de registros e o tempo aumentara aproximadamente quatro vezes. Considere o O como significando da ordem de. A notacao O() define um limite superior para o valor do item que estamos medindo (tempo, memoria e assim por diante). Quando dizemos que uma funcao leva o tempo O(n 2), sabemos que o limite superior do tempo gasto por ela nao aumentara mais rapido do que n 2. As vezes, deparamos com funcoes O() bem complexas, mas ja que o termo de ordem mais alta prevalecera para o valor a medida que n crescer, a convencao e remover todos os termos de ordem inferior e nao se preocupar em exibir qualquer fator multiplicador constante. O(n 2/2 + 3n) e o mesmo que O(n 2/2), que e equivalente a O(n 2). Na verdade, esse e um ponto fraco da notacao O() - um algoritmo O(n 2) pode ser 1.000 vezes mais rapido do que outro algoritmo O(n 2), mas voce nao sabera disso a partir da notacao.
+A Figura 6.1 mostra varias notacoes O() comuns que voce encontrara, junto com um grafico comparando os tempos de execucao dos algoritmos de cada categoria. Fica claro que as coisas comecam rapidamente a sair de controle quando ultrapassamos O(n 2).
+Por exemplo, suponhamos que voce tivesse uma rotina que levasse 1 s para processar 100 registros. Quanto tempo ela levara para processar 1.000? Se seu codigo for O(1), ela continuara demorando 1 s. Se ele for O(lg(n)), provavelmente voce tera que esperar cerca de 3 s. O(n) exibira um aumento linear para 10 s, enquanto O(n lg(n)) levara cerca de 33 s. Se
+[p201] voce for azarado o bastante para ter uma rotina O(n 2), pode esperar sentado durante 100 s enquanto ela executa sua tarefa. E se estiver usando um algoritmo exponencial O(2 n), talvez queira tomar um cafe - sua rotina deve terminar em cerca de 10 263 anos. Poderemos ver como o mundo acaba.
+O(1): acesso a matriz O(n): busca sequencial O(lg(n)): busca binaria O(n lg(n)): classificacao por heap O(n2): classificacao por selecao O(Cn): caixeiro viajante Algumas notacoes O( ) comuns Constante (acessa elemento em matriz, instrucoes simples) Logaritmica (busca binaria) [A notacao lg(n) e a abreviatura de log2(n)] Linear (busca sequencial) Pior que linear, mas nao muito pior (tempo de execucao medio da classificacao rapida, classificacao por heap) Lei do quadrado (classificacoes por selecao e insercao) Cubica (multiplicacao de 2 matrizes n  n) Exponencial (problema do caixeiro viajante, divisao do conjunto)
+O(1)
+Tempo de execucao -> n -> O(lg(n)) O(n) O(n lg(n)) O(n2) O(n3) O(Cn) Figura 6.1 Tempos de execucao de varios algoritmos.
+[p202] A notacao O() nao se aplica apenas ao tempo; voce pode usa-la para representar qualquer outro recurso empregado por um algoritmo. Por exemplo, costuma ser util podermos modelar o consumo de memoria (consulte o Exercicio 35 na pagina 205).
+Estimativa por bom senso Voce pode estimar a ordem de muitos algoritmos basicos usando o bom senso.
+Loops simples.
+*
+Se um loop simples for executado de 1 a n, e provavel que o algoritmo seja O(n) - o tempo aumenta linearmente com n. Exemplos incluem buscas exaustivas, descobrir o valor maximo de uma matriz e gerar somas de verificacao.
+Loops aninhados.
+*
+Se voce aninhar um loop dentro de outro, o algoritmo sera O(m x n), onde m e n sao os limites dos dois loops. Normalmente, isso ocorre em algoritmos de classificacao simples, como a classificacao de bolhas, em que o loop externo examina cada elemento da matriz sequencialmente e o loop interno define onde deve ser inserido esse elemento no resultado classificado. Esses algoritmos de classificacao tendem a ser O(n 2).
+Divisao binaria.
+*
+Se seu algoritmo divide igualmente o conjunto de coisas que ele considera a cada vez que percorre o loop, provavelmente ele e logaritmico, O(lg(n)) (consulte o Exercicio 37, pagina 205). Uma busca binaria em uma lista classificada, percorrer uma arvore binaria e encontrar o primeiro bit ativo na palavra de uma maquina, tudo isso pode ser O(lg(n)).
+Dividir para conquistar.
+*
+Algoritmos que dividem sua entrada, trabalham nas duas metades independentemente e entao combinam o resultado podem ser O(n lg(n)). O exemplo classico e a classificacao rapida, que funciona dividindo os dados em duas metades e classificando cada uma recursivamente. Embora tecnicamente seja O(n 2), ja que seu comportamento piora quando recebe entrada classificada, o tempo de execucao medio da classificacao rapida e O(n lg(n)).
+Analise combinatoria.
+*
+Sempre que os algoritmos comecam a examinar as permutacoes das coisas, seus tempos de execucao podem sair do controle. Isso ocorre porque as permutacoes envolvem fatoriais (ha 5! = 5x4x3x2x1 = 120 permutacoes dos digitos de 1 a 5). Cronometre um algoritmo de analise combinatoria para cinco elementos: demorara seis vezes mais para ele ser executado para seis e 42 vezes mais para sete. Exemplos incluem os algoritmos de muitos dos problemas difi-
+[p203] ceis conhecidos - o problema do caixeiro viajante, empacotar coisas em um conteiner de maneira otimizada, dividir um conjunto de numeros para que cada conjunto tenha o mesmo total e assim por diante. Geralmente, heuristicas sao usadas para reduzir os tempos de execucao desses tipos de algoritmos em dominios de problema especificos. Velocidade do algoritmo na pratica Provavelmente, voce nao passara muito tempo em sua carreira criando rotinas de classificacao. As existentes nas bibliotecas disponiveis devem ter melhor desempenho do que qualquer coisa que voce criar sem um esforco significativo. No entanto, os tipos basicos de algoritmos que descrevemos anteriormente reaparecem de tempos em tempos. Sempre que estiver criando um loop simples, voce sabera que tem um algoritmo O(n). Se esse loop tiver um loop interno, estara olhando para um algoritmo O(m x n). Voce deve estar se perguntando ate onde esses valores podem chegar. Se os numeros forem limitados, voce sabera quanto tempo o codigo levara para ser executado. Se os numeros dependerem de fatores externos (como a quantidade de registros de uma execucao em lote durante a noite ou a quantidade de nomes em uma lista de pessoas), talvez queira fazer uma pausa para considerar o efeito que valores altos podem ter em seu tempo de execucao ou consumo de memoria. Estime a ordem de seus algoritmos Ha algumas abordagens que voce pode usar para resolver possiveis problemas. Se tiver um algoritmo que for O(n 2), tente encontrar uma abordagem "dividir para conquistar" em que voce desca para o nivel O(n lg(n)). Se nao tiver certeza de quanto tempo seu codigo levara ou quanta memoria ele usara, tente executa-lo, variando a contagem de registros de entrada ou qualquer coisa que possa afetar o tempo de execucao. Em seguida, represente os resultados graficamente. Logo voce tera uma boa ideia da forma da curva. Esta se curvando para cima, e uma linha reta ou esta se nivelando a medida que o tamanho da entrada aumenta? Tres ou quatro pontos devem lhe dar uma boa referencia.
+Considere tambem o que voce esta fazendo no proprio codigo. Um loop O(n 2) simples pode ser executado melhor do que um loop O(n lg(n)) complexo para valores de n menores, principalmente se o algoritmo O(n lg(n)) tiver um loop interno dispendioso.
+[p204] No meio de toda essa teoria, nao esqueca que tambem ha consideracoes praticas. O tempo de execucao pode parecer aumentar linearmente para pequenos conjuntos de entradas. Mas alimente o codigo com milhoes de registros e subitamente o tempo baixara a medida que o sistema comecar a executar o thrashing. Se voce testar uma rotina de classificacao com chaves de entrada aleatorias, pode ficar surpreso na primeira vez em que ela encontrar a entrada ordenada. Programadores pragmaticos tentam abordar tanto as bases teoricas quanto as praticas. Apos todas essas estimativas, o unico tempo que interessa e a velocidade de seu codigo, sendo executado no ambiente de producao, com dados reais.
+2 Isso leva a nossa proxima dica.
+Teste suas estimativas Se for complicado obter periodos de tempo precisos, use geradores de perfil de codigo para contar quantas vezes as diferentes etapas de seu algoritmo sao executadas e representar esses numeros graficamente em relacao ao tamanho da entrada.
+O melhor nem sempre e melhor Voce tambem deve ser pragmatico na escolha dos algoritmos apropriados - o mais rapido nem sempre e o melhor para o trabalho. Dado um pequeno conjunto de entradas, uma simples classificacao por insercao sera executada tao bem quanto uma classificacao rapida e voce demorara menos para criar e depurar. Voce tambem tem de tomar cuidado se o algoritmo escolhido tiver um custo de inicializacao alto. Para pequenos conjuntos de entradas, essa instalacao pode degradar o tempo de execucao e tornar o algoritmo inapropriado.
+Tome cuidado tambem com a otimizacao prematura. E sempre uma boa ideia se certificar se um algoritmo e realmente um gargalo antes de investir seu precioso tempo melhorando-o.
+As secoes relacionadas sao:
+Estimando,
+*
+pagina 86 2 Na verdade, ao testar os algoritmos de classificacao usados como exercicio para esta secao em um Pentium de 64 MB, os autores ficaram sem memoria real enquanto executavam a classificacao pela base com mais de sete milhoes de numeros. A classificacao comecou a usar o espaco de swap e os tempos pioraram dramaticamente.
+[p205] Desafios Todo desenvolvedor deve ter uma ideia de como os algoritmos sao proje-
+*
+tados e analisados. Robert Sedgewick escreveu uma serie de livros acessiveis sobre o assunto ([Sed83, SF96] e outros). Recomendamos que voce adicione um de seus livros a sua colecao e que nao deixe de le-lo. Para os que gostam de mais detalhes do que Sedgewick fornece,
+*
+leiam os imprescindiveis livros Art of Computer Programming de Donald Knuth, que analisam um amplo conjunto de algoritmos [Knu97a, Knu97b, Knu98].
+No Exercicio 34, examinaremos a classificacao de matrizes de intei-
+*
+ros longos. Qual sera o impacto se as chaves forem mais complexas e a sobrecarga da comparacao de chaves for alta? A estrutura das chaves afeta a eficiencia dos algoritmos de classificacao ou a classificacao mais rapida e sempre mais rapida?
+Exercicios 34. Codificamos um conjunto de rotinas de classificacao simples, que podem ser baixadas de nosso site na Web (www.pragmaticprogrammer.com). Execute-as em varias maquinas que estiverem disponiveis para voce. Seus numeros seguem as curvas esperadas? O que conseguiu deduzir sobre as velocidades relativas de suas maquinas? Quais sao os efeitos de diferentes configuracoes de otimizacao do compilador? A classificacao pela base e realmente linear?
+35. A rotina abaixo exibe o conteudo de uma arvore binaria. Supondo que a arvore esteja balanceada, aproximadamente que espaco a rotina usara na pilha ao exibir uma arvore de 1.000.000 elementos? (Presuma que chamadas de sub-rotina nao imponham uma sobrecarga significativa a pilha).
+void printTree(const Node *node) { char buffer[1000];
+if (node) { printTree(node->left);
+getNodeAsString(node, buffer);
+puts(buffer);
+printTree(node->right);
+} } 36. Consegue vislumbrar alguma maneira de reduzir os requisitos de pilha da rotina do Exercicio 35 (alem da reducao do tamanho do buffer)? 37. Na pagina 202, alegamos que um corte binario e da ordem O(lg(n)). Consegue provar isso?
+Resposta na p. 321 Resposta na p. 322 Resposta na p. 322 Resposta na p. 323
+[p206] REFATORACAO
+Mudanca e decadencia em tudo que vejo...
+H. F. Lyte, "Abide With Me" A medida que um programa evolui, decisoes anteriores tem de ser repensadas e partes do codigo retrabalhadas. Esse processo e perfeitamente natural. O codigo precisa evoluir; ele nao e estatico.
+Infelizmente, a metafora mais comum para o desenvolvimento de software e a construcao de predios (Bertrand Meyer [Mey97b] usa o termo "Construcao de Software"). Mas usar a construcao como metafora condutora sugere essas etapas:
+1. Um arquiteto fazendo plantas.
+2. Empreiteiros cavando a fundacao, construindo a estrutura superior, a fiacao e o encanamento e aplicando os retoques finais.
+3. Os inquilinos passando a viver ali felizes para sempre e chamando o servico de manutencao do predio para corrigir qualquer problema. Bem, o software nao funciona exatamente assim. Em vez de construcao, eles sao mais como jardinagem - sao mais organicos e concretos. Voce pode plantar muitas coisas em um jardim de acordo com um plano e condicoes iniciais. Algumas florescem, outras acabam virando adubo. Voce pode escolher o local das plantas em relacao umas as outras para se beneficiar da interacao entre luz e sombra, vento e chuva. Plantas mais frondosas sao separadas ou aparadas e cores conflitantes podem ser mudadas para locais esteticamente mais agradaveis. Voce retira ervas daninhas e fertiliza as plantacoes que precisam de alguma ajuda extra. Monitora constantemente a saude do jardim e faz ajustes (no solo, nas plantas, na disposicao) quando necessario.
+Empresarios se sentem confortaveis com a metafora da construcao de predios: e mais cientifica do que jardinagem, pode ser repetida, ha uma rigida hierarquia de subordinacao para o gerenciamento e assim por diante. Mas nao estamos construindo arranha-ceus - os limites da fisica e do mundo real nao nos impoem tantas restricoes.
+A metafora da jardinagem tem muito mais semelhanca com as realidades do desenvolvimento de software. Uma determinada rotina pode ter crescido demais ou pode estar tentando executar muitas tarefas - ela precisa ser
+[p207] dividida em duas. Coisas que nao funcionam como o planejado precisam ser limpas ou aparadas.
+Os atos de reescrever, retrabalhar e replanejar codigos sao coletivamente conhecidos como refatorar.
+Quando voce deve refatorar?
+Quando deparar com algo que nao funciona porque o codigo nao e mais adequado, notar dois itens que na verdade deveriam ser um ou se algo mais lhe parecer "errado", nao hesite em alterar. Nao ha tempo como o presente. Varias coisas podem tornar o codigo candidato a refatoracao. Duplicacao
+*
+. Voce descobriu uma violacao do principio NSR (Os males da duplicacao, pagina 48).
+Projeto nao ortogonal.
+*
+Voce descobriu alguma parte do codigo ou projeto que poderia ser mais ortogonal (Ortogonalidade, pagina 56).
+Conhecimento desatualizado.
+*
+As coisas mudam, os requisitos variam e seu entendimento do problema aumenta. O codigo tem de acompanhar.
+Desempenho.
+*
+Voce precisa mover uma funcionalidade de uma area do sistema para outra para melhorar o desempenho.
+A refatoracao de seu codigo - a mudanca de funcionalidades e a atualizacao de decisoes anteriores - e, na verdade, um exercicio de gerenciamento da angustia. Admitamos, mudar a estrutura do codigo-fonte pode ser bem angustiante: ele estava quase funcionando e agora esta realmente confuso. Muitos desenvolvedores relutam em comecar a mexer na estrutura do codigo so porque ele nao esta perfeito.
+Complicacoes do mundo real Voce vai ate seu chefe e cliente e diz "esse codigo funciona, mas preciso de outra semana para refatora-lo".
+Nao podemos mostrar sua resposta.
+Restricoes de tempo costumam ser usadas como desculpa para a nao refatoracao. Mas essa desculpa nao se sustenta: nao refatore agora e havera um investimento muito maior de tempo para a correcao do problema mais tarde - quando houver mais dependencias a considerar. Entao havera mais tempo disponivel? Nao segundo nossa experiencia.
+[p208] Voce pode explicar esse principio para seu chefe usando uma analogia medica: considere o codigo que precisa de refatoracao como um "tumor". Sua remocao demanda cirurgia invasiva. Voce pode faze-la agora e remove-lo enquanto ainda esta pequeno. Ou pode esperar enquanto ele cresce e se espalha - mas entao remove-lo sera ao mesmo tempo caro e perigoso. Espera ainda mais e pode perder definitivamente o paciente.
+Refatore cedo, refatore sempre Acompanhe o que precisa ser refatorado. Se nao puder refatorar algo imediatamente, certifique-se de que seja inserido no cronograma. Assegure que os usuarios do codigo afetado saibam que ele foi agendado para ser refatorado e como isso pode afeta-los.
+Como refatorar?
+A refatoracao teve origem na comunidade Smalltalk e, com outras tendencias (como os padroes de projeto), comecou a ganhar um publico mais amplo. Mas como topico ainda e consideravelmente nova; nao ha muita coisa publicada sobre ela. O primeiro grande livro sobre refatoracao ([FBB +99] e tambem [URL 47]) esta sendo publicado quase ao mesmo tempo que este. Em sua essencia, refatorar e replanejar. Qualquer coisa que voce ou outras pessoas de sua equipe projetaram pode ser replanejada a luz de novos fatos, um conhecimento mais profundo, mudanca de requisitos e assim por diante. Mas se voce continuar aparando vastas quantidades de codigo despreocupadamente, pode acabar em uma situacao pior do que quando comecou. E claro que a refatoracao e uma atividade que precisa ser executada lenta, deliberada e cuidadosamente. Martin Fowler oferece as dicas simples a seguir sobre como refatorar sem causar mais danos do que beneficios (consulte a caixa da pagina 30 de [FS97]):
+1. Nao tente refatorar e adicionar funcionalidades ao mesmo tempo. 2. Certifique-se de ter bons testes antes de comecar a refatorar. Execute os testes sempre que possivel. Dessa forma voce sabera rapidamente se suas alteracoes danificaram algo.
+3. Execute etapas curtas e deliberadas: mova um campo de uma classe para outra, combine dois metodos semelhantes em uma superclas-
+[p209] se. Com frequencia, a refatoracao envolve fazer muitas alteracoes localizadas que resultam em uma alteracao de maior escala. Se voce mantiver suas etapas em um nivel menor, e testar cada etapa, evitara uma depuracao prolongada.
+Falaremos mais sobre testes nesse nivel em Codigo que seja facil de testar, pagina 211, e em testes em maior escala em Tentando incansavelmente, pagina 259, mas a sugestao do Sr. Fowler de mantermos bons testes de regressao e a chave para refatorar com confianca.
+Tambem pode ser util verificar se alteracoes drasticas em um modulo como alterar sua interface ou funcionalidade de uma maneira incompativel - prejudicam a construcao. Isto e, antigos clientes desse codigo nao devem conseguir compilar. Assim, voce podera encontrar rapidamente os antigos clientes e fazer as alteracoes necessarias para atualiza-los. Portanto, na proxima vez em que encontrar um trecho de codigo que nao estiver exatamente como deveria, alem de corrigi-lo, corrija tambem tudo que depender dele. Gerencie a angustia: se doer agora, mas for doer ainda mais depois, melhor fazer de uma vez. Lembre-se das licoes de Entropia de software, pagina 26: nao viva com janelas quebradas.
+Refatoracao automatica Historicamente, os usuarios do Smalltalk sempre gostaram de um navegador de classes como parte do IDE. Os navegadores de classes permitem que os usuarios naveguem por e examinem hierarquias de classes e metodos e nao devem ser confundidos com navegadores da Web.
+Normalmente, os navegadores de classes permitem a edicao de codigo, a criacao de novos metodos e classes e assim por diante. A proxima variacao dessa ideia e o navegador de refatoracao.
+Um navegador de refatoracao pode executar semiautomaticamente operacoes de refatoracao comuns: dividir uma rotina longa em rotinas menores, propagar automaticamente alteracoes em nomes de metodos e variaveis, arrastar e soltar para ajudar a mover partes do codigo etc.
+Ao redigirmos este livro, essa tecnologia ainda nao tinha surgido fora do universo do Smalltalk, mas isso deve mudar na mesma velocidade que a linguagem Java muda - rapidamente. Enquanto esperamos, o pioneiro navegador de refatoracao do Smalltalk pode ser encontrado online em [URL 20].
+[p210] As secoes relacionadas sao:
+O gato comeu meu codigo-fonte,
+*
+pagina 24 Entropia de software,
+*
+pagina 26 Sopa de pedras e sapos cozidos,
+*
+pagina 29 Os males da duplicacao,
+*
+pagina 48 Ortogonalidade,
+*
+pagina 56 Programacao baseada no acaso,
+*
+pagina 194 Codigo que seja facil de testar,
+*
+pagina 211 Testando incansavelmente,
+*
+pagina 259 Exercicios 38. E evidente que o codigo a seguir foi atualizado varias vezes com o passar dos anos, mas as alteracoes nao melhoraram sua estrutura. Refatore-o.
+if (state == TEXAS) { rate = TX_RATE;
+amt = base * TX_RATE;
+calc = 2*basis(amt) + extra(amt)*1.05;
+} else if ((state == OHIO) || (state == MAINE)) { rate = (state == OHIO) ? OH_RATE : MN_RATE;
+amt = base * rate;
+calc = 2*basis(amt) + extra(amt)*1.05;
+if (state == OHIO) points = 2;
+} else { rate = 1;
+amt = base;
+calc = 2*basis(amt) + extra(amt)*1.05;
+} 39. A classe Java a seguir precisa dar suporte a mais algumas formas. Refatore a classe para prepara-la para os acrescimos:
+public class Shape { public static final int SQUARE = 1;
+public static final int CIRCLE = 2;
+public static final int RIGHT_TRIANGLE = 3;
+private int shapeType;
+private double size;
+public Shape(int shapeType, double size) { this.shapeType = shapeType;
+this.size = size;
+} // ... outros metodos ...
+public double area() { switch (shapeType) { Resposta na p. 324 Resposta na p. 325

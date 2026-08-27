@@ -1,0 +1,282 @@
+[p23] Uma Filosofia Pragmatica O que diferencia os programadores pragmaticos? Acreditamos que e uma atitude, um estilo, uma filosofia de abordagem de problemas e suas solucoes. Eles raciocinam alem do problema imediato, sempre tentando inseri-lo em seu contexto mais amplo, sempre tentando tomar conhecimento do cenario em maior escala. Afinal, sem esse contexto maior, como voce poderia ser pragmatico? Como poderia fazer concessoes inteligentes e tomar decisoes embasadas?
+Outro segredo para seu sucesso e que eles se responsabilizam por tudo que fazem, o que discutimos em O Gato Comeu Meu Codigo-Fonte. Por serem responsaveis, os programadores pragmaticos nao sentam e esperam seus projetos se deteriorarem por negligencia. Em Entropia de Software, mostramos como manter seus projetos intactos.
+A maioria das pessoas acha dificil aceitar mudancas, as vezes por boas razoes e as vezes devido a simples inercia. Em Sopa de Pedras e Sapos Cozidos, examinamos uma estrategia para motivar a mudanca e (em busca de equilibrio) apresentamos o conto de um anfibio que ignorou os perigos da mudanca gradual.
+Uma das vantagens de entender o contexto em que voce trabalha e que fica mais facil saber exatamente o quanto seu software tem de ser bom. As vezes, a unica opcao e chegar perto da perfeicao, mas geralmente ha concessoes envolvidas. Examinamos isso em Software Satisfatorio.
+E claro que voce precisa ter uma base ampla de conhecimento e experiencia para se sair bem em tudo isso. O aprendizado e um processo continuo e progressivo. Em Sua Carteira de Conhecimentos, discutimos algumas estrategias que o manterao em evolucao.
+[p24] Para concluir, nenhum de nos trabalha sozinho. Todos passamos boa parte do tempo interagindo com outras pessoas. Comunique-se! lista maneiras como podemos fazer isso melhor.
+A programacao pragmatica vem de uma filosofia de pensamento pragmatico. Este capitulo define a base dessa filosofia.
+O GATO COMEU MEU CODIGO-FONTE
+A maior de todas as fraquezas e o medo de parecer fraco.
+J. B. Bossuet, A Politica Tirada da Sagrada Escritura, 1709 Um dos marcos da filosofia pragmatica e a ideia de assumir a responsabilidade por si proprio e suas acoes no que diz respeito ao avanco de sua carreira, seu projeto e seu trabalho diario. Um programador pragmatico toma as redeas de sua carreira e nao tem medo de admitir desconhecimento ou erro. E claro que esse nao e o aspecto mais agradavel da programacao, mas ele ocorrera - mesmo no melhor dos projetos. Mesmo com testes irrepreensiveis, boa documentacao e solida automacao, algo da errado. Entregas atrasam. Problemas tecnicos inesperados surgem. Essas situacoes acontecem e tentamos lidar com elas tao profissionalmente quanto possivel. Isso significa ser honesto e direto. Podemos ter orgulho de nossas habilidades, mas devemos ser honestos sobre nossas falhas nossa ignorancia e nossos erros.
+Assuma a responsabilidade A responsabilidade e algo com o qual concordamos ativamente. Voce se compromete assegurando que algo foi feito corretamente, mas nao tem necessariamente controle direto sobre todos os aspectos da situacao. Alem de fazer o melhor que pode, deve analisar a situacao em relacao a riscos que estejam alem de seu controle. Voce tem o direito de nao assumir a responsabilidade por uma situacao impossivel ou uma situacao em que os riscos sejam muito grandes. Tera de se decidir baseado em sua propria etica e julgamento.
+Quando voce aceitar realmente a responsabilidade por um resultado, deve esperar ser responsabilizado por isso. Quando cometer um erro (como todos cometemos) ou se equivocar em uma decisao, admita-o honestamente e tente oferecer opcoes.
+[p25] Nao culpe alguem ou algo nem invente uma desculpa. Nao ponha a culpa de todos os problemas em um fornecedor, uma linguagem de programacao, na gerencia ou em seus colaboradores. Qualquer um ou todos eles podem ter uma parcela de culpa, mas cabe a voce fornecer solucoes e nao desculpas.
+Se havia o risco de ocorrer algo que o fornecedor nao poderia resolver, voce deveria ter um plano de contingencia. Se o disco ficar danificado - e todo o seu codigo-fonte tambem ficar comprometido - e voce nao tiver um backup, a falha e sua. Dizer a seu chefe "o gato comeu meu codigo-fonte" nao resolvera.
+Forneca opcoes, nao de desculpas esfarrapadas Antes de abordar alguem para dizer por que algo nao pode ser feito, esta atrasado ou ficou danificado, pare e escute a si proprio. Converse com o pato de borracha em seu monitor ou com o gato. Sua desculpa parece convincente ou estupida? Como ela vai soar para seu chefe?
+Imagine a conversa em sua mente. O que e provavel que a outra pessoa diga? Ela perguntara "Voce tentou isso..." ou "Voce nao considerou isso?" Como voce respondera? Antes de contar as mas noticias, ha algo mais que voce possa tentar? As vezes, sabemos o que as pessoas vao dizer, portanto, poupe-os disso.
+Em vez de desculpas, forneca opcoes. Nao diga que nao pode ser feito; explique o que pode ser feito para salvar a situacao. O codigo tem de ser descartado? Explique as pessoas sobre o valor da refatoracao (consulte Refatoracao, pagina 206). Voce precisa de tempo para criar um prototipo e determinar a melhor maneira de proceder (consulte Prototipos e notas post-it, pagina 75)? Precisa introduzir testes melhores (consulte Codigo que seja facil de testar, pagina 211, e Testando incansavelmente, pagina 259) ou automatizar (consulte Automacao onipresente, pagina 252) para impedir que ocorra novamente? Talvez precise de recursos adicionais. Nao tenha medo de pedir ou de admitir que precisa de ajuda.
+Tente se ver livre das desculpas esfarrapadas antes de pronuncia-las em voz alta. Se precisar, fale primeiro para seu gato. Afinal, se o pequeno Mingau vai levar a culpa...
+[p26] As secoes relacionadas sao:
+Prototipos e notas post-it
+*
+, pagina 75 Refatoracao
+*
+, pagina 206 Codigo que seja facil de testar
+*
+, pagina 211 Automacao onipresente
+*
+, pagina 252 Testando incansavelmente
+*
+, pagina 259 Desafios Como voce reage quando alguem - como um caixa de banco, um meca-
+*
+nico de automoveis ou um balconista - lhe da uma desculpa esfarrapada? O que voce acha deles e de sua empresa em decorrencia disso?
+ENTROPIA DE SOFTWARE
+Embora o desenvolvimento de software esteja imune a quase todas as leis da fisica, a entropia nos afeta muito. Entropia e um termo da fisica que se refere ao nivel de "desordem" em um sistema. Infelizmente, as leis da termodinamica garantem que a entropia no universo tende em direcao ao maximo. Quando a desordem aumenta no software, os programadores chamam isso de "deterioracao de software".
+Ha muitos fatores que podem contribuir para a deterioracao de software. O mais importante parece ser a psicologia, ou cultura, em acao em um projeto. Mesmo se voce for uma equipe de uma pessoa, a psicologia que envolve seu projeto pode ser algo muito delicado. Mesmo se um projeto tiver grandes planos elaborados e as melhores pessoas, ele ainda pode vivenciar a ruina e a decadencia durante seu tempo de vida. No entanto, ha outros projetos que, apesar das enormes dificuldades e constantes retrocessos, combatem com sucesso a tendencia natural em direcao a desordem e conseguem se sair muito bem.
+O que causa a diferenca?
+Em cidades do interior, alguns predios sao belos e limpos, enquanto outros sao estruturas deterioradas. Por que? Pesquisadores da area criminal e de decadencia urbana descobriram um fascinante mecanismo acionador, um mecanismo que torna muito rapidamente um predio limpo, intacto e habitado em uma construcao quebrada e abandonada: uma janela quebrada [WK82].
+[p27] Uma janela quebrada, deixada sem reparos por qualquer periodo de tempo significativo, faz brotar nos moradores do predio uma sensacao de abandono - uma sensacao de que os responsaveis nao se preocupam com o predio. Portanto, outra janela e quebrada. As pessoas comecam a acumular lixo na area externa. Surgem grafites. Danos estruturais graves comecam a aparecer. Em um periodo de tempo relativamente curto, o predio fica danificado demais para o proprietario querer conserta-lo e a sensacao de abandono se torna realidade.
+A "Teoria da Janela Quebrada" inspirou os departamentos de policia de Nova York e outras cidades grandes a atacar os problemas menores para evitar os maiores. Funciona: ficar atento a janelas quebradas, grafites e outras pequenas infracoes reduziu o alto indice criminal.
+Nao tolere janelas quebradas Nao deixe "janelas quebradas" (projetos insatisfatorios, decisoes erradas ou codigo inadequado) sem reparos. Conserte cada uma assim que for descoberta. Se nao houver tempo suficiente para conserta-la apropriadamente, feche-a com tabuas. Talvez voce possa desativar com comentarios o codigo inadequado, exibir uma mensagem "Nao Implementado" ou substitui-lo por dados ficticios. Tome alguma medida para impedir um dano maior e mostrar que voce esta com a situacao sob controle.
+Vimos sistemas elegantes e funcionais se deteriorarem rapidamente quando as janelas comecaram a quebrar. Ha outros fatores que podem contribuir para a deterioracao de software e mencionaremos alguns deles em outras secoes, mas a negligencia acelera mais a deterioracao do que qualquer outro fator.
+Voce deve estar pensando que ninguem tem tempo para sair reparando todas as janelas quebradas de um projeto. Se continuar pensando assim, e melhor planejar a compra de uma cacamba ou mudar para outra vizinhanca. Nao deixe a entropia vencer.
+Apagando incendios Por outro lado, ha a historia de um conhecido de Andy obscenamente rico. Sua casa era imaculada, bela, cheia de reliquias de valor inestimavel, objetos de arte e assim por diante. Um dia, uma tapecaria pendurada proxima
+[p28] da lareira de sua sala de estar pegou fogo. O corpo de bombeiros se apressou para salvar o dia - e sua casa. Mas antes de arrastarem suas mangueiras grandes e sujas para dentro da casa, eles pararam - com o fogo ainda enfurecido - para desenrolar uma esteira entre a porta da frente e o ponto de origem do fogo.
+Eles nao queriam estragar o carpete.
+Um caso bastante extremo, claro, mas e assim que deve ser com o software. Uma janela quebrada - um trecho de codigo mal projetado, uma decisao insatisfatoria da gerencia com a qual a equipe tiver de conviver durante a existencia do projeto - e o que falta para comecar o declinio. Se voce perceber que esta trabalhando em um projeto com algumas janelas quebradas, nao vai ser dificil comecar a pensar da forma padrao "Todo o resto desse codigo esta perdido. Vou me resignar e segui-lo". Nao importa se o projeto vinha se saindo bem ate esse ponto. Na experiencia original que levou a "Teoria da Janela Quebrada", um carro abandonado permaneceu uma semana intocado. Mas quando apenas uma janela foi quebrada, o carro foi destruido e virado de cabeca para baixo em horas.
+Da mesma forma, se voce perceber que esta em uma equipe e em um projeto no qual o codigo se encontra em estado imaculadamente adequado - escrito apropriadamente, bem projetado e elegante - provavelmente vai tomar um cuidado especial para nao danifica-lo, assim como os bombeiros. Mesmo se houver um incendio ocorrendo (prazo, data de lancamento, demonstracao para clientes), voce nao vai querer ser o primeiro a causar danos. As secoes relacionadas sao:
+Sopa de pedras e sapos cozidos
+*
+, pagina 29 Refatoracao,
+*
+pagina 206 Equipes pragmaticas,
+*
+pagina 246 Desafios Ajude a fortalecer sua equipe examinando as "vizinhancas" de seu
+*
+ambiente de computacao. Selecione duas ou tres "janelas quebradas" e discuta com seus colegas quais sao os problemas e o que poderia ser feito para resolve-los.
+Voce consegue identificar quando uma janela foi quebrada? Qual e
+*
+sua reacao? Se isso foi resultado da decisao de alguem, ou de uma imposicao da gerencia, o que voce pode fazer?
+[p29] SOPA DE PEDRAS E SAPOS COZIDOS
+Os tres soldados que voltavam da guerra estavam famintos. Quando viram a vila a frente, se animaram - tinham certeza de que os aldeoes lhes dariam uma refeicao. Mas, quando la chegaram, encontraram as portas trancadas e as janelas fechadas. Apos muitos anos de guerra, os aldeoes estavam com pouca comida e estocavam o que tinham.
+Sem medo, os soldados ferveram agua em uma panela e colocaram cuidadosamente tres pedras nela. Os aldeoes pasmos vieram observar. "Essa e uma sopa de pedras", os soldados explicaram. "Isso e tudo que voces colocam nela?" perguntaram os aldeoes. "Exatamente - embora algumas pessoas digam que ela fica ainda melhor com algumas cenouras..." Um aldeao pos-se a correr, voltando rapidamente com uma cesta de cenouras de seu estoque.
+Alguns minutos depois, os aldeoes perguntaram novamente "E so isso?" "Bem," disseram os soldados, "algumas batatas lhe dao sustancia". Outro aldeao saiu em disparada.
+Durante a hora que se seguiu, os soldados listaram mais ingredientes que melhorariam a sopa: carne, alho, sal e ervas. A cada vez um aldeao diferente corria para procurar em seus estoques pessoais.
+Eles acabaram obtendo uma grande panela de sopa fumegante. Os soldados removeram as pedras e se sentaram com a vila inteira para apreciar a primeira refeicao reforcada que qualquer um deles tinha comido em meses. Ha algumas licoes na historia da sopa de pedras. Os aldeoes sao enganados pelos soldados, que usam a curiosidade daqueles para obter comida. Porem, o mais importante e que os soldados agem como um catalisador, reunindo a vila para que possam produzir conjuntamente algo que nao poderiam ter feito sozinhos - um resultado sinergico. Todos acabam ganhando.
+Em uma situacao fortuita, voce pode querer imitar os soldados. Voce pode estar em uma situacao em que sabe exatamente o que precisa ser feito e como faze-lo. O sistema inteiro simplesmente se descortina a sua frente - voce sabe que ele esta correto. Mas peca permissao para realiza-lo integralmente e enfrentara atrasos e olhares vagos. As pessoas formarao comites, orcamentos precisarao de aprovacao e as coisas se complicarao. Todos protegerao seus recursos. As vezes, isso e chamado de "fadiga inicial". E hora de usar as pedras. Planeje o que voce pode pedir. Desenvolva isso bem. Quando terminar, mostre o que obteve as pessoas e deixe que se admirem. Entao diga "e claro que ficaria melhor se adicionassemos...". Finja que nao e importante. Sente-se e espere elas comecarem a pedir
+[p30] que adicione a funcionalidade que voce queria desde o inicio. As pessoas acham mais facil se associar a algo que vem obtendo exito. Mostre a elas um vislumbre do futuro e fara com que colaborem 1.
+Seja um catalisador da mudanca O lado dos aldeoes Por outro lado, a historia da sopa de pedras tambem e sobre uma ilusao lenta e gradual. E sobre dar muita atencao a algo. Os aldeoes se concentram nas pedras e esquecem o resto do mundo. Todos fazemos isso, diariamente. Somos simplesmente envolvidos pelas coisas.
+Todos nos ja vimos os sintomas. Os projetos saem totalmente de controle de maneira lenta e inexoravel. Grande parte da deterioracao do software comeca em um nivel muito baixo para ser notada e quase todos os descontroles em projetos ocorrem dia apos dia. Os sistemas se desviam de suas especificacoes recurso a recurso, enquanto um remendo atras do outro e adicionado a um trecho de codigo ate que nada sobre do original. Geralmente, e a acumulacao de pequenas coisas que desintegra a motivacao e as equipes.
+Lembre-se do cenario em larga escala Nunca tentamos isso - sinceramente. Mas dizem que se voce pegar um sapo e joga-lo em agua fervendo, ele saltara imediatamente para fora de novo. No entanto, se voce colocar o sapo em uma panela com agua fria e aquece-la gradualmente, o sapo nao notara o lento aumento na temperatura e permanecera quieto ate ser cozido.
+Observe que o problema do sapo e diferente da questao das janelas quebradas discutida na Secao 2. Na Teoria da Janela Quebrada, as pessoas 1 Ao fazer isso, console-se com a frase atribuida a contra-almirante Dra. Grace Hopper: "E mais facil pedir desculpas do que obter permissao".
+[p31] perdem a vontade de combater a entropia porque percebem que ninguem se preocupa. O sapo simplesmente nao nota a mudanca.
+Nao seja como o sapo. Nao se esqueca do cenario mais abrangente. Verifique constantemente o que esta acontecendo ao seu redor e nao apenas o que voce proprio esta fazendo.
+As secoes relacionadas sao:
+Entropia de software,
+*
+pagina 26 Programacao baseada no acaso,
+*
+pagina 194 Refatoracao,
+*
+pagina 206 O abismo dos requisitos
+*
+, pagina 224 Equipes pragmaticas
+*
+, pagina 246 Desafios Ao revisar um esboco deste livro, John Lakos levantou a seguin-
+*
+te questao: os soldados enganaram progressivamente os aldeoes, mas a mudanca que catalisaram foi boa para todos. No entanto, ao enganar progressivamente o sapo, voce nao esta lhe fazendo bem. Consegue determinar se esta fazendo sopa de pedras ou sopa de sapo ao tentar catalisar a mudanca? A decisao e subjetiva ou objetiva?
+SOFTWARE SATISFATORIO
+Buscando o melhor, geralmente prejudicamos o que e bom.
+Rei Lear 1.4 Ha uma piada (bem) antiga sobre uma empresa nos Estados Unidos que faz um pedido de 100.000 circuitos integrados a um fabricante japones. Parte da especificacao era a taxa de defeitos: um chip em 10.000. Algumas semanas depois o pedido chegou: uma grande caixa contendo milhares de circuitos integrados e uma pequena contendo apenas 10. Anexado a pequena caixa, via-se um rotulo com os dizeres: "Estes sao os defeituosos".
+[p32] Se ao menos tivessemos esse tipo de controle sobre a qualidade. Mas o mundo real nao nos permite produzir muita coisa realmente perfeita, principalmente software sem erros. O tempo, a tecnologia e o temperamento, tudo isso conspira contra.
+No entanto, isso nao precisa ser frustrante. Como Ed Yourdon descreveu em um artigo na IEEE Software [You95], voce pode se disciplinar para criar software que seja satisfatorio - para seus usuarios, para quem fizer futuras manutencoes, para sua propria paz de espirito. Vera que esta sendo mais produtivo e que seus usuarios estao mais felizes. E pode acabar descobrindo que seus programas sao realmente melhores por seu periodo menor de incubacao.
+Antes de prosseguir, temos que qualificar o que estamos para dizer. O termo "satisfatorio" nao significa codigo malfeito ou mal produzido. Todos os sistemas devem atender os requisitos de seus usuarios para serem bemsucedidos. Estamos defendendo que os usuarios tenham a oportunidade de participar do processo de decidir quando o que produzimos atingiu o satisfatorio.
+Envolva seus usuarios na tomada de decisoes Normalmente, criamos software para outras pessoas. Com frequencia, lembramos de pedir-lhes requisitos 2. Mas com que frequencia voce pergunta a elas o nivel de satisfacao que desejam que seu software tenha? As vezes, nao ha escolha. Se voce estiver trabalhando em marca-passos, no onibus espacial ou em uma biblioteca de baixo nivel que sera amplamente disseminada, os requisitos serao mais rigorosos e suas opcoes mais limitadas. No entanto, se estiver trabalhando em um projeto totalmente novo, tera restricoes diferentes. Os profissionais de marketing terao promessas a fazer, os eventuais usuarios finais podem ter feito planos com base em um prazo de entrega e sua empresa certamente tera restricoes de fluxo de caixa. Seria amador ignorar esses requisitos dos usuarios simplesmente para adicionar novos recursos ao programa ou para refinar o codigo mais uma vez. Nao estamos defendendo o panico: e igualmente amador promoter escalas de tempo impossiveis e cortar angulos de engenharia basicos para atender um prazo.
+2 Isso era para ser uma piada!
+[p33] O escopo e a qualidade do sistema que voce vai produzir devem ser especificados como parte dos requisitos desse sistema.
+Torne a qualidade parte dos requisitos Com frequencia, voce se vera em situacoes em que concessoes estarao envolvidas. Surpreendentemente, muitos usuarios preferem usar software com algumas arestas pendentes hoje do que esperar um ano pela versao multimidia. Muitos departamentos de TI com orcamentos apertados concordariam. Se voce der a seus usuarios algo para usarem mais cedo, seu feedback pode leva-lo a uma solucao melhor (consulte Projeteis Luminosos, pagina 70).
+Saiba quando parar Em alguns aspectos, a programacao e como a pintura. Voce comeca com uma tela vazia e certas materias-primas basicas. Usa uma combinacao de ciencia, arte e trabalho manual para determinar o que fazer com elas. Esboca uma forma geral, pinta o ambiente subjacente e insere os detalhes. Constantemente, distancia-se com olhar critico para ver o que fez. De vez em quando, jogara uma tela fora e comecara de novo.
+Mas os artistas lhe dirao que todo o trabalho arduo estara arruinado se voce nao souber quando parar. Se voce adicionar uma camada apos a outra, um detalhe apos o outro, o topico retratado se perdera na pintura. Nao estrague um programa que funciona perfeitamente enfeitando e aprimorando-o excessivamente. Passe adiante e deixe que seu codigo fale um pouco por si proprio. Ele pode nao ter ficado perfeito. Nao se preocupe: nunca teria ficado perfeito. (No Capitulo 6, pagina 193, discutiremos filosofias para o desenvolvimento de codigos em um mundo imperfeito). As secoes relacionadas sao:
+Projeteis luminosos,
+*
+pagina 70 O abismo dos requisitos,
+*
+pagina 224 Equipes pragmaticas,
+*
+pagina 246 Grandes expectativas,
+*
+pagina 277
+[p34] Desafios Observe os fabricantes das ferramentas de software e sistemas ope-
+*
+racionais que voce usa. Consegue encontrar alguma evidencia de que essas empresas se sentem confortaveis distribuindo software que elas sabem que nao e perfeito? Como usuario, voce prefere (1) esperar que elas removam todos os erros, (2) ter software complexo e aceitar alguns erros ou (3) optar por software mais simples com menos defeitos?
+Considere o efeito da modularizacao na distribuicao de software. De-
+*
+mora mais ou menos tempo obter um software monolitico com a qualidade requerida em comparacao com um sistema projetado em modulos? Voce consegue identificar exemplos comerciais?
+SUA CARTEIRA DE CONHECIMENTOS
+Um investimento em conhecimento sempre paga os melhores juros. Benjamin Franklin Ah, o bom e velho Ben Franklin - nao deixa passar um bom sermao. Por que deixaria? Se Deus ajuda quem cedo madruga, entao, se acordarmos cedo seremos programadores melhores - certo? O passaro madrugador pode capturar a minhoca, mas, e no caso da minhoca madrugadora?
+Nesse caso, no entanto, Ben acerta em cheio. Seu conhecimento e sua experiencia sao seus bens profissionais mais importantes.
+Infelizmente, eles sao bens expiraveis.
+3 Seu conhecimento fica desatualizado a medida que novas tecnicas, linguagens e ambientes sao desenvolvidos. As forcas inconstantes do mercado podem tornar sua experiencia obsoleta ou irrelevante. Dada a velocidade com a qual os anos passam na Web, isso pode ocorrer muito rapido.
+A medida que o valor de seus conhecimentos diminui, o mesmo acontece com seu valor para sua empresa ou cliente. Queremos evitar que isso ocorra.
+3 Um bem expiravel e algo cujo valor diminui com o tempo. Exemplos incluem um deposito cheio de bananas e um ingresso para um jogo de futebol.
+[p35] Sua carteira de conhecimentos Gostamos de considerar todos os fatos que os programadores sabem sobre computacao, as areas de aplicacao em que trabalham e toda a sua experiencia como suas Carteiras de Conhecimentos. O gerenciamento de uma carteira de conhecimentos e muito semelhante ao gerenciamento de uma carteira de investimentos:
+1. Investidores serios investem regularmente - como um habito. 2. A diversificacao e a chave para o sucesso a longo prazo.
+3. Investidores astutos tem uma carteira equilibrada com investimentos conservadores e investimentos de alto risco e remuneracao. 4. Os investidores tentam comprar barato e vender caro para obter o maximo em retorno.
+5. As carteiras devem ser reexaminadas e reestruturadas periodicamente.
+Para ser bem-sucedido em sua carreira, voce deve gerenciar sua carteira de conhecimentos usando essas mesmas diretrizes.
+Construindo sua carteira Invista regularmente.
+*
+Como nos investimentos financeiros, voce deve investir em sua carteira de conhecimentos regularmente. Mesmo se for apenas um pequeno montante, o habito e tao importante quanto as somas. Alguns exemplos de objetivos serao listados na proxima secao.
+Diversifique.
+*
+Quanto mais coisas diferentes voce souber, mais valor tera. Como diretriz basica, voce tem de conhecer os pros e contras da tecnologia especifica com a qual esta trabalhando atualmente. Mas nao pare ai. A face da computacao muda rapidamente - a tecnologia moderna de hoje pode muito bem ser quase inutil (ou pelo menos ter uma demanda menor) amanha. Quanto mais tecnologias voce conhecer, melhor conseguira se adaptar a mudanca.
+Gerencie o risco.
+*
+A tecnologia se estende por um espectro de padroes que vai do arriscado e de alto retorno ao de baixo risco e baixo retorno. Nao e uma boa ideia investir todo o seu dinheiro em acoes de alto risco que possam cair repentinamente, nem investi-lo conservadoramente e perder possiveis oportunidades. Nao arrisque todas as suas apostas tecnicas na mesma direcao.
+[p36] Compre barato, venda caro.
+*
+Aprender uma tecnologia emergente antes dela se tornar popular pode ser tao dificil quanto encontrar uma acao em baixa, mas os lucros podem ser igualmente recompensadores. Aprender Java quando a linguagem surgiu pode ter sido arriscado, mas foi generosamente recompensador para os que a adotaram no inicio e hoje sao os melhores nessa area.
+Reexamine e reestruture.
+*
+Essa e uma industria muito dinamica.
+Aquela tecnologia moderna que voce comecou a estudar no mes passado pode ja ser ultrapassada. Voce pode ter de rever uma tecnologia de banco de dados que nao usa ha algum tempo. Ou talvez esteja mais apto para aquela nova oferta de trabalho se aprender essa outra linguagem...
+De todas essas diretrizes, a mais importante e a mais simples de seguir: Invista regularmente em sua carteira de conhecimentos Objetivos Agora que voce tem algumas diretrizes sobre o que e quando adicionar a sua carteira de conhecimentos, qual a melhor maneira de adquirir o capital intelectual com o qual a construira? Aqui estao algumas sugestoes. Aprenda pelo menos uma nova linguagem todo ano.
+*
+Diferentes linguagens resolvem os mesmos problemas de diferentes maneiras. Aprendendo varias abordagens diferentes, voce vai ajudar a expandir seu raciocinio e a evitar a estagnacao. Adicionalmente, aprender muitas linguagens e bem mais facil hoje em dia, gracas a quantidade de software livremente disponivel na Internet (consulte a pagina 289).
+Leia um livro tecnico a cada trimestre.
+*
+As livrarias estao cheias de livros tecnicos sobre topicos interessantes relacionados a seu projeto atual. Uma vez que adquirir o habito, leia um livro por mes. Apos dominar as tecnologias que esta usando atualmente, diversifique e estude algumas que nao estejam relacionadas ao seu projeto.
+Leia tambem livros nao tecnicos.
+*
+E importante lembrar que computadores sao usados por pessoas - pessoas cujas necessidades voce esta tentando atender. Nao esqueca o lado humano da equacao.
+[p37] Tenha aulas.
+*
+Procure cursos interessantes no colegio ou universidade de sua comunidade ou talvez na proxima feira que vier a cidade.
+Participe de grupos de usuarios locais.
+*
+Nao va e escute apenas, mas participe ativamente. O isolamento pode ser fatal para sua carreira. Descubra em que as pessoas estao trabalhando fora de sua empresa.
+Experimente ambientes diferentes.
+*
+Se so trabalhou no Windows, teste o Unix em casa (o Linux disponivel gratuitamente e prefeito para isso). Se so usou makefiles e um editor, teste um IDE e vice-versa.
+Mantenha-se informado.
+*
+Assine revistas do ramo e outros periodicos (consulte a pagina 284 para ver sugestoes). Selecione algumas que abordem tecnologias diferentes da de seu projeto atual.
+Mantenha-se conectado.
+*
+Quer saber os pros e contras de uma nova linguagem ou outra tecnologia? Os grupos de noticias sao uma otima maneira de descobrir que experiencias as pessoas estao fazendo, o jargao especifico que elas usam e assim por diante. Navegue na Web procurando artigos, sites comerciais e qualquer outra fonte de informacao que possa encontrar.
+E importante continuar a investir. Uma vez que voce se sentir confortavel com alguma linguagem ou tecnologia nova, nao pare. Aprenda outra. Nao importa se voce vai usar alguma dessas tecnologias em um projeto ou se vai coloca-las em seu curriculo. O processo de aprendizado expandira seu raciocinio, tornando-o aberto a novas possibilidades e novas maneiras de fazer as coisas. A aplicacao ampla de ideias e importante; tente aplicar as licoes que aprendeu a seu projeto atual. Mesmo se seu projeto nao usar essa tecnologia, talvez voce possa retirar algumas ideias dela. Familiarizese com a orientacao a objetos, por exemplo, e escrevera programas em C diferentemente.
+Oportunidades de aprendizado Suponhamos que voce estivesse lendo avidamente, conhecesse todos os desenvolvimentos recentes em sua area (o que nao e facil) e alguem lhe fizesse uma pergunta. Voce nao tem a minima ideia de qual seja a resposta e admite isso francamente.
+Nao deixe parar por ai. Assuma como um desafio pessoal encontrar a resposta. Pergunte a um especialista (se nao houver um especialista em sua
+[p38] empresa, voce deve encontrar um na Internet: consulte a caixa da proxima pagina). Procure na Web. Va a biblioteca.
+Se nao conseguir encontrar a resposta sozinho, descubra quem pode encontra-la. Nao deixe sem resposta. Conversar com outras pessoas o ajudara a construir sua rede pessoal e voce pode se surpreender encontrando solucoes para problemas totalmente diferentes ao fazer isso. E aquela antiga carteira de conhecimentos vai melhorar cada vez mais...
+Todas essas leituras e pesquisas tomam tempo e ele ja e curto. Portanto, voce precisa planejar antecipadamente. Tenha sempre algo para ler em um momento que seria improdutivo. O tempo gasto na espera em consultorios medicos e odontologicos pode ser uma grande oportunidade de atualizar sua leitura - mas leve sua propria revista ou pode acabar folheando paginas amassadas de um artigo de 1973 sobre Papua Nova Guine. Pensamento critico A ultima coisa importante e pensar criticamente sobre o que voce le e ouve. Voce precisa assegurar que o conhecimento de sua carteira seja exato sem ser influenciado por propagandas de fornecedores ou da midia. Cuidado com os fanaticos que insistem que seu dogma fornece a unica resposta - ela pode ou nao ser aplicavel a voce e seu projeto. Nunca subestime o poder do comercio. So porque um mecanismo de busca na Web lista um resultado antes nao significa que essa seja a melhor solucao; o provedor de conteudo pode ter pago para aparecer primeiro. E so porque uma livraria da destaque a um livro nao significa que esse seja bom ou mesmo popular; eles podem ter sido pagos para dar esse destaque. Analise criticamente o que voce le e ouve Infelizmente, ha poucas respostas simples. Mas com sua extensa carteira de conhecimentos e aplicando alguma analise critica a enxurrada de publicacoes tecnicas que lera, voce conseguira entender as respostas complexas.
+4 Nesta era da Web, muitas pessoas parecem ter esquecido as bibliotecas reais com equipe de atendimento e cheias de material de pesquisa.
+[p39] Desafios Comece a aprender uma nova linguagem nesta semana. Sempre pro-
+*
+gramou em C++? Tente Smalltalk [URL 13] ou Squeak [URL 14].
+Trabalhando com Java? Tente Eiffel [URL 10] ou TOM [URL 15].
+Consulte a pagina 289 para ver fontes de outros compiladores e ambientes gratuitos.
+Comece a ler um novo livro (mas termine este primeiro!). Se estiver
+*
+fazendo implementacoes e codificacoes muito detalhadas, leia um livro sobre projeto e arquitetura. Se estiver fazendo projetos de alto nivel, leia um livro sobre tecnicas de codificacao.
+O cuidado e a consulta com especialistas Com a adocao global da Internet, os especialistas se tornaram tao acessiveis quanto nossa tecla Enter. Portanto, como encontrar um e faze-lo conversar com voce?
+Conhecemos alguns truques simples.
+Saiba exatamente o que quer perguntar e seja tao especifico quanto
+*
+puder.
+Formule sua pergunta cuidadosa e polidamente. Lembre-se de que
+*
+esta pedindo um favor; nao de a impressao de que esta exigindo uma resposta.
+Uma vez que tiver formulado sua pergunta, pare e pense novamente na
+*
+resposta. Selecione algumas palavras-chave e pesquise na Web. Procure FAQs apropriadas (listas de perguntas frequentes com respostas). Decida se quer perguntar publica ou privadamente. Grupos de noticias
+*
+da Usenet sao otimos pontos de encontro de especialistas em qualquer topico, mas algumas pessoas tomam cuidado devido a natureza publica desses grupos. Alternativamente, voce sempre pode mandar um email direto para o especialista. De uma forma ou de outra, use uma linha de assunto significativa. ("Preciso de ajuda!!!" nao e o suficiente.) Sente-se e tenha paciencia. As pessoas sao ocupadas e pode demorar
+*
+dias para chegar uma resposta especifica.
+Para concluir, nao deixe de agradecer qualquer pessoa que lhe responder. E se encontrar pessoas fazendo perguntas que voce pode responder, desempenhe seu papel e participe.
+[p40] Saia e converse sobre tecnologia com pessoas que nao estejam envol-
+*
+vidas em seu projeto atual ou que nao trabalhem para a mesma empresa. Converse na lanchonete de sua empresa ou procure colegas entusiastas em uma reuniao do grupo de usuarios local.
+COMUNIQUE-SE!
+Melhor ser olhada superficialmente do que ser ignorada.
+Mae West, Uma Dama do Outro Mundo, 1934 Talvez possamos aprender uma licao com a Srta. West. Nao se trata apenas do que temos, mas tambem de como o apresentamos. Ter as melhores ideias, o codigo mais elegante ou o raciocinio mais pragmatico acaba nao adiantando se voce nao souber se comunicar com outras pessoas. Uma boa ideia fica orfa sem uma comunicacao efetiva.
+Como desenvolvedores, temos de nos comunicar em muitos niveis. Passamos horas em reunioes, ouvindo e falando. Trabalhamos com usuarios finais, tentando entender suas necessidades. Escrevemos codigos, que comunicam nossas intencoes para uma maquina e documentam nosso raciocinio para futuras geracoes de desenvolvedores. Redigimos propostas e memorandos solicitando e justificando recursos, relatando nossos avancos e sugerindo novas abordagens. E trabalhamos diariamente dentro de nossas equipes para defender nossas ideias, modificar praticas existentes e sugerir praticas novas. Uma grande parte de nosso dia e gasta em comunicacao, portanto, temos de fazer isso bem.
+Compilamos uma lista de ideias que achamos uteis.
+Saiba o que voce quer dizer Provavelmente, a parte mais dificil dos estilos mais formais de comunicacao usados nas empresas seja formular exatamente o que voce quer dizer. Escritores de ficcao esbocam os detalhes de seus livros antes de comecarem, mas pessoas que redigem documentos tecnicos costumam poder sentar em um computador, escrever "1. Introducao" e comecar a digitar o que quer que surja em suas cabecas.
+Planeje o que quer dizer. Faca um rascunho. Entao, pergunte a si proprio "Isso representa o que estou tentando dizer?". Aperfeicoe ate que represente.
+[p41] Essa abordagem nao e aplicavel apenas a redacao de documentos. Quando voce tiver de comparecer a uma reuniao importante ou fazer uma chamada telefonica para um grande cliente, anote as ideias que deseja comunicar e esboce algumas estrategias para transmiti-las.
+Conheca seu publico-alvo Voce estara se comunicando se estiver transmitindo informacoes. Para fazer isso, precisa conhecer as necessidades, interesses e capacidades de seu publico-alvo. Todos nos ja fomos a reunioes em que um especialista em desenvolvimento encara friamente o vice-presidente de marketing com um longo monologo sobre os meritos de alguma tecnologia enigmatica. Isso nao e se comunicar: e apenas falar e e chato.
+Crie em sua mente um cenario fiel de seu publico-alvo. O acrostico ASTUTO, mostrado na Figura 1.1 da proxima pagina, pode ajudar.
+Digamos que voce quisesse sugerir um sistema baseado na Web para permitir que seus usuarios finais enviassem relatorios de erros. Pode apresentar esse sistema de muitas maneiras, dependendo de seu publico-alvo. Os usuarios finais apreciarao poder enviar relatorios de erros 24 horas por dia sem esperar no telefone. Seu departamento de marketing podera usar esse fato para aumentar as vendas. Os gerentes do departamento de suporte terao duas razoes para ficarem satisfeitos: uma equipe menor sera necessaria e o relato de problemas sera automatizado. Para concluir, os desenvolvedores podem gostar de adquirir experiencia em tecnologias cliente-servidor baseadas na Web e em um novo mecanismo de banco de dados. Tentando convencer apropriadamente cada grupo, voce fara com que todos fiquem entusiasmados com seu projeto.
+Escolha seu momento Sao seis horas da tarde na sexta-feira, apos uma semana em que os auditores fizeram uma visita. O filho mais novo de seu chefe esta no hospital, esta chovendo muito e a ida para casa com certeza vai ser um pesadelo. Esse provavelmente nao e um bom momento para pedir a ele uma atualizacao na memoria de seu PC.
+Como parte da compreensao do que seu publico-alvo precisa ouvir, voce precisa descobrir quais sao suas prioridades. Aborde um gerente que acabou de ter problemas com seu chefe porque algum codigo-fonte foi perdi5 A palavra annoy vem do frances arcaico enui, que tambem significa "chatear". Ela foi usada no texto em ingles.
+[p42] do e tera um ouvinte mais receptivo para suas ideias sobre repositorios de codigos-fonte. Torne o que voce esta dizendo relevante quanto ao momento, assim quanto ao conteudo. As vezes, so precisamos da pergunta "Esse e um bom momento para falarmos sobre...?" Escolha um estilo Adapte o estilo de sua fala para atender seu publico-alvo. Algumas pessoas preferem um resumo formal do tipo "apenas os fatos". Outras gostam de uma longa e variada conversa antes do assunto ser abordado. Quando se trata de redigir documentos, algumas pessoas gostam de receber grandes relatorios encadernados, enquanto outras esperam um simples memorando ou email. Se tiver duvidas, pergunte.
+Lembre-se, no entanto, de que voce e uma das partes do esforco de comunicacao. Se alguem lhe disser que precisa apenas de um paragrafo com a descricao de algo e voce nao vislumbrar nenhum meio de faze-lo a nao ser em varias paginas, diga isso. Nao esqueca, esse tipo de feedback tambem e uma forma de se comunicar.
+De uma boa aparencia Suas ideias sao importantes. Elas merecem um veiculo de boa aparencia para serem transmitidas para seu publico-alvo.
+Muitos desenvolvedores (e seus gerentes) se concentram apenas no conteudo ao produzir documentos por escrito. Achamos que isso e um erro. Qualquer chef poderia lhe dizer que voce pode trabalhar na cozinha durante horas e acabar arruinando seus esforcos com uma apresentacao descuidada. Hoje em dia, nao ha desculpas para a producao de documentos impressos com aparencia inadequada. Os editores de texto modernos (com sistemas de layout como o e o troff) podem produzir um resultado surpreendente. Voce so tem de aprender alguns comandos basicos. Se seu editor de O que voce quer que eles Aprendam?
+Qual e Seu interesse no que voce tem a dizer?
+Seu Trabalho tem que nivel de sofisticacao?
+Que nivel de detalhes eles Usam?
+Quem voce quer que Tenha a posse da informacao?
+Como voce pode motiva-los a Ouvi-lo?
+Figura 1.1 O acrostico ASTUTO - conhecendo um publico-alvo.
+[p43] texto der suporte a folhas de estilo, use-as (sua empresa ja pode ter definido folhas de estilo que voce possa usar). Aprenda como definir cabecalhos e rodapes de pagina. Examine os exemplos de documentos incluidos em seu pacote para ter ideias de estilo e layout. Verifique a ortografia, primeiro automaticamente e depois manualmente. Afinal, ha erros de ortografia que o "verifica dor" nao consegue pegar.
+Envolva seu publico-alvo Somos da opiniao de que os documentos que produzimos acabam sendo menos importantes do que o processo pelo qual passamos para produzi-los. Se possivel, envolva seus leitores enviando esbocos iniciais de seu documento. Peca seu feedback e aguce seu intelecto. Voce construira uma boa relacao de trabalho e provavelmente produzira um documento melhor ao fazer isso. Seja um ouvinte Ha uma tecnica que voce deve usar se quiser que as pessoas o escutem: escute-as. Mesmo se estiver em uma situacao em que tiver todas as informacoes, mesmo no caso de uma reuniao formal em que estiver de pe em frente a 20 engravatados - se nao escuta-los, eles nao o escutarao. Encoraje as pessoas a falar fazendo perguntas ou as faca repetir resumidamente o que disse a elas. Transforme a reuniao em um dialogo e obtera um resultado mais efetivo. Talvez possa ate aprender algo.
+De retorno as pessoas Quando fazemos uma pergunta a uma pessoa, achamos que ela e indelicada quando nao responde. Mas com que frequencia voce nao responde as pessoas quando lhe enviam um email ou memorando pedindo informacoes ou solicitando que algo seja feito? Na correria do dia a dia, e facil esquecer. Responda sempre a emails e correios de voz, mesmo se a resposta for simplesmente "Retornarei uma resposta depois". Manter as pessoas informadas faz com que elas nao se importem tanto com o deslize ocasional e nao se sintam esquecidas.
+E o que voce diz e a maneira como diz A menos que voce trabalhe sozinho, tem de se comunicar. Quanto mais eficaz a comunicacao, mais influente voce sera.
+[p44] Comunicacao por email Tudo o que dissemos sobre a comunicacao por escrito se aplica igualmente ao correio eletronico. O email evoluiu ao ponto de ser o esteio principal de comunicacoes empresariais internas e externas. Ele e usado na discussao de contratos, na conciliacao de discordancias e como evidencia na justica. Mas, por alguma razao, pessoas que nunca enviariam um documento em papel com ma aparencia nao se importam em mandar emails descuidados.
+Nossas dicas para emails sao simples:
+Leia novamente antes de pressionar
+*
+ENVIAR .
+Verifique a ortografia.
+*
+Mantenha o formato simples. Algumas pessoas leem emails usando
+*
+fontes proporcionais, portanto, as imagens graficas ASCII que voce trabalhosamente criou terao a aparencia de garranchos para elas.
+So use correspondencia formatada com rich text ou HTML se souber
+*
+que todos os seus destinatarios poderao le-la. O texto sem formatacao e universal.
+Tente manter a repeticao em um nivel minimo. Ninguem gosta de receber de
+*
+volta seu proprio email de 100 linhas com a resposta "Concordo" incluida. Se estiver usando citacoes feitas em emails de outras pessoas, certifique-
+*
+se de dar os creditos e use-as na sequencia (em vez de como um anexo). Nao demonstre raiva, a menos que queira receber um retorno que o
+*
+aborrecera posteriormente.
+Verifique sua lista de destinatarios antes de enviar. Um artigo recente do
+*
+Wall Street Journal descrevia um funcionario que fez criticas a seu chefe pelo correio eletronico do departamento, sem perceber que o chefe estava incluido na lista de distribuicao.
+Arquive e organize seus emails - tanto os enviados quanto os recebidos
+*
+que forem importantes.
+Como varios funcionarios da Microsoft e da Netscape descobriram durante a investigacao do Departamento de Justica em 1999, os emails sao eternos. Tente dar aos emails a mesma atencao e cuidado que daria a qualquer memorando ou relatorio por escrito.
+[p45] Resumo Saiba o que voce quer dizer.
+*
+Conheca seu publico-alvo.
+*
+Escolha seu momento.
+*
+Escolha um estilo.
+*
+De uma boa aparencia.
+*
+Envolva seu publico-alvo.
+*
+Seja um ouvinte.
+*
+De retorno as pessoas.
+*
+As secoes relacionadas sao:
+Prototipos e notas post-it,
+*
+pagina 75 Equipes pragmaticas,
+*
+pagina 246 Desafios Ha varios livros bons que contem secoes sobre a comunicacao den-
+*
+tro de equipes de desenvolvimento [Bro95, McC95, DL99]. Tente ler os tres nos proximos 18 meses. Alem disso, o livro Dinosaur Brains [Ber96] discute a bagagem emocional que todos trazemos para o ambiente de trabalho.
+Na proxima vez em que tiver de fazer uma apresentacao, ou escrever
+*
+um memorando defendendo alguma posicao, tente trabalhar usando o acrostico ASTUTO da pagina 42 antes de comecar. Veja se ele o ajuda a entender como posicionar o que vai dizer. Se apropriado, converse com seu publico-alvo depois para saber o nivel de precisao com que avaliou suas necessidades.
+[p46] 

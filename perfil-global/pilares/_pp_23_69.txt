@@ -1,0 +1,1981 @@
+
+
+===== PAGINA 23 =====
+Uma Filosofia Pragmatica
+C A P I T U L O 1
+O que diferencia os programadores pragmaticos? Acreditamos que e uma 
+atitude, um estilo, uma filosofia de abordagem de problemas e suas solu-
+coes. Eles raciocinam alem do problema imediato, sempre tentando inse-
+ri-lo em seu contexto mais amplo, sempre tentando tomar conhecimento 
+do cenario em maior escala. Afinal, sem esse contexto maior, como voce 
+poderia ser pragmatico? Como poderia fazer concessoes inteligentes e to-
+mar decisoes embasadas?
+Outro segredo para seu sucesso e que eles se responsabilizam por tudo 
+que fazem, o que discutimos em O Gato Comeu Meu Codigo-Fonte. Por 
+serem responsaveis, os programadores pragmaticos nao sentam e espe-
+ram seus projetos se deteriorarem por negligencia. Em Entropia de Soft-
+ware, mostramos como manter seus projetos intactos.
+A maioria das pessoas acha dificil aceitar mudancas, as vezes por boas ra-
+zoes e as vezes devido a simples inercia. Em Sopa de Pedras e Sapos Co-
+zidos, examinamos uma estrategia para motivar a mudanca e (em busca 
+de equilibrio) apresentamos o conto de um anfibio que ignorou os perigos 
+da mudanca gradual.
+Uma das vantagens de entender o contexto em que voce trabalha e que 
+fica mais facil saber exatamente o quanto seu software tem de ser bom. As 
+vezes, a unica opcao e chegar perto da perfeicao, mas geralmente ha con-
+cessoes envolvidas. Examinamos isso em Software Satisfatorio.
+E claro que voce precisa ter uma base ampla de conhecimento e experien-
+cia para se sair bem em tudo isso. O aprendizado e um processo continuo 
+e progressivo. Em Sua Carteira de Conhecimentos, discutimos algumas 
+estrategias que o manterao em evolucao.
+
+
+===== PAGINA 24 =====
+24 O PROGRAMADOR PRAGMATICO
+Para concluir, nenhum de nos trabalha sozinho. Todos passamos boa par-
+te do tempo interagindo com outras pessoas. Comunique-se! lista manei-
+ras como podemos fazer isso melhor.
+A programacao pragmatica vem de uma filosofia de pensamento pragmati-
+co. Este capitulo define a base dessa filosofia.
+ 1 
+O GATO COMEU MEU CODIGO-FONTE
+A maior de todas as fraquezas e o medo de parecer fraco.
+J. B. Bossuet, A Politica Tirada da Sagrada Escritura, 1709
+Um dos marcos da filosofia pragmatica e a ideia de assumir a responsa-
+bilidade por si proprio e suas acoes no que diz respeito ao avanco de sua 
+carreira, seu projeto e seu trabalho diario. Um programador pragmatico 
+toma as redeas de sua carreira e nao tem medo de admitir desconheci-
+mento ou erro. E claro que esse nao e o aspecto mais agradavel da progra-
+macao, mas ele ocorrera - mesmo no melhor dos projetos. Mesmo com 
+testes irrepreensiveis, boa documentacao e solida automacao, algo da er-
+rado. Entregas atrasam. Problemas tecnicos inesperados surgem.
+Essas situacoes acontecem e tentamos lidar com elas tao profissionalmen-
+te quanto possivel. Isso significa ser honesto e direto. Podemos ter orgulho 
+de nossas habilidades, mas devemos ser honestos sobre nossas falhas - 
+nossa ignorancia e nossos erros.
+Assuma a responsabilidade
+A responsabilidade e algo com o qual concordamos ativamente. Voce se 
+compromete assegurando que algo foi feito corretamente, mas nao tem ne-
+cessariamente controle direto sobre todos os aspectos da situacao. Alem 
+de fazer o melhor que pode, deve analisar a situacao em relacao a riscos 
+que estejam alem de seu controle. Voce tem o direito de nao assumir a 
+responsabilidade por uma situacao impossivel ou uma situacao em que 
+os riscos sejam muito grandes. Tera de se decidir baseado em sua propria 
+etica e julgamento.
+Quando voce aceitar realmente a responsabilidade por um resultado, deve 
+esperar ser responsabilizado por isso. Quando cometer um erro (como to-
+dos cometemos) ou se equivocar em uma decisao, admita-o honestamente 
+e tente oferecer opcoes.
+
+
+===== PAGINA 25 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 25
+Nao culpe alguem ou algo nem invente uma desculpa. Nao ponha a culpa 
+de todos os problemas em um fornecedor, uma linguagem de programa-
+cao, na gerencia ou em seus colaboradores. Qualquer um ou todos eles 
+podem ter uma parcela de culpa, mas cabe a voce fornecer solucoes e nao 
+desculpas.
+Se havia o risco de ocorrer algo que o fornecedor nao poderia resolver, 
+voce deveria ter um plano de contingencia. Se o disco ficar danificado - e 
+todo o seu codigo-fonte tambem ficar comprometido - e voce nao tiver um 
+backup, a falha e sua. Dizer a seu chefe "o gato comeu meu codigo-fonte" 
+nao resolvera.
+DICA 3
+Forneca opcoes, nao de desculpas esfarrapadas
+Antes de abordar alguem para dizer por que algo nao pode ser feito, esta 
+atrasado ou ficou danificado, pare e escute a si proprio. Converse com o 
+pato de borracha em seu monitor ou com o gato. Sua desculpa parece con-
+vincente ou estupida? Como ela vai soar para seu chefe?
+Imagine a conversa em sua mente. O que e provavel que a outra pessoa 
+diga? Ela perguntara "Voce tentou isso..." ou "Voce nao considerou isso?" 
+Como voce respondera? Antes de contar as mas noticias, ha algo mais que 
+voce possa tentar? As vezes, sabemos o que as pessoas vao dizer, portanto, 
+poupe-os disso.
+Em vez de desculpas, forneca opcoes. Nao diga que nao pode ser feito; 
+explique o que pode ser feito para salvar a situacao. O codigo tem de ser 
+descartado? Explique as pessoas sobre o valor da refatoracao (consulte 
+Refatoracao, pagina 206). Voce precisa de tempo para criar um proto-
+tipo e determinar a melhor maneira de proceder (consulte Prototipos e 
+notas post-it, pagina 75)? Precisa introduzir testes melhores (consulte 
+Codigo que seja facil de testar, pagina 211, e Testando incansavel-
+mente, pagina 259) ou automatizar (consulte Automacao onipresente, 
+pagina 252) para impedir que ocorra novamente? Talvez precise de re-
+cursos adicionais. Nao tenha medo de pedir ou de admitir que precisa 
+de ajuda.
+Tente se ver livre das desculpas esfarrapadas antes de pronuncia-las em 
+voz alta. Se precisar, fale primeiro para seu gato. Afinal, se o pequeno Min-
+gau vai levar a culpa...
+
+
+===== PAGINA 26 =====
+26 O PROGRAMADOR PRAGMATICO
+As secoes relacionadas sao:
+Prototipos e notas post-it
+ *
+, pagina 75
+Refatoracao
+ *
+, pagina 206
+Codigo que seja facil de testar
+ *
+, pagina 211
+Automacao onipresente
+ *
+, pagina 252
+Testando incansavelmente
+ *
+, pagina 259
+Desafios
+Como voce reage quando alguem - como um caixa de banco, um meca-
+ *
+nico de automoveis ou um balconista - lhe da uma desculpa esfarrapa-
+da? O que voce acha deles e de sua empresa em decorrencia disso?
+ 2 
+ENTROPIA DE SOFTWARE
+Embora o desenvolvimento de software esteja imune a quase todas as leis 
+da fisica, a entropia nos afeta muito. Entropia e um termo da fisica que 
+se refere ao nivel de "desordem" em um sistema. Infelizmente, as leis da 
+termodinamica garantem que a entropia no universo tende em direcao ao 
+maximo. Quando a desordem aumenta no software, os programadores 
+chamam isso de "deterioracao de software".
+Ha muitos fatores que podem contribuir para a deterioracao de software. 
+O mais importante parece ser a psicologia, ou cultura, em acao em um 
+projeto. Mesmo se voce for uma equipe de uma pessoa, a psicologia que 
+envolve seu projeto pode ser algo muito delicado. Mesmo se um projeto 
+tiver grandes planos elaborados e as melhores pessoas, ele ainda pode 
+vivenciar a ruina e a decadencia durante seu tempo de vida. No entanto, 
+ha outros projetos que, apesar das enormes dificuldades e constantes re-
+trocessos, combatem com sucesso a tendencia natural em direcao a desor-
+dem e conseguem se sair muito bem.
+O que causa a diferenca?
+Em cidades do interior, alguns predios sao belos e limpos, enquanto ou-
+tros sao estruturas deterioradas. Por que? Pesquisadores da area criminal 
+e de decadencia urbana descobriram um fascinante mecanismo aciona-
+dor, um mecanismo que torna muito rapidamente um predio limpo, in-
+tacto e habitado em uma construcao quebrada e abandonada: uma janela 
+quebrada [WK82].
+
+
+===== PAGINA 27 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 27
+Uma janela quebrada, deixada sem reparos por qualquer periodo de tem-
+po significativo, faz brotar nos moradores do predio uma sensacao de 
+abandono - uma sensacao de que os responsaveis nao se preocupam com 
+o predio. Portanto, outra janela e quebrada. As pessoas comecam a acu-
+mular lixo na area externa. Surgem grafites. Danos estruturais graves co-
+mecam a aparecer. Em um periodo de tempo relativamente curto, o predio 
+fica danificado demais para o proprietario querer conserta-lo e a sensacao 
+de abandono se torna realidade.
+A "Teoria da Janela Quebrada" inspirou os departamentos de policia de 
+Nova York e outras cidades grandes a atacar os problemas menores para 
+evitar os maiores. Funciona: ficar atento a janelas quebradas, grafites e 
+outras pequenas infracoes reduziu o alto indice criminal.
+DICA 4
+Nao tolere janelas quebradas
+Nao deixe "janelas quebradas" (projetos insatisfatorios, decisoes erra-
+das ou codigo inadequado) sem reparos. Conserte cada uma assim que 
+for descoberta. Se nao houver tempo suficiente para conserta-la apro-
+priadamente, feche-a com tabuas. Talvez voce possa desativar com co-
+mentarios o codigo inadequado, exibir uma mensagem "Nao Implemen-
+tado" ou substitui-lo por dados ficticios. Tome alguma medida para 
+impedir um dano maior e mostrar que voce esta com a situacao sob 
+controle.
+Vimos sistemas elegantes e funcionais se deteriorarem rapidamente quan-
+do as janelas comecaram a quebrar. Ha outros fatores que podem contri-
+buir para a deterioracao de software e mencionaremos alguns deles em 
+outras secoes, mas a negligencia acelera mais a deterioracao do que qual-
+quer outro fator.
+Voce deve estar pensando que ninguem tem tempo para sair reparando 
+todas as janelas quebradas de um projeto. Se continuar pensando assim, 
+e melhor planejar a compra de uma cacamba ou mudar para outra vizi-
+nhanca. Nao deixe a entropia vencer.
+Apagando incendios
+Por outro lado, ha a historia de um conhecido de Andy obscenamente rico. 
+Sua casa era imaculada, bela, cheia de reliquias de valor inestimavel, obje-
+tos de arte e assim por diante. Um dia, uma tapecaria pendurada proxima 
+
+
+===== PAGINA 28 =====
+28 O PROGRAMADOR PRAGMATICO
+da lareira de sua sala de estar pegou fogo. O corpo de bombeiros se apres-
+sou para salvar o dia - e sua casa. Mas antes de arrastarem suas manguei-
+ras grandes e sujas para dentro da casa, eles pararam - com o fogo ainda 
+enfurecido - para desenrolar uma esteira entre a porta da frente e o ponto 
+de origem do fogo.
+Eles nao queriam estragar o carpete.
+Um caso bastante extremo, claro, mas e assim que deve ser com o soft-
+ware. Uma janela quebrada - um trecho de codigo mal projetado, uma 
+decisao insatisfatoria da gerencia com a qual a equipe tiver de conviver 
+durante a existencia do projeto - e o que falta para comecar o declinio. 
+Se voce perceber que esta trabalhando em um projeto com algumas ja-
+nelas quebradas, nao vai ser dificil comecar a pensar da forma padrao 
+"Todo o resto desse codigo esta perdido. Vou me resignar e segui-lo". 
+Nao importa se o projeto vinha se saindo bem ate esse ponto. Na ex-
+periencia original que levou a "Teoria da Janela Quebrada", um carro 
+abandonado permaneceu uma semana intocado. Mas quando apenas 
+uma janela foi quebrada, o carro foi destruido e virado de cabeca para 
+baixo em horas.
+Da mesma forma, se voce perceber que esta em uma equipe e em um projeto 
+no qual o codigo se encontra em estado imaculadamente adequado - escrito 
+apropriadamente, bem projetado e elegante - provavelmente vai tomar um 
+cuidado especial para nao danifica-lo, assim como os bombeiros. Mesmo se 
+houver um incendio ocorrendo (prazo, data de lancamento, demonstracao 
+para clientes), voce nao vai querer ser o primeiro a causar danos.
+As secoes relacionadas sao:
+Sopa de pedras e sapos cozidos
+ *
+, pagina 29
+Refatoracao, 
+ *
+pagina 206
+Equipes pragmaticas, 
+ *
+pagina 246
+Desafios
+Ajude a fortalecer sua equipe examinando as "vizinhancas" de seu 
+ *
+ambiente de computacao. Selecione duas ou tres "janelas quebra-
+das" e discuta com seus colegas quais sao os problemas e o que 
+poderia ser feito para resolve-los.
+Voce consegue identificar quando uma janela foi quebrada? Qual e 
+ *
+sua reacao? Se isso foi resultado da decisao de alguem, ou de uma 
+imposicao da gerencia, o que voce pode fazer?
+
+
+===== PAGINA 29 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 29
+ 3 
+SOPA DE PEDRAS E SAPOS COZIDOS
+Os tres soldados que voltavam da guerra estavam famintos. Quando viram 
+a vila a frente, se animaram - tinham certeza de que os aldeoes lhes dariam 
+uma refeicao. Mas, quando la chegaram, encontraram as portas trancadas 
+e as janelas fechadas. Apos muitos anos de guerra, os aldeoes estavam 
+com pouca comida e estocavam o que tinham.
+Sem medo, os soldados ferveram agua em uma panela e colocaram cuida-
+dosamente tres pedras nela. Os aldeoes pasmos vieram observar.
+"Essa e uma sopa de pedras", os soldados explicaram. "Isso e tudo que 
+voces colocam nela?" perguntaram os aldeoes. "Exatamente - embora al-
+gumas pessoas digam que ela fica ainda melhor com algumas cenouras..." 
+Um aldeao pos-se a correr, voltando rapidamente com uma cesta de ce-
+nouras de seu estoque.
+Alguns minutos depois, os aldeoes perguntaram novamente "E so isso?"
+"Bem," disseram os soldados, "algumas batatas lhe dao sustancia". Outro 
+aldeao saiu em disparada.
+Durante a hora que se seguiu, os soldados listaram mais ingredientes que 
+melhorariam a sopa: carne, alho, sal e ervas. A cada vez um aldeao diferen-
+te corria para procurar em seus estoques pessoais.
+Eles acabaram obtendo uma grande panela de sopa fumegante. Os solda-
+dos removeram as pedras e se sentaram com a vila inteira para apreciar a 
+primeira refeicao reforcada que qualquer um deles tinha comido em meses.
+Ha algumas licoes na historia da sopa de pedras. Os aldeoes sao engana-
+dos pelos soldados, que usam a curiosidade daqueles para obter comida. 
+Porem, o mais importante e que os soldados agem como um catalisador, 
+reunindo a vila para que possam produzir conjuntamente algo que nao 
+poderiam ter feito sozinhos - um resultado sinergico. Todos acabam ga-
+nhando.
+Em uma situacao fortuita, voce pode querer imitar os soldados.
+Voce pode estar em uma situacao em que sabe exatamente o que precisa 
+ser feito e como faze-lo. O sistema inteiro simplesmente se descortina a sua 
+frente - voce sabe que ele esta correto. Mas peca permissao para realiza-lo 
+integralmente e enfrentara atrasos e olhares vagos. As pessoas formarao 
+comites, orcamentos precisarao de aprovacao e as coisas se complicarao. 
+Todos protegerao seus recursos. As vezes, isso e chamado de "fadiga ini-
+cial". E hora de usar as pedras. Planeje o que voce pode pedir. Desenvolva 
+isso bem. Quando terminar, mostre o que obteve as pessoas e deixe que 
+se admirem. Entao diga "e claro que ficaria melhor se adicionassemos...". 
+Finja que nao e importante. Sente-se e espere elas comecarem a pedir 
+
+
+===== PAGINA 30 =====
+30 O PROGRAMADOR PRAGMATICO
+que adicione a funcionalidade que voce queria desde o inicio. As pessoas 
+acham mais facil se associar a algo que vem obtendo exito. Mostre a elas 
+um vislumbre do futuro e fara com que colaborem
+1.
+DICA 5
+Seja um catalisador da mudanca
+O lado dos aldeoes
+Por outro lado, a historia da sopa de pedras tambem e sobre uma ilusao 
+lenta e gradual. E sobre dar muita atencao a algo. Os aldeoes se concen-
+tram nas pedras e esquecem o resto do mundo. Todos fazemos isso, dia-
+riamente. Somos simplesmente envolvidos pelas coisas.
+Todos nos ja vimos os sintomas. Os projetos saem totalmente de controle 
+de maneira lenta e inexoravel. Grande parte da deterioracao do software 
+comeca em um nivel muito baixo para ser notada e quase todos os descon-
+troles em projetos ocorrem dia apos dia. Os sistemas se desviam de suas 
+especificacoes recurso a recurso, enquanto um remendo atras do outro e 
+adicionado a um trecho de codigo ate que nada sobre do original. Geral-
+mente, e a acumulacao de pequenas coisas que desintegra a motivacao e 
+as equipes.
+DICA 6
+Lembre-se do cenario em larga escala
+Nunca tentamos isso - sinceramente. Mas dizem que se voce pegar um 
+sapo e joga-lo em agua fervendo, ele saltara imediatamente para fora de 
+novo. No entanto, se voce colocar o sapo em uma panela com agua fria e 
+aquece-la gradualmente, o sapo nao notara o lento aumento na temperatu-
+ra e permanecera quieto ate ser cozido.
+Observe que o problema do sapo e diferente da questao das janelas que-
+bradas discutida na Secao 2. Na Teoria da Janela Quebrada, as pessoas 
+1 Ao fazer isso, console-se com a frase atribuida a contra-almirante Dra. Grace Hopper: "E mais facil 
+pedir desculpas do que obter permissao".
+
+
+===== PAGINA 31 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 31
+perdem a vontade de combater a entropia porque percebem que ninguem 
+se preocupa. O sapo simplesmente nao nota a mudanca.
+Nao seja como o sapo. Nao se esqueca do cenario mais abrangente. Verifi-
+que constantemente o que esta acontecendo ao seu redor e nao apenas o 
+que voce proprio esta fazendo.
+As secoes relacionadas sao:
+Entropia de software, 
+ *
+pagina 26
+Programacao baseada no acaso, 
+ *
+pagina 194
+Refatoracao, 
+ *
+pagina 206
+O abismo dos requisitos
+ *
+, pagina 224
+Equipes pragmaticas
+ *
+, pagina 246
+Desafios
+Ao revisar um esboco deste livro, John Lakos levantou a seguin-
+ *
+te questao: os soldados enganaram progressivamente os aldeoes, 
+mas a mudanca que catalisaram foi boa para todos. No entanto, 
+ao enganar progressivamente o sapo, voce nao esta lhe fazendo 
+bem. Consegue determinar se esta fazendo sopa de pedras ou 
+sopa de sapo ao tentar catalisar a mudanca? A decisao e subjetiva 
+ou objetiva?
+ 4 
+SOFTWARE SATISFATORIO
+Buscando o melhor, geralmente prejudicamos o que e bom.
+Rei Lear 1.4
+Ha uma piada (bem) antiga sobre uma empresa nos Estados Unidos que 
+faz um pedido de 100.000 circuitos integrados a um fabricante japo-
+nes. Parte da especificacao era a taxa de defeitos: um chip em 10.000. 
+Algumas semanas depois o pedido chegou: uma grande caixa contendo 
+milhares de circuitos integrados e uma pequena contendo apenas 10. 
+Anexado a pequena caixa, via-se um rotulo com os dizeres: "Estes sao 
+os defeituosos".
+
+
+===== PAGINA 32 =====
+32 O PROGRAMADOR PRAGMATICO
+Se ao menos tivessemos esse tipo de controle sobre a qualidade. Mas o 
+mundo real nao nos permite produzir muita coisa realmente perfeita, prin-
+cipalmente software sem erros. O tempo, a tecnologia e o temperamento, 
+tudo isso conspira contra.
+No entanto, isso nao precisa ser frustrante. Como Ed Yourdon descreveu 
+em um artigo na IEEE Software [You95], voce pode se disciplinar para 
+criar software que seja satisfatorio - para seus usuarios, para quem fizer 
+futuras manutencoes, para sua propria paz de espirito. Vera que esta sen-
+do mais produtivo e que seus usuarios estao mais felizes. E pode acabar 
+descobrindo que seus programas sao realmente melhores por seu periodo 
+menor de incubacao.
+Antes de prosseguir, temos que qualificar o que estamos para dizer. O ter-
+mo "satisfatorio" nao significa codigo malfeito ou mal produzido. Todos os 
+sistemas devem atender os requisitos de seus usuarios para serem bem-
+sucedidos. Estamos defendendo que os usuarios tenham a oportunidade 
+de participar do processo de decidir quando o que produzimos atingiu o 
+satisfatorio.
+Envolva seus usuarios na tomada de decisoes
+Normalmente, criamos software para outras pessoas. Com frequencia, 
+lembramos de pedir-lhes requisitos
+2. Mas com que frequencia voce per-
+gunta a elas o nivel de satisfacao que desejam que seu software tenha? As 
+vezes, nao ha escolha. Se voce estiver trabalhando em marca-passos, no 
+onibus espacial ou em uma biblioteca de baixo nivel que sera amplamente 
+disseminada, os requisitos serao mais rigorosos e suas opcoes mais limi-
+tadas. No entanto, se estiver trabalhando em um projeto totalmente novo, 
+tera restricoes diferentes. Os profissionais de marketing terao promessas 
+a fazer, os eventuais usuarios finais podem ter feito planos com base em 
+um prazo de entrega e sua empresa certamente tera restricoes de fluxo de 
+caixa. Seria amador ignorar esses requisitos dos usuarios simplesmente 
+para adicionar novos recursos ao programa ou para refinar o codigo mais 
+uma vez. Nao estamos defendendo o panico: e igualmente amador promo-
+ter escalas de tempo impossiveis e cortar angulos de engenharia basicos 
+para atender um prazo.
+2 Isso era para ser uma piada!
+
+
+===== PAGINA 33 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 33
+O escopo e a qualidade do sistema que voce vai produzir devem ser espe-
+cificados como parte dos requisitos desse sistema.
+DICA 7
+Torne a qualidade parte dos requisitos
+Com frequencia, voce se vera em situacoes em que concessoes estarao 
+envolvidas. Surpreendentemente, muitos usuarios preferem usar software 
+com algumas arestas pendentes hoje do que esperar um ano pela versao 
+multimidia. Muitos departamentos de TI com orcamentos apertados con-
+cordariam. Se voce der a seus usuarios algo para usarem mais cedo, seu 
+feedback pode leva-lo a uma solucao melhor (consulte Projeteis Lumino-
+sos, pagina 70).
+Saiba quando parar
+Em alguns aspectos, a programacao e como a pintura. Voce comeca com 
+uma tela vazia e certas materias-primas basicas. Usa uma combinacao 
+de ciencia, arte e trabalho manual para determinar o que fazer com elas. 
+Esboca uma forma geral, pinta o ambiente subjacente e insere os detalhes. 
+Constantemente, distancia-se com olhar critico para ver o que fez. De vez 
+em quando, jogara uma tela fora e comecara de novo.
+Mas os artistas lhe dirao que todo o trabalho arduo estara arruinado se 
+voce nao souber quando parar. Se voce adicionar uma camada apos a ou-
+tra, um detalhe apos o outro, o topico retratado se perdera na pintura.
+Nao estrague um programa que funciona perfeitamente enfeitando e apri-
+morando-o excessivamente. Passe adiante e deixe que seu codigo fale um 
+pouco por si proprio. Ele pode nao ter ficado perfeito. Nao se preocupe: 
+nunca teria ficado perfeito. (No Capitulo 6, pagina 193, discutiremos filo-
+sofias para o desenvolvimento de codigos em um mundo imperfeito).
+As secoes relacionadas sao:
+Projeteis luminosos, 
+ *
+pagina 70
+O abismo dos requisitos, 
+ *
+pagina 224
+Equipes pragmaticas, 
+ *
+pagina 246
+Grandes expectativas, 
+ *
+pagina 277
+
+
+===== PAGINA 34 =====
+34 O PROGRAMADOR PRAGMATICO
+Desafios
+Observe os fabricantes das ferramentas de software e sistemas ope-
+ *
+racionais que voce usa. Consegue encontrar alguma evidencia de que 
+essas empresas se sentem confortaveis distribuindo software que 
+elas sabem que nao e perfeito? Como usuario, voce prefere (1) es-
+perar que elas removam todos os erros, (2) ter software complexo 
+e aceitar alguns erros ou (3) optar por software mais simples com 
+menos defeitos?
+Considere o efeito da modularizacao na distribuicao de software. De-
+ *
+mora mais ou menos tempo obter um software monolitico com a 
+qualidade requerida em comparacao com um sistema projetado em 
+modulos? Voce consegue identificar exemplos comerciais?
+ 5 
+SUA CARTEIRA DE CONHECIMENTOS
+Um investimento em conhecimento sempre paga os melhores juros.
+Benjamin Franklin
+Ah, o bom e velho Ben Franklin - nao deixa passar um bom sermao. 
+Por que deixaria? Se Deus ajuda quem cedo madruga, entao, se acor-
+darmos cedo seremos programadores melhores - certo? O passaro ma-
+drugador pode capturar a minhoca, mas, e no caso da minhoca madru-
+gadora?
+Nesse caso, no entanto, Ben acerta em cheio. Seu conhecimento e sua ex-
+periencia sao seus bens profissionais mais importantes.
+Infelizmente, eles sao bens expiraveis.
+3 Seu conhecimento fica desatuali-
+zado a medida que novas tecnicas, linguagens e ambientes sao desenvol-
+vidos. As forcas inconstantes do mercado podem tornar sua experiencia 
+obsoleta ou irrelevante. Dada a velocidade com a qual os anos passam na 
+Web, isso pode ocorrer muito rapido.
+A medida que o valor de seus conhecimentos diminui, o mesmo aconte-
+ce com seu valor para sua empresa ou cliente. Queremos evitar que isso 
+ocorra.
+3 Um bem expiravel e algo cujo valor diminui com o tempo. Exemplos incluem um deposito cheio de 
+bananas e um ingresso para um jogo de futebol.
+
+
+===== PAGINA 35 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 35
+Sua carteira de conhecimentos
+Gostamos de considerar todos os fatos que os programadores sabem so-
+bre computacao, as areas de aplicacao em que trabalham e toda a sua 
+experiencia como suas Carteiras de Conhecimentos. O gerenciamento de 
+uma carteira de conhecimentos e muito semelhante ao gerenciamento de 
+uma carteira de investimentos:
+ 
+1. Investidores serios investem regularmente - como um habito.
+ 
+2. A diversificacao e a chave para o sucesso a longo prazo.
+ 
+3. Investidores astutos tem uma carteira equilibrada com investimen-
+tos conservadores e investimentos de alto risco e remuneracao.
+ 
+4. Os investidores tentam comprar barato e vender caro para obter o 
+maximo em retorno.
+ 
+5. As carteiras devem ser reexaminadas e reestruturadas periodica-
+mente.
+Para ser bem-sucedido em sua carreira, voce deve gerenciar sua carteira 
+de conhecimentos usando essas mesmas diretrizes.
+Construindo sua carteira
+Invista regularmente. 
+ *
+Como nos investimentos financeiros, voce 
+deve investir em sua carteira de conhecimentos regularmente. Mes-
+mo se for apenas um pequeno montante, o habito e tao importante 
+quanto as somas. Alguns exemplos de objetivos serao listados na 
+proxima secao.
+Diversifique. 
+ *
+Quanto mais coisas diferentes voce souber, mais valor 
+tera. Como diretriz basica, voce tem de conhecer os pros e contras 
+da tecnologia especifica com a qual esta trabalhando atualmente. 
+Mas nao pare ai. A face da computacao muda rapidamente - a tec-
+nologia moderna de hoje pode muito bem ser quase inutil (ou pelo 
+menos ter uma demanda menor) amanha. Quanto mais tecnologias 
+voce conhecer, melhor conseguira se adaptar a mudanca.
+Gerencie o risco. 
+ *
+A tecnologia se estende por um espectro de pa-
+droes que vai do arriscado e de alto retorno ao de baixo risco e baixo 
+retorno. Nao e uma boa ideia investir todo o seu dinheiro em acoes 
+de alto risco que possam cair repentinamente, nem investi-lo conser-
+vadoramente e perder possiveis oportunidades. Nao arrisque todas 
+as suas apostas tecnicas na mesma direcao.
+
+
+===== PAGINA 36 =====
+36 O PROGRAMADOR PRAGMATICO
+Compre barato, venda caro. 
+ *
+Aprender uma tecnologia emergente 
+antes dela se tornar popular pode ser tao dificil quanto encontrar 
+uma acao em baixa, mas os lucros podem ser igualmente recompen-
+sadores. Aprender Java quando a linguagem surgiu pode ter sido ar-
+riscado, mas foi generosamente recompensador para os que a adota-
+ram no inicio e hoje sao os melhores nessa area.
+Reexamine e reestruture. 
+ *
+Essa e uma industria muito dinamica. 
+Aquela tecnologia moderna que voce comecou a estudar no mes pas-
+sado pode ja ser ultrapassada. Voce pode ter de rever uma tecnologia 
+de banco de dados que nao usa ha algum tempo. Ou talvez esteja 
+mais apto para aquela nova oferta de trabalho se aprender essa ou-
+tra linguagem...
+De todas essas diretrizes, a mais importante e a mais simples de seguir:
+DICA 8
+Invista regularmente em sua carteira de conhecimentos
+Objetivos
+Agora que voce tem algumas diretrizes sobre o que e quando adicionar a 
+sua carteira de conhecimentos, qual a melhor maneira de adquirir o capi-
+tal intelectual com o qual a construira? Aqui estao algumas sugestoes.
+Aprenda pelo menos uma nova linguagem todo ano. 
+ *
+Diferentes 
+linguagens resolvem os mesmos problemas de diferentes manei-
+ras. Aprendendo varias abordagens diferentes, voce vai ajudar a 
+expandir seu raciocinio e a evitar a estagnacao. Adicionalmente, 
+aprender muitas linguagens e bem mais facil hoje em dia, gracas a 
+quantidade de software livremente disponivel na Internet (consulte 
+a pagina 289).
+Leia um livro tecnico a cada trimestre. 
+ *
+As livrarias estao cheias 
+de livros tecnicos sobre topicos interessantes relacionados a seu 
+projeto atual. Uma vez que adquirir o habito, leia um livro por 
+mes. Apos dominar as tecnologias que esta usando atualmente, 
+diversifique e estude algumas que nao estejam relacionadas ao seu 
+projeto.
+Leia tambem livros nao tecnicos. 
+ *
+E importante lembrar que com-
+putadores sao usados por pessoas - pessoas cujas necessidades voce 
+esta tentando atender. Nao esqueca o lado humano da equacao.
+
+
+===== PAGINA 37 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 37
+Tenha aulas. 
+ *
+Procure cursos interessantes no colegio ou univer-
+sidade de sua comunidade ou talvez na proxima feira que vier a 
+cidade.
+Participe de grupos de usuarios locais. 
+ *
+Nao va e escute apenas, 
+mas participe ativamente. O isolamento pode ser fatal para sua car-
+reira. Descubra em que as pessoas estao trabalhando fora de sua 
+empresa.
+Experimente ambientes diferentes. 
+ *
+Se so trabalhou no Windows, 
+teste o Unix em casa (o Linux disponivel gratuitamente e prefei-
+to para isso). Se so usou makefiles e um editor, teste um IDE e 
+vice-versa.
+Mantenha-se informado. 
+ *
+Assine revistas do ramo e outros periodi-
+cos (consulte a pagina 284 para ver sugestoes). Selecione algumas 
+que abordem tecnologias diferentes da de seu projeto atual.
+Mantenha-se conectado. 
+ *
+Quer saber os pros e contras de uma nova 
+linguagem ou outra tecnologia? Os grupos de noticias sao uma otima 
+maneira de descobrir que experiencias as pessoas estao fazendo, o 
+jargao especifico que elas usam e assim por diante. Navegue na Web 
+procurando artigos, sites comerciais e qualquer outra fonte de infor-
+macao que possa encontrar.
+E importante continuar a investir. Uma vez que voce se sentir confortavel 
+com alguma linguagem ou tecnologia nova, nao pare. Aprenda outra.
+Nao importa se voce vai usar alguma dessas tecnologias em um projeto ou 
+se vai coloca-las em seu curriculo. O processo de aprendizado expandira 
+seu raciocinio, tornando-o aberto a novas possibilidades e novas maneiras 
+de fazer as coisas. A aplicacao ampla de ideias e importante; tente aplicar 
+as licoes que aprendeu a seu projeto atual. Mesmo se seu projeto nao usar 
+essa tecnologia, talvez voce possa retirar algumas ideias dela. Familiarize-
+se com a orientacao a objetos, por exemplo, e escrevera programas em C 
+diferentemente.
+Oportunidades de aprendizado
+Suponhamos que voce estivesse lendo avidamente, conhecesse todos os 
+desenvolvimentos recentes em sua area (o que nao e facil) e alguem lhe 
+fizesse uma pergunta. Voce nao tem a minima ideia de qual seja a resposta 
+e admite isso francamente.
+Nao deixe parar por ai. Assuma como um desafio pessoal encontrar a res-
+posta. Pergunte a um especialista (se nao houver um especialista em sua 
+
+
+===== PAGINA 38 =====
+38 O PROGRAMADOR PRAGMATICO
+empresa, voce deve encontrar um na Internet: consulte a caixa da proxima 
+pagina). Procure na Web. Va a biblioteca.
+4
+Se nao conseguir encontrar a resposta sozinho, descubra quem pode en-
+contra-la. Nao deixe sem resposta. Conversar com outras pessoas o ajuda-
+ra a construir sua rede pessoal e voce pode se surpreender encontrando 
+solucoes para problemas totalmente diferentes ao fazer isso. E aquela an-
+tiga carteira de conhecimentos vai melhorar cada vez mais...
+Todas essas leituras e pesquisas tomam tempo e ele ja e curto. Portanto, 
+voce precisa planejar antecipadamente. Tenha sempre algo para ler em 
+um momento que seria improdutivo. O tempo gasto na espera em con-
+sultorios medicos e odontologicos pode ser uma grande oportunidade de 
+atualizar sua leitura - mas leve sua propria revista ou pode acabar folhe-
+ando paginas amassadas de um artigo de 1973 sobre Papua Nova Guine.
+Pensamento critico
+A ultima coisa importante e pensar criticamente sobre o que voce le e 
+ouve. Voce precisa assegurar que o conhecimento de sua carteira seja exa-
+to sem ser influenciado por propagandas de fornecedores ou da midia. 
+Cuidado com os fanaticos que insistem que seu dogma fornece a unica 
+resposta - ela pode ou nao ser aplicavel a voce e seu projeto.
+Nunca subestime o poder do comercio. So porque um mecanismo de busca 
+na Web lista um resultado antes nao significa que essa seja a melhor solu-
+cao; o provedor de conteudo pode ter pago para aparecer primeiro. E so 
+porque uma livraria da destaque a um livro nao significa que esse seja bom 
+ou mesmo popular; eles podem ter sido pagos para dar esse destaque.
+DICA 9
+Analise criticamente o que voce le e ouve
+Infelizmente, ha poucas respostas simples. Mas com sua extensa carteira 
+de conhecimentos e aplicando alguma analise critica a enxurrada de pu-
+blicacoes tecnicas que lera, voce conseguira entender as respostas com-
+plexas.
+4 Nesta era da Web, muitas pessoas parecem ter esquecido as bibliotecas reais com equipe de atendi-
+mento e cheias de material de pesquisa.
+
+
+===== PAGINA 39 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 39
+Desafios
+Comece a aprender uma nova linguagem nesta semana. Sempre pro-
+ *
+gramou em C++? Tente Smalltalk [URL 13] ou Squeak [URL 14]. 
+Trabalhando com Java? Tente Eiffel [URL 10] ou TOM [URL 15]. 
+Consulte a pagina 289 para ver fontes de outros compiladores e am-
+bientes gratuitos.
+Comece a ler um novo livro (mas termine este primeiro!). Se estiver 
+ *
+fazendo implementacoes e codificacoes muito detalhadas, leia um 
+livro sobre projeto e arquitetura. Se estiver fazendo projetos de alto 
+nivel, leia um livro sobre tecnicas de codificacao.
+O cuidado e a consulta com especialistas
+Com a adocao global da Internet, os especialistas se tornaram tao acessiveis 
+quanto nossa tecla Enter. Portanto, como encontrar um e faze-lo conversar 
+com voce?
+Conhecemos alguns truques simples.
+Saiba exatamente o que quer perguntar e seja tao especifico quanto 
+* 
+puder.
+Formule sua pergunta cuidadosa e polidamente. Lembre-se de que 
+* 
+esta pedindo um favor; nao de a impressao de que esta exigindo uma 
+resposta.
+Uma vez que tiver formulado sua pergunta, pare e pense novamente na 
+* 
+resposta. Selecione algumas palavras-chave e pesquise na Web. Pro-
+cure FAQs apropriadas (listas de perguntas frequentes com respostas).
+Decida se quer perguntar publica ou privadamente. Grupos de noticias 
+* 
+da Usenet sao otimos pontos de encontro de especialistas em qualquer 
+topico, mas algumas pessoas tomam cuidado devido a natureza publica 
+desses grupos. Alternativamente, voce sempre pode mandar um email 
+direto para o especialista. De uma forma ou de outra, use uma linha de 
+assunto significativa. ("Preciso de ajuda!!!" nao e o suficiente.)
+Sente-se e tenha paciencia. As pessoas sao ocupadas e pode demorar 
+* 
+dias para chegar uma resposta especifica.
+Para concluir, nao deixe de agradecer qualquer pessoa que lhe responder. E 
+se encontrar pessoas fazendo perguntas que voce pode responder, desempe-
+nhe seu papel e participe.
+
+
+===== PAGINA 40 =====
+40 O PROGRAMADOR PRAGMATICO
+Saia e converse sobre tecnologia com pessoas que nao estejam envol-
+ *
+vidas em seu projeto atual ou que nao trabalhem para a mesma em-
+presa. Converse na lanchonete de sua empresa ou procure colegas 
+entusiastas em uma reuniao do grupo de usuarios local.
+ 6 
+COMUNIQUE-SE!
+Melhor ser olhada superficialmente do que ser ignorada.
+Mae West, Uma Dama do Outro Mundo, 1934
+Talvez possamos aprender uma licao com a Srta. West. Nao se trata ape-
+nas do que temos, mas tambem de como o apresentamos. Ter as melhores 
+ideias, o codigo mais elegante ou o raciocinio mais pragmatico acaba nao 
+adiantando se voce nao souber se comunicar com outras pessoas. Uma 
+boa ideia fica orfa sem uma comunicacao efetiva.
+Como desenvolvedores, temos de nos comunicar em muitos niveis. Pas-
+samos horas em reunioes, ouvindo e falando. Trabalhamos com usuarios 
+finais, tentando entender suas necessidades. Escrevemos codigos, que co-
+municam nossas intencoes para uma maquina e documentam nosso ra-
+ciocinio para futuras geracoes de desenvolvedores. Redigimos propostas e 
+memorandos solicitando e justificando recursos, relatando nossos avan-
+cos e sugerindo novas abordagens. E trabalhamos diariamente dentro de 
+nossas equipes para defender nossas ideias, modificar praticas existentes 
+e sugerir praticas novas. Uma grande parte de nosso dia e gasta em comu-
+nicacao, portanto, temos de fazer isso bem.
+Compilamos uma lista de ideias que achamos uteis.
+Saiba o que voce quer dizer
+Provavelmente, a parte mais dificil dos estilos mais formais de comunica-
+cao usados nas empresas seja formular exatamente o que voce quer dizer. 
+Escritores de ficcao esbocam os detalhes de seus livros antes de come-
+carem, mas pessoas que redigem documentos tecnicos costumam poder 
+sentar em um computador, escrever "1. Introducao" e comecar a digitar o 
+que quer que surja em suas cabecas.
+Planeje o que quer dizer. Faca um rascunho. Entao, pergunte a si proprio 
+"Isso representa o que estou tentando dizer?". Aperfeicoe ate que repre-
+sente.
+
+
+===== PAGINA 41 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 41
+Essa abordagem nao e aplicavel apenas a redacao de documentos. Quando 
+voce tiver de comparecer a uma reuniao importante ou fazer uma chama-
+da telefonica para um grande cliente, anote as ideias que deseja comunicar 
+e esboce algumas estrategias para transmiti-las.
+Conheca seu publico-alvo
+Voce estara se comunicando se estiver transmitindo informacoes. Para fa-
+zer isso, precisa conhecer as necessidades, interesses e capacidades de 
+seu publico-alvo. Todos nos ja fomos a reunioes em que um especialista 
+em desenvolvimento encara friamente o vice-presidente de marketing com 
+um longo monologo sobre os meritos de alguma tecnologia enigmatica. 
+Isso nao e se comunicar: e apenas falar e e chato.
+5
+Crie em sua mente um cenario fiel de seu publico-alvo. O acrostico ASTU-
+TO, mostrado na Figura 1.1 da proxima pagina, pode ajudar.
+Digamos que voce quisesse sugerir um sistema baseado na Web para per-
+mitir que seus usuarios finais enviassem relatorios de erros. Pode apre-
+sentar esse sistema de muitas maneiras, dependendo de seu publico-alvo. 
+Os usuarios finais apreciarao poder enviar relatorios de erros 24 horas 
+por dia sem esperar no telefone. Seu departamento de marketing podera 
+usar esse fato para aumentar as vendas. Os gerentes do departamento 
+de suporte terao duas razoes para ficarem satisfeitos: uma equipe menor 
+sera necessaria e o relato de problemas sera automatizado. Para concluir, 
+os desenvolvedores podem gostar de adquirir experiencia em tecnologias 
+cliente-servidor baseadas na Web e em um novo mecanismo de banco de 
+dados. Tentando convencer apropriadamente cada grupo, voce fara com 
+que todos fiquem entusiasmados com seu projeto.
+Escolha seu momento
+Sao seis horas da tarde na sexta-feira, apos uma semana em que os audi-
+tores fizeram uma visita. O filho mais novo de seu chefe esta no hospital, 
+esta chovendo muito e a ida para casa com certeza vai ser um pesadelo. 
+Esse provavelmente nao e um bom momento para pedir a ele uma atuali-
+zacao na memoria de seu PC.
+Como parte da compreensao do que seu publico-alvo precisa ouvir, voce 
+precisa descobrir quais sao suas prioridades. Aborde um gerente que aca-
+bou de ter problemas com seu chefe porque algum codigo-fonte foi perdi-
+5 A palavra annoy vem do frances arcaico enui, que tambem significa "chatear". Ela foi usada no 
+texto em ingles.
+
+
+===== PAGINA 42 =====
+42 O PROGRAMADOR PRAGMATICO
+do e tera um ouvinte mais receptivo para suas ideias sobre repositorios de 
+codigos-fonte. Torne o que voce esta dizendo relevante quanto ao momen-
+to, assim quanto ao conteudo. As vezes, so precisamos da pergunta "Esse 
+e um bom momento para falarmos sobre...?"
+Escolha um estilo
+Adapte o estilo de sua fala para atender seu publico-alvo. Algumas pessoas 
+preferem um resumo formal do tipo "apenas os fatos". Outras gostam de 
+uma longa e variada conversa antes do assunto ser abordado. Quando se 
+trata de redigir documentos, algumas pessoas gostam de receber grandes 
+relatorios encadernados, enquanto outras esperam um simples memoran-
+do ou email. Se tiver duvidas, pergunte.
+Lembre-se, no entanto, de que voce e uma das partes do esforco de comu-
+nicacao. Se alguem lhe disser que precisa apenas de um paragrafo com a 
+descricao de algo e voce nao vislumbrar nenhum meio de faze-lo a nao ser 
+em varias paginas, diga isso. Nao esqueca, esse tipo de feedback tambem 
+e uma forma de se comunicar.
+De uma boa aparencia
+Suas ideias sao importantes. Elas merecem um veiculo de boa aparencia 
+para serem transmitidas para seu publico-alvo.
+Muitos desenvolvedores (e seus gerentes) se concentram apenas no conteudo 
+ao produzir documentos por escrito. Achamos que isso e um erro. Qualquer 
+chef poderia lhe dizer que voce pode trabalhar na cozinha durante horas e 
+acabar arruinando seus esforcos com uma apresentacao descuidada.
+Hoje em dia, nao ha desculpas para a producao de documentos impressos 
+com aparencia inadequada. Os editores de texto modernos (com sistemas 
+de layout como o 
+ e o troff) podem produzir um resultado surpreen-
+dente. Voce so tem de aprender alguns comandos basicos. Se seu editor de 
+O que voce quer que eles Aprendam?
+Qual e Seu interesse no que voce tem a dizer?
+Seu Trabalho tem que nivel de sofisticacao?
+Que nivel de detalhes eles Usam?
+Quem voce quer que Tenha a posse da informacao?
+Como voce pode motiva-los a Ouvi-lo?
+Figura 1.1 O acrostico ASTUTO - conhecendo um publico-alvo.
+
+
+===== PAGINA 43 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 43
+texto der suporte a folhas de estilo, use-as (sua empresa ja pode ter defini-
+do folhas de estilo que voce possa usar). Aprenda como definir cabecalhos 
+e rodapes de pagina. Examine os exemplos de documentos incluidos em 
+seu pacote para ter ideias de estilo e layout. Verifique a ortografia, primei-
+ro automaticamente e depois manualmente. Afinal, ha erros de ortografia 
+que o "verifica dor" nao consegue pegar.
+Envolva seu publico-alvo
+Somos da opiniao de que os documentos que produzimos acabam sendo me-
+nos importantes do que o processo pelo qual passamos para produzi-los. Se 
+possivel, envolva seus leitores enviando esbocos iniciais de seu documento. 
+Peca seu feedback e aguce seu intelecto. Voce construira uma boa relacao de 
+trabalho e provavelmente produzira um documento melhor ao fazer isso.
+Seja um ouvinte
+Ha uma tecnica que voce deve usar se quiser que as pessoas o escutem: 
+escute-as. Mesmo se estiver em uma situacao em que tiver todas as infor-
+macoes, mesmo no caso de uma reuniao formal em que estiver de pe em 
+frente a 20 engravatados - se nao escuta-los, eles nao o escutarao.
+Encoraje as pessoas a falar fazendo perguntas ou as faca repetir resumi-
+damente o que disse a elas. Transforme a reuniao em um dialogo e obtera 
+um resultado mais efetivo. Talvez possa ate aprender algo.
+De retorno as pessoas
+Quando fazemos uma pergunta a uma pessoa, achamos que ela e indeli-
+cada quando nao responde. Mas com que frequencia voce nao responde 
+as pessoas quando lhe enviam um email ou memorando pedindo informa-
+coes ou solicitando que algo seja feito? Na correria do dia a dia, e facil es-
+quecer. Responda sempre a emails e correios de voz, mesmo se a resposta 
+for simplesmente "Retornarei uma resposta depois". Manter as pessoas 
+informadas faz com que elas nao se importem tanto com o deslize ocasio-
+nal e nao se sintam esquecidas.
+DICA 10
+E o que voce diz e a maneira como diz
+A menos que voce trabalhe sozinho, tem de se comunicar. Quanto mais 
+eficaz a comunicacao, mais influente voce sera.
+
+
+===== PAGINA 44 =====
+44 O PROGRAMADOR PRAGMATICO
+Comunicacao por email
+Tudo o que dissemos sobre a comunicacao por escrito se aplica igualmente ao 
+correio eletronico. O email evoluiu ao ponto de ser o esteio principal de comu-
+nicacoes empresariais internas e externas. Ele e usado na discussao de con-
+tratos, na conciliacao de discordancias e como evidencia na justica. Mas, por 
+alguma razao, pessoas que nunca enviariam um documento em papel com ma 
+aparencia nao se importam em mandar emails descuidados.
+Nossas dicas para emails sao simples:
+Leia novamente antes de pressionar 
+* 
+ENVIAR .
+Verifique a ortografia.
+* 
+Mantenha o formato simples. Algumas pessoas leem emails usando 
+* 
+fontes proporcionais, portanto, as imagens graficas ASCII que voce tra-
+balhosamente criou terao a aparencia de garranchos para elas.
+So use correspondencia formatada com rich text ou HTML se souber 
+* 
+que todos os seus destinatarios poderao le-la. O texto sem formatacao 
+e universal.
+Tente manter a repeticao em um nivel minimo. Ninguem gosta de receber de 
+* 
+volta seu proprio email de 100 linhas com a resposta "Concordo" incluida.
+Se estiver usando citacoes feitas em emails de outras pessoas, certifique-
+* 
+se de dar os creditos e use-as na sequencia (em vez de como um anexo).
+Nao demonstre raiva, a menos que queira receber um retorno que o 
+* 
+aborrecera posteriormente.
+Verifique sua lista de destinatarios antes de enviar. Um artigo recente do 
+* 
+Wall Street Journal descrevia um funcionario que fez criticas a seu chefe 
+pelo correio eletronico do departamento, sem perceber que o chefe es-
+tava incluido na lista de distribuicao.
+Arquive e organize seus emails - tanto os enviados quanto os recebidos 
+* 
+que forem importantes.
+Como varios funcionarios da Microsoft e da Netscape descobriram durante 
+a investigacao do Departamento de Justica em 1999, os emails sao eternos. 
+Tente dar aos emails a mesma atencao e cuidado que daria a qualquer memo-
+rando ou relatorio por escrito.
+
+
+===== PAGINA 45 =====
+CAPITULO 1 
+ UMA FILOSOFIA PRAGMATICA 45
+Resumo
+Saiba o que voce quer dizer.
+ *
+Conheca seu publico-alvo.
+ *
+Escolha seu momento.
+ *
+Escolha um estilo.
+ *
+De uma boa aparencia.
+ *
+Envolva seu publico-alvo.
+ *
+Seja um ouvinte.
+ *
+De retorno as pessoas.
+ *
+As secoes relacionadas sao:
+Prototipos e notas post-it, 
+ *
+pagina 75
+Equipes pragmaticas, 
+ *
+pagina 246
+Desafios
+Ha varios livros bons que contem secoes sobre a comunicacao den-
+ *
+tro de equipes de desenvolvimento [Bro95, McC95, DL99]. Tente ler 
+os tres nos proximos 18 meses. Alem disso, o livro Dinosaur Brains 
+[Ber96] discute a bagagem emocional que todos trazemos para o am-
+biente de trabalho.
+Na proxima vez em que tiver de fazer uma apresentacao, ou escrever 
+ *
+um memorando defendendo alguma posicao, tente trabalhar usan-
+do o acrostico ASTUTO da pagina 42 antes de comecar. Veja se ele 
+o ajuda a entender como posicionar o que vai dizer. Se apropriado, 
+converse com seu publico-alvo depois para saber o nivel de precisao 
+com que avaliou suas necessidades.
+
+
+===== PAGINA 46 =====
+
+
+===== PAGINA 47 =====
+Ha certas dicas e truques que se aplicam a todos os niveis de desenvolvi-
+mento de software, ideias quase axiomaticas e processos praticamente uni-
+versais. No entanto, raramente essas abordagens sao documentadas como 
+deveriam; quase sempre as encontramos anotadas como frases estranhas 
+em discussoes de projeto, gerenciamento de tarefas ou codificacao.
+Neste capitulo, reuniremos essas ideias e processos. As primeiras duas 
+secoes, Os Males da Duplicacao e Ortogonalidade, estao intimamente re-
+lacionadas. A primeira o advertira a nao duplicar informacoes em todos 
+os seus sistemas, e a segunda a nao dividir algum bloco de informacoes 
+em varios componentes do sistema.
+A medida que a velocidade da mudanca aumenta, fica cada vez mais dificil 
+manter nossos aplicativos relevantes. Em Reversibilidade, examinaremos 
+algumas tecnicas que o ajudarao a desassociar seus projetos de seu am-
+biente variavel.
+As duas secoes seguintes tambem estao relacionadas. Em Projeteis Lu-
+minosos, falaremos sobre um estilo de desenvolvimento que lhe permi-
+tira coletar requisitos, testar projetos e implementar codigos ao mesmo 
+tempo. Isso pode soar bom demais para ser verdade e realmente e: os 
+desenvolvimentos do tipo "projetil luminoso" (tracer bullet) nem sempre 
+sao aplicaveis. No caso em que nao sao, a secao Prototipos e notas post-it 
+mostra como usar prototipos para testar arquiteturas, algoritmos, inter-
+faces e ideias.
+Conforme a ciencia da computacao evolui, os projetistas estao produzindo 
+linguagens de nivel cada vez mais alto. Embora um compilador que aceite 
+a ordem "execute" ainda nao tenha sido inventado, em Linguagens de 
+Dominio apresentamos algumas sugestoes mais modestas que voce pode 
+implementar por sua propria conta.
+C A P I T U L O 2
+Uma Abordagem Pragmatica
+
+
+===== PAGINA 48 =====
+48 O PROGRAMADOR PRAGMATICO
+Para concluir, todos trabalhamos em um mundo de tempo e recursos limi-
+tados. Voce pode sobreviver melhor a essas duas carencias (e manter seus 
+chefes mais satisfeitos) se conseguir estimar quanto tempo as tarefas vao 
+demorar, o que abordamos em Estimando.
+Mantendo esses principios basicos em mente durante o desenvolvimento, 
+voce podera escrever codigos melhores, mais rapidos e mais consistentes. 
+Pode ate dar a impressao de que isso e facil.
+ 7 
+OS MALES DA DUPLICACAO
+Fornecer ao computador dois blocos de informacoes contraditorios era 
+a maneira preferida do capitao James T. Kirk, de Jornada nas Estrelas, 
+desativar uma inteligencia artificial invasora. Infelizmente, o mesmo prin-
+cipio tambem pode danificar seu codigo.
+Como programadores, coletamos, organizamos, editamos e aproveitamos 
+informacoes. Documentamos informacoes em especificacoes, damos-lhes 
+vida nos codigos em execucao e as usamos para fornecer as verificacoes 
+necessarias durante os testes.
+Infelizmente, as informacoes nao sao estaveis. Elas mudam - frequen-
+temente, com rapidez. Sua compreensao de um requisito pode mudar 
+apos uma reuniao com o cliente. O governo muda um regulamento e uma 
+determinada logica de negocio fica desatualizada. Testes podem mostrar 
+que o algoritmo selecionado nao funcionara. Toda essa instabilidade sig-
+nifica que gastamos uma grande parte de nosso tempo em atividades de 
+manutencao, reorganizando e retrabalhando as informacoes em nossos 
+sistemas.
+A maioria das pessoas considera que a manutencao comeca quando um 
+aplicativo e lancado, que a manutencao significa corrigir erros e melhorar 
+recursos. Achamos que essas pessoas estao erradas. Os programadores 
+estao constantemente em atividades de manutencao. Nossa compreensao 
+muda diariamente. Novos requisitos surgem quando estamos projetando 
+ou codificando. O ambiente tambem pode mudar. Independente da razao, 
+a manutencao nao e uma atividade isolada, mas uma parte rotineira do 
+processo de desenvolvimento como um todo.
+Quando trabalhamos em manutencao, temos de encontrar e alterar as re-
+presentacoes das coisas - os blocos de informacoes embutidos no aplicati-
+
+
+===== PAGINA 49 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 49
+vo. O problema e que e facil duplicar informacoes nas especificacoes, pro-
+cessos e programas que desenvolvemos, e, quando fazemos isso, criamos 
+um pesadelo para a hora da manutencao - um pesadelo que comeca bem 
+antes de o aplicativo ser lancado.
+Achamos que a unica maneira de desenvolver software de maneira confia-
+vel, e de tornar nossos desenvolvimentos mais faceis de entender e editar, 
+e seguir o que chamamos de principio NSR:
+CADA BLOCO DE INFORMACOES DEVE TER UMA REPRESENTACAO OFICIAL, 
+EXCLUSIVA E SEM AMBIGUIDADES DENTRO DE UM SISTEMA.
+Por que o chamamos de NSR?
+DICA 11
+NSR - Nao se repita
+A alternativa e o mesmo item ser representado em dois ou mais locais. 
+Se voce alterar um, tera de lembrar de alterar os outros, ou, como no 
+caso dos computadores alienigenas, seu programa travara devido a uma 
+contradicao. Nao e uma questao de se voce vai lembrar: e uma questao de 
+quando esquecera.
+Voce vera o principio NSR ser mencionado novamente em alguns locais no 
+decorrer deste livro, geralmente em contextos que nao tenham nada a ver 
+com codificacao. Achamos que ele e um dos mais importantes recursos da 
+caixa de ferramentas do programador pragmatico.
+Nesta secao, descreveremos os problemas da duplicacao e sugeriremos 
+estrategias gerais para a sua manipulacao.
+Como surge a duplicacao?
+Grande parte dos casos de duplicacao que encontramos se enquadra em 
+uma das categorias a seguir:
+Duplicacao imposta. 
+ *
+Os desenvolvedores acham que nao tem esco-
+lha - o ambiente parece pedir a duplicacao.
+Duplicacao inadvertida. 
+ *
+Os desenvolvedores nao percebem que es-
+tao duplicando informacoes.
+Duplicacao impaciente. 
+ *
+Os desenvolvedores ficam com preguica e 
+duplicam porque parece mais facil.
+
+
+===== PAGINA 50 =====
+50 O PROGRAMADOR PRAGMATICO
+Duplicacao entre desenvolvedores. 
+ *
+Varias pessoas de uma equipe 
+(ou de equipes diferentes) duplicam um bloco de informacoes.
+Examinemos esses quatro casos da duplicacao com mais detalhes.
+Duplicacao imposta
+As vezes, a duplicacao parece ser imposta a nos. Padroes de projeto po-
+dem requerer documentos contendo informacoes duplicadas ou comenta-
+rios que dupliquem informacoes no codigo. Tambem ha o caso de varias 
+plataformas de destino, cada uma demandando suas proprias linguagens 
+de programacao, bibliotecas e ambientes de desenvolvimento, o que nos 
+faria duplicar definicoes e procedimentos compartilhados. As proprias 
+linguagens de programacao requerem certas estruturas que duplicam in-
+formacoes. Todos nos ja trabalhamos em situacoes em que nao tivemos 
+como evitar a duplicacao de informacoes. E, mesmo assim, geralmente 
+ha maneiras de mantermos cada bloco de informacoes em um local, hon-
+rando o principio NSR e tornando nossas vidas mais faceis. Aqui estao 
+algumas tecnicas.
+Varias representacoes das informacoes. No nivel da codificacao, com fre-
+quencia precisamos das mesmas informacoes representadas de diferentes 
+formas. Poderiamos estar criando um aplicativo cliente-servidor, usando 
+linguagens diferentes no cliente e no servidor, e ter de representar alguma 
+estrutura compartilhada em ambos. Poderiamos precisar de uma classe 
+cujos atributos espelhassem o esquema de uma tabela de banco de dados. 
+Voce poderia estar escrevendo um livro e querer incluir excertos de pro-
+gramas que tambem fosse compilar e testar.
+Normalmente, com um pouco de habilidade conseguimos eliminar a ne-
+cessidade de duplicacao. A solucao costuma ser a criacao de um gerador 
+de codigo ou filtro simples. Estruturas de varias linguagens podem ser 
+construidas a partir da mesma representacao em metadados com o uso de 
+um gerador de codigo simples sempre que o software for compilado (um 
+exemplo disso e mostrado na Figura 3.4, pagina 128). Definicoes de clas-
+ses podem ser geradas automaticamente a partir do esquema de banco de 
+dados online ou a partir dos metadados usados na construcao do esque-
+ma. Os trechos de codigo deste livro sao inseridos por um pre-processa-
+dor sempre que formatamos o texto. O truque e tornar o processo ativo: 
+essa nao pode ser uma conversao feita apenas uma vez ou voltaremos a 
+duplicacao dos dados.
+
+
+===== PAGINA 51 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 51
+Documentacao no codigo. Os programadores sao instruidos a comentar 
+seu codigo: um bom codigo tem varios comentarios. Infelizmente, nunca 
+explicam para eles por que o codigo precisa de comentarios: um codigo 
+inadequado requer muitos comentarios.
+O principio NSR nos ensina que devemos manter as informacoes de baixo 
+nivel no codigo, onde e o lugar delas, e reservar os comentarios para ou-
+tras explicacoes de alto nivel. Caso contrario, estaremos duplicando infor-
+macoes e cada mudanca significara alteracoes tanto no codigo quanto nos 
+comentarios. Inevitavelmente, os comentarios ficarao desatualizados e co-
+mentarios nao confiaveis sao piores do que nenhum comentario (consulte 
+Tudo se resume a escrever, pagina 270, para obter mais informacoes 
+sobre comentarios).
+Documentacao e codigo. Voce redige a documentacao e entao escreve o co-
+digo. Algo muda e voce corrige a documentacao e atualiza o codigo. Tanto 
+a documentacao quanto o codigo contem representacoes das mesmas in-
+formacoes. E todos nos sabemos que, no calor do momento, com os pra-
+zos chegando ao fim e clientes importantes reclamando, tendemos a adiar 
+a atualizacao da documentacao.
+Em uma ocasiao, Dave trabalhou no switch de um telex internacional. E 
+compreensivel que o cliente demandasse uma exaustiva especificacao de 
+testes e exigisse que o software passasse em todos eles a cada entrega. 
+Para assegurar que os testes refletissem precisamente a especificacao, a 
+equipe os gerou programaticamente a partir da propria documentacao. 
+Quando o cliente corrigia a especificacao, o conjunto de testes mudava 
+automaticamente. Uma vez que a equipe conseguiu convencer o cliente de 
+que o procedimento era consistente, a geracao de testes de aceitacao pas-
+sou a levar apenas alguns segundos.
+Problemas de linguagem. Muitas linguagens impoem uma duplicacao con-
+sideravel na fonte. Geralmente, isso ocorre quando a linguagem separa a 
+interface de um modulo de sua implementacao. As linguagens C e C++ 
+tem arquivos de cabecalho que duplicam os nomes e informacoes de tipo 
+de variaveis, funcoes e classes (no caso da C++) exportadas. A linguagem 
+Object Pascal chega a duplicar essas informacoes no mesmo arquivo. Se 
+voce estiver usando chamadas de procedimento remoto ou o CORBA [URL 
+29], duplicara informacoes de interface entre a especificacao da interface 
+e o codigo que a implementa.
+Nao ha uma tecnica facil para o atendimento dos requisitos de uma lin-
+guagem. Embora alguns ambientes de desenvolvimento ocultem a neces-
+
+
+===== PAGINA 52 =====
+52 O PROGRAMADOR PRAGMATICO
+sidade de arquivos de cabecalho gerando-os automaticamente, e o Object 
+Pascal permita a abreviacao de declaracoes de funcao repetidas, geralmen-
+te so temos o que e fornecido. Pelo menos para a maioria dos problemas 
+relativos a linguagem, um arquivo de cabecalho que estiver em desacordo 
+com a implementacao gerara algum tipo de erro de compilacao ou ligacao. 
+Voce ainda podera obter algo errado, mas sera informado disso logo que 
+ocorrer.
+Considere tambem os comentarios de arquivos de cabecalho e implemen-
+tacao. Nao ha por que duplicar um comentario de cabecalho de funcao ou 
+classe entre dois arquivos. Use os arquivos de cabecalho para documentar 
+questoes relacionadas a interface e os arquivos de implementacao para 
+documentar os detalhes essenciais que os usuarios de seu codigo nao pre-
+cisam saber.
+Duplicacao inadvertida
+As vezes, a duplicacao ocorre como resultado de erros no projeto.
+Examinemos um exemplo proveniente da industria de distribuicao. Su-
+ponhamos que nossa analise revelasse que, entre outros atributos, um 
+caminhao tivesse um tipo, um numero de licenca e um motorista. Da mes-
+ma forma, uma rota de distribuicao e a combinacao de uma rota, um ca-
+minhao e um motorista. Codificariamos algumas classes com base nessas 
+informacoes.
+Mas o que aconteceria se Sally ficasse doente e tivessemos de mudar os 
+motoristas? Tanto Caminhao quanto RotaDeDistribuicao tem um moto-
+rista. Qual alterariamos? E claro que essa duplicacao e ruim. Normalize-a 
+de acordo com o modelo de negocio subjacente - um caminhao tem real-
+mente um motorista como parte de seu conjunto de atributos subjacente? 
+E a rota? Ou talvez precisemos de um terceiro objeto que reuna um moto-
+rista, um caminhao e uma rota. Independente da solucao, evite esse tipo 
+de dado nao normalizado.
+Ha um tipo de dado nao normalizado um pouco menos obvio que ocorre 
+quando temos varios elementos de dados que sao mutuamente dependen-
+tes. Examinemos uma classe que representa uma linha:
+class Line {
+ public:
+  Point start;
+  Point end;
+  double length;
+};
+
+
+===== PAGINA 53 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 53
+A primeira vista, essa classe pode parecer aceitavel. E claro que uma linha 
+tem um inicio e um fim e sempre tera um comprimento (mesmo se ele 
+for zero). Mas temos duplicacao. O comprimento e definido pelos pontos 
+inicial e final: altere um dos pontos e o comprimento mudara. E melhor 
+tornar o comprimento um campo calculado:
+class Line {
+ public:
+  Point start;
+  Point end;
+  double length() { return start.distanceTo(end); }
+};
+Mais adiante no processo de desenvolvimento, voce pode optar pela vio-
+lacao do principio NSR por razoes de desempenho. Isso costuma ocorrer 
+quando precisamos armazenar dados em cache para evitar a repeticao 
+de operacoes onerosas. O segredo e localizar o impacto. A violacao nao 
+e exposta ao ambiente externo: so os metodos internos da classe tem de 
+manter tudo nos lugares.
+class Line {
+ private:
+  bool changed;
+  double length;
+  Point start;
+  Point end;
+ public:
+  void setStart(Point p) { start = p; changed = true; }
+  void setEnd(Point p) { end = p; changed = true; }
+  Point getStart(void){ return start; }
+  Point getEnd(void){ return end; }
+  double getLength() {
+    if (changed) {
+      length = start.distanceTo(end);
+      changed = false;
+    }
+    return length;
+  }
+};
+Esse exemplo tambem ilustra uma questao importante das linguagens 
+orientadas a objetos como a linguagem Java e C++. Onde possivel, use 
+funcoes acessadoras para ler e gravar os atributos de objetos.
+1 Isso torna-
+ra mais facil adicionar funcionalidades, como o armazenamento em cache, 
+no futuro.
+1 O uso de funcoes acessadoras esta de acordo com o principio do Acesso Uniforme de Meyer 
+[Mey97b], que declara que "Todos os servicos oferecidos por um modulo devem estar disponiveis 
+por meio de uma notacao uniforme, o que nao revela se sao implementados por armazenamento ou 
+calculo".
+
+
+===== PAGINA 54 =====
+54 O PROGRAMADOR PRAGMATICO
+Duplicacao impaciente
+Todo projeto sofre pressoes de tempo - forcas que podem levar os me-
+lhores desenvolvedores a tomar atalhos. Precisa de uma rotina seme-
+lhante a uma ja escrita? Voce ficara tentado a copiar a original e fazer 
+algumas alteracoes. Precisa de um valor para representar uma quanti-
+dade maxima de pontos? Se eu alterar o arquivo de cabecalho, o projeto 
+inteiro sera reconstruido. Talvez deva apenas usar um numero literal 
+aqui; e nesse outro local; e aqui tambem. Precisa de uma classe como as 
+do tempo de execucao Java? A fonte esta disponivel, portanto, por que 
+nao apenas copia-la e fazer as alteracoes necessarias (apesar do que e 
+autorizado na licenca)?
+Caso se sinta tentado, lembre-se do aforismo popular "atalhos causam 
+grandes atrasos". Voce poderia muito bem economizar alguns segundos 
+agora, mas correndo o risco de perder horas depois. Considere os pro-
+blemas envolvidos no fiasco Y2K. Muitos foram causados pela preguica 
+dos desenvolvedores que nao parametrizaram o tamanho dos campos 
+de data ou implementaram bibliotecas de servicos de data centraliza-
+das.
+A duplicacao impaciente e um tipo facil de detectar e manipular, mas 
+exige disciplina e a disposicao de se preocupar antes para nao ter pro-
+blemas depois.
+Duplicacao entre desenvolvedores
+Por outro lado, talvez o tipo de duplicacao mais dificil de detectar e mani-
+pular ocorra entre diferentes desenvolvedores em um projeto. Conjuntos 
+inteiros de funcionalidade podem ser duplicados inadvertidamente e essa 
+duplicacao pode passar despercebida por anos, levando a problemas de 
+manutencao. Ouvimos falar de fonte fidedigna sobre um estado dos Esta-
+dos Unidos cujos sistemas de computadores governamentais foram verifi-
+cados em relacao a compatibilidade com o Y2K. A auditoria verificou mais 
+de 10.000 programas, cada um contendo sua propria versao da validacao 
+de numeros de seguro social.
+Em um nivel geral, lide com o problema tendo um projeto claro, um lider 
+exigente e tecnico (consulte a pagina 250 de Equipes Pragmaticas) e uma 
+divisao bem clara das responsabilidades dentro do projeto. Mas, no nivel 
+modular, o problema e mais traicoeiro. Funcionalidades ou dados normal-
+
+
+===== PAGINA 55 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 55
+mente necessarios que nao se enquadrarem em uma area de responsabili-
+dade obvia podem ser implementados repetidamente.
+Achamos que a melhor maneira de lidar com isso e encorajar a comuni-
+cacao ativa e frequente entre desenvolvedores. Estabeleca foruns para a 
+discussao de problemas comuns (em projetos passados, estabelecemos 
+grupos de noticias privados na Usenet para permitir que desenvolvedo-
+res trocassem ideias e fizessem perguntas, o que fornece uma maneira 
+de comunicacao nao invasiva - ate mesmo entre varios sites - ao mesmo 
+tempo em que retem um historico permanente de tudo que foi dito). De-
+signe um membro da equipe como o bibliotecario do projeto, cuja funcao 
+sera facilitar a troca de conhecimentos. Tenha um local central na arvore 
+de fontes em que rotinas e scripts utilitarios possam ser depositados. E 
+leia o codigo-fonte e a documentacao de outras pessoas, informalmente ou 
+durante revisoes de codigo. Voce nao estara bisbilhotando - estara apren-
+dendo com elas. Lembre-se tambem de que o acesso e reciproco - nao se 
+incomode com o fato de outras pessoas examinarem (ou escarafuncha-
+rem?) o seu codigo.
+DICA 12
+Facilite a reutilizacao
+O que voce esta tentando fazer e cultivar um ambiente em que seja mais 
+facil encontrar e reutilizar coisas existentes em vez de cria-las novamente. 
+Se nao for facil, as pessoas nao o farao. E se voce nao conseguir encora-
+jar a reutilizacao, pode duplicar informacoes.
+As secoes relacionadas sao:
+Ortogonalidade, 
+ *
+pagina 56
+Manipulacao de texto, 
+ *
+pagina 121
+Geradores de codigo, 
+ *
+pagina 124
+Refatoracao
+ *
+, pagina 206
+Equipes pragmaticas, 
+ *
+pagina 246
+Automacao onipresente, 
+ *
+pagina 252
+Tudo se resume a escrever, 
+ *
+pagina 270
+
+
+===== PAGINA 56 =====
+56 O PROGRAMADOR PRAGMATICO
+ 8 
+ORTOGONALIDADE
+A ortogonalidade e um conceito critico quando queremos produzir siste-
+mas que sejam faceis de projetar, construir, testar e estender. No entanto, 
+raramente o conceito de ortogonalidade e ensinado diretamente. Com fre-
+quencia, e uma caracteristica implicita de varios outros metodos e tecni-
+cas que aprendemos. Isso e um erro. Quando voce aprender a aplicar o 
+principio da ortogonalidade diretamente, notara uma melhora imediata na 
+qualidade dos sistemas que produzir.
+O que e ortogonalidade?
+"Ortogonalidade" e um termo emprestado da 
+geometria. Duas linhas sao ortogonais quando 
+seu ponto de origem e um angulo reto, como 
+os eixos de um grafico. Em termos de vetor, as 
+duas linhas sao independentes. Mova-se ao lon-
+go de uma delas e sua posicao projetada sobre 
+a outra nao mudara.
+Em computacao, o termo foi introduzido para representar um tipo de inde-
+pendencia ou desvinculacao. Duas ou mais coisas sao ortogonais quando 
+alteracoes em uma nao afetam as outras. Em um sistema bem projetado, 
+o codigo dos bancos de dados sera ortogonal a interface do usuario: voce 
+pode alterar a interface sem afetar o banco de dados e trocar de banco de 
+dados sem alterar a interface.
+Antes de examinar as vantagens dos sistemas ortogonais, examinemos um 
+sistema que nao e ortogonal.
+Um sistema nao ortogonal
+Voce esta em um helicoptero visitando o Grand Canyon, quando o piloto, 
+que cometeu o erro obvio de comer peixe no almoco, repentinamente mur-
+mura e desmaia. Felizmente, ele o deixou flutuando a 30 metros acima do 
+solo. Voce pondera que a alavanca de inclinacao coletiva
+2 deve controlar 
+a sustentacao geral, portanto, abaixa-la um pouco iniciara uma descida 
+2 Os helicopteros tem quatro controles basicos. O ciclico e a alavanca que voce segura em sua mao 
+direita. Mova-o e o helicoptero se movera na direcao correspondente. Sua mao esquerda segura a 
+alavanca de inclinacao coletiva. Puxe-a e aumentara a inclinacao em todas as pas, ganhando al-
+tura. No fim da alavanca de inclinacao, fica a aceleracao. Para concluir, voce tem dois pedais, que 
+variam a quantidade de empuxo do rotor traseiro e, portanto, ajudam a virar o helicoptero.
+move-se paralela
+ao eixo X
+nenhuma alteracao
+no eixo Y
+
+
+===== PAGINA 57 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 57
+suave em direcao ao solo. No entanto, ao tentar fazer isso, descobre que a 
+vida nao e tao simples. O nariz do helicoptero desce, e isso da inicio a uma 
+descida em espiral para a esquerda. De repente, voce descobre que esta 
+no comando de um sistema em que cada tentativa de controle tem efeitos 
+secundarios. Abaixe a alavanca esquerda e tera de compensar isso puxan-
+do a alavanca direita para tras e pressionar o pedal direito. Porem, cada 
+uma dessas mudancas afetara todos os controles novamente. Subitamen-
+te, voce esta manipulando um sistema complexo, em que cada mudanca 
+afeta todos os outros movimentos. Sua carga de trabalho e fenomenal: 
+suas maos e pes estao constantemente se movendo, tentando equilibrar 
+todas as forcas em interacao.
+Os controles do helicoptero sao decididamente nao ortogonais.
+Vantagens da ortogonalidade
+Como o exemplo do helicoptero ilustra, sistemas nao ortogonais sao ine-
+rentemente mais dificeis de mudar e controlar. Quando componentes de 
+qualquer sistema sao altamente interdependentes, nao existe o conceito 
+de correcao local.
+DICA 13
+Elimine efeitos entre elementos nao relacionados
+Queremos projetar componentes que sejam autossuficientes: independen-
+tes e com uma finalidade exclusiva bem definida (o que Yourdon e Cons-
+tantine chamam de coesao [YC86]). Quando os componentes sao isolados 
+uns dos outros, sabemos que podemos alterar um sem ter de nos preocu-
+par com o resto. Se voce nao alterar as interfaces externas desse compo-
+nente, nao tera com o que se preocupar, ja que nao causara problemas que 
+possam se estender ao sistema inteiro.
+Voce obtera duas grandes vantagens se criar sistemas ortogonais: maior 
+produtividade e menor risco.
+Ganhe produtividade
+As alteracoes sao localizadas, portanto, os tempos de desenvolvimen-
+ *
+to e de testes sao menores. E mais facil criar componentes autonomos 
+relativamente pequenos do que um unico e grande bloco de codigo. 
+Componentes simples podem ser projetados, codificados, testados 
+
+
+===== PAGINA 58 =====
+58 O PROGRAMADOR PRAGMATICO
+isoladamente e entao esquecidos - nao ha necessidade de alterar 
+sempre o codigo existente quando um novo codigo e adicionado.
+Uma abordagem ortogonal tambem favorece a reutilizacao. Se os com-
+ *
+ponentes tiverem funcoes especificas bem definidas, poderao ser com-
+binados a novos componentes de maneiras nao previstas por seus im-
+plementadores originais. Quanto menos dependencias seus sistemas 
+apresentarem, mais facil eles serao de reconfigurar e reconstruir.
+Ha um ganho bastante sutil em produtividade quando combinamos 
+ *
+componentes ortogonais. Suponhamos que um componente fizesse 
+M coisas distintas e outro fizesse N coisas. Se eles forem ortogonais 
+e voce combina-los, o resultado fara M x N coisas. No entanto, se os 
+dois componentes nao forem ortogonais, eles serao sobrepostos e o 
+resultado sera menor. Voce pode obter mais funcionalidade por es-
+forco unitario combinando componentes ortogonais.
+Reduza o risco
+Uma abordagem ortogonal reduz os riscos inerentes a qualquer desenvol-
+vimento.
+Secoes de codigo danificadas ficam isoladas. Se um modulo estiver 
+ *
+danificado, tera menos probabilidades de espalhar os efeitos para 
+o resto do sistema. Tambem sera mais facil remove-lo e inserir algo 
+novo e integro.
+O sistema resultante e menos fragil. Faca pequenas alteracoes e cor-
+ *
+recoes em uma area especifica e qualquer problema que causar fica-
+ra restrito a essa area.
+Um sistema ortogonal sera testado com mais eficacia, porque sera 
+ *
+mais facil projetar testes e executa-los em seus componentes.
+Voce nao ficara tao dependente de uma plataforma, fornecedor ou 
+ *
+produto especifico, porque as interfaces desses componentes de ter-
+ceiros ficarao restritas a partes menores do desenvolvimento como 
+um todo.
+Examinemos algumas das maneiras de voce poder aplicar o principio de 
+ortogonalidade a seu trabalho.
+Equipes de projeto
+Ja notou como algumas equipes de projeto sao eficientes, com todos sa-
+bendo o que fazer e contribuindo plenamente, enquanto os membros de 
+
+
+===== PAGINA 59 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 59
+outras equipes estao sempre brigando e nao parecem conseguir ficar sem 
+atrapalhar uns aos outros?
+Esse e um problema de ortogonalidade: quando as equipes sao organiza-
+das com varias sobreposicoes, os membros ficam confusos em relacao as 
+suas responsabilidades. Toda mudanca precisa de uma reuniao da equipe 
+inteira, porque qualquer um dos membros pode ser afetado.
+Como organizar equipes em grupos com responsabilidades bem defini-
+das e um nivel minimo de sobreposicao? Nao ha uma resposta simples. 
+Em parte, vai depender do projeto e de sua analise das areas que podem 
+mudar. Tambem vai depender das pessoas que voce tiver disponiveis. Pre-
+ferimos comecar separando infraestrutura e aplicativo. Cada componente 
+maior da infraestrutura (banco de dados, interface de comunicacoes, ca-
+mada de middleware e assim por diante) ganha sua propria subequipe. 
+Cada divisao obvia de funcionalidade do aplicativo e igualmente dividida. 
+Entao, examinamos as pessoas que temos (ou planejamos ter) e ajustamos 
+os grupos de acordo.
+Voce pode obter uma medida informal da ortogonalidade da estrutura de 
+uma equipe de projeto. Simplesmente veja quantas pessoas precisam ser 
+envolvidas na discussao de cada alteracao solicitada. Quanto maior o nu-
+mero, menos ortogonal e o grupo. E claro que uma equipe ortogonal e 
+mais eficiente (dito isso, tambem encorajamos as subequipes a se comuni-
+carem constantemente umas com as outras).
+Projeto
+A maioria dos desenvolvedores esta familiarizada com a necessidade de 
+projetar sistemas ortogonais, embora possam usar palavras como modu-
+lar, baseado em componentes e disposto em camadas para descrever o 
+processo. Os sistemas devem ser compostos por um conjunto de modulos 
+em cooperacao, cada um implementando uma funcionalidade independen-
+te das outras. As vezes, esses componentes sao organizados em camadas, 
+cada uma fornecendo um nivel de abstracao. Essa abordagem em camadas 
+e uma maneira poderosa de projetar sistemas ortogonais. Ja que cada ca-
+mada usa apenas as abstracoes fornecidas pelas camadas abaixo dela, te-
+mos maior flexibilidade para alterar implementacoes subjacentes sem afe-
+tar o codigo. A disposicao em camadas tambem reduz o risco de ocorrencia 
+de dependencias descontroladas entre modulos. Com frequencia, voce vera 
+a disposicao em camadas expressa em diagramas como o da Figura 2.1 da 
+proxima pagina.
+
+
+===== PAGINA 60 =====
+60 O PROGRAMADOR PRAGMATICO
+Ha um teste facil para detectar se um projeto e ortogonal. Quando voce 
+tiver seus componentes mapeados, faca a si proprio a pergunta: "Se eu 
+alterar dramaticamente os requisitos existentes por tras de uma funcao 
+especifica, quantos modulos serao afetados?". Em um sistema ortogonal, 
+a resposta deve ser "um".
+3 Mover um botao em um painel de GUI nao re-
+quer uma alteracao no esquema do banco de dados. A inclusao de ajuda 
+contextual nao deve alterar o subsistema de cobranca.
+Consideremos um sistema complexo para o monitoramento e controle de 
+uma usina de calefacao. O requisito original demandava uma interface 
+grafica de usuario, mas foi alterado para adicionar um sistema de respos-
+ta por voz com controle telefonico da usina baseado em teclas. Em um sis-
+tema projetado ortogonalmente, voce so teria de alterar os modulos asso-
+ciados a interface de usuario para manipular isso: a logica subjacente de 
+controle da usina permaneceria inalterada. Na verdade, se voce estruturar 
+seu sistema cuidadosamente, deve poder dar suporte as duas interfaces 
+com a mesma base de codigo subjacente. A secao E apenas um modo de 
+ver, na pagina 179, fala sobre a criacao de codigos desvinculados com o 
+uso do paradigma Model-View-Controller (MVC), que funciona bem nessa 
+situacao.
+Pergunte tambem a si mesmo o quanto seu projeto esta desvinculado de 
+mudancas no mundo real. Voce esta usando um numero de telefone como 
+identificador de clientes? O que acontece quando a empresa de telefonia 
+3 Na verdade, e ingenuo pensar assim. A menos que voce tenha muita sorte, a maioria das mudancas 
+de requisitos no mundo real afetara varias funcoes do sistema. No entanto, se voce analisar a mu-
+danca em termos de funcoes, o ideal e que cada alteracao funcional continue afetando apenas um 
+modulo.
+Interface de usuario
+Acesso ao
+banco de dados
+Mecanismo
+de relatorio
+Logica de
+negocio
+Estrutura do aplicativo
+Biblioteca C padrao
+Sistema operacional
+Figura 2.1 Diagrama de camadas tipico.
+
+
+===== PAGINA 61 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 61
+reatribui codigos de area? Nao confie nas propriedades de coisas que 
+nao pode controlar.
+Kits de ferramentas e bibliotecas
+Tome cuidado para preservar a ortogonalidade de seu sistema ao introdu-
+zir kits de ferramentas e bibliotecas de terceiros. Selecione suas tecnolo-
+gias criteriosamente.
+Houve uma ocasiao em que trabalhei em um projeto que demandava que 
+um determinado corpo de codigo Java fosse executado tanto localmen-
+te em um computador servidor quanto remotamente em uma maquina 
+cliente. As alternativas para a distribuicao de classes dessa forma eram o 
+RMI e o CORBA. Se uma classe fosse tornada remotamente acessivel com 
+o uso do RMI, cada chamada a um metodo remoto dessa classe poderia 
+potencialmente lancar uma excecao, o que significa que uma implementa-
+cao simples demandaria que manipulassemos a excecao sempre que nos-
+sas classes remotas fossem usadas. O uso do RMI aqui e claramente nao 
+ortogonal: codigos que chamem nossas classes remotas nao devem ser 
+obrigados a saber sua localizacao. A alternativa - o uso do CORBA - nao 
+estabelecia essa restricao: podiamos escrever codigos que nao soubessem 
+a localizacao de nossas classes.
+Quando usar um kit de ferramentas (ou mesmo uma biblioteca de outros 
+membros de sua equipe), pergunte a si mesmo se ele impoe a seu codigo 
+mudancas que nao deveriam existir. Quando um esquema de persistencia 
+de objetos e transparente, ele e ortogonal. Quando requer a criacao ou o 
+acesso de objetos de uma maneira especial, nao e. Manter esses detalhes 
+isolados de seu codigo trara o beneficio adicional de tornar mais facil mu-
+dar de fornecedor no futuro.
+O sistema Enterprise Java Beans (EJB) e um exemplo interessante de or-
+togonalidade. Na maioria dos sistemas orientados a transacoes, o codigo 
+do aplicativo tem de delinear o inicio e o fim de cada transacao. No EJB, 
+essas informacoes sao expressas declarativamente como metadados, fora 
+de qualquer codigo. O mesmo codigo de aplicativo pode ser executado em 
+diferentes ambientes de transacao EJB sem alteracao. E provavel que isso 
+se torne um modelo para muitos ambientes futuros.
+Outra variante interessante da ortogonalidade e a Programacao Orienta-
+da a Aspectos (POA), um projeto de pesquisa do Xerox Parc ([KLM
++97] e 
+[URL 49]). A POA permite que voce expresse em um local um comporta-
+mento que, de outra forma, seria distribuido por todo o seu codigo-fonte. 
+
+
+===== PAGINA 62 =====
+62 O PROGRAMADOR PRAGMATICO
+Por exemplo, mensagens de log sao normalmente geradas por chamadas 
+explicitas a alguma funcao de log espalhadas por todo o codigo. Com a 
+POA, voce pode implementar a ortogonalidade entre o registro em log e as 
+coisas que estao sendo registradas. Usando a versao Java da POA, voce 
+poderia criar uma mensagem de log ao entrar em qualquer metodo da 
+classe Fred codificando o aspecto:
+aspect Trace {
+  advise * Fred.*(..) {
+    static before {
+      Log.write("-> Entering " + thisJoinPoint.methodName);
+    }
+  }
+}
+Se voce costurar esse aspecto em seu codigo, mensagens de rastreamento 
+serao geradas. Se nao fizer isso, nao vera mensagens. De uma forma ou de 
+outra, seu codigo original permanecera inalterado.
+Codificando
+Sempre que criar um codigo, voce estara correndo o risco de reduzir a or-
+togonalidade de seu aplicativo. A menos que monitore constantemente nao 
+so o que esta fazendo mas tambem o contexto mais amplo do aplicativo, 
+pode involuntariamente duplicar funcionalidades em algum outro modulo 
+ou expressar duas vezes informacoes existentes.
+Ha varias tecnicas que voce pode usar para manter a ortogonalidade:
+Mantenha seu codigo desvinculado. 
+ *
+Escreva codigos cautelosos - 
+modulos que nao revelem nada desnecessario para outros modulos 
+e que nao dependam de implementacoes de outros modulos. Tente 
+usar a Lei de Demeter [LH89], que discutiremos em A desvincula-
+cao e a Lei de Demeter, pagina 160. Se tiver de alterar o estado de 
+um objeto, deixe que o objeto faca isso para voce. Dessa forma, seu 
+codigo permanecera isolado da implementacao do outro codigo e au-
+mentarao as chances de voce permanecer ortogonal.
+Evite dados globais. 
+ *
+Sempre que seu codigo referenciar dados glo-
+bais, ele ficara vinculado aos outros componentes que compartilham 
+esses dados. Mesmo dados globais que voce so pretenda ler podem 
+levar a problemas (por exemplo, se subitamente voce tiver de alterar 
+seu codigo para que passe a ter varios segmentos). Geralmente, o co-
+digo fica mais facil de entender e editar quando passamos explicita-
+mente qualquer contexto requerido para os modulos. Em aplicativos 
+orientados a objetos, o contexto costuma ser passado como parame-
+
+
+===== PAGINA 63 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 63
+tro de construtores de objetos. Em outros codigos, voce pode criar 
+estruturas contendo o contexto e passar referencias a elas.
+O padrao Singleton de Design Patterns [GHJV95] e uma maneira 
+de assegurar que haja apenas uma instancia de um objeto de uma 
+classe especifica. Muitas pessoas usam esses objetos singleton como 
+um tipo de variavel global (principalmente em linguagens que de ou-
+tra forma nao dariam suporte ao conceito de variaveis globais, como 
+ocorre em Java). Tome cuidado com os singletons - eles tambem 
+podem levar a vinculacao desnecessaria.
+Evite funcoes semelhantes. 
+ *
+Com frequencia, voce deparara com 
+um conjunto de funcoes de aparencia semelhante - talvez comparti-
+lhem um codigo em comum no inicio e no final, mas cada uma tera 
+um algoritmo central diferente. Codigo duplicado e um sintoma de 
+problemas estruturais. Examine o padrao Strategy de Design Pat-
+terns para obter uma implementacao melhor.
+Adquira o habito de ser constantemente critico com seu codigo. Aproveite 
+qualquer oportunidade de reorganiza-lo para melhorar sua estrutura e or-
+togonalidade. Esse processo e chamado de refatoracao e e tao importante 
+que dedicamos uma secao a ele (consulte Refatoracao, pagina 206).
+Testando
+Um sistema projetado e implementado ortogonalmente e mais facil de tes-
+tar. Ja que as interacoes entre os componentes do sistema sao formaliza-
+das e limitadas, uma parte maior dos testes pode ser executada no nivel 
+de modulo individual. Isso e bom, porque o teste de nivel de modulo (ou 
+de unidade) e consideravelmente mais facil de especificar e executar do 
+que o teste de integracao. Na verdade, sugerimos que cada modulo tenha 
+seu proprio teste de unidade em seu codigo e que esses testes sejam exe-
+cutados automaticamente como parte do processo periodico de constru-
+cao (consulte Codigo que seja facil de testar, pagina 211).
+A construcao de testes de unidade ja e um teste interessante de ortogonali-
+dade. O que e preciso para construir e montar uma unidade de teste? Voce 
+tem de envolver um grande percentual do resto do sistema so para fazer 
+um teste ser compilado ou montado? Se tiver, encontrou um modulo que 
+nao esta tao desvinculado do resto do sistema.
+A correcao de erros tambem e um bom momento para a avaliacao da or-
+togonalidade do sistema como um todo. Quando voce deparar com um 
+problema, avalie o nivel de isolamento do erro. E preciso alterar apenas 
+
+
+===== PAGINA 64 =====
+64 O PROGRAMADOR PRAGMATICO
+um modulo ou as alteracoes estao espalhadas no sistema inteiro? Quando 
+voce faz uma alteracao, ela corrige tudo ou outros problemas surgem mis-
+teriosamente? Essa e uma boa oportunidade para a automacao ser usada. 
+Se voce usar um sistema de controle de codigo-fonte (e fara isso apos ler 
+Controle do codigo-fonte, pagina 108), marque as correcoes de erros ao 
+armazenar o codigo novamente apos testar. Assim, podera gerar relatorios 
+mensais analisando tendencias relacionadas ao numero de arquivos-fonte 
+afetados por cada correcao de erros.
+Documentacao
+Pode parecer estranho, mas a ortogonalidade tambem e aplicavel a docu-
+mentacao. Os eixos sao o conteudo e a apresentacao. Em uma documen-
+tacao realmente ortogonal, voce pode alterar a aparencia dramaticamente 
+sem alterar o conteudo. Editores de texto modernos fornecem folhas de 
+estilo e macros que ajudam (consulte Tudo se resume a escrever, pagina 
+270).
+Vivendo com a ortogonalidade
+A ortogonalidade esta intimamente relacionada ao principio NSR introdu-
+zido na pagina 49. Com o NSR, voce pode reduzir a duplicacao dentro de 
+um sistema, enquanto com a ortogonalidade reduzira a interdependencia 
+entre os componentes do sistema. Essa pode ser uma palavra estranha, 
+mas se voce usar o principio da ortogonalidade, estreitamente combinado 
+ao principio NSR, vera que os sistemas que desenvolver serao mais flexi-
+veis, compreensiveis e faceis de depurar, testar e editar.
+Se voce for trazido para um projeto em que as pessoas estiverem deses-
+peradamente tentando fazer alteracoes, e no qual cada alteracao pareca 
+fazer quatro outras coisas darem errado, lembre-se do pesadelo com o 
+helicoptero. Provavelmente, o projeto nao foi elaborado e codificado orto-
+gonalmente. E hora de refatorar.
+E, se voce for um piloto de helicoptero, nao coma o peixe...
+As secoes relacionadas sao: 
+Os males da duplicacao, 
+ *
+pagina 48
+Controle do codigo-fonte, 
+ *
+pagina 108
+Projeto por contrato, 
+ *
+pagina 131
+A desvinculacao e a lei de Demeter
+ *
+, pagina 160
+Metaprogramacao, 
+ *
+pagina 166
+
+
+===== PAGINA 65 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 65
+E apenas um modo de ver, 
+ *
+pagina 179
+Refatoracao, 
+ *
+pagina 206
+Codigo que seja facil de testar, 
+ *
+pagina 211
+Assistentes do mal, 
+ *
+pagina 220
+Equipes pragmaticas, 
+ *
+pagina 246
+Tudo se resume a escrever, 
+ *
+pagina 270
+Desafios
+Considere a diferenca entre as grandes ferramentas orientadas a 
+ *
+GUIs normalmente encontradas em sistemas Windows e os peque-
+nos mas combinaveis utilitarios de linha de comando usados em 
+prompts de shell. Que conjunto e mais ortogonal e por que? Qual e 
+mais facil de usar para a finalidade exata para a qual foi projetado? 
+Que conjunto e mais facil de combinar com outras ferramentas para 
+o enfrentamento de novos desafios?
+A linguagem C++ da suporte a heranca multipla, e a linguagem Java 
+ *
+permite que uma classe implemente varias interfaces. Que impacto 
+o uso desses recursos tem sobre a ortogonalidade? Ha alguma di-
+ferenca de impacto entre o uso da heranca multipla e de interfaces 
+multiplas? Ha alguma diferenca entre o uso da delegacao e o uso da 
+heranca?
+Exercicios
+ 1. Voce esta criando uma classe chamada Split, que divide linhas de 
+entrada em campos. Qual das duas assinaturas de classe Java a se-
+guir e o projeto mais ortogonal?
+class Split1 {
+  public Split1(InputStreamReader rdr) { ...
+  public void readNextLine() throws IOException { ...
+  public int numFields() { ...
+  public String getField(int fieldNo) { ...
+}
+class Split2 {
+  public Split2(String line) { ...
+  public int numFields() { ...
+  public String getField(int fieldNo) { ...
+}
+ 2. O que leva a um projeto mais ortogonal: caixas de dialogo sem ou 
+com janela restrita?
+ 3. E quanto as linguagens procedurais versus a tecnologia orientada a 
+objetos? Qual resulta em um sistema mais ortogonal?
+Resposta na 
+p. 301
+Resposta na 
+p. 301
+Resposta na 
+p. 302
+
+
+===== PAGINA 66 =====
+66 O PROGRAMADOR PRAGMATICO
+ 9 
+REVERSIBILIDADE
+Nada e mais perigoso do que uma ideia quando ela e a unica que voce tem.
+Emil-Auguste Chartier, Propos sur la religion, 1938
+Os engenheiros preferem solucoes simples e unicas para os problemas. 
+Os testes matematicos que permitem que voce proclame com grande con-
+fianca que x = 2 sao muito mais confortaveis do que ensaios vagos e aca-
+lorados sobre as incontaveis causas da Revolucao Francesa. A gerencia 
+tende a concordar com os engenheiros: respostas faceis e unicas cabem 
+adequadamente em planilhas e planos de projeto.
+Se pelo menos o mundo real cooperasse! Infelizmente, embora x seja igual 
+a 2 hoje, pode ter de ser 5 amanha e 3 na proxima semana. Nada e para 
+sempre - e, se voce conta seguramente com um fato, pode quase garantir 
+que ele mudara.
+Ha sempre mais de uma maneira de implementar algo e, geralmente, ha mais 
+de um fornecedor disponivel para entregar um produto de terceiros. Se voce 
+entrar em um projeto cego pela nocao miope de que ha apenas uma maneira 
+de executa-lo, pode ter uma surpresa desagradavel. Muitas equipes de proje-
+to estao com seus olhos bem abertos a medida que o futuro se revela:
+"Mas voce disse que usariamos o banco de dados XYZ! Terminamos 85% da 
+codificacao do projeto, nao podemos mudar agora!" o programador protestou. 
+"Desculpe, mas nossa empresa decidiu usar como padrao o banco de dados 
+PQD - para todos os projetos. Esta fora de minha alcada. Apenas teremos de 
+recodificar. Todos voces trabalharao nos fins de semana ate nova ordem."
+As mudancas nao tem de ser draconianas nem mesmo tao imediatas. Mas, 
+a medida que o tempo for passando, e seu projeto avancar, voce pode se 
+ver preso em uma posicao insustentavel. A cada decisao critica, a equipe 
+de projeto se compromete com um alvo menor - uma versao mais estreita 
+da realidade que apresenta menos opcoes.
+No momento em que muitas decisoes criticas tiverem sido tomadas, o 
+alvo tera se tornado tao pequeno que, se ele se mover, o vento mudar de 
+direcao ou uma borboleta em Toquio bater suas asas, voce errara.
+4 E pode 
+errar por muito.
+4 Pegue um sistema nao linear, ou caotico, e aplique uma pequena alteracao a uma de suas entradas. 
+Voce pode obter um resultado amplo e, com frequencia, imprevisivel. O cliche da borboleta batendo 
+suas asas em Toquio poderia ser o inicio de uma cadeia de eventos que acabaria gerando um tor-
+nado no Texas. Isso soa como algum projeto que voce conhece?
+
+
+===== PAGINA 67 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 67
+O problema e que decisoes criticas nao sao facilmente reversiveis.
+Uma vez que voce decidir usar o banco de dados de um fornecedor, um 
+padrao de arquitetura especifico ou um determinado modelo de implan-
+tacao (cliente-servidor versus autonomo, por exemplo), tera se compro-
+metido com um curso de acao que nao podera ser revertido, exceto a um 
+grande custo.
+Reversibilidade
+Muitos dos topicos deste livro foram elaborados visando a producao de 
+software flexivel e adaptavel. Ao aceitarmos suas recomendacoes - prin-
+cipalmente o principio NSR (pagina 49), a desvinculacao (pagina 160) e o 
+uso de metadados (pagina 166) - nao teremos de tomar tantas decisoes 
+criticas irreversiveis. Isso e bom, porque nem sempre temos as melhores 
+decisoes quando precisamos. Adotamos uma determinada tecnologia so 
+para descobrir que nao podemos contratar o numero suficiente de pes-
+soas com as habilidades necessarias. Ficamos presos a um fornecedor 
+especifico momentos antes de ele ser comprado por seu competidor. Re-
+quisitos, usuarios e hardware mudam mais rapido do que somos capazes 
+de concluir o desenvolvimento de um software.
+Suponhamos que voce decidisse, no inicio do projeto, usar um banco de 
+dados relacional do fornecedor A. Bem depois, durante o teste de desempe-
+nho, descobre que o banco de dados e muito lento e que o banco de dados 
+orientado a objetos do fornecedor B e mais veloz. Como na maioria dos 
+projetos convencionais, voce estaria sem sorte. Quase todo o tempo, cha-
+madas a produtos de terceiros permeiam o codigo. Mas, se voce realmente 
+isolou a ideia do banco de dados - ao ponto de ele simplesmente fornecer 
+persistencia como servico - tera flexibilidade para mudar de direcao.
+Da mesma forma, suponhamos que o projeto comecasse como um modelo 
+cliente-servidor, porem mais tarde o departamento de marketing decidis-
+se que servidores sao caros demais para alguns clientes e quisesse uma 
+versao autonoma. O quanto isso seria dificil para voce? Ja que se trata 
+apenas de uma questao de implantacao, nao deveria tomar mais do que 
+alguns dias. Se demorar mais, voce nao considerou a reversibilidade. A 
+situacao inversa e ainda mais interessante. E se o produto autonomo que 
+voce estivesse criando tivesse de ser implantado como um modelo cliente-
+servidor ou de n camadas? Isso tambem nao deveria ser dificil.
+O erro esta em assumir que qualquer decisao e irrevogavel - e em nao 
+se preparar para as contingencias que podem ocorrer. Em vez de tomar 
+
+
+===== PAGINA 68 =====
+68 O PROGRAMADOR PRAGMATICO
+decisoes esculpidas em pedra, considere-as mais como se tivessem sido 
+escritas na areia da praia. Uma onda grande pode surgir e varre-las a 
+qualquer momento.
+DICA 14
+Nao ha decisoes definitivas
+Arquitetura flexivel
+Embora muitas pessoas tentem manter seu codigo flexivel, tambem e pre-
+ciso tentar manter a flexibilidade nas areas de arquitetura, implantacao e 
+integracao com o fornecedor.
+Tecnologias como o CORBA podem ajudar a isolar partes de um projeto 
+das alteracoes na linguagem ou plataforma de desenvolvimento. O desem-
+penho da linguagem Java nessa plataforma nao atende as expectativas? 
+Recodifique o cliente em C++ e nada mais precisara mudar. O mecanismo 
+de regras em C++ nao e suficientemente flexivel? Mude para uma ver-
+sao Smalltalk. Com uma arquitetura CORBA, voce so tem de manipular 
+o componente que esta substituindo; os outros componentes nao devem 
+ser afetados.
+Esta desenvolvendo para Unix? Qual? Considerou todas as questoes de 
+portabilidade? Esta desenvolvendo para uma versao especifica do Win-
+dows? Qual - 3.1, 95, 98, NT, CE ou 2000? Qual o nivel de dificuldade 
+para dar suporte a outras versoes? Se for brando e flexivel nas decisoes, 
+nao tera dificuldade alguma. Se tiver pouco encapsulamento, alta integra-
+cao e logica ou parametros embutidos no codigo, pode ser impossivel.
+Nao tem certeza de como o departamento de marketing quer implantar o 
+sistema? Pense nisso antecipadamente e podera dar suporte a um modelo 
+autonomo, cliente-servidor ou de n camadas apenas alterando um arquivo 
+de configuracao. Ja escrevemos programas que fazem exatamente isso.
+Normalmente, e possivel ocultar um produto de terceiros por tras de uma 
+interface abstrata bem definida. Na verdade, sempre conseguimos fazer 
+isso em qualquer projeto em que trabalhamos. Mas suponhamos que voce 
+nao pudesse isola-lo tao bem. E se tivesse de espalhar determinadas ins-
+
+
+===== PAGINA 69 =====
+CAPITULO 2 
+ UMA ABORDAGEM PRAGMATICA 69
+trucoes em muitos pontos do codigo? Inclua esse requisito em metadados 
+e use algum mecanismo automatico, como os aspectos (consulte a pagina 
+61) ou a linguagem Perl, para inserir as instrucoes necessarias no proprio 
+codigo. Independente do mecanismo que voce usar, torne-o reversivel. Se 
+algo e adicionado automaticamente, tambem pode ser removido automa-
+ticamente.
+Ninguem sabe o que o futuro pode reservar, principalmente nos! Portanto, 
+permita que seu codigo dance conforme a musica: se fixe quando puder e 
+se adapte quanto for necessario.
+As secoes relacionadas sao:
+A desvinculacao e a Lei de Demeter, 
+ *
+pagina 160
+Metaprogramacao, 
+ *
+pagina 166
+E apenas um modo de ver, 
+ *
+pagina 179
+Desafios
+E hora de um pouco de mecanica quantica com o gato de Schrodin-
+ *
+ger. Suponhamos que voce tivesse um gato em uma caixa fechada, 
+com uma particula radioativa. A particula tem exatamente 50% de 
+chance de se dividir em duas. Se fizer isso, o gato sera morto. Se nao 
+fizer, o gato ficara bem. Portanto, o gato esta morto ou vivo? De acor-
+do com Schrodinger, as duas respostas estao corretas. Sempre que 
+ocorre uma reacao subnuclear que tem dois resultados possiveis, o 
+universo e clonado. Em um, o evento ocorreu, no outro nao. O gato 
+esta vivo em um universo e morto no outro. So quando abrir a caixa 
+voce sabera em que universo esta.
+Nao e de surpreender que codificar para o futuro seja dificil.
+Mas pense na evolucao do codigo como se fosse uma caixa cheia de 
+gatos de Schrodinger: cada decisao resulta em uma versao diferen-
+te do futuro. Quantos futuros possiveis seu codigo pode suportar? 
+Quais sao mais provaveis? Qual o nivel de dificuldade para suporta-
+los quando a hora chegar?
+Voce ousa abrir a caixa?

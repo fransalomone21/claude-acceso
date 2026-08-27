@@ -1,0 +1,186 @@
+[p265] Dados de teste Onde obteremos os dados para executar todos esses testes? Ha apenas dois tipos de dados: dados do mundo real e dados sinteticos. Na verdade, precisamos usar os dois, porque as naturezas distintas desses tipos de dados vao expor diferentes erros em nosso software.
+Os dados do mundo real vem de alguma fonte real. Podem ser coletados em um sistema existente, no sistema de um concorrente ou em um prototipo de algum tipo. Eles representam dados tipicos do usuario. Voce vai se surpreender quando descobrir o que queremos dizer com tipicos. O mais provavel e que eles revelem defeitos e divergencias na analise de requisitos.
+Os dados sinteticos sao gerados artificialmente, podendo sofrer certas restricoes estatisticas. Voce pode ter de usar dados sinteticos por qualquer uma das razoes a seguir.
+Se precisar de muitos dados, possivelmente mais do que qualquer
+*
+amostra do mundo real poderia fornecer. Talvez voce possa usar os dados do mundo real como ponto de partida para gerar um conjunto de amostras maior, e ajustar certos campos que tenham de ser exclusivos.
+Se precisar de dados para forcar as condicoes limitrofes. Esses da-
+*
+dos podem ser totalmente sinteticos: campos de dados contendo 29 de fevereiro de 1999, registros de tamanho muito grande ou enderecos com codigos postais estrangeiros.
+Se precisar de dados que exibam certas propriedades estatisticas.
+*
+Quer saber o que acontece se cada terceira transacao falhar? Lembra do algoritmo de classificacao que fica lento ate quase parar quando recebe dados ja classificados? Voce pode apresentar dados em ordem aleatoria ou classificada para expor esse tipo de desvantagem. Testando sistemas de GUI O teste de sistemas que fazem uso intenso de GUI com frequencia requer ferramentas de teste especializadas. Essas ferramentas podem ser baseadas em um simples modelo de captura/reproducao de eventos ou podem requerer scripts escritos especialmente para conducao da GUI. Alguns sistemas combinam elementos das duas abordagens.
+Ferramentas menos sofisticadas impoem um alto grau de vinculacao entre a versao do software que esta sendo testada e o script de teste: se voce mover uma caixa de dialogo ou tornar um botao menor, talvez o teste nao
+[p266] consiga encontra-los e pode falhar. A maioria das ferramentas de teste de GUI modernas usa varias tecnicas diferentes para resolver esse problema e tenta se adaptar a pequenas diferencas de layout.
+No entanto, voce nao pode automatizar tudo. Andy trabalhou em um sistema grafico que permitia que o usuario criasse e exibisse efeitos visuais nao deterministicos que simulavam varios fenomenos da natureza. Infelizmente, durante o teste nao era possivel apenas capturar um bitmap e comparar a saida com uma execucao anterior, porque ela foi projetada para ser sempre diferente. Em situacoes como essa, talvez voce nao tenha outra escolha a nao ser confiar na interpretacao manual dos resultados do teste.
+Uma das muitas vantagens de escrever codigo desvinculado (consulte A desvinculacao e a Lei de Demeter, pagina 160) sao os testes mais modulares. Por exemplo, para aplicativos de processamento de dados que tiverem uma GUI no front-end, seu projeto deve ser suficientemente desvinculado para que voce possa testar a logica do aplicativo sem ter uma GUI presente. Essa ideia e semelhante a testar primeiro os subcomponentes. Uma vez que a logica do aplicativo tiver sido validada, ficara mais facil localizar os erros que surgem quando a interface de usuario esta sendo usada (os erros podem estar sendo gerados pelo codigo da interface de usuario).
+Testando os testes Ja que nao podemos criar software perfeito, tambem nao podemos criar software de teste perfeito. Temos de testar os testes.
+Considere nosso conjunto de testes como um sistema de seguranca elaborado, projetado para fazer soar o alarme ao surgir um erro. Ha maneira melhor de testar um sistema de seguranca do que tentando burla-lo? Apos ter criado um teste para detectar um erro especifico, cause o erro deliberadamente e verifique se o teste reclama. Isso vai garantir que o teste capturara o erro se ele ocorrer de verdade.
+Use sabotadores para testar seus testes Se quiser levar realmente a serio a execucao de testes, talvez voce queira designar um sabotador de projeto. O papel de sabotador pressupoe obter
+[p267] uma copia separada da arvore de fontes, introduzir erros de proposito e verificar se os testes os capturarao.
+Ao criar testes, verifique se alarmes estao soando quando necessario. Testando totalmente Uma vez que voce tiver certeza de que seus testes estao corretos e estiver encontrando os erros que criou, como saber se testou a base de codigo com abrangencia suficiente?
+Uma resposta resumida seria "voce nao tem como saber", e nunca tera. Mas ha produtos no mercado que podem ajudar. Essas ferramentas de analise de cobertura observam o codigo durante o teste e registram que linhas de codigo foram executadas e quais nao foram. As ferramentas ajudam a dar uma nocao geral do quanto seu teste e abrangente, mas nao espere ver 100% de cobertura.
+Mesmo se voce percorrer todas as linhas de codigo, isso nao e tudo. O que e importante e o numero de estados que seu programa pode ter. Os estados nao sao equivalentes as linhas de codigo. Por exemplo, suponhamos que voce tivesse uma funcao que operasse com dois inteiros, os dois podendo ser um numero de 0 a 999.
+int test(int a, int b) { return a / (a + b);
+} Teoricamente, essa funcao de tres linhas tem 1.000.000 de estados logicos, 999.999 dos quais funcionarao corretamente e um que nao funcionara (quando a + b e igual a zero). Simplesmente saber que voce executou essa linha de codigo nao o informara disso - voce teria de identificar todos os estados possiveis do programa. Infelizmente, em geral esse e um problema realmente dificil. Dificil como em "o sol sera uma massa fria e dura antes que voce consiga resolve-lo".
+Teste a cobertura de estados e nao a cobertura do codigo Mesmo com uma boa cobertura do codigo, os dados que voce usar no teste tambem terao um grande impacto e, o mais importante, a ordem em que voce percorrer o codigo pode ser o que causara o maior impacto entre todo o resto.
+[p268] Quando testar Muitos projetos tendem a deixar o teste para o ultimo minuto - sendo executado bem no fim do prazo (deadline).
+8 Temos de comecar muito antes disso. Assim que existir algum codigo de producao, ele deve ser testado. A maioria dos testes deve ser executada automaticamente. E importante ressaltar que com "automaticamente" queremos dizer que os resultados do teste tambem sao interpretados automaticamente. Consulte Automacao onipresente, pagina 252, para saber mais sobre esse assunto. Gostamos de testar com a maior frequencia possivel e sempre antes de inserirmos o codigo no deposito de fontes. Alguns sistemas de controle de codigo-fonte, como o Aegis, podem fazer isso automaticamente. Caso contrario, so temos que digitar % make test Geralmente, nao e problema executar regressoes em todos os testes de unidade individuais e testes de integracao com a frequencia que for necessaria.
+Mas alguns testes podem nao ser faceis de executar com frequencia. Os testes de resistencia, por exemplo, podem requerer configuracao ou equipamento especial e alguma intervencao manual. Esses testes podem ser executados com menos frequencia - semanal ou mensalmente, talvez. Mas e importante que sejam executados programada e regularmente. Se nao puderem ser executados automaticamente, certifique-se de que aparecam no cronograma, com todos os recursos necessarios alocados para a tarefa.
+Reforcando a rede Para concluir, gostariamos de revelar o conceito de maior importancia na execucao de testes. Ele e obvio e praticamente todos os livros recomendam que seja feito assim. Mas, por alguma razao, a maioria dos projetos ainda nao o adotou.
+Se um erro escapar da rede de testes existentes, voce tera de adicionar um novo teste para captura-lo da proxima vez.
+8 dead-line \ded-l n\ s (1864) uma linha desenhada dentro ou ao redor de uma cela a qual o prisioneiro nao pode ultrapassar sem o risco de ser alvejado - Webster's Collegiate Dictionary.
+[p269] Encontre os erros apenas uma vez Quando um testador humano encontrar um erro, essa deve ser a ultima vez que um testador humano o encontrara. Os testes automatizados devem ser modificados para procurar esse erro especifico desse momento em diante, sempre, sem excecoes, nao importa o quanto ele seja trivial e quantas vezes o desenvolvedor reclame dizendo "isso nao acontecera de novo".
+Porque ele ocorrera novamente. E nao temos tempo para ficar procurando erros que os testes automatizados poderiam ter encontrado para nos. Temos de gastar nosso tempo criando novos codigos - e novos erros. As secoes relacionadas sao:
+O gato comeu meu codigo-fonte,
+*
+pagina 24 Depurando,
+*
+pagina 112 A desvinculacao e a Lei de Demeter,
+*
+pagina 160 Refatoracao,
+*
+pagina 206 Codigo que seja facil de testar,
+*
+pagina 211 Automacao onipresente,
+*
+pagina 252 Desafios Voce consegue testar automaticamente seu projeto? Muitas equipes
+*
+sao forcadas a responder "nao". Por que? E muito dificil definir os resultados aceitaveis? Isso nao tornara dificil provar para os patrocinadores que o projeto esta "terminado"?
+E muito dificil testar a logica do aplicativo independente da GUI? O que isso diz sobre a GUI? E sobre a vinculacao?
+[p270] TUDO SE RESUME A ESCREVER
+A tinta mais fraca e melhor do que a memoria mais afiada.
+Proverbio chines Normalmente, os desenvolvedores nao dao muita importancia para a documentacao. Na melhor das hipoteses, ela e um mal necessario; na pior, e tratada como uma tarefa de baixa prioridade na esperanca de que a gerencia a esqueca no fim do projeto.
+Programadores pragmaticos aceitam a documentacao como parte integrante do processo geral de desenvolvimento. A criacao da documentacao pode se tornar mais facil pela nao duplicacao de trabalho ou desperdicio de tempo e quando ela e mantida a mao - no proprio codigo, se possivel. Essas nao sao opinioes muito originais ou novas; a ideia de casar codigo e documentacao aparece no trabalho de Donald Knuth sobre "literate programming" e no utilitario JavaDoc da Sun, entre outros. Queremos reduzir a separacao entre codigo e documentacao e, em vez disso, trata-los como dois aspectos do mesmo modelo (consulte E apenas um modo de ver, pagina 179). Na verdade, queremos ir um pouco mais adiante e aplicar todos os nossos principios pragmaticos tanto a documentacao quanto ao codigo. Trate o portugues simplesmente como outra linguagem de programacao Ha basicamente dois tipos de documentacao produzidos para um projeto: interna e externa. A documentacao interna inclui os comentarios do codigo-fonte, documentos do projeto e de teste e assim por diante. A documentacao externa e qualquer coisa fornecida ou publicada para o mundo externo, como os manuais de usuario. Mas independente do publico-alvo ou da funcao do redator (desenvolvedor ou redator tecnico), toda documentacao e um espelho do codigo. Se houver uma discrepancia, o codigo e o que importa - para o bem ou para o mal.
+Construa a documentacao no codigo, nao a acrescente como complemento Comecaremos com a documentacao interna.
+[p271] Comentarios no codigo Produzir documentos formatados a partir de comentarios e declaracoes no codigo-fonte e bem simples, mas primeiro temos de nos assegurar de termos realmente comentarios no codigo. O codigo deve ter comentarios, mas comentarios demais podem ser tao prejudiciais como comentarios de menos.
+Em geral, os comentarios devem discutir por que algo e feito, sua finalidade e seu objetivo. O codigo ja mostra como e feito, portanto, esse comentario seria redundante - e seria uma violacao do principio NSR.
+Comentar o codigo-fonte lhe dara uma oportunidade perfeita para documentar as partes vagas de um projeto que nao puderem ser documentadas em outro local: escolhas de engenharia, porque certas decisoes foram tomadas, que alternativas foram descartadas e assim por diante.
+Gostamos de ver um comentario de cabecalho simples no nivel do modulo, comentarios para declaracoes de dados e tipos significativas e um breve cabecalho por classe e por metodo, descrevendo como a funcao e usada e qualquer coisa que ela faca que nao seja obvia.
+E claro que os nomes das variaveis devem ser significativos e bem escolhidos. foo, por exemplo, nao quer dizer nada, assim como facaisso, gerente ou coisa. A notacao hungara (em que as informacoes de tipo da variavel sao codificadas no proprio nome) e totalmente inapropriada em sistemas orientados a objetos. Lembre-se de que voce (e outras pessoas depois de voce) vai ler o codigo muitas centenas de vezes, mas so o escrevera algumas. Nao tente ganhar tempo escrevendo cp em vez de connectionPool.
+Ainda pior do que nomes sem significado sao os nomes ambiguos. Ja ouviu alguem explicar inconsistencias em codigo legado como em "a rotina chamada capturaDados na verdade grava dados no disco"? O cerebro humano sempre se embaralhara com isso - e o que e chamado de Efeito Stroop [Str35]. Voce mesmo pode fazer a experiencia a seguir para ver os efeitos dessa interferencia. Pegue algumas canetas coloridas e use-as para anotar os nomes das cores. No entanto, nunca escreva um nome de cor usando a caneta dessa cor. Voce poderia escrever a palavra "azul" em verde, a palavra "marrom" em vermelho e assim por diante. (Alternativamente, temos um exemplo de conjunto de cores ja desenhadas em nosso site da Web em www.pragmaticprogrammer.com). Uma vez que voce tiver escrito os nomes das cores, tente falar em voz alta a cor com a qual cada palavra foi escrita, o mais rapido que puder. Em algum momento, voce
+[p272] errara e comecara a se referir aos nomes das cores e nao as cores propriamente ditas. Os nomes sao muito relevantes para o nosso cerebro e nomes ambiguos levarao caos ao seu codigo.
+Voce pode documentar parametros, mas pondere se e realmente necessario em todos os casos. O nivel de comentario sugerido pela ferramenta JavaDoc parece apropriado:
+/** * Encontra o valor de pico (mais alto) dentro de um intervalo de * datas de amostras especificado.
+*
+* @param  aRange Intervalo de datas a ser pesquisado.
+* @param  aThreshold Valor minimo a considerar.
+* @return o valor ou <code>null</code> se nao for encontrado nenhum *         valor maior ou igual ao limite.
+*/ public Sample findPeak(DateRange aRange, double aThreshold);
+Aqui esta uma lista de coisas que nao devem aparecer em comentarios de fontes.
+Uma lista das funcoes exportadas por um codigo do arquivo.
+*
+Ha programas que analisam a fonte para nos. Use-os e tera certeza de que a lista estara atualizada.
+Historico de revisoes
+*
+. Para isso, existem os sistemas de controle de codigo-fonte (consulte Controle do codigo-fonte, pagina 108). No entanto, pode ser util incluir informacoes sobre a data da ultima alteracao e a pessoa que a fez.
+Uma lista de outros arquivos que esse arquivo usa.
+*
+Isso pode ser determinado mais precisamente com o uso de ferramentas automaticas.
+O nome do arquivo.
+*
+Se ele tiver de aparecer no arquivo, nao faca sua manutencao manualmente. O RCS e sistemas semelhantes podem manter essa informacao atualizada automaticamente. Se voce mover ou renomear o arquivo, nao vai querer ter de lembrar de editar o cabecalho.
+Uma das informacoes mais importantes que deve aparecer no arquivofonte e o nome do autor - nao necessariamente quem editou o arquivo por ultimo, mas o proprietario. Designar responsabilidade e autoridade pelo codigo-fonte e otimo para fazer as pessoas serem honestas (consulte Orgulho e preconceito, pagina 258).
+9 Esse tipo de informacao, assim como o nome do arquivo, e fornecido pela tag $Id$ do RCS.
+[p273] O projeto tambem pode requerer que certas observacoes de direitos autorais ou outros textos padronizados legais aparecam em cada arquivofonte. Faca seu editor inseri-los para voce automaticamente.
+Com a definicao de comentarios significativos, ferramentas como o JavaDoc [URL 7] e o DOC++ [URL 21] poderao extrair e formata-los para produzir automaticamente documentacao de nivel de API. Esse e um exemplo especifico de uma tecnica mais geral que usamos - os documentos executaveis.
+Documentos executaveis Suponhamos que tivessemos uma especificacao que listasse as colunas de uma tabela de banco de dados. Tambem teriamos um conjunto separado de comandos SQL para criar a tabela real no banco de dados e, provavelmente, algum tipo de estrutura de registro de uma linguagem de programacao para conter o conteudo de uma linha da tabela. As mesmas informacoes sao repetidas tres vezes. Altere qualquer uma dessas tres fontes as outras duas ficarao imediatamente desatualizadas. Essa e uma violacao clara do principio NSR.
+Para resolver esse problema, temos de selecionar a fonte de informacoes autorizada. Ela pode ser a especificacao, uma ferramenta de esquemas de banco de dados ou alguma terceira fonte. Selecionemos o documento de especificacao como a fonte. Ele passara a ser nosso modelo para esse processo. Agora, temos de encontrar uma maneira de exportar as informacoes que ele contem como visualizacoes diferentes - um esquema de banco de dados e um registro de linguagem de alto nivel, por exemplo. Se seu documento for armazenado em texto simples com comandos de marcacao (usando HTML, ou troff, por exemplo), voce podera usar ferramentas como a linguagem Perl para extrair o esquema e reformata-lo automaticamente. Se ele estiver em um formato binario de processador de texto, entao consulte a caixa da proxima pagina para ver algumas opcoes. Agora, seu documento e parte integrante do desenvolvimento do projeto. A unica maneira de alterar o esquema e alterar o documento. Voce tem certeza de que tanto a especificacao, quanto o esquema e o codigo estao de acordo. Reduziu o volume de trabalho que tera que executar a cada alteracao e pode atualizar as visualizacoes da alteracao automaticamente. 10 Consulte E apenas um modo de ver, pagina 179, para saber mais sobre modelos e visualizacoes.
+[p274] Podemos gerar documentacao de nivel de API a partir do codigo-fonte usando ferramentas como o JavaDoc e o Doc++ de maneira semelhante. O modelo e o codigo-fonte: uma visualizacao do modelo pode ser compilada; outras visualizacoes devem ser impressas ou vistas na Web. Nosso objetivo e sempre trabalhar sobre o modelo - seja o modelo o proprio codigo ou algum outro documento - e ter todas as visualizacoes atualizadas automaticamente (consulte Automacao onipresente, pagina 252, para saber mais sobre processos automaticos).
+Subitamente, a documentacao nao parece mais tao incomoda.
+Redatores tecnicos Ate agora, so falamos sobre documentacao interna - escrita pelos proprios programadores. Mas o que acontece quando redatores tecnicos profissionais estao envolvidos no projeto? Quase sempre, os programadores apenas lancam o material "por cima da divisoria" para os redatores tecnicos e deixam que eles se virem para produzir manuais do usuario, pecas promocionais e assim por diante.
+E se meu documento nao estiver em texto simples?
+Infelizmente, cada vez mais documentos de projeto estao sendo escritos com o uso de processadores de texto que armazenam o arquivo em disco em algum formato proprietario. Dizemos "infelizmente" porque isso restringe muito as opcoes de processamento do documento automaticamente. No entanto, voce ainda tem algumas opcoes.
+Crie macros.
+*
+A maioria dos processadores de texto sofisticados ja tem uma linguagem de macro. Com algum esforco, voce pode programalos para exportar secoes marcadas de seus documentos nas formas alternativas necessarias. Se a programacao nesse nivel for muito complicada, voce ainda podera exportar a secao apropriada em um arquivo de texto simples no formato padrao e entao usar uma ferramenta como a Perl para converte-la para as formas finais.
+Subordine o documento.
+*
+Em vez de ter o documento como a fonte definitiva, use outra representacao (no exemplo do banco de dados, talvez voce pudesse usar o esquema como a informacao autorizada). Em seguida, crie uma ferramenta que exporte essa informacao em uma forma que o documento possa importar. No entanto, tome cuidado. Voce tem de assegurar que essa informacao seja importada sempre que o documento for impresso, em vez de apenas uma vez quando o documento for criado.
+[p275] Isso e um erro. So porque os programadores nao estao redigindo esses documentos nao significa que possamos renunciar aos principios pragmaticos. Queremos que os redatores adotem os mesmos principios basicos de um programador pragmatico - principalmente honrando o principio NSR, a ortogonalidade, o conceito de modelo-visualizacao e o uso de automacao e scripts.
+Imprimir ou publicar na Web Um problema inerente a documentacao publicada em papel e que ela pode ficar desatualizada assim que e impressa. Qualquer tipo de documentacao e apenas um instantaneo.
+Portanto, tentamos produzir toda documentacao em uma forma que possa ser publicada online, na Web, complementada com hiperlinks. E mais facil manter essa visualizacao da documentacao atualizada do que rastrear cada copia existente em papel, descartar, reimprimir e redistribuir novas copias. Tambem e uma maneira melhor de atender as necessidades de um publico amplo. Lembre-se, no entanto, de inserir um carimbo de data ou um numero de versao em cada pagina da Web. Dessa forma, o leitor podera ter uma boa ideia do que esta atualizado e do que foi ou nao alterado recentemente. Muitas vezes, temos de apresentar a mesma documentacao em diferentes formatos: um documento impresso, paginas da Web, ajuda online ou talvez uma apresentacao de slides. A solucao tipica e o uso intensivo do recurso de recortar e colar, com a criacao de varios novos documentos independentes a partir do original. Essa e uma ma ideia: a apresentacao de um documento deve ser independente de seu conteudo.
+Se estiver usando um sistema de marcacao, voce tera flexibilidade para implementar quantos formatos de saida diferentes quiser. Poderia optar por fazer <H1>Titulo do Capitulo</H1> gerar um novo capitulo na versao de relatorio do documento e nomear um novo slide na apresentacao de slides. Tecnologias como o XSL e o CSS podem ser usadas para gerar varios formatos de saida a partir da mesma marcacao.
+Se estiver usando um processador de texto, provavelmente voce tera recursos semelhantes. Se lembrar de usar estilos para identificar diferentes 11 eXtensible Style Language e Cascading Style Sheets, duas tecnologias projetadas para ajudar a separar a apresentacao do conteudo.
+[p276] elementos do documento, ao aplicar diferentes folhas de estilo podera alterar drasticamente a aparencia do resultado final. A maioria dos processadores de texto ja permite a conversao do documento para formatos como o HTML para publicacao na Web.
+Linguagens de marcacao Para concluir, em projetos de documentacao de grande escala, recomendamos o exame dos esquemas mais modernos de marcacao da documentacao. Atualmente, muitos autores tecnicos usam o DocBook para definir seus documentos. O DocBook e um padrao de marcacao baseado na SGML que identifica cuidadosamente cada componente de um documento. O documento pode ser passado por um processador DSSSL para ser gerado em uma grande quantidade de formatos diferentes. O projeto de documentacao do Linux usa o DocBook para publicar informacoes nos formatos RTF, , info, PostScript e HTML.
+Contanto que sua marcacao original seja suficientemente rica para expressar todos os conceitos necessarios (inclusive hiperlinks), a conversao para qualquer outra forma publicavel deve ser facil e automatica. Voce pode produzir ajuda online, manuais publicados, realces nos produtos do site da Web e ate um calendario de dica do dia, tudo a partir da mesma fonte - que, claro, estara sob supervisao do controle de fontes e sera construida com o resto da construcao noturna (consulte Automacao onipresente, pagina 252). A documentacao e o codigo sao visualizacoes diferentes do mesmo modelo subjacente, mas so a visualizacao deve ser diferente. Nao deixe a documentacao se tornar um elemento de segunda classe, banido do fluxo de trabalho principal do projeto. Trate-a com o mesmo cuidado que trata o codigo, e os usuarios (e programadores que o sucederem) o aplaudirao. As secoes relacionadas sao:
+Os males da duplicacao,
+*
+pagina 48 Ortogonalidade,
+*
+pagina 56 O poder do texto simples,
+*
+pagina 95 Controle do codigo-fonte,
+*
+pagina 108 E apenas um modo de ver,
+*
+pagina 179 Programacao baseada no acaso
+*
+, pagina 194 O abismo dos requisitos
+*
+, pagina 224 Automacao onipresente,
+*
+pagina 252
+[p277] Desafios Voce redigiu um comentario explicativo para o codigo-fonte que aca-
+*
+bou de escrever? Por que nao? O tempo o pressionou? Nao tem certeza se o codigo vai funcionar - esta apenas testando uma ideia como prototipo? Voce descartara o codigo depois, certo? Ele nao vai entrar no projeto sem comentarios e em fase experimental, vai?
+Pode ser incomodo documentar o projeto do codigo-fonte porque ele
+*
+ainda nao esta claro em sua mente; ainda esta amadurecendo. Voce nao acha que deve perder tempo descrevendo o que algo faz ate que ele realmente o faca. Isso nao soa como programar baseado no acaso (pagina 194)?
+GRANDES EXPECTATIVAS
+Espantai-vos disto, o ceus, e horrorizai-vos...
+Jeremias 2:12 Uma empresa anuncia lucros recorde e o preco de suas acoes cai 20%. O noticiario financeiro dessa noite explica que ela nao conseguiu atender as expectativas dos analistas. Uma crianca abre um caro presente de Natal e comeca a chorar - nao era a boneca barata que ela estava esperando. Uma equipe de projeto faz milagres para implementar um aplicativo extraordinariamente complexo, so para ver seus usuarios rejeita-lo porque nao tem um sistema de ajuda.
+Em um sentido abstrato, um aplicativo e bem-sucedido quando implementa corretamente suas especificacoes. Infelizmente, isso so paga contas abstratas.
+Na realidade, o sucesso de um projeto e medido por ate onde ele atende as expectativas de seus usuarios. Um projeto que fica abaixo das expectativas esta fadado ao fracasso, independente de quanto o produto seja bom em termos absolutos. No entanto, como o pai da crianca que esperava a boneca barata, se voce exceder muito os limites tambem falhara. Exceda gentilmente as expectativas de seus usuarios Mas a execucao dessa dica requer algum esforco.
+[p278] Comunicando expectativas Inicialmente, os usuarios irao ate voce com alguma visao do que querem. Ela pode ser incompleta, inconsistente ou tecnicamente impossivel, mas e deles, e, como no exemplo da crianca no Natal, eles tem alguma emocao investida nela. Voce nao pode simplesmente ignora-la.
+A medida que voce compreender melhor as necessidades, encontrara areas em que as expectativas nao poderao ser atendidas ou em que talvez as expectativas sejam muito conservadoras. Parte de seu papel e comunicar isso. Trabalhe com seus usuarios para que sua compreensao do que voce entregara seja precisa. E faca isso durante todo o processo de desenvolvimento. Nunca perca de vista os problemas da empresa que seu aplicativo deve resolver.
+Alguns consultores chamam esse processo de "gerenciamento de expectativas" - controlar ativamente o que os usuarios devem esperar de seus sistemas. Achamos essa posicao um pouco elitista. Nosso papel nao e controlar as esperancas de nossos usuarios. Em vez disso, temos de trabalhar com eles para chegar a um consenso sobre o processo de desenvolvimento e o produto final, alem de considerar as expectativas que eles ainda nao verbalizaram. Se a equipe estiver se comunicando fluentemente com o ambiente externo, esse processo sera quase automatico; todos devem entender o que e esperado e como sera construido.
+Ha algumas tecnicas importantes que podem ser usadas para facilitar esse processo. Entre elas, os projeteis luminosos, pagina 70, e os prototipos e notas post-it, pagina 75, sao as mais importantes. Ambas permitem que a equipe construa algo que o usuario possa ver. Ambas sao maneiras ideais de comunicar sua compreensao dos requisitos deles. E ambas permitirao que voce e seus usuarios exercitem a comunicacao uns com os outros. O ganho extra Se voce trabalhar com seus usuarios, compartilhando as expectativas e comunicando o que esta fazendo, havera poucas surpresas quando o projeto for distribuido.
+Isso e ALGO RUIM. Tente surpreender seus usuarios. Lembre-se de nao assusta-los, mas encante-os.
+De a eles um pouco mais do que esperam. O pequeno esforco adicional necessario a inclusao de algum recurso orientado ao usuario no sistema sera recompensado inumeras vezes em termos de boa vontade.
+[p279] A medida que o projeto avancar, ouca seus usuarios em busca de pistas sobre os recursos que os deixariam felizes. Algumas coisas que voce pode adicionar com relativa facilidade que agradariam o usuario medio sao: Ajuda com baloes e dicas de ferramentas
+*
+Atalhos no teclado
+*
+Um breve guia de referencia como complemento do manual do
+*
+usuario Colorizacao
+*
+Analisadores de arquivos de log
+*
+Instalacao automatizada
+*
+Ferramentas para verificacao da integridade do sistema
+*
+A possibilidade de execucao de varias versoes do sistema para trei-
+*
+namento Uma tela inicial personalizada para a empresa
+*
+Todas essas coisas sao relativamente superficiais e nao sobrecarregam tanto o sistema com excesso de recursos. No entanto, cada uma delas mostrara a seus usuarios que a equipe de desenvolvimento se preocupou em produzir um grande sistema, um sistema que foi projetado para ser realmente aproveitado. Apenas se lembre de nao danificar o sistema ao adicionar esses novos recursos.
+As secoes relacionadas sao:
+Software satisfatorio,
+*
+pagina 31 Projeteis luminosos,
+*
+pagina 70 Prototipos e notas post-it,
+*
+pagina 75 O abismo dos requisitos,
+*
+pagina 224 Desafios As vezes, os criticos mais crueis de um projeto sao as pessoas que
+*
+trabalharam nele. Ja se sentiu desapontado por suas proprias expectativas nao terem sido atendidas por algo que voce produziu? Como e que isso ocorre? Talvez nao seja apenas a logica que esteja em acao aqui.
+O que seus usuarios comentam quando voce entrega um software? A
+*
+atencao deles as varias areas do aplicativo e proporcional ao esforco que voce investiu em cada uma delas? O que os encanta?
+[p280] ORGULHO E PRECONCEITO
+Voce ja nos encantou por tempo suficiente.
+Jane Austen, Orgulho e preconceito Programadores pragmaticos nao fogem da responsabilidade. Em vez disso, gostamos de aceitar desafios e de tornar nossa pericia conhecida. Quando somos responsaveis por um projeto ou codigo, fazemos um trabalho do qual possamos nos orgulhar.
+Assine seu trabalho Os artesaos da antiguidade ficavam orgulhosos em assinar seu trabalho. Voce tambem deve ficar.
+No entanto, as equipes de projeto ainda sao compostas por pessoas e essa regra pode causar problemas. Em alguns projetos, a ideia de propriedade do codigo pode causar problemas de cooperacao. As pessoas podem querem marcar territorio ou nao querer trabalhar em elementos basicos comuns. O projeto pode acabar como um grupo de feudos isolados. Voce pode se tornar preconceituoso para favorecer seu codigo e desmerecer o de seus colaboradores.
+Nao e isso que queremos. Voce nao deve defender ciosamente seu codigo contra intrusos; alem disso, deve tratar o codigo das outras pessoas com respeito. A regra moral ("Trate os outros como gostaria de ser tratado") e uma base de respeito mutuo entre os desenvolvedores sao criticas para que essa dica funcione.
+O anonimato, principalmente em grandes projetos, pode prover um solo fertil para o desleixo, erros, a preguica e um codigo ruim. E facil se ver apenas como uma peca da engrenagem, produzindo desculpas esfarrapadas em interminaveis relatorios de status em vez de um codigo interessante.
+Embora o codigo precise de um dono, ele nao precisa pertencer a uma pessoa. Na verdade, o bem-sucedido metodo eXtreme Programming de Kent Beck [URL 45] recomenda a propriedade comunitaria do codigo (mas isso tambem requer praticas adicionais, como a programacao em pares, para evitar os perigos do anonimato).
+[p281] Queremos ver o orgulho na autoria. "Escrevi isso e sou responsavel pelo meu trabalho". Sua assinatura deve ser reconhecida como um indicador de qualidade. As pessoas devem ver seu nome em um codigo e esperar que ele seja consistente, bem escrito, que tenha sido testado e documentado. Um trabalho realmente profissional. Com certeza, escrito por um profissional.
+Um programador pragmatico.
+[p282] 

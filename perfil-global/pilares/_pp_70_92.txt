@@ -1,0 +1,240 @@
+[p70] PROJETEIS LUMINOSOS
+Preparar, atirar, apontar...
+Ha duas maneiras de atirar com uma metralhadora no escuro.
+5 Voce pode calcular exatamente onde seu alvo esta (distancia, elevacao e azimute). Pode determinar as condicoes ambientais (temperatura, umidade, pressao atmosferica, vento e assim por diante). Determine tambem as especificacoes precisas dos cartuchos e balas que esta usando e suas interacoes com a arma que vai dispara-los. Entao, pode usar tabelas ou um computador de controle de fogo para calcular a direcao e a elevacao exatas do cano. Se tudo funcionar exatamente como especificado, suas tabelas estiverem corretas, e o ambiente nao mudar, as balas devem chegar perto do alvo.
+Ou voce pode usar projeteis luminosos.
+Os projeteis luminosos sao carregados a intervalos no pente de municao com as balas comuns. Quando disparados, seu fosforo se acende e deixa uma trilha pirotecnica da arma ate o que quer que atinjam. Se os projeteis estiverem atingindo o alvo, as balas comuns tambem estarao.
+Nao e de surpreender que os projeteis luminosos sejam preferidos ao trabalho exigido pelos calculos. O feedback e imediato e, ja que eles operam no mesmo ambiente da municao real, os efeitos externos sao reduzidos. A analogia pode ser violenta, mas se aplica a novos projetos, principalmente se voce estiver construindo algo que nao tenha sido construido antes. Como os atiradores, voce esta tentando acertar um alvo no escuro. Ja que seus usuarios nunca viram um sistema como esse antes, seus requisitos podem ser vagos. Ja que voce pode estar usando algoritmos, tecnicas, linguagens ou bibliotecas com os quais nao esta familiarizado, se vera diante de uma quantidade maior de incertezas. E ja que os projetos demoram para ser concluidos, pode ter certeza de que o ambiente em que esta trabalhando mudara antes que voce tenha terminado.
+A resposta classica e especificar o sistema pormenorizadamente. Produza grandes quantidades de papel descrevendo cada requisito, considerando cada incerteza e restringindo o ambiente. Dispare a arma usando a intuicao. Uma estimativa cuidadosa de ataque e entao atire e reze.
+5 Deixando a modestia de lado, ha muitas maneiras de disparar uma metralhadora no escuro, inclusive fechar os olhos e disparar a esmo. Mas essa e uma analogia e podemos tomar liberdades.
+[p71] Programadores pragmaticos, no entanto, tendem a preferir usar projeteis luminosos.
+Codigo que brilha no escuro Os projeteis luminosos funcionam porque operam no mesmo ambiente e sob as mesmas restricoes das balas reais. Eles chegam a seu alvo rapidamente, portanto, o atirador tem um feedback imediato. E, de um ponto de vista pratico, sao uma solucao relativamente barata.
+Para obter o mesmo efeito no codigo, estamos procurando algo que nos leve de um requisito ate algum aspecto do sistema final rapida, visivel e repetidamente.
+Use projeteis luminosos para encontrar o alvo Houve uma ocasiao em que assumimos um complexo projeto de marketing de bancos de dados cliente-servidor. Parte de seu requisito era a habilidade de especificar e executar consultas temporais. Os servidores eram um conjunto de bancos de dados relacionais e especializados. A GUI do cliente, escrita em Object Pascal, usava um conjunto de bibliotecas C para fornecer uma interface para os servidores. A consulta do usuario era armazenada no servidor em uma notacao de tipo Lisp antes de ser convertida em SQL otimizada no momento imediatamente anterior a execucao. Havia muitas incertezas e muitos ambientes diferentes, e ninguem sabia exatamente como a GUI deveria se comportar.
+Essa foi uma otima oportunidade para o uso de um codigo rastreador. Desenvolvemos a estrutura do front end, bibliotecas para representar as consultas e uma estrutura para a conversao de uma consulta armazenada em uma consulta especifica de banco de dados. Em seguida, reunimos tudo e verificamos se funcionava. Nessa versao inicial, tudo que podiamos fazer era enviar uma consulta que listasse todas as linhas de uma tabela, mas isso provou que a UI conseguia conversar com as bibliotecas, as bibliotecas conseguiam serializar e desserializar uma consulta e o servidor conseguia gerar SQL a partir do resultado. Nos meses seguintes, reconstruimos gradualmente essa estrutura basica, adicionando novas funcionalidades por meio da ampliacao paralela de cada componente do codigo rastreador. Quando a UI adicionava um novo tipo de consulta, a biblioteca crescia e a geracao de SQL se tornava mais sofisticada.
+[p72] O codigo rastreador nao e descartavel: e escrito para ser mantido indefinidamente. Ele contem toda a verificacao de erros, estruturacao, documentacao e autoverificacao que qualquer bloco de codigo de producao tem. Apenas nao e totalmente funcional. No entanto, uma vez que voce tiver atingido uma conexao de extremidade a extremidade entre os componentes de seu sistema, podera verificar o quanto esta proximo de seu alvo, fazendo ajustes se necessario. Quando atingir o alvo, sera facil incluir funcionalidades. O desenvolvimento por rastreamento e consistente com a ideia de que um projeto nunca esta concluido: sempre havera a necessidade de alteracoes e funcoes a adicionar. E uma abordagem incremental.
+A alternativa convencional e um tipo de abordagem de engenharia pesada: o codigo e dividido em modulos, que sao codificados isoladamente. Os modulos sao combinados em submontagens, tambem combinadas, ate um dia voce ter um aplicativo completo. So entao o aplicativo como um todo pode ser apresentado para o usuario e testado.
+A abordagem de codigo rastreador tem muitas vantagens:
+Os usuarios podem ver algo funcionando antes.
+*
+Se voce tiver comunicado com sucesso o que esta fazendo (consulte Grandes expectativas, pagina 277), seus usuarios saberao que estao vendo algo que ainda nao chegou ao fim. Eles nao ficarao desapontados pela falta de uma funcionalidade; ficarao entusiasmados em ver algum avanco que culminara em seu sistema. Tambem poderao contribuir a medida que o projeto avanca, o que aumentara a aceitacao. Provavelmente, esses mesmos usuarios serao as pessoas que lhe dirao o quanto cada execucao esta proxima do alvo.
+Os desenvolvedores constroem uma estrutura na qual podem tra-
+*
+balhar. O mais temivel pedaco de papel e aquele que nao tem nada escrito. Se voce tiver considerado todas as interacoes de uma ponta a outra de seu aplicativo e tiver incorporado-as ao codigo, sua equipe nao tera de criar tanta coisa a partir do zero. Isso fara com que todos sejam mais produtivos e encorajara a consistencia.
+Voce tera uma plataforma de integracao.
+*
+Quando o sistema for conectado de uma ponta a outra, voce tera um ambiente ao qual podera adicionar novos blocos de codigo uma vez que eles tiverem sido testados isoladamente. Em vez de tentar fazer uma integracao de uma so vez, estara integrando a cada dia (geralmente, muitas vezes ao dia). O impacto de cada nova alteracao ficara mais evidente, e as interacoes serao mais limitadas, portanto, a depuracao e os testes serao mais rapidos e precisos.
+[p73] Voce tera algo para demonstrar.
+*
+Os patrocinadores e os coordenadores de projetos tem uma tendencia a querer ver demonstracoes nas horas mais inconvenientes. Com um codigo rastreador, voce sempre tera algo para mostrar a eles.
+Voce sentira melhor o progresso.
+*
+Em um desenvolvimento com codigo rastreador, os desenvolvedores atacam os casos de uso um a um. Quando um e concluido, passam para o proximo. E mais facil avaliar o desempenho e demonstrar progressos para o usuario. Ja que cada desenvolvimento individual e menor, voce evitara a criacao daqueles blocos monoliticos de codigo que sao relatados como 95% concluidos semana apos semana.
+Nem sempre os projeteis luminosos acertam seu alvo Os projeteis luminosos mostram o que esta sendo atingido. Nem sempre o alvo e atingido. Portanto, e necessario ajustar a pontaria ate que eles atinjam o alvo. E isso que importa.
+O mesmo ocorre com um codigo rastreador. Voce usara a tecnica em situacoes em que nao tiver 100% de certeza de para onde esta indo. Nao deve ficar surpreso se suas primeiras tentativas falharem: o usuario dira "nao era isso que eu pretendia", os dados necessarios nao estarao disponiveis quando voce precisar deles, ou podem surgir problemas no desempenho. Pense em como alterar o que voce obteve para trazer para mais proximo do alvo e fique grato por ter usado uma metodologia de desenvolvimento simplificada. Um pequeno corpo de codigo apresenta pouca inercia - e facil e rapido altera-lo. Voce podera obter feedback sobre seu aplicativo e gerar uma nova versao mais precisa, mais rapida e mais barata do que com qualquer outro metodo. E ja que cada componente principal do aplicativo estara representado em seu codigo rastreador, seus usuarios poderao ter certeza de que o que estao vendo foi baseado na realidade e nao em uma especificacao por escrito. Codigo rastreador versus prototipos Voce pode estar achando que esse conceito de codigo rastreador nada mais e do que a criacao de prototipos com um nome agressivo. Ha uma diferenca. Com um prototipo, o objetivo e a exploracao de aspectos especificos do sistema final. Com um prototipo de verdade, voce descartara o que reuniu ao testar o conceito e recodificara apropriadamente usando as licoes que aprendeu.
+Por exemplo, digamos que voce estivesse produzindo um aplicativo que ajudasse transportadoras a determinar como embalar caixas de tamanho
+[p74] irregular em conteineres. Entre outros problemas, a interface de usuario tem de ser intuitiva e os algoritmos usados na determinacao da embalagem otima sao muito complexos.
+Voce pode criar um prototipo de interface para os usuarios finais em uma ferramenta de GUI. Poderia codificar apenas o suficiente para fazer a interface responder as acoes dos usuarios. Uma vez que eles tivessem concordado com o layout, poderia descarta-lo e codificar novamente, dessa vez com a logica de negocio por tras, usando a linguagem de destino. Da mesma forma, voce pode querer criar prototipos de varios algoritmos de empacotamento. Poderia codificar testes funcionais em uma linguagem indulgente de alto nivel como a linguagem Perl e codificar testes de desempenho de baixo nivel em algo mais proximo da maquina. Seja como for, uma vez que tivesse tomado sua decisao, teria de comecar novamente e codificar o algoritmo em seu ambiente final, criando a interface com o mundo real. Isso se chama criacao de prototipos e e muito util.
+A abordagem de codigo rastreador resolve um problema diferente. Voce tem de saber como o aplicativo inteiro se integra. Quer mostrar a seus usuarios como as interacoes funcionarao na pratica e quer dar a seus desenvolvedores um esboco da arquitetura a qual os codigos serao vinculados. Nesse caso, pode construir um rastreador composto por uma implementacao comum do algoritmo de empacotamento em conteineres (talvez algo do tipo primeiro a chegar, primeiro a ser atendido) e uma interface de usuario simples mas funcional. Uma vez que tiver todos os componentes do aplicativo conectados, tera uma estrutura para mostrar a seus usuarios e desenvolvedores. Com o tempo, adicionara a essa estrutura novas funcionalidades, substituindo rotinas stub. Mas a estrutura permanecera intacta e voce sabera que o sistema continuara se comportando como quando seu primeiro codigo rastreador foi concluido.
+A diferenca e tao importante que vale a pena repetir. A criacao de prototipos gera codigo descartavel. O codigo rastreador e simplificado mas completo e forma parte do esqueleto do sistema final. Considere a criacao de prototipos como o reconhecimento do terreno e a coleta de informacoes que ocorre antes de um projetil luminoso ser disparado.
+As secoes relacionadas sao:
+Software satisfatorio,
+*
+pagina 31 Prototipos e notas post-it,
+*
+pagina 75 A armadilha das especificacoes,
+*
+pagina 239 Grandes Expectativas,
+*
+pagina 277
+[p75] PROTOTIPOS E NOTAS POST-IT
+Muitos segmentos diferentes da industria usam prototipos para testar ideias especificas: a criacao de prototipos e muito mais barata do que a producao em tamanho natural. Fabricantes de carros, por exemplo, podem construir varios prototipos diferentes do projeto de um novo carro. Cada um e projetado para testar um aspecto especifico do carro - a aerodinamica, o estilo, caracteristicas estruturais etc. Um modelo em argila pode ser construido para o teste no tunel de vento, um modelo de madeira balsa e fita isolante pode atender o departamento de arte e assim por diante. Algumas empresas automobilisticas levam isso um pouco adiante e ja fazem grande parte do trabalho de modelagem no computador, reduzindo ainda mais os custos. Dessa forma, elementos de risco ou incertos podem ser testados sem comprometer a construcao do item real.
+Construimos prototipos de software da mesma maneira, e pelas mesmas razoes - analisar e expor o risco e oferecer chances de correcao a um custo bastante reduzido. Como os fabricantes de carros, podemos destinar um prototipo ao teste de um ou mais aspectos especificos de um projeto. Tendemos a pensar em prototipos baseados em codigo, mas nem sempre eles precisam ser assim. Como os fabricantes de carros, podemos construir prototipos com diferentes materiais. As notas post-it sao otimas para a criacao de prototipos de coisas dinamicas como o fluxo de trabalho e a logica do aplicativo. Uma interface de usuario pode ter um prototipo na forma de um desenho em um quadro branco, de um modelo nao funcional esbocado com um programa de desenho ou ser obtido com um construtor de interfaces.
+Os prototipos sao projetados para responder a apenas algumas questoes, portanto, sao muito mais baratos e rapidos de desenvolver do que aplicativos que entram em producao. O codigo pode ignorar detalhes triviais - triviais para voce nesse momento, mas provavelmente importantes para o usuario posteriormente. Se voce estivesse criando um prototipo de GUI, por exemplo, poderia usar resultados ou dados incorretos. Por outro lado, se estivesse apenas examinando aspectos computacionais ou de desempenho, poderia usar uma GUI bem simples ou talvez ate mesmo nenhuma GUI.
+Mas se voce estiver em um ambiente em que nao pode ignorar os detalhes, tera de se perguntar se esta realmente construindo um prototipo. Talvez um estilo de desenvolvimento do tipo projetil luminoso fosse mais apropriado nesse caso (consulte Projeteis luminosos, pagina 70).
+[p76] Coisas que devem ter um prototipo Que tipos de coisas voce deveria investigar com um prototipo? Qualquer uma que seja ariscada. O que quer que nao tenha sido testado antes ou que seja absolutamente critico para o sistema final. Qualquer coisa nao comprovada, experimental ou duvidosa. Algo com o que voce nao se sinta confortavel. Voce pode criar prototipos de Arquitetura
+*
+Nova funcionalidade em um sistema existente
+*
+Estrutura ou conteudo de dados externos
+*
+Ferramentas ou componentes de terceiros
+*
+Questoes de desempenho
+*
+Projeto de interface de usuario
+*
+A criacao de prototipos e uma experiencia de aprendizado. Seu valor nao esta no codigo produzido, mas nas licoes aprendidas. Essa e a razao real para a criacao de prototipos.
+Crie prototipos para aprender Como usar prototipos Na construcao de um prototipo, que detalhes voce pode ignorar? Precisao.
+*
+Talvez voce possa usar dados ficticios onde apropriado.
+Integralidade.
+*
+O prototipo pode funcionar apenas em um aspecto muito limitado, talvez so com um bloco pre-selecionado de dados de entrada e um item de menu.
+Robustez.
+*
+A verificacao de erros pode estar incompleta ou nem mesmo existir. Se voce se desviar do caminho pre-definido, o prototipo pode quebrar e queimar em uma gloriosa exibicao de pirotecnia. Sem problemas.
+Estilo.
+*
+E doloroso admitir isso em uma publicacao impressa, mas provavelmente o codigo do prototipo nao tera muita coisa no que diz respeito a comentarios ou documentacao. Voce pode produzir um grande volume de documentacao como resultado de sua experiencia com o prototipo, mas comparativamente muito pouco sera gerado no prototipo propriamente dito.
+[p77] Ja que um prototipo deve ocultar detalhes e enfocar aspectos especificos do sistema que esta sendo considerado, voce pode querer implementar prototipos usando uma linguagem de nivel muito alto - mais alto do que o resto do projeto (talvez uma linguagem como Perl, Python ou Tcl). Uma linguagem de script de alto nivel permitira que voce ignore varios detalhes (inclusive a especificacao dos tipos de dados) e mesmo assim produza um bloco de codigo funcional (embora incompleto ou lento).
+6 Se tiver de criar prototipos de interfaces de usuario, examine ferramentas como o TCL/Tk, Visual Basic, PowerBuilder ou Delphi.
+Linguagens de script funcionam bem como "cola" para a ligacao de partes de baixo nivel em novas combinacoes. No Windows, o Visual Basic pode agregar controles COM. O mais frequente e podermos usar linguagens como Perl e Python para agregar bibliotecas C de baixo nivel - manualmente ou automaticamente com ferramentas como o gratuitamente disponivel SWIG [URL 28]. Usando essa abordagem, voce pode reunir rapidamente os componentes existentes em novas configuracoes para ver como as coisas funcionam.
+Prototipo da arquitetura Muitos prototipos sao construidos para modelar o sistema inteiro que esta sendo considerado. Ao contrario do que ocorre no caso do desenvolvimento de tipo "projeteis luminosos", nenhum dos modulos individuais do sistema prototipo precisa ser particularmente funcional. Na verdade, talvez voce nao precise nem mesmo codificar para criar o prototipo da arquitetura - pode cria-lo em um quadro branco, com notas Post-it ou fichas (index cards). O que esta procurando e como o sistema se integra como um todo, novamente ignorando os detalhes. Aqui estao algumas areas especificas que voce pode querer examinar no prototipo da arquitetura:
+As responsabilidades dos componentes principais estao bem-defini-
+*
+das e sao apropriadas?
+As colaboracoes entre os componentes principais estao bem-defi-
+*
+nidas?
+A vinculacao foi reduzida?
+*
+E possivel identificar fontes de duplicacao?
+*
+As restricoes e definicoes de interfaces sao aceitaveis?
+*
+6 Se estiver examinando o desempenho absoluto (em vez do relativo), voce tera de usar uma linguagem que tenha desempenho semelhante ao da linguagem de destino.
+[p78] Cada modulo tem um caminho de acesso para os dados necessarios
+*
+durante a execucao? Ele tem esse acesso quando precisa?
+Esse ultimo item tende a gerar as maiores surpresas e os resultados mais importantes da experiencia de criacao de prototipos.
+Como nao usar prototipos Antes de iniciar qualquer criacao de prototipo baseada em codigo, certifique-se de que todos entendam que voce esta escrevendo codigo descartavel. Os prototipos podem ser enganosamente atraentes para pessoas que nao sabem que eles sao apenas prototipos. Voce deve deixar bem claro que esse codigo e descartavel, esta incompleto e nao pode ser concluido. E facil se deixar enganar pela aparente perfeicao de um prototipo demonstrado e os patrocinadores ou a gerencia do projeto podem insistir na implantacao do prototipo (ou de seu resultado) se voce nao definir claramente as expectativas. Lembre-os que voce pode construir um otimo prototipo de um novo carro a partir de madeira balsa e fita isolante, mas nao tentaria dirigi-lo no trafego da hora do rush!
+Se voce achar que ha uma grande possibilidade em seu ambiente ou cultura de que a finalidade do codigo-prototipo possa ser mal interpretada, talvez seja melhor usar a abordagem de tipo "projetil luminoso". Voce acabara obtendo uma estrutura solida na qual podera basear o desenvolvimento futuro.
+Quando usado apropriadamente, um prototipo pode economizar muito tempo, dinheiro, incomodos e frustracoes pela identificacao e correcao de possiveis locais problematicos no inicio do ciclo de desenvolvimento - o momento em que a correcao de erros e ao mesmo tempo barata e facil. As secoes relacionadas sao:
+O gato comeu meu codigo-fonte,
+*
+pagina 24 Comunique-se!
+*
+, pagina 40 Projeteis luminosos,
+*
+pagina 70 Grandes Expectativas,
+*
+pagina 277 Exercicios 4. O departamento de marketing gostaria de se reunir com voce para discutir alguns projetos de paginas da Web. Eles estao pensando Resposta na p. 302
+[p79] em mapas de imagens clicaveis que levem a outras paginas e assim por diante. Mas nao conseguem se decidir sobre um modelo para a imagem - talvez seja um carro, um telefone ou uma casa. Voce tem uma lista de paginas e conteudos de destino; eles gostariam de ver alguns prototipos. A proposito, voce tem 15 minutos. Que ferramentas pode usar?
+LINGUAGENS DE DOMINIO
+Os limites da linguagem sao os limites do mundo de uma pessoa. Ludwig Wittgesntein As linguagens de computador influenciam como consideramos um problema e como tratamos a comunicacao. Cada linguagem vem com uma lista de recursos - jargoes como tipificacao estatica versus dinamica, vinculacao inicial versus tardia, modelos de heranca (simples, multipla ou nenhuma) - todos podendo sugerir ou ocultar certas solucoes. Um projeto de solucao com o Lisp em mente produzira resultados diferentes de uma solucao baseada em um raciocinio no estilo C e vice-versa. Inversamente, e mais importante em nossa opiniao, a linguagem do dominio do problema tambem pode sugerir uma solucao de programacao.
+Tentamos sempre escrever codigo usando o vocabulario do dominio do aplicativo (consulte O abismo dos requisitos, pagina 244, onde sugerimos o uso de um glossario do projeto). Em alguns casos, podemos passar para o proximo nivel e realmente programar usando o vocabulario, a sintaxe e a semantica - a linguagem - do dominio.
+Quando ouvimos os usuarios de um sistema proposto, as vezes eles conseguem dizer exatamente como o sistema deve funcionar:
+Aguardar transacoes definidas pelo Regulamento ABC 12.3 em um conjunto de linhas X.25, converte-las para o formato 43B da empresa XYZ, retransmiti-las no uplink do satelite e armazenar para analise futura. Se seus usuarios tiverem varias instrucoes bem delimitadas como essas, voce podera inventar uma minilinguagem personalizada para o dominio do aplicativo que expresse exatamente o que eles querem:
+From X25LINE1 (Format=ABC123) { Put TELSTAR1 (Format=XYZ43B);
+Store DB;
+}
+[p80] Essa linguagem nao precisa ser executavel. Inicialmente, ela pode ser apenas uma maneira de capturar os requisitos do usuario - uma especificacao. No entanto, voce pode querer levar isso um passo adiante e implementar a linguagem. Sua especificacao passou a ser codigo executavel.
+Apos voce ter criado o aplicativo, os usuarios trazem um novo requisito: transacoes com saldos negativos nao devem ser armazenadas, mas retornadas nas linhas X.25 no formato original:
+From X25LINE1 (Format=ABC123) { if (ABC123.balance < 0) { Put X25LINE1 (Format=ABC123);
+} else { Put TELSTAR1 (Format=XYZ43B);
+Store DB;
+} } Foi facil, nao? Com o suporte apropriado, voce pode programar em um nivel muito proximo do dominio do aplicativo. Nao estamos sugerindo que seus usuarios finais programem nessas linguagens. Em vez disso, voce estara dando a si proprio uma ferramenta que lhe permitira trabalhar em um nivel mais proximo do dominio deles.
+Programe em um nivel proximo ao dominio do problema Independente de estar usando uma linguagem simples para configurar e controlar um programa aplicativo ou uma linguagem mais complexa para especificar regras ou procedimentos, achamos que voce deve considerar maneiras de fazer seu projeto se aproximar do dominio do problema. Codificando em um nivel mais alto de abstracao, voce ficara livre para se concentrar em resolver problemas do dominio e podera ignorar detalhes triviais da implementacao.
+Lembre-se de que ha muitos usuarios de um aplicativo. Ha o usuario final, que entende as regras empresariais e os resultados requeridos. Tambem temos usuarios secundarios: a equipe de operacoes, gerentes de configuracao e teste, programadores de suporte e manutencao, e futuras geracoes de desenvolvedores. Cada um desses usuarios tem seu proprio dominio de problema, e voce pode gerar miniambientes e linguagens para todos eles.
+[p81] Implementando uma minilinguagem Em sua forma mais simples, uma minilinguagem pode estar em um formato facilmente analisado baseado em linhas. Na pratica, e provavel que usemos mais essa forma do que qualquer outra. Ela pode ser analisada simplesmente com o uso de instrucoes switch, ou com o uso de expressoes regulares em linguagens de script como em Perl. A resposta ao Exercicio 5, encontrada na pagina 302, mostra uma implementacao simples em C. Voce tambem pode implementar uma linguagem mais complexa, com uma sintaxe mais formal. O truque aqui e definir a sintaxe primeiro usando uma notacao como a BNF.
+7 Uma vez que a gramatica e especificada, costuma-se converte-la para a sintaxe de entrada de um gerador de analisadores. Programadores de C e C++ vem usando o yacc (ou sua implementacao disponivel gratuitamente, o bison [URL 27]) ha anos. Esses programas estao documentados com detalhes no livro Lex and Yacc [LBM92]. Programadores de Java podem usar o javaCC, que pode ser encontrado em [URL 26]. A resposta ao Exercicio 7 encontrada na pagina 304 mostra um analisador criado com o uso do bison. Como ela mostra, 7 A BNF, ou forma de Backus-Naur, permite a especificacao recursiva de sintaxes independentes do contexto. Qualquer livro bom sobre analise ou construcao de compiladores abordara a BNF em (exaustivos) detalhes.
+Erros especificos do dominio Se voce estiver escrevendo na linguagem do dominio do problema, tambem podera executar uma validacao especifica do dominio, relatando problemas em termos que seus usuarios consigam entender. Pegue nosso aplicativo de switch da pagina anterior. Suponhamos que o usuario errasse na grafia do nome do formato:
+From X25LINE1 (Format=AB123) Se isso ocorresse em uma linguagem de programacao padrao de uso geral, talvez voce visse uma mensagem de erro padrao de uso geral:
+Syntax error: undeclared identifier Mas com uma minilinguagem, voce poderia emitir uma mensagem de erro usando o vocabulario do dominio:
+"AB123" is not a format. Known formats are ABC123, XYZ43B, PDQB, and 42.
+[p82] uma vez que voce souber a sintaxe, nao tera muito trabalho para criar minilinguagens simples.
+Ha outra maneira de implementar uma minilinguagem: estender uma existente. Por exemplo, voce poderia integrar uma funcionalidade de nivel de aplicativo ao (digamos) Python [URL 9] e escrever algo como record = X25LINE1.get(format=ABC123) if (record.balance < 0):
+X25LINE1.put(record, format=ABC123) else:
+TELSTAR1.put(record, format=XYZ43B) DB.store(record) Linguagens de dados e linguagens imperativas As linguagens que voce implementar poderao ser usadas de duas maneiras.
+As linguagens de dados produzem algum tipo de estrutura de dados usada por um aplicativo. Essas linguagens sao frequentemente usadas para representar informacoes de configuracao.
+Por exemplo, o programa sendmail e usado em todo o mundo para a circulacao de emails na Internet. Ele tem muitos recursos e beneficios excelentes, que sao controlados por um arquivo de configuracao de milhares de linhas, criado com o uso de uma linguagem de configuracao propria do sendmail: Mlocal, P=/usr/bin/procmail, F=lsDFMAw5:/|@qSPfhn9, S=10/30, R=20/40, T=DNS/RFC822/X-Unix, A=procmail -Y -a $h -d $u E claro que a legibilidade nao e um dos pontos fortes do sendmail. Ha anos, a Microsoft vem usando uma linguagem de dados que pode descrever menus, acessorios, caixas de dialogo e outros recursos do Windows. A Figura 2.2 da proxima pagina mostra um excerto de um arquivo de recurso tipico. Ele e muito mais facil de ler do que o exemplo do sendmail, mas e usado exatamente da mesma forma - e compilado para gerar uma estrutura de dados.
+As linguagens imperativas levam isso um passo adiante. Aqui, a linguagem e realmente executada e, portanto, pode conter instrucoes, estruturas de controle e elementos semelhantes (como no script da pagina 80). 8 Obrigado a Eric Vought por esse exemplo.
+[p83] Voce tambem pode usar suas proprias linguagens imperativas para facilitar a manutencao de programas. Por exemplo, voce pode ser solicitado a integrar informacoes de um aplicativo legado a seu novo trabalho de desenvolvimento de GUI. Uma maneira comum de fazer isso e por meio do screen scraping; seu aplicativo se conecta com o aplicativo de mainframe como se ele fosse um usuario humano comum, emitindo pressionamentos de tecla e "lendo" as respostas que recebe. Voce poderia desenvolver um script da interacao usando uma minilinguagem.
+locate prompt "SSN:" type "%s" social_security_number type enter waitfor keyboardunlock if text_at(10,14) is "INVALID SSN" return bad_ssn if text_at(10,14) is "DUPLICATE SSN" return dup_ssn # etc...
+Quando o aplicativo determina que e hora de inserir um numero de seguro social, ele chama o interpretador nesse script, que entao controla a transacao. Se o interpretador estiver embutido dentro do aplicativo, os dois poderao ate mesmo compartilhar dados diretamente (por exemplo, por um mecanismo de retorno de chamada).
+9 Na verdade, voce pode comprar ferramentas que so dao suporte a esse tipo de criacao de scripts. Tambem pode examinar pacotes de fonte aberta como o Expect, que fornece recursos semelhantes [URL 24].
+MAIN_MENU MENU
+{ POPUP "&File" {
+MENUITEM "&New", CM_FILENEW
+MENUITEM "&Open...", CM_FILEOPEN
+MENUITEM "&Save", CM_FILESAVE
+} }
+MY_DIALOG_BOX DIALOG 6, 15, 292, 287
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE |
+WS_CAPTION | WS_SYSMENU
+CAPTION "My Dialog Box" FONT 8, "MS Sans Serif" {
+DEFPUSHBUTTON "OK", ID_OK, 232, 16, 50, 14
+PUSHBUTTON "Help", ID_HELP, 232, 52, 50, 14 CONTROL "Edit Text Control", ID_EDIT1,
+"EDIT", WS_BORDER | WS_TABSTOP, 16, 16, 80, 56
+CHECKBOX "Checkbox", ID_CHECKBOX1, 153, 65, 42, 38,
+BS_AUTOCHECKBOX | WS_TABSTOP
+} Figura 2.2 Arquivo .rc do Windows.
+[p84] Aqui, voce esta programando no dominio do programador de manutencao. Quando o aplicativo de mainframe mudar, e os campos trocarem de lugar, o programador podera simplesmente atualizar sua descricao de alto nivel, em vez de ter de pesquisar os detalhes do codigo C.
+Linguagens autonomas e embutidas Uma minilinguagem nao precisa ser usada diretamente pelo aplicativo para ser util. Muitas vezes, podemos usar uma linguagem de especificacao para criar artefatos (inclusive metadados) que sejam compilados, lidos ou ate mesmo usados pelo proprio programa (consulte Metaprogramacao, pagina 166).
+Por exemplo, na pagina 122, descrevemos um sistema em que usamos Perl para gerar uma grande quantidade de derivacoes de uma especificacao de esquema original. Inventamos uma linguagem comum para expressar o esquema do banco de dados e entao geramos todas as formas dela que precisavamos - SQL, C, paginas da Web, XML e outras. O aplicativo nao usava a especificacao diretamente, mas dependia da saida produzida a partir dela. E comum embutir linguagens imperativas de alto nivel diretamente no aplicativo, para que elas sejam executadas quando o codigo for. E claro que esse e um recurso poderoso; voce pode alterar o comportamento de seu aplicativo alterando os scripts que ele le, tudo sem compilar. Isso pode simplificar significativamente a manutencao em um dominio de aplicativo dinamico.
+Facil desenvolvimento ou facil manutencao?
+Examinamos varias sintaxes diferentes, dos simples formatos baseados em linhas a sintaxes mais complexas que parecem linguagens reais. Ja que e necessario um esforco adicional para implementa-la, por que voce selecionaria uma sintaxe mais complexa?
+E preciso escolher entre extensibilidade e manutencao. Embora o codigo para a analise de uma linguagem "real" possa ser mais dificil de escrever, sera muito mais facil de as pessoas entenderem e de estender no futuro com novos recursos e funcionalidades. Linguagens simples demais talvez sejam faceis de analisar, mas podem ser cripticas - semelhante ao exemplo do sendmail da pagina 82.
+Dado que a maioria dos aplicativos excede o tempo de vida esperado para eles, provavelmente voce ficara melhor aceitando o desafio e adotando a
+[p85] linguagem mais complexa e legivel. O esforco inicial trara um retorno que o superara na forma de custos reduzidos de suporte e manutencao. As secoes relacionadas sao:
+Metaprogramacao,
+*
+pagina 166 Desafios Algum dos requisitos de seu projeto atual poderia ser expresso em uma
+*
+linguagem especifica de dominio? Seria possivel criar um compilador ou tradutor que pudesse gerar grande parte do codigo necessario? Se voce decidir adotar minilinguagens como uma maneira de pro-
+*
+gramar em um nivel mais proximo do dominio do problema, estara aceitando que algum esforco sera necessario para implementa-las. Consegue detectar maneiras pelas quais a estrutura que voce desenvolver para um projeto possa ser reutilizada em outros?
+Exercicios 5. Queremos implementar uma minilinguagem para controlar um pacote de desenho simples (talvez um sistema de graficos de tartaruga). A linguagem e composta por comandos de uma unica letra. Alguns comandos sao seguidos por um unico numero. Por exemplo, a entrada a seguir desenharia um retangulo.
+P 2  # seleciona caneta 2 (pen) D    # abaixa a caneta (down) W 2  # desenha 2 cm para a esquerda (west) N 1  # agora 1 cm para cima (north) E 2  # agora 2 cm para a direita (east) S 1  # agora volta para baixo (south) U    # levanta a caneta (up) Implemente o codigo que analisa essa linguagem. Ele deve ser projetado de um modo que seja simples adicionar novos comandos.
+6. Projete uma sintaxe BNF para analisar uma especificacao de hora. Todos os exemplos a seguir devem ser aceitos.
+4pm, 7:38pm, 23:42, 3:16, 3:16am 7. Implemente um analisador para a sintaxe BNF do Exercicio 6 usando o yacc, o bison ou um gerador de analisadores semelhante.
+8. Implemente o analisador de hora usando Perl. [Dica: Expressoes regulares geram bons analisadores].
+Resposta na p. 303 Resposta na p. 304 Resposta na p. 304 Resposta na p. 305
+[p86] ESTIMANDO
+Responda rapido! Quanto tempo demora enviar Guerra e Paz por uma linha de modem de 56k? Quanto espaco em disco voce precisara para um milhao de nomes e enderecos? Quanto tempo um bloco de 1.000 bytes leva para passar por um roteador? Quantos meses serao necessarios para a distribuicao de seu projeto?
+Ate certo ponto, essas sao todas perguntas irrelevantes - em todas faltam informacoes. E, mesmo assim, todas podem ser respondidas, contanto que voce se sinta confortavel fazendo estimativas. E, no processo de produzir uma estimativa, conseguira entender melhor o mundo que seus programas habitam.
+Aprendendo a estimar, e desenvolvendo essa habilidade ao ponto de ter uma percepcao intuitiva da dimensao das coisas, voce exibira uma aptidao aparentemente magica para determinar sua viabilidade. Quando alguem disser "enviaremos o backup por meio de uma linha ISDN para o site central", tera como saber intuitivamente se isso e viavel. Quando estiver codificando, tera como saber que subsistemas precisam de otimizacao e quais podem permanecer inalterados.
+Estime para evitar surpresas Como bonus, no fim desta secao, revelaremos a unica resposta correta a ser dada sempre que alguem lhe pedir uma estimativa.
+Que nivel de exatidao e suficientemente exato?
+Ate certo ponto, todas as respostas sao estimativas. O que ocorre e que algumas sao mais precisas do que as outras. Portanto, a primeira pergunta que voce tem de fazer para si mesmo quando alguem lhe pedir uma estimativa e em que contexto sua resposta sera considerada. E preciso um nivel alto de precisao ou o que estao querendo e um numero aproximado? Quando sua avo pergunta quando voce vai chegar, provavelmente ela
+*
+esta pensando se deve preparar o almoco ou o jantar. Por outro lado, um mergulhador preso debaixo d'agua e ficando sem ar deve querer uma resposta expressa em segundos.
+[p87] Qual e o valor de
+*
+? Se voce estiver considerando quanto de arame comprar para colocar ao redor de um canteiro de flores circular, entao "3" deve ser satisfatorio.
+10 Se estiver na escola, talvez "22/7" seja uma boa aproximacao. Se estiver na NASA, 12 casas decimais servirao.
+Uma das coisas interessantes sobre as estimativas e que as unidades usadas fazem diferenca na interpretacao do resultado. Se voce disser que algo levara cerca de 130 dias uteis, as pessoas terao expectativas de que o resultado nao demorara a chegar. No entanto, se disser "em cerca de seis meses", elas saberao que so devem procura-lo em algum momento entre cinco e sete meses a partir do momento atual. Os dois numeros representam a mesma duracao, mas provavelmente "130 dias" implique um nivel mais alto de precisao do que percebemos. Recomendamos que voce dimensione as estimativas de tempo como descrito a seguir:
+Duracao Calcule a estimativa em 1-15 dias 3-8 semanas 8-30 semanas mais de 30 semanas dias semanas meses pense bem antes de dar uma estimativa Portanto, se apos fazer todo o trabalho necessario, voce decidir que um projeto levara 125 dias uteis (25 semanas), pode querer distribuir uma estimativa de "cerca de seis meses".
+Os mesmos conceitos se aplicam a estimativas de qualquer quantidade: selecione as unidades de sua resposta para que reflitam a precisao que voce pretende comunicar.
+De onde vem as estimativas?
+Todas as estimativas sao baseadas em modelos do problema. Mas, antes de nos aprofundarmos demais nas tecnicas de construcao de modelos, temos de mencionar um truque de estimativa basico que sempre fornece boas respostas: pergunte a alguem que ja passou pelo problema. Antes de ficar ocupado demais com a construcao de modelos, procure alguem que esteve em uma situacao semelhante no passado.
+10 "3" tambem parece ser satisfatorio se voce for um legislador. Em 1897, o projeto de lei n 246 da Camara Legislativa do Estado de Indiana tentou decretar que daquele momento em diante  teria como valor "3". O projeto foi adiado indefinidamente na sua segunda leitura quando um professor de matematica lembrou que seus poderes nao se estendiam a criacao de leis da natureza.
+[p88] Veja como o problema foi resolvido. E improvavel que algum dia voce encontre uma coincidencia exata, mas ficaria surpreso com o numero de vezes em que e possivel se basear com sucesso nas experiencias dos outros.
+Entenda o que esta sendo pedido A primeira parte de qualquer exercicio de estimativa e tentar entender o que esta sendo pedido. Assim como as questoes de precisao discutidas acima, voce precisa conhecer o escopo do dominio. Geralmente, isso esta implicito no pedido, mas voce tem de adquirir o habito de pensar no escopo antes de comecar a estimar. Com frequencia, o escopo que voce escolher formara parte da resposta dada: "Supondo que nao haja acidentes de transito e haja gasolina no carro, devo chegar em 20 minutos". Construa um modelo do sistema Essa e a parte divertida da estimativa. A partir do que entendeu do que esta sendo pedido, construa um modelo mental basico aproximado. Se estiver estimando tempos de resposta, seu modelo pode envolver um servidor e algum tipo de trafego recebido. Para um projeto, o modelo pode ser composto pelas etapas que sua empresa usa durante o desenvolvimento, com um quadro bem geral de como o sistema pode ser implementado.
+A construcao de modelos pode ser tanto criativa quanto util a longo prazo. Geralmente, o processo de construcao do modelo leva a descobertas de padroes e processos subjacentes que nao eram aparentes superficialmente. Voce pode ate querer reexaminar o pedido original: "Voce pediu uma estimativa da execucao de X. No entanto, parece que Y, uma variante de X, pode ser executado na metade do tempo e so um recurso seria perdido". A construcao do modelo introduz imprecisoes no processo de estimativa. Isso e inevitavel e tambem benefico. Voce esta trocando a simplicidade do modelo por precisao. Dobrar o esforco na construcao do modelo pode lhe dar apenas um pequeno aumento na precisao. Sua experiencia lhe dira quando deve parar de detalhar.
+Divida o modelo em componentes Uma vez que tiver um modelo, voce podera decompo-lo em componentes. Sera preciso descobrir as regras matematicas que descrevem como esses componentes interagem. As vezes, um componente contribui com um unico valor adicionado ao resultado. Alguns componentes podem fornecer
+[p89] fatores de multiplicacao, enquanto outros podem ser mais complicados (como os que simulam a chegada de trafego em um no).
+Voce descobrira que normalmente cada componente tem parametros que afetam como ele contribui para o modelo como um todo. Nesse estagio, simplesmente identifique cada parametro.
+De a cada parametro um valor Uma vez que tiver isolado os parametros, voce podera examina-los atribuindo um valor a cada um. E esperado que alguns erros sejam introduzidos nessa etapa. O truque e descobrir que parametros tem maior impacto sobre o resultado e se concentrar em obte-los corretamente. Normalmente, parametros cujos valores sao adicionados a um resultado sao menos significativos do que os que sao multiplicados ou divididos. Dobrar a velocidade de uma linha pode dobrar a quantidade de dados recebida em uma hora, enquanto adicionar um retardo de 5 milissegundos no trafego nao tera nenhum efeito perceptivel.
+Voce deve ter uma maneira justificavel de calcular esses parametros criticos. Para o exemplo do enfileiramento, pode querer calcular a taxa real de chegada de transacoes do sistema existente ou encontrar um sistema de calculo semelhante. Da mesma forma, voce poderia calcular o tempo atual de atendimento de uma solicitacao ou criar uma estimativa usando as tecnicas descritas nesta secao. Na verdade, com frequencia voce percebera que esta baseando uma estimativa em outras subestimativas. E ai que seus maiores erros serao introduzidos.
+Calcule as respostas So nos casos mais simples uma estimativa tera uma unica resposta. Voce pode ficar satisfeito em dizer "posso percorrer cinco quarteiroes da cidade em 15 minutos". No entanto, a medida que os sistemas ficarem mais complexos, vai querer embasar suas respostas. Faca varios calculos, mudando os valores dos parametros criticos, ate descobrir quais realmente conduzem o modelo. Uma planilha pode ser de grande ajuda. Em seguida, embase suas respostas segundo esses parametros. "O tempo de resposta sera de cerca de tres quartos de um segundo se o sistema tiver um barramento SCSI e 64MB de memoria e de um segundo com 48MB de memoria". (Observe como "tres quartos de um segundo" transmite uma sensacao de precisao diferente de 750 milissegundos).
+Durante a fase de calculo, voce pode comecar a obter repostas que parecam estranhas. Nao descarte-as com muita rapidez. Se sua aritmetica
+[p90] estiver correta, provavelmente voce nao entendeu bem o problema ou seu modelo esta errado. Essas informacoes sao valiosas.
+Acompanhe sua habilidade em estimar Achamos uma boa ideia que voce registre suas estimativas para que possa ver o quanto chegou perto. Se uma estimativa em nivel mais amplo envolver subestimativas de calculo, registre-as tambem. Com frequencia, voce achara suas estimativas muito boas - na verdade, apos algum tempo, vai esperar esse resultado.
+Quando uma estimativa se mostrar errada, nao de de ombros e deixe para la. Descubra por que o resultado foi diferente de seu palpite. Voce pode ter escolhido alguns parametros nao adequados a realidade do problema. Talvez seu modelo estivesse errado. Independente da razao, passe algum tempo tentando descobrir o que ocorreu. Se fizer isso, sua proxima estimativa sera melhor.
+Estimando cronogramas de projetos As regras comuns para o calculo de estimativas podem ser inuteis diante das complexidades e peculiaridades de um desenvolvimento de aplicativo de tamanho consideravel. Achamos que a unica maneira de determinar o cronograma de um projeto e ganhando experiencia nesse mesmo projeto. Isso nao precisa ser um paradoxo se voce praticar o desenvolvimento incremental, repetindo as etapas a seguir.
+Verifique os requisitos
+*
+Analise o risco
+*
+Projete, implemente, integre
+*
+Valide com os usuarios
+*
+Inicialmente, e provavel que voce tenha apenas uma vaga ideia de quantas iteracoes serao necessarias ou de quanto elas podem demorar. Alguns metodos demandam que isso seja detalhado como parte do plano inicial, mas, exceto para os projetos mais comuns, e um erro faze-lo. A menos que voce esteja criando um aplicativo semelhante a um anterior, com a mesma equipe e a mesma tecnologia, estaria apenas supondo.
+Portanto, voce deve concluir a codificacao e o teste da funcionalidade inicial e marca-los como o fim do primeiro incremento. Com base nessa experiencia, podera aperfeicoar sua suposicao inicial quanto ao numero de iteracoes e ao que pode ser incluido em cada uma. A suposicao
+[p91] melhorara a cada vez e a confianca no cronograma crescera na mesma medida.
+Reexamine o cronograma junto ao codigo Isso pode nao ser bem-visto pela gerencia, que normalmente quer um numero consistente e definitivo ate mesmo antes de o projeto comecar. Voce tera de ajuda-los a entender que a equipe, sua produtividade e o ambiente determinarao o cronograma. Formalizando isso, e aperfeicoando o cronograma como parte de cada iteracao, estara dando a eles as estimativas de cronograma mais precisas que puder.
+O que dizer quando lhe pedirem uma estimativa Diga "Dou um retorno depois".
+Quase sempre obtemos resultados melhores quando reduzimos a velocidade do processo e passamos algum tempo examinando as etapas que descrevemos nesta secao. Estimativas dadas na maquina de cafe vao (como o cafe) lhe fazer mal depois.
+As secoes relacionadas sao:
+Velocidade do algoritmo,
+*
+pagina 199 Desafios Comece a manter um registro de suas estimativas. Em cada uma,
+*
+verifique seu nivel de precisao. Se o erro ultrapassar os 50%, tente descobrir onde se enganou.
+Exercicios 9. Alguem lhe faz a pergunta "Qual tem maior largura de banda: uma linha de comunicacoes de 1 Mbps ou uma pessoa caminhando entre dois computadores com uma fita de 4GB cheia em seu bolso?" Que restricoes voce fara a resposta para demonstrar que seu escopo esta correto? (Por exemplo, voce poderia dizer que o tempo necessario ao acesso a fita e ignorado).
+10. Entao, qual tem maior largura de banda?
+Resposta na p. 305 Resposta na p. 306
+[p92] 

@@ -1,0 +1,238 @@
+[p47] Ha certas dicas e truques que se aplicam a todos os niveis de desenvolvimento de software, ideias quase axiomaticas e processos praticamente universais. No entanto, raramente essas abordagens sao documentadas como deveriam; quase sempre as encontramos anotadas como frases estranhas em discussoes de projeto, gerenciamento de tarefas ou codificacao. Neste capitulo, reuniremos essas ideias e processos. As primeiras duas secoes, Os Males da Duplicacao e Ortogonalidade, estao intimamente relacionadas. A primeira o advertira a nao duplicar informacoes em todos os seus sistemas, e a segunda a nao dividir algum bloco de informacoes em varios componentes do sistema.
+A medida que a velocidade da mudanca aumenta, fica cada vez mais dificil manter nossos aplicativos relevantes. Em Reversibilidade, examinaremos algumas tecnicas que o ajudarao a desassociar seus projetos de seu ambiente variavel.
+As duas secoes seguintes tambem estao relacionadas. Em Projeteis Luminosos, falaremos sobre um estilo de desenvolvimento que lhe permitira coletar requisitos, testar projetos e implementar codigos ao mesmo tempo. Isso pode soar bom demais para ser verdade e realmente e: os desenvolvimentos do tipo "projetil luminoso" (tracer bullet) nem sempre sao aplicaveis. No caso em que nao sao, a secao Prototipos e notas post-it mostra como usar prototipos para testar arquiteturas, algoritmos, interfaces e ideias.
+Conforme a ciencia da computacao evolui, os projetistas estao produzindo linguagens de nivel cada vez mais alto. Embora um compilador que aceite a ordem "execute" ainda nao tenha sido inventado, em Linguagens de Dominio apresentamos algumas sugestoes mais modestas que voce pode implementar por sua propria conta.
+Uma Abordagem Pragmatica
+[p48] Para concluir, todos trabalhamos em um mundo de tempo e recursos limitados. Voce pode sobreviver melhor a essas duas carencias (e manter seus chefes mais satisfeitos) se conseguir estimar quanto tempo as tarefas vao demorar, o que abordamos em Estimando.
+Mantendo esses principios basicos em mente durante o desenvolvimento, voce podera escrever codigos melhores, mais rapidos e mais consistentes. Pode ate dar a impressao de que isso e facil.
+OS MALES DA DUPLICACAO
+Fornecer ao computador dois blocos de informacoes contraditorios era a maneira preferida do capitao James T. Kirk, de Jornada nas Estrelas, desativar uma inteligencia artificial invasora. Infelizmente, o mesmo principio tambem pode danificar seu codigo.
+Como programadores, coletamos, organizamos, editamos e aproveitamos informacoes. Documentamos informacoes em especificacoes, damos-lhes vida nos codigos em execucao e as usamos para fornecer as verificacoes necessarias durante os testes.
+Infelizmente, as informacoes nao sao estaveis. Elas mudam - frequentemente, com rapidez. Sua compreensao de um requisito pode mudar apos uma reuniao com o cliente. O governo muda um regulamento e uma determinada logica de negocio fica desatualizada. Testes podem mostrar que o algoritmo selecionado nao funcionara. Toda essa instabilidade significa que gastamos uma grande parte de nosso tempo em atividades de manutencao, reorganizando e retrabalhando as informacoes em nossos sistemas.
+A maioria das pessoas considera que a manutencao comeca quando um aplicativo e lancado, que a manutencao significa corrigir erros e melhorar recursos. Achamos que essas pessoas estao erradas. Os programadores estao constantemente em atividades de manutencao. Nossa compreensao muda diariamente. Novos requisitos surgem quando estamos projetando ou codificando. O ambiente tambem pode mudar. Independente da razao, a manutencao nao e uma atividade isolada, mas uma parte rotineira do processo de desenvolvimento como um todo.
+Quando trabalhamos em manutencao, temos de encontrar e alterar as representacoes das coisas - os blocos de informacoes embutidos no aplicati-
+[p49] vo. O problema e que e facil duplicar informacoes nas especificacoes, processos e programas que desenvolvemos, e, quando fazemos isso, criamos um pesadelo para a hora da manutencao - um pesadelo que comeca bem antes de o aplicativo ser lancado.
+Achamos que a unica maneira de desenvolver software de maneira confiavel, e de tornar nossos desenvolvimentos mais faceis de entender e editar, e seguir o que chamamos de principio NSR:
+CADA BLOCO DE INFORMACOES DEVE TER UMA REPRESENTACAO OFICIAL, EXCLUSIVA E SEM AMBIGUIDADES DENTRO DE UM SISTEMA.
+Por que o chamamos de NSR?
+NSR - Nao se repita A alternativa e o mesmo item ser representado em dois ou mais locais. Se voce alterar um, tera de lembrar de alterar os outros, ou, como no caso dos computadores alienigenas, seu programa travara devido a uma contradicao. Nao e uma questao de se voce vai lembrar: e uma questao de quando esquecera.
+Voce vera o principio NSR ser mencionado novamente em alguns locais no decorrer deste livro, geralmente em contextos que nao tenham nada a ver com codificacao. Achamos que ele e um dos mais importantes recursos da caixa de ferramentas do programador pragmatico.
+Nesta secao, descreveremos os problemas da duplicacao e sugeriremos estrategias gerais para a sua manipulacao.
+Como surge a duplicacao?
+Grande parte dos casos de duplicacao que encontramos se enquadra em uma das categorias a seguir:
+Duplicacao imposta.
+*
+Os desenvolvedores acham que nao tem escolha - o ambiente parece pedir a duplicacao.
+Duplicacao inadvertida.
+*
+Os desenvolvedores nao percebem que estao duplicando informacoes.
+Duplicacao impaciente.
+*
+Os desenvolvedores ficam com preguica e duplicam porque parece mais facil.
+[p50] Duplicacao entre desenvolvedores.
+*
+Varias pessoas de uma equipe (ou de equipes diferentes) duplicam um bloco de informacoes.
+Examinemos esses quatro casos da duplicacao com mais detalhes. Duplicacao imposta As vezes, a duplicacao parece ser imposta a nos. Padroes de projeto podem requerer documentos contendo informacoes duplicadas ou comentarios que dupliquem informacoes no codigo. Tambem ha o caso de varias plataformas de destino, cada uma demandando suas proprias linguagens de programacao, bibliotecas e ambientes de desenvolvimento, o que nos faria duplicar definicoes e procedimentos compartilhados. As proprias linguagens de programacao requerem certas estruturas que duplicam informacoes. Todos nos ja trabalhamos em situacoes em que nao tivemos como evitar a duplicacao de informacoes. E, mesmo assim, geralmente ha maneiras de mantermos cada bloco de informacoes em um local, honrando o principio NSR e tornando nossas vidas mais faceis. Aqui estao algumas tecnicas.
+Varias representacoes das informacoes. No nivel da codificacao, com frequencia precisamos das mesmas informacoes representadas de diferentes formas. Poderiamos estar criando um aplicativo cliente-servidor, usando linguagens diferentes no cliente e no servidor, e ter de representar alguma estrutura compartilhada em ambos. Poderiamos precisar de uma classe cujos atributos espelhassem o esquema de uma tabela de banco de dados. Voce poderia estar escrevendo um livro e querer incluir excertos de programas que tambem fosse compilar e testar.
+Normalmente, com um pouco de habilidade conseguimos eliminar a necessidade de duplicacao. A solucao costuma ser a criacao de um gerador de codigo ou filtro simples. Estruturas de varias linguagens podem ser construidas a partir da mesma representacao em metadados com o uso de um gerador de codigo simples sempre que o software for compilado (um exemplo disso e mostrado na Figura 3.4, pagina 128). Definicoes de classes podem ser geradas automaticamente a partir do esquema de banco de dados online ou a partir dos metadados usados na construcao do esquema. Os trechos de codigo deste livro sao inseridos por um pre-processador sempre que formatamos o texto. O truque e tornar o processo ativo: essa nao pode ser uma conversao feita apenas uma vez ou voltaremos a duplicacao dos dados.
+[p51] Documentacao no codigo. Os programadores sao instruidos a comentar seu codigo: um bom codigo tem varios comentarios. Infelizmente, nunca explicam para eles por que o codigo precisa de comentarios: um codigo inadequado requer muitos comentarios.
+O principio NSR nos ensina que devemos manter as informacoes de baixo nivel no codigo, onde e o lugar delas, e reservar os comentarios para outras explicacoes de alto nivel. Caso contrario, estaremos duplicando informacoes e cada mudanca significara alteracoes tanto no codigo quanto nos comentarios. Inevitavelmente, os comentarios ficarao desatualizados e comentarios nao confiaveis sao piores do que nenhum comentario (consulte Tudo se resume a escrever, pagina 270, para obter mais informacoes sobre comentarios).
+Documentacao e codigo. Voce redige a documentacao e entao escreve o codigo. Algo muda e voce corrige a documentacao e atualiza o codigo. Tanto a documentacao quanto o codigo contem representacoes das mesmas informacoes. E todos nos sabemos que, no calor do momento, com os prazos chegando ao fim e clientes importantes reclamando, tendemos a adiar a atualizacao da documentacao.
+Em uma ocasiao, Dave trabalhou no switch de um telex internacional. E compreensivel que o cliente demandasse uma exaustiva especificacao de testes e exigisse que o software passasse em todos eles a cada entrega. Para assegurar que os testes refletissem precisamente a especificacao, a equipe os gerou programaticamente a partir da propria documentacao. Quando o cliente corrigia a especificacao, o conjunto de testes mudava automaticamente. Uma vez que a equipe conseguiu convencer o cliente de que o procedimento era consistente, a geracao de testes de aceitacao passou a levar apenas alguns segundos.
+Problemas de linguagem. Muitas linguagens impoem uma duplicacao consideravel na fonte. Geralmente, isso ocorre quando a linguagem separa a interface de um modulo de sua implementacao. As linguagens C e C++ tem arquivos de cabecalho que duplicam os nomes e informacoes de tipo de variaveis, funcoes e classes (no caso da C++) exportadas. A linguagem Object Pascal chega a duplicar essas informacoes no mesmo arquivo. Se voce estiver usando chamadas de procedimento remoto ou o CORBA [URL 29], duplicara informacoes de interface entre a especificacao da interface e o codigo que a implementa.
+Nao ha uma tecnica facil para o atendimento dos requisitos de uma linguagem. Embora alguns ambientes de desenvolvimento ocultem a neces-
+[p52] sidade de arquivos de cabecalho gerando-os automaticamente, e o Object Pascal permita a abreviacao de declaracoes de funcao repetidas, geralmente so temos o que e fornecido. Pelo menos para a maioria dos problemas relativos a linguagem, um arquivo de cabecalho que estiver em desacordo com a implementacao gerara algum tipo de erro de compilacao ou ligacao. Voce ainda podera obter algo errado, mas sera informado disso logo que ocorrer.
+Considere tambem os comentarios de arquivos de cabecalho e implementacao. Nao ha por que duplicar um comentario de cabecalho de funcao ou classe entre dois arquivos. Use os arquivos de cabecalho para documentar questoes relacionadas a interface e os arquivos de implementacao para documentar os detalhes essenciais que os usuarios de seu codigo nao precisam saber.
+Duplicacao inadvertida As vezes, a duplicacao ocorre como resultado de erros no projeto. Examinemos um exemplo proveniente da industria de distribuicao. Suponhamos que nossa analise revelasse que, entre outros atributos, um caminhao tivesse um tipo, um numero de licenca e um motorista. Da mesma forma, uma rota de distribuicao e a combinacao de uma rota, um caminhao e um motorista. Codificariamos algumas classes com base nessas informacoes.
+Mas o que aconteceria se Sally ficasse doente e tivessemos de mudar os motoristas? Tanto Caminhao quanto RotaDeDistribuicao tem um motorista. Qual alterariamos? E claro que essa duplicacao e ruim. Normalize-a de acordo com o modelo de negocio subjacente - um caminhao tem realmente um motorista como parte de seu conjunto de atributos subjacente? E a rota? Ou talvez precisemos de um terceiro objeto que reuna um motorista, um caminhao e uma rota. Independente da solucao, evite esse tipo de dado nao normalizado.
+Ha um tipo de dado nao normalizado um pouco menos obvio que ocorre quando temos varios elementos de dados que sao mutuamente dependentes. Examinemos uma classe que representa uma linha:
+class Line { public:
+Point start;
+Point end;
+double length;
+};
+[p53] A primeira vista, essa classe pode parecer aceitavel. E claro que uma linha tem um inicio e um fim e sempre tera um comprimento (mesmo se ele for zero). Mas temos duplicacao. O comprimento e definido pelos pontos inicial e final: altere um dos pontos e o comprimento mudara. E melhor tornar o comprimento um campo calculado:
+class Line { public:
+Point start;
+Point end;
+double length() { return start.distanceTo(end); } };
+Mais adiante no processo de desenvolvimento, voce pode optar pela violacao do principio NSR por razoes de desempenho. Isso costuma ocorrer quando precisamos armazenar dados em cache para evitar a repeticao de operacoes onerosas. O segredo e localizar o impacto. A violacao nao e exposta ao ambiente externo: so os metodos internos da classe tem de manter tudo nos lugares.
+class Line { private:
+bool changed;
+double length;
+Point start;
+Point end;
+public:
+void setStart(Point p) { start = p; changed = true; } void setEnd(Point p) { end = p; changed = true; } Point getStart(void){ return start; } Point getEnd(void){ return end; } double getLength() { if (changed) { length = start.distanceTo(end);
+changed = false;
+} return length;
+} };
+Esse exemplo tambem ilustra uma questao importante das linguagens orientadas a objetos como a linguagem Java e C++. Onde possivel, use funcoes acessadoras para ler e gravar os atributos de objetos. 1 Isso tornara mais facil adicionar funcionalidades, como o armazenamento em cache, no futuro.
+1 O uso de funcoes acessadoras esta de acordo com o principio do Acesso Uniforme de Meyer [Mey97b], que declara que "Todos os servicos oferecidos por um modulo devem estar disponiveis por meio de uma notacao uniforme, o que nao revela se sao implementados por armazenamento ou calculo".
+[p54] Duplicacao impaciente Todo projeto sofre pressoes de tempo - forcas que podem levar os melhores desenvolvedores a tomar atalhos. Precisa de uma rotina semelhante a uma ja escrita? Voce ficara tentado a copiar a original e fazer algumas alteracoes. Precisa de um valor para representar uma quantidade maxima de pontos? Se eu alterar o arquivo de cabecalho, o projeto inteiro sera reconstruido. Talvez deva apenas usar um numero literal aqui; e nesse outro local; e aqui tambem. Precisa de uma classe como as do tempo de execucao Java? A fonte esta disponivel, portanto, por que nao apenas copia-la e fazer as alteracoes necessarias (apesar do que e autorizado na licenca)?
+Caso se sinta tentado, lembre-se do aforismo popular "atalhos causam grandes atrasos". Voce poderia muito bem economizar alguns segundos agora, mas correndo o risco de perder horas depois. Considere os problemas envolvidos no fiasco Y2K. Muitos foram causados pela preguica dos desenvolvedores que nao parametrizaram o tamanho dos campos de data ou implementaram bibliotecas de servicos de data centralizadas.
+A duplicacao impaciente e um tipo facil de detectar e manipular, mas exige disciplina e a disposicao de se preocupar antes para nao ter problemas depois.
+Duplicacao entre desenvolvedores Por outro lado, talvez o tipo de duplicacao mais dificil de detectar e manipular ocorra entre diferentes desenvolvedores em um projeto. Conjuntos inteiros de funcionalidade podem ser duplicados inadvertidamente e essa duplicacao pode passar despercebida por anos, levando a problemas de manutencao. Ouvimos falar de fonte fidedigna sobre um estado dos Estados Unidos cujos sistemas de computadores governamentais foram verificados em relacao a compatibilidade com o Y2K. A auditoria verificou mais de 10.000 programas, cada um contendo sua propria versao da validacao de numeros de seguro social.
+Em um nivel geral, lide com o problema tendo um projeto claro, um lider exigente e tecnico (consulte a pagina 250 de Equipes Pragmaticas) e uma divisao bem clara das responsabilidades dentro do projeto. Mas, no nivel modular, o problema e mais traicoeiro. Funcionalidades ou dados normal-
+[p55] mente necessarios que nao se enquadrarem em uma area de responsabilidade obvia podem ser implementados repetidamente.
+Achamos que a melhor maneira de lidar com isso e encorajar a comunicacao ativa e frequente entre desenvolvedores. Estabeleca foruns para a discussao de problemas comuns (em projetos passados, estabelecemos grupos de noticias privados na Usenet para permitir que desenvolvedores trocassem ideias e fizessem perguntas, o que fornece uma maneira de comunicacao nao invasiva - ate mesmo entre varios sites - ao mesmo tempo em que retem um historico permanente de tudo que foi dito). Designe um membro da equipe como o bibliotecario do projeto, cuja funcao sera facilitar a troca de conhecimentos. Tenha um local central na arvore de fontes em que rotinas e scripts utilitarios possam ser depositados. E leia o codigo-fonte e a documentacao de outras pessoas, informalmente ou durante revisoes de codigo. Voce nao estara bisbilhotando - estara aprendendo com elas. Lembre-se tambem de que o acesso e reciproco - nao se incomode com o fato de outras pessoas examinarem (ou escarafuncharem?) o seu codigo.
+Facilite a reutilizacao O que voce esta tentando fazer e cultivar um ambiente em que seja mais facil encontrar e reutilizar coisas existentes em vez de cria-las novamente. Se nao for facil, as pessoas nao o farao. E se voce nao conseguir encorajar a reutilizacao, pode duplicar informacoes.
+As secoes relacionadas sao:
+Ortogonalidade,
+*
+pagina 56 Manipulacao de texto,
+*
+pagina 121 Geradores de codigo,
+*
+pagina 124 Refatoracao
+*
+, pagina 206 Equipes pragmaticas,
+*
+pagina 246 Automacao onipresente,
+*
+pagina 252 Tudo se resume a escrever,
+*
+pagina 270
+[p56] ORTOGONALIDADE
+A ortogonalidade e um conceito critico quando queremos produzir sistemas que sejam faceis de projetar, construir, testar e estender. No entanto, raramente o conceito de ortogonalidade e ensinado diretamente. Com frequencia, e uma caracteristica implicita de varios outros metodos e tecnicas que aprendemos. Isso e um erro. Quando voce aprender a aplicar o principio da ortogonalidade diretamente, notara uma melhora imediata na qualidade dos sistemas que produzir.
+O que e ortogonalidade?
+"Ortogonalidade" e um termo emprestado da geometria. Duas linhas sao ortogonais quando seu ponto de origem e um angulo reto, como os eixos de um grafico. Em termos de vetor, as duas linhas sao independentes. Mova-se ao longo de uma delas e sua posicao projetada sobre a outra nao mudara.
+Em computacao, o termo foi introduzido para representar um tipo de independencia ou desvinculacao. Duas ou mais coisas sao ortogonais quando alteracoes em uma nao afetam as outras. Em um sistema bem projetado, o codigo dos bancos de dados sera ortogonal a interface do usuario: voce pode alterar a interface sem afetar o banco de dados e trocar de banco de dados sem alterar a interface.
+Antes de examinar as vantagens dos sistemas ortogonais, examinemos um sistema que nao e ortogonal.
+Um sistema nao ortogonal Voce esta em um helicoptero visitando o Grand Canyon, quando o piloto, que cometeu o erro obvio de comer peixe no almoco, repentinamente murmura e desmaia. Felizmente, ele o deixou flutuando a 30 metros acima do solo. Voce pondera que a alavanca de inclinacao coletiva 2 deve controlar a sustentacao geral, portanto, abaixa-la um pouco iniciara uma descida 2 Os helicopteros tem quatro controles basicos. O ciclico e a alavanca que voce segura em sua mao direita. Mova-o e o helicoptero se movera na direcao correspondente. Sua mao esquerda segura a alavanca de inclinacao coletiva. Puxe-a e aumentara a inclinacao em todas as pas, ganhando altura. No fim da alavanca de inclinacao, fica a aceleracao. Para concluir, voce tem dois pedais, que variam a quantidade de empuxo do rotor traseiro e, portanto, ajudam a virar o helicoptero. move-se paralela ao eixo X nenhuma alteracao no eixo Y
+[p57] suave em direcao ao solo. No entanto, ao tentar fazer isso, descobre que a vida nao e tao simples. O nariz do helicoptero desce, e isso da inicio a uma descida em espiral para a esquerda. De repente, voce descobre que esta no comando de um sistema em que cada tentativa de controle tem efeitos secundarios. Abaixe a alavanca esquerda e tera de compensar isso puxando a alavanca direita para tras e pressionar o pedal direito. Porem, cada uma dessas mudancas afetara todos os controles novamente. Subitamente, voce esta manipulando um sistema complexo, em que cada mudanca afeta todos os outros movimentos. Sua carga de trabalho e fenomenal: suas maos e pes estao constantemente se movendo, tentando equilibrar todas as forcas em interacao.
+Os controles do helicoptero sao decididamente nao ortogonais.
+Vantagens da ortogonalidade Como o exemplo do helicoptero ilustra, sistemas nao ortogonais sao inerentemente mais dificeis de mudar e controlar. Quando componentes de qualquer sistema sao altamente interdependentes, nao existe o conceito de correcao local.
+Elimine efeitos entre elementos nao relacionados Queremos projetar componentes que sejam autossuficientes: independentes e com uma finalidade exclusiva bem definida (o que Yourdon e Constantine chamam de coesao [YC86]). Quando os componentes sao isolados uns dos outros, sabemos que podemos alterar um sem ter de nos preocupar com o resto. Se voce nao alterar as interfaces externas desse componente, nao tera com o que se preocupar, ja que nao causara problemas que possam se estender ao sistema inteiro.
+Voce obtera duas grandes vantagens se criar sistemas ortogonais: maior produtividade e menor risco.
+Ganhe produtividade As alteracoes sao localizadas, portanto, os tempos de desenvolvimen-
+*
+to e de testes sao menores. E mais facil criar componentes autonomos relativamente pequenos do que um unico e grande bloco de codigo. Componentes simples podem ser projetados, codificados, testados
+[p58] isoladamente e entao esquecidos - nao ha necessidade de alterar sempre o codigo existente quando um novo codigo e adicionado.
+Uma abordagem ortogonal tambem favorece a reutilizacao. Se os com-
+*
+ponentes tiverem funcoes especificas bem definidas, poderao ser combinados a novos componentes de maneiras nao previstas por seus implementadores originais. Quanto menos dependencias seus sistemas apresentarem, mais facil eles serao de reconfigurar e reconstruir. Ha um ganho bastante sutil em produtividade quando combinamos
+*
+componentes ortogonais. Suponhamos que um componente fizesse M coisas distintas e outro fizesse N coisas. Se eles forem ortogonais e voce combina-los, o resultado fara M x N coisas. No entanto, se os dois componentes nao forem ortogonais, eles serao sobrepostos e o resultado sera menor. Voce pode obter mais funcionalidade por esforco unitario combinando componentes ortogonais.
+Reduza o risco Uma abordagem ortogonal reduz os riscos inerentes a qualquer desenvolvimento.
+Secoes de codigo danificadas ficam isoladas. Se um modulo estiver
+*
+danificado, tera menos probabilidades de espalhar os efeitos para o resto do sistema. Tambem sera mais facil remove-lo e inserir algo novo e integro.
+O sistema resultante e menos fragil. Faca pequenas alteracoes e cor-
+*
+recoes em uma area especifica e qualquer problema que causar ficara restrito a essa area.
+Um sistema ortogonal sera testado com mais eficacia, porque sera
+*
+mais facil projetar testes e executa-los em seus componentes.
+Voce nao ficara tao dependente de uma plataforma, fornecedor ou
+*
+produto especifico, porque as interfaces desses componentes de terceiros ficarao restritas a partes menores do desenvolvimento como um todo.
+Examinemos algumas das maneiras de voce poder aplicar o principio de ortogonalidade a seu trabalho.
+Equipes de projeto Ja notou como algumas equipes de projeto sao eficientes, com todos sabendo o que fazer e contribuindo plenamente, enquanto os membros de
+[p59] outras equipes estao sempre brigando e nao parecem conseguir ficar sem atrapalhar uns aos outros?
+Esse e um problema de ortogonalidade: quando as equipes sao organizadas com varias sobreposicoes, os membros ficam confusos em relacao as suas responsabilidades. Toda mudanca precisa de uma reuniao da equipe inteira, porque qualquer um dos membros pode ser afetado.
+Como organizar equipes em grupos com responsabilidades bem definidas e um nivel minimo de sobreposicao? Nao ha uma resposta simples. Em parte, vai depender do projeto e de sua analise das areas que podem mudar. Tambem vai depender das pessoas que voce tiver disponiveis. Preferimos comecar separando infraestrutura e aplicativo. Cada componente maior da infraestrutura (banco de dados, interface de comunicacoes, camada de middleware e assim por diante) ganha sua propria subequipe. Cada divisao obvia de funcionalidade do aplicativo e igualmente dividida. Entao, examinamos as pessoas que temos (ou planejamos ter) e ajustamos os grupos de acordo.
+Voce pode obter uma medida informal da ortogonalidade da estrutura de uma equipe de projeto. Simplesmente veja quantas pessoas precisam ser envolvidas na discussao de cada alteracao solicitada. Quanto maior o numero, menos ortogonal e o grupo. E claro que uma equipe ortogonal e mais eficiente (dito isso, tambem encorajamos as subequipes a se comunicarem constantemente umas com as outras).
+Projeto A maioria dos desenvolvedores esta familiarizada com a necessidade de projetar sistemas ortogonais, embora possam usar palavras como modular, baseado em componentes e disposto em camadas para descrever o processo. Os sistemas devem ser compostos por um conjunto de modulos em cooperacao, cada um implementando uma funcionalidade independente das outras. As vezes, esses componentes sao organizados em camadas, cada uma fornecendo um nivel de abstracao. Essa abordagem em camadas e uma maneira poderosa de projetar sistemas ortogonais. Ja que cada camada usa apenas as abstracoes fornecidas pelas camadas abaixo dela, temos maior flexibilidade para alterar implementacoes subjacentes sem afetar o codigo. A disposicao em camadas tambem reduz o risco de ocorrencia de dependencias descontroladas entre modulos. Com frequencia, voce vera a disposicao em camadas expressa em diagramas como o da Figura 2.1 da proxima pagina.
+[p60] Ha um teste facil para detectar se um projeto e ortogonal. Quando voce tiver seus componentes mapeados, faca a si proprio a pergunta: "Se eu alterar dramaticamente os requisitos existentes por tras de uma funcao especifica, quantos modulos serao afetados?". Em um sistema ortogonal, a resposta deve ser "um".
+3 Mover um botao em um painel de GUI nao requer uma alteracao no esquema do banco de dados. A inclusao de ajuda contextual nao deve alterar o subsistema de cobranca.
+Consideremos um sistema complexo para o monitoramento e controle de uma usina de calefacao. O requisito original demandava uma interface grafica de usuario, mas foi alterado para adicionar um sistema de resposta por voz com controle telefonico da usina baseado em teclas. Em um sistema projetado ortogonalmente, voce so teria de alterar os modulos associados a interface de usuario para manipular isso: a logica subjacente de controle da usina permaneceria inalterada. Na verdade, se voce estruturar seu sistema cuidadosamente, deve poder dar suporte as duas interfaces com a mesma base de codigo subjacente. A secao E apenas um modo de ver, na pagina 179, fala sobre a criacao de codigos desvinculados com o uso do paradigma Model-View-Controller (MVC), que funciona bem nessa situacao.
+Pergunte tambem a si mesmo o quanto seu projeto esta desvinculado de mudancas no mundo real. Voce esta usando um numero de telefone como identificador de clientes? O que acontece quando a empresa de telefonia 3 Na verdade, e ingenuo pensar assim. A menos que voce tenha muita sorte, a maioria das mudancas de requisitos no mundo real afetara varias funcoes do sistema. No entanto, se voce analisar a mudanca em termos de funcoes, o ideal e que cada alteracao funcional continue afetando apenas um modulo.
+Interface de usuario Acesso ao banco de dados Mecanismo de relatorio Logica de negocio Estrutura do aplicativo Biblioteca C padrao Sistema operacional Figura 2.1 Diagrama de camadas tipico.
+[p61] reatribui codigos de area? Nao confie nas propriedades de coisas que nao pode controlar.
+Kits de ferramentas e bibliotecas Tome cuidado para preservar a ortogonalidade de seu sistema ao introduzir kits de ferramentas e bibliotecas de terceiros. Selecione suas tecnologias criteriosamente.
+Houve uma ocasiao em que trabalhei em um projeto que demandava que um determinado corpo de codigo Java fosse executado tanto localmente em um computador servidor quanto remotamente em uma maquina cliente. As alternativas para a distribuicao de classes dessa forma eram o RMI e o CORBA. Se uma classe fosse tornada remotamente acessivel com o uso do RMI, cada chamada a um metodo remoto dessa classe poderia potencialmente lancar uma excecao, o que significa que uma implementacao simples demandaria que manipulassemos a excecao sempre que nossas classes remotas fossem usadas. O uso do RMI aqui e claramente nao ortogonal: codigos que chamem nossas classes remotas nao devem ser obrigados a saber sua localizacao. A alternativa - o uso do CORBA - nao estabelecia essa restricao: podiamos escrever codigos que nao soubessem a localizacao de nossas classes.
+Quando usar um kit de ferramentas (ou mesmo uma biblioteca de outros membros de sua equipe), pergunte a si mesmo se ele impoe a seu codigo mudancas que nao deveriam existir. Quando um esquema de persistencia de objetos e transparente, ele e ortogonal. Quando requer a criacao ou o acesso de objetos de uma maneira especial, nao e. Manter esses detalhes isolados de seu codigo trara o beneficio adicional de tornar mais facil mudar de fornecedor no futuro.
+O sistema Enterprise Java Beans (EJB) e um exemplo interessante de ortogonalidade. Na maioria dos sistemas orientados a transacoes, o codigo do aplicativo tem de delinear o inicio e o fim de cada transacao. No EJB, essas informacoes sao expressas declarativamente como metadados, fora de qualquer codigo. O mesmo codigo de aplicativo pode ser executado em diferentes ambientes de transacao EJB sem alteracao. E provavel que isso se torne um modelo para muitos ambientes futuros.
+Outra variante interessante da ortogonalidade e a Programacao Orientada a Aspectos (POA), um projeto de pesquisa do Xerox Parc ([KLM +97] e [URL 49]). A POA permite que voce expresse em um local um comportamento que, de outra forma, seria distribuido por todo o seu codigo-fonte.
+[p62] Por exemplo, mensagens de log sao normalmente geradas por chamadas explicitas a alguma funcao de log espalhadas por todo o codigo. Com a POA, voce pode implementar a ortogonalidade entre o registro em log e as coisas que estao sendo registradas. Usando a versao Java da POA, voce poderia criar uma mensagem de log ao entrar em qualquer metodo da classe Fred codificando o aspecto:
+aspect Trace { advise * Fred.*(..) { static before { Log.write("-> Entering " + thisJoinPoint.methodName);
+} } } Se voce costurar esse aspecto em seu codigo, mensagens de rastreamento serao geradas. Se nao fizer isso, nao vera mensagens. De uma forma ou de outra, seu codigo original permanecera inalterado.
+Codificando Sempre que criar um codigo, voce estara correndo o risco de reduzir a ortogonalidade de seu aplicativo. A menos que monitore constantemente nao so o que esta fazendo mas tambem o contexto mais amplo do aplicativo, pode involuntariamente duplicar funcionalidades em algum outro modulo ou expressar duas vezes informacoes existentes.
+Ha varias tecnicas que voce pode usar para manter a ortogonalidade: Mantenha seu codigo desvinculado.
+*
+Escreva codigos cautelosos modulos que nao revelem nada desnecessario para outros modulos e que nao dependam de implementacoes de outros modulos. Tente usar a Lei de Demeter [LH89], que discutiremos em A desvinculacao e a Lei de Demeter, pagina 160. Se tiver de alterar o estado de um objeto, deixe que o objeto faca isso para voce. Dessa forma, seu codigo permanecera isolado da implementacao do outro codigo e aumentarao as chances de voce permanecer ortogonal.
+Evite dados globais.
+*
+Sempre que seu codigo referenciar dados globais, ele ficara vinculado aos outros componentes que compartilham esses dados. Mesmo dados globais que voce so pretenda ler podem levar a problemas (por exemplo, se subitamente voce tiver de alterar seu codigo para que passe a ter varios segmentos). Geralmente, o codigo fica mais facil de entender e editar quando passamos explicitamente qualquer contexto requerido para os modulos. Em aplicativos orientados a objetos, o contexto costuma ser passado como parame-
+[p63] tro de construtores de objetos. Em outros codigos, voce pode criar estruturas contendo o contexto e passar referencias a elas.
+O padrao Singleton de Design Patterns [GHJV95] e uma maneira de assegurar que haja apenas uma instancia de um objeto de uma classe especifica. Muitas pessoas usam esses objetos singleton como um tipo de variavel global (principalmente em linguagens que de outra forma nao dariam suporte ao conceito de variaveis globais, como ocorre em Java). Tome cuidado com os singletons - eles tambem podem levar a vinculacao desnecessaria.
+Evite funcoes semelhantes.
+*
+Com frequencia, voce deparara com um conjunto de funcoes de aparencia semelhante - talvez compartilhem um codigo em comum no inicio e no final, mas cada uma tera um algoritmo central diferente. Codigo duplicado e um sintoma de problemas estruturais. Examine o padrao Strategy de Design Patterns para obter uma implementacao melhor.
+Adquira o habito de ser constantemente critico com seu codigo. Aproveite qualquer oportunidade de reorganiza-lo para melhorar sua estrutura e ortogonalidade. Esse processo e chamado de refatoracao e e tao importante que dedicamos uma secao a ele (consulte Refatoracao, pagina 206). Testando Um sistema projetado e implementado ortogonalmente e mais facil de testar. Ja que as interacoes entre os componentes do sistema sao formalizadas e limitadas, uma parte maior dos testes pode ser executada no nivel de modulo individual. Isso e bom, porque o teste de nivel de modulo (ou de unidade) e consideravelmente mais facil de especificar e executar do que o teste de integracao. Na verdade, sugerimos que cada modulo tenha seu proprio teste de unidade em seu codigo e que esses testes sejam executados automaticamente como parte do processo periodico de construcao (consulte Codigo que seja facil de testar, pagina 211).
+A construcao de testes de unidade ja e um teste interessante de ortogonalidade. O que e preciso para construir e montar uma unidade de teste? Voce tem de envolver um grande percentual do resto do sistema so para fazer um teste ser compilado ou montado? Se tiver, encontrou um modulo que nao esta tao desvinculado do resto do sistema.
+A correcao de erros tambem e um bom momento para a avaliacao da ortogonalidade do sistema como um todo. Quando voce deparar com um problema, avalie o nivel de isolamento do erro. E preciso alterar apenas
+[p64] um modulo ou as alteracoes estao espalhadas no sistema inteiro? Quando voce faz uma alteracao, ela corrige tudo ou outros problemas surgem misteriosamente? Essa e uma boa oportunidade para a automacao ser usada. Se voce usar um sistema de controle de codigo-fonte (e fara isso apos ler Controle do codigo-fonte, pagina 108), marque as correcoes de erros ao armazenar o codigo novamente apos testar. Assim, podera gerar relatorios mensais analisando tendencias relacionadas ao numero de arquivos-fonte afetados por cada correcao de erros.
+Documentacao Pode parecer estranho, mas a ortogonalidade tambem e aplicavel a documentacao. Os eixos sao o conteudo e a apresentacao. Em uma documentacao realmente ortogonal, voce pode alterar a aparencia dramaticamente sem alterar o conteudo. Editores de texto modernos fornecem folhas de estilo e macros que ajudam (consulte Tudo se resume a escrever, pagina 270).
+Vivendo com a ortogonalidade A ortogonalidade esta intimamente relacionada ao principio NSR introduzido na pagina 49. Com o NSR, voce pode reduzir a duplicacao dentro de um sistema, enquanto com a ortogonalidade reduzira a interdependencia entre os componentes do sistema. Essa pode ser uma palavra estranha, mas se voce usar o principio da ortogonalidade, estreitamente combinado ao principio NSR, vera que os sistemas que desenvolver serao mais flexiveis, compreensiveis e faceis de depurar, testar e editar.
+Se voce for trazido para um projeto em que as pessoas estiverem desesperadamente tentando fazer alteracoes, e no qual cada alteracao pareca fazer quatro outras coisas darem errado, lembre-se do pesadelo com o helicoptero. Provavelmente, o projeto nao foi elaborado e codificado ortogonalmente. E hora de refatorar.
+E, se voce for um piloto de helicoptero, nao coma o peixe...
+As secoes relacionadas sao:
+Os males da duplicacao,
+*
+pagina 48 Controle do codigo-fonte,
+*
+pagina 108 Projeto por contrato,
+*
+pagina 131 A desvinculacao e a lei de Demeter
+*
+, pagina 160 Metaprogramacao,
+*
+pagina 166
+[p65] E apenas um modo de ver,
+*
+pagina 179 Refatoracao,
+*
+pagina 206 Codigo que seja facil de testar,
+*
+pagina 211 Assistentes do mal,
+*
+pagina 220 Equipes pragmaticas,
+*
+pagina 246 Tudo se resume a escrever,
+*
+pagina 270 Desafios Considere a diferenca entre as grandes ferramentas orientadas a
+*
+GUIs normalmente encontradas em sistemas Windows e os pequenos mas combinaveis utilitarios de linha de comando usados em prompts de shell. Que conjunto e mais ortogonal e por que? Qual e mais facil de usar para a finalidade exata para a qual foi projetado? Que conjunto e mais facil de combinar com outras ferramentas para o enfrentamento de novos desafios?
+A linguagem C++ da suporte a heranca multipla, e a linguagem Java
+*
+permite que uma classe implemente varias interfaces. Que impacto o uso desses recursos tem sobre a ortogonalidade? Ha alguma diferenca de impacto entre o uso da heranca multipla e de interfaces multiplas? Ha alguma diferenca entre o uso da delegacao e o uso da heranca?
+Exercicios 1. Voce esta criando uma classe chamada Split, que divide linhas de entrada em campos. Qual das duas assinaturas de classe Java a seguir e o projeto mais ortogonal?
+class Split1 { public Split1(InputStreamReader rdr) { ...
+public void readNextLine() throws IOException { ...
+public int numFields() { ...
+public String getField(int fieldNo) { ...
+} class Split2 { public Split2(String line) { ...
+public int numFields() { ...
+public String getField(int fieldNo) { ...
+} 2. O que leva a um projeto mais ortogonal: caixas de dialogo sem ou com janela restrita?
+3. E quanto as linguagens procedurais versus a tecnologia orientada a objetos? Qual resulta em um sistema mais ortogonal?
+Resposta na p. 301 Resposta na p. 301 Resposta na p. 302
+[p66] REVERSIBILIDADE
+Nada e mais perigoso do que uma ideia quando ela e a unica que voce tem. Emil-Auguste Chartier, Propos sur la religion, 1938 Os engenheiros preferem solucoes simples e unicas para os problemas. Os testes matematicos que permitem que voce proclame com grande confianca que x = 2 sao muito mais confortaveis do que ensaios vagos e acalorados sobre as incontaveis causas da Revolucao Francesa. A gerencia tende a concordar com os engenheiros: respostas faceis e unicas cabem adequadamente em planilhas e planos de projeto.
+Se pelo menos o mundo real cooperasse! Infelizmente, embora x seja igual a 2 hoje, pode ter de ser 5 amanha e 3 na proxima semana. Nada e para sempre - e, se voce conta seguramente com um fato, pode quase garantir que ele mudara.
+Ha sempre mais de uma maneira de implementar algo e, geralmente, ha mais de um fornecedor disponivel para entregar um produto de terceiros. Se voce entrar em um projeto cego pela nocao miope de que ha apenas uma maneira de executa-lo, pode ter uma surpresa desagradavel. Muitas equipes de projeto estao com seus olhos bem abertos a medida que o futuro se revela: "Mas voce disse que usariamos o banco de dados XYZ! Terminamos 85% da codificacao do projeto, nao podemos mudar agora!" o programador protestou. "Desculpe, mas nossa empresa decidiu usar como padrao o banco de dados PQD - para todos os projetos. Esta fora de minha alcada. Apenas teremos de recodificar. Todos voces trabalharao nos fins de semana ate nova ordem." As mudancas nao tem de ser draconianas nem mesmo tao imediatas. Mas, a medida que o tempo for passando, e seu projeto avancar, voce pode se ver preso em uma posicao insustentavel. A cada decisao critica, a equipe de projeto se compromete com um alvo menor - uma versao mais estreita da realidade que apresenta menos opcoes.
+No momento em que muitas decisoes criticas tiverem sido tomadas, o alvo tera se tornado tao pequeno que, se ele se mover, o vento mudar de direcao ou uma borboleta em Toquio bater suas asas, voce errara. 4 E pode errar por muito.
+4 Pegue um sistema nao linear, ou caotico, e aplique uma pequena alteracao a uma de suas entradas. Voce pode obter um resultado amplo e, com frequencia, imprevisivel. O cliche da borboleta batendo suas asas em Toquio poderia ser o inicio de uma cadeia de eventos que acabaria gerando um tornado no Texas. Isso soa como algum projeto que voce conhece?
+[p67] O problema e que decisoes criticas nao sao facilmente reversiveis. Uma vez que voce decidir usar o banco de dados de um fornecedor, um padrao de arquitetura especifico ou um determinado modelo de implantacao (cliente-servidor versus autonomo, por exemplo), tera se comprometido com um curso de acao que nao podera ser revertido, exceto a um grande custo.
+Reversibilidade Muitos dos topicos deste livro foram elaborados visando a producao de software flexivel e adaptavel. Ao aceitarmos suas recomendacoes - principalmente o principio NSR (pagina 49), a desvinculacao (pagina 160) e o uso de metadados (pagina 166) - nao teremos de tomar tantas decisoes criticas irreversiveis. Isso e bom, porque nem sempre temos as melhores decisoes quando precisamos. Adotamos uma determinada tecnologia so para descobrir que nao podemos contratar o numero suficiente de pessoas com as habilidades necessarias. Ficamos presos a um fornecedor especifico momentos antes de ele ser comprado por seu competidor. Requisitos, usuarios e hardware mudam mais rapido do que somos capazes de concluir o desenvolvimento de um software.
+Suponhamos que voce decidisse, no inicio do projeto, usar um banco de dados relacional do fornecedor A. Bem depois, durante o teste de desempenho, descobre que o banco de dados e muito lento e que o banco de dados orientado a objetos do fornecedor B e mais veloz. Como na maioria dos projetos convencionais, voce estaria sem sorte. Quase todo o tempo, chamadas a produtos de terceiros permeiam o codigo. Mas, se voce realmente isolou a ideia do banco de dados - ao ponto de ele simplesmente fornecer persistencia como servico - tera flexibilidade para mudar de direcao. Da mesma forma, suponhamos que o projeto comecasse como um modelo cliente-servidor, porem mais tarde o departamento de marketing decidisse que servidores sao caros demais para alguns clientes e quisesse uma versao autonoma. O quanto isso seria dificil para voce? Ja que se trata apenas de uma questao de implantacao, nao deveria tomar mais do que alguns dias. Se demorar mais, voce nao considerou a reversibilidade. A situacao inversa e ainda mais interessante. E se o produto autonomo que voce estivesse criando tivesse de ser implantado como um modelo clienteservidor ou de n camadas? Isso tambem nao deveria ser dificil. O erro esta em assumir que qualquer decisao e irrevogavel - e em nao se preparar para as contingencias que podem ocorrer. Em vez de tomar
+[p68] decisoes esculpidas em pedra, considere-as mais como se tivessem sido escritas na areia da praia. Uma onda grande pode surgir e varre-las a qualquer momento.
+Nao ha decisoes definitivas Arquitetura flexivel Embora muitas pessoas tentem manter seu codigo flexivel, tambem e preciso tentar manter a flexibilidade nas areas de arquitetura, implantacao e integracao com o fornecedor.
+Tecnologias como o CORBA podem ajudar a isolar partes de um projeto das alteracoes na linguagem ou plataforma de desenvolvimento. O desempenho da linguagem Java nessa plataforma nao atende as expectativas? Recodifique o cliente em C++ e nada mais precisara mudar. O mecanismo de regras em C++ nao e suficientemente flexivel? Mude para uma versao Smalltalk. Com uma arquitetura CORBA, voce so tem de manipular o componente que esta substituindo; os outros componentes nao devem ser afetados.
+Esta desenvolvendo para Unix? Qual? Considerou todas as questoes de portabilidade? Esta desenvolvendo para uma versao especifica do Windows? Qual - 3.1, 95, 98, NT, CE ou 2000? Qual o nivel de dificuldade para dar suporte a outras versoes? Se for brando e flexivel nas decisoes, nao tera dificuldade alguma. Se tiver pouco encapsulamento, alta integracao e logica ou parametros embutidos no codigo, pode ser impossivel. Nao tem certeza de como o departamento de marketing quer implantar o sistema? Pense nisso antecipadamente e podera dar suporte a um modelo autonomo, cliente-servidor ou de n camadas apenas alterando um arquivo de configuracao. Ja escrevemos programas que fazem exatamente isso. Normalmente, e possivel ocultar um produto de terceiros por tras de uma interface abstrata bem definida. Na verdade, sempre conseguimos fazer isso em qualquer projeto em que trabalhamos. Mas suponhamos que voce nao pudesse isola-lo tao bem. E se tivesse de espalhar determinadas ins-
+[p69] trucoes em muitos pontos do codigo? Inclua esse requisito em metadados e use algum mecanismo automatico, como os aspectos (consulte a pagina 61) ou a linguagem Perl, para inserir as instrucoes necessarias no proprio codigo. Independente do mecanismo que voce usar, torne-o reversivel. Se algo e adicionado automaticamente, tambem pode ser removido automaticamente.
+Ninguem sabe o que o futuro pode reservar, principalmente nos! Portanto, permita que seu codigo dance conforme a musica: se fixe quando puder e se adapte quanto for necessario.
+As secoes relacionadas sao:
+A desvinculacao e a Lei de Demeter,
+*
+pagina 160 Metaprogramacao,
+*
+pagina 166 E apenas um modo de ver,
+*
+pagina 179 Desafios E hora de um pouco de mecanica quantica com o gato de Schrodin-
+*
+ger. Suponhamos que voce tivesse um gato em uma caixa fechada, com uma particula radioativa. A particula tem exatamente 50% de chance de se dividir em duas. Se fizer isso, o gato sera morto. Se nao fizer, o gato ficara bem. Portanto, o gato esta morto ou vivo? De acordo com Schrodinger, as duas respostas estao corretas. Sempre que ocorre uma reacao subnuclear que tem dois resultados possiveis, o universo e clonado. Em um, o evento ocorreu, no outro nao. O gato esta vivo em um universo e morto no outro. So quando abrir a caixa voce sabera em que universo esta.
+Nao e de surpreender que codificar para o futuro seja dificil. Mas pense na evolucao do codigo como se fosse uma caixa cheia de gatos de Schrodinger: cada decisao resulta em uma versao diferente do futuro. Quantos futuros possiveis seu codigo pode suportar? Quais sao mais provaveis? Qual o nivel de dificuldade para suportalos quando a hora chegar?
+Voce ousa abrir a caixa?

@@ -1,0 +1,285 @@
+[p141] result.previous.next = result    -- do no recem-adicionado.
+find_item(item) = result         -- Deve encontra-lo.
+end 15. Agora, examinemos um exemplo em Java - ele se parece um pouco com o exemplo do Exercicio 14. insertNumber insere um inteiro em uma lista ordenada. As pre e pos-condicoes sao rotuladas como no iContract (consulte [URL 17]).
+private int data[];
+/** * @post data[index-1] < data[index] && * data[index] == aValue */ public Node insertNumber (final int aValue) { int index = findPlaceToInsert(aValue);
+...
+16. Aqui esta um fragmento de uma classe de pilha em Java. Esse e um bom contrato?
+/** * @pre anItem != null   // Requer dados reais * @post pop() == anItem // Verifica se ele esta *                        // na pilha */ public void push(final String anItem) 17. Os exemplos classicos do DBC (como nos Exercicios 14-16) mostram uma implementacao de um TAD (Tipo de Dado Abstrato) - normalmente, uma pilha ou fila. Mas nao sao muitas pessoas que criam esses tipos de classes de baixo nivel.
+Portanto, nesse exercicio, projete uma interface para um liquidificador de cozinha. Podemos acabar obtendo um liquidificador criado com CORBA, habilitado para a Internet e baseado na Web, mas, por enquanto, so precisamos da interface que o controla. Ele tem 10 configuracoes de velocidade (0 significa desligado). Voce nao pode opera-lo vazio e so pode alterar a velocidade uma unidade de cada vez (isto e, de 0 para 1 e de 1 para 2 e nao de 0 para 2).
+Aqui estao os metodos. Adicione pre e pos-condicoes apropriadas e uma invariante.
+int getSpeed() void setSpeed(int x) boolean isFull() void fill() void empty() 18. Quantos numeros existem na serie 0, 5, 10, 15, ..., 100?
+Resposta na p. 310 Resposta na p. 311 Resposta na p. 311 Resposta na p. 312
+[p142] PROGRAMAS MORTOS NAO CONTAM MENTIRAS*
+Ja notou que as vezes outras pessoas conseguem detectar que as coisas nao vao bem com voce antes mesmo que voce tome conhecimento do problema? O mesmo ocorre com o codigo dos outros. Quando algo comeca a dar errado em um de nossos programas, uma rotina de biblioteca pode detectar isso primeiro. Talvez um ponteiro disperso nos tenha feito sobrepor um identificador de arquivo com algo irrelevante. A proxima chamada a read detectara isso. Um estouro de buffer pode ter inutilizado um contador que iriamos usar para determinar quanta memoria alocar. Talvez malloc nos informe da falha. Um erro de logica ocorrido alguns milhoes de instrucoes atras pode significar que o seletor de uma instrucao case nao e mais o 1, 2, ou 3 esperado. Alcancaremos a case default (e essa e uma razao para todas as instrucoes case/switch terem uma clausula padrao queremos saber quando o "impossivel" ocorreu).
+E facil se deixar levar pela mentalidade "isso nao pode acontecer". Quase todos nos ja escrevemos codigos que nao verificavam se um arquivo foi fechado com sucesso ou se uma instrucao de rastreamento foi criada como esperavamos. E, com tudo se mantendo normal, provavelmente nao precisariamos faze-lo - o codigo em questao nao falharia sob condicoes normais. Mas estamos codificando defensivamente. Estamos procurando ponteiros invalidos em outras partes de nosso programa danificando a pilha. Estamos verificando se as versoes corretas de bibliotecas compartilhadas foram realmente carregadas.
+Todos os erros fornecem informacoes. Voce poderia se convencer de que o erro nao pode ocorrer e optar por ignora-lo. Em vez disso, os programadores pragmaticos pensam consigo mesmos que, se ha um erro, algo muito, muito ruim aconteceu.
+Encerre antecipadamente Encerre, nao falhe Um dos beneficios de detectar problemas assim que possivel e que voce pode encerrar antecipadamente. E muitas vezes, encerrar seu programa e * N. de T.: Em ingles, ha a expressao "dead men tell no tales" ("os mortos nao delatam") usada em contextos do tipo filmes "noir" ou "western". O autor usa "dead programs tell no lies" querendo dizer que o encerramento de programas evita resultados inesperados.
+[p143] a melhor coisa que voce pode fazer. A alternativa pode ser dar prosseguimento, gravando dados corrompidos em algum banco de dados vital ou usando a maquina de lavar em seu vigesimo ciclo giratorio consecutivo. A linguagem e as bibliotecas Java adotaram essa filosofia. Quando algo inesperado ocorre dentro do sistema de tempo de execucao, ele lanca uma RuntimeException. Se nao for capturada, essa excecao subira para o nivel superior do programa e o fara ser interrompido, exibindo um rastreamento de pilha. Voce pode fazer o mesmo em outras linguagens. Se nao tiver um mecanismo de excecao, ou se suas bibliotecas nao lancarem excecoes, certifique-se de manipular os erros voce mesmo. Em C, as macros podem ser muito uteis para isso:
+#define CHECK(LINE, EXPECTED) n { int rc = LINE; n if (rc != EXPECTED) n ut_abort(__FILE__, __LINE__, #LINE, rc, EXPECTED); } void ut_abort(char *file, int ln, char *line, int rc, int exp) { fprintf(stderr, "%s line %dnn'%s': expected %d, got %dnn", file, ln, line, exp, rc);
+exit(1);
+} Assim, voce podera proteger chamadas que nunca poderiam falhar usando CHECK(stat("/tmp", &stat_buff), 0);
+Se ela falhar, voce vera uma mensagem gravada no stderr:
+source.c line 19 'stat("/tmp", &stat_buff)': expected 0, got -1 E claro que as vezes e inapropriado encerrar um programa em execucao. Voce pode ter solicitado recursos que podem nao ser liberados, pode ter de gravar mensagens de log, remover transacoes abertas ou interagir com outros processos. As tecnicas que discutimos em Quando usar excecoes, pagina 125, ajudarao aqui. No entanto, o principio basico permanece o mesmo - quando seu codigo perceber que algo considerado impossivel acabou de ocorrer, seu programa nao e mais viavel. Qualquer coisa que ele fizer a partir desse ponto sera suspeito, portanto, encerre-o assim que puder. Normalmente, um programa morto causa muito menos danos do que um aleijado.
+As secoes relacionadas sao:
+Projeto por contrato
+*
+, pagina 131 Quando usar excecoes,
+*
+pagina 147
+[p144] PROGRAMACAO ASSERTIVA
+Ha magnificencia no remorso. Quando nos sentimos culpados achamos que ninguem mais tem o direito de nos culpar.
+Oscar Wilde, O retrato de Dorian Gray Parece que ha um mantra que todo programador deve memorizar no inicio de sua carreira. E um principio fundamental da computacao, uma crenca basica que aprendemos a aplicar a requisitos, projetos, codigos, comentarios, quase tudo que fazemos. Ele diz ISSO NAO VAI ACONTECER NUNCA...
+"Esse codigo nao sera usado daqui a 30 anos, portanto, posso usar datas de dois digitos". "Esse aplicativo nunca sera usado no exterior, logo, por que internacionaliza-lo?" "count nao pode ser negativo". "Esse comando printf nao pode falhar".
+Nao pratiquemos esse tipo de autoengano, principalmente ao codificar. Se nao pode acontecer, use assercoes para assegurar que nao aconteca Sempre que se pegar pensando "mas e claro que isso nunca poderia ocorrer", adicione codigo para verificar. A maneira mais facil de faze-lo e com assercoes. Na maioria das implementacoes de C e C++, voce encontrara algum tipo de macro assert ou _assert para verificar uma condicao booleana. Essas macros podem ser inestimaveis. Se um ponteiro passado para seu procedimento nunca puder ser NULL, verifique isso:
+void writeString(char *string) { assert(string != NULL);
+...
+As assercoes tambem sao verificacoes uteis da operacao de um algoritmo. Voce pode ter escrito um algoritmo de classificacao engenhoso. Verifique se ele funciona:
+for (int i = 0; i < num_entries-1; i++) { assert(sorted[i] <= sorted[i+1]);
+} E claro que a condicao passada para uma assercao nao deve ter um efeito colateral (consulte a caixa da pagina 146). Lembre-se tambem de que as
+[p145] assercoes podem ser desativadas no tempo de compilacao - nunca insira codigo que tenha de ser executado em uma instrucao assert.
+Nao use assercoes em substituicao a verdadeira manipulacao de erros. As assercoes procuram coisas que nunca devem ocorrer: voce nao vai querer escrever um codigo como esse:
+printf("Enter 'Y' or 'N': ");
+ch = getchar();
+assert((ch == 'Y') || (ch == 'N')); /* bad idea! */ E so porque as macros assert fornecidas chamam exit quando uma assercao falha, nao ha razao para as versoes criadas por voce fazerem o mesmo. Se precisar liberar recursos, faca uma falha na assercao gerar uma excecao, use longjmp para acessar um ponto de saida ou chame um manipulador de erros. Apenas se certifique de que o codigo executado nesses ultimos milissegundos nao dependa das informacoes que acionaram a falha na assercao. Deixe as assercoes ativadas Ha um mal-entendido comum no que diz respeito as assercoes, divulgado pelas pessoas que criam compiladores e ambientes de linguagens. Ele diz algo assim:
+As assercoes adicionam alguma sobrecarga ao codigo. Ja que procuram coisas que nunca deveriam ocorrer, so serao acionadas por um erro no codigo. Uma vez que o codigo tiver sido testado e distribuido, elas nao serao mais necessarias e devem ser desativadas para que o codigo seja executado mais rapidamente. As assercoes sao um recurso de depuracao. Ha duas suposicoes obviamente erradas aqui. Em primeiro lugar, elas assumem que os testes encontrarao todos os erros. Na verdade, em qualquer programa complexo, provavelmente voce nao testara nem mesmo um minusculo percentual das permutacoes pelas quais seu codigo passara (consulte Testando incansavelmente, pagina 259). Em segundo lugar, os otimistas estao esquecendo que seu programa sera executado em um mundo perigoso. Durante os testes, e improvavel que ratos roam um cabo de comunicacoes, uma pessoa jogando esgote a memoria e arquivos de log encham a unidade de disco rigido. Essas coisas podem ocorrer quando seu programa for executado em um ambiente de producao. Sua primeira linha de defesa deve ser procurar qualquer erro possivel e a segunda usar assercoes para tentar detectar os erros que nao encontrou.
+Desativar as assercoes ao distribuir um programa para producao e como andar em uma corda bamba sem uma rede porque voce ja fez isso uma vez. Ha o valor do drama, mas sera dificil obter um seguro de vida.
+[p146] Mesmo se voce tiver realmente problemas de desempenho, desative apenas as assercoes que o afetam. O exemplo da classificacao mostrado acima pode ser uma parte critica de seu aplicativo e pode ter de ser executado rapidamente. A inclusao de verificacoes significaria outra passagem pelos dados, o que pode ser inaceitavel. Torne opcional 2 essa verificacao especifica, mas deixe o resto funcionando.
+As secoes relacionadas sao:
+Depurando,
+*
+pagina 112 Projeto por contrato,
+*
+pagina 131 Como balancear recursos,
+*
+pagina 151 Programacao baseada no acaso,
+*
+pagina 194 2 Em linguagens baseadas em C, voce pode usar o pre-processador ou instrucoes if para tornar as assercoes opcionais. Muitas implementacoes desativam a geracao de codigo para a macro assert quando um flag de tempo de compilacao e ativado (ou nao). Caso contrario, voce pode inserir o codigo dentro de uma instrucao if com uma condicao constante, que muitos compiladores (inclusive os sistemas Java mais comuns) otimizarao.
+As assercoes e os efeitos colaterais E embaracoso quando o codigo que adicionamos para detectar erros acaba na verdade criando novos erros. Isso pode ocorrer com as assercoes se a avaliacao da condicao tiver efeitos colaterais. Por exemplo, em Java seria uma ma ideia codificar algo como while (iter.hasMoreElements()) { Test.ASSERT(iter.nextElement() != null);
+Object obj = iter.nextElement();
+// ....
+} A chamada .nextElement() de ASSERT apresenta o efeito colateral de mover o iterador para depois do elemento que esta sendo buscado e, portanto, o loop so processara metade dos elementos do conjunto. Seria melhor escrever while (iter.hasMoreElements()) { Object obj = iter.nextElement();
+Test.ASSERT(obj != null);
+// ....
+} Esse problema e um tipo de "Heisenbug" - depuracao que altera o comportamento do sistema que esta sendo depurado (consulte [URL 52]).
+[p147] Exercicios 19. Uma rapida verificacao da realidade. Quais dessas coisas "impossiveis" podem ocorrer?
+1. Um mes com menos de 28 dias 2. stat(".",&sb) == -1 (isto e, nao e possivel acessar o diretorio atual) 3. Em C++: a = 2; b = 3; if (a + b != 5) exit(1);
+4. Um triangulo com soma dos angulos internos = 180 5. Um minuto que nao tenha 60 segundos 6. Em Java: (a + 1) <= a 20. Desenvolva uma classe simples de verificacao de assercoes para Java.
+QUANDO USAR EXCECOES
+Em Programas mortos nao contam mentiras, pagina 142, sugerimos que e boa pratica procurar qualquer erro possivel - particularmente os inesperados. No entanto, na pratica isso pode levar a um codigo muito deselegante; a logica comum de seu programa pode acabar sendo totalmente obscurecida pela manipulacao de erros, principalmente se voce for adepto da escola de programacao "uma rotina deve ter apenas uma instrucao de returno" (nos nao somos). Ja vimos codigos que se parecem com o descrito a seguir:
+retcode = OK;
+if (socket.read(name) != OK) { retcode = BAD_READ;
+} else { processName(name);
+if (socket.read(address) != OK) { retcode = BAD_READ;
+} else { processAddress(address);
+if (socket.read(telNo) != OK) { retcode = BAD_READ;
+} else { // etc, etc...
+} } } return retcode;
+Resposta na p. 312 Resposta na p. 313
+[p148] Felizmente, se a linguagem de programacao der suporte a excecoes, voce podera reescrever esse codigo de uma maneira bem mais clara:
+retcode = OK;
+try { socket.read(name);
+process(name);
+socket.read(address);
+processAddress(address);
+socket.read(telNo);
+// etc, etc...
+} catch (IOException e) { retcode = BAD_READ;
+Logger.log("Error reading individual: " + e.getMessage());
+} return retcode;
+Agora, o fluxo de controle normal ficou claro, com toda a manipulacao de erros sendo inserida no mesmo local.
+O que e excepcional?
+Um dos problemas das excecoes e saber quando usa-las. Achamos que raramente as excecoes devem ser usadas como parte do fluxo normal de um programa; elas devem ser reservadas para eventos inesperados. Suponhamos que uma excecao nao capturada encerrasse seu programa e lhe perguntasse "esse codigo continuara sendo executado se eu remover todos os manipuladores de excecoes?". Se a resposta for "nao", talvez as excecoes estejam sendo usadas em circunstancias nao excepcionais.
+Por exemplo, se seu codigo tentar abrir um arquivo para leitura e esse arquivo nao existir, uma excecao deve ser lancada?
+Nossa resposta e "depende". Se o arquivo tivesse de estar ai, uma excecao e justificada. Algo inesperado ocorreu - um arquivo que voce esperava que existisse parece ter desaparecido. Por outro lado, se voce nao souber se o arquivo tinha ou nao de existir, nao parece algo excepcional voce nao conseguir encontra-lo e um retorno de erro e apropriado.
+Examinemos um exemplo do primeiro caso. O codigo a seguir abre o arquivo /etc/passwd, que deve existir em todos os sistemas Unix. Se ele falhar, passara uma FileNotFoundException para seu chamador.
+public void open_passwd() throws FileNotFoundException { // Pode lancar FileNotFoundException...
+ipstream = new FileInputStream("/etc/passwd");
+// ...
+}
+[p149] No entanto, o segundo caso pode envolver a abertura de um arquivo especificado pelo usuario na linha de comando. Aqui, uma excecao nao e justificada e o codigo tem outra aparencia:
+public boolean open_user_file(String name) throws FileNotFoundException { File f = new File(name);
+if (!f.exists()) { return false;
+} ipstream = new FileInputStream(f);
+return true;
+} Observe que a chamada de FileInputStream ainda pode gerar uma excecao, que a rotina passara adiante. Porem, a excecao so sera gerada sob circunstancias excepcionais; simplesmente tentar abrir um arquivo que nao existe gerara um retorno de erro convencional.
+Use excecoes para problemas excepcionais Por que sugerimos essa abordagem para as excecoes? Bem, uma excecao representa uma transferencia de controle nao local imediata - e um tipo de instrucao goto em cascata. Programas que usam excecoes como parte de seu processamento normal sofrem de todos os problemas de legibilidade e manutencao dos emaranhados de codigos classicos. Esses programas rompem o encapsulamento: as rotinas e seus chamadores ficam mais fortemente acoplados pela manipulacao de excecoes.
+Os manipuladores de erros sao uma alternativa Um manipulador de erros e uma rotina que e chamada quando um erro e detectado. Voce pode registrar uma rotina para manipular uma categoria de erros especifica. Quando um desses erros ocorrer, o manipulador sera chamado.
+Em algumas situacoes, voce pode querer usar manipuladores de erros, em vez de excecoes ou junto delas. E claro que, se estiver usando uma linguagem como a C, que nao da suporte a excecoes, essa sera uma das suas poucas opcoes (consulte o desafio da proxima pagina). No entanto, as vezes os manipuladores de erros podem ser usados ate mesmo em linguagens (como em Java) que tem um bom esquema interno de manipulacao de excecoes.
+[p150] Considere a implementacao de um aplicativo cliente-servidor que use o recurso Remote Method Invocation (RMI) da linguagem Java. Devido a maneira como o RMI e implementado, cada chamada a uma rotina remota deve ser preparada para manipular uma RemoteException. A inclusao de codigo para a manipulacao dessas excecoes pode se tornar entediante, o que significa que e dificil escrever um codigo que funcione com rotinas tanto locais quanto remotas. Uma solucao possivel e encapsular seus objetos remotos em uma classe que nao seja remota. Essa classe implementara entao uma interface de manipulacao de erros, permitindo que o codigo cliente registre uma rotina para ser chamada quando uma excecao remota for detectada.
+As secoes relacionadas sao:
+Programas mortos nao contam mentiras,
+*
+pagina 142 Desafios Linguagens que nao dao suporte a excecoes costumam ter algum
+*
+outro mecanismo de transferencia de controle nao local (a linguagem C tem logjmp/setjmp, por exemplo). Considere como voce poderia implementar algum tipo de mecanismo de excecao sucedaneo usando esses elementos. Quais sao os beneficios e perigos? Que medidas especiais voce precisa tomar para assegurar que os recursos nao fiquem orfaos? Faz sentido usar esse tipo de solucao sempre que voce codificar em C?
+Exercicios 21. Ao projetar uma nova classe conteiner, voce identificou as possiveis condicoes de erro a seguir:
+1. Nenhuma memoria disponivel para um novo elemento na rotina add.
+2. Entrada solicitada nao encontrada na rotina fetch 3. Ponteiro null passado para a rotina add Como cada uma deve ser manipulada? Um erro deve ser gerado, uma excecao deve ser lancada ou a condicao deve ser ignorada?
+Resposta na p. 314
+[p151] COMO BALANCEAR RECURSOS
+"Eu o trouxe para esse mundo", meu pai diria, "e posso tira-lo dele. Nao faz diferenca para mim. So terei que fazer outro igual a voce".
+Bill Cosby, Fatherhood Todos nos gerenciamos recursos sempre que codificamos: memoria, transacoes, segmentos, arquivos, timers - todos os tipos de coisas com disponibilidade limitada. Quase sempre, o uso de recursos segue um padrao previsivel: voce aloca o recurso, usa-o e entao o desaloca.
+Porem, muitos desenvolvedores nao tem um plano consistente para lidar com a alocacao e desalocacao de recursos. Entao, nos deixe sugerir uma dica simples:
+Acabe o que comecou Essa dica e facil de aplicar na maioria dos casos. Significa que a rotina ou o objeto que alocar um recurso deve ser responsavel por desaloca-lo. Vejamos como ela e aplicada examinando o exemplo de um codigo inadequado - um aplicativo que abre um arquivo, le informacoes de clientes, atualiza um campo e grava o resultado. Eliminamos a manipulacao de erros para tornar o exemplo mais claro.
+void readCustomer(const char *fName, Customer *cRec) { cFile = fopen(fName, "r+");
+fread(cRec, sizeof(*cRec), 1, cFile);
+} void writeCustomer(Customer *cRec) { rewind(cFile);
+fwrite(cRec, sizeof(*cRec), 1, cFile);
+fclose(cFile);
+} void updateCustomer(const char *fName, double newBalance) { Customer cRec;
+readCustomer(fName, &cRec);
+cRec.balance = newBalance;
+writeCustomer(&cRec);
+} A primeira vista, a rotina updateCustomer parece bem satisfatoria. Ela parece implementar a logica que precisamos - ler um registro, atualizar o saldo e gravar o registro novamente. No entanto, essa perfeicao oculta um
+[p152] problema maior. As rotinas readCustomer e writeCustomer estao rigidamente associadas 3 - elas compartilham a variavel global cFile. readCustomer abre o arquivo e armazena seu ponteiro em cFile e writeCustomer usa o ponteiro armazenado para fechar o arquivo ao terminar. Essa variavel global nem mesmo aparece na rotina updateCustomer.
+Por que isso e ruim? Consideremos o infeliz programador da manutencao que foi informado que a especificacao mudou - o saldo so deve ser atualizado se o novo valor nao for negativo. Ele acessa a fonte e muda updateCustomer:
+void updateCustomer(const char *fName, double newBalance) { Customer cRec;
+readCustomer(fName, &cRec);
+if (newBalance >= 0.0) { cRec.balance = newBalance;
+writeCustomer(&cRec);
+} } Tudo parece bem durante os testes. No entanto, quando o codigo entra em producao, ele trava apos varias horas, reclamando de muitos arquivos abertos. Ja que writeCustomer nao esta sendo chamada em algumas circunstancias, o arquivo nao esta sendo fechado.
+Uma solucao muito ruim para esse problema seria lidar com o caso especial em updateCustomer:
+void updateCustomer(const char *fName, double newBalance) { Customer cRec;
+readCustomer(fName, &cRec);
+if (newBalance >= 0.0) { cRec.balance = newBalance;
+writeCustomer(&cRec);
+} else fclose(cFile);
+} Isso corrigira o problema - agora, o arquivo sera fechado independente do novo saldo - mas essa correcao significa que tres rotinas foram acopladas por meio da variavel global cFile. Estamos caindo em uma armadilha, e as coisas vao comecar a descer rapidamente ladeira abaixo se continuarmos indo nessa direcao.
+3 Para ver uma discussao dos perigos dos codigos associados, consulte A desvinculacao e a Lei de Demeter, pagina 138.
+[p153] A dica acabe o que comecou nos diz que, idealmente, a rotina que alocar um recurso tambem deve libera-lo. Podemos aplica-la aqui refatorando um pouco o codigo:
+void readCustomer(FILE *cFile, Customer *cRec) { fread(cRec, sizeof(*cRec), 1, cFile);
+} void writeCustomer(FILE *cFile, Customer *cRec) { rewind(cFile);
+fwrite(cRec, sizeof(*cRec), 1, cFile);
+} void updateCustomer(const char *fName, double newBalance) { FILE *cFile;
+Customer cRec;
+cFile = fopen(fName, "r+");         // >--readCustomer(cFile, &cRec);         //     / if (newBalance >= 0.0) {            //     / cRec.balance = newBalance;        //     / writeCustomer(cFile, &cRec);      //     / }                                    //     / fclose(cFile);                      // <--} Agora, toda a responsabilidade pelo arquivo esta na rotina updateCustomer. Ela abre o arquivo e (terminando o que comecou) fecha-o antes de sair. A rotina da equilibrio ao uso do arquivo: a abertura e o fechamento estao no mesmo local e fica evidente que, para cada abertura, havera um fechamento correspondente. A refatoracao tambem remove uma variavel global inadequada.
+Aninhe alocacoes O padrao basico para a alocacao de recursos pode ser estendido a rotinas que precisem de mais de um recurso de cada vez. Ha apenas mais duas sugestoes:
+1. Desaloque recursos na ordem oposta em que os alocou. Dessa forma, nao deixara recursos orfaos se um recurso fizer referencias a outro.
+2. Ao alocar o mesmo conjunto de recursos em diferentes locais de seu codigo, aloque-os sempre na mesma ordem. Isso reduzira a possibilidade de deadlock. (Se o processo A reclamar o recurso1 e estiver prestes a reclamar o recurso2, enquanto o processo B tiver reclamado o recurso2 e estiver tentando obter o recurso1, os dois processos esperarao indefinidamente).
+Independentemente do tipo de recursos que estivermos usando - transacoes, memoria, arquivos, segmentos, janelas - o padrao basico e aplicavel:
+[p154] quem quer que aloque um recurso deve ser responsavel por desaloca-lo. No entanto, em algumas linguagens podemos desenvolver ainda mais o conceito.
+Objetos e excecoes O equilibrio entre alocacoes e desalocacoes lembra o construtor e o destruidor de uma classe. A classe representa um recurso, o construtor fornece um objeto especifico desse tipo de recurso e o destruidor o remove do escopo.
+Se voce estiver programando em uma linguagem orientada a objetos, pode achar util encapsular recursos em classes. Sempre que precisar de um tipo de recurso especifico, deve instanciar um objeto dessa classe. Quando o objeto sair do escopo, ou for reclamado pelo coletor de lixo, o destruidor desalocara o recurso encapsulado.
+Essa abordagem apresentara beneficios especificos quando voce estiver trabalhando com linguagens como a C++, em que as excecoes podem interferir na desalocacao de recursos.
+Equilibrio e excecoes Linguagens que dao suporte a excecoes podem tornar a desalocacao de recursos complicada. Se uma excecao for lancada, como garantir que todos os recursos alocados antes dela serao removidos? Ate certo ponto, a resposta depende da linguagem.
+Balanceando recursos com excecoes C++ A linguagem C++ da suporte a um mecanismo de excecoes try...catch. Infelizmente, isso significa que ha sempre pelo menos dois caminhos possiveis quando saimos de uma rotina que captura e entao lanca novamente uma excecao:
+void doSomething(void) { Node *n = new Node;
+try { // faz algo } catch (...) { delete n;
+throw;
+} delete n;
+}
+[p155] Observe que o no que criamos e liberado em dois locais - uma vez no caminho de saida normal da rotina e outra no manipulador de excecoes. Essa e uma violacao clara do principio NSR e um problema de manutencao prestes a ocorrer.
+No entanto, podemos usar a semantica da C++ a nosso favor. Objetos locais sao destruidos automaticamente quando o bloco que os contem e abandonado. Isso nos da algumas opcoes. Se as circunstancias permitirem, podemos alterar "n" de um ponteiro para um objeto Node real na pilha: void doSomething1(void) { Node n;
+try { // faz algo } catch (...) { throw;
+} } Aqui, usamos a C++ para manipular a destruicao do objeto Node automaticamente, sendo ou nao lancada uma excecao.
+Se a alteracao de um ponteiro nao for possivel, o mesmo efeito pode ser obtido pelo encapsulamento do recurso (nesse caso, um ponteiro Node) dentro de outra classe.
+// Classe encapsuladora de recursos Node class NodeResource { Node *n;
+public:
+NodeResource() { n = new Node; } ~NodeResource() { delete n; } Node *operator->() { return n; } };
+void doSomething2(void) { NodeResource n;
+try { // faz algo } catch (...) { throw;
+} } Agora a classe encapsuladora, NodeResource, esta assegurando que, quando seus objetos forem destruidos, os nos correspondentes tambem serao. Por conveniencia, a classe encapsuladora fornece um operador de desreferenciamento (->) para que seus usuarios possam acessar diretamente os campos do objeto Node interno.
+[p156] Ja que essa tecnica e tao util, a biblioteca C++ padrao disponibiliza a classe de modelo auto-ptr, que fornece encapsuladores automaticos para objetos alocados dinamicamente.
+void doSomething3(void) { auto_ptr<Node> p (new Node);
+// Acessa Node como p->...
+// Node e excluido automaticamente no final } Balanceando recursos em Java Diferente da C++, a linguagem Java implementa uma forma preguicosa de destruicao automatica de objetos. Objetos nao referenciados sao considerados candidatos a coleta de lixo e seu metodo finalize sera chamado se a coleta de lixo os reclamar. Embora conveniente para os desenvolvedores, que deixam de ser culpados pela maioria dos vazamentos de memoria, isso torna dificil implementar a remocao de recursos usando o esquema da C++. Felizmente, os projetistas da linguagem Java foram espertos adicionando como compensacao um recurso de linguagem, a clausula finally. Quando um bloco try tiver uma clausula finally, o codigo dessa clausula tera execucao garantida se alguma instrucao do bloco try for executada. Nao importa se uma excecao for lancada (ou mesmo se o codigo do bloco try executar uma instrucao return) - o codigo da clausula finally sera executado. Isso significa que poderiamos balancear nosso uso de recursos com um codigo como public void doSomething() throws IOException { File tmpFile = new File(tmpFileName);
+FileWriter tmp = new FileWriter(tmpFile);
+try { // executa alguma tarefa } finally { tmpFile.delete();
+} } A rotina usa um arquivo temporario que queremos excluir independentemente de como sairemos dela. O bloco finally nos permite expressar isso concisamente.
+Quando nao e possivel balancear recursos Ha situacoes em que o padrao basico de alocacao de recursos simplesmente nao e apropriado. Normalmente, isso ocorre em programas que usam estruturas de dados dinamicas. Uma rotina alocara uma area de
+[p157] memoria e a vinculara a alguma estrutura maior, na qual ela pode ficar por algum tempo.
+O truque aqui e estabelecer uma invariante semantica para a alocacao de memoria. Voce deve decidir quem e responsavel pelos dados de uma estrutura de dados agregada. O que ocorrera quando voce desalocar a estrutura de nivel superior? Ha tres opcoes basicas:
+1. A estrutura de nivel superior tambem sera responsavel por liberar qualquer subestrutura contida nela. Em seguida, essas estruturas excluirao recursivamente os dados contidos nelas e assim por diante. 2. A estrutura de nivel superior sera desalocada. Qualquer estrutura para a qual ela estivesse apontando (que nao for referenciada em nenhum outro local) ficara orfa.
+3. A estrutura de nivel superior se recusara a ser desalocada se tiver alguma subestrutura.
+A escolha aqui depende das circunstancias de cada estrutura de dados individualmente. No entanto, voce tem de torna-la explicita para cada uma delas e implementar sua decisao consistentemente. A implementacao de qualquer uma dessas opcoes em uma linguagem procedural como a C pode ser um problema: as estruturas de dados nao sao ativas. Nessas circunstancias, preferimos criar um modulo para cada estrutura principal, que forneca recursos padrao de alocacao e desalocacao para essa estrutura (esse modulo tambem pode fornecer recursos como o debug printing, a serializacao, a desserializacao e ganchos atravessadores).
+Para concluir, se ficar complicado controlar os recursos, voce pode criar seu proprio tipo de coleta de lixo automatica limitada implementando um esquema de contagem de referencias em seus objetos alocados dinamicamente. O livro More Effective C++ [Mey96] dedica uma secao a esse topico.
+Verificando o equilibrio Ja que os programadores pragmaticos nao confiam em ninguem, nem neles proprios, achamos sempre uma boa ideia construir um codigo que verifique se os recursos estao sendo liberados apropriadamente Na maioria dos aplicativos, isso significa produzir encapsuladores para cada tipo de recurso e usar esses encapsuladores para rastrear todas as alocacoes e desalocacoes. Em certos pontos de seu codigo, a logica do programa exi-
+[p158] gira que os recursos estejam em um certo estado; use os encapsuladores para verificar isso.
+Por exemplo, um programa de execucao continua que atenda solicitacoes provavelmente tera um unico ponto no inicio de seu loop de processamento principal onde aguardara a proxima solicitacao chegar. Esse e um bom local para verificar se o uso de recursos nao aumentou desde a ultima execucao do loop.
+Em um nivel mais baixo, porem nao menos util, voce pode investir em ferramentas que (entre outras coisas) procurem vazamentos de memoria em seus programas em execucao. O Purify (www.rational.com) e o Insure++ (www.parasoft.com) sao opcoes populares.
+As secoes relacionadas sao:
+Projeto por contrato,
+*
+pagina 131 Programacao assertiva,
+*
+pagina 144 A desvinculacao e a Lei de Demeter,
+*
+pagina 160 Desafios Embora nao haja maneiras garantidas de assegurar que voce libere
+*
+sempre os recursos, certas tecnicas de projeto, quando aplicadas consistentemente, ajudarao. No texto, discutimos como o estabelecimento de uma invariante semantica para estruturas de dados maiores pode guiar decisoes de desalocacao de memoria. Considere como o Projeto por contrato, pagina 131, ajudaria a aperfeicoar essa ideia.
+Exercicios 22. Alguns desenvolvedores de C e C++ gostam de configurar um ponteiro com NULL apos desalocarem a memoria que ele referencia. Por que essa e uma boa ideia?
+23. Alguns desenvolvedores de Java gostam de configurar uma variavel de objeto com NULL apos terminarem de usar o objeto. Por que essa e uma boa ideia?
+Resposta na p. 314 Resposta na p. 314
+[p159] Seja Flexivel A vida nao para.
+Os codigos que escrevemos tambem nao podem parar. Para acompanhar a quase frenetica velocidade da mudanca atualmente, temos de fazer de tudo para escrever codigos que sejam tao soltos - tao flexiveis - quanto possivel. Caso contrario, nosso codigo ficara rapidamente desatualizado, ou fragil demais para ser corrigido, e sera deixado para tras na louca corrida em direcao ao futuro.
+Em Reversibilidade, na pagina 66, falamos sobre os perigos das decisoes irreversiveis. Neste capitulo, lhe ensinaremos a tomar decisoes reversiveis, para que seu codigo possa permanecer flexivel e adaptavel diante de um mundo incerto.
+Primeiro temos de examinar a vinculacao - as dependencias entre modulos de codigo. Em A desvinculacao e a Lei de Demeter mostraremos como manter separados conceitos distintos e diminuir a desvinculacao. Uma boa maneira de permanecer flexivel e escrever menos codigo. A alteracao do codigo o deixara aberto a possibilidade de introducao de novos erros. Metaprogramacao explicara como deixar os detalhes totalmente fora do codigo, onde eles possam ser alterados mais segura e facilmente.
+Em Vinculacao temporal, examinaremos dois aspectos do tempo relacionados a vinculacao. Voce depende do "tique" vindo antes do "taque"? Nao se quiser permanecer flexivel.
+Um conceito-chave da criacao de codigos flexiveis e a separacao entre o modelo de dados e a visualizacao, ou apresentacao, desse modelo. Desvincularemos os modelos das visualizacoes em E apenas um modo de ver.
+[p160] Para concluir, ha uma tecnica que desvincula ainda mais os modulos fornecendo um ponto de encontro em que eles podem trocar dados anonima e assincronamente. Esse e o topico de Quadros-negros.
+Armado com essas tecnicas, voce podera escrever codigos que se adaptem as circunstancias.
+A DESVINCULACAO E A LEI DE DEMETER
+Boas cercas formam bons vizinhos.
+Robert Frost, Mending Wall Em Ortogonalidade, pagina 56, e Projeto por contrato, pagina 131, sugerimos que a criacao de um codigo "cauteloso" e benefica. Mas a "cautela" funciona de duas maneiras: nao se revelar para os outros e nao interagir com muitas pessoas.
+Espioes, dissidentes, revolucionarios e assemelhados com frequencia sao organizados em pequenos grupos de pessoas chamados celulas. Embora os individuos de cada celula possam conhecer uns aos outros, eles nao conhecem os que estao em outras celulas. Se uma celula for descoberta, nao havera soro da verdade que revele os nomes de outras pessoas nao pertencentes a ela. A eliminacao de interacoes entre as celulas protege a todos. Achamos que esse tambem e um bom principio a se aplicar a codificacao. Organize seu codigo em celulas (modulos) e limite a interacao entre elas. Assim, se um modulo ficar comprometido e tiver de ser substituido, os outros devem poder continuar.
+Reduza a vinculacao O que ha de errado em modulos que sabem da existencia uns dos outros? Em principio, nada - nao precisamos ser tao paranoicos como os espioes ou dissidentes. No entanto, temos de tomar cuidado com quantos modulos interagimos e, o mais importante, como viemos a interagir com eles. Suponhamos que voce estivesse reformando sua casa, ou construindo uma casa a partir do zero. Um plano tipico envolveria uma "empreiteira encarregada". Voce contrata a empreiteira para fazer o trabalho, mas ela pode ou nao executar a construcao pessoalmente; o trabalho pode ser oferecido a varias subempreiteiras. Mas, como cliente, voce nao tem envolvi-
+[p161] mento direto com as subempreiteiras - a empreiteira encarregada assume esse conjunto de dores de cabeca em seu nome.
+Gostariamos de seguir esse mesmo modelo com o software. Quando solicitassemos um servico especifico a um objeto, gostariamos que o servico fosse executado em nosso nome. Nao queremos que o objeto nos forneca um objeto de terceiros com o qual teremos de lidar para obter o servico requerido.
+Por exemplo, suponhamos que voce estivesse criando uma classe que gerasse um grafico de dados de registradores cientificos. Voce tem registradores de dados espalhados por todo o mundo; cada objeto de registrador contem um objeto de local fornecendo sua posicao e fuso horario. Voce quer permitir que seus usuarios selecionem um registrador e representem seus dados graficamente, com a indicacao do fuso horario correto. Poderia escrever public void plotDate(Date aDate, Selection aSelection) { TimeZone tz = aSelection.getRecorder().getLocation().getTimeZone();
+...
+} Mas agora a rotina de plotagem foi desnecessariamente vinculada a tres classes - Selection, Recorder e Location. Esse estilo de codificacao aumenta dramaticamente a quantidade de classes das quais nossa classe depende. Por que isso nao e bom? Aumenta o risco de que uma alteracao nao relacionada em outro local do sistema afete o seu codigo. Por exemplo, se Fred fizer uma alteracao em Location para que deixe de conter diretamente um TimeZone, voce tambem tera de alterar seu codigo.
+Em vez de ter de voce mesmo percorrer uma hierarquia, apenas solicite o que precisa diretamente:
+public void plotDate(Date aDate, TimeZone aTz) { ...
+} plotDate(someDate, someSelection.getTimeZone());
+Adicionamos um metodo a Selection para que obtenha o fuso horario em nosso nome: a rotina de plotagem nao quer saber se o fuso horario vem diretamente de Recorder, de algum objeto contido dentro de Recorder ou se Selection gera um fuso horario totalmente diferente. A rotina de selecao, por sua vez, provavelmente so tera de solicitar ao registrador seu fuso horario, deixando a cargo do registrador obte-lo no objeto Location contido nele.
+[p162] Percorrer relacionamentos entre objetos diretamente pode levar rapidamente a uma explosao combinatoria 1 de relacionamentos de dependencia.
+Voce pode ver sintomas desse fenomeno de varias maneiras:
+1. Grandes projetos C ou C++ em que o comando que reune um teste de unidade e mais longo do que o proprio programa de teste.
+2. Alteracoes "simples" em um modulo que se propagam por modulos nao relacionados do sistema.
+3. Desenvolvedores que tem medo de alterar o codigo porque nao tem certeza do que pode ser afetado.
+Sistemas com muitas dependencias desnecessarias sao muito dificeis (e caros) de editar e tendem a ser altamente instaveis. Para manter as dependencias em um nivel minimo, usaremos a Lei de Demeter para projetar nossos metodos e funcoes.
+A Lei de Demeter para funcoes A Lei de Demeter para funcoes [LH89] tenta reduzir a vinculacao entre modulos de um programa especifico. Ela tenta nos impedir de acessar um objeto para ganhar acesso a metodos de um terceiro objeto. A lei se encontra resumida na Figura 5.1 da proxima pagina.
+Escrevendo codigos "cautelosos" que sigam o maximo possivel a Lei de Demeter, podemos atingir nosso objetivo:
+Reduza a vinculacao entre modulos Isso faz alguma diferenca?
+Embora soe bem na teoria, seguir a Lei de Demeter ajuda realmente a criar um codigo de melhor manutencao?
+Estudos mostraram [BBM96] que classes em C++ com maiores conjuntos de resposta estao mais propensas a erros do que classes com menores conjuntos de resposta (um conjunto de resposta e definido para ser o numero de funcoes chamadas diretamente por metodos da classe).
+1 Se todos os n objetos souberem da existencia uns dos outros, uma alteracao em apenas um pode resultar nos outros n - 1 objetos precisando de alteracoes.
+[p163] Ja que seguir a Lei de Demeter reduz o tamanho do conjunto de resposta na classe chamadora, classes projetadas dessa forma tambem tendem a ter menos erros (consulte [URL 56] para ver mais artigos e informacoes sobre o projeto Demeter).
+O uso da Lei de Demeter tornara seu codigo mais adaptavel e robusto, mas a um custo: como "empreiteira encarregada", seu modulo deve delegar tarefas a e gerenciar toda e qualquer subempreiteira diretamente, sem envolver clientes do modulo. Na pratica, isso significa que voce estara criando uma grande quantidade de metodos encapsuladores que apenas encaminharao a solicitacao para um representante. Esses metodos encapsuladores demandam tanto um custo de tempo de execucao quanto uma sobrecarga de espaco, que podem ser significativos - e ate mesmo proibitivos - em alguns aplicativos.
+Com em qualquer tecnica, voce deve avaliar os pros e contras para seu aplicativo em particular. No projeto de esquemas de bancos de dados, e pratica comum "desnormalizar" o esquema para a obtencao de uma melhoria no desempenho: violar as regras de normalizacao em troca de velocidade. Uma compensacao semelhante tambem pode ser obtida aqui. Na verdade, invertendo a Lei de Demeter e vinculando rigorosamente varios modulos, voce pode perceber um ganho importante no desempenho. Conclass Demeter { private:
+A *a;
+int func();
+public:
+//...
+void example(B& b);
+} void Demeter::example(B& b) {
+C
+c;
+int f = func();
+b.invert();
+a = new A();
+a->setActive();
+c.print();
+} A Lei de Demeter para funcoes diz que qualquer metodo de um objeto so deve chamar metodos pertencentes a:
+ele proprio qualquer parametro que tenha sido passado para o metodo qualquer objeto que ele tenha criado qualquer objeto componente mantido diretamente Figura 5.1 Lei de Demeter para funcoes.
+[p164] tanto que seja conhecido e aceitavel esses modulos serem vinculados, seu projeto estara correto.
+Caso contrario, voce pode se ver indo em direcao a um futuro incerto e inflexivel. Ou em direcao a absolutamente nenhum futuro.
+As secoes relacionadas sao:
+Ortogonalidade,
+*
+pagina 56 Reversibilidade,
+*
+pagina 66 Projeto por contrato,
+*
+pagina 131 Como balancear recursos,
+*
+pagina 151 Apenas um modo de ver,
+*
+pagina 179 Equipes pragmaticas,
+*
+pagina 246 Testando incansavelmente,
+*
+pagina 259 Desafios Discutimos como o uso da delegacao torna mais facil obedecer a Lei
+*
+de Demeter e, consequentemente, reduzir a vinculacao. Porem, criar todos os metodos necessarios para encaminhar chamadas a classes delegadas e entediante e propenso a erros. Quais sao as vantagens e Desvinculacao fisica Nesta secao, estamos muito preocupados em projetar mantendo as coisas desvinculadas logicamente dentro dos sistemas. No entanto, ha outro tipo de interdependencia que se torna altamente significativa a medida que os sistemas ficam maiores. Em seu livro Large-Scale C++ Software Design [Lak96], John Lakos aborda as questoes correspondentes a relacionamentos entre os arquivos, diretorios e bibliotecas que compoem um sistema. Grandes projetos que ignoram esses problemas de design fisico acabam tendo ciclos de construcao que sao medidos em dias e testes de unidade que podem arrastar o sistema inteiro como codigo de suporte, entre outros problemas. O sr. Lakos argumenta de maneira convincente que tanto o projeto logico quanto o fisico devem correr em paralelo - e que desfazer o dano causado por dependencias ciclicas a um grande corpo de codigo e extremamente dificil. Recomendamos este livro se voce estiver envolvido em desenvolvimentos de grande escala, mesmo se C++ nao for sua linguagem de implementacao.

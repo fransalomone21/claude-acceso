@@ -1,0 +1,213 @@
+[p245] Projetos Pragmaticos Conforme seu projeto avanca, temos de sair das questoes relacionadas a filosofia e codificacao individuais para falar sobre questoes maiores relacionadas ao tamanho do projeto. Nao entraremos em detalhes de gerenciamento de projetos, mas falaremos sobre algumas areas criticas que podem ajudar ou arruinar qualquer projeto.
+Assim que voce tiver mais de uma pessoa trabalhando em um projeto, tera de estabelecer algumas regras basicas e delegar partes do projeto de acordo. Em Equipes pragmaticas, mostraremos como fazer isso seguindo a filosofia pragmatica.
+O fator mais importante que fara as atividades de nivel de projeto funcionarem de maneira consistente e confiavel e a automatizacao de seus procedimentos. Explicaremos por que e mostraremos alguns exemplos da vida real em Automacao onipresente.
+Anteriormente, falamos sobre testar seu codigo. Em Testando incansavelmente, passaremos a proxima etapa da filosofia e das ferramentas de teste com abrangencia de projeto - principalmente se voce nao tiver uma grande equipe de Garantia da Qualidade a disposicao.
+A unica coisa que os desenvolvedores gostam menos do que testar e documentar. Independente de voce ter redatores tecnicos ajudando-o ou de estar fazendo isso por sua propria conta, mostraremos como tornar a tarefa menos desagradavel e mais produtiva em Tudo se resume a escrever. O sucesso esta nos olhos do observador - o patrocinador do projeto. A percepcao de sucesso e o que conta e, em Grandes expectativas, mostraremos alguns truques que encantariam qualquer patrocinador de projeto.
+[p246] A ultima dica do livro e consequencia direta de todo o resto. Em Orgulho e preconceito, recomendamos que voce assine seu trabalho e se orgulhe do que faz.
+EQUIPES PRAGMATICAS
+No Grupo L, Stoffel supervisiona seis programadores de primeira linha, um desafio gerencial quase comparavel a domesticar gatos.
+The Washington Post Magazine, 9 de junho de 1985 Ate agora neste livro, examinamos tecnicas pragmaticas que ajudam uma pessoa a ser um programador melhor. Esses metodos tambem podem funcionar para equipes?
+A resposta e um retumbante "sim"! Ha vantagens em ser um individuo pragmatico, mas essas vantagens aumentam muito quando a pessoa esta trabalhando em uma equipe pragmatica.
+Nesta secao, examinaremos brevemente como tecnicas pragmaticas podem ser aplicadas as equipes como um todo. Essas notas sao apenas o inicio. Uma vez que voce tiver um grupo de desenvolvedores pragmaticos trabalhando em um ambiente progressista, rapidamente eles desenvolverao e aperfeicoarao uma dinamica de equipe propria que funcione para eles.
+Reformulemos algumas das secoes anteriores em termos de equipes. Sem janelas quebradas A qualidade e um problema da equipe. O desenvolvedor mais diligente colocado em uma equipe que simplesmente nao se importa achara dificil manter o entusiasmo necessario a correcao de problemas insignificantes. O problema sera ainda maior se a equipe desencorajar ativamente o desenvolvedor a dedicar algum tempo a essas correcoes.
+As equipes como um todo nao devem tolerar janelas quebradas - as pequenas imperfeicoes que ninguem corrige. A equipe deve se responsabilizar pela qualidade do produto, apoiando desenvolvedores que conhecam a filosofia da erradicacao de janelas quebradas que descrevemos em Entropia de software, pagina 26, e encorajando quem ainda nao a tiver descoberto.
+[p247] Algumas metodologias de grupo tem um supervisor de qualidade - alguem a quem a equipe delega a responsabilidade pela qualidade do produto. E claro que isso e ridiculo: a qualidade so pode advir das contribuicoes individuais de todos os membros da equipe.
+Sapos cozidos Lembra do pobre sapo na panela de agua, mencionado em Sopa de pedras e sapos cozidos, pagina 29? Ele nao notou a mudanca gradual de seu ambiente e acabou cozido. O mesmo pode ocorrer a pessoas que nao sao cuidadosas. Pode ser dificil prestar atencao no ambiente geral no calor do desenvolvimento do projeto.
+E ainda mais facil as equipes como um todo serem cozidas. As pessoas acham que alguem esta resolvendo um problema ou que o lider da equipe deve ter aprovado uma alteracao que seu usuario esta solicitando. Ate mesmo as equipes mais bem-intencionadas podem ser descuidadas com alteracoes significativas em seus projetos.
+Combata isso. Certifique-se de que todos monitorem ativamente alteracoes no ambiente. Voce pode designar um supervisor de mudancas no ambiente. Faca essa pessoa procurar constantemente aumentos no escopo, diminuicoes nas escalas de tempo, recursos adicionais, novos ambientes - qualquer coisa que nao faca parte do que foi originalmente acordado. Faca medicoes em busca de novos requisitos (consulte a pagina 231). A equipe nao precisa rejeitar alteracoes concluidas - voce so tem de saber que elas estao ocorrendo. Caso contrario, voce e que sera cozido.
+Comunique-se E claro que os desenvolvedores de uma equipe devem conversar uns com os outros. Demos algumas sugestoes para facilitar isso em Comuniquese!, pagina 40. No entanto, e facil esquecer que a propria equipe esta presente na organizacao. A equipe como uma entidade precisa se comunicar claramente com o resto do mundo.
+Para as pessoas de fora, as piores equipes de projeto sao aquelas que parecem caladas e reticentes. Elas fazem reunioes sem estrutura, onde ninguem quer falar. Seus documentos sao uma bagunca: dois documentos nunca tem a mesma aparencia e cada um usa uma terminologia diferente.
+[p248] Equipes de projeto profissionais tem uma personalidade distinta. As pessoas querem se reunir com elas, porque sabem que verao uma apresentacao bem preparada que fara todos se sentirem bem. A documentacao que produzem e clara, precisa e consistente. Todos falam a mesma lingua. Podem ate ter senso de humor.
+Ha um truque de marketing simples que ajuda as equipes a falarem a mesma lingua: crie uma marca. Quando comecar um projeto, invente um nome para ele, de preferencia algo incomum (no passado, nomeamos projetos com base em coisas como papagaios assassinos que atacam ovelhas, ilusoes de otica e cidades miticas). Gaste 30 minutos para inventar um logotipo simples e use-o em seus memorandos e relatorios. Use bastante o nome de sua equipe ao falar com as pessoas. Pode soar tolo, mas dara a sua equipe uma identidade definida e ao resto do mundo algo memoravel para ser associado ao seu trabalho.
+Nao se repita Em Os males da duplicacao, pagina 48, falamos sobre as dificuldades de eliminar trabalho duplicado entre membros de uma equipe. Essa duplicacao leva ao desperdicio de trabalho e pode resultar em uma manutencao complicada. E claro que uma boa comunicacao pode ajudar aqui, mas as vezes algo mais e necessario.
+Algumas equipes designam um membro como bibliotecario do projeto, responsavel por coordenar os depositos de documentos e codigos. Outros membros da equipe podem usar essa pessoa como primeira fonte na busca por algo. Um bom bibliotecario tambem conseguira identificar uma possivel duplicacao lendo o material que estiver sendo manipulado. Quando o projeto for grande demais para um bibliotecario (ou quando ninguem quiser desempenhar o papel), designe pessoas encarregadas por varios aspectos funcionais do trabalho. Se alguem quiser discutir a manipulacao de datas, deve saber que isso e com Mary. Se houver um problema no esquema do banco de dados, fale com Fred.
+E nao esqueca a utilidade dos sistemas groupware e grupos de noticias locais da Usenet na comunicacao e arquivamento de perguntas e respostas.
+1 A equipe fala a mesma lingua - externamente. Internamente, encorajamos o debate ativo e resoluto. Bons desenvolvedores tendem a defender apaixonadamente seu trabalho.
+[p249] Ortogonalidade A organizacao tradicional de equipes se baseia no antiquado metodo em cascata de construcao de software. Papeis sao atribuidos as pessoas de acordo com seus cargos. Voce vera analistas de negocios, arquitetos, projetistas, programadores, testadores, documentadores e coisas do tipo. 2 Ha uma hierarquia implicita aqui - quanto mais perto do usuario se pode chegar, mais graduado se e.
+Levando as coisas ao extremo, algumas culturas de desenvolvimento impoem divisoes de responsabilidade rigorosas; os codificadores nao podem falar com os testadores, que por sua vez nao podem falar com o projetistachefe e assim por diante. Certas empresas aumentam ainda mais o problema tendo diferentes subequipes subordinadas a cadeias de gerenciamento separadas.
+E um erro pensar que as atividades de um projeto - analise, design, codificacao e teste - podem ocorrer isoladamente. Elas nao podem. Esses sao diferentes aspectos do mesmo problema e separa-los artificialmente pode causar muitos problemas. Programadores que estiverem dois ou tres niveis distantes dos usuarios reais de seu codigo provavelmente nao conhecerao o contexto em que seu trabalho sera usado. Nao poderao tomar decisoes embasadas.
+Organize as equipes com base na funcionalidade Preferimos dividir equipes funcionalmente. Divida seu pessoal em pequenas equipes, cada uma responsavel por um aspecto funcional especifico do sistema final. Permita que as equipes se organizem internamente, com base em pontos fortes individuais quando possivel. Cada equipe tera contas a prestar com outras equipes do projeto, como definido pelas obrigacoes acordadas entre elas. O conjunto exato de obrigacoes muda a cada projeto, assim como a alocacao de pessoas nas equipes.
+Funcionalidade aqui nao significa necessariamente casos de uso do usuario final. A camada de acesso ao banco de dados e levada em conta, assim como o subsistema de ajuda. Queremos equipes coesas e altamente independentes - exatamente os mesmos criterios que devemos usar ao 2 Em The Rational Unified Process: An Introduction, o autor identifica 27 papeis separados dentro de uma equipe de projeto! [Kru98]
+[p250] modularizar o codigo. Ha sinais de alerta de que a organizacao de equipes esta errada - um exemplo classico e quando duas subequipes estao trabalhando no mesmo modulo ou classe do programa.
+Como esse estilo funcional de organizacao ajuda? Organizamos nossos recursos usando as mesmas tecnicas que usamos para organizar codigo, como os contratos (Projeto por contrato, pagina 131), a desvinculacao (A desvinculacao e a Lei de Demeter, pagina 160) e a ortogonalidade (Ortogonalidade, pagina 56), e ajudamos a isolar a equipe como um todo dos efeitos das mudancas. Se o usuario decidir repentinamente mudar os fornecedores de bancos de dados, so a equipe do banco de dados deve ser afetada. Se de repente o departamento de marketing decidir usar uma ferramenta comprada para a funcao de calendario, o grupo do calendario sera afetado. Quando executado apropriadamente, esse tipo de abordagem de grupo pode reduzir dramaticamente a quantidade de interacoes entre o trabalho das pessoas, reduzindo escalas de tempo, aumentando a qualidade e reduzindo a quantidade de defeitos. Essa abordagem tambem pode levar a um conjunto de desenvolvedores mais comprometido. Cada equipe sabe que so eles sao responsaveis por uma funcao especifica, portanto, sentem-se mais donos de seu trabalho.
+Porem, essa abordagem so funciona com desenvolvedores responsaveis e uma gerencia de projeto forte. Criar um pool de equipes autonomas e deixa-las soltas sem lideranca e uma receita para o desastre. O projeto precisa de pelo menos duas "liderancas" - uma tecnica, a outra administrativa. A lideranca tecnica define a filosofia e o estilo de desenvolvimento, atribui responsabilidades as equipes e media as inevitaveis "discussoes" entre as pessoas. Ela tambem esta sempre atenta ao quadro geral, tentando encontrar qualquer atributo comum entre as equipes que possa reduzir a ortogonalidade do esforco como um todo. A lideranca administrativa, ou o gerente do projeto, agenda o uso dos recursos que as equipes precisam, monitora e faz relatorios sobre o progresso e ajuda a definir prioridades em termos de necessidades do negocio. Ela tambem pode agir como representante da equipe na comunicacao com o mundo externo.
+Equipes de projetos maiores precisam de recursos adicionais: um bibliotecario que indexe e armazene o codigo e a documentacao, um construtor de ferramentas que forneca ferramentas e ambientes comuns, suporte operacional e assim por diante.
+Esse tipo de organizacao de equipes e semelhante em espirito ao antigo conceito de equipe do programador-chefe, documentado pela primeira vez em 1972 [Bak72].
+[p251] Automacao Uma otima maneira de assegurar tanto a consistencia quanto a precisao e automatizar tudo que a equipe fizer. Por que dispor o codigo manualmente quando seu editor pode fazer isso automaticamente enquanto voce digita? Por que preencher formularios de teste se a construcao noturna pode executar testes automaticamente?
+A automacao e um componente essencial de toda equipe de projeto - suficientemente importante para que dediquemos uma secao inteira a ela, comecando na proxima pagina. Para assegurar que tudo sera automatizado, designe um ou mais membros da equipe como construtores de ferramentas para construir e implantar as ferramentas que automatizarao a parte chata do projeto. Faca-os produzir makefiles, scripts de shell, modelos de editor, programas utilitarios e coisas do tipo.
+Saiba quando parar de adicionar retoques Lembre-se de que as equipes sao compostas de individuos. De a cada membro uma chance de brilhar de sua propria maneira. De a eles uma estrutura suficiente apenas para apoia-los e para assegurar que o projeto seja distribuido de acordo com seus requisitos. Entao, como o pintor de Software satisfatorio, pagina 31, resista a tentacao de adicionar mais retoques.
+As secoes relacionadas sao:
+Entropia de software,
+*
+pagina 26 Sopa de pedras e sapos cozidos,
+*
+pagina 29 Software satisfatorio,
+*
+pagina 31 Comunique-se!,
+*
+pagina 40 Os males da duplicacao,
+*
+pagina 48 Ortogonalidade,
+*
+pagina 56 Projeto por contrato,
+*
+pagina 131 A desvinculacao e a Lei de Demeter,
+*
+pagina 160 Automacao onipresente
+*
+, pagina 252 Desafios Procure equipes de sucesso fora da area do desenvolvimento de soft-
+*
+ware. O que as torna bem-sucedidas? Elas usam algum dos processos discutidos nesta secao?
+[p252] Na proxima vez em que comecar um projeto, tente convencer as
+*
+pessoas a criar uma marca para ele. De a sua empresa tempo para se acostumar com a ideia e entao faca uma pesquisa rapida para ver que diferenca isso fez, tanto dentro da equipe quanto externamente.
+Algebra de grupo: na escola, davam-nos problemas como "se 4 traba-
+*
+lhadores levam 6 horas para cavar uma vala, quanto tempo 8 trabalhadores levariam?". Na vida real, no entanto, que fatores afetariam a resposta a: "se 4 programadores levam 6 meses para desenvolver um aplicativo, quanto tempo levariam 8 programadores?". Em quantos cenarios o tempo e realmente reduzido?
+AUTOMACAO ONIPRESENTE
+A civilizacao avanca ao aumentar o numero de operacoes importantes que podemos executar sem pensar.
+Alfred North Whitehead No alvorecer da era dos automoveis, as instrucoes para ligar um Ford Modelo T tinham mais de duas paginas. Nos carros modernos, voce so precisa virar a chave - o procedimento de partida e automatico e a prova de acidentes. Uma pessoa seguindo uma lista de instrucoes pode inundar o motor, mas a partida automatica nao.
+Embora a computacao ainda seja uma industria no estagio do Modelo T, nao podemos nos dar ao luxo de percorrer duas paginas de instrucoes repetidamente para executar alguma operacao comum. Seja o procedimento de construcao ou lancamento, a papelada de revisao do codigo ou qualquer outra tarefa recorrente do projeto, ela tem de ser automatica. Podemos ter de construir a ignicao e o injetor de combustivel a partir do zero, mas uma vez que estiverem prontos, so teremos de virar a chave.
+Alem disso, queremos assegurar a consistencia e a capacidade de repeticao no projeto. Procedimentos manuais deixam a consistencia por conta do acaso; a capacidade de repeticao nao e garantida, principalmente se aspectos do procedimento estiverem abertos a interpretacao de pessoas diferentes.
+[p253] Tudo no automatico Uma vez estavamos nas instalacoes de um cliente onde todos os desenvolvedores usavam o mesmo IDE. O administrador de sistemas dava a cada desenvolvedor um conjunto de instrucoes sobre a instalacao de pacotes complementares do IDE. Essas instrucoes ocupavam muitas paginas cheias de clique aqui, role para la, arraste isso, clique duas vezes naquilo e faca tudo de novo.
+Nao e de surpreender que a maquina de cada desenvolvedor tinha sido carregada de maneira um pouco diferente. Diferencas sutis no comportamento do aplicativo ocorriam quando desenvolvedores distintos executavam o mesmo codigo. Erros apareciam em uma maquina, mas nao em outras. O rastreamento de diferencas de versao de cada componente geralmente revelava uma surpresa.
+Nao use procedimentos manuais As pessoas simplesmente nao estao tao aptas a se repetir como os computadores. Nem deveriamos esperar que estivessem. Um script de shell ou um arquivo em lotes executara as mesmas instrucoes, na mesma ordem, repetidamente. Eles tambem podem ser colocados sob o controle de fontes, para que voce possa examinar as alteracoes ocorridas no procedimento com o passar do tempo ("mas costumava funcionar...").
+Outra ferramenta favorita e o cron (ou "at" no Windows NT). Ela nos permite agendar tarefas automaticas para serem executadas periodicamente - geralmente, no meio da noite. Por exemplo, o arquivo crontab a seguir especifica que o comando nightly de um projeto seja executado a meianoite e cinco todo dia, que o backup seja executado as 3:15 da madrugada nos fins de semana e que expense_reports seja executado a meia-noite no primeiro dia do mes.
+# MIN HOUR DAY MONTH DAYOFWEEK COMMAND
+# --------------------------------------------------------------5    0   *     *      *     /projects/Manhattan/bin/nightly 15    3   *     *    1-5     /usr/local/bin/backup 0    0   1     *      *     /home/accounting/expense_reports Usando cron, podemos agendar backups, a construcao noturna, a manutencao de sites da Web e qualquer outra coisa que tenha de ser feita - sem intervencao manual, automaticamente.
+[p254] Compilando o projeto Compilar um projeto e uma tarefa que deve ser confiavel e repetivel. Geralmente, compilamos projetos com makefiles, mesmo quando usamos um ambiente de IDE. Ha varias vantagens no uso de makefiles. Trata-se de um procedimento automatico com script. Podemos adicionar ganchos que gerem codigo para nos, e executar testes de regressao automaticamente. Os IDEs tem suas vantagens, mas somente com IDEs pode ser dificil atingir o nivel de automacao que estamos procurando. Queremos acessar o codigo, construir, testar e distribuir com um unico comando.
+Gerando codigo Em Os males da duplicacao, pagina 48, defendemos que a geracao de codigo deve obter informacoes nas mesmas fontes. Podemos explorar o mecanismo de analise de dependencias de make para tornar esse processo facil. E uma questao de adicionar regras a um makefile para a geracao de um arquivo a partir de alguma outra fonte automaticamente. Por exemplo, suponhamos que quisessemos pegar um arquivo XML, gerar um arquivo Java a partir dele e compilar o resultado.
+.SUFFIXES: .java .class .xml .xml.java:
+perl convert.pl $< > $@ .java.class:
+$(JAVAC) $(JAVAC_FLAGS) $<
+Digite make test.class e o comando make procurara automaticamente um arquivo chamado test.xml, construira um arquivo .java executando um script Perl e entao compilara esse arquivo para produzir test.class. Tambem podemos usar o mesmo tipo de regras para gerar codigo-fonte, arquivos de cabecalho ou documentacao automaticamente a partir de algum outro formato (consulte Geradores de codigo, pagina 124).
+Testes de regressao Voce tambem pode usar o makefile para executar testes de regressao para voce, seja para um modulo individual ou para um subsistema inteiro. Voce pode testar facilmente o projeto inteiro com apenas um comando no topo da arvore de fontes ou pode testar um modulo individual usando o mesmo comando em um unico diretorio. Consulte Testando incansavelmente, pagina 259, para saber mais sobre o teste de regressao.
+[p255] Automacao da construcao Uma construcao e um procedimento que pega um diretorio vazio (e um ambiente de compilacao conhecido) e constroi o projeto a partir do zero, produzindo o que quer que fosse esperado como produto final - uma imagem-mestre de CD-ROM ou um arquivo autoextraivel, por exemplo. Normalmente, uma construcao de projeto engloba as etapas a seguir. 1. Extracao do codigo-fonte do repositorio.
+2. Construcao do projeto a partir do zero, normalmente a partir de um makefile de nivel superior. Cada construcao e marcada com algum tipo de numero de lancamento ou versao ou talvez um carimbo de data.
+3. Criacao de uma imagem de distribuicao. Esse procedimento pode demandar a alteracao da propriedade e das permissoes do arquivo e a producao de todos os exemplos, documentacao, arquivos LEIAME e qualquer outra coisa a ser entregue com o produto, no formato exato necessario no momento da distribuicao.
+4. Execucao dos testes especificados (make test).
+3 Se voce estivesse produzindo um CD-ROM no formato ISO9660, por exemplo, executaria o programa que produz uma imagem bit a bit do sistema de arquivos 9660. Por que esperar ate a noite anterior a entrega para se certificar se funciona?
+Comando make recursivo Muitos projetos configuram makefiles hierarquicos recursivos para construcoes e testes de projeto. Mas fique alerta para alguns problemas potenciais. O comando make calcula as dependencias entre os diversos alvos que ele tem de construir. No entanto, so pode analisar as dependencias existentes dentro da mesma chamada. Especificamente, um comando make recursivo nao conhece as dependencias que outras chamadas a make podem ter. Se voce for cuidadoso e preciso, pode obter os resultados apropriados, mas e facil causar um trabalho adicional desnecessario - ou perder uma dependencia e nao recompilar quando necessario.
+Alem disso, as dependencias da construcao podem ser as mesmas do teste e voce pode precisar de hierarquias separadas.
+[p256] Na maioria dos projetos, esse nivel de construcao e executado automaticamente toda noite. Nessa construcao noturna, normalmente sao executados testes mais completos do que uma pessoa executaria ao construir alguma parte especifica do projeto. O ponto importante e fazer a construcao completa executar todos os testes disponiveis. Voce quer saber se um teste de regressao falhou por causa de uma das alteracoes feitas no codigo hoje. Identificando o problema perto da origem, tera uma chance melhor de encontra-lo e corrigi-lo.
+Se voce nao executar testes regularmente, pode descobrir que o aplicativo travou devido a uma alteracao no codigo feita tres meses atras. Vai precisar de sorte para encontra-la.
+Construcoes finais As construcoes finais, que voce pretende entregar como produtos, podem ter requisitos diferentes da construcao noturna regular. Uma construcao final pode requerer que o repositorio seja bloqueado, ou marcado com o numero de versao, que os flags de otimizacao e depuracao sejam configurados diferentemente e assim por diante. Gostamos de usar um objetivo separado para make (como make final) que configure todos esses parametros ao mesmo tempo.
+Lembre-se de que se o produto for compilado diferentemente de versoes anteriores, voce tera de testar tudo novamente em relacao a essa versao. Administrivia automatica Nao seria bom se os programadores pudessem realmente dedicar todo o seu tempo a programacao? Infelizmente, isso nao costuma ocorrer. Ha emails para responder, papelada para ser preenchida, documentos a serem postados na Web e assim por diante. Voce pode decidir criar um script de shell para fazer parte do trabalho tedioso, mas ainda tera de lembrar de executar o script quando necessario.
+Ja que a memoria e a segunda coisa que perdemos ao ficarmos velhos, nao queremos confiar tanto nela. Podemos executar scripts que processem os procedimentos para nos automaticamente, com base no conteudo do codigo-fonte e de documentos. Nosso objetivo e manter um fluxo de trabalho automatico, sem intervencao manual e baseado no conteudo. 4 Qual e a primeira? Esqueci.
+[p257] Geracao de sites Muitas equipes de desenvolvimento usam um site interno para a comunicacao no projeto e acham que essa e uma grande ideia. Mas nao queremos passar tanto tempo gerenciando o site e nao queremos permitir que ele fique obsoleto ou desatualizado. Informacoes incorretas sao piores do que nenhuma informacao.
+Documentacao extraida de codigo, analises de requisitos, documentos de projeto e qualquer figura, diagrama ou grafico, tudo tem de ser publicado na Web regularmente. Gostamos de publicar esses documentos automaticamente como parte da construcao noturna ou como um gancho no procedimento de devolucao do codigo-fonte ao repositorio.
+Independente de como for feito, o conteudo da Web deve ser gerado automaticamente a partir de informacoes do repositorio e publicado sem intervencao humana. Na verdade, essa e outra aplicacao do principio NSR: as informacoes existem em uma forma como documentos e codigos armazenados. A visualizacao no navegador da Web e apenas isso - uma visualizacao. Voce nao deve ter de fazer a manutencao dessa visualizacao manualmente. Qualquer informacao gerada pela construcao noturna tem de poder ser acessada no site da Web de desenvolvimento: resultados da propria construcao (por exemplo, os resultados da construcao podem ser apresentados como um resumo de uma pagina que inclua avisos do compilador, erros e o status atual), testes de regressao, estatisticas de desempenho, medicoes de codificacao e qualquer outra analise estatica etc.
+Procedimentos de aprovacao Alguns projetos tem varios fluxos de trabalho administrativos que devem ser seguidos. Por exemplo, revisoes no codigo ou no projeto tem de ser agendadas e concluidas, aprovacoes podem ter de ser dadas e assim por diante. Podemos usar a automacao - e principalmente o site da Web - para ajudar a diminuir a carga burocratica.
+Suponhamos que voce quisesse automatizar o agendamento e a aprovacao de revisoes no codigo. Poderia inserir um marcador especial em cada arquivo de codigo-fonte:
+/* Status: needs_review */ Um script simples poderia percorrer todo o codigo-fonte e procurar todos os arquivos que tivessem o status needs-review, indicando que estao prontos para ser revisados. Em seguida, voce poderia postar uma lista desses
+[p258] arquivos como uma pagina da Web, enviar automaticamente emails para as pessoas apropriadas ou ate mesmo marcar uma reuniao automaticamente usando algum software de calendario.
+Voce pode definir um formulario em uma pagina da Web para os revisores registrarem aprovacao ou rejeicao. Apos a revisao, o status pode ser alterado automaticamente para revisado. Se o codigo sera repassado com todos os participantes isso e uma decisao sua; voce ainda podera executar os procedimentos burocraticos automaticamente (em um artigo da CACM de abril de 1999, Robert Glass resume uma pesquisa que parece indicar que, embora inspecionar o codigo seja eficaz, conduzir revisoes em reunioes nao e [Gla99a]).
+Casa de ferreiro Casa de ferreiro, espeto de pau. Com frequencia, as pessoas que desenvolvem software sao as que usam as piores ferramentas para fazer o trabalho.
+Mas temos toda a materia-prima que precisamos para criar ferramentas melhores. Temos o cron. Temos o make, o Ant e o CruiseControl para a automacao (consulte [Cla04]). E temos a Ruby, a Perl e outras linguagens de script de alto nivel para desenvolver rapidamente ferramentas personalizadas, geradores de paginas da Web, geradores de codigo, ferramentais de teste e assim por diante.
+Deixe o computador fazer o que for repetitivo e trivial - ele se saira melhor do que nos. Temos coisas mais importantes e dificeis para fazer. As secoes relacionadas sao:
+O gato comeu meu codigo-fonte,
+*
+pagina 24 Os males da duplicacao,
+*
+pagina 48 O poder do texto simples,
+*
+pagina 95 Jogos de shell,
+*
+pagina 99 Depurando,
+*
+pagina 112 Geradores de codigo,
+*
+pagina 124 Equipes pragmaticas,
+*
+pagina 246 Testando incansavelmente,
+*
+pagina 259 Tudo se resume a escrever,
+*
+pagina 270
+[p259] Desafios Preste atencao em seus habitos durante o dia de trabalho. Percebeu
+*
+alguma tarefa repetitiva? Digitou a mesma sequencia de comandos repetidas vezes? Tente escrever alguns scripts de shell para automatizar o processo. Voce sempre clica na mesma sequencia de icones repetidamente? Pode criar uma macro para fazer tudo isso para voce? Quanto do trabalho burocratico de seu projeto pode ser automatiza-
+*
+do? Dado o alto custo da equipe de programacao, 5 determine quanto do orcamento do projeto esta sendo gasto em procedimentos administrativos. Consegue justificar o tempo necessario a criacao de uma solucao automatizada baseando-se na economia que ela geraria para o custo geral?
+TESTANDO INCANSAVELMENTE
+A maioria dos desenvolvedores odeia testar. Eles tendem a testar de maneira moderada, sabendo intuitivamente onde o codigo travara e evitando os locais vulneraveis. Programadores pragmaticos sao diferentes. Somos impelidos a encontrar nossos erros agora, assim nao temos de passar pela vergonha de outras pessoas os encontrarem depois.
+Encontrar erros e um pouco como pescar com uma rede. Usamos redes finas e pequenas (testes de unidade) para pegar os peixes de agua doce e redes grandes e grossas (testes de integracao) para apanhar os tubaroes assassinos. As vezes, o peixe consegue escapar e temos de consertar qualquer buraco encontrado, esperando pegar cada vez mais defeitos escorregadios que estejam nadando entre as margens de nosso projeto.
+Teste cedo. Teste sempre. Teste automaticamente.
+Queremos comecar a testar assim que tivermos codigo. Aqueles pequenos peixes de agua doce tem o pessimo habito de se tornar tubaroes gigantes comedores de gente muito rapido e apanhar um tubarao e bem mais dificil. Mas nao queremos ter de executar todos esses testes manualmente. 5 Para fins de estimativa, voce pode imaginar uma media na industria de cerca de US$ 100 mil per capita - isso e o salario mais beneficios, treinamento, espaco e custos gerais do local de trabalho e assim por diante.
+[p260] Muitas equipes desenvolvem planos de teste elaborados para seus projetos. As vezes, chegam ate a usa-los. Mas descobrimos que as equipes que usam testes automatizados tem uma chance muito maior de sucesso. Testes que sao executados a cada construcao sao muito mais eficazes do que planos de teste que ficam aguardando para ser usados.
+Quanto mais cedo um erro for encontrado, mais barato sera repara-lo. "Codifique um pouco, teste um pouco" e um ditado popular do universo Smalltalk 6 e podemos adotar esse mantra como nosso escrevendo codigos de teste ao mesmo tempo (ou ate mesmo antes) em que escrevemos o codigo de producao.
+Na verdade, um bom projeto pode chegar a ter mais codigo de teste do que codigo de producao. O tempo gasto na producao desse codigo de teste vale o esforco. Acaba sendo muito mais barato a longo prazo e voce tem a chance de criar um produto com quase nenhum defeito.
+Alem disso, saber que voce passou no teste lhe dara um alto grau de certeza de que o codigo esta "terminado".
+A codificacao so estara concluida apos todos os testes serem executados So porque voce acabou de escrever o codigo nao significa que pode ir ate seu chefe ou cliente e dizer que terminou. Nao terminou. Em primeiro lugar, o codigo nunca termina realmente. E o mais importante, voce nao pode alegar que ele pode ser usado por alguem ate que passe em todos os testes disponiveis.
+Precisamos examinar tres aspectos importantes da execucao de testes com abrangencia de projeto: o que testar, como testar e quando testar. O que testar Ha varios tipos importantes de teste de software que voce precisa executar: Teste de unidade
+*
+Teste de integracao
+*
+Validacao e verificacao
+*
+6 A metodologia eXtreme Programming [URL 45] chama esse conceito de "integracao continua, testes implacaveis".
+[p261] Exaustao de recursos, erros e recuperacao
+*
+Teste de desempenho
+*
+Teste de usabilidade
+*
+Essa lista nao e definitiva e alguns projetos especializados demandarao varios outros tipos de teste. Mas ela nos da um bom ponto de partida. Teste de unidade Um teste de unidade e um codigo que faz ensaios com um modulo. Abordamos esse topico individualmente em Codigo que seja facil de testar, pagina 211. O teste de unidade e a base de todos os outros tipos de teste que discutiremos nesta secao. Se as partes nao funcionarem separadamente, provavelmente nao funcionarao bem juntas. Todos os modulos que voce estiver usando devem passar em seu proprio teste de unidade antes de voce poder prosseguir.
+Uma vez que todos os modulos pertinentes tiverem passado em seus testes individuais, voce estara pronto para o proximo estagio. Tera de testar como os modulos usam uns aos outros e interagem no sistema inteiro.
+Teste de integracao O teste de integracao mostra que os principais subsistemas que compoem o projeto funcionam e interagem bem uns com os outros. Com bons contratos definidos e bem testados, qualquer problema de integracao pode ser facilmente detectado. Caso contrario, a integracao se torna um solo fertil para a proliferacao de erros. Na verdade, com frequencia ela e a maior fonte de erros do sistema.
+O teste de integracao e apenas uma extensao do teste de unidade ja descrito - so que agora voce esta testando como subsistemas inteiros honram seus contratos.
+Validacao e verificacao Assim que voce tiver um prototipo ou uma interface de usuario executavel, tera de responder uma pergunta importantissima: os usuarios lhe disseram o que queriam, mas e disso que eles precisam?
+O resultado atende os requisitos funcionais do sistema? Isso tambem precisa ser testado. Um sistema sem bugs que resolva o problema errado nao e muito util. Esteja alerta para os padroes de acesso do usuario
+[p262] final e como eles diferem dos dados de teste do desenvolvedor (para ver um exemplo, consulte a historia sobre tracos de um pincel na pagina 114).
+Exaustao de recursos, erros e recuperacao Agora que voce tem uma boa nocao de que o sistema se comportara corretamente sob condicoes ideais, tem de descobrir como ele se comportara sob as condicoes do mundo real. No mundo real, seus programas nao terao recursos ilimitados; eles precisarao de mais recursos. Seu codigo pode encontrar alguns limites em:
+Memoria
+*
+Espaco em disco
+*
+Largura de banda da CPU
+*
+Horas do relogio fisico
+*
+Largura de banda do disco
+*
+Largura de banda da rede
+*
+Paleta de cores
+*
+Resolucao do video
+*
+E possivel constatar falhas de espaco em disco ou alocacao de memoria, mas com que frequencia voce verificara as outras? Uma tela de 640 x 480 com 256 cores e apropriada para seu aplicativo? Ele seria executado em uma tela de 1600 x 1280 com cores de 24 bits sem parecer um selo de remessa postal? O trabalho em lotes terminara antes que o arquivamento comece?
+Voce pode detectar limitacoes ambientais, como as especificacoes de video, e se adaptar conforme apropriado. No entanto, nem todas as falhas sao recuperaveis. Se seu codigo detectar que a memoria acabou, suas opcoes serao limitadas: voce pode nao ter recursos suficientes sobrando para fazer outra coisa a nao ser encerrar.
+Quando o sistema realmente falhar, 7 ele sera encerrado normalmente? Ele tentara, da melhor forma possivel, salvar seu estado e evitar a perda de trabalho? Ou entrara em um modo "GPF" ou de descarga da memoria repentinamente para o usuario?
+7 Nosso revisor queria que mudassemos essa frase para "Se o sistema realmente falhar...". Nao concordamos.
+[p263] Teste de desempenho O teste de desempenho, teste de resistencia ou teste de carga tambem pode ser um aspecto importante do projeto.
+Considere se o software atende os requisitos de desempenho sob as condicoes do mundo real - com a quantidade de usuarios ou as conexoes ou transacoes por segundo esperadas. Ele e ajustavel?
+Em alguns aplicativos, voce pode precisar de um hardware ou software de teste especializado para simular a carga de forma realista.
+Teste de usabilidade O teste de usabilidade e diferente dos tipos de teste discutidos ate agora. Ele e executado com usuarios reais, sob condicoes ambientais reais. Considere a usabilidade em termos de fatores humanos. Houve alguma divergencia durante a analise de requisitos que precise ser resolvida? O software atende ao usuario como uma extensao de suas maos? (Alem de querermos que nossas proprias ferramentas sejam uma extensao de nossas maos, queremos o mesmo para as ferramentas criadas para os usuarios).
+Como na validacao e verificacao, voce tem de executar o teste de usabilidade assim que puder, enquanto ainda houver tempo para fazer correcoes. Em projetos maiores, se quiser, envolva especialistas em fatores humanos. (Se nao for muito util, pelo menos sera divertido brincar com os espelhos que refletem a imagem de um lado e do outro sao transparentes).
+Nao conseguir atender os criterios de usabilidade e um erro tao grande quanto a divisao por zero.
+Como testar Ja examinamos o que testar. Agora, voltaremos nossa atencao para como testar, o que inclui:
+Testes de regressao
+*
+Dados de teste
+*
+Testar sistemas de GUI
+*
+Testar os proprios testes
+*
+Testes completos
+*
+[p264] Testes de regressao Um teste de regressao compara a saida do teste atual com valores anteriores (ou conhecidos). Assim, podemos verificar se os erros que corrigimos hoje nao danificaram algo que estava funcionando ontem. Essa e uma medida de seguranca importante e reduz as surpresas desagradaveis.
+Todos os testes que mencionamos ate agora podem ser executados como testes de regressao, verificando se algo mudou a medida que desenvolvemos novo codigo. Podemos executar regressoes para verificar o desempenho, contratos, a validade e assim por diante.
+Teste do projeto/metodologia Voce consegue testar o projeto do codigo e a metodologia que usou para construir o software? De certo modo, sim. Pode fazer isso analisando metricas - medidas de varios aspectos do codigo. A metrica mais simples (e com frequencia a menos interessante) sao as linhas de codigo - qual e o tamanho do codigo.
+Ha varias outras metricas que voce pode usar para examinar o codigo, inclusive:
+A metrica da complexidade ciclomatica de McCabe (mede a complexi-
+*
+dade de estruturas de decisao) O fan-in (numero de classes base) e o fan-out (numero de modulos de-
+*
+rivados que usam esse modulo como pai) da heranca O conjunto de resposta (consulte
+*
+A desvinculacao e a Lei de Demeter, pagina 138) As taxas de vinculacao de classes (consulte [URL 48]).
+*
+Algumas metricas sao projetadas para dar uma "nota de aprovacao", enquanto outras so sao uteis por comparacao. Isto e, voce tera de calcular essas medidas para cada modulo do sistema e ver qual a relacao entre um modulo especifico e seus correlatos. Tecnicas estatisticas padrao (como a media e o desvio padrao) geralmente sao usadas aqui.
+Se voce encontrar um modulo cuja metrica for marcadamente diferente de todo o resto, tera de ponderar se isso e apropriado. Para alguns modulos, pode nao haver problema "sair do padrao". Mas para os que nao tiverem um bom motivo, pode indicar possiveis problemas.
