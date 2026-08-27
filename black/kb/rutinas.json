@@ -152,6 +152,53 @@
       "notas": "ACA APARECE EL 1200. El HANDOFF anterior declaraba falso el recuerdo de 'vida máxima ~1200'; el 1200.0 está hardcodeado en el código que lee la vida. Queda por determinar qué selecciona la rama entre 1200.0 y 750.0 (¿dificultad? ¿tipo de entidad?). También es el candidato natural a explicar 0x0065F458 (f32, rango observado 0.23..0.59): sería este ratio."
     },
     {
+      "id": "fixup_contenedor_bin",
+      "nombre": "Arreglo de punteros del contenedor .BIN (callback de GlobData.bin)",
+      "direccion": "0x00105D48",
+      "fin": "0x00106007",
+      "version": "ntsc_u",
+      "descripcion": "NO es un parser: es una pasada de RELOCALIZACION. Toma el bloque recien cargado en el heap y convierte los u32 de su cabecera, que son offsets relativos al inicio del archivo, en punteros absolutos sumandoles la direccion de carga. Despues baja recursivamente y hace lo mismo dentro de cada seccion, donde los offsets son relativos a la seccion, no al archivo.",
+      "convencion": "Sin argumentos: toma el bloque de FUN_001092F8(). Fija las ranuras +0x04, +0x08, +0x0C, +0x10, +0x14 y +0x18 de la cabecera. En la seccion de +0x0C: el u8 de +0x00 es la CANTIDAD, el u32 de +0x04 es un offset relativo a la propia seccion, y los registros son de 0x24. En la de +0x10: la cantidad esta en +0x01, los registros son de 0x20 y cada uno tiene sus propios fixups en +0x08, +0x0C, +0x10, +0x14 y +0x18 relativos al registro.",
+      "confianza": "probable",
+      "llamadores": [
+        "0x00105858"
+      ],
+      "evidencia": "2026-08-16. Decompilado con Ghidra 12.1.2 + ghidra-emotionengine-reloaded. Camino: la cadena 'GlobData.bin' esta en 0x003F2AD8; su unico xref de codigo es 0x00105ADC dentro de FUN_00105858 (maquina de estados de arranque), donde se pide el archivo con FUN_001093C0(streamer, ruta, 8, 1, 0x105D48, ...) y 0x105D48 es el callback de post-carga. VERIFICADO CONTRA LOS ARCHIVOS REALES: en GLOBDATA.BIN las seis ranuras dan offsets validos (0x80, 0xF9300, 0x130C80, 0x132F80, 0x133800, 0x133F80) y la tabla de armas —cuya posicion 0x00130E20 ya se conocia por otra via— cae dentro de la seccion de 0x00130C80, a +0x1A0. Segundo control independiente: en STLEVEL.BIN la seccion declarada en 0x80 arranca con los bytes de 'bg1_shg', que es la tabla de nombres de entidades ya documentada.",
+      "descubierto": "2026-08-16",
+      "notas": "ESTO EXPLICA POR QUE FALLABA LA HIPOTESIS VIEJA de 'tabla de offsets creciente': no es una tabla ordenada, es una cabecera de layout fijo donde cada ranura es una seccion distinta y no tienen por que venir en orden. NO APLICA A TODOS LOS .BIN: LEVELDAT.BIN da tres ranuras fuera de rango y GUNS.BIN tiene un tamano en +0x00 en vez de una cantidad. Esos dos usan otro layout y se resuelven igual — xref de su cadena de ruta, decompilar su callback."
+    },
+    {
+      "id": "resolver_huesos",
+      "nombre": "Resolver los 11 nombres de hueso a índices y cachearlos en el personaje",
+      "direccion": "0x001381E0",
+      "fin": "0x00138294",
+      "version": "ntsc_u",
+      "descripcion": "Al construir un personaje, recorre la tabla de nombres de hueso de 0x003BCE70 (11 entradas) y por cada nombre pide el índice de hueso al esqueleto, guardándolo en objeto+0x0C+i*4. Después copia 4 floats de 0x003F5128 (0, 5, 12, 22) a [objeto]+0x28 y llama a 0x001415A8.",
+      "convencion": "$a0 = el objeto personaje. $s1 = ese objeto; $s0 = destino, arranca en $s1+0x0C y avanza de a 4; $s3 = 0x003BCE70 (armado con lui en 0x001381E4 + addiu en 0x00138208); $s2 = 10, contador de 11 vueltas. Un nombre nulo salta la entrada sin avanzar el destino.",
+      "confianza": "probable",
+      "llama_a": [
+        "buscar_hueso_por_nombre"
+      ],
+      "evidencia": "Desensamblado estático del ELF del ISO con capstone (CS_MODE_MIPS64 + skipdata), 2026-08-16. Se llegó desde la tabla de nombres: se enumeraron todas las direcciones que el código arma con lui+addiu/lw/sw dentro de 0x003BCE00-0x003BCF00 y sólo UN sitio toma la dirección 0x003BCE70 en vez de leer un valor.",
+      "descubierto": "2026-08-16",
+      "notas": "ES MATERIAL DE FASE 5b, no una respuesta. Deja once índices de hueso cacheados en offsets FIJOS del personaje (0x0C..0x38). Lo que falta es ver si el byte de zona que entra a 0x00142B90 sale de este arreglo o del esqueleto completo. Sin resolver: son 11 huesos contra 24 registros de zona."
+    },
+    {
+      "id": "buscar_hueso_por_nombre",
+      "nombre": "Índice de hueso a partir de su nombre (búsqueda lineal por strcmp)",
+      "direccion": "0x00138298",
+      "version": "ntsc_u",
+      "descripcion": "Recorre los nombres de hueso del esqueleto del personaje comparando con strcmp y devuelve el índice del que coincide. Su valor real es que EXPONE EL LAYOUT DEL ESQUELETO.",
+      "convencion": "$a0 = objeto personaje, $a1 = nombre buscado. esqueleto = [objeto+0x00]; [esqueleto+0x5C] = cantidad de huesos; [esqueleto+0x60] = array de const char* con los nombres. Llama a strcmp en 0x00360838. Devuelve el índice en $v0.",
+      "confianza": "probable",
+      "llamadores": [
+        "0x0013821C"
+      ],
+      "evidencia": "Desensamblado estático del ELF, 2026-08-16. El bucle es explícito: `lw $v0,0x5c($v1)` como tope, `lw $v0,0x60($a0)` como base del arreglo, `sll $v1,$s0,2` para indexar y `jal 0x360838` con el nombre de cada entrada.",
+      "descubierto": "2026-08-16",
+      "notas": "De acá salen los dos offsets del esqueleto que van a kb/estructuras.json#esqueleto. Ninguno de los dos está confirmado por efecto todavía."
+    },
+    {
       "id": "calcular_dano_zona",
       "nombre": "Daño efectivo por ZONA DE IMPACTO — el daño de SALIDA del jugador",
       "direccion": "0x00142B90",
@@ -175,7 +222,181 @@
       ],
       "evidencia": "CONFIRMADO POR EFECTO 2026-08-16. Se escribieron los 36 factores de zona en 3.0 (= 300 de dano por impacto, contra 100.0 de vida) con herramientas/zonas.py, y el usuario reporto que los enemigos mueren de UNA bala donde antes hacian falta cuatro. Corroboracion por medicion sobre el pool: linea de base volcados/ee-4b-antes.bin (#2=100.0, #6=49.0, #9=100.0, #11=100.0, resto 0) contra volcados/ee-4b-post.bin, donde los CUATRO que estaban vivos quedaron en 0.0 y aparecieron cuatro spawns nuevos en 100.0 exactos. El dato fuerte es que NO hay un solo valor intermedio en los 32 slots: con 25.5 por bala tendria que haber enemigos en 74.5 / 49 / 23.5 en cualquier instante del tiroteo, y no hay ninguno. CONFOUND DESCARTADO (leccion 16): se releyeron 0x00709F40, 0x00709F70 y 0x00709F7C DESPUES del test y las tres seguian en 3.0, o sea que el parche aguanto y no es un falso positivo por perdida. Restaurado 36/36 sin discrepancias. Analisis previo que lo predijo: 0 copias de descriptores de arma fuera de la tabla; 25.5 inexistente como inmediato en el codigo (con control positivo lui 0x4496 = 17 sitios); 0.255 presente exactamente 9 veces en los 32 MB, las 9 dentro de la tabla de zonas.",
       "descubierto": "2026-08-16",
+      "decompilacion_ghidra_2026_08_16": "Ghidra 12.1.2 + ghidra-emotionengine-reloaded devuelve el cuerpo en C y coincide con el desensamblado a mano, lo que vale como verificacion cruzada de las dos lecturas. Nucleo: `pfVar2 = (float *)(*param_1 + param_2 * 0xc); if (escalar < 0.0) fVar3 = *pfVar2; else fVar3 = pfVar2[1]; fVar3 = fVar3 * 100.0;` y al final `if ((param_9 != 0) && (*param_7 != 1) && (*param_8 != 1)) fVar3 = fVar3 * 0.7;`. LO QUE AGREGA: el campo de +0x08 del registro de zona NO es un float corrido, son DOS BYTES DE BANDERAS en +0x08 y +0x09 que la rutina lee para armar sus dos salidas booleanas (ver kb/estructuras.json#zona_impacto). Ademas la zona entra como `char` con signo, y en el llamador (metodo virtual #8 del enemigo, FUN_00133FA8) llega como argumento propio: `param_4 & 0xff`, donde 0xFF significa 'sin zona' y el valor 4 tiene un caso especial que consulta FUN_00138320([victima+0x328]) contra 0x28 y 0x2A.",
       "notas_mod": "Para un mod de dano de salida hay dos palancas. (a) Los factores por zona, que son POR TIPO DE PERSONAJE y viven en el heap: hay que buscarlos por cadena en cada arranque, no sirven para un .pnach. (b) El 100.0 de 0x00142CA0 (lui $at,0x42C8), que es codigo del ELF, direccion fija, y escala TODO el dano de salida de una sola vez. Para el pnach va (b)."
+    },
+    {
+      "id": "codec_id64",
+      "nombre": "Codec de nombres de 64 bits (base-40, 12 caracteres)",
+      "direccion": "0x00272488",
+      "fin": "0x0027257B",
+      "version": "ntsc_u",
+      "descripcion": "FUN_00272488 DECODIFICA un u64 a 12 caracteres; FUN_00272610 codifica. Es base-40 de ancho fijo, escrito de atras hacia adelante. Alfabeto: 0=' ', 1='-', 2='/', 3..12='0'..'9', 13..38='A'..'Z', 39='_'. Sin minusculas. El relleno va a la DERECHA y por eso el consumidor recorta espacios ahi.",
+      "convencion": "FUN_00272488(id64, buffer): escribe 12 chars y un cero en +0xC. Usa FUN_00290AC0 (resto por 0x28) y FUN_002904F0 (division por 0x28).",
+      "confianza": "probable",
+      "evidencia": "2026-08-22. Portado a herramientas/id64.py y validado contra la tabla de camaras de STLEVEL.BIN L00 (seccion 0x261300): los 12 IDs decodifican a CAM_BLOWDOOR, CAM_INTRO, CAM_RPGTOWER, CAM_START, CAM_TRUCK, CAM_XROADS, CITY_START y DEATHCAM01..06, Y SALEN EN ORDEN ALFABETICO -- un orden que un codec equivocado no produce por casualidad. El autotest se probo rompiendolo de dos formas (alfabeto corrido y orden de escritura invertido) y se pone en rojo con exit 1 en las dos.",
+      "descubierto": "2026-08-22",
+      "notas": "El codec es TOTAL: todo u64 da 12 caracteres, asi que buscar 'nombres validos' en un archivo sin exigir relleno a la derecha es ruido -- 79.048 nombres distintos en STLEVEL.BIN. Con relleno >= 2 quedan 88 y son todos reales."
+    },
+    {
+      "id": "arma_instancia_init",
+      "nombre": "Inicializa una entrada del pool de armas activas (0x24)",
+      "direccion": "0x00158F50",
+      "fin": "0x0015911F",
+      "version": "ntscu_1_00",
+      "descripcion": "Rellena una entrada de 0x24 del pool de armas activas. Escribe entrada+0x08 = descriptor de arma (param_3) y entrada+0x0C = EL BLOQUE DE IA. La eleccion es un offset FIJO, no una seleccion por tabla: si *(*(param_2+0xF0)+0xC4) == 2 (el jugador) entrada+0x0C = param_3; en cualquier otro caso (todo NPC) entrada+0x0C = param_3 + 0x30.",
+      "convencion": "a0 = entrada del pool (0x006E18B0 + n*0x24). a1 = slot de arma de 0x110 del manager. a2 = descriptor de arma (param_3). a3 = pasa a FUN_001e18b0. Devuelve 1.",
+      "llamadores": [
+        "0x0015D10C"
+      ],
+      "llama_a": [
+        "FUN_00155178",
+        "FUN_001e2be8",
+        "FUN_00135570",
+        "FUN_00138320",
+        "FUN_001e18b0"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00159008",
+          "instruccion_original": "addiu $4, $16, 0x30",
+          "efecto_si_se_modifica": "cambia QUE bloque usa la IA de TODO NPC: el inmediato 0x30 es el unico lugar donde se elige. 0x00 haria que los NPC usen el bloque del jugador."
+        },
+        {
+          "direccion": "0x00159014",
+          "instruccion_original": "sw $4, 0xc($17)",
+          "efecto_si_se_modifica": "la escritura misma del bloque de IA en la entrada (rama NPC)"
+        },
+        {
+          "direccion": "0x00158FF4",
+          "instruccion_original": "sw $16, 0xc($17)",
+          "efecto_si_se_modifica": "la misma escritura, rama jugador (param_3 sin desplazar)"
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-22, en frio sobre el ELF. Cadena completa medida, no supuesta: 0x006E18B8 no se construye en ningun lado del .text (0 instrucciones 'lui rX,0x006E' en las 680k palabras de .text) porque es heap -- .bss termina en 0x0049BFBC. El pool cuelga del descriptor 0x005AE880, apuntado UNICAMENTE por la global .bss 0x0040F4E0. FUN_001020c0 hace DAT_0040f4e0 = malloc(0xFE0) y lo inicializa con FUN_0015C970, que pide 0x708 = 0x32*0x24 para el campo +0x0C y corre el constructor de entrada FUN_00158F08 cada 0x24. Control positivo pasivo sobre ee-e4.bin: la funcion predice entrada+0x00 = 0 y entrada+0x0C = entrada+0x08 + 0x30 para los seis NPC, y el volcado lo cumple exacto (0x01842A30/0x01842A60, 0x01842C10/0x01842C40).",
+      "notas": "CIERRA LA FASE 7c CON RESPUESTA NEGATIVA UTIL: el bloque de IA NO se elige por ningun campo del registro de personaje (+0x78, +0x8C, +0xA8: ninguno interviene). Es descriptor+0x30, un offset fijo del mismo descriptor de arma. Por eso el experimento 7b no podia mover el array tocando +0x78. La pregunta que queda (7d) es quien escribe el descriptor: *(slot0x110 + 0xEC)."
+    },
+    {
+      "id": "arma_instancia_asignar",
+      "nombre": "Asigna entrada(s) del pool de armas activas a una entidad al spawnear",
+      "direccion": "0x0015D060",
+      "fin": "0x0015D197",
+      "version": "ntscu_1_00",
+      "descripcion": "Recorre el array de ocupacion (manager+0x10, 0x32 bytes) buscando el primer indice libre, calcula la entrada como manager+0x0C + n*0x24 y llama a FUN_00158F50. Corre hasta dos veces: iVar6=0 arma primaria con descriptor *(slot+0xEC), iVar6=1 arma secundaria con *(*(slot+0xEC)+0xA0). Deja el puntero a la entrada de vuelta en slot+0xF4 (primaria) y slot+0xF8 (secundaria), y marca ocupado el byte n.",
+      "convencion": "a0 = manager de armas (*0x0040F4E0). a1 = slot de arma de 0x110. a2 = se pasa tal cual a FUN_00158F50.",
+      "llamadores": [],
+      "llama_a": [
+        "arma_instancia_init"
+      ],
+      "puntos_de_parche": [],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-22, en frio. Unico llamador de FUN_00158F50 segun xref de Ghidra (0x0015D10C). Control positivo sobre ee-e4.bin: el codigo escribe slot+0xF4 = entrada, y el volcado tiene 0x006DE784 (= slot0 0x006DE690 + 0xF4) valiendo 0x006E18B0, la base exacta del pool.",
+      "notas": "El indice n del array de 0x006E18B8 sale de aca: es el primer byte libre del array de ocupacion, no un id de entidad. Explica que el array se llene progresivamente al spawnear."
+    },
+    {
+      "id": "arma_slot_constructor",
+      "nombre": "Constructor del slot de arma de 0x110: ESCRIBE slot+0xEC (el descriptor)",
+      "direccion": "0x00156278",
+      "fin": "0x00156383",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_00156278(slot, entidad, b, param_4). Inicializa el slot de arma de 0x110. Escribe slot+0x00 = b (byte), slot+0xF0 = entidad, slot+0xFC = entidad+0x280, y sobre todo: slot+0xE8 = FUN_0015d210(mgr,b) = puntero al registro b de la tabla de 17, y slot+0xEC = FUN_0015d228(mgr,b) = tabla17[b] campo +0x08 = EL DESCRIPTOR DE ARMA. Tres instrucciones despues llama a FUN_0015d060, que es quien lee ese +0xEC. CIERRA LA FASE 7d.",
+      "convencion": "a0 = slot de 0x110. a1 = entidad (va a slot+0xF0). a2 = b, INDICE DE ARMA de un byte. a3 = pasa a FUN_0015d060. Devuelve 1.",
+      "llamadores": [
+        "0x0015CF6C (FUN_0015cef0)",
+        "0x00158DEC (FUN_00158ae0, manejador del evento 'GET WEAPON')"
+      ],
+      "llama_a": [
+        "FUN_0015d210",
+        "FUN_0015d228",
+        "FUN_0015d060",
+        "FUN_0020bc00",
+        "FUN_0027c278",
+        "FUN_00209ec8"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00156318",
+          "instruccion_original": "sw $v0, 0xEC($s0)",
+          "efecto_si_se_modifica": "ES LA ESCRITURA DEL DESCRIPTOR DE ARMA en el slot. Unico store a +0xEC en todo el subsistema 0x00155000-0x0015D200: de 54 accesos al inmediato 0xEC en ese rango, 53 son loads y este es el unico store."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23, en frio sobre el ELF. Control positivo sobre volcados/ee-e4.bin: prediciendo slot+0xE8 y slot+0xEC a partir del byte slot+0x00, los OCHO slots vivos dan exacto. b=0x05 -> 0x01842C10, que es el descriptor que la bitacora (33) habia medido en RAM para los cinco E_BLACKHD_M0. Dos cruces no buscados que confirman: b=0x05 decodifica a BG1_AK1 (los enemigos llevan AK) y b=0x00 a BG1_PST (el jugador arranca con pistola).",
+      "descubierto": "2026-08-23",
+      "notas": "El byte b NO es un dato guardado en ningun lado: se resuelve POR NOMBRE. Ver arma_indice_desde_tabla y arma_resolver_por_nombre."
+    },
+    {
+      "id": "arma_indice_desde_tabla",
+      "nombre": "Las dos rutinas de una linea que indexan la tabla de 17 armas",
+      "direccion": "0x0015D210",
+      "fin": "0x0015D243",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_0015d210(mgr,b) devuelve *(*mgr+4) + b*0x20, el puntero al registro b de la tabla de 17 (va a slot+0xE8). FUN_0015d228 @ 0x0015D228 devuelve *(u32*)( *(*mgr+4) + b*0x20 + 8 ), EL DESCRIPTOR DE ARMA (va a slot+0xEC). El b*0x20 esta escrito como (b<<24)>>19, que ademas extiende el signo del byte: b=0xFF da -0x20.",
+      "convencion": "a0 = manager de armas (*0x0040F4E0). a1 = b, indice de arma de un byte.",
+      "llamadores": [
+        "0x001562F0 y 0x00156310 (FUN_00156278)"
+      ],
+      "llama_a": [],
+      "puntos_de_parche": [],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23. Verificado contra ee-e4.bin: *0x0040F4E0 = 0x005AE880, *mgr = 0x01842080, tabla = *(0x01842080+4) = 0x01842090, conteo = *(u8*)(0x01842080+1) = 17. Los 8 slots vivos cumplen la formula exacto.",
+      "descubierto": "2026-08-23",
+      "notas": "El conteo 17 coincide con los 17 registros de 0x1E0 de la tabla de armas ya conocida. El registro de la tabla es {u64 id64 del nombre en +0x00, u32 descriptor en +0x08, u32 en +0x0C, u32 en +0x10, ...} con paso 0x20."
+    },
+    {
+      "id": "arma_resolver_por_nombre",
+      "nombre": "El arma se elige por NOMBRE id64, no por indice: el barrido lineal de los 5 llamadores",
+      "direccion": "0x0015CEF0",
+      "fin": "0x0015CFDF",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_0015cef0(mgr, entidad, b, x) toma el primer slot libre del array de ocupacion mgr+0x08, calcula slot = mgr[1] + i*0x110 y llama al constructor FUN_00156278. Pero lo importante esta ARRIBA: sus CINCO llamadores calculan b todos de la misma forma -- barren linealmente los 17 registros de la tabla comparando el id64 de rec+0x00 contra un u64, y el indice donde matchea es b; si no matchea ninguno, b = 0xFF.",
+      "convencion": "a0 = manager (*0x0040F4E0). a1 = entidad duena. a2 = b (byte). Devuelve el puntero al slot de 0x110.",
+      "llamadores": [
+        "0x00139F68 y 0x00139FE0 (FUN_00139c68): nombre desde entidad+0x3C0 (primaria) y entidad+0x3C8 (secundaria). Es el camino del jugador.",
+        "0x00132930 (FUN_001327f0): nombre desde param_5, que llega de descriptor+0x28 via FUN_00138c80 <- FUN_00178bc0(param_7) <- FUN_00178978 / FUN_00178ae8. Camino data-driven.",
+        "0x0015F0C4 -> FUN_00138df8 -> FUN_001327f0 (FUN_0015ef48 case 0x0A): nombre LITERAL 0x5446127297C60000 = BG1_AK1, hardcodeado en el .text.",
+        "0x001785C8 (FUN_001784f0): nombre LITERAL 0x54461524B8230000 = BG1_SNR.",
+        "0x0015C7F8 (FUN_0015c3c8): b directo desde *(iVar6+0x44). Es re-arme / pickup, no spawn."
+      ],
+      "llama_a": [
+        "FUN_00156278"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "FUN_0015ef48 case 0x0A (~0x0015F0B0)",
+          "instruccion_original": "literal u64 0x5446127297C60000 (BG1_AK1)",
+          "efecto_si_se_modifica": "cambia el arma de todo lo que spawnee por el case 0x0A del stream de nivel. Es un literal de 8 bytes: se reemplaza por el id64 de otra arma (id64.py codificar). bg1_rpg YA esta en la lista de assets de LEVEL_00, asi que AK1 -> RPG no requiere agregar nada al nivel."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23, en frio. El xref de Ghidra da exactamente 5 llamadores y los cinco tienen el mismo barrido lineal. Control positivo: entidad del jugador 0x005A8AB0 + 0x3C0 = 0x544614B7182C0000 = BG1_PST, y el jugador tiene b = 0x00 = BG1_PST en el volcado.",
+      "descubierto": "2026-08-23",
+      "notas": "NO hay un solo 'sd' a +0x3C0 en todo el .text (32 accesos al inmediato 0x3C0, y los unicos stores son spills de $sp): el campo llega por copia en bloque, no por una instruccion propia. Los cinco enemigos tienen entidad+0x3C0 = 0 en el volcado, o sea NO vinieron por FUN_00139c68 -- eso es lo que mando a mirar los otros llamadores y destapo el literal hardcodeado."
+    },
+    {
+      "id": "stage_stream_dispatcher",
+      "nombre": "EL INDICE DE MODULOS DEL NIVEL: dispatcher de 61 tipos sobre el stream del stage",
+      "direccion": "0x0015EF48",
+      "fin": "0x0015FDBF",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_0015ef48(registro, lista, p3, p4). 'lista' es {u32 count, u32 array}; el array son registros de 0x10 bytes {u32 tipo, u32 ptr, u64 payload}. La funcion es un switch sobre el tipo con 61 casos, tipos 0x03 a 0x44. ESE SWITCH ES EL ESQUEMA DEL ARCHIVO DE NIVEL: una rama por tipo de modulo. 'registro' (param_1) trae un array de handles por tipo (piVar10[2], [4], [5], [9], ...). El case 0x0A es el spawn de personaje, y es el que lleva el arma BG1_AK1 literal.",
+      "convencion": "a0 = registro de handles por tipo. a1 = {count, array de registros de 0x10}.",
+      "llamadores": [
+        "0x0012DCA8 (FUN_0012dab8), a su vez desde FUN_00129360 y FUN_0012be80"
+      ],
+      "llama_a": [
+        "FUN_00174430",
+        "FUN_00138df8",
+        "FUN_001650f8",
+        "FUN_00165210",
+        "y uno o mas por cada caso"
+      ],
+      "puntos_de_parche": [],
+      "confianza": "probable",
+      "evidencia": "2026-08-23, leido en Ghidra, no ejecutado. 61 etiquetas 'case' contadas en la decompilacion, tipos 0x03-0x44. El case 0x0A esta confirmado por otra via: es el que lleva el literal BG1_AK1, y los cinco enemigos de LEVEL_00 tienen justo ese descriptor (0x01842C10).",
+      "descubierto": "2026-08-23",
+      "notas": "ES LA VIA DE MAYOR APALANCAMIENTO PARA LAS FASES 6 Y 7: en vez de subir la cadena de llamadas eslabon por eslabon para cada cosa que se quiera tocar, enumerar los 61 casos da el mapa de todo lo que un nivel puede contener. Abre la fase 7e. Salio de una pregunta de Fran: buscar el indice en vez de recorrer los modulos."
     }
   ]
 }

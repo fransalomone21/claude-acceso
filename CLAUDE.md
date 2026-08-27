@@ -23,24 +23,24 @@ contexto del proyecto, las reglas y el índice de qué leer según la tarea.
 
 ---
 
-## `perfil-global/` — el perfil de Claude, no un proyecto
+## `perfil-global/` — MOVIDO a su propio repositorio (2026-08-17)
 
-Es la metodología transversal (skills, hook, lecciones aprendidas) que aplica
-a **cualquier** proyecto, no sólo a BLACK. Vive en esta rama por razones
-históricas: se creó acá.
-
-Instalar o actualizar en una máquina:
+Era la metodología transversal (reglas, skills, hooks, lecciones aprendidas)
+que aplica a **cualquier** proyecto, no sólo a BLACK, y vivía en esta rama por
+razones históricas. Ahora vive en
+**https://github.com/fransalomone21/perfil-global** (privado), clonado
+localmente en `C:\Users\frans\Desktop\perfil-global\` — hermano de este repo,
+no adentro. Instalar o actualizar en una máquina, desde ESE repo, no desde
+acá:
 
 ```powershell
-.\perfil-global\install.ps1
+.\install.ps1
+.\verify-install.ps1
 ```
 
-Copia el `CLAUDE.md` global, todas las skills (carpeta entera, incluidas sus
-`referencias/`), el `recordatorio-transversal.md`, y configura el hook
-`UserPromptSubmit` en `~/.claude/settings.json` — con respaldo previo y de
-forma idempotente.
-
-> **Pendiente conocido:** si algún día se reactiva otro proyecto en otra rama,
-> `perfil-global/` no va a estar ahí. La solución no es mergear ramas (los
-> proyectos no se mezclan) sino sacarlo a su propio repositorio. Mientras haya
-> un solo proyecto activo, no hace falta.
+La copia que sigue en esta rama es un **espejo temporal**, sin editar: se
+borra en una sesión aparte una vez confirmado el uso real desde el repo
+nuevo. Correr `install.ps1` desde acá pisaría `origen.txt` apuntando de
+vuelta a `claude-acceso`. Detalle completo de la migración —cómo se conservó
+la historia real de commits, cómo se probó por efecto— en
+[`perfil-global/PENDIENTES.md`](perfil-global/PENDIENTES.md), sección 4.

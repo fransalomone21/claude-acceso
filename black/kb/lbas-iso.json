@@ -1,0 +1,3516 @@
+{
+ "iso": "Black.iso",
+ "sectores_pvd": 1913872,
+ "archivos": [
+  {
+   "ruta": "/DATA/VIEW.ICO;1",
+   "lba": 1050000,
+   "tam": 49082,
+   "sectores": 24
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/LEVELDAT.BIN;1",
+   "lba": 1050024,
+   "tam": 762672,
+   "sectores": 373
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/LEVEL.AWD;1",
+   "lba": 1050397,
+   "tam": 282624,
+   "sectores": 138
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/COLLIDE.AWD;1",
+   "lba": 1050535,
+   "tam": 862208,
+   "sectores": 421
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/STG_0001/AIWPNS.AWD;1",
+   "lba": 1050956,
+   "tam": 180224,
+   "sectores": 88
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/AMBIENCE.SSH;1",
+   "lba": 1051044,
+   "tam": 72,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/STG_0001/EMITTER.AWD;1",
+   "lba": 1051045,
+   "tam": 4096,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/DESTRUCT.SSH;1",
+   "lba": 1051047,
+   "tam": 448,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/SPEECH.SLB;1",
+   "lba": 1051048,
+   "tam": 6944,
+   "sectores": 4
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/SPCH_EN.SSH;1",
+   "lba": 1051052,
+   "tam": 1032,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/STG_0001/STLEVEL.BIN;1",
+   "lba": 1051053,
+   "tam": 2502240,
+   "sectores": 1222
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/STG_0001/GUNS.BIN;1",
+   "lba": 1052275,
+   "tam": 226880,
+   "sectores": 111
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/STG_0001/GUNS_S.BIN;1",
+   "lba": 1052386,
+   "tam": 227392,
+   "sectores": 112
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/UNIT_01.BIN;1",
+   "lba": 1052498,
+   "tam": 9034416,
+   "sectores": 4412
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/STG_0001/STUNIT01.BIN;1",
+   "lba": 1056910,
+   "tam": 326432,
+   "sectores": 160
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/LEVELDAT.BIN;1",
+   "lba": 1057070,
+   "tam": 834000,
+   "sectores": 408
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/LEVEL.AWD;1",
+   "lba": 1057478,
+   "tam": 262144,
+   "sectores": 128
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/COLLIDE.AWD;1",
+   "lba": 1057606,
+   "tam": 903168,
+   "sectores": 441
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/AIWPNS.AWD;1",
+   "lba": 1058047,
+   "tam": 112640,
+   "sectores": 55
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/AMBIENCE.SSH;1",
+   "lba": 1058102,
+   "tam": 80,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/EMITTER.AWD;1",
+   "lba": 1058103,
+   "tam": 73728,
+   "sectores": 36
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/DESTRUCT.SSH;1",
+   "lba": 1058139,
+   "tam": 528,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/SPEECH.SLB;1",
+   "lba": 1058140,
+   "tam": 2008,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/SPCH_EN.SSH;1",
+   "lba": 1058141,
+   "tam": 272,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/STLEVEL.BIN;1",
+   "lba": 1058142,
+   "tam": 2369440,
+   "sectores": 1157
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/GUNS.BIN;1",
+   "lba": 1059299,
+   "tam": 221376,
+   "sectores": 109
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/GUNS_S.BIN;1",
+   "lba": 1059408,
+   "tam": 221888,
+   "sectores": 109
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/UNIT_01.BIN;1",
+   "lba": 1059517,
+   "tam": 8506432,
+   "sectores": 4154
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/STUNIT01.BIN;1",
+   "lba": 1063671,
+   "tam": 88096,
+   "sectores": 44
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/UNIT_02.BIN;1",
+   "lba": 1063715,
+   "tam": 734528,
+   "sectores": 359
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/STUNIT02.BIN;1",
+   "lba": 1064074,
+   "tam": 5968,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/UNIT_03.BIN;1",
+   "lba": 1064077,
+   "tam": 8045952,
+   "sectores": 3929
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/STUNIT03.BIN;1",
+   "lba": 1068006,
+   "tam": 65940,
+   "sectores": 33
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/UNIT_04.BIN;1",
+   "lba": 1068039,
+   "tam": 697696,
+   "sectores": 341
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/STUNIT04.BIN;1",
+   "lba": 1068380,
+   "tam": 4816,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/UNIT_05.BIN;1",
+   "lba": 1068383,
+   "tam": 7867536,
+   "sectores": 3842
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/STG_0001/STUNIT05.BIN;1",
+   "lba": 1072225,
+   "tam": 77812,
+   "sectores": 38
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/LEVELDAT.BIN;1",
+   "lba": 1072263,
+   "tam": 810312,
+   "sectores": 396
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/LEVEL.AWD;1",
+   "lba": 1072659,
+   "tam": 311296,
+   "sectores": 152
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/COLLIDE.AWD;1",
+   "lba": 1072811,
+   "tam": 808960,
+   "sectores": 395
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/AIWPNS.AWD;1",
+   "lba": 1073206,
+   "tam": 206848,
+   "sectores": 101
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/AMBIENCE.SSH;1",
+   "lba": 1073307,
+   "tam": 128,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/EMITTER.AWD;1",
+   "lba": 1073308,
+   "tam": 4096,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/DESTRUCT.SSH;1",
+   "lba": 1073310,
+   "tam": 552,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/SPEECH.SLB;1",
+   "lba": 1073311,
+   "tam": 3560,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/SPCH_EN.SSH;1",
+   "lba": 1073313,
+   "tam": 528,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/STLEVEL.BIN;1",
+   "lba": 1073314,
+   "tam": 2525472,
+   "sectores": 1234
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/GUNS.BIN;1",
+   "lba": 1074548,
+   "tam": 245184,
+   "sectores": 120
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/GUNS_S.BIN;1",
+   "lba": 1074668,
+   "tam": 245696,
+   "sectores": 120
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/UNIT_01.BIN;1",
+   "lba": 1074788,
+   "tam": 8922496,
+   "sectores": 4357
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/STUNIT01.BIN;1",
+   "lba": 1079145,
+   "tam": 304336,
+   "sectores": 149
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/UNIT_02.BIN;1",
+   "lba": 1079294,
+   "tam": 715424,
+   "sectores": 350
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/STUNIT02.BIN;1",
+   "lba": 1079644,
+   "tam": 4576,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/UNIT_03.BIN;1",
+   "lba": 1079647,
+   "tam": 8588752,
+   "sectores": 4194
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/STUNIT03.BIN;1",
+   "lba": 1083841,
+   "tam": 619344,
+   "sectores": 303
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/UNIT_04.BIN;1",
+   "lba": 1084144,
+   "tam": 584208,
+   "sectores": 286
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/STUNIT04.BIN;1",
+   "lba": 1084430,
+   "tam": 4880,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/UNIT_05.BIN;1",
+   "lba": 1084433,
+   "tam": 7366032,
+   "sectores": 3597
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/STG_0001/STUNIT05.BIN;1",
+   "lba": 1088030,
+   "tam": 586656,
+   "sectores": 287
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/LEVELDAT.BIN;1",
+   "lba": 1088317,
+   "tam": 764096,
+   "sectores": 374
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/LEVEL.AWD;1",
+   "lba": 1088691,
+   "tam": 251904,
+   "sectores": 123
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/COLLIDE.AWD;1",
+   "lba": 1088814,
+   "tam": 915456,
+   "sectores": 447
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/AIWPNS.AWD;1",
+   "lba": 1089261,
+   "tam": 174080,
+   "sectores": 85
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/AMBIENCE.SSH;1",
+   "lba": 1089346,
+   "tam": 96,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/EMITTER.AWD;1",
+   "lba": 1089347,
+   "tam": 4096,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/DESTRUCT.SSH;1",
+   "lba": 1089349,
+   "tam": 432,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/SPEECH.SLB;1",
+   "lba": 1089350,
+   "tam": 3232,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/SPCH_EN.SSH;1",
+   "lba": 1089352,
+   "tam": 560,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/STLEVEL.BIN;1",
+   "lba": 1089353,
+   "tam": 2659296,
+   "sectores": 1299
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/GUNS.BIN;1",
+   "lba": 1090652,
+   "tam": 240960,
+   "sectores": 118
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/GUNS_S.BIN;1",
+   "lba": 1090770,
+   "tam": 241472,
+   "sectores": 118
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/UNIT_01.BIN;1",
+   "lba": 1090888,
+   "tam": 8652224,
+   "sectores": 4225
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/STUNIT01.BIN;1",
+   "lba": 1095113,
+   "tam": 908560,
+   "sectores": 444
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/UNIT_02.BIN;1",
+   "lba": 1095557,
+   "tam": 585328,
+   "sectores": 286
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/STUNIT02.BIN;1",
+   "lba": 1095843,
+   "tam": 3904,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/UNIT_03.BIN;1",
+   "lba": 1095845,
+   "tam": 7071648,
+   "sectores": 3453
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/STUNIT03.BIN;1",
+   "lba": 1099298,
+   "tam": 901928,
+   "sectores": 441
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/UNIT_04.BIN;1",
+   "lba": 1099739,
+   "tam": 671840,
+   "sectores": 329
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/STUNIT04.BIN;1",
+   "lba": 1100068,
+   "tam": 2944,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/UNIT_05.BIN;1",
+   "lba": 1100070,
+   "tam": 5904448,
+   "sectores": 2884
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/STUNIT05.BIN;1",
+   "lba": 1102954,
+   "tam": 586640,
+   "sectores": 287
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/UNIT_06.BIN;1",
+   "lba": 1103241,
+   "tam": 727120,
+   "sectores": 356
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/STUNIT06.BIN;1",
+   "lba": 1103597,
+   "tam": 4736,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/UNIT_07.BIN;1",
+   "lba": 1103600,
+   "tam": 5530736,
+   "sectores": 2701
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/STG_0001/STUNIT07.BIN;1",
+   "lba": 1106301,
+   "tam": 880288,
+   "sectores": 430
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/LEVELDAT.BIN;1",
+   "lba": 1106731,
+   "tam": 786368,
+   "sectores": 384
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/LEVEL.AWD;1",
+   "lba": 1107115,
+   "tam": 296960,
+   "sectores": 145
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/COLLIDE.AWD;1",
+   "lba": 1107260,
+   "tam": 813056,
+   "sectores": 397
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/AIWPNS.AWD;1",
+   "lba": 1107657,
+   "tam": 184320,
+   "sectores": 90
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/AMBIENCE.SSH;1",
+   "lba": 1107747,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/EMITTER.AWD;1",
+   "lba": 1107748,
+   "tam": 4096,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/DESTRUCT.SSH;1",
+   "lba": 1107750,
+   "tam": 504,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/SPEECH.SLB;1",
+   "lba": 1107751,
+   "tam": 4464,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/SPCH_EN.SSH;1",
+   "lba": 1107754,
+   "tam": 656,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/STLEVEL.BIN;1",
+   "lba": 1107755,
+   "tam": 2504352,
+   "sectores": 1223
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/GUNS.BIN;1",
+   "lba": 1108978,
+   "tam": 246208,
+   "sectores": 121
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/GUNS_S.BIN;1",
+   "lba": 1109099,
+   "tam": 246720,
+   "sectores": 121
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/UNIT_01.BIN;1",
+   "lba": 1109220,
+   "tam": 7762336,
+   "sectores": 3791
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/STUNIT01.BIN;1",
+   "lba": 1113011,
+   "tam": 363808,
+   "sectores": 178
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/UNIT_02.BIN;1",
+   "lba": 1113189,
+   "tam": 652640,
+   "sectores": 319
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/STUNIT02.BIN;1",
+   "lba": 1113508,
+   "tam": 7088,
+   "sectores": 4
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/UNIT_03.BIN;1",
+   "lba": 1113512,
+   "tam": 7732800,
+   "sectores": 3776
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/STUNIT03.BIN;1",
+   "lba": 1117288,
+   "tam": 46352,
+   "sectores": 23
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/UNIT_04.BIN;1",
+   "lba": 1117311,
+   "tam": 699600,
+   "sectores": 342
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/STUNIT04.BIN;1",
+   "lba": 1117653,
+   "tam": 7632,
+   "sectores": 4
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/UNIT_05.BIN;1",
+   "lba": 1117657,
+   "tam": 9054352,
+   "sectores": 4422
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/STUNIT05.BIN;1",
+   "lba": 1122079,
+   "tam": 357392,
+   "sectores": 175
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/UNIT_06.BIN;1",
+   "lba": 1122254,
+   "tam": 548768,
+   "sectores": 268
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/STUNIT06.BIN;1",
+   "lba": 1122522,
+   "tam": 5072,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/UNIT_07.BIN;1",
+   "lba": 1122525,
+   "tam": 8713936,
+   "sectores": 4255
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/STG_0001/STUNIT07.BIN;1",
+   "lba": 1126780,
+   "tam": 59024,
+   "sectores": 29
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/LEVELDAT.BIN;1",
+   "lba": 1126809,
+   "tam": 816576,
+   "sectores": 399
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/LEVEL.AWD;1",
+   "lba": 1127208,
+   "tam": 296960,
+   "sectores": 145
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/COLLIDE.AWD;1",
+   "lba": 1127353,
+   "tam": 815104,
+   "sectores": 398
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/AIWPNS.AWD;1",
+   "lba": 1127751,
+   "tam": 165888,
+   "sectores": 81
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/AMBIENCE.SSH;1",
+   "lba": 1127832,
+   "tam": 104,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/EMITTER.AWD;1",
+   "lba": 1127833,
+   "tam": 4096,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/DESTRUCT.SSH;1",
+   "lba": 1127835,
+   "tam": 464,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/SPEECH.SLB;1",
+   "lba": 1127836,
+   "tam": 3680,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/SPCH_EN.SSH;1",
+   "lba": 1127838,
+   "tam": 544,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/STLEVEL.BIN;1",
+   "lba": 1127839,
+   "tam": 2636064,
+   "sectores": 1288
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/GUNS.BIN;1",
+   "lba": 1129127,
+   "tam": 229952,
+   "sectores": 113
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/GUNS_S.BIN;1",
+   "lba": 1129240,
+   "tam": 230336,
+   "sectores": 113
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/UNIT_01.BIN;1",
+   "lba": 1129353,
+   "tam": 8686992,
+   "sectores": 4242
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/STUNIT01.BIN;1",
+   "lba": 1133595,
+   "tam": 962224,
+   "sectores": 470
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/UNIT_02.BIN;1",
+   "lba": 1134065,
+   "tam": 611776,
+   "sectores": 299
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/STUNIT02.BIN;1",
+   "lba": 1134364,
+   "tam": 5872,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/UNIT_03.BIN;1",
+   "lba": 1134367,
+   "tam": 8789440,
+   "sectores": 4292
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/STUNIT03.BIN;1",
+   "lba": 1138659,
+   "tam": 927104,
+   "sectores": 453
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/UNIT_04.BIN;1",
+   "lba": 1139112,
+   "tam": 699728,
+   "sectores": 342
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/STUNIT04.BIN;1",
+   "lba": 1139454,
+   "tam": 5312,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/UNIT_05.BIN;1",
+   "lba": 1139457,
+   "tam": 8688736,
+   "sectores": 4243
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/STUNIT05.BIN;1",
+   "lba": 1143700,
+   "tam": 935020,
+   "sectores": 457
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/UNIT_06.BIN;1",
+   "lba": 1144157,
+   "tam": 687520,
+   "sectores": 336
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/STUNIT06.BIN;1",
+   "lba": 1144493,
+   "tam": 4072,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/UNIT_07.BIN;1",
+   "lba": 1144495,
+   "tam": 6087104,
+   "sectores": 2973
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/STG_0001/STUNIT07.BIN;1",
+   "lba": 1147468,
+   "tam": 6384,
+   "sectores": 4
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/LEVELDAT.BIN;1",
+   "lba": 1147472,
+   "tam": 801840,
+   "sectores": 392
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/LEVEL.AWD;1",
+   "lba": 1147864,
+   "tam": 299008,
+   "sectores": 146
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/COLLIDE.AWD;1",
+   "lba": 1148010,
+   "tam": 684032,
+   "sectores": 334
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/STG_0001/AIWPNS.AWD;1",
+   "lba": 1148344,
+   "tam": 208896,
+   "sectores": 102
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/AMBIENCE.SSH;1",
+   "lba": 1148446,
+   "tam": 72,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/STG_0001/EMITTER.AWD;1",
+   "lba": 1148447,
+   "tam": 4096,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/DESTRUCT.SSH;1",
+   "lba": 1148449,
+   "tam": 432,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/SPEECH.SLB;1",
+   "lba": 1148450,
+   "tam": 4312,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/SPCH_EN.SSH;1",
+   "lba": 1148453,
+   "tam": 736,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/STG_0001/STLEVEL.BIN;1",
+   "lba": 1148454,
+   "tam": 2673312,
+   "sectores": 1306
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/STG_0001/GUNS.BIN;1",
+   "lba": 1149760,
+   "tam": 264512,
+   "sectores": 130
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/STG_0001/GUNS_S.BIN;1",
+   "lba": 1149890,
+   "tam": 264896,
+   "sectores": 130
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/UNIT_01.BIN;1",
+   "lba": 1150020,
+   "tam": 8688592,
+   "sectores": 4243
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/STG_0001/STUNIT01.BIN;1",
+   "lba": 1154263,
+   "tam": 904476,
+   "sectores": 442
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/UNIT_02.BIN;1",
+   "lba": 1154705,
+   "tam": 634912,
+   "sectores": 311
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/STG_0001/STUNIT02.BIN;1",
+   "lba": 1155016,
+   "tam": 5488,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/UNIT_03.BIN;1",
+   "lba": 1155019,
+   "tam": 9141776,
+   "sectores": 4464
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/STG_0001/STUNIT03.BIN;1",
+   "lba": 1159483,
+   "tam": 915964,
+   "sectores": 448
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/LEVELDAT.BIN;1",
+   "lba": 1159931,
+   "tam": 849888,
+   "sectores": 415
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/LEVEL.AWD;1",
+   "lba": 1160346,
+   "tam": 256000,
+   "sectores": 125
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/COLLIDE.AWD;1",
+   "lba": 1160471,
+   "tam": 815104,
+   "sectores": 398
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/AIWPNS.AWD;1",
+   "lba": 1160869,
+   "tam": 190464,
+   "sectores": 93
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/AMBIENCE.SSH;1",
+   "lba": 1160962,
+   "tam": 128,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/EMITTER.AWD;1",
+   "lba": 1160963,
+   "tam": 4096,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/DESTRUCT.SSH;1",
+   "lba": 1160965,
+   "tam": 528,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/SPEECH.SLB;1",
+   "lba": 1160966,
+   "tam": 720,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/SPCH_EN.SSH;1",
+   "lba": 1160967,
+   "tam": 128,
+   "sectores": 1
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/STLEVEL.BIN;1",
+   "lba": 1160968,
+   "tam": 2601248,
+   "sectores": 1271
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/GUNS.BIN;1",
+   "lba": 1162239,
+   "tam": 265664,
+   "sectores": 130
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/GUNS_S.BIN;1",
+   "lba": 1162369,
+   "tam": 266048,
+   "sectores": 130
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/UNIT_01.BIN;1",
+   "lba": 1162499,
+   "tam": 8714912,
+   "sectores": 4256
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/STUNIT01.BIN;1",
+   "lba": 1166755,
+   "tam": 622176,
+   "sectores": 304
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/UNIT_02.BIN;1",
+   "lba": 1167059,
+   "tam": 652016,
+   "sectores": 319
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/STUNIT02.BIN;1",
+   "lba": 1167378,
+   "tam": 2992,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/UNIT_03.BIN;1",
+   "lba": 1167380,
+   "tam": 3495536,
+   "sectores": 1707
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/STUNIT03.BIN;1",
+   "lba": 1169087,
+   "tam": 572928,
+   "sectores": 280
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/UNIT_04.BIN;1",
+   "lba": 1169367,
+   "tam": 689936,
+   "sectores": 337
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/STUNIT04.BIN;1",
+   "lba": 1169704,
+   "tam": 5872,
+   "sectores": 3
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/UNIT_05.BIN;1",
+   "lba": 1169707,
+   "tam": 8110016,
+   "sectores": 3960
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/STUNIT05.BIN;1",
+   "lba": 1173667,
+   "tam": 855584,
+   "sectores": 418
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/UNIT_06.BIN;1",
+   "lba": 1174085,
+   "tam": 660176,
+   "sectores": 323
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/STUNIT06.BIN;1",
+   "lba": 1174408,
+   "tam": 3328,
+   "sectores": 2
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/UNIT_07.BIN;1",
+   "lba": 1174410,
+   "tam": 4248640,
+   "sectores": 2075
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/STG_0001/STUNIT07.BIN;1",
+   "lba": 1176485,
+   "tam": 852240,
+   "sectores": 417
+  },
+  {
+   "ruta": "/CHARS/TRANS_CH.BIN;1",
+   "lba": 1176902,
+   "tam": 40976,
+   "sectores": 21
+  },
+  {
+   "ruta": "/CHARS/TRANS_FP.BIN;1",
+   "lba": 1176923,
+   "tam": 11712,
+   "sectores": 6
+  },
+  {
+   "ruta": "/SOUND/BANKS/ANIM.AWD;1",
+   "lba": 1176929,
+   "tam": 153600,
+   "sectores": 75
+  },
+  {
+   "ruta": "/LEVELS/GLOBAL/SPEECH.SLB;1",
+   "lba": 1177004,
+   "tam": 23456,
+   "sectores": 12
+  },
+  {
+   "ruta": "/LEVELS/GLOBAL/SPEECH.SSH;1",
+   "lba": 1177016,
+   "tam": 24208,
+   "sectores": 12
+  },
+  {
+   "ruta": "/SOUND/PCM/GRDPIN.DAV;1",
+   "lba": 1177028,
+   "tam": 47104,
+   "sectores": 23
+  },
+  {
+   "ruta": "/CHARS/GUNS/GRDPIN.WDO;1",
+   "lba": 1177051,
+   "tam": 209,
+   "sectores": 1
+  },
+  {
+   "ruta": "/CHARS/GUNS/GRDPIN.WDD;1",
+   "lba": 1177052,
+   "tam": 16384,
+   "sectores": 8
+  },
+  {
+   "ruta": "/SOUND/PCM/GRDLNCHR.DAV;1",
+   "lba": 1177060,
+   "tam": 51200,
+   "sectores": 25
+  },
+  {
+   "ruta": "/CHARS/GUNS/GRDLNCHR.WDO;1",
+   "lba": 1177085,
+   "tam": 211,
+   "sectores": 1
+  },
+  {
+   "ruta": "/CHARS/GUNS/GRDLNCHR.WDD;1",
+   "lba": 1177086,
+   "tam": 16384,
+   "sectores": 8
+  },
+  {
+   "ruta": "/EXPORT/FRONTEND/PSEMENU.BIN;1",
+   "lba": 1177094,
+   "tam": 215400,
+   "sectores": 106
+  },
+  {
+   "ruta": "/SOUND/COMMON.AWD;1",
+   "lba": 1177200,
+   "tam": 38912,
+   "sectores": 19
+  },
+  {
+   "ruta": "/SOUND/PAUDIO.AWD;1",
+   "lba": 1177219,
+   "tam": 26624,
+   "sectores": 13
+  },
+  {
+   "ruta": "/LEVELS/GLOBAL/SPEECH.BKS;1",
+   "lba": 1177232,
+   "tam": 117669888,
+   "sectores": 57456
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/AMBIENCE.BKS;1",
+   "lba": 1234688,
+   "tam": 18808832,
+   "sectores": 9184
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/DESTRUCT.BKS;1",
+   "lba": 1243872,
+   "tam": 3702784,
+   "sectores": 1808
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/MUSIC.BKS;1",
+   "lba": 1245680,
+   "tam": 2064384,
+   "sectores": 1008
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/SPCH_EN.BKS;1",
+   "lba": 1246688,
+   "tam": 8585216,
+   "sectores": 4192
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_AK1.DB;1",
+   "lba": 1250880,
+   "tam": 655863,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_AK1.WDD;1",
+   "lba": 1251201,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_AK5.DB;1",
+   "lba": 1251233,
+   "tam": 590327,
+   "sectores": 289
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_AK5.WDD;1",
+   "lba": 1251522,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_AS5.DB;1",
+   "lba": 1251554,
+   "tam": 623407,
+   "sectores": 305
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_AS5.WDD;1",
+   "lba": 1251859,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_ASR.DB;1",
+   "lba": 1251891,
+   "tam": 695328,
+   "sectores": 340
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_ASR.WDD;1",
+   "lba": 1252231,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_BNS.DB;1",
+   "lba": 1252263,
+   "tam": 725139,
+   "sectores": 355
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_BNS.WDD;1",
+   "lba": 1252618,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_HV5.DB;1",
+   "lba": 1252650,
+   "tam": 613409,
+   "sectores": 300
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_HV5.WDD;1",
+   "lba": 1252950,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_HVY.DB;1",
+   "lba": 1252982,
+   "tam": 680737,
+   "sectores": 333
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_HVY.WDD;1",
+   "lba": 1253315,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_PS5.DB;1",
+   "lba": 1253347,
+   "tam": 631175,
+   "sectores": 309
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_PS5.WDD;1",
+   "lba": 1253656,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_PST.DB;1",
+   "lba": 1253688,
+   "tam": 631176,
+   "sectores": 309
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_PST.WDD;1",
+   "lba": 1253997,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_RPG.DB;1",
+   "lba": 1254029,
+   "tam": 619180,
+   "sectores": 303
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_RPG.WDD;1",
+   "lba": 1254332,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SH5.DB;1",
+   "lba": 1254364,
+   "tam": 557247,
+   "sectores": 273
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SH5.WDD;1",
+   "lba": 1254637,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SHG.DB;1",
+   "lba": 1254669,
+   "tam": 559807,
+   "sectores": 274
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SHG.WDD;1",
+   "lba": 1254943,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SM5.DB;1",
+   "lba": 1254975,
+   "tam": 556843,
+   "sectores": 272
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SM5.WDD;1",
+   "lba": 1255247,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SMG.DB;1",
+   "lba": 1255279,
+   "tam": 601259,
+   "sectores": 294
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SMG.WDD;1",
+   "lba": 1255573,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SN5.DB;1",
+   "lba": 1255605,
+   "tam": 655929,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SN5.WDD;1",
+   "lba": 1255926,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SNR.DB;1",
+   "lba": 1255958,
+   "tam": 656421,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_00/FPGUNS/BG1_SNR.WDD;1",
+   "lba": 1256279,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/AMBIENCE.BKS;1",
+   "lba": 1256311,
+   "tam": 36306944,
+   "sectores": 17728
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/DESTRUCT.BKS;1",
+   "lba": 1274039,
+   "tam": 4227072,
+   "sectores": 2064
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/MUSIC.BKS;1",
+   "lba": 1276103,
+   "tam": 24870912,
+   "sectores": 12144
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/SPCH_EN.BKS;1",
+   "lba": 1288247,
+   "tam": 3342336,
+   "sectores": 1632
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_AK1.DB;1",
+   "lba": 1289879,
+   "tam": 655863,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_AK1.WDD;1",
+   "lba": 1290200,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_AK5.DB;1",
+   "lba": 1290232,
+   "tam": 590327,
+   "sectores": 289
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_AK5.WDD;1",
+   "lba": 1290521,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_AS5.DB;1",
+   "lba": 1290553,
+   "tam": 623407,
+   "sectores": 305
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_AS5.WDD;1",
+   "lba": 1290858,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_ASR.DB;1",
+   "lba": 1290890,
+   "tam": 695328,
+   "sectores": 340
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_ASR.WDD;1",
+   "lba": 1291230,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_BNS.DB;1",
+   "lba": 1291262,
+   "tam": 725139,
+   "sectores": 355
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_BNS.WDD;1",
+   "lba": 1291617,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_GK1.DB;1",
+   "lba": 1291649,
+   "tam": 609307,
+   "sectores": 298
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_GK1.WDD;1",
+   "lba": 1291947,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_GK5.DB;1",
+   "lba": 1291979,
+   "tam": 543771,
+   "sectores": 266
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_GK5.WDD;1",
+   "lba": 1292245,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_HV5.DB;1",
+   "lba": 1292277,
+   "tam": 613409,
+   "sectores": 300
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_HV5.WDD;1",
+   "lba": 1292577,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_HVY.DB;1",
+   "lba": 1292609,
+   "tam": 680737,
+   "sectores": 333
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_HVY.WDD;1",
+   "lba": 1292942,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_RPG.DB;1",
+   "lba": 1292974,
+   "tam": 619180,
+   "sectores": 303
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_RPG.WDD;1",
+   "lba": 1293277,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SH5.DB;1",
+   "lba": 1293309,
+   "tam": 557247,
+   "sectores": 273
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SH5.WDD;1",
+   "lba": 1293582,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SHG.DB;1",
+   "lba": 1293614,
+   "tam": 559807,
+   "sectores": 274
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SHG.WDD;1",
+   "lba": 1293888,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SM5.DB;1",
+   "lba": 1293920,
+   "tam": 556843,
+   "sectores": 272
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SM5.WDD;1",
+   "lba": 1294192,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SMG.DB;1",
+   "lba": 1294224,
+   "tam": 601259,
+   "sectores": 294
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SMG.WDD;1",
+   "lba": 1294518,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SN5.DB;1",
+   "lba": 1294550,
+   "tam": 655929,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SN5.WDD;1",
+   "lba": 1294871,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SNR.DB;1",
+   "lba": 1294903,
+   "tam": 656421,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_01/FPGUNS/BG1_SNR.WDD;1",
+   "lba": 1295224,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/AMBIENCE.BKS;1",
+   "lba": 1295256,
+   "tam": 78905344,
+   "sectores": 38528
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/DESTRUCT.BKS;1",
+   "lba": 1333784,
+   "tam": 4587520,
+   "sectores": 2240
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/MUSIC.BKS;1",
+   "lba": 1336024,
+   "tam": 7995392,
+   "sectores": 3904
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/SPCH_EN.BKS;1",
+   "lba": 1339928,
+   "tam": 4063232,
+   "sectores": 1984
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_AS5.DB;1",
+   "lba": 1341912,
+   "tam": 623407,
+   "sectores": 305
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_AS5.WDD;1",
+   "lba": 1342217,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_ASR.DB;1",
+   "lba": 1342249,
+   "tam": 695328,
+   "sectores": 340
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_ASR.WDD;1",
+   "lba": 1342589,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_BNS.DB;1",
+   "lba": 1342621,
+   "tam": 725139,
+   "sectores": 355
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_BNS.WDD;1",
+   "lba": 1342976,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_GRL.DB;1",
+   "lba": 1343008,
+   "tam": 521639,
+   "sectores": 255
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_GRL.WDD;1",
+   "lba": 1343263,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_HV5.DB;1",
+   "lba": 1343295,
+   "tam": 613409,
+   "sectores": 300
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_HV5.WDD;1",
+   "lba": 1343595,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_HVY.DB;1",
+   "lba": 1343627,
+   "tam": 680737,
+   "sectores": 333
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_HVY.WDD;1",
+   "lba": 1343960,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_MG5.DB;1",
+   "lba": 1343992,
+   "tam": 663305,
+   "sectores": 324
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_MG5.WDD;1",
+   "lba": 1344316,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_MGN.DB;1",
+   "lba": 1344348,
+   "tam": 675337,
+   "sectores": 330
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_MGN.WDD;1",
+   "lba": 1344678,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_P90.DB;1",
+   "lba": 1344710,
+   "tam": 596251,
+   "sectores": 292
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_P90.WDD;1",
+   "lba": 1345002,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_P95.DB;1",
+   "lba": 1345034,
+   "tam": 530715,
+   "sectores": 260
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_P95.WDD;1",
+   "lba": 1345294,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_PS5.DB;1",
+   "lba": 1345326,
+   "tam": 631175,
+   "sectores": 309
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_PS5.WDD;1",
+   "lba": 1345635,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_PST.DB;1",
+   "lba": 1345667,
+   "tam": 631176,
+   "sectores": 309
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_PST.WDD;1",
+   "lba": 1345976,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_RPG.DB;1",
+   "lba": 1346008,
+   "tam": 619180,
+   "sectores": 303
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_RPG.WDD;1",
+   "lba": 1346311,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_SH5.DB;1",
+   "lba": 1346343,
+   "tam": 557247,
+   "sectores": 273
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_SH5.WDD;1",
+   "lba": 1346616,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_SHG.DB;1",
+   "lba": 1346648,
+   "tam": 559807,
+   "sectores": 274
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_SHG.WDD;1",
+   "lba": 1346922,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_SM5.DB;1",
+   "lba": 1346954,
+   "tam": 556843,
+   "sectores": 272
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_SM5.WDD;1",
+   "lba": 1347226,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_SMG.DB;1",
+   "lba": 1347258,
+   "tam": 601259,
+   "sectores": 294
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_03/FPGUNS/BG1_SMG.WDD;1",
+   "lba": 1347552,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/AMBIENCE.BKS;1",
+   "lba": 1347584,
+   "tam": 41025536,
+   "sectores": 20032
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/DESTRUCT.BKS;1",
+   "lba": 1367616,
+   "tam": 3538944,
+   "sectores": 1728
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/MUSIC.BKS;1",
+   "lba": 1369344,
+   "tam": 9633792,
+   "sectores": 4704
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/SPCH_EN.BKS;1",
+   "lba": 1374048,
+   "tam": 4194304,
+   "sectores": 2048
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_AS5.DB;1",
+   "lba": 1376096,
+   "tam": 623407,
+   "sectores": 305
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_AS5.WDD;1",
+   "lba": 1376401,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_ASR.DB;1",
+   "lba": 1376433,
+   "tam": 695328,
+   "sectores": 340
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_ASR.WDD;1",
+   "lba": 1376773,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_BNS.DB;1",
+   "lba": 1376805,
+   "tam": 725139,
+   "sectores": 355
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_BNS.WDD;1",
+   "lba": 1377160,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_GK1.DB;1",
+   "lba": 1377192,
+   "tam": 609307,
+   "sectores": 298
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_GK1.WDD;1",
+   "lba": 1377490,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_GK5.DB;1",
+   "lba": 1377522,
+   "tam": 543771,
+   "sectores": 266
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_GK5.WDD;1",
+   "lba": 1377788,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_HV5.DB;1",
+   "lba": 1377820,
+   "tam": 613409,
+   "sectores": 300
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_HV5.WDD;1",
+   "lba": 1378120,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_HVY.DB;1",
+   "lba": 1378152,
+   "tam": 680737,
+   "sectores": 333
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_HVY.WDD;1",
+   "lba": 1378485,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_M16.DB;1",
+   "lba": 1378517,
+   "tam": 686745,
+   "sectores": 336
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_M16.WDD;1",
+   "lba": 1378853,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_M45.DB;1",
+   "lba": 1378885,
+   "tam": 621209,
+   "sectores": 304
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_M45.WDD;1",
+   "lba": 1379189,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_MG5.DB;1",
+   "lba": 1379221,
+   "tam": 663305,
+   "sectores": 324
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_MG5.WDD;1",
+   "lba": 1379545,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_MGN.DB;1",
+   "lba": 1379577,
+   "tam": 675337,
+   "sectores": 330
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_MGN.WDD;1",
+   "lba": 1379907,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_MP1.DB;1",
+   "lba": 1379939,
+   "tam": 713628,
+   "sectores": 349
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_MP1.WDD;1",
+   "lba": 1380288,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_MP5.DB;1",
+   "lba": 1380320,
+   "tam": 652700,
+   "sectores": 319
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_MP5.WDD;1",
+   "lba": 1380639,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_RPG.DB;1",
+   "lba": 1380671,
+   "tam": 619180,
+   "sectores": 303
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_RPG.WDD;1",
+   "lba": 1380974,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_SH5.DB;1",
+   "lba": 1381006,
+   "tam": 557247,
+   "sectores": 273
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_SH5.WDD;1",
+   "lba": 1381279,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_SHG.DB;1",
+   "lba": 1381311,
+   "tam": 559807,
+   "sectores": 274
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_SHG.WDD;1",
+   "lba": 1381585,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_SM5.DB;1",
+   "lba": 1381617,
+   "tam": 556843,
+   "sectores": 272
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_SM5.WDD;1",
+   "lba": 1381889,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_SMG.DB;1",
+   "lba": 1381921,
+   "tam": 601259,
+   "sectores": 294
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_04/FPGUNS/BG1_SMG.WDD;1",
+   "lba": 1382215,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/AMBIENCE.BKS;1",
+   "lba": 1382247,
+   "tam": 37027840,
+   "sectores": 18080
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/DESTRUCT.BKS;1",
+   "lba": 1400327,
+   "tam": 4096000,
+   "sectores": 2000
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/MUSIC.BKS;1",
+   "lba": 1402327,
+   "tam": 9666560,
+   "sectores": 4720
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/SPCH_EN.BKS;1",
+   "lba": 1407047,
+   "tam": 5505024,
+   "sectores": 2688
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_AK1.DB;1",
+   "lba": 1409735,
+   "tam": 655863,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_AK1.WDD;1",
+   "lba": 1410056,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_AK5.DB;1",
+   "lba": 1410088,
+   "tam": 590327,
+   "sectores": 289
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_AK5.WDD;1",
+   "lba": 1410377,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_AS5.DB;1",
+   "lba": 1410409,
+   "tam": 623407,
+   "sectores": 305
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_AS5.WDD;1",
+   "lba": 1410714,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_ASR.DB;1",
+   "lba": 1410746,
+   "tam": 695328,
+   "sectores": 340
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_ASR.WDD;1",
+   "lba": 1411086,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_BNS.DB;1",
+   "lba": 1411118,
+   "tam": 725139,
+   "sectores": 355
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_BNS.WDD;1",
+   "lba": 1411473,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_GRL.DB;1",
+   "lba": 1411505,
+   "tam": 521639,
+   "sectores": 255
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_GRL.WDD;1",
+   "lba": 1411760,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_HV5.DB;1",
+   "lba": 1411792,
+   "tam": 613409,
+   "sectores": 300
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_HV5.WDD;1",
+   "lba": 1412092,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_HVY.DB;1",
+   "lba": 1412124,
+   "tam": 680737,
+   "sectores": 333
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_HVY.WDD;1",
+   "lba": 1412457,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_PS5.DB;1",
+   "lba": 1412489,
+   "tam": 631175,
+   "sectores": 309
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_PS5.WDD;1",
+   "lba": 1412798,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_PST.DB;1",
+   "lba": 1412830,
+   "tam": 631176,
+   "sectores": 309
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_PST.WDD;1",
+   "lba": 1413139,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_RPG.DB;1",
+   "lba": 1413171,
+   "tam": 619180,
+   "sectores": 303
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_RPG.WDD;1",
+   "lba": 1413474,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SH5.DB;1",
+   "lba": 1413506,
+   "tam": 557247,
+   "sectores": 273
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SH5.WDD;1",
+   "lba": 1413779,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SHG.DB;1",
+   "lba": 1413811,
+   "tam": 559807,
+   "sectores": 274
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SHG.WDD;1",
+   "lba": 1414085,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SM5.DB;1",
+   "lba": 1414117,
+   "tam": 556843,
+   "sectores": 272
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SM5.WDD;1",
+   "lba": 1414389,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SMG.DB;1",
+   "lba": 1414421,
+   "tam": 601259,
+   "sectores": 294
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SMG.WDD;1",
+   "lba": 1414715,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SN5.DB;1",
+   "lba": 1414747,
+   "tam": 655929,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SN5.WDD;1",
+   "lba": 1415068,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SNR.DB;1",
+   "lba": 1415100,
+   "tam": 656421,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_05/FPGUNS/BG1_SNR.WDD;1",
+   "lba": 1415421,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/AMBIENCE.BKS;1",
+   "lba": 1415453,
+   "tam": 32964608,
+   "sectores": 16096
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/DESTRUCT.BKS;1",
+   "lba": 1431549,
+   "tam": 3735552,
+   "sectores": 1824
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/MUSIC.BKS;1",
+   "lba": 1433373,
+   "tam": 8749056,
+   "sectores": 4272
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/SPCH_EN.BKS;1",
+   "lba": 1437645,
+   "tam": 3342336,
+   "sectores": 1632
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_AK1.DB;1",
+   "lba": 1439277,
+   "tam": 655863,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_AK1.WDD;1",
+   "lba": 1439598,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_AK5.DB;1",
+   "lba": 1439630,
+   "tam": 590327,
+   "sectores": 289
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_AK5.WDD;1",
+   "lba": 1439919,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_AS5.DB;1",
+   "lba": 1439951,
+   "tam": 623407,
+   "sectores": 305
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_AS5.WDD;1",
+   "lba": 1440256,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_ASR.DB;1",
+   "lba": 1440288,
+   "tam": 695328,
+   "sectores": 340
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_ASR.WDD;1",
+   "lba": 1440628,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_BNS.DB;1",
+   "lba": 1440660,
+   "tam": 725139,
+   "sectores": 355
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_BNS.WDD;1",
+   "lba": 1441015,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_HV5.DB;1",
+   "lba": 1441047,
+   "tam": 613409,
+   "sectores": 300
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_HV5.WDD;1",
+   "lba": 1441347,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_HVY.DB;1",
+   "lba": 1441379,
+   "tam": 680737,
+   "sectores": 333
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_HVY.WDD;1",
+   "lba": 1441712,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_MC5.DB;1",
+   "lba": 1441744,
+   "tam": 519339,
+   "sectores": 254
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_MC5.WDD;1",
+   "lba": 1441998,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_RM1.DB;1",
+   "lba": 1442030,
+   "tam": 569651,
+   "sectores": 279
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_RM1.WDD;1",
+   "lba": 1442309,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_RM5.DB;1",
+   "lba": 1442341,
+   "tam": 504115,
+   "sectores": 247
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_RM5.WDD;1",
+   "lba": 1442588,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_RPG.DB;1",
+   "lba": 1442620,
+   "tam": 619180,
+   "sectores": 303
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_RPG.WDD;1",
+   "lba": 1442923,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SM3.DB;1",
+   "lba": 1442955,
+   "tam": 593067,
+   "sectores": 290
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SM3.WDD;1",
+   "lba": 1443245,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SM5.DB;1",
+   "lba": 1443277,
+   "tam": 556843,
+   "sectores": 272
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SM5.WDD;1",
+   "lba": 1443549,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SMG.DB;1",
+   "lba": 1443581,
+   "tam": 601259,
+   "sectores": 294
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SMG.WDD;1",
+   "lba": 1443875,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SN5.DB;1",
+   "lba": 1443907,
+   "tam": 655929,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SN5.WDD;1",
+   "lba": 1444228,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SNR.DB;1",
+   "lba": 1444260,
+   "tam": 656421,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_06/FPGUNS/BG1_SNR.WDD;1",
+   "lba": 1444581,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/AMBIENCE.BKS;1",
+   "lba": 1444613,
+   "tam": 34537472,
+   "sectores": 16864
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/DESTRUCT.BKS;1",
+   "lba": 1461477,
+   "tam": 3538944,
+   "sectores": 1728
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/MUSIC.BKS;1",
+   "lba": 1463205,
+   "tam": 3801088,
+   "sectores": 1856
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/SPCH_EN.BKS;1",
+   "lba": 1465061,
+   "tam": 5341184,
+   "sectores": 2608
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_AS5.DB;1",
+   "lba": 1467669,
+   "tam": 623407,
+   "sectores": 305
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_AS5.WDD;1",
+   "lba": 1467974,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_ASR.DB;1",
+   "lba": 1468006,
+   "tam": 695328,
+   "sectores": 340
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_ASR.WDD;1",
+   "lba": 1468346,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_BNS.DB;1",
+   "lba": 1468378,
+   "tam": 725139,
+   "sectores": 355
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_BNS.WDD;1",
+   "lba": 1468733,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_GRL.DB;1",
+   "lba": 1468765,
+   "tam": 521639,
+   "sectores": 255
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_GRL.WDD;1",
+   "lba": 1469020,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_HV5.DB;1",
+   "lba": 1469052,
+   "tam": 613409,
+   "sectores": 300
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_HV5.WDD;1",
+   "lba": 1469352,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_HVY.DB;1",
+   "lba": 1469384,
+   "tam": 680737,
+   "sectores": 333
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_HVY.WDD;1",
+   "lba": 1469717,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_M16.DB;1",
+   "lba": 1469749,
+   "tam": 686745,
+   "sectores": 336
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_M16.WDD;1",
+   "lba": 1470085,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_M45.DB;1",
+   "lba": 1470117,
+   "tam": 621209,
+   "sectores": 304
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_M45.WDD;1",
+   "lba": 1470421,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_MC5.DB;1",
+   "lba": 1470453,
+   "tam": 519339,
+   "sectores": 254
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_MC5.WDD;1",
+   "lba": 1470707,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_PS5.DB;1",
+   "lba": 1470739,
+   "tam": 631175,
+   "sectores": 309
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_PS5.WDD;1",
+   "lba": 1471048,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_PST.DB;1",
+   "lba": 1471080,
+   "tam": 631176,
+   "sectores": 309
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_PST.WDD;1",
+   "lba": 1471389,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_RM1.DB;1",
+   "lba": 1471421,
+   "tam": 569651,
+   "sectores": 279
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_RM1.WDD;1",
+   "lba": 1471700,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_RM5.DB;1",
+   "lba": 1471732,
+   "tam": 504115,
+   "sectores": 247
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_RM5.WDD;1",
+   "lba": 1471979,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_RPG.DB;1",
+   "lba": 1472011,
+   "tam": 619180,
+   "sectores": 303
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_RPG.WDD;1",
+   "lba": 1472314,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SM3.DB;1",
+   "lba": 1472346,
+   "tam": 593067,
+   "sectores": 290
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SM3.WDD;1",
+   "lba": 1472636,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SM5.DB;1",
+   "lba": 1472668,
+   "tam": 556843,
+   "sectores": 272
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SM5.WDD;1",
+   "lba": 1472940,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SMG.DB;1",
+   "lba": 1472972,
+   "tam": 601259,
+   "sectores": 294
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SMG.WDD;1",
+   "lba": 1473266,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SN5.DB;1",
+   "lba": 1473298,
+   "tam": 655929,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SN5.WDD;1",
+   "lba": 1473619,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SNR.DB;1",
+   "lba": 1473651,
+   "tam": 656421,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_07/FPGUNS/BG1_SNR.WDD;1",
+   "lba": 1473972,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/AMBIENCE.BKS;1",
+   "lba": 1474004,
+   "tam": 87752704,
+   "sectores": 42848
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/DESTRUCT.BKS;1",
+   "lba": 1516852,
+   "tam": 4161536,
+   "sectores": 2032
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/MUSIC.BKS;1",
+   "lba": 1518884,
+   "tam": 17825792,
+   "sectores": 8704
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/SPCH_EN.BKS;1",
+   "lba": 1527588,
+   "tam": 1474560,
+   "sectores": 720
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_AS5.DB;1",
+   "lba": 1528308,
+   "tam": 623407,
+   "sectores": 305
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_AS5.WDD;1",
+   "lba": 1528613,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_ASR.DB;1",
+   "lba": 1528645,
+   "tam": 695328,
+   "sectores": 340
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_ASR.WDD;1",
+   "lba": 1528985,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_BNS.DB;1",
+   "lba": 1529017,
+   "tam": 725139,
+   "sectores": 355
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_BNS.WDD;1",
+   "lba": 1529372,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_GK1.DB;1",
+   "lba": 1529404,
+   "tam": 609307,
+   "sectores": 298
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_GK1.WDD;1",
+   "lba": 1529702,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_GK5.DB;1",
+   "lba": 1529734,
+   "tam": 543771,
+   "sectores": 266
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_GK5.WDD;1",
+   "lba": 1530000,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_HV5.DB;1",
+   "lba": 1530032,
+   "tam": 613409,
+   "sectores": 300
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_HV5.WDD;1",
+   "lba": 1530332,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_HVY.DB;1",
+   "lba": 1530364,
+   "tam": 680737,
+   "sectores": 333
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_HVY.WDD;1",
+   "lba": 1530697,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MC5.DB;1",
+   "lba": 1530729,
+   "tam": 519339,
+   "sectores": 254
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MC5.WDD;1",
+   "lba": 1530983,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MG5.DB;1",
+   "lba": 1531015,
+   "tam": 663305,
+   "sectores": 324
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MG5.WDD;1",
+   "lba": 1531339,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MGN.DB;1",
+   "lba": 1531371,
+   "tam": 675337,
+   "sectores": 330
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MGN.WDD;1",
+   "lba": 1531701,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MP1.DB;1",
+   "lba": 1531733,
+   "tam": 713628,
+   "sectores": 349
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MP1.WDD;1",
+   "lba": 1532082,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MP5.DB;1",
+   "lba": 1532114,
+   "tam": 652700,
+   "sectores": 319
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_MP5.WDD;1",
+   "lba": 1532433,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_RM1.DB;1",
+   "lba": 1532465,
+   "tam": 569651,
+   "sectores": 279
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_RM1.WDD;1",
+   "lba": 1532744,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_RM5.DB;1",
+   "lba": 1532776,
+   "tam": 504115,
+   "sectores": 247
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_RM5.WDD;1",
+   "lba": 1533023,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_RPG.DB;1",
+   "lba": 1533055,
+   "tam": 619180,
+   "sectores": 303
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_RPG.WDD;1",
+   "lba": 1533358,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SM3.DB;1",
+   "lba": 1533390,
+   "tam": 593067,
+   "sectores": 290
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SM3.WDD;1",
+   "lba": 1533680,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SM5.DB;1",
+   "lba": 1533712,
+   "tam": 556843,
+   "sectores": 272
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SM5.WDD;1",
+   "lba": 1533984,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SMG.DB;1",
+   "lba": 1534016,
+   "tam": 601259,
+   "sectores": 294
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SMG.WDD;1",
+   "lba": 1534310,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SN5.DB;1",
+   "lba": 1534342,
+   "tam": 655929,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SN5.WDD;1",
+   "lba": 1534663,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SNR.DB;1",
+   "lba": 1534695,
+   "tam": 656421,
+   "sectores": 321
+  },
+  {
+   "ruta": "/LEVELS/LEVEL_08/FPGUNS/BG1_SNR.WDD;1",
+   "lba": 1535016,
+   "tam": 65536,
+   "sectores": 32
+  },
+  {
+   "ruta": "/VIDEOS/C_N_US.M2V;1",
+   "lba": 1535048,
+   "tam": 4947938,
+   "sectores": 2416
+  },
+  {
+   "ruta": "/SOUND/STREAMS/CREDROLL.BKS;1",
+   "lba": 1537464,
+   "tam": 35553280,
+   "sectores": 17360
+  },
+  {
+   "ruta": "/VIDEOS/LO_N_US.M2V;1",
+   "lba": 1554824,
+   "tam": 2604323,
+   "sectores": 1272
+  },
+  {
+   "ruta": "/SOUND/STREAMS/LOGOS.BKS;1",
+   "lba": 1556096,
+   "tam": 3670016,
+   "sectores": 1792
+  },
+  {
+   "ruta": "/VIDEOS/02_N.M2V;1",
+   "lba": 1557888,
+   "tam": 15656294,
+   "sectores": 7645
+  },
+  {
+   "ruta": "/SOUND/STREAMS/INTRO.BKS;1",
+   "lba": 1565533,
+   "tam": 9633792,
+   "sectores": 4704
+  },
+  {
+   "ruta": "/VIDEOS/03_N.M2V;1",
+   "lba": 1570237,
+   "tam": 72678002,
+   "sectores": 35488
+  },
+  {
+   "ruta": "/SOUND/STREAMS/7THWAVE.BKS;1",
+   "lba": 1605725,
+   "tam": 40402944,
+   "sectores": 19728
+  },
+  {
+   "ruta": "/VIDEOS/05_N.M2V;1",
+   "lba": 1625453,
+   "tam": 35206324,
+   "sectores": 17191
+  },
+  {
+   "ruta": "/SOUND/STREAMS/TARGET.BKS;1",
+   "lba": 1642644,
+   "tam": 20021248,
+   "sectores": 9776
+  },
+  {
+   "ruta": "/VIDEOS/07_N.M2V;1",
+   "lba": 1652420,
+   "tam": 50275255,
+   "sectores": 24549
+  },
+  {
+   "ruta": "/SOUND/STREAMS/AMERICAN.BKS;1",
+   "lba": 1676969,
+   "tam": 27787264,
+   "sectores": 13568
+  },
+  {
+   "ruta": "/VIDEOS/09_N.M2V;1",
+   "lba": 1690537,
+   "tam": 46017322,
+   "sectores": 22470
+  },
+  {
+   "ruta": "/SOUND/STREAMS/ASSETS.BKS;1",
+   "lba": 1713007,
+   "tam": 25460736,
+   "sectores": 12432
+  },
+  {
+   "ruta": "/VIDEOS/11_N.M2V;1",
+   "lba": 1725439,
+   "tam": 44665258,
+   "sectores": 21810
+  },
+  {
+   "ruta": "/SOUND/STREAMS/SOLOMON.BKS;1",
+   "lba": 1747249,
+   "tam": 24412160,
+   "sectores": 11920
+  },
+  {
+   "ruta": "/VIDEOS/13_N.M2V;1",
+   "lba": 1759169,
+   "tam": 32183226,
+   "sectores": 15715
+  },
+  {
+   "ruta": "/SOUND/STREAMS/VALENCIO.BKS;1",
+   "lba": 1774884,
+   "tam": 17563648,
+   "sectores": 8576
+  },
+  {
+   "ruta": "/VIDEOS/15_N.M2V;1",
+   "lba": 1783460,
+   "tam": 17772087,
+   "sectores": 8678
+  },
+  {
+   "ruta": "/SOUND/STREAMS/OPS.BKS;1",
+   "lba": 1792138,
+   "tam": 10485760,
+   "sectores": 5120
+  },
+  {
+   "ruta": "/VIDEOS/17_N.M2V;1",
+   "lba": 1797258,
+   "tam": 12356517,
+   "sectores": 6034
+  },
+  {
+   "ruta": "/SOUND/STREAMS/LEVEL.BKS;1",
+   "lba": 1803292,
+   "tam": 8421376,
+   "sectores": 4112
+  },
+  {
+   "ruta": "/VIDEOS/18_N.M2V;1",
+   "lba": 1807404,
+   "tam": 37518896,
+   "sectores": 18320
+  },
+  {
+   "ruta": "/SOUND/STREAMS/DIVISION.BKS;1",
+   "lba": 1825724,
+   "tam": 21561344,
+   "sectores": 10528
+  },
+  {
+   "ruta": "/VIDEOS/ATTR_N.M2V;1",
+   "lba": 1836252,
+   "tam": 35616213,
+   "sectores": 17391
+  },
+  {
+   "ruta": "/SOUND/STREAMS/DEMOATTR.BKS;1",
+   "lba": 1853643,
+   "tam": 22020096,
+   "sectores": 10752
+  },
+  {
+   "ruta": "/VIDEOS/AK_N.M2V;1",
+   "lba": 1864395,
+   "tam": 6508941,
+   "sectores": 3179
+  },
+  {
+   "ruta": "/SOUND/STREAMS/AK47.BKS;1",
+   "lba": 1867574,
+   "tam": 622592,
+   "sectores": 304
+  },
+  {
+   "ruta": "/VIDEOS/MP5_N.M2V;1",
+   "lba": 1867878,
+   "tam": 8847671,
+   "sectores": 4321
+  },
+  {
+   "ruta": "/SOUND/STREAMS/MP5.BKS;1",
+   "lba": 1872199,
+   "tam": 1081344,
+   "sectores": 528
+  },
+  {
+   "ruta": "/SOUND/STREAMS/FEMUSIC.BKS;1",
+   "lba": 1872727,
+   "tam": 34766848,
+   "sectores": 16976
+  },
+  {
+   "ruta": "/VIDEOS/SMG_N.M2V;1",
+   "lba": 1889703,
+   "tam": 6901638,
+   "sectores": 3370
+  },
+  {
+   "ruta": "/SOUND/STREAMS/SMG.BKS;1",
+   "lba": 1893073,
+   "tam": 884736,
+   "sectores": 432
+  },
+  {
+   "ruta": "/VIDEOS/MAG_N.M2V;1",
+   "lba": 1893505,
+   "tam": 9190711,
+   "sectores": 4488
+  },
+  {
+   "ruta": "/SOUND/STREAMS/MAG.BKS;1",
+   "lba": 1897993,
+   "tam": 1114112,
+   "sectores": 544
+  },
+  {
+   "ruta": "/SYSTEM.CNF;1",
+   "lba": 1898537,
+   "tam": 57,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SLUS_213.76;1",
+   "lba": 1898538,
+   "tam": 3371868,
+   "sectores": 1647
+  },
+  {
+   "ruta": "/IOP/IOPRP300.IMG;1",
+   "lba": 1900185,
+   "tam": 275345,
+   "sectores": 135
+  },
+  {
+   "ruta": "/IOP/SIO2MAN.IRX;1",
+   "lba": 1900320,
+   "tam": 6641,
+   "sectores": 4
+  },
+  {
+   "ruta": "/IOP/DBCMAN.IRX;1",
+   "lba": 1900324,
+   "tam": 15653,
+   "sectores": 8
+  },
+  {
+   "ruta": "/IOP/SIO2D.IRX;1",
+   "lba": 1900332,
+   "tam": 11289,
+   "sectores": 6
+  },
+  {
+   "ruta": "/IOP/DS2O.IRX;1",
+   "lba": 1900338,
+   "tam": 10973,
+   "sectores": 6
+  },
+  {
+   "ruta": "/IOP/LIBSD.IRX;1",
+   "lba": 1900344,
+   "tam": 30085,
+   "sectores": 15
+  },
+  {
+   "ruta": "/IOP/RWA.IRX;1",
+   "lba": 1900359,
+   "tam": 67428,
+   "sectores": 33
+  },
+  {
+   "ruta": "/IOP/GTFSCDVD.IRX;1",
+   "lba": 1900392,
+   "tam": 12764,
+   "sectores": 7
+  },
+  {
+   "ruta": "/IOP/DSPROUTE.IRX;1",
+   "lba": 1900399,
+   "tam": 6684,
+   "sectores": 4
+  },
+  {
+   "ruta": "/IOP/MC2_D.IRX;1",
+   "lba": 1900403,
+   "tam": 20269,
+   "sectores": 10
+  },
+  {
+   "ruta": "/EXPORT/FRONTEND/INGAMEON.BIN;1",
+   "lba": 1900413,
+   "tam": 228640,
+   "sectores": 112
+  },
+  {
+   "ruta": "/EXPORT/FRONTEND/CORE.BIN;1",
+   "lba": 1900525,
+   "tam": 98432,
+   "sectores": 49
+  },
+  {
+   "ruta": "/EXPORT/FRONTEND/LOADING.BIN;1",
+   "lba": 1900574,
+   "tam": 64800,
+   "sectores": 32
+  },
+  {
+   "ruta": "/EXPORT/FRONTEND/WPNSCOPE.BIN;1",
+   "lba": 1900606,
+   "tam": 89984,
+   "sectores": 44
+  },
+  {
+   "ruta": "/EXPORT/FRONTEND/RING.BIN;1",
+   "lba": 1900650,
+   "tam": 26496,
+   "sectores": 13
+  },
+  {
+   "ruta": "/EXPORT/FRONTEND/CNTRDISC.BIN;1",
+   "lba": 1900663,
+   "tam": 1184,
+   "sectores": 1
+  },
+  {
+   "ruta": "/DATA/ANDY.AKU;1",
+   "lba": 1900664,
+   "tam": 10776,
+   "sectores": 6
+  },
+  {
+   "ruta": "/LANGUAGE/FONTS/BIG.BIN;1",
+   "lba": 1900670,
+   "tam": 74432,
+   "sectores": 37
+  },
+  {
+   "ruta": "/LANGUAGE/FONTS/SMALL.BIN;1",
+   "lba": 1900707,
+   "tam": 41984,
+   "sectores": 21
+  },
+  {
+   "ruta": "/GLOBDATA.BIN;1",
+   "lba": 1900728,
+   "tam": 1261896,
+   "sectores": 617
+  },
+  {
+   "ruta": "/LANGUAGE/STRINGS/MAINUS.BIN;1",
+   "lba": 1901345,
+   "tam": 54710,
+   "sectores": 27
+  },
+  {
+   "ruta": "/SOUND/STREAMS/LOGOS.SSH;1",
+   "lba": 1901372,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/DEMOATTR.SSH;1",
+   "lba": 1901373,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/INTRO.SSH;1",
+   "lba": 1901374,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/7THWAVE.SSH;1",
+   "lba": 1901375,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/TARGET.SSH;1",
+   "lba": 1901376,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/AMERICAN.SSH;1",
+   "lba": 1901377,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/ASSETS.SSH;1",
+   "lba": 1901378,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/SOLOMON.SSH;1",
+   "lba": 1901379,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/VALENCIO.SSH;1",
+   "lba": 1901380,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/OPS.SSH;1",
+   "lba": 1901381,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/LEVEL.SSH;1",
+   "lba": 1901382,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/DIVISION.SSH;1",
+   "lba": 1901383,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/AK47.SSH;1",
+   "lba": 1901384,
+   "tam": 40,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/MP5.SSH;1",
+   "lba": 1901385,
+   "tam": 40,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/SMG.SSH;1",
+   "lba": 1901386,
+   "tam": 40,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/MAG.SSH;1",
+   "lba": 1901387,
+   "tam": 40,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/CREDROLL.SSH;1",
+   "lba": 1901388,
+   "tam": 88,
+   "sectores": 1
+  },
+  {
+   "ruta": "/SOUND/STREAMS/FEMUSIC.SSH;1",
+   "lba": 1901389,
+   "tam": 56,
+   "sectores": 1
+  },
+  {
+   "ruta": "/EXPORT/FRONTEND/FEMAIN.BIN;1",
+   "lba": 1901390,
+   "tam": 3442240,
+   "sectores": 1681
+  },
+  {
+   "ruta": "/EXPORT/FRONTEND/COMMON.BIN;1",
+   "lba": 1903071,
+   "tam": 720064,
+   "sectores": 352
+  },
+  {
+   "ruta": "/SOUND/FEAUDIO.AWD;1",
+   "lba": 1903423,
+   "tam": 397312,
+   "sectores": 194
+  }
+ ]
+}

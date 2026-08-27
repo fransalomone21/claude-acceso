@@ -249,7 +249,9 @@
       "cantidad": 17,
       "direccion_observada": "0x01842220 .. 0x01844020 (2026-08-16, nivel 1)",
       "es_estatica": false,
-      "como_llegar": "NO tiene direccion fija. La tabla se carga POR STAGE desde 'Levels\\Level_NN\\Stg_NNNN\\Guns.bin' al HEAP, asi que cambia entre niveles y entre partidas. Se busca por FIRMA sobre un volcado fresco: `python3 herramientas/armas.py listar <volcado>`. La firma es que los dos bloques de parametros (+0x90 y +0xC0) tengan a la vez Range en [1,20000], Power en [0.1,20000] y falloff en {0} U [0.001,1], y que haya al menos 8 registros consecutivos a paso 0x1E0.",
+      "como_llegar": "NO tiene direccion fija: vive en el HEAP y se busca por FIRMA sobre un volcado fresco, `python3 herramientas/armas.py listar <volcado>`. La firma es que los dos bloques de parametros (+0x90 y +0xC0) tengan a la vez Range en [1,20000], Power en [0.1,20000] y falloff en {0} U [0.001,1], y que haya al menos 8 registros consecutivos a paso 0x1E0.",
+      "cuando_se_carga": "AL ARRANCAR, desde GLOBDATA.BIN, y NO por stage. CORREGIDO 2026-08-17: esta ficha decia 'se carga POR STAGE desde Levels\\Level_NN\\Stg_NNNN\\Guns.bin'. Es falso por dos vias independientes: (a) GUNS.BIN es geometria, no estadisticas (callejon ya cerrado en ESTADO_ACTUAL); (b) se arranco el emulador de cero y la tabla YA estaba completa en RAM en la pantalla de 'press START', con el jugador todavia en vida 0.0 y sin ningun nivel cargado. La direccion base observada es 0x01842220, la MISMA el 2026-08-16 y el 2026-08-17 con el juego rearrancado de cero: es mas estable de lo que decia esta ficha. Sigue buscandose por firma igual, porque estable no es lo mismo que garantizada.",
+      "trampa_del_volcado": "OJO: todas las herramientas que leen un volcado (armas.py, clases.py, zonas.py, xref.py sin --base) asumen que el byte 0 del archivo es la direccion EE 0x00000000. Un volcado hecho con `pine.py volcar 0x00100000 ...` corre TODAS las direcciones 0x100000 hacia abajo y hace que las cosas parezcan haberse movido. Paso el 2026-08-17: se creyo que el heap se habia corrido 0x100000 y no se habia movido nada. Volcar SIEMPRE desde 0.",
       "confianza": "confirmado",
       "alcance_de_la_confirmacion": "Lo confirmado por efecto es: (a) que esto ES la tabla de armas, (b) el paso de 0x1E0, (c) que el campo +0x18 del bloque +0xC0 es el dano de las armas de la IA. NO esta confirmado el bloque +0x90 (ver su ficha): escribirle no cambio el dano del jugador.",
       "confirmado_por": "EFECTO, 2026-08-16. Se escribio Power = 300.0 en los 34 campos (17 registros x 2 bloques) y se midio el pool de enemigos antes y despues: dos enemigos pasaron de 100.0 a 0.0 de un solo impacto (delta 100, clamp desde 300) por fuego amigo entre enemigos, cuando antes hacian falta cuatro balas. En paralelo, y sin que se le preguntara por eso, el usuario reporto que la reaccion en pantalla al recibir disparos cambio a la de arma pesada (barra de dano grande, mas temblor), que es el mismo efecto de escopeta/RPG/Magnum. Restaurado 34/34 sin discrepancias.",
@@ -334,6 +336,17 @@
             "descripcion": "EL DANO. Con falloff = 1 es el dano constante. Nombre tomado del esquema del propio ejecutable (0x00400918 = 'Power')."
           },
           {
+            "offset": "0x20",
+            "tipo": "f32",
+            "id": "tiempo_entre_balas",
+            "confianza": "confirmado",
+            "descripcion": "SEGUNDOS ENTRE BALAS DENTRO DE UNA RAFAGA. Nombre tomado del esquema del propio ejecutable ('Time Between Bullets', 0x00400920). Valores por arma: 0.05 el fusil, 0.059, 0.06, 0.07, 0.1, 0.15, 0.3, 1.0, y 3.5 el RPG. NO gobierna el volumen total de fuego: eso lo gobierna el ciclo de cubrirse y recargar, que es independiente.",
+            "confirmado_por": "EFECTO, 2026-08-17, con herramientas/experimento.py. Diseno: savestate como condicion inicial repetible, vida inflada a 1e6 para que la muerte no truncara la ventana, 4 repeticiones alternando A/B de 35 s, y prediccion registrada ANTES de correr. La metrica correcta no son los impactos por minuto sino el hueco DENTRO de la rafaga, separado del hueco entre rafagas: la observacion de que los enemigos disparan, se cubren y recargan implica que el volumen total lo gobierna el ciclo de cobertura y no la cadencia. Resultado con factor 0.2: hueco intra-rafaga 133.17 ms (+-0.04) -> 66.53 ms (+-0.08), o sea 555 dispersiones de separacion; hueco entre rafagas 850 -> 1017 ms, que NO supera el ruido, exactamente como predijo la hipotesis. Replicas: 158/157/158/159 impactos en control y 238/237/238/240 en tratamiento. Informe crudo en volcados/exp-cadencia-0x20.json.",
+            "cuantizacion": "LA CADENCIA ESTA CUANTIZADA A FRAMES. Los tres puntos medidos caen en multiplos exactos de un frame a 30 fps: parametro 0.03 -> 66.6 ms (2 frames), 0.15 -> 133.2 ms (4), 0.45 -> 166.9 ms (5).",
+            "la_relacion_NO_es_proporcional": "Se predijo que x3 daria ~450 ms (0.45 s) y dio 166.9. La prediccion de linealidad quedo FALSIFICADA. La direccion es consistente en los dos sentidos y la varianza es practicamente cero (+-0.0 a +-0.08 ms entre repeticiones), asi que el campo gobierna la cadencia sin duda; lo que no se sabe es la funcion de transferencia. Con tres puntos no se determina.",
+            "confundido_a_resolver": "Los experimentos se corrieron con DOS tiradores disparando a la vez, asi que el hueco observado es la MEZCLA de dos series intercaladas y no el intervalo de un arma sola. Antes de buscarle la ley a la funcion de transferencia hay que aislar un solo tirador: savestate con un unico enemigo a la vista, o matar a uno y volver a guardar."
+          },
+          {
             "offset": "0x1C",
             "tipo": "f32",
             "id": "falloff",
@@ -369,11 +382,78 @@
           "lectura": "ASR, el fusil de asalto. 26.0 es exactamente el dano confirmado en la Fase 1"
         }
       ],
+      "origen_en_el_iso": {
+        "archivo": "GLOBDATA.BIN (raíz del ISO)",
+        "offset": "0x00130E20",
+        "cantidad": 17,
+        "paso": "0x1E0",
+        "confianza": "confirmado",
+        "confirmado_por": "EFECTO, 2026-08-17. Cadena completa, medida, no inferida: (1) se copió el ISO y se escribieron los 17 Power del bloque de IA en 5.0 con `herramientas/parche_iso.py armas`, sobre la COPIA; (2) el diff byte a byte contra el original da 17 rangos de diferencia, todos dentro de GLOBDATA.BIN, y CERO diferencias en la zona de metadatos/TOC; (3) se arrancó el emulador con ese ISO y `armas.py listar` sobre un volcado fresco mostró Power = 5 en los 17 registros del bloque de IA, con el bloque del jugador intacto en 26/38/500/50/100/70; (4) con el jugador quieto bajo fuego enemigo, `vigilar.py` a 20 Hz durante 75 s registró 24 bajadas de vida y las 24 son de exactamente -5.0 (750 -> 630), contra el escalón de 26.0 medido en la Fase 1 sobre el ISO original. Serie cruda en volcados/vida-mod-armas.csv.",
+        "artefacto": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black-mod-armas.iso",
+        "descripcion": "La tabla NO se genera en runtime: está en el ISO, con el mismo conteo (17) y el mismo paso (0x1E0) que en RAM, y los dos bloques de parámetros en +0x90 y +0xC0. Editar el ISO IN-PLACE da un mod PERMANENTE, sin .pnach y sin escribir en memoria. El offset absoluto sale de `offset_en_el_iso = LBA * 2048 + offset_en_el_archivo`; con GLOBDATA.BIN en el LBA 1900728, la tabla arranca en el byte 0xE818CE20 del ISO. OJO: un savestate anterior al parche restaura la RAM entera y TAPA el mod.",
+        "evidencia": "2026-08-16. Búsqueda por FIRMA ESTRUCTURAL sobre los 585 archivos del ISO, no por ventana de bytes: los tripletes (Range, Power, falloff) de los perfiles ya medidos en vivo. ASR 60/26/1 -> 6 apariciones, todas en GLOBDATA.BIN; Magnum 1000/500 -> 1, ahí mismo; HVY 100/100/1 -> 1. El paso de 0x1E0 quedó verificado por DOS anclas independientes: desde el primer registro, el Magnum cae exacto en +2 registros y la HVY en +10.",
+        "corrige": "docs/05-iso.md decía 'la tabla de armas NO está en el ISO'. Era un falso negativo: aquella prueba comparaba la ventana de 96 bytes alrededor del 26.0 de la RAM viva, y esa ventana arranca con tres punteros al heap que en el archivo son offsets chicos. Nunca podía coincidir.",
+        "sin_resolver": [
+          "En el archivo el código de 3 letras de +0x1C0 parece alinear BIEN con los parámetros del mismo registro (SMG con Range=30, ASR con 60, HVY con 100/100), al revés de lo observado en RAM, donde estaba corrido un registro. Uno de los dos está mal leído. Hasta resolverlo, identificar armas por el perfil de parámetros.",
+          "Los 0x90 bytes iniciales de cada registro no son los tres punteros de la ficha de RAM: en el archivo son seis sub-entradas de 0x18 con forma {offset, offset, offset, contador, ?, ?}. La resolución a punteros la hace el cargador."
+        ]
+      },
       "esquema_del_ejecutable": "El propio SLUS_213.76 trae los nombres de los campos en 0x004008A0-0x004009C8: 'Projectile Type', 'Weapon Impact Level', 'Num Bullets Per Burst', 'Num Bullets In Clip', 'Muzzle Offset', 'Range', 'Power', 'Time Between Bullets', 'Time Between Bursts', 'Num Bullets Per Spread', 'Likelyhood Of Ricochet', 'Max Ricochet Angle', 'Max Spread Angle', 'Accuracy Fall Off Time', 'Accuracy Fall Off Over Time'; y las secciones 'CommonParams' (0x00400858) / 'PlayerParams' (0x00400868) / 'AIParams' (0x00400878). Son rodata MUERTA: `xref.py absoluto` da cero para todas, con control positivo (otros strings de la misma region si tienen referencias). Documentan el formato aunque el parser del juego sea binario.",
       "evidencia": "2026-08-16. Camino: (1) del desensamblado de 0x0015B118 sale que el descriptor de dano llega como [$a0+0x0C]; (2) BFS de punteros desde el objeto del jugador (0x005A8AB0) hasta profundidad 3 buscando objetos cuyo +0x0C apunte a algo con forma de descriptor -> 7 aciertos, todos en 0x01842xxx; (3) volcar esa region en bloques de 0x30 mostro el patron periodico de 0x1E0 con dos bloques de parametros; (4) escritura de 300.0 en los 34 Power y medicion del pool de enemigos.",
       "descubierto": "2026-08-16",
       "callejon_cerrado": "Los cinco 26.0 de 0x0042C3AC / 0x0042C5EC / 0x0042C92C / 0x0042CCFC / 0x0042D56C NO son la tabla. Estan en BSS, se les escribio 300.0 y el dano no cambio en ninguna direccion. Lo que SI cambio fue el HUD: aparecieron dos barras negras translucidas en pantalla al escribir, y desaparecieron al restaurar los cuatro valores a 26.0 — causalidad confirmada en los dos sentidos, no solo correlacion. Encaja con que el arreglo de 0x006CF4E0 apunta a registros de 0x50 bytes en 0x0042CD40+n*0x50, justo al lado. O sea que esa zona es de HUD y NO hay que escribirle. No volver a esa pista.",
       "notas": "PENDIENTE Y CONCRETO: el dano de SALIDA del jugador NO cambio al escribir estos 34 campos. Con Power = 300 en toda la tabla, el disparo del jugador siguio quitando exactamente 25.5 por bala (medido dos veces sobre el mismo enemigo: 100 -> 74.5 -> 49). O sea que el proyectil del jugador toma su dano de otro lado — una copia en la instancia del arma, u otra rutina distinta de 0x0015B118. Ese es el proximo hilo, y ademas explica el 25.5 contra el 26.0 nominal."
+    },
+    {
+      "id": "esqueleto",
+      "nombre": "Esqueleto del personaje (nombres de hueso)",
+      "como_llegar": "esqueleto = [personaje+0x00]. Lo lee kb/rutinas.json#buscar_hueso_por_nombre en 0x001382B4.",
+      "confianza": "probable",
+      "campos": [
+        {
+          "offset": "0x5C",
+          "tipo": "i32",
+          "id": "cantidad_huesos",
+          "confianza": "probable",
+          "descripcion": "Tope del bucle de búsqueda (`lw $v0,0x5c($v1)` + `blez`). Si es <= 0, la búsqueda no entra."
+        },
+        {
+          "offset": "0x60",
+          "tipo": "ptr",
+          "id": "nombres",
+          "confianza": "probable",
+          "descripcion": "Puntero a un arreglo de const char* con el nombre de cada hueso, indexado de a 4 bytes (`sll $v1,$s0,2` + `lw $v0,0x60($a0)`). ES EL ARREGLO QUE HAY QUE VOLCAR EN VIVO para saber cuántos huesos tiene un personaje y cómo se llaman — que es justo lo que falta para decidir si el número de zona de impacto es un índice de hueso."
+        }
+      ],
+      "evidencia": "Desensamblado estático del ELF del ISO, 2026-08-16. Ver kb/rutinas.json#buscar_hueso_por_nombre.",
+      "descubierto": "2026-08-16",
+      "notas": "SIN CONFIRMAR POR EFECTO. El test barato es volcar en vivo [[enemigo+0x00]+0x5C] y [[enemigo+0x00]+0x60] sobre un volcado fresco y ver si el conteo se parece a 24 (los registros de la tabla de zonas) o a 11 (los nombres cacheados)."
+    },
+    {
+      "id": "mapa_huesos_personaje",
+      "nombre": "Índices de hueso cacheados en el personaje",
+      "como_llegar": "personaje + 0x0C. Once u32 consecutivos, hasta +0x38.",
+      "tamano": "0x2C",
+      "confianza": "probable",
+      "campos": [
+        {
+          "offset": "0x0C",
+          "tipo": "i32[11]",
+          "id": "indices",
+          "confianza": "probable",
+          "descripcion": "Índice de hueso de cada uno de los 11 nombres de la tabla 0x003BCE70, en ese orden: NECK, MIDSPINE, LOWERSPINE, SHOULDER_LT, ELBOW_LT, SHOULDER_RT, ELBOW_RT, UPPERLEG_LT, KNEE_LT, UPPERLEG_RT, KNEE_RT. Los resuelve por nombre kb/rutinas.json#resolver_huesos al construir el personaje. OJO: si un nombre de la tabla es nulo, esa vuelta NO escribe y el destino igual avanza, así que el mapeo posición<->nombre puede correrse."
+        },
+        {
+          "offset": "0x28",
+          "tipo": "f32[4]",
+          "id": "constantes_copiadas",
+          "confianza": "hipotesis",
+          "descripcion": "En [personaje+0x00]+0x28, no en el personaje. La misma rutina copia ahí los cuatro floats de 0x003F5128: 0, 5, 12, 22. Sin identificar; los vecinos de 0x003F5110 son 1, 0.5, 0.4, 0.3, 0.2, 0.2, que tienen pinta de rampa."
+        }
+      ],
+      "evidencia": "Desensamblado estático del ELF del ISO, 2026-08-16. Ver kb/rutinas.json#resolver_huesos.",
+      "descubierto": "2026-08-16",
+      "notas": "MATERIAL DE FASE 5b, NO LA RESPUESTA. Son 11 índices contra 24 registros de 0xC en la tabla de zonas de impacto, y faltan los nombres obvios (cabeza, pelvis, manos, pies). Que el byte de zona de 0x00142B90 salga de acá es HIPÓTESIS y hay que falsificarla o confirmarla, no darla por buena porque encaja lindo."
     },
     {
       "id": "zona_impacto",
@@ -397,10 +477,17 @@
         },
         {
           "offset": "0x08",
-          "tipo": "?",
-          "id": "desconocido",
-          "descripcion": "no lo lee 0x00142B90. En las zonas 17-22 tiene floats (0.34, 1.02, 0.204, 0.11333) que parecen del mismo juego de valores, corridos un campo",
-          "confianza": "hipotesis"
+          "tipo": "u8",
+          "id": "bandera_a",
+          "descripcion": "CORREGIDO 2026-08-16 con la decompilacion de Ghidra: SI lo lee 0x00142B90. La version anterior de esta ficha decia 'no lo lee' y que eran floats corridos; era una lectura incompleta del desensamblado. En C: `*(char *)(pfVar2 + 2)`, o sea el byte de +0x08. Se consulta cuando el escalar de entrada es > 0 y decide una de las dos banderas de salida (param_7).",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x09",
+          "tipo": "u8",
+          "id": "bandera_b",
+          "descripcion": "El byte de +0x09, en C `*(char *)((int)pfVar2 + 9)`. Es el que se consulta cuando el escalar de entrada es <= 0. Junto con bandera_a determina las dos salidas booleanas de la rutina, y esas salidas son las que habilitan o no el factor 0.7 final.",
+          "confianza": "probable"
         }
       ],
       "perfil_observado_nivel_1": {
@@ -414,6 +501,183 @@
       },
       "confianza": "confirmado",
       "evidencia": "Ver kb/rutinas.json#calcular_dano_zona. Confirmado por efecto 2026-08-16."
+    },
+    {
+      "id": "stage_l00",
+      "nombre": "Objeto de stage (recurso tipo 0x0B)",
+      "base": "0x01412400",
+      "version": "ntsc_u",
+      "confianza": "probable",
+      "como_llegar": "Es la cabecera misma del contenedor STLEVEL.BIN cargado en RAM. FUN_001E2D38 lo recibe como param_2.",
+      "evidencia": "2026-08-22. Leido en frio de volcados/ee-03.bin (savestate slot 3, LEVEL_00), donde STLEVEL.BIN de LEVEL_00 esta cargado literal en 0x01412400 (99.60% de los primeros 64 KB identicos al archivo del ISO; las diferencias son exactamente los punteros que el fixup arregla). Layout tomado del decompilado FUN_001E2D38 (volcados/7b/fun-001e2d38.c), NO de barrer por valores conocidos.",
+      "campos": [
+        {
+          "offset": "0x04",
+          "tipo": "ptr",
+          "id": "array_unidades",
+          "confianza": "probable",
+          "descripcion": "-> array de registros de UNIDAD, paso 0x28. En disco es un offset RELATIVO A LA SECCION 0x80, no al archivo: el fixup hace base + 0x80 + valor. Ese detalle es lo que hacia fallar el parseo sobre el archivo crudo."
+        },
+        {
+          "offset": "0x08",
+          "tipo": "u32",
+          "id": "cantidad_unidades",
+          "confianza": "probable",
+          "descripcion": "7 en LEVEL_00. El fixup NO lo toca: es cantidad, no puntero."
+        },
+        {
+          "offset": "0x10",
+          "tipo": "ptr",
+          "id": "seccion_nombres",
+          "confianza": "probable",
+          "descripcion": "-> seccion con +0x08 cantidad y +0x0C offset RELATIVO A LA SECCION del array de 0x10. En LEVEL_00 son 12 camaras (CAM_*, CITY_START, DEATHCAM01..06), en orden alfabetico."
+        }
+      ]
+    },
+    {
+      "id": "unidad_stage",
+      "nombre": "Registro de UNIDAD del stage (paso 0x28)",
+      "base": "0x01412480",
+      "version": "ntsc_u",
+      "confianza": "probable",
+      "evidencia": "2026-08-22. Leido en frio de volcados/ee-03.bin (savestate slot 3, LEVEL_00), donde STLEVEL.BIN de LEVEL_00 esta cargado literal en 0x01412400 (99.60% de los primeros 64 KB identicos al archivo del ISO; las diferencias son exactamente los punteros que el fixup arregla). Layout tomado del decompilado FUN_001E2D38 (volcados/7b/fun-001e2d38.c), NO de barrer por valores conocidos.",
+      "como_llegar": "stage+0x04. Las 7 de LEVEL_00: bg1_pst, bg1_shg, 0001_bg1_smg, 0001_bg1_ak1, 0001_bg1_asr, bg1_rpg, 0001_bg1_sm5.",
+      "campos": [
+        {
+          "offset": "0x00",
+          "tipo": "char[0x10]",
+          "id": "nombre_ascii",
+          "confianza": "probable",
+          "descripcion": "nombre en ASCII, terminado en cero."
+        },
+        {
+          "offset": "0x10",
+          "tipo": "u64",
+          "id": "nombre_id64",
+          "confianza": "probable",
+          "descripcion": "el MISMO nombre, en base-40 (ver rutina codec_id64). Redundante con el ASCII y por eso util como control cruzado: los 7 coinciden."
+        },
+        {
+          "offset": "0x18",
+          "tipo": "ptr",
+          "id": "array_enemigos",
+          "confianza": "probable",
+          "descripcion": "-> array de registros de PERSONAJE, paso 0xB0. Si la cantidad es 0, aca hay basura (0xFF072380 en L00), no un nulo."
+        },
+        {
+          "offset": "0x1C",
+          "tipo": "ptr",
+          "id": "array_companeros",
+          "confianza": "probable",
+          "descripcion": "idem, companeros."
+        },
+        {
+          "offset": "0x20",
+          "tipo": "u32",
+          "id": "cantidad_enemigos",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x24",
+          "tipo": "u32",
+          "id": "cantidad_companeros",
+          "confianza": "probable"
+        }
+      ]
+    },
+    {
+      "id": "personaje_stage",
+      "nombre": "Registro de PERSONAJE del stage (paso 0xB0)",
+      "base": "0x01412600",
+      "version": "ntsc_u",
+      "confianza": "probable",
+      "tamano": "0xB0",
+      "evidencia": "2026-08-22. Leido en frio de volcados/ee-03.bin (savestate slot 3, LEVEL_00), donde STLEVEL.BIN de LEVEL_00 esta cargado literal en 0x01412400 (99.60% de los primeros 64 KB identicos al archivo del ISO; las diferencias son exactamente los punteros que el fixup arregla). Layout tomado del decompilado FUN_001E2D38 (volcados/7b/fun-001e2d38.c), NO de barrer por valores conocidos. 2026-08-22, EN VIVO sobre el savestate 3: los +0x18 en RAM coinciden byte a byte con el volcado en frio, y el mapeo RAM->archivo es directo (RAM 0x01412400 = offset 0x000; el id64 de PSTL0 aparece UNA sola vez en los 2,5 MB de STLEVEL.BIN, en 0x218). SOLO 4 de los 9 estan instanciados en ese savestate: 0x01412900, 0x014129B0, 0x01412A80 y 0x01412B30.",
+      "como_llegar": "unidad+0x18 (enemigos) o unidad+0x1C (companeros), mas indice * 0xB0. En LEVEL_00 son 9 en total. TAMBIEN AL REVES, y es el camino barato: entidad+0x58 (registro de entidad 0x0065FD00 + k*0x80) apunta directo al registro de personaje. Sirve para saber cuales estan VIVOS antes de escribirle a uno.",
+      "campos": [
+        {
+          "offset": "0x00",
+          "tipo": "char[]",
+          "id": "buffer_nombre_runtime",
+          "confianza": "probable",
+          "descripcion": "DESTINO del sprintf FUN_0035D728 con 'Enemy%d_%s' / 'Team%d_%s'. En el archivo de disco esta vacio: se llena en runtime. Por eso buscar texto aca sobre el ISO no da nada."
+        },
+        {
+          "offset": "0x18",
+          "tipo": "u64",
+          "id": "nombre_modelo_id64",
+          "confianza": "probable",
+          "descripcion": "Modelo DEL PERSONAJE, base-40. Los 9 de LEVEL_00: PSTL0, SHTG0, E_MAC10_M0, E_BLACKHD_M0, E_LKISS2_M0, MCHNGNM0, SBMCHGNM0, RPG0, E_UZI_M0. OJO: NO es el campo que fija el arma -- ese es +0x78. Escrito en caliente (PSTL0 <- E_UZI_M0) no movio el bloque de IA, pero ese negativo no prueba nada porque PSTL0 no estaba instanciado."
+        },
+        {
+          "offset": "0x20",
+          "tipo": "u64",
+          "id": "variante_m1",
+          "confianza": "probable",
+          "descripcion": "mismo nombre con sufijo M1. Junto a +0x28 (M2) y +0x30 (M3) forma una serie M0..M3."
+        },
+        {
+          "offset": "0x28",
+          "tipo": "u64",
+          "id": "variante_m2",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x30",
+          "tipo": "u64",
+          "id": "variante_m3",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x68",
+          "tipo": "u64",
+          "id": "variante_s0",
+          "confianza": "probable",
+          "descripcion": "sufijo S0."
+        },
+        {
+          "offset": "0x70",
+          "tipo": "u64",
+          "id": "variante_e0",
+          "confianza": "probable",
+          "descripcion": "sufijo E0."
+        },
+        {
+          "offset": "0x78",
+          "tipo": "u64",
+          "id": "nombre_modelo_visual_arma_id64",
+          "confianza": "confirmado",
+          "descripcion": "EL MODELO VISUAL DEL ARMA, no el comportamiento de IA. Vale DISTANT0 / MGNDST0 / MGNDST2 / RPG0. FUN_00136848 compone <nombre>_LOD (el id64 0xE69A1DD748000000 decodifica a '_LOD') y carga esa geometria. REFUTADO como selector del bloque de IA: 2026-08-22, Black-mod-7b.iso parcheado (E_BLACKHD_M0 +0x78 -> RPG0) jugado hasta LEVEL_00 con el jugador expuesto a los enemigos -- el registro en RAM YA lee 'RPG0' y sin embargo n=4,5,6,7,9 de 0x006E18B8+n*0x24+0x04 siguen apuntando al MISMO bloque de IA de antes del parche (0x01842C40, igual que el control n=3). Bitacora (33)."
+        },
+        {
+          "offset": "0x88",
+          "tipo": "u32",
+          "id": "indice_de_tipo",
+          "confianza": "probable",
+          "descripcion": "lo consume FUN_001E3018, que exige idx < 0x21 y salta por PTR_LAB_003F8130. En L00 los 9 valores son 0,0,2,2,1,0x10,8,0,4: los 9 dentro de rango. CUIDADO: ese test es debil como prueba de layout porque la mayoria son 0 -- con el layout EQUIVOCADO daba 7/9 y un paso de 0xAC daba 8/9."
+        },
+        {
+          "offset": "0x8C",
+          "tipo": "u32",
+          "id": "candidato_grupo_arma",
+          "confianza": "hipotesis",
+          "descripcion": "Particiona igual que el arma, pero con MENOS resolucion que +0x78: DISTANT0 y MGNDST0 comparten el valor 4. Valores: DISTANT0=4, MGNDST0=4, MGNDST2=6, RPG0=3. CANDIDATO VIGENTE: +0x78 quedo refutado como selector del bloque de IA (bitacora (33)), asi que este sigue sin probar. No se probo en 7b porque Fran decidio cerrar la fase con el negativo en vez de parchear el ISO otra vez."
+        },
+        {
+          "offset": "0x94",
+          "tipo": "?",
+          "id": "param_sonido",
+          "confianza": "probable",
+          "descripcion": "se pasa a FUN_0027B950 junto con ValueDB/Sound/ps2/AIWeapon.cfg."
+        },
+        {
+          "offset": "0xA8",
+          "tipo": "f32",
+          "id": "candidato_float_faccion",
+          "confianza": "hipotesis",
+          "descripcion": "Tambien particiona como el arma, pero solo en dos valores y coincide con la faccion: 7.0f en los enemigos, 0.8f en los companeros. Mas parecido a un parametro de IA que a un selector. Sin probar -- 7b se cerro con +0x78 refutado (bitacora (33)) sin testear este campo."
+        }
+      ]
     }
   ]
 }

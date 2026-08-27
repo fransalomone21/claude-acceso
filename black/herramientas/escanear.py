@@ -135,11 +135,14 @@ class Sesion:
                 f"No existe la sesión '{self.nombre}'. Creala con:\n"
                 f"  {PY} escanear.py nuevo {self.nombre} --tipo u32"
             )
-        with open(self.ruta_meta) as f:
+        # encoding EXPLÍCITO en los dos lados: sin él, Windows abre en cp1252
+        # y `ensure_ascii=False` de abajo escribe acentos que después no puede
+        # releer. Ver salida.py y el bug de vigilar.py del 2026-08-17.
+        with open(self.ruta_meta, encoding="utf-8") as f:
             self.meta = json.load(f)
 
     def guardar_meta(self) -> None:
-        with open(self.ruta_meta, "w") as f:
+        with open(self.ruta_meta, "w", encoding="utf-8") as f:
             json.dump(self.meta, f, indent=2, ensure_ascii=False)
             f.write("\n")
 

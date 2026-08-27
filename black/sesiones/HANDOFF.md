@@ -1,141 +1,207 @@
 # Handoff
 
-Se sobreescribe en cada cierre de sesión relevante. No es historial (para
-eso, `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva,
-sin memoria del chat anterior, retome exactamente donde quedó esta.
+Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
+`docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
+memoria del chat anterior, retome exactamente donde quedó ésta.
 
-Última actualización: 2026-08-15 (tarde), notebook local (Opus), rutina de
-daño localizada con el PCSX2 parcheado.
-
----
-
-**OBJECTIVE**
-Fase 2 — rutina de daño. **Localizada, falta confirmarla con efecto.**
-
-**CURRENT STATE**
-Se instaló el PCSX2 parcheado (PCSX2-MCP) que expone un `DebugServer` en TCP
-21512, y se escribió `herramientas/depurador.py` para hablarle directo desde
-Python. **No hace falta registrar ningún MCP ni reiniciar la sesión.**
-
-Con eso cayó la pieza que faltaba: **la base del objeto del jugador estaba
-mal**. Era `0x005A8AB0`, no `0x005A8D80`, y la vida es `+0x2F8`, no `+0x28`.
-Los 69 candidatos de la sesión anterior buscaban el offset equivocado.
-
-**CONFIRMED FACTS**
-Ver `ESTADO_ACTUAL.md`. Lo nuevo:
-- Base real del jugador: `0x005A8AB0`. Vida = `+0x2F8`. Leído del registro
-  base EN VIVO (`a2`) al disparar un watchpoint de lectura, no inferido.
-- `gp = 0x004157F0`.
-- Los watchpoints funcionan, y el PC de la pausa **es** la instrucción que
-  accedió (probado: `gp-0x7150` = la dirección vigilada, exacto).
-- `1200.0` y `750.0` están hardcodeados en el lector de vida del HUD.
-
-**ACTIVE HYPOTHESES**
-- La rutina de daño puede ser **genérica** (jugador Y enemigos): el offset
-  `0x2F8` se usa con `s0`, `s1`, `s2`, `a1` y `a2` como base. Si lo es, se
-  ganan las Fases 3 y 5 juntas.
-- Vida máxima = **1200.0** (no `FLT_MAX`). Falta ver qué elige la rama entre
-  1200.0 y 750.0.
-- `0x0065F458` = el ratio del HUD (`vida / 1200.0`).
-
-**IMPORTANT ADDRESSES**
-```
-0x005A8AB0  base   objeto del jugador          CONFIRMADO (leido de a2 en vivo)
-0x005A8DA8  f32    vida (= base+0x2F8)         CONFIRMADO
-0x0013C120  code   swc1 f22,0x2F8(s0) DANO     PROBABLE  <- nopear = vida infinita
-0x0013C0DC  code   sub.s f22,f22,f21           PROBABLE  <- multiplicador de dano
-0x0013C0F0  code   swc1 f20,0x2F8(s0) MUERTE   PROBABLE
-0x001F93E0  code   lector de vida del HUD      PROBABLE
-0x004157F0  ptr    gp del juego                CONFIRMADO
-0x006CF54C  u32    segmentos del HUD           derivado — NO escribir fuera de 0..8
-0x005A8D80  ---    BASE VIEJA, DESCARTADA
-```
-
-**NEXT ACTION — PASO 0 PRIMERO, es el que puede estar rompiendo todo**
-
-El emulador murió DOS veces en la sesión anterior. El sospechoso número uno no
-es el debugger sino **OneDrive**: el data dir de PCSX2 está en
-`C:\Users\frans\OneDrive\Documents\PCSX2` (337 MB) y cada savestate son ~32 MB
-sin comprimir que OneDrive agarra para subir mientras PCSX2 los usa. Los dos
-crashes vinieron después de un `savestate`, y el segundo ocurrió **sola, sin
-que el watchpoint disparara y sin que el usuario tocara nada**.
-
-**Paso 0 (2 min, riesgo cero):** en PCSX2, `Settings > Folders` (o el .ini),
-mover el data dir a algo fuera de OneDrive, por ejemplo `C:\PCSX2-datos`.
-Después repetir el experimento. Si no vuelve a crashear, era eso — anotarlo.
-
-**Paso 1** — necesita al usuario jugando. **Con WATCHPOINT, no con breakpoint
-de ejecución** (el de ejecución crashea seguro — ver DO NOT REPEAT):
-```
-python herramientas/depurador.py vigilante poner 0x005A8DA8 --tipo write --accion break
-python herramientas/depurador.py esperar --segundos 120
-```
-Recibir un golpe. Al pausar, `esperar` imprime el PC y el código alrededor.
-**Si el PC es `0x0013C120` → confirmado.** Es evidencia independiente: no se
-puso el breakpoint sobre la dirección sospechada, se dejó que el juego la
-delatara. Después: `vigilante quitar 0x005A8DA8` y `continuar`.
-
-**Plan B si sigue crasheando** (no depende del debugger, y es el método que ya
-cerró la Fase 1): `vigilar.py` muestreando la vida a 20 Hz mientras el usuario
-juega y narra los golpes, más `volcar_vivo.py` para el análisis en frío. Más
-lento, pero cero riesgo de crash.
-
-**DO NOT REPEAT**
-- **NO relanzar el emulador y reintentar lo mismo sin diagnosticar.** Paso dos
-  veces en la misma sesion: crasheo, se relanzo a ciegas, volvio a crashear.
-  La segunda muerte fue la que dio el dato bueno (murio SOLA, sin daño, sin
-  error) y recien ahi aparecio la hipotesis de OneDrive. Diagnosticar primero.
-- **NO usar breakpoints de EJECUCION (`bp poner`): matan el emulador.**
-  `bp poner 0x0013C120` corto la conexion a mitad del comando y el proceso
-  desaparecio. Los **watchpoints** (`vigilante`) en cambio pausan y resumen
-  limpio decenas de veces — es el camino. `depurador.py` ahora exige
-  `--se-que-crashea` para dejarte poner uno de ejecucion.
-- **NO lanzar flujos multi-agente sin sondear primero.** Van dos sesiones
-  seguidas quemando cientos de miles de tokens en paralelizar preguntas que se
-  contestaban con cuatro comandos secuenciales. Lección 9 de
-  `/lecciones-aprendidas` — leerla ANTES de empezar, no después.
-- **No inferir la base de un struct por escaneo de punteros.** Se hizo eso y
-  dio `0x005A8D80`, que era falso y costó una sesión entera. La forma correcta:
-  watchpoint sobre el campo conocido y leer el **registro base** al disparar.
-- **Un watchpoint de LECTURA es mejor punto de entrada que uno de escritura**:
-  dispara solo (el HUD lee cada frame) y no necesita que el usuario provoque
-  nada.
-- **`--accion log` no cuenta hits**: es un stub. Usar `--accion break`.
-- **`OnBreakpointHit()` del parche es un stub**: no hay aviso asincrónico,
-  `esperar` hace polling.
-- **Los savestates de la build parcheada y los de la 2.6.3 oficial NO son
-  intercambiables** (la parcheada se declara versión "Unknown").
-- No usar `escanear.py poner` con valores arbitrarios: crasheó el emulador.
-- No escribir en `0x006CF54C` fuera del rango 0..8.
-
-**OPEN QUESTIONS**
-- ¿Parchear `0x0013C120` da vida infinita en pantalla? (el test que cierra la fase)
-- ¿La rutina de daño es genérica o sólo del jugador?
-- ¿Qué elige la rama entre 1200.0 y 750.0?
-- ¿Dónde está el prólogo de la rutina de daño? (se localizó el cuerpo, no el inicio)
-- ¿`0x0042C3AC` es la tabla de armas? Ahora es barato: watchpoint de lectura.
-
-**TOOLS / ENVIRONMENT**
-Python 3.13 (`python`, no `python3`), numpy instalado. Node.js v24.19.0.
-**PCSX2 PARCHEADO** en `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
-— es el que hay que abrir, NO el de Program Files. DebugServer en 21512, PINE
-en 28011. Herramientas nuevas: `depurador.py`, `volcar_vivo.py`.
-`gh` NO está instalado. Claude Code LOCAL.
-
-**REPO / RAMAS**
-La rama de trabajo es `claude/black-game-reverse-engineering-ricv3t`. El
-proyecto del teléfono está **suspendido** y el **PR #1 queda abierto sin
-mergear a propósito**: mergearlo mezclaría los dos proyectos, y el usuario
-pidió explícitamente que no se mezclen. `gh` no está instalado, así que el
-panel de CI no puede leer el estado del PR — es esperable, no es un problema.
-
-**MODEL RECOMMENDATION**
-**Sonnet** para ejecutar los runbooks. Opus sólo si hay que leer desensamblado
-nuevo de verdad.
-
-**EFFORT RECOMMENDATION**
-Medio.
+Última actualización: **2026-08-23**, PC, **en frío** (el emulador no se abrió).
+**7e — PASO 1 CERRADO.** El layout del registro está **verificado contra datos**
+y salió **corregido**, y **el stream mixto apareció**: `0x01092800 =
+{count=857, array=0x0109F590}`. Lo que faltaba no era esfuerzo: era el
+**parámetro de búsqueda**.
+**7e sigue ABIERTA.** Lo que falta —identificar los tipos y verificar uno por
+efecto— **necesita el emulador**, y ahí es donde entra la próxima sesión.
 
 ---
 
-READY FOR NEW SESSION
+## 1. QUÉ LEER, EN ORDEN
+
+1. `black/kb/stage-modulos.json` — **entero**. Es el entregable acumulado: los
+   61 tipos con su handler, más lo medido en esta sesión (instancias en
+   LEVEL_00, tamaño de blob, familia de nombre, muestra de nombres).
+2. `black/ESTADO_ACTUAL.md`, sólo el bloque **7e** de N2 y las **tres primeras
+   filas** de la tabla de hechos (son las nuevas).
+3. `black/docs/03-bitacora.md`, **sólo la entrada (36)**.
+
+**NO leer** salvo que la tarea lo pida: `docs/01-entorno.md`, `docs/05-iso.md`,
+`docs/90-glosario-ee.md`, las entradas (29)–(35), y nada de `perfil-global/`.
+
+## 2. LA FASE, Y QUÉ LA CIERRA
+
+**7e — el índice de módulos del nivel.** Sigue abierta.
+
+**Cierra cuando** los tipos estén identificados en `kb/stage-modulos.json` —qué
+estructura consume cada uno y qué subsistema toca— **y con al menos un tipo
+distinto del `0x0A` verificado POR EFECTO.** Esa segunda mitad **requiere el
+emulador**: en frío no se puede cerrar, y conviene decirlo de entrada en vez de
+descubrirlo a mitad de sesión.
+
+## 3. LO QUE ESTA SESIÓN DEJÓ RESUELTO — no rehacer
+
+### 3.1 El layout, VERIFICADO CONTRA DATOS (era el paso bloqueante)
+
+```
++0x00  u32  tipo    el case del switch de FUN_0015ef48
++0x04  u32  ptr     BLOB DE DATOS del modulo, TAMANO VARIABLE
++0x08  u64  id64    NOMBRE DEL MODULO      <-- CORRECCION, no es una posicion
+```
+
+La `kb` decía que `+0x08` se usaba **como posición**. **Es el id64 del nombre** y
+decodifica con `herramientas/id64.py` a nombres reales: `GP0101001527`,
+`LW0001781`, `SQTOM`, `SD0101000007`, `FX0101000004`, `WD0101000012`.
+
+`param_2` = `{u32 count en +0x00, u32 array en +0x04}`, confirmado en la
+decompilación **y** contra datos.
+
+### 3.2 Quién arma `param_2` — `FUN_0012dab8` (`0x0012DAB8`)
+
+```c
+FUN_0015ef48(piVar4 + 0x10,               // arrays de handles
+             *(u32 *)(piVar4[4] + 4),     // param_2: DOBLE INDIRECCION
+             piVar4[1], *(u8 *)((int)piVar4 + 0x39));
+```
+
+`piVar4` es un sub-bloque de `base+0x4990` y `base+0x5210`: **dos slots de
+`0x880` que alternan** (`*(u8*)(iVar5+0x5aae) ^= 1`, en `FUN_00129360`) — el
+cargador de nivel está **doble-buffereado**. Tag de estado: `*piVar4 == 0x1C`.
+
+### 3.3 El stream, encontrado
+
+**`descriptor 0x01092800 = {count=857, array=0x0109F590}`**, 41 tipos distintos.
+La racha "pura de `0x2D`" que vio la sesión anterior era un **tramo de adentro**
+de este mismo array.
+
+**Control positivo, dos caminos independientes:** el `count` **leído** del
+descriptor = 857, y el largo del array **derivado por monotonía del puntero**,
+sin mirar el descriptor = 857. Los blobs **teselan** `0x010928B0`–`0x0109F540`
+sin solaparse (16–192 B) y el array arranca 80 bytes después.
+
+### 3.4 Lo que dicen los nombres
+
+| familia | tipos | qué sugiere |
+|---|---|---|
+| `SQTOM`, `SQMATT` | `0x01`, `0x02` | **escuadra** — cruza con la tabla de 7 punteros de `0x003BD3F8` (`None/Low/Mid/High/Matt/Tom/Carrie`), hallada por otra vía el 2026-08-21 |
+| `LW0001xxx` | `0x2D` (256) | **objeto de física / pathfinding** |
+| `SD0101xxxxx` | `0x2E`, `0x2F`, `0x30` | sonido (hipótesis, sólo por el prefijo) |
+| `WD0101xxxxx` | `0x1F`, `0x20`, `0x43` | sin identificar |
+| `FX0101000004` | `0x33` | efecto (hipótesis, sólo por el prefijo) |
+| `GP01010xxxxx` | el grueso | el contenido del nivel |
+
+**Tipo `0x2D` nombrado**: su handler `FUN_00175980` referencia `0x003F54A0` =
+`'Message to Level Designer / Physics object %s tagged for Pathfinding
+collision has been removed without reexporting the world view'`. **Es evidencia
+de LECTURA, no de efecto.**
+
+**Tamaño de blob = tamaño de la struct.** Fijo en 20 de los 38 tipos con
+instancias: `0x1C`/`0x1D`=16 B · `0x1A`/`0x1F`/`0x20`/`0x2B`/`0x44`=32 ·
+`0x01`/`0x02`/`0x14`/`0x18`/`0x23`/`0x29`/`0x2E`/`0x38`/`0x3D`=48 ·
+`0x2F`/`0x33`/`0x39`=64 · `0x43`=80 · `0x32`=96 · `0x3B`=160 · `0x30`=192.
+Todo está en `kb/stage-modulos.json`, por tipo.
+
+### 3.5 Sigue valiendo de antes, y no se toca
+
+Todo 7d (el arma se elige **por nombre**/id64; `0x00156318 sw $v0,0xEC($s0)`;
+`directorio_armas` = 17 registros de `0x20` en `0x01842090`; **sí se puede fijar
+desde el ISO, 8 bytes**). Todo 7c (`FUN_00158F50`, bloque de IA =
+descriptor+`0x30` fijo en `0x00159008`, pool `0x006E18B0`, global `.bss`
+`0x0040F4E0`). `+0x78` = modelo **visual** del arma. `entidad+0x58` = registro
+de personaje. El parche de ISO in-place **anda** (3 veces confirmado).
+
+## 4. LO QUE SIGUE, CONCRETO
+
+```
+cd C:\Users\frans\Desktop\claude-acceso\black
+python herramientas/ubicaciones.py
+python herramientas/decompilar.py info
+python herramientas/stream_modulos.py autotest
+python herramientas/stream_modulos.py resumen 0x01092800
+```
+
+**Vía A — cerrar 7e por efecto. NECESITA EL EMULADOR.** El candidato más barato
+es el **`0x2D`** (256 instancias, física/pathfinding): es el tipo con más
+instancias y el único nombrado. El stage se carga **literal** en RAM, así que la
+prueba se hace **en RAM, reversible**, y recién después va al ISO. Observable a
+elegir antes de tocar nada (regla: escribir la predicción primero).
+
+**Vía B — las dos puntas sueltas, que son datos, no fallas:**
+1. **CERO registros `0x0A` en el stream**, y LEVEL_00 tiene cinco enemigos. El
+   `0x0A` sigue confirmado por 7d, pero **no sale de este stream**. Hay un
+   segundo stream (ya liberado) o los enemigos entran por otro lado.
+   `stream_modulos.py buscar` sobre un volcado tomado **más temprano en la
+   carga** contestaría esto.
+2. **El `switch` no es el esquema del archivo entero.** `0x01`, `0x02` y `0x33`
+   están en los datos y **no** entre los 61 casos: caen en el `default`. Es el
+   esquema de lo que *este* dispatcher construye.
+
+**Vía C — validar 7d por efecto (barata, no bloquea, sigue pendiente):**
+parchear el literal `0x5446127297C60000` (`BG1_AK1`) por el de `BG1_RPG` con
+`herramientas/parche_iso.py`. Esta sesión **confirmó de rebote la premisa**:
+`0x01412400` tiene la lista de recursos de arma del nivel y **`bg1_rpg` está
+ahí**. `python herramientas/id64.py codificar BG1_RPG`. Modo de falla esperado:
+`'AI gun model not found: %s'` (`0x003F4848`).
+
+## 5. ESTADO DE LA MÁQUINA AL CERRAR
+
+- **PCSX2 NO está corriendo** y no se abrió en toda la sesión. Ejecutable
+  correcto (NO el de Program Files):
+  `C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe`
+  Lanzador: `C:\Users\frans\Desktop\BLACK\ABRIR-BLACK-MOD-7B.bat`
+- **RAM LIMPIA, cero parches vivos.** La sesión **no escribió un solo byte** ni
+  en memoria ni en ningún ISO. Toda lectura en frío sobre el ELF y sobre
+  `volcados/ee-e4.bin`.
+- **Ningún ISO se tocó.** El nop de vida infinita de `0x0013BD20` sigue
+  restaurado (`0xE65402F8`).
+- Controles positivos en verde al abrir: `ubicaciones.py` **13/13**,
+  `decompilar.py info` (9842 funciones, control sobre `0x00142B90`),
+  `barrer.py autotest`, `id64.py autotest` (13 casos).
+- Se pierde al reiniciar el emulador: cualquier parche escrito en RAM. Los ISO
+  parcheados sobreviven.
+
+**Herramientas nuevas, las dos con autotest PROBADO EN ROJO:**
+- `herramientas/stream_modulos.py` — `buscar` / `resumen <desc>` /
+  `listar <desc> --tipo 0xNN` / `autotest`. 5 casos y 2 sabotajes.
+- `herramientas/tipos_modulo.py` — `cadenas <addr>` / `barrer` / `autotest`.
+  1 caso y 3 sabotajes. **Rinde poco** (ver §6.5): queda, pero no es palanca.
+
+## 6. LAS TRAMPAS YA PAGADAS — no volver a pagarlas
+
+1. **Una búsqueda que da CERO acusa al PARÁMETRO, no al mundo.** Es LA lección
+   de esta sesión, y ya está foldeada en `chequeo-de-trabajo.md` del perfil
+   global. La sesión anterior concluyó "el stream mixto no apareció; se libera
+   después de procesarse" — y estaba en RAM todo el tiempo. Un cero se lee como
+   respuesta negativa en vez de como falla del instrumento, y por eso es **más
+   peligroso** que "demasiados candidatos". **Cambiar el EJE, no aflojar el
+   umbral del mismo eje**: pedile al objeto una invariante que cumpla **por cómo
+   está construido**. Medido: por rango de tipo, **817** rachas de basura con la
+   buena partida en pedazos; por monotonía del puntero, **3** y una real.
+2. **`capstone` no sirve** para el `.text` del EE. Ya está resuelto:
+   `herramientas/barrer.py`.
+3. **Un xref sobre heap siempre da 0.** `.bss` termina en `0x0049BFBC`;
+   `decompilar.py info` lista las secciones.
+4. **El parámetro que sirve es el que DISCRIMINA**, no el barrido con más
+   esfuerzo. Cuatro casos medidos ya: `sw {4,8,C}`→339; `addiu 0x24`→32; stores
+   a `+0xEC`→1; y ahora monotonía del puntero→3.
+5. **Nombrar handlers por las cadenas que referencian rinde poco.** Se barrieron
+   los 70 handlers: **sólo `FUN_00175980` tiene cadena**. Son constructores
+   finos y las cadenas viven en los callees. La herramienta queda hecha; la
+   palanca está en otro lado (los nombres id64 y los tamaños de blob).
+6. **No suponer que una dirección conocida es la que la cadena pide.**
+   `0x01412400` (STLEVEL.BIN cargado) **no** es `piVar4[4]`; es una cabecera de
+   pares `{count, ptr}` cuyo primer array es la lista de recursos de arma.
+7. **Heredocs largos** en la Bash tool fallan. >~30 líneas: escribir el `.py`
+   con Write y correrlo. El `cwd` se resetea entre llamadas: rutas absolutas.
+8. **`comando | tail` devuelve el exit code de `tail`.** Para medir que un
+   verificador sale en rojo: `cmd > archivo 2>&1; echo $?`, sin pipe.
+
+## 7. PENDIENTES QUE NO SON DE LA FASE
+
+- **BLACK a 10 fps en el menú, y el apagado del 2026-08-22.** Es entorno: **no
+  mezclarlo con 7e.** Ya medido: **evento 1074** lanzado por
+  `SysWOW64\shutdown.exe` — apagado **ordenado**, **cero Kernel-Power 41**, o
+  sea "térmico o alimentación" **refutado por medición**. Hipótesis viva: el
+  cambio a GPU discreta conmuta MSHybrid↔Discrete y el panel del fabricante lo
+  aplica llamando a `shutdown.exe`. **Criterio de salida, dos minutos:** reabrir
+  BLACK ahora que el modo discreto quedó aplicado y medir los fps en el **mismo**
+  menú.
+- **Fase 5a — pnach sobre `0x00142CA0`** (daño de salida del jugador).
+  **PARQUEADA a propósito**, lista para cuando Fran vuelva al emulador.

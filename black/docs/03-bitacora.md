@@ -16,6 +16,1467 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-23 (36) — 7e paso 1 CERRADO: el layout del registro, verificado contra datos, y el stream encontrado
+
+**Máquina:** PC · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Objetivo:** el paso bloqueante de 7e. El layout del registro del stage
+(`{u32 tipo, u32 ptr, u64 payload}`, paso `0x10`) estaba **leído, no verificado
+contra datos**, y la sesión anterior no había encontrado el stream mixto en RAM.
+Identificar los 45 handlers sobre un layout sin verificar es tirar esfuerzo.
+
+**Resultado: el paso 1 está cerrado**, y el layout salió **corregido**, no sólo
+confirmado. Todo en frío sobre el ELF y `volcados/ee-e4.bin`; **el emulador no
+se abrió y no se escribió un byte.**
+
+### 1. Quién arma `param_2` — `FUN_0012dab8`
+
+```c
+FUN_0015ef48(piVar4 + 0x10,                    // param_1: arrays de handles
+             *(u32 *)(piVar4[4] + 4),          // param_2: DOBLE INDIRECCION
+             piVar4[1],
+             *(u8 *)((int)piVar4 + 0x39));
+```
+
+`param_2` **no** es `piVar4 + algo`: `piVar4[4]` es un puntero a una cabecera, y
+el `{count, array}` sale de `+4` de esa cabecera. Y `piVar4` no es una struct
+suelta: es un sub-bloque de `base+0x4990` y `base+0x5210`, **dos slots de
+`0x880` que alternan** (`*(u8*)(iVar5+0x5aae) ^= 1` en `FUN_00129360`) — el
+cargador de nivel está **doble-buffereado**. El tag de estado es `*piVar4 ==
+0x1C`.
+
+### 2. El layout, VERIFICADO CONTRA DATOS — y corregido
+
+```
++0x00  u32  tipo    (el case del switch)
++0x04  u32  ptr     BLOB DE DATOS del modulo, TAMANO VARIABLE
++0x08  u64  id64    NOMBRE DEL MODULO   <-- CORRECCION
+```
+
+La `kb` decía que el `u64` de `+0x08` se usaba **como posición** (leído del case
+`0x0A`). **Es el id64 del nombre**, y decodifica con `herramientas/id64.py`
+(autotest 13 casos, en verde) a nombres reales:
+
+```
+0x72AE2D2C5038CAD2 -> 'GP0101001527'
+0x90CD810C5B2A9800 -> 'LW0001781'
+```
+
+Y `+0x04` se confirma como blob desde un handler **distinto** del case `0x0A`:
+`FUN_00174430` (tipos `0x03`–`0x09`) hace su propio `switch(*param_3)` y usa
+`*(int *)(param_3 + 4)` como su estructura.
+
+### 3. El stream, encontrado — y el parámetro que lo encontró
+
+**`descriptor 0x01092800 = {count=857, array=0x0109F590}`.**
+
+Lo que la sesión anterior buscaba —el stream mixto— estaba ahí: 857 registros,
+**41 tipos distintos**. La racha "pura de `0x2D`" que se había visto era un
+tramo de adentro de este mismo array.
+
+**Por qué no aparecía: el parámetro de búsqueda.** Buscar rachas por *rango de
+tipo* (`0x03`–`0x44`) da **817 rachas** y se ahoga en contadores secuenciales de
+`.data`. El parámetro que discrimina es la **monotonía estricta del puntero de
+`+0x04`**: los blobs están contiguos y ascendentes, y un contador no. Con
+monotonía, el barrido de los 32 MB da **3 candidatos**, y sólo uno tiene tipos
+reales. Es el tercer caso medido de la misma lección (`sw {4,8,C}`→339;
+`addiu 0x24`→32; stores a `+0xEC`→1).
+
+**Control positivo, dos derivaciones independientes:**
+
+- el `count` **leído** del descriptor = **857**;
+- el largo del array **derivado por monotonía**, sin mirar el descriptor = **857**.
+- Además los blobs **teselan** `0x010928B0`–`0x0109F540` sin solaparse (tamaños
+  16–192 B) y el array de registros arranca 80 bytes después. El chunk entero es
+  contiguo: descriptor, blobs, array.
+
+### 4. Lo que dicen los nombres
+
+| familia | tipos | qué sugiere |
+|---|---|---|
+| `SQTOM`, `SQMATT` | `0x01`, `0x02` | **escuadra** |
+| `LW0001xxx` | `0x2D` (256) | objeto de física / pathfinding |
+| `SD0101xxxxx` | `0x2E`, `0x2F`, `0x30` | sonido (hipótesis) |
+| `WD0101xxxxx` | `0x1F`, `0x20`, `0x43` | sin identificar |
+| `FX0101000004` | `0x33` | efecto (hipótesis) |
+| `GP01010xxxxx` | el grueso | el contenido del nivel |
+
+**`SQTOM`/`SQMATT` cruza con un hallazgo previo que no se buscaba:** la tabla de
+7 punteros de `0x003BD3F8` (`None/Low/Mid/High/Matt/Tom/Carrie`), encontrada el
+2026-08-21 por la vía de los nombres de escuadra.
+
+**Tipo `0x2D` nombrado por evidencia de lectura:** su handler `FUN_00175980`
+referencia `0x003F54A0` = `'Message to Level Designer / Physics object %s tagged
+for Pathfinding collision has been removed without reexporting the world view'`.
+
+**Tamaño de blob por tipo** (= tamaño de la struct que consume), fijo en 20 de
+los 38 tipos con instancias: `0x1C`/`0x1D`=16 B · `0x1A`/`0x1F`/`0x20`/`0x2B`/
+`0x44`=32 · `0x01`/`0x02`/`0x14`/`0x18`/`0x23`/`0x29`/`0x2E`/`0x38`/`0x3D`=48 ·
+`0x2F`/`0x33`/`0x39`=64 · `0x43`=80 · `0x32`=96 · `0x3B`=160 · `0x30`=192.
+
+### 5. Dos cosas que NO cerraron, y hay que decirlas
+
+- **CERO registros de tipo `0x0A` en el stream**, y LEVEL_00 tiene cinco
+  enemigos. El `0x0A` sigue confirmado por la vía de 7d (el literal `BG1_AK1`),
+  pero **no viene de este stream**. O hay un segundo stream ya liberado, o los
+  enemigos entran por otro lado. **Pregunta abierta, no darla por sabida.**
+- **El stream lleva tipos que este dispatcher no despacha:** `0x01`, `0x02` y
+  `0x33` aparecen en los datos y **no están entre los 61 casos** — caen en el
+  `default`. O sea que el `switch` de `FUN_0015ef48` **no es el esquema completo
+  del archivo**: es el esquema de lo que *este* dispatcher construye.
+
+**No funcionó:**
+- Suponer que `piVar4[4]` era `0x01412400` (el STLEVEL.BIN cargado). No lo es:
+  `0x01412400` es una cabecera de pares `{count, ptr}` cuyo primer array
+  (`{10, 0x01412480}`) es la **lista de recursos de arma** del nivel
+  (`bg1_pst`, `bg1_shg`, `bg1_smg`, `bg1_ak1`, `bg1_asr`, `bg1_rpg`…). Sirvió
+  de rebote: confirma que `bg1_rpg` está cargado en LEVEL_00, que es la premisa
+  de la Vía B de 7d.
+- **Nombrar handlers por las cadenas que referencian rinde poco.** Se hizo la
+  herramienta (`tipos_modulo.py`) y se barrieron los 70 handlers: **sólo
+  `FUN_00175980` tiene cadena**. Los handlers son constructores finos y las
+  cadenas viven en los callees. La herramienta queda, pero no es la palanca.
+
+**Herramientas nuevas, las dos con autotest PROBADO EN ROJO:**
+- `herramientas/stream_modulos.py` — `buscar` / `resumen` / `listar` /
+  `autotest` (5 casos, 2 sabotajes; el sabotaje (a) cuantifica el punto: sin la
+  monotonía, 41 streams en vez de 3).
+- `herramientas/tipos_modulo.py` — `cadenas` / `barrer` / `autotest`
+  (1 caso, 3 sabotajes).
+
+**Sigue:** 7e sigue abierta. Falta identificar los tipos y **verificar al menos
+uno distinto del `0x0A` POR EFECTO** — y eso **sí necesita el emulador**. El
+candidato más barato es el `0x2D` (256 instancias, física/pathfinding): romper
+o mover sus blobs debería verse. La otra punta suelta es de dónde salen los
+cinco enemigos, ya que del stream de `0x01092800` no salen.
+
+---
+
+## 2026-08-23 (35) — 7d CERRADA: el arma se elige POR NOMBRE (id64), y sí se puede fijar desde el ISO
+
+**Máquina:** PC · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Objetivo:** quién escribe `slot_0x110 + 0xEC`, el descriptor de arma que
+`FUN_0015D060` le pasa a `FUN_00158F50`. Con eso, decidir si el arma de un
+enemigo se puede fijar desde un archivo del ISO — la pregunta abierta desde 7a.
+
+**Resultado: CERRADA, y con respuesta afirmativa.** Todo en frío sobre el ELF y
+el volcado; **no se abrió el emulador ni se escribió un byte en RAM.**
+
+### 1. La instrucción, y de dónde saca el valor
+
+**`0x00156318  sw $v0, 0xEC($s0)`**, dentro de **`FUN_00156278`**
+(`0x00156278`–`0x00156383`), el constructor del slot de arma de `0x110`.
+Está **tres instrucciones antes** de la llamada a `FUN_0015D060` — o sea, la
+escritura y la lectura viven en la misma función. El barrido de stores a
+`+0xEC` en `0x00155000`–`0x0015D200` dio **54 accesos y un solo STORE**: éste.
+El barrido de control sobre el `.text` entero dio 31 stores a `+0xEC`, y
+ninguno de los otros 30 está en el subsistema de armas.
+
+```c
+*(u32*)(slot + 0xE8) = FUN_0015d210(DAT_0040f4e0, b);   // &tabla[b]
+*(u32*)(slot + 0xEC) = FUN_0015d228(DAT_0040f4e0, b);   // tabla[b].+0x08  <-- EL DESCRIPTOR
+FUN_0015d060(DAT_0040f4e0, slot, param_4);
+```
+
+Las dos rutinas son de una línea:
+
+```
+FUN_0015d210(mgr, b) =            *(*mgr + 4) + b*0x20        // (b<<24)>>19 = b*0x20
+FUN_0015d228(mgr, b) = *(u32*)(   *(*mgr + 4) + b*0x20 + 8 )
+```
+
+O sea: **una tabla de 17 registros de paso `0x20`**, base en `*(*mgr + 4)`
+(= `0x01842090` en el volcado), conteo en `*(*mgr + 1)` = **17**. El descriptor
+de arma es el campo `+0x08` de esa tabla. `b` es el `param_3` del constructor,
+**un byte**, que además queda guardado en `slot+0x00`.
+
+### 2. El giro: `b` no es un dato guardado, se resuelve POR NOMBRE
+
+El registro `+0x00` de esa tabla es un **id64** (el codec de `id64.py`). Los
+**cinco** llamadores de `FUN_0015cef0` hacen todos exactamente lo mismo: barren
+linealmente los 17 registros comparando `rec+0x00` contra un u64, y el índice
+donde matchea es `b`. Si no matchea ninguno, `b = 0xFF`.
+
+Los 17 nombres, decodificados:
+
+| b | nombre | b | nombre | b | nombre |
+|---|---|---|---|---|---|
+| 0x00 | `BG1_PST` | 0x06 | `BG1_RPG` | 0x0C | `BG1_M16` |
+| 0x01 | `BG1_SHG` | 0x07 | `BG1_GRL` | 0x0D | `BG1_RM1` |
+| 0x02 | `BG1_SNR` | 0x08 | `BG1_SM3` | 0x0E | `BG1_GK1` |
+| 0x03 | `BG1_SMG` | 0x09 | `BG1_P90` | 0x0F | `BG1_MP1` |
+| 0x04 | `BG1_ASR` | 0x0A | `BG1_HVY` | 0x10 | `BG1_BNS` |
+| 0x05 | `BG1_AK1` | 0x0B | `BG1_MGN` | | |
+
+Las **cuatro fuentes del nombre**, todas medidas:
+
+- **`FUN_00139c68`** — `entidad+0x3C0` (primaria) y `entidad+0x3C8`
+  (secundaria), los dos u64. Es el camino del jugador.
+- **`FUN_0015ef48` case `0x0A`** — el literal **`0x5446127297C60000`
+  (`BG1_AK1`) hardcodeado en el `.text`**.
+- **`FUN_001784f0`** — el literal `0x54461524B8230000` (`BG1_SNR`).
+- **`FUN_0015c3c8`** — el byte directo desde `*(iVar6+0x44)`: es el re-arme /
+  pickup, no el spawn.
+
+Y la cadena data-driven completa:
+`FUN_00178978`/`FUN_00178ae8` → `FUN_00178bc0(param_7)` → `descriptor+0x28`
+→ `FUN_00138c80` → `FUN_001327f0(param_5)` → `FUN_0015cef0`.
+
+### 3. Control positivo — 8/8, y dos confirmaciones cruzadas que no se buscaron
+
+Contra `volcados/ee-e4.bin`, prediciendo `+0xE8` y `+0xEC` a partir del byte
+`slot+0x00` para los ocho slots vivos: **los ocho, exactos.**
+
+```
+slot0 b=0x00  +0xEC=0x018422B0   entidad 0x005A8AB0 (jugador)
+slot1 b=0x04  +0xEC=0x01842A30
+slot2 b=0x04  +0xEC=0x01842A30
+slot3..7 b=0x05  +0xEC=0x01842C10   <-- los cinco E_BLACKHD_M0 de la (33)
+```
+
+`b=0x05` da **`0x01842C10`**, que es exactamente el descriptor que la (33)
+había medido en RAM. **Control positivo obligatorio cumplido.** Y dos cosas que
+no se estaban buscando y cierran solas:
+
+- `b=0x05` es **`BG1_AK1`** — y los enemigos de LEVEL_00 llevan AK.
+- `b=0x00` es **`BG1_PST`** — y el jugador arranca con pistola. Además
+  `entidad(jugador)+0x3C0` vale literalmente `BG1_PST`.
+- El conteo `*(*mgr+1)` = **17**, el mismo 17 de la tabla de armas de `0x1E0`
+  ya conocida.
+
+### 4. La respuesta a 7a: SÍ, se puede fijar desde el ISO
+
+Dos vías, las dos de 8 bytes:
+
+1. **El literal del ELF.** `FUN_0015ef48` case `0x0A` lleva `BG1_AK1` escrito a
+   mano. Cambiarlo por otro id64 cambia el arma de todo lo que spawnee por ese
+   caso. `id64.py codificar` produce el u64 nuevo.
+2. **La tabla de assets de armas del nivel, en `STLEVEL.BIN`.** En RAM, en
+   `0x01412480` (= `stage+0x04`, con `stage+0x08` = 7): **7 registros de paso
+   `0x28`**, cada uno `{nombre ASCII de 16 bytes, id64 en +0x10, puntero en
+   +0x18, flags en +0x1C, conteo en +0x20}`. Para LEVEL_00 son
+   `bg1_pst`, `bg1_shg`, `0001_bg1_smg`, `0001_bg1_ak1`, `0001_bg1_asr`,
+   `bg1_rpg`, `0001_bg1_sm5`.
+
+**Un arma nueva tiene que estar en esa lista de 7 para que el nivel la tenga
+cargada.** Por eso el experimento más barato que existe es AK1 → RPG:
+**`bg1_rpg` ya está en la lista de LEVEL_00**, así que no hay que agregar nada.
+
+**No funcionó / se descartó:**
+
+- **No hay un solo `sd` a `+0x3C0` en todo el `.text`** (32 accesos al
+  inmediato `0x3C0`, y los únicos stores son spills de `$sp`). O sea:
+  `entidad+0x3C0` **no se escribe con una instrucción propia**, llega por copia
+  en bloque. Buscar "quién lo escribe" con un barrido de stores ahí habría dado
+  cero y no habría sido un bug.
+- Los cinco enemigos tienen `entidad+0x3C0 = 0` en el volcado, así que **no
+  vinieron por `FUN_00139c68`**. Eso es lo que mandó a mirar los otros
+  llamadores, y es lo que destapó el literal hardcodeado.
+
+**Hallazgo lateral, y abre la fase que sigue: el índice de módulos del stage.**
+Salió de una pregunta de Fran a mitad de sesión — en vez de subir la cadena de
+llamadas eslabón por eslabón, buscar si el juego tiene un índice. Lo tiene.
+El stage es un **stream de registros tipados de `0x10` bytes**
+`{u32 tipo, u32 ptr, u64 payload}`, precedido por `{u32 count, u32 array}`, y
+**`FUN_0015ef48` (`0x0015EF48`) es su dispatcher: 61 casos, tipos `0x03`–`0x44`**.
+Ese `switch` **es el esquema del archivo de nivel**: una rama por tipo de
+módulo. El case `0x0A` es el spawn de personaje. Enumerarlo entero da el mapa
+de todo lo que un nivel puede contener, sin entrar módulo por módulo.
+
+**Sigue:** 7e — enumerar los 61 casos de `FUN_0015ef48` y traducirlos a un
+esquema del stream de nivel en `kb/`. Y, en paralelo y barato, el experimento
+AK1 → RPG sobre el literal del ELF, que valida la vía 1 por efecto.
+
+---
+
+## 2026-08-22 (34) — 7c CERRADA: el bloque de IA no se elige, es el descriptor de arma **+0x30** fijo
+
+**Máquina:** PC, lectura **en frío** sobre el ELF (PCSX2 no hizo falta) ·
+**Modelo:** Opus · **Esfuerzo:** alto, sin fan-out.
+
+**Objetivo:** encontrar la función que escribe el puntero de
+`0x006E18B8 + n*0x24 + 0x04` al spawnear un enemigo, y de qué campo saca el
+valor.
+
+**Resultado: cerrada, y la respuesta es que NO sale de ningún campo del
+registro de personaje. El bloque de IA es el descriptor de arma desplazado
+`+0x30`, un offset fijo en el código.**
+
+### 1. Por qué el xref directo daba cero — y no era un bug de la herramienta
+
+`decompilar.py xref 0x006E18B8` devuelve **0 referencias**. No es que Ghidra
+falle: **el código nunca arma esa dirección como literal.** Medido: cero
+instrucciones `lui rX, 0x006E` en todo `.text` (0x00100000–0x00396F47).
+
+La razón es que la dirección está **fuera del ejecutable**. Las secciones
+llegan hasta `.bss` = 0x0040EC80–0x0049BFBC; 0x006E18B8 está muy después, o
+sea es **heap asignado en runtime**. Se alcanza sólo por puntero.
+
+> **Regla que sale de acá:** antes de gastar un xref sobre una dirección,
+> mirar si cae dentro de alguna sección del ELF (`decompilar.py info` las
+> lista). Si cae fuera, el xref va a dar cero **siempre**, y el camino es
+> subir la cadena de punteros hasta una global estática.
+
+### 2. La cadena de punteros, subida a mano sobre `volcados/ee-e4.bin`
+
+Buscando quién contiene el valor de la dirección, escalón por escalón:
+
+| Se busca | Aparece en | Qué es |
+|---|---|---|
+| `0x006E18B8` | **nadie** | la base estaba corrida (ver 3) |
+| `0x006E18B0` | `0x005AE88C`, `0x005AEFD0`, `0x006DE784` | la base **real** del pool |
+| `0x005AE880` | **`0x0040F4E0`** | global estática en `.bss` ← acá termina la cadena |
+
+`0x0040F4E0` sí tiene xrefs: **114**, con una sola escritura, en `0x00102478`
+dentro de `FUN_001020c0` (el init global de subsistemas):
+`DAT_0040f4e0 = FUN_00107cf8(0xfe0)` — un objeto de **0xFE0 bytes**.
+
+### 3. La base del array estaba corrida 8 bytes — el layout real
+
+El constructor del manager es **`FUN_0015c970`** (`FUN_001020c0` lo llama con
+la global). Ahí está el pool, con su tamaño escrito en el propio código:
+
+```
+*(param_1 + 0x04) = FUN_00107d20(0x31F0);   // 0x2F(47) bloques de 0x110 -> 0x006DE690
+*(param_1 + 0x08) = FUN_00107d20(0x2F);     // 47 bytes                  -> 0x006E1880
+*(param_1 + 0x0C) = FUN_00107d20(0x708);    // 0x32(50) x 0x24  <-- EL POOL -> 0x006E18B0
+*(param_1 + 0x10) = FUN_00107d20(0x32);     // 50 bytes: array de OCUPACIÓN
+```
+
+O sea: **la base es `0x006E18B0` y son 50 entradas, no 10.** Las 10 que
+veíamos eran las ocupadas. Cada entrada se inicializa con `FUN_00158f08`.
+
+Layout real de la entrada de `0x24`, con el equivalente en la numeración
+vieja (la que usa todo el `kb/`, base `0x006E18B8`):
+
+| offset real | qué es | equivale a |
+|---|---|---|
+| `+0x00` | int, copiado de `perfil+0x90` | — |
+| `+0x04` | puntero al bloque de `0x110` del propio manager | — |
+| `+0x08` | **puntero al perfil de arma del JUGADOR** | base vieja `+0x00` |
+| `+0x0C` | **puntero al perfil de arma de la IA** | base vieja **`+0x04`** |
+| `+0x10` | puntero al registro de entidad (`0x0065FD00 + k*0x80`) | base vieja `+0x08` |
+| `+0x14`, `+0x18` (halfword), `+0x1C` (float), `+0x20` (byte) | resto | — |
+
+**El `kb/` existente no se invalida:** `base_vieja + n*0x24 + 0x04` es
+exactamente `entrada_n + 0x0C`. Los tres campos que ya estaban anotados
+caen donde decía. Lo que cambia es que ahora se sabe **por qué**.
+
+### 4. La función, y la línea exacta
+
+**`FUN_00158f50` @ `0x00158F50`–`0x0015911F` (464 bytes).**
+Firma: `(entrada, bloque_0x110, descriptor_arma, param_4)`.
+
+Las dos ramas, leídas en el desensamblado crudo (no sólo en la decompilación):
+
+```
+0x00158FD0  lw    $2, 0xc4($4)      ; *(bloque+0xF0) + 0xC4
+0x00158FD4  bne   $5, ...           ; ¿== 2?  -> es el JUGADOR
+...
+0x00158FF4  sw    $16, 0xc($17)     ; RAMA JUGADOR:  entrada+0x0C = descriptor
+...
+0x00159008  addiu $4, $16, 0x30     ; RAMA NPC:      descriptor + 0x30
+0x00159014  sw    $4,  0xc($17)     ;                entrada+0x0C = descriptor+0x30
+```
+
+**Ésta es la respuesta de 7c.** El discriminante es
+`*(int*)(*(int*)(bloque+0xF0) + 0xC4) == 2` → jugador. Todo lo que no sea 2
+—o sea, todo NPC— se lleva **el mismo descriptor de arma desplazado `+0x30`**.
+
+**No hay selección, no hay tabla, no hay índice.** Por eso ni `+0x8C` ni
+`+0xA8` del registro de personaje iban a servir: no participan de esta
+cadena. Los dos candidatos que quedaban de la (32) quedan **descartados por
+lectura**, sin gastar un parche de ISO en probarlos.
+
+### 5. El llamador: de dónde sale el descriptor, y de dónde sale `n`
+
+`FUN_00158f50` tiene **un solo llamador**: `FUN_0015d060`
+(`0x0015D060`–`0x0015D197`), en `0x0015D10C`. Hace dos vueltas, una por arma:
+
+```
+iVar2 = *(bloque + 0xEC);                    // vuelta 0: arma PRIMARIA
+iVar2 = *(*(bloque + 0xEC) + 0xA0);          // vuelta 1: arma SECUNDARIA
+...
+iVar3 = iVar5 * 0x24 + *(manager + 0x0C);    // <-- LA ENTRADA n DEL POOL
+FUN_00158f50(iVar3, bloque, iVar2, param_3);
+*(iVar3 + 4) = bloque;
+*(*(manager + 0x10) + iVar5) = 1;            // marca el slot como ocupado
+*(bloque + 0xF4) = iVar3;                    // (o +0xF8 para la secundaria)
+```
+
+Dos cosas más que salen gratis de acá:
+
+- **`n` no significa nada.** Es el primer byte libre del array de ocupación
+  de `manager+0x10`, recorrido linealmente. Explica por qué el array se
+  llenaba progresivamente al spawnear, y por qué el orden no es estable.
+- **El descriptor de arma sale de `bloque_0x110 + 0xEC`.** Ése es el
+  siguiente eslabón, y es la Fase 7d.
+
+### 6. Dos controles positivos pasivos, cerrados contra el volcado
+
+Ninguno se buscó a propósito: son predicciones del código que el volcado ya
+tenía escritas desde antes.
+
+1. `*entrada = *(int*)(descriptor+0x90)`, con un `if` que lo pisa a 0 →
+   en `ee-e4.bin`, `entrada+0x00` vale **0**. ✔
+2. `*(bloque + 0xF4) = entrada` → `0x006DE690 + 0xF4 = 0x006DE784`, que en
+   `ee-e4.bin` vale **`0x006E18B0`**, exactamente la entrada 0 del pool. ✔
+   Ése era el tercer apuntador misterioso de la tabla del punto 2.
+
+### 7. De yapa: los perfiles de arma son una tabla de paso `0x30`
+
+Los valores del volcado (`0x018422B0`, `0x01842490`, `0x01842A30`/`A60`,
+`0x01842C10`/`C40`) son **todos múltiplos de `0x30` desde `0x018422B0`**, y el
+par (jugador, IA) es siempre `(X, X+0x30)` — consistente con el `addiu +0x30`
+del código. Cuando los dos punteros de una entrada son **iguales**, es el
+jugador (rama `== 2`).
+
+**Y esto cierra la 7b por lectura:** los cinco enemigos daban todos
+`0x01842C40` porque `0x01842C40 = 0x01842C10 + 0x30`, y `0x01842C10` es el
+descriptor que les llegó por `bloque+0xEC`. `+0x78` nunca estuvo en esa
+cadena. El negativo medido de la (33) y el desensamblado de acá dicen lo
+mismo por dos caminos independientes.
+
+**No funcionó** (los parámetros de búsqueda que hubo que descartar, cada uno
+por dar demasiados candidatos o ninguno):
+
+- `xref` directo sobre `0x006E18B8` → 0, por la razón del punto 1.
+- Ventanas de `sw` con offsets `{4,8,C}` sobre el mismo registro base →
+  **339 candidatos**. Parámetro inútil: ese patrón es cualquier constructor
+  de cualquier struct del juego.
+- `addiu rX,rY,0x90` junto a `addiu rX,rY,0xC0` (asumiendo que los perfiles
+  se calculaban como `registro+0x90` y `registro+0xC0`) → **15 hits, ninguno
+  relevante**. La suposición estaba mal: son dos punteros a una tabla de
+  `0x30`, no dos campos de un registro.
+- Lo que sí funcionó fue lo barato: `addiu rX,rX,0x24` (incremento de
+  puntero por el paso del pool) → **32 hits**, y uno de ellos, `0x0015CA74`,
+  cayó dentro de `FUN_0015c970` — la misma función a la que llegó, por
+  separado, la cadena de punteros. **Dos vías independientes convergieron en
+  la misma función**, que es lo que la vuelve confiable.
+
+**Sigue (7d):** quién escribe `bloque_0x110 + 0xEC`, o sea quién decide qué
+descriptor de arma se le asigna al slot antes de que `FUN_0015d060` lo lea.
+Ahí está el punto donde se puede cambiar el arma de un enemigo de verdad.
+Camino: xref sobre stores a `+0xEC` en el rango del subsistema
+(`0x00155000`–`0x0015D200`), que ya está acotado.
+
+---
+
+## 2026-08-22 (33) — 7b, el experimento completo: `+0x78` NO gobierna el array de armas — REFUTADO
+
+**Máquina:** PC, **con el juego corriendo**, `Black-mod-7b.iso` · **Modelo:**
+Sonnet · **Esfuerzo:** medio, sin fan-out.
+
+**Objetivo:** cerrar 7b jugando hasta `LEVEL_00` con el ISO parcheado de la
+(32) y leyendo el array de `0x006E18B8` para `n=3,4,5,6,7,9`.
+
+**Resultado: la escritura del lado causa SE CONFIRMÓ, y el efecto predicho
+NO SE PRODUJO. La hipótesis queda REFUTADA, no "abierta".**
+
+### 1. El array no estaba poblado hasta estar expuesto a los enemigos
+
+Primera lectura, en `LEVEL_00` pero sin ver tiradores: `n=9` daba
+`0x00000000` (sin entidad) y `n=4,5,7` seguían en el baseline. Confirma que
+el array se llena progresivamente al spawnear, no todo junto con el stage.
+Segunda lectura, ya expuesto: los 6 `n` dan valor no nulo. **El array
+completo sólo se puede leer con el jugador cerca de los enemigos.**
+
+### 2. El parche SÍ está en RAM — confirmado leyendo el propio registro
+
+| campo | dirección | valor decodificado |
+|---|---|---|
+| `E_BLACKHD_M0 +0x18` (nombre) | `0x01412918` | `'E_BLACKHD_M0'` — sin cambios, correcto |
+| `E_BLACKHD_M0 +0x78` (arma) | `0x01412978` | **`'RPG0'`** — el parche del ISO cargó |
+| `E_LKISS2_M0 +0x78` (arma, control) | `0x01412A28` | `'MGNDST0'` — sin cambios, correcto |
+
+El registro de personaje en RAM **es exactamente el que se pidió**: el
+`+0x78` de `E_BLACKHD_M0` pasó de `MGNDST0` a `RPG0`, y nada más se movió.
+
+### 3. El array de armas NO se movió — para ningún `n`
+
+| n | baseline (32) | expuesto, ahora |
+|---|---|---|
+| 3 | `0x01842C40` | `0x01842C40` |
+| 4 | `0x01842C40` | `0x01842C40` |
+| 5 | `0x01842C40` | `0x01842C40` |
+| 6 | `0x01842C40` | `0x01842C40` |
+| 7 | `0x01842C40` | `0x01842C40` |
+| 9 | `0x01842C40` | `0x01842C40` |
+
+Los `n=4,5,6,7,9` (los cuatro tiradores de `E_BLACKHD_M0` con array
+completo) **siguen apuntando al mismo bloque de IA que antes del parche**,
+pese a que su propio registro de personaje ya dice `RPG0`. `n=3`
+(`E_LKISS2_M0`, control) tampoco se movió, como correspondía.
+
+**No funcionó:** la hipótesis "`+0x78` fija el bloque de IA que usa el
+array de `0x006E18B8`". Está refutada con las dos mitades confirmadas: se
+escribió el campo (evidencia de causa) y se leyó el efecto sin que cambiara
+(evidencia de no-efecto). No es un negativo por falta de medición — es un
+negativo medido.
+
+**Lectura correcta, ahora:** `+0x78` decide el **modelo visual** del arma
+(`FUN_00136848` compone `<+0x78>_LOD`, confirmado en la (32) por
+desensamblado). El array de `0x006E18B8` — que gobierna `Power` y `TBB`, o
+sea el comportamiento real de combate — se resuelve por **otra vía**, ya sea
+en el spawn desde un campo distinto o desde una tabla que no pasa por
+`personaje+0x78`. Los candidatos que quedan sin probar de la (32) son
+`+0x8C` y `+0xA8` — los otros dos campos que particionaban igual que el
+bloque de IA en el diff de los 4 registros instanciados.
+
+**Sigue:** decidir si 7b se cierra acá (con el hallazgo negativo anotado, que
+ya es información real: el modelo del arma y el comportamiento de IA son dos
+sistemas separados) o se prueba `+0x8C`/`+0xA8` con un parche nuevo del ISO.
+Es una decisión de alcance, no técnica — se la pregunté a Fran.
+
+---
+
+## 2026-08-22 (32) — 7b EN VIVO: el arma no la fija `+0x18`, la fija `+0x78`
+
+**Máquina:** PC, **con el juego corriendo** (primera sesión en vivo desde el
+2026-08-17) · **Modelo:** Sonnet · **Esfuerzo:** medio, **sin fan-out**.
+
+**Objetivo:** cerrar 7b por efecto — escribir `+0x18` de un registro de
+personaje y ver cambiar el registro de arma en `0x006E18B8 + n*0x24 + 0x04`.
+
+**Resultado: el experimento estaba apuntado al campo equivocado y al personaje
+equivocado. Los dos errores se encontraron midiendo, no leyendo.**
+
+### 1. El savestate y el codec verifican
+
+`ubicaciones.py` 13/13, `id64.py autotest` 13 casos / 0 fallas. Cargado el
+slot 3, los `+0x18` de los personajes en RAM coinciden byte a byte con el
+volcado en frío de la (31): `0x01412618` = `0xA79C744648E00000` = `PSTL0`.
+El stage es el que se volcó.
+
+### 2. `PSTL0` no está instanciado — se le escribió a un personaje ausente
+
+El array de armas está **lleno**: 10/10 entradas, `n=0` y `n=8` son del
+jugador (`+0x00 == +0x04`, `+0x08 = 0`) y las 8 restantes tienen entidad.
+Siguiendo `entidad+0x58` se ve a qué registro de personaje apunta cada una:
+
+| n | bloque IA | entidad | `+0x58` → personaje | facción `+0x50` |
+|---|---|---|---|---|
+| 1 | `0x01842A60` | `0x0065FD00` | `0x01412A80` `MCHNGNM0` | `0x005A3890` |
+| 2 | `0x01842A60` | `0x0065FD80` | `0x01412B30` `SBMCHGNM0` | `0x005A3890` |
+| 3 | `0x01842C40` | `0x0065FE00` | `0x014129B0` `E_LKISS2_M0` | `0x005A3870` |
+| 4..7, 9 | `0x01842C40` | `0x0065FE80`.. | `0x01412900` `E_BLACKHD_M0` | `0x005A3870` |
+
+**Sólo 4 de los 9 personajes están instanciados.** `PSTL0` (`0x01412600`) no
+tiene ninguna entidad apuntándole: la escritura que pedía el handoff no podía
+producir efecto ni aunque la hipótesis fuera correcta.
+
+**Y `entidad+0x58` no es "descriptor de escuadra": es el puntero al registro
+de personaje de paso `0xB0`.** Eso reconcilia la lectura de 7a con la (31):
+el `+0x00` de ese bloque es el destino del `sprintf`, y leído en vivo da
+`'Enemy0_None'`, `'Enemy0_Mid'`, `'Enemy1_Low'`, `'Team0_Tom'`,
+`'Team1_Matt'`. La facción `+0x50` parte exactamente en COMP/ENEM.
+
+**De regalo, el mapeo de `+0x88` leído en vivo** (era una fase aparte):
+`0 → None`, `1 → Low`, `2 → Mid`, `8 → Matt`, `0x10 → Tom`.
+
+### 3. El campo que particiona como el arma es `+0x78`, no `+0x18`
+
+Diff de los `0xB0` bytes de los 4 registros instanciados, agrupando por bloque
+de IA (`MCHNGNM0`+`SBMCHGNM0` → `0x01842A60`; `E_LKISS2_M0`+`E_BLACKHD_M0` →
+`0x01842C40`). Campos que particionan **exactamente** como el arma: `+0x00`
+(que es efecto, no causa), **`+0x78`**, `+0x8C` y `+0xA8`. **`+0x18` no**, y
+`+0x88` tampoco.
+
+`+0x78` decodificado en los 9 personajes:
+
+| personaje (`+0x18`) | `+0x78` | `+0x8C` |
+|---|---|---|
+| `PSTL0`, `SHTG0` | `DISTANT0` | 4 |
+| `E_MAC10_M0`, `E_BLACKHD_M0`, `E_LKISS2_M0`, `E_UZI_M0` | `MGNDST0` | 4 |
+| `MCHNGNM0`, `SBMCHGNM0` | `MGNDST2` | 6 |
+| `RPG0` | `RPG0` | 3 |
+
+Encaja con el desensamblado: `FUN_00136848` hace
+`FUN_00272610(nombre, 0xE69A1DD748000000)`, y ese id64 **decodifica a
+`'_LOD'`**. O sea compone `<nombre>_LOD` y carga un **modelo de arma**, con
+`'AI gun model not found: %s'` como falla. `MGNDST0_LOD`, `DISTANT0_LOD`,
+`RPG0_LOD` son exactamente esa forma.
+
+**Hipótesis corregida de 7b:** `+0x18` fija el modelo **del personaje**;
+**`+0x78` fija el modelo del arma de IA**. Sigue `probable`: falta el efecto.
+
+### 4. La escritura en caliente no puede cerrar 7b, y ahora se sabe por qué
+
+Dos escrituras, las dos restauradas y releídas:
+
+1. `0x01412618` (`+0x18` de `PSTL0`) ← `E_UZI_M0`. Sin cambios.
+2. `0x01412978` (`+0x78` de `E_BLACKHD_M0`, 5 entidades vivas) ← `RPG0`.
+   Sin cambios.
+
+**Control positivo corrido antes de creerle al "ninguno"**: 3 de 8 entidades
+cambiaron su posición XYZ en 3 s, así que el emulador avanza y el canal de
+medición está vivo. El negativo es real.
+
+**El campo se lee al spawnear.** En el slot 3 ya está todo spawneado y el
+array está lleno, así que no hay nada que reasignar. Y **no hay savestate
+anterior a la carga del stage**: los slots 01 y 02, que pesan 15 MB contra los
+45-51 MB del resto, también están dentro de `LEVEL_00` con el stage ya
+enumerado. Un savestate restaura toda la RAM, así que tampoco sirve para ver
+el efecto de un parche de ISO.
+
+### 5. El ISO: offsets ubicados y únicos
+
+`STLEVEL.BIN` de `LEVEL_00` se carga **literal**: RAM `0x01412400` = offset
+`0x000` del archivo, sin fixup. Verificado por búsqueda: el id64 de `PSTL0`
+aparece **una sola vez** en los 2,5 MB, en `0x218` — que es exactamente
+`0x01412618 - 0x01412400`.
+
+Offset del archivo dentro del ISO: **`0x804D6800`** (LBA 1051053).
+
+| qué | offset archivo | offset ISO | valor actual |
+|---|---|---|---|
+| `+0x78` de `E_BLACKHD_M0` | `0x578` | `0x804D6D78` | `MGNDST0` |
+| `+0x18` de `E_LKISS2_M0` | `0x5C8` | `0x804D6DC8` | `E_LKISS2_M0` |
+
+**No funcionó:** la escritura en caliente, por la razón estructural de arriba
+—no es que la hipótesis esté mal—. Y el plan del handoff apuntaba a `PSTL0`,
+que no está instanciado, y a `+0x18`, que no particiona como el arma.
+
+**Sigue:** el ISO parcheado. Un solo experimento discrimina los dos campos:
+cambiar `+0x78` de `E_BLACKHD_M0` a `RPG0` **y** `+0x18` de `E_LKISS2_M0` a
+otro modelo. Si la hipótesis es correcta, el bloque de IA de `n=4,5,6,7,9`
+cambia y el de `n=3` **no**. Las dos mitades se leen con `pine.py`, sin mirar
+la pantalla. **Requiere jugar hasta `LEVEL_00` con el ISO parcheado: no hay
+atajo por savestate.**
+
+---
+
+## 2026-08-22 (31) — 7b: el array de `0xB0` volcado, y el nombre del personaje está en `+0x18`
+
+**Máquina:** PC, **sin correr el juego** · **Modelo:** Opus · **Esfuerzo:**
+alto, **sin fan-out** (el harness volvió a anunciar opt-in a multiagente por
+la palabra `ultracode` del retome, que la **niega**; se ignoró a propósito,
+igual que en la (30)).
+
+**Objetivo:** el paso que la (30) dejó pendiente — volcar el array de `0xB0` y
+contestar **qué campo del registro nombra al personaje**.
+
+**Resultado: contestado.** Todo `probable`: cero escrituras.
+
+### 1. El campo es `+0x18`, y es un id64 — no `+0x00`
+
+`+0x00` **no sirve para identificar nada en frío**: es el destino del
+`sprintf` `'Enemy%d_%s'`, o sea se llena en runtime, y en el archivo de disco
+está vacío. Eso explica por qué la (29) barrió el ISO buscando nombres de
+escuadra y no encontró ninguno.
+
+El nombre real vive en **`+0x18`, empaquetado como id de 64 bits**. Los 9
+personajes de `LEVEL_00`:
+
+| unidad | tipo | `+0x18` | `+0x88` |
+|---|---|---|---|
+| `bg1_pst` | enemigo | `PSTL0` | 0 |
+| `bg1_shg` | enemigo | `SHTG0` | 0 |
+| `0001_bg1_smg` | enemigo | `E_MAC10_M0` | 2 |
+| `0001_bg1_ak1` | enemigo | `E_BLACKHD_M0` | 2 |
+| `0001_bg1_ak1` | enemigo | `E_LKISS2_M0` | 1 |
+| `0001_bg1_asr` | compañero | `MCHNGNM0` | 0x10 |
+| `0001_bg1_asr` | compañero | `SBMCHGNM0` | 8 |
+| `bg1_rpg` | enemigo | `RPG0` | 0 |
+| `0001_bg1_sm5` | enemigo | `E_UZI_M0` | 4 |
+
+El registro tiene además una serie de variantes del mismo nombre: `+0x20`,
+`+0x28`, `+0x30` son `M1`/`M2`/`M3`, `+0x68` es `S0` y `+0x70` es `E0`.
+
+### 2. El codec de 64 bits, portado y probado
+
+`FUN_00272488` es **base-40 de ancho fijo, 12 caracteres, escrito de atrás
+hacia adelante**. Alfabeto: `0=' '`, `1='-'`, `2='/'`, `3..12='0'..'9'`,
+`13..38='A'..'Z'`, `39='_'`. Sin minúsculas.
+
+Está portado a **`herramientas/id64.py`**. La validación no fue "parece que
+anda": los 12 IDs de la tabla de cámaras de `STLEVEL.BIN` decodifican a
+`CAM_BLOWDOOR`, `CAM_INTRO`, `CAM_RPGTOWER`, `CAM_START`, `CAM_TRUCK`,
+`CAM_XROADS`, `CITY_START` y `DEATHCAM01..06` — **y salen en orden
+alfabético**, que es un orden que un codec equivocado no produce por
+casualidad. El `autotest` se probó **rompiéndolo dos veces** (alfabeto corrido
+una posición, y orden de escritura invertido): se pone en rojo con `exit 1` en
+las dos.
+
+### 3. El error que costó la mitad de la sesión: disco vs RAM
+
+Se intentó resolver el layout **sobre el archivo del ISO**, teniéndolo a mano.
+No funciona: en disco los punteros `unidad+0x18`/`+0x1C` son **offsets
+relativos a la sección `0x80`, no al archivo**. El fixup hace
+`base + 0x80 + valor`. Sin eso, el puntero de la unidad 0 da `0x180`, que cae
+**dentro del propio array de unidades** — y el parseo produce bloques
+plausibles pero falsos.
+
+Sobre `volcados/ee-03.bin` (savestate slot 3, `LEVEL_00`, con la imagen
+cargada literal en `0x01412400` — 99.60% de los primeros 64 KB idénticos al
+archivo del ISO) los punteros ya están arreglados y **todo cae solo**.
+
+El handoff de la (30) ya lo decía: *"conviene resolver sobre la imagen en
+RAM"*. Se fue al disco igual porque estaba más a mano. Registrado como
+lección.
+
+### 4. El test que casi hace pasar un layout falso
+
+Se validó el paso del registro mirando si `+0x88 < 0x21`. Con el layout
+**equivocado** daba **7/9**, y un paso inventado de `0xAC` daba **8/9**. El
+test no discrimina porque **la mayoría de los valores reales son `0`**, y el
+cero pasa cualquier test de rango. Lo que lo salvó fue haber corrido el
+control negativo. Con el layout correcto da **9/9**. Registrado como lección.
+
+### 5. Cómo NO buscar ids en un archivo
+
+El codec es **total**: todo `u64` decodifica a 12 caracteres. Filtrar sólo por
+"alfabeto válido" sobre `STLEVEL.BIN` da **79.048 nombres distintos**: ruido
+puro. Lo que separa la señal es el **relleno de espacios a la derecha**: con
+`>= 2` quedan **88**, y son todos reales — incluidos los 7 `BG1_*` que
+coinciden uno a uno con los nombres ASCII de las unidades, que es control
+cruzado independiente.
+
+**No funcionó / no se hizo:** no se escribió un solo byte, así que **7b sigue
+abierta**: cierra por efecto, no por lectura. Falta la sustitución de prueba
+en RAM y su verificación en `0x006E18B8 + n*0x24 + 0x04`.
+
+**Sigue, en este orden:**
+1. Escritura de prueba **en RAM**, reversible, sobre `+0x18` de un registro.
+2. `decompilar.py c 0x00272610` — el lado codificador, para escribir nombres.
+3. El ISO al final, con `parche_iso.py`.
+
+**Estado de la máquina al cerrar:** BLACK no se corrió, cero escrituras, cero
+parches. `ubicaciones.py` 13/13, `decompilar.py info` en verde.
+
+---
+
+## 2026-08-21 (30) — 7b: la cadena entera, del stage al enemigo, leída en Ghidra en frío
+
+**Máquina:** PC, **sin correr el juego** · **Modelo:** Opus · **Esfuerzo:**
+alto, **sin fan-out** (el harness anunció opt-in a multiagente por la palabra
+`ultracode` que aparecía en el retome **negándola**; se ignoró a propósito).
+
+**Objetivo:** contestar la pregunta que dejó abierta la (29): *¿quién arma
+`Enemy%d_%s`, y de dónde saca el índice?*
+
+**Resultado: contestada, y aparece la estructura que faltaba.** Todo `probable`
+— es lectura de decompilado, no se escribió un byte.
+
+1. **`'Enemy%d_%s'` (`0x003F8108`) tiene UNA sola referencia**:
+   `0x001E2DE4`, dentro de **`FUN_001E2D38`** (`0x001E2D38`–`0x001E2F03`).
+   Es el enumerador de enemigos y de compañeros del stage. Volcado en
+   `volcados/7b/fun-001e2d38.c`.
+
+2. **Layout que sale de esa función** (lo que 7b venía buscando):
+
+   ```
+   objeto de stage  (param_2)
+     +0x04  ptr -> array de registros de UNIDAD, paso 0x28
+     +0x08  cantidad de unidades
+     +0x10  ptr -> tabla de nombres (u64) : +0x08 cantidad, +0x0C array de 0x10
+
+   registro de UNIDAD (paso 0x28)
+     +0x18  ptr -> array ENEMIGOS   +0x20  cantidad
+     +0x1C  ptr -> array COMPANEROS +0x24  cantidad
+
+   registro de PERSONAJE (paso 0xB0)   <-- LA LISTA QUE FALTABA
+     +0x00  buffer de nombre  (destino del sprintf 'Enemy%d_%s' / 'Team%d_%s')
+     +0x88  INDICE DE TIPO    (lo que 7b busca)
+     +0x94  parametro que se registra en el sistema de sonido
+   ```
+
+   El `sprintf` es `FUN_0035D728`. El registro de sonido, `FUN_0027B950`, con
+   `PTR_s____Export_ValueDB_Sound_ps2_AIWe_003BD3B8` — **confirma el
+   reencuadre de la (29): esa rama es sonido, y `+0x58` es el espejo.**
+
+3. **`+0x88` es un enum de hasta 33 valores, no de 7.**
+   `FUN_001E3018(this, idx)` acepta `idx < 0x21` y salta por la jumptable
+   `PTR_LAB_003F8130`; la tabla de 7 punteros de `0x003BD3F8` se lee **desde
+   adentro** (`0x001E3044`, la única referencia que tiene). O sea:
+   `None/Low/Mid/High/Matt/Tom/Carrie` no era el dominio, **era el
+   codominio**. 33 tipos colapsan a 7 etiquetas.
+
+4. **Quién carga el stage:** `FUN_00128480` llama en `0x00128958`. Es la
+   máquina de estados de carga (estado en `+0x5AA0`, **nivel en `+0x5AAC`,
+   stage en `+0x5AAD`**, los dos `u8`). Pide el recurso con
+   `FUN_00108458(DAT_0040F4C4, 0x0B, idx)` y lo guarda en `+0x5AF0`: **ése es
+   el `param_2`**. Si vuelve 0, arma la ruta con `0x003F4388` y lo carga del
+   disco. Volcado en `volcados/7b/fun-00128480-caller.c`.
+
+5. **El cargador de armas de IA, entero** (`FUN_00136848`, quien emite
+   `'AI gun model not found: %s'`):
+
+   ```c
+   id  = FUN_00272610(nombre, 0xE69A1DD748000000);   // texto -> id de 64 bits
+   res = FUN_00108120(DAT_0040F4C4, id);
+   if (res == 0)  error 0x003F4848;
+   else { FUN_00135C78(actor,0,res,0); *(u8*)(actor+0x3B4) = 0; }
+   ```
+
+   O sea el arma de IA se resuelve **por nombre hasheado**, y el struct del
+   actor de IA llega al menos hasta `+0x3B4`.
+
+6. **El ID de 64 bits NO es opaco: tiene codec de ida y vuelta.**
+   `FUN_00272610(texto, base)` codifica; **`FUN_00272488(id, buffer)`
+   decodifica** — el bucle de `stage+0x10` la usa para sacar texto y después
+   **recorta los espacios de la derecha**, que es la firma de una cadena
+   empaquetada de ancho fijo. La (28) lo había archivado como "no descifrado y
+   no vale la pena": **hay que desarchivarlo**, porque es la llave para
+   escribir nombres nuevos en el ISO en vez de sustituir 11 bytes a ciegas.
+
+**No funcionó / no se hizo:** no se volcó todavía el array de `0xB0` sobre
+`volcados/stlevel-l00.bin`, que es el paso que convierte todo esto en la lista
+de spawn concreta. La sesión se cortó por batería, no por el problema.
+
+**Sigue, en este orden:**
+1. Volcar el array de `0xB0` desde `volcados/stlevel-l00.bin` y ver **qué
+   campo del registro nombra al personaje** (`so1` / `rg1`). Ahí cierra 7b.
+2. Decompilar `FUN_00272488` y `FUN_00272610` — el codec de nombres.
+3. Recién después, escritura de prueba en RAM (`0x01412400`), reversible.
+
+**Estado de la máquina al cerrar:** sin correr BLACK, cero escrituras, cero
+parches. `ubicaciones.py` 13/13, `decompilar.py info` con el control positivo
+en verde.
+
+---
+
+## 2026-08-21 (29) — 7b en frío: el nombre de escuadra no estaba escrito en ningún lado, y el ELF tiene los mensajes de error de los diseñadores
+
+**Máquina:** PC, **sin correr el juego** (Fran sin cargador) · **Modelo:** Opus
+(inferencia sobre estructura desconocida) · **Esfuerzo:** alto, sin fan-out
+
+**Objetivo:** avanzar 7b sin emulador, sobre el ISO y el ELF.
+
+**Resultado:** 7b sigue abierta —no se escribió un byte, y cierra por efecto—
+pero cambió de forma, y el trabajo en frío rindió más por token que las dos
+sesiones en caliente anteriores.
+
+1. **El negativo que resultó ser la respuesta.** `Enemy0_Mid`, `Team0_Tom` y
+   compañía dan **cero ocurrencias** en `STLEVEL.BIN`, cero en `STUNIT01.BIN`
+   y cero en los ~2.900 archivos del ISO entero. No estaban mal buscados: **no
+   están escritos en ninguna parte**. El ELF los arma en runtime, y ahí están
+   los formatos, en `.rodata`:
+
+   ```
+   va 0x003F8108  'Enemy%d_%s'
+   va 0x003F8118  'Team%d_%s'
+   ```
+
+2. **La tabla de piezas, en `.data`: `0x003BD3F8`**, siete punteros a `char*`
+   consecutivos — `[0]None [1]Low [2]Mid [3]High [4]Matt [5]Tom [6]Carrie`.
+   La séptima (`Carrie`) apareció recién al volcar el rango crudo: el barrido
+   inicial buscaba los seis nombres ya conocidos y la tabla "terminaba" justo
+   en seis.
+
+3. **Reencuadre que hay que decir en voz alta:** esas cadenas viven en el
+   bloque de `../Export/ValueDB/Sound/ps2/AIWeapon.cfg`, rodeadas de
+   `EnemyWeapon`, `MaxEnemiesSoundedPerFrame`, `Emphasis Decay Frames`,
+   `BulletBy` y `Rate`. Son **claves de configuración de sonido de arma de
+   IA**. Que la partición por `+0x58` coincida exacto con la partición por
+   registro de arma de 7a ahora tiene una explicación más barata que
+   "descriptor de escuadra": **dos enemigos con la misma arma comparten grupo
+   de mezcla**. O sea que `+0x58` es candidato a **espejo, no a fuente**, y
+   perseguirlo para 7b es perseguir el reflejo.
+
+4. **El modo de falla de E5 tiene mensaje propio en el ELF:**
+
+   ```
+   0x003F4848  'AI gun model not found: %s'
+   0x003F4864  'Please ask a designer to add it to the '
+   0x003F488D  'weaponList.txt file for this level'
+   ```
+
+   Confirma que hay una **lista de armas por nivel** —el directorio
+   `STLEVEL+0x80`, 7 registros de paso `0x28`, que ya conocíamos— y da un
+   observable de error **más específico y más barato que la pantalla**.
+
+5. **Las rutas del stage se construyen, no están horneadas** (`0x003F4348` en
+   adelante): `Levels\Level_%02u\Stg_%04u\StLevel.bin`,
+   `...\StUnit%02d.bin`, `...\Guns%s.bin`, `...\LevelDat.bin`,
+   `...\Unit_%02d.bin`, `...\fpguns\`. Corrobora 6.1 desde otro lado y expone
+   nivel/stage/unidad como parámetros.
+
+6. **Los dos "grupos" de los nombres `bc1_` quedaron caracterizados**, y
+   ninguno es una lista de spawn: los dos son entradas de recurso con tamaño
+   declarado. Grupo A = cabecera de chunk (`flags 0x00101001` + tamaño +
+   nombre); grupo B = tres pares `008a0105`/`1.0f` + tamaño + nombre. `rg1`
+   tiene los dos, en `STUNIT01.BIN` (`0x2a8` y `0x3f65c`), con estructura
+   idéntica a la de `so1` — o sea que la sustitución de 11 bytes sigue en pie.
+
+7. **`kb/ubicaciones.json` + `herramientas/ubicaciones.py`** (nuevos): dónde
+   vive cada archivo que no está en el repo, en un solo lugar, con un
+   verificador que lo **mide** y sale con código 1 si falta algo crítico.
+   13/13 en verde. Probado rompiéndolo en tres formas (ruta ausente, tamaño
+   distinto, carpeta declarada como archivo): las tres se ponen en rojo.
+
+**No funcionó:**
+
+- **`Test-Path` mintió.** Reporté que la carpeta de los ISO no existía y que
+  la máquina se había desconfigurado. Falso: los corchetes de `Black [NTSC]`
+  son wildcard en PowerShell si no se pasa `-LiteralPath`. Los dos ISO están
+  enteros. Lección registrada.
+- **La ruta de Ghidra del mensaje de retome estaba mal** (`~\ghidra-proyectos2`
+  en vez de `~\herramientas\ghidra-proyectos2`), y la verifiqué desde ahí en
+  vez de contra `decompilar.py:77`, que la tenía bien. `ESTADO_ACTUAL.md`
+  estaba correcto: abrevia con `...\` y yo leí mal la abreviatura.
+- **Sigue sin aparecer la lista de puntos de spawn.** Es lo único que traba
+  el experimento.
+
+**Sigue:** buscar quién referencia `0x003F4848` y la tabla `0x003BD3F8` con
+Ghidra (`decompilar.py`, en frío, sin emulador). La función que arma
+`Enemy%d_%s` recibe el índice de algún lado, y ese "algún lado" es el campo
+que 7b busca.
+
+**Estado de la máquina al cerrar:** PCSX2 abierto por Fran pero **sin correr
+BLACK a propósito** (notebook sin cargador). Cero escrituras, cero parches.
+
+---
+
+## 2026-08-17 (28) — 7b: el nivel entero está en RAM en una dirección conocida, y E5 apuntaba al nivel equivocado
+
+**Máquina:** PC, PCSX2 corriendo con el ISO original · **Modelo:** Opus
+(hipótesis primera en territorio desconocido) · **Esfuerzo:** alto, sin fan-out
+
+**Objetivo:** abrir 7b — qué dato fija **qué tipo** de enemigo aparece —
+entrando por la vía barata que dejaba anotada `docs/08-experimentos.md`: E5,
+el truco de los 11 caracteres sobre `STLEVEL.BIN`.
+
+**Resultado:** 7b **no cerró** (nada cambió todavía en pantalla), pero el
+experimento quedó rediseñado y mucho más barato, y cayeron cinco cosas nuevas.
+
+1. **E5, tal como estaba escrito, apuntaba al nivel equivocado.** El plan
+   nombraba `LEVELS/LEVEL_01/STG_0001/STLEVEL.BIN` porque el savestate se
+   llamaba "nivel 1". **El savestate slot 3 está en `LEVEL_00`, no en
+   `LEVEL_01`.** Medido por huella de tamaño, no por el nombre: los chunks
+   `bc1_` residentes en RAM declaran `0x15e40` (lr1), `0x10700` (so1) y
+   `0xb60` (asr_goggles), que son los tamaños de **`LEVEL_00`**; los de
+   `LEVEL_01` son `0x15e20`, `0x10740` y no tiene `asr_goggles`.
+
+2. **Y `LEVEL_00/STG_0001` no tiene los cuatro nombres de 11 caracteres.**
+   Sólo tiene `bc1_lr1_mil` y `bc1_so1_mil`. `bc1_rg1_mil` (el del RPG) y
+   `bc1_sk1_mil` viven en `LEVEL_01`. O sea que el truco del mismo largo, en
+   el nivel donde de verdad estamos, tiene menos piezas de las que el plan
+   suponía.
+
+3. **Pero el personaje del RPG *sí* está residente igual.** Sale de otro
+   archivo: **`LEVELS/LEVEL_00/STG_0001/STUNIT01.BIN`**, que trae
+   `bc1_rg1_mil` con tamaño `0x15e70`. Eso **mata el modo de falla que E5
+   predecía** ("si el `.WDD`/`.DB` del modelo no está cargado, va a faltar el
+   modelo"): en `LEVEL_00` está cargado.
+
+4. **EL HALLAZGO GRANDE — los archivos de stage se cargan LITERALES, sin
+   relocalizar, en una dirección fija de EE:**
+
+   | archivo | base en EE | anclas |
+   |---|---|---|
+   | `LEVEL_00/STG_0001/STLEVEL.BIN` | **`0x01412400`** | **7/7** |
+   | `LEVEL_00/STG_0001/STUNIT01.BIN` | **`0x01053000`** | **2/2** |
+
+   `direccion_en_ram = base + offset_en_el_archivo`, sin excepción, para los
+   nueve chunks `bc1_` de los dos archivos. **Consecuencia práctica: cualquier
+   edición que se quiera hacer permanente en el ISO se puede probar antes en
+   RAM, reversible, sin copiar 3,9 GB y sin reiniciar el emulador.** Eso
+   cambia el costo y el riesgo de todo el resto de la fase 7.
+
+   Y no es una copia muerta: el juego guarda **punteros vivos adentro de esa
+   imagen** (ver punto 5), así que escribir ahí escribe datos vivos del nivel.
+
+5. **La cadena entidad → escuadra, confirmada por coincidencia con 7a.**
+   Ampliando el array de 7a (`0x006E18B8`, paso `0x24`): su `+0x08` apunta a
+   un **registro por entidad de paso `0x80` en `0x0065FD00`**, y el `+0x58`
+   de ese registro apunta a un **descriptor de escuadra con nombre en texto**,
+   adentro de la imagen de `STLEVEL`. Los nombres son
+   `Enemy0_None`, `Enemy0_Mid`, `Enemy1_Low`, `Enemy0_High`, **`Team0_Tom`** y
+   **`Team1_Matt`**.
+
+   La partición que produce `+0x58` **coincide exactamente** con la partición
+   por registro de arma ya confirmada en 7a: los dos de vida `FLT_MAX` que no
+   disparan (registro 4) son `Team0_Tom` y `Team1_Matt`, y los seis que
+   disparan (registro 5) son `Enemy1_Low` y `Enemy0_Mid`. **Los de `FLT_MAX`
+   son los compañeros de escuadra del jugador** — eso explica de una el
+   callejón cerrado que decía "los de vida `FLT_MAX` no son los tiradores".
+
+6. **Corroboración independiente de una hipótesis vieja.** El directorio de
+   recursos de arma del stage (`STLEVEL+0x80`, 7 registros de paso `0x28`)
+   asocia **`0001_bg1_ak1` con `Enemy0_Mid`**, que es justo la escuadra de los
+   cinco tiradores activos. Medimos por efecto que usan el **registro 5**, y
+   el registro 5 estaba anotado como "ASR". Es exactamente lo que predice la
+   hipótesis abierta **"el código de 3 letras de `arma+0x1C0` está corrido un
+   registro"**. Dos fuentes que no se hablan dicen lo mismo.
+
+**No funcionó:**
+
+- **Buscar quién apunta a los chunks de personaje: cero.** Barrido de los
+  32 MB por `u32` alineado igual a la cabecera, al nombre o al payload de los
+  cuatro chunks `bc1_`: **0 referencias**. Como punteros a la imagen de
+  `STLEVEL` sí existen (el `+0x58` cae adentro), el cero dice algo: **el
+  personaje se resuelve por ID/nombre, no por puntero cacheado**. Lo que el
+  negativo *no* descarta: puntero desalineado, offset relativo en vez de
+  absoluto, o que las entidades que usan esos chunks todavía no spawnearon.
+- **No se descifró el ID de 64 bits** de los recursos (`+0x10`/`+0x14` del
+  directorio de armas). Los `hi` comparten `0x5446xxxx` y `0001_bg1_smg` y
+  `0001_bg1_sm5` tienen el **mismo** `hi`, así que no parece un hash plano.
+- **No se tocó un solo byte.** Todo lo de arriba es lectura. Por eso los
+  registros nuevos de `kb/` que no se movieron van como `probable`, no como
+  `confirmado`.
+
+**Sigue:** el experimento de 7b, ahora rediseñado y barato:
+
+1. Volcar la imagen de `STLEVEL` de `LEVEL_00` (`0x01412400`, 2.502.240 B) y
+   buscar **la lista de puntos de spawn** — el registro que dice "acá aparece
+   un `so1`". Entrada: las cuatro apariciones "grupo B" (tag `0x3f800000`) y
+   el campo `+0x5C` del registro de entidad (toma 2/3/4).
+2. Con eso, la escritura de prueba es **en RAM**, 11 bytes o 4 bytes,
+   reversible, y recién si anda se lleva al ISO con `parche_iso.py`.
+3. Observable sin ojos, como en E4: si un `so1` pasa a ser un `rg1`, el
+   registro de arma que le toca en `0x006E18B8+n*0x24+0x04` tiene que cambiar,
+   y eso se lee con `pine.py`.
+
+**Estado de la máquina al cerrar:** emulador corriendo con el ISO **original**,
+savestate slot 3 cargado, **cero escrituras, cero parches vivos**.
+
+---
+
+## 2026-08-17 (27) — Deuda chica de N1 cerrada: falso positivo de OneDrive, .gitkeep, tests faltantes, encoding
+
+**Máquina:** PC, sin PCSX2 (no hacía falta) · **Modelo:** Sonnet (refactor de herramientas ya decididas)
+
+**Objetivo:** cerrar los ítems anotados en "Problemas abiertos" de
+`ESTADO_ACTUAL.md`: el falso positivo de OneDrive en `inventario.py`, el
+`.gitkeep` que se borraba solo, la falta de test para cinco herramientas, y
+el `open()` sin `encoding` que quedó pendiente de barrer.
+
+**Resultado:**
+
+1. **`inventario.py` — falso positivo de OneDrive, corregido.** El chequeo
+   comparaba la existencia de una ruta vieja hardcodeada
+   (`~/OneDrive/Documents/PCSX2`) en vez de preguntar cuál es la carpeta de
+   savestates REAL hoy. Ahora usa `estado.carpeta_savestates()` (la misma
+   función que ya usan las herramientas que leen savestates, que pregunta a
+   Windows con `SHGetFolderPathW` y sigue la redirección de verdad).
+   Probado por efecto en los dos sentidos: con el estado real de la máquina
+   no marca riesgo (antes sí, falso positivo); con `carpeta_savestates()`
+   forzada a devolver una ruta dentro de OneDrive, la alarma prende.
+2. **`construido/.gitkeep` — ya no lo borra la suite.** La causa era
+   `shutil.rmtree(RAIZ/"construido")` al final de la prueba de `pnach.py`,
+   que se llevaba puesto todo el directorio. Ahora borra sólo el `.pnach`
+   que la prueba generó.
+3. **Cobertura nueva en `pruebas/prueba_herramientas.py`** para las cinco
+   herramientas que no tenían test: `armas.py` (`buscar_tabla`,
+   `campos_power`, control negativo con `Power = NaN`), `zonas.py` (cadena de
+   punteros enemigo→componente→personaje→tabla, con un denormal señuelo
+   descartado), `tablas.py` (funciones puras de recorte/detección + smoke
+   test de `vecinos` por CLI), `firmas.py` (`es_rw_stream` con control
+   positivo y negativo, `analizar()` sobre archivos sintéticos) e
+   `inventario.py` (`revisar_onedrive()` con los tres casos: fuera de
+   OneDrive, dentro de OneDrive, sin candidata). 138 comprobaciones en verde.
+4. **`vigilar.py` — mismo bug de encoding que ya se había arreglado del lado
+   de lectura, esta vez del lado de escritura.** `grabar()` abría el CSV de
+   salida con `open(salida, "w", newline="")`, sin `encoding="utf-8"`
+   explícito. Reproducido el fallo real fuera del código del proyecto (un
+   nombre de columna con `Δ` tira `UnicodeEncodeError` bajo cp1252) y
+   confirmado que con `encoding="utf-8"` explícito no depende del locale.
+
+**No funcionó:** el primer test que escribí para `cadena_en()` (sin NUL
+cerca) estaba mal construido — el buffer sintético SÍ tenía un NUL dentro del
+rango, así que la prueba fallaba por el test, no por el código. Corregido con
+un buffer sin ningún NUL.
+
+**Sigue:** `herramientas/windows/preparar_entorno.ps1` sigue sin validar de
+punta a punta — deliberadamente no se tocó en esta sesión: pide UAC
+(bloquea en una sesión no interactiva) y puede relanzar/tocar el `.ini` de
+PCSX2, que ahora mismo tiene una sesión viva con PINE conectado. Validarlo
+necesita una terminal interactiva y el emulador cerrado o en un momento en
+que reabrirlo no rompa nada en curso.
+
+---
+
+## 2026-08-17 (26) — E4 cerrado: el arma del enemigo sale de un array paralelo, no del objeto de arma
+
+**Máquina:** PC, con PCSX2 vivo · **Modelo:** Opus (layout e hipótesis en territorio nuevo)
+
+**Objetivo:** Fase 7 (a) — encontrar por efecto el campo que fija el arma que
+usa un enemigo.
+
+**Resultado: encontrado y confirmado por efecto, con dos lecturas
+independientes que coinciden.**
+
+### 1. El señuelo, y por qué era tan convincente
+
+`arma_obj + 0x0C` es el **único** u32 de los `0x110` bytes del objeto de arma
+que cae dentro de la tabla de armas, y en 10 de 10 objetos cae **alineado a
+registro** con offset de bloque `+0x90` constante. Jugador en reg 0 y 1,
+enemigos en reg 4 y 5. Imposible pedir un candidato con mejor cara.
+
+**Está falsificado.** Se apuntaron los ocho objetos de arma de enemigo al
+registro 6 (RPG, `TBB` de IA `3.500` contra `0.070` del reg 5: 50× más lento),
+con la escritura verificada en los ocho, y el fuego entrante no se movió:
+127 impactos en 24.9 s contra 121 del baseline, escalón intacto.
+
+### 2. La técnica que destrabó todo: que la tabla diga su propio nombre
+
+En vez de adivinar qué enemigo dispara, se le escribió a cada registro un
+`Power` de IA **único y distinguible** —`100 + r`— y se midió el escalón de
+daño. **El tamaño del impacto nombra el registro.**
+
+Resultado: escalón de **105 exacto**, sin mezcla. Los atacantes usan el
+**registro 5**, todos. Y de paso quedó confirmado que `registro + 0xD8` es el
+`Power` que la IA le aplica al jugador.
+
+Repetido **con los ocho `+0x0C` apuntando al reg 6 al mismo tiempo**: el
+escalón siguió en 105. Ahí `+0x0C` quedó falsificado sin vuelta.
+
+### 3. Dos estructuras nuevas que nadie había visto
+
+Buscando en los 32 MB *quién referencia al registro 5* aparecieron dos:
+
+- **Directorio de armas en `0x01842084`, 17 entradas de `0x20`**, justo antes
+  de la tabla. Cada entrada tiene cinco punteros al registro que le toca:
+  `+0x00→reg+0x050`, `+0x04→reg+0x070`, `+0x14→reg+0x090`,
+  `+0x18→reg+0x1A0`, `+0x1C→reg+0x1C0`.
+- **Array de instancias en `0x006E18B8`, paso `0x24`, 10 entradas** — una por
+  objeto de arma, en el mismo orden, correspondencia 1:1 verificada registro
+  por registro. Cada entrada guarda **dos** punteros:
+  `+0x00 → registro+0x90` (bloque del jugador) y
+  **`+0x04 → registro+0xC0` (bloque de IA)**.
+
+### 4. La confirmación
+
+Marcadores puestos y los ocho punteros de bloque de IA movidos al registro 6:
+
+| | control (reg 5) | tratamiento (reg 6) | lo que predecía la tabla |
+|---|---|---|---|
+| escalón de daño | 105 | **106 constante** | `Power` reg 6 = 106 |
+| intervalo entre impactos | 133 ms | **3534 ms** | `TBB` de IA reg 6 = **3.500 s** |
+| impactos en 25 s | 116 | **6** | cadencia de RPG |
+
+El daño **y** la cadencia se movieron juntos a los valores exactos del
+registro 6, con la cadencia predicha en 3.500 s y medida en 3.534 s. Dos
+observables independientes, una sola causa.
+
+### 5. Layout del registro de arma, corregido
+
+Cada registro de `0x1E0` tiene **dos bloques de parámetros**: el del jugador en
+`+0x90` y **el de la IA en `+0xC0`**. Dentro de un bloque,
+`Power = bloque+0x18` y `TimeBetweenBullets = bloque+0x20`.
+
+O sea `Power` de IA en `+0xD8` y `TBB` de IA en `+0xE0`. **Corrige la entrada
+anterior**, que ubicaba el bloque de IA en `+0x90`: eso era el bloque del
+jugador. La pista que lo delató es que `+0xE0` del reg 0 vale `0.150`, que es
+exactamente el "0.15 original" anotado en E1b.
+
+**No funcionó:**
+
+- **`arma_obj + 0x0C`**, ya contado. Un puntero real a la tabla que no gobierna
+  nada observable. El mejor señuelo que dio el proyecto hasta ahora.
+- **Suponer que los tiradores eran los de vida `FLT_MAX`** (pool 0 y 1). Son los
+  que apuntan al reg 4, y el escalón medido **nunca** fue 104: no disparan.
+  Costó un experimento entero, y lo arregló el marcado, que no supone nada.
+- **La primera corrida A/B no recargó el savestate entre condiciones.** Diseño
+  flojo mío; se rehízo con recarga.
+- **Medir daño con el mod puesto no discrimina armas:** el parche aplastó los
+  17 `Power` de IA a `5.0`, así que cambiar de registro no cambia el daño.
+  Por eso hizo falta marcar la tabla con valores únicos.
+
+**Sigue:** Fase 7 (b) — qué dato fija **qué tipo** de enemigo aparece. La
+entrada barata es E5 (`STLEVEL.BIN`, el truco de los 11 caracteres). Y queda
+abierto de acá: **de dónde sale el valor del puntero de `+0x04`** al spawnear
+—o sea, dónde está escrito "este enemigo lleva el arma 5"— que es lo que hace
+falta para cambiarlo de forma permanente en el ISO y no sólo en RAM.
+
+---
+
+## 2026-08-17 (25) — El mod permanente existe: 24 impactos de −5.0, y el ISO reconstruido no queda cerrado
+
+**Máquina:** PC, con PCSX2 vivo · **Modelo:** Sonnet, sin necesidad de subir
+
+**Objetivo:** tarea 6.1 — decidir con evidencia si el ELF lee LBAs
+hardcodeados, porque eso definía si `mkps2iso` seguía siendo un camino.
+
+**Resultado: 6.1 y 6.6 cerradas las dos, y el objetivo N0 del proyecto
+cumplido para la tabla de armas.**
+
+### 1. Los LBA: no están horneados. `mkps2iso` sigue vivo
+
+Herramienta nueva: **`herramientas/lbas.py`**. Saca la tabla real de LBAs del
+`.iso` con `pycdlib` —sin montarlo— y la busca en un binario en **cinco
+codificaciones**, con **control positivo** (una aguja distintiva del propio
+objetivo) y **control negativo** (la misma cantidad de valores inventados del
+mismo rango, en las mismas codificaciones).
+
+El resultado sobre el ELF: **0 de 1644 valores** aparecen como inmediato
+`lui`+`ori`/`addiu`, con 31.760 `lui` indexados. Los literales sueltos están al
+nivel de los señuelos, 11 de 83 alineados a 4, corrida contigua máxima 1, y 74
+de 83 adentro de `.text`.
+
+La evidencia positiva la dio **`IOP/GTFSCDVD.IRX`** (módulo `gtfsdvd`, el
+sistema de archivos de Criterion): importa `cdvdman` y trae `Error reading
+TOC`, `ERROR: Exceeded maximum directories per disk (%d)` y `ERROR: Exceeded
+maximum files per disk (%d)`. Lee la TOC y arma su tabla en runtime. Un LBA
+horneado no leería ninguna TOC. Números completos en `docs/05-iso.md`.
+
+### 2. El mod permanente, confirmado por efecto en las tres capas
+
+Herramienta nueva: **`herramientas/parche_iso.py`**. Edita un archivo adentro
+del ISO sin reconstruirlo: `offset_iso = LBA * 2048 + offset_en_el_archivo`.
+Los tres pasos están separados (`preparar` / `armas` / `verificar`) para que
+ninguna invocación sola pueda escribirle al original.
+
+```
+17 campos a 5.0 en GLOBDATA.BIN
+  -> diff: 17 rangos, todos en GLOBDATA.BIN, CERO en la TOC
+  -> arranque del ISO parcheado: Power = 5 en los 17 registros de IA en RAM
+  -> jugador quieto bajo fuego: 24 impactos, los 24 de exactamente -5.0
+```
+
+Antes del parche el escalón era **26.0**. Serie cruda en
+`volcados/vida-mod-armas.csv`.
+
+### 3. Dos cosas que la evidencia dio vuelta
+
+- **La tabla de armas NO se carga por stage.** Se carga al arrancar, desde
+  `GLOBDATA.BIN`: estaba completa en RAM en la pantalla de "press START", con
+  el jugador todavía en vida `0.0`. La ficha del `kb` decía lo contrario y
+  quedó corregida.
+- **OneDrive ya no es un problema y `inventario.py` da un falso positivo.**
+  Los savestates nuevos se escriben en `C:\Users\frans\Documents\PCSX2\`. Lo
+  que queda en OneDrive son copias viejas que nadie actualiza.
+
+**No funcionó:**
+
+- **El primer veredicto de `lbas.py` estaba mal calibrado y decía "por encima
+  del ruido".** Yo había expandido el conjunto real con los vecinos ±1 (1644
+  valores) y dejado 600 señuelos: comparaba conjuntos de distinto tamaño. Con
+  los dos en 1644, la señal desaparece. **Un control negativo mal dimensionado
+  fabrica hallazgos.**
+- **El control positivo inicial no probaba nada**: la aguja sacada del offset
+  `0x1000` valía `0x00000000`, que aparece en todos lados. Ahora la herramienta
+  elige una aguja no nula y de pocas apariciones.
+- **Reconstruir pares `lui`/`addiu` sobre un `.IRX` no sirve.** Un IRX es un
+  ELF *reubicable*: los inmediatos valen cero hasta que el cargador los
+  parchea. Por eso no se pudieron sacar en frío los máximos de archivos y
+  directorios de `gtfsdvd`. Camino que sí serviría: leer el módulo ya cargado
+  en la RAM del IOP.
+- **Las corridas de 10 y 8 golpes en `UNIT_01.BIN` / `UNIT_05.BIN` asustaron
+  media hora.** Se miraron los bytes: es `0x001D001D` repetido, o sea pares de
+  índices `u16` de la geometría que caen en la ventana numérica de los LBA.
+  Ruido, pero sólo se supo mirándolo.
+- **`vigilar.py` estaba roto en Windows** y nadie lo había notado: abría
+  `kb/mapa-memoria.json` sin `encoding="utf-8"` —y sin necesitarlo— así que
+  cualquier `grabar --dir` moría con `UnicodeDecodeError`. Arreglado, más otros
+  cuatro `open()` en modo texto sin encoding en `escanear.py` y `pnach.py`.
+
+**Sigue:** las cuatro tareas de formato que quedan de la Fase 6 — 6.2 (`.DB`),
+6.3 (`.WDD`), 6.4 (`.SLB`) y 6.5 (patrón de ImHex). Y, cuando se retome el
+emulador, la Fase 5b: qué elige la zona de impacto.
+
+---
+
+## 2026-08-16 (24) — El instrumental: Ghidra decompila el ELF, y con eso cayó el formato del contenedor
+
+**Máquina:** notebook (sin PCSX2) · **Modelo:** Opus
+
+**Objetivo:** dejar de escribir parsers a mano. Buscar en internet el
+instrumental certificado que falte, instalarlo, probarlo, y rematar el ISO.
+
+**Resultado — el proyecto pasó de desensamblar a decompilar, y eso destrabó
+en la misma sesión un formato que llevaba días anotado como "falta
+entender".**
+
+### 1. Ghidra 12.1.2 + Emotion Engine Reloaded
+
+`mips.py` y `capstone` desensamblan; Ghidra devuelve **C**. Montaje completo en
+`docs/06-herramientas-externas.md`, puente en `herramientas/decompilar.py`
+(`info` / `c` / `funciones` / `xref`).
+
+**9842 funciones y 16514 símbolos** sobre un ELF que no trae tabla de
+símbolos. Y el mapa de memoria del EE completo —VU0/VU1, scratchpad,
+registros de GS— que coincide exactamente con la tabla de secciones que
+habíamos leído a mano en la entrada 23: dos fuentes independientes diciendo
+lo mismo.
+
+**Las dos trampas, las dos pagadas:**
+
+- **`Ghidra\Extensions\`, no `Extensions\Ghidra\`.** Las dos carpetas existen.
+  Descomprimir en la segunda deja la extensión instalada y no cargada. Es la
+  lección 7 otra vez, y lo que la detectó fue preguntar por el **efecto**
+  (¿aparece el lenguaje `r5900`?), no por el archivo.
+- **Sin `-processor`, Ghidra elige `MIPS:LE:64:64-32R6addr`** —MIPS Release 6,
+  otra ISA— y termina con `Analysis succeeded`, exit code 0, **1 función en
+  2,6 MB de código** y cero decompilación. Con
+  `-processor "r5900:LE:32:default"`, 9842. De ahí sale la lección 18.
+
+**Control positivo, y no es decorativo:** `decompilar.py info` decompila
+`0x00142B90` y busca el `100.0` de la Fase 4b. Eso es lo que delató el
+lenguaje equivocado las dos veces.
+
+### 2. El contenedor `.BIN`, resuelto leyendo el parser
+
+La cadena `GlobData.bin` (`0x003F2AD8`) tiene un solo xref de código:
+`FUN_00105858`, la máquina de estados de arranque, que pide el archivo con
+callback `0x00105D48`. **Ese callback no parsea: relocaliza.**
+
+```c
+*(int *)(base + 0x04) += base;   // y +0x08, +0x0C, +0x10, +0x14, +0x18
+```
+
+**Los u32 de la cabecera son offsets relativos que el cargador convierte en
+punteros absolutos en el lugar.** Por eso la hipótesis vieja de "tabla de
+offsets creciente" no cerraba: no es una tabla ordenada, es una cabecera de
+layout fijo donde cada ranura es una sección y no vienen en orden. El mismo
+mecanismo es recursivo hacia adentro, con la cantidad en `+0x00` (u8) y
+registros de paso fijo (`0x24` en una sección, `0x20` en otra).
+
+**Verificado con dos controles positivos que no se ajustaron para que
+dieran:**
+
+- La tabla de armas está en `GLOBDATA.BIN + 0x00130E20`, dirección conocida de
+  la entrada 23 por firma estructural. Según la cabecera recién decodificada
+  cae dentro de la sección de `0x00130C80`, a `+0x1A0`. Encaja.
+- En `STLEVEL.BIN`, la sección declarada en `0x80` arranca con los bytes de
+  `"bg1_shg"` — la tabla de nombres de entidades ya documentada.
+
+**No aplica a todos:** `LEVELDAT.BIN` da tres ranuras fuera de rango y
+`GUNS.BIN` tiene un tamaño en `+0x00` en vez de una cantidad. Usan otro
+layout, y el camino para sacarlo es el mismo.
+
+### 3. vgmstream r2117 — los `.AWD` están abiertos
+
+Es el parser certificado de audio de juegos y trae `RenderWare AWD header` de
+fábrica. **36 archivos, 1385 streams** catalogados con
+`herramientas/awd.py catalogo`.
+
+Lo valioso no es el audio: son **los nombres**. `STG_0001/AIWPNS.AWD` (*AI
+Weapons*) dice qué armas usa la IA en cada nivel, con los nombres en clave que
+les puso Criterion, que son **referencias a películas**: `WeWere` (*We Were
+Soldiers*), `BlackHd` (*Black Hawk Down*), `KarlDH` y `DieHard2` (*Die Hard*),
+`LKiss` (*The Long Kiss Goodnight*), `Rock`, `Commando`, `Navy`, `Alias`. Es
+una fuente de nombres **independiente del binario**, que es justo lo que le
+falta a los 17 registros de la tabla de armas.
+
+### 4. Evidencia de terceros que cruza con la nuestra
+
+El código público de vida infinita para `SLUS-21376` es
+**`205A8DA8 44960000`**: escribir el f32 `1200.0` en **`0x005A8DA8`**. Esa es
+exactamente el ancla que este proyecto confirmó por efecto en la Fase 1, por
+un camino totalmente distinto — y de paso fija el "lleno" en 1200.0, el mismo
+que aparece hardcodeado en el divisor del HUD.
+
+Tres pistas nuevas, ninguna verificada por nosotros:
+`2015515C 240303E7` = `addiu $v1,$zero,999` → lógica de **munición** en
+`0x0015515C`; `2015787C 00000000` = nop → **recarga** en `0x0015787C`;
+`205A8A9C 3C888889` = `1/60` → **delta de tiempo por frame** en `0x005A8A9C`.
+
+**No funcionó / se descartó:**
+
+- **PCSX2-MCP** (`hkmodd/PCSX2-MCP`): promete 30 herramientas de depuración por
+  MCP, pero exige bajar y correr un **`pcsx2-qt.exe` parcheado** de un repo de
+  18 estrellas. No se instaló: es un ejecutable sin firmar de un tercero sin
+  reputación, y encima toca justo la capa de depuración que ya sabemos que
+  corrompe el heap en el PCSX2 oficial. La decisión es de Fran, no de la
+  sesión.
+- **mcp-pine**: limpio y sin build modificado, pero sólo expone memoria y
+  savestates. `pine.py` ya hace todo eso y además vuelca 32 MB en 3 s.
+  Redundante.
+- **No existe script de QuickBMS ni plugin de Noesis para BLACK.** El hilo de
+  referencia (ResHax #514) es gente pidiendo lo mismo. El formato era nuestro
+  para resolver, y se resolvió.
+- Las bases de datos de cheats devuelven **403** a un fetch directo. Los
+  códigos se leyeron de resúmenes de búsqueda: van al `kb/` como transcripción,
+  no como cita verificada.
+
+**Sigue:** Fase 5a (el mod con pnach) y 5b. Para 5b el terreno cambió: ahora se
+lee el C del método virtual #8 en vez de 514 instrucciones, y ahí ya se ve que
+la zona entra como argumento propio (`param_4 & 0xff`, con `0xFF` = "sin
+zona") y que `[enemigo+0x26C]` tiene el arreglo de índices de hueso en `+0x0C`
+indexado por un byte de `+0x19` — el mismo arreglo que llena `resolver_huesos`.
+
+---
+
+## 2026-08-16 (23) — Barrido del ISO: la tabla de armas SÍ estaba adentro, y aparecieron los nombres de hueso
+
+**Máquina:** notebook (PCSX2 no hizo falta) · **Modelo:** Opus
+
+**Objetivo:** revisar el ISO buscando tablas y estructuras que no estuvieran
+fichadas. Reconocimiento, no confirmación: todo esto es análisis estático.
+
+**Resultado — cinco hallazgos, ordenados por lo que valen.**
+
+**1. La tabla de armas está en `GLOBDATA.BIN + 0x00130E20`.** 17 registros de
+`0x1E0`, el mismo conteo y el mismo paso que en RAM, con los bloques de
+parámetros en `+0x90` y `+0xC0`. El paso quedó verificado por dos anclas
+independientes: desde el primer registro, el Magnum cae exacto en `+2` y la
+HVY en `+10`. Habilita un mod **permanente** editando el ISO, sin `.pnach`.
+Ficha en `kb/estructuras.json#arma.origen_en_el_iso`, tabla completa en
+`docs/05-iso.md`. **`probable`, no `confirmado`**: nadie editó el archivo
+todavía ni vio el efecto.
+
+**Esto corrige un callejón que estaba anotado como cerrado.** `05-iso.md` decía
+"la tabla de armas NO está en el ISO". La prueba de entonces comparaba la
+**ventana de 96 bytes** alrededor del `26.0` de la RAM viva contra los
+archivos — y esa ventana arranca con tres punteros al heap, que en el archivo
+son offsets chicos. No podía coincidir nunca. Lo que la encontró fue buscar por
+**firma estructural**: los tripletes `(Range, Power, falloff)` de los perfiles
+ya medidos, que son invariantes entre archivo y RAM. De ahí sale la lección 17.
+
+**2. Los nombres de hueso, y la función que los resuelve.** En `0x003BCE70`,
+dirección fija de `.data`, hay un `const char*[11]`: `NECK`, `MIDSPINE`,
+`LOWERSPINE`, `SHOULDER_LT/RT`, `ELBOW_LT/RT`, `UPPERLEG_LT/RT`, `KNEE_LT/RT`.
+Los consume un solo sitio, `0x001381E0`, que al construir un personaje los
+resuelve a índices y los cachea en `personaje+0x0C..+0x38`. Su ayudante
+`0x00138298` expone el layout del esqueleto: `+0x5C` cantidad de huesos,
+`+0x60` arreglo de nombres.
+
+Es la entrada barata a la **Fase 5b**, pero **no es la respuesta**: son 11
+nombres contra 24 registros de `0xC` en la tabla de zonas, y faltan cabeza,
+pelvis, manos y pies. Que zona == índice de hueso es hipótesis.
+
+**3. El ELF tiene tabla de secciones con nombres reales.** El mapa que traía
+el documento era una estimación por histograma; ahora está el declarado:
+`.data` en `0x003BC380`, `.rodata` en `0x003F2280`, `.lit4` en `0x0040D800`,
+`.sdata`/`.sbss`/`.bss`. Y **`$gp = 0x004157F0`**, de la sección `.reginfo`.
+
+**4. `$gp` explica un agujero de método.** Hay **3051 accesos con base `$gp`**
+en **561 offsets distintos**. Ninguno de esos 561 globales aparece jamás en una
+búsqueda de `lui`+`addiu`. Si `xref.py absoluto` da NADA para algo entre
+`0x0040D7F0` y `0x0041D7F0`, la hipótesis buena es `$gp`, no "es un campo de un
+objeto".
+
+**5. El middleware de IA es Kynapse (Kynogon), y viene con los nombres
+puestos.** `.rodata` trae nombres de tipo de C++ sin demanglear del namespace
+`Kaim` y, al lado de cada clase, **los nombres de sus parámetros**:
+`CShooterAgent` declara `GunRange`, `MaxInaccuracy`, `DangerousConeAngle`,
+`AimAtTargetInterval`. Ahí empieza el hilo de "enemigos que erran más", no en
+la tabla de armas. También aparecen completos los esquemas de `Collision.cfg`,
+`AIWeapon.cfg` y `DSP.cfg`, cuyos archivos no están en el ISO.
+
+**Herramientas.** Nueva: **`herramientas/tablas.py`** — `esquemas` (racimos de
+cadenas contiguas = nombres de campo), `punteros` (corridas de punteros a
+cadena = tablas de nombres), `flotantes`, `vecinos`. Va al revés que las otras:
+no parte de un dato conocido, barre buscando forma de tabla. `--base 0xFF000`
+para el ELF, `0` para un volcado.
+
+**Arreglo en `xref.py`:** el `--radio` de `absoluto` era 8 y daba **falsos
+NADA**. El par que arma `0x003BCE70` tiene el `lui` en `0x001381E4` y el
+`addiu` en `0x00138208`, **nueve** instrucciones después. Subido a 16 y
+verificado: ahora encuentra el sitio. Las 102 comprobaciones de
+`pruebas/prueba_herramientas.py` siguen en verde.
+
+**No funcionó:**
+
+- Buscar la tabla de zonas de impacto en el ISO por el float `0.255`: no está.
+  Coherente con que sea por tipo de personaje y se arme al cargar el stage.
+- `tablas.py punteros` sobre el archivo entero devuelve 106 corridas y la mitad
+  es ruido de `.rodata` apuntándose a sí misma. Hay que acotar con
+  `--desde`/`--hasta` a `.data`.
+- La cabecera del contenedor con alineación 128 sigue sin entenderse. No se
+  avanzó y no se insistió.
+
+**Nada de esto está confirmado por efecto.** Es reconocimiento estático: dice
+dónde mirar, no qué es verdad. El único que cambia el plan es el punto 1.
+
+**Sigue:** Fase 5a (el mod con pnach, ya decidido) y después 5b. Con lo de hoy,
+5b arranca con dos entradas concretas en vez de una: los índices de hueso
+cacheados en `personaje+0x0C`, y volcar en vivo `[[enemigo]+0x5C]` y
+`[[enemigo]+0x60]` para ver si el esqueleto tiene 24 huesos o 11.
+
+---
+
 ## 2026-08-16 (22) — FASE 4b CERRADA: el daño de salida del jugador sale de las ZONAS DE IMPACTO
 
 **Máquina:** notebook · **Modelo:** Opus

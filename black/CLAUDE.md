@@ -14,6 +14,7 @@ Es el índice, no el manual: leelo entero, y de ahí saltá a lo que haga falta.
 | configurar una máquina desde cero | `docs/01-entorno.md` |
 | planificar, priorizar, decidir qué sigue | `docs/04-plan.md` |
 | tocar el ISO, un formato de archivo, o el ELF | `docs/05-iso.md` |
+| montar Ghidra, vgmstream, o algo de terceros | `docs/06-herramientas-externas.md` |
 | leer desensamblado del EE | `docs/90-glosario-ee.md` |
 | escribir o compilar un mod | `mods/ejemplo-plantilla.toml` + `herramientas/pnach.py --help` |
 
@@ -64,10 +65,16 @@ Todas tienen `--help` y se corren desde `black/`.
 | `xref.py` | quién toca un dato: referencias cruzadas en frío sobre un volcado. **Probalo antes de abrir el debugger** |
 | `vigilar.py` | series temporales. Contesta "¿cada cuánto?" y "¿de a cuánto?" |
 | `mips.py` | ensamblar/desensamblar R5900. **No decodifica FPU** — para eso, `capstone` (ver `docs/05-iso.md`) |
+| `decompilar.py` | **Ghidra desde Python: el ELF en C.** Correr `info` primero — trae el control positivo |
+| `tablas.py` | buscar tablas en frío sobre el ELF o un volcado, sin partir de un dato conocido |
+| `lbas.py` | la tabla de LBAs del ISO, y buscarlos en un binario **con control positivo y piso de ruido**. Con eso se cerró 6.1 |
+| `parche_iso.py` | **el mod permanente**: editar un archivo adentro del ISO, in-place, sin reconstruirlo. `preparar` / `armas` / `verificar` |
+| `awd.py` | los `.AWD` de audio vía vgmstream. Ahí están los nombres que puso Criterion |
 | `clases.py` | clases de entidad por vtable: qué objetos hay de cada clase y cuál es su rutina de daño |
 | `estado.py` | leer `eeMemory.bin` de un savestate |
 | `pnach.py` | compilar `mods/*.toml` al `.pnach` que carga PCSX2 |
 | `fijar_objetivo.py` | confirma serial/CRC contra PCSX2 y actualiza `kb/objetivo.json` solo |
+| `aprender.py` | **autoaprendizaje**: registra y lista las lecciones de proceso. `digesto` es lo que se lee al abrir sesión |
 | `windows/preparar_entorno.ps1` | Windows: automatiza el checkpoint 0 completo (pide UAC) |
 
 `salida.py` está en la misma carpeta pero **no es un comando**: es la
@@ -97,10 +104,35 @@ alcance, decilo en vez de simular resultados.
 
 Cambiá de modelo con `/model`. Fable queda fuera (consume créditos aparte).
 
+## Autoaprendizaje — se corre solo, no se pregunta
+
+**Al abrir no hay que hacer nada:** el hook `SessionStart` del perfil global
+inyecta `chequeo-de-trabajo.md`, la síntesis de las 31 lecciones. Si hace
+falta el listado completo:
+`python ../perfil-global/herramientas/aprender.py digesto`.
+
+Al cerrar, si algo falló **por cómo se trabajó** y no por lo que decía el
+código, se registra en el **registro global**, no en el del proyecto:
+
+```
+python ../perfil-global/herramientas/aprender.py agregar --proyecto black \
+    --grupo evidencia|busqueda|medicion|herramientas|proceso|entorno \
+    --titulo ... --costo ... --sintoma ... --regla ...
+```
+
+El síntoma se escribe como se veía **antes** de entenderlo, que es la única
+forma de reconocerlo la próxima vez.
+
+`herramientas/aprender.py` y `kb/aprendizaje.jsonl` quedan **deprecados**: sus
+5 lecciones ya están migradas al registro global. Escribir ahí crearía una
+segunda fuente de verdad. Ver lección 25 de `/lecciones-aprendidas`.
+
 ## Al cerrar cualquier sesión
 
 1. Actualizar `kb/` con lo que se haya averiguado.
 2. Agregar una entrada arriba de todo en `docs/03-bitacora.md`.
-3. Commit y push a `claude/black-game-reverse-engineering-ricv3t`.
+3. Registrar las lecciones de proceso con `aprender.py agregar`.
+4. Actualizar `ESTADO_ACTUAL.md` y `sesiones/HANDOFF.md`.
+5. Commit y push a `claude/black-game-reverse-engineering-ricv3t`.
 
-Sin esos tres pasos, la próxima sesión arranca de cero.
+Sin esos pasos, la próxima sesión arranca de cero.

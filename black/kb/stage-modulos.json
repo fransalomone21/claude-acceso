@@ -1,0 +1,995 @@
+{
+  "_que_es": "El INDICE DE MODULOS del archivo de nivel de BLACK. FUN_0015ef48 (0x0015EF48-0x0015FDBF) recorre un stream de registros y hace switch sobre el tipo: 61 casos, 0x03 a 0x44. Cada tipo llama a UN constructor. Este switch ES el esquema del archivo de nivel: una rama por tipo de modulo.",
+  "_layout_del_registro": "VERIFICADO CONTRA DATOS 2026-08-23 (antes era solo lectura). Paso 0x10: {u32 tipo en +0x00, u32 ptr al BLOB DE DATOS del modulo en +0x04, u64 ID64 DEL NOMBRE en +0x08}. CORRECCION: el u64 de +0x08 NO es una posicion -- es el id64 del nombre del modulo, y decodifica con herramientas/id64.py a nombres reales (GP0101001527, LW0001781, SQTOM, SD0101000007, FX0101000004, WD0101000012). El blob de +0x04 es de TAMANO VARIABLE y los blobs de todos los registros TESELAN la region entre el descriptor y el array, sin solaparse y en orden ascendente estricto.",
+  "_lista": "param_2 de FUN_0015ef48 = {u32 count en +0x00, u32 array en +0x04}. CONFIRMADO en la decompilacion (if (0 < *piVar12) { iVar4 = piVar12[1]; puVar8 = iVar4 + iVar9*0x10; switch(*puVar8) }) Y contra datos. Quien lo arma es FUN_0012dab8 (0x0012DAB8), que llama FUN_0015ef48(piVar4+0x10, *(u32*)(piVar4[4]+4), piVar4[1], *(u8*)(piVar4+0x39)) -- o sea param_2 sale de una DOBLE INDIRECCION, no de piVar4 directo. piVar4 es un sub-struct de base+0x4990 / base+0x5210: dos slots de 0x880 que alternan (el cargador esta doble-buffereado), con el tag 0x1C en +0x00.",
+  "_param_1": "El primer parametro trae arrays de handles por tipo (piVar10[2], [4], [5], [9], ...), y el dispatcher lleva un contador propio por familia de tipos (iVar14, iStack_e8, iStack_dc, iStack_e4, iStack_e0, ...). O sea: la salida de cada tipo va a su propio array.",
+  "_como_se_identifica_un_tipo": "1) decompilar su handler y ver que construye; 2) cruzar contra el nivel real: STLEVEL.BIN de LEVEL_00 esta cargado literal en 0x01412400 dentro de volcados/ee-e4.bin; 3) si el payload de +0x08 es un id64, decodificarlo con herramientas/id64.py -- el tipo 0x2D da nombres LW0001xxx. UN TIPO NO SE DA POR IDENTIFICADO HASTA VERIFICARLO POR EFECTO.",
+  "_evidencia": "2026-08-23. El switch se leyo en Ghidra sobre SLUS_213.76. El LAYOUT y la INSTANCIA se MIDIERON sobre volcados/ee-e4.bin. Los nombres se decodificaron con herramientas/id64.py (autotest 13 casos). Ningun tipo esta verificado POR EFECTO todavia: el 0x0A viene confirmado por otra via de la fase 7d.",
+  "_fase": "7e. Paso 1 (verificar el layout contra datos) CERRADO. Falta: identificar los 61 tipos, y verificar al menos UNO distinto del 0x0A por efecto.",
+  "tipos": [
+    {
+      "tipo": "0x03",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": "FUN_00174430 hace su propio switch(*param_3) con los casos 3..9 juntos y usa *(int*)(param_3+4) -- o sea deferencia el BLOB de +0x04. Confirma el layout desde un handler distinto del case 0x0A.",
+      "instancias_level_00": 64,
+      "tam_blob": "96x16,112x32,128x13,144x3",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002283",
+        "GP0101002284",
+        "GP0101002400",
+        "GP0101002401"
+      ]
+    },
+    {
+      "tipo": "0x04",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": "FUN_00174430 hace su propio switch(*param_3) con los casos 3..9 juntos y usa *(int*)(param_3+4) -- o sea deferencia el BLOB de +0x04. Confirma el layout desde un handler distinto del case 0x0A.",
+      "instancias_level_00": 7,
+      "tam_blob": "96x1,112x6",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001739",
+        "GP0101001875",
+        "GP0101002646",
+        "GP0101002649"
+      ]
+    },
+    {
+      "tipo": "0x05",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": "FUN_00174430 hace su propio switch(*param_3) con los casos 3..9 juntos y usa *(int*)(param_3+4) -- o sea deferencia el BLOB de +0x04. Confirma el layout desde un handler distinto del case 0x0A.",
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x06",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": "FUN_00174430 hace su propio switch(*param_3) con los casos 3..9 juntos y usa *(int*)(param_3+4) -- o sea deferencia el BLOB de +0x04. Confirma el layout desde un handler distinto del case 0x0A.",
+      "instancias_level_00": 2,
+      "tam_blob": "128x1,144x1",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001751",
+        "GP0101002611"
+      ]
+    },
+    {
+      "tipo": "0x07",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": "FUN_00174430 hace su propio switch(*param_3) con los casos 3..9 juntos y usa *(int*)(param_3+4) -- o sea deferencia el BLOB de +0x04. Confirma el layout desde un handler distinto del case 0x0A.",
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x08",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": true,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": "FUN_00174430 hace su propio switch(*param_3) con los casos 3..9 juntos y usa *(int*)(param_3+4) -- o sea deferencia el BLOB de +0x04. Confirma el layout desde un handler distinto del case 0x0A.",
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x09",
+      "handler": "FUN_00174430",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": "FUN_00174430 hace su propio switch(*param_3) con los casos 3..9 juntos y usa *(int*)(param_3+4) -- o sea deferencia el BLOB de +0x04. Confirma el layout desde un handler distinto del case 0x0A.",
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x0A",
+      "handler": "FUN_00138c40",
+      "handler_extra": [
+        "FUN_00138df8"
+      ],
+      "fall_through": false,
+      "nombre": "spawn de personaje",
+      "confianza": "confirmado",
+      "notas": "Lleva el id64 de BG1_AK1 (0x5446127297C60000) LITERAL. Llama a FUN_00138c40 y FUN_00138df8 -> FUN_001327f0 -> FUN_0015cef0. Es el camino por el que se arman los cinco enemigos de LEVEL_00. Punto de parche de 8 bytes para cambiarles el arma.",
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x0B",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 60,
+      "tam_blob": "80x7,96x36,112x14,128x2,144x1",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP,WD",
+      "muestra_nombres": [
+        "GP0101001532",
+        "GP0101001563",
+        "GP0101001580",
+        "GP0101001581"
+      ]
+    },
+    {
+      "tipo": "0x0C",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x0F",
+      "handler": "FUN_001650f8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 21,
+      "tam_blob": "16x1,32x18,48x1,80x1",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001628",
+        "GP0101001727",
+        "GP0101001888",
+        "GP0101001931"
+      ]
+    },
+    {
+      "tipo": "0x10",
+      "handler": "FUN_00165210",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 57,
+      "tam_blob": "32x54,48x1,80x2",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001807",
+        "GP0101002110",
+        "GP0101002178",
+        "GP0101002557"
+      ]
+    },
+    {
+      "tipo": "0x11",
+      "handler": "FUN_00165330",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 33,
+      "tam_blob": "16x1,32x24,48x4,64x1,80x2,96x1",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001595",
+        "GP0101001603",
+        "GP0101001710",
+        "GP0101001719"
+      ]
+    },
+    {
+      "tipo": "0x12",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x13",
+      "handler": "FUN_001621a8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 6,
+      "tam_blob": "48x4,64x2",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002027",
+        "GP0101002187",
+        "GP0101002188",
+        "GP0101002189"
+      ]
+    },
+    {
+      "tipo": "0x14",
+      "handler": "FUN_00162600",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 2,
+      "tam_blob": "48",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001753",
+        "GP0101002614"
+      ]
+    },
+    {
+      "tipo": "0x15",
+      "handler": "FUN_00160f60",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 35,
+      "tam_blob": "80x34,96x1",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101000982",
+        "GP0101001693",
+        "GP0101001694",
+        "GP0101001712"
+      ]
+    },
+    {
+      "tipo": "0x16",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x17",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x18",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 2,
+      "tam_blob": "48",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002571",
+        "GP0101002862"
+      ]
+    },
+    {
+      "tipo": "0x19",
+      "handler": "FUN_00161940",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 10,
+      "tam_blob": "32x9,96x1",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001720",
+        "GP0101002286",
+        "GP0101002287",
+        "GP0101002581"
+      ]
+    },
+    {
+      "tipo": "0x1A",
+      "handler": "FUN_00161af0",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 2,
+      "tam_blob": "32",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002527",
+        "GP0101002528"
+      ]
+    },
+    {
+      "tipo": "0x1B",
+      "handler": "FUN_00161ef0",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 37,
+      "tam_blob": "32x1,48x35,64x1",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001620",
+        "GP0101001893",
+        "GP0101001899",
+        "GP0101001950"
+      ]
+    },
+    {
+      "tipo": "0x1C",
+      "handler": "FUN_001615a8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 17,
+      "tam_blob": "16",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001261",
+        "GP0101001262",
+        "GP0101001263",
+        "GP0101001276"
+      ]
+    },
+    {
+      "tipo": "0x1D",
+      "handler": "FUN_001631b0",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 6,
+      "tam_blob": "16",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002526",
+        "GP0101002556",
+        "GP0101002559",
+        "GP0101002560"
+      ]
+    },
+    {
+      "tipo": "0x1E",
+      "handler": "FUN_00161730",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 4,
+      "tam_blob": "160x2,176x1,192x1",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001500",
+        "GP0101001501",
+        "GP0101001504",
+        "GP0101001514"
+      ]
+    },
+    {
+      "tipo": "0x1F",
+      "handler": "FUN_00161418",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 1,
+      "tam_blob": "32",
+      "tam_blob_fijo": true,
+      "familia_nombre": "WD",
+      "muestra_nombres": [
+        "WD0101000012"
+      ]
+    },
+    {
+      "tipo": "0x20",
+      "handler": "FUN_001614e8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 1,
+      "tam_blob": "32",
+      "tam_blob_fijo": true,
+      "familia_nombre": "WD",
+      "muestra_nombres": [
+        "WD0101000010"
+      ]
+    },
+    {
+      "tipo": "0x22",
+      "handler": "FUN_00161660",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x23",
+      "handler": "FUN_00163250",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 2,
+      "tam_blob": "48",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001848",
+        "GP0101001849"
+      ]
+    },
+    {
+      "tipo": "0x25",
+      "handler": "FUN_00162758",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x26",
+      "handler": "FUN_001628e8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x27",
+      "handler": "FUN_00162a60",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x28",
+      "handler": "FUN_00162f28",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x29",
+      "handler": "FUN_00162d10",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 3,
+      "tam_blob": "48",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002512",
+        "GP0101002617",
+        "GP0101002623"
+      ]
+    },
+    {
+      "tipo": "0x2A",
+      "handler": "FUN_0016acb8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 4,
+      "tam_blob": "16x1,32x3",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002414",
+        "GP0101002582",
+        "GP0101002608",
+        "GP0101002850"
+      ]
+    },
+    {
+      "tipo": "0x2B",
+      "handler": "FUN_0014ec10",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 9,
+      "tam_blob": "32",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101000004",
+        "GP0101000007",
+        "GP0101000009",
+        "GP0101000010"
+      ]
+    },
+    {
+      "tipo": "0x2C",
+      "handler": "FUN_00126710",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 41,
+      "tam_blob": "96x33,112x8",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001207",
+        "GP0101001208",
+        "GP0101001209",
+        "GP0101001216"
+      ]
+    },
+    {
+      "tipo": "0x2D",
+      "handler": "FUN_00175980",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": "objeto de fisica registrado en el pathfinding",
+      "confianza": "probable",
+      "notas": "Su handler FUN_00175980 referencia 0x003F54A0: 'Message to Level Designer / Physics object %s tagged for Pathfinding collision has been removed without reexporting the world view'. 256 instancias en LEVEL_00, blob de 32 B (242) o 48 B (14), nombres LW0001xxx. EVIDENCIA DE LECTURA (cadena en el handler), NO de efecto.",
+      "instancias_level_00": 256,
+      "tam_blob": "32x242,48x14",
+      "tam_blob_fijo": false,
+      "familia_nombre": "LW",
+      "muestra_nombres": [
+        "LW0001781",
+        "LW0001782",
+        "LW0001783",
+        "LW0001324"
+      ]
+    },
+    {
+      "tipo": "0x2E",
+      "handler": "FUN_00164e50",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 5,
+      "tam_blob": "48",
+      "tam_blob_fijo": true,
+      "familia_nombre": "SD",
+      "muestra_nombres": [
+        "SD0101000001",
+        "SD0101000035",
+        "SD0101000036",
+        "SD0101000037"
+      ]
+    },
+    {
+      "tipo": "0x2F",
+      "handler": "FUN_001dc690",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 1,
+      "tam_blob": "64",
+      "tam_blob_fijo": true,
+      "familia_nombre": "SD",
+      "muestra_nombres": [
+        "SD0101000025"
+      ]
+    },
+    {
+      "tipo": "0x30",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 14,
+      "tam_blob": "192",
+      "tam_blob_fijo": true,
+      "familia_nombre": "SD",
+      "muestra_nombres": [
+        "SD0101000007",
+        "SD0101000008",
+        "SD0101000009",
+        "SD0101000010"
+      ]
+    },
+    {
+      "tipo": "0x31",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x32",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 20,
+      "tam_blob": "96",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002782",
+        "GP0101002789",
+        "GP0101002791",
+        "GP0101002793"
+      ]
+    },
+    {
+      "tipo": "0x34",
+      "handler": "FUN_001835b8",
+      "handler_extra": [
+        "FUN_001836a8"
+      ],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 5,
+      "tam_blob": "48x4,64x1",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001976",
+        "GP0101001977",
+        "GP0101001980",
+        "GP0101001981"
+      ]
+    },
+    {
+      "tipo": "0x35",
+      "handler": "FUN_00107cf8",
+      "handler_extra": [
+        "FUN_00174858",
+        "FUN_0017bdc0"
+      ],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x36",
+      "handler": "FUN_00161d78",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x37",
+      "handler": "FUN_00174d48",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 65,
+      "tam_blob": "80x56,96x9",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001525",
+        "GP0101001527",
+        "GP0101001573",
+        "GP0101001579"
+      ]
+    },
+    {
+      "tipo": "0x38",
+      "handler": "FUN_00174df0",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 3,
+      "tam_blob": "48",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002669",
+        "GP0101002673",
+        "GP0101002770"
+      ]
+    },
+    {
+      "tipo": "0x39",
+      "handler": "FUN_001750e8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 1,
+      "tam_blob": "64",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002577"
+      ]
+    },
+    {
+      "tipo": "0x3A",
+      "handler": "FUN_00175250",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 41,
+      "tam_blob": "48x14,64x27",
+      "tam_blob_fijo": false,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101002070",
+        "GP0101002071",
+        "GP0101002072",
+        "GP0101002089"
+      ]
+    },
+    {
+      "tipo": "0x3B",
+      "handler": "FUN_001752f8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 2,
+      "tam_blob": "160",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001752",
+        "GP0101002612"
+      ]
+    },
+    {
+      "tipo": "0x3C",
+      "handler": "FUN_001753b8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x3D",
+      "handler": "FUN_00175460",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 6,
+      "tam_blob": "48",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001686",
+        "GP0101002393",
+        "GP0101002503",
+        "GP0101002605"
+      ]
+    },
+    {
+      "tipo": "0x3E",
+      "handler": "FUN_00175520",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x3F",
+      "handler": "FUN_001755c8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x40",
+      "handler": "FUN_00175668",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x41",
+      "handler": "FUN_00153b60",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x42",
+      "handler": "FUN_001630e8",
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 0
+    },
+    {
+      "tipo": "0x43",
+      "handler": null,
+      "handler_extra": [],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 6,
+      "tam_blob": "80",
+      "tam_blob_fijo": true,
+      "familia_nombre": "WD",
+      "muestra_nombres": [
+        "WD0101000095",
+        "WD0101000096",
+        "WD0101000097",
+        "WD0101000100"
+      ]
+    },
+    {
+      "tipo": "0x44",
+      "handler": "FUN_00163e08",
+      "handler_extra": [
+        "FUN_00166d50",
+        "FUN_00166c30",
+        "FUN_00166c60",
+        "FUN_00166c90",
+        "FUN_00166cc0",
+        "FUN_00166cf0",
+        "FUN_00166d20",
+        "FUN_00166d80",
+        "FUN_00166db0",
+        "FUN_00166de0",
+        "FUN_00166e10",
+        "FUN_00166c00",
+        "FUN_00166e40",
+        "FUN_00166e70",
+        "FUN_00166ea0",
+        "FUN_00166ed0",
+        "FUN_00166f00",
+        "FUN_00166f30",
+        "FUN_00176fb0",
+        "FUN_00167208",
+        "FUN_001604a0"
+      ],
+      "fall_through": false,
+      "nombre": null,
+      "confianza": "sin identificar",
+      "notas": null,
+      "instancias_level_00": 3,
+      "tam_blob": "32",
+      "tam_blob_fijo": true,
+      "familia_nombre": "GP",
+      "muestra_nombres": [
+        "GP0101001982",
+        "GP0101002270",
+        "GP0101002578"
+      ]
+    }
+  ],
+  "_instancia_medida": {
+    "volcado": "volcados/ee-e4.bin (LEVEL_00)",
+    "descriptor": "0x01092800",
+    "count": 857,
+    "array": "0x0109F590",
+    "rango_del_array": "0x0109F590-0x010A2B20",
+    "rango_de_los_blobs": "0x010928B0-0x0109F590",
+    "control_positivo": "DOS derivaciones independientes dan 857: el count leido del descriptor, y el largo del array derivado por monotonia del puntero de +0x04 sin mirar el descriptor. Ademas los blobs teselan 0x010928B0-0x0109F540 y el array arranca 80 bytes despues, en 0x0109F590.",
+    "es_el_unico": "Barriendo los 32 MB, el criterio {count,array} + tipo<=0x44 + puntero ESTRICTAMENTE ascendente da 3 candidatos y solo este tiene tipos reales (los otros dos son todos tipo 0x00). Sin la monotonia del puntero da 41: ESA es la condicion que discrimina, no el rango del tipo.",
+    "tipo_0x0A_presente": 0,
+    "nota_0x0A": "CERO registros de tipo 0x0A en este stream, y LEVEL_00 tiene cinco enemigos. O los enemigos no salen de este stream, o hay un segundo stream que ya se libero. PREGUNTA ABIERTA -- no dar por sentado que el 0x0A viene por aca.",
+    "tipos_fuera_del_switch": "Los tipos 0x01 (SQTOM) y 0x02 (SQMATT) APARECEN en el stream pero estan por debajo de 0x03, o sea que caen en el default del switch: el stream lleva registros que este dispatcher no despacha."
+  },
+  "_herramientas": {
+    "stream_modulos.py": "encuentra y lee el stream. `buscar` / `resumen <desc>` / `listar <desc> --tipo 0xNN` / `autotest`. Autotest con 5 casos y 2 sabotajes, PROBADO EN ROJO.",
+    "tipos_modulo.py": "nombra handlers por las cadenas de .rodata que referencian. `cadenas <addr>` / `barrer` / `autotest`. Autotest con 1 caso y 3 sabotajes, PROBADO EN ROJO. Rinde poco: la mayoria de los handlers no tienen cadena."
+  },
+  "_tipos_en_datos_sin_entrada": [
+    "0x01",
+    "0x02",
+    "0x33"
+  ],
+  "_familias_de_nombre": {
+    "GP": "GP01010xxxxx -- la familia mayoritaria del nivel",
+    "LW": "LW0001xxx",
+    "SD": "SD0101xxxxx -- familia de SONIDO (hipotesis por el prefijo)",
+    "WD": "WD0101xxxxx",
+    "FX": "FX0101000004 -- efecto (hipotesis por el prefijo)",
+    "SQ": "SQTOM / SQMATT -- ESCUADRA. Cruza con la tabla de 7 punteros de 0x003BD3F8 (None/Low/Mid/High/Matt/Tom/Carrie) hallada por otra via."
+  }
+}

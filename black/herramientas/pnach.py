@@ -161,7 +161,8 @@ def carpeta_cheats() -> str | None:
 def leer_objetivo() -> dict:
     import json
     ruta = os.path.join(KB, "objetivo.json")
-    with open(ruta) as f:
+    # encoding EXPLÍCITO: el kb tiene acentos y Windows abre en cp1252.
+    with open(ruta, encoding="utf-8") as f:
         obj = json.load(f)
     activa = obj.get("version_activa")
     if not activa:
@@ -289,7 +290,7 @@ def cmd_compilar(args) -> int:
 
     os.makedirs(SALIDA, exist_ok=True)
     destino = os.path.join(SALIDA, nombre_archivo)
-    with open(destino, "w") as f:
+    with open(destino, "w", encoding="utf-8") as f:
         f.write(texto)
 
     print(f"{destino}")

@@ -76,11 +76,22 @@ ESCALA = 100.0         # el `lui $at,0x42C8` de 0x00142CA0
 OFF_COMPONENTE = 0x328
 OFF_PERSONAJE = 0x3C
 
-# Pool de enemigos confirmado en la Fase 3 (kb/estructuras.json#enemigo)
-POOL_ENEMIGOS, PASO_ENEMIGO, N_ENEMIGOS = 0x0058FE90, 0x3C0, 32
+# El pool de enemigos se busca por PUNTERO DE CLASE, como clases.py, que es lo
+# que la docstring de arriba ya prometía. Tenerlo hardcodeado hacía que un
+# cambio de dirección se viera como "no se encontró ninguna tabla" — un falso
+# negativo con forma de resultado.
+#
+# Para el registro: la dirección 0x0058FE90 que estaba acá era CORRECTA, y en
+# la sesión del 2026-08-17 pareció haberse movido a 0x0048FE90 por un error de
+# medición, no del juego: el volcado se había hecho con
+# `pine.py volcar 0x00100000 ...` y estas herramientas asumen que el byte 0 del
+# archivo es la dirección 0. Todo se veía 0x100000 más abajo. VOLCAR DESDE 0.
+CLASE_ENEMIGO = 0x003DCA78   # kb/estructuras.json#enemigo
+OFF_VTABLE = 0x10            # el puntero de clase vive en objeto+0x10, no en +0x00
+PASO_ENEMIGO = 0x3C0
+DESDE_HEAP = 0x00400000
 
 RAM_INI, RAM_FIN = 0x00080000, 0x02000000
-
 
 def _f32(d, a):
     return struct.unpack_from("<f", d, a)[0]
@@ -94,6 +105,24 @@ def _en_ram(a):
     return RAM_INI <= a < RAM_FIN
 
 
+def bases_de_enemigos(d) -> list[int]:
+    """Bases de los objetos de la clase enemigo, por puntero de clase en +0x10.
+
+    Devuelve lo que haya: si el volcado no es de adentro de un nivel, devuelve
+    una lista vacía y quien llame lo dirá con esas palabras, en vez de echarle
+    la culpa a la cadena de punteros."""
+    pat = struct.pack("<I", CLASE_ENEMIGO)
+    bases, i = [], DESDE_HEAP
+    while True:
+        i = d.find(pat, i)
+        if i < 0:
+            break
+        if i % 4 == 0:
+            bases.append(i - OFF_VTABLE)
+        i += 4
+    return bases
+
+
 def buscar_tablas(d):
     """{base: [indices de enemigos que la usan]} siguiendo la cadena real.
 
@@ -101,9 +130,8 @@ def buscar_tablas(d):
     tienen personaje cargado, y escribirles no prueba nada.
     """
     tablas = {}
-    for i in range(N_ENEMIGOS):
-        v = POOL_ENEMIGOS + i * PASO_ENEMIGO
-        if v + 0x400 >= len(d):
+    for i, v in enumerate(bases_de_enemigos(d)):
+        if v < 0 or v + 0x400 >= len(d):
             continue
         p = _u32(d, v + OFF_COMPONENTE)
         if not _en_ram(p):
