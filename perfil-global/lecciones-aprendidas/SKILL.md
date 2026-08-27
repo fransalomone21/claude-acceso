@@ -440,6 +440,37 @@ observador **no vio suceder** —un contador que bajó, un objeto que apareció
 muerto— eso es un estado final, no un efecto observado. La causa quedó
 inferida. Anotalo como lo que es.
 
+## 17. Una referencia cruzada de texto plano no la valida el compilador
+
+Cuando un documento con headings auto-numerados (Typst, LaTeX con `\ref`
+manual, Markdown con anclas a mano) usa referencias tipo "§X.Y" escritas como
+texto literal en vez del mecanismo nativo de referencias, el compilador no
+tiene forma de saber si "§X.Y" apunta a donde realmente quedó esa sección
+— es una cadena de texto como cualquier otra, sintácticamente válida aunque
+esté completamente mal.
+
+**Origen:** al agregar una Parte 4 a un apunte en Typst con
+`#set heading(numbering: "1.1")`, se escribieron referencias cruzadas nuevas
+tipo "(ver §4.2)" contando mentalmente qué lugar ocupaba cada parte del
+documento. Resultó que el documento entero —desde antes de esta sesión— ya
+tenía el mismo error: todo conteo mental había empezado desde la primera
+sección de contenido e ignorado el primer heading real ("Cómo leer este
+resumen"), así que cada referencia estaba corrida en −1 contra el número que
+Typst realmente asignaba. Compiló limpio las dos veces; el error sólo
+apareció al renderizar páginas y leer el índice generado contra el texto de
+cada referencia — el paso de verificación visual que la skill `pdf-con-codigo`
+ya exige, pero que hasta ahora no incluía este chequeo puntual.
+
+**Cómo aplicarla:** en cualquier documento con numeración automática y
+referencias de texto plano, antes de cerrar la verificación visual, grepear
+todas las referencias (`§\d+\.\d+` o el patrón que use el documento) y
+cruzarlas una por una contra los números reales que aparecen en el índice
+renderizado — no contra lo que uno cree que le tocaba a cada sección. Si el
+lenguaje lo permite, preferir el mecanismo nativo de referencias
+(`<etiqueta>` + `@etiqueta` en Typst, `\label`+`\ref` en LaTeX) precisamente
+porque ahí el compilador sí resuelve el número solo; el chequeo manual queda
+sólo para documentos que ya vienen con la convención de texto plano.
+
 ## Protocolo para agregar una lección
 
 Una entrada nueva entra sólo si cumple las tres:

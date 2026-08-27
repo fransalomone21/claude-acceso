@@ -146,6 +146,14 @@ agarra lo que el compilador no puede ver.
   de desbordar el margen.
 - Cajas de alerta o callouts con color de fondo: contraste de texto legible,
   y que el bloque no se parta feo justo en un salto de página.
+- **Referencias cruzadas de texto plano** (`§X.Y` u otro patrón manual, no el
+  `<etiqueta>`/`@etiqueta` nativo de Typst): el compilador no las valida —son
+  strings comunes. Si un heading se agrega, se borra o se reordena, cada
+  referencia manual puede quedar apuntando a un número que ya no es el que
+  Typst renderizó. Antes de cerrar, grepear todas las ocurrencias del patrón
+  y cruzarlas contra el índice/outline real, sección por sección — no contra
+  el conteo mental de qué parte ocupa cada una (ver lección 17 de
+  `/lecciones-aprendidas`).
 
 ## Gráficos y plots
 
