@@ -4,6 +4,58 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+---
+
+## AÑADIDO 2026-08-28 — dos hallazgos que cambian el plan de 7e
+
+**(A) El stream de módulos está EN EL ISO, y es direccionable.** Medido en
+frío, con piso de ruido. Sale de
+`/LEVELS/LEVEL_00/STG_0001/STUNIT01.BIN` — **LBA 1056910, 326.432 B**, que se
+carga en **`0x01053000`**.
+
+| medición | resultado |
+|---|---|
+| disco vs RAM (`ee-e4.bin`), base correcta | **98,46 %** |
+| piso de ruido, 6 bases equivocadas (±0x10/0x1000/0x8000) | 10,6 % – 36,1 % |
+| `tipo` idéntico disco/RAM | **857/857** |
+| `id64` del nombre idéntico disco/RAM | **857/857** |
+| `count` leído en **disco**, offset `0x3F800` | **857** |
+
+**Corrige el modelo de "carga literal":** los punteros de este archivo son
+**auto-relativos al inicio de su propia struct**, y el cargador los pasa a
+absolutos en el lugar. `0x01092800 + 0xCD90 = 0x0109F590` (descriptor);
+registro #36 en `0x0109F7D0` + `(-0xC490)` = `0x01093340` (blob). Ése es el
+1,54 % de bytes que difieren. **La mitad "por efecto" de 7e es un parche
+in-place de ISO**, el procedimiento ya confirmado 3×. El id64 del nombre del
+`0x2D` #36 (`LW0001781`) está en el ISO en **`0x810937D8`**.
+
+**El handler del `0x2D` busca POR NOMBRE — confirmado en instrucciones.**
+Ghidra perdía un argumento: en `0x001759A4 jal 0x00129160`, `a1` todavía trae
+`param_2` (el id64) — el delay slot escribe `s1`, no `a1` — y `FUN_00129160`
+compara `*plVar2 == param_2` a 64 bits recorriendo una lista.
+
+**(B) EL OBSERVABLE PLANIFICADO NO EXISTE. Refutado por lectura.**
+Este documento y `ESTADO_ACTUAL.md` proponían los mensajes de error del juego
+como "un observable más barato que la pantalla". **No lo son:**
+
+- **`FUN_001A4F70` es un printf STUB**: guarda los varargs (`a1`–`t3`,
+  `$f12`–`$f18`) en el stack y hace `jr ra`. Cuerpo compilado afuera para
+  retail. 3 llamadores en todo el ELF. Mata
+  `'Physics object %s tagged for Pathfinding collision…'`.
+- **`'AI gun model not found: %s'`** es peor: `FUN_00136848` formatea con un
+  `sprintf` real (`FUN_0035d728`) sobre un buffer de **256 bytes del stack** y
+  después **no hace nada con él**. Muere con el frame.
+
+**Lo que sigue, entonces:** el observable tiene que ser **contable en RAM**.
+El camino de éxito es `FUN_00175A00` → `FUN_00175f10(param_1 + idx*0xC + 0x40,
+obj, param_3)`: un array de entradas de `0xC` bytes. Rompiendo un nombre
+`0x2D`, tiene que quedar en **255 de 256**. **Paso siguiente y es GRATIS:**
+encontrar y contar esas 256 entradas en `volcados/ee-e4.bin` (LEVEL_00 con el
+ISO original) para tener el **control** antes de gastar un solo arranque.
+
+**Ojo con §4 y §6 de abajo:** el `cd` de §4 tiene la ruta vieja del repo, y la
+Vía C se apoyaba en el mensaje de error que ahora está refutado.
+
 Última actualización: **2026-08-23**, PC, **en frío** (el emulador no se abrió).
 **7e — PASO 1 CERRADO.** El layout del registro está **verificado contra datos**
 y salió **corregido**, y **el stream mixto apareció**: `0x01092800 =
