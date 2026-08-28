@@ -72,7 +72,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 | Proyecto | Qué es | Estado |
 |---|---|---|
 | `caso-tio/` | Caso clínico familiar → guía para la familia | vivo, **repo aparte, no se pushea acá** |
-| [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **abierto, sin arrancar** — el PDP ya tiene la entrevista hecha. **Repo aparte**, sin remote todavía |
+| [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **ACTIVO** — fase 0 (línea base) abierta hasta el 2026-09-12. **Repo aparte**, sin remote todavía |
 
 ---
 
