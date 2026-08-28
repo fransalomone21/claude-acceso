@@ -140,10 +140,11 @@ nadie lo había movido.
    Sin eso no se puede consultar desde el teléfono, que era el requisito.
 3. **Auditar la rama `rescate/disco-20260827`** (~115 renglones propios) y
    recién entonces borrarla.
-4. **Carpeta vacía `.claude/worktrees/goofy-chaum-61dbef/`.** El worktree se
-   quitó de git y no queda metadata, pero Windows no dejó borrar el directorio
-   porque la sesión lo tenía tomado. Se borra a mano cuando no haya una sesión
-   abierta.
+
+~~4. Carpeta vacía `.claude/worktrees/goofy-chaum-61dbef/`.~~ **Borrada el
+2026-08-28.** El proceso que la tenía tomada ya no estaba: se comprobó que
+estaba vacía y que `git worktree list` sólo declara el árbol principal, y
+recién entonces se borró. `.claude/worktrees/` quedó vacía.
 
 ## Si hay que abrir un chat nuevo
 
