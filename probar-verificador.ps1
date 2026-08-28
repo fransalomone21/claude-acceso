@@ -76,7 +76,7 @@ Write-Host ""
 # La restauracion por 'git checkout' es la correcta -- reescribir los archivos
 # normaliza los fines de linea y ensucia el repo entero. Lo que faltaba era el
 # freno: no arrancar si hay algo que perder.
-$archivosEnRiesgo = @('.gitignore', 'CLAUDE.md', 'MAPA.md')
+$archivosEnRiesgo = @('.gitignore', 'CLAUDE.md', 'MAPA.md', 'proyectos/ingenieria/black/CLAUDE.md')
 $sucios = @()
 foreach ($a in $archivosEnRiesgo) {
     $st = & git -C $Raiz status --porcelain -- $a
@@ -135,6 +135,31 @@ Probar "regla 4 - proyecto ACTIVO sin ESTADO_ACTUAL.md" "black" `
     { Rename-Item "$blk\ESTADO_ACTUAL.md" "ESTADO_ACTUAL.md.saboteado" } `
     { if (Test-Path "$blk\ESTADO_ACTUAL.md.saboteado") { Rename-Item "$blk\ESTADO_ACTUAL.md.saboteado" "ESTADO_ACTUAL.md" } }
 
+# --- regla 4b: proyecto ACTIVO que se quedo sin HANDOFF en ningun lado ---
+# El chequeo de HANDOFF avisaba en falso sobre black hasta el 2026-08-28: el
+# handoff vive en sesiones/HANDOFF.md y el bloque miraba solo la raiz. Se
+# arreglo aceptando el HANDOFF fuera de la raiz SI el contrato del proyecto lo
+# nombra -- y eso son dos cosas distintas que probar, no una.
+$blkH = "$blk\sesiones\HANDOFF.md"
+Probar "regla 4b - proyecto ACTIVO sin HANDOFF en ningun lado" "sin HANDOFF.md" `
+    { Rename-Item $blkH "HANDOFF.md.saboteado" } `
+    { if (Test-Path "$blk\sesiones\HANDOFF.md.saboteado") { Rename-Item "$blk\sesiones\HANDOFF.md.saboteado" "HANDOFF.md" } } `
+    'WARN'
+
+# --- regla 4c: el HANDOFF existe fuera de la raiz y el contrato NO lo nombra ---
+# La mitad que distingue "el chequeo mide el efecto" de "el chequeo busca un
+# archivo con ese nombre en alguna parte". Sin este caso, aceptar
+# sesiones/HANDOFF.md seria aflojar el chequeo en vez de arreglarlo: un handoff
+# enterrado donde nadie lo nombra no lo encuentra la proxima sesion, que es lo
+# unico que el aviso protege.
+$blkC = "$blk\CLAUDE.md"
+Probar "regla 4c - HANDOFF fuera de la raiz que el contrato no nombra" "no lo nombra" `
+    { (Get-Content -LiteralPath $blkC) |
+        Where-Object { $_ -notmatch 'sesiones/HANDOFF\.md' } |
+        Set-Content -LiteralPath $blkC -Encoding utf8 } `
+    { GitRestaurar 'proyectos/ingenieria/black/CLAUDE.md' } `
+    'WARN'
+
 # --- regla 5: un dato personal se cuela en lo que este repo publica ---
 # El mail se ARMA POR PARTES a proposito. Escrito entero, el literal quedaria
 # en este archivo -- que esta tracked -- y la regla 5 lo acusaria en cada
@@ -172,6 +197,22 @@ Probar "regla 6 - proyecto huerfano en el Escritorio" "zz-saboteador-borrame" `
 # La otra mitad, la que no es decorativa: un censo que avisa por todo entrena a
 # ignorarlo, y ahi se pierde tambien la senal verdadera. El guardia del ISO
 # bloqueo su primer comando legitimo por no tener esta mitad.
+# --- control negativo de la regla 4: el HANDOFF declarado NO tiene que avisar ---
+# Es el caso que motivo el arreglo: black estaba bien y el chequeo avisaba
+# igual. Un aviso que miente entrena a saltear la lista entera, asi que la
+# mitad que calla se prueba con el mismo rigor que la que grita.
+Write-Host ""
+$out = Correr
+$ruido = $out -split "`r?`n" | Where-Object { $_ -match '\[WARN\]' -and $_ -match 'black' -and $_ -match 'HANDOFF' }
+if ($ruido) {
+    Write-Host "  [RUIDO!!] regla 4 avisa por black, que tiene su HANDOFF declarado en el contrato" -ForegroundColor Red
+    Write-Host "            $($ruido -join ' | ')" -ForegroundColor DarkGray
+    $resultados += $false
+} else {
+    Write-Host "  [CALLA OK] regla 4 - el HANDOFF declarado fuera de la raiz no hace ruido" -ForegroundColor Green
+    $resultados += $true
+}
+
 Write-Host ""
 $declarada = Join-Path (Split-Path $Raiz -Parent) 'fotos'
 if (Test-Path -LiteralPath $declarada) {

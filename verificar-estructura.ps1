@@ -1,5 +1,12 @@
 # verificar-estructura.ps1 -- las reglas de estructura de claude-acceso, ejecutables.
 #
+# Y un aviso que MIENTE es peor que no tenerlo: entrena a saltear la lista
+# entera, que es la unica forma de romper una alarma sin tocarla. El bloque del
+# HANDOFF de la regla 4 avisaba en falso sobre black --su handoff vive en
+# sesiones/ y el chequeo miraba solo la raiz-- y por eso el 2026-08-28 se
+# corrigio ahi mismo. Un falso positivo se arregla con la misma urgencia que un
+# falso negativo.
+#
 # Por que existe: hasta hoy, de las cuatro reglas del CLAUDE.md la unica que
 # tenia un chequeo era la del invariante (un archivo, un repo dueno). Las otras
 # tres las sostenia que alguien se acordara, y una regla que nadie mide se
@@ -230,8 +237,41 @@ foreach ($linea in ($textoClaude -split "`n")) {
         } else {
             Fail "$($p.Rel) esta marcado ACTIVO y no tiene ESTADO_ACTUAL.md: la proxima sesion arranca de cero."
         }
-        if (-not (Test-Path (Join-Path $p.Ruta 'HANDOFF.md'))) {
-            Warn "$($p.Rel) : ACTIVO y sin HANDOFF.md (regla 5 del perfil: el checkpoint son los cuatro)."
+        # El HANDOFF no siempre vive en la raiz: black lo tiene en
+        # sesiones/HANDOFF.md desde antes de que este chequeo existiera, y por
+        # eso este bloque avisaba en falso. Un aviso que miente es peor que no
+        # tenerlo: entrena a saltearse la lista entera, que es la unica forma
+        # de romper una alarma sin tocarla.
+        #
+        # Pero aceptarlo por ruta a secas lo convertiria en "existe un archivo
+        # que se llama asi en alguna parte" -- la precondicion, no el efecto.
+        # El efecto que importa es que la PROXIMA SESION lo encuentre: o esta
+        # en la raiz, donde el nivel 5 de la cascada lo busca solo, o el
+        # contrato del proyecto (nivel 4) dice donde esta. Un HANDOFF enterrado
+        # en una subcarpeta que nadie nombra es un handoff perdido aunque el
+        # archivo exista.
+        if (Test-Path -LiteralPath (Join-Path $p.Ruta 'HANDOFF.md')) {
+            Ok "$($p.Rel) : ACTIVO y con HANDOFF.md"
+        } else {
+            $contratoTxt = ''
+            $contratoP = Join-Path $p.Ruta 'CLAUDE.md'
+            if (Test-Path -LiteralPath $contratoP) {
+                $contratoTxt = (Get-Content -LiteralPath $contratoP -Raw -ErrorAction SilentlyContinue)
+            }
+            $declarado = $null
+            $candidatos = @(Get-ChildItem -LiteralPath $p.Ruta -Filter 'HANDOFF.md' -Recurse -File -ErrorAction SilentlyContinue)
+            foreach ($h in $candidatos) {
+                $relH = $h.FullName.Substring($p.Ruta.Length + 1).Replace('\', '/')
+                if ($contratoTxt -match [regex]::Escape($relH)) { $declarado = $relH; break }
+            }
+            if ($declarado) {
+                Ok "$($p.Rel) : ACTIVO y con HANDOFF en $declarado, declarado en su CLAUDE.md"
+            } elseif ($candidatos.Count -gt 0) {
+                $donde = ($candidatos | ForEach-Object { $_.FullName.Substring($p.Ruta.Length + 1).Replace('\', '/') }) -join ', '
+                Warn "$($p.Rel) : ACTIVO y el HANDOFF esta en $donde, pero su CLAUDE.md no lo nombra: la proxima sesion no lo encuentra."
+            } else {
+                Warn "$($p.Rel) : ACTIVO y sin HANDOFF.md (regla 5 del perfil: el checkpoint son los cuatro)."
+            }
         }
     }
 }
@@ -431,6 +471,10 @@ Write-Host ""
 #   regla 3b enlazar a un archivo inexistente en CLAUDE.md  -> [FAIL] nombrando el enlace
 #   regla 3c borrar una fila de la tabla de duenos de MAPA  -> [FAIL] nombrando el repo
 #   regla 4  sacar el ESTADO_ACTUAL.md de un proyecto ACTIVO-> [FAIL] nombrandolo
+#   regla 4b sacar el HANDOFF de un proyecto ACTIVO         -> [WARN] nombrandolo
+#   regla 4c dejar el HANDOFF fuera de la raiz y sacar del  -> [WARN]: "no lo nombra"
+#            contrato la linea que lo nombra
+#   regla 4  ...con el HANDOFF fuera de la raiz DECLARADO   -> silencio (control negativo)
 #   regla 5  pegar un mail en un archivo tracked            -> [FAIL] con archivo y valor
 #   regla 5b romper el JSON de datos-permitidos             -> [FAIL]: falla CERRADO
 #   regla 6  crear una carpeta con un .md en el Escritorio  -> [WARN] nombrandola

@@ -14,6 +14,7 @@ cruzadas de texto plano no las valida el compilador.
 | Si la tarea es… | Leer |
 |---|---|
 | retomar, saber qué partes están cerradas | `ESTADO_ACTUAL.md` (entero) |
+| saber qué cierra la fase en curso, o por qué se decidió algo | `PDP.md` |
 | lo que quedó a medias y las trampas de Typst ya pagadas | `HANDOFF.md` |
 | tocar o agregar una figura | `docs/figuras.md` |
 | verificar un dato contra la bibliografía | `fuentes/` y `docs/referencia/` |
@@ -32,18 +33,15 @@ material que "estaba listo".
 apunte/        el fuente Typst y el PDF compilado
 docs/          figuras.md (el catalogo) y referencia/ (material de consulta)
 fuentes/       bibliografia y material de la materia
-ESTADO_ACTUAL.md · HANDOFF.md
+PDP.md · ESTADO_ACTUAL.md · HANDOFF.md
 ```
 
-## Pendiente de estructura (2026-08-27)
+## Estructura (al 2026-08-28)
 
-Todavía no tiene `PDP.md`. Su `ESTADO_ACTUAL.md` ya cumple parte de ese rol,
-pero las decisiones de contenido y el criterio de "sección cerrada" están
-implícitos. Armarlo con [`plantillas/PDP.md`](../../../plantillas/PDP.md) en la
-próxima sesión de contenido.
-
-**`ESTADO_ACTUAL.md` sigue diciendo `Rama: claude/manual-analogica-tr0mk6`.**
-Eso quedó viejo: ahora hay una sola rama, `main`. Corregirlo al tocarlo.
+`PDP.md` existe, y es donde viven **el plan de fases, el criterio de salida de
+la fase en curso y las decisiones de contenido con su porqué**. Estaba escrito
+en `HANDOFF.md` y había divergido —seguía pidiendo circuitos en ASCII borrados
+cinco días antes—, así que el handoff ahora apunta al PDP en vez de repetirlo.
 
 ## Al cerrar cualquier sesión
 

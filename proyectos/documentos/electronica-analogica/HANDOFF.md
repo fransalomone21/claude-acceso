@@ -203,38 +203,15 @@ de esto y todo sigue funcionando como antes.
 
 ## Plan de fases
 
-**Fase 2 — Convenciones. CERRADA el 2026-08-25.** Es lo que Fran pidió explícitamente ("quiero que dejes toda
-convención fácilmente clara; de ahí saca ejercicios mi profe"). Un bloque de convenciones
-al frente del apunte: convención de signos pasiva, sentido de las corrientes de malla,
-nodo de referencia, notación de mayúsculas y minúsculas, unidades. Y la decisión ya
-tomada: **fasor en valor de pico por defecto** (la de Nilsson-Riedel y los otros tres
-libros de la cátedra), **con la conversión a eficaz publicada al lado**, porque la Parte I
-trabaja en eficaz. Hoy los módulos 11 y 12 están escritos en eficaz: hay que convertir las
-cuentas y revisar cada ejercicio. Es la fase que más contenido mueve. — Hecho: el
-Módulo 11 convertido entero, el 12 resultó ser todo cocientes y no necesitaba conversión
-(se le dejó dicho por qué), el formulario del anexo reescrito y los cuatro ejercicios
-comprobados por dos caminos.
+**Vive en [`PDP.md`](PDP.md), no acá.** Estaba escrito en este archivo y
+divergió: seguía pidiendo los 15 circuitos en ASCII de la Parte II que se
+habían eliminado el 2026-08-23. Un dato que vive en dos lados diverge, y el
+criterio de salida de la fase en curso es justamente lo que el PDP existe para
+guardar.
 
-**Fase 3 — Los temas que faltan**, en el orden del programa: sistemas trifásicos;
-la forma zpk y los polos y ceros en el plano complejo con la relación unívoca entre
-posición de polos, ζ y Q; la respuesta del RLC serie según de dónde se tome la salida;
-el amplificador diferencial y el de instrumentación; filtros activos con Butterworth de
-orden N y Sallen-Key; impedancia reflejada; y la simulación como tercera pata.
-
-**Fase 4 — Las figuras de la Parte II.** Los módulos 7 a 13 conservan **15 circuitos en
-ASCII**, enumerados en `ASCII_PENDIENTE` de `verificar.py`. Cuando la lista quede vacía,
-borrarla: el chequeo vuelve a ser un rojo simple. Los gráficos cuantitativos nuevos
-(Bode con décadas reales, plantillas de Butterworth, mapas de polos y ceros) van en
-**matplotlib exportado a SVG**, no en cetz-plot: la decisión la tomó Fran y el motivo es
-que cetz-plot no hace bien los ejes logarítmicos. cetz-plot se queda para las curvas
-cualitativas, que es donde funciona.
-
-**Fase 5 — El anexo de informes.** La cátedra tiene una guía propia con criterios que se
-pueden llevar tal cual al apunte: nada de capturas de pantalla, gráficos procesados con
-software (nombra Veusz, Octave, Python, GNU Plot, Matlab), ejes rotulados con unidades,
-leyenda adentro de la figura, símbolos para mediciones y líneas para simulaciones,
-figuras numeradas con descripción al pie, A4 con páginas numeradas, máximo 10 páginas.
-Son también un buen criterio para los gráficos del propio apunte.
+Hoy: **Fase 3 — Los temas que faltan del programa**, en curso. Los siete temas,
+que la cierra exactamente y el pendiente de la lectura eléctrica de las 46
+figuras: PDP, sección 4.
 
 ## Lo que NO hay que rehacer
 

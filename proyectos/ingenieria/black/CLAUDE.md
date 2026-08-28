@@ -9,18 +9,19 @@ Es el índice, no el manual: leelo entero, y de ahí saltá a lo que haga falta.
 evidencia, confirmado-por-efecto, versión del dato, y las trampas de creerle a
 una herramienta.
 
-> **Pendiente de estructura (2026-08-27):** este proyecto todavía no tiene
-> `PDP.md`. Sus fases y criterios de salida viven repartidos entre
-> `ESTADO_ACTUAL.md` y `docs/04-plan.md`, que es de donde salió el problema que
-> la fase 7e ya arrastra. Al abrir la próxima fase, armarlo con
-> [`plantillas/PDP.md`](../../../plantillas/PDP.md) — el criterio de salida se
-> escribe **antes** de empezar la fase, no después.
+> **`PDP.md` existe desde el 2026-08-28**, y es donde vive el **criterio de
+> salida de la fase abierta** — lo que antes estaba repartido entre
+> `ESTADO_ACTUAL.md` y `docs/04-plan.md`. No duplica el mapa de fases: ése
+> sigue en `ESTADO_ACTUAL.md`, que se actualiza cada vez que cambia algo real.
+> De la próxima fase en adelante, el criterio de salida se escribe **antes** de
+> empezarla, no después.
 
 ## Qué leer según lo que se vaya a hacer
 
 | Si la tarea es… | Leer |
 |---|---|
 | retomar el proyecto, saber en qué anda | `ESTADO_ACTUAL.md` (entero — es corto) |
+| saber qué cierra la fase abierta, o por qué se decidió algo | `PDP.md` |
 | entender cómo se llegó a algo, o qué no funcionó antes | `docs/03-bitacora.md` |
 | buscar una dirección o rutina nueva | `docs/02-metodologia.md` |
 | configurar una máquina desde cero | `docs/01-entorno.md` |
