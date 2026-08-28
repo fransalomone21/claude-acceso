@@ -188,4 +188,9 @@ frase en español.
   clona el perfil, lo instala, lo verifica y corre `verificar-estructura.ps1`.
 - **¿La estructura sigue sana?**: `.\verificar-estructura.ps1`. Y para probar
   que ese chequeo no está ciego: `.\probar-verificador.ps1`.
+- **Proyecto nuevo** (o adoptar uno que nació suelto en el Escritorio):
+  `.\nuevo-proyecto.ps1 <nombre> -Naturaleza <nat> [-Desde <ruta>] [-Sensible]`.
+- **¿Las lecciones llegan a alguna sesión?**:
+  `python perfil-global\herramientas\aprender.py sin-triage`, y para probar que
+  ese chequeo tampoco está ciego: `perfil-global\probar-chequeo-lecciones.ps1`.
 - **Las ramas viejas** y qué quedó en cada una: [`archivo/RAMAS.md`](archivo/RAMAS.md).

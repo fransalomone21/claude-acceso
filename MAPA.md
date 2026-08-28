@@ -17,7 +17,14 @@ C:\Users\frans\Desktop\
 │   ├── CLAUDE.md                     el enrutador (nivel 2). Se carga solo
 │   ├── MAPA.md                       este archivo
 │   ├── bootstrap.ps1                 deja una máquina lista
+│   ├── nuevo-proyecto.ps1            crea (o adopta) un proyecto con PDP y contrato
+│   ├── verificar-estructura.ps1      las 4 reglas, en 6 bloques, contra el disco
+│   ├── probar-verificador.ps1        rompe cada bloque y exige el rojo
 │   ├── .gitignore                    quién NO se versiona acá, y por qué
+│   ├── .claude\
+│   │   ├── protegidos.json           los archivos en ReadOnly + el guardia
+│   │   ├── datos-permitidos.json     los mails/teléfonos que SÍ pueden publicarse
+│   │   └── fuera-del-sistema.txt     las carpetas del Escritorio que no son proyectos
 │   │
 │   ├── perfil-global\                ← REPO PROPIO · ignorado acá
 │   │                                   github.com/fransalomone21/perfil-global
@@ -42,7 +49,8 @@ C:\Users\frans\Desktop\
 │   │   │   └── telefono-samsung\     kit ADB — suspendido 2026-08-15
 │   │   ├── documentos\
 │   │   │   ├── electronica-analogica\  apunte Typst 103 pág — ACTIVO
-│   │   │   └── repaso-iise\            guion + audios — terminado
+│   │   │   ├── repaso-iise\            guion + audios — terminado
+│   │   │   └── teoria-circuitos\     ← REPO PROPIO · ignorado acá · NO se pushea
 │   │   └── seguimiento\
 │   │       └── caso-tio\             ← REPO PROPIO · ignorado acá · NO se pushea
 │   │       └── coaching\             ← REPO PROPIO PRIVADO · ignorado acá
@@ -135,15 +143,28 @@ del enrutador.
 | `perfil-global` clonado e **ignorado** | submodule | fricción real en cada sesión (`submodule update`, "new commits" en el status) por una garantía que acá no hace falta |
 | | copiado adentro | es exactamente lo que causó la divergencia |
 | Naturalezas: `ingenieria` / `documentos` / `seguimiento` | por tema (juegos, salud, facultad…) | el tema no cambia **qué se lee ni con cuánto rigor**; la naturaleza sí. La categoría existe para decidir el nivel 3, no para clasificar |
+| La **sensibilidad** es un eje aparte de la naturaleza (2026-08-28) | una naturaleza nueva, `documentos-con-terceros` | un informe con mails de compañeros se **produce** igual que cualquier documento: mismo nivel 3, mismo rigor, mismas trampas. Lo que cambia es **dónde puede vivir el archivo**. Meterlo en la naturaleza habría duplicado `documentos.md` entero para cambiar una decisión de repo dueño |
+| | dejarlo como carpeta ignorada | deja el trabajo **sin memoria**, y la fuente Typst vale versionarla — el próximo informe la reusa. Perder y publicar son las dos fallas, y la fila del medio de la tabla es la que las evita |
 | `caso-tio` en repo propio, sin remote | dentro de `claude-acceso` | datos de salud de un familiar en un repo con push configurado |
 
 ## 6. Pendientes conocidos de la estructura
 
-1. **Lecciones sin foldear** en `chequeo-de-trabajo.md`. `install.ps1` imprime
-   los dos números en cada corrida —el que declara el chequeo y el que tiene el
-   registro— y **el aviso se deja encendido**: subir el número sin auditarlas
-   apagaría la única señal que existe sobre ellas. Acá no se anota la cifra a
-   propósito: ya estuvo desactualizada dos veces en este mismo archivo.
+1. ~~**Lecciones sin foldear** en `chequeo-de-trabajo.md`.~~
+   **RESUELTO (2026-08-28), y el chequeo que lo vigilaba estaba mal.**
+   Comparaba dos totales —"dice 45 y hay 76"— y su único arreglo posible era
+   subir el número, o sea apagar la alarma sin foldear nada. La regla que el
+   chequeo intentaba vigilar ya estaba escrita en el encabezado del propio
+   archivo (línea propia / foldeada / fuera de dominio) pero **esa decisión no
+   se guardaba en ningún lado**, así que el total era el único proxy posible.
+   Se intentó reconstruirla midiendo el solape textual entre cada regla y el
+   chequeo: dio **7 de 76**, no 45 — el chequeo es síntesis reescrita, no
+   copia, así que el foldeo es semántico y ninguna medición retroactiva lo
+   recupera. El 45 no era un número atrasado: era uno que nunca se midió.
+   Hoy `triage` es un campo obligatorio del registro, `install.ps1` cuenta las
+   **sin triage** (no los totales) y **prohíbe** que el número vuelva a
+   escribirse a mano. Las 76 quedaron triageadas: 49 foldeadas, 17 fuera, y 10
+   que faltaban de verdad y se escribieron. Probado rompiéndolo:
+   `perfil-global\probar-chequeo-lecciones.ps1`, 5 frenos en rojo.
 2. **La rama `rescate/disco-20260827`** de `perfil-global` guarda el estado del
    disco previo a la reconciliación. Tiene ~115 renglones propios que no se
    auditaron uno por uno. No se borra hasta revisarlos.
