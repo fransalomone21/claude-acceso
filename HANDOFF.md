@@ -9,12 +9,14 @@ queda pendiente y lo que la próxima sesión necesita saber.
 ## Cuadro de fase para abrir el próximo chat
 
 ```
-Fase     : Fundamentos CERRADOS el 2026-08-28, y los avisos residuales
-           limpiados el mismo dia: verificar-estructura.ps1 pasa de 5 avisos
-           a 1. El unico que queda es el .docx del Escritorio, bloqueado por
-           un WINWORD abierto -- ver "Lo unico que quedo abierto".
-           LA CIERRA (si se vuelve a tocar la estructura): las dos suites en
-           verde -- .\probar-verificador.ps1 y .\perfil-global\verify-install.ps1
+Fase     : Fundamentos CERRADOS el 2026-08-28, y los cinco avisos residuales
+           limpiados el mismo dia: verificar-estructura.ps1 sale con
+           0 AVISOS Y 0 FALLAS. Ninguno se apago aflojando el chequeo -- uno
+           era el chequeo el que mentia, y ese se arreglo y se saboteo.
+           Lo que sigue NO es infraestructura: es contenido de proyecto.
+           LA CIERRA (si se vuelve a tocar la estructura): las tres en verde
+           -- .\verificar-estructura.ps1 sin avisos, .\probar-verificador.ps1
+           y .\perfil-global\verify-install.ps1
 Modelo   : Sonnet 5 para contenido de proyecto sobre un plan ya decidido.
            Opus solo si hay que decidir enfoque o arquitectura de nuevo.
 Esfuerzo : medio, sin fan-out. Un proyecto por chat.
@@ -66,31 +68,26 @@ otros cuatro.
 | 2 | `black : vivo y sin PDP.md` | real | `proyectos/ingenieria/black/PDP.md`. **No duplica** el mapa de fases de `ESTADO_ACTUAL.md`: guarda el problema, el alcance negativo, los riesgos, las decisiones y el criterio de salida de 7e |
 | 3 | `electronica-analogica : sin PDP.md` | real | `PDP.md` con el plan de fases, que **estaba en el `HANDOFF.md` y ya había divergido** (seguía pidiendo 15 circuitos en ASCII borrados cinco días antes). El handoff ahora apunta al PDP |
 | 4 | `caso-tio : sin CLAUDE.md` | real, y el arreglo iba en **su** repo | contrato escrito y commiteado allá (`ced28b3`), local y sin remoto. Este repo no lo trackea: `git ls-files` da 0 |
-| 5 | `'Informe TC - Thevenin y Norton'` en el Escritorio | real | **NO se cerró.** Ver abajo |
+| 5 | `'Informe TC - Thevenin y Norton'` en el Escritorio | real | el `.docx` se movió a `teoria-circuitos/` y la carpeta del Escritorio se borró. Ver abajo: llevó dos intentos |
 
-## Lo único que quedó abierto
+### El quinto, que llevó dos intentos
 
-**El `.docx` del Escritorio no se pudo mover: lo tiene abierto un WINWORD
-(PID 8376, desde las 03:18 del 2026-08-28).** El archivo es
+El `.docx` del Escritorio **no se pudo mover en el primer intento**: lo tenía
+abierto un WINWORD (PID 8376, desde las 03:18). No se mató el proceso —podía
+tener cambios sin guardar, y eso lo decide Fran—, así que quedó anotado con el
+comando exacto. Con Word cerrado se movió a
+`proyectos\documentos\teoria-circuitos\`, se borró la carpeta vacía del
+Escritorio, y se commiteó en **ese** repo (`41a2172`, local y sin push: la
+carátula lleva mails de compañeros). El `.docx` queda **trackeado**, igual que
+el PDF — para eso el repo es propio y sin remote.
 
-```
-C:\Users\frans\Desktop\Informe TC - Thevenin y Norton\
-  Informe 1 - Equivalentes de Thevenin y Norton - Favazza, Salomone, Diaz Segui.docx
-```
+**No** se agregó a `.claude\fuera-del-sistema.txt`: sí era un proyecto, y el
+censo tenía razón. Declarar la excepción habría sido apagar el aviso, no
+cerrarlo.
 
-y va a `proyectos\documentos\teoria-circuitos\` — que es su repo, propio y sin
-remote a propósito (la carátula lleva mails de compañeros). **No** se agrega a
-`.claude\fuera-del-sistema.txt`: sí es un proyecto, y el censo tiene razón.
-
-No se mató el proceso: puede tener cambios sin guardar, y eso lo decide Fran.
-Con Word cerrado, es un comando:
-
-```powershell
-Move-Item -LiteralPath "C:\Users\frans\Desktop\Informe TC - Thevenin y Norton\Informe 1 - Equivalentes de Thevenin y Norton - Favazza, Salomone, Diaz Segui.docx" -Destination "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\teoria-circuitos\"
-Remove-Item -LiteralPath "C:\Users\frans\Desktop\Informe TC - Thevenin y Norton"
-```
-
-y después commitear en **ese** repo (local, sin push). El WARN se apaga solo.
+Su `ESTADO_ACTUAL.md` decía «el `.docx` quedó en el Escritorio»; la línea quedó
+**tachada y no borrada**, porque la afirmación vieja es el dato de por qué
+nadie lo había movido.
 
 ## Lo que NO se hizo, a propósito
 
@@ -141,11 +138,9 @@ y después commitear en **ese** repo (local, sin push). El WARN se apaga solo.
    ([`archivo/RAMAS.md`](archivo/RAMAS.md) dice qué quedó en cada una).
 2. **Crear el repo privado del coaching en GitHub** y agregarlo como remote.
    Sin eso no se puede consultar desde el teléfono, que era el requisito.
-3. **Mover el `.docx` del Escritorio** cuando Word esté cerrado — el único
-   aviso que queda encendido. Los dos comandos están arriba.
-4. **Auditar la rama `rescate/disco-20260827`** (~115 renglones propios) y
+3. **Auditar la rama `rescate/disco-20260827`** (~115 renglones propios) y
    recién entonces borrarla.
-5. **Carpeta vacía `.claude/worktrees/goofy-chaum-61dbef/`.** El worktree se
+4. **Carpeta vacía `.claude/worktrees/goofy-chaum-61dbef/`.** El worktree se
    quitó de git y no queda metadata, pero Windows no dejó borrar el directorio
    porque la sesión lo tenía tomado. Se borra a mano cuando no haya una sesión
    abierta.
