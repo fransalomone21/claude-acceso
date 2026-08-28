@@ -339,7 +339,7 @@ sólo describía en palabras) y las 15 de la Parte II, agregadas el 2026-08-23.
 | 5 — Fuentes | `fig-bloques-fuente`, `fig-filtro-capacitivo`, **`graf-rizado`**, `fig-regulador-zener`, **`graf-curva-zener`** |
 | 6 — Transistores | `fig-simbolos-bjt`, `fig-conmutacion-npn`, `fig-rele-completo`, **`graf-recta-de-carga`** |
 | 7 — Kirchhoff | `fig-nodos-y-mallas`, `fig-delta-estrella` |
-| 8 — Nodal y mallas | `fig-nodal-basico`, `fig-supernodo`, `fig-mallas-basico`, `fig-supermalla`, `fig-nodal-controlada` |
+| 8 — Nodal y mallas | `fig-nodal-primero`, `fig-nodal-basico`, `fig-supernodo`, `fig-mallas-basico`, `fig-supermalla`, `fig-nodal-controlada` |
 | 9 — Teoremas | `fig-fuentes-reales` |
 | 10 — Transitorios | `fig-rc-primer-orden` |
 | 11 — Fasores | `fig-rlc-serie`, `graf-diagrama-fasorial` |

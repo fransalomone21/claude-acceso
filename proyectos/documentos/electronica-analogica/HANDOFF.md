@@ -3,24 +3,27 @@
 ## Cuadro de fase para abrir el próximo chat
 
 ```
-Fase     : Fase 2 (Convenciones + fasor en pico) CERRADA el 2026-08-25. El
-           bloque de convenciones está al frente del apunte —sección de nivel
-           1 sin número, seis apartados—, el Módulo 11 está convertido entero
-           a valor de pico con la caja de equivalencia a eficaz, el Módulo 12
-           resultó no tener nada que convertir (es todo cocientes) y se le
-           dejó dicho por qué, y el formulario del anexo está reescrito. Los
-           cinco chequeos en verde y la aritmética de los cuatro ejercicios
-           comprobada por dos caminos, corridos en Python. Detalle completo en
-           ESTADO_ACTUAL.md, sección "Fase 2".
-           Lo que sigue: Fase 3 — Los temas que faltan (ver "Plan de fases").
-           Pero antes conviene la PASADA DE LECTURA ELÉCTRICA de las 45
-           figuras: ver "Pendientes explícitos".
-Modelo   : Sonnet 5 para escribir contenido nuevo de la Fase 3 según el
-           programa ya publicado. Opus si aparece un tema donde haya que
-           decidir el enfoque (trifásica y zpk son los dos candidatos).
-Esfuerzo : medio, sin fan-out. Contenido secuencial.
+Fase     : Módulo 8 didáctico CERRADO el 2026-08-28. Se invirtió el orden de
+           los dos métodos de análisis: convención explícita → ejemplo chico
+           resuelto a mano → recién ahí la generalización ($G_(k j)$, matriz,
+           regla por inspección). Figura nueva `fig-nodal-primero`, dos
+           ejercicios nuevos (8.1 y 8.4), dos tablas de traducción, y la idea
+           clave de que en nodal NO hay recorrido. Cinco chequeos en verde, el
+           de la galería probado rompiéndolo, y las páginas 52-59 miradas en
+           render. Detalle en ESTADO_ACTUAL.md, sección "Módulo 8 didáctico".
+           Lo que sigue, en orden de valor:
+           (a) el mismo tratamiento para el Módulo 9 (teoremas) si el alumno
+               reporta que también cuesta — NO hacerlo por las dudas;
+           (b) Fase 3 — Los temas que faltan (ver "Plan de fases");
+           (c) la PASADA DE LECTURA ELÉCTRICA de las 46 figuras, que sigue
+               pendiente desde antes (ver "Pendientes explícitos").
+Modelo   : Opus si lo que sigue es (a) — decidir qué confunde y reordenar una
+           explicación es criterio, no ejecución. Sonnet 5 para (b), que es
+           escribir contenido nuevo contra un programa ya publicado.
+Esfuerzo : medio, sin fan-out. Un archivo por vez, secuencial: el fan-out no
+           compra nada acá y el presupuesto del plan sí lo paga.
 Contexto : chat nuevo.
-Rama     : claude/manual-analogica-tr0mk6
+Rama     : main — una sola rama, el proyecto es una carpeta.
 ```
 
 ## Lo primero que hay que hacer
@@ -43,6 +46,11 @@ Rama     : claude/manual-analogica-tr0mk6
   `60 ∠ − 53,13°`. Meter el número en una cadena con el menos tipográfico:
   `angle "−53,13" degree`.
 - **Unidades con micro**: `6667 mu "F"` sale con espacio feo. Escribir `"6667 µF"`.
+- **Raya larga pegada a un `$+$` o un `$-$`**: `por el borne $+$—, total` se compone
+  como `+—` y se lee como un `±` o como un menos suelto. Pasó en el Ejercicio 8.1 y se
+  vio en el render, no en el fuente. Salida: nombrar el borne en palabras ("por el borne
+  positivo") o separar la raya con otra puntuación. Vale igual para las rayas alrededor
+  de números: "la diagonal —6 y 10—" se lee "−6 y 10−"; poner paréntesis.
 - **`v_square` no es un subíndice**: dibuja un cuadrado vacío. Usar `v_"cuad"`.
 - **Etiquetas de ecuación repetidas**: Typst falla al compilar. `<ec-fc>` ya está tomada
   por el Módulo 2; la del Módulo 12 es `<ec-fc-rc>`.

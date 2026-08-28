@@ -892,6 +892,35 @@
 //  Módulo 8 — Análisis nodal y de mallas
 // ---------------------------------------------------------------
 
+// El PRIMER circuito nodal del modulo: un solo nodo incognita. Las dos
+// flechas de corriente salen del nodo 1 a proposito -- son la convencion con
+// la que se escribe la ecuacion, no el sentido real: i_1 va a dar negativa.
+// Sin las flechas dibujadas, la convencion se cuenta y no se ve, que es
+// justamente lo que costaba entender.
+#let fig-nodal-primero() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  let x1 = 2.9
+  vsource("V", (0, yb), (0, ya), label: none)
+  rotulo((-0.45, 1.62), $+$, ancla: "east")
+  rotulo((-0.45, 0.78), $-$, ancla: "east")
+  rotulo((-0.75, 1.2), [12 V], ancla: "east")
+  wire((0, ya), (0.6, ya))
+  resistor("R1", (0.6, ya), (2.0, ya), label: $R_1 = 4 Omega$)
+  wire((2.0, ya), (x1, ya))
+  resistor("R2", (x1, ya), (x1, yb), label: none)
+  valor((x1 + 0.42, 1.2), $R_2$, $2 Omega$)
+  wire((x1, ya), (4.8, ya))
+  isource("Is", (4.8, yb), (4.8, ya), label: none, variant: "ieee")
+  rotulo((5.5, 1.2), [3 A])
+  wire((0, yb), (4.8, yb))
+  corriente((2.62, ya + 0.40), (2.05, ya + 0.40), $i_1$)
+  corriente((x1 - 0.42, 1.62), (x1 - 0.42, 0.78), $i_2$, ancla: "east")
+  marca-nodo((0, ya), [A], hacia: "no")
+  marca-nodo((x1, ya), [1], hacia: "ne")
+  nodo-referencia((3.85, yb), etiqueta: [0], nombre: "g0")
+})
+
 // Dos nodos incógnita entre dos fuentes de corriente: el caso base del nodal.
 #let fig-nodal-basico() = esquema({
   import zap: *

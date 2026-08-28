@@ -1,8 +1,8 @@
 # Estado actual — Apunte de Aplicaciones de Electrónica Analógica (4.º año)
 
-**Fecha:** 2026-08-23
-**Rama:** `claude/manual-analogica-tr0mk6`
-**Estado: APUNTE COMPLETO EN DOS PARTES.** 97 páginas, 13 módulos más anexos.
+**Fecha:** 2026-08-28
+**Rama:** `main` — hay una sola rama; el proyecto es una carpeta, no una rama.
+**Estado: APUNTE COMPLETO EN DOS PARTES.** 107 páginas, 13 módulos más anexos.
 
 ## Qué es esto
 
@@ -377,6 +377,72 @@ anclaje forzado.
    anexo no tiene ninguna alarma que lo agarre: se ve por render o no se ve.
 
 
+
+## Módulo 8 didáctico: las convenciones y el ejemplo antes de la regla (2026-08-28)
+
+Pedido del alumno, textual: la parte de nodos cuesta, hace falta que estén bien
+explicadas las convenciones de *cómo pensar las corrientes*, *cómo se escriben las
+ecuaciones* y *cómo se cuentan las tensiones según el recorrido*; y que cada método
+tenga un ejemplo sencillo pero no trivial, resuelto paso a paso, **antes** de pasar a la
+definición general (antes de $G_(k j)$ y la matriz).
+
+### El diagnóstico, que es lo que ordena el cambio
+
+El módulo explicaba bien *qué* hace cada método y saltaba directo a la regla por
+inspección. Lo que faltaba no era una explicación más: era el **orden**. La regla por
+inspección es una compresión de algo que el alumno todavía no había visto descomprimido,
+así que se leía como una receta arbitraria. Se invirtió el orden en los dos métodos:
+convención explícita → un caso chico hecho a mano → recién ahí la generalización.
+
+### Qué se agregó, por sección
+
+- **8.1.2 — Las tres convenciones, antes de cualquier cuenta.** Definición con las tres
+  decisiones arbitrarias del método nodal: (1) todas las corrientes se escriben
+  *saliendo* del nodo; (2) la tensión de una rama es siempre "la mía menos la del otro",
+  $v_k - v_j$, en ese orden; (3) de las dos sale $i_(k arrow.r j) = (v_k - v_j)\/R$.
+- **La idea clave que faltaba: en nodal no se recorre nada.** Es la respuesta directa a
+  "las tensiones según el recorrido". El recorrido desapareció porque las incógnitas
+  pasaron a ser *potenciales* —un número pegado al nodo, no al camino—, que es
+  exactamente lo que se compró al elegir la referencia: la LKT queda pagada por
+  adelantado. Si estás recorriendo un lazo mientras hacés nodos, mezclaste los métodos.
+- **Tabla 1** — traducción rama por rama: qué se escribe para cada cosa que cuelga del
+  nodo $k$, y de qué lado de la igualdad va.
+- **Caja de cuidado** con los tres errores de signo por frecuencia: dar vuelta la resta a
+  mitad de la misma ecuación, pasar un resistor al lado derecho, y "arreglar" el dibujo
+  cuando una corriente da negativa.
+- **8.1.3 — Ejercicio 8.1, un nodo, tres ramas, una ecuación.** Figura nueva
+  `fig-nodal-primero`. 12 V + $R_1 = 4 Omega$ / $R_2 = 2 Omega$ a masa / fuente de 3 A.
+  Da $v_1 = 8$ V con números enteros, e $i_1 = -1$ A: el signo negativo aparece a
+  propósito, para que la lectura del signo sea parte del ejercicio y no una advertencia
+  abstracta. Cierra con LKC y con Tellegen (36 W entregados contra 36 W disipados).
+- **8.3.2 — Las convenciones del método de mallas**, con el contraste explícito: acá *sí*
+  hay recorrido, porque una corriente de malla está pegada a un lazo y no a un punto.
+  Incluye de dónde sale el menos del término compartido (dos mallas horarias recorren la
+  rama común en sentidos opuestos), que es lo único del método que conviene entender en
+  vez de memorizar. Más la Tabla 2, análoga a la Tabla 1.
+- **8.3.3 — Ejercicio 8.4, las dos ecuaciones paso a paso por el recorrido.** Mismo
+  circuito del 7.2, recorrido tramo por tramo con viñetas, hasta que el patrón de la
+  matriz (diagonal = perímetro, fuera de la diagonal = compartida con menos) **sale
+  solo** del recorrido en vez de estar impuesto. El ejercicio siguiente lo rehace por
+  inspección, y ahora esa regla se lee como un atajo de algo ya visto.
+- **Supernodo y supermalla**: el paso 1 de los dos ejercicios pasó de dar la ecuación
+  hecha a narrar de dónde sale cada término con la misma convención.
+
+### Efectos colaterales, todos verificados en el render
+
+- La figura de mallas se movió: antes venía después de la regla por inspección, ahora
+  antes, junto al recorrido a mano.
+- Renumeración: los ejercicios del módulo pasaron de 6 a 8. La referencia "Fue el
+  Ejercicio 8.3" quedó apuntando a otro lado y se corrigió a 8.5.
+- **Referencia que ya estaba mal antes de esta sesión**: el texto decía "en la sección
+  8.6 el mismo circuito sale con una sola ecuación", y esa sección es la 8.7. Corregido.
+  Es el caso exacto que avisa el contrato del proyecto: las referencias cruzadas de texto
+  plano no las valida el compilador.
+- El chequeo "toda figura de la biblioteca está en la galería" se probó **rompiéndolo**:
+  se sacó `fig-nodal-primero` de `galeria.typ` y se lo vio en rojo nombrando la figura;
+  después se restauró y volvió a verde.
+- Las cinco páginas nuevas (52 a 59 del PDF) se miraron compiladas, no solo compiladas
+  sin error.
 
 ## Fuentes
 

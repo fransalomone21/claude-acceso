@@ -40,6 +40,143 @@ diferencias de tensión son las mismas), pero sí cambia cuánto trabajo cuesta:
   chasis o el terminal negativo de la fuente.
 ]
 
+=== Las tres convenciones, antes de cualquier cuenta
+
+Lo que cuesta del método nodal no es el álgebra: es decidir *cómo se escribe
+cada rama*, y decidirlo una sola vez para no volver a pensarlo rama por rama.
+Son tres convenciones. Las tres son arbitrarias —se podrían haber tomado al
+revés— y funcionan porque se respetan, no porque sean "las verdaderas".
+
+#definicion("Las tres convenciones del análisis nodal")[
+  *1. Todas las corrientes salen.* Al escribir la ecuación del nodo $k$, cada
+  rama que cuelga de $k$ se anota con su corriente *saliendo* de $k$. No se
+  averigua para dónde va en realidad, no se mira el dibujo dos veces y no se
+  cambia de criterio de una rama a la siguiente.
+
+  *2. La tensión de una rama es siempre "la mía menos la del otro".* Desde el
+  nodo $k$, la rama que va al nodo $j$ tiene encima $v_k - v_j$: primero el
+  nodo cuya ecuación estoy escribiendo, después el del otro extremo. Siempre en
+  ese orden. Esa misma rama, escrita desde $j$, lleva $v_j - v_k$, y el signo
+  opuesto es correcto: desde allá la corriente sale para el otro lado.
+
+  *3. De 1 y 2 sale la única fórmula que hay que recordar.* La corriente que
+  sale de $k$ hacia $j$ por un resistor $R$ vale
+  $ i_(k arrow.r j) = (v_k - v_j)/R $
+  y la LKC del nodo $k$ dice que la suma de todas ellas es igual a lo que las
+  fuentes de corriente le *inyectan*.
+]
+
+#clave[
+  *En el análisis nodal no se recorre nada, y ese es el punto.*
+
+  En el Módulo 7 cada tensión se anotaba con el signo del terminal por el que
+  se *entraba* al elemento, y para eso había que elegir un sentido de recorrido
+  y sostenerlo hasta cerrar el lazo. Acá eso desapareció, y no por comodidad:
+  las incógnitas pasaron a ser *potenciales*, y un potencial es un número
+  pegado al nodo, no al camino. La tensión entre dos nodos es la resta de esos
+  dos números, y da lo mismo por cuál de los caminos posibles se vaya — que es
+  justamente lo que afirma la LKT.
+
+  Por eso la LKT quedó *pagada por adelantado* al elegir la referencia. Si
+  mientras hacés nodos te encontrás recorriendo un lazo y decidiendo signos por
+  el terminal de entrada, mezclaste los dos métodos: en nodos no hay recorrido,
+  hay restas.
+]
+
+#figure(
+  table(
+    columns: (auto, auto),
+    align: (left, left),
+    table.header([*Lo que cuelga del nodo $k$*], [*Lo que se escribe en la ecuación de $k$*]),
+    [resistor $R$ hacia otro nodo incógnita $j$], [$(v_k - v_j)\/R$, a la izquierda],
+    [resistor $R$ hacia la referencia], [$v_k\/R$, a la izquierda (porque $v_0 = 0$)],
+    [resistor $R$ hacia un nodo de tensión ya conocida $V$], [$(v_k - V)\/R$, a la izquierda],
+    [fuente de corriente que *entra* al nodo], [$+I$, a la derecha],
+    [fuente de corriente que *sale* del nodo], [$-I$, a la derecha],
+    [fuente de tensión con un terminal en la referencia],
+      [nada: $v_k$ deja de ser incógnita y pasa a ser dato],
+    [fuente de tensión entre dos nodos incógnita],
+      [nada: los dos nodos se encierran en un supernodo (sección 8.2)],
+  ),
+  caption: [Cómo se traduce cada rama al escribir la ecuación del nodo $k$],
+)
+
+#atencion[
+  Los tres errores de signo que se repiten, en orden de frecuencia:
+
+  + *Dar vuelta la resta a mitad de camino*: escribir $(v_1 - v_2)$ en un
+    término y $(v_3 - v_1)$ en otro dentro de *la misma* ecuación. En la
+    ecuación del nodo 1, todos los paréntesis arrancan con $v_1$. Sin
+    excepción.
+  + *Pasar un resistor al lado derecho*, o pasar la fuente de corriente al
+    izquierdo sin cambiarle el signo. A la derecha va únicamente lo que ya es
+    un número: las corrientes de las fuentes independientes.
+  + *"Arreglar" el dibujo cuando una corriente da negativa.* No hay nada roto.
+    La flecha era un supuesto (Módulo 7) y el signo negativo es la respuesta
+    avisando que va al revés. Rehacer el planteo con la flecha "para el lado
+    bueno" da la misma ecuación pasada de lado, y una oportunidad más de
+    equivocarse.
+]
+
+=== Primero a mano: un solo nodo incógnita
+
+Antes de la maquinaria general conviene ver las tres convenciones funcionando
+en el circuito más chico donde todavía pasa algo: un nodo incógnita, tres ramas
+distintas colgando de él —una fuente de tensión con su resistor, un resistor a
+la referencia y una fuente de corriente— y una sola ecuación.
+
+#circuito([El caso más chico del método nodal: una incógnita, una ecuación])[
+#fig-nodal-primero()
+#pie-figura[Las dos flechas salen del nodo 1 porque así lo manda la
+  convención, no porque la corriente vaya para ese lado: $i_1$ va a dar
+  *negativa*, y eso es información, no un error.]
+]
+
+#ejercicio("Un nodo, tres ramas, una ecuación")[
+  Datos: fuente de 12 V con el borne $-$ abajo; $R_1 = 4 Omega$ entre el nodo
+  $A$ y el nodo 1; $R_2 = 2 Omega$ del nodo 1 a la referencia; fuente de 3 A
+  inyectando en el nodo 1.
+
+  *1. Elegir la referencia y contar.* Va al conductor de abajo: es el que más
+  ramas toca y es donde está el borne $-$ de la fuente. Con esa elección la
+  fuente fija $v_A = 12$ V contra la referencia, así que $v_A$ es *dato* y no
+  incógnita. Queda una sola incógnita, $v_1$, y por lo tanto una sola ecuación.
+
+  *2. Escribir las corrientes que salen del nodo 1*, una por rama, aplicando la
+  convención sin averiguar hacia dónde va la corriente de verdad:
+  $ i_1 = (v_1 - 12)/(4) quad quad quad i_2 = (v_1 - 0)/(2) = v_1/2 $
+  La rama de la fuente de corriente no se escribe así: su corriente ya es un
+  dato, 3 A, y *entra* al nodo.
+
+  *3. Aplicar la LKC*: la suma de lo que sale es igual a lo que entra.
+  $ (v_1 - 12)/(4) + v_1/2 = 3 $
+  Una ecuación, una incógnita. No hizo falta recorrer ningún lazo ni elegir
+  ninguna polaridad.
+
+  *4. Resolver.* Multiplicando todo por 4 para sacar los denominadores:
+  $ (v_1 - 12) + 2 v_1 = 12 quad arrow.r quad 3 v_1 = 24 quad arrow.r quad v_1 = 8 "V" $
+
+  *5. Bajar a las corrientes de rama y leer los signos.*
+  $ i_1 = (8 - 12)/(4) = -1 "A" quad quad quad i_2 = 8/2 = 4 "A" $
+  $i_1$ dio negativa: por $R_1$ no sale corriente del nodo 1, *entra* 1 A. Y es
+  lo que tenía que pasar — el nodo $A$ está a 12 V y el nodo 1 a 8 V, así que
+  la corriente baja de $A$ hacia 1. El planteo no tiene nada que corregir:
+  escribirlo con la flecha al revés da $(12 - v_1)\/4 + 3 = v_1\/2$, que es la
+  misma igualdad con los términos cambiados de lado.
+
+  *6. Controlar, dos veces.* LKC en el nodo 1: entran $3 + 1 = 4$ A y salen 4 A
+  por $R_2$ ✓. Potencias: la fuente de corriente entrega $3 dot 8 = 24$ W y la
+  de 12 V entrega $12 dot 1 = 12$ W —le sale 1 A por el borne positivo—, total
+  36 W; los resistores disipan $1^2 dot 4 + 4^2 dot 2 = 4 + 32 = 36$ W.
+  Tellegen cierra ✓.
+]
+
+Eso es *todo* el método: elegir la referencia, escribir una corriente por rama
+con las tres convenciones, sumar. Lo que viene ahora —las conductancias
+$G_(k j)$, la matriz, la regla por inspección— no agrega física ninguna: es la
+manera de escribir esa misma ecuación de un tirón, sin volver a deducirla, el
+día que los nodos sean cuatro en vez de uno.
+
 === La ecuación de un nodo
 
 Sea el nodo $k$ con tensión $v_k$, conectado por conductancias $G_(k j)$ a otros nodos
@@ -152,8 +289,12 @@ ampliada de la LKC del Módulo 7: la ley vale para cualquier superficie cerrada.
   y el nodo 2 (terminal $+$)... con la polaridad del dibujo, $v_1 - v_2 = 12$ V.
   $R_1 = 2 Omega$ del nodo 1 a masa, $R_2 = 6 Omega$ del nodo 2 a masa.
 
-  *1. LKC del supernodo.* Las ramas que cruzan la superficie son: la fuente de 4 A (entra),
-  $R_1$ (sale hacia masa) y $R_2$ (sale hacia masa).
+  *1. LKC del supernodo*, con la convención de siempre: todo lo que cruza el borde,
+  escrito saliendo. Son tres ramas. $R_1$ baja del nodo 1 a la referencia y aporta
+  $(v_1 - 0)\/2$; $R_2$ baja del nodo 2 y aporta $(v_2 - 0)\/6$; la fuente de 4 A
+  *entra*, así que va del lado derecho. La fuente de 12 V no aparece por ningún lado:
+  quedó adentro del borde, y su corriente —justo la que el método no sabe escribir— no
+  cruza nada.
   $ v_1/2 + v_2/6 = 4 $
 
   *2. Restricción de la fuente.*
@@ -204,6 +345,114 @@ que se obtiene como suma algebraica de las corrientes de malla que pasan por ell
   con ella la mitad de la ventaja del método.
 ]
 
+=== Las convenciones del método de mallas
+
+Acá *sí* hay recorrido, y esa es la diferencia de fondo con el método nodal.
+Una corriente de malla no es un potencial: no está pegada a un punto sino a un
+lazo, así que el signo de cada término lo decide por dónde se pasa. Las
+convenciones, entonces, son otras tres.
+
+#definicion("Las tres convenciones del análisis de mallas")[
+  *1. Todas las corrientes de malla, horarias.* Todas, por decreto. No es
+  obligatorio —el método funciona igual con sentidos mezclados—, pero es lo que
+  hace que los términos compartidos salgan siempre con signo menos, y con eso,
+  que la regla por inspección exista.
+
+  *2. Cada malla se recorre en el sentido de su propia corriente*, es decir,
+  también horario. Consecuencia inmediata: todo resistor de la malla $k$ se
+  recorre *a favor* de $i_k$, así que siempre aporta una *caída*, nunca una
+  subida.
+
+  *3. La tensión de un resistor se escribe con la corriente neta que lo
+  atraviesa en el sentido del recorrido.* Si el resistor pertenece solo a la
+  malla $k$, esa corriente es $i_k$. Si lo comparte con la malla $j$, es
+  $i_k - i_j$.
+
+  Las fuentes de tensión conservan la regla del Módulo 7: se anota el signo del
+  terminal por el que se *entra*. Entrar por el $-$ y salir por el $+$ es una
+  *subida* —la fuente empuja a favor del recorrido— y termina del lado derecho
+  con signo $+$.
+]
+
+#clave[
+  *De dónde sale el menos del término compartido.* Es lo único de este método
+  que conviene entender en vez de memorizar: si las dos mallas son horarias y
+  comparten una rama, esa rama es el lado *derecho* de una y el lado
+  *izquierdo* de la otra. Girar las dos en el mismo sentido significa entonces
+  recorrer esa rama en sentidos *opuestos*. Por eso la corriente neta que ve la
+  malla $k$ es $i_k - i_j$, y por eso la resistencia compartida entra en la
+  ecuación de $k$ con un menos delante de $i_j$.
+]
+
+#figure(
+  table(
+    columns: (auto, auto),
+    align: (left, left),
+    table.header([*Lo que encuentro al recorrer la malla $k$*], [*Lo que se escribe*]),
+    [resistor $R$ que pertenece solo a la malla $k$], [$R i_k$, a la izquierda],
+    [resistor $R$ compartido con la malla $j$], [$R (i_k - i_j)$, a la izquierda],
+    [fuente en la que se entra por el $-$ y se sale por el $+$], [$+V$, a la derecha],
+    [fuente en la que se entra por el $+$ y se sale por el $-$], [$-V$, a la derecha],
+    [fuente de corriente en una rama exterior], [nada: $i_k$ deja de ser incógnita],
+    [fuente de corriente en una rama compartida],
+      [nada: las dos mallas se unen en una supermalla (sección 8.4)],
+  ),
+  caption: [Cómo se traduce cada elemento al recorrer la malla $k$ en sentido horario],
+)
+
+=== Primero a mano: recorrer las dos mallas
+
+Igual que con nodos, conviene ver el recorrido hecho a mano una vez antes de
+sacar la regla que lo evita. El circuito es el mismo del Ejercicio 7.2, el que
+allá costó tres ecuaciones.
+
+#circuito([El circuito del Ejercicio 7.2, ahora por mallas])[
+#fig-mallas-basico()
+#pie-figura[$R_2$ es la rama compartida y la recorren las dos corrientes de
+  malla en sentidos opuestos: por ella circula $i_A - i_B$.]
+]
+
+#ejercicio("Las dos ecuaciones, paso a paso por el recorrido")[
+  Datos: $V_1 = 12$ V con el $+$ arriba, $R_1 = 2 Omega$, $R_2 = 4 Omega$
+  (compartida), $R_3 = 6 Omega$, $V_2 = 6$ V con el $+$ arriba. Dos mallas, las
+  dos horarias.
+
+  *1. Recorrer la malla $A$*, arrancando en la esquina de abajo a la izquierda:
+
+  - *subiendo por $V_1$*: se entra por el $-$ y se sale por el $+$, es una
+    *subida* de 12 V;
+  - *por arriba, a través de $R_1$*: se recorre a favor de $i_A$, caída
+    $2 i_A$;
+  - *bajando por $R_2$*, que es compartida: hacia abajo la recorren $i_A$ a
+    favor e $i_B$ en contra, caída $4(i_A - i_B)$;
+  - *por abajo, de vuelta al punto de partida*: no hay elementos.
+
+  La LKT dice que todo eso suma cero, contando positivas las subidas:
+  $ 12 - 2 i_A - 4(i_A - i_B) = 0 quad arrow.r quad 6 i_A - 4 i_B = 12 $
+
+  *2. Recorrer la malla $B$*, arrancando en el nodo $(b)$, también horario:
+
+  - *subiendo por $R_2$*: ahora la recorre a favor $i_B$ y en contra $i_A$,
+    caída $4(i_B - i_A)$;
+  - *por arriba, a través de $R_3$*: caída $6 i_B$;
+  - *bajando por $V_2$*: se entra por el $+$ y se sale por el $-$, es una
+    *caída* de 6 V;
+  - *por abajo*: nada.
+
+  $ -4(i_B - i_A) - 6 i_B - 6 = 0 quad arrow.r quad -4 i_A + 10 i_B = -6 $
+
+  *3. Mirar el patrón que salió solo.*
+  $ 6 i_A - 4 i_B = 12 $
+  $ -4 i_A + 10 i_B = -6 $
+  La diagonal (6 y 10) es la suma de las resistencias de cada perímetro. Lo de
+  afuera de la diagonal es la resistencia compartida cambiada de signo, y salió
+  igual en las dos ecuaciones: $-4$ y $-4$. A la derecha quedaron las fuentes,
+  con $+$ la que empuja a favor del recorrido y $-$ la que se opone.
+
+  Nadie impuso ese patrón: salió del recorrido. La regla por inspección de acá
+  abajo es exactamente eso, escrito para no tener que recorrer nunca más.
+]
+
 === La ecuación de una malla
 
 Recorriendo la malla $k$ y aplicando LKT, cada resistor de la malla aporta un término
@@ -227,14 +476,9 @@ $ (sum_(R in k) R) i_k - sum_j (sum_(R in k inter j) R) i_j = V_k $ <ec-malla>
   La matriz $bold(R)$ también resulta *simétrica*, por la misma razón que $bold(G)$.
 ]
 
-#circuito([El circuito del Ejercicio 7.2, ahora por mallas])[
-#fig-mallas-basico()
-#pie-figura[$R_2$ es la rama compartida y la recorren las dos corrientes de
-  malla en sentidos opuestos: por ella circula $i_A - i_B$.]
-]
-
-#ejercicio("El mismo circuito del 7.2, con dos ecuaciones en vez de tres")[
-  *1. Escribir por inspección.* Malla $A$: perímetro $R_1 + R_2 = 6 Omega$. Malla $B$:
+#ejercicio("El mismo circuito, ahora sin recorrer nada")[
+  *1. Escribir por inspección*, sin recorrer ningún lazo. Malla $A$: perímetro
+  $R_1 + R_2 = 6 Omega$. Malla $B$:
   perímetro $R_2 + R_3 = 10 Omega$. Compartida: $R_2 = 4 Omega$.
   La fuente $V_1$ empuja en sentido horario en la malla $A$ ($+12$); la fuente $V_2$ se
   opone al sentido horario de la malla $B$ ($-6$).
@@ -250,9 +494,11 @@ $ (sum_(R in k) R) i_k - sum_j (sum_(R in k inter j) R) i_j = V_k $ <ec-malla>
     i_(R 2) = i_A - i_B = 1,91 "A", quad
     i_(R 3) = i_B = 0,273 "A" $
 
-  *4. Comparar con el 7.2.* Idénticas. Allá salieron de tres ecuaciones armadas a mano
-  recorriendo lazos; acá, de una matriz de $2 times 2$ escrita mirando el dibujo. Y en la
-  sección 8.6 el mismo circuito sale con *una sola* ecuación.
+  *4. Comparar.* Las tres corrientes son idénticas a las del Ejercicio 7.2, que allá
+  costaron tres ecuaciones armadas a mano; y la matriz es idéntica a la que salió
+  recorriendo los dos lazos en el ejercicio anterior, solo que esta vez se escribió
+  mirando el dibujo, en un renglón. Y en la sección 8.7 el mismo circuito sale con *una
+  sola* ecuación.
 ]
 
 == Supermalla: la fuente de corriente que rompe el método
@@ -291,8 +537,13 @@ escribe la ecuación de esa malla.
   Datos: $V = 20$ V y $R_1 = 2 Omega$ en la malla $A$; $R_2 = 6 Omega$ en la malla $B$;
   fuente de 4 A en la rama compartida, en el sentido que corresponde a $i_A - i_B = 4$ A.
 
-  *1. LKT de la supermalla* (horario, salteando la rama de la fuente):
-  $ -20 + 2 i_A + 6 i_B = 0 quad arrow.r quad 2 i_A + 6 i_B = 20 $
+  *1. LKT de la supermalla*: se recorre el perímetro exterior en sentido horario y se
+  saltea la rama del medio. Subiendo por la fuente de 20 V se entra por el $-$ y se sale
+  por el $+$, subida de 20; por arriba, $R_1$ se recorre a favor de $i_A$, caída
+  $2 i_A$; se cruza el hueco donde estaba la fuente de corriente *sin escribir nada*,
+  porque su tensión es justamente lo que el método no sabe expresar; $R_2$ se recorre a
+  favor de $i_B$, caída $6 i_B$; y por abajo se vuelve al punto de partida.
+  $ 20 - 2 i_A - 6 i_B = 0 quad arrow.r quad 2 i_A + 6 i_B = 20 $
 
   *2. Restricción.*
   $ i_A - i_B = 4 quad arrow.r quad i_A = i_B + 4 $
@@ -407,7 +658,7 @@ diagonal sin su pareja. Eso es esperable y no es un error.
   esenciales. Entonces:
 
   - *Kirchhoff a mano*: $b = 3$ ecuaciones. Fue el Ejercicio 7.2.
-  - *Mallas*: $b - n + 1 = 2$ ecuaciones. Fue el Ejercicio 8.3.
+  - *Mallas*: $b - n + 1 = 2$ ecuaciones. Fue el Ejercicio 8.5.
   - *Nodos*: $n - 1 = 1$ ecuación. Es esto.
 
   Con la referencia en el nodo $(b)$, la única incógnita es $v_a$. Las dos fuentes tienen

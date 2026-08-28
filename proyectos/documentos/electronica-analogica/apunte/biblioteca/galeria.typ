@@ -94,6 +94,7 @@
 #muestra("fig-delta-estrella()", fig-delta-estrella())
 
 = Modulo 8 — Nodal y mallas
+#muestra("fig-nodal-primero()", fig-nodal-primero())
 #muestra("fig-nodal-basico()", fig-nodal-basico())
 #muestra("fig-supernodo()", fig-supernodo())
 #muestra("fig-mallas-basico()", fig-mallas-basico())
