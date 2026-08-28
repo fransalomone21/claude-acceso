@@ -1,0 +1,26 @@
+{
+  "_que_es": "Los archivos que NINGUNA sesion puede escribir. Fuente unica: la usan el guardia (.claude/hooks/guardia-iso.ps1), el chequeo de integridad de abrir-sesion.ps1 y probar-hooks.ps1. Si se agrega uno, se agrega ACA y las tres capas lo toman solas.",
+
+  "_por_que_tres_capas": "Una lista negra de comandos tiene agujeros POR CONSTRUCCION, y lo peor de un freno incompleto es que da sensacion de estar protegido. Por eso el guardia NO es la capa principal: es la alarma temprana que explica. La que garantiza es la de abajo -- medir el objeto -- porque mide el EFECTO y no adivina la intencion.",
+
+  "capas": {
+    "1_sistema_operativo": "atributo ReadOnly sobre el archivo. Lo frena todo, incluido lo que no pasa por una sesion de Claude. Se instala y se quita con .claude/instalar-hooks.ps1 / desinstalar-hooks.ps1.",
+    "2_guardia_pretooluse": "deny sobre Write/Edit a la ruta (sin falsos positivos posibles: nadie edita 3,9 GB con Edit) y sobre los patrones donde el archivo esta INEQUIVOCAMENTE en posicion de destino. Explica por que.",
+    "3_integridad_al_abrir": "compara tamano y fecha de modificacion contra la huella de abajo. No tiene agujeros: mide el objeto, no el comando."
+  },
+
+  "archivos": [
+    {
+      "clave": "iso_original_black",
+      "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black.iso",
+      "nombre": "Black.iso",
+      "tam": 3919609856,
+      "mtime_utc": "2016-03-24T05:56:28Z",
+      "por_que": "El ISO limpio de BLACK NTSC-U, SLUS-21376, CRC 5C891FF1. Es la referencia contra la que se verifica todo parche (parche_iso.py verificar) y de la que sale toda copia (parche_iso.py preparar). No se puede volver a bajar sin rehacer el checkpoint 0 entero, y son 3,9 GB. La regla ya estaba escrita en ESTADO_ACTUAL.md desde el principio; lo que faltaba era que algo la midiera.",
+      "se_puede_leer": true,
+      "se_puede_escribir": false
+    }
+  ],
+
+  "_no_protegidos_a_proposito": "Black-mod-armas.iso, Black-mod-7b.iso y cualquier otro mod SI se escriben: son artefactos reproducibles con parche_iso.py a partir del original. Protegerlos seria un freno pasado de rosca, y un freno que molesta sin comprar nada es el que despues hace que se saquen todos."
+}

@@ -1,0 +1,28 @@
+{
+    "hooks":  {
+                  "SessionStart":  [
+                                       {
+                                           "hooks":  [
+                                                         {
+                                                             "type":  "command",
+                                                             "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\frans\\Desktop\\claude-acceso\\.claude\\hooks\\arranque-proyecto.ps1\"",
+                                                             "timeout":  20
+                                                         }
+                                                     ]
+                                       }
+                                   ],
+                  "PreToolUse":  [
+                                     {
+                                         "hooks":  [
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\frans\\Desktop\\claude-acceso\\.claude\\hooks\\guardia-iso.ps1\"",
+                                                           "timeout":  15,
+                                                           "statusMessage":  "guardia de archivos protegidos"
+                                                       }
+                                                   ],
+                                         "matcher":  "Bash|PowerShell|Write|Edit|NotebookEdit"
+                                     }
+                                 ]
+              }
+}

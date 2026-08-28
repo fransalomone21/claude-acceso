@@ -99,6 +99,32 @@ regla que nadie mide se corre sola:
 El segundo es el que hace que el primero valga algo. Un chequeo que nunca
 falló está sin verificar.
 
+## Los frenos — lo que ya no depende de que alguien se acuerde
+
+Desde el **2026-08-28** hay tres capas ejecutables, instaladas y probadas por
+`bootstrap.ps1`:
+
+| capa | qué es | contra qué |
+|---|---|---|
+| 1 | atributo `ReadOnly` sobre los archivos de `.claude/protegidos.json` | lo frena **el sistema operativo**, incluso fuera de una sesión |
+| 2 | hook `PreToolUse` (`.claude/hooks/guardia-iso.ps1`) | alarma temprana que **explica**; falla **cerrado** |
+| 3 | integridad medida en `abrir-sesion.ps1` de cada proyecto | mide el **efecto** sobre el objeto: no tiene agujeros |
+
+Y un hook `SessionStart` emite `.claude/arranque.md`: las autorizaciones
+permanentes y el comando de apertura de cada proyecto, que vivían en archivos
+que **no se leen solos** y por eso se olvidaban cada sesión.
+
+```powershell
+.\probar-hooks.ps1              # 38 casos: cada freno en rojo, y los controles positivos
+.\.claude\desinstalar-hooks.ps1 # lo que se instala solo, se desinstala solo
+```
+
+**Si un comando legítimo queda bloqueado, el guardia no se saca**: se corrige
+el patrón y se vuelve a correr `probar-hooks.ps1`, que exige ver el rojo *y*
+que lo legítimo siga pasando. La segunda mitad no es decorativa — el guardia
+bloqueó mal su primer comando real porque `\bdel\b` matcheaba el "DEL" de una
+frase en español.
+
 ---
 
 ## Dónde está el resto

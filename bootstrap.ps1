@@ -78,6 +78,34 @@ foreach ($c in $sinRemote) {
     }
 }
 
+# --- 4. los frenos: se instalan Y se prueban ------------------------------
+#
+# Sin este bloque los hooks no existirian en ninguna maquina que no sea esta,
+# que es justamente el fallo de arquitectura que venian a arreglar. El
+# instalador GENERA .claude/settings.json con la ruta medida de la maquina en
+# la que corre, asi que no depende de que la ruta absoluta commiteada sirva.
+#
+# Y se corre el saboteador, no solo el instalador: un freno recien instalado
+# que nunca se vio en rojo esta sin verificar. En su primer dia probar-hooks
+# encontro tres agujeros -- fallo abierto en silencio con JSON invalido, "\s"
+# que cortaba en "Program Files", y "\bdel\b" matcheando el "DEL" de una frase
+# en espanol.
+Write-Host ""
+Write-Host "  Instalando y probando los frenos ..." -ForegroundColor Cyan
+$inst = Join-Path $raiz ".claude\instalar-hooks.ps1"
+$prue = Join-Path $raiz "probar-hooks.ps1"
+if ((Test-Path $inst) -and (Test-Path $prue)) {
+    & $inst | Out-Null
+    & $prue
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "  [FAIL] probar-hooks.ps1 en rojo: los frenos NO estan verificados." -ForegroundColor Red
+        $roto = $true
+    }
+} else {
+    Write-Host "  [FAIL] faltan .claude\instalar-hooks.ps1 o probar-hooks.ps1" -ForegroundColor Red
+    $roto = $true
+}
+
 Write-Host ""
 if ($roto) {
     Write-Host "Bootstrap TERMINADO CON PROBLEMAS: ver los [FAIL] de arriba." -ForegroundColor Red
