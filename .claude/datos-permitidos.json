@@ -1,0 +1,32 @@
+{
+  "_por_que": [
+    "claude-acceso es un repo PUBLICO. La regla 5 de verificar-estructura.ps1",
+    "busca mails y telefonos en lo que este repo trackea y falla si encuentra",
+    "alguno. Este archivo es la lista de los que SI pueden estar publicados.",
+    "",
+    "Existe para que 'esto es legitimo' sea un ACTO REGISTRADO y no un",
+    "silencio. Un chequeo sin forma de declarar excepciones se apaga entero la",
+    "primera vez que da un falso positivo, y ahi se pierde tambien la senal",
+    "verdadera. Agregar una entrada aca es barato; apagar el chequeo no.",
+    "",
+    "Antes de agregar una entrada, la pregunta es una sola: si esta persona",
+    "viera su dato en github.com/fransalomone21/claude-acceso, estaria bien?",
+    "Si el dato es de un tercero que no lo consintio, la respuesta no es una",
+    "excepcion: es la fila del medio de la regla 2 -- repo propio."
+  ],
+
+  "excepciones": [
+    {
+      "patron": "tecnica1vl@gmail.com",
+      "donde": "proyectos/documentos/electronica-analogica/fuentes/",
+      "porque": "Pie institucional de la E.E.S.T. N1 de Villa Lujan, impreso en los TPs de la materia que se escanearon como fuente. Es el contacto publico de una escuela, no el dato de un particular: ya figura en su propia papeleria.",
+      "fecha": "2026-08-28"
+    },
+    {
+      "patron": "(011) 47350174",
+      "donde": "proyectos/documentos/electronica-analogica/fuentes/",
+      "porque": "Mismo pie institucional que la entrada de arriba. Telefono de la escuela.",
+      "fecha": "2026-08-28"
+    }
+  ]
+}

@@ -6,6 +6,12 @@
 perfil-global/
 proyectos/seguimiento/caso-tio/
 proyectos/seguimiento/coaching/
+# Los informes de Teoria de Circuitos llevan nombre y correo de dos companeros
+# en la caratula -- la guia de la materia los exige. Datos de terceros que no
+# consintieron publicarse, en un repo publico. La FUENTE vale versionarla (el
+# proximo informe reusa el template), asi que no alcanza con no commitearla:
+# necesita un repo propio que la recuerde sin publicarla.
+proyectos/documentos/teoria-circuitos/
 
 # --- datos de la maquina o de terceros: se quedan aca, no se pushean ---
 # Los informes del telefono llevan apps instaladas, serial y cuentas.

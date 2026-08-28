@@ -77,6 +77,7 @@ dato publicado.
 | `perfil-global/` | `perfil-global` | `github.com/fransalomone21/perfil-global` |
 | `proyectos/seguimiento/caso-tio/` | `caso-tio` (local) | **a ningún lado** — datos de salud de un familiar |
 | `proyectos/seguimiento/coaching/` | `coaching` (local) | GitHub **privado** — falta crear el remote |
+| `proyectos/documentos/teoria-circuitos/` | `teoria-circuitos` (local) | **a ningún lado** — la carátula de los informes lleva nombre y correo de dos compañeros, que la guía de la materia exige ahí |
 
 **La regla que sostiene esta tabla: un archivo, un repo dueño.** Si una carpeta
 tiene su propio `.git`, `claude-acceso` la ignora en el mismo turno en que

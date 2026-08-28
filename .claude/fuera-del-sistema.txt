@@ -1,0 +1,30 @@
+# Carpetas del Escritorio que NO son proyectos de Claude.
+#
+# La regla 6 de verificar-estructura.ps1 lista los directorios del Escritorio
+# y avisa por cada uno que no este ni aca ni adentro de proyectos/. Es el
+# flujo de informacion que le faltaba a la regla 3: hasta el 2026-08-28 las
+# cuatro reglas miraban solo adentro de proyectos/, asi que un proyecto que
+# nacia en el Escritorio era invisible por construccion. Paso: el informe de
+# Teoria de Circuitos se trabajo una sesion entera sin PDP y nada lo noto.
+#
+# Declarar algo aca es decir "esto no es un proyecto de Claude, y lo se".
+# Es a proposito que sea una decision explicita: si la lista se llenara sola,
+# el censo dejaria de decir nada. Lo que se agrega sin pensarlo es ruido, y un
+# aviso que salta para todo entrena a ignorarlo -- que es la unica forma de
+# romper una alarma sin tocarla.
+#
+# Si lo que aparece SI es un proyecto, no va aca: va a
+#   .\nuevo-proyecto.ps1 <nombre> -Naturaleza <ingenieria|documentos|seguimiento>
+#
+# Una linea por carpeta, sin ruta: solo el nombre tal cual esta en el disco.
+# Las lineas vacias y las que empiezan con # se ignoran.
+
+# --- material de trabajo sin proyecto asociado ---
+Mis Documentos
+PlanosGasista
+fotos
+
+# --- programas y entornos, no contenido ---
+Programas
+Programas y juegos
+vscode

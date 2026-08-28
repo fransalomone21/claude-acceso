@@ -48,6 +48,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 |---|---|---|
 | [`electronica-analogica/`](proyectos/documentos/electronica-analogica/) | Apunte de Electrónica Analógica 4.º en Typst, 103 pág. | **ACTIVO** |
 | [`repaso-iise/`](proyectos/documentos/repaso-iise/) | Repaso oral de IISE: guion + audios | terminado |
+| `teoria-circuitos/` | Informes de laboratorio en Typst. El 1 (Thévenin y Norton) entregado | dormido — **repo aparte**: la carátula lleva mails de compañeros |
 
 ### `proyectos/seguimiento/` — datos longitudinales de la vida real
 
@@ -77,10 +78,52 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
    enumeraba dos cuando ya eran tres, y nadie se enteró durante un mes — un
    dato que vive en dos lados diverge, y la lista vive en el disco.
 
-3. **Todo proyecto nuevo nace de un PDP.** `plantillas/PDP.md` — Plan de
-   Desarrollo de Proyecto; el contrato sale de `plantillas/proyecto-CLAUDE.md`.
-   Sin PDP no hay carpeta: es lo que define las fases
-   y, sobre todo, el **criterio de salida** de cada una *antes* de empezarla.
+   **Y cuál repo lo decide la sensibilidad, que es un eje aparte de la
+   naturaleza.** La naturaleza dice *qué se lee y con cuánto rigor* (nivel 3);
+   la sensibilidad dice *dónde puede vivir el archivo*. Son independientes: un
+   informe con mails de terceros se **produce** igual que cualquier otro
+   documento —mismo `documentos.md`, mismo `/pdf-con-codigo`— pero no puede
+   publicarse. Por eso no se inventa una naturaleza para eso; se elige destino:
+
+   | Sensibilidad | Destino | Ejemplos |
+   |---|---|---|
+   | pública | `claude-acceso` | casi todo |
+   | personal, **y vale recordarla** | **repo propio**, ignorado acá, remote privado o ninguno | `caso-tio`, `coaching`, `teoria-circuitos` |
+   | personal, y **no** vale recordarla | carpeta ignorada acá | `telefono-samsung/informes/`, `diagnostico-msi/datos-crudos/` |
+
+   La fila del medio es la que faltaba y la que se elude sola, porque cuesta
+   un `git init` más. Elegir mal para abajo **pierde el trabajo** (nada existe
+   si no está commiteado); elegir mal para arriba **lo publica**. Las dos
+   fallas son silenciosas, así que hay una que las mide: la **regla 5** de
+   `verificar-estructura.ps1` busca mails y teléfonos en lo que este repo
+   trackea. Lo que sea legítimo se declara en `.claude/datos-permitidos.json`
+   — declarar una excepción es un acto, no un silencio.
+
+3. **Todo proyecto nuevo nace de un PDP, y nace acá adentro.** `plantillas/PDP.md`
+   — Plan de Desarrollo de Proyecto; el contrato sale de
+   `plantillas/proyecto-CLAUDE.md`. Sin PDP no hay carpeta: es lo que define
+   las fases y, sobre todo, el **criterio de salida** de cada una *antes* de
+   empezarla.
+
+   **Esta regla se incumplió el 2026-08-28 y nada lo notó.** Un informe de
+   Teoría de Circuitos se trabajó una sesión entera en
+   `Desktop\Informe TC - Thevenin y Norton\`: sin PDP, sin contrato, sin bajar
+   al nivel 3 de la cascada, y sin que ninguna de las cuatro reglas dijera una
+   palabra. No podían: **las cuatro miran adentro de `proyectos/`**, y un
+   proyecto que nace en el Escritorio es invisible por construcción.
+
+   Una regla que se incumple no se escribe más fuerte — se le agrega el flujo
+   de información que falta (`pilares.md`, Meadows). Los dos que se agregaron:
+
+   - **El censo del Escritorio** (regla 6 de `verificar-estructura.ps1`):
+     nombra toda carpeta del Desktop que parezca proyecto y no esté en el
+     sistema. Lo que legítimamente no es un proyecto se declara en
+     `.claude/fuera-del-sistema.txt`. El medidor deja de estar en el sótano.
+   - **`.\nuevo-proyecto.ps1`**: crea carpeta, PDP, contrato, `ESTADO_ACTUAL`
+     y `HANDOFF` en un comando, y avisa de agregarlo al enrutador. Mientras
+     hacerlo bien costó seis pasos y hacerlo mal costó un `mkdir`, la regla
+     iba a seguir perdiendo — y eso no es indisciplina, es la misma señal de
+     impracticabilidad que ya archivó el esquema de un proyecto por rama.
 
 4. **Lo que este archivo dice se verifica antes de repetirlo.** Un documento
    no se entera de que alguien lo cambió. Si una fila de las tablas de arriba
@@ -94,7 +137,15 @@ regla que nadie mide se corre sola:
 ```powershell
 .\verificar-estructura.ps1      # las cuatro reglas, contra el disco
 .\probar-verificador.ps1        # rompe cada una y exige ver el rojo
+.\nuevo-proyecto.ps1 <nombre>   # el camino correcto, en un comando
 ```
+
+`verificar-estructura.ps1` mide las cuatro reglas en **seis** bloques: las
+reglas 5 y 6 son las dos mitades que faltaban y que se descubrieron el mismo
+día, las dos por el mismo informe. La 5 mira **lo que este repo publica** (que
+la regla 2 haya elegido bien el destino); la 6 mira **lo que este repo no ve**
+(que la regla 3 se haya aplicado). Un chequeo que sólo se pregunta por lo que
+ya está adentro no puede atrapar lo que nunca entró.
 
 El segundo es el que hace que el primero valga algo. Un chequeo que nunca
 falló está sin verificar.

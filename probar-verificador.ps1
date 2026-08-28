@@ -34,13 +34,19 @@ function GitRestaurar($rel) {
     & git -C $Raiz checkout -- $rel 2>&1 | Out-Null
 }
 
-function Probar($nombre, $esperado, $romper, $restaurar) {
+# $marca: que nivel tiene que emitir el chequeo saboteado. La regla 6 avisa en
+# WARN y no en FAIL a proposito -- una carpeta sin declarar puede ser legitima
+# y todavia no declarada, y un FAIL ahi bloquearia el verificador entero por
+# algo que no esta roto. Pero un aviso tambien puede estar ciego, asi que se
+# sabotea igual: lo que no se prueba rompiendolo esta sin verificar, sea del
+# color que sea.
+function Probar($nombre, $esperado, $romper, $restaurar, $marca = 'FAIL') {
     $rojo = $null
     try {
         & $romper
         $out = Correr
         $lineas = $out -split "`r?`n" |
-                  Where-Object { $_ -match '\[FAIL\]' -and $_ -match [regex]::Escape($esperado) }
+                  Where-Object { $_ -match "\[$marca\]" -and $_ -match [regex]::Escape($esperado) }
         $rojo = ($lineas -join ' | ').Trim()
     } finally {
         & $restaurar
@@ -128,6 +134,56 @@ $blk = "$Raiz\proyectos\ingenieria\black"
 Probar "regla 4 - proyecto ACTIVO sin ESTADO_ACTUAL.md" "black" `
     { Rename-Item "$blk\ESTADO_ACTUAL.md" "ESTADO_ACTUAL.md.saboteado" } `
     { if (Test-Path "$blk\ESTADO_ACTUAL.md.saboteado") { Rename-Item "$blk\ESTADO_ACTUAL.md.saboteado" "ESTADO_ACTUAL.md" } }
+
+# --- regla 5: un dato personal se cuela en lo que este repo publica ---
+# El mail se ARMA POR PARTES a proposito. Escrito entero, el literal quedaria
+# en este archivo -- que esta tracked -- y la regla 5 lo acusaria en cada
+# corrida normal. Ya paso una vez hoy: el comentario de verificar-estructura.ps1
+# que explicaba un falso positivo lo reintrodujo citandolo. Un escaner se
+# encuentra a si mismo, siempre.
+$mailFalso = 'saboteador' + '@' + 'ejemplo-inexistente.test'
+Probar "regla 5 - mail sin declarar en un archivo tracked" $mailFalso `
+    { Add-Content -LiteralPath "$Raiz\MAPA.md" -Value "`nContacto de prueba: $mailFalso" -Encoding utf8 } `
+    { GitRestaurar 'MAPA.md' }
+
+# --- regla 5 bis: el chequeo falla CERRADO si su config no parsea ---
+# Un guardia que se rinde cuando su propio archivo de excepciones esta roto
+# deja pasar todo justo cuando menos se lo espera. Ya paso con el guardia del
+# ISO (commit 3ea0054), y por eso este caso existe: no alcanza con probar que
+# detecta la fuga, hay que probar que NO se apaga solo.
+$permitidos = "$Raiz\.claude\datos-permitidos.json"
+Probar "regla 5bis - datos-permitidos.json roto: falla CERRADO, no abierto" "no parsea" `
+    { Copy-Item -LiteralPath $permitidos -Destination "$permitidos.bak"
+      Set-Content -LiteralPath $permitidos -Value '{ esto no es json' -Encoding utf8 } `
+    { if (Test-Path "$permitidos.bak") { Move-Item -LiteralPath "$permitidos.bak" -Destination $permitidos -Force } }
+
+# --- regla 6: un proyecto nace en el Escritorio y nadie lo nota ---
+# Es EXACTAMENTE lo que paso el 2026-08-28 con el informe de Teoria de
+# Circuitos: una sesion entera de trabajo sin PDP, sin contrato y sin nivel 3,
+# invisible para las cuatro reglas porque todas miraban adentro de proyectos/.
+$huerfano = Join-Path (Split-Path $Raiz -Parent) 'zz-saboteador-borrame'
+Probar "regla 6 - proyecto huerfano en el Escritorio" "zz-saboteador-borrame" `
+    { New-Item -ItemType Directory -Force -Path $huerfano | Out-Null
+      Set-Content -LiteralPath "$huerfano\notas.md" -Value "trabajo sin PDP" -Encoding utf8 } `
+    { Remove-Item -Recurse -Force $huerfano -ErrorAction SilentlyContinue } `
+    'WARN'
+
+# --- control negativo de la regla 6: lo declarado NO tiene que avisar ---
+# La otra mitad, la que no es decorativa: un censo que avisa por todo entrena a
+# ignorarlo, y ahi se pierde tambien la senal verdadera. El guardia del ISO
+# bloqueo su primer comando legitimo por no tener esta mitad.
+Write-Host ""
+$declarada = Join-Path (Split-Path $Raiz -Parent) 'fotos'
+if (Test-Path -LiteralPath $declarada) {
+    $out = Correr
+    if ($out -match 'zz-saboteador|(?m)^\s*\[WARN\].*''fotos''') {
+        Write-Host "  [RUIDO!!] regla 6 avisa por una carpeta declarada en fuera-del-sistema.txt" -ForegroundColor Red
+        $resultados += $false
+    } else {
+        Write-Host "  [CALLA OK] regla 6 - lo declarado en fuera-del-sistema.txt no hace ruido" -ForegroundColor Green
+        $resultados += $true
+    }
+}
 
 Write-Host ""
 $ciegos = @($resultados | Where-Object { -not $_ }).Count

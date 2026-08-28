@@ -237,6 +237,178 @@ foreach ($linea in ($textoClaude -split "`n")) {
 }
 
 # =========================================================================
+# REGLA 5 -- Nada personal en lo que este repo PUBLICA.
+# =========================================================================
+# La regla 2 elige el repo dueno segun la sensibilidad. Elegir mal para abajo
+# pierde el trabajo; elegir mal para arriba lo PUBLICA. Las dos fallas son
+# silenciosas. Esta mide la segunda sobre el objeto real: lo que git trackea.
+#
+# Cuando se escribio, ya estaba en rojo: electronica-analogica/fuentes/ tenia
+# un mail y un telefono commiteados desde siempre y nadie los habia mirado.
+# Resultaron ser el pie institucional de la escuela, y ESO ES EL PUNTO: la
+# diferencia entre 'dato legitimo' y 'fuga' la decide una persona, una vez, y
+# queda escrita en .claude/datos-permitidos.json. Un chequeo sin forma de
+# declarar excepciones se apaga entero al primer falso positivo.
+Titulo "regla 5: datos personales en lo que este repo publica"
+
+$permitidos = @()
+$rutaPermitidos = Join-Path $Raiz '.claude\datos-permitidos.json'
+$configOk = $true
+if (-not (Test-Path $rutaPermitidos)) {
+    Warn "no hay .claude/datos-permitidos.json: se escanea sin excepciones declaradas"
+} else {
+    try {
+        $permitidos = @((Get-Content -Raw -LiteralPath $rutaPermitidos | ConvertFrom-Json).excepciones)
+    } catch {
+        # Falla CERRADO. Un guardia que se rinde cuando su propio config no
+        # parsea deja pasar todo justo cuando menos se lo espera -- ya paso con
+        # el guardia del ISO (commit 3ea0054). Aca eso es una falla, no un aviso.
+        Fail ".claude/datos-permitidos.json no parsea: $($_.Exception.Message)"
+        Write-Host "         El chequeo NO corre sin su lista de excepciones. Arreglar el JSON." -ForegroundColor Red
+        $configOk = $false
+    }
+}
+
+if ($configOk) {
+    # Los binarios no se escanean como texto, y el archivo de declaraciones
+    # contiene los patrones por definicion: escanearlo seria acusarse solo.
+    $binarias = '\.(png|jpg|jpeg|gif|bmp|pdf|docx|xlsx|pptx|zip|exe|dll|bin|iso|p2s|ttf|otf|ico|mp3|wav|mp4|sav)$'
+    $patrones = @(
+        @{ Nombre = 'mail';     Rx = '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' },
+        # Telefono argentino, a proposito ESPECIFICO: prefijo entre parentesis
+        # o +54. Un patron laxo de "8 a 10 digitos" da cientos de falsos
+        # positivos sobre las direcciones y offsets del proyecto black, y una
+        # alarma que salta para todo entrena a ignorarla.
+        @{ Nombre = 'telefono'; Rx = '\(0\d{2,4}\)\s*\d{6,8}|\+54[\s-]*9?[\s-]*\d{2,4}[\s-]*\d{6,8}' }
+    )
+
+    Push-Location $Raiz
+    try {
+        # La lista de extensiones es un ATAJO para no abrir archivos grandes,
+        # no el criterio. El criterio es el contenido: un binario tiene bytes
+        # NUL y un texto no. Enumerar extensiones siempre deja una afuera -- la
+        # primera corrida acuso como mail una tira de basura binaria adentro de
+        # un .swp de SolidWorks. Un positivo vale lo que valga el parametro.
+        #
+        # Y ese ejemplo NO se transcribe literal en este comentario: la corrida
+        # siguiente lo encontro aca y se acuso a si misma. Este script se
+        # escanea como cualquier otro, a proposito -- excluirlo seria dejar el
+        # unico archivo donde un mail pegado por error no se veria nunca.
+        $tracked = @(git ls-files | Where-Object {
+            $_ -notmatch $binarias -and $_ -ne '.claude/datos-permitidos.json'
+        } | Where-Object {
+            $esTexto = $false
+            try {
+                $fs  = [System.IO.File]::OpenRead((Join-Path $Raiz $_))
+                $buf = New-Object byte[] 8192
+                $n   = $fs.Read($buf, 0, 8192)
+                $fs.Close()
+                $esTexto = $true
+                for ($i = 0; $i -lt $n; $i++) { if ($buf[$i] -eq 0) { $esTexto = $false; break } }
+            } catch { $esTexto = $false }
+            $esTexto
+        })
+
+        $fugas = @{}
+        $usadas = @{}
+        foreach ($pat in $patrones) {
+            if ($tracked.Count -eq 0) { continue }
+            $hits = Select-String -Path $tracked -Pattern $pat.Rx -AllMatches -ErrorAction SilentlyContinue
+            foreach ($h in $hits) {
+                $rel = $h.Path
+                if ([System.IO.Path]::IsPathRooted($rel)) {
+                    $rel = $rel.Substring($Raiz.Length + 1)
+                }
+                $rel = $rel.Replace('\', '/')
+                foreach ($m in $h.Matches) {
+                    $valor = $m.Value
+                    $exc = $permitidos | Where-Object {
+                        $_.patron -eq $valor -and $rel.StartsWith($_.donde)
+                    } | Select-Object -First 1
+                    if ($exc) {
+                        $usadas[$exc.patron] = $true
+                        continue
+                    }
+                    $clave = "$($pat.Nombre)|$valor|$rel"
+                    if (-not $fugas.ContainsKey($clave)) { $fugas[$clave] = 0 }
+                    $fugas[$clave]++
+                }
+            }
+        }
+
+        if ($fugas.Count -eq 0) {
+            Ok "ningun mail ni telefono sin declarar en los $($tracked.Count) archivos de texto que este repo publica"
+        } else {
+            foreach ($k in ($fugas.Keys | Sort-Object)) {
+                $p = $k -split '\|', 3
+                Fail "$($p[0]) sin declarar: '$($p[1])' en $($p[2]) ($($fugas[$k]) vez/veces)"
+            }
+            Write-Host "         claude-acceso es PUBLICO. Dos arreglos validos, ninguno es borrar el chequeo:" -ForegroundColor Red
+            Write-Host "           a) el dato es de un tercero -> el proyecto va a repo propio (regla 2, fila del medio)" -ForegroundColor Red
+            Write-Host "           b) el dato es legitimamente publico -> declararlo en .claude/datos-permitidos.json" -ForegroundColor Red
+        }
+
+        # Una excepcion que ya no matchea nada es ruido que se acumula: la
+        # proxima persona que lea el archivo no sabe cual sigue viva.
+        foreach ($e in $permitidos) {
+            if (-not $usadas.ContainsKey($e.patron)) {
+                Warn "datos-permitidos.json declara '$($e.patron)' y ya no aparece en ningun archivo tracked. Sacarlo."
+            }
+        }
+    } finally {
+        Pop-Location
+    }
+}
+
+# =========================================================================
+# REGLA 6 -- Censo del Escritorio: los proyectos que nacieron afuera.
+# =========================================================================
+# Las reglas 1 a 4 miran adentro de proyectos/. Un proyecto que nace en el
+# Escritorio es invisible para las cuatro, por construccion -- no por
+# distraccion. Paso el 2026-08-28: un informe de Teoria de Circuitos se
+# trabajo una sesion entera sin PDP, sin contrato y sin bajar al nivel 3 de
+# la cascada, y ninguna regla dijo una palabra.
+#
+# Meadows: una regla que se incumple no se escribe mas fuerte, se le agrega el
+# flujo de informacion que falta. Esto es el medidor electrico mudado del
+# sotano a la entrada.
+Titulo "regla 6: censo del Escritorio -- proyectos que nacieron afuera"
+
+$escritorio = Split-Path $Raiz -Parent
+$fuera = @()
+$rutaFuera = Join-Path $Raiz '.claude\fuera-del-sistema.txt'
+if (Test-Path $rutaFuera) {
+    $fuera = @(Get-Content -LiteralPath $rutaFuera |
+        ForEach-Object { $_.Trim() } |
+        Where-Object { $_ -ne '' -and -not $_.StartsWith('#') })
+} else {
+    Warn "no hay .claude/fuera-del-sistema.txt: el censo va a avisar por toda carpeta del Escritorio"
+}
+
+# Que hace que una carpeta "parezca proyecto": tener archivos de trabajo.
+# Una carpeta de programas o de fotos no los tiene, y por eso no hace ruido.
+$marcasDeProyecto = '\.(md|typ|tex|py|ps1|ipynb|c|h|cpp|rs|go|docx|xlsx|csv|json|sql)$'
+$huerfanos = @()
+foreach ($d in (Get-ChildItem -LiteralPath $escritorio -Directory -Force -ErrorAction SilentlyContinue)) {
+    if ($d.FullName -eq $Raiz -or $d.Name -eq (Split-Path $Raiz -Leaf)) { continue }
+    if ($fuera -contains $d.Name) { continue }
+    $marcas = @(Get-ChildItem -LiteralPath $d.FullName -File -Recurse -Depth 2 -Force -ErrorAction SilentlyContinue |
+        Where-Object { $_.Name -match $marcasDeProyecto } | Select-Object -First 3)
+    if ($marcas.Count -gt 0) { $huerfanos += ,@($d.Name, $marcas) }
+}
+
+if ($huerfanos.Count -eq 0) {
+    Ok "ninguna carpeta del Escritorio quedo fuera del sistema sin declarar"
+} else {
+    foreach ($h in $huerfanos) {
+        Warn "'$($h[0])' esta en el Escritorio, parece proyecto y no esta en el sistema."
+        Write-Host "         Lo delata: $(($h[1] | ForEach-Object { $_.Name }) -join ', ')" -ForegroundColor Yellow
+        Write-Host "         Si ES un proyecto : .\nuevo-proyecto.ps1 '$($h[0])' -Naturaleza <ingenieria|documentos|seguimiento>" -ForegroundColor Yellow
+        Write-Host "         Si NO lo es       : agregar '$($h[0])' a .claude\fuera-del-sistema.txt" -ForegroundColor Yellow
+    }
+}
+
+# =========================================================================
 Write-Host ""
 if ($fallas -gt 0) {
     Write-Host "ESTRUCTURA CON $fallas FALLA(S) y $avisos aviso(s)." -ForegroundColor Red
@@ -259,6 +431,12 @@ Write-Host ""
 #   regla 3b enlazar a un archivo inexistente en CLAUDE.md  -> [FAIL] nombrando el enlace
 #   regla 3c borrar una fila de la tabla de duenos de MAPA  -> [FAIL] nombrando el repo
 #   regla 4  sacar el ESTADO_ACTUAL.md de un proyecto ACTIVO-> [FAIL] nombrandolo
+#   regla 5  pegar un mail en un archivo tracked            -> [FAIL] con archivo y valor
+#   regla 5b romper el JSON de datos-permitidos             -> [FAIL]: falla CERRADO
+#   regla 6  crear una carpeta con un .md en el Escritorio  -> [WARN] nombrandola
+#   regla 6  ...y con una carpeta YA declarada              -> silencio (control negativo)
 #
 # Un bloque que se agregue aca abajo sin su linea de sabotaje esta sin
-# verificar, por bien escrito que parezca.
+# verificar, por bien escrito que parezca. Y las dos ultimas lineas van
+# juntas: probar solo que el aviso salta deja sin probar que se calla, y un
+# aviso que salta para todo se rompe solo -- la gente aprende a ignorarlo.
