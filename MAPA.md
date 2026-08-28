@@ -80,12 +80,14 @@ dato publicado.
 
 **La regla que sostiene esta tabla: un archivo, un repo dueño.** Si una carpeta
 tiene su propio `.git`, `claude-acceso` la ignora en el mismo turno en que
-aparece. Chequeo barato, que conviene correr si algo se ve raro:
+aparece.
 
-```bash
-git ls-files perfil-global | wc -l          # tiene que dar 0
-git ls-files proyectos/seguimiento/caso-tio | wc -l   # tiene que dar 0
-```
+**Esta tabla la chequea una máquina**, no la buena memoria de nadie:
+`verificar-estructura.ps1` descubre en el disco qué carpetas tienen `.git`
+propio y falla si alguna no figura acá, o si figura y no está en `.gitignore`.
+Se rompió a propósito para comprobar que discrimina (`probar-verificador.ps1`,
+caso 3c). Antes del 2026-08-28 la tabla era prosa y el `CLAUDE.md` declaraba
+dos repos cuando el disco ya tenía tres.
 
 ## 3. Lo que NO se versiona, y por qué
 
@@ -136,15 +138,23 @@ del enrutador.
 
 ## 6. Pendientes conocidos de la estructura
 
-1. **19 lecciones sin foldear** en `chequeo-de-trabajo.md`: el contador dice 45
-   y el registro tiene 66. `install.ps1` avisa, y **el aviso se deja
-   encendido**: subir el número sin auditarlas apagaría la única señal que
-   existe sobre ellas.
+1. **Lecciones sin foldear** en `chequeo-de-trabajo.md`. `install.ps1` imprime
+   los dos números en cada corrida —el que declara el chequeo y el que tiene el
+   registro— y **el aviso se deja encendido**: subir el número sin auditarlas
+   apagaría la única señal que existe sobre ellas. Acá no se anota la cifra a
+   propósito: ya estuvo desactualizada dos veces en este mismo archivo.
 2. **La rama `rescate/disco-20260827`** de `perfil-global` guarda el estado del
    disco previo a la reconciliación. Tiene ~115 renglones propios que no se
    auditaron uno por uno. No se borra hasta revisarlos.
-3. **`verify-install.ps1` verifica presencia y efecto, no contenido.** Dio
-   verde mientras la máquina corría el perfil viejo. Falta que compare contra
-   el repo — está en el registro como lección del 2026-08-27.
-4. **`~/.claude/` tiene ~30 `CLAUDE.md.bak-*` y ~20 `settings.json.bak-*`**
-   sueltos en la raíz, y existe una carpeta `backups/` sin usar.
+3. ~~**`verify-install.ps1` verifica presencia y efecto, no contenido.**~~
+   **RESUELTO (2026-08-28).** Compara el **hash SHA256** de cada archivo
+   instalado contra el del repo, usando `perfil-global/manifiesto.ps1` — la
+   misma lista que usa `install.ps1` para copiar, así que las dos puntas no
+   pueden discrepar. Probado con el escenario exacto que antes daba verde: se
+   modificó la copia instalada y el verificador se puso en rojo nombrando el
+   archivo.
+4. ~~**`~/.claude/` tenía decenas de `.bak-*` sueltos en la raíz.**~~
+   **RESUELTO (2026-08-28).** Eran 91. `install.ps1` los muda a `backups/` y
+   poda los de `CLAUDE.md` dejando los 10 últimos —su historia completa está
+   en git—. Los de `settings.json` **no se borran**: ese archivo no vive en
+   ningún repo. Era una canilla abierta sin desagüe.

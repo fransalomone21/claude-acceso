@@ -4,7 +4,8 @@
 # Hace tres cosas y nada mas:
 #   1. Se asegura de que perfil-global este clonado (es un repo aparte).
 #   2. Instala el perfil en ~/.claude y lo verifica.
-#   3. Chequea el invariante que ya se rompio una vez: un archivo, un repo dueno.
+#   3. Corre verificar-estructura.ps1: las cuatro reglas del CLAUDE.md,
+#      ejecutables, incluida la del invariante que ya se rompio una vez.
 #
 # ASCII puro a proposito: la consola de Windows lee cp1252 y los acentos salen
 # mojibake.
@@ -45,37 +46,28 @@ Write-Host ""
 Write-Host "  Verificando..." -ForegroundColor Cyan
 & (Join-Path $perfil "verify-install.ps1")
 
-# --- 3. el invariante: un archivo, un repo dueno ---------------------------
-Write-Host ""
-Write-Host "=== invariante: un archivo, un repo dueno ===" -ForegroundColor Cyan
-Write-Host "  Una carpeta con su propio .git NO puede estar tracked por claude-acceso."
-Write-Host "  Se rompio una vez y costo 23 lecciones perdidas. Ver MAPA.md, seccion 4."
+# --- 3. la estructura entera, no solo el invariante ------------------------
 #
-# Esta alarma FUE PROBADA rompiendo el caso a proposito (2026-08-27):
-#   - repo externo con sub/archivo.md tracked, y DESPUES git init en sub/
-#     -> [FAIL], detecta 1 archivo. ROJO.
-#   - el mismo arbol sin tracking cruzado -> [OK]. VERDE.
-# Nota del primer intento fallido: sabotear con "git add -f" sobre un repo YA
-# anidado no rompe nada -- git ignora esos archivos y el indice queda vacio, asi
-# que la alarma daba verde porque el escenario estaba sano, no porque fuera
-# ciega. El caso roto solo se produce en el orden real: primero tracked,
-# despues clonado adentro.
-Write-Host ""
-
+# El chequeo del invariante (un archivo, un repo dueno) vivia aca adentro y se
+# mudo a verificar-estructura.ps1 el 2026-08-28, junto con las otras tres
+# reglas del CLAUDE.md, que hasta ese dia no las chequeaba nadie. El motivo es
+# el de siempre: una regla que nadie mide se corre sola, y se corrio -- los
+# documentos declaraban dos repos propios cuando el disco ya tenia tres.
+#
+# Los seis bloques de ese script estan probados por sabotaje, y el saboteador
+# quedo commiteado al lado: .\probar-verificador.ps1 los vuelve a probar
+# cuando haga falta, en vez de una sola vez el dia que se escribieron.
+$verificador = Join-Path $raiz "verificar-estructura.ps1"
 $roto = $false
-Get-ChildItem -Path $raiz -Directory -Recurse -Depth 3 -Force |
-    Where-Object { Test-Path (Join-Path $_.FullName ".git") } |
-    ForEach-Object {
-        $rel = $_.FullName.Substring($raiz.Length + 1).Replace('\', '/')
-        $n = (git ls-files -- "$rel" | Measure-Object -Line).Lines
-        if ($n -gt 0) {
-            Write-Host "  [FAIL] $rel tiene su propio .git y claude-acceso trackea $n archivo(s)." -ForegroundColor Red
-            Write-Host "         Arreglo: git rm -r --cached '$rel'  y agregarlo a .gitignore"
-            $roto = $true
-        } else {
-            Write-Host "  [OK]   $rel : repo propio, 0 archivos tracked aca." -ForegroundColor Green
-        }
-    }
+
+if (-not (Test-Path $verificador)) {
+    Write-Host ""
+    Write-Host "  [FAIL] falta verificar-estructura.ps1 en la raiz." -ForegroundColor Red
+    $roto = $true
+} else {
+    & $verificador -Raiz $raiz
+    if ($LASTEXITCODE -ne 0) { $roto = $true }
+}
 
 # Las carpetas ignoradas que no se pueden clonar de ningun lado
 $sinRemote = @("proyectos/seguimiento/caso-tio", "proyectos/seguimiento/coaching")

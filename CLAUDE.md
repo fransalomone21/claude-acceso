@@ -54,7 +54,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 | Proyecto | Qué es | Estado |
 |---|---|---|
 | `caso-tio/` | Caso clínico familiar → guía para la familia | vivo, **repo aparte, no se pushea acá** |
-| [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **abierto, sin arrancar** — el PDP ya tiene la entrevista hecha |
+| [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **abierto, sin arrancar** — el PDP ya tiene la entrevista hecha. **Repo aparte**, sin remote todavía |
 
 ---
 
@@ -71,9 +71,11 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
    el proyecto iba por la 7e.
 
 2. **Un archivo, un repo dueño.** Si una carpeta tiene su propio `.git`, este
-   repo la pone en `.gitignore` en el mismo turno. Hoy son `perfil-global/` y
-   `proyectos/seguimiento/caso-tio/`. Chequeo barato:
-   `git ls-files <carpeta>` tiene que dar **0**.
+   repo la pone en `.gitignore` en el mismo turno, y `git ls-files <carpeta>`
+   tiene que dar **0**. *Cuáles son hoy no se escribe acá*: se mide con
+   `.\verificar-estructura.ps1`, que las descubre en el disco. Esta línea
+   enumeraba dos cuando ya eran tres, y nadie se enteró durante un mes — un
+   dato que vive en dos lados diverge, y la lista vive en el disco.
 
 3. **Todo proyecto nuevo nace de un PDP.** `plantillas/PDP.md` — Plan de
    Desarrollo de Proyecto; el contrato sale de `plantillas/proyecto-CLAUDE.md`.
@@ -85,6 +87,18 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
    contradice al `ESTADO_ACTUAL.md` del proyecto, **gana el proyecto** y esta
    tabla se corrige en el mismo turno.
 
+**Las cuatro son ejecutables desde el 2026-08-28.** Antes, la única con un
+chequeo era la 2; las otras tres las sostenía que alguien se acordara, y una
+regla que nadie mide se corre sola:
+
+```powershell
+.\verificar-estructura.ps1      # las cuatro reglas, contra el disco
+.\probar-verificador.ps1        # rompe cada una y exige ver el rojo
+```
+
+El segundo es el que hace que el primero valga algo. Un chequeo que nunca
+falló está sin verificar.
+
 ---
 
 ## Dónde está el resto
@@ -93,5 +107,8 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
   `perfil-global/` — repo propio, se instala con `perfil-global\install.ps1`.
 - **El inventario completo del sistema**, con el porqué de cada decisión de
   estructura: [`MAPA.md`](MAPA.md). Se lee una vez, no cada sesión.
-- **Máquina nueva, o falta alguna carpeta ignorada**: `.\bootstrap.ps1`.
+- **Máquina nueva, o falta alguna carpeta ignorada**: `.\bootstrap.ps1` —
+  clona el perfil, lo instala, lo verifica y corre `verificar-estructura.ps1`.
+- **¿La estructura sigue sana?**: `.\verificar-estructura.ps1`. Y para probar
+  que ese chequeo no está ciego: `.\probar-verificador.ps1`.
 - **Las ramas viejas** y qué quedó en cada una: [`archivo/RAMAS.md`](archivo/RAMAS.md).
