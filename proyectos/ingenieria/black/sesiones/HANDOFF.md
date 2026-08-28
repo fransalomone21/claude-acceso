@@ -6,7 +6,7 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 
 ---
 
-## AÑADIDO 2026-08-28 — dos hallazgos que cambian el plan de 7e
+## AÑADIDO 2026-08-28 — tres hallazgos que cambian el plan de 7e
 
 **(A) El stream de módulos está EN EL ISO, y es direccionable.** Medido en
 frío, con piso de ruido. Sale de
@@ -46,12 +46,32 @@ como "un observable más barato que la pantalla". **No lo son:**
   `sprintf` real (`FUN_0035d728`) sobre un buffer de **256 bytes del stack** y
   después **no hace nada con él**. Muere con el frame.
 
-**Lo que sigue, entonces:** el observable tiene que ser **contable en RAM**.
-El camino de éxito es `FUN_00175A00` → `FUN_00175f10(param_1 + idx*0xC + 0x40,
-obj, param_3)`: un array de entradas de `0xC` bytes. Rompiendo un nombre
-`0x2D`, tiene que quedar en **255 de 256**. **Paso siguiente y es GRATIS:**
-encontrar y contar esas 256 entradas en `volcados/ee-e4.bin` (LEVEL_00 con el
-ISO original) para tener el **control** antes de gastar un solo arranque.
+**(C) EL OBSERVABLE DE REEMPLAZO TAMBIÉN ESTÁ MUERTO. El control en frío se
+hizo, y refutó la premisa.** (2026-08-28, tarde; bitácora (37).)
+
+Se proponía contar el array de `FUN_00175A00` → `FUN_00175f10(param_1 +
+idx*0xC + 0x40, …)` y esperar **255 de 256**. Medido:
+
+| medición | valor |
+|---|---|
+| dirección del registro | **`0x004CB1C8`** = `*(0x0040F4D4) + 0xA48` |
+| ranuras del array | **48 (`0x30`)**, *no* 256 |
+| registros `0x2D` en el stream de LEVEL_00 | 256 |
+| de esos, pasan la guarda `blob[0x1E]==1` | **4** (`LW0001910/911/913/931`) |
+| **RANURAS OCUPADAS** | **0 de 48**, igual en los **9** volcados del repo |
+
+El «255 de 256» nunca fue posible: el techo era **4**, y lo medido es **0**.
+El 256 existe pero es del *stream*, no de este array.
+
+**Lo que sí varía y es contable:** la **cabecera** de 16 entradas del mismo
+objeto (`+0x00`, paso `0x500`): `ee-03.bin` tiene **5** con `+0x70 != 0`, los
+otros 8 volcados tienen **3**. Candidato a reemplazo.
+
+**PREGUNTA ABIERTA que decide el próximo paso, y no está medida:** ¿el array
+se llena y se vacía, o no se llena nunca? Las dos cosas dan el mismo `0` en un
+volcado. El instrumento (`herramientas/registro_fisica.py`, autotest de 6
+casos y 4 sabotajes, probado en rojo) **nunca vio una ranura ocupada de
+verdad**: el `0` es confirmado como medición, "siempre vacío" es *probable*.
 
 **Ojo con §4 y §6 de abajo:** el `cd` de §4 tiene la ruta vieja del repo, y la
 Vía C se apoyaba en el mensaje de error que ahora está refutado.

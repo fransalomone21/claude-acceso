@@ -596,6 +596,27 @@
       "nombre": "objeto de fisica registrado en el pathfinding",
       "confianza": "probable",
       "notas": "Su handler FUN_00175980 referencia 0x003F54A0: 'Message to Level Designer / Physics object %s tagged for Pathfinding collision has been removed without reexporting the world view'. 256 instancias en LEVEL_00, blob de 32 B (242) o 48 B (14), nombres LW0001xxx. EVIDENCIA DE LECTURA (cadena en el handler), NO de efecto.",
+      "guarda_despachador": {
+        "instruccion": "0x0015F780 lbu v1,0x1E(v0) ; 0x0015F784 bne v1,1",
+        "campo": "blob[0x1E] == 1",
+        "reparto_en_level_00": {"0x00": 250, "0x01": 4, "0x02": 2},
+        "pasan": 4,
+        "nombres_que_pasan": ["LW0001910", "LW0001911", "LW0001913", "LW0001931"],
+        "confianza": "confirmado",
+        "evidencia": "desensamblado del sitio de llamada + conteo sobre volcados/ee-e4.bin (registro_fisica.py autotest)"
+      },
+      "registro_destino": {
+        "direccion": "0x004CB1C8",
+        "como_se_calcula": "*(u32*)0x0040F4D4 + 0xA48, del sitio de llamada 0x0015F794 y su delay slot",
+        "layout": "+0x00 16 punteros (paso 0x500 en LEVEL_00); +0x40 array de 0x30 ranuras de 0xC",
+        "ranuras": 48,
+        "ranura": "+0x00 u8 ocupada(=1) | +0x01 u8 param_3 | +0x04 u32 objeto | +0x08 u32 *(DAT_0040F4D0+0x20)",
+        "ocupadas_medidas": 0,
+        "volcados_medidos": 9,
+        "confianza": "confirmado",
+        "evidencia": "topes de FUN_00175BF0 (0x2F<) y FUN_00175C30 (<0x30); herramientas/registro_fisica.py todos",
+        "aviso": "NO son 256 ranuras. El 256 es la cantidad de registros 0x2D del stream, no el tamano de este array. El plan de 7e daba por sentado '255 de 256' y el techo real era 4. El instrumento nunca vio una ranura ocupada: que el array este SIEMPRE vacio es 'probable', no 'confirmado'."
+      },
       "instancias_level_00": 256,
       "tam_blob": "32x242,48x14",
       "tam_blob_fijo": false,

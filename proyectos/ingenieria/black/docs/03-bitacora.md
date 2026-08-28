@@ -16,6 +16,113 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-28 (37) — 7e paso 2: el CONTROL en frío del observable. El array no es de 256, es de 48, y está VACÍO
+
+**Máquina:** PC · **Modelo:** Opus, esfuerzo medio, sin fan-out
+**Objetivo:** el *characterization test* que el plan de 7e ponía como paso
+siguiente: contar, **en frío** sobre `volcados/ee-e4.bin`, las entradas de `0xC`
+bytes que llena el camino de éxito del tipo `0x2D`, **antes** de gastar un
+arranque del emulador. Escribir lo que el volcado **tiene**, no lo que la
+hipótesis espera.
+
+**Resultado: el control está escrito, y refuta la premisa del plan.** El
+emulador no se abrió y no se escribió un byte.
+
+### EL CONTROL — `python herramientas/registro_fisica.py medir`
+
+| medición | valor | cómo se obtuvo |
+|---|---|---|
+| dirección del registro | **`0x004CB1C8`** | `*(0x0040F4D4) + 0xA48`, del sitio de llamada desensamblado |
+| ranuras del array | **48 (`0x30`)**, *no* 256 | topes de `FUN_00175BF0` (`0x2F <`) y `FUN_00175C30` (`< 0x30`), coinciden |
+| tamaño de la ranura | `0xC` | `param_1 + idx*0xC + 0x40` |
+| registros tipo `0x2D` en el stream de LEVEL_00 | **256** | `stream_modulos.py` sobre el descriptor `0x01092800` |
+| de esos, los que pasan la guarda del despachador | **4** | `lbu v1,0x1E(v0); bne v1,1` en `0x0015F780` |
+| **RANURAS OCUPADAS en `ee-e4.bin`** | **0 de 48** | byte `+0x00` de cada ranura |
+| ídem en los **otros 8** volcados de 32 MB del repo | **0 de 48, los nueve** | `registro_fisica.py todos` |
+
+**Los tres números que el plan daba por sabidos estaban mal, y el que estaba
+bien no era de este array.** El 256 existe —son los registros `0x2D` del
+stream— pero el array que los recibe tiene 48 ranuras, y sólo 4 de los 256
+registros llegan siquiera a intentar ocupar una. El «tiene que quedar en 255 de
+256» nunca fue posible: el techo era 4.
+
+### Layout del objeto, leído de las rutinas que lo recorren
+
+```
+0x004CB1C8  +0x00  16 punteros        FUN_00175BB0 (int*, +1, tope 0xF)
+            +0x40  0x30 ranuras 0xC   FUN_00175BF0 / FUN_00175C30
+```
+
+Ranura (`FUN_00175F10`): `+0x00 u8` ocupada(=1) · `+0x01 u8` param_3 ·
+`+0x04 u32` objeto · `+0x08 u32` `*(DAT_0040F4D0 + 0x20)`.
+
+**Control positivo de que la base está bien:** los 16 punteros de la cabecera
+son `0x006BD600 … 0x006C2100`, **paso uniforme `0x500`**, idénticos en los 9
+volcados. No se le acierta a eso por casualidad — y los dos sabotajes del
+autotest (global `0x0040F4D0`, desplazamiento `0xA40`) rompen esa regularidad,
+que es exactamente lo que tienen que hacer.
+
+### La guarda que el plan no había visto
+
+El despachador llama al handler **sólo si `blob[0x1E] == 1`**:
+
+```
+0x0015F778  lw    v0, 4(s1)          ; blob del registro
+0x0015F780  lbu   v1, 0x1E(v0)
+0x0015F784  bne   v1, a0, 0x0015F7DC ; a0 = 1
+0x0015F794  lw    a0, -2860(v1)      ; *(0x0040F4D4)
+0x0015F79C  jal   0x00175980
+0x0015F7A0  addiu a0, a0, 2632       ; delay slot -> + 0xA48
+```
+
+Reparto de `blob[0x1E]` en los 256: **250 en `0x00`, 4 en `0x01`, 2 en `0x02`**.
+Los cuatro que pasan son `LW0001910`, `LW0001911`, `LW0001913` y `LW0001931`
+(registros #326, #327, #329 y #406).
+
+### Lo que sí es un observable, y varía
+
+La **cabecera** de 16 entradas no está vacía y **cambia entre volcados**:
+`ee-03.bin` tiene **5** entradas con `+0x70 != 0`; los otros 8, **3**
+(`0x00FC8460`, `0x00FC8630`, `0x00FC89D0`). Todas con `+0x7C == 3`; **ninguna
+con 4**, que es lo que busca `FUN_00175BB0`. Es el candidato a reemplazo del
+observable muerto: es contable en RAM, es estable de sesión a sesión y ya se
+lo vio tomar dos valores distintos.
+
+**No funcionó:**
+- **Ghidra volvió a perder argumentos, y por tercera vez.** Muestra
+  `FUN_00175BB0()` sin ninguno (su firma real toma dos) y
+  `FUN_00129160(DAT_0040f4d0)` con uno. Peor: el `DAT_0040f4d0` que nombra **no
+  es el global que usa el sitio de llamada**, que es `0x0040F4D4`, cuatro bytes
+  más allá. Las constantes de la herramienta salen del desensamblado a mano, no
+  del decompilador.
+- **Buscar el array por su contenido no habría servido.** Está todo en cero: no
+  tiene firma. Se llegó por la cadena de llamadas, no por el dato.
+- `xref 0x0040F4D0` da **709 referencias** y no discrimina nada. Es el
+  síntoma de "sospechá del parámetro de la búsqueda", otra vez.
+
+**El instrumento todavía no está probado contra un positivo real.** El
+contador dijo `0` nueve veces y nunca otra cosa. El sabotaje (a) del autotest
+ocupa una ranura a mano en una copia del volcado y exige que la cuente —eso
+prueba que **sabe** decir otra cosa—, pero no reemplaza a haber visto una
+ocupación de verdad. El `0` es **confirmado como medición**; que el array
+«esté siempre vacío» es **probable**, no confirmado.
+
+**Herramienta nueva, con autotest probado en rojo:**
+`herramientas/registro_fisica.py` — `medir` / `todos` / `autotest`
+(6 casos confirmados, 4 sabotajes). Se lo rompió a propósito dos veces
+(`ESPERADO["ocupadas"]=1` y `paso_cab=0x400`) y salió en rojo con código 1 las
+dos, y volvió a verde al restaurar.
+
+**Sigue:** decidir el observable de reemplazo antes de tocar el emulador. El
+array de 48 no sirve leído de un volcado. Los dos candidatos, en orden de
+costo: **(1)** la cabecera de 16 (contable, varía, estable) y **(2)** una
+lectura *en vivo* del array por PINE en el instante de la carga del nivel, que
+es más caro y hay que justificarlo. La pregunta abierta que decide entre los
+dos: **¿el array se llena y se vacía, o no se llena nunca?** — hoy no está
+medido, y las dos cosas producen el mismo `0` en un volcado.
+
+---
+
 ## 2026-08-23 (36) — 7e paso 1 CERRADO: el layout del registro, verificado contra datos, y el stream encontrado
 
 **Máquina:** PC · **Modelo:** Opus, esfuerzo alto, sin fan-out

@@ -231,10 +231,27 @@ N2  FASES DEL JUEGO
             casos**: caen en el `default`, así que el `switch` es el esquema de
             lo que *este* dispatcher construye, **no del archivo entero**.
             Lo que falta para cerrar 7e es la **verificación por efecto**, y
-            **ésa sí necesita el emulador**. Candidato más barato: el `0x2D`
-            (256 instancias, física/pathfinding).
-            Herramientas nuevas, las dos con autotest **probado en rojo**:
-            `herramientas/stream_modulos.py` y `herramientas/tipos_modulo.py`.
+            **ésa sí necesita el emulador**.
+            **PASO 2 CERRADO 2026-08-28** (bitácora (37), en frío): el
+            *characterization test* del observable del `0x2D` **refutó la
+            premisa del plan**. El array del camino de éxito tiene **48
+            ranuras (`0x30`), no 256**, vive en **`0x004CB1C8`**
+            (`*(0x0040F4D4) + 0xA48`), y está **VACÍO: 0 de 48**, igual en los
+            **9** volcados de 32 MB del repo. El «255 de 256» nunca fue
+            posible: el despachador llama al handler **sólo si
+            `blob[0x1E] == 1`**, y de los 256 registros `0x2D` **pasan 4**
+            (`LW0001910/911/913/931`). El techo del observable era 4, y lo
+            medido es 0. **El observable del plan está muerto también por esta
+            vía.**
+            **Lo que sí varía y es contable:** la cabecera de 16 entradas del
+            mismo objeto — `ee-03.bin` tiene **5** con `+0x70 != 0`, los otros
+            8 volcados tienen **3**. Es el candidato a reemplazo.
+            **Pregunta abierta que decide el próximo paso:** ¿el array se llena
+            y se vacía, o no se llena nunca? Las dos cosas dan el mismo `0` en
+            un volcado, y **no está medido**.
+            Herramientas nuevas, las tres con autotest **probado en rojo**:
+            `herramientas/stream_modulos.py`, `herramientas/tipos_modulo.py` y
+            `herramientas/registro_fisica.py`.
         Sirve al objetivo que fijó Fran el 2026-08-17: hacer BLACK más
         difícil y meterle cambios tipo remaster (armas, tipos de enemigo,
         coop). El plan de experimentos está en `docs/08-experimentos.md`
@@ -415,6 +432,8 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
 | **El stream de módulos del nivel: `0x01092800 = {count=857, array=0x0109F590}`**, 41 tipos distintos, registros de `0x10` | dos derivaciones independientes dan 857: el `count` leído y el largo por monotonía del puntero. Los blobs teselan `0x010928B0`–`0x0109F540` sin solaparse. `stream_modulos.py autotest` |
 | **Layout del registro: `+0x00` tipo, `+0x04` blob (tamaño variable), `+0x08` ID64 DEL NOMBRE** — `+0x08` NO es una posición | los id64 decodifican a `GP0101001527`, `LW0001781`, `SQTOM`, `SD0101000007`. `FUN_00174430` (tipos `0x03`–`0x09`) deferencia `param_3+4` como su struct |
 | **Tipo `0x2D` = objeto de física registrado en el pathfinding** (256 instancias en LEVEL_00) | su handler `FUN_00175980` referencia `0x003F54A0`: `'Physics object %s tagged for Pathfinding collision…'`. **Evidencia de lectura, no de efecto** |
+| **El registro que llena el `0x2D` tiene 48 ranuras (`0x30`), NO 256, y en los 9 volcados está VACÍO (0/48)** — vive en `0x004CB1C8` = `*(0x0040F4D4) + 0xA48` | topes de `FUN_00175BF0`/`FUN_00175C30`; base del sitio de llamada `0x0015F794`+delay slot; cabecera de 16 punteros con paso uniforme `0x500` como control positivo. `registro_fisica.py autotest` |
+| **El despachador llama al handler del `0x2D` sólo si `blob[0x1E] == 1`: pasan 4 de 256** (`LW0001910/911/913/931`) | `lbu v1,0x1E(v0); bne v1,1` en `0x0015F780`. Reparto: 250 en `0x00`, 4 en `0x01`, 2 en `0x02` |
 | Identidad: `SLUS-21376`, CRC `5C891FF1`, versión `1.00`, NTSC-U | `pine.py info` + log de arranque → `kb/objetivo.json` |
 | **Vida del jugador = `0x005A8DA8`** (`jugador 0x005A8AB0 + 0x2F8`, f32) | escaneo diferencial + escritura con efecto. **Confirmación independiente de terceros:** el código público es `205A8DA8 44960000` |
 | **Daño al jugador: `0x0013BD20`** (`swc1 f20,0x2F8(s2)`) | watchpoint + golpe real; nop = vida infinita |
