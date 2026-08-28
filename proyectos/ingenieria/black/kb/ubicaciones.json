@@ -2,25 +2,19 @@
   "_que_es": "Dónde vive cada archivo del proyecto que NO está adentro del repo. Fuente única. Ningún documento ni script debe repetir estas rutas: se piden con `python herramientas/ubicaciones.py ruta <clave>`.",
   "_como_se_verifica": "python herramientas/ubicaciones.py  — mide la máquina, no lee este archivo como si fuera verdad. Si una ruta se movió, sale en rojo y se corrige ACÁ, en un solo lugar.",
   "_trampa": "Las rutas con corchetes (Black [NTSC]) rompen Test-Path/Get-ChildItem de PowerShell si no se pasa -LiteralPath: los corchetes son wildcard y la ruta da False existiendo. En Python no pasa. Por eso el verificador es Python.",
-  "_medido": "2026-08-21",
+  "_medido": "2026-08-28",
   "rutas": {
     "repo_proyecto": {
-      "ruta": "C:\\Users\\frans\\Desktop\\claude-acceso\\black",
+      "ruta": "C:\\Users\\frans\\Desktop\\claude-acceso\\proyectos\\ingenieria\\black",
       "tipo": "carpeta",
       "critico": true,
-      "que_es": "el repo de BLACK, rama claude/black-game-reverse-engineering-ricv3t"
+      "que_es": "el repo de BLACK. Desde el 2026-08-28 es UNA CARPETA dentro de claude-acceso, no una rama: hay un solo arbol y una sola rama (main)"
     },
     "repo_perfil_global": {
-      "ruta": "C:\\Users\\frans\\Desktop\\perfil-global",
+      "ruta": "C:\\Users\\frans\\Desktop\\claude-acceso\\perfil-global",
       "tipo": "carpeta",
       "critico": false,
-      "que_es": "la metodología transversal, repo propio desde 2026-08-17. Hermano de claude-acceso, NO adentro"
-    },
-    "atajos_escritorio": {
-      "ruta": "C:\\Users\\frans\\Desktop\\BLACK",
-      "tipo": "carpeta",
-      "critico": false,
-      "que_es": "los .bat de arranque y LEEME.md. ABRIR-BLACK-ORIGINAL.bat es el de esta fase"
+      "que_es": "la metodologia transversal. Repo PROPIO anidado dentro de claude-acceso e ignorado por el (regla 2: un archivo, un repo dueno)"
     },
     "iso_original": {
       "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black.iso",
@@ -92,5 +86,6 @@
     "_que_es": "unidades virtuales. Se miden con `Get-DiskImage -DevicePath \\\\.\\CdRom0`, no se suponen por letra.",
     "D:": "Black.iso (el ORIGINAL). Verificado 2026-08-21 por Get-DiskImage.",
     "E:": "monta el MISMO Black.iso original — NO es el ISO parcheado. Verificado por huella: GLOBDATA.BIN de D: y de E: tienen el mismo md5 e48221c5d55af24abe41399fad359500. Si alguna vez hace falta el mod montado, montarlo a propósito."
-  }
+  },
+  "_movido_2026_08_28": "La reestructuracion 'un proyecto, una carpeta' movio el repo y el perfil global. atajos_escritorio se ELIMINO: los .bat ya no estan en C:\\Users\\frans\\Desktop\\BLACK (esa carpeta no existe en el disco), viven en lanzadores/ ADENTRO del repo, y este archivo solo lista lo que esta AFUERA."
 }

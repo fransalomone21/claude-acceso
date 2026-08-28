@@ -12,7 +12,7 @@ Todo a mano, sin buscar nada.
 ## Verificar que el debugger responde
 
 ```
-cd C:\Users\frans\Desktop\claude-acceso\black
+cd C:\Users\frans\Desktop\claude-acceso\proyectos\ingenieria\black
 python herramientas\depurador.py estado
 ```
 
@@ -21,7 +21,7 @@ Tiene que decir `alive True` y un `pc` que empiece con `0x001` o `0x002`.
 ## El paso que cierra la Fase 2 (2 minutos, necesita que juegues)
 
 ```
-cd C:\Users\frans\Desktop\claude-acceso\black
+cd C:\Users\frans\Desktop\claude-acceso\proyectos\ingenieria\black
 python herramientas\pine.py savestate --slot 5
 python herramientas\depurador.py vigilante poner 0x005A8DA8 --tipo write --accion break
 python herramientas\depurador.py esperar --segundos 120
@@ -48,6 +48,6 @@ emulador — no se rompe nada permanente, se pierde la partida no guardada.
 
 ## Dónde está todo lo demás
 
-- Proyecto: `C:\Users\frans\Desktop\claude-acceso\black`
+- Proyecto: `C:\Users\frans\Desktop\claude-acceso\proyectos\ingenieria\black`
 - Estado del proyecto: `black\ESTADO_ACTUAL.md`
 - Para retomar una sesión: `black\sesiones\HANDOFF.md`
