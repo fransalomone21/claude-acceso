@@ -48,7 +48,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 |---|---|---|
 | [`electronica-analogica/`](proyectos/documentos/electronica-analogica/) | Apunte de Electrónica Analógica 4.º en Typst, 103 pág. | **ACTIVO** |
 | [`repaso-iise/`](proyectos/documentos/repaso-iise/) | Repaso oral de IISE: guion + audios | terminado |
-| `teoria-circuitos/` | Informes de laboratorio en Typst. El 1 (Thévenin y Norton) entregado | dormido — **repo aparte**: la carátula lleva mails de compañeros |
+| `teoria-circuitos/` | Informes de laboratorio en Typst. El 1 (Thévenin y Norton) entregado; Pre-Lab de amplificadores operacionales abierto | **ACTIVO** — **repo aparte**: la carátula lleva mails de compañeros |
 
 ### `proyectos/seguimiento/` — datos longitudinales de la vida real
 
