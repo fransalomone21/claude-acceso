@@ -449,6 +449,45 @@ if ($huerfanos.Count -eq 0) {
 }
 
 # =========================================================================
+# REGLA 7 -- La cascada no se corta en el nivel 6.
+# =========================================================================
+# El nivel 6 es "el detalle que la tarea pida", y quien lo manda es el contrato
+# del proyecto (nivel 4). La regla 3b ya exige que los enlaces del ENRUTADOR
+# resuelvan, pero nadie miraba los de cada contrato -- y ahi es donde la
+# cascada se corta sin hacer ruido: la sesion baja hasta el nivel 4, sigue el
+# puntero al nivel 6 y cae en un archivo que no existe.
+#
+# Es la misma ceguera POR CONSTRUCCION que motivo las reglas 5 y 6: un
+# verificador solo ve donde vive, y este vivia un nivel mas arriba.
+Titulo "regla 7: la cascada no se corta en el nivel 6"
+
+$cortes = 0
+$conContrato = 0
+foreach ($p in $proyectos) {
+    $contrato = Join-Path $p.Ruta 'CLAUDE.md'
+    if (-not (Test-Path -LiteralPath $contrato)) { continue }  # ya lo dijo la regla 1
+    $conContrato++
+    $txtContrato = Get-Content -Raw -LiteralPath $contrato
+    foreach ($m in [regex]::Matches($txtContrato, '\]\(([^)#:]+?)\)')) {
+        $destino = $m.Groups[1].Value
+        if ($destino -match '^(https?|mailto)') { continue }
+        # -LiteralPath obligatorio: los corchetes de una ruta son wildcard en
+        # PowerShell y Test-Path devuelve False SIN ERROR sobre algo que existe.
+        $abs = Join-Path $p.Ruta ($destino -replace '/', '\')
+        if (-not (Test-Path -LiteralPath $abs)) {
+            Fail "$($p.Rel)/CLAUDE.md enlaza a '$destino' y no existe: la cascada se corta en el nivel 6."
+            $cortes++
+        }
+    }
+}
+if ($cortes -eq 0) {
+    Ok "los enlaces de los $conContrato contratos resuelven: la cascada llega hasta el nivel 6"
+}
+
+# El flujo mismo --que archivos leer, en que orden, para UN proyecto-- lo emite
+# .\cascada.ps1 <proyecto>. Aca solo se verifica que no este roto.
+
+# =========================================================================
 Write-Host ""
 if ($fallas -gt 0) {
     Write-Host "ESTRUCTURA CON $fallas FALLA(S) y $avisos aviso(s)." -ForegroundColor Red

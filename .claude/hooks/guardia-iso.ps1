@@ -6,12 +6,27 @@
 # La que garantiza es la capa 3 (integridad medida en abrir-sesion.ps1), porque
 # mide el EFECTO sobre el objeto y no adivina la intencion de un comando.
 #
-# FALLA CERRADO A PROPOSITO. Si el JSON del hook no parsea, NO deja pasar en
-# silencio: corre los mismos patrones sobre el texto crudo. Un guardia que se
-# desactiva solo cuando no entiende la entrada es peor que no tenerlo, porque
-# nadie se entera de que dejo de proteger. Lo encontro probar-hooks.ps1 con un
-# payload mal escapado, que es justo la forma en que esto aparece en la vida
-# real: no como un ataque, como un formato que cambio.
+# NUNCA SE DESACTIVA EN SILENCIO. Tiene TRES entradas y las tres estan
+# cubiertas -- enumerar las entradas antes de contar los casos es lo que hizo
+# falta para encontrar la segunda, que sobrevivio una sesion entera dedicada a
+# sabotear este mismo archivo:
+#
+#   1. el PAYLOAD del evento. Si el JSON no parsea, corre los mismos patrones
+#      sobre el texto crudo (leccion 70). Lo encontro probar-hooks.ps1 con un
+#      payload mal escapado -- que es como esto aparece en la vida real: no
+#      como un ataque, como un formato que cambio.
+#   2. el CONFIG (protegidos.json). Ausente, corrupto o vacio -> 'ask', no
+#      'permitir'. Era fail-open silencioso hasta el 2026-08-28; ver
+#      Preguntar-Config para por que 'ask' y no 'deny'.
+#   3. el ENTORNO. stdin ilegible o vacio -> deja pasar, y es correcto: un
+#      hook sin entrada no es una llamada a una herramienta. Es la unica
+#      salida temprana que queda abierta a proposito, y esta declarada aca
+#      para que no vuelva a ser un hallazgo dentro de seis meses.
+#
+# Un caso tapa un agujero; un PRINCIPIO hace un barrido. El principio es
+# Saltzer y Schroeder (1975): todo camino de salida temprana de un mecanismo
+# de EXCLUSION es un fail-open hasta que se demuestre lo contrario, y falla en
+# silencio -- que es lo que lo hace durar.
 #
 # Lee el JSON del hook por stdin. Silencio + exit 0 = dejar pasar.
 #
@@ -31,6 +46,65 @@ function Denegar([string]$razon) {
     }
     Write-Output ($o | ConvertTo-Json -Depth 6 -Compress)
     exit 0
+}
+
+# 'ask' = ni permitir ni denegar: se lo pregunta al humano. Es lo que
+# corresponde cuando el guardia no puede decidir porque perdio su config, no
+# cuando detecto una violacion. Ver Preguntar-Config.
+function Preguntar([string]$razon) {
+    $o = @{
+        hookSpecificOutput = @{
+            hookEventName            = 'PreToolUse'
+            permissionDecision       = 'ask'
+            permissionDecisionReason = $razon
+        }
+    }
+    Write-Output ($o | ConvertTo-Json -Depth 6 -Compress)
+    exit 0
+}
+
+# El config es la SEGUNDA entrada del guardia, y hasta el 2026-08-28 fue su
+# agujero: si protegidos.json no estaba, no parseaba o traia la lista vacia, el
+# guardia dejaba pasar TODO en silencio. Tres caminos de salida temprana, los
+# tres fail-open (Saltzer y Schroeder, 1975: un mecanismo de EXCLUSION falla
+# permitiendo, "a failure which may go unnoticed in normal use").
+#
+# Ahora los tres FALLAN CERRADO. La objecion que lo habia dejado sin arreglar
+# --"deny cuando falta el config rompe cualquier repo donde el hook este
+# instalado y el archivo no exista"-- se MIDIO y no aplica: el hook se registra
+# UNICAMENTE en .claude/settings.json de claude-acceso, y protegidos.json esta
+# trackeado en ese mismo repo (git ls-files lo confirma). Ahi "no esta" no
+# significa "este repo no lo configuro": significa que el archivo del repo
+# desaparecio, que es exactamente el modo de falla peligroso.
+#
+# QUE decision, y por que NO es 'deny'. Se probaron las dos:
+#
+#   deny  -> brickea la salida. El arreglo es 'git checkout -- .claude/
+#            protegidos.json', que es un comando Bash, y este mismo guardia
+#            matchea Bash: se bloquearia a si mismo el unico camino de vuelta.
+#            Un freno del que no se sabe salir es el que despues se saca entero.
+#   ask   -> le pasa la decision al humano, que es lo correcto cuando el
+#            guardia YA NO SABE que proteger. No deja pasar por su cuenta y no
+#            brickea nada.
+#
+# Y ademas: la capa 2 NO es la que garantiza --lo dice protegidos.json y lo
+# dice el Nivel 0-- porque una lista negra tiene agujeros por construccion. La
+# que garantiza es la capa 1 (ReadOnly del SO) y la capa 3 (integridad medida
+# sobre el objeto). Que la capa 2 se caiga es sobrevivible; que se caiga EN
+# SILENCIO no lo es. El defecto nunca fue "deja pasar": fue "nadie se entera".
+function Preguntar-Config([string]$estado, [string]$cfg) {
+    # ${estado}, no $estado: dentro de un string de PowerShell, una variable
+    # seguida de ':' se parsea como calificador de espacio de nombres --el
+    # mismo mecanismo de $env:VAR-- y el archivo entero deja de parsear. El
+    # sintoma no apunta aca: cmd.exe escupe un NativeCommandError desde el
+    # script que lo invoca, y la linea que senala es la del invocador.
+    Preguntar ("El config del guardia esta ${estado}: '$cfg' es la lista de archivos intocables " +
+               "y el guardia NO la puede leer, asi que la capa 2 esta CIEGA -- no sabe que proteger. " +
+               "Siguen en pie la capa 1 (ReadOnly del SO) y la capa 3 (integridad al abrir sesion), " +
+               "pero la alarma temprana no esta. NO se aprueba esto a ciegas. " +
+               "SALIDA, un comando: git checkout -- .claude/protegidos.json  (esta trackeado en este repo). " +
+               "Si de verdad se quiere sacar el freno: .claude\desinstalar-hooks.ps1 -- lo que se instala " +
+               "solo tiene que poder desinstalarse solo. Despues de cualquiera de las dos: .\probar-hooks.ps1")
 }
 
 # Los patrones donde el archivo protegido esta INEQUIVOCAMENTE de destino.
@@ -97,10 +171,13 @@ if ([string]::IsNullOrWhiteSpace($raw)) { Salir-Permitiendo }
 
 $raiz = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $cfg  = Join-Path $raiz '.claude\protegidos.json'
-if (-not (Test-Path -LiteralPath $cfg)) { Salir-Permitiendo }
-try { $prot = (Get-Content -LiteralPath $cfg -Raw -Encoding UTF8 | ConvertFrom-Json).archivos }
-catch { Salir-Permitiendo }
-if (-not $prot) { Salir-Permitiendo }
+# Las TRES salidas tempranas del config -- ausente, no parsea, lista vacia --
+# eran fail-open silencioso hasta el 2026-08-28. Ninguna de las tres se puede
+# distinguir desde afuera de "el guardia anda bien y no vio nada".
+if (-not (Test-Path -LiteralPath $cfg)) { Preguntar-Config 'AUSENTE' $cfg }
+try   { $prot = (Get-Content -LiteralPath $cfg -Raw -Encoding UTF8 | ConvertFrom-Json).archivos }
+catch { Preguntar-Config 'CORRUPTO (no parsea como JSON)' $cfg }
+if (-not $prot -or @($prot).Count -eq 0) { Preguntar-Config 'VACIO (no declara ningun archivo)' $cfg }
 
 $ev = $null
 try { $ev = $raw | ConvertFrom-Json } catch { $ev = $null }

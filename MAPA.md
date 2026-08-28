@@ -18,7 +18,8 @@ C:\Users\frans\Desktop\
 │   ├── MAPA.md                       este archivo
 │   ├── bootstrap.ps1                 deja una máquina lista
 │   ├── nuevo-proyecto.ps1            crea (o adopta) un proyecto con PDP y contrato
-│   ├── verificar-estructura.ps1      las 4 reglas, en 6 bloques, contra el disco
+│   ├── cascada.ps1                   el flujo de lectura de UN proyecto, en orden
+│   ├── verificar-estructura.ps1      las 4 reglas, en 7 bloques, contra el disco
 │   ├── probar-verificador.ps1        rompe cada bloque y exige el rojo
 │   ├── .gitignore                    quién NO se versiona acá, y por qué
 │   ├── .claude\

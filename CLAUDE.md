@@ -26,6 +26,23 @@ Los niveles 0-2 llegan solos y no cuestan decisión. Del 3 al 6 se baja **sólo
 hasta donde la tarea necesite**: cada nivel cuesta contexto, y el contexto es
 lo que después falta para pensar el problema difícil.
 
+**Esa tabla dice qué clase de archivo va en cada nivel; no dice cuál es el
+archivo del proyecto que estás por abrir.** Esa traducción la hacía la sesión,
+de memoria, cada vez — y lo que depende de que alguien lo recuerde no es una
+regla, es una intención. Ahora la emite un comando:
+
+```powershell
+.\cascada.ps1                   # los proyectos que hay en el disco
+.\cascada.ps1 <proyecto>        # los archivos a leer, en orden, con rutas exactas
+```
+
+`cascada.ps1` **no tiene ninguna lista propia**: deriva todo del disco, de la
+carpeta de naturaleza y del contrato del proyecto. Una segunda lista sería
+exactamente el problema que existe para no crear. Y de paso imprime **juntas**
+las dos fuentes que ya se contradijeron una vez —la fila del enrutador y el
+encabezado del `ESTADO_ACTUAL` del proyecto— para que la divergencia se vea en
+el momento en que importa. Si no coinciden, **manda el proyecto** (regla 4).
+
 ---
 
 ## Los proyectos
@@ -140,12 +157,22 @@ regla que nadie mide se corre sola:
 .\nuevo-proyecto.ps1 <nombre>   # el camino correcto, en un comando
 ```
 
-`verificar-estructura.ps1` mide las cuatro reglas en **seis** bloques: las
-reglas 5 y 6 son las dos mitades que faltaban y que se descubrieron el mismo
-día, las dos por el mismo informe. La 5 mira **lo que este repo publica** (que
-la regla 2 haya elegido bien el destino); la 6 mira **lo que este repo no ve**
-(que la regla 3 se haya aplicado). Un chequeo que sólo se pregunta por lo que
-ya está adentro no puede atrapar lo que nunca entró.
+`verificar-estructura.ps1` mide las cuatro reglas en **siete** bloques. Los
+tres últimos son mitades que faltaban, y las tres son la misma clase de
+ceguera: *un verificador sólo ve donde vive.*
+
+| bloque | mira | qué agujero tapa |
+|---|---|---|
+| 5 | lo que este repo **publica** | que la regla 2 haya elegido bien el destino |
+| 6 | lo que este repo **no ve** (el Escritorio) | que la regla 3 se haya aplicado |
+| 7 | lo que cada **contrato** enlaza | que la cascada no se corte en el nivel 6 |
+
+La 5 y la 6 se descubrieron el mismo día, las dos por el mismo informe: un
+chequeo que sólo se pregunta por lo que ya está adentro no puede atrapar lo
+que nunca entró. La 7 es la de abajo — la regla 3b ya exigía que los enlaces
+del **enrutador** resolvieran, pero nadie miraba los de cada contrato, que es
+justo donde una sesión que ya bajó al nivel 4 sigue el puntero y cae en la
+nada.
 
 El segundo es el que hace que el primero valga algo. Un chequeo que nunca
 falló está sin verificar.
@@ -166,7 +193,7 @@ permanentes y el comando de apertura de cada proyecto, que vivían en archivos
 que **no se leen solos** y por eso se olvidaban cada sesión.
 
 ```powershell
-.\probar-hooks.ps1              # 38 casos: cada freno en rojo, y los controles positivos
+.\probar-hooks.ps1              # cada freno en rojo, y los controles positivos
 .\.claude\desinstalar-hooks.ps1 # lo que se instala solo, se desinstala solo
 ```
 
@@ -186,8 +213,14 @@ frase en español.
   estructura: [`MAPA.md`](MAPA.md). Se lee una vez, no cada sesión.
 - **Máquina nueva, o falta alguna carpeta ignorada**: `.\bootstrap.ps1` —
   clona el perfil, lo instala, lo verifica y corre `verificar-estructura.ps1`.
+- **¿Qué leo para entrar a un proyecto?**: `.\cascada.ps1 <proyecto>` — el
+  flujo de los seis niveles, con rutas exactas y medido contra el disco.
 - **¿La estructura sigue sana?**: `.\verificar-estructura.ps1`. Y para probar
   que ese chequeo no está ciego: `.\probar-verificador.ps1`.
+- **¿El fan-out no se decide solo?**: es el guardia de nivel 4 del perfil
+  (`perfil-global/hooks/guardia-fanout.ps1`), que intercepta `Workflow` y
+  `Agent` y **pregunta**. Para probar que no está ciego:
+  `perfil-global\probar-guardia-fanout.ps1`.
 - **Proyecto nuevo** (o adoptar uno que nació suelto en el Escritorio):
   `.\nuevo-proyecto.ps1 <nombre> -Naturaleza <nat> [-Desde <ruta>] [-Sensible]`.
 - **¿Las lecciones llegan a alguna sesión?**:

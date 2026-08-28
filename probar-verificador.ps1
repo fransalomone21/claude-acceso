@@ -193,6 +193,16 @@ Probar "regla 6 - proyecto huerfano en el Escritorio" "zz-saboteador-borrame" `
     { Remove-Item -Recurse -Force $huerfano -ErrorAction SilentlyContinue } `
     'WARN'
 
+# --- regla 7: el contrato de un proyecto apunta al nivel 6 y ese archivo no esta ---
+# La regla 3b ya cubria los enlaces del ENRUTADOR. Este es el nivel de abajo:
+# la sesion baja hasta el contrato del proyecto, sigue el puntero que el
+# contrato le da, y cae en la nada. Nadie lo miraba -- ceguera por
+# construccion, la misma clase que motivo las reglas 5 y 6.
+Probar "regla 7 - el contrato del proyecto enlaza al vacio (nivel 6)" "nivel 6" `
+    { Add-Content -LiteralPath "$Raiz\proyectos\ingenieria\black\CLAUDE.md" `
+        -Value "`n[detalle](docs/no-existe-saboteador.md)" -Encoding utf8 } `
+    { GitRestaurar 'proyectos/ingenieria/black/CLAUDE.md' }
+
 # --- control negativo de la regla 6: lo declarado NO tiene que avisar ---
 # La otra mitad, la que no es decorativa: un censo que avisa por todo entrena a
 # ignorarlo, y ahi se pierde tambien la senal verdadera. El guardia del ISO

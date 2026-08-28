@@ -4,6 +4,19 @@ El enrutador de proyectos (que hay y donde) es CLAUDE.md y se carga solo: no
 se repite aca, porque un dato que vive en dos lados diverge. Lo de abajo es
 lo que hoy vive en archivos que NO se leen solos, y por eso se olvidaba.
 
+ENTRAR A UN PROYECTO ES UN COMANDO, NO UN ACTO DE MEMORIA
+    .\cascada.ps1 <proyecto>
+  Emite los seis niveles con las RUTAS EXACTAS de ese proyecto: la naturaleza
+  (nivel 3), el contrato (4), ESTADO_ACTUAL y HANDOFF (5) y lo que el contrato
+  manda (6), midiendo contra el disco cual existe y cual no. Sin argumento,
+  lista los proyectos.
+  La tabla de CLAUDE.md dice QUE CLASE de archivo va en cada nivel; no dice
+  cual es el archivo de ESTE proyecto. Esa traduccion se hacia de memoria cada
+  vez, y lo que depende de acordarse no es una regla: es una intencion.
+  Imprime tambien JUNTAS la fila del enrutador y el encabezado del
+  ESTADO_ACTUAL. Si se contradicen, MANDA EL PROYECTO y el enrutador se
+  corrige en el mismo turno.
+
 AUTORIZACIONES PERMANENTES -- no se piden de nuevo cada sesion
   - Los .bat de arranque los ABRE LA SESION, no Fran. Estan en
     proyectos/ingenieria/black/lanzadores/ y se lanzan con la herramienta de

@@ -212,8 +212,10 @@ operativo, y si las dos se contradicen **manda la bitácora**.
 
 **El verificador, ¿alguna vez falló?** Sí, y de las dos maneras que importan:
 
-- `probar-hooks.ps1` corre **38 casos** que rompen cada freno a propósito y
-  exigen ver el rojo, más los controles positivos.
+- `probar-hooks.ps1` rompe cada freno a propósito y exige ver el rojo, más los
+  controles positivos. *(Cuántos casos son no se escribe acá: un número a mano
+  diverge del script en la primera corrida que agregue uno. El script lo
+  imprime al terminar.)*
 - El guardia del ISO **bloqueó mal su primer comando legítimo**: `\bdel\b`
   matcheaba el «DEL» de una frase en español. Se corrigió el patrón y se volvió
   a correr la batería — el freno no se saca, se arregla.

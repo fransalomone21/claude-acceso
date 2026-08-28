@@ -46,10 +46,16 @@ function Correr-Guardia([string]$json) {
 function Caso-Guardia([string]$etiqueta, [string]$json, [bool]$esperaDeny) {
     $out = Correr-Guardia $json
     $denego = $out -match '"permissionDecision"\s*:\s*"deny"'
+    # 'pasar' es pasar EN SILENCIO. Desde que el guardia tiene un tercer
+    # veredicto ('ask', cuando pierde su config), un control positivo que solo
+    # exigiera "no dijo deny" daria verde con el guardia preguntando en cada
+    # comando legitimo -- que es un falso positivo, y un freno con falsos
+    # positivos es MENOS seguro, no solo mas molesto.
+    $pregunto = $out -match '"permissionDecision"\s*:\s*"ask"'
     if ($esperaDeny) {
-        Resultado $denego $etiqueta "esperaba DENY y el guardia dejo pasar. Salida: '$($out.Trim())'"
+        Resultado $denego $etiqueta "esperaba DENY y el guardia no lo dio. Salida: '$($out.Trim())'"
     } else {
-        Resultado (-not $denego) $etiqueta "esperaba PASAR y el guardia bloqueo. Salida: '$($out.Trim())'"
+        Resultado (-not ($denego -or $pregunto)) $etiqueta "esperaba PASAR EN SILENCIO y el guardia intervino. Salida: '$($out.Trim())'"
     }
 }
 
@@ -64,7 +70,22 @@ foreach ($f in @($guardia, $arranque, $cfg, (Join-Path $raiz '.claude\arranque.m
     Resultado (Test-Path -LiteralPath $f) ("existe " + (Split-Path -Leaf $f)) "falta $f"
 }
 
-$prot = (Get-Content -LiteralPath $cfg -Raw -Encoding UTF8 | ConvertFrom-Json).archivos
+# "Existe" no es "sirve": el config es la fuente unica de las tres capas, y un
+# archivo que esta pero no parsea las apaga a las tres juntas. Se chequea ACA,
+# antes de que ninguna lo lea, y como caso con nombre -- no como un crash del
+# script, que es lo que pasaba antes.
+$prot = $null
+try   { $prot = (Get-Content -LiteralPath $cfg -Raw -Encoding UTF8 | ConvertFrom-Json).archivos }
+catch { $prot = $null }
+Resultado ($null -ne $prot -and @($prot).Count -gt 0) `
+    "protegidos.json parsea y declara al menos un archivo" `
+    "el config existe pero no parsea o no declara nada: las tres capas leen de aca"
+if ($null -eq $prot -or @($prot).Count -eq 0) {
+    Write-Output ""
+    Write-Output "  Se corta aca: sin config no hay nada que probar. git checkout -- .claude/protegidos.json"
+    exit 1
+}
+
 $iso  = $prot | Where-Object { $_.clave -eq 'iso_original_black' }
 $ruta = $iso.ruta
 $nom  = $iso.nombre
@@ -200,6 +221,68 @@ Write-Output "capa 2 -- el guardia no se cae con entrada rara"
 
 Caso-Guardia "entrada vacia -> deja pasar, no explota" "" $false
 Caso-Guardia "JSON sin tool_input -> deja pasar" (@{ tool_name = 'Bash' } | ConvertTo-Json -Compress) $false
+
+Write-Output ""
+Write-Output "capa 2 -- la SEGUNDA entrada del guardia: su propio config"
+
+# Todos los casos de arriba atacan UNA sola entrada: el payload del evento. El
+# guardia tiene TRES --payload, config, entorno-- y hasta el 2026-08-28 la del
+# config era fail-open SILENCIOSO: con protegidos.json ausente, corrupto o
+# vacio dejaba pasar todo sin decir una palabra, y desde afuera eso se ve
+# identico a "el guardia anda bien y no vio nada". Enumerar las ENTRADAS antes
+# de contar los casos es lo que lo encontro; 22 casos sobre una sola entrada
+# dejaban dos sin probar. Era el pendiente 8 de perfil-global/PENDIENTES.md.
+#
+# Corre sobre una COPIA AISLADA. El guardia calcula su raiz desde
+# $PSScriptRoot, asi que mudarlo de carpeta cambia que config lee: ese es el
+# seam, y es lo que hace que esto no tenga que tocar el repo.
+$caja = Join-Path $env:TEMP ('probar-hooks-config-' + $PID)
+try {
+    New-Item -ItemType Directory -Force (Join-Path $caja '.claude\hooks') | Out-Null
+    $hookCopia = Join-Path $caja '.claude\hooks\guardia-iso.ps1'
+    $cfgCopia  = Join-Path $caja '.claude\protegidos.json'
+    Copy-Item $guardia $hookCopia -Force
+    Copy-Item $cfg     $cfgCopia  -Force
+
+    $payloadCfg = Json-Cmd 'PowerShell' "attrib -R '$ruta'"
+
+    # Los .json se escriben con WriteAllText SIN BOM, no con Set-Content
+    # -Encoding utf8: en PS 5.1 ese cmdlet escribe BOM, y un BOM delante de '{'
+    # tambien rompe ConvertFrom-Json. El caso de la lista VACIA habria dado
+    # 'ask' por CORRUPTO -- rojo por el motivo equivocado, que se ve identico a
+    # rojo por el motivo correcto.
+    function Escribir-Cfg([string]$texto) {
+        [System.IO.File]::WriteAllText($cfgCopia, $texto, [System.Text.UTF8Encoding]::new($false))
+    }
+
+    function Caso-Config([string]$etiqueta, [string]$espera) {
+        $tmp = [System.IO.Path]::GetTempFileName()
+        try {
+            [System.IO.File]::WriteAllText($tmp, $payloadCfg, [System.Text.UTF8Encoding]::new($false))
+            $s = (& cmd /c "type `"$tmp`" | powershell -NoProfile -ExecutionPolicy Bypass -File `"$hookCopia`"" 2>&1 | Out-String)
+        } finally { Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue }
+        # Se compara la decision EXACTA, no "hubo o no hubo deny": el modo de
+        # falla que se esta cazando es justamente el silencio, y 'no dijo deny'
+        # no lo distingue de 'dijo ask'.
+        $obtenido = if ($s -match '"permissionDecision"\s*:\s*"(\w+)"') { $Matches[1] } else { 'PERMITE-EN-SILENCIO' }
+        Resultado ($obtenido -eq $espera) $etiqueta "esperaba '$espera' y dio '$obtenido'. Salida: '$($s.Trim())'"
+    }
+
+    # Control positivo PRIMERO: sin el, un guardia que dijera 'ask' a todo
+    # pasaria los tres sabotajes de abajo sin proteger nada.
+    Caso-Config "CONTROL: config valido -> el guardia decide normal (deny)" 'deny'
+
+    Escribir-Cfg '{ esto no es json valido'
+    Caso-Config "SABOTAJE: config CORRUPTO -> ask, no silencio" 'ask'
+
+    [System.IO.File]::Delete($cfgCopia)
+    Caso-Config "SABOTAJE: config AUSENTE -> ask, no silencio" 'ask'
+
+    Escribir-Cfg '{ "archivos": [] }'
+    Caso-Config "SABOTAJE: config con lista VACIA -> ask, no silencio" 'ask'
+} finally {
+    Remove-Item -Recurse -Force $caja -ErrorAction SilentlyContinue
+}
 
 Write-Output ""
 Write-Output "hook SessionStart -- emite, y AVISA si no puede"
