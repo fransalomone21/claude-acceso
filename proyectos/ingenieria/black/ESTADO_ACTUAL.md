@@ -194,6 +194,7 @@ N2  FASES DEL JUEGO
             enemigos llevan AK) y `b=0x00` = `BG1_PST` (el jugador arranca
             con pistola).
         7e  el ÍNDICE DE MÓDULOS del nivel ................. ABIERTA <-- acá estamos
+            (mitad (a) HECHA y MEDIDA; falta (b), que necesita el emulador)
             Salió de una pregunta de Fran a mitad de la sesión de 7d: en vez
             de subir la cadena de llamadas eslabón por eslabón cada vez que
             se quiere tocar algo, buscar si el juego tiene un índice. **Lo
@@ -286,11 +287,55 @@ N2  FASES DEL JUEGO
             Herramienta nueva con autotest **probado en rojo** (6 casos
             confirmados por otra vía, 4 sabotajes):
             `herramientas/casos_dispatcher.py`.
-            **Falta la mitad (b), y ésa necesita el emulador.**
-            Herramientas nuevas de 7e, las cuatro con autotest **probado en
+            **PASO 3b CERRADO 2026-08-29** (bitácora (39), en frío): `P1` deja
+            de ser lectura y pasa a ser **medición**. Las **18 predicciones
+            numéricas simultáneas** que el paso 3 dejó escritas —cuántas
+            instancias tiene cada pool en LEVEL_00, según el stream— se
+            contrastaron contra `volcados/ee-e4.bin`: **17 exactas**, y la 18ª
+            no era el modelo sino una lectura mal derivada, **que la medición
+            corrigió**. **`piVar4 = 0x005AD410`, `P1 = 0x005AD450`.**
+            **No se ubicó por barrido, y eso es el punto.** El tag
+            `*piVar4 == 0x1C` es el mal parámetro de siempre; el eje que sirve
+            es la **cadena de indirecciones desde un dato ya confirmado**:
+            `param_2 = *(u32*)(piVar4[4]+4)` y `param_2` es el descriptor
+            `0x01092800`, medido el 2026-08-23. Dos saltos hacia atrás, y el
+            tag queda de **control** — sobrevive **1 de 6** candidatos. Tres
+            controles independientes cerraron encima, ninguno buscado:
+            `piVar4[4] == 0x01053000` (la carga de `STUNIT01.BIN`, confirmada
+            por otra vía), el otro slot del doble buffer **exactamente a
+            `+0x880`** con tag `0x1` y `[4]=0` (uno vivo, uno libre), y las
+            capacidades derivadas por contigüidad, **≥ ocupación en los 18 y
+            siempre ajustadas** (132 para 131 en `P1+0x1C`).
+            **El control negativo dio más de lo pedido:** los tres offsets con
+            0 predicho (`P1+0x00`, `P1+0x38`, `P1+0x40`) no tienen un array
+            vacío — tienen **el puntero en nulo**. Total predicho 552, total
+            ocupado 548, y la diferencia entera es una sola fila.
+            **Esa fila corrigió el mapa: el `0x34` no usa "índice fijo 0".**
+            `0x0015F5FC`–`0x0015F624` es un **loop** (`s0` desde 0, límite en
+            `*(P1+0x78)`): el `0x34` no construye en `P1+0x28`, **lo recorre**.
+            Su único destino es `P1+0x1C | c_s5`, donde la kb ya lo tenía y
+            donde el 131 dio exacto. Predicción escrita antes de mirar —
+            *`*(P1+0x78)` vale 1*— y **vale 1**. **El síntoma era visible sin
+            medir nada:** el `0x34` era el **único tipo de módulo en dos grupos
+            de destino**. Un tipo en dos grupos es una lectura sin resolver.
+            **Dos cosas que no se buscaban.** (1) **El juego mantiene sus
+            propios contadores y coinciden**: `P1+0x50..0x90` es una tabla de
+            largos cuyo multiconjunto reproduce elemento por elemento las
+            ocupaciones medidas — una **tercera derivación independiente**, que
+            no sale del stream ni de mi conteo. *Abierto:* la alineación
+            offset-por-offset **no cierra** con un corrimiento constante.
+            (2) El **`0x2B`** confirmado por su vía propia: array **inline** de
+            structs de `0x10` en `P1+0xB0`, **9 con contenido y ceros después**
+            contra 9 predichas, y `P1+0xA0 == 9`. Sus campos son floats que
+            parecen XYZ (hipótesis).
+            **Falta la mitad (b), y ésa necesita el emulador** — pero ahora hay
+            **instrumento para leer el efecto**: `pools_p1.py` mide la ocupación
+            de cualquier pool en un volcado nuevo, así que "el módulo no se
+            construyó" pasa a ser **contable**.
+            Herramientas nuevas de 7e, las cinco con autotest **probado en
             rojo**: `herramientas/stream_modulos.py`,
-            `herramientas/tipos_modulo.py`, `herramientas/registro_fisica.py`
-            y `herramientas/casos_dispatcher.py`.
+            `herramientas/tipos_modulo.py`, `herramientas/registro_fisica.py`,
+            `herramientas/casos_dispatcher.py` y `herramientas/pools_p1.py`.
         Sirve al objetivo que fijó Fran el 2026-08-17: hacer BLACK más
         difícil y meterle cambios tipo remaster (armas, tipos de enemigo,
         coop). El plan de experimentos está en `docs/08-experimentos.md`

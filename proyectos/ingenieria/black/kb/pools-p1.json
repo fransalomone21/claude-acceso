@@ -1,0 +1,168 @@
+{
+ "piVar4": 5952528,
+ "P1": 5952592,
+ "filas": [
+  {
+   "offset": 0,
+   "ptr": 0,
+   "capacidad": null,
+   "ocupados": 0,
+   "validos_total": 0,
+   "predicho": 0,
+   "contador": "sp+452"
+  },
+  {
+   "offset": 8,
+   "ptr": 17444736,
+   "capacidad": 60,
+   "ocupados": 60,
+   "validos_total": 60,
+   "predicho": 60,
+   "contador": "sp+408"
+  },
+  {
+   "offset": 16,
+   "ptr": 17444976,
+   "capacidad": 60,
+   "ocupados": 57,
+   "validos_total": 57,
+   "predicho": 57,
+   "contador": "sp+412"
+  },
+  {
+   "offset": 20,
+   "ptr": 17445216,
+   "capacidad": 24,
+   "ocupados": 21,
+   "validos_total": 21,
+   "predicho": 21,
+   "contador": "sp+420"
+  },
+  {
+   "offset": 24,
+   "ptr": 17445312,
+   "capacidad": 36,
+   "ocupados": 33,
+   "validos_total": 33,
+   "predicho": 33,
+   "contador": "sp+416"
+  },
+  {
+   "offset": 28,
+   "ptr": 17445456,
+   "capacidad": 132,
+   "ocupados": 131,
+   "validos_total": 131,
+   "predicho": 131,
+   "contador": "c_s5"
+  },
+  {
+   "offset": 32,
+   "ptr": 17445984,
+   "capacidad": 4,
+   "ocupados": 2,
+   "validos_total": 2,
+   "predicho": 2,
+   "contador": "sp+424"
+  },
+  {
+   "offset": 36,
+   "ptr": 17446000,
+   "capacidad": 76,
+   "ocupados": 73,
+   "validos_total": 73,
+   "predicho": 73,
+   "contador": "c_fp"
+  },
+  {
+   "offset": 40,
+   "ptr": 17446960,
+   "capacidad": 4,
+   "ocupados": 1,
+   "validos_total": 1,
+   "predicho": 5,
+   "contador": "indice fijo 0"
+  },
+  {
+   "offset": 44,
+   "ptr": 17446784,
+   "capacidad": 8,
+   "ocupados": 5,
+   "validos_total": 5,
+   "predicho": 5,
+   "contador": "sp+428"
+  },
+  {
+   "offset": 48,
+   "ptr": 17446816,
+   "capacidad": 20,
+   "ocupados": 20,
+   "validos_total": 20,
+   "predicho": 20,
+   "contador": "sp+432"
+  },
+  {
+   "offset": 52,
+   "ptr": 17446896,
+   "capacidad": 16,
+   "ocupados": 14,
+   "validos_total": 14,
+   "predicho": 14,
+   "contador": "sp+440"
+  },
+  {
+   "offset": 56,
+   "ptr": 0,
+   "capacidad": null,
+   "ocupados": 0,
+   "validos_total": 0,
+   "predicho": 0,
+   "contador": "sp+444"
+  },
+  {
+   "offset": 60,
+   "ptr": 17446304,
+   "capacidad": 120,
+   "ocupados": 118,
+   "validos_total": 118,
+   "predicho": 118,
+   "contador": "c_s7"
+  },
+  {
+   "offset": 64,
+   "ptr": 0,
+   "capacidad": null,
+   "ocupados": 0,
+   "validos_total": 0,
+   "predicho": 0,
+   "contador": "sp+448"
+  },
+  {
+   "offset": 68,
+   "ptr": 17446976,
+   "capacidad": 4,
+   "ocupados": 3,
+   "validos_total": 3,
+   "predicho": 3,
+   "contador": "sp+456"
+  },
+  {
+   "offset": 72,
+   "ptr": 17446992,
+   "capacidad": 4,
+   "ocupados": 4,
+   "validos_total": 4,
+   "predicho": 4,
+   "contador": "sp+460"
+  },
+  {
+   "offset": 76,
+   "ptr": 17447008,
+   "capacidad": null,
+   "ocupados": 6,
+   "validos_total": 67,
+   "predicho": 6,
+   "contador": "sp+464"
+  }
+ ]
+}

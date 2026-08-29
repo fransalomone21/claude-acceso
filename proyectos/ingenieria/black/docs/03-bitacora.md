@@ -16,6 +16,127 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-29 (39) — 7e paso 3b: los pools de `P1` MEDIDOS. 17/18 predicciones, y la 18ª corrigió el mapa
+
+**Máquina:** PC · **Modelo:** Opus, esfuerzo medium, sin fan-out
+**Objetivo:** el paso 3b en frío. `P1` era, hasta acá, **lectura del ELF**: "el
+dispatcher saca `handles[contador++]` de un array ya alocado". La sesión (38)
+dejó escritas **18 predicciones numéricas simultáneas** —cuántas instancias
+tiene cada pool en LEVEL_00, según el stream— con **tres ceros de control
+negativo**. Medirlas contra `volcados/ee-e4.bin` decide si el modelo se sostiene
+**antes** de gastar un arranque del emulador.
+
+**Resultado: 17 de 18 exactas, y la que falló no era el modelo sino una
+lectura mal derivada — que la medición corrigió.** El emulador no se abrió y no
+se escribió un byte.
+
+### Cómo se ubicó `P1`, y por qué no fue un barrido
+
+El retome avisaba: si aparece la tentación de barrer los 32 MB por rango de
+valor, **parar y cambiar de eje**. El tag `*piVar4 == 0x1C` es exactamente ese
+mal parámetro. El eje que sirve es una **cadena de indirecciones desde un dato
+ya confirmado**: `FUN_0012dab8` pasa `param_2 = *(u32*)(piVar4[4]+4)`, y
+`param_2` es el descriptor del stream, **medido el 2026-08-23 en
+`0x01092800`**.
+
+```
+1. buscar el valor 0x01092800            -> 193 hits
+2. Q = hit - 4  es candidato a piVar4[4]
+3. buscar el valor Q                     -> 6 direcciones B == piVar4+0x10
+4. piVar4 = B - 0x10 ; *piVar4 == 0x1C queda de CONTROL -> sobrevive 1 de 6
+```
+
+**`piVar4 = 0x005AD410`, `P1 = 0x005AD450`.** El tag no fue el criterio de
+búsqueda sino el control, que es el orden que corresponde. Tres controles
+independientes cerraron encima:
+
+- `piVar4[4] == 0x01053000`, la dirección de carga de `STUNIT01.BIN`
+  confirmada por otra vía. No se la buscó: apareció.
+- El otro slot del doble buffer cae **exactamente a `+0x880`**
+  (`0x005ADC90`), con tag `0x1` y `[4] = 0`: **uno vivo y uno libre**.
+- Los punteros de los pools son **contiguos y ascendentes**, así que la
+  capacidad de cada uno se deriva de dónde empieza el siguiente — y da
+  **≥ ocupación en los 18, siempre ajustada** (`P1+0x1C`: 132 para 131).
+
+### La tabla, y los tres ceros
+
+| `P1+off` | ocupado | predicho | | `P1+off` | ocupado | predicho |
+|---|---|---|---|---|---|---|
+| `0x1C` | **131** | 131 | | `0x2C` | **5** | 5 |
+| `0x3C` | **118** | 118 | | `0x48` | **4** | 4 |
+| `0x24` | **73** | 73 | | `0x44` | **3** | 3 |
+| `0x08` | **60** | 60 | | `0x20` | **2** | 2 |
+| `0x10` | **57** | 57 | | `0x00` | **0** | 0 |
+| `0x18` | **33** | 33 | | `0x38` | **0** | 0 |
+| `0x14` | **21** | 21 | | `0x40` | **0** | 0 |
+| `0x30` | **20** | 20 | | `0x28` | **1** | ~~5~~ |
+| `0x34` | **14** | 14 | | `0x4C` | **6** | 6 |
+
+**El control negativo dio más de lo pedido:** los tres offsets con 0 predicho
+no tienen un array vacío, tienen **el puntero en nulo**. Total predicho 552,
+total ocupado 548, y la diferencia entera es la fila del `0x28`.
+
+### La 18ª: el `0x34` no usa "índice fijo 0", tiene un LOOP
+
+`casos_dispatcher.py` le atribuía al `0x34` **dos** destinos: `P1+0x1C | c_s5`
+y `P1+0x28 | índice fijo 0`. El segundo es una lectura equivocada.
+`0x0015F5FC`–`0x0015F624` es un **bucle**: `s0` arranca en cero
+(`0000802D` en `0015F5E4`), se incrementa (`26100001`) y el límite sale de
+`*(P1+0x78)`. El `0x34` **no construye** en `P1+0x28`: **lo recorre**, una
+llamada por elemento. Su único destino es `P1+0x1C`, donde la kb ya lo tenía
+— y donde el 131 dio exacto.
+
+Predicción escrita antes de mirar: *si es un loop con límite en `*(P1+0x78)`,
+entonces `*(P1+0x78)` vale 1*. **Vale 1.**
+
+**Y el síntoma estaba a la vista sin medir nada:** el `0x34` era el **único
+tipo de módulo que aparecía en dos grupos de destino** (el `0x35` aparece en
+seis, pero no es un módulo: es el cierre). Un tipo en dos grupos es una
+lectura sin resolver, no dos destinos.
+
+### Dos cosas que no se buscaban
+
+**(1) El juego mantiene sus propios contadores, y coinciden.** `P1+0x50..0x90`
+es una **tabla de largos** cuyo multiconjunto de valores reproduce elemento por
+elemento las ocupaciones medidas: `{131,118,73,57,33,21,20,14,5,5,4,3,2,6,1,0,0,0}`.
+Y `P1+0x04 = 0`, `P1+0x0C = 60` son los largos de `P1+0x00` y `P1+0x08`. Es una
+**tercera derivación independiente**: no sale del stream ni de mi conteo de
+handles, la escribe el juego. **Abierto:** la asignación offset-por-offset entre
+ese bloque y los 16 punteros de `0x10`–`0x4C` **no cierra con un corrimiento
+constante**. El multiconjunto coincide; la alineación exacta, no. No medido.
+
+**(2) El `0x2B` confirmado por su propia vía.** No usa array de punteros sino un
+array **inline** de structs de `0x10` en `P1+0xB0`: **9 structs con contenido y
+ceros a partir del décimo**, contra 9 instancias predichas, y `P1+0xA0 == 9` es
+su contador. Los cuatro campos son floats —p. ej. `[-78.84, -3.579, 30.08, 3.0]`—
+que parecen XYZ más un cuarto valor. Posiciones en el mundo: **hipótesis**.
+
+**No funcionó / lo que hay que anotar como costo:**
+
+- La primera fila de la tabla de predicciones que se escribió el 2026-08-29
+  estaba **mal derivada**: para `P1+0x28` se puso el número de *instancias del
+  tipo* (5) cuando el propio mapa ya decía que ese caso **no incrementa
+  contador**. Escribir una predicción a partir de una coordenada que la misma
+  kb marcaba como distinta es lo que produjo la única falla.
+- La capacidad de `P1+0x4C` no se puede derivar por contigüidad: es el último
+  array por dirección y no tiene sucesor. Su ocupación (6) salió del prefijo de
+  handles válidos, que es un criterio más débil. Da lo predicho, pero es la
+  fila con menos control de las 18.
+
+**Sigue:** la mitad **(b)** de 7e, que **necesita el emulador**. El mapa ahora
+habilita dos observables baratos, en orden de costo: (1) neutralizar un módulo
+cambiando su `tipo` a un case del `default` (`0x0D`, `0x0E`, `0x21`, `0x24`) —
+**un byte** en `STUNIT01.BIN` con `parche_iso.py`, con la predicción escrita
+antes; (2) los tipos `SD` (`0x2E`, 5 instancias; `0x30`, 14), cuyo observable es
+**audible** y más barato de juzgar que la geometría. Y ahora hay instrumento
+para leer el efecto: `pools_p1.py` mide la ocupación de cualquier pool en un
+volcado nuevo, así que "el módulo no se construyó" pasa a ser **contable**.
+
+Herramienta nueva, con autotest **probado en rojo** (5 casos y 4 sabotajes):
+`herramientas/pools_p1.py`. Medición en `kb/pools-p1.json`.
+
+---
+
 ## 2026-08-29 (38) — 7e paso 3: el subsistema de cada tipo NO está en el handler, está en el SITIO DE LLAMADA
 
 **Máquina:** PC · **Modelo:** Opus, esfuerzo alto, sin fan-out
