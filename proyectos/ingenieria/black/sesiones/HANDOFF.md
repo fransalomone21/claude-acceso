@@ -182,7 +182,7 @@ de personaje. El parche de ISO in-place **anda** (3 veces confirmado).
 ## 4. LO QUE SIGUE, CONCRETO
 
 ```
-cd C:\Users\frans\Desktop\claude-acceso\black
+cd C:\Users\frans\Desktop\claude-acceso\proyectos\ingenieria\black
 python herramientas/ubicaciones.py
 python herramientas/decompilar.py info
 python herramientas/stream_modulos.py autotest
