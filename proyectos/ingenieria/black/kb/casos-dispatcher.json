@@ -1,0 +1,1392 @@
+{
+  "_que_es": "sitio de llamada de cada tipo en FUN_0015ef48",
+  "_evidencia": "LECTURA de instrucciones sobre SLUS_213.76",
+  "casos": [
+    {
+      "tipo": "0x03",
+      "bloque": "0x0015F04C",
+      "destino": "P1+0x24",
+      "contador": "c_fp",
+      "accion": "FUN_00174430",
+      "sitio": "0x0015F074",
+      "args": {
+        "a0": "*(c_fp<<2+*(P1+36))",
+        "a1": "*(REG+8)",
+        "a2": "REG",
+        "a3": "P2",
+        "t0": "*(REG+4)",
+        "t1": "*(sp+400)"
+      }
+    },
+    {
+      "tipo": "0x04",
+      "bloque": "0x0015F04C",
+      "destino": "P1+0x24",
+      "contador": "c_fp",
+      "accion": "FUN_00174430",
+      "sitio": "0x0015F074",
+      "args": {
+        "a0": "*(c_fp<<2+*(P1+36))",
+        "a1": "*(REG+8)",
+        "a2": "REG",
+        "a3": "P2",
+        "t0": "*(REG+4)",
+        "t1": "*(sp+400)"
+      }
+    },
+    {
+      "tipo": "0x05",
+      "bloque": "0x0015F04C",
+      "destino": "P1+0x24",
+      "contador": "c_fp",
+      "accion": "FUN_00174430",
+      "sitio": "0x0015F074",
+      "args": {
+        "a0": "*(c_fp<<2+*(P1+36))",
+        "a1": "*(REG+8)",
+        "a2": "REG",
+        "a3": "P2",
+        "t0": "*(REG+4)",
+        "t1": "*(sp+400)"
+      }
+    },
+    {
+      "tipo": "0x06",
+      "bloque": "0x0015F04C",
+      "destino": "P1+0x24",
+      "contador": "c_fp",
+      "accion": "FUN_00174430",
+      "sitio": "0x0015F074",
+      "args": {
+        "a0": "*(c_fp<<2+*(P1+36))",
+        "a1": "*(REG+8)",
+        "a2": "REG",
+        "a3": "P2",
+        "t0": "*(REG+4)",
+        "t1": "*(sp+400)"
+      }
+    },
+    {
+      "tipo": "0x07",
+      "bloque": "0x0015F04C",
+      "destino": "P1+0x24",
+      "contador": "c_fp",
+      "accion": "FUN_00174430",
+      "sitio": "0x0015F074",
+      "args": {
+        "a0": "*(c_fp<<2+*(P1+36))",
+        "a1": "*(REG+8)",
+        "a2": "REG",
+        "a3": "P2",
+        "t0": "*(REG+4)",
+        "t1": "*(sp+400)"
+      }
+    },
+    {
+      "tipo": "0x08",
+      "bloque": "0x0015F04C",
+      "destino": "P1+0x24",
+      "contador": "c_fp",
+      "accion": "FUN_00174430",
+      "sitio": "0x0015F074",
+      "args": {
+        "a0": "*(c_fp<<2+*(P1+36))",
+        "a1": "*(REG+8)",
+        "a2": "REG",
+        "a3": "P2",
+        "t0": "*(REG+4)",
+        "t1": "*(sp+400)"
+      }
+    },
+    {
+      "tipo": "0x09",
+      "bloque": "0x0015F04C",
+      "destino": "P1+0x24",
+      "contador": "c_fp",
+      "accion": "FUN_00174430",
+      "sitio": "0x0015F074",
+      "args": {
+        "a0": "*(c_fp<<2+*(P1+36))",
+        "a1": "*(REG+8)",
+        "a2": "REG",
+        "a3": "P2",
+        "t0": "*(REG+4)",
+        "t1": "*(sp+400)"
+      }
+    },
+    {
+      "tipo": "0x0A",
+      "bloque": "0x0015F084",
+      "destino": "*(0x0040F514)",
+      "contador": null,
+      "accion": "FUN_00138c40",
+      "sitio": "0x0015F090",
+      "args": {
+        "a0": "*(0x0040F514)",
+        "a1": "35",
+        "a2": "a2",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x0A",
+      "bloque": "0x0015F084",
+      "destino": "*(0x0040F514)",
+      "contador": null,
+      "accion": "FUN_00138df8",
+      "sitio": "0x0015F0C4",
+      "args": {
+        "a0": "*(0x0040F514)",
+        "a1": "v0",
+        "a2": "*(*(REG+4)+16)",
+        "a3": "*(REG+8)",
+        "t0": "t0(?)",
+        "t1": "*(sp+400)"
+      }
+    },
+    {
+      "tipo": "0x0B",
+      "bloque": "0x0015F0D8",
+      "destino": "P1+0x08",
+      "contador": "sp+408",
+      "accion": "vtable+0xB4",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(*(sp+408)<<2+*(P1+8))+*(*(*(*(?+408)<<2+*(P1+8))+16)+176)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(*(sp+408)<<2+*(P1+8))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(*(sp+408)<<2+*(P1+8))+16)+180)"
+      }
+    },
+    {
+      "tipo": "0x0C",
+      "bloque": "0x0015F104",
+      "destino": "P1+0x08",
+      "contador": "sp+408",
+      "accion": "vtable+0xBC",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(*(sp+408)<<2+*(P1+8))+*(*(*(*(?+408)<<2+*(P1+8))+16)+184)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(*(sp+408)<<2+*(P1+8))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(*(sp+408)<<2+*(P1+8))+16)+188)"
+      }
+    },
+    {
+      "tipo": "0x0F",
+      "bloque": "0x0015F1E0",
+      "destino": "P1+0x14",
+      "contador": "sp+420",
+      "accion": "FUN_001650f8",
+      "sitio": "0x0015F208",
+      "args": {
+        "a0": "*(*(sp+420)<<2+*(P1+20))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x10",
+      "bloque": "0x0015F218",
+      "destino": "P1+0x10",
+      "contador": "sp+412",
+      "accion": "FUN_00165210",
+      "sitio": "0x0015F240",
+      "args": {
+        "a0": "*(*(sp+412)<<2+*(P1+16))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x11",
+      "bloque": "0x0015F250",
+      "destino": "P1+0x18",
+      "contador": "sp+416",
+      "accion": "FUN_00165330",
+      "sitio": "0x0015F278",
+      "args": {
+        "a0": "*(*(sp+416)<<2+*(P1+24))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x12",
+      "bloque": "0x0015F16C",
+      "destino": "P1+0x40",
+      "contador": "sp+448",
+      "accion": "vtable+0x2C",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(*(sp+448)<<2+*(P1+64))+*(*(*(*(?+448)<<2+*(P1+64))+16)+40)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(*(sp+448)<<2+*(P1+64))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(*(sp+448)<<2+*(P1+64))+16)+44)"
+      }
+    },
+    {
+      "tipo": "0x13",
+      "bloque": "0x0015F33C",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_001621a8",
+      "sitio": "0x0015F358",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x14",
+      "bloque": "0x0015F368",
+      "destino": "P1+0x20",
+      "contador": "sp+424",
+      "accion": "FUN_00162600",
+      "sitio": "0x0015F390",
+      "args": {
+        "a0": "*(*(sp+424)<<2+*(P1+32))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x15",
+      "bloque": "0x0015F3A0",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00160f60",
+      "sitio": "0x0015F3BC",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x16",
+      "bloque": "0x0015F3CC",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "vtable+0x3C",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))+*(*(*(c_s5<<2+*(P1+28))+16)+56)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(c_s5<<2+*(P1+28))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(c_s5<<2+*(P1+28))+16)+60)"
+      }
+    },
+    {
+      "tipo": "0x17",
+      "bloque": "0x0015F3FC",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "vtable+0x3C",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))+*(*(*(c_s5<<2+*(P1+28))+16)+56)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(c_s5<<2+*(P1+28))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(c_s5<<2+*(P1+28))+16)+60)"
+      }
+    },
+    {
+      "tipo": "0x18",
+      "bloque": "0x0015F42C",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "vtable+0x3C",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))+*(*(*(c_s5<<2+*(P1+28))+16)+56)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(c_s5<<2+*(P1+28))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(c_s5<<2+*(P1+28))+16)+60)"
+      }
+    },
+    {
+      "tipo": "0x19",
+      "bloque": "0x0015F6C0",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00161940",
+      "sitio": "0x0015F6DC",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x1A",
+      "bloque": "0x0015F71C",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00161af0",
+      "sitio": "0x0015F73C",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(sp+400)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x1B",
+      "bloque": "0x0015F288",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00161ef0",
+      "sitio": "0x0015F2A8",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P1",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x1C",
+      "bloque": "0x0015F45C",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_001615a8",
+      "sitio": "0x0015F478",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x1D",
+      "bloque": "0x0015F4B0",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_001631b0",
+      "sitio": "0x0015F4CC",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x1E",
+      "bloque": "0x0015F4DC",
+      "destino": "P1+0x48",
+      "contador": "sp+460",
+      "accion": "FUN_00161730",
+      "sitio": "0x0015F504",
+      "args": {
+        "a0": "*(*(sp+460)<<2+*(P1+72))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x1F",
+      "bloque": "0x0015F540",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00161418",
+      "sitio": "0x0015F55C",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x20",
+      "bloque": "0x0015F56C",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_001614e8",
+      "sitio": "0x0015F588",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x22",
+      "bloque": "0x0015F514",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00161660",
+      "sitio": "0x0015F530",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x23",
+      "bloque": "0x0015F310",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00163250",
+      "sitio": "0x0015F32C",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x25",
+      "bloque": "0x0015F2B8",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00162758",
+      "sitio": "0x0015F2D4",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x26",
+      "bloque": "0x0015F2E4",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_001628e8",
+      "sitio": "0x0015F300",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x27",
+      "bloque": "0x0015F630",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00162a60",
+      "sitio": "0x0015F650",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P1",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x28",
+      "bloque": "0x0015F660",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00162f28",
+      "sitio": "0x0015F680",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P1",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x29",
+      "bloque": "0x0015F690",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00162d10",
+      "sitio": "0x0015F6B0",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P1",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x2A",
+      "bloque": "0x0015F6EC",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_0016acb8",
+      "sitio": "0x0015F70C",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P1",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x2B",
+      "bloque": "0x0015F810",
+      "destino": "P1+*(sp+436)<<4+176",
+      "contador": null,
+      "accion": "FUN_0014ec10",
+      "sitio": "0x0015F834",
+      "args": {
+        "a0": "P1+*(sp+436)<<4+176",
+        "a1": "*(*(REG+4))",
+        "a2": "a2",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x2C",
+      "bloque": "0x0015F844",
+      "destino": "*(0x0040F4E4)",
+      "contador": null,
+      "accion": "FUN_00126710",
+      "sitio": "0x0015F8D4",
+      "args": {
+        "a0": "*(0x0040F4E4)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "1",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x2D",
+      "bloque": "0x0015F778",
+      "destino": "*(0x0040F4D4)+2632",
+      "contador": null,
+      "accion": "FUN_00175980",
+      "sitio": "0x0015F79C",
+      "args": {
+        "a0": "*(0x0040F4D4)+2632",
+        "a1": "*(REG+8)",
+        "a2": "1",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x2E",
+      "bloque": "0x0015F7AC",
+      "destino": "P1+0x2C",
+      "contador": "sp+428",
+      "accion": "FUN_00164e50",
+      "sitio": "0x0015F7D4",
+      "args": {
+        "a0": "*(*(sp+428)<<2+*(P1+44))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x2F",
+      "bloque": "0x0015F7E4",
+      "destino": "*(*(*(0x0040F510)+0x8000+19416)+32)",
+      "contador": null,
+      "accion": "FUN_001dc690",
+      "sitio": "0x0015F800",
+      "args": {
+        "a0": "*(*(*(0x0040F510)+0x8000+19416)+32)",
+        "a1": "*(REG+4)",
+        "a2": "a2",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x30",
+      "bloque": "0x0015F910",
+      "destino": "P1+0x34",
+      "contador": "sp+440",
+      "accion": "vtable+0xB4",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(*(sp+440)<<2+*(P1+52))+*(*(*(*(?+440)<<2+*(P1+52))+16)+176)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(*(sp+440)<<2+*(P1+52))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(*(sp+440)<<2+*(P1+52))+16)+180)"
+      }
+    },
+    {
+      "tipo": "0x31",
+      "bloque": "0x0015F940",
+      "destino": "P1+0x38",
+      "contador": "sp+444",
+      "accion": "vtable+0xB4",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(*(sp+444)<<2+*(P1+56))+*(*(*(*(?+444)<<2+*(P1+56))+16)+176)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(*(sp+444)<<2+*(P1+56))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(*(sp+444)<<2+*(P1+56))+16)+180)"
+      }
+    },
+    {
+      "tipo": "0x32",
+      "bloque": "0x0015F8E4",
+      "destino": "P1+0x30",
+      "contador": "sp+432",
+      "accion": "vtable+0xB4",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(*(sp+432)<<2+*(P1+48))+*(*(*(*(?+432)<<2+*(P1+48))+16)+176)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(*(sp+432)<<2+*(P1+48))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(*(sp+432)<<2+*(P1+48))+16)+180)"
+      }
+    },
+    {
+      "tipo": "0x34",
+      "bloque": "0x0015F5C4",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_001835b8",
+      "sitio": "0x0015F5E8",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x34",
+      "bloque": "0x0015F5C4",
+      "destino": "P1+0x28",
+      "contador": "0",
+      "accion": "FUN_001836a8",
+      "sitio": "0x0015F610",
+      "args": {
+        "a0": "*(0<<2+*(P1+40))",
+        "a1": "*(c_s5<<2+*(P1+28))",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "12",
+      "contador": null,
+      "accion": "FUN_00107cf8",
+      "sitio": "0x0015FBA0",
+      "args": {
+        "a0": "12",
+        "a1": "a1",
+        "a2": "a2",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "v0",
+      "contador": null,
+      "accion": "FUN_00174858",
+      "sitio": "0x0015FBBC",
+      "args": {
+        "a0": "v0",
+        "a1": "*(REG+4)",
+        "a2": "*(P1+148)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4D4)+3284",
+      "contador": null,
+      "accion": "FUN_0017bdc0",
+      "sitio": "0x0015FBD4",
+      "args": {
+        "a0": "*(0x0040F4D4)+3284",
+        "a1": "*(sp+404)",
+        "a2": "v0",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166d50",
+      "sitio": "0x0015FBFC",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+36)",
+        "a2": "*(P2+114)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166c30",
+      "sitio": "0x0015FC10",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+8)",
+        "a2": "*(P2+98)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166c60",
+      "sitio": "0x0015FC24",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+20)",
+        "a2": "*(P2+108)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166c90",
+      "sitio": "0x0015FC38",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+16)",
+        "a2": "*(P2+104)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166cc0",
+      "sitio": "0x0015FC4C",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+24)",
+        "a2": "*(P2+106)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166cf0",
+      "sitio": "0x0015FC60",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+28)",
+        "a2": "*(P2+100)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166d20",
+      "sitio": "0x0015FC74",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+32)",
+        "a2": "*(P2+102)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166d80",
+      "sitio": "0x0015FC88",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+44)",
+        "a2": "*(P2+110)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166db0",
+      "sitio": "0x0015FC9C",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+48)",
+        "a2": "*(P2+118)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166de0",
+      "sitio": "0x0015FCB0",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+52)",
+        "a2": "*(P2+120)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166e10",
+      "sitio": "0x0015FCC4",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+56)",
+        "a2": "*(P2+122)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166c00",
+      "sitio": "0x0015FCD8",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+148)",
+        "a2": "*(P1+156)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166e40",
+      "sitio": "0x0015FCEC",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+64)",
+        "a2": "*(P2+128)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166e70",
+      "sitio": "0x0015FD00",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1)",
+        "a2": "*(P2+132)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166ea0",
+      "sitio": "0x0015FD14",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+60)",
+        "a2": "*(P2+126)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166ed0",
+      "sitio": "0x0015FD28",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+68)",
+        "a2": "*(P2+134)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166f00",
+      "sitio": "0x0015FD3C",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+72)",
+        "a2": "*(P2+136)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00166f30",
+      "sitio": "0x0015FD50",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+76)",
+        "a2": "*(P2+138)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4D4)+4396",
+      "contador": null,
+      "accion": "FUN_00176fb0",
+      "sitio": "0x0015FD68",
+      "args": {
+        "a0": "*(0x0040F4D4)+4396",
+        "a1": "*(P1+40)",
+        "a2": "*(P2+124)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "*(0x0040F4F4)",
+      "contador": null,
+      "accion": "FUN_00167208",
+      "sitio": "0x0015FD74",
+      "args": {
+        "a0": "*(0x0040F4F4)",
+        "a1": "*(P1+40)",
+        "a2": "*(P2+124)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x35",
+      "bloque": "0x0015FB9C",
+      "destino": "P1",
+      "contador": null,
+      "accion": "FUN_001604a0",
+      "sitio": "0x0015FD84",
+      "args": {
+        "a0": "P1",
+        "a1": "sp",
+        "a2": "*(sp+468)",
+        "a3": "*(P1+156)",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x36",
+      "bloque": "0x0015F74C",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_00161d78",
+      "sitio": "0x0015F768",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x37",
+      "bloque": "0x0015F984",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_00174d48",
+      "sitio": "0x0015F9A4",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x38",
+      "bloque": "0x0015F9B4",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_00174df0",
+      "sitio": "0x0015F9D4",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x39",
+      "bloque": "0x0015F9E4",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_001750e8",
+      "sitio": "0x0015FA04",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x3A",
+      "bloque": "0x0015FA14",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_00175250",
+      "sitio": "0x0015FA34",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x3B",
+      "bloque": "0x0015FA44",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_001752f8",
+      "sitio": "0x0015FA64",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x3C",
+      "bloque": "0x0015FA74",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_001753b8",
+      "sitio": "0x0015FA94",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x3D",
+      "bloque": "0x0015FAA4",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_00175460",
+      "sitio": "0x0015FAC4",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x3E",
+      "bloque": "0x0015FAD4",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_00175520",
+      "sitio": "0x0015FAF4",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x3F",
+      "bloque": "0x0015FB04",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_001755c8",
+      "sitio": "0x0015FB24",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x40",
+      "bloque": "0x0015FB34",
+      "destino": "P1+0x3C",
+      "contador": "c_s7",
+      "accion": "FUN_00175668",
+      "sitio": "0x0015FB54",
+      "args": {
+        "a0": "*(c_s7<<2+*(P1+60))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "P2",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x41",
+      "bloque": "0x0015F1A8",
+      "destino": "*(P1)",
+      "contador": "sp+452",
+      "accion": "FUN_00153b60",
+      "sitio": "0x0015F1D0",
+      "args": {
+        "a0": "*(*(sp+452)<<2+*(P1))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x42",
+      "bloque": "0x0015F598",
+      "destino": "P1+0x1C",
+      "contador": "c_s5",
+      "accion": "FUN_001630e8",
+      "sitio": "0x0015F5B4",
+      "args": {
+        "a0": "*(c_s5<<2+*(P1+28))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    },
+    {
+      "tipo": "0x43",
+      "bloque": "0x0015F140",
+      "destino": "P1+0x4C",
+      "contador": "sp+464",
+      "accion": "vtable+0xB4",
+      "sitio": "0x0015F974",
+      "args": {
+        "a0": "*(*(sp+464)<<2+*(P1+76))+*(*(*(*(?+464)<<2+*(P1+76))+16)+176)",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "*(*(sp+464)<<2+*(P1+76))",
+        "t0": "t0",
+        "t1": "t1",
+        "_via": "*(*(*(*(sp+464)<<2+*(P1+76))+16)+180)"
+      }
+    },
+    {
+      "tipo": "0x44",
+      "bloque": "0x0015FB64",
+      "destino": "P1+0x44",
+      "contador": "sp+456",
+      "accion": "FUN_00163e08",
+      "sitio": "0x0015FB8C",
+      "args": {
+        "a0": "*(*(sp+456)<<2+*(P1+68))",
+        "a1": "*(REG+8)",
+        "a2": "*(REG+4)",
+        "a3": "a3",
+        "t0": "t0",
+        "t1": "t1"
+      }
+    }
+  ]
+}

@@ -16,6 +16,169 @@ Formato de cada entrada:
 
 ---
 
+## 2026-08-29 (38) — 7e paso 3: el subsistema de cada tipo NO está en el handler, está en el SITIO DE LLAMADA
+
+**Máquina:** PC · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Objetivo:** decidir y ejecutar el eje de identificación de los tipos, que era
+lo que faltaba para la mitad **(a)** de 7e. El plan de retome proponía el
+**cierre transitivo del call graph** por handler, juntando (a) las cadenas de
+los callees y (b) los globales de `.bss` que cada rama termina tocando.
+
+**Resultado: la mitad (a) de 7e está cerrada, y el eje propuesto salió mitad
+refutado y mitad reemplazado.** Los **61 tipos despachados** (en 55 bloques
+distintos) tienen destino, contador, acción y argumentos, todo por lectura. El emulador no se abrió y no
+se escribió un byte.
+
+### El eje propuesto, medido: las dos mitades dieron cosas opuestas
+
+**(b) globales de `.bss` por handler → CERO, y el cero era del instrumento.**
+Se construyó el call graph de las 9842 funciones (20.205 aristas `jal`) y se
+midió el cierre de `FUN_00175980` (el handler del `0x2D`) a profundidad 0–3.
+**No alcanza `0x0040F4D4` en ninguna**, que es la base del registro de física
+ya medida el 2026-08-28. El control positivo falló, y eso es lo que salvó el
+tramo: **el handler no nombra su objeto de estado — se lo pasa el despachador
+en `a0`.**
+
+```
+0015F778  lw    v0,4(s1)        ; blob del registro
+0015F780  lbu   v1,30(v0)       ; la guarda blob[0x1E]
+0015F78C  lui   v1,0x0041
+0015F790  ld    a1,8(s1)        ; a1 = id64 del NOMBRE
+0015F794  lw    a0,-2860(v1)    ; a0 = *(0x0040F4D4)   <-- EL SUBSISTEMA
+0015F79C  jal   0x00175980
+0015F7A0  addiu a0,a0,2632      ; DELAY SLOT: + 0xA48
+```
+
+Ése es el eje que sirve, y es **más barato** que el propuesto: una sola función
+en vez de 70 cierres.
+
+**(a) cadenas de los callees → REFUTADO POR MEDICIÓN, ahora sí.** La trampa 5
+decía "rinde poco" mirando **sólo el nivel 0**. Medido sobre el cierre:
+
+| profundidad | funciones/handler | handlers con cadena | cadenas |
+|---|---|---|---|
+| 0 | 1,0 | **1 de 70** | 1 |
+| 1 | 2,1 | 1 de 70 | 1 |
+| 2 | 3,5 | 2 de 70 | 3 |
+| 3 | 5,0 | **2 de 70** | 5 |
+
+El cierre **no lo rescata**: el eje está agotado, no sub-explorado. Techo
+conocido del instrumento: los `jalr` no son aristas de un call graph estático.
+
+### La trampa que casi convierte un bug en una conclusión
+
+El primer barrido de cadenas dio **0 cadenas hasta para `FUN_00175980`**, que
+es el único handler del que ya se sabía que tiene una. El control positivo lo
+atrapó. Causa:
+
+```
+001759D4  lui    a0,0x003F
+001759DC  jal    0x001A4F70
+001759E0  addiu  a0,a0,21664     ; DELAY SLOT: la mitad baja de 0x003F54A0
+```
+
+El barrido limpiaba la sombra de registros **al ver el `jal`**, o sea antes de
+procesar el delay slot, y perdía la constante. Sin control positivo, ese cero
+se lee como "los handlers no tienen cadenas" y es **la misma clase de mentira
+silenciosa** de la trampa 1, un nivel más abajo: el parámetro que falla no es
+el umbral de búsqueda, es el **modelo del ISA que tiene el instrumento**.
+
+### Lo que salió — las tres coordenadas, y discriminan
+
+`herramientas/casos_dispatcher.py`. La tabla de saltos está en **`0x003F4E90`,
+69 entradas** (`lui v0,0x3F; addiu v0,v0,20112` en `0x0015F030`; el tope de
+`sltiu v0,v1,69`). **61 tipos despachados en 55 bloques distintos, 8 en el default**
+(`0x00`, `0x01`, `0x02`, `0x0D`, `0x0E`, `0x21`, `0x24`, `0x33` — y `0x01`,
+`0x02`, `0x33` **sí están en los datos**, lo que ya decía la `kb`).
+
+| coordenada | qué es | ejemplo |
+|---|---|---|
+| **destino** | array de handles `P1+0xNN`, o singleton de `.bss` | `0x2D` → `*(0x0040F4D4)+0xA48` |
+| **contador** | qué índice avanza; mismo array + mismo contador = mismo subsistema | `c_s5`, `sp+408`… |
+| **acción** | handler directo, o método virtual `vtable+0xNN` | `FUN_00175980` / `vtable+0xB4` |
+
+Los 60 tipos de módulo (todos menos el `0x35`) caen en **23 grupos**; el mayor
+tiene 23 tipos (`P1+0x1C`/`c_s5`)
+y el segundo 10 (`P1+0x3C`/`c_s7`). La firma de argumentos es
+`handler(destino, id64_del_nombre, blob, …)` en casi todos — y el `0x2D`
+**no recibe el blob**, lo que concuerda con que su handler busca **por nombre**
+(`FUN_00129160`, comparación de 64 bits), confirmado el 2026-08-28 por otra vía.
+
+**Diez casos no tienen `jal` propio.** Saltan a una **cola virtual compartida**
+en `0x0015F968` / `0x0015F974`: `lw v1,16(a3); lh a0,176(v1); lw v0,180(v1);
+jalr v0; addu a0,a3,a0`. El par (ajuste del `this`, puntero al método) sale de
+la vtable y **discrimina el tipo**: `0x0B` y `0x0C` comparten array y contador
+y llaman métodos distintos (`vtable+0xB0` vs `vtable+0xB8`). Un recorrido del
+bloque por direcciones crecientes **los pierde enteros** — fue un bug real de
+la primera versión, y ahora es el sabotaje (b) del autotest.
+
+### Dos hallazgos que no se buscaban
+
+**El `0x35` no es un tipo de módulo: es el CIERRE del stream.** Su bloque hace
+~25 llamadas y recorre **todos** los arrays de `P1` emparejados con offsets de
+`P2` (`P2+98` … `P2+138`). Tiene **0 instancias** en LEVEL_00. O sea que el
+`switch` mezcla constructores por módulo con un paso de commit: **no todo case
+es un tipo**. Abierto y no medido: `P2` tiene campos hasta `+0x8A` y la `kb` lo
+describe como `{count, array}` de 8 B.
+
+**`P1` es un directorio de pools ya alocados, y el inventario está cerrado por
+DOBLE CONTROL.** El dispatcher no crea el objeto: saca `handles[contador++]`
+del array que le toca al tipo. Los offsets de `P1` que usan los casos
+individuales y los que recorre el bloque del `0x35` son **los mismos 18**
+(`0x00 08 10 14 18 1C 20 24 28 2C 30 34 38 3C 40 44 48 4C`); el `0x35` toca
+además `0x94` y `0x9C`. Son dos lecturas independientes del mismo dispatcher.
+
+### El cruce código-vs-datos
+
+Eje de código (a qué objeto manda el dispatcher) contra eje de datos (familia
+del `id64` de las instancias, medida sobre `ee-e4.bin`):
+
+- **`LW`**: los 256 van al `0x2D`, y el `0x2D` es el **único** que va al
+  singleton de física. Exclusivo en los dos sentidos.
+- **`SD`**: las 20 instancias son `0x2E`, `0x2F` y `0x30`, y ningún tipo no-`SD`
+  va a esos destinos — pero el sonido usa **tres destinos distintos**, no uno.
+- **`WD`**: se reparte. `0x43` tiene destino propio, pero `0x1F`/`0x20` caen
+  dentro de la familia grande de `GP`. **La familia del nombre no determina el
+  destino.**
+
+Y una advertencia que sale del mismo cruce: **mismo array no es misma struct.**
+Dentro de `P1+0x1C` conviven blobs de 16, 32, 48, 64, 80 y 96 B. El array es el
+**pool de destino**; el tamaño del blob es la **estructura de entrada**. Son dos
+coordenadas independientes.
+
+### Singletons de `.bss` — un directorio, probable
+
+Los tipos que no van a un array reciben un puntero de un global de `.bss`, y
+**todos caen en `0x0040F4D0`–`0x0040F514`**: `0x0040F4D4` (física,
+**confirmado** por otra vía), `0x0040F4E4` (`0x2C`), `0x0040F4F4` (el cierre),
+`0x0040F510` (`0x2F`), `0x0040F514` (`0x0A`, spawn de personaje). Sumados
+`0x0040F4D0` y `0x0040F4E0`, conocidos de 7c y de la entrada (37), el
+directorio tendría al menos 7 entradas. **Probable, no medido.**
+
+**No funcionó:**
+- **El cierre transitivo por handler**, en sus dos mitades: los globales porque
+  el dato no vive ahí, las cadenas porque no existen. Las dos con su medición.
+- **Ghidra no hizo falta** para esto, salvo como control positivo de apertura y
+  para la lista de funciones. La cuarta vez que el desensamblado a mano gana:
+  la herramienta lee la tabla de saltos y el ELF directo.
+- **Heredoc largo en la Bash tool**, otra vez (trampa 7). Se pagó un turno.
+
+**Herramienta nueva, con autotest PROBADO EN ROJO:**
+`herramientas/casos_dispatcher.py` — `mapa` / `familias` / `arrays` /
+`caso 0xNN` / `tabla` / `autotest`. **6 casos confirmados por otra vía y 4
+sabotajes**, los cuatro vistos en rojo; el sabotaje (b) reproduce el bug real
+del recorrido ciego, y el (c) el del delay slot. Salida en
+`kb/casos-dispatcher.json` y volcada a `kb/stage-modulos.json`.
+
+**Sigue:** 7e sigue abierta por la mitad **(b)**, que **necesita el emulador**:
+verificar por efecto al menos un tipo distinto del `0x0A`. Con el mapa en la
+mano, el candidato más barato dejó de ser el `0x2D` — su registro tiene 0 de 48
+ranuras ocupadas en los 9 volcados y el observable no se ve. Los dos candidatos
+que el mapa habilita, y que antes no se podían ni formular, están en el
+`HANDOFF`.
+
+---
+
 ## 2026-08-28 (37) — 7e paso 2: el CONTROL en frío del observable. El array no es de 256, es de 48, y está VACÍO
 
 **Máquina:** PC · **Modelo:** Opus, esfuerzo medio, sin fan-out

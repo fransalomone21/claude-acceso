@@ -249,9 +249,48 @@ N2  FASES DEL JUEGO
             **Pregunta abierta que decide el próximo paso:** ¿el array se llena
             y se vacía, o no se llena nunca? Las dos cosas dan el mismo `0` en
             un volcado, y **no está medido**.
-            Herramientas nuevas, las tres con autotest **probado en rojo**:
-            `herramientas/stream_modulos.py`, `herramientas/tipos_modulo.py` y
-            `herramientas/registro_fisica.py`.
+            **PASO 3 CERRADO 2026-08-29** (bitácora (38), en frío): **la mitad
+            (a) de 7e está hecha.** El eje de identificación que el plan
+            proponía —cierre transitivo del call graph por handler— se midió y
+            salió **mitad refutado, mitad reemplazado**. El objeto de estado
+            **no lo nombra el handler: se lo pasa el despachador en `a0`**, y
+            por eso el cierre de `FUN_00175980` no alcanza `0x0040F4D4` a
+            ninguna profundidad. Lo que identifica el subsistema es el **SITIO
+            DE LLAMADA**, y son **tres coordenadas**: el **destino** (array de
+            handles `P1+0xNN` o singleton de `.bss`), el **contador** que
+            avanza, y la **acción** (handler directo o método virtual
+            `vtable+0xNN`). Los **61 tipos despachados** (en **55 bloques**;
+            8 tipos caen en el `default`) están volcados en
+            `kb/stage-modulos.json` con las tres, más qué consume cada uno
+            —id64 del nombre, blob, `P1`, `P2`— leído de los argumentos.
+            Los 60 tipos de módulo caen en **23 grupos** de destino+contador;
+            el mayor tiene 23 tipos.
+            **Tres cosas que no se buscaban.** (1) El **`0x35` no es un tipo
+            de módulo: es el CIERRE del stream** — recorre todos los arrays de
+            `P1` y tiene 0 instancias; el `switch` mezcla constructores con un
+            paso de commit. (2) **`P1` es un directorio de pools ya alocados**
+            y su inventario está cerrado por **doble control**: los 18 offsets
+            que usan los casos individuales son exactamente los que recorre el
+            bloque del `0x35`. (3) Los singletons de `.bss` caen todos en
+            `0x0040F4D0`–`0x0040F514`: hay un **directorio de subsistemas**
+            ahí (probable, no medido).
+            **Y una advertencia que sale del cruce código-vs-datos:** mismo
+            array **no** es misma struct — dentro de `P1+0x1C` conviven blobs
+            de 16 a 96 B. El array es el pool de destino; el blob, la
+            estructura de entrada. Dos coordenadas independientes.
+            **El eje de las cadenas queda REFUTADO POR MEDICIÓN**, no ya por
+            impresión: sobre el cierre a profundidad 3, **2 handlers de 70**
+            tienen cadena, 5 en total. Y el primer barrido dio **0 hasta para
+            el `0x2D`** porque limpiaba la sombra de registros antes del
+            **delay slot** — lo atrapó el control positivo.
+            Herramienta nueva con autotest **probado en rojo** (6 casos
+            confirmados por otra vía, 4 sabotajes):
+            `herramientas/casos_dispatcher.py`.
+            **Falta la mitad (b), y ésa necesita el emulador.**
+            Herramientas nuevas de 7e, las cuatro con autotest **probado en
+            rojo**: `herramientas/stream_modulos.py`,
+            `herramientas/tipos_modulo.py`, `herramientas/registro_fisica.py`
+            y `herramientas/casos_dispatcher.py`.
         Sirve al objetivo que fijó Fran el 2026-08-17: hacer BLACK más
         difícil y meterle cambios tipo remaster (armas, tipos de enemigo,
         coop). El plan de experimentos está en `docs/08-experimentos.md`
