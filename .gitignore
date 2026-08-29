@@ -36,3 +36,8 @@ proyectos/ingenieria/black/construido/*
 *.zip
 __pycache__/
 *.pyc
+
+# Sello de la ultima corrida de chequeo-completo.ps1: es estado de ESTA
+# maquina, no una decision del proyecto. Si se commiteara, otra maquina lo
+# leeria como propio y el aviso de antiguedad mentiria.
+.claude/ultimo-chequeo.json

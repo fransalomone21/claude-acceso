@@ -57,7 +57,7 @@ if ($null -eq $obj) { $obj = New-Object psobject }
 
 $hooks = [ordered]@{
     SessionStart = @(
-        @{ hooks = @( [ordered]@{ type = 'command'; command = $cmdArranque; timeout = 20 } ) }
+        @{ hooks = @( [ordered]@{ type = 'command'; command = $cmdArranque; timeout = 60 } ) }
     )
     PreToolUse = @(
         @{ matcher = 'Bash|PowerShell|Write|Edit|NotebookEdit'

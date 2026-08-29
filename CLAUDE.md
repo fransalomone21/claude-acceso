@@ -192,6 +192,32 @@ Y un hook `SessionStart` emite `.claude/arranque.md`: las autorizaciones
 permanentes y el comando de apertura de cada proyecto, que vivían en archivos
 que **no se leen solos** y por eso se olvidaban cada sesión.
 
+**Desde el 2026-08-29 ese hook además MIDE.** Emitir el texto decía que
+existían siete verificadores; correrlos seguía dependiendo de que alguien se
+acordara, y lo único que informaba del estado real era el `HANDOFF` que dejó
+la sesión anterior — un archivo escrito por otra sesión, que no se entera de
+nada que pase después de escribirse. El hook corre ahora la **capa rápida** de
+`chequeo-completo.ps1` y mete el resultado en la sesión, medido:
+
+```powershell
+.\chequeo-completo.ps1                  # las dos capas (~110 s)
+.\chequeo-completo.ps1 -SoloMedidores   # la rapida (~7 s) -- la que corre el hook
+```
+
+| capa | qué | cuándo corre |
+|---|---|---|
+| **medidores** (7 s) | `verificar-estructura` + `verify-install` + `aprender.py sin-triage` | **sola, en cada arranque** |
+| **saboteadores** (96 s) | los cuatro `probar-*.ps1`: rompen cada alarma y exigen el rojo | a mano; el hook **avisa** si pasaron más de 7 días |
+| **limpieza** | los medidores otra vez, *después* de sabotear | con los saboteadores |
+
+La tercera fila no estaba prevista y salió de una falla real del mismo día:
+`probar-chequeo-lecciones.ps1` restauraba el archivo **fuente** y dejaba la
+copia **instalada** en `~/.claude` con el sabotaje adentro — y su control
+positivo daba verde porque miraba el repo, no el efecto. Es exactamente la
+ceguera que los saboteadores existen para atrapar, del lado de adentro. Ahora
+lo mide un segundo pase, y la clase entera de suciedad se ve, no sólo la que
+ya conocemos.
+
 ```powershell
 .\probar-hooks.ps1              # cada freno en rojo, y los controles positivos
 .\.claude\desinstalar-hooks.ps1 # lo que se instala solo, se desinstala solo

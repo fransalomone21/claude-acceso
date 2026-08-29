@@ -6,7 +6,7 @@
                                                          {
                                                              "type":  "command",
                                                              "command":  "powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\frans\\Desktop\\claude-acceso\\.claude\\hooks\\arranque-proyecto.ps1\"",
-                                                             "timeout":  20
+                                                             "timeout":  60
                                                          }
                                                      ]
                                        }
