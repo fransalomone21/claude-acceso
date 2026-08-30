@@ -18,7 +18,7 @@ cruzadas de texto plano no las valida el compilador.
 | lo que quedó a medias y las trampas de Typst ya pagadas | `HANDOFF.md` |
 | tocar o agregar una figura | `docs/figuras.md` |
 | verificar un dato contra la bibliografía | `fuentes/` y `docs/referencia/` |
-| generar el PDF | `/pdf-con-codigo` — el flujo y el chequeo visual |
+| generar el PDF | `.\compilar.bat` (o `compilar.bat galeria`). El flujo y el chequeo visual: `/pdf-con-codigo` |
 
 ## La regla propia
 

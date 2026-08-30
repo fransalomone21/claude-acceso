@@ -2,7 +2,7 @@
 
 **Fecha:** 2026-08-28
 **Rama:** `main` — hay una sola rama; el proyecto es una carpeta, no una rama.
-**Estado: APUNTE COMPLETO EN DOS PARTES.** 107 páginas, 13 módulos más anexos.
+**Estado: APUNTE COMPLETO EN DOS PARTES.** 123 páginas, 14 módulos más anexos.
 
 ## Qué es esto
 
@@ -13,7 +13,7 @@ compilar a PDF. Destinatario primario: el docente; en segundo lugar, los alumnos
 Tiene **dos partes**:
 
 - **Parte I (módulos 1 a 6)** — el temario y los TP de la cátedra. Estudia *dispositivos*.
-- **Parte II (módulos 7 a 13)** — fundamentos de análisis de circuitos, en el orden de la
+- **Parte II (módulos 7 a 14)** — fundamentos de análisis de circuitos, en el orden de la
   materia **Teoría de Circuitos** de la Ingeniería Electrónica de la UNSAM (Prof. Gabriel
   Sanca, director de la carrera). Estudia el *método*.
 
@@ -86,7 +86,8 @@ dibujada.
 | 10 | Capacitor, inductor y régimen transitorio (1.º y 2.º orden) | 2 |
 | 11 | Fasores, régimen permanente senoidal, potencia y resonancia | 3 |
 | 12 | Respuesta en frecuencia, Bode, filtrado y señales poliarmónicas | 2 |
-| 13 | Cuadripolos ($z$, $y$, $h$, $ABCD$) y amplificador operacional | 2 |
+| 13 | Cuadripolos ($z$, $y$, $h$, $ABCD$) | 1 |
+| 14 | **El amplificador operacional** (26 pág.): las dos reglas, el cortocircuito virtual y los tres casos donde no vale, nueve configuraciones deducidas con análisis nodal, el operacional real | 9 |
 | — | Anexos: colores, E12/E24, formulario de las dos partes, dos órdenes de lectura, símbolos, seguridad | — |
 
 Todos los módulos llevan: teoría con deducción explícita, ecuaciones numeradas y
@@ -443,6 +444,79 @@ convención explícita → un caso chico hecho a mano → recién ahí la genera
   después se restauró y volvió a verde.
 - Las cinco páginas nuevas (52 a 59 del PDF) se miraron compiladas, no solo compiladas
   sin error.
+
+## Módulo 14 — el amplificador operacional, con módulo propio (2026-08-30)
+
+**Cerrada.** El apunte pasó de 107 a **123 páginas**. El operacional dejó de ser la
+segunda mitad del Módulo 13 y tiene módulo propio, de 26 páginas.
+
+### Por qué se movió en vez de ampliarse donde estaba
+
+El Módulo 13 se llamaba «Cuadripolos y amplificador operacional» y le dedicaba al
+operacional unas seis páginas: las dos reglas, inversor y no inversor con un párrafo cada
+uno, y **una tabla de siete configuraciones "que hay que saber de memoria"**. Esa tabla
+era el problema: pedía memorizar el resultado de una deducción que entra en tres
+renglones, y que además es *la misma* deducción para las nueve.
+
+Ampliarlo en su lugar habría dejado un módulo donde el cuadripolo —que es un tema
+completo— quedaba de prólogo a otro cuatro veces más largo. Se movió entero, y el
+Módulo 13 cierra ahora con una sección que explica *por qué* el operacional está aparte:
+no se resuelve con el álgebra de cuadripolos sino con el análisis nodal del Módulo 8, así
+que pertenece a otra familia de herramientas.
+
+No quedó contenido duplicado: la sección vieja se borró del 13, no se copió.
+
+### Lo que el módulo hace distinto
+
+Sigue el patrón que se estrenó en el Módulo 8 el 2026-08-28 y que Fran confirmó que le
+sirvió: **convenciones antes de cualquier cuenta → un caso mínimo hecho a mano → la regla
+general → los casos que rompen el método.** Traducido al operacional:
+
+1. *Relato antes que fórmula.* El operacional contado como una persona con dos
+   termómetros y una perilla, y la pregunta que decide todo: ¿girar la perilla cambia lo
+   que marcan los termómetros? Los tres casos posibles de esa pregunta **son** los tres
+   circuitos del módulo: realimentación negativa, comparador y Schmitt.
+2. *El cortocircuito virtual se deduce, no se declara.* Se parte de
+   $v_d = v_o \/ A_"ol"$ —que es exacta y vale siempre— y se le pide al circuito una sola
+   condición: que $v_o$ esté acotada. La conclusión que se busca es que el cortocircuito
+   virtual **no es una propiedad del componente sino el punto de equilibrio del lazo**.
+3. *El test de tres preguntas*, que es la parte operativa: ¿hay camino de la salida a una
+   entrada? ¿a cuál pata llega? ¿el $v_o$ que dio la cuenta entra en la alimentación? Las
+   tres se contestan mirando el dibujo, y la tercera es la que más se saltea.
+4. *Las nueve configuraciones se deducen con el método de nodos del Módulo 8*, con un
+   procedimiento de cinco pasos, en vez de listarse como fórmulas. La tabla de "las que
+   faltan" quedó, pero explícitamente marcada como material de consulta.
+5. *Una sección entera para los tres casos donde la Regla 1 es falsa*, que es lo que el
+   apunte no tenía: sin realimentación (comparador), realimentación positiva (Schmitt) y
+   realimentación negativa pero saturado. El tercero es el traicionero, porque las
+   preguntas 1 y 2 dan bien.
+
+### Las diez figuras nuevas
+
+Recicladas de `teoria-circuitos/fuente/ao.typ` —los esquemáticos del Pre-Lab de
+operacionales, ya depurados— y adaptadas a los helpers de este apunte. Cuatro venían de
+ahí (seguidor, inversor, no inversor, sumador) y seis son nuevas: anatomía del símbolo,
+lazo abierto, restador, integrador/derivador, comparador/Schmitt e instrumentación.
+
+La geometría vive en ocho constantes (`ao-cx`, `ao-ym`, …) que **son las medidas del
+símbolo `opamp` de zap**, no números elegidos a ojo. Eso se pagó en el render: con el
+centro en 3,0 el rótulo del nodo virtual salía estrangulado contra el triángulo en *seis*
+figuras a la vez, y se arregló cambiando una constante.
+
+### Verificación
+
+- Los cinco chequeos de `verificar.py`, en verde, con las 55 figuras en la galería.
+- **Las diez figuras se miraron renderizadas a PNG, en cuatro rondas.** La primera tenía
+  cuatro defectos que el compilador no ve: una masa dibujada hacia arriba que salía con
+  el triángulo invertido, dos fuentes apiladas en la misma vertical que se leían como una
+  rama en serie, dos rótulos `R_1` superpuestos, y el amplificador de instrumentación con
+  cuatro resistores en diagonal y los rótulos encimados.
+- Cuatro páginas del apunte compilado (98, 102, 110, 117) miradas en PNG. De ahí salieron
+  tres correcciones tipográficas que caían en trampas ya documentadas en el `HANDOFF`:
+  `mu "V"` con espacio, y rayas largas pegadas a matemática (`dif t$—` se lee `dt−`).
+- `compilar.bat` probado **en los dos caminos**: sin `typst` en el PATH da el error
+  explicando cómo instalarlo y sale con código 1; con `typst` regenera el PDF (timestamp
+  y tamaño verificados) y lo abre.
 
 ## Fuentes
 

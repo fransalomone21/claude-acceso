@@ -4,7 +4,7 @@
 //  Vista viva: typst watch apunte.typ apunte.pdf
 //
 //  Parte I  (modulos 1 a 6)  : el temario y los TP de la catedra.
-//  Parte II (modulos 7 a 13) : fundamentos de analisis de circuitos, en el
+//  Parte II (modulos 7 a 14) : fundamentos de analisis de circuitos, en el
 //                              orden de Teoria de Circuitos (UNSAM).
 // =====================================================================
 
@@ -47,8 +47,8 @@
   una red cualquiera, sin importar qué tenga adentro. El orden es el de la materia
   *Teoría de Circuitos* de la Ingeniería Electrónica de la UNSAM —leyes de Kirchhoff y
   resolución sistemática, teoremas, régimen transitorio, fasores y régimen permanente
-  senoidal, diagramas de Bode y filtrado, cuadripolos y amplificador operacional—, que es
-  la continuación natural de esta materia.
+  senoidal, diagramas de Bode y filtrado, cuadripolos, y el amplificador operacional con
+  todas sus configuraciones—, que es la continuación natural de esta materia.
 
   No hace falta haber leído la Parte I para leer ésta, pero las dos se cruzan
   permanentemente: cada módulo cierra explicando qué tema de la Parte I era, sin nombre,
@@ -62,6 +62,7 @@
 #include "modulos/m11-fasores.typ"
 #include "modulos/m12-bode.typ"
 #include "modulos/m13-cuadripolos-ao.typ"
+#include "modulos/m14-operacional.typ"
 
 // ---------------------------------------------------------------------
 #include "modulos/anexos.typ"

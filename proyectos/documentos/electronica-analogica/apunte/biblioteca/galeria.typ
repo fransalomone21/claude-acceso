@@ -113,8 +113,19 @@
 = Modulo 12 — Respuesta en frecuencia
 #muestra("fig-pasabajos-pasaaltos()", fig-pasabajos-pasaaltos())
 
-= Modulo 13 — Cuadripolos y AO
+= Modulo 13 — Cuadripolos
 #muestra("fig-cuadripolo()", fig-cuadripolo())
-#muestra("fig-ao-inversor-no-inversor()", fig-ao-inversor-no-inversor())
 #muestra("graf-diagrama-fasorial()", graf-diagrama-fasorial())
 #muestra("graf-bode-amplificador()", graf-bode-amplificador())
+
+= Modulo 14 — El amplificador operacional
+#muestra("fig-ao-terminales()", fig-ao-terminales())
+#muestra("fig-ao-lazo-abierto()", fig-ao-lazo-abierto())
+#muestra("fig-ao-seguidor()", fig-ao-seguidor())
+#muestra("fig-ao-inversor()", fig-ao-inversor())
+#muestra("fig-ao-no-inversor()", fig-ao-no-inversor())
+#muestra("fig-ao-sumador()", fig-ao-sumador())
+#muestra("fig-ao-restador()", fig-ao-restador())
+#muestra("fig-ao-integrador-derivador()", fig-ao-integrador-derivador())
+#muestra("fig-ao-comparador-schmitt()", fig-ao-comparador-schmitt())
+#muestra("fig-ao-instrumentacion()", fig-ao-instrumentacion())

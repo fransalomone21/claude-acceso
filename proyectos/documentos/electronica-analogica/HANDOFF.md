@@ -3,23 +3,28 @@
 ## Cuadro de fase para abrir el próximo chat
 
 ```
-Fase     : Módulo 8 didáctico CERRADO el 2026-08-28. Se invirtió el orden de
-           los dos métodos de análisis: convención explícita → ejemplo chico
-           resuelto a mano → recién ahí la generalización ($G_(k j)$, matriz,
-           regla por inspección). Figura nueva `fig-nodal-primero`, dos
-           ejercicios nuevos (8.1 y 8.4), dos tablas de traducción, y la idea
-           clave de que en nodal NO hay recorrido. Cinco chequeos en verde, el
-           de la galería probado rompiéndolo, y las páginas 52-59 miradas en
-           render. Detalle en ESTADO_ACTUAL.md, sección "Módulo 8 didáctico".
+Fase     : MÓDULO 14 (amplificador operacional) CERRADO el 2026-08-30. El
+           operacional salió del Módulo 13 y tiene módulo propio, de 26
+           páginas: el apunte pasó de 107 a 123. Aplica el mismo patrón que
+           el Módulo 8 —relato y convenciones antes de la fórmula, un caso
+           mínimo a mano, después la regla, y al final los casos que rompen
+           el método—, que es el que Fran confirmó que le sirve.
+           Diez figuras nuevas (`fig-ao-*`), cuatro recicladas de
+           teoria-circuitos/fuente/ao.typ. Cinco chequeos en verde, las diez
+           figuras miradas en PNG (cuatro rondas: la primera tenía cuatro
+           defectos que el compilador no ve) y cuatro páginas del apunte
+           compilado. Hay `compilar.bat`, probado en los dos caminos.
+           Detalle en ESTADO_ACTUAL.md, sección "Módulo 14".
            Lo que sigue, en orden de valor:
-           (a) el mismo tratamiento para el Módulo 9 (teoremas) si el alumno
-               reporta que también cuesta — NO hacerlo por las dudas;
+           (a) mirar en render las páginas del Módulo 14 que NO se miraron
+               —se vieron cuatro de veintiséis: 98, 102, 110 y 117—;
            (b) Fase 3 — Los temas que faltan (ver "Plan de fases");
-           (c) la PASADA DE LECTURA ELÉCTRICA de las 46 figuras, que sigue
-               pendiente desde antes (ver "Pendientes explícitos").
-Modelo   : Opus si lo que sigue es (a) — decidir qué confunde y reordenar una
-           explicación es criterio, no ejecución. Sonnet 5 para (b), que es
-           escribir contenido nuevo contra un programa ya publicado.
+           (c) la PASADA DE LECTURA ELÉCTRICA de las figuras, que sigue
+               pendiente desde antes (ver "Pendientes explícitos"), ahora
+               con 55 figuras en vez de 46.
+Modelo   : Sonnet 5 para (a), que es mirar imágenes contra un criterio ya
+           escrito. Opus sólo si aparece un defecto que obligue a rediseñar
+           una figura, que es donde vuelve a haber criterio.
 Esfuerzo : medio, sin fan-out. Un archivo por vez, secuencial: el fan-out no
            compra nada acá y el presupuesto del plan sí lo paga.
 Contexto : chat nuevo.
@@ -88,6 +93,19 @@ con el síntoma exacto de cada una. Las dos que más cuestan:
 - `wire(..., i: ...)` aborta la compilación en zap 0.6.0. Usar el ayudante `corriente()`.
 - Las patas del transistor no están alineadas con su punto de inserción: todo lo que
   cuelga de un BJT va con coordenadas relativas a `"Q.c"` / `"Q.b"` / `"Q.e"`.
+
+Cuatro más, pagadas el 2026-08-30 con las figuras del Módulo 14:
+
+- **Un `wire` de longitud cero rompe CeTZ** con un error que no dice nada del wire:
+  `inequality assertion failed: value none was equal to none`, en `anchor.typ:186`. Pasó
+  al escribir `wire((6.5, y), (7.4 - 0.9, y))`, donde la aritmética daba justo 6,5. Si
+  aparece ese mensaje, buscar dos coordenadas que den lo mismo, no un anchor mal escrito.
+- **El largo mínimo de un resistor es 1,7**: su cuerpo mide 1,41 unidades y es fijo. Un
+  tramo más corto no lo comprime, lo hace desbordar sus terminales.
+- **Una fuente pegada a un resistor se superponen**: el círculo tiene radio 0,4 y el
+  cuerpo del resistor empieza a 0,15 de su terminal. Va medio punto de cable en el medio.
+- **`ground(..., angle: 180deg)` sale con el triángulo invertido** y se lee como otro
+  símbolo. Las masas van siempre hacia abajo, aunque el nodo esté arriba del dibujo.
 
 ### De método
 

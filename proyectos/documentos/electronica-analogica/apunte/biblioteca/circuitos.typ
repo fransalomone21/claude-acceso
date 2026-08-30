@@ -1236,65 +1236,477 @@
   rotulo((6.4, (ya + yb) / 2), $overline(V)_2$)
 })
 
-// Las dos configuraciones básicas del amplificador operacional.
-// El opamp va con variant "ieee": el símbolo IEC de zap es un rectángulo con
-// los signos adentro, y el triángulo es el que ve el alumno en todos lados.
-#let _ao-inversor() = esquema({
-  import zap: *
-  let (cx, cy) = (2.9, 1.5)
-  opamp("A", (cx, cy), variant: "ieee")
-  let (xm, xo) = (cx - 0.9, cx + 0.9)
-  let (ym, yp) = (cy + 0.45, cy - 0.45)
-  // rama de entrada
-  node("m", (1.4, ym))
-  wire((1.4, ym), (xm, ym))
-  resistor("R1", (0, ym), (1.4, ym), label: $R_1$)
-  wire((-0.7, ym), (0, ym))
-  node("e", (-0.7, ym), fill: false)
-  rotulo((-0.88, ym), $overline(V)_e$, ancla: "east")
-  // realimentación
-  wire((1.4, ym), (1.4, 3.5))
-  resistor("R2", (1.4, 3.5), (2.8, 3.5), label: $R_2$)
-  wire((2.8, 3.5), (4.4, 3.5))
-  wire((4.4, 3.5), (4.4, cy))
-  wire((xo, cy), (5.1, cy))
-  node("s", (5.1, cy), fill: false)
-  rotulo((5.28, cy), $overline(V)_s$)
-  // entrada no inversora a masa
-  wire((xm, yp), (1.4, yp))
-  wire((1.4, yp), (1.4, 0.4))
-  ground("G", (1.4, 0.4))
-})
+// ---------------------------------------------------------------
+//  Módulo 14 — El amplificador operacional
+//
+//  Geometría común de las diez figuras. Estas constantes NO son números
+//  elegidos a ojo: son las medidas del símbolo `opamp` de zap —1,8 × 1,75,
+//  con las dos entradas a ±0,45 del centro sobre el borde izquierdo—. Si el
+//  símbolo cambia de tamaño, cambian acá y las diez figuras siguen cerrando.
+//
+//  El opamp va con variant "ieee": el símbolo IEC de zap es un rectángulo con
+//  los signos adentro, y el triángulo es el que ve el alumno en todos lados.
+//  Los resistores y las fuentes quedan en el default de zap, que es el que ya
+//  usan las otras treinta figuras del apunte.
+//
+//  Tres reglas de dibujo, las tres pagadas con una vuelta de render:
+//    · EL LARGO MÍNIMO DE UN RESISTOR ES 1,7. El cuerpo del símbolo mide 1,41
+//      unidades y es FIJO: un tramo más corto no lo comprime, lo hace
+//      DESBORDAR sus propios terminales, y el pico que se sale parece un
+//      componente más;
+//    · dos tramos rectos del mismo nodo no pueden compartir la recta, o el
+//      dibujo muestra un cable donde hay dos;
+//    · un rótulo va donde no haya otro rótulo, no donde haya lugar.
+// ---------------------------------------------------------------
 
-#let _ao-no-inversor() = esquema({
-  import zap: *
-  let (cx, cy) = (2.9, 1.5)
-  opamp("A", (cx, cy), variant: "ieee")
-  let (xm, xo) = (cx - 0.9, cx + 0.9)
-  let (ym, yp) = (cy + 0.45, cy - 0.45)
-  // R1 de la inversora a masa
-  node("m", (1.4, ym))
-  wire((1.4, ym), (xm, ym))
-  resistor("R1", (0, ym), (1.4, ym), label: $R_1$)
-  wire((-0.7, ym), (0, ym))
-  wire((-0.7, ym), (-0.7, 0.4))
-  ground("G", (-0.7, 0.4))
-  // realimentación
-  wire((1.4, ym), (1.4, 3.5))
-  resistor("R2", (1.4, 3.5), (2.8, 3.5), label: $R_2$)
-  wire((2.8, 3.5), (4.4, 3.5))
-  wire((4.4, 3.5), (4.4, cy))
-  wire((xo, cy), (5.1, cy))
-  node("s", (5.1, cy), fill: false)
-  rotulo((5.28, cy), $overline(V)_s$)
-  // la señal entra por la no inversora
-  wire((0.4, yp), (xm, yp))
-  node("e", (0.4, yp), fill: false)
-  rotulo((0.22, yp), $overline(V)_e$, ancla: "east")
-})
+// El centro es 3,4 y no 3,0 por una razón medida en el render: con 3,0 el nodo
+// del cortocircuito virtual queda a 0,4 unidades del borde del triángulo y su
+// rótulo sale estrangulado contra el símbolo. Correr el AO a la derecha da 0,8
+// y arregla las SEIS figuras de una vez, que es justamente para lo que estas
+// medidas son constantes y no números repetidos figura por figura.
+#let ao-cx = 3.4 // centro del AO
+#let ao-cy = 2.0
+#let ao-xin = ao-cx - 0.9 // borde de entrada (x de las dos patas)
+#let ao-xout = ao-cx + 0.9 // vértice de salida
+#let ao-ym = ao-cy + 0.45 // entrada inversora  (−)
+#let ao-yp = ao-cy - 0.45 // entrada no inversora (+)
+#let ao-yfb = 4.5 // altura del camino de realimentación
+#let ao-xfb = 5.1 // bajada de la realimentación hasta la salida
+#let ao-xo = 5.9 // terminal de salida
 
-#let fig-ao-inversor-no-inversor() = paneles(
-  ("Inversor", _ao-inversor()),
-  ("No inversor", _ao-no-inversor()),
-  sep: 22pt,
+// El AO con sus dos rieles de alimentación. Los rieles salen de los bordes
+// inclinados del triángulo y terminan en un círculo abierto: es un terminal de
+// alimentación, no un nodo de la señal. Se dibujan SIEMPRE, aunque no entren en
+// ninguna cuenta, porque son los que fijan el techo y el piso de la salida — y
+// el alumno que no los ve dibujados es el que después no entiende la saturación.
+#let _ao-ideal(rieles: true) = {
+  import zap: *
+  opamp("A", (ao-cx, ao-cy), variant: "ieee")
+  if rieles {
+    wire((ao-cx, ao-cy + 0.52), (ao-cx, ao-cy + 1.2))
+    node("vcc", (ao-cx, ao-cy + 1.2), fill: false)
+    rotulo((ao-cx + 0.14, ao-cy + 1.2), $+V_"CC"$)
+    wire((ao-cx, ao-cy - 0.52), (ao-cx, ao-cy - 1.2))
+    node("vee", (ao-cx, ao-cy - 1.2), fill: false)
+    rotulo((ao-cx + 0.14, ao-cy - 1.2), $-V_"CC"$)
+  }
+}
+
+// El terminal de salida: cable, círculo abierto y rótulo.
+#let _ao-salida(etiqueta: $v_o$) = {
+  import zap: *
+  wire((ao-xout, ao-cy), (ao-xo, ao-cy))
+  node("s", (ao-xo, ao-cy), fill: false)
+  rotulo((ao-xo + 0.15, ao-cy), etiqueta)
+}
+
+// Rótulo de una fuente vertical, a la izquierda de su círculo. El 0,55 no es
+// estético: el círculo de zap tiene radio 0,4 y el texto necesita salir de ahí;
+// con menos, el subíndice queda apoyado sobre el trazo.
+#let _ao-rot-fuente(x, y0, y1, cuerpo) = rotulo(
+  (x - 0.55, (y0 + y1) / 2),
+  cuerpo,
+  ancla: "east",
 )
+
+// El rótulo del nodo del cortocircuito virtual. Va ENCIMA del tramo que une el
+// nodo con la pata inversora, que es el único lugar que lo vuelve inequívoco:
+// arriba y a la izquierda se pega al rótulo del resistor de entrada y se lee
+// "R_1 v_x"; colgado abajo, en el seguidor queda sobre el cable de la entrada NO
+// inversora, que es justo el nodo que no es.
+#let _ao-rot-v(x) = rotulo((x + 0.2, ao-ym + 0.12), $v_x$, ancla: "south")
+
+// --- 1. Anatomía del símbolo -----------------------------------------
+// Las cinco patas rotuladas y nada más. Es la única figura del módulo donde el
+// AO no está conectado a nada: se mira el componente, no un circuito.
+#let fig-ao-terminales() = esquema({
+  import zap: *
+  _ao-ideal()
+  wire((ao-xin, ao-ym), (1.1, ao-ym))
+  node("em", (1.1, ao-ym), fill: false)
+  rotulo((0.92, ao-ym), $v_-$, ancla: "east")
+  wire((ao-xin, ao-yp), (1.1, ao-yp))
+  node("ep", (1.1, ao-yp), fill: false)
+  rotulo((0.92, ao-yp), $v_+$, ancla: "east")
+  _ao-salida()
+  // la diferencia de entrada, que es lo único que el AO mira
+  cetz.draw.line(
+    (1.55, ao-ym - 0.08),
+    (1.55, ao-yp + 0.08),
+    stroke: punteado,
+    mark: (start: "straight", end: "straight", scale: 0.35),
+  )
+  rotulo((1.42, ao-cy), $v_d$, ancla: "east", color: c-azul)
+})
+
+// --- 2. Lazo abierto --------------------------------------------------
+// El AO SIN realimentación: no hay ningún camino de la salida a la entrada.
+// Es la figura de referencia de "acá NO vale el cortocircuito virtual".
+#let fig-ao-lazo-abierto() = esquema({
+  import zap: *
+  _ao-ideal()
+  // la señal, sobre la entrada no inversora
+  vsource("Vi", (1.0, 0.5), (1.0, ao-yp), label: none)
+  ground("Gi", (1.0, 0.5))
+  _ao-rot-fuente(1.0, 0.5, ao-yp, $v_i$)
+  wire((1.0, ao-yp), (ao-xin, ao-yp))
+  // la inversora, a masa. Baja por la izquierda, como en el inversor: una masa
+  // dibujada hacia arriba sale con el triángulo invertido y se lee como otra
+  // cosa. El aviso de que acá no hay realimentación va en el pie de la figura,
+  // no adentro del dibujo, donde caía encima de la tierra de la fuente.
+  // La bajada va en x = −0,3 y no en 0,2: el rótulo de la fuente sale a la
+  // izquierda de su círculo, hasta x ≈ 0,15, y le pasaba por encima al cable.
+  wire((ao-xin, ao-ym), (-0.3, ao-ym))
+  wire((-0.3, ao-ym), (-0.3, 0.9))
+  ground("Gm", (-0.3, 0.9))
+  _ao-salida()
+})
+
+// --- 3. Seguidor de tensión -------------------------------------------
+// La salida vuelve entera a la inversora: no hay resistores.
+#let fig-ao-seguidor() = esquema({
+  import zap: *
+  _ao-ideal()
+  vsource("Vi", (0.5, 0.5), (0.5, ao-yp), label: none)
+  ground("Gi", (0.5, 0.5))
+  _ao-rot-fuente(0.5, 0.5, ao-yp, $v_i$)
+  wire((0.5, ao-yp), (ao-xin, ao-yp))
+  _ao-salida()
+  // realimentación total: cable desnudo de la salida a la inversora
+  node("r", (ao-xfb, ao-cy))
+  wire((ao-xfb, ao-cy), (ao-xfb, ao-yfb))
+  wire((ao-xfb, ao-yfb), (1.4, ao-yfb))
+  wire((1.4, ao-yfb), (1.4, ao-ym))
+  wire((1.4, ao-ym), (ao-xin, ao-ym))
+  _ao-rot-v(1.4)
+})
+
+// --- 4. Inversor ------------------------------------------------------
+// La señal entra por Ri a la inversora; la no inversora va a masa.
+// El cable de 0,5 entre la fuente y el resistor NO es decorativo: el círculo de
+// la fuente tiene radio 0,4 y el cuerpo del resistor empieza a 0,15 de su primer
+// terminal, así que pegados se superponen y el dibujo muestra un símbolo raro.
+#let fig-ao-inversor() = esquema({
+  import zap: *
+  _ao-ideal()
+  vsource("Vi", (-0.8, 0.85), (-0.8, ao-ym), label: none)
+  ground("Gi", (-0.8, 0.85))
+  _ao-rot-fuente(-0.8, 0.85, ao-ym, $v_i$)
+  wire((-0.8, ao-ym), (-0.3, ao-ym))
+  resistor("Ri", (-0.3, ao-ym), (1.7, ao-ym), label: $R_i$)
+  wire((1.7, ao-ym), (ao-xin, ao-ym))
+  node("V", (1.7, ao-ym))
+  _ao-rot-v(1.7)
+  wire((1.7, ao-ym), (1.7, ao-yfb))
+  resistor("Rf", (1.7, ao-yfb), (3.4, ao-yfb), label: $R_f$)
+  wire((3.4, ao-yfb), (ao-xfb, ao-yfb))
+  wire((ao-xfb, ao-yfb), (ao-xfb, ao-cy))
+  node("r", (ao-xfb, ao-cy))
+  _ao-salida()
+  wire((ao-xin, ao-yp), (1.3, ao-yp))
+  wire((1.3, ao-yp), (1.3, 0.85))
+  ground("Gp", (1.3, 0.85))
+})
+
+// --- 5. No inversor ---------------------------------------------------
+// La señal entra por la no inversora; R1 va del nodo del cortocircuito
+// virtual a masa. R1 sale hacia la IZQUIERDA y baja: así no cruza el cable
+// de la señal, que entra más abajo.
+#let fig-ao-no-inversor() = esquema({
+  import zap: *
+  _ao-ideal()
+  resistor("R1", (-0.3, ao-ym), (1.4, ao-ym), label: $R_1$)
+  wire((-0.3, ao-ym), (-1.0, ao-ym))
+  wire((-1.0, ao-ym), (-1.0, 1.1))
+  ground("G1", (-1.0, 1.1))
+  wire((1.4, ao-ym), (ao-xin, ao-ym))
+  node("V", (1.4, ao-ym))
+  _ao-rot-v(1.4)
+  wire((1.4, ao-ym), (1.4, ao-yfb))
+  resistor("Rf", (1.4, ao-yfb), (3.2, ao-yfb), label: $R_f$)
+  wire((3.2, ao-yfb), (ao-xfb, ao-yfb))
+  wire((ao-xfb, ao-yfb), (ao-xfb, ao-cy))
+  node("r", (ao-xfb, ao-cy))
+  _ao-salida()
+  vsource("Vi", (0.6, 0.5), (0.6, ao-yp), label: none)
+  ground("Gi", (0.6, 0.5))
+  _ao-rot-fuente(0.6, 0.5, ao-yp, $v_i$)
+  wire((0.6, ao-yp), (ao-xin, ao-yp))
+})
+
+// --- 6. Sumador inversor ----------------------------------------------
+// Dos ramas de entrada, Ra y Rb, sobre el mismo nodo. Ra baja en x = 1,0 y Rf
+// sube en x = 1,7: si bajaran y subieran por la misma vertical, los dos tramos
+// quedarían uno encima del otro y el dibujo mostraría un cable donde hay dos.
+#let fig-ao-sumador() = esquema({
+  import zap: *
+  let ya = 3.4 // altura de la rama de Va
+  let xsum = 1.0 // donde la rama de Va se une a la de Vb
+  let xv = 1.7 // el nodo del cortocircuito virtual
+  _ao-ideal()
+  vsource("Va", (-2.6, 1.3), (-2.6, ya), label: none)
+  ground("Ga", (-2.6, 1.3))
+  _ao-rot-fuente(-2.6, 1.3, ya, $v_a$)
+  resistor("Ra", (-2.6, ya), (xsum, ya), label: $R_a$)
+  wire((xsum, ya), (xsum, ao-ym))
+  vsource("Vb", (-1.4, 0.85), (-1.4, ao-ym), label: none)
+  ground("Gb", (-1.4, 0.85))
+  _ao-rot-fuente(-1.4, 0.85, ao-ym, $v_b$)
+  wire((-1.4, ao-ym), (-0.9, ao-ym))
+  // El rótulo de Rb va DEBAJO: arriba queda estrangulado entre el cable de Ra
+  // y su propio cuerpo, y eso sólo se ve ampliando la figura.
+  resistor("Rb", (-0.9, ao-ym), (xsum, ao-ym), label: none)
+  rotulo((0.05, ao-ym - 0.30), $R_b$, ancla: "north")
+  node("suma", (xsum, ao-ym))
+  wire((xsum, ao-ym), (xv, ao-ym))
+  node("V", (xv, ao-ym))
+  wire((xv, ao-ym), (ao-xin, ao-ym))
+  _ao-rot-v(xv)
+  wire((xv, ao-ym), (xv, ao-yfb))
+  resistor("Rf", (xv, ao-yfb), (3.4, ao-yfb), label: $R_f$)
+  wire((3.4, ao-yfb), (ao-xfb, ao-yfb))
+  wire((ao-xfb, ao-yfb), (ao-xfb, ao-cy))
+  node("r", (ao-xfb, ao-cy))
+  _ao-salida()
+  wire((ao-xin, ao-yp), (1.35, ao-yp))
+  wire((1.35, ao-yp), (1.35, 0.9))
+  ground("Gp", (1.35, 0.9))
+})
+
+// --- 7. Restador (amplificador diferencial) ---------------------------
+// Las dos entradas llegan por su resistor. La de abajo NO va a masa: va a masa
+// a través de R2, y esa es la simetría que hace que la ganancia sea la resta.
+// Las dos fuentes NO pueden compartir la vertical: apiladas en la misma x se
+// leen como una sola rama en serie, y el cable de la de abajo cruza el símbolo
+// de la de arriba. v1 baja por x = −2,4 y v2 sube por x = −1,5.
+#let fig-ao-restador() = esquema({
+  import zap: *
+  _ao-ideal()
+  // rama inversora: v1 por R1 al nodo del cortocircuito virtual
+  vsource("V1", (-2.4, 1.0), (-2.4, ao-ym), label: none)
+  ground("G1", (-2.4, 1.0))
+  _ao-rot-fuente(-2.4, 1.0, ao-ym, $v_1$)
+  resistor("R1a", (-2.4, ao-ym), (1.4, ao-ym), label: $R_1$)
+  wire((1.4, ao-ym), (ao-xin, ao-ym))
+  node("V", (1.4, ao-ym))
+  _ao-rot-v(1.4)
+  wire((1.4, ao-ym), (1.4, ao-yfb))
+  resistor("Rf", (1.4, ao-yfb), (3.4, ao-yfb), label: $R_2$)
+  wire((3.4, ao-yfb), (ao-xfb, ao-yfb))
+  wire((ao-xfb, ao-yfb), (ao-xfb, ao-cy))
+  node("r", (ao-xfb, ao-cy))
+  _ao-salida()
+  // rama no inversora: v2 por su R1, y R2 de ahí a masa. Es la misma pareja de
+  // valores que la de arriba, y esa simetría es la que hace que la salida sea
+  // la resta: si se rompe, aparece ganancia de modo común.
+  vsource("V2", (-1.5, -1.9), (-1.5, -0.45), label: none)
+  ground("G2", (-1.5, -1.9))
+  _ao-rot-fuente(-1.5, -1.9, -0.45, $v_2$)
+  wire((-1.5, -0.45), (-1.5, ao-yp))
+  // El rótulo de este R1 va DEBAJO. Arriba cae a menos de un renglón del R1 de
+  // la rama de v1 —los dos resistores están casi en la misma x— y los dos
+  // rótulos se leen como uno solo partido en dos.
+  resistor("R1b", (-1.5, ao-yp), (0.6, ao-yp), label: none)
+  rotulo((-0.45, ao-yp - 0.30), $R_1$, ancla: "north")
+  wire((0.6, ao-yp), (ao-xin, ao-yp))
+  node("P", (1.5, ao-yp))
+  rotulo((1.62, ao-yp + 0.13), $v_y$, ancla: "south-west")
+  wire((1.5, ao-yp), (1.5, 0.4))
+  resistor("R2b", (1.5, 0.4), (1.5, -1.3), label: (content: $R_2$, anchor: "west"))
+  ground("Gp", (1.5, -1.3))
+})
+
+// --- 8. Integrador y derivador ----------------------------------------
+// Son el inversor con un capacitor en lugar de uno de los dos resistores: la
+// figura los pone al lado justo para que se vea que es el MISMO circuito.
+#let _ao-integrador() = esquema(escala: 0.82cm, {
+  import zap: *
+  _ao-ideal(rieles: false)
+  vsource("Vi", (-0.8, 0.85), (-0.8, ao-ym), label: none)
+  ground("Gi", (-0.8, 0.85))
+  _ao-rot-fuente(-0.8, 0.85, ao-ym, $v_i$)
+  wire((-0.8, ao-ym), (-0.3, ao-ym))
+  resistor("Ri", (-0.3, ao-ym), (1.7, ao-ym), label: $R$)
+  wire((1.7, ao-ym), (ao-xin, ao-ym))
+  node("V", (1.7, ao-ym))
+  _ao-rot-v(1.7)
+  wire((1.7, ao-ym), (1.7, ao-yfb))
+  capacitor("Cf", (1.7, ao-yfb), (3.4, ao-yfb), label: $C$)
+  wire((3.4, ao-yfb), (ao-xfb, ao-yfb))
+  wire((ao-xfb, ao-yfb), (ao-xfb, ao-cy))
+  node("r", (ao-xfb, ao-cy))
+  _ao-salida()
+  wire((ao-xin, ao-yp), (1.3, ao-yp))
+  wire((1.3, ao-yp), (1.3, 0.85))
+  ground("Gp", (1.3, 0.85))
+})
+
+#let _ao-derivador() = esquema(escala: 0.82cm, {
+  import zap: *
+  _ao-ideal(rieles: false)
+  vsource("Vi", (-0.8, 0.85), (-0.8, ao-ym), label: none)
+  ground("Gi", (-0.8, 0.85))
+  _ao-rot-fuente(-0.8, 0.85, ao-ym, $v_i$)
+  wire((-0.8, ao-ym), (-0.3, ao-ym))
+  capacitor("Ci", (-0.3, ao-ym), (1.7, ao-ym), label: $C$)
+  wire((1.7, ao-ym), (ao-xin, ao-ym))
+  node("V", (1.7, ao-ym))
+  _ao-rot-v(1.7)
+  wire((1.7, ao-ym), (1.7, ao-yfb))
+  resistor("Rf", (1.7, ao-yfb), (3.4, ao-yfb), label: $R$)
+  wire((3.4, ao-yfb), (ao-xfb, ao-yfb))
+  wire((ao-xfb, ao-yfb), (ao-xfb, ao-cy))
+  node("r", (ao-xfb, ao-cy))
+  _ao-salida()
+  wire((ao-xin, ao-yp), (1.3, ao-yp))
+  wire((1.3, ao-yp), (1.3, 0.85))
+  ground("Gp", (1.3, 0.85))
+})
+
+#let fig-ao-integrador-derivador() = paneles(
+  ("Integrador: C en la realimentación", _ao-integrador()),
+  ("Derivador: C en la entrada", _ao-derivador()),
+  sep: 18pt,
+)
+
+// --- 9. Comparador y Schmitt ------------------------------------------
+// Los dos casos donde el cortocircuito virtual NO vale, uno al lado del otro:
+// sin realimentación, y con realimentación POSITIVA. La diferencia con las
+// figuras 3 a 8 se ve de un vistazo — dónde llega el cable de la salida.
+// Las dos fuentes cuelgan de masa hacia arriba, como todas las del apunte: una
+// fuente dibujada colgando del techo sale con la tierra invertida y se lee como
+// un símbolo distinto.
+#let _ao-comparador() = esquema(escala: 0.82cm, {
+  import zap: *
+  _ao-ideal()
+  vsource("Vi", (1.5, 0.3), (1.5, ao-yp), label: none)
+  ground("Gi", (1.5, 0.3))
+  _ao-rot-fuente(1.5, 0.3, ao-yp, $v_i$)
+  wire((1.5, ao-yp), (ao-xin, ao-yp))
+  // la referencia, en la inversora: sube por la izquierda hasta el nivel de la
+  // pata, sin cruzar la rama de la señal. Va en x = −1,2 y no más cerca: el
+  // rótulo de v_i sale a la izquierda de SU círculo y caía sobre éste.
+  wire((ao-xin, ao-ym), (-1.2, ao-ym))
+  wire((-1.2, ao-ym), (-1.2, 1.5))
+  vsource("Vr", (-1.2, 0.1), (-1.2, 1.5), label: none)
+  _ao-rot-fuente(-1.2, 0.1, 1.5, $V_"REF"$)
+  ground("Gr", (-1.2, 0.1))
+  _ao-salida()
+})
+
+// El único circuito del módulo donde el cable de la salida termina en la pata
+// del MÁS. Todo el resto del dibujo es igual al de un no inversor a propósito:
+// lo que hay que aprender a mirar es a cuál de las dos patas llega, y eso sólo
+// se ve si lo demás no distrae. El divisor va ortogonal, por abajo.
+#let _ao-schmitt() = esquema(escala: 0.82cm, {
+  import zap: *
+  let ydiv = -0.7 // la recta por donde corre el divisor
+  _ao-ideal()
+  // la señal entra por la INVERSORA
+  vsource("Vi", (0.9, 1.1), (0.9, ao-ym), label: none)
+  ground("Gi", (0.9, 1.1))
+  _ao-rot-fuente(0.9, 1.1, ao-ym, $v_i$)
+  wire((0.9, ao-ym), (ao-xin, ao-ym))
+  _ao-salida()
+  // realimentación POSITIVA: el divisor R1–R2 desde la salida a la pata del +
+  node("r", (ao-xfb, ao-cy))
+  wire((ao-xfb, ao-cy), (ao-xfb, ydiv))
+  resistor("R2", (ao-xfb, ydiv), (2.4, ydiv), label: $R_2$)
+  wire((2.4, ydiv), (1.7, ydiv))
+  node("P", (1.7, ydiv))
+  wire((1.7, ydiv), (1.7, ao-yp))
+  wire((1.7, ao-yp), (ao-xin, ao-yp))
+  resistor("R1", (1.7, ydiv), (0.0, ydiv), label: $R_1$)
+  wire((0.0, ydiv), (-0.5, ydiv))
+  wire((-0.5, ydiv), (-0.5, -1.3))
+  ground("G1", (-0.5, -1.3))
+})
+
+#let fig-ao-comparador-schmitt() = paneles(
+  ("Comparador: sin realimentación", _ao-comparador()),
+  ("Schmitt: realimentación positiva", _ao-schmitt()),
+  sep: 18pt,
+)
+
+// --- 10. Amplificador de instrumentación ------------------------------
+// Tres AO: los dos de entrada son no inversores que comparten R_G, y el tercero
+// es exactamente el restador de la figura 7.
+//
+// Ni un solo tramo en diagonal, y no por estética: la primera versión llevaba
+// los cuatro resistores del medio en diagonal y los rótulos caían unos sobre
+// otros, con dos "R_3" superpuestos que a tamaño de página se leían como uno.
+// En un dibujo con tres triángulos, la única forma de que el ojo separe las
+// ramas es que todas corran por horizontales y verticales.
+#let fig-ao-instrumentacion() = esquema(escala: 0.78cm, {
+  import zap: *
+  let (ya, yb) = (6.0, 0.2) // centros de A1 (arriba) y A2 (abajo)
+  let xred = 0.6 // la vertical de R3–RG–R3
+  let (y3, y3b) = (0.8, 4.9) // A3: centro y su nodo de realimentación
+  opamp("A1", (2.6, ya), variant: "ieee")
+  opamp("A2", (2.6, yb), variant: "ieee")
+  // las dos entradas, cada una a la pata del + de su amplificador
+  wire((0.0, ya - 0.45), (1.7, ya - 0.45))
+  node("e1", (0.0, ya - 0.45), fill: false)
+  rotulo((-0.18, ya - 0.45), $v_1$, ancla: "east")
+  wire((0.0, yb - 0.45), (1.7, yb - 0.45))
+  node("e2", (0.0, yb - 0.45), fill: false)
+  rotulo((-0.18, yb - 0.45), $v_2$, ancla: "east")
+  // la red R3–RG–R3 entre las dos patas del −. R_G es UNO SOLO y es el que
+  // fija toda la ganancia de la etapa: por eso es el que sale al panel.
+  // Los tres rótulos van a la DERECHA de la vertical, y por eso los triángulos
+  // están en 2,6 y no en 2,2: con 1,1 unidades entre la red y las patas, el
+  // "R_3" de abajo caía sobre el borde inclinado del triángulo de A2.
+  wire((1.7, ya + 0.45), (xred, ya + 0.45))
+  wire((xred, ya + 0.45), (xred, ya + 0.1))
+  resistor("R3a", (xred, ya + 0.1), (xred, 4.4), label: (content: $R_3$, anchor: "east"))
+  resistor("RG", (xred, 4.4), (xred, 2.7), label: (content: $R_G$, anchor: "east"))
+  resistor("R3b", (xred, 2.7), (xred, yb + 0.8), label: (content: $R_3$, anchor: "east"))
+  wire((xred, yb + 0.8), (xred, yb + 0.45))
+  wire((xred, yb + 0.45), (1.7, yb + 0.45))
+  node("n1", (xred, ya + 0.45))
+  node("n2", (xred, yb + 0.45))
+  // realimentación de A1 y de A2, cada una por afuera: A1 por arriba, A2 por
+  // abajo. Bajan en x = −0,7, que es a la izquierda de todo lo demás.
+  wire((3.5, ya), (4.0, ya))
+  node("s1", (4.0, ya))
+  wire((4.0, ya), (4.0, ya + 1.3))
+  wire((4.0, ya + 1.3), (-0.7, ya + 1.3))
+  wire((-0.7, ya + 1.3), (-0.7, ya + 0.45))
+  wire((-0.7, ya + 0.45), (xred, ya + 0.45))
+  wire((3.5, yb), (4.0, yb))
+  node("s2", (4.0, yb))
+  wire((4.0, yb), (4.0, yb - 1.3))
+  wire((4.0, yb - 1.3), (-0.7, yb - 1.3))
+  wire((-0.7, yb - 1.3), (-0.7, yb + 0.45))
+  wire((-0.7, yb + 0.45), (xred, yb + 0.45))
+  // El restador de salida: A3, con las dos ramas horizontales. Las dos salidas
+  // NO bajan por la misma vertical —4,4 y 4,6— porque dos tramos rectos sobre
+  // la misma recta se leen como un solo cable partido.
+  let cx3 = 7.8
+  let (ym3, yp3) = (y3 + 2.75, y3 + 1.85)
+  opamp("A3", (cx3, y3 + 2.3), variant: "ieee")
+  wire((4.0, ya), (4.4, ya))
+  wire((4.4, ya), (4.4, ym3))
+  resistor("R4a", (4.4, ym3), (6.3, ym3), label: $R_4$)
+  node("V3", (6.3, ym3))
+  wire((6.3, ym3), (cx3 - 0.9, ym3))
+  wire((4.0, yb), (4.6, yb))
+  wire((4.6, yb), (4.6, yp3))
+  resistor("R4b", (4.6, yp3), (6.3, yp3), label: none)
+  rotulo((5.45, yp3 - 0.18), $R_4$, ancla: "north")
+  node("P3", (6.3, yp3))
+  wire((6.3, yp3), (cx3 - 0.9, yp3))
+  // realimentación de A3 y su terminal de salida
+  wire((6.3, ym3), (6.3, y3b))
+  resistor("R5a", (6.3, y3b), (8.3, y3b), label: $R_5$)
+  wire((8.3, y3b), (9.6, y3b))
+  wire((9.6, y3b), (9.6, y3 + 2.3))
+  node("r3", (9.6, y3 + 2.3))
+  wire((cx3 + 0.9, y3 + 2.3), (10.4, y3 + 2.3))
+  node("so", (10.4, y3 + 2.3), fill: false)
+  rotulo((10.55, y3 + 2.3), $v_o$)
+  // R5 de la pata del + de A3 a masa
+  wire((6.3, yp3), (6.3, 1.4))
+  resistor("R5b", (6.3, 1.4), (6.3, -0.3), label: (content: $R_5$, anchor: "west"))
+  ground("Gg3", (6.3, -0.3))
+})

@@ -1,18 +1,18 @@
 #import "../plantilla.typ": *
 
-#modulo("Cuadripolos y amplificador operacional", [
+#modulo("Cuadripolos", [
   Describir un circuito completo como una caja de cuatro terminales mediante sus
   parámetros $z$, $y$, $h$ o $A B C D$, y saber cuál conviene en cada caso; reconocer los
-  parámetros $h$ como el modelo lineal del transistor del Módulo 6; y usar el amplificador
-  operacional —las dos reglas de oro, la tierra virtual— para armar y calcular las
-  configuraciones básicas, incluido un filtro activo.
+  parámetros $h$ como el modelo lineal del transistor del Módulo 6; y saber cuándo la
+  conexión de dos cuadripolos en cascada se puede resolver multiplicando matrices y
+  cuándo no.
 ])
 
-Este módulo cierra la Parte II y el programa de Teoría de Circuitos. La idea que lo
-gobierna es la misma que la de Thévenin, llevada un paso más lejos: si una red de dos
-terminales se resume en dos números ($V_"th"$ y $R_"th"$), una red de *cuatro* terminales
-—una entrada y una salida— se resume en cuatro. Y con esos cuatro números se puede
-conectar la caja a otras cajas sin volver a mirar jamás lo que tiene adentro.
+La idea que gobierna este módulo es la misma que la de Thévenin, llevada un paso más
+lejos: si una red de dos terminales se resume en dos números ($V_"th"$ y $R_"th"$), una
+red de *cuatro* terminales —una entrada y una salida— se resume en cuatro. Y con esos
+cuatro números se puede conectar la caja a otras cajas sin volver a mirar jamás lo que
+tiene adentro.
 
 == El cuadripolo
 
@@ -139,169 +139,15 @@ volver a mirar el interior:
   de entrada infinita, que es lo que viene ahora.
 ]
 
-== El amplificador operacional
+== El buffer que falta, y el módulo que viene
 
-#definicion("Amplificador operacional ideal")[
-  Es un amplificador diferencial con dos entradas —la *no inversora* ($+$) y la *inversora*
-  ($-$)— y una salida, que idealmente cumple:
+El párrafo de arriba deja planteado un problema y no lo resuelve: para poner dos
+cuadripolos en cascada sin que el segundo cargue al primero hace falta un componente de
+impedancia de entrada infinita y de salida nula. Ese componente es el *amplificador
+operacional*, y tiene módulo propio —el 14— por dos razones.
 
-  - *Ganancia en lazo abierto infinita*: $v_"sal" = A_"ol" (v_+ - v_-)$ con
-    $A_"ol" arrow.r infinity$.
-  - *Impedancia de entrada infinita*: no toma corriente por ninguna de las dos entradas.
-  - *Impedancia de salida nula*: la tensión de salida no depende de la carga.
-  - Ancho de banda infinito y sin offset.
-]
-
-=== Las dos reglas de oro
-
-Si el operacional está en *realimentación negativa* —hay un camino de la salida a la
-entrada inversora— y no está saturado, entonces:
-
-$ v_"sal" = A_"ol" (v_+ - v_-) quad arrow.r quad
-  v_+ - v_- = (v_"sal")/(A_"ol") arrow.r 0 quad "cuando" quad A_"ol" arrow.r infinity $
-
-#clave[
-  *Regla 1 — cortocircuito virtual*: $v_+ = v_-$. Las dos entradas están a la misma
-  tensión. No están unidas: el circuito *se encarga* de igualarlas, moviendo la salida
-  hasta que lo estén.
-
-  *Regla 2 — corriente de entrada nula*: $i_+ = i_- = 0$.
-
-  Cuando la entrada $+$ está a masa, la Regla 1 pone la entrada $-$ a $0$ V sin estar
-  conectada a nada: eso es la *tierra virtual*, y es lo que hace que las cuentas salgan en
-  dos líneas.
-]
-
-#atencion[
-  Las dos reglas valen *solo* con realimentación negativa y *solo* mientras la salida esté
-  dentro del rango de alimentación. Si la realimentación es positiva, el circuito no
-  iguala nada: se va a un extremo y ahí se queda, que es como se construye un *comparador*
-  con histéresis. Y si la salida pega contra la alimentación, el operacional *satura* y la
-  Regla 1 deja de valer: $v_+ != v_-$ y la fórmula de ganancia miente. Es el error número
-  uno al medir un circuito con operacionales en el laboratorio.
-]
-
-=== Las configuraciones básicas
-
-#circuito([Amplificador inversor y amplificador no inversor])[
-#fig-ao-inversor-no-inversor()
-#pie-figura[Inversor: $overline(V)_s = -(R_2 \/ R_1) overline(V)_e$. No
-  inversor: $overline(V)_s = (1 + R_2 \/ R_1) overline(V)_e$, siempre mayor o
-  igual que 1 y del mismo signo.]
-]
-
-*Inversor.* Con la entrada $+$ a masa, la Regla 1 pone el nodo $-$ en 0 V. Entonces la
-corriente por $R_1$ vale $v_e \/ R_1$, y por la Regla 2 esa misma corriente tiene que
-seguir por $R_2$ (no se desvía hacia el operacional). La caída en $R_2$ va de 0 V a
-$v_s$:
-
-$ (v_e)/(R_1) = - (v_s)/(R_2) quad arrow.r quad
-  v_s = - (R_2)/(R_1) v_e $ <ec-inversor>
-
-*No inversor.* Ahora $v_+ = v_e$, y por la Regla 1, $v_- = v_e$. Pero $v_-$ es la salida
-vista por un divisor de $R_1$ y $R_2$ (que no carga nada, por la Regla 2):
-
-$ v_e = v_s (R_1)/(R_1 + R_2) quad arrow.r quad
-  v_s = (1 + (R_2)/(R_1)) v_e $ <ec-noinversor>
-
-#figure(
-  table(
-    columns: (auto, auto, auto),
-    align: (left, center, left),
-    table.header([*Configuración*], [*Salida*], [*Para qué sirve*]),
-    [Inversor], [$-(R_2\/R_1) v_e$], [amplificar e invertir; ganancia $< 1$ posible],
-    [No inversor], [$(1 + R_2\/R_1) v_e$], [amplificar sin invertir; entrada de altísima impedancia],
-    [Seguidor], [$v_e$], [*buffer*: aísla etapas, no carga a la anterior],
-    [Sumador], [$-R_f (v_1\/R_1 + v_2\/R_2 + dots)$], [mezclar señales; conversor D/A por red resistiva],
-    [Restador], [$(R_2\/R_1)(v_2 - v_1)$], [medir diferencias; salida de un puente],
-    [Integrador ($C$ en lugar de $R_2$)], [$-(1\/R C) integral v_e dif t$], [rampas, filtros, control],
-    [Derivador ($C$ en lugar de $R_1$)], [$-R C thin dif v_e \/ dif t$], [detectar flancos (ruidoso: se usa poco)],
-  ),
-  caption: [Las configuraciones que hay que saber de memoria],
-)
-
-#clave[
-  El *seguidor* —salida conectada directamente a la entrada $-$, señal en la $+$— tiene
-  ganancia 1 y parece inútil. Es de las cosas más útiles que hay: su impedancia de entrada
-  es enorme y la de salida, casi cero. Es la solución exacta a los tres problemas de carga
-  que aparecieron a lo largo de todo el apunte: el divisor que se derrumba (Ejercicio 7.1),
-  el voltímetro que altera lo que mide (Módulo 1) y los filtros en cascada que se cargan
-  entre sí (Módulo 12).
-]
-
-#ejercicio("Filtro activo pasa bajos de primer orden")[
-  Un inversor con $R_1 = 10 "k"Omega$ a la entrada y, en la realimentación,
-  $R_2 = 100 "k"Omega$ *en paralelo* con $C = 1,59$ nF.
-
-  *1. La impedancia de realimentación*, con las herramientas del Módulo 11:
-  $ overline(Z)_2 = R_2 parallel 1/(j omega C) = (R_2)/(1 + j omega R_2 C) $
-
-  *2. La transferencia*, reemplazando en la @ec-inversor:
-  $ overline(H)(j omega) = - (overline(Z)_2)/(R_1)
-    = - (R_2\/R_1)/(1 + j omega R_2 C) $
-  Que es *exactamente* la forma canónica del pasa bajos de la @ec-pb-modfase, multiplicada
-  por una ganancia.
-
-  *3. Los dos números de diseño.*
-  $ "Ganancia en continua" = -(R_2)/(R_1) = -10 quad (20 "dB") $
-  $ f_c = 1/(2 pi R_2 C) = 1/(2 pi dot 10^5 dot 1,59 dot 10^(-9)) = 1000 "Hz" $
-
-  *4. Por qué es mejor que el RC pasivo.* Amplifica en vez de atenuar; su impedancia de
-  salida es casi nula, así que la etapa siguiente no le corre la frecuencia de corte; y
-  $R_1$, $R_2$ y $C$ fijan *ganancia y corte por separado*, cosa que en el RC pasivo es
-  imposible. Ese desacople de los parámetros de diseño es la razón de ser de los filtros
-  activos.
-
-  *5. El control de realidad.* Con un operacional de producto ganancia-ancho de banda
-  $"GBW" = 1$ MHz, a ganancia 10 el ancho de banda disponible es $10^6\/10 = 100$ kHz.
-  Como el filtro corta en 1 kHz, hay margen de sobra. Si se hubiera pedido ganancia 1000,
-  el ancho de banda propio del operacional (1 kHz) se metería adentro de la banda de paso
-  y el filtro no sería el que se diseñó.
-]
-
-=== El operacional real
-
-#figure(
-  table(
-    columns: (auto, auto, auto),
-    align: (left, left, left),
-    table.header([*Limitación*], [*Qué significa*], [*Cuándo muerde*]),
-    [Ganancia finita ($A_"ol" approx 10^5$)],
-      [las reglas de oro son una aproximación], [con ganancias de lazo cerrado muy altas],
-    [Producto ganancia-ancho de banda], [$G dot "BW" = "GBW"$, constante],
-      [siempre: más ganancia es menos banda],
-    [#emph[Slew rate] ($approx 0,5 "V"\/mu s$ en un 741)],
-      [velocidad máxima de cambio de la salida], [con señales grandes y rápidas: la senoidal sale triangular],
-    [Tensión de #emph[offset] y corrientes de polarización],
-      [la salida no es cero con entrada cero], [en continua y con ganancias altas],
-    [Excursión de salida],
-      [la salida no llega a la alimentación (salvo los #emph[rail-to-rail])],
-      [siempre: por eso satura antes de lo esperado],
-  ),
-  caption: [Las cinco limitaciones que hacen que un circuito real no dé lo calculado],
-)
-
-#laboratorio[
-  Con un LM741 hace falta alimentación *simétrica* ($plus.minus 12$ V, por ejemplo) y su
-  salida no llega a menos de 1,5 V de cada riel. Con un LM358 o un TL072 se puede trabajar
-  con fuente simple. Antes de culpar al circuito de un resultado raro, medir con el
-  osciloscopio la *salida* y verificar que no esté chocando contra la alimentación: nueve
-  de cada diez "el operacional no amplifica" son saturación.
-]
-
-== Cierre de la Parte II
-
-Con esto queda cubierto el programa completo de *Teoría de Circuitos*: señales y
-respuestas natural y forzada (Módulo 10), fasores y régimen permanente senoidal
-(Módulo 11), diagramas de Bode y señales poliarmónicas (Módulo 12), resolución sistemática
-de circuitos (Módulos 7 a 9), teoría de los cuadripolos y una introducción al amplificador
-operacional y al filtrado (este módulo).
-
-#clave[
-  El hilo que atraviesa la Parte II, dicho en una línea: *todo circuito lineal se resuelve
-  con Kirchhoff; elegir bien las incógnitas lo hace corto; los teoremas lo hacen
-  reutilizable; los complejos lo extienden a la alterna; y el logaritmo lo extiende a todas
-  las frecuencias a la vez.* Lo que sigue en la carrera —Señales y Sistemas, Electrónica
-  Analógica, Control— reemplaza $j omega$ por la variable compleja $s$ y sigue exactamente
-  desde acá.
-]
+La primera es de tamaño: sus configuraciones, la deducción del cortocircuito virtual y
+los tres casos donde ese cortocircuito *no* vale no entran como apéndice de otro tema.
+La segunda es de método: el operacional no se resuelve con el álgebra de cuadripolos
+sino con el análisis nodal del Módulo 8, así que pertenece a otra familia de
+herramientas aunque sea, formalmente, un cuadripolo activo.
