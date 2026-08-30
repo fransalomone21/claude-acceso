@@ -422,7 +422,7 @@ electrónica; la gracia acá es *no usarla* y llegar igual.
 
 #clave[
   *Mirá lo que acaba de pasar con la corriente.* Por $R_i$ circulan
-  $0,5\/10.000 = 50 thin mu"A"$. Esa corriente llega al nodo $v_x$ y *no puede entrar al
+  $0,5\/10.000 = "50 µA"$. Esa corriente llega al nodo $v_x$ y *no puede entrar al
   operacional* (Regla 2). Como tampoco hay otro camino, sale entera por $R_f$.
 
   Esa es la lectura física del inversor, y es la que conviene tener en la cabeza en lugar
@@ -694,7 +694,7 @@ $ v_o (t) = - R C (dif v_i)/(dif t) $ <ec-ao-derivador>
 
   Visto con las herramientas del Módulo 12: su ganancia crece $20$ dB por década sin
   techo, así que a frecuencias altas amplifica todo lo que le llegue. El integrador hace
-  lo contrario —atenúa a frecuencia alta— y por eso es estable y se usa a cada rato.
+  lo contrario (atenúa a frecuencia alta) y por eso es estable y se usa a cada rato.
 ]
 
 === Amplificador de instrumentación
