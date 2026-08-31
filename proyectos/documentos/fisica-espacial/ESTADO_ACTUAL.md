@@ -5,12 +5,12 @@
 **Fase 4 (Parte IV: cuerpo rígido, M12–M15) — ABIERTA el 2026-08-31.** El
 mapeo de Beer (capítulos 15 y 18) contra páginas impresas está hecho y
 escrito en el `HANDOFF.md`, las cinco figuras en imagen de la guía están
-miradas, y los **módulos 12 y 13 están escritos, compilados y verificados en
-el render**. Faltan M14 y M15. El apunte va por **94 páginas**.
+miradas, y los **módulos 12, 13 y 14 están escritos, compilados y verificados en
+el render**. Falta M15. El apunte va por **98 páginas**.
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **94 páginas**, compila sin errores, cero huérfanos de caja |
+| `apunte/apunte.pdf` | **98 páginas**, compila sin errores, cero huérfanos de caja |
 | Plantilla, carátula, índice, encabezados | listos, no se tocan |
 | Biblioteca de figuras (CeTZ) | **28 figuras**, todas miradas en la galería |
 | Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |
@@ -22,7 +22,8 @@ el render**. Faltan M14 y M15. El apunte va por **94 páginas**.
 | **Módulo 11 — Maniobras: Hohmann y rendez-vous** | **escrito y verificado en render** |
 | **Módulo 12 — Cinemática del cuerpo rígido y sistemas rotantes** | **escrito y verificado en render** |
 | **Módulo 13 — Momento de inercia y ejes principales** | **escrito y verificado en render** |
-| Módulos 14 y 15 (Parte IV) | no empezados (los `include` siguen comentados en `apunte.typ`) |
+| **Módulo 14 — Ecuaciones de Euler y el giróscopo** | **escrito y verificado en render** |
+| Módulo 15 (Parte IV) | no empezado (el `include` sigue comentado en `apunte.typ`) |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -169,6 +170,23 @@ $bold(omega)$, demostrado en números con $I_z = 2 I_x$).
 ejes de la horquilla sirven para calcular $bold(H)_G$ que para calcular
 $bold(omega)$—, con un nuevo epígrafe.
 
+**Módulo 14 — Ecuaciones de Euler y el giróscopo** (4 pág.). Aplica la
+@m12-derivada a $bold(H)_G$ y llega a la relación general $dot(bold(H))_G =
+(dot(bold(H))_G)_(O x y z) + bold(Omega) times bold(H)_G$ (ecs. 18.22/18.23,
+y su versión con punto fijo, ecs. 18.27/18.28); de ahí salen las ecuaciones
+de Euler clásicas ($bold(Omega) = bold(omega)$, ec. 18.25) y, por el camino
+que los dos ejemplos usan de verdad, el caso $bold(Omega) != bold(omega)$
+—ejes que acompañan la simetría del cuerpo sin girar con su espín, la
+recomendación que el módulo 12 ya había dejado picando—. Cierra con los
+ángulos de Euler (φ precesión, θ nutación, ψ giro, §18.9) y la derivación de
+la cupla que sostiene una precesión estable (ecs. 18.40–18.44), con el caso
+particular $theta=90degree$ (ec. 18.45). Ejemplos: el Problema 2 punto 2 (la
+cupla del disco, $dot(bold(H))_G = 1/2 m r^2 omega_1 omega_2 hat(i)$, la
+misma dirección que el $bold(alpha)$ del módulo 12) y el Problema 3 completo
+(el volante en el gimbal: $600$ N·m de torque dan sólo $20$ rad/s² de
+aceleración del gimbal, porque $500$ N·m se gastan en sostener la dirección
+de $bold(H)_O$). Sin figuras nuevas.
+
 ## Lo verificado contra las fuentes en esta fase
 
 | Afirmación | Fuente, medida |
@@ -239,14 +257,15 @@ use, no antes:
 
 ## Lo que sigue
 
-**Fase 4, lo que queda: M14 y M15.** El tramo caro —leer las fuentes nuevas
-y mapearlas— ya está hecho, el módulo 12 fijó el molde y el módulo 13 dejó
-armado el tensor de inercia y la @m13-diagonal que el módulo 14 deriva. El
-reparto de los problemas de la guía que faltan ya está decidido:
+**Fase 4, lo que queda: M15, el integrador de la parte.** Los módulos 12 a
+14 dejaron todo el aparato armado: la @m12-derivada, el tensor de inercia y
+sus ejes principales, y la ecuación de la cupla en precesión estable con su
+caso particular $theta=90degree$. El módulo 15 la usa con $sum bold(M)_O =
+0$ —el cuerpo simétrico libre de cuplas— y la notación $I$, $I'$ ya está
+fijada:
 
 | Módulo | Qué | Ejemplos de la guía |
 |---|---|---|
-| **14** — Ecuaciones de Euler y el giróscopo | derivar $bold(H)_G$ en ejes del cuerpo con la ec. de derivada del módulo 12, Euler, ángulos de Euler, precesión estable | Problema 2 punto 2 (la cupla giroscópica, $d bold(H)_G\/d t$ del módulo 13) y Problema 3 (el volante en el gimbal, que da 20 rad/s²) |
 | **15** — Peonza simétrica, precesión directa y retrógrada | cuerpo simétrico sin cuplas, $tan gamma = (I slash I') tan theta$, los dos conos | Problema 4 (el spacecraft que precesa) y Problema 6 (para qué $l slash r$ es directa) |
 
 Los Problemas 5, 7, 8 y 9 son variantes de los mismos mecanismos y entran
