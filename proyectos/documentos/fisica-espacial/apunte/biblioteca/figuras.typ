@@ -205,6 +205,391 @@
   rotulo((3.75, C.at(1) - 0.25), text(fill: luma(40))[cohete], ancla: "north-west")
 })
 
+// =====================================================================
+//  Módulo 2 — Cantidad de movimiento, impulso y choques
+// =====================================================================
+
+// --- El impulso es el área bajo F(t) -----------------------------------
+// La fuerza de un choque es un pico corto y de forma desconocida. Lo que
+// se mide —y lo único que el teorema del impulso necesita— es el área.
+#let fig-impulso-area = esquema({
+  let t1 = 0.4
+  let t2 = 4.6
+  let f = t => 3.1 * calc.exp(-calc.pow(t - 2.5, 2) / 1.0)
+  let n = 90
+  let pts = range(0, n + 1).map(i => {
+    let t = t1 + (t2 - t1) * i / n
+    (t, f(t))
+  })
+
+  // El área sombreada: el impulso.
+  cetz.draw.line(
+    (t1, 0),
+    ..pts,
+    (t2, 0),
+    close: true,
+    fill: c-dato.lighten(87%),
+    stroke: none,
+  )
+  cetz.draw.line(..pts, stroke: trazo-curva + c-dato)
+
+  // Ejes
+  flecha((0, 0), (5.9, 0), color: c-trazo, grosor: 0.6pt)
+  flecha((0, 0), (0, 4.0), color: c-trazo, grosor: 0.6pt)
+  rotulo((5.95, 0), $t$, ancla: "west")
+  rotulo((0, 4.05), $F$, ancla: "south")
+
+  // La fuerza media: el rectángulo de la MISMA área.
+  cetz.draw.line(
+    (t1, 1.30),
+    (t2, 1.30),
+    stroke: (paint: c-aux, thickness: 0.8pt, dash: "dashed"),
+  )
+  cetz.draw.line((t1, 0), (t1, 1.30), stroke: (paint: c-aux, thickness: 0.6pt, dash: "dashed"))
+  cetz.draw.line((t2, 0), (t2, 1.30), stroke: (paint: c-aux, thickness: 0.6pt, dash: "dashed"))
+  rotulo((4.72, 1.30), text(fill: c-aux)[$F_"med"$], ancla: "west")
+
+  marca-x(t1, $t_1$)
+  marca-x(t2, $t_2$)
+
+  rotulo((0.25, 3.55), text(fill: c-dato)[
+    área $= J = integral_(t_1)^(t_2) bold(F) d t = Delta bold(p)$
+  ], ancla: "west")
+  rotulo((2.5, -0.75), text(fill: luma(70), size: 8pt)[
+    El rectángulo de $F_"med"$ tiene *la misma área*: eso es todo lo que
+    $F_"med"$ significa.
+  ], ancla: "north")
+})
+
+// --- El choque oblicuo de los asteroides (Ej. 2 de la guía) ------------
+// Dos paneles: el dibujo del enunciado y el triángulo de cantidad de
+// movimiento, que es lo que realmente resuelve el problema.
+#let fig-choque-oblicuo = paneles(
+  ("el choque", esquema({
+    let O = (2.7, 0)
+    cetz.draw.line((-0.7, 0), (4.6, 0), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+    rotulo((4.7, 0), text(fill: luma(120), size: 8pt)[dirección\ original de $A$], ancla: "west")
+
+    flecha((0, 0), (2.2, 0), etiqueta: [40 m/s], color: c-aux, lado: "north", pos: 50%)
+    masa((0, 0), radio: 0.15)
+    rotulo((0, -0.24), text(size: 8pt)[$A$, antes], ancla: "north")
+    masa(O, radio: 0.15)
+    rotulo((2.7, 1.9), text(size: 8pt)[$B$ arranca en reposo], ancla: "south")
+    cetz.draw.line((2.7, 1.82), (2.7, 0.22), stroke: 0.45pt + luma(160), mark: (end: "straight", scale: 0.28))
+
+    let PA = (O.at(0) + 1.85 * calc.cos(30deg), O.at(1) + 1.85 * calc.sin(30deg))
+    let PB = (O.at(0) + 1.35 * calc.cos(-45deg), O.at(1) + 1.35 * calc.sin(-45deg))
+    flecha(O, PA, color: c-dato)
+    flecha(O, PB, color: c-verde)
+    rotulo((PA.at(0) + 0.08, PA.at(1) + 0.06), text(fill: c-dato)[$v_A$], ancla: "west")
+    rotulo((PB.at(0) + 0.08, PB.at(1) - 0.06), text(fill: c-verde)[$v_B$], ancla: "west")
+    angulo(O, 0, 30, etiqueta: $30degree$, radio: 1.15)
+    angulo(O, -45, 0, etiqueta: $45degree$, radio: 0.72)
+  })),
+  ("el triángulo de los impulsos", esquema({
+    // p_total antes = p_A + p_B despues. Con masas iguales, los lados son
+    // proporcionales a las rapideces: el triangulo se resuelve con senos.
+    let O = (0, 0)
+    let P = (3.6, 0)
+    let LA = 3.6 * 29.28 / 40
+    let Q = (LA * calc.cos(30deg), LA * calc.sin(30deg))
+
+    flecha(O, P, color: c-aux)
+    flecha(O, Q, color: c-dato)
+    flecha(Q, P, color: c-verde)
+    rotulo((1.8, -0.16), text(fill: c-aux)[$m dot 40$], ancla: "north")
+    rotulo((0.95, 0.78), text(fill: c-dato)[$m v_A$], ancla: "south-east")
+    rotulo((2.95, 1.05), text(fill: c-verde)[$m v_B$], ancla: "west")
+    angulo(O, 0, 30, etiqueta: $30degree$, radio: 0.95)
+    angulo(P, 135, 180, etiqueta: $45degree$, radio: 0.7)
+    rotulo((1.8, -0.85), text(fill: luma(70), size: 8pt)[
+      Que el triángulo cierre *es* $bold(p)_"antes" = bold(p)_"después"$.\
+      Con masas iguales, los lados son las rapideces.
+    ], ancla: "north")
+  })),
+)
+
+// =====================================================================
+//  Módulo 3 — Centro de masa y sistemas de partículas
+// =====================================================================
+
+// --- El centro de masa de dos cuerpos ----------------------------------
+// Sobre la recta que los une, más cerca del pesado, con d1/d2 = m2/m1.
+#let fig-cm-dos-cuerpos = esquema({
+  let P1 = (0, 0)
+  let P2 = (5.0, 0)
+  let C = (3.5, 0) // m1 = 7/3 m2  ->  d1/d2 = 3.5/1.5
+
+  cetz.draw.line((-0.6, 0), (5.6, 0), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+
+  cetz.draw.circle(P1, radius: 0.42, fill: c-orbe.lighten(72%), stroke: 0.7pt + c-orbe)
+  cetz.draw.circle(P2, radius: 0.27, fill: c-orbe.lighten(82%), stroke: 0.7pt + c-orbe)
+  rotulo((0, 0.5), text(fill: c-orbe)[$m_1$], ancla: "south")
+  rotulo((5.0, 0.35), text(fill: c-orbe)[$m_2$], ancla: "south")
+
+  // El CM: cruz sobre círculo, que es el símbolo de siempre.
+  cetz.draw.circle(C, radius: 0.15, fill: white, stroke: 0.8pt + c-dato)
+  cetz.draw.line((C.at(0) - 0.15, C.at(1)), (C.at(0) + 0.15, C.at(1)), stroke: 0.8pt + c-dato)
+  cetz.draw.line((C.at(0), C.at(1) - 0.15), (C.at(0), C.at(1) + 0.15), stroke: 0.8pt + c-dato)
+  rotulo((3.5, 0.32), text(fill: c-dato)[CM], ancla: "south")
+
+  cetz.draw.line(
+    (0, -0.75),
+    (3.5, -0.75),
+    stroke: 0.6pt + luma(70),
+    mark: (start: "bar", end: "bar", scale: 0.3),
+  )
+  cetz.draw.line(
+    (3.5, -0.75),
+    (5.0, -0.75),
+    stroke: 0.6pt + luma(70),
+    mark: (start: "bar", end: "bar", scale: 0.3),
+  )
+  rotulo((1.75, -0.78), text(fill: luma(50))[$d_1$], ancla: "north")
+  rotulo((4.25, -0.78), text(fill: luma(50))[$d_2$], ancla: "north")
+
+  rotulo((2.6, 1.35), text(fill: luma(60))[
+    $d_1 \/ d_2 = m_2 \/ m_1$ — inversa de las masas:\
+    el CM está siempre más cerca del más pesado.
+  ], ancla: "center")
+})
+
+// --- El mismo choque, en dos sistemas ----------------------------------
+// En el laboratorio no hay simetría; en el sistema centro de masa los dos
+// impulsos son opuestos antes y después, y todo el choque es un giro.
+#let fig-choque-cm = paneles(
+  ("sistema laboratorio", esquema({
+    let O = (2.4, 0)
+    flecha((0.2, 0), (2.1, 0), etiqueta: [40], color: c-aux, lado: "north", pos: 55%)
+    masa(O, radio: 0.13)
+    let PA = (O.at(0) + 1.55 * calc.cos(30deg), O.at(1) + 1.55 * calc.sin(30deg))
+    let PB = (O.at(0) + 1.10 * calc.cos(-45deg), O.at(1) + 1.10 * calc.sin(-45deg))
+    flecha(O, PA, etiqueta: [29,3], color: c-dato, lado: "south-east", pos: 100%)
+    flecha(O, PB, etiqueta: [20,7], color: c-verde, lado: "north-west", pos: 100%)
+    rotulo((2.0, -1.75), text(size: 8pt, fill: luma(80))[
+      $B$ arranca quieto: no hay\
+      ninguna simetría a la vista.
+    ], ancla: "north")
+  })),
+  ("sistema centro de masa", esquema({
+    let O = (2.0, 0)
+    let ang = 69.9
+    let L = 1.25
+    // antes: opuestos sobre el eje x
+    flecha(O, (O.at(0) + 1.55, 0), etiqueta: [20], color: c-aux, lado: "north", pos: 100%)
+    flecha(O, (O.at(0) - 1.55, 0), etiqueta: [20], color: c-aux, lado: "north", pos: 100%)
+    // despues: opuestos, girados
+    let Q1 = (O.at(0) + L * calc.cos(ang * 1deg), O.at(1) + L * calc.sin(ang * 1deg))
+    let Q2 = (O.at(0) - L * calc.cos(ang * 1deg), O.at(1) - L * calc.sin(ang * 1deg))
+    flecha(O, Q1, color: c-dato)
+    flecha(O, Q2, color: c-verde)
+    rotulo((Q1.at(0) + 0.08, Q1.at(1)), text(fill: c-dato)[15,6], ancla: "west")
+    rotulo((Q2.at(0) - 0.08, Q2.at(1)), text(fill: c-verde)[15,6], ancla: "east")
+    angulo(O, 0, ang, etiqueta: $theta^*$, radio: 0.68)
+    masa(O, radio: 0.1)
+    rotulo((2.0, -1.75), text(size: 8pt, fill: luma(80))[
+      Antes en azul, después en color.\
+      Siempre $bold(p)_1 = -bold(p)_2$: el choque\
+      es un *giro* de los dos impulsos.
+    ], ancla: "north")
+  })),
+)
+
+// =====================================================================
+//  Módulo 4 — Propulsión: la ecuación del cohete
+// =====================================================================
+
+// --- El elemento de tiempo del cohete ----------------------------------
+// El dibujo de Roederer (pág. 112): antes, un cuerpo de masa M; después,
+// el gas expulsado y lo que queda. Todo el resto es álgebra.
+#let fig-cohete-elemento = esquema({
+  // --- ANTES ---
+  cetz.draw.rect((0.6, 1.55), (2.9, 2.45), radius: 0.12, stroke: 0.7pt + c-trazo)
+  rotulo((1.75, 2.0), $M$, ancla: "center")
+  flecha((3.05, 2.0), (4.35, 2.0), etiqueta: $bold(V)$, color: c-aux, lado: "north", pos: 100%)
+  rotulo((0.4, 2.0), text(fill: luma(90), size: 8pt)[antes], ancla: "east")
+
+  // --- DESPUES ---
+  cetz.draw.rect((1.35, 0.05), (2.9, 0.95), radius: 0.12, stroke: 0.7pt + c-trazo)
+  rotulo((2.12, 0.5), $M - Delta m$, ancla: "center")
+  flecha((3.05, 0.5), (4.55, 0.5), etiqueta: $bold(V) + Delta bold(V)$, color: c-aux, lado: "north", pos: 100%)
+
+  cetz.draw.rect((0.62, 0.2), (1.16, 0.8), radius: 0.06, fill: c-dato.lighten(80%), stroke: 0.6pt + c-dato)
+  rotulo((0.89, 0.5), text(fill: c-dato, size: 8pt)[$Delta m$], ancla: "center")
+  flecha((0.5, 0.5), (-0.9, 0.5), etiqueta: $bold(v)$, color: c-dato, lado: "north", pos: 100%)
+
+  // La velocidad relativa: lo único que el motor fija.
+  cetz.draw.line(
+    (-0.9, -0.55),
+    (4.55, -0.55),
+    stroke: 0.6pt + luma(70),
+    mark: (start: "bar", end: "bar", scale: 0.3),
+  )
+  rotulo((1.8, -0.75), text(fill: luma(50))[
+    $bold(v)_r = bold(v) - bold(V)$ — la fija el motor, no el movimiento del cohete
+  ], ancla: "north")
+
+  cetz.draw.line((-1.35, 1.25), (4.9, 1.25), stroke: (paint: luma(200), thickness: 0.4pt))
+  rotulo((-1.35, 0.5), text(fill: luma(90), size: 8pt)[después], ancla: "east")
+})
+
+// --- Una etapa contra dos ----------------------------------------------
+// Mismo peso total y mismo combustible: lo único que cambia es que la
+// segunda tira la cubierta vacía a mitad de camino.
+#let fig-etapas = esquema({
+  let anchoB = 0.9
+  // --- una etapa ---
+  cetz.draw.rect((0, 0), (anchoB, 3.4), fill: c-dato.lighten(84%), stroke: 0.6pt + c-dato)
+  cetz.draw.rect((0, 3.4), (anchoB, 3.75), fill: luma(225), stroke: 0.6pt + luma(120))
+  cetz.draw.rect((0, 3.75), (anchoB, 4.05), fill: c-verde.lighten(78%), stroke: 0.6pt + c-verde)
+  rotulo((anchoB / 2, 1.7), text(size: 8pt)[17,8 Mg\ combustible], ancla: "center")
+  rotulo((anchoB + 0.15, 3.45), text(size: 8pt, fill: luma(90))[1,2 Mg de estructura], ancla: "west")
+  rotulo((anchoB + 0.15, 3.95), text(size: 8pt, fill: c-verde)[540 kg de carga útil], ancla: "west")
+  rotulo((anchoB / 2, -0.15), text(size: 8.5pt, weight: "bold", fill: c-azul)[una etapa], ancla: "north")
+
+  // --- dos etapas ---
+  let x0 = 5.6
+  cetz.draw.rect((x0, 0), (x0 + anchoB, 1.7), fill: c-dato.lighten(84%), stroke: 0.6pt + c-dato)
+  cetz.draw.rect((x0, 1.7), (x0 + anchoB, 1.82), fill: luma(225), stroke: 0.6pt + luma(120))
+  cetz.draw.rect((x0, 1.82), (x0 + anchoB, 3.52), fill: c-dato.lighten(84%), stroke: 0.6pt + c-dato)
+  cetz.draw.rect((x0, 3.52), (x0 + anchoB, 3.64), fill: luma(225), stroke: 0.6pt + luma(120))
+  cetz.draw.rect((x0, 3.64), (x0 + anchoB, 3.94), fill: c-verde.lighten(78%), stroke: 0.6pt + c-verde)
+  rotulo((x0 + anchoB / 2, 0.85), text(size: 8pt)[etapa $A$\ 8,9 Mg], ancla: "center")
+  rotulo((x0 + anchoB / 2, 2.67), text(size: 8pt)[etapa $B$\ 8,9 Mg], ancla: "center")
+  rotulo((x0 + anchoB / 2, -0.15), text(size: 8.5pt, weight: "bold", fill: c-azul)[dos etapas], ancla: "north")
+
+  // La cubierta que se tira
+  flecha((x0 - 0.15, 1.76), (x0 - 1.25, 1.76), color: luma(120), grosor: 0.7pt)
+  rotulo((x0 - 1.3, 1.76), text(size: 8pt, fill: luma(90))[600 kg de\ cubierta vacía:\ *se tiran*], ancla: "east")
+
+  rotulo((3.3, 5.0), text(fill: luma(60))[
+    Misma masa total (19,54 Mg) y mismo combustible (17,8 Mg).\
+    Lo único distinto es *qué masa se sigue empujando al final*.
+  ], ancla: "center")
+})
+
+// =====================================================================
+//  Módulo 5 — Trabajo y energía
+// =====================================================================
+
+// --- Por qué una fuerza central es conservativa ------------------------
+// El desplazamiento se parte en radial y transversal; la fuerza central
+// sólo tiene componente radial, así que sólo el pedazo dr trabaja.
+#let fig-trabajo-central = esquema({
+  let O = (0, 0)
+  let ang = 52
+  let R = 3.2
+  let P = (R * calc.cos(ang * 1deg), R * calc.sin(ang * 1deg))
+
+  cuerpo-central(O, radio: 0.34)
+
+  // Un pedazo de trayectoria cualquiera: no hace falta que sea una órbita.
+  cetz.draw.line(
+    ..range(0, 60).map(i => {
+      let t = 14 + i * 1.35
+      let rr = 3.2 + 1.15 * calc.sin((t - 52) * 1.15 * 1deg)
+      (rr * calc.cos(t * 1deg), rr * calc.sin(t * 1deg))
+    }),
+    stroke: (paint: c-guia, thickness: 0.9pt),
+  )
+  rotulo((3.35, 0.62), text(fill: luma(110), size: 8pt)[trayectoria], ancla: "west")
+
+  flecha(O, P, etiqueta: $bold(r)$, color: c-trazo, lado: "south-east", pos: 30%)
+  masa(P, radio: 0.09)
+
+  // La fuerza: central, hacia el centro. Va del OTRO lado de la recta que
+  // el rótulo de r, porque los dos viven sobre la misma dirección.
+  let uF = 1.35
+  let F = (P.at(0) - uF * calc.cos(ang * 1deg), P.at(1) - uF * calc.sin(ang * 1deg))
+  flecha(P, F, color: c-dato, grosor: 1.0pt)
+  rotulo((F.at(0) - 0.12, F.at(1) + 0.1), text(fill: c-dato)[$bold(F) = F(r) hat(r)$], ancla: "south-east")
+
+  // El desplazamiento y sus dos pedazos
+  let dl = 1.5
+  let dir = ang + 50
+  let Q = (P.at(0) + dl * calc.cos(dir * 1deg), P.at(1) + dl * calc.sin(dir * 1deg))
+  let proyR = dl * calc.cos(50 * 1deg)
+  let Rr = (P.at(0) + proyR * calc.cos(ang * 1deg), P.at(1) + proyR * calc.sin(ang * 1deg))
+  flecha(P, Q, color: c-aux, grosor: 1.0pt)
+  rotulo((Q.at(0) - 0.1, Q.at(1) + 0.05), text(fill: c-aux)[$d bold(l)$], ancla: "south-east")
+  auxiliar(Rr, Q)
+  flecha(P, Rr, color: c-verde, grosor: 0.8pt)
+  rotulo((Rr.at(0) + 0.12, Rr.at(1) - 0.02), text(fill: c-verde)[$d r hat(r)$], ancla: "west")
+  recto(Rr, ang, ang + 90, lado: 0.2)
+
+  rotulo((3.6, 3.4), text(fill: luma(60))[
+    $bold(F) dot d bold(l) = F(r) d r$:\
+    el pedazo transversal $r d theta hat(theta)$\
+    es perpendicular a $bold(F)$ y *no trabaja*.\
+    Por eso el trabajo sólo depende de $r$.
+  ], ancla: "west")
+})
+
+// --- El diagrama de energía --------------------------------------------
+// La máquina que en el módulo 9 se aplica al potencial eficaz: la recta
+// E corta a U(x) en los puntos de retorno, y K es la distancia vertical.
+#let fig-diagrama-energia = esquema({
+  let g = x => (x - 1.2) * (x - 2.6) * (x - 4.0) * (x - 5.4)
+  let U = x => 0.45 * g(x)
+  let xa = 0.98
+  let xb = 5.60
+  let n = 200
+  let pts = range(0, n + 1).map(i => {
+    let x = xa + (xb - xa) * i / n
+    (x, U(x))
+  })
+  let E = 0.6
+  let x1 = 1.126
+  let x2 = 2.882
+
+  // Ejes
+  flecha((0.6, 0), (6.1, 0), color: c-trazo, grosor: 0.6pt)
+  flecha((0.6, -2.2), (0.6, 2.9), color: c-trazo, grosor: 0.6pt)
+  rotulo((6.15, 0), $x$, ancla: "west")
+  rotulo((0.6, 2.95), $U$, ancla: "south")
+
+  // La curva
+  cetz.draw.line(..pts, stroke: trazo-curva + c-trazo)
+
+  // La recta de energía total
+  cetz.draw.line((0.72, E), (5.95, E), stroke: (paint: c-dato, thickness: 0.9pt, dash: "dashed"))
+  rotulo((5.98, E), text(fill: c-dato)[$E$], ancla: "west")
+
+  // Los puntos de retorno
+  for x in (x1, x2) {
+    cetz.draw.line((x, 0), (x, E), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+    cetz.draw.circle((x, E), radius: 0.075, fill: c-dato, stroke: none)
+  }
+  marca-x(x1, $x_1$)
+  marca-x(x2, $x_2$)
+
+  // K = E - U, medida en el segundo pozo, que es donde no se pisa con nada:
+  // en el primero cae encima del rótulo de x_2.
+  let xm = 4.6
+  cetz.draw.line(
+    (xm, U(xm)),
+    (xm, E),
+    stroke: 0.7pt + c-verde,
+    mark: (start: "bar", end: "bar", scale: 0.3),
+  )
+  rotulo((xm + 0.1, (U(xm) + E) / 2), text(fill: c-verde)[$K$], ancla: "west")
+
+  // Equilibrios
+  cetz.draw.circle((1.735, U(1.735)), radius: 0.08, fill: c-verde, stroke: none)
+  cetz.draw.circle((4.865, U(4.865)), radius: 0.08, fill: c-verde, stroke: none)
+  cetz.draw.circle((3.3, U(3.3)), radius: 0.08, fill: c-rojo, stroke: none)
+  rotulo((3.3, U(3.3) + 0.14), text(fill: c-rojo, size: 8pt)[equilibrio inestable], ancla: "south")
+  rotulo((1.735, U(1.735) - 0.14), text(fill: c-verde, size: 8pt)[estable], ancla: "north")
+  rotulo((4.865, U(4.865) - 0.14), text(fill: c-verde, size: 8pt)[estable], ancla: "north")
+
+  rotulo((6.35, 2.15), text(fill: luma(60))[
+    Entre $x_1$ y $x_2$ la partícula queda *atrapada*:\
+    para pasar la loma le falta energía.\
+    La pendiente da la fuerza, $F_x = -d U \/ d x$;\
+    la altura entre la recta y la curva es $K = E - U$.
+  ], ancla: "west")
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -212,4 +597,12 @@
   ("fig-versores-polares", fig-versores-polares),
   ("fig-derivada-versor", fig-derivada-versor),
   ("fig-cohete-radar", fig-cohete-radar),
+  ("fig-impulso-area", fig-impulso-area),
+  ("fig-choque-oblicuo", fig-choque-oblicuo),
+  ("fig-cm-dos-cuerpos", fig-cm-dos-cuerpos),
+  ("fig-choque-cm", fig-choque-cm),
+  ("fig-cohete-elemento", fig-cohete-elemento),
+  ("fig-etapas", fig-etapas),
+  ("fig-trabajo-central", fig-trabajo-central),
+  ("fig-diagrama-energia", fig-diagrama-energia),
 )

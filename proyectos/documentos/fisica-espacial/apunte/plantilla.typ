@@ -15,6 +15,12 @@
 #let cont-ej = counter("ejemplo")
 
 // ---------- Caja genérica ----------
+//
+// El título va en un `block(sticky: true)`: eso lo obliga a viajar con lo que
+// sigue. Sin eso, una caja que empieza al pie de una página deja el título
+// solo abajo y el cuerpo en la siguiente — pasó en la fase 1 con el cuadro
+// violeta, y volvió a pasar en cuanto entraron cuatro módulos más. Un
+// huérfano no se arregla moviendo texto a mano: se arregla en la caja.
 #let caja(titulo, color, cuerpo) = block(
   width: 100%,
   breakable: true,
@@ -25,8 +31,9 @@
   above: 12pt,
   below: 12pt,
 )[
-  #text(fill: color, weight: "bold", size: 9.5pt, tracking: 0.3pt)[#upper(titulo)]
-  #v(-3pt)
+  #block(sticky: true, above: 0pt, below: 5pt)[
+    #text(fill: color, weight: "bold", size: 9.5pt, tracking: 0.3pt)[#upper(titulo)]
+  ]
   #cuerpo
 ]
 
@@ -193,7 +200,10 @@
   )
   set par(justify: true, leading: 0.68em, spacing: 0.95em)
   set heading(numbering: "1.1.1")
-  set math.equation(numbering: "(1)")
+  // `supplement` es lo que se imprime cuando una ecuación se referencia con
+  // @etiqueta. Por defecto sale «Ecuación 7», que no combina con las citas
+  // del apunte («S&Z ec. 8.6»). Con esto sale «ec. (7)», igual que los libros.
+  set math.equation(numbering: "(1)", supplement: [ec.])
   // La coma decimal del castellano no debe llevar espacio detrás: por
   // defecto Typst la trata como separador y agrega uno ("15, 6" en vez de
   // "15,6").
@@ -248,6 +258,18 @@
   show figure.caption: set text(size: 9pt, fill: luma(90))
   show link: set text(fill: c-azul)
   show emph: set text(fill: black)
+
+  // Una referencia a una ecuación sale, por defecto, «Ecuación 7»: ni el
+  // paréntesis con que la ecuación está impresa, ni la abreviatura con que el
+  // apunte cita a los libros («S&Z ec. 8.6»). Esto la deja como «ec. (7)»,
+  // que es lo mismo que se ve al costado de la ecuación.
+  show ref: it => {
+    let el = it.element
+    if el != none and el.func() == math.equation {
+      let n = counter(math.equation).at(el.location())
+      link(el.location())[ec.~#numbering(el.numbering, ..n)]
+    } else { it }
+  }
 
   // ---- Carátula ----
   page(numbering: none, margin: (x: 2.6cm, y: 3.2cm))[

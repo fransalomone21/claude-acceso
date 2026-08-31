@@ -9,12 +9,30 @@ tabla es el puntero. Medida contra el disco el 2026-08-30.
 | S&Z vol. 2 | ídem, Vol. 2 | `…\Libros de Fisica\Hugh D. Young_ Mark Waldo Zemansky_ … - Física universitaria con física moderna 2-Pearson Educación (2018).pdf` |
 | Roederer | Roederer, *Mecánica elemental* (Eudeba, 2008) | `…\Libros de Fisica\Roederer, Juan G. - Mecánica elemental-Eudeba (2008).pdf` |
 | Beer | Beer & Johnston, *Mecánica vectorial para ingenieros: Dinámica* | `…\Libros de Fisica\Beer_ Mec vectorial para ingenieros _ dinámica.pdf` |
-| Bate | Bate, Mueller & White, *Fundamentals of Astrodynamics* (Dover, 1971) | `C:\Users\frans\Downloads\Roger  R. Bate, Donald D. Mueller, Jerry E. White - Fundamentals of astrodynamics-Dover Publications (1971).pdf` |
-| Curtis | Curtis, *Orbital Mechanics for Engineering Students* (Elsevier, 2020) | `C:\Users\frans\Downloads\(Elsevier Aerospace Engineering Series) Curtis, Howard D - Orbital mechanics for engineering students-Elsevier, Butterworth-Heinemann (2020).pdf` |
+| Bate | Bate, Mueller & White, *Fundamentals of Astrodynamics* (Dover, 1971) | `…\Libros de Fisica\Roger  R. Bate, … - Fundamentals of astrodynamics-Dover Publications (1971) (1).pdf` |
+| Curtis | Curtis, *Orbital Mechanics for Engineering Students* (Elsevier, 2020) | `…\Libros de Fisica\(Elsevier Aerospace Engineering Series) Curtis, Howard D - Orbital mechanics for engineering students-Elsevier, Butterworth-Heinemann (2020).pdf` |
 
-**Los dos últimos viven en `Downloads`, que es una carpeta que se limpia.** Si
-alguno desaparece, el apunte pierde su fuente para órbitas y maniobras — están
-para moverse a `Libros de Fisica` cuando haya ocasión.
+**Medido de nuevo el 2026-08-31: los seis libros ya están en `Libros de
+Fisica`.** Antes esta tabla decía que Bate y Curtis vivían sólo en `Downloads`,
+que es una carpeta que se limpia. Hoy:
+
+- *Curtis* se **movió**: ya no está en `Downloads`.
+- *Bate* se **copió**: hay uno en `Libros de Fisica` y dos en `Downloads` (el
+  original y una copia `(1)`, idénticos en tamaño). El de `Libros de Fisica`
+  es el que lleva el `(1)` en el nombre — un detalle que importa si se escribe
+  la ruta a mano.
+
+**Cómo abrirlos desde un script: no escribir la ruta a mano.** Los nombres
+llevan acentos, y hay canales —el heredoc del Bash tool, sin ir más lejos— que
+los reescriben: el script falla con «no such file» sobre un archivo que existe,
+y el error apunta al código, que está bien. Se localiza el libro por glob:
+
+```python
+import glob, os
+base = os.path.join(os.path.expanduser('~'), 'Desktop', 'Mis Documentos',
+                    'SistemasEspaciales', 'Libros de Fisica')
+p = [f for f in glob.glob(os.path.join(base, '*.pdf')) if 'Roederer' in f][0]
+```
 
 ## Material de la cátedra (no libros)
 

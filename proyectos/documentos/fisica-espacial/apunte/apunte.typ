@@ -32,11 +32,26 @@
 #include "modulos/m1-vectores.typ"
 
 // ---------------------------------------------------------------------
-// #parte(2, "Los teoremas de conservación", [...])
-// #include "modulos/m2-cantidad-movimiento.typ"
-// #include "modulos/m3-centro-de-masa.typ"
-// #include "modulos/m4-cohete.typ"
-// #include "modulos/m5-trabajo-energia.typ"
+#parte(2, "Los teoremas de conservación", [
+  Tres teoremas, y los tres son la misma idea: cuando una simetría del problema
+  hace que algo no pueda cambiar, ese algo sirve para resolverlo sin integrar la
+  ecuación de movimiento. Acá van dos —cantidad de movimiento y energía—; el
+  tercero, el del momento angular, espera al módulo 7 porque no se entiende del
+  todo hasta tener la gravitación delante.
+
+  El orden no es caprichoso. La conservación de $bold(P)$ da el centro de masa;
+  el centro de masa da el sistema en el que un choque se ve simétrico y en el
+  que un cohete se piensa sin marearse; y el cohete es el primer sistema de masa
+  variable de la carrera. La energía cierra la parte, y con ella queda armada la
+  máquina —el diagrama de energía— que en la Parte III se aplica al potencial
+  eficaz y decide, sin resolver ninguna ecuación diferencial, si una órbita es
+  ligada o abierta.
+])
+
+#include "modulos/m2-cantidad-movimiento.typ"
+#include "modulos/m3-centro-de-masa.typ"
+#include "modulos/m4-cohete.typ"
+#include "modulos/m5-trabajo-energia.typ"
 
 // ---------------------------------------------------------------------
 // #parte(3, "Gravitación y mecánica orbital", [...])

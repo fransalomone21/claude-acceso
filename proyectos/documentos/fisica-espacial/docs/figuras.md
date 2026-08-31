@@ -59,6 +59,14 @@ color rompe la lectura de las otras.
 | `fig-versores-polares` | 1 | $\hat r$ y $\hat\theta$ en un punto de una trayectoria cualquiera |
 | `fig-derivada-versor` | 1 | el triangulito de $\Delta\hat r$: de dónde sale $\dot{\hat r} = \dot\theta\,\hat\theta$ |
 | `fig-cohete-radar` | 1 | el Ej. 10 de la guía: el cohete visto desde el radar |
+| `fig-impulso-area` | 2 | el impulso como area bajo F(t), y el rectangulo de F_med |
+| `fig-choque-oblicuo` | 2 | el Ej. 2 de la guia: el choque, y el triangulo de impulsos que lo resuelve |
+| `fig-cm-dos-cuerpos` | 3 | el CM sobre la recta que une los cuerpos, con d1/d2 |
+| `fig-choque-cm` | 3 | el mismo choque en el laboratorio y en el sistema centro de masa |
+| `fig-cohete-elemento` | 4 | el intervalo del cohete: antes y despues, con v_r |
+| `fig-etapas` | 4 | una etapa contra dos, con los mismos kilos |
+| `fig-trabajo-central` | 5 | por que una fuerza central es conservativa: solo dr trabaja |
+| `fig-diagrama-energia` | 5 | como se lee un diagrama de energia: E, K, retornos, equilibrios |
 
 ## Lo que `estilo.typ` todavía no tiene
 
@@ -69,5 +77,5 @@ Se agrega cuando el módulo que lo necesite lo pida, no antes:
   proyección 3-D de CeTZ, no el plano.
 - **transferencia de Hohmann** (módulo 11) — dos círculos y la elipse tangente
   a los dos. `elipse-orbital` ya sirve; falta el arco de transferencia parcial.
-- **choque en el sistema centro de masa** (módulo 3) — dos juegos de vectores,
-  antes y después, en dos sistemas de referencia.
+~~- **choque en el sistema centro de masa** (módulo 3)~~ — hecho en la fase 2
+  (`fig-choque-cm`), sin helper nuevo: alcanzó con `flecha` y `paneles`.
