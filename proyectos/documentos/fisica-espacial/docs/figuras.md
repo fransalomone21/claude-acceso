@@ -107,6 +107,9 @@ sólo en $y=0$— y se lee como una marca suelta.
 | `fig-potencial-eficaz` | 9 | las dos ramas, el pozo, y los cuatro niveles de E leídos como cuatro cónicas |
 | `fig-conicas` | 9 | las cuatro cónicas con el mismo p y el mismo foco: sólo cambia e |
 | `fig-elipse-geometria` | 9 | la elipse y sus seis números: a, b, c = ae, p, r_p, r_a, más r y ν |
+| `fig-hohmann` | 11 | la transferencia Tierra–Marte: la media elipse, los dos Δv y el ángulo de fase en el lanzamiento |
+| `fig-rendezvous-phasing` | 11 | el rendez-vous del Problema 10: la órbita de fasaje que cierra un cuarto de vuelta en una revolución |
+| `fig-roadmap-curtis` | 11 | el mapa de Curtis (apéndice B) redibujado: los once resultados de la Parte III y de dónde sale cada uno |
 
 ## Lo que `estilo.typ` todavía no tiene
 

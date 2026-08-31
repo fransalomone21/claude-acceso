@@ -1,23 +1,23 @@
 # Estado actual — Apunte de Física Espacial
 
-**Fase 3 (Parte III: gravitación y órbitas) — ABIERTA, cuatro de seis módulos
-escritos.** La cierran los seis módulos (M6 a M11) con sus doce ejemplos, el
-Road Map de Curtis (ap. B) redibujado en CeTZ, y el PDF mirado. Van M6, M7, M8
-y M9, los cuatro mirados página por página en el render.
-
-**Fase 2 — CERRADA el 2026-08-31.**
+**Fase 3 (Parte III: gravitación y órbitas) — CERRADA el 2026-08-31.** Los
+seis módulos (M6 a M11), sus catorce ejemplos, el Road Map de Curtis (ap. B)
+redibujado en CeTZ, y las **81 páginas** miradas en el render, página por
+página. **Fase 4 (Parte IV: cuerpo rígido, M12–M15) — no empezada.**
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **68 páginas**, compila sin errores, cero huérfanos de caja |
+| `apunte/apunte.pdf` | **81 páginas**, compila sin errores, cero huérfanos de caja |
 | Plantilla, carátula, índice, encabezados | listos, no se tocan |
-| Biblioteca de figuras (CeTZ) | **22 figuras**, todas miradas en la galería |
+| Biblioteca de figuras (CeTZ) | **25 figuras**, todas miradas en la galería |
 | Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |
 | **Módulo 6 — Gravitación, peso y energía potencial** | **escrito y verificado en render** |
 | **Módulo 7 — Momento angular y fuerzas centrales** | **escrito y verificado en render** |
 | **Módulo 8 — Dos cuerpos y masa reducida** | **escrito y verificado en render** |
 | **Módulo 9 — Potencial eficaz y ecuación de la órbita** | **escrito y verificado en render** |
-| Módulos 10 a 15 | no empezados (los `include` están comentados en `apunte.typ`) |
+| **Módulo 10 — Las leyes de Kepler** | **escrito y verificado en render** |
+| **Módulo 11 — Maniobras: Hohmann y rendez-vous** | **escrito y verificado en render** |
+| Módulos 12 a 15 (Parte IV, cuerpo rígido) | no empezados (los `include` están comentados en `apunte.typ`) |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -75,6 +75,41 @@ capturar solo cuesta $0,9$).
 `fig-potencial-eficaz` (la figura 4.1 de la cátedra, redibujada),
 `fig-conicas` (las cuatro con el mismo $p$) y `fig-elipse-geometria`.
 
+**Módulo 10 — Las leyes de Kepler** (6 pág.). Muestra que las tres leyes de
+Kepler no son un agregado: la primera es la ecuación de la órbita del módulo 9
+evaluada en $0<e<1$; la segunda es la conservación del momento angular del
+módulo 7; y la tercera —lo único nuevo— sale de integrar la
+velocidad areolar sobre el área de la elipse, $tau = 2 pi a b \/ h$ (Beer
+ec. 12.45), y de reemplazar $b$ y $h$ hasta quedar en $tau = 2 pi a^(3\/2) \/
+sqrt(mu)$: la misma fórmula del módulo 6 con $a$ en el lugar de $r$. El cuadro
+rojo central: por qué la ley *exacta* no dice que $T^2\/a^3$ sea igual para
+todos los planetas —$mu$ depende de las dos masas, módulo 8—. Ejemplos: el
+Problema 4 (S&Z 13.67, el satélite del módulo 9: período $tau = 7907$ s y la
+comparación de escape, $Delta v_p = 2,41$ contra $Delta v_a = 3,26$ km/s) y los
+Problemas 8 y 9 juntos (el LEM del Apollo: sube por una transferencia tipo
+Hohmann hasta encontrarse con el módulo de mando a $30$ m/s de relativa, y
+después baja y se estrella a $79,2°$ de la vertical).
+
+**Módulo 11 — Maniobras: Hohmann y rendez-vous** (7 pág.). Cierra la Parte
+III. Deduce la transferencia de Hohmann —por qué la elipse tangente a las dos
+circulares es la más barata, con la vis-viva del módulo 9 en cada ábside— y el
+tiempo de vuelo como medio período de la elipse de transferencia (módulo 10
+partido a la mitad); y el rendez-vous por *órbita de fasaje*, con la relación
+$T' \/ T =
+1 - Delta phi \/ 360°$ que reduce el problema del reencuentro a un cambio de
+tamaño de órbita. Ejemplos: el Problema 5 (Hohmann a Marte: $258,8$ días de
+viaje y $44,4°$ de ángulo de fase en el lanzamiento) y el Problema 10 —abierto
+en la guía— resuelto con el método general más un caso numérico concreto
+(rendez-vous geosíncrono a un cuarto de vuelta, $Delta v = 698$ m/s en una
+sola vuelta de fasaje). Cierra con el Road Map de Curtis (ap. B) redibujado en
+CeTZ: los once resultados de la Parte III, de las leyes de Newton hasta las
+ecuaciones de Kepler, en un solo diagrama de flujo.
+
+**Cuatro figuras nuevas**, las cuatro miradas en la galería antes de usarse:
+`fig-hohmann`, `fig-rendezvous-phasing` y `fig-roadmap-curtis` (módulo 11), más
+la reutilización de `fig-elipse-geometria` y `fig-satelite-guia` por
+referencia en los ejemplos del módulo 10.
+
 ## Lo verificado contra las fuentes en esta fase
 
 | Afirmación | Fuente, medida |
@@ -103,29 +138,29 @@ capturar solo cuesta $0,9$).
 | **Errata de signo delante de $U(r)$** | pág. 3 del escaneo del 23/9, **confirmada** a 300 dpi |
 | **Errata $alpha = G M$ donde va $G M m$** | hoja `potencial eficaz.pdf`, **confirmada** |
 | Los 40 enunciados de la guía | transcriptos en `fuentes/GUIA-ENUNCIADOS.md` |
+| $tau = 2 pi a b \/ h$ (tercera ley de Kepler) | Beer ec. 12.45, pág. 739 |
+| $a = (r_p+r_a)\/2$, $b = sqrt(r_p r_a)$, reusadas con período | Beer ecs. 12.46 y 12.47, pág. 740 (ya citadas en el módulo 9) |
+| $mu_L = 0,01230 mu_T$ (masa de la Luna, Problema 8) | dato de la guía, coherente con el módulo 8 |
+| El satélite del Problema 4 es el mismo del Ej. 4 (módulos 7 y 9) | verificado por los tres caminos (h, ecuación de la órbita, vis-viva) dando el mismo número |
+| Ecuaciones de movimiento en polares, $u=1\/r$, Binet — reusadas para la transferencia de Hohmann | Beer ecs. 12.31 a 12.39, pág. 736–737 (ya citadas en el módulo 9) |
+| El Road Map, fig. B.1 de Curtis, apéndice B | escaneo en `Downloads\Road Map.pdf`, renderizado a 250–400 dpi y leído entero, con la anotación manuscrita $mu=G(m_1+m_2)$ |
+| Datos orbitales de Marte (apéndice F): $r=2,279 times 10^8$ km, $tau=686,98$ días | S&Z apéndice F |
+| $mu_"Sol" = 1,327 times 10^11$ km³/s² | S&Z apéndice F |
 
 ## Lo que NO está verificado todavía
 
-Nada de los módulos 1 a 9 quedó sin fuente. Para los módulos 10 a 15 el
-material está localizado —el Road Map en `Downloads`, Beer §12.13 y cap. 18, y
-las figuras de la sección de cuerpo rígido de la guía— pero **ninguna ecuación
-de esos módulos fue leída todavía en su libro**, salvo las de Kepler y el
-período orbital, que quedaron mapeadas de paso al leer el Beer para el módulo 9
-(la tabla está en `HANDOFF.md`).
+Nada de los módulos 1 a 11 quedó sin fuente. Para los módulos 12 a 15 (Parte
+IV, cuerpo rígido) el material está localizado —Beer cap. 18 y la sección de
+cuerpo rígido de la guía, con sus figuras en imagen— pero **ninguna ecuación
+de esos módulos fue leída todavía en su libro**.
 
 ## Lo que sigue
 
-**Módulo 10 — Kepler**: las tres leyes como consecuencia de la ecuación de la
-órbita, el período $tau = 2 pi a b \/ h$ (Beer ec. 12.45, pág. 739) y la tercera
-ley. Ejemplos: el *Problema 4* (S&Z 13.67, el mismo satélite del módulo 9, del
-que ya están calculados $a$, $b$, $e$ y $h$ — falta sólo el período y la parte
-(d), el escape desde perigeo contra apogeo) y los *Problemas 8 y 9*, el LEM del
-Apollo, que van juntos como en el módulo 7 fueron juntos los problemas 2 y 3.
-
-**Un cambio de plan de la fase, hecho a propósito y con motivo.** El plan de
-sesión asignaba al módulo 10 los problemas 4, 7, 8 y 9 de la sección de
-energía. El *Problema 7* (Júpiter) se movió al módulo 9: es el único de la guía
-que usa la clasificación por cónicas —el dato «trayectoria parabólica» no se
-puede usar sin $e = 1 <==> E = 0$—, mientras que su tema no tiene nada de
-Kepler. Al módulo 10 le quedan tres problemas para dos ejemplos, que es lo que
-corresponde.
+**Fase 4 — Parte IV: cuerpo rígido (M12 a M15).** Cuatro módulos, sin ejemplo
+ya adelantado como pasó con Kepler: la sección de cuerpo rígido de la guía
+(Problemas 1 a 9, pág. 15–18 de `GUIA-ENUNCIADOS.md`) trae los enunciados en
+texto pero **las figuras en imagen** —varios problemas (2, 3, 4, 7, 9) las
+necesitan para la geometría, según ya anotó `GUIA-ENUNCIADOS.md`—, así que
+antes de escribir cada módulo hay que mirar esa página del PDF de la guía.
+El primer paso de la próxima sesión es leer el temario de cuerpo rígido en
+`fuentes/TEMARIO.md` y el capítulo 18 de Beer, todavía no leídos.

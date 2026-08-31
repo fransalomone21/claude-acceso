@@ -74,8 +74,8 @@
 #include "modulos/m7-momento-angular.typ"
 #include "modulos/m8-dos-cuerpos.typ"
 #include "modulos/m9-orbita-conicas.typ"
-// #include "modulos/m10-kepler.typ"
-// #include "modulos/m11-maniobras.typ"
+#include "modulos/m10-kepler.typ"
+#include "modulos/m11-maniobras.typ"
 
 // ---------------------------------------------------------------------
 // #parte(4, "Cuerpo rígido", [...])

@@ -115,6 +115,18 @@ griega ni como una función matemática* (`nu`, `mu`, `pi`, `alpha`, `min`,
 `max`, `sqrt`). En `fig-elipse-geometria` la anomalía verdadera se llama
 `anom`.
 
+**12. Un símbolo suelto como `°` también parte una fracción — mismo mecanismo
+que la trampa 1/8b, disfraz nuevo.** `360°/x` no es «360 grados sobre x»: el
+`/` sólo agarra el átomo *inmediatamente* anterior, que acá es `°` solo, no
+`360°`. Compila sin avisar y el número que sale es el mismo por casualidad
+(°=1 en el cálculo), pero el renglón se ve mal —el grado queda flotando
+arriba de la barra de fracción, separado del 360— y con otro símbolo al lado
+(una coma, un `thin`) el número sí sale mal. Vale para los dos lados de la
+fracción: `Delta phi/360°` y `360°/T` fallan igual.
+*Regla: todo numerador o denominador de más de un token —número más símbolo,
+número más `thin`, número más coma— va entre paréntesis*, `(Delta phi)/(360°)`.
+Pagada tres veces en el módulo 11 (Hohmann y la órbita de fasaje).
+
 **11. Los títulos de las cajas ya traen su prefijo.** `#deduccion("...")`
 imprime «DE DÓNDE SALE — ...» y `#definicion("...")` imprime «DEFINICIÓN —
 ...». Escribir `#deduccion("de dónde sale el potencial eficaz")` sale
@@ -160,9 +172,14 @@ cambia, el compilador **no avisa**. Se revisan en la fase 5, todas juntas:
 | 7 | módulos 1, 2, 3, 5, 9, 10, 11, 14 |
 | 8 | módulos 3, 6, 7, 9, 10 |
 | 9 | módulos 1, 5, 6, 7, 8, 10, 11 |
+| 10 | módulos 6, 7, 8, 9, 11 |
+| 11 | módulos 6, 8, 9, 10 |
 
-Los `<m1-*>` a `<m8-*>` sí son etiquetas reales:
-esas las valida el compilador.
+Los `<m1-*>` a `<m11-*>` sí son etiquetas reales:
+esas las valida el compilador. Ninguna referencia entre módulos apunta
+todavía a un módulo que no exista (12 en adelante), así que el chequeo de la
+fase 5 —revisarlas todas juntas— sigue sin encontrar nada roto, sólo texto
+plano que confirmar.
 
 **Un blanco grande al pie de la pág. 30**, porque la figura siguiente no
 entraba. No se toca hasta la fase 5, por el mismo motivo de siempre: la

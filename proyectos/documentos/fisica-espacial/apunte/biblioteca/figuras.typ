@@ -1086,6 +1086,198 @@
   rotulo((C.at(0) - 0.1, -1.9), text(fill: c-aux)[$b$], ancla: "east")
 })
 
+// =====================================================================
+//  Módulo 11 — Maniobras: Hohmann y rendez-vous
+// =====================================================================
+
+// --- La transferencia de Hohmann ----------------------------------------
+// Dos órbitas circulares (Tierra y Marte, a escala aproximada: 1,524 la
+// razón real) y la media elipse tangente a las dos. Marte se dibuja DOS
+// veces: en el lanzamiento (donde tiene que estar para que la cita cierre)
+// y en la llegada (donde la nave lo encuentra, en el otro ábside).
+#let fig-hohmann = esquema(escala: 1.55cm, {
+  let Sol = (0, 0)
+  let r1 = 1.6 // Tierra
+  let r2 = 2.44 // Marte (r2/r1 = 1,524, la razón real de semiejes)
+  let a-t = (r1 + r2) / 2
+  let e-t = (r2 - r1) / (r2 + r1)
+  let p-t = a-t * (1 - e-t * e-t)
+  // OJO (trampa 10 del HANDOFF): esta variable NO puede llamarse `phi` —
+  // Typst resolvería `$phi$` contra ESTE número, no contra la letra griega.
+  let ang-fase = 44.4
+
+  cetz.draw.circle(Sol, radius: r1, stroke: (paint: c-guia, thickness: 0.55pt, dash: "dashed"))
+  cetz.draw.circle(Sol, radius: r2, stroke: (paint: c-guia, thickness: 0.55pt, dash: "dashed"))
+  cuerpo-central(Sol, radio: 0.13, etiqueta: none)
+
+  // Sólo se dibuja la mitad que la nave realmente recorre.
+  arco-conica(Sol, p-t, e-t, dir-perigeo: 0, desde: 0, hasta: 180, color: c-verde, grosor: trazo-curva)
+
+  // Tierra, en el lanzamiento (perigeo de la transferencia).
+  masa((r1, 0), radio: 0.08, color: c-dato)
+  rotulo((r1 + 0.1, -0.14), text(fill: c-dato)[Tierra, lanzamiento], ancla: "north-west")
+  flecha((r1, 0), (r1, 0.5), color: c-rojo, grosor: 0.8pt)
+  rotulo((r1 + 0.06, 0.52), text(fill: c-rojo, size: 8pt)[$Delta v_1$], ancla: "south-west")
+
+  // Marte, en la llegada (apogeo de la transferencia): ahí se encuentran.
+  let M-llega = (-r2, 0)
+  masa(M-llega, radio: 0.08, color: c-aux)
+  rotulo((M-llega.at(0) - 0.1, 0.14), text(fill: c-aux)[Marte, llegada], ancla: "south-east")
+  flecha(M-llega, (M-llega.at(0), -0.5), color: c-rojo, grosor: 0.8pt)
+  rotulo((M-llega.at(0) - 0.06, -0.52), text(fill: c-rojo, size: 8pt)[$Delta v_2$], ancla: "north-east")
+
+  // Marte, en el lanzamiento: donde tiene que estar para llegar a tiempo.
+  let M-lanz = (r2 * calc.cos(ang-fase * 1deg), r2 * calc.sin(ang-fase * 1deg))
+  masa(M-lanz, radio: 0.07, color: c-aux.lighten(35%))
+  rotulo(
+    (M-lanz.at(0) + 0.08, M-lanz.at(1) + 0.1),
+    text(fill: c-aux, size: 8pt)[Marte,\ lanzamiento],
+    ancla: "south-west",
+  )
+  angulo(Sol, 0, ang-fase, etiqueta: $phi$, radio: 0.62)
+
+  rotulo((0.3, -2.25), text(fill: luma(60))[
+    La nave recorre $180°$; Marte, mientras tanto, recorre $135,6°$.\
+    Por eso en el lanzamiento Marte tiene que estar sólo $phi$ = 44,4° adelante,
+    no en el punto de encuentro.
+  ], ancla: "west")
+})
+
+// --- Rendez-vous por órbita de fasaje -----------------------------------
+// El chaser y el blanco comparten la misma órbita circular; el blanco está
+// un cuarto de vuelta adelante. El chaser baja a una elipse de fasaje
+// tangente en su propio punto de partida (que ahí es el APOGEO) y, después
+// de UNA vuelta completa de esa elipse, vuelve exactamente a ese punto — que
+// es, para entonces, donde está el blanco. El caso dibujado es el resuelto
+// en el texto: T' = 0,75 T (una vuelta alcanza para cerrar 90°).
+#let fig-rendezvous-phasing = esquema(escala: 1.5cm, {
+  let O = (0, 0)
+  let r = 1.7
+  let rp-frac = 0.6512 // r_p' / r, del caso resuelto en el texto
+
+  cuerpo-central(O, radio: 0.3, etiqueta: none)
+  cetz.draw.circle(O, radius: r, stroke: (paint: c-guia, thickness: 0.6pt, dash: "dashed"))
+
+  let a-f = r * (1 + rp-frac) / 2
+  let e-f = (1 - rp-frac) / (1 + rp-frac)
+  let p-f = a-f * (1 - e-f * e-f)
+  arco-conica(O, p-f, e-f, dir-perigeo: 180, desde: -179, hasta: 179, color: c-verde, grosor: trazo-curva2, punteada: true)
+  masa((-r * rp-frac, 0), radio: 0.06, color: c-verde)
+  rotulo((-r * rp-frac, -0.42), text(fill: c-verde, size: 7.5pt)[perigeo de fasaje], ancla: "north")
+
+  // El punto compartido: de ahí sale el chaser y ahí se produce el encuentro.
+  masa((r, 0), radio: 0.09, color: c-dato)
+  rotulo((r + 0.1, -0.06), text(fill: c-dato)[chaser, $t=0$\ (= punto de encuentro)], ancla: "west")
+
+  // El blanco, un cuarto de órbita adelante, y el arco que recorre mientras
+  // el chaser está en su órbita de fasaje.
+  let ang-blanco = 90
+  let T0 = (r * calc.cos(ang-blanco * 1deg), r * calc.sin(ang-blanco * 1deg))
+  masa(T0, radio: 0.08, color: c-aux)
+  rotulo((T0.at(0) + 0.1, T0.at(1) + 0.1), text(fill: c-aux)[blanco, $t=0$], ancla: "south-west")
+  angulo(O, 0, ang-blanco, etiqueta: $90°$, radio: 0.85)
+
+  cetz.draw.arc(O, start: 90deg, stop: 360deg, radius: r, anchor: "origin", stroke: (paint: c-aux, thickness: 0.9pt, dash: "dotted"))
+  rotulo((0, -r - 0.18), text(fill: c-aux, size: 8pt)[el blanco recorre $270°$ mientras tanto], ancla: "north")
+})
+
+// =====================================================================
+//  El mapa de Curtis (apéndice B), redibujado
+// =====================================================================
+
+// --- El mapa de todo lo deducido en la Parte III ------------------------
+// Redibujo de la fig. B.1 de Curtis, "A Road Map" — el diagrama de flujo
+// que muestra de dónde sale cada resultado de los capítulos 1 a 3 de ese
+// libro, que son (con otra numeración) los módulos 6 a 10 de este apunte.
+// Los dos recuadros de trazo grueso son los dos axiomas de los que sale
+// todo lo demás: las leyes de Newton y la DEFINICIÓN de h. Ningún otro
+// recuadro es un supuesto nuevo — todos son consecuencia de flechas que
+// entran.
+#let fig-roadmap-curtis = esquema(escala: 0.92cm, {
+  // ---- el vocabulario local: geometría y dibujo SEPARADOS. Mezclar en una
+  // sola función el `cetz.draw.rect(...)` (que devuelve un array de
+  // elementos) con el diccionario de geometría de retorno hace que Typst
+  // intente unir un array con un diccionario y falle en la compilación —
+  // por eso la caja se calcula acá y se dibuja en `_dibujar-nodo`. -------
+  let _caja-datos(cx, cy, w, h) = (centro: (cx, cy), hw: w / 2, hh: h / 2)
+  let _dibujar-nodo(nodo, cuerpo, grueso: false) = {
+    let (cx, cy) = nodo.centro
+    let x0 = cx - nodo.hw
+    let y0 = cy - nodo.hh
+    let x1 = cx + nodo.hw
+    let y1 = cy + nodo.hh
+    cetz.draw.rect((x0, y0), (x1, y1), stroke: (if grueso { 1.3pt } else { 0.6pt }) + c-trazo, fill: white)
+    cetz.draw.content((cx, cy), text(size: letra-figura * 0.88, cuerpo), anchor: "center")
+  }
+  let _borde(nodo, hacia) = {
+    let dx = hacia.at(0) - nodo.centro.at(0)
+    let dy = hacia.at(1) - nodo.centro.at(1)
+    let t = if dx == 0 { nodo.hh / calc.abs(dy) } else if dy == 0 { nodo.hw / calc.abs(dx) } else {
+      calc.min(nodo.hw / calc.abs(dx), nodo.hh / calc.abs(dy))
+    }
+    (nodo.centro.at(0) + t * dx, nodo.centro.at(1) + t * dy)
+  }
+  let _conectar(a, b, color: luma(70)) = cetz.draw.line(
+    _borde(a, b.centro),
+    _borde(b, a.centro),
+    stroke: 0.6pt + color,
+    mark: (end: "stealth", scale: 0.42, fill: color),
+  )
+
+  // ---- los once nodos, en la misma disposición que el original ---------
+  let newton = _caja-datos(0, 9.4, 2.7, 1.5)
+  let dosc = _caja-datos(4.6, 9.4, 2.3, 0.9)
+  let energia = _caja-datos(8.7, 9.4, 2.7, 0.9)
+  let defi = _caja-datos(0, 6.6, 2.4, 0.85)
+  let orbita = _caja-datos(4.6, 6.6, 3.1, 1.0)
+  let vr = _caja-datos(8.5, 5.9, 2.5, 0.9)
+  let vperp = _caja-datos(0, 3.9, 1.7, 0.85)
+  let tint = _caja-datos(4.6, 3.9, 3.2, 1.25)
+  let dAdt = _caja-datos(0, 1.1, 1.8, 0.85)
+  let kepeq = _caja-datos(4.6, 1.1, 2.9, 1.15)
+  let tercera = _caja-datos(0, -1.9, 2.0, 0.85)
+
+  _dibujar-nodo(newton, [$bold(F) = m bold(a)$ #linebreak() $F_g = G m_1 m_2 \/ r^2$], grueso: true)
+  _dibujar-nodo(dosc, $accent(bold(r), dot.double) = -mu / r^3 bold(r)$)
+  _dibujar-nodo(energia, $v^2 / 2 - mu / r = "cte"$)
+  _dibujar-nodo(defi, $bold(h) = bold(r) times dot(bold(r))$, grueso: true)
+  _dibujar-nodo(orbita, $r = h^2 / mu dot 1 / (1 + e cos theta)$)
+  _dibujar-nodo(vr, $v_r = mu / h thin e sin theta$)
+  _dibujar-nodo(vperp, $v_perp = h / r$)
+  _dibujar-nodo(tint, $t = h^3 / mu^2 integral_0^theta (d theta.alt) / (1 + e cos theta.alt)^2$)
+  _dibujar-nodo(dAdt, $(d A) / (d t) = h / 2$)
+  _dibujar-nodo(kepeq, [ecuaciones de Kepler #linebreak() (anomalía $arrow.l.r$ tiempo)])
+  _dibujar-nodo(tercera, $T = (2 pi a^(3\/2)) / sqrt(mu)$)
+
+  _conectar(newton, dosc)
+  _conectar(dosc, energia)
+  _conectar(dosc, orbita)
+  _conectar(defi, orbita)
+  _conectar(defi, vperp)
+  _conectar(dAdt, vperp)
+  _conectar(dAdt, tercera)
+  _conectar(tercera, orbita)
+  _conectar(vperp, tint)
+  _conectar(orbita, vr)
+  _conectar(orbita, tint)
+  _conectar(tint, kepeq)
+
+  // Las cinco etiquetas de qué es cada cosa, chicas y fuera de las cajas.
+  rotulo((0, 10.55), text(size: 8pt, fill: c-azul, weight: "bold")[LEYES DE NEWTON], ancla: "south", tam: 8pt)
+  rotulo((0, 7.4), text(size: 8pt, fill: c-azul, weight: "bold")[DEFINICIÓN], ancla: "south", tam: 8pt)
+  rotulo((6.6, 7.35), text(size: 8pt, fill: luma(70))[la ecuación de la órbita — 1.ª ley de Kepler], ancla: "west", tam: 8pt)
+  rotulo((-1.75, 1.1), text(size: 8pt, fill: luma(70))[2.ª ley\ de Kepler], ancla: "east", tam: 8pt)
+  rotulo((-1.75, -1.9), text(size: 8pt, fill: luma(70))[3.ª ley\ de Kepler], ancla: "east", tam: 8pt)
+
+  // La nota manuscrita de la cátedra sobre el original: no es parte del
+  // diagrama de Curtis, y se marca como lo que es.
+  rotulo(
+    (8.7, 10.9),
+    text(size: 7.5pt, fill: c-viole, style: "italic")[$mu = G(m_1+m_2)$\ (anotado a mano por la cátedra)],
+    ancla: "center",
+  )
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -1110,4 +1302,7 @@
   ("fig-potencial-eficaz", fig-potencial-eficaz),
   ("fig-conicas", fig-conicas),
   ("fig-elipse-geometria", fig-elipse-geometria),
+  ("fig-hohmann", fig-hohmann),
+  ("fig-rendezvous-phasing", fig-rendezvous-phasing),
+  ("fig-roadmap-curtis", fig-roadmap-curtis),
 )

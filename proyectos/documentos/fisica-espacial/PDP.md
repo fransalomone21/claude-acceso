@@ -99,14 +99,18 @@ que no se miró es quince módulos para corregir.
 Cierra con: los cuatro módulos escritos, con sus ocho ejemplos, y el PDF
 mirado página por página.
 
-### Fase 3 — Parte III: gravitación y órbitas (M6–M10)
+### Fase 3 — Parte III: gravitación y órbitas (M6–M11)  ·  CERRADA (2026-08-31)
 
-Cierra con: los cinco módulos escritos y mirados, incluido el diagrama de
-flujo del Road Map (Curtis, ap. B) redibujado en CeTZ.
+Cierra con: los seis módulos escritos y mirados, incluido el diagrama de
+flujo del Road Map (Curtis, ap. B) redibujado en CeTZ. *(Esta fila decía
+«M6–M10, cinco módulos» hasta el 2026-08-31 — divergía de §5, que ya listaba
+M11 «Maniobras» adentro de la Parte III. Ganó §5, que es donde vive la
+estructura real de quince módulos; el número de acá se corrigió en el mismo
+turno en que se detectó, por la regla 4 del enrutador.)*
 
-### Fase 4 — Parte IV: cuerpo rígido (M11–M15)
+### Fase 4 — Parte IV: cuerpo rígido (M12–M15)
 
-Cierra con: los cinco módulos escritos y mirados.
+Cierra con: los cuatro módulos escritos y mirados.
 
 ### Fase 5 — cierre
 
