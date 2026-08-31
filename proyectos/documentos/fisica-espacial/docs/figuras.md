@@ -67,6 +67,8 @@ color rompe la lectura de las otras.
 | `fig-etapas` | 4 | una etapa contra dos, con los mismos kilos |
 | `fig-trabajo-central` | 5 | por que una fuerza central es conservativa: solo dr trabaja |
 | `fig-diagrama-energia` | 5 | como se lee un diagrama de energia: E, K, retornos, equilibrios |
+| `fig-canon-newton` | 6 | el canon de Newton: la misma caida con distinta v horizontal |
+| `fig-pozo-gravitatorio` | 6 | U = -mu m / r con tres E: el signo de E decide si el cuerpo vuelve |
 
 ## Lo que `estilo.typ` todavía no tiene
 
@@ -75,7 +77,25 @@ Se agrega cuando el módulo que lo necesite lo pida, no antes:
 - **cono de precesión** (módulos 14 y 15) — dos conos tangentes, espacial y
   corporal. Es la figura más difícil del apunte y probablemente necesite
   proyección 3-D de CeTZ, no el plano.
-- **transferencia de Hohmann** (módulo 11) — dos círculos y la elipse tangente
-  a los dos. `elipse-orbital` ya sirve; falta el arco de transferencia parcial.
+~~- **transferencia de Hohmann** (módulo 11) — falta el arco parcial~~ — el
+  helper existe desde el módulo 6: **`arco-conica`**, que dibuja un tramo de
+  cualquier cónica desde `(p, e)`. Hace tres cosas que `elipse-orbital` no
+  puede: trayectorias abiertas (`e >= 1`, donde no hay `a` positivo), arcos
+  parciales —la transferencia de Hohmann es media elipse— y curvas recortadas
+  contra la superficie del cuerpo central, con `r-min`.
 ~~- **choque en el sistema centro de masa** (módulo 3)~~ — hecho en la fase 2
   (`fig-choque-cm`), sin helper nuevo: alcanzó con `flecha` y `paneles`.
+
+## Regla 5 — el lienzo se escala, el texto no
+
+`esquema` toma `escala:` (por defecto `1cm` por unidad). Una figura pensada en
+un rango chico de coordenadas sale **diminuta** en la página aunque sus
+proporciones sean correctas, porque el texto de los rótulos no se achica con
+ella: queda un dibujo de 5 cm con letras de 8,5 pt encima. Se corrige subiendo
+`escala` (el pozo gravitatorio va en `1,45cm` y el cañón en `1,35cm`), no
+agrandando las coordenadas — que obligaría a recalcular todos los rótulos.
+
+Y el corolario que se pagó en la misma galería: **un rótulo largo dentro del
+lienzo estira el lienzo**, y como el lienzo se escala para entrar en el ancho
+de la página, un párrafo al costado achica el dibujo entero. El texto que
+explica la figura va en el **epígrafe**, no adentro.

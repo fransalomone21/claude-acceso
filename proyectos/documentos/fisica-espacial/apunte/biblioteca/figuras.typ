@@ -590,6 +590,97 @@
   ], ancla: "west")
 })
 
+
+// --- El cañón de Newton -------------------------------------------------
+// La respuesta a «¿por qué orbita sin caer?» dibujada: es la MISMA
+// trayectoria de caída, con más velocidad horizontal. El corte lo hace
+// `arco-conica` con r-min: las que tienen poco perigeo se interrumpen
+// contra la superficie, que es exactamente lo que significa «caer».
+#let fig-canon-newton = esquema(escala: 1.35cm, {
+  let R = 1.0
+  let rl = 1.28 // radio del punto de lanzamiento
+
+  cuerpo-central((0, 0), radio: R, etiqueta: none)
+  cetz.draw.content((0, -R - 0.06), text(size: letra-figura, fill: c-orbe)[Tierra], anchor: "north")
+
+  // Las tres que caen: apogeo arriba (perigeo hacia abajo), perigeo dentro.
+  for (rp, col) in ((0.35, c-guia), (0.62, c-guia), (0.88, c-guia)) {
+    let e = (rl - rp) / (rl + rp)
+    arco-conica((0, 0), rp * (1 + e), e, dir-perigeo: -90, r-min: R, color: col, grosor: 0.7pt)
+  }
+
+  // La circular.
+  cetz.draw.circle((0, 0), radius: rl, stroke: trazo-curva + c-dato)
+
+  // La elíptica cerrada: el lanzamiento pasa a ser el PERIGEO.
+  let ra = 2.35
+  let e2 = (ra - rl) / (ra + rl)
+  arco-conica((0, 0), rl * (1 + e2), e2, dir-perigeo: 90, desde: -180, hasta: 180, color: c-aux, grosor: trazo-curva2)
+
+  // La abierta: parábola, e = 1. Se corta antes de que domine el dibujo:
+  // lo que hay que ver es que NO CIERRA, no cuán lejos llega.
+  arco-conica((0, 0), 2 * rl, 1, dir-perigeo: 90, desde: -96, hasta: 96, color: c-verde, grosor: trazo-curva2)
+
+  // El punto de lanzamiento y su velocidad horizontal.
+  masa((0, rl), radio: 0.07, color: c-trazo)
+  flecha((0, rl), (0.85, rl), etiqueta: $bold(v)$, color: c-dato, pos: 100%, lado: "south")
+  rotulo((-0.12, rl + 0.1), text(size: 8pt, fill: luma(70))[se dispara desde acá], ancla: "south-east")
+
+  // Los cuatro casos, en orden de velocidad creciente de abajo hacia arriba.
+  rotulo((3.0, 1.35), text(fill: c-verde)[$v > v_"esc"$ — no vuelve], ancla: "west")
+  rotulo((3.0, 0.62), text(fill: c-aux)[$v_"circ" < v < v_"esc"$ — elipse], ancla: "west")
+  rotulo((3.0, -0.11), text(fill: c-dato)[$v = v_"circ"$ — círculo], ancla: "west")
+  rotulo((3.0, -0.84), text(fill: luma(95))[$v < v_"circ"$ — cae], ancla: "west")
+})
+
+// --- El pozo gravitatorio -----------------------------------------------
+// El diagrama de energía del módulo 5, con U(r) = -mu m / r. Lo único que
+// hay que leer es el SIGNO de E: negativa, hay punto de retorno y el cuerpo
+// queda ligado; cero o positiva, no hay corte y se va al infinito.
+#let fig-pozo-gravitatorio = esquema(escala: 1.45cm, {
+  let k = 1.5
+  let U = r => -k / r
+  let r0 = 0.42
+  let rf = 5.2
+  let n = 220
+  let pts = range(0, n + 1).map(i => {
+    let r = r0 + (rf - r0) * i / n
+    (r, U(r))
+  })
+
+  flecha((0, 0), (5.7, 0), color: c-trazo, grosor: 0.6pt)
+  flecha((0, -3.7), (0, 1.35), color: c-trazo, grosor: 0.6pt)
+  rotulo((5.75, -0.02), $r$, ancla: "west")
+  rotulo((0, 1.4), $U$, ancla: "south")
+  rotulo((-0.12, 0.06), [0], ancla: "south-east")
+
+  cetz.draw.line(..pts, stroke: trazo-curva + c-trazo)
+  rotulo((2.15, U(2.15) - 0.12), text(fill: c-trazo)[$U(r) = -mu m \/ r$], ancla: "north-west")
+
+  // E > 0: sobra energía en el infinito. Va primero para que las tres
+  // rectas queden nombradas de arriba hacia abajo en el mismo margen.
+  cetz.draw.line((0.05, 0.72), (4.95, 0.72), stroke: (paint: c-aux, thickness: 0.9pt, dash: "dashed"))
+  rotulo((5.0, 0.72), text(fill: c-aux)[$E > 0$], ancla: "west")
+
+  // E = 0: el caso justo, la velocidad de escape exacta.
+  cetz.draw.line((0.05, 0), (4.95, 0), stroke: (paint: c-verde, thickness: 0.9pt, dash: "dashed"))
+  rotulo((5.0, 0.26), text(fill: c-verde)[$E = 0$], ancla: "west")
+
+  // E < 0: ligada, con su punto de retorno.
+  let E1 = -0.5
+  let rmax = k / 0.5
+  cetz.draw.line((0.05, E1), (4.95, E1), stroke: (paint: c-dato, thickness: 0.9pt, dash: "dashed"))
+  cetz.draw.circle((rmax, E1), radius: 0.075, fill: c-dato, stroke: none)
+  cetz.draw.line((rmax, 0), (rmax, E1), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  marca-x(rmax, $r_"máx"$)
+  rotulo((5.0, E1 - 0.06), text(fill: c-dato)[$E < 0$], ancla: "west")
+
+  // K = E - U, medida donde no se pisa con el resto.
+  let rm = 0.78
+  cetz.draw.line((rm, U(rm)), (rm, E1), stroke: 0.7pt + c-viole, mark: (start: "bar", end: "bar", scale: 0.3))
+  rotulo((rm + 0.08, (U(rm) + E1) / 2), text(fill: c-viole)[$K$], ancla: "west")
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -605,4 +696,6 @@
   ("fig-etapas", fig-etapas),
   ("fig-trabajo-central", fig-trabajo-central),
   ("fig-diagrama-energia", fig-diagrama-energia),
+  ("fig-canon-newton", fig-canon-newton),
+  ("fig-pozo-gravitatorio", fig-pozo-gravitatorio),
 )

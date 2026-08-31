@@ -286,3 +286,58 @@
   #set par(justify: false)
   #align(center, cuerpo)
 ])
+
+// ---------- Arco de cónica con foco en el origen ----------
+//
+// La órbita general, dibujada por puntos desde su ecuación polar
+//
+//     r(nu) = p / (1 + e cos nu)
+//
+// con `nu` la anomalía verdadera medida desde el perigeo. `elipse-orbital`
+// dibuja la elipse ENTERA a partir de (a, e); esto dibuja un TRAMO de
+// cualquier cónica a partir de (p, e), que es lo que hace falta para tres
+// cosas que la elipse completa no puede: una trayectoria abierta (e >= 1,
+// donde no hay `a` positivo), un arco parcial —la transferencia de Hohmann
+// es media elipse— y una trayectoria que se interrumpe al chocar contra la
+// superficie del cuerpo central.
+//
+// `r-min` y `r-max` recortan: los puntos que caen fuera del rango no se
+// dibujan, y la curva se parte en los tramos que quedan en vez de saltar de
+// un lado al otro con una recta. `dir-perigeo` es el ángulo, en grados,
+// hacia donde apunta el perigeo desde el foco.
+#let arco-conica(
+  foco,
+  p,
+  e,
+  desde: -179,
+  hasta: 179,
+  dir-perigeo: 0,
+  r-min: none,
+  r-max: none,
+  color: c-trazo,
+  grosor: trazo-cuerpo,
+  punteada: false,
+  n: 240,
+) = {
+  let st = if punteada { (paint: color, thickness: grosor, dash: "dashed") } else { grosor + color }
+  let tramos = ()
+  let actual = ()
+  for i in range(0, n + 1) {
+    let nu = desde + (hasta - desde) * i / n
+    let den = 1 + e * calc.cos(nu * 1deg)
+    // den <= 0 es la asíntota de una cónica abierta: ahí r se va a infinito.
+    let ok = den > 0.02
+    let r = if ok { p / den } else { 0 }
+    if ok and r-min != none and r < r-min { ok = false }
+    if ok and r-max != none and r > r-max { ok = false }
+    if ok {
+      let phi = (dir-perigeo + nu) * 1deg
+      actual.push((foco.at(0) + r * calc.cos(phi), foco.at(1) + r * calc.sin(phi)))
+    } else if actual.len() > 1 {
+      tramos.push(actual)
+      actual = ()
+    } else { actual = () }
+  }
+  if actual.len() > 1 { tramos.push(actual) }
+  for t in tramos { cetz.draw.line(..t, stroke: st) }
+}

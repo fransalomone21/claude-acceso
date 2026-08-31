@@ -54,8 +54,23 @@
 #include "modulos/m5-trabajo-energia.typ"
 
 // ---------------------------------------------------------------------
-// #parte(3, "Gravitación y mecánica orbital", [...])
-// #include "modulos/m6-gravitacion.typ"
+#parte(3, "Gravitación y mecánica orbital", [
+  La materia entera apunta acá. Las herramientas ya están: los versores que
+  giran del módulo 1, la conservación de $bold(P)$ que dio el centro de masa,
+  y sobre todo el diagrama de energía del módulo 5, que contesta preguntas
+  sobre un movimiento sin resolver su ecuación.
+
+  El orden de los seis módulos sigue el de las preguntas, no el de los libros.
+  Primero la fuerza y su energía potencial, que ya alcanzan para las órbitas
+  circulares y para saber si un cuerpo escapa o no. Después el momento angular,
+  que es lo que hace que una órbita sea plana y que la segunda ley de Kepler
+  sea una identidad. Recién entonces el problema de dos cuerpos —dónde está de
+  verdad el centro— y la ecuación de la órbita, donde las cónicas dejan de ser
+  un nombre y pasan a ser la solución. Kepler queda como consecuencia, y las
+  maniobras como aplicación.
+])
+
+#include "modulos/m6-gravitacion.typ"
 // #include "modulos/m7-momento-angular.typ"
 // #include "modulos/m8-dos-cuerpos.typ"
 // #include "modulos/m9-orbita-conicas.typ"
