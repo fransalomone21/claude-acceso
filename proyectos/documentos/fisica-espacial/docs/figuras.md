@@ -62,6 +62,25 @@ lienzo estira el lienzo**, y como el lienzo se escala para entrar en el ancho
 de la página, un párrafo al costado achica el dibujo entero. El texto que
 explica la figura va en el **epígrafe**, no adentro.
 
+**6. Un cartel de varios renglones va donde no hay ninguna curva, y ese lugar
+se calcula.** En `fig-conicas` los cuatro rótulos —uno por cónica— se probaron
+primero al lado de cada curva y se pisaron todos, porque las cuatro se cruzan
+en los mismos dos puntos. El lugar bueno salió de una cuenta de treinta
+segundos: el apogeo de la elipse, que es lo que más lejos llega hacia la
+izquierda, cae en $x=-3{,}25$, así que para $x<-3{,}4$ el lienzo está vacío por
+construcción. *Antes de mover un rótulo a ojo por tercera vez, conviene
+calcular dónde no hay nada.*
+
+**7. Los rótulos de una figura densa se reparten por mitades, no uno por uno.**
+`fig-elipse-geometria` tiene seis magnitudes sobre el mismo eje y en el primer
+intento salieron encimadas de a tres. La regla que la ordenó no fue mover
+rótulos: fue partir el dibujo en dos: **arriba de la línea de ábsides, lo que
+se mide desde el foco** ($p$, $r$, $\nu$); **abajo, lo que se mide desde el
+centro** ($a$, $b$) más las dos distancias de ábside. Y cada cota de abajo
+lleva sus dos líneas de referencia verticales: sin ellas, el extremo que cae
+sobre el perigeo queda *fuera* de la elipse —el perigeo está sobre la curva
+sólo en $y=0$— y se lee como una marca suelta.
+
 ## Catálogo
 
 | Figura | Módulo | Qué muestra |
@@ -85,6 +104,9 @@ explica la figura va en el **epígrafe**, no adentro.
 | `fig-velocidad-areolar` | 7 | la 2.a de Kepler: dos sectores de igual area, uno flaco y uno ancho |
 | `fig-satelite-guia` | 7 | el Ej. 4 de la guia: la orbita con A, P y las dos posiciones con gamma |
 | `fig-dos-cuerpos` | 8 | las dos elipses semejantes en torno al CM, y el problema equivalente |
+| `fig-potencial-eficaz` | 9 | las dos ramas, el pozo, y los cuatro niveles de E leídos como cuatro cónicas |
+| `fig-conicas` | 9 | las cuatro cónicas con el mismo p y el mismo foco: sólo cambia e |
+| `fig-elipse-geometria` | 9 | la elipse y sus seis números: a, b, c = ae, p, r_p, r_a, más r y ν |
 
 ## Lo que `estilo.typ` todavía no tiene
 

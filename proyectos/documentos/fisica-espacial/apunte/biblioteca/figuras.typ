@@ -893,6 +893,199 @@
   ),
 )
 
+// =====================================================================
+//  Módulo 9 — Potencial eficaz, ecuación de la órbita y cónicas
+// =====================================================================
+
+// --- El potencial eficaz -----------------------------------------------
+// Es la figura de la cátedra (hoja «potencial eficaz», fig. 4.1) redibujada:
+// las dos ramas —la atractiva -A/r y la barrera centrífuga B/r^2— y su suma,
+// con cuatro niveles de energía que se leen como CUATRO CÓNICAS.
+//
+// Los números están elegidos para que la lectura sea limpia, no para
+// representar ningún satélite: con A = 2,4 y B = 1,2 el mínimo cae exacto en
+// r = 1 y los puntos de retorno de la elipse en 0,586 y 3,414.
+#let fig-potencial-eficaz = esquema(escala: 1.28cm, {
+  let A = 2.4
+  let B = 1.2
+  let Ug = r => -A / r
+  let Uc = r => B / (r * r)
+  let Uef = r => Ug(r) + Uc(r)
+
+  let y-lo = -1.95
+  let y-hi = 1.55
+  let x-hi = 3.9
+
+  // Polilínea recortada en y: los tramos que se van del cuadro no se dibujan.
+  let curva(f, r0, rf, n, trazo) = {
+    let tramos = ()
+    let actual = ()
+    for i in range(0, n + 1) {
+      let r = r0 + (rf - r0) * i / n
+      let y = f(r)
+      if y > y-lo and y < y-hi {
+        actual.push((r, y))
+      } else if actual.len() > 1 {
+        tramos.push(actual)
+        actual = ()
+      } else { actual = () }
+    }
+    if actual.len() > 1 { tramos.push(actual) }
+    for t in tramos { cetz.draw.line(..t, stroke: trazo) }
+  }
+
+  // Ejes. El eje r termina justo después de las curvas: los rótulos de los
+  // cuatro niveles viven a la derecha de esa punta, y si el eje siguiera de
+  // largo el rótulo de «parábola» —que va sobre y = 0— caería encima.
+  flecha((0, 0), (x-hi + 0.25, 0), color: c-trazo, grosor: 0.6pt)
+  flecha((0, y-lo), (0, y-hi + 0.2), color: c-trazo, grosor: 0.6pt)
+  rotulo((x-hi + 0.28, -0.06), $r$, ancla: "north-west")
+  rotulo((0, y-hi + 0.25), $U$, ancla: "south")
+
+  // Las dos ramas, en punteado: son los ingredientes, no el protagonista.
+  curva(Uc, 0.28, x-hi, 260, (paint: c-aux, thickness: 0.75pt, dash: "dashed"))
+  curva(Ug, 0.28, x-hi, 260, (paint: c-dato, thickness: 0.75pt, dash: "dashed"))
+  rotulo((1.12, 1.18), text(fill: c-aux)[$L^2 \/ 2 m r^2$], ancla: "west")
+  rotulo((0.35, -1.52), text(fill: c-dato)[$-mu m \/ r$], ancla: "west")
+
+  // La suma: el potencial eficaz.
+  curva(Uef, 0.28, x-hi, 320, trazo-curva + c-trazo)
+
+  // El fondo del pozo: la órbita circular.
+  let r0 = 2 * B / A
+  let Emin = Uef(r0)
+  cetz.draw.line((r0, Emin), (r0, 0), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  rotulo((r0 + 0.07, -0.1), $r_0 = h^2 \/ mu$, ancla: "north-west")
+
+  // Los cuatro niveles. El orden de dibujo es de arriba hacia abajo para que
+  // los rótulos del margen derecho queden en el mismo orden que las rectas.
+  let x-fin = 3.9
+  let nivel(E, dy, color, texto) = {
+    cetz.draw.line((0.04, E), (x-fin, E), stroke: (paint: color, thickness: 0.85pt, dash: "dashed"))
+    rotulo((x-fin + 0.1, E + dy), text(fill: color, texto), ancla: "west")
+  }
+  nivel(0.62, 0, c-viole, [$E > 0$ — hipérbola])
+  nivel(0, 0.16, c-verde, [$E = 0$ — parábola])
+  nivel(-0.6, 0, c-aux, [$E < 0$ — elipse])
+  nivel(Emin, 0, c-dato, [$E = E_"mín"$ — circunferencia])
+
+  // Los puntos de retorno de la elipse: donde r-punto = 0.
+  for r in (0.5858, 3.4142) {
+    cetz.draw.circle((r, -0.6), radius: 0.07, fill: c-aux, stroke: none)
+  }
+  cetz.draw.circle((r0, Emin), radius: 0.075, fill: c-dato, stroke: none)
+  rotulo((0.53, -0.72), $r_p$, ancla: "north-east")
+  rotulo((3.4142, -0.72), $r_a$, ancla: "north")
+})
+
+// --- Las cuatro cónicas, con el mismo parámetro -------------------------
+// Todas tienen el MISMO p y el mismo foco, así que todas pasan por los dos
+// extremos del lado recto, (0, ±p): lo único que las distingue es e. Es la
+// traducción geométrica de la tabla del módulo.
+#let fig-conicas = esquema(escala: 1.05cm, {
+  let p = 1.3
+  let F = (0, 0)
+  let rmax = 3.5
+
+  cuerpo-central(F, radio: 0.2, etiqueta: none)
+
+  arco-conica(F, p, 0, desde: -180, hasta: 180, color: c-dato, grosor: trazo-curva2)
+  arco-conica(F, p, 0.6, desde: -180, hasta: 180, color: c-aux, grosor: trazo-curva2)
+  arco-conica(F, p, 1, desde: -172, hasta: 172, r-max: rmax, color: c-verde, grosor: trazo-curva2)
+  arco-conica(F, p, 1.5, desde: -172, hasta: 172, r-max: rmax, color: c-viole, grosor: trazo-curva2)
+
+  // El lado recto: los dos puntos por los que pasan las cuatro.
+  cetz.draw.line((0, -p), (0, p), stroke: (paint: c-guia, thickness: 0.6pt, dash: "dashed"))
+  masa((0, p), radio: 0.055, color: c-guia)
+  masa((0, -p), radio: 0.055, color: c-guia)
+  rotulo((-0.5, p + 0.3), text(fill: luma(90))[$r = p$], ancla: "east")
+
+  // La dirección del perigeo, común a las cuatro: es el eje desde el que se
+  // mide la anomalía verdadera, y por eso las cuatro se pueden comparar.
+  cetz.draw.line((0, 0), (1.6, 0), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  rotulo((1.65, 0), text(fill: luma(90))[hacia el perigeo], ancla: "west")
+
+  // El cartel va a la IZQUIERDA de todo: para x < -3,4 no hay ninguna curva
+  // —el apogeo de la elipse, que es lo que más lejos llega, cae en -3,25—,
+  // así que es el único rincón del lienzo donde cuatro renglones no pisan nada.
+  rotulo((-3.55, 1.05), text(fill: c-viole)[$e = 1,5$ — hipérbola], ancla: "east")
+  rotulo((-3.55, 0.45), text(fill: c-verde)[$e = 1$ — parábola], ancla: "east")
+  rotulo((-3.55, -0.45), text(fill: c-aux)[$e = 0,6$ — elipse], ancla: "east")
+  rotulo((-3.55, -1.05), text(fill: c-dato)[$e = 0$ — circunferencia], ancla: "east")
+})
+
+// --- La elipse y sus seis números ---------------------------------------
+// a, b, c = a e, r_p, r_a y p, todos sobre el mismo dibujo, con el cuerpo
+// central EN EL FOCO. Es la figura de referencia de los módulos 9, 10 y 11.
+#let fig-elipse-geometria = esquema(escala: 1.15cm, {
+  let a = 2.6
+  let e = 0.45
+  let c = a * e
+  let b = a * calc.sqrt(1 - e * e)
+  let p = a * (1 - e * e)
+  let F = (0, 0)
+  let C = (-c, 0)
+  let P = (a - c, 0) // perigeo
+  let Ap = (-c - a, 0) // apogeo
+
+  // El reparto del lienzo es lo único que hace legible esta figura: ARRIBA de
+  // la línea de ábsides van las magnitudes que se miden desde el foco (p, r y
+  // la anomalía); ABAJO, adentro de la elipse, las que se miden desde el
+  // centro (a, b) y las dos distancias de ábside. Mezclarlas encima del mismo
+  // eje deja seis rótulos en dos centímetros, que es lo que pasó en el primer
+  // intento.
+  elipse-orbital(F, a, e, giro: 180deg, color: c-trazo, grosor: trazo-curva2)
+  cetz.draw.line(Ap, P, stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  cuerpo-central(F, radio: 0.2, etiqueta: none)
+
+  // El centro geométrico, que NO es el foco.
+  cetz.draw.line((C.at(0) - 0.13, 0), (C.at(0) + 0.13, 0), stroke: 0.8pt + c-verde)
+  cetz.draw.line((C.at(0), -0.13), (C.at(0), 0.13), stroke: 0.8pt + c-verde)
+  rotulo((C.at(0) - 0.06, 0.1), text(fill: c-verde)[$C$], ancla: "south-east")
+
+  // ---- arriba: lo que se mide desde el foco ----
+  cetz.draw.line(C, F, stroke: (paint: c-viole, thickness: 1.1pt))
+  rotulo((C.at(0) / 2, -0.08), text(fill: c-viole)[$c = a e$], ancla: "north")
+
+  cetz.draw.line(F, (0, p), stroke: (paint: c-dato, thickness: 1.1pt))
+  rotulo((0.1, 1.35), text(fill: c-dato)[$p$], ancla: "west")
+
+  // OJO: la variable NO se puede llamar `nu`. En modo matemático Typst
+  // resuelve los identificadores de más de una letra contra el ámbito, así
+  // que `$nu$` con un `let nu = 125` arriba imprime «125» en vez de la letra
+  // griega — compila perfecto y sale mal. Ver HANDOFF, trampa 10.
+  let anom = 125
+  let r = p / (1 + e * calc.cos(anom * 1deg))
+  let Q = (r * calc.cos(anom * 1deg), r * calc.sin(anom * 1deg))
+  flecha(F, Q, etiqueta: $r$, color: c-trazo, lado: "east", pos: 62%)
+  masa(Q, radio: 0.075, color: c-trazo)
+  angulo(F, 0, anom, etiqueta: $nu$, radio: 0.6)
+
+  // ---- los dos ábsides, rotulados por arriba para no invadir el interior ----
+  masa(P, radio: 0.075, color: c-trazo)
+  masa(Ap, radio: 0.075, color: c-trazo)
+  rotulo((P.at(0) + 0.12, 0.04), [perigeo], ancla: "west")
+  rotulo((Ap.at(0) - 0.12, 0.04), [apogeo], ancla: "east")
+
+  // ---- abajo: a, b, r_p y r_a, como cotas ----
+  //
+  // Cada cota lleva sus dos líneas de referencia verticales. Sin ellas, el
+  // extremo que cae sobre el perigeo queda FUERA de la elipse —el perigeo
+  // sólo está sobre la curva en y = 0— y se lee como una marca suelta.
+  let cota(x1, x2, y, etiqueta, color: c-guia) = {
+    for x in (x1, x2) {
+      cetz.draw.line((x, 0), (x, y), stroke: (paint: color, thickness: 0.4pt, dash: "dashed"))
+    }
+    auxiliar((x1, y), (x2, y), etiqueta: etiqueta, ancla: "north", color: color)
+  }
+  cota(Ap.at(0), 0, -0.62, $r_a$)
+  cota(0, P.at(0), -0.62, $r_p$)
+  cota(C.at(0), P.at(0), -1.35, $a$)
+
+  cetz.draw.line(C, (C.at(0), -b), stroke: (paint: c-aux, thickness: 1.1pt))
+  rotulo((C.at(0) - 0.1, -1.9), text(fill: c-aux)[$b$], ancla: "east")
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -914,4 +1107,7 @@
   ("fig-velocidad-areolar", fig-velocidad-areolar),
   ("fig-satelite-guia", fig-satelite-guia),
   ("fig-dos-cuerpos", fig-dos-cuerpos),
+  ("fig-potencial-eficaz", fig-potencial-eficaz),
+  ("fig-conicas", fig-conicas),
+  ("fig-elipse-geometria", fig-elipse-geometria),
 )

@@ -1,22 +1,23 @@
 # Estado actual — Apunte de Física Espacial
 
-**Fase 3 (Parte III: gravitación y órbitas) — ABIERTA, tres de seis módulos
+**Fase 3 (Parte III: gravitación y órbitas) — ABIERTA, cuatro de seis módulos
 escritos.** La cierran los seis módulos (M6 a M11) con sus doce ejemplos, el
-Road Map de Curtis (ap. B) redibujado en CeTZ, y el PDF mirado. Van M6, M7 y
-M8, los tres mirados página por página en el render.
+Road Map de Curtis (ap. B) redibujado en CeTZ, y el PDF mirado. Van M6, M7, M8
+y M9, los cuatro mirados página por página en el render.
 
 **Fase 2 — CERRADA el 2026-08-31.**
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **58 páginas**, compila sin errores, cero huérfanos de caja |
+| `apunte/apunte.pdf` | **68 páginas**, compila sin errores, cero huérfanos de caja |
 | Plantilla, carátula, índice, encabezados | listos, no se tocan |
-| Biblioteca de figuras (CeTZ) | **19 figuras**, todas miradas en la galería |
+| Biblioteca de figuras (CeTZ) | **22 figuras**, todas miradas en la galería |
 | Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |
 | **Módulo 6 — Gravitación, peso y energía potencial** | **escrito y verificado en render** |
 | **Módulo 7 — Momento angular y fuerzas centrales** | **escrito y verificado en render** |
 | **Módulo 8 — Dos cuerpos y masa reducida** | **escrito y verificado en render** |
-| Módulos 9 a 15 | no empezados (los `include` están comentados en `apunte.typ`) |
+| **Módulo 9 — Potencial eficaz y ecuación de la órbita** | **escrito y verificado en render** |
+| Módulos 10 a 15 | no empezados (los `include` están comentados en `apunte.typ`) |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -53,6 +54,27 @@ midió fue $M_"Sol" + M_T$) y el sistema Tierra–Luna construido sobre los dato
 del Problema 8 (CM a 4671 km, adentro de la Tierra; el mes da 27,28 días contra
 27,45 si se ignora la Luna).
 
+**Módulo 9 — El potencial eficaz y la ecuación de la órbita** (10 pág.). Es el
+módulo central de la parte y hace las dos mitades. La cualitativa: sustituir
+$dot(theta) = h\/r^2$ adentro de la energía cinética deja
+$E = 1/2 m dot(r)^2 + U_"ef" (r)$, un problema de *una* variable al que se le
+aplica tal cual el diagrama del módulo 5 — con la barrera centrífuga (por qué
+la Luna no se cae), el fondo del pozo en $r_0 = h^2\/mu$ (que reproduce el
+$E = -mu m\/2r$ del módulo 6 como *mínimo de una función*) y la clasificación
+en cuatro casos por el signo de $E$. La cuantitativa: el cambio de variable
+$t arrow.r theta$, $u = 1\/r$, la ecuación de Binet, y su solución
+$r = p\/(1 + e cos nu)$; después el puente $e = sqrt(1 + 2 E h^2\/(mu^2 m))$,
+que ata las dos mitades, y de ahí $E = -mu m\/(2a)$ y la **vis-viva**. Cierra
+con los seis números de la elipse. Ejemplos: el satélite del Ej. 4 rehecho
+desde la ecuación de la órbita —$h = 57 thin 172$ km²/s sale ahora de las dos
+alturas solas, sin usar ninguna velocidad del dibujo— y el Problema 7 (Beer
+13.100, frenar en Júpiter: $Delta v = 14,2$ km/s, y la cuenta de por qué
+capturar solo cuesta $0,9$).
+
+**Tres figuras nuevas**, las tres miradas en la galería antes de usarse:
+`fig-potencial-eficaz` (la figura 4.1 de la cátedra, redibujada),
+`fig-conicas` (las cuatro con el mismo $p$) y `fig-elipse-geometria`.
+
 ## Lo verificado contra las fuentes en esta fase
 
 | Afirmación | Fuente, medida |
@@ -70,17 +92,40 @@ del Problema 8 (CM a 4671 km, adentro de la Tierra; el mes da 27,28 días contra
 | $r m v sin phi$ constante, $r^2 dot(theta) = h$, velocidad areolar | Beer ecs. 12.25 a 12.27, pág. 725 |
 | Movimiento relativo, masa reducida, problema equivalente | apunte de clase 23/9 (escaneo manuscrito), pág. 1 y 2 |
 | **Dos erratas de signo en el apunte de clase 23/9** | pág. 1, **confirmadas** ampliando el escaneo |
+| Ecuaciones de movimiento en polares con fuerza central | Beer ecs. 12.31 y 12.32, pág. 736 |
+| Cambio de variable $u = 1\/r$ y ecuación de Binet | Beer ecs. 12.35 a 12.37, pág. 736 |
+| $u'' + u = mu\/h^2$, y su solución cónica | Beer ecs. 12.38 y 12.39, pág. 737 |
+| Excentricidad y forma $r = p\/(1 + e cos nu)$ | Beer ecs. 12.40 y 12.39', pág. 737 |
+| Clasificación por $e$ (hipérbola, parábola, elipse) | Beer §12.12, pág. 738 |
+| $a = (r_p + r_a)\/2$, $b = sqrt(r_p r_a)$ | Beer ecs. 12.46 y 12.47, pág. 740 |
+| $1\/r_p + 1\/r_a = 2 mu\/h^2$ | Beer, problema 12.102, citada en pág. 744 |
+| Potencial eficaz, y su gráfico con los cuatro niveles | apunte de clase, `potencial eficaz.pdf` y `_2.pdf` |
+| **Errata de signo delante de $U(r)$** | pág. 3 del escaneo del 23/9, **confirmada** a 300 dpi |
+| **Errata $alpha = G M$ donde va $G M m$** | hoja `potencial eficaz.pdf`, **confirmada** |
 | Los 40 enunciados de la guía | transcriptos en `fuentes/GUIA-ENUNCIADOS.md` |
 
 ## Lo que NO está verificado todavía
 
-Nada de los módulos 1 a 8 quedó sin fuente. Para los módulos 9 a 15 el material
-está localizado —el potencial eficaz en la pág. 3 del mismo escaneo de clase,
-el Road Map en `Downloads`, y Beer cap. 12 y 18— pero **ninguna ecuación de
-esos módulos fue leída todavía en su libro**.
+Nada de los módulos 1 a 9 quedó sin fuente. Para los módulos 10 a 15 el
+material está localizado —el Road Map en `Downloads`, Beer §12.13 y cap. 18, y
+las figuras de la sección de cuerpo rígido de la guía— pero **ninguna ecuación
+de esos módulos fue leída todavía en su libro**, salvo las de Kepler y el
+período orbital, que quedaron mapeadas de paso al leer el Beer para el módulo 9
+(la tabla está en `HANDOFF.md`).
 
 ## Lo que sigue
 
-Módulo 9 — la ecuación de la órbita, las cónicas y el potencial eficaz. Es el
-módulo central de la fase y el más difícil: ver `HANDOFF.md`, que dice qué está
-medido y qué falta medir.
+**Módulo 10 — Kepler**: las tres leyes como consecuencia de la ecuación de la
+órbita, el período $tau = 2 pi a b \/ h$ (Beer ec. 12.45, pág. 739) y la tercera
+ley. Ejemplos: el *Problema 4* (S&Z 13.67, el mismo satélite del módulo 9, del
+que ya están calculados $a$, $b$, $e$ y $h$ — falta sólo el período y la parte
+(d), el escape desde perigeo contra apogeo) y los *Problemas 8 y 9*, el LEM del
+Apollo, que van juntos como en el módulo 7 fueron juntos los problemas 2 y 3.
+
+**Un cambio de plan de la fase, hecho a propósito y con motivo.** El plan de
+sesión asignaba al módulo 10 los problemas 4, 7, 8 y 9 de la sección de
+energía. El *Problema 7* (Júpiter) se movió al módulo 9: es el único de la guía
+que usa la clasificación por cónicas —el dato «trayectoria parabólica» no se
+puede usar sin $e = 1 <==> E = 0$—, mientras que su tema no tiene nada de
+Kepler. Al módulo 10 le quedan tres problemas para dos ejemplos, que es lo que
+corresponde.
