@@ -1,0 +1,7 @@
+# La galeria es una herramienta de trabajo, no un entregable: se regenera
+# con `compilar.bat galeria` en segundos.
+apunte/biblioteca/galeria.pdf
+
+# PNG de trabajo (renders para mirar el resultado). El PDF del apunte SI se
+# versiona: es el entregable.
+*.png
