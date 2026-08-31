@@ -359,9 +359,23 @@ capa de texto sección por sección, sin renderizar el capítulo.
 | caso θ = 90°: ΣM_O = I·φ̇·ψ̇·ĵ | ec. 18.45 | 1189 |
 | **cuerpo simétrico sin cuplas**: H_G constante define el eje de precesión | ecs. 18.46 a 18.48 | 1190 |
 | tan γ = (I/I′) tan θ | ec. 18.49 | 1190 |
-| **precesión directa** (I < I′, cuerpo alargado) y **retrógrada** (I > I′, achatado) | §18.11, figs. 18.23 y 18.24 | 1191 |
+| **precesión directa** (I' > I, achatado) y **retrógrada** (I' < I, alargado) | §18.11, figs. 18.23 y 18.24 | 1191 |
 | el método completo, paso a paso (ley de los senos para φ̇ y ψ̇) | resumen §18.9–18.11 | 1193–1194 |
 | problema resuelto 18.6 — el satélite golpeado por un meteorito | — | 1192 |
+
+**La fila de directa/retrógrada de arriba estuvo invertida hasta el módulo
+15.** La nota original de esta tabla decía «directa: I < I′, alargado;
+retrógrada: I > I′, achatado» — anotada de memoria al mapear el capítulo,
+sin haberla deducido todavía. Al escribir el módulo 15 se rededujo desde
+cero, dos veces, con la @m14-precesion-estable en $sum bold(M)_O = 0$:
+$dot(psi)\/dot(phi) = ((I'-I)\/I') cos theta$, así que el signo lo decide
+$I' - I$, no al revés. Se verificó además contra un caso conocido —la Tierra
+es achatada ($I'_"polar" > I_"ecuatorial"$) y su precesión libre (Chandler)
+es directa, dato astronómico independiente— y coincide con la fila
+corregida. *Regla: una nota de mapeo escrita antes de deducir la fórmula no
+es evidencia de la fórmula, es sólo un recordatorio de dónde está — y hay que
+volver a mirarla con sospecha cuando el módulo que la usa por fin se
+escribe.*
 
 **Lo que el Beer de la cátedra NO trae, y hay que suplir.** El temario manda
 «Beer vol. 1, secciones 9.16 y 9.17» para *ejes de inercia y elipsoide de

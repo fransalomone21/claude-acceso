@@ -99,7 +99,7 @@
 #include "modulos/m12-cinematica-cr.typ"
 #include "modulos/m13-inercia.typ"
 #include "modulos/m14-euler-giroscopo.typ"
-// #include "modulos/m15-peonza.typ"
+#include "modulos/m15-peonza.typ"
 
 // ---------------------------------------------------------------------
 // #include "modulos/anexos.typ"

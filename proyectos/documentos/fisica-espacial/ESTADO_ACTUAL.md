@@ -2,15 +2,15 @@
 
 **Fase 3 (Parte III: gravitación y órbitas) — CERRADA el 2026-08-31.**
 
-**Fase 4 (Parte IV: cuerpo rígido, M12–M15) — ABIERTA el 2026-08-31.** El
-mapeo de Beer (capítulos 15 y 18) contra páginas impresas está hecho y
-escrito en el `HANDOFF.md`, las cinco figuras en imagen de la guía están
-miradas, y los **módulos 12, 13 y 14 están escritos, compilados y verificados en
-el render**. Falta M15. El apunte va por **98 páginas**.
+**Fase 4 (Parte IV: cuerpo rígido, M12–M15) — CERRADA el 2026-08-31.** Los
+quince módulos del apunte están escritos, compilados y verificados en el
+render. El apunte va por **103 páginas**, cero huérfanos de caja. Falta
+decidir la fase 5 (anexos, o revisión de referencias cruzadas entre módulos
+— ver `HANDOFF.md`).
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **98 páginas**, compila sin errores, cero huérfanos de caja |
+| `apunte/apunte.pdf` | **103 páginas**, compila sin errores, cero huérfanos de caja |
 | Plantilla, carátula, índice, encabezados | listos, no se tocan |
 | Biblioteca de figuras (CeTZ) | **28 figuras**, todas miradas en la galería |
 | Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |
@@ -23,7 +23,7 @@ el render**. Falta M15. El apunte va por **98 páginas**.
 | **Módulo 12 — Cinemática del cuerpo rígido y sistemas rotantes** | **escrito y verificado en render** |
 | **Módulo 13 — Momento de inercia y ejes principales** | **escrito y verificado en render** |
 | **Módulo 14 — Ecuaciones de Euler y el giróscopo** | **escrito y verificado en render** |
-| Módulo 15 (Parte IV) | no empezado (el `include` sigue comentado en `apunte.typ`) |
+| **Módulo 15 — Peonza simétrica, precesión directa y retrógrada** | **escrito y verificado en render** |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -187,6 +187,24 @@ misma dirección que el $bold(alpha)$ del módulo 12) y el Problema 3 completo
 aceleración del gimbal, porque $500$ N·m se gastan en sostener la dirección
 de $bold(H)_O$). Sin figuras nuevas.
 
+**Módulo 15 — Peonza simétrica, precesión directa y retrógrada** (4 pág.),
+cierra la Parte IV. El caso sin cuplas: $sum bold(M)_G = 0 arrow.r
+bold(H)_G$ constante, de donde $dot(phi) = H\/I$ (la precesión no depende de
+$theta$); $tan gamma = (I\/I') tan theta$ (ec. 18.49, con la aclaración de
+que el $gamma,theta$ de esta fórmula puntual no son el $theta$ de nutación
+del módulo 14); y el criterio de signo $dot(psi)\/dot(phi) = ((I'-I)\/I')
+cos theta$ que separa precesión directa ($I' > I$, achatado) de retrógrada
+($I' < I$, alargado) —**corregido contra una nota de planificación previa
+que tenía el criterio invertido**; verificado con dos formas independientes
+(las ecuaciones de Euler sin cupla, y el ejemplo de la Tierra/bamboleo de
+Chandler, que es achatada y de precesión directa—dato astronómico conocido).
+Ejemplos: el Problema 4 (el satélite achatado, $I'\/I=16\/9$, período de
+precesión $1,832$ s) y el Problema 6 (el cilindro de paredes delgadas, umbral
+$ell\/r = sqrt(6)$ entre directa y retrógrada, con el caso límite isótropo
+que recuerda al cubo del módulo 13). Reusa `fig-conos` del módulo 12 con un
+nuevo epígrafe, apoyada en su tangencia externa para ilustrar el caso
+directo. Cierra con un párrafo de síntesis de toda la Parte IV.
+
 ## Lo verificado contra las fuentes en esta fase
 
 | Afirmación | Fuente, medida |
@@ -257,16 +275,12 @@ use, no antes:
 
 ## Lo que sigue
 
-**Fase 4, lo que queda: M15, el integrador de la parte.** Los módulos 12 a
-14 dejaron todo el aparato armado: la @m12-derivada, el tensor de inercia y
-sus ejes principales, y la ecuación de la cupla en precesión estable con su
-caso particular $theta=90degree$. El módulo 15 la usa con $sum bold(M)_O =
-0$ —el cuerpo simétrico libre de cuplas— y la notación $I$, $I'$ ya está
-fijada:
-
-| Módulo | Qué | Ejemplos de la guía |
-|---|---|---|
-| **15** — Peonza simétrica, precesión directa y retrógrada | cuerpo simétrico sin cuplas, $tan gamma = (I slash I') tan theta$, los dos conos | Problema 4 (el spacecraft que precesa) y Problema 6 (para qué $l slash r$ es directa) |
+**La Parte IV está cerrada.** Falta decidir la fase 5: revisar las
+referencias cruzadas de texto plano entre módulos (tabla en `HANDOFF.md`,
+ahora con los módulos 12–15 sumados a la lista de qué apunta a qué), y
+decidir si el apunte lleva anexos. Ninguna de las dos cosas es urgente —el
+`HANDOFF.md` ya explica por qué se dejaron para el final: la paginación
+todavía puede cambiar.
 
 Los Problemas 5, 7, 8 y 9 son variantes de los mismos mecanismos y entran
 como referencias cortas o como cierre del módulo 15, que es el integrador.
