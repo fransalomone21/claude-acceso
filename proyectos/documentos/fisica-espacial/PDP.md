@@ -127,7 +127,7 @@ Parte II  — Los teoremas de conservación
 Parte III — Gravitación y mecánica orbital
   M6  Gravitación de Newton, peso y energía potencial
   M7  Momento angular y fuerzas centrales
-  M8  El problema de dos cuerpos: masa reducida y mu
+  M8  El problema de dos cuerpos y la masa reducida
   M9  La ecuación de la órbita, las cónicas y el potencial eficaz
   M10 Leyes de Kepler y parámetros orbitales
   M11 Maniobras: Hohmann, phasing y rendez-vous

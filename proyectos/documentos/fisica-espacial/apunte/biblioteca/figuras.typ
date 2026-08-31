@@ -833,6 +833,66 @@
   marcar(-102.1, [6,817], 12.11, "west")
 })
 
+// --- El problema de dos cuerpos y su equivalente ------------------------
+// Izquierda: lo que pasa de verdad — los dos cuerpos recorren elipses
+// SEMEJANTES alrededor del centro de masa común, siempre en lados opuestos.
+// Derecha: el problema equivalente, un solo cuerpo de masa reducida a
+// distancia r de un centro fijo. Las dos figuras describen el mismo
+// movimiento; la de la derecha es la que se sabe resolver.
+#let fig-dos-cuerpos = paneles(
+  (
+    "lo que pasa de verdad",
+    esquema(escala: 1.0cm, {
+      let e = 0.42
+      let k = 3.0 // razón de masas m1/m2
+      let p = 2.2 // parámetro de la órbita RELATIVA
+      let p1 = p / (1 + k) // la del cuerpo pesado: más chica
+      let p2 = p * k / (1 + k) // la del liviano: k veces más grande
+      let CM = (0, 0)
+      let nu = 55 // el instante que se dibuja
+
+      let pos(pp, dir) = {
+        let r = pp / (1 + e * calc.cos(nu * 1deg))
+        ((r * calc.cos((nu + dir) * 1deg)), (r * calc.sin((nu + dir) * 1deg)))
+      }
+      let P1 = pos(p1, 180)
+      let P2 = pos(p2, 0)
+
+      arco-conica(CM, p1, e, desde: -180, hasta: 180, dir-perigeo: 180, color: c-dato, grosor: 0.7pt)
+      arco-conica(CM, p2, e, desde: -180, hasta: 180, dir-perigeo: 0, color: c-aux, grosor: 0.7pt)
+
+      cetz.draw.line(P1, P2, stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+      masa(P1, radio: 0.19, color: c-dato, etiqueta: $m_1$, hacia: "east")
+      masa(P2, radio: 0.11, color: c-aux, etiqueta: $m_2$, hacia: "west")
+
+      // El CM: no es ninguno de los dos cuerpos, y no se mueve.
+      cetz.draw.line((-0.16, 0), (0.16, 0), stroke: 0.8pt + c-verde)
+      cetz.draw.line((0, -0.16), (0, 0.16), stroke: 0.8pt + c-verde)
+      rotulo((0.1, -0.22), text(fill: c-verde)[CM], ancla: "north-west")
+
+    }),
+  ),
+  (
+    "el problema equivalente",
+    esquema(escala: 1.0cm, {
+      let e = 0.42
+      let p = 2.2
+      let nu = 55
+      let F = (0, 0)
+      let r = p / (1 + e * calc.cos(nu * 1deg))
+      let P = (r * calc.cos(nu * 1deg), r * calc.sin(nu * 1deg))
+
+      arco-conica(F, p, e, desde: -180, hasta: 180, color: c-trazo, grosor: trazo-curva2)
+      flecha(F, P, etiqueta: $bold(r)$, color: c-trazo, lado: "south-east", pos: 55%)
+      masa(P, radio: 0.13, color: c-viole, etiqueta: $m_r$, hacia: "west")
+
+      cetz.draw.circle(F, radius: 0.13, fill: c-verde, stroke: none)
+      rotulo((0.16, -0.1), text(fill: c-verde)[fijo], ancla: "west")
+
+    }),
+  ),
+)
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -853,4 +913,5 @@
   ("fig-momento-angular", fig-momento-angular),
   ("fig-velocidad-areolar", fig-velocidad-areolar),
   ("fig-satelite-guia", fig-satelite-guia),
+  ("fig-dos-cuerpos", fig-dos-cuerpos),
 )

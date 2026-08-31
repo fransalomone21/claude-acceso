@@ -77,6 +77,20 @@ automático en vez de sumarse: la caja quedó con el título encimado sobre la
 primera línea. Si el título va en su propio `block`, el espacio se pone con
 `below:` y se saca el `v()`.
 
+**8. `**negrita**` no existe en Typst: la negrita es `*así*`.** Con dos
+asteriscos el compilador avisa «no text within stars» —es sólo un *warning*, no
+un error— y el documento sale **sin la negrita**, que es peor que fallar. Y
+ojo con anidarlos: un `*énfasis*` adentro de otro `*énfasis*` corta el de
+afuera en el lugar equivocado.
+
+**9. El heredoc de Bash + una cadena de Python se comen el `\` final de línea.**
+Escribir figuras con `python - << 'EOF'` y un `u'''...'''` adentro hizo
+desaparecer los saltos de línea de Typst (el `\` al final de un renglón), y el
+rótulo salió como un párrafo de una sola línea que estiró el lienzo. *Los
+bloques de Typst con `\` se escriben con la herramienta de archivos, o a un
+archivo aparte que después se inserta leyéndolo* — nunca pegados dentro de un
+heredoc.
+
 ## Lo que se resolvió en la fase 2 y ya no está pendiente
 
 **El huérfano de caja, arreglado.** El título de un cuadro ya no puede quedar
@@ -104,8 +118,11 @@ cambia, el compilador **no avisa**. Se revisan en la fase 5, todas juntas:
 | 3 | módulos 4, 8, 13 |
 | 4 | módulos 11, 12; sección de cuerpo rígido de la guía |
 | 5 | módulos 6, 7, 9, 10 |
+| 6 | módulos 5, 8, 9, 10, 11 |
+| 7 | módulos 1, 2, 3, 5, 9, 10, 11, 14 |
+| 8 | módulos 3, 6, 7, 9, 10 |
 
-Los `<m1-*>`, `<m2-*>`, `<m3-*>`, `<m4-*>` y `<m5-*>` sí son etiquetas reales:
+Los `<m1-*>` a `<m8-*>` sí son etiquetas reales:
 esas las valida el compilador.
 
 **Un blanco grande al pie de la pág. 30**, porque la figura siguiente no
@@ -131,6 +148,33 @@ aplicar a los problemas de Beer.** Roederer supone la misma fracción de
 combustible sobre masa total en cada etapa, y un cohete con carga útil rompe
 esa hipótesis. En el ejemplo a fondo del módulo 4 la ganancia se calcula tramo
 por tramo, y da $1,31$ km/s donde la fórmula de Roederer diría $2,19$.
+
+**Dos erratas de signo en el apunte de clase de la cátedra (23/9), las dos
+en la página 1 y las dos invisibles si se copia sólo la fórmula recuadrada.**
+Confirmadas ampliando el escaneo a 300 dpi, no sospechadas:
+
+- La ecuación **recuadrada** dice $\ddot r = \mu r/r^3$, **sin el signo menos**.
+  El renglón inmediatamente anterior, en la misma hoja, dice
+  $\ddot r = -G(m_1+m_2)/r^2\,\hat u_r$ — o sea la misma ecuación, con su
+  menos. Sin el menos, la gravedad repele.
+- Las dos aceleraciones de partida, $\ddot R_1 = Gm_2 r/r^3$ y
+  $\ddot R_2 = Gm_1 r/r^3$, están escritas **con el mismo signo**. Restarlas
+  daría $G(m_2-m_1)r/r^3$ y los dos cuerpos se acelerarían para el mismo lado.
+  Es el desliz del que la errata del recuadro es consecuencia.
+
+La cátedra llega igual al resultado correcto; el problema es para quien copie
+el recuadro. Está documentado en un cuadro rojo del módulo 8.
+
+**Y una tercera, en la página 3 del mismo escaneo, que toca el módulo 9:**
+$E_"mec" = rac12 m\dot r^2 + L^2/(2mr^2) - U(r)$ lleva un **menos** delante
+de $U(r)$, y debe ser un más. La misma hoja define $U(r) = -Gm_1m_2/r$ (pág. 2)
+y la llave de abajo agrupa los dos últimos términos bajo el nombre «potencial
+eficaz», que es la **suma**. Confirmada ampliando a 300 dpi; hay que escribirla
+bien al redactar el módulo 9.
+
+**El offset de Beer: página impresa = página del PDF + 575.** Medido el
+2026-08-31. Es el tercer offset del proyecto, junto con S&Z vol. 1 (+28) y
+Roederer (0).
 
 **Curtis y Bate ya no están sólo en `Downloads`.** Los seis libros están ahora
 en `…\SistemasEspaciales\Libros de Fisica\`. `fuentes/RUTAS.md` quedó

@@ -81,6 +81,10 @@ explica la figura va en el **epígrafe**, no adentro.
 | `fig-diagrama-energia` | 5 | como se lee un diagrama de energia: E, K, retornos, equilibrios |
 | `fig-canon-newton` | 6 | el canon de Newton: la misma caida con distinta v horizontal |
 | `fig-pozo-gravitatorio` | 6 | U = -mu m / r con tres E: el signo de E decide si el cuerpo vuelve |
+| `fig-momento-angular` | 7 | el brazo de palanca: mismo v, dos origenes, dos L distintos |
+| `fig-velocidad-areolar` | 7 | la 2.a de Kepler: dos sectores de igual area, uno flaco y uno ancho |
+| `fig-satelite-guia` | 7 | el Ej. 4 de la guia: la orbita con A, P y las dos posiciones con gamma |
+| `fig-dos-cuerpos` | 8 | las dos elipses semejantes en torno al CM, y el problema equivalente |
 
 ## Lo que `estilo.typ` todavía no tiene
 

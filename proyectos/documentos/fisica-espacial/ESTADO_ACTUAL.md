@@ -1,77 +1,86 @@
 # Estado actual — Apunte de Física Espacial
 
-**Fase 2 (Parte II: los teoremas de conservación) — CERRADA el 2026-08-31.**
-Lo que la cerraba: los cuatro módulos escritos, con sus ocho ejemplos (uno
-simple y uno a fondo cada uno, calcados de la guía), y el PDF **mirado página
-por página**. Las tres cosas están.
+**Fase 3 (Parte III: gravitación y órbitas) — ABIERTA, tres de seis módulos
+escritos.** La cierran los seis módulos (M6 a M11) con sus doce ejemplos, el
+Road Map de Curtis (ap. B) redibujado en CeTZ, y el PDF mirado. Van M6, M7 y
+M8, los tres mirados página por página en el render.
+
+**Fase 2 — CERRADA el 2026-08-31.**
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **35 páginas**, compila sin errores |
-| Plantilla, carátula, índice, encabezados | listos |
-| Biblioteca de figuras (CeTZ) | **13 figuras**, todas miradas en la galería |
-| Módulo 1 — Vectores y cinemática en polares | escrito y verificado (fase 1) |
-| Módulo 2 — Cantidad de movimiento, impulso y choques | **escrito y verificado en render** |
-| Módulo 3 — Centro de masa y sistemas de partículas | **escrito y verificado en render** |
-| Módulo 4 — Propulsión: la ecuación del cohete | **escrito y verificado en render** |
-| Módulo 5 — Trabajo y energía | **escrito y verificado en render** |
-| Módulos 6 a 15 | no empezados (los `include` están comentados en `apunte.typ`) |
+| `apunte/apunte.pdf` | **58 páginas**, compila sin errores, cero huérfanos de caja |
+| Plantilla, carátula, índice, encabezados | listos, no se tocan |
+| Biblioteca de figuras (CeTZ) | **19 figuras**, todas miradas en la galería |
+| Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |
+| **Módulo 6 — Gravitación, peso y energía potencial** | **escrito y verificado en render** |
+| **Módulo 7 — Momento angular y fuerzas centrales** | **escrito y verificado en render** |
+| **Módulo 8 — Dos cuerpos y masa reducida** | **escrito y verificado en render** |
+| Módulos 9 a 15 | no empezados (los `include` están comentados en `apunte.typ`) |
 | Anexos | no empezados |
 
-## Lo que hay escrito en la Parte II
+## Lo que hay escrito en la Parte III
 
-**Módulo 2 — Cantidad de movimiento, impulso y choques** (5 pág.). De
-$bold(F)=m bold(a)$ a $d bold(p)\/d t$ y por qué la segunda es más general; el
-impulso como área bajo $F(t)$; la conservación de $bold(P)$ deducida de la
-tercera ley; choques y su clasificación, con la velocidad relativa del choque
-elástico. Ejemplos: la astronauta (Ej. 1 de la guía) y el **choque oblicuo de
-asteroides** (Ej. 2), resuelto entero incluida la fracción disipada, $19,6%$.
+**Módulo 6 — Gravitación de Newton, peso y energía potencial** (9 pág.). La ley
+de Newton con su signo y su versor; el teorema de la cáscara (citado, no
+deducido); $mu = G M$ y por qué tiene letra propia; peso y $g$, con la cuenta
+de Cavendish; **la deducción de $U = -mu m \/ r$ que el módulo 5 había dejado
+prometida**, con el cero en el infinito explicado como la elección que hace que
+el signo de $E$ signifique algo; el pozo de potencial y la tabla que clasifica
+la órbita por el signo de $E$; velocidad de escape; y la órbita circular con
+$v_"circ"$, $T$, $E = -mu m \/ 2r$ y $v_"esc" = sqrt(2) v_"circ"$. Ejemplos: el
+Problema 0 (estimar la masa del Sol, $1,99 times 10^30$ kg) y el Problema 6 de
+Beer (subir a la geosíncrona: $90,6$ y $208,3$ GJ), que adentro resuelve de
+paso el Problema 3.
 
-**Módulo 3 — Centro de masa** (5 pág.). Definición y por qué el CM cae sobre la
-recta que une los cuerpos con $d_1\/d_2 = m_2\/m_1$; $bold(P) = M bold(v)_"cm"$
-y $sum bold(F)_"ext" = M bold(a)_"cm"$; el sistema centro de masa y el teorema
-de König. Ejemplos: el Ej. 1 rehecho desde el CM, y el **Ej. 2 rehecho en el
-sistema CM**, con la comprobación de que los impulsos salen opuestos y de que
-lo disipado ($157m$) no depende del sistema de referencia.
+**Módulo 7 — Momento angular y fuerzas centrales** (7 pág.). $bold(L) = bold(r)
+times m bold(v)$ como brazo de palanca, con el cuadro de por qué hay que
+declarar siempre el punto; la tabla de traducción de notación Beer ↔ cátedra;
+$sum bold(tau) = d bold(L)\/d t$; fuerza central y sus dos consecuencias —el
+movimiento es plano y $r^2 dot(theta)$ es constante—; $h = r v cos gamma$ y por
+qué en los ábsides se reduce a $h = r v$; y la segunda ley de Kepler deducida
+de la conservación. Contesta la pregunta fina del Ej. 5 con la tabla de las
+tres condiciones. Ejemplos: los Problemas 2 y 3 (las dos demostraciones) y el
+Ejercicio 4 (el satélite de la figura).
 
-**Módulo 4 — Propulsión** (7 pág.). Por qué $bold(F)=m bold(a)$ no se aplica a
-masa variable, con la prueba de que el término $dot(m)bold(v)$ depende del
-observador; la deducción del empuje desde $bold(P)$ (Roederer 4.6); impulso
-específico; la condición de despegue; Tsiolkovsky; etapas. Ejemplos: Beer 14.94
-(aceleración al despegar y al apagarse: $31,9$ y $240$ m/s²) y **Beer 14.97 vs
-14.98** — una etapa contra dos con los mismos kilos: $7,93$ contra $9,24$ km/s.
+**Módulo 8 — El problema de dos cuerpos y la masa reducida** (6 pág.). Saca la
+suposición de que el cuerpo central está fijo; deduce
+$bold(accent(r, dot.double)) = -mu bold(r)\/r^3$ con $mu = G(m_1+m_2)$ —y con
+eso salva toda la Parte III sin rehacer nada—; las dos elipses semejantes
+alrededor del CM; la masa reducida y el problema equivalente; y la tabla de
+cuándo importa, con $q = m_2\/m_1$. Ejemplos: el Problema 0 rehecho (lo que se
+midió fue $M_"Sol" + M_T$) y el sistema Tierra–Luna construido sobre los datos
+del Problema 8 (CM a 4671 km, adentro de la Tierra; el mes da 27,28 días contra
+27,45 si se ignora la Luna).
 
-**Módulo 5 — Trabajo y energía** (6 pág.). Trabajo de una fuerza variable;
-teorema trabajo–energía; **la demostración de que toda fuerza central $F(r)$ es
-conservativa**, que se apoya en la descomposición polar del módulo 1; $F=-nabla U$
-y la lectura de diagramas de energía. Ejemplos: la energía del calamar (Ej. 3b) y
-**S&Z 7.76** — el diagrama de energía completo, las siete partes.
-
-## Lo verificado contra los libros en esta fase
+## Lo verificado contra las fuentes en esta fase
 
 | Afirmación | Fuente, medida |
 |---|---|
-| $sum bold(F) = d bold(p)\/d t$, impulso, conservación de $bold(P)$ | S&Z §8.1–8.2, ecs. 8.4 a 8.13, pág. 238–243 — leídas |
-| Choque elástico y velocidad relativa | S&Z §8.4, ecs. 8.24 a 8.26, pág. 252 |
-| Centro de masa y su teorema | S&Z §8.5, ecs. 8.28 a 8.36, pág. 254–258 |
-| $d_1\/d_2 = m_2\/m_1$, sistema CM inercial, $bold(P)^*=0$ | Roederer pág. 110–111, ecs. 4.3 a 4.5a — páginas renderizadas y leídas |
-| Deducción del empuje, $M bold(a) = -mu bold(v)_r$ | Roederer ec. 4.6, pág. 112 |
-| Ecuación de movimiento del cohete y condición de despegue | Roederer ec. 4.7, pág. 113–114 |
-| **Errata en Roederer ec. 4.8** — falta $abs(v_r)$ | pág. 114, **confirmada** contra la ecuación anterior de la misma página y contra toda la pág. 115 |
-| **Segundo desliz en Roederer pág. 115** — el paso intermedio de dos etapas suma dos veces $-g m\/mu$ | pág. 115, confirmado: el miembro derecho del mismo renglón lleva uno solo |
-| Propulsión de un cohete en S&Z | §8.6, ecs. 8.37 a 8.40, pág. 259–260 |
-| Trabajo, teorema trabajo–energía, conservativas, $F=-d U\/d x$, diagramas | S&Z §6.1–6.3 y §7.3–7.5, pág. 173, 177, 187, 217, 221, 223, 225 |
-| Enunciados de los ejercicios de la guía | renderizados con PyMuPDF: son imágenes, no texto |
-| Datos del gráfico de S&Z 7.76 | **medidos por píxeles**, calibrando con los ticks del propio dibujo |
+| Ley de Newton, $G$ | S&Z §13.1, ec. 13.1, pág. 399 |
+| Peso, $g = G m_T \/ R_T^2$, peso a altura $r$ | S&Z ecs. 13.3, 13.4 y 13.5, pág. 403 |
+| Teorema de la cáscara | S&Z §13.6, pág. 413–415 (citado) |
+| $W_"grav"$, $F_r$, $U = -G m_T m \/ r$ | S&Z ecs. 13.6 a 13.9, pág. 405 |
+| Velocidad de escape | S&Z ejemplo 13.5, pág. 406 |
+| $v_"circ"$, $T$, $E = -mu m \/ 2r$, $v_"esc" = sqrt(2) v_"circ"$ | S&Z ecs. 13.10 a 13.13, pág. 407–409 |
+| Velocidad areolar y 2.ª de Kepler | S&Z ecs. 13.14 a 13.16, pág. 410–411 |
+| $bold(H)_O = bold(r) times m bold(v)$, $H_O = r m v sin phi$ | Beer §12.7, ecs. 12.12 y 12.13, pág. 721–722 |
+| $H_O = m r^2 dot(theta)$, $sum bold(M)_O = dot(bold(H))_O$ | Beer ecs. 12.17 a 12.19, pág. 723 |
+| Fuerza central, $bold(H)_O$ constante, movimiento plano | Beer §12.9, ecs. 12.23 y 12.24, pág. 724 |
+| $r m v sin phi$ constante, $r^2 dot(theta) = h$, velocidad areolar | Beer ecs. 12.25 a 12.27, pág. 725 |
+| Movimiento relativo, masa reducida, problema equivalente | apunte de clase 23/9 (escaneo manuscrito), pág. 1 y 2 |
+| **Dos erratas de signo en el apunte de clase 23/9** | pág. 1, **confirmadas** ampliando el escaneo |
+| Los 40 enunciados de la guía | transcriptos en `fuentes/GUIA-ENUNCIADOS.md` |
 
 ## Lo que NO está verificado todavía
 
-Nada de los módulos 1 a 5 quedó sin fuente. Para los módulos 6 a 15, el
-material de la cátedra está en `fuentes/TEMARIO.md` y los libros en
-`fuentes/RUTAS.md`, pero **ninguna ecuación de esos módulos fue leída todavía
-en su libro**.
+Nada de los módulos 1 a 8 quedó sin fuente. Para los módulos 9 a 15 el material
+está localizado —el potencial eficaz en la pág. 3 del mismo escaneo de clase,
+el Road Map en `Downloads`, y Beer cap. 12 y 18— pero **ninguna ecuación de
+esos módulos fue leída todavía en su libro**.
 
 ## Lo que sigue
 
-Fase 3 — Parte III: gravitación y mecánica orbital (módulos 6 a 11). Ver
-`PDP.md` §4 para el criterio de salida.
+Módulo 9 — la ecuación de la órbita, las cónicas y el potencial eficaz. Es el
+módulo central de la fase y el más difícil: ver `HANDOFF.md`, que dice qué está
+medido y qué falta medir.
