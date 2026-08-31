@@ -681,6 +681,158 @@
   rotulo((rm + 0.08, (U(rm) + E1) / 2), text(fill: c-viole)[$K$], ancla: "west")
 })
 
+// =====================================================================
+//  Módulo 7 — Momento angular y fuerzas centrales
+// =====================================================================
+
+// --- Qué es L, y respecto de qué punto ----------------------------------
+// Dos paneles con la MISMA partícula, la MISMA velocidad y dos orígenes.
+// El brazo de palanca cambia, y con él L: por eso «el momento angular», sin
+// decir respecto de qué punto, no quiere decir nada.
+//
+// La geometría está elegida para que el brazo se VEA: si el origen queda
+// casi sobre la recta de mv, la perpendicular mide dos milímetros y el
+// dibujo no muestra lo único que tiene que mostrar.
+#let _panel-L(O, marca-O, col, nota, phi: none) = esquema(escala: 1.05cm, {
+  let P = (2.4, 1.2)
+  let ang = 100 // dirección de mv, en grados
+  let u = (calc.cos(ang * 1deg), calc.sin(ang * 1deg))
+  let V = (P.at(0) + 1.75 * u.at(0), P.at(1) + 1.75 * u.at(1))
+  // Pie de la perpendicular desde O a la recta de mv.
+  let s = (O.at(0) - P.at(0)) * u.at(0) + (O.at(1) - P.at(1)) * u.at(1)
+  let Q = (P.at(0) + s * u.at(0), P.at(1) + s * u.at(1))
+
+  // La recta de acción de mv, prolongada para los dos lados.
+  cetz.draw.line(
+    (P.at(0) - 1.5 * u.at(0), P.at(1) - 1.5 * u.at(1)),
+    (P.at(0) + 2.2 * u.at(0), P.at(1) + 2.2 * u.at(1)),
+    stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"),
+  )
+
+  flecha(O, P, etiqueta: marca-O.at(1), color: c-trazo, lado: "south-east", pos: 55%)
+  flecha(P, V, etiqueta: $m bold(v)$, color: c-dato, lado: "west", pos: 75%)
+
+  cetz.draw.line(O, Q, stroke: (paint: col, thickness: 0.7pt, dash: "dashed"))
+  rotulo(((O.at(0) + Q.at(0)) / 2, (O.at(1) + Q.at(1)) / 2 - 0.08), text(fill: col, marca-O.at(2)), ancla: "north")
+  recto(Q, ang, calc.atan2(O.at(0) - Q.at(0), O.at(1) - Q.at(1)) / 1deg, lado: 0.22)
+
+  if phi != none {
+    // phi se mide desde la PROLONGACIÓN de r, no desde la dirección hacia O:
+    // es el ángulo entre los vectores r y mv puestos con el mismo origen.
+    let dir-r = calc.atan2(P.at(0) - O.at(0), P.at(1) - O.at(1)) / 1deg
+    cetz.draw.line(
+      P,
+      (P.at(0) + 0.9 * calc.cos(dir-r * 1deg), P.at(1) + 0.9 * calc.sin(dir-r * 1deg)),
+      stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"),
+    )
+    angulo(P, dir-r, ang, etiqueta: phi, radio: 0.5)
+  }
+
+  masa(P, radio: 0.085, color: c-trazo)
+  masa(O, radio: 0.07, color: c-trazo, etiqueta: marca-O.at(0), hacia: "south-east")
+
+  rotulo((-0.35, 3.3), text(fill: col, nota), ancla: "west")
+})
+
+#let fig-momento-angular = paneles(
+  (
+    "respecto de O",
+    _panel-L((0, 0), ($O$, $bold(r)$, $d = r sin phi$), c-verde, [$L = m v d$ — brazo largo], phi: $phi$),
+  ),
+  (
+    "respecto de O prima",
+    _panel-L((1.2, 2.5), ($O'$, $bold(r)'$, $d'$), c-rojo, [$L' = m v d' eq.not L$]),
+  ),
+)
+
+// --- La segunda ley de Kepler: áreas iguales en tiempos iguales ----------
+// Los dos sectores tienen la misma área. Cerca del foco el radio es corto y
+// el ángulo barrido grande; lejos, al revés. Eso ES r^2 theta-punto = cte.
+#let fig-velocidad-areolar = esquema(escala: 1.15cm, {
+  let a = 2.6
+  let e = 0.4
+  let p = a * (1 - e * e)
+  let F = (0, 0)
+  let radio(nu) = p / (1 + e * calc.cos(nu * 1deg))
+  let punto(nu) = (radio(nu) * calc.cos(nu * 1deg), radio(nu) * calc.sin(nu * 1deg))
+
+  // Un sector: el triángulo curvo entre dos anomalías.
+  let sector(n1, n2, col) = {
+    let pts = range(0, 25).map(i => punto(n1 + (n2 - n1) * i / 24))
+    cetz.draw.line(F, ..pts, stroke: none, fill: col, close: true)
+  }
+
+  // Perigeo (derecha): mucho ángulo, poco radio.
+  sector(-30, 30, c-dato.lighten(72%))
+  // Apogeo (izquierda): poco ángulo, mucho radio. El 5,8 NO se eligió a ojo:
+  // sale de igualar las dos áreas, integral 1/2 r^2 dnu mediante. Ésa es la
+  // desproporción que la figura tiene que mostrar, y si el número está mal
+  // la figura miente justo en lo que quiere enseñar.
+  sector(180 - 5.8, 180 + 5.8, c-aux.lighten(72%))
+
+  arco-conica(F, p, e, desde: -180, hasta: 180, color: c-trazo, grosor: trazo-curva2)
+  cuerpo-central(F, radio: 0.28, etiqueta: none)
+
+  for nu in (-30, 30, 180 - 5.8, 180 + 5.8) {
+    cetz.draw.line(F, punto(nu), stroke: 0.5pt + c-guia)
+  }
+
+  rotulo((radio(0) * 0.55, 0), text(fill: c-dato)[$d A$], ancla: "center")
+  rotulo((-radio(180) * 0.55, 0), text(fill: c-aux)[$d A$], ancla: "center")
+  flecha(punto(30), (punto(30).at(0) + 0.1, punto(30).at(1) + 1.05), etiqueta: $bold(v)$, color: c-dato, pos: 100%, lado: "west")
+  flecha(punto(180 + 5.8), (punto(180 + 5.8).at(0) - 0.04, punto(180 + 5.8).at(1) - 0.5), etiqueta: $bold(v)$, color: c-aux, pos: 100%, lado: "east")
+})
+
+// --- El satélite del Ejercicio 4 de la guía -----------------------------
+// Escala: el radio terrestre vale 1, o sea todo dividido por 6378 km.
+// Las dos posiciones intermedias están en las anomalías que salen de la
+// figura de la cátedra (96,09 grados y -102,1 grados), y el apunte
+// comprueba que ésas son justamente las que reproducen sus velocidades.
+#let fig-satelite-guia = esquema(escala: 2.15cm, {
+  let R = 1.0
+  let e = 0.2098
+  let p = 1.2858
+  let F = (0, 0)
+  let radio(nu) = p / (1 + e * calc.cos(nu * 1deg))
+  let punto(nu) = (radio(nu) * calc.cos(nu * 1deg), radio(nu) * calc.sin(nu * 1deg))
+
+  arco-conica(F, p, e, desde: -180, hasta: 180, color: c-aux, grosor: trazo-curva2)
+  cuerpo-central(F, radio: R, etiqueta: none)
+
+  // Los ábsides, sobre el eje horizontal. Perigeo a la derecha.
+  let P = punto(0)
+  let A = punto(180)
+  cetz.draw.line(A, P, stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  masa(P, radio: 0.07, color: c-trazo)
+  masa(A, radio: 0.07, color: c-trazo)
+  rotulo((P.at(0) + 0.12, -0.16), text(fill: c-trazo)[$P$], ancla: "west")
+  rotulo((A.at(0) - 0.12, -0.16), text(fill: c-trazo)[$A$], ancla: "east")
+
+  // En los ábsides la velocidad es PERPENDICULAR al radio: ése es el dato
+  // que hace que ahí h = r v sin más.
+  flecha(P, (P.at(0), 0.85), etiqueta: [8,435], color: c-dato, pos: 100%, lado: "west")
+  flecha(A, (A.at(0), -0.75), etiqueta: [5,509], color: c-dato, pos: 100%, lado: "east")
+  recto(P, 90, 180, lado: 0.16)
+  recto(A, 270, 0, lado: 0.16)
+
+  // Las dos posiciones intermedias, con su ángulo de trayectoria.
+  let marcar(nu, vel, gam, lado) = {
+    let Q = punto(nu)
+    // La velocidad forma el ángulo gam con la perpendicular al radio.
+    let perp = nu + 90
+    let dir = perp - gam
+    let pt = (Q.at(0) + 0.8 * calc.cos(dir * 1deg), Q.at(1) + 0.8 * calc.sin(dir * 1deg))
+    let pp = (Q.at(0) + 0.62 * calc.cos(perp * 1deg), Q.at(1) + 0.62 * calc.sin(perp * 1deg))
+    cetz.draw.line(Q, pp, stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+    cetz.draw.line(F, Q, stroke: 0.5pt + c-guia)
+    flecha(Q, pt, etiqueta: vel, color: c-verde, pos: 100%, lado: lado)
+    angulo(Q, dir, perp, etiqueta: $gamma$, radio: 0.5, color: c-verde)
+    masa(Q, radio: 0.06, color: c-trazo)
+  }
+  marcar(96.09, [6,970], 12.05, "east")
+  marcar(-102.1, [6,817], 12.11, "west")
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -698,4 +850,7 @@
   ("fig-diagrama-energia", fig-diagrama-energia),
   ("fig-canon-newton", fig-canon-newton),
   ("fig-pozo-gravitatorio", fig-pozo-gravitatorio),
+  ("fig-momento-angular", fig-momento-angular),
+  ("fig-velocidad-areolar", fig-velocidad-areolar),
+  ("fig-satelite-guia", fig-satelite-guia),
 )

@@ -50,6 +50,18 @@ secundario, `c-trazo` para la construcción principal, `c-guia` para las líneas
 auxiliares punteadas, `c-orbe` para el cuerpo central. Una figura que inventa un
 color rompe la lectura de las otras.
 
+**5. El lienzo se escala, el texto no.** `esquema` toma `escala:` (por defecto `1cm` por unidad). Una figura pensada en
+un rango chico de coordenadas sale **diminuta** en la página aunque sus
+proporciones sean correctas, porque el texto de los rótulos no se achica con
+ella: queda un dibujo de 5 cm con letras de 8,5 pt encima. Se corrige subiendo
+`escala` (el pozo gravitatorio va en `1,45cm` y el cañón en `1,35cm`), no
+agrandando las coordenadas — que obligaría a recalcular todos los rótulos.
+
+Y el corolario que se pagó en la misma galería: **un rótulo largo dentro del
+lienzo estira el lienzo**, y como el lienzo se escala para entrar en el ancho
+de la página, un párrafo al costado achica el dibujo entero. El texto que
+explica la figura va en el **epígrafe**, no adentro.
+
 ## Catálogo
 
 | Figura | Módulo | Qué muestra |
@@ -85,17 +97,3 @@ Se agrega cuando el módulo que lo necesite lo pida, no antes:
   contra la superficie del cuerpo central, con `r-min`.
 ~~- **choque en el sistema centro de masa** (módulo 3)~~ — hecho en la fase 2
   (`fig-choque-cm`), sin helper nuevo: alcanzó con `flecha` y `paneles`.
-
-## Regla 5 — el lienzo se escala, el texto no
-
-`esquema` toma `escala:` (por defecto `1cm` por unidad). Una figura pensada en
-un rango chico de coordenadas sale **diminuta** en la página aunque sus
-proporciones sean correctas, porque el texto de los rótulos no se achica con
-ella: queda un dibujo de 5 cm con letras de 8,5 pt encima. Se corrige subiendo
-`escala` (el pozo gravitatorio va en `1,45cm` y el cañón en `1,35cm`), no
-agrandando las coordenadas — que obligaría a recalcular todos los rótulos.
-
-Y el corolario que se pagó en la misma galería: **un rótulo largo dentro del
-lienzo estira el lienzo**, y como el lienzo se escala para entrar en el ancho
-de la página, un párrafo al costado achica el dibujo entero. El texto que
-explica la figura va en el **epígrafe**, no adentro.
