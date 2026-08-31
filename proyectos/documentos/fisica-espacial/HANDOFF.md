@@ -50,6 +50,12 @@ $\theta$. Las dos compilan perfecto y salen mal impresas.
 
 **2. El título de una caja pasa por `upper()`.** Un título escrito como fórmula
 sale «D R̂ / DT» y no se lee. *Los títulos de las cajas van en palabras.*
+**Vale para las seis cajas, no sólo para `#definicion`:** en el módulo 13
+la trampa volvió a pagarse en un título de `#deduccion` (`"por qué la
+energía cinética de rotación es $1/2 bold(omega) dot bold(H)_G$"`) y uno de
+`#ejemplo`, los dos con una fórmula metida en el string que después pasa
+entero por `upper()` y sale como código fuente en mayúsculas. El chequeo es
+mirar el render de cada caja nueva, no sólo las `#definicion`.
 
 **3. CeTZ quiere `angle` en `arc`, y el resto de la figura quiere números.**
 Resuelto dentro del helper `angulo`. Si aparece `cannot compare angle and

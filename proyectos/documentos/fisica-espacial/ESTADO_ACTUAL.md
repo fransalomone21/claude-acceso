@@ -5,12 +5,12 @@
 **Fase 4 (Parte IV: cuerpo rígido, M12–M15) — ABIERTA el 2026-08-31.** El
 mapeo de Beer (capítulos 15 y 18) contra páginas impresas está hecho y
 escrito en el `HANDOFF.md`, las cinco figuras en imagen de la guía están
-miradas, y el **módulo 12 está escrito, compilado y verificado en el render**.
-Faltan M13, M14 y M15. El apunte va por **89 páginas**.
+miradas, y los **módulos 12 y 13 están escritos, compilados y verificados en
+el render**. Faltan M14 y M15. El apunte va por **94 páginas**.
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **89 páginas**, compila sin errores, cero huérfanos de caja |
+| `apunte/apunte.pdf` | **94 páginas**, compila sin errores, cero huérfanos de caja |
 | Plantilla, carátula, índice, encabezados | listos, no se tocan |
 | Biblioteca de figuras (CeTZ) | **28 figuras**, todas miradas en la galería |
 | Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |
@@ -21,7 +21,8 @@ Faltan M13, M14 y M15. El apunte va por **89 páginas**.
 | **Módulo 10 — Las leyes de Kepler** | **escrito y verificado en render** |
 | **Módulo 11 — Maniobras: Hohmann y rendez-vous** | **escrito y verificado en render** |
 | **Módulo 12 — Cinemática del cuerpo rígido y sistemas rotantes** | **escrito y verificado en render** |
-| Módulos 13 a 15 (Parte IV) | no empezados (los `include` siguen comentados en `apunte.typ`) |
+| **Módulo 13 — Momento de inercia y ejes principales** | **escrito y verificado en render** |
+| Módulos 14 y 15 (Parte IV) | no empezados (los `include` siguen comentados en `apunte.typ`) |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -147,6 +148,27 @@ de `estilo.typ`, `circulo-escorzo`, que proyecta un círculo del espacio como
 la elipse que se ve de costado. Los módulos 14 y 15 la reusan cambiándole los
 dos semiángulos.
 
+**Módulo 13 — Momento de inercia y ejes principales** (5 pág.). Extiende
+$H_G = I omega$ del plano al espacio: la deducción por integrales de
+$bold(H)_G = integral bold(r) times (bold(omega) times bold(r)) dm$, con la
+identidad BAC-CAB, hasta llegar a los momentos y productos de inercia (ecs.
+18.4 a 18.7); el tensor de inercia como matriz simétrica de $3 times 3$ (ec.
+18.8) y la existencia de ejes principales donde diagonaliza (ec. 18.9,
+citada del Beer, no deducida —la demostración vive en el volumen de Estática
+que no está disponible); el cuadro central de por qué $bold(H)_G$ y
+$bold(omega)$ no son paralelos salvo sobre un eje principal (ec. 18.10);
+$bold(H)_O = bold(macron(r)) times m bold(macron(v)) + bold(H)_G$ (ec.
+18.11); y la energía cinética deducida por triple producto escalar hasta
+$T = 1/2 bold(omega) dot bold(H)_G$ (ecs. 18.16, 18.17, 18.20). Ejemplos: el
+Problema 1 (el satélite cúbico: tensor isótropo, $bold(omega) = 0,2 hat(j) -
+0,2 hat(k)$ rad/s tras el encendido, y por qué sigue girando para siempre) y
+el Problema 2 punto 1 (el disco de la horquilla: $bold(H)_G$ no paralelo a
+$bold(omega)$, demostrado en números con $I_z = 2 I_x$).
+
+**Sin figuras nuevas.** Reusa `fig-suma-omegas` del módulo 12 —los mismos
+ejes de la horquilla sirven para calcular $bold(H)_G$ que para calcular
+$bold(omega)$—, con un nuevo epígrafe.
+
 ## Lo verificado contra las fuentes en esta fase
 
 | Afirmación | Fuente, medida |
@@ -217,15 +239,14 @@ use, no antes:
 
 ## Lo que sigue
 
-**Fase 4, lo que queda: M13, M14 y M15.** El tramo caro —leer las fuentes
-nuevas y mapearlas— ya está hecho, y el módulo 12 fijó el molde. Lo que sigue
-es ejecutar tres módulos con el mapa del `HANDOFF.md` en la mano, y el reparto
-de los nueve problemas de la guía ya está decidido:
+**Fase 4, lo que queda: M14 y M15.** El tramo caro —leer las fuentes nuevas
+y mapearlas— ya está hecho, el módulo 12 fijó el molde y el módulo 13 dejó
+armado el tensor de inercia y la @m13-diagonal que el módulo 14 deriva. El
+reparto de los problemas de la guía que faltan ya está decidido:
 
 | Módulo | Qué | Ejemplos de la guía |
 |---|---|---|
-| **13** — Momento de inercia y ejes principales | el tensor de inercia, por qué $bold(L)$ y $bold(omega)$ no son paralelos, energía cinética | Problema 1 (el satélite cúbico) y Problema 2 punto 1 (el impulso angular del disco) |
-| **14** — Ecuaciones de Euler y el giróscopo | derivar $bold(L)$ en ejes del cuerpo, Euler, ángulos de Euler, precesión estable | Problema 2 punto 2 (la cupla giroscópica) y Problema 3 (el volante en el gimbal, que da 20 rad/s²) |
+| **14** — Ecuaciones de Euler y el giróscopo | derivar $bold(H)_G$ en ejes del cuerpo con la ec. de derivada del módulo 12, Euler, ángulos de Euler, precesión estable | Problema 2 punto 2 (la cupla giroscópica, $d bold(H)_G\/d t$ del módulo 13) y Problema 3 (el volante en el gimbal, que da 20 rad/s²) |
 | **15** — Peonza simétrica, precesión directa y retrógrada | cuerpo simétrico sin cuplas, $tan gamma = (I slash I') tan theta$, los dos conos | Problema 4 (el spacecraft que precesa) y Problema 6 (para qué $l slash r$ es directa) |
 
 Los Problemas 5, 7, 8 y 9 son variantes de los mismos mecanismos y entran
