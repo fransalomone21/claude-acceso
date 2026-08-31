@@ -78,8 +78,25 @@
 #include "modulos/m11-maniobras.typ"
 
 // ---------------------------------------------------------------------
-// #parte(4, "Cuerpo rígido", [...])
-// #include "modulos/m12-cinematica-cr.typ"
+#parte(4, "Cuerpo rígido", [
+  Hasta acá todo cuerpo fue un punto. Alcanzó para una órbita entera, y deja
+  de alcanzar apenas la pregunta cambia de *dónde está* un satélite a *hacia
+  dónde apunta*: una antena, una cámara, un panel solar y un motor apuntan a
+  algún lado, y ese lado hay que controlarlo.
+
+  Los cuatro módulos van en el orden en que se necesitan las piezas. Primero
+  la cinemática —cómo se describe la rotación, y sobre todo cómo se deriva un
+  vector cuando el sistema desde el que se mira está girando—, que es la
+  herramienta de la que dependen los otros tres. Después el momento de
+  inercia, que en tres dimensiones deja de ser un número y pasa a ser un
+  tensor, con la consecuencia que ordena toda la parte: el momento angular y
+  la velocidad angular *no son paralelos*. Con esas dos cosas salen las
+  ecuaciones de Euler y el giróscopo, y al final el movimiento libre de un
+  cuerpo simétrico —la peonza—, que es el de cualquier satélite estabilizado
+  por rotación al que se le apagó el último motor.
+])
+
+#include "modulos/m12-cinematica-cr.typ"
 // #include "modulos/m13-inercia.typ"
 // #include "modulos/m14-euler-giroscopo.typ"
 // #include "modulos/m15-peonza.typ"

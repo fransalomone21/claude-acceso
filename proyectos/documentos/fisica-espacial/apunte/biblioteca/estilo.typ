@@ -341,3 +341,36 @@
   if actual.len() > 1 { tramos.push(actual) }
   for t in tramos { cetz.draw.line(..t, stroke: st) }
 }
+
+// ---------- Círculo visto en escorzo ----------
+//
+// Un círculo en el espacio, mirado de costado, se proyecta como una elipse:
+// el diámetro que queda paralelo a la hoja se ve entero y el perpendicular
+// se aplasta. Hace falta desde el módulo 12 —la punta de un vector que gira
+// recorre un círculo, y la base de un cono es un círculo— y no se puede
+// hacer con `cetz.draw.circle`, que sólo dibuja círculos de frente.
+//
+// `dir` es la dirección, en grados, del diámetro que se ve entero (el eje
+// mayor de la elipse); `achatado` es cuánto queda del perpendicular: 1 es un
+// círculo visto de frente y 0 es uno visto exactamente de canto.
+#let circulo-escorzo(
+  centro,
+  radio,
+  dir: 0,
+  achatado: 0.3,
+  color: c-guia,
+  grosor: 0.5pt,
+  punteada: true,
+  n: 120,
+) = {
+  let cd = calc.cos(dir * 1deg)
+  let sd = calc.sin(dir * 1deg)
+  let pts = range(0, n + 1).map(i => {
+    let t = i / n * 360deg
+    let a = radio * calc.cos(t)
+    let b = radio * achatado * calc.sin(t)
+    (centro.at(0) + a * cd - b * sd, centro.at(1) + a * sd + b * cd)
+  })
+  let st = if punteada { (paint: color, thickness: grosor, dash: "dashed") } else { grosor + color }
+  cetz.draw.line(..pts, stroke: st, closed: true)
+}

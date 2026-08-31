@@ -1278,6 +1278,179 @@
   )
 })
 
+// =====================================================================
+//  Módulo 12 — Cinemática del cuerpo rígido y sistemas rotantes
+// =====================================================================
+
+// --- La derivada de un vector en un sistema que rota --------------------
+// Los dos paneles de la relación fundamental: si el vector está clavado al
+// sistema que rota, su punta recorre un círculo y su derivada es Omega x Q
+// (panel a); si además cambia dentro del sistema, las dos contribuciones se
+// suman como vectores (panel b).
+#let _rotante(con-propia) = esquema(
+  {
+    let O = (0, 0)
+    let P = (1.72, 2.11)
+    let C = (0, 2.30)
+
+    // el eje de rotación del sistema
+    flecha(O, (0, 3.25), etiqueta: $bold(Omega)$, color: c-aux, lado: "west", pos: 95%)
+
+    // el círculo que recorre la punta de Q
+    circulo-escorzo(C, 1.72, achatado: 0.26)
+    auxiliar(C, P)
+
+    flecha(O, P, etiqueta: $bold(Q)$, color: c-dato, lado: "north-west", pos: 58%)
+
+    // Omega x Q: tangente al círculo en la punta
+    let B = (P.at(0) + 0.80, P.at(1) + 0.41)
+
+    if con-propia {
+      let A = (P.at(0) - 0.45, P.at(1) + 0.85)
+      let R = (P.at(0) + 0.35, P.at(1) + 1.26)
+      cetz.draw.line(A, R, stroke: (paint: c-guia, thickness: 0.45pt, dash: "dashed"))
+      cetz.draw.line(B, R, stroke: (paint: c-guia, thickness: 0.45pt, dash: "dashed"))
+      flecha(P, A, color: c-aux, etiqueta: none)
+      rotulo((A.at(0), A.at(1) + 0.10), text(fill: c-aux)[$(dot(bold(Q)))_(O x y z)$], ancla: "south")
+      flecha(P, B, color: c-trazo, etiqueta: none)
+      rotulo((B.at(0) + 0.06, B.at(1) - 0.06), $bold(Omega) times bold(Q)$, ancla: "north-west")
+      flecha(P, R, color: c-dato, etiqueta: none, grosor: 1.15pt)
+      rotulo((R.at(0) + 0.10, R.at(1) + 0.04), text(fill: c-dato)[$(dot(bold(Q)))_(O X Y Z)$], ancla: "west")
+    } else {
+      angulo(O, 50.8, 90, etiqueta: $theta$, radio: 1.0)
+      flecha(P, B, color: c-trazo, etiqueta: none)
+      rotulo((B.at(0) + 0.06, B.at(1)), $bold(Omega) times bold(Q)$, ancla: "west")
+      rotulo((0.95, 2.14), text(fill: luma(90))[$Q sin theta$], ancla: "north")
+    }
+  },
+  escala: 1.05cm,
+)
+
+#let fig-vector-rotante = paneles(
+  ([Q clavado al sistema que rota], _rotante(false)),
+  ([Q además cambia dentro del sistema], _rotante(true)),
+)
+
+// --- La suma de velocidades angulares: el disco en la horquilla ---------
+// El Problema 2 de la guía, en su mitad cinemática. La horquilla gira con
+// omega-2 alrededor de la vertical y el disco gira con omega-1 alrededor de
+// su propio eje: la velocidad angular del disco es la SUMA de las dos, y su
+// dirección es el eje instantáneo de rotación.
+#let fig-suma-omegas = esquema(
+  {
+    let G = (0, 0)
+    // versores de la figura, en proyección
+    let ejei = (-0.85, -0.42) // eje x: hacia el lector, abajo-izquierda
+    let ejek = (0.95, -0.30) // eje z: eje de simetría del disco
+    let radio = 0.82
+
+    // el disco: círculo en el plano i-j, visto en escorzo
+    let pts = range(0, 121).map(n => {
+      let t = n / 120 * 360deg
+      let cc = radio * calc.cos(t)
+      let ss = radio * calc.sin(t)
+      (cc * ejei.at(0), cc * ejei.at(1) + ss)
+    })
+    cetz.draw.line(..pts, stroke: 0.7pt + c-trazo, closed: true, fill: luma(245))
+
+    // el vástago de la horquilla
+    cetz.draw.line((0, -0.85), (0, -1.75), stroke: 0.7pt + luma(120))
+
+    let A = (0, 1.95) // omega-2, vertical
+    let B = (1.7 * ejek.at(0), 1.7 * ejek.at(1)) // omega-1, eje del disco
+    let R = (A.at(0) + B.at(0), A.at(1) + B.at(1))
+
+    // el eje instantáneo, prolongado a los dos lados
+    cetz.draw.line(
+      (-0.62 * R.at(0), -0.62 * R.at(1)),
+      (1.42 * R.at(0), 1.42 * R.at(1)),
+      stroke: (paint: c-dato, thickness: 0.5pt, dash: "dashed"),
+    )
+
+    cetz.draw.line(A, R, stroke: (paint: c-guia, thickness: 0.45pt, dash: "dashed"))
+    cetz.draw.line(B, R, stroke: (paint: c-guia, thickness: 0.45pt, dash: "dashed"))
+
+    flecha(G, A, color: c-aux, etiqueta: none)
+    rotulo((A.at(0) - 0.06, A.at(1)), text(fill: c-aux)[$bold(omega)_2$], ancla: "east")
+    flecha(G, B, color: c-aux, etiqueta: none)
+    rotulo((B.at(0) + 0.06, B.at(1) - 0.04), text(fill: c-aux)[$bold(omega)_1$], ancla: "north-west")
+    flecha(G, R, color: c-dato, etiqueta: none, grosor: 1.15pt)
+    rotulo((R.at(0) + 0.10, R.at(1)), text(fill: c-dato)[$bold(omega) = bold(omega)_1 + bold(omega)_2$], ancla: "west")
+
+    masa(G, etiqueta: [$G$], radio: 0.055, hacia: "north-east")
+    rotulo(
+      (1.44 * R.at(0), 1.44 * R.at(1)),
+      text(fill: c-dato, size: 8pt)[eje instantáneo],
+      ancla: "south-west",
+    )
+  },
+  escala: 1.15cm,
+)
+
+// --- Cono espacial y cono corporal --------------------------------------
+// Los dos conos de Beer §15.12: el eje instantáneo barre uno en el espacio
+// y otro dentro del cuerpo, y son tangentes a lo largo de él. Dibujados por
+// su sección axial más la base en escorzo, que es como se leen.
+#let fig-conos = esquema(
+  {
+    let O = (0, 0)
+    let largo = 3.15
+    let dir-Z = 90 // eje de precesión, fijo en el espacio
+    let dir-w = 68 // eje instantáneo de rotación
+    let dir-z = 54 // eje de simetría del cuerpo
+    let semi-esp = 22 // semiángulo del cono espacial
+    let semi-cor = 14 // semiángulo del cono corporal
+
+    let punto = (ang, r) => (r * calc.cos(ang * 1deg), r * calc.sin(ang * 1deg))
+
+    // --- cono espacial: eje Z
+    cetz.draw.line(O, punto(dir-Z - semi-esp, largo), stroke: 0.7pt + c-aux)
+    cetz.draw.line(O, punto(dir-Z + semi-esp, largo), stroke: 0.7pt + c-aux)
+    circulo-escorzo(
+      punto(dir-Z, largo * calc.cos(semi-esp * 1deg)),
+      largo * calc.sin(semi-esp * 1deg),
+      dir: dir-Z - 90,
+      achatado: 0.30,
+      color: c-aux,
+      grosor: 0.7pt,
+      punteada: false,
+    )
+
+    // --- cono corporal: eje z
+    cetz.draw.line(O, punto(dir-z - semi-cor, largo), stroke: 0.7pt + c-trazo)
+    cetz.draw.line(O, punto(dir-z + semi-cor, largo), stroke: 0.7pt + c-trazo)
+    circulo-escorzo(
+      punto(dir-z, largo * calc.cos(semi-cor * 1deg)),
+      largo * calc.sin(semi-cor * 1deg),
+      dir: dir-z - 90,
+      achatado: 0.30,
+      color: c-trazo,
+      grosor: 0.7pt,
+      punteada: false,
+    )
+
+    // --- los tres ejes
+    cetz.draw.line(O, punto(dir-Z, largo + 0.60), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+    rotulo(punto(dir-Z, largo + 0.66), text(fill: luma(80))[$Z$], ancla: "south")
+    cetz.draw.line(O, punto(dir-z, largo + 0.60), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+    rotulo(punto(dir-z, largo + 0.66), text(fill: luma(80))[$z$], ancla: "south")
+    flecha(O, punto(dir-w, largo + 0.40), color: c-dato, etiqueta: none, grosor: 1.15pt)
+    rotulo(punto(dir-w, largo + 0.52), text(fill: c-dato)[$bold(omega)$], ancla: "south")
+
+    // --- los dos ángulos que después usa el módulo 15
+    angulo(O, dir-z, dir-Z, etiqueta: none, radio: 2.30, color: luma(70))
+    rotulo(punto(82, 2.55), text(size: 8pt, fill: luma(70))[$theta$], ancla: "center")
+    angulo(O, dir-z, dir-w, etiqueta: none, radio: 1.72, color: luma(70))
+    rotulo(punto(61, 2.00), text(size: 8pt, fill: luma(70))[$gamma$], ancla: "center")
+
+    rotulo((-3.45, 2.05), text(fill: c-aux, size: 8pt)[cono espacial], ancla: "west")
+    cetz.draw.line((-2.05, 2.08), (-0.88, 2.13), stroke: 0.45pt + luma(150), mark: (end: "straight", scale: 0.3))
+    rotulo((2.92, 1.12), text(size: 8pt)[cono corporal], ancla: "west")
+    cetz.draw.line((2.86, 1.20), (2.03, 1.66), stroke: 0.45pt + luma(150), mark: (end: "straight", scale: 0.3))
+  },
+  escala: 1.05cm,
+)
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -1305,4 +1478,7 @@
   ("fig-hohmann", fig-hohmann),
   ("fig-rendezvous-phasing", fig-rendezvous-phasing),
   ("fig-roadmap-curtis", fig-roadmap-curtis),
+  ("fig-vector-rotante", fig-vector-rotante),
+  ("fig-suma-omegas", fig-suma-omegas),
+  ("fig-conos", fig-conos),
 )

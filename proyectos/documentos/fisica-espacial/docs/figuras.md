@@ -110,14 +110,27 @@ sólo en $y=0$— y se lee como una marca suelta.
 | `fig-hohmann` | 11 | la transferencia Tierra–Marte: la media elipse, los dos Δv y el ángulo de fase en el lanzamiento |
 | `fig-rendezvous-phasing` | 11 | el rendez-vous del Problema 10: la órbita de fasaje que cierra un cuarto de vuelta en una revolución |
 | `fig-roadmap-curtis` | 11 | el mapa de Curtis (apéndice B) redibujado: los once resultados de la Parte III y de dónde sale cada uno |
+| `fig-vector-rotante` | 12 | los dos casos de la derivada en un sistema rotante: Q clavado al sistema, y Q que además cambia adentro |
+| `fig-suma-omegas` | 12 | el Problema 2 de la guía: las dos velocidades angulares que se suman, y el eje instantáneo que sale de la suma |
+| `fig-conos` | 12 | el cono espacial y el cono corporal, tangentes a lo largo del eje instantáneo |
 
 ## Lo que `estilo.typ` todavía no tiene
 
 Se agrega cuando el módulo que lo necesite lo pida, no antes:
 
-- **cono de precesión** (módulos 14 y 15) — dos conos tangentes, espacial y
-  corporal. Es la figura más difícil del apunte y probablemente necesite
-  proyección 3-D de CeTZ, no el plano.
+~~- **cono de precesión** (módulos 14 y 15) — dos conos tangentes~~ — hecho en
+  el módulo 12 (`fig-conos`), y **no hizo falta proyección 3-D**. La salida fue
+  dibujar la *sección axial* —cuatro generatrices que salen del vértice— y
+  agregarle a cada cono su base con el helper nuevo **`circulo-escorzo`**, que
+  proyecta un círculo del espacio como la elipse que se ve de costado. Los
+  módulos 14 y 15 la reusan cambiándole los dos semiángulos: con el corporal
+  afuera del espacial la precesión es directa, y con el corporal envolviendo al
+  espacial es retrógrada.
+
+  La lección general, que vale para la próxima figura «imposible»: *antes de
+  buscar un motor 3-D, preguntarse cuál es la sección plana que el lector
+  realmente lee.* Un cono se lee por su sección axial más una elipse de base;
+  el volumen no aporta nada.
 ~~- **transferencia de Hohmann** (módulo 11) — falta el arco parcial~~ — el
   helper existe desde el módulo 6: **`arco-conica`**, que dibuja un tramo de
   cualquier cónica desde `(p, e)`. Hace tres cosas que `elipse-orbital` no

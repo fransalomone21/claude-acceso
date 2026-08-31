@@ -1,15 +1,18 @@
 # Estado actual — Apunte de Física Espacial
 
-**Fase 3 (Parte III: gravitación y órbitas) — CERRADA el 2026-08-31.** Los
-seis módulos (M6 a M11), sus catorce ejemplos, el Road Map de Curtis (ap. B)
-redibujado en CeTZ, y las **81 páginas** miradas en el render, página por
-página. **Fase 4 (Parte IV: cuerpo rígido, M12–M15) — no empezada.**
+**Fase 3 (Parte III: gravitación y órbitas) — CERRADA el 2026-08-31.**
+
+**Fase 4 (Parte IV: cuerpo rígido, M12–M15) — ABIERTA el 2026-08-31.** El
+mapeo de Beer (capítulos 15 y 18) contra páginas impresas está hecho y
+escrito en el `HANDOFF.md`, las cinco figuras en imagen de la guía están
+miradas, y el **módulo 12 está escrito, compilado y verificado en el render**.
+Faltan M13, M14 y M15. El apunte va por **89 páginas**.
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **81 páginas**, compila sin errores, cero huérfanos de caja |
+| `apunte/apunte.pdf` | **89 páginas**, compila sin errores, cero huérfanos de caja |
 | Plantilla, carátula, índice, encabezados | listos, no se tocan |
-| Biblioteca de figuras (CeTZ) | **25 figuras**, todas miradas en la galería |
+| Biblioteca de figuras (CeTZ) | **28 figuras**, todas miradas en la galería |
 | Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |
 | **Módulo 6 — Gravitación, peso y energía potencial** | **escrito y verificado en render** |
 | **Módulo 7 — Momento angular y fuerzas centrales** | **escrito y verificado en render** |
@@ -17,7 +20,8 @@ página. **Fase 4 (Parte IV: cuerpo rígido, M12–M15) — no empezada.**
 | **Módulo 9 — Potencial eficaz y ecuación de la órbita** | **escrito y verificado en render** |
 | **Módulo 10 — Las leyes de Kepler** | **escrito y verificado en render** |
 | **Módulo 11 — Maniobras: Hohmann y rendez-vous** | **escrito y verificado en render** |
-| Módulos 12 a 15 (Parte IV, cuerpo rígido) | no empezados (los `include` están comentados en `apunte.typ`) |
+| **Módulo 12 — Cinemática del cuerpo rígido y sistemas rotantes** | **escrito y verificado en render** |
+| Módulos 13 a 15 (Parte IV) | no empezados (los `include` siguen comentados en `apunte.typ`) |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -110,6 +114,39 @@ ecuaciones de Kepler, en un solo diagrama de flujo.
 la reutilización de `fig-elipse-geometria` y `fig-satelite-guia` por
 referencia en los ejemplos del módulo 10.
 
+## Lo que hay escrito en la Parte IV
+
+**Módulo 12 — Cinemática del cuerpo rígido y sistemas rotantes** (7 pág.).
+Abre la parte y es la herramienta de la que dependen los otros tres módulos.
+El teorema de Euler —todo movimiento con un punto fijo es una rotación
+alrededor de un eje— con su demostración sobre la esfera; el eje instantáneo,
+$bold(v) = bold(omega) times bold(r)$ y la aceleración con sus dos términos,
+más la advertencia de que $bold(alpha)$ *no* va sobre el eje instantáneo
+(cosa que en movimiento plano nunca pasa); la demostración de que las
+velocidades angulares se suman como vectores aunque las rotaciones finitas
+no; el cono espacial y el cono corporal; **la derivada de un vector en un
+sistema que rota** —el resultado central, y el que en el módulo 14 produce
+las ecuaciones de Euler—, con la observación de que los versores polares del
+módulo 1 son ese mismo teorema en su caso más chico; la distinción entre la
+velocidad angular del *sistema* y la del *cuerpo*, que es donde se pierde el
+planteo; el movimiento general de dos puntos cualesquiera; y Coriolis en tres
+dimensiones, con la comprobación de que la aceleración en polares del módulo
+1 es exactamente esa fórmula término por término. Ejemplos: las mitades
+cinemáticas de los Problemas 2 (el disco en la horquilla:
+$bold(alpha) = omega_1 omega_2 hat(i)$ con las dos rapideces constantes) y 3
+(el volante en el gimbal: $bold(alpha) = 50 hat(i)$ rad/s², que es el efecto
+giroscópico visible antes de escribir una sola ecuación de la dinámica).
+
+**Tres figuras nuevas**, las tres miradas en la galería antes de usarse:
+`fig-vector-rotante` (los dos casos de la derivada en un sistema rotante),
+`fig-suma-omegas` (el Problema 2, con el eje instantáneo) y `fig-conos` (el
+cono espacial y el corporal). La última estaba anotada en `docs/figuras.md`
+como «la figura más difícil del apunte, probablemente necesite proyección 3-D
+de CeTZ»: **no la necesitó**. Salió con la sección axial más un helper nuevo
+de `estilo.typ`, `circulo-escorzo`, que proyecta un círculo del espacio como
+la elipse que se ve de costado. Los módulos 14 y 15 la reusan cambiándole los
+dos semiángulos.
+
 ## Lo verificado contra las fuentes en esta fase
 
 | Afirmación | Fuente, medida |
@@ -145,22 +182,54 @@ referencia en los ejemplos del módulo 10.
 | Ecuaciones de movimiento en polares, $u=1\/r$, Binet — reusadas para la transferencia de Hohmann | Beer ecs. 12.31 a 12.39, pág. 736–737 (ya citadas en el módulo 9) |
 | El Road Map, fig. B.1 de Curtis, apéndice B | escaneo en `Downloads\Road Map.pdf`, renderizado a 250–400 dpi y leído entero, con la anotación manuscrita $mu=G(m_1+m_2)$ |
 | Datos orbitales de Marte (apéndice F): $r=2,279 times 10^8$ km, $tau=686,98$ días | S&Z apéndice F |
+| **Fase 4 — todo lo de abajo se leyó en el Beer en esta sesión** | offset medido: pág. impresa = pág. del PDF + 575 |
+| Teorema de Euler; eje instantáneo; $bold(v)$ y $bold(a)$ de un punto | Beer §15.12, ecs. 15.37 a 15.39, pág. 988–989 |
+| Cono espacial y cono corporal | Beer §15.12, fig. 15.33, pág. 989 |
+| Las velocidades angulares se suman como vectores | Beer ec. 15.40, pág. 990–991 |
+| Derivada de un vector en un sistema rotante | Beer §15.10, ec. 15.31, pág. 975–976 |
+| Movimiento general de dos puntos del cuerpo | Beer ecs. 15.43 y 15.44, pág. 991 |
+| Coriolis en tres dimensiones, y cuándo se anula | Beer ecs. 15.45 y 15.47, pág. 1002–1003 |
+| Sistema de referencia en movimiento general | Beer ecs. 15.52 y 15.54, pág. 1004 |
+| El sistema puede girar *menos* que el cuerpo ($bold(Omega) != bold(omega)$) | Beer §18.5, pág. 1170 |
+| Mapa completo del capítulo 18 (ecuación a ecuación, con página impresa) | escrito en `HANDOFF.md`; leído por capa de texto |
+| Las figuras en imagen de los Problemas 2, 3, 4, 7 y 9 de la guía | renderizadas de las pág. 15–18 del PDF de la guía, y miradas |
+| **El enunciado del Problema 2 contradice a su figura** | el enunciado dice «eje vertical» y la figura muestra el eje del disco horizontal; se tomó la figura |
 | $mu_"Sol" = 1,327 times 10^11$ km³/s² | S&Z apéndice F |
 
 ## Lo que NO está verificado todavía
 
-Nada de los módulos 1 a 11 quedó sin fuente. Para los módulos 12 a 15 (Parte
-IV, cuerpo rígido) el material está localizado —Beer cap. 18 y la sección de
-cuerpo rígido de la guía, con sus figuras en imagen— pero **ninguna ecuación
-de esos módulos fue leída todavía en su libro**.
+Nada de los módulos 1 a 12 quedó sin fuente. Para los módulos 13 a 15 el
+material está **leído y mapeado** —la tabla del capítulo 18 está en el
+`HANDOFF.md`, con página impresa por ecuación— pero todavía no está escrito.
+
+Dos cosas quedan medidas a medias y hay que cerrarlas cuando el módulo las
+use, no antes:
+
+- **Las coordenadas exactas de los cohetes A y B del Problema 7** (la cápsula
+  espacial). La figura da el tronco de cono con sus tres medidas, pero las
+  posiciones de A y B hay que volver a medirlas sobre la imagen: de ellas
+  depende el brazo de palanca y con él todo el resultado.
+- **Los ejes principales de inercia no están deducidos en el libro que hay.**
+  El temario manda «Beer vol. 1, §§9.16 y 9.17», que es la *Estática*, y el
+  PDF disponible es sólo la *Dinámica*. El §18.2 (pág. 1153) afirma que
+  siempre existen pero no lo demuestra. Para el módulo 13 alcanza, porque la
+  guía da todos los datos por radios de giro.
 
 ## Lo que sigue
 
-**Fase 4 — Parte IV: cuerpo rígido (M12 a M15).** Cuatro módulos, sin ejemplo
-ya adelantado como pasó con Kepler: la sección de cuerpo rígido de la guía
-(Problemas 1 a 9, pág. 15–18 de `GUIA-ENUNCIADOS.md`) trae los enunciados en
-texto pero **las figuras en imagen** —varios problemas (2, 3, 4, 7, 9) las
-necesitan para la geometría, según ya anotó `GUIA-ENUNCIADOS.md`—, así que
-antes de escribir cada módulo hay que mirar esa página del PDF de la guía.
-El primer paso de la próxima sesión es leer el temario de cuerpo rígido en
-`fuentes/TEMARIO.md` y el capítulo 18 de Beer, todavía no leídos.
+**Fase 4, lo que queda: M13, M14 y M15.** El tramo caro —leer las fuentes
+nuevas y mapearlas— ya está hecho, y el módulo 12 fijó el molde. Lo que sigue
+es ejecutar tres módulos con el mapa del `HANDOFF.md` en la mano, y el reparto
+de los nueve problemas de la guía ya está decidido:
+
+| Módulo | Qué | Ejemplos de la guía |
+|---|---|---|
+| **13** — Momento de inercia y ejes principales | el tensor de inercia, por qué $bold(L)$ y $bold(omega)$ no son paralelos, energía cinética | Problema 1 (el satélite cúbico) y Problema 2 punto 1 (el impulso angular del disco) |
+| **14** — Ecuaciones de Euler y el giróscopo | derivar $bold(L)$ en ejes del cuerpo, Euler, ángulos de Euler, precesión estable | Problema 2 punto 2 (la cupla giroscópica) y Problema 3 (el volante en el gimbal, que da 20 rad/s²) |
+| **15** — Peonza simétrica, precesión directa y retrógrada | cuerpo simétrico sin cuplas, $tan gamma = (I slash I') tan theta$, los dos conos | Problema 4 (el spacecraft que precesa) y Problema 6 (para qué $l slash r$ es directa) |
+
+Los Problemas 5, 7, 8 y 9 son variantes de los mismos mecanismos y entran
+como referencias cortas o como cierre del módulo 15, que es el integrador.
+
+**Checkpoint por módulo, no por fase.** Es la decisión operativa de esta
+sesión: `ESTADO_ACTUAL` + `HANDOFF` + commit + push al cerrar *cada* módulo.
