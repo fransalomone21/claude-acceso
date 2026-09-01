@@ -341,6 +341,18 @@ N2  FASES DEL JUEGO
         coop). El plan de experimentos está en `docs/08-experimentos.md`
         y los requisitos contra los que se valida, en `docs/00-conops.md`.
 
+REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
+     R0  ¿hay depth buffer usable en PCSX2 2.8 para BLACK? .... ABIERTA
+         Cierra con una captura del depth + veredicto medido en tres
+         casillas — D3D12@4x / D3D11@Native / D3D11@4x — cada una en
+         sirve | sirve degradado | no sirve. Ninguna medida todavía.
+         Esta sesión (2026-08-31/09-01) dejó la infraestructura lista, no
+         la medición: PCSX2 2.8.0 instalado (winget, `PCSX2Team.PCSX2`,
+         en `C:\Program Files\PCSX2\`, SEPARADO de la instalación de
+         `kb/ubicaciones.json` que tenía 2.6.3) y ReShade 6.6.2 con addon
+         support reinstalado por Fran a mano. Detalle completo:
+         `sesiones/HANDOFF.md`, sección 8.
+
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo
      6.2  .DB  : firma '..FT' en 6-7        -> qué son los 139 archivos

@@ -16,6 +16,41 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-01 (40) — BLACK Remaster: R0 abierta, infraestructura de PCSX2 2.8 + ReShade lista
+
+**Máquina:** notebook MSI Sword 15 · **Modelo:** Opus, esfuerzo medium, sin fan-out
+**Objetivo:** R0 de la línea nueva "BLACK Remaster" (viabilidad DLSS5): ¿hay
+depth buffer usable en PCSX2 2.8 para BLACK, en D3D12@4x / D3D11@Native /
+D3D11@4x?
+**Resultado:** Ninguna casilla medida todavía — la sesión quedó en
+preparación de infraestructura, no en medición. Se midió (no se asumió) la
+versión real de PCSX2: la instalación de referencia en
+`kb/ubicaciones.json` (`...\PCSX2\PCSX2\`, con el ISO adentro) tenía 2.6.3,
+nunca antes medida. Se descubrió una SEGUNDA instalación de PCSX2, separada,
+en `...\PCSX2\` (ruta corta, sin duplicar) — es la que se usó en el chat
+anterior de DLSS5, y `winget install PCSX2Team.PCSX2` la subió a 2.8.0 sin
+tocar el ISO ni la instalación vieja. El fork PCSX2-MCP de Downloads (el de
+los lanzadores `.bat`) es un build del 15/08, de ANTES del 2.8.0: no sirve
+para responder R0. ReShade (para ver el depth vía Generic Depth) resultó
+estar DESINSTALADO — sólo quedaban `.ini`/`.log`/shaders sueltos de la
+sesión de DLSS5 anterior, sin la DLL global (`C:\ProgramData\ReShade` ya no
+existe). Se reinstaló `Reshade.Setup.AddonsSupport` 6.6.2 por winget y Fran
+lo configuró a mano apuntando al `pcsx2-qt.exe` de la ruta corta.
+**No funcionó:** automatizar los clicks de Ajustes→Gráficos por PowerShell
+(P/Invoke `SetForegroundWindow`/`PostMessage`) — la ventana de PCSX2 pierde
+el foreground contra la propia terminal entre invocaciones separadas de la
+herramienta, y forzarlo dejó la ventana en blanco una vez (se recuperó
+sola). Se cortó esa vía y se le pidió a Fran hacer los clicks directamente
+— más barato y más confiable que seguir peleando el foreground.
+**Sigue:** con ReShade ya instalado, medir las 3 casillas: Ajustes→Gráficos,
+Renderer=D3D11 + Resolución interna=Native, cargar BLACK, Home para el
+overlay de ReShade (NumLock apagado si es el 7 del numérico), activar
+Generic Depth, capturar. Repetir con D3D11@4x y D3D12@4x. Cierra con las 3
+casillas en sirve / sirve degradado / no sirve. Detalle completo en
+`sesiones/HANDOFF.md`, sección 8.
+
+---
+
 ## 2026-08-29 (39) — 7e paso 3b: los pools de `P1` MEDIDOS. 17/18 predicciones, y la 18ª corrigió el mapa
 
 **Máquina:** PC · **Modelo:** Opus, esfuerzo medium, sin fan-out

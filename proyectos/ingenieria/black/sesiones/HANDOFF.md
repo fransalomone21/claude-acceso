@@ -4,6 +4,15 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+**Dos líneas de trabajo activas en paralelo, independientes entre sí:**
+- **7e** (reversing, secciones 1-7 de este archivo) — intacta, nadie la tocó
+  esta sesión.
+- **BLACK Remaster / DLSS5, R0** (sección **8**, nueva) — abierta, sin medir
+  todavía ninguna de las 3 casillas.
+
+Si retomás 7e: las secciones 1-7 siguen siendo la fuente. Si retomás el
+Remaster: andá directo a la sección 8.
+
 ---
 
 ## 1. QUÉ LEER, EN ORDEN
@@ -242,3 +251,124 @@ volcados.
   medir, no bloquea.
 - **`P2` tiene campos hasta `+0x8A`** (los usa el `0x35`), y la kb lo describe
   como `{count, array}` de 8 B. **No medido.**
+
+## 8. BLACK REMASTER / DLSS5 — R0 ABIERTA (línea nueva, no toca 7e)
+
+### 8.1 QUÉ LEER PARA RETOMAR ESTO, EN ORDEN
+
+1. Esta sección, entera.
+2. `ESTADO_ACTUAL.md`, bloque "REMASTER GRÁFICO (DLSS5)" (después de N2).
+3. `docs/03-bitacora.md`, entrada más nueva (2026-09-01).
+
+**NO hace falta** leer nada de 7e (secciones 1-7 de este mismo archivo) para
+seguir con esto — son líneas independientes.
+
+### 8.2 LA FASE, Y QUÉ LA CIERRA
+
+**R0 — ¿hay depth buffer usable para BLACK en PCSX2 2.8?** Abierta, **cero
+casillas medidas**. Cierra con una captura del depth + veredicto en tres
+casillas — **D3D12@4x / D3D11@Native / D3D11@4x** — cada una en
+`sirve` | `sirve degradado` | `no sirve`. No cierra con "instalé ReShade":
+eso es preparación, no medición.
+
+### 8.3 LO QUE ESTA SESIÓN DEJÓ RESUELTO — no rehacer
+
+- **Hay DOS instalaciones de PCSX2 en la máquina, separadas.** La de
+  `kb/ubicaciones.json` (`C:\Program Files\PCSX2\PCSX2\`, con el ISO adentro
+  en `games\Black [NTSC]\Black.iso`) tenía **2.6.3.0**, medido por
+  `VersionInfo`, nunca antes verificado. Hay una **segunda**, en
+  `C:\Program Files\PCSX2\` (ruta CORTA, sin "PCSX2\PCSX2" repetido) que
+  **ya existía de antes** de esta sesión — el `ReShade.log` viejo (ver abajo)
+  prueba que es la que se usó en el chat anterior de DLSS5. `winget install
+  --id PCSX2Team.PCSX2` la subió a **2.8.0** (verificado: `pcsx2-qt.exe`,
+  15255040 B, ProductVersion 2.8.0.0). El ISO **no se tocó** (confirmado:
+  mismo tamaño 3919609856 B, mismo `LastWriteTime` 2016-03-24, sigue
+  ReadOnly).
+- **El fork PCSX2-MCP de Downloads (el de `lanzadores/*.bat`) NO sirve para
+  R0.** Es un build sin tag de versión (VersionInfo 0.0.0.0), compilado el
+  **15/08/2026** — 13 días ANTES del release 2.8.0 (28/08). Para R0 hay que
+  usar el `pcsx2-qt.exe` de la ruta CORTA (`C:\Program Files\PCSX2\`), no el
+  del fork ni el de la ruta larga (2.6.3).
+- **No hay flag `-renderer` en la CLI de PCSX2 2.8.0** (`-help` no lo lista).
+  Cambiar Renderer y Resolución interna se hace por Ajustes → Gráficos en la
+  UI — no hay atajo de línea de comandos, y no vale la pena adivinar el enum
+  de `GSRendererType` en el `.ini` a ciegas.
+- **Config compartida entre las dos instalaciones**: ninguna tiene
+  `portable.txt`, así que ambas leen `C:\Users\frans\Documents\PCSX2\inis\
+  PCSX2.ini`. Al cerrar la sesión estaba en `Renderer = -1` (automático, que
+  en 2.8.0 resuelve a D3D12) y `upscale_multiplier = 3` (ni Native ni 4x —
+  hay que cambiarlo a mano para cada casilla).
+- **ReShade estaba DESINSTALADO, no es que la tecla fallara.** Quedaban
+  restos de una instalación vieja en la carpeta LARGA
+  (`PCSX2\PCSX2\ReShade.ini/.log/reshade-shaders/`, con `KeyOverlay=36,0,0,0`
+  = Home puro, sin modificador — ese dato sigue siendo válido) pero
+  `C:\ProgramData\ReShade\` (la DLL global) **ya no existe**, no hay tarea
+  programada ni `AppInit_DLLs` — el log viejo terminaba en un
+  "Exiting... Finished exiting" del 19/06, sin ninguna entrada de esta
+  sesión. Por eso Home no abría nada (no era NumLock). Se reinstaló
+  `Reshade.Setup.AddonsSupport` 6.6.2 por winget (el paquete trae Generic
+  Depth en el núcleo, no como addon separado) y Fran completó el instalador
+  a mano apuntando a `C:\Program Files\PCSX2\pcsx2-qt.exe` (la ruta corta),
+  API "Direct3D 10/11/12", shaders estándar.
+- **Restricción de scope de Fran (memoria del perfil,
+  `black-remaster-resolucion-objetivo.md`):** la salida final del pipeline
+  DLSS5 no debe superar la resolución nativa de cada pantalla — 1080p en
+  esta notebook, 2K en la PC de escritorio (donde está el interés fuerte).
+  Es un eje distinto de la resolución INTERNA de PCSX2 que R0 mide
+  (Native/4x son sobre el render del juego, no la salida de DLSS).
+
+### 8.4 LO QUE NO FUNCIONÓ — no reintentar sin cambiar de método
+
+Automatizar los clicks de Ajustes → Gráficos desde PowerShell (P/Invoke:
+`SetForegroundWindow` + `PostMessage`/`SendMessage` con `WM_LBUTTONDOWN`).
+La ventana de PCSX2 pierde el foreground contra la terminal que ejecuta el
+siguiente comando **entre invocaciones separadas** de la herramienta — el
+truco (simular Alt + `SetWindowPos` topmost) solo sostiene el foreground
+**dentro de una misma invocación**. Forzarlo de todos modos dejó la ventana
+en blanco una vez (se recuperó sola, el proceso no llegó a colgarse:
+`Responding = True`). Se cortó esa vía — más cara y menos confiable que
+pedirle a Fran los clicks — y no vale la pena retomarla salvo que aparezca
+una forma de automatizar sin pelear el foreground (por ejemplo, todo el
+flujo — abrir Ajustes, cambiar cada campo, cerrar — en una ÚNICA invocación
+de PowerShell, sin cortes entre medio).
+
+### 8.5 LO QUE SIGUE, CONCRETO
+
+Con ReShade ya instalado y apuntando al `pcsx2-qt.exe` correcto:
+
+1. Ajustes → Gráficos en la ventana **"PCSX2 v2.8.0"** (no la del fork):
+   Renderer = **Direct3D 11**, Resolución interna = **Native (1x)**.
+2. Cargar cualquiera de los "Black" de la biblioteca (da igual cuál de los
+   3 duplicados — R0 es sobre el renderer, no sobre el contenido) hasta ver
+   geometría 3D real en pantalla.
+3. Home (con NumLock apagado si es el 7 del numérico) para el overlay de
+   ReShade, activar/mostrar **Generic Depth**, capturar.
+4. Repetir cambiando solo Renderer/Resolución interna, en caliente, para
+   **D3D11 @ 4x** y **D3D12 @ 4x** — no hace falta cerrar el juego entre
+   cambios.
+5. Veredicto por casilla: `sirve` | `sirve degradado` | `no sirve`, y cierra
+   R0.
+
+**Predicción escrita antes de medir (2026-08-31), para no sesgar por lo que
+se vea:** D3D11@Native → sirve (ya validado en el chat anterior). D3D11@4x →
+no sirve (la colisión ya documentada con el objetivo de 4-6x). D3D12@4x → la
+incógnita real, apuesta **sirve degradado** — hipótesis de baja confianza,
+no hay evidencia de que la reescritura del depth buffer en 2.8.0 haya
+apuntado a este problema específico.
+
+### 8.6 ESTADO DE LA MÁQUINA AL CERRAR (Remaster/DLSS5)
+
+- PCSX2 2.8.0 instalado en `C:\Program Files\PCSX2\pcsx2-qt.exe`. La ventana
+  quedó abierta en el escritorio de Fran con la biblioteca de juegos visible
+  (proceso `pcsx2-qt`, puede haber más de uno si el fork MCP también estaba
+  abierto — verificar con `Get-Process pcsx2-qt` antes de asumir cuál es
+  cuál).
+- ReShade 6.6.2 (Addon Support) instalado, Fran lo apuntó al exe correcto.
+  **No verificado todavía** que el hook se haya enganchado de verdad en un
+  arranque real del juego (eso es el paso 1 de la sección 8.5).
+- El `.ini` de ReShade de esta instalación nueva vive junto al
+  `pcsx2-qt.exe` de la ruta corta — **no** en `PCSX2\PCSX2\ReShade.ini`
+  (ese es el remanente viejo, no editarlo pensando que es el activo).
+- `PCSX2.ini` (`Documents\PCSX2\inis\`) sigue en `Renderer=-1,
+  upscale_multiplier=3` — ninguna de las 3 casillas de R0 quedó configurada.
+- El ISO original y sus permisos (ReadOnly + guardia) **no se tocaron**.
