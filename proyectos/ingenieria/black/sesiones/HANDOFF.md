@@ -825,7 +825,7 @@ pantalla completa por `.NET`/PowerShell y leer el OSD de la imagen — y leer
 `dlss5-feed.log` buscando `feature ready ... DLAA` y `frame N delivered`, que
 es lo que cierra R2.
 
-### 8.12 NGX RECHAZA ESTA GPU/DRIVER — `confirmado`, tres corridas — handoff a Opus
+### 8.12 [SUPERADA POR 8.13] "NGX rechaza esta GPU/driver" — la conclusion era FALSA, leer 8.13
 
 **Fran hizo en vivo, con PCSX2 corriendo, los pasos que 8.11 dejaba
 pendientes:** ordenó `LUMENITE: Kernel 2.0` arriba de `DLSS 5 Feed` en la
@@ -957,3 +957,145 @@ conectó la extensión, probarlo; si no, no perder un turno re-descubriendo
 esto — ir directo a fuentes públicas (GitHub, foros, Reddit) y decirle a
 Fran que necesita conectar la extensión si el Discord es la única fuente
 que falta.
+
+### 8.13 LA CAUSA REAL: FALTA `nvngx_dlss.dll`. No es la GPU y no es la firma — 2026-09-02, sesión Opus
+
+**Esta sección corrige a 8.12 en su conclusión operativa. 8.12 sigue siendo correcta en su
+corrección de método (tres corridas con el mismo insumo no prueban causa), pero la pista que
+dejó abierta — reparar la firma del `dlssnr` — resultó ser la equivocada, y además riesgosa.**
+
+#### Lo medido localmente, primero
+
+Re-medición de apertura (por si el driver nuevo había cambiado algo): **nada cambió.**
+`nvngx_dlssnr.dll` sigue con SHA256 `8270B350CD82DE5CE89806872CDD6B6A9249B80836B91BBEB3573470744CC206`,
+firma `HashMismatch`, `FileVersion` 310.8.0.0. PCSX2 seguía corriendo (PID 36588, arrancado 01:53).
+
+**El inventario que nadie había hecho** — todos los `*nvngx*` de la carpeta del juego:
+
+```
+nvngx_dlssnr.dll   165.840.496   ver=310.8.0.0   sig=HashMismatch   sha=8270B350...
+```
+
+**Uno solo.** No está `nvngx_dlss.dll`. Y `SuperSampling` es la feature que provee
+`nvngx_dlss.dll`, no el `dlssnr` (que provee Ray Reconstruction / Neural Rendering). NGX
+resuelve las DLL de features **desde el directorio del proceso**: si el archivo no está ahí,
+`SuperSampling.Available=0` es la respuesta correcta y esperable del runtime.
+
+Barrido de todo `C:` — el archivo **ya existe en la máquina, tres veces, todas firmadas y
+válidas**:
+
+```
+48.971.832   v310.2.1.0   Valid   C:\Games\The Last of Us Part I\nvngx_dlss.dll
+51.256.376   v3.7.0.0     Valid   C:\Games\The Last of Us Part II Remastered\nvngx_dlss.dll
+48.971.832   v310.2.1.0   Valid   ...\DLSS Swapper\dlls\dlss\dlss_v310.2.1.0_3A875F45...\nvngx_dlss.dll
+```
+
+En el `DriverStore` sólo hay `nvngx_dlssg.dll` (frame generation, 9.3 MB, v310.2.1.0, firma
+válida). **No hay ningún `nvngx_dlss.dll` del driver.**
+
+#### La causalidad, que ninguna medición local podía dar
+
+Fran entró al Discord de RenoDX por QR en el navegador interno (ver 8.14 para el estado de esa
+sesión). Tres fuentes independientes, del `dlss5-forum`, `tools` y `dlss5-helpdesk`:
+
+| quién | GPU | qué aporta |
+|---|---|---|
+| POMAHECKO (NFS Most Wanted 2005) | **RTX 4070 SUPER** | el **antes/después** exacto: *"The important part was adding `nvngx_dlss.dll` to host64. Before that: `SuperSampling.Available=0`, NGX unavailable. After adding `nvngx_dlss.dll`: `SuperSampling.Available=1`"*. Llegó a `feature ready: 2560x1440 DLAA` y `frame 10800 evaluated`. |
+| TraceKira (guía Skyrim SE) | RTX 5070 mobile | el síntoma completo por omisión: `nvngx_dlss.dll MISSING` → `SuperSampling.Available = 0` → `CreateFeature failed 0xBAD0000B`. Y la regla de versión: **"Keep both nvngx DLLs on the same version."** |
+| Agai Naizagai (hilo *"The Sims 4 DLSS 5 **RTX 4060**"*) | **la misma GPU que la notebook** | *"also u need the `nvngx_dlss.dll`, it is missing"*, con el log idéntico al nuestro: `SuperSampling.Available=0 NeedsUpdatedDriver=0 MinDriver=0.0`. |
+
+El caso de POMAHECKO es el que cierra la causalidad: es la **misma variable variada** (agregar el
+archivo) con el **mismo síntoma antes** y el **resultado buscado después**, en una RTX 40.
+
+#### Dos cosas que quedan descartadas
+
+**1. El techo de hardware.** Hay RTX 40 con el pipeline corriendo y evaluando frames. ShortFuse
+(autor de RenoDX) mantiene un hilo dedicado, *"Patched DLSS-NR for RTX20, RTX30, and RTX40"*:
+*"Replace `nvngx_dlssnr.dll` with the latest pinned version. (Yes. Use pins). Auto branches based
+on hardware. Supports RTX20/RTX30 by replacing FP8 calls..."*.
+
+**2. La herramienta de reparación de firma de Kayle — y era un riesgo real, no sólo un desvío.**
+Esa herramienta exige un origen con hash exacto `E16BCF15...`, que es el **binario firmado por
+NVIDIA**, o sea el de Blackwell. La guía del propio server dice lo contrario para esta GPU:
+
+> *"If using RTX20, RTX30, or RTX40 series **overwrite** `nvngx_dlssnr.dll` with the **patched**
+> version"*
+
+Un binario parcheado tiene la firma inválida **por diseño**. `HashMismatch` no era el defecto:
+puede ser la firma esperada de un archivo modificado. "Reparar" habría reemplazado un DLL
+posiblemente correcto por uno que no corre en Ada. **La firma inválida era una pista, no la
+causa, y su lectura estaba invertida.**
+
+#### Versión: el detalle que falta cerrar
+
+La comunidad estandarizó en **310.8** para ambos DLL:
+
+- Krish [RENO]: *"dlls should ideally be 310.8"*.
+- Caso funcionando en **RTX 4080** (driver 616.56, ReShade 6.8.0.2155): `nvngx_dlssnr 310.8.SF`
+  (ShortFuse build) + `nvngx_dlss 310.8.0`.
+- Variantes del `dlssnr` que la comunidad distribuye: `310.8.2 Default`, `310.8.SF-v2`,
+  `310.8.SF`, `310.8.0`, `Custom`.
+
+**Los tres `nvngx_dlss.dll` que ya hay en el disco son 310.2.1.0 y 3.7.0.0 — ninguno es 310.8.**
+Copiar el 310.2.1.0 es el experimento barato y reversible (y el `dlssnr` instalado es 310.8.0.0,
+así que violaría "same version"); conseguir el 310.8.0 es el camino que la comunidad valida.
+
+#### Cabo suelto nuevo, de la guía de ShortFuse
+
+> *"If you have `renodx-dlss5.addon64` remove or rename it to `renodx-dlss5.addon64x`.
+> (Cant use both)."*
+
+La notebook **tiene** `renodx-dlss5.addon64`. Esto aplica sólo si se migra al *"DLSS Tool
+(ShortFuse Version)"*, que usa `renodx-dlss.addon64` (sin el 5). Con el pipeline actual
+(DLSS5-Feeder + renodx-dlss5) **no** hay que tocar nada. Anotado para no pisarlo por accidente.
+
+#### Herramienta que la comunidad usa, y que NO está revisada
+
+**RHI** — `https://github.com/RankFTW/RHI`. Aparece en 131 mensajes del server como la respuesta
+estándar: instala ReShade, descarga los DLL correctos y **deja elegir la versión del `dlssnr`**
+(el dropdown con `310.8.2 Default / 310.8.SF-v2 / 310.8.SF / 310.8.0 / Custom`). Un usuario que no
+encontraba el `310.8.SF` a mano lo desplegó con RHI.
+
+**No fue revisada por esta sesión.** Antes de recomendarla hay que leerle el código como se le
+leyó a la de Kayle (8.12). Hay también un reporte negativo: *"rhi doesnt download the
+DLSS5_Feed.fx, its not a good app"*.
+
+#### Lo que sigue, en orden
+
+1. Conseguir `nvngx_dlss.dll` **310.8.0** y, si se quiere cerrar el eje Ada, el `nvngx_dlssnr.dll`
+   parcheado del pin de ShortFuse.
+2. Ponerlos en `C:\Program Files\PCSX2\` — **lo hace Fran**: escribir ahí sigue bloqueado para la
+   sesión (confirmado tres veces).
+3. Medir `SuperSampling.Available` en `dlss5-feed.log`. Ese es el criterio de salida de R2(a).
+4. Si da 1 y aparece `feature ready ... DLAA` + `frame N delivered`, recién ahí el FPS sobre el
+   savestate 03, con el método de R0/R1.
+
+**Predicción escrita antes de probar (regla 3):** con `nvngx_dlss.dll` presente,
+`SuperSampling.Available` pasa a `1`. Si sigue en `0` con el archivo puesto y en la versión
+correcta, la hipótesis del archivo faltante muere y el siguiente sospechoso es el `dlssnr` no
+parcheado para Ada — que es una variable distinta y se varía sola.
+
+**Nota de performance, de la misma fuente:** TraceKira, en una RTX 5070 mobile, midió 80 → 30 FPS
+con Neural Rendering activo. Es una notebook y es una GPU superior a la de acá. El costo de esto
+es alto y hay que tenerlo presente antes de festejar un `Available=1`.
+
+### 8.14 SESIÓN DE DISCORD ABIERTA EN EL NAVEGADOR INTERNO — 2026-09-02
+
+`list_connected_browsers` (Claude in Chrome) sigue dando **vacío**: la extensión no está
+conectada, igual que en 8.8 y 8.12. **La restricción se levantó por otra vía:** el navegador
+interno (`mcp__Claude_Browser__`) abrió `discord.com` y ofreció **login por QR**, que Fran escaneó
+con la app del teléfono. La sesión quedó abierta como `chicoleche`, con acceso al server RenoDX.
+
+Detalle que costó dos intentos: el link *"O puedes iniciar sesión con una clave..."* abre el flujo
+de **passkey de Windows** ("Elige una clave de paso"), que **no** es el QR y no sirve. El QR se
+escanea desde **adentro de la app de Discord** (foto de perfil → ícono de QR), no con la cámara
+del sistema.
+
+Canales útiles del server: `dlss5`, `dlss5-helpdesk`, `dlss5-forum`, `tools`, `guides`.
+La cuenta **no tiene permiso de escritura** ("Debes completar algunos pasos más antes de poder
+hablar") — se puede leer y buscar, no postear.
+
+**Lección de método:** buscar `"Patched DLSS-NR RTX40"` en el buscador del server dio **cero
+resultados** sobre un hilo que existe y se llama *"Patched DLSS-NR for RTX20, RTX30, and RTX40"*.
+El parámetro de búsqueda era el problema, no la búsqueda. Abrir el canal `dlss5-forum` y leer el
+listado del foro lo resolvió en un paso.

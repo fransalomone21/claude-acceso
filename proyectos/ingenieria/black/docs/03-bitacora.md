@@ -16,6 +16,62 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-02 (47) — R2: NO era la firma ni la GPU. FALTA `nvngx_dlss.dll`. Confirmado en el Discord de RenoDX
+
+**Maquina:** notebook MSI Sword 15 · **Modelo:** Opus, esfuerzo high, sin fan-out
+**Objetivo:** investigar por que `SuperSampling.Available=0` antes de tocar nada, con la
+consigna de Fran de leer el Discord de la comunidad.
+**Resultado:**
+1. **Re-medido al abrir:** el `nvngx_dlssnr.dll` NO cambio (mismo SHA256 `8270B350...`, misma
+   firma `HashMismatch`, misma `FileVersion` 310.8.0.0). PCSX2 seguia corriendo (PID 36588).
+2. **LA CAUSA, `confirmado` por medicion local + tres fuentes comunitarias independientes:
+   falta `nvngx_dlss.dll` en `C:\Program Files\PCSX2\`.** El inventario de `*nvngx*` de esa
+   carpeta devuelve UN solo archivo: el `dlssnr`. `SuperSampling` es la feature que provee
+   `nvngx_dlss.dll`, y NGX resuelve las DLL de features desde el directorio del proceso.
+3. **La evidencia de causalidad que faltaba, del Discord de RenoDX (`#dlss5-forum`, `tools`,
+   `dlss5-helpdesk`) — es el ANTES/DESPUES que ninguna medicion local podia dar:**
+   - POMAHECKO, **RTX 4070 SUPER**, NFS Most Wanted: *"The important part was adding
+     nvngx_dlss.dll to host64. Before that: `SuperSampling.Available=0`, NGX unavailable.
+     After adding nvngx_dlss.dll: `SuperSampling.Available=1`"*, y llego a `feature ready:
+     2560x1440 DLAA` + `frame 10800 evaluated`.
+   - TraceKira, guia de Skyrim SE: si falta, da exactamente `nvngx_dlss.dll MISSING` /
+     `SuperSampling.Available = 0` / `CreateFeature failed 0xBAD0000B`. Y agrega:
+     **"Keep both nvngx DLLs on the same version."**
+   - Agai Naizagai, hilo **"The Sims 4 DLSS 5 RTX 4060"** (la MISMA GPU que la notebook):
+     *"also u need the nvngx_dlss.dll, it is missing"* + el mismo log
+     `SuperSampling.Available=0 NeedsUpdatedDriver=0 MinDriver=0.0`.
+4. **El techo de hardware queda DESCARTADO.** Hay RTX 40 (4070 SUPER, 4080) con el pipeline
+   corriendo y evaluando frames. ShortFuse (autor de RenoDX) publico un hilo dedicado,
+   *"Patched DLSS-NR for RTX20, RTX30, and RTX40"*: *"Replace nvngx_dlssnr.dll with the latest
+   pinned version. Auto branches based on hardware"*.
+5. **La herramienta de reparacion de firma (Kayle) queda DESCARTADA como proximo paso, y era
+   riesgosa:** exige restaurar un DLL con hash exacto del binario firmado por NVIDIA, que es el
+   de Blackwell. La guia oficial del server dice lo contrario para esta GPU: *"If using RTX20,
+   RTX30, or RTX40 series **overwrite** nvngx_dlssnr.dll with the **patched** version"* — y un
+   binario parcheado tiene la firma invalida POR DISENO. "Reparar" habria ido para atras.
+6. **Version:** la comunidad usa **310.8** en ambos DLL (Krish/RENO: *"dll's should ideally be
+   310.8"*; caso funcionando en RTX 4080 con `nvngx_dlssnr 310.8.SF` + `nvngx_dlss 310.8.0`).
+   Los tres `nvngx_dlss.dll` que ya hay en el disco son **310.2.1.0** y **3.7.0.0**: ninguno es
+   310.8. Conseguir el 310.8.0 es el paso que falta.
+7. **Cabo suelto que la guia de ShortFuse abre y no estaba en el radar:** *"If you have
+   renodx-dlss5.addon64 remove or rename it (Can't use both)"* — la notebook TIENE ese archivo.
+   Aplica solo si se pasa al "DLSS Tool (ShortFuse Version)"; con el pipeline actual, no.
+
+**No funciono:** la busqueda del Discord con termino compuesto ("Patched DLSS-NR RTX40") dio
+cero resultados sobre un hilo que existe y se llama casi asi. El parametro era el problema, no
+la busqueda: ir al canal y leer el foro lo resolvio en un paso.
+Tampoco pudo correrse `verificar-estructura.ps1` para confirmar por efecto el arreglo de la
+regla 5 (dos falsos positivos nuevos, `info@reshade.me` y `Tecnica@Shader.fx`, que aparecieron
+porque la bitacora 46 CITA los datos que declaraba): el clasificador de auto-mode bloqueo las
+dos formas de invocarlo. El JSON quedo editado; el arreglo esta `probable`, no `confirmado`.
+
+**Sigue:** conseguir `nvngx_dlss.dll` 310.8.0 y el `nvngx_dlssnr.dll` parcheado del pin de
+ShortFuse, ponerlos en `C:\Program Files\PCSX2\` (lo hace Fran: la sesion no escribe ahi), y
+medir `SuperSampling.Available` en `dlss5-feed.log`. Candidato de herramienta: RHI
+(`github.com/RankFTW/RHI`), que la comunidad usa para esto — **sin revisar todavia**.
+
+---
+
 ## 2026-09-02 (46) — R2: instalacion confirmada, DLL de firma invalida (no la GPU) — handoff a Opus
 
 **Maquina:** notebook MSI Sword 15 · **Modelo:** Sonnet, esfuerzo medium, sin fan-out (mediciones en vivo con Fran)

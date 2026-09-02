@@ -425,31 +425,42 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
          grande de Generic Depth) -- confirmado por captura. Con eso YA no
          es el bloqueo.
 
-         BLOQUEO ACTUAL de R2: `SuperSampling.Available=0` (NGX) en tres
-         corridas -- pero las tres NO son evidencia de techo de hardware,
-         porque las tres usaron el MISMO `nvngx_dlssnr.dll` sin variarlo.
-         Corrección de método hecha en esta sesión, no arrastrar la
-         conclusión vieja.
+         CAUSA IDENTIFICADA (2026-09-02, Opus): **FALTA `nvngx_dlss.dll`
+         en `C:\Program Files\PCSX2\`.** El inventario de `*nvngx*` de esa
+         carpeta devuelve UN solo archivo (el `dlssnr`), y `SuperSampling`
+         es la feature que provee `nvngx_dlss.dll` -- NGX resuelve las DLL
+         de features desde el directorio del proceso. `Available=0` es la
+         respuesta correcta del runtime a un archivo que no está.
 
-         PISTA FUERTE, `confirmado` por medición local (NO por hardware):
-         ese `nvngx_dlssnr.dll` tiene firma Authenticode INVÁLIDA
-         (`HashMismatch`) y su SHA256 no coincide con el hash "known-good"
-         que usa una herramienta comunitaria (`kayle2203/dlssnr-signature-
-         repair`, código fuente revisado y verificado seguro). `ReShade.log`
-         ya avisaba "custom runtime accepted; untested build" y no se le dio
-         peso a tiempo. Falta CONFIRMAR causalidad: conseguir un
-         `nvngx_dlssnr.dll` con el hash exacto `E16BCF15...`, correr la
-         herramienta (o el reemplazo equivalente) y volver a medir NGX.
-         Detalle completo, con los dos hashes y el código del script leído
-         entero: `sesiones/HANDOFF.md` sección **8.12**.
+         `confirmado` por medición local + TRES fuentes independientes del
+         Discord de RenoDX, una de ellas con la MISMA GPU (RTX 4060) y otra
+         con el antes/después exacto en RTX 4070 SUPER: agregar el archivo
+         llevó `SuperSampling.Available` de 0 a 1 y el pipeline llegó a
+         `feature ready ... DLAA` + `frame 10800 evaluated`.
 
-         DECISIÓN DE FRAN (2026-09-02, de madrugada): handoff a sesión nueva
-         con OPUS -- esta sesión (Sonnet) ya llegó a una conclusión
-         apresurada una vez ("techo de hardware") con evidencia insuficiente,
-         y Fran pidió explícitamente investigación de verdad antes de la
-         próxima conclusión, no otra corrida rápida. Mientras tanto instala
-         un driver de NVIDIA más nuevo por su cuenta. R2 sigue ABIERTA -- el
-         mensaje de retome completo está en el HANDOFF de esa fecha.
+         DOS COSAS QUE QUEDAN DESCARTADAS:
+             -> el **techo de hardware**: hay RTX 40 con esto corriendo, y
+                ShortFuse mantiene un `dlssnr` parcheado para RTX20/30/40.
+             -> la **herramienta de reparación de firma** (`kayle2203`) --
+                y era un riesgo, no sólo un desvío: restaura el binario
+                firmado por NVIDIA, que es el de Blackwell. La guía del
+                server dice lo contrario para esta GPU ("overwrite
+                `nvngx_dlssnr.dll` with the **patched** version"), y un
+                binario parcheado tiene la firma inválida POR DISEÑO.
+                `HashMismatch` era una pista leída al revés.
+
+         FALTA, y es lo único: conseguir `nvngx_dlss.dll` **310.8.0** (la
+         comunidad estandarizó en 310.8 para ambos DLL; los tres que ya hay
+         en el disco son 310.2.1.0 y 3.7.0.0), ponerlo en la carpeta -- lo
+         hace FRAN, la sesión no escribe en `Program Files` -- y medir
+         `SuperSampling.Available` en `dlss5-feed.log`.
+
+         Detalle completo, con las citas, los hashes y la predicción escrita
+         antes de probar: `sesiones/HANDOFF.md` sección **8.13**.
+         La sesión de Discord quedó ABIERTA en el navegador interno (login
+         por QR, usuario `chicoleche`): sección **8.14**.
+         La sección **8.12** quedó marcada como SUPERADA: su conclusión
+         operativa ("NGX rechaza esta GPU/driver") era falsa.
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo
