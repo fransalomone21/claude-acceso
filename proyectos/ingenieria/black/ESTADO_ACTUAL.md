@@ -394,10 +394,31 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
          ReShade (hace falta 6.8+, hay 6.6.2), y la PREGUNTA DE ARQUITECTURA
          sin responder (si ReShade engancha el framebuffer a 2568x1800
          interno o a la resolución de salida -- decide si el diseño entero
-         cambia): `sesiones/HANDOFF.md` sección 8.7, **empezar sesión nueva
-         ahí, en Opus**. Los dos binarios de fuente no confiable
-         (`renodx-dlss5.addon64` v4.55 + `nvngx_dlssnr.dll`, del Discord de
-         RenoDX) los baja Fran, no la sesión.
+         cambia): `sesiones/HANDOFF.md` sección 8.7.
+
+         LA PREGUNTA DE ARQUITECTURA ESTÁ RESPONDIDA (2026-09-02, Opus,
+         `confirmado`, sin abrir el emulador): **el swapchain es 1920x1080**,
+         no 2568x1800. `ReShade.log` de la corrida de R1 (Renderer=15,
+         upscale_multiplier=4) vuelca `Width 1920 / Height 1080` en el hook de
+         `CreateSwapChainForHwnd`, en la MISMA corrida en que R0 midió el
+         depth a 2568x1800. PCSX2 reescala a resolución de ventana ANTES del
+         `Present`, que es donde engancha ReShade.
+             -> DLAA corre a 1080p, no a 2568x1800. **EL DISEÑO NO CAMBIA.**
+             -> La restricción de resolución de salida se cumple sola.
+             -> El 4x no se desperdicia: el downscale ya es supersampling.
+             -> El depth a 2568x1800 con color a 1080p NO es problema:
+                `DLSS5_Feed.fx` lo copia a `DLSS5_Depth` (R32F), y las
+                texturas de efecto de ReShade son del tamaño del backbuffer.
+             -> En la PC de escritorio (2K) el costo escala con la PANTALLA,
+                no con `upscale_multiplier`.
+         Detalle y runbook completo: `sesiones/HANDOFF.md` sección **8.8**.
+
+         BLOQUEO ÚNICO de R2, y es de Fran: `renodx-dlss5.addon64` **v4.55**
+         + `nvngx_dlssnr.dll` del Discord de RenoDX (fuente no confiable, no
+         la baja la sesión). Medido el 2026-09-02: NO están en `Downloads/`.
+         Lo demás es runbook: ReShade **6.8.0 Addon** de reshade.me (winget
+         sigue en 6.6.2, no sirve; el build Addon es unsigned), el *release*
+         de DLSS5-Feeder y LumeniteFX. `nvngx_dlss.dll` resultó OPCIONAL.
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo

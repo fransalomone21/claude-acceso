@@ -485,3 +485,72 @@ precedente reproducible (el present path D3D12 de PCSX2 contra este
 pipeline), con una pregunta abierta concreta arriba que decide si el diseño
 entero cambia. Esfuerzo: high, sin fan-out — es un solo hilo de lectura y
 diseño, no una tarea que se beneficie de paralelismo.
+### 8.8 R2 — LA PREGUNTA DE ARQUITECTURA, RESPONDIDA: el backbuffer es 1920x1080, NO 2568x1800
+
+**Grado: `confirmado`.** Medido de fuente primaria (`ReShade.log` de la
+instalación corta, corrida del 2026-09-01 23:05, la misma config que ganó R1:
+`Renderer = 15`, `upscale_multiplier = 4`):
+
+```
+23:05:49:807 | Redirecting IDXGIFactory2::CreateSwapChainForHwnd(...)
+23:05:49:808 | > Dumping swap chain description:
+23:05:49:808 |   | Width   | 1920 |
+23:05:49:808 |   | Height  | 1080 |
+23:05:49:808 |   | Format  | DXGI_FORMAT_R8G8B8A8_UNORM |
+23:05:49:819 | Running on NVIDIA GeForce RTX 4060 Laptop GPU Driver 610.62.
+```
+
+Es el path D3D12 (el bloque inmediatamente anterior en el log es un
+`D3D12_COMMAND_QUEUE_DESC` — Type/Priority/Flags/NodeMask), y en la misma
+corrida R0 midió el depth en 2568x1800. **Dos números distintos en la misma
+sesión: el swapchain NO sigue a la resolución interna.**
+
+**Qué significa, y por qué cierra la duda:**
+
+PCSX2 renderiza el GS a 2568x1800 en render targets propios (eso es lo que
+Generic Depth encuentra como depth), y **reescala a 1920x1080 ANTES del
+`Present`**. ReShade engancha el swapchain, así que sus texturas de efecto —
+el `backbuffer` que DLSS5-Feeder lee "zero-copy" en D3D12 — son de
+**1920x1080**.
+
+| recurso | tamaño | quién lo ve |
+|---|---|---|
+| render target interno del GS | 2568x1800 | Generic Depth (el depth de R0) |
+| **swapchain / backbuffer** | **1920x1080** | **ReShade y DLSS5-Feeder** |
+
+**Consecuencia: EL DISEÑO NO CAMBIA.** La reconstrucción DLAA corre a
+1920x1080 (`render size = output size`, 1:1, sin jitter — README de
+DLSS5-Feeder, sección *How it works*), no a 2568x1800. La restricción de
+scope de Fran ([[black-remaster-resolucion-objetivo]]: la salida final no
+supera la resolución nativa de la pantalla) **se cumple por construcción**,
+sin tener que tocar nada. La hipótesis de 8.7 —que DLAA iba a correr sobre
+2568x1800 y salir carísimo— queda **falsificada**.
+
+Y el 4x no se desperdicia: el downscale de 2568x1800 a 1080p ya es
+supersampling, y DLAA + neural rendering corren encima de eso a 1080p.
+
+**El desajuste de tamaños que esto destapa, y por qué NO es un problema:**
+el depth queda a 2568x1800 mientras el color está a 1920x1080. No hay que
+hacer nada: `DLSS5_Feed.fx` **copia** el depth a su propia textura
+`DLSS5_Depth` (R32F) en un pase MRT de ReShade, y las texturas de efecto de
+ReShade se asignan al tamaño del backbuffer. El resample lo hace ReShade al
+bindear el depth con UVs normalizadas. El contrato que le llega a NGX es
+1920x1080 en las tres entradas (color, depth, MV).
+
+**Detalle de configuración que sale de esto:** `PCSX2.ini` tiene
+`StartFullscreen = true`, y el swapchain salió `Windowed = TRUE` a 1920x1080
+— o sea borderless a resolución de pantalla. **Si el pipeline se lleva a la
+PC de escritorio (2K), el backbuffer va a ser 2K y DLAA va a correr a 2K**:
+el costo del pipeline escala con la PANTALLA, no con el `upscale_multiplier`.
+Es el eje correcto, pero conviene tenerlo escrito antes de medir allá.
+
+**Qué falta para cerrar R2, medido en disco el 2026-09-02:**
+
+| Pieza | Estado real |
+|---|---|
+| ReShade **6.8.0** Addon | **falta.** Hay 6.6.2. 6.8.0 salió el 2026-08-02 y existe (`ReShade_Setup_6.8.0_Addon.exe`, reshade.me). **winget NO sirve: `Reshade.Setup.AddonsSupport` sigue en 6.6.2.** El build Addon es **unsigned** (lo dice reshade.me). |
+| `dlss5-feed.addon64` + `DLSS5_Feed.fx` | falta — de Releases de DLSS5-Feeder, no del zip de `main` |
+| LumeniteFX (`DLSS5_MV_PROVIDER=3`) | falta — Code ▸ Download ZIP |
+| `renodx-dlss5.addon64` **v4.55** + `nvngx_dlssnr.dll` | **falta, y sólo lo puede bajar Fran** (Discord de RenoDX). Medido: `Downloads/` NO los tiene todavía. |
+| `nvngx_dlss.dll` | **OPCIONAL** — el README dice que si no está, se usa la copia del driver. Además hay dos instaladores de DLSS Swapper en `Downloads/` (de mayo 2025) si hiciera falta. |
+

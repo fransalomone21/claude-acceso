@@ -16,6 +16,53 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-02 (45) — R2: la pregunta de arquitectura, RESPONDIDA — el backbuffer es 1080p, el diseno no cambia
+
+**Maquina:** notebook MSI Sword 15 · **Modelo:** Opus, esfuerzo high, sin fan-out
+**Objetivo:** responder la pregunta de arquitectura de HANDOFF 8.7 ANTES de instalar nada:
+si ReShade (y por lo tanto DLSS5-Feeder) engancha el framebuffer a la resolucion INTERNA
+de PCSX2 (2568x1800 a 4x) o a la de salida. De la respuesta dependia si el diseno entero
+del pipeline cambiaba y si chocaba con la restriccion de scope de Fran.
+**Resultado:**
+1. **RESPONDIDA, `confirmado`, sin abrir el emulador: el swapchain es 1920x1080.**
+   `ReShade.log` de la corrida del 2026-09-01 23:05 (misma config que gano R1: Renderer=15
+   D3D12, upscale_multiplier=4) vuelca la descripcion del swapchain en el hook de
+   `CreateSwapChainForHwnd`: `Width 1920 / Height 1080`, `R8G8B8A8_UNORM`. En esa MISMA
+   corrida R0 midio el depth en 2568x1800. Dos numeros distintos, una sola sesion:
+   **el swapchain no sigue a la resolucion interna.** PCSX2 reescala de 2568x1800 a
+   1920x1080 ANTES del `Present`, que es donde engancha ReShade.
+2. **La hipotesis de (44)/8.7 queda FALSIFICADA, para el lado bueno.** DLAA no va a correr
+   sobre 2568x1800: corre sobre 1920x1080 (`render size = output size`, 1:1, sin jitter).
+   La restriccion de [[black-remaster-resolucion-objetivo]] se cumple **por construccion**,
+   sin tocar nada. Y el 4x no se desperdicia: el downscale a 1080p ya es supersampling y
+   DLAA + neural rendering van encima.
+3. **El desajuste que esto destapa no es un problema, y esta resuelto en el propio disenio
+   de DLSS5-Feeder:** el depth queda a 2568x1800 y el color a 1080p, pero `DLSS5_Feed.fx`
+   COPIA el depth a su textura propia `DLSS5_Depth` (R32F) en un pase MRT de ReShade, y las
+   texturas de efecto se asignan al tamanio del backbuffer. NGX recibe el contrato con las
+   tres entradas a 1920x1080.
+4. **Consecuencia nueva para la PC de escritorio:** el costo del pipeline escala con la
+   PANTALLA, no con `upscale_multiplier`. En 2K el backbuffer va a ser 2K y DLAA va a correr
+   a 2K. Escrito antes de medir alla.
+5. **Medido en disco, no asumido:** ReShade 6.8.0 existe (salio el 2026-08-02) y es
+   exactamente el minimo que pide DLSS5-Feeder. **winget NO sirve**:
+   `Reshade.Setup.AddonsSupport` sigue publicando 6.6.2, que es lo que ya hay instalado.
+   Hay que bajar `ReShade_Setup_6.8.0_Addon.exe` de reshade.me — y ese build es **unsigned**,
+   lo dice la propia pagina. Los dos binarios del Discord de RenoDX **siguen sin estar** en
+   `Downloads/` (medido, no supuesto).
+6. **Una pieza menos de lo que decia 8.7:** `nvngx_dlss.dll` es OPCIONAL — el README dice
+   que si no esta al lado del exe se usa la copia del driver. Y de ultima hay dos
+   instaladores de DLSS Swapper en `Downloads/` desde mayo 2025.
+**No funciono:** nada fallo. Vale registrar que la pregunta se respondio **sin abrir el
+emulador y sin instalar nada** — el dato ya estaba en un log que la sesion anterior habia
+generado y no habia leido. El default en frio (`apertura-proyecto`) pago aca.
+**Sigue:** R2 sigue ABIERTA y **bloqueada por Fran** en una sola pieza: `renodx-dlss5.addon64`
+v4.55 + `nvngx_dlssnr.dll` del Discord de RenoDX (fuente no confiable, no la baja la sesion).
+Lo demas es ejecucion de runbook ya decidido: ReShade 6.8.0 Addon, el release de
+DLSS5-Feeder, LumeniteFX. Runbook completo en `sesiones/HANDOFF.md` 8.8.
+
+---
+
 ## 2026-09-02 (44) — R2: hay precedente público en PCSX2, y el runbook exacto para D3D12 salió de los README primarios
 
 **Máquina:** notebook MSI Sword 15 · **Modelo:** Sonnet, esfuerzo medium (lectura de fuentes primarias), sin fan-out
