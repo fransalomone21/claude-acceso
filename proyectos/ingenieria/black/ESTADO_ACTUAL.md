@@ -382,7 +382,21 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
          (sin clicks en Ajustes→Gráficos). Tabla y capturas:
          `pruebas/R1-rendimiento/resultados.md`. Detalle: `sesiones/HANDOFF.md`
          sección 8.5. `PCSX2.ini` quedó en Renderer=15, upscale_multiplier=4.
-         Sigue abierto R2: armar el pipeline DLSS5/ReShade sobre esta base.
+
+     R2  armar el pipeline real de DLSS5/ReShade sobre D3D12@4x .... ABIERTA
+         Investigación de viabilidad hecha (2026-09-01, bitácora 43): "DLSS 5"
+         es un producto NVIDIA real (post mi corte de entrenamiento) y SÍ hay
+         dos proyectos community (dlss5-bridge, DLSS5-Feeder) que lo inyectan
+         en juegos sin soporte nativo, usando profundidad ReShade -- lo mismo
+         que R0 ya midió. Pero el add-on núcleo (`renodx-dlss5.addon64`) sólo
+         se distribuye por Discord, y esta RTX 4060 Laptop (GPU real medida,
+         no oficial DLSS5 == RTX 50+) necesita una DLL de NVIDIA parcheada
+         por la comunidad para saltarse el candado de hardware. Bajar esos
+         dos binarios cae en "fuente no confiable", prohibido para esta
+         sesión sin excepción de permiso: si se sigue por acá, los baja Fran.
+         Sin precedente documentado sobre ningún emulador. Detalle completo,
+         con los dos repos y el riesgo de ghosting por motion vectors
+         estimados: `sesiones/HANDOFF.md` sección 8.7.
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo

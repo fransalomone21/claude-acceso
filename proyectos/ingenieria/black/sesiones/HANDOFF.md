@@ -7,8 +7,8 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 **Dos líneas de trabajo activas en paralelo, independientes entre sí:**
 - **7e** (reversing, secciones 1-7 de este archivo) — intacta, nadie la tocó
   esta sesión.
-- **BLACK Remaster / DLSS5, R0** (sección **8**, nueva) — abierta, sin medir
-  todavía ninguna de las 3 casillas.
+- **BLACK Remaster / DLSS5** (sección **8**) — R0 y R1 cerradas; **R2 abierta**,
+  investigación de viabilidad hecha, nada instalado.
 
 Si retomás 7e: las secciones 1-7 siguen siendo la fuente. Si retomás el
 Remaster: andá directo a la sección 8.
@@ -252,13 +252,13 @@ volcados.
 - **`P2` tiene campos hasta `+0x8A`** (los usa el `0x35`), y la kb lo describe
   como `{count, array}` de 8 B. **No medido.**
 
-## 8. BLACK REMASTER / DLSS5 — R0 y R1 CERRADAS (línea nueva, no toca 7e)
+## 8. BLACK REMASTER / DLSS5 — R0/R1 CERRADAS, R2 ABIERTA (línea nueva, no toca 7e)
 
 ### 8.1 QUÉ LEER PARA RETOMAR ESTO, EN ORDEN
 
-1. Esta sección, entera.
+1. Esta sección, entera — **empezar por 8.7**, es lo abierto.
 2. `ESTADO_ACTUAL.md`, bloque "REMASTER GRÁFICO (DLSS5)" (después de N2).
-3. `docs/03-bitacora.md`, entradas 42, 41 y 40.
+3. `docs/03-bitacora.md`, entradas 43, 42, 41 y 40.
 4. Las capturas: `pruebas/R0-depth/` y `pruebas/R1-rendimiento/`.
 
 **NO hace falta** leer nada de 7e (secciones 1-7 de este mismo archivo) para
@@ -397,3 +397,72 @@ D3D12 @ 4x y confirmar por efecto que sostiene FPS con el upscaler activo.
   `pcsx2-qt.exe -statefile "<ruta .p2s>" "<ruta Black.iso>"`.
 - El ISO original y sus permisos (ReadOnly + guardia) **no se tocaron**. Cero
   parches vivos en RAM: esta sesión no escribió memoria ni ISO.
+
+### 8.7 R2 — ABIERTA: DLSS 5 real existe y es técnicamente viable, nada instalado
+
+**GPU real de esta notebook, medida (`Get-CimInstance Win32_VideoController`):
+NVIDIA GeForce RTX 4060 Laptop GPU.** No había ningún shader de
+DLSS/FSR/NIS en el disco — sólo el paquete estándar de ReShade (SweetFX +
+genéricos) que ya se instaló para R0/R1. Tampoco un patch de 60fps guardado
+para `SLUS-21376` (Fran dice haber probado alguno fuera de esta sesión; no
+quedó registrado dónde). Si se retoma esa vía, hay uno público y mantenido:
+[Gabominated/PCSX2 — `PCSX2 Patches/SLUS-21376_5C891FF1.pnach`](https://github.com/Gabominated/PCSX2/blob/main/PCSX2%20Patches/SLUS-21376_5C891FF1.pnach)
+(50/60fps, puede necesitar EE Overclock 180%) — no verificado por efecto
+todavía, ni siquiera descargado.
+
+**"DLSS 5" es un producto NVIDIA real** (posterior a mi corte de
+entrenamiento), y desde fines de agosto de 2026 hay un ecosistema community
+activo que lo mete en juegos sin soporte nativo:
+
+- [`NIGos/dlss5-bridge`](https://github.com/NIGos/dlss5-bridge) — v1.4.1,
+  MIT, 172 estrellas, release real en GitHub. En D3D12 (el renderer que R1 ya
+  eligió) los motion vectors salen de shaders de ReShade, no del optical flow
+  del driver — coincidencia útil con la elección de R1, que se hizo sin saber
+  esto.
+- [`jlrouzies-fr/DLSS5-Feeder`](https://github.com/jlrouzies-fr/DLSS5-Feeder)
+  — v0.10.0-beta.2, 520 estrellas, release real en GitHub. Sintetiza un
+  "contrato DLAA" (profundidad ReShade + 5 estimadores de motion vector
+  alternativos, recomendado LumeniteFX Kernel) para juegos que no exponen
+  DLSS ni motion vectors reales, que es el caso de PCSX2. Beta explícita;
+  avisa ghosting en movimiento rápido con vectores estimados.
+
+**El obstáculo real no es que "DLSS5" no exista — es la procedencia de dos
+binarios que ninguno de los dos proyectos empaqueta:**
+
+1. `renodx-dlss5.addon64` (comunidad RenoDX, el add-on núcleo del que
+   dependen los dos) **sólo se distribuye por el Discord de RenoDX**, canal
+   `#DLSS5`, y hay que fijarlo a v4.55 (versiones más nuevas chocan con
+   DLSS5-Feeder).
+2. DLSS 5 Neural Rendering es oficialmente **RTX 50 en adelante**. Esta RTX
+   4060 Laptop necesita una `nvngx_dlss.dll`/`nvngx_dlssnr.dll` **parcheada
+   por la comunidad** para saltarse ese candado de hardware — un binario
+   propietario de NVIDIA modificado y redistribuido fuera de canal oficial.
+
+Bajar y ejecutar cualquiera de los dos es "archivo de fuente no confiable",
+que esta sesión tiene prohibido sin excepción de permiso explícito del
+usuario — no se resuelve con que Fran lo autorice en el chat, la baja tiene
+que hacerla él. **Nada de esto se instaló.**
+
+Tampoco hay precedente documentado de ninguno de los dos proyectos corriendo
+sobre un emulador: los ejemplos que aparecieron (Fallout 4, FF7 Rebirth,
+Control, Stellar Blade) son juegos nativos con motion vectors reales del
+motor. PCSX2 rasteriza el framebuffer del GS sin pase de motion vectors, así
+que necesitaría el camino de vectores **estimados** — el mismo que el propio
+README de DLSS5-Feeder marca con la advertencia de ghosting en movimiento
+rápido, justo lo que domina el gameplay de BLACK.
+
+**Decisión que le toca a Fran, no a esta sesión:**
+
+- (a) Empezar por un shader de upscaling/sharpening sin candado de hardware
+  y sin binario de fuente no confiable (FSR1 o NIS portado a ReShade,
+  mecanismo idéntico a `DisplayDepth.fx`) como piso del pipeline, e ir a DLSS5
+  real después si Fran mismo baja los dos binarios.
+- (b) Ir directo a DLSS5 real asumiendo que Fran baja `renodx-dlss5.addon64`
+  del Discord y la DLL de NGX parcheada, y esta sesión arma el resto
+  (dlss5-bridge o DLSS5-Feeder, configuración, medición) alrededor de eso.
+
+**Modelo recomendado para lo que sigue de R2:** Opus. Ya no es investigación
+general — es la primera hipótesis de arquitectura en territorio desconocido
+(cómo interactúa el pipeline de reconstrucción neural con el present path
+D3D12 de PCSX2, que no tiene precedente documentado), y la política del
+perfil global asigna exactamente ese tipo de trabajo a Opus.

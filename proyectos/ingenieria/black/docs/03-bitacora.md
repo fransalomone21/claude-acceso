@@ -16,6 +16,59 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-01 (43) — R2 abierta: DLSS 5 Neural Rendering es real y técnicamente viable — no instalado, dos capas de fuente no confiable en el medio
+
+**Máquina:** notebook MSI Sword 15 · **Modelo:** Sonnet, esfuerzo medium (investigación web), sin fan-out
+**Objetivo:** entender qué es concretamente el "pipeline DLSS5/ReShade" que R1 dejó como
+próximo paso, dato que —como ya diagnosticó (41)— sólo vivía en un chat anterior nunca
+documentado. Fran pidió investigar fuentes oficiales y no oficiales y usar lo que dé
+máximo apalancamiento.
+**Resultado:** midiendo primero lo que ya estaba en la máquina (rule 4 del perfil: el
+estado se mide, no se supone) — la GPU de esta notebook es una **NVIDIA GeForce RTX 4060
+Laptop** (`Get-CimInstance Win32_VideoController`), y no quedó ningún shader de
+DLSS/FSR/NIS instalado, sólo el paquete estándar de ReShade (SweetFX + genéricos). Tampoco
+había ningún patch de 60fps guardado para `SLUS-21376` (el único `.pnach` presente es un
+mod de dificultad sin relación). Búsqueda web: **"DLSS 5" es un producto real de NVIDIA**,
+posterior a mi corte de entrenamiento, con un ecosistema de modding activo desde fines de
+agosto de 2026 que agrega neural rendering a juegos **sin soporte nativo**, usando
+exactamente lo que R0 ya midió — profundidad vía ReShade — como insumo. Dos proyectos
+community relevantes, los dos con releases reales en GitHub (no sólo Discord):
+
+- [`NIGos/dlss5-bridge`](https://github.com/NIGos/dlss5-bridge) — v1.4.1, MIT, 172
+  estrellas. En D3D12 (el renderer que R1 ya eligió) los motion vectors salen de shaders
+  de ReShade, no del motor de optical flow del driver.
+- [`jlrouzies-fr/DLSS5-Feeder`](https://github.com/jlrouzies-fr/DLSS5-Feeder) — v0.10.0-beta.2,
+  520 estrellas. Sintetiza un "contrato DLAA" (profundidad ReShade + 5 estimadores de
+  motion vector alternativos) para juegos que no exponen DLSS ni motion vectors reales —
+  es el caso de PCSX2, que rasteriza cada frame del GS sin pase de motion vectors.
+
+**El cuello de botella real no es la GPU, es la procedencia de dos binarios:**
+
+1. El add-on núcleo del que dependen los dos (`renodx-dlss5.addon64`, de la comunidad
+   RenoDX) **no se distribuye por GitHub — sólo por el Discord de RenoDX**, canal
+   `#DLSS5`, fijado a la versión v4.55 (las posteriores chocan con DLSS5-Feeder).
+2. DLSS 5 Neural Rendering es oficialmente **RTX 50 en adelante**; esta RTX 4060 necesita
+   una `nvngx_dlss.dll`/`nvngx_dlssnr.dll` **parcheada por la comunidad** para saltarse ese
+   candado de hardware — un binario propietario de NVIDIA modificado y redistribuido fuera
+   de canal oficial.
+
+Bajar y ejecutar cualquiera de los dos cae en "descargar/ejecutar archivos de fuente no
+confiable", que es una acción que esta sesión tiene prohibida de forma dura —no se
+resuelve con permiso de Fran, hay que hacerlo él mismo si decide seguir por acá.
+**No se instaló nada.**
+**No funcionó:** no aplica — esto fue investigación, no medición sobre el objeto real.
+**Sigue:** la decisión es de Fran: (a) arrancar por un shader de upscaling/sharpening
+"seguro" (FSR1/NIS en ReShade, sin candado de hardware, instalable hoy) como piso del
+pipeline, y dejar DLSS5 real como rama en paralelo si Fran baja él mismo los dos binarios
+del Discord/parche de NGX; o (b) ir directo a DLSS5 real asumiendo el riesgo. Ninguna de
+las dos tiene precedente documentado sobre un emulador — todos los ejemplos encontrados
+(Fallout 4, FF7 Rebirth, Control, Stellar Blade) son juegos nativos con motion vectors
+reales; PCSX2 necesitaría el camino de "motion vectors estimados", que el propio README de
+DLSS5-Feeder avisa que da ghosting en movimiento rápido — justo el tipo de escena que
+domina BLACK.
+
+---
+
 ## 2026-09-01 (42) — R1 CERRADA: D3D12 @ 4x gasta un tercio de GPU que D3D11, mismo FPS
 
 **Máquina:** notebook MSI Sword 15 · **Modelo:** Sonnet, esfuerzo low, sin fan-out
