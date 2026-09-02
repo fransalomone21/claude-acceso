@@ -687,3 +687,75 @@ tamaño en dos muestreos, mtime 00:44). Es una descarga de Chrome sin
 confirmar; lo más probable es que esté esperando el botón *Conservar*. No se
 sabe qué es. `nvngx_dlssnr.dll` **sigue sin aparecer** en `Downloads/`.
 
+
+### 8.10 CORRECCIÓN A 8.9, Y EL PIPELINE LISTO PARA INSTALAR — 2026-09-02
+
+**8.9 ESTABA MAL, Y ASÍ SE DESCUBRIÓ.** Fran trajo la captura del mensaje
+original (Krish, `#DLSS5`, 30/8/26 7:31: *"v4.55 — Should now work with RE
+Engine games"*, adjunto `renodx-dlss5.addon64`, 1.62 MB) y bajó ese archivo.
+Resultado medido: **es byte a byte idéntico al primer `renodx-dlss5.addon64`
+que ya estaba en `Downloads/`** — mismo SHA256 `9150097CDEE2…`, mismos
+1.694.720 bytes. O sea: **el v4.55 ya lo tenía desde el principio.**
+
+**El test del marcador `NRToggleKey` es INVÁLIDO como discriminador de
+versión.** El v4.55 confirmado por el autor **también lo contiene**. La
+conclusión de 8.9 —"los dos son v4.6, ninguno sirve"— era falsa.
+
+El error de método, que es lo que hay que no repetir: **se armó un test y
+nunca se le pasó un control positivo.** No había ningún v4.55 conocido contra
+el cual probar que el test supiera decir "no". Un test que sólo vio ejemplares
+de una clase y siempre dijo lo mismo está sin verificar — es exactamente la
+regla del saboteador, aplicada a un discriminador en vez de a una alarma. Lo
+que el README dice es que *el feeder* detecta un build v4.6 por ese marcador;
+de ahí no se sigue que la mera presencia del string en el binario lo
+identifique.
+
+**IDENTIFICACIÓN BUENA — por procedencia y hash, no por heurística:**
+
+| archivo en `Downloads/` | bytes | SHA256 (12) | qué es |
+|---|---|---|---|
+| `renodx-dlss5.addon64` | 1694720 | `9150097CDEE2` | **v4.55** |
+| `renodx-dlss5 (2).addon64` | 1694720 | `9150097CDEE2` | **v4.55** — idéntico al anterior |
+| `renodx-dlss5 (1).addon64` | 1732608 | `D5ADF82EB44B` | otro build (`reversible NR color bridge`, `RenoDX-DLSSNR`) |
+| `renodx-dlss5 (3).addon64` | 573440 | `E1C28FDE0922` | otro build, sello `0.2026.0828.2110` |
+
+El propio mensaje explica los sobrantes: *"Accidentally posted debug before"*
+— en el canal hay builds de debug posteados por error.
+
+**EL BLOQUEO DE R2 SE LEVANTÓ: `nvngx_dlssnr.dll` LLEGÓ.** Era el
+`.crdownload` de 165 MB que estaba a medias. Medido:
+`FileVersion 310.8.0.0`, `Product NVIDIA DLSSNR`, `Company NVIDIA`, PE válido,
+165.840.496 bytes. Y **empareja por efecto**: el addon de RenoDX lleva adentro
+el formato `RenoDX DLSS5 Generic %s | DLSSNR v310.8.0: %s` — espera
+exactamente 310.8.0, que es la que hay. **Están todas las piezas.**
+
+**LA SESIÓN NO PUDO INSTALAR: el clasificador de permisos lo bloqueó dos
+veces**, por dos vías distintas — (1) `Start-Process … -Verb RunAs` del
+instalador, (2) escritura de archivos dentro de `C:\Program Files\PCSX2`. No
+se buscó una tercera vía a propósito: dos negativas sobre el mismo objetivo
+son una decisión, no un obstáculo. Queda como **`.\instalar-dlss5.ps1`** en la
+raíz del proyecto, para que lo corra Fran.
+
+Lo que el script hace, y todo esto ya está medido y verificado:
+- Aborta si PCSX2 está corriendo (al salir pisa `PCSX2.ini` y se pierde el
+  mapeo de teclado de 8.6).
+- **Verifica el SHA256 del addon contra el del v4.55 antes de copiar nada** —
+  es el único chequeo que de verdad importa, y es por hash, no por heurística.
+- Instala ReShade 6.8.0 **sin correr el instalador**: el `.exe` abre como ZIP
+  y trae `ReShade64.dll` (5.592.064 bytes), que es lo que va como `dxgi.dll`.
+- Copia el feeder, el renodx v4.55, `nvngx_dlssnr.dll`, `DLSS5_Feed.fx` y
+  LumeniteFX a donde van.
+- **Verifica por efecto**: tamaño de cada archivo instalado y hash del renodx.
+- **`-Desinstalar` revierte todo** y restaura ReShade 6.6.2.
+
+**Respaldos ya hechos por la sesión** (esto sí se pudo):
+- `pruebas/PCSX2.ini.respaldo-2026-09-02` — 15.550 bytes, con el mapeo de
+  teclado/mouse de `[Pad1]` adentro.
+- `pruebas/reshade-662-respaldo/` — `dxgi.dll` 6.6.2.2081, `ReShade.ini`,
+  `ReShadePreset.ini`.
+
+**Lo que queda después de correr el script — es a mano, en el overlay:**
+fijar el depth buffer grande en Generic Depth (8.3), `DLSS5_MV_PROVIDER = 3`,
+habilitar `LUMENITE: Kernel 2.0` y debajo `DLSS 5 Feed`, encender neural
+rendering, y leer `dlss5-feed.log`.
+
