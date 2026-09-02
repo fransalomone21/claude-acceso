@@ -554,3 +554,25 @@ Es el eje correcto, pero conviene tenerlo escrito antes de medir allá.
 | `renodx-dlss5.addon64` **v4.55** + `nvngx_dlssnr.dll` | **falta, y sólo lo puede bajar Fran** (Discord de RenoDX). Medido: `Downloads/` NO los tiene todavía. |
 | `nvngx_dlss.dll` | **OPCIONAL** — el README dice que si no está, se usa la copia del driver. Además hay dos instaladores de DLSS Swapper en `Downloads/` (de mayo 2025) si hiciera falta. |
 
+
+**LINKS EXACTOS, verificados el 2026-09-02 — y DOS CORRECCIONES:**
+
+| # | Pieza | Link |
+|---|---|---|
+| a | ReShade **6.8.0** Addon (unsigned) | `https://reshade.me/downloads/ReShade_Setup_6.8.0_Addon.exe` |
+| b | DLSS5-Feeder release | `https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/latest` |
+| c | LumeniteFX (ZIP directo) | `https://github.com/umar-afzaal/LumeniteFX/archive/refs/heads/mainline.zip` |
+| d | RenoDX Discord `#DLSS5` (lo baja **Fran**) | `https://discord.com/channels/1408098019194310818/1542647972695904317` |
+| e | DLSS Swapper (opcional, para `nvngx_dlss.dll`) | `https://github.com/beeradmoore/dlss-swapper/releases/latest` |
+| f | `ReShade.fxh` de repuesto, si el log dice que no lo encuentra | `https://github.com/crosire/reshade-shaders/tree/slim/Shaders` |
+| — | dlss5-bridge — **NO bajar**, no es para este caso | `https://github.com/NIGos/dlss5-dx11-bridge/releases` |
+
+1. **La bitácora 44 dijo `DLSS5-Feeder-0.10.0-beta.2.zip`. Es incorrecto.**
+   El release más nuevo es **v0.7.0** (2026-08-31), y sus assets son
+   archivos sueltos, no un zip: `dlss5-feed.addon64`, `dlss5-feed.addon32`,
+   `dlss5-feed-host64.exe`, `DLSS5_Feed.fx`, `feed-vk-layer.zip`,
+   `spike-gl64.exe`, `spike-gl32.exe`. Para el caso de PCSX2 (64-bit D3D12)
+   hacen falta **sólo dos**: `dlss5-feed.addon64` y `DLSS5_Feed.fx`.
+2. **La rama por default de LumeniteFX es `mainline`, no `main`.** El link
+   de "Code ▸ Download ZIP" construido a ojo (`heads/main.zip`) da 404.
+

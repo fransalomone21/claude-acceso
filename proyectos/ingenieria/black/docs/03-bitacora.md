@@ -56,6 +56,12 @@ del pipeline cambiaba y si chocaba con la restriccion de scope de Fran.
 **No funciono:** nada fallo. Vale registrar que la pregunta se respondio **sin abrir el
 emulador y sin instalar nada** — el dato ya estaba en un log que la sesion anterior habia
 generado y no habia leido. El default en frio (`apertura-proyecto`) pago aca.
+7. **CORRIGE a (44) en dos datos, verificados contra las paginas reales:** el release mas
+   nuevo de DLSS5-Feeder es **v0.7.0** (2026-08-31), NO `0.10.0-beta.2` como escribio (44);
+   y sus assets son archivos sueltos, no un zip — para PCSX2 hacen falta solo
+   `dlss5-feed.addon64` y `DLSS5_Feed.fx`. Ademas la rama por default de LumeniteFX es
+   **`mainline`**, no `main`: el link de "Download ZIP" armado a ojo da 404. Tabla de links
+   exactos al final de HANDOFF 8.8.
 **Sigue:** R2 sigue ABIERTA y **bloqueada por Fran** en una sola pieza: `renodx-dlss5.addon64`
 v4.55 + `nvngx_dlssnr.dll` del Discord de RenoDX (fuente no confiable, no la baja la sesion).
 Lo demas es ejecucion de runbook ya decidido: ReShade 6.8.0 Addon, el release de
