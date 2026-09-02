@@ -1122,3 +1122,158 @@ hablar") — se puede leer y buscar, no postear.
 resultados** sobre un hilo que existe y se llama *"Patched DLSS-NR for RTX20, RTX30, and RTX40"*.
 El parámetro de búsqueda era el problema, no la búsqueda. Abrir el canal `dlss5-forum` y leer el
 listado del foro lo resolvió en un paso.
+
+### 8.15 AUDITORÍA DE LOS LINKS Y LAS VERSIONES: qué NO hay que bajar, y la 4.ª fuente que confirma 8.13 — 2026-09-02
+
+Fran trajo cuatro links nuevos del Discord y pidió revisarlos **antes** de bajar nada. Se
+auditaron por metadata de GitHub y README/release notes, no por lo que dice el mensaje que los
+compartió.
+
+#### Lo primero, y cierra un eje que estaba abierto: el `dlssnr` YA es el parcheado de ShortFuse
+
+La captura del pin de ShortFuse (*"Patched DLSS-NR for RTX20, RTX30, and RTX40 support"*) muestra
+el adjunto `nvngx_dlssnr.dll` de **158,16 MB**. El instalado mide **165.840.496 bytes = 158,16 MiB**
+exactos. Es el mismo archivo.
+
+`confirmado` por coincidencia de tamaño al centésimo de MB + `FileVersion` 310.8.0.0 + firma
+`HashMismatch` (la que corresponde a un binario parcheado). **El segundo sospechoso de la
+predicción de 8.13 —"el `dlssnr` no parcheado para Ada"— queda descartado sin necesidad de
+probarlo.** Si tras copiar `nvngx_dlss.dll` el valor sigue en 0, el siguiente sospechoso ya NO es
+ese: hay que buscar otro.
+
+#### CUARTA fuente independiente de la causa de 8.13, y esta vez es un desarrollador
+
+`NIGos/dlss5-bridge` documenta el mismo mecanismo desde afuera del Discord, en su README y en las
+notas de dos releases:
+
+> README, tabla de requisitos: *"`nvngx_dlss.dll` **3.1.13 or newer** — from the game, if it has
+> DLSS. ... **the driver store carries no super-resolution snippet**"*
+>
+> v1.4.2 (2026-09-02): *"**A missing `nvngx_dlss.dll` is named before the substitute contract is
+> attempted.** A game without DLSS brings no super-resolution snippet and the NVIDIA driver
+> carries none, so the panel and the log now say which file to copy beside the executable"*
+>
+> v1.4.0: *"`nvngx_dlss.dll` must be beside the executable, **in a game without DLSS too**"*
+
+Las tres fuentes de 8.13 eran usuarios del Discord; ésta es el autor de un add-on, que además
+mide el efecto en su propio banco de pruebas. Y aporta **el requisito duro que faltaba**:
+
+**El umbral es `>= 3.1.13`, no 310.8.** *"DLAA arrived in SDK 3.1.13; older runtimes accept it and
+degrade the picture"*. El `310.8` del Discord (*"keep both nvngx DLLs on the same version"*) es
+convención de la comunidad, no un requisito medido.
+
+**Consecuencia operativa: el camino (a) del retome deja de ser un test de descarte y pasa a ser
+el camino correcto.** El `310.2.1.0` que ya está en el disco cumple el requisito documentado con
+holgura. No hay que conseguir nada para cerrar la fase.
+
+Origen elegido, re-medido el 2026-09-02:
+```
+C:\Games\The Last of Us Part I\nvngx_dlss.dll
+  48.971.832 bytes | v310.2.1.0 | firma Valid | SHA256 4E85CDBE0896AAB5...
+```
+La copia del caché de DLSS Swapper tiene el **mismo SHA256** — son el mismo archivo, da igual cuál
+se use. El caché de DLSS Swapper se inventarió entero: **sólo tiene 310.2.1.0**, no hay 310.8.
+
+#### Los cuatro links, uno por uno
+
+| Link | Qué es | Veredicto |
+|---|---|---|
+| `NIGos/dlss5-bridge` v1.4.2 | 184★, MIT, C++, creado 2026-08-28 | **NO APLICA** |
+| `NIGos/ngxGym` | 1★, creado 2026-09-01 | **NO** |
+| `RankFTW/RHI` 2.5.4 | 897★, GPL-3.0, C#, "ReShade HDR Installer" | **NO, y no es por seguridad** |
+| `jlrouzies-fr/DLSS5-Feeder` 0.11.0-beta.2 | el feeder ya instalado, versión de hoy | **NO AHORA** |
+
+**dlss5-bridge — no aplica por arquitectura, y su propio README lo dice:** *"The DLSS 5 neural
+rendering add-on only works where a game runs DLSS on **DirectX 12**. This bridge gives it that:
+it mirrors a **DirectX 11 or Vulkan** game's own DLSS onto a private DirectX 12 session"*. PCSX2
+acá corre **D3D12 nativo** (`Renderer=15`), que es justamente lo que el bridge existe para
+fabricar. Instalarlo agrega un add-on que hookea los mismos entry points de NGX sin resolver nada.
+
+**ngxGym — es el banco de pruebas del desarrollador del bridge**, no una herramienta de usuario:
+*"A scriptable DLSS host for testing the dlss5-bridge ReShade add-on"*. Un día de vida, 1 estrella.
+
+*Aclaración de atribución:* el texto que venía pegado a ese link en el mensaje de Fran (*"V4.5
+with more F5 compat improvements... All credit to @speedlemur for the original mod
+(ControlDLSS5)"*) **no es de ngxGym**: es el changelog de la mod de **ShortFuse**, que es una
+línea distinta (ver abajo).
+
+**RHI — el problema es el tamaño de la intervención, no la confianza.** Es un gestor de mods HDR
+para bibliotecas enteras: instalador de 26 MB, detección de 8 tiendas, 10 componentes, escritura
+directa en perfiles del driver NVIDIA, **elevación persistente vía Task Scheduler**, auto-update
+cada 4 horas. Para copiar un archivo de 48 MB entre dos carpetas, eso es desproporcionado
+(regla 6: cambios mínimos; lo que se instala solo tiene que poder desinstalarse solo). Sí gestiona
+swaps de DLSS SR, o sea que **serviría** si algún día hiciera falta el 310.8 — pero para eso ya
+está DLSS Swapper instalado, que sólo descarga DLLs. El reporte negativo del Discord (*"rhi doesnt
+download the DLSS5_Feed.fx"*) es coherente: RHI no conoce el pipeline DLSS5-Feeder. **No se le
+leyó el código; no hizo falta llegar a esa pregunta.** Si alguna vez se lo considera en serio, ahí
+sí corresponde la revisión completa que se le hizo a la de Kayle (8.12).
+
+#### La pregunta de Fran sobre las versiones 4.5 / 4.55 / 4.6 / 4.7 — hay DOS numeraciones distintas
+
+| línea | archivo | autor | versiones |
+|---|---|---|---|
+| RenoDX DLSS5 | `renodx-dlss5.addon64` (**con** el 5) | Krish [RENO] | 4.5, 4.55, **4.6**, **4.7** |
+| ShortFuse | `renodx-dlss.addon64` (**sin** el 5) | ShortFuse, basada en ControlDLSS5 de speedlemur | hasta V4.5, *"likely the last version"* |
+
+Por eso Krish rotula sus posts *"(Not ShortFuse's mod)"* y *"(Different to Shortfuse's mod)"*: son
+proyectos separados que colisionan en el número. Lo instalado es de la línea de **Krish** —
+el log lo identifica como `renodx-dlss5.addon64 v0.2026.828.517 -- v45+`.
+
+**Fran acertó en no bajar 4.6/4.7, pero por una razón distinta a la que suponía.** No es que
+"haga falta la 4.5": es que **el Feeder v0.7.0 instalado no las soporta**. El soporte entró en
+`v0.10.0-beta.2`: *"DLSS 5 add-on v4.6/v4.7 support (#27)"*. Con el feeder actual, un add-on 4.7
+recibiría los workarounds de un build pre-4.5. Actualizar el add-on obliga a actualizar el feeder:
+**dos variables a la vez, en medio de un experimento de una sola.**
+
+Dato asociado, de las notas de `0.11.0-beta.2`: un `.addon64` renombrado con versión
+(`renodx-dlss5-4.7.addon64`) no era reconocido por el feeder, y **ReShade carga todos los
+`*.addon64` de la carpeta** — dos copias hookean NGX las dos. Si alguna vez se actualiza el
+add-on, la vieja se **borra**, no se renombra.
+
+#### Feeder 0.11.0-beta.2 — no ahora, y la razón está medida
+
+Se leyeron las notas de 0.8 → 0.11 completas. **Ninguna de las cinco betas toca
+`SuperSampling.Available=0`**: los fixes son Smooth Motion en D3D11, juegos de 32 bits
+(feature-level 10, plateaus a 30 fps en DXVK), nombres versionados de add-on y minidumps de
+crash. Nada de eso describe el síntoma de acá. Confirma por omisión que el bloqueo no es un
+defecto del feeder.
+
+**Cabo suelto nuevo, para cuando la fase cierre:** desde `0.11.0-beta.1` el autor recomienda
+**Deep Fried Chicken** (`deep-fried-chicken.addon64`, de Alexander) *en reemplazo* de
+`renodx-dlss5.addon64` como neural consumer, con ABI negociada en vez de colisión de hooks.
+`renodx-dlss5` sigue soportado como alternativa. **Exactamente uno de los dos**, nunca los dos.
+No se toca hasta que haya un frame entregado con el stack actual.
+
+#### Estado medido en esta sesión (re-medición de apertura)
+
+```
+C:\Program Files\PCSX2\  -> nvngx_dlssnr.dll  165.840.496  ver 310.8.0.0   [UNO SOLO]
+                            nvngx_dlss.dll    AUSENTE
+PCSX2: corriendo, PID 36588, arrancado 01:53:55
+dlss5-feed.log (01:54:02, última corrida):
+  [feed] DLSS 5 add-on: renodx-dlss5.addon64 v0.2026.828.517 -- v45+ engine
+  [feed] config: enabled=1 mode=1 ... work_resolution=100%
+  [feed] DLSS5_MV_PROVIDER=3 (LumeniteFX Kernel) -> Lumenite_Kernel (enabled), depth reversed=1
+  [feed] NVSDK_NGX_D3D12_Init -> 0x00000001 (Success)
+  [feed] NGX capabilities: SuperSampling.Available=0
+  stopped: DLSS is not available on this GPU/driver.
+```
+El wiring está perfecto desde el primer scan (`MV_PROVIDER=3`, Kernel enabled): el overlay que
+Fran configuró en 8.12 **persistió**. La única pieza que falta sigue siendo el archivo.
+
+Nota: el feeder corre en `mode=1`, no en `mode=2`. 8.12 midió los dos sin diferencia — pero eso
+fue **antes** del `nvngx_dlss.dll`. Si `SuperSampling` pasa a 1 y no aparece `frame N delivered`,
+`mode=2` es lo primero a probar, y es una variable sola.
+
+#### El paso que queda, sin cambios respecto de 8.13
+
+1. Cerrar PCSX2 (PID 36588).
+2. **Fran** copia (escribir en `C:\Program Files\PCSX2\` sigue bloqueado para la sesión, 3 veces
+   confirmado):
+   `Copy-Item "C:\Games\The Last of Us Part I\nvngx_dlss.dll" "C:\Program Files\PCSX2\"`
+3. Relanzar y leer `SuperSampling.Available` en `dlss5-feed.log`.
+
+**Predicción, sin cambios y ahora con el requisito de versión verificado:** con `nvngx_dlss.dll`
+v310.2.1.0 presente (>= 3.1.13), `SuperSampling.Available` pasa a `1`. Si sigue en `0`, muere la
+hipótesis del archivo faltante **y también la del `dlssnr` sin parchear** (queda descartada arriba
+por tamaño): habría que abrir un sospechoso nuevo.
