@@ -759,3 +759,22 @@ fijar el depth buffer grande en Generic Depth (8.3), `DLSS5_MV_PROVIDER = 3`,
 habilitar `LUMENITE: Kernel 2.0` y debajo `DLSS 5 Feed`, encender neural
 rendering, y leer `dlss5-feed.log`.
 
+
+**8.10b — EL SCRIPT FALLABA, ARREGLADO (2026-09-02).** Primera corrida:
+`ArgumentNullException: source` en el paso 1. **Causa medida:** el instalador
+de ReShade tiene un stub `.exe` delante del archivo comprimido, y
+`[IO.Compression.ZipFile]::OpenRead` lo abre con **CERO entradas** — .NET no
+ajusta el offset por los datos prepended. `zipfile` de Python sí, y por eso la
+inspección de la sesión había funcionado sobre el mismo archivo. Nada se había
+instalado: el script abortó antes de tocar nada y `dxgi.dll` seguía en
+6.6.2.2081 (verificado).
+
+**Arreglo: el script ya no abre ningún ZIP.** La sesión desempaquetó todo con
+Python en **`C:\Users\frans\Downloads\_dlss5_staging\`** (14 archivos:
+`ReShade64.dll` 5.592.064 bytes + `Shaders\` con los 8 `lumenite_*.fx` y 4
+`include\*.fxh` + `Textures\lumenite_bluenoise256.png`), y el script es copia
+pura. Sintaxis verificada con `PSParser::Tokenize` — 0 errores.
+
+**Si el staging no está, el script aborta sin tocar nada y lo dice.** Se
+rehace con Python desde `ReShade_Setup_6.8.0_Addon.exe` y
+`LumeniteFX-mainline.zip`, los dos en `Downloads/`.
