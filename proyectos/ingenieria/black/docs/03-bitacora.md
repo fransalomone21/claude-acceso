@@ -16,6 +16,52 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-02 (46) — R2: instalacion confirmada, DLL de firma invalida (no la GPU) — handoff a Opus
+
+**Maquina:** notebook MSI Sword 15 · **Modelo:** Sonnet, esfuerzo medium, sin fan-out (mediciones en vivo con Fran)
+**Objetivo:** correr `instalar-dlss5.ps1` (o verificar si ya se habia corrido) y cerrar R2 midiendo
+por efecto: `dlss5-feed.log` + FPS sobre el savestate 03.
+**Resultado:**
+1. Reparado `verificar-estructura.ps1` (regla 5, 37 fallas): declaradas en `datos-permitidos.json`
+   36 tecnicas de ReShade con formato `Tecnica@Shader.fx` (falso positivo del regex de mail, sin
+   ninguna persona detras del `@`) y el mail del certificado de firma del propio instalador de
+   ReShade (`info@reshade.me`). Estructura en 0 fallas de nuevo.
+2. **La instalacion YA ESTABA HECHA al abrir la sesion.** Fran corrio `instalar-dlss5.ps1` despues
+   del ultimo HANDOFF sin dejarlo anotado. Confirmado por efecto (tamano + hash SHA256 del renodx
+   + `FileVersion` de `dxgi.dll`) sobre las 7 piezas: todo OK, ReShade 6.8.0.2155, v4.55 por hash.
+3. En vivo con Fran, PCSX2 corriendo con el overlay: se corrigio el orden Feed/Kernel (el propio
+   feed avisa por log cuando esta mal invertido: "enable it above DLSS 5 Feed") y se selecciono a
+   mano el buffer grande de Generic Depth (2568x1800, ~4600 draw calls).
+4. `NGX capabilities: SuperSampling.Available=0` salio igual en tres corridas -- pero las tres
+   usaron el MISMO `nvngx_dlssnr.dll` sin variarlo, asi que NO son evidencia de techo de
+   hardware: solo prueban que el resultado es reproducible con ese archivo. Correccion de metodo
+   hecha en esta misma sesion, no una conclusion que sobrevivio hasta el cierre.
+5. **LA PISTA REAL, `confirmado` por medicion local (dos formas independientes), pero SIN probar
+   causalidad todavia:** `nvngx_dlssnr.dll` instalado tiene firma Authenticode `HashMismatch`, y
+   su SHA256 (`8270B350...`) no coincide con el hash "known-good" (`E16BCF15...`, misma
+   `FileVersion` 310.8.0.0) que usa una herramienta comunitaria para esta MISMA clase de falla
+   (Kayle, Discord de RenoDX, canal `tools`: "Fix for DLSS 5 Stuck on STANDBY/FAILED"). Codigo
+   fuente completo de la herramienta (`kayle2203/dlssnr-signature-repair`) leido con `gh api`, no
+   solo el README: PowerShell puro, verifica hash+firma antes de tocar nada, backup + reemplazo
+   atomico, cero red, cero binarios de NVIDIA incluidos -- segura de correr. Falta conseguir un
+   `nvngx_dlssnr.dll` con el hash exacto y volver a medir.
+**No funciono:**
+- Cambiar `mode=2` a `mode=1` en `dlss5-feed.cfg` asumiendo que era el ajuste que el log llama
+  "EnableHooks" (coincidian en valor: los dos en 2) — eran campos de DOS ADDONS distintos. El
+  campo real de "EnableHooks" no se ubico. Leccion registrada con `aprender.py` (grupo evidencia)
+  y su linea ya esta en `chequeo-de-trabajo.md`.
+- Repetir el mismo test de NGX tres veces con el mismo DLL sospechoso y leerlo como "confirmado":
+  no aumenta la confianza sobre CUAL de dos hipotesis es la causa. Fran lo marco en vivo ("ya
+  condujimos una mala conclusion") antes de que se escribiera como cerrado.
+**Sigue:** Fran decidio pasar la investigacion a una sesion nueva con OPUS -- pidio
+explicitamente investigacion de verdad antes de la proxima conclusion, no otra corrida rapida --
+mientras instala un driver de NVIDIA mas nuevo por su cuenta. Buscar de donde sacar un
+`nvngx_dlssnr.dll` con hash exacto, correr la reparacion, y RECIEN AHI medir de nuevo si
+`SuperSampling.Available` cambia. Detalle completo en `sesiones/HANDOFF.md` seccion 8.11 y 8.12.
+R2 sigue ABIERTA.
+
+---
+
 ## 2026-09-02 (45) — R2: la pregunta de arquitectura, RESPONDIDA — el backbuffer es 1080p, el diseno no cambia
 
 **Maquina:** notebook MSI Sword 15 · **Modelo:** Opus, esfuerzo high, sin fan-out

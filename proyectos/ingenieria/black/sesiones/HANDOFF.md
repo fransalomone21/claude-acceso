@@ -778,3 +778,182 @@ pura. Sintaxis verificada con `PSParser::Tokenize` — 0 errores.
 **Si el staging no está, el script aborta sin tocar nada y lo dice.** Se
 rehace con Python desde `ReShade_Setup_6.8.0_Addon.exe` y
 `LumeniteFX-mainline.zip`, los dos en `Downloads/`.
+
+### 8.11 INSTALACIÓN CONFIRMADA POR EFECTO — 2026-09-02, sesión nueva
+
+**Grado: `confirmado`.** Entre el cierre de 8.10b y esta sesión, Fran corrió
+`.\instalar-dlss5.ps1` (nadie lo dejó anotado; se detectó porque `dxgi.dll` ya
+no daba 6.6.2.2081 al abrir). Medido de nuevo, con el mismo criterio de
+"por efecto" del script (tamaño de cada archivo + hash del renodx + FileVersion
+del dxgi.dll), **no asumido de que "el script no dio error"**:
+
+| archivo | medido | esperado | resultado |
+|---|---|---|---|
+| `dxgi.dll` | 5.592.064 b, FileVersion 6.8.0.2155 | 6.8.x | OK |
+| `dlss5-feed.addon64` | 164.352 b | 164.352 | OK |
+| `renodx-dlss5.addon64` | 1.694.720 b, SHA256 `9150097CDEE2…` | v4.55 | OK |
+| `nvngx_dlssnr.dll` | 165.840.496 b | 165.840.496 | OK |
+| `DLSS5_Feed.fx` | 44.814 b | 44.814 | OK |
+| `lumenite_*.fx` | 8 archivos en `reshade-shaders\Shaders\` | 8 | OK |
+| `lumenite_bluenoise256.png` | presente en `Textures\` | — | OK |
+
+**La instalación en disco está cerrada.** Lo que NO está hecho todavía:
+- `dlss5-feed.log` **no existe** en `C:\Program Files\PCSX2\` — PCSX2 no
+  corrió ni una vez desde que se instaló el pipeline (`PCSX2.ini` sigue con
+  `LastWriteTime` del 2026-09-01 23:05, de la corrida de R1; ningún proceso
+  `pcsx2-qt` activo al medir).
+- La config del overlay (8.3 + el punto 6 de la receta: casilla del depth
+  buffer grande en Generic Depth, `DLSS5_MV_PROVIDER=3`, orden de efectos,
+  neural rendering) **no se hizo**, y no se puede haber sobrevivido de una
+  instalación anterior aunque alguien la hubiera tocado antes: **reinstalar
+  ReShade resetea la selección de depth buffer** (ya documentado en 8.3). Es
+  la primera vez que se abre el overlay contra el ReShade 6.8.0 recién puesto.
+
+**Por qué esto NO lo termina la sesión sola:** la config del overlay es
+navegación dentro de una ventana nativa (PCSX2 + sus paneles de ReShade) —
+no hay herramienta de automatización de UI de escritorio en este entorno
+(las de navegador no aplican; PCSX2 no es una página web), y hacerlo a
+ciegas con `SendKeys` sobre una lista de depth buffers cuyo layout no se
+conoce de antemano es exactamente el tipo de atajo que la regla 6 del perfil
+pide no tomar sin medir antes. Los 7 pasos de la receta (retome, sección 6)
+siguen pendientes, a mano.
+
+**Lo que la sesión SÍ puede hacer apenas eso esté listo:** correr el
+protocolo de medición de FPS ya usado en R0/R1 sobre el savestate 03 — editar
+`PCSX2.ini` con PCSX2 cerrado, lanzar con `-statefile`, esperar, capturar
+pantalla completa por `.NET`/PowerShell y leer el OSD de la imagen — y leer
+`dlss5-feed.log` buscando `feature ready ... DLAA` y `frame N delivered`, que
+es lo que cierra R2.
+
+### 8.12 NGX RECHAZA ESTA GPU/DRIVER — `confirmado`, tres corridas — handoff a Opus
+
+**Fran hizo en vivo, con PCSX2 corriendo, los pasos que 8.11 dejaba
+pendientes:** ordenó `LUMENITE: Kernel 2.0` arriba de `DLSS 5 Feed` en la
+lista de técnicas (el propio feed avisa por log cuando está al revés: `enable
+it above DLSS 5 Feed`) y tildó a mano la fila del buffer grande de Generic
+Depth (`2568x1800`, ~4600 draw calls). Los dos, confirmados por captura de
+pantalla del overlay.
+
+**El resultado de fondo NO cambió, en TRES corridas independientes — la
+última con el wiring perfecto desde el primer frame:**
+
+| corrida | wiring al momento del chequeo NGX | resultado |
+|---|---|---|
+| 1 (primera vez completo) | roto (`MV_PROVIDER=0`, sin motion vectors) | `SuperSampling.Available=0` → `stopped` |
+| 2 (relanzamiento limpio) | correcto desde el primer scan (`Kernel enabled`) | `SuperSampling.Available=0` → `stopped`, idéntico |
+| 3 (con `mode=1` en vez de `mode=2`) | correcto | `SuperSampling.Available=0` → `stopped`, idéntico |
+
+Secuencia siempre igual, tal cual queda en `dlss5-feed.log`:
+```
+[feed] NVSDK_NGX_D3D12_Init -> 0x00000001 (Success)
+[feed] NGX capabilities: SuperSampling.Available=0
+stopped: DLSS is not available on this GPU/driver. The game renders normally.
+```
+
+**CORRECCIÓN DE MÉTODO, hecha en la misma sesión: las tres corridas NO
+prueban un techo de hardware.** Las tres usaron el MISMO `nvngx_dlssnr.dll`
+sin cambiarlo — repetir el mismo test con el mismo insumo sospechoso tres
+veces confirma que el resultado es REPRODUCIBLE, no CUÁL de las dos hipótesis
+(techo de la GPU vs. archivo roto) es la causa. Ese es exactamente el error
+que `chequeo-de-trabajo.md` pide evitar: nombrar la segunda explicación
+plausible y diseñar el test que la mata, no reforzar la primera con más
+repeticiones del mismo insumo. La variable que faltaba variar era el DLL, y
+resultó ser la que importaba (ver abajo).
+
+**LA CAUSA REAL, `confirmado` por dos mediciones locales independientes —
+NO es un techo de hardware:** el `nvngx_dlssnr.dll` instalado tiene la firma
+Authenticode INVÁLIDA:
+```
+PS> Get-AuthenticodeSignature 'C:\Program Files\PCSX2\nvngx_dlssnr.dll'
+Status: HashMismatch
+"...el hash del archivo no coincide con el hash almacenado en la firma digital."
+```
+Y su SHA256 (`8270B350CD82DE5CE89806872CDD6B6A9249B80836B91BBEB3573470744CC206`)
+es DISTINTO del hash "known-good" que usa una herramienta comunitaria para
+esta misma clase de falla (`E16BCF15E16E13F527491CDF7845B2FE6521A738D8F7C9C721866A8496E1FC8E`,
+misma versión de archivo 310.8.0.0 — mismo número, contenido distinto).
+`ReShade.log` ya lo venía avisando y no se le dio suficiente peso a tiempo:
+`WARN | signed runtime sha256 8270B350... (custom runtime accepted; untested
+build, NR failures may be specific to it)`. El archivo que bajamos de un
+adjunto de Discord (HANDOFF 8.9/8.10) nunca se verificó por firma, sólo por
+`FileVersion`/`Company`/"PE válido" — una verificación mucho más débil.
+
+**Fran encontró en el Discord de RenoDX (canal `tools`) el hilo "Fix for
+DLSS 5 Stuck on STANDBY/FAILED" de Kayle, que describe EXACTAMENTE este
+mecanismo** (`nvngx_dlssnr.dll` dañado/modificado, firma inválida, log con
+`feature 18 create failed with 0xBAD00002`) y linkea una herramienta:
+`https://github.com/kayle2203/dlssnr-signature-repair`.
+
+**La herramienta fue revisada — código fuente completo leído, no sólo el
+README (`gh api repos/kayle2203/dlssnr-signature-repair/contents/...`):**
+repo chico (creado 2026-08-28, 8 estrellas), con `LICENSE` y `SECURITY.md`.
+El script (`DLSSNR-Repair.ps1`, PowerShell puro) hace SÓLO esto: pide una
+carpeta ORIGEN (un juego que YA tenga un `nvngx_dlssnr.dll` sano) y una
+carpeta DESTINO; verifica el origen por hash SHA256 EXACTO
+(`E16BCF15...`) + versión + firma Authenticode válida de NVIDIA antes de
+tocar nada; si no matchea, aborta sin cambiar un solo byte; si matchea,
+hace backup del archivo roto (`.bad-signature-backup-<fecha>`) y reemplaza
+de forma atómica (`[IO.File]::Replace`), con rollback automático si algo
+falla. **Cero llamadas de red, cero binarios de NVIDIA incluidos, cero
+credenciales pedidas.** Es seguro de correr; el único requisito es
+conseguir una fuente cuyo hash sea el exacto `E16BCF15...` (una copia rota
+o de otra build NO sirve — el script la rechaza a propósito).
+
+**Corroboración independiente, desde OTRO módulo:** el addon separado
+`renodx-dlss5.addon64` (panel "DLSS 5 Neural Rendering") no ve nunca una
+`DLSSD`/`DLSS` feature creada — `HOOKS ARMED - NO DLSS CREATE SEEN` — lo
+cual es consistente: si `dlss5-feed` se rinde antes de llamar
+`CreateFeature`, no hay nada que `renodx-dlss5` pueda interceptar. Mismo
+techo, visto desde el módulo de al lado.
+
+**Dato técnico suelto, NO la causa actual, pero es una pista real para la
+sesión que sigue:** `ReShade.log` (no `dlss5-feed.log`) registra que el
+propio hook de `renodx-dlss5` sobre el NGX real del driver falla en una de
+cuatro funciones:
+```
+DEBUG | vtable::Hook(NVSDK_NGX_D3D12_CreateFeature hooked ...)
+DEBUG | vtable::Hook(NVSDK_NGX_D3D12_EvaluateFeature hooked ...)
+ERROR | vtable::Hook(Failed to find NVSDK_NGX_D3D12_EvaluateFeature_C)
+DEBUG | vtable::Hook(NVSDK_NGX_D3D12_ReleaseFeature hooked ...)
+```
+El módulo detourado es
+`C:\WINDOWS\System32\DriverStore\FileRepository\nvmii.inf_amd64_62de3bd48abb42a6\_nvngx.dll`
+(el core NGX que trae el driver 610.62). Ese export no está ahí. **No se
+sabe si un driver más nuevo lo agrega** — es una hipótesis sin probar, no un
+hecho. No es la causa de lo medido arriba porque `dlss5-feed` nunca llega a
+ese punto del código, pero si algún día `SuperSampling.Available` empezara a
+dar `1`, este sería el siguiente escollo a mirar.
+
+**Cabo suelto sin cerrar, de bajo valor:** `dlss5-feed.log` sigue diciendo
+`EnableHooks=2 (user-set; leaving it alone)` pase lo que pase con `mode=` en
+`dlss5-feed.cfg`. Son dos ajustes de DOS ADDONS distintos que coinciden en
+nombre-de-log y en valor por casualidad (`ReShade.log` sí atribuye
+`EnableHooks=2` a `renodx-dlss5`, no a `dlss5-feed`). Dónde vive el
+`EnableHooks` real de `renodx-dlss5` — otro `.cfg`, `ReShade.ini`, registro —
+**no se ubicó**. Lección registrada:
+`perfil-global/chequeo-de-trabajo.md`, sección "AL LEER EL ESTADO DE LA
+MÁQUINA". Dado que el bloqueo real (la respuesta de NGX) es anterior a este
+ajuste, no es prioritario — pero si se retoma el hilo de "probar
+EnableHooks=1", primero hay que encontrar el archivo correcto.
+
+**DECISIÓN DE FRAN (2026-09-02, de madrugada): handoff a sesión nueva con
+Opus.** Mientras tanto él instala un driver de NVIDIA más nuevo por su
+cuenta (acción de sistema, la hace él, no la sesión). El encargo explícito:
+*"la gente lo pudo hacer andar con placas similares a la mía, investigá bien
+y si podés leé el Discord"*. Esto es investigación en territorio
+desconocido con final abierto (por qué otros con RTX 40-series lo lograron,
+si es que lo lograron, y qué hicieron distinto) — no un runbook ya decidido,
+así que corresponde **Opus**, con esfuerzo **high o xhigh** y probablemente
+**fan-out** (Discord, issues de GitHub de DLSS5-Feeder y de RenoDX, cambios
+recientes de driver, reportes de otros usuarios son fuentes independientes)
+una vez que un sondeo barato confirme que hay superficie ancha real — la
+decisión fina de effort/fan-out es de esa sesión, vía `/enrutador-modelo`.
+
+**Restricción ya medida, no la repitas:** el 2026-09-02 esta sesión no pudo
+buscar en el Discord de RenoDX — `list_connected_browsers` da vacío (Claude
+in Chrome no conectado) y el navegador interno no tiene sesión de Discord
+(8.8 lo documenta con el mismo detalle). Si para la próxima sesión Fran
+conectó la extensión, probarlo; si no, no perder un turno re-descubriendo
+esto — ir directo a fuentes públicas (GitHub, foros, Reddit) y decirle a
+Fran que necesita conectar la extensión si el Discord es la única fuente
+que falta.

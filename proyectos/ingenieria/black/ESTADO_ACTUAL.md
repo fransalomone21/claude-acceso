@@ -413,12 +413,43 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
                 no con `upscale_multiplier`.
          Detalle y runbook completo: `sesiones/HANDOFF.md` sección **8.8**.
 
-         BLOQUEO ÚNICO de R2, y es de Fran: `renodx-dlss5.addon64` **v4.55**
-         + `nvngx_dlssnr.dll` del Discord de RenoDX (fuente no confiable, no
-         la baja la sesión). Medido el 2026-09-02: NO están en `Downloads/`.
-         Lo demás es runbook: ReShade **6.8.0 Addon** de reshade.me (winget
-         sigue en 6.6.2, no sirve; el build Addon es unsigned), el *release*
-         de DLSS5-Feeder y LumeniteFX. `nvngx_dlss.dll` resultó OPCIONAL.
+         INSTALACIÓN CERRADA (confirmado por efecto, 2026-09-02): las 7
+         piezas (ReShade 6.8.0, DLSS5-Feeder, renodx v4.55 por hash,
+         `nvngx_dlssnr.dll`, LumeniteFX) están en
+         `C:\Program Files\PCSX2\`, medidas por tamaño/hash/FileVersion, no
+         asumidas. `.\instalar-dlss5.ps1` lo corrió Fran (el permiso de
+         escritura en `Program Files` lo bloquea a la sesión). Detalle:
+         `sesiones/HANDOFF.md` sección **8.11**.
+
+         Overlay configurado en vivo por Fran (orden Feed/Kernel, buffer
+         grande de Generic Depth) -- confirmado por captura. Con eso YA no
+         es el bloqueo.
+
+         BLOQUEO ACTUAL de R2: `SuperSampling.Available=0` (NGX) en tres
+         corridas -- pero las tres NO son evidencia de techo de hardware,
+         porque las tres usaron el MISMO `nvngx_dlssnr.dll` sin variarlo.
+         Corrección de método hecha en esta sesión, no arrastrar la
+         conclusión vieja.
+
+         PISTA FUERTE, `confirmado` por medición local (NO por hardware):
+         ese `nvngx_dlssnr.dll` tiene firma Authenticode INVÁLIDA
+         (`HashMismatch`) y su SHA256 no coincide con el hash "known-good"
+         que usa una herramienta comunitaria (`kayle2203/dlssnr-signature-
+         repair`, código fuente revisado y verificado seguro). `ReShade.log`
+         ya avisaba "custom runtime accepted; untested build" y no se le dio
+         peso a tiempo. Falta CONFIRMAR causalidad: conseguir un
+         `nvngx_dlssnr.dll` con el hash exacto `E16BCF15...`, correr la
+         herramienta (o el reemplazo equivalente) y volver a medir NGX.
+         Detalle completo, con los dos hashes y el código del script leído
+         entero: `sesiones/HANDOFF.md` sección **8.12**.
+
+         DECISIÓN DE FRAN (2026-09-02, de madrugada): handoff a sesión nueva
+         con OPUS -- esta sesión (Sonnet) ya llegó a una conclusión
+         apresurada una vez ("techo de hardware") con evidencia insuficiente,
+         y Fran pidió explícitamente investigación de verdad antes de la
+         próxima conclusión, no otra corrida rápida. Mientras tanto instala
+         un driver de NVIDIA más nuevo por su cuenta. R2 sigue ABIERTA -- el
+         mensaje de retome completo está en el HANDOFF de esa fecha.
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo
