@@ -1697,3 +1697,73 @@ encima de los 0,35 ms medidos, y (c) el contador `Successful NR frames` empieza 
 Si (a) no pasa, el sospechoso siguiente es que el NR se esté insertando después del punto que
 importa — y para eso el panel ya dice dónde se inserta (*"immediately after the game's NGX DLSS
 output; UI remains downstream"*).
+
+### 8.20 NR ENCENDIDO: se ve mejor, y cuesta 5x más de lo que R3 había medido — 2026-09-02, 11:58
+
+Fran tildó `Enable DLSS Neural Rendering`. **Las dos predicciones de 8.19 se cumplieron.**
+
+**(a) La imagen cambió, y para mejor.** Reporte de Fran: *"ahora se ve mejor"*. Estado:
+`hipótesis` sostenida por juicio visual directo — no hay captura pareada todavía, y por eso no
+sube de escalón. Lo que sí queda `confirmado` es que **cambió**, que es lo que la predicción
+arriesgaba.
+
+**(b) El costo subió, y mucho.** Seis bloques consecutivos de 600 frames, todos con el jugador
+quieto:
+
+| | NR OFF (8.18) | NR ON (ésta) | delta |
+|---|---|---|---|
+| feed CPU | 0,35 ms/frame | **0,95 ms/frame** | +0,60 ms — **2,7x** |
+| frame interval | ~19,2 ms | **~21,9 ms** | **+2,7 ms** |
+| FPS | ~52 | **~45,5** | **−6,5 fps (−12,5 %)** |
+
+Estabilidad: `0,93 / 0,94 / 0,95 / 0,95 / 0,98` ms en bloques sucesivos, y `44,4 / 45,4 / 45,7 /
+45,7 / 46,3 / 46,5` fps. La dispersión es chica; el salto respecto de los `0,34-0,36 ms` de ocho
+bloques previos es enorme.
+
+**El costo real del pipeline completo es ~5x el que R3 había medido** (−12,5 % contra −2,4 %),
+porque aquel A/B tenía `NR IS OFF` en las dos ramas. La corrección de 8.19 queda cuantificada.
+
+**Detalle que vale leer:** el frame interval sube **+2,7 ms** pero el `feed CPU` sólo **+0,60 ms**.
+Los ~2,1 ms de diferencia son trabajo de **GPU** del pase neural, que el feeder no contabiliza en
+su propia métrica de CPU. O sea: el grueso del costo no está donde el feeder lo mide.
+
+**Estado del número: `probable`, no `confirmado`.** Los dos tramos son consecutivos pero no
+pareados — misma sesión y jugador quieto en los dos, pero no garantizadamente la misma escena.
+Para subirlo a `confirmado` está la herramienta que 8.19 encontró y que **todavía no se usó**:
+`F6` togglea el NR en vivo sin tocar un archivo, y el feeder escribe un bloque de 600 frames cada
+~12 s. Tres pulsaciones (ON → OFF → ON), quieto en el mismo lugar, dan tres bloques comparables
+sin ninguna otra variable moviéndose. La carpeta `DLSS5Screenshots\` **no existe todavía**: `F5`
+no se usó.
+
+#### El trade que el cuello de botella deja a la vista, y es el próximo movimiento de peso
+
+Los números de 8.18 dejaron medido que **el cuello es el GS (95 %), con la GPU al 20-25 %**. El
+neural rendering gasta **GPU**, que es justamente el recurso que sobra; el supersampling de
+`upscale_multiplier=3` gasta **GS**, que es el que está saturado.
+
+Eso abre un experimento de apalancamiento alto, que **no es un slider**:
+
+> **Bajar `upscale_multiplier` de 3 a 2 con el NR encendido.**
+
+Libera presión sobre el recurso saturado y se la pasa al que está ocioso. La pregunta que
+responde: **¿el neural rendering compensa la pérdida de supersampling?** Si la respuesta es sí, se
+recuperan los ~6,5 fps sin costo visual — y además se despeja la duda de fondo de 8.18, donde el
+supersampling y el neural estaban compitiendo por hacer el mismo trabajo (antialiasing) desde dos
+recursos distintos.
+
+Requiere emulador cerrado (es `PCSX2.ini`, compartido con la línea 7e — ver 8.17) y respaldo ya
+existe en `pruebas/PCSX2.ini.respaldo-2026-09-02`.
+
+#### Orden pendiente, sin cambios respecto de 8.19 salvo el punto 1, que ya se hizo
+
+1. ~~Prender `Enable DLSS Neural Rendering`~~ — **hecho**.
+2. **`F6` + `F5` como método.** Sin esto, cada prueba siguiente vuelve a producir un número
+   `probable`. Es lo más barato que queda y habilita todo lo demás.
+3. **El insumo de motion vectors** (`LumeniteFX Kernel, 1/8 res, Bilinear` hoy). Alternativas en
+   el panel: `4 LumeniteFX QuantMotion`, `Geometry vectors (camera model + depth)`.
+4. **`NR Preset` / `NR Style`** — comportamiento del modelo. La doc sugiere `E` o `F` si el
+   movimiento se deforma alrededor de transparencias (polvo, humo, llamas — BLACK tiene los tres).
+5. Los sliders.
+
+Y **el experimento del `upscale_multiplier`** de arriba, que por apalancamiento va entre el 2 y el
+3: es estructura (a qué recurso se le pide el trabajo), no parámetro fino.
