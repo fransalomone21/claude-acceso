@@ -1589,3 +1589,111 @@ prenderlo cambia la imagen de forma visible (a mejor o a peor, pero **cambia**) 
 sube por encima de los 0,35 ms actuales, porque hoy ese número es sospechosamente barato para una
 red neuronal corriendo a 1080p. **Si el switch ya estaba prendido**, la causa (1) muere y queda la
 (2), que no tiene arreglo por configuración.
+
+### 8.19 `NR IS OFF` — el neural rendering nunca corrió, y eso invalida el número de R3 — 2026-09-02, 12:00
+
+**La predicción de 8.18 se cumplió, y el propio add-on lo dice sin ambigüedad.** Fran abrió el
+panel colapsado (`DLSS 5 Neural Rendering`, pestaña Add-ons) y el diagnóstico está impreso ahí:
+
+```
+RenoDX DLSS5 Generic v4.1.5 | DLSSNR v310.8.0:  NR IS OFF
+NR was switched off (ini, overlay, or the NR toggle hotkey). To turn it on, tick
+'Enable DLSS Neural Rendering' above or press the NR toggle key in gameplay.
+Hook diagnostics below remain valid.
+```
+
+Con `[ ] Enable DLSS Neural Rendering` y `[ ] Enable Upscaling (WIP)` **los dos destildados**.
+
+**La causa (1) de 8.18 queda `confirmada` y la (2) queda sin probar.** El jitter sigue siendo un
+techo real del enfoque, pero **todavía no es el que estamos viendo**: lo que Fran evaluó como
+"más borroso" era el pase DLAA solo, sin neural rendering encima. La (2) no se puede juzgar hasta
+que la (1) esté corregida.
+
+#### Consecuencia directa: el costo medido en 8.18 NO es el costo del neural
+
+R3 midió el A/B de la casilla `DLSS 5 Feed`, con `NR IS OFF` en las **dos** ramas. Entonces
+`−1,3 fps (−2,4 %)` y `0,35 ms/frame` son **el costo del feed más el pase DLAA**, no del neural
+rendering. El costo real del pipeline completo está sin medir y **va a ser mayor** — lo cual, de
+paso, explica por qué 0,35 ms parecía sospechosamente barato para una red neuronal a 1080p (la
+sospecha quedó anotada en 8.18 y resultó ser el síntoma correcto).
+
+**R3 se reabre.** Su número describe una configuración que no es la que interesa.
+
+#### Lo que el panel confirma que SÍ está bien (no rehacer)
+
+```
+NGX modules detoured: 2 | core present: yes
+NGX hooks: creates 9 | evaluations 148246
+Runtime sha256: 8270B350...744CC206 (custom build)
+Latest NR NGX result: 0x00000001 (ok)
+Successful NR frames: 46088 | Guides: 1920x1080 | Output: 1920x1080
+Insertion: immediately after the game's NGX DLSS output; UI remains downstream
+Codec: FP16 working surface
+```
+Feed: `Session: open`, `Feature: ready`, `Frames delivered: 73657`, `Mode: Full DLSS path`,
+`Work resolution: 100%`, `provider matches the shader's DLSS5_MV_PROVIDER`.
+
+**`Successful NR frames: 46088` con `Latest NR NGX result: ok` prueba que el NR corrió en algún
+tramo anterior de esta misma sesión** — probablemente antes de que la tecla `F6` (`NR Toggle Key`)
+lo apagara. O sea que el camino completo ya funcionó una vez; no hay nada roto que arreglar, sólo
+un switch que prender.
+
+**Generic Depth eligió el buffer correcto:** `1926x1350 | D32S8 | 4132 draw calls | 246756
+vertices`, consistente con `upscale_multiplier=3`. Los otros tres candidatos son de 576x384 o
+menos. Esto valida lo que Fran configuró a mano en 8.12 y que sigue vivo.
+
+#### Herramientas del panel que no estaban documentadas y cambian el método
+
+| tecla / control | qué hace |
+|---|---|
+| **F5** | `Capture Screenshot` — modo A/B pareado, guarda en `DLSS5Screenshots\` junto al exe |
+| **F6** | `NR Toggle Key` — prende y apaga el NR en vivo, sin tocar archivos |
+| `NR Preset` | *"Presets differ in how hard DLSS clamps history against the current frame. If motion warps around transparents (dust, smoke, flames), try E or F."* |
+| `NR Style` | segundo eje, separado del preset |
+| `NR Intensity`, `Local Tone Strength`, `Local Structure Strength`, `Skin Structure Strength` | sliders |
+| `Reset NR feature and clear failure latch` | botón de recuperación |
+
+**F5 + F6 juntos son el método de medición que a R3 le faltaba:** F6 varía la única variable en
+vivo sin cerrar nada, y F5 captura las dos ramas sobre el mismo frame. Eso es estrictamente mejor
+que el savestate 03 que 8.17 planificaba, y mejor todavía que tildar la casilla del feed — que
+además de la variable movía el transporte entero.
+
+#### Discrepancia de versión, anotada sin resolver
+
+El panel se identifica como **`RenoDX DLSS5 Generic v4.1.5`**; el archivo declara
+`Versión: 0.2026.828.517`; el feeder lo clasifica como `v45+ engine`. El HANDOFF venía diciendo
+`v4.55` desde 8.11. **Son tres numeraciones distintas para el mismo binario** y no se sabe cuál
+corresponde a la que Krish publica en el Discord (4.5 / 4.55 / 4.6 / 4.7).
+
+`v45+ engine` no es una versión: es la clase de motor que el feeder detecta (v4.5 o superior).
+No se toca nada por esto — 8.15 ya estableció que actualizar el add-on obliga a actualizar el
+feeder — pero **la afirmación "tenemos la 4.55" no está confirmada** y no debe repetirse como si
+lo estuviera.
+
+#### El pedido de Fran: "gran apalancamiento visual"
+
+Ordenado por la escala de Meadows, de mayor a menor, con lo que hoy está montado:
+
+1. **Prender `Enable DLSS Neural Rendering`.** No es un parámetro: es la diferencia entre el
+   sistema corriendo y no corriendo. Todo lo demás de esta lista es ruido mientras esto esté en
+   `OFF`.
+2. **F5/F6 como método.** Sin A/B pareado sobre el mismo frame no hay forma de saber si un cambio
+   mejoró; con él, cada prueba siguiente cuesta segundos. Es flujo de información, no parámetro.
+3. **El insumo de motion vectors.** Hoy: `LumeniteFX Kernel, 1/8 res, filtro Bilinear`. El neural
+   no puede ser mejor que sus guías. Alternativas ya presentes en el panel: `4 LumeniteFX
+   QuantMotion`, y los `Geometry vectors (camera model + depth) — EXPERIMENTAL`, hoy apagados.
+4. **`NR Preset` / `NR Style`**, que eligen comportamiento del modelo, no intensidad.
+5. **Los sliders** (`NR Intensity`, `Local Tone/Structure Strength`). El escalón más bajo.
+
+**Y el techo que ninguna de las cinco levanta, dicho de frente:** BLACK es un juego de PS2 con
+texturas de 2006. `upscale_multiplier=3` sube la geometría a 1926x1350, pero las texturas siguen
+siendo las que trae el ISO. El neural rendering reconstruye e ilumina — **no inventa textura que
+no existe**. El salto visual grande de un juego de PS2 vive en las texturas y el shading, que es
+otra línea de trabajo (y se toca con la 7e, no con este pipeline).
+
+**Predicción antes de prender el switch:** con `Enable DLSS Neural Rendering` tildado, (a) la
+imagen cambia de forma visible respecto de lo que Fran evaluó, (b) el costo por frame sube por
+encima de los 0,35 ms medidos, y (c) el contador `Successful NR frames` empieza a avanzar en vivo.
+Si (a) no pasa, el sospechoso siguiente es que el NR se esté insertando después del punto que
+importa — y para eso el panel ya dice dónde se inserta (*"immediately after the game's NGX DLSS
+output; UI remains downstream"*).
