@@ -1379,3 +1379,108 @@ delivered`. Si el create falla, el código de error de NGX es el dato que decide
 — y **ahí sí** el desajuste de versión (310.2 con 310.8) vuelve a ser sospechoso, porque
 `CreateFeature` es la primera llamada donde los dos DLL tienen que trabajar juntos, cosa que la
 consulta de capacidades no exige.
+
+### 8.17 R2(a) CERRADA: DLSS 5 NEURAL RENDERING CORRIENDO EN BLACK — 2026-09-02, 11:25
+
+**Los tres criterios de salida de la fase, en la misma corrida.** `mode=1` -> `mode=2` en
+`dlss5-feed.cfg` (lo hizo Fran; escribir en `C:\Program Files\PCSX2\` sigue bloqueado para la
+sesión) fue el único cambio respecto de 8.16.
+
+```
+11:25:18.767  [feed] NGX capabilities: SuperSampling.Available=1
+11:25:19.892  [feed] feature ready: 1920x1080 DLAA, flags=74 (SDR MVLowRes DepthInverted
+                     AutoExposure), color R8G8B8A8_UNORM -> output R8G8B8A8_UNORM,
+                     depth R32_FLOAT (reversed), mv R16G16_FLOAT
+11:25:19.899  [feed] frame 1 delivered (1920x1080, reset=1, same-device)
+11:25:20.650  [feed] frame 2 delivered (1920x1080, reset=0, same-device)
+11:25:20.653  [feed] frame 3 delivered (1920x1080, reset=0, same-device)
+11:25:42.055  [feed] MV probe (centre 64x64, frame 1200): mean |mv| 14.854 px, max 15.10 px,
+                     100% non-zero
+```
+
+**Estado: `confirmado` por efecto.** DLSS 5 Neural Rendering corre sobre BLACK en PCSX2, en una
+**RTX 4060 Laptop**, con un `nvngx_dlss.dll` 310.2.1.0 junto a un `nvngx_dlssnr.dll` 310.8.0.0
+parcheado por ShortFuse. La `MV probe` con **100 % de vectores no nulos** confirma que el
+contrato que arma LumeniteFX es real, no un tapón de ceros.
+
+La línea 8.12 (*"NGX rechaza esta GPU/driver"*) queda cerrada por completo, y también su
+corolario implícito de que hacía falta el 310.8.
+
+#### TRAMPA ENCONTRADA: los lanzadores abren OTRO emulador
+
+`lanzadores\ABRIR-BLACK-ORIGINAL.bat`, `ABRIR-BLACK-MOD-7B.bat` y `ABRIR-EMULADOR.bat` — **los
+tres** — apuntan a:
+
+```
+C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe
+```
+
+que es el emulador parcheado con DebugServer + PINE, el de la **línea 7e (reversing)**. **Todo el
+pipeline DLSS vive en la otra instalación**, `C:\Program Files\PCSX2\`, que es la que
+`dlss5-feed.log` nombra en su segunda línea (`host:`).
+
+Usar un lanzador para una prueba de DLSS abre el emulador sin ReShade, sin addons y sin los
+`nvngx_*`: **no se produce ningún log de DLSS, y el síntoma sería "dejó de andar"**, no "abrí el
+programa equivocado". Se detectó leyendo el `.bat` antes de correrlo, así que no costó una
+sesión — pero por poco.
+
+El comando correcto para las pruebas de DLSS, hasta que haya un lanzador propio:
+```powershell
+Start-Process -FilePath "C:\Program Files\PCSX2\pcsx2-qt.exe" -ArgumentList '-fastboot','-batch','--','C:\Program Files\PCSX2\PCSX2\games\Black [NTSC]\Black.iso'
+```
+Los ISOs (`Black.iso`, `Black-mod-7b.iso`, `Black-mod-armas.iso`) sí viven bajo
+`C:\Program Files\PCSX2\PCSX2\games\Black [NTSC]\` y los comparten las dos instalaciones.
+
+#### Números de FPS: hay dos, y TODAVÍA NO SON UN A/B VÁLIDO
+
+| corrida | config | régimen | feed CPU | costo del feed |
+|---|---|---|---|---|
+| 11:19 (8.16) | `mode=1`, sin feature neural | **59,9 fps** (16,68 ms) | 0,02 ms/frame | 0 % |
+| 11:25 (ésta) | `mode=2`, DLAA + neural | **56,9 fps** (17,57 ms) | 1,29 ms/frame | 7 % |
+| 11:25, warm-up | `mode=2`, primeros 600 frames | 46,6 fps (21,46 ms) | 4,75 ms/frame | 22 % |
+
+La resta da **-3 fps (~5 %)**, y ese número **no se reporta todavía**: las dos corridas
+midieron **escenas distintas** (la de las 11:19 fue sobre lo que hubiera en pantalla; ésta arrancó
+por `-fastboot` desde el ISO). Comparar dos escenas distintas y llamarlo A/B es exactamente el
+error que el método de R0/R1 existe para evitar.
+
+Sirven para dos cosas legítimas, las dos ya medidas: el orden de magnitud del costo (**~1,3 ms de
+CPU por frame en régimen**) y que el warm-up de los primeros ~600 frames cuesta casi 4x eso, o
+sea que **una medición corta sobreestima el costo**.
+
+#### Observación menor, sin efecto medido
+
+Esta corrida **no imprimió la línea `[feed] config: enabled=1 mode=... `** que sí aparecía en las
+tres anteriores. El `.cfg` fue reescrito con `Set-Content -Encoding ASCII`, y se leyó bien (la
+feature se creó, que es el efecto). Hipótesis sin probar y de bajo valor: el feeder sólo lista la
+config cuando algún valor difiere del default, y `mode=2` es el default. **No investigar salvo que
+algo más falle**; queda anotado para que no se lea como síntoma nuevo.
+
+#### Lo que sigue: R3, el FPS formal
+
+R2 cerró con el pipeline entregando frames. Lo que falta es el número que R0/R1 dejaron pendiente,
+y **exige el método de R0/R1**, no dos corridas sueltas:
+
+1. Mismo contenido en las dos ramas: savestate **03** (`SLUS-21376 (5C891FF1).03.p2s`, existe en
+   `C:\Users\frans\Documents\PCSX2\sstates\`), cargado con `-statefile`.
+2. Emulador **cerrado** para tocar cualquier `.ini` o `.cfg`.
+3. La variable a variar es `mode=2` <-> `mode=1` (o `enabled=0`) en `dlss5-feed.cfg` — **no** el
+   renderer ni el `upscale_multiplier`, que tienen que quedar idénticos entre ramas.
+4. Captura de pantalla y lectura del OSD, como en R0/R1.
+
+**Medido: las DOS instalaciones comparten un único `PCSX2.ini`**, y no está en ninguna de las dos
+carpetas de programa:
+
+```
+OK     C:\Users\frans\Documents\PCSX2\inis\PCSX2.ini
+         Renderer = 15   upscale_multiplier = 4   OsdShowFPS = true   EnableFastBoot = true
+FALTA  C:\Program Files\PCSX2\inis\PCSX2.ini
+FALTA  ...\Downloads\PCSX2-MCP-v1.0.0-win64\...\inis\PCSX2.ini
+```
+
+Consecuencia que hay que tener presente: **tocar ese `.ini` cambia también el emulador de la línea
+7e**, porque es el mismo archivo. Para el A/B de DLSS no hace falta tocarlo — la variable vive en
+`dlss5-feed.cfg` — pero cualquier cambio de `Renderer` o `upscale_multiplier` que se haga para una
+línea le llega a la otra sin aviso. El respaldo está en `pruebas/PCSX2.ini.respaldo-2026-09-02`.
+
+`OsdShowFPS = true` ya está puesto, así que el OSD sirve para la lectura de R3 sin tocar nada.
