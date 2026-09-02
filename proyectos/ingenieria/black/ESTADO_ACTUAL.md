@@ -369,6 +369,21 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
          `kb/ubicaciones.json` que tenía 2.6.3) + ReShade 6.6.2 addon
          support. Detalle: `sesiones/HANDOFF.md`, sección 8.
 
+     R1  ¿qué renderer y resolución interna, por rendimiento? ...... CERRADA
+         Las tres casillas dan el MISMO FPS (29.97, tapado en la mitad de
+         59.94 V-Blank por el juego, no por el renderer). Lo que distingue
+         es el uso de GPU del OSD:
+             D3D11 @ Native ... 60.1% GPU (10.02 ms)
+             D3D11 @ 4x ....... 57.9% GPU ( 9.67 ms)
+             D3D12 @ 4x ....... 18.5% GPU ( 3.08 ms)  <- elegido
+         Decisión: D3D12 @ 4x — mismo FPS, un tercio del gasto de GPU de
+         D3D11, margen para el pipeline DLSS5/ReShade que va encima. Medido
+         el 2026-09-01 sobre el savestate 03, editando `PCSX2.ini` directo
+         (sin clicks en Ajustes→Gráficos). Tabla y capturas:
+         `pruebas/R1-rendimiento/resultados.md`. Detalle: `sesiones/HANDOFF.md`
+         sección 8.5. `PCSX2.ini` quedó en Renderer=15, upscale_multiplier=4.
+         Sigue abierto R2: armar el pipeline DLSS5/ReShade sobre esta base.
+
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo
      6.2  .DB  : firma '..FT' en 6-7        -> qué son los 139 archivos

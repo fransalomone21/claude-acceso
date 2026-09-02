@@ -16,6 +16,32 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-01 (42) — R1 CERRADA: D3D12 @ 4x gasta un tercio de GPU que D3D11, mismo FPS
+
+**Máquina:** notebook MSI Sword 15 · **Modelo:** Sonnet, esfuerzo low, sin fan-out
+**Objetivo:** medir R1 — FPS y frametime de D3D11@Native / D3D11@4x / D3D12@4x
+sobre la misma escena (savestate 03), y elegir renderer/resolución interna por
+rendimiento.
+**Resultado:** las tres casillas dan **29.97 FPS** idéntico — el juego está
+tapado en la mitad de 59.94, no en el renderer. Lo que distingue es el uso de
+GPU del OSD: D3D11 gasta 58-60% (9.7-10.0 ms) en Native y en 4x por igual;
+D3D12 @ 4x gasta **18.5% (3.08 ms)**, un tercio. CPU emulado (EE/VU/GS) parejo
+en las tres, como corresponde. **Decisión: D3D12 @ 4x** — mismo FPS, mucho más
+margen de GPU para el pipeline de DLSS5/ReShade que va encima. Edité
+`PCSX2.ini` directo (Renderer=3/15, upscale_multiplier=1/4) en vez de clickear
+Ajustes→Gráficos, cerrando y reabriendo PCSX2 entre casillas — evita el límite
+de 8.4 (los clicks los hace Fran) sin necesitarlo para esto. Captura de
+pantalla completa por PowerShell/.NET (`System.Windows.Forms.Screen` +
+`Graphics.CopyFromScreen`) para leer el OSD, sin togglear ReShade. Tabla y
+capturas en `pruebas/R1-rendimiento/`.
+**No funcionó:** nada — no hizo falta clickear nada de la UI de PCSX2 ni tocar
+ReShade/DisplayDepth para esta medición, a diferencia de R0.
+**Sigue:** la colisión de la sesión 40 (objetivo 4-6x) sigue sin poder
+confirmarse ni descartarse — a 4x, con este savestate, D3D12 no mostró ningún
+síntoma. Ojo si aparece en escenas más cargadas.
+
+---
+
 ## 2026-09-01 (41) — R0 CERRADA: hay depth buffer en las tres casillas, y la predicción falló
 
 **Máquina:** notebook MSI Sword 15 · **Modelo:** Opus, esfuerzo medium, sin fan-out

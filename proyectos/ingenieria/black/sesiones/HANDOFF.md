@@ -252,14 +252,14 @@ volcados.
 - **`P2` tiene campos hasta `+0x8A`** (los usa el `0x35`), y la kb lo describe
   como `{count, array}` de 8 B. **No medido.**
 
-## 8. BLACK REMASTER / DLSS5 — R0 CERRADA (línea nueva, no toca 7e)
+## 8. BLACK REMASTER / DLSS5 — R0 y R1 CERRADAS (línea nueva, no toca 7e)
 
 ### 8.1 QUÉ LEER PARA RETOMAR ESTO, EN ORDEN
 
 1. Esta sección, entera.
 2. `ESTADO_ACTUAL.md`, bloque "REMASTER GRÁFICO (DLSS5)" (después de N2).
-3. `docs/03-bitacora.md`, entradas 41 y 40.
-4. Las capturas: `pruebas/R0-depth/`.
+3. `docs/03-bitacora.md`, entradas 42, 41 y 40.
+4. Las capturas: `pruebas/R0-depth/` y `pruebas/R1-rendimiento/`.
 
 **NO hace falta** leer nada de 7e (secciones 1-7 de este mismo archivo) para
 seguir con esto — son líneas independientes.
@@ -324,17 +324,49 @@ Queda **abierto**: si esa colisión era real, era sobre PCSX2 2.6.3 y/o sobre
 un eje que R0 no mide (rendimiento, o el pipeline de DLSS y no el buffer). No
 se puede ni confirmar ni descartar con lo que hay escrito.
 
-### 8.5 LO QUE SIGUE
+### 8.5 R1 — CERRADA EL 2026-09-01: D3D12 @ 4x, por GPU%, no por FPS
 
-**R1 — elegir renderer y resolución interna por rendimiento**, ahora que la
-disponibilidad de depth no discrimina. No necesita nada de la sesión de R0
-salvo esta tabla. Restricción de scope vigente (memoria del perfil,
+Medido sobre el mismo savestate 03. Las tres casillas dan el **mismo FPS**
+(29.97 — el juego está tapado en la mitad de 59.94 V-Blank, es un techo del
+juego, no del renderer/resolución). Lo que distingue es el **uso de GPU** del
+OSD:
+
+| casilla | FPS | GPU% | GPU ms |
+|---|---|---|---|
+| D3D11 @ Native | 29.97 | 60.1% | 10.02 ms |
+| D3D11 @ 4x     | 29.97 | 57.9% |  9.67 ms |
+| D3D12 @ 4x     | 29.97 | **18.5%** | **3.08 ms** |
+
+**Decisión: D3D12 @ 4x.** Un tercio del gasto de GPU de D3D11 para el mismo
+FPS — margen para el pipeline de DLSS5/ReShade que va encima. Tabla completa,
+metodología y capturas: `pruebas/R1-rendimiento/resultados.md`.
+
+**Método replicable, sin clicks en Ajustes→Gráficos:** editar
+`Documents\PCSX2\inis\PCSX2.ini` directo (`Renderer` = 3 D3D11 / 15 D3D12,
+`upscale_multiplier` = 1 Native / 4 4x) con PCSX2 **cerrado** — si está
+corriendo, lo pisa al salir con lo que tenía en memoria. Lanzar con
+`-statefile`, esperar ~20-25s a que se estabilice, capturar pantalla completa
+(PowerShell: `[System.Windows.Forms.Screen]::PrimaryScreen.Bounds` +
+`Graphics.CopyFromScreen`, sin necesitar foreground ni clicks) y leer el OSD
+de la imagen. No hizo falta togglear ReShade/DisplayDepth para esto.
+
+**Sigue:** la colisión de la sesión 40 (memoria del "objetivo 4-6x") sigue sin
+poder confirmarse ni descartarse — a 4x, con este savestate, D3D12 no mostró
+ningún síntoma (ni caída de FPS ni stutter visible en el gráfico de frame
+times). Si aparece en escenas más cargadas (más enemigos, más partículas),
+ahí sí amerita revisar. Restricción de scope vigente (memoria del perfil,
 `black-remaster-resolucion-objetivo.md`): la salida final del pipeline DLSS5
 no debe superar la resolución nativa de cada pantalla — 1080p en la notebook,
 2K en la PC de escritorio. Es un eje distinto de la resolución interna.
 
+Próximo paso natural: **R2**, armar el pipeline real de DLSS5/ReShade sobre
+D3D12 @ 4x y confirmar por efecto que sostiene FPS con el upscaler activo.
+
 ### 8.6 ESTADO DE LA MÁQUINA AL CERRAR
 
+- **`PCSX2.ini` quedó en `Renderer = 15` (D3D12) y `upscale_multiplier = 4`**
+  — la casilla ganadora de R1. `OsdShowFrameTimes` quedó en `true` (se
+  activó para R1; antes estaba en `false`).
 - PCSX2 **2.8.0** en `C:\Program Files\PCSX2\pcsx2-qt.exe` (ruta CORTA). La
   instalación vieja 2.6.3 en `C:\Program Files\PCSX2\PCSX2\` sigue intacta,
   con el ISO adentro (`games\Black [NTSC]\Black.iso`, ReadOnly, no se tocó).
