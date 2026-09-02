@@ -1081,25 +1081,26 @@ es alto y hay que tenerlo presente antes de festejar un `Available=1`.
 
 #### Lo que se intentó y NO concluyó — no repetirlo igual
 
-Para saber si el  instalado es el original de **Blackwell** o
-uno **parcheado para Ada** (la pregunta que decide si además del  hay que
-cambiar el ), se intentaron **dos** inspecciones estáticas del binario
-de 165 MB, y **las dos dieron vacío**:
+Para saber si el `nvngx_dlssnr.dll` instalado es el original de **Blackwell** o
+uno **parcheado para Ada** (la pregunta que decide si además del `dlss` hay que
+cambiar también el `dlssnr`), se intentaron **dos** inspecciones estáticas del
+binario de 165 MB, y **las dos dieron vacío**:
 
-1. Scan de strings  /  y de las palabras , ,
-    — **cero coincidencias** en todo el archivo.
-2. Scan de headers ELF () para leer  (EM_CUDA) y sacar
-   el SM de  — **cero headers ELF en todo el archivo**, ni CUDA ni
+1. Scan de strings `sm_NN` / `compute_NN` y de las palabras `Ada`, `Lovelace`,
+   `Blackwell` — **cero coincidencias** en todo el archivo.
+2. Scan de headers ELF (`\x7fELF`) para leer `e_machine=190` (EM_CUDA) y sacar
+   el SM de `e_flags` — **cero headers ELF en todo el archivo**, ni CUDA ni
    x86-64.
 
 Que no haya **ningún** header ELF en un archivo de ese tamaño sugiere que los
-cubins van en fatbins **comprimidos**, que es lo que NVIDIA usa hoy. Descomprimirlos
-requiere parsear el contenedor fatbin (magic ) y descomprimir cada
-entrada — factible, pero es trabajo de un rato y **no hace falta para el próximo
-paso**: la pregunta se responde sola por efecto una vez que esté .
-Si con el  puesto  pasa a 1 pero después falla el
-, ahí sí el  vuelve a ser sospechoso y conviene ir directo
-al parcheado del pin de ShortFuse en vez de analizar el binario.
+cubins van en fatbins **comprimidos**, que es lo que NVIDIA usa hoy.
+Descomprimirlos requiere parsear el contenedor fatbin (magic `0xBA55ED50`) y
+descomprimir cada entrada — factible, pero es trabajo de un rato y **no hace
+falta para el próximo paso**: la pregunta se responde sola por efecto una vez que
+esté `nvngx_dlss.dll` en la carpeta. Si con el `dlss` puesto `SuperSampling` pasa
+a 1 pero después falla el `CreateFeature`, ahí sí el `dlssnr` vuelve a ser
+sospechoso, y conviene ir directo al parcheado del pin de ShortFuse en vez de
+analizar el binario.
 
 ### 8.14 SESIÓN DE DISCORD ABIERTA EN EL NAVEGADOR INTERNO — 2026-09-02
 
