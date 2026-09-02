@@ -254,6 +254,18 @@
       "donde": "proyectos/ingenieria/black/",
       "porque": "Falso positivo del regex de mail, y ni siquiera de un archivo real: es el MOLDE en espanol con que la bitacora describe el formato de ReShade (NombreTecnica@ArchivoShader.fx) al documentar las otras 36 excepciones. No hay persona ni archivo detras del arroba.",
       "fecha": "2026-09-02"
+    },
+    {
+      "patron": "Rendering@renodx-dlss5.addon",
+      "donde": "proyectos/ingenieria/black/sesiones/HANDOFF.md",
+      "porque": "'OverlayCollapsed=DLSS 5 Neural Rendering@renodx-dlss5.addon64, DLSS 5 Feed 0.7.0@dlss5-feed.addon64' es una linea de ReShade.ini transcripta en el HANDOFF: el formato stock de ReShade es NombrePanel@ArchivoAddon. No hay persona detras del arroba, son dos add-ons de DLSS5. Misma clase de falso positivo que las 36 entradas Tecnica@Shader.fx.",
+      "fecha": "2026-09-02"
+    },
+    {
+      "patron": "0.7.0@dlss5-feed.addon",
+      "donde": "proyectos/ingenieria/black/sesiones/HANDOFF.md",
+      "porque": "Ver la entrada de Rendering@renodx-dlss5.addon: misma linea del mismo HANDOFF, mismo falso positivo.",
+      "fecha": "2026-09-02"
     }
   ]
 }
