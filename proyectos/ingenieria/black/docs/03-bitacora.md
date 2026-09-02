@@ -16,6 +16,51 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-02 (44) — R2: hay precedente público en PCSX2, y el runbook exacto para D3D12 salió de los README primarios
+
+**Máquina:** notebook MSI Sword 15 · **Modelo:** Sonnet, esfuerzo medium (lectura de fuentes primarias), sin fan-out
+**Objetivo:** Fran bajó los dos repos (`dlss5-bridge-main.zip`, `DLSS5-Feeder-main.zip`, en
+`Downloads/`) y pidió arquitectura completa antes de construir, con todas las fuentes
+posibles investigadas. Corregir/profundizar (43) con lo que sólo estaba en los README
+primarios, y medir qué hay realmente instalado.
+**Resultado:**
+1. **La afirmación "sin precedente en ningún emulador" de (43) queda REFUTADA.** Búsqueda
+   adicional encontró TechPowerUp, WCCFTech, GameGPU.com y un post de X (@DystopianSuns)
+   reportando DLSS 5 Neural Rendering corriendo específicamente **dentro de PCSX2**, con un
+   juego de PS2 (el nombre no se pudo confirmar con precisión — un fetch lo dio como
+   "Manhattan", posible transcripción de "Manhunt"; **grado: probable, no confirmado**). Tres
+   de los cuatro artículos (techpowerup, wccftech, gamegpu) devolvieron 403 al fetch —
+   **no se pudo leer el detalle técnico primario**, y heldgames.com dice explícitamente que
+   se niega a publicar pasos de instalación. El precedente EXISTE, medido por multiplicidad
+   de fuentes independientes; el detalle reproducible NO está publicado en ningún lado.
+2. **Medido en disco (no asumido):** ningún `.addon64`/`.dll` de DLSS5 está instalado en
+   ninguna de las dos instalaciones de PCSX2. Lo que hay es `dlss5-bridge-main.zip` y
+   `DLSS5-Feeder-main.zip` en `Downloads/`, sin extraer — **son el código FUENTE de GitHub
+   (rama `main`), no los binarios compilados**. Los releases reales
+   (`dlss5-bridge.addon64` v1.4.1; `DLSS5-Feeder-0.10.0-beta.2.zip`) están en las páginas de
+   Releases de cada repo, no en estos zips.
+3. **Leídos los dos README completos (fuente primaria, no resumen de terceros) — el runbook
+   exacto para el caso de PCSX2 (D3D12, sin DLSS nativo) es DLSS5-Feeder, NO dlss5-bridge**
+   (el bridge es para D3D11/Vulkan que YA tienen DLSS propio; con D3D12 sin DLSS nativo,
+   DLSS5-Feeder es la única vía — el propio README del bridge lo dice: *"Do I need the DLSS 5
+   DX11 bridge? No."*). Detalle completo, con la lista exacta de piezas y el gotcha de
+   versión de ReShade, en `sesiones/HANDOFF.md` sección 8.7.
+4. **Confirma el patch de 60fps de Fran:** `gamesettings/SLUS-21376_5C891FF1.ini` tiene
+   `[Patches] Enable = 60 FPS` ya activado — viene de la base de patches oficial/embebida de
+   PCSX2 (el panel "recomendados" de Ajustes→Juego), no de un pnach suelto. No verificado
+   todavía por efecto (no se midió el FPS real con este patch activo).
+**No funcionó:** tres fuentes de noticias sobre el precedente en PCSX2 bloquearon el fetch
+(403) — no es un problema del parámetro de búsqueda, es anti-bot del lado del sitio. Con eso
+alcanzó para confirmar que el precedente existe, no para replicarlo.
+**Sigue:** con la arquitectura y las piezas exactas ya mapeadas (HANDOFF 8.7), lo que falta
+es: verificar versión de ReShade instalada (6.6.2, el README pide 6.8+), bajar los
+**releases** reales (no los zips de `main`) de DLSS5-Feeder y de LumeniteFX, y que Fran
+consiga en el Discord de RenoDX `renodx-dlss5.addon64` **v4.55 exacto** + `nvngx_dlssnr.dll`
+(esas dos, y sólo esas dos, siguen siendo la parte de fuente no confiable que esta sesión no
+baja). Sesión nueva recomendada para el armado real — ver HANDOFF.
+
+---
+
 ## 2026-09-01 (43) — R2 abierta: DLSS 5 Neural Rendering es real y técnicamente viable — no instalado, dos capas de fuente no confiable en el medio
 
 **Máquina:** notebook MSI Sword 15 · **Modelo:** Sonnet, esfuerzo medium (investigación web), sin fan-out

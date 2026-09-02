@@ -398,71 +398,90 @@ D3D12 @ 4x y confirmar por efecto que sostiene FPS con el upscaler activo.
 - El ISO original y sus permisos (ReadOnly + guardia) **no se tocaron**. Cero
   parches vivos en RAM: esta sesión no escribió memoria ni ISO.
 
-### 8.7 R2 — ABIERTA: DLSS 5 real existe y es técnicamente viable, nada instalado
+### 8.7 R2 — ABIERTA: arquitectura mapeada de fuente primaria, Fran ya baja los dos binarios de Discord
 
-**GPU real de esta notebook, medida (`Get-CimInstance Win32_VideoController`):
-NVIDIA GeForce RTX 4060 Laptop GPU.** No había ningún shader de
-DLSS/FSR/NIS en el disco — sólo el paquete estándar de ReShade (SweetFX +
-genéricos) que ya se instaló para R0/R1. Tampoco un patch de 60fps guardado
-para `SLUS-21376` (Fran dice haber probado alguno fuera de esta sesión; no
-quedó registrado dónde). Si se retoma esa vía, hay uno público y mantenido:
-[Gabominated/PCSX2 — `PCSX2 Patches/SLUS-21376_5C891FF1.pnach`](https://github.com/Gabominated/PCSX2/blob/main/PCSX2%20Patches/SLUS-21376_5C891FF1.pnach)
-(50/60fps, puede necesitar EE Overclock 180%) — no verificado por efecto
-todavía, ni siquiera descargado.
+**Decisión de Fran (2026-09-02): se va por DLSS5 real (camino b).** Ya bajó
+`dlss5-bridge-main.zip` y `DLSS5-Feeder-main.zip` a `Downloads/` — **son el
+código FUENTE de GitHub, no los binarios compilados**; hace falta ir a la
+página de **Releases** de cada repo, no al zip de `main`. Y confirmó que el
+patch de 60fps que probó es el que aparece en el panel de patches
+recomendados de PCSX2 (ver más abajo) — no un pnach suelto.
 
-**"DLSS 5" es un producto NVIDIA real** (posterior a mi corte de
-entrenamiento), y desde fines de agosto de 2026 hay un ecosistema community
-activo que lo mete en juegos sin soporte nativo:
+**Hay precedente público de DLSS5 corriendo específicamente en PCSX2**
+(TechPowerUp, WCCFTech, GameGPU.com, un post de X de @DystopianSuns) —
+`probable`, no `confirmado`: tres de esas cuatro fuentes bloquearon el fetch
+(403) y la que se pudo leer (heldgames.com) se niega explícitamente a
+publicar pasos de instalación o el nombre exacto del juego probado. El hecho
+de que exista está medido por multiplicidad de fuentes independientes; el
+cómo replicarlo **no está publicado en ningún lado** — hay que armarlo de los
+README primarios, que es lo que sigue.
 
-- [`NIGos/dlss5-bridge`](https://github.com/NIGos/dlss5-bridge) — v1.4.1,
-  MIT, 172 estrellas, release real en GitHub. En D3D12 (el renderer que R1 ya
-  eligió) los motion vectors salen de shaders de ReShade, no del optical flow
-  del driver — coincidencia útil con la elección de R1, que se hizo sin saber
-  esto.
-- [`jlrouzies-fr/DLSS5-Feeder`](https://github.com/jlrouzies-fr/DLSS5-Feeder)
-  — v0.10.0-beta.2, 520 estrellas, release real en GitHub. Sintetiza un
-  "contrato DLAA" (profundidad ReShade + 5 estimadores de motion vector
-  alternativos, recomendado LumeniteFX Kernel) para juegos que no exponen
-  DLSS ni motion vectors reales, que es el caso de PCSX2. Beta explícita;
-  avisa ghosting en movimiento rápido con vectores estimados.
+**El caso de PCSX2 es el MÁS SIMPLE de los cuatro que cubre DLSS5-Feeder**,
+por partida doble:
 
-**El obstáculo real no es que "DLSS5" no exista — es la procedencia de dos
-binarios que ninguno de los dos proyectos empaqueta:**
+1. **Es D3D12, no D3D11/Vulkan/32-bit.** El propio README: *"On a D3D12 game
+   there is no transport at all: NGX runs on the game's own device and
+   queue, motion vectors and depth are consumed zero-copy straight from the
+   effect textures."* No hace falta el `host64\` de 32-bit, ni el mirror de
+   Vulkan, ni siquiera `dlss5-bridge` — el bridge es **sólo** para juegos que
+   YA tienen DLSS propio en D3D11/Vulkan (su propio README: *"Do I need the
+   DLSS 5 DX11 bridge? No."* para el caso sin DLSS nativo). **La pieza
+   correcta es `DLSS5-Feeder`, no `dlss5-bridge`** — corrige lo escrito acá
+   ayer, que los daba como alternativas equivalentes.
+2. **La profundidad ya está resuelta.** El requisito de Generic Depth con
+   selección manual del buffer grande que R0 tuvo que descubrir a mano es
+   **exactamente** el mismo requisito que pide DLSS5-Feeder (*"use ReShade's
+   Add-ons → Generic Depth page to select the draw call/clear that contains
+   the scene rather than UI or an already-cleared buffer"*) — R0 ya lo dejó
+   resuelto y documentado (8.3), sólo hay que repetirlo si cambia el
+   renderer/resolución.
 
-1. `renodx-dlss5.addon64` (comunidad RenoDX, el add-on núcleo del que
-   dependen los dos) **sólo se distribuye por el Discord de RenoDX**, canal
-   `#DLSS5`, y hay que fijarlo a v4.55 (versiones más nuevas chocan con
-   DLSS5-Feeder).
-2. DLSS 5 Neural Rendering es oficialmente **RTX 50 en adelante**. Esta RTX
-   4060 Laptop necesita una `nvngx_dlss.dll`/`nvngx_dlssnr.dll` **parcheada
-   por la comunidad** para saltarse ese candado de hardware — un binario
-   propietario de NVIDIA modificado y redistribuido fuera de canal oficial.
+**Lista exacta de piezas para un juego 64-bit D3D12 sin DLSS nativo — del
+README de DLSS5-Feeder, sección Requirements + "Install for a 64-bit game":**
 
-Bajar y ejecutar cualquiera de los dos es "archivo de fuente no confiable",
-que esta sesión tiene prohibido sin excepción de permiso explícito del
-usuario — no se resuelve con que Fran lo autorice en el chat, la baja tiene
-que hacerla él. **Nada de esto se instaló.**
+| Pieza | De dónde | Estado acá |
+|---|---|---|
+| ReShade **6.8+** con add-on support | reshade.me | **hay 6.6.2 — no alcanza, hay que reinstalar** (gotcha nuevo, no detectado en R0/R1 porque no importaba para Generic Depth) |
+| `dlss5-feed.addon64` + `DLSS5_Feed.fx` | [Releases de DLSS5-Feeder](https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/latest) | no bajado (el zip que hay es `main`, no el release) |
+| Proveedor de motion vectors — [LumeniteFX](https://github.com/umar-afzaal/LumeniteFX) Kernel, `DLSS5_MV_PROVIDER=3` | repo propio, "Code → Download ZIP" | no bajado |
+| `renodx-dlss5.addon64` **v4.55 exacto** + `nvngx_dlssnr.dll` | RenoDX Discord, canal `#DLSS5` — <https://discord.com/channels/1408098019194310818/1542647972695904317> | **fuente no confiable — la baja Fran, no esta sesión** |
+| `nvngx_dlss.dll` (runtime DLSS Super Resolution) | de cualquier juego con DLSS, o [DLSS Swapper](https://github.com/beeradmoore/dlss-swapper) | sin verificar si el driver ya trae uno usable |
 
-Tampoco hay precedente documentado de ninguno de los dos proyectos corriendo
-sobre un emulador: los ejemplos que aparecieron (Fallout 4, FF7 Rebirth,
-Control, Stellar Blade) son juegos nativos con motion vectors reales del
-motor. PCSX2 rasteriza el framebuffer del GS sin pase de motion vectors, así
-que necesitaría el camino de vectores **estimados** — el mismo que el propio
-README de DLSS5-Feeder marca con la advertencia de ghosting en movimiento
-rápido, justo lo que domina el gameplay de BLACK.
+**Un gotcha real que casi se pisa:** `renodx-dlss5.addon64` tiene versiones
+posteriores a v4.55 que ya arman su propio contrato sintético y **chocan**
+con DLSS5-Feeder si se usan juntos — hay que pedir puntualmente v4.55 en el
+Discord, no "la última".
 
-**Decisión que le toca a Fran, no a esta sesión:**
+**Pregunta de arquitectura sin responder, la más importante para esta
+sesión que sigue — es la que le toca a Opus:** R0 midió el depth buffer de
+ReShade a **2568×1800**, exactamente la resolución INTERNA a 4x. Eso
+sugiere que ReShade —y por lo tanto DLSS5-Feeder, que en D3D12 lee "zero-copy
+straight from the effect textures" del mismo backbuffer que ReShade ve— está
+enganchando el framebuffer **antes** de cualquier reescalado de PCSX2 hacia
+la ventana/pantalla de salida. Si es así, la reconstrucción DLAA de
+DLSS5-Feeder correría sobre 2568×1800, no sobre 1080p/2K — mucho más caro
+de lo necesario, y en tensión directa con la restricción ya guardada de
+Fran ([[black-remaster-resolucion-objetivo]] en memoria del perfil: la
+salida final no debe superar la resolución nativa de cada pantalla). Falta
+confirmar: ¿PCSX2 presenta el swapchain D3D12 a resolución interna (y
+reescala después, fuera del alcance de ReShade) o a resolución de
+ventana/pantalla (y el downscale pasa ANTES del hook de ReShade)? No se
+puede leer de un README genérico — es específico del present path de PCSX2
+y hay que confirmarlo mirando el tamaño real del backbuffer que reporta
+ReShade (`ReShade.log` lo imprime) contra el tamaño de la ventana.
 
-- (a) Empezar por un shader de upscaling/sharpening sin candado de hardware
-  y sin binario de fuente no confiable (FSR1 o NIS portado a ReShade,
-  mecanismo idéntico a `DisplayDepth.fx`) como piso del pipeline, e ir a DLSS5
-  real después si Fran mismo baja los dos binarios.
-- (b) Ir directo a DLSS5 real asumiendo que Fran baja `renodx-dlss5.addon64`
-  del Discord y la DLL de NGX parcheada, y esta sesión arma el resto
-  (dlss5-bridge o DLSS5-Feeder, configuración, medición) alrededor de eso.
+**Patch de 60fps — confirmado el origen, no verificado el efecto:**
+`gamesettings/SLUS-21376_5C891FF1.ini` ya tiene `[Patches] Enable = 60 FPS`
+(además de `Video Mode` y `Widescreen 16:9`) — es la base de patches
+oficial/embebida de PCSX2 (panel "recomendados" de Ajustes→Juego, no un
+pnach suelto en disco: `Documents/PCSX2/patches/` está vacío porque esa base
+no se guarda como archivo local). Activado en la config, **no medido por
+efecto todavía** — falta arrancar con ese patch y leer el FPS real del OSD,
+mismo método que R1.
 
-**Modelo recomendado para lo que sigue de R2:** Opus. Ya no es investigación
-general — es la primera hipótesis de arquitectura en territorio desconocido
-(cómo interactúa el pipeline de reconstrucción neural con el present path
-D3D12 de PCSX2, que no tiene precedente documentado), y la política del
-perfil global asigna exactamente ese tipo de trabajo a Opus.
+**Modelo para lo que sigue: Opus, sin excepción.** No es investigación
+general — es la primera hipótesis de arquitectura en territorio sin
+precedente reproducible (el present path D3D12 de PCSX2 contra este
+pipeline), con una pregunta abierta concreta arriba que decide si el diseño
+entero cambia. Esfuerzo: high, sin fan-out — es un solo hilo de lectura y
+diseño, no una tarea que se beneficie de paralelismo.
