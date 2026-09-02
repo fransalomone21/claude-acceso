@@ -1484,3 +1484,108 @@ Consecuencia que hay que tener presente: **tocar ese `.ini` cambia también el e
 línea le llega a la otra sin aviso. El respaldo está en `pruebas/PCSX2.ini.respaldo-2026-09-02`.
 
 `OsdShowFPS = true` ya está puesto, así que el OSD sirve para la lectura de R3 sin tocar nada.
+
+### 8.18 R3: EL COSTO ESTÁ MEDIDO Y ES CHICO. LA CALIDAD EMPEORA, Y HAY DOS CAUSAS CANDIDATAS — 2026-09-02, 11:45
+
+**Fran hizo el A/B bien, y con mejor método que el planeado en 8.17:** misma escena, mismo frame,
+misma posición del jugador, variando **una sola cosa** — la casilla `DLSS 5 Feed` en la lista de
+técnicas de ReShade. No hizo falta el savestate 03 ni cerrar el emulador; la variable se varía en
+caliente y la escena queda idéntica por construcción. **R3 queda cerrada con esto.**
+
+| rama | FPS (OSD) | frame | GS | GPU |
+|---|---|---|---|---|
+| `DLSS 5 Feed` **destildado** | **54,29** | 18,42 ms | 94,6 % (17,42 ms) | 25,2 % (4,64 ms) |
+| `DLSS 5 Feed` **tildado** | **52,99** | 18,87 ms | 95,1 % (17,54 ms) | 20,4 % (3,85 ms) |
+
+**Costo del neural: −1,3 fps (−2,4 %), 0,45 ms de frame.** Coincide con lo que el propio feeder
+mide desde adentro en el mismo tramo (`feed CPU 0,35 ms/frame | feed is 2% of the frame`), que es
+una segunda medición independiente del mismo número. `confirmado`.
+
+**El cuello de botella no es la GPU ni DLSS: es el GS.** `GS: 95 %` en las dos ramas, con la GPU
+al 20-25 %. La emulación del Graphics Synthesizer satura antes que cualquier otra cosa, y por eso
+un costo de 0,35 ms sobre un frame de 18,4 ms casi no se ve. Esto también explica por qué en 8.17
+la resta ingenua daba −3 fps: aquella medición comparaba escenas distintas, y la diferencia real
+es menos de la mitad.
+
+**Fran aclaró después que venía usando el modo turbo (avance rápido) para cargar menús y niveles.
+Eso NO invalida la medición: la mejora.** Sin turbo, PCSX2 capa la emulación a la velocidad
+nominal (60 fps NTSC) y un costo de 0,45 ms se lo come el cap entero — el A/B daría 60 contra 60 y
+la conclusión sería "no cuesta nada", que es falsa. **Con el cap levantado, el emulador corre al
+techo real y el costo se hace visible.** Que las dos ramas midan 54,29 y 52,99 —las dos por debajo
+de 60— confirma que el cap no estaba actuando en ninguna de las dos, que es justo la condición que
+hace comparable la resta.
+
+**La advertencia real es otra, y la trajo el propio Fran: la relación de aspecto también mueve los
+FPS.** Es una segunda variable, y si hubiera cambiado entre capturas la resta no valdría. Las dos
+capturas muestran el mismo encuadre y el mismo pillarbox, así que `probable` que se haya mantenido
+— pero es `probable`, no `confirmado`, y es la única grieta que le queda a este número.
+
+Config al momento de la medición (medida, no asumida): `Renderer=15` (D3D12),
+**`upscale_multiplier=3`** (Fran lo bajó de 4), `linear_present_mode=1`, `work_resolution=100`,
+`mode=2`.
+
+#### El hallazgo que importa: **se ve PEOR**, y el feeder lo viene avisando
+
+Reporte de Fran: *"se ve más borroso con el DLSS5"*. El log lo respalda con una línea propia,
+repetida durante todo el tramo:
+
+```
+[feed] MV probe (centre 64x64, frame 58800): mean |mv| 0.000 px, max 0.00 px, 0% non-zero
+       <-- DLSS is getting (almost) no motion vectors
+```
+
+Con una excepción aislada (`frame 54000: mean 0.179 px, 40% non-zero`). Compárese con la corrida
+de 8.17, en cinemática: `mean 14.854 px, 100% non-zero`.
+
+**Ojo con la lectura fácil: `0 %` con el jugador quieto NO es un defecto.** Si la cámara no se
+mueve, los motion vectors del centro de la pantalla valen cero y eso es correcto. El dato no dice
+"los MV están rotos"; dice **"en estos frames el neural no tiene nada nuevo que integrar"**.
+
+Dos causas candidatas para la borrosidad, en el orden en que hay que probarlas:
+
+**(1) El panel del consumidor neural está COLAPSADO, y su switch puede estar apagado.** Medido en
+`ReShade.ini`:
+```
+OverlayCollapsed=DLSS 5 Neural Rendering@renodx-dlss5.addon64, DLSS 5 Feed 0.7.0@dlss5-feed.addon64
+[RenoDX.DLSS5]
+SavePresetFile=0
+```
+Los **dos** paneles están colapsados, y la sección `[RenoDX.DLSS5]` no guarda ni un solo ajuste
+(`SavePresetFile=0`): lo que haya en ese panel vive en memoria y no dejó rastro en disco. La
+casilla que Fran tildó es la del **feed** — el transporte —, que es una cosa distinta del
+**consumidor neural**. El README de `dlss5-bridge` lo dice para el mismo add-on: *"The neural
+add-on's own toggle has to be on, in its panel or in `ReShade.ini`"*.
+
+Si ese switch está apagado, lo que Fran vio es **DLAA puro sin neural rendering** — que es
+exactamente un suavizado, sin nada que lo compense. Es la hipótesis barata y se verifica abriendo
+la pestaña; **hay que descartarla antes de creerle a la (2)**.
+
+**(2) Falta el jitter de cámara, y eso es arquitectónico.** El README del propio DLSS5-Feeder lo
+plantea sin rodeos:
+
+> *"Real DLSS upscaling needs the **game** to render smaller than your screen and jitter its
+> camera, then hands DLSS that small frame. This feeder only ever sees the finished, screen-sized
+> frame ReShade has, so what it can publish is a 1:1 DLAA contract: same size in, same size out."*
+
+DLAA acumula muestras entre frames; lo que hace que esa acumulación **agregue detalle** en vez de
+sólo promediar es que la proyección jitteree sub-píxel entre frames. **PCSX2 no jitterea.** Sin
+jitter, el blend temporal no aporta información nueva: suaviza. Esto no se configura — pedirlo
+sería pedirle a PCSX2 que cambie su matriz de proyección.
+
+**Y hay un agravante que no es defecto de nadie:** con `upscale_multiplier=3`, PCSX2 ya renderiza
+a ~1920x1344 y baja a la ventana. Ese downsample **es** supersampling, que es antialiasing de
+mejor calidad que cualquier método temporal. El neural no está mejorando una imagen aliaseada:
+está suavizando una que ya venía antialiaseada por fuerza bruta.
+
+#### Consecuencia para el objetivo del proyecto
+
+El pipeline **funciona** — eso quedó cerrado en 8.17 y no se toca. Lo que esta sección agrega es
+que **funcionar no es lo mismo que servir**: en esta configuración el neural cuesta 2,4 % de FPS y
+devuelve una imagen peor. Si la causa es (1), se arregla con un switch. Si es (2), el techo es del
+enfoque post-proceso y no hay ajuste que lo levante en PCSX2.
+
+**Predicción, antes de que Fran abra el panel:** si el switch del consumidor neural está apagado,
+prenderlo cambia la imagen de forma visible (a mejor o a peor, pero **cambia**) y el costo en ms
+sube por encima de los 0,35 ms actuales, porque hoy ese número es sospechosamente barato para una
+red neuronal corriendo a 1080p. **Si el switch ya estaba prendido**, la causa (1) muere y queda la
+(2), que no tiene arreglo por configuración.
