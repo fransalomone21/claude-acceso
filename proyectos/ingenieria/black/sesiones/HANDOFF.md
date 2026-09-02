@@ -576,3 +576,47 @@ Es el eje correcto, pero conviene tenerlo escrito antes de medir allá.
 2. **La rama por default de LumeniteFX es `mainline`, no `main`.** El link
    de "Code ▸ Download ZIP" construido a ojo (`heads/main.zip`) da 404.
 
+
+**GOTCHA DEL DISCORD (2026-09-02): el link de la fila (d) era de CANAL, no de
+invitación.** Discord contesta *"parece que estás en un lugar extraño"* cuando
+se abre una URL `discord.com/channels/<server>/<canal>` de un servidor del que
+no se es miembro. El link de canal **sólo funciona después de entrar**. El de
+invitación es:
+
+    https://discord.com/invite/renodx     (alias: discord.gg/F6AUTeWJHM)
+
+Entrar por ahí primero, y recién después el link de `#DLSS5` de la fila (d)
+resuelve.
+
+**LAS ALTERNATIVAS A ESE DISCORD SE BUSCARON Y SE DESCARTARON — decisión
+tomada, no volver a abrirla sin evidencia nueva.** Hay al menos seis repos de
+GitHub que rehostean `renodx-dlss5.addon64` + `nvngx_dlssnr.dll` en
+instaladores "one-click" (`RankFTW/RHI`, `reiluisii/1-Click-DLSS5`,
+`faisalkindi/DLSS5oneclick`, `ShugokiFable/dlss5-aio`, `zhubaohi/FF7R-DLSS5`,
+`yumlevi/renodx-dlss-installer`) más mods en Nexus. **No se usan**, por tres
+razones independientes y en este orden:
+
+1. **`RankFTW/RHI` dice explícitamente que baja `renodx-dlss5.addon64` y lo
+   mantiene actualizado EN SILENCIO.** Eso es exactamente lo que el README de
+   DLSS5-Feeder prohíbe: cualquier build posterior a **v4.55** arma su propio
+   contrato sintético y **choca** con el feeder. O sea: la opción más cómoda
+   es la que garantiza romper el pipeline, en silencio, más adelante. No es
+   un riesgo de seguridad, es un requisito incumplido.
+2. **Provenance sucia.** Uno de esos repos se describe a sí mismo como
+   *"One-click setup of the **leaked**..."*. Son binarios de NVIDIA
+   redistribuidos por cuentas anónimas.
+3. **Hay un incidente de repo IMPOSTOR documentado en este mismo
+   ecosistema** (PSA en los foros de Steam de Crimson Desert sobre un GitHub
+   falso de un mod de RenoDX). Bajar `.exe`/`.dll` sin firma de cuentas
+   anónimas en un ecosistema con suplantación documentada no se hace.
+
+**Medido en el disco el 2026-09-02, no asumido:** `nvngx_dlssnr.dll` **NO
+está** en esta máquina. Lo único que hay del NGX del driver es
+`nvngx_dlssg.dll` (Frame Generation), en
+`Windows\System32\DriverStore\FileRepository\nvmii.inf_amd64_62de3bd48abb42a6\`
+y en la caché de la NVIDIA App. Tampoco hay `nvngx_dlss.dll` en las
+ubicaciones del driver — pero ése es **opcional**, y DLSS Swapper (ya hay dos
+instaladores en `Downloads/`) inventaría los que traigan los juegos
+instalados. El que bloquea es `nvngx_dlssnr.dll`, y su única fuente limpia es
+el Discord de RenoDX.
+
