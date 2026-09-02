@@ -643,3 +643,47 @@ buscar el string de versión directo:
 Y antes que nada: **mirar los MENSAJES FIJADOS** del canal (icono de pin,
 arriba a la derecha). Una distribución canónica de un binario suele vivir ahí,
 no en el chat.
+
+### 8.9 REVISIÓN DE LO DESCARGADO — 2026-09-02, medido archivo por archivo
+
+**LOS DOS `renodx-dlss5.addon64` SON v4.6+, NINGUNO ES v4.55. No sirven.**
+
+El README de DLSS5-Feeder da el discriminador exacto: *"The feeder detects a
+v4.6 build (`NRToggleKey` marker)"*. Buscado en los dos binarios: **el
+marcador está presente en ambos**. Y con el feeder **released** (v0.7.0, que
+es el que se bajó) el README es terminante: *"with the released feeder
+builds, stay on v4.55"* — los guardas para v4.6 sólo existen compilando desde
+`main`, no en el release.
+
+| archivo | bytes | SHA256 (12) | `NRToggleKey` | veredicto |
+|---|---|---|---|---|
+| `renodx-dlss5.addon64` | 1694720 | `9150097CDEE2` | **presente** | v4.6+, NO sirve |
+| `renodx-dlss5 (1).addon64` | 1732608 | `D5ADF82EB44B` | **presente** | v4.6+, NO sirve |
+
+Los dos declaran `FileVersion 0.2026.0828.0517` — un sello de FECHA, no
+semántico: **el recurso de versión del PE NO distingue 4.55 de 4.6**, por eso
+hay que ir al marcador. Son builds distintos entre sí: el (1) tiene
+`reversible NR color bridge` y el string `RenoDX-DLSSNR`; el otro tiene el
+camino `Control codec`/`Control HDR transfer`.
+
+**EL LINK DIRECTO AL MENSAJE DE v4.55 ESTABA EN EL README TODO EL TIEMPO**, en
+el bloque de advertencia del encabezado (que esta sesión no leyó cuando armó
+la tabla de links — leyó la sección de instalación y la de Requirements y se
+salteó el warning). Es un permalink a UN mensaje, no al canal:
+
+    https://discord.com/channels/1408098019194310818/1542647972695904317/1543568908017995818
+
+**El resto de lo descargado está BIEN — verificado, no supuesto:**
+
+| archivo | verificación |
+|---|---|
+| `ReShade_Setup_6.8.0_Addon.exe` | `FileVersion 6.8.0.0`, Product `ReShade`, firmante `CN=ReShade, E=info@reshade.me`. Estado de firma `UnknownError` = cadena no confiable, **consistente** con que reshade.me declare unsigned el build Addon. Identidad del firmante correcta. |
+| `dlss5-feed.addon64` | `FileVersion 0.7.0.0` — coincide con el release v0.7.0 |
+| `DLSS5_Feed.fx` | 810 líneas, define `DLSS5_MV_PROVIDER` (default 0 — hay que ponerlo en **3**) |
+| `LumeniteFX-mainline.zip` | completo: `Shaders/lumenite_Kernel.fx` + `include/` (4 `.fxh`) + `Textures/lumenite_bluenoise256.png` |
+
+**Sin resolver:** `Sin confirmar 205983.crdownload`, 165 MB, **estancado** (mismo
+tamaño en dos muestreos, mtime 00:44). Es una descarga de Chrome sin
+confirmar; lo más probable es que esté esperando el botón *Conservar*. No se
+sabe qué es. `nvngx_dlssnr.dll` **sigue sin aparecer** en `Downloads/`.
+
