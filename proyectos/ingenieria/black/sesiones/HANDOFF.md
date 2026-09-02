@@ -1277,3 +1277,105 @@ fue **antes** del `nvngx_dlss.dll`. Si `SuperSampling` pasa a 1 y no aparece `fr
 v310.2.1.0 presente (>= 3.1.13), `SuperSampling.Available` pasa a `1`. Si sigue en `0`, muere la
 hipótesis del archivo faltante **y también la del `dlssnr` sin parchear** (queda descartada arriba
 por tamaño): habría que abrir un sospechoso nuevo.
+
+### 8.16 `SuperSampling.Available=1` — LA CAUSA DE 8.13 QUEDA CONFIRMADA POR EFECTO — 2026-09-02, 11:19
+
+**La predicción escrita en 8.13 y re-verificada en 8.15 se cumplió.** Fran copió
+`nvngx_dlss.dll` v310.2.1.0 desde `C:\Games\The Last of Us Part I\` a `C:\Program Files\PCSX2\`
+y relanzó (PID 37508, 11:19:35).
+
+Variable variada: **una sola**, el archivo. Todo lo demás quedó igual — mismo `dlssnr`, mismo
+add-on, mismo feeder, mismo `mode=1`, mismo overlay.
+
+```
+ANTES (01:54, un solo nvngx)      DESPUES (11:19, con nvngx_dlss.dll)
+  SuperSampling.Available=0   ->    SuperSampling.Available=1
+  stopped: DLSS is not             session ready (same-device)
+  available on this GPU/driver     feed: session open (same-device D3D12)
+```
+
+Inventario de la carpeta, medido después de la copia:
+```
+nvngx_dlss.dll     48.971.832   ver 310.2.1.0
+nvngx_dlssnr.dll  165.840.496   ver 310.8.0.0
+```
+
+**Esto cierra tres cosas de una vez:**
+
+1. **La causa de 8.13 pasa de `confirmado por fuentes` a `confirmado por efecto` en esta
+   máquina.** Faltaba `nvngx_dlss.dll`; NGX lo resuelve desde el directorio del proceso.
+2. **La conclusión de 8.12 queda definitivamente enterrada.** No había ningún techo de hardware:
+   la misma GPU, el mismo driver y el mismo `dlssnr` de firma inválida ahora responden `1`.
+3. **La discusión de versión queda resuelta en la práctica, y a favor de 8.15.** El `310.2.1.0`
+   funcionó con un `dlssnr` `310.8.0.0`. El *"keep both nvngx DLLs on the same version"* del
+   Discord no era un requisito duro; el umbral documentado por el autor de `dlss5-bridge`
+   (`>= 3.1.13`) sí describe el comportamiento real. **No hizo falta conseguir el 310.8.**
+
+#### El add-on ahora ve lo que antes no veía
+
+`ReShade.log` cambió de forma verificable. Antes detouraba **un** módulo NGX; ahora detoura
+**dos**, y el segundo es el archivo recién copiado:
+
+```
+DLSS5 Generic: detoured NGX module copy [0] ...DriverStore\...\_nvngx.dll (core)
+DLSS5 Generic: detoured NGX module copy [1] C:\Program Files\PCSX2\nvngx_dlss.dll
+DLSS5 Generic: D3D12 NGX hooks installed across 2 module copy(ies);
+               inline DLSS contract capture armed
+```
+
+Ya no aparece `HOOKS ARMED - NO DLSS CREATE SEEN`. El `renodx-dlss5` está armado y esperando un
+create.
+
+*Cabo suelto que sigue igual y sigue sin importar todavía:* `ERROR | vtable::Hook(Failed to find
+NVSDK_NGX_D3D12_EvaluateFeature_C)`. Es el mismo de 8.12, sobre el `_nvngx.dll` del driver. Tres
+de cuatro funciones se hookean bien. No bloqueó nada hasta acá.
+
+#### Lo que falta, y es UNA variable: `mode=1` -> `mode=2`
+
+El feeder abrió la sesión pero **no crea la feature NGX**, y lo dice con todas las letras:
+
+```
+11:19:44.143  [feed] transport ready (mode 1, no NGX feature)
+```
+
+`C:\Program Files\PCSX2\dlss5-feed.cfg` (200 bytes, sin tocar desde el 01:53) tiene `mode=1`.
+En `mode=1` el feeder sólo transporta; el path completo es `mode=2`. Esto ya estaba anticipado al
+final de 8.15.
+
+**Ojo con la trampa de 8.12:** ahí se probó `mode=1` vs `mode=2` y "no hubo diferencia". Eso fue
+**antes** de que existiera `nvngx_dlss.dll` — con `SuperSampling.Available=0` ningún valor de
+`mode` podía cambiar nada, porque el feeder se rendía antes. Aquella medición no dice nada sobre
+la situación actual y **no debe usarse para descartar `mode=2`**.
+
+#### Baseline de FPS medido, sin DLSS — sirve para el A/B posterior
+
+Con `mode=1` (transporte activo, sin neural), sobre lo que Fran tenía en pantalla:
+
+```
+11:19:53  600 frames: feed CPU 2.45 ms/frame | frame interval 19.14 ms (52.2 fps) | feed 13% del frame
+11:20:03  600 frames: feed CPU 0.02 ms/frame | frame interval 16.68 ms (59.9 fps) | feed  0% del frame
+```
+
+El primer bloque es calentamiento; el segundo es el régimen: **59,9 fps, y el feeder cuesta
+0,02 ms/frame (0 % del frame)**. Backbuffer **1920x1080 R8G8B8A8_UNORM**, que vuelve a confirmar
+la arquitectura de 8.8 (la swapchain es 1080p, no 2568x1800).
+
+Este número **no** es todavía el baseline formal de R2: se midió sobre lo que hubiera en pantalla,
+no sobre el savestate 03 con el método de R0/R1. Sirve como referencia de orden de magnitud y como
+prueba de que el transporte no cuesta nada.
+
+#### El paso siguiente, exacto
+
+1. Cerrar PCSX2 (PID 37508) — el `.cfg` se edita con el emulador cerrado, igual que el `.ini`.
+2. `mode=1` -> `mode=2` en `C:\Program Files\PCSX2\dlss5-feed.cfg` (lo hace **Fran**: escribir en
+   `C:\Program Files\PCSX2\` sigue bloqueado para la sesión).
+3. Relanzar con `lanzadores\ABRIR-BLACK-ORIGINAL.bat` (lo hace **la sesión**).
+4. Leer `dlss5-feed.log`. Lo que se busca ahora: `feature ready ... DLAA` y `frame N delivered`.
+5. Recién con eso, el FPS formal sobre el savestate 03 (`SLUS-21376 (5C891FF1).03.p2s`, existe),
+   con el método de R0/R1.
+
+**Predicción antes de probar:** con `mode=2` aparece el create de la feature y `frame N
+delivered`. Si el create falla, el código de error de NGX es el dato que decide el siguiente paso
+— y **ahí sí** el desajuste de versión (310.2 con 310.8) vuelve a ser sospechoso, porque
+`CreateFeature` es la primera llamada donde los dos DLL tienen que trabajar juntos, cosa que la
+consulta de capacidades no exige.
