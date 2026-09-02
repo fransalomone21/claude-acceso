@@ -620,3 +620,26 @@ instaladores en `Downloads/`) inventaría los que traigan los juegos
 instalados. El que bloquea es `nvngx_dlssnr.dll`, y su única fuente limpia es
 el Discord de RenoDX.
 
+
+**LA SESIÓN NO PUEDE BUSCAR EN EL DISCORD — medido el 2026-09-02, dos razones
+independientes:** (1) `list_connected_browsers` devuelve vacío: la extensión
+Claude in Chrome NO está conectada, así que no hay acceso a la sesión de
+Discord de Fran; (2) el navegador interno es un perfil aparte, sin sesión —
+`discord.com/channels/...` rebota a la landing — y loguearse por él está
+prohibido. **Si se quiere que una sesión futura busque ahí, hay que conectar
+antes la extensión Claude in Chrome.**
+
+**RECETA DE BÚSQUEDA EN `#DLSS5`, para hacerla a mano en 30 segundos en vez de
+scrollear.** El detalle que importa: **se busca una versión VIEJA (v4.55), y
+el orden por default de la búsqueda de Discord es por más nuevo primero** — o
+sea que el default entierra justo lo que se busca. Ordenar por **Old**, o
+buscar el string de versión directo:
+
+    in:#dlss5 4.55
+    in:#dlss5 has:file renodx
+    in:#dlss5 has:file addon64
+    in:#dlss5 nvngx_dlssnr
+
+Y antes que nada: **mirar los MENSAJES FIJADOS** del canal (icono de pin,
+arriba a la derecha). Una distribución canónica de un binario suele vivir ahí,
+no en el chat.
