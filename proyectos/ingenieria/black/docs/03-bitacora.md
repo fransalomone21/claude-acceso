@@ -16,6 +16,56 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-01 (41) — R0 CERRADA: hay depth buffer en las tres casillas, y la predicción falló
+
+**Máquina:** notebook MSI Sword 15 · **Modelo:** Opus, esfuerzo medium, sin fan-out
+**Objetivo:** medir R0 — las tres casillas D3D11@Native / D3D11@4x / D3D12@4x,
+cada una en sirve / sirve degradado / no sirve, con captura del depth.
+**Resultado:** **las tres en `sirve`, confirmado por efecto.** Buffer del juego
+`D32S8` en las tres, con ~1000-1200 draw calls por frame; el resto de los
+buffers listados tienen 1-2 draw calls (sombras). Resoluciones medidas:
+642x450 en Native, 2568x1800 en 4x — exactamente 4x, o sea la profundidad
+escala con la resolución interna. La evidencia es la vista de **normales**
+derivadas del depth: se ven el auto con sus molduras, las columnas del
+viaducto y las aristas del piso, y a 4x más limpias que en Native. Capturas
+en `pruebas/R0-depth/{d3d11-native,d3d11-4x,d3d12-4x}.png`.
+Antes de medir se confirmó por efecto que ReShade 6.6.2 **sí engancha** en
+PCSX2 2.8.0: `ReShade.log` pasó del texto placeholder a
+`Initializing crosire's ReShade ... loaded from C:\Program Files\PCSX2\dxgi.dll`.
+También se verificó por efecto que `Renderer = 3` del `PCSX2.ini` es
+Direct3D 11 (el log muestra `Redirecting D3D11CreateDevice`), en vez de
+adivinar el enum.
+**No funcionó:** dejar que **Generic Depth elija el buffer solo**. Con la
+heurística `Similar aspect ratio` en su default agarra uno de los buffers
+chicos (128x64) y `DisplayDepth` sale violeta plano — visualmente idéntico a
+"este juego no expone depth". Si se cerraba la casilla ahí, R0 daba
+`no sirve` y mataba el proyecto por un error de heurística. **Hay que tildar
+a mano la fila del buffer grande**, y hay que volver a hacerlo cada vez que
+cambia la resolución interna o el renderer, porque PCSX2 recrea los render
+targets y el handle cambia. `Copy depth buffer before clear operations` no
+aportó nada: ReShade avisa "No clear operations were found for the selected
+depth buffer".
+Segundo tropiezo, menor pero desorientador: con `DisplayDepth` activo el
+**menú de pausa de PCSX2 es invisible**. PCSX2 dibuja su interfaz dentro del
+frame y ReShade reemplaza el color de todo el frame después; Escape pausa
+pero no se ve nada. Cualquier cosa de la UI de PCSX2 hay que mirarla con
+DisplayDepth apagado.
+**La predicción de la sesión 40 falló en dos de tres casillas:** decía
+D3D11@4x `no sirve` y D3D12@4x `sirve degradado`. Las dos dieron `sirve`
+limpio. La justificación del `no sirve` era "la colisión ya documentada con
+el objetivo de 4-6x" — y **esa colisión no está en ninguna parte de este
+repo** (`grep` sobre la bitácora no la encuentra): venía de un chat de DLSS5
+anterior que nunca se escribió. Una predicción apoyada en un dato que sólo
+vivía en un chat. Queda como pregunta abierta: si esa colisión era real,
+era sobre PCSX2 2.6.3 y/o sobre un eje que R0 no mide (rendimiento, o el
+pipeline de DLSS y no el buffer).
+**Sigue:** R0 no impone ninguna restricción sobre el renderer — los tres
+sirven, así que la elección se decide por rendimiento y por lo que necesite
+el pipeline de DLSS, no por disponibilidad de depth. Lo próximo es esa
+decisión (R1), y no necesita nada de esta sesión salvo este veredicto.
+
+---
+
 ## 2026-09-01 (40) — BLACK Remaster: R0 abierta, infraestructura de PCSX2 2.8 + ReShade lista
 
 **Máquina:** notebook MSI Sword 15 · **Modelo:** Opus, esfuerzo medium, sin fan-out
