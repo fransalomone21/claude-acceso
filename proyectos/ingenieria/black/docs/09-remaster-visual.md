@@ -262,7 +262,83 @@ activos · opciones de imagen del propio emulador.
 
 **Cada agente llevó un control positivo obligatorio** —un ítem cuya respuesta ya
 se conoce— para que sus negativos sean interpretables (lecciones 14, 17, 18).
-Los resultados van abajo cuando aterricen.
+
+**ATERRIZÓ el 2026-09-02.** 15 agentes, 0 errores, 22 min, ~1,57 M tokens de
+subagente, 503 llamadas a herramientas. **Los 7 controles positivos dieron OK.**
+60 hallazgos y 61 veredictos. El volcado completo, con links y motivos, está en
+`pruebas/barrido-remake-2026-09-02.md` — **no se lee entero**: se busca ahí.
+
+### 4.1 Lo que cambia decisiones — ordenado por apalancamiento
+
+| # | hallazgo | grado | por qué mueve la aguja |
+|---|---|---|---|
+| 1 | **`fmt_Burnout3LRD.py`** (Noesis, `EdnessP/scripts`) — su docstring dice literalmente *"Black (PS2, Xbox)"*, con handlers `blkChkDb`, `blkChkBinGuns`, `blkChkBinLevel` | `confirmado` | **el negativo de agosto ("no hay plugin de Noesis para BLACK") era FALSO.** Último commit marzo 2024, o sea que ya estaba mal cuando se escribió. Abre `.db` y ciertos `.bin` — texturas, no modelos con huesos |
+| 2 | **`librw`** (`aap/librw`) — reimplementación cross-platform del motor gráfico RenderWare, lee DFF y TXD de PS2, MIT, activo | `confirmado` | es la vía "estilo OpenMW" **para RenderWare específicamente**. Salvedad fuerte del propio repo: DFF pre-instanciado de PS2 incompleto y BSP sin soportar |
+| 3 | **`PS2Recomp`** (`ran-j/PS2Recomp`) — el N64Recomp de PS2: ELF + TOML → C++, con runtime | `confirmado` | **la pregunta "¿existe?" tenía respuesta SÍ.** Pero su README dice "experimental" y el GS *"needs external implementation"*: no es bajar y correr |
+| 4 | **`agarmash.com`** — reversing publicado del **XBE de Xbox** de BLACK, con Ghidra + `ghidra-xbe`, offsets concretos (`0x1E2E01`) | `confirmado` | primera evidencia de que el binario Xbox de **este** juego es analizable. Y BLACK corre en **xemu** con estado *Playable* |
+| 5 | **`BLACK HD Reimagined`** (ModDB, `HDREIMAGINED`) — pack de 2,19 GB subido el **29-ago-2026**, más un pnach de FOV del 1-sep | `confirmado` | hay un proyecto de remaster de BLACK **activo, de hace días**. No estábamos solos y no lo sabíamos |
+| 6 | **Otros tres packs de BLACK**: Huekage (gbatemp, ago-2026, 2781 texturas, Upscayl + NMKD-Siax 4x) · Johnazeitona (feb-2023, "100%", pide `mipmapping: off`) · archive.org `pcsx2-hd-texture-packs` | `probable` | el pack local (8225) **no coincide con ninguno**. Su origen sigue sin identificar |
+| 7 | **El tercer campo del nombre `.dds` NO es arbitrario**: es un bitfield de `TEX0_PSM` (6b) + `TW`/`TH` (4+4b) + `TEXA`. Los dos hashes son XXH3-64 de textura y de CLUT | `confirmado` | **se puede clasificar el pack local con un script**, y decodificar los 52 sufijos en formato+dimensión reales |
+| 8 | **`GameIndex.yaml` oficial de PCSX2 trae entrada para BLACK**: `halfPixelOffset=5`, `nativeScaling=2`, y un patch `COP2 Rearrangement` con 4 direcciones EE (`0037EB14/18/30/34`) | `confirmado` | son fixes de **alineación de post-proceso**, y nuestro pipeline entero es post-proceso. Y esas 4 direcciones caen en el mapa de 9842 funciones que ya tenemos |
+| — | **Colisión de nombre: el `.WDD` de BLACK NO es el `.WDD` de GTA IV/V** (RAGE, no RenderWare) | `confirmado` | freno a una pista falsa: toda la doc fácil de encontrar de `.WDD` es del motor equivocado |
+| — | **`re3` fue DMCA-eado por Take-Two contra toda la red de forks**, no sólo el repo original | `confirmado` | riesgo legal a decidir **antes** de publicar, no después |
+
+**El techo de la escalera, medido:** `OpenGOAL`/`jak-project` (Jak & Daxter) es
+el único caso que llegó a **PC nativo jugable**. `Sly Cooper` va **6,33 % en ~5
+años**. Ése es el orden de magnitud real de una decompilación.
+
+### 4.2 LA ADVERTENCIA QUE VALE MÁS QUE LOS HALLAZGOS
+
+**61 veredictos: 46 CONFIRMADO, 15 PLAUSIBLE, 0 REFUTADO.** Los verificadores
+tenían instrucción explícita de ser escépticos y de refutar, y **no refutaron
+nada**. Es exactamente la regla 3 del perfil aplicada a la capa de verificación
+del propio workflow: *una alarma que nunca se puso en rojo está sin verificar*.
+No se puede distinguir "todo era correcto" de "los verificadores no discriminan"
+sin un control negativo que no se corrió. **Bajar la confianza en esa capa.**
+
+**Y el crítico encontró el sesgo transversal, que es peor:** en 4 de 7 ángulos
+el **control positivo se resolvió leyendo código fuente o consultando una API**
+(`GSTextureReplacements.cpp`, `GameIndex.yaml` por curl, API de archive.org y de
+GitHub), mientras que **los negativos se apoyan en WebSearch y en fetch de foros
+que devolvieron 403**. El control positivo era incomparablemente más fácil que
+los negativos que pretende respaldar: **pasó sin discriminar nada.**
+
+Concretamente, negativos que **no valen**:
+- Los de ModDB/GameBanana/Nexus/xemu, apoyados en un 403 — **que otro ángulo
+  demostró que no era bloqueo real sino el user-agent**: con un header `Referer`
+  esos dominios devuelven 200.
+- Los del origen del pack: 3-4 formulaciones, pero **todas de la misma
+  modalidad** (buscar metadata en Google). La que lo resolvería —buscar un
+  nombre de archivo literal, que es un hash XXH3 único, o diffear contra los
+  packs candidatos— **no se corrió en ninguno**.
+- **Ninguna búsqueda se hizo en portugués ni en ruso**, y la evidencia dice que
+  ahí vive la escena (el pack "100 %" está en portugués, HD Reimagined tiene
+  títulos en portugués, la única nota de prensa legible fue rusa).
+
+**Contradicciones sin resolver** (las dos que importan): si el hilo de gbatemp
+683983 es Huekage o es HD Reimagined —dos ángulos dicen cosas incompatibles—, y
+el estado real de OpenGOAL (¿los tres juegos completos, o Jak 2 en beta y Jak 3
+pendiente?).
+
+### 4.3 El próximo paso que el barrido dejó servido
+
+El crítico lo dice sin vueltas: **nadie abrió un solo archivo real de BLACK ni
+midió el pack local. Todo el barrido es catálogo.** Las tres mediciones que
+convierten opinión en número, en orden de costo:
+
+1. **Cruzar `GameIndex.yaml` contra la config real** (`halfPixelOffset`,
+   `nativeScaling`). Minutos, y son fixes de alineación de post-proceso sobre un
+   pipeline que es todo post-proceso.
+2. **Correr el parser del tercer campo** sobre los 8225 `.dds` locales: cuántos
+   son UI/fuentes, cuántos son variantes de CLUT del mismo asset, qué
+   resoluciones reales hay. Ahí también se decide la §1.5.
+3. **Cobertura real**: cuántos hashes que BLACK pide en pantalla **no** tienen
+   reemplazo. Es el denominador que falta — hoy "8225" y "2781" y "1627" no son
+   comparables entre sí ni contra el juego.
+
+Y dos leads de contacto, que el barrido no siguió porque es lectura pasiva:
+**h3x3r** (ResHax topic 514) dice tener el formato de modelos de BLACK
+reverseado **en privado**; y los autores de los packs (HDREIMAGINED, Huekage).
 
 ---
 
