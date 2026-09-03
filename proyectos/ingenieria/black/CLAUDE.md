@@ -29,6 +29,7 @@ una herramienta.
 | tocar el ISO, un formato de archivo, o el ELF | `docs/05-iso.md` |
 | montar Ghidra, vgmstream, o algo de terceros | `docs/06-herramientas-externas.md` |
 | leer desensamblado del EE | `docs/90-glosario-ee.md` |
+| tocar texturas, ReShade, DLSS o cualquier cosa de la imagen | `docs/09-remaster-visual.md` |
 | escribir o compilar un mod | `mods/ejemplo-plantilla.toml` + `herramientas/pnach.py --help` |
 
 **No leas los cuatro documentos "por las dudas".** Cada uno cuesta contexto y
