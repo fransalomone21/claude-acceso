@@ -16,6 +16,56 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-03 (49) — Fase V1 cerrada: el pack cubre el 70,9 %, y el 29 % que falta es de su propio dominio
+**Máquina:** notebook · **Modelo:** Sonnet, esfuerzo medio, sin fan-out
+**Objetivo:** los tres números que la §4.3 del barrido dejó servidos: (a) GameIndex contra
+la config real, (b) clasificar los 8225 `.dds` decodificando el bitfield, (c) cobertura.
+
+**Resultado:** los tres, `confirmado`. Detalle en `pruebas/cobertura-pack-2026-09-03.md`,
+síntesis en `docs/09` §6.
+
+- **(a)** Los 6 `gsHWFixes` de `SLUS-21376` ya se aplican solos (`emulog.txt`:
+  `GameDB: Enabled GS Hardware Fix: halfPixelOffset to [mode=5]`, etc.). Nada que corregir.
+  **El `.ini` da la respuesta invertida**: sus `UserHacks_*` son los manuales y `UserHacks =
+  false` hace que PCSX2 los ignore.
+- **(b)** El pack no tiene 8225 texturas: tiene **5213 assets**; 3012 son otra variante de
+  CLUT del mismo asset. **100 % paletizado** (PSMT4/T8/T8H, cero PSMCT*). **Upscale 4,0x
+  uniforme en los 8225 sin una excepción** — firma de un pipeline automático.
+- **(c)** **Cobertura 90/127 = 70,9 % (± ~1)** en el savestate 03. 29 % de lo que se dibuja
+  cae al original de PS2.
+
+**Lo que cambió el marco:** se predijo que el límite del pack sería estructural (100 %
+paletizado ⇒ incapaz de cubrir color directo). Medido: **BLACK casi no usa color directo**
+—125 de 127 pedidas son paletizadas—, así que el hueco **no es de dominio, es del propio
+dominio del pack**: 36 de los 38 no cubiertos son del formato que el pack sí sabe reemplazar.
+
+**Diseño que ahorró una corrida:** `GSTextureReplacements.cpp:800` **no dumpea lo que ya
+tiene reemplazo**, así que con el pack activo `dumps/` es el complemento. La cobertura sale
+de dos corridas del mismo savestate, sin cruzar hashes. Se leyó el fuente antes de medir.
+
+**No funcionó:**
+- **Dos de las tres predicciones fallaron** y estaban escritas antes de abrir el emulador:
+  `N_A` cayó en 38 contra un rango predicho de 100-800, y los no cubiertos no paletizados
+  fueron 5,3 % contra >50 % predicho. Fallaron **hacia el lado que enseña**.
+- **El primer cruce dio 0/90.** Causa: el **bit 14** (`0x4000`, `unused0 // was TCC`). El
+  pack es de 2022 y usa la convención vieja (`00005dd4` contra `00001dd4`). El emulador lo
+  ignora con `RemoveUnusedBits()`; un cruce a mano no. Con la máscara: **90/90 OK**.
+- **Casi se descarta una corrida válida por un `tail`.** Se grepeó un conjunto amplio y se
+  cortó con `tail -15`: la línea del mipmap quedó afuera y se declaró que el pack no había
+  cargado. Estaba en el log, a la vista.
+- **El control A ⊆ B falla por 1 de 38**: la escena tiene humo y fuego animados y el set
+  pedido no es idéntico entre corridas. Por eso la cobertura es 70,9 % ± ~1, no exacta.
+- **Las dos capturas NO son un A/B visual pareado** — por lo mismo. Sirven para probar que
+  el nivel cargó, no para comparar calidad.
+- El guardia frenó un `Remove-Item` con wildcard sobre la carpeta de dumps. **No se sacó el
+  guardia:** se cambió el método a renombrar, que además conserva la evidencia.
+
+**Sigue:** `PrecacheTextureReplacements = true` — hipótesis 1 del síntoma de §1.5, una línea
+del `.ini`, la más barata que existe y **todavía sin correr**. La (c) reforzó la hipótesis 2
+pero no mató la 1.
+
+---
+
 ## 2026-09-02 (48) — Había un pack HD de 8225 texturas en el disco desde junio, y no cargaba
 
 **Máquina:** notebook · **Modelo:** Opus

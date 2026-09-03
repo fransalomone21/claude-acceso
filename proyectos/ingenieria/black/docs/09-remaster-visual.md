@@ -33,6 +33,10 @@ texturas de PCSX2. Ejemplo: `1004865c455633eb-86566ebe97acefe8-00005554.dds`.
 cinco (`00005dd4` ×1527, `00005994` ×1424, `00005554` ×1155, `00005114` ×1018,
 `00004cd4` ×755).
 
+> **La tabla de abajo mide el `.dds` de REEMPLAZO, no el original de PS2, y sale
+> de una muestra de 484. La §6 la reemplaza con la decodificación de los 8225:
+> el original de PS2 tiene moda 128×128, y el upscale es 4,0x uniforme.**
+
 Distribución de dimensiones, sobre una muestra sistemática de 484 archivos
 (1 de cada 17):
 
@@ -150,6 +154,15 @@ decide si hay trabajo de upscale por delante o no.
 
 Las dos capturas de Fran quedan como evidencia del síntoma. **Ninguna de las
 tres hipótesis está probada: esto es `hipótesis`, no diagnóstico.**
+
+**ACTUALIZACIÓN 2026-09-03 (fase V1c).** La hipótesis 2 sigue sin probarse pero
+ya **tiene número: la cobertura del pack en esa clase de escena es 70,9 %**, o
+sea que **29 % de lo que se dibuja cae al original de PS2** — y el hueco está
+*dentro* del formato que el pack sí cubre, no afuera. Que una superficie se vea
+difusa dejó de necesitar un mecanismo exótico: es el caso mayoritario. Medición,
+controles y el control que falló: `pruebas/cobertura-pack-2026-09-03.md`.
+**La hipótesis 1 (`PrecacheTextureReplacements=true`) sigue sin correrse y sigue
+siendo la más barata.**
 
 **Lo que queda abierto de la vía A:**
 - A/B visual pareado (renombrar la carpeta, mismo frame, dos capturas).
@@ -323,7 +336,9 @@ pendiente?).
 ### 4.3 El próximo paso que el barrido dejó servido
 
 El crítico lo dice sin vueltas: **nadie abrió un solo archivo real de BLACK ni
-midió el pack local. Todo el barrido es catálogo.** Las tres mediciones que
+midió el pack local. Todo el barrido es catálogo.**
+
+> **Las tres se midieron el 2026-09-03. El resultado está en la §6.** Las tres mediciones que
 convierten opinión en número, en orden de costo:
 
 1. **Cruzar `GameIndex.yaml` contra la config real** (`halfPixelOffset`,
@@ -350,3 +365,101 @@ reverseado **en privado**; y los autores de los packs (HDREIMAGINED, Huekage).
 Resultado de entonces: cinco mecanismos ya implementados, uno a medias, dos
 adoptados, uno rechazado con razón. **No volver a auditarlo** — es la lección 26
 y su propio caso de origen.
+
+---
+
+## 6. FASE V1 — LOS TRES NÚMEROS, medidos el 2026-09-03
+
+Las tres mediciones que la §4.3 dejó servidas. **Grado: `confirmado`.**
+Detalle de (c), con protocolo y controles: `pruebas/cobertura-pack-2026-09-03.md`.
+
+### (a) `GameIndex.yaml` contra la config real — nada que corregir
+
+Los 6 `gsHWFixes` de PCSX2 para `SLUS-21376` **ya se aplican solos**, verificado
+por efecto en `emulog.txt`:
+
+```
+GameDB: Enabled GS Hardware Fix: recommendedBlendingLevel to [mode=4]
+GameDB: Enabled GS Hardware Fix: autoFlush to [mode=2]
+GameDB: Enabled GS Hardware Fix: halfPixelOffset to [mode=5]
+GameDB: Enabled GS Hardware Fix: nativeScaling to [mode=2]
+GameDB: Enabled GS Hardware Fix: getSkipCount to [mode=10]
+GameDB: Enabled GS Hardware Fix: beforeDraw to [mode=5]
+```
+
+**La trampa que casi se paga:** el `.ini` dice `UserHacks_HalfPixelOffset = 0` y
+`UserHacks_native_scaling = 0`, y leído solo eso parece que los fixes NO están.
+Están: esas claves son los valores **manuales**, y `UserHacks = false` hace que
+PCSX2 los ignore y aplique los del GameDB. `GameDatabase.cpp:705` —
+`const bool apply_auto_fixes = !config.ManualUserHacks;`. **Leer el `.ini` habría
+dado la respuesta invertida.**
+
+Único matiz abierto: `recommendedBlendingLevel = 4` (Full) contra
+`accurate_blending_unit = 3` (High) en el `.ini`, y el OSD avisa
+*"La precisión de mezcla actual es High"*. Es una **recomendación**, no un fix
+forzado. Subirlo a 4 es un cambio de una línea, sin medir todavía.
+
+### (b) Clasificación de los 8225 `.dds` — dos números que cambian el marco
+
+Decodificando el tercer campo (bits 0-5 `TEX0_PSM`, 6-9 `TW`, 10-13 `TH`, 14
+`unused0`, 15-22 `TEXA_TA0`, 23 `AEM`, 24-31 `TA1`), layout leído de
+`GSTextureReplacements.cpp`. Script: `herramientas/clasificar_pack.py`.
+
+| | |
+|---|---|
+| archivos que parsean | **8225 / 8225** |
+| con CLUT (3 campos) | **8225 — el 100 %** |
+| PSMT4 / PSMT8 / PSMT8H | 6959 / 1251 / 15 |
+| PSMCT32, PSMCT24, PSMCT16 | **0. Ninguna.** |
+| factor de upscale | **4,0x exacto, en los 8225 sin excepción** |
+| **assets distintos (TEX0Hash únicos)** | **5213** |
+| archivos que son otra variante de CLUT de un asset ya presente | **3012** |
+
+**1. El pack no tiene 8225 texturas: tiene 5213 assets.** Los otros 3012 (37 %)
+son el mismo asset con otra paleta. Ése es el número que se puede comparar contra
+los "2781" de Huekage y los "1627" — y no se estaba comparando.
+
+**2. El upscale es 4,0x uniforme en los 8225**, sin una sola excepción. Es la
+firma de un pipeline automático de upscale 4x sobre un volcado completo, no de un
+retoque a mano. Coherente con las herramientas que el barrido encontró.
+
+**3. El original de PS2 es más chico de lo que la §1.1 sugería:** la moda real es
+**128×128** (1766), y el máximo común es 256×256 (551). Los "512²" de la §1.1 son
+los `.dds` ya upscaleados.
+
+### (c) COBERTURA — el denominador que faltaba
+
+`GSTextureReplacements.cpp:800` no dumpea lo que ya tiene reemplazo, así que
+`dumps/` con el pack activo **es exactamente el complemento**. Dos corridas del
+mismo savestate:
+
+```
+pedidas SIN reemplazo (pack activo) =  38
+TODAS las pedidas     (pack off)    = 127
+                       COBERTURA    =  90/127 = 70,9 % (+/- ~1)
+```
+
+**29 % de lo que BLACK dibuja en esa escena cae al original de PS2.**
+
+Y el hueco **no es de dominio**: 36 de los 38 no cubiertos son paletizados, el
+formato que el pack sí sabe reemplazar. De las 127 pedidas, **125 son paletizadas
+(98,4 %)** — BLACK casi no usa color directo, así que el pack ser 100 %
+paletizado no lo limita. El pack tiene agujeros adentro de su propio dominio.
+
+### El gotcha que se va a volver a pisar: el bit 14
+
+El pack nombra `...-00005dd4.dds`; los dumps de hoy salen `...-00001dd4.png`. La
+diferencia es `0x4000`, el bit 14, hoy `unused0 // was TCC`. **El emulador lo
+ignora** (`RemoveUnusedBits()` en las 6 ramas de `ParseReplacementName()`), pero
+un cruce de nombres hecho a mano sin enmascararlo da **0 % de coincidencia** y
+parece un desastre. Pasó en esta misma sesión y por eso queda escrito.
+
+### Lo que la fase V1 deja abierto
+
+1. **`PrecacheTextureReplacements = true`** — hipótesis 1 de §1.5, la más barata
+   de todas, todavía sin correr.
+2. **A/B visual pareado de verdad.** Las capturas de esta sesión no lo son: la
+   escena tiene humo y fuego animados y los frames no coinciden.
+3. **Atar la barrera concreta de §1.5 a un hash de la lista A.**
+4. **Cobertura en otra escena** — 70,9 % es de un savestate, no del nivel.
+5. `accurate_blending_unit` 3 -> 4, que el GameDB recomienda y nadie midió.

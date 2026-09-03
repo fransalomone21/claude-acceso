@@ -474,12 +474,37 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
          GOTCHA: el pack NO trae mipmaps. Shimmer esperable en superficies
          lejanas, sin medir. Detalle: `docs/09-remaster-visual.md` §1.
 
-     T2  ¿cuánto cuesta y cuánto cubre el pack? .............. ABIERTA
-         Los números de OSD de la corrida (GS 22,3 %, 29,93 fps) NO valen
-         como costo: fue SIN TURBO y bajo el cap nada se ve. Falta el A/B
-         pareado con turbo, y contar con `DumpReplaceableTextures` qué
-         fracción de LEVEL_00 cubre el pack — hoy nadie sabe si es el 100 %
-         o el 30 %.
+     T2  ¿cuánto CUBRE el pack? ............................... CERRADA
+         **70,9 % (± ~1)**, confirmado por efecto el 2026-09-03, fase V1(c).
+         90 de 127 texturas pedidas en el savestate 03 tienen reemplazo;
+         **29 % cae al original de PS2**. Método: PCSX2 NO dumpea lo que ya
+         tiene reemplazo (`GSTextureReplacements.cpp:800`), así que con el
+         pack activo `dumps/` es el complemento — dos corridas del mismo
+         savestate, sin cruzar hashes. Control: las 90 cubiertas están en el
+         pack, 90/90.
+         El hueco NO es de dominio: 36 de los 38 no cubiertos son
+         paletizados, el formato que el pack sí sabe reemplazar. BLACK casi
+         no usa color directo (125 de 127 pedidas son paletizadas).
+         Detalle: `pruebas/cobertura-pack-2026-09-03.md`, `docs/09` §6.
+
+     T3  qué ES el pack ...................................... CERRADA
+         **5213 assets**, no 8225: 3012 archivos son otra variante de CLUT
+         del mismo asset. 100 % paletizado. **Upscale 4,0x uniforme en los
+         8225 sin una excepción** — firma de un pipeline automático sobre un
+         volcado completo. El original de PS2 tiene moda 128×128, no 512².
+         Script: `herramientas/clasificar_pack.py`.
+
+     T4  ¿cuánto CUESTA el pack en FPS? ...................... ABIERTA
+         Los números de OSD de la corrida del 2026-09-02 (GS 22,3 %,
+         29,93 fps) NO valen: fue SIN TURBO y bajo el cap nada se ve. Falta
+         el A/B pareado con turbo, método de R3 (`F6`/`F5`).
+
+     T5  el síntoma "mejor de lejos que de cerca" ............ ABIERTA
+         La cobertura del 70,9 % REFUERZA la hipótesis 2 (cobertura
+         incompleta) y le pone número, pero NO mata la hipótesis 1 (carga
+         asíncrona), que sigue siendo la más barata: poner
+         `PrecacheTextureReplacements = true` con PCSX2 cerrado. **Es una
+         línea del `.ini` y todavía no se corrió.** Detalle: `docs/09` §1.5.
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo
