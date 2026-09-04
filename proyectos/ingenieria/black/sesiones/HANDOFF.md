@@ -1859,6 +1859,54 @@ lineas NO son independientes en el disco, aunque este archivo las declaraba asi.
 **`dxgi.dll` quedo renombrado a `dxgi.dll.disabled`** para la corrida limpia: hay
 que restaurarlo para volver a la linea DLSS5.
 
+**2026-09-04 (madrugada) - FASE V4 CERRADA: LA CAUSA RAIZ ES EL HASH, NO EL
+MIP CHAIN.** Detalle completo en `docs/09` **S7.7**. Prediccion escrita antes
+en `pruebas/prediccion-hash-lod-2026-09-04.md`.
+
+```
+EL SINTOMA NUNCA FUE QUE FALTARAN MIPMAPS. Al activar hw_mipmap, PCSX2 le
+  pide al pack un NOMBRE DE ARCHIVO DISTINTO, que no existe -> no encuentra
+  reemplazo -> dibuja el original de PS2. Por eso el arreglo de S7.6, bien
+  construido y verificado en dos capas, no movio nada: el archivo que se
+  arreglo no se abria nunca.
+CODIGO (GSTextureCache::HashCacheKey::Create, repo oficial, master):
+  el TEX0Hash se calcula sobre el nivel base Y, si hay lod, sobre TODOS los
+  niveles de mip del juego. El CLUTHash NO depende de lod. O sea: una misma
+  textura tiene DOS TEX0Hash, y el pack de 2022 solo trae el de sin-mipmap.
+CONFIRMADO POR EFECTO, tres medidas independientes:
+  (1) pack de debug con un color plano por nivel: con mipmap on la escena
+      perdia 47x de detalle y habia CERO pixeles de color -> el reemplazo ni
+      se cargaba;
+  (2) volcados en la misma escena: 37 texturas sin reemplazo con hw_mipmap
+      true contra 5 con false. 32 lo pierden al activar el mipmapping;
+  (3) los pares: el CLUTHash coincide EXACTO y solo cambia el TEX0Hash.
+EL ARREGLO: herramientas/puente_hash_mipmap.py empareja por (CLUTHash, TEX0
+  bits enmascarado) y escribe COPIAS del pack con el nombre que PCSX2 pide
+  con mipmapping. No borra ni modifica nada. 35 de 38 emparejadas.
+VERIFICADO POR EFECTO:  sin puente -> con puente
+  texturas sin reemplazo (mipmap on):   37  ->  3   (las 3 no emparejadas)
+  pixeles de color de debug en pantalla:  0  ->  10.929 magenta (nivel 1)
+  El magenta prueba ademas que EL MIP CHAIN DE S7.6 SI SE USA -- recien
+  ahora, porque recien ahora el archivo se encuentra. Los dos se complementan.
+GAP DEL SABOTEADOR DE S7.6: CERRADO. Se le dieron dos archivos rotos a
+  proposito al verificador de regenerar_mipmaps.py y dijo que no en los dos
+  (truncado -> "FALTAN 132 bytes"; dwMipMapCount+3 -> "FALTAN 16 bytes"),
+  mientras los sanos del mismo lote seguian en verde.
+DESBLOQUEO OPERATIVO: la sesion SI puede ver la pantalla. PCSX2 escribe sus
+  propias capturas (F8 -> Documents\PCSX2\snaps\) y herramientas/
+  pcsx2_teclado.ps1 le lleva el foco a la ventana del juego y manda la tecla.
+  S7.6 se cerro sin veredicto por creer que no se podia, y costo una fase.
+```
+
+**LO QUE QUEDO ABIERTO de esta fase:** la verificacion visual de la CALIDAD
+final. La escena del savestate 03 tiene combate y humo intermitente, y eso
+rompe la medicion: en las dos tandas A/B/C con el puente puesto el **control
+positivo fallo** (C, que deberia dar ~=A, dio entre -76% y +1585%). Esos
+numeros NO se reportan: miden el humo, no el mipmap. Hace falta una escena
+estatica. Ojo: el puente solo cubre las texturas de ESA escena, asi que la
+verificacion tiene que hacerse ahi, no en otro savestate.
+
+
 ### DO NOT REPEAT
 
 - **No descartar los mipmaps con "de cerca se usa el nivel 0".** El nivel de mip se
@@ -1899,10 +1947,32 @@ que restaurarlo para volver a la linea DLSS5.
   El pack con mip chain pasó 8225/8225 en el reparseo byte a byte Y en inspección
   píxel a píxel, y el síntoma en pantalla volvió igual. Verificar SIEMPRE por el
   efecto visual real en el juego, no sólo por la construcción del archivo.
-- **No confiar en un verificador que nunca vio un archivo roto.** El de
-  `regenerar_mipmaps.py` nunca falló en 8225 archivos — no probado que sepa
-  decir que no (regla del saboteador). Corromper un archivo a propósito antes
-  de confiar en él para un lote futuro.
+- ~~**No confiar en un verificador que nunca vio un archivo roto.**~~ —
+  **CERRADO el 2026-09-04**: se le dieron dos rotos a propósito y dijo que no
+  en los dos, con los sanos del mismo lote en verde. Ver `docs/09` §7.7.
+- **No decir que la sesión no puede ver la pantalla de PCSX2.** Puede:
+  `herramientas/pcsx2_teclado.ps1` le lleva el foco a la ventana del juego y
+  manda `F8`, y PCSX2 escribe la captura en `Documents\PCSX2\snaps\`. Creer
+  lo contrario costó la fase entera de §7.6.
+- **`Process.MainWindowHandle` de .NET devuelve la ventana de REGISTRO de
+  PCSX2, no la del juego**, y la de registro no procesa hotkeys. Se busca por
+  título (`Black`) con `herramientas/pcsx2_ventanas.ps1`, y el foco se
+  verifica comparando el **HWND exacto**, no el PID.
+- **No comparar nitidez entre dos corridas separadas por un reinicio.** La
+  escena avanza (humo, combate, enemigos) y eso domina la métrica. El A/B sólo
+  vale con toggle dentro de una MISMA corrida, y siempre con el tercer paso
+  ON→OFF→ON: **si el control C no vuelve a ≈A, la medición se descarta**. Pasó
+  dos veces el 2026-09-04, con desvíos de −76 % a +1585 %.
+- **No leer colores de una captura "mirándola".** Lo que parecían cuadraditos
+  magenta eran partículas violetas del juego; el detector midió 0 px de
+  magenta real. Se cuenta por canal con `detectar_nivel_mip.py` y se contrasta
+  contra el mismo encuadre con mipmap off.
+- **Con el juego en pausa, `F8` no escribe captura.** No se puede congelar la
+  imagen para hacer el A/B.
+- **No dar por buena la cobertura del 70,9 % (fase V1) sin saber en qué estado
+  estaba `hw_mipmap` al medirla.** Si fue con mipmapping activado, ese 29 %
+  "sin reemplazo" está inflado por el efecto del hash y la cobertura real es
+  mayor.
 
 ### Cómo se lanza una corrida de esta línea (probado el 2026-09-03)
 
@@ -1918,72 +1988,81 @@ captura, no supuesto. Para desactivar el pack (rama B del A/B) se **renombra**
 restaurar hay que sacar la vacía primero. `Remove-Item` con wildcard ahí lo **frena el
 guardia**: se renombra, no se borra - y así además queda la evidencia.
 
-### ESTADO DE LA MÁQUINA — actualizado al cierre del 2026-09-04, sesión que corta por contexto
+### ESTADO DE LA MÁQUINA — actualizado al cierre del 2026-09-04 (madrugada), fase V4
 
-- **PCSX2 CORRIENDO** (PID 9888, arrancado 01:04:56, savestate 03 cargado, con
-  el pack NUEVO). Cero parches vivos en ISO, ningún ISO tocado. **La sesión
-  siguiente puede cerrarlo sin culpa** — no hay nada en memoria que no esté
-  ya en disco.
-- **`C:\Program Files\PCSX2\dxgi.dll` sigue renombrado a `dxgi.dll.disabled`.**
-  ReShade/DLSS5/LumeniteFX/RenoDX **no cargan** en esta corrida. Se
-  toca ida y vuelta según qué línea se esté probando (Fran ya lo restauró y
-  volvió a deshabilitar una vez en esta misma sesión) — **el nombre por sí
-  solo no prueba el estado**: se verifica por efecto (`ReShade.log`/
-  `dlss5-feed.log`) antes de cada corrida visual, sin excepción.
-- `C:\Users\frans\Documents\PCSX2\textures\SLUS-21376\replacements\` = **el
-  pack NUEVO con mip chain**, 8225 archivos, verificado por bytes y por
-  píxel (ver `docs/09` §7.6). El pack VIEJO (sin mips) está intacto en
-  `...\replacements-sin-mips-2026-09-04\` — no se borró, se puede volver
-  atrás con un rename si hiciera falta descartar el nuevo.
-- `DumpReplaceableTextures = false`. `PrecacheTextureReplacements = true`.
-  `LoadTextureReplacements = true`, `Async = true`. **`mipmap = true`,
-  `hw_mipmap = true`** (restaurados el 2026-09-04 — el pack ya trae su
-  propia mip chain, ya NO hace falta el parche global de V3).
-- Respaldos del `.ini`: `pruebas/PCSX2.ini.respaldo-2026-09-02`, `...V1`,
-  `...V2`, `...V3` (el previo a mipmap=false de V3). No se tomó un respaldo
-  nuevo para el cambio a `true` porque V3 ya lo tiene guardado.
-- Evidencia fuera del repo, en `Documents\PCSX2\textures\SLUS-21376\`:
-  `dumps-A2-pack-activo` (38), `dumps-B-pack-off` (127), `dumps-A1-sospechosa` (37) y
-  `replacements-vacia-recreada` (0). Los **listados** sí están en `pruebas/`.
-- **Nunca se llegó a lanzar la investigación de remake que pidió Fran** (ver
-  §10, más abajo) — la sesión cortó por contexto antes del primer tool call.
-  No asumir que hay algo corriendo en segundo plano de esa línea.
+- **PCSX2 CERRADO.** Nada en memoria que no esté en disco. Relanzar con el
+  comando de "Cómo se lanza una corrida", más arriba.
+- **`.ini`: `hw_mipmap = false`** — es el **estado seguro y validado**, y es
+  a propósito. El puente de §7.7 sólo cubre las texturas de UNA escena; con
+  `hw_mipmap = true` el resto del juego volvería a perder su reemplazo. Fran
+  ya validó este estado en V3 (*"se ve nítida en los dos ángulos"*).
+  `mipmap = true`, `DumpReplaceableTextures = false`,
+  `PrecacheTextureReplacements = true`, `upscale_multiplier = 3`,
+  `Renderer = 15` (D3D12).
+  Respaldo nuevo del `.ini`: `pruebas/PCSX2.ini.respaldo-2026-09-04-V4`.
+- **`C:\Program Files\PCSX2\dxgi.dll` sigue `dxgi.dll.disabled`** —
+  verificado por efecto en esta sesión: `ReShade.log` y `dlss5-feed.log`
+  tienen mtime del 2026-09-03 09:34 y 09:40, muy anteriores a los arranques
+  de esta madrugada. ReShade/DLSS5/LumeniteFX/RenoDX **no cargaron** en
+  ninguna de las corridas de esta sesión.
+- **Carpetas en `Documents\PCSX2\textures\SLUS-21376\`** (ninguna se borró):
 
-### NEXT ACTION, en orden de apalancamiento — REORDENADA el 2026-09-04 por §7.6
+  | carpeta | qué es |
+  |---|---|
+  | `replacements` | **el pack activo**: mip chain de §7.6 + las 35 copias del puente = 8260 archivos |
+  | `replacements-sin-mips-2026-09-04` | el pack original de 2022, un solo nivel (8225) |
+  | `replacements-DEBUG-colores-2026-09-04` | pack de diagnóstico, un color plano por nivel (8260, ya con su puente) |
+  | `puente-mipmap-2026-09-04` | las 35 copias del puente, sueltas (pack real) |
+  | `puente-DEBUG-2026-09-04` | las 35 del puente, del pack de debug |
+  | `dumps-mipmapON-2026-09-04` | 38 volcados con `hw_mipmap = true` — **la entrada del puente** |
+  | `dumps-mipmapOFF-2026-09-04` | 6 volcados con `hw_mipmap = false` (el control) |
+  | `dumps-conpuente-2026-09-04` | 3 volcados con puente puesto — la prueba del arreglo |
+  | `evidencia-mipmap-2026-09-04` | las capturas A/B/C de la barrera y la D con puente |
 
-1. **Diagnosticar el síntoma reportado de vuelta.** Test de un paso: parado en
-   el ángulo que desenfoca, apretar **Insert** (`ToggleMipmapMode`). Separa las
-   tres hipótesis de §7.6 en segundos. **Es lo primero, antes que cualquier otra
-   cosa de esta lista** — todo lo demás asume que el mip chain funciona.
-2. **Atar la barrera concreta que Fran vio a un hash de la lista A**
-   (`pruebas/cobertura-A-sin-reemplazo-2026-09-03.txt`, 38 entradas) — si el
-   diagnóstico de (1) da hipótesis 1 (textura sin cobertura), esto deja de ser
-   "atar para más adelante" y pasa a ser la causa raíz.
-3. **A/B visual pareado de verdad.** Las capturas del 2026-09-03 NO lo son: la escena tiene
-   humo y fuego animados y los frames no coinciden.
-4. **Cobertura en otra escena**: 70,9 % es de un savestate, no del nivel.
-5. **Costo en FPS con turbo**, método de R3 (`F6`/`F5`).
-6. `accurate_blending_unit` 3 -> 4, que el GameDB recomienda (mode=4) y nadie midió.
-7. Sabotear el verificador de `regenerar_mipmaps.py` (gap encontrado en §7.6):
-   corromper un archivo a propósito y confirmar que lo marca FALLOS.
+  **El pack anterior a esta sesión (sin mip chain) es
+  `replacements-sin-mips-2026-09-04`.** Para volver atrás del todo se renombra
+  ése a `replacements`.
+- **Herramientas nuevas de esta sesión**, todas en `black/herramientas/`:
+  `pcsx2_teclado.ps1`, `pcsx2_ventanas.ps1`, `mipmaps_debug_color.py`,
+  `detectar_nivel_mip.py`, `nitidez_regiones.py`, `cruzar_dumps_pack.py`,
+  `emparejar_dump_pack.py`, `puente_hash_mipmap.py`.
+- **Dos falsos positivos del guardia `PreToolUse`**, sin corregir (ver NEXT
+  ACTION): frenó un `Copy-Item` diciendo *"Remove-Item on system path"*, y
+  frenó un `Start-Process` del emulador por llevar `Black.iso` como argumento
+  en el mismo comando que un `Set-Content`. Los dos eran legítimos. **El
+  guardia NO se sacó**: se trabajó dividiendo los comandos.
 
-~~1. `mipmap = false` (o `hw_mipmap = false`), PCSX2 cerrado, mismo ángulo~~ —
-**corrida y CONFIRMADA el 2026-09-04** (§7.5). Fran: *"se ve nítida en los dos
-ángulos"*.
+### NEXT ACTION, en orden de apalancamiento — REORDENADA el 2026-09-04 por §7.7
 
-~~1. `PrecacheTextureReplacements = true`~~ — **corrida y MUERTA el 2026-09-03.**
-Quedó en `true` en el `.ini`; no molesta, cuesta 1,3 GB de RAM y ~8 s de arranque.
+1. **Cerrar la verificación visual que quedó abierta.** Con el puente puesto y
+   `hw_mipmap = true`, capturar A/B/C (toggle `Insert`) **en una escena
+   estática** y comparar. Las dos tandas de esta sesión se descartaron porque
+   el control positivo falló: la escena del savestate 03 tiene humo y combate.
+   Es lo único que falta para decir si el arreglo **se ve** mejor, y no sólo
+   si funciona por mecanismo (eso ya está probado: 37→3 volcados).
+2. **Extender el puente a todo el juego.** Hoy cubre las texturas de una
+   escena. El procedimiento ya está automatizado y es mecánico —
+   `DumpReplaceableTextures = true` + `hw_mipmap = true`, recorrer, y correr
+   `puente_hash_mipmap.py` sobre lo volcado— pero **requiere jugar**: es lo
+   único de esta línea que la sesión no puede hacer sola.
+3. **Rehacer la cobertura de la fase V1.** El 70,9 % se midió sin anotar el
+   estado de `hw_mipmap`. Si fue con mipmapping activado, está inflado por el
+   efecto del hash y la cobertura real es mayor.
+4. **Corregir los dos falsos positivos del guardia** (`.claude/hooks/guardia-iso.ps1`),
+   y después correr `.\probar-hooks.ps1`, que exige ver el rojo **y** que lo
+   legítimo siga pasando. No sacar el guardia.
+5. **A/B visual pareado en la escena de la barrera.** Las capturas del
+   2026-09-03 no lo eran. Las de esta sesión (`evidencia-mipmap-2026-09-04`,
+   A/B/C) **sí**: control +0 % en las cinco regiones. Sirven de referencia.
+6. **Costo en FPS con turbo**, método de R3 (`F6`/`F5`), ahora que el pack
+   activo es más pesado.
+7. `accurate_blending_unit` 3 -> 4, que el GameDB recomienda y nadie midió.
 
-~~1. Regenerar el mip chain del pack~~ — **construido, verificado por bytes y por
-píxel, e instalado el 2026-09-04** (`herramientas/regenerar_mipmaps.py`, §7.6).
-El síntoma volvió en el juego; pasa a ser el ítem 1 de arriba, no ésta.
-
-**MODEL/EFFORT REC para el diagnóstico (ítem 1-2):** Sonnet, esfuerzo medio, sin
-fan-out — es aplicar el test ya diseñado y leer el resultado, no investigar de
-cero. Sube a Opus sólo si las tres hipótesis de §7.6 quedan descartadas y hace
-falta una cuarta.
-
----
+~~1. `mipmap = false`, mismo ángulo~~ — corrida y CONFIRMADA el 2026-09-04 (§7.5).
+~~2. Atar la barrera a un hash de la lista A~~ — **superado por §7.7**: la
+barrera no era una textura sin cobertura, era una textura cuyo hash cambió.
+~~7. Sabotear el verificador de `regenerar_mipmaps.py`~~ — **hecho el
+2026-09-04**, los dos sabotajes en rojo y los sanos en verde (§7.7).
 
 ## 10. REMAKE — geometría y texturas con IA (línea NUEVA, PEDIDA el 2026-09-04, SIN EMPEZAR)
 

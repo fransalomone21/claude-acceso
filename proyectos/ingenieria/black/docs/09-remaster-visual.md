@@ -686,3 +686,175 @@ vio un archivo roto — 8225/8225 en verde. **Eso no está probado: nunca se le
 dio un archivo corrupto a propósito para confirmar que sabe decir que no.**
 Antes de confiar en el verificador para un lote futuro, corromper una copia
 (truncar bytes, poner `dwMipMapCount` mal) y confirmar que lo marca FALLOS.
+
+---
+
+## 7.7 FASE V4 CERRADA — LA CAUSA RAÍZ ES EL **HASH**, NO EL MIP CHAIN — 2026-09-04
+
+**El síntoma nunca fue que el pack no tuviera mipmaps.** Era que, al activar
+el mipmapping por hardware, PCSX2 **le pide al pack un nombre de archivo
+distinto** — y ese nombre no existe. El reemplazo HD no se dibujaba porque no
+se encontraba; lo que se veía era el original de PS2.
+
+Eso también explica por qué el arreglo de §7.6, construido y verificado en dos
+capas, no cambió nada: **el archivo que se arregló no se abría nunca.**
+
+### El desbloqueo que hizo posible todo lo demás
+
+§7.6 se cerró sin veredicto por una razón operativa: *"la sesión no tiene
+forma de ver la pantalla de PCSX2"*. **Eso era falso, y costó una fase.**
+PCSX2 sabe escribir sus propias capturas (hotkey `Screenshot = F8`, van a
+`Documents\PCSX2\snaps\`), y `herramientas/pcsx2_teclado.ps1` le lleva el
+foco a la ventana del juego y le manda la tecla. La sesión toma capturas y
+las lee, sin depender del ojo de nadie.
+
+Detalle que hace falta: PCSX2-Qt tiene **dos** ventanas top-level visibles y
+`Process.MainWindowHandle` de .NET devuelve la **de registro**, que no procesa
+hotkeys. Hay que buscar la del juego por título (`Black`) —
+`herramientas/pcsx2_ventanas.ps1` las lista— y verificar el foco comparando el
+**HWND exacto**, no el PID: la de registro es del mismo proceso.
+
+### La causa, leída del código fuente
+
+`GSTextureCache::HashCacheKey::Create` (repo oficial `PCSX2/pcsx2`, master):
+
+```cpp
+// base level is always hashed
+HashTextureLevel(TEX0, TEXA, region, hash_st, s_unswizzle_buffer);
+
+if (lod)
+{
+    // hash and combine full mipmaps when enabled
+    const int basemip = lod->x;
+    const int nmips = lod->y - lod->x + 1;
+    for (int i = 1; i < nmips; i++)
+    {
+        const GIFRegTEX0 MIP_TEX0{g_gs_renderer->GetTex0Layer(basemip + i)};
+        HashTextureLevel(MIP_TEX0, TEXA, region.AdjustForMipmap(i), hash_st, s_unswizzle_buffer);
+    }
+}
+
+ret.TEX0Hash = FinishBlockHash(hash_st);
+```
+
+Y en `LookupHashCache` ese mismo `key` es el que arma el nombre buscado:
+
+```cpp
+GSTexture* replacement_tex = GSTextureReplacements::LookupReplacementTexture(key, lod != nullptr, ...);
+```
+
+**Una misma textura tiene dos `TEX0Hash`**: uno cuando el juego la dibuja sin
+mipmapping (sólo el nivel base) y otro cuando la dibuja con mipmapping (el
+base **más todos los niveles de mip del juego**). El pack es de 2022 y fue
+volcado sin mipmapping: trae únicamente los nombres del primero.
+
+### Confirmado por efecto, en tres medidas independientes
+
+**1. El pack de debug con un color plano por nivel** (`mipmaps_debug_color.py`:
+nivel 0 intacto, nivel 1 magenta, 2 verde, 3 cyan…). Con `hw_mipmap = true`,
+la escena perdía **47x** de detalle en el piso lejano y **no había un solo
+píxel de color**. Si PCSX2 estuviera leyendo los mips del reemplazo, esa
+superficie tendría que estar pintada. Estaba gris: el reemplazo ni se cargaba.
+
+**2. El conteo de volcados.** PCSX2 no vuelca lo que ya tiene reemplazo, así
+que con el pack activo `dumps/` es el complemento. Misma escena, mismo pack,
+lo único que cambia es `hw_mipmap`:
+
+```
+hw_mipmap = true   ->  37 texturas sin reemplazo
+hw_mipmap = false  ->   5 texturas sin reemplazo
+```
+
+**32 texturas pierden su reemplazo al activar el mipmapping.**
+
+**3. Los pares.** Cruzando los volcados contra el pack, el **`CLUTHash`
+coincide exacto** y sólo cambia el `TEX0Hash`:
+
+```
+12b94fd2d758273b-3f05a08934941622-00001dd4.png   <- lo que PCSX2 pide con mipmap
+678a1512bdcbdb48-3f05a08934941622-00005dd4.dds   <- lo que el pack tiene
+                 ^^^^^^^^^^^^^^^^ identico
+```
+
+Es exactamente lo que dice el código: `ret.CLUTHash` **no** depende de `lod`;
+`ret.TEX0Hash` sí. Eso vuelve el mapeo determinista y sin comparar imágenes.
+
+### El arreglo: `herramientas/puente_hash_mipmap.py`
+
+Empareja cada textura volcada con la del pack que comparte `(CLUTHash, TEX0
+bits enmascarado)` y escribe una **copia** con el nombre que PCSX2 pide con
+mipmapping. No borra ni modifica nada: sólo agrega nombres. De las 38 de la
+escena del savestate 03: **35 emparejadas** (18 de ellas tenían candidatos con
+bytes idénticos — variantes de CLUT, da igual cuál se elija), 1 ambigua real,
+1 sin par, y 1 que no es textura de pack (`r640x448`: un render target).
+
+**Verificado por efecto, y la predicción estaba escrita antes**
+(`pruebas/prediccion-hash-lod-2026-09-04.md`):
+
+| medida | sin puente | con puente |
+|---|---:|---:|
+| texturas sin reemplazo (mipmap on) | 37 | **3** |
+| píxeles de color de debug en pantalla | 0 | **10.929 magenta (nivel 1)** |
+
+Las 3 que quedan son exactamente las 3 no emparejadas. Y el magenta prueba lo
+segundo: **el mip chain construido en §7.6 sí se usa** — recién ahora, porque
+recién ahora el archivo se encuentra. Los dos trabajos se complementan.
+
+### Lo que quedó SIN cerrar, y por qué
+
+**La verificación visual de la calidad final.** La escena del savestate 03
+tiene combate activo y humo denso, y eso rompe la medición: en el A/B/C
+pareado con el puente puesto, el **control positivo falló** (C, que debería
+ser ≈ A, dio entre −27 % y −88 %), porque el humo se disipa entre capturas y
+domina sobre el efecto del mipmap. **Esos números no se reportan como
+resultado**: miden el humo, no el mipmap.
+
+La primera tanda (§7.6, escena de la barrera, sin reiniciar) sí fue válida —
+el control dio +0 % en las cinco regiones. La lección operativa quedó
+registrada abajo.
+
+**Falta entonces:** una captura A/B en escena **estática**, con el puente
+puesto, para decir si el resultado se ve mejor que `hw_mipmap = false`.
+
+### Y la pregunta grande que esto abre
+
+El puente cubre **las texturas de una escena**, no el juego. Para cubrirlo
+entero hay que volcar con `hw_mipmap = true` recorriendo el juego, y correr el
+puente sobre todo lo volcado. Es mecánico y ya está automatizado, pero
+requiere **jugar**: es lo único de esta línea que la sesión no puede hacer sola.
+
+**Y hay que rehacer el número de cobertura.** El 70,9 % de la fase V1 se midió
+en un estado de `hw_mipmap` que no quedó anotado. Si se midió con mipmapping
+activado, ese 29 % "sin reemplazo" está inflado por este mismo efecto y la
+cobertura real es mayor.
+
+### DO NOT REPEAT que sale de esta fase
+
+- **No concluir "el mip chain no se usa" ni "sí se usa" sin el puente puesto.**
+  Sin él la pregunta no se puede ni formular: el archivo no se abre.
+- **No comparar nitidez entre dos corridas separadas por un reinicio.** La
+  escena avanza (humo, combate, enemigos) y eso domina la métrica. El A/B sólo
+  vale con toggle dentro de **una misma corrida**, y **siempre** con el tercer
+  paso ON→OFF→ON: si el control no vuelve a ≈0 %, la medición se descarta.
+- **No leer colores de una captura "mirándola".** Los cuadraditos que en la
+  primera lectura parecían magenta (nivel 1) eran partículas violetas del
+  juego: el detector midió **0 px** de magenta real. La paleta sepia de BLACK
+  y su iluminación engañan al ojo. Se cuenta por canal
+  (`detectar_nivel_mip.py`), y se contrasta contra el **mismo encuadre con
+  mipmap off**, que es el único control que separa el color del juego del color
+  del pack.
+- **Con el juego en pausa, `F8` no escribe captura.** El A/B pareado no se
+  puede hacer congelando la imagen.
+- `Process.MainWindowHandle` de .NET apunta a la **ventana de registro** de
+  PCSX2, que no procesa hotkeys. Buscar la del juego por título.
+
+### El gap del saboteador de §7.6, CERRADO
+
+El verificador de `regenerar_mipmaps.py` nunca había visto un archivo roto.
+Se le dieron dos rotos a propósito y **dijo que no en los dos**, mientras los
+sanos del mismo lote seguían en verde:
+
+| sabotaje | qué dijo |
+|---|---|
+| truncar 500 bytes del final | `nivel 2: FALTAN 132 bytes` + `892 bytes sobrantes` → HAY FALLOS |
+| `dwMipMapCount` +3 (mentiroso) | `nivel 9: FALTAN 16 bytes` → HAY FALLOS |

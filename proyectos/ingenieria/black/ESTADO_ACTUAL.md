@@ -511,24 +511,53 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
          03, "se ve nítida en los dos ángulos". Las dos hipótesis alternativas
          (H1 carga asíncrona, H4 post-proceso) MUERTAS antes, cada una con su
          control. Detalle: `docs/09` §7.5.
+         **CORRECCIÓN del 2026-09-04 (fase V4):** el HECHO sigue en pie
+         —apagar el mipmapping arregla el síntoma— pero el MECANISMO que
+         esta línea propone es el equivocado. No es que el GPU pida un mip
+         que el pack no trae: es que al activar el mipmapping **cambia el
+         hash con el que PCSX2 busca el reemplazo**, no lo encuentra, y
+         dibuja el original de PS2 entero, mip 0 incluido. Ver T7.
 
-     T6  el arreglo de fondo (mip chain real) ......... CONSTRUIDO, SÍNTOMA
-                                                          REPORTADO DE VUELTA
-         Antes de construir nada se leyó el código fuente real de PCSX2:
-         `-mip%u` es convención de VOLCADO EN PNG (`GetDumpFilename`), no de
-         carga de DDS — para DDS los mips van EMBEBIDOS en el mismo archivo
-         (`dwMipMapCount` del header). Herramienta:
-         `herramientas/regenerar_mipmaps.py`, verificada por bytes (8225/8225
-         OK, reparseo exacto del parser real de PCSX2) y por píxel (contenido
-         correcto, sin corrupción). Instalada el 2026-09-04 con
-         `mipmap=true`/`hw_mipmap=true` restaurados y backup del pack viejo
-         intacto (`replacements-sin-mips-2026-09-04`, renombrado, no borrado).
-         **Fran, mirando de nuevo: "ahora vuelve a desenfocar".** Sin
-         diagnosticar — tres hipótesis abiertas (textura sin cobertura / mip
-         chain no leído / comportamiento normal de un mip chain real vs. el
-         hack de mip-0-forzado de V3) y un test de un paso (`Insert` =
-         `ToggleMipmapMode`) para separarlas. Detalle completo:
-         `docs/09` §7.6, `sesiones/HANDOFF.md` §9.
+     T6  el arreglo de fondo (mip chain real) ................... CERRADA
+         **NO ERA LA CAUSA, y por eso no cambio nada en pantalla.** El mip
+         chain se construyo bien (`herramientas/regenerar_mipmaps.py`,
+         verificado por bytes 8225/8225 y por pixel) y aun asi el sintoma
+         volvio, porque **el archivo arreglado no se abria nunca**. Ver T7.
+         Lo que si dejo: `-mip%u` es convencion de VOLCADO EN PNG
+         (`GetDumpFilename`), NO de carga de DDS — para DDS los mips van
+         EMBEBIDOS en el mismo archivo (`dwMipMapCount` del header). Y el
+         verificador de la herramienta, que nunca habia visto un archivo roto,
+         **ya vio dos** (truncado y `dwMipMapCount` mentiroso): dijo FALLOS en
+         los dos, con los sanos en verde. Detalle: `docs/09` S7.6 y S7.7.
+
+     T7  LA CAUSA RAIZ: el HASH cambia con el mipmapping ........ CERRADA
+         **CONFIRMADA POR CODIGO Y POR EFECTO, fase V4, 2026-09-04.**
+         `GSTextureCache::HashCacheKey::Create` hashea el nivel base y, **si
+         hay `lod`, tambien todos los niveles de mip del juego**; el
+         `CLUTHash` en cambio NO depende de `lod`. O sea: una misma textura
+         tiene DOS `TEX0Hash`, y el pack de 2022 (volcado sin mipmapping)
+         solo trae el de sin-mipmap. Al poner `hw_mipmap = true`, PCSX2 pide
+         un nombre que no existe, no encuentra reemplazo y **dibuja el
+         original de PS2**. Medido en la misma escena: **37 texturas sin
+         reemplazo con `hw_mipmap = true` contra 5 con `false`**.
+         ARREGLO: `herramientas/puente_hash_mipmap.py` empareja por
+         `(CLUTHash, TEX0 bits enmascarado)` y escribe COPIAS del pack con el
+         nombre nuevo; no borra ni modifica nada. 35 de 38 emparejadas.
+         VERIFICADO POR EFECTO: los volcados bajaron de **37 a 3** (las 3 no
+         emparejadas), y con el pack de diagnostico de color los pixeles de
+         nivel 1 pasaron de **0 a 10.929** — o sea que el mip chain de T6
+         **si se usa**, recien ahora. Detalle: `docs/09` S7.7.
+         ABIERTO: la verificacion visual de la CALIDAD (las dos tandas A/B/C
+         se descartaron: control positivo roto por el humo de la escena), y
+         extender el puente a todo el juego, que **requiere jugar**.
+
+     T8  la sesion PUEDE ver la pantalla de PCSX2 .............. CERRADA
+         PCSX2 escribe sus propias capturas (`Screenshot = F8` ->
+         `Documents\PCSX2\snaps\`) y `herramientas/pcsx2_teclado.ps1` le
+         lleva el foco a la ventana del juego y manda la tecla. Creer lo
+         contrario costo la fase entera de S7.6. Ojo: PCSX2-Qt tiene DOS
+         ventanas y `MainWindowHandle` de .NET devuelve la **de registro**,
+         que no procesa hotkeys (`herramientas/pcsx2_ventanas.ps1` las lista).
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo

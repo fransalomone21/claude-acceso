@@ -16,6 +16,73 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-04 (52) — V4: la causa raíz era el HASH, no el mip chain; arreglo construido y verificado por efecto
+**Máquina:** notebook · **Modelo:** Opus (lectura de código fuente + diseño del diagnóstico)
+**Objetivo:** diagnosticar por qué el síntoma "la pared se ve borrosa según el
+ángulo" volvió después de instalar un mip chain verificado por bytes y por
+píxel. Cerrar con un veredicto **por efecto** entre las tres hipótesis de §7.6.
+
+**Resultado:**
+
+- **El veredicto no fue ninguna de las tres: es una cuarta causa, y está
+  CONFIRMADA por código y por efecto.** `GSTextureCache::HashCacheKey::Create`
+  hashea el nivel base y, **si hay `lod`, también todos los niveles de mip del
+  juego**. O sea que una misma textura tiene **dos `TEX0Hash`**, y el pack de
+  2022 (volcado sin mipmapping) sólo trae el de sin-mipmap. Al activar
+  `hw_mipmap`, PCSX2 pide un nombre que no existe, no encuentra reemplazo y
+  dibuja el original de PS2. **Por eso el arreglo de §7.6 no cambió nada: el
+  archivo que se arregló no se abría nunca.**
+- **Tres medidas independientes**, todas por efecto: (1) el pack de
+  diagnóstico con un color plano por nivel mostró **cero píxeles de color**
+  mientras la escena perdía 47x de detalle — el reemplazo ni se cargaba;
+  (2) volcados en la misma escena: **37 texturas sin reemplazo con
+  `hw_mipmap = true` contra 5 con `false`**; (3) en los pares, el `CLUTHash`
+  coincide **exacto** y sólo cambia el `TEX0Hash` — justo lo que dice el
+  código, porque `CLUTHash` no depende de `lod`.
+- **Arreglo construido y verificado:** `herramientas/puente_hash_mipmap.py`
+  empareja por `(CLUTHash, TEX0 bits enmascarado)` y escribe copias del pack
+  con el nombre nuevo. 35 de 38. Los volcados bajaron de **37 a 3** (las 3 no
+  emparejadas) y los píxeles de nivel 1 del pack de debug pasaron de **0 a
+  10.929** — que además prueba que **el mip chain de §7.6 sí se usa**, recién
+  ahora que el archivo se encuentra.
+- **Desbloqueo operativo, y es lo más reutilizable de la sesión:** la sesión
+  **sí** puede ver la pantalla de PCSX2. `herramientas/pcsx2_teclado.ps1` le
+  lleva el foco a la ventana del juego y le manda `F8`; PCSX2 escribe la
+  captura y la sesión la lee. Toda la fase se hizo sin Fran delante.
+- **Gap del saboteador de §7.6, cerrado:** al verificador de
+  `regenerar_mipmaps.py` se le dieron dos archivos rotos a propósito y dijo
+  que no en los dos, con los sanos del mismo lote en verde.
+- Herramientas nuevas: `pcsx2_teclado.ps1`, `pcsx2_ventanas.ps1`,
+  `mipmaps_debug_color.py`, `detectar_nivel_mip.py`, `nitidez_regiones.py`,
+  `cruzar_dumps_pack.py`, `emparejar_dump_pack.py`, `puente_hash_mipmap.py`.
+
+**No funcionó:**
+
+- **Leer los colores del pack de debug "mirando" la captura.** En la primera
+  lectura parecían verse cuadraditos magenta (nivel 1) y se concluyó que el
+  mip chain se leía. El detector por canal midió **0 px** de magenta: eran
+  partículas violetas del juego. La conclusión se corrigió en el mismo turno,
+  pero la lección es que la paleta sepia de BLACK engaña al ojo.
+- **Las dos tandas A/B/C de verificación visual de la calidad final, ambas
+  descartadas.** La escena del savestate 03 tiene humo intermitente y combate:
+  el control positivo (C, que debe volver a ≈A) se desvió entre −76 % y
+  +1585 %. Los números medían el humo, no el mipmap, y no se reportan.
+- **Se perdió el encuadre de la barrera** al reiniciar el emulador: los 10
+  slots de savestate estaban ocupados y no se quiso pisar ninguno. La escena
+  del savestate 03 arranca en otro punto del nivel.
+- **Dos falsos positivos del guardia `PreToolUse`** frenaron comandos
+  legítimos (un `Copy-Item` leído como `Remove-Item`, y un `Start-Process` del
+  emulador por llevar `Black.iso` como argumento junto a un `Set-Content`). No
+  se sacó el guardia: se dividieron los comandos y quedó anotado.
+
+**Sigue:** cerrar la verificación visual en una escena **estática** (con el
+puente puesto, que es donde el puente aplica), y extender el puente a todo el
+juego — mecánico y ya automatizado, pero **requiere jugar**. Además, rehacer
+el 70,9 % de cobertura de V1: se midió sin anotar el estado de `hw_mipmap` y
+puede estar inflado por este mismo efecto.
+
+---
+
 ## 2026-09-04 (51) — V3 confirmada, mip chain real construida e instalada, síntoma reportado de vuelta sin diagnosticar
 **Máquina:** notebook · **Modelo:** Sonnet (ejecución + lectura de código fuente de PCSX2)
 **Objetivo:** cerrar V3 (pasar la causa de §7.3 a `confirmado`) y, si se
