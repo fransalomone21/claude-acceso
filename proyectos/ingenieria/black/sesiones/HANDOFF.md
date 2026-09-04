@@ -2045,9 +2045,14 @@ guardia**: se renombra, no se borra - y así además queda la evidencia.
    `DumpReplaceableTextures = true` + `hw_mipmap = true`, recorrer, y correr
    `puente_hash_mipmap.py` sobre lo volcado— pero **requiere jugar**: es lo
    único de esta línea que la sesión no puede hacer sola.
-3. **Rehacer la cobertura de la fase V1.** El 70,9 % se midió sin anotar el
-   estado de `hw_mipmap`. Si fue con mipmapping activado, está inflado por el
-   efecto del hash y la cobertura real es mayor.
+3. ~~**Rehacer la cobertura de la fase V1.**~~ — **HECHO el 2026-09-04, y era
+   eso**: el 70,9 % se midió con `hw_mipmap = true` (los volcados de V1 y los
+   de esta sesión con mipmap on comparten **37 de 38** claves). Rehecha con
+   numerador y denominador en el mismo estado: **82 texturas en la escena, 6
+   sin reemplazo → 92,7 %**, con control positivo. Sobre la misma escena, 38
+   sin reemplazo con mipmap on contra **6** con off. Detalle en `docs/09` §7.7.
+   **Queda abierto sólo extenderlo a otras escenas**, porque el 92,7 % vale
+   para la del savestate 03, no para el juego.
 4. **Corregir los dos falsos positivos del guardia** (`.claude/hooks/guardia-iso.ps1`),
    y después correr `.\probar-hooks.ps1`, que exige ver el rojo **y** que lo
    legítimo siga pasando. No sacar el guardia.

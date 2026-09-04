@@ -497,6 +497,17 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
          volcado completo. El original de PS2 tiene moda 128×128, no 512².
          Script: `herramientas/clasificar_pack.py`.
 
+     T3b COBERTURA RECALCULADA: no era 70,9 %, es ~93 % ......... CERRADA
+         **2026-09-04.** El 70,9 % de V1 se midio con `hw_mipmap = true`, o
+         sea inflado por el efecto del hash de T7. Confirmado: los volcados
+         de V1 y los de esta sesion con mipmap on comparten **37 de 38**
+         claves. Rehecha con numerador y denominador en el MISMO estado
+         (mipmap off): **82 texturas en la escena, 6 sin reemplazo -> 92,7 %**,
+         con control positivo (las 6 son subconjunto exacto del total). Sobre
+         la misma escena: 38 sin reemplazo con mipmap on contra 6 con off.
+         El "29 % que cae al original de PS2" era el efecto del hash, no
+         falta de cobertura. Vale para ESTA escena, no para el juego entero.
+
      T4  ¿cuánto CUESTA el pack en FPS? ...................... ABIERTA
          Los números de OSD de la corrida del 2026-09-02 (GS 22,3 %,
          29,93 fps) NO valen: fue SIN TURBO y bajo el cap nada se ve. Falta

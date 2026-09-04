@@ -864,6 +864,44 @@ cobertura real es mayor.
 - `Process.MainWindowHandle` de .NET apunta a la **ventana de registro** de
   PCSX2, que no procesa hotkeys. Buscar la del juego por título.
 
+### LA COBERTURA NO ERA 70,9 %: ES ~93 %
+
+El 70,9 % de la fase V1 **se midio con `hw_mipmap = true`**, o sea inflado por
+este mismo efecto del hash. Confirmado: los volcados de aquella medicion
+(`dumps-A2-pack-activo`, 38 archivos) y los de esta sesion con mipmap on
+(`dumps-mipmapON-2026-09-04`, 38) comparten **37 de 38 claves**. Es la misma
+medicion en el mismo estado.
+
+Se rehizo con **numerador y denominador en el mismo estado** (mipmap off), que
+es lo que faltaba:
+
+| medida | valor |
+|---|---:|
+| total de texturas de la escena (pack **off** + mipmap off) | **82** |
+| sin reemplazo (pack **on** + mipmap off) | **6** |
+| **cobertura** | **92,7 %** |
+
+**Control positivo:** las 6 sin reemplazo son **subconjunto exacto** del total
+(6 de 6), asi que las dos corridas vieron la misma escena. Sin ese control el
+cociente no valdria: son dos corridas distintas.
+
+Y el contraste que lo explica todo, sobre la misma escena:
+
+```
+sin reemplazo con hw_mipmap = true   : 38
+sin reemplazo con hw_mipmap = false  :  6
+```
+
+**El "29 % que cae al original de PS2" era, en su enorme mayoria, el efecto
+del hash — no falta de cobertura del pack.** Eso reordena la linea visual
+entera: ampliar el pack deja de ser prioritario.
+
+> **Caveat, para no reportar de mas.** Los 82 salen de la escena del savestate
+> 03 con ~80 s de corrida; la fase V1 midio 127 en su escena. Los dos numeros
+> no son la misma poblacion, asi que **el 92,7 % vale para esta escena**, no
+> para el juego. Lo que si es solido y general es la comparacion 38 contra 6:
+> el estado de `hw_mipmap` cambia la cobertura medida por un factor de seis.
+
 ### Confirmacion externa, y un matiz que no hay que perder
 
 La investigacion de la linea de remake (`pruebas/remake-texturas-ia-2026-09-04.md`,
