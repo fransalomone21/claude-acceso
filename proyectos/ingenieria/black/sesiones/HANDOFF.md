@@ -1988,49 +1988,48 @@ captura, no supuesto. Para desactivar el pack (rama B del A/B) se **renombra**
 restaurar hay que sacar la vacía primero. `Remove-Item` con wildcard ahí lo **frena el
 guardia**: se renombra, no se borra - y así además queda la evidencia.
 
-### ESTADO DE LA MÁQUINA — actualizado al cierre del 2026-09-04 (madrugada), fase V4
+### ESTADO DE LA MÁQUINA — medido al cierre del 2026-09-04 (madrugada), fase V4
 
 - **PCSX2 CERRADO.** Nada en memoria que no esté en disco. Relanzar con el
   comando de "Cómo se lanza una corrida", más arriba.
-- **`.ini`: `hw_mipmap = false`** — es el **estado seguro y validado**, y es
-  a propósito. El puente de §7.7 sólo cubre las texturas de UNA escena; con
+- **`.ini`: `hw_mipmap = false`, `mipmap = true`,
+  `DumpReplaceableTextures = false`, `PrecacheTextureReplacements = true`,
+  `upscale_multiplier = 3`, `Renderer = 15` (D3D12).**
+  El `hw_mipmap = false` es **a propósito**: es el estado seguro y validado.
+  El puente de §7.7 sólo cubre las texturas de UNA escena; con
   `hw_mipmap = true` el resto del juego volvería a perder su reemplazo. Fran
   ya validó este estado en V3 (*"se ve nítida en los dos ángulos"*).
-  `mipmap = true`, `DumpReplaceableTextures = false`,
-  `PrecacheTextureReplacements = true`, `upscale_multiplier = 3`,
-  `Renderer = 15` (D3D12).
-  Respaldo nuevo del `.ini`: `pruebas/PCSX2.ini.respaldo-2026-09-04-V4`.
+  Respaldo nuevo: `pruebas/PCSX2.ini.respaldo-2026-09-04-V4`.
 - **`C:\Program Files\PCSX2\dxgi.dll` sigue `dxgi.dll.disabled`** —
-  verificado por efecto en esta sesión: `ReShade.log` y `dlss5-feed.log`
-  tienen mtime del 2026-09-03 09:34 y 09:40, muy anteriores a los arranques
-  de esta madrugada. ReShade/DLSS5/LumeniteFX/RenoDX **no cargaron** en
-  ninguna de las corridas de esta sesión.
-- **Carpetas en `Documents\PCSX2\textures\SLUS-21376\`** (ninguna se borró):
+  verificado **por efecto**: `ReShade.log` y `dlss5-feed.log` tienen mtime del
+  2026-09-03 09:34 y 09:40, anteriores a todos los arranques de esta
+  madrugada. ReShade/DLSS5/LumeniteFX/RenoDX **no cargaron** en ninguna corrida.
+- **Carpetas en `Documents\PCSX2	extures\SLUS-21376\`** — ninguna se borró:
 
-  | carpeta | qué es |
-  |---|---|
-  | `replacements` | **el pack activo**: mip chain de §7.6 + las 35 copias del puente = 8260 archivos |
-  | `replacements-sin-mips-2026-09-04` | el pack original de 2022, un solo nivel (8225) |
-  | `replacements-DEBUG-colores-2026-09-04` | pack de diagnóstico, un color plano por nivel (8260, ya con su puente) |
-  | `puente-mipmap-2026-09-04` | las 35 copias del puente, sueltas (pack real) |
-  | `puente-DEBUG-2026-09-04` | las 35 del puente, del pack de debug |
-  | `dumps-mipmapON-2026-09-04` | 38 volcados con `hw_mipmap = true` — **la entrada del puente** |
-  | `dumps-mipmapOFF-2026-09-04` | 6 volcados con `hw_mipmap = false` (el control) |
-  | `dumps-conpuente-2026-09-04` | 3 volcados con puente puesto — la prueba del arreglo |
-  | `evidencia-mipmap-2026-09-04` | las capturas A/B/C de la barrera y la D con puente |
+  | carpeta | archivos | qué es |
+  |---|---:|---|
+  | `replacements` | **8260** | **el pack ACTIVO**: mip chain de §7.6 + las 35 copias del puente |
+  | `replacements-sin-mips-2026-09-04` | 8225 | el pack original de 2022, un solo nivel. **Para volver atrás del todo, renombrar éste a `replacements`** |
+  | `replacements-DEBUG-colores-2026-09-04` | 8260 | pack de diagnóstico, un color plano por nivel, ya con su puente |
+  | `puente-mipmap-2026-09-04` | 35 | las copias del puente, sueltas (pack real) |
+  | `puente-DEBUG-2026-09-04` | 35 | ídem, del pack de debug |
+  | `dumps-mipmapON-2026-09-04` | 38 | volcados con `hw_mipmap = true` — **la entrada del puente** |
+  | `dumps-mipmapOFF-2026-09-04` | 6 | volcados con `hw_mipmap = false` |
+  | `dumps-TOTAL-mipmapOFF-2026-09-04` | 82 | pack **desactivado** + mipmap off = **el total de la escena**; es el denominador del 92,7 % |
+  | `dumps-conpuente-2026-09-04` | 3 | con el puente puesto — la prueba del arreglo |
+  | `evidencia-mipmap-2026-09-04` | 4 | capturas A/B/C de la barrera + D con puente |
+  | `replacements-vacia-recreada`, `-2` | 0 | las que PCSX2 recrea al arrancar sin pack. Inofensivas |
 
-  **El pack anterior a esta sesión (sin mip chain) es
-  `replacements-sin-mips-2026-09-04`.** Para volver atrás del todo se renombra
-  ése a `replacements`.
-- **Herramientas nuevas de esta sesión**, todas en `black/herramientas/`:
-  `pcsx2_teclado.ps1`, `pcsx2_ventanas.ps1`, `mipmaps_debug_color.py`,
-  `detectar_nivel_mip.py`, `nitidez_regiones.py`, `cruzar_dumps_pack.py`,
-  `emparejar_dump_pack.py`, `puente_hash_mipmap.py`.
-- **Dos falsos positivos del guardia `PreToolUse`**, sin corregir (ver NEXT
-  ACTION): frenó un `Copy-Item` diciendo *"Remove-Item on system path"*, y
-  frenó un `Start-Process` del emulador por llevar `Black.iso` como argumento
-  en el mismo comando que un `Set-Content`. Los dos eran legítimos. **El
-  guardia NO se sacó**: se trabajó dividiendo los comandos.
+- **Herramientas nuevas de esta sesión**, en `black/herramientas/`:
+  `pcsx2_teclado.ps1` y `pcsx2_ventanas.ps1` (manejar la ventana del juego y
+  sacarle capturas), `mipmaps_debug_color.py`, `detectar_nivel_mip.py`,
+  `nitidez_regiones.py`, `cruzar_dumps_pack.py`, `emparejar_dump_pack.py`,
+  `puente_hash_mipmap.py`, `comparar_packs.py` (este último **validado contra
+  dos respuestas conocidas**: 35 y 0).
+- **El guardia `PreToolUse` quedó ARREGLADO** (falsos positivos por salto de
+  línea) y `probar-hooks.ps1` pasó de 47 a **50 comprobaciones**, en verde.
+- `chequeo-completo.ps1 -SoloMedidores`: **los tres medidores en verde**.
+- **Git: los dos repos commiteados y pusheados**, sin nada pendiente.
 
 ### NEXT ACTION, en orden de apalancamiento — REORDENADA el 2026-09-04 por §7.7
 
