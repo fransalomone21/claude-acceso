@@ -1,0 +1,23 @@
+LTspice 26.0.1 for Windows
+Circuit: C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P7-04_RL_reconstruir_parametros.net
+Start Time: Fri Sep  4 20:25:39 2026
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = trap
+AsciiRawFile = true
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 1.075 seconds.
+
+Files loaded:
+C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P7-04_RL_reconstruir_parametros.net
+
+v_0: V(v) =399.999999998 at 0
+i_0: I(L1) =9.99999999995 at 0
+r_med: v_0/i_0=40
+t63: I(L1)=3.678794 AT 0.199995022565
+l_med: R_med*t63=7.99980090261
+w0: 0.5*8*i_0*i_0=399.999999996
+t80: V(wR)=320 AT 0.160932770149
+w_int: INTEG(V(v)*I(R1) )=319.992186221 FROM 0 TO 0.16094

@@ -1,0 +1,17 @@
+# Salidas que LTspice regenera en cada corrida.
+#
+# Los .raw son 178 MB entre los diecisiete: son las formas de onda completas,
+# punto por punto, y se rehacen en 40 segundos con `python verificar.py`.
+# Los .net los reescribe LTspice desde el .asc antes de cada simulacion.
+#
+# Los .log SI se commitean, a proposito: son la EVIDENCIA. Cada uno trae los
+# .meas medidos, y es lo que permite ver que dio la simulacion sin volver a
+# correrla ni tener LTspice instalado.
+*.raw
+*.net
+*.op.raw
+
+# LTspice deja un .db por circuito: es el indice de la ventana de formas
+# de onda (que trazas, que paneles). Se rehace solo, y no vale como registro:
+# la configuracion de las graficas esta escrita en el .asc, en texto.
+*.db

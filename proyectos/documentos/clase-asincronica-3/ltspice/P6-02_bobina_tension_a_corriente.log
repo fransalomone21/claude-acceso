@@ -1,0 +1,19 @@
+LTspice 26.0.1 for Windows
+Circuit: C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P6-02_bobina_tension_a_corriente.net
+Start Time: Fri Sep  4 20:25:32 2026
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = trap
+AsciiRawFile = true
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 0.099 seconds.
+
+Files loaded:
+C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P6-02_bobina_tension_a_corriente.net
+
+il_1ms: I(L1) =0.0249999375251 at 0.001
+il_2ms: I(L1) =0.0499997500258 at 0.002
+il_fin: I(L1) =0.0499992623807 at 0.004
+pend: I(L1) =24.999875024 at 0.001

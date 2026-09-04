@@ -1,0 +1,50 @@
+LTspice 26.0.1 for Windows
+Circuit: C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\X3_no_ideal_RLC_con_DCR_ESR.net
+Start Time: Fri Sep  4 20:26:04 2026
+
+.step k=0
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = trap
+AsciiRawFile = true
+Direct Newton iteration succeeded in finding operating point.
+
+.step k=1
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 5.722 seconds.
+
+Files loaded:
+C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\X3_no_ideal_RLC_con_DCR_ESR.net
+
+
+Measurement: r_total
+  step	800+esr+dcr
+     1	800.000002
+     2	806.2
+
+Measurement: alfa
+  step	(800+esr+dcr)/(2*80m)
+     1	5000.0000125
+     2	5038.75
+
+Measurement: omega0
+  step	1/sqrt(80m*0.5u)
+     1	5000
+     2	5000
+
+Measurement: vc_max
+  step	MAX(V(vc))	FROM	TO
+     1	20	0	0.003
+     2	20	0	0.003
+
+Measurement: vc_1ms
+  step	V(vc) 	at
+     1	0.404276825794	0.001
+     2	0.437265110324	0.001
+
+Measurement: r_crit_real
+  step	2*sqrt(80m/0.5u)-esr-dcr
+     1	799.999998
+     2	793.8

@@ -1,0 +1,221 @@
+Teoría de Circuitos para Sistemas Espaciales
+
+Actividad asincrónica - Bobinas, capacitores y circuitos RL, RC y RLC
+
+Objetivo
+
+El objetivo de esta actividad es afianzar el análisis de elementos almacenadores de energía y de
+circuitos de primer y segundo orden. Cada problema deberá resolverse analíticamente y
+contrastarse mediante simulación, prestando especial atención a las condiciones iniciales, las
+constantes de tiempo, el régimen transitorio y el balance de energía.
+
+Material de trabajo
+
+Los problemas indicados corresponden a Circuitos Eléctricos, Nilsson y Riedel, capítulos 6, 7 y 8 de
+la edición adjunta. Las figuras y los valores de cada circuito deben tomarse del enunciado original.
+Para la simulación puede utilizarse LTspice u otro simulador SPICE equivalente.
+
+Registro en la Carpeta de Ingeniería
+
+La resolución completa debe incorporarse a la Carpeta de Ingeniería de la asignatura. No es
+necesario entregar un informe independiente, pero sí debe quedar registrado el procedimiento de
+cálculo, el circuito simulado, la configuración utilizada, las gráficas y la comparación entre ambos
+resultados.
+
+Entregable mínimo por problema
+
+    1. Esquema con referencias de tensión, corriente y polaridades.
+    2. Desarrollo analítico con ecuaciones, reemplazo numérico y unidades.
+    3. Captura legible del circuito implementado en el simulador.
+    4. Configuración del análisis: tiempo final, paso máximo y condiciones iniciales.
+    5. Gráficas con nombres de señales, unidades y cursores en puntos relevantes.
+    6. Comparación cuantitativa entre cálculo y simulación, incluyendo diferencia porcentual
+
+         cuando corresponda.
+    7. Conclusión breve: qué confirma la simulación y qué supuestos del modelo condicionan el
+
+        resultado.
+
+ Criterio de simulación. Elegir un paso máximo no mayor que /100 en circuitos de primer
+ orden. En RLC subamortiguados, utilizar además al menos 100 puntos por período amortiguado.
+ No aceptar una curva solo porque "parece correcta": verificar valores iniciales, finales y tiempos
+ característicos.
+
+Bloque 1 · Bobinas y capacitores
+
+En este bloque interesa conectar las relaciones constitutivas con las formas de onda y la energía.
+Resolver los cuatro problemas; los dos primeros pueden modelarse con fuentes PWL.
+
+                                                         Página 1
+Problema 6.1 · Bobina excitada por un pulso triangular
+
+Cálculo. Escribir i(t) por intervalos y obtener vL(t) = L·di/dt, pL(t) = vL(t)i(t) y EL(t)= ½ Li²(t). Identificar
+en qué intervalos la bobina absorbe energía y en cuáles la devuelve.
+Simulación. Implementar una fuente de corriente PWL (PieceWise Linear o lineal por tramos) y la
+bobina de 20 mH. Graficar iL, vL, pL y ½LiL². Usar cursores a ambos lados de cada quiebre del pulso y
+explicar los cambios de tensión.
+Control. La tensión debe ser constante en cada tramo de pendiente constante y nula cuando la
+corriente permanece constante.
+
+Problema 6.2 · Corriente obtenida a partir de la tensión
+
+Cálculo. Integrar la forma de onda de tensión por tramos usando iL(t) = iL(0)+(1/L)v Ldt. Mantener
+explícita la continuidad de iL entre intervalos y dibujar la forma de onda resultante.
+Simulación. Reproducir vL(t) con una fuente PWL, conectar la bobina de 200 µH e imponer iL (0) =
+0. Comparar la corriente simulada con los valores calculados en cada cambio de tramo.
+Control. Una discontinuidad finita de vL cambia la pendiente de iL, pero no produce un salto de
+corriente.
+
+Problema 6.17 · Capacitor excitado por un pulso de corriente
+
+Cálculo. Obtener vC(t) por integración, luego calcular pC(t) = vC(t)iC(t) y EC(t) = ½ Cv²(t). Indicar
+cuándo el capacitor almacena y cuándo entrega energía.
+Simulación. Aplicar el pulso de corriente de la figura a C=0,25 µF mediante una fuente PWL.
+Graficar iC, vC, pC y energía. Verificar la continuidad de vC en todos los quiebres.
+Control. La pendiente de vC es iC/C; cuando iC=0, la tensión permanece constante.
+
+Problema 6.25 · Capacitancia equivalente
+
+Cálculo. Reducir la red paso a paso y calcular Ceq vista desde los terminales a-b.
+Registrar cada asociación serie o paralelo y justificarla a partir de nodos comunes.
+Simulación. Excitar la red con una fuente senoidal de 1 V a 1 kHz. Medir la magnitud de
+la corriente de entrada y estimar Ceq=|Iin|/(2f|Vin|). Repetir con el capacitor
+equivalente y superponer ambas corrientes.
+Control. La equivalencia debe conservar la corriente de entrada para cualquier
+frecuencia en el modelo ideal.
+
+Bloque 2 · Circuitos RL de primer orden
+
+Antes de resolver la ecuación temporal, determinar siempre iL(0-), iL(0+), iL(), Req
+y =L/Req. Luego usar iL(t)=iL()+[iL(0+)-iL()]e^(-t/).
+
+                                                         Página 2
+Problema 7.1 · Conmutación y continuidad de corriente
+
+Cálculo. Resolver el circuito antes y después de la apertura. Calcular las corrientes solicitadas en 0-
+y 0+, obtener la expresión temporal y explicar por qué una corriente de rama puede saltar aunque iL
+no lo haga.
+Simulación. Simular el régimen previo y la apertura en t=0. Si el simulador no permite un estado
+previo cómodo, calcular iL(0-) y cargarlo como condición inicial. Graficar iL y las corrientes de las
+ramas alrededor de t=0.
+Control. Verificar numéricamente iL(0+) = iL(0-), aun cuando otras corrientes presenten
+discontinuidades.
+
+Problema 7.4 · Reconstrucción de parámetros desde la respuesta
+
+Cálculo. A partir de las expresiones de v(t) e i(t) dadas en el libro, determinar R, , L y la energía
+inicial. Resolver el tiempo requerido para disipar el 80 % de la energía, recordando que wL es
+proporcional a i².
+Simulación. Construir el RL equivalente con la condición inicial obtenida. Medir  sobre iL y hallar
+por integración cuándo pRdt alcanza el 80 % de EL(0).
+Control. La energía decae como e^(-2t/), no como e^(-t/).
+
+Problema 7.8 · Descarga RL y balance de energía
+
+Cálculo. Calcular iL(t), la energía total entregada a la resistencia de 8  y el número de constantes
+de tiempo necesario para transferir el 95 % de esa energía.
+Simulación. Implementar la conmutación y graficar iL, pR e integral temporal de pR. Comparar la
+integral final con ½LiL²(0). Marcar en la curva el instante correspondiente al 95 %.
+Control. Para una red pasiva que termina con iL=0, la energía disipada total debe coincidir con la
+energía magnética inicial.
+
+Bloque 3 · Circuitos RC de primer orden
+
+Determinar vC(0-), vC(0+), vC(), Req y  = ReqC. La forma general es vC(t) = vC() + [vC(0+) -
+vC()]e^(-t/).
+
+Problema 7.21 · Conmutación, energía y carga atrapada
+
+Cálculo. Calcular las variables solicitadas en 0+, la energía inicial del capacitor, la energía atrapada
+y la energía disipada en 25 k. Mostrar el balance energético completo.
+Simulación. Simular ambos estados del conmutador. Graficar vC y las corrientes indicadas;
+integrar la potencia en 25 k y comparar con el cálculo. Extender el tiempo final hasta al menos 8
+para observar el estado asintótico.
+Control. La presencia de capacitores ideales puede dejar energía atrapada aunque el transitorio
+haya terminado.
+
+                                                         Página 3
+Problema 7.23 · Identificación de R, C y 
+
+Cálculo. Utilizar las expresiones dadas de v(t) e i(t) para obtener R, C, , energía inicial y energía
+disipada a 60 ms. Explicitar cómo se extrae  del exponente.
+Simulación. Construir el circuito RC equivalente e imponer la tensión inicial. Medir con cursores
+el tiempo en el que vC cae al 36,8 % y contrastarlo con . Integrar pR hasta 60 ms.
+Control. La razón v(t)/i(t) debe ser constante e igual a R durante toda la respuesta natural.
+
+Problema 7.25 · Energía disipada durante una descarga RC
+
+Cálculo. Determinar la energía inicial, la energía disipada luego de 12 ms y el tiempo necesario para
+disipar el 75 %. Justificar el tratamiento de los conmutadores simultáneos.
+Simulación. Modelar la apertura conjunta y usar la condición inicial calculada. Graficar vC y pR;
+integrar pR. Comparar el instante del 75 % con el resultado analítico.
+Control. Como wC vC², el porcentaje de energía exige trabajar con el cuadrado de la exponencial.
+
+Bloque 4 · Circuitos RLC de segundo orden
+
+Este bloque acompaña la extensión RLC presentada en las filminas. En la edición utilizada
+corresponde al capítulo 8. Resolver primero la ecuación característica y recién después elegir la
+forma de la respuesta.
+
+Problema 8.1 · Raíces y clasificación de un RLC paralelo
+
+Cálculo. Calcular  = 1/(2RC), 0 = 1/(LC) y las raíces s1,2 = -±(²-0²). Clasificar la respuesta y
+determinar los valores de R requeridos en los apartados del libro.
+Simulación. Simular una respuesta natural normalizada usando vC(0) = 1 V e iL(0) = 0. Repetir con
+el R original, el R que produce d = 120 rad/s y el R crítico. Superponer v(t) y relacionar cada forma
+con sus raíces.
+Control. Las tres simulaciones deben exhibir de manera visible el cambio de régimen, no solo
+valores numéricos diferentes.
+
+Problema 8.38 · Respuesta críticamente amortiguada
+
+Cálculo. Usar los valores y condiciones iniciales de la figura para calcular R, i(0+), di/dt(0+) y vC(t).
+Mostrar cómo las dos condiciones iniciales determinan los coeficientes de (D1t+D2)e^(-t).
+Simulación. Implementar el circuito con vC(0) = 20 V e iL(0) = 30 mA. Graficar vC, iL y energía total
+almacenada. Modificar R en ±20 % y comparar los casos subamortiguado, crítico y
+sobreamortiguado.
+Control. La respuesta crítica es el retorno más rápido al equilibrio sin oscilación para el modelo
+ideal.
+
+Segunda pasada: incorporar no idealidades
+
+Elegir un problema RL, uno RC y uno RLC. Repetir la simulación agregando parámetros razonables
+de componentes reales: resistencia serie de la bobina, ESR y fuga del capacitor, y resistencia de
+
+                                                         Página 4
+salida de la fuente. Si no se dispone de datos de hoja de datos, declarar claramente los valores
+supuestos.
+
+     Comparar nuevamente valor inicial, valor final, constante de tiempo o frecuencia
+         amortiguada.
+
+     Indicar qué no idealidad explica la mayor diferencia.
+     Evaluar si el modelo ideal sigue siendo suficiente para predecir la respuesta de interés.
+     Proponer una medición de laboratorio que permita estimar el parámetro parásito
+
+         dominante.
+
+Criterios para las gráficas
+
+     Ejes identificados con magnitud y unidad; evitar nombres automáticos ambiguos.
+     Escalas que permitan observar el transitorio completo y el entorno de t=0.
+     Cursores en x(0+), x(),  y, en RLC, sobreimpulso y período amortiguado.
+     No mezclar señales de escalas incompatibles sin usar paneles o ejes separados.
+     Incluir una leyenda breve que explique qué se está verificando.
+
+Para pensar
+
+Al finalizar, elegir dos de las siguientes preguntas y responderlas en no más de un párrafo cada una:
+     ¿Qué error conceptual puede quedar oculto si solo se observa la forma cualitativa de una
+         curva simulada?
+     ¿Por qué una bobina ideal puede generar una tensión muy alta al interrumpirse su
+         corriente? ¿Cómo se limita ese fenómeno en hardware real?
+     ¿Qué combinación de mediciones permitiría distinguir un RLC subamortiguado de uno
+         críticamente amortiguado?
+     En un sistema espacial, ¿qué efectos podrían tener las tolerancias, la temperatura y el
+         envejecimiento sobre ,  y 0?
+     ¿En qué caso la simulación debería considerarse insuficiente y exigir una validación
+         experimental?
+
+                                                         Página 5
+

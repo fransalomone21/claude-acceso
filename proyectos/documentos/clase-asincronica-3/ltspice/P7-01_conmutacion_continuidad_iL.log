@@ -1,0 +1,22 @@
+LTspice 26.0.1 for Windows
+Circuit: C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P7-01_conmutacion_continuidad_iL.net
+Start Time: Fri Sep  4 20:25:35 2026
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = trap
+AsciiRawFile = true
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 1.051 seconds.
+
+Files loaded:
+C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P7-01_conmutacion_continuidad_iL.net
+
+i1_antes: I(R3) =0.00499999749999 at 0.0009
+i2_antes: I(R2) =0.0149999925 at 0.0009
+i1_desp: I(R3) =0.00499906415837 at 0.00100001
+i2_desp: I(R2) =-0.00499901411036 at 0.00100001
+vb_desp: V(B)  =-39.9924131709 at 0.00100001
+t63: I(R3)=1.83940m  AT 0.00105000076397
+tau: t63-1m=5.00007639734e-05

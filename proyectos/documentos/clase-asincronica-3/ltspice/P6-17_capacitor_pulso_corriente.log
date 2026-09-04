@@ -1,0 +1,24 @@
+LTspice 26.0.1 for Windows
+Circuit: C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P6-17_capacitor_pulso_corriente.net
+Start Time: Fri Sep  4 20:25:33 2026
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = trap
+AsciiRawFile = true
+WARNING: Node vc is floating.
+
+.OP point found by inspection.
+.OP point found by inspection.
+Total elapsed time: 0.126 seconds.
+
+Files loaded:
+C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P6-17_capacitor_pulso_corriente.net
+
+v_5us: V(vc) =3.99999999997 at 5e-06
+v_20us: V(vc) =27.999999999 at 2e-05
+v_30us: V(vc) =18.0000011434 at 3e-05
+v_50us: V(vc) =10.0000007831 at 5e-05
+q_30us: 0.25u*v_30us=4.50000028584e-06
+w_50us: 0.5*0.25u*v_50us*v_50us=1.25000019577e-05

@@ -1,0 +1,22 @@
+LTspice 26.0.1 for Windows
+Circuit: C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P7-21_RC_energia_atrapada.net
+Start Time: Fri Sep  4 20:25:44 2026
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = trap
+AsciiRawFile = true
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 0.969 seconds.
+
+Files loaded:
+C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\clase-asincronica-3\ltspice\P7-21_RC_energia_atrapada.net
+
+i_0: I(R1) =0.0016 at 0
+t63: I(R1)=0.588600m AT 0.0200002559078
+v1_fin: V(v1) =7.99959380001 at 0.3
+v2_fin: V(v2) =7.99954156624 at 0.3
+w0: 0.5*1u*40*40=0.0008
+w_atrap: 0.5*1u*v1_fin*v1_fin+0.5*4u*v2_fin*v2_fin=0.000159982081023
+w_disip: V(wR) =0.000640320422987 at 0.3
