@@ -216,6 +216,21 @@ Caso-Guardia "CONTROL: la palabra 'del' en un texto, con el ISO mencionado" `
 Caso-Guardia "CONTROL: 'move' y 'ren' como palabras sueltas, no como comando" `
     (Json-Cmd 'PowerShell' "Write-Output 'el move de camara y el render usan $ruta como fuente'") $false
 
+# 2026-09-04: los patrones cortaban comandos solo en ';' y '|', pero en
+# PowerShell un SALTO DE LINEA tambien separa comandos. Sin eso, el patron
+# cruzaba de un comando al siguiente: un cmdlet de escritura sobre CUALQUIER
+# archivo en una linea, y el ISO como ARGUMENTO tres lineas mas abajo, daba
+# bloqueo. Paso dos veces el mismo dia con comandos legitimos. Los dos casos
+# de abajo son esos dos, tal cual ocurrieron.
+Caso-Guardia "CONTROL: escritura a OTRO archivo, y el ISO como argumento en otra linea" `
+    (Json-Cmd 'PowerShell' "(Get-Content `$ini) -replace 'a','b' | Set-Content -Path `$ini -Encoding UTF8`n`$iso = '$ruta'`nStart-Process 'pcsx2-qt.exe' -ArgumentList @('-statefile', `$iso)") $false
+
+Caso-Guardia "CONTROL: Rename-Item de otra carpeta, y el ISO lanzado lineas despues" `
+    (Json-Cmd 'PowerShell' "Rename-Item -Path 'C:	mpeplacements' -NewName 'replacements-viejo'`nStart-Process 'pcsx2-qt.exe' -ArgumentList @('$ruta')") $false
+
+Caso-Guardia "SABOTAJE: el ISO SI de destino de un cmdlet de escritura, misma linea" `
+    (Json-Cmd 'PowerShell' "Set-Content -Path '$ruta' -Value 'x'") $true
+
 Write-Output ""
 Write-Output "capa 2 -- el guardia no se cae con entrada rara"
 

@@ -114,27 +114,27 @@ function Patrones-De-Escritura([string]$nombre) {
     @(
         @{ re = ">>?\s*[`"']?[^`"'|;]*$nombre";                                  que = 'redireccion de salida' }
         @{ re = "-Destination\s+[`"']?[^`"']*$nombre";                           que = '-Destination' }
-        @{ re = "(Set-Content|Add-Content|Out-File|Clear-Content)[^;|]*$nombre"; que = 'cmdlet de escritura' }
-        @{ re = "(Remove-Item|Rename-Item|Move-Item)[^;|]*$nombre";              que = 'cmdlet destructivo' }
+        @{ re = "(Set-Content|Add-Content|Out-File|Clear-Content)[^;|\r\n]*$nombre"; que = 'cmdlet de escritura' }
+        @{ re = "(Remove-Item|Rename-Item|Move-Item)[^;|\r\n]*$nombre";              que = 'cmdlet destructivo' }
         # Los verbos CORTOS van anclados a posicion de comando (inicio de linea
         # o despues de ; | &), no sueltos en el texto. Sin el ancla, "\bdel\b"
         # matcheaba el "DEL" de "PRUEBA DEL DESINSTALADOR" y bloqueaba un
         # comando legitimo: "del" es una palabra del espanol. Paso de verdad,
         # en el primer uso del guardia en produccion. Un freno que molesta sin
         # comprar nada es el que despues hace que se saquen todos.
-        @{ re = "(^|[;|&`n(])\s*(rm|del|erase|mv|ren|move)\s+[^;|]{0,300}$nombre"; que = 'borrado o movida' }
+        @{ re = "(^|[;|&`n(])\s*(rm|del|erase|mv|ren|move)\s+[^;|\r\n]{0,300}$nombre"; que = 'borrado o movida' }
         # OJO con \s en las clases negadas: la ruta real tiene espacios
         # ("Program Files", "Black [NTSC]"), asi que [^\s]* corta antes de
         # llegar al nombre y el patron da falso negativo. Lo encontro
-        # probar-hooks.ps1; se acota con [^;|] para no cruzar comandos.
-        @{ re = "\bof=\s*[`"']?[^;|]{0,300}$nombre";                             que = 'dd of=' }
-        @{ re = "\battrib\b[^;|]*$nombre";                                       que = 'cambio de atributos' }
+        # probar-hooks.ps1; se acota con [^;|\r\n] para no cruzar comandos.
+        @{ re = "\bof=\s*[`"']?[^;|\r\n]{0,300}$nombre";                             que = 'dd of=' }
+        @{ re = "\battrib\b[^;|\r\n]*$nombre";                                       que = 'cambio de atributos' }
         # open() en modo escritura, en cualquiera de los dos ordenes, y sin
         # exigir que no haya parentesis en el medio: la ruta puede tenerlos.
-        @{ re = "open[^;|]{0,200}$nombre[^;|]{0,80}[`"'](wb|r\+b|ab|w\+b|a\+b|xb)[`"']"; que = "open() en modo escritura" }
-        @{ re = "[`"'](wb|r\+b|ab|w\+b|a\+b|xb)[`"'][^;|]{0,200}$nombre";        que = "open() en modo escritura" }
-        @{ re = "\.(write|writelines|truncate)\s*\([^;|]{0,200}$nombre";         que = 'escritura explicita' }
-        @{ re = "$nombre[^;|]{0,200}\.(write|writelines|truncate)\s*\(";         que = 'escritura explicita' }
+        @{ re = "open[^;|\r\n]{0,200}$nombre[^;|\r\n]{0,80}[`"'](wb|r\+b|ab|w\+b|a\+b|xb)[`"']"; que = "open() en modo escritura" }
+        @{ re = "[`"'](wb|r\+b|ab|w\+b|a\+b|xb)[`"'][^;|\r\n]{0,200}$nombre";        que = "open() en modo escritura" }
+        @{ re = "\.(write|writelines|truncate)\s*\([^;|\r\n]{0,200}$nombre";         que = 'escritura explicita' }
+        @{ re = "$nombre[^;|\r\n]{0,200}\.(write|writelines|truncate)\s*\(";         que = 'escritura explicita' }
     )
 }
 
