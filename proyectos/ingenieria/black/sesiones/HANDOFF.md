@@ -2064,7 +2064,33 @@ barrera no era una textura sin cobertura, era una textura cuyo hash cambió.
 ~~7. Sabotear el verificador de `regenerar_mipmaps.py`~~ — **hecho el
 2026-09-04**, los dos sabotajes en rojo y los sanos en verde (§7.7).
 
-## 10. REMAKE — geometría y texturas con IA (línea NUEVA, PEDIDA el 2026-09-04, SIN EMPEZAR)
+## 10. REMAKE — geometría y texturas con IA — PEDIDA el 2026-09-04, INVESTIGACIÓN LANZADA la madrugada del 2026-09-04
+
+> **DÓNDE VIVEN LOS RESULTADOS.** La investigación se lanzó como dos agentes en
+> paralelo (Opus, background) y sus informes se guardan en el repo, **no en el
+> chat**, para que la próxima sesión los tenga sin re-investigar:
+>
+> | archivo | qué contesta |
+> |---|---|
+> | `pruebas/remake-geometria-2026-09-04.md` | pregunta 1: librw / DFF pre-instanciado de PS2 / el byte 0 del `.WDD` / la ruta por Xbox |
+> | `pruebas/remake-texturas-ia-2026-09-04.md` | **ATERRIZADO 2026-09-04.** pregunta 2: normal maps por IA sobre diffuse-only, y los packs de la competencia contra el nuestro |
+>
+> **Titulares de lo que ya aterrizo** (el detalle esta en el archivo, no aca):
+> **PCSX2 no puede recibir normal maps** — cero coincidencias de
+> `normalmap|bumpmap|pbr` en `GSTextureReplacements.cpp` y sólo dos loaders,
+> `png` y `dds`; la pregunta se cierra por arquitectura, no por calidad de
+> herramienta. **Hay SEIS packs de BLACK**, no uno: dos publicados en agosto
+> de 2026 (Huekage 774 MB con 2781 texturas declaradas, y HD Reimagined
+> 2,19 GB). **Y son fusionables**: el hash sale del contenido del juego, no
+> del pack, y PCSX2 escanea `replacements/` recursivamente — comparar nombres
+> entre packs es aritmética de conjuntos y no necesita correr el juego. Es lo
+> más rentable de esa línea.
+>
+> Si alguno de esos dos archivos **no existe**, es que esa mitad de la
+> investigación no llegó a aterrizar y hay que relanzarla — no que no se hizo.
+> El barrido previo del 2026-09-02 sigue siendo
+> `pruebas/barrido-remake-2026-09-02.md` y **no se repite**.
+
 
 Fran pidió explícitamente: *"investigá si hay alguna manera de hacer un remake
 de geometrías y texturas mejoradas"*, con **Opus** para esta investigación

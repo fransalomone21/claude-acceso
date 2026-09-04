@@ -864,6 +864,26 @@ cobertura real es mayor.
 - `Process.MainWindowHandle` de .NET apunta a la **ventana de registro** de
   PCSX2, que no procesa hotkeys. Buscar la del juego por título.
 
+### Confirmacion externa, y un matiz que no hay que perder
+
+La investigacion de la linea de remake (`pruebas/remake-texturas-ia-2026-09-04.md`,
+2026-09-04) encontro dos cosas que tocan esta fase:
+
+1. **PCSX2 tiene un issue ABIERTO sobre esto**: [#11600, *"Texture replacement
+   feature is not loading mip maps"*](https://github.com/PCSX2/pcsx2/issues/11600),
+   del 2024-07-20, sin PR ni asignado, y falla igual con PNG + mips externos
+   que con DDS + mips internos. **Pero cuidado con la atribucion:** ese issue
+   dice que los mips no se cargan; lo que se midio aca es mas especifico —
+   **con el puente de hash puesto, los mips SI se cargan y se usan** (0 →
+   10.929 pixeles de nivel 1). En este caso la causa era el **hash**, no el
+   loader. Puede ser el mismo bug visto desde otro lado, o dos cosas
+   distintas: no darlo por equivalente sin medirlo.
+2. **El blog oficial de la 2.0 avisa que los hashes CAMBIAN entre versiones de
+   PCSX2** a medida que la emulacion se vuelve mas precisa, y que hay texturas
+   que **generan un hash nuevo en cada carga** y son irreemplazables por
+   construccion. Las dos cosas refuerzan que el hash es la variable que manda,
+   y la segunda pone un **techo por debajo del 100 %** a la cobertura.
+
 ### El gap del saboteador de §7.6, CERRADO
 
 El verificador de `regenerar_mipmaps.py` nunca había visto un archivo roto.
