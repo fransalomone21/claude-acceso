@@ -2109,7 +2109,7 @@ principal siga en Sonnet, y avisan solos al terminar) — **no** pidiendo que
 esta conversación "se convierta" en Opus. Si Fran quiere el hilo PRINCIPAL en
 Opus, eso se elige en el selector de modelo de la app, no desde una respuesta.
 
-## 11. DIFICULTAD / IA de enemigos (línea NUEVA, PEDIDA el 2026-09-04, SIN EMPEZAR)
+## 11. DIFICULTAD / IA de enemigos — PEDIDA el 2026-09-04, EMPEZADA la madrugada del 2026-09-04
 
 Fran pidió, como plan B si el remake no da nada concreto: *"mejoras de la IA y
 aumentar las posibilidades de cambiar la dificultad... para volverlo tan
@@ -2133,3 +2133,75 @@ mismo archivo), que ya tiene la mitad del trabajo hecho:
 está en el contexto de esta sesión) y `ESTADO_ACTUAL.md` bloque 7e, después
 decidir si 7e(b) (verificar un módulo por efecto) es prerequisito real para
 tocar daño/spawns con confianza, o si Fase 5a puede adelantarse sola.
+
+### AVANCE del 2026-09-04 (madrugada): la pregunta que esta seccion dejaba planteada, contestada
+
+**"Decidir si 7e(b) es prerequisito real para tocar danio/spawns, o si la Fase
+5a puede adelantarse sola" -> LA 5a PUEDE ADELANTARSE SOLA.** Se releyo
+`docs/00-conops.md` entero (no se habia releido en varias sesiones) y el
+criterio sale de ahi, sin ambiguedad:
+
+- **R2** ("se puede cambiar la dificultad por parametros") esta como *parcial:
+  danio si; percepcion de la IA, no todavia*. El danio de salida es
+  precisamente la mitad que ya funciona.
+- **R4** ("se puede cambiar que enemigos aparecen") **si** depende del sistema
+  de modulos, o sea de 7e(b). Pero R2 no lo toca: `0x00142CA0` es una
+  direccion concreta dentro de una rutina ya CONFIRMADA por efecto
+  (`calcular_dano_zona`, fase 4b), y no pasa por el despachador de modulos.
+
+O sea que 7e(b) es prerequisito de **R4**, no de **R2**. La 5a no esta
+esperando nada.
+
+### Lo que se avanzo de la 5a, en frio y sin emulador
+
+Se extrajo `eeMemory.bin` del savestate 03 y se leyo la zona del parche. Dos
+resultados, y el segundo cambia como hay que escribir el mod:
+
+```
+0x00142CA0  3C0142C8  lui  at, 0x42C8      <- el 100.0 vive ACA, en el INMEDIATO
+0x00142CA4  44810000  mtc1 at, $f0          (mips.py no decodifica FPU: dice "cop1")
+0x00142CA8  15200048  bne  t1, zero, 0x00142DCC
+0x00142CAC  46000D02  mul.s $f20, $f1, $f0  (en el delay slot del branch)
+```
+
+1. **`0x00142CAC` contiene exactamente `0x46000D02`**, la codificacion que el
+   `kb` ya tenia registrada. La formula de `calcular_dano_zona` queda
+   respaldada contra memoria real, no solo contra el desensamblado de Ghidra.
+2. **En `0x00142CA0` NO hay un float: hay una instruccion.** `0x42C80000` en
+   IEEE754 es 100.0 exacto, pero esta en el inmediato de 16 bits de un `lui`.
+   **Escribir un `f32` en esa direccion corrompe el codigo** — es la trampa
+   que el `efecto_si_se_modifica` del `kb` invitaba a pisar, y ya quedo
+   corregido ahi.
+
+**El parche correcto es reescribir la palabra entera** como `0x3C01<hi>`,
+con `<hi>` = los 16 bits altos del float deseado. Ya calculados y guardados en
+`kb/rutinas.json` (`parches_calculados`):
+
+| multiplicador | valor | palabra a escribir |
+|---|---:|---|
+| x0,5 | 50,0 | `0x3C014248` |
+| x2 | 200,0 | `0x3C014348` |
+| x4 | 400,0 | `0x3C0143C8` |
+| x10 | 1000,0 | `0x3C01447A` |
+
+Los 16 bits bajos dan cero en los cuatro casos, asi que **alcanza con
+reescribir el `lui`: no hace falta un `ori`**. Una sola palabra.
+
+### Por que NO se escribio el mod .toml todavia
+
+`mods/ejemplo-plantilla.toml` lleva la regla del proyecto en su encabezado:
+*"no se escribe una direccion aca hasta que este en kb/mapa-memoria.json con
+confianza confirmado"*. El punto de parche sigue en **`hipotesis`**: que ese
+100.0 escale el danio de salida no se verifico POR EFECTO. El freno se
+respeto a proposito.
+
+**Lo unico que falta para cerrarlo es una verificacion por efecto**, y es
+corta: aplicar el pnach con `0x3C014348` (x2), disparar a un enemigo y ver si
+cae en la mitad de los tiros. Eso pide a alguien jugando — la sesion puede
+abrir el emulador, mandar teclas y sacar capturas (ver S9), pero apuntar y
+matar a un enemigo para contar tiros no es algo que convenga hacer a ciegas.
+
+**Primer paso concreto si se retoma:** compilar el pnach con la palabra x2,
+arrancar, disparar, contar. Si el danio se duplica, el punto de parche pasa a
+`confirmado`, la 5a se cierra y R2 pasa de *parcial* a cumplido para el eje
+del danio.

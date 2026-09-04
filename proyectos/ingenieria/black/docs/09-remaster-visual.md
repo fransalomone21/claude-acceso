@@ -813,8 +813,24 @@ La primera tanda (§7.6, escena de la barrera, sin reiniciar) sí fue válida �
 el control dio +0 % en las cinco regiones. La lección operativa quedó
 registrada abajo.
 
-**Falta entonces:** una captura A/B en escena **estática**, con el puente
-puesto, para decir si el resultado se ve mejor que `hw_mipmap = false`.
+**Lo que sí se pudo medir, con doble control.** Tercera tanda, cuatro capturas
+alternadas ON/OFF/ON/OFF: los pares ON/ON y OFF/OFF sirven de control, y sólo
+valen las regiones donde **los dos** cierran. De seis regiones, **una** pasó:
+
+| región | ON1 | OFF1 | ON2 | OFF2 | veredicto |
+|---|---:|---:|---:|---:|---|
+| pared fondo derecha | 208,7 | 205,8 | 205,7 | 205,0 | **válida: OFF vs ON = −1 %** |
+| las otras cinco | | | | | descartadas (control 11 % a 199 %) |
+
+**Con el puente puesto, activar el mipmapping ya no cuesta nitidez en esa
+superficie** (−1 %, dentro del ruido), cuando sin puente una superficie
+equivalente perdía **+222 %**. Es una sola región y de otra escena que la de
+la barrera, así que es evidencia **parcial** — pero es la única medición cuyo
+control cerró, y apunta en la misma dirección que las tres medidas de arriba.
+
+**Falta entonces:** repetirlo en una escena estática y en varias superficies,
+para poder decir con todas las letras que el resultado se ve tan bien como
+`hw_mipmap = false`.
 
 ### Y la pregunta grande que esto abre
 

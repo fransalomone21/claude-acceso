@@ -216,8 +216,32 @@
           "direccion": "0x00142CAC",
           "instruccion_original": "mul.s $f20, $f1, $f0",
           "codificacion": "0x46000D02",
-          "efecto_si_se_modifica": "es donde el factor de zona se convierte en daño. Cambiar el 100.0 de 0x00142CA0 escala TODO el daño de salida contra cualquier víctima de una sola vez, sin tocar las tablas por personaje.",
-          "confianza": "hipotesis"
+          "efecto_si_se_modifica": "es donde el factor de zona se convierte en danio. Para escalar TODO el danio de salida contra cualquier victima de una sola vez, sin tocar las tablas por personaje, NO se escribe un f32 en 0x00142CA0: ahi vive la INSTRUCCION lui at, 0x42C8, y el 100.0 esta en su inmediato de 16 bits. Se reescribe la palabra entera como 0x3C01<hi>, donde <hi> son los 16 bits ALTOS del float deseado. Escribir el float crudo en esa direccion corrompe el codigo.",
+          "confianza": "hipotesis",
+          "parches_calculados": {
+            "x0.5": {
+              "valor": 50.0,
+              "palabra": "0x3C014248",
+              "lui": "lui at, 0x4248"
+            },
+            "x2": {
+              "valor": 200.0,
+              "palabra": "0x3C014348",
+              "lui": "lui at, 0x4348"
+            },
+            "x4": {
+              "valor": 400.0,
+              "palabra": "0x3C0143C8",
+              "lui": "lui at, 0x43C8"
+            },
+            "x10": {
+              "valor": 1000.0,
+              "palabra": "0x3C01447A",
+              "lui": "lui at, 0x447A"
+            },
+            "nota": "los 16 bits BAJOS del float dan 0 en los cuatro casos, asi que alcanza con reescribir el lui: no hace falta un ori. Verificado con herramientas/mips.py el 2026-09-04."
+          },
+          "verificacion_en_frio": "2026-09-04: leido de eeMemory.bin del savestate 03. 0x00142CAC contiene exactamente 0x46000D02, la codificacion registrada. 0x00142CA0 contiene 0x3C0142C8 = lui at, 0x42C8, y 0x42C80000 en IEEE754 es 100.0 exacto. La formula de esta rutina queda respaldada contra memoria real. Lo que sigue en 'hipotesis' es que cambiar ese 100.0 escale el danio de salida: eso pide verificacion POR EFECTO en el juego."
         }
       ],
       "evidencia": "CONFIRMADO POR EFECTO 2026-08-16. Se escribieron los 36 factores de zona en 3.0 (= 300 de dano por impacto, contra 100.0 de vida) con herramientas/zonas.py, y el usuario reporto que los enemigos mueren de UNA bala donde antes hacian falta cuatro. Corroboracion por medicion sobre el pool: linea de base volcados/ee-4b-antes.bin (#2=100.0, #6=49.0, #9=100.0, #11=100.0, resto 0) contra volcados/ee-4b-post.bin, donde los CUATRO que estaban vivos quedaron en 0.0 y aparecieron cuatro spawns nuevos en 100.0 exactos. El dato fuerte es que NO hay un solo valor intermedio en los 32 slots: con 25.5 por bala tendria que haber enemigos en 74.5 / 49 / 23.5 en cualquier instante del tiroteo, y no hay ninguno. CONFOUND DESCARTADO (leccion 16): se releyeron 0x00709F40, 0x00709F70 y 0x00709F7C DESPUES del test y las tres seguian en 3.0, o sea que el parche aguanto y no es un falso positivo por perdida. Restaurado 36/36 sin discrepancias. Analisis previo que lo predijo: 0 copias de descriptores de arma fuera de la tabla; 25.5 inexistente como inmediato en el codigo (con control positivo lui 0x4496 = 17 sitios); 0.255 presente exactamente 9 veces en los 32 MB, las 9 dentro de la tabla de zonas.",
