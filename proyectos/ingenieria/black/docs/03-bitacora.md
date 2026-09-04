@@ -16,6 +16,64 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-04 (53) — Huekage instalado (S7.8, verificación parcial); firma de malla confirmada, GtID refutado
+**Máquina:** notebook · **Modelo:** Sonnet, medium, sin fan-out
+**Objetivo:** instalar Huekage + el puente de hash de §7.7 y verificar por
+efecto (fase de mayor apalancamiento medida: 100% de cobertura contra 92,7%).
+Si eso cerraba, avanzar en frío en las dos líneas independientes: la firma de
+bloque de malla del remake, y el GtID de la cabecera del `.DB`.
+
+**Resultado:**
+
+- **Huekage queda instalado como `replacements/` activo** (2781 + 18 del
+  puente = 2799 archivos), pack anterior preservado. El puente sobre Huekage
+  empareja MENOS que sobre el pack propio (18/38, no 35/38 — menos claves
+  únicas). Confirmado por efecto: las 18 emparejadas dejan de faltar en un
+  volcado de 80s (intersección 0).
+- **A/B/C pareado, dos rondas, control obligatorio:** sólo "auto izquierdo"
+  cerró el control las dos veces (+1%/+1%, −2%/−3%) — sin costo de nitidez
+  ahí, tercera medición independiente en la misma dirección que §7.7. La
+  región "barrera" (el síntoma original) **sigue sin poder medirse**: el
+  humo/combate del savestate 03 nunca dio un control limpio ahí, en ninguna
+  de las cuatro rondas acumuladas entre las dos sesiones. `hw_mipmap` vuelve
+  a `false` al cerrar (mismo motivo que §7.7: el puente cubre una sola
+  escena). Huekage queda igual como mejora neta del estado seguro.
+- **La firma de bloque de malla PS2 `00 00 00 05 03 01 00 01 00 80`
+  (de *Formats Takedown-Dominator*) queda CONFIRMADA**: 132.630 apariciones
+  en 233/270 `.DB`/`.bin` del ISO, espaciadas de forma periódica y variable
+  dentro de cada archivo — localiza cada bloque de malla sin parsear nada
+  más.
+- **La hipótesis del GtID de la cabecera del `.DB` (§3 de
+  `remake-geometria-2026-09-04.md`) queda REFUTADA en su forma fuerte.**
+  Codec bajado de la fuente primaria (`MediaWiki:CgsID/Compress.js` del
+  wiki), validado contra el control publicado (`BURNOUT` = exacto). Sobre
+  los 139 `.DB`: **0/139** en el match completo de 8 bytes. Las dos
+  invariantes parciales que ya se tenían (byte0=0x00, bytes6-7="FT") se
+  reconfirman 139/139, pero el header completo no es `compress(nombre)`.
+
+**No funcionó:**
+
+- Comparar el volcado de 80s de Huekage+puente (80 archivos) directo contra
+  el "3" del pack propio (§7.7) — son duraciones de captura distintas, mismo
+  error de denominador que ya se había corregido una vez para el 70,9%/92,7%.
+  Se detectó antes de escribirlo como conclusión, no después.
+- Fase C (dificultad, pnach `0x3C014348`) **no se tocó**: HANDOFF §11 ya
+  advertía que "apuntar y matar a un enemigo para contar tiros no es algo
+  que convenga hacer a ciegas", y `pnach.py` sólo compila desde `mods/*.toml`
+  — escribir ahí violaría la regla del proyecto de no anotar una dirección
+  hasta que esté `confirmado`. Queda en el mismo punto que la dejó la sesión
+  anterior.
+
+**Sigue:** encontrar una escena sin combate para medir "barrera" (Huekage);
+decidir si el puente de Huekage necesita más candidatos antes de extenderlo
+a todo el juego; conectar `fmt_Burnout3LRD.py` con la firma de malla ya
+localizada; investigar la mitad baja del header del `.DB` (candidatos:
+tamaño, checksum) si se retoma esa pregunta. Detalle completo:
+`pruebas/huekage-puente-verificacion-2026-09-04.md` y
+`pruebas/remake-firma-malla-y-gtid-2026-09-04.md`.
+
+---
+
 ## 2026-09-04 (52) — V4: la causa raíz era el HASH, no el mip chain; arreglo construido y verificado por efecto
 **Máquina:** notebook · **Modelo:** Opus (lectura de código fuente + diseño del diagnóstico)
 **Objetivo:** diagnosticar por qué el síntoma "la pared se ve borrosa según el
