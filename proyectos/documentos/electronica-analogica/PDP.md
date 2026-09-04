@@ -119,22 +119,22 @@ eran las formas de onda vistas, el balance de energía, la inductancia mutua, el
 paralelo y la determinación de las dos constantes. Está detallado en
 `ESTADO_ACTUAL.md`, sección «Módulos 10 y 15».
 
-**Pendiente explícito que no pertenece a ninguna fase y no se puede perder:**
-la **pasada de lectura eléctrica** sobre las figuras de la biblioteca. **Son 72 al
-2026-09-04**, y el número no se escribe más a mano en ningún lado: lo imprime
-`verificar.py` en cada corrida, porque escrito a mano ya divergió dos veces (decía
-45 cuando eran 46, y 46 cuando eran 55).
-Las figuras están verificadas *de legibilidad* —rótulos cruzados, guías encima
-del texto, curvas pisando etiquetas— y **nunca se les preguntó si el circuito
-es correcto**. Son dos verificaciones distintas y sólo se hizo una: el puente de
-Graetz tenía un diodo al revés, compilaba perfecto, se veía prolijo, y lo
-encontró Fran mirándolo — no ninguno de los cinco chequeos.
+**La pasada de lectura eléctrica: hecha el 2026-09-04.** Las 72 figuras, una por
+una, contra la pregunta «¿el circuito está bien?» —no «¿se lee bien?», que es la
+verificación que ya existía y es una cosa distinta—: recorte de pixel sobre todo
+componente con polaridad (diodo, zener, LED, BJT, entradas de operacional) y
+recálculo de los siete gráficos de transitorios y del diagrama fasorial contra
+los números que cada uno anota. **Resultado: 0 corregidas.** Detalle figura por
+figura en `ESTADO_ACTUAL.md`, sección «Pasada de lectura eléctrica de las 72
+figuras». Confirma la corrección de `fig-puente-graetz` del 2026-08-25 y revierte
+un falso positivo propio sobre `fig-proteccion-polaridad` (a primera vista el
+diodo de protección parecía al revés; el recorte mostró que está bien).
 
 ## 5. Riesgos
 
 | Riesgo | Prob. | Consec. | Estrategia | Disparador observable |
 |---|---|---|---|---|
-| Una figura es legible y **eléctricamente incorrecta** | alta — ya pasó con el puente de Graetz | alta: se publica un error a un curso entero | mitigar con la pasada de lectura eléctrica de las 46, siguiendo la corriente y chequeando polaridades y sentidos | cualquier figura con semiconductores o fuentes que todavía no haya pasado esa pasada |
+| Una figura es legible y **eléctricamente incorrecta** | media — ya pasó una vez (Graetz), y la pasada de las 72 del 2026-09-04 no encontró una segunda | alta: se publica un error a un curso entero | mitigar: **toda figura con semiconductor u operacional pasa por recorte de pixel** cuando se agrega o se toca, no sólo por render completo | una figura nueva con diodo, BJT o entrada de operacional que no haya pasado esa pasada |
 | Un defecto **sólo visible en render** se publica | alta — ya pasó una quincena de veces | media | mitigar: ninguna página nueva se cierra sin mirarla compilada | un cambio que toca `plantilla.typ`, el anexo, o una fórmula larga |
 | El contenido se deriva de una **fuente equivocada** | media — ya pasó: la ficha web decía otra carrera y otro cuatrimestre | alta: se escribe el apunte para el programa que no es | mitigar: el contenido se contrasta contra los documentos de la cátedra, nunca contra la web | un tema nuevo cuya fuente no sea un documento que Fran haya aportado |
 | Los chequeos de `verificar.py` **se oxidan** y dejan de discriminar | media | media | vigilar: cada chequeo se prueba rompiéndolo cuando se lo toca | un chequeo que nunca se vio en rojo |

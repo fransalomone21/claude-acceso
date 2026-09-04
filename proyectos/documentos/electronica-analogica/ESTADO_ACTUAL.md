@@ -597,6 +597,93 @@ mostrar —que el quiebre de la corriente cae encima del escalón de la tensión
 - Los seis `.asc` de la cátedra recalculados uno por uno: $\tau$, $\omega_0$, $f_0$ y
   $R_\text{crít}$. Cinco coinciden con el archivo; el sexto es el de 632,46 Ω.
 
+## Pasada de lectura eléctrica de las 72 figuras (2026-09-04)
+
+**Cerrada. Las 72, una por una, contra la pregunta "¿el circuito está bien?" —no "¿se
+lee bien?"—, que es la que la pasada de legibilidad del 2026-08-23 no hacía.** Fue así
+como apareció el D2 invertido del puente de Graetz: compilaba perfecto, se veía prolijo,
+y esta pasada es la que existe para agarrar ese tipo de error.
+
+**Método:** `typst compile biblioteca/galeria.typ "OUT/g-{p}.png" --ppi 110` (19
+páginas), cada página mirada con el render completo y además con **recortes ampliados
+por pixel** (Python + PIL, 3×–10×) sobre todo componente con polaridad: diodo, zener,
+LED, BJT, entrada de operacional. En un diodo o zener eso significa identificar ánodo y
+cátodo por la forma (triángulo ancho = ánodo, barra = cátodo) y trazar la corriente
+convencional contra la polaridad de la fuente; en un BJT, contra qué terminal es C y
+cuál E; en un operacional, a qué entrada vuelve la realimentación. En los ocho gráficos
+de transitorios y fasores (Módulos 10 a 12) se rehicieron las cuentas con los valores
+que el propio gráfico anota (constantes de tiempo, energías, el triángulo 60-80-100 del
+diagrama fasorial) para confirmar que la curva dibujada es la que esas cuentas dan.
+
+**Resultado: 0 corregidas.** Las 72 están bien. Ninguna requirió cambio. El detalle,
+módulo por módulo (nombre → veredicto; sólo se explica el razonamiento donde no es
+trivial):
+
+| Módulo | Figuras (72) | Veredicto |
+|---|---|---|
+| 1 — Mediciones | `fig-conexion-instrumentos`, `fig-shunt`, `fig-multiplicadora`, `fig-multirrango` | bien — sin semiconductores, topología de shunt/multiplicador correcta |
+| 2 — Señales | `fig-filtro-rc`, `graf-formas-de-onda`, `fig-bloques-osciloscopio`, `graf-respuesta-rc` | bien |
+| 3 — Transformadores | `fig-transformador`, `fig-transformador-punto-medio` | bien — relación de espiras consistente con 220→12 V |
+| 4 — Diodos | `graf-curva-diodo`, `fig-polarizacion-diodo`, `fig-led-limitadora`, `fig-proteccion-polaridad`, `fig-rectificador-media-onda`, `graf-media-onda`, `fig-rectificador-punto-medio`, `graf-onda-completa`, **`fig-puente-graetz`** | bien — ver detalle abajo |
+| 5 — Fuentes | `fig-bloques-fuente`, `fig-filtro-capacitivo`, `graf-rizado`, `fig-regulador-zener`, `graf-curva-zener` | bien — ver detalle abajo (zener) |
+| 6 — Transistores | `fig-simbolos-bjt`, `fig-conmutacion-npn`, `fig-rele-completo`, `graf-recta-de-carga` | bien — ver detalle abajo |
+| 7 — Kirchhoff | `fig-nodos-y-mallas`, `fig-delta-estrella` | bien — sin semiconductores |
+| 8 — Nodal y mallas | `fig-nodal-primero`, `fig-nodal-basico`, `fig-supernodo`, `fig-mallas-basico`, `fig-supermalla`, `fig-nodal-controlada` | bien — sin semiconductores, fuentes y CCCS consistentes |
+| 9 — Teoremas | `fig-fuentes-reales` | bien |
+| 10 — Transitorios | `fig-rc-primer-orden`, `fig-rl-primer-orden`, `fig-tres-instantes`, `fig-req-prueba`, `fig-no-idealidades`, `fig-induccion-mutua`, `fig-rlc-serie-conmutado`, `fig-rlc-paralelo`, `graf-tau-exponencial`, `graf-pulso-en-bobina`, `graf-pulso-en-capacitor`, `graf-tres-regimenes`, `graf-subamortiguado-detalle`, `graf-energia-descarga`, `graf-respuesta-completa` | bien — ver detalle abajo (los siete gráficos, recalculados) |
+| 11 — Fasores | `fig-rlc-serie`, `graf-diagrama-fasorial` | bien — $V_R=60$, $V_L+V_C=80$, $\|V\|=100\angle 53{,}13°$ cierra exacto (triángulo 3-4-5 ×20) |
+| 12 — Frecuencia | `fig-pasabajos-pasaaltos`, `graf-bode-amplificador` | bien |
+| 13 — Cuadripolos | `fig-cuadripolo` | bien |
+| 14 — Operacional | `fig-ao-terminales`, `fig-ao-lazo-abierto`, `fig-ao-seguidor`, `fig-ao-inversor`, `fig-ao-no-inversor`, `fig-ao-sumador`, `fig-ao-restador`, `fig-ao-integrador-derivador`, `fig-ao-comparador-schmitt`, `fig-ao-instrumentacion` | bien — ver detalle abajo |
+| 15 — Simulación | `fig-spice-rc`, `fig-spice-rlc`, `graf-paso-de-simulacion` | bien |
+| Anexos | `fig-codigo-colores`, `fig-tabla-simbolos` | bien |
+
+**Lo que se verificó con recorte de pixel, y qué se encontró:**
+
+- **`fig-puente-graetz`.** Es la que ya se había corregido el 2026-08-25 (D2 invertido).
+  Se retrazó nodo por nodo: Izquierda/Derecha = terminales de CA (opuestos en el
+  rombo), Arriba/Abajo = salida CC. Las cuatro condiciones que tiene que cumplir un
+  puente ($D_1$: ánodo-Izq/cátodo-Arriba, $D_2$: ánodo-Der/cátodo-Arriba, $D_3$:
+  ánodo-Abajo/cátodo-Izq, $D_4$: ánodo-Abajo/cátodo-Der) se comprobaron una por una con
+  recortes a 10× — las cuatro cierran. La corrección de agosto sigue en pie.
+- **`fig-proteccion-polaridad`, panel "en paralelo con fusible"** (candidata de riesgo
+  por la lista del handoff anterior). A primera vista el diodo parecía con el ánodo
+  arriba (hacia +12 V), que habría fundido el fusible en polaridad NORMAL. El recorte a
+  8× mostró lo contrario: la barra (cátodo) está arriba, el triángulo (ánodo) abajo — en
+  reversa queda polarizado inverso (no hace nada) y sólo conduce, fundiendo el fusible,
+  si la fuente se conecta al revés. Es el comportamiento correcto de un diodo de
+  protección tipo *crowbar*. El primer vistazo se equivocaba; el recorte lo corrigió.
+- **`fig-regulador-zener`.** $D_Z$ con cátodo hacia el riel de $V_\text{in}$ y ánodo
+  hacia el retorno: en reversa, que es el régimen en que un zener regula. $I_Z$ e $I_L$
+  bajan en el sentido correcto de la corriente convencional. Bien.
+- **`fig-conmutacion-npn` y `fig-rele-completo`** (las otras dos candidatas de riesgo).
+  El NPN tiene C arriba (a la carga/$V_{cc}$) y E abajo (a masa) en las dos, con la
+  flecha del emisor saliendo — configuración de llave de bajo lado, correcta. El diodo
+  volante 1N4007 de `fig-rele-completo` tiene el cátodo hacia $+12\,\text{V}$ y el ánodo
+  hacia el colector: en operación normal el colector está bajo (transistor saturado) y
+  el diodo queda en reversa (no hace nada); cuando el transistor abre, la bobina invierte
+  su polaridad y el diodo conduce, absorbiendo el pico inductivo. Es la disposición
+  correcta de un diodo de *flyback*.
+- **`fig-ao-instrumentacion`** (la figura más compleja del apunte). Las dos entradas
+  ($v_1$, $v_2$) van al "+" de cada operacional de la primera etapa, y la realimentación
+  de cada salida vuelve a su propio "−" — ninguna cruzada. El puente $R_3$–$R_G$–$R_3$
+  conecta los dos "−". La tercera etapa reproduce exactamente la topología ya verificada
+  de `fig-ao-restador` ($R_4$/$R_5$ en vez de $R_1$/$R_2$). Las cuatro configuraciones de
+  operacional del Módulo 14 (seguidor, inversor, no inversor, sumador, restador,
+  integrador/derivador, comparador/Schmitt) tienen la realimentación donde tiene que
+  estar: negativa al "−" en las primeras siete, positiva al "+" sólo en el Schmitt
+  (`fig-ao-comparador-schmitt`, panel derecho) y ausente en el comparador simple (panel
+  izquierdo), que es exactamente lo que cada nombre promete.
+- **Los siete gráficos de transitorios** (`graf-pulso-en-bobina`, `graf-pulso-en-capacitor`,
+  `graf-tau-exponencial`, `graf-energia-descarga`, `graf-respuesta-completa`) se
+  recalcularon con los números que el propio gráfico anota: en el pulso de bobina,
+  $v_L=20\,\text{V}$ en la subida y $-10\,\text{V}$ en la bajada implican $L=20\,\text{mH}$
+  en las dos rampas, y $E_L=\tfrac12 L i^2$ da 40 mJ en $t=2\,\text{ms}$, que es lo que el
+  panel de energía muestra; en el pulso de capacitor, $C = 0{,}25$ µF cierra la
+  subida a 4 V y la energía a 2 µJ por los dos caminos. En `graf-respuesta-completa`,
+  entrada-cero ($8e^{-t/\tau}$) más estado-cero ($2(1-e^{-t/\tau})$) suman exactamente la
+  completa ($2+6e^{-t/\tau}$) en los tres puntos que el gráfico marca.
+
 ## Fuentes
 
 En `fuentes/`, con su texto ya extraído a `.txt` (la herramienta Read no abre PDFs en

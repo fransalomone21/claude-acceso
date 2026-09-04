@@ -22,20 +22,31 @@ Fase     : FASE 3, tema 7 (simulación) CERRADO el 2026-09-04, junto con una
            verificar.py en verde y PROBADO ROMPIÉNDOLO. Render mirado página
            por página en el 10, el 15 y los anexos nuevos.
            Detalle: ESTADO_ACTUAL.md, sección "Módulos 10 y 15".
+
+           **PASADA DE LECTURA ELÉCTRICA de las 72 figuras: CERRADA el
+           2026-09-04.** Las 72, una por una, contra "¿el circuito está
+           bien?" (no "¿se lee bien?", que es otro chequeo y ya estaba
+           hecho). Recorte de pixel sobre todo diodo/zener/LED/BJT/entrada
+           de operacional, y recálculo de los siete gráficos de transitorios
+           y del diagrama fasorial contra sus propios números. Resultado:
+           **0 corregidas** — confirma el Graetz de agosto y revierte un
+           falso positivo propio sobre `fig-proteccion-polaridad` (a primera
+           vista el diodo de protección parecía al revés; el recorte mostró
+           que está bien). Detalle figura por figura: ESTADO_ACTUAL.md,
+           sección "Pasada de lectura eléctrica de las 72 figuras".
+
            Lo que sigue, en orden de valor:
-           (a) la PASADA DE LECTURA ELÉCTRICA de las figuras —ahora 72—, que
-               sigue pendiente desde antes y a la que estas 17 también le
-               deben: están verificadas de LEGIBILIDAD, no de corrección
-               eléctrica. Son dos cosas distintas y sólo se hizo una;
            (b) los seis temas que quedan de la Fase 3 (ver PDP);
            (c) mirar en render las páginas del Módulo 14 que NO se miraron
                —se vieron cuatro de veintiséis: 98, 102, 110 y 117—.
-Modelo   : Sonnet 5 para (a) y (c), que es mirar imágenes contra un criterio
-           ya escrito. Opus para (b), que es escribir teoría nueva y decidir
-           cómo se deduce.
+Modelo   : Opus para (b), que es escribir teoría nueva y decidir cómo se
+           deduce. Sonnet 5 para (c), que es mirar imágenes contra un
+           criterio ya escrito.
 Esfuerzo : medio, sin fan-out. Un archivo por vez, secuencial: el fan-out no
            compra nada acá y el presupuesto del plan sí lo paga.
-Contexto : chat nuevo.
+Contexto : chat nuevo — esta sesión gastó su contexto en recortes de pixel
+           uno por uno; (b) es escribir teoría nueva y arranca mejor fresca.
+Retomar  : ver el bloque al final de esta respuesta.
 Rama     : main — una sola rama, el proyecto es una carpeta.
 ```
 
@@ -188,17 +199,15 @@ vertical y hacer que la diagonal avance exactamente una columna por fila.
 
 - ~~**La conversión de fasores a valor de pico** en los módulos 11 y 12.~~ **HECHA el
   2026-08-25.** Ver `ESTADO_ACTUAL.md`, sección "Fase 2".
-- **PASADA DE LECTURA ELÉCTRICA de las 45 figuras — pendiente, y es lo más urgente.**
+- ~~**PASADA DE LECTURA ELÉCTRICA de las figuras.**~~ **HECHA el 2026-09-04, las 72.**
   El 2026-08-25 apareció que `fig-puente-graetz` tenía el D2 al revés: en el semiciclo
   positivo D1 y D2 quedaban en serie y en directa, cortocircuitando la fuente por un
-  camino de menor resistencia que la carga. Ya está corregido. Lo que importa es *por
-  qué no lo agarró nadie*: las 45 figuras están verificadas por render, pero esa pasada
-  pregunta **¿se lee bien?** —rótulos cruzados, guías encima del texto— y nunca preguntó
-  **¿el circuito es correcto?**. Falta la segunda: seguir la corriente figura por figura,
-  chequear el sentido de cada semiconductor y la polaridad de cada fuente. Los
-  candidatos con más riesgo son los que tienen varios diodos o un BJT:
-  `fig-rectificador-punto-medio`, `fig-proteccion-polaridad`, `fig-regulador-zener`,
-  `fig-rele-completo`, `fig-conmutacion-npn`, `fig-led-limitadora`.
+  camino de menor resistencia que la carga. Esa vez lo encontró Fran mirando, no ningún
+  chequeo, porque las figuras estaban verificadas de LEGIBILIDAD —¿se lee bien?— y nunca
+  de corrección eléctrica —¿el circuito es correcto?—. La pasada de las 72 (recorte de
+  pixel sobre cada semiconductor y entrada de operacional) confirma esa corrección y no
+  encontró ninguna nueva. Detalle: `ESTADO_ACTUAL.md`, sección "Pasada de lectura
+  eléctrica de las 72 figuras".
 - ~~**15 circuitos en ASCII** en los módulos 7 a 13, enumerados en `ASCII_PENDIENTE`.~~
   **HECHO el 2026-08-23.** Las 15 están dibujadas, `ASCII_PENDIENTE` se borró y el
   chequeo 3 volvió a ser un rojo simple. En su lugar quedó pendiente otra cosa: los
