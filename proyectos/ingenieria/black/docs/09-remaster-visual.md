@@ -566,3 +566,30 @@ del pack" era el ítem **7 de 7** de la NEXT ACTION del HANDOFF §9, ranqueado a
 fondo *precisamente porque §1.5 había descartado los mipmaps*. Un descarte mal
 razonado no sólo deja una hipótesis afuera: **reordena toda la lista de
 prioridades detrás de él.** Es el ítem 1.
+
+## 7.5 FASE V3 CERRADA — CAUSA CONFIRMADA POR EFECTO — 2026-09-03/04
+
+**El test de §7.4 se corrió. Veredicto: `confirmado`.**
+
+Con PCSX2 **cerrado**, `mipmap = false` y `hw_mipmap = false` (respaldo previo:
+`pruebas/PCSX2.ini.respaldo-2026-09-03-V3`), y **ReShade verificado apagado por
+efecto** (`ReShade.log`/`dlss5-feed.log` sin escribir tras el arranque — el
+mismo control que faltó en la corrida inválida de §7.1). Confirmación adicional
+que no estaba planeada: `emulog.txt` de esta corrida logea *"El mipmapping está
+desactivado"* como Unsafe Setting — el cambio del `.ini` quedó verificado en el
+emulador corriendo, no sólo releído del archivo.
+
+Predicción escrita antes de mirar: `pruebas/prediccion-V3-mipmap-2026-09-03.md`.
+Fran miró la misma pared de tablones del savestate 03 en los dos ángulos (el
+que desenfocaba y el de apenas arriba): **"se ve nítida en los dos ángulos"**.
+La nitidez dejó de depender del ángulo — es exactamente el observable que la
+predicción pedía, no una impresión general de "se ve mejor".
+
+**Con esto, la causa de §7.3 pasa de `probable` a `confirmado`: el pack
+reemplaza sólo el mip 0, y sin mip chain propio el mipmapping normal del GS
+caía al original de PS2 en ángulos de refilón.** El arreglo de fondo —
+regenerar el mip chain de los 8225 `.dds`— pasa a ser el ítem de mayor
+apalancamiento abierto de esta línea (detalle y orden: `sesiones/HANDOFF.md`
+§9, NEXT ACTION). `mipmap = false` queda como estado actual de la máquina: es
+la solución de hecho hasta que exista el mip chain propio, no una reversión
+pendiente — deshacerla reintroduce el síntoma ya confirmado.

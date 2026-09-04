@@ -1805,6 +1805,17 @@ CAUSA (`probable`)  : el pack reemplaza SOLO el mip 0. 0 de 8225 archivos llevan
                       El sintoma esta atado al ANGULO, no a la distancia.
 ```
 
+**2026-09-03/04 - FASE V3 CERRADA: la causa queda `confirmado` por efecto.**
+Detalle en `docs/09` **§7.5**; prediccion en `pruebas/prediccion-V3-mipmap-2026-09-03.md`.
+
+```
+mipmap = false, hw_mipmap = false (PCSX2 cerrado) + ReShade apagado, verificado
+por efecto (logs sin escribir Y emulog.txt logea "El mipmapping esta desactivado").
+Fran mirando el savestate 03 en los dos angulos: "se ve nitida en los dos angulos".
+CAUSA: CONFIRMADA. mipmap=false queda como estado de hecho hasta regenerar el
+mip chain del pack (item 1 de la NEXT ACTION, mas abajo) - no revertir.
+```
+
 **El confound que hay que conocer antes de tocar nada de esta linea:** el
 `pcsx2-qt.exe` de la ruta corta es **el mismo binario** de la linea DLSS5 (§8), con
 ReShade + DLSS5-Feeder + RenoDX + LumeniteFX inyectados por `dxgi.dll`. Las dos
@@ -1858,38 +1869,53 @@ captura, no supuesto. Para desactivar el pack (rama B del A/B) se **renombra**
 restaurar hay que sacar la vacía primero. `Remove-Item` con wildcard ahí lo **frena el
 guardia**: se renombra, no se borra - y así además queda la evidencia.
 
-### ESTADO DE LA MÁQUINA — actualizado al cierre del 2026-09-03 (noche)
+### ESTADO DE LA MÁQUINA — actualizado al cierre del 2026-09-04
 
-- **PCSX2 CERRADO.** Cero parches vivos, ningún ISO tocado.
-- **`C:\Program Files\PCSX2\dxgi.dll` está renombrado a `dxgi.dll.disabled`.**
-  Con eso ReShade/DLSS5/LumeniteFX **no cargan**. Para volver a la línea DLSS5 (§8)
-  hay que renombrarlo de vuelta — **lo tiene que hacer Fran**: el clasificador de
-  permisos bloquea escribir en `Program Files` desde la sesión.
+- **PCSX2 CORRIENDO** (la corrida de V3, savestate 03 cargado). Cero parches
+  vivos en ISO, ningún ISO tocado.
+- **`C:\Program Files\PCSX2\dxgi.dll` sigue renombrado a `dxgi.dll.disabled`.**
+  ReShade/DLSS5/LumeniteFX/RenoDX **no cargan** en esta corrida — apagado a
+  propósito para la V3 limpia. **Entre el cierre de V2 y el inicio de esta
+  sesión Fran ya lo había restaurado una vez** (medido: nombre activo antes de
+  volver a deshabilitarlo) — este archivo se toca ida y vuelta según qué línea
+  se esté probando, y **el nombre por sí solo no prueba el estado**: se
+  verifica por efecto (`ReShade.log`/`dlss5-feed.log`) antes de cada corrida
+  visual, sin excepción.
 - `C:\Users\frans\Documents\PCSX2\textures\SLUS-21376\replacements\` = **8225 archivos**,
-  **ninguno con `-mip`**: sólo reemplazan el nivel 0.
-- `DumpReplaceableTextures = false`. **`PrecacheTextureReplacements = true`** (cambiado
-  el 2026-09-03; murió como hipótesis pero quedó puesto).
-  `LoadTextureReplacements = true`, `Async = true`. `mipmap = true`, `hw_mipmap = true`.
-- Respaldos del `.ini`: `pruebas/PCSX2.ini.respaldo-2026-09-02`, `...-2026-09-03-V1` y
-  **`...-2026-09-03-V2`** (el previo al precache).
+  **ninguno con `-mip`**: sólo reemplazan el nivel 0. Sigue siendo el ítem 1 de
+  la NEXT ACTION.
+- `DumpReplaceableTextures = false`. `PrecacheTextureReplacements = true`.
+  `LoadTextureReplacements = true`, `Async = true`. **`mipmap = false`,
+  `hw_mipmap = false`** (cambiado el 2026-09-03 para V3; QUEDA ASÍ — es la
+  causa confirmada, revertir a `true` reintroduce el síntoma).
+- Respaldos del `.ini`: `pruebas/PCSX2.ini.respaldo-2026-09-02`, `...-2026-09-03-V1`,
+  `...-2026-09-03-V2` y **`...-2026-09-03-V3`** (el previo al cambio de mipmap).
 - Evidencia fuera del repo, en `Documents\PCSX2\textures\SLUS-21376\`:
   `dumps-A2-pack-activo` (38), `dumps-B-pack-off` (127), `dumps-A1-sospechosa` (37) y
   `replacements-vacia-recreada` (0). Los **listados** sí están en `pruebas/`.
 
-### NEXT ACTION, en orden de apalancamiento — REORDENADA el 2026-09-03 por §7
+### NEXT ACTION, en orden de apalancamiento — REORDENADA el 2026-09-04 por §7.5 (V3 cerrada)
 
-1. **`mipmap = false` (o `hw_mipmap = false`), PCSX2 cerrado, mismo ángulo.** Es una
-   línea del `.ini` y una mirada, y **pasa la causa de `probable` a `confirmado` por
-   efecto**. Si la pared queda nítida en los dos ángulos, cerrado.
-2. **Regenerar el mip chain del pack** — el arreglo de fondo. Era el ítem 7 de esta
-   misma lista, hundido por el descarte mal razonado de §1.5.
-3. **A/B visual pareado de verdad.** Las capturas del 2026-09-03 NO lo son: la escena tiene
+1. **Regenerar el mip chain del pack** — el arreglo de fondo, ahora ítem de
+   mayor apalancamiento abierto de esta línea. `mipmap=false` es el parche de
+   hecho (funciona, confirmado por efecto) pero apaga mipmapping GLOBAL, con
+   riesgo de shimmer/aliasing en otras superficies (anticipado en §1.4, nunca
+   medido). Regenerar mips propios para los 8225 `.dds` permite volver a
+   `mipmap=true` sin el síntoma original. Requiere: decodificar DXT5, generar
+   niveles descendentes, recomprimir a DXT5, nombrar con el sufijo `-mip%u`
+   confirmado en los strings del `.exe` (§7.3). Tarea de ingeniería nueva, no
+   un runbook — sondear herramientas disponibles antes de diseñar el script.
+2. **A/B visual pareado de verdad.** Las capturas del 2026-09-03 NO lo son: la escena tiene
    humo y fuego animados y los frames no coinciden.
-4. **Atar la barrera concreta que Fran vio a un hash de la lista A**
+3. **Atar la barrera concreta que Fran vio a un hash de la lista A**
    (`pruebas/cobertura-A-sin-reemplazo-2026-09-03.txt`, 38 entradas).
-5. **Cobertura en otra escena**: 70,9 % es de un savestate, no del nivel.
-6. **Costo en FPS con turbo**, método de R3 (`F6`/`F5`).
-7. `accurate_blending_unit` 3 -> 4, que el GameDB recomienda (mode=4) y nadie midió.
+4. **Cobertura en otra escena**: 70,9 % es de un savestate, no del nivel.
+5. **Costo en FPS con turbo**, método de R3 (`F6`/`F5`).
+6. `accurate_blending_unit` 3 -> 4, que el GameDB recomienda (mode=4) y nadie midió.
+
+~~1. `mipmap = false` (o `hw_mipmap = false`), PCSX2 cerrado, mismo ángulo~~ —
+**corrida y CONFIRMADA el 2026-09-04** (§7.5). Fran: *"se ve nítida en los dos
+ángulos"*.
 
 ~~1. `PrecacheTextureReplacements = true`~~ — **corrida y MUERTA el 2026-09-03.**
 Quedó en `true` en el `.ini`; no molesta, cuesta 1,3 GB de RAM y ~8 s de arranque.
