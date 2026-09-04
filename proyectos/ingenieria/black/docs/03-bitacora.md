@@ -16,6 +16,54 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-04 (51) — V3 confirmada, mip chain real construida e instalada, síntoma reportado de vuelta sin diagnosticar
+**Máquina:** notebook · **Modelo:** Sonnet (ejecución + lectura de código fuente de PCSX2)
+**Objetivo:** cerrar V3 (pasar la causa de §7.3 a `confirmado`) y, si se
+confirmaba, construir el arreglo de fondo (mip chain real del pack).
+
+**Resultado:**
+
+- **V3 CERRADA.** `mipmap=false`+`hw_mipmap=false` con ReShade apagado
+  (verificado por efecto), Fran mirando el savestate 03: *"se ve nítida en
+  los dos ángulos"*. Causa CONFIRMADA: el pack sólo traía el mip 0.
+- **Hallazgo que cambió el diseño del arreglo:** se leyó el código fuente real
+  de `PCSX2/pcsx2` (`GSTextureReplacementLoaders.cpp`,
+  `GSTextureReplacements.cpp`) antes de construir nada. La convención
+  `-mip%u` que el proyecto venía usando desde los strings del `.exe` es de
+  `GetDumpFilename`, **sólo para volcado en PNG** — para DDS, PCSX2 lee los
+  niveles embebidos en el mismo archivo vía `dwMipMapCount`. Generar archivos
+  `-mip1.dds` sueltos no habría hecho nada.
+- **Herramienta construida:** `herramientas/regenerar_mipmaps.py`. Preserva el
+  nivel base byte a byte, genera los niveles chicos con Pillow (BOX filter),
+  parcha 3 campos del header. Verificada en dos capas: por bytes (8225/8225
+  OK, reparseo exacto del parser de PCSX2) y por píxel (decodificación de
+  vuelta a PNG, contenido correcto).
+- **Instalada** con backup del pack viejo (renombrado, no borrado) y
+  `mipmap=true`/`hw_mipmap=true` restaurados.
+
+**No funcionó — y es lo que más enseñó:**
+
+1. **Verificación por bytes + por píxel no bastó.** Mirando la pared con el
+   pack nuevo, Fran reportó *"ahora vuelve a desenfocar"*. No se pudo cerrar
+   el loop de verificación por efecto (la sesión no tiene forma de ver la
+   pantalla de PCSX2 sin robarle el foco de ventana a Fran). Quedan tres
+   hipótesis sin descartar, con un test de un paso (`Insert` =
+   `ToggleMipmapMode`) para separarlas en la próxima sesión con el juego
+   delante — ver `docs/09` §7.6 y HANDOFF §9.
+2. **El verificador de la herramienta nunca vio un archivo roto** — 8225/8225
+   en verde, sin haber probado que sepa decir que no. Gap de la regla del
+   saboteador, sin cerrar.
+3. **La sesión terminó por tamaño de contexto** con dos líneas nuevas
+   pedidas por Fran (remake de geometría/texturas con IA, dificultad/IA de
+   enemigos) sin arrancar — quedaron registradas en HANDOFF §10 y §11 para
+   que la próxima sesión no las pierda ni las redescubra de cero.
+
+**Sigue:** diagnosticar el síntoma reportado (test de `Insert`, HANDOFF §9
+ítem 1) antes de tocar cualquier otra cosa de la línea visual. Las líneas 10 y
+11 son independientes y pueden arrancar en paralelo si el diagnóstico tarda.
+
+---
+
 ## 2026-09-03 (50) — Fase V2: el síntoma de la barrera era el mipmap, y §1.5 lo había descartado con el modelo mental equivocado
 **Máquina:** notebook · **Modelo:** Sonnet para ejecutar, Opus al aparecer la contradicción
 **Objetivo:** matar la hipótesis 1 (carga asíncrona) del síntoma de §1.5 con

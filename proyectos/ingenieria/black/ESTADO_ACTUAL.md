@@ -502,19 +502,33 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
          29,93 fps) NO valen: fue SIN TURBO y bajo el cap nada se ve. Falta
          el A/B pareado con turbo, método de R3 (`F6`/`F5`).
 
-     T5  el síntoma "mejor de lejos que de cerca" ...... CAUSA `probable`
-         **Fase V2, 2026-09-03. Es el MIPMAP, y el síntoma está atado al
-         ÁNGULO, no a la distancia.** El pack reemplaza sólo el mip 0 (0 de
-         8225 con `-mip`; convención leída de los strings del `.exe`), y
-         `mipmap`/`hw_mipmap` están en `true`: en ángulo oblicuo el GPU pide
-         mip 1-2-3 y cae al original de PS2.
-         MUERTAS por efecto, las dos con su control:
-           · H1 carga asíncrona — precache ON (2,09 GB privados) y no se movió.
-           · H4 post-proceso — ReShade fuera (logs sin escribir) y no se movió.
-         §1.5 lo había descartado con "el mip se elige por distancia", que es
-         falso: se elige por footprint por píxel.
-         **Falta para `confirmado`:** `mipmap = false`, mismo ángulo, una
-         mirada. Detalle: `docs/09` §7, `pruebas/precache-prediccion-2026-09-03.md`.
+     T5  el síntoma "mejor de lejos que de cerca" ................ CERRADA
+         **CAUSA CONFIRMADA POR EFECTO, fase V3, 2026-09-04.** Es el MIPMAP,
+         atado al ÁNGULO, no a la distancia: el pack reemplaza sólo el mip 0
+         (0 de 8225 con `-mip`), y en ángulo oblicuo el GPU pedía mip 1-2-3,
+         que caía al original de PS2. `mipmap=false`+`hw_mipmap=false` (con
+         ReShade apagado, verificado por efecto): Fran, mirando el savestate
+         03, "se ve nítida en los dos ángulos". Las dos hipótesis alternativas
+         (H1 carga asíncrona, H4 post-proceso) MUERTAS antes, cada una con su
+         control. Detalle: `docs/09` §7.5.
+
+     T6  el arreglo de fondo (mip chain real) ......... CONSTRUIDO, SÍNTOMA
+                                                          REPORTADO DE VUELTA
+         Antes de construir nada se leyó el código fuente real de PCSX2:
+         `-mip%u` es convención de VOLCADO EN PNG (`GetDumpFilename`), no de
+         carga de DDS — para DDS los mips van EMBEBIDOS en el mismo archivo
+         (`dwMipMapCount` del header). Herramienta:
+         `herramientas/regenerar_mipmaps.py`, verificada por bytes (8225/8225
+         OK, reparseo exacto del parser real de PCSX2) y por píxel (contenido
+         correcto, sin corrupción). Instalada el 2026-09-04 con
+         `mipmap=true`/`hw_mipmap=true` restaurados y backup del pack viejo
+         intacto (`replacements-sin-mips-2026-09-04`, renombrado, no borrado).
+         **Fran, mirando de nuevo: "ahora vuelve a desenfocar".** Sin
+         diagnosticar — tres hipótesis abiertas (textura sin cobertura / mip
+         chain no leído / comportamiento normal de un mip chain real vs. el
+         hack de mip-0-forzado de V3) y un test de un paso (`Insert` =
+         `ToggleMipmapMode`) para separarlas. Detalle completo:
+         `docs/09` §7.6, `sesiones/HANDOFF.md` §9.
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo

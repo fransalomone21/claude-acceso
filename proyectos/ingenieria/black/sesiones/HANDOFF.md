@@ -1816,6 +1816,42 @@ CAUSA: CONFIRMADA. mipmap=false queda como estado de hecho hasta regenerar el
 mip chain del pack (item 1 de la NEXT ACTION, mas abajo) - no revertir.
 ```
 
+**2026-09-04 - ARREGLO DE FONDO CONSTRUIDO E INSTALADO — SINTOMA REPORTADO DE
+VUELTA, SIN DIAGNOSTICAR.** Detalle completo, con las tres hipotesis y el test
+de un paso para separarlas: `docs/09` **§7.6**.
+
+```
+HALLAZGO QUE CAMBIO EL DISENO: "-mip%u" es de GetDumpFilename, SOLO para PNG.
+  Para DDS, PCSX2 lee los niveles EMBEBIDOS en el mismo archivo (dwMipMapCount
+  del header). Leido del codigo fuente real de PCSX2/pcsx2 (master), no supuesto.
+HERRAMIENTA: herramientas/regenerar_mipmaps.py. Verificada en dos capas:
+  por BYTES (8225/8225 OK, reparseando como el parser real de PCSX2) y por
+  PIXEL (decodificado de vuelta a PNG, contenido correcto, sin corrupcion).
+INSTALADO: replacements/ viejo -> replacements-sin-mips-2026-09-04 (no se
+  borro). Pack nuevo copiado. mipmap=true, hw_mipmap=true restaurados.
+  Confirmado por efecto: emulog.txt de esta corrida NO tiene ninguna linea
+  de mipmap (ni autogen-disable ni Unsafe Settings) - la señal esperada.
+SIN EMBARGO: Fran mirando la pared, "ahora vuelve a desenfocar". NO se pudo
+  cerrar el loop de verificacion (la sesion no puede ver la pantalla de PCSX2
+  sin robarle el foco a Fran). TRES HIPOTESIS SIN DESCARTAR (docs/09 §7.6):
+  (1) esa textura especifica es de las que NO tiene reemplazo (cobertura
+      70,9%, no 100% - nunca se ato "la barrera" a un hash concreto);
+  (2) el mip chain esta bien construido pero algo en el pipeline de PCSX2 no
+      lo esta leyendo;
+  (3) es el comportamiento NORMAL de un mip chain real (V3 con mip0 forzado
+      era aliasing perfecto, no "correcto"; un chain real SI suaviza en
+      angulos rasantes, a proposito).
+TEST DE UN PASO PARA LA PROXIMA SESION CON EL JUEGO DELANTE: pararse en el
+  angulo que desenfoca y apretar Insert (ToggleMipmapMode, hotkey ya mapeado).
+  Si sigue igual de blurry con mipmap forzado a otro modo -> hipotesis 1
+  (no es esto). Si se ve nitida con mip 0 forzado Y la textura es claramente
+  la MISMA HD (no una version chica y distinta) -> hipotesis 2 o 3, comparar
+  SEVERIDAD contra el bug original para distinguirlas.
+GAP DE VERIFICACION (regla del saboteador): el verificador de la herramienta
+  nunca vio un archivo roto (8225/8225 en verde). No probado que sepa decir
+  que no. Corromper una copia a proposito antes de confiar en el para un lote futuro.
+```
+
 **El confound que hay que conocer antes de tocar nada de esta linea:** el
 `pcsx2-qt.exe` de la ruta corta es **el mismo binario** de la linea DLSS5 (§8), con
 ReShade + DLSS5-Feeder + RenoDX + LumeniteFX inyectados por `dxgi.dll`. Las dos
@@ -1854,6 +1890,19 @@ que restaurarlo para volver a la linea DLSS5.
 - **No volver a auditar `Downloads/pipeline_metadev_ps2.txt`**: hecho el 2026-08-27.
 - **El emulador de esta línea es `C:\Program Files\PCSX2\pcsx2-qt.exe`**, no los
   `lanzadores/*.bat` (ésos abren el fork PCSX2-MCP del reversing).
+- **No generar archivos `-mipN.dds` sueltos para agregar mips a un reemplazo.**
+  Esa convención (`GetDumpFilename` en `GSTextureReplacements.cpp`) es SÓLO para
+  volcado en PNG. Para DDS, PCSX2 lee los niveles embebidos en el MISMO archivo
+  vía `dwMipMapCount` del header (`GSTextureReplacementLoaders.cpp::DDSLoader`).
+  Confirmado leyendo el código fuente real de `PCSX2/pcsx2`, 2026-09-04.
+- **No dar por resuelto un arreglo de textura sólo con verificación por bytes.**
+  El pack con mip chain pasó 8225/8225 en el reparseo byte a byte Y en inspección
+  píxel a píxel, y el síntoma en pantalla volvió igual. Verificar SIEMPRE por el
+  efecto visual real en el juego, no sólo por la construcción del archivo.
+- **No confiar en un verificador que nunca vio un archivo roto.** El de
+  `regenerar_mipmaps.py` nunca falló en 8225 archivos — no probado que sepa
+  decir que no (regla del saboteador). Corromper un archivo a propósito antes
+  de confiar en él para un lote futuro.
 
 ### Cómo se lanza una corrida de esta línea (probado el 2026-09-03)
 
@@ -1869,49 +1918,54 @@ captura, no supuesto. Para desactivar el pack (rama B del A/B) se **renombra**
 restaurar hay que sacar la vacía primero. `Remove-Item` con wildcard ahí lo **frena el
 guardia**: se renombra, no se borra - y así además queda la evidencia.
 
-### ESTADO DE LA MÁQUINA — actualizado al cierre del 2026-09-04
+### ESTADO DE LA MÁQUINA — actualizado al cierre del 2026-09-04, sesión que corta por contexto
 
-- **PCSX2 CORRIENDO** (la corrida de V3, savestate 03 cargado). Cero parches
-  vivos en ISO, ningún ISO tocado.
+- **PCSX2 CORRIENDO** (PID 9888, arrancado 01:04:56, savestate 03 cargado, con
+  el pack NUEVO). Cero parches vivos en ISO, ningún ISO tocado. **La sesión
+  siguiente puede cerrarlo sin culpa** — no hay nada en memoria que no esté
+  ya en disco.
 - **`C:\Program Files\PCSX2\dxgi.dll` sigue renombrado a `dxgi.dll.disabled`.**
-  ReShade/DLSS5/LumeniteFX/RenoDX **no cargan** en esta corrida — apagado a
-  propósito para la V3 limpia. **Entre el cierre de V2 y el inicio de esta
-  sesión Fran ya lo había restaurado una vez** (medido: nombre activo antes de
-  volver a deshabilitarlo) — este archivo se toca ida y vuelta según qué línea
-  se esté probando, y **el nombre por sí solo no prueba el estado**: se
-  verifica por efecto (`ReShade.log`/`dlss5-feed.log`) antes de cada corrida
-  visual, sin excepción.
-- `C:\Users\frans\Documents\PCSX2\textures\SLUS-21376\replacements\` = **8225 archivos**,
-  **ninguno con `-mip`**: sólo reemplazan el nivel 0. Sigue siendo el ítem 1 de
-  la NEXT ACTION.
+  ReShade/DLSS5/LumeniteFX/RenoDX **no cargan** en esta corrida. Se
+  toca ida y vuelta según qué línea se esté probando (Fran ya lo restauró y
+  volvió a deshabilitar una vez en esta misma sesión) — **el nombre por sí
+  solo no prueba el estado**: se verifica por efecto (`ReShade.log`/
+  `dlss5-feed.log`) antes de cada corrida visual, sin excepción.
+- `C:\Users\frans\Documents\PCSX2\textures\SLUS-21376\replacements\` = **el
+  pack NUEVO con mip chain**, 8225 archivos, verificado por bytes y por
+  píxel (ver `docs/09` §7.6). El pack VIEJO (sin mips) está intacto en
+  `...\replacements-sin-mips-2026-09-04\` — no se borró, se puede volver
+  atrás con un rename si hiciera falta descartar el nuevo.
 - `DumpReplaceableTextures = false`. `PrecacheTextureReplacements = true`.
-  `LoadTextureReplacements = true`, `Async = true`. **`mipmap = false`,
-  `hw_mipmap = false`** (cambiado el 2026-09-03 para V3; QUEDA ASÍ — es la
-  causa confirmada, revertir a `true` reintroduce el síntoma).
-- Respaldos del `.ini`: `pruebas/PCSX2.ini.respaldo-2026-09-02`, `...-2026-09-03-V1`,
-  `...-2026-09-03-V2` y **`...-2026-09-03-V3`** (el previo al cambio de mipmap).
+  `LoadTextureReplacements = true`, `Async = true`. **`mipmap = true`,
+  `hw_mipmap = true`** (restaurados el 2026-09-04 — el pack ya trae su
+  propia mip chain, ya NO hace falta el parche global de V3).
+- Respaldos del `.ini`: `pruebas/PCSX2.ini.respaldo-2026-09-02`, `...V1`,
+  `...V2`, `...V3` (el previo a mipmap=false de V3). No se tomó un respaldo
+  nuevo para el cambio a `true` porque V3 ya lo tiene guardado.
 - Evidencia fuera del repo, en `Documents\PCSX2\textures\SLUS-21376\`:
   `dumps-A2-pack-activo` (38), `dumps-B-pack-off` (127), `dumps-A1-sospechosa` (37) y
   `replacements-vacia-recreada` (0). Los **listados** sí están en `pruebas/`.
+- **Nunca se llegó a lanzar la investigación de remake que pidió Fran** (ver
+  §10, más abajo) — la sesión cortó por contexto antes del primer tool call.
+  No asumir que hay algo corriendo en segundo plano de esa línea.
 
-### NEXT ACTION, en orden de apalancamiento — REORDENADA el 2026-09-04 por §7.5 (V3 cerrada)
+### NEXT ACTION, en orden de apalancamiento — REORDENADA el 2026-09-04 por §7.6
 
-1. **Regenerar el mip chain del pack** — el arreglo de fondo, ahora ítem de
-   mayor apalancamiento abierto de esta línea. `mipmap=false` es el parche de
-   hecho (funciona, confirmado por efecto) pero apaga mipmapping GLOBAL, con
-   riesgo de shimmer/aliasing en otras superficies (anticipado en §1.4, nunca
-   medido). Regenerar mips propios para los 8225 `.dds` permite volver a
-   `mipmap=true` sin el síntoma original. Requiere: decodificar DXT5, generar
-   niveles descendentes, recomprimir a DXT5, nombrar con el sufijo `-mip%u`
-   confirmado en los strings del `.exe` (§7.3). Tarea de ingeniería nueva, no
-   un runbook — sondear herramientas disponibles antes de diseñar el script.
-2. **A/B visual pareado de verdad.** Las capturas del 2026-09-03 NO lo son: la escena tiene
+1. **Diagnosticar el síntoma reportado de vuelta.** Test de un paso: parado en
+   el ángulo que desenfoca, apretar **Insert** (`ToggleMipmapMode`). Separa las
+   tres hipótesis de §7.6 en segundos. **Es lo primero, antes que cualquier otra
+   cosa de esta lista** — todo lo demás asume que el mip chain funciona.
+2. **Atar la barrera concreta que Fran vio a un hash de la lista A**
+   (`pruebas/cobertura-A-sin-reemplazo-2026-09-03.txt`, 38 entradas) — si el
+   diagnóstico de (1) da hipótesis 1 (textura sin cobertura), esto deja de ser
+   "atar para más adelante" y pasa a ser la causa raíz.
+3. **A/B visual pareado de verdad.** Las capturas del 2026-09-03 NO lo son: la escena tiene
    humo y fuego animados y los frames no coinciden.
-3. **Atar la barrera concreta que Fran vio a un hash de la lista A**
-   (`pruebas/cobertura-A-sin-reemplazo-2026-09-03.txt`, 38 entradas).
 4. **Cobertura en otra escena**: 70,9 % es de un savestate, no del nivel.
 5. **Costo en FPS con turbo**, método de R3 (`F6`/`F5`).
 6. `accurate_blending_unit` 3 -> 4, que el GameDB recomienda (mode=4) y nadie midió.
+7. Sabotear el verificador de `regenerar_mipmaps.py` (gap encontrado en §7.6):
+   corromper un archivo a propósito y confirmar que lo marca FALLOS.
 
 ~~1. `mipmap = false` (o `hw_mipmap = false`), PCSX2 cerrado, mismo ángulo~~ —
 **corrida y CONFIRMADA el 2026-09-04** (§7.5). Fran: *"se ve nítida en los dos
@@ -1920,5 +1974,83 @@ guardia**: se renombra, no se borra - y así además queda la evidencia.
 ~~1. `PrecacheTextureReplacements = true`~~ — **corrida y MUERTA el 2026-09-03.**
 Quedó en `true` en el `.ini`; no molesta, cuesta 1,3 GB de RAM y ~8 s de arranque.
 
-**MODEL/EFFORT REC:** Sonnet, esfuerzo medio, sin fan-out. El método está decidido y lo que
-queda es ejecutar y tabular. Sube a Opus sólo si un resultado contradice lo anotado.
+~~1. Regenerar el mip chain del pack~~ — **construido, verificado por bytes y por
+píxel, e instalado el 2026-09-04** (`herramientas/regenerar_mipmaps.py`, §7.6).
+El síntoma volvió en el juego; pasa a ser el ítem 1 de arriba, no ésta.
+
+**MODEL/EFFORT REC para el diagnóstico (ítem 1-2):** Sonnet, esfuerzo medio, sin
+fan-out — es aplicar el test ya diseñado y leer el resultado, no investigar de
+cero. Sube a Opus sólo si las tres hipótesis de §7.6 quedan descartadas y hace
+falta una cuarta.
+
+---
+
+## 10. REMAKE — geometría y texturas con IA (línea NUEVA, PEDIDA el 2026-09-04, SIN EMPEZAR)
+
+Fran pidió explícitamente: *"investigá si hay alguna manera de hacer un remake
+de geometrías y texturas mejoradas"*, con **Opus** para esta investigación
+específica (no para el hilo principal — ver nota de modelo abajo). **No se
+lanzó ningún agente todavía**: la sesión cortó por contexto entre pedir esto y
+el primer tool call. No asumir que hay algo corriendo.
+
+**No investigar de cero — ya hay una base real, del barrido del 2026-09-02**
+(`pruebas/barrido-remake-2026-09-02.md`, `docs/09` §4): el motor es RenderWare;
+`librw` (aap/librw, MIT) reimplementa el motor y lee DFF/TXD de PS2, pero su
+propio README avisa que el DFF pre-instanciado de PS2 está incompleto y el BSP
+sin soportar — **no se sabe si eso bloquea a BLACK específicamente**; el plugin
+de Noesis `fmt_Burnout3LRD.py` menciona "Black (PS2, Xbox)" en su docstring y
+abre `.db`/`.bin` pero es sólo texturas, no modelos con huesos; `PS2Recomp`
+existe pero es experimental y el GS "needs external implementation"; hay
+reversing público del **XBE de Xbox** de BLACK en agarmash.com (offsets
+concretos) que podría ser una entrada más fácil que el PS2. Formatos propios
+parcialmente entendidos: `.DB` firma `..FT` en bytes 6-7, `.WDD` con
+`byte1=0x02` en tamaños 16K/64K — **el byte 0 del `.WDD` sigue sin
+identificar** (¿chunk RenderWare 0x16=texture dictionary, 0x10=clump, u otra
+cosa?). Techo medido de la industria: sólo OpenGOAL (Jak & Daxter) llegó a PC
+nativo jugable completo; Sly Cooper lleva 6,33 % en 5 años de decompilación
+comunitaria.
+
+**Las dos preguntas concretas que la investigación nueva tiene que contestar,
+sin repetir el barrido:**
+1. ¿La limitación de `librw` con DFF pre-instanciado de PS2 es un bloqueo real
+   para BLACK, o hay un camino (aunque sea para UN prop simple) para
+   extraer→editar→reimportar geometría hoy? ¿Se puede resolver el byte 0 del
+   `.WDD` cruzando contra tablas de chunk types de RenderWare conocidas?
+2. ¿Hay una técnica de IA real (no teórica) para generar normal maps /
+   profundidad falsa a partir de las texturas diffuse-only de PS2, usable con
+   ReShade/shaders? ¿Alguno de los packs de la competencia (HD Reimagined,
+   Huekage, Johnazeitona) resuelve mejor el 29 % que nuestro pack no cubre, o
+   usa un upscaler superior al de 2022 que tenemos?
+
+**Modelo real, para que la próxima sesión no se choque con esto:** Claude Code
+no tiene una herramienta para cambiarse el modelo a sí mismo a mitad de sesión.
+"Dejar la sesión con Opus toda la noche" se logra lanzando 1-2 Agents con
+`model: "opus"` y `run_in_background: true` (quedan corriendo aunque el hilo
+principal siga en Sonnet, y avisan solos al terminar) — **no** pidiendo que
+esta conversación "se convierta" en Opus. Si Fran quiere el hilo PRINCIPAL en
+Opus, eso se elige en el selector de modelo de la app, no desde una respuesta.
+
+## 11. DIFICULTAD / IA de enemigos (línea NUEVA, PEDIDA el 2026-09-04, SIN EMPEZAR)
+
+Fran pidió, como plan B si el remake no da nada concreto: *"mejoras de la IA y
+aumentar las posibilidades de cambiar la dificultad... para volverlo tan
+difícil y distinto como queramos"*. **Esto NO es una línea nueva de
+investigación — es la continuación directa de 7e** (secciones 1-7 de este
+mismo archivo), que ya tiene la mitad del trabajo hecho:
+
+- El despachador de 61 tipos de módulo está mapeado y medido (7e-a, HECHO).
+- **Fase 5a — pnach sobre `0x00142CA0` (daño de salida del jugador) — está
+  PARQUEADA, lista para retomar apenas se abra el emulador.** Es el candidato
+  más directo para "más difícil/más fácil": un solo valor de daño.
+- Del `docs/00-conops.md` (no releído esta sesión, releer si se retoma esto):
+  **R3** (IA más aguda — clases de enemigo YA identificadas, valores de
+  comportamiento NO) y **R4** (qué enemigos aparecen — depende de 7e(b),
+  verificar un tipo de módulo por efecto, que sigue sin hacerse).
+- Todo esto necesita el emulador y a Fran jugando hasta cargar un nivel
+  (autorizado desde 2026-08-29) para verificar cualquier patch por efecto —
+  no es trabajo 100 % de escritorio como el remake de la línea 10.
+
+**Primer paso concreto si se retoma:** releer `docs/00-conops.md` completo (no
+está en el contexto de esta sesión) y `ESTADO_ACTUAL.md` bloque 7e, después
+decidir si 7e(b) (verificar un módulo por efecto) es prerequisito real para
+tocar daño/spawns con confianza, o si Fase 5a puede adelantarse sola.

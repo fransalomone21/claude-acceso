@@ -593,3 +593,96 @@ apalancamiento abierto de esta línea (detalle y orden: `sesiones/HANDOFF.md`
 §9, NEXT ACTION). `mipmap = false` queda como estado actual de la máquina: es
 la solución de hecho hasta que exista el mip chain propio, no una reversión
 pendiente — deshacerla reintroduce el síntoma ya confirmado.
+
+## 7.6 EL ARREGLO DE FONDO: construido e instalado — SÍNTOMA REPORTADO DE VUELTA, sin diagnosticar — 2026-09-04
+
+### El hallazgo que cambió el diseño: "-mip%u" es de PNG, no de DDS
+
+Antes de construir nada se leyó el código fuente real de PCSX2
+(`GSTextureReplacementLoaders.cpp` y `GSTextureReplacements.cpp`, repo oficial
+`PCSX2/pcsx2`, rama `master`, bajado y grepeado línea por línea el
+2026-09-04). **La convención `%llx-%llx-%08x-mip%u.png` que §7.3 leyó de los
+strings del `.exe` es de `GSTextureReplacements::GetDumpFilename` — sólo se
+usa para volcar (`DumpReplaceableTextures`) en PNG, con `.png` literal en el
+`sprintf`.** El loader de reemplazos NUNCA busca un archivo `-mipN.dds`
+separado. Para DDS, `DDSLoader` abre UN archivo y lee los niveles
+**secuencialmente del mismo `FILE*`**, usando `dwMipMapCount` del header DDS
+estándar (`ParseDDSHeader`, `DDS_HEADER_FLAGS_MIPMAP = 0x00020000`). Generar
+8225 archivos `-mip1.dds` sueltos —el plan que la §7.4 original insinuaba—
+no habría hecho nada: ese código nunca los mira.
+
+### Layout de bytes, verificado contra un archivo real del pack (no supuesto)
+
+Header = 128 bytes (`"DDS "` + `DDS_HEADER` de 124 bytes, sin extensión DX10
+para FourCC `DXT5`). Archivo de muestra medido:
+`dwFlags=0x81007` (sin `DDSD_MIPMAPCOUNT`), `dwMipMapCount=0`, `dwCaps=0x1000`,
+`dwPitchOrLinearSize` = tamaño exacto del nivel base por fórmula de bloques
+(ancho/4 × alto/4 × 16 B para DXT5). Tamaño de archivo = 128 + esa cifra,
+sin relleno. Confirmado con Pillow 12.3 (ya en el entorno): escribe y
+decodifica DXT5 nativamente, y padea a bloque completo en tamaños no
+múltiplo de 4 — probado con (1,1) (3,3) (2,1) (5,3).
+
+### La herramienta: `herramientas/regenerar_mipmaps.py`
+
+Para cada `.dds` de un solo nivel: decodifica el nivel base con Pillow,
+genera `log2(max(w,h))+1` niveles totales (fórmula exacta de
+`GSTextureReplacements::CalcMipmapLevelsForReplacement`, leída del mismo
+código fuente) con filtro `BOX`, los comprime a DXT5 y los concatena
+DESPUÉS de los bytes originales del nivel base — que **nunca se tocan ni se
+recomprimen**. Sólo se parchean 3 campos del header (`dwFlags`,
+`dwMipMapCount`, `dwCaps`); el resto queda byte a byte igual.
+
+**Verificación en dos capas, las dos con resultado limpio:**
+1. **Por bytes**, reparseando cada archivo generado exactamente como
+   `ParseDDSHeader`/`ReadDDSMipLevel` de PCSX2: los 8225 archivos dieron
+   tamaño exacto por nivel, cero bytes sobrantes, cero fallos.
+2. **Por píxel**, decodificando cada nivel de un archivo de muestra
+   (128×128, 7 niveles extra) de vuelta a PNG y mirándolo: color promedio
+   estable entre niveles (69,59,55 → 66,60,49) y contenido visualmente
+   coherente — una versión progresivamente más suave de la misma textura,
+   sin corrupción de color ni de canal.
+
+**Instalado el 2026-09-04**, con PCSX2 cerrado: `replacements/` original
+renombrado a `replacements-sin-mips-2026-09-04` (no se borró), el pack nuevo
+copiado en su lugar, `mipmap = true` y `hw_mipmap = true` restaurados en el
+`.ini` (respaldo previo: `pruebas/PCSX2.ini.respaldo-2026-09-03-V3`).
+Predicción escrita antes de mirar: `pruebas/prediccion-mipchain-2026-09-04.md`.
+
+**Confirmado por efecto, lo que se pudo medir sin el ojo de Fran:**
+`emulog.txt` de la corrida con el pack nuevo **no tiene ninguna línea de
+mipmap** — ni la advertencia de autogen-disable de §1.4 (ya no aplica: las
+texturas ya no son "comprimidas sin mips") ni la de Unsafe Settings (ya no
+aplica: `mipmap=true` es la config normal). La memoria privada del proceso
+subió de ~2,09 GB (pack viejo, §7.2) a 3135 MB (pack nuevo, 1,8 GB en disco
+contra 1,4 GB del viejo) — consistente con que el precache cargó el pack
+correcto, no uno viejo cacheado.
+
+### EL SÍNTOMA VOLVIÓ, reportado por Fran — sin diagnosticar todavía
+
+Mirando la misma pared: *"ahora vuelve a desenfocar"*. **No se pudo cerrar el
+loop de verificación por efecto** (regla del perfil: confirmado = se vio el
+efecto en pantalla) porque la sesión no tiene forma de ver la pantalla de
+PCSX2 sin robarle el foco de ventana a Fran, que en ese momento estaba
+escribiendo en el chat — se comprobó con una captura de pantalla completa
+(mostró el chat de Claude, no PCSX2) antes de intentar nada más invasivo.
+
+**Tres hipótesis, sin descartar ninguna:**
+
+| # | hipótesis | qué prueba si es cierta | cómo se mata, RÁPIDO |
+|---|---|---|---|
+| 1 | **La textura que Fran mira NO tiene reemplazo** (cobertura es 70,9%, no 100%; "atar la barrera a un hash" sigue sin hacerse — ver NEXT ACTION). Un original de PS2 se ve blurry en cualquier mip, con o sin mi arreglo | el bug nunca estuvo en el mip chain PARA ESE PUNTO concreto | con PCSX2 corriendo, parado en el ángulo que desenfoca, apretar **Insert** (`ToggleMipmapMode`, hotkey ya mapeado en el `.ini`). Si sigue igual de borroso con mipmap forzado a otro modo, es textura sin cobertura — no es esto |
+| 2 | **El mip chain está bien construido pero PCSX2 no lo está usando** (algo en el pipeline de carga/creación de textura no consume `rtex.mips` como se leyó en `CreateReplacementTexture`) | mi lectura del código fuente tiene un hueco | mismo test de Insert: si al forzar mip 0 se ve nítida y al volver a mip normal sigue igual de blurry que ANTES del arreglo (no una versión suave de la HD, sino la textura PS2 chica), el chain no se está leyendo |
+| 3 | **Es el comportamiento NORMAL y correcto de un mip chain real** — mip 0 forzado (V3) se veía "perfecto" porque NUNCA usaba un nivel más chico, ni siquiera cuando correspondía; eso es aliasing, no lo correcto. Un mip chain real SÍ suaviza en ángulos rasantes, a propósito, y eso puede leerse como "desenfoca" comparado contra el hack de V3 | el "arreglo" ya está funcionando bien, y la expectativa (cero blur en cualquier ángulo) era la que estaba mal | comparar SEVERIDAD: ¿se ve como una versión un poco más suave de la MISMA textura HD, o como una textura totalmente distinta y de baja resolución (el bug original)? Si es lo primero, no hay nada que arreglar |
+
+**El comando de un paso para diagnosticar la próxima vez que alguien esté
+frente al juego:** pararse en el ángulo que desenfoca y apretar **Insert**.
+Sin cerrar el emulador, sin tocar el `.ini`. El resultado separa las tres
+hipótesis en segundos.
+
+### GAP DE VERIFICACIÓN encontrado en la propia herramienta — regla del saboteador
+
+`regenerar_mipmaps.py verificar` (y el chequeo exhaustivo de los 8225) nunca
+vio un archivo roto — 8225/8225 en verde. **Eso no está probado: nunca se le
+dio un archivo corrupto a propósito para confirmar que sabe decir que no.**
+Antes de confiar en el verificador para un lote futuro, corromper una copia
+(truncar bytes, poner `dwMipMapCount` mal) y confirmar que lo marca FALLOS.
