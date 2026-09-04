@@ -3,33 +3,57 @@
 ## Cuadro de fase para abrir el próximo chat
 
 ```
-Fase     : MÓDULO 14 (amplificador operacional) CERRADO el 2026-08-30. El
-           operacional salió del Módulo 13 y tiene módulo propio, de 26
-           páginas: el apunte pasó de 107 a 123. Aplica el mismo patrón que
-           el Módulo 8 —relato y convenciones antes de la fórmula, un caso
-           mínimo a mano, después la regla, y al final los casos que rompen
-           el método—, que es el que Fran confirmó que le sirve.
-           Diez figuras nuevas (`fig-ao-*`), cuatro recicladas de
-           teoria-circuitos/fuente/ao.typ. Cinco chequeos en verde, las diez
-           figuras miradas en PNG (cuatro rondas: la primera tenía cuatro
-           defectos que el compilador no ve) y cuatro páginas del apunte
-           compilado. Hay `compilar.bat`, probado en los dos caminos.
-           Detalle en ESTADO_ACTUAL.md, sección "Módulo 14".
+Fase     : FASE 3, tema 7 (simulación) CERRADO el 2026-09-04, junto con una
+           ampliación grande del Módulo 10. El apunte pasó de 123 a 149
+           páginas y de 14 a 15 módulos. Entró el material del profesor de
+           Teoría de Circuitos: filminas de bobinas y capacitores (52
+           diapositivas), guía asincrónica con doce problemas de
+           Nilsson-Riedel caps. 6, 7 y 8, y seis archivos de LTspice.
+           Módulo 10: de 8 a 21 páginas, de 2 a 8 ejercicios. Secciones
+           nuevas: relaciones v-i vistas como formas de onda, balance de
+           energía, inductancia mutua y marcas de punto (no estaba en NINGUNA
+           parte del apunte), R_th con fuente de prueba, entrada cero /
+           estado cero, RLC paralelo con su alfa inverso, las dos constantes,
+           diseño inverso, componentes reales.
+           Módulo 15 nuevo (SPICE), al FINAL de la Parte II a propósito:
+           meterlo en el medio habría renumerado 11 a 14 y hay 21
+           referencias de texto plano a esos números que nadie valida.
+           17 figuras nuevas (55 -> 72). Ayudante nuevo: `paneles-columna`.
+           verificar.py en verde y PROBADO ROMPIÉNDOLO. Render mirado página
+           por página en el 10, el 15 y los anexos nuevos.
+           Detalle: ESTADO_ACTUAL.md, sección "Módulos 10 y 15".
            Lo que sigue, en orden de valor:
-           (a) mirar en render las páginas del Módulo 14 que NO se miraron
-               —se vieron cuatro de veintiséis: 98, 102, 110 y 117—;
-           (b) Fase 3 — Los temas que faltan (ver "Plan de fases");
-           (c) la PASADA DE LECTURA ELÉCTRICA de las figuras, que sigue
-               pendiente desde antes (ver "Pendientes explícitos"), ahora
-               con 55 figuras en vez de 46.
-Modelo   : Sonnet 5 para (a), que es mirar imágenes contra un criterio ya
-           escrito. Opus sólo si aparece un defecto que obligue a rediseñar
-           una figura, que es donde vuelve a haber criterio.
+           (a) la PASADA DE LECTURA ELÉCTRICA de las figuras —ahora 72—, que
+               sigue pendiente desde antes y a la que estas 17 también le
+               deben: están verificadas de LEGIBILIDAD, no de corrección
+               eléctrica. Son dos cosas distintas y sólo se hizo una;
+           (b) los seis temas que quedan de la Fase 3 (ver PDP);
+           (c) mirar en render las páginas del Módulo 14 que NO se miraron
+               —se vieron cuatro de veintiséis: 98, 102, 110 y 117—.
+Modelo   : Sonnet 5 para (a) y (c), que es mirar imágenes contra un criterio
+           ya escrito. Opus para (b), que es escribir teoría nueva y decidir
+           cómo se deduce.
 Esfuerzo : medio, sin fan-out. Un archivo por vez, secuencial: el fan-out no
            compra nada acá y el presupuesto del plan sí lo paga.
 Contexto : chat nuevo.
 Rama     : main — una sola rama, el proyecto es una carpeta.
 ```
+
+## Lo que quedó abierto, y no se puede perder
+
+- **Los seis `.asc` de la cátedra no se corrieron**: se leyeron como texto y se
+  recalcularon a mano. No hay LTspice instalado en esta máquina, y el apunte no lo
+  necesita para ser correcto —pero si alguna vez se corren, el control está escrito
+  en la tabla «Los seis circuitos de la guía» del Módulo 15.
+- **El valor de 632,46 Ω** de `05_RLC_serie.asc` no cierra con los valores de ese
+  archivo (ver ESTADO_ACTUAL). Está anotado en el apunte como caja de cuidado, con la
+  cuenta hecha. Si Fran lo consulta con el profesor y hay una explicación, hay que
+  volver a esa caja.
+- **La figura de cuatro paneles del pulso en la bobina** no entra al pie de una página
+  y deja un tercio en blanco en la página anterior. Se probó achicarla a 0,98 de alto
+  por panel y **sigue sin entrar** (mide 11,9 cm y el hueco es de 8,4): achicarla más
+  sólo empeora la legibilidad sin arreglar nada. Se dejó en 1,25, que es el tamaño
+  legible. No volver a intentarlo sin medir primero.
 
 ## Lo primero que hay que hacer
 
@@ -40,6 +64,11 @@ Rama     : main — una sola rama, el proyecto es una carpeta.
 
 ## Trampas de Typst ya pagadas — no volver a pisarlas
 
+- **Raya larga pegada a una fórmula**: `—$v arrow.l.r i$` compone la raya a la altura
+  del eje matemático y con el largo de un menos, y se lee `−v ↔ i`. Es el mismo caso
+  que el de `$+$—` de más abajo, pero con una variable cualquiera y no sólo con un
+  signo. Salida: paréntesis, o comas. Se ve en el render, nunca en el fuente; volvió
+  a pasar el 2026-09-04 en cinco lugares del Módulo 10.
 - **Coma decimal antes de `/`**: `16,3/1000` se dibuja como "16" más la fracción 3/1000.
   Escribir siempre `(16,3)/(1000)` con paréntesis.
 - **Coma decimal dentro de una función**: `sqrt(1000^2 + 99,5^2)` es un error de sintaxis
@@ -93,6 +122,10 @@ con el síntoma exacto de cada una. Las dos que más cuestan:
 - `wire(..., i: ...)` aborta la compilación en zap 0.6.0. Usar el ayudante `corriente()`.
 - Las patas del transistor no están alineadas con su punto de inserción: todo lo que
   cuelga de un BJT va con coordenadas relativas a `"Q.c"` / `"Q.b"` / `"Q.e"`.
+
+Una más, pagada el 2026-09-04: un `wire` de **menos de 0,5 unidades** rompe CeTZ con
+el mismo error del `wire` de longitud cero. Medido: 0,35 rompe, 0,5 anda. Está en
+`docs/figuras.md`, sección 6, arriba de todo.
 
 Cuatro más, pagadas el 2026-08-30 con las figuras del Módulo 14:
 

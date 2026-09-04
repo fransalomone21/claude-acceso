@@ -1134,6 +1134,262 @@
   wire((0, yb), (6.0, yb))
 })
 
+// RL de primer orden: el dual exacto del anterior, con la llave que cierra.
+// Mismos valores que el ejemplo del módulo, para que el lector pueda contrastar
+// las dos figuras término a término.
+#let fig-rl-primer-orden() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  vsource("V", (0, yb), (0, ya), label: none)
+  rotulo((-0.45, 1.62), $+$, ancla: "east")
+  rotulo((-0.45, 0.78), $-$, ancla: "east")
+  rotulo((-0.75, 1.2), [24 V], ancla: "east")
+  wire((0, ya), (0.5, ya))
+  switch("S", (0.5, ya), (1.7, ya), label: none)
+  rotulo((1.1, ya + 0.5), $t = 0$, ancla: "south")
+  rotulo((1.1, ya - 0.18), $S$, ancla: "north")
+  wire((1.7, ya), (2.2, ya))
+  resistor("R", (2.2, ya), (3.6, ya), label: $R = 12 Omega$)
+  wire((3.6, ya), (4.8, ya))
+  corriente((3.75, ya + 0.42), (4.55, ya + 0.42), $i_L$, ancla: "south")
+  inductor("L", (4.8, ya), (4.8, yb), label: none)
+  valor((5.25, 1.2), $L$, [60 mH])
+  rotulo((4.35, 1.62), $+$, ancla: "east")
+  rotulo((4.35, 0.78), $-$, ancla: "east")
+  rotulo((4.05, 1.2), $v_L$, ancla: "east")
+  wire((0, yb), (4.8, yb))
+})
+
+// Los tres instantes del método, sobre el MISMO circuito: qué se dibuja en
+// lugar del capacitor en cada uno. Es la figura que contesta "¿y ahora qué
+// pongo?", que es donde se traba el método.
+#let _celda-instante(elemento, cerrada) = esquema(escala: 0.74cm, {
+  import zap: *
+  let (yb, ya) = (0, 2.5)
+  let yc = 1.25
+  vsource("V", (0, yb), (0, ya), label: none)
+  rotulo((-0.42, 1.68), $+$, ancla: "east")
+  rotulo((-0.42, 0.82), $-$, ancla: "east")
+  rotulo((-0.72, yc), $V$, ancla: "east")
+  wire((0, ya), (0.5, ya))
+  resistor("R1", (0.5, ya), (1.7, ya), label: none)
+  rotulo((1.1, ya + 0.28), $R_1$, ancla: "south")
+  wire((1.7, ya), (2.5, ya))
+  // La rama del elemento almacenador: lo unico que cambia entre los paneles.
+  if elemento == "abierto" {
+    // Terminales abiertos, NO dos placas paralelas: dos rayas serian el
+    // simbolo del capacitor, que es justo lo que aca ya no hay.
+    wire((2.5, ya), (2.5, 1.62))
+    wire((2.5, 0.88), (2.5, yb))
+    node("t1", (2.5, 1.62), fill: false)
+    node("t2", (2.5, 0.88), fill: false)
+    rotulo((2.5, yb - 0.42), [abierto], ancla: "north", color: c-dato)
+  } else {
+    vsource("Vc", (2.5, yb), (2.5, ya), label: none)
+    rotulo((2.5, yb - 0.42), $v_C (0^-)$, ancla: "north", color: c-dato)
+  }
+  rotulo((2.28, 1.72), $+$, ancla: "east")
+  rotulo((2.28, 0.78), $-$, ancla: "east")
+  rotulo((2.05, yc), $v_C$, ancla: "east")
+  wire((2.5, ya), (4.3, ya))
+  // La llave arranca despegada del conductor de arriba: la palanca abierta
+  // gira hacia afuera y, pegada a la esquina, se dibuja encima del cable.
+  // OJO: ese tramo NO puede medir menos de 0,5 unidades. Un `wire` mas corto
+  // hace fallar a zap con "inequality assertion failed" adentro de cetz, que
+  // no dice nada del largo. Medido: 0,35 rompe, 0,5 anda.
+  wire((4.3, ya), (4.3, 1.95))
+  switch("S", (4.3, 1.95), (4.3, 1.2), label: none, closed: cerrada)
+  resistor("R2", (4.3, 1.2), (4.3, yb), label: none)
+  rotulo((4.72, 0.6), $R_2$)
+  wire((0, yb), (4.3, yb))
+})
+
+#let fig-tres-instantes() = paneles(
+  ("En t = 0− · C abierto", _celda-instante("abierto", false)),
+  ("En t = 0+ · C es fuente", _celda-instante("fuente", true)),
+  ("En t → ∞ · C abierto", _celda-instante("abierto", true)),
+  sep: 10pt,
+)
+
+// La resistencia equivalente por fuente de prueba: el único método que sigue
+// valiendo cuando hay fuentes dependientes, que NO se anulan.
+#let fig-req-prueba() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  // La red, como caja: lo que importa acá es el procedimiento, no su interior.
+  cetz.draw.rect(
+    (0, 0.35),
+    (2.9, 2.05),
+    stroke: trazo-simbolo + c-trazo,
+    radius: 2pt,
+  )
+  cetz.draw.content((1.45, 1.4), text(size: letra-figura)[red resistiva])
+  cetz.draw.content((1.45, 1.0), text(size: letra-figura - 0.6pt, fill: c-dato)[
+    indep. anuladas
+  ])
+  cetz.draw.content((1.45, 0.66), text(size: letra-figura - 0.6pt, fill: c-dato)[
+    depend. activas
+  ])
+  wire((2.9, 1.75), (4.3, 1.75))
+  wire((2.9, 0.65), (4.3, 0.65))
+  node("a", (4.3, 1.75), fill: false)
+  node("b", (4.3, 0.65), fill: false)
+  rotulo((4.3, 1.9), $a$, ancla: "south")
+  rotulo((4.3, 0.5), $b$, ancla: "north")
+  wire((4.3, 1.75), (5.6, 1.75))
+  wire((4.3, 0.65), (5.6, 0.65))
+  wire((5.6, 1.75), (5.6, ya))
+  wire((5.6, 0.65), (5.6, yb))
+  vsource("Vp", (5.6, yb), (5.6, ya), label: none)
+  rotulo((6.05, 1.55), $+$)
+  rotulo((6.05, 0.85), $-$)
+  rotulo((6.35, 1.2), [1 V])
+  corriente((4.6, 2.05), (5.35, 2.05), $i_"pr"$, ancla: "south")
+  cetz.draw.content(
+    (2.8, -0.55),
+    text(size: letra-figura, fill: c-azul)[$R_"eq" = v_"pr" \/ i_"pr"$],
+  )
+})
+
+// Los dos elementos almacenadores como son de verdad. Los parásitos no son
+// un detalle de purista: la resistencia del bobinado es la que fija el tau
+// real de una descarga "sin resistencia", y la ESR es la que calienta un
+// capacitor de filtro hasta hacerlo hervir.
+#let fig-no-idealidades() = paneles(
+  (
+    "Bobina real",
+    esquema(escala: 0.85cm, {
+      import zap: *
+      let ya = 1.6
+      wire((-0.5, ya), (0, ya))
+      inductor("L", (0, ya), (1.5, ya), label: none)
+      rotulo((0.75, ya + 0.3), $L$, ancla: "south")
+      resistor("RL", (1.5, ya), (3.0, ya), label: none)
+      rotulo((2.25, ya + 0.3), $R_L$, ancla: "south")
+      wire((3.0, ya), (3.5, ya))
+      // capacidad entre espiras, en paralelo con todo
+      wire((0, ya), (0, 0.2))
+      capacitor("Cp", (0, 0.2), (3.0, 0.2), label: none)
+      rotulo((1.5, -0.12), $C_p$, ancla: "north")
+      wire((3.0, ya), (3.0, 0.2))
+      node("n1", (0, ya))
+      node("n2", (3.0, ya))
+    }),
+  ),
+  (
+    "Capacitor real",
+    esquema(escala: 0.85cm, {
+      import zap: *
+      let ya = 1.6
+      wire((-0.5, ya), (0, ya))
+      resistor("ESR", (0, ya), (1.5, ya), label: none)
+      rotulo((0.75, ya + 0.3), [ESR], ancla: "south")
+      capacitor("C", (1.5, ya), (3.0, ya), label: none)
+      rotulo((2.25, ya + 0.3), $C$, ancla: "south")
+      wire((3.0, ya), (3.5, ya))
+      // resistencia de fuga, en paralelo con el dieléctrico
+      wire((1.5, ya), (1.5, 0.2))
+      resistor("Rf", (1.5, 0.2), (3.0, 0.2), label: none)
+      rotulo((2.25, -0.12), $R_"fuga"$, ancla: "north")
+      wire((3.0, ya), (3.0, 0.2))
+      node("n1", (1.5, ya))
+      node("n2", (3.0, ya))
+    }),
+  ),
+  sep: 22pt,
+)
+
+// Dos bobinas acopladas: el único caso en que la fórmula de asociación en
+// serie NO vale, y donde hacen falta las marcas de punto.
+#let fig-induccion-mutua() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  // primario
+  wire((-1.5, ya), (0, ya))
+  wire((-1.5, yb), (0, yb))
+  inductor("L1", (0, ya), (0, yb), label: none)
+  node("p1", (-1.5, ya), fill: false)
+  node("p2", (-1.5, yb), fill: false)
+  rotulo((-0.42, 1.2), $L_1$, ancla: "east")
+  corriente((-1.35, ya + 0.35), (-0.55, ya + 0.35), $i_1$, ancla: "south")
+  rotulo((-1.7, 1.55), $+$, ancla: "east")
+  rotulo((-1.7, 0.85), $-$, ancla: "east")
+  rotulo((-1.95, 1.2), $v_1$, ancla: "east")
+  // secundario
+  wire((3.6, ya), (5.1, ya))
+  wire((3.6, yb), (5.1, yb))
+  inductor("L2", (3.6, ya), (3.6, yb), label: none)
+  node("s1", (5.1, ya), fill: false)
+  node("s2", (5.1, yb), fill: false)
+  rotulo((4.02, 1.2), $L_2$)
+  corriente((4.95, ya + 0.35), (4.15, ya + 0.35), $i_2$, ancla: "south")
+  rotulo((5.3, 1.55), $+$)
+  rotulo((5.3, 0.85), $-$)
+  rotulo((5.55, 1.2), $v_2$)
+  // núcleo magnético común: las dos barras del transformador
+  cetz.draw.line((1.55, -0.15), (1.55, 2.55), stroke: trazo-simbolo + c-trazo)
+  cetz.draw.line((2.05, -0.15), (2.05, 2.55), stroke: trazo-simbolo + c-trazo)
+  rotulo((1.8, 2.75), $M$, ancla: "south", color: c-dato)
+  // marcas de punto: las dos arriba => las dos corrientes entran por punto
+  cetz.draw.circle((0.42, 2.05), radius: 0.085, fill: c-dato, stroke: none)
+  cetz.draw.circle((3.18, 2.05), radius: 0.085, fill: c-dato, stroke: none)
+})
+
+// RLC serie conmutado: el circuito de segundo orden del módulo. Se distingue
+// del `fig-rlc-serie` del Módulo 11 en que allá la excitación es senoidal y
+// acá es un escalón — el mismo circuito, las dos preguntas distintas.
+#let fig-rlc-serie-conmutado() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  vsource("V", (0, yb), (0, ya), label: none)
+  rotulo((-0.45, 1.62), $+$, ancla: "east")
+  rotulo((-0.45, 0.78), $-$, ancla: "east")
+  rotulo((-0.75, 1.2), $V$, ancla: "east")
+  wire((0, ya), (0.5, ya))
+  switch("S", (0.5, ya), (1.6, ya), label: none)
+  rotulo((1.05, ya + 0.5), $t = 0$, ancla: "south")
+  wire((1.6, ya), (2.1, ya))
+  resistor("R", (2.1, ya), (3.4, ya), label: $R$)
+  wire((3.4, ya), (3.9, ya))
+  inductor("L", (3.9, ya), (5.2, ya), label: $L$)
+  wire((5.2, ya), (6.3, ya))
+  corriente((1.65, ya - 0.42), (2.45, ya - 0.42), $i$, ancla: "north")
+  capacitor("C", (6.3, ya), (6.3, yb), label: none)
+  valor((6.75, 1.2), $C$, none)
+  rotulo((5.9, 1.62), $+$, ancla: "east")
+  rotulo((5.9, 0.78), $-$, ancla: "east")
+  rotulo((5.6, 1.2), $v_C$, ancla: "east")
+  wire((0, yb), (6.3, yb))
+})
+
+// RLC paralelo: la misma ecuación característica, otro alfa. Excitado por
+// fuente de corriente, que es el dual de la fuente de tensión del serie.
+#let fig-rlc-paralelo() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.3)
+  let yc = 1.15
+  isource("I", (0, yb), (0, ya), label: none, variant: "ieee")
+  rotulo((-0.7, yc), $I$, ancla: "east")
+  wire((0, ya), (1.9, ya))
+  resistor("R", (1.9, ya), (1.9, yb), label: none)
+  rotulo((2.32, yc), $R$)
+  wire((1.9, ya), (3.8, ya))
+  inductor("L", (3.8, ya), (3.8, yb), label: none)
+  rotulo((4.22, yc), $L$)
+  wire((3.8, ya), (5.7, ya))
+  capacitor("C", (5.7, ya), (5.7, yb), label: none)
+  rotulo((6.12, yc), $C$)
+  wire((0, yb), (5.7, yb))
+  rotulo((1.05, ya - 0.3), $+$)
+  rotulo((1.05, yb + 0.3), $-$)
+  rotulo((1.05, yc), $v$)
+  node("n1", (1.9, ya))
+  node("n0", (1.9, yb))
+  ground("G", (0.95, yb - 0.5))
+  wire((0.95, yb), (0.95, yb - 0.5))
+  node("g", (0.95, yb))
+})
+
 // ---------------------------------------------------------------
 //  Módulo 11 — Fasores
 // ---------------------------------------------------------------
@@ -1709,4 +1965,60 @@
   wire((6.3, yp3), (6.3, 1.4))
   resistor("R5b", (6.3, 1.4), (6.3, -0.3), label: (content: $R_5$, anchor: "west"))
   ground("Gg3", (6.3, -0.3))
+})
+
+// ---------------------------------------------------------------
+//  Módulo 15 — Simulación con SPICE
+// ---------------------------------------------------------------
+
+// El RC del primer archivo de la guía, dibujado con los NOMBRES DE NODO que
+// usa el netlist. Es la traducción que hay que poder hacer en las dos
+// direcciones: esquema -> netlist para escribirlo, netlist -> esquema para
+// leer el de otro.
+#let fig-spice-rc() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  vsource("V2", (0, yb), (0, ya), label: none)
+  rotulo((-0.45, 1.62), $+$, ancla: "east")
+  rotulo((-0.45, 0.78), $-$, ancla: "east")
+  rotulo((-0.8, 1.2), [V2\ PULSE], ancla: "east")
+  wire((0, ya), (0.7, ya))
+  resistor("R1", (0.7, ya), (2.4, ya), label: none)
+  rotulo((1.55, ya + 0.3), [R1 = 100 Ω], ancla: "south")
+  wire((2.4, ya), (3.6, ya))
+  capacitor("C1", (3.6, ya), (3.6, yb), label: none)
+  valor((4.05, 1.2), [C1], [100 nF])
+  wire((0, yb), (3.6, yb))
+  ground("G", (1.8, yb))
+  marca-nodo((0, ya), [in], hacia: "n", punto: false)
+  marca-nodo((3.6, ya), [out], hacia: "n", punto: false)
+  marca-nodo((1.8, yb - 0.62), [0], hacia: "s", punto: false)
+})
+
+// El RLC serie del quinto archivo: el mismo circuito corrido cuatro veces,
+// una por cada valor de R que manda `.step`. Es la figura del barrido.
+#let fig-spice-rlc() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.4)
+  vsource("V1", (0, yb), (0, ya), label: none)
+  rotulo((-0.45, 1.62), $+$, ancla: "east")
+  rotulo((-0.45, 0.78), $-$, ancla: "east")
+  rotulo((-0.8, 1.2), [V1\ PULSE], ancla: "east")
+  wire((0, ya), (0.7, ya))
+  resistor("R", (0.7, ya), (2.2, ya), label: none)
+  rotulo((1.45, ya + 0.3), [R = {R}], ancla: "south", color: c-dato)
+  wire((2.2, ya), (2.9, ya))
+  inductor("L", (2.9, ya), (4.4, ya), label: none)
+  rotulo((3.65, ya + 0.3), [L = 1 mH], ancla: "south")
+  wire((4.4, ya), (5.6, ya))
+  capacitor("C", (5.6, ya), (5.6, yb), label: none)
+  valor((6.05, 1.2), [C], [100 nF])
+  wire((0, yb), (5.6, yb))
+  ground("G", (2.8, yb))
+  marca-nodo((5.6, ya), [vc], hacia: "n", punto: false)
+  marca-nodo((2.8, yb - 0.62), [0], hacia: "s", punto: false)
+  cetz.draw.content(
+    (2.8, -1.85),
+    text(size: letra-figura, fill: c-dato)[`.step param R list 10 100 632.46 2k`],
+  )
 })

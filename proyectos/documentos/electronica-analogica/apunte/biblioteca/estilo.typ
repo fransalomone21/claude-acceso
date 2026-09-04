@@ -227,6 +227,27 @@
   ))
 }
 
+// ---------- Paneles apilados ----------
+// Lo mismo que `paneles`, pero en columna y con el rotulo a la izquierda.
+// Va donde las figuras COMPARTEN el eje horizontal —las formas de onda de un
+// mismo transitorio, medidas todas contra el mismo tiempo— y lo que hay que
+// poder leer es la alineacion vertical: que el quiebre de la corriente caiga
+// justo encima del escalon de la tension. Lado a lado esa lectura se pierde,
+// y es exactamente lo que el grafico tiene que mostrar.
+#let paneles-columna(..items, sep: 7pt) = {
+  let its = items.pos()
+  align(center, grid(
+    columns: 1,
+    row-gutter: sep,
+    align: center,
+    ..its.map(it => block[
+      #text(size: 8pt, weight: "bold", tracking: 0.5pt, fill: c-azul)[#upper(it.at(0))]
+      #v(-1pt)
+      #it.at(1)
+    ]),
+  ))
+}
+
 // Pie corto debajo de una figura, para la aclaracion que en el original
 // iba suelta abajo del dibujo en ASCII.
 #let pie-figura(cuerpo) = align(center, block(width: 88%, above: 6pt)[

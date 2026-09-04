@@ -63,7 +63,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 
 | Proyecto | Qué es | Estado |
 |---|---|---|
-| [`electronica-analogica/`](proyectos/documentos/electronica-analogica/) | Apunte de Electrónica Analógica 4.º en Typst, 123 pág. | **ACTIVO** |
+| [`electronica-analogica/`](proyectos/documentos/electronica-analogica/) | Apunte de Electrónica Analógica 4.º en Typst, 149 pág. | **ACTIVO** |
 | [`fisica-espacial/`](proyectos/documentos/fisica-espacial/CLAUDE.md) | Apunte general de Física Espacial (UNSAM, Ing. en Sistemas Espaciales) en Typst | **ACTIVO** — fase 1 |
 | [`repaso-iise/`](proyectos/documentos/repaso-iise/) | Repaso oral de IISE: guion + audios | terminado |
 | `teoria-circuitos/` | Informes de laboratorio en Typst. El 1 (Thévenin y Norton) entregado; Pre-Lab de amplificadores operacionales abierto | **ACTIVO** — **repo aparte**: la carátula lleva mails de compañeros |

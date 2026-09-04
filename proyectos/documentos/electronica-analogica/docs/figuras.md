@@ -228,6 +228,14 @@ al restaurar. Una alarma que nunca sonó está sin verificar.
 Esto es lo que no está en la documentación de los paquetes y se aprendió a los
 golpes. Leerlo antes de pelearse con algo.
 
+- **Un `wire` corto rompe CeTZ, no sólo uno de longitud cero.** El error es el
+  mismo que ya estaba documentado para el largo cero —`inequality assertion
+  failed: value none was equal to none`, en `anchor.typ:186`— y no dice nada del
+  wire. **Medido el 2026-09-04**: 0,35 unidades rompe, 0,5 anda. Apareció al
+  despegar una llave del conductor de arriba en `fig-tres-instantes`. Si el error
+  aparece después de tocar una figura, el primer sospechoso es el `wire` más corto
+  que se haya agregado.
+
 - **`wire(..., i: ...)` explota.** El decorado de corriente de `zap` 0.6.0
   funciona sobre un símbolo de dos nodos, pero sobre un `wire` tira
   `panic: Element 'symbol' does not have a border for anchor '0deg'`. Para
@@ -326,9 +334,15 @@ golpes. Leerlo antes de pelearse con algo.
 
 ## 7. Qué figuras hay
 
-**45 en total**, y ya no queda ningún circuito en ASCII en todo el apunte. Las 30
-de la Parte I (24 que reemplazaron dibujos en ASCII más 6 gráficos que el apunte
-sólo describía en palabras) y las 15 de la Parte II, agregadas el 2026-08-23.
+**Cuántas hay no se escribe acá**: el número vivía en esta línea, decía 45 cuando ya
+eran 55, y volvió a quedar viejo al llegar a 72. Lo mide `verificar.py`, que las
+cuenta contra la galería y lo imprime en cada corrida:
+
+```
+  ok  las N figuras están en la galería
+```
+
+Ya no queda ningún circuito en ASCII en todo el apunte.
 
 | Módulo | Figuras |
 |---|---|
@@ -341,10 +355,12 @@ sólo describía en palabras) y las 15 de la Parte II, agregadas el 2026-08-23.
 | 7 — Kirchhoff | `fig-nodos-y-mallas`, `fig-delta-estrella` |
 | 8 — Nodal y mallas | `fig-nodal-primero`, `fig-nodal-basico`, `fig-supernodo`, `fig-mallas-basico`, `fig-supermalla`, `fig-nodal-controlada` |
 | 9 — Teoremas | `fig-fuentes-reales` |
-| 10 — Transitorios | `fig-rc-primer-orden` |
+| 10 — Transitorios | `fig-rc-primer-orden`, `fig-rl-primer-orden`, `fig-tres-instantes`, `fig-req-prueba`, `fig-no-idealidades`, `fig-induccion-mutua`, `fig-rlc-serie-conmutado`, `fig-rlc-paralelo`, **`graf-tau-exponencial`**, **`graf-pulso-en-bobina`**, **`graf-pulso-en-capacitor`**, **`graf-tres-regimenes`**, **`graf-subamortiguado-detalle`**, **`graf-energia-descarga`**, **`graf-respuesta-completa`** |
 | 11 — Fasores | `fig-rlc-serie`, `graf-diagrama-fasorial` |
 | 12 — Frecuencia | `fig-pasabajos-pasaaltos`, **`graf-bode-amplificador`** |
-| 13 — Cuadripolos y AO | `fig-cuadripolo`, `fig-ao-inversor-no-inversor` |
+| 13 — Cuadripolos | `fig-cuadripolo` |
+| 14 — Operacional | `fig-ao-terminales`, `fig-ao-lazo-abierto`, `fig-ao-seguidor`, `fig-ao-inversor`, `fig-ao-no-inversor`, `fig-ao-sumador`, `fig-ao-restador`, `fig-ao-integrador-derivador`, `fig-ao-comparador-schmitt`, `fig-ao-instrumentacion` |
+| 15 — Simulación | `fig-spice-rc`, `fig-spice-rlc`, **`graf-paso-de-simulacion`** |
 | Anexos | `fig-codigo-colores`, `fig-tabla-simbolos` |
 
 En **negrita**, las que no salen de un dibujo en ASCII previo (los 6 gráficos de

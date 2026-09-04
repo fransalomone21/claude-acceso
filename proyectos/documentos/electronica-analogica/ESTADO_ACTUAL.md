@@ -1,8 +1,8 @@
 # Estado actual — Apunte de Aplicaciones de Electrónica Analógica (4.º año)
 
-**Fecha:** 2026-08-28
+**Fecha:** 2026-09-04
 **Rama:** `main` — hay una sola rama; el proyecto es una carpeta, no una rama.
-**Estado: APUNTE COMPLETO EN DOS PARTES.** 123 páginas, 14 módulos más anexos.
+**Estado: APUNTE COMPLETO EN DOS PARTES.** 149 páginas, 15 módulos más anexos.
 
 ## Qué es esto
 
@@ -83,15 +83,16 @@ dibujada.
 | 7 | Elementos, convenciones y leyes de Kirchhoff | 2 |
 | 8 | Nodos, supernodos, mallas y supermallas | 6 |
 | 9 | Teoremas de circuitos (superposición, Thévenin, Norton, máx. potencia) | 3 |
-| 10 | Capacitor, inductor y régimen transitorio (1.º y 2.º orden) | 2 |
+| 10 | Capacitor, inductor y régimen transitorio (21 pág.): relaciones $v$–$i$ vistas como formas de onda, balance de energía, inductancia mutua y marcas de punto, tres instantes, tres datos, $R_"th"$ con fuente de prueba, entrada cero / estado cero, RLC serie y paralelo, las dos constantes, diseño inverso, componentes reales | 8 |
 | 11 | Fasores, régimen permanente senoidal, potencia y resonancia | 3 |
 | 12 | Respuesta en frecuencia, Bode, filtrado y señales poliarmónicas | 2 |
 | 13 | Cuadripolos ($z$, $y$, $h$, $ABCD$) | 1 |
 | 14 | **El amplificador operacional** (26 pág.): las dos reglas, el cortocircuito virtual y los tres casos donde no vale, nueve configuraciones deducidas con análisis nodal, el operacional real | 9 |
-| — | Anexos: colores, E12/E24, formulario de las dos partes, dos órdenes de lectura, símbolos, seguridad | — |
+| 15 | **Simulación con SPICE** (8 pág.): netlist, los cuatro análisis, `PULSE` y `PWL`, condiciones iniciales, paso de integración, `.step`, `.meas`, los cinco controles, parásitos | 1 |
+| — | Anexos: colores, E12/E24, formulario de las dos partes, **mapa de la guía asincrónica de TDC**, dos órdenes de lectura, símbolos, seguridad | — |
 
 Todos los módulos llevan: teoría con deducción explícita, ecuaciones numeradas y
-referenciadas, circuitos en ASCII, cajas de definición / idea clave / cuidado /
+referenciadas, figuras vectoriales, cajas de definición / idea clave / cuidado /
 laboratorio, y una caja final que ata el módulo con el TP correspondiente de la cátedra.
 
 ## Decisiones de contenido y por qué
@@ -517,6 +518,84 @@ figuras a la vez, y se arregló cambiando una constante.
 - `compilar.bat` probado **en los dos caminos**: sin `typst` en el PATH da el error
   explicando cómo instalarlo y sale con código 1; con `typst` regenera el PDF (timestamp
   y tamaño verificados) y lo abre.
+
+## Módulos 10 y 15 — bobinas, capacitores, RL/RC/RLC y SPICE (2026-09-04)
+
+**Cerrada.** El apunte pasó de 123 a **149 páginas**. Entra el material que pasó el
+profesor de Teoría de Circuitos (UNSAM, Gabriel Sanca): la filmina *Bobinas, capacitores
+y circuitos dinámicos* (52 diapositivas), la guía asincrónica con doce problemas de
+Nilsson-Riedel capítulos 6, 7 y 8, y seis archivos de LTspice.
+
+### Qué se agregó al Módulo 10 (de 8 a 21 páginas, de 2 a 8 ejercicios)
+
+| Sección nueva | De dónde sale | Por qué entra |
+|---|---|---|
+| Las relaciones $v$–$i$, **vistas** | filminas 4–11, problemas 6.1 / 6.2 / 6.17 | La derivada y la integral se leían rápido en el papel y no se veían en una forma de onda |
+| Energía: quién la guarda y quién la quema | filmina 32, problemas 7.4 / 7.8 / 7.21 / 7.25 | La energía decae como $e^{-2t/\tau}$ y el apunte no lo decía: es el error que la guía marca cuatro veces |
+| Inductancia mutua y marcas de punto | filminas 14–15 | No estaba **en ningún lado** del apunte; el transformador del Módulo 3 se explicaba sólo por relación de vueltas |
+| Cómo se saca $R_\text{th}$ sin equivocarse | filmina 30 | Faltaba el caso con fuentes dependientes (fuente de prueba) |
+| Entrada cero y estado cero | filmina 31 | Es la partición que hace falta cuando la excitación no es constante |
+| El RLC **paralelo** | filmina 39 | Estaba en un paréntesis. Y el sentido de $\alpha$ es **inverso** al del serie, que es donde se equivoca todo el mundo |
+| Las dos constantes: de dónde salen | filmina 44, problema 8.38 | El apunte daba las tres formas y nunca decía cómo se determinan $A_1$, $A_2$ |
+| Qué se mide en la pantalla | filmina 48 | $T_d$, sobrepico y decremento logarítmico: el camino inverso del cálculo |
+| Diseño inverso: $R_\text{crít}$ | filmina 47 | Serie $2\sqrt{L/C}$, paralelo $\frac{1}{2}\sqrt{L/C}$ |
+| Los componentes reales | segunda pasada de la guía | DCR, ESR, ESL, fuga, $R_\text{out}$, con qué arruina cada uno |
+| Cinco errores de primer orden + laboratorio de $\tau$ | filminas 34–35 | |
+
+### Módulo 15 — Simulación con SPICE (nuevo)
+
+Va **al final de la Parte II** y no después del 10, a propósito: agregarlo en el medio
+habría renumerado los módulos 11 a 14, y hay **21 referencias de texto plano** a esos
+números que el compilador no valida. Al final no renumera nada, y además puede referirse
+a todos los módulos anteriores, que es lo que hace: es el banco de pruebas de los catorce.
+
+Cubre origen de SPICE (Berkeley 1973, Nagel bajo Pederson, sucesor de CANCER), netlist,
+los cuatro análisis, `PULSE` y `PWL` parámetro por parámetro, `.ic` y `uic`, el paso de
+integración, `.step`, `.meas`, los cinco controles, los parásitos y una tabla con los
+seis archivos de la cátedra y qué hay que controlarle a cada uno.
+
+### Un dato de la guía que no cierra, y está anotado en el apunte
+
+En `05_RLC_serie.asc` la lista de `.step` incluye **632,46 Ω** como valor crítico. Con los
+valores de ese mismo archivo —$L = 1$ mH, $C = 100$ nF— el crítico del RLC serie es
+$2\sqrt{L/C} = 200\ \Omega$; **632,46 Ω es $2\sqrt{L/C}$ para $L = 10$ mH**, que es la
+inductancia del archivo *paralelo*. Tal como está, ese caso sale sobreamortiguado con
+$\zeta = 3{,}16$.
+
+El circuito paralelo sí está bien: con $L = 10$ mH y $C = 100$ nF,
+$\frac{1}{2}\sqrt{L/C} = 158{,}11\ \Omega$, que es el valor de su lista.
+
+Está escrito en el apunte como caja de **cuidado** en la sección de `.step`, con la cuenta
+hecha y la invitación a recalcularla, no como una corrección a la cátedra. Es el ejemplo
+del propio criterio del módulo: a un valor de una lista ajena se le hacen las cuentas
+antes de usarlo.
+
+### Las 17 figuras nuevas (de 55 a 72)
+
+Esquemas: `fig-rl-primer-orden`, `fig-tres-instantes`, `fig-req-prueba`,
+`fig-no-idealidades`, `fig-induccion-mutua`, `fig-rlc-serie-conmutado`,
+`fig-rlc-paralelo`, `fig-spice-rc`, `fig-spice-rlc`.
+
+Gráficos: `graf-tau-exponencial`, `graf-pulso-en-bobina`, `graf-pulso-en-capacitor`,
+`graf-tres-regimenes`, `graf-subamortiguado-detalle`, `graf-energia-descarga`,
+`graf-respuesta-completa`, `graf-paso-de-simulacion`.
+
+Ayudante nuevo en `estilo.typ`: **`paneles-columna`**, para las formas de onda que
+comparten el eje de tiempo. Lado a lado se pierde justo lo que el gráfico tiene que
+mostrar —que el quiebre de la corriente cae encima del escalón de la tensión—.
+
+### Cómo se verificó
+
+- `verificar.py` en verde: 72 figuras en la galería, ningún rótulo largo adentro de los
+  ejes, apunte y galería compilan.
+- **La alarma se probó rompiéndola**: sacada `graf-tres-regimenes` de la galería, el
+  chequeo 4 se puso en rojo y la nombró. Restaurada, vuelve a verde.
+- **Render mirado página por página** en las 21 del Módulo 10, las 8 del 15 y los anexos
+  nuevos. De ahí salieron cinco rayas largas pegadas a fórmula que se leían como signo
+  menos, un menos binario con hueco, una barra sin paréntesis que se leía
+  $(20/3{,}5)\cdot 10^5$, y dos micro sin espacio. Ninguna se veía en el fuente.
+- Los seis `.asc` de la cátedra recalculados uno por uno: $\tau$, $\omega_0$, $f_0$ y
+  $R_\text{crít}$. Cinco coinciden con el archivo; el sexto es el de 632,46 Ω.
 
 ## Fuentes
 

@@ -186,6 +186,35 @@ $ alpha > omega_0 arrow.r "sobreamortiguado" quad quad
 $ "en el caso subamortiguado:" quad omega_d = sqrt(omega_0^2 - alpha^2) quad quad
   "SP" = e^(-pi zeta \/ sqrt(1 - zeta^2)) $
 
+$ T_d = (2 pi)/(omega_d) quad quad
+  alpha = 1/T_d ln (x_1 - x_infinity)/(x_2 - x_infinity) quad ("decremento logarítmico") $
+
+$ R_"crít"^"serie" = 2 sqrt(L/C) quad quad quad
+  R_"crít"^"paralelo" = 1/2 sqrt(L/C) $
+
+Las tres formas de la respuesta natural de segundo orden, cada una con dos constantes:
+
+$ "sobre:" A_1 e^(s_1 t) + A_2 e^(s_2 t) quad quad
+  "crítico:" (D_1 t + D_2) e^(-alpha t) quad quad
+  "sub:" e^(-alpha t)(B_1 cos omega_d t + B_2 sin omega_d t) $
+
+Las dos condiciones que las determinan:
+$ (dif v_C)/(dif t) bar.v_(0^+) = (i_C (0^+))/(C) quad quad quad
+  (dif i_L)/(dif t) bar.v_(0^+) = (v_L (0^+))/(L) $
+
+Energía: se conserva en $L$ y $C$, se disipa en $R$, y decae al *doble* de velocidad que
+la variable de estado.
+
+$ w(t) = w(0) thin e^(-2t\/tau) quad quad
+  integral_0^infinity p_R dif t = w_L (0) + w_C (0) quad quad
+  t_(f %) = tau/2 ln 1/(1-f) $
+
+Fracciones útiles: $80 %$ de la energía a $0,80 tau$; $95 %$ a $1,50 tau$.
+
+Inductancia mutua: $ v_2 = plus.minus M (dif i_1)/(dif t) quad quad
+  k = M/sqrt(L_1 L_2) <= 1 quad quad
+  L_"eq"^"serie" = L_1 + L_2 plus.minus 2M $
+
 === Módulo 11 — Fasores y potencia
 
 $ overline(Z)_R = R quad quad overline(Z)_L = j omega L quad quad
@@ -246,6 +275,123 @@ $ "Integrador": v_s = -1/(R C) integral v_e dif t quad quad
   "Derivador": v_s = -R C (dif v_e)/(dif t) quad quad
   G dot "BW" = "GBW" $
 
+=== Módulo 15 — Simulación con SPICE
+
+#figure(
+  table(
+    columns: (auto, 1fr),
+    align: (left, left),
+    table.header([*Directiva*], [*Para qué*]),
+    [`.op`], [punto de reposo en continua],
+    [`.dc V1 0 5 0.01`], [barrido de continua: característica $v$–$i$],
+    [`.tran 0 <tstop> 0 <tmax>`],
+      [transitorio. `tmax` $<= tau\/100$, y $<= T_d\/100$ si oscila],
+    [`.ac dec 100 10 1Meg`], [respuesta en frecuencia: Bode],
+    [`.ic V(vc)=3V`], [tensión inicial de un capacitor],
+    [`.ic I(L1)=50mA`], [corriente inicial de un inductor],
+    [`.step param R list 10 100 2k`], [barre el parámetro `{R}` y superpone las curvas],
+    [`.meas TRAN e INTEG V(r)*I(r)`], [integra: energía disipada],
+    [`.meas TRAN t WHEN V(o)=3.16`], [el instante en que la curva cruza un valor],
+  ),
+  caption: [Las directivas que hacen falta para los transitorios],
+)
+
+Fuentes: `PULSE(V1 V2 Tdelay Trise Tfall Ton Tperiod)` —sin `Tperiod`, un solo escalón—,
+`PWL(t1 v1 t2 v2 ...)` lineal por tramos, `SIN(Voff Vamp Freq)`, y `AC 1` para el `.ac`.
+
+Parásitos: `Rser`, `Cpar` en el inductor; `RSer`, `Rpar`, `Lser` en el capacitor.
+
+*Los cinco controles* de toda curva simulada: $x(0^+)$, $x(infinity)$, $tau$ (o $alpha$ y
+$omega_d$), la continuidad de $i_L$ y $v_C$, y el balance de energía.
+
+== La guía asincrónica de bobinas, capacitores y RL/RC/RLC
+
+Los doce problemas de la actividad asincrónica de *Teoría de Circuitos* —capítulos 6, 7 y
+8 de Nilsson y Riedel— se resuelven todos con material de los módulos 10 y 15. Esta tabla
+dice, para cada uno, *dónde está la herramienta* y *cuál es el control que lo cierra*. Los
+enunciados, las figuras y los valores se toman del libro.
+
+#figure(
+  table(
+    columns: (auto, 1fr, 1fr),
+    align: (left, left, left),
+    table.header([*Problema*], [*Qué pide, y con qué se hace*], [*El control*]),
+
+    [*6.1*],
+      [$i(t)$ triangular en una bobina: escribir $v_L$, $p_L$ y $E_L$ por tramos.
+       M10, «Las relaciones $v$–$i$, vistas». Simulación con `PWL`.],
+      [$v_L$ constante en cada tramo de pendiente constante, y *nula* donde la corriente
+       no cambia.],
+
+    [*6.2*],
+      [El camino inverso: integrar $v_L$ por tramos para obtener $i_L$, con
+       $i_L (0) = 0$. Misma sección.],
+      [Un salto finito de $v_L$ cambia la *pendiente* de $i_L$, nunca su valor.],
+
+    [*6.17*],
+      [Pulso de corriente en un capacitor: $v_C$, $p_C$ y $E_C$. El dual del 6.1.],
+      [La pendiente de $v_C$ es $i_C\/C$; con $i_C = 0$ la tensión se queda donde estaba.],
+
+    [*6.25*],
+      [Capacitancia equivalente vista desde dos bornes. M10, «Asociación».
+       Verificación por simulación con una senoidal de 1 V y 1 kHz.],
+      [$C_"eq" = |I_"in"|\/(2 pi f |V_"in"|)$ tiene que dar lo mismo que la reducción
+       serie-paralelo, y para *cualquier* frecuencia en el modelo ideal.],
+
+    [*7.1*],
+      [Conmutación en un RL: corrientes en $0^-$ y en $0^+$, y por qué una corriente de
+       rama puede saltar. M10, «Condiciones iniciales».],
+      [$i_L (0^+) = i_L (0^-)$ aunque las otras corrientes salten.],
+
+    [*7.4*],
+      [Reconstruir $R$, $tau$, $L$ y la energía inicial a partir de $v(t)$ e $i(t)$
+       dadas. Tiempo para disipar el $80 %$ de la energía.],
+      [La energía decae como $e^(-2t\/tau)$: el $80 %$ está en $0,80 tau$, no en
+       $1,6 tau$.],
+
+    [*7.8*],
+      [Descarga RL y balance de energía completo; cuántos $tau$ para el $95 %$.
+       M10, «Energía: quién la guarda y quién la quema».],
+      [La energía disipada total tiene que ser igual a $1/2 L i_L^2 (0)$. El $95 %$ cae en
+       $1,50 tau$.],
+
+    [*7.21*],
+      [Conmutación RC con energía *atrapada*: energía inicial, atrapada y disipada.],
+      [El balance sólo cierra si se cuenta la energía que queda encerrada en los
+       capacitores aislados.],
+
+    [*7.23*],
+      [Identificar $R$, $C$ y $tau$ desde $v(t)$ e $i(t)$; energía disipada a 60 ms.],
+      [$v(t)\/i(t)$ es *constante e igual a $R$* durante toda la respuesta natural.],
+
+    [*7.25*],
+      [Energía disipada en una descarga RC y tiempo para el $75 %$, con dos llaves que
+       conmutan a la vez.],
+      [Como $w_C prop v_C^2$, el porcentaje se calcula sobre el *cuadrado* de la
+       exponencial.],
+
+    [*8.1*],
+      [Raíces y clasificación de un RLC paralelo; qué $R$ hacen falta para cada régimen.
+       M10, «El RLC paralelo» y «Diseño inverso».],
+      [Las tres simulaciones tienen que mostrar tres *formas* distintas, no sólo tres
+       números distintos.],
+
+    [*8.38*],
+      [Respuesta críticamente amortiguada: $R$, $i(0^+)$, $dif i\/dif t (0^+)$ y
+       $v_C (t)$. M10, «Las dos constantes».],
+      [Una sola cruzada por cero. Con $R$ movido $plus.minus 20 %$ tienen que aparecer los
+       otros dos regímenes.],
+  ),
+  caption: [Los doce problemas, con la sección que los resuelve y su control],
+)
+
+#clave[
+  *Lo que la guía pide y no está en ningún problema en particular*: la segunda pasada con
+  no idealidades (M10, «Los componentes reales»; M15, «Los parásitos en el modelo») y el
+  criterio de simulación —paso $<= tau\/100$, y al menos 100 puntos por período
+  amortiguado— que está en M15, «El paso de integración».
+]
+
 == Dos órdenes de lectura
 
 El apunte se puede recorrer de dos maneras, según para qué se lo use.
@@ -264,7 +410,9 @@ El apunte se puede recorrer de dos maneras, según para qué se lo use.
     [*4.* Diodos y rectificación], [*10.* Transitorios (natural y forzada)],
     [*5.* Fuentes lineales y zener], [*11.* Fasores y régimen permanente senoidal],
     [*6.* BJT en conmutación y relés], [*12.* Bode, filtrado y señales poliarmónicas],
-    [*7 a 13.* Fundamentos de análisis de circuitos], [*13.* Cuadripolos y operacional],
+    [*7 a 15.* Fundamentos de análisis de circuitos], [*13.* Cuadripolos],
+    [], [*14.* El amplificador operacional],
+    [], [*15.* Simulación con SPICE],
     [], [*1 a 6.* como aplicación y laboratorio],
   ),
   caption: [El mismo material, en las dos secuencias],
@@ -281,7 +429,9 @@ los prácticos.
 cruzan por referencia y no se repiten: el valor eficaz y el osciloscopio están en el
 Módulo 2 y se retoman en el 11 y el 12; el transformador del Módulo 3 reaparece en la
 potencia aparente del 11; el filtro capacitivo del Módulo 5 es el transitorio del 10; y el
-$beta$ del transistor del Módulo 6 es el $h_(f e)$ del 13. Quien dicte la materia en el
+$beta$ del transistor del Módulo 6 es el $h_(f e)$ del 13. El Módulo 15 va al final
+porque es el único que no aporta teoría propia: es el banco de pruebas de los catorce
+anteriores, y se puede leer en cualquier momento a partir del 10. Quien dicte la materia en el
 orden de la escuela puede usar la Parte II como fundamento al que volver; quien la use
 para preparar Teoría de Circuitos, leerla de corrido y tomar la Parte I como banco de
 ejemplos reales.

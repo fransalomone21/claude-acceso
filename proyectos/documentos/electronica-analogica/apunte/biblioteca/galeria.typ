@@ -106,6 +106,20 @@
 
 = Modulo 10 — Transitorios
 #muestra("fig-rc-primer-orden()", fig-rc-primer-orden())
+#muestra("fig-rl-primer-orden()", fig-rl-primer-orden())
+#muestra("fig-tres-instantes()", fig-tres-instantes())
+#muestra("fig-req-prueba()", fig-req-prueba())
+#muestra("fig-no-idealidades()", fig-no-idealidades())
+#muestra("fig-induccion-mutua()", fig-induccion-mutua())
+#muestra("fig-rlc-serie-conmutado()", fig-rlc-serie-conmutado())
+#muestra("fig-rlc-paralelo()", fig-rlc-paralelo())
+#muestra("graf-tau-exponencial()", graf-tau-exponencial())
+#muestra("graf-pulso-en-bobina()", graf-pulso-en-bobina())
+#muestra("graf-pulso-en-capacitor()", graf-pulso-en-capacitor())
+#muestra("graf-tres-regimenes()", graf-tres-regimenes())
+#muestra("graf-subamortiguado-detalle()", graf-subamortiguado-detalle())
+#muestra("graf-energia-descarga()", graf-energia-descarga())
+#muestra("graf-respuesta-completa()", graf-respuesta-completa())
 
 = Modulo 11 — Fasores
 #muestra("fig-rlc-serie()", fig-rlc-serie())
@@ -129,3 +143,8 @@
 #muestra("fig-ao-integrador-derivador()", fig-ao-integrador-derivador())
 #muestra("fig-ao-comparador-schmitt()", fig-ao-comparador-schmitt())
 #muestra("fig-ao-instrumentacion()", fig-ao-instrumentacion())
+
+= Modulo 15 — Simulacion con SPICE
+#muestra("fig-spice-rc()", fig-spice-rc())
+#muestra("fig-spice-rlc()", fig-spice-rlc())
+#muestra("graf-paso-de-simulacion()", graf-paso-de-simulacion())

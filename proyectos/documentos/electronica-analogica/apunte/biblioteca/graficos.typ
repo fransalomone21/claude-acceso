@@ -512,6 +512,605 @@
 })
 
 // ---------------------------------------------------------------
+//  Módulo 10 — Transitorios
+// ---------------------------------------------------------------
+
+// La exponencial, en las dos direcciones y normalizada. Es EL gráfico del
+// módulo: todo circuito de primer orden se ve así, y los dos números que hay
+// que reconocer de memoria —36,8 % y 63,2 %— están marcados sobre la curva.
+// La tangente en el origen entra porque es la definición geométrica de tau,
+// que es la que se usa para medirlo en el osciloscopio.
+#let _m-tau = marco(-0.4, 6.0, -0.14, 1.28, tam: (5.4, 2.7))
+
+#let _tau-panel(sube) = grafico({
+  ejes-libro(
+    tam: _m-tau.tam,
+    x-label: $t\/tau$,
+    y-label: $x\/x_0$,
+    x-min: -0.4,
+    x-max: 6.0,
+    y-min: -0.14,
+    y-max: 1.28,
+    {
+      plot.add(
+        domain: (0, 5.7),
+        samples: 240,
+        style: (stroke: trazo-curva + c-dato),
+        t => if sube { 1 - calc.exp(-t) } else { calc.exp(-t) },
+      )
+      // La tangente en el origen: cruza el valor final justo en t = tau.
+      plot.add(
+        if sube { ((0, 0), (1, 1)) } else { ((0, 1), (1, 0)) },
+        style: (stroke: trazo-curva2 + c-aux),
+      )
+      plot.annotate(
+        resize: false,
+        {
+          let y = if sube { 0.632 } else { 0.368 }
+          guia((0, y), (1, y))
+          guia((1, 0), (1, y))
+          // La asintota horizontal solo existe en la carga: en la descarga el
+          // valor final es cero y ya esta dibujado, que es el propio eje.
+          if sube { guia((0, 1), (5.7, 1)) }
+          marca-y(y, if sube { [0,632] } else { [0,368] }, largo: 0.06)
+          marca-y(1, [1], largo: 0.06)
+          marca-x(1, $tau$, largo: 0.05)
+          marca-x(5, $5 tau$, largo: 0.05)
+          nota(
+            (1.35, if sube { 0.40 } else { 0.70 }),
+            text(fill: c-aux)[tangente],
+            ancla: "west",
+          )
+        },
+      )
+    },
+  )
+})
+
+#let graf-tau-exponencial() = paneles(
+  ("Descarga: se va el 63,2 %", _tau-panel(false)),
+  ("Carga: se completa el 63,2 %", _tau-panel(true)),
+  sep: 12pt,
+)
+
+// La relación v = L di/dt, vista. Una corriente triangular en una bobina de
+// 20 mH: la tensión es la PENDIENTE de la corriente (constante a tramos, y
+// salta), la potencia cambia de signo y la energía vuelve a cero.
+// Los cuatro paneles comparten el eje de tiempo a propósito: lo que hay que
+// leer es la alineación vertical de los quiebres.
+#let _m-pulso = marco(-0.5, 7.2, 0, 1, tam: (7.0, 1.25))
+
+// Marca de valor con el rotulo del lado DERECHO del eje. Hace falta en los
+// paneles donde el cero cae en el medio: `marca-y` escribe a la izquierda y
+// ahi ya esta el "0" del origen, y los dos se pisan. Medido en el render.
+#let _marca-y-der(y, cuerpo, largo: 0.07) = {
+  cetz.draw.line((-largo, y), (largo, y), stroke: 0.6pt + black)
+  cetz.draw.content(
+    (largo, y),
+    text(size: letra-figura, cuerpo),
+    anchor: "west",
+    padding: 2pt,
+  )
+}
+
+// Guías verticales en los dos quiebres, iguales en los cuatro paneles.
+#let _quiebres(y0, y1) = {
+  cetz.draw.line((2, y0), (2, y1), stroke: punteado)
+  cetz.draw.line((6, y0), (6, y1), stroke: punteado)
+}
+
+#let _panel-pulso(
+  y-label,
+  y-min,
+  y-max,
+  trazos,
+  extra: none,
+  ejex: false,
+  ticks: (2, 6),
+) = grafico({
+  ejes-libro(
+    tam: _m-pulso.tam,
+    x-label: if ejex { $t " [ms]"$ } else { none },
+    y-label: y-label,
+    x-min: -0.5,
+    x-max: 7.2,
+    y-min: y-min,
+    y-max: y-max,
+    {
+      // Un trazo es una lista de puntos, o un diccionario (fn, dom) cuando
+      // el tramo es una curva y no una recta. Las dos formas hacen falta:
+      // la corriente y la tension van por tramos rectos, la energia no.
+      for tr in trazos {
+        if type(tr) == dictionary {
+          plot.add(
+            tr.fn,
+            domain: tr.dom,
+            samples: 120,
+            style: (stroke: trazo-curva + c-dato),
+          )
+        } else {
+          plot.add(tr, style: (stroke: trazo-curva + c-dato))
+        }
+      }
+      plot.annotate(
+        resize: false,
+        {
+          _quiebres(y-min, y-max)
+          if extra != none { extra }
+          if ejex {
+            for t in ticks {
+              marca-x(t, [#t], largo: (y-max - y-min) * 0.06)
+            }
+          }
+        },
+      )
+    },
+  )
+})
+
+#let graf-pulso-en-bobina() = paneles-columna(
+  (
+    "Corriente impuesta",
+    _panel-pulso(
+      $i_L " [A]"$,
+      -0.3,
+      2.5,
+      (((-0.5, 0), (0, 0), (2, 2), (6, 0), (7.2, 0)),),
+      extra: { marca-y(2, [2], largo: 0.07) },
+    ),
+  ),
+  (
+    "Tensión: la pendiente de la corriente",
+    _panel-pulso(
+      $v_L " [V]"$,
+      -16,
+      26,
+      (
+        ((-0.5, 0), (0, 0)),
+        ((0, 20), (2, 20)),
+        ((2, -10), (6, -10)),
+        ((6, 0), (7.2, 0)),
+      ),
+      extra: {
+        marca-y(20, [20], largo: 0.07)
+        _marca-y-der(-10, [−10], largo: 0.32)
+        cetz.draw.line((0, 0), (0, 20), stroke: punteado)
+        cetz.draw.line((2, 20), (2, -10), stroke: punteado)
+        cetz.draw.line((6, -10), (6, 0), stroke: punteado)
+      },
+    ),
+  ),
+  (
+    "Potencia: absorbe y devuelve",
+    _panel-pulso(
+      $p_L " [W]"$,
+      -28,
+      48,
+      (((-0.5, 0), (0, 0)), ((0, 0), (2, 40)), ((2, -20), (6, 0)), ((6, 0), (7.2, 0))),
+      extra: {
+        marca-y(40, [40], largo: 0.07)
+        cetz.draw.line((2, 40), (2, -20), stroke: punteado)
+        nota((2.6, 26), text(fill: c-aux)[$p > 0$], ancla: "west")
+        nota((2.5, -24), text(fill: c-aux)[$p < 0$], ancla: "west")
+      },
+    ),
+  ),
+  (
+    "Energía: entra y sale, no se disipa",
+    _panel-pulso(
+      $E_L " [mJ]"$,
+      -6,
+      50,
+      (
+        ((-0.5, 0), (0, 0)),
+        (fn: t => 10 * t * t, dom: (0, 2)),
+        (fn: t => 10 * calc.pow(3 - t / 2, 2), dom: (2, 6)),
+        ((6, 0), (7.2, 0)),
+      ),
+      extra: { marca-y(40, [40], largo: 0.07) },
+      ejex: true,
+    ),
+  ),
+)
+
+// El dual: i = C dv/dt, con un capacitor de 0,25 µF. El tramo del medio es
+// el que enseña: con iC = 0 la tensión NO vuelve a cero, se queda donde
+// estaba. Ahí se ve que el capacitor recuerda.
+#let graf-pulso-en-capacitor() = paneles-columna(
+  (
+    "Corriente impuesta",
+    _panel-pulso(
+      $i_C " [mA]"$,
+      -0.85,
+      0.85,
+      (
+        ((-0.5, 0), (0, 0)),
+        ((0, 0.5), (2, 0.5)),
+        ((2, 0), (4, 0)),
+        ((4, -0.5), (6, -0.5)),
+        ((6, 0), (7.2, 0)),
+      ),
+      extra: {
+        marca-y(0.5, [0,5], largo: 0.07)
+        _marca-y-der(-0.5, [−0,5], largo: 0.32)
+        cetz.draw.line((0, 0), (0, 0.5), stroke: punteado)
+        cetz.draw.line((2, 0.5), (2, 0), stroke: punteado)
+        cetz.draw.line((4, 0), (4, -0.5), stroke: punteado)
+        cetz.draw.line((6, -0.5), (6, 0), stroke: punteado)
+        cetz.draw.line((4, -0.85), (4, 0.85), stroke: punteado)
+      },
+    ),
+  ),
+  (
+    "Tensión: la integral de la corriente",
+    _panel-pulso(
+      $v_C " [V]"$,
+      -1.2,
+      5.4,
+      (((-0.5, 0), (0, 0), (2, 4), (4, 4), (6, 0), (7.2, 0)),),
+      extra: {
+        marca-y(4, [4], largo: 0.07)
+        cetz.draw.line((4, -1.2), (4, 5.4), stroke: punteado)
+        nota((2.2, 4.85), text(fill: c-aux)[se queda], ancla: "west")
+      },
+    ),
+  ),
+  (
+    "Energía almacenada",
+    _panel-pulso(
+      $E_C " [µJ]"$,
+      -0.6,
+      2.7,
+      (
+        ((-0.5, 0), (0, 0)),
+        (fn: t => 0.5 * t * t, dom: (0, 2)),
+        ((2, 2), (4, 2)),
+        (fn: t => 0.125 * calc.pow(4 - 2 * (t - 4), 2), dom: (4, 6)),
+        ((6, 0), (7.2, 0)),
+      ),
+      extra: {
+        marca-y(2, [2], largo: 0.07)
+        cetz.draw.line((4, -0.6), (4, 2.7), stroke: punteado)
+      },
+      ejex: true,
+      ticks: (2, 4, 6),
+    ),
+  ),
+)
+
+// Los tres regímenes de segundo orden, normalizados: el mismo escalón, el
+// mismo omega_0, y sólo cambia zeta. Es la figura que hace que "sobre",
+// "crítico" y "sub" dejen de ser tres palabras y pasen a ser tres curvas.
+#let _m-regimenes = marco(-0.6, 13.0, -0.12, 1.78, tam: (8.0, 4.2))
+
+// Respuesta al escalón normalizada de un sistema de segundo orden, en
+// funcion de tau = omega_0 t. Una sola funcion para los tres casos: es la
+// misma ecuacion, y verla escrita una vez sola es parte de lo que enseña.
+#let _escalon2(z, t) = {
+  if z < 1 {
+    let wd = calc.sqrt(1 - z * z)
+    1 - calc.exp(-z * t) * (calc.cos(wd * t) + z / wd * calc.sin(wd * t))
+  } else if z == 1 {
+    1 - (1 + t) * calc.exp(-t)
+  } else {
+    let r = calc.sqrt(z * z - 1)
+    let (s1, s2) = (-z + r, -z - r)
+    1 - (s2 * calc.exp(s1 * t) - s1 * calc.exp(s2 * t)) / (s2 - s1)
+  }
+}
+
+#let graf-tres-regimenes() = grafico({
+  ejes-libro(
+    tam: _m-regimenes.tam,
+    x-label: $omega_0 t$,
+    y-label: $x\/x_infinity$,
+    x-min: -0.6,
+    x-max: 13.0,
+    y-min: -0.12,
+    y-max: 1.78,
+    {
+      plot.add(
+        domain: (0, 12.6),
+        samples: 300,
+        style: (stroke: trazo-curva + c-dato),
+        t => _escalon2(0.2, t),
+      )
+      plot.add(
+        domain: (0, 12.6),
+        samples: 300,
+        style: (stroke: trazo-curva2 + c-azul),
+        t => _escalon2(1, t),
+      )
+      plot.add(
+        domain: (0, 12.6),
+        samples: 300,
+        style: (stroke: trazo-curva2 + c-aux),
+        t => _escalon2(2, t),
+      )
+      plot.annotate(
+        resize: false,
+        {
+          guia((0, 1), (12.6, 1))
+          marca-y(1, [1], largo: 0.13)
+        },
+      )
+    },
+  )
+  // La leyenda va contra el marco y no adentro: las tres curvas convergen a 1
+  // y no hay ningun x donde esten las tres separadas y lejos del eje.
+  rotulo-marco(
+    _m-regimenes,
+    "abajo-der",
+    text(fill: c-dato)[$zeta = 0,2$ — subamortiguado],
+    dy: 0.30,
+  )
+  rotulo-marco(
+    _m-regimenes,
+    "abajo-der",
+    text(fill: c-azul)[$zeta = 1$ — crítico],
+    dy: 0.19,
+  )
+  rotulo-marco(
+    _m-regimenes,
+    "abajo-der",
+    text(fill: c-aux)[$zeta = 2$ — sobreamortiguado],
+    dy: 0.08,
+  )
+})
+
+// El subamortiguado con lupa: de dónde salen los tres números que se miden
+// en el osciloscopio —sobrepico, período amortiguado y envolvente—.
+#let _m-sub = marco(-0.7, 15.0, -0.15, 1.95, tam: (8.0, 4.0))
+
+#let graf-subamortiguado-detalle() = grafico({
+  let z = 0.15
+  ejes-libro(
+    tam: _m-sub.tam,
+    x-label: $omega_0 t$,
+    y-label: $x\/x_infinity$,
+    x-min: -0.7,
+    x-max: 15.0,
+    y-min: -0.15,
+    y-max: 1.95,
+    {
+      plot.add(
+        domain: (0, 14.6),
+        samples: 400,
+        style: (stroke: trazo-curva + c-dato),
+        t => _escalon2(z, t),
+      )
+      // Las dos envolventes: 1 ± e^(−zeta·omega_0·t) / sqrt(1−zeta²)
+      let k = 1 / calc.sqrt(1 - z * z)
+      plot.add(
+        domain: (0, 14.6),
+        samples: 200,
+        style: (stroke: (paint: c-aux, thickness: 0.7pt, dash: "dashed")),
+        t => 1 + k * calc.exp(-z * t),
+      )
+      plot.add(
+        domain: (0, 14.6),
+        samples: 200,
+        style: (stroke: (paint: c-aux, thickness: 0.7pt, dash: "dashed")),
+        t => 1 - k * calc.exp(-z * t),
+      )
+      plot.annotate(
+        resize: false,
+        {
+          let wd = calc.sqrt(1 - z * z)
+          let t1 = calc.pi / wd
+          let t2 = 3 * calc.pi / wd
+          let pico = _escalon2(z, t1)
+          guia((0, 1), (14.6, 1))
+          guia((t1, 1), (t1, pico))
+          guia((t1, pico), (t2, pico))
+          marca-y(1, [1], largo: 0.14)
+          // cota del período amortiguado, entre dos máximos consecutivos
+          cetz.draw.line(
+            (t1, 1.86),
+            (t2, 1.86),
+            stroke: 0.5pt + c-guia,
+            mark: (start: "straight", end: "straight", scale: 0.35),
+          )
+          nota(((t1 + t2) / 2, 1.86), text(fill: luma(70))[$T_d$], ancla: "south")
+          nota((t1 + 0.15, (1 + pico) / 2), text(fill: c-dato)[SP], ancla: "west")
+        },
+      )
+    },
+  )
+  rotulo-marco(
+    _m-sub,
+    "arriba-der",
+    text(fill: c-aux)[envolvente $e^(-alpha t)$],
+    dy: -0.02,
+  )
+})
+
+// Por qué el 80 % de la energía no se va en el mismo tiempo que el 80 % de
+// la corriente: la energía va con el CUADRADO, y por eso decae al doble de
+// velocidad. Es el error que la guía de la cátedra marca dos veces.
+#let _m-energia = marco(-0.25, 3.3, -0.09, 1.15, tam: (7.4, 3.6))
+
+#let graf-energia-descarga() = grafico({
+  ejes-libro(
+    tam: _m-energia.tam,
+    x-label: $t\/tau$,
+    y-label: [fracción],
+    x-min: -0.25,
+    x-max: 3.3,
+    y-min: -0.09,
+    y-max: 1.15,
+    {
+      plot.add(
+        domain: (0, 3.1),
+        samples: 220,
+        style: (stroke: trazo-curva + c-dato),
+        t => calc.exp(-t),
+      )
+      plot.add(
+        domain: (0, 3.1),
+        samples: 220,
+        style: (stroke: trazo-curva2 + c-aux),
+        t => calc.exp(-2 * t),
+      )
+      plot.add(
+        domain: (0, 3.1),
+        samples: 220,
+        style: (stroke: (paint: c-azul, thickness: 0.9pt, dash: "dashed")),
+        t => 1 - calc.exp(-2 * t),
+      )
+      plot.annotate(
+        resize: false,
+        {
+          guia((0, 0.368), (1, 0.368))
+          guia((0, 0.135), (1, 0.135))
+          guia((1, 0), (1, 0.368))
+          marca-y(0.368, [0,368], largo: 0.045)
+          marca-y(0.135, [0,135], largo: 0.045)
+          marca-x(1, $tau$, largo: 0.035)
+          // A 1,5 tau ya se disipo el 95 % de la energia, con la corriente
+          // todavia en el 22 % de su valor inicial: es el numero que pide el
+          // problema 7.8 de la guia, y el que separa las dos escalas.
+          guia((1.498, 0), (1.498, 0.95))
+          marca-x(1.498, [1,5 $tau$], largo: 0.035)
+          nota((2.05, 0.86), text(fill: c-azul)[disipada], ancla: "west")
+        },
+      )
+    },
+  )
+  // Sin `hacia`: la guía desde el borde hasta la curva cruzaba las otras dos,
+  // y el gráfico se leía peor con la ayuda que sin ella.
+  rotulo-marco(
+    _m-energia,
+    "der",
+    text(fill: c-dato)[la corriente: $e^(-t\/tau)$],
+    dy: 0.10,
+  )
+  rotulo-marco(
+    _m-energia,
+    "der",
+    text(fill: c-aux)[la energía: $e^(-2t\/tau)$],
+    dy: -0.06,
+  )
+})
+
+// La descomposición del método: la respuesta completa es la suma de la que
+// da la energía inicial sola y la que da la fuente sola. Los números son los
+// del ejercicio del módulo, para que se pueda contrastar con la cuenta.
+#let _m-completa = marco(-0.3, 5.4, -0.6, 9.4, tam: (7.4, 3.6))
+
+#let graf-respuesta-completa() = grafico({
+  ejes-libro(
+    tam: _m-completa.tam,
+    x-label: $t\/tau$,
+    y-label: $v_C " [V]"$,
+    x-min: -0.3,
+    x-max: 5.4,
+    y-min: -0.6,
+    y-max: 9.4,
+    {
+      plot.add(
+        domain: (0, 5.1),
+        samples: 220,
+        style: (stroke: trazo-curva + c-dato),
+        t => 2 + 6 * calc.exp(-t),
+      )
+      plot.add(
+        domain: (0, 5.1),
+        samples: 220,
+        style: (stroke: (paint: c-aux, thickness: 0.9pt, dash: "dashed")),
+        t => 8 * calc.exp(-t),
+      )
+      plot.add(
+        domain: (0, 5.1),
+        samples: 220,
+        style: (stroke: (paint: c-azul, thickness: 0.9pt, dash: "dotted")),
+        t => 2 * (1 - calc.exp(-t)),
+      )
+      plot.annotate(
+        resize: false,
+        {
+          guia((0, 2), (5.1, 2))
+          marca-y(8, [8], largo: 0.05)
+          marca-y(2, [2], largo: 0.05)
+
+        },
+      )
+    },
+  )
+  // Las tres curvas se nombran contra el marco: en la mitad derecha ninguna
+  // pasa de 2,5 V, así que arriba a la derecha no hay nada que tapar.
+  rotulo-marco(
+    _m-completa,
+    "arriba-der",
+    text(fill: c-dato)[completa: $2 + 6 e^(-t\/tau)$],
+    dy: -0.02,
+  )
+  rotulo-marco(
+    _m-completa,
+    "arriba-der",
+    text(fill: c-aux)[entrada cero: $8 e^(-t\/tau)$],
+    dy: -0.15,
+  )
+  rotulo-marco(
+    _m-completa,
+    "arriba-der",
+    text(fill: c-azul)[estado cero: $2(1 - e^(-t\/tau))$],
+    dy: -0.28,
+  )
+})
+
+// ---------------------------------------------------------------
+//  Módulo 15 — Simulación
+// ---------------------------------------------------------------
+
+// El paso de integración elegido mal, y qué se ve cuando pasa: la curva
+// gruesa NO es la señal, es lo que el simulador dibujó uniendo los puntos
+// que calculó. Sin la curva fina al lado, «parece correcta».
+#let _m-paso = marco(-1.0, 23.0, -0.85, 0.95, tam: (8.2, 3.2))
+
+#let graf-paso-de-simulacion() = grafico({
+  let f = t => calc.exp(-0.1 * t) * calc.sin(t)
+  let ts = (0, 5.6, 11.2, 16.8, 22.4)
+  ejes-libro(
+    tam: _m-paso.tam,
+    x-label: $t$,
+    y-label: $v$,
+    x-min: -1.0,
+    x-max: 23.0,
+    y-min: -0.85,
+    y-max: 0.95,
+    {
+      plot.add(
+        domain: (0, 22.4),
+        samples: 400,
+        style: (stroke: trazo-curva2 + c-guia),
+        f,
+      )
+      plot.add(
+        ts.map(t => (t, f(t))),
+        style: (stroke: trazo-curva + c-dato),
+        mark: "o",
+        mark-style: (fill: c-dato, stroke: none),
+        mark-size: 0.12,
+      )
+      plot.annotate(
+        resize: false,
+        {
+          nota((6.0, 0.62), text(fill: c-guia)[la señal], ancla: "west")
+          nota((12.5, -0.62), text(fill: c-dato)[lo simulado], ancla: "west")
+        },
+      )
+    },
+  )
+  rotulo-marco(
+    _m-paso,
+    "arriba-der",
+    [paso $= 0,9 T$: cinco puntos\ y ninguno cae en un pico],
+    dy: -0.02,
+  )
+})
+
+// ---------------------------------------------------------------
 //  Módulo 12 — Bode con décadas reales
 // ---------------------------------------------------------------
 

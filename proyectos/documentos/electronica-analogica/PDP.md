@@ -92,7 +92,9 @@ de Circuitos (Prof. Gabriel Sanca, Ing. en Sistemas Espaciales, UNSAM):
    diseño por plantillas;
 6. la impedancia reflejada del transformador y los equivalentes serie y
    paralelo;
-7. la simulación como tercera pata.
+7. ~~la simulación como tercera pata~~ — **hecho el 2026-09-04**: Módulo 15,
+   con un ejercicio resuelto comprobado por balance de energía y los seis
+   archivos de la cátedra recalculados uno por uno.
 
 **Qué la cierra, exactamente:**
 
@@ -108,10 +110,20 @@ de Circuitos (Prof. Gabriel Sanca, Ing. en Sistemas Espaciales, UNSAM):
 Se contesta sí o no, tema por tema. Un tema escrito sin ejercicio comprobado no
 cuenta como escrito.
 
+**Lo que entró el 2026-09-04 y no estaba en esta lista.** El profesor pasó material
+de *bobinas, capacitores y circuitos dinámicos* —filminas, guía asincrónica de doce
+problemas y seis archivos de LTspice— y de ahí salió, además del tema 7, una
+ampliación grande del **Módulo 10** (de 8 a 21 páginas). No estaba en la lista porque
+la lista enumera *temas que faltaban*, y el 10 ya existía: lo que faltaba adentro
+eran las formas de onda vistas, el balance de energía, la inductancia mutua, el RLC
+paralelo y la determinación de las dos constantes. Está detallado en
+`ESTADO_ACTUAL.md`, sección «Módulos 10 y 15».
+
 **Pendiente explícito que no pertenece a ninguna fase y no se puede perder:**
-la **pasada de lectura eléctrica** sobre las **46 figuras** de la biblioteca
-(número medido el 2026-08-28 contando los `fig-*` y `graf-*` de
-`apunte/biblioteca/`; `ESTADO_ACTUAL.md` todavía dice 45 y está desactualizado).
+la **pasada de lectura eléctrica** sobre las figuras de la biblioteca. **Son 72 al
+2026-09-04**, y el número no se escribe más a mano en ningún lado: lo imprime
+`verificar.py` en cada corrida, porque escrito a mano ya divergió dos veces (decía
+45 cuando eran 46, y 46 cuando eran 55).
 Las figuras están verificadas *de legibilidad* —rótulos cruzados, guías encima
 del texto, curvas pisando etiquetas— y **nunca se les preguntó si el circuito
 es correcto**. Son dos verificaciones distintas y sólo se hizo una: el puente de
