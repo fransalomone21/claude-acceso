@@ -2077,6 +2077,7 @@ barrera no era una textura sin cobertura, era una textura cuyo hash cambió.
 > | archivo | qué contesta |
 > |---|---|
 > | `pruebas/remake-geometria-2026-09-04.md` | **ATERRIZADO 2026-09-04.** pregunta 1: librw / DFF pre-instanciado de PS2 / el byte 0 del `.WDD` / la ruta por Xbox |
+> | `pruebas/comparacion-packs-2026-09-04.md` | **LOS DOS PACKS NUEVOS, BAJADOS Y MEDIDOS.** Huekage cubre **100 %** de la escena contra 92,7 % del nuestro y trae las 6 que faltaban; HD Reimagined cubre **28 %** y no aporta ninguna. Los dos ya traen mip chain, y los dos necesitan el puente igual |
 > | `pruebas/remake-texturas-ia-2026-09-04.md` | **ATERRIZADO 2026-09-04.** pregunta 2: normal maps por IA sobre diffuse-only, y los packs de la competencia contra el nuestro |
 >
 > **Titulares de geometria:** `fmt_Burnout3LRD.py` **NO es solo texturas** —

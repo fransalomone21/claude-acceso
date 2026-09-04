@@ -78,23 +78,82 @@ silencio y sin log. Cuál gana es indefinido si conviven.
 
 ---
 
-## BLACK HD Reimagined (2026-08-29)
+## BLACK HD Reimagined (2026-08-29) — bajado y medido
 
-`hd-reimagined-2026-08-29.rar`, **2.350.452.820 bytes** esperados
-(MD5 publicado: `f7384ede03583784f68de43da83742c5`). Licencia **propietaria**.
+`hd-reimagined-2026-08-29.rar`, **2.350.452.820 bytes**. **MD5 verificado
+idéntico al publicado**: `f7384ede03583784f68de43da83742c5`. Licencia
+propietaria. Trae **1211 `.dds` + 113 `.png`**, más un `.ini` de ReShade y dos
+PDF de instalación (inglés y portugués).
 
-*(Medición pendiente: ver el estado en `sesiones/HANDOFF.md` §10. Si este
-archivo no tiene la tabla de abajo completa, la comparación no llegó a
-correrse y hay que correr `comparar_packs.py` contra su carpeta extraída.)*
+**Pesa 3x más que Huekage y suma 7x menos:**
 
-Dos cosas ya sabidas de los comentarios de su página, que conviene tener a mano
-antes de probarlo:
+| medida | valor |
+|---|---:|
+| claves | 1302 |
+| ya las teníamos | 1192 |
+| **NUEVAS** | **110** |
+| solapamiento | **91,6 %** |
 
-- Un usuario reporta **líneas blancas alrededor de los objetos con upscaling
-  interno a 6x, que desaparecen bajando a 4x**. Arrancar en 4x.
-- El autor confirma que **su preset de ReShade es opcional y separable** del
-  pack de texturas: se pueden tomar sólo las texturas y dejar el pipeline
-  RenoDX/LumeniteFX intacto.
+**Su valor no está en la cobertura sino en la resolución por textura**
+(~1,8 MB por archivo). Es un pack **selectivo de alta resolución**, no de
+cobertura.
+
+De los comentarios de su página, útiles antes de probarlo: un usuario reporta
+**líneas blancas alrededor de los objetos con upscaling interno a 6x, que
+desaparecen bajando a 4x**; y el autor confirma que **su preset de ReShade es
+opcional y separable**, así que se pueden tomar sólo las texturas y dejar el
+pipeline RenoDX/LumeniteFX intacto.
+
+---
+
+## EL CUADRO COMPLETO, medido
+
+### Cobertura sobre las 82 texturas de la escena del savestate 03
+
+| pack | cubre | cobertura | las 6 que nos faltaban |
+|---|---:|---:|---:|
+| el nuestro (2022) | 76 | 92,7 % | 0 de 6 |
+| **Huekage** | **82** | **100 %** | **6 de 6** |
+| HD Reimagined | 23 | **28,0 %** | 0 de 6 |
+| nuestro + Huekage | 82 | 100 % | — |
+| los tres juntos | 82 | 100 % | — |
+
+**Huekage solo ya llega al 100 %**: no necesita al nuestro para esta escena.
+HD Reimagined cubre apenas el 28 % y **no aporta ninguna** de las que nos
+faltaban.
+
+### Resolución y mip chain (muestra de 600 archivos por pack)
+
+| pack | lado mayor más frecuente | mip chain |
+|---|---|---|
+| nuestro 2022 | 256, 512, algo de 1024 | **SIN mips** (600/600) |
+| Huekage | **1024**, con 2048/2560/4096 | **con mips** (600/600) |
+| HD Reimagined | **2560, 2752, 3072, 4096** | **con mips** (600/600) |
+
+Los dos packs nuevos **ya traen mip chain**: sobre ellos **no hace falta
+correr `regenerar_mipmaps.py`**. Y los dos son de resolución claramente mayor
+que el nuestro de 2022.
+
+### Y los tres tienen el mismo problema de hash
+
+| | hashes que PCSX2 pide con **mipmap ON** (38) | con **mipmap OFF** (6) |
+|---|---:|---:|
+| el nuestro | 0 de 38 | 0 de 6 |
+| Huekage | 3 de 38 | **6 de 6** |
+
+Los tres fueron volcados **sin mipmapping**. **El puente de
+`puente_hash_mipmap.py` sigue haciendo falta con cualquiera de ellos.**
+
+### Recomendación, con lo medido
+
+**Huekage + puente** es la mejor combinación: cubre 100 % de la escena contra
+92,7 % del nuestro, tiene las 6 que nos faltaban, trae mips propios y pesa un
+tercio que HD Reimagined. HD Reimagined queda como fuente de **texturas
+puntuales de altísima resolución** (2560-4096), no como pack base.
+
+**Antes de fusionar, resolver las colisiones** (2044 con Huekage, 1192 con HD
+Reimagined): PCSX2 usa `emplace`, que **no pisa**, así que en un empate gana el
+primero que devuelva el enumerador del filesystem, **en silencio y sin log**.
 
 ---
 
