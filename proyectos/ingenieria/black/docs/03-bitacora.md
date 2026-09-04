@@ -16,6 +16,45 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-03 (50) — Fase V2: el síntoma de la barrera era el mipmap, y §1.5 lo había descartado con el modelo mental equivocado
+**Máquina:** notebook · **Modelo:** Sonnet para ejecutar, Opus al aparecer la contradicción
+**Objetivo:** matar la hipótesis 1 (carga asíncrona) del síntoma de §1.5 con
+`PrecacheTextureReplacements = true`.
+
+**Resultado:** murieron **dos** hipótesis, y apareció la causa real.
+
+- **H1 (carga asíncrona): MUERTA.** Con los 1,3 GB precargados (verificado por
+  efecto: 2,09 GB privados en el proceso) el síntoma no se movió.
+- **H4 (post-proceso), que no existía al empezar: MUERTA.** Sin ReShade cargado
+  (verificado por efecto: sus logs sin escribir tras el arranque) tampoco se movió.
+- **CAUSA, `probable` con tres patas medidas: el pack reemplaza sólo el mip 0.**
+  Convención leída de los strings del `.exe` (`...-%08x.png` vs
+  `...-%08x-mip%u.png`), **0 de 8225** archivos con `-mip`, y `mipmap`/`hw_mipmap`
+  en `true`. Los niveles bajos caen al original de PS2.
+
+**No funcionó — y es lo que más enseñó:**
+
+1. **La corrida 1 salió inválida por un confound que el repo declaraba imposible.**
+   El HANDOFF dice que la línea de texturas (§9) y la de DLSS5 (§8) son
+   independientes; **comparten el mismo `pcsx2-qt.exe`**, con ReShade + DLSS5-Feeder
+   + RenoDX + LumeniteFX inyectados por `dxgi.dll` desde el 2026-09-02. El feed log
+   mostró reconstrucción neuronal activa, sin vectores de movimiento y con la técnica
+   del shader ausente. Dos líneas "independientes" en el papel, un solo proceso en el
+   disco.
+2. **§1.5 descartó los mipmaps con un razonamiento explícito y falso:** *"de cerca se
+   usa el nivel 0"*. El mip se elige por footprint por píxel (derivada de UV), no por
+   distancia: de refilón, a un metro, el GPU pide mip 2. Por eso el síntoma estaba
+   atado al ÁNGULO, y por eso parecía contraintuitivo.
+3. **Ese descarte reordenó la lista entera:** "regenerar mipmaps del pack" era el ítem
+   **7 de 7** de la NEXT ACTION, ranqueado al fondo por culpa del descarte. Es el 1.
+
+**Sigue:** `mipmap = false` con PCSX2 cerrado, mismo ángulo — si queda nítido en los
+dos, la causa pasa a `confirmado` por efecto. Después, regenerar el mip chain del pack.
+`dxgi.dll` quedó **renombrado a `.disabled`**: hay que restaurarlo para volver a la
+línea DLSS5.
+
+---
+
 ## 2026-09-03 (49) — Fase V1 cerrada: el pack cubre el 70,9 %, y el 29 % que falta es de su propio dominio
 **Máquina:** notebook · **Modelo:** Sonnet, esfuerzo medio, sin fan-out
 **Objetivo:** los tres números que la §4.3 del barrido dejó servidos: (a) GameIndex contra

@@ -1793,8 +1793,35 @@ trabajo ni pisar nada.
 (c) COBERTURA : 90/127 = 70,9 % (+/- ~1).  29 % cae al original de PS2.
 ```
 
+**2026-09-03 (noche) - FASE V2 CERRADA: el sintoma de la barrera es el MIPMAP.**
+Detalle completo en `docs/09` **§7**; el experimento y su arbol de decision en
+`pruebas/precache-prediccion-2026-09-03.md`.
+
+```
+H1 carga asincrona  : MUERTA. Precache ON (2,09 GB privados, medido) y no se movio.
+H4 post-proceso     : MUERTA. ReShade fuera (logs sin escribir) y no se movio.
+CAUSA (`probable`)  : el pack reemplaza SOLO el mip 0. 0 de 8225 archivos llevan
+                      '-mip'. Los niveles bajos caen al original de PS2.
+                      El sintoma esta atado al ANGULO, no a la distancia.
+```
+
+**El confound que hay que conocer antes de tocar nada de esta linea:** el
+`pcsx2-qt.exe` de la ruta corta es **el mismo binario** de la linea DLSS5 (§8), con
+ReShade + DLSS5-Feeder + RenoDX + LumeniteFX inyectados por `dxgi.dll`. Las dos
+lineas NO son independientes en el disco, aunque este archivo las declaraba asi.
+**`dxgi.dll` quedo renombrado a `dxgi.dll.disabled`** para la corrida limpia: hay
+que restaurarlo para volver a la linea DLSS5.
+
 ### DO NOT REPEAT
 
+- **No descartar los mipmaps con "de cerca se usa el nivel 0".** El nivel de mip se
+  elige por el **footprint de la textura por pixel** (derivada de UV), no por
+  distancia: una pared plana mirada de refilon a un metro pide mip 2. Ese descarte
+  mal razonado vivio en `docs/09` §1.5 desde el 2026-09-02, y ademas **ranqueo
+  "regenerar mipmaps" como item 7 de 7** en esta misma lista de NEXT ACTION.
+- **No correr NINGUNA prueba visual de esta linea sin verificar antes que ReShade no
+  este cargado**, y verificarlo por EFECTO (que `ReShade.log` y `dlss5-feed.log` no
+  se escriban tras el arranque), no por que el archivo este renombrado.
 - **No leer el `.ini` para saber si los fixes del GameDB están puestos: da la respuesta
   INVERTIDA.** `UserHacks_HalfPixelOffset = 0` y `UserHacks_native_scaling = 0` son los
   valores **manuales**, y `UserHacks = false` hace que PCSX2 los ignore y aplique los del
@@ -1831,29 +1858,41 @@ captura, no supuesto. Para desactivar el pack (rama B del A/B) se **renombra**
 restaurar hay que sacar la vacía primero. `Remove-Item` con wildcard ahí lo **frena el
 guardia**: se renombra, no se borra - y así además queda la evidencia.
 
-### ESTADO DE LA MÁQUINA
+### ESTADO DE LA MÁQUINA — actualizado al cierre del 2026-09-03 (noche)
 
-- `C:\Users\frans\Documents\PCSX2\textures\SLUS-21376\replacements\` = **8225 archivos**.
-- `DumpReplaceableTextures = false`. `PrecacheTextureReplacements = false`.
-  `LoadTextureReplacements = true`, `Async = true`.
-- Respaldos del `.ini`: `pruebas/PCSX2.ini.respaldo-2026-09-02` y `...-2026-09-03-V1`.
+- **PCSX2 CERRADO.** Cero parches vivos, ningún ISO tocado.
+- **`C:\Program Files\PCSX2\dxgi.dll` está renombrado a `dxgi.dll.disabled`.**
+  Con eso ReShade/DLSS5/LumeniteFX **no cargan**. Para volver a la línea DLSS5 (§8)
+  hay que renombrarlo de vuelta — **lo tiene que hacer Fran**: el clasificador de
+  permisos bloquea escribir en `Program Files` desde la sesión.
+- `C:\Users\frans\Documents\PCSX2\textures\SLUS-21376\replacements\` = **8225 archivos**,
+  **ninguno con `-mip`**: sólo reemplazan el nivel 0.
+- `DumpReplaceableTextures = false`. **`PrecacheTextureReplacements = true`** (cambiado
+  el 2026-09-03; murió como hipótesis pero quedó puesto).
+  `LoadTextureReplacements = true`, `Async = true`. `mipmap = true`, `hw_mipmap = true`.
+- Respaldos del `.ini`: `pruebas/PCSX2.ini.respaldo-2026-09-02`, `...-2026-09-03-V1` y
+  **`...-2026-09-03-V2`** (el previo al precache).
 - Evidencia fuera del repo, en `Documents\PCSX2\textures\SLUS-21376\`:
   `dumps-A2-pack-activo` (38), `dumps-B-pack-off` (127), `dumps-A1-sospechosa` (37) y
   `replacements-vacia-recreada` (0). Los **listados** sí están en `pruebas/`.
 
-### NEXT ACTION, en orden de apalancamiento
+### NEXT ACTION, en orden de apalancamiento — REORDENADA el 2026-09-03 por §7
 
-1. **`PrecacheTextureReplacements = true`** - hipótesis 1 del síntoma de §1.5, la más barata
-   que existe (una línea del `.ini`) y **todavía sin correr**. La (c) reforzó la hipótesis 2
-   pero **no mató la 1**.
-2. **A/B visual pareado de verdad.** Las capturas del 2026-09-03 NO lo son: la escena tiene
+1. **`mipmap = false` (o `hw_mipmap = false`), PCSX2 cerrado, mismo ángulo.** Es una
+   línea del `.ini` y una mirada, y **pasa la causa de `probable` a `confirmado` por
+   efecto**. Si la pared queda nítida en los dos ángulos, cerrado.
+2. **Regenerar el mip chain del pack** — el arreglo de fondo. Era el ítem 7 de esta
+   misma lista, hundido por el descarte mal razonado de §1.5.
+3. **A/B visual pareado de verdad.** Las capturas del 2026-09-03 NO lo son: la escena tiene
    humo y fuego animados y los frames no coinciden.
-3. **Atar la barrera concreta que Fran vio a un hash de la lista A**
+4. **Atar la barrera concreta que Fran vio a un hash de la lista A**
    (`pruebas/cobertura-A-sin-reemplazo-2026-09-03.txt`, 38 entradas).
-4. **Cobertura en otra escena**: 70,9 % es de un savestate, no del nivel.
-5. **Costo en FPS con turbo**, método de R3 (`F6`/`F5`).
-6. `accurate_blending_unit` 3 -> 4, que el GameDB recomienda (mode=4) y nadie midió.
-7. Regenerar mipmaps del pack.
+5. **Cobertura en otra escena**: 70,9 % es de un savestate, no del nivel.
+6. **Costo en FPS con turbo**, método de R3 (`F6`/`F5`).
+7. `accurate_blending_unit` 3 -> 4, que el GameDB recomienda (mode=4) y nadie midió.
+
+~~1. `PrecacheTextureReplacements = true`~~ — **corrida y MUERTA el 2026-09-03.**
+Quedó en `true` en el `.ini`; no molesta, cuesta 1,3 GB de RAM y ~8 s de arranque.
 
 **MODEL/EFFORT REC:** Sonnet, esfuerzo medio, sin fan-out. El método está decidido y lo que
 queda es ejecutar y tabular. Sube a Opus sólo si un resultado contradice lo anotado.
