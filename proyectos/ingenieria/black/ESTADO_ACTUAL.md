@@ -561,6 +561,19 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
          ABIERTO: la verificacion visual de la CALIDAD (las dos tandas A/B/C
          se descartaron: control positivo roto por el humo de la escena), y
          extender el puente a todo el juego, que **requiere jugar**.
+         **2026-09-04, instalado Huekage + puente (§7.8):** Huekage (100% de
+         cobertura en `hw_mipmap=false` contra 92,7% del pack 2022) es ahora
+         el `replacements/` activo. Su puente empareja MENOS (18/38, no
+         35/38 — menos claves unicas en el pack). Confirmado por efecto: las
+         18 emparejadas dejan de faltar en un volcado de 80s (interseccion
+         0). A/B/C con control obligatorio, dos rondas: solo "auto
+         izquierdo" cerro el control las dos veces (+1%/+1%, -2%/-3%), sin
+         costo de nitidez ahi — tercera medicion en la misma direccion que
+         T7. La region "barrera" (el sintoma) sigue sin poder medirse: el
+         humo/combate de esa escena nunca dio un control limpio ahi, en
+         ninguna sesion. `hw_mipmap` vuelve a `false` al cerrar (mismo
+         motivo: el puente cubre una sola escena). Detalle:
+         `pruebas/huekage-puente-verificacion-2026-09-04.md`.
 
      T8  la sesion PUEDE ver la pantalla de PCSX2 .............. CERRADA
          PCSX2 escribe sus propias capturas (`Screenshot = F8` ->

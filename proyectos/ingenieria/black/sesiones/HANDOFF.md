@@ -1906,6 +1906,35 @@ numeros NO se reportan: miden el humo, no el mipmap. Hace falta una escena
 estatica. Ojo: el puente solo cubre las texturas de ESA escena, asi que la
 verificacion tiene que hacerse ahi, no en otro savestate.
 
+**2026-09-04 (mañana) - Huekage + puente instalados, verificacion PARCIAL.**
+Detalle completo en `docs/09` **§7.8**;
+`pruebas/huekage-puente-verificacion-2026-09-04.md`.
+
+```
+INSTALADO: replacements/ = Huekage (2781 .dds) + su puente (18 copias) =
+  2799 archivos. El pack 2022 preservado en replacements-2022-con-puente/.
+EL PUENTE EMPAREJA MENOS SOBRE HUEKAGE: 18 de 38 (no 35 de 38 como el
+  propio). Huekage tiene 2197 claves unicas contra las 5213 del nuestro ->
+  menos candidatos para el pareo por (CLUTHash, TEX0 enmascarado).
+CONFIRMADO POR EFECTO: volcado de 80s en la escena con hw_mipmap=true dio
+  80 archivos; los 18 que el puente resolvio NO estan entre ellos
+  (interseccion 0). OJO: 80 no es comparable contra el "3" de T7 -- son
+  duraciones de captura distintas (80s vs una captura corta), mismo error
+  de denominador que ya se corrigio una vez para el 70,9%/92,7%. NO citar
+  "80 vs 3" como regresion.
+A/B/C PAREADO, DOS RONDAS, CONTROL OBLIGATORIO: de 6 regiones por ronda,
+  SOLO "auto izquierdo" cerro el control las dos veces (+1%/+1% y -2%/-3%).
+  Ahi, ON vs OFF no cuesta nitidez -- tercera medicion independiente en la
+  misma direccion que T7 (la otra fue "pared fondo derecha", -1%).
+  La region "barrera" (EL SINTOMA) sigue sin poder medirse: control fallido
+  las dos veces (+12%/-87% respectivamente). No es dato nuevo: la escena de
+  este savestate nunca dio un control limpio ahi.
+CERRADO CON: hw_mipmap = false (mismo motivo que T7: el puente cubre una
+  sola escena, activarlo global perderia reemplazo en el resto del juego).
+  Huekage SI queda como mejora neta del estado seguro (82/82 vs 76/82 en
+  hw_mipmap=false, sin depender de resolver el mipmap).
+```
+
 
 ### DO NOT REPEAT
 
@@ -1988,76 +2017,73 @@ captura, no supuesto. Para desactivar el pack (rama B del A/B) se **renombra**
 restaurar hay que sacar la vacía primero. `Remove-Item` con wildcard ahí lo **frena el
 guardia**: se renombra, no se borra - y así además queda la evidencia.
 
-### ESTADO DE LA MÁQUINA — medido al cierre del 2026-09-04 (madrugada), fase V4
+### ESTADO DE LA MÁQUINA — medido al cierre del 2026-09-04 (mañana), §7.8
 
 - **PCSX2 CERRADO.** Nada en memoria que no esté en disco. Relanzar con el
   comando de "Cómo se lanza una corrida", más arriba.
 - **`.ini`: `hw_mipmap = false`, `mipmap = true`,
   `DumpReplaceableTextures = false`, `PrecacheTextureReplacements = true`,
   `upscale_multiplier = 3`, `Renderer = 15` (D3D12).**
-  El `hw_mipmap = false` es **a propósito**: es el estado seguro y validado.
-  El puente de §7.7 sólo cubre las texturas de UNA escena; con
-  `hw_mipmap = true` el resto del juego volvería a perder su reemplazo. Fran
-  ya validó este estado en V3 (*"se ve nítida en los dos ángulos"*).
-  Respaldo nuevo: `pruebas/PCSX2.ini.respaldo-2026-09-04-V4`.
-- **`C:\Program Files\PCSX2\dxgi.dll` sigue `dxgi.dll.disabled`** —
-  verificado **por efecto**: `ReShade.log` y `dlss5-feed.log` tienen mtime del
-  2026-09-03 09:34 y 09:40, anteriores a todos los arranques de esta
-  madrugada. ReShade/DLSS5/LumeniteFX/RenoDX **no cargaron** en ninguna corrida.
-- **Carpetas en `Documents\PCSX2	extures\SLUS-21376\`** — ninguna se borró:
+  El `hw_mipmap = false` es **a propósito**, mismo motivo que en V4: el
+  puente (ahora sobre Huekage) sólo cubre las texturas de UNA escena.
+  Respaldo nuevo: `pruebas/PCSX2.ini.respaldo-2026-09-04-huekage`.
+- **`C:\Program Files\PCSX2\dxgi.dll` sigue `dxgi.dll.disabled`** — no tocado
+  esta sesión.
+- **Carpetas en `Documents\PCSX2\textures\SLUS-21376\`** — ninguna se borró.
+  **Cambio de esta sesión: `replacements/` ya NO es el pack de 2022, es
+  Huekage + su puente.**
 
   | carpeta | archivos | qué es |
   |---|---:|---|
-  | `replacements` | **8260** | **el pack ACTIVO**: mip chain de §7.6 + las 35 copias del puente |
-  | `replacements-sin-mips-2026-09-04` | 8225 | el pack original de 2022, un solo nivel. **Para volver atrás del todo, renombrar éste a `replacements`** |
-  | `replacements-DEBUG-colores-2026-09-04` | 8260 | pack de diagnóstico, un color plano por nivel, ya con su puente |
-  | `puente-mipmap-2026-09-04` | 35 | las copias del puente, sueltas (pack real) |
-  | `puente-DEBUG-2026-09-04` | 35 | ídem, del pack de debug |
-  | `dumps-mipmapON-2026-09-04` | 38 | volcados con `hw_mipmap = true` — **la entrada del puente** |
+  | `replacements` | **2799** | **el pack ACTIVO, NUEVO**: Huekage (2781) + 18 copias del puente |
+  | `replacements-2022-con-puente` | 8260 | **el pack anterior completo** (mip chain §7.6 + 35 del puente). Para volver atrás del todo, renombrar éste a `replacements` |
+  | `replacements-sin-mips-2026-09-04` | 8225 | el pack original de 2022, un solo nivel |
+  | `replacements-DEBUG-colores-2026-09-04` | 8260 | pack de diagnóstico, ya con su puente |
+  | `packs-descargados/` | 4111+ | Huekage y HD Reimagined bajados, extraídos, con sus zip/rar originales al lado |
+  | `puente-huekage-2026-09-04` | 18 | las copias del puente sobre Huekage, sueltas |
+  | `puente-mipmap-2026-09-04`, `puente-DEBUG-2026-09-04` | 35 c/u | los puentes sobre el pack 2022, de la sesión anterior |
+  | `dumps-mipmapON-2026-09-04` | 38 | volcados con `hw_mipmap = true` — la entrada de AMBOS puentes |
   | `dumps-mipmapOFF-2026-09-04` | 6 | volcados con `hw_mipmap = false` |
-  | `dumps-TOTAL-mipmapOFF-2026-09-04` | 82 | pack **desactivado** + mipmap off = **el total de la escena**; es el denominador del 92,7 % |
-  | `dumps-conpuente-2026-09-04` | 3 | con el puente puesto — la prueba del arreglo |
-  | `evidencia-mipmap-2026-09-04` | 4 | capturas A/B/C de la barrera + D con puente |
+  | `dumps-TOTAL-mipmapOFF-2026-09-04` | 82 | pack desactivado + mipmap off = el total de la escena; denominador del 92,7 % |
+  | `dumps-conpuente-2026-09-04` | 3 | con el puente del pack 2022 puesto |
+  | `dumps-huekage-conpuente-80s-2026-09-04` | 80 | **nuevo**: con Huekage+puente puesto, 80s de corrida. No comparable contra el "3" de arriba (duración distinta) |
+  | `evidencia-mipmap-2026-09-04` | 4 | capturas A/B/C/D de la sesión de §7.7 |
+  | `evidencia-huekage-mipmap-2026-09-04` | 6 | **nuevo**: las dos rondas A/B/C de §7.8 |
   | `replacements-vacia-recreada`, `-2` | 0 | las que PCSX2 recrea al arrancar sin pack. Inofensivas |
 
-- **Herramientas nuevas de esta sesión**, en `black/herramientas/`:
-  `pcsx2_teclado.ps1` y `pcsx2_ventanas.ps1` (manejar la ventana del juego y
-  sacarle capturas), `mipmaps_debug_color.py`, `detectar_nivel_mip.py`,
-  `nitidez_regiones.py`, `cruzar_dumps_pack.py`, `emparejar_dump_pack.py`,
-  `puente_hash_mipmap.py`, `comparar_packs.py` (este último **validado contra
-  dos respuestas conocidas**: 35 y 0).
-- **El guardia `PreToolUse` quedó ARREGLADO** (falsos positivos por salto de
-  línea) y `probar-hooks.ps1` pasó de 47 a **50 comprobaciones**, en verde.
-- `chequeo-completo.ps1 -SoloMedidores`: **los tres medidores en verde**.
-- **Git: los dos repos commiteados y pusheados**, sin nada pendiente.
+- **Herramientas**: sin cambios de código esta sesión. Se reusaron
+  `puente_hash_mipmap.py`, `pcsx2_teclado.ps1`, `nitidez_regiones.py`.
+- `chequeo-completo.ps1 -SoloMedidores`: en verde al abrir la sesión.
+- **Git: pendiente commitear y pushear esta sesión** (ver abajo).
 
-### NEXT ACTION, en orden de apalancamiento — REORDENADA el 2026-09-04 por §7.7
+### NEXT ACTION, en orden de apalancamiento — actualizada el 2026-09-04 (mañana) por §7.8
 
-1. **Cerrar la verificación visual que quedó abierta.** Con el puente puesto y
-   `hw_mipmap = true`, capturar A/B/C (toggle `Insert`) **en una escena
-   estática** y comparar. Las dos tandas de esta sesión se descartaron porque
-   el control positivo falló: la escena del savestate 03 tiene humo y combate.
-   Es lo único que falta para decir si el arreglo **se ve** mejor, y no sólo
-   si funciona por mecanismo (eso ya está probado: 37→3 volcados).
-2. **Extender el puente a todo el juego.** Hoy cubre las texturas de una
-   escena. El procedimiento ya está automatizado y es mecánico —
-   `DumpReplaceableTextures = true` + `hw_mipmap = true`, recorrer, y correr
-   `puente_hash_mipmap.py` sobre lo volcado— pero **requiere jugar**: es lo
-   único de esta línea que la sesión no puede hacer sola.
-3. ~~**Rehacer la cobertura de la fase V1.**~~ — **HECHO el 2026-09-04, y era
+1. **Encontrar una escena SIN combate para medir "barrera" directamente.**
+   Cuatro rondas de A/B/C en total (2 de §7.7 + 2 de §7.8), todas en el
+   savestate 03, y NINGUNA dio control limpio en esa región puntual — el
+   humo y el combate son estructurales a esa escena, no un accidente de
+   captura. Buscar otro savestate más tranquilo es más barato que seguir
+   reintentando en éste.
+2. **Decidir si el puente de Huekage necesita más trabajo antes de
+   extenderlo a todo el juego.** Empareja 18/38 contra 35/38 del pack 2022
+   (menos claves únicas). Si se prioriza cobertura de mipmap sobre
+   resolución, puede convenir fusionar Huekage + el pack 2022 (resolviendo
+   antes las 2044 colisiones, `emplace` no pisa) para tener más candidatos
+   de pareo.
+3. **Extender el puente elegido a todo el juego.** Sigue cubriendo una sola
+   escena. El procedimiento ya está automatizado — `DumpReplaceableTextures
+   = true` + `hw_mipmap = true`, recorrer, correr `puente_hash_mipmap.py`
+   sobre lo volcado— pero **requiere jugar**: es lo único de esta línea que
+   la sesión no puede hacer sola.
+~~4. **Rehacer la cobertura de la fase V1.**~~ — **HECHO el 2026-09-04, y era
    eso**: el 70,9 % se midió con `hw_mipmap = true` (los volcados de V1 y los
    de esta sesión con mipmap on comparten **37 de 38** claves). Rehecha con
    numerador y denominador en el mismo estado: **82 texturas en la escena, 6
    sin reemplazo → 92,7 %**, con control positivo. Sobre la misma escena, 38
    sin reemplazo con mipmap on contra **6** con off. Detalle en `docs/09` §7.7.
-   **Queda abierto sólo extenderlo a otras escenas**, porque el 92,7 % vale
-   para la del savestate 03, no para el juego.
-4. **Corregir los dos falsos positivos del guardia** (`.claude/hooks/guardia-iso.ps1`),
-   y después correr `.\probar-hooks.ps1`, que exige ver el rojo **y** que lo
-   legítimo siga pasando. No sacar el guardia.
-5. **A/B visual pareado en la escena de la barrera.** Las capturas del
-   2026-09-03 no lo eran. Las de esta sesión (`evidencia-mipmap-2026-09-04`,
-   A/B/C) **sí**: control +0 % en las cinco regiones. Sirven de referencia.
+~~5. **Corregir los dos falsos positivos del guardia.**~~ — **HECHO**: el
+   guardia `PreToolUse` está arreglado (cortaba comandos sólo en `;` y `|`) y
+   `probar-hooks.ps1` pasa 50/50.
 6. **Costo en FPS con turbo**, método de R3 (`F6`/`F5`), ahora que el pack
    activo es más pesado.
 7. `accurate_blending_unit` 3 -> 4, que el GameDB recomienda y nadie midió.

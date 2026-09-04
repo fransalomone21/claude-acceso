@@ -932,3 +932,34 @@ sanos del mismo lote seguían en verde:
 |---|---|
 | truncar 500 bytes del final | `nivel 2: FALTAN 132 bytes` + `892 bytes sobrantes` → HAY FALLOS |
 | `dwMipMapCount` +3 (mentiroso) | `nivel 9: FALTAN 16 bytes` → HAY FALLOS |
+
+## 7.8 Huekage instalado + puente — verificación parcial — 2026-09-04
+
+Con Huekage medido como el pack de mayor cobertura (`pruebas/comparacion-packs-2026-09-04.md`:
+100% contra 92,7% del nuestro en la escena del savestate 03), se instaló como
+pack activo y se le corrió el mismo puente de §7.7. Detalle completo,
+capturas y las dos tablas de A/B/C en
+`pruebas/huekage-puente-verificacion-2026-09-04.md`.
+
+**El puente empareja menos sobre Huekage que sobre el pack propio: 18 de 38,
+no 35 de 38.** Huekage tiene 2197 claves únicas contra las 5213 del nuestro
+— menos variantes de CLUT, menos candidatos para el pareo por
+`(CLUTHash, TEX0 bits enmascarado)`. Confirmado por efecto: de un volcado de
+80 archivos en la escena (80s de corrida, combate activo), **los 18 que el
+puente resolvió no aparecen** — intersección 0.
+
+**A/B/C pareado, dos rondas, mismo confusor que §7.7 (humo y combate activos
+en las dos):** de seis regiones por ronda, sólo **"auto izquierdo" cerró el
+control las dos veces** (+1%/+1% y −2%/−3%). Ahí, ON vs OFF no cuesta
+nitidez — tercera medición independiente en la misma dirección que §7.7. La
+región **"barrera" (el síntoma original) sigue sin poder medirse** en el
+savestate 03: ninguna sesión hasta ahora consiguió un control válido ahí.
+
+**Estado dejado:** `replacements/` = Huekage + el puente (2799 archivos),
+`hw_mipmap = false` al cerrar (mismo criterio que §7.7: el puente sólo cubre
+una escena). Aun en el estado seguro, Huekage es una mejora neta sobre el
+pack de 2022 (82/82 contra 76/82 sin necesidad de resolver el mipmap).
+
+**Sigue abierto:** una escena sin combate para medir "barrera" directamente,
+y decidir si ampliar el puente para Huekage antes de extenderlo a todo el
+juego.
