@@ -586,6 +586,12 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo
      6.2  .DB  : firma '..FT' en 6-7        -> qué son los 139 archivos
+          2026-09-04: firma de bloque de malla `00 00 00 05 03 01 00 01 00 80`
+          CONFIRMADA (132.630 hits en 233/270 .DB/.bin, periódicos y
+          variables por archivo). El header de 8 bytes NO es un GtID directo
+          del nombre (REFUTADO, 0/139); byte0=0x00 y bytes6-7="FT" siguen
+          confirmadas, 139/139. Detalle:
+          `pruebas/remake-firma-malla-y-gtid-2026-09-04.md`.
      6.3  .WDD : byte1 = 0x02, 16K/64K      -> qué es el byte 0
      6.4  .SLB : magia "KING"               -> buscar el formato por esa magia
      6.5  patrón de ImHex del contenedor .BIN -> commitear en `patrones/`

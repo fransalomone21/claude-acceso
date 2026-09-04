@@ -2105,16 +2105,24 @@ barrera no era una textura sin cobertura, era una textura cuyo hash cambió.
 > | `pruebas/remake-geometria-2026-09-04.md` | **ATERRIZADO 2026-09-04.** pregunta 1: librw / DFF pre-instanciado de PS2 / el byte 0 del `.WDD` / la ruta por Xbox |
 > | `pruebas/comparacion-packs-2026-09-04.md` | **LOS DOS PACKS NUEVOS, BAJADOS Y MEDIDOS.** Huekage cubre **100 %** de la escena contra 92,7 % del nuestro y trae las 6 que faltaban; HD Reimagined cubre **28 %** y no aporta ninguna. Los dos ya traen mip chain, y los dos necesitan el puente igual |
 > | `pruebas/remake-texturas-ia-2026-09-04.md` | **ATERRIZADO 2026-09-04.** pregunta 2: normal maps por IA sobre diffuse-only, y los packs de la competencia contra el nuestro |
+> | `pruebas/remake-firma-malla-y-gtid-2026-09-04.md` | **CERRADO 2026-09-04 (mañana).** La firma de bloque de malla — **CONFIRMADA**, 132.630 hits en 233/270 `.DB`/`.bin`. El GtID de la cabecera del `.DB` — **REFUTADO para el header completo** (0/139 en los 8 bytes; las dos invariantes parciales, byte0 y bytes6-7, siguen en 139/139) |
 >
 > **Titulares de geometria:** `fmt_Burnout3LRD.py` **NO es solo texturas** —
 > trae un decodificador de geometria PS2 VIF/DMA funcionando (`boMdlPS2`,
 > `rapi.unpackPS2VIF` nativa de Noesis) y **ya abre los contenedores de
 > BLACK**: el trabajo es conectar dos piezas que ya existen en el mismo
 > archivo, no escribir un importador. Existe **`burnout.wiki`** (~650 paginas
-> del motor de Criterion) y no estaba en el barrido. **La cabecera del `.DB`
-> quedo descifrada**: son los 8 bytes de un **GtID**, el nombre logico del
-> propio archivo — `BG1_` produce exactamente los bytes 6-7 = `"FT"` que
-> mediamos en 139/139. El `.WDD` **no** es Wave Dictionary (eso es `.AWD`, y
+> del motor de Criterion) y no estaba en el barrido. **La firma de bloque de
+> malla `00 00 00 05 03 01 00 01 00 80` (de *Formats Takedown-Dominator*)
+> CONFIRMADA por barrido masivo**: 132.630 apariciones en 233/270 `.DB`/`.bin`
+> del ISO, espaciadas de forma periodica y variable dentro de cada archivo —
+> localiza cada bloque de malla sin parsear nada mas. **La cabecera del `.DB`
+> NO es un GtID directo del nombre completo** (hipotesis de la sesion anterior
+> REFUTADA, 0/139 en el header completo de 8 bytes): sólo las dos invariantes
+> parciales que ya se tenian (byte0=0x00, bytes 6-7 = `"FT"`) siguen valiendo,
+> 139/139. La mitad baja del header sigue sin explicar. Detalle:
+> `pruebas/remake-firma-malla-y-gtid-2026-09-04.md`.
+> El `.WDD` **no** es Wave Dictionary (eso es `.AWD`, y
 > vgmstream ya lo soporta para BLACK, asi que **el audio ya esta resuelto**).
 > Y **dos personas ya extrajeron geometria de BLACK en privado** (h3x3r y
 > shak-otay, con captura): escribirle a h3x3r es la accion de mayor
