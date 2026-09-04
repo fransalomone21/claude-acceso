@@ -2072,10 +2072,26 @@ barrera no era una textura sin cobertura, era una textura cuyo hash cambió.
 >
 > | archivo | qué contesta |
 > |---|---|
-> | `pruebas/remake-geometria-2026-09-04.md` | pregunta 1: librw / DFF pre-instanciado de PS2 / el byte 0 del `.WDD` / la ruta por Xbox |
+> | `pruebas/remake-geometria-2026-09-04.md` | **ATERRIZADO 2026-09-04.** pregunta 1: librw / DFF pre-instanciado de PS2 / el byte 0 del `.WDD` / la ruta por Xbox |
 > | `pruebas/remake-texturas-ia-2026-09-04.md` | **ATERRIZADO 2026-09-04.** pregunta 2: normal maps por IA sobre diffuse-only, y los packs de la competencia contra el nuestro |
 >
-> **Titulares de lo que ya aterrizo** (el detalle esta en el archivo, no aca):
+> **Titulares de geometria:** `fmt_Burnout3LRD.py` **NO es solo texturas** —
+> trae un decodificador de geometria PS2 VIF/DMA funcionando (`boMdlPS2`,
+> `rapi.unpackPS2VIF` nativa de Noesis) y **ya abre los contenedores de
+> BLACK**: el trabajo es conectar dos piezas que ya existen en el mismo
+> archivo, no escribir un importador. Existe **`burnout.wiki`** (~650 paginas
+> del motor de Criterion) y no estaba en el barrido. **La cabecera del `.DB`
+> quedo descifrada**: son los 8 bytes de un **GtID**, el nombre logico del
+> propio archivo — `BG1_` produce exactamente los bytes 6-7 = `"FT"` que
+> mediamos en 139/139. El `.WDD` **no** es Wave Dictionary (eso es `.AWD`, y
+> vgmstream ya lo soporta para BLACK, asi que **el audio ya esta resuelto**).
+> Y **dos personas ya extrajeron geometria de BLACK en privado** (h3x3r y
+> shak-otay, con captura): escribirle a h3x3r es la accion de mayor
+> apalancamiento de esta linea. **CUATRO CORRECCIONES al barrido anterior**
+> estan al final de ese archivo — sobre todo: el reversing de agarmash.com es
+> de **firmas de savefile**, no de assets, y no sirve para geometria.
+>
+> **Titulares de lo que ya aterrizo (el detalle esta en el archivo, no aca):
 > **PCSX2 no puede recibir normal maps** — cero coincidencias de
 > `normalmap|bumpmap|pbr` en `GSTextureReplacements.cpp` y sólo dos loaders,
 > `png` y `dds`; la pregunta se cierra por arquitectura, no por calidad de
