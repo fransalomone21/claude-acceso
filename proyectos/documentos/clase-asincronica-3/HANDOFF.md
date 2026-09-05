@@ -5,6 +5,20 @@ fase 2 (segunda pasada y redacción) abierta.
 
 ## Arrancá por acá
 
+**PRIMERO: el push quedó pendiente.** El 2026-09-04 no había red a
+`github.com` (dos intentos, `Failed to connect ... after 21 s`). Los commits
+están hechos **en local**, en los dos repos:
+
+```bash
+cd C:\Users\frans\Desktop\claude-acceso   && git push origin main
+cd C:\Users\frans\Desktop\claude-acceso\perfil-global && git push origin main
+```
+
+`claude-acceso` → `cd915b0` · `perfil-global` → `1efea67`. Mientras eso no
+suba, el trabajo existe en un solo disco.
+
+Después:
+
 ```bash
 cd proyectos/documentos/clase-asincronica-3
 python verificar.py
