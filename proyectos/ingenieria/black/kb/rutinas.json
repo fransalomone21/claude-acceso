@@ -514,6 +514,24 @@
    "convencion": "a0 = dispositivo (pad+0x0C), a1 = id de binding (0..27). Devuelve float en f0.",
    "confianza": "confirmado",
    "evidencia": "Decompilada, y verificada EN VIVO: con el dispositivo en 0x005856C0, la tabla arranca en 0x0058570C y los ids 23 y 26 se mueven al inyectar movimiento de mouse a la derecha, mientras el resto queda en cero."
+  },
+  {
+   "id": "inventario_dos_armas",
+   "nombre": "Instanciar las armas que lleva la entidad (el inventario de DOS slots)",
+   "direccion": "0x00139C68",
+   "version": "ntsc_u",
+   "descripcion": "Arma los objetos de las dos armas que lleva una entidad. Lee el id64 del arma primaria en entidad+0x3C0 y el de la secundaria en entidad+0x3C8, busca cada uno en el directorio global de armas y guarda los dos handles resultantes.",
+   "convencion": "a0 = entidad. El resultado va a *(entidad+0x2A0): el handle del arma PRIMARIA en +0x00 y el de la SECUNDARIA en +0x04.",
+   "confianza": "confirmado",
+   "evidencia": "Decompilada. Los unicos dos `ld` reales del arma secundaria en todo el .text (0x00139DE0 y 0x00139F78) estan aca, y los de la primaria (0x00139D58, 0x00139E6C) tambien. El directorio global es DAT_0040F4E0: la CANTIDAD es un BYTE en *(ptr)+1 y el array esta en *(ptr)+4, con paso de 4 longs (0x20). La busqueda es lineal y devuelve el indice como CHAR, con -1 si no encuentra.",
+   "por_que_importa": "Es la puerta para 'llevar tres armas en vez de dos', y la decompilacion dice exactamente por que no es un parche de un byte.",
+   "que_haria_falta_para_una_tercera_arma": [
+    "1. UN CAMPO LIBRE PARA EL TERCER id64. No alcanza con +0x3D0: esta ocupado (la misma funcion hace *(ent+0x2F8) = *(ent+0x3D0), y 0x2F8 es la vida). +0x3D4 tambien esta usado. Hay que buscar relleno libre en la estructura de la entidad, o mover el array a otro lado.",
+    "2. UN TERCER HANDLE en el struct de *(ent+0x2A0), que hoy usa +0x00 y +0x04. Falta medir el TAMANO de ese struct antes de escribir en +0x08.",
+    "3. DUPLICAR EL BLOQUE DE BUSQUEDA. El codigo NO tiene un bucle sobre slots: los dos estan DESENROLLADOS, con dos copias de la busqueda lineal en el directorio. Una tercera arma pide una tercera copia, y no hay lugar para insertar instrucciones sin reubicar la funcion.",
+    "4. EL CICLADO. BLACK cambia de arma ciclando, no indexando, y esa rutina es aparte. Un barrido por el offset 0x2A0 da 73 candidatos: el parametro no discrimina. Hay que entrar por la ACCION de entrada (FUN_00124840 y la tabla de bindings 0x003BCAC8), no por el offset."
+   ],
+   "notas": "Vale la pena saber que las entidades enemigas NO se arman por este camino: las cinco del volcado tienen +0x3C0 = 0. Van por FUN_0015ef48 case 0x0A, con el id64 de BG1_AK1 en el .text."
   }
  ]
 }

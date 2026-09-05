@@ -1060,3 +1060,100 @@ Lo que el script **no** puede hacer, y sigue siendo a mano en el overlay: fijar
 el depth buffer grande en Generic Depth. Se pierde cada vez que cambia el
 renderer o la resolución interna, y sin eso el pipeline queda mudo sin dar
 ningún error.
+
+---
+
+## 2026-09-05 — el pack instalado cubría el 29 %, y había tres packs en el disco
+
+### Lo que estaba pasando
+
+En `textures/SLUS-21376/packs-descargados/` vivían **tres** packs, y estaba
+instalado el que menos cubre:
+
+| pack | claves | tamaño | cobertura en la escena de referencia |
+|---|---|---|---|
+| 2022 (el original) | 8225 | 1,3 GB | **90 / 127 = 70,9 %** |
+| huekage — *el instalado* | 2781 | 1,2 GB | **37 / 127 = 29,1 %** |
+| hd-reimagined | 1302 | 4,5 GB | 17 / 127 = 13,4 % |
+| **unión de los tres** | **8966** | 5,6 GB lógicos | **93 / 127 = 73,2 %** |
+
+### El cruce está validado, no es aritmética de papel
+
+El mismo método que produce esa tabla predice **90** para el pack de 2022, y el
+proyecto había **medido 90** por el camino de los volcados en la fase V1
+(127 texturas con el pack apagado, 37 sin cubrir con el pack activo). Predicho =
+medido, y el 70,9 % sale idéntico por una vía independiente.
+
+### La trampa del bit 14, resuelta al revés de lo que parecía
+
+El `DO NOT REPEAT` de esta línea ya avisaba que hay que enmascarar el bit 14
+(`0x4000`) al cruzar nombres. Midiendo de nuevo apareció algo más fuerte:
+
+- el pack de 2022 tiene ese bit puesto en **7729 de 7729** archivos;
+- los volcados que escribe el PCSX2 de hoy **nunca** lo tienen: **0 de 261**, en
+  cuatro tandas distintas;
+- y sin embargo el pack de 2022 **carga** (cubrió 90 en la corrida medida).
+
+La única explicación que sobrevive: **PCSX2 enmascara el bit también al indexar
+el nombre del ARCHIVO**, no sólo al generar el volcado. La alternativa —que la
+corrida hubiera usado una copia renombrada— se descartó mirando las tres
+carpetas derivadas del pack de 2022: las tres lo tienen puesto en el 100 %.
+
+**Consecuencia práctica: no hay que renombrar nada.** Los dos convenios
+conviven. Lo que sí hay que hacer es normalizar al comparar, y eso incluye una
+segunda cosa que no estaba anotada: **los hashes vienen sin ceros a la
+izquierda** (`42c25ed76508f7b` es el mismo que `042c25ed76508f7b`). Sin eso, 496
+nombres del pack de 2022 y 137 de huekage no parsean y quedan afuera del cruce.
+
+### El pack unión: `herramientas/pack_union.py`
+
+Prioridad por resolución: hd-reimagined → huekage → 2022. Así cada textura sale
+del pack de mayor calidad que la tenga.
+
+```powershell
+python herramientas/pack_union.py medir        # claves, solape y cobertura
+python herramientas/pack_union.py construir    # arma la union en carpeta NUEVA
+python herramientas/pack_union.py autotest     # la clave canonica, con sabotajes
+```
+
+**No duplica un solo byte:** usa **enlaces duros** cuando el destino está en la
+misma unidad. Los tres packs suman ~7 GB; la unión de 5,57 GB lógicos no agrega
+nada al disco.
+
+El `autotest` prueba que la clave canónica unifica lo que tiene que unificar
+(ceros a la izquierda, bit 14, `.dds` contra `.png`) **y que no unifica de más**
+(dos bits distintos que no son el 14 siguen siendo claves distintas), más cuatro
+sabotajes que tiene que rechazar.
+
+### Medido por efecto, con el pack instalado
+
+Mismo savestate del nivel 2, jugador quieto, D3D12, upscale 3, DLSS 5 apagado —
+una sola variable entre las dos corridas:
+
+| | huekage | unión |
+|---|---|---|
+| FPS | 58,19 | **59,81** |
+| GS | 16,48 ms | 16,08 ms |
+| GPU | 5,28 ms | 5,48 ms |
+| RAM de PCSX2 | — | 4,28 GB (de 24) |
+
+**No cuesta framerate: da 1,6 fps más**, y llega prácticamente al tope de 60.
+
+Nitidez por región (`nitidez_regiones.py`, varianza del laplaciano), sobre el
+mismo encuadre: **cinco de seis regiones ganan**, de +3 % a +63 %, y una pierde
+21 %. Los nombres de las regiones son los calibrados para el savestate 03 y **no
+describen este encuadre** — valen como seis muestras del cuadro, no como
+lugares.
+
+> **Grado.** La cobertura es `confirmado` (es un hecho de archivos, y el método
+> tiene su control positivo). El FPS es `confirmado` (OSD, escena estática, una
+> sola variable). La mejora visual es `probable`: las dos capturas son de
+> corridas distintas, y esta línea ya se equivocó una vez comparando entre
+> reinicios. Lo que la sostiene es que el cambio es grande y parejo, y que va en
+> la dirección que la cobertura predice.
+
+### Estado
+
+`replacements/` = la unión (8966). El huekage anterior quedó completo en
+`replacements-huekage-guardado/`. Para volver, con PCSX2 cerrado, son dos
+`move`. `hw_mipmap` sigue en `false`, que era el estado seguro y no se tocó.
