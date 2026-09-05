@@ -342,7 +342,47 @@ N2  FASES DEL JUEGO
         y los requisitos contra los que se valida, en `docs/00-conops.md`.
 
 JUGABILIDAD (teclado, mouse, parches, 60 FPS) — línea aparte, no toca 7e
-     J1  que BLACK se juegue bien con teclado y mouse ......... ABIERTA
+     J1  que BLACK se juegue bien con teclado y mouse ...... CASI CERRADA
+         **2026-09-05 — apareció la sensibilidad de mira, y es un DATO.**
+         `FUN_001404a8` (`0x001404A8`) es la función de mira entera; su último
+         tramo es `yaw += eje_suavizado * obj[0xA8] * dt * factor_zoom`, con
+         `obj` = jugador+0x4F0 = `0x005A8FA0`. Entonces:
+
+             0x005A9048   velocidad de giro HORIZONTAL   70.0 grados/segundo
+             0x005A904C   velocidad de giro VERTICAL     25.0 grados/segundo
+
+         **CONFIRMADO POR EFECTO, con control negativo.** ×3 en el horizontal
+         dio ×3.01 medido (87.7 → 264.4 grados/s), reversible, y el vertical
+         se quedó quieto en 25.7 / 25.7 / 25.8 en las tres corridas.
+
+         Setenta grados por segundo son cinco segundos por vuelta completa: a
+         1600 DPI, casi **dos metros de mousepad**. Ésa era la causa de «muevo
+         el mouse y la mira casi no se mueve», y ningún ajuste del emulador la
+         podía tocar — PCSX2 entrega un eje de 0 a 1 y los grados por segundo
+         los pone el juego.
+
+         `mods/mira-lineal.toml` quedó **confirmado por efecto** de paso: la
+         curva medida es lineal con zona muerta (k≈155, d≈0.089, mismo ajuste
+         en cinco puntos). La cúbica predecía una razón de 10.6 entre eje 0.25
+         y 0.55; la medida es 3.09.
+
+         Configuración viva: `Speed 6 / DeadZone 0 / Inertia 0` y Giro 350/350.
+         Aceleración de puntero de Windows **apagada**
+         (`herramientas/aceleracion-mouse.ps1 -Restaurar` la devuelve).
+
+         **Lo único que falta para cerrar J1:** que Fran juegue y diga si el
+         **piso** existe con un mouse real. Medido: hay un umbral por debajo
+         del cual la mira no se mueve nada, y no se movió al variar `DeadZone`,
+         `Inertia`, `Speed`, la sensibilidad ni la aceleración de Windows —
+         cinco variables sin efecto. Pero el inyector manda ráfagas con huecos
+         y un mouse real manda movimiento continuo: **puede ser del
+         instrumento**, y eso no lo decide otra medición sintética.
+
+         Instrumental nuevo: `herramientas/mira.py` (lee el yaw de la cámara en
+         `0x005A8DA0`, en grados; mide la curva; cambia la sensibilidad en
+         vivo), `herramientas/pcsx2_mouse.ps1`, `herramientas/aceleracion-mouse.ps1`.
+
+     J0  lo hecho el 2026-09-04 — sigue valiendo salvo lo corregido arriba
          Hecho el 2026-09-04, todo reversible y en scripts commiteados:
          - **mouse lineal**: `PointerInertia = 100`. La causa de la pérdida
            estaba en la fórmula de PCSX2 (recorta a 1.0 y **decae** el
@@ -386,6 +426,39 @@ JUGABILIDAD (teclado, mouse, parches, 60 FPS) — línea aparte, no toca 7e
          ~59.94 FPS con el parche de 60 puesto, y (b) con `mira-lineal`
          prendido, un movimiento lento del mouse mueve la mira en proporción y
          un manotazo no dispara vueltas enteras. Detalle: `docs/10-jugar.md`.
+
+NIVELES Y FORMATOS DEL ISO — línea nueva del 2026-09-05
+     L1  leer y editar los niveles EN FRÍO, sin emulador ....... CERRADA
+         **`STUNIT0N.BIN`** (`herramientas/stunit.py`): el header lleva en
+         `+0x04` el offset del descriptor dentro del archivo, y el puntero de
+         cada blob es un **i32 relativo AL ARRAY**. Los 42 stream de módulos
+         del disco parsean coherentes. Control positivo triple contra la fase
+         7e — descriptor `0x01092800`, count 857, array `0x0109F590`, los tres
+         al bit — y **control cruzado de 61 puntos**: el histograma de tipos
+         del archivo coincide exactamente con `instancias_level_00` del kb,
+         que se había medido en RAM por otra vía.
+         Esto saca a TODO el trabajo de niveles de depender del emulador: hasta
+         ahora sólo se podía mirar LEVEL_00, el único con volcados.
+
+         **`STLEVEL.BIN`** (`herramientas/stlevel.py`): el **directorio de
+         armas del nivel**, entradas de `0x28` con el nombre en claro y la
+         cantidad en el header. Cada nivel **trae** entre 16 y 20 modelos en su
+         `FPGUNS` y sólo **habilita** entre 4 y 11: cambiar un nombre por uno
+         de los que sobran no agrega un byte al ISO. En LEVEL_00 sobran nueve,
+         entre ellas `bg1_snr` y `bg1_hvy`.
+
+     L2  la GEOMETRÍA .............................. ABIERTA, sin resolver
+         Dos vías probadas y **descartadas por su propio control**, anotadas en
+         `kb/formatos-iso.json#geometria_sin_resolver` para no repetirlas:
+         contar VIFcodes por frecuencia (un video MPEG-2 da más que la
+         geometría) y caminar DMAtags (el audio encadena más).
+         Lo único que discriminó: caminar la cadena VIF saltando el largo
+         exacto de cada comando — 232 encadenados en `UNIT_01.BIN` contra 0-1
+         en los controles. **Indicio, no prueba.**
+         SÍ quedó medido: el header del `.DB` es un directorio de recursos con
+         nombre, con nueve secciones alineadas a 128 B; y el `0x54461272` que
+         la fase 6 tomó por constante es la **mitad alta de un id64**.
+         **Sigue por el CÓDIGO**, no por los datos.
 
 REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
      R0  ¿hay depth buffer usable en PCSX2 2.8 para BLACK? .... CERRADA

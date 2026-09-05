@@ -202,5 +202,45 @@
    ]
   },
   "herramienta": "herramientas/stlevel.py -- catalogo / armas / cambiar / autotest. `cambiar` escribe sobre una COPIA del ISO, se niega a tocar Black.iso, rechaza un arma que el nivel no traiga, y VERIFICA releyendo del ISO que el slot cambio y que ningun otro se movio. Autotest con 4 controles positivos y 4 sabotajes, PROBADO EN ROJO."
+ },
+ "db_contenedor": {
+  "_que_es": "El .DB que acompana a cada .WDD es un CONTENEDOR DE RECURSOS CON NOMBRE. Su header es un directorio chico.",
+  "confianza": "confirmado (el header) / sin resolver (el contenido)",
+  "medido": "2026-09-05",
+  "header": {
+   "0x00": "id64 del recurso 1  (en BG1_AK1.DB: BG1_AK1LF)",
+   "0x08": "id64 del recurso 2  (BG1_AK1SLF)",
+   "0x10": "id64 del recurso 3  (BG1_AK1)",
+   "0x18": "u32 = 9, cantidad de secciones",
+   "0x1C..0x40": "diez u32: 0x80, 0x20880, 0x20A80, 0x20C00, 0x66880, 0x88B00, 0x88B80, 0x89D00, 0x9AD00, 0x9FD00. TODOS multiplos de 128, y sus diferencias tambien. NO estan ordenados en el archivo: hay que ordenarlos.",
+   "0x80": "id64 TEXTURE, con su propio bloque de numeros detras"
+  },
+  "por_que_el_0x54461272_no_era_una_constante": "La fase 6 lo habia anotado como 'u32 variable + constante 0x54461272'. No es una constante: es la MITAD ALTA de un id64. Todos los nombres que empiezan con BG1_ comparten esa mitad alta, porque el id64 es base-40 de ancho fijo y los primeros seis caracteres caen en los 32 bits altos. O sea que el header no son pares (valor, constante): son NOMBRES de 64 bits.",
+  "sigue_abierto": "que hay adentro de cada seccion"
+ },
+ "geometria_sin_resolver": {
+  "_que_es": "El formato de la geometria de BLACK. NO ESTA RESUELTO. Esta ficha existe para que la proxima sesion no repita las dos vias que ya se probaron y no sirven.",
+  "confianza": "sin resolver",
+  "medido": "2026-09-05",
+  "lo_que_si_esta_medido": [
+   "Cero .dff/.txd/.bsp en el ISO y cero cadenas de RenderWare en el ELF: los assets estan en contenedores propios de Criterion. Buscar herramientas de RenderWare no sirve. (fase 6)",
+   "El header del .DB es un directorio de recursos con nombre y nueve secciones alineadas a 128 B. (ver db_contenedor)"
+  ],
+  "via_muerta_1_frecuencia_de_vifcodes": {
+   "que_se_probo": "contar cuantos bytes caen en posicion de VIFcode (cada 4 B) y ver si el archivo de geometria da mas que otros.",
+   "resultado": "NO DISCRIMINA. BG1_AK1.DB da 10.82% y UNIT_01.BIN 15.61%... pero un video MPEG-2 (02_N.M2V) da 14.71% y un banco de audio 5.48%. Un dato denso cualquiera produce esas tasas.",
+   "leccion": "El control negativo era barato y habria evitado publicar 'la geometria son display lists VIF' como si fuera un hallazgo. Toda medicion de FRECUENCIA sobre datos binarios necesita un control de un archivo que seguro NO es lo que se busca."
+  },
+  "via_muerta_2_dmatags": {
+   "que_se_probo": "caminar los qwords como DMAtags de source chain (QWC + ID) desde varios offsets y ver cuanto encadena.",
+   "resultado": "NO DISCRIMINA TAMPOCO. El banco de audio encadena 25 tags desde 0x8000 (2% del archivo), mas que casi todos los intentos sobre la geometria."
+  },
+  "la_unica_senal_que_si_discrimino": {
+   "que_es": "caminar la cadena VIF DE VERDAD: decodificar cada VIFcode y saltar EXACTAMENTE el largo de sus datos (UNPACK segun vn/vl, MPG num*8, DIRECT imm*16, STROW/STCOL 16, STMASK 4).",
+   "resultado": "UNIT_01.BIN encadena 232 comandos seguidos desde 0x800 y 20 desde 0; el audio y el video encadenan 0 o 1 desde todos los offsets probados. Eso SI separa.",
+   "pero": "232 comandos no cubren el archivo, asi que los paquetes estan envueltos en algo cuyo header todavia no se conoce. Es indicio, no prueba.",
+   "grado": "probable, no confirmado"
+  },
+  "por_donde_seguir": "NO por los datos. Por el CODIGO: encontrar en el ELF la rutina que consume UNIT_NN.BIN y las secciones del .DB, y leerle el layout del header al cargador en vez de adivinarlo desde afuera. Es la misma leccion que cerro la fase 7e: no entres por un patron que abunda, entra por una cadena de indirecciones desde algo ya confirmado. El formato de ruta de los archivos de nivel ya esta ubicado en 0x003F4388."
  }
 }

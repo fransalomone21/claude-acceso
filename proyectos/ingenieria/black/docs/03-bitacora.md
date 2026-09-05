@@ -16,6 +16,64 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-05 (57) — La sensibilidad de mira es un float; los niveles se leen en frío; la geometría no
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out (Fran pidió
+explícitamente «sin workflows»)
+**Objetivo:** Fran se fue a dormir y dejó cuatro pedidos: terminar el mouse,
+ajustar DLSS5 y dejarlo listo para otros juegos, abrir puertas a modificar
+niveles (enemigos, tipos, armas) y resolver las geometrías.
+
+**Resultado.**
+
+**1. La sensibilidad de mira EXISTE y es un dato.** `FUN_001404a8` es la
+función de mira completa, y su último tramo es `yaw += eje_suavizado *
+obj[0xA8] * dt * factor_zoom`. `0x005A9048` son los **grados por segundo
+horizontales** (70.0 de fábrica) y `0x005A904C` los verticales (25.0).
+**Confirmado por efecto con control negativo:** ×3 dio ×3.01 medido (87.7 →
+264.4 grados/s), reversible, y el eje vertical no se movió (25.7 / 25.7 /
+25.8). Setenta grados por segundo son casi dos metros de mousepad por vuelta a
+1600 DPI: ésa era la queja.
+
+No se llegó por barrido. Se buscaron los **lectores** del Analogue Control
+Power ya conocido: como el objeto de controles es jugador+0x4F0 y el parámetro
+es obj+0xB8, `barrer.py off 0xB8 --solo load` restringido a
+0x00130000-0x00150000 dio **dos `lwc1` contiguos** entre 25 candidatos, que son
+X e Y de la mira.
+
+**2. `mira-lineal` quedó confirmado por efecto de paso.** La curva medida es
+lineal con zona muerta (k≈155, d≈0.089, mismo ajuste en cinco puntos). Una
+cúbica predecía una razón de 10.6 entre eje 0.25 y 0.55; la medida es 3.09.
+
+**3. DLSS 5 estaba APAGADO** — faltaba `DLSS5_Feed@DLSS5_Feed.fx` en
+`Techniques=` del preset, y eso no da error ni aviso. Medido: cuesta 10 fps
+(58.19 → 48.09).
+
+**4. `STUNIT0N.BIN` y `STLEVEL.BIN` resueltos.** Los 42 stream de módulos del
+disco y el directorio de armas de los ocho niveles se leen (y se escriben) en
+frío. Control cruzado de 61 puntos contra lo medido en RAM.
+
+**No funcionó.**
+
+- **La predicción de 8.20 sobre el `upscale_multiplier` falló**, y falsa el
+  modelo con el que 8.18 y 8.20 razonaban: bajar de 3 a 2 bajó el tiempo de GS
+  un 4 % con 56 % menos de píxeles. El cuello del GS **no es de relleno**.
+- **El test de frecuencia de VIFcodes NO discrimina.** Daba 10,8 % en la
+  geometría y parecía confirmarlo; un video MPEG-2 del mismo disco da 14,71 %.
+  El control negativo era gratis y estaba al lado.
+- **Los DMAtags tampoco.** El audio encadena más tags que la geometría.
+- **Tres controles positivos pasaron con la base de punteros mal.** Un
+  corrimiento constante no cambia un conteo ni dos direcciones ni la
+  monotonía: eran ciegos justo al único error que había.
+- **El piso de la mira no se movió** al variar cinco cosas distintas. Puede ser
+  del inyector, que manda ráfagas con huecos donde un mouse real manda
+  movimiento continuo.
+
+**Sigue:** que Fran juegue y diga si el piso existe con un mouse real. Y, para
+la geometría, entrar **por el código** — la rutina que consume `UNIT_NN.BIN`
+— y no por los datos.
+
+---
+
 ## 2026-09-05 (56) — La mira de BLACK es CÚBICA: `Analogue Control Power` vale 3.0
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out (secuencial: cada paso salía del anterior)
 **Objetivo:** Fran reportó que con `PointerInertia = 100` un manotazo corto y
