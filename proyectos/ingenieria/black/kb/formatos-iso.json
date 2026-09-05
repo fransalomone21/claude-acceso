@@ -90,5 +90,117 @@
   "medicion": "0 apariciones de 'RenderWare', 'rwID', '.dff', '.txd' o 'Bin32' en el ELF (busqueda case-insensitive sobre los 3.371.868 B).",
   "confianza": "medido, pero NO concluyente",
   "nota": "un build de release borra las cadenas de debug, asi que la ausencia no refuta que sea RenderWare. Lo que si dice es que no hay ningun formato .dff/.txd/.bsp en el ISO: si hay RenderWare abajo, los assets estan en contenedores propios de Criterion (.WDD/.DB), no en los formatos estandar. Buscar herramientas de RenderWare NO va a servir."
+ },
+ "stunit": {
+  "_que_es": "STUNIT0N.BIN -- el STREAM DE MODULOS de un nivel: la lista de todo lo que el nivel construye. Es lo que consume FUN_0015ef48 con su switch de 69 casos.",
+  "confianza": "confirmado",
+  "medido": "2026-09-05",
+  "layout": {
+   "header": "+0x00 u32 magia=3 | +0x04 u32 OFFSET DEL DESCRIPTOR dentro del archivo | +0x08 u32 0x80 alineacion",
+   "descriptor": "en el offset del header: +0x00 u32 count | +0x04 u32 rel_array (relativo al descriptor)",
+   "array": "count registros de 0x10: +0x00 u32 tipo | +0x04 i32 ptr al blob (CON SIGNO, relativo AL ARRAY) | +0x08 u64 id64 del nombre",
+   "blobs": "teselan la region que va del descriptor al array, en orden no decreciente. Registros consecutivos pueden COMPARTIR blob."
+  },
+  "evidencia": "Control positivo triple contra la fase 7e, que habia medido todo esto en RAM: para LEVEL_00 el header da off_desc=0x3F800 y 0x01053000+0x3F800 = 0x01092800, la direccion del descriptor medida; el count del archivo da 857, el mismo medido; y off_array da 0x01053000+0x4C590 = 0x0109F590, la direccion del array medida. Y CONTROL CRUZADO DE 61 PUNTOS: el histograma de tipos del archivo coincide EXACTAMENTE con instancias_level_00 de kb/stage-modulos.json, medido en RAM, en los 61 tipos, sin una sola diferencia. Los 42 STUNIT del ISO parsean coherentes.",
+  "trampa_pagada": "La base del puntero del blob es EL ARRAY, no el descriptor. La primera version usaba el descriptor y los tres chequeos que tenia -- count, direccion del descriptor, direccion del array -- pasaban IGUAL, porque un corrimiento constante no cambia ninguno y tampoco rompe la monotonia. Lo que lo delata es la relacion entre los blobs y las otras dos estructuras, y por eso el modulo ahora exige que el primer blob caiga DESPUES del descriptor y que el ultimo termine EN el array.",
+  "familias_de_nombre": {
+   "_como": "el id64 de +0x08 decodifica con id64.py; los dos primeros caracteres son la familia",
+   "SD": "sonido (tipos 0x2E, 0x2F, 0x30). El 0x2E ya estaba anotado como observable AUDIBLE.",
+   "FX": "efectos (tipo 0x33)",
+   "SQ": "escuadra (tipos 0x01 y 0x02, uno de cada uno en LEVEL_00; los dos caen en el default del dispatcher)",
+   "LW": "los 256 registros del tipo 0x2D",
+   "WD": "tipos 0x1F, 0x20, 0x43 y parte del 0x0B",
+   "GP": "la familia dominante, en 30 tipos distintos"
+  },
+  "herramienta": "herramientas/stunit.py -- niveles / resumen / listar / autotest. El autotest tiene control positivo contra RAM y tres sabotajes, PROBADO EN ROJO."
+ },
+ "stlevel": {
+  "_que_es": "STLEVEL.BIN -- entre otras cosas, el DIRECTORIO DE ARMAS del nivel: que armas existen en ese nivel.",
+  "confianza": "confirmado",
+  "medido": "2026-09-05",
+  "layout": {
+   "header": "+0x00 u32 version=10 | +0x04 u32 offset del directorio (0x80) | +0x08 u32 CANTIDAD de armas | +0x0C u32 sin identificar | +0x10 u32 cerca del tamano del archivo, sin confirmar",
+   "entrada": "0x28 bytes: +0x00 char[0x20] nombre terminado en 0, de la forma [NNNN_]bg1_XXX | +0x20 u32 (0, 1 o 2) | +0x24 u32 (0 o 2)"
+  },
+  "evidencia": "El kb ya tenia el directorio en 0x01412480 y la base de carga de STLEVEL en 0x01412400, los dos medidos en RAM. La resta da 0x80, y ese 0x80 esta LITERALMENTE en el header en +0x04. El 7 de +0x08 coincide con las 7 entradas legibles antes del primer hueco, y los 7 modelos referenciados existen los 7 en FPGUNS.",
+  "el_prefijo": "NNNN_ es <nivel><stage> y es la instancia; el modelo real es el nombre SIN prefijo, y tiene que existir como Levels/Level_NN/FpGuns/BG1_XXX.wdd",
+  "por_que_importa": "Cada nivel TRAE entre 16 y 20 modelos de arma en su FPGUNS y solo habilita entre 4 y 11. Las que sobran ya viajan en el disco con su modelo y sus texturas: cambiar un nombre del directorio por uno de esos NO agrega un solo byte al ISO. En LEVEL_00 sobran nueve, entre ellas bg1_snr (francotirador) y bg1_hvy (ametralladora pesada).",
+  "armas_por_nivel": {
+   "LEVEL_00": [
+    "bg1_pst",
+    "bg1_shg",
+    "0001_bg1_smg",
+    "0001_bg1_ak1",
+    "0001_bg1_asr",
+    "bg1_rpg",
+    "0001_bg1_sm5"
+   ],
+   "LEVEL_01": [
+    "bg1_shg",
+    "0101_bg1_ak1",
+    "0101_bg1_smg",
+    "bg1_rpg"
+   ],
+   "LEVEL_03": [
+    "bg1_shg",
+    "0301_bg1_snr",
+    "0301_bg1_asr",
+    "0301_bg1_p90",
+    "bg1_rpg",
+    "0601_bg1_hvy"
+   ],
+   "LEVEL_04": [
+    "0401_bg1_mp1",
+    "0401_bg1_asr",
+    "bg1_pst",
+    "bg1_shg",
+    "0401_bg1_smg",
+    "0801_bg1_sm3",
+    "bg1_rpg",
+    "0701_bg1_hvy"
+   ],
+   "LEVEL_05": [
+    "bg1_shg",
+    "0501_bg1_smg",
+    "bg1_rpg",
+    "0101_bg1_snr",
+    "0501_bg1_asr",
+    "0501_bg1_ak1",
+    "0701_bg1_hvy"
+   ],
+   "LEVEL_06": [
+    "bg1_shg",
+    "0601_bg1_sm3",
+    "0601_bg1_smg",
+    "0101_bg1_snr",
+    "0601_bg1_asr",
+    "bg1_rpg",
+    "0701_bg1_hvy"
+   ],
+   "LEVEL_07": [
+    "0701_bg1_smg",
+    "0701_bg1_asr",
+    "bg1_rpg",
+    "0101_bg1_snr",
+    "0701_bg1_m16",
+    "0701_bg1_hvy",
+    "bg1_shg",
+    "0801_bg1_rm1"
+   ],
+   "LEVEL_08": [
+    "bg1_pst",
+    "bg1_shg",
+    "0801_bg1_smg",
+    "0801_bg1_ak1",
+    "bg1_rpg",
+    "0701_bg1_hvy",
+    "0801_bg1_sm3",
+    "0801_bg1_mp1",
+    "0801_bg1_mgn",
+    "0801_bg1_rm1",
+    "0701_bg1_snr"
+   ]
+  },
+  "herramienta": "herramientas/stlevel.py -- catalogo / armas / cambiar / autotest. `cambiar` escribe sobre una COPIA del ISO, se niega a tocar Black.iso, rechaza un arma que el nivel no traiga, y VERIFICA releyendo del ISO que el slot cambio y que ningun otro se movio. Autotest con 4 controles positivos y 4 sabotajes, PROBADO EN ROJO."
  }
 }
