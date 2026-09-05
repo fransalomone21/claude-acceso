@@ -92,11 +92,16 @@ EL HEADER DE UN MODELO (de FUN_001af930, 0x001AF930)
         +0x54  ptr   +0x58 ptr
         +0x60  ptr  array de count(+0x5C) punteros
 
-LO QUE SIGUE SIN RESOLVER, Y NO SE DISFRAZA
-    Este modulo resuelve el CONTENEDOR y llega hasta el header del modelo.
-    NO decodifica todavia los vertices: el grueso de un modelo vive entre su
-    +0x58 y su +0x48, y ese bloque no esta desarmado. Lo que cambia es que
-    ahora se llega ahi por punteros del propio cargador, no adivinando.
+HASTA DONDE LLEGA ESTE MODULO
+    Este resuelve el CONTENEDOR y llega hasta el header del modelo. Los
+    VERTICES los decodifica `modelo.py`, del 2026-09-05 a la noche: sigue esta
+    misma cadena tres eslabones mas (submalla+0xC0 -> FUN_0027e760 ->
+    FUN_0027f6d8/FUN_0027f708) y ahi se acaban las relocaciones. Ver
+    kb/formatos-iso.json#modelo_geometria.
+
+    Lo que sigue abierto del modelo: DONDE se coloca cada submalla -- las seis
+    ruedas de CO01TRUCK son identicas byte a byte y su transformacion no esta
+    en el registro de 0xD0 -- y los +0xC4/+0xC8 de ese registro.
 
 USO
     python herramientas/unit.py niveles

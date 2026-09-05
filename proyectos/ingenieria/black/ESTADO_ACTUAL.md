@@ -466,7 +466,7 @@ NIVELES Y FORMATOS DEL ISO — línea nueva del 2026-09-05
          de los que sobran no agrega un byte al ISO. En LEVEL_00 sobran nueve,
          entre ellas `bg1_snr` y `bg1_hvy`.
 
-     L2  la GEOMETRÍA ........ EL CONTENEDOR CERRADO 2026-09-05; faltan vértices
+     L2  la GEOMETRÍA ............................ CERRADA el 2026-09-05
          **`Unit_NN.bin` está resuelto, y por el CÓDIGO, que era lo que las dos
          vías muertas decían que había que hacer.** La cadena, entera: el
          formato de ruta de `0x003F4508` tiene un **único** xref de código
@@ -483,11 +483,41 @@ NIVELES Y FORMATOS DEL ISO — línea nueva del 2026-09-05
          **Medido:** las 42 unidades del ISO cierran el layout entero; ocho
          archivos que no son unidades caen. `herramientas/unit.py autotest`,
          con `probar-unit.py` — cinco sabotajes, los cinco en rojo.
-         **Lo que sigue abierto son los VÉRTICES**, entre `+0x58` y `+0x48` de
-         cada modelo. Ya no hay que adivinar dónde: se llega por punteros del
-         propio cargador.
          De paso, `stunit.py` decía que `STUNIT+0x08` era "alineación 0x80":
          **no lo es**, `FUN_002886d0` lo reloca igual que a `+0x04`. Corregido.
+
+         **LOS VÉRTICES, la misma noche, por la misma vía: tres eslabones más.**
+         `submalla+0xC0` → `FUN_0027e760` (0x0027E760), que relocaliza el árbol
+         y las hojas → `FUN_0027f6d8` / `FUN_0027f708` (0x0027F6D8 / 0x0027F708),
+         que son **la misma función byte a byte** y relocalizan los dos punteros
+         de cada hoja. Ahí **se acaban las relocalizaciones**, y eso es lo que
+         dice dónde empiezan los datos.
+         **El bloque**: caja envolvente, un árbol **BIH** de nodos de `0x18`
+         (cada mitad guarda el intervalo exacto de su hijo sobre un eje), y
+         hojas de `0x10` con dos punteros — a **caras de 8 B** (4 índices `u8` +
+         un `u32` que vale `0x0A`) y a **vértices de 6 B** (3 × `u16`).
+         **El vértice**: cada hoja trae en `+0x0A/+0x0B/+0x0C` un byte de sesgo
+         por eje (`0x00` o `0xFF`); `0xFF` significa restarle `0x8000` antes de
+         leerlo con signo. Después, `metros = (v + 0.5) * 1000/65536`. El
+         quantum es 15.2588 mm, o sea que un `s16` cubre **±500 m** — y el
+         `500.0` aparece literal en el registro de submalla, en `+0x38`.
+         **La verificación fuerte es de CONTENCIÓN**: los **630.379 vértices**
+         de las 5883 submallas de las 42 unidades caen **adentro** de la caja
+         que el propio archivo declara. Cero desbordes. La caja calculada
+         reproduce la del archivo a menos de un quantum en 5850 de 5883, y el
+         **radio de la esfera** de `+0xBC` —que no es el de la caja, así que es
+         una prueba independiente— se reproduce en las 11 submallas de
+         `CO01TRUCK` dentro de medio quantum.
+         **Control de forma:** las submallas 2..7 de `CO01TRUCK` son idénticas
+         byte a byte, caja centrada en el origen y radio 0.58: **las seis
+         ruedas de un camión**.
+         Las **33** que no cierran la caja son 13 modelos repetidos, **11 de
+         ellos luces**: la caja del archivo es más grande que la malla y los
+         vértices siguen adentro. Caja floja, no error de decodificación.
+         `herramientas/modelo.py`, con `probar-modelo.py` — seis sabotajes.
+         **Sigue abierto:** dónde se **coloca** cada submalla (las seis ruedas
+         no tienen transformación en el registro de `0xD0`), si esto es la malla
+         de colisión o la de render, y los `+0xC4`/`+0xC8` de ese registro.
 
      L2 — las dos vías que NO hay que repetir (siguen valiendo)
          Contar VIFcodes por frecuencia (un video MPEG-2 da más que la

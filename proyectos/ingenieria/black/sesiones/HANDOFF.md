@@ -4,9 +4,9 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL PRIMER BLOQUE DE ABAJO** («SESION DEL 2026-09-05 (TARDE)»).
+> **EMPEZÁ POR EL PRIMER BLOQUE DE ABAJO** («SESION DEL 2026-09-05 (NOCHE)»).
 > Es lo más nuevo y corrige varias cosas de las secciones numeradas. Debajo
-> están el de la MAÑANA y el de la MADRUGADA, en ese orden.
+> están el de la TARDE, el de la MAÑANA y el de la MADRUGADA, en ese orden.
 
 **Cuatro líneas de trabajo, independientes entre sí:**
 - **7e** (reversing del stream de módulos, secciones 1-7) — abierta por la
@@ -21,12 +21,140 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
   madrugada, es la sensibilidad y sigue valiendo.)
 - **Niveles y formatos del ISO** (nueva, 2026-09-05) — armas por nivel y
   stream de módulos, los dos editables en frío. Bloque **C**.
-- **Geometría (L2)** — **el contenedor `Unit_NN.bin` CERRÓ el 2026-09-05 a la
-  tarde**, por el código. Faltan los vértices. Bloque de arriba, entero.
+- **Geometría (L2)** — **CERRADA el 2026-09-05**: el contenedor a la tarde y
+  los VÉRTICES a la noche, las dos por el código. Bloques de arriba (NOCHE y
+  TARDE). Lo único que queda del modelo es dónde se COLOCA cada submalla.
 
 Si retomás 7e: secciones 1-7. Si retomás el Remaster: sección 8 y el bloque B.
 Si retomás jugabilidad: bloque A y `docs/10-jugar.md`. Si retomás niveles o
 geometría: bloques C y D, y `kb/formatos-iso.json`.
+
+---
+
+# SESION DEL 2026-09-05 (NOCHE) - LEER ESTO PRIMERO
+
+**L2 cerró: LOS VÉRTICES están decodificados.** Por la misma vía que el
+contenedor —el código—, tres eslabones más abajo. Las dos vías por los datos
+siguen muertas y no se tocaron.
+
+## 1. LOS TRES ESLABONES QUE FALTABAN
+
+```
+modelo+0x48    array de count(+0x68,u8) registros de 0xD0: las SUBMALLAS
+   |           (CO01TRUCK: 11)
+   v
+submalla+0xC0  ->  FUN_0027e760  (0x0027E760)
+   |               reloca +0x20 (ARBOL) y +0x24 (HOJAS), cuenta u16 en +0x28
+   v
+hoja de 0x10   ->  FUN_0027f6d8 / FUN_0027f708  (0x0027F6D8 / 0x0027F708)
+                   SON LA MISMA FUNCION byte a byte: relocan +0x00 y +0x04
+                   contra el registro. AHI SE ACABAN LAS RELOCACIONES.
+```
+
+Que se acaben las relocalizaciones es el dato: es lo que dice dónde terminan
+los punteros y empiezan los datos. No hubo que adivinarlo.
+
+## 2. EL FORMATO, COMPLETO
+
+**El bloque** (`blk` = `submalla+0xC0`):
+
+| campo | qué |
+|---|---|
+| `+0x00` / `+0x10` | 3 f32 caja MÁXIMA / 3 f32 caja MÍNIMA |
+| `+0x20` | árbol BIH: `count(+0x2A, u16)` nodos de `0x18` |
+| `+0x24` | hojas: `count(+0x28, u16)` registros de `0x10` |
+| `+0x2A` | nodos = hojas − 1 (árbol binario lleno) |
+| `+0x2C` | selector de relocador. Vale **1** en las 5883 submallas del ISO |
+
+**El nodo BIH** (`0x18` = dos mitades de `0xC`, una por hijo): izquierda
+`f32 max, f32 min`, derecha `f32 min, f32 max`, y después `u8 hijo, u8 0,
+u8 eje, u8 tipo`. `tipo=0xFF` → el hijo es un NODO; `tipo=0x01` → es una HOJA.
+`eje`: 0=X, 2=Z (el 1 no aparece). Cada mitad guarda el intervalo **exacto** de
+su hijo sobre ese eje — por eso el árbol sirve como verdad de terreno.
+
+**La hoja** (`0x10`): `+0x00` i32 → CARAS, `+0x04` i32 → VÉRTICES (los dos
+relativos al registro), `+0x08` u16 tamaño total, `+0x0A/+0x0B/+0x0C` u8
+**sesgo de X/Y/Z**, `+0x0D` u8 stride de cara (**8** en las 57845 hojas),
+`+0x0E` u8 caras, `+0x0F` u8 vértices.
+Cierra por construcción: `vértices − caras == 8·(+0x0E)` y
+`tamaño − 8·(+0x0E) == 6·(+0x0F)` alineado a 4. Cinco campos atados.
+
+**La cara**: 8 B = 4 × u8 índice + u32 (vale `0x0A`; «id de superficie» es
+*probable*, no confirmado).
+**El vértice**: 6 B = 3 × u16, **sesgados**.
+
+## 3. EL SESGO Y LA ESCALA — es lo que más fácil se escribe mal
+
+```
+v = crudo − 0x8000   si el byte de sesgo de ese eje != 0
+v = v − 0x10000      si v >= 0x8000        (leerlo con signo)
+metros = (v + 0.5) * 1000/65536
+```
+
+El byte de sesgo vale **0x00 o 0xFF**, no hay un tercero en las 57845 hojas.
+Sin él, un eje negativo se lee como +32700 y la malla explota.
+El quantum `1000/65536` = **15.2588 mm**, o sea que un `s16` cubre **±500 m** —
+y el `500.0` aparece **literal** en el registro de submalla, en `+0x38`.
+El `+0.5` es el medio quantum del truncado del exportador: sin él, el error
+contra la caja queda sistemáticamente en 0.99 quanta en vez de 0.49.
+Los dos salieron de un ajuste por mínimos cuadrados sobre las 66 cotas de las
+11 submallas de `CO01TRUCK` (a = 0.0152563 = 1/65.547, b = +0.0079).
+
+## 4. LO MEDIDO — y cuál es la prueba fuerte
+
+- **CONTENCIÓN (la fuerte):** los **630.379 vértices** de las 5883 submallas de
+  las 42 unidades del ISO caen **adentro** de la caja que el propio bloque
+  declara. **Cero** desbordes, con tolerancia de un quantum.
+- **CAJA:** la calculada reproduce la del archivo a menos de un quantum en
+  **5850 de 5883**.
+- **ESFERA (independiente de min/max):** el registro de submalla trae en
+  `+0xB0` un centro que **no** es el de la caja y en `+0xBC` un radio. La
+  distancia máxima de los vértices decodificados a ese centro reproduce ese
+  radio en las 11 submallas de `CO01TRUCK` **dentro de medio quantum**.
+- **CONTROL DE FORMA:** las submallas 2..7 de `CO01TRUCK` son **idénticas byte
+  a byte** — 219 vértices, caja centrada en el origen, radio 0.58. Son **las
+  seis ruedas**.
+- **LAS 33 QUE NO CIERRAN LA CAJA** son 13 modelos repetidos en varias
+  unidades, y **11 son luces** (`CO03RNDLIGHT`, `CO04STLIGHT`, `CO04STLIGHT2`,
+  `CO06DWN_LIGH`, `CO06CRN_LIGH`, `CO06LP_FLOOD`, `CO06STRLIGHT`,
+  `CO08STLIGHT`) más `CO04BUNKER_A` y `CO08BUNKERII`. En todas, la caja del
+  archivo es **más grande** que la malla y los vértices siguen adentro: caja
+  floja, no error de decodificación.
+
+## 5. HERRAMIENTAS NUEVAS
+
+- **`herramientas/modelo.py`** — `submallas` / `vertices` / `verificar` /
+  `obj` / `autotest`. El `obj` de `CO01TRUCK` sale con 4125 vértices y 1653
+  caras.
+- **`herramientas/probar-modelo.py`** — **seis** sabotajes, los seis en rojo,
+  con control positivo antes y después de cada uno. Tarda ~4 min.
+
+## 6. LO QUE SIGUE ABIERTO, Y NO SE DISFRAZA
+
+- **DÓNDE se coloca cada submalla.** Las seis ruedas son idénticas y su
+  transformación **no está** en el registro de `0xD0`. Falta el array de
+  transformaciones. Candidatos sin abrir: el `+0x1C` del modelo (array de
+  `count(+0x24)` registros de `0x30`, relocado por `FUN_001c64e8` →
+  `FUN_001c62a8`), y el `+0x20` (array de `count(+0x24)` índices i16 que
+  apuntan adentro de `+0x38`).
+- **Si esto es colisión o render.** Las caras de 4 índices con un id de
+  superficie y la caja floja de las luces empujan para colisión; que cuelgue
+  del header del modelo empuja para lo otro. **No se afirma ninguna.**
+- `+0xC4` y `+0xC8` del registro de submalla: el cargador los reloca y nadie
+  los abrió. Sólo 2 de las 11 submallas de `CO01TRUCK` tienen `+0xC4`.
+- El orden de ejes X,Y,Z **no está probado contra una permutación
+  consistente** — lo único que lo ata es que las cajas salen con proporciones
+  de camión. Está dicho en `probar-modelo.py`.
+
+## 7. LO QUE COSTÓ UN TURNO, PARA NO REPETIRLO
+
+El primer control negativo que escribí —quitar el medio quantum— **no puede
+fallar**: mueve el dato 0.5 quanta contra una tolerancia de 1 quantum entero.
+El autotest se puso en rojo por el control, no por el decodificador. Registrado
+y foldeado en `chequeo-de-trabajo.md`. Y en una prueba de **contención** el
+sabotaje peligroso es el que **encoge** la escala: todo cerca de cero cae
+adentro de cualquier caja y pasa en verde. Por eso el sabotaje 5 divide por
+100 en vez de multiplicar.
 
 ---
 

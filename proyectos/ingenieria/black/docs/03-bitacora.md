@@ -16,6 +16,51 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-05 (59) — L2 CERRADA: los vértices, tres eslabones más abajo
+**Máquina:** notebook · **Modelo:** Opus, esfuerzo high, sin fan-out
+**Objetivo:** sacar la lista de vértices de `CO01TRUCK` (`LEVEL_01/UNIT_01`,
+`0x687CC0`) y verificarla contra su caja envolvente, que ya está en el archivo.
+**Resultado:** el formato entero, y verificado sobre todo el ISO.
+La cadena siguió por donde decía la sesión de la tarde: `submalla+0xC0` →
+`FUN_0027e760` → `FUN_0027f6d8`/`FUN_0027f708`. Las dos últimas son **la misma
+función byte a byte**, y ahí **se acaban las relocalizaciones** — que es cómo
+se sabe dónde terminan los punteros y empiezan los datos.
+Adentro hay un **árbol BIH** (nodos de `0x18`, cada mitad con el intervalo
+exacto de su hijo sobre un eje), **hojas** de `0x10` con dos punteros, **caras**
+de 8 B (4 índices `u8` + un `u32` que vale `0x0A`) y **vértices de 6 B**:
+3 × `u16` con un **byte de sesgo por eje** en la hoja (`0x00` o `0xFF`; `0xFF`
+= restarle `0x8000` antes de leerlo con signo). La escala es
+`metros = (v + 0.5) · 1000/65536`: quantum de 15.2588 mm, o sea un `s16` que
+cubre **±500 m** — y el `500.0` está literal en el registro de submalla, en
+`+0x38`.
+**La verificación fuerte es de contención:** los **630.379 vértices** de las
+5883 submallas de las 42 unidades caen **adentro** de la caja que el propio
+archivo declara. Cero desbordes. La caja calculada reproduce la del archivo a
+menos de un quantum en 5850 de 5883, y el radio de la esfera de `+0xBC` —que no
+es el de la caja, así que es prueba independiente— se reproduce en las 11
+submallas de `CO01TRUCK` dentro de medio quantum.
+**Control de forma que no se pidió y salió solo:** las submallas 2..7 de
+`CO01TRUCK` son idénticas byte a byte, caja centrada en el origen y radio 0.58.
+Son las seis ruedas.
+Herramientas: `modelo.py` (con `obj`: 4125 vértices, 1653 caras) y
+`probar-modelo.py`, seis sabotajes, los seis en rojo.
+**No funcionó:** el primer control negativo del autotest —quitar el medio
+quantum— **no puede fallar**: mueve el dato 0.5 quanta contra una tolerancia de
+1 quantum entero, así que el autotest se puso en rojo por el control y no por
+el decodificador. Se cambió por «ignorar el byte de sesgo». Y el intento de
+leer los `u16` como `s16` pelados dio coordenadas de +32700 en props de medio
+metro: fue el byte de sesgo de la hoja, no un error de escala.
+**Las 33 submallas que no cierran la caja** son 13 modelos repetidos y **11 son
+luces**: la caja del archivo es más grande que la malla y los vértices siguen
+adentro. Caja floja, no error — se dice y no se tapa.
+**Sigue:** **dónde se COLOCA** cada submalla. Las seis ruedas idénticas no
+tienen transformación en el registro de `0xD0`; los candidatos sin abrir son el
+`+0x1C` del modelo (registros de `0x30` por `FUN_001c64e8` → `FUN_001c62a8`) y
+el `+0x20` (índices i16 dentro de `+0x38`). Y decidir si esto es la malla de
+colisión o la de render, que hoy no se afirma.
+
+---
+
 ## 2026-09-05 (58) — L2: la geometría se abrió POR EL CÓDIGO. `Unit_NN.bin` resuelto
 **Máquina:** notebook · **Modelo:** Opus, esfuerzo high, sin fan-out
 **Objetivo:** encontrar en el ELF la rutina que consume `Levels/Level_NN/Unit_NN.bin` y leerle el layout del header AL CARGADOR, sin entrar por los datos.
