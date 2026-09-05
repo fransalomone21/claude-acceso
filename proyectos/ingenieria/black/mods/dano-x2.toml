@@ -1,0 +1,14 @@
+# Dificultad: duplica el daño de SALIDA del jugador (lo que vos disparás).
+# NO afecta el daño que los enemigos te hacen a vos -- confirmado por efecto
+# el 2026-09-04, ver docs/03-bitacora.md (54) y kb/mapa-memoria.json#multiplicador_dano_salida.
+
+nombre = "Dificultad x2 — daño de salida del jugador"
+autor = "proyecto BLACK"
+descripcion = "Duplica el 100.0 base de calcular_dano_zona (0x00142B90). Confirmado: dos impactos reales de -47.6 en LEVEL_02, exactamente 0.34*200.0*0.7. El daño que el jugador RECIBE no cambia (control: -26.0 sin variar)."
+habilitado = false
+cuando = "arranque"   # es código estático del ELF, no un valor que el juego pise cada frame
+
+[[parche]]
+direccion = 0x00142CA0
+asm = "lui at, 0x4348"
+nota = "reemplaza 'lui at, 0x42C8' (100.0). 0x4348 = 200.0 en los 16 bits altos IEEE754. Escribir un f32 crudo acá corrompe el código: es una instrucción, no un dato."

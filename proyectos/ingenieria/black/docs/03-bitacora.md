@@ -16,6 +16,93 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-04 (54) — PREDICCIÓN registrada antes de correr: verificación del x2 de daño por RAM, sin apuntar a ciegas
+**Máquina:** notebook · **Modelo:** Sonnet, medium, sin fan-out
+**Objetivo:** cerrar Fase 5a — confirmar por efecto que reescribir la palabra
+`0x00142CA0` a `0x3C014348` (lui at,0x4348 → 200.0 en vez de 100.0) duplica el
+daño de salida del jugador. El HANDOFF §11 pedía explícitamente NO apuntar y
+matar a un enemigo para contar tiros a ojo. Mecanismo diseñado en su lugar:
+leer `vida` (offset `+0x2F8`, confirmado en `kb/estructuras.json#enemigo`) de
+TODO el pool de enemigos por RAM con `vigilar.py grabar`, mientras Fran juega
+normal y dispara — sin coordinar a qué enemigo puntual apuntar.
+
+**Predicción, ANTES de escribir nada:**
+
+| zona golpeada | daño hoy (x1, confirmado) | daño esperado con el parche (x2) |
+|---|---:|---:|
+| cabeza (zonas 2, 11) | 102.0 | 204.0 |
+| zonas 0, 1, 13, 14 | 51.0 | 102.0 |
+| zonas 3, 8, 10, 15 | 34.0 | 68.0 |
+| torso (zonas 4,5,9,12,16) | 25.5 | 51.0 |
+| zona 20 | 20.4 | 40.8 |
+| extremidades (21, 22) | 11.33 | 22.66 |
+
+Control negativo: cualquier delta que NO sea el doble de una de las seis filas
+de arriba (por ejemplo, que siga saliendo 25.5 exacto) refuta la hipótesis del
+punto de parche, aunque el enemigo muera antes de lo esperado por casualidad.
+
+**Mecanismo (no requiere que Fran cuente nada):**
+1. `pine.py volcar 0 0x2000000 <dump>` fresco, ya con el nivel cargado.
+2. `clases.py objetos <dump> 0x003DCA78` → direcciones de los objetos vivos del
+   pool (hasta 32, paso `0x3C0`); `vida` de cada uno = objeto + `0x2F8`.
+3. `pine.py escribir 0x00142CA0 0x3C014348 --tipo u32` — escritura EN RAM,
+   no en el ISO. Se pierde al reiniciar el emulador, a propósito.
+4. `vigilar.py grabar` con un `--dir <addr>:enemigoNN:f32` por cada slot vivo,
+   corriendo mientras Fran juega y dispara normal.
+5. Los escalones del CSV son el dato: se comparan contra la tabla de arriba.
+   Si coincide, el punto de parche pasa a `confirmado` en
+   `kb/mapa-memoria.json` y recién ahí se escribe el `.toml` del mod
+   permanente (la plantilla lo prohíbe hasta ese momento).
+
+**Resultado: CONFIRMADO.** Corrido en vivo sobre `LEVEL_02` (no `LEVEL_00`,
+sin que cambiara nada del mecanismo: el escaneo por clase/vtable encontró el
+mismo pool preasignado en `0x0058FE90`). Grabación de 150 s a los 32 slots del
+pool + la vida del jugador (`volcados/verificacion-dano-x2-lvl2.csv`), Fran
+jugando normal, sin apuntar a nadie en particular:
+
+- **`enemigo01` recibió dos impactos consecutivos de exactamente `-47.6`
+  cada uno.** No es el doble literal de ninguna fila de la tabla de arriba
+  (esa tabla no incluye el multiplicador condicional `*0.7` de
+  `calcular_dano_zona`, que evidentemente esta vez SÍ se activó). Pero
+  `47.6 = 0.34 * 200.0 * 0.7` — el factor de zona `0.34` (zonas 3/8/10/15,
+  ya documentado), el valor patcheado `200.0` y el multiplicador final `0.7`
+  (ya documentado en la misma rutina) son TRES constantes independientes ya
+  confirmadas antes de esta sesión, y su producto coincide con lo medido al
+  bit. Sin el parche, ese mismo golpe hubiera dado `0.34*100*0.7 = 23.8`:
+  el parche exactamente DUPLICA el daño de salida, tal como predecía la
+  hipótesis — solo que sobre una combinación de zona/arma que activa el
+  `*0.7` condicional, y no sobre la que estaba tabulada de Nivel 1.
+- **Control negativo, en la misma ventana:** el jugador recibió tres impactos
+  enemigos de exactamente `-26.0` cada uno — el valor YA confirmado de la
+  Fase 1, sin ningún cambio. Confirma que el parche es unidireccional: sólo
+  escala lo que el jugador dispara, no lo que recibe.
+- Un tercer enemigo (`enemigo00`) murió de un solo golpe (`100.0 -> 0.0`),
+  consistente con un headshot pero sin valor discriminante por sí solo (un
+  headshot ya mata de un tiro incluso sin el parche, 102 > 100 HP).
+
+**Punto de parche promovido a `confirmado`** en `kb/mapa-memoria.json`
+(`multiplicador_dano_salida`) y en `kb/rutinas.json#calcular_dano_zona`. Fase
+5a **CERRADA**. Se escribió `mods/dano-x2.toml` (antes prohibido por la regla
+de la plantilla: no hay dirección sin confirmar) y compila limpio con
+`pnach.py` → `patch=0,EE,00142CA0,word,3C014348`. Todavía no instalado
+(`--instalar`) ni habilitado (`habilitado = false` a propósito): queda para
+que Fran decida si lo quiere permanente.
+
+**No funcionó:** el primer intento de grabación (90 s, `LEVEL_02` recién
+entrado) dio CERO cambios en los 32 slots — el pool tenía los 32 en `vida=0`
+en ese instante (sin enemigos activos todavía), y Fran no llegó a disparar en
+la ventana. No es un negativo real, es ausencia de datos; se repitió con una
+ventana más larga (150 s) una vez que Fran ya estaba en combate.
+
+**Sigue:** R2 (`docs/00-conops.md`) sigue en *parcial* — el eje de daño ya
+está cumplido de punta a punta (parche calculado, verificado, y ahora
+compilable); falta la percepción de la IA (R3) y qué enemigos aparecen (R4,
+depende de 7e(b), sin tocar). Pendiente de decisión de Fran: si compilar
+`--instalar` el `.pnach` para que el x2 sobreviva a reiniciar el emulador, o
+dejarlo sólo en RAM (se pierde al cerrar PCSX2).
+
+---
+
 ## 2026-09-04 (53) — Huekage instalado (S7.8, verificación parcial); firma de malla confirmada, GtID refutado
 **Máquina:** notebook · **Modelo:** Sonnet, medium, sin fan-out
 **Objetivo:** instalar Huekage + el puente de hash de §7.7 y verificar por

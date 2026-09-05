@@ -217,7 +217,8 @@
           "instruccion_original": "mul.s $f20, $f1, $f0",
           "codificacion": "0x46000D02",
           "efecto_si_se_modifica": "es donde el factor de zona se convierte en danio. Para escalar TODO el danio de salida contra cualquier victima de una sola vez, sin tocar las tablas por personaje, NO se escribe un f32 en 0x00142CA0: ahi vive la INSTRUCCION lui at, 0x42C8, y el 100.0 esta en su inmediato de 16 bits. Se reescribe la palabra entera como 0x3C01<hi>, donde <hi> son los 16 bits ALTOS del float deseado. Escribir el float crudo en esa direccion corrompe el codigo.",
-          "confianza": "hipotesis",
+          "confianza": "confirmado",
+          "confirmado_por": "EFECTO, 2026-09-04. Se escribio 0x3C014348 en 0x00142CA0 (SOLO EN RAM, via pine.py) durante una partida real en LEVEL_02, y se grabo por RAM con vigilar.py la vida de los 32 slots del pool de enemigos MAS la vida del jugador, sin apuntar a ningun enemigo en particular (mecanismo pensado para no tener que apuntar y contar tiros a ciegas, ver docs/03-bitacora.md (54)). Resultado: dos impactos consecutivos sobre el mismo enemigo (slot 01) dieron exactamente -47.6 cada uno. 47.6 = 0.34 (factor de zona ya documentado en kb/estructuras.json#zona_impacto, zonas 3/8/10/15) * 200.0 (el valor patcheado) * 0.7 (el multiplicador final ya documentado en esta misma rutina) -- los TRES factores son datos independientes ya confirmados antes de esta sesion, y su producto coincide bit a bit con lo medido. CONTROL NEGATIVO, en la misma grabacion: el jugador recibio tres impactos de enemigos, los tres de exactamente -26.0 (el valor YA confirmado en la Fase 1, sin cambios) -- confirma que el parche es unidireccional, solo escala el danio de SALIDA del jugador, tal como decia el nombre de esta ficha. Datos crudos: volcados/verificacion-dano-x2-lvl2.csv.",
           "parches_calculados": {
             "x0.5": {
               "valor": 50.0,

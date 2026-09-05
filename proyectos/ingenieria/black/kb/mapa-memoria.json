@@ -344,6 +344,18 @@
       "evidencia": "2026-08-23, leido en Ghidra. FUN_0015ef48 recorre el array con paso 0x10 y hace switch sobre el u32 de +0x00: 61 casos, tipos 0x03 a 0x44. El registro es {u32 tipo, u32 ptr, u64 payload}. El case 0x0A esta confirmado por otra via: spawnea personaje con el id64 de BG1_AK1 literal, y los cinco enemigos de LEVEL_00 tienen justo ese descriptor (0x01842C10).",
       "descubierto": "2026-08-23",
       "notas": "ES EL INDICE DE MODULOS DEL NIVEL. En vez de subir la cadena de llamadas eslabon por eslabon cada vez que se quiere tocar algo, enumerar los 61 casos da el mapa de todo lo que un nivel puede contener. Abre la fase 7e. Ver kb/rutinas.json#stage_stream_dispatcher."
+    },
+    {
+      "id": "multiplicador_dano_salida",
+      "nombre": "Palabra lui que fija el 100.0 en calcular_dano_zona (multiplicador base del danio de SALIDA del jugador)",
+      "direccion": "0x00142CA0",
+      "tipo": "u32",
+      "version": "ntsc_u",
+      "estable": true,
+      "confianza": "confirmado",
+      "evidencia": "EFECTO, 2026-09-04. Ver kb/rutinas.json#calcular_dano_zona (parches_calculados) y docs/03-bitacora.md (54) para el detalle completo. Resumen: escrito 0x3C014348 (200.0) via pine.py en RAM durante partida real en LEVEL_02; vigilar.py grabo la vida de los 32 slots del pool de enemigos mas la del jugador sin apuntar a nadie en particular; un enemigo recibio dos impactos de exactamente -47.6, que es 0.34 (zona ya confirmada) * 200.0 (el valor patcheado) * 0.7 (multiplicador final ya confirmado) -- coincide bit a bit. Control negativo: el jugador recibio 3 impactos de -26.0 sin cambios, confirmando que el parche NO afecta el danio que el jugador recibe.",
+      "descubierto": "2026-09-04",
+      "notas": "ES CODIGO, NO UN FLOAT SUELTO: la instruccion es lui at,0x42C8 y el 100.0 vive en su inmediato de 16 bits altos. Escribir un f32 crudo en esta direccion corrompe el codigo -- hay que reescribir la PALABRA ENTERA. Valores calculados para x0.5/x2/x4/x10 en kb/rutinas.json#calcular_dano_zona. Vale solo mientras el emulador no se reinicie: es un parche en RAM, no en el ISO. Para que sobreviva a un reinicio hace falta compilar el .pnach correspondiente (mods/)."
     }
   ]
 }

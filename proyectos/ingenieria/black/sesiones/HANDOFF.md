@@ -2286,3 +2286,38 @@ matar a un enemigo para contar tiros no es algo que convenga hacer a ciegas.
 arrancar, disparar, contar. Si el danio se duplica, el punto de parche pasa a
 `confirmado`, la 5a se cierra y R2 pasa de *parcial* a cumplido para el eje
 del danio.
+
+### CERRADA el 2026-09-04: confirmado por efecto, SIN apuntar a ciegas
+
+Se diseño el mecanismo que esta seccion pedia explicitamente no saltear: en
+vez de apuntar y matar a un enemigo contando tiros a ojo, se escribio el
+parche EN RAM (`pine.py escribir 0x00142CA0 0x3C014348`) durante una partida
+real de Fran en `LEVEL_02`, y se grabo por RAM con `vigilar.py` la vida de
+los 32 slots del pool de enemigos (`clases.py objetos <dump> 0x003DCA78`,
+vida en `+0x2F8`) MAS la vida del jugador, sin coordinar a que enemigo
+apuntar.
+
+**Resultado: CONFIRMADO.** Un enemigo recibio dos golpes de exactamente
+`-47.6`, que es `0.34 (zona ya confirmada) * 200.0 (el valor patcheado) * 0.7
+(multiplicador final ya confirmado)` -- las tres constantes ya eran conocidas
+antes de hoy, y el producto coincide al bit. Sin el parche ese mismo golpe
+daria `23.8`: el parche duplica exacto. Control negativo en la misma
+grabacion: el jugador recibio 3 golpes de `-26.0` SIN CAMBIOS -- confirma que
+el parche es unidireccional (solo el danio de SALIDA del jugador, como decia
+el nombre de la rutina).
+
+Punto de parche promovido a `confirmado` en `kb/mapa-memoria.json`
+(`multiplicador_dano_salida`) y en `kb/rutinas.json#calcular_dano_zona`.
+Detalle completo con los numeros crudos: `docs/03-bitacora.md` (54).
+
+**Se escribio `mods/dano-x2.toml`** (antes prohibido: la plantilla exige
+confirmado en `mapa-memoria.json` antes de anotar una direccion). Compila
+limpio: `patch=0,EE,00142CA0,word,3C014348`. Sigue con `habilitado = false` y
+SIN `--instalar` -- decision pendiente de Fran, no tecnica.
+
+**Pendiente, no bloquea nada:** decidir si instalar el `.pnach` (sobrevive a
+reiniciar el emulador) o dejar el parche solo en RAM (se pierde al cerrar
+PCSX2 -- ya se perdio una vez sin querer quiere decir nada, es exactamente el
+comportamiento esperado). R2 de `docs/00-conops.md` sigue en *parcial*: el
+eje de danio ya esta cerrado de punta a punta; falta R3 (percepcion de IA) y
+R4 (que enemigos aparecen, depende de 7e(b)).

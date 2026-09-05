@@ -72,7 +72,7 @@ N2  FASES DEL JUEGO
      3  enemigos .......................................... cerrada, por efecto
      4  tabla de armas .................................... cerrada (daño AL jugador)
      4b daño de SALIDA del jugador ........................ cerrada, por efecto
-     5a mod de daño ...................................... PARQUEADA (ver abajo)
+     5a mod de daño ...................................... CERRADA 2026-09-04, por efecto
      5b qué elige la zona de impacto ..................... pendiente, es Opus
      6  exprimir el ISO ................................... 6.1 y 6.6 CERRADAS
      7  arquitectura de entidades y de la IA .............. ABIERTA <-- acá estamos
@@ -598,9 +598,16 @@ N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.6  parche in-place de GLOBDATA.BIN .. CERRADA, confirmado por efecto
 ```
 
-**Por qué 5a está parqueada:** Fran decidió el 2026-08-16 exprimir el ISO
-**antes** de volver al emulador. El pnach de `0x00142CA0` sigue siendo válido
-y es media hora de trabajo cuando se retome; no se perdió nada.
+**5a CERRADA 2026-09-04.** Escrito `0x3C014348` en `0x00142CA0` (RAM, vía
+`pine.py`) durante partida real en `LEVEL_02`. Verificado por RAM sin apuntar
+a ciegas: `vigilar.py` grabó la vida de los 32 slots del pool de enemigos más
+la del jugador mientras Fran jugaba normal. Un enemigo recibió dos golpes de
+`-47.6` exactos (`0.34 * 200.0 * 0.7`, las tres constantes ya confirmadas
+antes de hoy); el jugador recibió tres golpes de `-26.0` sin cambios — el
+parche es unidireccional, sólo escala lo que el jugador dispara. Detalle
+completo: `docs/03-bitacora.md` (54). `mods/dano-x2.toml` ya escrito y compila
+limpio; falta que Fran decida si lo instala (`pnach.py compilar --instalar`)
+para que sobreviva a reiniciar el emulador, o lo deja sólo en RAM.
 
 ---
 
