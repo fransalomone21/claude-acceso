@@ -87,6 +87,8 @@ Todas tienen `--help` y se corren desde `black/`.
 | `registro_fisica.py` | el **control en frío** del registro que llena el tipo `0x2D`: 48 ranuras, cuántas están ocupadas, y sobre todos los volcados a la vez |
 | `lbas.py` | la tabla de LBAs del ISO, y buscarlos en un binario **con control positivo y piso de ruido**. Con eso se cerró 6.1 |
 | `parche_iso.py` | **el mod permanente**: editar un archivo adentro del ISO, in-place, sin reconstruirlo. `preparar` / `armas` / `verificar` |
+| `unit.py` | **la GEOMETRÍA**: `Levels/Level_NN/Unit_NN.bin` con el layout leído AL CARGADOR (`FUN_0012eae8`). `niveles` / `header` / `modelos` / `modelo` / `autotest`. Su alarma está probada en rojo con `probar-unit.py` |
+| `stunit.py` | el stream de módulos del nivel, en frío desde el ISO |
 | `awd.py` | los `.AWD` de audio vía vgmstream. Ahí están los nombres que puso Criterion |
 | `clases.py` | clases de entidad por vtable: qué objetos hay de cada clase y cuál es su rutina de daño |
 | `estado.py` | leer `eeMemory.bin` de un savestate |

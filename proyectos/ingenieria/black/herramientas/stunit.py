@@ -19,7 +19,17 @@ EL FORMATO, Y COMO SE DEDUJO
 
         +0x00  u32  3          magia / version
         +0x04  u32  off_desc   OFFSET DEL DESCRIPTOR dentro del archivo
-        +0x08  u32  0x80       alineacion
+        +0x08  u32  0x80       SEGUNDO OFFSET, no una alineacion (ver abajo)
+
+    CORREGIDO EL 2026-09-05: el +0x08 estaba anotado aca como "alineacion".
+    No lo es. El parser de StUnit en el ELF es FUN_002886d0 (0x002886D0) y
+    trata +0x04 y +0x08 EXACTAMENTE IGUAL: a los dos les suma la base del
+    archivo y despues los usa como punteros -- FUN_00287120(+0x04) y
+    FUN_00288a38(+0x08). Que valga 0x80 es porque esa seccion arranca justo
+    despues del header, no porque el campo sea de alineacion. Salio de usar
+    StUnit como control positivo del metodo con el que se resolvio
+    Unit_NN.bin (ver herramientas/unit.py): el control positivo devolvio una
+    correccion ademas de una confirmacion.
 
     Y en el descriptor:
 

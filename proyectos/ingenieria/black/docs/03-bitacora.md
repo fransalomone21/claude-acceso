@@ -16,6 +16,119 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-05 (58) — L2: la geometría se abrió POR EL CÓDIGO. `Unit_NN.bin` resuelto
+**Máquina:** notebook · **Modelo:** Opus, esfuerzo high, sin fan-out
+**Objetivo:** encontrar en el ELF la rutina que consume `Levels/Level_NN/Unit_NN.bin` y leerle el layout del header AL CARGADOR, sin entrar por los datos.
+**Resultado:** hecho, y con margen: la cadena entera desde el format string hasta el parser, el layout del header (16 campos, 3 cuentas), el directorio de recursos compartido, y el header del modelo. Los modelos tienen NOMBRE legible. `herramientas/unit.py` + `probar-unit.py`.
+**No funcionó:** nada se descartó, pero dos cosas quedaron acotadas y hay que decirlas: el ancho `u16` de `+0x90` NO es medible con los datos del ISO (sale del código), y el "232 VIFcodes desde 0x800" de la sesión anterior era señal real con lectura falsa. Y el autotest, la primera vez, moría con traceback en vez de reportar rojo.
+**Sigue:** los VÉRTICES, entre `+0x58` y `+0x48` de cada modelo.
+
+**La ficha `geometria_sin_resolver` terminaba diciendo por dónde seguir: "NO por
+los datos. Por el CÓDIGO: encontrar en el ELF la rutina que consume
+UNIT_NN.BIN... El formato de ruta ya está ubicado en `0x003F4388`." Se hizo
+exactamente eso y salió en una sesión.** Cuatro eslabones, ninguna heurística:
+
+1. **El único xref.** Barrido exhaustivo del ELF buscando pares
+   `lui rX,0x003F` + `addiu rY,rX,0x4508` (la forma en que MIPS arma una
+   dirección de 32 bits). En 3,1 MB de código hay **uno solo**:
+   `0x0012D72C` + `0x0012D73C`. La misma búsqueda para `StLevel.bin` da
+   también uno solo, `0x001288B8`+`0x001288C8`. Que el candidato sea único es
+   lo que hace que el paso siguiente no tenga ramas.
+2. **La máquina de estados** `FUN_0012d5a8` (`0x0012D5A8`). En su estado 2 arma
+   la ruta con sprintf y **pide el archivo**:
+   `FUN_001093c0(streamer, ruta, 8, id, CALLBACK, param, 1, 0x40000)`.
+3. **El callback** `FUN_0012e728`, que hace lo que hacen los cinco callbacks de
+   nivel: `buf = FUN_001092f8(); PARSER(buf); FUN_00108540(mgr, tipo, buf, id)`.
+4. **El parser** `FUN_0012eae8` — que no parsea: **relocaliza**. Recorre el
+   header campo por campo convirtiendo offsets-en-archivo en punteros absolutos.
+   *Ese recorrido es el layout.* 16 campos y tres cuentas.
+
+**Y esto cierra lo que la entrada `fixup_contenedor_bin` había dejado escrito el
+2026-08-16**: «NO APLICA A TODOS LOS `.BIN`: `LEVELDAT.BIN` da tres ranuras
+fuera de rango... Esos dos usan otro layout y **se resuelven igual — xref de su
+cadena de ruta, decompilar su callback**». Se resolvió por esa vía, palabra por
+palabra, tres semanas después. Y `LEVELDAT.BIN` vuelve a fallar ahora con el
+layout de Unit, que es lo que se esperaba: cada `.BIN` de nivel tiene el suyo.
+
+### Qué hay adentro
+
+La lista de `+0x20` (la que el juego registra como recurso **tipo 1**) son **los
+modelos, con nombre legible**. En `LEVEL_01/UNIT_01` hay 367 y se leen solos:
+`CO01TREE_P_L`, `CO01ERLOG1`, `CO01AMMOBOX`, `CO01BOXES01`, `CO01WOODBOX`,
+`CO01GUARDHUT`, `CO01TRUCK`, `CO01FENCE`, `CO01COMPGATE`. Un árbol, troncos, una
+caja de munición, cajas, una garita, un camión, un alambrado, un portón: los
+props del nivel.
+
+El header de cada modelo sale de `FUN_001af930`, y ahí aparecen sus submallas
+(`+0x48`, `count` en `+0x68`, registros de `0xD0`) y **tres floats que en
+`CO01TRUCK` valen 30.0 / 60.0 / 100.0** — distancias de LOD.
+
+El directorio que ordena todo esto (`FUN_00272aa8`) es **el mismo** que usan el
+`.DB`, `LevelDat` y `StLevel`: `count` en `+0x08`, offset al array en `+0x0C`, y
+registros de `0x10` con **id64 en `+0x00` y el puntero al recurso en `+0x08`,
+relativo A LA LISTA y no al registro**. O sea que el "directorio de recursos con
+nombre" que la fase 6 había medido en el `.DB` no era del `.DB`: es la
+estructura de directorio del motor.
+
+### Lo que la medición dice, y lo que no
+
+**Positivos:** las **42** unidades del ISO cierran el layout entero — los 16
+campos como offsets válidos, y el array de `+0x1C` terminando **exactamente**
+donde arranca la lista de `+0x24` (eso ata tres cosas independientes: el offset,
+la cuenta y el tamaño de registro `0x30`).
+
+**Control negativo, que es lo que les faltó a las dos vías muertas:** el mismo
+layout sobre `LEVELDAT.BIN`, `LEVEL.AWD`, `COLLIDE.AWD`, `AMBIENCE.BKS`,
+`GLOBDATA.BIN`, el propio ELF y dos `.M2V`. **Los ocho caen**, con entre 5 y 20
+problemas cada uno.
+
+**Control positivo del método:** el mismo patrón aplicado a `StUnit` da
+`FUN_002886d0` — y el formato de `StUnit` **ya estaba resuelto por otra vía**
+(`stunit.py`, fase 7e). Coincide... y además **corrige**: `stunit.py` anotaba
+`STUNIT+0x08` como "alineación 0x80". No lo es. `FUN_002886d0` trata `+0x04` y
+`+0x08` idénticamente: a los dos les suma la base y los usa como punteros. Que
+valga `0x80` es porque esa sección arranca justo después del header. **El
+control positivo devolvió una corrección además de una confirmación**, que es
+para lo que sirve.
+
+**Lo que NO se puede afirmar:** el ancho `u16` de `+0x90` **no se distingue de
+`u8` con los datos** — el máximo en las 42 unidades es 109 y el byte de `+0x91`
+es cero en todas. Que sea `u16` sale del código (`*(ushort *)`), no de una
+medición. El de `+0x92` sí se mide: llega a 889 y 14 unidades tienen el byte
+alto distinto de cero. Queda escrito en el saboteador, no escondido.
+
+### El indicio que parecía bueno, revisado
+
+"232 VIFcodes encadenados desde `0x800` en `UNIT_01.BIN`" era **lo único que
+había discriminado** en la sesión anterior. Con el layout real a la vista,
+`0x800` cae **adentro del array del directorio** de la lista tipo 0 (que en
+`LEVEL_01/UNIT_01` va de `0x650` a `0xB60`): la caminata estaba corriendo sobre
+punteros e ids, no sobre display lists. Señal real, lectura falsa. Refuerza la
+lección de las vías muertas en vez de contradecirla.
+
+### Lo que sigue abierto, sin disfrazarlo
+
+**Los vértices.** El grueso de un modelo vive entre su `+0x58` y su `+0x48`, y
+ese bloque no está desarmado. El bloque de `submalla+0xC0` **no** es VIF crudo:
+arranca con una caja envolvente (min xyz, max xyz con los signos opuestos). Lo
+que cambió es que ya no hay que adivinar dónde mirar: se llega por punteros del
+propio cargador.
+
+### Herramientas
+
+- `herramientas/unit.py` — `niveles` / `header` / `modelos` / `modelo` /
+  `autotest`.
+- `herramientas/probar-unit.py` — **cinco sabotajes, los cinco en rojo**, con
+  control positivo antes y después de cada uno. El sabotaje 3 encontró un
+  defecto real: el autotest moría con `struct.error` en vez de reportar rojo.
+  Un autotest que revienta con traceback no es una alarma, es un cuelgue.
+- `herramientas/decompilar_lote.py` — le hace **todas** las consultas a Ghidra
+  en **una** apertura de proceso. Cuatro consultas por CLI son cuatro arranques
+  de la JVM; esto es uno.
+
+
+---
+
 ## 2026-09-05 (57) — La sensibilidad de mira es un float; los niveles se leen en frío; la geometría no
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out (Fran pidió
 explícitamente «sin workflows»)

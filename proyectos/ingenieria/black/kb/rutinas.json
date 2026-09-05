@@ -1,641 +1,754 @@
 {
- "_esquema": {
-  "id": "snake_case estable",
-  "nombre": "nombre legible que le pusimos nosotros",
-  "direccion": "string hexadecimal de la primera instrucción",
-  "fin": "dirección de la última instrucción, si se conoce",
-  "version": "clave de kb/objetivo.json#versiones",
-  "descripcion": "qué hace, en una o dos frases",
-  "convencion": "qué llega en a0..a3 y qué vuelve en v0. Esto es lo más valioso de todo.",
-  "llamadores": "lista de direcciones que la llaman",
-  "llama_a": "lista de ids de otras rutinas",
-  "puntos_de_parche": "lista de {direccion, instruccion_original, efecto_si_se_modifica}",
-  "confianza": "confirmado | probable | hipotesis | descartado",
-  "evidencia": "cómo se llegó a ella (breakpoint, referencia cruzada, string cercano...)"
- },
- "_como_se_encuentra_una_rutina": [
-  "1. Poné un breakpoint de escritura sobre la dirección del dato (PCSX2: Debugger > Memory > right-click > Add breakpoint).",
-  "2. Provocá el evento en el juego. El debugger para en la instrucción que escribe.",
-  "3. Esa instrucción está DENTRO de la rutina, no es su principio. Subí en el desensamblado hasta el prólogo (addiu sp, sp, -N).",
-  "4. Anotá acá la dirección del prólogo, no la del breakpoint.",
-  "5. Mirá el call stack del debugger para llenar `llamadores`."
- ],
- "entradas": [
-  {
-   "id": "aplicar_dano",
-   "nombre": "Rutina de daño / actualización de vida",
-   "direccion": null,
-   "fin": null,
-   "version": "ntsc_u",
-   "descripcion": "Resta el daño a la vida de una entidad y la escribe de vuelta en entidad+0x2F8, con clamp a un piso (muerte). El prólogo todavía no se ubicó: lo que está localizado es el cuerpo, no el principio.",
-   "convencion": "El puntero a la entidad viaja en un registro que cambia según el brazo: s2 en el del JUGADOR (confirmado), s0 en el de 0x0013Cxxx. f21 = daño a aplicar (26.0 observado). f20 = RESULTADO ya restado, que es lo que se escribe. Ojo: la versión anterior de esta ficha decía que f20 era el piso del clamp — es falso al menos en el brazo del jugador, donde f20 valía 724.0 = 750.0 - 26.0.",
-   "confianza": "confirmado",
-   "notas_mod": "MOD DE VIDA INFINITA CERRADO 2026-08-15 (noche): nop en 0x0013BD20 (0xE65402F8 -> 0x00000000), probado contra fuego real de AK47 en el primer nivel, vida estable en 225.49 durante varios minutos de combate. Falta ver si cubre TODAS las fuentes de daño (armas cuerpo a cuerpo, caídas, explosiones) o sólo proyectiles — sólo se probó con AK47.",
-   "puntos_de_parche": [
+  "_esquema": {
+    "id": "snake_case estable",
+    "nombre": "nombre legible que le pusimos nosotros",
+    "direccion": "string hexadecimal de la primera instrucción",
+    "fin": "dirección de la última instrucción, si se conoce",
+    "version": "clave de kb/objetivo.json#versiones",
+    "descripcion": "qué hace, en una o dos frases",
+    "convencion": "qué llega en a0..a3 y qué vuelve en v0. Esto es lo más valioso de todo.",
+    "llamadores": "lista de direcciones que la llaman",
+    "llama_a": "lista de ids de otras rutinas",
+    "puntos_de_parche": "lista de {direccion, instruccion_original, efecto_si_se_modifica}",
+    "confianza": "confirmado | probable | hipotesis | descartado",
+    "evidencia": "cómo se llegó a ella (breakpoint, referencia cruzada, string cercano...)"
+  },
+  "_como_se_encuentra_una_rutina": [
+    "1. Poné un breakpoint de escritura sobre la dirección del dato (PCSX2: Debugger > Memory > right-click > Add breakpoint).",
+    "2. Provocá el evento en el juego. El debugger para en la instrucción que escribe.",
+    "3. Esa instrucción está DENTRO de la rutina, no es su principio. Subí en el desensamblado hasta el prólogo (addiu sp, sp, -N).",
+    "4. Anotá acá la dirección del prólogo, no la del breakpoint.",
+    "5. Mirá el call stack del debugger para llenar `llamadores`."
+  ],
+  "entradas": [
     {
-     "direccion": "0x0013BD20",
-     "instruccion_original": "swc1 f20, 0x2F8(s2)",
-     "codificacion": "0xE65402F8",
-     "efecto_si_se_modifica": "ESTE es el que escribe la vida del JUGADOR al recibir daño. nop acá = VIDA INFINITA, confirmado en vivo: recibiendo fuego real de AK47 (nivel 1) con el nop puesto, la vida no bajó de 225.49. Único punto de parche necesario para este mod — no hizo falta tocar 0x0013C0F0.",
-     "confianza": "confirmado"
+      "id": "aplicar_dano",
+      "nombre": "Rutina de daño / actualización de vida",
+      "direccion": null,
+      "fin": null,
+      "version": "ntsc_u",
+      "descripcion": "Resta el daño a la vida de una entidad y la escribe de vuelta en entidad+0x2F8, con clamp a un piso (muerte). El prólogo todavía no se ubicó: lo que está localizado es el cuerpo, no el principio.",
+      "convencion": "El puntero a la entidad viaja en un registro que cambia según el brazo: s2 en el del JUGADOR (confirmado), s0 en el de 0x0013Cxxx. f21 = daño a aplicar (26.0 observado). f20 = RESULTADO ya restado, que es lo que se escribe. Ojo: la versión anterior de esta ficha decía que f20 era el piso del clamp — es falso al menos en el brazo del jugador, donde f20 valía 724.0 = 750.0 - 26.0.",
+      "confianza": "confirmado",
+      "notas_mod": "MOD DE VIDA INFINITA CERRADO 2026-08-15 (noche): nop en 0x0013BD20 (0xE65402F8 -> 0x00000000), probado contra fuego real de AK47 en el primer nivel, vida estable en 225.49 durante varios minutos de combate. Falta ver si cubre TODAS las fuentes de daño (armas cuerpo a cuerpo, caídas, explosiones) o sólo proyectiles — sólo se probó con AK47.",
+      "puntos_de_parche": [
+        {
+          "direccion": "0x0013BD20",
+          "instruccion_original": "swc1 f20, 0x2F8(s2)",
+          "codificacion": "0xE65402F8",
+          "efecto_si_se_modifica": "ESTE es el que escribe la vida del JUGADOR al recibir daño. nop acá = VIDA INFINITA, confirmado en vivo: recibiendo fuego real de AK47 (nivel 1) con el nop puesto, la vida no bajó de 225.49. Único punto de parche necesario para este mod — no hizo falta tocar 0x0013C0F0.",
+          "confianza": "confirmado"
+        },
+        {
+          "direccion": "0x0013C120",
+          "instruccion_original": "swc1 f22, 0x2F8(s0)",
+          "codificacion": "0xE61602F8",
+          "efecto_si_se_modifica": "NO es el brazo del jugador: al disparar el watchpoint, f22 = 0.0 y s0 = 0x590D90, que no es el objeto del jugador. Candidato a ser el brazo de OTRA entidad — reforzado por desensamblado 2026-08-15 (16): el bloque 0x0013C060-0x0013C180 repite el MISMO patrón de estado que el bloque del jugador (`lw v1,0xC4(s1)` comparando contra 3 y 4, dos llamadas condicionales a 0x0014A438/0x00152A50, y recién después el store en +0x2F8), sólo que con s1/s0 en vez de s0/s2. Misma forma, offsets idénticos, base distinta: sigue sin verse el EFECTO en un enemigo real (confianza se mantiene en hipótesis, no confirmado).",
+          "confianza": "descartado",
+          "explicacion_definitiva_2026_08_16": "YA SE SABE QUE ES: el metodo virtual #9 de la clase del JUGADOR. La funcion que lo contiene (0x0013BDF8) esta referenciada desde un solo lugar en los 32 MB, la vtable 0x003DC64C, que es la del jugador (0x003DC5F8) en la ranura +0x54 — pegada a la ranura +0x4C que tiene la rutina de dano confirmada. Por eso el codigo era estructuralmente identico (misma clase, metodos vecinos) y por eso nopearlo no afecto a los enemigos (no es de ellos). Misterio cerrado.",
+          "descartado_por": "FALSIFICADO POR EFECTO 2026-08-15 (18): se nopeo en vivo (0xE61602F8 -> 0x00000000), el usuario descargo la AK sobre un enemigo y murio normal en 4-5 balas. Se releyo 0x0013C120 DESPUES del test y seguia en 0, o sea que el nop aguanto: el test es valido, no es un falso negativo por perdida del parche. NO es el brazo de dano de los enemigos."
+        },
+        {
+          "direccion": "0x0013C0DC",
+          "instruccion_original": "sub.s f22, f22, f21",
+          "codificacion": "0x4615B581",
+          "efecto_si_se_modifica": "acá se resta el daño. Insertar un escalado sobre f21 antes = multiplicador de daño recibido."
+        },
+        {
+          "direccion": "0x0013C0F0",
+          "instruccion_original": "swc1 f20, 0x2F8(s0)",
+          "codificacion": "0xE61402F8",
+          "efecto_si_se_modifica": "clamp de muerte: se ejecuta sólo cuando vida-daño <= piso."
+        }
+      ],
+      "evidencia": "CONFIRMADO 2026-08-15 (noche) con watchpoint de ESCRITURA sobre 0x005A8DA8, recibiendo un golpe real. El emulador paró en pc = 0x0013BD20 = `swc1 f20, 0x2F8(s2)`. Los cuatro datos cerraron a la vez: s2 = 0x005A8AB0 (base del jugador, exacta), 0x005A8AB0 + 0x2F8 = 0x005A8DA8, f21 = 26.0 (la constante de daño ya conocida) y f20 = 724.0 = 750.0 - 26.0. Después se predijo el valor ANTES de reanudar y al continuar la vida quedó en 724.0: causalidad, no correlación. Evidencia independiente en el sentido fuerte — el breakpoint NO se puso sobre la dirección sospechada, se vigiló el dato y el juego delató la instrucción. Antecedente: watchpoint de LECTURA que dio el offset real 0x2F8 (no 0x28) y bajó `xref.py stores 0x2F8 --fpu` de 69 candidatos a 8.",
+      "notas": "OJO: el candidato que traía el handoff (0x0013C120) NO era el del jugador. La sesión anterior eligió mal entre los 8 candidatos. En el momento del golpe, ese sitio tenía f22 = 0.0 y s0 = 0x590D90, que no es el objeto del jugador. Los dos sitios están a 0x400 y usan el MISMO offset 0x2F8 con registros base distintos (s2 vs s0): sigue en pie la hipótesis de una rutina GENERICA de 'entidad recibe daño' con un brazo por tipo de entidad — si se confirma, abre Fase 3 y Fase 5 juntas. FALTA EL TEST DE EFECTO: nadie vio todavía vida infinita. El test es nopear 0x0013BD20 (0xE65402F8 -> 0x00000000) y recibir golpes. No cubre necesariamente el camino de muerte."
     },
     {
-     "direccion": "0x0013C120",
-     "instruccion_original": "swc1 f22, 0x2F8(s0)",
-     "codificacion": "0xE61602F8",
-     "efecto_si_se_modifica": "NO es el brazo del jugador: al disparar el watchpoint, f22 = 0.0 y s0 = 0x590D90, que no es el objeto del jugador. Candidato a ser el brazo de OTRA entidad — reforzado por desensamblado 2026-08-15 (16): el bloque 0x0013C060-0x0013C180 repite el MISMO patrón de estado que el bloque del jugador (`lw v1,0xC4(s1)` comparando contra 3 y 4, dos llamadas condicionales a 0x0014A438/0x00152A50, y recién después el store en +0x2F8), sólo que con s1/s0 en vez de s0/s2. Misma forma, offsets idénticos, base distinta: sigue sin verse el EFECTO en un enemigo real (confianza se mantiene en hipótesis, no confirmado).",
-     "confianza": "descartado",
-     "explicacion_definitiva_2026_08_16": "YA SE SABE QUE ES: el metodo virtual #9 de la clase del JUGADOR. La funcion que lo contiene (0x0013BDF8) esta referenciada desde un solo lugar en los 32 MB, la vtable 0x003DC64C, que es la del jugador (0x003DC5F8) en la ranura +0x54 — pegada a la ranura +0x4C que tiene la rutina de dano confirmada. Por eso el codigo era estructuralmente identico (misma clase, metodos vecinos) y por eso nopearlo no afecto a los enemigos (no es de ellos). Misterio cerrado.",
-     "descartado_por": "FALSIFICADO POR EFECTO 2026-08-15 (18): se nopeo en vivo (0xE61602F8 -> 0x00000000), el usuario descargo la AK sobre un enemigo y murio normal en 4-5 balas. Se releyo 0x0013C120 DESPUES del test y seguia en 0, o sea que el nop aguanto: el test es valido, no es un falso negativo por perdida del parche. NO es el brazo de dano de los enemigos."
+      "id": "aplicar_dano_enemigo",
+      "nombre": "Rutina de daño de los ENEMIGOS (método virtual #8 de la clase 0x003DCA78)",
+      "direccion": "0x00133FA8",
+      "fin": "~0x001347B0",
+      "version": "ntsc_u",
+      "descripcion": "Resta el daño a la vida del enemigo y la escribe en enemigo+0x2F8, con clamp a 0.0 en el brazo de muerte. Es el equivalente exacto de la rutina del jugador, en otra clase. 514 instrucciones.",
+      "convencion": "Puntero a la entidad en s0. f20 = resultado ya restado (lo que se escribe en el brazo normal). f21 = 0.0, el piso, cargado con `mtc1 zero,f21` y escrito en el brazo de muerte. Mismo esquema que la del jugador salvo que ahí el piso viaja en f22.",
+      "confianza": "confirmado",
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00134654",
+          "instruccion_original": "swc1 f20, 0x2F8(s0)",
+          "codificacion": "0xE61402F8",
+          "efecto_si_se_modifica": "DAÑO NORMAL al enemigo. nop acá = ENEMIGOS INVULNERABLES. CONFIRMADO POR EFECTO 2026-08-16: con el nop puesto, el usuario le vació un cargador entero de AK a un enemigo y siguió vivo. Se releyó 0x00134654 DESPUÉS de la prueba y seguía en 0x00000000, así que el nop aguantó: no es un falso positivo por pérdida del parche. Restaurado a 0xE61402F8 al terminar.",
+          "confianza": "confirmado"
+        },
+        {
+          "direccion": "0x00134514",
+          "instruccion_original": "swc1 f21, 0x2F8(s0)",
+          "codificacion": "0xE61502F8",
+          "efecto_si_se_modifica": "CLAMP DE MUERTE: escribe 0.0 cuando vida-daño <= 0. nop acá = el enemigo no llega nunca a 0 por este camino (puede no cubrir el camino de muerte entero).",
+          "confianza": "probable"
+        }
+      ],
+      "evidencia": "2026-08-16, análisis estático offline. Se llegó por CLASE, no por escaneo: el método virtual #8 (vtable+0x4C) de la clase del jugador es la rutina de daño confirmada, así que se desensambló esa misma ranura en las 279 vtables halladas y se contó cuáles escriben en +0x2F8. Censo completo: sólo dos, la del jugador y ésta. El desensamblado muestra el patrón idéntico de dos brazos (`mtc1 zero,f21` / `c.ole.s f20,f21` / `bc1fl` / store de muerte, y aparte el store normal). Corroboración numérica independiente: los objetos de la clase tienen vida 100.0 y el daño de AK medido es 26.0, lo que da 4 balas para matar — exactamente lo que el usuario reportó dos veces sin que se le preguntara.",
+      "notas": "CONFIRMADO POR EFECTO 2026-08-16. El análisis estático (llegar a la clase por vtable y desensamblar el método virtual #8) predijo el punto de parche exacto, y el efecto en pantalla lo validó a la primera: cargador entero de AK sobre un enemigo, sin daño. Vale la pena registrar el contraste de método: dos sesiones de escaneo diferencial no habían podido ni localizar la vida del enemigo, porque muere en 4 balas y el filtro necesita más rondas. Por clase salió en una pasada y sin tocar el emulador. Antecedente que obligó a la cautela: 0x0013C120 parecía igual de sólido por analogía estructural y resultó ser el método #9 de la clase del JUGADOR."
     },
     {
-     "direccion": "0x0013C0DC",
-     "instruccion_original": "sub.s f22, f22, f21",
-     "codificacion": "0x4615B581",
-     "efecto_si_se_modifica": "acá se resta el daño. Insertar un escalado sobre f21 antes = multiplicador de daño recibido."
+      "id": "calcular_dano_por_arma",
+      "nombre": "Cálculo del daño desde el descriptor del arma",
+      "direccion": "0x0015B118",
+      "fin": "0x0015B32C",
+      "version": "ntsc_u",
+      "descripcion": "Toma el descriptor de daño del arma y calcula cuánto daño hace este impacto, después lo entrega a la víctima. Es el eslabón que faltaba entre la tabla de armas y la rutina de daño: hasta acá el daño llegaba en $f12 'de la nada'.",
+      "convencion": "$a0 = objeto que tiene el arma; su campo +0x0C es el DESCRIPTOR de daño (bloque de 0x30 de kb/estructuras.json#arma). $a1 = objeto del impacto; +0x24 = entidad víctima, +0x2C = byte de flags. $f12 = argumento escalar que entra a la interpolación (se copia a $f20 en 0x0015B170). Devuelve 1 en $v0 si aplicó daño.",
+      "formula": "En 0x0015B20C: f2=1.0; f0=[desc+0x14] (Range); f1=[desc+0x1C] (falloff); f3=[desc+0x18] (Power); f0=f20/f0; f2=1.0-f1; f1=f3*f1; f0=f0*f3; f0=f0*f2; f21=f0+f1. O sea daño = Power*(falloff + (1-falloff)*arg/Range). Con falloff=1 el daño es CONSTANTE e igual a Power, que es el caso de casi todas las armas — y explica los 10 escalones idénticos de 26.0 de la Fase 1.",
+      "confianza": "confirmado",
+      "llamadores": [
+        "0x001599D0",
+        "0x00159A70",
+        "0x00159FF4",
+        "0x0015AF1C",
+        "0x0015AFC8"
+      ],
+      "dos_caminos": "Desde acá el daño sale por uno de dos caminos, según $s5: (a) 0x0015B2D8, llamada DIRECTA al método virtual #8 de la víctima con mov.s $f12,$f21; (b) 0x0015B31C, se ENCOLA con jal 0x0015B8F8 pasando $a0 = 0x00414AD0. Ver la entrada cola_de_dano.",
+      "puntos_de_parche": [
+        {
+          "direccion": "0x0015B238",
+          "instruccion_original": "add.s $f21, $f0, $f1",
+          "efecto_si_se_modifica": "es la suma final de la fórmula. Reemplazarla por un mov.s desde un registro con un valor fijo daría daño constante para TODAS las armas, sin tocar la tabla.",
+          "confianza": "hipotesis"
+        }
+      ],
+      "evidencia": "2026-08-16, análisis estático sobre volcados/codigo-vivo.bin con capstone (CS_MODE_MIPS64 + skipdata). Se enumeraron los 37 sitios de llamada al método virtual #8 con el patrón `lw rX,0x4c(rY)` + `jalr rX`, y se hizo backward-slice de $f12 en cada uno. Sólo seis tenían definición dentro de 64 instrucciones; una de ellas, 0x0015BAEC (`lwc1 $f12,0x14($s0)`), llevó a la cola de daño, y de ahí al único llamador de la encoladora, que es esta función. El descriptor quedó confirmado por efecto al escribirle Power (ver kb/estructuras.json#arma).",
+      "descubierto": "2026-08-16"
     },
     {
-     "direccion": "0x0013C0F0",
-     "instruccion_original": "swc1 f20, 0x2F8(s0)",
-     "codificacion": "0xE61402F8",
-     "efecto_si_se_modifica": "clamp de muerte: se ejecuta sólo cuando vida-daño <= piso."
+      "id": "cola_de_dano",
+      "nombre": "Cola de daño diferido",
+      "direccion": "0x0015B8F0",
+      "version": "ntsc_u",
+      "descripcion": "Buffer de 16 impactos que se acumulan durante el frame y se aplican todos juntos al final. El objeto de la cola es el GLOBAL 0x00414AD0: 16 registros de 0x20 bytes seguidos del contador en +0x200 (= 0x00414CD0).",
+      "convencion": "Registro de 0x20: +0x10 puntero a la entidad víctima, +0x14 f32 daño, +0x18 f32 distancia, +0x1C u8 flags. Tres funciones: 0x0015B8F0 resetear (sw zero,0x200(a0)); 0x0015B8F8 agregar (a0=cola, a2=víctima, $f12=daño, $f13=dist, a3=flags) — si ya hay 16 reemplaza el de menor +0x18; 0x0015BA80 vaciar, que por cada registro hace lw $v0,0x10(víctima) -> lw $v1,0x4c($v0) -> jalr, o sea llama al método virtual #8.",
+      "confianza": "probable",
+      "notas": "Este camino NO es el de las balas: después de que el usuario disparara, el contador 0x00414CD0 estaba en 0 y el registro 0 en ceros. Es la rama que se toma cuando $s5 == 0 en 0x0015B2C4, probablemente daño de área (explosiones). El vaciado en 0x0015BA80 vuelve a confirmar que el puntero de clase está en objeto+0x10.",
+      "evidencia": "2026-08-16, desensamblado. 0x0015B8F8 tiene un solo llamador en los 32 MB (0x0015B320) y ahí $a0 se arma con lui 0x41 + addiu 0x4AD0 = 0x00414AD0. 0x0015BA80 tiene un solo llamador (0x0015AD3C).",
+      "descubierto": "2026-08-16"
+    },
+    {
+      "id": "hud_ratio_vida",
+      "nombre": "Normalización de la barra de vida del HUD",
+      "direccion": null,
+      "version": "ntsc_u",
+      "descripcion": "Divide la vida por una constante para obtener el ratio 0..1 con el que se dibuja la barra. Elige entre dos constantes según una rama (`beqz v0`): 1200.0 o 750.0.",
+      "convencion": "Puntero a la entidad en a2 (también visto en s0 y a1). Devuelve el ratio en f12.",
+      "confianza": "probable",
+      "puntos_de_parche": [
+        {
+          "direccion": "0x001F93EC",
+          "instruccion_original": "lui at, 0x4496",
+          "efecto_si_se_modifica": "cambia el denominador 1200.0 — sólo afecta cómo se DIBUJA la barra, no la vida real."
+        }
+      ],
+      "evidencia": "Watchpoint de lectura sobre 0x005A8DA8. Tres sitios idénticos salvo el registro base: 0x0013A454 (s0), 0x001EEBD8 (a1), 0x001F93E0 (a2). El desensamblado muestra `lwc1 f01,0x2F8(base)` seguido de `lui at,0x4496` / `mtc1` / `div.s f12, f01, f00`. Constantes decodificadas: 0x44960000 = 1200.0, 0x443B8000 = 750.0.",
+      "notas": "ACA APARECE EL 1200. El HANDOFF anterior declaraba falso el recuerdo de 'vida máxima ~1200'; el 1200.0 está hardcodeado en el código que lee la vida. Queda por determinar qué selecciona la rama entre 1200.0 y 750.0 (¿dificultad? ¿tipo de entidad?). También es el candidato natural a explicar 0x0065F458 (f32, rango observado 0.23..0.59): sería este ratio."
+    },
+    {
+      "id": "fixup_contenedor_bin",
+      "nombre": "Arreglo de punteros del contenedor .BIN (callback de GlobData.bin)",
+      "direccion": "0x00105D48",
+      "fin": "0x00106007",
+      "version": "ntsc_u",
+      "descripcion": "NO es un parser: es una pasada de RELOCALIZACION. Toma el bloque recien cargado en el heap y convierte los u32 de su cabecera, que son offsets relativos al inicio del archivo, en punteros absolutos sumandoles la direccion de carga. Despues baja recursivamente y hace lo mismo dentro de cada seccion, donde los offsets son relativos a la seccion, no al archivo.",
+      "convencion": "Sin argumentos: toma el bloque de FUN_001092F8(). Fija las ranuras +0x04, +0x08, +0x0C, +0x10, +0x14 y +0x18 de la cabecera. En la seccion de +0x0C: el u8 de +0x00 es la CANTIDAD, el u32 de +0x04 es un offset relativo a la propia seccion, y los registros son de 0x24. En la de +0x10: la cantidad esta en +0x01, los registros son de 0x20 y cada uno tiene sus propios fixups en +0x08, +0x0C, +0x10, +0x14 y +0x18 relativos al registro.",
+      "confianza": "probable",
+      "llamadores": [
+        "0x00105858"
+      ],
+      "evidencia": "2026-08-16. Decompilado con Ghidra 12.1.2 + ghidra-emotionengine-reloaded. Camino: la cadena 'GlobData.bin' esta en 0x003F2AD8; su unico xref de codigo es 0x00105ADC dentro de FUN_00105858 (maquina de estados de arranque), donde se pide el archivo con FUN_001093C0(streamer, ruta, 8, 1, 0x105D48, ...) y 0x105D48 es el callback de post-carga. VERIFICADO CONTRA LOS ARCHIVOS REALES: en GLOBDATA.BIN las seis ranuras dan offsets validos (0x80, 0xF9300, 0x130C80, 0x132F80, 0x133800, 0x133F80) y la tabla de armas —cuya posicion 0x00130E20 ya se conocia por otra via— cae dentro de la seccion de 0x00130C80, a +0x1A0. Segundo control independiente: en STLEVEL.BIN la seccion declarada en 0x80 arranca con los bytes de 'bg1_shg', que es la tabla de nombres de entidades ya documentada.",
+      "descubierto": "2026-08-16",
+      "notas": "ESTO EXPLICA POR QUE FALLABA LA HIPOTESIS VIEJA de 'tabla de offsets creciente': no es una tabla ordenada, es una cabecera de layout fijo donde cada ranura es una seccion distinta y no tienen por que venir en orden. NO APLICA A TODOS LOS .BIN: LEVELDAT.BIN da tres ranuras fuera de rango y GUNS.BIN tiene un tamano en +0x00 en vez de una cantidad. Esos dos usan otro layout y se resuelven igual — xref de su cadena de ruta, decompilar su callback."
+    },
+    {
+      "id": "resolver_huesos",
+      "nombre": "Resolver los 11 nombres de hueso a índices y cachearlos en el personaje",
+      "direccion": "0x001381E0",
+      "fin": "0x00138294",
+      "version": "ntsc_u",
+      "descripcion": "Al construir un personaje, recorre la tabla de nombres de hueso de 0x003BCE70 (11 entradas) y por cada nombre pide el índice de hueso al esqueleto, guardándolo en objeto+0x0C+i*4. Después copia 4 floats de 0x003F5128 (0, 5, 12, 22) a [objeto]+0x28 y llama a 0x001415A8.",
+      "convencion": "$a0 = el objeto personaje. $s1 = ese objeto; $s0 = destino, arranca en $s1+0x0C y avanza de a 4; $s3 = 0x003BCE70 (armado con lui en 0x001381E4 + addiu en 0x00138208); $s2 = 10, contador de 11 vueltas. Un nombre nulo salta la entrada sin avanzar el destino.",
+      "confianza": "probable",
+      "llama_a": [
+        "buscar_hueso_por_nombre"
+      ],
+      "evidencia": "Desensamblado estático del ELF del ISO con capstone (CS_MODE_MIPS64 + skipdata), 2026-08-16. Se llegó desde la tabla de nombres: se enumeraron todas las direcciones que el código arma con lui+addiu/lw/sw dentro de 0x003BCE00-0x003BCF00 y sólo UN sitio toma la dirección 0x003BCE70 en vez de leer un valor.",
+      "descubierto": "2026-08-16",
+      "notas": "ES MATERIAL DE FASE 5b, no una respuesta. Deja once índices de hueso cacheados en offsets FIJOS del personaje (0x0C..0x38). Lo que falta es ver si el byte de zona que entra a 0x00142B90 sale de este arreglo o del esqueleto completo. Sin resolver: son 11 huesos contra 24 registros de zona."
+    },
+    {
+      "id": "buscar_hueso_por_nombre",
+      "nombre": "Índice de hueso a partir de su nombre (búsqueda lineal por strcmp)",
+      "direccion": "0x00138298",
+      "version": "ntsc_u",
+      "descripcion": "Recorre los nombres de hueso del esqueleto del personaje comparando con strcmp y devuelve el índice del que coincide. Su valor real es que EXPONE EL LAYOUT DEL ESQUELETO.",
+      "convencion": "$a0 = objeto personaje, $a1 = nombre buscado. esqueleto = [objeto+0x00]; [esqueleto+0x5C] = cantidad de huesos; [esqueleto+0x60] = array de const char* con los nombres. Llama a strcmp en 0x00360838. Devuelve el índice en $v0.",
+      "confianza": "probable",
+      "llamadores": [
+        "0x0013821C"
+      ],
+      "evidencia": "Desensamblado estático del ELF, 2026-08-16. El bucle es explícito: `lw $v0,0x5c($v1)` como tope, `lw $v0,0x60($a0)` como base del arreglo, `sll $v1,$s0,2` para indexar y `jal 0x360838` con el nombre de cada entrada.",
+      "descubierto": "2026-08-16",
+      "notas": "De acá salen los dos offsets del esqueleto que van a kb/estructuras.json#esqueleto. Ninguno de los dos está confirmado por efecto todavía."
+    },
+    {
+      "id": "calcular_dano_zona",
+      "nombre": "Daño efectivo por ZONA DE IMPACTO — el daño de SALIDA del jugador",
+      "direccion": "0x00142B90",
+      "fin": "0x00142E2C",
+      "version": "ntsc_u",
+      "descripcion": "Devuelve cuánto daño recibe realmente una entidad por un impacto. NO usa el daño que le llega: lo IGNORA y calcula el suyo a partir de la zona del cuerpo golpeada. Es el eslabón que faltaba para explicar por qué escribir Power=300 en los 34 campos de la tabla de armas no cambió el daño del jugador.",
+      "convencion": "$a0 = [[victima+0x328]+0x3C], puntero al personaje; $a1 = número de ZONA (byte con signo, se multiplica por 0xC en 0x00142BC4); $a2 = base de la tabla de zonas, cargada en 0x00142BF4 con lw $a2,($a0); $t1 = tipo de daño; sp+0x150 = 'Weapon Impact Level' del tirador ([[tirador+0x2A4]+0x108]). DEVUELVE el daño en $f0. El $f12 de entrada NO se lee en ningún punto de la función.",
+      "formula": "s0 = tabla + zona*0xC; f1 = [s0+0x00] si [impacto+0x48] < 0, si no [s0+0x04]; daño = f1 * 100.0 (el lui $at,0x42C8 de 0x00142CA0, mul.s en 0x00142CAC). Después, en 0x00142DF4-0x00142E04, se multiplica por 0.7 (lui 0x3F33 + ori 0x3333) sólo si el impact level no es cero y ninguno de los dos flags de salida quedó en 1.",
+      "confianza": "confirmado",
+      "llamadores": [
+        "0x0013434C"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00142CAC",
+          "instruccion_original": "mul.s $f20, $f1, $f0",
+          "codificacion": "0x46000D02",
+          "efecto_si_se_modifica": "es donde el factor de zona se convierte en danio. Para escalar TODO el danio de salida contra cualquier victima de una sola vez, sin tocar las tablas por personaje, NO se escribe un f32 en 0x00142CA0: ahi vive la INSTRUCCION lui at, 0x42C8, y el 100.0 esta en su inmediato de 16 bits. Se reescribe la palabra entera como 0x3C01<hi>, donde <hi> son los 16 bits ALTOS del float deseado. Escribir el float crudo en esa direccion corrompe el codigo.",
+          "confianza": "confirmado",
+          "confirmado_por": "EFECTO, 2026-09-04. Se escribio 0x3C014348 en 0x00142CA0 (SOLO EN RAM, via pine.py) durante una partida real en LEVEL_02, y se grabo por RAM con vigilar.py la vida de los 32 slots del pool de enemigos MAS la vida del jugador, sin apuntar a ningun enemigo en particular (mecanismo pensado para no tener que apuntar y contar tiros a ciegas, ver docs/03-bitacora.md (54)). Resultado: dos impactos consecutivos sobre el mismo enemigo (slot 01) dieron exactamente -47.6 cada uno. 47.6 = 0.34 (factor de zona ya documentado en kb/estructuras.json#zona_impacto, zonas 3/8/10/15) * 200.0 (el valor patcheado) * 0.7 (el multiplicador final ya documentado en esta misma rutina) -- los TRES factores son datos independientes ya confirmados antes de esta sesion, y su producto coincide bit a bit con lo medido. CONTROL NEGATIVO, en la misma grabacion: el jugador recibio tres impactos de enemigos, los tres de exactamente -26.0 (el valor YA confirmado en la Fase 1, sin cambios) -- confirma que el parche es unidireccional, solo escala el danio de SALIDA del jugador, tal como decia el nombre de esta ficha. Datos crudos: volcados/verificacion-dano-x2-lvl2.csv.",
+          "parches_calculados": {
+            "x0.5": {
+              "valor": 50.0,
+              "palabra": "0x3C014248",
+              "lui": "lui at, 0x4248"
+            },
+            "x2": {
+              "valor": 200.0,
+              "palabra": "0x3C014348",
+              "lui": "lui at, 0x4348"
+            },
+            "x4": {
+              "valor": 400.0,
+              "palabra": "0x3C0143C8",
+              "lui": "lui at, 0x43C8"
+            },
+            "x10": {
+              "valor": 1000.0,
+              "palabra": "0x3C01447A",
+              "lui": "lui at, 0x447A"
+            },
+            "nota": "los 16 bits BAJOS del float dan 0 en los cuatro casos, asi que alcanza con reescribir el lui: no hace falta un ori. Verificado con herramientas/mips.py el 2026-09-04."
+          },
+          "verificacion_en_frio": "2026-09-04: leido de eeMemory.bin del savestate 03. 0x00142CAC contiene exactamente 0x46000D02, la codificacion registrada. 0x00142CA0 contiene 0x3C0142C8 = lui at, 0x42C8, y 0x42C80000 en IEEE754 es 100.0 exacto. La formula de esta rutina queda respaldada contra memoria real. Lo que sigue en 'hipotesis' es que cambiar ese 100.0 escale el danio de salida: eso pide verificacion POR EFECTO en el juego."
+        }
+      ],
+      "evidencia": "CONFIRMADO POR EFECTO 2026-08-16. Se escribieron los 36 factores de zona en 3.0 (= 300 de dano por impacto, contra 100.0 de vida) con herramientas/zonas.py, y el usuario reporto que los enemigos mueren de UNA bala donde antes hacian falta cuatro. Corroboracion por medicion sobre el pool: linea de base volcados/ee-4b-antes.bin (#2=100.0, #6=49.0, #9=100.0, #11=100.0, resto 0) contra volcados/ee-4b-post.bin, donde los CUATRO que estaban vivos quedaron en 0.0 y aparecieron cuatro spawns nuevos en 100.0 exactos. El dato fuerte es que NO hay un solo valor intermedio en los 32 slots: con 25.5 por bala tendria que haber enemigos en 74.5 / 49 / 23.5 en cualquier instante del tiroteo, y no hay ninguno. CONFOUND DESCARTADO (leccion 16): se releyeron 0x00709F40, 0x00709F70 y 0x00709F7C DESPUES del test y las tres seguian en 3.0, o sea que el parche aguanto y no es un falso positivo por perdida. Restaurado 36/36 sin discrepancias. Analisis previo que lo predijo: 0 copias de descriptores de arma fuera de la tabla; 25.5 inexistente como inmediato en el codigo (con control positivo lui 0x4496 = 17 sitios); 0.255 presente exactamente 9 veces en los 32 MB, las 9 dentro de la tabla de zonas.",
+      "descubierto": "2026-08-16",
+      "decompilacion_ghidra_2026_08_16": "Ghidra 12.1.2 + ghidra-emotionengine-reloaded devuelve el cuerpo en C y coincide con el desensamblado a mano, lo que vale como verificacion cruzada de las dos lecturas. Nucleo: `pfVar2 = (float *)(*param_1 + param_2 * 0xc); if (escalar < 0.0) fVar3 = *pfVar2; else fVar3 = pfVar2[1]; fVar3 = fVar3 * 100.0;` y al final `if ((param_9 != 0) && (*param_7 != 1) && (*param_8 != 1)) fVar3 = fVar3 * 0.7;`. LO QUE AGREGA: el campo de +0x08 del registro de zona NO es un float corrido, son DOS BYTES DE BANDERAS en +0x08 y +0x09 que la rutina lee para armar sus dos salidas booleanas (ver kb/estructuras.json#zona_impacto). Ademas la zona entra como `char` con signo, y en el llamador (metodo virtual #8 del enemigo, FUN_00133FA8) llega como argumento propio: `param_4 & 0xff`, donde 0xFF significa 'sin zona' y el valor 4 tiene un caso especial que consulta FUN_00138320([victima+0x328]) contra 0x28 y 0x2A.",
+      "notas_mod": "Para un mod de dano de salida hay dos palancas. (a) Los factores por zona, que son POR TIPO DE PERSONAJE y viven en el heap: hay que buscarlos por cadena en cada arranque, no sirven para un .pnach. (b) El 100.0 de 0x00142CA0 (lui $at,0x42C8), que es codigo del ELF, direccion fija, y escala TODO el dano de salida de una sola vez. Para el pnach va (b)."
+    },
+    {
+      "id": "codec_id64",
+      "nombre": "Codec de nombres de 64 bits (base-40, 12 caracteres)",
+      "direccion": "0x00272488",
+      "fin": "0x0027257B",
+      "version": "ntsc_u",
+      "descripcion": "FUN_00272488 DECODIFICA un u64 a 12 caracteres; FUN_00272610 codifica. Es base-40 de ancho fijo, escrito de atras hacia adelante. Alfabeto: 0=' ', 1='-', 2='/', 3..12='0'..'9', 13..38='A'..'Z', 39='_'. Sin minusculas. El relleno va a la DERECHA y por eso el consumidor recorta espacios ahi.",
+      "convencion": "FUN_00272488(id64, buffer): escribe 12 chars y un cero en +0xC. Usa FUN_00290AC0 (resto por 0x28) y FUN_002904F0 (division por 0x28).",
+      "confianza": "probable",
+      "evidencia": "2026-08-22. Portado a herramientas/id64.py y validado contra la tabla de camaras de STLEVEL.BIN L00 (seccion 0x261300): los 12 IDs decodifican a CAM_BLOWDOOR, CAM_INTRO, CAM_RPGTOWER, CAM_START, CAM_TRUCK, CAM_XROADS, CITY_START y DEATHCAM01..06, Y SALEN EN ORDEN ALFABETICO -- un orden que un codec equivocado no produce por casualidad. El autotest se probo rompiendolo de dos formas (alfabeto corrido y orden de escritura invertido) y se pone en rojo con exit 1 en las dos.",
+      "descubierto": "2026-08-22",
+      "notas": "El codec es TOTAL: todo u64 da 12 caracteres, asi que buscar 'nombres validos' en un archivo sin exigir relleno a la derecha es ruido -- 79.048 nombres distintos en STLEVEL.BIN. Con relleno >= 2 quedan 88 y son todos reales."
+    },
+    {
+      "id": "arma_instancia_init",
+      "nombre": "Inicializa una entrada del pool de armas activas (0x24)",
+      "direccion": "0x00158F50",
+      "fin": "0x0015911F",
+      "version": "ntscu_1_00",
+      "descripcion": "Rellena una entrada de 0x24 del pool de armas activas. Escribe entrada+0x08 = descriptor de arma (param_3) y entrada+0x0C = EL BLOQUE DE IA. La eleccion es un offset FIJO, no una seleccion por tabla: si *(*(param_2+0xF0)+0xC4) == 2 (el jugador) entrada+0x0C = param_3; en cualquier otro caso (todo NPC) entrada+0x0C = param_3 + 0x30.",
+      "convencion": "a0 = entrada del pool (0x006E18B0 + n*0x24). a1 = slot de arma de 0x110 del manager. a2 = descriptor de arma (param_3). a3 = pasa a FUN_001e18b0. Devuelve 1.",
+      "llamadores": [
+        "0x0015D10C"
+      ],
+      "llama_a": [
+        "FUN_00155178",
+        "FUN_001e2be8",
+        "FUN_00135570",
+        "FUN_00138320",
+        "FUN_001e18b0"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00159008",
+          "instruccion_original": "addiu $4, $16, 0x30",
+          "efecto_si_se_modifica": "cambia QUE bloque usa la IA de TODO NPC: el inmediato 0x30 es el unico lugar donde se elige. 0x00 haria que los NPC usen el bloque del jugador."
+        },
+        {
+          "direccion": "0x00159014",
+          "instruccion_original": "sw $4, 0xc($17)",
+          "efecto_si_se_modifica": "la escritura misma del bloque de IA en la entrada (rama NPC)"
+        },
+        {
+          "direccion": "0x00158FF4",
+          "instruccion_original": "sw $16, 0xc($17)",
+          "efecto_si_se_modifica": "la misma escritura, rama jugador (param_3 sin desplazar)"
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-22, en frio sobre el ELF. Cadena completa medida, no supuesta: 0x006E18B8 no se construye en ningun lado del .text (0 instrucciones 'lui rX,0x006E' en las 680k palabras de .text) porque es heap -- .bss termina en 0x0049BFBC. El pool cuelga del descriptor 0x005AE880, apuntado UNICAMENTE por la global .bss 0x0040F4E0. FUN_001020c0 hace DAT_0040f4e0 = malloc(0xFE0) y lo inicializa con FUN_0015C970, que pide 0x708 = 0x32*0x24 para el campo +0x0C y corre el constructor de entrada FUN_00158F08 cada 0x24. Control positivo pasivo sobre ee-e4.bin: la funcion predice entrada+0x00 = 0 y entrada+0x0C = entrada+0x08 + 0x30 para los seis NPC, y el volcado lo cumple exacto (0x01842A30/0x01842A60, 0x01842C10/0x01842C40).",
+      "notas": "CIERRA LA FASE 7c CON RESPUESTA NEGATIVA UTIL: el bloque de IA NO se elige por ningun campo del registro de personaje (+0x78, +0x8C, +0xA8: ninguno interviene). Es descriptor+0x30, un offset fijo del mismo descriptor de arma. Por eso el experimento 7b no podia mover el array tocando +0x78. La pregunta que queda (7d) es quien escribe el descriptor: *(slot0x110 + 0xEC)."
+    },
+    {
+      "id": "arma_instancia_asignar",
+      "nombre": "Asigna entrada(s) del pool de armas activas a una entidad al spawnear",
+      "direccion": "0x0015D060",
+      "fin": "0x0015D197",
+      "version": "ntscu_1_00",
+      "descripcion": "Recorre el array de ocupacion (manager+0x10, 0x32 bytes) buscando el primer indice libre, calcula la entrada como manager+0x0C + n*0x24 y llama a FUN_00158F50. Corre hasta dos veces: iVar6=0 arma primaria con descriptor *(slot+0xEC), iVar6=1 arma secundaria con *(*(slot+0xEC)+0xA0). Deja el puntero a la entrada de vuelta en slot+0xF4 (primaria) y slot+0xF8 (secundaria), y marca ocupado el byte n.",
+      "convencion": "a0 = manager de armas (*0x0040F4E0). a1 = slot de arma de 0x110. a2 = se pasa tal cual a FUN_00158F50.",
+      "llamadores": [],
+      "llama_a": [
+        "arma_instancia_init"
+      ],
+      "puntos_de_parche": [],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-22, en frio. Unico llamador de FUN_00158F50 segun xref de Ghidra (0x0015D10C). Control positivo sobre ee-e4.bin: el codigo escribe slot+0xF4 = entrada, y el volcado tiene 0x006DE784 (= slot0 0x006DE690 + 0xF4) valiendo 0x006E18B0, la base exacta del pool.",
+      "notas": "El indice n del array de 0x006E18B8 sale de aca: es el primer byte libre del array de ocupacion, no un id de entidad. Explica que el array se llene progresivamente al spawnear."
+    },
+    {
+      "id": "arma_slot_constructor",
+      "nombre": "Constructor del slot de arma de 0x110: ESCRIBE slot+0xEC (el descriptor)",
+      "direccion": "0x00156278",
+      "fin": "0x00156383",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_00156278(slot, entidad, b, param_4). Inicializa el slot de arma de 0x110. Escribe slot+0x00 = b (byte), slot+0xF0 = entidad, slot+0xFC = entidad+0x280, y sobre todo: slot+0xE8 = FUN_0015d210(mgr,b) = puntero al registro b de la tabla de 17, y slot+0xEC = FUN_0015d228(mgr,b) = tabla17[b] campo +0x08 = EL DESCRIPTOR DE ARMA. Tres instrucciones despues llama a FUN_0015d060, que es quien lee ese +0xEC. CIERRA LA FASE 7d.",
+      "convencion": "a0 = slot de 0x110. a1 = entidad (va a slot+0xF0). a2 = b, INDICE DE ARMA de un byte. a3 = pasa a FUN_0015d060. Devuelve 1.",
+      "llamadores": [
+        "0x0015CF6C (FUN_0015cef0)",
+        "0x00158DEC (FUN_00158ae0, manejador del evento 'GET WEAPON')"
+      ],
+      "llama_a": [
+        "FUN_0015d210",
+        "FUN_0015d228",
+        "FUN_0015d060",
+        "FUN_0020bc00",
+        "FUN_0027c278",
+        "FUN_00209ec8"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00156318",
+          "instruccion_original": "sw $v0, 0xEC($s0)",
+          "efecto_si_se_modifica": "ES LA ESCRITURA DEL DESCRIPTOR DE ARMA en el slot. Unico store a +0xEC en todo el subsistema 0x00155000-0x0015D200: de 54 accesos al inmediato 0xEC en ese rango, 53 son loads y este es el unico store."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23, en frio sobre el ELF. Control positivo sobre volcados/ee-e4.bin: prediciendo slot+0xE8 y slot+0xEC a partir del byte slot+0x00, los OCHO slots vivos dan exacto. b=0x05 -> 0x01842C10, que es el descriptor que la bitacora (33) habia medido en RAM para los cinco E_BLACKHD_M0. Dos cruces no buscados que confirman: b=0x05 decodifica a BG1_AK1 (los enemigos llevan AK) y b=0x00 a BG1_PST (el jugador arranca con pistola).",
+      "descubierto": "2026-08-23",
+      "notas": "El byte b NO es un dato guardado en ningun lado: se resuelve POR NOMBRE. Ver arma_indice_desde_tabla y arma_resolver_por_nombre."
+    },
+    {
+      "id": "arma_indice_desde_tabla",
+      "nombre": "Las dos rutinas de una linea que indexan la tabla de 17 armas",
+      "direccion": "0x0015D210",
+      "fin": "0x0015D243",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_0015d210(mgr,b) devuelve *(*mgr+4) + b*0x20, el puntero al registro b de la tabla de 17 (va a slot+0xE8). FUN_0015d228 @ 0x0015D228 devuelve *(u32*)( *(*mgr+4) + b*0x20 + 8 ), EL DESCRIPTOR DE ARMA (va a slot+0xEC). El b*0x20 esta escrito como (b<<24)>>19, que ademas extiende el signo del byte: b=0xFF da -0x20.",
+      "convencion": "a0 = manager de armas (*0x0040F4E0). a1 = b, indice de arma de un byte.",
+      "llamadores": [
+        "0x001562F0 y 0x00156310 (FUN_00156278)"
+      ],
+      "llama_a": [],
+      "puntos_de_parche": [],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23. Verificado contra ee-e4.bin: *0x0040F4E0 = 0x005AE880, *mgr = 0x01842080, tabla = *(0x01842080+4) = 0x01842090, conteo = *(u8*)(0x01842080+1) = 17. Los 8 slots vivos cumplen la formula exacto.",
+      "descubierto": "2026-08-23",
+      "notas": "El conteo 17 coincide con los 17 registros de 0x1E0 de la tabla de armas ya conocida. El registro de la tabla es {u64 id64 del nombre en +0x00, u32 descriptor en +0x08, u32 en +0x0C, u32 en +0x10, ...} con paso 0x20."
+    },
+    {
+      "id": "arma_resolver_por_nombre",
+      "nombre": "El arma se elige por NOMBRE id64, no por indice: el barrido lineal de los 5 llamadores",
+      "direccion": "0x0015CEF0",
+      "fin": "0x0015CFDF",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_0015cef0(mgr, entidad, b, x) toma el primer slot libre del array de ocupacion mgr+0x08, calcula slot = mgr[1] + i*0x110 y llama al constructor FUN_00156278. Pero lo importante esta ARRIBA: sus CINCO llamadores calculan b todos de la misma forma -- barren linealmente los 17 registros de la tabla comparando el id64 de rec+0x00 contra un u64, y el indice donde matchea es b; si no matchea ninguno, b = 0xFF.",
+      "convencion": "a0 = manager (*0x0040F4E0). a1 = entidad duena. a2 = b (byte). Devuelve el puntero al slot de 0x110.",
+      "llamadores": [
+        "0x00139F68 y 0x00139FE0 (FUN_00139c68): nombre desde entidad+0x3C0 (primaria) y entidad+0x3C8 (secundaria). Es el camino del jugador.",
+        "0x00132930 (FUN_001327f0): nombre desde param_5, que llega de descriptor+0x28 via FUN_00138c80 <- FUN_00178bc0(param_7) <- FUN_00178978 / FUN_00178ae8. Camino data-driven.",
+        "0x0015F0C4 -> FUN_00138df8 -> FUN_001327f0 (FUN_0015ef48 case 0x0A): nombre LITERAL 0x5446127297C60000 = BG1_AK1, hardcodeado en el .text.",
+        "0x001785C8 (FUN_001784f0): nombre LITERAL 0x54461524B8230000 = BG1_SNR.",
+        "0x0015C7F8 (FUN_0015c3c8): b directo desde *(iVar6+0x44). Es re-arme / pickup, no spawn."
+      ],
+      "llama_a": [
+        "FUN_00156278"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "FUN_0015ef48 case 0x0A (~0x0015F0B0)",
+          "instruccion_original": "literal u64 0x5446127297C60000 (BG1_AK1)",
+          "efecto_si_se_modifica": "cambia el arma de todo lo que spawnee por el case 0x0A del stream de nivel. Es un literal de 8 bytes: se reemplaza por el id64 de otra arma (id64.py codificar). bg1_rpg YA esta en la lista de assets de LEVEL_00, asi que AK1 -> RPG no requiere agregar nada al nivel."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-08-23, en frio. El xref de Ghidra da exactamente 5 llamadores y los cinco tienen el mismo barrido lineal. Control positivo: entidad del jugador 0x005A8AB0 + 0x3C0 = 0x544614B7182C0000 = BG1_PST, y el jugador tiene b = 0x00 = BG1_PST en el volcado.",
+      "descubierto": "2026-08-23",
+      "notas": "NO hay un solo 'sd' a +0x3C0 en todo el .text (32 accesos al inmediato 0x3C0, y los unicos stores son spills de $sp): el campo llega por copia en bloque, no por una instruccion propia. Los cinco enemigos tienen entidad+0x3C0 = 0 en el volcado, o sea NO vinieron por FUN_00139c68 -- eso es lo que mando a mirar los otros llamadores y destapo el literal hardcodeado."
+    },
+    {
+      "id": "stage_stream_dispatcher",
+      "nombre": "EL INDICE DE MODULOS DEL NIVEL: dispatcher de 61 tipos sobre el stream del stage",
+      "direccion": "0x0015EF48",
+      "fin": "0x0015FDBF",
+      "version": "ntscu_1_00",
+      "descripcion": "FUN_0015ef48(registro, lista, p3, p4). 'lista' es {u32 count, u32 array}; el array son registros de 0x10 bytes {u32 tipo, u32 ptr, u64 payload}. La funcion es un switch sobre el tipo con 61 casos, tipos 0x03 a 0x44. ESE SWITCH ES EL ESQUEMA DEL ARCHIVO DE NIVEL: una rama por tipo de modulo. 'registro' (param_1) trae un array de handles por tipo (piVar10[2], [4], [5], [9], ...). El case 0x0A es el spawn de personaje, y es el que lleva el arma BG1_AK1 literal.",
+      "convencion": "a0 = registro de handles por tipo. a1 = {count, array de registros de 0x10}.",
+      "llamadores": [
+        "0x0012DCA8 (FUN_0012dab8), a su vez desde FUN_00129360 y FUN_0012be80"
+      ],
+      "llama_a": [
+        "FUN_00174430",
+        "FUN_00138df8",
+        "FUN_001650f8",
+        "FUN_00165210",
+        "y uno o mas por cada caso"
+      ],
+      "puntos_de_parche": [],
+      "confianza": "probable",
+      "evidencia": "2026-08-23, leido en Ghidra, no ejecutado. 61 etiquetas 'case' contadas en la decompilacion, tipos 0x03-0x44. El case 0x0A esta confirmado por otra via: es el que lleva el literal BG1_AK1, y los cinco enemigos de LEVEL_00 tienen justo ese descriptor (0x01842C10).",
+      "descubierto": "2026-08-23",
+      "notas": "ES LA VIA DE MAYOR APALANCAMIENTO PARA LAS FASES 6 Y 7: en vez de subir la cadena de llamadas eslabon por eslabon para cada cosa que se quiera tocar, enumerar los 61 casos da el mapa de todo lo que un nivel puede contener. Abre la fase 7e. Salio de una pregunta de Fran: buscar el indice en vez de recorrer los modulos."
+    },
+    {
+      "id": "mira_actualizar",
+      "nombre": "Actualizar la mira: curva, suavizado, aceleracion y giro",
+      "direccion": "0x001404A8",
+      "fin": "0x001407C7",
+      "version": "ntsc_u",
+      "descripcion": "La funcion COMPLETA de la mira de BLACK. Recibe los dos ejes del stick derecho ya combinados y actualiza el yaw y el pitch de la camara. Es donde viven, todas juntas, las cuatro cosas que hacen que la mira se sienta como se siente.",
+      "convencion": "f12 = eje Y, f13 = eje X (floats, -1..1), a0 = objeto de controles (0x005A8FA0). No devuelve nada: escribe sobre el objeto.",
+      "llamadores": [
+        "0x0013FD44",
+        "0x0013FD58"
+      ],
+      "llama_a": [
+        "powf (0x0029E688)"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x005A9048",
+          "instruccion_original": "dato f32 = 70.0",
+          "efecto_si_se_modifica": "velocidad de giro HORIZONTAL en grados por segundo. Confirmado por efecto."
+        },
+        {
+          "direccion": "0x005A904C",
+          "instruccion_original": "dato f32 = 25.0",
+          "efecto_si_se_modifica": "velocidad de giro VERTICAL en grados por segundo. Confirmado por efecto."
+        },
+        {
+          "direccion": "0x005A9058",
+          "instruccion_original": "dato f32 = 3.0",
+          "efecto_si_se_modifica": "exponente de la curva. 1.0 = lineal. Confirmado por efecto."
+        },
+        {
+          "direccion": "0x005A905C",
+          "instruccion_original": "dato f32 = 0.5",
+          "efecto_si_se_modifica": "suavizado: fraccion que se acerca al objetivo por frame. 1.0 = sin filtro. SIN medir."
+        },
+        {
+          "direccion": "0x005A9054",
+          "instruccion_original": "dato f32 = 0.5",
+          "efecto_si_se_modifica": "tope de la aceleracion por mantener el stick a fondo. SIN medir por separado."
+        },
+        {
+          "direccion": "el inmediato 0x428C0000 dentro de 0x001404A8",
+          "instruccion_original": "comparacion contra 70.0f",
+          "efecto_si_se_modifica": "recorte del PITCH a +-70 grados. Subirlo deja mirar mas arriba y mas abajo. Es CODIGO, no dato. SIN probar."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "Decompilada entera con Ghidra. Se llego a ella buscando los LECTORES del Analogue Control Power: como el objeto de controles es jugador+0x4F0 y el parametro es obj+0xB8, `barrer.py off 0xB8 --solo load` en 0x00130000-0x00150000 dio DOS lwc1 contiguos (0x00140638 y 0x00140670) entre 25 candidatos -- X e Y de la mira. Dos de sus constantes estan confirmadas por efecto en vivo con control negativo.",
+      "pseudocodigo": [
+        "factor_zoom = 1 / ((jugador[+0x2AC] - 1) * 0.8 + 1)     // el sniper con zoom gira mas lento",
+        "si (x*x + y*y > 0.95):                                   // stick practicamente a fondo",
+        "    hold += MaxHoldIncrement * |eje| * dt   (tope MaxHoldModifier)",
+        "    eje  += hold                                         // aceleracion por MANTENER",
+        "sino: hold = 0",
+        "si (apuntando con mira): eje *= 0.7                      // 30% mas lento con L1",
+        "eje = signo(eje) * powf(|eje|, AnalogueControlPower)     // LA CURVA",
+        "suave = suave + (eje - suave) * PercentageCatchUp        // EL FILTRO",
+        "yaw   += suave_x * GiroX * dt * factor_zoom",
+        "pitch += suave_y * GiroY * dt * factor_zoom",
+        "pitch se recorta a +-70 ; yaw se envuelve a +-180"
+      ]
+    },
+    {
+      "id": "pad_leer_accion",
+      "nombre": "Leer el valor analogico de una ACCION del jugador",
+      "direccion": "0x00124840",
+      "fin": "0x001249EB",
+      "version": "ntsc_u",
+      "descripcion": "Devuelve el valor 0..1 de una accion del jugador por su id. Los ejes se arman restando dos medias-acciones: mirar en X es accion(8) - accion(7), moverse en X es accion(1) - accion(2). Las acciones 0x0B, 0x19-0x1D, 0x1F, 0x20 y 0x24 llevan ademas un chequeo de flanco (son botones con semantica de toggle).",
+      "convencion": "a0 = objeto de pad (controles+0x98), a1 = id de accion. Devuelve float en f0.",
+      "llamadores": [
+        "0x0013F618 y todo su cuerpo"
+      ],
+      "llama_a": [
+        "pad_valor_binding (0x0026BB98)"
+      ],
+      "confianza": "confirmado",
+      "evidencia": "Decompilada. La tabla que traduce accion -> binding es DAT_003BCAC8, indexada por id*4.",
+      "notas": "ES LA PUERTA AL REMAPEO A NIVEL DE JUEGO: cambiando la tabla 0x003BCAC8 se cambia que entrada fisica alimenta cada accion, sin tocar el emulador. SIN probar."
+    },
+    {
+      "id": "pad_valor_binding",
+      "nombre": "Valor crudo de un binding en el dispositivo",
+      "direccion": "0x0026BB98",
+      "fin": "0x0026BBBB",
+      "version": "ntsc_u",
+      "descripcion": "Lectura de tabla pura: devuelve el float de dispositivo+0x4C+id*4 si id < 0x1C, y 0 si no. Ahi estan los 28 valores de entrada que el juego ve.",
+      "convencion": "a0 = dispositivo (pad+0x0C), a1 = id de binding (0..27). Devuelve float en f0.",
+      "confianza": "confirmado",
+      "evidencia": "Decompilada, y verificada EN VIVO: con el dispositivo en 0x005856C0, la tabla arranca en 0x0058570C y los ids 23 y 26 se mueven al inyectar movimiento de mouse a la derecha, mientras el resto queda en cero."
+    },
+    {
+      "id": "inventario_dos_armas",
+      "nombre": "Instanciar las armas que lleva la entidad (el inventario de DOS slots)",
+      "direccion": "0x00139C68",
+      "version": "ntsc_u",
+      "descripcion": "Arma los objetos de las dos armas que lleva una entidad. Lee el id64 del arma primaria en entidad+0x3C0 y el de la secundaria en entidad+0x3C8, busca cada uno en el directorio global de armas y guarda los dos handles resultantes.",
+      "convencion": "a0 = entidad. El resultado va a *(entidad+0x2A0): el handle del arma PRIMARIA en +0x00 y el de la SECUNDARIA en +0x04.",
+      "confianza": "confirmado",
+      "evidencia": "Decompilada. Los unicos dos `ld` reales del arma secundaria en todo el .text (0x00139DE0 y 0x00139F78) estan aca, y los de la primaria (0x00139D58, 0x00139E6C) tambien. El directorio global es DAT_0040F4E0: la CANTIDAD es un BYTE en *(ptr)+1 y el array esta en *(ptr)+4, con paso de 4 longs (0x20). La busqueda es lineal y devuelve el indice como CHAR, con -1 si no encuentra.",
+      "por_que_importa": "Es la puerta para 'llevar tres armas en vez de dos', y la decompilacion dice exactamente por que no es un parche de un byte.",
+      "que_haria_falta_para_una_tercera_arma": [
+        "1. UN CAMPO LIBRE PARA EL TERCER id64. No alcanza con +0x3D0: esta ocupado (la misma funcion hace *(ent+0x2F8) = *(ent+0x3D0), y 0x2F8 es la vida). +0x3D4 tambien esta usado. Hay que buscar relleno libre en la estructura de la entidad, o mover el array a otro lado.",
+        "2. UN TERCER HANDLE en el struct de *(ent+0x2A0), que hoy usa +0x00 y +0x04. Falta medir el TAMANO de ese struct antes de escribir en +0x08.",
+        "3. DUPLICAR EL BLOQUE DE BUSQUEDA. El codigo NO tiene un bucle sobre slots: los dos estan DESENROLLADOS, con dos copias de la busqueda lineal en el directorio. Una tercera arma pide una tercera copia, y no hay lugar para insertar instrucciones sin reubicar la funcion.",
+        "4. EL CICLADO. BLACK cambia de arma ciclando, no indexando, y esa rutina es aparte. Un barrido por el offset 0x2A0 da 73 candidatos: el parametro no discrimina. Hay que entrar por la ACCION de entrada (FUN_00124840 y la tabla de bindings 0x003BCAC8), no por el offset."
+      ],
+      "notas": "Vale la pena saber que las entidades enemigas NO se arman por este camino: las cinco del volcado tienen +0x3C0 = 0. Van por FUN_0015ef48 case 0x0A, con el id64 de BG1_AK1 en el .text."
+    },
+    {
+      "id": "auto_apuntado_aplicar",
+      "nombre": "Auto-apuntado: aplicar la correccion angular",
+      "direccion": "0x001407C8",
+      "fin": "0x001409BF",
+      "version": "ntsc_u",
+      "descripcion": "La asistencia de punteria de BLACK. Si hay blanco elegido (obj+0x9C), calcula una correccion de yaw/pitch con fuerza (1 - distancia/30)^2 * 0.2, la recorta a +-3.5 por eje y se la SUMA a obj+0x90 y obj+0x94, que es lo que despues consume la mira. BLACK no expone esto en ningun menu.",
+      "convencion": "a0 = objeto de controles (0x005A8FA0). a1/a2 = punteros a los ejes X e Y. No devuelve nada: escribe obj+0x90 y obj+0x94.",
+      "llamadores": [
+        "0x0013FD30 (dentro de FUN_0013f618)"
+      ],
+      "llama_a": [
+        "FUN_00136dc0 (0x00136DC0)"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x001407DC",
+          "instruccion_original": "lw a0,0x9c(s0)  (0x8E04009C)",
+          "efecto_si_se_modifica": "Cambiado a 'li a0,0' (0x24040000) el blanco vale siempre cero, el beql de 0x001407E0 salta siempre al epilogo de 0x001409B0 y la asistencia no corrige nada. La BUSQUEDA de blanco sigue viva, asi que lo que lea obj+0x9C no se entera. mods/auto-apuntado.toml."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "Decompilada entera con Ghidra el 2026-09-05. Se llego a ella por el llamador de mira_actualizar: FUN_0013f618 hace, en este orden, obj[0x9C]=0 / FUN_0012bb60(30.0,3.0,...,FUN_001409c0) / FUN_001407c8(obj,&ejeX,&ejeY) / FUN_001404a8(...). Que param_1 sea el objeto de controles esta confirmado por una via independiente: obj+0xA8 = 0x005A9048, que ya estaba confirmado POR EFECTO como la velocidad de giro horizontal. El parche se verifico en RAM despues de reiniciar el emulador y cargar un savestate: 0x001407DC = 0x24040000 y la palabra vecina 0x001407E0 intacta en 0x50800073.",
+      "pseudocodigo": [
+        "si (obj[0x9C] == 0) return                        // sin blanco, no hace nada",
+        "fuerza = (1 - obj[0xA4]/30)^2 * 0.2               // cuadratica con la distancia",
+        "correccion = fuerza * (direccion al blanco)       // recortada a +-3.5 por eje",
+        "obj[0x90] += correccion_x ; obj[0x94] -= correccion_y"
+      ]
+    },
+    {
+      "id": "auto_apuntado_buscar",
+      "nombre": "Auto-apuntado: el cono que elige el blanco",
+      "direccion": "0x0012BB60",
+      "fin": "0x0012BD97",
+      "version": "ntsc_u",
+      "descripcion": "Recorre las entidades vivas y, por cada una, ONCE puntos (los huesos). Se queda con las que caen dentro de un CONO delante de la mira, y llama al callback por cada una. Con los argumentos que le pasa la mira (30.0 y 3.0) el cono tiene medio angulo atan(3/30) = 5,7 grados y 30 unidades de alcance.",
+      "convencion": "param_1 = alcance (30.0), param_2 = radio del cono al alcance maximo (3.0), param_7 = callback. Filtro: 0 < t < alcance, y dist_perpendicular^2 < (param_2 * t/param_1)^2.",
+      "llamadores": [
+        "0x0013FCE4-0x0013FD10 (dentro de FUN_0013f618)"
+      ],
+      "llama_a": [
+        "auto_apuntado_elegir (0x001409C0)"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x0013FCE4",
+          "instruccion_original": "lui at,0x41F0  (30.0f)",
+          "efecto_si_se_modifica": "el ALCANCE de la asistencia. 0x4170 = 15.0. Es una instruccion: va la mitad alta del float. SIN PROBAR."
+        },
+        {
+          "direccion": "0x0013FCFC",
+          "instruccion_original": "lui at,0x4040  (3.0f)",
+          "efecto_si_se_modifica": "el ANCHO del cono. 0x3FC0 = 1.5. SIN PROBAR."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "Decompilada. El callback FUN_001409c0 se queda con el candidato de menor t (compara contra obj+0xA0) y guarda el blanco en obj+0x9C, la distancia en obj+0xA0 y el parametro que usa la fuerza en obj+0xA4."
+    },
+    {
+      "id": "pad_zona_muerta",
+      "nombre": "La curva de zona muerta del eje analogico -- EL PISO DE LA MIRA",
+      "direccion": "0x0026BF60",
+      "fin": "0x0026BFEF",
+      "version": "ntsc_u",
+      "descripcion": "Aplica zona muerta y techo al eje analogico normalizado, y reescala lo que queda. Es el PISO por el cual, moviendo el mouse despacio, la mira de BLACK no se mueve NADA. Ningun ajuste del emulador lo toca porque no es del emulador.",
+      "convencion": "f12 = eje normalizado (-1..1), f13 = zona muerta EXTRA por eje (obj+0xC8), a0 = objeto de dispositivo de pad. Devuelve el eje corregido en f0.",
+      "llamadores": [
+        "0x0026C2xx-0x0026C6xx, dentro de FUN_0026c100 (el que llena la tabla de 28 floats del dispositivo)"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x0026BF88",
+          "instruccion_original": "lwc1 f0,0xe4(a0)  (0xC48000E4) -- rama del eje POSITIVO",
+          "efecto_si_se_modifica": "Cambiado a 'mov.S f0,f2' (0x46001006) la zona muerta base pasa a 0 y desaparece el piso. f2 vale 0.0 en toda la funcion. CONFIRMADO POR EFECTO con control negativo."
+        },
+        {
+          "direccion": "0x0026BFB4",
+          "instruccion_original": "lwc1 f0,0xe4(a0)  (0xC48000E4) -- rama del eje NEGATIVO",
+          "efecto_si_se_modifica": "Idem. Hacen falta las DOS: con una sola, la mira tiene piso para un lado y no para el otro."
+        }
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-09-05. Inyectando 1200 cuentas en pasos fijos y midiendo el yaw (0x005A8DA0): con la zona muerta de fabrica (0.1) los pasos de 4, 8, 16 y 24 cuentas/sondeo dan CERO EXACTO; con 0 dan -0.065 / -8.45 / -12.45 / -12.64 grados; restaurando 0.1 vuelven a cero exacto. Medido por DOS vias independientes que coinciden: escribiendo 0.0 en el heap (dispositivo+0xE4) y con el parche de codigo (-8.37 contra -8.45 a 8 cuentas). Ademas se verifico en vivo que el objeto de dispositivo esta en 0x005856C0: seis campos (+0xD0..+0xE4) valen exactamente lo que escribe el constructor FUN_0026ba20.",
+      "pseudocodigo": [
+        "techo = obj[0xE0]                      // 0.9",
+        "zm    = obj[0xE4] + extra              // 0.1 + obj[0xC8]",
+        "v = recorta(v, +-techo)",
+        "v = v - signo(v)*zm ; si cruzo el cero, v = 0",
+        "return v / (techo - zm)"
+      ]
+    },
+    {
+      "id": "pad_dispositivo_init",
+      "nombre": "Constructor del dispositivo de pad: de donde sale el 0.1",
+      "direccion": "0x0026BA20",
+      "fin": "0x0026BAE3",
+      "version": "ntsc_u",
+      "descripcion": "Pone en cero la tabla de 28 floats (dispositivo+0x4C) y escribe TRES pares (techo, piso) identicos: (0.9, 0.1) en +0xD0/+0xD4, +0xD8/+0xDC y +0xE0/+0xE4. La curva de zona muerta usa SOLO el tercer par.",
+      "convencion": "a0 = objeto de dispositivo. En la corrida medida vive en 0x005856C0.",
+      "confianza": "confirmado",
+      "evidencia": "Decompilado, y verificado en vivo: los seis campos +0xD0..+0xE4 leidos por PINE dan 0.9/0.1/0.9/0.1/0.9/0.1. El septimo (+0xCC, que el constructor pone en 0.2) vale 0.05 en vivo, o sea que algo lo reescribe despues de construir.",
+      "notas": "NO se parchea aca aunque sea el origen del valor: el constructor corre UNA vez al arrancar, y un savestate trae el 0.1 ya escrito en el heap. Por eso el parche va en la curva (pad_zona_muerta), que es codigo y se reaplica cada frame."
+    },
+    {
+      "id": "unidad_maquina_de_estados",
+      "nombre": "Carga de una unidad de nivel: la maquina de estados que pide Unit_NN.bin",
+      "direccion": "0x0012D5A8",
+      "fin": "0x0012D90B",
+      "version": "ntsc_u",
+      "descripcion": "Switch sobre el estado en registro[0]. En el estado 2 arma la ruta 'Levels\\\\Level_%02u\\\\Unit_%02d.bin' con sprintf (FUN_0035d728, formato en 0x003F4508) y pide el archivo. En el estado 5 hace lo mismo con StUnit%02d.bin (formato en 0x003F4528). El numero de unidad sale de registro[1] y el de nivel de DAT_0040f4d0+0x5aac.",
+      "convencion": "a0 = registro de carga de la unidad (int*). [0]=estado, [1]=unidad pedida, [2]=unidad cargada, [3]/[4]=handles, [10]/[11]=ids de pedido. Devuelve 1 cuando termino, 0 mientras trabaja.",
+      "llamadores": [
+        "0x00128C24 y 0x00128C48 (FUN_00128480)",
+        "0x0012D984 (FUN_0012d910)",
+        "0x0012D9E0 (FUN_0012d9a0)"
+      ],
+      "llama_a": [
+        "unidad_callback_carga",
+        "stunit_callback_carga",
+        "pedir_archivo_al_streamer"
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-09-05. El par lui/addiu de 0x0012D72C+0x0012D73C es el UNICO xref de codigo a 0x003F4508 en los 3,1 MB de codigo del ELF (barrido exhaustivo de pares lui 0x003F / addiu 0x4508). Decompilada con Ghidra.",
+      "descubierto": "2026-09-05"
+    },
+    {
+      "id": "unidad_callback_carga",
+      "nombre": "Callback de post-carga de Unit_NN.bin",
+      "direccion": "0x0012E728",
+      "fin": "0x0012E8B7",
+      "version": "ntsc_u",
+      "descripcion": "El patron de TODO callback de carga del juego: buf = FUN_001092f8() (el buffer recien leido, campo +0x11C del pedido); PARSER(buf); FUN_00108540(mgr, tipo, buf, id). Ademas crea un objeto de runtime de 0xF0 bytes por cada uno de los count(+0x90) registros de 0x30 del array de buf+0x1C, via FUN_00127738.",
+      "convencion": "a0 = pedido del streamer, a1 = registro de carga de la unidad. El buffer queda en registro+0x0C y el array de objetos de runtime en registro+0x14.",
+      "llamadores": [
+        "0x0012D754 (como PARAMETRO de FUN_001093c0 en FUN_0012d5a8)"
+      ],
+      "llama_a": [
+        "unidad_parser_header"
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-09-05. Ghidra da su unica referencia como PARAM desde 0x0012D754, que es el argumento de callback del pedido de Unit_NN.bin.",
+      "descubierto": "2026-09-05"
+    },
+    {
+      "id": "unidad_parser_header",
+      "nombre": "EL LAYOUT DE Unit_NN.bin: relocador del header de la unidad",
+      "direccion": "0x0012EAE8",
+      "fin": "0x0012EEB7",
+      "version": "ntsc_u",
+      "descripcion": "NO es un parser: es una pasada de RELOCALIZACION, igual que fixup_contenedor_bin pero con OTRO layout. Convierte los u32 del header, que son offsets relativos al inicio del archivo, en punteros absolutos sumandoles la base de carga, y despues baja a cada seccion. El recorrido de campos ES el layout del archivo: esta tabulado en kb/formatos-iso.json#unit_contenedor.",
+      "convencion": "a0 = base del buffer del archivo. Toca +0x04, +0x08, +0x0C, +0x10, +0x14, +0x18, +0x1C, +0x20, +0x24, +0x28, +0x2C, +0x30, +0x34, +0x38, +0x3C y +0x40; las cuentas estan en +0x90 (u16), +0x92 (u16) y +0x94 (u8).",
+      "llamadores": [
+        "0x0012E754 (FUN_0012e728)"
+      ],
+      "llama_a": [
+        "lista_relocador",
+        "modelo_relocador",
+        "FUN_0028eed8",
+        "FUN_00288bc8",
+        "FUN_0027e760",
+        "FUN_00335f20"
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-09-05. Verificado contra los archivos reales: las 42 unidades del ISO cierran los 16 campos como offsets validos, con el array de +0x1C terminando exactamente donde arranca la lista de +0x24; y ocho archivos que NO son unidades caen con el mismo chequeo. herramientas/unit.py autotest, con su saboteador probado en rojo.",
+      "descubierto": "2026-09-05",
+      "notas": "Esto cierra lo que fixup_contenedor_bin dejo anotado como pendiente: 'NO APLICA A TODOS LOS .BIN... Esos dos usan otro layout y se resuelven igual -- xref de su cadena de ruta, decompilar su callback'. Se resolvio exactamente asi, y el LEVELDAT.BIN que aquella nota decia que daba tres ranuras fuera de rango vuelve a fallar aca, con este layout tambien: cada .BIN de nivel tiene el suyo."
+    },
+    {
+      "id": "lista_relocador",
+      "nombre": "El directorio con nombre: relocador de lista, compartido por .DB, LevelDat, StLevel y Unit",
+      "direccion": "0x00272AA8",
+      "fin": "0x00272AF7",
+      "version": "ntsc_u",
+      "descripcion": "Reloca lista+0x0C (offset al array, relativo a la lista) y despues, para cada uno de los count(lista+0x08) registros de 0x10, reloca su +0x08 SUMANDOLE LA LISTA, no el registro. Los accesores son FUN_003822e0, FUN_003822f8 y FUN_00382310, que son byte por byte la misma funcion: *(u32*)(i*0x10 + lista[0x0C] + 8).",
+      "convencion": "a0 = lista. lista+0x08 = i32 count, lista+0x0C = i32 offset al array. Registro de 0x10: +0x00 u64 id64 del nombre, +0x08 i32 offset al recurso relativo a la lista.",
+      "llamadores": [
+        "26 sitios, entre ellos FUN_0012eae8 (Unit), FUN_00288488 (StLevel) y FUN_0012a310 (LevelDat)"
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-09-05. Los 367 registros de la lista tipo 1 de LEVEL_01/UNIT_01 leidos con este layout dan id64 que decodifican a nombres legibles (CO01TRUCK, CO01GUARDHUT, CO01FENCE); con cualquier otro tamano de registro o base de puntero no decodifican. Sabotaje 5 de probar-unit.py.",
+      "descubierto": "2026-09-05"
+    },
+    {
+      "id": "modelo_relocador",
+      "nombre": "El header de un MODELO: relocador de los elementos de la lista tipo 1",
+      "direccion": "0x001AF930",
+      "fin": "0x001AFBA7",
+      "version": "ntsc_u",
+      "descripcion": "Reloca el header del modelo y baja a sus arrays: +0x1C (count +0x24, registros de 0x30, cada uno a FUN_001c64e8), +0x48 (count +0x68 u8, registros de 0xD0 -- las submallas, con punteros propios en +0xC0/+0xC4/+0xC8), +0x4C (count +0x50, punteros), +0x60 (count +0x5C, punteros). El layout completo esta en kb/formatos-iso.json#unit_contenedor.modelo.",
+      "convencion": "a0 = base del modelo. Los offsets de adentro son relativos AL MODELO.",
+      "llamadores": [
+        "FUN_0012eae8 (Unit, lista de +0x20)",
+        "FUN_00288488 (StLevel, lista de +0x14)",
+        "FUN_0012a310 (LevelDat, lista de +0x39C)"
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-09-05. Medido sobre CO01TRUCK de LEVEL_01/UNIT_01: los diez campos que la rutina reloca dan offsets crecientes y coherentes dentro del modelo, +0x2C/+0x30/+0x34 dan 30.0/60.0/100.0 (distancias de LOD) y el bloque de submalla[0]+0xC0 arranca con una caja envolvente (min xyz, max xyz seguidos, con los signos opuestos).",
+      "descubierto": "2026-09-05",
+      "notas": "Que la MISMA rutina releve los elementos de la lista tipo 1 de los TRES contenedores es lo que dice que 'tipo 1' es una categoria de recurso del juego, no un campo del archivo Unit."
+    },
+    {
+      "id": "pedir_archivo_al_streamer",
+      "nombre": "Pedido de archivo con callback de post-carga",
+      "direccion": "0x001093C0",
+      "fin": "0x0010940B",
+      "version": "ntsc_u",
+      "descripcion": "Envoltorio de FUN_00109308. Traduce el ultimo argumento (tamano/prioridad) a un modo: 1 si vale 0x2000000, 2 en cualquier otro caso. Es EL PUNTO DE ENTRADA para encontrar el parser de cualquier formato del juego: se busca el xref de la cadena de ruta, se mira este llamado, y el quinto argumento es el callback que corre cuando el archivo llego.",
+      "convencion": "a0 = streamer, a1 = ruta, a2 = tipo de recurso, a3 = id, y en pila: CALLBACK, param del callback, flag, tamano.",
+      "llamadores": [
+        "31 sitios. Los de nivel: 0x0012D768 (Unit y StUnit), 0x001287BC (LevelDat), 0x001288EC (StLevel), 0x00128BD4 (Guns)"
+      ],
+      "confianza": "confirmado",
+      "evidencia": "2026-09-05, y ya se habia usado por esta via en 2026-08-16 para GlobData.bin (ver fixup_contenedor_bin). Los cinco callbacks de nivel encontrados asi tienen los cinco la misma forma de tres pasos, y uno de ellos (StUnit) desemboca en un formato que ya estaba resuelto por otra via.",
+      "descubierto": "2026-08-16",
+      "notas": "LA TABLA DE CALLBACKS DE NIVEL, medida el 2026-09-05: LevelDat.bin (0x003F4348, tipo 6) -> FUN_0012a310 -> parser FUN_002881a8. StLevel.bin (0x003F4388, tipo 0xB) -> FUN_0012a418 -> parser FUN_00288488. Guns%s.bin (0x003F43B8, tipo 0xC) -> FUN_0012a480 -> parser FUN_00288930. Unit_%02d.bin (0x003F4508, tipo 8) -> FUN_0012e728 -> parser FUN_0012eae8. StUnit%02d.bin (0x003F4528, tipo 8) -> FUN_0012e8b8 -> parser FUN_002886d0."
     }
-   ],
-   "evidencia": "CONFIRMADO 2026-08-15 (noche) con watchpoint de ESCRITURA sobre 0x005A8DA8, recibiendo un golpe real. El emulador paró en pc = 0x0013BD20 = `swc1 f20, 0x2F8(s2)`. Los cuatro datos cerraron a la vez: s2 = 0x005A8AB0 (base del jugador, exacta), 0x005A8AB0 + 0x2F8 = 0x005A8DA8, f21 = 26.0 (la constante de daño ya conocida) y f20 = 724.0 = 750.0 - 26.0. Después se predijo el valor ANTES de reanudar y al continuar la vida quedó en 724.0: causalidad, no correlación. Evidencia independiente en el sentido fuerte — el breakpoint NO se puso sobre la dirección sospechada, se vigiló el dato y el juego delató la instrucción. Antecedente: watchpoint de LECTURA que dio el offset real 0x2F8 (no 0x28) y bajó `xref.py stores 0x2F8 --fpu` de 69 candidatos a 8.",
-   "notas": "OJO: el candidato que traía el handoff (0x0013C120) NO era el del jugador. La sesión anterior eligió mal entre los 8 candidatos. En el momento del golpe, ese sitio tenía f22 = 0.0 y s0 = 0x590D90, que no es el objeto del jugador. Los dos sitios están a 0x400 y usan el MISMO offset 0x2F8 con registros base distintos (s2 vs s0): sigue en pie la hipótesis de una rutina GENERICA de 'entidad recibe daño' con un brazo por tipo de entidad — si se confirma, abre Fase 3 y Fase 5 juntas. FALTA EL TEST DE EFECTO: nadie vio todavía vida infinita. El test es nopear 0x0013BD20 (0xE65402F8 -> 0x00000000) y recibir golpes. No cubre necesariamente el camino de muerte."
-  },
-  {
-   "id": "aplicar_dano_enemigo",
-   "nombre": "Rutina de daño de los ENEMIGOS (método virtual #8 de la clase 0x003DCA78)",
-   "direccion": "0x00133FA8",
-   "fin": "~0x001347B0",
-   "version": "ntsc_u",
-   "descripcion": "Resta el daño a la vida del enemigo y la escribe en enemigo+0x2F8, con clamp a 0.0 en el brazo de muerte. Es el equivalente exacto de la rutina del jugador, en otra clase. 514 instrucciones.",
-   "convencion": "Puntero a la entidad en s0. f20 = resultado ya restado (lo que se escribe en el brazo normal). f21 = 0.0, el piso, cargado con `mtc1 zero,f21` y escrito en el brazo de muerte. Mismo esquema que la del jugador salvo que ahí el piso viaja en f22.",
-   "confianza": "confirmado",
-   "puntos_de_parche": [
-    {
-     "direccion": "0x00134654",
-     "instruccion_original": "swc1 f20, 0x2F8(s0)",
-     "codificacion": "0xE61402F8",
-     "efecto_si_se_modifica": "DAÑO NORMAL al enemigo. nop acá = ENEMIGOS INVULNERABLES. CONFIRMADO POR EFECTO 2026-08-16: con el nop puesto, el usuario le vació un cargador entero de AK a un enemigo y siguió vivo. Se releyó 0x00134654 DESPUÉS de la prueba y seguía en 0x00000000, así que el nop aguantó: no es un falso positivo por pérdida del parche. Restaurado a 0xE61402F8 al terminar.",
-     "confianza": "confirmado"
-    },
-    {
-     "direccion": "0x00134514",
-     "instruccion_original": "swc1 f21, 0x2F8(s0)",
-     "codificacion": "0xE61502F8",
-     "efecto_si_se_modifica": "CLAMP DE MUERTE: escribe 0.0 cuando vida-daño <= 0. nop acá = el enemigo no llega nunca a 0 por este camino (puede no cubrir el camino de muerte entero).",
-     "confianza": "probable"
-    }
-   ],
-   "evidencia": "2026-08-16, análisis estático offline. Se llegó por CLASE, no por escaneo: el método virtual #8 (vtable+0x4C) de la clase del jugador es la rutina de daño confirmada, así que se desensambló esa misma ranura en las 279 vtables halladas y se contó cuáles escriben en +0x2F8. Censo completo: sólo dos, la del jugador y ésta. El desensamblado muestra el patrón idéntico de dos brazos (`mtc1 zero,f21` / `c.ole.s f20,f21` / `bc1fl` / store de muerte, y aparte el store normal). Corroboración numérica independiente: los objetos de la clase tienen vida 100.0 y el daño de AK medido es 26.0, lo que da 4 balas para matar — exactamente lo que el usuario reportó dos veces sin que se le preguntara.",
-   "notas": "CONFIRMADO POR EFECTO 2026-08-16. El análisis estático (llegar a la clase por vtable y desensamblar el método virtual #8) predijo el punto de parche exacto, y el efecto en pantalla lo validó a la primera: cargador entero de AK sobre un enemigo, sin daño. Vale la pena registrar el contraste de método: dos sesiones de escaneo diferencial no habían podido ni localizar la vida del enemigo, porque muere en 4 balas y el filtro necesita más rondas. Por clase salió en una pasada y sin tocar el emulador. Antecedente que obligó a la cautela: 0x0013C120 parecía igual de sólido por analogía estructural y resultó ser el método #9 de la clase del JUGADOR."
-  },
-  {
-   "id": "calcular_dano_por_arma",
-   "nombre": "Cálculo del daño desde el descriptor del arma",
-   "direccion": "0x0015B118",
-   "fin": "0x0015B32C",
-   "version": "ntsc_u",
-   "descripcion": "Toma el descriptor de daño del arma y calcula cuánto daño hace este impacto, después lo entrega a la víctima. Es el eslabón que faltaba entre la tabla de armas y la rutina de daño: hasta acá el daño llegaba en $f12 'de la nada'.",
-   "convencion": "$a0 = objeto que tiene el arma; su campo +0x0C es el DESCRIPTOR de daño (bloque de 0x30 de kb/estructuras.json#arma). $a1 = objeto del impacto; +0x24 = entidad víctima, +0x2C = byte de flags. $f12 = argumento escalar que entra a la interpolación (se copia a $f20 en 0x0015B170). Devuelve 1 en $v0 si aplicó daño.",
-   "formula": "En 0x0015B20C: f2=1.0; f0=[desc+0x14] (Range); f1=[desc+0x1C] (falloff); f3=[desc+0x18] (Power); f0=f20/f0; f2=1.0-f1; f1=f3*f1; f0=f0*f3; f0=f0*f2; f21=f0+f1. O sea daño = Power*(falloff + (1-falloff)*arg/Range). Con falloff=1 el daño es CONSTANTE e igual a Power, que es el caso de casi todas las armas — y explica los 10 escalones idénticos de 26.0 de la Fase 1.",
-   "confianza": "confirmado",
-   "llamadores": [
-    "0x001599D0",
-    "0x00159A70",
-    "0x00159FF4",
-    "0x0015AF1C",
-    "0x0015AFC8"
-   ],
-   "dos_caminos": "Desde acá el daño sale por uno de dos caminos, según $s5: (a) 0x0015B2D8, llamada DIRECTA al método virtual #8 de la víctima con mov.s $f12,$f21; (b) 0x0015B31C, se ENCOLA con jal 0x0015B8F8 pasando $a0 = 0x00414AD0. Ver la entrada cola_de_dano.",
-   "puntos_de_parche": [
-    {
-     "direccion": "0x0015B238",
-     "instruccion_original": "add.s $f21, $f0, $f1",
-     "efecto_si_se_modifica": "es la suma final de la fórmula. Reemplazarla por un mov.s desde un registro con un valor fijo daría daño constante para TODAS las armas, sin tocar la tabla.",
-     "confianza": "hipotesis"
-    }
-   ],
-   "evidencia": "2026-08-16, análisis estático sobre volcados/codigo-vivo.bin con capstone (CS_MODE_MIPS64 + skipdata). Se enumeraron los 37 sitios de llamada al método virtual #8 con el patrón `lw rX,0x4c(rY)` + `jalr rX`, y se hizo backward-slice de $f12 en cada uno. Sólo seis tenían definición dentro de 64 instrucciones; una de ellas, 0x0015BAEC (`lwc1 $f12,0x14($s0)`), llevó a la cola de daño, y de ahí al único llamador de la encoladora, que es esta función. El descriptor quedó confirmado por efecto al escribirle Power (ver kb/estructuras.json#arma).",
-   "descubierto": "2026-08-16"
-  },
-  {
-   "id": "cola_de_dano",
-   "nombre": "Cola de daño diferido",
-   "direccion": "0x0015B8F0",
-   "version": "ntsc_u",
-   "descripcion": "Buffer de 16 impactos que se acumulan durante el frame y se aplican todos juntos al final. El objeto de la cola es el GLOBAL 0x00414AD0: 16 registros de 0x20 bytes seguidos del contador en +0x200 (= 0x00414CD0).",
-   "convencion": "Registro de 0x20: +0x10 puntero a la entidad víctima, +0x14 f32 daño, +0x18 f32 distancia, +0x1C u8 flags. Tres funciones: 0x0015B8F0 resetear (sw zero,0x200(a0)); 0x0015B8F8 agregar (a0=cola, a2=víctima, $f12=daño, $f13=dist, a3=flags) — si ya hay 16 reemplaza el de menor +0x18; 0x0015BA80 vaciar, que por cada registro hace lw $v0,0x10(víctima) -> lw $v1,0x4c($v0) -> jalr, o sea llama al método virtual #8.",
-   "confianza": "probable",
-   "notas": "Este camino NO es el de las balas: después de que el usuario disparara, el contador 0x00414CD0 estaba en 0 y el registro 0 en ceros. Es la rama que se toma cuando $s5 == 0 en 0x0015B2C4, probablemente daño de área (explosiones). El vaciado en 0x0015BA80 vuelve a confirmar que el puntero de clase está en objeto+0x10.",
-   "evidencia": "2026-08-16, desensamblado. 0x0015B8F8 tiene un solo llamador en los 32 MB (0x0015B320) y ahí $a0 se arma con lui 0x41 + addiu 0x4AD0 = 0x00414AD0. 0x0015BA80 tiene un solo llamador (0x0015AD3C).",
-   "descubierto": "2026-08-16"
-  },
-  {
-   "id": "hud_ratio_vida",
-   "nombre": "Normalización de la barra de vida del HUD",
-   "direccion": null,
-   "version": "ntsc_u",
-   "descripcion": "Divide la vida por una constante para obtener el ratio 0..1 con el que se dibuja la barra. Elige entre dos constantes según una rama (`beqz v0`): 1200.0 o 750.0.",
-   "convencion": "Puntero a la entidad en a2 (también visto en s0 y a1). Devuelve el ratio en f12.",
-   "confianza": "probable",
-   "puntos_de_parche": [
-    {
-     "direccion": "0x001F93EC",
-     "instruccion_original": "lui at, 0x4496",
-     "efecto_si_se_modifica": "cambia el denominador 1200.0 — sólo afecta cómo se DIBUJA la barra, no la vida real."
-    }
-   ],
-   "evidencia": "Watchpoint de lectura sobre 0x005A8DA8. Tres sitios idénticos salvo el registro base: 0x0013A454 (s0), 0x001EEBD8 (a1), 0x001F93E0 (a2). El desensamblado muestra `lwc1 f01,0x2F8(base)` seguido de `lui at,0x4496` / `mtc1` / `div.s f12, f01, f00`. Constantes decodificadas: 0x44960000 = 1200.0, 0x443B8000 = 750.0.",
-   "notas": "ACA APARECE EL 1200. El HANDOFF anterior declaraba falso el recuerdo de 'vida máxima ~1200'; el 1200.0 está hardcodeado en el código que lee la vida. Queda por determinar qué selecciona la rama entre 1200.0 y 750.0 (¿dificultad? ¿tipo de entidad?). También es el candidato natural a explicar 0x0065F458 (f32, rango observado 0.23..0.59): sería este ratio."
-  },
-  {
-   "id": "fixup_contenedor_bin",
-   "nombre": "Arreglo de punteros del contenedor .BIN (callback de GlobData.bin)",
-   "direccion": "0x00105D48",
-   "fin": "0x00106007",
-   "version": "ntsc_u",
-   "descripcion": "NO es un parser: es una pasada de RELOCALIZACION. Toma el bloque recien cargado en el heap y convierte los u32 de su cabecera, que son offsets relativos al inicio del archivo, en punteros absolutos sumandoles la direccion de carga. Despues baja recursivamente y hace lo mismo dentro de cada seccion, donde los offsets son relativos a la seccion, no al archivo.",
-   "convencion": "Sin argumentos: toma el bloque de FUN_001092F8(). Fija las ranuras +0x04, +0x08, +0x0C, +0x10, +0x14 y +0x18 de la cabecera. En la seccion de +0x0C: el u8 de +0x00 es la CANTIDAD, el u32 de +0x04 es un offset relativo a la propia seccion, y los registros son de 0x24. En la de +0x10: la cantidad esta en +0x01, los registros son de 0x20 y cada uno tiene sus propios fixups en +0x08, +0x0C, +0x10, +0x14 y +0x18 relativos al registro.",
-   "confianza": "probable",
-   "llamadores": [
-    "0x00105858"
-   ],
-   "evidencia": "2026-08-16. Decompilado con Ghidra 12.1.2 + ghidra-emotionengine-reloaded. Camino: la cadena 'GlobData.bin' esta en 0x003F2AD8; su unico xref de codigo es 0x00105ADC dentro de FUN_00105858 (maquina de estados de arranque), donde se pide el archivo con FUN_001093C0(streamer, ruta, 8, 1, 0x105D48, ...) y 0x105D48 es el callback de post-carga. VERIFICADO CONTRA LOS ARCHIVOS REALES: en GLOBDATA.BIN las seis ranuras dan offsets validos (0x80, 0xF9300, 0x130C80, 0x132F80, 0x133800, 0x133F80) y la tabla de armas —cuya posicion 0x00130E20 ya se conocia por otra via— cae dentro de la seccion de 0x00130C80, a +0x1A0. Segundo control independiente: en STLEVEL.BIN la seccion declarada en 0x80 arranca con los bytes de 'bg1_shg', que es la tabla de nombres de entidades ya documentada.",
-   "descubierto": "2026-08-16",
-   "notas": "ESTO EXPLICA POR QUE FALLABA LA HIPOTESIS VIEJA de 'tabla de offsets creciente': no es una tabla ordenada, es una cabecera de layout fijo donde cada ranura es una seccion distinta y no tienen por que venir en orden. NO APLICA A TODOS LOS .BIN: LEVELDAT.BIN da tres ranuras fuera de rango y GUNS.BIN tiene un tamano en +0x00 en vez de una cantidad. Esos dos usan otro layout y se resuelven igual — xref de su cadena de ruta, decompilar su callback."
-  },
-  {
-   "id": "resolver_huesos",
-   "nombre": "Resolver los 11 nombres de hueso a índices y cachearlos en el personaje",
-   "direccion": "0x001381E0",
-   "fin": "0x00138294",
-   "version": "ntsc_u",
-   "descripcion": "Al construir un personaje, recorre la tabla de nombres de hueso de 0x003BCE70 (11 entradas) y por cada nombre pide el índice de hueso al esqueleto, guardándolo en objeto+0x0C+i*4. Después copia 4 floats de 0x003F5128 (0, 5, 12, 22) a [objeto]+0x28 y llama a 0x001415A8.",
-   "convencion": "$a0 = el objeto personaje. $s1 = ese objeto; $s0 = destino, arranca en $s1+0x0C y avanza de a 4; $s3 = 0x003BCE70 (armado con lui en 0x001381E4 + addiu en 0x00138208); $s2 = 10, contador de 11 vueltas. Un nombre nulo salta la entrada sin avanzar el destino.",
-   "confianza": "probable",
-   "llama_a": [
-    "buscar_hueso_por_nombre"
-   ],
-   "evidencia": "Desensamblado estático del ELF del ISO con capstone (CS_MODE_MIPS64 + skipdata), 2026-08-16. Se llegó desde la tabla de nombres: se enumeraron todas las direcciones que el código arma con lui+addiu/lw/sw dentro de 0x003BCE00-0x003BCF00 y sólo UN sitio toma la dirección 0x003BCE70 en vez de leer un valor.",
-   "descubierto": "2026-08-16",
-   "notas": "ES MATERIAL DE FASE 5b, no una respuesta. Deja once índices de hueso cacheados en offsets FIJOS del personaje (0x0C..0x38). Lo que falta es ver si el byte de zona que entra a 0x00142B90 sale de este arreglo o del esqueleto completo. Sin resolver: son 11 huesos contra 24 registros de zona."
-  },
-  {
-   "id": "buscar_hueso_por_nombre",
-   "nombre": "Índice de hueso a partir de su nombre (búsqueda lineal por strcmp)",
-   "direccion": "0x00138298",
-   "version": "ntsc_u",
-   "descripcion": "Recorre los nombres de hueso del esqueleto del personaje comparando con strcmp y devuelve el índice del que coincide. Su valor real es que EXPONE EL LAYOUT DEL ESQUELETO.",
-   "convencion": "$a0 = objeto personaje, $a1 = nombre buscado. esqueleto = [objeto+0x00]; [esqueleto+0x5C] = cantidad de huesos; [esqueleto+0x60] = array de const char* con los nombres. Llama a strcmp en 0x00360838. Devuelve el índice en $v0.",
-   "confianza": "probable",
-   "llamadores": [
-    "0x0013821C"
-   ],
-   "evidencia": "Desensamblado estático del ELF, 2026-08-16. El bucle es explícito: `lw $v0,0x5c($v1)` como tope, `lw $v0,0x60($a0)` como base del arreglo, `sll $v1,$s0,2` para indexar y `jal 0x360838` con el nombre de cada entrada.",
-   "descubierto": "2026-08-16",
-   "notas": "De acá salen los dos offsets del esqueleto que van a kb/estructuras.json#esqueleto. Ninguno de los dos está confirmado por efecto todavía."
-  },
-  {
-   "id": "calcular_dano_zona",
-   "nombre": "Daño efectivo por ZONA DE IMPACTO — el daño de SALIDA del jugador",
-   "direccion": "0x00142B90",
-   "fin": "0x00142E2C",
-   "version": "ntsc_u",
-   "descripcion": "Devuelve cuánto daño recibe realmente una entidad por un impacto. NO usa el daño que le llega: lo IGNORA y calcula el suyo a partir de la zona del cuerpo golpeada. Es el eslabón que faltaba para explicar por qué escribir Power=300 en los 34 campos de la tabla de armas no cambió el daño del jugador.",
-   "convencion": "$a0 = [[victima+0x328]+0x3C], puntero al personaje; $a1 = número de ZONA (byte con signo, se multiplica por 0xC en 0x00142BC4); $a2 = base de la tabla de zonas, cargada en 0x00142BF4 con lw $a2,($a0); $t1 = tipo de daño; sp+0x150 = 'Weapon Impact Level' del tirador ([[tirador+0x2A4]+0x108]). DEVUELVE el daño en $f0. El $f12 de entrada NO se lee en ningún punto de la función.",
-   "formula": "s0 = tabla + zona*0xC; f1 = [s0+0x00] si [impacto+0x48] < 0, si no [s0+0x04]; daño = f1 * 100.0 (el lui $at,0x42C8 de 0x00142CA0, mul.s en 0x00142CAC). Después, en 0x00142DF4-0x00142E04, se multiplica por 0.7 (lui 0x3F33 + ori 0x3333) sólo si el impact level no es cero y ninguno de los dos flags de salida quedó en 1.",
-   "confianza": "confirmado",
-   "llamadores": [
-    "0x0013434C"
-   ],
-   "puntos_de_parche": [
-    {
-     "direccion": "0x00142CAC",
-     "instruccion_original": "mul.s $f20, $f1, $f0",
-     "codificacion": "0x46000D02",
-     "efecto_si_se_modifica": "es donde el factor de zona se convierte en danio. Para escalar TODO el danio de salida contra cualquier victima de una sola vez, sin tocar las tablas por personaje, NO se escribe un f32 en 0x00142CA0: ahi vive la INSTRUCCION lui at, 0x42C8, y el 100.0 esta en su inmediato de 16 bits. Se reescribe la palabra entera como 0x3C01<hi>, donde <hi> son los 16 bits ALTOS del float deseado. Escribir el float crudo en esa direccion corrompe el codigo.",
-     "confianza": "confirmado",
-     "confirmado_por": "EFECTO, 2026-09-04. Se escribio 0x3C014348 en 0x00142CA0 (SOLO EN RAM, via pine.py) durante una partida real en LEVEL_02, y se grabo por RAM con vigilar.py la vida de los 32 slots del pool de enemigos MAS la vida del jugador, sin apuntar a ningun enemigo en particular (mecanismo pensado para no tener que apuntar y contar tiros a ciegas, ver docs/03-bitacora.md (54)). Resultado: dos impactos consecutivos sobre el mismo enemigo (slot 01) dieron exactamente -47.6 cada uno. 47.6 = 0.34 (factor de zona ya documentado en kb/estructuras.json#zona_impacto, zonas 3/8/10/15) * 200.0 (el valor patcheado) * 0.7 (el multiplicador final ya documentado en esta misma rutina) -- los TRES factores son datos independientes ya confirmados antes de esta sesion, y su producto coincide bit a bit con lo medido. CONTROL NEGATIVO, en la misma grabacion: el jugador recibio tres impactos de enemigos, los tres de exactamente -26.0 (el valor YA confirmado en la Fase 1, sin cambios) -- confirma que el parche es unidireccional, solo escala el danio de SALIDA del jugador, tal como decia el nombre de esta ficha. Datos crudos: volcados/verificacion-dano-x2-lvl2.csv.",
-     "parches_calculados": {
-      "x0.5": {
-       "valor": 50.0,
-       "palabra": "0x3C014248",
-       "lui": "lui at, 0x4248"
-      },
-      "x2": {
-       "valor": 200.0,
-       "palabra": "0x3C014348",
-       "lui": "lui at, 0x4348"
-      },
-      "x4": {
-       "valor": 400.0,
-       "palabra": "0x3C0143C8",
-       "lui": "lui at, 0x43C8"
-      },
-      "x10": {
-       "valor": 1000.0,
-       "palabra": "0x3C01447A",
-       "lui": "lui at, 0x447A"
-      },
-      "nota": "los 16 bits BAJOS del float dan 0 en los cuatro casos, asi que alcanza con reescribir el lui: no hace falta un ori. Verificado con herramientas/mips.py el 2026-09-04."
-     },
-     "verificacion_en_frio": "2026-09-04: leido de eeMemory.bin del savestate 03. 0x00142CAC contiene exactamente 0x46000D02, la codificacion registrada. 0x00142CA0 contiene 0x3C0142C8 = lui at, 0x42C8, y 0x42C80000 en IEEE754 es 100.0 exacto. La formula de esta rutina queda respaldada contra memoria real. Lo que sigue en 'hipotesis' es que cambiar ese 100.0 escale el danio de salida: eso pide verificacion POR EFECTO en el juego."
-    }
-   ],
-   "evidencia": "CONFIRMADO POR EFECTO 2026-08-16. Se escribieron los 36 factores de zona en 3.0 (= 300 de dano por impacto, contra 100.0 de vida) con herramientas/zonas.py, y el usuario reporto que los enemigos mueren de UNA bala donde antes hacian falta cuatro. Corroboracion por medicion sobre el pool: linea de base volcados/ee-4b-antes.bin (#2=100.0, #6=49.0, #9=100.0, #11=100.0, resto 0) contra volcados/ee-4b-post.bin, donde los CUATRO que estaban vivos quedaron en 0.0 y aparecieron cuatro spawns nuevos en 100.0 exactos. El dato fuerte es que NO hay un solo valor intermedio en los 32 slots: con 25.5 por bala tendria que haber enemigos en 74.5 / 49 / 23.5 en cualquier instante del tiroteo, y no hay ninguno. CONFOUND DESCARTADO (leccion 16): se releyeron 0x00709F40, 0x00709F70 y 0x00709F7C DESPUES del test y las tres seguian en 3.0, o sea que el parche aguanto y no es un falso positivo por perdida. Restaurado 36/36 sin discrepancias. Analisis previo que lo predijo: 0 copias de descriptores de arma fuera de la tabla; 25.5 inexistente como inmediato en el codigo (con control positivo lui 0x4496 = 17 sitios); 0.255 presente exactamente 9 veces en los 32 MB, las 9 dentro de la tabla de zonas.",
-   "descubierto": "2026-08-16",
-   "decompilacion_ghidra_2026_08_16": "Ghidra 12.1.2 + ghidra-emotionengine-reloaded devuelve el cuerpo en C y coincide con el desensamblado a mano, lo que vale como verificacion cruzada de las dos lecturas. Nucleo: `pfVar2 = (float *)(*param_1 + param_2 * 0xc); if (escalar < 0.0) fVar3 = *pfVar2; else fVar3 = pfVar2[1]; fVar3 = fVar3 * 100.0;` y al final `if ((param_9 != 0) && (*param_7 != 1) && (*param_8 != 1)) fVar3 = fVar3 * 0.7;`. LO QUE AGREGA: el campo de +0x08 del registro de zona NO es un float corrido, son DOS BYTES DE BANDERAS en +0x08 y +0x09 que la rutina lee para armar sus dos salidas booleanas (ver kb/estructuras.json#zona_impacto). Ademas la zona entra como `char` con signo, y en el llamador (metodo virtual #8 del enemigo, FUN_00133FA8) llega como argumento propio: `param_4 & 0xff`, donde 0xFF significa 'sin zona' y el valor 4 tiene un caso especial que consulta FUN_00138320([victima+0x328]) contra 0x28 y 0x2A.",
-   "notas_mod": "Para un mod de dano de salida hay dos palancas. (a) Los factores por zona, que son POR TIPO DE PERSONAJE y viven en el heap: hay que buscarlos por cadena en cada arranque, no sirven para un .pnach. (b) El 100.0 de 0x00142CA0 (lui $at,0x42C8), que es codigo del ELF, direccion fija, y escala TODO el dano de salida de una sola vez. Para el pnach va (b)."
-  },
-  {
-   "id": "codec_id64",
-   "nombre": "Codec de nombres de 64 bits (base-40, 12 caracteres)",
-   "direccion": "0x00272488",
-   "fin": "0x0027257B",
-   "version": "ntsc_u",
-   "descripcion": "FUN_00272488 DECODIFICA un u64 a 12 caracteres; FUN_00272610 codifica. Es base-40 de ancho fijo, escrito de atras hacia adelante. Alfabeto: 0=' ', 1='-', 2='/', 3..12='0'..'9', 13..38='A'..'Z', 39='_'. Sin minusculas. El relleno va a la DERECHA y por eso el consumidor recorta espacios ahi.",
-   "convencion": "FUN_00272488(id64, buffer): escribe 12 chars y un cero en +0xC. Usa FUN_00290AC0 (resto por 0x28) y FUN_002904F0 (division por 0x28).",
-   "confianza": "probable",
-   "evidencia": "2026-08-22. Portado a herramientas/id64.py y validado contra la tabla de camaras de STLEVEL.BIN L00 (seccion 0x261300): los 12 IDs decodifican a CAM_BLOWDOOR, CAM_INTRO, CAM_RPGTOWER, CAM_START, CAM_TRUCK, CAM_XROADS, CITY_START y DEATHCAM01..06, Y SALEN EN ORDEN ALFABETICO -- un orden que un codec equivocado no produce por casualidad. El autotest se probo rompiendolo de dos formas (alfabeto corrido y orden de escritura invertido) y se pone en rojo con exit 1 en las dos.",
-   "descubierto": "2026-08-22",
-   "notas": "El codec es TOTAL: todo u64 da 12 caracteres, asi que buscar 'nombres validos' en un archivo sin exigir relleno a la derecha es ruido -- 79.048 nombres distintos en STLEVEL.BIN. Con relleno >= 2 quedan 88 y son todos reales."
-  },
-  {
-   "id": "arma_instancia_init",
-   "nombre": "Inicializa una entrada del pool de armas activas (0x24)",
-   "direccion": "0x00158F50",
-   "fin": "0x0015911F",
-   "version": "ntscu_1_00",
-   "descripcion": "Rellena una entrada de 0x24 del pool de armas activas. Escribe entrada+0x08 = descriptor de arma (param_3) y entrada+0x0C = EL BLOQUE DE IA. La eleccion es un offset FIJO, no una seleccion por tabla: si *(*(param_2+0xF0)+0xC4) == 2 (el jugador) entrada+0x0C = param_3; en cualquier otro caso (todo NPC) entrada+0x0C = param_3 + 0x30.",
-   "convencion": "a0 = entrada del pool (0x006E18B0 + n*0x24). a1 = slot de arma de 0x110 del manager. a2 = descriptor de arma (param_3). a3 = pasa a FUN_001e18b0. Devuelve 1.",
-   "llamadores": [
-    "0x0015D10C"
-   ],
-   "llama_a": [
-    "FUN_00155178",
-    "FUN_001e2be8",
-    "FUN_00135570",
-    "FUN_00138320",
-    "FUN_001e18b0"
-   ],
-   "puntos_de_parche": [
-    {
-     "direccion": "0x00159008",
-     "instruccion_original": "addiu $4, $16, 0x30",
-     "efecto_si_se_modifica": "cambia QUE bloque usa la IA de TODO NPC: el inmediato 0x30 es el unico lugar donde se elige. 0x00 haria que los NPC usen el bloque del jugador."
-    },
-    {
-     "direccion": "0x00159014",
-     "instruccion_original": "sw $4, 0xc($17)",
-     "efecto_si_se_modifica": "la escritura misma del bloque de IA en la entrada (rama NPC)"
-    },
-    {
-     "direccion": "0x00158FF4",
-     "instruccion_original": "sw $16, 0xc($17)",
-     "efecto_si_se_modifica": "la misma escritura, rama jugador (param_3 sin desplazar)"
-    }
-   ],
-   "confianza": "confirmado",
-   "evidencia": "2026-08-22, en frio sobre el ELF. Cadena completa medida, no supuesta: 0x006E18B8 no se construye en ningun lado del .text (0 instrucciones 'lui rX,0x006E' en las 680k palabras de .text) porque es heap -- .bss termina en 0x0049BFBC. El pool cuelga del descriptor 0x005AE880, apuntado UNICAMENTE por la global .bss 0x0040F4E0. FUN_001020c0 hace DAT_0040f4e0 = malloc(0xFE0) y lo inicializa con FUN_0015C970, que pide 0x708 = 0x32*0x24 para el campo +0x0C y corre el constructor de entrada FUN_00158F08 cada 0x24. Control positivo pasivo sobre ee-e4.bin: la funcion predice entrada+0x00 = 0 y entrada+0x0C = entrada+0x08 + 0x30 para los seis NPC, y el volcado lo cumple exacto (0x01842A30/0x01842A60, 0x01842C10/0x01842C40).",
-   "notas": "CIERRA LA FASE 7c CON RESPUESTA NEGATIVA UTIL: el bloque de IA NO se elige por ningun campo del registro de personaje (+0x78, +0x8C, +0xA8: ninguno interviene). Es descriptor+0x30, un offset fijo del mismo descriptor de arma. Por eso el experimento 7b no podia mover el array tocando +0x78. La pregunta que queda (7d) es quien escribe el descriptor: *(slot0x110 + 0xEC)."
-  },
-  {
-   "id": "arma_instancia_asignar",
-   "nombre": "Asigna entrada(s) del pool de armas activas a una entidad al spawnear",
-   "direccion": "0x0015D060",
-   "fin": "0x0015D197",
-   "version": "ntscu_1_00",
-   "descripcion": "Recorre el array de ocupacion (manager+0x10, 0x32 bytes) buscando el primer indice libre, calcula la entrada como manager+0x0C + n*0x24 y llama a FUN_00158F50. Corre hasta dos veces: iVar6=0 arma primaria con descriptor *(slot+0xEC), iVar6=1 arma secundaria con *(*(slot+0xEC)+0xA0). Deja el puntero a la entrada de vuelta en slot+0xF4 (primaria) y slot+0xF8 (secundaria), y marca ocupado el byte n.",
-   "convencion": "a0 = manager de armas (*0x0040F4E0). a1 = slot de arma de 0x110. a2 = se pasa tal cual a FUN_00158F50.",
-   "llamadores": [],
-   "llama_a": [
-    "arma_instancia_init"
-   ],
-   "puntos_de_parche": [],
-   "confianza": "confirmado",
-   "evidencia": "2026-08-22, en frio. Unico llamador de FUN_00158F50 segun xref de Ghidra (0x0015D10C). Control positivo sobre ee-e4.bin: el codigo escribe slot+0xF4 = entrada, y el volcado tiene 0x006DE784 (= slot0 0x006DE690 + 0xF4) valiendo 0x006E18B0, la base exacta del pool.",
-   "notas": "El indice n del array de 0x006E18B8 sale de aca: es el primer byte libre del array de ocupacion, no un id de entidad. Explica que el array se llene progresivamente al spawnear."
-  },
-  {
-   "id": "arma_slot_constructor",
-   "nombre": "Constructor del slot de arma de 0x110: ESCRIBE slot+0xEC (el descriptor)",
-   "direccion": "0x00156278",
-   "fin": "0x00156383",
-   "version": "ntscu_1_00",
-   "descripcion": "FUN_00156278(slot, entidad, b, param_4). Inicializa el slot de arma de 0x110. Escribe slot+0x00 = b (byte), slot+0xF0 = entidad, slot+0xFC = entidad+0x280, y sobre todo: slot+0xE8 = FUN_0015d210(mgr,b) = puntero al registro b de la tabla de 17, y slot+0xEC = FUN_0015d228(mgr,b) = tabla17[b] campo +0x08 = EL DESCRIPTOR DE ARMA. Tres instrucciones despues llama a FUN_0015d060, que es quien lee ese +0xEC. CIERRA LA FASE 7d.",
-   "convencion": "a0 = slot de 0x110. a1 = entidad (va a slot+0xF0). a2 = b, INDICE DE ARMA de un byte. a3 = pasa a FUN_0015d060. Devuelve 1.",
-   "llamadores": [
-    "0x0015CF6C (FUN_0015cef0)",
-    "0x00158DEC (FUN_00158ae0, manejador del evento 'GET WEAPON')"
-   ],
-   "llama_a": [
-    "FUN_0015d210",
-    "FUN_0015d228",
-    "FUN_0015d060",
-    "FUN_0020bc00",
-    "FUN_0027c278",
-    "FUN_00209ec8"
-   ],
-   "puntos_de_parche": [
-    {
-     "direccion": "0x00156318",
-     "instruccion_original": "sw $v0, 0xEC($s0)",
-     "efecto_si_se_modifica": "ES LA ESCRITURA DEL DESCRIPTOR DE ARMA en el slot. Unico store a +0xEC en todo el subsistema 0x00155000-0x0015D200: de 54 accesos al inmediato 0xEC en ese rango, 53 son loads y este es el unico store."
-    }
-   ],
-   "confianza": "confirmado",
-   "evidencia": "2026-08-23, en frio sobre el ELF. Control positivo sobre volcados/ee-e4.bin: prediciendo slot+0xE8 y slot+0xEC a partir del byte slot+0x00, los OCHO slots vivos dan exacto. b=0x05 -> 0x01842C10, que es el descriptor que la bitacora (33) habia medido en RAM para los cinco E_BLACKHD_M0. Dos cruces no buscados que confirman: b=0x05 decodifica a BG1_AK1 (los enemigos llevan AK) y b=0x00 a BG1_PST (el jugador arranca con pistola).",
-   "descubierto": "2026-08-23",
-   "notas": "El byte b NO es un dato guardado en ningun lado: se resuelve POR NOMBRE. Ver arma_indice_desde_tabla y arma_resolver_por_nombre."
-  },
-  {
-   "id": "arma_indice_desde_tabla",
-   "nombre": "Las dos rutinas de una linea que indexan la tabla de 17 armas",
-   "direccion": "0x0015D210",
-   "fin": "0x0015D243",
-   "version": "ntscu_1_00",
-   "descripcion": "FUN_0015d210(mgr,b) devuelve *(*mgr+4) + b*0x20, el puntero al registro b de la tabla de 17 (va a slot+0xE8). FUN_0015d228 @ 0x0015D228 devuelve *(u32*)( *(*mgr+4) + b*0x20 + 8 ), EL DESCRIPTOR DE ARMA (va a slot+0xEC). El b*0x20 esta escrito como (b<<24)>>19, que ademas extiende el signo del byte: b=0xFF da -0x20.",
-   "convencion": "a0 = manager de armas (*0x0040F4E0). a1 = b, indice de arma de un byte.",
-   "llamadores": [
-    "0x001562F0 y 0x00156310 (FUN_00156278)"
-   ],
-   "llama_a": [],
-   "puntos_de_parche": [],
-   "confianza": "confirmado",
-   "evidencia": "2026-08-23. Verificado contra ee-e4.bin: *0x0040F4E0 = 0x005AE880, *mgr = 0x01842080, tabla = *(0x01842080+4) = 0x01842090, conteo = *(u8*)(0x01842080+1) = 17. Los 8 slots vivos cumplen la formula exacto.",
-   "descubierto": "2026-08-23",
-   "notas": "El conteo 17 coincide con los 17 registros de 0x1E0 de la tabla de armas ya conocida. El registro de la tabla es {u64 id64 del nombre en +0x00, u32 descriptor en +0x08, u32 en +0x0C, u32 en +0x10, ...} con paso 0x20."
-  },
-  {
-   "id": "arma_resolver_por_nombre",
-   "nombre": "El arma se elige por NOMBRE id64, no por indice: el barrido lineal de los 5 llamadores",
-   "direccion": "0x0015CEF0",
-   "fin": "0x0015CFDF",
-   "version": "ntscu_1_00",
-   "descripcion": "FUN_0015cef0(mgr, entidad, b, x) toma el primer slot libre del array de ocupacion mgr+0x08, calcula slot = mgr[1] + i*0x110 y llama al constructor FUN_00156278. Pero lo importante esta ARRIBA: sus CINCO llamadores calculan b todos de la misma forma -- barren linealmente los 17 registros de la tabla comparando el id64 de rec+0x00 contra un u64, y el indice donde matchea es b; si no matchea ninguno, b = 0xFF.",
-   "convencion": "a0 = manager (*0x0040F4E0). a1 = entidad duena. a2 = b (byte). Devuelve el puntero al slot de 0x110.",
-   "llamadores": [
-    "0x00139F68 y 0x00139FE0 (FUN_00139c68): nombre desde entidad+0x3C0 (primaria) y entidad+0x3C8 (secundaria). Es el camino del jugador.",
-    "0x00132930 (FUN_001327f0): nombre desde param_5, que llega de descriptor+0x28 via FUN_00138c80 <- FUN_00178bc0(param_7) <- FUN_00178978 / FUN_00178ae8. Camino data-driven.",
-    "0x0015F0C4 -> FUN_00138df8 -> FUN_001327f0 (FUN_0015ef48 case 0x0A): nombre LITERAL 0x5446127297C60000 = BG1_AK1, hardcodeado en el .text.",
-    "0x001785C8 (FUN_001784f0): nombre LITERAL 0x54461524B8230000 = BG1_SNR.",
-    "0x0015C7F8 (FUN_0015c3c8): b directo desde *(iVar6+0x44). Es re-arme / pickup, no spawn."
-   ],
-   "llama_a": [
-    "FUN_00156278"
-   ],
-   "puntos_de_parche": [
-    {
-     "direccion": "FUN_0015ef48 case 0x0A (~0x0015F0B0)",
-     "instruccion_original": "literal u64 0x5446127297C60000 (BG1_AK1)",
-     "efecto_si_se_modifica": "cambia el arma de todo lo que spawnee por el case 0x0A del stream de nivel. Es un literal de 8 bytes: se reemplaza por el id64 de otra arma (id64.py codificar). bg1_rpg YA esta en la lista de assets de LEVEL_00, asi que AK1 -> RPG no requiere agregar nada al nivel."
-    }
-   ],
-   "confianza": "confirmado",
-   "evidencia": "2026-08-23, en frio. El xref de Ghidra da exactamente 5 llamadores y los cinco tienen el mismo barrido lineal. Control positivo: entidad del jugador 0x005A8AB0 + 0x3C0 = 0x544614B7182C0000 = BG1_PST, y el jugador tiene b = 0x00 = BG1_PST en el volcado.",
-   "descubierto": "2026-08-23",
-   "notas": "NO hay un solo 'sd' a +0x3C0 en todo el .text (32 accesos al inmediato 0x3C0, y los unicos stores son spills de $sp): el campo llega por copia en bloque, no por una instruccion propia. Los cinco enemigos tienen entidad+0x3C0 = 0 en el volcado, o sea NO vinieron por FUN_00139c68 -- eso es lo que mando a mirar los otros llamadores y destapo el literal hardcodeado."
-  },
-  {
-   "id": "stage_stream_dispatcher",
-   "nombre": "EL INDICE DE MODULOS DEL NIVEL: dispatcher de 61 tipos sobre el stream del stage",
-   "direccion": "0x0015EF48",
-   "fin": "0x0015FDBF",
-   "version": "ntscu_1_00",
-   "descripcion": "FUN_0015ef48(registro, lista, p3, p4). 'lista' es {u32 count, u32 array}; el array son registros de 0x10 bytes {u32 tipo, u32 ptr, u64 payload}. La funcion es un switch sobre el tipo con 61 casos, tipos 0x03 a 0x44. ESE SWITCH ES EL ESQUEMA DEL ARCHIVO DE NIVEL: una rama por tipo de modulo. 'registro' (param_1) trae un array de handles por tipo (piVar10[2], [4], [5], [9], ...). El case 0x0A es el spawn de personaje, y es el que lleva el arma BG1_AK1 literal.",
-   "convencion": "a0 = registro de handles por tipo. a1 = {count, array de registros de 0x10}.",
-   "llamadores": [
-    "0x0012DCA8 (FUN_0012dab8), a su vez desde FUN_00129360 y FUN_0012be80"
-   ],
-   "llama_a": [
-    "FUN_00174430",
-    "FUN_00138df8",
-    "FUN_001650f8",
-    "FUN_00165210",
-    "y uno o mas por cada caso"
-   ],
-   "puntos_de_parche": [],
-   "confianza": "probable",
-   "evidencia": "2026-08-23, leido en Ghidra, no ejecutado. 61 etiquetas 'case' contadas en la decompilacion, tipos 0x03-0x44. El case 0x0A esta confirmado por otra via: es el que lleva el literal BG1_AK1, y los cinco enemigos de LEVEL_00 tienen justo ese descriptor (0x01842C10).",
-   "descubierto": "2026-08-23",
-   "notas": "ES LA VIA DE MAYOR APALANCAMIENTO PARA LAS FASES 6 Y 7: en vez de subir la cadena de llamadas eslabon por eslabon para cada cosa que se quiera tocar, enumerar los 61 casos da el mapa de todo lo que un nivel puede contener. Abre la fase 7e. Salio de una pregunta de Fran: buscar el indice en vez de recorrer los modulos."
-  },
-  {
-   "id": "mira_actualizar",
-   "nombre": "Actualizar la mira: curva, suavizado, aceleracion y giro",
-   "direccion": "0x001404A8",
-   "fin": "0x001407C7",
-   "version": "ntsc_u",
-   "descripcion": "La funcion COMPLETA de la mira de BLACK. Recibe los dos ejes del stick derecho ya combinados y actualiza el yaw y el pitch de la camara. Es donde viven, todas juntas, las cuatro cosas que hacen que la mira se sienta como se siente.",
-   "convencion": "f12 = eje Y, f13 = eje X (floats, -1..1), a0 = objeto de controles (0x005A8FA0). No devuelve nada: escribe sobre el objeto.",
-   "llamadores": [
-    "0x0013FD44",
-    "0x0013FD58"
-   ],
-   "llama_a": [
-    "powf (0x0029E688)"
-   ],
-   "puntos_de_parche": [
-    {
-     "direccion": "0x005A9048",
-     "instruccion_original": "dato f32 = 70.0",
-     "efecto_si_se_modifica": "velocidad de giro HORIZONTAL en grados por segundo. Confirmado por efecto."
-    },
-    {
-     "direccion": "0x005A904C",
-     "instruccion_original": "dato f32 = 25.0",
-     "efecto_si_se_modifica": "velocidad de giro VERTICAL en grados por segundo. Confirmado por efecto."
-    },
-    {
-     "direccion": "0x005A9058",
-     "instruccion_original": "dato f32 = 3.0",
-     "efecto_si_se_modifica": "exponente de la curva. 1.0 = lineal. Confirmado por efecto."
-    },
-    {
-     "direccion": "0x005A905C",
-     "instruccion_original": "dato f32 = 0.5",
-     "efecto_si_se_modifica": "suavizado: fraccion que se acerca al objetivo por frame. 1.0 = sin filtro. SIN medir."
-    },
-    {
-     "direccion": "0x005A9054",
-     "instruccion_original": "dato f32 = 0.5",
-     "efecto_si_se_modifica": "tope de la aceleracion por mantener el stick a fondo. SIN medir por separado."
-    },
-    {
-     "direccion": "el inmediato 0x428C0000 dentro de 0x001404A8",
-     "instruccion_original": "comparacion contra 70.0f",
-     "efecto_si_se_modifica": "recorte del PITCH a +-70 grados. Subirlo deja mirar mas arriba y mas abajo. Es CODIGO, no dato. SIN probar."
-    }
-   ],
-   "confianza": "confirmado",
-   "evidencia": "Decompilada entera con Ghidra. Se llego a ella buscando los LECTORES del Analogue Control Power: como el objeto de controles es jugador+0x4F0 y el parametro es obj+0xB8, `barrer.py off 0xB8 --solo load` en 0x00130000-0x00150000 dio DOS lwc1 contiguos (0x00140638 y 0x00140670) entre 25 candidatos -- X e Y de la mira. Dos de sus constantes estan confirmadas por efecto en vivo con control negativo.",
-   "pseudocodigo": [
-    "factor_zoom = 1 / ((jugador[+0x2AC] - 1) * 0.8 + 1)     // el sniper con zoom gira mas lento",
-    "si (x*x + y*y > 0.95):                                   // stick practicamente a fondo",
-    "    hold += MaxHoldIncrement * |eje| * dt   (tope MaxHoldModifier)",
-    "    eje  += hold                                         // aceleracion por MANTENER",
-    "sino: hold = 0",
-    "si (apuntando con mira): eje *= 0.7                      // 30% mas lento con L1",
-    "eje = signo(eje) * powf(|eje|, AnalogueControlPower)     // LA CURVA",
-    "suave = suave + (eje - suave) * PercentageCatchUp        // EL FILTRO",
-    "yaw   += suave_x * GiroX * dt * factor_zoom",
-    "pitch += suave_y * GiroY * dt * factor_zoom",
-    "pitch se recorta a +-70 ; yaw se envuelve a +-180"
-   ]
-  },
-  {
-   "id": "pad_leer_accion",
-   "nombre": "Leer el valor analogico de una ACCION del jugador",
-   "direccion": "0x00124840",
-   "fin": "0x001249EB",
-   "version": "ntsc_u",
-   "descripcion": "Devuelve el valor 0..1 de una accion del jugador por su id. Los ejes se arman restando dos medias-acciones: mirar en X es accion(8) - accion(7), moverse en X es accion(1) - accion(2). Las acciones 0x0B, 0x19-0x1D, 0x1F, 0x20 y 0x24 llevan ademas un chequeo de flanco (son botones con semantica de toggle).",
-   "convencion": "a0 = objeto de pad (controles+0x98), a1 = id de accion. Devuelve float en f0.",
-   "llamadores": [
-    "0x0013F618 y todo su cuerpo"
-   ],
-   "llama_a": [
-    "pad_valor_binding (0x0026BB98)"
-   ],
-   "confianza": "confirmado",
-   "evidencia": "Decompilada. La tabla que traduce accion -> binding es DAT_003BCAC8, indexada por id*4.",
-   "notas": "ES LA PUERTA AL REMAPEO A NIVEL DE JUEGO: cambiando la tabla 0x003BCAC8 se cambia que entrada fisica alimenta cada accion, sin tocar el emulador. SIN probar."
-  },
-  {
-   "id": "pad_valor_binding",
-   "nombre": "Valor crudo de un binding en el dispositivo",
-   "direccion": "0x0026BB98",
-   "fin": "0x0026BBBB",
-   "version": "ntsc_u",
-   "descripcion": "Lectura de tabla pura: devuelve el float de dispositivo+0x4C+id*4 si id < 0x1C, y 0 si no. Ahi estan los 28 valores de entrada que el juego ve.",
-   "convencion": "a0 = dispositivo (pad+0x0C), a1 = id de binding (0..27). Devuelve float en f0.",
-   "confianza": "confirmado",
-   "evidencia": "Decompilada, y verificada EN VIVO: con el dispositivo en 0x005856C0, la tabla arranca en 0x0058570C y los ids 23 y 26 se mueven al inyectar movimiento de mouse a la derecha, mientras el resto queda en cero."
-  },
-  {
-   "id": "inventario_dos_armas",
-   "nombre": "Instanciar las armas que lleva la entidad (el inventario de DOS slots)",
-   "direccion": "0x00139C68",
-   "version": "ntsc_u",
-   "descripcion": "Arma los objetos de las dos armas que lleva una entidad. Lee el id64 del arma primaria en entidad+0x3C0 y el de la secundaria en entidad+0x3C8, busca cada uno en el directorio global de armas y guarda los dos handles resultantes.",
-   "convencion": "a0 = entidad. El resultado va a *(entidad+0x2A0): el handle del arma PRIMARIA en +0x00 y el de la SECUNDARIA en +0x04.",
-   "confianza": "confirmado",
-   "evidencia": "Decompilada. Los unicos dos `ld` reales del arma secundaria en todo el .text (0x00139DE0 y 0x00139F78) estan aca, y los de la primaria (0x00139D58, 0x00139E6C) tambien. El directorio global es DAT_0040F4E0: la CANTIDAD es un BYTE en *(ptr)+1 y el array esta en *(ptr)+4, con paso de 4 longs (0x20). La busqueda es lineal y devuelve el indice como CHAR, con -1 si no encuentra.",
-   "por_que_importa": "Es la puerta para 'llevar tres armas en vez de dos', y la decompilacion dice exactamente por que no es un parche de un byte.",
-   "que_haria_falta_para_una_tercera_arma": [
-    "1. UN CAMPO LIBRE PARA EL TERCER id64. No alcanza con +0x3D0: esta ocupado (la misma funcion hace *(ent+0x2F8) = *(ent+0x3D0), y 0x2F8 es la vida). +0x3D4 tambien esta usado. Hay que buscar relleno libre en la estructura de la entidad, o mover el array a otro lado.",
-    "2. UN TERCER HANDLE en el struct de *(ent+0x2A0), que hoy usa +0x00 y +0x04. Falta medir el TAMANO de ese struct antes de escribir en +0x08.",
-    "3. DUPLICAR EL BLOQUE DE BUSQUEDA. El codigo NO tiene un bucle sobre slots: los dos estan DESENROLLADOS, con dos copias de la busqueda lineal en el directorio. Una tercera arma pide una tercera copia, y no hay lugar para insertar instrucciones sin reubicar la funcion.",
-    "4. EL CICLADO. BLACK cambia de arma ciclando, no indexando, y esa rutina es aparte. Un barrido por el offset 0x2A0 da 73 candidatos: el parametro no discrimina. Hay que entrar por la ACCION de entrada (FUN_00124840 y la tabla de bindings 0x003BCAC8), no por el offset."
-   ],
-   "notas": "Vale la pena saber que las entidades enemigas NO se arman por este camino: las cinco del volcado tienen +0x3C0 = 0. Van por FUN_0015ef48 case 0x0A, con el id64 de BG1_AK1 en el .text."
-  },
-  {
-   "id": "auto_apuntado_aplicar",
-   "nombre": "Auto-apuntado: aplicar la correccion angular",
-   "direccion": "0x001407C8",
-   "fin": "0x001409BF",
-   "version": "ntsc_u",
-   "descripcion": "La asistencia de punteria de BLACK. Si hay blanco elegido (obj+0x9C), calcula una correccion de yaw/pitch con fuerza (1 - distancia/30)^2 * 0.2, la recorta a +-3.5 por eje y se la SUMA a obj+0x90 y obj+0x94, que es lo que despues consume la mira. BLACK no expone esto en ningun menu.",
-   "convencion": "a0 = objeto de controles (0x005A8FA0). a1/a2 = punteros a los ejes X e Y. No devuelve nada: escribe obj+0x90 y obj+0x94.",
-   "llamadores": [
-    "0x0013FD30 (dentro de FUN_0013f618)"
-   ],
-   "llama_a": [
-    "FUN_00136dc0 (0x00136DC0)"
-   ],
-   "puntos_de_parche": [
-    {
-     "direccion": "0x001407DC",
-     "instruccion_original": "lw a0,0x9c(s0)  (0x8E04009C)",
-     "efecto_si_se_modifica": "Cambiado a 'li a0,0' (0x24040000) el blanco vale siempre cero, el beql de 0x001407E0 salta siempre al epilogo de 0x001409B0 y la asistencia no corrige nada. La BUSQUEDA de blanco sigue viva, asi que lo que lea obj+0x9C no se entera. mods/auto-apuntado.toml."
-    }
-   ],
-   "confianza": "confirmado",
-   "evidencia": "Decompilada entera con Ghidra el 2026-09-05. Se llego a ella por el llamador de mira_actualizar: FUN_0013f618 hace, en este orden, obj[0x9C]=0 / FUN_0012bb60(30.0,3.0,...,FUN_001409c0) / FUN_001407c8(obj,&ejeX,&ejeY) / FUN_001404a8(...). Que param_1 sea el objeto de controles esta confirmado por una via independiente: obj+0xA8 = 0x005A9048, que ya estaba confirmado POR EFECTO como la velocidad de giro horizontal. El parche se verifico en RAM despues de reiniciar el emulador y cargar un savestate: 0x001407DC = 0x24040000 y la palabra vecina 0x001407E0 intacta en 0x50800073.",
-   "pseudocodigo": [
-    "si (obj[0x9C] == 0) return                        // sin blanco, no hace nada",
-    "fuerza = (1 - obj[0xA4]/30)^2 * 0.2               // cuadratica con la distancia",
-    "correccion = fuerza * (direccion al blanco)       // recortada a +-3.5 por eje",
-    "obj[0x90] += correccion_x ; obj[0x94] -= correccion_y"
-   ]
-  },
-  {
-   "id": "auto_apuntado_buscar",
-   "nombre": "Auto-apuntado: el cono que elige el blanco",
-   "direccion": "0x0012BB60",
-   "fin": "0x0012BD97",
-   "version": "ntsc_u",
-   "descripcion": "Recorre las entidades vivas y, por cada una, ONCE puntos (los huesos). Se queda con las que caen dentro de un CONO delante de la mira, y llama al callback por cada una. Con los argumentos que le pasa la mira (30.0 y 3.0) el cono tiene medio angulo atan(3/30) = 5,7 grados y 30 unidades de alcance.",
-   "convencion": "param_1 = alcance (30.0), param_2 = radio del cono al alcance maximo (3.0), param_7 = callback. Filtro: 0 < t < alcance, y dist_perpendicular^2 < (param_2 * t/param_1)^2.",
-   "llamadores": [
-    "0x0013FCE4-0x0013FD10 (dentro de FUN_0013f618)"
-   ],
-   "llama_a": [
-    "auto_apuntado_elegir (0x001409C0)"
-   ],
-   "puntos_de_parche": [
-    {
-     "direccion": "0x0013FCE4",
-     "instruccion_original": "lui at,0x41F0  (30.0f)",
-     "efecto_si_se_modifica": "el ALCANCE de la asistencia. 0x4170 = 15.0. Es una instruccion: va la mitad alta del float. SIN PROBAR."
-    },
-    {
-     "direccion": "0x0013FCFC",
-     "instruccion_original": "lui at,0x4040  (3.0f)",
-     "efecto_si_se_modifica": "el ANCHO del cono. 0x3FC0 = 1.5. SIN PROBAR."
-    }
-   ],
-   "confianza": "confirmado",
-   "evidencia": "Decompilada. El callback FUN_001409c0 se queda con el candidato de menor t (compara contra obj+0xA0) y guarda el blanco en obj+0x9C, la distancia en obj+0xA0 y el parametro que usa la fuerza en obj+0xA4."
-  },
-  {
-   "id": "pad_zona_muerta",
-   "nombre": "La curva de zona muerta del eje analogico -- EL PISO DE LA MIRA",
-   "direccion": "0x0026BF60",
-   "fin": "0x0026BFEF",
-   "version": "ntsc_u",
-   "descripcion": "Aplica zona muerta y techo al eje analogico normalizado, y reescala lo que queda. Es el PISO por el cual, moviendo el mouse despacio, la mira de BLACK no se mueve NADA. Ningun ajuste del emulador lo toca porque no es del emulador.",
-   "convencion": "f12 = eje normalizado (-1..1), f13 = zona muerta EXTRA por eje (obj+0xC8), a0 = objeto de dispositivo de pad. Devuelve el eje corregido en f0.",
-   "llamadores": [
-    "0x0026C2xx-0x0026C6xx, dentro de FUN_0026c100 (el que llena la tabla de 28 floats del dispositivo)"
-   ],
-   "puntos_de_parche": [
-    {
-     "direccion": "0x0026BF88",
-     "instruccion_original": "lwc1 f0,0xe4(a0)  (0xC48000E4) -- rama del eje POSITIVO",
-     "efecto_si_se_modifica": "Cambiado a 'mov.S f0,f2' (0x46001006) la zona muerta base pasa a 0 y desaparece el piso. f2 vale 0.0 en toda la funcion. CONFIRMADO POR EFECTO con control negativo."
-    },
-    {
-     "direccion": "0x0026BFB4",
-     "instruccion_original": "lwc1 f0,0xe4(a0)  (0xC48000E4) -- rama del eje NEGATIVO",
-     "efecto_si_se_modifica": "Idem. Hacen falta las DOS: con una sola, la mira tiene piso para un lado y no para el otro."
-    }
-   ],
-   "confianza": "confirmado",
-   "evidencia": "2026-09-05. Inyectando 1200 cuentas en pasos fijos y midiendo el yaw (0x005A8DA0): con la zona muerta de fabrica (0.1) los pasos de 4, 8, 16 y 24 cuentas/sondeo dan CERO EXACTO; con 0 dan -0.065 / -8.45 / -12.45 / -12.64 grados; restaurando 0.1 vuelven a cero exacto. Medido por DOS vias independientes que coinciden: escribiendo 0.0 en el heap (dispositivo+0xE4) y con el parche de codigo (-8.37 contra -8.45 a 8 cuentas). Ademas se verifico en vivo que el objeto de dispositivo esta en 0x005856C0: seis campos (+0xD0..+0xE4) valen exactamente lo que escribe el constructor FUN_0026ba20.",
-   "pseudocodigo": [
-    "techo = obj[0xE0]                      // 0.9",
-    "zm    = obj[0xE4] + extra              // 0.1 + obj[0xC8]",
-    "v = recorta(v, +-techo)",
-    "v = v - signo(v)*zm ; si cruzo el cero, v = 0",
-    "return v / (techo - zm)"
-   ]
-  },
-  {
-   "id": "pad_dispositivo_init",
-   "nombre": "Constructor del dispositivo de pad: de donde sale el 0.1",
-   "direccion": "0x0026BA20",
-   "fin": "0x0026BAE3",
-   "version": "ntsc_u",
-   "descripcion": "Pone en cero la tabla de 28 floats (dispositivo+0x4C) y escribe TRES pares (techo, piso) identicos: (0.9, 0.1) en +0xD0/+0xD4, +0xD8/+0xDC y +0xE0/+0xE4. La curva de zona muerta usa SOLO el tercer par.",
-   "convencion": "a0 = objeto de dispositivo. En la corrida medida vive en 0x005856C0.",
-   "confianza": "confirmado",
-   "evidencia": "Decompilado, y verificado en vivo: los seis campos +0xD0..+0xE4 leidos por PINE dan 0.9/0.1/0.9/0.1/0.9/0.1. El septimo (+0xCC, que el constructor pone en 0.2) vale 0.05 en vivo, o sea que algo lo reescribe despues de construir.",
-   "notas": "NO se parchea aca aunque sea el origen del valor: el constructor corre UNA vez al arrancar, y un savestate trae el 0.1 ya escrito en el heap. Por eso el parche va en la curva (pad_zona_muerta), que es codigo y se reaplica cada frame."
-  }
- ]
+  ]
 }

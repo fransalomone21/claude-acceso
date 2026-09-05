@@ -1,273 +1,333 @@
 {
- "_que_es": "Inventario MEDIDO de los formatos de archivo del ISO de BLACK, y el modelo estructural del .WDD. Fase 6 (exprimir el ISO), capacidad C.",
- "_medido": "2026-09-04",
- "_como_se_midio": "os.walk sobre D: (el ISO original montado) + lectura de cabeceras + entropia por columna sobre los registros. Las cadenas del ELF salen de C:/Users/frans/herramientas/SLUS_213.76, offset_archivo = vaddr - 0xFF000.",
- "inventario": {
-  "_nota": "n = cantidad de archivos, mb = total en megabytes",
-  ".WDD": {
-   "n": 141,
-   "mb": 8.7,
-   "que_es": "indice/diccionario de tamano FIJO potencia de dos. 139 de 64 KiB (emparejados 1:1 con .DB) y 2 de 16 KiB (emparejados con .WDO). CERO huerfanos.",
-   "confianza": "confirmado"
+  "_que_es": "Inventario MEDIDO de los formatos de archivo del ISO de BLACK, y el modelo estructural del .WDD. Fase 6 (exprimir el ISO), capacidad C.",
+  "_medido": "2026-09-04",
+  "_como_se_midio": "os.walk sobre D: (el ISO original montado) + lectura de cabeceras + entropia por columna sobre los registros. Las cadenas del ELF salen de C:/Users/frans/herramientas/SLUS_213.76, offset_archivo = vaddr - 0xFF000.",
+  "inventario": {
+    "_nota": "n = cantidad de archivos, mb = total en megabytes",
+    ".WDD": {
+      "n": 141,
+      "mb": 8.7,
+      "que_es": "indice/diccionario de tamano FIJO potencia de dos. 139 de 64 KiB (emparejados 1:1 con .DB) y 2 de 16 KiB (emparejados con .WDO). CERO huerfanos.",
+      "confianza": "confirmado"
+    },
+    ".DB": {
+      "n": 139,
+      "mb": 82.5,
+      "que_es": "el bloque de datos que acompana a cada .WDD de 64 KiB. Cabecera: registros de 8 B (u32 variable + constante 0x54461272) y despues una tabla de offsets alineados a 128 B.",
+      "confianza": "probable"
+    },
+    ".WDO": {
+      "n": 2,
+      "mb": 0.0,
+      "que_es": "el par de los dos .WDD de 16 KiB (chars/guns/GrdPin, chars/guns/GrdLnchr). 211 B.",
+      "confianza": "confirmado"
+    },
+    ".BIN": {
+      "n": 131,
+      "mb": 243.8,
+      "que_es": "contenedor de Criterion. Resuelto en 6.1/6.6; GLOBDATA.BIN se parchea in-place.",
+      "confianza": "confirmado"
+    },
+    ".BKS": {
+      "n": 51,
+      "mb": 898.8,
+      "que_es": "AUDIO (banco de streams). Cadena '.bks' en 0x003F7978. NO es geometria.",
+      "confianza": "probable"
+    },
+    ".SSH": {
+      "n": 43,
+      "mb": 0.0,
+      "que_es": "AUDIO. La cadena que lo arma es 'sound\\streams\\%s.ssh' (0x003F3050). NO es geometria.",
+      "confianza": "confirmado"
+    },
+    ".SLB": {
+      "n": 9,
+      "mb": 0.0,
+      "que_es": "AUDIO, va junto a .BKS/.SSH ('%s.slb', 0x003F8278). La magia 'KING' que 6.4 queria perseguir es de un contenedor de sonido, no de un nivel.",
+      "confianza": "probable"
+    },
+    ".AWD": {
+      "n": 36,
+      "mb": 10.5,
+      "que_es": "audio via vgmstream (awd.py). Tambien Collide.awd y AIWpns.awd, que NO son musica: son datos de nivel con la misma envoltura.",
+      "confianza": "confirmado"
+    },
+    ".M2V": {
+      "n": 17,
+      "mb": 418.6,
+      "que_es": "video MPEG-2 de las cinematicas",
+      "confianza": "confirmado"
+    },
+    ".IRX": {
+      "n": 9,
+      "mb": 0.2,
+      "que_es": "modulos del IOP (GTFSCDVD.IRX es el sistema de archivos de Criterion, ver 6.1)",
+      "confianza": "confirmado"
+    }
   },
-  ".DB": {
-   "n": 139,
-   "mb": 82.5,
-   "que_es": "el bloque de datos que acompana a cada .WDD de 64 KiB. Cabecera: registros de 8 B (u32 variable + constante 0x54461272) y despues una tabla de offsets alineados a 128 B.",
-   "confianza": "probable"
+  "wdd": {
+    "modelo": "array de 4096 registros de 16 bytes (los de 64 KiB) o 1024 (los de 16 KiB). Tabla de capacidad fija, no un stream.",
+    "confianza": "confirmado",
+    "evidencia": "entropia por columna sobre BG1_AK1.WDD: con paso 16 la columna 1 baja a 0.95 bits/byte y la 0 a 4.20, mientras las otras 14 quedan en ~5.2. Con pasos 32, 48 y 64 el minimo cae SIEMPRE en las columnas 0 y 1 -- el divisor comun es 16. Con pasos 4 y 8 no se aisla.",
+    "campos": {
+      "byte 0": "entero chico (0..~41). Correlaciona con cuanto del payload de 14 B esta ocupado: en los registros de tipo 0x03 con byte0 bajo el payload se corta antes. HIPOTESIS: es un largo.",
+      "byte 1": "TIPO del registro. 0x02 en la abrumadora mayoria (2671/2681 en BG1_AK1), 0x03 en un punado (10), 0x00 = ranura vacia. Esto confirma y explica el 'byte1 = 0x02' que la kb tenia anotado sin interpretar.",
+      "bytes 2-15": "payload de alta entropia (~5.2 bits/byte)"
+    },
+    "ocupacion": "BG1_AK1: 2681 de 4096 ranuras usadas (34.5% vacias). Varia por archivo: BG1_BNS usa 3568/4096, BG1_GK1 solo 2101. Una tabla de capacidad fija con ocupacion variable.",
+    "entropia_global": "5.17 bits/byte -- NO esta comprimido ni cifrado (eso daria ~7.99), pero tampoco es texto ni floats sueltos.",
+    "hipotesis_principal": "WDD = tabla de codigos / diccionario, y .DB = los datos codificados contra ella. Encaja con: tamano potencia de dos exacta, capacidad fija con ranuras vacias, emparejamiento 1:1 sin huerfanos, y una cabecera de .DB que es una tabla de offsets alineados a 128 B.",
+    "como_se_falsea": "si es un diccionario de compresion, el .DB no puede tener sentido sin su .WDD: intercambiar el WDD de un arma por el de otra y ver si el juego dibuja basura en vez de fallar limpio. Y al reves: si el WDD fuera geometria propia, el arma cambiaria de forma. Las dos son observables por efecto y distinguen las dos hipotesis en una sola prueba."
   },
-  ".WDO": {
-   "n": 2,
-   "mb": 0.0,
-   "que_es": "el par de los dos .WDD de 16 KiB (chars/guns/GrdPin, chars/guns/GrdLnchr). 211 B.",
-   "confianza": "confirmado"
+  "loader_fpguns": {
+    "formato_ruta": "Levels\\Level_%02u\fpguns\\%s%s  (cadena en 0x003F7790; el directorio suelto en 0x003F4368)",
+    "sitio_de_llamada": "0x001D820C (lui/addiu que carga 0x003F7790). El del directorio suelto: 0x001287CC.",
+    "extension": "la cadena '.WDD' esta en 0x003F76D8 y NO tiene referencia lui/addiu: se toma de la tabla de punteros de datos que empieza cerca de 0x003BD2B4, junto a 'chars\\guns', 'Sound\\Streams' y 'Level.awd'.",
+    "confianza": "probable",
+    "por_que_importa": "es la puerta de entrada al pipeline de modelos de arma en primera persona. Cualquier cambio de geometria de un arma pasa por aca."
   },
-  ".BIN": {
-   "n": 131,
-   "mb": 243.8,
-   "que_es": "contenedor de Criterion. Resuelto en 6.1/6.6; GLOBDATA.BIN se parchea in-place.",
-   "confianza": "confirmado"
+  "renderware": {
+    "medicion": "0 apariciones de 'RenderWare', 'rwID', '.dff', '.txd' o 'Bin32' en el ELF (busqueda case-insensitive sobre los 3.371.868 B).",
+    "confianza": "medido, pero NO concluyente",
+    "nota": "un build de release borra las cadenas de debug, asi que la ausencia no refuta que sea RenderWare. Lo que si dice es que no hay ningun formato .dff/.txd/.bsp en el ISO: si hay RenderWare abajo, los assets estan en contenedores propios de Criterion (.WDD/.DB), no en los formatos estandar. Buscar herramientas de RenderWare NO va a servir."
   },
-  ".BKS": {
-   "n": 51,
-   "mb": 898.8,
-   "que_es": "AUDIO (banco de streams). Cadena '.bks' en 0x003F7978. NO es geometria.",
-   "confianza": "probable"
+  "stunit": {
+    "_que_es": "STUNIT0N.BIN -- el STREAM DE MODULOS de un nivel: la lista de todo lo que el nivel construye. Es lo que consume FUN_0015ef48 con su switch de 69 casos.",
+    "confianza": "confirmado",
+    "medido": "2026-09-05",
+    "layout": {
+      "header": "+0x00 u32 magia=3 | +0x04 u32 OFFSET DEL DESCRIPTOR dentro del archivo | +0x08 u32 SEGUNDO OFFSET, no una alineacion",
+      "descriptor": "en el offset del header: +0x00 u32 count | +0x04 u32 rel_array (relativo al descriptor)",
+      "array": "count registros de 0x10: +0x00 u32 tipo | +0x04 i32 ptr al blob (CON SIGNO, relativo AL ARRAY) | +0x08 u64 id64 del nombre",
+      "blobs": "teselan la region que va del descriptor al array, en orden no decreciente. Registros consecutivos pueden COMPARTIR blob."
+    },
+    "evidencia": "Control positivo triple contra la fase 7e, que habia medido todo esto en RAM: para LEVEL_00 el header da off_desc=0x3F800 y 0x01053000+0x3F800 = 0x01092800, la direccion del descriptor medida; el count del archivo da 857, el mismo medido; y off_array da 0x01053000+0x4C590 = 0x0109F590, la direccion del array medida. Y CONTROL CRUZADO DE 61 PUNTOS: el histograma de tipos del archivo coincide EXACTAMENTE con instancias_level_00 de kb/stage-modulos.json, medido en RAM, en los 61 tipos, sin una sola diferencia. Los 42 STUNIT del ISO parsean coherentes.",
+    "trampa_pagada": "La base del puntero del blob es EL ARRAY, no el descriptor. La primera version usaba el descriptor y los tres chequeos que tenia -- count, direccion del descriptor, direccion del array -- pasaban IGUAL, porque un corrimiento constante no cambia ninguno y tampoco rompe la monotonia. Lo que lo delata es la relacion entre los blobs y las otras dos estructuras, y por eso el modulo ahora exige que el primer blob caiga DESPUES del descriptor y que el ultimo termine EN el array.",
+    "familias_de_nombre": {
+      "_como": "el id64 de +0x08 decodifica con id64.py; los dos primeros caracteres son la familia",
+      "SD": "sonido (tipos 0x2E, 0x2F, 0x30). El 0x2E ya estaba anotado como observable AUDIBLE.",
+      "FX": "efectos (tipo 0x33)",
+      "SQ": "escuadra (tipos 0x01 y 0x02, uno de cada uno en LEVEL_00; los dos caen en el default del dispatcher)",
+      "LW": "los 256 registros del tipo 0x2D",
+      "WD": "tipos 0x1F, 0x20, 0x43 y parte del 0x0B",
+      "GP": "la familia dominante, en 30 tipos distintos"
+    },
+    "herramienta": "herramientas/stunit.py -- niveles / resumen / listar / autotest. El autotest tiene control positivo contra RAM y tres sabotajes, PROBADO EN ROJO.",
+    "correccion_2026_09_05": "El +0x08 estaba anotado como 'alineacion 0x80'. NO LO ES: el parser de StUnit es FUN_002886d0 (0x002886D0) y trata +0x04 y +0x08 EXACTAMENTE IGUAL -- a los dos les suma la base del archivo y despues los usa como punteros: FUN_00287120(+0x04) y FUN_00288a38(+0x08). Que valga 0x80 es porque esa seccion arranca justo despues del header, no porque sea un campo de alineacion. Se descubrio usando StUnit como control positivo del metodo con el que se resolvio Unit_NN.bin, o sea que el control positivo devolvio una correccion ademas de una confirmacion.",
+    "parser": "FUN_002886d0 (0x002886D0), llamado desde el callback FUN_0012e8b8, que a su vez lo instala FUN_0012d5a8 en su estado 5 con la ruta de 0x003F4528."
   },
-  ".SSH": {
-   "n": 43,
-   "mb": 0.0,
-   "que_es": "AUDIO. La cadena que lo arma es 'sound\\streams\\%s.ssh' (0x003F3050). NO es geometria.",
-   "confianza": "confirmado"
+  "stlevel": {
+    "_que_es": "STLEVEL.BIN -- entre otras cosas, el DIRECTORIO DE ARMAS del nivel: que armas existen en ese nivel.",
+    "confianza": "confirmado",
+    "medido": "2026-09-05",
+    "layout": {
+      "header": "+0x00 u32 version=10 | +0x04 u32 offset del directorio (0x80) | +0x08 u32 CANTIDAD de armas | +0x0C u32 sin identificar | +0x10 u32 cerca del tamano del archivo, sin confirmar",
+      "entrada": "0x28 bytes: +0x00 char[0x20] nombre terminado en 0, de la forma [NNNN_]bg1_XXX | +0x20 u32 (0, 1 o 2) | +0x24 u32 (0 o 2)"
+    },
+    "evidencia": "El kb ya tenia el directorio en 0x01412480 y la base de carga de STLEVEL en 0x01412400, los dos medidos en RAM. La resta da 0x80, y ese 0x80 esta LITERALMENTE en el header en +0x04. El 7 de +0x08 coincide con las 7 entradas legibles antes del primer hueco, y los 7 modelos referenciados existen los 7 en FPGUNS.",
+    "el_prefijo": "NNNN_ es <nivel><stage> y es la instancia; el modelo real es el nombre SIN prefijo, y tiene que existir como Levels/Level_NN/FpGuns/BG1_XXX.wdd",
+    "por_que_importa": "Cada nivel TRAE entre 16 y 20 modelos de arma en su FPGUNS y solo habilita entre 4 y 11. Las que sobran ya viajan en el disco con su modelo y sus texturas: cambiar un nombre del directorio por uno de esos NO agrega un solo byte al ISO. En LEVEL_00 sobran nueve, entre ellas bg1_snr (francotirador) y bg1_hvy (ametralladora pesada).",
+    "armas_por_nivel": {
+      "LEVEL_00": [
+        "bg1_pst",
+        "bg1_shg",
+        "0001_bg1_smg",
+        "0001_bg1_ak1",
+        "0001_bg1_asr",
+        "bg1_rpg",
+        "0001_bg1_sm5"
+      ],
+      "LEVEL_01": [
+        "bg1_shg",
+        "0101_bg1_ak1",
+        "0101_bg1_smg",
+        "bg1_rpg"
+      ],
+      "LEVEL_03": [
+        "bg1_shg",
+        "0301_bg1_snr",
+        "0301_bg1_asr",
+        "0301_bg1_p90",
+        "bg1_rpg",
+        "0601_bg1_hvy"
+      ],
+      "LEVEL_04": [
+        "0401_bg1_mp1",
+        "0401_bg1_asr",
+        "bg1_pst",
+        "bg1_shg",
+        "0401_bg1_smg",
+        "0801_bg1_sm3",
+        "bg1_rpg",
+        "0701_bg1_hvy"
+      ],
+      "LEVEL_05": [
+        "bg1_shg",
+        "0501_bg1_smg",
+        "bg1_rpg",
+        "0101_bg1_snr",
+        "0501_bg1_asr",
+        "0501_bg1_ak1",
+        "0701_bg1_hvy"
+      ],
+      "LEVEL_06": [
+        "bg1_shg",
+        "0601_bg1_sm3",
+        "0601_bg1_smg",
+        "0101_bg1_snr",
+        "0601_bg1_asr",
+        "bg1_rpg",
+        "0701_bg1_hvy"
+      ],
+      "LEVEL_07": [
+        "0701_bg1_smg",
+        "0701_bg1_asr",
+        "bg1_rpg",
+        "0101_bg1_snr",
+        "0701_bg1_m16",
+        "0701_bg1_hvy",
+        "bg1_shg",
+        "0801_bg1_rm1"
+      ],
+      "LEVEL_08": [
+        "bg1_pst",
+        "bg1_shg",
+        "0801_bg1_smg",
+        "0801_bg1_ak1",
+        "bg1_rpg",
+        "0701_bg1_hvy",
+        "0801_bg1_sm3",
+        "0801_bg1_mp1",
+        "0801_bg1_mgn",
+        "0801_bg1_rm1",
+        "0701_bg1_snr"
+      ]
+    },
+    "herramienta": "herramientas/stlevel.py -- catalogo / armas / cambiar / autotest. `cambiar` escribe sobre una COPIA del ISO, se niega a tocar Black.iso, rechaza un arma que el nivel no traiga, y VERIFICA releyendo del ISO que el slot cambio y que ningun otro se movio. Autotest con 4 controles positivos y 4 sabotajes, PROBADO EN ROJO.",
+    "entrada_resuelta_entera": {
+      "_medido": "2026-09-05",
+      "layout": {
+        "+0x00": "char[0x10] nombre, [NNNN_]bg1_XXX",
+        "+0x10": "u64 id64 del MODELO (BG1_AK1, BG1_ASR, ...)",
+        "+0x18": "i32 puntero al array de variantes ENEMIGAS",
+        "+0x1C": "i32 puntero al array de variantes de COMPANERO",
+        "+0x20": "u32 cuantas variantes enemigas",
+        "+0x24": "u32 cuantas variantes de companero"
+      },
+      "base_de_los_punteros": "EL INICIO DE SU PROPIA ENTRADA, no el archivo ni el directorio. Como se supo: los punteros de los slots SIN variantes bajan exactamente 0x28 por slot -- el paso de la entrada -- asi que sumandoles el offset de la ENTRADA dan todos el MISMO centinela, 0xFDC5FF80. Segundo invariante independiente: con esa misma base los punteros reales caen todos alineados a 0x80.",
+      "de_donde_sale_la_semantica": "FUN_001e2d38 (0x001E2D38), decompilada. Recorre param_2+0x08 entradas de paso 0x28 desde param_2+0x04 -- que es EXACTAMENTE el header de StLevel.bin -- y por cada una recorre DOS arrays de registros de 0xB0: +0x18 con +0x20 elementos, a los que les arma el nombre con 'Enemy%d_%s', y +0x1C con +0x24, con 'Team%d_%s'. El %s sale de FUN_001e3018(record+0x88) contra la tabla de siete nombres de 0x003BD3F8: None, Low, Mid, High, Matt, Tom, Carrie. Y de cada registro registra +0x94 en la ValueDB de sonido (AIWeapon.cfg).",
+      "control_del_+0x94": "En el archivo, a +0x94 del primer registro hay exactamente floats de parametro (0.071, 1.0, 10.0, 100.0, 20.0, 0.6) y no ceros ni punteros. La decompilacion decia que ahi va el destino de la ValueDB de sonido de arma de IA, y ahi hay parametros de sonido.",
+      "que_significa": "Es el mapa de QUE ARMA USA CADA CLASE DE ENEMIGO en cada nivel. En LEVEL_00: pistola, escopeta, SMG, RPG y SM5 tienen UNA variante enemiga cada una; la AK1 tiene DOS; y el ASR no lo usa ningun enemigo, lo usan los DOS companeros.",
+      "variantes_por_nivel": {
+        "LEVEL_00": "7 enemigas + 2 companeros",
+        "LEVEL_01": "6 + 0",
+        "LEVEL_03": "8 + 0",
+        "LEVEL_04": "10 + 2",
+        "LEVEL_05": "8 + 1",
+        "LEVEL_06": "10 + 0",
+        "LEVEL_07": "9 + 2",
+        "LEVEL_08": "15 + 0"
+      },
+      "sin_confirmar": "El PASO de los registros dentro de un array en el ARCHIVO. En RAM es 0xB0 (lo dice la decompilacion). En el archivo seis de los siete arrays estan a 0x100 pero el del slot 4 arranca en 0x680, o sea 0x80: la alineacion real es 0x80 y el paso queda como hipotesis.",
+      "trampa": "Seis de siete arrays caen alineados a 0x100 y es tentador escribir 'alineados a 0x100'. El autotest lo dijo en rojo a la primera. La alineacion es 0x80."
+    }
   },
-  ".SLB": {
-   "n": 9,
-   "mb": 0.0,
-   "que_es": "AUDIO, va junto a .BKS/.SSH ('%s.slb', 0x003F8278). La magia 'KING' que 6.4 queria perseguir es de un contenedor de sonido, no de un nivel.",
-   "confianza": "probable"
+  "db_contenedor": {
+    "_que_es": "El .DB que acompana a cada .WDD es un CONTENEDOR DE RECURSOS CON NOMBRE. Su header es un directorio chico.",
+    "confianza": "confirmado (el header) / sin resolver (el contenido)",
+    "medido": "2026-09-05",
+    "header": {
+      "0x00": "id64 del recurso 1  (en BG1_AK1.DB: BG1_AK1LF)",
+      "0x08": "id64 del recurso 2  (BG1_AK1SLF)",
+      "0x10": "id64 del recurso 3  (BG1_AK1)",
+      "0x18": "u32 = 9, cantidad de secciones",
+      "0x1C..0x40": "diez u32: 0x80, 0x20880, 0x20A80, 0x20C00, 0x66880, 0x88B00, 0x88B80, 0x89D00, 0x9AD00, 0x9FD00. TODOS multiplos de 128, y sus diferencias tambien. NO estan ordenados en el archivo: hay que ordenarlos.",
+      "0x80": "id64 TEXTURE, con su propio bloque de numeros detras"
+    },
+    "por_que_el_0x54461272_no_era_una_constante": "La fase 6 lo habia anotado como 'u32 variable + constante 0x54461272'. No es una constante: es la MITAD ALTA de un id64. Todos los nombres que empiezan con BG1_ comparten esa mitad alta, porque el id64 es base-40 de ancho fijo y los primeros seis caracteres caen en los 32 bits altos. O sea que el header no son pares (valor, constante): son NOMBRES de 64 bits.",
+    "sigue_abierto": "que hay adentro de cada seccion"
   },
-  ".AWD": {
-   "n": 36,
-   "mb": 10.5,
-   "que_es": "audio via vgmstream (awd.py). Tambien Collide.awd y AIWpns.awd, que NO son musica: son datos de nivel con la misma envoltura.",
-   "confianza": "confirmado"
+  "geometria_sin_resolver": {
+    "_que_es": "El formato de la geometria de BLACK. EL CONTENEDOR YA ESTA RESUELTO desde el 2026-09-05: ver unit_contenedor. Lo que sigue abierto son los VERTICES adentro de cada modelo. Esta ficha se queda por las dos vias muertas, que no hay que repetir.",
+    "confianza": "contenedor confirmado / vertices sin resolver",
+    "medido": "2026-09-05",
+    "lo_que_si_esta_medido": [
+      "Cero .dff/.txd/.bsp en el ISO y cero cadenas de RenderWare en el ELF: los assets estan en contenedores propios de Criterion. Buscar herramientas de RenderWare no sirve. (fase 6)",
+      "El header del .DB es un directorio de recursos con nombre y nueve secciones alineadas a 128 B. (ver db_contenedor)"
+    ],
+    "via_muerta_1_frecuencia_de_vifcodes": {
+      "que_se_probo": "contar cuantos bytes caen en posicion de VIFcode (cada 4 B) y ver si el archivo de geometria da mas que otros.",
+      "resultado": "NO DISCRIMINA. BG1_AK1.DB da 10.82% y UNIT_01.BIN 15.61%... pero un video MPEG-2 (02_N.M2V) da 14.71% y un banco de audio 5.48%. Un dato denso cualquiera produce esas tasas.",
+      "leccion": "El control negativo era barato y habria evitado publicar 'la geometria son display lists VIF' como si fuera un hallazgo. Toda medicion de FRECUENCIA sobre datos binarios necesita un control de un archivo que seguro NO es lo que se busca."
+    },
+    "via_muerta_2_dmatags": {
+      "que_se_probo": "caminar los qwords como DMAtags de source chain (QWC + ID) desde varios offsets y ver cuanto encadena.",
+      "resultado": "NO DISCRIMINA TAMPOCO. El banco de audio encadena 25 tags desde 0x8000 (2% del archivo), mas que casi todos los intentos sobre la geometria."
+    },
+    "la_unica_senal_que_si_discrimino": {
+      "que_es": "caminar la cadena VIF DE VERDAD: decodificar cada VIFcode y saltar EXACTAMENTE el largo de sus datos (UNPACK segun vn/vl, MPG num*8, DIRECT imm*16, STROW/STCOL 16, STMASK 4).",
+      "resultado": "UNIT_01.BIN encadena 232 comandos seguidos desde 0x800 y 20 desde 0; el audio y el video encadenan 0 o 1 desde todos los offsets probados. Eso SI separa.",
+      "pero": "232 comandos no cubren el archivo, asi que los paquetes estan envueltos en algo cuyo header todavia no se conoce. Es indicio, no prueba.",
+      "grado": "probable, no confirmado",
+      "revisado_2026_09_05": "El '232 comandos desde 0x800' cae ADENTRO del array del directorio de la lista tipo 0 (que en LEVEL_01/UNIT_01 va de 0x650 a 0xB60), o sea sobre punteros y ids, no sobre display lists. La senal era real como senal y falsa como interpretacion: refuerza la leccion, no la contradice."
+    },
+    "por_donde_seguir": "NO por los datos. Por el CODIGO: encontrar en el ELF la rutina que consume UNIT_NN.BIN y las secciones del .DB, y leerle el layout del header al cargador en vez de adivinarlo desde afuera. Es la misma leccion que cerro la fase 7e: no entres por un patron que abunda, entra por una cadena de indirecciones desde algo ya confirmado. El formato de ruta de los archivos de nivel ya esta ubicado en 0x003F4388.",
+    "resuelto_el": "2026-09-05, por donde decia 'por_donde_seguir': xref de la cadena de ruta -> maquina de estados -> callback de post-carga -> parser. Cuatro eslabones, ninguna heuristica sobre los datos. Ver unit_contenedor."
   },
-  ".M2V": {
-   "n": 17,
-   "mb": 418.6,
-   "que_es": "video MPEG-2 de las cinematicas",
-   "confianza": "confirmado"
-  },
-  ".IRX": {
-   "n": 9,
-   "mb": 0.2,
-   "que_es": "modulos del IOP (GTFSCDVD.IRX es el sistema de archivos de Criterion, ver 6.1)",
-   "confianza": "confirmado"
+  "unit_contenedor": {
+    "_que_es": "Levels/Level_NN/Unit_NN.bin -- el contenedor de la GEOMETRIA de una unidad de nivel. Resuelto el 2026-09-05 leyendole el layout AL CARGADOR, no adivinandolo desde los datos.",
+    "confianza": "confirmado (el contenedor y el header del modelo) / sin resolver (los vertices adentro del modelo)",
+    "medido": "2026-09-05",
+    "la_cadena": {
+      "1_string": "'Levels\\\\Level_%02u\\\\Unit_%02d.bin' en 0x003F4508",
+      "2_xref": "unico xref de codigo: el par lui/addiu 0x0012D72C + 0x0012D73C, adentro de FUN_0012d5a8 (maquina de estados que carga UNA unidad)",
+      "3_pedido": "en su estado 2: FUN_001093c0(streamer, ruta, tipo=8, id, CALLBACK=FUN_0012e728, param, 1, 0x40000)",
+      "4_callback": "FUN_0012e728: buf = FUN_001092f8(); FUN_0012eae8(buf); FUN_00108540(mgr, tipo, buf, id)",
+      "5_parser": "FUN_0012eae8 (0x0012EAE8) -- recorre el header y convierte cada u32 de offset-en-archivo a puntero absoluto sumandole la base. ESE RECORRIDO ES EL LAYOUT."
+    },
+    "header": {
+      "_regla": "todo campo listado es un u32 con offset RELATIVO AL ARCHIVO. 'siempre' = el cargador lo suma sin chequear que sea != 0.",
+      "+0x04": "seccion -> FUN_00335f20",
+      "+0x08": "siempre. -> FUN_0027e760 (reloca +0x20/+0x24, cuenta u16 en +0x28)",
+      "+0x0C": "siempre. struct cuyos campos [0] y [1] se relocan CONTRA SI MISMO",
+      "+0x10": "seccion -> FUN_00335f20",
+      "+0x14": "seccion -> FUN_00335f20",
+      "+0x18": "seccion -> FUN_00335f20",
+      "+0x1C": "array de count(+0x90) registros de 0x30 -> FUN_00383978. Cada registro lleva un id64 en +0x20, que FUN_00127738 copia como primer campo del objeto de 0xF0 que crea en runtime. Es la lista de OBJETOS COLOCADOS en la unidad.",
+      "+0x20": "siempre. LISTA tipo 1 -> cada elemento a FUN_001af930. SON LOS MODELOS CON NOMBRE.",
+      "+0x24": "siempre. LISTA tipo 0 -> cada elemento a FUN_0028eed8. Ids numericos 1..N, no nombres.",
+      "+0x28": "siempre. LISTA tipo 2 -> cada elemento reloca sus +0x08 y +0x0C. Vacia en la unidad medida.",
+      "+0x2C": "array, cuenta u16 en +0x92",
+      "+0x30": "siempre. -> FUN_00288bc8",
+      "+0x34": "array, cuenta u8 en +0x94",
+      "+0x38": "-> FUN_0012eeb8",
+      "+0x3C": "-> FUN_0012eec8",
+      "+0x40": "sub-struct: +0x04 count, +0x08 array de 0x20 -> FUN_00383878, punteros en +0x10/+0x14/+0x50, FUN_001c64e8(+0x20). FUN_0012e728 se lo pasa a FUN_001c2ab0.",
+      "+0x90": "u16 cuenta del array de +0x1C",
+      "+0x92": "u16 cuenta del array de +0x2C",
+      "+0x94": "u8 cuenta del array de +0x34"
+    },
+    "lista": {
+      "_que_es": "el directorio con nombre que usan TAMBIEN el .DB, LevelDat y StLevel. Su relocador es FUN_00272aa8 y sus accesores FUN_003822e0 / FUN_003822f8 / FUN_00382310, que son la misma funcion tres veces.",
+      "lista+0x08": "i32 count",
+      "lista+0x0C": "i32 offset al array, RELATIVO A LA LISTA",
+      "array[i], 0x10 B": "+0x00 u64 id64 del nombre | +0x08 i32 offset al recurso, RELATIVO A LA LISTA (no al registro)"
+    },
+    "modelo": {
+      "_que_es": "un elemento de la lista tipo 1. Su relocador es FUN_001af930 (0x001AF930), y de ahi sale este layout.",
+      "+0x00": "4 floats: esfera o caja envolvente",
+      "+0x10": "u64 id64",
+      "+0x1C": "ptr a array de count(+0x24) registros de 0x30 -> FUN_001c64e8",
+      "+0x20": "ptr a array de count(+0x24) i16: indices dentro de +0x38",
+      "+0x2C/+0x30/+0x34": "3 floats. En CO01TRUCK dan 30 / 60 / 100: distancias de LOD",
+      "+0x48": "ptr a array de count(+0x68, u8) registros de 0xD0 -- las submallas. Cada uno reloca sus +0xC0, +0xC4 y +0xC8; el bloque de +0xC0 pasa por FUN_0027e760 y ARRANCA CON UNA CAJA ENVOLVENTE (min xyz, max xyz), no con VIF crudo.",
+      "+0x4C": "ptr a array de count(+0x50) punteros",
+      "+0x60": "ptr a array de count(+0x5C) punteros",
+      "+0x38/+0x40/+0x54/+0x58/+0x64": "punteros sueltos"
+    },
+    "evidencia": "Positivos: las 42 unidades del ISO cierran el layout entero -- 16 campos del header como offsets validos, el array de +0x1C terminando EXACTAMENTE donde arranca la lista de +0x24, y las tres listas coherentes. CONTROL NEGATIVO, que es lo que le falto a las dos vias muertas: el mismo layout sobre LEVELDAT.BIN, LEVEL.AWD, COLLIDE.AWD, AMBIENCE.BKS, GLOBDATA.BIN, el propio ELF y dos .M2V -- los ocho caen, con entre 5 y 20 problemas cada uno. CONTROL CRUZADO: los 367 id64 de la lista tipo 1 de LEVEL_01/UNIT_01 decodifican a nombres legibles (CO01TRUCK, CO01GUARDHUT, CO01FENCE, CO01AMMOBOX, CO01TREE_P_L), 213/213 legibles en LEVEL_00. Y CONTROL POSITIVO DEL METODO: el mismo patron de callback aplicado a StUnit da FUN_002886d0, y el formato de StUnit ya estaba resuelto por otra via.",
+    "limite_medido": "El ancho u16 de +0x90 NO se distingue de u8 con los datos: el maximo en las 42 unidades es 109 y el byte de +0x91 es cero en todas. Que sea u16 sale del codigo (FUN_0012eae8 lo lee con *(ushort *)), no de una medicion. El de +0x92 SI se mide: llega a 889 y 14 unidades tienen el byte alto distinto de cero.",
+    "sigue_abierto": "Los VERTICES. El grueso de un modelo vive entre su +0x58 y su +0x48 y ese bloque no esta desarmado. Lo que cambio es que ahora se llega ahi por punteros del propio cargador.",
+    "herramienta": "herramientas/unit.py -- niveles / header / modelos / modelo / autotest. Su alarma esta PROBADA EN ROJO con herramientas/probar-unit.py: cinco sabotajes, los cinco detectados, con control positivo antes y despues de cada uno."
   }
- },
- "wdd": {
-  "modelo": "array de 4096 registros de 16 bytes (los de 64 KiB) o 1024 (los de 16 KiB). Tabla de capacidad fija, no un stream.",
-  "confianza": "confirmado",
-  "evidencia": "entropia por columna sobre BG1_AK1.WDD: con paso 16 la columna 1 baja a 0.95 bits/byte y la 0 a 4.20, mientras las otras 14 quedan en ~5.2. Con pasos 32, 48 y 64 el minimo cae SIEMPRE en las columnas 0 y 1 -- el divisor comun es 16. Con pasos 4 y 8 no se aisla.",
-  "campos": {
-   "byte 0": "entero chico (0..~41). Correlaciona con cuanto del payload de 14 B esta ocupado: en los registros de tipo 0x03 con byte0 bajo el payload se corta antes. HIPOTESIS: es un largo.",
-   "byte 1": "TIPO del registro. 0x02 en la abrumadora mayoria (2671/2681 en BG1_AK1), 0x03 en un punado (10), 0x00 = ranura vacia. Esto confirma y explica el 'byte1 = 0x02' que la kb tenia anotado sin interpretar.",
-   "bytes 2-15": "payload de alta entropia (~5.2 bits/byte)"
-  },
-  "ocupacion": "BG1_AK1: 2681 de 4096 ranuras usadas (34.5% vacias). Varia por archivo: BG1_BNS usa 3568/4096, BG1_GK1 solo 2101. Una tabla de capacidad fija con ocupacion variable.",
-  "entropia_global": "5.17 bits/byte -- NO esta comprimido ni cifrado (eso daria ~7.99), pero tampoco es texto ni floats sueltos.",
-  "hipotesis_principal": "WDD = tabla de codigos / diccionario, y .DB = los datos codificados contra ella. Encaja con: tamano potencia de dos exacta, capacidad fija con ranuras vacias, emparejamiento 1:1 sin huerfanos, y una cabecera de .DB que es una tabla de offsets alineados a 128 B.",
-  "como_se_falsea": "si es un diccionario de compresion, el .DB no puede tener sentido sin su .WDD: intercambiar el WDD de un arma por el de otra y ver si el juego dibuja basura en vez de fallar limpio. Y al reves: si el WDD fuera geometria propia, el arma cambiaria de forma. Las dos son observables por efecto y distinguen las dos hipotesis en una sola prueba."
- },
- "loader_fpguns": {
-  "formato_ruta": "Levels\\Level_%02u\fpguns\\%s%s  (cadena en 0x003F7790; el directorio suelto en 0x003F4368)",
-  "sitio_de_llamada": "0x001D820C (lui/addiu que carga 0x003F7790). El del directorio suelto: 0x001287CC.",
-  "extension": "la cadena '.WDD' esta en 0x003F76D8 y NO tiene referencia lui/addiu: se toma de la tabla de punteros de datos que empieza cerca de 0x003BD2B4, junto a 'chars\\guns', 'Sound\\Streams' y 'Level.awd'.",
-  "confianza": "probable",
-  "por_que_importa": "es la puerta de entrada al pipeline de modelos de arma en primera persona. Cualquier cambio de geometria de un arma pasa por aca."
- },
- "renderware": {
-  "medicion": "0 apariciones de 'RenderWare', 'rwID', '.dff', '.txd' o 'Bin32' en el ELF (busqueda case-insensitive sobre los 3.371.868 B).",
-  "confianza": "medido, pero NO concluyente",
-  "nota": "un build de release borra las cadenas de debug, asi que la ausencia no refuta que sea RenderWare. Lo que si dice es que no hay ningun formato .dff/.txd/.bsp en el ISO: si hay RenderWare abajo, los assets estan en contenedores propios de Criterion (.WDD/.DB), no en los formatos estandar. Buscar herramientas de RenderWare NO va a servir."
- },
- "stunit": {
-  "_que_es": "STUNIT0N.BIN -- el STREAM DE MODULOS de un nivel: la lista de todo lo que el nivel construye. Es lo que consume FUN_0015ef48 con su switch de 69 casos.",
-  "confianza": "confirmado",
-  "medido": "2026-09-05",
-  "layout": {
-   "header": "+0x00 u32 magia=3 | +0x04 u32 OFFSET DEL DESCRIPTOR dentro del archivo | +0x08 u32 0x80 alineacion",
-   "descriptor": "en el offset del header: +0x00 u32 count | +0x04 u32 rel_array (relativo al descriptor)",
-   "array": "count registros de 0x10: +0x00 u32 tipo | +0x04 i32 ptr al blob (CON SIGNO, relativo AL ARRAY) | +0x08 u64 id64 del nombre",
-   "blobs": "teselan la region que va del descriptor al array, en orden no decreciente. Registros consecutivos pueden COMPARTIR blob."
-  },
-  "evidencia": "Control positivo triple contra la fase 7e, que habia medido todo esto en RAM: para LEVEL_00 el header da off_desc=0x3F800 y 0x01053000+0x3F800 = 0x01092800, la direccion del descriptor medida; el count del archivo da 857, el mismo medido; y off_array da 0x01053000+0x4C590 = 0x0109F590, la direccion del array medida. Y CONTROL CRUZADO DE 61 PUNTOS: el histograma de tipos del archivo coincide EXACTAMENTE con instancias_level_00 de kb/stage-modulos.json, medido en RAM, en los 61 tipos, sin una sola diferencia. Los 42 STUNIT del ISO parsean coherentes.",
-  "trampa_pagada": "La base del puntero del blob es EL ARRAY, no el descriptor. La primera version usaba el descriptor y los tres chequeos que tenia -- count, direccion del descriptor, direccion del array -- pasaban IGUAL, porque un corrimiento constante no cambia ninguno y tampoco rompe la monotonia. Lo que lo delata es la relacion entre los blobs y las otras dos estructuras, y por eso el modulo ahora exige que el primer blob caiga DESPUES del descriptor y que el ultimo termine EN el array.",
-  "familias_de_nombre": {
-   "_como": "el id64 de +0x08 decodifica con id64.py; los dos primeros caracteres son la familia",
-   "SD": "sonido (tipos 0x2E, 0x2F, 0x30). El 0x2E ya estaba anotado como observable AUDIBLE.",
-   "FX": "efectos (tipo 0x33)",
-   "SQ": "escuadra (tipos 0x01 y 0x02, uno de cada uno en LEVEL_00; los dos caen en el default del dispatcher)",
-   "LW": "los 256 registros del tipo 0x2D",
-   "WD": "tipos 0x1F, 0x20, 0x43 y parte del 0x0B",
-   "GP": "la familia dominante, en 30 tipos distintos"
-  },
-  "herramienta": "herramientas/stunit.py -- niveles / resumen / listar / autotest. El autotest tiene control positivo contra RAM y tres sabotajes, PROBADO EN ROJO."
- },
- "stlevel": {
-  "_que_es": "STLEVEL.BIN -- entre otras cosas, el DIRECTORIO DE ARMAS del nivel: que armas existen en ese nivel.",
-  "confianza": "confirmado",
-  "medido": "2026-09-05",
-  "layout": {
-   "header": "+0x00 u32 version=10 | +0x04 u32 offset del directorio (0x80) | +0x08 u32 CANTIDAD de armas | +0x0C u32 sin identificar | +0x10 u32 cerca del tamano del archivo, sin confirmar",
-   "entrada": "0x28 bytes: +0x00 char[0x20] nombre terminado en 0, de la forma [NNNN_]bg1_XXX | +0x20 u32 (0, 1 o 2) | +0x24 u32 (0 o 2)"
-  },
-  "evidencia": "El kb ya tenia el directorio en 0x01412480 y la base de carga de STLEVEL en 0x01412400, los dos medidos en RAM. La resta da 0x80, y ese 0x80 esta LITERALMENTE en el header en +0x04. El 7 de +0x08 coincide con las 7 entradas legibles antes del primer hueco, y los 7 modelos referenciados existen los 7 en FPGUNS.",
-  "el_prefijo": "NNNN_ es <nivel><stage> y es la instancia; el modelo real es el nombre SIN prefijo, y tiene que existir como Levels/Level_NN/FpGuns/BG1_XXX.wdd",
-  "por_que_importa": "Cada nivel TRAE entre 16 y 20 modelos de arma en su FPGUNS y solo habilita entre 4 y 11. Las que sobran ya viajan en el disco con su modelo y sus texturas: cambiar un nombre del directorio por uno de esos NO agrega un solo byte al ISO. En LEVEL_00 sobran nueve, entre ellas bg1_snr (francotirador) y bg1_hvy (ametralladora pesada).",
-  "armas_por_nivel": {
-   "LEVEL_00": [
-    "bg1_pst",
-    "bg1_shg",
-    "0001_bg1_smg",
-    "0001_bg1_ak1",
-    "0001_bg1_asr",
-    "bg1_rpg",
-    "0001_bg1_sm5"
-   ],
-   "LEVEL_01": [
-    "bg1_shg",
-    "0101_bg1_ak1",
-    "0101_bg1_smg",
-    "bg1_rpg"
-   ],
-   "LEVEL_03": [
-    "bg1_shg",
-    "0301_bg1_snr",
-    "0301_bg1_asr",
-    "0301_bg1_p90",
-    "bg1_rpg",
-    "0601_bg1_hvy"
-   ],
-   "LEVEL_04": [
-    "0401_bg1_mp1",
-    "0401_bg1_asr",
-    "bg1_pst",
-    "bg1_shg",
-    "0401_bg1_smg",
-    "0801_bg1_sm3",
-    "bg1_rpg",
-    "0701_bg1_hvy"
-   ],
-   "LEVEL_05": [
-    "bg1_shg",
-    "0501_bg1_smg",
-    "bg1_rpg",
-    "0101_bg1_snr",
-    "0501_bg1_asr",
-    "0501_bg1_ak1",
-    "0701_bg1_hvy"
-   ],
-   "LEVEL_06": [
-    "bg1_shg",
-    "0601_bg1_sm3",
-    "0601_bg1_smg",
-    "0101_bg1_snr",
-    "0601_bg1_asr",
-    "bg1_rpg",
-    "0701_bg1_hvy"
-   ],
-   "LEVEL_07": [
-    "0701_bg1_smg",
-    "0701_bg1_asr",
-    "bg1_rpg",
-    "0101_bg1_snr",
-    "0701_bg1_m16",
-    "0701_bg1_hvy",
-    "bg1_shg",
-    "0801_bg1_rm1"
-   ],
-   "LEVEL_08": [
-    "bg1_pst",
-    "bg1_shg",
-    "0801_bg1_smg",
-    "0801_bg1_ak1",
-    "bg1_rpg",
-    "0701_bg1_hvy",
-    "0801_bg1_sm3",
-    "0801_bg1_mp1",
-    "0801_bg1_mgn",
-    "0801_bg1_rm1",
-    "0701_bg1_snr"
-   ]
-  },
-  "herramienta": "herramientas/stlevel.py -- catalogo / armas / cambiar / autotest. `cambiar` escribe sobre una COPIA del ISO, se niega a tocar Black.iso, rechaza un arma que el nivel no traiga, y VERIFICA releyendo del ISO que el slot cambio y que ningun otro se movio. Autotest con 4 controles positivos y 4 sabotajes, PROBADO EN ROJO.",
-  "entrada_resuelta_entera": {
-   "_medido": "2026-09-05",
-   "layout": {
-    "+0x00": "char[0x10] nombre, [NNNN_]bg1_XXX",
-    "+0x10": "u64 id64 del MODELO (BG1_AK1, BG1_ASR, ...)",
-    "+0x18": "i32 puntero al array de variantes ENEMIGAS",
-    "+0x1C": "i32 puntero al array de variantes de COMPANERO",
-    "+0x20": "u32 cuantas variantes enemigas",
-    "+0x24": "u32 cuantas variantes de companero"
-   },
-   "base_de_los_punteros": "EL INICIO DE SU PROPIA ENTRADA, no el archivo ni el directorio. Como se supo: los punteros de los slots SIN variantes bajan exactamente 0x28 por slot -- el paso de la entrada -- asi que sumandoles el offset de la ENTRADA dan todos el MISMO centinela, 0xFDC5FF80. Segundo invariante independiente: con esa misma base los punteros reales caen todos alineados a 0x80.",
-   "de_donde_sale_la_semantica": "FUN_001e2d38 (0x001E2D38), decompilada. Recorre param_2+0x08 entradas de paso 0x28 desde param_2+0x04 -- que es EXACTAMENTE el header de StLevel.bin -- y por cada una recorre DOS arrays de registros de 0xB0: +0x18 con +0x20 elementos, a los que les arma el nombre con 'Enemy%d_%s', y +0x1C con +0x24, con 'Team%d_%s'. El %s sale de FUN_001e3018(record+0x88) contra la tabla de siete nombres de 0x003BD3F8: None, Low, Mid, High, Matt, Tom, Carrie. Y de cada registro registra +0x94 en la ValueDB de sonido (AIWeapon.cfg).",
-   "control_del_+0x94": "En el archivo, a +0x94 del primer registro hay exactamente floats de parametro (0.071, 1.0, 10.0, 100.0, 20.0, 0.6) y no ceros ni punteros. La decompilacion decia que ahi va el destino de la ValueDB de sonido de arma de IA, y ahi hay parametros de sonido.",
-   "que_significa": "Es el mapa de QUE ARMA USA CADA CLASE DE ENEMIGO en cada nivel. En LEVEL_00: pistola, escopeta, SMG, RPG y SM5 tienen UNA variante enemiga cada una; la AK1 tiene DOS; y el ASR no lo usa ningun enemigo, lo usan los DOS companeros.",
-   "variantes_por_nivel": {
-    "LEVEL_00": "7 enemigas + 2 companeros",
-    "LEVEL_01": "6 + 0",
-    "LEVEL_03": "8 + 0",
-    "LEVEL_04": "10 + 2",
-    "LEVEL_05": "8 + 1",
-    "LEVEL_06": "10 + 0",
-    "LEVEL_07": "9 + 2",
-    "LEVEL_08": "15 + 0"
-   },
-   "sin_confirmar": "El PASO de los registros dentro de un array en el ARCHIVO. En RAM es 0xB0 (lo dice la decompilacion). En el archivo seis de los siete arrays estan a 0x100 pero el del slot 4 arranca en 0x680, o sea 0x80: la alineacion real es 0x80 y el paso queda como hipotesis.",
-   "trampa": "Seis de siete arrays caen alineados a 0x100 y es tentador escribir 'alineados a 0x100'. El autotest lo dijo en rojo a la primera. La alineacion es 0x80."
-  }
- },
- "db_contenedor": {
-  "_que_es": "El .DB que acompana a cada .WDD es un CONTENEDOR DE RECURSOS CON NOMBRE. Su header es un directorio chico.",
-  "confianza": "confirmado (el header) / sin resolver (el contenido)",
-  "medido": "2026-09-05",
-  "header": {
-   "0x00": "id64 del recurso 1  (en BG1_AK1.DB: BG1_AK1LF)",
-   "0x08": "id64 del recurso 2  (BG1_AK1SLF)",
-   "0x10": "id64 del recurso 3  (BG1_AK1)",
-   "0x18": "u32 = 9, cantidad de secciones",
-   "0x1C..0x40": "diez u32: 0x80, 0x20880, 0x20A80, 0x20C00, 0x66880, 0x88B00, 0x88B80, 0x89D00, 0x9AD00, 0x9FD00. TODOS multiplos de 128, y sus diferencias tambien. NO estan ordenados en el archivo: hay que ordenarlos.",
-   "0x80": "id64 TEXTURE, con su propio bloque de numeros detras"
-  },
-  "por_que_el_0x54461272_no_era_una_constante": "La fase 6 lo habia anotado como 'u32 variable + constante 0x54461272'. No es una constante: es la MITAD ALTA de un id64. Todos los nombres que empiezan con BG1_ comparten esa mitad alta, porque el id64 es base-40 de ancho fijo y los primeros seis caracteres caen en los 32 bits altos. O sea que el header no son pares (valor, constante): son NOMBRES de 64 bits.",
-  "sigue_abierto": "que hay adentro de cada seccion"
- },
- "geometria_sin_resolver": {
-  "_que_es": "El formato de la geometria de BLACK. NO ESTA RESUELTO. Esta ficha existe para que la proxima sesion no repita las dos vias que ya se probaron y no sirven.",
-  "confianza": "sin resolver",
-  "medido": "2026-09-05",
-  "lo_que_si_esta_medido": [
-   "Cero .dff/.txd/.bsp en el ISO y cero cadenas de RenderWare en el ELF: los assets estan en contenedores propios de Criterion. Buscar herramientas de RenderWare no sirve. (fase 6)",
-   "El header del .DB es un directorio de recursos con nombre y nueve secciones alineadas a 128 B. (ver db_contenedor)"
-  ],
-  "via_muerta_1_frecuencia_de_vifcodes": {
-   "que_se_probo": "contar cuantos bytes caen en posicion de VIFcode (cada 4 B) y ver si el archivo de geometria da mas que otros.",
-   "resultado": "NO DISCRIMINA. BG1_AK1.DB da 10.82% y UNIT_01.BIN 15.61%... pero un video MPEG-2 (02_N.M2V) da 14.71% y un banco de audio 5.48%. Un dato denso cualquiera produce esas tasas.",
-   "leccion": "El control negativo era barato y habria evitado publicar 'la geometria son display lists VIF' como si fuera un hallazgo. Toda medicion de FRECUENCIA sobre datos binarios necesita un control de un archivo que seguro NO es lo que se busca."
-  },
-  "via_muerta_2_dmatags": {
-   "que_se_probo": "caminar los qwords como DMAtags de source chain (QWC + ID) desde varios offsets y ver cuanto encadena.",
-   "resultado": "NO DISCRIMINA TAMPOCO. El banco de audio encadena 25 tags desde 0x8000 (2% del archivo), mas que casi todos los intentos sobre la geometria."
-  },
-  "la_unica_senal_que_si_discrimino": {
-   "que_es": "caminar la cadena VIF DE VERDAD: decodificar cada VIFcode y saltar EXACTAMENTE el largo de sus datos (UNPACK segun vn/vl, MPG num*8, DIRECT imm*16, STROW/STCOL 16, STMASK 4).",
-   "resultado": "UNIT_01.BIN encadena 232 comandos seguidos desde 0x800 y 20 desde 0; el audio y el video encadenan 0 o 1 desde todos los offsets probados. Eso SI separa.",
-   "pero": "232 comandos no cubren el archivo, asi que los paquetes estan envueltos en algo cuyo header todavia no se conoce. Es indicio, no prueba.",
-   "grado": "probable, no confirmado"
-  },
-  "por_donde_seguir": "NO por los datos. Por el CODIGO: encontrar en el ELF la rutina que consume UNIT_NN.BIN y las secciones del .DB, y leerle el layout del header al cargador en vez de adivinarlo desde afuera. Es la misma leccion que cerro la fase 7e: no entres por un patron que abunda, entra por una cadena de indirecciones desde algo ya confirmado. El formato de ruta de los archivos de nivel ya esta ubicado en 0x003F4388."
- }
 }

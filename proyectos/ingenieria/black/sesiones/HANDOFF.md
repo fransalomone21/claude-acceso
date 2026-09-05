@@ -4,8 +4,9 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE DE ABAJO** («SESION DEL 2026-09-05»). Es lo más
-> nuevo y corrige varias cosas de las secciones numeradas.
+> **EMPEZÁ POR EL PRIMER BLOQUE DE ABAJO** («SESION DEL 2026-09-05 (TARDE)»).
+> Es lo más nuevo y corrige varias cosas de las secciones numeradas. Debajo
+> están el de la MAÑANA y el de la MADRUGADA, en ese orden.
 
 **Cuatro líneas de trabajo, independientes entre sí:**
 - **7e** (reversing del stream de módulos, secciones 1-7) — abierta por la
@@ -20,10 +21,118 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
   madrugada, es la sensibilidad y sigue valiendo.)
 - **Niveles y formatos del ISO** (nueva, 2026-09-05) — armas por nivel y
   stream de módulos, los dos editables en frío. Bloque **C**.
+- **Geometría (L2)** — **el contenedor `Unit_NN.bin` CERRÓ el 2026-09-05 a la
+  tarde**, por el código. Faltan los vértices. Bloque de arriba, entero.
 
 Si retomás 7e: secciones 1-7. Si retomás el Remaster: sección 8 y el bloque B.
 Si retomás jugabilidad: bloque A y `docs/10-jugar.md`. Si retomás niveles o
 geometría: bloques C y D, y `kb/formatos-iso.json`.
+
+---
+
+# SESION DEL 2026-09-05 (TARDE) - LEER ESTO PRIMERO
+
+**L2 (geometría) cerró su primera mitad: `Unit_NN.bin` está resuelto, por el
+CÓDIGO.** Las dos vías por los datos seguían muertas y no se tocaron.
+
+## 1. LA CADENA, ENTERA — y es lo que hay que saber para seguir cualquier otro formato
+
+```
+"Levels\Level_%02u\Unit_%02d.bin"  @ 0x003F4508
+   |  único xref de código: lui@0x0012D72C + addiu@0x0012D73C
+   v
+FUN_0012d5a8   máquina de estados de carga de UNA unidad   (0x0012D5A8)
+   |  estado 2: sprintf + FUN_001093c0(str, ruta, 8, id, CALLBACK, p, 1, 0x40000)
+   v
+FUN_0012e728   callback de post-carga                      (0x0012E728)
+   |  buf = FUN_001092f8();  PARSER(buf);  FUN_00108540(mgr, tipo, buf, id)
+   v
+FUN_0012eae8   EL PARSER: relocaliza el header             (0x0012EAE8)
+```
+
+**Ese último paso ES el layout**: recorre el header sumándole la base del
+archivo a cada campo. 16 offsets y tres cuentas, tabulados en
+`kb/formatos-iso.json#unit_contenedor` y en el encabezado de
+`herramientas/unit.py`.
+
+**La tabla de los cinco callbacks de nivel** (en `kb/rutinas.json#pedir_archivo_al_streamer`):
+
+| archivo | format string | tipo | callback | parser |
+|---|---|---|---|---|
+| `LevelDat.bin` | `0x003F4348` | 6 | `FUN_0012a310` | `FUN_002881a8` |
+| `StLevel.bin` | `0x003F4388` | 0xB | `FUN_0012a418` | `FUN_00288488` |
+| `Guns%s.bin` | `0x003F43B8` | 0xC | `FUN_0012a480` | `FUN_00288930` |
+| `Unit_%02d.bin` | `0x003F4508` | 8 | `FUN_0012e728` | `FUN_0012eae8` |
+| `StUnit%02d.bin` | `0x003F4528` | 8 | `FUN_0012e8b8` | `FUN_002886d0` |
+
+## 2. QUÉ HAY ADENTRO DE UNA UNIDAD
+
+- **La lista de `+0x20` (recurso tipo 1) son LOS MODELOS, CON NOMBRE.** 367 en
+  `LEVEL_01/UNIT_01`: `CO01TRUCK`, `CO01GUARDHUT`, `CO01FENCE`, `CO01AMMOBOX`,
+  `CO01WOODBOX`, `CO01TREE_P_L`, `CO01COMPGATE`.
+- La lista de `+0x24` (tipo 0) son 81 bloques con **id numérico**, no nombres.
+- El array de `+0x1C` (`count` en `+0x90`, registros de `0x30`) son los
+  **objetos colocados**: cada uno lleva un id64 en `+0x20` que `FUN_00127738`
+  copia como primer campo del objeto de runtime de `0xF0`.
+- **El directorio es compartido** (`FUN_00272aa8`): `count` en `+0x08`, offset
+  al array en `+0x0C`, registros de `0x10` con id64 en `+0x00` y puntero al
+  recurso en `+0x08` **relativo A LA LISTA, no al registro**. Lo usan también
+  el `.DB`, `LevelDat` y `StLevel` — o sea que el "directorio de recursos con
+  nombre" que la fase 6 midió en el `.DB` es la estructura del motor.
+- **El header del modelo** sale de `FUN_001af930`: submallas en `+0x48`
+  (`count` u8 en `+0x68`, registros de `0xD0`) y tres floats de **LOD** que en
+  `CO01TRUCK` valen 30 / 60 / 100.
+
+## 3. QUÉ SIGUE ABIERTO — LOS VÉRTICES
+
+El grueso de un modelo vive entre su `+0x58` y su `+0x48`. **No** está
+desarmado. Lo que cambió es que ya no hay que adivinar dónde: se llega por
+punteros del propio cargador.
+
+**Dato que ahorra una vía muerta:** el bloque de `submalla+0xC0` **no es VIF
+crudo**. Arranca con una caja envolvente (min xyz, max xyz, con los signos
+opuestos). Pasa por `FUN_0027e760`, que relocaliza `+0x20` y `+0x24` con una
+cuenta u16 en `+0x28` — ése es el siguiente eslabón a decompilar.
+
+**Y el "232 VIFcodes encadenados desde `0x800`" de la sesión anterior queda
+desmentido**: `0x800` cae adentro del array del directorio de la lista tipo 0
+(que va de `0x650` a `0xB60`). Era señal real con lectura falsa.
+
+## 4. HERRAMIENTAS NUEVAS
+
+- **`herramientas/unit.py`** — `niveles` / `header` / `modelos` / `modelo` /
+  `autotest`.
+- **`herramientas/probar-unit.py`** — cinco sabotajes, los cinco en rojo, con
+  control positivo antes y después de cada uno.
+- **`herramientas/decompilar_lote.py`** — todas las consultas a Ghidra en UNA
+  apertura de proceso. `python herramientas/decompilar_lote.py salida.txt 0xADDR ...`
+
+## 5. LO MEDIDO, Y LO QUE NO SE PUEDE AFIRMAR
+
+- **Positivos:** las 42 unidades del ISO cierran el layout entero, con el array
+  de `+0x1C` terminando **exactamente** donde arranca la lista de `+0x24`.
+- **Control negativo:** el mismo layout sobre `LEVELDAT.BIN`, `LEVEL.AWD`,
+  `COLLIDE.AWD`, `AMBIENCE.BKS`, `GLOBDATA.BIN`, el ELF y dos `.M2V` — **los
+  ocho caen**.
+- **Control positivo del método:** aplicado a `StUnit` da `FUN_002886d0`, y ese
+  formato ya estaba resuelto por otra vía. **Y devolvió una corrección:**
+  `stunit.py` decía que `STUNIT+0x08` era "alineación 0x80". No lo es —
+  `FUN_002886d0` lo relocaliza igual que a `+0x04`. Corregido en los dos lados.
+- **NO se puede afirmar:** que `+0x90` sea u16 y no u8. El máximo en las 42
+  unidades es 109 y el byte de `+0x91` es cero en todas: el dato no discrimina.
+  Sale del código (`*(ushort *)`). El de `+0x92` sí se mide (llega a 889).
+
+## 6. ESTADO DE LA MÁQUINA AL CERRAR
+
+**Igual que a la mañana, no se tocó nada del emulador.** El trabajo fue todo en
+frío, sobre el ELF y el ISO montado en `D:\`.
+
+- **PCSX2 sigue abierto** con el savestate del slot 11 (nivel 2), tal como
+  quedó. Los siete pnach prendidos, los dos parches vivos verificados.
+- **ISO original intacto**, ningún parche escrito a mano en RAM.
+- Ghidra: el proyecto `BLACK` en `~\herramientas\ghidra-proyectos2`.
+- **Trampa que sigue viva:** hay DOS pnach y el que manda es
+  `Documents\PCSX2\patches\SLUS-21376_5C891FF1.pnach`, que no lo genera nadie.
 
 ---
 

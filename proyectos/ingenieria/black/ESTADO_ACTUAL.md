@@ -466,18 +466,40 @@ NIVELES Y FORMATOS DEL ISO — línea nueva del 2026-09-05
          de los que sobran no agrega un byte al ISO. En LEVEL_00 sobran nueve,
          entre ellas `bg1_snr` y `bg1_hvy`.
 
-     L2  la GEOMETRÍA .............................. ABIERTA, sin resolver
-         Dos vías probadas y **descartadas por su propio control**, anotadas en
-         `kb/formatos-iso.json#geometria_sin_resolver` para no repetirlas:
-         contar VIFcodes por frecuencia (un video MPEG-2 da más que la
-         geometría) y caminar DMAtags (el audio encadena más).
-         Lo único que discriminó: caminar la cadena VIF saltando el largo
-         exacto de cada comando — 232 encadenados en `UNIT_01.BIN` contra 0-1
-         en los controles. **Indicio, no prueba.**
-         SÍ quedó medido: el header del `.DB` es un directorio de recursos con
-         nombre, con nueve secciones alineadas a 128 B; y el `0x54461272` que
-         la fase 6 tomó por constante es la **mitad alta de un id64**.
-         **Sigue por el CÓDIGO**, no por los datos.
+     L2  la GEOMETRÍA ........ EL CONTENEDOR CERRADO 2026-09-05; faltan vértices
+         **`Unit_NN.bin` está resuelto, y por el CÓDIGO, que era lo que las dos
+         vías muertas decían que había que hacer.** La cadena, entera: el
+         formato de ruta de `0x003F4508` tiene un **único** xref de código
+         (`0x0012D72C`+`0x0012D73C`) → la máquina de estados `FUN_0012d5a8` →
+         el pedido `FUN_001093c0(..., callback, ...)` → el callback
+         `FUN_0012e728` → **el parser `FUN_0012eae8`**, que recorre el header
+         sumándole la base a cada campo. *Ese recorrido es el layout*: 16
+         offsets y tres cuentas, en `kb/formatos-iso.json#unit_contenedor`.
+         **Qué hay adentro:** la lista de `+0x20` son **los modelos con
+         nombre** — 367 en `LEVEL_01/UNIT_01`, y los nombres se leen:
+         `CO01TRUCK`, `CO01GUARDHUT`, `CO01FENCE`, `CO01AMMOBOX`,
+         `CO01TREE_P_L`. El header de cada modelo sale de `FUN_001af930`, con
+         sus submallas y sus tres distancias de LOD (30/60/100).
+         **Medido:** las 42 unidades del ISO cierran el layout entero; ocho
+         archivos que no son unidades caen. `herramientas/unit.py autotest`,
+         con `probar-unit.py` — cinco sabotajes, los cinco en rojo.
+         **Lo que sigue abierto son los VÉRTICES**, entre `+0x58` y `+0x48` de
+         cada modelo. Ya no hay que adivinar dónde: se llega por punteros del
+         propio cargador.
+         De paso, `stunit.py` decía que `STUNIT+0x08` era "alineación 0x80":
+         **no lo es**, `FUN_002886d0` lo reloca igual que a `+0x04`. Corregido.
+
+     L2 — las dos vías que NO hay que repetir (siguen valiendo)
+         Contar VIFcodes por frecuencia (un video MPEG-2 da más que la
+         geometría) y caminar DMAtags (el audio encadena más). Y el "232
+         VIFcodes encadenados desde `0x800`" que parecía el mejor indicio cae
+         **adentro del array del directorio** de la lista tipo 0, o sea sobre
+         punteros e ids: era señal real con lectura falsa.
+         SÍ quedó medido antes: el header del `.DB` es un directorio de
+         recursos con nombre, con nueve secciones alineadas a 128 B; y el
+         `0x54461272` que la fase 6 tomó por constante es la **mitad alta de un
+         id64**. Ese directorio es **el mismo** que relocaliza `FUN_00272aa8` y
+         que usan también `LevelDat`, `StLevel` y `Unit`.
 
 REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
      R0  ¿hay depth buffer usable en PCSX2 2.8 para BLACK? .... CERRADA
