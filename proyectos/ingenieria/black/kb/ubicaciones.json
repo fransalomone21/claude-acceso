@@ -1,91 +1,97 @@
 {
-  "_que_es": "Dónde vive cada archivo del proyecto que NO está adentro del repo. Fuente única. Ningún documento ni script debe repetir estas rutas: se piden con `python herramientas/ubicaciones.py ruta <clave>`.",
-  "_como_se_verifica": "python herramientas/ubicaciones.py  — mide la máquina, no lee este archivo como si fuera verdad. Si una ruta se movió, sale en rojo y se corrige ACÁ, en un solo lugar.",
-  "_trampa": "Las rutas con corchetes (Black [NTSC]) rompen Test-Path/Get-ChildItem de PowerShell si no se pasa -LiteralPath: los corchetes son wildcard y la ruta da False existiendo. En Python no pasa. Por eso el verificador es Python.",
-  "_medido": "2026-08-28",
-  "rutas": {
-    "repo_proyecto": {
-      "ruta": "C:\\Users\\frans\\Desktop\\claude-acceso\\proyectos\\ingenieria\\black",
-      "tipo": "carpeta",
-      "critico": true,
-      "que_es": "el repo de BLACK. Desde el 2026-08-28 es UNA CARPETA dentro de claude-acceso, no una rama: hay un solo arbol y una sola rama (main)"
-    },
-    "repo_perfil_global": {
-      "ruta": "C:\\Users\\frans\\Desktop\\claude-acceso\\perfil-global",
-      "tipo": "carpeta",
-      "critico": false,
-      "que_es": "la metodologia transversal. Repo PROPIO anidado dentro de claude-acceso e ignorado por el (regla 2: un archivo, un repo dueno)"
-    },
-    "iso_original": {
-      "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black.iso",
-      "tipo": "archivo",
-      "tam": 3919609856,
-      "critico": true,
-      "que_es": "el ISO limpio. NUNCA editarlo. Es el que está montado en D:"
-    },
-    "iso_mod_armas": {
-      "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black-mod-armas.iso",
-      "tipo": "archivo",
-      "tam": 3919609856,
-      "critico": false,
-      "que_es": "el artefacto de N0: GLOBDATA.BIN parcheado in-place, 17 Power de IA en 5.0. Confirmado por efecto el 2026-08-17"
-    },
-    "pcsx2_exe": {
-      "ruta": "C:\\Users\\frans\\Downloads\\PCSX2-MCP-v1.0.0-win64\\PCSX2-MCP-v1.0.0-win64\\pcsx2-qt.exe",
-      "tipo": "archivo",
-      "tam": 12928512,
-      "critico": true,
-      "que_es": "el ÚNICO emulador que sirve: build d75a0ad, con DebugServer en 21512 y PINE en 28011. El de Program Files no los tiene"
-    },
-    "savestates": {
-      "ruta": "C:\\Users\\frans\\Documents\\PCSX2\\sstates",
-      "tipo": "carpeta",
-      "critico": true,
-      "que_es": "los savestates reales. El slot 3 es la condición experimental. La carpeta de OneDrive tiene copias VIEJAS y confunde"
-    },
-    "ghidra": {
-      "ruta": "C:\\Users\\frans\\herramientas\\ghidra_12.1.2_PUBLIC",
-      "tipo": "carpeta",
-      "critico": true,
-      "que_es": "Ghidra 12.1.2. decompilar.py lo toma de acá o de $BLACK_GHIDRA"
-    },
-    "ghidra_ext_ee": {
-      "ruta": "C:\\Users\\frans\\herramientas\\ghidra_12.1.2_PUBLIC\\Ghidra\\Extensions\\ghidra-emotionengine-reloaded",
-      "tipo": "carpeta",
-      "critico": true,
-      "que_es": "extensión EE Reloaded v2.1.36. Sin esto el ELF se analiza como MIPS genérico y sale mal"
-    },
-    "ghidra_proyectos": {
-      "ruta": "C:\\Users\\frans\\herramientas\\ghidra-proyectos2",
-      "tipo": "carpeta",
-      "critico": true,
-      "que_es": "carpeta de proyectos BUENA (análisis r5900, 9842 funciones). Adentro: BLACK.gpr + BLACK.rep. OJO: el mensaje de retome del 2026-08-21 la escribía como ~\\ghidra-proyectos2 (sin herramientas\\) y esa ruta NO existe; ESTADO_ACTUAL la abrevia bien con '...\\' = ~\\herramientas\\. La fija decompilar.py:77"
-    },
-    "ghidra_proyecto_gpr": {
-      "ruta": "C:\\Users\\frans\\herramientas\\ghidra-proyectos2\\BLACK.gpr",
-      "tipo": "archivo",
-      "critico": true,
-      "que_es": "el proyecto BLACK propiamente dicho. Adentro está SLUS_213.76 y la copia SLUS_213.76_estado con la RAM viva encima"
-    },
-    "elf_copia": {
-      "ruta": "C:\\Users\\frans\\herramientas\\SLUS_213.76",
-      "tipo": "archivo",
-      "tam": 3371868,
-      "critico": false,
-      "que_es": "copia suelta del ELF, la que se importó a Ghidra. offset_archivo = vaddr - 0xFF000"
-    },
-    "vgmstream": {
-      "ruta": "C:\\Users\\frans\\herramientas\\vgmstream\\vgmstream-cli.exe",
-      "tipo": "archivo",
-      "tam": 2876928,
-      "critico": false,
-      "que_es": "decodifica los .AWD. Lo usa awd.py"
-    }
+ "_que_es": "Dónde vive cada archivo del proyecto que NO está adentro del repo. Fuente única. Ningún documento ni script debe repetir estas rutas: se piden con `python herramientas/ubicaciones.py ruta <clave>`.",
+ "_como_se_verifica": "python herramientas/ubicaciones.py  — mide la máquina, no lee este archivo como si fuera verdad. Si una ruta se movió, sale en rojo y se corrige ACÁ, en un solo lugar.",
+ "_trampa": "Las rutas con corchetes (Black [NTSC]) rompen Test-Path/Get-ChildItem de PowerShell si no se pasa -LiteralPath: los corchetes son wildcard y la ruta da False existiendo. En Python no pasa. Por eso el verificador es Python.",
+ "_medido": "2026-08-28",
+ "rutas": {
+  "repo_proyecto": {
+   "ruta": "C:\\Users\\frans\\Desktop\\claude-acceso\\proyectos\\ingenieria\\black",
+   "tipo": "carpeta",
+   "critico": true,
+   "que_es": "el repo de BLACK. Desde el 2026-08-28 es UNA CARPETA dentro de claude-acceso, no una rama: hay un solo arbol y una sola rama (main)"
   },
-  "montajes": {
-    "_que_es": "unidades virtuales. Se miden con `Get-DiskImage -DevicePath \\\\.\\CdRom0`, no se suponen por letra.",
-    "D:": "Black.iso (el ORIGINAL). Verificado 2026-08-21 por Get-DiskImage.",
-    "E:": "monta el MISMO Black.iso original — NO es el ISO parcheado. Verificado por huella: GLOBDATA.BIN de D: y de E: tienen el mismo md5 e48221c5d55af24abe41399fad359500. Si alguna vez hace falta el mod montado, montarlo a propósito."
+  "repo_perfil_global": {
+   "ruta": "C:\\Users\\frans\\Desktop\\claude-acceso\\perfil-global",
+   "tipo": "carpeta",
+   "critico": false,
+   "que_es": "la metodologia transversal. Repo PROPIO anidado dentro de claude-acceso e ignorado por el (regla 2: un archivo, un repo dueno)"
   },
-  "_movido_2026_08_28": "La reestructuracion 'un proyecto, una carpeta' movio el repo y el perfil global. atajos_escritorio se ELIMINO: los .bat ya no estan en C:\\Users\\frans\\Desktop\\BLACK (esa carpeta no existe en el disco), viven en lanzadores/ ADENTRO del repo, y este archivo solo lista lo que esta AFUERA."
+  "iso_original": {
+   "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black.iso",
+   "tipo": "archivo",
+   "tam": 3919609856,
+   "critico": true,
+   "que_es": "el ISO limpio. NUNCA editarlo. Es el que está montado en D:"
+  },
+  "iso_mod_armas": {
+   "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black-mod-armas.iso",
+   "tipo": "archivo",
+   "tam": 3919609856,
+   "critico": false,
+   "que_es": "el artefacto de N0: GLOBDATA.BIN parcheado in-place, 17 Power de IA en 5.0. Confirmado por efecto el 2026-08-17"
+  },
+  "pcsx2_exe": {
+   "ruta": "C:\\Users\\frans\\Downloads\\PCSX2-MCP-v1.0.0-win64\\PCSX2-MCP-v1.0.0-win64\\pcsx2-qt.exe",
+   "tipo": "archivo",
+   "tam": 12928512,
+   "critico": true,
+   "que_es": "el ÚNICO emulador que sirve: build d75a0ad, con DebugServer en 21512 y PINE en 28011. El de Program Files no los tiene"
+  },
+  "savestates": {
+   "ruta": "C:\\Users\\frans\\Documents\\PCSX2\\sstates",
+   "tipo": "carpeta",
+   "critico": true,
+   "que_es": "los savestates reales. El slot 3 es la condición experimental. La carpeta de OneDrive tiene copias VIEJAS y confunde"
+  },
+  "ghidra": {
+   "ruta": "C:\\Users\\frans\\herramientas\\ghidra_12.1.2_PUBLIC",
+   "tipo": "carpeta",
+   "critico": true,
+   "que_es": "Ghidra 12.1.2. decompilar.py lo toma de acá o de $BLACK_GHIDRA"
+  },
+  "ghidra_ext_ee": {
+   "ruta": "C:\\Users\\frans\\herramientas\\ghidra_12.1.2_PUBLIC\\Ghidra\\Extensions\\ghidra-emotionengine-reloaded",
+   "tipo": "carpeta",
+   "critico": true,
+   "que_es": "extensión EE Reloaded v2.1.36. Sin esto el ELF se analiza como MIPS genérico y sale mal"
+  },
+  "ghidra_proyectos": {
+   "ruta": "C:\\Users\\frans\\herramientas\\ghidra-proyectos2",
+   "tipo": "carpeta",
+   "critico": true,
+   "que_es": "carpeta de proyectos BUENA (análisis r5900, 9842 funciones). Adentro: BLACK.gpr + BLACK.rep. OJO: el mensaje de retome del 2026-08-21 la escribía como ~\\ghidra-proyectos2 (sin herramientas\\) y esa ruta NO existe; ESTADO_ACTUAL la abrevia bien con '...\\' = ~\\herramientas\\. La fija decompilar.py:77"
+  },
+  "ghidra_proyecto_gpr": {
+   "ruta": "C:\\Users\\frans\\herramientas\\ghidra-proyectos2\\BLACK.gpr",
+   "tipo": "archivo",
+   "critico": true,
+   "que_es": "el proyecto BLACK propiamente dicho. Adentro está SLUS_213.76 y la copia SLUS_213.76_estado con la RAM viva encima"
+  },
+  "elf_copia": {
+   "ruta": "C:\\Users\\frans\\herramientas\\SLUS_213.76",
+   "tipo": "archivo",
+   "tam": 3371868,
+   "critico": false,
+   "que_es": "copia suelta del ELF, la que se importó a Ghidra. offset_archivo = vaddr - 0xFF000"
+  },
+  "vgmstream": {
+   "ruta": "C:\\Users\\frans\\herramientas\\vgmstream\\vgmstream-cli.exe",
+   "tipo": "archivo",
+   "tam": 2876928,
+   "critico": false,
+   "que_es": "decodifica los .AWD. Lo usa awd.py"
+  },
+  "pcsx2_exe_juego": {
+   "ruta": "C:\\Program Files\\PCSX2\\pcsx2-qt.exe",
+   "tipo": "archivo",
+   "critico": false,
+   "que_es": "PCSX2 2.8.0 limpio, el de JUGAR. Es el que tiene ReShade 6.6.2 enganchado y el que usa la linea del Remaster. NO tiene DebugServer ni PINE: para reversing va pcsx2_exe (el fork MCP de Downloads). Son dos emuladores distintos a proposito."
+  }
+ },
+ "montajes": {
+  "_que_es": "unidades virtuales. Se miden con `Get-DiskImage -DevicePath \\\\.\\CdRom0`, no se suponen por letra.",
+  "D:": "Black.iso (el ORIGINAL). Verificado 2026-08-21 por Get-DiskImage.",
+  "E:": "monta el MISMO Black.iso original — NO es el ISO parcheado. Verificado por huella: GLOBDATA.BIN de D: y de E: tienen el mismo md5 e48221c5d55af24abe41399fad359500. Si alguna vez hace falta el mod montado, montarlo a propósito."
+ },
+ "_movido_2026_08_28": "La reestructuracion 'un proyecto, una carpeta' movio el repo y el perfil global. atajos_escritorio se ELIMINO: los .bat ya no estan en C:\\Users\\frans\\Desktop\\BLACK (esa carpeta no existe en el disco), viven en lanzadores/ ADENTRO del repo, y este archivo solo lista lo que esta AFUERA."
 }

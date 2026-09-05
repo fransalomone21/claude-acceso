@@ -2,6 +2,21 @@
 
 Todo a mano, sin buscar nada.
 
+## Para JUGAR (no para trabajar)
+
+Doble clic en **`BLACK`** en el Escritorio. Eso ya deja el mapeo de teclado y
+mouse puesto, levanta el agachado-mantenido y abre el juego a pantalla
+completa. Para prender o apagar parches (60 FPS, widescreen, mods del
+proyecto): **`BLACK - Parches`**, tambien en el Escritorio.
+
+Los dos accesos los regenera `crear-accesos-directos.ps1`.
+El detalle completo — el mapeo, la matematica del mouse, el 60 FPS — esta en
+[`docs/10-jugar.md`](../docs/10-jugar.md).
+
+**Ojo con los `.bat` de abajo:** abren el fork PCSX2-MCP de `Downloads`, que es
+un build del 2026-08-15 con DebugServer y PINE, para REVERSING. El de jugar es
+el PCSX2 2.8.0 de `Program Files`. Son dos emuladores distintos a proposito.
+
 ## Para empezar a trabajar
 
 1. Doble clic en **`ABRIR-EMULADOR.bat`** (abre el PCSX2 parcheado, no el de

@@ -1,8 +1,13 @@
+# El NOMBRE va sin acentos ni guion largo a proposito: es el nombre de la
+# seccion del .pnach, y PCSX2 lo tiene que hacer coincidir letra por letra con
+# la linea "Enable = ..." del ini de gamesettings. Un caracter no ASCII ahi
+# depende de como escriba el ini quien lo genere, y eso ya rompio una vez.
+#
 # Dificultad: duplica el daño de SALIDA del jugador (lo que vos disparás).
 # NO afecta el daño que los enemigos te hacen a vos -- confirmado por efecto
 # el 2026-09-04, ver docs/03-bitacora.md (54) y kb/mapa-memoria.json#multiplicador_dano_salida.
 
-nombre = "Dificultad x2 — daño de salida del jugador"
+nombre = "Dificultad x2 - dano de salida del jugador"
 autor = "proyecto BLACK"
 descripcion = "Duplica el 100.0 base de calcular_dano_zona (0x00142B90). Confirmado: dos impactos reales de -47.6 en LEVEL_02, exactamente 0.34*200.0*0.7. El daño que el jugador RECIBE no cambia (control: -26.0 sin variar)."
 habilitado = false

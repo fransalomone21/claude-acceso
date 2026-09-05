@@ -30,6 +30,7 @@ una herramienta.
 | montar Ghidra, vgmstream, o algo de terceros | `docs/06-herramientas-externas.md` |
 | leer desensamblado del EE | `docs/90-glosario-ee.md` |
 | tocar texturas, ReShade, DLSS o cualquier cosa de la imagen | `docs/09-remaster-visual.md` |
+| jugarlo: teclado, mouse, agachado, parches, 60 FPS | [`docs/10-jugar.md`](docs/10-jugar.md) |
 | escribir o compilar un mod | `mods/ejemplo-plantilla.toml` + `herramientas/pnach.py --help` |
 
 **No leas los cuatro documentos "por las dudas".** Cada uno cuesta contexto y
@@ -91,6 +92,7 @@ Todas tienen `--help` y se corren desde `black/`.
 | `pnach.py` | compilar `mods/*.toml` al `.pnach` que carga PCSX2 |
 | `fijar_objetivo.py` | confirma serial/CRC contra PCSX2 y actualiza `kb/objetivo.json` solo |
 | `aprender.py` | **autoaprendizaje**: registra y lista las lecciones de proceso. `digesto` es lo que se lee al abrir sesión |
+| `configurar-controles.ps1` | **la fuente del mapeo teclado+mouse**. El `PCSX2.ini` es su salida, no al reves: PCSX2 lo pisa al salir. `-Verificar` sale 1 si difiere |
 | `windows/preparar_entorno.ps1` | Windows: automatiza el checkpoint 0 completo (pide UAC) |
 
 `salida.py` está en la misma carpeta pero **no es un comando**: es la

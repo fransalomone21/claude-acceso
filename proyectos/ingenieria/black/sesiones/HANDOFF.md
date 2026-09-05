@@ -4,14 +4,18 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-**Dos líneas de trabajo activas en paralelo, independientes entre sí:**
+**Tres líneas de trabajo activas en paralelo, independientes entre sí:**
 - **7e** (reversing, secciones 1-7 de este archivo) — intacta, nadie la tocó
   esta sesión.
 - **BLACK Remaster / DLSS5** (sección **8**) — R0 y R1 cerradas; **R2 abierta**,
   investigación de viabilidad hecha, nada instalado.
+- **Jugabilidad** (sección **9**, nueva del 2026-09-04) — controles, mouse
+  lineal, agachado mantenido, parches y 60 FPS. **J1 abierta**: falta medir
+  por efecto, jugando.
 
 Si retomás 7e: las secciones 1-7 siguen siendo la fuente. Si retomás el
-Remaster: andá directo a la sección 8.
+Remaster: andá directo a la sección 8. Si retomás jugabilidad: sección 9, y
+`docs/10-jugar.md`.
 
 ---
 
@@ -2321,3 +2325,75 @@ PCSX2 -- ya se perdio una vez sin querer quiere decir nada, es exactamente el
 comportamiento esperado). R2 de `docs/00-conops.md` sigue en *parcial*: el
 eje de danio ya esta cerrado de punta a punta; falta R3 (percepcion de IA) y
 R4 (que enemigos aparecen, depende de 7e(b)).
+
+
+---
+
+## 9. JUGABILIDAD — J1 ABIERTA (línea nueva del 2026-09-04, no toca 7e ni el Remaster)
+
+### 9.1 QUÉ LEER PARA RETOMAR ESTO
+
+1. `docs/10-jugar.md`, **entero**. Es corto y es la fuente.
+2. `docs/03-bitacora.md`, entrada **(55)**.
+3. `ESTADO_ACTUAL.md`, bloque **JUGABILIDAD**.
+
+No hace falta nada de 7e ni del Remaster.
+
+### 9.2 QUÉ QUEDÓ HECHO — no rehacer
+
+| Cosa | Dónde vive | Estado |
+|---|---|---|
+| mapeo teclado+mouse contra el layout REAL de BLACK | `herramientas/configurar-controles.ps1` | aplicado y verificado; el `-Verificar` **probado en rojo** |
+| mouse lineal (`PointerInertia = 100`) | idem, sección `[Pad]` del ini | aplicado; **falta medir por efecto** |
+| agachado mantenido con Shift | `lanzadores/agachado-hold.ahk` | escrito; AutoHotkey 2.0.27 instalado por winget; **falta probarlo jugando** |
+| accesos directos del Escritorio | `lanzadores/crear-accesos-directos.ps1` | `BLACK.lnk` y `BLACK - Parches.lnk` creados |
+| menú de parches unificado | `lanzadores/PARCHES-BLACK.ps1` | `-Listar` verificado; el menú interactivo **no se probó a mano** |
+| lanzador | `lanzadores/JUGAR-BLACK.ps1` | escrito; **no se ejecutó** (habría abierto el emulador) |
+
+### 9.3 ESTADO DE LA MÁQUINA AL CERRAR
+
+- `Documents\PCSX2\inis\PCSX2.ini`: `[Pad]` con `PointerXSpeed = 40`,
+  `PointerYSpeed = 40`, `PointerXDeadZone = 20`, `PointerYDeadZone = 20`,
+  `PointerInertia = 100`. `[Pad1]` con el mapeo nuevo y `AxisScale = 1`.
+  **Sin BOM** (verificado: los primeros bytes son `5b 55 49` = `[UI`).
+  Backups: `PCSX2.ini.bak-20260904-*` en la misma carpeta.
+- `Documents\PCSX2\patches\SLUS-21376_5C891FF1.pnach`: **archivo nuevo**, el
+  unificado (4 parches oficiales + el mod `Dificultad x2` del proyecto).
+- `Documents\PCSX2\gamesettings\SLUS-21376_5C891FF1.ini`: sin cambios de
+  esta sesión. Prendidos: `Widescreen 16:9`, `60 FPS`, `Video Mode`.
+  `EECycleRate = 0` (sin overclock).
+- `Black-mod-7b.iso` fue lo último que Fran arrancó (`emulog.txt`). Los tres
+  ISO dan CRC `5C891FF1`.
+- AutoHotkey **2.0.27** instalado en `C:\Program Files\AutoHotkey2\`.
+- `kb/ubicaciones.json` tiene clave nueva **`pcsx2_exe_juego`** =
+  `C:\Program Files\PCSX2\pcsx2-qt.exe` (el 2.8.0, el de JUGAR). El
+  `pcsx2_exe` de siempre sigue siendo el fork MCP de `Downloads`, el de
+  reversing. **Son dos emuladores distintos a propósito.**
+- Cero parches vivos en RAM. El ISO original y sus permisos, intactos.
+
+### 9.4 LO QUE CIERRA J1 — dos mediciones, las dos jugando, primer minuto
+
+1. **60 FPS.** Abrir el juego y mirar el FPS del OSD. `~59.94` = anda.
+   `29.97` = el parche no está tomando; subir el overclock del EE a 180 %
+   desde `BLACK - Parches` (tecla `E`) y volver a mirar. La contradicción está
+   documentada: el parche figura prendido desde el 2026-07-18 y la medición de
+   R1 del 2026-09-01 dio 29.97.
+2. **Linealidad del mouse.** Un manotazo largo tiene que girar lo mismo que la
+   suma de movimientos lentos que cubren la misma distancia del escritorio.
+   Si sigue perdiendo, el knob es `-Inertia`; si el manotazo gira de más y
+   sigue girando cuando el mouse ya paró, bajar `-Speed`.
+
+### 9.5 LO QUE NO SE PUEDE ARREGLAR CONFIGURANDO — candidatos de reversing
+
+Anotado para no volver a intentarlo por el lado del emulador:
+
+- **número → arma concreta.** BLACK cicla armas, no las indexa. Hace falta
+  leer el arma actual del jugador (PINE) para calcular cuántos pasos dar, o
+  parchear la rutina de selección.
+- **agachado como hold nativo.** El toggle es del juego. El arreglo de fondo
+  es parchear la rutina para que lea el estado del botón. Hoy lo tapa el
+  `.ahk`.
+- **el lag del manotazo.** El juego integra velocidad angular con tope; el
+  mouse manda distancia. Lo único que sube el tope de verdad es la constante
+  de sensibilidad de mira **en el código** — la misma que el slider de
+  Options mueve dentro de su rango.

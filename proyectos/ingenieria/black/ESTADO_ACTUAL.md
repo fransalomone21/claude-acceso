@@ -341,6 +341,33 @@ N2  FASES DEL JUEGO
         coop). El plan de experimentos está en `docs/08-experimentos.md`
         y los requisitos contra los que se valida, en `docs/00-conops.md`.
 
+JUGABILIDAD (teclado, mouse, parches, 60 FPS) — línea aparte, no toca 7e
+     J1  que BLACK se juegue bien con teclado y mouse ......... ABIERTA
+         Hecho el 2026-09-04, todo reversible y en scripts commiteados:
+         - **mouse lineal**: `PointerInertia = 100`. La causa de la pérdida
+           estaba en la fórmula de PCSX2 (recorta a 1.0 y **decae** el
+           sobrante al 10 %); con inercia 1.00 no se tira nada y el giro
+           total queda proporcional al desplazamiento. `probable` — leído
+           del fuente, todavía no medido jugando.
+         - **`PointerXScale` era letra muerta** en 2.8.0. Las claves vivas
+           son `Pointer{X,Y}Speed`, `Pointer{X,Y}DeadZone` y `PointerInertia`,
+           en `[Pad]`. Medido sobre el binario.
+         - **mapeo contra el layout REAL de BLACK** (Cross recarga, Triangle
+           silenciador, L2 agachado, R2 granada, cruceta arma/modo/botiquín).
+           El anterior estaba contra un layout supuesto.
+         - **la fuente del mapeo es `herramientas/configurar-controles.ps1`**,
+           no el ini: PCSX2 lo pisa al salir. `-Verificar` **probado en rojo**.
+         - **agachado mantenido** con `lanzadores/agachado-hold.ahk`: el
+           agachado de BLACK es un toggle del juego, así que un binding solo
+           no alcanza; el script manda el segundo toque al soltar Shift.
+         - **`BLACK` y `BLACK - Parches` en el Escritorio.**
+         - **los tres ISO comparten CRC `5C891FF1`** — medido en `emulog.txt`.
+           Los parches valen para los tres.
+         **Cierra J1** cuando esté medido por efecto, jugando: (a) el OSD dice
+         ~59.94 FPS con el parche de 60 puesto, y (b) un manotazo largo del
+         mouse gira lo mismo que la suma de los movimientos lentos que cubren
+         la misma distancia. Detalle completo: `docs/10-jugar.md`.
+
 REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
      R0  ¿hay depth buffer usable en PCSX2 2.8 para BLACK? .... CERRADA
          SÍ, en las TRES casillas. Medido el 2026-09-01, confirmado por

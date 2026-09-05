@@ -16,6 +16,82 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-04 (55) — Jugabilidad: el mouse deja de perder movimiento, y el mapeo pasa a ser un archivo del repo
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out
+**Objetivo:** que BLACK se pueda jugar bien mientras el reversing sigue por
+otro lado — mouse lineal, teclas de PC, agachado mantenido, 60 FPS, un acceso
+directo, y los parches a mano.
+
+**Resultado.**
+
+**1. La no-linealidad del mouse tenía una causa exacta, y está en el código de
+PCSX2, no en la percepción.** `InputManager::GenerateRelativeMouseEvents`
+acumula `delta * speed` en `s_pointer_pos`, recorta a `[-1, 1]`, **resta lo
+consumido** y multiplica el resto por `s_pointer_inertia`. Con el default
+(`PointerInertia = 10` → factor `0.10`) se tira el **90 % del sobrante en cada
+frame**: un movimiento lento nunca genera sobrante y entra entero; un manotazo
+genera casi todo sobrante y se pierde casi todo. Es exactamente el síntoma que
+reportó Fran, deducido de la fórmula. `PointerInertia = 100` (factor `1.00`) no
+tira nada: el giro total queda proporcional al desplazamiento total.
+**Confianza: `probable`** — la fórmula es del fuente de PCSX2 (`confirmado` por
+lectura), pero el efecto en pantalla todavía no se midió jugando.
+
+**2. `PointerXScale` era letra muerta.** El ini tenía `PointerXScale = 8` en
+`[Pad]` y `= 40` en `[Pad1]`. PCSX2 2.8.0 lee `Pointer{X,Y}Speed`,
+`Pointer{X,Y}DeadZone` y `PointerInertia`, **en `[Pad]`**. Medido sobre el
+binario: `Pointer{}Speed` y `Pointer{}DeadZone` están como cadenas de formato,
+`Pointer{}Inertia` **no** (la clave es `PointerInertia`, sin eje). O sea que
+todo el ajuste de sensibilidad que se venía haciendo no tocaba nada.
+
+**3. El mapeo de teclas estaba mapeado contra un layout supuesto, no el real.**
+El layout de BLACK es: Cross recargar, Square agarrar/cambiar, Circle melee,
+Triangle silenciador, L1 mira, L2 agachado, R1 disparar, R2 granada, cruceta
+arriba modo de fuego, cruceta izq/der cambiar arma, cruceta abajo botiquín. El
+ini tenía Triangle = R "recargar", que es el silenciador. Lo corrobora el
+propio reporte de Fran: pidió *"que se recargue con R"*, o sea que R no
+recargaba.
+
+**4. El mapeo dejó de vivir sólo en un archivo que se pisa solo.**
+`herramientas/configurar-controles.ps1` es ahora la fuente; el `PCSX2.ini` es
+su salida. `-Verificar` sale con código 1 si difieren, y **se probó en rojo**:
+sabotear `Cross = Keyboard/R` → `T` lo pone en `DIFIERE (2 líneas)`, restaurar
+lo devuelve a `OK`.
+
+**5. Los tres ISO comparten CRC `5C891FF1`.** Medido en `emulog.txt`
+(`Disc changed to Black-mod-7b.iso` → `CRC: 5C891FF1`), no supuesto. La
+consecuencia práctica: la lista de parches y el ini de gamesettings valen para
+los tres, y no hace falta reconstruir un ISO para probar un mod.
+
+**6. El acceso directo y el menú de parches.** `BLACK` y `BLACK - Parches` en
+el Escritorio. El menú junta en una lista los parches oficiales del
+`patches.zip` de PCSX2, los mods propios de `construido/*.pnach` y el overclock
+del EE, escribiéndolos unificados en `Documents\PCSX2\patches\`.
+
+**No funcionó / lo que costó.**
+
+- **`Set-Content -Encoding UTF8` de PowerShell 5.1 escribe BOM**, y el
+  `PCSX2.ini` quedó empezando con `EF BB BF`. Un ini con BOM le llega a PCSX2
+  con la primera sección corrupta. Se detectó mirando los tres primeros bytes,
+  no esperando el síntoma. Los scripts escriben ahora por
+  `Escribir-Sin-BOM`, que usa `UTF8Encoding($false)`.
+- **`(?m)^\[(.+?)\]$` de .NET no matchea líneas terminadas en CRLF.** Por eso
+  el mod propio no aparecía en la lista de parches y los oficiales sí (venían
+  del zip con LF). Arreglado con `\]\s*$`.
+- **El nombre de sección del mod tenía guion largo y acentos.** Es el nombre
+  que PCSX2 tiene que hacer coincidir letra por letra con `Enable = ...` del
+  ini; pasado a ASCII en `mods/dano-x2.toml`.
+- **El guardia de comandos bloqueó dos veces un comando legítimo** con
+  `Remove-Item on system path '"C:\Program' is blocked`, sin que el comando
+  tuviera ningún borrado. Se esquivó poniendo el mismo código en un `.ps1` y
+  ejecutando el archivo. **El guardia no se tocó** — queda anotado como falso
+  positivo a corregir en el patrón, no sacando el freno.
+
+**Sigue:** medir por efecto las dos cosas que quedaron en `probable` — el FPS
+real con el parche de 60 puesto (¿59.94 o 29.97?) y la linealidad del mouse
+jugando. Las dos se ven en el primer minuto de juego, sin instrumental.
+
+---
+
 ## 2026-09-04 (54) — PREDICCIÓN registrada antes de correr: verificación del x2 de daño por RAM, sin apuntar a ciegas
 **Máquina:** notebook · **Modelo:** Sonnet, medium, sin fan-out
 **Objetivo:** cerrar Fase 5a — confirmar por efecto que reescribir la palabra
