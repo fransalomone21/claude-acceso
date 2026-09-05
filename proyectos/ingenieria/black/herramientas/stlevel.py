@@ -23,11 +23,48 @@ EL FORMATO, MEDIDO
         +0x0C  u32  ?           sin identificar
         +0x10  u32  ?           cerca del tamano del archivo, sin confirmar
 
-    Directorio, entradas de 0x28:
-        +0x00  char[0x20]  nombre, terminado en 0. Forma: [NNNN_]bg1_XXX
-                           donde NNNN es <nivel><stage> y XXX es el modelo.
-        +0x20  u32  ?       vale 0, 1 o 2
-        +0x24  u32  ?       vale 0 o 2
+    Directorio, entradas de 0x28 -- RESUELTO ENTERO el 2026-09-05:
+        +0x00  char[0x10]  nombre. Forma [NNNN_]bg1_XXX; NNNN es <nivel><stage>
+        +0x10  u64         id64 del MODELO (BG1_AK1, BG1_ASR, ...)
+        +0x18  i32         puntero al array de variantes ENEMIGAS
+        +0x1C  i32         puntero al array de variantes de COMPANERO
+        +0x20  u32         cuantas variantes enemigas
+        +0x24  u32         cuantas variantes de companero
+
+    LOS PUNTEROS SON RELATIVOS AL INICIO DE SU PROPIA ENTRADA, no al archivo
+    ni al directorio. Como se supo: los punteros "basura" de los slots sin
+    variantes bajan exactamente 0x28 por slot -- el paso de la entrada -- asi
+    que sumandoles el offset de la ENTRADA dan todos el mismo centinela,
+    0xFDC5FF80. Con esa misma base, los punteros de verdad caen todos
+    alineados a 0x80 (0x200, 0x300, 0x400, 0x500, 0x680, 0x800, 0x900). Dos
+    invariantes independientes que apuntan a la misma base.
+
+    OJO CON EL 0x680: seis de los siete arrays caen alineados a 0x100 y es
+    tentador escribir "alineados a 0x100" -- el autotest lo dijo en rojo a la
+    primera. La alineacion real es 0x80. Ese uno solo que no encaja es tambien
+    la razon por la que el PASO de los registros dentro de un array no esta
+    confirmado: con dos elementos, el array del slot 3 va de 0x500 a 0x680 y
+    el del slot 4 arranca ahi, lo que da 0xB0 en RAM pero no cierra a 0x100 en
+    el archivo. El paso en el ARCHIVO queda como hipotesis.
+
+    DE DONDE SALE LA SEMANTICA: de FUN_001e2d38 (0x001E2D38), decompilada.
+    Recorre `param_2+0x08` entradas de paso 0x28 desde `param_2+0x04` -- que es
+    EXACTAMENTE el header de StLevel.bin -- y por cada una recorre dos arrays
+    de registros de 0xB0: `+0x18` con `+0x20` elementos, a los que les arma el
+    nombre con "Enemy%d_%s", y `+0x1C` con `+0x24`, con "Team%d_%s". El `%s`
+    sale de `FUN_001e3018(record+0x88)`, que resuelve contra la tabla de siete
+    nombres de 0x003BD3F8: None, Low, Mid, High, Matt, Tom, Carrie.
+
+    Y de cada registro registra `+0x94` en la ValueDB de sonido
+    (`../Export/ValueDB/Sound/ps2/AIWeapon.cfg`). CONTROL: en el archivo, a
+    +0x94 del primer registro hay exactamente floats de parametro --
+    0.071, 1.0, 10.0, 100.0, 20.0, 0.6 -- y no ceros ni punteros.
+
+    QUE SIGNIFICA. Este es el mapa de QUE ARMA USA CADA CLASE DE ENEMIGO en
+    cada nivel, y cuantas variantes de cada una hay. En LEVEL_00: la pistola,
+    la escopeta, la SMG, el RPG y la SM5 tienen UNA variante enemiga cada una,
+    la AK1 tiene DOS, y el ASR no lo usa ningun enemigo -- lo usan los DOS
+    companeros.
 
     El nombre SIN el prefijo `NNNN_` es el que tiene que existir como
     `Levels/Level_NN/FpGuns/BG1_XXX.wdd`. El prefijo es la instancia del nivel.
@@ -162,6 +199,36 @@ def cmd_armas(args):
     print(f"  sin usar: {', '.join(sorted(set(disp) - usados))}")
 
 
+AMENAZA = ["None", "Low", "Mid", "High", "Matt", "Tom", "Carrie"]
+
+
+def cmd_enemigos(args):
+    """Que arma usa cada clase de enemigo y de companero, por nivel."""
+    p = os.path.join(args.iso, "LEVELS", args.nivel, args.stage, "STLEVEL.BIN")
+    if not os.path.exists(p):
+        raise SystemExit(f"No existe: {p}")
+    s = StLevel(p)
+    d = s.datos
+    print(f"{args.nivel} / {args.stage}")
+    print()
+    print("  arma            enemigos  companeros   registros")
+    tot_e = tot_t = 0
+    for a in s.armas:
+        o = a["offset"]
+        pe, pt, ne, nt = struct.unpack_from("<4I", d, o + 0x18)
+        tot_e += ne
+        tot_t += nt
+        dirs = []
+        for ptr, cnt in ((pe, ne), (pt, nt)):
+            for k in range(cnt):
+                dirs.append(f"0x{(o + ptr + k * 0x100) & 0xFFFFFFFF:06X}")
+        print(f"  {a['nombre']:<15} {ne:>8}  {nt:>10}   {' '.join(dirs)}")
+    print()
+    print(f"  {tot_e} variantes enemigas y {tot_t} de companero en este nivel.")
+    print("  El puntero de un array vacio es un centinela: sumado al offset de")
+    print("  su ENTRADA da siempre 0xFDC5FF80.")
+
+
 def cmd_cambiar(args):
     """Escribe un nombre nuevo en el directorio, DENTRO DE UNA COPIA del ISO."""
     from lbas import SECTOR, enumerar_iso
@@ -248,6 +315,23 @@ def cmd_autotest(args):
     faltan = [a["nombre"] for a in s.armas if StLevel.modelo(a["nombre"]) not in disp]
     chequeo("todos los modelos referenciados estan en FPGUNS", faltan, [])
 
+    # EL INVARIANTE QUE FIJA LA BASE DE LOS PUNTEROS. Si la base fuera el
+    # archivo o el directorio en vez de la entrada, los centinelas de los
+    # arrays vacios NO darian todos el mismo valor.
+    cent = set()
+    alineados = True
+    for a in s.armas:
+        o = a["offset"]
+        pe, pt, ne, nt = struct.unpack_from("<4I", s.datos, o + 0x18)
+        for ptr, cnt in ((pe, ne), (pt, nt)):
+            if cnt == 0:
+                cent.add((o + ptr) & 0xFFFFFFFF)
+            elif ((o + ptr) & 0x7F) != 0:
+                alineados = False
+    chequeo("los centinelas de los arrays vacios dan UN solo valor", len(cent), 1)
+    chequeo("valor del centinela", hex(next(iter(cent))) if cent else None, "0xfdc5ff80")
+    chequeo("los punteros reales caen alineados a 0x80", alineados, True)
+
     print("\nSABOTAJES -- un chequeo que nunca dijo que no, no dice nada")
     d = bytearray(s.datos[:0x400])
     casos = [
@@ -286,6 +370,11 @@ def main():
 
     c = sub.add_parser("autotest", help="control positivo contra RAM + cuatro sabotajes")
     c.set_defaults(f=cmd_autotest)
+
+    g = sub.add_parser("enemigos", help="que arma usa cada clase de enemigo y de companero")
+    g.add_argument("nivel")
+    g.add_argument("--stage", default="STG_0001")
+    g.set_defaults(f=cmd_enemigos)
 
     e = sub.add_parser("cambiar", help="escribe un arma distinta EN UNA COPIA del ISO")
     e.add_argument("--iso", required=True, dest="iso", help="la COPIA .iso a modificar")

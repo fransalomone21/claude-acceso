@@ -201,7 +201,34 @@
     "0701_bg1_snr"
    ]
   },
-  "herramienta": "herramientas/stlevel.py -- catalogo / armas / cambiar / autotest. `cambiar` escribe sobre una COPIA del ISO, se niega a tocar Black.iso, rechaza un arma que el nivel no traiga, y VERIFICA releyendo del ISO que el slot cambio y que ningun otro se movio. Autotest con 4 controles positivos y 4 sabotajes, PROBADO EN ROJO."
+  "herramienta": "herramientas/stlevel.py -- catalogo / armas / cambiar / autotest. `cambiar` escribe sobre una COPIA del ISO, se niega a tocar Black.iso, rechaza un arma que el nivel no traiga, y VERIFICA releyendo del ISO que el slot cambio y que ningun otro se movio. Autotest con 4 controles positivos y 4 sabotajes, PROBADO EN ROJO.",
+  "entrada_resuelta_entera": {
+   "_medido": "2026-09-05",
+   "layout": {
+    "+0x00": "char[0x10] nombre, [NNNN_]bg1_XXX",
+    "+0x10": "u64 id64 del MODELO (BG1_AK1, BG1_ASR, ...)",
+    "+0x18": "i32 puntero al array de variantes ENEMIGAS",
+    "+0x1C": "i32 puntero al array de variantes de COMPANERO",
+    "+0x20": "u32 cuantas variantes enemigas",
+    "+0x24": "u32 cuantas variantes de companero"
+   },
+   "base_de_los_punteros": "EL INICIO DE SU PROPIA ENTRADA, no el archivo ni el directorio. Como se supo: los punteros de los slots SIN variantes bajan exactamente 0x28 por slot -- el paso de la entrada -- asi que sumandoles el offset de la ENTRADA dan todos el MISMO centinela, 0xFDC5FF80. Segundo invariante independiente: con esa misma base los punteros reales caen todos alineados a 0x80.",
+   "de_donde_sale_la_semantica": "FUN_001e2d38 (0x001E2D38), decompilada. Recorre param_2+0x08 entradas de paso 0x28 desde param_2+0x04 -- que es EXACTAMENTE el header de StLevel.bin -- y por cada una recorre DOS arrays de registros de 0xB0: +0x18 con +0x20 elementos, a los que les arma el nombre con 'Enemy%d_%s', y +0x1C con +0x24, con 'Team%d_%s'. El %s sale de FUN_001e3018(record+0x88) contra la tabla de siete nombres de 0x003BD3F8: None, Low, Mid, High, Matt, Tom, Carrie. Y de cada registro registra +0x94 en la ValueDB de sonido (AIWeapon.cfg).",
+   "control_del_+0x94": "En el archivo, a +0x94 del primer registro hay exactamente floats de parametro (0.071, 1.0, 10.0, 100.0, 20.0, 0.6) y no ceros ni punteros. La decompilacion decia que ahi va el destino de la ValueDB de sonido de arma de IA, y ahi hay parametros de sonido.",
+   "que_significa": "Es el mapa de QUE ARMA USA CADA CLASE DE ENEMIGO en cada nivel. En LEVEL_00: pistola, escopeta, SMG, RPG y SM5 tienen UNA variante enemiga cada una; la AK1 tiene DOS; y el ASR no lo usa ningun enemigo, lo usan los DOS companeros.",
+   "variantes_por_nivel": {
+    "LEVEL_00": "7 enemigas + 2 companeros",
+    "LEVEL_01": "6 + 0",
+    "LEVEL_03": "8 + 0",
+    "LEVEL_04": "10 + 2",
+    "LEVEL_05": "8 + 1",
+    "LEVEL_06": "10 + 0",
+    "LEVEL_07": "9 + 2",
+    "LEVEL_08": "15 + 0"
+   },
+   "sin_confirmar": "El PASO de los registros dentro de un array en el ARCHIVO. En RAM es 0xB0 (lo dice la decompilacion). En el archivo seis de los siete arrays estan a 0x100 pero el del slot 4 arranca en 0x680, o sea 0x80: la alineacion real es 0x80 y el paso queda como hipotesis.",
+   "trampa": "Seis de siete arrays caen alineados a 0x100 y es tentador escribir 'alineados a 0x100'. El autotest lo dijo en rojo a la primera. La alineacion es 0x80."
+  }
  },
  "db_contenedor": {
   "_que_es": "El .DB que acompana a cada .WDD es un CONTENEDOR DE RECURSOS CON NOMBRE. Su header es un directorio chico.",
