@@ -363,10 +363,29 @@ JUGABILIDAD (teclado, mouse, parches, 60 FPS) — línea aparte, no toca 7e
          - **`BLACK` y `BLACK - Parches` en el Escritorio.**
          - **los tres ISO comparten CRC `5C891FF1`** — medido en `emulog.txt`.
            Los parches valen para los tres.
+         **2026-09-05 — LA CAUSA DE FONDO NO ERA EL EMULADOR.** BLACK eleva
+         la entrada del stick **al cubo**: `Analogue Control Power = 3.0`,
+         medido en **diez volcados** independientes, con la vida del jugador
+         variando entre ellos como control positivo. Un stick de 0.5 se
+         convierte en 0.125 y uno de 0.1 en 0.001 — de ahí salen las **dos**
+         mitades de la queja (los movimientos lentos no mueven la mira; la
+         respuesta es de todo-o-nada) con **una sola** causa. Cuatro floats
+         contiguos en la estructura del jugador:
+         `0x005A9050` Max Hold Modifier Increment (0.5), `0x005A9054` Max Hold
+         Modifier (0.5), **`0x005A9058` Analogue Control Power (3.0)**,
+         `0x005A905C` Percentage Catch Up (0.5). Cadena completa en
+         `kb/mapa-memoria.json`. `mods/mira-lineal.toml` escribe 1.0 y ya está
+         **prendido**; `mods/mira-sin-suavizado.toml`, apagado, porque sus tres
+         parámetros son hipótesis leídas del nombre.
+         **Y los números del mouse quedaron exactos:** la ganancia de PCSX2 es
+         `Speed * 0.0005` por cuenta y satura a `2000 / Speed` cuentas por
+         sondeo. Con `Speed = 40` eso eran 50 cuentas — un movimiento lento con
+         un mouse de 1600 DPI. Default nuevo: `Speed = 5`, `Inertia = 25`,
+         `DeadZone = 5`, más cuatro presets.
          **Cierra J1** cuando esté medido por efecto, jugando: (a) el OSD dice
-         ~59.94 FPS con el parche de 60 puesto, y (b) un manotazo largo del
-         mouse gira lo mismo que la suma de los movimientos lentos que cubren
-         la misma distancia. Detalle completo: `docs/10-jugar.md`.
+         ~59.94 FPS con el parche de 60 puesto, y (b) con `mira-lineal`
+         prendido, un movimiento lento del mouse mueve la mira en proporción y
+         un manotazo no dispara vueltas enteras. Detalle: `docs/10-jugar.md`.
 
 REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
      R0  ¿hay depth buffer usable en PCSX2 2.8 para BLACK? .... CERRADA

@@ -16,6 +16,83 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-05 (56) — La mira de BLACK es CÚBICA: `Analogue Control Power` vale 3.0
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out (secuencial: cada paso salía del anterior)
+**Objetivo:** Fran reportó que con `PointerInertia = 100` un manotazo corto y
+rápido le hace dar vueltas enteras al jugador, y pidió linealidad sin tope
+arriba ni piso abajo. La sesión anterior había dejado el mouse "lineal" en el
+emulador; la queja demuestra que la linealidad del emulador no alcanzaba.
+
+**Resultado.**
+
+**1. La causa de fondo no estaba en PCSX2: BLACK eleva la entrada del stick AL
+CUBO.** El ELF registra cuatro parámetros de control contra una base de valores
+propia, y uno se llama `Analogue Control Power`. **Vale 3.0**, medido en diez
+volcados independientes. Con esa curva un stick de 0.5 se convierte en 0.125 y
+uno de 0.1 en 0.001. Eso explica las **dos** mitades de la queja con **una
+sola** causa: los movimientos lentos casi no mueven la mira (no es zona muerta,
+es que la curva es plana abajo) y la respuesta se siente de todo-o-nada porque
+se empina de golpe arriba. Y explica por qué ningún ajuste del emulador podía
+arreglarlo: PCSX2 entrega un valor lineal y el juego lo cubica después.
+
+**2. La cadena hasta la dirección, entera y en frío.** `0x0013F3E0` hace cuatro
+llamadas idénticas a la lectora de la ValueDB (`0x0027B950`) pasándole el nombre
+en `a2` y el **puntero destino** en `a1`: `s3+0xB0`, `+0xB4`, `+0xB8`, `+0xBC`.
+`s3` es su primer argumento, y llega desde `0x0013BA40` como `s1+0x4F0`; a ésa
+la llama `0x0013A1D4` con `a0 = s1` de `0x00139C68`. Esa función escribe en
+`s1+0x8A0`, `+0x8A4`, `+0x8A8`, `+0x8B1` y `+0x8B2` — **todos dentro del paso de
+`0x8B0`** que `kb/campos-jugador.json` ya tenía medido para la estructura del
+jugador, cuya base confirmada es `0x005A8AB0`. De ahí: `0x005A9050`.
+
+**3. Diez volcados, dos controles positivos, y un control cruzado que no se
+buscaba.** Los cuatro floats valen lo mismo en los diez volcados (0.5, 0.5,
+**3.0**, 0.5), mientras la vida del jugador **varía** entre ellos (225.5, 437.6,
+649.8, 750.0, 998735.0) y el puntero de clase en `+0x10` da `0x003DC5F8` en los
+diez. O sea: son estados de juego distintos, no el mismo bloque repetido. Y el
+control que apareció solo: `0x005A8DA8 - 0x005A8AB0 = 0x2F8`, y
+`kb/estructuras.json#enemigo` ya tenía la vida del enemigo en `+0x2F8`. **Jugador
+y enemigo comparten el offset de vida**, lo que confirma la base por una vía
+independiente de toda la cadena de arriba.
+
+**4. La lectora no escribe el valor: registra el destino.** `0x0027B950` guarda
+el puntero destino en una tabla (`sw s0, 0(s2)`) más dos floats en `+4` y `+8`.
+Por eso los nombres viven **sólo en el ELF**: se buscó `Controls_PS2` y
+`Analogue Control Power` en **todos** los archivos del ISO montado y aparecen
+únicamente en `SLUS_213.76`. No hay ningún `.cfg` suelto que editar.
+
+**5. Los números del mouse, ahora exactos y no estimados.** Del fuente de
+PCSX2: `ui_ctrl_range = 100.0f`, `pointer_sensitivity = 0.05f`, o sea que la
+ganancia es `Speed * 0.0005` por cuenta y **se satura a `2000 / Speed` cuentas
+por sondeo**. Con `Speed = 40` eso son **50 cuentas**: con un mouse de 1600 DPI
+es un movimiento lento. Un manotazo de 12.000 cuentas deja ~200 sondeos de
+deuda, y con `Inertia = 100` esa deuda se paga entera: más de tres segundos
+girando a fondo después de soltar el mouse. **Ésas son las vueltas enteras**, y
+salen de la fórmula, no de una impresión. Default nuevo: `Speed = 5`,
+`Inertia = 25`, `DeadZone = 5`, más cuatro presets.
+
+**No funcionó / lo que se corrigió.**
+
+- **La sesión anterior le dijo a Fran que pusiera la sensibilidad de mira al
+  máximo dentro del juego.** No aparece ninguna cadena de sensibilidad en el
+  ELF (`ensitiv`, `Sensit`, `SENSIT`, `urnRate`, `ookSpeed`: cero apariciones).
+  `probable`, no `confirmado`: los textos del menú podrían vivir en un archivo
+  de idioma del ISO. Corregido en `docs/10-jugar.md`.
+- **`Inertia = 100` era la mitad de la receta y se entregó como si fuera
+  entera.** Es correcto que hace lineal el reparto de la deuda; lo que faltó
+  decir es que sólo sirve si la deuda es chica, y que eso depende de `Speed`.
+  Entregar la mitad de una receta produjo el síntoma **opuesto** al que se
+  venía a arreglar, que es peor que no haber tocado nada.
+- **El guardia de controles hizo su trabajo:** al intentar aplicar la config
+  nueva, PCSX2 estaba abierto y el script se negó a tocar el ini. Sin ese
+  freno, el cambio se habría perdido al salir del emulador.
+
+**Sigue:** confirmar por efecto. `mods/mira-lineal.toml` ya está compilado y
+**prendido** en el menú de parches; `mods/mira-sin-suavizado.toml` está apagado
+y se prueba después, de a uno, porque sus tres parámetros son hipótesis leídas
+del nombre.
+
+---
+
 ## 2026-09-04 (55) — Jugabilidad: el mouse deja de perder movimiento, y el mapeo pasa a ser un archivo del repo
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out
 **Objetivo:** que BLACK se pueda jugar bien mientras el reversing sigue por

@@ -1,0 +1,44 @@
+# Mira lineal — pone en 1.0 el exponente de la curva de respuesta del stick.
+#
+# QUÉ ARREGLA. BLACK eleva la entrada del stick AL CUBO antes de usarla:
+# `Analogue Control Power` vale 3.0, medido en diez volcados independientes
+# (ver kb/mapa-memoria.json#analogue_control_power). Con esa curva:
+#
+#     stick 1.00  ->  1.000     (velocidad máxima)
+#     stick 0.50  ->  0.125     ocho veces menos
+#     stick 0.25  ->  0.016     sesenta y cuatro veces menos
+#     stick 0.10  ->  0.001     mil veces menos
+#
+# Eso explica LAS DOS MITADES de la queja con el mouse, y es una sola causa:
+# los movimientos lentos casi no mueven la mira (no es zona muerta: es la
+# curva, que es plana abajo), y la respuesta se siente de todo-o-nada porque
+# se empina de golpe arriba. Y explica por qué ningún ajuste del emulador lo
+# arreglaba: PCSX2 entrega un valor lineal y el juego lo cubica DESPUÉS.
+#
+# Con 1.0 la respuesta pasa a ser la identidad: lo que manda el mouse es lo
+# que gira la cámara.
+#
+# ESTE MOD VA SOLO. No lo prendas junto con mira-sin-suavizado.toml la primera
+# vez: si cambian dos cosas a la vez y algo mejora, no se sabe cuál fue.
+#
+# CÓMO SE FALSEA: si al prenderlo la mira NO cambia de sensación en los
+# movimientos chicos, entonces 0x005A9058 no es lo que dice esta ficha, o el
+# valor se reescribe después de que el parche lo pisa. En ese caso hay que
+# leerlo en vivo con `python herramientas/pine.py leer 0x005A9058 --tipo f32`
+# mientras se juega, y ver si vale 1.0 o volvió a 3.0.
+
+nombre = "Mira lineal - exponente del stick a 1.0"
+autor = "proyecto BLACK"
+descripcion = "BLACK eleva el stick al cubo (Analogue Control Power = 3.0). Con 1.0 la respuesta es lineal: los movimientos lentos del mouse mueven la mira en proporcion, y deja de sentirse de todo-o-nada. Medido en 10 volcados, SIN confirmar por efecto todavia."
+habilitado = false
+
+# continuo y no arranque: el valor no es codigo estatico, lo escribe el sistema
+# de ValueDB del juego sobre la estructura del jugador, y puede reescribirlo al
+# cargar un nivel. Escribiendolo cada frame no importa cuando lo pise.
+cuando = "continuo"
+
+[[parche]]
+direccion = 0x005A9058
+tipo = "f32"
+valor = 1.0
+nota = "Analogue Control Power: 3.0 -> 1.0. Es un DATO dentro de la estructura del jugador (base 0x005A8AB0 + 0x5A8), no una instruccion: aca el float crudo es exactamente lo que va."

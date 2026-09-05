@@ -16,10 +16,13 @@
 param(
     [switch]$Verificar,
     [switch]$Restaurar,
-    # Los tres knobs del mouse. Ver la tabla de abajo antes de tocarlos.
-    [int]$Speed    = 40,
-    [int]$DeadZone = 20,
-    [int]$Inertia  = 100
+    # Preset del mouse. 'lineal' es el default; los otros estan mas abajo.
+    [ValidateSet('lineal','preciso','rapido','pcsx2')]
+    [string]$Preset = 'lineal',
+    # ...o los tres knobs a mano, que pisan al preset.
+    [double]$Speed    = -1,
+    [double]$DeadZone = -1,
+    [double]$Inertia  = -1
 )
 
 $ErrorActionPreference = 'Stop'
@@ -74,6 +77,56 @@ function Escribir-Sin-BOM([string]$ruta, [string[]]$lineas) {
 # PointerYDeadZone / PointerInertia, en la seccion [Pad] (global, no [Pad1]).
 # PointerXScale / PointerYScale son de PCSX2 viejo: 2.8.0 NO las lee. El ini
 # tenia PointerXScale = 8 en [Pad] y = 40 en [Pad1]. Las dos eran letra muerta.
+
+
+# ---------------------------------------------------------------------------
+# LOS PRESETS, y de donde salen los numeros
+# ---------------------------------------------------------------------------
+# La formula de PCSX2 2.8.0, con las constantes del fuente ya sustituidas
+# (ui_ctrl_range = 100.0f, pointer_sensitivity = 0.05f):
+#
+#     ganancia = Speed * 0.0005      por cada CUENTA de mouse
+#     pos     += delta * ganancia
+#     value    = clamp(pos, -1, 1)
+#     pos     -= value               <- la deuda: lo que no entro
+#     pos     *= Inertia / 100       <- y cuanto de la deuda se conserva
+#     out      = value * (1 - DZ/100) + signo(value) * DZ/100
+#
+# De ahi sale el unico numero que importa para elegir Speed:
+#
+#     SATURACION = 2000 / Speed   cuentas de mouse por sondeo (~60 por segundo)
+#
+# Arriba de esa velocidad el stick ya esta al maximo y todo lo demas es DEUDA.
+# Con el default de PCSX2 (Speed 40) satura a 50 cuentas por sondeo: con un
+# mouse de 1600 DPI eso es un movimiento LENTO. Por eso saturaba siempre.
+#
+# Y la deuda es la que produce las vueltas enteras: con Inertia 100 no se
+# pierde nada, asi que un manotazo de 12.000 cuentas deja ~200 sondeos de
+# deuda = mas de tres segundos girando a fondo DESPUES de soltar el mouse.
+# Inertia 100 es lineal, si -- pero solo sirve si la deuda es chica, y la
+# deuda solo es chica si Speed hace que casi nunca satures.
+#
+#   lineal   Speed  5  -> satura a  400 cuentas/sondeo. El default de aca.
+#   preciso  Speed  3  -> satura a  666. Sin zona muerta, para apuntar fino.
+#   rapido   Speed 12  -> satura a  166. Gira mas, satura antes.
+#   pcsx2    Speed 40  -> satura a   50. El de fabrica, para comparar.
+#
+# DeadZone es un piso que se SUMA a todo valor distinto de cero, para vencer
+# la atenuacion del juego en los movimientos chiquitos. Sube el piso pero
+# rompe la proporcionalidad justo abajo: 0 es lo mas lineal, 5-10 lo mas
+# usable. Inertia baja = la deuda se descarta rapido (no gira de mas, pero
+# pierde algo del manotazo); alta = se paga entera (lineal, pero gira de mas).
+
+$PRESETS = @{
+    'lineal'  = @{ Speed =  5; DeadZone =  5; Inertia = 25 }
+    'preciso' = @{ Speed =  3; DeadZone =  0; Inertia = 10 }
+    'rapido'  = @{ Speed = 12; DeadZone =  8; Inertia = 20 }
+    'pcsx2'   = @{ Speed = 40; DeadZone = 20; Inertia = 10 }
+}
+$pre = $PRESETS[$Preset]
+if ($Speed    -lt 0) { $Speed    = $pre.Speed }
+if ($DeadZone -lt 0) { $DeadZone = $pre.DeadZone }
+if ($Inertia  -lt 0) { $Inertia  = $pre.Inertia }
 
 $padGlobal = @(
     'MultitapPort1 = false'
@@ -252,9 +305,12 @@ Copy-Item -LiteralPath $ini -Destination $bak
 Escribir-Sin-BOM $ini $esperado
 
 Write-Output "Mapeo aplicado.  Backup: $(Split-Path $bak -Leaf)"
-Write-Output "  mouse : Speed=$Speed  DeadZone=$DeadZone  Inertia=$Inertia (100 = lineal)"
+$sat = [math]::Round(2000 / $Speed)
+Write-Output "  mouse : preset '$Preset'  Speed=$Speed  DeadZone=$DeadZone  Inertia=$Inertia"
+Write-Output "          satura a $sat cuentas de mouse por sondeo (~60 sondeos por segundo)."
+Write-Output "          Arriba de eso el stick ya esta al maximo y lo demas es deuda."
 Write-Output '  teclas: R recarga | Q granada | Z silenciador | X modo de fuego'
 Write-Output '          Shift agachado | 1/2 y rueda cambian arma | E agarrar | F melee | H botiquin'
 Write-Output ''
-Write-Output 'Dentro del juego: Options -> Controls -> sensibilidad de mira AL MAXIMO.'
-Write-Output 'Es lo unico que sube el tope de giro; sin eso el buffer del mouse tarda mas en drenar.'
+Write-Output ''
+Write-Output 'Otros presets:  -Preset preciso | rapido | pcsx2      o a mano: -Speed 8 -DeadZone 4 -Inertia 30'

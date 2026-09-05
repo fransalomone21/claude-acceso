@@ -1,0 +1,53 @@
+# Mira sin suavizado ni aceleración — los otros tres parámetros de control.
+#
+# ESTE MOD ES MÁS ESPECULATIVO QUE mira-lineal.toml, y va aparte a propósito.
+# De los cuatro parámetros que BLACK registra contra su base de valores, uno
+# —`Analogue Control Power`— tiene la semántica clara (es un exponente, y vale
+# 3.0). Los otros tres se interpretan POR EL NOMBRE, que es una lectura, no una
+# medición:
+#
+#   0x005A905C  Percentage Catch Up          = 0.5
+#     Hipótesis: por frame sólo se recorre la mitad de la distancia entre el
+#     valor actual y el pedido. Un filtro exponencial: agrega retardo y hace
+#     que la mira nunca llegue del todo a lo pedido. 1.0 = instantáneo.
+#
+#   0x005A9054  Max Hold Modifier            = 0.5
+#   0x005A9050  Max Hold Modifier Increment  = 0.5
+#     Hipótesis: aceleración de giro por mantener el stick a fondo, la de
+#     siempre en los shooters de consola. Rompe la linealidad EN EL TIEMPO: el
+#     mismo stick gira distinto según hace cuánto lo tenés apretado. Con el
+#     mouse eso es exactamente lo que no querés. En 0.0 debería apagarse.
+#
+# ORDEN DE PRUEBA. Primero mira-lineal.toml solo, y jugá. Recién cuando sepas
+# qué cambió ése, prendé éste. Si prendés los dos juntos de una y algo mejora,
+# no vas a saber cuál de las dos cosas fue — y hay tres hipótesis sin medir acá
+# adentro.
+#
+# CÓMO SE FALSEA CADA UNA: prendiendo un solo [[parche]] por vez y comentando
+# los otros dos. El suavizado se nota en el retardo entre mover el mouse y ver
+# girar la cámara; la aceleración se nota manteniendo un giro parejo y viendo
+# si acelera solo.
+
+nombre = "Mira sin suavizado ni aceleracion"
+autor = "proyecto BLACK"
+descripcion = "Apaga el filtro de suavizado (Percentage Catch Up a 1.0) y la aceleracion por mantener (Max Hold Modifier a 0.0). Los tres son HIPOTESIS leidas del nombre del parametro, no medidas. Probar DESPUES de mira-lineal, nunca junto."
+habilitado = false
+cuando = "continuo"
+
+[[parche]]
+direccion = 0x005A905C
+tipo = "f32"
+valor = 1.0
+nota = "Percentage Catch Up: 0.5 -> 1.0. Hipotesis: 1.0 = la mira alcanza el valor pedido en el mismo frame, sin filtro."
+
+[[parche]]
+direccion = 0x005A9054
+tipo = "f32"
+valor = 0.0
+nota = "Max Hold Modifier: 0.5 -> 0.0. Hipotesis: apaga la aceleracion por mantener el stick a fondo."
+
+[[parche]]
+direccion = 0x005A9050
+tipo = "f32"
+valor = 0.0
+nota = "Max Hold Modifier Increment: 0.5 -> 0.0. Hipotesis: sin incremento, el modificador no crece."

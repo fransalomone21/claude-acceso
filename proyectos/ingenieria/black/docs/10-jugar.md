@@ -101,10 +101,68 @@ linealidad pedida.
 **El precio, que es real:** un manotazo grande sigue girando después de que el
 mouse se frenó, hasta que el buffer se vacía. Es inevitable con un mando de
 velocidad: **el juego controla velocidad angular con tope, y el mouse manda
-distancia**. Ninguna configuración del emulador cambia eso; lo único que sube
-el tope es la sensibilidad **dentro del juego** (Options → Controls), y por eso
-conviene ponerla al máximo ahí y bajar `Speed` acá. Con el tope más alto, menos
-movimientos generan sobrante y menos hay que drenar.
+distancia**.
+
+> **CORREGIDO EL 2026-09-05.** Esta sección decía antes que lo único que sube
+> el tope es la sensibilidad dentro del juego, y que había que ponerla al
+> máximo. Las dos cosas resultaron mal: **no aparece ninguna cadena de
+> sensibilidad en el ELF** (`ensitiv`, `Sensit`, `SENSIT`, `urnRate`,
+> `ookSpeed`: cero apariciones en los 3.371.868 B), así que probablemente
+> BLACK no tenga ese ajuste — `probable`, porque los textos del menú podrían
+> vivir en un archivo de idioma del ISO. Y sobre todo: **la causa principal no
+> era el tope, era una curva cúbica**. Ver la sección de abajo.
+
+**Y hay una segunda cosa que ajustar, que es la que produce las vueltas
+enteras.** `Inertia = 100` no tira nada, pero eso sólo sirve si la deuda es
+chica, y la deuda sólo es chica si `Speed` hace que casi nunca satures. Con
+`Speed = 40` se satura a **50 cuentas de mouse por sondeo**, que con un mouse
+de 1600 DPI es un movimiento lento: un manotazo de 12.000 cuentas deja unos
+200 sondeos de deuda, o sea más de tres segundos girando a fondo *después* de
+soltar el mouse. Por eso el default pasó a **`Speed = 5`** (satura a 400) y
+**`Inertia = 25`**.
+
+El número que importa para elegir `Speed` es uno solo:
+
+    SATURACIÓN = 2000 / Speed    cuentas de mouse por sondeo (~60 por segundo)
+
+y sale de las constantes reales del fuente de PCSX2 (`ui_ctrl_range = 100.0f`,
+`pointer_sensitivity = 0.05f`), no de una estimación.
+
+## La causa de fondo: BLACK eleva el stick al CUBO
+
+Medido el 2026-09-05, en frío. El juego registra cuatro parámetros de control
+contra su propia base de valores, y uno de ellos se llama **`Analogue Control
+Power`**. **Vale 3.0.**
+
+    stick 1.00  ->  1.000     velocidad máxima
+    stick 0.50  ->  0.125     ocho veces menos
+    stick 0.25  ->  0.016     sesenta y cuatro veces menos
+    stick 0.10  ->  0.001     mil veces menos
+
+Eso explica **las dos mitades de la queja con una sola causa**: los movimientos
+lentos casi no mueven la mira —no es una zona muerta, es que la curva es plana
+abajo— y la respuesta se siente de todo-o-nada porque se empina de golpe
+arriba. Y explica por qué **ningún ajuste del emulador lo iba a arreglar**:
+PCSX2 entrega un valor lineal y el juego lo cubica *después*.
+
+Los cuatro parámetros viven contiguos en la estructura del jugador:
+
+| dirección | parámetro | valor |
+|---|---|---|
+| `0x005A9050` | Max Hold Modifier Increment | 0.5 |
+| `0x005A9054` | Max Hold Modifier | 0.5 |
+| **`0x005A9058`** | **Analogue Control Power** | **3.0** |
+| `0x005A905C` | Percentage Catch Up | 0.5 |
+
+El mod `mods/mira-lineal.toml` escribe **1.0** en `0x005A9058`, y ya está
+prendido en el menú de parches. Los otros tres son hipótesis leídas del nombre
+y van aparte en `mods/mira-sin-suavizado.toml`, **apagado**: se prueban después
+y de a uno. La cadena completa de cómo se llegó a esas direcciones está en
+`kb/mapa-memoria.json`, entradas `analogue_control_power` y las tres hermanas.
+
+**Falta confirmarlo por efecto.** Está medido en diez volcados, que es mucho
+más que una corazonada, pero en este proyecto `confirmado` significa que se vio
+el cambio en pantalla.
 
 Los tres knobs, todos parámetros del script:
 
