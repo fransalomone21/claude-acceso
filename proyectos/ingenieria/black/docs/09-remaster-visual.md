@@ -963,3 +963,100 @@ pack de 2022 (82/82 contra 76/82 sin necesidad de resolver el mipmap).
 **Sigue abierto:** una escena sin combate para medir "barrera" directamente,
 y decidir si ampliar el puente para Huekage antes de extenderlo a todo el
 juego.
+
+---
+
+## 2026-09-05 — DLSS 5 estaba APAGADO, y el `upscale_multiplier` no compra FPS
+
+### Estaba apagado, y era una falla silenciosa
+
+`ReShadePreset.ini` tenía
+
+```
+Techniques=ContrastAdaptiveSharpen@CAS.fx,LumaSharpen@LumaSharpen.fx,Lumenite_Kernel@lumenite_Kernel.fx
+```
+
+**sin `DLSS5_Feed@DLSS5_Feed.fx`.** Con eso el add-on carga igual, el log dice
+`technique found`, y **no pasa nada**: ningún error, ningún aviso, el juego se
+ve normal. Cuándo y por qué se apagó no quedó anotado en ninguna parte.
+
+Por eso ahora es un comando y no cuatro clicks adentro del overlay:
+
+```powershell
+.\herramientas\dlss5-prender.ps1        # dice como esta
+.\herramientas\dlss5-prender.ps1 -On
+.\herramientas\dlss5-prender.ps1 -Off
+```
+
+Verifica por efecto (relee el preset del disco), hace respaldo, y se niega a
+tocar nada con PCSX2 abierto.
+
+### El costo, medido de nuevo y con capturas
+
+Mismo savestate del nivel 2, jugador quieto, D3D12, capturas del OSD:
+
+| configuración | FPS | GS | GPU | frame |
+|---|---|---|---|---|
+| DLSS 5 **apagado**, upscale 3 | **58.19** | 95.9 % (16.48 ms) | 30.7 % (5.28 ms) | 17.18 ms |
+| DLSS 5 **prendido**, upscale 3 | **48.09** | 96.9 % (20.15 ms) | 16.2 % (3.37 ms) | 20.79 ms |
+| DLSS 5 prendido, **upscale 2** | 50.42 | 97.4 % (19.38 ms) | 12.6 % (2.49 ms) | 19.83 ms |
+
+**DLSS 5 cuesta 10 fps** (−17,4 %). Coincide en orden de magnitud con el
+−12,5 % de 8.20, medido con otro método.
+
+### La predicción que falló, y por qué vale más que si hubiera acertado
+
+8.20 dejó anotado un experimento de apalancamiento: como el cuello es el **GS**
+(95,9 %) y la **GPU sobra** (30,7 %), bajar `upscale_multiplier` de 3 a 2
+debería liberar el recurso saturado y dejar entrar el neural rendering gratis.
+La predicción escrita antes de medir: GS de 20,15 a ~11-13 ms, FPS a 55-60.
+
+**Salió 50,42 fps y el GS bajó de 20,15 a 19,38 ms** — cuatro por ciento menos
+de tiempo por **cincuenta y seis por ciento menos de píxeles**.
+
+> **El cuello del GS en BLACK NO es de relleno de píxeles.** No escala con la
+> resolución interna: es draw calls, transferencia EE→GS o trabajo de VU. Bajar
+> `upscale_multiplier` **empeora la imagen y no compra framerate**.
+
+Eso cierra una línea de trabajo entera —"subir FPS bajando la resolución
+interna"— por medición y no por opinión, y **corrige el modelo** con el que
+8.18 y 8.20 razonaban sobre el cuello de botella.
+
+### El kit reusable para otros juegos
+
+`herramientas/dlss5-para-juegos.ps1` reproduce el pipeline en cualquier juego
+de 64 bits. **Su base no es el README de nadie: es la instalación de PCSX2 que
+ya funciona**, congelada con sus hashes por `-ArmarKit`.
+
+```powershell
+.\herramientas\dlss5-para-juegos.ps1 -ArmarKit
+.\herramientas\dlss5-para-juegos.ps1 -Juego "C:\Games\Loquesea\juego.exe" -Ver
+.\herramientas\dlss5-para-juegos.ps1 -Juego "C:\Games\Loquesea\juego.exe"
+.\herramientas\dlss5-para-juegos.ps1 -Juego "..." -Desinstalar
+```
+
+Qué hace que no sea sólo copiar archivos:
+
+- **Lee la arquitectura del header PE** (no la adivina por la carpeta) y
+  **detecta la API gráfica** buscando el nombre de la DLL en el binario, para
+  elegir el proxy correcto (`dxgi.dll` para D3D10/11/12, `d3d9.dll`,
+  `opengl32.dll`). `-Proxy` lo fuerza.
+- **Verifica el `renodx-dlss5.addon64` por SHA256 antes de copiar nada.** El
+  `FileVersion` del PE **no distingue** v4.55 de v4.6 — las dos dicen
+  `0.2026.0828.0517` — y la v4.6 choca con el feeder released. Ese chequeo es
+  la lección de 8.9/8.10 convertida en código.
+- **`nvngx_dlss.dll` está marcado como crítico**, no opcional: su ausencia da
+  `SuperSampling.Available=0` y costó tres corridas creyendo que era la GPU.
+- Los dos runtimes suman 214 MB por juego: si el kit está en la misma unidad,
+  usa **hardlinks** y no duplica los megabytes.
+- Guarda cualquier DLL propio del juego que tenga el mismo nombre, como
+  `.antes-de-dlss5`, y `-Desinstalar` lo devuelve.
+
+**El kit vive fuera del repo** (`~\herramientas\dlss5-kit`, 212,9 MB) porque
+`claude-acceso` es público y son binarios de NVIDIA y de terceros sin licencia
+clara. Acá queda el procedimiento y el manifiesto con los hashes.
+
+Lo que el script **no** puede hacer, y sigue siendo a mano en el overlay: fijar
+el depth buffer grande en Generic Depth. Se pierde cada vez que cambia el
+renderer o la resolución interna, y sin eso el pipeline queda mudo sin dar
+ningún error.
