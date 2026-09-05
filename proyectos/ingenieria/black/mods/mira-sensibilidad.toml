@@ -1,0 +1,65 @@
+# Sensibilidad de mira — la constante que BLACK nunca expuso en ningún menú.
+#
+# QUÉ ES. `FUN_001404a8` (0x001404A8) es la función de mira completa. Su última
+# línea útil es, literalmente:
+#
+#     yaw   += eje_x_suavizado * obj[0x2A] * dt * factor_zoom
+#     pitch += eje_y_suavizado * obj[0x2B] * dt * factor_zoom
+#
+# `obj` es el objeto de controles, que vive en jugador+0x4F0 = 0x005A8FA0.
+# O sea que `obj+0xA8` y `obj+0xAC` son la VELOCIDAD DE GIRO en GRADOS POR
+# SEGUNDO, y de fábrica valen:
+#
+#     0x005A9048  horizontal   70.0 grados/segundo
+#     0x005A904C  vertical     25.0 grados/segundo
+#
+# CONFIRMADO POR EFECTO el 2026-09-05, con control negativo. Poniendo el
+# horizontal en 210.0 (x3), la velocidad medida pasó de 87.7 a 264.4 grados/s
+# —factor 3.01— y al volver a 70.0 dio 88.3. El CONTROL: en las tres corridas
+# el vertical se midió en 25.7 / 25.7 / 25.8 grados/s, sin moverse. Un cambio
+# que mueve exactamente el eje que se tocó y deja quieto el otro no es una
+# coincidencia.
+#
+# POR QUÉ IMPORTA TANTO. Con 70 grados/s hacen falta ~5 segundos para dar una
+# vuelta completa, y a 1600 DPI eso son casi DOS METROS de mousepad por vuelta.
+# Ninguna combinación de Speed/DeadZone/Inertia en PCSX2 lo arregla: el
+# emulador entrega un eje de 0 a 1 y el tope de grados por segundo lo pone el
+# juego, acá. Esta es la única perilla que sube el techo.
+#
+# CÓMO SE ELIGIERON 350 Y 350
+#     grados por cuenta de mouse = PointerSpeed * 0.0005 * Giro / 60
+#     con PointerSpeed = 6 y Giro = 350  ->  0.0175 grados por cuenta
+#     -> 20.570 cuentas por vuelta completa -> 32 cm a 1600 DPI
+# que es el rango clásico de un shooter de PC. El vertical va IGUAL que el
+# horizontal (y no en la proporción original 70:25) porque PCSX2 manda la
+# misma escala en los dos ejes: con el mouse, 1:1 es lo que se espera.
+#
+# CÓMO SE AJUSTA SIN REINICIAR NADA:
+#     python herramientas/mira.py sens 500        # en vivo, por PINE
+#     python herramientas/mira.py sens 500 --y 400
+# y cuando encontrás el número, se escribe acá y se recompila el pnach.
+#
+# CÓMO SE FALSEA: si al prenderlo la mira gira igual de lento, entonces
+# 0x005A9048 no es lo que dice esta ficha en tu build. Se mide con
+# `python herramientas/mira.py curva`, que reporta grados por segundo reales.
+
+nombre = "Mira sensible - velocidad de giro de 70 a 350 grados/seg"
+autor = "proyecto BLACK"
+descripcion = "Sube la velocidad de giro de la mira. De fabrica el horizontal es 70 grados/seg y el vertical 25, que con mouse son casi dos metros de mousepad por vuelta. Confirmado por efecto con control negativo el 2026-09-05."
+habilitado = true
+
+# continuo: el valor lo escribe el sistema de ValueDB del juego sobre la
+# estructura del jugador y puede reescribirlo al cargar un nivel.
+cuando = "continuo"
+
+[[parche]]
+direccion = 0x005A9048
+tipo = "f32"
+valor = 350.0
+nota = "Velocidad de giro HORIZONTAL, grados por segundo. 70.0 -> 350.0. Es un DATO (obj+0xA8), no una instruccion."
+
+[[parche]]
+direccion = 0x005A904C
+tipo = "f32"
+valor = 350.0
+nota = "Velocidad de giro VERTICAL, grados por segundo. 25.0 -> 350.0. Igualado al horizontal a proposito: con mouse la escala de los dos ejes es la misma."

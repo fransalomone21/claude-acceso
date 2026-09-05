@@ -263,3 +263,142 @@ Y por qué, para no volver a intentarlo:
 | agacharse sin script externo | el toggle es del juego | parchear la rutina de agachado |
 | mouse sin lag en el manotazo | el juego integra velocidad con tope | subir el tope de giro en el código, no en el emulador |
 | más de 60 FPS | el motor está atado al V-Blank de PS2 | fuera de alcance; 60 es el techo real |
+
+---
+
+## La sensibilidad de mira EXISTE, y es un float — 2026-09-05
+
+Todo lo de arriba trataba a los tres knobs de PCSX2 como si fueran lo único que
+había, porque se creía que el techo de velocidad de giro era del juego y no se
+podía tocar. **El techo es del juego, sí — pero se puede escribir.**
+
+`FUN_001404a8` (`0x001404A8`) es la función de mira completa. Su último tramo,
+en limpio:
+
+```
+factor_zoom = 1 / ((jugador[+0x2AC] - 1) * 0.8 + 1)    # con zoom, gira más lento
+si (x² + y² > 0.95):                                    # stick casi a fondo
+    hold += MaxHoldIncrement * |eje| * dt   (tope MaxHoldModifier)
+    eje  += hold                                        # aceleración por MANTENER
+sino: hold = 0
+si (apuntando con L1): eje *= 0.7                       # 30% más lento con la mira
+eje   = signo(eje) * powf(|eje|, AnalogueControlPower)  # LA CURVA
+suave = suave + (eje - suave) * PercentageCatchUp       # EL FILTRO
+yaw   += suave_x * GiroX * dt * factor_zoom
+pitch += suave_y * GiroY * dt * factor_zoom
+pitch se recorta a ±70   ;   yaw se envuelve a ±180
+```
+
+Y `GiroX` / `GiroY` son **datos**, en la estructura de controles del jugador
+(`0x005A8FA0`, que es jugador + `0x4F0`):
+
+| dirección | qué es | de fábrica |
+|---|---|---|
+| **`0x005A9048`** | **velocidad de giro HORIZONTAL, grados/segundo** | **70.0** |
+| **`0x005A904C`** | **velocidad de giro VERTICAL, grados/segundo** | **25.0** |
+| `0x005A9050` | Max Hold Modifier Increment | 0.5 |
+| `0x005A9054` | Max Hold Modifier | 0.5 |
+| `0x005A9058` | Analogue Control Power (exponente) | 3.0 |
+| `0x005A905C` | Percentage Catch Up (suavizado) | 0.5 |
+
+**70 grados por segundo son cinco segundos para dar una vuelta completa.** A
+1600 DPI y con `Speed = 5`, eso son **casi dos metros de mousepad por vuelta**.
+Ésa es la causa medida de "muevo el mouse y la mira casi no se mueve", y no hay
+combinación de `Speed`/`DeadZone`/`Inertia` que la arregle: PCSX2 entrega un eje
+de 0 a 1 y los grados por segundo los pone el juego, acá.
+
+### Cómo se confirmó, y cuál fue el control
+
+Se escribió `210.0` (×3) en `0x005A9048` y se midió la velocidad angular real
+leyendo el yaw de la cámara por PINE:
+
+| GiroX | horizontal medido | **vertical medido (el control)** |
+|---|---|---|
+| 70.0 | 87.7 grados/s | 25.7 grados/s |
+| **210.0** | **264.4 grados/s** (×3.01) | 25.7 grados/s |
+| 70.0 (vuelta) | 88.3 grados/s | 25.8 grados/s |
+
+El factor salió **3.01** contra 3.00 predicho, es **reversible**, y el eje que
+no se tocó **no se movió**. Un cambio que mueve exactamente lo que se tocó y
+deja quieto lo de al lado no es una coincidencia.
+
+### El instrumento que lo hizo posible
+
+Medir esto necesitaba las dos puntas del lazo, y ninguna existía:
+
+- **entrada** — `herramientas/pcsx2_mouse.ps1`: inyecta movimiento relativo de
+  mouse con `SendInput`, en pasos chicos, y **verifica que tomó el foco por
+  efecto** (`GetForegroundWindow` después, no que la llamada no tire error).
+- **salida** — el yaw de la cámara en `0x005A8DA0`, **en grados**. Se encontró
+  con un diferencial **con control de ruido**: foto, 1,5 s sin tocar nada, foto
+  (eso da las 4757 palabras que cambian solas), y recién después foto /
+  inyección / foto. Candidato = cambia con input y **no** cambia solo. El
+  segundo control fue inyectar el movimiento contrario y exigir que **vuelva**.
+- El control cruzado que apareció solo: en `0x005A8B20` / `0x005A8B28` hay un
+  par `(0.69411, -0.71987)` cuyo `atan2` da 46,05 grados — el mismo número que
+  el yaw. Son su coseno y su seno, y siguen coincidiendo después de girar.
+
+```powershell
+python herramientas/mira.py yaw          # el angulo, con su control cruzado
+python herramientas/mira.py sens 350     # cambia la sensibilidad EN VIVO
+python herramientas/mira.py curva        # la curva de respuesta medida
+```
+
+`sens` escribe por PINE y se pierde al reiniciar; para que quede, el valor va a
+`mods/mira-sensibilidad.toml` y se recompila el pnach.
+
+### La curva quedó lineal — `mira-lineal` confirmado por efecto
+
+Con el exponente en 1.0, la respuesta medida es **lineal con zona muerta**:
+`grados/s ≈ 155 · (eje − 0,089)`, y el ajuste da la misma constante en cinco
+puntos (eje 0,10 → 1,56 grados/s; 0,15 → 9,23; 0,25 → 24,70; 0,55 → 76,31).
+Una curva **cúbica** habría dado una razón de 10,6 entre los dos últimos puntos;
+la medida es 3,09 y la lineal predice 2,88. **La cúbica queda descartada por un
+factor de tres.**
+
+### Lo que NO se pudo cerrar, y por qué
+
+Queda un **piso**: por debajo de cierta velocidad de mouse la mira no se mueve
+**nada** (0,000 grados exacto, no "poco"), y ese piso **no se movió** al cambiar
+`DeadZone` (5 → 0), `Inertia` (25 → 0), `Speed` (5 → 6), la sensibilidad (×5)
+ni la aceleración de puntero de Windows. Cinco variables, ningún efecto: la
+hipótesis de que la deuda de inercia de PCSX2 lo causaba **quedó falsada**.
+
+**Y hay una razón para desconfiar del piso mismo:** el inyector manda ráfagas
+discretas con huecos, y un mouse real manda movimiento continuo en *todos* los
+sondeos. El piso puede ser del instrumento y no del juego. Eso lo decide una
+mano sobre el mouse, no otra medición sintética — es lo único de esta sección
+que queda para verificar jugando.
+
+### Qué quedó configurado
+
+| knob | antes | ahora | por qué |
+|---|---|---|---|
+| `PointerXSpeed` | 5 | **6** | satura a 333 cuentas/sondeo (~12 pulgadas/s a 1600 DPI) |
+| `PointerXDeadZone` | 5 | **0** | con Giro 350 un piso de 10 sería un salto mínimo de 35 grados/s |
+| `PointerInertia` | 25 | **0** | sin deuda no hay giro-de-más después de soltar el mouse |
+| **GiroX** | 70 | **350** | ×5 — 0,0175 grados por cuenta ≈ 32 cm por vuelta a 1600 DPI |
+| **GiroY** | 25 | **350** | igualado al horizontal: con mouse la escala de los dos ejes es la misma |
+
+Y **la aceleración de puntero de Windows quedó APAGADA**
+(`herramientas/aceleracion-mouse.ps1`), porque PCSX2 no lee el mouse crudo sino
+los eventos ya pasados por la balística del sistema: con la aceleración
+prendida, la misma distancia de mouse produce distinto giro según la velocidad
+con que se movió. Es un ajuste **del escritorio entero**, así que se guardó el
+estado previo y vuelve con un comando:
+
+```powershell
+python herramientas/../herramientas/aceleracion-mouse.ps1 -Restaurar
+```
+
+### Lo que sigue, si todavía falta o sobra
+
+- **Falta giro** → subir `GiroX`, no `Speed`. `Speed` alto satura antes y tira
+  movimiento; el Giro no tiene tope aguas abajo.
+- **Se pasa / es brusco** → bajar `GiroX`.
+- **Se siente "blando" o con retardo** → es `Percentage Catch Up` (`0x005A905C`,
+  vale 0.5): la mira recorre por frame sólo la mitad de lo que le falta. Está en
+  `mods/mira-sin-suavizado.toml`, **apagado**, y se prueba de a uno.
+- **Mirar más arriba y más abajo** → el recorte de ±70 grados del pitch es un
+  **inmediato del código** (`0x428C0000` dentro de `0x001404A8`), no un dato.
+  Sin probar.

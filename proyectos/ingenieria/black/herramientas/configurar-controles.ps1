@@ -17,8 +17,8 @@ param(
     [switch]$Verificar,
     [switch]$Restaurar,
     # Preset del mouse. 'lineal' es el default; los otros estan mas abajo.
-    [ValidateSet('lineal','preciso','rapido','pcsx2')]
-    [string]$Preset = 'lineal',
+    [ValidateSet('mouse','preciso','rapido','lineal','pcsx2')]
+    [string]$Preset = 'mouse',
     # ...o los tres knobs a mano, que pisan al preset.
     [double]$Speed    = -1,
     [double]$DeadZone = -1,
@@ -62,8 +62,10 @@ function Escribir-Sin-BOM([string]$ruta, [string[]]$lineas) {
 # El precio, que es real y hay que saberlo: un manotazo grande sigue girando
 # despues de que el mouse se freno, hasta que el buffer se vacia. Es inevitable
 # -- el juego controla VELOCIDAD de giro con tope, y el mouse manda DISTANCIA.
-# Lo unico que sube el tope es la sensibilidad DENTRO del juego (Options ->
-# Controls), asi que conviene subirla al maximo ahi y bajar Speed aca.
+# CORREGIDO 2026-09-05: lo de arriba decia que el tope solo lo sube la
+# sensibilidad dentro del juego. BLACK no tiene ese ajuste (cero cadenas de
+# 'sensitivity' en el ELF) -- pero SI tiene la constante, y se puede escribir:
+# 0x005A9048 son los grados por segundo horizontales. Ver mods/mira-sensibilidad.
 #
 #   Speed     sensibilidad real (giro por centimetro de mouse). Sube -> mas
 #             giro y mas lag en los manotazos.
@@ -117,10 +119,58 @@ function Escribir-Sin-BOM([string]$ruta, [string[]]$lineas) {
 # usable. Inertia baja = la deuda se descarta rapido (no gira de mas, pero
 # pierde algo del manotazo); alta = se paga entera (lineal, pero gira de mas).
 
+# ---------------------------------------------------------------------------
+# LO QUE CAMBIO EL 2026-09-05, Y POR QUE -- ESTO SE MIDIO, NO SE DEDUJO
+# ---------------------------------------------------------------------------
+# Hasta esta fecha los tres knobs cargaban con TODO el trabajo, porque se creia
+# que la sensibilidad de la mira no se podia tocar. Se podia: BLACK guarda la
+# velocidad de giro como un float editable (0x005A9048 horizontal = 70.0
+# grados/seg, 0x005A904C vertical = 25.0). Confirmado por efecto con control
+# negativo. Ver mods/mira-sensibilidad.toml y herramientas/mira.py.
+#
+# Eso reparte el trabajo donde corresponde y saca a estos knobs de un aprieto:
+#
+#   Inertia = 0   La deuda de PCSX2 era la causa del PISO. Medido: con
+#                 Inertia 25 y DeadZone 5, por debajo de ~16 cuentas por
+#                 sondeo la mira NO SE MOVIA -- exactamente 0.000 grados, y
+#                 seguia en 0.000 aun multiplicando la sensibilidad por 5, o
+#                 sea que era un CERO DURO y no "lento". Sale de la formula:
+#                 `pos -= value` resta el valor CON la zona muerta sumada, asi
+#                 que `pos` queda NEGATIVO, y un eje medio negativo es cero.
+#                 Con Inertia = 0 no queda residuo: cada sondeo entrega
+#                 exactamente lo que entro. No hay piso, y tampoco hay el
+#                 giro-de-mas despues de soltar el mouse que produjo la queja
+#                 de "vueltas enteras". Precio real: lo que pasa de la
+#                 saturacion se descarta, asi que un manotazo muy rapido gira
+#                 de menos. Se compensa con Speed, no con Inertia.
+#
+#   DeadZone = 0  Sin deuda no hay piso que vencer, y un piso solo rompe la
+#                 proporcionalidad justo abajo, que es donde se apunta fino.
+#                 Con Giro = 350, un piso de 10 seria un salto minimo de 35
+#                 grados por segundo: apuntar a una cabeza se volveria
+#                 imposible.
+#
+#   Speed = 6     SATURACION = 2000/Speed = 333 cuentas por sondeo, o sea
+#                 ~20.000 cuentas por segundo (12,5 pulgadas/seg a 1600 DPI).
+#                 Arriba de eso se pierde movimiento (Inertia = 0). Debajo,
+#                 todo entra.
+#
+#   grados por cuenta = Speed * 0.0005 * Giro / 60
+#                 con Speed 6 y Giro 350 -> 0,0175 grados por cuenta
+#                 -> 20.570 cuentas por vuelta -> 32 cm a 1600 DPI.
+#
+# SI TE FALTA SENSIBILIDAD, SUBI EL GIRO, NO EL Speed. Speed alto satura antes
+# y tira movimiento; el Giro no tiene tope aguas abajo:
+#     python herramientas/mira.py sens 500
+# ---------------------------------------------------------------------------
+
 $PRESETS = @{
+    # el default: la sensibilidad la pone el juego (mods/mira-sensibilidad)
+    'mouse'   = @{ Speed =  6; DeadZone =  0; Inertia =  0 }
+    'preciso' = @{ Speed =  3; DeadZone =  0; Inertia =  0 }
+    'rapido'  = @{ Speed = 12; DeadZone =  0; Inertia =  0 }
+    # 'lineal' es lo que habia antes del 2026-09-05, para poder comparar
     'lineal'  = @{ Speed =  5; DeadZone =  5; Inertia = 25 }
-    'preciso' = @{ Speed =  3; DeadZone =  0; Inertia = 10 }
-    'rapido'  = @{ Speed = 12; DeadZone =  8; Inertia = 20 }
     'pcsx2'   = @{ Speed = 40; DeadZone = 20; Inertia = 10 }
 }
 $pre = $PRESETS[$Preset]

@@ -364,10 +364,10 @@
    "tipo": "f32",
    "version": "ntsc_u",
    "estable": true,
-   "confianza": "probable",
+   "confianza": "confirmado",
    "descubierto": "2026-09-05",
    "valor_medido": 3.0,
-   "evidencia": "2026-09-05, en frio. Cadena completa medida sobre el ELF: la funcion 0x0013F3E0 hace cuatro llamadas identicas a la lectora de la ValueDB (0x0027B950) pasandole en a2 el nombre del parametro y en a1 el puntero destino, que vale s3+0xB0, +0xB4, +0xB8 y +0xBC. s3 es su primer argumento, y le llega desde 0x0013BA40 como s1+0x4F0; a 0x0013BA40 la llama 0x0013A1D4 con a0 = s1 de la funcion 0x00139C68. Esa funcion escribe en s1+0x8A0, +0x8A4, +0x8A8, +0x8B1 y +0x8B2, todos dentro del paso de 0x8B0 que kb/campos-jugador.json ya tenia medido para la estructura del jugador, cuya base confirmada es 0x005A8AB0. De ahi: base + 0x4F0 + 0xB0 = 0x005A9050. MEDIDO EN 10 VOLCADOS INDEPENDIENTES (ee-03, ee-06, ee-4b, ee-4b-antes, ee-4b-despues, ee-4b-post, ee-dificultad-pre, ee-e4, ee-nivel-mod0, ee-vivo): los cuatro floats valen lo mismo en los diez, con dos controles positivos que pasan en los diez -- el puntero de clase en +0x10 vale 0x003DC5F8 (es el jugador) y la vida en 0x005A8DA8 VARIA entre volcados (225.5, 437.6, 649.8, 750.0, 998735.0), o sea que son estados de juego distintos y no el mismo bloque repetido. CONTROL CRUZADO NO BUSCADO: 0x005A8DA8 - 0x005A8AB0 = 0x2F8, y kb/estructuras.json#enemigo ya tenia la vida del enemigo en +0x2F8. Jugador y enemigo comparten el offset de vida, lo que confirma la base 0x005A8AB0 por una via independiente.",
+   "evidencia": "2026-09-05, en frio. Cadena completa medida sobre el ELF: la funcion 0x0013F3E0 hace cuatro llamadas identicas a la lectora de la ValueDB (0x0027B950) pasandole en a2 el nombre del parametro y en a1 el puntero destino, que vale s3+0xB0, +0xB4, +0xB8 y +0xBC. s3 es su primer argumento, y le llega desde 0x0013BA40 como s1+0x4F0; a 0x0013BA40 la llama 0x0013A1D4 con a0 = s1 de la funcion 0x00139C68. Esa funcion escribe en s1+0x8A0, +0x8A4, +0x8A8, +0x8B1 y +0x8B2, todos dentro del paso de 0x8B0 que kb/campos-jugador.json ya tenia medido para la estructura del jugador, cuya base confirmada es 0x005A8AB0. De ahi: base + 0x4F0 + 0xB0 = 0x005A9050. MEDIDO EN 10 VOLCADOS INDEPENDIENTES (ee-03, ee-06, ee-4b, ee-4b-antes, ee-4b-despues, ee-4b-post, ee-dificultad-pre, ee-e4, ee-nivel-mod0, ee-vivo): los cuatro floats valen lo mismo en los diez, con dos controles positivos que pasan en los diez -- el puntero de clase en +0x10 vale 0x003DC5F8 (es el jugador) y la vida en 0x005A8DA8 VARIA entre volcados (225.5, 437.6, 649.8, 750.0, 998735.0), o sea que son estados de juego distintos y no el mismo bloque repetido. CONTROL CRUZADO NO BUSCADO: 0x005A8DA8 - 0x005A8AB0 = 0x2F8, y kb/estructuras.json#enemigo ya tenia la vida del enemigo en +0x2F8. Jugador y enemigo comparten el offset de vida, lo que confirma la base 0x005A8AB0 por una via independiente. CONFIRMADO POR EFECTO el 2026-09-05: con el parche puesto (1.0), la curva medida de eje contra grados por segundo es LINEAL con zona muerta -- rate = k*(v-d) con k~155 y d~0.089, ajuste consistente en cinco puntos (v=0.10 -> 1.56 grados/s; 0.15 -> 9.23; 0.25 -> 24.70; 0.55 -> 76.31). Una curva CUBICA habria dado 0.25 -> 0.0156 y 0.55 -> 0.166, o sea una razon de 10.6 entre esos dos puntos; la medida es 3.09, y la lineal-con-zona-muerta predice 2.88. La cubica queda descartada por un factor de tres.",
    "notas": "VALE 3.0: el juego eleva la entrada del stick AL CUBO antes de usarla. stick 0.5 -> 0.125 (ocho veces menos), stick 0.25 -> 0.016 (sesenta y cuatro veces menos), stick 0.1 -> 0.001. Esta es la causa de las dos mitades de la queja del usuario con el mouse, y es UNA SOLA causa: (a) los movimientos lentos casi no mueven la mira -- no es una zona muerta, es la curva; y (b) la respuesta no es lineal, es plana abajo y empinada arriba, asi que pasa de no moverse a irse a fondo. Y explica por que ningun ajuste de PCSX2 lo podia arreglar: PCSX2 entrega un valor lineal y el juego lo cubica DESPUES. Escribir 1.0 lo vuelve lineal. Se registra por NOMBRE contra una base de valores: la lectora 0x0027B950 no escribe el numero, guarda el puntero destino en una tabla (sw s0, 0(s2)) y el valor llega despues. Por eso los nombres estan solo en el ELF y no hay ningun .cfg suelto en el ISO -- se busco 'Controls_PS2' y 'Analogue Control Power' en TODOS los archivos del ISO montado y solo aparecen en SLUS_213.76."
   },
   {
@@ -408,6 +408,71 @@
    "valor_medido": 0.5,
    "evidencia": "2026-09-05, en frio. Cadena completa medida sobre el ELF: la funcion 0x0013F3E0 hace cuatro llamadas identicas a la lectora de la ValueDB (0x0027B950) pasandole en a2 el nombre del parametro y en a1 el puntero destino, que vale s3+0xB0, +0xB4, +0xB8 y +0xBC. s3 es su primer argumento, y le llega desde 0x0013BA40 como s1+0x4F0; a 0x0013BA40 la llama 0x0013A1D4 con a0 = s1 de la funcion 0x00139C68. Esa funcion escribe en s1+0x8A0, +0x8A4, +0x8A8, +0x8B1 y +0x8B2, todos dentro del paso de 0x8B0 que kb/campos-jugador.json ya tenia medido para la estructura del jugador, cuya base confirmada es 0x005A8AB0. De ahi: base + 0x4F0 + 0xB0 = 0x005A9050. MEDIDO EN 10 VOLCADOS INDEPENDIENTES (ee-03, ee-06, ee-4b, ee-4b-antes, ee-4b-despues, ee-4b-post, ee-dificultad-pre, ee-e4, ee-nivel-mod0, ee-vivo): los cuatro floats valen lo mismo en los diez, con dos controles positivos que pasan en los diez -- el puntero de clase en +0x10 vale 0x003DC5F8 (es el jugador) y la vida en 0x005A8DA8 VARIA entre volcados (225.5, 437.6, 649.8, 750.0, 998735.0), o sea que son estados de juego distintos y no el mismo bloque repetido. CONTROL CRUZADO NO BUSCADO: 0x005A8DA8 - 0x005A8AB0 = 0x2F8, y kb/estructuras.json#enemigo ya tenia la vida del enemigo en +0x2F8. Jugador y enemigo comparten el offset de vida, lo que confirma la base 0x005A8AB0 por una via independiente.",
    "notas": "VALE 0.5. HIPOTESIS por el nombre: la velocidad a la que sube max_hold_modifier. SIN CONFIRMAR POR EFECTO. Se registra por NOMBRE contra una base de valores: la lectora 0x0027B950 no escribe el numero, guarda el puntero destino en una tabla (sw s0, 0(s2)) y el valor llega despues. Por eso los nombres estan solo en el ELF y no hay ningun .cfg suelto en el ISO -- se busco 'Controls_PS2' y 'Analogue Control Power' en TODOS los archivos del ISO montado y solo aparecen en SLUS_213.76."
+  },
+  {
+   "id": "objeto_controles",
+   "nombre": "Objeto de controles / camara del jugador (base)",
+   "direccion": "0x005A8FA0",
+   "tipo": "ptr",
+   "version": "ntsc_u",
+   "estable": true,
+   "confianza": "confirmado",
+   "descubierto": "2026-09-05",
+   "valor_medido": null,
+   "evidencia": "2026-09-05, EN VIVO sobre PCSX2 2.8.0 con el juego corriendo (LEVEL_02). La cadena en frio: FUN_001404a8 (0x001404A8) es la funcion de mira COMPLETA, y su ultimo tramo es literalmente `yaw += eje_x_suavizado * obj[0xA8] * dt * factor_zoom` y `pitch += eje_y_suavizado * obj[0xAC] * dt * factor_zoom`. Se llego a ella por el eje que discrimina y no por barrido: se buscaron los LECTORES del Analogue Control Power. Como el objeto de controles es jugador+0x4F0, el parametro esta en obj+0xB8, y `barrer.py off 0xB8 --solo load` restringido a 0x00130000-0x00150000 dio DOS lwc1 contiguos (0x00140638 y 0x00140670) -- X e Y de la mira -- entre 25 candidatos, todos los demas lw enteros. La base del objeto queda en 0x005A8AB0+0x4F0 = 0x005A8FA0, y eso se confirma por TRES vias independientes: (1) obj+0xB0..0xBC caen exactamente en los cuatro parametros de ValueDB ya medidos en diez volcados; (2) obj+0x7C, que la decompilacion usa como puntero a la estructura con +0x2AC, vale 0x005A8AB0, que es la base del jugador; (3) el diferencial de busqueda del yaw habia marcado 0x005A8FA0 y 0x005A8FA8 con el MISMO valor que 0x005A8DA0, que es lo que predice la ultima linea de la funcion (`*param_3 = uVar3`, o sea obj+0x00 recibe el yaw de obj+0x08).",
+   "notas": "Es jugador(0x005A8AB0) + 0x4F0. Layout medido: +0x00 y +0x08 yaw en grados, +0x0C pitch en grados (recortado a +-70 por codigo), +0x7C puntero al jugador, +0x90/+0x94 ejes Y/X suavizados, +0xA8/+0xAC velocidad de giro X/Y en grados por segundo, +0xB0..+0xBC los cuatro parametros de ValueDB, +0xC0/+0xC4 acumuladores de la aceleracion por mantener."
+  },
+  {
+   "id": "yaw_camara",
+   "nombre": "Yaw (giro horizontal) de la camara, en GRADOS",
+   "direccion": "0x005A8DA0",
+   "tipo": "f32",
+   "version": "ntsc_u",
+   "estable": true,
+   "confianza": "confirmado",
+   "descubierto": "2026-09-05",
+   "valor_medido": 46.0434,
+   "evidencia": "2026-09-05. Diferencial CON CONTROL DE RUIDO sobre 0x00500000-0x00680000: foto, 1.5 s sin tocar nada, foto (4757 palabras cambian solas), y despues foto / inyeccion de +2000 cuentas de mouse / foto. Candidato = cambia con input y NO cambia solo. Segundo control: inyectar -2000 y exigir que VUELVA. CONTROL CRUZADO NO BUSCADO: en 0x005A8B20 y 0x005A8B28 hay un par (0.69411, -0.71987) cuyo atan2 da 46.05 grados, el mismo valor; despues de girar da (0.79635, -0.60484) -> 37.22, contra 37.21717 medido. Son el coseno y el seno del mismo angulo. Ademas 0x005A8DA0 esta 8 bytes antes de la vida del jugador (0x005A8DA8), o sea adentro de la estructura del jugador ya confirmada.",
+   "notas": "Se lee con `python herramientas/mira.py yaw`, que imprime tambien el control cruzado del atan2. Envuelve en +-180. Es la SALIDA del lazo de medicion de la mira."
+  },
+  {
+   "id": "giro_horizontal",
+   "nombre": "VELOCIDAD DE GIRO horizontal de la mira, en grados por segundo",
+   "direccion": "0x005A9048",
+   "tipo": "f32",
+   "version": "ntsc_u",
+   "estable": true,
+   "confianza": "confirmado",
+   "descubierto": "2026-09-05",
+   "valor_medido": 70.0,
+   "evidencia": "2026-09-05, EN VIVO sobre PCSX2 2.8.0 con el juego corriendo (LEVEL_02). La cadena en frio: FUN_001404a8 (0x001404A8) es la funcion de mira COMPLETA, y su ultimo tramo es literalmente `yaw += eje_x_suavizado * obj[0xA8] * dt * factor_zoom` y `pitch += eje_y_suavizado * obj[0xAC] * dt * factor_zoom`. Se llego a ella por el eje que discrimina y no por barrido: se buscaron los LECTORES del Analogue Control Power. Como el objeto de controles es jugador+0x4F0, el parametro esta en obj+0xB8, y `barrer.py off 0xB8 --solo load` restringido a 0x00130000-0x00150000 dio DOS lwc1 contiguos (0x00140638 y 0x00140670) -- X e Y de la mira -- entre 25 candidatos, todos los demas lw enteros. La base del objeto queda en 0x005A8AB0+0x4F0 = 0x005A8FA0, y eso se confirma por TRES vias independientes: (1) obj+0xB0..0xBC caen exactamente en los cuatro parametros de ValueDB ya medidos en diez volcados; (2) obj+0x7C, que la decompilacion usa como puntero a la estructura con +0x2AC, vale 0x005A8AB0, que es la base del jugador; (3) el diferencial de busqueda del yaw habia marcado 0x005A8FA0 y 0x005A8FA8 con el MISMO valor que 0x005A8DA0, que es lo que predice la ultima linea de la funcion (`*param_3 = uVar3`, o sea obj+0x00 recibe el yaw de obj+0x08). CONFIRMADO POR EFECTO CON CONTROL NEGATIVO: escribiendo 210.0 (x3) la velocidad medida paso de 87.7 a 264.4 grados/s -- factor 3.01 -- y al volver a 70.0 dio 88.3, o sea que es reversible. EL CONTROL: en las tres corridas el eje VERTICAL se midio en 25.7 / 25.7 / 25.8 grados/s, sin moverse. Un cambio que mueve exactamente el eje que se toco y deja quieto el otro no es una coincidencia.",
+   "notas": "ESTA ES LA SENSIBILIDAD DE MIRA DE BLACK, y el juego no la expone en ningun menu: no hay ninguna cadena 'sensitivity' en el ELF. Ningun ajuste de PCSX2 la toca, porque el emulador entrega un eje de 0 a 1 y los grados por segundo los pone el juego. Con 70.0 hacen falta ~5 s para una vuelta completa, que a 1600 DPI son casi DOS METROS de mousepad por vuelta -- esa es la causa medida de la queja 'muevo el mouse y la mira casi no se mueve'. Se cambia en vivo con `python herramientas/mira.py sens 350` y en forma persistente con mods/mira-sensibilidad.toml."
+  },
+  {
+   "id": "giro_vertical",
+   "nombre": "VELOCIDAD DE GIRO vertical de la mira, en grados por segundo",
+   "direccion": "0x005A904C",
+   "tipo": "f32",
+   "version": "ntsc_u",
+   "estable": true,
+   "confianza": "confirmado",
+   "descubierto": "2026-09-05",
+   "valor_medido": 25.0,
+   "evidencia": "2026-09-05, EN VIVO sobre PCSX2 2.8.0 con el juego corriendo (LEVEL_02). La cadena en frio: FUN_001404a8 (0x001404A8) es la funcion de mira COMPLETA, y su ultimo tramo es literalmente `yaw += eje_x_suavizado * obj[0xA8] * dt * factor_zoom` y `pitch += eje_y_suavizado * obj[0xAC] * dt * factor_zoom`. Se llego a ella por el eje que discrimina y no por barrido: se buscaron los LECTORES del Analogue Control Power. Como el objeto de controles es jugador+0x4F0, el parametro esta en obj+0xB8, y `barrer.py off 0xB8 --solo load` restringido a 0x00130000-0x00150000 dio DOS lwc1 contiguos (0x00140638 y 0x00140670) -- X e Y de la mira -- entre 25 candidatos, todos los demas lw enteros. La base del objeto queda en 0x005A8AB0+0x4F0 = 0x005A8FA0, y eso se confirma por TRES vias independientes: (1) obj+0xB0..0xBC caen exactamente en los cuatro parametros de ValueDB ya medidos en diez volcados; (2) obj+0x7C, que la decompilacion usa como puntero a la estructura con +0x2AC, vale 0x005A8AB0, que es la base del jugador; (3) el diferencial de busqueda del yaw habia marcado 0x005A8FA0 y 0x005A8FA8 con el MISMO valor que 0x005A8DA0, que es lo que predice la ultima linea de la funcion (`*param_3 = uVar3`, o sea obj+0x00 recibe el yaw de obj+0x08). Medido en vivo: con el valor de fabrica 25.0, el pitch se movio a 25.7 grados/s, y quedo igual (25.7 / 25.8) mientras el horizontal se triplicaba -- o sea que sirvio de control negativo del experimento del horizontal y a la vez quedo calibrado el mismo.",
+   "notas": "De fabrica el vertical es 2.8 veces mas lento que el horizontal (25 contra 70). Con un mando eso se justifica; con mouse no, porque PCSX2 manda la misma escala en los dos ejes. mods/mira-sensibilidad.toml lo iguala al horizontal a proposito."
+  },
+  {
+   "id": "pitch_camara",
+   "nombre": "Pitch (giro vertical) de la camara, en GRADOS",
+   "direccion": "0x005A8FAC",
+   "tipo": "f32",
+   "version": "ntsc_u",
+   "estable": true,
+   "confianza": "probable",
+   "descubierto": "2026-09-05",
+   "valor_medido": 5.53,
+   "evidencia": "2026-09-05, EN VIVO sobre PCSX2 2.8.0 con el juego corriendo (LEVEL_02). La cadena en frio: FUN_001404a8 (0x001404A8) es la funcion de mira COMPLETA, y su ultimo tramo es literalmente `yaw += eje_x_suavizado * obj[0xA8] * dt * factor_zoom` y `pitch += eje_y_suavizado * obj[0xAC] * dt * factor_zoom`. Se llego a ella por el eje que discrimina y no por barrido: se buscaron los LECTORES del Analogue Control Power. Como el objeto de controles es jugador+0x4F0, el parametro esta en obj+0xB8, y `barrer.py off 0xB8 --solo load` restringido a 0x00130000-0x00150000 dio DOS lwc1 contiguos (0x00140638 y 0x00140670) -- X e Y de la mira -- entre 25 candidatos, todos los demas lw enteros. La base del objeto queda en 0x005A8AB0+0x4F0 = 0x005A8FA0, y eso se confirma por TRES vias independientes: (1) obj+0xB0..0xBC caen exactamente en los cuatro parametros de ValueDB ya medidos en diez volcados; (2) obj+0x7C, que la decompilacion usa como puntero a la estructura con +0x2AC, vale 0x005A8AB0, que es la base del jugador; (3) el diferencial de busqueda del yaw habia marcado 0x005A8FA0 y 0x005A8FA8 con el MISMO valor que 0x005A8DA0, que es lo que predice la ultima linea de la funcion (`*param_3 = uVar3`, o sea obj+0x00 recibe el yaw de obj+0x08). Es obj+0x0C. Se lo vio moverse con inyeccion de mouse en el eje Y y quedarse quieto con inyeccion en X.",
+   "notas": "LA FUNCION LO RECORTA A +-70 GRADOS con dos constantes INMEDIATAS del codigo (0x428C0000 = 70.0f), no con un dato: `if (70.0 < v) v = 70.0; if (v < -70.0) v = -70.0`. Subir ese limite para poder mirar mas arriba y mas abajo es un parche de CODIGO, no de dato. Sin medir si el juego aguanta angulos mayores."
   }
  ]
 }

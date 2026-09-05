@@ -17,7 +17,19 @@
 # Sin acentos a proposito: la consola de Windows lee cp1252.
 
 [CmdletBinding()]
-param([switch]$Listar)   # -Listar: imprime el estado y sale, sin menu (para verificar)
+param(
+    # -Listar: imprime el estado y sale, sin menu (para verificar)
+    [switch]$Listar,
+    # -Prender / -Apagar: modo NO interactivo, para que la sesion pueda operar
+    # sola. El menu con Read-Host necesita a alguien tecleando, y eso convertia
+    # cualquier cambio de parche en un "hace vos" -- que es justo lo que el
+    # cuadro PARA VOS no debe llevar cuando la sesion puede hacerlo.
+    # Aceptan el nombre exacto de la seccion o una subcadena, sin distinguir
+    # mayusculas. Si una subcadena matchea mas de una, ABORTA y las lista:
+    # apagar el parche equivocado en silencio es peor que no hacer nada.
+    [string[]]$Prender = @(),
+    [string[]]$Apagar  = @()
+)
 
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -114,7 +126,29 @@ function Guardar-Prendidos($lista) {
     Escribir-Sin-BOM $iniJuego @($txt)
 }
 
-# --- 3. el menu -----------------------------------------------------------
+# --- 3a. modo no interactivo ----------------------------------------------
+if ($Prender.Count -or $Apagar.Count) {
+    $on = @(Prendidos)
+    function Resolver([string]$patron) {
+        $exacto = @($secciones | Where-Object { $_ -eq $patron })
+        if ($exacto.Count -eq 1) { return $exacto[0] }
+        $m = @($secciones | Where-Object { $_ -like "*$patron*" })
+        if ($m.Count -eq 0) { throw "No hay ningun parche que matchee '$patron'." }
+        if ($m.Count -gt 1) { throw "'$patron' matchea $($m.Count): $($m -join ' | '). Se precisa uno solo." }
+        return $m[0]
+    }
+    foreach ($n in $Apagar)  { $s = Resolver $n; $on = @($on | Where-Object { $_ -ne $s }); Write-Output "  apagado : $s" }
+    foreach ($n in $Prender) { $s = Resolver $n; if ($on -notcontains $s) { $on = @($on) + $s }; Write-Output "  prendido: $s" }
+    Guardar-Prendidos $on
+    # VERIFICA POR EFECTO: relee el ini del disco, no confia en la variable.
+    $tras = @(Prendidos)
+    foreach ($n in $Prender) { $s = Resolver $n; if ($tras -notcontains $s) { throw "NO quedo prendido en el ini: $s" } }
+    foreach ($n in $Apagar)  { $s = Resolver $n; if ($tras -contains $s)    { throw "NO quedo apagado en el ini: $s" } }
+    Write-Output "  verificado contra el ini: $($tras.Count) parche(s) prendido(s)."
+    exit 0
+}
+
+# --- 3b. el menu ----------------------------------------------------------
 if ($Listar) {
     $on = @(Prendidos)
     Write-Output "pnach unificado: $destPnach"
