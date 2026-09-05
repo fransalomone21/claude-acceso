@@ -379,6 +379,8 @@ que queda para verificar jugando.
 | `PointerInertia` | 25 | **0** | sin deuda no hay giro-de-más después de soltar el mouse |
 | **GiroX** | 70 | **350** | ×5 — 0,0175 grados por cuenta ≈ 32 cm por vuelta a 1600 DPI |
 | **GiroY** | 25 | **350** | igualado al horizontal: con mouse la escala de los dos ejes es la misma |
+| **zona muerta del JUEGO** | 0,1 | **0** | `mods/zona-muerta-cero.toml`. Era el piso: ~33 cuentas/sondeo, ~3 cm/s de mouse. No es del emulador |
+| **auto-apuntado** | on | **off** | `mods/auto-apuntado.toml`. Cono de 5,7° y 30 unidades; con Giro 350 dejó de estar tapado y se siente como un tirón |
 
 Y **la aceleración de puntero de Windows quedó APAGADA**
 (`herramientas/aceleracion-mouse.ps1`), porque PCSX2 no lee el mouse crudo sino

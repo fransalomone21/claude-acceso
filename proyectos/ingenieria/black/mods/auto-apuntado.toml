@@ -1,0 +1,72 @@
+# Auto-apuntado apagado — la asistencia de puntería de BLACK, que no aparece
+# en ningún menú del juego.
+#
+# QUÉ ES, MEDIDO EN FRÍO SOBRE EL ELF (2026-09-05)
+#
+# Cada frame, `FUN_0013f618` (el lector de controles) hace TRES cosas seguidas,
+# en este orden, justo antes de mover la cámara:
+#
+#     obj[0x9C] = 0                                    // olvida el blanco
+#     FUN_0012bb60(30.0, 3.0, ..., FUN_001409c0)       // BUSCA un blanco
+#     FUN_001407c8(obj, &eje_x, &eje_y)                // CORRIGE la mira
+#     FUN_001404a8(eje_x, eje_y, obj)                  // y recién ahí gira
+#
+# `FUN_0012bb60` recorre las entidades vivas y, por cada una, ONCE puntos
+# (0..0xB — son los huesos). Para cada punto proyecta sobre la dirección de
+# apuntado y se queda con los que caen dentro de un CONO:
+#
+#     0 < t < 30.0                       el blanco está adelante y a menos de 30
+#     dist_perpendicular² < (3.0·t/30)²  y dentro de un cono que se ABRE con t
+#
+# o sea un cono de medio ángulo atan(3/30) ≈ 5,7 grados. `FUN_001409c0` se
+# queda con el candidato de menor `t` y lo guarda en `obj[0x9C]`, con su
+# distancia en `obj[0xA4]`.
+#
+# `FUN_001407c8` es el que corrige. Su primera línea es `lw a0,0x9c(s0)` y si
+# eso da cero se va derecho al epílogo. Si hay blanco, calcula
+#
+#     fuerza = (1 - distancia/30)² · 0.2      recorte por eje a ±3.5
+#
+# y se lo SUMA a `obj[0x90]` y `obj[0x94]`, que es la corrección angular que
+# después consume la mira. Cuadrática: pega mucho más de cerca que de lejos.
+#
+# POR QUÉ EMPEORÓ AL SUBIR LA SENSIBILIDAD. La asistencia suma grados; no
+# escala con `GiroX`. Con 70 grados/segundo su aporte era una fracción chica
+# de lo que hacía la mano; con 350 la mano llega antes, la asistencia sigue
+# valiendo lo mismo, y se nota como un tirón. No es que se haya vuelto más
+# fuerte: es que dejó de estar tapada.
+#
+# CÓMO SE APAGA, Y POR QUÉ ASÍ. Se pisa la lectura del blanco —una palabra—
+# por `li a0, 0`. Entonces el `beql a0,zero` de la línea siguiente salta
+# SIEMPRE al epílogo, que restaura s0/ra/f20 y devuelve el `sp`: la pila queda
+# balanceada por el propio epílogo de la función, sin inventar un retorno.
+#
+# Lo que NO se toca, a propósito: la BÚSQUEDA de blanco sigue corriendo y
+# `obj[0x9C]` se sigue llenando. Si algo más lo lee —el HUD, el sonido, la
+# IA— sigue viéndolo. Se apaga la corrección, no el sistema. (Regla 6:
+# cambios mínimos.)
+#
+# CÓMO SE FALSEA. Si con esto prendido la mira SIGUE pegándose a los enemigos
+# al pasarles cerca, entonces `FUN_001407c8` no es la asistencia, o hay una
+# segunda. El control negativo es el mismo mod al revés: apagarlo y sentir que
+# el tirón vuelve. Los dos los decide la mano, no una medición sintética.
+#
+# SI EN VEZ DE APAGARLA QUERÉS BAJARLA (las dos SIN PROBAR):
+#     0x0013FCE4  lui at,0x41F0  = 30.0  -> el ALCANCE. 0x4170 = 15.0 (mitad)
+#     0x0013FCFC  lui at,0x4040  =  3.0  -> el ANCHO del cono. 0x3FC0 = 1.5
+# Son instrucciones, no datos: ahí va la mitad alta del float, no el float.
+
+nombre = "Auto-apuntado apagado"
+autor = "proyecto BLACK"
+descripcion = "Apaga la asistencia de punteria de BLACK: un cono de 5,7 grados y 30 unidades que arrastra la mira hacia el enemigo mas cercano con fuerza (1-d/30)^2*0.2. Leido en frio del ELF, SIN confirmar por efecto todavia."
+habilitado = true
+
+# continuo y no arranque: es un parche de CODIGO, y un savestate viejo trae la
+# RAM sin parchear. Con `arranque` el mod se caeria justo al cargar el slot 11.
+cuando = "continuo"
+
+[[parche]]
+direccion = 0x001407DC
+tipo = "word"
+valor = 0x24040000
+nota = "En FUN_001407c8 (la asistencia): 'lw a0,0x9c(s0)' -> 'li a0,0'. El blanco pasa a valer cero siempre, el beql de 0x001407E0 salta siempre al epilogo de 0x001409B0 (ld ra / lwc1 f20 / jr ra / addiu sp,sp,0x90) y la funcion no corrige nada. Original: 0x8E04009C."

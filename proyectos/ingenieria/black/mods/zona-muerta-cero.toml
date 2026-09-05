@@ -1,0 +1,104 @@
+# Zona muerta del pad a cero — el PISO de la mira, encontrado y medido.
+#
+# EL SÍNTOMA. Moviendo el mouse despacio —lo que uno hace para corregir la
+# puntería sobre algo lejano— la mira no se mueve **nada**. No "poco": cero.
+# Pasando cierta velocidad, arranca. Fran lo reportó jugando el 2026-09-05, y
+# antes de eso el inyector lo había visto sin poder decidir si era del
+# instrumento.
+#
+# POR QUÉ NINGÚN AJUSTE DEL EMULADOR LO MOVÍA. Se probaron cinco: `DeadZone`,
+# `Inertia`, `Speed`, la sensibilidad de la mira y la aceleración de puntero de
+# Windows. Ninguna lo tocó, y con razón: **la zona muerta es del JUEGO**, y
+# está aguas arriba de todo lo que el emulador puede ofrecer.
+#
+# DÓNDE VIVE, LEÍDO DEL ELF
+#
+# `FUN_0026ba20` (0x0026BA20) es el constructor del dispositivo de pad, y
+# escribe tres pares (techo, piso) idénticos:
+#
+#     obj+0xD0 = 0.9   obj+0xD4 = 0.1
+#     obj+0xD8 = 0.9   obj+0xDC = 0.1
+#     obj+0xE0 = 0.9   obj+0xE4 = 0.1
+#
+# `FUN_0026bf60` (0x0026BF60) es la curva que los consume, y usa **sólo el
+# tercer par** (`+0xE0` / `+0xE4`):
+#
+#     techo = obj[0xE0]                    // 0.9
+#     zm    = obj[0xE4] + extra            // 0.1 + el extra por eje (obj[0xC8])
+#     v = recorta(v, ±techo)
+#     v = v - signo(v)·zm ; si cruzó el cero, v = 0
+#     return v / (techo - zm)
+#
+# Con `PointerXSpeed = 6` cada cuenta de mouse vale 0,003 de eje, así que la
+# zona muerta de 0,1 son **~33 cuentas por sondeo**: a 60 fps y 1600 DPI, unos
+# **3 cm/s de mouse**. Más lento que eso, el juego ve cero exacto.
+#
+# CONFIRMADO POR EFECTO, DOS VECES Y CON CONTROL NEGATIVO (2026-09-05)
+#
+# Inyectando 1200 cuentas repartidas en pasos fijos y midiendo el yaw
+# (`0x005A8DA0`):
+#
+# | cuentas/sondeo | zm = 0,1 (fábrica) | zm = 0 | vuelta a 0,1 |
+# |---|---|---|---|
+# | 4  | +0,000 | −0,065 | +0,000 |
+# | 8  | +0,000 | −8,45  | +0,000 |
+# | 16 | +0,000 | −12,45 | +0,000 |
+# | 24 | +0,000 | −12,64 | +0,000 |
+#
+# Ceros **exactos** en las dos columnas de 0,1, y movimiento en la del medio.
+# La medición se hizo por DOS caminos independientes que dieron lo mismo:
+# escribiendo 0.0 en `obj+0xE4` del heap, y con el parche de código de acá
+# abajo (−8,37 contra −8,45 a 8 cuentas). Dos intervenciones distintas sobre la
+# misma hipótesis, el mismo efecto, y el piso vuelve al restaurar.
+#
+# POR QUÉ SE PARCHEA LA CURVA Y NO EL CONSTRUCTOR. El constructor corre UNA vez,
+# al arrancar. Un savestate viejo trae el 0,1 ya escrito en el heap, así que
+# parchear el constructor no serviría justo en el caso que Fran usa. Parchear la
+# curva es código: se reaplica cada frame y sobrevive a cargar un savestate. Y
+# no depende de ninguna dirección del heap, que puede moverse entre corridas.
+#
+# EL EXTRA POR EJE (`obj+0xC8`) SE DEJA VIVO. El parche pone en cero sólo la
+# zona muerta BASE, que es exactamente lo que se midió. `mov.S f0,f2` deja que
+# el `add.S f0,f0,f13` de la línea siguiente siga sumando el extra.
+#
+# SE USA `mov.S f0,f2` Y NO `mtc1 zero,f0` A PROPÓSITO: `f2` ya vale 0.0 en toda
+# la función (`FUN_0026bf60` arranca con `mtc1 zero,f2` y nadie más lo escribe),
+# y así el cero llega por una operación de FPU, sin el hueco de latencia que
+# tiene un movimiento de GPR a COP1 seguido de un `add.S` inmediato.
+#
+# LA GANANCIA NO CAMBIA ARRIBA. El reescalado pasa de `1/(0,9−0,1)` a
+# `1/(0,9−0)`: el tope sigue dando 1.0 con el eje a fondo, el medio queda ~11 %
+# más rápido y el fondo de escala deja de estar amputado. No hace falta
+# retocar `mira-sensibilidad.toml`.
+#
+# EL COSTO, Y CUÁNDO IMPORTA. Una zona muerta existe para que un stick analógico
+# gastado no haga girar la cámara solo. Con mouse eso no pasa. **Si alguna vez
+# jugás con el joystick (`Pad2` es un SDL) y la cámara deriva sola, el arreglo
+# NO es sacar este mod: es poner `Deadzone` en el `[Pad2]` de PCSX2**, que es
+# donde el emulador sí sabe qué dispositivo hay del otro lado.
+#
+# CÓMO SE FALSEA: si con esto prendido la mira sigue sin moverse a velocidad
+# baja, entonces `FUN_0026bf60` no es el único filtro del camino. Se mide con
+# `python herramientas/mira.py curva --total 1200 --pasos 4 8 16 --speed 6`:
+# tiene que dar distinto de cero en las tres filas.
+
+nombre = "Zona muerta del pad a cero"
+autor = "proyecto BLACK"
+descripcion = "Saca el piso de la mira. BLACK aplica una zona muerta de 0.1 al eje analogico dentro de FUN_0026bf60, que con PointerXSpeed 6 son ~33 cuentas de mouse por sondeo: moviendo despacio la mira no se mueve nada. Confirmado por efecto por dos vias independientes y con control negativo el 2026-09-05."
+habilitado = true
+
+# continuo: es codigo, y tiene que sobrevivir a cargar un savestate -- que trae
+# la RAM sin parchear.
+cuando = "continuo"
+
+[[parche]]
+direccion = 0x0026BF88
+tipo = "word"
+valor = 0x46001006
+nota = "Rama del eje POSITIVO de FUN_0026bf60: 'lwc1 f0,0xe4(a0)' -> 'mov.S f0,f2'. Carga 0.0 en vez de la zona muerta de 0.1. Original: 0xC48000E4."
+
+[[parche]]
+direccion = 0x0026BFB4
+tipo = "word"
+valor = 0x46001006
+nota = "Rama del eje NEGATIVO, misma sustitucion. Las dos ramas hacen falta: si se parchea una sola, la mira tiene piso para un lado y no para el otro. Original: 0xC48000E4."

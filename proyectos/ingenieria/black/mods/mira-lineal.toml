@@ -30,7 +30,7 @@
 nombre = "Mira lineal - exponente del stick a 1.0"
 autor = "proyecto BLACK"
 descripcion = "BLACK eleva el stick al cubo (Analogue Control Power = 3.0). Con 1.0 la respuesta es lineal: los movimientos lentos del mouse mueven la mira en proporcion, y deja de sentirse de todo-o-nada. Medido en 10 volcados, SIN confirmar por efecto todavia."
-habilitado = false
+habilitado = true
 
 # continuo y no arranque: el valor no es codigo estatico, lo escribe el sistema
 # de ValueDB del juego sobre la estructura del jugador, y puede reescribirlo al

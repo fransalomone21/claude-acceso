@@ -342,7 +342,7 @@ N2  FASES DEL JUEGO
         y los requisitos contra los que se valida, en `docs/00-conops.md`.
 
 JUGABILIDAD (teclado, mouse, parches, 60 FPS) — línea aparte, no toca 7e
-     J1  que BLACK se juegue bien con teclado y mouse ...... CASI CERRADA
+     J1  que BLACK se juegue bien con teclado y mouse ...... CERRADA 2026-09-05
          **2026-09-05 — apareció la sensibilidad de mira, y es un DATO.**
          `FUN_001404a8` (`0x001404A8`) es la función de mira entera; su último
          tramo es `yaw += eje_suavizado * obj[0xA8] * dt * factor_zoom`, con
@@ -370,13 +370,32 @@ JUGABILIDAD (teclado, mouse, parches, 60 FPS) — línea aparte, no toca 7e
          Aceleración de puntero de Windows **apagada**
          (`herramientas/aceleracion-mouse.ps1 -Restaurar` la devuelve).
 
-         **Lo único que falta para cerrar J1:** que Fran juegue y diga si el
-         **piso** existe con un mouse real. Medido: hay un umbral por debajo
-         del cual la mira no se mueve nada, y no se movió al variar `DeadZone`,
-         `Inertia`, `Speed`, la sensibilidad ni la aceleración de Windows —
-         cinco variables sin efecto. Pero el inyector manda ráfagas con huecos
-         y un mouse real manda movimiento continuo: **puede ser del
-         instrumento**, y eso no lo decide otra medición sintética.
+         **EL PISO ERA REAL, Y YA ESTÁ RESUELTO (2026-09-05, mañana).**
+         Fran jugó y lo confirmó con la mano; el inyector quedó absuelto. La
+         causa **no era del emulador**, y por eso las cinco variables que se
+         habían probado (`DeadZone`, `Inertia`, `Speed`, la sensibilidad, la
+         aceleración de Windows) no lo movieron: es una **zona muerta de 0.1
+         del propio juego**, en `FUN_0026bf60` (`0x0026BF60`), aguas arriba de
+         todo lo que PCSX2 puede ofrecer. Con `PointerXSpeed = 6` son ~33
+         cuentas de mouse por sondeo, o sea ~3 cm/s: más lento que eso, el
+         juego ve **cero exacto**.
+
+         Confirmado por efecto con control negativo y por **dos vías
+         independientes** —escribiendo el heap y parcheando el código— que
+         coinciden al décimo de grado. `mods/zona-muerta-cero.toml`, dos
+         palabras. Detalle en `kb/rutinas.json#pad_zona_muerta`.
+
+         **Y el auto-apuntado apareció de paso, porque la sensibilidad nueva lo
+         destapó.** `FUN_001407c8` arrastra la mira hacia el enemigo más
+         cercano dentro de un cono de 5,7 grados y 30 unidades, con fuerza
+         `(1−d/30)²·0.2`. Se apaga con **una palabra**:
+         `mods/auto-apuntado.toml`. Los dos mods verificados en RAM después de
+         reiniciar el emulador y cargar el savestate del slot 11 — 4/4,
+         incluida la palabra vecina intacta como control.
+
+         **Lo único que queda de J1 es opinión, no medición:** si a Fran el
+         cono le gustaba y prefiere bajarlo en vez de apagarlo, las dos
+         constantes están en `kb/rutinas.json#auto_apuntado_buscar`.
 
          Instrumental nuevo: `herramientas/mira.py` (lee el yaw de la cámara en
          `0x005A8DA0`, en grados; mide la curva; cambia la sensibilidad en

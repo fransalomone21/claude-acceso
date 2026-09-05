@@ -14,14 +14,133 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 - **BLACK Remaster / DLSS5** (sección **8**) — el pipeline está instalado y
   **corre**; R2(a) cerrada. Lo del 2026-09-05 está en el bloque **B** de abajo,
   y corrige el modelo de cuello de botella de 8.18/8.20.
-- **Jugabilidad** (sección **9**) — la sensibilidad de mira apareció y está
-  confirmada por efecto. Bloque **A** de abajo.
+- **Jugabilidad** (sección **9**) — **CERRADA el 2026-09-05 a la mañana**: el
+  piso de la mira era una zona muerta del JUEGO, y el auto-apuntado apareció y
+  quedó apagado. Bloque de arriba, puntos 1 y 2. (El bloque **A**, de la
+  madrugada, es la sensibilidad y sigue valiendo.)
 - **Niveles y formatos del ISO** (nueva, 2026-09-05) — armas por nivel y
   stream de módulos, los dos editables en frío. Bloque **C**.
 
 Si retomás 7e: secciones 1-7. Si retomás el Remaster: sección 8 y el bloque B.
 Si retomás jugabilidad: bloque A y `docs/10-jugar.md`. Si retomás niveles o
 geometría: bloques C y D, y `kb/formatos-iso.json`.
+
+---
+
+# SESION DEL 2026-09-05 (MAÑANA) - LEER ESTO PRIMERO
+
+Dos pedidos de Fran, los dos cerrados y verificados por efecto. **La linea de
+jugabilidad (J1) queda CERRADA.**
+
+## 1. EL AUTO-APUNTADO: encontrado y apagado, con UNA palabra
+
+BLACK tiene asistencia de punteria y no la expone en ningun menu. Cada frame,
+`FUN_0013f618` hace tres cosas antes de mover la camara:
+
+    obj[0x9C] = 0
+    FUN_0012bb60(30.0, 3.0, ..., FUN_001409c0)   <- BUSCA blanco en un CONO
+    FUN_001407c8(obj, &ejeX, &ejeY)              <- CORRIGE la mira
+    FUN_001404a8(ejeX, ejeY, obj)                <- recien ahi gira
+
+El cono tiene medio angulo `atan(3/30)` = **5,7 grados** y 30 unidades de
+alcance, y se prueba contra **once puntos por entidad** (los huesos). La fuerza
+es `(1 - distancia/30)^2 * 0.2`, recortada a +-3.5 por eje.
+
+**Por que empeoro al subir la sensibilidad:** la asistencia suma GRADOS y no
+escala con `GiroX`. Con 70 grados/s su aporte quedaba tapado por la mano; con
+350 la mano llega antes y el mismo aporte se siente como un tiron.
+
+**El parche:** `0x001407DC`, `lw a0,0x9c(s0)` -> `li a0,0`. El blanco vale
+siempre cero, el `beql` de la linea siguiente salta siempre al epilogo, la pila
+la cierra el propio epilogo. La BUSQUEDA sigue viva: lo que lea `obj+0x9C` no
+se entera. `mods/auto-apuntado.toml`.
+
+## 2. EL PISO DE LA MIRA: era una ZONA MUERTA DEL JUEGO, no del emulador
+
+Fran lo confirmo jugando: moviendo el mouse despacio la mira no se mueve nada.
+Eso absolvio al inyector, que era lo unico que quedaba abierto de J1.
+
+**La causa esta en `FUN_0026bf60` (`0x0026BF60`)**, la curva de zona muerta del
+eje analogico del juego:
+
+    techo = obj[0xE0]              // 0.9
+    zm    = obj[0xE4] + extra      // 0.1 + obj[0xC8]
+    v = recorta(v, +-techo)
+    v = v - signo(v)*zm ; si cruzo el cero, v = 0
+    return v / (techo - zm)
+
+El 0.1 lo escribe el constructor `FUN_0026ba20`, en tres pares (0.9, 0.1). Con
+`PointerXSpeed = 6` cada cuenta de mouse vale 0,003 de eje, asi que 0,1 son
+**~33 cuentas por sondeo**: a 60 fps y 1600 DPI, **~3 cm/s de mouse**. Mas
+lento que eso, el juego ve CERO EXACTO.
+
+**Esto explica el misterio de la sesion anterior.** Las cinco variables que se
+probaron sin efecto (`DeadZone`, `Inertia`, `Speed`, la sensibilidad, la
+aceleracion de Windows) son TODAS del emulador, y la zona muerta esta aguas
+arriba de todas. El "siguiente sospechoso" que dejo anotado el handoff anterior
+--la conversion del eje a byte del DualShock en PCSX2-- **era el sospechoso
+equivocado**: la capa que faltaba mirar era la del pad DEL JUEGO, a un
+decompile de distancia.
+
+**Confirmado por efecto, con control negativo, por DOS vias independientes.**
+Inyectando 1200 cuentas en pasos fijos y midiendo el yaw:
+
+| cuentas/sondeo | zm = 0,1 (fabrica) | zm = 0 | vuelta a 0,1 |
+|---|---|---|---|
+| 4  | +0,000 | -0,065 | +0,000 |
+| 8  | +0,000 | -8,45  | +0,000 |
+| 16 | +0,000 | -12,45 | +0,000 |
+| 24 | +0,000 | -12,64 | +0,000 |
+
+Ceros **exactos** con la zona muerta puesta, movimiento con ella en cero, y el
+piso VUELVE al restaurar. Las dos vias --escribir 0.0 en `dispositivo+0xE4` del
+heap, y el parche de codigo-- coinciden al decimo de grado (-8,37 contra -8,45).
+
+**El parche:** `0x0026BF88` y `0x0026BFB4`, las dos ramas (eje positivo y
+negativo), `lwc1 f0,0xe4(a0)` -> `mov.S f0,f2`. Se usa `mov.S f0,f2` y no
+`mtc1 zero,f0` porque `f2` ya vale 0.0 en toda la funcion y asi no hay hueco de
+latencia de COP1. **No se parchea el constructor**, aunque sea el origen del
+valor: corre una sola vez y un savestate trae el 0.1 ya escrito en el heap.
+`mods/zona-muerta-cero.toml`.
+
+**El costo, y cuando importa:** una zona muerta existe para que un stick gastado
+no gire la camara solo. Con mouse no pasa. Si algun dia Fran juega con el
+joystick (`Pad2` es un SDL) y la camara deriva, el arreglo NO es sacar el mod:
+es poner `Deadzone` en el `[Pad2]` de PCSX2.
+
+## 3. TRAMPA DE ENTORNO NUEVA, Y SERIA: hay DOS pnach y el vivo es el otro
+
+`pnach.py compilar --instalar` escribe en la carpeta que dice `Cheats` en el
+`PCSX2.ini`, que hoy es **`cheats_ws`**. Pero los mods que estaban REALMENTE
+prendidos viven en **`patches\SLUS-21376_5C891FF1.pnach`**, que ademas trae los
+parches de comunidad (Widescreen, 60 FPS, Video Mode, No Blur) y que **no lo
+genera nadie**: esta editado a mano.
+
+Ya mordio una vez y en silencio: `mods/mira-lineal.toml` tenia
+`habilitado = false` mientras el `gamesettings` lo tenia PRENDIDO desde el
+archivo de `patches/`. Un `compilar --instalar` lo habria borrado del pnach sin
+que nada avisara. Se corrigio el toml a `true` en esta sesion.
+
+**Mientras eso siga asi, un mod nuevo hay que agregarlo a `patches/` a mano** (y
+prenderlo en `gamesettings/SLUS-21376_5C891FF1.ini`, seccion `[Patches]`).
+**PENDIENTE del proyecto:** que `pnach.py` fusione en el archivo de `patches/`
+en vez de pisar otro, o que el verificador compare las dos listas. Es un dato
+que vive en dos lados y ya divergio.
+
+## 4. ESTADO DE LA MAQUINA AL CERRAR
+
+- **PCSX2 QUEDA ABIERTO**, con el savestate del slot 11 cargado (nivel 2).
+- Los dos parches **verificados en RAM despues de reiniciar el emulador y
+  cargar el savestate**: `0x001407DC = 0x24040000`, `0x0026BF88` y `0x0026BFB4`
+  `= 0x46001006`, y la palabra vecina `0x001407E0 = 0x50800073` intacta como
+  control. 4/4.
+- pnach prendidos en `gamesettings`: Widescreen, 60 FPS, Video Mode, Mira
+  lineal, Mira sensible, **Auto-apuntado apagado**, **Zona muerta del pad a
+  cero**.
+- Respaldos con fecha del `patches/*.pnach` y del `gamesettings/*.ini` antes de
+  tocarlos, en sus mismas carpetas.
+- Todo lo demas igual que al cerrar la madrugada: DLSS 5 apagado, pack union de
+  texturas, aceleracion de puntero de Windows apagada, ISO original intacto.
 
 ---
 
