@@ -1,0 +1,94 @@
+{
+ "_que_es": "Inventario MEDIDO de los formatos de archivo del ISO de BLACK, y el modelo estructural del .WDD. Fase 6 (exprimir el ISO), capacidad C.",
+ "_medido": "2026-09-04",
+ "_como_se_midio": "os.walk sobre D: (el ISO original montado) + lectura de cabeceras + entropia por columna sobre los registros. Las cadenas del ELF salen de C:/Users/frans/herramientas/SLUS_213.76, offset_archivo = vaddr - 0xFF000.",
+ "inventario": {
+  "_nota": "n = cantidad de archivos, mb = total en megabytes",
+  ".WDD": {
+   "n": 141,
+   "mb": 8.7,
+   "que_es": "indice/diccionario de tamano FIJO potencia de dos. 139 de 64 KiB (emparejados 1:1 con .DB) y 2 de 16 KiB (emparejados con .WDO). CERO huerfanos.",
+   "confianza": "confirmado"
+  },
+  ".DB": {
+   "n": 139,
+   "mb": 82.5,
+   "que_es": "el bloque de datos que acompana a cada .WDD de 64 KiB. Cabecera: registros de 8 B (u32 variable + constante 0x54461272) y despues una tabla de offsets alineados a 128 B.",
+   "confianza": "probable"
+  },
+  ".WDO": {
+   "n": 2,
+   "mb": 0.0,
+   "que_es": "el par de los dos .WDD de 16 KiB (chars/guns/GrdPin, chars/guns/GrdLnchr). 211 B.",
+   "confianza": "confirmado"
+  },
+  ".BIN": {
+   "n": 131,
+   "mb": 243.8,
+   "que_es": "contenedor de Criterion. Resuelto en 6.1/6.6; GLOBDATA.BIN se parchea in-place.",
+   "confianza": "confirmado"
+  },
+  ".BKS": {
+   "n": 51,
+   "mb": 898.8,
+   "que_es": "AUDIO (banco de streams). Cadena '.bks' en 0x003F7978. NO es geometria.",
+   "confianza": "probable"
+  },
+  ".SSH": {
+   "n": 43,
+   "mb": 0.0,
+   "que_es": "AUDIO. La cadena que lo arma es 'sound\\streams\\%s.ssh' (0x003F3050). NO es geometria.",
+   "confianza": "confirmado"
+  },
+  ".SLB": {
+   "n": 9,
+   "mb": 0.0,
+   "que_es": "AUDIO, va junto a .BKS/.SSH ('%s.slb', 0x003F8278). La magia 'KING' que 6.4 queria perseguir es de un contenedor de sonido, no de un nivel.",
+   "confianza": "probable"
+  },
+  ".AWD": {
+   "n": 36,
+   "mb": 10.5,
+   "que_es": "audio via vgmstream (awd.py). Tambien Collide.awd y AIWpns.awd, que NO son musica: son datos de nivel con la misma envoltura.",
+   "confianza": "confirmado"
+  },
+  ".M2V": {
+   "n": 17,
+   "mb": 418.6,
+   "que_es": "video MPEG-2 de las cinematicas",
+   "confianza": "confirmado"
+  },
+  ".IRX": {
+   "n": 9,
+   "mb": 0.2,
+   "que_es": "modulos del IOP (GTFSCDVD.IRX es el sistema de archivos de Criterion, ver 6.1)",
+   "confianza": "confirmado"
+  }
+ },
+ "wdd": {
+  "modelo": "array de 4096 registros de 16 bytes (los de 64 KiB) o 1024 (los de 16 KiB). Tabla de capacidad fija, no un stream.",
+  "confianza": "confirmado",
+  "evidencia": "entropia por columna sobre BG1_AK1.WDD: con paso 16 la columna 1 baja a 0.95 bits/byte y la 0 a 4.20, mientras las otras 14 quedan en ~5.2. Con pasos 32, 48 y 64 el minimo cae SIEMPRE en las columnas 0 y 1 -- el divisor comun es 16. Con pasos 4 y 8 no se aisla.",
+  "campos": {
+   "byte 0": "entero chico (0..~41). Correlaciona con cuanto del payload de 14 B esta ocupado: en los registros de tipo 0x03 con byte0 bajo el payload se corta antes. HIPOTESIS: es un largo.",
+   "byte 1": "TIPO del registro. 0x02 en la abrumadora mayoria (2671/2681 en BG1_AK1), 0x03 en un punado (10), 0x00 = ranura vacia. Esto confirma y explica el 'byte1 = 0x02' que la kb tenia anotado sin interpretar.",
+   "bytes 2-15": "payload de alta entropia (~5.2 bits/byte)"
+  },
+  "ocupacion": "BG1_AK1: 2681 de 4096 ranuras usadas (34.5% vacias). Varia por archivo: BG1_BNS usa 3568/4096, BG1_GK1 solo 2101. Una tabla de capacidad fija con ocupacion variable.",
+  "entropia_global": "5.17 bits/byte -- NO esta comprimido ni cifrado (eso daria ~7.99), pero tampoco es texto ni floats sueltos.",
+  "hipotesis_principal": "WDD = tabla de codigos / diccionario, y .DB = los datos codificados contra ella. Encaja con: tamano potencia de dos exacta, capacidad fija con ranuras vacias, emparejamiento 1:1 sin huerfanos, y una cabecera de .DB que es una tabla de offsets alineados a 128 B.",
+  "como_se_falsea": "si es un diccionario de compresion, el .DB no puede tener sentido sin su .WDD: intercambiar el WDD de un arma por el de otra y ver si el juego dibuja basura en vez de fallar limpio. Y al reves: si el WDD fuera geometria propia, el arma cambiaria de forma. Las dos son observables por efecto y distinguen las dos hipotesis en una sola prueba."
+ },
+ "loader_fpguns": {
+  "formato_ruta": "Levels\\Level_%02u\fpguns\\%s%s  (cadena en 0x003F7790; el directorio suelto en 0x003F4368)",
+  "sitio_de_llamada": "0x001D820C (lui/addiu que carga 0x003F7790). El del directorio suelto: 0x001287CC.",
+  "extension": "la cadena '.WDD' esta en 0x003F76D8 y NO tiene referencia lui/addiu: se toma de la tabla de punteros de datos que empieza cerca de 0x003BD2B4, junto a 'chars\\guns', 'Sound\\Streams' y 'Level.awd'.",
+  "confianza": "probable",
+  "por_que_importa": "es la puerta de entrada al pipeline de modelos de arma en primera persona. Cualquier cambio de geometria de un arma pasa por aca."
+ },
+ "renderware": {
+  "medicion": "0 apariciones de 'RenderWare', 'rwID', '.dff', '.txd' o 'Bin32' en el ELF (busqueda case-insensitive sobre los 3.371.868 B).",
+  "confianza": "medido, pero NO concluyente",
+  "nota": "un build de release borra las cadenas de debug, asi que la ausencia no refuta que sea RenderWare. Lo que si dice es que no hay ningun formato .dff/.txd/.bsp en el ISO: si hay RenderWare abajo, los assets estan en contenedores propios de Criterion (.WDD/.DB), no en los formatos estandar. Buscar herramientas de RenderWare NO va a servir."
+ }
+}

@@ -74,7 +74,7 @@ N2  FASES DEL JUEGO
      4b daño de SALIDA del jugador ........................ cerrada, por efecto
      5a mod de daño ...................................... CERRADA 2026-09-04, por efecto
      5b qué elige la zona de impacto ..................... pendiente, es Opus
-     6  exprimir el ISO ................................... 6.1 y 6.6 CERRADAS
+     6  exprimir el ISO ............... 6.1, 6.6 CERRADAS; 6.2/6.3/6.4 AVANZADAS 2026-09-04
      7  arquitectura de entidades y de la IA .............. ABIERTA <-- acá estamos
         (7a, 7b, 7c y 7d cerradas; la abierta es 7e)
         7a  qué campo fija el ARMA de un enemigo ......... CERRADA 2026-08-17
@@ -612,15 +612,15 @@ REMASTER GRÁFICO (DLSS5) — línea aparte de N2, no depende de la fase 7e
 
 N3  TAREAS CONCRETAS DE LA FASE 6         (criterio de salida de cada una)
      6.1  ¿el ELF tiene LBAs hardcodeados? .. CERRADA: NO. rebuild sigue vivo
-     6.2  .DB  : firma '..FT' en 6-7        -> qué son los 139 archivos
+     6.2  .DB  : firma '..FT' en 6-7        -> AVANZADA: es el PAR de un .WDD
           2026-09-04: firma de bloque de malla `00 00 00 05 03 01 00 01 00 80`
           CONFIRMADA (132.630 hits en 233/270 .DB/.bin, periódicos y
           variables por archivo). El header de 8 bytes NO es un GtID directo
           del nombre (REFUTADO, 0/139); byte0=0x00 y bytes6-7="FT" siguen
           confirmadas, 139/139. Detalle:
           `pruebas/remake-firma-malla-y-gtid-2026-09-04.md`.
-     6.3  .WDD : byte1 = 0x02, 16K/64K      -> qué es el byte 0
-     6.4  .SLB : magia "KING"               -> buscar el formato por esa magia
+     6.3  .WDD : byte1 = 0x02, 16K/64K      -> RESUELTO EL FORMATO (ver abajo)
+     6.4  .SLB : magia "KING"               -> CERRADA: es AUDIO, no un nivel
      6.5  patrón de ImHex del contenedor .BIN -> commitear en `patrones/`
      6.6  parche in-place de GLOBDATA.BIN .. CERRADA, confirmado por efecto
 ```
@@ -659,6 +659,61 @@ dos trampas que hubo que desactivar están en **`docs/05-iso.md`**.
 ni la TOC, ni el CRC del ELF, así que los savestates y los `.pnach` siguen
 valiendo— pero ahora por razones medidas. `mkps2iso` queda **abierto** como
 plan B, con tres condiciones anotadas en `docs/05-iso.md`.
+
+
+### 6.2 / 6.3 / 6.4 AVANZADAS el 2026-09-04 — el `.WDD` es una tabla, y el `.SLB` es sonido
+
+Trabajo en frío sobre el ISO montado en `D:` y el ELF. Todo en
+`kb/formatos-iso.json`, con confianza por línea.
+
+**El `.WDD` es un array de 4096 registros de 16 bytes** (los de 64 KiB; 1024
+los de 16 KiB). No es un stream: es una **tabla de capacidad fija**, y por eso
+el tamaño es potencia de dos exacta. `confirmado`, por entropía por columna:
+con paso 16 la columna 1 cae a **0,95 bits/byte** y la 0 a 4,20, mientras las
+otras catorce quedan en ~5,2. Con pasos 32, 48 y 64 el mínimo cae **siempre**
+en las columnas 0 y 1 — el divisor común es 16. Con pasos 4 y 8 no se aísla.
+
+- **byte 1 = tipo de registro.** `0x02` en 2671 de 2681 registros ocupados,
+  `0x03` en 10, `0x00` = ranura vacía. Eso explica el "byte1 = 0x02" que la kb
+  tenía anotado sin interpretar: no era una constante del archivo, era el tipo
+  dominante.
+- **byte 0 = entero chico** (0..~41) que correlaciona con cuánto del payload de
+  14 bytes está ocupado. `hipótesis`: es un largo.
+- **La ocupación varía por archivo**: `BG1_AK1` usa 2681/4096, `BG1_BNS`
+  3568/4096, `BG1_GK1` 2101/4096. Capacidad fija, ocupación variable.
+- **Entropía global 5,17 bits/byte**: no está comprimido ni cifrado (eso daría
+  ~7,99).
+
+**El emparejamiento es 1:1 y no tiene huérfanos.** 139 `.WDD` de 64 KiB ↔ 139
+`.DB`; y los **únicos 2** `.WDD` de 16 KiB son `chars\guns\GrdPin` y
+`chars\guns\GrdLnchr`, que son exactamente los dos que tienen `.WDO`. Cero
+`.DB` sin `.WDD`. Un control negativo que salió limpio: la excepción no era
+ruido, era la otra mitad del modelo.
+
+**Hipótesis principal, con su prueba escrita:** `.WDD` = tabla de códigos y
+`.DB` = los datos codificados contra ella. Se falsea intercambiando el `.WDD`
+de un arma por el de otra: si es diccionario, el juego dibuja basura; si el
+`.WDD` fuera geometría propia, el arma cambia de forma. **Una sola prueba
+distingue las dos, y es por efecto.**
+
+**El `.SSH`, el `.SLB` y el `.BKS` son AUDIO, no geometría.** Las cadenas del
+ELF lo dicen: `sound\streams\%s.ssh` (`0x003F3050`), `%s.slb`
+(`0x003F8278`), `.bks` (`0x003F7978`). La magia `KING` que 6.4 quería
+perseguir es de un contenedor de sonido. **6.4 se cierra sacándola del camino
+de la geometría**, que es donde estaba costando.
+
+**La puerta de entrada a los modelos de arma está ubicada:** el formato de
+ruta `Levels\Level_%02upguns\%s%s` está en `0x003F7790` y lo carga
+`0x001D820C` (`lui`/`addiu`). La extensión `.WDD` (`0x003F76D8`) **no** tiene
+referencia de código: sale de la tabla de punteros que empieza cerca de
+`0x003BD2B4`, junto a `chars\guns\` y `Sound\Streams\`.
+
+**Y una medición que ahorra un camino entero:** **cero** apariciones de
+`RenderWare`, `rwID`, `.dff`, `.txd` o `Bin32` en los 3.371.868 B del ELF. No
+refuta que haya RenderWare abajo —un build de release borra las cadenas de
+debug— pero sí dice que **no hay ningún asset en formato RenderWare estándar
+en el ISO**. Buscar herramientas de RenderWare para abrir la geometría no va a
+servir: los assets están en contenedores propios de Criterion.
 
 ### 6.6 CERRADA — el mod permanente funciona, confirmado por efecto
 

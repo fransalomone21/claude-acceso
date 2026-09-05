@@ -61,6 +61,7 @@ kb/            la verdad del proyecto, legible por scripts y por humanos
   mapa-memoria.json  direcciones conocidas, con confianza y evidencia
   rutinas.json       funciones identificadas y sus puntos de parche
   estructuras.json   layouts de structs (jugador, enemigo, arma)
+  formatos-iso.json  qué es cada extensión del ISO, y el modelo del .WDD
 herramientas/  el instrumental (ver abajo)
 mods/          definiciones de mods en TOML -> se compilan a .pnach
 docs/          método, entorno, plan, bitácora
