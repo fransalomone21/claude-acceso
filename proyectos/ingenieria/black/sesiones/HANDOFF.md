@@ -146,7 +146,77 @@ es**: es la mitad alta de un id64, que todos los nombres `BG1_*` comparten.
 rutina que consume `UNIT_NN.BIN` y leerle el layout al cargador, en vez de
 adivinarlo desde afuera. Es la misma leccion que cerro 7e.
 
-## E. ESTADO DE LA MAQUINA AL CERRAR ESTA SESION
+## E. LOS ENEMIGOS: que arma usa cada clase, por nivel
+
+La entrada del directorio de armas de `StLevel.bin` quedo resuelta entera, y
+resulta ser la tabla de enemigos:
+
+    +0x00  char[0x10]  nombre        +0x18  i32  ptr a variantes ENEMIGAS
+    +0x10  u64  id64 del MODELO      +0x1C  i32  ptr a variantes de COMPANERO
+                                     +0x20/+0x24  cuantas de cada una
+
+**Los punteros son relativos al inicio de SU PROPIA ENTRADA.** No se adivino:
+los punteros de los slots sin variantes bajan exactamente `0x28` por slot --el
+paso de la entrada-- asi que sumandoles el offset de la ENTRADA dan todos el
+mismo centinela, `0xFDC5FF80`. Segundo invariante independiente: con esa base
+los punteros reales caen todos alineados a `0x80`. Los dos estan en el autotest.
+
+La semantica sale de `FUN_001e2d38`, decompilada: arma los nombres con
+`Enemy%d_%s` y `Team%d_%s` contra la tabla de siete de `0x003BD3F8` (None, Low,
+Mid, High, Matt, Tom, Carrie), o sea que **cada variante enemiga tiene un nivel
+de amenaza**. Y registra `+0x94` de cada registro en la ValueDB de sonido de
+arma de IA -- control: ahi hay exactamente floats de parametro.
+
+    LEVEL_00  7 variantes enemigas + 2 de companero      LEVEL_05   8 + 1
+    LEVEL_01  6 + 0     LEVEL_03  8 + 0                  LEVEL_06  10 + 0
+    LEVEL_04 10 + 2                                      LEVEL_07   9 + 2
+                                                         LEVEL_08  15 + 0
+
+`python herramientas/stlevel.py enemigos LEVEL_00`
+
+**TRES ARMAS EN VEZ DE DOS: acotado, no hecho.** `kb/rutinas.json#inventario_dos_armas`.
+El inventario son dos handles en `*(entidad+0x2A0)+0` y `+4`, y los dos id64 en
+`entidad+0x3C0` y `+0x3C8`. No es un parche de un byte: hace falta un campo
+libre para el tercer id64 (`+0x3D0` y `+0x3D4` estan ocupados), un tercer
+handle, **duplicar el bloque de busqueda --que esta DESENROLLADO, no es un
+bucle--** y tocar el ciclado, que hay que buscar por la ACCION de entrada
+(`FUN_00124840` + la tabla `0x003BCAC8`) y no por el offset: un barrido por
+`0x2A0` da 73 candidatos y el propio `barrer.py` avisa que ese parametro no
+discrimina.
+
+## F. TEXTURAS: el pack instalado cubria el 29 %
+
+Habia **tres** packs en el disco y estaba instalado el que menos cubre. Medido
+sobre la escena de referencia de 127 texturas:
+
+| pack | claves | cobertura |
+|---|---|---|
+| 2022 (el original) | 8225 | 90/127 = **70,9 %** |
+| huekage — *el que estaba instalado* | 2781 | 37/127 = **29,1 %** |
+| hd-reimagined | 1302 | 17/127 = 13,4 % |
+| **union** | **8966** | 93/127 = **73,2 %** |
+
+**El cruce esta validado:** el mismo metodo predice 90 para el pack de 2022 y el
+proyecto habia MEDIDO 90 por volcados en la fase V1. Predicho = medido.
+
+**La trampa del bit 14, al reves de lo que parecia.** El pack de 2022 lo tiene
+puesto en 7729 de 7729 archivos y los volcados del PCSX2 de hoy nunca (0 de
+261) -- y sin embargo carga. Unica explicacion que sobrevive: **PCSX2 enmascara
+el bit tambien al indexar el nombre del ARCHIVO**. O sea que **no hay que
+renombrar nada**. Lo que si falta al normalizar, y no estaba anotado: los hashes
+vienen **sin ceros a la izquierda**, y sin eso 496 nombres del pack de 2022
+quedan afuera del cruce.
+
+`herramientas/pack_union.py` arma la union con **enlaces duros**: 5,57 GB
+logicos, cero bytes nuevos en el disco.
+
+**Medido por efecto, una sola variable:** FPS 58,19 -> **59,81**; GS 16,48 ->
+16,08 ms; RAM de PCSX2 4,28 GB de 24. **No cuesta framerate.** Nitidez por
+region: cinco de seis ganan (+3 % a +63 %), una pierde 21 %.
+Grado: cobertura y FPS `confirmado`; la mejora visual `probable` (dos corridas
+distintas, y esta linea ya se equivoco una vez comparando entre reinicios).
+
+## G. ESTADO DE LA MAQUINA AL CERRAR ESTA SESION
 
 - El savestate del nivel 2 donde Fran dejo el juego esta en el **slot 11**
   (`sstates/SLUS-21376 (5C891FF1).11.p2s`), tomado por PINE antes de tocar nada.
@@ -158,6 +228,9 @@ adivinarlo desde afuera. Es la misma leccion que cerro 7e.
   **Mira sensible**. Apagados `Dificultad x2` y `Mira sin suavizado`.
 - **Aceleracion de puntero de Windows: APAGADA** (estado previo guardado en
   `%LOCALAPPDATA%\black-mouse-accel.txt`).
+- **`replacements/` = el pack UNION** (8966 archivos, enlaces duros). El huekage
+  anterior quedo completo en `replacements-huekage-guardado/`. Volver son dos
+  `move` con PCSX2 cerrado. `hw_mipmap` sigue en `false`, sin tocar.
 - El ISO original y sus permisos, intactos. Cero parches vivos en RAM.
 
 **Trampa de entorno nueva:** el guardia del ISO frena un `git commit` con

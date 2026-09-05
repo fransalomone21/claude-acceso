@@ -35,218 +35,218 @@
     },
     {
       "patron": "AdvancedCRT@CRT.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Falso positivo del regex de mail: ReShadePreset.ini lista sus tecnicas activas como 'NombreTecnica@ArchivoShader.fx', formato stock de ReShade. No hay ninguna persona detras del '@': son 36 nombres de shaders de efectos open-source (SMAA, FXAA, LumaSharpen, etc.) que vienen con cualquier instalacion de ReShade. Mismo respaldo que describe HANDOFF.md 8.6.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Falso positivo del regex de mail: ReShadePreset.ini lista sus tecnicas activas como 'NombreTecnica@ArchivoShader.fx', formato stock de ReShade. No hay ninguna persona detras del '@': son 36 nombres de shaders de efectos open-source (SMAA, FXAA, LumaSharpen, etc.) que vienen con cualquier instalacion de ReShade. Mismo respaldo que describe HANDOFF.md 8.6. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "After@Splitscreen.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "ASCII@ASCII.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Before@Splitscreen.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Border@Border.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "CA@ChromaticAberration.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Capture@Compare.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Cartoon@Cartoon.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "ColorMatrix@ColorMatrix.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Compare@Compare.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "ContrastAdaptiveSharpen@CAS.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Curves@Curves.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Daltonize@Daltonize.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Deband@Deband.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "DisplayDepth@DisplayDepth.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "DPX@DPX.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "FilmGrain@FilmGrain.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "FXAA@FXAA.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "HDR@FakeHDR.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Layer@Layer.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Levels@Levels.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "LiftGammaGain@LiftGammaGain.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "LumaSharpen@LumaSharpen.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "LUT@LUT.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Monochrome@Monochrome.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Nostalgia@Nostalgia.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Restore@Compare.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "SMAA@SMAA.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Technicolor@Technicolor.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Technicolor2@Technicolor2.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Tint@Sepia.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Tonemap@Tonemap.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "UIMask_Bottom@UIMask.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "UIMask_Top@UIMask.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Vibrance@Vibrance.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
       "patron": "Vignette@Vignette.fx",
-      "donde": "proyectos/ingenieria/black/pruebas/reshade-662-respaldo/",
-      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo.",
+      "donde": "proyectos/ingenieria/black/",
+      "porque": "Ver la entrada de AdvancedCRT@CRT.fx: mismo archivo, mismo falso positivo. ALCANCE AMPLIADO AL PROYECTO el 2026-09-05, por la misma razon que ya advertia la entrada de AdvancedCRT: una excepcion acotada a UNA carpeta se rompe sola apenas otro archivo del proyecto menciona el mismo dato. Paso: docs/09-remaster-visual.md cito la linea Techniques= del preset al documentar que DLSS5 estaba apagado, y el verificador volvio a rojo por dos nombres de tecnica que ya estaban declarados.",
       "fecha": "2026-09-02"
     },
     {
