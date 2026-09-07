@@ -4,13 +4,40 @@
 
 **Fase 4 (Parte IV: cuerpo rígido, M12–M15) — CERRADA el 2026-08-31.** Los
 quince módulos del apunte están escritos, compilados y verificados en el
-render. El apunte va por **103 páginas**, cero huérfanos de caja. Falta
-decidir la fase 5 (anexos, o revisión de referencias cruzadas entre módulos
-— ver `HANDOFF.md`).
+render. Falta decidir la fase 5 (anexos, o revisión de referencias cruzadas
+entre módulos — ver `HANDOFF.md`).
+
+**2026-09-07 — tres ejercicios nuevos incorporados, sin abrir fase nueva.**
+Fran trajo una versión ampliada de la guía de la cátedra (ver
+`fuentes/RUTAS.md` y la nota al principio de `fuentes/GUIA-ENUNCIADOS.md`),
+con dos bloques de «adicionales» que el original no tenía. Se incorporaron
+tres —el resto queda anotado como práctica sin resolver, siguiendo la misma
+decisión de curación que ya regía para los Problemas 5, 7, 8 y 9 de cuerpo
+rígido (ver el `#guia` del módulo 15: no se agrega un ejercicio que no
+enseña una técnica nueva, se anota para práctica):
+
+- **Módulo 2** — Adicional 1 (separación de dos etapas de un cohete, el
+  mismo mecanismo del Ej. 1 con las dos masas en movimiento) y Adicional 2
+  (satélite expulsado del transbordador), que es el primer ejemplo del
+  módulo que usa numéricamente $F_"prom" = Delta p \/ Delta t$ y no sólo la
+  define.
+- **Módulo 4** — Adicional 3: el mismo empuje y la misma definición de
+  $I_"sp"$ aplicados a un cohete con varios motores encendidos a la vez (el
+  transbordador, con sus dos SRB y sus tres SSME), que es el caso real de
+  cualquier lanzador con etapas de refuerzo.
+- **Módulo 10** — el Ejercicio adicional 3 de gravitación (excentricidad de
+  una órbita polar a partir de su período): la tercera ley despejada al
+  revés, sin momento angular ni energía.
+
+Los otros siete adicionales (los ejercicios 1, 2, 4 y 5 de gravitación
+piden anomalía verdadera o ángulo de trayectoria de vuelo como *dato de
+salida*, y el apunte no tiene esa fórmula despejada — quedaron anotados en
+`GUIA-ENUNCIADOS.md` para si hace falta agregarla) no se tocaron. Compilado
+y verificado en el render: cero huérfanos de caja, **104 páginas**.
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **103 páginas**, compila sin errores, cero huérfanos de caja |
+| `apunte/apunte.pdf` | **104 páginas**, compila sin errores, cero huérfanos de caja |
 | Plantilla, carátula, índice, encabezados | listos, no se tocan |
 | Biblioteca de figuras (CeTZ) | **28 figuras**, todas miradas en la galería |
 | Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |

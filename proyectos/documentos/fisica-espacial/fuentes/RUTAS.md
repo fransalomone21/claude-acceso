@@ -38,7 +38,8 @@ p = [f for f in glob.glob(os.path.join(base, '*.pdf')) if 'Roederer' in f][0]
 
 | Qué | Ruta | Estado |
 |---|---|---|
-| Guía de problemas 2026 (17 pág.) | `C:\Users\frans\Downloads\PROBLEMAS FÍSICA ESPACIAL.pdf` | los enunciados largos son texto; los cortos son **imágenes** — se renderizan con PyMuPDF para leerlos |
+| Guía de problemas 2026, original (18 pág., transcripta el 2026-08-31) | `C:\Users\frans\Downloads\PROBLEMAS FÍSICA ESPACIAL.pdf` | los enunciados largos son texto; los cortos son **imágenes** — se renderizan con PyMuPDF para leerlos |
+| Guía de problemas 2026, ampliada (21 pág., recibida el 2026-09-07) | `C:\Users\frans\Downloads\PROBLEMAS FÍSICA ESPACIAL (2).pdf` | superconjunto de la anterior: agrega «ADICIONALES» (cantidad de movimiento, 3) y «EJERCICIOS ADICIONALES» (gravitación, 5) — verificado renderizando, no sólo por `pdftotext`. Ver la nota al principio de `GUIA-ENUNCIADOS.md` |
 | Plan de 17 semanas | `C:\Users\frans\Downloads\Plan Fisica E 26.docx` | transcripto en `TEMARIO.md` |
 | Lista de temas — Conservación de P | `C:\Users\frans\Downloads\Lista de temas Conservación P (1).pdf` | transcripta en `TEMARIO.md` |
 | Lista de temas — Gravitación | `C:\Users\frans\Downloads\Lista de temas Gravitación (1).pdf` | transcripta en `TEMARIO.md` |
@@ -57,3 +58,14 @@ python -c "import pymupdf; d=pymupdf.open('archivo.pdf'); [p.get_pixmap(dpi=110)
 ```
 
 y después se leen los PNG. Vale para cualquier PDF escaneado de la materia.
+
+**`pdftotext` sí está instalado** (viene con Git para Windows, en
+`C:\Program Files\Git\mingw64\bin\pdftotext.exe`) — lo que falta es
+`pdftoppm`, la herramienta de *renderizado*, que es la que necesita el lector
+de PDF de la sesión. Para un PDF mixto como la guía de problemas, conviene
+correr primero `pdftotext -layout archivo.pdf salida.txt` para agarrar gratis
+todo lo que ya es texto, y recién renderizar con PyMuPDF las páginas que
+queden en blanco o con sólo un rótulo — mucho más barato que renderizar las
+18 o 21 páginas de entrada. *Ojo:* un rótulo sin cuerpo en `pdftotext` no es
+prueba de que el enunciado esté vacío — puede ser una imagen. Sólo la
+ausencia se confirma renderizando y mirando.

@@ -330,15 +330,68 @@ combustible. La razón es de una línea:
   ]
 ]
 
+#ejemplo("El Saturno V y el transbordador: el empuje se reparte entre varios motores", nivel: "a fondo")[
+  _(Adicional 3 de la guía.)_ Dos casos que usan lo mismo del módulo con
+  varios motores en juego a la vez.
+
+  *(a) Un solo cohete.* Expulsa gases a $mu = 220$ kg/s con
+  $abs(v_r) = 900$ m/s, y su aceleración inicial es $6$ m/s². ¿Cuál es la
+  masa total en el instante del lanzamiento?
+
+  Con la @m4-empuje el empuje es fijo y no depende de la masa:
+  $ f = mu abs(v_r) = 220 dot 900 = 198 thin 000 " N" $
+  y despejando $M$ de $M a = f - M g$ (la @m4-vertical en $t=0$):
+  $ M = f / (a + g) = (198 thin 000) / (6 + 9,81) = 12 thin 525 " kg" $
+
+  #geometria[
+    *Una sola ecuación, una sola incógnita.* El enunciado pide «la masa total
+    del cohete y del combustible», que es una manera de decir *la masa total
+    en el instante del lanzamiento* —tanque lleno—, no dos números separados:
+    con sólo $mu$, $abs(v_r)$ y $a$ no hay forma de separar cuánto de esos
+    $12 thin 525$ kg es estructura y cuánto combustible, y el enunciado no lo
+    pide.
+  ]
+
+  *(b) El transbordador, con cinco motores.* Masa total al despegue
+  $M_0 = 2,04 times 10^6$ kg. Dos cohetes propulsores de $11,80 times 10^6$ N
+  cada uno y tres motores principales de $2,00 times 10^6$ N cada uno, éstos
+  con $I_"sp" = 455$ s. Pide la aceleración inicial con los cinco motores
+  encendidos y el caudal de combustible de *cada* motor principal.
+
+  *El empuje total, sumando los cinco.*
+  $ f = 2 (11,80 times 10^6) + 3 (2,00 times 10^6) = 29,60 times 10^6 " N" $
+
+  *La aceleración*, de la misma @m4-vertical:
+  $ a = f/M_0 - g = (29,60 times 10^6) / (2,04 times 10^6) - 9,81 = 14,51 - 9,81 = 4,70 " m/s"^2 $
+
+  *El caudal de cada motor principal*, despejando de la definición de
+  impulso específico:
+  $ mu = f_"motor" / (I_"sp" g_0) = (2,00 times 10^6) / (455 dot 9,80665) = 448,3 " kg/s" $
+
+  #clave[
+    *Los dos cohetes propulsores no entran en la cuenta del caudal*, porque
+    la pregunta es específicamente por los motores principales —los únicos de
+    los que se dio $I_"sp"$—. Y $448,3$ kg/s por motor, tres motores, son
+    $1345$ kg/s sólo de los principales: una cifra que dimensiona por qué el
+    tanque central del transbordador es del tamaño que es.
+  ]
+]
+
 #guia("qué ejercicios cubre este módulo")[
   Los ejercicios *4 al 9* de la sección *Conservación de cantidad de
-  movimiento*. El *6* y los *7–8* son los dos ejemplos de arriba. El *4* (la
-  unidad de maniobras del astronauta, S&Z 8.61) es el empuje despejado al
-  revés: de $a = 0,029$ m/s² y $M = 180$ kg sale $f = 5,22$ N, y de ahí
-  $mu = f \/ abs(v_r) = 5,22 \/ 490 = 1,07 dot 10^(-2)$ kg/s, o sea $0,053$ kg
-  en $5$ s. El *5* (S&Z 8.63) es la @m4-tsiolkovsky sin gravedad, despejando la
-  razón de masas. El *9* (Beer 14.99) pide la *altura* del ejercicio 7: hay que
-  integrar $V(t)$ otra vez, y ahí el logaritmo ya no se puede saltear.
+  movimiento*. El *6* y los *7–8* son los dos primeros ejemplos de arriba. El
+  *4* (la unidad de maniobras del astronauta, S&Z 8.61) es el empuje
+  despejado al revés: de $a = 0,029$ m/s² y $M = 180$ kg sale $f = 5,22$ N, y
+  de ahí $mu = f \/ abs(v_r) = 5,22 \/ 490 = 1,07 dot 10^(-2)$ kg/s, o sea
+  $0,053$ kg en $5$ s. El *5* (S&Z 8.63) es la @m4-tsiolkovsky sin gravedad,
+  despejando la razón de masas. El *9* (Beer 14.99) pide la *altura* del
+  ejercicio 7: hay que integrar $V(t)$ otra vez, y ahí el logaritmo ya no se
+  puede saltear.
+
+  El *Adicional 3* —agregado en una versión posterior de la guía— es el
+  tercer ejemplo de arriba: la misma @m4-vertical y la misma definición de
+  $I_"sp"$, aplicadas ahora a un cohete con *varios* motores prendidos a la
+  vez, que es el caso real de cualquier lanzador con etapas de refuerzo.
 ]
 
 == Lo que se usa después

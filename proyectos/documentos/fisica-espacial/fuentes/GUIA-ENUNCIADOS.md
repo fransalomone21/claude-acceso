@@ -1,7 +1,20 @@
 # La guía de problemas, transcripta
 
-*«GUIA DE PROBLEMAS — Física Espacial 2026», UNSAM, 18 páginas.* Ruta del PDF
-en [`RUTAS.md`](RUTAS.md).
+*«GUIA DE PROBLEMAS — Física Espacial 2026», UNSAM.* Ruta del PDF en
+[`RUTAS.md`](RUTAS.md).
+
+**Hay dos archivos de la misma guía, y el segundo es un superconjunto del
+primero.** El original transcripto acá el 2026-08-31 tenía 18 páginas. El
+2026-09-07 apareció `PROBLEMAS FÍSICA ESPACIAL (2).pdf` —21 páginas—, y se
+verificó *renderizando* (no sólo con `pdftotext`) que agrega dos bloques
+nuevos —«ADICIONALES» en cantidad de movimiento y «EJERCICIOS ADICIONALES»
+en gravitación, abajo— y no saca nada de lo que ya estaba: los problemas de
+impulso angular que `pdftotext` mostraba en blanco en el archivo nuevo (el
+del giróscopo de juguete, S&Z 10.51, y el del Hubble, S&Z 10.53) **siguen
+ahí, como imagen**, igual que en el original — confirmado mirando las
+páginas 10 y 11 del PDF nuevo, no asumido por la ausencia de texto. Es la
+misma trampa que el párrafo de abajo ya advertía, y por eso conviene
+dejarlo anotado: *ausencia en `pdftotext` no es ausencia en el PDF.*
 
 **Por qué existe este archivo.** Los enunciados de la guía son, en su mayoría,
 **imágenes pegadas** dentro del PDF: `pdftotext` devuelve sólo los rótulos
@@ -73,9 +86,56 @@ en los módulos 2, 3 y 5:
 - **Ej. 3** — el calamar (S&Z 8.19); la parte (b) es el ejemplo simple del
   módulo 5.
 
-Los **4 a 9** no se transcribieron todavía: la Parte II está cerrada y ninguno
-de los módulos que faltan los necesita. Si alguna vez hacen falta, están en las
-páginas 5 y 6 del PDF.
+Los **4 a 9** son imágenes también, y *sí* se usan — en el módulo 4, no en
+éste: son problemas de cohetes (Beer 14.94, 14.97, 14.98, 14.99 y S&Z 8.61,
+8.63) leídos renderizando las páginas 5 y 6 del PDF. Esta nota decía, hasta el
+2026-09-07, que «no se necesitan»: era cierta el 2026-08-31, cuando sólo
+estaban escritos los módulos 1 a 5, y quedó desactualizada sin que nadie la
+corrigiera cuando se escribió el módulo 4. *Un archivo de referencia también
+hay que revisarlo cuando el módulo que describe cambia.*
+
+### Adicionales (pág. 6–8 del PDF nuevo)
+
+Tres problemas que **no estaban** en el original de 18 páginas — ver la nota
+de arriba. Los tres son texto, no imagen, y ya están resueltos en el módulo 2
+(Adicionales 1 y 2) y en el módulo 4 (Adicional 3).
+
+**Adicional 1.** La tercera y la cuarta etapa de un cohete se desplazan por
+inercia en el espacio a una velocidad de $18\,000$ km/h cuando una pequeña
+carga explosiva situada entre ambas las separa. Inmediatamente después de la
+separación, la cuarta etapa ha aumentado su velocidad a $v_4 = 18\,060$ km/h.
+*a)* ¿Cuál es la velocidad $v_3$ correspondiente a la tercera etapa? En el
+momento de la separación, las masas de la tercera y la cuarta etapa son de
+$400$ kg y $200$ kg, respectivamente. *b)* ¿Cuál es la velocidad relativa de
+la etapa 3 respecto a la etapa 4? *(Figura: un cohete de dos etapas, la 3.ª
+abajo con $v_3$ y la 4.ª arriba con $v_4$, las dos flechas apuntando en el
+mismo sentido de vuelo.)*
+
+**Adicional 2.** El transbordador espacial lanza un satélite de $800$ kg
+expulsándolo desde la bodega de carga, tal como se muestra. El mecanismo de
+expulsión se activa y permanece en contacto con el satélite durante $4$ s
+para conferirle una velocidad de $0,3$ m/s en la dirección $z$ con respecto
+al transbordador. La masa del transbordador es de $90$ Mg. Determine la
+componente de la velocidad $v_f$ del transbordador en la dirección negativa
+del eje $z$ resultante de la expulsión. Asimismo, calcule el valor medio
+temporal $F_"prom"$ de la fuerza de expulsión. *(Figura: el transbordador con
+$z$ vertical hacia arriba, el satélite saliendo de la bodega con velocidad
+$v$ en $+z$.)*
+
+**Adicional 3.** *a)* En el instante del lanzamiento vertical, el cohete
+expulsa gases de escape a una tasa de $220$ kg/s con una velocidad de salida
+de $900$ m/s. Si la aceleración vertical inicial es de $6$ m/s², calcule la
+masa total del cohete y del combustible en el momento del lanzamiento.
+*b)* El transbordador espacial, junto con su tanque central de combustible y
+sus dos cohetes propulsores, tiene una masa total de $2,04\times10^6$ kg al
+despegue. Cada uno de los dos cohetes propulsores genera un empuje de
+$11,80\times10^6$ N, y cada uno de los tres motores principales del
+transbordador produce un empuje de $2,00\times10^6$ N. El impulso específico
+(la relación entre la velocidad de expulsión de los gases y la aceleración
+gravitatoria) de cada uno de los tres motores principales del transbordador
+es de $455$ s. Calcule la aceleración vertical inicial del conjunto con los
+cinco motores en funcionamiento y determine la tasa de consumo de combustible
+de cada uno de los tres motores del transbordador.
 
 ## Conservación de impulso angular (pág. 7–9)
 
@@ -335,6 +395,46 @@ con otro que está **un cuarto de órbita adelantado**.
 **A.** Investigue el tema.
 **B.** Formule alguna solución.
 **C.** Encuentre una solución exacta para un caso determinado.
+
+### Ejercicios adicionales (pág. 17 del PDF nuevo)
+
+Cinco problemas nuevos, texto (no imagen), que no estaban en el original de
+18 páginas. El **3** está resuelto en el módulo 10; los otros cuatro quedan
+sin resolver en el apunte — se apoyan en las mismas herramientas del módulo 9
+(vis-viva, ecuación de la órbita) y no agregan una técnica nueva, salvo la
+anomalía verdadera y el ángulo de trayectoria de vuelo $\gamma$ de los
+ejercicios 1, 2, 4 y 5, que el apunte no nombra por separado —está implícito
+en $r = p/(1+e\cos\nu)$ y en $h = rv\cos\gamma$ del módulo 7, pero no hay una
+fórmula cerrada para despejar $\nu$ o $\gamma$ como dato de salida.
+
+**1.** Un satélite no tripulado orbita la Tierra con un radio de perigeo de
+$10\,000$ km y un radio de apogeo de $100\,000$ km. Calcule: *(a)* la
+excentricidad de la órbita; *(b)* el semieje mayor de la órbita (km);
+*(c)* el periodo de la órbita (horas); *(d)* la energía específica de la
+órbita (km²/s²); *(e)* la anomalía verdadera a la cual la altitud es de
+$10\,000$ km (grados); *(f)* $v_r$ y $v_\perp$ en los puntos hallados en el
+apartado (e) (km/s); *(g)* la velocidad en el perigeo y en el apogeo (km/s).
+
+**2.** Se coloca un satélite en órbita terrestre en el perigeo, a una altitud
+de $500$ km y con una velocidad de $10$ km/s. Calcule el ángulo de
+trayectoria de vuelo $\gamma$ y la altitud del satélite para una anomalía
+verdadera de $120°$.
+
+**3.** Un satélite en órbita polar alrededor de la Tierra se acerca a $200$ km
+del Polo Norte en su punto de máximo acercamiento. Si el satélite pasa sobre
+el polo una vez cada $100$ minutos, calcule la excentricidad de su órbita.
+*(Resuelto en el módulo 10: $e = 0,0782$, con $a = 7136$ km de la tercera ley
+y $r_p = 6578$ km.)*
+
+**4.** Para un satélite en órbita terrestre, la altitud es de $1000$ km con
+una anomalía verdadera de $40°$ y de $2000$ km con una anomalía verdadera de
+$150°$. Calcule: *(a)* la excentricidad; *(b)* la altitud del perigeo (km);
+*(c)* el semieje mayor (km).
+
+**5.** Un satélite terrestre tiene una velocidad de $7,5$ km/s y un ángulo de
+trayectoria de vuelo de $10$ grados cuando su radio es de $8000$ km. Calcule
+*(a)* la anomalía verdadera (en grados) y *(b)* la excentricidad de la
+órbita.
 
 ## Cuerpo rígido (pág. 15–18)
 

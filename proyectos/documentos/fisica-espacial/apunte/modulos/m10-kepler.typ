@@ -143,12 +143,39 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
   ]
 ]
 
+#ejemplo("La excentricidad de una órbita polar, a partir de su período")[
+  _(Ejercicio adicional 3 de la guía, sobre gravitación.)_ Un satélite en
+  órbita polar pasa a $200$ km del Polo Norte en su máximo acercamiento —o
+  sea, su perigeo—, y cruza el polo una vez cada $100$ minutos. ¿Cuál es la
+  excentricidad?
+
+  *El semieje mayor, de la @m10-periodo.* Cruzar el polo una vez por vuelta
+  quiere decir que el período orbital es $tau = 100$ min $= 6000$ s:
+  $ tau = (2 pi a^(3\/2)) / sqrt(mu) ==> a^3 = (mu tau^2) / (4 pi^2) = ((3,986 times 10^5)(6000)^2) / (4 pi^2) $
+  $ a^3 = 3,635 times 10^11 " km"^3 ==> a = 7136 " km" $
+
+  *La excentricidad, de la @m9-absides.* El perigeo es $r_p = 6378 + 200 =
+  6578$ km, y como $r_p = a(1-e)$:
+  $ e = 1 - r_p/a = 1 - 6578/7136 = 0,0782 $
+
+  #clave[
+    *No hizo falta el momento angular ni la energía*, las dos herramientas que
+    dominan el módulo 9 — alcanzó con el período, que es lo único nuevo de
+    este módulo, y la geometría del perigeo. Es la comprobación de que la
+    tercera ley, sola, ya alcanza para resolver problemas que no son sólo
+    «calcular $tau$».
+  ]
+]
+
 #guia("qué ejercicios cubre este módulo")[
   El *Problema 4* es el ejemplo simple: las partes (b) y (c) ya estaban
   resueltas de los módulos 7 y 9, y lo que este módulo agrega son la (a) —el
-  período— y la (d) —la comparación de escape—. El ejemplo a fondo son los
-  *Problemas 8 y 9*, el LEM del Apollo, que van juntos porque el segundo
-  continúa exactamente donde termina el primero.
+  período— y la (d) —la comparación de escape—. El *Ejercicio adicional 3*
+  —de la sección de gravitación agregada en una versión posterior de la
+  guía— es el segundo ejemplo: la misma @m10-periodo, ahora despejada al
+  revés, para sacar $a$ del período en vez del período de $a$. El ejemplo a
+  fondo son los *Problemas 8 y 9*, el LEM del Apollo, que van juntos porque
+  el segundo continúa exactamente donde termina el primero.
 ]
 
 #ejemplo("El LEM del Apollo: subir a encontrarse, y bajar a estrellarse", nivel: "a fondo")[

@@ -278,12 +278,95 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   ]
 ]
 
+#ejemplo("Separación de dos etapas en inercia")[
+  _(Adicional 1 de la guía.)_ La tercera y la cuarta etapa de un cohete viajan
+  juntas por inercia a $18 thin 000$ km/h cuando una carga explosiva las
+  separa. Justo después, la cuarta etapa —de $200$ kg— quedó a
+  $18 thin 060$ km/h. La tercera pesa $400$ kg.
+  *(a)* ¿A qué velocidad queda la tercera etapa? *(b)* ¿Cuál es la velocidad
+  relativa de la tercera respecto de la cuarta?
+
+  *Planteo.* Mismo mecanismo que la astronauta de arriba, con los papeles
+  invertidos: ahí una masa chica salía disparada de una grande casi en
+  reposo; acá las dos masas ya viajaban juntas y la explosión sólo *reparte*
+  la diferencia. $bold(P)$ se conserva igual —la carga explosiva es interna
+  al sistema de las dos etapas.
+
+  *(a)* Con $m_3 = 400$ kg y $m_4 = 200$ kg:
+  $ (m_3 + m_4) v_0 = m_3 v_3 + m_4 v_4 $
+  $ v_3 = ((m_3+m_4) v_0 - m_4 v_4) / m_3 = (600 dot 18 thin 000 - 200 dot 18 thin 060) / 400 $
+  $ v_3 = 17 thin 970 " km/h" $
+
+  #clave[
+    *El control que conviene hacer siempre en una separación.* Antes de la
+    explosión las dos etapas tenían la misma velocidad; después, cada una
+    cambió lo justo para que sus impulsos se cancelen:
+    $ m_3 (v_3 - v_0) + m_4 (v_4 - v_0) = 400(-30) + 200(60) = 0 $
+    La etapa liviana ganó el doble de velocidad que perdió la pesada, en la
+    proporción inversa de las masas — es la tercera ley de Newton, otra vez.
+  ]
+
+  *(b)* La velocidad relativa es la resta directa, porque las dos van sobre
+  la misma recta:
+  $ v_3 - v_4 = 17 thin 970 - 18 thin 060 = -90 " km/h" $
+  Negativa: la tercera etapa se queda atrás de la cuarta, y se separan a
+  $90$ km/h.
+]
+
+#ejemplo("El satélite que se suelta del transbordador, con la fuerza media", nivel: "a fondo")[
+  _(Adicional 2 de la guía.)_ El transbordador expulsa un satélite de
+  $800$ kg desde la bodega de carga. El mecanismo empuja durante $4$ s y le
+  da al satélite $0,3$ m/s en $z$ *respecto del transbordador*, que tiene una
+  masa de $90$ Mg. Hallar la velocidad final del transbordador en $-z$ y la
+  fuerza media $F_"prom"$ de la expulsión.
+
+  *Planteo.* Antes de la expulsión el conjunto está en reposo —o, lo que es
+  igual, se trabaja en el sistema que viaja con el transbordador—, así que
+  $bold(P) = bold(0)$ antes y después. El dato es la velocidad *relativa*, no
+  la del satélite sola —la misma trampa que la astronauta del primer
+  ejemplo, ahora con una masa que sí importa—:
+  $ v_"sat" - v_"transb" = 0,3 " m/s" $
+
+  *La conservación de $P$.*
+  $ m_"sat" v_"sat" + m_"transb" v_"transb" = 0 $
+  Sustituyendo $v_"sat" = v_"transb" + 0,3$:
+  $ 800 (v_"transb" + 0,3) + 90 thin 000 thin v_"transb" = 0 $
+  $ v_"transb" = -(800 dot 0,3) / (90 thin 800) = -2,643 times 10^(-3) " m/s" $
+
+  #clave[
+    *El transbordador retrocede en $z$ negativo* —el signo lo dice solo, sin
+    tener que razonarlo aparte—, y apenas $2,6$ mm/s: la masa que lo frena es
+    $112,5$ veces la del satélite, y por eso el retroceso es chico aunque el
+    satélite se haya llevado un impulso entero.
+  ]
+
+  *La fuerza media.* El impulso sobre el transbordador es
+  $bold(J) = Delta bold(p) = m_"transb" v_"transb"$ (@m2-impulso), y como el
+  mecanismo actuó $4$ s:
+  $ F_"prom" = abs(Delta p) / (Delta t) = (90 thin 000 dot 2,643 times 10^(-3)) / 4 = 59,5 " N" $
+
+  #cuidado[
+    *El mismo número sale calculándolo del lado del satélite.* Con
+    $v_"sat" = 0,3 - 2,643 times 10^(-3) = 0,2974$ m/s, $Delta p_"sat"
+    = 800 dot 0,2974 = 237,9$ kg·m/s, y $F_"prom" = 237,9\/4 = 59,5$ N: el
+    mismo valor, porque la fuerza que el mecanismo hace sobre el satélite y
+    la que hace sobre el transbordador son un par acción-reacción —tercera
+    ley, otra vez— y duran el mismo $Delta t$.
+  ]
+]
+
 #guia("qué ejercicios cubre este módulo")[
   Los ejercicios *1, 2 y 3* de la sección *Conservación de cantidad de
-  movimiento*. El 1 y el 2 son los dos ejemplos de arriba. El *3* —el calamar
-  que se propulsa expulsando agua (S&Z 8.19)— es el 1 con otro disfraz en su
-  parte (a); su parte (b), la energía cinética que genera, se resuelve en el
-  módulo 5. Los ejercicios *4 al 9* son todos del módulo 4.
+  movimiento*. El 1 y el 2 son los dos primeros ejemplos de arriba. El *3*
+  —el calamar que se propulsa expulsando agua (S&Z 8.19)— es el 1 con otro
+  disfraz en su parte (a); su parte (b), la energía cinética que genera, se
+  resuelve en el módulo 5. Los ejercicios *4 al 9* son todos del módulo 4.
+
+  Los *Adicionales 1 y 2* —agregados en una versión posterior de la guía—
+  son los dos últimos ejemplos: la separación de etapas es el mismo
+  mecanismo del Ej. 1 con las dos masas en movimiento, y la expulsión del
+  satélite es el primer ejemplo del módulo que usa numéricamente
+  $F_"prom" = Delta p \/ Delta t$, no sólo su definición.
 ]
 
 == Lo que se usa después

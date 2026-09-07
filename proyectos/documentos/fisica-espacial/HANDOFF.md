@@ -102,6 +102,14 @@ que aparece con *números* no se ven venir:
 *Regla: todo denominador con más de un carácter va entre paréntesis* —
 `8200/(0,9777)`, `3600/(17 thin 156)`— aunque «se vea» como un número solo.
 
+**Y del lado del numerador pasa exactamente lo mismo, pagado en el módulo 4
+de esta sesión.** `198 thin 000 / (6 + 9,81)` no salió mal por el
+denominador —ya estaba entre paréntesis— sino porque `/` sólo agarra el
+átomo *inmediatamente anterior*, que es `000`, no `198 thin 000`: salió
+«$198\frac{000}{6+9{,}81}$», con el 198 flotando afuera de la fracción. La
+regla de arriba es de los dos lados: *todo numerador con más de un carácter
+también va entre paréntesis*, `(198 thin 000) / (6 + 9,81)`.
+
 **8c. La trampa 5 es más chica de lo que decía, y saberlo ahorra paréntesis.**
 La coma decimal rompe una función sólo si queda en el **nivel superior** de sus
 argumentos: `sqrt(3,269 times 10^9)` falla, pero
