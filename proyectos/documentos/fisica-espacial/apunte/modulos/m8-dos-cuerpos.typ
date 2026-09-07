@@ -201,6 +201,23 @@ $ K = 1/2 m_r accent(r, dot)^2, quad m_r = (m_1 m_2)/(m_1 + m_2) $ <m8-reducida>
   escala del mismo vector, para lados opuestos.
 ]
 
+#posta[
+  La posta con el problema equivalente es que dejás de romperte la cabeza con
+  dos cuerpos tirando cada uno del otro, cada uno acelerando y moviéndose a
+  la vez —eso, escrito tal cual, es un quilombo de resolver—, y te quedás
+  pensando en una sola cosa: cuánto se separan o se acercan entre sí. Esa
+  separación, sola, se porta EXACTAMENTE igual que un cuerpo inventado
+  ($m_r$) dando vueltas alrededor de un punto matemático que no está en
+  ningún lado real —ni en la Tierra, ni en la Luna, ni en el medio—. Y ese
+  punto te resuelve la vida porque el problema de "un cuerpo dando vueltas a
+  un punto fijo" ya lo sabés resolver desde el módulo 6: le metés las mismas
+  cuentas de siempre, y lo que te devuelve *ya es* la distancia real entre
+  los dos cuerpos de verdad, sin ningún paso extra. El paso extra sólo
+  aparece si además querés saber dónde está cada uno por separado —ahí sí
+  repartís esa distancia entre las dos masas—, pero la parte jodida, la de
+  los dos cuerpos tirándose entre sí, ya la resolviste sin darte cuenta.
+]
+
 #clave[
   *Las dos constantes del módulo describen cosas distintas y no se mezclan.*
   Conviene verlo junto, porque los dos números salen de las mismas dos masas y

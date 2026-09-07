@@ -32,8 +32,17 @@ enseña una técnica nueva, se anota para práctica):
 Los otros siete adicionales (los ejercicios 1, 2, 4 y 5 de gravitación
 piden anomalía verdadera o ángulo de trayectoria de vuelo como *dato de
 salida*, y el apunte no tiene esa fórmula despejada — quedaron anotados en
-`GUIA-ENUNCIADOS.md` para si hace falta agregarla) no se tocaron. Compilado
-y verificado en el render: cero huérfanos de caja, **104 páginas**.
+`GUIA-ENUNCIADOS.md` para si hace falta agregarla) no se tocaron.
+
+**Mismo día — nueva caja de estilo, `#posta`.** A pedido de Fran, el módulo 8
+sumó dos cuadros técnicos (por qué funciona el problema equivalente, qué es
+el "centro fijo") y, sobre eso, se creó una **tercera regla propia del
+apunte** (ver `CLAUDE.md`): todo tema nuevo lleva, además de las cajas
+técnicas, un cuadro rosa `#posta` con la misma idea en criollo. La función
+vive en `plantilla.typ`, el color en `paleta.typ`, y la leyenda de la
+carátula ya lo explica. **No se retrofitteó a los 15 módulos existentes** —
+se aplica de acá en adelante. Compilado y verificado en el render: cero
+huérfanos de caja, **105 páginas**.
 
 | Qué | Estado |
 |---|---|

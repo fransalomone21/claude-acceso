@@ -32,6 +32,21 @@ entró, o si una tabla se cortó.
 destinatario. Una fórmula que aparece de la nada incumple la primera mitad;
 tres páginas de despeje incumplen la segunda.
 
+**3. Todo tema no trivial lleva, además de las cajas técnicas, un cuadro
+`#posta` en la voz de Fran.** Decisión del 2026-09-07, a pedido explícito del
+destinatario. Es la misma idea de las cajas azules/ámbar/etc., dicha en
+criollo y sin vueltas — qué ganás, a qué te ahorrás pensar, por qué el truco
+funciona —, y **no reemplaza ninguna caja técnica ni se permite perder rigor**:
+si el cuadro rosa dice algo que ninguna otra caja del tema ya dedujo, está mal
+puesto. Ejemplo de referencia, el primero que se escribió:
+[`m8-dos-cuerpos.typ`](apunte/modulos/m8-dos-cuerpos.typ), la caja `#posta`
+sobre el problema equivalente. La función vive en `plantilla.typ`
+(`#let posta(cuerpo) = ...`, color `c-rosa` en `paleta.typ`) y ya está en la
+leyenda de la carátula. **No se retrofitteó automáticamente a los 15 módulos
+ya escritos** —eso es una pasada aparte, deliberadamente no hecha todavía por
+el costo que tiene tocar 105 páginas ya cerradas—: se aplica a partir de acá
+en todo módulo nuevo o que se vuelva a tocar por otro motivo.
+
 ## Dónde está cada cosa
 
 ```

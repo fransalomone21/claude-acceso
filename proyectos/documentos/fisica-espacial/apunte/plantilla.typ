@@ -65,6 +65,12 @@
 
 #let guia(titulo, cuerpo) = caja([De la guía de la cátedra — #titulo], c-viole, cuerpo)
 
+// La misma idea de arriba, dicha en criollo. No reemplaza a las cajas
+// tecnicas -- va ADEMAS de ellas -- y no se permite que meta un concepto
+// que no este ya deducido en alguna de las otras cajas del tema: aca no se
+// aproxima ni se simplifica de mas, solo se cambia el registro.
+#let posta(cuerpo) = caja([La posta], c-rosa, cuerpo)
+
 // ---------- Ejemplo resuelto (numerado por módulo) ----------
 // `nivel` distingue el ejemplo que fija el mecanismo del que tiene el
 // nivel de la guía. Cada módulo lleva por lo menos uno de cada uno.
@@ -325,6 +331,11 @@
 
             text(fill: c-viole, weight: "bold")[Violeta],
             [el problema de la guía de la cátedra que ese tema resuelve.],
+
+            text(fill: c-rosa, weight: "bold")[Rosa],
+            [la posta: la misma idea de arriba, en criollo y sin vueltas —
+             qué ganás, a qué te ahorrás pensar, y por qué el truco funciona.
+             No reemplaza a los cuadros técnicos, va además de ellos.],
           )
         ]
       ]

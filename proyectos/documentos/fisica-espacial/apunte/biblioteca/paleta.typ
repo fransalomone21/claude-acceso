@@ -12,6 +12,7 @@
 #let c-ambar = rgb("#B9770E") // cuidado geométrico / vectorial
 #let c-viole = rgb("#6C3483") // vínculo con la guía de problemas
 #let c-teal = rgb("#117A65") // choques de notación entre los libros
+#let c-rosa = rgb("#C2185B") // la posta -- la idea en criollo, sin jerga
 #let c-gris = rgb("#F4F6F7") // fondo de cajas neutras
 
 // Colores propios de las figuras (no se usan en el texto)
