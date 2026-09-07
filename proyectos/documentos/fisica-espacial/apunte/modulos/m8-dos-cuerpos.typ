@@ -159,6 +159,49 @@ $ K = 1/2 m_r accent(r, dot)^2, quad m_r = (m_1 m_2)/(m_1 + m_2) $ <m8-reducida>
 ]
 
 #clave[
+  *Por qué funciona: la energía del sistema se parte en dos pedazos que no se
+  hablan.* Vista desde un sistema inercial cualquiera,
+  $ E_"tot" = 1/2 (m_1+m_2) V_"cm"^2 + (1/2 m_r accent(r,dot)^2 + U(r)) $
+  El primer término es la energía de *todo el conjunto viajando junto*, a la
+  velocidad de su centro de masa; el segundo es la de la separación sola,
+  achicándose o creciendo y girando. Sin fuerzas externas el módulo 3 ya
+  mostró que $bold(V)_"cm"$ es constante, así que el primer término nunca
+  cambia y no le presta ni le saca energía al segundo: *están desacoplados*.
+  Sacar el primero y quedarse sólo con el segundo no es una aproximación —es
+  exacto—, y lo que queda tiene la forma de un cuerpo único porque a dos
+  cuerpos menos un centro de masa que ya no se mueve le queda *un solo grado
+  de libertad*: la separación $bold(r)$.
+]
+
+#geometria[
+  *El "centro fijo" no es ningún cuerpo real: es un punto matemático, sin
+  masa, que no está ni en $m_1$ ni en $m_2$ ni en el centro de masa.* Es
+  sólo el origen desde el que se mide la resta $bold(r) = bold(R)_2 -
+  bold(R)_1$. El cuerpo ficticio de masa $m_r$ es un tercer objeto que no
+  existe en la realidad: se lo inventa, se lo pone a orbitar ese punto, y se
+  lo hace *porque* su distancia al punto, en cada instante, va a valer lo
+  mismo que la distancia entre los dos cuerpos de verdad. El punto no hace
+  falta ubicarlo en ningún lugar físico —ni siquiera hace falta que sea el
+  centro de masa— porque nunca se usa su posición: sólo se usa la distancia
+  a él, que es $r$.
+
+  *Y por eso alcanza igual si lo que hace falta es la separación.* No es que
+  el problema equivalente dé una respuesta parcial que después hay que
+  completar: el $bold(r)(t)$ que sale de resolverlo —con las fórmulas de
+  los módulos 6, 9, 10 y 11, sin cambiarles una letra— *es*, directamente,
+  la distancia entre los dos cuerpos reales en cada instante. No hace falta
+  ningún paso más para tenerla.
+
+  *El paso extra sólo hace falta para otra pregunta, distinta.* Si en vez de
+  «¿qué tan separados están?» la pregunta es «¿dónde está *cada uno*, por
+  separado, respecto del centro de masa?» —por ejemplo, cuánto se bambolea
+  la Tierra— ahí sí hace falta un dato más, que la @m8-posiciones ya da
+  gratis a partir del mismo $bold(r)$: $bold(r)_1 = m_2\/(m_1+m_2) thin
+  bold(r)$ y $bold(r)_2 = -m_1\/(m_1+m_2) thin bold(r)$, dos versiones a
+  escala del mismo vector, para lados opuestos.
+]
+
+#clave[
   *Las dos constantes del módulo describen cosas distintas y no se mezclan.*
   Conviene verlo junto, porque los dos números salen de las mismas dos masas y
   se usan en ecuaciones diferentes:
