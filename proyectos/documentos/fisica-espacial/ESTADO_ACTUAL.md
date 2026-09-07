@@ -41,8 +41,22 @@ apunte** (ver `CLAUDE.md`): todo tema nuevo lleva, además de las cajas
 técnicas, un cuadro rosa `#posta` con la misma idea en criollo. La función
 vive en `plantilla.typ`, el color en `paleta.typ`, y la leyenda de la
 carátula ya lo explica. **No se retrofitteó a los 15 módulos existentes** —
-se aplica de acá en adelante. Compilado y verificado en el render: cero
-huérfanos de caja, **105 páginas**.
+se aplica de acá en adelante.
+
+**Mismo día — reordenado el módulo 8: el modelo se explica antes de la
+figura, no después.** Fran reportó no entender "respecto de qué" estaba el
+punto fijo del problema equivalente: la figura que lo mostraba aparecía
+*antes* de que ninguna caja lo explicara. Se agregó una sección nueva al
+principio del módulo, «8.1 La idea completa, antes de la primera ecuación»,
+que cuenta el plan en criollo y en tres pasos y recién ahí muestra la
+figura —movida desde su posición vieja, más abajo—; las cajas técnicas que
+ya explicaban el punto fijo quedaron donde estaban, ahora como
+profundización de algo ya presentado, no como primera exposición. Quedó
+registrado como **cuarta regla propia** en `CLAUDE.md`: todo modelo o
+entidad nueva se explica en palabras antes de la primera ecuación o figura
+que lo use, con el `m8-nodos-mallas.typ` de Electrónica Analógica como
+referencia de cómo se hace bien. Compilado y verificado en el render: cero
+huérfanos de caja, **106 páginas**.
 
 | Qué | Estado |
 |---|---|

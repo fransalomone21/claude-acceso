@@ -47,6 +47,24 @@ ya escritos** —eso es una pasada aparte, deliberadamente no hecha todavía por
 el costo que tiene tocar 105 páginas ya cerradas—: se aplica a partir de acá
 en todo módulo nuevo o que se vuelva a tocar por otro motivo.
 
+**4. Todo modelo, método o entidad nueva se introduce en palabras —qué es,
+respecto de qué está, qué pasa con las masas/vectores que ya se conocían—
+ANTES de la primera ecuación o figura que lo use, nunca al revés.** Decisión
+del 2026-09-07: en el módulo 8, el "centro fijo" del problema equivalente
+apareció primero en una figura y recién se explicó varios párrafos después,
+y esa fue exactamente la confusión que reportó el destinatario ("no entiendo
+respecto de qué está ese punto"). El arreglo no es una caja más al final: es
+mover la explicación —en criollo, con el plan en 2-3 pasos— **antes** de la
+figura y de las primeras ecuaciones del tema. La referencia de cómo se hace
+bien, señalada por el destinatario, es el apunte de Electrónica Analógica:
+`m8-nodos-mallas.typ`, la sección que abre con «la idea de este módulo es
+una sola: cambiar las incógnitas» y el `#clave` de dos ramas que sigue,
+**antes** de tocar un circuito. El ejemplo propio, sección "La idea completa,
+antes de la primera ecuación" de
+[`m8-dos-cuerpos.typ`](apunte/modulos/m8-dos-cuerpos.typ). Vale para todo
+módulo nuevo, y es motivo válido para reabrir uno viejo si alguien reporta
+la misma confusión.
+
 ## Dónde está cada cosa
 
 ```

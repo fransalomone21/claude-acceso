@@ -20,6 +20,46 @@ Este módulo hace la cuenta bien y llega a una conclusión que da tranquilidad:
 no es cosmética, y hay sistemas —el Tierra–Luna, sin ir más lejos, que la guía
 usa en dos problemas— donde ignorarla se paga.
 
+== La idea completa, antes de la primera ecuación
+
+Todavía no hay ninguna cuenta hecha, y conviene tener el plan entero en la
+cabeza antes de la primera línea, porque lo que sigue cambia *qué pregunta se
+hace*. En vez de seguir a los dos cuerpos por separado —dos posiciones
+moviéndose a la vez, cada una tirando de la otra, un enroscamiento incómodo
+de escribir en limpio—, la única cantidad que se va a perseguir de acá en
+más es *cuánto se separan entre sí*. Y lo que este módulo muestra es que esa
+separación sola se porta *exactamente* como un cuerpo inventado, dando
+vueltas alrededor de un punto fijo que *no es ninguno de los dos cuerpos
+reales*: es sólo el origen desde el que se mide esa separación, y nunca hace
+falta ubicarlo en ningún lugar del espacio, porque nunca se usa su posición
+—sólo la distancia a él.
+
+#fig([El problema de dos cuerpos y su equivalente. *Izquierda:* lo que pasa
+de verdad — dos elipses semejantes con foco común en el centro de masa
+(el punto verde, «CM»), con los cuerpos siempre en lados opuestos; la del
+cuerpo pesado es la chica. *Derecha:* el problema equivalente — un solo
+cuerpo de masa $m_r = m_1 m_2 \/ (m_1 + m_2)$ a distancia $bold(r)$ de un
+centro *fijo* (el otro punto verde), que no es $m_1$ ni $m_2$ ni está en
+ningún lado real. Las dos figuras describen el mismo movimiento, y la de la
+derecha es la que se sabe resolver.], fig-dos-cuerpos)
+
+#clave[
+  *El plan del módulo, en tres pasos, y en ese orden:*
+  + Mostrar que la separación entre los dos cuerpos, $bold(r)$, obedece la
+    misma ecuación que un cuerpo solo orbitando un punto fijo, con
+    $mu = G(m_1+m_2)$ en el lugar del $G M$ de los módulos 6 y 7.
+  + Mostrar que esa $bold(r)$ *es*, en todo instante, la separación real
+    entre los dos cuerpos de verdad —no una aproximación ni una versión a
+    escala—, así que resolver el problema de uno solo *ya resuelve* lo que
+    hacía falta.
+  + Recién al final, *sólo si además hace falta saber dónde está cada
+    cuerpo por separado* —no nada más qué tan lejos están—, repartir esa
+    misma $bold(r)$ entre las dos masas.
+
+  Los pasos 1 y 2 son los que hacen que el módulo sirva. El 3 contesta una
+  pregunta distinta, y muchas veces ni siquiera hace falta darlo.
+]
+
 == El planteo, sin suponer nada
 
 Dos cuerpos, $m_1$ y $m_2$, en un sistema inercial cualquiera, con posiciones
@@ -109,25 +149,19 @@ $ bold(r)_1 = m_2 / (m_1 + m_2) bold(r), quad bold(r)_2 = -m_1 / (m_1 + m_2) bol
 
 #clave[
   *Los dos cuerpos recorren elipses semejantes, con foco común en el centro de
-  masa, y siempre están en lados opuestos de él.* Las dos ecuaciones de la
-  @m8-posiciones son la misma $bold(r)$ multiplicada por dos constantes, una
-  positiva y otra negativa: si $bold(r)$ describe una elipse —cosa que el módulo
-  9 va a demostrar—, entonces $bold(r)_1$ y $bold(r)_2$ describen elipses de la
-  misma excentricidad, escaladas por $m_2\/(m_1+m_2)$ y $m_1\/(m_1+m_2)$, y
-  giradas $180°$ una respecto de la otra.
+  masa, y siempre están en lados opuestos de él* —es el panel izquierdo de la
+  figura de la introducción, ahora con las cuentas atrás. Las dos ecuaciones
+  de la @m8-posiciones son la misma $bold(r)$ multiplicada por dos
+  constantes, una positiva y otra negativa: si $bold(r)$ describe una elipse
+  —cosa que el módulo 9 va a demostrar—, entonces $bold(r)_1$ y $bold(r)_2$
+  describen elipses de la misma excentricidad, escaladas por
+  $m_2\/(m_1+m_2)$ y $m_1\/(m_1+m_2)$, y giradas $180°$ una respecto de la
+  otra.
 
   *El cuerpo pesado recorre la elipse chica.* Es lo que hace que una estrella
   con un planeta se «bambolee» — y ese bamboleo es como se descubrieron los
   primeros exoplanetas.
 ]
-
-#fig([El problema de dos cuerpos y su equivalente. *Izquierda:* lo que pasa de
-verdad — dos elipses semejantes con foco común en el centro de masa, con los
-cuerpos siempre en lados opuestos; la del cuerpo pesado es la chica.
-*Derecha:* el problema equivalente — un solo cuerpo de masa
-$m_r = m_1 m_2 \/ (m_1 + m_2)$ a distancia $bold(r)$ de un centro fijo. Las dos
-figuras describen el mismo movimiento, y la de la derecha es la que se sabe
-resolver.], fig-dos-cuerpos)
 
 == La masa reducida y el problema equivalente
 
@@ -148,10 +182,11 @@ tiene que dar también la energía cinética correcta.
 $ K = 1/2 m_r accent(r, dot)^2, quad m_r = (m_1 m_2)/(m_1 + m_2) $ <m8-reducida>
 
 #definicion("problema equivalente")[
-  Un sistema de dos cuerpos que se atraen es *exactamente equivalente*, en su
-  movimiento relativo, a *un solo cuerpo de masa $m_r$ moviéndose en el
-  potencial $U(r) = -G m_1 m_2 \/ r$ de un centro fijo* (apunte de clase, 23/9,
-  pág. 2). Su energía es
+  Ya planteado en palabras al principio del módulo, ahora con nombre y
+  número: un sistema de dos cuerpos que se atraen es *exactamente
+  equivalente*, en su movimiento relativo, a *un solo cuerpo de masa $m_r$
+  moviéndose en el potencial $U(r) = -G m_1 m_2 \/ r$ de un centro fijo*
+  (apunte de clase, 23/9, pág. 2). Su energía es
   $ E = 1/2 m_r v^2 + U(r), quad U(r) = -(G m_1 m_2)/r $
   Es la reducción que da nombre al módulo, y la razón por la que el problema de
   dos cuerpos se considera «resuelto»: se lo convierte en el de uno solo, que ya
