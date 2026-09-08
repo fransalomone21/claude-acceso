@@ -39,55 +39,65 @@ for i,p in enumerate(d):
 "
 ```
 
-## Fase 5 — lo que la próxima sesión necesita (M17: esfera de influencia)
+## Fase 5 — lo que la próxima sesión necesita (M18: perifocal y Lagrange)
 
-Abierta el 2026-09-07 con el módulo 16 cerrado. Lo que sigue es el M17, y
-esto es lo que evita rehacer trabajo ya hecho:
+M16 y M17 están cerrados y verificados en el render (2026-09-07, dos sesiones
+del mismo día). Lo que sigue es el M18 — marco perifocal, vector de estado y
+coeficientes de Lagrange — y después el M19.
 
-**Dónde está la fuente, con el offset medido.** Curtis, capítulo 8
-(*Interplanetary trajectories*). **Página impresa = página del PDF − 8.**
+**Dónde está la fuente, con el offset ya medido y usado dos veces.** Curtis,
+**página impresa = página del PDF − 8**. Localizar el PDF con `glob.glob`
+sobre `Desktop\Mis Documentos\SistemasEspaciales\Libros de Fisica\`, **nunca
+escribiendo la ruta a mano**: tiene acentos y el heredoc se los come.
 
 | Sección | Qué | PDF | Impresa |
 |---|---|---|---|
-| §8.2 | Hohmann interplanetario | 391 | 383 |
-| §8.3 | Ventanas de lanzamiento y período sinódico | 393 | 385 |
-| §8.4 | **Esfera de influencia** | 398 | 390 |
-| §8.5 | **Método de las cónicas parcheadas** | 402 | 394 |
-| §8.6 | **Partida planetaria** (la hipérbola de escape) | 403 | 395 |
-| §8.7 | Análisis de sensibilidad | 409 | 401 |
-| §8.8 | Llegada planetaria | 411 | 403 |
-| §8.9 | Sobrevuelo (asistencia gravitatoria) | 418 | 410 |
+| §2.10 | **Marco perifocal** | ~110 | ~102 |
+| §2.11 | **Coeficientes de Lagrange** | ~114 | ~106 |
+| §2.12 | Tres cuerpos restringido y puntos de Lagrange (es el M19) | ~45 | ~37 |
 
-El Bate tiene el mismo tema en su capítulo 7, y es el que la cátedra pidió
-para parámetros orbitales — conviene mirar los dos y quedarse con la
-deducción más corta de $R_\text{SOI}$.
+Esos números de PDF están **deducidos del índice, no medidos**: la primera
+cosa que hace la sesión del M18 es abrir esas páginas y confirmar. El Bate,
+capítulo 2 (pág. 53–74), es la otra fuente que la cátedra pidió para
+parámetros orbitales — **no está en el disco**: hay que ver si Fran lo
+consigue, o si se cubre todo con Curtis.
 
-**Lo que el M16 ya dejó hecho y NO hay que rehacer:**
+**Lo que el M17 ya dejó hecho y NO hay que rehacer:**
 
-- $v_\infty$, $C_3$, $v^2 = v_\text{esc}^2 + v_\infty^2$, y la geometría
-  entera de la hipérbola ($\delta$, $\Delta$, $a$, $r_p$). Están deducidos y
-  con ejemplo numérico.
-- **El ejemplo de partida ya está calculado**: Tierra → Marte con los datos
-  del módulo 11, $v_\infty = 2,94$ km/s, órbita de estacionamiento de 300 km
-  ($r_p = 6678$ km), $v_p = 11,32$ km/s, $\Delta v = 3,59$ km/s, y de paso
-  $a_\text{hip} = \mu/v_\infty^2 = 45\,993$ km y $e = 1 + r_p/a = 1,145$. El
-  M17 lo tiene que *justificar* (por qué se puede pegar), no recalcular.
-- La sección 16.6 y el último `#posta` del M16 ya anuncian el M17 con esas
-  palabras: «se dibuja una frontera alrededor de cada planeta, adentro se
-  resuelve un problema de dos cuerpos con el planeta y afuera otro con el
-  Sol». El M17 tiene que cumplir esa promesa, y en ese orden.
+- La esfera de influencia entera: los dos puntos de vista, las dos razones de
+  perturbación, el exponente 2/5 con su explicación (el término solar es una
+  *diferencia*, o sea marea, y de ahí el 3 contra el 2), la tabla de siete
+  cuerpos calculada, y el método de las cónicas parcheadas con sus dos
+  figuras nuevas.
+- El ejemplo Tierra→Marte queda **cerrado de punta a punta**: $v_\infty =
+  2,943$ km/s, $e = 1,145$, $v_p = 11,32$ km/s, $\Delta v = 3,590$ km/s,
+  $\beta = 29,2°$, $\Delta m/m = 0,705$. No hace falta volver a tocarlo.
+- La auditoría del método (sección 17.6): en la frontera $v = 3,086$ km/s
+  (4,9% de error) y $\nu = 149,3°$ contra $\nu_\infty = 150,8°$ (1,5°). Los
+  **3,2 días adentro de la esfera están citados, no deducidos**: necesitan la
+  ecuación de Kepler hiperbólica, que el apunte no desarrolla. Si el M18 o el
+  M19 llegan a desarrollarla, ese número pasa a ser deducible y conviene
+  volver a la 17.6 a decirlo.
+- **Dos erratas de Curtis**, confirmadas cada una por el resultado impreso del
+  propio libro: el ejemplo 8.4(b) escribe 368.600 en el denominador donde va
+  $\mu_T$ = 398.600 (con 368.600 no sale el 29,16° que el libro imprime), y el
+  ejemplo 8.3 escribe $1,989 \times 10^{24}$ donde va $10^{30}$ (con $10^{24}$
+  no salen los 925.000 km que imprime).
 
-**Las dos reglas propias que aplican a todo módulo de la Parte V** (regla 3 y
-4 del `CLAUDE.md`): sección «la idea completa, antes de la primera ecuación»
-al principio, y al menos un `#posta` por tema no trivial. El M16 es el
-ejemplo de referencia de las dos.
+**Las dos reglas propias que aplican a todo módulo de la Parte V** (reglas 3 y
+4 del `CLAUDE.md`): sección «la idea completa, antes de la primera ecuación» al
+principio, y al menos un `#posta` por tema no trivial. M16 y M17 son los dos
+ejemplos de referencia. El M17 agrega un patrón que conviene repetir donde
+haya una aproximación: **una sección entera que mide el error del propio
+método** antes de darlo por bueno (la 17.6, «Cuánto cuesta la mentira»).
 
-**Figuras que el M17 va a necesitar** (ninguna existe todavía): la esfera de
-influencia dibujada a escala real —que es la sorpresa del tema: 925.000 km
-contra los 150 millones de la órbita, o sea 0,6%—, y el empalme de las tres
-cónicas (hipérbola de salida · elipse heliocéntrica · hipérbola de llegada).
-El helper `arco-conica` ya dibuja tramos de cónicas abiertas, así que no hace
-falta nada nuevo en `estilo.typ`.
+**Figuras.** Las cuatro de la Parte V ya están: `fig-hiperbola-geometria`,
+`fig-hiperbola-energia`, `fig-esfera-influencia` y `fig-conicas-parcheadas`.
+El M18 probablemente necesite una del marco perifocal (los tres versores
+contra el marco geocéntrico), y no hace falta ningún helper nuevo: `flecha`,
+`angulo` y `elipse-orbital` alcanzan. Si la figura tiene que mostrar una
+diferencia grande de escala, la **regla 8 de `docs/figuras.md`** —escrita en
+esta sesión— dice cómo se hace sin mentir.
 
 ## Las trampas de Typst ya pagadas
 
@@ -270,6 +280,31 @@ cabeza del que escribe el código no existe. Se resolvió subiéndolos a la
 franja entre el eje y la barra de medida, que sí es angosta pero está libre.
 *Antes de colocar un rótulo, listar TODAS las curvas de la figura y evaluarlas
 en esa coordenada* — no alcanza con mirar la protagonista.
+
+**9c. El chequeo de la trampa 9b mide UNA de las dos fallas, y la otra pasó
+igual.** El heredoc puede hacerle dos cosas distintas a una barra invertida:
+*convertirla* en un carácter de control (`\t`, `\f`, `\a`, `\b`) o *dejarla
+pasar como texto*. El chequeo de tres segundos —listar
+`{ord(c) for c in s if ord(c) < 32}`— sólo ve la primera.
+
+Pagado el 2026-09-07, escribiendo el M17: un `\` de fin de renglón de Typst,
+dentro de un `str.replace()` de Python, dentro de un heredoc **entrecomillado**
+(`<< 'PY'`, que es el que uno cree seguro), quedó en el archivo como `\n`
+literal — dos caracteres imprimibles. El chequeo dijo «limpio», Typst compiló
+sin una palabra, y el PDF salió con **`,n` impreso en el medio de una frase**.
+
+*Regla, sin cambios: ningún texto con barras invertidas pasa por un heredoc —
+va con la herramienta de archivos.* Y si igual pasó, lo único que lo atrapa es
+`grep` de la secuencia literal esperada, o mirar el render. La comilla del
+heredoc protege de **bash**; no protege del resto del canal.
+
+**17. Una figura y su epígrafe pueden decir dos veces lo mismo, y sólo se ve
+en el render.** El texto que va *adentro* del lienzo (con `rotulo`) y el que va
+en el `#fig([...])` se escriben en archivos distintos, con horas de diferencia,
+y es fácil que terminen repitiendo la misma frase — que impresa queda a cuatro
+centímetros de sí misma. Pasó con `fig-conicas-parcheadas`. *Al mirar el render
+de una figura nueva, leer los dos textos juntos: el de adentro explica los
+elementos del dibujo, el epígrafe explica qué hay que sacar de él.*
 
 ## Lo que se resolvió en la fase 2 y ya no está pendiente
 

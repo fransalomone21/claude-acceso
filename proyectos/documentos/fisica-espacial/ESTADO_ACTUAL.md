@@ -11,12 +11,12 @@ contra los quince ya escritos, está en `PDP.md` §4 (fase 5).
 | Módulo de la Parte V | Estado |
 |---|---|
 | **M16 — La hipérbola: escapar, y llegar con velocidad de sobra** | **escrito y verificado en render** (2026-09-07) |
-| M17 — Esfera de influencia y órbitas parcheadas | pendiente — es el núcleo de lo que Fran pidió |
+| **M17 — La esfera de influencia y las órbitas parcheadas** | **escrito y verificado en render** (2026-09-07, sesión 2) |
 | M18 — Marco perifocal, vector de estado y coeficientes de Lagrange | pendiente |
 | M19 — Tres cuerpos restringido y puntos de Lagrange | pendiente |
 
-**El apunte pasó de 106 a 117 páginas** y de 28 a 30 figuras. La Parte V
-arranca en la página 107. `apunte.typ` ya tiene los tres `#include` de M17,
+**El apunte pasó de 106 a 126 páginas** y de 28 a 32 figuras. La Parte V
+arranca en la página 107. `apunte.typ` todavía tiene los dos `#include` de
 M18 y M19 comentados, con su nombre de archivo definitivo — así el plan y el
 documento no pueden divergir sin que se vea.
 
@@ -36,7 +36,21 @@ $2,94$ km/s que aquella cuenta llamaba $Delta v_1$ **no son** lo que el motor
 tiene que dar, son $v_oo$ — la velocidad de sobra medida desde el Sol. Lo que
 el motor da, desde una órbita de estacionamiento de 300 km, son $3,59$ km/s,
 y la diferencia no es lineal porque las velocidades se suman en cuadrado. La
-*licencia* para pegar los dos problemas (por qué se puede) es el módulo 17.
+*licencia* para pegar los dos problemas (por qué se puede) **la dio el módulo
+17 el mismo día, en la sesión 2**.
+
+**Lo que el M17 cerró (2026-09-07, sesión 2).** La promesa del M16 está
+cumplida y con auditoría: la esfera de influencia sale de comparar
+perturbaciones —no fuerzas—, y el módulo muestra primero que el criterio
+ingenuo («quién tira más fuerte») deja a la Luna afuera de la Tierra, que es
+el absurdo que obliga a cambiar de pregunta. El ejemplo de Marte quedó cerrado
+de punta a punta con dos números que el M16 no tenía: **$eta = 29,2°$**, que
+dice *dónde* se enciende, y **$\Delta m/m = 0,705$** con la ecuación del cohete
+del módulo 4. Y hay una sección entera —la 17.6— dedicada a *medir el error
+del método*: en la frontera la nave va a $3,086$ km/s y no a los $2,943$ que
+el parcheo supone (4,9% de más), pero la dirección se acierta con $1,5°$. El
+error es asimétrico, y eso es lo que decide que las misiones corrijan a mitad
+de camino en vez de rediseñar.
 
 **Fase 3 (Parte III: gravitación y órbitas) — CERRADA el 2026-08-31.**
 
@@ -99,9 +113,9 @@ huérfanos de caja, **106 páginas**.
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **117 páginas**, compila sin errores, cero huérfanos de caja |
+| `apunte/apunte.pdf` | **126 páginas**, compila sin errores, cero huérfanos de caja |
 | Plantilla, carátula, índice, encabezados | listos, no se tocan |
-| Biblioteca de figuras (CeTZ) | **30 figuras**, todas miradas en la galería |
+| Biblioteca de figuras (CeTZ) | **32 figuras**, todas miradas en la galería |
 | Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |
 | **Módulo 6 — Gravitación, peso y energía potencial** | **escrito y verificado en render** |
 | **Módulo 7 — Momento angular y fuerzas centrales** | **escrito y verificado en render** |
@@ -114,7 +128,8 @@ huérfanos de caja, **106 páginas**.
 | **Módulo 14 — Ecuaciones de Euler y el giróscopo** | **escrito y verificado en render** |
 | **Módulo 15 — Peonza simétrica, precesión directa y retrógrada** | **escrito y verificado en render** |
 | **Módulo 16 — La hipérbola: escapar y llegar con velocidad de sobra** | **escrito y verificado en render** |
-| Módulos 17 a 19 — Parte V | no empezados |
+| **Módulo 17 — La esfera de influencia y las órbitas parcheadas** | **escrito y verificado en render** |
+| Módulos 18 y 19 — Parte V | no empezados |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -329,7 +344,41 @@ $\Delta$— a partir de $r$, $v$ y $\gamma$. Los dos usan exactamente el mismo
 planteo de cinco ecuaciones, uno con $e < 1$ y el otro con $e > 1$: es la
 razón por la que están apareados.
 
-**Módulos 17, 18 y 19 — no empezados.** Sus `#include` ya están escritos y
+**Módulo 17 — La esfera de influencia y las órbitas parcheadas** (9 pág.,
+118–126). Es el núcleo de lo que Fran pidió: la *licencia* que el M16 prometió
+y no dio. Ocho secciones:
+
+1. *La idea completa, antes de la primera ecuación* — la regla 4 del contrato,
+   con el plan en tres pasos («hay que decidir de quién es la nave en cada
+   tramo → el criterio obvio es el equivocado → con la frontera dibujada son
+   tres problemas de dos cuerpos») y un `#posta`.
+2. *Por qué «quién tira más fuerte» es la pregunta equivocada* — la frontera
+   ingenua da 259.000 km, **adentro** de la órbita de la Luna. El
+   `#cuidado` explica por qué la cuenta no está mal hecha sino que mide lo que
+   no importa, y el `#posta` del ascensor lo dice en criollo.
+3. *La cuenta que sí sirve* — la `#deduccion` central: los dos puntos de vista,
+   $P_p/A_s = (m_p/m_s)(R/r)^2$ y $p_s/a_p = (m_s/m_p)(r/R)^3$, y de igualarlos
+   $r_"SOI" = R (m_p/m_s)^{2/5}$. El `#clave` que sigue explica **por qué los
+   exponentes son 2 y 3** (el término solar es una *diferencia*, o sea marea) y
+   por qué el 5 es literalmente $2+3$ — con eso la fórmula no se memoriza.
+4. *Cuánto mide, y las dos comparaciones* — figura nueva
+   `fig-esfera-influencia` (a escala real las dos veces) y tabla de siete
+   cuerpos, calculada con la fórmula y coincidente con la tabla A.2 de Curtis.
+5. *El método de las cónicas parcheadas* — `#definicion`, figura nueva
+   `fig-conicas-parcheadas`, el `#clave` del pegado de velocidades relativas, y
+   el `#cuidado` de por qué **no sirve para la Luna** (17% contra 0,6%).
+6. *Cuánto cuesta la mentira* — la auditoría, hecha con las herramientas del
+   M16: en la frontera la nave va a $3,086$ km/s y no a $2,943$ (**4,9% de
+   error en el módulo**) pero la dirección se acierta con $1,5°$ de error. El
+   error no es simétrico, y eso decide cómo se corrige.
+7. *El ejemplo completo* — el ejemplo 8.4 de Curtis: $e = 1,145$,
+   $Delta v = 3,590$ km/s (el mismo del M16, ahora justificado), y las dos
+   cosas nuevas: $beta = 29,2°$ —**dónde** se enciende— y $Delta m/m = 0,705$
+   con la ecuación del cohete del módulo 4.
+8. *Lo que se usa después* — incluye el círculo de perigeos posibles de radio
+   $r_p sin beta = 3260$ km, que es de dónde salen las ventanas diarias.
+
+**Módulos 18 y 19 — no empezados.** Sus `#include` ya están escritos y
 comentados en `apunte.typ` con el nombre de archivo definitivo.
 
 ## Lo verificado contra las fuentes en esta fase
@@ -389,6 +438,18 @@ comentados en `apunte.typ` con el nombre de archivo definitivo.
 | Caja de herramientas: $h$, $r$, $v_r$, $\tan\gamma$, y las de cada cónica | Curtis, pág. 99 |
 | Ejemplo 2.10 rehecho número por número (los ocho apartados) | Curtis, pág. 100–101; coinciden todos dentro del redondeo |
 | El enlace Hohmann ↔ hipérbola de escape ($v_\infty = 2,94$ km/s, $\Delta v = 3,59$ km/s desde 300 km) | calculado en esta sesión con los datos del apéndice F que el módulo 11 ya usaba |
+| **Fase 5, sesión 2 — lo de abajo es del capítulo 8 de Curtis**, mismo offset (impresa = PDF − 8) | leído por capa de texto |
+| Esfera de influencia: los dos puntos de vista, las dos razones de perturbación y $r_	ext{SOI} = R(m_p/m_s)^{2/5}$ | Curtis §8.4, ecs. 8.18 a 8.34, pág. 390–394 |
+| Radio de la esfera terrestre, 925.000 km = 145 $R_T$ | Curtis, ejemplo 8.3, pág. 394 |
+| Método de las cónicas parcheadas, y por qué no sirve para la Luna | Curtis §8.5, pág. 394–395 |
+| Partida planetaria: $e = 1 + r_p v_\infty^2/\mu$, $h$, $v_p$, $\Delta v$, $eta$, el círculo de perigeos $r_p\sineta$ | Curtis §8.6, ecs. 8.35 a 8.43, pág. 395–397 |
+| Ejemplo 8.4 rehecho entero ($v_\infty=2,943$; $\Delta v=3,590$; $eta=29,2°$; $\Delta m/m=0,705$) | Curtis, pág. 399–401 |
+| **Errata en Curtis, ejemplo 8.4(b)**: el denominador dice 368.600 donde va $\mu_T=398.600$ | el resultado impreso, 29,16°, sale con 398.600; con 368.600 daría otro número |
+| **Errata en Curtis, ejemplo 8.3**: la fracción dice $1,989	imes10^{24}$ donde va $10^{30}$ | el resultado impreso, 925.000 km, sale con $10^{30}$ |
+| La tabla de siete esferas de influencia (Mercurio a Saturno, más la Luna) | **calculada en esta sesión** con la fórmula y los $\mu$ del apéndice F; los siete valores coinciden con la tabla A.2 de Curtis |
+| El error del parcheo: $v=3,086$ km/s y $
+u=149,3°$ en la frontera | **calculado en esta sesión** con la vis-viva y la ecuación de la órbita del apunte |
+| El tiempo adentro de la esfera, 3,2 días de 259 | **calculado en esta sesión** con la ecuación de Kepler hiperbólica (que el apunte NO desarrolla: el número se cita, no se deduce) |
 
 ## Lo que NO está verificado todavía
 

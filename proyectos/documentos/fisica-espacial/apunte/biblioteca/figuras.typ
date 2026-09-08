@@ -1592,6 +1592,136 @@
   ], ancla: "west")
 })
 
+// =====================================================================
+//  Módulo 17 — Esfera de influencia y órbitas parcheadas
+// =====================================================================
+
+// --- La esfera de influencia, a escala real -----------------------------
+// Existe por una sola razón: el número 925.000 km no dice nada hasta que se
+// lo compara, y las dos comparaciones que corresponden dan resultados
+// OPUESTOS. Desde la Tierra la esfera es enorme (dos veces y media la
+// órbita de la Luna); desde el Sol es un punto (0,62% del radio de la
+// órbita). Las dos escalas son REALES: nada está agrandado, y por eso la
+// Tierra del panel (a) y el Sol del panel (b) salen del tamaño que salen.
+// Ese "sale un punto" es el contenido de la figura, no un defecto.
+#let fig-esfera-influencia = paneles(
+  ("desde la Tierra", esquema(escala: 1.05cm, {
+    let R = 2.35 // la esfera de influencia: 924.700 km
+    let esc = 924700 / R // km por unidad de dibujo
+    let rluna = 384400 / esc
+    let rtierra = 6378 / esc
+
+    cetz.draw.circle((0, 0), radius: R, stroke: trazo-curva + c-dato)
+    rotulo((0, R), text(fill: c-dato, size: 8pt)[esfera de influencia\ 925.000 km], ancla: "south")
+
+    cetz.draw.circle((0, 0), radius: rluna, stroke: (paint: c-aux, thickness: 0.6pt, dash: "dashed"))
+    masa((rluna * calc.cos(215deg), rluna * calc.sin(215deg)), radio: 0.05, color: c-aux)
+    rotulo((0, -rluna), text(fill: c-aux, size: 8pt)[órbita de la Luna\ 384.400 km], ancla: "north")
+
+    // La Tierra, a escala: 6378 km son 0,7% del radio de su propia esfera.
+    cetz.draw.circle((0, 0), radius: rtierra, fill: c-orbe, stroke: none)
+    flecha-nota((1.15, 1.35), (0.06, 0.05), text(size: 8pt)[la Tierra, a escala:\ 6378 km], ancla: "west")
+
+    rotulo((0, -R - 0.1), text(fill: luma(70), size: 8pt)[la esfera mide 145 radios terrestres], ancla: "north")
+  })),
+  ("desde el Sol", esquema(escala: 1.05cm, {
+    let D = 2.6 // el radio de la órbita: 149,6 millones de km
+    let esc = 149.6e6 / D
+    let rsoi = 924700 / esc
+    let rsol = 696000 / esc
+    let T = (D, 0)
+
+    cetz.draw.circle((0, 0), radius: D, stroke: (paint: c-guia, thickness: 0.55pt, dash: "dashed"))
+    rotulo((-D * 0.74, D * 0.74), text(fill: luma(90), size: 8pt)[órbita de la Tierra], ancla: "east")
+
+    // La barra de escala: es lo que le da sentido a los dos puntos.
+    cetz.draw.line((0, 0), T, stroke: 0.5pt + c-aux, mark: (start: "bar", end: "bar", scale: 0.3))
+    rotulo((D / 2, 0.06), text(fill: c-aux, size: 8pt)[149.600.000 km], ancla: "south")
+
+    // El Sol, a escala: 696.000 km de radio son un punto de 0,01 unidades.
+    cetz.draw.circle((0, 0), radius: rsol, fill: c-ambar, stroke: none)
+    flecha-nota((-0.5, -1.0), (-0.02, -0.03), text(size: 8pt)[el Sol,\ a escala], ancla: "east")
+
+    // La esfera de influencia, a la MISMA escala: el círculo entero del
+    // panel (a) es este punto. Un disco blanco debajo despeja la línea de
+    // la órbita, que si no se lo come.
+    cetz.draw.circle(T, radius: 0.1, fill: white, stroke: none)
+    cetz.draw.circle(T, radius: rsoi, fill: c-dato, stroke: none)
+    flecha-nota(
+      (D - 0.35, 1.35),
+      (D - 0.02, 0.06),
+      text(fill: c-dato, size: 8pt)[la esfera entera\ del panel (a)],
+      ancla: "east",
+    )
+
+    rotulo((0, -D - 0.1), text(fill: luma(70), size: 8pt)[la esfera mide el 0,62% de esa barra], ancla: "north")
+  })),
+)
+
+// --- Las tres cónicas parcheadas ----------------------------------------
+// El método entero en un dibujo: una elipse alrededor del Sol y dos
+// hipérbolas, una por planeta, pegadas en las fronteras. Las dos esferas
+// de influencia están AGRANDADAS a propósito —a escala serían del tamaño
+// del punto rojo de la figura anterior— y el pie de figura lo dice: si se
+// dibujaran bien, no se vería ninguna de las dos hipérbolas.
+#let fig-conicas-parcheadas = esquema(escala: 1.35cm, {
+  let Sol = (0, 0)
+  let r1 = 1.55 // Tierra
+  let r2 = 2.36 // Marte (misma razón que fig-hohmann)
+  let a-t = (r1 + r2) / 2
+  let e-t = (r2 - r1) / (r2 + r1)
+  let p-t = a-t * (1 - e-t * e-t)
+  let rsoi = 0.62 // AGRANDADA: a escala sería 0,0016
+
+  cetz.draw.circle(Sol, radius: r1, stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  cetz.draw.circle(Sol, radius: r2, stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  cuerpo-central(Sol, radio: 0.13, etiqueta: none)
+  rotulo((0.16, -0.16), text(fill: c-orbe, size: 8pt)[Sol], ancla: "north-west")
+
+  // --- Cónica 2: la elipse heliocéntrica, la única que ve al Sol.
+  arco-conica(Sol, p-t, e-t, dir-perigeo: 0, desde: 0, hasta: 180, color: c-verde, grosor: trazo-curva)
+  rotulo((-0.45, a-t + 0.06), text(fill: c-verde, size: 8pt)[elipse heliocéntrica: la de Hohmann, módulo 11], ancla: "south")
+
+  // --- Cónica 1: la hipérbola de salida, adentro de la esfera terrestre.
+  let T = (r1, 0)
+  let ex = 1.5
+  let aninf = calc.acos(-1 / ex) / 1deg // 131,8°
+  let par = 0.45
+  cetz.draw.circle(T, radius: rsoi, stroke: (paint: c-dato, thickness: 0.7pt, dash: "dashed"))
+  cetz.draw.circle(T, radius: par / (1 + ex), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dotted"))
+  arco-conica(T, par, ex, dir-perigeo: 90 - aninf, desde: -12, hasta: 100, r-max: rsoi, color: c-dato, grosor: trazo-curva)
+  masa(T, radio: 0.055, color: c-orbe)
+  rotulo((r1, -0.12), text(fill: c-orbe, size: 8pt)[Tierra], ancla: "north")
+  flecha((r1 + 0.28, 0.72), (r1 + 0.28, 1.14), color: c-rojo, grosor: 0.8pt)
+  rotulo((r1 + 0.32, 1.14), text(fill: c-rojo, size: 8pt)[$v_oo$], ancla: "west")
+  rotulo((r1 + 0.68, -0.72), text(fill: c-dato, size: 8pt)[hipérbola de salida], ancla: "west")
+
+  // --- Cónica 3: la hipérbola de llegada, adentro de la esfera marciana.
+  let M = (-r2, 0)
+  cetz.draw.circle(M, radius: rsoi, stroke: (paint: c-aux, thickness: 0.7pt, dash: "dashed"))
+  arco-conica(M, par, ex, dir-perigeo: aninf - 90, desde: -100, hasta: 12, r-max: rsoi, color: c-aux, grosor: trazo-curva)
+  masa(M, radio: 0.055, color: c-aux)
+  rotulo((-r2 - 0.1, -0.02), text(fill: c-aux, size: 8pt)[Marte], ancla: "east")
+  flecha((-r2 - 0.28, -1.14), (-r2 - 0.28, -0.72), color: c-rojo, grosor: 0.8pt)
+  rotulo((-r2 - 0.32, -1.14), text(fill: c-rojo, size: 8pt)[$v_oo$], ancla: "east")
+  rotulo((-r2 - 0.68, 0.72), text(fill: c-aux, size: 8pt)[hipérbola de llegada], ancla: "east")
+
+  // --- Los dos pegados: donde la elipse cruza cada esfera de influencia.
+  //     Ahí, y sólo ahí, el problema cambia de cuerpo central.
+  for (ang, col) in ((23, c-dato), (165, c-aux)) {
+    let rr = p-t / (1 + e-t * calc.cos(ang * 1deg))
+    let pt = (rr * calc.cos(ang * 1deg), rr * calc.sin(ang * 1deg))
+    cetz.draw.circle(pt, radius: 0.085, fill: white, stroke: 0.8pt + col)
+  }
+
+  rotulo((-r2 - 0.7, -2.95), text(fill: luma(70), size: 8pt)[
+    Las dos circunferencias punteadas son las esferas de influencia, agrandadas unas 300 veces:\
+    a escala serían del tamaño del punto rojo de la figura anterior, y no se vería ninguna hipérbola.\
+    La punteada fina alrededor de la Tierra es la órbita de estacionamiento, donde se enciende el motor,\
+    y los dos circulitos huecos son los pegados: ahí, y sólo ahí, el cuerpo central cambia.
+  ], ancla: "west")
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -1624,4 +1754,6 @@
   ("fig-conos", fig-conos),
   ("fig-hiperbola-geometria", fig-hiperbola-geometria),
   ("fig-hiperbola-energia", fig-hiperbola-energia),
+  ("fig-esfera-influencia", fig-esfera-influencia),
+  ("fig-conicas-parcheadas", fig-conicas-parcheadas),
 )

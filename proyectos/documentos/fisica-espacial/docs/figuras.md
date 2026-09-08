@@ -81,6 +81,22 @@ lleva sus dos líneas de referencia verticales: sin ellas, el extremo que cae
 sobre el perigeo queda *fuera* de la elipse —el perigeo está sobre la curva
 sólo en $y=0$— y se lee como una marca suelta.
 
+**8. Cuando lo que la figura tiene que mostrar es que algo es *un punto*, se
+dibuja a escala y se le pone al lado una referencia medida.** En
+`fig-esfera-influencia` la tentación era agrandar la esfera para que «se
+viera» — y eso destruye la figura entera, porque el contenido *es* el tamaño.
+Lo que la hace legible sin mentir son tres cosas: una **barra de escala** con
+un número al lado (el punto solo no dice nada; el punto contra una barra de
+$149,6$ millones de km sí), una **flecha de nota** que lo señale, y un **disco
+blanco debajo** cuando el punto cae encima de una línea de construcción, que
+si no se lo come.
+
+*El corolario para la otra mitad:* si en la misma figura hay algo que sí se
+agranda —las esferas de `fig-conicas-parcheadas` están 300 veces más grandes—,
+el factor va **escrito en el dibujo**, no sólo en el epígrafe. El epígrafe se
+lee después de mirar, y para entonces el lector ya sacó la conclusión
+equivocada.
+
 ## Catálogo
 
 | Figura | Módulo | Qué muestra |
@@ -115,6 +131,8 @@ sólo en $y=0$— y se lee como una marca suelta.
 | `fig-conos` | 12 | el cono espacial y el cono corporal, tangentes a lo largo del eje instantáneo |
 | `fig-hiperbola-geometria` | 16 | la hipérbola entera: las dos ramas, las asíntotas, β, el ángulo de giro δ, el radio de puntería Δ y el semieje a medido desde C |
 | `fig-hiperbola-energia` | 16 | el pozo del módulo 6 con una sola recta E > 0: el reparto entre lo que cuesta escapar y lo que sobra (v_∞) |
+| `fig-esfera-influencia` | 17 | la esfera de influencia de la Tierra mirada desde los dos lados, **a escala real las dos veces**: enorme desde la Tierra (145 R_T, dos veces y media la órbita de la Luna) y un punto desde el Sol (0,62% del radio de la órbita) |
+| `fig-conicas-parcheadas` | 17 | las tres cónicas del método —hipérbola de salida, elipse heliocéntrica, hipérbola de llegada— con las dos esferas agrandadas 300 veces y los dos pegados marcados con círculos huecos |
 
 ## Lo que `estilo.typ` todavía no tiene
 
