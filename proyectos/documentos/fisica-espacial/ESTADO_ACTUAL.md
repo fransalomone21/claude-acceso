@@ -12,13 +12,14 @@ contra los quince ya escritos, está en `PDP.md` §4 (fase 5).
 |---|---|
 | **M16 — La hipérbola: escapar, y llegar con velocidad de sobra** | **escrito y verificado en render** (2026-09-07) |
 | **M17 — La esfera de influencia y las órbitas parcheadas** | **escrito y verificado en render** (2026-09-07, sesión 2) |
-| M18 — Marco perifocal, vector de estado y coeficientes de Lagrange | pendiente |
+| **M18 — Marco perifocal, vector de estado y coeficientes de Lagrange** | **escrito y verificado en render** (2026-09-08, sesión 3) |
 | M19 — Tres cuerpos restringido y puntos de Lagrange | pendiente |
 
-**El apunte pasó de 106 a 126 páginas** y de 28 a 32 figuras. La Parte V
-arranca en la página 107. `apunte.typ` todavía tiene los dos `#include` de
-M18 y M19 comentados, con su nombre de archivo definitivo — así el plan y el
-documento no pueden divergir sin que se vea.
+**El apunte pasó de 106 a 136 páginas** y de 28 a 34 figuras. La Parte V
+arranca en la página 107 y el M18 ocupa las páginas 123 a 132 (impresas).
+`apunte.typ` todavía tiene el `#include` de M19 comentado, con su nombre de
+archivo definitivo — así el plan y el documento no pueden divergir sin que se
+vea.
 
 **Lo que el M16 cerró, además de su propio tema.** Las dos fórmulas que
 faltaban para despejar $v_r$ y el ángulo de trayectoria de vuelo $gamma$
@@ -44,13 +45,48 @@ cumplida y con auditoría: la esfera de influencia sale de comparar
 perturbaciones —no fuerzas—, y el módulo muestra primero que el criterio
 ingenuo («quién tira más fuerte») deja a la Luna afuera de la Tierra, que es
 el absurdo que obliga a cambiar de pregunta. El ejemplo de Marte quedó cerrado
-de punta a punta con dos números que el M16 no tenía: **$eta = 29,2°$**, que
+de punta a punta con dos números que el M16 no tenía: **$\beta = 29,2°$**, que
 dice *dónde* se enciende, y **$\Delta m/m = 0,705$** con la ecuación del cohete
 del módulo 4. Y hay una sección entera —la 17.6— dedicada a *medir el error
 del método*: en la frontera la nave va a $3,086$ km/s y no a los $2,943$ que
 el parcheo supone (4,9% de más), pero la dirección se acierta con $1,5°$. El
 error es asimétrico, y eso es lo que decide que las misiones corrijan a mitad
 de camino en vez de rediseñar.
+
+**Lo que el M18 cerró (2026-09-08, sesión 3).** Las dos filas nuevas que la
+cátedra agregó a la lista de gravitación —«todo Curtis cap. 2» y los
+parámetros orbitales del Bate— quedan cubiertas: el marco perifocal
+(Curtis §2.10 y Bate §2.2.4), los **seis elementos orbitales clásicos** con su
+receta de obtención desde el vector de estado (Bate §2.3 y §2.4) y los
+**coeficientes de Lagrange** (Curtis §2.11). Dos figuras nuevas.
+
+Tres cosas que el módulo aporta y que no estaban en el plan:
+
+- La deducción de los coeficientes de Lagrange se apoya en **un solo hecho
+  geométrico**, dicho antes de cualquier cuenta: $bold(r)_0$ y $bold(v)_0$ son
+  una base del plano de la órbita, porque si fueran paralelos $bold(h)$ sería
+  cero. Con eso, que existan $f$ y $g$ deja de ser un resultado y pasa a ser
+  obvio; la cuenta sólo dice cuánto valen.
+- La identidad $f dot(g) - dot(f) g = 1$ se presenta como lo que es: **la
+  conservación del momento angular**, o sea la segunda ley de Kepler escrita
+  como un determinante igual a uno. Y sirve de control aritmético gratis, que
+  el ejemplo a fondo usa.
+- **Una tercera errata de Curtis**, confirmada por el resultado impreso del
+  propio libro: el ejemplo 2.13 imprime $r_0 = 10 thin 861$ km donde va
+  $10 thin 681$ (con $10 thin 861$ no sale el $h = 75 thin 366$ que el libro
+  publica dos renglones más abajo, y el resto del ejemplo usa $10 thin 681$).
+  Queda anotada en el apunte, en un `#cuidado` al lado del ejemplo.
+
+**El Bate SÍ está en el disco**, contra lo que el HANDOFF de la sesión 2
+suponía: `Roger R. Bate, Donald D. Mueller, Jerry E. White - Fundamentals of
+astrodynamics-Dover Publications (1971).pdf`, en la misma carpeta que el
+Curtis. Offset medido: **página impresa = página del PDF − 15**.
+
+**Lo que el M18 NO hizo, a propósito.** No desarrolla la ecuación de Kepler
+—no es su tema y da para un módulo entero—, así que **los 3,2 días de la
+sección 17.6 siguen citados y no deducidos**. El M18 lo dice explícitamente en
+su sección 18.5, de modo que la deuda queda declarada adentro del apunte y no
+sólo acá.
 
 **Fase 3 (Parte III: gravitación y órbitas) — CERRADA el 2026-08-31.**
 
@@ -129,7 +165,8 @@ huérfanos de caja, **106 páginas**.
 | **Módulo 15 — Peonza simétrica, precesión directa y retrógrada** | **escrito y verificado en render** |
 | **Módulo 16 — La hipérbola: escapar y llegar con velocidad de sobra** | **escrito y verificado en render** |
 | **Módulo 17 — La esfera de influencia y las órbitas parcheadas** | **escrito y verificado en render** |
-| Módulos 18 y 19 — Parte V | no empezados |
+| **Módulo 18 — Marco perifocal, vector de estado y coeficientes de Lagrange** | **escrito y verificado en render** |
+| Módulo 19 — Parte V | no empezado |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -378,8 +415,44 @@ y no dio. Ocho secciones:
 8. *Lo que se usa después* — incluye el círculo de perigeos posibles de radio
    $r_p sin beta = 3260$ km, que es de dónde salen las ventanas diarias.
 
-**Módulos 18 y 19 — no empezados.** Sus `#include` ya están escritos y
-comentados en `apunte.typ` con el nombre de archivo definitivo.
+**Módulo 18 — Marco perifocal, vector de estado y coeficientes de Lagrange**
+(10 pág., 123–132). Es el módulo de *herramientas* de la Parte V: no agrega
+física nueva, agrega la forma en que la física que ya está se escribe para una
+computadora. Seis secciones:
+
+1. *La idea completa, antes de la primera ecuación* — la regla 4 del contrato,
+   con el plan en tres pasos («elegir bien los ejes → contar los números →
+   propagar sin resolver nada») y un `#posta` de tres ideas, la última de las
+   cuales organiza el módulo entero: una órbita *son seis números*.
+2. *El marco perifocal* — `#definicion` de $hat(p) hat(q) hat(w)$, figura nueva
+   `fig-perifocal`, la posición leída sin deducir y la `#deduccion` de
+   $bold(v) = (mu\/h)[-sin nu hat(p) + (e + cos nu) hat(q)]$, con el `#clave`
+   de que sus componentes **no dependen de $r$**. Un `#notacion` por el choque
+   Curtis ($theta$, $hat(p) hat(q) hat(w)$) contra Bate ($nu$, $P Q W$).
+3. *Los seis números de una órbita* — `#definicion` de vector de estado, los
+   seis elementos clásicos del Bate, y el `#clave` que los separa: **cinco son
+   constantes y sólo el sexto corre**. Después la receta de los tres vectores
+   $bold(h)$, $bold(n)$, $bold(e)$ y los seis cosenos, con dos `#cuidado`: el
+   de la resolución de cuadrante y el de las **órbitas degeneradas** (circular
+   y ecuatorial), que cierra con «una singularidad de las coordenadas no es una
+   singularidad de la física».
+4. *Los coeficientes de Lagrange* — el argumento de la base en un renglón,
+   figura nueva `fig-lagrange-base`, la `#deduccion` completa, el `#clave` del
+   determinante igual a uno, las cuatro fórmulas en función de $Delta nu$ y la
+   receta en cinco pasos (algoritmo 2.3 de Curtis).
+5. *Lo que falta: el tiempo* — la ecuación de Kepler nombrada y **no**
+   desarrollada, la serie de $f$ y $g$ en $Delta t$, y el `#cuidado` del radio
+   de convergencia (1700 s, un quinto del período del ejemplo de Curtis).
+6. *Lo que se usa después.*
+
+Ejemplos: el **simple** son los ejemplos 2.11 y 2.12 de Curtis apareados a
+propósito —la misma órbita en las dos direcciones, y el segundo termina en una
+hipérbola que los datos no dejaban ver—; el **a fondo** son los ejemplos 2.13
+y 2.14, una propagación entera de $120°$ que corre sin saber en qué cónica
+está, con el control $f dot(g) - dot(f) g = 1$ hecho a mitad de camino.
+
+**Módulo 19 — no empezado.** Su `#include` ya está escrito y comentado en
+`apunte.typ` con el nombre de archivo definitivo.
 
 ## Lo verificado contra las fuentes en esta fase
 
@@ -439,13 +512,13 @@ comentados en `apunte.typ` con el nombre de archivo definitivo.
 | Ejemplo 2.10 rehecho número por número (los ocho apartados) | Curtis, pág. 100–101; coinciden todos dentro del redondeo |
 | El enlace Hohmann ↔ hipérbola de escape ($v_\infty = 2,94$ km/s, $\Delta v = 3,59$ km/s desde 300 km) | calculado en esta sesión con los datos del apéndice F que el módulo 11 ya usaba |
 | **Fase 5, sesión 2 — lo de abajo es del capítulo 8 de Curtis**, mismo offset (impresa = PDF − 8) | leído por capa de texto |
-| Esfera de influencia: los dos puntos de vista, las dos razones de perturbación y $r_	ext{SOI} = R(m_p/m_s)^{2/5}$ | Curtis §8.4, ecs. 8.18 a 8.34, pág. 390–394 |
+| Esfera de influencia: los dos puntos de vista, las dos razones de perturbación y $r_\text{SOI} = R(m_p/m_s)^{2/5}$ | Curtis §8.4, ecs. 8.18 a 8.34, pág. 390–394 |
 | Radio de la esfera terrestre, 925.000 km = 145 $R_T$ | Curtis, ejemplo 8.3, pág. 394 |
 | Método de las cónicas parcheadas, y por qué no sirve para la Luna | Curtis §8.5, pág. 394–395 |
-| Partida planetaria: $e = 1 + r_p v_\infty^2/\mu$, $h$, $v_p$, $\Delta v$, $eta$, el círculo de perigeos $r_p\sineta$ | Curtis §8.6, ecs. 8.35 a 8.43, pág. 395–397 |
-| Ejemplo 8.4 rehecho entero ($v_\infty=2,943$; $\Delta v=3,590$; $eta=29,2°$; $\Delta m/m=0,705$) | Curtis, pág. 399–401 |
+| Partida planetaria: $e = 1 + r_p v_\infty^2/\mu$, $h$, $v_p$, $\Delta v$, $\beta$, el círculo de perigeos $r_p\sin\beta$ | Curtis §8.6, ecs. 8.35 a 8.43, pág. 395–397 |
+| Ejemplo 8.4 rehecho entero ($v_\infty=2,943$; $\Delta v=3,590$; $\beta=29,2°$; $\Delta m/m=0,705$) | Curtis, pág. 399–401 |
 | **Errata en Curtis, ejemplo 8.4(b)**: el denominador dice 368.600 donde va $\mu_T=398.600$ | el resultado impreso, 29,16°, sale con 398.600; con 368.600 daría otro número |
-| **Errata en Curtis, ejemplo 8.3**: la fracción dice $1,989	imes10^{24}$ donde va $10^{30}$ | el resultado impreso, 925.000 km, sale con $10^{30}$ |
+| **Errata en Curtis, ejemplo 8.3**: la fracción dice $1,989\times10^{24}$ donde va $10^{30}$ | el resultado impreso, 925.000 km, sale con $10^{30}$ |
 | La tabla de siete esferas de influencia (Mercurio a Saturno, más la Luna) | **calculada en esta sesión** con la fórmula y los $\mu$ del apéndice F; los siete valores coinciden con la tabla A.2 de Curtis |
 | El error del parcheo: $v=3,086$ km/s y $
 u=149,3°$ en la frontera | **calculado en esta sesión** con la vis-viva y la ecuación de la órbita del apunte |
@@ -480,9 +553,9 @@ cuatro no.
 | Sesión | Módulo | Qué cierra la sesión |
 |---|---|---|
 | 1 · **hecha** (2026-09-07) | M16 — la hipérbola | escrito, compilado y mirado; el enlace numérico con Hohmann adentro |
-| 2 | **M17 — esfera de influencia y órbitas parcheadas** | la deducción de $R_\text{SOI} = r\,(m/M)^{2/5}$, el método de las cónicas parcheadas, la partida planetaria completa (Curtis §8.4–8.6), y el ejemplo Tierra→Marte de punta a punta usando el $v_\infty$ del módulo 16 |
-| 3 | M18 — marco perifocal y coeficientes de Lagrange | $\hat p$, $\hat q$, $\hat w$; el vector de estado; $f$ y $g$ (Curtis §2.10–2.11) y los sistemas de coordenadas del Bate (pág. 53–74) |
-| 4 | M19 — tres cuerpos restringido y puntos de Lagrange | los cinco puntos, la constante de Jacobi, y por qué la esfera de influencia del M17 es una aproximación (Curtis §2.12) |
+| 2 · **hecha** (2026-09-07) | M17 — esfera de influencia y órbitas parcheadas | la deducción de $R_\text{SOI} = r\,(m/M)^{2/5}$, el método de las cónicas parcheadas, la partida planetaria completa (Curtis §8.4–8.6), y el ejemplo Tierra→Marte de punta a punta usando el $v_\infty$ del módulo 16 |
+| 3 · **hecha** (2026-09-08) | M18 — marco perifocal y coeficientes de Lagrange | $\hat p$, $\hat q$, $\hat w$; el vector de estado y los seis elementos; $f$ y $g$ (Curtis §2.10–2.11) y los parámetros orbitales del Bate (pág. 53–74) |
+| 4 | **M19 — tres cuerpos restringido y puntos de Lagrange** | los cinco puntos, la constante de Jacobi, y por qué la esfera de influencia del M17 es una aproximación (Curtis §2.12) |
 | 5 | cierre de fase | las referencias cruzadas de la Parte V validadas contra el índice renderizado, y `docs/figuras.md` al día |
 
 **Por qué el M17 va segundo y no cuarto.** Es lo que Fran pidió

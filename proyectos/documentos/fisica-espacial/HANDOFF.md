@@ -39,28 +39,66 @@ for i,p in enumerate(d):
 "
 ```
 
-## Fase 5 — lo que la próxima sesión necesita (M18: perifocal y Lagrange)
+## Fase 5 — lo que la próxima sesión necesita (M19: tres cuerpos y Lagrange)
 
-M16 y M17 están cerrados y verificados en el render (2026-09-07, dos sesiones
-del mismo día). Lo que sigue es el M18 — marco perifocal, vector de estado y
-coeficientes de Lagrange — y después el M19.
+M16, M17 y M18 están cerrados y verificados en el render. Lo que queda de la
+fase es el M19 —problema restringido de tres cuerpos y puntos de Lagrange— y
+después la sesión de cierre.
 
-**Dónde está la fuente, con el offset ya medido y usado dos veces.** Curtis,
-**página impresa = página del PDF − 8**. Localizar el PDF con `glob.glob`
-sobre `Desktop\Mis Documentos\SistemasEspaciales\Libros de Fisica\`, **nunca
-escribiendo la ruta a mano**: tiene acentos y el heredoc se los come.
+**Las dos fuentes, con los offsets MEDIDOS.** Localizar los PDFs con
+`glob.glob` sobre `Desktop\Mis Documentos\SistemasEspaciales\Libros de
+Fisica\`, **nunca escribiendo la ruta a mano**: tiene acentos y el heredoc se
+los come.
 
-| Sección | Qué | PDF | Impresa |
+| Libro | Offset | Estado |
+|---|---|---|
+| Curtis, *Orbital mechanics for engineering students* (2020) | impresa = PDF − 8 | medido, usado cuatro veces |
+| Bate–Mueller–White, *Fundamentals of astrodynamics* (1971) | impresa = PDF − 15 | **medido el 2026-09-08** |
+
+**El Bate SÍ está en el disco** — la sesión 2 anotó que no, y era falso. Está
+en la misma carpeta que el Curtis, como `Roger  R. Bate, Donald D. Mueller,
+Jerry E. White - Fundamentals of astrodynamics-Dover Publications (1971).pdf`
+(ojo: **dos espacios** entre «Roger» y «R.», por eso conviene el glob). Es un
+escaneo con OCR flojo: las fórmulas salen rotas al extraer texto, pero la
+prosa se lee bien y las secciones se ubican con regex sobre `2\.\d`.
+
+Secciones ya localizadas y leídas (números de PDF, confirmados abriéndolas):
+
+| Fuente | Qué | PDF | Impresa |
 |---|---|---|---|
-| §2.10 | **Marco perifocal** | ~110 | ~102 |
-| §2.11 | **Coeficientes de Lagrange** | ~114 | ~106 |
-| §2.12 | Tres cuerpos restringido y puntos de Lagrange (es el M19) | ~45 | ~37 |
+| Curtis §2.10 | marco perifocal | 110 | 102 |
+| Curtis §2.11 | coeficientes de Lagrange | 113 | 105 |
+| **Curtis §2.12** | **tres cuerpos restringido — es el M19** | **124** | **116** |
+| Bate §2.2.4 | sistema perifocal | 72 | 57 |
+| Bate §2.3 | los seis elementos orbitales clásicos | 73 | 58 |
+| Bate §2.4 | los elementos a partir de $r$ y $v$ | 76 | 61 |
+| Bate §2.5.1 | $r$ y $v$ en el sistema perifocal | 87 | 72 |
 
-Esos números de PDF están **deducidos del índice, no medidos**: la primera
-cosa que hace la sesión del M18 es abrir esas páginas y confirmar. El Bate,
-capítulo 2 (pág. 53–74), es la otra fuente que la cátedra pidió para
-parámetros orbitales — **no está en el disco**: hay que ver si Fran lo
-consigue, o si se cubre todo con Curtis.
+La fila de §2.12 **corrige** la que dejó la sesión 2, que decía «~45»: eso era
+un error de tipeo del índice y habría mandado a la sesión del M19 a leer el
+capítulo 1.
+
+**Lo que el M18 ya dejó hecho y NO hay que rehacer:**
+
+- El marco perifocal entero, con las dos fórmulas ($bold(r)$ y $bold(v)$) y su
+  deducción, más la figura `fig-perifocal`.
+- Los seis elementos orbitales del Bate, con la receta de los tres vectores
+  ($bold(h)$, $bold(n)$, $bold(e)$), los seis cosenos, los tres chequeos de
+  cuadrante y los dos casos degenerados. Con eso, la fila «parámetros
+  orbitales del Bate» de la lista de la cátedra queda cubierta.
+- Los coeficientes de Lagrange en las dos versiones (exacta en $Delta nu$ y
+  serie en $Delta t$), la identidad $f dot(g) - dot(f) g = 1$ y la figura
+  `fig-lagrange-base`.
+- Una tercera errata de Curtis: **ejemplo 2.13, $r_0 = 10 thin 861$ km donde
+  va $10 thin 681$** (confirmada porque con $10 thin 861$ no sale el
+  $h = 75 thin 366$ que el propio libro imprime).
+
+**Lo que el M19 hereda como deuda declarada.** Los $3,2$ días adentro de la
+esfera de influencia (sección 17.6) **siguen citados y no deducidos**: hace
+falta la ecuación de Kepler hiperbólica, que el M18 nombró y no desarrolló
+(sección 18.5). Si el M19 tampoco la desarrolla —y no debería, no es su tema—,
+la deuda queda como está y ya está dicha adentro del apunte, así que **no hay
+que volver a la 17.6 a tocar nada**.
 
 **Lo que el M17 ya dejó hecho y NO hay que rehacer:**
 
@@ -91,13 +129,17 @@ ejemplos de referencia. El M17 agrega un patrón que conviene repetir donde
 haya una aproximación: **una sección entera que mide el error del propio
 método** antes de darlo por bueno (la 17.6, «Cuánto cuesta la mentira»).
 
-**Figuras.** Las cuatro de la Parte V ya están: `fig-hiperbola-geometria`,
-`fig-hiperbola-energia`, `fig-esfera-influencia` y `fig-conicas-parcheadas`.
-El M18 probablemente necesite una del marco perifocal (los tres versores
-contra el marco geocéntrico), y no hace falta ningún helper nuevo: `flecha`,
-`angulo` y `elipse-orbital` alcanzan. Si la figura tiene que mostrar una
-diferencia grande de escala, la **regla 8 de `docs/figuras.md`** —escrita en
-esta sesión— dice cómo se hace sin mentir.
+**Figuras.** Las seis de la Parte V ya están: `fig-hiperbola-geometria`,
+`fig-hiperbola-energia`, `fig-esfera-influencia`, `fig-conicas-parcheadas`,
+`fig-perifocal` y `fig-lagrange-base`. Ninguna necesitó helper nuevo:
+`flecha`, `angulo`, `elipse-orbital`, `rotulo` y `masa` alcanzaron para las
+seis, y `estilo.typ` no se tocó desde el M12.
+
+`docs/figuras.md` va por la **regla 10**. Las tres últimas son de la Parte V y
+las tres son de colocación, no de dibujo: la 8 (mostrar que algo es un punto
+sin agrandarlo), la 9 (dos vectores colineales no se dibujan como dos flechas
+— la larga tapa a la corta) y la 10 (dónde va el punto móvil lo deciden sus
+proyecciones, no la estética).
 
 ## Las trampas de Typst ya pagadas
 
@@ -297,6 +339,43 @@ sin una palabra, y el PDF salió con **`,n` impreso en el medio de una frase**.
 va con la herramienta de archivos.* Y si igual pasó, lo único que lo atrapa es
 `grep` de la secuencia literal esperada, o mirar el render. La comilla del
 heredoc protege de **bash**; no protege del resto del canal.
+
+**9d. La trampa 9 es del CANAL, no del tipo de archivo — y por escribirla
+pensando en `.typ` se volvió a pagar en un `.md`.** El 2026-09-08, actualizando
+`docs/figuras.md` con un `python - << 'PY'`, un `\boldsymbol` de la tabla dejó
+un **backspace** (de `\b`) adentro del archivo y todas las demás barras
+quedaron **duplicadas** (`\\hat` en vez de `\hat`). Las dos fallas de la 9b y
+la 9c, juntas, en un archivo que no es de Typst.
+
+Lo único que avisó fue un `SyntaxWarning: invalid escape sequence` de Python
+—y avisó, como siempre, de las secuencias que **no** rompen nada—. El chequeo
+de caracteres de control sí lo atrapó, porque `\b` es control; las barras
+duplicadas no las atrapa nadie más que `grep`.
+
+*La regla, corregida:* **ningún texto con barras invertidas pasa por un
+heredoc, sea `.typ`, `.md` o lo que sea.** Va con la herramienta de archivos.
+Y el chequeo de cierre son **dos** greps, no uno:
+
+```bash
+python -c "
+import io
+s = io.open('ARCHIVO', encoding='utf-8').read()
+print('control:', {ord(c) for c in s if c != chr(10) and ord(c) < 32} or 'limpio')
+print('barras dobles:', s.count(chr(92)*2))
+"
+```
+
+**18. La coma decimal de la plantilla vuelve ilegible cualquier terna de
+componentes.** `plantilla.typ` trae un `show ","` que le saca el espacio a la
+coma para que `$29,3$` salga bien. La consecuencia no prevista: `$(7000, 9000,
+0)$` se imprime **`(7000,9000,0)`**, que en un apunte donde la coma *es* el
+separador decimal se lee como un solo número gigante. Compila sin decir nada y
+sólo se ve mirando la página.
+
+*Regla: un vector con componentes numéricas nunca se escribe como terna entre
+paréntesis; va con versores* — `$7000 hat(i) + 9000 hat(j)$` —, que además es
+como se lo escribe en el resto del apunte. La terna sólo es segura con letras
+($(bold(r), bold(v))$ sale bien), porque ahí no hay ambigüedad con un decimal.
 
 **17. Una figura y su epígrafe pueden decir dos veces lo mismo, y sólo se ve
 en el render.** El texto que va *adentro* del lienzo (con `rotulo`) y el que va

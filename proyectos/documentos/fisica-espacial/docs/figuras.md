@@ -97,6 +97,36 @@ el factor va **escrito en el dibujo**, no sólo en el epígrafe. El epígrafe se
 lee después de mirar, y para entonces el lector ya sacó la conclusión
 equivocada.
 
+**9. Dos vectores colineales no se dibujan como dos flechas: la larga se come
+a la corta.** En `fig-lagrange-base` hacen falta $\bold v_0$ trasladada al foco
+*y* $g\,\bold v_0$, que están sobre el mismo rayo. Dibujadas las dos como
+flechas, la segunda —más larga y más gruesa— tapa a la primera entera, y en el
+render sólo se ve el rótulo de la que no está. La salida es asimétrica y es la
+correcta: **una va como línea y la otra como marca perpendicular sobre esa
+línea**, a la distancia que le corresponde. Se lee mejor que dos flechas,
+porque además muestra la relación entre las dos longitudes, que es justo de lo
+que hablaba la figura.
+
+*El caso espejo, en la misma figura:* cuando la corta es la que importa
+($f\,\bold r_0$ sobre $\bold r_0$, con $f < 1$), la larga va como flecha normal
+y la corta como **segmento grueso encima**, con su marca de tope. La regla
+común: lo que comparte rayo se distingue por *grosor y marca*, nunca por dos
+puntas de flecha.
+
+**10. Dónde poner el punto móvil de una figura lo decide dónde caen sus
+proyecciones, no dónde queda lindo.** En `fig-perifocal` el satélite se puso
+primero en el primer cuadrante, que es lo natural. Ahí el pie de la proyección
+en $x$ cae encima de la flecha de $\hat p$ y el de la proyección en $y$ encima
+de la de $\hat q$: los dos rótulos de construcción se comen a los dos versores,
+que son *el tema de la figura*. Con el satélite en el segundo cuadrante
+($\nu > 90°$) las dos proyecciones caen sobre semiejes vacíos y no hay nada que
+reacomodar.
+
+*Y el ángulo a evitar:* la anomalía donde la elipse alcanza su $y$ máximo es
+$\cos\nu = -e$. Un punto ahí deja la proyección horizontal corriendo
+**tangente** al borde de la elipse, que es ilegible. Para $e = 0{,}5$ eso cae
+en $\nu = 120°$, y por eso el punto de la figura quedó en $145°$.
+
 ## Catálogo
 
 | Figura | Módulo | Qué muestra |
@@ -133,6 +163,8 @@ equivocada.
 | `fig-hiperbola-energia` | 16 | el pozo del módulo 6 con una sola recta E > 0: el reparto entre lo que cuesta escapar y lo que sobra (v_∞) |
 | `fig-esfera-influencia` | 17 | la esfera de influencia de la Tierra mirada desde los dos lados, **a escala real las dos veces**: enorme desde la Tierra (145 R_T, dos veces y media la órbita de la Luna) y un punto desde el Sol (0,62% del radio de la órbita) |
 | `fig-conicas-parcheadas` | 17 | las tres cónicas del método —hipérbola de salida, elipse heliocéntrica, hipérbola de llegada— con las dos esferas agrandadas 300 veces y los dos pegados marcados con círculos huecos |
+| `fig-perifocal` | 18 | el marco perifocal: $\hat p$ al perigeo, $\hat q$ a 90°, $\hat w$ saliendo de la hoja, y la posición leída como $x = r\cos\nu$, $y = r\sin\nu$ |
+| `fig-lagrange-base` | 18 | por qué existen los coeficientes de Lagrange: $r$ como diagonal del paralelogramo de $f\,r_0$ y $g\,v_0$, con $v_0$ trasladada al foco |
 
 ## Lo que `estilo.typ` todavía no tiene
 

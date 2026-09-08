@@ -127,7 +127,7 @@
 
 #include "modulos/m16-hiperbola.typ"
 #include "modulos/m17-esfera-influencia.typ"
-// #include "modulos/m18-perifocal-lagrange.typ"
+#include "modulos/m18-perifocal-lagrange.typ"
 // #include "modulos/m19-tres-cuerpos.typ"
 
 // ---------------------------------------------------------------------

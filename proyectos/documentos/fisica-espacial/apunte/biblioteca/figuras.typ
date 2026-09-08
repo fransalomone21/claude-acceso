@@ -1722,6 +1722,168 @@
   ], ancla: "west")
 })
 
+// =====================================================================
+//  Módulo 18 — Marco perifocal y coeficientes de Lagrange
+// =====================================================================
+
+// --- El marco perifocal --------------------------------------------------
+// El sistema de ejes clavado a la propia órbita: p̂ hacia el perigeo, q̂ a
+// 90° en el sentido del movimiento, ŵ saliendo de la hoja. Lo que la figura
+// tiene que dejar ver es que la posición se lee como DOS NÚMEROS sobre esos
+// ejes, x = r cos ν e y = r sin ν, y que la velocidad es tangente.
+//
+// El satélite va en el SEGUNDO cuadrante a propósito. Puesto en el primero
+// —que es lo natural— el pie de la proyección en x cae encima de la flecha
+// de p̂ y el de la proyección en y encima de la de q̂: los dos rótulos de
+// construcción se comen los dos versores, que son el tema de la figura.
+// Con ν > 90° las dos proyecciones caen en semiejes vacíos.
+#let fig-perifocal = esquema(escala: 1.35cm, {
+  let a = 2.7
+  let e = 0.5
+  let c = a * e
+  let p = a * (1 - e * e)
+  let F = (0, 0)
+  let P = (a - c, 0) // perigeo
+
+  // OJO: la variable NO se puede llamar `nu` (trampa 10 del HANDOFF).
+  let anom = 145
+  let r = p / (1 + e * calc.cos(anom * 1deg))
+  let S = (r * calc.cos(anom * 1deg), r * calc.sin(anom * 1deg))
+
+  elipse-orbital(F, a, e, giro: 180deg, color: c-trazo, grosor: trazo-curva2)
+  cetz.draw.line((-a - c - 0.2, 0), (a - c + 0.35, 0), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+
+  // ---- el origen: el foco, y el versor que sale de la hoja ----
+  cetz.draw.circle(F, radius: 0.2, fill: white, stroke: 0.7pt + c-aux)
+  cetz.draw.circle(F, radius: 0.05, fill: c-aux, stroke: none)
+  rotulo((-0.24, -0.13), text(fill: c-aux)[$hat(w)$], ancla: "north-east", color: c-aux)
+
+  // ---- los dos versores del plano ----
+  flecha((0.26, 0), (0.95, 0), etiqueta: $hat(p)$, color: c-aux, lado: "south", pos: 100%)
+  flecha((0, 0.26), (0, 0.95), etiqueta: $hat(q)$, color: c-aux, lado: "west", pos: 100%)
+
+  // El rótulo del perigeo va DEBAJO del eje: arriba choca con la punta de p̂,
+  // que está a sólo cuatro décimas de distancia.
+  masa(P, radio: 0.07, color: c-trazo)
+  rotulo((P.at(0) + 0.09, -0.09), [perigeo], ancla: "west")
+
+  // ---- la posición y su lectura sobre los dos ejes ----
+  flecha(F, S, etiqueta: $bold(r)$, color: c-dato, lado: "north", pos: 55%)
+  masa(S, radio: 0.075, color: c-dato)
+  angulo(F, 0, anom, etiqueta: $nu$, radio: 1.2)
+
+  cetz.draw.line(S, (S.at(0), 0), stroke: (paint: c-guia, thickness: 0.45pt, dash: "dashed"))
+  cetz.draw.line(S, (0.14, S.at(1)), stroke: (paint: c-guia, thickness: 0.45pt, dash: "dashed"))
+  rotulo((S.at(0), -0.14), $x = r cos nu$, ancla: "north")
+  rotulo((0.2, S.at(1) + 0.11), $y = r sin nu$, ancla: "west")
+
+  // ---- la velocidad, tangente a la órbita ----
+  // Dirección de la @m18-v: proporcional a (-sin ν, e + cos ν), normalizada.
+  let vx = -calc.sin(anom * 1deg)
+  let vy = e + calc.cos(anom * 1deg)
+  let vn = calc.sqrt(vx * vx + vy * vy)
+  flecha(
+    S,
+    (S.at(0) + vx / vn, S.at(1) + vy / vn),
+    etiqueta: $bold(v)$,
+    color: c-verde,
+    lado: "north-west",
+    pos: 100%,
+  )
+})
+
+// --- r y v como combinación lineal de r₀ y v₀ ----------------------------
+// La figura que hace concreto el único enunciado del que dependen los
+// coeficientes de Lagrange: r₀ y v₀ son una BASE del plano de la órbita, así
+// que cualquier r posterior se escribe como f r₀ + g v₀.
+//
+// Lo que la hace funcionar es dibujar v₀ DOS VECES: en el satélite, donde
+// vive, y trasladada al foco, que es donde se la usa como vector de la base.
+// Sin esa copia, el paralelogramo no cierra en el dibujo aunque cierre en el
+// álgebra, y el lector no ve de dónde sale el segundo lado.
+//
+// PERO la copia trasladada NO puede ser una flecha propia: es colineal con
+// g·v₀, que se dibuja encima y se la come entera —pagado mirando el render—.
+// Va como una MARCA sobre la misma línea, a la distancia |v₀|, y así se lee
+// lo único que hay que leer: que g v₀ es esa longitud repetida g veces.
+//
+// Los números NO son inventados: con μ = 1 en unidades de la figura, para
+// ν₀ = 40° y Δν = 60° las fórmulas del módulo dan f = 0,452 y g = 1,867, y
+// con esos dos el paralelogramo cierra exactamente sobre el punto de llegada.
+#let fig-lagrange-base = esquema(escala: 1.28cm, {
+  let a = 2.6
+  let e = 0.5
+  let c = a * e
+  let p = a * (1 - e * e)
+  let h = calc.sqrt(p) // mu = 1
+  let F = (0, 0)
+
+  let anom0 = 40
+  let anom = 100
+  let punto(ang) = {
+    let rr = p / (1 + e * calc.cos(ang * 1deg))
+    (rr * calc.cos(ang * 1deg), rr * calc.sin(ang * 1deg))
+  }
+  let A = punto(anom0)
+  let B = punto(anom)
+  let r0 = calc.sqrt(A.at(0) * A.at(0) + A.at(1) * A.at(1))
+  let rr = calc.sqrt(B.at(0) * B.at(0) + B.at(1) * B.at(1))
+  let V0 = (-calc.sin(anom0 * 1deg) / h, (e + calc.cos(anom0 * 1deg)) / h)
+
+  let dnu = (anom - anom0) * 1deg
+  let ff = 1 - rr / p * (1 - calc.cos(dnu))
+  let gg = rr * r0 * calc.sin(dnu) / h
+  let Fr = (ff * A.at(0), ff * A.at(1))
+  let Gv = (gg * V0.at(0), gg * V0.at(1))
+
+  elipse-orbital(F, a, e, giro: 180deg, color: c-trazo, grosor: trazo-curva2)
+  cetz.draw.line((-a - c - 0.2, 0), (a - c + 0.3, 0), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  cuerpo-central(F, radio: 0.16, etiqueta: none)
+
+  // ---- el paralelogramo, primero, para que quede DEBAJO de todo ----
+  for (desde, hasta) in ((Fr, B), (Gv, B)) {
+    cetz.draw.line(desde, hasta, stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  }
+
+  // ---- los dos lados del paralelogramo, cada uno sobre su rayo ----
+  // Van ANTES que las flechas de r₀ y v₀ para que éstas queden encima.
+  // `tope` es la marca perpendicular que cierra una longitud sobre su rayo.
+  let tope(pt, col, lado: 0.1, grosor: 0.9pt) = {
+    let n = calc.sqrt(pt.at(0) * pt.at(0) + pt.at(1) * pt.at(1))
+    let ux = pt.at(0) / n
+    let uy = pt.at(1) / n
+    cetz.draw.line(
+      (pt.at(0) - lado * uy, pt.at(1) + lado * ux),
+      (pt.at(0) + lado * uy, pt.at(1) - lado * ux),
+      stroke: grosor + col,
+    )
+  }
+  cetz.draw.line(F, Fr, stroke: 2pt + c-dato)
+  tope(Fr, c-dato)
+  rotulo((Fr.at(0) + 0.1, Fr.at(1) - 0.19), text(fill: c-dato)[$f bold(r)_0$], ancla: "west")
+  cetz.draw.line(F, Gv, stroke: 2pt + c-verde)
+  tope(Gv, c-verde)
+  rotulo((Gv.at(0) - 0.08, Gv.at(1) + 0.08), text(fill: c-verde)[$g bold(v)_0$], ancla: "east")
+
+  // La marca de |v₀| sobre esa misma línea: v₀ trasladada al foco. Es lo que
+  // convierte a `g v₀` en algo medible — la unidad está dibujada al lado.
+  tope(V0, white, lado: 0.085, grosor: 1.6pt)
+  tope(V0, c-verde, lado: 0.085, grosor: 0.7pt)
+  rotulo((V0.at(0) - 0.11, V0.at(1) - 0.02), text(fill: c-verde)[$bold(v)_0$ trasladada al foco], ancla: "east")
+
+  // ---- lo conocido en t0 ----
+  flecha(F, A, etiqueta: $bold(r)_0$, color: c-dato, lado: "south", pos: 62%)
+  masa(A, radio: 0.07, color: c-dato)
+  rotulo((A.at(0) + 0.11, A.at(1) - 0.11), $t_0$, ancla: "west")
+  flecha(A, (A.at(0) + V0.at(0), A.at(1) + V0.at(1)), etiqueta: $bold(v)_0$, color: c-verde, lado: "west", pos: 100%)
+
+  // ---- lo que se busca en t ----
+  flecha(F, B, etiqueta: $bold(r)$, color: c-trazo, lado: "west", pos: 55%)
+  masa(B, radio: 0.07, color: c-trazo)
+  rotulo((B.at(0) + 0.1, B.at(1) + 0.02), $t$, ancla: "west")
+  angulo(F, anom0, anom, etiqueta: $Delta nu$, radio: 0.62)
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -1756,4 +1918,6 @@
   ("fig-hiperbola-energia", fig-hiperbola-energia),
   ("fig-esfera-influencia", fig-esfera-influencia),
   ("fig-conicas-parcheadas", fig-conicas-parcheadas),
+  ("fig-perifocal", fig-perifocal),
+  ("fig-lagrange-base", fig-lagrange-base),
 )

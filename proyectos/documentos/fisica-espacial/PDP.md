@@ -134,8 +134,8 @@ influencia» aparecían una sola vez en los 5189 renglones de `modulos/`.
 | Módulo | Qué | Fuente | Estado |
 |---|---|---|---|
 | M16 | La hipérbola: escapar y llegar con velocidad de sobra | Curtis §2.8–2.9 | **escrito y verificado** (2026-09-07) |
-| M17 | Esfera de influencia y órbitas parcheadas | Curtis §8.4–8.6, Bate cap. 7 | pendiente |
-| M18 | Marco perifocal, vector de estado y coeficientes de Lagrange | Curtis §2.10–2.11, Bate pág. 53–74 | pendiente |
+| M17 | Esfera de influencia y órbitas parcheadas | Curtis §8.4–8.6 | **escrito y verificado** (2026-09-07) |
+| M18 | Marco perifocal, vector de estado y coeficientes de Lagrange | Curtis §2.10–2.11, Bate §2.2.4 a §2.5 (pág. 57–73) | **escrito y verificado** (2026-09-08) |
 | M19 | El problema restringido de tres cuerpos y los puntos de Lagrange | Curtis §2.12 | pendiente |
 
 El orden no es el del libro: M17 va segundo, antes que los dos de
