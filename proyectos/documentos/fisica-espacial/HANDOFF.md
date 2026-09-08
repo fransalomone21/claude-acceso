@@ -39,6 +39,56 @@ for i,p in enumerate(d):
 "
 ```
 
+## Fase 5 — lo que la próxima sesión necesita (M17: esfera de influencia)
+
+Abierta el 2026-09-07 con el módulo 16 cerrado. Lo que sigue es el M17, y
+esto es lo que evita rehacer trabajo ya hecho:
+
+**Dónde está la fuente, con el offset medido.** Curtis, capítulo 8
+(*Interplanetary trajectories*). **Página impresa = página del PDF − 8.**
+
+| Sección | Qué | PDF | Impresa |
+|---|---|---|---|
+| §8.2 | Hohmann interplanetario | 391 | 383 |
+| §8.3 | Ventanas de lanzamiento y período sinódico | 393 | 385 |
+| §8.4 | **Esfera de influencia** | 398 | 390 |
+| §8.5 | **Método de las cónicas parcheadas** | 402 | 394 |
+| §8.6 | **Partida planetaria** (la hipérbola de escape) | 403 | 395 |
+| §8.7 | Análisis de sensibilidad | 409 | 401 |
+| §8.8 | Llegada planetaria | 411 | 403 |
+| §8.9 | Sobrevuelo (asistencia gravitatoria) | 418 | 410 |
+
+El Bate tiene el mismo tema en su capítulo 7, y es el que la cátedra pidió
+para parámetros orbitales — conviene mirar los dos y quedarse con la
+deducción más corta de $R_\text{SOI}$.
+
+**Lo que el M16 ya dejó hecho y NO hay que rehacer:**
+
+- $v_\infty$, $C_3$, $v^2 = v_\text{esc}^2 + v_\infty^2$, y la geometría
+  entera de la hipérbola ($\delta$, $\Delta$, $a$, $r_p$). Están deducidos y
+  con ejemplo numérico.
+- **El ejemplo de partida ya está calculado**: Tierra → Marte con los datos
+  del módulo 11, $v_\infty = 2,94$ km/s, órbita de estacionamiento de 300 km
+  ($r_p = 6678$ km), $v_p = 11,32$ km/s, $\Delta v = 3,59$ km/s, y de paso
+  $a_\text{hip} = \mu/v_\infty^2 = 45\,993$ km y $e = 1 + r_p/a = 1,145$. El
+  M17 lo tiene que *justificar* (por qué se puede pegar), no recalcular.
+- La sección 16.6 y el último `#posta` del M16 ya anuncian el M17 con esas
+  palabras: «se dibuja una frontera alrededor de cada planeta, adentro se
+  resuelve un problema de dos cuerpos con el planeta y afuera otro con el
+  Sol». El M17 tiene que cumplir esa promesa, y en ese orden.
+
+**Las dos reglas propias que aplican a todo módulo de la Parte V** (regla 3 y
+4 del `CLAUDE.md`): sección «la idea completa, antes de la primera ecuación»
+al principio, y al menos un `#posta` por tema no trivial. El M16 es el
+ejemplo de referencia de las dos.
+
+**Figuras que el M17 va a necesitar** (ninguna existe todavía): la esfera de
+influencia dibujada a escala real —que es la sorpresa del tema: 925.000 km
+contra los 150 millones de la órbita, o sea 0,6%—, y el empalme de las tres
+cónicas (hipérbola de salida · elipse heliocéntrica · hipérbola de llegada).
+El helper `arco-conica` ya dibuja tramos de cónicas abiertas, así que no hace
+falta nada nuevo en `estilo.typ`.
+
 ## Las trampas de Typst ya pagadas
 
 **1. Una fracción se come sólo el átomo siguiente.** `X / |bold(A)|` sale como
@@ -194,6 +244,32 @@ s = io.open('ARCHIVO', encoding='utf-8').read()
 print({ord(c) for c in s if c != chr(10) and ord(c) < 32} or 'limpio')
 "
 ```
+
+**14. Una `@referencia` a una ecuación de OTRO módulo imprime el número del
+contador del módulo de destino, no del propio.** El contador de ecuaciones se
+resetea en cada `#modulo`, así que `@m9-e-E` citada desde el módulo 16 se
+imprime «ec. (16)» — el número que esa ecuación tiene *dentro del módulo 9*.
+El lector, parado en el módulo 16, busca la ecuación 16 de la página que está
+mirando y no la encuentra. El enlace funciona (es clicable) y el compilador no
+tiene nada que decir: sale mal impreso, nada más.
+
+*Regla: toda referencia cruzada entre módulos nombra el módulo en el texto* —
+«la @m9-e-E del módulo 9», «la vis-viva del módulo 9 (@m9-visviva)»—, nunca
+`@m9-e-E` sola. Adentro del mismo módulo no hace falta.
+
+**15. Typst no tiene `cosh` ni `sinh` en `calc`.** Hizo falta para la rama
+vacía de la hipérbola (`fig-hiperbola-geometria`), que se parametriza
+$x = c + a\cosh t$, $y = \pm b\sinh t$. Se arman a mano con `calc.exp`:
+`(calc.exp(t) + calc.exp(-t)) / 2` y `(calc.exp(t) - calc.exp(-t)) / 2`.
+
+**16. En una figura con asíntotas, el hueco visualmente vacío no está vacío.**
+Los rótulos `r_p` y `a` de `fig-hiperbola-geometria` se pusieron debajo de la
+línea de ábsides —donde a ojo no hay nada— y quedaron atravesados: por ahí
+pasa la asíntota, que en el render es una línea de puntos finita y en la
+cabeza del que escribe el código no existe. Se resolvió subiéndolos a la
+franja entre el eje y la barra de medida, que sí es angosta pero está libre.
+*Antes de colocar un rótulo, listar TODAS las curvas de la figura y evaluarlas
+en esa coordenada* — no alcanza con mirar la protagonista.
 
 ## Lo que se resolvió en la fase 2 y ya no está pendiente
 

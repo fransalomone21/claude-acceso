@@ -112,7 +112,49 @@ turno en que se detectó, por la regla 4 del enrutador.)*
 
 Cierra con: los cuatro módulos escritos y mirados.
 
-### Fase 5 — cierre
+### Fase 5 — Parte V: de la cónica al viaje real (M16–M19)  ·  ABIERTA (2026-09-07)
+
+**Por qué existe.** El 2026-09-07 Fran trajo la lista de temas de gravitación
+actualizada (`Lista de temas Gravitación (2).pdf`, ver `fuentes/RUTAS.md`),
+que agrega dos filas que la versión anterior no tenía: **«Todo — Curtis cap.
+2»** y los **parámetros orbitales del Bate** (pág. 19–40 y 53–74). Y pidió,
+además, órbitas parcheadas, esfera de influencia y su relación con Hohmann y
+con la gravedad de la Tierra — que es el capítulo 8 de Curtis, no el 2.
+
+**El hueco medido** (grep sobre los quince módulos, 2026-09-07): de Curtis
+cap. 2, los apartados 2.2 a 2.7 están cubiertos por los módulos 6 a 10; lo
+que **no estaba en ninguna parte del apunte** es 2.8–2.9 (parábola e
+hipérbola más allá de una fila de tabla), 2.10 (marco perifocal), 2.11
+(coeficientes de Lagrange) y 2.12 (tres cuerpos restringido y puntos de
+Lagrange). Ni «perifocal», ni «Lagrange», ni «parcheada», ni «esfera de
+influencia» aparecían una sola vez en los 5189 renglones de `modulos/`.
+
+**Los cuatro módulos, en el orden en que se escriben:**
+
+| Módulo | Qué | Fuente | Estado |
+|---|---|---|---|
+| M16 | La hipérbola: escapar y llegar con velocidad de sobra | Curtis §2.8–2.9 | **escrito y verificado** (2026-09-07) |
+| M17 | Esfera de influencia y órbitas parcheadas | Curtis §8.4–8.6, Bate cap. 7 | pendiente |
+| M18 | Marco perifocal, vector de estado y coeficientes de Lagrange | Curtis §2.10–2.11, Bate pág. 53–74 | pendiente |
+| M19 | El problema restringido de tres cuerpos y los puntos de Lagrange | Curtis §2.12 | pendiente |
+
+El orden no es el del libro: M17 va segundo, antes que los dos de
+herramientas, porque es lo que Fran pidió explícitamente y porque M16 es su
+única precondición.
+
+**Va al final del apunte y no entre las Partes III y IV.** Insertarla en el
+medio renumeraría los módulos 12 a 15 y rompería **51 referencias de texto
+plano** («módulo 12», «módulo 14», …) repartidas en siete archivos y en 105
+páginas ya verificadas — un refactor de riesgo silencioso, fuera del alcance
+de «ampliá el apunte». La Parte V se lee inmediatamente después del módulo
+11: no usa nada de cuerpo rígido, y la bajada de la parte lo dice.
+
+Cierra con: los cuatro módulos escritos, con sus ejemplos, compilados y
+**mirados en el render**; el enlace numérico Hohmann ↔ hipérbola de escape
+cerrado de punta a punta (el $v_oo$ del módulo 16 usado como entrada del 17);
+y `docs/figuras.md` al día.
+
+### Fase 6 — cierre
 
 Cierra con: anexos (formulario, constantes, tabla de correspondencia con las
 listas de temas de la cátedra), todas las referencias cruzadas validadas
@@ -140,11 +182,17 @@ Parte IV  — Cuerpo rígido
   M13 Momento de inercia y ejes principales
   M14 Ecuaciones de Euler y el giróscopo
   M15 Peonza simétrica, precesión directa y retrógrada
+Parte V   — De la cónica al viaje real
+  M16 La hipérbola: escapar, y llegar con velocidad de sobra
+  M17 Esfera de influencia y órbitas parcheadas
+  M18 Marco perifocal, vector de estado y coeficientes de Lagrange
+  M19 El problema restringido de tres cuerpos y los puntos de Lagrange
 Anexos    — formulario · constantes · correspondencia con la cátedra
 ```
 
-Quince módulos. El de Electrónica tiene catorce y 123 páginas: el orden de
-magnitud esperado es el mismo.
+Diecinueve módulos. Eran quince hasta el 2026-09-07: la Parte V nació de las
+dos filas nuevas de la lista de temas de gravitación (ver la fase 5). El de
+Electrónica tiene catorce y 123 páginas; éste va por 117 con el M16 adentro.
 
 ## 6. Cómo se verifica
 

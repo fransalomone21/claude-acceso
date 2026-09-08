@@ -399,13 +399,20 @@ con otro que está **un cuarto de órbita adelantado**.
 ### Ejercicios adicionales (pág. 17 del PDF nuevo)
 
 Cinco problemas nuevos, texto (no imagen), que no estaban en el original de
-18 páginas. El **3** está resuelto en el módulo 10; los otros cuatro quedan
-sin resolver en el apunte — se apoyan en las mismas herramientas del módulo 9
-(vis-viva, ecuación de la órbita) y no agregan una técnica nueva, salvo la
-anomalía verdadera y el ángulo de trayectoria de vuelo $\gamma$ de los
-ejercicios 1, 2, 4 y 5, que el apunte no nombra por separado —está implícito
-en $r = p/(1+e\cos\nu)$ y en $h = rv\cos\gamma$ del módulo 7, pero no hay una
-fórmula cerrada para despejar $\nu$ o $\gamma$ como dato de salida.
+18 páginas. El **3** está resuelto en el módulo 10 y el **5** en el módulo
+16. Los otros tres se apoyan en las mismas herramientas del módulo 9
+(vis-viva, ecuación de la órbita) y quedan como práctica.
+
+**Actualizado el 2026-09-07 (fase 5).** Este bloque decía que los ejercicios
+1, 2, 4 y 5 no eran resolubles con el apunte porque pedían la anomalía
+verdadera o el ángulo de trayectoria de vuelo $\gamma$ *como dato de salida*,
+y no había fórmula cerrada para despejarlos. **Ya la hay:** la sección 16.5
+del módulo 16 agregó $v_\perp = h/r$, $v_r = (\mu/h)\,e\sin\nu$ y
+$\tan\gamma = v_r/v_\perp$, que con la ecuación de la órbita cierran un
+sistema de cinco ecuaciones y cinco incógnitas. El **5** está resuelto adentro
+del módulo como ejemplo simple ($e = 0{,}215$, $\nu = 63{,}8°$); el **1**, el
+**2** y el **4** siguen sin resolver a propósito —el criterio de curación no
+cambió— pero ahora son resolubles con lo que el apunte tiene.
 
 **1.** Un satélite no tripulado orbita la Tierra con un radio de perigeo de
 $10\,000$ km y un radio de apogeo de $100\,000$ km. Calcule: *(a)* la

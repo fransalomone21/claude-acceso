@@ -102,4 +102,33 @@
 #include "modulos/m15-peonza.typ"
 
 // ---------------------------------------------------------------------
+#parte(5, "De la cónica al viaje real", [
+  Esta parte se agregó después de las otras cuatro, cuando la cátedra sumó a
+  la lista de temas de gravitación dos filas nuevas: *todo el capítulo 2 de
+  Curtis* y los parámetros orbitales del Bate. Lo que esas dos filas piden y
+  la Parte III no había desarrollado es lo que viene acá.
+
+  *Se puede leer inmediatamente después del módulo 11*, salteando la Parte
+  IV: no usa nada de cuerpo rígido. Está al final del apunte y no en el medio
+  por una razón puramente práctica —los módulos 12 a 15 ya estaban escritos,
+  verificados y referenciados por número—, no porque el tema venga después.
+
+  Los cuatro módulos siguen el orden de la pregunta que cada uno contesta.
+  Primero la hipérbola, que es la trayectoria de la que no se vuelve y la
+  forma de toda salida y toda llegada a un planeta. Después la esfera de
+  influencia y las órbitas parcheadas, que son la licencia para resolver un
+  viaje interplanetario como una sucesión de problemas de dos cuerpos —y lo
+  que le faltaba al Hohmann del módulo 11 para ser una misión y no una
+  cuenta—. Después el marco perifocal y los coeficientes de Lagrange, que es
+  cómo se escribe una órbita en vectores para dársela a una computadora. Y al
+  final el problema restringido de tres cuerpos y los puntos de Lagrange, que
+  es lo que aparece cuando la aproximación de dos cuerpos ya no alcanza.
+])
+
+#include "modulos/m16-hiperbola.typ"
+// #include "modulos/m17-esfera-influencia.typ"
+// #include "modulos/m18-perifocal-lagrange.typ"
+// #include "modulos/m19-tres-cuerpos.typ"
+
+// ---------------------------------------------------------------------
 // #include "modulos/anexos.typ"

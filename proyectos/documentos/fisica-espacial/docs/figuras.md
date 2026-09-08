@@ -113,6 +113,8 @@ sólo en $y=0$— y se lee como una marca suelta.
 | `fig-vector-rotante` | 12 | los dos casos de la derivada en un sistema rotante: Q clavado al sistema, y Q que además cambia adentro |
 | `fig-suma-omegas` | 12 | el Problema 2 de la guía: las dos velocidades angulares que se suman, y el eje instantáneo que sale de la suma |
 | `fig-conos` | 12 | el cono espacial y el cono corporal, tangentes a lo largo del eje instantáneo |
+| `fig-hiperbola-geometria` | 16 | la hipérbola entera: las dos ramas, las asíntotas, β, el ángulo de giro δ, el radio de puntería Δ y el semieje a medido desde C |
+| `fig-hiperbola-energia` | 16 | el pozo del módulo 6 con una sola recta E > 0: el reparto entre lo que cuesta escapar y lo que sobra (v_∞) |
 
 ## Lo que `estilo.typ` todavía no tiene
 

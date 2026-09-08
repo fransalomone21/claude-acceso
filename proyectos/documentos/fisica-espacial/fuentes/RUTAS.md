@@ -43,6 +43,7 @@ p = [f for f in glob.glob(os.path.join(base, '*.pdf')) if 'Roederer' in f][0]
 | Plan de 17 semanas | `C:\Users\frans\Downloads\Plan Fisica E 26.docx` | transcripto en `TEMARIO.md` |
 | Lista de temas — Conservación de P | `C:\Users\frans\Downloads\Lista de temas Conservación P (1).pdf` | transcripta en `TEMARIO.md` |
 | Lista de temas — Gravitación | `C:\Users\frans\Downloads\Lista de temas Gravitación (1).pdf` | transcripta en `TEMARIO.md` |
+| Lista de temas — Gravitación, **actualizada** (2 pág., recibida el 2026-09-07) | `C:\Users\frans\Downloads\Lista de temas Gravitación (2).pdf` | superconjunto de la `(1)`: agrega **«Parámetros orbitales — Bate»** y **«Todo — Curtis cap. 2»**. Es la que abrió la fase 5. Ver la sección nueva de `TEMARIO.md` |
 | Lista de temas — Cuerpo rígido | `C:\Users\frans\Downloads\Temas de CR_2.docx` | transcripta en `TEMARIO.md` |
 | Clase: potencial eficaz (manuscrito) | `C:\Users\frans\Downloads\potencial eficaz.pdf` y `potencial eficaz_2.pdf` | **escaneos**: no tienen capa de texto, se leen renderizados |
 | Clase: problema equivalente y masa reducida (3 pág.) | `C:\Users\frans\Downloads\problema equivalente masa reducida_1.pdf` | ídem |

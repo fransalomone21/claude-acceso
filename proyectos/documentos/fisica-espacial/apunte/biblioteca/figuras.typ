@@ -1451,6 +1451,147 @@
   escala: 1.05cm,
 )
 
+// =====================================================================
+//  Módulo 16 — La hipérbola: escapar, y llegar con velocidad de sobra
+// =====================================================================
+
+// --- La geometría de la hipérbola ---------------------------------------
+// Todo lo que el módulo nombra, sobre un solo dibujo: la rama ocupada y la
+// vacía, el foco F, el centro C, las dos asíntotas, el ángulo beta que
+// forman con la línea de ábsides, el ángulo de giro delta —lo que se
+// tuerce la velocidad al pasar—, el radio de puntería Delta y el semieje
+// a, que acá se mide de P a C y NO desde el foco.
+//
+// Ninguna variable se llama como una letra griega ni como una función
+// (trampa 10 del HANDOFF): la excentricidad es `ex`, no `e`.
+#let fig-hiperbola-geometria = esquema(escala: 1.02cm, {
+  let semi = 1.5 // el semieje a
+  let ex = 1.5 // la excentricidad
+  let par = semi * (ex * ex - 1) // el parámetro p
+  let rper = semi * (ex - 1) // radio de perigeo
+  let cc = semi * ex // distancia foco-centro
+  let bb = semi * calc.sqrt(ex * ex - 1) // semieje menor = radio de puntería
+  let F = (0, 0)
+  let C = (cc, 0)
+  let P = (rper, 0)
+  let bet = calc.acos(1 / ex) / 1deg // 48,19°
+  let dirsup = 180 - bet // dirección de la asíntota de arriba, desde C
+  let ux = calc.cos(dirsup * 1deg)
+  let uy = calc.sin(dirsup * 1deg)
+
+  // --- La línea de ábsides, que es el eje desde el que se mide todo.
+  cetz.draw.line((-2.4, 0), (5.2, 0), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+
+  // --- Las dos asíntotas, cruzándose en C.
+  for s in (1, -1) {
+    cetz.draw.line(
+      (cc - 1.6 * ux, -1.6 * s * uy),
+      (cc + 4.6 * ux, 4.6 * s * uy),
+      stroke: (paint: c-guia, thickness: 0.55pt, dash: "dashed"),
+    )
+  }
+
+  // --- La rama vacía: la imagen matemática, que ningún cuerpo recorre.
+  //     x = c + a cosh(t),  y = ± b senh(t), armadas con calc.exp.
+  let n = 60
+  for s in (1, -1) {
+    let pts = range(0, n + 1).map(i => {
+      let t = -1.2 + 2.4 * i / n
+      let ch = (calc.exp(t) + calc.exp(-t)) / 2
+      let sh = (calc.exp(t) - calc.exp(-t)) / 2
+      (cc + semi * ch, s * bb * sh)
+    })
+    cetz.draw.line(..pts, stroke: (paint: c-guia, thickness: 0.6pt, dash: "dotted"))
+  }
+
+  // --- La rama ocupada: la trayectoria de verdad.
+  arco-conica(F, par, ex, desde: -179, hasta: 179, r-max: 3.9, color: c-dato, grosor: trazo-curva)
+
+  // --- Los dos ángulos de los que vive el módulo.
+  angulo(C, dirsup, 180, etiqueta: $beta$, radio: 0.68)
+  angulo(C, bet, dirsup, etiqueta: $delta$, radio: 1.18)
+
+  // --- El radio de puntería: la perpendicular del foco a la asíntota.
+  let pie = (cc + bb * ux, bb * uy)
+  cetz.draw.line(F, pie, stroke: (paint: c-viole, thickness: 0.8pt, dash: "dashed"))
+  rotulo((0.28, 0.42), text(fill: c-viole)[$Delta$], ancla: "east")
+  recto(pie, dirsup, calc.atan2(F.at(0) - pie.at(0), F.at(1) - pie.at(1)) / 1deg, lado: 0.22)
+
+  // --- La velocidad en el infinito, entrando y saliendo. La flecha va
+  //     sobre la asíntota, que es la recta a la que la trayectoria tiende.
+  flecha((cc + 4.2 * ux, 4.2 * uy), (cc + 3.4 * ux, 3.4 * uy), color: c-rojo, etiqueta: none, grosor: 1pt)
+  rotulo((0.12, 3.22), text(fill: c-rojo)[$v_oo$ entra], ancla: "west")
+  flecha((cc + 3.4 * ux, -3.4 * uy), (cc + 4.2 * ux, -4.2 * uy), color: c-rojo, etiqueta: none, grosor: 1pt)
+  rotulo((0.12, -3.22), text(fill: c-rojo)[$v_oo$ sale], ancla: "west")
+
+  // --- Los puntos con nombre.
+  cuerpo-central(F, radio: 0.2, etiqueta: none)
+  rotulo((-0.24, -0.02), text(fill: c-orbe)[$F$], ancla: "east")
+  masa(P, radio: 0.075, color: c-trazo)
+  rotulo((rper + 0.12, 0.04), [$P$], ancla: "west")
+  masa(C, radio: 0.065, color: luma(90))
+  rotulo((cc, 0.14), text(fill: luma(90))[$C$], ancla: "south")
+  masa((cc + semi, 0), radio: 0.065, color: luma(90))
+  rotulo((cc + semi, 0.14), text(fill: luma(90))[$A$], ancla: "south")
+
+  // --- Las dos distancias sobre el eje, una al lado de la otra.
+  cetz.draw.line((0, -0.62), (rper, -0.62), stroke: 0.6pt + c-aux, mark: (start: "bar", end: "bar", scale: 0.3))
+  rotulo((rper / 2, -0.55), text(fill: c-aux)[$r_p$], ancla: "south")
+  cetz.draw.line((rper, -0.62), (cc, -0.62), stroke: 0.6pt + c-aux, mark: (start: "bar", end: "bar", scale: 0.3))
+  rotulo(((rper + cc) / 2, -0.55), text(fill: c-aux)[$a$], ancla: "south")
+
+  rotulo((4.35, 2.6), text(fill: luma(95), size: 8pt)[rama vacía:\ no la recorre nadie], ancla: "east")
+})
+
+// --- De dónde sale la velocidad de sobra --------------------------------
+// El mismo pozo del módulo 6, con UNA sola recta de energía positiva. Lo
+// que la figura muestra es el reparto: de toda la energía cinética que hay
+// a una distancia r, una parte se gasta en salir del pozo y lo que queda
+// —el tramo por encima del cero— es lo único que sobrevive en el infinito.
+#let fig-hiperbola-energia = esquema(escala: 1.3cm, {
+  let k = 1.5
+  let U = r => -k / r
+  let r0 = 0.5
+  let rf = 6.2
+  let n = 220
+  let pts = range(0, n + 1).map(i => {
+    let r = r0 + (rf - r0) * i / n
+    (r, U(r))
+  })
+
+  flecha((0, 0), (6.7, 0), color: c-trazo, grosor: 0.6pt)
+  flecha((0, -3.3), (0, 1.5), color: c-trazo, grosor: 0.6pt)
+  rotulo((6.75, -0.02), $r$, ancla: "west")
+  rotulo((0, 1.55), $E$, ancla: "south")
+  rotulo((-0.12, 0.06), [0], ancla: "south-east")
+
+  cetz.draw.line(..pts, stroke: trazo-curva + c-trazo)
+  rotulo((3.5, U(3.5) - 0.12), text(fill: c-trazo)[$U(r) = -mu m \/ r$], ancla: "north-west")
+
+  // La única recta de energía del dibujo: E > 0, y no baja nunca.
+  let EE = 0.62
+  cetz.draw.line((0.05, EE), (6.4, EE), stroke: (paint: c-aux, thickness: 0.9pt, dash: "dashed"))
+  rotulo((0.15, EE + 0.14), text(fill: c-aux)[$E > 0$], ancla: "west")
+
+  // El reparto de la energía cinética a una distancia r cualquiera.
+  let rm = 2.4
+  cetz.draw.line((rm, U(rm)), (rm, 0), stroke: 0.9pt + c-verde, mark: (start: "bar", end: "bar", scale: 0.3))
+  cetz.draw.line((rm, 0), (rm, EE), stroke: 0.9pt + c-rojo, mark: (start: "bar", end: "bar", scale: 0.3))
+  rotulo((rm + 0.14, U(rm) / 2), text(fill: c-verde, size: 8pt)[$1/2 m v_"esc"^2$], ancla: "west")
+  rotulo((rm + 0.14, EE / 2), text(fill: c-rojo, size: 8pt)[$1/2 m v_oo^2$], ancla: "west")
+
+  // Lo mismo, mucho más lejos: el tramo verde se achicó y el rojo no.
+  let rl = 5.9
+  cetz.draw.line((rl, U(rl)), (rl, 0), stroke: 0.9pt + c-verde, mark: (start: "bar", end: "bar", scale: 0.3))
+  cetz.draw.line((rl, 0), (rl, EE), stroke: 0.9pt + c-rojo, mark: (start: "bar", end: "bar", scale: 0.3))
+  rotulo((rl, EE + 0.16), text(fill: c-rojo, size: 8pt)[sigue midiendo lo mismo], ancla: "south")
+
+  rotulo((1.05, -2.0), text(fill: luma(70), size: 8pt)[
+    Cuanto más lejos, menos mide el tramo verde — y el rojo no cambia.\
+    En el infinito el verde se anula y sobrevive sólo el rojo: eso es $v_oo$.
+  ], ancla: "west")
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -1481,4 +1622,6 @@
   ("fig-vector-rotante", fig-vector-rotante),
   ("fig-suma-omegas", fig-suma-omegas),
   ("fig-conos", fig-conos),
+  ("fig-hiperbola-geometria", fig-hiperbola-geometria),
+  ("fig-hiperbola-energia", fig-hiperbola-energia),
 )

@@ -71,6 +71,22 @@ confusión.
 | Hohmann | Beer 12.13 | «Fig. 12.23» |
 | Rendez-vous, phasing | — | «ver Problema 5 de la guía» · «ver Problema 10 de la guía» |
 | Astrodinámica | Bate pg. 19–40 (*canonical units* excluidas) y pg. 53–74 (sistemas de coordenadas) | |
+| **Todo** | **Curtis cap. 2 entero** | fila nueva de la lista del 2026-09-07 |
+
+### Lo que la lista de temas del 2026-09-07 agregó
+
+La versión `(2)` de *Lista de temas Gravitación* (ver `RUTAS.md`) es un
+superconjunto de la `(1)` transcripta arriba. Agrega **dos filas**, las dos al
+final del bloque de órbitas:
+
+| Fila nueva | Qué pide | Dónde está en el apunte |
+|---|---|---|
+| «Parámetros orbitales — Bate pág. 19–40 y 53–74» | los seis elementos orbitales y los sistemas de coordenadas | módulos 9 y 10 (los elementos); los **sistemas de coordenadas** son el módulo 18, pendiente |
+| «Todo — Curtis cap. 2» | el capítulo entero, no una sección | §2.2–2.7 ya estaban en los módulos 6 a 10; **§2.8–2.9** son el módulo 16, **§2.10–2.11** el 18 y **§2.12** el 19 |
+
+Y a pedido del destinatario, fuera de la lista de la cátedra pero pegado a
+ella: **esfera de influencia y órbitas parcheadas**, que no son el capítulo 2
+sino el 8 de Curtis (§8.4–8.6) y el capítulo 7 del Bate. Es el módulo 17.
 
 ## Cuerpo rígido
 

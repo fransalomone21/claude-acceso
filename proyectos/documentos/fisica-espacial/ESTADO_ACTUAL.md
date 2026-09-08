@@ -1,11 +1,48 @@
 # Estado actual — Apunte de Física Espacial
 
+**FASE 5 (Parte V: de la cónica al viaje real, M16–M19) — ABIERTA el
+2026-09-07.** Es la fase que la cátedra abrió sin querer: la lista de temas de
+gravitación actualizada (`Lista de temas Gravitación (2).pdf`) agrega «Todo —
+Curtis cap. 2» y los parámetros orbitales del Bate, y Fran pidió además
+órbitas parcheadas, esfera de influencia y su relación con Hohmann y con la
+gravedad de la Tierra. El plan de los cuatro módulos, con el hueco medido
+contra los quince ya escritos, está en `PDP.md` §4 (fase 5).
+
+| Módulo de la Parte V | Estado |
+|---|---|
+| **M16 — La hipérbola: escapar, y llegar con velocidad de sobra** | **escrito y verificado en render** (2026-09-07) |
+| M17 — Esfera de influencia y órbitas parcheadas | pendiente — es el núcleo de lo que Fran pidió |
+| M18 — Marco perifocal, vector de estado y coeficientes de Lagrange | pendiente |
+| M19 — Tres cuerpos restringido y puntos de Lagrange | pendiente |
+
+**El apunte pasó de 106 a 117 páginas** y de 28 a 30 figuras. La Parte V
+arranca en la página 107. `apunte.typ` ya tiene los tres `#include` de M17,
+M18 y M19 comentados, con su nombre de archivo definitivo — así el plan y el
+documento no pueden divergir sin que se vea.
+
+**Lo que el M16 cerró, además de su propio tema.** Las dos fórmulas que
+faltaban para despejar $v_r$ y el ángulo de trayectoria de vuelo $gamma$
+—$v_perp = h/r$, $v_r = (mu/h) e sin nu$, $tan gamma = v_r/v_perp$— entraron
+en la sección 16.5. Con eso quedan resolubles los **ejercicios adicionales 1,
+2, 4 y 5 de gravitación**, que hasta el 2026-09-07 figuraban en
+`GUIA-ENUNCIADOS.md` como «el apunte no tiene esa fórmula despejada». El 5
+está resuelto adentro del módulo como ejemplo simple ($e = 0,215$,
+$nu = 63,8°$); el 1, el 2 y el 4 quedan como práctica, ahora sí con la
+herramienta a mano.
+
+**Y el enlace que Fran pidió está hecho, con números.** La sección 16.6
+retoma el ejemplo de Marte del módulo 11 y muestra qué le faltaba: los
+$2,94$ km/s que aquella cuenta llamaba $Delta v_1$ **no son** lo que el motor
+tiene que dar, son $v_oo$ — la velocidad de sobra medida desde el Sol. Lo que
+el motor da, desde una órbita de estacionamiento de 300 km, son $3,59$ km/s,
+y la diferencia no es lineal porque las velocidades se suman en cuadrado. La
+*licencia* para pegar los dos problemas (por qué se puede) es el módulo 17.
+
 **Fase 3 (Parte III: gravitación y órbitas) — CERRADA el 2026-08-31.**
 
 **Fase 4 (Parte IV: cuerpo rígido, M12–M15) — CERRADA el 2026-08-31.** Los
-quince módulos del apunte están escritos, compilados y verificados en el
-render. Falta decidir la fase 5 (anexos, o revisión de referencias cruzadas
-entre módulos — ver `HANDOFF.md`).
+quince módulos del apunte estaban escritos, compilados y verificados en el
+render.
 
 **2026-09-07 — tres ejercicios nuevos incorporados, sin abrir fase nueva.**
 Fran trajo una versión ampliada de la guía de la cátedra (ver
@@ -29,10 +66,12 @@ enseña una técnica nueva, se anota para práctica):
   una órbita polar a partir de su período): la tercera ley despejada al
   revés, sin momento angular ni energía.
 
-Los otros siete adicionales (los ejercicios 1, 2, 4 y 5 de gravitación
-piden anomalía verdadera o ángulo de trayectoria de vuelo como *dato de
-salida*, y el apunte no tiene esa fórmula despejada — quedaron anotados en
-`GUIA-ENUNCIADOS.md` para si hace falta agregarla) no se tocaron.
+Los otros siete adicionales no se tocaron entonces. *Actualizado el mismo
+día, más tarde:* los ejercicios 1, 2, 4 y 5 de gravitación pedían anomalía
+verdadera o ángulo de trayectoria de vuelo como *dato de salida*, y el apunte
+no tenía esa fórmula despejada. **El módulo 16 la agregó** (sección 16.5), y el
+**5 quedó resuelto ahí como ejemplo simple**; el 1, el 2 y el 4 siguen anotados en
+`GUIA-ENUNCIADOS.md` como práctica, ahora con la herramienta a mano.
 
 **Mismo día — nueva caja de estilo, `#posta`.** A pedido de Fran, el módulo 8
 sumó dos cuadros técnicos (por qué funciona el problema equivalente, qué es
@@ -60,9 +99,9 @@ huérfanos de caja, **106 páginas**.
 
 | Qué | Estado |
 |---|---|
-| `apunte/apunte.pdf` | **104 páginas**, compila sin errores, cero huérfanos de caja |
+| `apunte/apunte.pdf` | **117 páginas**, compila sin errores, cero huérfanos de caja |
 | Plantilla, carátula, índice, encabezados | listos, no se tocan |
-| Biblioteca de figuras (CeTZ) | **28 figuras**, todas miradas en la galería |
+| Biblioteca de figuras (CeTZ) | **30 figuras**, todas miradas en la galería |
 | Módulos 1 a 5 — Partes I y II | escritos y verificados (fases 1 y 2) |
 | **Módulo 6 — Gravitación, peso y energía potencial** | **escrito y verificado en render** |
 | **Módulo 7 — Momento angular y fuerzas centrales** | **escrito y verificado en render** |
@@ -74,6 +113,8 @@ huérfanos de caja, **106 páginas**.
 | **Módulo 13 — Momento de inercia y ejes principales** | **escrito y verificado en render** |
 | **Módulo 14 — Ecuaciones de Euler y el giróscopo** | **escrito y verificado en render** |
 | **Módulo 15 — Peonza simétrica, precesión directa y retrógrada** | **escrito y verificado en render** |
+| **Módulo 16 — La hipérbola: escapar y llegar con velocidad de sobra** | **escrito y verificado en render** |
+| Módulos 17 a 19 — Parte V | no empezados |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -255,6 +296,42 @@ que recuerda al cubo del módulo 13). Reusa `fig-conos` del módulo 12 con un
 nuevo epígrafe, apoyada en su tangencia externa para ilustrar el caso
 directo. Cierra con un párrafo de síntesis de toda la Parte IV.
 
+## Lo que hay escrito en la Parte V
+
+**Módulo 16 — La hipérbola: escapar, y llegar con velocidad de sobra**
+(11 pág., 107–117). Cierra la clasificación de cónicas que el módulo 9 dejó
+en una fila de tabla. Seis secciones:
+
+1. *La idea completa, antes de la primera ecuación* — la regla 4 del contrato,
+   con la receta en tres pasos («necesitás que llegue al infinito → necesitás
+   que además le sobre velocidad → de las dos sale todo») y un `#posta`.
+2. *La parábola* — $e = 1$, $E = 0$, $v = v_\text{esc}$, y el `#cuidado` de por
+   qué no tiene semieje y por qué ninguna trayectoria real es una parábola.
+3. *La geometría* — $\nu_\infty = \arccos(-1/e)$, $\beta$, la deducción del
+   ángulo de giro $\delta = 2\arcsin(1/e)$, $a = (h^2/\mu)/(e^2-1)$,
+   $r_p = a(e-1)$, y el radio de puntería $\Delta = b = a\sqrt{e^2-1}$.
+   Figura nueva: `fig-hiperbola-geometria`.
+4. *La energía* — $E = +\mu m/(2a)$ deducida de la @m9-e-E del módulo 9;
+   $v_\infty = \sqrt{\mu/a}$; $v^2 = v_\text{esc}^2 + v_\infty^2$; $C_3$.
+   Figura nueva: `fig-hiperbola-energia`. Cuadro `#notacion` sobre la
+   convención $a < 0$, que es la de todo el software de astrodinámica.
+5. *$v_r$ y el ángulo $\gamma$* — la caja de herramientas de Curtis (pág. 99)
+   y el truco de cálculo (armar $e\sin\nu$ y $e\cos\nu$, elevar al cuadrado y
+   sumar). Cierra los ejercicios adicionales 1, 2, 4 y 5 de gravitación.
+6. *El enlace con Hohmann* — el ejemplo de Marte del módulo 11 rehecho: los
+   $2,94$ km/s eran $v_\infty$, no el $\Delta v$ del motor; el encendido real
+   desde 300 km de altura vale $3,59$ km/s.
+
+Ejemplos: el **simple** es el ejercicio adicional 5 de la guía ($e = 0,215$,
+$\nu = 63,8°$) y el **a fondo** es el ejemplo 2.10 de Curtis (pág. 100), que
+mide una hipérbola entera —$h$, $e$, $\nu$, $r_p$, $a$, $C_3$, $\delta$,
+$\Delta$— a partir de $r$, $v$ y $\gamma$. Los dos usan exactamente el mismo
+planteo de cinco ecuaciones, uno con $e < 1$ y el otro con $e > 1$: es la
+razón por la que están apareados.
+
+**Módulos 17, 18 y 19 — no empezados.** Sus `#include` ya están escritos y
+comentados en `apunte.typ` con el nombre de archivo definitivo.
+
 ## Lo verificado contra las fuentes en esta fase
 
 | Afirmación | Fuente, medida |
@@ -303,6 +380,15 @@ directo. Cierra con un párrafo de síntesis de toda la Parte IV.
 | Las figuras en imagen de los Problemas 2, 3, 4, 7 y 9 de la guía | renderizadas de las pág. 15–18 del PDF de la guía, y miradas |
 | **El enunciado del Problema 2 contradice a su figura** | el enunciado dice «eje vertical» y la figura muestra el eje del disco horizontal; se tomó la figura |
 | $mu_"Sol" = 1,327 times 10^11$ km³/s² | S&Z apéndice F |
+| **Fase 5 — lo de abajo se leyó en el Curtis en esta sesión** | offset medido: pág. impresa = pág. del PDF − 8 |
+| Índice completo del Curtis (378 entradas), para ubicar qué cubre el cap. 2 y dónde vive lo parcheado | leído del *outline* del PDF, no de la imagen del índice |
+| Parábola: $r$, $v = \sqrt{2\mu/r}$, trayectoria de escape | Curtis §2.8, ecs. 2.89 a 2.91, pág. 90 |
+| Hipérbola: $\nu_\infty$, $\beta$, $\delta$, $a$, $r_p$, $r_a$, $b$, $\Delta$ | Curtis §2.9, ecs. 2.96 a 2.107, pág. 93–96 |
+| Energía hiperbólica: $\varepsilon = +\mu/2a$, $v_\infty$, $v^2 = v_\text{esc}^2 + v_\infty^2$, $C_3$ | Curtis §2.9, ecs. 2.110 a 2.115, pág. 97–98 |
+| La convención $a < 0$ y la vis-viva única para las tres cónicas | Curtis §2.9, pág. 99 (el comentario que sigue a la caja de herramientas) |
+| Caja de herramientas: $h$, $r$, $v_r$, $\tan\gamma$, y las de cada cónica | Curtis, pág. 99 |
+| Ejemplo 2.10 rehecho número por número (los ocho apartados) | Curtis, pág. 100–101; coinciden todos dentro del redondeo |
+| El enlace Hohmann ↔ hipérbola de escape ($v_\infty = 2,94$ km/s, $\Delta v = 3,59$ km/s desde 300 km) | calculado en esta sesión con los datos del apéndice F que el módulo 11 ya usaba |
 
 ## Lo que NO está verificado todavía
 
@@ -325,15 +411,27 @@ use, no antes:
 
 ## Lo que sigue
 
-**La Parte IV está cerrada.** Falta decidir la fase 5: revisar las
-referencias cruzadas de texto plano entre módulos (tabla en `HANDOFF.md`,
-ahora con los módulos 12–15 sumados a la lista de qué apunta a qué), y
-decidir si el apunte lleva anexos. Ninguna de las dos cosas es urgente —el
-`HANDOFF.md` ya explica por qué se dejaron para el final: la paginación
-todavía puede cambiar.
+**La fase 5 está abierta y el orden de las sesiones está decidido.** Una
+sesión por módulo, con checkpoint al cerrar cada una — la misma decisión
+operativa de la fase 4, y por la misma razón: un módulo entra en una sesión,
+cuatro no.
 
-Los Problemas 5, 7, 8 y 9 son variantes de los mismos mecanismos y entran
-como referencias cortas o como cierre del módulo 15, que es el integrador.
+| Sesión | Módulo | Qué cierra la sesión |
+|---|---|---|
+| 1 · **hecha** (2026-09-07) | M16 — la hipérbola | escrito, compilado y mirado; el enlace numérico con Hohmann adentro |
+| 2 | **M17 — esfera de influencia y órbitas parcheadas** | la deducción de $R_\text{SOI} = r\,(m/M)^{2/5}$, el método de las cónicas parcheadas, la partida planetaria completa (Curtis §8.4–8.6), y el ejemplo Tierra→Marte de punta a punta usando el $v_\infty$ del módulo 16 |
+| 3 | M18 — marco perifocal y coeficientes de Lagrange | $\hat p$, $\hat q$, $\hat w$; el vector de estado; $f$ y $g$ (Curtis §2.10–2.11) y los sistemas de coordenadas del Bate (pág. 53–74) |
+| 4 | M19 — tres cuerpos restringido y puntos de Lagrange | los cinco puntos, la constante de Jacobi, y por qué la esfera de influencia del M17 es una aproximación (Curtis §2.12) |
+| 5 | cierre de fase | las referencias cruzadas de la Parte V validadas contra el índice renderizado, y `docs/figuras.md` al día |
 
-**Checkpoint por módulo, no por fase.** Es la decisión operativa de esta
-sesión: `ESTADO_ACTUAL` + `HANDOFF` + commit + push al cerrar *cada* módulo.
+**Por qué el M17 va segundo y no cuarto.** Es lo que Fran pidió
+explícitamente, y su única precondición es el M16, que ya está. Los dos
+módulos de herramientas (M18 y M19) no le hacen falta para nada.
+
+**Lo que la fase 6 hereda.** Revisar las referencias cruzadas de texto plano
+entre módulos (tabla en `HANDOFF.md`) y decidir si el apunte lleva anexos.
+Ninguna de las dos es urgente: la paginación todavía puede cambiar, y el
+`HANDOFF.md` ya explica por qué se dejaron para el final.
+
+**Checkpoint por módulo, no por fase.** `ESTADO_ACTUAL` + `HANDOFF` + commit
++ push al cerrar *cada* módulo.

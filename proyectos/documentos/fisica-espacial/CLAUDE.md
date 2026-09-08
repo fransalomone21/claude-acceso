@@ -76,7 +76,7 @@ apunte/
     estilo.typ        helpers de CeTZ compartidos por las figuras
     figuras.typ       las figuras del apunte, una funcion por figura
     galeria.typ       compila SOLO las figuras (segundos, no minutos)
-  modulos/            m1-*.typ … m15-*.typ, uno por modulo
+  modulos/            m1-*.typ … m19-*.typ, uno por modulo
 docs/                 figuras.md (el catalogo de figuras)
 fuentes/              RUTAS.md y TEMARIO.md — la bibliografia no se copia acá
 PDP.md · ESTADO_ACTUAL.md · HANDOFF.md
