@@ -1,25 +1,28 @@
 # Estado actual — Apunte de Física Espacial
 
-**FASE 5 (Parte V: de la cónica al viaje real, M16–M19) — ABIERTA el
-2026-09-07.** Es la fase que la cátedra abrió sin querer: la lista de temas de
-gravitación actualizada (`Lista de temas Gravitación (2).pdf`) agrega «Todo —
-Curtis cap. 2» y los parámetros orbitales del Bate, y Fran pidió además
-órbitas parcheadas, esfera de influencia y su relación con Hohmann y con la
-gravedad de la Tierra. El plan de los cuatro módulos, con el hueco medido
-contra los quince ya escritos, está en `PDP.md` §4 (fase 5).
+**FASE 5 (Parte V: de la cónica al viaje real, M16–M19) — LOS CUATRO MÓDULOS
+ESCRITOS el 2026-09-11.** Es la fase que la cátedra abrió sin querer: la lista
+de temas de gravitación actualizada (`Lista de temas Gravitación (2).pdf`)
+agrega «Todo — Curtis cap. 2» y los parámetros orbitales del Bate, y Fran
+pidió además órbitas parcheadas, esfera de influencia y su relación con
+Hohmann y con la gravedad de la Tierra. El plan de los cuatro módulos, con el
+hueco medido contra los quince ya escritos, está en `PDP.md` §4 (fase 5).
 
 | Módulo de la Parte V | Estado |
 |---|---|
 | **M16 — La hipérbola: escapar, y llegar con velocidad de sobra** | **escrito y verificado en render** (2026-09-07) |
 | **M17 — La esfera de influencia y las órbitas parcheadas** | **escrito y verificado en render** (2026-09-07, sesión 2) |
 | **M18 — Marco perifocal, vector de estado y coeficientes de Lagrange** | **escrito y verificado en render** (2026-09-08, sesión 3) |
-| M19 — Tres cuerpos restringido y puntos de Lagrange | pendiente |
+| **M19 — Tres cuerpos restringido y puntos de Lagrange** | **escrito y verificado en render** (2026-09-11, sesión 4) |
 
-**El apunte pasó de 106 a 136 páginas** y de 28 a 34 figuras. La Parte V
-arranca en la página 107 y el M18 ocupa las páginas 123 a 132 (impresas).
-`apunte.typ` todavía tiene el `#include` de M19 comentado, con su nombre de
-archivo definitivo — así el plan y el documento no pueden divergir sin que se
-vea.
+**Lo que falta para cerrar la fase 5 es la sesión de cierre**, no un módulo:
+las referencias cruzadas de la Parte V validadas contra el índice renderizado.
+`docs/figuras.md` ya quedó al día en esta sesión.
+
+**El apunte pasó de 106 a 149 páginas** y de 28 a 37 figuras. La Parte V
+arranca en la página 107 y el M19 ocupa las páginas 133 a 145 (impresas).
+`apunte.typ` ya no tiene ningún `#include` comentado salvo el de los anexos,
+que es de la fase 6.
 
 **Lo que el M16 cerró, además de su propio tema.** Las dos fórmulas que
 faltaban para despejar $v_r$ y el ángulo de trayectoria de vuelo $gamma$
@@ -76,6 +79,48 @@ Tres cosas que el módulo aporta y que no estaban en el plan:
   $10 thin 681$ (con $10 thin 861$ no sale el $h = 75 thin 366$ que el libro
   publica dos renglones más abajo, y el resto del ejemplo usa $10 thin 681$).
   Queda anotada en el apunte, en un `#cuidado` al lado del ejemplo.
+
+**Lo que el M19 cerró (2026-09-11, sesión 4).** Cubre Curtis §2.12 entero —el
+marco co-rotante, las tres ecuaciones de movimiento, los cinco puntos de
+Lagrange, la estabilidad y la constante de Jacobi— y con eso la fila «todo
+Curtis cap. 2» de la lista de la cátedra queda completa. Tres figuras nuevas.
+
+Cuatro cosas que el módulo aporta y que no estaban en el plan:
+
+- **La comparación Hill contra esfera de influencia, con su propia deducción**
+  (sección 19.4). El radio de Hill se deduce desarrollando a primer orden la
+  condición de equilibrio de $L_1$ —tres renglones— y da
+  $r_"Hill" = r_12 (m_2\/3m_1)^(1\/3)$, que para la Luna vale $61 thin 524$ km
+  contra los $58 thin 019$ medidos: 6% de más, que es el precio del primer
+  orden. Y la razón entre las dos fronteras sale con **exponente $-1\/15$**,
+  tan chico que las dos coinciden en casi todo el sistema solar — salvo
+  donde importa: **$L_1$ y $L_2$ del par Sol–Tierra están AFUERA de la esfera
+  de influencia de la Tierra** (1,5 millones de km contra 925.000), así que
+  el SOHO y el James Webb viven en lugares que el método del M17 considera
+  territorio del Sol. Esto es propio del apunte: Curtis no compara las dos.
+- **El «potencial de Jacobi»**, nombre de este apunte (Curtis no lo bautiza),
+  que deja la constante de Jacobi con la forma $C = K + U_J$ — el $E = K + U$
+  del módulo 5 palabra por palabra. Con eso la figura del perfil se lee como
+  un diagrama de energía y no hace falta el gráfico 2-D de curvas de
+  velocidad cero de Curtis.
+- **Por qué $L_4$ y $L_5$ salen exactos y los tres colineales no**: con
+  $y != 0$ hay dos ecuaciones y son *lineales* en $1\/r_1^3$ y $1\/r_2^3$;
+  sobre el eje queda una sola condición y es una quíntica. La deducción de
+  los puntos triangulares no usa ninguna aproximación y no depende de las
+  masas.
+- **Una cuarta errata de Curtis**, en el ejemplo 2.17 y confirmada por el
+  propio libro: imprime $x_1 = -pi_1 r_12 = -0,9878 dot 384 thin 400 =
+  -4670,6$ km, donde el símbolo y el factor son de $pi_1$ y el resultado es
+  de $pi_2$ ($0,9878 dot 384 thin 400 = 379 thin 700$). Lo correcto es
+  $x_1 = -pi_2 r_12$, que es lo que dice su propia ec. (2.177a). En el mismo
+  ejemplo hay otra transposición: $5,947 times 10^24$ donde va
+  $5,974 times 10^24$.
+
+**Todos los números del M19 están recalculados desde cero**, no copiados: las
+tres raíces de la quíntica por bisección propia, las cuatro constantes de
+Jacobi y las seis velocidades de apagado. Las cuatro constantes coinciden con
+las que Curtis imprime en su figura 2.37 hasta la última cifra que el libro
+muestra, lo cual es la verificación cruzada del cálculo entero.
 
 **El Bate SÍ está en el disco**, contra lo que el HANDOFF de la sesión 2
 suponía: `Roger R. Bate, Donald D. Mueller, Jerry E. White - Fundamentals of
@@ -166,7 +211,7 @@ huérfanos de caja, **106 páginas**.
 | **Módulo 16 — La hipérbola: escapar y llegar con velocidad de sobra** | **escrito y verificado en render** |
 | **Módulo 17 — La esfera de influencia y las órbitas parcheadas** | **escrito y verificado en render** |
 | **Módulo 18 — Marco perifocal, vector de estado y coeficientes de Lagrange** | **escrito y verificado en render** |
-| Módulo 19 — Parte V | no empezado |
+| **Módulo 19 — Tres cuerpos restringido y puntos de Lagrange** | **escrito y verificado en render** |
 | Anexos | no empezados |
 
 ## Lo que hay escrito en la Parte III
@@ -451,8 +496,46 @@ hipérbola que los datos no dejaban ver—; el **a fondo** son los ejemplos 2.13
 y 2.14, una propagación entera de $120°$ que corre sin saber en qué cónica
 está, con el control $f dot(g) - dot(f) g = 1$ hecho a mitad de camino.
 
-**Módulo 19 — no empezado.** Su `#include` ya está escrito y comentado en
-`apunte.typ` con el nombre de archivo definitivo.
+**Módulo 19 — El problema restringido de tres cuerpos y los puntos de
+Lagrange** (13 pág., 133–145). Cierra la Parte V y el apunte. Siete secciones:
+
+1. *La idea completa, antes de la primera ecuación* — la regla 4 del contrato,
+   con el plan en tres pasos («aceptar que no hay solución cerrada → cambiar
+   de marco → preguntar dónde se puede estar quieto y a dónde no se puede
+   llegar») y un `#posta` de tres ideas.
+2. *El marco que gira con los dos cuerpos* — `#definicion` de las tres
+   restricciones del nombre, figura nueva `fig-tres-cuerpos-marco`, las
+   fracciones de masa $pi_1$ y $pi_2$ con un `#notacion` por el choque con el
+   número $pi$ y con el $mu = G M$ del apunte, y la `#deduccion` de las tres
+   ecuaciones de movimiento a partir de la fórmula de cinco términos del
+   módulo 12. El `#clave` que sigue dice *por qué* no se resuelven: no
+   linealidad más el acoplamiento de Coriolis.
+3. *Los cinco puntos de Lagrange* — $z = 0$ en un renglón; la `#deduccion` de
+   los dos triangulares (el sistema lineal en $1\/r_1^3$ y $1\/r_2^3$, sin
+   ninguna aproximación); el `#clave` de por qué los tres colineales son una
+   quíntica y no se despejan nunca; `#definicion` del método de bisección;
+   figura nueva `fig-lagrange-puntos` (dos paneles) y el ejemplo simple con
+   los cinco puntos del par Tierra–Luna.
+4. *Dos fronteras para lo mismo: Hill contra la esfera de influencia* — la
+   sección propia del apunte, con la `#deduccion` del radio de Hill, la tabla
+   comparativa de las dos fronteras para la Luna y para la Tierra, el
+   `#clave` del exponente $-1\/15$ y el `#cuidado` de que no hay que elegir
+   una sino saber cuál contesta qué.
+5. *Cuáles sirven para estacionar* — estabilidad, el criterio de Routh
+   despejado ($k >= 24,96$, o $pi_2 <= 0,0385$), el `#cuidado` de que el Sol
+   desestabiliza $L_4$ y $L_5$ del par Tierra–Luna, y un `#posta` sobre por
+   qué las misiones reales están en los puntos *inestables*.
+6. *La constante de Jacobi* — la `#deduccion` completa, el `#clave` de que
+   Coriolis no aparece **porque no trabaja**, el potencial de Jacobi, figura
+   nueva `fig-jacobi-perfil`, el `#clave` de las cuatro puertas en orden y el
+   `#cuidado` doble (C no es la energía; permitido no es alcanzable).
+7. *Lo que se usa después*, que cierra la Parte V entera.
+
+Ejemplos: el **simple** es el 2.16 de Curtis (los cinco puntos del par
+Tierra–Luna) y el **a fondo** es el 2.17 —las seis velocidades de apagado—,
+cuyo resultado es el que justifica el módulo entero: **22 m/s separan «no
+llego a la Luna» de «me escapo del sistema»**, sobre una velocidad de apagado
+de casi 11 km/s.
 
 ## Lo verificado contra las fuentes en esta fase
 
@@ -523,6 +606,19 @@ está, con el control $f dot(g) - dot(f) g = 1$ hecho a mitad de camino.
 | El error del parcheo: $v=3,086$ km/s y $
 u=149,3°$ en la frontera | **calculado en esta sesión** con la vis-viva y la ecuación de la órbita del apunte |
 | El tiempo adentro de la esfera, 3,2 días de 259 | **calculado en esta sesión** con la ecuación de Kepler hiperbólica (que el apunte NO desarrolla: el número se cita, no se deduce) |
+| **Fase 5, sesión 4 — lo de abajo es Curtis §2.12**, mismo offset (impresa = PDF − 8); la sección arranca en la pág. impresa 116 (PDF 124) | leído por capa de texto, y las páginas del ejemplo 2.17 miradas a 300 dpi |
+| Marco co-rotante, $\Omega=\sqrt{\mu/r_{12}^3}$, $\pi_1$, $\pi_2$, y las tres ecuaciones de movimiento | Curtis §2.12, ecs. 2.173 a 2.192, pág. 116–120 |
+| $z=0$ para los cinco puntos; $r_1=r_2=r_{12}$ para los triangulares; la quíntica $f(\pi_2,\xi)=0$ de los colineales | Curtis §2.12.1, ecs. 2.193 a 2.204, pág. 120–121 |
+| Método de bisección (algoritmo 2.4) | Curtis, pág. 122–123 |
+| Estabilidad: colineales inestables; $L_4$, $L_5$ estables si $m_1/m_2+m_2/m_1\ge 25$ | Curtis, pág. 126, citando a Battin (1987) |
+| Constante de Jacobi y curvas de velocidad cero | Curtis §2.12.2, ecs. 2.207 a 2.216, pág. 126–128 |
+| $\xi_1=0{,}83692$, $\xi_2=1{,}15568$, $\xi_3=-1{,}00506$ | **recalculadas en esta sesión** por bisección propia; coinciden con las del ejemplo 2.16 |
+| $C_1=-1{,}6735$, $C_2=-1{,}6650$, $C_3=-1{,}5810$, $C_{4,5}=-1{,}5683$ | **recalculadas en esta sesión**; coinciden con las cuatro que Curtis imprime en su fig. 2.37 |
+| Las seis velocidades de apagado del ejemplo 2.17 (10,8455 a 10,8676 km/s) | **recalculadas en esta sesión**; difieren de las impresas en menos de 0,3 m/s (redondeo de $\pi_2$) |
+| $r_\text{Hill}=r_{12}(m_2/3m_1)^{1/3}$, y la razón $r_\text{Hill}/r_\text{SOI}=0{,}693\,(m_2/m_1)^{-1/15}$ | **deducidas y calculadas en esta sesión**; Curtis no las trae. Verificadas contra las raíces exactas: Hill queda entre $L_1$ y $L_2$ en los dos sistemas |
+| $L_1$ y $L_2$ del par Sol–Tierra a 1.491.577 y 1.501.558 km de la Tierra | **calculados en esta sesión** con la misma quíntica; coherentes con el «about 1.5 million km» de Curtis, pág. 126 |
+| **Cuarta errata de Curtis, ejemplo 2.17**: $x_1=-\pi_1 r_{12}=-0{,}9878\cdot384.400=-4670{,}6$ km | **confirmada mirando la página a 300 dpi**: el producto impreso da 379.700; lo correcto es $-\pi_2 r_{12}$, que es lo que dice su propia ec. (2.177a) |
+| **Quinta errata, mismo ejemplo**: $m_1=5{,}947\times10^{24}$ donde va $5{,}974\times10^{24}$ | la división que el propio libro imprime dos símbolos después da 0,9878, que sale con 5,974 |
 
 ## Lo que NO está verificado todavía
 
@@ -555,8 +651,8 @@ cuatro no.
 | 1 · **hecha** (2026-09-07) | M16 — la hipérbola | escrito, compilado y mirado; el enlace numérico con Hohmann adentro |
 | 2 · **hecha** (2026-09-07) | M17 — esfera de influencia y órbitas parcheadas | la deducción de $R_\text{SOI} = r\,(m/M)^{2/5}$, el método de las cónicas parcheadas, la partida planetaria completa (Curtis §8.4–8.6), y el ejemplo Tierra→Marte de punta a punta usando el $v_\infty$ del módulo 16 |
 | 3 · **hecha** (2026-09-08) | M18 — marco perifocal y coeficientes de Lagrange | $\hat p$, $\hat q$, $\hat w$; el vector de estado y los seis elementos; $f$ y $g$ (Curtis §2.10–2.11) y los parámetros orbitales del Bate (pág. 53–74) |
-| 4 | **M19 — tres cuerpos restringido y puntos de Lagrange** | los cinco puntos, la constante de Jacobi, y por qué la esfera de influencia del M17 es una aproximación (Curtis §2.12) |
-| 5 | cierre de fase | las referencias cruzadas de la Parte V validadas contra el índice renderizado, y `docs/figuras.md` al día |
+| 4 · **hecha** (2026-09-11) | M19 — tres cuerpos restringido y puntos de Lagrange | los cinco puntos, la constante de Jacobi (Curtis §2.12), y la comparación medida entre la esfera de Hill y la esfera de influencia del M17 |
+| 5 | cierre de fase | las referencias cruzadas de la Parte V validadas contra el índice renderizado. `docs/figuras.md` **ya quedó al día** en la sesión 4 |
 
 **Por qué el M17 va segundo y no cuarto.** Es lo que Fran pidió
 explícitamente, y su única precondición es el M16, que ya está. Los dos

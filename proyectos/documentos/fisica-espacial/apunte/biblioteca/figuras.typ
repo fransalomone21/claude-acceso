@@ -1884,6 +1884,330 @@
   angulo(F, anom0, anom, etiqueta: $Delta nu$, radio: 0.62)
 })
 
+// =====================================================================
+//  Módulo 19 — Tres cuerpos restringido y puntos de Lagrange
+// =====================================================================
+
+// --- El marco que gira con los dos cuerpos -------------------------------
+// Tres cosas tiene que mostrar el dibujo, y ninguna es una fórmula: que en
+// este marco los dos cuerpos grandes están QUIETOS, que el origen es el
+// baricentro y no el cuerpo grande, y que la nave se ubica con tres
+// vectores distintos según desde dónde se la mire.
+//
+// Se dibuja con m2/m1 = 1/3 —una razón que en el sistema solar no existe—
+// porque con la razón real de cualquier par (Tierra-Luna: 1/81) el
+// baricentro cae ADENTRO del cuerpo grande y las dos distancias no se
+// pueden ni marcar. La exageración va escrita en el dibujo, por la regla 8
+// de docs/figuras.md: el epígrafe se lee después de mirar, y para entonces
+// el lector ya sacó su conclusión.
+//
+// El tamaño del dibujo lo decide la ALTURA, no el ancho: las dos órbitas
+// completas lo hacen tan alto como ancho, y con `sep = 4,2` la figura más
+// su epígrafe no entraban en lo que quedaba de página — media página en
+// blanco, medida en el render.
+#let fig-tres-cuerpos-marco = esquema(escala: 1.2cm, {
+  let raz = 0.25 // el pi-2 del dibujo, exagerado
+  let sep = 3.2 // la distancia entre los dos cuerpos
+  let xa = -raz * sep
+  let xb = (1 - raz) * sep
+  // La nave va donde los TRES vectores se abren: en (1,5 · 2,0) los rótulos
+  // de r y r_1 caen uno encima del otro, porque los dos vectores llegan al
+  // mismo punto desde lados parecidos.
+  let nave = (0.62, 1.85)
+
+  // Las dos órbitas circulares alrededor del baricentro.
+  cetz.draw.circle((0, 0), radius: -xa, stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  cetz.draw.circle((0, 0), radius: xb, stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+
+  flecha((-2.15, 0), (3.9, 0), color: c-trazo, grosor: 0.55pt)
+  flecha((0, -0.5), (0, 2.55), color: c-trazo, grosor: 0.55pt)
+  rotulo((3.95, 0), $x$, ancla: "west")
+  rotulo((0, 2.6), $y$, ancla: "south")
+
+  // El marco gira: la flecha curva es lo único que lo dice.
+  cetz.draw.arc(
+    (0, 0),
+    start: 104deg,
+    stop: 138deg,
+    radius: 2.95,
+    anchor: "origin",
+    stroke: 0.7pt + c-viole,
+    mark: (end: "stealth", scale: 0.4, fill: c-viole),
+  )
+  rotulo((2.95 * calc.cos(144deg), 2.95 * calc.sin(144deg)), text(fill: c-viole)[$bold(Omega)$], ancla: "south-east")
+
+  cuerpo-central((xa, 0), radio: 0.26, etiqueta: none)
+  rotulo((xa, 0.32), $m_1$, ancla: "south")
+  masa((xb, 0), radio: 0.14, color: c-orbe)
+  rotulo((xb, 0.18), $m_2$, ancla: "south")
+
+  // El baricentro, que es el origen y no está en ningún cuerpo.
+  cetz.draw.line((-0.13, -0.13), (0.13, 0.13), stroke: 0.7pt + c-trazo)
+  cetz.draw.line((-0.13, 0.13), (0.13, -0.13), stroke: 0.7pt + c-trazo)
+  rotulo((0.1, -0.2), $G$, ancla: "north-west")
+
+  masa(nave, radio: 0.075, color: c-dato)
+  rotulo((nave.at(0) + 0.1, nave.at(1) + 0.08), text(fill: c-dato)[$m$], ancla: "west")
+
+  flecha((0, 0), nave, etiqueta: $bold(r)$, color: c-dato, lado: "west", pos: 58%)
+  flecha((xa, 0), nave, etiqueta: $bold(r)_1$, color: c-aux, lado: "east", pos: 40%)
+  flecha((xb, 0), nave, etiqueta: $bold(r)_2$, color: c-aux, lado: "west", pos: 58%)
+
+  // Las dos distancias al baricentro, que es de donde salen pi-1 y pi-2.
+  cetz.draw.line((xa, -0.15), (xa, -1.0), stroke: (paint: c-guia, thickness: 0.4pt, dash: "dashed"))
+  cetz.draw.line((xb, -0.18), (xb, -1.0), stroke: (paint: c-guia, thickness: 0.4pt, dash: "dashed"))
+  cetz.draw.line((0, -0.05), (0, -1.0), stroke: (paint: c-guia, thickness: 0.4pt, dash: "dashed"))
+  cetz.draw.line((xa, -0.85), (0, -0.85), stroke: 0.5pt + c-aux, mark: (start: "bar", end: "bar", scale: 0.28))
+  rotulo((xa / 2, -0.91), text(fill: c-aux)[$pi_2 r_12$], ancla: "north")
+  cetz.draw.line((0, -0.85), (xb, -0.85), stroke: 0.5pt + c-aux, mark: (start: "bar", end: "bar", scale: 0.28))
+  rotulo((xb / 2, -0.91), text(fill: c-aux)[$pi_1 r_12$], ancla: "north")
+
+  // Afuera de las dos órbitas: adentro, la línea de puntos de la grande
+  // cruza el renglón de abajo.
+  rotulo(
+    (0.8, -2.72),
+    text(fill: luma(80), size: 8pt)[dibujada con $m_2 \/ m_1 = 1\/3$: con la razón real del par\ Tierra–Luna (1/81) el baricentro cae adentro de la Tierra],
+    ancla: "center",
+  )
+})
+
+// --- Los cinco puntos de Lagrange del par Tierra-Luna --------------------
+// Panel (a): los cinco, a escala real, con los dos triángulos equiláteros.
+// Panel (b): el zoom que hace falta para ver lo que el panel (a) no puede
+// mostrar —el hueco entre L1, L2 y la Luna— y de paso las DOS fronteras
+// que el apunte ya definió con criterios distintos: la esfera de Hill de
+// este módulo y la esfera de influencia del módulo 17.
+//
+// Todas las posiciones salen de las raíces medidas de f(pi2, ksi) = 0, no
+// de la estética: L1 y L2 no son simétricos respecto de la Luna y el
+// dibujo tiene que mostrar esa asimetría.
+#let fig-lagrange-puntos = paneles(
+  ("los cinco, a escala", esquema(escala: 1.02cm, {
+    let sep = 2.6 // r12
+    let raz = 0.012151 // pi2 del par Tierra-Luna
+    let tie = (-raz * sep, 0)
+    let lun = ((1 - raz) * sep, 0)
+    let cruz = (p, col) => {
+      cetz.draw.line(
+        (p.at(0) - 0.09, p.at(1) - 0.09),
+        (p.at(0) + 0.09, p.at(1) + 0.09),
+        stroke: 0.8pt + col,
+      )
+      cetz.draw.line(
+        (p.at(0) - 0.09, p.at(1) + 0.09),
+        (p.at(0) + 0.09, p.at(1) - 0.09),
+        stroke: 0.8pt + col,
+      )
+    }
+    let p1 = (0.83692 * sep, 0)
+    let p2 = (1.15568 * sep, 0)
+    let p3 = (-1.00506 * sep, 0)
+    let p4 = (0.48785 * sep, 0.86603 * sep)
+    let p5 = (0.48785 * sep, -0.86603 * sep)
+
+    cetz.draw.circle((0, 0), radius: sep, stroke: (paint: c-guia, thickness: 0.55pt, dash: "dashed"))
+    cetz.draw.line((-1.18 * sep, 0), (1.28 * sep, 0), stroke: (paint: c-guia, thickness: 0.4pt, dash: "dashed"))
+
+    // Los dos triángulos equiláteros: es toda la deducción de L4 y L5.
+    for pt in (p4, p5) {
+      cetz.draw.line(tie, pt, lun, stroke: (paint: c-verde, thickness: 0.6pt, dash: "dashed"))
+    }
+    angulo(tie, 0, 60, etiqueta: text(fill: c-verde)[$60°$], radio: 0.62, color: c-verde)
+
+    cuerpo-central(tie, radio: 0.16, etiqueta: none)
+    rotulo((tie.at(0) - 0.2, -0.22), text(fill: c-orbe)[Tierra], ancla: "north-east")
+    masa(lun, radio: 0.085, color: c-aux)
+    rotulo((lun.at(0) + 0.12, -0.14), text(fill: c-aux)[Luna], ancla: "north-west")
+
+    for (pt, nom, anc) in (
+      (p1, $L_1$, "south-east"),
+      (p2, $L_2$, "south-west"),
+      (p3, $L_3$, "south-west"),
+      (p4, $L_4$, "south"),
+      (p5, $L_5$, "north"),
+    ) {
+      cruz(pt, c-dato)
+      cetz.draw.content(pt, text(size: letra-figura, fill: c-dato, nom), anchor: anc, padding: 5pt)
+    }
+
+    rotulo((0, sep + 0.12), text(fill: luma(80), size: 8pt)[órbita de la Luna — 384.400 km], ancla: "south")
+    rotulo(
+      (0, -sep - 0.3),
+      text(fill: luma(80), size: 8pt)[los cinco giran con la Luna: acá están quietos],
+      ancla: "north",
+    )
+  })),
+  ("el hueco, ampliado 4,5 veces", esquema(escala: 1.85cm, {
+    let u = 1 / 60000 // una unidad de dibujo = 60.000 km
+    let p1 = -58019 * u
+    let p2 = 64515 * u
+    let hill = 61524 * u
+    let soi = 66183 * u
+
+    cetz.draw.circle((0, 0), radius: soi, stroke: 0.9pt + c-dato)
+    cetz.draw.circle((0, 0), radius: hill, stroke: (paint: c-verde, thickness: 0.9pt, dash: "dashed"))
+    cetz.draw.line((-1.3, 0), (1.3, 0), stroke: (paint: c-guia, thickness: 0.4pt, dash: "dashed"))
+
+    masa((0, 0), radio: 0.06, color: c-aux)
+    rotulo((0.07, 0.06), text(fill: c-aux, size: 8pt)[Luna], ancla: "south-west")
+    // La orientación va AFUERA de los dos círculos: adentro se le cruzan.
+    flecha((-1.25, 0), (-1.45, 0), color: luma(120), grosor: 0.5pt)
+    rotulo((-1.5, 0), text(fill: luma(80), size: 8pt)[a la Tierra], ancla: "east")
+
+    // Los dos rótulos se corren AFUERA de los dos círculos: L_1 y L_2 caen
+    // justo entre los dos cortes de los círculos con el eje —que es lo que
+    // la figura tiene que mostrar— y ahí no entra ninguna letra.
+    for (x, nom, anc) in ((p1, $L_1$, "south-east"), (p2, $L_2$, "south-west")) {
+      cetz.draw.line((x - 0.07, -0.07), (x + 0.07, 0.07), stroke: 0.8pt + c-dato)
+      cetz.draw.line((x - 0.07, 0.07), (x + 0.07, -0.07), stroke: 0.8pt + c-dato)
+      let dx = if anc == "south-east" { -0.2 } else { 0.2 }
+      cetz.draw.line((x, 0.09), (x + dx * 0.85, 0.3), stroke: 0.45pt + luma(150))
+      cetz.draw.content((x + dx, 0.3), text(size: letra-figura, fill: c-dato, nom), anchor: anc)
+    }
+
+    // Las dos distancias van como barras de medida a DOS alturas distintas:
+    // las dos arrancan en la Luna, y a la misma altura se leerían como una
+    // sola línea. El número queda en la franja central, que es la única
+    // donde los dos círculos están lo bastante lejos como para no cruzarlo.
+    for (x, num, y) in ((p1, [58.019 km], -0.18), (p2, [64.515 km], -0.44)) {
+      cetz.draw.line((0, y), (x, y), stroke: 0.5pt + c-dato, mark: (start: "bar", end: "bar", scale: 0.25))
+      cetz.draw.content((x * 0.38, y - 0.04), text(size: 8pt, fill: c-dato, num), anchor: "north")
+    }
+
+    // En dos renglones y corrido para arriba: en uno solo, el rótulo es más
+    // ancho que la cuerda del círculo a esa altura y lo cruza en los dos
+    // extremos.
+    flecha-nota(
+      (0, 0.68),
+      (0, hill),
+      text(fill: c-verde, size: 8pt)[esfera de Hill\ 61.524 km],
+      ancla: "north",
+    )
+    rotulo(
+      (0, soi + 0.04),
+      text(fill: c-dato, size: 8pt)[esfera de influencia (módulo 17) — 66.200 km],
+      ancla: "south",
+    )
+    rotulo(
+      (0, -soi - 0.06),
+      text(fill: luma(80), size: 8pt)[tres números para la misma frontera,\ y salen de tres criterios distintos],
+      ancla: "north",
+    )
+  })),
+)
+
+// --- El potencial de Jacobi sobre el eje Tierra-Luna ---------------------
+// El diagrama de energía del módulo 5, otra vez, ahora con el potencial de
+// Jacobi: la curva es el valor de C que hace falta para LLEGAR a ese punto
+// con velocidad nula, y la recta horizontal es el C que la nave tiene.
+//
+// La ventana vertical es angosta a propósito (0,19 km^2/s^2 de alto). Con
+// una ventana que mostrara los dos pozos enteros, C1 y C2 quedarían a un
+// cuarto de milímetro y el lector no vería lo único que importa: que la
+// puerta a la Luna y la puerta de salida del sistema cuestan casi lo
+// mismo. El precio de la ventana angosta es que los pozos se van por
+// abajo, y eso se marca con dos líneas de puntos rotuladas.
+#let fig-jacobi-perfil = esquema(escala: 1.05cm, {
+  let gm1 = 398620.5
+  let gm2 = 4903.0
+  let sep = 384400.0
+  let om2 = 7.10426e-12 // Omega al cuadrado
+  let raz = 0.012151
+  let kmin = -1.45
+  let kmax = 1.45
+  let vmin = -1.74
+  let vmax = -1.55
+  let anc = 10.4
+  let alt = 3.6
+
+  let potj = k => {
+    let x = k * sep
+    let d1 = calc.max(calc.abs(x + raz * sep), 1.0)
+    let d2 = calc.max(calc.abs(x - (1 - raz) * sep), 1.0)
+    -(0.5 * om2 * x * x + gm1 / d1 + gm2 / d2)
+  }
+  let px = k => (k - kmin) / (kmax - kmin) * anc
+  let py = v => (v - vmin) / (vmax - vmin) * alt
+
+  let c1 = -1.67348
+  let c2 = -1.66499
+  let c3 = -1.58100
+
+  // La curva, partida en los tramos que caen adentro de la ventana.
+  let n = 900
+  let tramos = ()
+  let cur = ()
+  for i in range(0, n + 1) {
+    let k = kmin + (kmax - kmin) * i / n
+    let v = potj(k)
+    if v >= vmin and v <= vmax {
+      cur.push((px(k), py(v)))
+    } else {
+      if cur.len() > 1 { tramos.push(cur) }
+      cur = ()
+    }
+  }
+  if cur.len() > 1 { tramos.push(cur) }
+
+  // Los tres niveles, dibujados ANTES que la curva para que no la tapen.
+  for (niv, col) in ((c1, c-dato), (c2, c-viole), (c3, c-verde)) {
+    cetz.draw.line(
+      (2.7, py(niv)),
+      (anc, py(niv)),
+      stroke: (paint: col, thickness: 0.7pt, dash: "dashed"),
+    )
+  }
+
+  for t in tramos {
+    cetz.draw.line(..t, stroke: trazo-curva + c-trazo)
+  }
+
+  // Los dos pozos que se van por abajo de la ventana.
+  for (k, nom, col) in ((-raz, [Tierra], c-orbe), (1 - raz, [Luna], c-aux)) {
+    cetz.draw.line((px(k), 0), (px(k), alt * 0.6), stroke: (paint: col, thickness: 0.5pt, dash: "dotted"))
+    cetz.draw.content((px(k), -0.05), text(size: letra-figura, fill: col, nom), anchor: "north")
+  }
+
+  flecha((px(-raz), 0.5), (px(-raz), 0.12), color: c-orbe, grosor: 0.6pt)
+  rotulo((px(-raz) - 0.14, 0.13), text(fill: c-orbe, size: 8pt)[el pozo sigue\ para abajo], ancla: "south-east")
+
+  // Los tres puntos de silla, que son los tres máximos de la curva. El
+  // rótulo va 0,3 arriba y no 0,16: a 0,16 el de L_1 cae justo sobre la
+  // línea de C_2, que pasa a 0,16 de la de C_1.
+  for (k, niv, nom, dx) in ((0.83692, c1, $L_1$, -0.16), (1.15568, c2, $L_2$, 0.16), (-1.00506, c3, $L_3$, 0)) {
+    cetz.draw.circle((px(k), py(niv)), radius: 0.07, fill: c-trazo, stroke: none)
+    cetz.draw.content(
+      (px(k) + dx, py(niv) + 0.3),
+      text(size: letra-figura, nom),
+      anchor: if dx < 0 { "south-east" } else if dx > 0 { "south-west" } else { "south" },
+    )
+  }
+
+  // Los tres valores, en TEXTO y no en fórmula: la galería compila sin la
+  // plantilla, y ahí $-1,581$ sale con un espacio después de la coma
+  // (trampa 6 del HANDOFF). Cuánto valen C_2 - C_1 lo dice el módulo: acá
+  // el número no entra sin cruzarse con las tres líneas de nivel.
+  rotulo((anc + 0.12, py(c3)), text(fill: c-verde, size: 8pt)[$C_3$ = $-$1,581], ancla: "west")
+  flecha-nota(
+    (anc + 0.12, py(c2) + 0.62),
+    (anc - 0.02, py(c2)),
+    text(fill: c-viole, size: 8pt)[$C_2$ = $-$1,665],
+    ancla: "west",
+  )
+  flecha-nota(
+    (anc + 0.12, py(c1) - 0.62),
+    (anc - 0.02, py(c1)),
+    text(fill: c-dato, size: 8pt)[$C_1$ = $-$1,673],
+    ancla: "west",
+  )
+
+  rotulo(
+    (anc / 2, -0.42),
+    text(fill: luma(80), size: 8pt)[la altura de la curva es el $C$ que hace falta para llegar\ a ese punto con velocidad nula],
+    ancla: "north",
+  )
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
@@ -1920,4 +2244,7 @@
   ("fig-conicas-parcheadas", fig-conicas-parcheadas),
   ("fig-perifocal", fig-perifocal),
   ("fig-lagrange-base", fig-lagrange-base),
+  ("fig-tres-cuerpos-marco", fig-tres-cuerpos-marco),
+  ("fig-lagrange-puntos", fig-lagrange-puntos),
+  ("fig-jacobi-perfil", fig-jacobi-perfil),
 )

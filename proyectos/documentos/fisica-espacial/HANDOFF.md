@@ -39,11 +39,56 @@ for i,p in enumerate(d):
 "
 ```
 
-## Fase 5 — lo que la próxima sesión necesita (M19: tres cuerpos y Lagrange)
+## Fase 5 — lo que la próxima sesión necesita (sesión 5: CIERRE DE FASE)
 
-M16, M17 y M18 están cerrados y verificados en el render. Lo que queda de la
-fase es el M19 —problema restringido de tres cuerpos y puntos de Lagrange— y
-después la sesión de cierre.
+**Los cuatro módulos de la Parte V están escritos y verificados en el render**
+(M19 cerrado el 2026-09-11). Lo que queda **no es escribir**: es el cierre de
+fase, y son dos cosas concretas.
+
+1. **Validar las referencias cruzadas de texto plano de la Parte V contra el
+   índice renderizado.** La tabla de los módulos 1 a 11 está más abajo, en
+   «Lo que sigue abierto, a propósito»; falta agregarle las de los módulos 16
+   a 19 y revisarlas todas juntas. Las de la Parte V, medidas al escribir:
+   M16 → módulos 6, 9, 11; M17 → módulos 4, 8, 11, 16, 19; M18 → módulos 1,
+   7, 8, 9, 16, 17, 19; M19 → módulos 5, 6, 8, 9, 10, 12, 16, 17, 18.
+   **Ninguna apunta a un módulo inexistente** —el 19 ya existe—, así que lo
+   que hay que verificar es que cada número sea el correcto, no que resuelva.
+2. **El blanco grande al pie de la pág. 30**, que se dejó para «cuando la
+   paginación no cambie más». Ese momento es ahora: el apunte tiene sus 19
+   módulos y 149 páginas, y no va a crecer salvo por los anexos de la fase 6.
+
+`docs/figuras.md` **ya quedó al día** en la sesión 4, con las tres figuras del
+M19 en el catálogo y dos reglas nuevas (la 11 y la 12), así que eso ya no es
+parte del cierre.
+
+**Lo que el M19 dejó hecho y NO hay que rehacer:**
+
+- Curtis §2.12 entero: marco co-rotante, las tres ecuaciones de movimiento,
+  los cinco puntos (los dos triangulares deducidos exactos, los tres
+  colineales por bisección), estabilidad, y la constante de Jacobi con sus
+  curvas de velocidad cero.
+- **Los números, todos recalculados desde cero** y coincidentes con los del
+  libro: $\xi_1 = 0{,}83692$, $\xi_2 = 1{,}15568$, $\xi_3 = -1{,}00506$;
+  $C_1 = -1{,}6735$, $C_2 = -1{,}6650$, $C_3 = -1{,}5810$,
+  $C_{4,5} = -1{,}5683$; las seis velocidades de apagado del ejemplo 2.17
+  (10,8455 a 10,8676 km/s).
+- **La comparación Hill contra esfera de influencia**, que es propia del
+  apunte y no está en Curtis: $r_\text{Hill} = r_{12}(m_2/3m_1)^{1/3}$
+  deducida a primer orden, la razón con exponente $-1/15$, y el hecho medido
+  de que $L_1$ y $L_2$ del par Sol–Tierra caen **afuera** de la esfera de
+  influencia de la Tierra.
+- **Dos erratas más de Curtis** (van cinco), las dos en el ejemplo 2.17 y las
+  dos confirmadas contra el propio libro: $x_1 = -\pi_1 r_{12}$ donde va
+  $-\pi_2 r_{12}$ (el producto impreso no da el resultado impreso), y
+  $m_1 = 5{,}947 \times 10^{24}$ donde va $5{,}974 \times 10^{24}$.
+- **La deuda de la ecuación de Kepler queda como estaba**, y ya está declarada
+  adentro del apunte en tres lugares (17.6, 18.5 y 19.7). No hay que tocar
+  nada de eso: es tema del capítulo 3 de Curtis y de una fase futura, si
+  alguna vez se decide.
+
+---
+
+## Lo que la sesión del M19 necesitaba (histórico, ya consumido)
 
 **Las dos fuentes, con los offsets MEDIDOS.** Localizar los PDFs con
 `glob.glob` sobre `Desktop\Mis Documentos\SistemasEspaciales\Libros de
@@ -178,6 +223,17 @@ reescribe: `abs(v)^2 = 5,36^2 + 14,64^2 = 243,1 ==> abs(v) = 15,59`.
 bien. Escribir `$29{,}3$` imprime las llaves. En las **figuras** —que la
 galería compila *sin* la plantilla— los números con coma van como contenido de
 texto plano, `[29,3]`, no como fórmula.
+
+**6b. La trampa 6 tiene una mitad que no estaba escrita: el rótulo que MEZCLA
+símbolo y número.** La regla decía «en las figuras los números con coma van
+como texto plano, `[29,3]`». Lo que no decía es qué hacer cuando el rótulo es
+`$C_3 = -1,581$` — donde el símbolo y el signo menos *sí* quieren modo
+matemático. Escrito entero como fórmula, en la galería sale «−1, 581» con un
+espacio; escrito entero como texto, el subíndice sale como `C_3` literal.
+
+*La salida es partirlo*: `[$C_3$ = $-$1,581]`. Cada pedazo en el modo que le
+corresponde, y el número —lo único que la coma toca— en texto plano. Pagada
+el 2026-09-11 en `fig-jacobi-perfil`, con tres rótulos a la vez.
 
 **7. Un `#v(-3pt)` después de un `block` no es lo mismo que después de texto
 suelto.** Entre bloques, un `v()` explícito *reemplaza* el espaciado

@@ -112,7 +112,7 @@ turno en que se detectó, por la regla 4 del enrutador.)*
 
 Cierra con: los cuatro módulos escritos y mirados.
 
-### Fase 5 — Parte V: de la cónica al viaje real (M16–M19)  ·  ABIERTA (2026-09-07)
+### Fase 5 — Parte V: de la cónica al viaje real (M16–M19)  ·  LOS CUATRO MÓDULOS ESCRITOS (2026-09-11); falta la sesión de cierre
 
 **Por qué existe.** El 2026-09-07 Fran trajo la lista de temas de gravitación
 actualizada (`Lista de temas Gravitación (2).pdf`, ver `fuentes/RUTAS.md`),
@@ -136,7 +136,7 @@ influencia» aparecían una sola vez en los 5189 renglones de `modulos/`.
 | M16 | La hipérbola: escapar y llegar con velocidad de sobra | Curtis §2.8–2.9 | **escrito y verificado** (2026-09-07) |
 | M17 | Esfera de influencia y órbitas parcheadas | Curtis §8.4–8.6 | **escrito y verificado** (2026-09-07) |
 | M18 | Marco perifocal, vector de estado y coeficientes de Lagrange | Curtis §2.10–2.11, Bate §2.2.4 a §2.5 (pág. 57–73) | **escrito y verificado** (2026-09-08) |
-| M19 | El problema restringido de tres cuerpos y los puntos de Lagrange | Curtis §2.12 | pendiente |
+| M19 | El problema restringido de tres cuerpos y los puntos de Lagrange | Curtis §2.12 | **escrito y verificado** (2026-09-11) |
 
 El orden no es el del libro: M17 va segundo, antes que los dos de
 herramientas, porque es lo que Fran pidió explícitamente y porque M16 es su
@@ -192,7 +192,8 @@ Anexos    — formulario · constantes · correspondencia con la cátedra
 
 Diecinueve módulos. Eran quince hasta el 2026-09-07: la Parte V nació de las
 dos filas nuevas de la lista de temas de gravitación (ver la fase 5). El de
-Electrónica tiene catorce y 123 páginas; éste va por 117 con el M16 adentro.
+Electrónica tiene catorce y 123 páginas; éste tiene **149 con los diecinueve
+módulos adentro** (2026-09-11), sin los anexos.
 
 ## 6. Cómo se verifica
 

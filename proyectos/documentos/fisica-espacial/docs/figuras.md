@@ -127,6 +127,44 @@ $\cos\nu = -e$. Un punto ahí deja la proyección horizontal corriendo
 **tangente** al borde de la elipse, que es ilegible. Para $e = 0{,}5$ eso cae
 en $\nu = 120°$, y por eso el punto de la figura quedó en $145°$.
 
+**11. El tamaño de una figura lo decide su ALTURA, y la altura casi nunca es
+la del dibujo que uno tiene en la cabeza.** `fig-tres-cuerpos-marco` dibuja
+las dos órbitas circulares completas de los primarios, así que es tan alta
+como ancha — y con la geometría original (la distancia entre cuerpos valía
+4,2 unidades) la figura más su epígrafe no entraban en lo que quedaba de
+página: media página en blanco, medida en el render. El arreglo no fue bajar
+la escala —eso achica también la letra de los rótulos— sino achicar la
+*geometría*: la distancia entre cuerpos pasó a 3,2 y todo lo demás se
+reacomodó a esa proporción.
+
+*La regla: antes de insertar una figura nueva, estimar su alto en centímetros
+—unidades de lienzo por la escala, más el epígrafe— y compararlo con lo que
+queda de página.* Una figura ancha y baja siempre entra; una cuadrada de más
+de 8 cm casi nunca entra a mitad de página.
+
+**12. Un rótulo adentro de un círculo se mide contra la CUERDA a esa altura,
+no contra el diámetro.** En el panel (b) de `fig-lagrange-puntos` hay dos
+círculos casi iguales —la esfera de Hill y la esfera de influencia, que
+difieren un 7%— y el rótulo de la de adentro, en un solo renglón, era más
+ancho que el círculo a la altura donde estaba puesto: lo cruzaba en los dos
+extremos. Es la trampa de la regla 16 de las trampas de Typst con otra
+forma —el hueco que a ojo está vacío no lo está— pero acá el culpable es
+geométrico y se calcula: a altura $y$, el círculo de radio $R$ mide
+$2\sqrt{R^2-y^2}$, y eso se achica rápido cerca del polo.
+
+*Las dos salidas, en orden de preferencia:* partir el rótulo en dos renglones
+y subirlo a donde la cuerda sea ancha, con una flechita que lo ate a su
+curva; o sacarlo afuera del círculo. Meterlo justo sobre el eje horizontal
+—donde la cuerda es máxima— es la tentación, y ahí es donde suele estar el
+contenido de la figura.
+
+*Y el caso hermano, del mismo panel:* cuando dos marcas caen entre los dos
+cortes de dos círculos con el eje (ahí $L_1$ y $L_2$ caen a 5% de las dos
+circunferencias, que es justo lo que la figura tiene que mostrar), **no hay
+lugar para ninguna letra**: el rótulo se corre afuera y se ata con una línea
+fina. Achicar la letra no alcanza, porque el problema no es el tamaño del
+texto sino que el lugar está ocupado por lo que se quiere mostrar.
+
 ## Catálogo
 
 | Figura | Módulo | Qué muestra |
@@ -165,6 +203,9 @@ en $\nu = 120°$, y por eso el punto de la figura quedó en $145°$.
 | `fig-conicas-parcheadas` | 17 | las tres cónicas del método —hipérbola de salida, elipse heliocéntrica, hipérbola de llegada— con las dos esferas agrandadas 300 veces y los dos pegados marcados con círculos huecos |
 | `fig-perifocal` | 18 | el marco perifocal: $\hat p$ al perigeo, $\hat q$ a 90°, $\hat w$ saliendo de la hoja, y la posición leída como $x = r\cos\nu$, $y = r\sin\nu$ |
 | `fig-lagrange-base` | 18 | por qué existen los coeficientes de Lagrange: $r$ como diagonal del paralelogramo de $f\,r_0$ y $g\,v_0$, con $v_0$ trasladada al foco |
+| `fig-tres-cuerpos-marco` | 19 | el marco que gira con los dos primarios: el baricentro como origen, $m_1$ y $m_2$ clavados sobre el eje $x$ a $\pi_2 r_{12}$ y $\pi_1 r_{12}$, y los tres vectores con los que se ubica la nave |
+| `fig-lagrange-puntos` | 19 | los cinco puntos del par Tierra–Luna: a escala real, con los dos triángulos equiláteros de $L_4$ y $L_5$; y el zoom de la zona de la Luna con $L_1$, $L_2$, la esfera de Hill y la esfera de influencia del módulo 17, **las tres fronteras juntas** |
+| `fig-jacobi-perfil` | 19 | el potencial de Jacobi sobre la línea Tierra–Luna: el diagrama de energía del módulo 5 otra vez, con los tres máximos en $L_1$, $L_2$ y $L_3$ y los tres niveles $C_1 < C_2 < C_3$ que abren cada puerta |
 
 ## Lo que `estilo.typ` todavía no tiene
 
