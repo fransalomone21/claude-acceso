@@ -29,6 +29,33 @@ Lo que sí es de una máquina son los **archivos pesados y los datos locales**
 
 ---
 
+## Paso 0 — habilitar scripts (una vez por máquina, y no lo puede medir `bootstrap.ps1`)
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+Windows viene con la ejecución de scripts **deshabilitada** en una instalación
+limpia. Sin esto, `.ootstrap.ps1` muere con `UnauthorizedAccess` antes de
+correr su primera línea — y **por eso este chequeo no puede vivir adentro del
+script**: un verificador no puede medir la precondición que le impide
+arrancar. Tiene que estar en la capa que se lee, no en la que se corre.
+
+No alcanza con un `-ExecutionPolicy Bypass` en el comando de bootstrap: cada
+sesión de Claude Code en esa máquina corre `.ps1` de este repo —
+`cascada.ps1`, `verificar-estructura.ps1`, `chequeo-completo.ps1`— y todos
+chocarían contra lo mismo.
+
+`RemoteSigned` con scope `CurrentUser` es el mínimo que alcanza: permite los
+scripts locales, exige firma sólo para los descargados, y no pide admin. Los
+archivos que llegan por `git clone` no llevan marca de descarga, así que
+pasan. Es lo que tiene la notebook — **medido**, no supuesto — y es lo que
+hacía que todo esto anduviera ahí sin que nadie se enterara de que existía.
+
+Se deshace con `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Undefined`.
+
+---
+
 ## Los dos comandos
 
 En la PC, con Claude Code ya instalado y con sesión iniciada:
