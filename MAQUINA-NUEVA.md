@@ -34,12 +34,26 @@ Lo que sí es de una máquina son los **archivos pesados y los datos locales**
 En la PC, con Claude Code ya instalado y con sesión iniciada:
 
 ```powershell
-git clone https://github.com/fransalomone21/claude-acceso.git "$env:USERPROFILE\Desktop\claude-acceso"
+git clone -b main https://github.com/fransalomone21/claude-acceso.git "$env:USERPROFILE\Desktop\claude-acceso"
 ```
 
 ```powershell
 cd "$env:USERPROFILE\Desktop\claude-acceso"; .\bootstrap.ps1
 ```
+
+El `-b main` no es decorativo. **Medido el 2026-09-13, en la PC**: el clone
+salió bien, la carpeta existía, el `cd` entraba — y adentro no había
+`bootstrap.ps1`. La rama por defecto del remote seguía apuntando a una rama
+vieja de la época en que cada proyecto era una rama, y eso es lo que `git
+clone` checkoutea. El síntoma se leía como «falta un archivo»; la causa era
+«estás en otro árbol».
+
+El default del remote ya se corrigió a `main`, así que el `-b` hoy es
+redundante — se deja igual, porque un comando que no depende de una
+configuración remota es un comando que no se puede romper desde afuera. Y
+`verificar-sincronia.ps1` ahora **mide** que la rama por defecto del remote
+sea la que se trabaja: si alguien la vuelve a mover, sale en rojo en el
+arranque en vez de descubrirse en la próxima máquina.
 
 `bootstrap.ps1` es idempotente y hace, en orden:
 

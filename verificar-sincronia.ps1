@@ -45,6 +45,17 @@ function Fail($m) { Write-Host "  [FAIL] $m" -ForegroundColor Red;    $script:fa
 Write-Host ""
 Write-Host "=== sincronia con origin ===" -ForegroundColor Cyan
 
+# $PSScriptRoot puede venir VACIO segun como se invoque el script (medido:
+# 'powershell -File ./verificar-sincronia.ps1' con ruta relativa). Sin este
+# guard, el descubrimiento de repos no encontraba nada, el script avisaba en
+# amarillo y salia con 0: un fail-open silencioso en el medidor que existe
+# para que nada pase en silencio.
+if ([string]::IsNullOrWhiteSpace($Raiz) -or -not (Test-Path -LiteralPath $Raiz -PathType Container)) {
+    Write-Host "  [FAIL] no se resolvio la raiz a medir (-Raiz vino vacia o no existe)." -ForegroundColor Red
+    Write-Host "         Sin raiz este chequeo no mide nada, y callarse seria peor." -ForegroundColor Red
+    exit 1
+}
+
 # Los repos a medir se DESCUBREN: cualquier carpeta con .git dentro del arbol,
 # mas la raiz. No hay lista escrita a mano, por el mismo motivo de siempre --
 # una segunda lista diverge, y ya paso con la de los repos duenos.
@@ -68,16 +79,24 @@ foreach ($r in ($repos | Sort-Object -Unique)) {
 
     # El fetch se corre en un job para poder cortarlo: sin timeout, una red
     # caida convierte a este medidor en el problema que vino a evitar.
+    # En el mismo viaje se trae la RAMA POR DEFECTO del remote: es lo que
+    # 'git clone' checkoutea, y no tiene por que ser la que trabajamos.
     $job = Start-Job -ScriptBlock {
         param($ruta, $rem)
         $env:GIT_TERMINAL_PROMPT = '0'
         & git -C $ruta fetch --quiet $rem 2>&1 | Out-Null
-        return $LASTEXITCODE
+        $code = $LASTEXITCODE
+        $sym  = (& git -C $ruta ls-remote --symref $rem HEAD 2>$null | Out-String)
+        $def  = $null
+        if ($sym -match 'ref:\s+refs/heads/(\S+)\s+HEAD') { $def = $Matches[1] }
+        return @{ code = $code; def = $def }
     } -ArgumentList $r, $remote
 
     $term = Wait-Job $job -Timeout $TimeoutSeg
-    $code = if ($term) { Receive-Job $job } else { $null }
+    $res  = if ($term) { Receive-Job $job } else { $null }
     Remove-Job $job -Force -ErrorAction SilentlyContinue
+    $code = if ($res) { $res.code } else { $null }
+    $def  = if ($res) { $res.def }  else { $null }
 
     if ($null -eq $code) {
         Warn "$nombre : el fetch no respondio en $TimeoutSeg s. NO se midio la sincronia."
@@ -106,6 +125,32 @@ foreach ($r in ($repos | Sort-Object -Unique)) {
         Warn "$nombre : $adelante commit(s) sin pushear (la otra maquina no los ve)."
     } else {
         Ok "$nombre : al dia con origin"
+    }
+
+    # --- lo que agarra un CLONE NUEVO, que no es lo mismo que lo que hay aca
+    #
+    # Medido el 2026-09-13, en la PC: el clone salio bien, la carpeta existia,
+    # el 'cd' entraba, y adentro no habia bootstrap.ps1. La rama por defecto
+    # del remote seguia apuntando a una rama vieja de la epoca en que cada
+    # proyecto era una rama (regla 1 del CLAUDE.md, la que ya se archivo), y
+    # eso es lo que 'git clone' checkoutea. El sintoma se leia como "falta un
+    # archivo"; la causa era "estas en otro arbol".
+    #
+    # Es ROJO y no amarillo por donde se ve: el bloque del arranque solo
+    # muestra los rojos, y esto rompe la PROXIMA maquina, no esta. Un aviso
+    # que nadie va a ver no es un aviso. En este sistema hay una sola rama por
+    # repo (CLAUDE.md, regla 1), asi que una divergencia aca no tiene lectura
+    # legitima: o el default esta mal, o esta sesion esta en una rama que no
+    # deberia existir.
+    if ($def) {
+        $local = (& git -C $r rev-parse --abbrev-ref HEAD 2>$null)
+        if ($local -and $local -ne 'HEAD' -and $local -ne $def) {
+            Fail "$nombre : la rama por defecto del remote es '$def', y este arbol trabaja en '$local'."
+            Write-Host "         Un 'git clone' de este repo NO trae lo que estas viendo: trae '$def'." -ForegroundColor Red
+            Write-Host "         Arreglo:  gh repo edit --default-branch $local" -ForegroundColor Red
+        }
+    } else {
+        Warn "$nombre : no se pudo leer la rama por defecto del remote. NO se midio que trae un clone nuevo."
     }
 }
 

@@ -67,6 +67,12 @@ try {
     & git -C $uno branch --quiet -M main 2>&1 | Out-Null
     & git -C $uno branch --quiet --set-upstream-to=origin/main main 2>&1 | Out-Null
 
+    # Un bare recien creado apunta su HEAD a 'master' aunque nadie haya
+    # pusheado esa rama. Eso es EXACTAMENTE el caso que el medidor tiene que
+    # cantar, asi que aca se deja sano a proposito y se sabotea mas abajo:
+    # si se dejara roto, el control positivo naceria en rojo y no probaria nada.
+    & git -C $bare symbolic-ref HEAD refs/heads/main
+
     # ---------------------------------------------------------------- control
     Write-Output ""
     Write-Output "CONTROL POSITIVO: arbol al dia -> verde"
@@ -109,6 +115,40 @@ try {
     Resultado ($r.salida -match 'sin pushear') `
         "pero lo DICE en amarillo (no se lo traga)" `
         "no menciona los commits sin pushear. Salida: '$($r.salida.Trim())'"
+
+    # --------------------------------- sabotaje: la rama por defecto del remote
+    #
+    # La falla real del 2026-09-13: el clone salio bien y el arbol que llego
+    # no era el que se trabaja. Este es el caso que lo habria cantado.
+    Write-Output ""
+    Write-Output "SABOTAJE: la rama por defecto del remote apunta a otra rama"
+    & git -C $uno push --quiet origin HEAD:refs/heads/vieja 2>&1 | Out-Null
+    & git -C $bare symbolic-ref HEAD refs/heads/vieja
+    & git -C $uno push --quiet origin HEAD:main 2>&1 | Out-Null
+
+    $r = Correr-Medidor $uno
+    Resultado ($r.code -ne 0) `
+        "SABOTAJE: con el default del remote en otra rama, ROJO" `
+        "dio exit=$($r.code): un clone nuevo traeria otro arbol y el medidor no lo vio. Salida: '$($r.salida.Trim())'"
+    Resultado ($r.salida -match "rama por defecto del remote es 'vieja'") `
+        "el rojo NOMBRA la rama que traeria un clone nuevo" `
+        "no nombra 'vieja'. Salida: '$($r.salida.Trim())'"
+
+    Write-Output ""
+    Write-Output "CONTROL POSITIVO: con el default de vuelta en main, verde"
+    & git -C $bare symbolic-ref HEAD refs/heads/main
+    $r = Correr-Medidor $uno
+    Resultado ($r.code -eq 0 -and $r.salida -notmatch 'rama por defecto') `
+        "restaurado el default, el medidor se calla" `
+        "sigue en rojo con el remote sano: el aviso se vuelve ruido. Salida: '$($r.salida.Trim())'"
+
+    # ------------------------------------- el medidor no puede fallar ABIERTO
+    Write-Output ""
+    Write-Output "SABOTAJE: sin raiz que medir, ROJO (no un verde silencioso)"
+    $r = Correr-Medidor (Join-Path $caja 'no-existe-esta-carpeta')
+    Resultado ($r.code -ne 0) `
+        "SABOTAJE: con una raiz inexistente el medidor sale en ROJO" `
+        "salio con exit=$($r.code) sin medir nada: fail-open silencioso. Salida: '$($r.salida.Trim())'"
 
     # ------------------------------------------- control: repo sin remote
     Write-Output ""
