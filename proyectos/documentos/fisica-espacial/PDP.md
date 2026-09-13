@@ -154,11 +154,42 @@ Cierra con: los cuatro módulos escritos, con sus ejemplos, compilados y
 cerrado de punta a punta (el $v_oo$ del módulo 16 usado como entrada del 17);
 y `docs/figuras.md` al día.
 
-### Fase 6 — cierre
+### Fase 6 — cierre  ·  CERRADA (2026-09-13)
 
 Cierra con: anexos (formulario, constantes, tabla de correspondencia con las
 listas de temas de la cátedra), todas las referencias cruzadas validadas
 contra el índice renderizado, y el PDF entregado.
+
+**Se cerró con dos de los tres, y el tercero se movió.** Las referencias
+cruzadas quedaron validadas (fase 5) y el PDF entregado; **los anexos no se
+escribieron**. Eso no se declaró el día que se cerró la fase y se corrige acá:
+los anexos pasan a ser la fase 7, opcional, definida abajo. Cerrar una fase
+contra un criterio que no se cumplió, sin decirlo, es justo lo que el criterio
+de salida existe para impedir.
+
+### Fase 7 — anexos  ·  OPCIONAL, NO ABIERTA
+
+**El apunte se declaró CERRADO el 2026-09-13 sin esta fase** (ver
+`ESTADO_ACTUAL.md`). Queda definida para que, si alguna vez se abre, no haya
+que inventarle el alcance — que era el estado hasta hoy.
+
+Son tres anexos, y van en `apunte/modulos/anexos.typ`, que engancha en el
+`#include` ya comentado de `apunte/apunte.typ:134`:
+
+1. **Formulario** — una fila por resultado, con el número de módulo donde está
+   *deducido*. No es una lista de fórmulas sueltas: si una fila no puede
+   apuntar a su deducción, no entra.
+2. **Constantes** — $G$, $M_T$, $R_T$, $mu$ de Tierra/Sol/Luna, UA, $g_0$, con
+   la fuente de cada valor y las cifras significativas que el apunte usa.
+3. **Correspondencia con la cátedra** — tabla tema de `fuentes/TEMARIO.md` →
+   módulo que lo cubre. Es el anexo que más sirve para rendir, y el único que
+   se puede armar sin releer los módulos.
+
+**Cierra con:** los tres anexos escritos, el apunte compilado, y **las páginas
+nuevas miradas en el render** (regla propia del proyecto). Si se abre, es una
+sesión propia: el formulario obliga a recorrer las 7.795 líneas de los 19
+módulos, y hacerlo a medias produce un artefacto de consulta incompleto, que
+se usa sin desconfiar — peor que no tenerlo.
 
 ## 5. La estructura del apunte
 

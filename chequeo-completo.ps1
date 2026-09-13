@@ -48,6 +48,7 @@ $medidores = @(
     @{ nombre = 'estructura del repo';      cmd = '.\verificar-estructura.ps1' }
     @{ nombre = 'perfil global instalado';  cmd = '.\perfil-global\verify-install.ps1' }
     @{ nombre = 'triage de lecciones';      cmd = 'python perfil-global\herramientas\aprender.py sin-triage' }
+    @{ nombre = 'apuntes publicados en Drive'; cmd = '.\publicar-apuntes.ps1 -Verificar' }
 )
 
 $saboteadores = @(
@@ -55,6 +56,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador de los frenos';      cmd = '.\probar-hooks.ps1' }
     @{ nombre = 'saboteador del guardia fanout'; cmd = '.\perfil-global\probar-guardia-fanout.ps1' }
     @{ nombre = 'saboteador del triage';         cmd = '.\perfil-global\probar-chequeo-lecciones.ps1' }
+    @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
 )
 
 function Correr($lista, $titulo) {

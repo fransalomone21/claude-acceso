@@ -64,7 +64,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 | Proyecto | Qué es | Estado |
 |---|---|---|
 | [`electronica-analogica/`](proyectos/documentos/electronica-analogica/) | Apunte de Electrónica Analógica 4.º en Typst, 149 pág. | **ACTIVO** |
-| [`fisica-espacial/`](proyectos/documentos/fisica-espacial/CLAUDE.md) | Apunte general de Física Espacial (UNSAM, Ing. en Sistemas Espaciales) en Typst, 149 pág. | **ACTIVO** — fase 5 (Parte V: hipérbola, órbitas parcheadas, perifocal, tres cuerpos); **los 19 módulos escritos**, falta la sesión de cierre de fase |
+| [`fisica-espacial/`](proyectos/documentos/fisica-espacial/CLAUDE.md) | Apunte general de Física Espacial (UNSAM, Ing. en Sistemas Espaciales) en Typst, 149 pág. | **CERRADO** (2026-09-13) — 19 módulos, 149 pág. verificadas. Sin anexos, a propósito: la fase 7 queda definida y opcional en `PDP.md`. Se publica en Drive |
 | [`clase-asincronica-3/`](proyectos/documentos/clase-asincronica-3/CLAUDE.md) | Actividad asincrónica de Teoría de Circuitos (UNSAM): 12 problemas de Nilsson caps. 6-8, resueltos y simulados en LTspice | **ACTIVO** — fase 2; las 17 simulaciones cerradas y verificadas |
 | [`repaso-iise/`](proyectos/documentos/repaso-iise/) | Repaso oral de IISE: guion + audios | terminado |
 | `teoria-circuitos/` | Informes de laboratorio en Typst. El 1 (Thévenin y Norton) entregado; Pre-Lab de amplificadores operacionales abierto | **ACTIVO** — **repo aparte**: la carátula lleva mails de compañeros |
@@ -234,6 +234,48 @@ frase en español.
 
 ---
 
+## Los apuntes que ven los compañeros — Drive
+
+La carpeta es
+[esta](https://drive.google.com/drive/folders/1Uz_4Lu4i1LX7xbeS-dDVEF-TXi6EA1mL)
+y adentro va **una carpeta por materia** con el PDF del apunte. Se sube con
+`rclone` contra el remote `drive-apuntes`; el token vive en
+`%APPDATA%cloneclone.conf`, **fuera del repo**, y por eso este archivo
+puede nombrar la carpeta sin publicar nada.
+
+```powershell
+.\publicar-apuntes.ps1             # sube lo que cambio
+.\publicar-apuntes.ps1 -Verificar  # solo mide, no sube. Es lo que corre en cada arranque
+.\probar-publicacion.ps1           # rompe el publicador y exige verlo en rojo
+```
+
+**Qué se publica es una lista, no una regla implícita.** Vive en
+`.claude/apuntes-publicos.json` y es *deny-by-default*: un PDF no se publica
+por estar en el repo, se publica por estar declarado. Lo que parece apunte y
+no está en la lista sale reportado como **«sin declarar»** — ni se sube ni se
+ignora en silencio, que es la misma forma de la regla 5 de
+`verificar-estructura.ps1` y de `.claude/datos-permitidos.json`. Eso es lo que
+hace que un apunte **nuevo** entre al circuito sin que nadie se acuerde de
+nada: aparece solo, en rojo, el día que se compila por primera vez.
+
+**Sólo apuntes.** Los informes de cátedra no van: la carátula lleva mails de
+compañeros y viven en un repo aparte. El material de `seguimiento/` no sale
+nunca de su repo. Las dos exclusiones están escritas en el JSON, con el
+motivo al lado.
+
+**El que mide es el arranque**, no la memoria: `publicar-apuntes.ps1
+-Verificar` es uno de los medidores de `chequeo-completo.ps1`, así que cada
+sesión abre diciendo si el Drive quedó atrasado. Un apunte que se toca y no se
+sube es exactamente la falla que no duele el mismo día.
+
+> **Aviso con fecha:** rclone usa hoy su `client_id` compartido de Google, que
+> **se retira durante 2026** — el propio rclone lo avisa en cada corrida.
+> Cuando deje de andar, el arreglo es crear un `client_id` propio
+> (https://rclone.org/drive/#making-your-own-client-id) y agregarlo al remote.
+> No es urgente hasta que el medidor se ponga en rojo por eso.
+
+---
+
 ## Dónde está el resto
 
 - **Cómo se trabaja** (evidencia, modelo, esfuerzo, cierre de sesión):
@@ -255,4 +297,7 @@ frase en español.
 - **¿Las lecciones llegan a alguna sesión?**:
   `python perfil-global\herramientas\aprender.py sin-triage`, y para probar que
   ese chequeo tampoco está ciego: `perfil-global\probar-chequeo-lecciones.ps1`.
+- **¿El Drive de los compañeros está al día?**: `.\publicar-apuntes.ps1
+  -Verificar`, y para probar que ese chequeo no está ciego:
+  `.\probar-publicacion.ps1`.
 - **Las ramas viejas** y qué quedó en cada una: [`archivo/RAMAS.md`](archivo/RAMAS.md).

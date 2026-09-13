@@ -17,9 +17,34 @@ mudaron a un proyecto propio, [`taller-de-fisica/`](../taller-de-fisica/CLAUDE.m
 — es materia aparte y no le correspondía a este apunte. El detalle está en
 `HANDOFF.md`, sección «Fase 6 — CERRADA».
 
-**Este apunte no tiene fase abierta.** La próxima sesión que lo retome
-decide si hay fase 7 (anexos, la que ya estaba prevista desde la fase 5) o si
-queda cerrado tal como está.
+## EL APUNTE ESTÁ CERRADO — 2026-09-13, sin anexos
+
+**Decisión tomada en la sesión 7** (Fran delegó la llamada: «decide vos»).
+El apunte se entrega en sus **19 módulos y 149 páginas**, compiladas y
+verificadas en render. No hay fase abierta y no se abre ninguna.
+
+**Por qué se cierra sin los anexos, que el PDP sí nombraba.** El criterio de
+salida escrito de la fase 6 en `PDP.md` decía «anexos (formulario,
+constantes, tabla de correspondencia con las listas de temas de la cátedra)»,
+y la fase 6 se cerró el mismo 2026-09-13 **sin escribirlos** — eso quedó sin
+declarar y es lo que esta sesión corrige, en vez de dejarlo pasar. La razón
+de cerrar igual es que los anexos son una **capa de comodidad sobre contenido
+que ya está completo**: las 19 referencias cruzadas están validadas, el
+formulario no agregaría ninguna ecuación que no esté deducida en su módulo, y
+la única deuda de *contenido* —la ecuación de Kepler tiempo-anomalía— ya está
+declarada como tal tres veces en el texto (17.6, 18.5, 19.7). Un formulario
+extraído a las apuradas de 7.795 líneas de módulo sería peor que no tenerlo:
+es un artefacto de consulta, y uno incompleto se usa sin desconfiar.
+
+**Los anexos quedan como fase 7 OPCIONAL, ya definida** (no «mencionada y
+nunca definida», que era el estado anterior): el criterio de salida está
+escrito en `PDP.md` §4, fase 7. El `#include` de `modulos/anexos.typ` sigue
+comentado en `apunte/apunte.typ:134` a propósito, que es donde engancharía.
+
+**Desde esta sesión el PDF se publica en Drive** para los compañeros, junto
+con el de Electrónica Analógica. El mecanismo está en la raíz del repo
+(`publicar-apuntes.ps1`); qué se publica y qué no, en
+`.claude/apuntes-publicos.json`.
 
 **FASE 5 — contexto original.** Es la fase que la cátedra abrió sin querer: la
 lista de temas de gravitación actualizada (`Lista de temas Gravitación (2).pdf`)

@@ -1,0 +1,25 @@
+{
+  "_por-que-existe": "Deny-by-default. Un PDF NO se publica en Drive por estar en el repo: se publica por estar en esta lista. Declarar es un acto, no un silencio -- mismo criterio que .claude/datos-permitidos.json. Lo que NO esta aca y parece apunte se reporta como 'sin declarar', no se sube.",
+  "_regla": "Solo APUNTES. Nada de informes de catedra (llevan mails de companeros) ni de material de seguimiento personal. Esos viven en repos aparte y no pasan por aca.",
+  "remote": "drive-apuntes",
+  "carpeta-drive": "https://drive.google.com/drive/folders/1Uz_4Lu4i1LX7xbeS-dDVEF-TXi6EA1mL",
+  "apuntes": [
+    {
+      "materia": "Fisica Espacial",
+      "local": "proyectos/documentos/fisica-espacial/apunte/apunte.pdf",
+      "nombre-en-drive": "Apunte de Fisica Espacial.pdf",
+      "estado": "CERRADO 2026-09-13 -- 19 modulos, 149 pag."
+    },
+    {
+      "materia": "Electronica Analogica",
+      "local": "proyectos/documentos/electronica-analogica/apunte/apunte.pdf",
+      "nombre-en-drive": "Apunte de Electronica Analogica.pdf",
+      "estado": "ACTIVO -- cambia, se republica cada vez que se toca"
+    }
+  ],
+  "no-se-publican": {
+    "proyectos/documentos/teoria-circuitos": "informes de laboratorio, no apuntes; ademas la caratula lleva mails de companeros",
+    "proyectos/documentos/clase-asincronica-3": "actividad de catedra, no apunte",
+    "proyectos/seguimiento": "material personal -- nunca sale de su repo"
+  }
+}
