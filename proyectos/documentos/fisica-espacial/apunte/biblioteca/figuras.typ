@@ -1,6 +1,9 @@
 // =====================================================================
 //  figuras.typ — las figuras del apunte, una función por figura
 //
+//  Las secciones de abajo se titulan con la CLAVE del modulo, no con su
+//  numero: el numero sale del orden de apunte.typ y cambia al reordenar.
+//
 //  Nombradas `fig-<tema>`. El módulo la llama por nombre; acá no se sabe
 //  nada del texto que la rodea. Para verlas todas sin compilar el apunte
 //  entero: `compilar.bat galeria` (segundos, no minutos).
@@ -16,7 +19,7 @@
 #import "estilo.typ": *
 
 // =====================================================================
-//  Módulo 1 — Vectores y cinemática
+//  Módulo `vectores` — Vectores y cinemática
 // =====================================================================
 
 // --- Proyección de un vector sobre otro ---------------------------------
@@ -206,7 +209,46 @@
 })
 
 // =====================================================================
-//  Módulo 2 — Cantidad de movimiento, impulso y choques
+//  Marcos de referencia — Galileo y los marcos que no son inerciales
+// =====================================================================
+
+// --- Los dos marcos de Galileo -----------------------------------------
+// La figura que define la transformacion: un mismo punto P, dos origenes,
+// y la unica diferencia entre ellos es el vector V t que los separa.
+#let fig-galileo = esquema(escala: 1.12cm, {
+  let O = (0, 0)
+  let Op = (3.0, 0)
+  let P = (5.4, 2.35)
+
+  // El eje horizontal es el MISMO para los dos marcos: V va sobre el. Lo
+  // unico que los separa es el origen, y eso es toda la transformacion.
+  cetz.draw.line((-0.35, 0), (6.7, 0), stroke: trazo-cuerpo + c-trazo,
+    mark: (end: "stealth", scale: 0.4))
+  cetz.draw.line((0, -0.35), (0, 3.3), stroke: trazo-cuerpo + c-trazo,
+    mark: (end: "stealth", scale: 0.4))
+  rotulo((6.85, 0), $x, x'$, ancla: "west")
+  rotulo((0, 3.4), $y$, ancla: "south")
+  rotulo((-0.1, -0.3), [$O$ — marco $S$], ancla: "north-east")
+
+  // el eje y' del marco movil, punteado: es el que se corrio
+  cetz.draw.line((Op.at(0), -0.35), (Op.at(0), 3.3),
+    stroke: (paint: c-aux, thickness: trazo-cuerpo, dash: "dashed"))
+  rotulo((Op.at(0), 3.4), text(fill: c-aux)[$y'$], ancla: "south")
+  rotulo((Op.at(0) + 0.15, -0.75), text(fill: c-aux)[$O'$ — marco $S'$], ancla: "north-west")
+
+  // el desplazamiento entre origenes, y la velocidad constante
+  flecha(O, Op, etiqueta: $bold(V) t$, color: luma(55), lado: "south", pos: 50%)
+  flecha(Op, (Op.at(0) + 1.2, 0), etiqueta: $bold(V)$, color: c-aux, lado: "north", pos: 100%)
+
+  // el punto y los dos vectores posicion
+  flecha(O, P, etiqueta: $bold(r)$, color: c-dato, lado: "north-west", pos: 55%)
+  flecha(Op, P, etiqueta: $bold(r)'$, color: c-aux, lado: "south-east", pos: 45%)
+  masa(P)
+  rotulo((P.at(0) + 0.22, P.at(1) + 0.12), $P$, ancla: "west")
+})
+
+// =====================================================================
+//  Módulo `cantidad-movimiento` — Cantidad de movimiento, impulso y choques
 // =====================================================================
 
 // --- El impulso es el área bajo F(t) -----------------------------------
@@ -310,7 +352,7 @@
 )
 
 // =====================================================================
-//  Módulo 3 — Centro de masa y sistemas de partículas
+//  Módulo `centro-de-masa` — Centro de masa y sistemas de partículas
 // =====================================================================
 
 // --- El centro de masa de dos cuerpos ----------------------------------
@@ -396,7 +438,7 @@
 )
 
 // =====================================================================
-//  Módulo 4 — Propulsión: la ecuación del cohete
+//  Módulo `cohete` — Propulsión: la ecuación del cohete
 // =====================================================================
 
 // --- El elemento de tiempo del cohete ----------------------------------
@@ -469,7 +511,7 @@
 })
 
 // =====================================================================
-//  Módulo 5 — Trabajo y energía
+//  Módulo `trabajo-energia` — Trabajo y energía
 // =====================================================================
 
 // --- Por qué una fuerza central es conservativa ------------------------
@@ -682,7 +724,7 @@
 })
 
 // =====================================================================
-//  Módulo 7 — Momento angular y fuerzas centrales
+//  Módulo `momento-angular` — Momento angular y fuerzas centrales
 // =====================================================================
 
 // --- Qué es L, y respecto de qué punto ----------------------------------
@@ -894,7 +936,7 @@
 )
 
 // =====================================================================
-//  Módulo 9 — Potencial eficaz, ecuación de la órbita y cónicas
+//  Módulo `orbita-conicas` — Potencial eficaz, ecuación de la órbita y cónicas
 // =====================================================================
 
 // --- El potencial eficaz -----------------------------------------------
@@ -1087,7 +1129,7 @@
 })
 
 // =====================================================================
-//  Módulo 11 — Maniobras: Hohmann y rendez-vous
+//  Módulo `maniobras` — Maniobras: Hohmann y rendez-vous
 // =====================================================================
 
 // --- La transferencia de Hohmann ----------------------------------------
@@ -1279,7 +1321,7 @@
 })
 
 // =====================================================================
-//  Módulo 12 — Cinemática del cuerpo rígido y sistemas rotantes
+//  Módulo `cinematica-cr` — Cinemática del cuerpo rígido y sistemas rotantes
 // =====================================================================
 
 // --- La derivada de un vector en un sistema que rota --------------------
@@ -1452,7 +1494,7 @@
 )
 
 // =====================================================================
-//  Módulo 16 — La hipérbola: escapar, y llegar con velocidad de sobra
+//  Módulo `hiperbola` — La hipérbola: escapar, y llegar con velocidad de sobra
 // =====================================================================
 
 // --- La geometría de la hipérbola ---------------------------------------
@@ -1593,7 +1635,7 @@
 })
 
 // =====================================================================
-//  Módulo 17 — Esfera de influencia y órbitas parcheadas
+//  Módulo `esfera-influencia` — Esfera de influencia y órbitas parcheadas
 // =====================================================================
 
 // --- La esfera de influencia, a escala real -----------------------------
@@ -1723,7 +1765,7 @@
 })
 
 // =====================================================================
-//  Módulo 18 — Marco perifocal y coeficientes de Lagrange
+//  Módulo `perifocal-lagrange` — Marco perifocal y coeficientes de Lagrange
 // =====================================================================
 
 // --- El marco perifocal --------------------------------------------------
@@ -1885,7 +1927,7 @@
 })
 
 // =====================================================================
-//  Módulo 19 — Tres cuerpos restringido y puntos de Lagrange
+//  Módulo `tres-cuerpos` — Tres cuerpos restringido y puntos de Lagrange
 // =====================================================================
 
 // --- El marco que gira con los dos cuerpos -------------------------------
@@ -2211,6 +2253,7 @@
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
   ("fig-proyeccion", fig-proyeccion),
+  ("fig-galileo", fig-galileo),
   ("fig-producto-vectorial", fig-producto-vectorial),
   ("fig-versores-polares", fig-versores-polares),
   ("fig-derivada-versor", fig-derivada-versor),

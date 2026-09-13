@@ -1,37 +1,37 @@
 #import "../plantilla.typ": *
 
-#modulo("Ecuaciones de Euler y el giróscopo")[
-  Derivar $bold(H)_G$ respecto del tiempo —con la herramienta del módulo 12 y
-  el tensor del módulo 13— para llegar a las ecuaciones de Euler, y usarlas
+#modulo("Ecuaciones de Euler y el giróscopo", clave: "euler-giroscopo")[
+  Derivar $bold(H)_G$ respecto del tiempo —con la herramienta del módulo #M("cinematica-cr") y
+  el tensor del módulo #M("inercia")— para llegar a las ecuaciones de Euler, y usarlas
   para entender el efecto que ya se vio *sin* dinámica en los dos ejemplos
-  cinemáticos del módulo 12: por qué un giróscopo responde a una cupla
+  cinemáticos del módulo #M("cinematica-cr"): por qué un giróscopo responde a una cupla
   precesando, no acelerando en la dirección que el sentido común esperaría.
 ]
 
-El módulo 13 calculó $bold(H)_G$ en un instante. Para llegar a la dinámica
+El módulo #M("inercia") calculó $bold(H)_G$ en un instante. Para llegar a la dinámica
 —qué cupla hace falta para *sostener* un movimiento, o qué movimiento produce
 una cupla dada— hace falta $d bold(H)_G \/ d t$, y ésa es exactamente la
-@m12-derivada del módulo 12 aplicada a $bold(H)_G$ en vez de a un vector
+@cin-derivada del módulo #M("cinematica-cr") aplicada a $bold(H)_G$ en vez de a un vector
 cualquiera.
 
-== La derivada de $bold(H)_G$: la @m12-derivada, por fin en uso
+== La derivada de $bold(H)_G$: la @cin-derivada, por fin en uso
 
 #deduccion("de dónde sale la relación general entre cupla y H")[
   La segunda ley de Newton para rotación, $sum bold(M)_G = dot(bold(H))_G$,
   pide la derivada de $bold(H)_G$ *respecto del espacio fijo*. Pero
-  $bold(H)_G$ sólo tiene componentes simples —las de la @m13-diagonal— en
+  $bold(H)_G$ sólo tiene componentes simples —las de la @iner-diagonal— en
   ejes que en cada instante son principales del cuerpo, y esos ejes en
-  general están girando. La @m12-derivada, con $bold(Omega)$ la velocidad
+  general están girando. La @cin-derivada, con $bold(Omega)$ la velocidad
   angular de *esos ejes* (no necesariamente la del cuerpo), resuelve
   exactamente esa tensión:
   $ dot(bold(H))_G = (dot(bold(H))_G)_(O x y z) + bold(Omega) times bold(H)_G $
-  <m14-derivada-h>
+  <euler-derivada-h>
   (Beer ecs. 18.22 y 18.23, pág. 1169–1170; la misma relación vale para
   $bold(H)_O$ de un cuerpo con un punto fijo, ecs. 18.27 y 18.28, pág.
   1171–1172, cambiando $G$ por $O$.) El primer término es la derivada
   *tratando a los ejes como fijos* —lo que cambian $I_x omega_x$, etc., si
   no fueran cíclicos entre sí— y el segundo es el precio de que los ejes
-  giren, exactamente como en cualquier otra aplicación de la @m12-derivada.
+  giren, exactamente como en cualquier otra aplicación de la @cin-derivada.
 ]
 
 $ (bold(Omega) times bold(H))_x = Omega_y H_z - Omega_z H_y, quad
@@ -40,14 +40,14 @@ $ (bold(Omega) times bold(H))_x = Omega_y H_z - Omega_z H_y, quad
 
 #geometria[
   *Qué ejes elegir es una decisión, no un dato del problema —y la decisión
-  correcta ya se discutió en el módulo 12.* Hay dos caminos:
+  correcta ya se discutió en el módulo #M("cinematica-cr").* Hay dos caminos:
 
   - *Clavar los ejes al cuerpo*, $bold(Omega) = bold(omega)$. Los tres
     momentos de inercia quedan constantes por definición —los ejes giran
     exactamente con la masa— y de ahí salen las *ecuaciones de Euler*
     clásicas, de la sección siguiente.
   - *Elegir ejes que acompañan sólo la simetría del cuerpo, sin girar con
-    él* —$bold(Omega) != bold(omega)$—, la salida que el módulo 12 ya
+    él* —$bold(Omega) != bold(omega)$—, la salida que el módulo #M("cinematica-cr") ya
     recomendaba (pág. 1170) para un cuerpo con eje de revolución: los
     momentos de inercia siguen siendo constantes igual —cualquier eje
     transversal de un cuerpo de revolución es principal—, y la cuenta se
@@ -64,36 +64,36 @@ $ (bold(Omega) times bold(H))_x = Omega_y H_z - Omega_z H_y, quad
 
 Si los ejes giran exactamente con el cuerpo, $(dot(bold(H))_G)_(O x y z) =
 I_x dot(omega)_x hat(i) + I_y dot(omega)_y hat(j) + I_z dot(omega)_z hat(k)$
-—los tres momentos son constantes— y la @m14-derivada-h, componente a
+—los tres momentos son constantes— y la @euler-derivada-h, componente a
 componente con la fórmula de arriba, da
 
 $ sum M_x = I_x dot(omega)_x - (I_y - I_z) omega_y omega_z $
 $ sum M_y = I_y dot(omega)_y - (I_z - I_x) omega_z omega_x $
 $ sum M_z = I_z dot(omega)_z - (I_x - I_y) omega_x omega_y $
-<m14-euler-clasicas>
+<euler-euler-clasicas>
 
 (Beer ec. 18.25, pág. 1170.) Son *las* ecuaciones de Euler: tres ecuaciones
 diferenciales acopladas y no lineales —cada una tiene un producto de las
 otras dos velocidades— que valen para *cualquier* cuerpo rígido, en los ejes
 principales que lo acompañan. Los dos ejemplos de este módulo no las usan
 directamente —eligen $bold(Omega) != bold(omega)$—, pero son la forma que
-tiene el nombre «ecuaciones de Euler», y el módulo 15 vuelve a ellas para la
+tiene el nombre «ecuaciones de Euler», y el módulo #M("peonza") vuelve a ellas para la
 peonza simétrica.
 
 #guia("qué ejercicios cubre este módulo")[
   El punto 2 del Problema 2 (la cupla que sostiene al disco de la horquilla)
   y el Problema 3 completo (el volante en el gimbal). Los ángulos de Euler y
   la precesión estable de las dos últimas secciones no tienen ejercicio
-  propio en este módulo: son la herramienta que el módulo 15 aplica a los
+  propio en este módulo: son la herramienta que el módulo #M("peonza") aplica a los
   Problemas 4 y 6.
 ]
 
 #ejemplo("El disco en la horquilla: la cupla que sostiene el movimiento")[
   _(Problema 2, punto 2, de la sección de cuerpo rígido: $d bold(H)_G \/ d
-  t$, continuando el ejemplo del módulo 13.)_ Con $bold(H)_G = 1/4 m r^2
-  omega_2 hat(j) + 1/2 m r^2 omega_1 hat(k)$ (módulo 13) y $bold(Omega) =
+  t$, continuando el ejemplo del módulo #M("inercia").)_ Con $bold(H)_G = 1/4 m r^2
+  omega_2 hat(j) + 1/2 m r^2 omega_1 hat(k)$ (módulo #M("inercia")) y $bold(Omega) =
   omega_2 hat(j)$ —los ejes están clavados a la horquilla, no al disco, y
-  $omega_1$, $omega_2$ son constantes—, la @m14-derivada-h se reduce a un solo
+  $omega_1$, $omega_2$ son constantes—, la @euler-derivada-h se reduce a un solo
   término: el primero es cero porque las componentes de $bold(H)_G$ en esta
   base no cambian.
   $ dot(bold(H))_G = bold(Omega) times bold(H)_G
@@ -101,20 +101,20 @@ peonza simétrica.
     = 1/2 m r^2 omega_1 omega_2 hat(i) $
 
   #clave[
-    *La cupla necesaria apunta exactamente donde el módulo 12 encontró
+    *La cupla necesaria apunta exactamente donde el módulo #M("cinematica-cr") encontró
     $bold(alpha)$.* Con $sum bold(M)_G = dot(bold(H))_G$, sostener este
     movimiento —los dos giros constantes, para siempre— exige una cupla
     $1/2 m r^2 omega_1 omega_2$ sobre $hat(i)$: la misma dirección que
-    $bold(alpha) = omega_1 omega_2 hat(i)$ del módulo 12 (ahí para el
+    $bold(alpha) = omega_1 omega_2 hat(i)$ del módulo #M("cinematica-cr") (ahí para el
     volante del Problema 3, acá para el disco, pero el mecanismo es
-    idéntico). No es casualidad: es la cupla giroscópica que el módulo 12 ya
+    idéntico). No es casualidad: es la cupla giroscópica que el módulo #M("cinematica-cr") ya
     había señalado sin poder calcularla, porque todavía no existía el tensor
     de inercia.
   ]
 ]
 
 #ejemplo("El volante en el gimbal: por qué 600 N·m dan sólo 20 rad/s²", nivel: "a fondo")[
-  _(Problema 3 completo. Retoma el ejemplo del módulo 12: volante con
+  _(Problema 3 completo. Retoma el ejemplo del módulo #M("cinematica-cr"): volante con
   $I_x=I_y=5$, $I_z=10$ kg$dot.op$m², girando a $omega_s = 100$ rad/s sobre
   $hat(k)$, montado en un gimbal sin peso sobre una plataforma que gira a
   $omega_p = 0,5$ rad/s sobre $hat(j)$. El gimbal arranca quieto respecto de
@@ -139,13 +139,13 @@ peonza simétrica.
 
   *El momento angular.* $hat(i), hat(j), hat(k)$ son principales del volante
   en todo instante (por su simetría de revolución sobre $hat(k)$), así que
-  con la @m13-diagonal:
+  con la @iner-diagonal:
   $ bold(H)_O = I_x Omega_x hat(i) + I_y omega_p hat(j) + I_z omega_s hat(k)
     = 5 Omega_x hat(i) + 2,5 hat(j) + 1000 hat(k) " kg" dot.op "m"^2\/"s" $
   que en el instante inicial ($Omega_x = 0$) es $bold(H)_O = 2,5 hat(j) +
   1000 hat(k)$.
 
-  *La ecuación de momento, componente $x$.* Con la @m14-derivada-h y la
+  *La ecuación de momento, componente $x$.* Con la @euler-derivada-h y la
   fórmula de componentes de más arriba:
   $ sum M_x = (dot(H)_O)_(O x y z, x) + (Omega_y H_z - Omega_z H_y)
     = I_x dot(Omega)_x + omega_p (I_z omega_s) - 0
@@ -217,7 +217,7 @@ caso particular que sí tiene solución simple.
   así que $bold(H)_O$ también tiene componentes constantes en esa base:
   $ bold(H)_O = I dot(phi) sin theta thin hat(e) + I' (dot(phi) cos theta +
     dot(psi)) hat(k) $
-  y el primer término de la @m14-derivada-h se anula. Queda sólo
+  y el primer término de la @euler-derivada-h se anula. Queda sólo
   $bold(Omega) times bold(H)_O$, con $bold(Omega)$ y $bold(H)_O$ los de
   arriba y usando $hat(e) times hat(k) = -hat(f)$:
   $ sum bold(M)_O = dot(phi) sin theta thin [ (I - I') dot(phi) cos theta -
@@ -225,7 +225,7 @@ caso particular que sí tiene solución simple.
 ]
 
 $ sum bold(M)_O = dot(phi) sin theta thin [ I' dot(psi) + (I - I') dot(phi)
-  cos theta ] thin hat(f) $ <m14-precesion-estable>
+  cos theta ] thin hat(f) $ <euler-precesion-estable>
 
 (Beer ecs. 18.40 a 18.44, pág. 1189; con el signo que da $hat(e) times hat(k)$
 según la orientación elegida.) *La cupla necesaria es perpendicular al plano
@@ -237,28 +237,28 @@ ella.
 #cuidado[
   *Caso particular, $theta = 90degree$: el eje de simetría queda siempre
   perpendicular a $Z$.* Ahí $sin theta = 1$, $cos theta = 0$, y la
-  @m14-precesion-estable se reduce a
-  $ sum bold(M)_O = I' dot(phi) dot(psi) thin hat(f) $ <m14-precesion-90>
+  @euler-precesion-estable se reduce a
+  $ sum bold(M)_O = I' dot(phi) dot(psi) thin hat(f) $ <euler-precesion-90>
   (Beer ec. 18.45, pág. 1189.) Es la forma más simple de toda la sección —el
   producto de las dos velocidades angulares por el momento de inercia axial,
   sin ningún coseno— y el mismo mecanismo, con otra letra para cada
   velocidad, que ya apareció dos veces en este módulo: $bold(alpha) =
-  omega_1 omega_2 hat(i)$ en el módulo 12 y $dot(bold(H))_G = 1/2 m r^2
+  omega_1 omega_2 hat(i)$ en el módulo #M("cinematica-cr") y $dot(bold(H))_G = 1/2 m r^2
   omega_1 omega_2 hat(i)$ en el primer ejemplo de hoy.
 ]
 
 == Lo que se usa después
 
-1. *La @m14-derivada-h, con $bold(Omega) != bold(omega)$.* Es la herramienta
+1. *La @euler-derivada-h, con $bold(Omega) != bold(omega)$.* Es la herramienta
    entera de la Parte IV a partir de acá: cada vez que un cuerpo tiene un eje
    de simetría rápido —un volante, una peonza, un satélite estabilizado por
    giro—, conviene elegir ejes que sigan la precesión y no el espín.
 
-2. *Los ángulos de Euler y la notación $I$, $I'$.* El módulo 15 los usa tal
+2. *Los ángulos de Euler y la notación $I$, $I'$.* El módulo #M("peonza") los usa tal
    cual, con el cuerpo simétrico *sin* cuplas externas —$sum bold(M)_O = 0$—
    como el caso especial que sigue.
 
-3. *La @m14-precesion-estable y su caso particular.* La versión sin cuplas
-   ($sum bold(M)_O = 0$) es la que resuelve la peonza libre del módulo 15:
+3. *La @euler-precesion-estable y su caso particular.* La versión sin cuplas
+   ($sum bold(M)_O = 0$) es la que resuelve la peonza libre del módulo #M("peonza"):
    ahí la ecuación no dice cuánta cupla hace falta, sino qué relación entre
    $theta$, $dot(phi)$ y $dot(psi)$ hace que la precesión sea estable *sola*.

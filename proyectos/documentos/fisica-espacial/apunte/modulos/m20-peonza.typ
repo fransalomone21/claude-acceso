@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Peonza simétrica, precesión directa y retrógrada")[
+#modulo("Peonza simétrica, precesión directa y retrógrada", clave: "peonza")[
   Cerrar la Parte IV con el caso que se resuelve sin ecuaciones diferenciales:
   un cuerpo con simetría de revolución, sin ninguna cupla externa. Ahí
   $bold(H)_G$ queda fijo *solo*, sin que nadie lo sostenga, y esa fijeza
@@ -10,12 +10,12 @@
 ]
 
 Los tres módulos anteriores necesitaron una cupla para que algo pasara: el
-módulo 14 calculó qué cupla sostiene un movimiento dado, o qué movimiento
+módulo #M("euler-giroscopo") calculó qué cupla sostiene un movimiento dado, o qué movimiento
 produce una cupla dada. Acá la cupla es cero —un satélite en el espacio, sin
 motores encendidos, sin nada que lo toque— y sin embargo el cuerpo *sigue*
 precesando, indefinidamente, sin que nadie lo sostenga. Es el caso más simple
-de toda la Parte IV, y por eso cierra el apunte: la @m14-precesion-estable
-del módulo 14 vale con $sum bold(M)_O = 0$, y esa sola condición fija todo lo
+de toda la Parte IV, y por eso cierra el apunte: la @euler-precesion-estable
+del módulo #M("euler-giroscopo") vale con $sum bold(M)_O = 0$, y esa sola condición fija todo lo
 demás.
 
 == Un cuerpo simétrico sin cuplas: $bold(H)_G$ queda fijo
@@ -25,18 +25,18 @@ demás.
   $bold(H)_G$ es un vector *constante*: mismo módulo, misma dirección, para
   siempre. Ésa es toda la física. El resto es geometría: como $bold(H)_G$ no
   se mueve, define un eje fijo en el espacio —hace exactamente el papel del
-  eje $Z$ del módulo 14—, y el eje de simetría $z$ del cuerpo precesa
+  eje $Z$ del módulo #M("euler-giroscopo")—, y el eje de simetría $z$ del cuerpo precesa
   alrededor de *él*, no de ningún eje elegido de antemano. (Beer §18.11,
   ecs. 18.46 a 18.48, pág. 1190.)
 ]
 
-Con $theta$ el ángulo entre $bold(H)_G$ y $z$ —la nutación del módulo 14,
+Con $theta$ el ángulo entre $bold(H)_G$ y $z$ —la nutación del módulo #M("euler-giroscopo"),
 ahora medida contra $bold(H)_G$ en vez de contra un $Z$ impuesto desde
 afuera— la componente transversal de $bold(H)_G$ es $H sin theta = I dot(phi)
-sin theta$ (@m14-precesion-estable, componente sobre $hat(e)$), y como
+sin theta$ (@euler-precesion-estable, componente sobre $hat(e)$), y como
 $sin theta$ aparece en los dos lados:
 
-$ dot(phi) = H\/I $ <m15-precesion-libre>
+$ dot(phi) = H\/I $ <peon-precesion-libre>
 
 *La velocidad de precesión no depende de $theta$.* Cualquiera sea el ángulo
 de apertura del cono, $bold(H)_G$ es siempre el mismo vector fijo y $I$ es
@@ -51,18 +51,18 @@ uniforme, sin que haga falta ninguna cupla que la mantenga así.
   de eje fijo) y el eje de simetría $z$ —es el $theta$ que se acaba de
   usar arriba— y reserva $theta$ para el ángulo entre el eje *instantáneo*
   $bold(omega)$ y $z$, que todavía no se había nombrado. Es la misma
-  confusión que el módulo 12 ya advertía entre $bold(Omega)$ y
+  confusión que el módulo #M("cinematica-cr") ya advertía entre $bold(Omega)$ y
   $bold(omega)$: dos velocidades angulares con nombre parecido: acá son dos
   *ángulos* con nombre parecido, y conviene decir en voz alta cuál es cuál
   antes de usar la fórmula.
 ]
 
-Con $I$ el momento transversal e $I'$ el axial (módulo 14), la componente
+Con $I$ el momento transversal e $I'$ el axial (módulo #M("euler-giroscopo")), la componente
 axial de $bold(H)_G$ es $H cos gamma = I' omega_z = I' omega cos theta$, y la
 transversal $H sin gamma = I omega_"transv" = I omega sin theta$ —descomponiendo
 esta vez $bold(omega)$, no $bold(H)_G$, contra $z$. Dividiendo:
 
-$ tan gamma = I/I' tan theta $ <m15-tan-gamma>
+$ tan gamma = I/I' tan theta $ <peon-tan-gamma>
 
 (Beer ec. 18.49, pág. 1190.) $bold(omega)$, $bold(H)_G$ y $z$ quedan siempre
 en un mismo plano —el que gira con la precesión—, y esta fórmula dice qué tan
@@ -71,7 +71,7 @@ lejos de $z$ cae cada uno de los otros dos.
 == Precesión directa y precesión retrógrada
 
 #deduccion("de dónde sale el criterio del signo")[
-  De la @m14-precesion-estable con $sum bold(M)_O = 0$: $I' dot(psi) + (I -
+  De la @euler-precesion-estable con $sum bold(M)_O = 0$: $I' dot(psi) + (I -
   I') dot(phi) cos theta = 0$, así que
   $ dot(psi)/dot(phi) = (I' - I)/I' cos theta $
   Con $theta < 90degree$ (el eje de simetría no llega a ser perpendicular al
@@ -88,14 +88,14 @@ lejos de $z$ cae cada uno de los otros dos.
   los polos, $I'_"polar" > I_"ecuatorial"$— y su precesión libre (el
   bamboleo de Chandler) es, en efecto, directa. Con $I' < I$ es al revés:
   $dot(psi)$ y $dot(phi)$ tienen signos opuestos, retrógrada. Los dos conos
-  del módulo 12 lo muestran sin necesidad de ninguna fórmula: si el cono
+  del módulo #M("cinematica-cr") lo muestran sin necesidad de ninguna fórmula: si el cono
   corporal es tangente al espacial *por afuera* —dos conos separados que se
   tocan a lo largo de $bold(omega)$, como en la @fig-conos-directa de abajo—
   la precesión es directa; si el corporal es más ancho y *envuelve* al
   espacial por adentro, es retrógrada.
 ]
 
-#fig([Los dos conos del módulo 12, reusados: tangencia *externa*, el
+#fig([Los dos conos del módulo #M("cinematica-cr"), reusados: tangencia *externa*, el
 corporal como un cono aparte que toca al espacial desde afuera a lo largo de
 $bold(omega)$. Es la configuración de un cuerpo achatado —$I' > I$— y de la
 precesión directa: el Problema 4 de abajo es un caso así.], fig-conos)
@@ -105,7 +105,7 @@ precesión directa: el Problema 4 de abajo es un caso así.], fig-conos)
   El Problema 4 (el *spacecraft* que precesa, achatado, precesión directa) y
   el Problema 6 (el cilindro de paredes delgadas, el umbral entre directa y
   retrógrada según $ell \/ r$). Los Problemas 5, 7, 8 y 9 son variantes de
-  los mismos dos mecanismos —la precesión estable del módulo 14 y la
+  los mismos dos mecanismos —la precesión estable del módulo #M("euler-giroscopo") y la
   precesión libre de éste— y quedan como práctica adicional, no resueltos
   acá: no agregan un caso conceptual nuevo.
 ]
@@ -142,7 +142,7 @@ precesión directa: el Problema 4 de abajo es un caso así.], fig-conos)
 
   #clave[
     *El período no depende de $theta$, y eso no es una casualidad de este
-    problema puntual.* La @m15-precesion-libre ya lo decía: $dot(phi) = H\/I$
+    problema puntual.* La @peon-precesion-libre ya lo decía: $dot(phi) = H\/I$
     no tiene $theta$ adentro. Los $2degree$ del enunciado sólo entran a
     través de $cos theta$ en la relación entre $dot(psi)$ y $dot(phi)$
     —y ahí casi no pesan, porque $cos 2degree = 0,9994$ está a cuatro
@@ -171,7 +171,7 @@ precesión directa: el Problema 4 de abajo es un caso así.], fig-conos)
   #clave[
     *En $ell\/r = sqrt(6)$ exactos, los tres momentos de inercia se igualan
     —$I = I'$— y el cilindro se comporta, para esta pregunta, como el cubo
-    isótropo del módulo 13: sin dirección privilegiada, $bold(H)_G$ y
+    isótropo del módulo #M("inercia"): sin dirección privilegiada, $bold(H)_G$ y
     $bold(omega)$ quedan paralelos y la distinción entre directa y
     retrógrada deja de tener sentido, porque no hay precesión que separar
     del espín.* Para $ell\/r < sqrt(6)$ —un cilindro corto y ancho, cerca de
@@ -188,8 +188,8 @@ precesión directa: el Problema 4 de abajo es un caso así.], fig-conos)
 
 Los quince módulos de este apunte llegan hasta acá con una sola herramienta
 repetida: derivar un vector cuando el sistema que lo mira está girando —la
-@m12-derivada del módulo 12— y aplicarla, primero al momento angular de una
-partícula (módulo 7), después al de un cuerpo entero (módulos 13 y 14), hasta
+@cin-derivada del módulo #M("cinematica-cr")— y aplicarla, primero al momento angular de una
+partícula (módulo #M("momento-angular")), después al de un cuerpo entero (módulos #M("inercia") y #M("euler-giroscopo")), hasta
 llegar al caso más simple de todos, el de este módulo, en el que ni siquiera
 hace falta una cupla para que la física haga algo interesante. El satélite
 achatado que precesa solo, sin que nadie lo sostenga, es la misma física que

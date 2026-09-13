@@ -167,52 +167,62 @@ texto sino que el lugar está ocupado por lo que se quiere mostrar.
 
 ## Catálogo
 
-| Figura | Módulo | Qué muestra |
+La columna dice la **clave** del módulo, no su número. El número de un módulo
+sale del orden de los `#include` de `apunte.typ` y cambia cuando el apunte se
+reordena — pasó el 2026-09-13, y esta tabla tenía números viejos de las cuatro
+figuras que había tocado esa reorganización. La clave no cambia nunca, y
+además es medible: cada fila de abajo se generó buscando qué módulo llama a
+cada figura.
+
+
+| Figura | Módulo (clave) | Qué muestra |
 |---|---|---|
-| `fig-proyeccion` | 1 | la sombra de $B$ sobre $A$ — por qué el escalar proyecta |
-| `fig-producto-vectorial` | 1 | el paralelogramo cuya área es $\|A \times B\|$, y el resultado saliendo de la hoja |
-| `fig-versores-polares` | 1 | $\hat r$ y $\hat\theta$ en un punto de una trayectoria cualquiera |
-| `fig-derivada-versor` | 1 | el triangulito de $\Delta\hat r$: de dónde sale $\dot{\hat r} = \dot\theta\,\hat\theta$ |
-| `fig-cohete-radar` | 1 | el Ej. 10 de la guía: el cohete visto desde el radar |
-| `fig-impulso-area` | 2 | el impulso como area bajo F(t), y el rectangulo de F_med |
-| `fig-choque-oblicuo` | 2 | el Ej. 2 de la guia: el choque, y el triangulo de impulsos que lo resuelve |
-| `fig-cm-dos-cuerpos` | 3 | el CM sobre la recta que une los cuerpos, con d1/d2 |
-| `fig-choque-cm` | 3 | el mismo choque en el laboratorio y en el sistema centro de masa |
-| `fig-cohete-elemento` | 4 | el intervalo del cohete: antes y despues, con v_r |
-| `fig-etapas` | 4 | una etapa contra dos, con los mismos kilos |
-| `fig-trabajo-central` | 5 | por que una fuerza central es conservativa: solo dr trabaja |
-| `fig-diagrama-energia` | 5 | como se lee un diagrama de energia: E, K, retornos, equilibrios |
-| `fig-canon-newton` | 6 | el canon de Newton: la misma caida con distinta v horizontal |
-| `fig-pozo-gravitatorio` | 6 | U = -mu m / r con tres E: el signo de E decide si el cuerpo vuelve |
-| `fig-momento-angular` | 7 | el brazo de palanca: mismo v, dos origenes, dos L distintos |
-| `fig-velocidad-areolar` | 7 | la 2.a de Kepler: dos sectores de igual area, uno flaco y uno ancho |
-| `fig-satelite-guia` | 7 | el Ej. 4 de la guia: la orbita con A, P y las dos posiciones con gamma |
-| `fig-dos-cuerpos` | 8 | las dos elipses semejantes en torno al CM, y el problema equivalente |
-| `fig-potencial-eficaz` | 9 | las dos ramas, el pozo, y los cuatro niveles de E leídos como cuatro cónicas |
-| `fig-conicas` | 9 | las cuatro cónicas con el mismo p y el mismo foco: sólo cambia e |
-| `fig-elipse-geometria` | 9 | la elipse y sus seis números: a, b, c = ae, p, r_p, r_a, más r y ν |
-| `fig-hohmann` | 11 | la transferencia Tierra–Marte: la media elipse, los dos Δv y el ángulo de fase en el lanzamiento |
-| `fig-rendezvous-phasing` | 11 | el rendez-vous del Problema 10: la órbita de fasaje que cierra un cuarto de vuelta en una revolución |
-| `fig-roadmap-curtis` | 11 | el mapa de Curtis (apéndice B) redibujado: los once resultados de la Parte III y de dónde sale cada uno |
-| `fig-vector-rotante` | 12 | los dos casos de la derivada en un sistema rotante: Q clavado al sistema, y Q que además cambia adentro |
-| `fig-suma-omegas` | 12 | el Problema 2 de la guía: las dos velocidades angulares que se suman, y el eje instantáneo que sale de la suma |
-| `fig-conos` | 12 | el cono espacial y el cono corporal, tangentes a lo largo del eje instantáneo |
-| `fig-hiperbola-geometria` | 16 | la hipérbola entera: las dos ramas, las asíntotas, β, el ángulo de giro δ, el radio de puntería Δ y el semieje a medido desde C |
-| `fig-hiperbola-energia` | 16 | el pozo del módulo 6 con una sola recta E > 0: el reparto entre lo que cuesta escapar y lo que sobra (v_∞) |
-| `fig-esfera-influencia` | 17 | la esfera de influencia de la Tierra mirada desde los dos lados, **a escala real las dos veces**: enorme desde la Tierra (145 R_T, dos veces y media la órbita de la Luna) y un punto desde el Sol (0,62% del radio de la órbita) |
-| `fig-conicas-parcheadas` | 17 | las tres cónicas del método —hipérbola de salida, elipse heliocéntrica, hipérbola de llegada— con las dos esferas agrandadas 300 veces y los dos pegados marcados con círculos huecos |
-| `fig-perifocal` | 18 | el marco perifocal: $\hat p$ al perigeo, $\hat q$ a 90°, $\hat w$ saliendo de la hoja, y la posición leída como $x = r\cos\nu$, $y = r\sin\nu$ |
-| `fig-lagrange-base` | 18 | por qué existen los coeficientes de Lagrange: $r$ como diagonal del paralelogramo de $f\,r_0$ y $g\,v_0$, con $v_0$ trasladada al foco |
-| `fig-tres-cuerpos-marco` | 19 | el marco que gira con los dos primarios: el baricentro como origen, $m_1$ y $m_2$ clavados sobre el eje $x$ a $\pi_2 r_{12}$ y $\pi_1 r_{12}$, y los tres vectores con los que se ubica la nave |
-| `fig-lagrange-puntos` | 19 | los cinco puntos del par Tierra–Luna: a escala real, con los dos triángulos equiláteros de $L_4$ y $L_5$; y el zoom de la zona de la Luna con $L_1$, $L_2$, la esfera de Hill y la esfera de influencia del módulo 17, **las tres fronteras juntas** |
-| `fig-jacobi-perfil` | 19 | el potencial de Jacobi sobre la línea Tierra–Luna: el diagrama de energía del módulo 5 otra vez, con los tres máximos en $L_1$, $L_2$ y $L_3$ y los tres niveles $C_1 < C_2 < C_3$ que abren cada puerta |
+
+| `fig-galileo` | `marcos` | los dos marcos de Galileo: un mismo punto, dos orígenes, y entre ellos sólo el corrimiento $V t$ |
+| `fig-proyeccion` | `vectores` | la sombra de $B$ sobre $A$ — por qué el escalar proyecta |
+| `fig-producto-vectorial` | `vectores` | el paralelogramo cuya área es $\|A \times B\|$, y el resultado saliendo de la hoja |
+| `fig-versores-polares` | `vectores` | $\hat r$ y $\hat\theta$ en un punto de una trayectoria cualquiera |
+| `fig-derivada-versor` | `vectores` | el triangulito de $\Delta\hat r$: de dónde sale $\dot{\hat r} = \dot\theta\,\hat\theta$ |
+| `fig-cohete-radar` | `vectores` | el Ej. 10 de la guía: el cohete visto desde el radar |
+| `fig-impulso-area` | `cantidad-movimiento` | el impulso como area bajo F(t), y el rectangulo de F_med |
+| `fig-choque-oblicuo` | `cantidad-movimiento` | el Ej. 2 de la guia: el choque, y el triangulo de impulsos que lo resuelve |
+| `fig-cm-dos-cuerpos` | `centro-de-masa` | el CM sobre la recta que une los cuerpos, con d1/d2 |
+| `fig-choque-cm` | `centro-de-masa` | el mismo choque en el laboratorio y en el sistema centro de masa |
+| `fig-cohete-elemento` | `cohete` | el intervalo del cohete: antes y despues, con v_r |
+| `fig-etapas` | `cohete` | una etapa contra dos, con los mismos kilos |
+| `fig-trabajo-central` | `trabajo-energia` | por que una fuerza central es conservativa: solo dr trabaja |
+| `fig-diagrama-energia` | `trabajo-energia` | como se lee un diagrama de energia: E, K, retornos, equilibrios |
+| `fig-canon-newton` | `gravitacion` | el canon de Newton: la misma caida con distinta v horizontal |
+| `fig-pozo-gravitatorio` | `gravitacion` | U = -mu m / r con tres E: el signo de E decide si el cuerpo vuelve |
+| `fig-momento-angular` | `momento-angular` | el brazo de palanca: mismo v, dos origenes, dos L distintos |
+| `fig-velocidad-areolar` | `momento-angular` | la 2.a de Kepler: dos sectores de igual area, uno flaco y uno ancho |
+| `fig-satelite-guia` | `momento-angular` | el Ej. 4 de la guia: la orbita con A, P y las dos posiciones con gamma |
+| `fig-dos-cuerpos` | `dos-cuerpos` | las dos elipses semejantes en torno al CM, y el problema equivalente |
+| `fig-potencial-eficaz` | `orbita-conicas` | las dos ramas, el pozo, y los cuatro niveles de E leídos como cuatro cónicas |
+| `fig-conicas` | `orbita-conicas` | las cuatro cónicas con el mismo p y el mismo foco: sólo cambia e |
+| `fig-elipse-geometria` | `orbita-conicas` | la elipse y sus seis números: a, b, c = ae, p, r_p, r_a, más r y ν |
+| `fig-hohmann` | `maniobras` | la transferencia Tierra–Marte: la media elipse, los dos Δv y el ángulo de fase en el lanzamiento |
+| `fig-rendezvous-phasing` | `maniobras` | el rendez-vous del Problema 10: la órbita de fasaje que cierra un cuarto de vuelta en una revolución |
+| `fig-roadmap-curtis` | `maniobras` | el mapa de Curtis (apéndice B) redibujado: los once resultados de la Parte III y de dónde sale cada uno |
+| `fig-vector-rotante` | `cinematica-cr` | los dos casos de la derivada en un sistema rotante: Q clavado al sistema, y Q que además cambia adentro |
+| `fig-suma-omegas` | `cinematica-cr`, `inercia` | el Problema 2 de la guía: las dos velocidades angulares que se suman, y el eje instantáneo que sale de la suma |
+| `fig-conos` | `cinematica-cr`, `peonza` | el cono espacial y el cono corporal, tangentes a lo largo del eje instantáneo |
+| `fig-hiperbola-geometria` | `hiperbola` | la hipérbola entera: las dos ramas, las asíntotas, β, el ángulo de giro δ, el radio de puntería Δ y el semieje a medido desde C |
+| `fig-hiperbola-energia` | `hiperbola` | el pozo de gravitación con una sola recta E > 0: el reparto entre lo que cuesta escapar y lo que sobra (v_∞) |
+| `fig-esfera-influencia` | `esfera-influencia` | la esfera de influencia de la Tierra mirada desde los dos lados, **a escala real las dos veces**: enorme desde la Tierra (145 R_T, dos veces y media la órbita de la Luna) y un punto desde el Sol (0,62% del radio de la órbita) |
+| `fig-conicas-parcheadas` | `esfera-influencia` | las tres cónicas del método —hipérbola de salida, elipse heliocéntrica, hipérbola de llegada— con las dos esferas agrandadas 300 veces y los dos pegados marcados con círculos huecos |
+| `fig-perifocal` | `perifocal-lagrange` | el marco perifocal: $\hat p$ al perigeo, $\hat q$ a 90°, $\hat w$ saliendo de la hoja, y la posición leída como $x = r\cos\nu$, $y = r\sin\nu$ |
+| `fig-lagrange-base` | `perifocal-lagrange` | por qué existen los coeficientes de Lagrange: $r$ como diagonal del paralelogramo de $f\,r_0$ y $g\,v_0$, con $v_0$ trasladada al foco |
+| `fig-tres-cuerpos-marco` | `tres-cuerpos` | el marco que gira con los dos primarios: el baricentro como origen, $m_1$ y $m_2$ clavados sobre el eje $x$ a $\pi_2 r_{12}$ y $\pi_1 r_{12}$, y los tres vectores con los que se ubica la nave |
+| `fig-lagrange-puntos` | `tres-cuerpos` | los cinco puntos del par Tierra–Luna: a escala real, con los dos triángulos equiláteros de $L_4$ y $L_5$; y el zoom de la zona de la Luna con $L_1$, $L_2$, la esfera de Hill y la esfera de influencia, **las tres fronteras juntas** |
+| `fig-jacobi-perfil` | `tres-cuerpos` | el potencial de Jacobi sobre la línea Tierra–Luna: el diagrama de energía otra vez, con los tres máximos en $L_1$, $L_2$ y $L_3$ y los tres niveles $C_1 < C_2 < C_3$ que abren cada puerta |
 
 ## Lo que `estilo.typ` todavía no tiene
 
 Se agrega cuando el módulo que lo necesite lo pida, no antes:
 
 ~~- **cono de precesión** (módulos 14 y 15) — dos conos tangentes~~ — hecho en
-  el módulo 12 (`fig-conos`), y **no hizo falta proyección 3-D**. La salida fue
+  la cinemática del cuerpo rígido (`fig-conos`), y **no hizo falta proyección 3-D**. La salida fue
   dibujar la *sección axial* —cuatro generatrices que salen del vértice— y
   agregarle a cada cono su base con el helper nuevo **`circulo-escorzo`**, que
   proyecta un círculo del espacio como la elipse que se ve de costado. Los
@@ -224,11 +234,11 @@ Se agrega cuando el módulo que lo necesite lo pida, no antes:
   buscar un motor 3-D, preguntarse cuál es la sección plana que el lector
   realmente lee.* Un cono se lee por su sección axial más una elipse de base;
   el volumen no aporta nada.
-~~- **transferencia de Hohmann** (módulo 11) — falta el arco parcial~~ — el
-  helper existe desde el módulo 6: **`arco-conica`**, que dibuja un tramo de
+~~- **transferencia de Hohmann** (módulo `maniobras`) — falta el arco parcial~~ — el
+  helper existe desde el módulo `gravitacion`: **`arco-conica`**, que dibuja un tramo de
   cualquier cónica desde `(p, e)`. Hace tres cosas que `elipse-orbital` no
   puede: trayectorias abiertas (`e >= 1`, donde no hay `a` positivo), arcos
   parciales —la transferencia de Hohmann es media elipse— y curvas recortadas
   contra la superficie del cuerpo central, con `r-min`.
-~~- **choque en el sistema centro de masa** (módulo 3)~~ — hecho en la fase 2
+~~- **choque en el sistema centro de masa** (módulo `centro-de-masa`)~~ — hecho en la fase 2
   (`fig-choque-cm`), sin helper nuevo: alcanzó con `flecha` y `paneles`.

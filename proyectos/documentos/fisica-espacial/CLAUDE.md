@@ -6,8 +6,11 @@ se compila a un solo PDF. Destinatario: **el alumno que cursa la materia**.
 
 **Naturaleza:** `documentos`. Antes de trabajar acá se lee
 [`plantillas/naturalezas/documentos.md`](../../../plantillas/naturalezas/documentos.md):
-el render se mira, las fuentes se anotan donde se usan, y las referencias
-cruzadas de texto plano no las valida el compilador.
+el render se mira y las fuentes se anotan donde se usan. Lo que en esa
+naturaleza se advierte —que las referencias cruzadas de texto plano no las
+valida el compilador— acá dejó de valer el 2026-09-13: las referencias a otro
+módulo se escriben `#M("clave")` y una clave mala **rompe la compilación**
+(regla propia 5).
 
 ## Qué leer según lo que se vaya a hacer
 
@@ -20,9 +23,10 @@ cruzadas de texto plano no las valida el compilador.
 | entender qué pide la cátedra en cada tema | [`fuentes/TEMARIO.md`](fuentes/TEMARIO.md) — las listas de temas y el plan de 17 semanas, transcriptos |
 | **leer un enunciado de la guía, o verificar que un tema esté cubierto** | [`fuentes/GUIA-ENUNCIADOS.md`](fuentes/GUIA-ENUNCIADOS.md) — **la guía entera transcripta**. Los enunciados del PDF son imágenes: renderizarlas es la operación más cara del proyecto y ya está pagada. **Empezar siempre acá, no por el PDF.** |
 | tocar o agregar una figura | [`docs/figuras.md`](docs/figuras.md) |
+| **reordenar módulos, o agregar uno** | reglas propias 5 y 6 acá abajo, y después `python verificar-apunte.py` |
 | generar el PDF | `.\compilar.bat`. El flujo y el chequeo visual: `/pdf-con-codigo` |
 
-## Las dos reglas propias
+## Las reglas propias
 
 **1. Ninguna sección se da por cerrada sin haber mirado su página compilada.**
 Que Typst compile no dice nada sobre si los rótulos se cruzan, si una figura
@@ -40,7 +44,7 @@ criollo y sin vueltas — qué ganás, a qué te ahorrás pensar, por qué el tr
 funciona —, y **no reemplaza ninguna caja técnica ni se permite perder rigor**:
 si el cuadro rosa dice algo que ninguna otra caja del tema ya dedujo, está mal
 puesto. Ejemplo de referencia, el primero que se escribió:
-[`m8-dos-cuerpos.typ`](apunte/modulos/m8-dos-cuerpos.typ), la caja `#posta`
+[`m09-dos-cuerpos.typ`](apunte/modulos/m09-dos-cuerpos.typ), la caja `#posta`
 sobre el problema equivalente. La función vive en `plantilla.typ`
 (`#let posta(cuerpo) = ...`, color `c-rosa` en `paleta.typ`) y ya está en la
 leyenda de la carátula. **No se retrofitteó automáticamente a los 15 módulos
@@ -62,9 +66,40 @@ bien, señalada por el destinatario, es el apunte de Electrónica Analógica:
 una sola: cambiar las incógnitas» y el `#clave` de dos ramas que sigue,
 **antes** de tocar un circuito. El ejemplo propio, sección "La idea completa,
 antes de la primera ecuación" de
-[`m8-dos-cuerpos.typ`](apunte/modulos/m8-dos-cuerpos.typ). Vale para todo
+[`m09-dos-cuerpos.typ`](apunte/modulos/m09-dos-cuerpos.typ). Vale para todo
 módulo nuevo, y es motivo válido para reabrir uno viejo si alguien reporta
 la misma confusión.
+
+**5. El número de un módulo NO se escribe a mano. Nunca.** En la prosa va
+`#M("clave")` —por ejemplo `módulo #M("gravitacion")`— y el número sale del
+orden de los `#include` de `apunte.typ`, que es el único lugar donde ese orden
+vive. Una clave que no existe **no compila**: `M()` hace `panic`, no imprime un
+signo de pregunta. Probado en las dos direcciones el 2026-09-13 (clave buena →
+número correcto; clave inventada → error de compilación).
+
+Esto salió de una necesidad concreta: hasta ese día había **355 números de
+módulo escritos a mano** en los diecinueve módulos, y reordenar el apunte
+significaba reescribirlos todos sin que ningún compilador pudiera avisar si
+quedaba uno mal. La conversión se hizo de una vez y se verificó de la única
+manera que prueba algo: **el texto renderizado quedó idéntico, carácter por
+carácter, a las 149 páginas de antes**. Lo mismo vale para los archivos
+(`mNN-clave.typ`, renumerados al reordenar), para las etiquetas internas
+(`<grav-vesc>`, con prefijo de clave y no de número) y para el catálogo de
+figuras, que lista claves.
+
+**6. El orden del apunte es «fundamentos primero», y eso es verificable.**
+Ningún módulo puede *usar* uno posterior. El grafo se mide así, y tiene que dar
+la columna «usa» siempre con números menores:
+
+```
+python -c "import io,re; ap=io.open('apunte/apunte.typ',encoding='utf-8').read(); orden=re.findall(r'#include \"modulos/(m\d+-[a-z-]+)\.typ\"',ap); [print(i, re.search(r'clave: \"([a-z-]+)\"', io.open('apunte/modulos/%s.typ'%f,encoding='utf-8').read()).group(1)) for i,f in enumerate(orden,1)]"
+```
+
+Anticipar un módulo posterior («esto se va a usar en…») sí está permitido y es
+deseable; *depender* de él no. El 2026-09-13 había exactamente una dependencia
+al revés —el problema de tres cuerpos necesitaba la cinemática del cuerpo
+rígido— y por eso se movió la fórmula del marco rotante con $Omega$ constante
+al módulo de fundamentos, donde se deduce con lo que ya da el de vectores.
 
 ## Dónde está cada cosa
 
@@ -77,7 +112,8 @@ apunte/
     estilo.typ        helpers de CeTZ compartidos por las figuras
     figuras.typ       las figuras del apunte, una funcion por figura
     galeria.typ       compila SOLO las figuras (segundos, no minutos)
-  modulos/            m1-*.typ … m19-*.typ, uno por modulo
+  modulos/            m01-*.typ … m20-*.typ, uno por modulo, numerados
+                      SEGUN EL ORDEN de apunte.typ (lo mide verificar-apunte.py)
 docs/                 figuras.md (el catalogo de figuras)
 fuentes/
   RUTAS.md            donde esta cada libro en el disco
@@ -106,6 +142,10 @@ sesión no encuentra, por más que esté commiteado.
 
 ## Al cerrar cualquier sesión
 
+0. `python verificar-apunte.py` — el orden, los nombres de archivo y las
+   claves tienen que decir lo mismo. Y para probar que ese chequeo no está
+   ciego: `python probar-verificar-apunte.py`, que rompe los tres a propósito
+   y exige verlos en rojo.
 1. Actualizar `ESTADO_ACTUAL.md` y `HANDOFF.md`.
 2. Registrar las lecciones de proceso:
    `python ..\..\..\perfil-global\herramientas\aprender.py agregar ...`

@@ -1,9 +1,9 @@
 #import "../plantilla.typ": *
 
-#modulo("El potencial eficaz y la ecuación de la órbita")[
+#modulo("El potencial eficaz y la ecuación de la órbita", clave: "orbita-conicas")[
   Meter la conservación del momento angular adentro de la conservación de la
   energía y quedarte con un problema de *una sola variable*, $r$, al que se le
-  aplica tal cual el diagrama de energía del módulo 5; leer en ese diagrama, sin
+  aplica tal cual el diagrama de energía del módulo #M("trabajo-energia")#";" leer en ese diagrama, sin
   resolver ninguna ecuación diferencial, si la órbita es circular, elíptica,
   parabólica o hiperbólica; y después *resolverla*, con el cambio de variable
   que convierte la ecuación de movimiento en la ecuación de una cónica —
@@ -15,7 +15,7 @@
 mitad cualitativa —el potencial eficaz, que contesta *qué clase* de órbita es
 sin integrar nada— y la mitad cuantitativa —la ecuación de la órbita, que dice
 *cuál* es. Las dos salen del mismo ingrediente: sustituir $dot(theta) = h \/
-r^2$, que es la conservación del momento angular del módulo 7, adentro de la
+r^2$, que es la conservación del momento angular del módulo #M("momento-angular"), adentro de la
 energía y de la ecuación de movimiento.
 
 Lo que se gana es enorme y conviene decirlo antes de empezar. El problema de
@@ -29,29 +29,29 @@ usada dos veces.
 
 #deduccion("el potencial eficaz")[
   En coordenadas polares la velocidad es $bold(v) = dot(r) hat(r) + r dot(theta)
-  hat(theta)$ (módulo 1), y como los dos versores son perpendiculares,
+  hat(theta)$ (módulo #M("vectores")), y como los dos versores son perpendiculares,
   $ v^2 = dot(r)^2 + r^2 dot(theta)^2 $
   así que la energía cinética se parte en dos pedazos que no se mezclan:
   $ T = 1/2 m v^2 = 1/2 m dot(r)^2 + 1/2 m r^2 dot(theta)^2 $
   El primero es el movimiento de acercarse o alejarse; el segundo, el de girar.
-  Ahora entra el módulo 7: la fuerza es central, así que $L = m r^2 dot(theta)$
+  Ahora entra el módulo #M("momento-angular"): la fuerza es central, así que $L = m r^2 dot(theta)$
   es *constante*, y de ahí $dot(theta) = L \/ (m r^2)$. Sustituyendo en el
   segundo término,
   $ 1/2 m r^2 dot(theta)^2 = 1/2 m r^2 (L/(m r^2))^2 = L^2/(2 m r^2) $
   y el $dot(theta)$ desapareció: lo que quedó depende sólo de $r$.
 ]
 
-$ T = 1/2 m dot(r)^2 + L^2/(2 m r^2) $ <m9-T>
+$ T = 1/2 m dot(r)^2 + L^2/(2 m r^2) $ <orb-T>
 
 Sumando la energía potencial, la energía mecánica total queda
 
-$ E = 1/2 m dot(r)^2 + underbrace(L^2/(2 m r^2) + U(r), U_"ef" (r)) $ <m9-E>
+$ E = 1/2 m dot(r)^2 + underbrace(L^2/(2 m r^2) + U(r), U_"ef" (r)) $ <orb-E>
 
 #definicion("potencial eficaz")[
-  $ U_"ef" (r) = L^2/(2 m r^2) + U(r) = L^2/(2 m r^2) - (mu m)/r $ <m9-Uef>
+  $ U_"ef" (r) = L^2/(2 m r^2) + U(r) = L^2/(2 m r^2) - (mu m)/r $ <orb-Uef>
   Es la suma de la energía potencial verdadera y del término que quedó al
   meterle la conservación del momento angular a la energía cinética. Con él, la
-  @m9-E tiene *exactamente la forma* de un problema unidimensional:
+  @orb-E tiene *exactamente la forma* de un problema unidimensional:
   $E = 1/2 m dot(r)^2 + U_"ef" (r)$, una partícula que se mueve sobre el eje
   $r$ en el potencial $U_"ef"$.
 ]
@@ -62,7 +62,7 @@ $ E = 1/2 m dot(r)^2 + underbrace(L^2/(2 m r^2) + U(r), U_"ef" (r)) $ <m9-E>
   en $L$, y se recupera cuando haga falta integrando
   $dot(theta) = L \/ (m r^2)$.
 
-  La consecuencia práctica es que *toda la maquinaria del módulo 5 se aplica sin
+  La consecuencia práctica es que *toda la maquinaria del módulo #M("trabajo-energia") se aplica sin
   cambiarle una letra*: los puntos donde $E = U_"ef"$ son puntos de retorno
   —ahí $dot(r) = 0$—, la distancia vertical entre $E$ y la curva es la energía
   cinética radial, y un mínimo de $U_"ef"$ es una posición de equilibrio. Sólo
@@ -105,7 +105,7 @@ $ E = 1/2 m dot(r)^2 + underbrace(L^2/(2 m r^2) + U(r), U_"ef" (r)) $ <m9-E>
   $V_g$ sea una *energía* tiene que ser $alpha = G M m$ — si no, $V_g$ es
   energía por unidad de masa y no se le puede sumar $V_c$, que sí lleva la $m$.
   Este apunte evita el problema no dándole nombre propio: escribe
-  $-mu m \/ r$, con $mu = G(m_1 + m_2)$ del módulo 8.
+  $-mu m \/ r$, con $mu = G(m_1 + m_2)$ del módulo #M("dos-cuerpos").
 ]
 
 == Lo que el diagrama dice sin resolver nada
@@ -115,7 +115,7 @@ domina cerca del origen; la roja punteada es la gravedad, que domina lejos. La
 suma —la curva negra— tiene un *pozo*, y el nivel de $E$ que se apoye en él
 decide la órbita: el fondo es la circunferencia, un nivel negativo corta en dos
 puntos y da una elipse entre $r_p$ y $r_a$, $E = 0$ es la parábola y $E > 0$ la
-hipérbola. Es el diagrama del módulo 5, con $U_"ef"$ en lugar de $U$.],
+hipérbola. Es el diagrama del módulo #M("trabajo-energia"), con $U_"ef"$ en lugar de $U$.],
 fig-potencial-eficaz)
 
 Las tres cosas que se leen en esa figura, en orden de importancia:
@@ -127,7 +127,7 @@ Las tres cosas que se leen en esa figura, en orden de importancia:
   $U_"ef" arrow.r + oo$. Ningún valor finito de $E$ alcanza para llegar a
   $r = 0$.
 
-  Ésta es la respuesta a una pregunta que el módulo 6 no podía contestar: *por
+  Ésta es la respuesta a una pregunta que el módulo #M("gravitacion") no podía contestar: *por
   qué la Luna no se cae a la Tierra si la gravedad la atrae.* No es que algo la
   empuje para afuera; es que llegar al centro exigiría anular $dot(theta)$, y
   $r^2 dot(theta)$ no puede cambiar.
@@ -140,35 +140,35 @@ Las tres cosas que se leen en esa figura, en orden de importancia:
   sólo de $r$; el disfraz es legítimo y es todo el truco del módulo.
 
   El precio de olvidarlo se paga en el sistema de referencia: *nada de esto
-  necesita un sistema no inercial*. La deducción de la @m9-Uef se hizo entera en
-  el sistema inercial del módulo 8, sin fuerzas ficticias. Confundir este
+  necesita un sistema no inercial*. La deducción de la @orb-Uef se hizo entera en
+  el sistema inercial del módulo #M("dos-cuerpos"), sin fuerzas ficticias. Confundir este
   término con «la fuerza centrífuga» es el error que hace escribir un $-$ donde
   va un $+$.
 ]
 
 *Segunda: el fondo del pozo es la órbita circular.* Se lo encuentra derivando la
-@m9-Uef e igualando a cero. Con $L = m h$ —la forma específica del módulo 7—:
+@orb-Uef e igualando a cero. Con $L = m h$ —la forma específica del módulo #M("momento-angular")—:
 
-$ (d U_"ef")/(d r) = -L^2/(m r^3) + (mu m)/r^2 = 0 quad ==> quad r_0 = L^2/(mu m^2) = h^2/mu $ <m9-r0>
+$ (d U_"ef")/(d r) = -L^2/(m r^3) + (mu m)/r^2 = 0 quad ==> quad r_0 = L^2/(mu m^2) = h^2/mu $ <orb-r0>
 
 y evaluando ahí,
 
-$ U_"ef" (r_0) = E_"mín" = - (mu^2 m)/(2 h^2) = - (mu m)/(2 r_0) $ <m9-Emin>
+$ U_"ef" (r_0) = E_"mín" = - (mu^2 m)/(2 h^2) = - (mu m)/(2 r_0) $ <orb-Emin>
 
 #clave[
-  *La última igualdad es una verificación, no una coincidencia.* El módulo 6
+  *La última igualdad es una verificación, no una coincidencia.* El módulo #M("gravitacion")
   había obtenido, por un camino completamente distinto —igualando la gravedad a
   la fuerza centrípeta—, que una órbita circular de radio $r$ tiene
   $E = -mu m \/ (2 r)$. Acá vuelve a salir, ahora como *el mínimo de una
   función*, sin haber supuesto que la órbita fuera circular.
 
-  Y de paso queda una lectura que el módulo 6 no daba: una órbita circular es
+  Y de paso queda una lectura que el módulo #M("gravitacion") no daba: una órbita circular es
   la órbita *de mínima energía para un momento angular dado*. No se puede tener
   el mismo $L$ con menos energía.
 ]
 
 *Tercera: el signo de $E$ clasifica la órbita, y la clasifica en cuatro casos, no
-en dos.* El módulo 6 había llegado hasta acá con $U$ sola y distinguía dos:
+en dos.* El módulo #M("gravitacion") había llegado hasta acá con $U$ sola y distinguía dos:
 ligada o no. Con $U_"ef"$ aparecen los cuatro:
 
 #table(
@@ -183,7 +183,7 @@ ligada o no. Con $U_"ef"$ aparecen los cuatro:
 
 #guia("el Problema 1, otra vez")[
   El *Problema 1* de la sección de energía —la curva $U(x)$ con los puntos $A$,
-  $B$ y $C$— quedó resuelto entero en el módulo 5, y lo que se aprendió ahí a
+  $B$ y $C$— quedó resuelto entero en el módulo #M("trabajo-energia"), y lo que se aprendió ahí a
   leer es exactamente esta figura: puntos de retorno, equilibrio estable en el
   fondo del pozo, y la energía cinética como distancia vertical. *Este módulo no
   agrega una técnica nueva de lectura: agrega la curva a la que hay que
@@ -224,7 +224,7 @@ Hasta acá vale para *cualquier* fuerza central. Recién ahora entra la
 gravitación: con $F = G M m \/ r^2 = mu m u^2$, el miembro derecho se simplifica
 entero y queda constante (Beer ec. 12.38, pág. 737):
 
-$ (d^2 u)/(d theta^2) + u = mu/h^2 $ <m9-binet>
+$ (d^2 u)/(d theta^2) + u = mu/h^2 $ <orb-binet>
 
 #clave[
   *Esa ecuación es un oscilador armónico con un término constante*, la misma que
@@ -240,12 +240,12 @@ $ (d^2 u)/(d theta^2) + u = mu/h^2 $ <m9-binet>
 Definiendo la *excentricidad* $e = C h^2 \/ mu$ (Beer ec. 12.40) y el
 *parámetro* $p = h^2 \/ mu$, la ecuación se escribe en la forma en que se usa:
 
-$ r = p/(1 + e cos nu), quad quad p = h^2/mu $ <m9-orbita>
+$ r = p/(1 + e cos nu), quad quad p = h^2/mu $ <orb-orbita>
 
 (Beer ec. 12.39', pág. 737.)
 
 #geometria[
-  *El ángulo de la @m9-orbita no es cualquiera: se mide desde el perigeo.* Al
+  *El ángulo de la @orb-orbita no es cualquiera: se mide desde el perigeo.* Al
   elegir $theta_0 = 0$ se puso el eje polar en la dirección donde $cos theta =
   1$, o sea donde $r$ es *mínimo*. Ese ángulo tiene nombre propio —*anomalía
   verdadera*, $nu$— y por eso este apunte deja de escribir $theta$ a partir de
@@ -256,7 +256,7 @@ $ r = p/(1 + e cos nu), quad quad p = h^2/mu $ <m9-orbita>
   la hace dar un número creíble. Si el enunciado da un ángulo medido desde otro
   lado —desde el eje $x$, desde el nodo, desde la posición de lanzamiento—, hay
   que sumarle o restarle el ángulo del perigeo antes de meterlo en la
-  @m9-orbita.
+  @orb-orbita.
 ]
 
 == Las cónicas, y el puente entre la energía y la forma
@@ -267,7 +267,7 @@ los dos mismos puntos, y ahí se ve que el parámetro es una longitud de la
 órbita, no un factor de escala. La circunferencia ($e = 0$) es la única que no
 tiene perigeo distinguido.], fig-conicas)
 
-La clasificación por $e$ sale de mirar cuándo el denominador de la @m9-orbita se
+La clasificación por $e$ sale de mirar cuándo el denominador de la @orb-orbita se
 anula, que es cuando $r arrow.r oo$ (Beer pág. 738):
 
 #table(
@@ -286,14 +286,14 @@ analogía: son la misma cosa, y la cuenta que las une entra en cinco renglones.
 #deduccion("la relación entre la excentricidad y la energía")[
   Se evalúa la energía en el perigeo, que es el punto donde la cuenta es más
   corta: ahí $dot(r) = 0$, así que toda la velocidad es transversal y
-  $v_p = h \/ r_p$, con $r_p = p \/ (1 + e)$ de la @m9-orbita. Entonces
+  $v_p = h \/ r_p$, con $r_p = p \/ (1 + e)$ de la @orb-orbita. Entonces
   $ E = 1/2 m v_p^2 - (mu m)/r_p = (m h^2)/(2 r_p^2) - (mu m)/r_p $
   Usando $h^2 = mu p$ y $1 \/ r_p = (1 + e) \/ p$:
   $ E = (m mu p)/2 (1+e)^2/p^2 - (mu m)(1+e)/p = (mu m)/p [ (1+e)^2/2 - (1+e) ] $
   y sacando factor común $(1+e) \/ 2$ queda $(1+e)(e-1) \/ 2 = (e^2 - 1) \/ 2$:
 ]
 
-$ E = (mu m (e^2 - 1))/(2 p) = (mu^2 m (e^2 - 1))/(2 h^2) quad <==> quad e = sqrt(1 + (2 E h^2)/(mu^2 m)) $ <m9-e-E>
+$ E = (mu m (e^2 - 1))/(2 p) = (mu^2 m (e^2 - 1))/(2 h^2) quad <==> quad e = sqrt(1 + (2 E h^2)/(mu^2 m)) $ <orb-e-E>
 
 #clave[
   *Ésta es la ecuación que cierra el módulo.* Dice que la forma de la órbita no
@@ -304,13 +304,13 @@ $ E = (mu m (e^2 - 1))/(2 p) = (mu^2 m (e^2 - 1))/(2 h^2) quad <==> quad e = sqr
   Y hace verificable la tabla de arriba, que hasta recién eran dos
   clasificaciones separadas: $E < 0 <==> e < 1$, $E = 0 <==> e = 1$,
   $E > 0 <==> e > 1$, y $E = E_"mín" <==> e = 0$ — donde el radicando se anula,
-  que es justo la @m9-Emin.
+  que es justo la @orb-Emin.
 ]
 
 Para la elipse hay una forma mucho más cómoda. Como $p = a (1 - e^2)$, la
-@m9-e-E se despeja en
+@orb-e-E se despeja en
 
-$ E = - (mu m)/(2 a) quad quad "y de ahí" quad quad v^2 = mu (2/r - 1/a) $ <m9-visviva>
+$ E = - (mu m)/(2 a) quad quad "y de ahí" quad quad v^2 = mu (2/r - 1/a) $ <orb-visviva>
 
 #clave[
   *La segunda de las dos es la ecuación de la que más se va a usar en toda la
@@ -323,7 +323,7 @@ $ E = - (mu m)/(2 a) quad quad "y de ahí" quad quad v^2 = mu (2/r - 1/a) $ <m9-
   se conocen dos, sale la tercera. Casi todos los problemas de las secciones de
   energía y de maniobras se resuelven con ella más la conservación de $h$.
 
-  Y contiene los dos casos del módulo 6 como casos particulares: con $a = r$
+  Y contiene los dos casos del módulo #M("gravitacion") como casos particulares: con $a = r$
   (circunferencia) da $v_"circ"^2 = mu \/ r$, y con $a arrow.r oo$ (parábola) da
   $v_"esc"^2 = 2 mu \/ r$.
 ]
@@ -331,9 +331,9 @@ $ E = - (mu m)/(2 a) quad quad "y de ahí" quad quad v^2 = mu (2/r - 1/a) $ <m9-
 #notacion[
   *Dividida por la masa, la misma ecuación cambia de nombre.* La cátedra y
   Curtis escriben la energía *por unidad de masa* —la #strong[energía específica],
-  $epsilon$— y con ella la @m9-visviva queda
+  $epsilon$— y con ella la @orb-visviva queda
 
-  $ epsilon = E/m = v^2/2 - mu/r = - mu/(2a) $ <m9-energia-especifica>
+  $ epsilon = E/m = v^2/2 - mu/r = - mu/(2a) $ <orb-energia-especifica>
 
   Es la misma ecuación, no una nueva: dividir por $m$ es todo lo que pasó. El
   nombre importa porque la guía pide *"la energía específica de la órbita",*
@@ -351,14 +351,14 @@ centro*: los semiejes $a$ y $b$, y las dos distancias de ábside. El cuerpo
 central está en el foco $F$, nunca en el centro $C$ — y la distancia entre los
 dos es exactamente $a e$.], fig-elipse-geometria)
 
-De la @m9-orbita, evaluada en $nu = 0$ y $nu = 180°$, salen las dos distancias
+De la @orb-orbita, evaluada en $nu = 0$ y $nu = 180°$, salen las dos distancias
 de ábside; y de ellas, todo lo demás:
 
-$ r_p = p/(1 + e), quad r_a = p/(1 - e), quad quad e = (r_a - r_p)/(r_a + r_p) $ <m9-absides>
+$ r_p = p/(1 + e), quad r_a = p/(1 - e), quad quad e = (r_a - r_p)/(r_a + r_p) $ <orb-absides>
 
-$ a = (r_p + r_a)/2, quad quad b = sqrt(r_p thin r_a), quad quad p = a (1 - e^2) $ <m9-semiejes>
+$ a = (r_p + r_a)/2, quad quad b = sqrt(r_p thin r_a), quad quad p = a (1 - e^2) $ <orb-semiejes>
 
-Las dos primeras de la @m9-semiejes son Beer ecs. 12.46 y 12.47, pág. 740, y las
+Las dos primeras de la @orb-semiejes son Beer ecs. 12.46 y 12.47, pág. 740, y las
 dos salen de geometría de la elipse, no de física: el semieje mayor es la *media
 aritmética* de los dos radios de ábside y el semieje menor es su *media
 geométrica*. La primera es inmediata —$r_p + r_a = 2a$ mirando la figura—; la
@@ -366,8 +366,8 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
 
 #clave[
   *Y una relación que ahorra la mitad de las cuentas.* Sumando las dos
-  expresiones de la @m9-absides y usando $p = h^2 \/ mu$:
-  $ 1/r_p + 1/r_a = (2 mu)/h^2 $ <m9-suma-inversos>
+  expresiones de la @orb-absides y usando $p = h^2 \/ mu$:
+  $ 1/r_p + 1/r_a = (2 mu)/h^2 $ <orb-suma-inversos>
   (Beer, problema 12.102, citada en la pág. 744.) Con los dos radios de ábside
   se obtiene $h$ *directamente*, sin pasar por $e$ ni por $a$ — y con $h$ salen
   las dos velocidades, porque en los ábsides $v = h \/ r$.
@@ -375,13 +375,13 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
 
 #ejemplo("El satélite del Ej. 4, ahora con la ecuación de la órbita")[
   _(Ejercicio 4 de «Conservación impulso angular» y Problema 4 de la sección de
-  energía: son el mismo satélite.)_ El módulo 7 resolvió este satélite —perigeo
+  energía: son el mismo satélite.)_ El módulo #M("momento-angular") resolvió este satélite —perigeo
   a 400 km, apogeo a 4000 km— usando sólo la conservación de $h$, y para las dos
-  posiciones intermedias tuvo que *anticipar* la @m9-orbita. Acá se cierra ese
+  posiciones intermedias tuvo que *anticipar* la @orb-orbita. Acá se cierra ese
   préstamo: se calcula la órbita entera desde cero.
 
   *Los seis números.* Con $r_p = 6778$ km y $r_a = 10 thin 378$ km, la
-  @m9-absides y la @m9-semiejes dan directamente
+  @orb-absides y la @orb-semiejes dan directamente
   $ e = (10 thin 378 - 6778)/(10 thin 378 + 6778) = 3600/(17 thin 156) = 0,2098 $
   $ a = (6778 + 10 thin 378)/2 = 8578 " km", quad p = a (1 - e^2) = 8578 (0,9560) = 8200 " km" $
 
@@ -390,7 +390,7 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
   $ h^2 = mu p = (3,986 times 10^5)(8200) = 3,269 times 10^9 ==> h = 57 thin 172 " km"^2\/"s" $
 
   #clave[
-    *Ese número ya estaba.* El módulo 7 lo obtuvo midiendo, de la figura de la
+    *Ese número ya estaba.* El módulo #M("momento-angular") lo obtuvo midiendo, de la figura de la
     guía: $h = r_P v_P = (6778)(8,435) = 57 thin 172$ km²/s. Acá salió de las
     *dos alturas del enunciado y nada más* — sin usar ninguna de las cuatro
     velocidades del dibujo.
@@ -403,16 +403,16 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
     que es exactamente lo que dice el dibujo, en las cuatro cifras.
   ]
 
-  *Las dos posiciones intermedias, sin momento angular.* Con la @m9-orbita y las
+  *Las dos posiciones intermedias, sin momento angular.* Con la @orb-orbita y las
   anomalías que marca la figura:
   $ nu = 96,09° ==> r = 8200/(1 + 0,2098 (-0,1061)) = 8200/(0,9777) = 8387 " km" $
   $ nu = 102,1° ==> r = 8200/(1 + 0,2098 (-0,2096)) = 8200/(0,9560) = 8577 " km" $
-  Los mismos $8387$ y $8577$ km que el módulo 7 sacó proyectando velocidades con
+  Los mismos $8387$ y $8577$ km que el módulo #M("momento-angular") sacó proyectando velocidades con
   $h = r v cos gamma$.
 
-  *La energía, y el control cruzado.* Por la @m9-visviva,
+  *La energía, y el control cruzado.* Por la @orb-visviva,
   $ E\/m = - mu/(2 a) = - (3,986 times 10^5)/(17 thin 156) = -23,23 " km"^2\/"s"^2 $
-  y metiendo eso y $h$ en la @m9-e-E:
+  y metiendo eso y $h$ en la @orb-e-E:
   $ e^2 = 1 + (2 (-23,23)(57 thin 172)^2)/((3,986 times 10^5)^2) = 1 - 0,9559 = 0,0441 ==> e = 0,210 $
 
   #clave[
@@ -434,11 +434,11 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
   Júpiter es $319$ veces la terrestre.
 
   *La constante del planeta.* Como $mu = G M$ es proporcional a la masa (y la de
-  la nave es despreciable, módulo 8):
+  la nave es despreciable, módulo #M("dos-cuerpos")):
   $ mu_J = 319 mu_T = 319 (3,986 times 10^5) = 1,2715 times 10^8 " km"^3\/"s"^2 $
 
   *Primero, verificar que la llegada es parabólica.* No es un adorno del
-  enunciado: es el dato que fija la energía de entrada. Por la @m9-visviva con
+  enunciado: es el dato que fija la energía de entrada. Por la @orb-visviva con
   $a arrow.r oo$,
   $ v_"esc"^2 (A) = (2 mu_J)/r_A = ((2)(1,2715 times 10^8))/(3,5 times 10^5) = 726,6 ==> v_"esc" = 26,96 " km/s" $
   contra los $26,9$ del enunciado: coinciden dentro del redondeo. *La parábola
@@ -450,16 +450,16 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
   *periápside*:
   $ a' = (r_A + r_B)/2 = (350 + 100)/2 times 10^3 = 225 times 10^3 " km", quad e' = (350 - 100)/(350 + 100) = 0,5556 $
 
-  *La velocidad que hay que tener en $A$.* Con la @m9-visviva:
+  *La velocidad que hay que tener en $A$.* Con la @orb-visviva:
   $ v'^2_A = mu_J (2/r_A - 1/a') = (1,2715 times 10^8)(5,714 times 10^(-6) - 4,444 times 10^(-6)) $
   $ v'^2_A = (1,2715 times 10^8)(1,270 times 10^(-6)) = 161,5 ==> v'_A = 12,71 " km/s" $
 
   #clave[
     *El mismo número por el otro camino, y sin pasar por $a$.* Con la
-    @m9-suma-inversos:
+    @orb-suma-inversos:
     $ h'^2 = (2 mu_J)/(1\/r_B + 1\/r_A) = (2,543 times 10^8)/(1,2857 times 10^(-5)) = 1,978 times 10^(13) $
     $ h' = 4,447 times 10^6 " km"^2\/"s" ==> v'_A = h'/r_A = (4,447 times 10^6)/(3,5 times 10^5) = 12,71 " km/s" $
-    Las dos rutas —energía y momento angular— dan lo mismo porque la @m9-e-E las
+    Las dos rutas —energía y momento angular— dan lo mismo porque la @orb-e-E las
     ata. Conviene hacer las dos la primera vez y quedarse con la más corta
     después.
   ]
@@ -485,7 +485,7 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
     o sea una elipse enorme, con apoápside a $4,7 times 10^6$ km — por
     $Delta v = 0,9$ km/s, *quince veces menos*. La órbita chica se paga después,
     y desde el apoápside sale mucho más barata: eso es lo que se calcula en el
-    módulo 11.
+    módulo #M("maniobras").
   ]
 
   #cuidado[
@@ -496,7 +496,7 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
 
     El segundo es más fino: escribir $E = 0$ para la parábola *y también* usar
     $E = -mu m \/ (2a)$ con la $a$ de la parábola. Una parábola no tiene semieje
-    mayor —o tiene $a = oo$—, y la @m9-visviva se le aplica sólo en el límite.
+    mayor —o tiene $a = oo$—, y la @orb-visviva se le aplica sólo en el límite.
     Para trayectorias abiertas se trabaja con $E$ y con $p$, nunca con $a$.
   ]
 ]
@@ -504,31 +504,31 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
 #guia("qué ejercicios cubre este módulo")[
   El *Problema 7* (Beer 13.100, Júpiter) es el ejemplo a fondo y es el único de
   la guía que necesita explícitamente la clasificación por cónicas: el dato
-  «trayectoria parabólica» no se puede usar sin la @m9-e-E.
+  «trayectoria parabólica» no se puede usar sin la @orb-e-E.
 
   El ejemplo simple *no es un ejercicio nuevo*: es el *Ej. 4* de impulso angular
-  —que el módulo 7 ya había resuelto con $h$— rehecho desde la ecuación de la
+  —que el módulo #M("momento-angular") ya había resuelto con $h$— rehecho desde la ecuación de la
   órbita, y de paso contesta los puntos (b) y (c) del *Problema 4* de energía.
   La guía no trae ningún ejercicio de potencial eficaz, así que en vez de
   inventar uno se reusa éste, que es el que la cátedra tomó dos veces.
 
-  El *Problema 1* de energía es el diagrama de energía del módulo 5, que es
+  El *Problema 1* de energía es el diagrama de energía del módulo #M("trabajo-energia"), que es
   literalmente esta figura con otro potencial.
 
   Y los *Problemas 4* (período), *8* y *9* (el LEM del Apollo) usan todo lo de
   acá pero su tema propio es Kepler y las transferencias: se resuelven en los
-  módulos 10 y 11.
+  módulos #M("kepler") y #M("maniobras").
 ]
 
 == Lo que se usa después
 
 1. *La ecuación de la órbita, $r = p \/ (1 + e cos nu)$.* Es la fórmula de la
-   que salen las tres leyes de Kepler en el módulo 10: la primera es ella misma
+   que salen las tres leyes de Kepler en el módulo #M("kepler"): la primera es ella misma
    con $e < 1$, la segunda ya salió del momento angular, y la tercera se deduce
    integrando el área.
 
 2. *La vis-viva, $v^2 = mu (2\/r - 1\/a)$.* Es la herramienta con la que se
-   resuelven las transferencias del módulo 11: cada encendido cambia $a$, y la
+   resuelven las transferencias del módulo #M("maniobras"): cada encendido cambia $a$, y la
    vis-viva dice cuánta velocidad cuesta.
 
 3. *$E = -mu m \/ (2 a)$.* Dice que la energía de una órbita depende *sólo del

@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Gravitación de Newton, peso y energía potencial")[
+#modulo("Gravitación de Newton, peso y energía potencial", clave: "gravitacion")[
   Escribir la fuerza gravitatoria con su signo y su versor bien puestos;
   entender por qué una esfera atrae como si toda su masa estuviera en el
   centro; deducir la energía potencial $U = -mu m \/ r$ en vez de aceptarla; y
@@ -10,7 +10,7 @@
 ]
 
 Este módulo abre la Parte III y es el que le pone fuerza a la máquina del
-módulo 5. Ahí quedó demostrado que toda fuerza central $F(r)$ es conservativa y
+módulo #M("trabajo-energia"). Ahí quedó demostrado que toda fuerza central $F(r)$ es conservativa y
 que su diagrama de energía contesta la mitad de las preguntas sin resolver
 ninguna ecuación diferencial. Acá se le pone la fuerza concreta —la de
 Newton— y esa mitad se cobra entera.
@@ -22,29 +22,29 @@ atrae a toda otra con una fuerza proporcional al producto de las masas e
 inversamente proporcional al cuadrado de la distancia (S&Z ec. 13.1,
 pág. 399):
 
-$ F_g = (G m_1 m_2) / r^2 $ <m6-newton>
+$ F_g = (G m_1 m_2) / r^2 $ <grav-newton>
 
 con $G = 6,674 times 10^(-11)$ N·m²/kg². Escrita así es un módulo, y para
 trabajar hace falta la forma vectorial. Si $bold(r)$ va *del cuerpo que atrae
 al cuerpo atraído* y $hat(r) = bold(r) \/ r$:
 
-$ bold(F)_g = - (G M m) / r^2 hat(r) $ <m6-newton-vec>
+$ bold(F)_g = - (G M m) / r^2 hat(r) $ <grav-newton-vec>
 
 #geometria[
   *El menos no es decorativo y el versor no es cualquiera.* Los dos dicen la
   misma cosa una sola vez: $hat(r)$ apunta hacia *afuera* del cuerpo que atrae,
   y la fuerza va hacia adentro, así que la componente radial es negativa. Los
-  dos errores clásicos son escribir la @m6-newton-vec sin el menos —y quedarse
+  dos errores clásicos son escribir la @grav-newton-vec sin el menos —y quedarse
   con una gravedad que repele— o poner $hat(r)$ apuntando del satélite a la
   Tierra y *además* dejar el menos, que es lo mismo con dos signos cambiados.
 
   La regla práctica: se elige el origen en el cuerpo central, $bold(r)$ es la
-  posición del satélite *medida desde ahí*, y la @m6-newton-vec sale sola. En
-  el módulo 8 se verá qué hacer cuando el cuerpo central no se puede considerar
+  posición del satélite *medida desde ahí*, y la @grav-newton-vec sale sola. En
+  el módulo #M("dos-cuerpos") se verá qué hacer cuando el cuerpo central no se puede considerar
   fijo.
 ]
 
-La @m6-newton habla de *partículas*, y sin embargo se le aplica a la Tierra
+La @grav-newton habla de *partículas*, y sin embargo se le aplica a la Tierra
 entera. Eso no es una aproximación: es un teorema.
 
 #clave[
@@ -70,27 +70,27 @@ entera. Eso no es una aproximación: es un teorema.
   de los satélites y se conoce con nueve*. Para la Tierra,
   $ mu_T = 3,986 times 10^14 " m"^3\/"s"^2 = 398 thin 600 " km"^3\/"s"^2 $
   De acá en adelante el apunte usa $mu$. Cuidado con no confundirla con la
-  masa reducida del módulo 8, que la mitad de los libros llama igual — ese
+  masa reducida del módulo #M("dos-cuerpos"), que la mitad de los libros llama igual — ese
   choque de nombres se aclara allá.
 ]
 
 == Peso, y cómo se pesa un planeta
 
-El peso de un cuerpo en la superficie terrestre es la @m6-newton con
+El peso de un cuerpo en la superficie terrestre es la @grav-newton con
 $r = R_T$ (S&Z ec. 13.3, pág. 403):
 
 $ w = (G m_T m) / R_T^2 $
 
 y como por definición $w = m g$, dividiendo por $m$ (S&Z ec. 13.4, pág. 403):
 
-$ g = (G m_T) / R_T^2 = mu_T / R_T^2 $ <m6-g>
+$ g = (G m_T) / R_T^2 = mu_T / R_T^2 $ <grav-g>
 
 #deduccion("por qué g no depende de la masa del cuerpo, y de paso cómo se pesa la Tierra")[
   La masa $m$ aparece a los dos lados y se va. Eso ya se sabía desde Galileo,
   pero recién ahora se sabe *por qué*: la misma $m$ que multiplica la fuerza
   (masa gravitatoria) es la que resiste la aceleración (masa inercial).
 
-  Y la @m6-g tiene una lectura mucho más útil, porque de sus cuatro cantidades
+  Y la @grav-g tiene una lectura mucho más útil, porque de sus cuatro cantidades
   se pueden medir tres sin salir de la Tierra: $g$ con un péndulo, $R_T$ con
   geometría, y $G$ con una balanza de torsión. Despejando la que falta:
   $ m_T = (g R_T^2) / G = ((9,80)(6,37 times 10^6)^2) / (6,674 times 10^(-11)) = 5,96 times 10^24 " kg" $
@@ -115,10 +115,10 @@ cuadrado (S&Z ec. 13.5, pág. 403): $w = G m_T m \/ r^2$.
 
 == La energía potencial gravitatoria
 
-Ahora sí, la deducción que el módulo 5 dejó prometida.
+Ahora sí, la deducción que el módulo #M("trabajo-energia") dejó prometida.
 
 #deduccion("la energía potencial gravitatoria, y por qué el cero va en el infinito")[
-  En el módulo 5 quedó demostrado que una fuerza central con módulo $F(r)$ es
+  En el módulo #M("trabajo-energia") quedó demostrado que una fuerza central con módulo $F(r)$ es
   conservativa y que su energía potencial es $U(r) = -integral F(r) d r$. Sólo
   falta poner la fuerza y elegir el origen.
 
@@ -132,28 +132,28 @@ Ahora sí, la deducción que el módulo 5 dejó prometida.
   (S&Z ec. 13.9, pág. 405).
 ]
 
-$ U(r) = - (mu m) / r, quad U(oo) = 0 $ <m6-U>
+$ U(r) = - (mu m) / r, quad U(oo) = 0 $ <grav-U>
 
 #cuidado[
   *$U$ es negativa en todos lados, y eso no significa nada raro.* El cero de
-  una energía potencial siempre es una elección —en el módulo 5 quedó dicho que
+  una energía potencial siempre es una elección —en el módulo #M("trabajo-energia") quedó dicho que
   correr toda la curva hacia arriba o hacia abajo no cambia ninguna fuerza— y
   acá se eligió ponerlo *infinitamente lejos*. Con esa elección, todo punto a
   distancia finita está «más abajo» que el cero, y por eso $U < 0$.
 
   Por qué se elige así y no en la superficie, que sería más intuitivo: porque
   es la única elección que sirve para *todos* los cuerpos centrales a la vez.
-  Con el cero en el infinito, la @m6-U vale igual para la Tierra, para Júpiter
+  Con el cero en el infinito, la @grav-U vale igual para la Tierra, para Júpiter
   y para el Sol sin cambiar una constante por cada uno, y —lo que de verdad
   importa— el signo de $E$ pasa a significar algo físico, que es de lo que trata
   la sección siguiente.
 ]
 
 #clave[
-  *La @m6-U contiene a $U = m g y$ como caso particular.* Cerca de la
+  *La @grav-U contiene a $U = m g y$ como caso particular.* Cerca de la
   superficie, con $r_1 = R_T$ y $r_2 = R_T + y$ y $y << R_T$:
   $ Delta U = mu m (1/R_T - 1/(R_T + y)) = (mu m y) / (R_T (R_T + y)) approx (mu m) / R_T^2 y = m g y $
-  usando la @m6-g en el último paso (S&Z pág. 406). No son dos fórmulas: es la
+  usando la @grav-g en el último paso (S&Z pág. 406). No son dos fórmulas: es la
   misma, mirada de cerca. Lo que se pierde al usar $m g y$ es exactamente lo
   que cambia cuando $y$ deja de ser chico frente a $R_T$ — es decir, todo lo
   que le pasa a un cohete después del primer minuto.
@@ -161,7 +161,7 @@ $ U(r) = - (mu m) / r, quad U(oo) = 0 $ <m6-U>
 
 == El pozo de potencial, y la velocidad de escape
 
-La @m6-U dibujada es el diagrama de energía del módulo 5 con una curva
+La @grav-U dibujada es el diagrama de energía del módulo #M("trabajo-energia") con una curva
 concreta, y se lee con las mismas reglas.
 
 #fig([El pozo gravitatorio. La curva es $U(r) = -mu m \/ r$; las rectas
@@ -183,7 +183,7 @@ vertical entre la recta y la curva es $K = E - U$.], fig-pozo-gravitatorio)
     [$E > 0$], [órbita *abierta*: llega al infinito y le sobra velocidad. Hipérbola],
   )
 
-  Los nombres de las curvas todavía no están justificados —eso es el módulo 9—,
+  Los nombres de las curvas todavía no están justificados —eso es el módulo #M("orbita-conicas")—,
   pero la clasificación por el signo de $E$ ya está *demostrada* acá, y con eso
   alcanza para la mitad de los problemas de la guía.
 ]
@@ -191,7 +191,7 @@ vertical entre la recta y la curva es $K = E - U$.], fig-pozo-gravitatorio)
 De la fila del medio sale la velocidad de escape. Pedir $E = 0$ partiendo de la
 superficie con rapidez $v_"esc"$ es pedir (S&Z ejemplo 13.5, pág. 406):
 
-$ 1/2 m v_"esc"^2 - (mu m) / R = 0 ==> v_"esc" = sqrt((2 mu) / R) $ <m6-vesc>
+$ 1/2 m v_"esc"^2 - (mu m) / R = 0 ==> v_"esc" = sqrt((2 mu) / R) $ <grav-vesc>
 
 #geometria[
   *La velocidad de escape no depende de la dirección en que se dispara ni de la
@@ -216,20 +216,20 @@ $ 1/2 m v_"esc"^2 - (mu m) / R = 0 ==> v_"esc" = sqrt((2 mu) / R) $ <m6-vesc>
   La masa se va de los dos lados y queda
 ]
 
-$ v_"circ" = sqrt(mu / r) $ <m6-vcirc>
+$ v_"circ" = sqrt(mu / r) $ <grav-vcirc>
 
 #clave[
   *Por qué «orbita sin caer», dicho de una vez.* El satélite *sí* cae: en cada
   instante su aceleración apunta al centro de la Tierra y vale exactamente
   $g(r)$. Lo que pasa es que mientras cae, *avanza*, y la Tierra se curva
-  debajo de él a la misma tasa a la que él baja. La @m6-vcirc es precisamente
+  debajo de él a la misma tasa a la que él baja. La @grav-vcirc es precisamente
   la condición de que las dos curvaturas coincidan.
 
-  Y hay una segunda mitad, que viene del módulo 5: como la gravedad es
+  Y hay una segunda mitad, que viene del módulo #M("trabajo-energia"): como la gravedad es
   perpendicular a la velocidad en todo momento, *no le hace trabajo*, así que
   la rapidez no cambia nunca y la condición, una vez cumplida, se cumple para
   siempre. Sin esa segunda mitad la primera no alcanzaría: una órbita que se
-  frenara sola dejaría de cumplir la @m6-vcirc en el instante siguiente.
+  frenara sola dejaría de cumplir la @grav-vcirc en el instante siguiente.
 ]
 
 #fig([El cañón de Newton. Todas las trayectorias son la *misma caída*; lo único
@@ -238,19 +238,19 @@ interrumpe contra la superficie —eso es «caer»—; con $v_"circ"$ el proyect
 nunca alcanza el suelo; con más, la órbita se abre en una elipse; con
 $v_"esc"$, ya no vuelve.], fig-canon-newton)
 
-De la @m6-vcirc salen las otras dos cantidades de una órbita circular. El
+De la @grav-vcirc salen las otras dos cantidades de una órbita circular. El
 período es la vuelta dividida por la rapidez, $T = 2 pi r \/ v$ (S&Z ec. 13.11,
 pág. 408), y sustituyendo (S&Z ec. 13.12, pág. 409):
 
-$ T = (2 pi r^(3\/2)) / sqrt(mu) $ <m6-T>
+$ T = (2 pi r^(3\/2)) / sqrt(mu) $ <grav-T>
 
-y la energía mecánica total, usando la @m6-U y la @m6-vcirc (S&Z ec. 13.13,
+y la energía mecánica total, usando la @grav-U y la @grav-vcirc (S&Z ec. 13.13,
 pág. 409):
 
-$ E = K + U = 1/2 m (mu / r) - (mu m) / r = - (mu m) / (2 r) $ <m6-E>
+$ E = K + U = 1/2 m (mu / r) - (mu m) / r = - (mu m) / (2 r) $ <grav-E>
 
 #clave[
-  Tres lecturas de la @m6-E que se usan en todos los problemas de maniobras:
+  Tres lecturas de la @grav-E que se usan en todos los problemas de maniobras:
 
   + $E < 0$ siempre, como corresponde a una órbita ligada. Consistente con el
     cuadro de arriba.
@@ -258,16 +258,16 @@ $ E = K + U = 1/2 m (mu / r) - (mu m) / r = - (mu m) / (2 r) $ <m6-E>
     cinética de una órbita circular vale exactamente la mitad de la potencial,
     cambiada de signo.
   + *Órbita más grande, energía mayor* (menos negativa). Subir de órbita cuesta
-    energía aunque la velocidad final sea *menor* — la @m6-vcirc dice que en
+    energía aunque la velocidad final sea *menor* — la @grav-vcirc dice que en
     una órbita más alta se va más despacio. Esa aparente contradicción es el
     ejemplo a fondo de este módulo, y es la razón de que un satélite que roza
     la atmósfera se acelere mientras se cae.
 ]
 
-Y una relación que conviene tener de memoria, comparando la @m6-vesc con la
-@m6-vcirc evaluadas en el mismo radio (S&Z pág. 409):
+Y una relación que conviene tener de memoria, comparando la @grav-vesc con la
+@grav-vcirc evaluadas en el mismo radio (S&Z pág. 409):
 
-$ v_"esc" = sqrt(2) thin v_"circ" $ <m6-raiz2>
+$ v_"esc" = sqrt(2) thin v_"circ" $ <grav-raiz2>
 
 *Desde cualquier órbita circular, alrededor de cualquier planeta, hay que
 multiplicar la rapidez por $sqrt(2)$ para escapar.* Un 41% más de velocidad, y
@@ -285,14 +285,14 @@ no depende de nada.
   de la definición de período:
   $ v = (2 pi r) / T = (2 pi (1,496 times 10^11)) / (3,156 times 10^7) = 2,978 times 10^4 " m/s" approx 29,8 " km/s" $
 
-  Y ahora se da vuelta la @m6-vcirc, que es lo único que hace falta: si
+  Y ahora se da vuelta la @grav-vcirc, que es lo único que hace falta: si
   $v^2 = mu \/ r$, entonces $mu = v^2 r$, y $M = mu \/ G$:
   $ M_"Sol" = (v^2 r) / G = ((2,978 times 10^4)^2 (1,496 times 10^11)) / (6,674 times 10^(-11)) = 1,99 times 10^30 " kg" $
 
   *Lo que este ejemplo enseña.* La misma cuenta con la que Cavendish pesó la
   Tierra pesa cualquier cuerpo central: alcanza con mirar *algo que le orbite*
   y medirle el radio y el período. Y notar qué *no* hizo falta: la masa de la
-  Tierra no aparece por ningún lado, porque se simplificó en la @m6-vcirc. Se
+  Tierra no aparece por ningún lado, porque se simplificó en la @grav-vcirc. Se
   pesa el cuerpo central, nunca el que orbita.
 
   #cuidado[
@@ -300,7 +300,7 @@ no depende de nada.
     método *no puede* pesar a la Tierra usando la Luna y después al Sol usando
     la Tierra y sumar. Cada medición pesa un solo cuerpo: el del centro. Para
     los casos en que las dos masas son comparables y ninguna está «en el
-    centro», hace falta el módulo 8.
+    centro», hace falta el módulo #M("dos-cuerpos").
   ]
 ]
 
@@ -320,7 +320,7 @@ no depende de nada.
   #clave[
     *De dónde sale el $35 thin 770$, que el enunciado regala.* Es el radio que
     hace $T = 1$ día sideral $= 23,934$ h $= 86 thin 162$ s. Despejando $r$ de
-    la @m6-T:
+    la @grav-T:
     $ r = ((mu T^2) / (4 pi^2))^(1\/3) = (((3,986 times 10^14)(86 thin 162)^2) / (39,48))^(1\/3) = 4,215 times 10^7 " m" $
     o sea $42 thin 150$ km, que descontando $R_T$ da $35 thin 780$ km.
 
@@ -339,7 +339,7 @@ no depende de nada.
   ]
 
   *(a) De una órbita circular a la otra.* Las dos son circulares, así que las
-  dos energías salen de la @m6-E y la respuesta es la resta. Con
+  dos energías salen de la @grav-E y la respuesta es la resta. Con
   $mu m = (3,986 times 10^14)(3600) = 1,435 times 10^18$:
   $ E_1 = - (mu m) / (2 r_1) = - (1,435 times 10^18) / (1,334 times 10^7) = -107,6 " GJ" $
   $ E_2 = - (mu m) / (2 r_2) = - (1,435 times 10^18) / (8,428 times 10^7) = -17,0 " GJ" $
@@ -355,7 +355,7 @@ no depende de nada.
 
   #geometria[
     *El estado inicial de (b) no es «altura cero»: es $r = R_T$ y $K = 0$.* Dos
-    errores gemelos aparecen acá. El primero es usar la @m6-E para el estado
+    errores gemelos aparecen acá. El primero es usar la @grav-E para el estado
     inicial —esa fórmula vale sólo para órbitas *circulares*, y un satélite en
     el suelo no está en órbita: su $K$ es cero, no $-E$. El segundo es poner
     $U = 0$ en la superficie «porque es donde empieza todo», que contradice la
@@ -367,7 +367,7 @@ no depende de nada.
   #cuidado[
     El enunciado dice «sin incluir la resistencia del aire», y hay que leer qué
     más queda afuera. Estos $208$ GJ son la energía *mecánica* que hay que
-    agregarle al satélite, no el combustible del cohete: el módulo 4 mostró que
+    agregarle al satélite, no el combustible del cohete: el módulo #M("cohete") mostró que
     el chorro se lleva casi toda la energía y el vehículo casi todo el
     provecho. Tampoco descuenta los $approx 465$ m/s que regala la rotación
     terrestre en el ecuador, que es exactamente por lo que los puertos
@@ -381,22 +381,22 @@ no depende de nada.
   resuelto el *Problema 3* (la altura y la velocidad geosíncronas), que pide lo
   mismo con otras palabras.
 
-  El *Problema 2* (la sonda de Beer, de $A$ a $B$) se resuelve con la @m6-U y
+  El *Problema 2* (la sonda de Beer, de $A$ a $B$) se resuelve con la @grav-U y
   la conservación de la energía, pero necesita además el momento angular para
-  saber la *dirección* de la velocidad en $B$: es el módulo 7. Los problemas
-  *4*, *7*, *8* y *9* son órbitas elípticas, y esperan al módulo 10. El *5* es
-  Hohmann y el *10* es *rendez-vous*: módulo 11.
+  saber la *dirección* de la velocidad en $B$: es el módulo #M("momento-angular"). Los problemas
+  *4*, *7*, *8* y *9* son órbitas elípticas, y esperan al módulo #M("kepler"). El *5* es
+  Hohmann y el *10* es *rendez-vous*: módulo #M("maniobras").
 ]
 
 == Lo que se usa después
 
-1. *$U = -mu m \/ r$ y el signo de $E$.* En el módulo 9 esta curva se le suma
+1. *$U = -mu m \/ r$ y el signo de $E$.* En el módulo #M("orbita-conicas") esta curva se le suma
    al término centrífugo y se convierte en el *potencial eficaz*, que es la que
    de verdad decide la forma de la órbita. La lectura no cambia: sigue siendo
    dónde corta la recta.
 
 2. *$v_"circ" = sqrt(mu \/ r)$ y $E = -mu m \/ 2r$.* Son las dos fórmulas con
-   las que se calcula toda maniobra del módulo 11. Una transferencia de Hohmann
+   las que se calcula toda maniobra del módulo #M("maniobras"). Una transferencia de Hohmann
    es, entera, dos diferencias de velocidad entre una órbita circular y una
    elipse.
 

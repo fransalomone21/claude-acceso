@@ -6,6 +6,77 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Fase 8 — CERRADA (sesión 8, 2026-09-13): fundamentos y orden
+
+### Lo que hay que saber antes de tocar un módulo
+
+**El número de un módulo no se escribe nunca a mano.** Va `#M("clave")` y sale
+del orden de los `#include` de `apunte.typ`. La clave es el sufijo del nombre
+del archivo (`m07-gravitacion.typ` → `"gravitacion"`), y se declara en el
+propio `#modulo(..., clave: "...")`. Una clave inventada **rompe la
+compilación** — `M()` hace `panic`, a propósito: un `??` impreso en rojo es un
+aviso que se aprende a saltear.
+
+**Las etiquetas internas también dejaron el número.** `<m12-coriolis-a>` es
+ahora `<cin-coriolis-a>`: prefijo de clave abreviada, no de número. El mapa
+completo es `vec cant cm coh ener grav angm dosc orb kep man cin iner euler
+peon hip soi perif tres marcos`.
+
+**Y hay una trampa nueva, pagada acá — la 10.**
+
+### 10. Un `;` pegado a una llamada `#funcion()` desaparece del render
+
+`#M("kepler");` imprime el número y **se come el punto y coma**: en markup, el
+`;` cierra el modo código y no se escribe. Compila sin decir nada, y la frase
+sale con dos cláusulas pegadas. `#[#M("x")];` tiene el mismo problema. Lo que
+sí funciona: **`#M("x")#";"`**, o el escape `\u{3b}`.
+
+Se detectó porque la conversión de las 355 referencias se verificó exigiendo
+que el texto renderizado quedara **idéntico**, y aparecieron 17 líneas de
+diferencia: los 10 `;` comidos. Sin esa exigencia la conversión habría pasado
+por buena — y ése es el punto: *el chequeo que sirve para una transformación
+que no debe cambiar nada es comparar el resultado contra el de antes*, no
+mirar si compila.
+
+```bash
+# la receta, por si hay que repetirla
+python -c "import pymupdf; d=pymupdf.open('apunte/apunte.pdf'); open('antes.txt','w',encoding='utf-8').writelines(p.get_text() for p in d)"
+# ... el cambio ...
+diff antes.txt despues.txt    # tiene que dar 0 lineas
+```
+
+### Qué se movió, y qué NO se tocó
+
+- **Módulo nuevo**: `m02-marcos.typ`, Parte I. Es el primer módulo escrito
+  desde el principio con las reglas 3 y 4 del contrato (cuadro `#posta` y «la
+  idea completa antes de la primera ecuación»).
+- **Las partes IV y V se dieron vuelta**: «De la cónica al viaje real» quedó
+  4.ª y «Cuerpo rígido» 5.ª. Los archivos se renumeraron (`m13-hiperbola.typ`
+  … `m20-peonza.typ`), así que **un módulo que se busque por número viejo no
+  está donde dice el HANDOFF de antes de esta fase**.
+- **Tres cuerpos dejó de depender de cuerpo rígido.** Las tres referencias de
+  `m16-tres-cuerpos.typ` a la cinemática apuntan ahora a `#M("marcos")`, y la
+  fórmula que usa es la `@marcos-rotante`, deducida para Omega constante.
+  Cuerpo rígido la generaliza; no la funda.
+- **NO se retrofittearon los cuadros `#posta` a los módulos viejos.** Sigue
+  siendo deuda declarada, igual que antes.
+- **NO se tocó el contenido de ningún módulo salvo cinco párrafos**: los tres
+  de tres cuerpos, el del centro de masa (que ahora cita la `@marcos-galileo`
+  en vez de enunciarla al pasar), el de dos cuerpos y dos de cinemática del
+  cuerpo rígido.
+
+### Lo que la fase 6 había dado por cubierto y no lo estaba
+
+El `HANDOFF` de la fase 6 decía que Galileo estaba «deducido dos veces, no
+menciones de pasada», y lo probaba con un `grep -in galileo`. Medido de nuevo:
+uno de los dos hits era una línea suelta sin deducción, y el otro era Galileo
+el de la caída de los cuerpos — otro hecho. *Un `grep` por el nombre propio
+mide si la palabra está, no si el contenido está*, y para un fundamento esa
+diferencia es la que importa. El chequeo que sí distingue es preguntar dónde
+está la caja `#deduccion` correspondiente, no dónde está la palabra.
+
+---
+
 ## Sesión 7 (segunda parte) — FASE 7 ABIERTA Y CERRADA EL MISMO DÍA
 
 Fran pidió verificar que el roadmap estuviera completo y que la guía de

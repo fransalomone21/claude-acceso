@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Momento angular y fuerzas centrales")[
+#modulo("Momento angular y fuerzas centrales", clave: "momento-angular")[
   Escribir $bold(L)$ diciendo siempre respecto de qué punto; demostrar que una
   fuerza central lo conserva, y sacar de ahí las dos consecuencias que sostienen
   toda la mecánica orbital —que el movimiento es *plano* y que $r^2 dot(theta)$
@@ -23,19 +23,19 @@ los problemas de la guía.
 Para una partícula de cantidad de movimiento $m bold(v)$ ubicada en $bold(r)$
 respecto de un punto $O$ (Beer §12.7, ec. 12.12, pág. 721):
 
-$ bold(L)_O = bold(r) times m bold(v) $ <m7-def>
+$ bold(L)_O = bold(r) times m bold(v) $ <angm-def>
 
 y su módulo, con $phi$ el ángulo entre $bold(r)$ y $bold(v)$ (Beer ec. 12.13,
 pág. 722):
 
-$ L_O = m v r sin phi = m v d $ <m7-modulo>
+$ L_O = m v r sin phi = m v d $ <angm-modulo>
 
 donde $d = r sin phi$ es la *distancia de $O$ a la recta de acción de
 $bold(v)$*: el brazo de palanca, igual que en estática.
 
 #geometria[
   *«El momento angular» no significa nada hasta que se dice respecto de qué
-  punto.* La @m7-def tiene una $bold(r)$ adentro, y $bold(r)$ se mide desde
+  punto.* La @angm-def tiene una $bold(r)$ adentro, y $bold(r)$ se mide desde
   algún lado. La misma partícula, con la misma velocidad, tiene infinitos
   valores de $L$ — uno por cada origen posible.
 
@@ -79,7 +79,7 @@ fig-momento-angular)
 == La ecuación de movimiento del momento angular
 
 #deduccion("por qué el torque es la derivada del momento angular")[
-  Se deriva la @m7-def con la regla del producto vectorial (Beer §12.7,
+  Se deriva la @angm-def con la regla del producto vectorial (Beer §12.7,
   pág. 723):
   $ (d bold(L)_O)/(d t) = dot(bold(r)) times m bold(v) + bold(r) times m dot(bold(v)) = underbrace(bold(v) times m bold(v), = bold(0)) + bold(r) times m bold(a) $
   El primer término se anula *siempre*, porque $bold(v)$ y $m bold(v)$ son
@@ -88,9 +88,9 @@ fig-momento-angular)
   bold(F)$ es por definición el torque respecto de $O$.
 ]
 
-$ sum bold(tau)_O = (d bold(L)_O)/(d t) $ <m7-tau>
+$ sum bold(tau)_O = (d bold(L)_O)/(d t) $ <angm-tau>
 
-Es la versión rotacional de $sum bold(F) = d bold(P) \/ d t$ del módulo 2, y se
+Es la versión rotacional de $sum bold(F) = d bold(P) \/ d t$ del módulo #M("cantidad-movimiento"), y se
 parece tanto por la misma razón: las dos salen de derivar una definición y usar
 la segunda ley una sola vez.
 
@@ -100,19 +100,19 @@ la segunda ley una sola vez.
   Una fuerza es *central* respecto de $O$ si su recta de acción pasa siempre
   por $O$, es decir $bold(F) = F(bold(r)) hat(r)$ (Beer §12.9, pág. 724). No se
   pide que su módulo dependa sólo de $r$ — eso hacía falta para la *energía*, en
-  el módulo 5, y no hace falta acá.
+  el módulo #M("trabajo-energia"), y no hace falta acá.
 ]
 
 Si la fuerza es central, $bold(r)$ y $bold(F)$ son paralelos, así que
-$bold(tau)_O = bold(r) times bold(F) = bold(0)$, y por la @m7-tau:
+$bold(tau)_O = bold(r) times bold(F) = bold(0)$, y por la @angm-tau:
 
-$ bold(L)_O = "constante" quad "(en módulo y en dirección)" $ <m7-conserva>
+$ bold(L)_O = "constante" quad "(en módulo y en dirección)" $ <angm-conserva>
 
 (Beer ec. 12.23, pág. 724.) Que sea *un vector* el que se conserva, y no un
 número, es lo que hace que este teorema rinda el doble.
 
 #clave[
-  *Primera consecuencia: el movimiento es plano.* De la @m7-def, $bold(r)$ es
+  *Primera consecuencia: el movimiento es plano.* De la @angm-def, $bold(r)$ es
   perpendicular a $bold(L)_O$ en todo instante — un producto vectorial es
   perpendicular a sus dos factores. Y si $bold(L)_O$ no cambia de dirección,
   entonces $bold(r)$ está *siempre* en el mismo plano: el plano perpendicular a
@@ -125,7 +125,7 @@ número, es lo que hace que este teorema rinda el doble.
 
 #clave[
   *Segunda consecuencia: $r^2 dot(theta)$ es constante.* Descomponiendo
-  $bold(v)$ en polares —como en el módulo 1— sólo la componente transversal
+  $bold(v)$ en polares —como en el módulo #M("vectores")— sólo la componente transversal
   $v_theta = r dot(theta)$ contribuye al momento angular, porque la radial es
   paralela a $bold(r)$ (Beer ecs. 12.17 y 12.18, pág. 723):
   $ L_O = m r v_theta = m r^2 dot(theta) = "constante" $
@@ -135,11 +135,11 @@ número, es lo que hace que este teorema rinda el doble.
   $ h = L\/m = r^2 dot(theta) = r v_theta $
 ]
 
-$ h = r v_theta = r v cos gamma $ <m7-h>
+$ h = r v_theta = r v cos gamma $ <angm-h>
 
 #geometria[
-  *Los dos ángulos que se confunden.* En la @m7-modulo, $phi$ es el ángulo
-  entre $bold(r)$ y $bold(v)$, y aparece como $sin phi$. En la @m7-h,
+  *Los dos ángulos que se confunden.* En la @angm-modulo, $phi$ es el ángulo
+  entre $bold(r)$ y $bold(v)$, y aparece como $sin phi$. En la @angm-h,
   $gamma$ es el ángulo entre $bold(v)$ y *la perpendicular al radio* —el
   *ángulo de trayectoria*, que es el que traen dibujado los enunciados—, y
   aparece como $cos gamma$. Son complementarios: $gamma = 90° - phi$, y por eso
@@ -158,12 +158,12 @@ $ h = r v_theta = r v cos gamma $ <m7-h>
   $r$, o sea un área $d A = 1/2 r^2 d theta$ (S&Z §13.5, ec. 13.14, pág. 410).
   La *velocidad areolar* es entonces
   $ (d A)/(d t) = 1/2 r^2 (d theta)/(d t) = 1/2 r^2 dot(theta) = h/2 $
-  y como $h$ es constante por la @m7-conserva, la velocidad areolar es
+  y como $h$ es constante por la @angm-conserva, la velocidad areolar es
   constante (S&Z ec. 13.16, pág. 411; Beer pág. 725). Eso *es* la segunda ley
   de Kepler.
 ]
 
-$ (d A)/(d t) = h/2 = L/(2 m) = "constante" $ <m7-areas>
+$ (d A)/(d t) = h/2 = L/(2 m) = "constante" $ <angm-areas>
 
 #fig([La segunda ley de Kepler, dibujada. Los dos sectores sombreados tienen
 la *misma área* y se barren en el *mismo tiempo*. Cerca del foco el radio es
@@ -190,8 +190,8 @@ fig-velocidad-areolar)
     align: (left, left),
     table.header([*Para que se conserve…*], [*hace falta que la fuerza sea…*]),
     [$bold(L)$, y valga la ley de áreas], [*central*, y nada más],
-    [$E$, y exista energía potencial], [central *y con módulo $F(r)$* (módulo 5)],
-    [y además la órbita *cierre* en una elipse], [central y exactamente $1\/r^2$ (módulo 9)],
+    [$E$, y exista energía potencial], [central *y con módulo $F(r)$* (módulo #M("trabajo-energia"))],
+    [y además la órbita *cierre* en una elipse], [central y exactamente $1\/r^2$ (módulo #M("orbita-conicas"))],
   )
 
   Las tres son cada vez más exigentes, y la tercera es la única que necesita la
@@ -205,9 +205,9 @@ fig-velocidad-areolar)
   *Problema 2: demostrar que $bold(L)$ respecto de un punto cualquiera es
   constante para una partícula libre que se mueve con velocidad constante.*
 
-  Sin fuerzas, no hay torque respecto de ningún punto, así que por la @m7-tau
+  Sin fuerzas, no hay torque respecto de ningún punto, así que por la @angm-tau
   ya está. Pero la demostración *geométrica* es la que enseña algo: por la
-  @m7-modulo, $L = m v d$, donde $d$ es la distancia del punto a la recta de
+  @angm-modulo, $L = m v d$, donde $d$ es la distancia del punto a la recta de
   acción de $bold(v)$. Si la partícula va en línea recta a velocidad constante,
   *su recta de acción es siempre la misma recta*, así que $d$ no cambia, $v$ no
   cambia, y $L$ tampoco. Una partícula libre tiene momento angular no nulo
@@ -235,7 +235,7 @@ fig-velocidad-areolar)
     fuerzas opuestas— tiene el mismo momento respecto de cualquier punto,
     mientras que una fuerza sola no.
 
-    Y es la razón por la que en el módulo 3 el sistema centro de masa resultó
+    Y es la razón por la que en el módulo #M("centro-de-masa") el sistema centro de masa resultó
     tan cómodo: ahí $bold(P)^* = bold(0)$ por construcción, así que $bold(L)^*$
     no depende de dónde se ponga el origen.
   ]
@@ -254,13 +254,13 @@ fig-velocidad-areolar)
 
   *(A) Los ábsides.* Primero los radios, desde el centro de la Tierra:
   $ r_P = 6378 + 400 = 6778 " km", quad r_A = 6378 + 4000 = 10 thin 378 " km" $
-  En los dos, $gamma = 0$, así que la @m7-h se reduce a $h = r v$:
+  En los dos, $gamma = 0$, así que la @angm-h se reduce a $h = r v$:
   $ h_P = (6778)(8,435) = 57 thin 172 " km"^2\/"s" $
   $ h_A = (10 thin 378)(5,509) = 57 thin 172 " km"^2\/"s" $
 
   #clave[
     *Ésa es toda la parte (A), y el resultado es que dan lo mismo.* No es una
-    coincidencia ni una comprobación numérica: es la @m7-conserva, y los dos
+    coincidencia ni una comprobación numérica: es la @angm-conserva, y los dos
     números salen del dibujo por caminos distintos. Que coincidan en las cinco
     cifras dice que los datos de la figura son consistentes — y si no
     coincidieran, habría un error de lectura antes de seguir. *Conviene hacer
@@ -270,7 +270,7 @@ fig-velocidad-areolar)
 
   *(B) Las dos posiciones intermedias.* Ahí $bold(v)$ *no* es perpendicular al
   radio: la figura da $gamma = 12,05°$ arriba y $gamma = 12,11°$ abajo. Con la
-  @m7-h despejada,
+  @angm-h despejada,
   $ r = h / (v cos gamma) $
 
   Para la de arriba, con $v = 6,970$ km/s y $cos 12,05° = 0,9780$:
@@ -284,9 +284,9 @@ fig-velocidad-areolar)
     *Por qué no son iguales, si la elipse es simétrica.* Porque los dos puntos
     no están simétricos respecto del eje de ábsides: la figura los marca en
     anomalías distintas. Y hay una manera de verificarlo sin más datos que los
-    que ya se usaron — la @m7-h no la da, pero la figura de la cátedra sí marca
+    que ya se usaron — la @angm-h no la da, pero la figura de la cátedra sí marca
     los dos ángulos de posición, $96,09°$ y $102,1°$, medidos desde el perigeo.
-    Anticipando la ecuación de la órbita del módulo 9,
+    Anticipando la ecuación de la órbita del módulo #M("orbita-conicas"),
     $r = p\/(1 + e cos nu)$, con $p = 8578 (1 - 0,2098^2) = 8200$ km:
     $ nu = 96,09° ==> r = (8200)/(1 - 0,2098 (0,1061)) = 8387 " km" $
     $ nu = 102,1° ==> r = (8200)/(1 - 0,2098 (0,2096)) = 8577 " km" $
@@ -315,7 +315,7 @@ fig-velocidad-areolar)
   ejemplo simple y el *Ejercicio 4* es el ejemplo a fondo. El *Ej. 5* —la ley
   de áreas y la pregunta sobre qué condición hace falta— está contestado entero
   en el cuadro azul de la sección anterior. El *Problema 1* es cálculo de
-  torques con la @m7-tau: es la aplicación directa de $tau = F d$ en seis
+  torques con la @angm-tau: es la aplicación directa de $tau = F d$ en seis
   configuraciones, y sale de la definición sin nada nuevo.
 
   *El Ej. 6 está en blanco en el PDF de la cátedra* — no es un problema de
@@ -323,16 +323,16 @@ fig-velocidad-areolar)
 
   Los que quedan de esa sección —el giróscopo de juguete y la estabilización del
   Hubble— *no* son de fuerzas centrales sino de precesión, y necesitan cuerpo
-  rígido: se resuelven en el módulo 14.
+  rígido: se resuelven en el módulo #M("euler-giroscopo").
 
   Y de la sección de energía, el *Problema 2* (la sonda de Beer, de $A$ a $B$):
-  el módulo 6 dio la rapidez por energía, y la @m7-h da la dirección. Recién con
+  el módulo #M("gravitacion") dio la rapidez por energía, y la @angm-h da la dirección. Recién con
   los dos el problema queda cerrado.
 ]
 
 == Lo que se usa después
 
-1. *$h = r^2 dot(theta)$ constante.* Es lo que permite, en el módulo 9,
+1. *$h = r^2 dot(theta)$ constante.* Es lo que permite, en el módulo #M("orbita-conicas"),
    cambiar la variable independiente de $t$ a $theta$ y convertir la ecuación de
    movimiento —que en el tiempo no se puede integrar de cabeza— en una ecuación
    lineal cuya solución son las cónicas.
@@ -340,12 +340,12 @@ fig-velocidad-areolar)
 2. *$h$ como término centrífugo.* Sustituyendo $dot(theta) = h\/r^2$ en la
    energía cinética aparece un $h^2 \/ (2 r^2)$ que se le suma a
    $U = -mu m \/ r$: ése es el *potencial eficaz*, y con él el diagrama del
-   módulo 5 pasa a decidir la forma de la órbita, no sólo si está ligada.
+   módulo #M("trabajo-energia") pasa a decidir la forma de la órbita, no sólo si está ligada.
 
 3. *$h = r v cos gamma$, y $h = r v$ en los ábsides.* Es la ecuación con la que
-   se resuelven, en los módulos 10 y 11, todos los problemas que dan datos en
+   se resuelven, en los módulos #M("kepler") y #M("maniobras"), todos los problemas que dan datos en
    perigeo y piden algo en apogeo.
 
 4. *$sum bold(tau) = d bold(L) \/ d t$.* Con un cuerpo rígido en lugar de una
-   partícula, ésta misma es la ecuación de Euler del módulo 14, y la que
+   partícula, ésta misma es la ecuación de Euler del módulo #M("euler-giroscopo"), y la que
    explica por qué un giróscopo precesa en vez de caerse.

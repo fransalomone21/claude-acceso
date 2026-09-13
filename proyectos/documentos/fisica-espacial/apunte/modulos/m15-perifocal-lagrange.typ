@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Marco perifocal, vector de estado y coeficientes de Lagrange")[
+#modulo("Marco perifocal, vector de estado y coeficientes de Lagrange", clave: "perifocal-lagrange")[
   Escribir una órbita en *vectores*, que es como la escribe cualquier
   computadora de vuelo y cualquier radar. Elegir el sistema de ejes en el que
   eso se hace sin esfuerzo —el perifocal, clavado a la propia órbita— y
@@ -33,7 +33,7 @@ Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.
   conviene elegir los ejes donde esos números salgan solos. Para una órbita
   ese sistema existe y es uno solo: el que tiene un eje apuntando al perigeo y
   el otro a $90°$ en el plano de la órbita. Se llama *marco perifocal*, y en
-  él la posición se lee directamente de la ecuación de la órbita del módulo 9.
+  él la posición se lee directamente de la ecuación de la órbita del módulo #M("orbita-conicas").
 
 + *Contar los números.* Una órbita con una nave adentro queda fija con *seis*
   números, ni más ni menos, y hay dos maneras de darlos. Una es el *vector de
@@ -93,7 +93,7 @@ Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.
     en que la nave se mueve*. Es el eje $y$, y es la dirección de la anomalía
     verdadera $nu = 90°$.
   - $hat(w) = bold(h) \/ h$ completa la terna derecha y sale del plano de la
-    órbita, en la dirección del momento angular del módulo 7.
+    órbita, en la dirección del momento angular del módulo #M("momento-angular").
 
   Los tres son constantes: el plano de la órbita no se mueve y la línea de
   ábsides tampoco, así que *derivar en este marco es derivar sólo las
@@ -107,7 +107,7 @@ $hat(w)$ sale de la hoja y por eso se dibuja como un círculo con un punto. La
 posición del satélite se lee como dos números sobre esos ejes,
 $x = r cos nu$ e $y = r sin nu$, sin ninguna cuenta intermedia: la única
 información que hace falta es $r$, que la da la ecuación de la órbita, y
-$nu$, que es el ángulo que ya se venía usando desde el módulo 9. La velocidad
+$nu$, que es el ángulo que ya se venía usando desde el módulo #M("orbita-conicas"). La velocidad
 $bold(v)$ es tangente a la órbita, y sus dos componentes en este marco
 —ésa es la sorpresa de la sección— no dependen de dónde esté la
 nave.], fig-perifocal)
@@ -115,15 +115,15 @@ nave.], fig-perifocal)
 Con la anomalía verdadera $nu$ medida desde $hat(p)$, que es exactamente desde
 donde se la venía midiendo, la posición no necesita deducirse: se lee.
 
-$ bold(r) = x hat(p) + y hat(q), quad quad x = r cos nu, quad y = r sin nu $ <m18-r>
+$ bold(r) = x hat(p) + y hat(q), quad quad x = r cos nu, quad y = r sin nu $ <perif-r>
 
-y como el módulo $r$ lo da la ecuación de la órbita del módulo 9
-(@m9-orbita), queda todo junto:
+y como el módulo $r$ lo da la ecuación de la órbita del módulo #M("orbita-conicas")
+(@orb-orbita), queda todo junto:
 
-$ bold(r) = h^2/mu 1/(1 + e cos nu) (cos nu hat(p) + sin nu hat(q)) $ <m18-r-orbita>
+$ bold(r) = h^2/mu 1/(1 + e cos nu) (cos nu hat(p) + sin nu hat(q)) $ <perif-r-orbita>
 
 #deduccion("la velocidad en el marco perifocal")[
-  Se deriva la @m18-r respecto del tiempo. Los versores son constantes, así
+  Se deriva la @perif-r respecto del tiempo. Los versores son constantes, así
   que sólo se derivan las componentes:
 
   $ bold(v) = dot(x) hat(p) + dot(y) hat(q), quad quad
@@ -133,7 +133,7 @@ $ bold(r) = h^2/mu 1/(1 + e cos nu) (cos nu hat(p) + sin nu hat(q)) $ <m18-r-orb
     ) $
 
   Y las dos derivadas que aparecen ahí ya están despejadas de antes. $dot(r)$
-  es la velocidad radial, que es la $v_r$ que el módulo 16 sacó (@m16-vr), y
+  es la velocidad radial, que es la $v_r$ que el módulo #M("hiperbola") sacó (@hip-vr), y
   $r dot(nu)$ es la velocidad transversal $v_perp = h \/ r$ del mismo módulo,
   reescrita con la ecuación de la órbita:
 
@@ -147,14 +147,14 @@ $ bold(r) = h^2/mu 1/(1 + e cos nu) (cos nu hat(p) + sin nu hat(q)) $ <m18-r-orb
   $ dot(y) = mu/h (e sin^2 nu + cos nu + e cos^2 nu) = mu/h (e + cos nu) $
 ]
 
-$ bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $ <m18-v>
+$ bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $ <perif-v>
 
 #clave[
-  *Las componentes de la velocidad no dependen de $r$.* En la @m18-v aparecen
+  *Las componentes de la velocidad no dependen de $r$.* En la @perif-v aparecen
   $mu$, $h$, $e$ y $nu$, y ninguna distancia. Eso no es una casualidad de
   escritura: dice que en el marco perifocal la velocidad está determinada por
   *dónde está la nave sobre la órbita* y no por cuán lejos está — que es la
-  forma vectorial de algo que el módulo 9 ya sabía en escalares, porque $r$ y
+  forma vectorial de algo que el módulo #M("orbita-conicas") ya sabía en escalares, porque $r$ y
   $nu$ tampoco son independientes.
 
   Y tiene dos lecturas inmediatas. En el perigeo, $nu = 0$ y queda
@@ -169,11 +169,11 @@ $ bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $ <m18-v>
   Curtis (§2.10) llama $theta$ a la anomalía verdadera y $hat(p) hat(q)
   hat(w)$ a los versores; el Bate (§2.2.4) la llama $nu$ y a los versores los
   llama $bold(P)$, $bold(Q)$, $bold(W)$, con ejes $x_w$, $y_w$, $z_w$. Son
-  exactamente el mismo sistema, con las mismas dos fórmulas: la @m18-r es la
-  ec. (2.5-1) del Bate y la @m18-v es su ec. (2.5-4).
+  exactamente el mismo sistema, con las mismas dos fórmulas: la @perif-r es la
+  ec. (2.5-1) del Bate y la @perif-v es su ec. (2.5-4).
 
   Este apunte usa $nu$ para la anomalía —que es lo que viene usando desde el
-  módulo 9— y los versores en minúscula con sombrero.
+  módulo #M("orbita-conicas")— y los versores en minúscula con sombrero.
 ]
 
 #ejemplo("del marco perifocal a los vectores, y de los vectores al marco")[
@@ -181,7 +181,7 @@ $ bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $ <m18-v>
   junto. (Curtis, ejemplos 2.11 y 2.12, pág. 104.)
 
   *(a) De la órbita a los vectores.* Una órbita terrestre tiene $e = 0,3$,
-  $h = 60 thin 000 " km"^2"/s"$ y está en $nu = 120°$. Con la @m18-r-orbita, y
+  $h = 60 thin 000 " km"^2"/s"$ y está en $nu = 120°$. Con la @perif-r-orbita, y
   usando $h^2 \/ mu = (60 thin 000)^2 \/ (398 thin 600) = 9031,6$ km:
 
   $ r = (9031,6)/(1 + 0,3 dot (-0,5)) = (9031,6)/(0,85) = 10 thin 625 " km" $
@@ -189,7 +189,7 @@ $ bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $ <m18-v>
   $ bold(r) = 10 thin 625 (cos 120° hat(p) + sin 120° hat(q))
     = -5312,7 hat(p) + 9201,9 hat(q) quad ["km"] $
 
-  y con la @m18-v, donde $mu \/ h = (398 thin 600) \/ (60 thin 000) = 6,6433$:
+  y con la @perif-v, donde $mu \/ h = (398 thin 600) \/ (60 thin 000) = 6,6433$:
 
   $ bold(v) = 6,6433 [-sin 120° hat(p) + (0,3 + cos 120°) hat(q)]
     = -5,7533 hat(p) - 1,3287 hat(q) quad ["km/s"] $
@@ -203,14 +203,14 @@ $ bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $ <m18-v>
     bold(v) = -3,3472 hat(p) + 9,1251 hat(q) $
 
   hay que sacar $h$, $nu$ y $e$. El momento angular sale del producto
-  vectorial del módulo 7, y como los dos vectores están en el plano
+  vectorial del módulo #M("momento-angular"), y como los dos vectores están en el plano
   $hat(p) hat(q)$ el resultado es puro $hat(w)$:
 
   $ bold(h) = bold(r) times bold(v) = [7000 dot 9,1251 - 9000 dot (-3,3472)] hat(w)
     = 94 thin 000 hat(w) quad ["km"^2"/s"] $
 
   La anomalía se mide desde $hat(p)$, así que sale de un producto escalar —es
-  la proyección del módulo 1—, con $r = 11 thin 402$ km:
+  la proyección del módulo #M("vectores")—, con $r = 11 thin 402$ km:
 
   $ cos nu = (bold(r) dot hat(p))/r = (7000)/(11 thin 402) = 0,61394
     quad ==> quad nu = 52,1° $
@@ -235,7 +235,7 @@ $ bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $ <m18-v>
   $(bold(r), bold(v))$ referido a un sistema inercial: seis números. Con esos
   seis y la ley de gravitación queda determinado todo el pasado y todo el
   futuro del movimiento, porque la ecuación del problema de dos cuerpos del
-  módulo 8 es de segundo orden y necesita exactamente dos condiciones
+  módulo #M("dos-cuerpos") es de segundo orden y necesita exactamente dos condiciones
   iniciales vectoriales.
 ]
 
@@ -245,7 +245,7 @@ los *elementos orbitales clásicos*.
 
 - $a$ — el semieje mayor: el *tamaño* de la órbita. (Se lo puede reemplazar
   por $p$, o por $r_p$; da lo mismo, son la misma información en otra forma,
-  como mostró el módulo 9 con la @m9-semiejes.)
+  como mostró el módulo #M("orbita-conicas") con la @orb-semiejes.)
 - $e$ — la excentricidad: la *forma*. Con $a$ y $e$ la cónica queda dibujada,
   pero todavía flotando en el espacio.
 - $i$ — la *inclinación*: el ángulo entre $hat(k)$ y el vector $bold(h)$. O
@@ -300,19 +300,19 @@ entre pares de vectores. Los tres:
 
 $ bold(h) = bold(r) times bold(v), quad quad
   bold(n) = hat(k) times bold(h), quad quad
-  bold(e) = 1/mu [(v^2 - mu/r) bold(r) - (bold(r) dot bold(v)) bold(v)] $ <m18-tres>
+  bold(e) = 1/mu [(v^2 - mu/r) bold(r) - (bold(r) dot bold(v)) bold(v)] $ <perif-tres>
 
 y cada uno tiene una lectura geométrica que conviene tener antes que la
 fórmula. $bold(h)$ es perpendicular al plano de la órbita, así que fija ese
 plano. $bold(n)$, por ser perpendicular a $hat(k)$ *y* a $bold(h)$, está en la
 intersección de los dos planos: apunta al nodo ascendente, que es justo la
 dirección desde la que se mide $omega$. Y $bold(e)$ —el *vector
-excentricidad*, que el módulo 9 obtuvo al integrar la ecuación de la órbita—
+excentricidad*, que el módulo #M("orbita-conicas") obtuvo al integrar la ecuación de la órbita—
 apunta del foco al perigeo y tiene módulo $e$: fija la línea de ábsides y la
 forma de un saque.
 
 Con esos tres, los seis elementos son seis cosenos. El ángulo entre dos
-vectores sale del producto escalar del módulo 1, $cos alpha = (bold(A) dot
+vectores sale del producto escalar del módulo #M("vectores"), $cos alpha = (bold(A) dot
 bold(B)) \/ (A B)$:
 
 $ p = h^2/mu, quad quad e = abs(bold(e)), quad quad
@@ -320,7 +320,7 @@ $ p = h^2/mu, quad quad e = abs(bold(e)), quad quad
   cos Omega = n_x/n $
 
 $ cos omega = (bold(n) dot bold(e))/(n e), quad quad
-  cos nu_0 = (bold(e) dot bold(r))/(e r) $ <m18-elementos>
+  cos nu_0 = (bold(e) dot bold(r))/(e r) $ <perif-elementos>
 
 #cuidado[
   *Un coseno no da un ángulo: da dos.* Cada uno de los cuatro ángulos de
@@ -338,7 +338,7 @@ $ cos omega = (bold(n) dot bold(e))/(n e), quad quad
   $bold(r) dot bold(v) = r dot(r)$, así que su signo es el signo de la
   velocidad radial. *Positivo quiere decir que la nave se está alejando*, o
   sea que va del perigeo al apogeo, o sea $nu$ entre $0°$ y $180°$. Es el
-  mismo criterio con el que el módulo 16 elegía el signo de $gamma$.
+  mismo criterio con el que el módulo #M("hiperbola") elegía el signo de $gamma$.
 
   La inclinación no necesita chequeo porque, por definición, $i$ siempre está
   entre $0°$ y $180°$.
@@ -350,7 +350,7 @@ $ cos omega = (bold(n) dot bold(e))/(n e), quad quad
 
   - *Órbita ecuatorial* ($i = 0$): el plano de la órbita y el de referencia
     son el mismo, no se cruzan en una recta, y *no hay nodo ascendente*.
-    Entonces $Omega$ y $omega$ quedan indefinidos —la @m18-tres da
+    Entonces $Omega$ y $omega$ quedan indefinidos —la @perif-tres da
     $bold(n) = bold(0)$, y los dos cosenos que lo tienen en el denominador
     dividen por cero—.
   - *Órbita circular* ($e = 0$): no hay perigeo, así que $omega$ y $nu_0$
@@ -369,7 +369,7 @@ $ cos omega = (bold(n) dot bold(e))/(n e), quad quad
 
 Acá hay una sola idea, y se dice en un renglón antes de cualquier cuenta.
 
-El movimiento es plano: el módulo 7 mostró que $bold(h)$ se conserva y que por
+El movimiento es plano: el módulo #M("momento-angular") mostró que $bold(h)$ se conserva y que por
 eso la órbita entera vive en un plano. Y en ese plano, $bold(r)_0$ y
 $bold(v)_0$ son *dos vectores que no son paralelos* —si lo fueran,
 $bold(r)_0 times bold(v)_0 = bold(h)$ sería cero y la trayectoria sería una
@@ -381,7 +381,7 @@ Eso es todo. No hace falta ninguna cuenta para saber que existen cuatro
 números $f$, $g$, $dot(f)$, $dot(g)$ tales que
 
 $ bold(r) = f bold(r)_0 + g bold(v)_0, quad quad
-  bold(v) = dot(f) bold(r)_0 + dot(g) bold(v)_0 $ <m18-fg>
+  bold(v) = dot(f) bold(r)_0 + dot(g) bold(v)_0 $ <perif-fg>
 
 La cuenta sirve para averiguar *cuánto valen*, no para saber que existen.
 
@@ -395,7 +395,7 @@ valores de la figura, $f = 0,45$ y $g = 1,87$.], fig-lagrange-base)
 
 #deduccion("los coeficientes de Lagrange")[
   Se trabaja en el marco perifocal, que es donde $bold(r)$ y $bold(v)$ ya
-  están escritos. De la @m18-r, y las mismas dos evaluadas en $t_0$:
+  están escritos. De la @perif-r, y las mismas dos evaluadas en $t_0$:
 
   $ bold(r) = x hat(p) + y hat(q), quad quad bold(r)_0 = x_0 hat(p) + y_0 hat(q) $
   $ bold(v) = dot(x) hat(p) + dot(y) hat(q), quad quad bold(v)_0 = dot(x)_0 hat(p) + dot(y)_0 hat(q) $
@@ -404,12 +404,12 @@ valores de la figura, $f = 0,45$ y $g = 1,87$.], fig-lagrange-base)
   que se va a usar dos veces:
 
   $ bold(h) = bold(r)_0 times bold(v)_0 = (x_0 dot(y)_0 - y_0 dot(x)_0) hat(w)
-    quad ==> quad h = x_0 dot(y)_0 - y_0 dot(x)_0 $ <m18-h-inicial>
+    quad ==> quad h = x_0 dot(y)_0 - y_0 dot(x)_0 $ <perif-h-inicial>
 
   Ahora se hace lo que el enunciado geométrico pedía: *despejar $hat(p)$ y
   $hat(q)$ en función de $bold(r)_0$ y $bold(v)_0$*. Son dos ecuaciones
   lineales con dos incógnitas —los dos versores—, y resolverlas usando la
-  @m18-h-inicial da
+  @perif-h-inicial da
 
   $ hat(p) = dot(y)_0/h bold(r)_0 - y_0/h bold(v)_0, quad quad
     hat(q) = - dot(x)_0/h bold(r)_0 + x_0/h bold(v)_0 $
@@ -420,7 +420,7 @@ valores de la figura, $f = 0,45$ y $g = 1,87$.], fig-lagrange-base)
 
   $ f = (x dot(y)_0 - y dot(x)_0)/h, quad quad g = (-x y_0 + y x_0)/h $
   $ dot(f) = (dot(x) dot(y)_0 - dot(y) dot(x)_0)/h, quad quad
-    dot(g) = (-dot(x) y_0 + dot(y) x_0)/h $ <m18-coefs-xy>
+    dot(g) = (-dot(x) y_0 + dot(y) x_0)/h $ <perif-coefs-xy>
 
   Los cuatro son el mismo determinante de dos por dos con distintas filas.
 ]
@@ -428,41 +428,41 @@ valores de la figura, $f = 0,45$ y $g = 1,87$.], fig-lagrange-base)
 #clave[
   *Los cuatro coeficientes no son independientes: cumplen $f dot(g) - dot(f) g
   = 1$, y eso es la conservación del momento angular.* Sale de calcular
-  $bold(h) = bold(r) times bold(v)$ con la @m18-fg: los términos
+  $bold(h) = bold(r) times bold(v)$ con la @perif-fg: los términos
   $bold(r)_0 times bold(r)_0$ y $bold(v)_0 times bold(v)_0$ se anulan, queda
   $bold(h) = (f dot(g) - dot(f) g)(bold(r)_0 times bold(v)_0)$, y como
   $bold(h)$ es el mismo de antes y no puede ser cero,
 
-  $ f dot(g) - dot(f) g = 1 $ <m18-wronskiano>
+  $ f dot(g) - dot(f) g = 1 $ <perif-wronskiano>
 
   Tiene dos usos, uno práctico y uno conceptual. El práctico: *conocidos tres,
   el cuarto sale de acá* —así se calcula $dot(f)$, que es el más feo de los
   cuatro— y, sobre todo, es un control barato: si al final de una cuenta la
-  @m18-wronskiano no da $1$, hay un error, y no hace falta saber dónde para
+  @perif-wronskiano no da $1$, hay un error, y no hace falta saber dónde para
   saber que existe.
 
   El conceptual: esa expresión es el determinante de la matriz que lleva
   $(bold(r)_0, bold(v)_0)$ a $(bold(r), bold(v))$. Que valga exactamente $1$
   significa que la transformación *conserva áreas* en ese plano — que es la
-  segunda ley de Kepler del módulo 7 escrita en otro idioma.
+  segunda ley de Kepler del módulo #M("momento-angular") escrita en otro idioma.
 ]
 
-Poniendo en la @m18-coefs-xy las componentes de la @m18-r y de la @m18-v,
+Poniendo en la @perif-coefs-xy las componentes de la @perif-r y de la @perif-v,
 usando $cos(nu - nu_0) = cos nu cos nu_0 + sin nu sin nu_0$ y llamando
 $Delta nu = nu - nu_0$ a lo que la nave giró, los cuatro quedan escritos con
 una sola variable:
 
 $ f = 1 - (mu r)/h^2 (1 - cos(Delta nu)), quad quad
-  g = (r r_0)/h sin(Delta nu) $ <m18-fg-dnu>
+  g = (r r_0)/h sin(Delta nu) $ <perif-fg-dnu>
 
 $ dot(f) = mu/h (1 - cos(Delta nu))/sin(Delta nu)
     [mu/h^2 (1 - cos(Delta nu)) - 1/r_0 - 1/r], quad quad
-  dot(g) = 1 - (mu r_0)/h^2 (1 - cos(Delta nu)) $ <m18-fgpunto-dnu>
+  dot(g) = 1 - (mu r_0)/h^2 (1 - cos(Delta nu)) $ <perif-fgpunto-dnu>
 
 donde el $r$ que aparece es el radio *de llegada*, y se obtiene de la ecuación
 de la órbita reescrita para que tampoco necesite $nu_0$ ni $e$:
 
-$ r = h^2/mu 1/(1 + (h^2/(mu r_0) - 1) cos(Delta nu) - (h thin v_(r 0))/mu sin(Delta nu)) $ <m18-r-dnu>
+$ r = h^2/mu 1/(1 + (h^2/(mu r_0) - 1) cos(Delta nu) - (h thin v_(r 0))/mu sin(Delta nu)) $ <perif-r-dnu>
 
 #clave[
   *En ninguna de las tres ecuaciones aparece $e$, y eso es lo que hace útil al
@@ -487,15 +487,15 @@ $ r = h^2/mu 1/(1 + (h^2/(mu r_0) - 1) cos(Delta nu) - (h thin v_(r 0))/mu sin(D
     $bold(r)_0$: $v_(r 0) = (bold(r)_0 dot bold(v)_0) \/ r_0$.
   + El momento angular, con la parte transversal de la velocidad:
     $h = r_0 sqrt(v_0^2 - v_(r 0)^2)$.
-  + El radio de llegada $r$, con la @m18-r-dnu; después $f$, $g$, $dot(f)$ y
-    $dot(g)$ con la @m18-fg-dnu y la @m18-fgpunto-dnu.
+  + El radio de llegada $r$, con la @perif-r-dnu; después $f$, $g$, $dot(f)$ y
+    $dot(g)$ con la @perif-fg-dnu y la @perif-fgpunto-dnu.
   + $bold(r) = f bold(r)_0 + g bold(v)_0$ y
     $bold(v) = dot(f) bold(r)_0 + dot(g) bold(v)_0$.
 
   El paso 3 merece un renglón: es el teorema de Pitágoras sobre la velocidad.
   La velocidad se parte en radial y transversal, la transversal es la única
   que hace momento angular, y el momento angular es $r_0$ por ella. Es la
-  @m16-vr del módulo 16 leída al revés.
+  @hip-vr del módulo #M("hiperbola") leída al revés.
 ]
 
 #ejemplo("propagar 120° de anomalía, y recién después preguntar en qué órbita estábamos", nivel: "a fondo")[
@@ -521,12 +521,12 @@ $ r = h^2/mu 1/(1 + (h^2/(mu r_0) - 1) cos(Delta nu) - (h thin v_(r 0))/mu sin(D
   $ h = 10 thin 681 dot 7,0557 = 75 thin 366 " km"^2"/s" $
 
   *Paso 4 — el radio de llegada y los cuatro coeficientes.* Con la
-  @m18-r-dnu, $h^2 \/ mu = 14 thin 250$ km y $Delta nu = 120°$:
+  @perif-r-dnu, $h^2 \/ mu = 14 thin 250$ km y $Delta nu = 120°$:
 
   $ r = (14 thin 250)/(1 + (14 thin 250\/(10 thin 681) - 1)(-0,5)
     - ((75 thin 366)(-5,2996))/(398 thin 600) dot 0,86603) = 8378,8 " km" $
 
-  y de ahí, con la @m18-fg-dnu y la @m18-fgpunto-dnu,
+  y de ahí, con la @perif-fg-dnu y la @perif-fgpunto-dnu,
 
   $ f = 1 - ((398 thin 600)(8378,8))/(75 thin 366^2) dot 1,5 = 0,11802 $
 
@@ -536,7 +536,7 @@ $ r = h^2/mu 1/(1 + (h^2/(mu r_0) - 1) cos(Delta nu) - (h thin v_(r 0))/mu sin(D
 
   $ dot(f) = -9,8666 times 10^(-4) " s"^(-1) $
 
-  *Control barato antes de seguir*, con la @m18-wronskiano:
+  *Control barato antes de seguir*, con la @perif-wronskiano:
   $f dot(g) - dot(f) g = 0,11802 dot (-0,12435) + 9,8666 times 10^(-4) dot
   1028,4 = -0,01468 + 1,01468 = 1,000$. #sym.checkmark
 
@@ -550,13 +550,13 @@ $ r = h^2/mu 1/(1 + (h^2/(mu r_0) - 1) cos(Delta nu) - (h thin v_(r 0))/mu sin(D
 
   *Y recién ahora, la órbita.* Nada de lo anterior necesitó saber qué cónica
   era. Si igual se la quiere, salen $e$ y $nu_0$ del sistema de dos ecuaciones
-  que arman entre los dos el módulo 9 —la ecuación de la órbita, @m9-orbita—
-  y el módulo 16 —la velocidad radial, @m16-vr—, evaluadas en $t_0$:
+  que arman entre los dos el módulo #M("orbita-conicas") —la ecuación de la órbita, @orb-orbita—
+  y el módulo #M("hiperbola") —la velocidad radial, @hip-vr—, evaluadas en $t_0$:
 
   $ e cos nu_0 = h^2/(mu r_0) - 1 = 0,3341, quad quad
     e sin nu_0 = (h thin v_(r 0))/mu = -1,002 $
 
-  Elevando al cuadrado y sumando —el truco del módulo 16, otra vez—,
+  Elevando al cuadrado y sumando —el truco del módulo #M("hiperbola"), otra vez—,
   $e^2 = 1,1157$ y
 
   $ e = 1,0563 quad ==> quad "es una hipérbola" $
@@ -619,11 +619,11 @@ forma cerrada. Es el capítulo 3 de Curtis, y este apunte no lo desarrolla.
 Lo que sí se puede hacer, y es barato, es escribir $f$ y $g$ *directamente en
 función del tiempo* para intervalos cortos, desarrollando $bold(r)(t)$ en
 serie de Taylor alrededor de $t_0$ y usando la ecuación de dos cuerpos
-$dot.double(bold(r)) = -(mu \/ r^3) bold(r)$ del módulo 8 para reemplazar cada
+$dot.double(bold(r)) = -(mu \/ r^3) bold(r)$ del módulo #M("dos-cuerpos") para reemplazar cada
 derivada. Hasta cuarto orden queda
 
 $ f = 1 - mu/(2 r_0^3) Delta t^2 + mu/2 (bold(r)_0 dot bold(v)_0)/r_0^5 Delta t^3 + ... $
-$ g = Delta t - mu/(6 r_0^3) Delta t^3 + mu/4 (bold(r)_0 dot bold(v)_0)/r_0^5 Delta t^4 + ... $ <m18-serie>
+$ g = Delta t - mu/(6 r_0^3) Delta t^3 + mu/4 (bold(r)_0 dot bold(v)_0)/r_0^5 Delta t^4 + ... $ <perif-serie>
 
 y ahí se ve, de paso, por qué $g$ tiene unidades de tiempo: su primer término
 *es* $Delta t$.
@@ -642,7 +642,7 @@ y ahí se ve, de paso, por qué $g$ tiene unidades de tiempo: su primer término
 ]
 
 Y hay una deuda concreta que este módulo *no* salda: los $3,2$ días que el
-módulo 17 le atribuye a la travesía de la esfera de influencia de la Tierra
+módulo #M("esfera-influencia") le atribuye a la travesía de la esfera de influencia de la Tierra
 siguen citados y no deducidos. Para deducirlos hace falta la ecuación de
 Kepler hiperbólica, que —por lo dicho arriba— no está acá.
 
@@ -650,7 +650,7 @@ Kepler hiperbólica, que —por lo dicho arriba— no está acá.
 
 1. *El marco perifocal, como paso obligado.* Toda conversión entre elementos
    orbitales y vectores pasa por él: se arma $bold(r)$ y $bold(v)$ en
-   perifocal con la @m18-r y la @m18-v, y después se los gira a los ejes que
+   perifocal con la @perif-r y la @perif-v, y después se los gira a los ejes que
    uno quiera con los tres ángulos $i$, $Omega$, $omega$. Ese giro —tres
    matrices de rotación, una por ángulo— es el capítulo 4 de Curtis y la
    §2.6 del Bate, y es mecánico: no agrega ninguna idea nueva a lo de acá.
@@ -661,16 +661,16 @@ Kepler hiperbólica, que —por lo dicho arriba— no está acá.
    entender y archivar (elementos).
 
 3. *Los coeficientes de Lagrange*, en las dos versiones. La de $Delta nu$
-   —@m18-fg-dnu y @m18-fgpunto-dnu— es exacta y sirve para cualquier cónica.
-   La serie en $Delta t$ —@m18-serie— es aproximada y sólo para pasos cortos.
+   —@perif-fg-dnu y @perif-fgpunto-dnu— es exacta y sirve para cualquier cónica.
+   La serie en $Delta t$ —@perif-serie— es aproximada y sólo para pasos cortos.
    Las dos vuelven a aparecer, además, en el problema de determinar una órbita
    a partir de dos posiciones y el tiempo entre ellas (el problema de Lambert,
    que es cómo se diseñan de verdad las transferencias interplanetarias del
-   módulo 17 cuando la ventana no es la de Hohmann).
+   módulo #M("esfera-influencia") cuando la ventana no es la de Hohmann).
 
 4. *El control $f dot(g) - dot(f) g = 1$.* Es gratis y atrapa cualquier error
    aritmético de la propagación. Vale la pena hacerlo siempre.
 
 5. *La ecuación de Kepler*, que es lo único que falta para cerrar el problema
-   de dos cuerpos completo, y que el módulo 19 tampoco va a dar: el módulo 19
+   de dos cuerpos completo, y que el módulo #M("tres-cuerpos") tampoco va a dar: el módulo #M("tres-cuerpos")
    se ocupa de qué pasa cuando la aproximación de dos cuerpos deja de valer.

@@ -1,9 +1,66 @@
 # Estado actual — Apunte de Física Espacial
 
-## EL APUNTE ESTÁ CERRADO — 2026-09-13, y la guía se puede resolver con él
+## FASE 8 — CERRADA el 2026-09-13: fundamentos primero, y el orden ahora se mide
 
-**Fase: ninguna — el apunte está CERRADO.** 19 módulos, 149 páginas, compiladas y verificadas en render. No hay fase
-abierta y no se abre ninguna.
+**Fase: ninguna — el apunte está CERRADO.** **20 módulos, 151 páginas
+impresas**, compiladas y verificadas en render. No hay fase abierta.
+
+Fran pidió dos cosas: que estuvieran los fundamentos —nombró la transformación
+de Galileo— y que el apunte fuera en orden de bases hacia complejidad. Las dos
+se midieron antes de tocar nada, y la medición contradijo al `HANDOFF`.
+
+**Lo que la medición encontró, y es lo que cambia una decisión:**
+
+- **La transformación de Galileo NO estaba deducida.** La fase 6 la había dado
+  por cubierta con dos `grep`: uno era una línea suelta en el centro de masa
+  («a cada velocidad se le resta $v_cm$», sin deducción ni figura) y el otro
+  era Galileo el de los cuerpos que caen, en gravitación — otro hecho, otro
+  Galileo. **Tampoco estaban** las tres leyes de Newton escritas en ninguna
+  parte, ni la definición de *marco inercial*, que cinco módulos usaban como
+  si estuviera dada.
+- **El orden tenía una sola dependencia al revés, y era la que impedía
+  arreglarlo:** el problema de tres cuerpos (Parte V) necesitaba la fórmula del
+  marco rotante, que vivía en cuerpo rígido. Por eso la Parte V estaba al final
+  «por una razón puramente práctica», según lo declaraba el propio
+  `apunte.typ`.
+
+**Lo que se hizo, y en este orden:**
+
+1. **Módulo nuevo — «Marcos de referencia: cuándo vale F = m a, y qué pasa
+   cuando no»**, que es el módulo 2, en la Parte I. Las tres leyes; la
+   definición de marco inercial; la transformación de Galileo deducida con
+   figura propia (`fig-galileo`) y la invariancia de $F = m a$; qué cambia y
+   qué no al cambiar de marco (`p`, `K` y `W` cambian — S&Z vol. 1 pág. 179);
+   la fuerza de inercia de un marco que acelera; y **las dos correcciones de un
+   marco que gira con $Omega$ constante, deducidas desde la aceleración en
+   polares del módulo 1** — sin herramientas nuevas. Fuentes medidas, no
+   citadas de memoria: Roederer cap. 3 págs. 100-102 (ec. 3.23) y Beer §15.11
+   ec. 15.35 págs. 977-978.
+2. **Orden nuevo**: Parte I *Herramientas* (vectores, marcos) · II
+   *Conservación* · III *Gravitación y mecánica orbital* · **IV *De la cónica
+   al viaje real*** (era la V) · **V *Cuerpo rígido*** (era la IV). El viaje
+   interplanetario quedó pegado a la mecánica orbital de la que sale, y el
+   cuerpo rígido —que casi no usa nada anterior— quedó último.
+3. **La dependencia al revés desapareció**: tres cuerpos ahora usa la
+   `@marcos-rotante` del módulo 2, y cuerpo rígido generaliza ese mismo
+   resultado en vez de fundarlo. Medido: en el grafo de los 20 módulos, la
+   columna «usa» va **siempre hacia atrás**.
+
+**El cambio de fondo, que es el que va a sobrevivir a esta sesión:** el número
+de un módulo ya no se escribe a mano. Había **355 números en la prosa** que
+ningún compilador podía ver; ahora se escribe `#M("clave")` y el número sale
+del orden de los `#include` de `apunte.typ`. La conversión se verificó de la
+única manera que prueba algo: **el texto renderizado quedó idéntico carácter
+por carácter a las 149 páginas de antes** — cero líneas de diferencia. Recién
+con eso hecho se reordenó, y reordenar costó mover cuatro `#include`.
+
+Lo mide `verificar-apunte.py` (nombres de archivo vs. orden, claves
+declaradas, grafo de referencias) y lo prueba en rojo
+`probar-verificar-apunte.py`, con control positivo antes y después.
+
+---
+
+## El apunte estaba cerrado desde antes — 2026-09-13, y la guía se puede resolver con él
 
 **Se cerró dos veces el mismo día, y la segunda es la que vale.** La primera
 vez se cerró sin anexos por criterio. Después Fran pidió verificar que el

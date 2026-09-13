@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Centro de masa y sistemas de partículas")[
+#modulo("Centro de masa y sistemas de partículas", clave: "centro-de-masa")[
   Ubicar el centro de masa de un sistema y saber por qué está siempre más cerca
   del cuerpo pesado; usar que su movimiento no se entera de nada de lo que pasa
   adentro; pasar al *sistema centro de masa*, donde los dos impulsos son
@@ -12,7 +12,7 @@ El módulo anterior terminó con un teorema que dice qué *no puede cambiar*. Es
 lo da vuelta y pregunta qué punto del sistema es el que se comporta como si
 nada estuviera pasando. Ese punto es el centro de masa, y en mecánica orbital es
 mucho más que una curiosidad: la Tierra y la Luna orbitan el centro de masa del
-par, no la una a la otra, y el problema de dos cuerpos del módulo 8 se resuelve
+par, no la una a la otra, y el problema de dos cuerpos del módulo #M("dos-cuerpos") se resuelve
 mudándose justamente a ese punto.
 
 == El centro de masa
@@ -20,14 +20,14 @@ mudándose justamente a ese punto.
 Para $N$ partículas de masas $m_i$ en posiciones $bold(r)_i$, con
 $M = sum m_i$:
 
-$ bold(r)_"cm" = (sum_i m_i bold(r)_i) / (sum_i m_i) = 1/M sum_i m_i bold(r)_i $ <m3-def>
+$ bold(r)_"cm" = (sum_i m_i bold(r)_i) / (sum_i m_i) = 1/M sum_i m_i bold(r)_i $ <cm-def>
 
 (S&Z §8.5, ecs. 8.28 y 8.29, pág. 254-255; Roederer ec. 4.3, pág. 110.) Es un
 promedio de posiciones *pesado por las masas*: cada partícula tira del punto
 hacia sí con una fuerza proporcional a lo que pesa.
 
 #deduccion("por qué el CM está sobre la recta que une los dos cuerpos")[
-  Con dos masas, la @m3-def se puede escribir como una combinación de
+  Con dos masas, la @cm-def se puede escribir como una combinación de
   $bold(r)_1$ y $bold(r)_2$ con coeficientes que suman 1:
   $ bold(r)_"cm" = mu_1 bold(r)_1 + mu_2 bold(r)_2, quad
     mu_1 = m_1 / M, quad mu_2 = m_2 / M, quad mu_1 + mu_2 = 1 $
@@ -48,7 +48,7 @@ distancias inversamente proporcionales a las masas.], fig-cm-dos-cuerpos)
   *Roederer llama «masas reducidas» a esos $mu_1$ y $mu_2$* (pág. 110), y no lo
   son en el sentido que el resto de la bibliografía —y el apunte manuscrito de
   la cátedra— le da a esa palabra. La *masa reducida* del problema de dos
-  cuerpos, la que aparece en el módulo 8, es otra cosa:
+  cuerpos, la que aparece en el módulo #M("dos-cuerpos"), es otra cosa:
   $ mu = (m_1 m_2) / (m_1 + m_2) $
   y tiene unidades de masa, mientras que las de Roederer son números sin
   dimensión entre 0 y 1. El propio Roederer avisa además que no hay que
@@ -62,13 +62,13 @@ distancias inversamente proporcionales a las masas.], fig-cm-dos-cuerpos)
 Acá está el motivo por el que el punto vale la pena.
 
 #deduccion("el CM se mueve como si toda la masa estuviera ahí")[
-  Derivando la @m3-def respecto del tiempo y multiplicando por $M$:
-  $ M bold(v)_"cm" = sum_i m_i bold(v)_i = bold(P) $ <m3-p>
+  Derivando la @cm-def respecto del tiempo y multiplicando por $M$:
+  $ M bold(v)_"cm" = sum_i m_i bold(v)_i = bold(P) $ <cm-p>
   o sea: *la cantidad de movimiento total del sistema es la de una única
   partícula de masa $M$ que se moviera con el centro de masa* (S&Z ecs. 8.31 y
-  8.32, pág. 256). Derivando otra vez y usando el resultado del módulo 2 —que
+  8.32, pág. 256). Derivando otra vez y usando el resultado del módulo #M("cantidad-movimiento") —que
   las internas se cancelan de a pares—:
-  $ sum bold(F)_"ext" = M bold(a)_"cm" $ <m3-teorema>
+  $ sum bold(F)_"ext" = M bold(a)_"cm" $ <cm-teorema>
   (S&Z ecs. 8.34 y 8.36, pág. 258.)
 ]
 
@@ -85,17 +85,19 @@ Las dos ecuaciones dicen lo mismo desde dos lados, y la consecuencia es fuerte:
   es interna; la gravedad, que sí es externa, no se enteró de nada.
 ]
 
-== El sistema centro de masa <m3-sistema-cm>
+== El sistema centro de masa <cm-sistema-cm>
 
 Como $bold(v)_"cm"$ es constante cuando no hay externas, el sistema de
-referencia que se mueve con el centro de masa es *inercial* —lo dijo la
-cátedra, y está en Roederer pág. 111— y se llega a él con una transformación de
-Galileo: a cada velocidad se le resta $bold(v)_"cm"$.
+referencia que se mueve con el centro de masa se traslada con velocidad
+constante respecto de uno inercial — y por el módulo #M("marcos") eso alcanza
+para que él también lo sea (lo dijo la cátedra, y está en Roederer pág. 111).
+Se llega a él con la transformación de Galileo de la @marcos-galileo, que acá
+se reduce a restarle $bold(v)_"cm"$ a cada velocidad.
 
 $ bold(v)^* = bold(v) - bold(v)_"cm" $
 
 #clave[
-  En ese sistema, por la @m3-p, $bold(P)^* = M bold(v)^*_"cm" = bold(0)$: la
+  En ese sistema, por la @cm-p, $bold(P)^* = M bold(v)^*_"cm" = bold(0)$: la
   cantidad de movimiento total es *cero*. Con dos cuerpos eso significa
   $ bold(p)^*_1 = -bold(p)^*_2 quad "en todo momento, antes y después" $
   Un choque visto desde ahí es simétrico: dos impulsos opuestos que entran, dos
@@ -110,7 +112,7 @@ $ bold(v)^* = bold(v) - bold(v)_"cm" $
   milisegundos— el CM acelera y su sistema deja de ser inercial: aparecen
   fuerzas de inercia y nada de lo de arriba vale tal cual. En un choque eso no
   molesta, porque dura poco; en una órbita sí, y es la razón por la que el
-  módulo 8 tiene que trabajar con la masa reducida en lugar de simplemente
+  módulo #M("dos-cuerpos") tiene que trabajar con la masa reducida en lugar de simplemente
   «pararse en el centro de masa».
 ]
 
@@ -144,11 +146,11 @@ $ bold(v)^* = bold(v) - bold(v)_"cm" $
   segundos después, ¿a qué distancia está cada uno del CM?
 
   *(a)* Antes de soltar la herramienta el conjunto está en reposo, así que
-  $bold(P) = bold(0)$ y, por la @m3-p, $bold(v)_"cm" = bold(0)$. No hay fuerzas
+  $bold(P) = bold(0)$ y, por la @cm-p, $bold(v)_"cm" = bold(0)$. No hay fuerzas
   externas: *el centro de masa se queda donde está, para siempre*. Y si el CM
   no se mueve, la condición $mu_1 v_1 + mu_2 v_2 = 0$ da directamente
   $ v_a = -(m_h) / (m_a) v_h = -(2,25) / (68,5) dot 3,20 = -0,105 " m/s" $
-  El mismo resultado del módulo 2, con la diferencia de que acá no hizo falta
+  El mismo resultado del módulo #M("cantidad-movimiento"), con la diferencia de que acá no hizo falta
   escribir ninguna ecuación de conservación: *ya estaba escrita en el punto*.
 
   *(b)* En 10 s la separación entre los dos es
@@ -163,7 +165,7 @@ $ bold(v)^* = bold(v) - bold(v)_"cm" $
 ]
 
 #ejemplo("Los asteroides, ahora desde el centro de masa", nivel: "a fondo")[
-  _(Ej. 2 de la guía, revisitado.)_ El mismo choque del módulo 2: dos
+  _(Ej. 2 de la guía, revisitado.)_ El mismo choque del módulo #M("cantidad-movimiento"): dos
   asteroides de igual masa $m$, uno a #box[$40,0$ m/s] y el otro en reposo, que salen
   a $30,0degree$ y $45,0degree$ con rapideces $29,28$ y $20,71$ m/s.
   Rehacerlo en el sistema centro de masa y separar la energía disipada de la
@@ -173,10 +175,10 @@ $ bold(v)^* = bold(v) - bold(v)_"cm" $
   #fig-choque-cm
   #v(4pt)
 
-  *Paso 1 — la velocidad del centro de masa.* Por la @m3-p, con $M = 2m$:
+  *Paso 1 — la velocidad del centro de masa.* Por la @cm-p, con $M = 2m$:
   $ bold(v)_"cm" = (m dot 40,0 + m dot 0) / (2m) = 20,0 " m/s" quad "en" hat(x) $
   Con masas iguales el CM está justo en el medio y viaja a la mitad de la
-  velocidad del que se mueve. Que sea constante lo garantiza el módulo 2: no
+  velocidad del que se mueve. Que sea constante lo garantiza el módulo #M("cantidad-movimiento"): no
   hay externas.
 
   *Paso 2 — las velocidades antes, en el sistema CM.* Restando $bold(v)_"cm"$:
@@ -195,7 +197,7 @@ $ bold(v)^* = bold(v) - bold(v)_"cm" $
   opuestos*, y los dos tienen módulo
   $ abs(bold(v)^*_2)^2 = 5,36^2 + 14,64^2 = 243,1 quad ==> quad abs(bold(v)^*_2) = 15,59 " m/s" $
   Eso no se impuso en ningún paso: salió solo, y es la prueba de que las
-  rapideces del módulo 2 están bien. #sym.checkmark Si no hubieran dado
+  rapideces del módulo #M("cantidad-movimiento") están bien. #sym.checkmark Si no hubieran dado
   opuestas, habría un error aritmético en aquel resultado.
 
   El ángulo que giraron es
@@ -208,7 +210,7 @@ $ bold(v)^* = bold(v) - bold(v)_"cm" $
   $ K^*_1 = 2 dot 1/2 m (20,0)^2 = 400 m, quad
     K^*_2 = 2 dot 1/2 m (15,59)^2 = 243 m $
   Control de König: $400 m + 400 m = 800 m$ antes, y
-  $400 m + 243 m = 643 m$ después — los mismos dos números del módulo 2.
+  $400 m + 243 m = 643 m$ después — los mismos dos números del módulo #M("cantidad-movimiento").
   #sym.checkmark
 
   *Lo disipado*: $400 m - 243 m = 157 m$, *idéntico* a $800 m - 643 m$ del
@@ -242,15 +244,15 @@ $ bold(v)^* = bold(v) - bold(v)_"cm" $
 == Lo que se usa después
 
 1. *$bold(P) = M bold(v)_"cm"$ y $sum bold(F)_"ext" = M bold(a)_"cm"$.* En el
-   módulo 4 son lo que permite tratar al cohete entero —chapa, tanque y gas—
+   módulo #M("cohete") son lo que permite tratar al cohete entero —chapa, tanque y gas—
    como un solo sistema cerrado mientras adentro pasa de todo.
 
-2. *El sistema centro de masa.* En el módulo 8 deja de ser una comodidad y pasa
+2. *El sistema centro de masa.* En el módulo #M("dos-cuerpos") deja de ser una comodidad y pasa
    a ser el planteo: el problema de dos cuerpos se convierte en el de *uno solo*
    de masa $mu = m_1 m_2 \/ (m_1 + m_2)$ moviéndose alrededor del centro de masa
    fijo. Todo lo que la Parte III dice de «un satélite alrededor de la Tierra»
    es, en rigor, eso.
 
-3. *La partición de König.* Reaparece entera en el módulo 13, con la energía
+3. *La partición de König.* Reaparece entera en el módulo #M("inercia"), con la energía
    cinética de un cuerpo rígido partida en traslación del CM más rotación
    alrededor del CM (Beer ec. 14.29). Es la misma cuenta con otra letra.

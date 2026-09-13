@@ -1,9 +1,9 @@
 #import "../plantilla.typ": *
 
-#modulo("Maniobras: Hohmann y rendez-vous")[
+#modulo("Maniobras: Hohmann y rendez-vous", clave: "maniobras")[
   Deducir la transferencia de Hohmann —el cambio de órbita circular que gasta
-  menos combustible— a partir de la vis-viva del módulo 9 y del período del
-  módulo 10; calcular cuánto tarda y en qué momento hay que lanzar para que el
+  menos combustible— a partir de la vis-viva del módulo #M("orbita-conicas") y del período del
+  módulo #M("kepler")#";" calcular cuánto tarda y en qué momento hay que lanzar para que el
   planeta de destino esté esperando; y resolver un rendez-vous entre dos
   satélites de la misma órbita con una *órbita de fasaje*, la misma idea con
   el reloj en el lugar de la distancia. Cierra la Parte III con el mapa
@@ -32,19 +32,19 @@ con las mismas dos herramientas de siempre: la vis-viva y el período.
   que hay, porque no se paga ningún coseno.
 ]
 
-$ a_t = (r_1 + r_2)/2 $ <m11-at>
+$ a_t = (r_1 + r_2)/2 $ <man-at>
 
-Con la @m9-visviva evaluada en cada ábside se sacan las cuatro velocidades que
+Con la @orb-visviva evaluada en cada ábside se sacan las cuatro velocidades que
 hacen falta —las dos circulares y las dos de la elipse de transferencia—:
 
 $ v_1 = sqrt(mu/r_1), quad v_1' = sqrt(mu (2/r_1 - 1/a_t)), quad
   v_2' = sqrt(mu (2/r_2 - 1/a_t)), quad v_2 = sqrt(mu/r_2) $
 
-$ Delta v_1 = v_1' - v_1, quad quad Delta v_2 = v_2 - v_2' $ <m11-deltav>
+$ Delta v_1 = v_1' - v_1, quad quad Delta v_2 = v_2 - v_2' $ <man-deltav>
 
 #clave[
   *Los dos encendidos son, los dos, para acelerar — si se va hacia afuera.*
-  Como $a_t > r_1$, la @m9-visviva da $v_1' > v_1$: la elipse pasa por el
+  Como $a_t > r_1$, la @orb-visviva da $v_1' > v_1$: la elipse pasa por el
   perigeo *más rápido* que la circular interior, así que el primer encendido
   suma velocidad. Y como $a_t < r_2$, $v_2' < v_2$: la elipse llega al apogeo
   *más lenta* que la circular exterior, así que el segundo encendido *también*
@@ -54,7 +54,7 @@ $ Delta v_1 = v_1' - v_1, quad quad Delta v_2 = v_2 - v_2' $ <m11-deltav>
 
 #geometria[
   *Al revés —de la órbita exterior a la interior— los dos signos se dan vuelta,
-  y la deducción no hay que rehacerla: alcanza con mirar la @m9-visviva otra
+  y la deducción no hay que rehacerla: alcanza con mirar la @orb-visviva otra
   vez.* Ahora $a_t$ sigue estando entre $r_1$ y $r_2$, pero se sale desde
   $r_2$: ahí $a_t < r_2$, así que la elipse pasa más *lenta* que la circular de
   partida, y el primer encendido *frena*. Al llegar a $r_1$, con $a_t > r_1$, la
@@ -67,9 +67,9 @@ $ Delta v_1 = v_1' - v_1, quad quad Delta v_2 = v_2 - v_2' $ <m11-deltav>
 
 *El tiempo de vuelo.* La nave recorre exactamente la mitad de la elipse de
 transferencia —de un ábside al otro—, así que tarda medio período, y el
-período de *esa* elipse es la @m10-periodo con $a = a_t$:
+período de *esa* elipse es la @kep-periodo con $a = a_t$:
 
-$ t_v = tau_t/2 = pi sqrt(a_t^3/mu) $ <m11-tv>
+$ t_v = tau_t/2 = pi sqrt(a_t^3/mu) $ <man-tv>
 
 *El ángulo de fase en el lanzamiento.* Para que el cuerpo de destino esté
 en el punto de encuentro cuando la nave llega —no antes, no después— hace
@@ -79,10 +79,10 @@ $n_2 = 2 pi \/ tau_2$ (su propio período orbital), recorre $n_2 t_v$ en ese
 mismo tiempo. Si el encuentro es en $180°$ desde la posición de lanzamiento
 de la nave, el destino tiene que arrancar $n_2 t_v$ *antes* de esa marca:
 
-$ phi = 180° - n_2 t_v $ <m11-fase>
+$ phi = 180° - n_2 t_v $ <man-fase>
 
 #cuidado[
-  *La @m11-fase da el ángulo de lanzamiento, no el de encuentro.* Es el error
+  *La @man-fase da el ángulo de lanzamiento, no el de encuentro.* Es el error
   más común de este tema: pensar que hay que apuntar al planeta *donde está*.
   Para cuando la nave llegue, el planeta ya se movió — y por eso el ángulo que
   hay que medir en el instante del lanzamiento es *menor* que $180°$, no igual.
@@ -101,9 +101,9 @@ $ phi = 180° - n_2 t_v $ <m11-fase>
   arriba—. Vuelta (Marte a Tierra, hacia adentro): los dos frenan, en contra
   del movimiento.
 
-  *(b) El tiempo de vuelo.* Por la @m11-at,
+  *(b) El tiempo de vuelo.* Por la @man-at,
   $ a_t = (1,496 + 2,279)/2 times 10^8 = 1,8875 times 10^8 " km" $
-  y por la @m11-tv:
+  y por la @man-tv:
   $ t_v = pi sqrt((1,8875 times 10^8)^3/(1,327 times 10^11)) = pi (7,119 times 10^6) = 2,237 times 10^7 " s" $
   $ t_v = 2,237 times 10^7 " s" = 258,8 " días" approx 8,5 " meses" $
 
@@ -118,7 +118,7 @@ $ phi = 180° - n_2 t_v $ <m11-fase>
   $ n_"Marte" = (360°)/(686,98) = 0,5240 "°/día" $
   y en los $258,8$ días del viaje recorre
   $ n_"Marte" t_v = (0,5240)(258,8) = 135,6° $
-  Por la @m11-fase:
+  Por la @man-fase:
   $ phi = 180° - 135,6° = 44,4° $
 
   #clave[
@@ -157,7 +157,7 @@ una vuelta, tardando un tiempo distinto del que tardaría la órbita circular.
   $ Delta phi + 360° (T'/T) = 360° $
 ]
 
-$ T'/T = 1 - (Delta phi)/(360°) $ <m11-fasaje>
+$ T'/T = 1 - (Delta phi)/(360°) $ <man-fasaje>
 
 #clave[
   *El chaser no persigue al blanco: los dos llegan al mismo lugar por caminos
@@ -170,19 +170,19 @@ $ T'/T = 1 - (Delta phi)/(360°) $ <m11-fasaje>
 ]
 
 Con $a' = (r + r_p') \/ 2$ (si $r$ es el apogeo de la elipse de fasaje, el
-punto de partida) y la @m10-periodo invertida, la @m11-fasaje se traduce en el
+punto de partida) y la @kep-periodo invertida, la @man-fasaje se traduce en el
 tamaño de la órbita:
 
-$ a' = r (T'/T)^(2\/3) $ <m11-fasaje-a>
+$ a' = r (T'/T)^(2\/3) $ <man-fasaje-a>
 
 #geometria[
   *Cuanto más grande el salto de fase, más se hunde la órbita de fasaje — y
-  eso tiene un límite físico.* Si $Delta phi$ es grande, la @m11-fasaje pide
-  $T' \/ T$ chico, y la @m11-fasaje-a da un $a'$ mucho menor que $r$: el
+  eso tiene un límite físico.* Si $Delta phi$ es grande, la @man-fasaje pide
+  $T' \/ T$ chico, y la @man-fasaje-a da un $a'$ mucho menor que $r$: el
   perigeo de esa elipse puede terminar *adentro* del cuerpo central, igual
-  que le pasó al LEM del módulo 10. La salida no es forzar esa órbita: es
+  que le pasó al LEM del módulo #M("kepler"). La salida no es forzar esa órbita: es
   repartir el mismo cambio de fase en *varias* vueltas de fasaje ($N > 1$ en
-  vez de $N=1$ en la @m11-fasaje, con $Delta phi \/ N$ en lugar de $Delta
+  vez de $N=1$ en la @man-fasaje, con $Delta phi \/ N$ en lugar de $Delta
   phi$), que pide un $T'$ más parecido a $T$ y por lo tanto un $Delta v$
   menor — al precio de tardar $N$ veces más.
 ]
@@ -190,13 +190,13 @@ $ a' = r (T'/T)^(2\/3) $ <m11-fasaje-a>
 #ejemplo("Encontrarse con un satélite un cuarto de vuelta adelante", nivel: "a fondo")[
   _(Problema 10: "investigar, formular una solución, y encontrar una solución
   exacta para un caso determinado".)_ Dos satélites en la misma órbita
-  circular geosíncrona —la del módulo 6, $r = 42 thin 140$ km, $tau = 86 thin
+  circular geosíncrona —la del módulo #M("gravitacion"), $r = 42 thin 140$ km, $tau = 86 thin
   162$ s, $v_"circ" = 3,08$ km/s—, con el blanco $Delta phi = 90°$ adelante
   del chaser. Se resuelve con una sola vuelta de fasaje ($N=1$).
 
-  *El tamaño de la órbita de fasaje.* Por la @m11-fasaje,
+  *El tamaño de la órbita de fasaje.* Por la @man-fasaje,
   $ T'/T = 1 - (90°)/(360°) = 0,75 $
-  y por la @m11-fasaje-a:
+  y por la @man-fasaje-a:
   $ a' = (42 thin 140)(0,75)^(2\/3) = (42 thin 140)(0,8256) = 34 thin 790 " km" $
   Como el punto de partida es el *apogeo* de la elipse de fasaje —el chaser
   tiene que *bajar* para ir más rápido—, el perigeo sale de $a' = (r + r_p')
@@ -211,7 +211,7 @@ $ a' = r (T'/T)^(2\/3) $ <m11-fasaje-a>
   blanco, que mientras tanto recorrió $270°$, también llega.],
   fig-rendezvous-phasing)
 
-  *El costo, en $Delta v$.* Con la @m9-visviva, la rapidez de la elipse de
+  *El costo, en $Delta v$.* Con la @orb-visviva, la rapidez de la elipse de
   fasaje en su apogeo (el punto de partida):
   $ v_a'^2 = mu (2/r - 1/a') = (398 thin 600) (2/(42 thin 140) - 1/(34 thin 790)) = 7,459 $
   $ v_a' = 2,731 " km/s" $
@@ -224,11 +224,11 @@ $ a' = r (T'/T)^(2\/3) $ <m11-fasaje-a>
 
   #clave[
     *Casi $700$ m/s para cerrar un cuarto de vuelta en una sola órbita es
-    caro — y la @m11-fasaje-a dice exactamente por qué.* Si en vez de una
+    caro — y la @man-fasaje-a dice exactamente por qué.* Si en vez de una
     vuelta se usaran dos ($N=2$, cerrando $45°$ por vuelta), $T' \/ T = 1 -
     45\/360 = 0,875$, mucho más cerca de $1$ que $0,75$: la órbita de fasaje
     se parece más a la circular, pide menos $Delta v$, y tarda el doble en
-    total. Es el mismo intercambio que el Júpiter del módulo 9 —rápido y caro
+    total. Es el mismo intercambio que el Júpiter del módulo #M("orbita-conicas") —rápido y caro
     contra lento y barato—, ahora con el tiempo de encuentro en el lugar de
     la energía de captura.
   ]
@@ -253,7 +253,7 @@ B.1 del apéndice B de Curtis. Los dos recuadros de trazo grueso son los dos
 puntos de partida —ningún otro recuadro asume nada que no esté ya en una
 flecha entrante—. La notación es la de Curtis, no la de este apunte: $theta$
 en vez de $nu$, y $mu = G(m_1+m_2)$ —anotado a mano en el original, con la
-misma fórmula del módulo 8— en vez de $mu$ solo.], fig-roadmap-curtis)
+misma fórmula del módulo #M("dos-cuerpos")— en vez de $mu$ solo.], fig-roadmap-curtis)
 
 #notacion[
   *Cuatro letras cambian entre este mapa y el resto del apunte.* Curtis usa
@@ -269,10 +269,10 @@ misma fórmula del módulo 8— en vez de $mu$ solo.], fig-roadmap-curtis)
 #clave[
   *Léase el mapa de arriba hacia abajo y de izquierda a derecha, y cada
   módulo de este apunte aparece en su lugar.* Newton y la definición de $h$
-  son los módulos 6 y 7; la ecuación de dos cuerpos y la conservación de la
-  energía, los módulos 6 y 8; la ecuación de la órbita y el potencial
+  son los módulos #M("gravitacion") y #M("momento-angular")#";" la ecuación de dos cuerpos y la conservación de la
+  energía, los módulos #M("gravitacion") y #M("dos-cuerpos")#";" la ecuación de la órbita y el potencial
   eficaz —que no está en el mapa de Curtis, porque Curtis no lo usa—, el
-  módulo 9; las dos leyes de Kepler que faltaban y el período, el módulo 10.
+  módulo #M("orbita-conicas")#";" las dos leyes de Kepler que faltaban y el período, el módulo #M("kepler").
   Lo único que este mapa agrega y que no tiene módulo propio es $v_r = (mu \/
   h) thin e sin theta$: la componente *radial* de la velocidad, que ninguno
   de los ejemplos de la guía necesitó calcular por separado —siempre alcanzó

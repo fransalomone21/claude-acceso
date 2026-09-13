@@ -1,7 +1,7 @@
 #import "../plantilla.typ": *
 
-#modulo("La hipérbola: escapar, y llegar con velocidad de sobra")[
-  Cerrar la clasificación de las cónicas que el módulo 9 dejó abierta: la
+#modulo("La hipérbola: escapar, y llegar con velocidad de sobra", clave: "hiperbola")[
+  Cerrar la clasificación de las cónicas que el módulo #M("orbita-conicas") dejó abierta: la
   parábola y la hipérbola, que hasta ahora eran dos renglones de una tabla.
   Sacar de la geometría de la hipérbola el único número que la gravedad de
   un planeta le hace a una nave que pasa de largo —el ángulo de giro—, y de
@@ -12,18 +12,18 @@
   dato de salida.
 ]
 
-Los módulos 6 a 11 resolvieron órbitas *cerradas*: la nave sale, da la vuelta
+Los módulos #M("gravitacion") a #M("maniobras") resolvieron órbitas *cerradas*: la nave sale, da la vuelta
 y vuelve al mismo punto. Toda la Parte III se apoyó en eso — el período tiene
 sentido porque la órbita se repite, y la transferencia de Hohmann es media
-elipse porque el otro medio existe. La tabla de cónicas del módulo 9 nombró
+elipse porque el otro medio existe. La tabla de cónicas del módulo #M("orbita-conicas") nombró
 los otros dos casos, $e = 1$ y $e > 1$, y ahí los dejó: son las trayectorias
 de las que no se vuelve.
 
 Este módulo las desarrolla, y no por completitud. La hipérbola es *la* forma
 de toda trayectoria que sale de un planeta o que llega a él: cuando una nave
 se va de la Tierra rumbo a Marte, el tramo que recorre cerca de la Tierra es
-una hipérbola, y el tramo que recorre cerca de Marte es otra. El módulo 17 va
-a pegar esos tramos con la elipse de Hohmann del módulo 11; acá se construye
+una hipérbola, y el tramo que recorre cerca de Marte es otra. El módulo #M("esfera-influencia") va
+a pegar esos tramos con la elipse de Hohmann del módulo #M("maniobras")#";" acá se construye
 la pieza.
 
 == La idea completa, antes de la primera ecuación
@@ -37,7 +37,7 @@ la cabeza antes de la primera ecuación.
   ángulo — y eso sólo pasa si $e >= 1$. Ese ángulo tiene nombre: la anomalía
   verdadera de la asíntota.
 + *Necesitás que, además, le sobre velocidad al llegar.* Eso es energía, no
-  geometría: pide $E > 0$, y la @m9-e-E del módulo 9 ya dijo que $E > 0$ es lo mismo que
+  geometría: pide $E > 0$, y la @orb-e-E del módulo #M("orbita-conicas") ya dijo que $E > 0$ es lo mismo que
   $e > 1$. Lo que sobra tiene nombre y es el número que se usa para todo:
   $v_oo$.
 + *De esas dos cosas sale todo el resto.* La forma —dos asíntotas y un
@@ -78,28 +78,28 @@ la cabeza antes de la primera ecuación.
 
 == La parábola: el caso justo, y por qué no es una órbita
 
-Con $e = 1$ la ecuación de la órbita del módulo 9 queda
+Con $e = 1$ la ecuación de la órbita del módulo #M("orbita-conicas") queda
 
-$ r = h^2/mu 1/(1 + cos nu) $ <m16-parabola>
+$ r = h^2/mu 1/(1 + cos nu) $ <hip-parabola>
 
 y el denominador se anula en $nu = 180°$, y *sólo* ahí: hay una única
 dirección por la que la trayectoria se escapa al infinito (Curtis §2.8,
-pág. 90). La energía sale de la @m9-e-E del módulo 9 con $e = 1$: $E = 0$ exacto. Y con
+pág. 90). La energía sale de la @orb-e-E del módulo #M("orbita-conicas") con $e = 1$: $E = 0$ exacto. Y con
 $E = 0$, la conservación de la energía dice, en cualquier punto,
 
-$ 1/2 v^2 - mu/r = 0 quad ==> quad v = sqrt((2 mu)/r) = v_"esc" $ <m16-vesc>
+$ 1/2 v^2 - mu/r = 0 quad ==> quad v = sqrt((2 mu)/r) = v_"esc" $ <hip-vesc>
 
-que es exactamente la velocidad de escape del módulo 6. No es una
+que es exactamente la velocidad de escape del módulo #M("gravitacion"). No es una
 coincidencia ni un resultado nuevo: la velocidad de escape *se definió* como
 la que deja $E = 0$, y la parábola *es* la trayectoria de $E = 0$. Las dos
 frases dicen lo mismo con distinto vocabulario.
 
 #cuidado[
-  *La parábola no tiene semieje mayor, y por eso la vis-viva del módulo 9 (@m9-visviva) no se le
-  aplica.* Es el error que el módulo 9 ya señaló en su ejemplo de Júpiter, y
+  *La parábola no tiene semieje mayor, y por eso la vis-viva del módulo #M("orbita-conicas") (@orb-visviva) no se le
+  aplica.* Es el error que el módulo #M("orbita-conicas") ya señaló en su ejemplo de Júpiter, y
   vuelve acá: escribir $E = -mu m \/ (2a)$ para una parábola obliga a
   $a arrow.r oo$, que no es un número con el que se pueda calcular. Para la
-  parábola la única ecuación de energía es la @m16-vesc, con el cero
+  parábola la única ecuación de energía es la @hip-vesc, con el cero
   adentro.
 
   *Y en la práctica ninguna trayectoria real es una parábola.* $e = 1$ exacto
@@ -128,7 +128,7 @@ Con $e > 1$ el denominador de la ecuación de la órbita se anula cuando
 $cos nu = -1 \/ e$, que ahora *sí* tiene solución. Ese ángulo es la anomalía
 verdadera de la asíntota (Curtis §2.9, ec. 2.97):
 
-$ nu_oo = arccos(-1/e) $ <m16-nuinf>
+$ nu_oo = arccos(-1/e) $ <hip-nuinf>
 
 y como $-1 \/ e$ está entre $-1$ y $0$, $nu_oo$ cae siempre entre $90°$ y
 $180°$. La trayectoria física es el tramo $-nu_oo < nu < nu_oo$: fuera de ese
@@ -153,9 +153,9 @@ de la órbita en $nu = 180°$ sale $r_a = p \/ (1 - e)$, que con $e > 1$ es
 *negativo*: es la señal de que ese vértice quedó del otro lado del foco. La
 distancia real de $P$ a $A$ es entonces $abs(r_a) + r_p = 2a$, y de ahí
 
-$ 2a = p/(e - 1) - p/(1 + e) quad ==> quad a = p/(e^2 - 1) = h^2/mu 1/(e^2 - 1) $ <m16-a>
+$ 2a = p/(e - 1) - p/(1 + e) quad ==> quad a = p/(e^2 - 1) = h^2/mu 1/(e^2 - 1) $ <hip-a>
 
-$ r_p = a (e - 1), quad quad r_a = a (e + 1), quad quad b = a sqrt(e^2 - 1) $ <m16-rp>
+$ r_p = a (e - 1), quad quad r_a = a (e + 1), quad quad b = a sqrt(e^2 - 1) $ <hip-rp>
 
 que es la misma familia de fórmulas de la elipse con $1 - e^2$ cambiado por
 $e^2 - 1$ — el único cambio que hace falta para que las raíces existan
@@ -171,12 +171,12 @@ cuánto le tuerce la velocidad el planeta a una nave que pasa de largo.
 
   Cada asíntota forma con la línea de ábsides el ángulo agudo
   $beta = 180° - nu_oo$, así que $cos beta = -cos nu_oo = 1 \/ e$ por la
-  @m16-nuinf. Mirando la figura, el ángulo entre las dos asíntotas del lado
+  @hip-nuinf. Mirando la figura, el ángulo entre las dos asíntotas del lado
   por donde pasa la nave es $delta = 180° - 2 beta$, y entonces
   $ sin(delta/2) = sin(90° - beta) = cos beta = 1/e $
 ]
 
-$ delta = 2 arcsin(1/e) $ <m16-delta>
+$ delta = 2 arcsin(1/e) $ <hip-delta>
 
 #clave[
   *Todo lo que un planeta le hace a una nave que pasa de largo entra en un
@@ -209,11 +209,11 @@ $ delta = 2 arcsin(1/e) $ <m16-delta>
 
 == La energía: la velocidad que sobra, y $C_3$
 
-Acá está la mitad que la geometría no da. La @m9-e-E del módulo 9 ya
+Acá está la mitad que la geometría no da. La @orb-e-E del módulo #M("orbita-conicas") ya
 relacionaba energía con excentricidad para *cualquier* cónica; sólo hay que
-usarla con $e > 1$ y reemplazar $p$ por la @m16-a:
+usarla con $e > 1$ y reemplazar $p$ por la @hip-a:
 
-$ E = (mu m (e^2 - 1))/(2 p) = (mu m (e^2-1))/(2 a (e^2-1)) quad ==> quad E = + (mu m)/(2 a) $ <m16-energia>
+$ E = (mu m (e^2 - 1))/(2 p) = (mu m (e^2-1))/(2 a (e^2-1)) quad ==> quad E = + (mu m)/(2 a) $ <hip-energia>
 
 *Es la misma fórmula de la elipse con el signo cambiado*, y el cambio de
 signo no se eligió: viene de que $p = a(e^2-1)$ en vez de $a(1-e^2)$. La
@@ -221,7 +221,7 @@ energía de una hipérbola es positiva y no depende de $e$ — sólo de $a$,
 igual que en la elipse.
 
 #fig([Por qué a la hipérbola le sobra velocidad. Es el pozo de potencial del
-módulo 6 con una sola recta de energía, la del caso $E > 0$. A cualquier
+módulo #M("gravitacion") con una sola recta de energía, la del caso $E > 0$. A cualquier
 distancia $r$, la energía cinética es la distancia vertical entre la recta y
 la curva: el tramo verde es lo que se gasta en salir del pozo —justo
 $1/2 m v_"esc"^2$— y el rojo es lo que queda por encima del cero. A medida
@@ -239,7 +239,7 @@ $v_oo$.], fig-hiperbola-energia)
   $ v^2/2 - mu/r = v_oo^2/2 quad ==> quad v^2 = (2 mu)/r + v_oo^2 $
 ]
 
-$ v_oo = sqrt(mu/a), quad quad v^2 = v_"esc"^2 + v_oo^2, quad quad C_3 = v_oo^2 $ <m16-vinf>
+$ v_oo = sqrt(mu/a), quad quad v^2 = v_"esc"^2 + v_oo^2, quad quad C_3 = v_oo^2 $ <hip-vinf>
 
 #posta[
   La del medio es la que hay que llevarse. Dice que las velocidades no se
@@ -251,7 +251,7 @@ $ v_oo = sqrt(mu/a), quad quad v^2 = v_"esc"^2 + v_oo^2, quad quad C_3 = v_oo^2 
 
   Y ésa es *toda* la razón por la que conviene acelerar bien abajo, pegado al
   planeta, en vez de escapar primero y acelerar después. Es el mismo efecto
-  que el módulo 11 ya usaba sin nombrarlo cuando el encendido de Hohmann iba
+  que el módulo #M("maniobras") ya usaba sin nombrarlo cuando el encendido de Hohmann iba
   en el perigeo: la energía va con el cuadrado de la velocidad, así que un
   $Delta v$ dado rinde más cuanto más rápido ya vas.
 
@@ -265,7 +265,7 @@ $ v_oo = sqrt(mu/a), quad quad v^2 = v_"esc"^2 + v_oo^2, quad quad C_3 = v_oo^2 
 #notacion[
   *Curtis escribe $a > 0$ para la hipérbola y le pone el signo a mano; otros
   libros —y todo software de astrodinámica— la escriben con $a < 0$.* Las dos
-  convenciones dicen lo mismo. Si se acepta $a < 0$, la @m16-a se escribe
+  convenciones dicen lo mismo. Si se acepta $a < 0$, la @hip-a se escribe
   $a = (h^2 \/ mu) \/ (1 - e^2)$ y la energía $E = -mu m \/ (2a)$: es decir,
   *exactamente* las mismas fórmulas de la elipse, sin ninguna excepción, y la
   vis-viva
@@ -284,7 +284,7 @@ Nada de esta sección es propio de la hipérbola: vale para las cuatro cónicas.
 Está acá porque el ejemplo a fondo de este módulo no se puede ni plantear sin
 ella, y porque son las dos fórmulas que la Parte III dejó implícitas.
 
-El módulo 7 partió la velocidad en sus dos componentes polares y definió el
+El módulo #M("momento-angular") partió la velocidad en sus dos componentes polares y definió el
 *ángulo de trayectoria de vuelo* $gamma$ como el que la velocidad forma con
 la perpendicular al radio, de modo que $h = r v cos gamma$. De ahí sale la
 componente transversal sin ninguna cuenta nueva, $v_perp = h \/ r$. Lo que
@@ -293,7 +293,7 @@ falta es la radial.
 #deduccion("la componente radial de la velocidad")[
   $v_r$ es $dif r \/ dif t$, y $r$ depende del tiempo sólo a través de $nu$:
   $ v_r = (dif r)/(dif nu) (dif nu)/(dif t) $
-  El segundo factor es la conservación del momento angular del módulo 7,
+  El segundo factor es la conservación del momento angular del módulo #M("momento-angular"),
   $dot(nu) = h \/ r^2$. El primero sale de derivar la ecuación de la órbita
   respecto de $nu$:
   $ (dif r)/(dif nu) = h^2/mu (e sin nu)/(1 + e cos nu)^2 $
@@ -302,7 +302,7 @@ falta es la radial.
   $ v_r = h^2/mu (e sin nu)/(1 + e cos nu)^2 dot h/r^2 = mu/h e sin nu $
 ]
 
-$ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp $ <m16-vr>
+$ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp $ <hip-vr>
 
 #clave[
   *Estas tres, más la ecuación de la órbita, forman un sistema cerrado.* Con
@@ -322,21 +322,21 @@ $ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp 
   *El signo de $v_r$ dice en qué mitad de la órbita se está, y es lo que
   desambigua $nu$.* Al despejar $nu$ de un coseno quedan siempre dos ángulos,
   $nu$ y $360° - nu$. El criterio no es elegir el chico: es mirar el signo de
-  $v_r$, que por la @m16-vr tiene el signo de $sin nu$.
+  $v_r$, que por la @hip-vr tiene el signo de $sin nu$.
   - $v_r > 0$ (equivalente a $gamma > 0$): la nave se está *alejando* del
     cuerpo central, va del perigeo al apogeo, y $nu$ está entre $0°$ y
     $180°$.
   - $v_r < 0$: se está *acercando*, y $nu$ está entre $180°$ y $360°$.
 
   En un ábside $v_r = 0$ y las dos componentes se reducen a una sola: por eso
-  ahí, y sólo ahí, vale $h = r v$ sin coseno — el resultado del módulo 7.
+  ahí, y sólo ahí, vale $h = r v$ sin coseno — el resultado del módulo #M("momento-angular").
 ]
 
 #guia("los ejercicios adicionales 1, 2, 4 y 5 de gravitación")[
   Los cuatro piden la anomalía verdadera o el ángulo de trayectoria de vuelo
   *como dato de salida*, y hasta este módulo el apunte no tenía cómo
   despejarlos: estaban implícitos en $r = p \/ (1 + e cos nu)$ y en
-  $h = r v cos gamma$, pero no había fórmula cerrada. La @m16-vr es esa
+  $h = r v cos gamma$, pero no había fórmula cerrada. La @hip-vr es esa
   fórmula, y con ella los cuatro salen con el mismo planteo de cinco
   ecuaciones.
 
@@ -344,8 +344,8 @@ $ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp 
   camino al revés (se conocen $r_p$ y $v_p$, o sea $h$ y $e$, y se pide
   $gamma$ en $nu = 120°$). El *1* y el *4* ni siquiera necesitan $v_r$:
   les alcanza con la ecuación de la órbita evaluada en dos puntos, que es el
-  módulo 9 — el *1* pide además $v_r$ y $v_perp$ en el punto que encuentra,
-  y eso sí es la @m16-vr.
+  módulo #M("orbita-conicas") — el *1* pide además $v_r$ y $v_perp$ en el punto que encuentra,
+  y eso sí es la @hip-vr.
 ]
 
 #ejemplo("La órbita a partir de una sola medición de radar")[
@@ -354,7 +354,7 @@ $ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp 
   su radio es de $8000$ km. Calcular la anomalía verdadera y la excentricidad
   de la órbita. Dato: $mu_T = 398 thin 600$ km³/s².
 
-  *Primero, qué cónica es.* Con la @m16-vesc, la velocidad de escape a esa
+  *Primero, qué cónica es.* Con la @hip-vesc, la velocidad de escape a esa
   distancia es
   $ v_"esc"^2 = (2 mu)/r = (2 dot 398 thin 600)/8000 = 99,65 " km"^2"/s"^2 quad ==> quad v_"esc" = 9,98 " km/s" $
   Como $7,5 < 9,98$, la trayectoria es *ligada*: hay que esperar $e < 1$.
@@ -365,7 +365,7 @@ $ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp 
   y de la transversal sale el momento angular específico:
   $ h = r v_perp = 8000 dot 7,386 = 59 thin 089 " km"^2"/s" $
 
-  *Las dos combinaciones.* De la @m16-vr,
+  *Las dos combinaciones.* De la @hip-vr,
   $ e sin nu = (h v_r)/mu = (59 thin 089 dot 1,302)/(398 thin 600) = 0,1931 $
   y de la ecuación de la órbita evaluada en este punto,
   $ 1 + e cos nu = h^2/(mu r) = (3,4915 times 10^9)/(398 thin 600 dot 8000) = 1,0949
@@ -416,17 +416,17 @@ $ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp 
   que son unos $600$ km de altura: la nave está saliendo desde una órbita
   baja.
 
-  *(e) Semieje*, con la @m16-a:
+  *(e) Semieje*, con la @hip-a:
   $ a = h^2/mu 1/(e^2 - 1) = (16 thin 341)/(0,7937) = 20 thin 588 " km" $
 
-  *(f) La energía característica*, con la @m16-vinf:
+  *(f) La energía característica*, con la @hip-vinf:
   $ v_oo^2 = v^2 - v_"esc"^2 = 8,6^2 - 7,389^2 = 73,96 - 54,60 = 19,36 " km"^2"/s"^2 $
   $ C_3 = 19,36 " km"^2"/s"^2 quad quad (v_oo = 4,40 " km/s") $
 
-  *(g) Ángulo de giro*, con la @m16-delta:
+  *(g) Ángulo de giro*, con la @hip-delta:
   $ delta = 2 arcsin(1/(1,339)) = 2 dot 48,3° = 96,6° $
 
-  *(h) Radio de puntería*, con la @m16-rp:
+  *(h) Radio de puntería*, con la @hip-rp:
   $ Delta = a sqrt(e^2 - 1) = 20 thin 588 dot 0,8909 = 18 thin 341 " km" $
 
   #clave[
@@ -441,13 +441,13 @@ $ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp 
 
 == Lo que esto ya permite: el enlace con Hohmann
 
-El ejemplo de Marte del módulo 11 calculó la transferencia de Hohmann *como
+El ejemplo de Marte del módulo #M("maniobras") calculó la transferencia de Hohmann *como
 si la Tierra no existiera*: la nave era un punto que orbitaba el Sol, y el
 $Delta v_1$ que salió de la vis-viva era el salto entre la velocidad de la
 Tierra alrededor del Sol y la del perihelio de la elipse de transferencia.
 Con las herramientas de este módulo ya se puede ver qué le falta a esa
 cuenta, aunque la justificación completa —por qué está permitido pegar los
-dos problemas— sea el módulo 17.
+dos problemas— sea el módulo #M("esfera-influencia").
 
 Con los datos de aquel ejemplo, la velocidad de la Tierra y la que la nave
 necesita en el perihelio de la transferencia son
@@ -455,12 +455,12 @@ necesita en el perihelio de la transferencia son
 $ v_T = sqrt(mu_"Sol"/r_T) = 29,78 " km/s", quad quad
   v_"perihelio" = sqrt(mu_"Sol" (2/r_T - 1/a_t)) = 32,73 " km/s" $
 
-y la diferencia, $2,94$ km/s, es lo que el módulo 11 llamó $Delta v_1$. *Pero
+y la diferencia, $2,94$ km/s, es lo que el módulo #M("maniobras") llamó $Delta v_1$. *Pero
 ésa no es la velocidad que hay que darle a la nave*: es la velocidad con la
 que la nave tiene que *terminar de salir* de la Tierra. Es decir, es $v_oo$.
 
 Con eso, la hipérbola de escape desde una órbita de estacionamiento a $300$
-km de altura ($r_p = 6678$ km) sale de la @m16-vinf:
+km de altura ($r_p = 6678$ km) sale de la @hip-vinf:
 
 $ v_"esc"^2 = (2 dot 398 thin 600)/6678 = 119,4 quad ==> quad v_"esc" = 10,93 " km/s" $
 
@@ -472,13 +472,13 @@ $v_"circ" = sqrt(mu_T \/ r_p) = 7,73$ km/s, el encendido real vale
 $ Delta v = 11,32 - 7,73 = 3,59 " km/s" $
 
 #clave[
-  *El número del módulo 11 y el de acá no se parecen, y la diferencia no es
+  *El número del módulo #M("maniobras") y el de acá no se parecen, y la diferencia no es
   un error de ninguno de los dos: son dos cosas distintas.* Los $2,94$ km/s
   son la velocidad de sobra *medida desde el Sol*, después de que la Tierra
   quedó atrás. Los $3,59$ km/s son lo que el motor tiene que dar *desde la
   órbita baja*, y son más porque incluyen salir del pozo de la Tierra.
 
-  Que sean $3,59$ y no $2,94 + 10,93 - 7,73 = 6,14$ es la @m16-vinf
+  Que sean $3,59$ y no $2,94 + 10,93 - 7,73 = 6,14$ es la @hip-vinf
   trabajando: las velocidades se suman en cuadrado, no linealmente. Salir del
   pozo terrestre *y además* quedar con $2,94$ km/s de sobra cuesta apenas
   $0,39$ km/s más que salir justo. Todo el beneficio viene de encender abajo,
@@ -486,13 +486,13 @@ $ Delta v = 11,32 - 7,73 = 3,59 " km/s" $
 ]
 
 #posta[
-  Traducido: el módulo 11 te dijo cuánto hay que cambiar la órbita *alrededor
+  Traducido: el módulo #M("maniobras") te dijo cuánto hay que cambiar la órbita *alrededor
   del Sol*, y este módulo te dice cuánto sale *escaparte de la Tierra dejando
   ese sobrante*. Son dos problemas encadenados, no dos versiones del mismo, y
   el número que los pega es $v_oo$: es la salida de uno y la entrada del
   otro.
 
-  Lo que todavía falta —y es el módulo 17— es la licencia para hacer eso.
+  Lo que todavía falta —y es el módulo #M("esfera-influencia")— es la licencia para hacer eso.
   Porque mientras la nave está cerca de la Tierra hay dos cuerpos tirando de
   ella, el Sol y la Tierra, y las cuentas de la Parte III suponen *uno*. La
   respuesta corta es que se dibuja una frontera alrededor de cada planeta
@@ -504,7 +504,7 @@ $ Delta v = 11,32 - 7,73 = 3,59 " km/s" $
 == Lo que se usa después
 
 1. *$v_oo$ y $C_3$.* Son la moneda de cambio entre el problema planetario y
-   el interplanetario: todo el módulo 17 consiste en calcular $v_oo$ de un
+   el interplanetario: todo el módulo #M("esfera-influencia") consiste en calcular $v_oo$ de un
    lado y usarlo del otro. Y $C_3$ es lo que se compara contra el catálogo de
    un lanzador para saber si una misión es lanzable.
 

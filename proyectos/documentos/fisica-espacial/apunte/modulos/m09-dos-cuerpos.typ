@@ -1,19 +1,20 @@
 #import "../plantilla.typ": *
 
-#modulo("El problema de dos cuerpos y la masa reducida")[
-  Sacar la suposición que los módulos 6 y 7 hicieron sin decirlo —que el cuerpo
+#modulo("El problema de dos cuerpos y la masa reducida", clave: "dos-cuerpos")[
+  Sacar la suposición que los módulos #M("gravitacion") y #M("momento-angular") hicieron sin decirlo —que el cuerpo
   central está clavado— y ver qué cambia. Deducir que el movimiento *relativo*
   de dos cuerpos que se atraen es idéntico al de uno solo alrededor de un centro
   fijo, con $mu = G(m_1 + m_2)$; deducir la *masa reducida* y el problema
   equivalente; y saber, con un número, cuándo la corrección importa y cuándo no.
 ]
 
-Todo lo que se escribió en los módulos 6 y 7 tiene una suposición adentro que
+Todo lo que se escribió en los módulos #M("gravitacion") y #M("momento-angular") tiene una suposición adentro que
 nunca se declaró: que la Tierra no se mueve. Pero la tercera ley de Newton no
 admite excepciones — si la Tierra tira del satélite, el satélite tira de la
 Tierra con la misma fuerza, y la Tierra también se acelera. El origen de
 coordenadas que se puso «en el centro de la Tierra» no era, entonces, un
-sistema inercial.
+sistema inercial en el sentido del módulo #M("marcos"): acelera, y la
+@marcos-inercia dice que eso se paga.
 
 Este módulo hace la cuenta bien y llega a una conclusión que da tranquilidad:
 *casi todo lo anterior se salva*, con una sola sustitución. Pero la sustitución
@@ -47,7 +48,7 @@ derecha es la que se sabe resolver.], fig-dos-cuerpos)
   *El plan del módulo, en tres pasos, y en ese orden:*
   + Mostrar que la separación entre los dos cuerpos, $bold(r)$, obedece la
     misma ecuación que un cuerpo solo orbitando un punto fijo, con
-    $mu = G(m_1+m_2)$ en el lugar del $G M$ de los módulos 6 y 7.
+    $mu = G(m_1+m_2)$ en el lugar del $G M$ de los módulos #M("gravitacion") y #M("momento-angular").
   + Mostrar que esa $bold(r)$ *es*, en todo instante, la separación real
     entre los dos cuerpos de verdad —no una aproximación ni una versión a
     escala—, así que resolver el problema de uno solo *ya resuelve* lo que
@@ -85,22 +86,22 @@ $ m_1 bold(accent(R, dot.double))_1 = (G m_1 m_2) / r^2 hat(u)_r,
 ]
 
 $ bold(accent(r, dot.double)) = -mu/r^2 hat(u)_r = -mu/r^3 bold(r),
-  quad mu = G(m_1 + m_2) $ <m8-relativa>
+  quad mu = G(m_1 + m_2) $ <dosc-relativa>
 
 #clave[
   *Ésta es la ecuación de la que salió toda la Parte III, y es exacta.* Compárese
-  con la del módulo 6: allá se escribió $bold(accent(r, dot.double)) = -G M \/ r^2
+  con la del módulo #M("gravitacion"): allá se escribió $bold(accent(r, dot.double)) = -G M \/ r^2
   thin hat(u)_r$ con $M$ la masa del cuerpo central y $bold(r)$ medido desde él.
   La ecuación de arriba es *idéntica*, con una sola diferencia: donde decía $G M$
   ahora dice $G(m_1 + m_2)$.
 
-  Por lo tanto *todo lo deducido en los módulos 6 y 7 —y todo lo que sigue en
-  los módulos 9, 10 y 11— vale exactamente, sin ninguna aproximación, si se
+  Por lo tanto *todo lo deducido en los módulos #M("gravitacion") y #M("momento-angular") —y todo lo que sigue en
+  los módulos #M("orbita-conicas"), #M("kepler") y #M("maniobras")— vale exactamente, sin ninguna aproximación, si se
   interpreta que $bold(r)$ es la posición relativa de un cuerpo respecto del
   otro y que $mu = G(m_1 + m_2)$.* No hubo que rehacer nada; hubo que
   reinterpretar dos símbolos.
 
-  Y de paso se entiende por qué en el módulo 6 el parámetro $mu$ mereció una
+  Y de paso se entiende por qué en el módulo #M("gravitacion") el parámetro $mu$ mereció una
   letra propia: no es una abreviatura de $G M$, es $G$ por la *suma* de las dos
   masas, y sólo se parece a $G M$ cuando una de las dos es despreciable.
 ]
@@ -109,7 +110,7 @@ $ bold(accent(r, dot.double)) = -mu/r^2 hat(u)_r = -mu/r^3 bold(r),
   *Errata en el apunte de clase de la cátedra (23/9, pág. 1): a la ecuación
   recuadrada le falta el signo menos.* Ahí está escrito
   $bold(accent(r, dot.double)) = mu bold(r) \/ r^3$, y la forma correcta es la
-  @m8-relativa, con menos. La confirmación no requiere ninguna cuenta nueva: *el
+  @dosc-relativa, con menos. La confirmación no requiere ninguna cuenta nueva: *el
   renglón inmediatamente anterior, en la misma hoja*, dice
   $bold(accent(r, dot.double)) = -G(m_1 + m_2) \/ r^2 thin hat(u)_r$, con su
   menos, y como $hat(u)_r = bold(r)\/r$ las dos son la misma ecuación. Sin el
@@ -128,32 +129,32 @@ $ bold(accent(r, dot.double)) = -mu/r^2 hat(u)_r = -mu/r^3 bold(r),
 
 == El centro de masa, y las dos órbitas verdaderas
 
-La @m8-relativa dice cómo cambia la *separación*, no dónde está cada cuerpo.
-Para eso hace falta el módulo 3: como no hay fuerzas externas, el centro de masa
+La @dosc-relativa dice cómo cambia la *separación*, no dónde está cada cuerpo.
+Para eso hace falta el módulo #M("centro-de-masa"): como no hay fuerzas externas, el centro de masa
 se mueve con velocidad constante, así que *el sistema centro de masa es
 inercial* y conviene pararse ahí. Midiendo desde él, por definición de CM
 (apunte de clase, 23/9, pág. 2):
 
-$ m_1 bold(r)_1 + m_2 bold(r)_2 = bold(0) $ <m8-cm>
+$ m_1 bold(r)_1 + m_2 bold(r)_2 = bold(0) $ <dosc-cm>
 
 #deduccion("dónde está cada cuerpo, en función de la separación")[
   Con $bold(r) = bold(r)_1 - bold(r)_2$ la separación medida desde el CM
   —cuidado: acá el apunte de clase invierte el orden respecto de la hoja
   anterior, y el signo de $bold(r)_1$ y $bold(r)_2$ va con esa elección— la
-  @m8-cm da $bold(r)_1 = -(m_2\/m_1) bold(r)_2$, y sustituyendo:
+  @dosc-cm da $bold(r)_1 = -(m_2\/m_1) bold(r)_2$, y sustituyendo:
   $ bold(r) = bold(r)_1 - bold(r)_2 = -(m_2/m_1) bold(r)_2 - bold(r)_2 = -bold(r)_2 (m_1 + m_2)/m_1 $
   de donde se despejan las dos, que es lo que se buscaba:
 ]
 
-$ bold(r)_1 = m_2 / (m_1 + m_2) bold(r), quad bold(r)_2 = -m_1 / (m_1 + m_2) bold(r) $ <m8-posiciones>
+$ bold(r)_1 = m_2 / (m_1 + m_2) bold(r), quad bold(r)_2 = -m_1 / (m_1 + m_2) bold(r) $ <dosc-posiciones>
 
 #clave[
   *Los dos cuerpos recorren elipses semejantes, con foco común en el centro de
   masa, y siempre están en lados opuestos de él* —es el panel izquierdo de la
   figura de la introducción, ahora con las cuentas atrás. Las dos ecuaciones
-  de la @m8-posiciones son la misma $bold(r)$ multiplicada por dos
+  de la @dosc-posiciones son la misma $bold(r)$ multiplicada por dos
   constantes, una positiva y otra negativa: si $bold(r)$ describe una elipse
-  —cosa que el módulo 9 va a demostrar—, entonces $bold(r)_1$ y $bold(r)_2$
+  —cosa que el módulo #M("orbita-conicas") va a demostrar—, entonces $bold(r)_1$ y $bold(r)_2$
   describen elipses de la misma excentricidad, escaladas por
   $m_2\/(m_1+m_2)$ y $m_1\/(m_1+m_2)$, y giradas $180°$ una respecto de la
   otra.
@@ -169,7 +170,7 @@ Falta la energía. Si el problema relativo va a reemplazar al de dos cuerpos,
 tiene que dar también la energía cinética correcta.
 
 #deduccion("la masa reducida sale de sumar las dos energías cinéticas")[
-  Derivando la @m8-posiciones y sustituyendo en $K = 1/2 m_1 accent(r, dot)_1^2 +
+  Derivando la @dosc-posiciones y sustituyendo en $K = 1/2 m_1 accent(r, dot)_1^2 +
   1/2 m_2 accent(r, dot)_2^2$ (apunte de clase, 23/9, pág. 2):
   $ K = 1/2 m_1 (m_2/(m_1+m_2))^2 accent(r, dot)^2 + 1/2 m_2 (m_1/(m_1+m_2))^2 accent(r, dot)^2 $
   El factor común es $1/2 accent(r, dot)^2$, y lo que queda entre corchetes se
@@ -179,7 +180,7 @@ tiene que dar también la energía cinética correcta.
   es la de *uno solo* con esa masa y con la velocidad relativa.
 ]
 
-$ K = 1/2 m_r accent(r, dot)^2, quad m_r = (m_1 m_2)/(m_1 + m_2) $ <m8-reducida>
+$ K = 1/2 m_r accent(r, dot)^2, quad m_r = (m_1 m_2)/(m_1 + m_2) $ <dosc-reducida>
 
 #definicion("problema equivalente")[
   Ya planteado en palabras al principio del módulo, ahora con nombre y
@@ -199,7 +200,7 @@ $ K = 1/2 m_r accent(r, dot)^2, quad m_r = (m_1 m_2)/(m_1 + m_2) $ <m8-reducida>
   $ E_"tot" = 1/2 (m_1+m_2) V_"cm"^2 + (1/2 m_r accent(r,dot)^2 + U(r)) $
   El primer término es la energía de *todo el conjunto viajando junto*, a la
   velocidad de su centro de masa; el segundo es la de la separación sola,
-  achicándose o creciendo y girando. Sin fuerzas externas el módulo 3 ya
+  achicándose o creciendo y girando. Sin fuerzas externas el módulo #M("centro-de-masa") ya
   mostró que $bold(V)_"cm"$ es constante, así que el primer término nunca
   cambia y no le presta ni le saca energía al segundo: *están desacoplados*.
   Sacar el primero y quedarse sólo con el segundo no es una aproximación —es
@@ -223,14 +224,14 @@ $ K = 1/2 m_r accent(r, dot)^2, quad m_r = (m_1 m_2)/(m_1 + m_2) $ <m8-reducida>
   *Y por eso alcanza igual si lo que hace falta es la separación.* No es que
   el problema equivalente dé una respuesta parcial que después hay que
   completar: el $bold(r)(t)$ que sale de resolverlo —con las fórmulas de
-  los módulos 6, 9, 10 y 11, sin cambiarles una letra— *es*, directamente,
+  los módulos #M("gravitacion"), #M("orbita-conicas"), #M("kepler") y #M("maniobras"), sin cambiarles una letra— *es*, directamente,
   la distancia entre los dos cuerpos reales en cada instante. No hace falta
   ningún paso más para tenerla.
 
   *El paso extra sólo hace falta para otra pregunta, distinta.* Si en vez de
   «¿qué tan separados están?» la pregunta es «¿dónde está *cada uno*, por
   separado, respecto del centro de masa?» —por ejemplo, cuánto se bambolea
-  la Tierra— ahí sí hace falta un dato más, que la @m8-posiciones ya da
+  la Tierra— ahí sí hace falta un dato más, que la @dosc-posiciones ya da
   gratis a partir del mismo $bold(r)$: $bold(r)_1 = m_2\/(m_1+m_2) thin
   bold(r)$ y $bold(r)_2 = -m_1\/(m_1+m_2) thin bold(r)$, dos versiones a
   escala del mismo vector, para lados opuestos.
@@ -245,7 +246,7 @@ $ K = 1/2 m_r accent(r, dot)^2, quad m_r = (m_1 m_2)/(m_1 + m_2) $ <m8-reducida>
   ($m_r$) dando vueltas alrededor de un punto matemático que no está en
   ningún lado real —ni en la Tierra, ni en la Luna, ni en el medio—. Y ese
   punto te resuelve la vida porque el problema de "un cuerpo dando vueltas a
-  un punto fijo" ya lo sabés resolver desde el módulo 6: le metés las mismas
+  un punto fijo" ya lo sabés resolver desde el módulo #M("gravitacion"): le metés las mismas
   cuentas de siempre, y lo que te devuelve *ya es* la distancia real entre
   los dos cuerpos de verdad, sin ningún paso extra. El paso extra sólo
   aparece si además querés saber dónde está cada uno por separado —ahí sí
@@ -301,8 +302,8 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
 
 #clave[
   *Y de ahí sale el error que se comete al ignorar todo esto.* El período de una
-  órbita va como $T prop mu^(-1\/2)$ (módulo 6, y con más generalidad en el
-  módulo 10), así que usar $G m_1$ en lugar de $G(m_1 + m_2)$ da un período
+  órbita va como $T prop mu^(-1\/2)$ (módulo #M("gravitacion"), y con más generalidad en el
+  módulo #M("kepler")), así que usar $G m_1$ en lugar de $G(m_1 + m_2)$ da un período
   demasiado largo en un factor $sqrt(1 + q)$, o sea —para $q$ chico— un error
   relativo de aproximadamente
   $ (Delta T)/T approx q/2 $
@@ -324,18 +325,18 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
 ]
 
 #ejemplo("Qué masa se midió, en realidad, al estimar la del Sol")[
-  _(El Problema 0 de la guía, del módulo 6, rehecho con la herramienta nueva.)_
-  En el módulo 6 se estimó la masa del Sol con la órbita de la Tierra y se
+  _(El Problema 0 de la guía, del módulo #M("gravitacion"), rehecho con la herramienta nueva.)_
+  En el módulo #M("gravitacion") se estimó la masa del Sol con la órbita de la Tierra y se
   obtuvo $1,99 times 10^30$ kg. ¿Qué es exactamente ese número?
 
-  La cuenta fue $mu = v^2 r$ y después $M = mu \/ G$. Pero por la @m8-relativa,
+  La cuenta fue $mu = v^2 r$ y después $M = mu \/ G$. Pero por la @dosc-relativa,
   lo que la órbita determina es $mu = G(M_"Sol" + M_T)$, no $G M_"Sol"$. Lo que
   se midió, entonces, es la *suma*:
   $ M_"Sol" + M_T = 1,99 times 10^30 " kg" $
 
   ¿Cuánto sobra? Exactamente una masa terrestre, $5,97 times 10^24$ kg, o sea
   $ q = M_T / M_"Sol" = (5,972 times 10^24)/(1,989 times 10^30) = 3,0 times 10^(-6) $
-  Tres partes por millón: la estimación del módulo 6 tiene *tres cifras
+  Tres partes por millón: la estimación del módulo #M("gravitacion") tiene *tres cifras
   significativas*, así que la corrección cae seis órdenes de magnitud por debajo
   de su propio error. Ignorarla no fue un descuido; fue lo correcto.
 
@@ -346,7 +347,7 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
   exacta — que es todo el contenido de este módulo.
 
   #cuidado[
-    Es el mismo mecanismo que el cuadro rojo del módulo 6, y ahora se puede
+    Es el mismo mecanismo que el cuadro rojo del módulo #M("gravitacion"), y ahora se puede
     decir con precisión: pesar la Tierra con la Luna da $M_T + M_L$, y pesar el
     Sol con la Tierra da $M_"Sol" + M_T$. Sumar los dos resultados para «pesar
     el sistema solar» contaría la masa de la Tierra *dos veces*. En el primer
@@ -367,7 +368,7 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
   *(a) La masa de la Luna y el cociente.* El dato de la guía es directamente $q$:
   $ M_L = 0,01230 M_T = 7,346 times 10^22 " kg", quad q = 1,230 times 10^(-2) $
 
-  *(b) El centro de masa.* Por la @m8-posiciones, la distancia del CM al centro
+  *(b) El centro de masa.* Por la @dosc-posiciones, la distancia del CM al centro
   de la Tierra es la separación por la fracción de masa del *otro* cuerpo:
   $ d_T = a M_L/(M_T + M_L) = a q/(1 + q) = (384 thin 400)(0,012150) = 4671 " km" $
 
@@ -384,15 +385,15 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
     cuentas.
   ]
 
-  *(c) La masa reducida.* Por la @m8-reducida:
+  *(c) La masa reducida.* Por la @dosc-reducida:
   $ m_r = (M_T M_L)/(M_T + M_L) = M_L/(1 + q) = (7,346 times 10^22)/(1,01230) = 7,257 times 10^22 " kg" $
   Es el $98,8%$ de la masa de la Luna: *un poco menos que la más chica de las
   dos*, como siempre.
 
   *(d) El mes.* Con $mu = G(M_T + M_L)$:
   $ mu = (6,674 times 10^(-11))(6,0455 times 10^24) = 4,035 times 10^14 " m"^3\/"s"^2 $
-  y por la fórmula del período de una órbita —del módulo 6, con el semieje en
-  lugar del radio, que es lo que el módulo 10 va a justificar—:
+  y por la fórmula del período de una órbita —del módulo #M("gravitacion"), con el semieje en
+  lugar del radio, que es lo que el módulo #M("kepler") va a justificar—:
   $ T = (2 pi a^(3\/2))/sqrt(mu) = (2 pi (3,844 times 10^8)^(3\/2))/(2,009 times 10^7) = 2,357 times 10^6 " s" = 27,28 " días" $
   El valor observado del mes sidéreo es $27,32$ días: el acuerdo es de una parte
   en mil, y lo poco que falta es la excentricidad real de la órbita lunar y la
@@ -418,7 +419,7 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
 #guia("qué ejercicios cubre este módulo")[
   *La guía no trae ningún ejercicio de masa reducida*, y por eso los dos
   ejemplos de arriba no son ejercicios nuevos: el primero rehace el *Problema 0*
-  —ya resuelto en el módulo 6— con la herramienta nueva, y el segundo está
+  —ya resuelto en el módulo #M("gravitacion")— con la herramienta nueva, y el segundo está
   construido sobre los datos del *Problema 8*, que da la masa de la Luna como
   fracción de la terrestre.
 
@@ -433,11 +434,11 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
 == Lo que se usa después
 
 1. *$mu = G(m_1 + m_2)$.* Es la constante que aparece en la ecuación de la
-   órbita del módulo 9 y en la tercera ley de Kepler del módulo 10 — y la razón
+   órbita del módulo #M("orbita-conicas") y en la tercera ley de Kepler del módulo #M("kepler") — y la razón
    por la que la tercera ley, en su forma exacta, *no* dice que $T^2\/a^3$ sea
    igual para todos los planetas.
 
-2. *La reducción a un cuerpo.* Todo el módulo 9 se escribe para «una partícula
+2. *La reducción a un cuerpo.* Todo el módulo #M("orbita-conicas") se escribe para «una partícula
    de masa $m$ en un potencial central». Después de este módulo eso no es una
    idealización: es el problema de dos cuerpos, exactamente, con $m = m_r$.
 

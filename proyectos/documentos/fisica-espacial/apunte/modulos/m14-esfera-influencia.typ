@@ -1,7 +1,7 @@
 #import "../plantilla.typ": *
 
-#modulo("La esfera de influencia y las órbitas parcheadas")[
-  Dar la licencia que el módulo 16 prometió y no dio: por qué está permitido
+#modulo("La esfera de influencia y las órbitas parcheadas", clave: "esfera-influencia")[
+  Dar la licencia que el módulo #M("hiperbola") prometió y no dio: por qué está permitido
   resolver un viaje interplanetario como tres problemas de dos cuerpos
   pegados uno atrás del otro, en vez de como el problema de tres cuerpos que
   en realidad es. Sacar la frontera donde se hace el pegado —la esfera de
@@ -11,8 +11,8 @@
   además *dónde* hay que encender el motor y cuánto combustible se lleva.
 ]
 
-Todo lo que se hizo desde el módulo 6 hasta acá supone *dos* cuerpos: uno
-central que atrae y uno chico que se mueve. El módulo 8 fue explícito al
+Todo lo que se hizo desde el módulo #M("gravitacion") hasta acá supone *dos* cuerpos: uno
+central que atrae y uno chico que se mueve. El módulo #M("dos-cuerpos") fue explícito al
 respecto —el problema de dos cuerpos se convierte en el de uno solo alrededor
 de un centro fijo— y de ahí salieron las cónicas, Kepler, Hohmann y la
 hipérbola de escape.
@@ -23,8 +23,8 @@ tira el Sol y, de lejos, todos los planetas; cuando llega, la tiran Marte y
 el Sol. Son tres cuerpos, y el problema de tres cuerpos no tiene solución
 cerrada: no hay una fórmula que dé la posición en función del tiempo.
 
-Y sin embargo el módulo 11 calculó la transferencia a Marte con una elipse, y
-el módulo 16 calculó el encendido de salida con una hipérbola, y los dos
+Y sin embargo el módulo #M("maniobras") calculó la transferencia a Marte con una elipse, y
+el módulo #M("hiperbola") calculó el encendido de salida con una hipérbola, y los dos
 números son los que usa la industria. *Ese* es el tema de este módulo: no
 cómo se hacen esas cuentas —ya están hechas— sino por qué están permitidas.
 
@@ -43,8 +43,8 @@ para tenerlo en la cabeza antes de la primera ecuación.
   otro. Esa comparación da una distancia, y esa distancia es la frontera.
 + *Con la frontera dibujada, el viaje son tres problemas de dos cuerpos.*
   Adentro de la frontera de la Tierra, dos cuerpos con la Tierra: la
-  hipérbola del módulo 16. Afuera de toda frontera, dos cuerpos con el Sol:
-  la elipse del módulo 11. Adentro de la frontera de Marte, dos cuerpos con
+  hipérbola del módulo #M("hiperbola"). Afuera de toda frontera, dos cuerpos con el Sol:
+  la elipse del módulo #M("maniobras"). Adentro de la frontera de Marte, dos cuerpos con
   Marte: otra hipérbola. Los tres tramos son cónicas, y se pegan en las
   fronteras. De ahí el nombre: *cónicas parcheadas*.
 
@@ -81,11 +81,11 @@ para tenerlo en la cabeza antes de la primera ecuación.
 
 La frontera que uno inventaría solo es la superficie donde el Sol y el
 planeta tiran de la nave con la misma fuerza. Sale de igualar las dos leyes
-de Newton del módulo 6. Con la nave a distancia $r$ del planeta y el planeta
+de Newton del módulo #M("gravitacion"). Con la nave a distancia $r$ del planeta y el planeta
 a distancia $R$ del Sol, y suponiendo $r << R$ para que la distancia al Sol
 sea $R$ y no $R - r$,
 
-$ (G m_p m_v)/r^2 = (G m_s m_v)/R^2 quad ==> quad r/R = sqrt(m_p/m_s) $ <m17-ingenua>
+$ (G m_p m_v)/r^2 = (G m_s m_v)/R^2 quad ==> quad r/R = sqrt(m_p/m_s) $ <soi-ingenua>
 
 Para la Tierra, con $m_p \/ m_s = mu_T \/ mu_"Sol" = 398 thin 600 \/ (1,327
 times 10^11) = 3,004 times 10^(-6)$,
@@ -97,11 +97,11 @@ $ r = 1,733 times 10^(-3) dot 149,6 times 10^6 = 259 thin 000 " km" $
 #cuidado[
   *Ese número deja a la Luna afuera de la Tierra.* La Luna orbita a
   $384 thin 400$ km, o sea *más lejos* que los $259 thin 000$ km que la
-  @m17-ingenua devuelve. Si la frontera fuera esa, la Luna pertenecería al
+  @soi-ingenua devuelve. Si la frontera fuera esa, la Luna pertenecería al
   Sol y no a la Tierra, y habría que calcular su órbita como una órbita
   heliocéntrica perturbada por la Tierra.
 
-  Lo curioso es que, en el sentido literal de la @m17-ingenua, eso es
+  Lo curioso es que, en el sentido literal de la @soi-ingenua, eso es
   *cierto*: el Sol le tira a la Luna más fuerte que la Tierra, por un factor
   de más de dos, y por eso la órbita de la Luna alrededor del Sol es siempre
   cóncava hacia el Sol — nunca hace rulos. Y sin embargo la Luna le da
@@ -115,7 +115,7 @@ $ r = 1,733 times 10^(-3) dot 149,6 times 10^6 = 259 thin 000 " km" $
 
 Ahí está el error, y vale la pena decirlo de frente porque es la idea entera
 del módulo. El problema de la Luna alrededor de la Tierra ya está planteado
-*en el sistema de la Tierra*, que es un sistema acelerado — el módulo 8 hizo
+*en el sistema de la Tierra*, que es un sistema acelerado — el módulo #M("dos-cuerpos") hizo
 exactamente eso para dos cuerpos. En un sistema acelerado, un tirón que actúa
 por igual sobre el centro y sobre el cuerpo que orbita no se nota: se cancela
 al restar. Lo único que sobrevive es lo que el tirón tiene de *distinto* entre
@@ -145,7 +145,7 @@ principal* y el que sobra, *perturbación*.
   En un problema planteado alrededor de un cuerpo central, la *perturbación*
   es la parte de la aceleración que no proviene de ese cuerpo central. Si la
   perturbación fuera cero, la trayectoria sería exactamente la cónica del
-  módulo 9; cuanto mayor sea el cociente entre perturbación y aceleración
+  módulo #M("orbita-conicas")#";" cuanto mayor sea el cociente entre perturbación y aceleración
   principal, más se aparta la trayectoria real de esa cónica.
 
   El cociente es lo que se compara — no la perturbación sola. Una
@@ -157,7 +157,7 @@ Con el Sol de masa $m_s$, el planeta de masa $m_p$ y la nave de masa $m_v$,
 sean $bold(R)$ la posición del planeta desde el Sol, $bold(R)_v$ la de la
 nave desde el Sol, y $bold(r)$ la de la nave *desde el planeta*, de modo que
 
-$ bold(R)_v = bold(R) + bold(r) $ <m17-suma>
+$ bold(R)_v = bold(R) + bold(r) $ <soi-suma>
 
 y en todo lo que sigue vale $r << R$: la nave está mucho más cerca del
 planeta que el planeta del Sol, así que $R_v approx R$.
@@ -168,7 +168,7 @@ planeta que el planeta del Sol, así que $R_v approx R$.
   porque este módulo es el único del apunte donde conviven los dos orígenes
   en la misma ecuación: $bold(R)$, $bold(V)$, $mu_"Sol"$ están medidos desde
   el Sol; $bold(r)$, $bold(v)$, $mu_T$, desde el planeta. El $v_oo$ del
-  módulo 16 es *minúscula*: es una velocidad relativa al planeta.
+  módulo #M("hiperbola") es *minúscula*: es una velocidad relativa al planeta.
 ]
 
 #deduccion("la esfera de influencia, de comparar dos perturbaciones")[
@@ -176,13 +176,13 @@ planeta que el planeta del Sol, así que $R_v approx R$.
   atracciones da
 
   $ dot.double(bold(R))_v = underbrace(-(G m_s)/R_v^3 bold(R)_v, bold(A)_s)
-    underbrace(- (G m_p)/r^3 bold(r), bold(P)_p) $ <m17-vista1>
+    underbrace(- (G m_p)/r^3 bold(r), bold(P)_p) $ <soi-vista1>
 
   con $bold(A)_s$ la aceleración principal (el Sol) y $bold(P)_p$ la
   perturbación (el planeta). Usando $R_v approx R$, sus módulos son
   $A_s = G m_s \/ R^2$ y $P_p = G m_p \/ r^2$, y el cociente
 
-  $ P_p/A_s = (m_p/m_s) (R/r)^2 $ <m17-razon1>
+  $ P_p/A_s = (m_p/m_s) (R/r)^2 $ <soi-razon1>
 
   *Punto de vista 2: la nave alrededor del planeta.* Acá hay un paso más, y
   es el paso importante. La posición de la nave *desde el planeta* es
@@ -193,11 +193,11 @@ planeta que el planeta del Sol, así que $R_v approx R$.
 
   $ dot.double(bold(r)) = dot.double(bold(R))_v - dot.double(bold(R))
     = underbrace(-(G m_p)/r^3 bold(r), bold(a)_p)
-      underbrace(- G m_s [(bold(R)_v)/R_v^3 - (bold(R))/R^3], bold(p)_s) $ <m17-vista2>
+      underbrace(- G m_s [(bold(R)_v)/R_v^3 - (bold(R))/R^3], bold(p)_s) $ <soi-vista2>
 
   El corchete es la clave de todo el módulo: *es una diferencia*. El Sol no
   aparece con toda su fuerza sino sólo con lo que su tirón cambia entre la
-  posición de la nave y la del planeta. Con $R_v approx R$ y la @m17-suma,
+  posición de la nave y la del planeta. Con $R_v approx R$ y la @soi-suma,
 
   $ (bold(R)_v)/R_v^3 - (bold(R))/R^3 approx (bold(R) + bold(r))/R^3
     - (bold(R))/R^3 = (bold(r))/R^3 $
@@ -205,7 +205,7 @@ planeta que el planeta del Sol, así que $R_v approx R$.
   y entonces $p_s = (G m_s \/ R^3) r$, que comparado con
   $a_p = G m_p \/ r^2$ da
 
-  $ p_s/a_p = (m_s/m_p) (r/R)^3 $ <m17-razon2>
+  $ p_s/a_p = (m_s/m_p) (r/R)^3 $ <soi-razon2>
 
   *La frontera.* Adentro de la esfera conviene el punto de vista 2 —el
   problema planetocéntrico está menos perturbado que el heliocéntrico—, y
@@ -214,7 +214,7 @@ planeta que el planeta del Sol, así que $R_v approx R$.
   $ (m_s/m_p) (r/R)^3 = (m_p/m_s) (R/r)^2
     quad ==> quad (r/R)^5 = (m_p/m_s)^2 $
 
-  $ r_"SOI" = R (m_p/m_s)^(2\/5) $ <m17-soi>
+  $ r_"SOI" = R (m_p/m_s)^(2\/5) $ <soi-soi>
 ]
 
 #clave[
@@ -223,15 +223,15 @@ planeta que el planeta del Sol, así que $R_v approx R$.
 
   El planeta perturba el problema heliocéntrico con su fuerza *entera*: la
   nave siente al planeta y el Sol no, así que el término perturbador va como
-  $1 \/ r^2$ — de ahí el 2 de la @m17-razon1.
+  $1 \/ r^2$ — de ahí el 2 de la @soi-razon1.
 
   El Sol perturba el problema planetocéntrico sólo con la *diferencia* de su
   tirón entre la nave y el planeta, porque el planeta es el origen del
   sistema y lo que le pasa al origen se resta. Esa diferencia va como
-  $r \/ R^3$ — de ahí el 3 de la @m17-razon2. Es el mismo mecanismo por el
+  $r \/ R^3$ — de ahí el 3 de la @soi-razon2. Es el mismo mecanismo por el
   que las mareas van con el cubo de la distancia y no con el cuadrado.
 
-  El $5$ del exponente de la @m17-soi es literalmente $2 + 3$, y el $2 \/ 5$
+  El $5$ del exponente de la @soi-soi es literalmente $2 + 3$, y el $2 \/ 5$
   es su inverso multiplicado por el 2 que quedó de un lado. Sabiendo eso, la
   fórmula no hay que memorizarla: se rearma en dos renglones.
 ]
@@ -240,7 +240,7 @@ planeta que el planeta del Sol, así que $R_v approx R$.
   *La esfera de influencia no es una superficie física, y ni siquiera es
   exactamente una esfera.* Es un criterio de conveniencia de cálculo: no pasa
   absolutamente nada cuando la nave la cruza, no hay ningún cambio en las
-  fuerzas, y el radio que la @m17-soi devuelve depende de haber elegido
+  fuerzas, y el radio que la @soi-soi devuelve depende de haber elegido
   «que los dos cocientes de perturbación se igualen» como definición. Otra
   definición razonable daría otro número, del mismo orden.
 
@@ -252,11 +252,11 @@ planeta que el planeta del Sol, así que $R_v approx R$.
 
 == Cuánto mide, y las dos comparaciones que hay que hacer
 
-Con la @m17-soi y los datos del apéndice de Curtis, la frontera de la Tierra
+Con la @soi-soi y los datos del apéndice de Curtis, la frontera de la Tierra
 queda en
 
 $ r_"SOI" = 149,6 times 10^6 dot (3,004 times 10^(-6))^(2\/5)
-  = 925 thin 000 " km" $ <m17-soi-tierra>
+  = 925 thin 000 " km" $ <soi-soi-tierra>
 
 que son casi *cuatro veces* los $259 thin 000$ km de la frontera ingenua. Y
 esos $925 thin 000$ km ya dejan a la Luna cómodamente adentro, que era lo
@@ -284,7 +284,7 @@ de este módulo funcione.], fig-esfera-influencia)
   [Luna (respecto de la Tierra)], [0,3844], [66 200], [17,2%],
 )
 
-Los números están calculados con la @m17-soi a partir de los $mu$ del
+Los números están calculados con la @soi-soi a partir de los $mu$ del
 apéndice F y coinciden con la tabla A.2 de Curtis. La última fila usa la
 misma fórmula con la Tierra en el papel del Sol y la Luna en el del planeta.
 
@@ -307,7 +307,7 @@ y las dos importan:
     16— como la velocidad con la que la nave sale de verdad. Vale porque 145
     radios terrestres es prácticamente el infinito para la gravedad de la
     Tierra.
-  - Desde afuera decimos *«la frontera es un punto»*, y por eso el módulo 11
+  - Desde afuera decimos *«la frontera es un punto»*, y por eso el módulo #M("maniobras")
     pudo tratar a la Tierra como un punto sobre la elipse de Hohmann. Vale
     porque 0,6% no se ve en un dibujo del sistema solar.
 
@@ -326,11 +326,11 @@ vale exactamente lo que ya está deducido en los módulos anteriores.
   cuerpos:
 
   + *Adentro de la esfera de influencia del planeta de partida:* dos cuerpos
-    con el planeta. La trayectoria es una *hipérbola* (módulo 16), porque la
+    con el planeta. La trayectoria es una *hipérbola* (módulo #M("hiperbola")), porque la
     nave tiene que llegar a la frontera con velocidad de sobra.
   + *Afuera de toda esfera de influencia:* dos cuerpos con el Sol. La
     trayectoria es una *elipse* heliocéntrica — la transferencia de Hohmann
-    del módulo 11, o la que corresponda.
+    del módulo #M("maniobras"), o la que corresponda.
   + *Adentro de la esfera de influencia del planeta de llegada:* dos cuerpos
     con ese planeta, y otra *hipérbola*.
 
@@ -349,12 +349,12 @@ fig-conicas-parcheadas)
   *El pegado es de velocidades relativas, y ésa es la única cuenta del
   método.* En el punto de salida:
 
-  $ bold(v)_oo = bold(V)_"nave" - bold(V)_"planeta" $ <m17-pegado>
+  $ bold(v)_oo = bold(V)_"nave" - bold(V)_"planeta" $ <soi-pegado>
 
   con las dos velocidades del lado derecho medidas desde el Sol. Para una
   transferencia de Hohmann hacia afuera las dos son paralelas y del mismo
   sentido, así que la resta es directa: $v_oo = V_"perihelio" - V_T$, que es
-  exactamente el $Delta v_1$ que el módulo 11 calculó — y el módulo 16 ya
+  exactamente el $Delta v_1$ que el módulo #M("maniobras") calculó — y el módulo #M("hiperbola") ya
   avisó que *ése no era el $Delta v$ del motor*. Ahora se ve por qué: era el
   $v_oo$ del pegado.
 ]
@@ -366,16 +366,16 @@ fig-conicas-parcheadas)
   Ninguna de las dos mentiras se sostiene — ni «es un punto» ni «está en el
   infinito» —, y encima la Tierra y la Luna tienen masas comparables, así que
   el centro de masa del par no está ni cerca del centro de la Tierra (el
-  módulo 8 ya lo había calculado).
+  módulo #M("dos-cuerpos") ya lo había calculado).
 
   Un viaje a la Luna se plantea con el *problema restringido de tres
-  cuerpos*, que es el módulo 19.
+  cuerpos*, que es el módulo #M("tres-cuerpos").
 ]
 
 == Cuánto cuesta la mentira
 
 Que el método funcione no exime de medir el error, y el error se mide con
-las herramientas del módulo 16 y nada más. Se toma la hipérbola de salida
+las herramientas del módulo #M("hiperbola") y nada más. Se toma la hipérbola de salida
 hacia Marte —la del ejemplo de abajo, con $v_oo = 2,943$ km/s y
 $r_p = 6678$ km— y se pregunta qué pasa *en la frontera* en vez de en el
 infinito.
@@ -386,7 +386,7 @@ de escape todavía no es cero:
 $ v_"esc"^2 = (2 mu_T)/r_"SOI" = (2 dot 398 thin 600)/(924 thin 700) = 0,862
   quad ==> quad v_"esc" = 0,929 " km/s" $
 
-y con la relación $v^2 = v_"esc"^2 + v_oo^2$ del módulo 16,
+y con la relación $v^2 = v_"esc"^2 + v_oo^2$ del módulo #M("hiperbola"),
 
 $ v^2 = 0,862 + 8,661 = 9,523 quad ==> quad v = 3,086 " km/s" $
 
@@ -395,7 +395,7 @@ un 4,9% más rápido de lo que la elipse heliocéntrica supone.*
 
 *La dirección.* La anomalía verdadera de la asíntota es
 $nu_oo = arccos(-1 \/ e) = arccos(-1 \/ 1,145) = 150,8°$, y en la frontera la
-ecuación de la órbita del módulo 9 da
+ecuación de la órbita del módulo #M("orbita-conicas") da
 
 $ 1 + e cos nu = h^2/(mu_T r_"SOI") = (14 thin 325)/(924 thin 700) = 0,01549
   quad ==> quad nu = 149,3° $
@@ -435,42 +435,42 @@ exactamente*, mucho mejor que el módulo.
 
 == El ejemplo completo: Tierra a Marte, con la licencia ya dada
 
-El módulo 16 dejó calculado el encendido de salida hacia Marte pero sin
-justificar por qué se podía pegar con la elipse del módulo 11. Con la
+El módulo #M("hiperbola") dejó calculado el encendido de salida hacia Marte pero sin
+justificar por qué se podía pegar con la elipse del módulo #M("maniobras"). Con la
 licencia dada, el ejemplo se cierra y aparecen las dos cosas que faltaban:
 *dónde* se enciende y *cuánto combustible* se lleva.
 
-Antes hacen falta dos formas de las ecuaciones del módulo 16 que ahí no se
+Antes hacen falta dos formas de las ecuaciones del módulo #M("hiperbola") que ahí no se
 escribieron, porque recién acá se conoce el dato de entrada. En una
 hipérbola de salida el dato es el par $v_oo$ y $r_p$ — el $v_oo$ lo fija la
 misión y el $r_p$ lo fija la órbita de estacionamiento — y de ese par sale
 todo lo demás.
 
 #deduccion("la excentricidad y el encendido, a partir de la velocidad de sobra y del radio de estacionamiento")[
-  Del módulo 16, $v_oo^2 = mu \/ a$ y $r_p = a(e - 1)$. Despejando $a$ de la
+  Del módulo #M("hiperbola"), $v_oo^2 = mu \/ a$ y $r_p = a(e - 1)$. Despejando $a$ de la
   primera y metiéndola en la segunda:
 
-  $ r_p = mu/v_oo^2 (e - 1) quad ==> quad e = 1 + (r_p v_oo^2)/mu $ <m17-e>
+  $ r_p = mu/v_oo^2 (e - 1) quad ==> quad e = 1 + (r_p v_oo^2)/mu $ <soi-e>
 
   La velocidad en el perigeo sale de la misma relación
-  $v^2 = v_"esc"^2 + v_oo^2$ del módulo 16, evaluada en $r_p$:
+  $v^2 = v_"esc"^2 + v_oo^2$ del módulo #M("hiperbola"), evaluada en $r_p$:
 
-  $ v_p = sqrt(v_oo^2 + (2 mu)/r_p) $ <m17-vp>
+  $ v_p = sqrt(v_oo^2 + (2 mu)/r_p) $ <soi-vp>
 
   y como en la órbita de estacionamiento la nave ya viaja a
-  $v_c = sqrt(mu \/ r_p)$ (módulo 6), sacando factor común $v_c$ queda el
+  $v_c = sqrt(mu \/ r_p)$ (módulo #M("gravitacion")), sacando factor común $v_c$ queda el
   encendido en la forma en que conviene mirarlo:
 
-  $ Delta v = v_p - v_c = v_c (sqrt(2 + (v_oo/v_c)^2) - 1) $ <m17-dv>
+  $ Delta v = v_p - v_c = v_c (sqrt(2 + (v_oo/v_c)^2) - 1) $ <soi-dv>
 
   El paréntesis dice todo: si $v_oo = 0$ el encendido es
-  $(sqrt(2) - 1) v_c$, que es el escape justo del módulo 6; y la velocidad de
+  $(sqrt(2) - 1) v_c$, que es el escape justo del módulo #M("gravitacion")#";" y la velocidad de
   sobra entra *al cuadrado y sumada al 2*, no sumada afuera. Ésa es la razón
   algebraica de que salir con sobra cueste tan poco más que salir justo.
 ]
 
-Y falta *dónde* encender. La @m17-pegado obliga a que $bold(v)_oo$ sea
-paralelo a la velocidad de la Tierra alrededor del Sol; el módulo 16 mostró
+Y falta *dónde* encender. La @soi-pegado obliga a que $bold(v)_oo$ sea
+paralelo a la velocidad de la Tierra alrededor del Sol; el módulo #M("hiperbola") mostró
 que la asíntota forma un ángulo $beta = arccos(1 \/ e)$ con la línea de
 ábsides. Juntando las dos cosas: *el perigeo de la hipérbola —el punto donde
 se enciende— está a $beta$ de la dirección de la velocidad orbital de la
@@ -485,27 +485,27 @@ ocurrir el encendido.
   del motor $I_"sp" = 300$ s. (Curtis, ejemplo 8.4, pág. 401.)
 
   *(a) El $v_oo$ que la misión pide.* Sale del pegado, y es la cuenta del
-  módulo 11 leída con el nombre correcto: la velocidad de la Tierra menos la
+  módulo #M("maniobras") leída con el nombre correcto: la velocidad de la Tierra menos la
   del perihelio de la transferencia,
 
   $ v_oo = sqrt(mu_"Sol"/R_T) (sqrt((2 R_M)/(R_T + R_M)) - 1) = 29,78 dot
     (1,0988 - 1) = 2,943 " km/s" $
 
-  *(b) La hipérbola de salida*, con la @m17-e:
+  *(b) La hipérbola de salida*, con la @soi-e:
 
   $ e = 1 + (6678 dot 8,661)/(398 thin 600) = 1,145 $
 
-  y con la @m17-vp, $v_p^2 = 8,661 + (2 dot 398 thin 600) \/ 6678 = 128,1$,
+  y con la @soi-vp, $v_p^2 = 8,661 + (2 dot 398 thin 600) \/ 6678 = 128,1$,
   o sea $v_p = 11,32$ km/s.
 
-  *(c) El encendido*, con la @m17-dv y
+  *(c) El encendido*, con la @soi-dv y
   $v_c = sqrt((398 thin 600) \/ 6678) = 7,726$ km/s:
 
   $ Delta v = 7,726 (sqrt(2 + (2,943 \/ 7,726)^2) - 1) = 7,726 dot 0,4646
     = 3,590 " km/s" $
 
-  que es el número que el módulo 16 ya había obtenido restando $v_p - v_c$:
-  la @m17-dv no es una fórmula nueva sino la misma resta ordenada.
+  que es el número que el módulo #M("hiperbola") ya había obtenido restando $v_p - v_c$:
+  la @soi-dv no es una fórmula nueva sino la misma resta ordenada.
 
   *(d) Dónde se enciende.*
 
@@ -516,7 +516,7 @@ ocurrir el encendido.
   suele recorrerse de oeste a este, el encendido cae del lado nocturno de la
   Tierra.
 
-  *(e) Cuánto combustible.* Con la ecuación del cohete del módulo 4, en la
+  *(e) Cuánto combustible.* Con la ecuación del cohete del módulo #M("cohete"), en la
   forma que ahí se dedujo, la fracción de masa que hay que quemar es
 
   $ (Delta m)/m = 1 - exp(-Delta v \/ (I_"sp" g_0))
@@ -531,8 +531,8 @@ ocurrir el encendido.
   #clave[
     *Los cinco resultados salieron de dos números: $v_oo$ y $r_p$.* Y el
     reparto de trabajo es el que este módulo vino a justificar: el
-    $v_oo = 2,943$ km/s lo produce el problema *heliocéntrico* (módulo 11) y
-    lo consume el problema *planetocéntrico* (módulo 16), sin que ninguno de
+    $v_oo = 2,943$ km/s lo produce el problema *heliocéntrico* (módulo #M("maniobras")) y
+    lo consume el problema *planetocéntrico* (módulo #M("hiperbola")), sin que ninguno de
     los dos sepa nada del otro. El único punto de contacto entre los dos
     problemas es ese número, pasado en la frontera.
 
@@ -550,7 +550,7 @@ ocurrir el encendido.
    manda el Sol, y el número que cruza la frontera es $v_oo$.
 
 2. *La excentricidad y el encendido, en función de $v_oo$ y $r_p$.* La
-   @m17-e y la @m17-dv son las dos ecuaciones con las que se diseña cualquier
+   @soi-e y la @soi-dv son las dos ecuaciones con las que se diseña cualquier
    partida planetaria, y las dos toman como entrada lo que la misión fija de
    verdad: la velocidad de sobra y la altura de la órbita de estacionamiento.
 
@@ -566,8 +566,8 @@ ocurrir el encendido.
    velocidades, recorre una hipérbola, y ahí hay dos opciones: frenar en el
    perigeo para quedar capturada en una elipse, o no frenar y salir con la
    misma rapidez pero girada un ángulo $delta$ — que es la *asistencia
-   gravitatoria* que el módulo 16 anticipó.
+   gravitatoria* que el módulo #M("hiperbola") anticipó.
 
 5. *El caso en que el método no vale.* Cuando la esfera de influencia no es
    ni un punto ni el infinito —la Luna— hay que resolver de verdad el
-   problema de tres cuerpos, y eso es el módulo 19.
+   problema de tres cuerpos, y eso es el módulo #M("tres-cuerpos").

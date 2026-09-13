@@ -1,10 +1,10 @@
 #import "../plantilla.typ": *
 
-#modulo("Las leyes de Kepler")[
+#modulo("Las leyes de Kepler", clave: "kepler")[
   Mostrar que las tres leyes de Kepler —enunciadas cien años antes de Newton,
   a puro ajuste de datos— son *consecuencia* de lo que ya está deducido, no un
-  agregado nuevo: la primera es la ecuación de la órbita del módulo 9; la
-  segunda es la conservación del momento angular del módulo 7; y la tercera
+  agregado nuevo: la primera es la ecuación de la órbita del módulo #M("orbita-conicas")#";" la
+  segunda es la conservación del momento angular del módulo #M("momento-angular")#";" y la tercera
   —el período— es lo único que falta, y sale de las dos anteriores en cinco
   renglones. Y entender por qué, en su forma *exacta*, la tercera ley no dice
   que $T^2 \/ a^3$ sea igual para todos los planetas.
@@ -14,21 +14,21 @@ Kepler llegó a sus tres leyes mirando las tablas de posiciones de Marte que
 había heredado de Tycho Brahe, sin ninguna teoría de la gravitación detrás:
 son un ajuste empírico, publicado casi un siglo antes que los *Principia*. Lo
 notable, visto desde acá, es que las tres ya están adentro de lo que este
-apunte dedujo en los módulos 7 y 9 — no hace falta una hipótesis nueva, sólo
+apunte dedujo en los módulos #M("momento-angular") y #M("orbita-conicas") — no hace falta una hipótesis nueva, sólo
 leer lo que ya está escrito con otro nombre.
 
 == Las tres leyes, ya deducidas
 
 #clave[
   *Primera ley: las órbitas son elipses, con el Sol en un foco.* Es la
-  @m9-orbita del módulo 9, evaluada en el caso $0 < e < 1$: $r = p \/ (1 + e
+  @orb-orbita del módulo #M("orbita-conicas"), evaluada en el caso $0 < e < 1$: $r = p \/ (1 + e
   cos nu)$ *es*, por definición, la ecuación polar de una elipse con el foco en
   el origen. No hay nada que agregar — Kepler la observó; este apunte la
   *derivó* de $accent(r, dot.double) = -mu bold(r) \/ r^3$ sin suponerla.
 ]
 
 #clave[
-  *Segunda ley: áreas iguales en tiempos iguales.* Es la @m7-areas del módulo
+  *Segunda ley: áreas iguales en tiempos iguales.* Es la @angm-areas del módulo
   7, $d A \/ d t = h \/ 2 = "constante"$, que salió de la conservación del
   momento angular y vale para *cualquier* fuerza central — no hace falta que
   sea $1 \/ r^2$. Kepler la observó en un caso particular; este apunte mostró
@@ -40,33 +40,33 @@ Falta la tercera, y es la única que necesita una deducción nueva.
 == La tercera ley: de dónde sale el período
 
 #deduccion("el período, integrando el área")[
-  La velocidad areolar es constante (@m7-areas), así que en un período completo
+  La velocidad areolar es constante (@angm-areas), así que en un período completo
   $tau$ el radio barre el área entera de la elipse, $A = pi a b$:
   $ (d A)/(d t) = h/2 ==> A = h/2 tau ==> pi a b = h/2 tau $
   y despejando (Beer ec. 12.45, pág. 739):
-  $ tau = (2 pi a b)/h $ <m10-tau-ab>
+  $ tau = (2 pi a b)/h $ <kep-tau-ab>
 ]
 
 Para dejarla en función de $a$ sola —que es lo que se mide y lo que se
-compara entre órbitas— hace falta reemplazar $b$ y $h$. Del módulo 9,
+compara entre órbitas— hace falta reemplazar $b$ y $h$. Del módulo #M("orbita-conicas"),
 $b = a sqrt(1 - e^2)$ y $h^2 = mu p = mu a (1 - e^2)$:
 
 #deduccion("el período, sólo en función del semieje mayor")[
-  Elevando la @m10-tau-ab al cuadrado:
+  Elevando la @kep-tau-ab al cuadrado:
   $ tau^2 = (4 pi^2 a^2 b^2)/h^2 = (4 pi^2 a^2 dot a^2 (1-e^2))/(mu a (1-e^2)) = (4 pi^2 a^3)/mu $
   La excentricidad se cancela *entera* — no importa si la órbita es casi
   circular o muy alargada, el período depende sólo de $a$.
 ]
 
-$ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
+$ tau = (2 pi a^(3\/2))/sqrt(mu) $ <kep-periodo>
 
 #clave[
-  *Ésta es la tercera ley de Kepler, y es la misma fórmula del módulo 6 con
-  una sola letra cambiada.* La @m6-T daba $T = 2 pi r^(3\/2) \/ sqrt(mu)$ para
-  una órbita *circular* de radio $r$. La @m10-periodo dice que la fórmula vale
+  *Ésta es la tercera ley de Kepler, y es la misma fórmula del módulo #M("gravitacion") con
+  una sola letra cambiada.* La @grav-T daba $T = 2 pi r^(3\/2) \/ sqrt(mu)$ para
+  una órbita *circular* de radio $r$. La @kep-periodo dice que la fórmula vale
   *sin cambiar un signo* para cualquier elipse, con el semieje mayor $a$ en el
   lugar del radio. No es una coincidencia que se pueda verificar a posteriori:
-  el módulo 9 ya había mostrado que la órbita circular es el caso $e = 0$ de
+  el módulo #M("orbita-conicas") ya había mostrado que la órbita circular es el caso $e = 0$ de
   la misma familia, con $a = r$.
 ]
 
@@ -77,55 +77,55 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
   sino de su promedio, $a = (r_p + r_a)\/2$. Dos órbitas con el mismo $a$ y
   formas completamente distintas —una casi circular, otra muy excéntrica—
   tardan *exactamente lo mismo* en darle la vuelta al cuerpo central. Es la
-  misma idea que cerró el módulo 9 con la energía: $E = -mu m \/ (2a)$ tampoco
+  misma idea que cerró el módulo #M("orbita-conicas") con la energía: $E = -mu m \/ (2a)$ tampoco
   depende de $e$.
 ]
 
 #cuidado[
   *La tercera ley, en su forma exacta, NO dice que $T^2 \/ a^3$ sea el mismo
-  número para todos los planetas.* La @m10-periodo tiene $mu$ adentro, y el
-  módulo 8 ya mostró que $mu = G(m_1 + m_2)$ depende de *las dos masas*, no
+  número para todos los planetas.* La @kep-periodo tiene $mu$ adentro, y el
+  módulo #M("dos-cuerpos") ya mostró que $mu = G(m_1 + m_2)$ depende de *las dos masas*, no
   sólo de la del Sol. Comparar dos planetas es comparar dos sistemas Sol +
   planeta con $mu$ *distinto* — apenas distinto, porque todo planeta pesa
   muchísimo menos que el Sol, pero distinto:
   $ T^2/a^3 = (4 pi^2)/mu = (4 pi^2)/(G (M_"Sol" + m_"planeta")) $
   Kepler enunció $T^2 \/ a^3 = "cte"$ porque para todo el sistema solar
-  $m_"planeta" \/ M_"Sol"$ es chico —el mismo $q$ del módulo 8— y la
+  $m_"planeta" \/ M_"Sol"$ es chico —el mismo $q$ del módulo #M("dos-cuerpos")— y la
   diferencia entre planetas queda varios órdenes de magnitud por debajo de lo
   que Kepler podía medir con los datos de Tycho. La ley *aproximada* es
   extraordinariamente buena; la ley *exacta* compara el mismo sistema consigo
   mismo, no un planeta con otro.
 ]
 
-== Ejemplo: el satélite del módulo 9, con período
+== Ejemplo: el satélite del módulo #M("orbita-conicas"), con período
 
 #ejemplo("El período del satélite, y la parte que faltaba del Problema 4")[
   _(Problema 4 de la sección de energía, S&Z 13.67 — el mismo satélite de
-  perigeo 400 km y apogeo 4000 km que el módulo 9 ya resolvió entero: ahí
+  perigeo 400 km y apogeo 4000 km que el módulo #M("orbita-conicas") ya resolvió entero: ahí
   quedaron $e = 0,2098$, $a = 8578$ km, $p = 8200$ km y $h = 57 thin 172$
   km²/s. Acá se completan las cuatro partes del enunciado.)_
 
   *(a) El período.* Con $b = sqrt(r_p r_a) = sqrt(6778 times 10 thin 378) =
-  8387$ km, la @m10-tau-ab da
+  8387$ km, la @kep-tau-ab da
   $ tau = (2 pi (8578)(8387))/(57 thin 172) = 7907 " s" = 2,197 " h" $
-  o, verificando por el otro camino, con la @m10-periodo y sin pasar por $b$:
+  o, verificando por el otro camino, con la @kep-periodo y sin pasar por $b$:
   $ tau = (2 pi (8578)^(3\/2))/(631,35) = 7907 " s" $
   Las dos coinciden porque son la misma fórmula — es la comprobación de que
   $b = 8387$ km, calculado arriba, es consistente con $h$.
 
   *(b) y (c), ya resueltas.* La razón de rapideces es geometría pura, de la
-  conservación de $h = r v$ en los ábsides (módulo 7):
+  conservación de $h = r v$ en los ábsides (módulo #M("momento-angular")):
   $ v_p/v_a = r_a/r_p = (10 thin 378)/6778 = 1,531 $
   y las rapideces mismas ya están —$v_p = 8,435$ km/s, $v_a = 5,509$ km/s—
-  desde que el módulo 9 las dedujo de $h$. La @m9-visviva las reproduce sin
+  desde que el módulo #M("orbita-conicas") las dedujo de $h$. La @orb-visviva las reproduce sin
   pasar por $h$, como comprobación cruzada:
   $ v_p^2 = mu (2/r_p - 1/a) = (3,986 times 10^5) (2/6778 - 1/8578) = 71,15 ==> v_p = 8,435 " km/s" $
   $ v_a^2 = mu (2/r_a - 1/a) = (3,986 times 10^5) (2/(10 thin 378) - 1/8578) = 30,35 ==> v_a = 5,509 " km/s" $
-  Tres caminos —momento angular en el módulo 7, ecuación de la órbita en el
+  Tres caminos —momento angular en el módulo #M("momento-angular"), ecuación de la órbita en el
   9, vis-viva acá— y el mismo número las tres veces.
 
   *(d) Escapar desde perigeo, o desde apogeo.* Escapar significa $E = 0$,
-  o sea alcanzar $v_"esc" = sqrt(2 mu \/ r)$ (módulo 6) en el punto donde se
+  o sea alcanzar $v_"esc" = sqrt(2 mu \/ r)$ (módulo #M("gravitacion")) en el punto donde se
   encienden los cohetes — sin cambiar el otro ábside, que es lo que un solo
   encendido tangencial puede hacer:
   $ v_"esc" (r_p) = sqrt((2)(3,986 times 10^5)/6778) = 10,85 " km/s" quad ==> quad Delta v_p = 10,85 - 8,435 = 2,41 " km/s" $
@@ -138,7 +138,7 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
     al mismo $E = 0$. La razón es la forma de $v_"esc" (r) = sqrt(2 mu \/ r)$:
     crece con $r$ chico, así que en el perigeo *hay menos distancia hasta la
     velocidad de escape*, no sólo más velocidad de partida. Es el mismo efecto
-    que el módulo 9 mostró con Júpiter —capturar es barato si se hace donde ya
+    que el módulo #M("orbita-conicas") mostró con Júpiter —capturar es barato si se hace donde ya
     se va rápido—, mirado al revés: escapar también es más barato ahí.
   ]
 ]
@@ -149,18 +149,18 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
   sea, su perigeo—, y cruza el polo una vez cada $100$ minutos. ¿Cuál es la
   excentricidad?
 
-  *El semieje mayor, de la @m10-periodo.* Cruzar el polo una vez por vuelta
+  *El semieje mayor, de la @kep-periodo.* Cruzar el polo una vez por vuelta
   quiere decir que el período orbital es $tau = 100$ min $= 6000$ s:
   $ tau = (2 pi a^(3\/2)) / sqrt(mu) ==> a^3 = (mu tau^2) / (4 pi^2) = ((3,986 times 10^5)(6000)^2) / (4 pi^2) $
   $ a^3 = 3,635 times 10^11 " km"^3 ==> a = 7136 " km" $
 
-  *La excentricidad, de la @m9-absides.* El perigeo es $r_p = 6378 + 200 =
+  *La excentricidad, de la @orb-absides.* El perigeo es $r_p = 6378 + 200 =
   6578$ km, y como $r_p = a(1-e)$:
   $ e = 1 - r_p/a = 1 - 6578/7136 = 0,0782 $
 
   #clave[
     *No hizo falta el momento angular ni la energía*, las dos herramientas que
-    dominan el módulo 9 — alcanzó con el período, que es lo único nuevo de
+    dominan el módulo #M("orbita-conicas") — alcanzó con el período, que es lo único nuevo de
     este módulo, y la geometría del perigeo. Es la comprobación de que la
     tercera ley, sola, ya alcanza para resolver problemas que no son sólo
     «calcular $tau$».
@@ -169,10 +169,10 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
 
 #guia("qué ejercicios cubre este módulo")[
   El *Problema 4* es el ejemplo simple: las partes (b) y (c) ya estaban
-  resueltas de los módulos 7 y 9, y lo que este módulo agrega son la (a) —el
+  resueltas de los módulos #M("momento-angular") y #M("orbita-conicas"), y lo que este módulo agrega son la (a) —el
   período— y la (d) —la comparación de escape—. El *Ejercicio adicional 3*
   —de la sección de gravitación agregada en una versión posterior de la
-  guía— es el segundo ejemplo: la misma @m10-periodo, ahora despejada al
+  guía— es el segundo ejemplo: la misma @kep-periodo, ahora despejada al
   revés, para sacar $a$ del período en vez del período de $a$. El ejemplo a
   fondo son los *Problemas 8 y 9*, el LEM del Apollo, que van juntos porque
   el segundo continúa exactamente donde termina el primero.
@@ -182,7 +182,7 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
   _(Problemas 8 y 9 de la sección de energía; Beer 13.101 y su continuación.)_
   Después de la misión de exploración, el LEM tiene que reunirse con el módulo
   de mando, que orbita la Luna en círculo a $140$ km de altura. El radio de la
-  Luna es $1740$ km y su masa $0,01230$ veces la terrestre —dato del módulo 8,
+  Luna es $1740$ km y su masa $0,01230$ veces la terrestre —dato del módulo #M("dos-cuerpos"),
   que da directamente $mu_L$:
   $ mu_L = 0,01230 mu_T = (0,01230)(3,986 times 10^5) = 4903 " km"^3\/"s"^2 $
 
@@ -195,16 +195,16 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
   módulo de mando en $B$, a $140$ km. Como $A$ y $B$ son las dos alturas
   extremas de una misma elipse de transferencia —perilunio $A$, apolunio
   $B$—, es *exactamente* el planteo de una transferencia de Hohmann del
-  módulo 11, resuelto con las herramientas de éste.
+  módulo #M("maniobras"), resuelto con las herramientas de éste.
 
   $ r_A = 1740 + 8 = 1748 " km", quad r_B = 1740 + 140 = 1880 " km", quad
     a' = (r_A + r_B)/2 = 1814 " km" $
 
-  *(a) La rapidez al apagar el motor.* Por la @m9-visviva, en $A$:
+  *(a) La rapidez al apagar el motor.* Por la @orb-visviva, en $A$:
   $ v'^2_A = mu_L (2/r_A - 1/a') = (4903)(2/1748 - 1/1814) = 2,907 ==> v'_A = 1,705 " km/s" $
 
   *(b) La velocidad relativa en el encuentro.* Hace falta $h'$, y conviene
-  sacarlo de la @m9-suma-inversos —los dos ábsides, sin pasar por $a'$— porque
+  sacarlo de la @orb-suma-inversos —los dos ábsides, sin pasar por $a'$— porque
   después sirve para verificar $v'_A$ por el otro camino:
   $ h'^2 = (2 mu_L)/(1\/r_A + 1\/r_B) = (2 (4903))/(1\/1748 + 1\/1880) = 8,883 times 10^6 ==> h' = 2980 " km"^2\/"s" $
 
@@ -212,7 +212,7 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
     *Control cruzado, gratis.* $v'_A = h' \/ r_A = 2980 \/ 1748 = 1,705$ km/s:
     el mismo número que la vis-viva, por el camino del momento angular. Los
     ábsides son los únicos puntos donde $h = r v$ sin ningún coseno de por
-    medio (módulo 7), y por eso conviene sacar $h'$ ahí siempre que se pueda.
+    medio (módulo #M("momento-angular")), y por eso conviene sacar $h'$ ahí siempre que se pueda.
   ]
 
   En $B$ el LEM llega con $v'_B = h' \/ r_B = 2980 \/ 1880 = 1,585$ km/s,
@@ -254,10 +254,10 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
   ]
 
   *La velocidad y el ángulo en $C$.* Con $r_C = R_L = 1740$ km, por la
-  @m9-visviva:
+  @orb-visviva:
   $ v_C^2 = mu_L (2/r_C - 1/a'') = (4903)(2/1740 - 1/1526) = 2,422 ==> v_C = 1,556 " km/s" $
 
-  El ángulo se saca de $h'' = r_C v_C cos gamma$ (módulo 7), con $gamma$ el
+  El ángulo se saca de $h'' = r_C v_C cos gamma$ (módulo #M("momento-angular")), con $gamma$ el
   ángulo entre $bold(v)_C$ y la horizontal local:
   $ cos gamma = h''/(r_C v_C) = 2660/((1740)(1,556)) = 0,982 ==> gamma = 10,8° $
 
@@ -285,7 +285,7 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
 == Lo que se usa después
 
 1. *$T = 2 pi a^(3\/2) \/ sqrt(mu)$.* Es la mitad de esta fórmula la que da,
-   en el módulo 11, el tiempo de vuelo de una transferencia de Hohmann: media
+   en el módulo #M("maniobras"), el tiempo de vuelo de una transferencia de Hohmann: media
    elipse se recorre en medio período.
 
 2. *La tercera ley no compara planetas distintos con el mismo $mu$.* Es la
@@ -295,4 +295,4 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <m10-periodo>
 3. *Los ábsides como los únicos puntos donde $h = r v$ sin coseno.* Cada vez
    que un problema da dos alturas y pide una velocidad —o al revés—, conviene
    preguntarse primero si esas alturas son ábsides. Si lo son, el camino más
-   corto es casi siempre la @m9-suma-inversos.
+   corto es casi siempre la @orb-suma-inversos.

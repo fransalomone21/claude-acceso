@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Propulsión: la ecuación del cohete")[
+#modulo("Propulsión: la ecuación del cohete", clave: "cohete")[
   Deducir el empuje de un motor a retropropulsión desde la conservación de la
   cantidad de movimiento, sin usar $bold(F) = m bold(a)$ donde no vale;
   escribir y resolver la ecuación de movimiento de un cohete que sube contra la
@@ -65,7 +65,7 @@ $bold(v)_r = bold(v) - bold(V)$.], fig-cohete-elemento)
   Dividiendo por $Delta t$ y tomando el límite, con
   $mu = d m \/ d t = - d M \/ d t$ el *caudal másico* (un número positivo, porque
   la masa del cohete disminuye):
-  $ M bold(a) = bold(f) = - mu bold(v)_r $ <m4-empuje>
+  $ M bold(a) = bold(f) = - mu bold(v)_r $ <coh-empuje>
   Es la ec. (4.6) de Roederer, pág. 112.
 ]
 
@@ -79,7 +79,7 @@ $bold(v)_r = bold(v) - bold(V)$.], fig-cohete-elemento)
 ]
 
 #clave[
-  En la @m4-empuje no aparece $bold(V)$ por ningún lado. Tres consecuencias, y
+  En la @coh-empuje no aparece $bold(V)$ por ningún lado. Tres consecuencias, y
   las tres importan:
 
   1. *El empuje no depende de la velocidad del cohete.* Un cohete quieto y uno
@@ -117,16 +117,16 @@ los 300 s, uno iónico los 3000.
 == Con gravedad: la ecuación de movimiento
 
 Sumando las demás fuerzas exteriores $bold(f)_e$ (peso, resistencia del aire),
-la @m4-empuje se convierte en la ecuación de movimiento del cohete (Roederer
+la @coh-empuje se convierte en la ecuación de movimiento del cohete (Roederer
 ec. 4.7, pág. 113):
 
-$ bold(a) = 1/M (d M)/(d t) bold(v)_r + bold(f)_e / M $ <m4-movimiento>
+$ bold(a) = 1/M (d M)/(d t) bold(v)_r + bold(f)_e / M $ <coh-movimiento>
 
 Para el caso que se usa siempre —ascenso vertical, $g$ constante, sin
 resistencia, caudal constante— la masa es $M(t) = M_0 - mu t$ y queda una
 ecuación escalar:
 
-$ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <m4-vertical>
+$ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <coh-vertical>
 
 #clave[
   *La aceleración crece con el tiempo aunque el empuje sea constante.* El
@@ -139,7 +139,7 @@ $ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <m4-vertical>
 #cuidado[
   *«¡El cohete puede comenzar con más peso que empuje!»* — textual de la
   cátedra, con los cuatro signos. La condición para despegar desde el reposo
-  sale de pedir $a > 0$ en $t = 0$ en la @m4-vertical (Roederer, pág. 114):
+  sale de pedir $a > 0$ en $t = 0$ en la @coh-vertical (Roederer, pág. 114):
   $ (mu abs(v_r)) / M_0 > g $
   Si no se cumple, el cohete *no arranca*. Pero —y esto es lo que la
   advertencia quiere decir— la condición puede fallar al principio y cumplirse
@@ -151,7 +151,7 @@ $ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <m4-vertical>
 == La ecuación de Tsiolkovsky
 
 #deduccion("integrar la ecuación del cohete")[
-  La @m4-vertical se integra directo, porque el segundo miembro sólo depende de
+  La @coh-vertical se integra directo, porque el segundo miembro sólo depende de
   $t$:
   $ V(t) = V_0 + abs(v_r) integral_0^t (mu d t') / (M_0 - mu t') - g t
          = V_0 + abs(v_r) ln 1/(1 - mu t \/ M_0) - g t $
@@ -159,7 +159,7 @@ $ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <m4-vertical>
   muchísimo menos que el primero, porque cuando se quema queda muy poca masa
   atrás para acelerar. Al agotarse el combustible ($t_f = m \/ mu$, con $m$ la
   masa total de combustible) se llega al máximo:
-  $ V_f = V_0 + abs(v_r) ln (M_0) / (M_f) - g t_f $ <m4-tsiolkovsky>
+  $ V_f = V_0 + abs(v_r) ln (M_0) / (M_f) - g t_f $ <coh-tsiolkovsky>
   con $M_f = M_0 - m$. Es la ec. (4.8) de Roederer, pág. 114 — y la (8.40) de
   S&Z, pág. 260, que la escribe sin el término de gravedad porque plantea el
   cohete en el espacio libre.
@@ -173,7 +173,7 @@ $ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <m4-vertical>
   que ese término no puede sumarse a una velocidad. Y la ecuación del renglón
   anterior —la de $V(t)$, en la misma página— sí lleva su $abs(v_r)$, igual que
   todas las de la pág. 115. *Es un error de imprenta, no de física.* La forma
-  correcta es la @m4-tsiolkovsky.
+  correcta es la @coh-tsiolkovsky.
 
   En la misma deducción, la pág. 115 arrastra un segundo desliz tipográfico: el
   paso intermedio del cohete de dos etapas suma dos veces $-g m \/ mu$, cuando
@@ -183,7 +183,7 @@ $ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <m4-vertical>
 ]
 
 #clave[
-  De la @m4-tsiolkovsky se lee todo el diseño de un lanzador:
+  De la @coh-tsiolkovsky se lee todo el diseño de un lanzador:
 
   - Lo que manda es la *razón de masas* $M_0 \/ M_f$, y entra por un logaritmo:
     para duplicar el aporte hay que *elevar al cuadrado* la razón. Por eso
@@ -237,7 +237,7 @@ combustible. La razón es de una línea:
   *(b)* Al final queda $M_f = 1200 - 1000 = 200$ kg, con peso $1962$ N:
   $ a = (50 000 - 1962) / (200) = 240 " m/s"^2 $
 
-  *Ocho veces más*, con el mismo motor y sin tocar nada: es la @m4-vertical en
+  *Ocho veces más*, con el mismo motor y sin tocar nada: es la @coh-vertical en
   acción. De paso, el control de despegue: $50 000 > 11 772$, así que este
   cohete sí arranca. Y $240$ m/s² son $24 g$ — un valor que ninguna estructura
   tripulada tolera, y la razón por la que un lanzador real *reduce* el empuje
@@ -269,7 +269,7 @@ combustible. La razón es de una línea:
   *(a) Una etapa.* Masa inicial $M_0 = 19000 + 540 = 19540$ kg; final
   $M_f = 19540 - 17800 = 1740$ kg. Tiempo de quemado:
   $ t_f = (17 800) / (225) = 79,1 " s" $
-  Con la @m4-tsiolkovsky y $V_0 = 0$:
+  Con la @coh-tsiolkovsky y $V_0 = 0$:
   $ V_f = 3600 ln (19 540) / (1740) - 9,81 dot 79,1
         = 3600 dot 2,4186 - 776 = 8707 - 776 $
   $ V_f = 7,93 " km/s" $
@@ -338,9 +338,9 @@ combustible. La razón es de una línea:
   $abs(v_r) = 900$ m/s, y su aceleración inicial es $6$ m/s². ¿Cuál es la
   masa total en el instante del lanzamiento?
 
-  Con la @m4-empuje el empuje es fijo y no depende de la masa:
+  Con la @coh-empuje el empuje es fijo y no depende de la masa:
   $ f = mu abs(v_r) = 220 dot 900 = 198 thin 000 " N" $
-  y despejando $M$ de $M a = f - M g$ (la @m4-vertical en $t=0$):
+  y despejando $M$ de $M a = f - M g$ (la @coh-vertical en $t=0$):
   $ M = f / (a + g) = (198 thin 000) / (6 + 9,81) = 12 thin 525 " kg" $
 
   #geometria[
@@ -361,7 +361,7 @@ combustible. La razón es de una línea:
   *El empuje total, sumando los cinco.*
   $ f = 2 (11,80 times 10^6) + 3 (2,00 times 10^6) = 29,60 times 10^6 " N" $
 
-  *La aceleración*, de la misma @m4-vertical:
+  *La aceleración*, de la misma @coh-vertical:
   $ a = f/M_0 - g = (29,60 times 10^6) / (2,04 times 10^6) - 9,81 = 14,51 - 9,81 = 4,70 " m/s"^2 $
 
   *El caudal de cada motor principal*, despejando de la definición de
@@ -383,20 +383,20 @@ combustible. La razón es de una línea:
   *4* (la unidad de maniobras del astronauta, S&Z 8.61) es el empuje
   despejado al revés: de $a = 0,029$ m/s² y $M = 180$ kg sale $f = 5,22$ N, y
   de ahí $mu = f \/ abs(v_r) = 5,22 \/ 490 = 1,07 dot 10^(-2)$ kg/s, o sea
-  $0,053$ kg en $5$ s. El *5* (S&Z 8.63) es la @m4-tsiolkovsky sin gravedad,
+  $0,053$ kg en $5$ s. El *5* (S&Z 8.63) es la @coh-tsiolkovsky sin gravedad,
   despejando la razón de masas. El *9* (Beer 14.99) pide la *altura* del
   ejercicio 7: hay que integrar $V(t)$ otra vez, y ahí el logaritmo ya no se
   puede saltear.
 
   El *Adicional 3* —agregado en una versión posterior de la guía— es el
-  tercer ejemplo de arriba: la misma @m4-vertical y la misma definición de
+  tercer ejemplo de arriba: la misma @coh-vertical y la misma definición de
   $I_"sp"$, aplicadas ahora a un cohete con *varios* motores prendidos a la
   vez, que es el caso real de cualquier lanzador con etapas de refuerzo.
 ]
 
 == Lo que se usa después
 
-1. *La @m4-tsiolkovsky.* En el módulo 11 es la que traduce cada maniobra —una
+1. *La @coh-tsiolkovsky.* En el módulo #M("maniobras") es la que traduce cada maniobra —una
    transferencia de Hohmann, un cambio de plano— en kilos de combustible. El
    $Delta V$ que la mecánica orbital pide es exactamente el que esta ecuación
    cobra.
@@ -407,5 +407,5 @@ combustible. La razón es de una línea:
 
 3. *La idea de sistema cerrado.* Beer §14.12 trata la masa variable de la misma
    manera —la cátedra anotó al lado «ver Roederer, ecuación del cohete»—, y en
-   el módulo 12 el mismo cuidado reaparece con otro disfraz: qué sistema de
+   el módulo #M("cinematica-cr") el mismo cuidado reaparece con otro disfraz: qué sistema de
    referencia se está usando cuando el que gira es el propio cuerpo.

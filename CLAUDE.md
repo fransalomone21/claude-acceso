@@ -64,7 +64,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 | Proyecto | Qué es | Estado |
 |---|---|---|
 | [`electronica-analogica/`](proyectos/documentos/electronica-analogica/) | Apunte de Electrónica Analógica 4.º en Typst, 149 pág. | **ACTIVO** |
-| [`fisica-espacial/`](proyectos/documentos/fisica-espacial/CLAUDE.md) | Apunte general de Física Espacial (UNSAM, Ing. en Sistemas Espaciales) en Typst, 149 pág. | **CERRADO** (2026-09-13) — 19 módulos, 149 pág. verificadas. La guía de gravitación se cruzó problema por problema: resoluble entera. Se publica en Drive |
+| [`fisica-espacial/`](proyectos/documentos/fisica-espacial/CLAUDE.md) | Apunte general de Física Espacial (UNSAM, Ing. en Sistemas Espaciales) en Typst, 151 pág. | **CERRADO** (2026-09-13) — **20 módulos, 151 pág.** verificadas, reordenado en «fundamentos → complejidad»: el módulo de marcos de referencia (Newton, Galileo, marcos no inerciales) abre la Parte I, y el viaje interplanetario quedó antes que cuerpo rígido. El orden lo mide `verificar-apunte.py`. Se publica en Drive |
 | [`clase-asincronica-3/`](proyectos/documentos/clase-asincronica-3/CLAUDE.md) | Actividad asincrónica de Teoría de Circuitos (UNSAM): 12 problemas de Nilsson caps. 6-8, resueltos y simulados en LTspice | **ACTIVO** — fase 2; las 17 simulaciones cerradas y verificadas |
 | [`repaso-iise/`](proyectos/documentos/repaso-iise/) | Repaso oral de IISE: guion + audios | terminado |
 | `teoria-circuitos/` | Informes de laboratorio en Typst. El 1 (Thévenin y Norton) entregado; Pre-Lab de amplificadores operacionales abierto | **ACTIVO** — **repo aparte**: la carátula lleva mails de compañeros |
@@ -240,7 +240,9 @@ La carpeta es
 [esta](https://drive.google.com/drive/folders/1Uz_4Lu4i1LX7xbeS-dDVEF-TXi6EA1mL)
 y adentro va **una carpeta por materia** con el PDF del apunte. Se sube con
 `rclone` contra el remote `drive-apuntes`; el token vive en
-`%APPDATA%cloneclone.conf`, **fuera del repo**, y por eso este archivo
+`%APPDATA%
+clone
+clone.conf`, **fuera del repo**, y por eso este archivo
 puede nombrar la carpeta sin publicar nada.
 
 ```powershell

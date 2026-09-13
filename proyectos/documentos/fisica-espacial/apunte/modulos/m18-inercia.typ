@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Momento de inercia y ejes principales")[
+#modulo("Momento de inercia y ejes principales", clave: "inercia")[
   Extender $bold(H)_G = I bold(omega)$ del plano al espacio, y descubrir que
   ahí $I$ deja de ser un número: se vuelve una matriz de seis datos —tres
   momentos y tres productos de inercia— que dicen cómo está repartida la masa
@@ -9,15 +9,15 @@
   privilegiada de cada cuerpo: su *eje principal*.
 ]
 
-El módulo 7 definió $bold(H)_O = bold(r) times m bold(v)$ para una partícula,
+El módulo #M("momento-angular") definió $bold(H)_O = bold(r) times m bold(v)$ para una partícula,
 y para un cuerpo rígido girando en el plano la suma de todas esas
 contribuciones colapsaba en $H_G = I omega$, con $I$ un solo número que no
 cambiaba con la dirección de giro porque en el plano *sólo hay* una
-dirección posible, perpendicular a él. El módulo 12 mostró que en el espacio
+dirección posible, perpendicular a él. El módulo #M("cinematica-cr") mostró que en el espacio
 $bold(omega)$ puede apuntar para cualquier lado, y con eso la pregunta que
 este módulo contesta: ¿sigue valiendo $bold(H)_G = I bold(omega)$, con
 $bold(H)_G$ apuntando siempre como $bold(omega)$? La respuesta es no, y
-entender por qué es la herramienta que el módulo 14 necesita para llegar a
+entender por qué es la herramienta que el módulo #M("euler-giroscopo") necesita para llegar a
 las ecuaciones de Euler.
 
 == $bold(H)_G$ por integrales: momentos y productos de inercia
@@ -26,11 +26,11 @@ las ecuaciones de Euler.
   Un cuerpo rígido gira con velocidad angular $bold(omega)$ alrededor de su
   centro de masa $G$. Un elemento de masa $d m$, en la posición $bold(r)$
   medida desde $G$, tiene velocidad $bold(v) = bold(omega) times bold(r)$
-  (@m12-v) y aporta al momento angular total $d bold(H)_G = bold(r) times
+  (@cin-v) y aporta al momento angular total $d bold(H)_G = bold(r) times
   (d m thin bold(v)) = d m thin bold(r) times (bold(omega) times bold(r))$.
   Integrando sobre todo el cuerpo:
   $ bold(H)_G = integral bold(r) times (bold(omega) times bold(r)) thin d m $
-  <m13-hg-integral>
+  <iner-hg-integral>
   La identidad vectorial $bold(r) times (bold(omega) times bold(r)) =
   bold(omega) (bold(r) dot bold(r)) - bold(r) (bold(r) dot bold(omega))$
   convierte el doble producto vectorial en algo que se puede integrar
@@ -71,11 +71,11 @@ sola ecuación matricial:
 
 $ mat(H_x; H_y; H_z) = mat(I_x, -I_(x y), -I_(x z);
   -I_(x y), I_y, -I_(y z); -I_(x z), -I_(y z), I_z)
-  mat(omega_x; omega_y; omega_z) $ <m13-tensor>
+  mat(omega_x; omega_y; omega_z) $ <iner-tensor>
 
 (Beer ec. 18.8, pág. 1153.) Esa matriz simétrica de $3 times 3$ es el
 *tensor de inercia*: otra vez son *seis* números —como los seis grados de
-libertad del módulo 12, pero éstos no describen dónde está el cuerpo sino
+libertad del módulo #M("cinematica-cr"), pero éstos no describen dónde está el cuerpo sino
 *cómo* está hecho— y no cambian mientras el cuerpo no se deforme.
 
 #geometria[
@@ -84,7 +84,7 @@ libertad del módulo 12, pero éstos no describen dónde está el cuerpo sino
   *ejes principales de inercia*— en la que los tres productos de inercia se
   anulan a la vez, y el tensor queda diagonal:
   $ H_x = I_x omega_x, quad H_y = I_y omega_y, quad H_z = I_z omega_z $
-  <m13-diagonal>
+  <iner-diagonal>
   (Beer §18.2 y ec. 18.9, pág. 1153.) El Beer lo afirma sin demostrarlo —la
   demostración está en el volumen de Estática, §§9.16–9.17, que no forma parte
   del material de esta cátedra— pero en la práctica no hace falta buscarlos a
@@ -99,7 +99,7 @@ libertad del módulo 12, pero éstos no describen dónde está el cuerpo sino
 
 #cuidado[
   *$bold(H)_G = I bold(omega)$, con $I$ un número, sólo vale si $bold(omega)$
-  va exactamente sobre un eje principal.* Ahí la @m13-diagonal da
+  va exactamente sobre un eje principal.* Ahí la @iner-diagonal da
   $bold(H)_G = I_x omega_x hat(i) = I_x bold(omega)$: paralelo, porque las
   otras dos componentes de $bold(omega)$ son cero. Pero si $bold(omega)$ tiene
   componentes sobre *dos* ejes principales distintos —$bold(omega) = omega_x
@@ -116,20 +116,20 @@ libertad del módulo 12, pero éstos no describen dónde está el cuerpo sino
 
 == De $G$ a un punto cualquiera: $bold(H)_O$
 
-La misma descomposición del módulo 8 —movimiento del centro de masa más
+La misma descomposición del módulo #M("dos-cuerpos") —movimiento del centro de masa más
 movimiento relativo a él— vale para el momento angular. Para un cuerpo con
 centro de masa $G$ que se mueve con velocidad $bold(macron(v))$, el momento
 angular respecto de un punto fijo $O$ cualquiera es
 
-$ bold(H)_O = bold(macron(r)) times m bold(macron(v)) + bold(H)_G $ <m13-ho>
+$ bold(H)_O = bold(macron(r)) times m bold(macron(v)) + bold(H)_G $ <iner-ho>
 
 (Beer ec. 18.11, pág. 1154), con $bold(macron(r))$ el vector de $O$ a $G$: la
 parte «orbital» —como si toda la masa estuviera en $G$— más la parte «de
 espín» que este módulo acaba de calcular. Cuando $O$ es un punto fijo *del
 cuerpo* (el pivote de un giróscopo, por ejemplo), $bold(macron(v)) =
-bold(omega) times bold(macron(r))$ y la @m13-ho se puede escribir directamente
+bold(omega) times bold(macron(r))$ y la @iner-ho se puede escribir directamente
 en términos del tensor de inercia calculado respecto de $O$ en vez de $G$
-—el módulo 14 la usa así para el giróscopo con punto fijo.
+—el módulo #M("euler-giroscopo") la usa así para el giróscopo con punto fijo.
 
 == Energía cinética
 
@@ -142,21 +142,21 @@ en términos del tensor de inercia calculado respecto de $O$ en vez de $G$
   bold(omega) times bold(r)$, da
   $ (bold(omega) times bold(r)) dot (bold(omega) times bold(r))
     = bold(omega) dot (bold(r) times (bold(omega) times bold(r))) $
-  que es el mismo integrando de la @m13-hg-integral. Integrando:
+  que es el mismo integrando de la @iner-hg-integral. Integrando:
   $ T = 1/2 integral (bold(omega) times bold(r)) dot (bold(omega) times bold(r)) thin d m
     = 1/2 bold(omega) dot integral bold(r) times (bold(omega) times bold(r)) thin d m
     = 1/2 bold(omega) dot bold(H)_G $
 ]
 
-$ T = 1/2 m macron(v)^2 + 1/2 bold(omega) dot bold(H)_G $ <m13-energia>
+$ T = 1/2 m macron(v)^2 + 1/2 bold(omega) dot bold(H)_G $ <iner-energia>
 
-que en ejes principales, con la @m13-diagonal, es
+que en ejes principales, con la @iner-diagonal, es
 
 $ T = 1/2 m macron(v)^2 + 1/2 (I_x omega_x^2 + I_y omega_y^2 + I_z omega_z^2) $
 
 (Beer ecs. 18.16 y 18.17, pág. 1157.) Si en cambio el cuerpo tiene un punto
 fijo $O$ y gira puro alrededor de él —el caso del giróscopo que viene en el
-módulo 14—, no hay término de traslación y la energía es toda rotacional,
+módulo #M("euler-giroscopo")—, no hay término de traslación y la energía es toda rotacional,
 con los momentos de inercia tomados respecto de $O$:
 
 $ T = 1/2 (I_x omega_x^2 + I_y omega_y^2 + I_z omega_z^2) $
@@ -166,8 +166,8 @@ $ T = 1/2 (I_x omega_x^2 + I_y omega_y^2 + I_z omega_z^2) $
 #guia("qué ejercicios cubre este módulo")[
   El Problema 1 completo (el satélite cúbico) y el punto 1 del Problema 2 (el
   impulso angular del disco en la horquilla). El punto 2 del Problema 2
-  —$d bold(H)_G \/ d t$— necesita la @m12-derivada aplicada al resultado de
-  hoy, y queda para el módulo 14.
+  —$d bold(H)_G \/ d t$— necesita la @cin-derivada aplicada al resultado de
+  hoy, y queda para el módulo #M("euler-giroscopo").
 ]
 
 #ejemplo("El satélite cúbico: velocidad angular tras un encendido", nivel: "a fondo")[
@@ -216,10 +216,10 @@ $ T = 1/2 (I_x omega_x^2 + I_y omega_y^2 + I_z omega_z^2) $
   además $bold(H)_G$ queda paralelo a $bold(omega)$ para *cualquier* eje que
   el satélite adopte, así que ni siquiera hace falta que $bold(omega)$ esté
   sobre un eje principal para que el movimiento sea ese giro simple y
-  estable. El módulo 14 va a mostrar que ésa es la excepción, no la regla.
+  estable. El módulo #M("euler-giroscopo") va a mostrar que ésa es la excepción, no la regla.
 ]
 
-#fig([El disco de la horquilla, ya visto en el módulo 12 (allá, para hallar
+#fig([El disco de la horquilla, ya visto en el módulo #M("cinematica-cr") (allá, para hallar
 $bold(omega)$; acá, para hallar $bold(H)_G$). Los ejes $hat(i), hat(j),
 hat(k)$, clavados a la horquilla, son en todo instante ejes principales del
 disco: $hat(k)$ es su eje de simetría y $hat(i)$, $hat(j)$ son diámetros.],
@@ -227,7 +227,7 @@ fig-suma-omegas)
 
 #ejemplo("El disco en la horquilla: el momento angular que no acompaña a omega")[
   _(Problema 2, punto 1, de la sección de cuerpo rígido. Mismo disco y misma
-  horquilla del ejemplo del módulo 12: $omega_1$ constante sobre el eje del
+  horquilla del ejemplo del módulo #M("cinematica-cr"): $omega_1$ constante sobre el eje del
   disco $hat(k)$, $omega_2$ constante sobre el eje vertical de la horquilla
   $hat(j)$, ejes $hat(i), hat(j), hat(k)$ solidarios a la horquilla.)_
   Calcular $bold(H)_G$ del disco.
@@ -241,7 +241,7 @@ fig-suma-omegas)
     I_x = I_y = 1/4 m r^2 " (diametral, sobre " hat(i) " y " hat(j) ")" $
 
   Con $bold(omega) = omega_2 hat(j) + omega_1 hat(k)$ (sin componente sobre
-  $hat(i)$) y la @m13-diagonal aplicada término a término:
+  $hat(i)$) y la @iner-diagonal aplicada término a término:
   $ bold(H)_G = I_y omega_2 hat(j) + I_z omega_1 hat(k)
     = 1/4 m r^2 omega_2 hat(j) + 1/2 m r^2 omega_1 hat(k) $
 
@@ -251,8 +251,8 @@ fig-suma-omegas)
     $omega_2 \/ omega_1$; en $bold(H)_G$ es $(1/4 m r^2 omega_2)\/(1/2 m r^2
     omega_1) = omega_2 \/ (2 omega_1)$ — la mitad. $bold(H)_G$ está más cerca
     del eje $hat(k)$ que $bold(omega)$, exactamente porque $I_z = 2 I_x$ pesa
-    el doble en esa dirección. Es la @m13-diagonal con $I_x != I_z$, en
-    números: la demostración concreta de por qué la @m13-tensor no se reduce
+    el doble en esa dirección. Es la @iner-diagonal con $I_x != I_z$, en
+    números: la demostración concreta de por qué la @iner-tensor no se reduce
     nunca a un escalar salvo que el cuerpo tenga los tres momentos iguales,
     como el cubo del ejemplo anterior.
   ]
@@ -260,17 +260,17 @@ fig-suma-omegas)
 
 == Lo que se usa después
 
-1. *La @m13-diagonal, en ejes principales pegados al cuerpo.* El módulo 14
-   deriva $bold(H)_G$ respecto del tiempo con la @m12-derivada, y para que
+1. *La @iner-diagonal, en ejes principales pegados al cuerpo.* El módulo #M("euler-giroscopo")
+   deriva $bold(H)_G$ respecto del tiempo con la @cin-derivada, y para que
    $I_x$, $I_y$, $I_z$ no cambien mientras se deriva hace falta que los ejes
    giren *con* el cuerpo —o al menos acompañen a su eje de simetría—: de ahí
    salen las ecuaciones de Euler.
 
-2. *La ec. 18.10 —la @m13-tensor sin diagonalizar.* Es la razón física de que
+2. *La ec. 18.10 —la @iner-tensor sin diagonalizar.* Es la razón física de que
    $bold(H)_G$ tenga una derivada distinta de «$I$ veces $dot(bold(omega))$»:
    si $bold(H)_G$ y $bold(omega)$ fueran siempre paralelos, el cuerpo rígido
    en 3D no necesitaría nada nuevo respecto del movimiento plano.
 
-3. *La @m13-energia.* Reaparece cuando el módulo 15 mida la precesión de la
+3. *La @iner-energia.* Reaparece cuando el módulo #M("peonza") mida la precesión de la
    peonza simétrica: ahí $T$ y $bold(H)_G$ constantes son las dos cantidades
    conservadas que fijan la geometría del cono de precesión.

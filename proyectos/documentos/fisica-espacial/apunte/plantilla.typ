@@ -14,6 +14,23 @@
 // ---------- Contadores propios ----------
 #let cont-ej = counter("ejemplo")
 
+// ---------- Referencia simbolica a un modulo ----------
+//
+// `#M("gravitacion")` imprime el NUMERO del modulo cuya clave es esa, leido
+// del documento compilado. El orden de los modulos pasa a vivir en un solo
+// lugar -- el orden de los `#include` de apunte.typ -- y reordenar deja de
+// obligar a reescribir la prosa.
+//
+// Una clave que no existe NO se imprime en rojo ni se ignora: rompe la
+// compilacion. Un aviso que no frena es un aviso que se aprende a saltear.
+#let M(clave) = context {
+  let ms = query(<mod-id>).filter(m => m.value == clave)
+  if ms.len() == 0 {
+    panic("M(): no existe ningun modulo con la clave '" + clave + "'")
+  }
+  numbering("1", ..counter(heading).at(ms.first().location()))
+}
+
 // ---------- Caja genérica ----------
 //
 // El título va en un `block(sticky: true)`: eso lo obliga a viajar con lo que
@@ -110,13 +127,18 @@
 }
 
 // ---------- Apertura de módulo ----------
-#let modulo(titulo, resumen) = {
+#let modulo(titulo, resumen, clave: none) = {
   pagebreak(weak: true)
   cont-ej.update(0)
   counter(math.equation).update(0)
   counter(figure.where(kind: "fig")).update(0)
   counter(figure.where(kind: table)).update(0)
   heading(level: 1, titulo)
+  // El marcador va PEGADO al heading: `M()` lee el contador de headings en
+  // esta posicion y de ahi sale el numero del modulo. Sin el marcador, el
+  // numero de modulo vive escrito a mano en la prosa y el compilador no
+  // puede verlo: es lo que paso hasta el 2026-09-13, con 336 numeros a mano.
+  if clave != none { [#metadata(clave)<mod-id>] }
   block(
     width: 100%,
     fill: c-gris,

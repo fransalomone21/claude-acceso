@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Trabajo y energía")[
+#modulo("Trabajo y energía", clave: "trabajo-energia")[
   Calcular el trabajo de una fuerza que cambia a lo largo de un camino curvo;
   usar el teorema trabajo–energía en vez de integrar la ecuación de movimiento;
   decidir si una fuerza admite energía potencial —y demostrar que *toda* fuerza
@@ -14,7 +14,7 @@ es concreta: la ecuación de movimiento de una órbita no se puede integrar de
 cabeza, pero la conservación de la energía se escribe en un renglón y ya
 contesta la mitad de las preguntas — si la órbita es cerrada o abierta, cuánto
 vale la velocidad en el perigeo, cuánto cuesta escapar. La máquina que se arma
-acá —el *diagrama de energía*— es literalmente la misma que en el módulo 9 se
+acá —el *diagrama de energía*— es literalmente la misma que en el módulo #M("orbita-conicas") se
 aplica al potencial eficaz.
 
 == El trabajo de una fuerza
@@ -24,16 +24,16 @@ ec. 6.2 y 6.3, pág. 173):
 
 $ W = bold(F) dot bold(s) = F s cos phi $
 
-El producto escalar del módulo 1, otra vez, y con el mismo significado: lo que
+El producto escalar del módulo #M("vectores"), otra vez, y con el mismo significado: lo que
 cuenta es *la componente de la fuerza en la dirección del movimiento*. Para una
 fuerza que cambia a lo largo de un camino curvo hay que sumar pedacito a
 pedacito (S&Z §6.3, ec. 6.14, pág. 187):
 
-$ W = integral_(P_1)^(P_2) bold(F) dot d bold(l) $ <m5-trabajo>
+$ W = integral_(P_1)^(P_2) bold(F) dot d bold(l) $ <ener-trabajo>
 
 #clave[
   *Una fuerza perpendicular a la velocidad no trabaja nunca.* Sale directo de
-  la @m5-trabajo, porque $d bold(l)$ va siempre en la dirección de $bold(v)$ y
+  la @ener-trabajo, porque $d bold(l)$ va siempre en la dirección de $bold(v)$ y
   el producto escalar da cero. Tres casos que se usan todo el tiempo:
 
   - La *normal* de un vínculo — por eso una cuenta ensartada en un alambre liso
@@ -42,23 +42,23 @@ $ W = integral_(P_1)^(P_2) bold(F) dot d bold(l) $ <m5-trabajo>
   - La fuerza *centrípeta* en una órbita circular: la gravedad no le hace
     trabajo a un satélite en órbita circular, y por eso su rapidez no cambia.
     Ese es medio argumento de por qué «orbita sin caer»; el otro medio está en
-    el módulo 6.
+    el módulo #M("gravitacion").
 ]
 
 == El teorema trabajo–energía
 
 #deduccion("de la segunda ley al teorema, en tres renglones")[
-  Partiendo de la @m5-trabajo con la fuerza *neta*, y usando
+  Partiendo de la @ener-trabajo con la fuerza *neta*, y usando
   $bold(F) = m d bold(v) \/ d t$ y $d bold(l) = bold(v) d t$:
   $ W_"tot" = integral m (d bold(v))/(d t) dot bold(v) d t = integral m bold(v) dot d bold(v) $
   Y como $bold(v) dot d bold(v) = 1/2 d(bold(v) dot bold(v)) = 1/2 d(v^2)$:
   $ W_"tot" = integral_(v_1)^(v_2) 1/2 m d(v^2) = 1/2 m v_2^2 - 1/2 m v_1^2 = Delta K $
   (S&Z §6.2, ec. 6.6, pág. 177.) La identidad del medio es la misma de dos
-  renglones del módulo 1: derivar un producto escalar de un vector consigo
+  renglones del módulo #M("vectores"): derivar un producto escalar de un vector consigo
   mismo.
 ]
 
-$ W_"tot" = Delta K, quad K = 1/2 m v^2 $ <m5-teorema>
+$ W_"tot" = Delta K, quad K = 1/2 m v^2 $ <ener-teorema>
 
 #clave[
   El valor del teorema es que *pasa por alto el tiempo y el camino*. No hace
@@ -92,7 +92,7 @@ mano porque cada problema hace obvia una distinta:
 + Existe una función $U(bold(r))$ tal que $W = -Delta U$.
 
 #deduccion("toda fuerza central que dependa sólo de r es conservativa")[
-  Es el resultado que sostiene toda la Parte III, y sale del módulo 1 sin
+  Es el resultado que sostiene toda la Parte III, y sale del módulo #M("vectores") sin
   cuentas nuevas. Sea $bold(F) = F(r) hat(r)$. El desplazamiento, escrito en
   polares, es $d bold(l) = d r hat(r) + r d theta hat(theta)$. Entonces
   $ bold(F) dot d bold(l) = F(r) hat(r) dot (d r hat(r) + r d theta hat(theta)) = F(r) d r $
@@ -117,9 +117,9 @@ y no trabaja. Lo que queda depende sólo de $r$.], fig-trabajo-central)
   Ej. 5 de la sección de impulso angular: *¿hace falta que el potencial sea
   $1 \/ r$, o alcanza con que la fuerza sea central?* Para la energía, alcanza
   con central y $F = F(r)$. Para el momento angular alcanza con *central* a
-  secas, y eso se ve en el módulo 7. La forma $1 \/ r^2$ no hace falta para
+  secas, y eso se ve en el módulo #M("momento-angular"). La forma $1 \/ r^2$ no hace falta para
   ninguna de las dos conservaciones: hace falta para que la órbita cierre en
-  una elipse, que es otra cosa y es el módulo 9.
+  una elipse, que es otra cosa y es el módulo #M("orbita-conicas").
 ]
 
 Cuando además de las conservativas hay otras fuerzas (rozamiento, empuje de un
@@ -135,7 +135,7 @@ con $E = K + U$ la *energía mecánica*. Si $W_"otras" = 0$, $E$ se conserva.
 La relación se puede dar vuelta. En una dimensión (S&Z §7.4, ec. 7.16,
 pág. 221) y en tres (ec. 7.18, pág. 223):
 
-$ F_x = - (d U)/(d x), quad bold(F) = -nabla U $ <m5-gradiente>
+$ F_x = - (d U)/(d x), quad bold(F) = -nabla U $ <ener-gradiente>
 
 *La fuerza es menos la pendiente del potencial.* Con eso, una curva $U(x)$
 dibujada en un papel contiene toda la dinámica del problema, y se lee sin
@@ -173,7 +173,7 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
   escapar a $2,50$ m/s. *(a)* ¿Con qué rapidez debe expulsarla? *(b)* ¿Cuánta
   energía cinética genera con esa maniobra?
 
-  *(a)* Es el módulo 2: $bold(P) = bold(0)$ antes, y el cuerpo del calamar sin
+  *(a)* Es el módulo #M("cantidad-movimiento"): $bold(P) = bold(0)$ antes, y el cuerpo del calamar sin
   el agua pesa $6,50 - 1,75 = 4,75$ kg.
   $ 0 = 4,75 dot 2,50 - 1,75 dot v_"agua" ==> v_"agua" = (11,875) / (1,75) = 6,79 " m/s" $
 
@@ -188,11 +188,11 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
   el músculo del calamar) sin tocar el $bold(P)$ total.
 
   Y notar de dónde viene el grueso: $40$ de los $55$ J se los lleva *el agua*,
-  no el calamar. Es lo mismo que en el módulo 4 — el chorro se lleva casi toda
+  no el calamar. Es lo mismo que en el módulo #M("cohete") — el chorro se lleva casi toda
   la energía y el vehículo casi todo el provecho.
 
   #clave[
-    En el lenguaje del módulo 3: como $bold(v)_"cm" = bold(0)$, esos $55,1$ J
+    En el lenguaje del módulo #M("centro-de-masa"): como $bold(v)_"cm" = bold(0)$, esos $55,1$ J
     son *todos* $K^*$, la energía interna del sistema. Es la misma cantidad que
     en un choque se disipa; acá la maniobra la recorre al revés, creándola.
   ]
@@ -226,7 +226,7 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
   ella sale todo lo demás.
 
   *(a) Dirección de la fuerza en $A$.* En $A$ la curva *baja* al avanzar, o sea
-  $d U \/ d x < 0$, y por la @m5-gradiente $F_x = -d U \/ d x > 0$: *hacia $+x$*.
+  $d U \/ d x < 0$, y por la @ener-gradiente $F_x = -d U \/ d x > 0$: *hacia $+x$*.
   La partícula arranca yendo hacia la derecha.
 
   *(b) Y en $B$.* $B$ está a la derecha del primer mínimo, sobre el tramo que
@@ -279,7 +279,7 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
   ]
 
   #clave[
-    Este ejercicio es el módulo 9 disfrazado. Ahí la curva no será dibujada sino
+    Este ejercicio es el módulo #M("orbita-conicas") disfrazado. Ahí la curva no será dibujada sino
     calculada —el *potencial eficaz*
     $U_"ef" (r) = -mu m \/ r + L^2 \/ (2 m r^2)$—, la variable no será $x$ sino
     $r$, y las preguntas serán las mismas exactamente: dónde está el equilibrio
@@ -294,7 +294,7 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
   De la sección *Conservación de la Energía – Gravitación*, el *Problema 1* es
   el ejemplo a fondo de arriba, y es el único que se resuelve sin gravitación.
   Los problemas *0* y *2 al 10* necesitan la energía potencial gravitatoria
-  $U = -G M m \/ r$, que se deduce en el módulo 6: se resuelven ahí y en el 10.
+  $U = -G M m \/ r$, que se deduce en el módulo #M("gravitacion"): se resuelven ahí y en el #M("kepler").
   De la sección de cantidad de movimiento, la parte (b) del *3*, que es el
   primer ejemplo.
 ]
@@ -302,15 +302,15 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
 == Lo que se usa después
 
 1. *$W = integral bold(F) dot d bold(l)$ aplicado a una fuerza central.* En el
-   módulo 6 se le pone $F = -G M m \/ r^2$ y sale, en dos renglones,
+   módulo #M("gravitacion") se le pone $F = -G M m \/ r^2$ y sale, en dos renglones,
    $U(r) = -G M m \/ r$ — con el menos y el cero en el infinito ya explicados.
 
 2. *$bold(F) = -nabla U$ y el diagrama de energía.* Es la máquina entera del
-   módulo 9: el potencial eficaz, las órbitas ligadas y abiertas, la velocidad
+   módulo #M("orbita-conicas"): el potencial eficaz, las órbitas ligadas y abiertas, la velocidad
    de escape y la órbita circular como fondo del pozo.
 
 3. *«Una fuerza perpendicular a la velocidad no trabaja.»* Es la mitad del
    argumento de por qué un satélite en órbita circular no pierde ni gana
-   rapidez, y reaparece en el módulo 7 como la razón de que una fuerza central
+   rapidez, y reaparece en el módulo #M("momento-angular") como la razón de que una fuerza central
    no cambie el momento angular — el mismo producto escalar nulo, con el
    vectorial en su lugar.

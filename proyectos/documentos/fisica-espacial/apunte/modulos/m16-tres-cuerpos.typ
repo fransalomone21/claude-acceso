@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("El problema restringido de tres cuerpos y los puntos de Lagrange")[
+#modulo("El problema restringido de tres cuerpos y los puntos de Lagrange", clave: "tres-cuerpos")[
   Qué queda del problema de dos cuerpos cuando hay tres y ninguno se puede
   ignorar. El precio que hay que pagar —no existe la solución cerrada— y lo
   que se gana a cambio: sentarse en un sistema que gira con los dos cuerpos
@@ -8,11 +8,11 @@
   puede quedarse quieta una nave. Ahí aparecen los cinco *puntos de
   Lagrange*, dos de ellos con una respuesta exacta y en una línea. Y aparece
   la única cantidad que todavía se conserva —la *constante de Jacobi*—, que
-  es el diagrama de energía del módulo 5 otra vez, y que dice adónde una nave
+  es el diagrama de energía del módulo #M("trabajo-energia") otra vez, y que dice adónde una nave
   *no puede llegar* aunque no se sepa resolver su trayectoria.
 ]
 
-El módulo 17 dejó una deuda escrita con todas las letras: el método de las
+El módulo #M("esfera-influencia") dejó una deuda escrita con todas las letras: el método de las
 cónicas parcheadas *no sirve para la Luna*. La esfera de influencia de la Luna
 mide el 17% de su distancia a la Tierra, y ninguna de las dos mentiras que el
 método necesita —«es un punto», «está en el infinito»— se sostiene. El párrafo
@@ -42,7 +42,7 @@ Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.
   constante, hay un sistema de ejes —uno que gira con ellos— en el que los
   dos están *quietos*. Ese cambio no es cosmético: convierte un problema
   donde todo se mueve en uno donde sólo se mueve la nave. El precio son las
-  dos fuerzas ficticias que el módulo 12 ya dedujo, la centrífuga y la de
+  dos fuerzas ficticias que el módulo #M("marcos") ya dedujo, la centrífuga y la de
   Coriolis, y hay que pagarlo entero.
 
 + *Preguntar dónde se puede estar quieto, y dónde no se puede llegar.* Con
@@ -69,8 +69,8 @@ Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.
   física: cambió desde dónde se mira.
 
   Y la tercera, que es la que más se usa en la práctica: *la constante de
-  Jacobi es un diagrama de energía*, igual al del módulo 5 y al del potencial
-  eficaz del módulo 9. Se dibuja una curva, se traza una recta horizontal a
+  Jacobi es un diagrama de energía*, igual al del módulo #M("trabajo-energia") y al del potencial
+  eficaz del módulo #M("orbita-conicas"). Se dibuja una curva, se traza una recta horizontal a
   la altura que te dio el motor, y lo que queda arriba de la recta es
   territorio prohibido. Sin resolver una sola ecuación diferencial.
 ]
@@ -81,7 +81,7 @@ Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.
   + Buscar los puntos de equilibrio: dos salen exactos en un renglón, los
     otros tres necesitan una raíz numérica.
   + Comparar la frontera que sale de acá —la esfera de Hill— con la esfera
-    de influencia del módulo 17, que mide lo mismo con otro criterio.
+    de influencia del módulo #M("esfera-influencia"), que mide lo mismo con otro criterio.
   + Deducir la constante de Jacobi y leerla como un diagrama de energía.
 ]
 
@@ -97,7 +97,7 @@ Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.
   porque la tercera masa no cuenta en el problema de las otras dos,
   *circular* porque la órbita de los primarios lo es, y *de tres cuerpos*
   porque los dos primarios tiran de la nave *al mismo tiempo*, que es
-  exactamente lo que el módulo 17 se negaba a hacer.
+  exactamente lo que el módulo #M("esfera-influencia") se negaba a hacer.
 ]
 
 Los ejes se eligen así: origen en $G$, eje $x$ apuntando de $m_1$ hacia
@@ -115,17 +115,17 @@ $m_2$— porque las tres cosas que hay que calcular se miden desde tres lugares
 distintos. La flecha curva $bold(Omega)$ es lo único que recuerda que el
 marco entero está girando.], fig-tres-cuerpos-marco)
 
-La velocidad angular sale de la tercera ley de Kepler del módulo 10 aplicada
+La velocidad angular sale de la tercera ley de Kepler del módulo #M("kepler") aplicada
 a la órbita circular de los primarios, con $mu = G(m_1 + m_2)$:
 
-$ bold(Omega) = Omega hat(k), quad quad Omega = (2 pi)/T = sqrt(mu\/r_12^3) $ <m19-omega>
+$ bold(Omega) = Omega hat(k), quad quad Omega = (2 pi)/T = sqrt(mu\/r_12^3) $ <tres-omega>
 
 y las posiciones de los dos cuerpos salen de la definición de centro de masa
-del módulo 8 (@m8-cm), $m_1 x_1 + m_2 x_2 = 0$, junto con
+del módulo #M("dos-cuerpos") (@dosc-cm), $m_1 x_1 + m_2 x_2 = 0$, junto con
 $x_2 = x_1 + r_12$:
 
 $ x_1 = - pi_2 r_12, quad quad x_2 = pi_1 r_12, quad quad
-  pi_1 = m_1/(m_1 + m_2), quad pi_2 = m_2/(m_1 + m_2) $ <m19-pi>
+  pi_1 = m_1/(m_1 + m_2), quad pi_2 = m_2/(m_1 + m_2) $ <tres-pi>
 
 #notacion[
   *Esos dos $pi$ no tienen nada que ver con el número $pi$.* Es la notación
@@ -137,7 +137,7 @@ $ x_1 = - pi_2 r_12, quad quad x_2 = pi_1 r_12, quad quad
 
   Buena parte de la bibliografía los llama $mu$ y $1 - mu$, lo cual choca de
   frente con el parámetro gravitatorio $mu = G M$ que este apunte viene
-  usando desde el módulo 6. Entre dos choques, se eligió el que no pisa una
+  usando desde el módulo #M("gravitacion"). Entre dos choques, se eligió el que no pisa una
   cantidad que aparece en todos los módulos anteriores.
 ]
 
@@ -145,15 +145,16 @@ Con la nave en $bold(r) = x hat(i) + y hat(j) + z hat(k)$, sus posiciones
 respecto de cada primario son
 
 $ bold(r)_1 = (x + pi_2 r_12) hat(i) + y hat(j) + z hat(k), quad quad
-  bold(r)_2 = (x - pi_1 r_12) hat(i) + y hat(j) + z hat(k) $ <m19-r12>
+  bold(r)_2 = (x - pi_1 r_12) hat(i) + y hat(j) + z hat(k) $ <tres-r12>
 
 #deduccion("las tres ecuaciones de movimiento")[
   La segunda ley de Newton vale en un marco *inercial*, y el nuestro gira. La
-  aceleración absoluta de un punto visto desde un marco rotante es la fórmula
-  de cinco términos del módulo 12 (@m12-coriolis-a). Acá se simplifica sola:
-  el centro de masa del par se mueve con velocidad constante (módulo 8), así
-  que su aceleración es cero, y la órbita es circular, así que
-  $dot(bold(Omega)) = bold(0)$. Quedan tres términos:
+  aceleración absoluta de un punto visto desde un marco que gira con
+  $bold(Omega)$ *constante* es la @marcos-rotante del módulo #M("marcos"), y
+  este problema cumple las dos condiciones que hacen falta para usarla tal
+  cual: el centro de masa del par se mueve con velocidad constante (módulo
+  #M("dos-cuerpos")), así que su aceleración es cero, y la órbita es circular,
+  así que $dot(bold(Omega)) = bold(0)$. Son los tres términos de siempre:
 
   $ dot.double(bold(r))_"abs" = bold(Omega) times (bold(Omega) times bold(r))
     + 2 bold(Omega) times bold(v)_"rel" + bold(a)_"rel" $
@@ -167,22 +168,22 @@ $ bold(r)_1 = (x + pi_2 r_12) hat(i) + y hat(j) + z hat(k), quad quad
     + dot.double(z) hat(k) $
 
   Del otro lado va la gravedad de los dos primarios, cada una con la ley del
-  módulo 6 escrita hacia adentro, y la masa $m$ se cancela porque aparece en
+  módulo #M("gravitacion") escrita hacia adentro, y la masa $m$ se cancela porque aparece en
   los dos miembros:
 
   $ dot.double(bold(r))_"abs" = - (mu_1)/(r_1^3) bold(r)_1 - (mu_2)/(r_2^3) bold(r)_2,
     quad quad mu_1 = G m_1, quad mu_2 = G m_2 $
 
-  Igualando componente a componente con la @m19-r12 quedan las tres.
+  Igualando componente a componente con la @tres-r12 quedan las tres.
 ]
 
 $ dot.double(x) - 2 Omega dot(y) - Omega^2 x
-  = - (mu_1)/(r_1^3)(x + pi_2 r_12) - (mu_2)/(r_2^3)(x - pi_1 r_12) $ <m19-mov-x>
+  = - (mu_1)/(r_1^3)(x + pi_2 r_12) - (mu_2)/(r_2^3)(x - pi_1 r_12) $ <tres-mov-x>
 
 $ dot.double(y) + 2 Omega dot(x) - Omega^2 y
-  = - (mu_1)/(r_1^3) y - (mu_2)/(r_2^3) y $ <m19-mov-y>
+  = - (mu_1)/(r_1^3) y - (mu_2)/(r_2^3) y $ <tres-mov-y>
 
-$ dot.double(z) = - (mu_1)/(r_1^3) z - (mu_2)/(r_2^3) z $ <m19-mov-z>
+$ dot.double(z) = - (mu_1)/(r_1^3) z - (mu_2)/(r_2^3) z $ <tres-mov-z>
 
 #clave[
   *Estas tres ecuaciones no se resuelven, y conviene ver por qué.* No es que
@@ -195,9 +196,11 @@ $ dot.double(z) = - (mu_1)/(r_1^3) z - (mu_2)/(r_2^3) z $ <m19-mov-z>
 
   La segunda son los términos $-2 Omega dot(y)$ y $+2 Omega dot(x)$: la
   aceleración de Coriolis, que *acopla las dos ecuaciones*. La de $x$ no se
-  puede resolver sin la de $y$ y al revés. Es exactamente lo que el módulo 12
-  anticipó cuando dijo que Coriolis es lo que hace que un marco rotante no
-  sea un marco normal con una fuerza de más.
+  puede resolver sin la de $y$ y al revés. Y ahí está, cobrada, la diferencia
+  que marcó el módulo #M("marcos"): un marco que sólo acelera cuesta *una*
+  fuerza de inercia, que depende nada más que del marco; uno que gira cuesta
+  *dos*, y la segunda depende de la velocidad del cuerpo. Por eso un marco
+  rotante no es un marco normal con una fuerza de más.
 
   Lo que sí se hace —y es lo que hace cualquier centro de control— es
   *integrarlas numéricamente*: se les da un estado inicial y se avanza paso a
@@ -215,7 +218,7 @@ Luna no se mueve nunca*.
 
 Imponer $dot(x) = dot(y) = dot(z) = 0$ y $dot.double(x) = dot.double(y) =
 dot.double(z) = 0$ en las tres ecuaciones deja tres condiciones algebraicas.
-La tercera se resuelve de un vistazo: la @m19-mov-z queda
+La tercera se resuelve de un vistazo: la @tres-mov-z queda
 
 $ (mu_1/r_1^3 + mu_2/r_2^3) z = 0 $
 
@@ -241,20 +244,20 @@ equilibrio están en el plano de la órbita*, sin excepción y sin aproximación
   en las incógnitas $1\/r_1^3$ y $1\/r_2^3$*. Resolviendo el sistema de dos
   por dos sale, sin ninguna aproximación,
 
-  $ 1/r_1^3 = 1/r_2^3 = 1/r_12^3 quad ==> quad r_1 = r_2 = r_12 $ <m19-equilatero>
+  $ 1/r_1^3 = 1/r_2^3 = 1/r_12^3 quad ==> quad r_1 = r_2 = r_12 $ <tres-equilatero>
 
   O sea: los dos puntos están a la *misma distancia de los dos primarios*, y
   esa distancia es la que hay *entre* los primarios. Eso es un triángulo
   equilátero, y con eso las coordenadas salen de la geometría: escribiendo
-  $r_1 = r_12$ en la @m19-r12 y despejando,
+  $r_1 = r_12$ en la @tres-r12 y despejando,
 ]
 
 $ L_4, L_5 : quad x = r_12/2 - pi_2 r_12, quad quad
-  y = plus.minus sqrt(3)/2 r_12, quad quad z = 0 $ <m19-l45>
+  y = plus.minus sqrt(3)/2 r_12, quad quad z = 0 $ <tres-l45>
 
 #clave[
   *Los dos puntos triangulares no dependen de las masas, y eso es lo raro.*
-  En la @m19-equilatero no quedó ningún $pi_2$: las distancias a los dos
+  En la @tres-equilatero no quedó ningún $pi_2$: las distancias a los dos
   primarios valen $r_12$ *sea cual sea la razón de masas*. Un grano de polvo
   a $60°$ por delante de la Luna está en equilibrio, y también lo está uno a
   $60°$ por delante de Júpiter.
@@ -270,13 +273,13 @@ $ L_4, L_5 : quad x = r_12/2 - pi_2 r_12, quad quad
 ]
 
 Los otros tres puntos son los que están *sobre el eje*, con $y = 0$ además de
-$z = 0$ — que también satisface la @m19-mov-y, porque su miembro derecho se
+$z = 0$ — que también satisface la @tres-mov-y, porque su miembro derecho se
 anula. Ahí $r_1 = abs(x + pi_2 r_12)$ y $r_2 = abs(x + pi_2 r_12 - r_12)$, y
 la condición que queda es una sola. Conviene escribirla sin unidades, con
 $xi = x \/ r_12$:
 
 $ f(pi_2, thin xi) = (1 - pi_2) (xi + pi_2)/(abs(xi + pi_2)^3)
-  + pi_2 (xi + pi_2 - 1)/(abs(xi + pi_2 - 1)^3) - xi = 0 $ <m19-colineales>
+  + pi_2 (xi + pi_2 - 1)/(abs(xi + pi_2 - 1)^3) - xi = 0 $ <tres-colineales>
 
 #clave[
   *Por qué dos salieron exactos y estos tres no.* La diferencia no es de
@@ -287,7 +290,7 @@ $ f(pi_2, thin xi) = (1 - pi_2) (xi + pi_2)/(abs(xi + pi_2)^3)
   cinco* en $xi$. Y desde Abel se sabe que la quíntica general no tiene
   solución por radicales.
 
-  O sea que la @m19-colineales no se despeja *nunca*, ni con más paciencia ni
+  O sea que la @tres-colineales no se despeja *nunca*, ni con más paciencia ni
   con más álgebra. Se resuelve numéricamente, y hay que hacerlo una vez por
   cada par de cuerpos. Lo que sí se sabe de antemano es *cuántas* raíces hay
   y dónde: una a la izquierda de $m_1$ ($L_3$), una entre los dos primarios
@@ -309,19 +312,19 @@ $ f(pi_2, thin xi) = (1 - pi_2) (xi + pi_2)/(abs(xi + pi_2)^3)
 
   pasos. Es lento comparado con otros métodos, pero *no puede fallar*
   mientras el intervalo inicial encierre la raíz — y eso, para una función
-  con tres raíces y dos asíntotas verticales como la @m19-colineales, vale
+  con tres raíces y dos asíntotas verticales como la @tres-colineales, vale
   más que la velocidad.
 ]
 
 #fig([Los cinco puntos de Lagrange del par Tierra–Luna. En el panel (a), a
 escala real: $L_4$ y $L_5$ están sobre la propia órbita de la Luna, $60°$
 por delante y por detrás, formando con la Tierra y la Luna dos triángulos
-equiláteros —eso es la @m19-equilatero dibujada—, y los tres colineales
+equiláteros —eso es la @tres-equilatero dibujada—, y los tres colineales
 caen sobre el eje, con $L_3$ casi en el punto opuesto a la Luna. El panel
 (b) amplía la zona que el panel (a) no puede mostrar: $L_1$ y $L_2$ están
 a menos de $65 thin 000$ km de la Luna, y ahí aparecen *tres* fronteras que
 miden lo mismo y no coinciden — las dos distancias a $L_1$ y $L_2$, la esfera
-de Hill de la sección que sigue, y la esfera de influencia del módulo 17.
+de Hill de la sección que sigue, y la esfera de influencia del módulo #M("esfera-influencia").
 Entre la más chica y la más grande hay un 14%, y la sección que sigue mide
 esa diferencia y explica de dónde sale.], fig-lagrange-puntos)
 
@@ -333,12 +336,12 @@ esa diferencia y explica de dónde sale.], fig-lagrange-puntos)
 
   $ pi_2 = m_2/(m_1 + m_2) = (7,348 times 10^22)/(6,047 times 10^24) = 0,01215 $
 
-  *Los dos triangulares, sin cuentas.* Por la @m19-l45 están sobre la órbita
+  *Los dos triangulares, sin cuentas.* Por la @tres-l45 están sobre la órbita
   de la Luna, a $60°$ de ella: $x = 187 thin 529$ km,
   $y = plus.minus 332 thin 900$ km.
 
   *Los tres colineales, por bisección.* Se buscan las raíces de la
-  @m19-colineales con $pi_2 = 0,01215$. Para $L_3$ conviene arrancar con
+  @tres-colineales con $pi_2 = 0,01215$. Para $L_3$ conviene arrancar con
   $xi_ell = -1,1$ y $xi_u = -0,9$, que encierran la raíz porque
   $f(-1,1) = +0,262$ y $f(-0,9) = -0,046$ tienen signos opuestos. Con
   tolerancia $epsilon = 10^(-6)$ hacen falta $n = 18$ pasos, y sale
@@ -400,8 +403,8 @@ esa diferencia y explica de dónde sale.], fig-lagrange-puntos)
 Acá hay algo que conviene mirar de frente, porque el apunte ya definió una
 frontera para el mismo problema y no es ésta.
 
-El módulo 17 dibujó la *esfera de influencia* comparando perturbaciones, y le
-dio a la Luna un radio de $66 thin 200$ km (@m17-soi). Este módulo acaba de
+El módulo #M("esfera-influencia") dibujó la *esfera de influencia* comparando perturbaciones, y le
+dio a la Luna un radio de $66 thin 200$ km (@soi-soi). Este módulo acaba de
 poner a $L_1$ a $58 thin 019$ km de la Luna, que es *otra* frontera para lo
 mismo: más allá de $L_1$ la nave ya no le pertenece a la Luna. Las dos
 pretenden marcar dónde termina el dominio de un cuerpo, salen de criterios
@@ -426,12 +429,12 @@ distintos y dan números distintos. Vale la pena entender cuánto y por qué.
 
   Los dos $mu_1\/r_12^2$ se cancelan —y eso es lo que hay que ver: *el tirón
   del cuerpo grande no decide nada acá*, porque le pega casi igual a la nave
-  y a $m_2$, que es la misma idea de marea del módulo 17—. Queda
+  y a $m_2$, que es la misma idea de marea del módulo #M("esfera-influencia")—. Queda
 
   $ (mu_2)/d^2 = ((3 mu_1 + mu_2) d)/(r_12^3) approx (3 mu_1 d)/(r_12^3) $
 ]
 
-$ r_"Hill" = r_12 (m_2/(3 m_1))^(1\/3) $ <m19-hill>
+$ r_"Hill" = r_12 (m_2/(3 m_1))^(1\/3) $ <tres-hill>
 
 Para la Luna da $61 thin 524$ km, que es un 6% más que los $58 thin 019$ km
 medidos de $L_1$ — el precio de haber desarrollado a primer orden. La
@@ -445,8 +448,8 @@ comparación con la esfera de influencia es lo interesante:
   table.header(
     [*Cuerpo chico*],
     [*$L_1$*],
-    [*Hill (@m19-hill)*],
-    [*SOI (módulo 17)*],
+    [*Hill (@tres-hill)*],
+    [*SOI (módulo #M("esfera-influencia"))*],
     [*$L_2$*],
   ),
   table.hline(stroke: 0.4pt),
@@ -458,11 +461,11 @@ comparación con la esfera de influencia es lo interesante:
 #clave[
   *Las dos fórmulas no son la misma aproximación de lo mismo: son dos
   criterios distintos, y se separan cuando la razón de masas se hace chica.*
-  Dividiendo la @m19-hill por la @m17-soi del módulo 17, todo lo dimensional
+  Dividiendo la @tres-hill por la @soi-soi del módulo #M("esfera-influencia"), todo lo dimensional
   se va y queda una potencia sola:
 
   $ r_"Hill"/r_"SOI" = (1/3)^(1\/3) (m_2/m_1)^(1\/3 - 2\/5)
-    = 0,693 (m_2/m_1)^(-1\/15) $ <m19-razon>
+    = 0,693 (m_2/m_1)^(-1\/15) $ <tres-razon>
 
   Ese exponente $-1\/15$ es *tan chico* que la razón casi no se mueve: hay
   que cambiar la relación de masas en un factor de mil para que cambie un
@@ -475,7 +478,7 @@ comparación con la esfera de influencia es lo interesante:
   Y esa segunda fila tiene una consecuencia concreta, que se lee en la tabla
   de arriba: *$L_1$ y $L_2$ del sistema Sol–Tierra están afuera de la esfera
   de influencia de la Tierra*. Están a 1,5 millones de kilómetros, y la
-  esfera de influencia del módulo 17 termina a $925 thin 000$. O sea que el SOHO y
+  esfera de influencia del módulo #M("esfera-influencia") termina a $925 thin 000$. O sea que el SOHO y
   el James Webb están en lugares que el método de las cónicas parcheadas
   considera *territorio del Sol*, en los que sin embargo se quedan quietos
   respecto de la Tierra. Ninguna de las dos descripciones está mal: están
@@ -506,7 +509,7 @@ comparación con la esfera de influencia es lo interesante:
   $58 thin 019 < 61 thin 524 < 64 thin 515$ para la Luna, y
   $1 thin 491 thin 577 < 1 thin 496 thin 585 < 1 thin 501 thin 558$ para la
   Tierra. La
-  @m19-hill es el desarrollo a primer orden de la *misma* condición de
+  @tres-hill es el desarrollo a primer orden de la *misma* condición de
   equilibrio que da los dos puntos, y a ese orden $L_1$ y $L_2$ son
   simétricos respecto de $m_2$: la asimetría es de segundo orden. El radio de
   Hill es, literalmente, el promedio de los dos a primer orden.
@@ -529,14 +532,14 @@ corre un poco. Un lápiz parado sobre la punta está en equilibrio.
     masas.
   - *$L_4$ y $L_5$ son estables* si las masas son lo bastante distintas:
 
-  $ m_1/m_2 + m_2/m_1 >= 25 $ <m19-estable>
+  $ m_1/m_2 + m_2/m_1 >= 25 $ <tres-estable>
 ]
 
-La @m19-estable se lee mejor despejada. Llamando $k = m_1\/m_2$, la condición
+La @tres-estable se lee mejor despejada. Llamando $k = m_1\/m_2$, la condición
 $k + 1\/k >= 25$ es $k^2 - 25 k + 1 >= 0$, cuya raíz mayor es
 $(25 + sqrt(621))\/2$:
 
-$ k >= 24,96 quad quad "o, en fracción de masa," quad quad pi_2 <= 0,0385 $ <m19-routh>
+$ k >= 24,96 quad quad "o, en fracción de masa," quad quad pi_2 <= 0,0385 $ <tres-routh>
 
 Para el par Tierra–Luna $k = 81,3$ y para el par Sol–Júpiter $k$ es más de
 mil: los dos pasan cómodos. Y ahí están, efectivamente, los miles de
@@ -545,13 +548,13 @@ que se puede pedir, porque nadie los puso.
 
 #cuidado[
   *Que $L_4$ y $L_5$ del par Tierra–Luna cumplan el criterio no quiere decir
-  que una nave se quede ahí sola.* El criterio de la @m19-estable vale para
+  que una nave se quede ahí sola.* El criterio de la @tres-estable vale para
   el problema restringido *de tres cuerpos*, y en el sistema Tierra–Luna hay
   un cuarto que no es despreciable: el Sol. Su perturbación desestabiliza los
   dos puntos triangulares, así que una nave estacionada ahí igual necesita
   corregir.
 
-  Es el mismo tipo de advertencia que cierra el módulo 17: un modelo dice
+  Es el mismo tipo de advertencia que cierra el módulo #M("esfera-influencia"): un modelo dice
   hasta dónde llega él, no hasta dónde llega la realidad.
 ]
 
@@ -580,10 +583,10 @@ lo que se conserva alcanza para contestar, sin integrar nada, la pregunta más
 útil que hay: ¿a dónde *no* puede llegar esta nave?
 
 #deduccion("la constante de Jacobi")[
-  El truco es el mismo que el módulo 5 usó para sacar el teorema del trabajo
+  El truco es el mismo que el módulo #M("trabajo-energia") usó para sacar el teorema del trabajo
   y la energía: multiplicar cada ecuación por la velocidad correspondiente y
-  sumar. Se multiplica la @m19-mov-x por $dot(x)$, la @m19-mov-y por
-  $dot(y)$, la @m19-mov-z por $dot(z)$, y se suman las tres.
+  sumar. Se multiplica la @tres-mov-x por $dot(x)$, la @tres-mov-y por
+  $dot(y)$, la @tres-mov-z por $dot(z)$, y se suman las tres.
 
   *Lo primero que pasa es que Coriolis desaparece.* Los dos términos que
   aporta son $-2 Omega dot(y) dot(x)$ y $+2 Omega dot(x) dot(y)$: se cancelan
@@ -610,18 +613,18 @@ lo que se conserva alcanza para contestar, sin integrar nada, la pregunta más
   y lo que está adentro del corchete es constante.
 ]
 
-$ C = v^2/2 - (Omega^2 (x^2 + y^2))/2 - (mu_1)/r_1 - (mu_2)/r_2 $ <m19-jacobi>
+$ C = v^2/2 - (Omega^2 (x^2 + y^2))/2 - (mu_1)/r_1 - (mu_2)/r_2 $ <tres-jacobi>
 
 donde $v$ es la rapidez *relativa al marco que gira*. Ésa es la *constante de
 Jacobi*, descubierta en 1836, y es la única cantidad conservada que se conoce
 para este problema.
 
 #clave[
-  *Coriolis no aparece en la @m19-jacobi porque no trabaja.* La cancelación
+  *Coriolis no aparece en la @tres-jacobi porque no trabaja.* La cancelación
   de los dos términos no fue un golpe de suerte algebraico: la aceleración de
   Coriolis es $-2 bold(Omega) times bold(v)$, siempre *perpendicular a la
   velocidad*, y una fuerza perpendicular al movimiento no hace trabajo — es
-  el mismo argumento con el que el módulo 5 mostró que la componente
+  el mismo argumento con el que el módulo #M("trabajo-energia") mostró que la componente
   transversal no aporta. Por eso desvía la trayectoria pero no cambia el
   balance energético.
 
@@ -629,9 +632,9 @@ para este problema.
   energía. Llamando *potencial de Jacobi* a todo lo que no es cinético,
 
   $ U_J = - (Omega^2 (x^2 + y^2))/2 - (mu_1)/r_1 - (mu_2)/r_2,
-    quad quad C = v^2/2 + U_J $ <m19-potj>
+    quad quad C = v^2/2 + U_J $ <tres-potj>
 
-  queda $C = K + U_J$, que es el $E = K + U$ del módulo 5 palabra por
+  queda $C = K + U_J$, que es el $E = K + U$ del módulo #M("trabajo-energia") palabra por
   palabra. Los dos últimos términos de $U_J$ son las energías potenciales
   gravitatorias de los dos primarios, y el primero es la energía potencial de
   la fuerza centrífuga — negativa y creciente en módulo hacia afuera, porque
@@ -640,8 +643,8 @@ para este problema.
 
 #notacion[
   *El nombre «potencial de Jacobi» es de este apunte, no del libro.* Curtis
-  escribe la @m19-jacobi entera y no le pone nombre a la agrupación. Se le
-  puso uno acá por la misma razón por la que el módulo 9 usa «potencial
+  escribe la @tres-jacobi entera y no le pone nombre a la agrupación. Se le
+  puso uno acá por la misma razón por la que el módulo #M("orbita-conicas") usa «potencial
   eficaz»: sin un nombre para el bulto, la única forma de leer la ecuación es
   término por término, y con nombre se lee como un diagrama de energía de una
   variable, que es lo que es. Ojo también con el factor: buena parte de la
@@ -650,10 +653,10 @@ para este problema.
   sin mirar la definición.
 ]
 
-Como $v^2 >= 0$ siempre, la @m19-potj impone una condición sobre *dónde puede
+Como $v^2 >= 0$ siempre, la @tres-potj impone una condición sobre *dónde puede
 estar* la nave:
 
-$ C >= U_J (x, thin y, thin z) $ <m19-prohibido>
+$ C >= U_J (x, thin y, thin z) $ <tres-prohibido>
 
 Los puntos donde $C < U_J$ son *inalcanzables*: llegar ahí pediría energía
 cinética negativa. La superficie donde vale la igualdad —donde la nave
@@ -661,7 +664,7 @@ llegaría con velocidad exactamente nula— es la *superficie de velocidad
 cero*, y es una pared: la trayectoria no la cruza.
 
 #fig([El potencial de Jacobi a lo largo de la línea Tierra–Luna, que es el
-diagrama de energía del módulo 5 aplicado a este problema. Lo que hay que
+diagrama de energía del módulo #M("trabajo-energia") aplicado a este problema. Lo que hay que
 sacar del dibujo es cómo se lee: la nave tiene un $C$ fijo, que se dibuja
 como una recta horizontal, y sólo puede estar donde esa recta queda *por
 encima* de la curva. Los tres máximos son $L_1$, $L_2$ y
@@ -707,7 +710,7 @@ la Tierra y la Luna.], fig-jacobi-perfil)
   la centrífuga no sea una fuerza real.
 
   La segunda, más peligrosa: *que una región esté permitida no quiere decir
-  que la nave vaya a llegar.* La @m19-prohibido es una condición *necesaria*,
+  que la nave vaya a llegar.* La @tres-prohibido es una condición *necesaria*,
   no suficiente: prohíbe, no promete. Con el $C$ justo para abrir $L_1$ la
   nave *puede* pasar a la región de la Luna, pero si apunta para otro lado no
   pasa. Saber a dónde llega de verdad pide integrar las ecuaciones, y eso
@@ -721,7 +724,7 @@ la Tierra y la Luna.], fig-jacobi-perfil)
   cada uno de los seis escenarios de la figura anterior? (Curtis, ejemplo
   2.17, pág. 130.)
 
-  *El planteo es un despeje, y eso es todo el ejemplo.* De la @m19-jacobi,
+  *El planteo es un despeje, y eso es todo el ejemplo.* De la @tres-jacobi,
 
   $ v^2 = Omega^2 (x^2 + y^2) + (2 mu_1)/r_1 + (2 mu_2)/r_2 + 2 C $
 
@@ -758,7 +761,7 @@ la Tierra y la Luna.], fig-jacobi-perfil)
   Para tomarle la medida a eso: son doce metros por segundo sobre casi once
   mil, en un cohete que acaba de quemar el 95% de su masa. Y las seis
   velocidades están todas dentro del $1,5%$ de la velocidad de escape a esa
-  altura, que por la @m16-vesc del módulo 16 vale
+  altura, que por la @hip-vesc del módulo #M("hiperbola") vale
 
   $ v_"esc" = sqrt((2 mu_1)/r) = sqrt((2 dot 398 thin 600)/6578) = 11,01 " km/s" $
 
@@ -769,7 +772,7 @@ la Tierra y la Luna.], fig-jacobi-perfil)
     quedarse en órbita terrestre hasta escapar del sistema Tierra–Luna—
     entra en 22 m/s.
 
-    Y da la vuelta completa sobre el módulo 17. Allá, el error del método de
+    Y da la vuelta completa sobre el módulo #M("esfera-influencia"). Allá, el error del método de
     las cónicas parcheadas se midió en $0,7$ km/s de velocidad en la frontera,
     y se dijo que eso eran «decenas de metros por segundo» en el diseño.
     Acá se ve contra qué escala hay que comparar esas decenas de metros por
@@ -782,7 +785,7 @@ la Tierra y la Luna.], fig-jacobi-perfil)
   inofensivas para el resultado y las dos capaces de trabar a quien siga la
   cuenta.* La primera: imprime $m_1 = 5,947 times 10^24$ kg donde va
   $5,974 times 10^24$ — es la misma transposición de dos cifras que ya
-  apareció en el ejemplo 2.13 (ver el módulo 18), y se confirma porque la
+  apareció en el ejemplo 2.13 (ver el módulo #M("perifocal-lagrange")), y se confirma porque la
   división que el propio libro imprime dos símbolos más adelante da $0,9878$,
   que es lo que sale con $5,974$ y no con $5,947$.
 
@@ -799,9 +802,9 @@ Este módulo cierra la Parte V y, con ella, el apunte. Lo que queda dicho para
 lo que siga:
 
 1. *La deuda del tiempo sigue abierta, y ya no es de este módulo.* Los $3,2$
-   días que el módulo 17 le atribuye a la travesía de la esfera de influencia
+   días que el módulo #M("esfera-influencia") le atribuye a la travesía de la esfera de influencia
    de la Tierra siguen citados y no deducidos: piden la ecuación de Kepler
-   hiperbólica, que el módulo 18 nombró y no desarrolló. Este módulo tampoco,
+   hiperbólica, que el módulo #M("perifocal-lagrange") nombró y no desarrolló. Este módulo tampoco,
    y a propósito: es el capítulo 3 de Curtis y es un tema entero. Acá no
    habría entrado sin desplazar lo que sí es de tres cuerpos.
 
@@ -815,9 +818,9 @@ lo que siga:
    rojo sobre $L_4$ y $L_5$ del par Tierra–Luna.
 
 3. *Las tres fronteras de un cuerpo chico.* Quedan las tres definidas y con
-   sus criterios separados: la esfera de influencia del módulo 17 para decidir
+   sus criterios separados: la esfera de influencia del módulo #M("esfera-influencia") para decidir
    *con qué problema de dos cuerpos se aproxima cada tramo*, la esfera de
-   Hill de la @m19-hill para decidir *qué puede quedar en órbita*, y las
+   Hill de la @tres-hill para decidir *qué puede quedar en órbita*, y las
    distancias exactas a $L_1$ y $L_2$ cuando hace falta el número fino.
 
 4. *Las órbitas halo*, que son el tema práctico que sale de acá: órbitas
@@ -825,10 +828,10 @@ lo que siga:
    este módulo y el lugar donde están hoy varias de las misiones científicas
    más caras que hay volando.
 
-5. *Y la idea que atraviesa la Parte V entera.* El módulo 16 dio la forma de
-   toda salida y toda llegada; el 17, la licencia para partir un viaje en
-   problemas de dos cuerpos y la medida de cuánto miente esa licencia; el 18,
-   la forma de escribirlo todo en vectores para una computadora; y el 19, qué
+5. *Y la idea que atraviesa la Parte V entera.* El módulo #M("hiperbola") dio la forma de
+   toda salida y toda llegada; el #M("esfera-influencia"), la licencia para partir un viaje en
+   problemas de dos cuerpos y la medida de cuánto miente esa licencia; el #M("perifocal-lagrange"),
+   la forma de escribirlo todo en vectores para una computadora; y el #M("tres-cuerpos"), qué
    queda cuando la licencia se vence. Los cuatro contestan la misma pregunta
    desde cuatro lados: *cuánto se puede saber de una trayectoria sin
    resolverla.*

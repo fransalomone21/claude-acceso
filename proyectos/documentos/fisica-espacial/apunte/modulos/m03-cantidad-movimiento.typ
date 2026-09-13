@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Cantidad de movimiento, impulso y choques")[
+#modulo("Cantidad de movimiento, impulso y choques", clave: "cantidad-movimiento")[
   Escribir la segunda ley en la forma que sobrevive cuando la masa cambia;
   calcular el impulso de una fuerza que dura poco y de la que no se conoce
   la forma; decidir —antes de escribir una ecuación— en qué dirección se
@@ -9,13 +9,13 @@
 ]
 
 La materia se apoya en tres teoremas de conservación, y este es el primero. No
-es el más profundo —ese es el del momento angular, que llega en el módulo 7—
+es el más profundo —ese es el del momento angular, que llega en el módulo #M("momento-angular")—
 pero sí el que más se usa: la propulsión de un cohete, el choque de dos
 cuerpos, el retroceso de un satélite que suelta una antena, todo eso es este
 teorema y nada más.
 
 La cátedra lo dijo con una frase que conviene tomar en serio: *«es muy
-importante para entender el impulso de un cohete»*. El módulo 4 es la
+importante para entender el impulso de un cohete»*. El módulo #M("cohete") es la
 consecuencia directa de este.
 
 == De $bold(F) = m bold(a)$ a $bold(F) = d bold(p) \/ d t$
@@ -27,7 +27,7 @@ $ bold(p) = m bold(v) $
 Un vector, con la dirección de la velocidad, que se mide en kg·m/s. Con él, la
 segunda ley de Newton se escribe
 
-$ sum bold(F) = (d bold(p)) / (d t) $ <m2-segunda-ley>
+$ sum bold(F) = (d bold(p)) / (d t) $ <cant-segunda-ley>
 
 que es la forma en que Newton la enunció, y no la que se aprende primero.
 
@@ -42,7 +42,7 @@ que es la forma en que Newton la enunció, y no la que se aprende primero.
 
 #cuidado[
   Ese $dot(m) bold(v)$ del renglón de arriba *no* es la ecuación del cohete, y
-  usarlo así es el error clásico. El motivo está en el módulo 4: en un cohete el
+  usarlo así es el error clásico. El motivo está en el módulo #M("cohete"): en un cohete el
   sistema de masa $m$ no es cerrado —le sale masa por atrás—, y la segunda ley
   vale para sistemas cerrados. El planteo correcto es aplicar la conservación de
   $bold(p)$ al conjunto *cohete más gas*, y de ahí sale un término distinto.
@@ -69,14 +69,14 @@ que es la forma en que Newton la enunció, y no la que se aprende primero.
   usa la convención de la cátedra.
 ]
 
-== El impulso: integrar la fuerza en el tiempo <m2-impulso>
+== El impulso: integrar la fuerza en el tiempo <cant-impulso>
 
 En un choque la fuerza dura milisegundos, es enorme y su forma exacta no la
 conoce nadie. Lo notable es que para saber cómo quedan los cuerpos *no hace
 falta conocerla*: alcanza con su integral.
 
 #deduccion("el teorema del impulso, en dos renglones")[
-  Se integra la @m2-segunda-ley entre $t_1$ y $t_2$:
+  Se integra la @cant-segunda-ley entre $t_1$ y $t_2$:
   $ integral_(t_1)^(t_2) sum bold(F) d t = integral_(t_1)^(t_2) (d bold(p)) / (d t) d t = bold(p)_2 - bold(p)_1 $
   Al miembro de la izquierda se lo llama *impulso* $bold(J)$, y el resultado es
   el *teorema del impulso y la cantidad de movimiento*:
@@ -108,7 +108,7 @@ Para un sistema de dos partículas $A$ y $B$ que interactúan entre sí y ademá
 reciben fuerzas de afuera:
 
 #deduccion("la conservación de P sale de la tercera ley")[
-  Para cada partícula vale la @m2-segunda-ley:
+  Para cada partícula vale la @cant-segunda-ley:
   $ (d bold(p)_A) / (d t) = bold(F)_(B->A) + bold(F)_(A,"ext"), quad
     (d bold(p)_B) / (d t) = bold(F)_(A->B) + bold(F)_(B,"ext") $
   Sumando las dos, y usando que por la *tercera ley*
@@ -210,7 +210,7 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
     adorno. Si la rapidez fuera #box[$3,20$ m/s] *respecto de la astronauta*, la
     ecuación sería $0 = 2,25 (3,20 + v_a) + 68,5 v_a$, y daría
     $v_a = -0,102$ m/s. La diferencia es chica acá porque la astronauta se
-    mueve poco; en el módulo 4, con un cohete, la misma distinción cambia
+    mueve poco; en el módulo #M("cohete"), con un cohete, la misma distinción cambia
     todo el resultado.
   ]
 ]
@@ -341,7 +341,7 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   ]
 
   *La fuerza media.* El impulso sobre el transbordador es
-  $bold(J) = Delta bold(p) = m_"transb" v_"transb"$ (@m2-impulso), y como el
+  $bold(J) = Delta bold(p) = m_"transb" v_"transb"$ (@cant-impulso), y como el
   mecanismo actuó $4$ s:
   $ F_"prom" = abs(Delta p) / (Delta t) = (90 thin 000 dot 2,643 times 10^(-3)) / 4 = 59,5 " N" $
 
@@ -360,7 +360,7 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   movimiento*. El 1 y el 2 son los dos primeros ejemplos de arriba. El *3*
   —el calamar que se propulsa expulsando agua (S&Z 8.19)— es el 1 con otro
   disfraz en su parte (a); su parte (b), la energía cinética que genera, se
-  resuelve en el módulo 5. Los ejercicios *4 al 9* son todos del módulo 4.
+  resuelve en el módulo #M("trabajo-energia"). Los ejercicios *4 al 9* son todos del módulo #M("cohete").
 
   Los *Adicionales 1 y 2* —agregados en una versión posterior de la guía—
   son los dos últimos ejemplos: la separación de etapas es el mismo
@@ -371,15 +371,15 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
 
 == Lo que se usa después
 
-1. *$bold(J) = Delta bold(p)$.* En el módulo 4 el «choque» dura todo el vuelo y
+1. *$bold(J) = Delta bold(p)$.* En el módulo #M("cohete") el «choque» dura todo el vuelo y
    se aplica a un pedacito de gas por vez; de ahí sale la ecuación del cohete.
-   En el 14 reaparece con su gemelo angular, $integral bold(M) d t = Delta bold(L)$
+   En el #M("euler-giroscopo") reaparece con su gemelo angular, $integral bold(M) d t = Delta bold(L)$
    (Beer §14.9, ecs. 14.32 y 14.33 — la cátedra las marcó como «muy
    importantes»).
 
 2. *La resultante externa manda, las internas nunca.* Es la misma idea que en
-   el módulo 3 permite decir que el centro de masa de un sistema no se entera
-   de lo que pasa adentro, y en el 7 que una fuerza central no cambia el
+   el módulo #M("centro-de-masa") permite decir que el centro de masa de un sistema no se entera
+   de lo que pasa adentro, y en el #M("momento-angular") que una fuerza central no cambia el
    momento angular.
 
 3. *El hábito de preguntar «¿en qué dirección se conserva?» antes de escribir.*

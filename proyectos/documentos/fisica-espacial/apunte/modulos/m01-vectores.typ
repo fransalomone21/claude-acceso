@@ -1,6 +1,6 @@
 #import "../plantilla.typ": *
 
-#modulo("Vectores y cinemática en coordenadas polares")[
+#modulo("Vectores y cinemática en coordenadas polares", clave: "vectores")[
   Escribir un vector en componentes y volver de las componentes al vector;
   usar el producto escalar para proyectar y el vectorial para construir una
   dirección perpendicular; resolver los dobles productos sin caer en la
@@ -17,9 +17,9 @@ semana entera a repasar vectores: no es trámite, es la herramienta con la que
 está escrito todo lo demás.
 
 El módulo va de lo conocido a lo que probablemente no lo sea. Las secciones
-#link(<m1-escalar>)[1.2] a #link(<m1-dobles>)[1.4] son repaso y se leen rápido;
-la #link(<m1-derivada>)[1.5] y la #link(<m1-polares>)[1.6] son el corazón, y de
-ahí sale la mitad de las fórmulas de los módulos 7 al 11.
+#link(<vec-escalar>)[1.2] a #link(<vec-dobles>)[1.4] son repaso y se leen rápido;
+la #link(<vec-derivada>)[1.5] y la #link(<vec-polares>)[1.6] son el corazón, y de
+ahí sale la mitad de las fórmulas de los módulos #M("momento-angular") al #M("maniobras").
 
 == El vector, sus componentes y sus cosenos directores
 
@@ -49,7 +49,7 @@ $bold(A)$ forma con cada eje.
   Vale la pena hacerla siempre — cuesta tres cuadrados y una suma.
 ]
 
-== El producto escalar: proyectar <m1-escalar>
+== El producto escalar: proyectar <vec-escalar>
 
 $ bold(A) dot bold(B) = A_x B_x + A_y B_y + A_z B_z = abs(bold(A)) abs(bold(B)) cos theta $
 
@@ -69,8 +69,8 @@ largo de esa sombra, multiplicado por $abs(bold(A))$.], fig-proyeccion)
   multiplicar por el versor:
   $ bold(B)_(||) = (bold(B) dot hat(u)_A) hat(u)_A $
   Esa descomposición —una parte paralela a una dirección y el resto
-  perpendicular— es la que se usa en el módulo 7 para separar la velocidad en
-  radial y transversal, y en el 13 para el momento de inercia respecto de un eje.
+  perpendicular— es la que se usa en el módulo #M("momento-angular") para separar la velocidad en
+  radial y transversal, y en el #M("inercia") para el momento de inercia respecto de un eje.
 ]
 
 #geometria[
@@ -134,8 +134,8 @@ $abs(bold(A))$ por altura $abs(bold(B)) sin theta$.], fig-producto-vectorial)
 
 #clave[
   La consecuencia que más se usa: $bold(A) times bold(B) = bold(0)$ con los dos
-  no nulos significa *paralelos*. En el módulo 7 eso es exactamente la condición
-  para que el momento angular de una partícula sea nulo, y en el 9 es la que
+  no nulos significa *paralelos*. En el módulo #M("momento-angular") eso es exactamente la condición
+  para que el momento angular de una partícula sea nulo, y en el #M("orbita-conicas") es la que
   define el perigeo y el apogeo — los dos únicos puntos de una órbita donde la
   velocidad es perpendicular al radio, y por eso donde $|bold(r) times bold(v)|$
   se calcula sin trigonometría.
@@ -158,7 +158,7 @@ $abs(bold(A))$ por altura $abs(bold(B)) sin theta$.], fig-producto-vectorial)
   que es una elección, no un dato del problema.
 ]
 
-== Los dobles productos, y la trampa <m1-dobles>
+== Los dobles productos, y la trampa <vec-dobles>
 
 Con tres vectores hay dos combinaciones que aparecen todo el tiempo:
 
@@ -194,7 +194,7 @@ está *en* el plano.
   - $(bold(A) dot bold(B))(bold(A) times bold(B))$ es un vector paralelo a $bold(A) times bold(B)$, escalado por un número: *no* es un doble producto vectorial, aunque se le parezca escrito.
 ]
 
-== La derivada de un vector: dos partes, no una <m1-derivada>
+== La derivada de un vector: dos partes, no una <vec-derivada>
 
 Acá empieza lo que realmente hace falta. Un vector puede cambiar de dos maneras
 independientes: cambiando de *módulo* y cambiando de *dirección*. Su derivada
@@ -234,7 +234,7 @@ límite, es perpendicular a $hat(r)$.], fig-derivada-versor)
   noventa grados más se llega a $-hat(r)$). Beer, §11.14, pág. 668, ec. (11.42).
 ]
 
-== Velocidad y aceleración en coordenadas polares <m1-polares>
+== Velocidad y aceleración en coordenadas polares <vec-polares>
 
 #fig([Los versores polares en un punto de una trayectoria cualquiera. $hat(r)$
 apunta hacia afuera a lo largo de $bold(r)$; $hat(theta)$ es $hat(r)$ girado
@@ -356,8 +356,8 @@ porque dos de ellos no tienen análogo en cartesianas:
 
 Tres resultados de este módulo se van a usar hasta el final:
 
-1. *$bold(A) dot bold(B) = 0 <==> perp$* y *$bold(A) times bold(B) = bold(0) <==> ||$*. Con eso se prueba que una fuerza central no hace variar el momento angular (módulo 7) y que en apogeo y perigeo $h = r v$ sin senos (módulo 9).
+1. *$bold(A) dot bold(B) = 0 <==> perp$* y *$bold(A) times bold(B) = bold(0) <==> ||$*. Con eso se prueba que una fuerza central no hace variar el momento angular (módulo #M("momento-angular")) y que en apogeo y perigeo $h = r v$ sin senos (módulo #M("orbita-conicas")).
 
-2. *La derivada de un vector de módulo constante es perpendicular a él.* Es el argumento de dos renglones detrás de la aceleración centrípeta, y reaparece entero en el módulo 12 cuando el vector que rota es un eje del cuerpo rígido.
+2. *La derivada de un vector de módulo constante es perpendicular a él.* Es el argumento de dos renglones detrás de la aceleración centrípeta, y reaparece entero en el módulo #M("cinematica-cr") cuando el vector que rota es un eje del cuerpo rígido.
 
-3. *$bold(v) = dot(r) hat(r) + r dot(theta) hat(theta)$.* De acá salen las dos cantidades que gobiernan la mecánica orbital: el momento angular específico $h = r^2 dot(theta)$, y la energía cinética partida en su parte radial y su parte angular —que es lo que da origen al *potencial eficaz* del módulo 9.
+3. *$bold(v) = dot(r) hat(r) + r dot(theta) hat(theta)$.* De acá salen las dos cantidades que gobiernan la mecánica orbital: el momento angular específico $h = r^2 dot(theta)$, y la energía cinética partida en su parte radial y su parte angular —que es lo que da origen al *potencial eficaz* del módulo #M("orbita-conicas").
