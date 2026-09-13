@@ -322,7 +322,17 @@ no depende de nada.
     hace $T = 1$ día sideral $= 23,934$ h $= 86 thin 162$ s. Despejando $r$ de
     la @m6-T:
     $ r = ((mu T^2) / (4 pi^2))^(1\/3) = (((3,986 times 10^14)(86 thin 162)^2) / (39,48))^(1\/3) = 4,215 times 10^7 " m" $
-    o sea $42 thin 150$ km, que descontando $R_T$ da $35 thin 780$ km. *Con eso
+    o sea $42 thin 150$ km, que descontando $R_T$ da $35 thin 780$ km.
+
+    *Esa órbita tiene nombre: es la #strong[geosincrónica]* —tarda un día
+    sideral en dar la vuelta, así que vuelve a quedar sobre el mismo meridiano
+    a la misma hora—, y se la llama #strong[geoestacionaria] cuando además es
+    ecuatorial y directa: recién entonces el satélite se queda quieto sobre un
+    punto del suelo, que es lo que hace falta para apuntarle una antena fija.
+    Es la órbita de los satélites de comunicaciones, y la guía la nombra así,
+    sin definirla.
+
+    *Con eso
     queda resuelto de paso el Problema 3 de la guía*, que pide exactamente esta
     altura y la velocidad correspondiente:
     $v^2 = mu \/ r = 9,456 times 10^6 ==> v = 3,08$ km/s.

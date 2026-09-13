@@ -6,6 +6,55 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión 7 (segunda parte) — FASE 7 ABIERTA Y CERRADA EL MISMO DÍA
+
+Fran pidió verificar que el roadmap estuviera completo y que la guía de
+gravitación fuera resoluble con el apunte. **Esa verificación nunca se había
+hecho**: la fase 6 había mirado el roadmap contra los módulos, pero nadie
+había abierto la guía de la cátedra y cruzado problema por problema.
+
+**El cruce cambió el alcance de la fase 7.** Se iba a abrir para escribir tres
+anexos; resultó que los anexos resolvían un problema que el apunte no tenía, y
+que lo que faltaba eran **dos palabras**. Están escritas y la fase cerró. El
+detalle está en `PDP.md` §4, fase 7. Lo que hay que saber acá:
+
+- La *energía específica* $epsilon$ quedó en el módulo 9, junto a la vis-viva
+  (págs. 68-69 del PDF). La *geosincrónica / geoestacionaria*, en el módulo 6,
+  junto a la cuenta que ya sacaba los 35 780 km (pág. 46). Las tres páginas se
+  miraron en el render.
+- El apunte siguió en **149 páginas**: los dos agregados entraron sin correr
+  nada.
+
+### La trampa de esta sesión, y cuesta media hora si se vuelve a caer
+
+**`grep` de una frase de dos palabras sobre fuente Typst da falsos negativos.**
+El fuente está envuelto a ancho fijo, la frase se parte entre dos líneas, y
+grep trabaja por línea. Medido: `grep -ril "anomalía verdadera"` devolvió
+**NADA** sobre un apunte que la usa en **seis** módulos, y estuvo a punto de
+reportarse como hueco de contenido. Para frases hay que usar modo multilínea
+con `\s+` entre palabras. La señal de alarma es el resultado mismo: un cero
+sobre un concepto que el documento obviamente trata no es un hueco, es una
+búsqueda mal parametrizada.
+
+### Lo que queda para la próxima sesión, en orden
+
+1. **Las otras cuatro secciones de la guía no se auditaron** —vectores,
+   cantidad de movimiento, impulso angular, cuerpo rígido—. Fran pidió
+   gravitación y eso se hizo. El método ya está probado y es barato: extraer
+   el texto con PyMuPDF, renderizar como imagen sólo las páginas cuyos
+   problemas son figuras, y cruzar con `grep` multilínea contra los módulos.
+   La guía está en `Downloads\PROBLEMAS FÍSICA ESPACIAL (3).pdf` — **conviene
+   copiarla a `fuentes/` en esa sesión**, porque Downloads no es parte del
+   proyecto y el archivo puede desaparecer.
+2. **Los tres anexos**, si Fran los quiere para estudiar. Ya no bloquean nada.
+   Alcance y criterio de salida escritos en `PDP.md`.
+3. **La ecuación de Kepler tiempo-anomalía** sigue siendo la única deuda de
+   contenido, y arrastra los 3,2 días de la travesía de la esfera de
+   influencia que `m18` cita sin deducir. No la pide la guía ni el plan de las
+   17 semanas.
+
+---
+
 ## Sesión 7 — EL APUNTE QUEDÓ CERRADO (2026-09-13)
 
 No hay nada a medias. **El proyecto no tiene fase abierta y no se abre

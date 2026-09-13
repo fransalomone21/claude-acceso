@@ -167,30 +167,57 @@ los anexos pasan a ser la fase 7, opcional, definida abajo. Cerrar una fase
 contra un criterio que no se cumplió, sin decirlo, es justo lo que el criterio
 de salida existe para impedir.
 
-### Fase 7 — anexos  ·  OPCIONAL, NO ABIERTA
+### Fase 7 — que la guía se pueda resolver  ·  CERRADA (2026-09-13)
 
-**El apunte se declaró CERRADO el 2026-09-13 sin esta fase** (ver
-`ESTADO_ACTUAL.md`). Queda definida para que, si alguna vez se abre, no haya
-que inventarle el alcance — que era el estado hasta hoy.
+**La fase se abrió, cambió de alcance por evidencia y se cerró el mismo día.**
+Se abrió para escribir tres anexos. Antes de escribirlos se hizo lo que no se
+había hecho nunca: **cruzar la guía de la cátedra, problema por problema,
+contra los 19 módulos** (`PROBLEMAS FÍSICA ESPACIAL (3).pdf`, 21 págs.). Ese
+cruce mostró que los anexos resolvían un problema que el apunte no tenía.
 
-Son tres anexos, y van en `apunte/modulos/anexos.typ`, que engancha en el
-`#include` ya comentado de `apunte/apunte.typ:134`:
+**Lo que el cruce midió, y que nadie había medido antes:**
 
-1. **Formulario** — una fila por resultado, con el número de módulo donde está
-   *deducido*. No es una lista de fórmulas sueltas: si una fila no puede
-   apuntar a su deducción, no entra.
-2. **Constantes** — $G$, $M_T$, $R_T$, $mu$ de Tierra/Sol/Luna, UA, $g_0$, con
-   la fuente de cada valor y las cifras significativas que el apunte usa.
-3. **Correspondencia con la cátedra** — tabla tema de `fuentes/TEMARIO.md` →
-   módulo que lo cubre. Es el anexo que más sirve para rendir, y el único que
-   se puede armar sin releer los módulos.
+1. **El roadmap de Curtis está completo salvo un nodo** —las ecuaciones de
+   Kepler que relacionan anomalía con tiempo— y el apunte ya lo declara, en
+   `m11-maniobras.typ:264`, al lado de la figura del roadmap. Lo nuevo es que
+   **ese nodo no lo pide ningún problema de la guía**, y ahora está
+   verificado contra la guía en vez de asumido: el tiempo de la transferencia
+   de Hohmann es medio período (Problema 5b) y el encuentro del Problema 10
+   es una órbita de fasaje, que `m11:160` resuelve con $T'/T = 1 - Delta phi
+   \/ 360°$.
+2. **Los 16 problemas de gravitación (0 a 10 más los 5 adicionales) son
+   resolubles con lo que ya está escrito.** Dos de ellos, además, ya están
+   resueltos adentro del apunte: el adicional 5 en `m16:354` y el Problema 9
+   (el LEM) como ejemplo trabajado de `m10`.
+3. **Los dos únicos huecos eran de vocabulario, no de física.** La guía pide
+   «la energía específica de la órbita» y habla de «órbita geosincrónica»;
+   el apunte tenía las dos cosas deducidas —la vis-viva y el día sideral con
+   la altura geosincrónica calculada— y no las llamaba por su nombre.
 
-**Cierra con:** los tres anexos escritos, el apunte compilado, y **las páginas
-nuevas miradas en el render** (regla propia del proyecto). Si se abre, es una
-sesión propia: el formulario obliga a recorrer las 7.795 líneas de los 19
-módulos, y hacerlo a medias produce un artefacto de consulta incompleto, que
-se usa sin desconfiar — peor que no tenerlo.
+**Lo que se hizo, y por qué así y no como anexo.** Los dos términos se
+escribieron **donde ya vive el concepto**: $epsilon = E\/m = -mu\/(2a)$ en el
+módulo 9, junto a la vis-viva, y la geosincrónica/geoestacionaria en el
+módulo 6, junto a la cuenta que ya sacaba los 35 780 km. Un anexo habría
+puesto el nombre lejos de su deducción, que es exactamente lo que este apunte
+existe para no hacer.
 
+**Cerró con:** los dos términos adentro, el apunte compilado (149 páginas, no
+cambió el total) y las tres páginas afectadas —46, 68 y 69— **miradas en el
+render**, que es la regla propia del proyecto.
+
+### Los tres anexos — SIGUEN SIN ESCRIBIRSE, y ya no bloquean nada
+
+Formulario, constantes y tabla de correspondencia con la cátedra. Eran el
+alcance original de la fase 7 y siguen siendo **útiles para estudiar**, pero
+el cruce contra la guía mostró que **no hacen falta para resolverla**: eso era
+lo que no se sabía y es lo que cambia la decisión. Si alguna vez se escriben,
+el `#include` de `modulos/anexos.typ` sigue comentado en
+`apunte/apunte.typ:134`, y el alcance de cada uno está descrito abajo.
+
+**Cerrarían con:** los tres escritos, el apunte compilado y las páginas nuevas
+miradas en el render. Es una sesión propia: el formulario obliga a recorrer
+las 7.795 líneas de los 19 módulos, y hacerlo a medias produce un artefacto de
+consulta incompleto, que se usa sin desconfiar — peor que no tenerlo.
 ## 5. La estructura del apunte
 
 ```

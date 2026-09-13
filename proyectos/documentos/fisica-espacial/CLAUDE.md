@@ -18,6 +18,7 @@ cruzadas de texto plano no las valida el compilador.
 | lo que quedó a medias y las trampas de Typst ya pagadas | [`HANDOFF.md`](HANDOFF.md) |
 | verificar un dato contra la bibliografía | [`fuentes/RUTAS.md`](fuentes/RUTAS.md) — los seis libros, con ruta exacta |
 | entender qué pide la cátedra en cada tema | [`fuentes/TEMARIO.md`](fuentes/TEMARIO.md) — las listas de temas y el plan de 17 semanas, transcriptos |
+| **leer un enunciado de la guía, o verificar que un tema esté cubierto** | [`fuentes/GUIA-ENUNCIADOS.md`](fuentes/GUIA-ENUNCIADOS.md) — **la guía entera transcripta**. Los enunciados del PDF son imágenes: renderizarlas es la operación más cara del proyecto y ya está pagada. **Empezar siempre acá, no por el PDF.** |
 | tocar o agregar una figura | [`docs/figuras.md`](docs/figuras.md) |
 | generar el PDF | `.\compilar.bat`. El flujo y el chequeo visual: `/pdf-con-codigo` |
 
@@ -78,12 +79,30 @@ apunte/
     galeria.typ       compila SOLO las figuras (segundos, no minutos)
   modulos/            m1-*.typ … m19-*.typ, uno por modulo
 docs/                 figuras.md (el catalogo de figuras)
-fuentes/              RUTAS.md y TEMARIO.md — la bibliografia no se copia acá
+fuentes/
+  RUTAS.md            donde esta cada libro en el disco
+  TEMARIO.md          las listas de temas y el plan de 17 semanas
+  GUIA-ENUNCIADOS.md  la guia de problemas entera, transcripta a texto
+                      -- la bibliografia en si no se copia aca
 PDP.md · ESTADO_ACTUAL.md · HANDOFF.md
 ```
 
 Los PDFs de los libros **no se commitean**: pesan cientos de MB y no son
 nuestros. `fuentes/RUTAS.md` guarda dónde están en el disco.
+
+## Antes de renderizar una página de un PDF de la cátedra
+
+**Mirá primero si ya está transcripta en `fuentes/`.** Los enunciados de la
+guía son imágenes pegadas: `pdftotext` devuelve sólo «Ej. 5», «PROBLEMA 3», y
+leerlos de verdad obliga a rasterizar y mirar. Ese costo se paga **una vez** y
+ya se pagó — está en `fuentes/GUIA-ENUNCIADOS.md`, con las figuras descriptas
+en palabras. Volver al PDF sólo si hace falta **ver** una figura.
+
+Medido el 2026-09-13: una sesión cruzó la guía de gravitación contra los 19
+módulos renderizando cinco páginas del PDF, sin saber que el archivo existía —
+porque esta tabla no lo listaba. La transcripción estaba hecha desde el
+2026-08-31. Un archivo que el contrato no nombra es un archivo que la próxima
+sesión no encuentra, por más que esté commiteado.
 
 ## Al cerrar cualquier sesión
 

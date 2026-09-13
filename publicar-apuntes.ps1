@@ -28,7 +28,9 @@ param(
     [string]$ListaPath,
     # Idem: config de rclone alternativo, para que el saboteador no tenga
     # que meter remotes de prueba en el config de verdad.
-    [string]$ConfRclone
+    [string]$ConfRclone,
+    # Convierte en ROJO lo que por defecto es un PENDIENTE amarillo.
+    [switch]$Estricto
 )
 
 # NO se pone 'Stop': PowerShell 5.1 convierte CUALQUIER linea que un .exe
@@ -102,7 +104,7 @@ if (-not (Test-Path $hookInst)) {
 Escribir "== remote '$remote' ==" Cyan
 $null = & $rclone --config $conf lsd "${remote}:" --max-depth 1 2>&1
 if ($LASTEXITCODE -ne 0) {
-    Escribir "[ROJO] el remote '$remote' todavia no esta autorizado contra Google." Red
+    Escribir "[PENDIENTE] el remote '$remote' todavia no esta autorizado contra Google." Yellow
     Escribir "" White
     Escribir "       Esto lo tiene que hacer Fran UNA sola vez -- abre el navegador" Yellow
     Escribir "       y pide iniciar sesion con la cuenta duena del Drive:" Yellow
@@ -112,9 +114,17 @@ if ($LASTEXITCODE -ne 0) {
     Escribir "" White
     Escribir "       El token queda en $conf, FUERA del repo." Yellow
     Escribir "       El --config va a proposito: sin el, dos consolas de la misma" Yellow
-    Escribir "       maquina pueden resolver archivos distintos, y una dice not found" Yellow
-    Escribir "       mientras la otra lista el remote sin drama. Ya paso." Yellow
-    exit 1
+    Escribir "       maquina resuelven archivos distintos. Ya paso." Yellow
+    Escribir "       Hasta que lo corras NO se sube nada: hay que subir a mano." Yellow
+    Escribir "" White
+    # AMARILLO y exit 0, no rojo, y la diferencia importa: esto no es una falla
+    # del sistema, es un paso de instalacion que le falta a una persona. Un
+    # medidor rojo para siempre por algo que no esta roto entrena a ignorar el
+    # tablero entero -- y ya lo hizo: puso en rojo el control positivo de
+    # probar-hooks ("con todo sano, el arranque NO grita"), que no tiene nada
+    # que ver con Drive. Con -Estricto si es rojo, para cuando ya este hecho.
+    if ($Estricto) { exit 1 }
+    exit 0
 }
 Escribir "  autorizado" Green
 

@@ -328,6 +328,20 @@ $ E = - (mu m)/(2 a) quad quad "y de ahí" quad quad v^2 = mu (2/r - 1/a) $ <m9-
   $v_"esc"^2 = 2 mu \/ r$.
 ]
 
+#notacion[
+  *Dividida por la masa, la misma ecuación cambia de nombre.* La cátedra y
+  Curtis escriben la energía *por unidad de masa* —la #strong[energía específica],
+  $epsilon$— y con ella la @m9-visviva queda
+
+  $ epsilon = E/m = v^2/2 - mu/r = - mu/(2a) $ <m9-energia-especifica>
+
+  Es la misma ecuación, no una nueva: dividir por $m$ es todo lo que pasó. El
+  nombre importa porque la guía pide *"la energía específica de la órbita",*
+  en km²/s², y con esas unidades $mu$ va en km³/s² y $a$ en km. Que $epsilon$
+  no dependa de $m$ es la razón de fondo por la que una órbita no distingue
+  entre un satélite de 100 kg y uno de 3 toneladas.
+]
+
 == La elipse y sus seis números
 
 #fig([La elipse orbital y todo lo que se le mide. Arriba de la línea de ábsides,

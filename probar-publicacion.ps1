@@ -51,12 +51,13 @@ function Lista($apuntes) {
 }
 
 $fallas = 0
-function Caso($nombre, $listaPath, $esperaExit, $esperaTexto, $conVerificar) {
+function Caso($nombre, $listaPath, $esperaExit, $esperaTexto, $conVerificar, $conEstricto) {
     Write-Host ""
     Write-Host "-- $nombre" -ForegroundColor Cyan
     $script = Join-Path $raiz 'publicar-apuntes.ps1'
     $argumentos = @('-NoProfile','-ExecutionPolicy','Bypass','-File',$script,'-ListaPath',$listaPath,'-ConfRclone',$confTest)
     if ($conVerificar) { $argumentos += '-Verificar' }
+    if ($conEstricto)  { $argumentos += '-Estricto' }
     $salida = & powershell.exe $argumentos 2>&1 | Out-String
     $code = $LASTEXITCODE
     $okCode = ($code -eq $esperaExit)
@@ -94,6 +95,18 @@ Caso 'ROJO 2: declarado en la lista, ausente del disco' $l2 1 'no existe el PDF 
 # ---- ROJO 3: un apunte del disco que nadie declaro -----------------------
 $l3 = Lista @( @{ materia='Fisica Espacial'; local=$fisica; 'nombre-en-drive'='Apunte de Fisica Espacial.pdf' } )
 Caso 'ROJO 3: apunte en el disco sin declarar' $l3 1 'sin declarar' $true
+
+# ---- el remote SIN AUTORIZAR: amarillo por defecto, rojo con -Estricto ----
+# Sin estos dos casos la rama -Estricto seria codigo que nunca corrio, y la
+# distincion entre 'pendiente' y 'roto' seria una intencion, no un mecanismo.
+& $rclone --config $confTest config create sinauth drive --non-interactive | Out-Null
+$lSA = Lista @( @{ materia='Fisica Espacial'; local=$fisica; 'nombre-en-drive'='x.pdf' },
+                @{ materia='Electronica Analogica'; local=$electro; 'nombre-en-drive'='y.pdf' } )
+$j = Get-Content $lSA -Raw | ConvertFrom-Json
+$j.remote = 'sinauth'
+$j | ConvertTo-Json -Depth 5 | Set-Content $lSA -Encoding UTF8
+Caso 'AMARILLO: remote sin autorizar NO es un rojo' $lSA 0 'PENDIENTE' $true $false
+Caso 'ROJO 4: el mismo caso con -Estricto si es rojo' $lSA 1 'PENDIENTE' $true $true
 
 # ---- limpieza ------------------------------------------------------------
 Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
