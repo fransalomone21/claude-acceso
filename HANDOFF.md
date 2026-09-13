@@ -23,6 +23,24 @@ en la estructura, y que la próxima sesión tiene que saber:
   (6 casos, incluido el control de que tener commits sin pushear NO es rojo).
 - **`chequeo-completo.ps1` tiene ahora 5 medidores y 6 saboteadores.**
 
+Montar la PC destapó **siete precondiciones invisibles** — cosas que hacían
+andar la notebook y no estaban en ningún repo ni en ningún chequeo:
+
+1. la rama por defecto del remote apuntaba a una rama archivada;
+2. `ExecutionPolicy` (no lo puede medir `bootstrap`: lo bloquea antes);
+3. `python` resuelto por el alias fantasma de la Store — el chequeo medía
+   `Get-Command`, no el efecto;
+4. `bootstrap` clonaba `perfil-global` y nunca lo actualizaba;
+5. tres saboteadores confundían «no hay que sabotear» con «el chequeo está
+   ciego»;
+6. el hook `post-commit` de git no lo instalaba nadie (`.git/hooks` no viaja
+   en un clone), y la rama PENDIENTE del publicador se tragaba ese rojo;
+7. el filtro del tablero no sabía extraer el detalle de `probar-publicacion`,
+   así que ese rojo llegó mudo.
+
+Las siete quedaron arregladas, probadas rompiéndolas y registradas: **178
+lecciones**, todas con triage.
+
 Con dos máquinas, la **regla 5 del perfil** (checkpoint antes de parar) deja
 de ser higiene: es la condición para que la otra máquina pueda seguir.
 
