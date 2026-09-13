@@ -9,9 +9,12 @@
 | 0 — Estructura y fuentes | **en curso, casi cerrada** |
 | 1 — Escribir | **bloqueada a propósito, sin fecha** |
 
-**Qué cierra la fase 0:** que el recorte de Pisacane quede cruzado contra
-`../fisica-espacial/fuentes/TEMARIO.md` y confirmado por Fran. Ferraro y
-Young-Freedman ya están cerrados (ver `fuentes/RUTAS.md`).
+**Qué cierra la fase 0:** que Fran confirme el recorte de Pisacane. El cruce
+contra `../fisica-espacial/fuentes/TEMARIO.md` ya se hizo y no dio una
+respuesta directa (cero coincidencias de vocabulario) — abrió una ambigüedad
+de dos lecturas posibles con dos recortes distintos, que sólo Fran puede
+resolver (ver `docs/bitacora.md`). Ferraro y Young-Freedman ya están cerrados
+(ver `fuentes/RUTAS.md`).
 
 **La fase 1 no arranca sin que Fran lo pida explícitamente.** Dijo: "todo lo
 de taller de física es para un plazo más largo, yo te voy a decir cuándo
@@ -32,7 +35,7 @@ aunque el recorte de Pisacane ya esté confirmado.
 
 | Hipótesis | Qué la confirmaría | Por qué todavía no se probó |
 |---|---|---|
-| El recorte de Pisacane (caps. 3, 4, 6, 8, 9, 11) es el correcto | Cruzarlo contra `../fisica-espacial/fuentes/TEMARIO.md` y que Fran lo confirme | Fran pidió ese cruce explícito el 2026-09-13 y todavía no se hizo — ver `docs/bitacora.md` |
+| El recorte de Pisacane es 6 capítulos (3,4,6,8,9,11) o 7 (agregando el 5) | Que Fran diga cuál lectura de "correlativo" corresponde | Es una decisión de diseño de Fran, no algo que un grep pueda resolver — el cruce contra `TEMARIO.md` ya se hizo (cero coincidencias de vocabulario) y lo que dio fue la ambigüedad, no la respuesta. Detalle en `docs/bitacora.md` |
 
 ## Callejones sin salida
 
@@ -40,6 +43,6 @@ aunque el recorte de Pisacane ya esté confirmado.
 
 ## Lo próximo
 
-Cruzar el recorte propuesto de Pisacane contra el temario confirmado de
-Física Espacial, y esperar que Fran dé la señal de arrancar la fase 1. El
-detalle está en `PDP.md` §4 y §6.
+Que Fran elija entre los dos recortes de Pisacane (6 u 7 capítulos, ver
+`docs/bitacora.md`) y dé la señal de arrancar la fase 1. El detalle está en
+`PDP.md` §4 y §6.
