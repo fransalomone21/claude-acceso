@@ -29,23 +29,53 @@ Write-Host ""
 #
 # MIDE Y REPORTA, no instala: instalar en una maquina que no es la que uno
 # esta mirando es una accion que no se deshace sola (regla 6 del perfil).
+#
+# Y MIDE EL EFECTO, no la precondicion. La primera version de este bloque
+# usaba 'Get-Command', y en su PRIMERA maquina real dijo "[OK] python" para
+# despues morir 40 lineas mas abajo con "Python was not found; run without
+# arguments to install from the Microsoft Store": Windows deja un alias
+# FANTASMA de python.exe en WindowsApps que existe como comando y no ejecuta
+# nada. Get-Command lo encontraba y lo daba por bueno.
+#
+# Es el error que el perfil nombra de frente --verificar es ver el EFECTO,
+# nunca la precondicion-- cometido dentro del script que existe para medir.
+# Ahora cada dependencia se CORRE.
 Write-Host "  Dependencias de la maquina:" -ForegroundColor Cyan
 $deps = @(
-    @{ cmd = 'git';    que = 'todo';                          winget = 'Git.Git';         critica = $true  },
-    @{ cmd = 'python'; que = 'aprender.py (medidor de triage)'; winget = 'Python.Python.3.12'; critica = $true  },
-    @{ cmd = 'rclone'; que = 'publicar-apuntes.ps1 (medidor de Drive)'; winget = 'Rclone.Rclone'; critica = $false },
-    @{ cmd = 'typst';  que = 'compilar apuntes e informes';    winget = 'Typst.Typst';     critica = $false }
+    @{ cmd = 'git';    prueba = '--version'; que = 'todo';                          winget = 'Git.Git';         critica = $true  },
+    @{ cmd = 'python'; prueba = '--version'; que = 'aprender.py (medidor de triage)'; winget = 'Python.Python.3.12'; critica = $true  },
+    @{ cmd = 'rclone'; prueba = 'version';   que = 'publicar-apuntes.ps1 (medidor de Drive)'; winget = 'Rclone.Rclone'; critica = $false },
+    @{ cmd = 'typst';  prueba = '--version'; que = 'compilar apuntes e informes';    winget = 'Typst.Typst';     critica = $false }
 )
 $faltaCritica = $false
 foreach ($d in $deps) {
+    $anda   = $false
+    $motivo = 'no esta instalado'
     if (Get-Command $d.cmd -ErrorAction SilentlyContinue) {
-        Write-Host "  [OK]   $($d.cmd)" -ForegroundColor Green
+        try {
+            $salida = & $d.cmd $d.prueba 2>&1 | Out-String
+            if ($LASTEXITCODE -eq 0 -and $salida -notmatch 'was not found|Microsoft Store|no se encontr') {
+                $anda = $true
+            } else {
+                $motivo = 'el comando existe pero NO EJECUTA (alias fantasma de la Microsoft Store)'
+            }
+        } catch {
+            $motivo = "el comando existe pero fallo al correr: $($_.Exception.Message)"
+        }
+    }
+
+    if ($anda) {
+        Write-Host "  [OK]   $($d.cmd) -- corrido, no solo encontrado" -ForegroundColor Green
     } elseif ($d.critica) {
-        Write-Host "  [FAIL] falta $($d.cmd) -- lo necesita: $($d.que)" -ForegroundColor Red
+        Write-Host "  [FAIL] $($d.cmd) : $motivo -- lo necesita: $($d.que)" -ForegroundColor Red
         Write-Host "         winget install --id $($d.winget)"
+        if ($motivo -match 'alias fantasma') {
+            Write-Host "         Y apagar el alias: Configuracion > Aplicaciones > Alias de" -ForegroundColor Red
+            Write-Host "         ejecucion de aplicaciones > $($d.cmd).exe" -ForegroundColor Red
+        }
         $faltaCritica = $true
     } else {
-        Write-Host "  [WARN] falta $($d.cmd) -- lo necesita: $($d.que)" -ForegroundColor Yellow
+        Write-Host "  [WARN] $($d.cmd) : $motivo -- lo necesita: $($d.que)" -ForegroundColor Yellow
         Write-Host "         winget install --id $($d.winget)"
     }
 }

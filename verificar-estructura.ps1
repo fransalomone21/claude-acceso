@@ -154,17 +154,34 @@ foreach ($p in $proyectos) {
 }
 
 # 3b. Todo enlace relativo del enrutador apunta a algo que existe.
+#
+# "No existe" tiene DOS causas distintas y confundirlas cuesta caro en una
+# maquina nueva. Medido el 2026-09-13, en la PC: el enlace a
+# proyectos/seguimiento/coaching/CLAUDE.md salio [FAIL] -- y el enlace estaba
+# perfecto. Lo que faltaba era el REPO, que tiene dueno propio (regla 2) y no
+# se habia clonado ahi. Un rojo que sale por no tener un proyecto ajeno en el
+# disco es un rojo que se aprende a ignorar, y despues no se ve el de verdad.
+#
+# La discriminacion no se adivina: se mide. Si git IGNORA la ruta, esa ruta
+# pertenece a otro repo (para eso esta en .gitignore), asi que su ausencia es
+# un dato de esta maquina y no un enlace roto. Si no la ignora, el enlace es
+# responsabilidad de este repo y sigue siendo rojo.
 $rotos = 0
 foreach ($m in [regex]::Matches($textoClaude, '\]\(([^)#:]+?)\)')) {
     $destino = $m.Groups[1].Value
     if ($destino -match '^(https?|mailto)') { continue }
     $abs = Join-Path $Raiz ($destino -replace '/', '\')
     if (-not (Test-Path $abs)) {
-        Fail "CLAUDE.md enlaza a '$destino' y no existe."
-        $rotos++
+        $null = & git -C $Raiz check-ignore -q $destino 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            Warn "CLAUDE.md enlaza a '$destino': ese repo tiene dueno propio y no esta clonado en esta maquina. El enlace NO esta roto."
+        } else {
+            Fail "CLAUDE.md enlaza a '$destino' y no existe."
+            $rotos++
+        }
     }
 }
-if ($rotos -eq 0) { Ok "todos los enlaces relativos de CLAUDE.md resuelven" }
+if ($rotos -eq 0) { Ok "todos los enlaces de CLAUDE.md que le tocan a ESTE repo resuelven" }
 
 # 3c. La tabla de duenos de MAPA.md declara exactamente los repos que hay.
 # Esta es la que fallaba: el disco tenia tres repos propios y los documentos
