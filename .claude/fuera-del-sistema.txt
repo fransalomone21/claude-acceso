@@ -23,8 +23,12 @@
 Mis Documentos
 PlanosGasista
 fotos
+EA
+facu pendrive07del07
 
 # --- programas y entornos, no contenido ---
 Programas
 Programas y juegos
 vscode
+juegos folders
+claude
