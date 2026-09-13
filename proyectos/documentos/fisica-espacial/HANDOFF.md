@@ -39,27 +39,86 @@ for i,p in enumerate(d):
 "
 ```
 
-## Fase 5 — lo que la próxima sesión necesita (sesión 5: CIERRE DE FASE)
+## Fase 6 — lo que la próxima sesión necesita (todavía sin PDP)
 
-**Los cuatro módulos de la Parte V están escritos y verificados en el render**
-(M19 cerrado el 2026-09-11). Lo que queda **no es escribir**: es el cierre de
-fase, y son dos cosas concretas.
+**Pedido de Fran el 2026-09-13, al cerrar la fase 5.** Tres cosas, ninguna
+arrancada todavía — la fase 5 se cerró primero porque era el compromiso ya
+abierto (regla del PDP: no se mezclan fases a mitad de cierre):
 
-1. **Validar las referencias cruzadas de texto plano de la Parte V contra el
-   índice renderizado.** La tabla de los módulos 1 a 11 está más abajo, en
-   «Lo que sigue abierto, a propósito»; falta agregarle las de los módulos 16
-   a 19 y revisarlas todas juntas. Las de la Parte V, medidas al escribir:
-   M16 → módulos 6, 9, 11; M17 → módulos 4, 8, 11, 16, 19; M18 → módulos 1,
-   7, 8, 9, 16, 17, 19; M19 → módulos 5, 6, 8, 9, 10, 12, 16, 17, 18.
-   **Ninguna apunta a un módulo inexistente** —el 19 ya existe—, así que lo
-   que hay que verificar es que cada número sea el correcto, no que resuelva.
-2. **El blanco grande al pie de la pág. 30**, que se dejó para «cuando la
-   paginación no cambie más». Ese momento es ahora: el apunte tiene sus 19
-   módulos y 149 páginas, y no va a crecer salvo por los anexos de la fase 6.
+1. **Un roadmap en PDF** que Fran ya pasó en algún momento (o vuelve a pasar
+   la próxima sesión) — hay que revisarlo contra lo que el apunte ya cubre y
+   armar un «puntapié» de qué falta incorporar. **No está en el disco
+   todavía**: buscarlo primero con el mismo criterio que los libros de
+   `fuentes/RUTAS.md` (glob, nunca ruta a mano) antes de pedírselo a Fran de
+   nuevo.
+2. **Auditar que no falte ningún tema fundamental que sostenga el resto del
+   apunte** — el ejemplo que dio Fran es las leyes de Galileo. Esto es
+   distinto del roadmap: es un chequeo de fundamentos propios, contra el
+   `fuentes/TEMARIO.md` y el criterio de la cátedra, no contra un documento
+   externo.
+3. **Incorporar temas nuevos de un Taller de Física** (materia aparte, cuyas
+   clases arma la cátedra —no un profesor—, así que el criterio de nivel es
+   «lo más importante, sin ir al detalle»). Fran va a descargar los tres
+   libros que usa esa materia y agregarlos a la carpeta de libros de física.
+   **No arrancar esto sin los libros**: el apunte cita página por página
+   contra la fuente (regla 2 de `CLAUDE.md`), y sin los PDFs no hay dónde
+   verificar.
 
-`docs/figuras.md` **ya quedó al día** en la sesión 4, con las tres figuras del
-M19 en el catálogo y dos reglas nuevas (la 11 y la 12), así que eso ya no es
-parte del cierre.
+**Esto no tiene PDP todavía.** Las tres tareas son grandes y de alcance
+distinto entre sí (revisión de gaps, auditoría de fundamentos, contenido
+nuevo de otra materia) — antes de escribir una sola línea hace falta decidir
+si son una fase 6 con tres sesiones, o tres fases separadas. Eso se decide
+al abrir la próxima sesión, con el roadmap y al menos uno de los tres libros
+ya en el disco: sin eso, planificar es adivinar.
+
+---
+
+## Fase 5 — CERRADA (sesión 5, 2026-09-13)
+
+**Las dos tareas del cierre están hechas.**
+
+1. **Referencias cruzadas de texto plano — validadas para los 19 módulos**, no
+   sólo la Parte V. La tabla que estaba en «Lo que sigue abierto, a
+   propósito» (módulos 1 a 11) se armó **a mano** en su momento y quedó
+   **incompleta**: un `grep -oP '[Mm]ódulo \K\d+'` por módulo, leyendo cada
+   coincidencia en contexto para descartar falsos positivos (`módulo` como
+   *magnitud de un vector* — sólo uno real, "vector de módulo 1" en
+   `m1-vectores.typ:31`) y sumando las referencias elípticas que el patrón
+   simple no agarra (`"en los módulos 6 y 7"`, `"y en el 10"`, `"módulos 7 al
+   11"`), encontró **7 filas con números faltantes**:
+
+   | Módulo | Tabla vieja | Faltaba | Confirmado en contexto |
+   |---|---|---|---|
+   | 2 | 4, 5, 7, 14 | **3** | línea 381: "el módulo 3 permite decir que el CM..." |
+   | 3 | 4, 8, 13 | **2** | 6 menciones (choques, rapideces, dos números) |
+   | 5 | 6, 7, 9, 10 | **1, 2, 3, 4** | producto escalar (1), P=0 (2), CM (3), cohete (4) |
+   | 6 | 5, 8, 9, 10, 11 | **4, 7** | combustible del cohete (4), dirección de v en B (7) |
+   | 7 | 1, 2, 3, 5, 9, 10, 11, 14 | **6** | "el módulo 6 dio la rapidez por energía" |
+   | 16 | 6, 9, 11 | **7, 17** | $h=rv$ del módulo 7; todo M17 anticipado 6 veces |
+   | 17 | 4, 8, 11, 16, 19 | **6, 9** | velocidad de escape (6), ecuación de la órbita (9) |
+
+   Los módulos 1, 4, 8, 9, 10, 11, 18, 19 ya estaban completos. **Ninguna
+   referencia, vieja o nueva, apunta a un módulo inexistente.** La tabla de
+   abajo («Lo que sigue abierto, a propósito») ya quedó reescrita con las 19
+   filas (1 a 19) y esto es lo que cierra la fase.
+
+   **Los módulos 12 a 15 (Parte IV) nunca habían entrado a esta tabla** — el
+   plan de la fase 5 sólo hablaba de 1-11 y 16-19. Se agregaron igual porque
+   el pedido de esta sesión era «TODOS los módulos» y el mismo grep ya los
+   tenía medidos: M12 → 1, 3, 7, 13, 14, 15; M13 → 7, 8, 12, 14, 15; M14 →
+   12, 13, 15; M15 → 7, 12, 13, 14. Los cuatro, limpios.
+
+2. **El blanco al pie de la pág. 30 impresa (PDF pág. 34): mirado y declarado
+   aceptable, no se toca.** Es un salto de página normal, no un huérfano: el
+   §5.3 termina con la ec. (9) y la `Figura 1` (con su caption) no entraba
+   completa en lo que quedaba de página, así que Typst la enteró en la pág.
+   31. No hay caja cortada ni título de cuadro huérfano — eso ya lo cubre el
+   chequeo de huérfanos, que sigue en cero. Reordenar 149 páginas ya
+   verificadas para ahorrar un salto de página estético no vale el riesgo
+   (regla 6, cambios mínimos) y no hay otro problema real que resolver.
+
+`docs/figuras.md` ya quedó al día en la sesión 4, con las tres figuras del
+M19 en el catálogo y dos reglas nuevas (la 11 y la 12).
 
 **Lo que el M19 dejó hecho y NO hay que rehacer:**
 
@@ -457,33 +516,42 @@ con las citas del apunte. Un `show ref` en `plantilla.typ` las deja como
 
 ## Lo que sigue abierto, a propósito
 
-**Las referencias entre módulos son texto plano.** Los módulos 1 a 5 dicen
-«módulo 7», «módulo 9», «módulo 12», «módulo 13» en muchos lugares. Si el orden
-cambia, el compilador **no avisa**. Se revisan en la fase 5, todas juntas:
+**Las referencias entre módulos son texto plano.** Muchos módulos dicen
+«módulo 7», «módulo 9», «módulo 12» en el cuerpo del texto. Si el orden
+cambia, el compilador **no avisa** — sólo las etiquetas `<m1-*>` a `<m19-*>`
+son reales y las valida el compilador. **Validada en la sesión 5 de la fase
+5 (2026-09-13), los 19 módulos, contra el índice renderizado** (ver el
+detalle de qué se corrigió y cómo en «Fase 5 — CERRADA» más arriba):
 
 | Módulo | Apunta a |
 |---|---|
 | 1 | módulos 7, 9, 11, 12, 13 |
-| 2 | módulos 4, 5, 7, 14 |
-| 3 | módulos 4, 8, 13 |
+| 2 | módulos 3, 4, 5, 7, 14 |
+| 3 | módulos 2, 4, 8, 13 |
 | 4 | módulos 11, 12; sección de cuerpo rígido de la guía |
-| 5 | módulos 6, 7, 9, 10 |
-| 6 | módulos 5, 8, 9, 10, 11 |
-| 7 | módulos 1, 2, 3, 5, 9, 10, 11, 14 |
+| 5 | módulos 1, 2, 3, 4, 6, 7, 9, 10 |
+| 6 | módulos 4, 5, 7, 8, 9, 10, 11 |
+| 7 | módulos 1, 2, 3, 5, 6, 9, 10, 11, 14 |
 | 8 | módulos 3, 6, 7, 9, 10 |
 | 9 | módulos 1, 5, 6, 7, 8, 10, 11 |
 | 10 | módulos 6, 7, 8, 9, 11 |
 | 11 | módulos 6, 8, 9, 10 |
+| 12 | módulos 1, 3, 7, 13, 14, 15 |
+| 13 | módulos 7, 8, 12, 14, 15 |
+| 14 | módulos 12, 13, 15 |
+| 15 | módulos 7, 12, 13, 14 |
+| 16 | módulos 6, 7, 9, 11, 17 |
+| 17 | módulos 4, 6, 8, 9, 11, 16, 19 |
+| 18 | módulos 1, 7, 8, 9, 16, 17, 19 |
+| 19 | módulos 5, 6, 8, 9, 10, 12, 16, 17, 18 |
 
-Los `<m1-*>` a `<m11-*>` sí son etiquetas reales:
-esas las valida el compilador. Ninguna referencia entre módulos apunta
-todavía a un módulo que no exista (12 en adelante), así que el chequeo de la
-fase 5 —revisarlas todas juntas— sigue sin encontrar nada roto, sólo texto
-plano que confirmar.
+**Ninguna referencia apunta a un módulo que no existe.** Es un dato de texto
+plano, no de etiquetas: si un módulo se reordena en el futuro, esta tabla
+queda vieja y hay que rehacer el mismo grep (comando en «Fase 5 — CERRADA»).
 
-**Un blanco grande al pie de la pág. 30**, porque la figura siguiente no
-entraba. No se toca hasta la fase 5, por el mismo motivo de siempre: la
-paginación va a cambiar.
+**El blanco al pie de la pág. 30 impresa: mirado y declarado aceptable** —
+ver el detalle en «Fase 5 — CERRADA» más arriba. No se vuelve a tocar salvo
+que la paginación cambie por los anexos de la fase 6.
 
 ## Hallazgos de bibliografía que hay que llevarse puestos
 

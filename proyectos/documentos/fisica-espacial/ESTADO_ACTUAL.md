@@ -1,8 +1,19 @@
 # Estado actual — Apunte de Física Espacial
 
-**FASE 5 (Parte V: de la cónica al viaje real, M16–M19) — LOS CUATRO MÓDULOS
-ESCRITOS el 2026-09-11.** Es la fase que la cátedra abrió sin querer: la lista
-de temas de gravitación actualizada (`Lista de temas Gravitación (2).pdf`)
+**FASE 5 — CERRADA el 2026-09-13.** Los cuatro módulos de la Parte V (M16–M19,
+escritos el 2026-09-11) más el cierre de fase: las referencias cruzadas de
+texto plano validadas para los **19** módulos (no sólo la Parte V — el detalle
+de qué estaba mal y se corrigió está en `HANDOFF.md`, sección «Fase 5 —
+CERRADA») y el blanco al pie de la pág. 30 impresa, revisado y declarado
+aceptable. **FASE 6 ABIERTA, sin PDP todavía**: Fran pidió, al cerrar la fase
+5, (1) revisar un roadmap en PDF que hay que ubicar o que Fran vuelve a
+pasar, (2) auditar que no falte ningún fundamento que sostenga el apunte
+(ejemplo dado: leyes de Galileo), y (3) incorporar temas de un Taller de
+Física con tres libros que Fran todavía no descargó. El detalle completo está
+en `HANDOFF.md`, sección «Fase 6».
+
+**FASE 5 — contexto original.** Es la fase que la cátedra abrió sin querer: la
+lista de temas de gravitación actualizada (`Lista de temas Gravitación (2).pdf`)
 agrega «Todo — Curtis cap. 2» y los parámetros orbitales del Bate, y Fran
 pidió además órbitas parcheadas, esfera de influencia y su relación con
 Hohmann y con la gravedad de la Tierra. El plan de los cuatro módulos, con el
@@ -652,16 +663,17 @@ cuatro no.
 | 2 · **hecha** (2026-09-07) | M17 — esfera de influencia y órbitas parcheadas | la deducción de $R_\text{SOI} = r\,(m/M)^{2/5}$, el método de las cónicas parcheadas, la partida planetaria completa (Curtis §8.4–8.6), y el ejemplo Tierra→Marte de punta a punta usando el $v_\infty$ del módulo 16 |
 | 3 · **hecha** (2026-09-08) | M18 — marco perifocal y coeficientes de Lagrange | $\hat p$, $\hat q$, $\hat w$; el vector de estado y los seis elementos; $f$ y $g$ (Curtis §2.10–2.11) y los parámetros orbitales del Bate (pág. 53–74) |
 | 4 · **hecha** (2026-09-11) | M19 — tres cuerpos restringido y puntos de Lagrange | los cinco puntos, la constante de Jacobi (Curtis §2.12), y la comparación medida entre la esfera de Hill y la esfera de influencia del M17 |
-| 5 | cierre de fase | las referencias cruzadas de la Parte V validadas contra el índice renderizado. `docs/figuras.md` **ya quedó al día** en la sesión 4 |
+| 5 · **hecha** (2026-09-13) | cierre de fase | referencias cruzadas de los 19 módulos validadas (7 filas corregidas contra la tabla vieja, que estaba incompleta); blanco de la pág. 30 revisado y declarado aceptable |
 
 **Por qué el M17 va segundo y no cuarto.** Es lo que Fran pidió
 explícitamente, y su única precondición es el M16, que ya está. Los dos
 módulos de herramientas (M18 y M19) no le hacen falta para nada.
 
-**Lo que la fase 6 hereda.** Revisar las referencias cruzadas de texto plano
-entre módulos (tabla en `HANDOFF.md`) y decidir si el apunte lleva anexos.
-Ninguna de las dos es urgente: la paginación todavía puede cambiar, y el
-`HANDOFF.md` ya explica por qué se dejaron para el final.
+**Lo que la fase 6 hereda.** Ya no hereda las referencias cruzadas (cerradas
+en la sesión 5) ni la decisión de anexos sola: hereda tres pedidos nuevos de
+Fran (roadmap en PDF, auditoría de fundamentos, temas del Taller de Física) y
+la decisión de anexos, todo sin PDP todavía. El detalle está en `HANDOFF.md`,
+sección «Fase 6».
 
 **Checkpoint por módulo, no por fase.** `ESTADO_ACTUAL` + `HANDOFF` + commit
 + push al cerrar *cada* módulo.
