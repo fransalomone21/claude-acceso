@@ -6,6 +6,26 @@ Este handoff es del **trabajo de infraestructura**, no de un proyecto. El
 estado permanente del sistema está en [`MAPA.md`](MAPA.md); esto es lo que
 queda pendiente y lo que la próxima sesión necesita saber.
 
+## 2026-09-13 — el sistema ahora corre en dos máquinas
+
+El runbook completo es [`MAQUINA-NUEVA.md`](MAQUINA-NUEVA.md). Lo que cambió
+en la estructura, y que la próxima sesión tiene que saber:
+
+- **`.claude/settings.json` ya no se commitea.** Lleva la ruta absoluta de los
+  hooks, medida por `instalar-hooks.ps1` en cada máquina. Si aparece como
+  modificado en un `git status`, algo lo volvió a agregar a mano.
+- **`probar-hooks.ps1` distingue `[SKIP]` de `[FAIL]`**: un freno cuyo objeto
+  (`Black.iso`) no está en esta máquina queda sin verificar y lo dice; no es
+  un fallo, y tampoco cuenta como verde.
+- **Medidor nuevo en el arranque: `verificar-sincronia.ps1`.** Rojo si este
+  árbol quedó atrasado respecto de `origin` — la falla que aparece recién con
+  dos máquinas y que no duele el mismo día. Saboteador: `probar-sincronia.ps1`
+  (6 casos, incluido el control de que tener commits sin pushear NO es rojo).
+- **`chequeo-completo.ps1` tiene ahora 5 medidores y 6 saboteadores.**
+
+Con dos máquinas, la **regla 5 del perfil** (checkpoint antes de parar) deja
+de ser higiene: es la condición para que la otra máquina pueda seguir.
+
 ## Cuadro de fase para abrir el próximo chat
 
 ```
