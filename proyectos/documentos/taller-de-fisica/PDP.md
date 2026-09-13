@@ -65,28 +65,23 @@ entender de dónde sale una fórmula.
 
 | # | Fase | Criterio de salida (resultado verificable) | Estado |
 |---|---|---|---|
-| 0 | Estructura y fuentes | Proyecto creado (este PDP), las tres fuentes localizadas en el disco con ruta exacta, y el recorte de temas de cada una confirmado por Fran | **en curso — cerrando en esta sesión** |
-| 1 | Escribir (bloqueada) | Sin detallar todavía — depende de qué recorte confirme Fran y de cuándo dé la luz verde para empezar | **bloqueada, sin arrancar a propósito** |
+| 0 | Estructura y fuentes | Proyecto creado (este PDP), las tres fuentes localizadas en el disco con ruta exacta, y el recorte de temas de cada una confirmado por Fran | **CERRADA (2026-09-13)** |
+| 1 | Escribir (bloqueada) | Sin detallar todavía — el recorte ya está confirmado, falta sólo que Fran dé la luz verde para empezar | **bloqueada, sin arrancar a propósito** |
 
-**Fase en curso:** 0 — Estructura y fuentes.
-**Qué la cierra, exactamente:** Que las tres fuentes tengan ruta confirmada
-en `fuentes/RUTAS.md` (hecho), que Ferraro tenga su alcance fijo (hecho: caps.
-1-3, el PDF que Fran pasó), que Young-Freedman quede anotado como referencia
-general sin capítulos fijos (hecho), y que Pisacane tenga su recorte
-CONFIRMADO POR FRAN — no propuesto por la sesión (**pendiente, y no es un
-trámite**: el cruce contra el temario de Física Espacial dio cero
-coincidencias de vocabulario y abrió una ambigüedad real de dos lecturas
-posibles de "correlativo", con dos recortes distintos — 6 u 7 capítulos. Ver
-`docs/bitacora.md`). La fase NO exige empezar a escribir: exige que cuando
-Fran diga "arrancá", no haga falta releer libros ni resolver esta ambigüedad
-sobre la marcha.
+**Fase en curso:** ninguna — la 0 está cerrada y la 1 está bloqueada a
+propósito hasta que Fran lo pida.
+**Qué cerró la fase 0:** las tres fuentes con ruta confirmada en
+`fuentes/RUTAS.md`; Ferraro con alcance fijo (caps. 1-3, el PDF que Fran
+pasó); Young-Freedman como referencia general sin capítulos fijos; y
+Pisacane con su recorte confirmado por Fran el 2026-09-13: **"correlativo =
+continúa un tema ya confirmado, sumá el 5"** — 7 capítulos: **3, 4, 5, 6, 8,
+9, 11** de 12. Detalle completo en `docs/bitacora.md`.
 
 ## 5. Riesgos
 
 | Riesgo | Prob. | Consec. | Estrategia | Disparador observable |
 |---|---|---|---|---|
 | Una sesión futura arranca a escribir sin que Fran haya dado la luz verde | media | alta — trabajo tirado o que hay que rehacer con el recorte que corresponde | evitar | este PDP dice explícito "fase 1 bloqueada"; toda sesión nueva lee esta sección antes de escribir un módulo |
-| El recorte de Pisacane se decide sin cruzarlo contra `fuentes/TEMARIO.md` de Física Espacial | media | media — contenido duplicado o que no complementa lo ya escrito | mitigar | Fran pidió expresamente "correlativo a las listas de temas confirmadas"; la fase 1 no cierra el recorte sin ese cruce |
 
 ## 6. Decisiones
 
@@ -95,8 +90,9 @@ sobre la marcha.
 | 2026-09-13 | Documento propio, proyecto separado de Física Espacial | Parte VI del mismo `apunte.typ` | El Taller es materia aparte (palabras de Fran); mezclar rompe el título del apunte ya cerrado (149 pág., fase 5 verificada) y no hace falta tocarlo |
 | 2026-09-13 | Ferraro entra completo: los 3 capítulos que Fran pasó (1: pre-Einstein e incl. Galileo; 2: búsqueda del éter; 3: relatividad especial) | Recortar más adentro de esos 3 capítulos | Fran los confirmó como bloque cerrado — el PDF que pasó ya viene pre-recortado a esos 3 de los 9 del libro completo |
 | 2026-09-13 | Young & Freedman ("Física universitaria 2") entra como referencia general, sin capítulos fijos | Acotar a un rango de capítulos (física moderna, o electromagnetismo) | Fran: "tenelo de referencia para los temas que hay que desarrollar", no una fuente con recorte propio como las otras dos |
-| 2026-09-13 | El recorte de Pisacane (12 capítulos, 441 pág.) queda **sin cerrar** — dos propuestas en `docs/bitacora.md` (6 u 7 capítulos), a confirmar cuando arranque la fase 1 | Elegir una de las dos lecturas de "correlativo" por cuenta propia | El cruce contra `TEMARIO.md` se hizo y dio cero coincidencias de vocabulario — eso reveló una ambigüedad real (¿correlativo = mismo dominio, o continúa un tema ya confirmado?) que cambia el resultado (el cap. 5 entra o no), y es una decisión de diseño de Fran, no un hecho que la sesión pueda medir |
-| 2026-09-13 | Fase 1 (escribir) queda bloqueada a propósito, sin fecha | Arrancar ya con lo que está confirmado (Ferraro) | Fran: "todo lo de taller de física es para un plazo más largo, yo te voy a decir cuándo empezarlo" |
+| 2026-09-13 | "Correlativo" = continúa un tema ya confirmado (no "mismo dominio") | La lectura "mismo dominio", que daba 6 capítulos sin el 5 | Fran lo confirmó explícito: "correlativo = continúa un tema ya confirmado, sumá el 5" |
+| 2026-09-13 | Recorte de Pisacane CERRADO: 7 capítulos — **3, 4, 5, 6, 8, 9, 11** de 12 | Los 6 capítulos sin el 5 (propuesta original de la sesión) | El M6 de Física Espacial sólo cubre gravitación básica de Newton; Pisacane cap. 5 agrega potencial de orden superior, WGS84, mareas y precesión por J2, que sí continúan ese tema confirmado |
+| 2026-09-13 | Fase 1 (escribir) queda bloqueada a propósito, sin fecha, aun con el recorte ya cerrado | Arrancar ya que el recorte está confirmado | Fran: "todo lo de taller de física es para un plazo más largo, yo te voy a decir cuándo empezarlo" — esa condición no cambió con la confirmación del recorte |
 
 ## 7. Verificación
 

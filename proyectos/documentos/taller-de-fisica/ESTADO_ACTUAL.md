@@ -6,20 +6,17 @@
 
 | Fase | Estado |
 |---|---|
-| 0 — Estructura y fuentes | **en curso, casi cerrada** |
+| 0 — Estructura y fuentes | **CERRADA** |
 | 1 — Escribir | **bloqueada a propósito, sin fecha** |
 
-**Qué cierra la fase 0:** que Fran confirme el recorte de Pisacane. El cruce
-contra `../fisica-espacial/fuentes/TEMARIO.md` ya se hizo y no dio una
-respuesta directa (cero coincidencias de vocabulario) — abrió una ambigüedad
-de dos lecturas posibles con dos recortes distintos, que sólo Fran puede
-resolver (ver `docs/bitacora.md`). Ferraro y Young-Freedman ya están cerrados
+**La fase 0 cerró con el recorte de Pisacane confirmado por Fran:**
+"correlativo = continúa un tema ya confirmado, sumá el 5" → 7 capítulos —
+**3, 4, 5, 6, 8, 9, 11** de 12. Ferraro y Young-Freedman ya estaban cerrados
 (ver `fuentes/RUTAS.md`).
 
-**La fase 1 no arranca sin que Fran lo pida explícitamente.** Dijo: "todo lo
-de taller de física es para un plazo más largo, yo te voy a decir cuándo
-empezarlo". Ninguna sesión escribe un módulo de contenido antes de esa señal,
-aunque el recorte de Pisacane ya esté confirmado.
+**La fase 1 no arranca sin que Fran lo pida explícitamente**, aunque el
+recorte ya esté confirmado. Dijo: "todo lo de taller de física es para un
+plazo más largo, yo te voy a decir cuándo empezarlo".
 
 ## Lo confirmado
 
@@ -30,12 +27,11 @@ aunque el recorte de Pisacane ya esté confirmado.
 | Pisacane trae 441 páginas, 12 capítulos, con capa de texto (no hace falta rasterizar) | extracción de texto directa con `pymupdf`, incluido el índice completo y el prefacio con el programa de curso propio del autor | 2026-09-13 |
 | El path de Pisacane supera los 260 caracteres de Windows y necesita el prefijo `\\?\` | `os.path.exists()` daba `False` con el path normal y `True` con el prefijo largo; se abrió y leyó el PDF con el prefijo | 2026-09-13 |
 | Arquitectura: proyecto propio, separado de `fisica-espacial` | decisión de Fran ("decidilo vos"), registrada en `PDP.md` §6 | 2026-09-13 |
+| Recorte de Pisacane: 7 capítulos (3,4,5,6,8,9,11) | confirmación explícita de Fran en el chat: "correlativo = continúa un tema ya confirmado, sumá el 5" | 2026-09-13 |
 
 ## Lo que es hipótesis
 
-| Hipótesis | Qué la confirmaría | Por qué todavía no se probó |
-|---|---|---|
-| El recorte de Pisacane es 6 capítulos (3,4,6,8,9,11) o 7 (agregando el 5) | Que Fran diga cuál lectura de "correlativo" corresponde | Es una decisión de diseño de Fran, no algo que un grep pueda resolver — el cruce contra `TEMARIO.md` ya se hizo (cero coincidencias de vocabulario) y lo que dio fue la ambigüedad, no la respuesta. Detalle en `docs/bitacora.md` |
+*(ninguna — la fase 0 cerró sin hipótesis pendientes)*
 
 ## Callejones sin salida
 
@@ -43,6 +39,7 @@ aunque el recorte de Pisacane ya esté confirmado.
 
 ## Lo próximo
 
-Que Fran elija entre los dos recortes de Pisacane (6 u 7 capítulos, ver
-`docs/bitacora.md`) y dé la señal de arrancar la fase 1. El detalle está en
-`PDP.md` §4 y §6.
+Que Fran dé la señal de arrancar la fase 1 (escribir). Cuando la dé, la
+próxima sesión arma el PDP de esa fase con los 7 capítulos de Pisacane, los
+3 de Ferraro y Young-Freedman como referencia — el detalle de cada uno está
+en `fuentes/RUTAS.md` y `docs/bitacora.md`.

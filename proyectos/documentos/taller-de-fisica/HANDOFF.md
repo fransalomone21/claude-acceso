@@ -1,35 +1,26 @@
 # Handoff — Taller de Física
 
-**Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes),
-casi cerrada — 1 (Escribir) bloqueada a propósito, sin fecha.
+**Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
+CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
 ## Arrancá por acá
 
-**No escribas ningún módulo todavía.** Fran fue explícito: "todo lo de
-taller de física es para un plazo más largo, yo te voy a decir cuándo
-empezarlo". Si esta sesión llegó acá sin que Fran haya dado esa señal en el
-chat que la trajo, lo único que hay para hacer es lo que sigue: preguntarle
-a Fran cuál de las dos lecturas del recorte de Pisacane vale. Nada de
-contenido.
+**No escribas ningún módulo todavía**, aunque la fase 0 esté cerrada y el
+recorte confirmado. Fran fue explícito: "todo lo de taller de física es
+para un plazo más largo, yo te voy a decir cuándo empezarlo". Si esta sesión
+llegó acá sin que el mensaje que la abrió diga explícitamente que Fran dio
+esa señal, no hay nada para hacer en este proyecto todavía — no es un
+"mientras tanto, adelantá algo": es una espera real.
 
-**Cerrar la fase 0:** el cruce contra `../fisica-espacial/fuentes/TEMARIO.md`
-ya se hizo (sesión 2026-09-13) y no cerró nada — dio cero coincidencias de
-vocabulario entre los temas de Pisacane y el temario confirmado de Física
-Espacial (que es mecánica orbital pura). Eso dejó dos lecturas posibles de
-"correlativo", con dos recortes distintos, en `docs/bitacora.md`:
-6 capítulos (3,4,6,8,9,11) si correlativo = mismo dominio temático, o 7
-(agregando el 5, campo gravitatorio) si correlativo = continúa un tema ya
-confirmado — el M6 del apunte de Física Espacial es gravitación básica de
-Newton, y Pisacane cap. 5 agrega potencial de orden superior, WGS84, mareas
-y precesión por J2, que el M6 no cubre. **Preguntarle a Fran cuál lectura
-vale**, no elegir una por cuenta propia — es la única forma de cerrar la
-fase 0.
+**La fase 0 cerró el 2026-09-13.** Fran confirmó el recorte de Pisacane en
+el chat: "correlativo = continúa un tema ya confirmado, sumá el 5" → 7
+capítulos, **3, 4, 5, 6, 8, 9, 11** de 12. El detalle de por qué cada uno
+entró o quedó afuera está en `docs/bitacora.md`.
 
 ## Lo que quedó a medias
 
-El recorte de Pisacane. Todo lo demás de la fase 0 está cerrado: Ferraro
-(caps. 1-3, confirmado por Fran como bloque cerrado) y Young-Freedman
-(referencia general, sin capítulos fijos, también confirmado).
+Nada de la fase 0 — cerró completa. Lo que sigue abierto es la fase 1
+entera (escribir), bloqueada a propósito hasta que Fran avise.
 
 ## Lo que NO hay que volver a intentar
 
@@ -56,31 +47,32 @@ El recorte de Pisacane. Todo lo demás de la fase 0 está cerrado: Ferraro
 - Pisacane: 441 páginas, 12 capítulos. El prefacio (PDF pág. 14-16) trae la
   tabla del propio autor con el programa de 37 clases y qué secciones omitir
   por capítulo — es el punto de partida si hace falta afinar el recorte más.
-- El recorte tiene DOS propuestas, sin confirmar: capítulos **3, 4, 6, 8, 9,
-  11** de 12 (lectura "correlativo = mismo dominio"), o esos mismos **más el
-  5** (lectura "correlativo = continúa un tema confirmado"). El detalle de
-  por qué cada uno entró o quedó afuera, y por qué el 5 es el que cambia de
-  columna según la lectura, está en `docs/bitacora.md`.
+- El recorte de Pisacane está CERRADO: capítulos **3, 4, 5, 6, 8, 9, 11** de
+  12. El detalle de por qué cada uno entró o quedó afuera está en
+  `docs/bitacora.md`.
 
 ## Si hay que abrir un chat nuevo
 
 ```
 Retomo el Taller de Física (proyectos/documentos/taller-de-fisica).
 
-QUÉ LEER: CLAUDE.md, PDP.md completo (sobre todo §4 y §6), ESTADO_ACTUAL.md,
-este HANDOFF.md y docs/bitacora.md (la ambigüedad de "correlativo" completa).
-El cruce contra TEMARIO.md YA SE HIZO, no hace falta repetirlo.
+QUÉ LEER: CLAUDE.md, ESTADO_ACTUAL.md y este HANDOFF.md. PDP.md y
+docs/bitacora.md sólo si hace falta el detalle de por qué se eligió cada
+capítulo de Pisacane.
 
-FASE: 0 (estructura y fuentes), casi cerrada. La cierra que Fran elija entre
-las dos lecturas de "correlativo" (ver "Arrancá por acá" de este HANDOFF) —
-no es algo que la sesión pueda resolver sola.
+FASE: 0 (estructura y fuentes) CERRADA. Las tres fuentes están confirmadas:
+Ferraro caps. 1-3, Pisacane caps. 3,4,5,6,8,9,11, Young-Freedman como
+referencia general.
 
 NO ESCRIBAS NINGÚN MÓDULO DE CONTENIDO salvo que el mensaje que abrió esta
 sesión diga explícitamente que Fran dio la señal de arrancar la fase 1 — lo
-dijo así el 2026-09-13: "yo te voy a decir cuándo empezarlo".
+dijo así el 2026-09-13: "yo te voy a decir cuándo empezarlo". Si no hay esa
+señal, no hay nada para hacer en este proyecto todavía.
 
-MODELO Y ESFUERZO: Sonnet, esfuerzo low — es cerrar un cruce de dos listas de
-temas ya escritas, no un diseño nuevo.
+MODELO Y ESFUERZO, cuando arranque la fase 1: Opus para la primera pasada de
+cada módulo nuevo (territorio no escrito todavía), esfuerzo medium — no es
+un runbook como el cierre de fisica-espacial, es contenido nuevo con
+deducciones propias.
 
 PRIMER COMANDO:
   cd C:\Users\frans\Desktop\claude-acceso ; .\cascada.ps1 taller-de-fisica

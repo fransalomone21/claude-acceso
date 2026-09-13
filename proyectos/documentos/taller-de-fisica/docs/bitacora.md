@@ -61,9 +61,9 @@ distintos, y esta sesión no elige entre ellas:
   que decía la nota original de "ya lo cubre fisica-espacial" — eso era
   cierto para lo básico, falso para lo que Pisacane agrega).
 
-**La propuesta con la segunda lectura sería 7 capítulos: 3, 4, 5, 6, 8, 9,
-11** en vez de los 6 originales. Cuál de las dos lecturas vale, o si es
-alguna otra, lo confirma Fran cuando arranque la fase 1 — no se decide acá.
+**Confirmado por Fran (mismo día): "correlativo = continúa un tema ya
+confirmado, sumá el 5".** Recorte cerrado: **3, 4, 5, 6, 8, 9, 11** — 7 de
+los 12 capítulos. Con esto la fase 0 queda cerrada.
 
 **Decisión de arquitectura:** proyecto propio, separado de `fisica-espacial`
 (ver PDP.md §6 para el porqué). Fran dijo explícitamente "decidilo vos" — la
