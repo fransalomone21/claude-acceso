@@ -104,6 +104,40 @@ if (-not (Test-Path (Join-Path $perfil ".git"))) {
     Write-Host "  [OK]   perfil-global clonado." -ForegroundColor Green
 } else {
     Write-Host "  [OK]   perfil-global presente (repo propio)." -ForegroundColor Green
+
+    # PRESENTE NO ES AL DIA. bootstrap clonaba si faltaba y no miraba nunca
+    # mas: en la segunda corrida de la PC instalo un perfil VIEJO --dijo "las
+    # 172 lecciones" cuando el repo ya tenia 174-- y lo unico que lo canto fue
+    # verificar-sincronia, despues, en rojo. El instalador de un repo que se
+    # actualiza tiene que traerlo, no solo encontrarlo.
+    #
+    # --ff-only a proposito: si hay trabajo local divergente NO se pisa nada,
+    # se dice y se corta. Y si el arbol esta sucio tampoco se toca.
+    $sucio = (& git -C $perfil status --porcelain 2>$null)
+    if ($sucio) {
+        Write-Host "  [WARN] perfil-global tiene cambios sin commitear: no se actualiza solo." -ForegroundColor Yellow
+        Write-Host "         Commitealos o guardalos antes de seguir."
+    } else {
+        & git -C $perfil fetch --quiet 2>&1 | Out-Null
+        $cuenta = (& git -C $perfil rev-list --left-right --count 'HEAD...@{u}' 2>$null)
+        if ($cuenta) {
+            $pp = $cuenta -split '\s+'
+            if ([int]$pp[1] -gt 0) {
+                Write-Host "  Actualizando perfil-global ($($pp[1]) commit(s) atras)..." -ForegroundColor Yellow
+                & git -C $perfil pull --ff-only --quiet
+                if ($LASTEXITCODE -ne 0) {
+                    Write-Host "  [FAIL] no se pudo hacer ff-only: el perfil local divergio del remote." -ForegroundColor Red
+                    Write-Host "         Resolverlo a mano ANTES de instalar: se instalaria un perfil viejo."
+                    exit 1
+                }
+                Write-Host "  [OK]   perfil-global actualizado." -ForegroundColor Green
+            } else {
+                Write-Host "  [OK]   perfil-global al dia con origin." -ForegroundColor Green
+            }
+        } else {
+            Write-Host "  [WARN] no se pudo medir si perfil-global esta al dia (sin red o sin upstream)." -ForegroundColor Yellow
+        }
+    }
 }
 
 # --- 2. instalar y verificar el perfil -------------------------------------

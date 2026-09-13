@@ -374,12 +374,37 @@ try {
         "o se callo, o se comio el resto del contexto: '$($out4.Trim())'"
 } finally { Move-Item -LiteralPath $chqb -Destination $chq -Force }
 
-# CONTROL POSITIVO: con todo restaurado, el bloque vuelve a decir que no hay rojo.
-# Sin esta linea, un hook que gritara SIEMPRE pasaria los dos sabotajes.
+# CONTROL POSITIVO: con todo restaurado, el bloque vuelve a decir que no hay
+# rojo. Sin esta linea, un hook que gritara SIEMPRE pasaria los dos sabotajes.
+#
+# Pero este control TIENE UNA PRECONDICION que no depende del hook: que el
+# sistema este efectivamente sano. Medido el 2026-09-13 en la PC: habia un
+# rojo LEGITIMO (perfil-global atrasado), el hook grito --que es justo lo que
+# tiene que hacer-- y este caso salio [FAIL] diciendo 'sigue gritando con el
+# sistema sano'. La etiqueta era FALSA, y un saboteador que explica mal su
+# rojo manda a buscar el problema donde no esta.
+#
+# La precondicion se MIDE, no se asume: si los medidores estan en rojo, este
+# caso no se puede correr y se declara SALTEADO, con el motivo. Solo se paga
+# la corrida extra cuando el caso iba a fallar igual.
 $out5 = & powershell -NoProfile -ExecutionPolicy Bypass -File $arranque 2>&1 | Out-String
-Resultado ($out5 -match 'Chequeo OK' -and $out5 -notmatch 'HAY ROJO EN EL ARRANQUE') `
-    "CONTROL: con todo sano, el arranque NO grita" `
-    "sigue gritando con el sistema sano: el aviso se vuelve ruido. '$($out5.Trim())'"
+$gritaMal = -not ($out5 -match 'Chequeo OK' -and $out5 -notmatch 'HAY ROJO EN EL ARRANQUE')
+
+$sistemaSano = $true
+if ($gritaMal) {
+    $chq = Join-Path $raiz 'chequeo-completo.ps1'
+    & powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-Location '$raiz'; & '$chq' -SoloMedidores -Compacto; exit `$LASTEXITCODE" 2>&1 | Out-Null
+    $sistemaSano = ($LASTEXITCODE -eq 0)
+}
+
+if (-not $sistemaSano) {
+    Salteado "CONTROL: con todo sano, el arranque NO grita" `
+        "el sistema tiene un rojo LEGITIMO ahora mismo, asi que el hook grita con razon. Arreglar ese rojo (.\chequeo-completo.ps1) y volver a correr esto."
+} else {
+    Resultado (-not $gritaMal) `
+        "CONTROL: con todo sano, el arranque NO grita" `
+        "grita con los medidores en VERDE: el aviso se vuelve ruido. '$($out5.Trim())'"
+}
 
 Write-Output ""
 Write-Output "capa 3 -- integridad medida (la que no tiene agujeros)"
@@ -420,8 +445,8 @@ if ($fallas -eq 0) {
         Write-Output "  Lo que se pudo probar, OK: $corridos comprobaciones, ninguna falla."
         Write-Output "  PERO $($salteados.Count) capa(s) quedaron SIN VERIFICAR en esta maquina:"
         foreach ($s in $salteados) { Write-Output "    - $s" }
-        Write-Output "  Eso no es un fallo del freno: es que el objeto que protege no esta aca."
-        Write-Output "  En la maquina donde SI este, este mismo script las prueba."
+        Write-Output "  Ninguna es un fallo del freno: cada linea dice por que no se pudo"
+        Write-Output "  correr aca. Resuelto el motivo, este mismo script las prueba."
     } else {
         Write-Output "  Frenos OK. $corridos comprobaciones, ninguna falla."
         Write-Output "  Cada freno se vio en ROJO al menos una vez, y lo legitimo sigue pasando."
