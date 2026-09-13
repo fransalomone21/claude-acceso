@@ -32,3 +32,9 @@ Programas y juegos
 vscode
 juegos folders
 claude
+
+# --- carpetas de orden del Escritorio (creadas 2026-09-13, solo accesos directos) ---
+Juegos
+Apps
+Notas y setup
+_Revisar
