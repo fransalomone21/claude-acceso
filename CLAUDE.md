@@ -249,6 +249,11 @@ puede nombrar la carpeta sin publicar nada.
 .\probar-publicacion.ps1           # rompe el publicador y exige verlo en rojo
 ```
 
+Los dos scripts pasan `--config` con la ruta completa **a propósito**: un
+archivo resuelto por `%APPDATA%` no es una ruta, es una función del entorno, y
+ya pasó que una consola dijera «not found» sobre el mismo archivo que otra
+ventana de la misma máquina listaba sin problema.
+
 **Qué se publica es una lista, no una regla implícita.** Vive en
 `.claude/apuntes-publicos.json` y es *deny-by-default*: un PDF no se publica
 por estar en el repo, se publica por estar declarado. Lo que parece apunte y

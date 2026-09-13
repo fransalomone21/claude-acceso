@@ -25,7 +25,10 @@ param(
     # Solo para probar-publicacion.ps1: lista alternativa. Sin esta costura el
     # script no se puede probar sin tocar el Drive real, y una alarma que no se
     # puede poner en rojo esta sin verificar.
-    [string]$ListaPath
+    [string]$ListaPath,
+    # Idem: config de rclone alternativo, para que el saboteador no tenga
+    # que meter remotes de prueba en el config de verdad.
+    [string]$ConfRclone
 )
 
 # NO se pone 'Stop': PowerShell 5.1 convierte CUALQUIER linea que un .exe
@@ -49,6 +52,12 @@ if ($null -eq $rclone) {
     }
 } else { $rclone = $rclone.Source }
 
+# El config de rclone se NOMBRA, no se deja al ambiente. Ya fallo: la misma
+# maquina, el mismo usuario y el mismo remote, y una consola dijo 'not found'
+# mientras otra lo listaba sin drama. Un dato que depende de una variable de
+# entorno es un dato que diverge entre dos ventanas.
+if ($ConfRclone) { $conf = $ConfRclone } else { $conf = Join-Path $env:APPDATA ('rclone' + [char]92 + 'rclone.conf') }
+
 if (-not (Test-Path $rutaLista)) {
     Escribir "[ROJO] falta $rutaLista -- sin lista no se publica nada." Red
     exit 1
@@ -64,16 +73,20 @@ $remote = $decl.remote
 
 # --- el remote tiene token? ----------------------------------------------
 Escribir "== remote '$remote' ==" Cyan
-$null = & $rclone lsd "${remote}:" --max-depth 1 2>&1
+$null = & $rclone --config $conf lsd "${remote}:" --max-depth 1 2>&1
 if ($LASTEXITCODE -ne 0) {
     Escribir "[ROJO] el remote '$remote' todavia no esta autorizado contra Google." Red
     Escribir "" White
     Escribir "       Esto lo tiene que hacer Fran UNA sola vez -- abre el navegador" Yellow
     Escribir "       y pide iniciar sesion con la cuenta duena del Drive:" Yellow
     Escribir "" White
-    Escribir "           rclone config reconnect ${remote}:" Yellow
+    $cmdAuth = 'rclone --config "' + $conf + '" config reconnect ' + $remote + ':'
+    Escribir "           $cmdAuth" Yellow
     Escribir "" White
-    Escribir "       El token queda en $env:APPDATA\rclone\rclone.conf, FUERA del repo." Yellow
+    Escribir "       El token queda en $conf, FUERA del repo." Yellow
+    Escribir "       El --config va a proposito: sin el, dos consolas de la misma" Yellow
+    Escribir "       maquina pueden resolver archivos distintos, y una dice not found" Yellow
+    Escribir "       mientras la otra lista el remote sin drama. Ya paso." Yellow
     exit 1
 }
 Escribir "  autorizado" Green
@@ -101,7 +114,7 @@ foreach ($a in $decl.apuntes) {
     $mtimeLocal = (Get-Item $local).LastWriteTimeUtc
 
     # que hay del otro lado
-    $json = & $rclone lsjson "${remote}:$($a.materia)" --files-only 2>$null
+    $json = & $rclone --config $conf lsjson "${remote}:$($a.materia)" --files-only 2>$null
     $remoto = $null
     if ($LASTEXITCODE -eq 0 -and $json) {
         $remoto = ($json | ConvertFrom-Json) | Where-Object { $_.Name -eq $a.'nombre-en-drive' }
@@ -125,7 +138,7 @@ foreach ($a in $decl.apuntes) {
     }
 
     Escribir "  subiendo..." White
-    & $rclone copyto $local $destino --progress --stats-one-line
+    & $rclone --config $conf copyto $local $destino --progress --stats-one-line
     if ($LASTEXITCODE -ne 0) {
         Escribir "  [ROJO] fallo la subida" Red
         $problemas++

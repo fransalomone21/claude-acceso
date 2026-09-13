@@ -30,9 +30,11 @@ $fake = Join-Path $tmp 'drive'
 if (Test-Path $tmp) { Remove-Item $tmp -Recurse -Force }
 $null = New-Item -ItemType Directory -Path $fake -Force
 
+# Config PROPIO: el saboteador no ensucia el rclone.conf de verdad.
+$confTest = Join-Path $tmp 'rclone-test.conf'
+Set-Content $confTest -Value '' -Encoding ASCII
 # remote falso, sin Google de por medio
-$null = & $rclone config delete fakedrive-apuntes 2>&1
-& $rclone config create fakedrive-apuntes alias remote=$fake --non-interactive | Out-Null
+& $rclone --config $confTest config create fakedrive-apuntes alias remote=$fake --non-interactive | Out-Null
 
 $fisica = 'proyectos/documentos/fisica-espacial/apunte/apunte.pdf'
 $electro = 'proyectos/documentos/electronica-analogica/apunte/apunte.pdf'
@@ -53,7 +55,7 @@ function Caso($nombre, $listaPath, $esperaExit, $esperaTexto, $conVerificar) {
     Write-Host ""
     Write-Host "-- $nombre" -ForegroundColor Cyan
     $script = Join-Path $raiz 'publicar-apuntes.ps1'
-    $argumentos = @('-NoProfile','-ExecutionPolicy','Bypass','-File',$script,'-ListaPath',$listaPath)
+    $argumentos = @('-NoProfile','-ExecutionPolicy','Bypass','-File',$script,'-ListaPath',$listaPath,'-ConfRclone',$confTest)
     if ($conVerificar) { $argumentos += '-Verificar' }
     $salida = & powershell.exe $argumentos 2>&1 | Out-String
     $code = $LASTEXITCODE
@@ -94,7 +96,6 @@ $l3 = Lista @( @{ materia='Fisica Espacial'; local=$fisica; 'nombre-en-drive'='A
 Caso 'ROJO 3: apunte en el disco sin declarar' $l3 1 'sin declarar' $true
 
 # ---- limpieza ------------------------------------------------------------
-$null = & $rclone config delete fakedrive-apuntes 2>&1
 Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host ""
