@@ -70,6 +70,28 @@ $json = $obj | ConvertTo-Json -Depth 12
 [System.IO.File]::WriteAllText($settings, $json + "`n", [System.Text.UTF8Encoding]::new($false))
 Write-Output "  [OK]   settings.json escrito con las rutas de ESTA maquina"
 
+# --------------------------------------------- capa 2b: el hook de git
+#
+# .git/hooks NO viaja en un clone, asi que este hook desaparece en cada
+# maquina nueva. Estaba escrito, versionado en .claude/hooks/ y MEDIDO por
+# publicar-apuntes.ps1 -- y no lo instalaba nadie: en la notebook lo habia
+# copiado alguien a mano hace meses, y por eso nunca se noto. Medido el
+# 2026-09-13, en la PC.
+Write-Output ""
+Write-Output "capa 2b -- hook post-commit de git (publica el apunte que el commit toco)"
+$hookSrc = Join-Path $claude 'hooks\post-commit'
+$hookDst = Join-Path $raiz '.git\hooks\post-commit'
+if (-not (Test-Path -LiteralPath $hookSrc)) {
+    Write-Output "  [WARN] falta la fuente $hookSrc : no se instala nada."
+} elseif (-not (Test-Path -LiteralPath (Split-Path -Parent $hookDst))) {
+    Write-Output "  [WARN] no hay .git\hooks (no es un repo git?): no se instala nada."
+} elseif ((Test-Path -LiteralPath $hookDst) -and
+          ((Get-FileHash $hookDst).Hash -eq (Get-FileHash $hookSrc).Hash)) {
+    Write-Output "  [OK]   ya estaba instalado e identico a la fuente"
+} else {
+    Copy-Item -LiteralPath $hookSrc -Destination $hookDst -Force
+    Write-Output "  [OK]   post-commit instalado en .git\hooks"
+}
 Write-Output ""
 Write-Output "Instalado. Ahora hay que PROBARLO, que es lo que hace que valga algo:"
 Write-Output "    .\probar-hooks.ps1"

@@ -57,6 +57,16 @@ if ($DejarReadOnly) {
     }
 }
 
+# El hook de git que instala instalar-hooks.ps1 (regla 6 del perfil: lo que se
+# instala solo tiene que poder desinstalarse solo).
+$hookDst = Join-Path (Split-Path -Parent $claude) '.git\hooks\post-commit'
+if (Test-Path -LiteralPath $hookDst) {
+    Remove-Item -LiteralPath $hookDst -Force
+    Write-Output "  [OK]   hook post-commit de git quitado"
+} else {
+    Write-Output "  [ok]   no habia hook post-commit de git"
+}
+
 Write-Output ""
 Write-Output "Desinstalado. Los archivos .ps1 y .json siguen en .claude/ por si"
 Write-Output "se quiere volver: .claude\instalar-hooks.ps1"

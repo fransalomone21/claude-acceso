@@ -131,6 +131,15 @@ if ($LASTEXITCODE -ne 0) {
     # probar-hooks ("con todo sano, el arranque NO grita"), que no tiene nada
     # que ver con Drive. Con -Estricto si es rojo, para cuando ya este hecho.
     if ($Estricto) { exit 1 }
+    # ...pero PENDIENTE no borra lo que YA salio mal. Hasta el 2026-09-13 este
+    # 'exit 0' se tragaba $problemas: en la PC el hook post-commit no estaba
+    # instalado --un rojo de verdad-- y el medidor abria la sesion en verde,
+    # porque el remote sin autorizar cortaba antes. Un camino de salida
+    # temprana es un fail-open hasta que se pruebe.
+    if ($problemas -gt 0) {
+        Escribir "[ROJO] ademas del remote pendiente, hay $problemas problema(s) REALES arriba." Red
+        exit 1
+    }
     exit 0
 }
 Escribir "  autorizado" Green
