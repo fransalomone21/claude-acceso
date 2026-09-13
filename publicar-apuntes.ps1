@@ -150,7 +150,7 @@ foreach ($a in $decl.apuntes) {
     $mtimeLocal = (Get-Item $local).LastWriteTimeUtc
 
     # que hay del otro lado
-    $json = & $rclone --config $conf lsjson "${remote}:$($a.materia)" --files-only 2>$null
+    $json = & $rclone --config $conf lsjson "${remote}:$($a.materia)" --files-only --hash 2>$null
     $remoto = $null
     if ($LASTEXITCODE -eq 0 -and $json) {
         $remoto = ($json | ConvertFrom-Json) | Where-Object { $_.Name -eq $a.'nombre-en-drive' }
@@ -162,9 +162,23 @@ foreach ($a in $decl.apuntes) {
     }
     else {
         $mtimeRemoto = ([datetime]$remoto.ModTime).ToUniversalTime()
-        $igual = ($remoto.Size -eq $sizeLocal) -and ([math]::Abs(($mtimeLocal - $mtimeRemoto).TotalSeconds) -lt 5)
+        # Se compara el MD5, no el par (tamano, fecha). La fecha del lado de
+        # Drive no es la del archivo local --depende de como se subio-- asi que
+        # comparar fechas da rojos falsos (molestos pero inocuos) y, si ademas
+        # coincide el tamano, VERDES falsos, que son silenciosos. El hash lo da
+        # rclone gratis con --hash y saca la clase entera. Si Drive no devuelve
+        # hash, se cae a la comparacion vieja y se DICE que se cayo.
+        $md5Remoto = $remoto.Hashes.md5
+        if ($md5Remoto) {
+            $md5Local = (Get-FileHash $local -Algorithm MD5).Hash.ToLower()
+            $igual = ($md5Local -eq $md5Remoto)
+            $porQue = "md5"
+        } else {
+            $igual = ($remoto.Size -eq $sizeLocal) -and ([math]::Abs(($mtimeLocal - $mtimeRemoto).TotalSeconds) -lt 5)
+            $porQue = "tamano+fecha (Drive no dio hash)"
+        }
         if ($igual) {
-            Escribir "  al dia  ($([math]::Round($sizeLocal/1MB,1)) MB)" Green
+            Escribir "  al dia  ($([math]::Round($sizeLocal/1MB,1)) MB, verificado por $porQue)" Green
             continue
         }
         Escribir "  DESACTUALIZADO en Drive" Yellow

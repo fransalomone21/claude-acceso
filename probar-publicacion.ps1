@@ -88,6 +88,20 @@ $victima = Join-Path $fake 'Fisica Espacial\Apunte de Fisica Espacial.pdf'
 Set-Content $victima -Value 'sabotaje' -Encoding ASCII
 Caso 'ROJO 1: el PDF de Drive quedo viejo' $l 1 'DESACTUALIZADO' $true
 
+# ---- ROJO 1b: MISMO TAMANO Y MISMA FECHA, distinto contenido -------------
+# Este es el caso que el medidor viejo NO veia: comparaba (tamano, fecha) y
+# daba VERDE. Un verde falso es silencioso, que es peor que un rojo falso.
+# Se fabrica a mano: se copia el PDF bueno, se le cambia UN byte del medio y
+# se le restaura la fecha original.
+& $rclone --config $confTest copyto $fisica $victima | Out-Null
+$bytes = [System.IO.File]::ReadAllBytes($victima)
+$medio = [int]($bytes.Length / 2)
+$bytes[$medio] = $bytes[$medio] -bxor 0xFF
+$fechaOriginal = (Get-Item $victima).LastWriteTimeUtc
+[System.IO.File]::WriteAllBytes($victima, $bytes)
+(Get-Item $victima).LastWriteTimeUtc = $fechaOriginal
+Caso 'ROJO 1b: mismo tamano y fecha, UN byte distinto' $l 1 'DESACTUALIZADO' $true $false
+
 # ---- ROJO 2: un apunte declarado que no existe en el disco ---------------
 $l2 = Lista @( @{ materia='Materia Fantasma'; local='proyectos/documentos/no-existe/apunte.pdf'; 'nombre-en-drive'='x.pdf' } )
 Caso 'ROJO 2: declarado en la lista, ausente del disco' $l2 1 'no existe el PDF local' $true

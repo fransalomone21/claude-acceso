@@ -268,6 +268,15 @@ compañeros y viven en un repo aparte. El material de `seguimiento/` no sale
 nunca de su repo. Las dos exclusiones están escritas en el JSON, con el
 motivo al lado.
 
+**Lo publicado se compara por MD5, no por fecha.** La fecha del lado de Drive
+no es la del archivo local —depende de cómo se subió—, así que comparar fechas
+da rojos falsos (molestos pero inocuos) y, cuando además coincide el tamaño,
+**verdes falsos, que son silenciosos**. El hash lo da `rclone lsjson --hash`
+gratis. Esto salió de auditar un verde que no se podía explicar: el apunte de
+Electrónica figuraba «al día» con una fecha que no tenía por qué coincidir.
+Coincidía de verdad —el MD5 lo confirmó—, pero el chequeo que lo había dicho
+no era el que podía decirlo.
+
 **El que mide es el arranque**, no la memoria: `publicar-apuntes.ps1
 -Verificar` es uno de los medidores de `chequeo-completo.ps1`, así que cada
 sesión abre diciendo si el Drive quedó atrasado. Un apunte que se toca y no se
