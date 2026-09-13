@@ -19,6 +19,44 @@ Write-Host "=== bootstrap de claude-acceso ===" -ForegroundColor Cyan
 Write-Host "  Raiz: $raiz"
 Write-Host ""
 
+# --- 0. lo que la maquina tiene que tener antes de nada ---------------------
+#
+# Este bloque no estaba, y en la notebook nunca hizo falta: todo estaba
+# instalado de antes. En una maquina nueva, faltar python hace que el medidor
+# de triage salga en rojo hablando de lecciones, y faltar rclone hace que el
+# de Drive hable de MD5 -- dos mensajes que no nombran la causa real. El
+# sintoma se parece a un problema del sistema y es una dependencia ausente.
+#
+# MIDE Y REPORTA, no instala: instalar en una maquina que no es la que uno
+# esta mirando es una accion que no se deshace sola (regla 6 del perfil).
+Write-Host "  Dependencias de la maquina:" -ForegroundColor Cyan
+$deps = @(
+    @{ cmd = 'git';    que = 'todo';                          winget = 'Git.Git';         critica = $true  },
+    @{ cmd = 'python'; que = 'aprender.py (medidor de triage)'; winget = 'Python.Python.3.12'; critica = $true  },
+    @{ cmd = 'rclone'; que = 'publicar-apuntes.ps1 (medidor de Drive)'; winget = 'Rclone.Rclone'; critica = $false },
+    @{ cmd = 'typst';  que = 'compilar apuntes e informes';    winget = 'Typst.Typst';     critica = $false }
+)
+$faltaCritica = $false
+foreach ($d in $deps) {
+    if (Get-Command $d.cmd -ErrorAction SilentlyContinue) {
+        Write-Host "  [OK]   $($d.cmd)" -ForegroundColor Green
+    } elseif ($d.critica) {
+        Write-Host "  [FAIL] falta $($d.cmd) -- lo necesita: $($d.que)" -ForegroundColor Red
+        Write-Host "         winget install --id $($d.winget)"
+        $faltaCritica = $true
+    } else {
+        Write-Host "  [WARN] falta $($d.cmd) -- lo necesita: $($d.que)" -ForegroundColor Yellow
+        Write-Host "         winget install --id $($d.winget)"
+    }
+}
+if ($faltaCritica) {
+    Write-Host ""
+    Write-Host "  Se corta aca: sin eso el resto del bootstrap reporta sintomas que no" -ForegroundColor Red
+    Write-Host "  nombran la causa. Instalar y volver a correr." -ForegroundColor Red
+    exit 1
+}
+Write-Host ""
+
 # --- 1. perfil-global ------------------------------------------------------
 $perfil = Join-Path $raiz "perfil-global"
 if (-not (Test-Path (Join-Path $perfil ".git"))) {

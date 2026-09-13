@@ -22,6 +22,8 @@ $cfg = Join-Path $raiz '.claude\protegidos.json'
 
 $fallas = 0
 $corridos = 0
+$salteados = @()
+$casosGuardia = 0
 
 function Resultado([bool]$ok, [string]$etiqueta, [string]$detalle) {
     $script:corridos++
@@ -34,6 +36,22 @@ function Resultado([bool]$ok, [string]$etiqueta, [string]$detalle) {
     }
 }
 
+# "No se pudo probar" no es "paso". Las capas 1 y 3 prueban el freno SOBRE UN
+# ARCHIVO CONCRETO, y ese archivo es de un proyecto: en una maquina donde ese
+# proyecto no esta, no hay nada que medir. Hasta el 2026-09-13 eso salia como
+# [FAIL] y volteaba el bootstrap entero de cualquier maquina que no fuera la
+# notebook -- y, peor, el SABOTAJE de la capa 3 daba VERDE por la razon
+# equivocada: exigia ver rojo, y el rojo salia porque faltaba el archivo, no
+# porque el chequeo de integridad sirviera. Un test que pasa por el motivo
+# equivocado es exactamente lo que este script existe para no tener.
+# Ahora se declara SALTEADO, se nombra al final, y el resumen no dice "OK" a
+# secas mientras haya capas sin verificar en esta maquina.
+function Salteado([string]$etiqueta, [string]$motivo) {
+    $script:salteados += "$etiqueta -- $motivo"
+    Write-Output ("  [SKIP] {0}" -f $etiqueta)
+    Write-Output ("         {0}" -f $motivo)
+}
+
 function Correr-Guardia([string]$json) {
     $tmp = [System.IO.Path]::GetTempFileName()
     try {
@@ -44,6 +62,7 @@ function Correr-Guardia([string]$json) {
 }
 
 function Caso-Guardia([string]$etiqueta, [string]$json, [bool]$esperaDeny) {
+    $script:casosGuardia++
     $out = Correr-Guardia $json
     $denego = $out -match '"permissionDecision"\s*:\s*"deny"'
     # 'pasar' es pasar EN SILENCIO. Desde que el guardia tiene un tercer
@@ -93,8 +112,10 @@ $nom  = $iso.nombre
 Write-Output ""
 Write-Output "capa 1 -- el sistema operativo (atributo ReadOnly)"
 
-if (-not (Test-Path -LiteralPath $ruta)) {
-    Resultado $false "el ISO protegido existe" "no esta en $ruta"
+$hayArchivoProtegido = Test-Path -LiteralPath $ruta
+
+if (-not $hayArchivoProtegido) {
+    Salteado "capa 1 sobre $nom" ("no esta en esta maquina ($ruta): el freno de capa 1 queda SIN VERIFICAR aca")
 } else {
     $i = Get-Item -LiteralPath $ruta
     Resultado ($i.Attributes -band [System.IO.FileAttributes]::ReadOnly) `
@@ -364,7 +385,9 @@ Write-Output ""
 Write-Output "capa 3 -- integridad medida (la que no tiene agujeros)"
 
 $abrir = Join-Path $raiz 'proyectos\ingenieria\black\abrir-sesion.ps1'
-if (Test-Path -LiteralPath $abrir) {
+if (-not $hayArchivoProtegido) {
+    Salteado "capa 3 (integridad de $nom)" ("el archivo no esta en esta maquina: sin objeto que medir, el SABOTAJE daria rojo por la razon equivocada")
+} elseif (Test-Path -LiteralPath $abrir) {
     $o = & powershell -NoProfile -ExecutionPolicy Bypass -File $abrir -SoloIntegridad 2>&1 | Out-String
     Resultado ($LASTEXITCODE -eq 0 -and $o -match 'integridad OK') `
         "abrir-sesion.ps1 -SoloIntegridad da verde con el ISO sano" `
@@ -381,9 +404,28 @@ if (Test-Path -LiteralPath $abrir) {
 
 Write-Output ""
 Write-Output "------------------------------------------------------------"
+
+# El unico saboteador que no depende de ningun archivo de ningun proyecto es
+# el de capa 2: decide sobre el TEXTO del comando. Si ese llegara a cero casos
+# --por un refactor, por un filtro mal puesto-- el script podria salir en
+# verde sin haber probado nada. El piso no se escribe a mano: se cuenta.
+if ($casosGuardia -eq 0) {
+    Write-Output "  [FAIL] no corrio NINGUN caso del guardia (capa 2)."
+    Write-Output "  Un saboteador que no sabotea nada sale en verde y no protege."
+    exit 1
+}
+
 if ($fallas -eq 0) {
-    Write-Output "  Frenos OK. $corridos comprobaciones, ninguna falla."
-    Write-Output "  Cada freno se vio en ROJO al menos una vez, y lo legitimo sigue pasando."
+    if ($salteados.Count -gt 0) {
+        Write-Output "  Lo que se pudo probar, OK: $corridos comprobaciones, ninguna falla."
+        Write-Output "  PERO $($salteados.Count) capa(s) quedaron SIN VERIFICAR en esta maquina:"
+        foreach ($s in $salteados) { Write-Output "    - $s" }
+        Write-Output "  Eso no es un fallo del freno: es que el objeto que protege no esta aca."
+        Write-Output "  En la maquina donde SI este, este mismo script las prueba."
+    } else {
+        Write-Output "  Frenos OK. $corridos comprobaciones, ninguna falla."
+        Write-Output "  Cada freno se vio en ROJO al menos una vez, y lo legitimo sigue pasando."
+    }
     exit 0
 } else {
     Write-Output "  $fallas de $corridos comprobaciones FALLARON."

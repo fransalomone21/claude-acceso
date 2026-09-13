@@ -298,8 +298,14 @@ sube es exactamente la falla que no duele el mismo día.
   `perfil-global/` — repo propio, se instala con `perfil-global\install.ps1`.
 - **El inventario completo del sistema**, con el porqué de cada decisión de
   estructura: [`MAPA.md`](MAPA.md). Se lee una vez, no cada sesión.
-- **Máquina nueva, o falta alguna carpeta ignorada**: `.\bootstrap.ps1` —
-  clona el perfil, lo instala, lo verifica y corre `verificar-estructura.ps1`.
+- **Máquina nueva** (la PC, o cualquier otra): [`MAQUINA-NUEVA.md`](MAQUINA-NUEVA.md)
+  — qué viaja, qué no, y por qué las dos máquinas comparten un solo `main`.
+  El comando sigue siendo `.\bootstrap.ps1`: mide dependencias, clona el
+  perfil, lo instala, lo verifica, corre `verificar-estructura.ps1` e instala
+  y **sabotea** los frenos.
+- **¿Este árbol quedó atrasado respecto de la otra máquina?**:
+  `.\verificar-sincronia.ps1`, y para probar que ese chequeo no está ciego:
+  `.\probar-sincronia.ps1`.
 - **¿Qué leo para entrar a un proyecto?**: `.\cascada.ps1 <proyecto>` — el
   flujo de los seis niveles, con rutas exactas y medido contra el disco.
 - **¿La estructura sigue sana?**: `.\verificar-estructura.ps1`. Y para probar

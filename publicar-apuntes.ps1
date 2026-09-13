@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
   Publica en Drive los apuntes DECLARADOS en .claude/apuntes-publicos.json.
 
@@ -61,8 +61,15 @@ if ($null -eq $rclone) {
 # sesion y la consola de Fran escriben en ARCHIVOS DISTINTOS creyendo los dos
 # que escriben en el mismo. Sintoma: rclone dijo 'not found' sobre un archivo
 # que existia y que la otra ventana listaba sin drama. Medido: habia dos
-# rclone.conf en el disco. C:\Users\frans\.config\ no se redirige.
-if ($ConfRclone) { $conf = $ConfRclone } else { $conf = 'C:\Users\frans\.config\rclone\rclone.conf' }
+# rclone.conf en el disco. La carpeta .config del perfil NO se redirige.
+#
+# USERPROFILE, en cambio, SI se puede usar: la redireccion de MSIX alcanza a
+# AppData\Roaming, no al perfil entero. Medido el 2026-09-13 desde adentro de
+# la app empaquetada: $env:USERPROFILE dio C:\Users\frans y el archivo que
+# resuelve por ahi es el MISMO que el de la ruta literal. Se cambia porque la
+# ruta literal ataba el publicador a que el usuario de Windows se llame
+# 'frans', y desde que hay una segunda maquina eso deja de ser cierto solo.
+if ($ConfRclone) { $conf = $ConfRclone } else { $conf = Join-Path $env:USERPROFILE '.config\rclone\rclone.conf' }
 
 if (-not (Test-Path $rutaLista)) {
     Escribir "[ROJO] falta $rutaLista -- sin lista no se publica nada." Red

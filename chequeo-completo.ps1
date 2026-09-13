@@ -49,6 +49,10 @@ $medidores = @(
     @{ nombre = 'perfil global instalado';  cmd = '.\perfil-global\verify-install.ps1' }
     @{ nombre = 'triage de lecciones';      cmd = 'python perfil-global\herramientas\aprender.py sin-triage' }
     @{ nombre = 'apuntes publicados en Drive'; cmd = '.\publicar-apuntes.ps1 -Verificar' }
+    # Con una sola maquina este medidor no tenia sentido: no habia otra copia
+    # que pudiera estar mas adelante. Con dos, abrir una sesion sobre un arbol
+    # atrasado es la falla nueva, y es de las que no duelen el mismo dia.
+    @{ nombre = 'sincronia con origin';     cmd = '.\verificar-sincronia.ps1' }
 )
 
 $saboteadores = @(
@@ -57,6 +61,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador del guardia fanout'; cmd = '.\perfil-global\probar-guardia-fanout.ps1' }
     @{ nombre = 'saboteador del triage';         cmd = '.\perfil-global\probar-chequeo-lecciones.ps1' }
     @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
+    @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
 )
 
 function Correr($lista, $titulo) {
