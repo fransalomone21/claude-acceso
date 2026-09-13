@@ -83,7 +83,7 @@ function Correr($lista, $titulo) {
             Write-Host ("  [FAIL] {0,-32} {1,5:N1} s   exit={2}" -f $c.nombre, $sw.Elapsed.TotalSeconds, $code) -ForegroundColor Red
             Write-Host ("         {0}" -f $c.cmd) -ForegroundColor Red
             if (-not $Compacto) {
-                foreach ($l in ($salida -split "`r?`n" | Where-Object { $_ -match '\[FAIL\]|FALLIDA|FALLA|no discrimin' })) {
+                foreach ($l in ($salida -split "`r?`n" | Where-Object { $_ -match '\[FAIL\]|FALLIDA|FALLA|FALLO|CIEGO|RUIDO|ALARMA|no discrimin' })) {
                     Write-Host ("         {0}" -f $l.Trim()) -ForegroundColor Red
                 }
             }

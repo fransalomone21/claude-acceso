@@ -25,6 +25,7 @@ param(
 Set-Location $Raiz
 $resultados = @()
 
+$salteados = @()
 function Correr {
     $salida = & powershell -NoProfile -ExecutionPolicy Bypass -File "$Raiz\verificar-estructura.ps1" 2>&1
     return ($salida | Out-String)
@@ -40,7 +41,21 @@ function GitRestaurar($rel) {
 # algo que no esta roto. Pero un aviso tambien puede estar ciego, asi que se
 # sabotea igual: lo que no se prueba rompiendolo esta sin verificar, sea del
 # color que sea.
-function Probar($nombre, $esperado, $romper, $restaurar, $marca = 'FAIL') {
+# $requiere: la ruta del OBJETO que este caso sabotea. Si no esta en esta
+# maquina, el sabotaje no se puede provocar y el verificador se queda en verde
+# -- que este script llamaba [CIEGO!!], o sea "el chequeo no discrimina".
+# Medido el 2026-09-13 en la PC: 'coaching' es un repo con dueno propio que no
+# se clona con este, y los dos casos que lo usan salieron acusando al
+# verificador de estar roto. Un saboteador que explica mal su rojo manda a
+# buscar el problema donde no esta; es el mismo cuarto resultado que ya
+# aparecio en probar-hooks y en la regla 3b.
+function Probar($nombre, $esperado, $romper, $restaurar, $marca = 'FAIL', $requiere = $null) {
+    if ($requiere -and -not (Test-Path -LiteralPath (Join-Path $Raiz $requiere))) {
+        Write-Host "  [SKIP]    $nombre" -ForegroundColor Yellow
+        Write-Host "            '$requiere' no esta en esta maquina: no hay que sabotear. NO es que el chequeo este ciego." -ForegroundColor DarkGray
+        $script:salteados += $nombre
+        return
+    }
     $rojo = $null
     try {
         & $romper
@@ -102,11 +117,11 @@ Probar "regla 1 - proyecto tracked sin CLAUDE.md" "telescopio" `
 # Es el caso que costo 23 lecciones en 2026-08-27, en su version temprana:
 # todavia con 0 archivos tracked, pero con la puerta abierta para el proximo
 # 'git add -A'.
-Probar "regla 2 - repo propio sin linea en .gitignore" "coaching" `
+Probar "regla 2 - repo propio sin linea en .gitignore" "NO esta en .gitignore" `
     { (Get-Content -LiteralPath "$Raiz\.gitignore") |
         Where-Object { $_ -ne 'proyectos/seguimiento/coaching/' } |
         Set-Content -LiteralPath "$Raiz\.gitignore" -Encoding utf8 } `
-    { GitRestaurar '.gitignore' }
+    { GitRestaurar '.gitignore' } 'FAIL' 'proyectos/seguimiento/coaching/.git'
 
 # --- regla 3a: proyecto en el disco que el enrutador no conoce ---
 $fant = "$Raiz\proyectos\ingenieria\fantasma"
@@ -123,11 +138,11 @@ Probar "regla 3b - enlace roto en CLAUDE.md" "no-existe.md" `
 # --- regla 3c: la tabla de duenos se atrasa respecto del disco ---
 # Este es EXACTAMENTE el defecto que se encontro el 2026-08-28: el disco tenia
 # tres repos propios y los documentos hablaban de dos.
-Probar "regla 3c - MAPA.md no declara un repo propio del disco" "coaching" `
+Probar "regla 3c - MAPA.md no declara un repo propio del disco" "MAPA.md no lo declara" `
     { (Get-Content -LiteralPath "$Raiz\MAPA.md") |
         Where-Object { $_ -notmatch '`proyectos/seguimiento/coaching/`' } |
         Set-Content -LiteralPath "$Raiz\MAPA.md" -Encoding utf8 } `
-    { GitRestaurar 'MAPA.md' }
+    { GitRestaurar 'MAPA.md' } 'FAIL' 'proyectos/seguimiento/coaching/.git'
 
 # --- regla 4: proyecto ACTIVO sin punto de retome ---
 $blk = "$Raiz\proyectos\ingenieria\black"
@@ -242,7 +257,18 @@ if ($ciegos -gt 0) {
     Write-Host "$ciegos chequeo(s) CIEGO(S): dicen OK y no discriminan." -ForegroundColor Red
     exit 1
 }
+if ($resultados.Count -eq 0) {
+    # Un saboteador que no saboteo nada sale en verde y no protege. El piso se
+    # cuenta, no se escribe a mano.
+    Write-Host "No se corrio NINGUN caso: este saboteador no probo nada." -ForegroundColor Red
+    exit 1
+}
 Write-Host "Los $($resultados.Count) chequeos discriminan: rojo ante el caso roto." -ForegroundColor Green
+if ($salteados.Count -gt 0) {
+    Write-Host "$($salteados.Count) caso(s) SALTEADO(S) -- su objeto no esta en esta maquina:" -ForegroundColor Yellow
+    foreach ($t in $salteados) { Write-Host "  - $t" -ForegroundColor Yellow }
+    Write-Host "  No son chequeos ciegos: no habia que sabotear." -ForegroundColor Yellow
+}
 
 # --- control positivo: sin esto, no se distingue un saboteador que anda de
 #     uno que dejo el arbol roto ---
