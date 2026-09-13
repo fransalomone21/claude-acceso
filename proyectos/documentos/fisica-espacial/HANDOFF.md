@@ -39,37 +39,41 @@ for i,p in enumerate(d):
 "
 ```
 
-## Fase 6 — lo que la próxima sesión necesita (todavía sin PDP)
+## Fase 6 — CERRADA para este apunte (sesión 6, 2026-09-13)
 
-**Pedido de Fran el 2026-09-13, al cerrar la fase 5.** Tres cosas, ninguna
-arrancada todavía — la fase 5 se cerró primero porque era el compromiso ya
-abierto (regla del PDP: no se mezclan fases a mitad de cierre):
+Los tres pedidos que Fran hizo al cerrar la fase 5 se resolvieron en la misma
+sesión, apenas Fran agregó el roadmap y los tres libros a
+`Desktop\Mis Documentos\SistemasEspaciales\Libros de Fisica\`:
 
-1. **Un roadmap en PDF** que Fran ya pasó en algún momento (o vuelve a pasar
-   la próxima sesión) — hay que revisarlo contra lo que el apunte ya cubre y
-   armar un «puntapié» de qué falta incorporar. **No está en el disco
-   todavía**: buscarlo primero con el mismo criterio que los libros de
-   `fuentes/RUTAS.md` (glob, nunca ruta a mano) antes de pedírselo a Fran de
-   nuevo.
-2. **Auditar que no falte ningún tema fundamental que sostenga el resto del
-   apunte** — el ejemplo que dio Fran es las leyes de Galileo. Esto es
-   distinto del roadmap: es un chequeo de fundamentos propios, contra el
-   `fuentes/TEMARIO.md` y el criterio de la cátedra, no contra un documento
-   externo.
-3. **Incorporar temas nuevos de un Taller de Física** (materia aparte, cuyas
-   clases arma la cátedra —no un profesor—, así que el criterio de nivel es
-   «lo más importante, sin ir al detalle»). Fran va a descargar los tres
-   libros que usa esa materia y agregarlos a la carpeta de libros de física.
-   **No arrancar esto sin los libros**: el apunte cita página por página
-   contra la fuente (regla 2 de `CLAUDE.md`), y sin los PDFs no hay dónde
-   verificar.
+1. **El roadmap en PDF** (`Road Map.pdf`) resultó ser el Apéndice B de
+   Curtis, *Orbital mechanics for engineering students* — un diagrama de
+   flujo (Fig. B.1) de sus capítulos 1-3: leyes de Newton → ecuación de dos
+   cuerpos → energía mecánica → fórmula de la órbita (1ª ley de Kepler) →
+   $v_\perp$, $v_r$ → 2ª y 3ª ley de Kepler → ecuaciones de Kepler
+   (anomalía verdadera vs. tiempo). **Los cinco primeros bloques ya están
+   deducidos en los módulos 6-10** (no citados: deducidos, que es lo que
+   Fran pidió como estándar — "que no tenga que ir a internet"). El único
+   nodo sin cubrir es el último, la ecuación de Kepler tiempo-anomalía, que
+   **ya está declarada como deuda conocida** en 17.6, 18.5 y 19.7. El
+   roadmap no reveló ningún hueco nuevo: confirma que el apunte ya sigue esa
+   misma cadena lógica.
+2. **La auditoría de fundamentos** (ejemplo dado: Galileo) — `grep -in
+   galileo apunte/modulos/*.typ` da dos hits: la transformación de Galileo
+   en `m3-centro-de-masa.typ:93` y la independencia peso/masa en
+   `m6-gravitacion.typ:89` ("eso ya se sabía desde Galileo"). Las dos son
+   deducciones propias, no menciones de pasada. Cerrado con lo que ya
+   había — no hizo falta escribir nada nuevo.
+3. **Los temas del Taller de Física** se mudaron a un proyecto propio:
+   [`../taller-de-fisica/`](../taller-de-fisica/CLAUDE.md). El Taller es
+   materia aparte (palabras de Fran) y mezclarlo acá rompía el título de
+   este apunte, ya cerrado en 149 páginas verificadas. Las tres fuentes
+   (Ferraro, Pisacane, Young-Freedman) están localizadas y el recorte de
+   contenido decidido en ese proyecto — **fase de escritura bloqueada a
+   propósito**, Fran dijo que la va a arrancar en otro momento. Nada de eso
+   toca este apunte.
 
-**Esto no tiene PDP todavía.** Las tres tareas son grandes y de alcance
-distinto entre sí (revisión de gaps, auditoría de fundamentos, contenido
-nuevo de otra materia) — antes de escribir una sola línea hace falta decidir
-si son una fase 6 con tres sesiones, o tres fases separadas. Eso se decide
-al abrir la próxima sesión, con el roadmap y al menos uno de los tres libros
-ya en el disco: sin eso, planificar es adivinar.
+Con los tres pedidos resueltos, la fase 6 de `fisica-espacial` queda cerrada
+sin haber tocado un solo módulo — el hallazgo fue que no hacía falta.
 
 ---
 

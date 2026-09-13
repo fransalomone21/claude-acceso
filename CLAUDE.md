@@ -68,6 +68,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 | [`clase-asincronica-3/`](proyectos/documentos/clase-asincronica-3/CLAUDE.md) | Actividad asincrónica de Teoría de Circuitos (UNSAM): 12 problemas de Nilsson caps. 6-8, resueltos y simulados en LTspice | **ACTIVO** — fase 2; las 17 simulaciones cerradas y verificadas |
 | [`repaso-iise/`](proyectos/documentos/repaso-iise/) | Repaso oral de IISE: guion + audios | terminado |
 | `teoria-circuitos/` | Informes de laboratorio en Typst. El 1 (Thévenin y Norton) entregado; Pre-Lab de amplificadores operacionales abierto | **ACTIVO** — **repo aparte**: la carátula lleva mails de compañeros |
+| [`taller-de-fisica/`](proyectos/documentos/taller-de-fisica/CLAUDE.md) | Apunte del Taller de Física (materia aparte, dinámica de cátedra), con Ferraro, Pisacane y Young-Freedman como fuentes | fase 0 (fuentes localizadas, recorte de Pisacane sin cerrar); **fase 1 bloqueada a propósito** hasta que Fran lo pida |
 
 ### `proyectos/seguimiento/` — datos longitudinales de la vida real
 

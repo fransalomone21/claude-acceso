@@ -5,12 +5,21 @@ escritos el 2026-09-11) más el cierre de fase: las referencias cruzadas de
 texto plano validadas para los **19** módulos (no sólo la Parte V — el detalle
 de qué estaba mal y se corrigió está en `HANDOFF.md`, sección «Fase 5 —
 CERRADA») y el blanco al pie de la pág. 30 impresa, revisado y declarado
-aceptable. **FASE 6 ABIERTA, sin PDP todavía**: Fran pidió, al cerrar la fase
-5, (1) revisar un roadmap en PDF que hay que ubicar o que Fran vuelve a
-pasar, (2) auditar que no falte ningún fundamento que sostenga el apunte
-(ejemplo dado: leyes de Galileo), y (3) incorporar temas de un Taller de
-Física con tres libros que Fran todavía no descargó. El detalle completo está
-en `HANDOFF.md`, sección «Fase 6».
+aceptable.
+
+**FASE 6 — CERRADA el 2026-09-13, sin tocar el apunte.** Los tres pedidos que
+Fran hizo al cerrar la fase 5 se resolvieron apenas agregó el roadmap y los
+tres libros del Taller: (1) el roadmap (Apéndice B de Curtis) no reveló
+huecos — lo que dibuja ya está deducido en los módulos 6-10, salvo la
+ecuación de Kepler tiempo-anomalía, que ya es deuda declarada; (2) Galileo ya
+está deducido dos veces (M3, M6); (3) los temas del Taller de Física se
+mudaron a un proyecto propio, [`taller-de-fisica/`](../taller-de-fisica/CLAUDE.md)
+— es materia aparte y no le correspondía a este apunte. El detalle está en
+`HANDOFF.md`, sección «Fase 6 — CERRADA».
+
+**Este apunte no tiene fase abierta.** La próxima sesión que lo retome
+decide si hay fase 7 (anexos, la que ya estaba prevista desde la fase 5) o si
+queda cerrado tal como está.
 
 **FASE 5 — contexto original.** Es la fase que la cátedra abrió sin querer: la
 lista de temas de gravitación actualizada (`Lista de temas Gravitación (2).pdf`)
@@ -664,16 +673,18 @@ cuatro no.
 | 3 · **hecha** (2026-09-08) | M18 — marco perifocal y coeficientes de Lagrange | $\hat p$, $\hat q$, $\hat w$; el vector de estado y los seis elementos; $f$ y $g$ (Curtis §2.10–2.11) y los parámetros orbitales del Bate (pág. 53–74) |
 | 4 · **hecha** (2026-09-11) | M19 — tres cuerpos restringido y puntos de Lagrange | los cinco puntos, la constante de Jacobi (Curtis §2.12), y la comparación medida entre la esfera de Hill y la esfera de influencia del M17 |
 | 5 · **hecha** (2026-09-13) | cierre de fase | referencias cruzadas de los 19 módulos validadas (7 filas corregidas contra la tabla vieja, que estaba incompleta); blanco de la pág. 30 revisado y declarado aceptable |
+| 6 · **hecha** (2026-09-13) | fase 6 (roadmap, fundamentos, Taller) | los tres pedidos de Fran cerrados sin tocar el apunte: roadmap sin huecos nuevos, Galileo ya deducido, Taller de Física mudado a `taller-de-fisica/` |
 
 **Por qué el M17 va segundo y no cuarto.** Es lo que Fran pidió
 explícitamente, y su única precondición es el M16, que ya está. Los dos
 módulos de herramientas (M18 y M19) no le hacen falta para nada.
 
-**Lo que la fase 6 hereda.** Ya no hereda las referencias cruzadas (cerradas
-en la sesión 5) ni la decisión de anexos sola: hereda tres pedidos nuevos de
-Fran (roadmap en PDF, auditoría de fundamentos, temas del Taller de Física) y
-la decisión de anexos, todo sin PDP todavía. El detalle está en `HANDOFF.md`,
-sección «Fase 6».
+**Lo que queda pendiente para este apunte, si alguna vez se retoma.** Sólo
+la decisión de si lleva anexos (fase 7, nunca definida). Las referencias
+cruzadas se cerraron en la sesión 5, y los tres pedidos de la fase 6
+(roadmap, fundamentos, Taller) se cerraron en la sesión 6 sin generar deuda:
+el roadmap y Galileo ya estaban cubiertos, y el Taller de Física vive ahora
+en su propio proyecto. Detalle en `HANDOFF.md`, sección «Fase 6 — CERRADA».
 
 **Checkpoint por módulo, no por fase.** `ESTADO_ACTUAL` + `HANDOFF` + commit
 + push al cerrar *cada* módulo.
