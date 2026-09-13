@@ -6,6 +6,38 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión 7 — EL APUNTE QUEDÓ CERRADO (2026-09-13)
+
+No hay nada a medias. **El proyecto no tiene fase abierta y no se abre
+ninguna.** Si una sesión futura lo retoma, que lea primero el encabezado de
+`ESTADO_ACTUAL.md`: dice CERRADO y dice por qué.
+
+**La trampa que esta sesión pagó, y que no hay que volver a pagar:** el
+criterio de salida escrito de la fase 6 en `PDP.md` nombraba los anexos, y la
+fase se había cerrado el mismo 2026-09-13 sin escribirlos, sin declararlo. No
+fue mala fe: la sesión 6 cerró los tres pedidos que Fran hizo *de viva voz* y
+nadie volvió a mirar el criterio escrito. **Cerrar contra lo que se pidió en
+el chat en vez de contra lo que dice el PDP es la forma silenciosa de que un
+criterio de salida deje de servir.** Quedó corregido en `PDP.md` §4.
+
+**Los anexos son ahora la fase 7, opcional y con alcance definido** —
+formulario, constantes y correspondencia con la cátedra, con su criterio de
+salida escrito. Antes estaban «mencionados», que obligaba a inventarles el
+alcance a cada sesión que los encontraba. El `#include` donde engancharían
+sigue comentado en `apunte/apunte.typ:134`.
+
+**Deuda de contenido que sobrevive al cierre, y es la única:** la ecuación de
+Kepler tiempo-anomalía, ya declarada como tal en 17.6, 18.5 y 19.7. El apunte
+la nombra y dice que no la deduce; eso es honesto y no es un hueco tapado.
+
+**El PDF se publica solo en el Drive de los compañeros** desde esta sesión:
+`publicar-apuntes.ps1` en la raíz del repo, con `apunte.pdf` declarado en
+`.claude/apuntes-publicos.json`. Si alguna vez se abre la fase 7 y el apunte
+cambia, el medidor del arranque avisa que Drive quedó atrasado — no hace
+falta acordarse de subirlo.
+
+---
+
 ## Cómo se compila y cómo se mira
 
 ```powershell
