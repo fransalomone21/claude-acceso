@@ -52,11 +52,15 @@ if ($null -eq $rclone) {
     }
 } else { $rclone = $rclone.Source }
 
-# El config de rclone se NOMBRA, no se deja al ambiente. Ya fallo: la misma
-# maquina, el mismo usuario y el mismo remote, y una consola dijo 'not found'
-# mientras otra lo listaba sin drama. Un dato que depende de una variable de
-# entorno es un dato que diverge entre dos ventanas.
-if ($ConfRclone) { $conf = $ConfRclone } else { $conf = Join-Path $env:APPDATA ('rclone' + [char]92 + 'rclone.conf') }
+# El config vive en una RUTA LITERAL, no bajo %APPDATA%, y no es mania: la
+# app de Claude corre empaquetada (MSIX) y Windows le REDIRIGE %APPDATA% a
+#   AppData\Local\Packages\Claude_*\LocalCache\Roaming\
+# aunque la variable siga diciendo C:\Users\frans\AppData\Roaming. O sea que la
+# sesion y la consola de Fran escriben en ARCHIVOS DISTINTOS creyendo los dos
+# que escriben en el mismo. Sintoma: rclone dijo 'not found' sobre un archivo
+# que existia y que la otra ventana listaba sin drama. Medido: habia dos
+# rclone.conf en el disco. C:\Users\frans\.config\ no se redirige.
+if ($ConfRclone) { $conf = $ConfRclone } else { $conf = 'C:\Users\frans\.config\rclone\rclone.conf' }
 
 if (-not (Test-Path $rutaLista)) {
     Escribir "[ROJO] falta $rutaLista -- sin lista no se publica nada." Red
@@ -70,6 +74,29 @@ if (-not (Test-Path $rutaLista)) {
 # propiedad y deja $decl.remote vacio de otra manera distinta.
 $decl = ConvertFrom-Json ([System.IO.File]::ReadAllText($rutaLista).TrimStart([char]0xFEFF))
 $remote = $decl.remote
+
+$problemas = 0
+
+# --- el hook que hace que esto corra SOLO -------------------------------
+# Este medidor corre en cada arranque, asi que es el lugar donde mirar si el
+# disparador automatico sigue puesto. Un hook de git no se versiona: si Fran
+# vuelve a clonar el repo, desaparece sin avisar y la publicacion vuelve a
+# depender de que alguien se acuerde -- que es justo lo que se vino a sacar.
+Escribir "" White
+Escribir "== hook post-commit ==" Cyan
+$hookInst = Join-Path $raiz ".git" | Join-Path -ChildPath "hooks" | Join-Path -ChildPath "post-commit"
+$hookSrc  = Join-Path $raiz ".claude" | Join-Path -ChildPath "hooks" | Join-Path -ChildPath "post-commit"
+if (-not (Test-Path $hookInst)) {
+    Escribir "  [ROJO] no esta instalado -- los apuntes no se publican solos." Red
+    Escribir "         copy .claude\hooks\post-commit .git\hooks\post-commit" Yellow
+    $problemas++
+} elseif ((Get-FileHash $hookInst).Hash -ne (Get-FileHash $hookSrc).Hash) {
+    Escribir "  [ROJO] el instalado difiere de la fuente versionada." Red
+    Escribir "         copy .claude\hooks\post-commit .git\hooks\post-commit" Yellow
+    $problemas++
+} else {
+    Escribir "  instalado e identico a la fuente" Green
+}
 
 # --- el remote tiene token? ----------------------------------------------
 Escribir "== remote '$remote' ==" Cyan
@@ -92,7 +119,6 @@ if ($LASTEXITCODE -ne 0) {
 Escribir "  autorizado" Green
 
 # --- el trabajo -----------------------------------------------------------
-$problemas = 0
 $declarados = @()
 
 foreach ($a in $decl.apuntes) {

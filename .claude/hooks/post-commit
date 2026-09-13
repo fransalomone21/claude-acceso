@@ -1,0 +1,30 @@
+#!/bin/sh
+# post-commit -- publica en Drive el apunte que este commit acaba de tocar.
+#
+# Por que un hook de git y no "acordarse": el PDF del apunte esta trackeado,
+# asi que el commit es el momento EXACTO en que el apunte cambio de verdad.
+# Cualquier otro disparador (cerrar sesion, una tarea programada, pedirselo a
+# alguien) o llega tarde o depende de que alguien se acuerde.
+#
+# Corre solo si el commit toco un apunte. Un commit de codigo no paga la
+# latencia de red.
+#
+# Fuente versionada: .claude/hooks/post-commit
+# Instalado en    : .git/hooks/post-commit  (no se versiona, por eso hay copia)
+# Que esta instalado lo MIDE publicar-apuntes.ps1 -Verificar en cada arranque.
+
+raiz=$(git rev-parse --show-toplevel)
+
+if ! git diff-tree --no-commit-id --name-only -r HEAD | grep -q 'apunte/apunte\.pdf$'; then
+    exit 0
+fi
+
+echo ""
+echo "[post-commit] este commit toco un apunte -- publicando en Drive"
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$raiz\publicar-apuntes.ps1" < /dev/null
+
+# El exit code no se propaga a proposito: git ignora el del post-commit, y un
+# Drive caido no tiene que parecer un commit fallido. Si la subida fallo, el
+# medidor del proximo arranque lo dice igual.
+exit 0
