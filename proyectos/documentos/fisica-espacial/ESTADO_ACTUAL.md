@@ -1,5 +1,76 @@
 # Estado actual — Apunte de Física Espacial
 
+## Anexo A agregado el 2026-09-14 — guía de ejercicios, sin abrir fase nueva
+
+Dos pedidos de Fran, resueltos en la misma sesión y sin tocar ningún módulo
+(por eso no abre fase): **(1)** una estructura reusable para agregar
+apéndices o secciones a un apunte Typst sin reorganizar nada existente, y
+**(2)** usarla para volcar los 40 enunciados de `fuentes/GUIA-ENUNCIADOS.md`
+en un anexo de práctica — qué conceptos/ecuaciones/teoremas aplicar, y *sólo
+la respuesta final*, nunca la resolución desarrollada (eso ya lo hacen los
+`#ejemplo` de cada módulo).
+
+**Hecho, compilado y verificado en render** (páginas del anexo miradas una
+por una, cero huérfanos de caja, `verificar-apunte.py` en verde). El apunte
+pasó de **151 a 160 páginas impresas**, con una Parte 6 nueva ("Anexos") y
+el **Anexo A** adentro: 49 fichas en cinco grupos —Vectores (7), Cantidad de
+movimiento (9 + 3 adicionales), Impulso angular (7), Gravitación (11 + 5
+adicionales), Cuerpo rígido (9)—.
+
+**Mecanismo, en `apunte/plantilla.typ`:** un `state("rotulo-especial", ...)`
+que cada tipo de sección sin numerar pisa antes de su heading (así
+"SECCIÓN PRELIMINAR" y "ANEXO A" conviven sin una rama nueva por tipo en el
+show-rule); `#anexo(letra, titulo, resumen)`, que abre una sección como
+`#modulo()` pero **no** emite la metadata que `M()` busca —un anexo no es un
+módulo, no entra en el grafo de `verificar-apunte.py` ni debe entrar—; y
+`#disparador(numero, enunciado, resuelve:, respuesta)`, la ficha de
+práctica, en violeta porque ese color ya significaba "vínculo con la guía de
+problemas" — no hizo falta un color nuevo. El patrón completo, generalizado
+para cualquier apunte de este flujo (no sólo éste), quedó documentado en
+`/pdf-con-codigo` (sección "Modularizar un documento largo").
+
+**39 de las 49 fichas tienen respuesta numérica** (las demás son
+demostraciones, valen "ver el módulo X", o piden un dato que no está
+transcripto). De esas 39: **~24 citan una respuesta ya verificada adentro
+del apunte** (grado *confirmado* — tiene su desarrollo completo, mirado en
+render); **~15 se calcularon de cero para esta ficha** con las herramientas
+del módulo citado, marcadas *"(cuenta propia de este anexo)"* en el propio
+PDF — grado *probable*, no tuvieron la segunda mirada que sí tuvo el resto
+del apunte.
+
+**Cuatro fichas de cuerpo rígido se dejaron sin resolver, a propósito y
+declarado en el propio anexo — no son un hueco silencioso:**
+
+- **Problemas 7, 8 y 9** necesitan coordenadas o posiciones que están **en
+  la figura del PDF de la cátedra** (`PROBLEMAS FÍSICA ESPACIAL (2).pdf`,
+  pág. 17-18), no en el texto transcripto a `GUIA-ENUNCIADOS.md`. Si se
+  retoman: renderizar esas páginas con PyMuPDF, medir las coordenadas sobre
+  la imagen (mismo método que ya usó el módulo 15 para el Problema 7 de la
+  guía), y recién ahí resolver.
+- **Problema 5** (estación de cinco esferas): la relación de inercias, tal
+  como quedó transcripta en `GUIA-ENUNCIADOS.md`, compara "la estructura
+  respecto a A-A" con "cada esfera respecto a A-A respecto a O" — no da una
+  sola razón $I/I'$ clara. Antes de resolverlo hay que volver al PDF y
+  revisar si la transcripción perdió una palabra o si el enunciado original
+  ya era así de ambiguo.
+
+**Descubierto de paso, y no corregido — no era parte del pedido:** las
+descripciones en prosa de "Lo que hay escrito en la Parte III/IV/V" (más
+abajo, en este mismo archivo) usan números de módulo **desactualizados en
+uno** desde que la fase 8 insertó `m02-marcos.typ`: dicen "Módulo 6 —
+Gravitación" donde el archivo real es `m07-gravitacion.typ` (módulo 7), y
+así con el resto de Parte III en adelante. Es la misma clase de problema que
+la regla 5 del `CLAUDE.md` del proyecto ya resolvió *adentro* del apunte con
+`#M("clave")` — pero `ESTADO_ACTUAL.md` y `HANDOFF.md` son prosa de Markdown
+sin ese mecanismo, y nada los revalida cuando el apunte se reordena. No
+afecta el PDF (los `#M()` del `.typ` están bien, medido por
+`verificar-apunte.py`); si una sesión futura necesita citar "el módulo N" de
+esta prosa histórica, conviene sumarle 1 a partir de la Parte III, o mejor,
+buscar por **clave** (`gravitacion`, `momento-angular`, …) en vez de por
+número.
+
+---
+
 ## FASE 8 — CERRADA el 2026-09-13: fundamentos primero, y el orden ahora se mide
 
 **Fase: ninguna — el apunte está CERRADO.** **20 módulos, 151 páginas

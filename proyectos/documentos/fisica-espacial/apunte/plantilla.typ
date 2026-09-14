@@ -14,6 +14,17 @@
 // ---------- Contadores propios ----------
 #let cont-ej = counter("ejemplo")
 
+// Qué rótulo lleva un heading de nivel 1 SIN numerar. `#seccion()` y
+// `#anexo()` los dos usan `numbering: none` (ninguno de los dos es un
+// módulo), así que ese solo dato no alcanza para distinguirlos -- hace
+// falta este estado. Default `none` = "SECCIÓN PRELIMINAR", el
+// comportamiento de siempre; `#anexo()` lo pisa con su propio rótulo antes
+// de emitir el heading, y como el estado se lee EN la posición de cada
+// heading (`.at(it.location())`), agregar un tercer tipo el día de mañana
+// es una tercera llamada a `.update()`, no una tercera rama a mano en el
+// show-rule de abajo.
+#let rotulo-especial = state("rotulo-especial", none)
+
 // ---------- Referencia simbolica a un modulo ----------
 //
 // `#M("gravitacion")` imprime el NUMERO del modulo cuya clave es esa, leido
@@ -88,6 +99,52 @@
 // aproxima ni se simplifica de mas, solo se cambia el registro.
 #let posta(cuerpo) = caja([La posta], c-rosa, cuerpo)
 
+// ---------- Ficha de ejercicio (anexos: guía de acompañamiento) ----------
+//
+// No es una caja semántica más del cuerpo del apunte -- no reemplaza a
+// #ejemplo, que sí desarrolla la resolución. Ésta es la unidad propia de
+// los anexos de práctica: el enunciado, CON QUÉ se resuelve (referencias
+// #M() a los módulos, para que sigan valiendo si el apunte se reordena) y
+// la respuesta sola, para que el lector se autocorrija sin que el apunte le
+// regale el desarrollo. Usa el violeta porque ya significa "vínculo con la
+// guía de problemas" -- no es un color nuevo, es el mismo dicho en fichas.
+#let disparador(numero, enunciado, resuelve: none, respuesta) = block(
+  width: 100%,
+  breakable: true,
+  fill: c-viole.lighten(95%),
+  stroke: (left: 2.5pt + c-viole),
+  radius: (right: 3pt),
+  inset: (x: 10pt, y: 9pt),
+  above: 10pt,
+  below: 10pt,
+)[
+  #block(sticky: true, above: 0pt, below: 5pt)[
+    #text(fill: c-viole, weight: "bold", size: 10pt)[#numero]
+  ]
+  #enunciado
+  #if resuelve != none {
+    v(4pt)
+    text(size: 9pt, fill: c-azul, weight: "bold")[Se resuelve con: ]
+    text(size: 9pt)[#resuelve]
+  }
+  #v(3pt)
+  #text(size: 9pt, fill: c-verde.darken(15%), weight: "bold")[Respuesta: ]
+  #text(size: 9pt)[#respuesta]
+]
+
+// ---------- Subtítulo de anexo (agrupa fichas sin tocar el contador de headings) ----------
+//
+// Un heading de nivel 2 DENTRO de #anexo() saldría numerado contra el
+// contador que dejó el último módulo (ver la nota de `rotulo-especial`):
+// no es un heading real por esa razón, no porque no pueda serlo. Mismo
+// tamaño y color que el nivel 2 de verdad, así que a la vista no se nota
+// la diferencia; lo que se pierde es la entrada propia en el índice.
+#let subtitulo-anexo(texto) = block(above: 18pt, below: 8pt)[
+  #text(size: 13pt, fill: c-azul, weight: "bold")[#texto]
+  #v(-4pt)
+  #line(length: 100%, stroke: 0.6pt + c-azul.lighten(40%))
+]
+
 // ---------- Ejemplo resuelto (numerado por módulo) ----------
 // `nivel` distingue el ejemplo que fija el mecanismo del que tiene el
 // nivel de la guía. Cada módulo lleva por lo menos uno de cada uno.
@@ -129,6 +186,9 @@
 // ---------- Apertura de módulo ----------
 #let modulo(titulo, resumen, clave: none) = {
   pagebreak(weak: true)
+  // Por si algún día hay un módulo DESPUÉS de un anexo (no es el caso hoy):
+  // sin este reset, ese módulo heredaría el rótulo "ANEXO X" del estado.
+  rotulo-especial.update(none)
   cont-ej.update(0)
   counter(math.equation).update(0)
   counter(figure.where(kind: "fig")).update(0)
@@ -174,6 +234,40 @@
     below: 16pt,
   )[
     #text(size: 9.5pt, weight: "bold", fill: c-azul, tracking: 0.3pt)[PARA QUÉ SIRVE ESTA SECCIÓN]
+    #v(-2pt)
+    #text(size: 9.5pt)[#resumen]
+  ]
+}
+
+// ---------- Apertura de anexo (va DESPUÉS de los módulos) ----------
+//
+// Mismo mecanismo que #seccion() -- `numbering: none` para no correr la
+// numeración de los módulos -- pero con rótulo propio ("ANEXO A") en vez
+// de "SECCIÓN PRELIMINAR", vía `rotulo-especial`. No emite `<mod-id>`: un
+// anexo no es un módulo, `#M()` no lo ve y el grafo de dependencias de
+// `verificar-apunte.py` tampoco -- no le corresponde, un anexo no enseña
+// contenido nuevo, apunta al que ya está.
+//
+// Para agregar el próximo anexo: crear `anexos/aN-clave.typ` con
+// `#anexo("B", "Título", [resumen])[...]` y un `#include` en `apunte.typ`,
+// debajo del que ya está. Nada más cambia.
+#let anexo(letra, titulo, resumen) = {
+  pagebreak(weak: true)
+  cont-ej.update(0)
+  counter(math.equation).update(0)
+  counter(figure.where(kind: "fig")).update(0)
+  counter(figure.where(kind: table)).update(0)
+  rotulo-especial.update([ANEXO #letra])
+  heading(level: 1, numbering: none, titulo)
+  block(
+    width: 100%,
+    fill: c-gris,
+    stroke: (left: 2.5pt + c-viole),
+    inset: (x: 11pt, y: 10pt),
+    radius: (right: 3pt),
+    below: 16pt,
+  )[
+    #text(size: 9.5pt, weight: "bold", fill: c-viole, tracking: 0.3pt)[PARA QUÉ SIRVE ESTE ANEXO]
     #v(-2pt)
     #text(size: 9.5pt)[#resumen]
   ]
@@ -245,9 +339,14 @@
 
   // Títulos
   show heading.where(level: 1): it => {
-    let rotulo = if it.numbering == none [SECCIÓN PRELIMINAR] else [
-      MÓDULO #counter(heading).display()
-    ]
+    let rotulo = if it.numbering != none {
+      [MÓDULO #counter(heading).display()]
+    } else {
+      context {
+        let r = rotulo-especial.at(it.location())
+        if r != none { r } else [SECCIÓN PRELIMINAR]
+      }
+    }
     block(above: 0pt, below: 14pt)[
       #text(size: 9pt, fill: c-azul, weight: "bold", tracking: 1.2pt)[#rotulo]
       #v(-6pt)
@@ -352,7 +451,8 @@
              angular y $L$ a la cantidad de movimiento: justo al revés que la cátedra.],
 
             text(fill: c-viole, weight: "bold")[Violeta],
-            [el problema de la guía de la cátedra que ese tema resuelve.],
+            [el problema de la guía de la cátedra que ese tema resuelve; en
+             el Anexo A, cada ficha de práctica con su respuesta.],
 
             text(fill: c-rosa, weight: "bold")[Rosa],
             [la posta: la misma idea de arriba, en criollo y sin vueltas —

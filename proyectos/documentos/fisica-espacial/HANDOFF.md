@@ -6,6 +6,41 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-14 — Anexo A, sin abrir fase (no tocó ningún módulo)
+
+Detalle completo en `ESTADO_ACTUAL.md`, sección de arriba. Acá sólo lo que
+hace falta para retomar:
+
+- **Mecanismo nuevo en `apunte/plantilla.typ`**: `rotulo-especial` (state),
+  `#anexo()`, `#disparador()`, `#subtitulo-anexo()`. Ninguno tocó `#modulo()`
+  más que agregarle un reset de una línea (`rotulo-especial.update(none)`,
+  por si algún día hay un módulo después de un anexo). Los 20 módulos
+  existentes quedaron sin tocar — verificado con `verificar-apunte.py` en
+  verde y el render de las 160 páginas mirado.
+- **Contenido nuevo**: `apunte/anexos/a1-guia-ejercicios.typ` (49 fichas).
+  `apunte.typ` engancha con `#parte(6, "Anexos", ...)` + un `#include`, con
+  la nota de cómo agregar el próximo anexo escrita ahí mismo.
+- **Las cuatro fichas sin resolver** (cuerpo rígido, Problemas 5, 7, 8 y 9)
+  están declaradas en el propio anexo, con el motivo — ver `ESTADO_ACTUAL.md`
+  para el detalle de qué falta para resolverlas.
+- **El patrón se documentó en `/pdf-con-codigo`** (perfil global, no en este
+  proyecto) para que el próximo apunte —Electrónica Analógica, Taller de
+  Física, el que sea— lo reuse sin redescubrirlo. `perfil-global/install.ps1`
+  ya corrió, así que está instalado.
+
+### 19. `#` en prosa siempre entra a modo código, aunque la intención sea citarlo
+
+Escribir en una oración "una clave marcada `#M(...)`" para *explicar* la
+convención (no para invocarla) rompe la compilación:
+`error: expected expression` / `expected identifier`, apuntando exactamente
+al `#`. Typst no distingue "esto es un ejemplo de sintaxis" de "esto es
+código de verdad" — trata cualquier `#` en markup como entrada a modo
+código. Se escapa con `\#M(...)`, o se nombra la función sin el símbolo
+("la función `M()`"). Pagado en el propio anexo, en el párrafo que
+explicaba qué significa una respuesta "ya resuelta en tal módulo".
+
+---
+
 ## Fase 8 — CERRADA (sesión 8, 2026-09-13): fundamentos y orden
 
 ### Lo que hay que saber antes de tocar un módulo

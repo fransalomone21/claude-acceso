@@ -144,4 +144,21 @@
 #include "modulos/m20-peonza.typ"
 
 // ---------------------------------------------------------------------
-// #include "modulos/anexos.typ"
+#parte(6, "Anexos", [
+  Un solo anexo por ahora. La guía de ejercicios de la cátedra entera, en
+  fichas: qué conceptos y ecuaciones aplicar, y la respuesta final — nunca
+  la resolución desarrollada, que es lo que ya hacen los cuadros verdes de
+  cada módulo. La idea es que sirva para practicar de verdad: se resuelve
+  primero, se mira la ficha después.
+
+  Que el apunte crezca con más anexos —formulario, tabla de constantes,
+  correspondencia de notación entre libros y cátedra— no debería costar más
+  que escribir el archivo nuevo y agregar una línea acá abajo: ver la nota
+  en `#anexo()`, en `plantilla.typ`.
+])
+
+#include "anexos/a1-guia-ejercicios.typ"
+// Para agregar el próximo anexo: crear anexos/a2-<clave>.typ con
+// #anexo("B", "Título", [resumen])[...contenido...] e incluirlo acá abajo,
+// en orden alfabético de letra. No hace falta tocar nada más -- un anexo
+// no entra en el grafo de #M() ni en el chequeo de verificar-apunte.py.
