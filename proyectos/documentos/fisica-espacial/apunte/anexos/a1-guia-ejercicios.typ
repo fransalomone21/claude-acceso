@@ -140,7 +140,7 @@ cuándo pasa eso, no se salta en silencio).
   casos: (a) una etapa de 19 Mg; (b) dos etapas de 9,5 Mg. Rapidez máxima
   en cada caso.],
   resuelve: [la ecuación de Tsiolkovsky con pérdida por gravedad, $V=v_r ln(M_0\/M_f) - g t$, aplicada de punta a punta en (a); en (b), dos veces seguidas —una por etapa—, restando la masa de la cubierta que se desprende sin cambiar la velocidad al pasar de un tramo al otro (#M("cohete")). Ya resuelto.],
-  [(a) una etapa: $V_f = 7,93$ km/s. (b) dos etapas: $V_f = 9,24$ km/s — 1,31 km/s más, con el mismo combustible total.],
+  [intermedio (razón de masas $M_0\/M_f$): una etapa $=11,23$; dos etapas, tramo por tramo, $=1,836 times 8,807=16,17$ — ahí está de dónde sale la diferencia. (a) una etapa: $V_f = 7,93$ km/s. (b) dos etapas: $V_f = 9,24$ km/s — 1,31 km/s más, con el mismo combustible total.],
 )
 
 #disparador(
@@ -176,7 +176,7 @@ cuándo pasa eso, no se salta en silencio).
   (11,80 × 10⁶ N c/u) y tres SSME (2,00 × 10⁶ N c/u, $I_"sp"=455$ s):
   aceleración inicial y caudal de cada motor principal.],
   resuelve: [(a) empuje $=mu abs(v_r)$, y de $M a = f - M g$ se despeja $M=f\/(a+g)$. (b) el empuje total es la suma de los cinco motores; $a=f\/M_0 - g$; el caudal de cada SSME sale de $I_"sp" = abs(v_r)\/g_0$, o sea $mu = f_"motor"\/(I_"sp" g_0)$ (#M("cohete")). Ya resuelto.],
-  [(a) $M = 12 thin 525$ kg. (b) $a = 4,70$ m/s²; $448,3$ kg/s por motor principal.],
+  [(a) $M = 12 thin 525$ kg. (b) intermedio: empuje total $=29,60 times 10^6$ N. $a = 4,70$ m/s²; $448,3$ kg/s por motor principal.],
 )
 
 #subtitulo-anexo("A.3 — Conservación de impulso angular (Problemas 1 a 7)")
@@ -214,7 +214,7 @@ cuándo pasa eso, no se salta en silencio).
   (a) Fuerza del pivote. (b) Rapidez angular del rotor. (c) Copiar el
   diagrama con $bold(H)$ y el torque.],
   resuelve: [(a) el pivote sostiene todo el peso: $F=M_"total" g$. (b) precesión estable sin nutación, $Omega_p = tau\/(I omega)$, con $tau=M_"total" g d$ el torque gravitatorio por el brazo de 4 cm y $omega$ la incógnita (#M("euler-giroscopo"), #M("peonza")).],
-  [(a) $F approx 1,62$ N. (b) $omega_"rotor" approx 1802$ rpm. (c) es un dibujo — $bold(H)$ va sobre el eje del rotor, y $bold(tau)$ perpendicular a $bold(H)$ y horizontal, en la dirección en que $bold(H)$ está girando. _(cuenta propia de este anexo; supone que la distancia de 4 cm es al CM del conjunto rotor+marco)_],
+  [(a) $F approx 1,62$ N. Intermedio: $tau = M_"total" g d approx 0,0647$ N·m. (b) $omega_"rotor" approx 1802$ rpm. (c) es un dibujo — $bold(H)$ va sobre el eje del rotor, y $bold(tau)$ perpendicular a $bold(H)$ y horizontal, en la dirección en que $bold(H)$ está girando. _(cuenta propia de este anexo; supone que la distancia de 4 cm es al CM del conjunto rotor+marco)_],
 )
 
 #disparador(
@@ -248,7 +248,7 @@ cuándo pasa eso, no se salta en silencio).
   diámetro, a 19 200 rpm. Torque para precesar $1,0 times 10^(-6)$ grados
   en 5,0 horas.],
   resuelve: [momento angular del cilindro, $H=I omega$ con $I=m r^2$ (cilindro de pared delgada); la velocidad de precesión pedida es el ángulo total sobre el tiempo, $Omega_p="ángulo"\/"tiempo"$; y el torque necesario es $tau=Omega_p H$ (#M("euler-giroscopo")).],
-  [$tau approx 2,4 times 10^(-12)$ N·m — un torque casi nulo, que es el punto del problema: así de estable queda un giróscopo bien diseñado. _(cuenta propia de este anexo)_],
+  [intermedio: $I=1,25 times 10^(-3)$ kg·m², $H=I omega approx 2,513$ kg·m²/s. $tau approx 2,4 times 10^(-12)$ N·m — un torque casi nulo, que es el punto del problema: así de estable queda un giróscopo bien diseñado. _(cuenta propia de este anexo)_],
 )
 
 #subtitulo-anexo("A.4 — Conservación de la energía y gravitación (Problemas 0 a 10, más cinco adicionales)")
@@ -293,7 +293,7 @@ cuándo pasa eso, no se salta en silencio).
   (b) Razón de rapideces perigeo/apogeo. (c) Rapidez en cada uno.
   (d) $Delta v$ para escapar desde cada uno — ¿cuál conviene?],
   resuelve: [(a) tercera ley de Kepler con $a=(r_p+r_a)\/2$ (#M("kepler")). (b) en los ábsides $h=r v$, así que $v_p\/v_a = r_a\/r_p$, geometría pura. (c) las mismas velocidades salen también de la vis-viva, como control cruzado. (d) escapar es llegar a $v_"esc"=sqrt(2mu\/r)$ sin tocar el otro ábside: $Delta v = v_"esc"(r) - v(r)$ en cada uno (#M("orbita-conicas"), #M("gravitacion")). Ya resuelto — es el mismo satélite del Ej. 4 de impulso angular.],
-  [(a) $tau = 7907$ s. (b) $v_p\/v_a = 1,531$. (c) $v_p=8,435$ km/s, $v_a=5,509$ km/s. (d) escapar conviene en el perigeo: $Delta v_p = 2,41$ km/s contra $Delta v_a = 3,26$ km/s.],
+  [(a) $tau = 7907$ s. (b) $v_p\/v_a = 1,531$. (c) $v_p=8,435$ km/s, $v_a=5,509$ km/s. (d) intermedio: $v_"esc"(r_p)=10,85$ km/s, $v_"esc"(r_a)=8,765$ km/s — escapar conviene en el perigeo: $Delta v_p = 2,41$ km/s contra $Delta v_a = 3,26$ km/s.],
 )
 
 #disparador(
@@ -310,7 +310,7 @@ cuándo pasa eso, no se salta en silencio).
   subirlo a la geosíncrona (35 770 km de altura). (b) Ídem lanzándolo
   directo desde la superficie.],
   resuelve: [la energía de una órbita circular es $E=-mu m\/2a$; (a) es la resta entre la energía de la geosíncrona y la de la órbita a 300 km; (b) es la misma resta pero contra la energía en la superficie, que es puro potencial ($v=0$, aunque en realidad la Tierra gire, eso no lo pide el enunciado) (#M("gravitacion")). Ya resuelto — resuelve de paso el Problema 3.],
-  [(a) $90,6$ GJ. (b) $208,3$ GJ.],
+  [intermedio: $E_"300 km"=-107,4$ GJ, $E_"geosíncrona"=-17,0$ GJ, $E_"superficie"=-225,0$ GJ. (a) $90,6$ GJ. (b) $208,3$ GJ.],
 )
 
 #disparador(
@@ -319,7 +319,7 @@ cuándo pasa eso, no se salta en silencio).
   319 × la de la Tierra); frenar para quedar en una elipse con apoápside
   $100 times 10^3$ km. $Delta v$ necesario.],
   resuelve: [vis-viva ANTES del frenado (parábola, $E=0$) y DESPUÉS (elipse, con el $a$ que fijan los dos ábsides dados), evaluadas las dos en el mismo punto $A$: la resta de velocidades es el $Delta v$ (#M("orbita-conicas")). Ya resuelto.],
-  [$Delta v = 14,2$ km/s (capturar sólo cuesta 0,9 km/s menos que la velocidad parabólica).],
+  [intermedio: $v_"antes"$ (parabólica en $A$) $=26,96$ km/s (coincide con el dato); $v_"después"$ (elipse en $A$) $=12,71$ km/s. $Delta v = 14,2$ km/s (capturar sólo cuesta 0,9 km/s menos que la velocidad parabólica).],
 )
 
 #disparador(
@@ -332,7 +332,7 @@ cuándo pasa eso, no se salta en silencio).
   respecto del módulo de mando y cae hacia la superficie ($C$). Magnitud y
   ángulo $phi$ (desde la vertical $O C$) de $bold(v)_C$.],
   resuelve: [$A$ y $B$ son los dos ábsides de la transferencia de subida (perilunio y apolunio): vis-viva en $A$ da (a); el momento angular $h$ de esa elipse da la velocidad tangencial del LEM en $B$, que restada de la $v_"circ"$ del módulo de mando en el mismo radio da (b) —los dos son ábsides, así que la resta es directa, sin vectores (#M("kepler"), #M("momento-angular")). Para el Problema 9, frenar 200 m/s en $B$ (que sigue siendo ábside) fija la nueva órbita: con $r_B$ y la nueva $v_B$, vis-viva y $h$ dan la energía y el semieje, y el perilunio de esa órbita queda *adentro* de la Luna — el LEM se estrella antes en $r=R_L$. Ahí, vis-viva da $v_C$ y $h=r_C v_C cos gamma$ da el ángulo respecto de la horizontal local, que convertido a "desde la vertical" es $phi=90degree-gamma$ (#M("orbita-conicas"), #M("momento-angular")). Ya resuelto.],
-  [Problema 8: (a) $v'_A = 1,705$ km/s. (b) velocidad relativa de encuentro en $B$: $30$ m/s. Problema 9: $v_C = 1,556$ km/s, a $phi = 79,2°$ de la vertical $O C$ — un impacto rasante, casi paralelo a la superficie.],
+  [*Problema 8* — intermedios: $r_A=1748$ km, $r_B=1880$ km, $a'=1814$ km, $h'=2980$ km²/s. (a) $v'_A = 1,705$ km/s. (b) $v'_B=1,585$ km/s (tangencial en $B$) contra $v_"circ"(r_B)=1,615$ km/s del módulo de mando → velocidad relativa de encuentro: $30$ m/s. *Problema 9* — al frenar, $v''_B=1,415$ km/s (intermedio); con eso, $a''=1526$ km, $e''=0,233$ y perilunio $r''_p=1171$ km —*adentro* de la Luna (radio 1740 km), por eso el LEM se estrella antes de completar la elipse—. En el impacto: $v_C = 1,556$ km/s, a $phi = 79,2°$ de la vertical $O C$ — un impacto rasante, casi paralelo a la superficie.],
 )
 
 #disparador(
@@ -350,7 +350,7 @@ cuándo pasa eso, no se salta en silencio).
   específica; (e) anomalía verdadera a 10 000 km de altitud; (f) $v_r$ y
   $v_perp$ ahí; (g) velocidad en perigeo y apogeo.],
   resuelve: [$e$ y $a$ salen directo de $r_p, r_a$; con $a$, la tercera ley de Kepler da el período (#M("kepler")); $h$ sale de $r_p v_p$ una vez que se tiene $v_p$ por vis-viva, o de $h=sqrt(mu p)$ con $p=a(1-e^2)$; con $h$, la ecuación de la órbita $r(nu)$ despejada da la anomalía a la altitud pedida, y $v_perp=h\/r$, $v_r=(mu\/h) e sin nu$ dan las dos componentes ahí (#M("hiperbola"), sección 16.5); $v_p=h\/r_p$, $v_a=h\/r_a$ porque los ábsides son perpendiculares.],
-  [(a) $e=0,818$ — (b) $a=55 thin 000$ km — (c) $tau=35,7$ h — (d) $epsilon=-3,62$ km²/s² — (e) $nu approx plus.minus 82,3°$ — (f) $v_perp approx 5,20$ km/s, $v_r approx 3,80$ km/s — (g) $v_p=8,51$ km/s, $v_a=0,851$ km/s. _(cuenta propia de este anexo)_],
+  [intermedio: $h=85 thin 131$ km²/s. (a) $e=0,818$ — (b) $a=55 thin 000$ km — (c) $tau=35,7$ h — (d) $epsilon=-3,62$ km²/s² — (e) $nu approx plus.minus 82,3°$ — (f) $v_perp approx 5,20$ km/s, $v_r approx 3,80$ km/s — (g) $v_p=8,51$ km/s, $v_a=0,851$ km/s. _(cuenta propia de este anexo)_],
 )
 
 #disparador(
@@ -358,7 +358,7 @@ cuándo pasa eso, no se salta en silencio).
   [Hallar el ángulo de trayectoria de vuelo $gamma$ y la altitud para una
   anomalía verdadera de 120°.],
   resuelve: [en el perigeo (ábside) $h=r_p v_p$ directo; la energía específica $v_p^2\/2-mu\/r_p$ da $a$, y con $a$ y $r_p=a(1-e)$ sale $e$; la ecuación de la órbita $r(nu)$ da el radio (y la altitud) a $nu=120degree$; ahí, $v_perp=h\/r$ y $v_r=(mu\/h) e sin nu$ dan $gamma=arctan(v_r\/v_perp)$ (#M("hiperbola"), sección 16.5).],
-  [$gamma approx 44,6°$; altitud $approx 12 thin 250$ km. _(cuenta propia de este anexo)_],
+  [intermedio: $h=68 thin 780$ km²/s, $a=25 thin 060$ km, $e=0,7255$. $gamma approx 44,6°$; altitud $approx 12 thin 250$ km. _(cuenta propia de este anexo)_],
 )
 
 #disparador(
@@ -373,7 +373,7 @@ cuándo pasa eso, no se salta en silencio).
   [Altitud 1000 km a $nu=40°$, altitud 2000 km a $nu=150°$. Hallar:
   (a) excentricidad; (b) altitud de perigeo; (c) semieje mayor.],
   resuelve: [la ecuación de la órbita $r=p\/(1+e cos nu)$ escrita en los dos puntos da un sistema de dos ecuaciones con dos incógnitas, $p$ y $e$; despejando ese sistema sale (a); con $p$ y $e$, $r_p=p\/(1+e)$ da (b) y $a=p\/(1-e^2)$ da (c) (#M("orbita-conicas")).],
-  [(a) $e approx 0,0775$ — (b) altura de perigeo $approx 876$ km — (c) $a approx 7863$ km. _(cuenta propia de este anexo)_],
+  [intermedio: $p=7816$ km. (a) $e approx 0,0775$ — (b) altura de perigeo $approx 876$ km — (c) $a approx 7863$ km. _(cuenta propia de este anexo)_],
 )
 
 #disparador(

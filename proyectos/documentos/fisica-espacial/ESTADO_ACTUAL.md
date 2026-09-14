@@ -103,6 +103,19 @@ fichas, a pedido de Fran.** Dos cosas, sobre el mismo archivo:
 162 páginas impresas ahora (era 161). Recompilado, cero huérfanos,
 `verificar-apunte.py` en verde.
 
+**Actualizado el mismo día, una vez más — resultados intermedios en las
+fichas complejas, a pedido de Fran (saltea Vectores, que ya estaba bien).**
+Doce fichas de las más largas (multi-paso) ganaron un valor intermedio
+explícito antes de la respuesta final, para que alguien pueda ubicar en
+qué paso se desvió si el número final no le cierra — el ejemplo que dio
+Fran fue $v_"esc"$ en el Problema 4 de gravitación. Las doce: Cantidad de
+movimiento Ej. 7-8 y Adicional 3; Impulso angular (sin número) y Ej. 7; y
+en Gravitación, Problemas 4, 6, 7, 8-9 (el LEM, la que más ganó: radios,
+semieje, $h$ y las dos velocidades de cada tramo) y los Ejercicios
+adicionales 1, 2 y 4. 163 páginas impresas. Recompilado, cero huérfanos,
+`verificar-apunte.py` en verde, Drive verificado por MD5 después de
+pushear.
+
 **Descubierto de paso, y no corregido — no era parte del pedido:** las
 descripciones en prosa de "Lo que hay escrito en la Parte III/IV/V" (más
 abajo, en este mismo archivo) usan números de módulo **desactualizados en
