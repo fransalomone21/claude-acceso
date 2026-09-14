@@ -20,9 +20,16 @@ hace falta para retomar:
 - **Contenido nuevo**: `apunte/anexos/a1-guia-ejercicios.typ` (49 fichas).
   `apunte.typ` engancha con `#parte(6, "Anexos", ...)` + un `#include`, con
   la nota de cómo agregar el próximo anexo escrita ahí mismo.
-- **Las cuatro fichas sin resolver** (cuerpo rígido, Problemas 5, 7, 8 y 9)
-  están declaradas en el propio anexo, con el motivo — ver `ESTADO_ACTUAL.md`
-  para el detalle de qué falta para resolverlas.
+- **Las cuatro fichas que habían quedado sin resolver se retomaron el mismo
+  día**, renderizando `PROBLEMAS FÍSICA ESPACIAL (2).pdf` en vez de asumir
+  la paginación de `GUIA-ENUNCIADOS.md` (que corresponde al PDF *original*
+  de 18 páginas — el ampliado de 21 corre cuerpo rígido a pág. 17-21, no
+  15-18, por los bloques "ADICIONALES" insertados antes). Tres quedaron
+  resueltas (Problemas 5, 7, 8); la cuarta (Problema 9) quedó resuelta en
+  sus puntos 1-7 y abierta sólo en el punto 8 numérico, que necesita saber
+  qué vértice del octógono mira hacia $+x$ — dato que la figura, a la
+  resolución de este escaneo, no permite fijar con certeza. Detalle
+  completo en `ESTADO_ACTUAL.md`.
 - **El patrón se documentó en `/pdf-con-codigo`** (perfil global, no en este
   proyecto) para que el próximo apunte —Electrónica Analógica, Taller de
   Física, el que sea— lo reuse sin redescubrirlo. `perfil-global/install.ps1`

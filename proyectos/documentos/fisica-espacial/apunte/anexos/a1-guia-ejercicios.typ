@@ -409,12 +409,14 @@ ficha, no del módulo.
 )
 
 #disparador(
-  [Problema 5 — la estación orbital de cinco esferas],
-  [Estructura de cinco esferas huecas; spin de 3 rev/min alrededor de su
-  eje geométrico; el eje $A$-$A$ precesa con ángulo pequeño respecto de
-  un eje $Z$ fijo. Velocidad angular de precesión.],
-  resuelve: [sería el mismo mecanismo del Problema 4, $Omega_p = H\/I'$ (#M("peonza")).],
-  [no se resuelve acá — la relación de inercias, tal como quedó transcripta, compara "la estructura respecto a A-A" con "cada esfera respecto a A-A respecto a O", que no da una sola razón $I\/I'$ clara sin ver la figura original. Conviene revisar el PDF de la cátedra antes de intentarlo.],
+  [Problema 5 — la estación orbital de cinco esferas (M 7.99)],
+  [Estructura de cinco esferas huecas conectadas por tubos, simétrica
+  alrededor del eje $A$-$A$; spin de 3 rev/min alrededor de ese eje; el
+  eje $A$-$A$ precesa con ángulo pequeño respecto de un eje $Z$ fijo, sin
+  que el CM acelere (sin torque externo). Velocidad angular de precesión
+  $dot(chi)$.],
+  resuelve: [las esferas están dispuestas con simetría $>=3$ alrededor de $A$-$A$ (ver la figura), así que el teorema de ejes perpendiculares da $I_"transversal" = I_(A"-"A) \/ 2$ *sin* necesitar la posición ni la masa de cada esfera — es la misma razón por la que el enunciado dice "el doble". Con eso, precesión estable sin torque: $dot(chi) = H\/I_"transversal" = (I_(A"-"A)\/I_"transversal") omega_"spin"$ (mismo mecanismo que el Problema 4, #M("peonza")).],
+  [$dot(chi) = 2 omega_"spin" = 6$ rev/min $= 0,628$ rad/s (período $10,0$ s) — *directa* (mismo sentido que el spin), porque el eje $A$-$A$ tiene más inercia que el transversal, igual criterio que un cuerpo achatado. _(cuenta propia de este anexo)_],
 )
 
 #disparador(
@@ -428,27 +430,33 @@ ficha, no del módulo.
 
 #disparador(
   [Problema 7 — la cápsula espacial],
-  [Cápsula sin velocidad angular; cohete $A$ activo 1 s con 50 N en $x$;
-  $m=1000$ kg, $k_x=k_y=1$ m, $k_z=1,25$ m. Eje de precesión y
-  velocidades de spin y precesión al terminar el impulso.],
-  resuelve: [sería impulso angular tras un torque breve (#M("euler-giroscopo")) + precesión resultante (#M("peonza")).],
-  [no se resuelve acá — el brazo de palanca del cohete $A$ depende de sus coordenadas exactas sobre la cápsula (un tronco de cono), que están en la figura del PDF y no en el texto transcripto.],
+  [Cápsula (tronco de cono) sin velocidad angular; cohete $A$ activo 1 s
+  con 50 N en $x$; $m=1000$ kg, $k_x=k_y=1$ m, $k_z=1,25$ m. Eje de
+  precesión y velocidades de spin y precesión al terminar el impulso.],
+  resuelve: [de la figura: $A$ está en el radio de la base, $bold(r)_A = (·,thin 2,thin -1,25)$ m respecto del CM (coordenada $x$ irrelevante: $bold(F)=F hat(i)$ no la usa). $Delta bold(H) = (bold(r)_A times bold(F)) Delta t$; con $I_x=I_y=1000$, $I_z=1562,5$ kg·m² se separa en $omega$ y de ahí $dot(phi) = H\/I_x$ (precesión), $dot(psi) = omega_z (I_x - I_z)\/I_x$ (spin) — mismo mecanismo que #M("euler-giroscopo") y #M("peonza").],
+  [$Delta bold(H) = (0,thin -62,5,thin -100)$ kg·m²/s $=> bold(omega) = (0,thin -0,0625,thin -0,064)$ rad/s. Eje de precesión: $bold(H)$, a $148,0°$ del eje $z$ del cuerpo. $dot(phi) approx 0,118$ rad/s ($1,13$ rpm); $dot(psi) approx 0,036$ rad/s ($0,34$ rpm). _(cuenta propia de este anexo, geometría leída de la figura de la guía)_],
 )
 
 #disparador(
-  [Problema 8 — repetición del Problema 7],
-  [Igual que el Problema 7, pero con $bold(omega) = 0,02 hat(j) + 0,10 hat(k)$
+  [Problema 8 — repetición del Problema 7 (B 18.126)],
+  [Igual que el Problema 7, pero con $bold(omega)_0 = 0,02 hat(j) + 0,10 hat(k)$
   rad/s previa y el cohete $B$ en vez del $A$.],
-  resuelve: [mismo mecanismo que el Problema 7.],
-  [no se resuelve acá, misma razón que el Problema 7: faltan las coordenadas del cohete, que están en la figura.],
+  resuelve: [mismo mecanismo que el Problema 7, con $bold(r)_B = (·,thin 1,25,thin 2)$ m (el radio y la altura de $B$ están intercambiados respecto de $A$: $B$ está arriba, en el radio angosto) y $bold(H)_0 = (0,thin I_x omega_(0y), thin I_z omega_(0z)) != bold(0)$ antes del impulso.],
+  [$bold(H)_0=(0,20,156,25)$, $Delta bold(H)=(0,100,-62,5)$ $=> bold(H)_f=(0,120,93,75)$ kg·m²/s, $bold(omega)_f=(0,thin 0,12,thin 0,06)$ rad/s. Eje de precesión: $bold(H)_f$, a $52,0°$ del eje $z$. $dot(phi) approx 0,152$ rad/s ($1,45$ rpm); $dot(psi) approx -0,034$ rad/s ($-0,32$ rpm). _(cuenta propia de este anexo)_],
 )
 
 #disparador(
   [Problema 9 — el satélite octogonal],
-  [Octógono de 2500 kg, $I_y=2400$, $I_x=I_z=2000$ kg·m², girando a
-  $omega_0$ en $y$. Thrusters $A$, $B$, $C$, $D$ en posiciones
-  $bold(R)_A$, $bold(R)_B$, etc. Tipo de precesión, impulso y velocidad
-  angulares tras el disparo, ángulos con el eje de simetría.],
-  resuelve: [sería impulso angular tras el disparo (#M("inercia")) + ángulos de precesión y de spin (#M("peonza")).],
-  [no se resuelve acá — pide las coordenadas $bold(R)_A$, $bold(R)_B$ de los thrusters, que están en la figura del PDF y no en el texto transcripto. Varios de sus puntos (1 a 7) son de todos modos simbólicos, no numéricos.],
+  [Octógono de 2500 kg y 2,4 m de alto, lado 1,2 m, $I_y=2400$,
+  $I_x=I_z=2000$ kg·m², girando a $omega_0$ en $y$ (eje de simetría) y
+  libre de torques. Los thrusters $A$, $B$, $C$, $D$ —en posiciones
+  $bold(R)_A=(x_A,y_A,z_A)$, $bold(R)_B=(x_B,y_B,z_B)$, en dos vértices
+  del octógono— pueden empujar en $+y$ con $J=20$ N. Se activan $A$ y $B$
+  durante $T=2$ s. *1)* Tipo de precesión si se lo perturba. *2)* Impulso
+  angular tras el disparo, en función de los parámetros. *3)* Velocidad
+  angular, ídem. *4)* y *5)* Ángulos de $bold(H)$ y de $bold(omega)$ con
+  el eje de simetría. *6)* y *7)* Dibujo y descripción cualitativa.
+  *8)* Calcular explícitamente 2 a 5.],
+  resuelve: [$bold(F)=J hat(j)$ es *paralela* al eje de simetría: $bold(r) times bold(F)$ no usa la coordenada $y$ de ningún thruster (mismo truco que los Problemas 7 y 8), sólo $x$ y $z$. Con eso, 1 a 7 salen sin necesitar la figura; el 8 numérico sí la necesita —#M("inercia") para el impulso, #M("peonza") para los ángulos.],
+  [*1)* $I_y=2400 > I_x=2000$ (axial mayor que transversal, "achatado"): precesión *directa*. *2)* $Delta bold(H) = J T [-(z_A + z_B), thin 0, thin x_A + x_B] + (0,thin I_y omega_0,thin 0)$. *3)* $bold(omega) = (Delta H_x \/ I_x,thin omega_0,thin Delta H_z\/I_x)$. *4)* $cos theta_H = (I_y omega_0)\/abs(bold(H))$. *5)* $cos theta_omega = omega_0 \/ abs(bold(omega))$. *6-7)* $bold(H)$, $bold(omega)$ y el spin quedan los tres del mismo lado del eje $y$, inclinados hacia el par aplicado; visto desde afuera el satélite hace un cono de precesión directa mientras gira sobre sí. *8)* no se resuelve con un número acá: falta fijar con certeza *qué vértice del octógono mira hacia $+x$* en la figura —con eso fijo, $x_A,z_A,x_B,z_B$ salen de la geometría regular (lado 1,2 m) y la cuenta es idéntica a la de los Problemas 7/8. _(1 a 7: cuenta propia de este anexo; 8 queda para cuando se confirme la orientación exacta contra el PDF original)_],
 )

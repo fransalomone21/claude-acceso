@@ -12,7 +12,7 @@ la respuesta final*, nunca la resolución desarrollada (eso ya lo hacen los
 
 **Hecho, compilado y verificado en render** (páginas del anexo miradas una
 por una, cero huérfanos de caja, `verificar-apunte.py` en verde). El apunte
-pasó de **151 a 160 páginas impresas**, con una Parte 6 nueva ("Anexos") y
+pasó de **151 a 161 páginas impresas**, con una Parte 6 nueva ("Anexos") y
 el **Anexo A** adentro: 49 fichas en cinco grupos —Vectores (7), Cantidad de
 movimiento (9 + 3 adicionales), Impulso angular (7), Gravitación (11 + 5
 adicionales), Cuerpo rígido (9)—.
@@ -29,30 +29,52 @@ problemas" — no hizo falta un color nuevo. El patrón completo, generalizado
 para cualquier apunte de este flujo (no sólo éste), quedó documentado en
 `/pdf-con-codigo` (sección "Modularizar un documento largo").
 
-**39 de las 49 fichas tienen respuesta numérica** (las demás son
-demostraciones, valen "ver el módulo X", o piden un dato que no está
-transcripto). De esas 39: **~24 citan una respuesta ya verificada adentro
-del apunte** (grado *confirmado* — tiene su desarrollo completo, mirado en
-render); **~15 se calcularon de cero para esta ficha** con las herramientas
-del módulo citado, marcadas *"(cuenta propia de este anexo)"* en el propio
-PDF — grado *probable*, no tuvieron la segunda mirada que sí tuvo el resto
-del apunte.
+**42 de las 49 fichas tienen respuesta numérica** (las demás son
+demostraciones o valen "ver el módulo X"). De esas 42: **~24 citan una
+respuesta ya verificada adentro del apunte** (grado *confirmado* — tiene su
+desarrollo completo, mirado en render); **~18 se calcularon de cero para
+esta ficha** con las herramientas del módulo citado, marcadas
+*"(cuenta propia de este anexo)"* en el propio PDF — grado *probable*, no
+tuvieron la segunda mirada que sí tuvo el resto del apunte. El Problema 9
+de cuerpo rígido suma un caso aparte: sus puntos 1 a 7 quedaron resueltos en
+forma *simbólica* (es lo que el enunciado pide para esos puntos) y sólo el
+punto 8 —la versión numérica— sigue abierto, por la razón que sigue.
 
-**Cuatro fichas de cuerpo rígido se dejaron sin resolver, a propósito y
-declarado en el propio anexo — no son un hueco silencioso:**
+**Actualizado el mismo día, más tarde: las cuatro se retomaron renderizando
+`PROBLEMAS FÍSICA ESPACIAL (2).pdf` (la guía se corrió 2-3 páginas respecto
+de la numeración vieja por los bloques "ADICIONALES" insertados — cuerpo
+rígido quedó en pág. 17-21, no 15-18). Tres quedaron resueltas y una a
+medias:**
 
-- **Problemas 7, 8 y 9** necesitan coordenadas o posiciones que están **en
-  la figura del PDF de la cátedra** (`PROBLEMAS FÍSICA ESPACIAL (2).pdf`,
-  pág. 17-18), no en el texto transcripto a `GUIA-ENUNCIADOS.md`. Si se
-  retoman: renderizar esas páginas con PyMuPDF, medir las coordenadas sobre
-  la imagen (mismo método que ya usó el módulo 15 para el Problema 7 de la
-  guía), y recién ahí resolver.
-- **Problema 5** (estación de cinco esferas): la relación de inercias, tal
-  como quedó transcripta en `GUIA-ENUNCIADOS.md`, compara "la estructura
-  respecto a A-A" con "cada esfera respecto a A-A respecto a O" — no da una
-  sola razón $I/I'$ clara. Antes de resolverlo hay que volver al PDF y
-  revisar si la transcripción perdió una palabra o si el enunciado original
-  ya era así de ambiguo.
+- **Problema 5** (cinco esferas): resuelto sin ambigüedad. La frase rara del
+  enunciado ("el doble") no hacía falta leerla dos veces — el teorema de
+  ejes perpendiculares más la simetría $>=3$ de las esferas alrededor de
+  $A$-$A$ (visible en la figura) da $I_"transversal" = I_(A"-"A)\/2$ solo,
+  sin necesitar masas ni posiciones. $dot(chi) = 6$ rev/min, directa.
+- **Problemas 7 y 8** (cápsula, tronco de cono): resueltos con la geometría
+  leída de la figura — $A$ en el radio de la base $(2 m)$, $B$ en el radio
+  angosto de arriba $(1,25 m)$, cada uno a la altura correspondiente del
+  centro de masa. La coordenada $x$ de cada cohete no hace falta: la fuerza
+  es paralela a $x$ y el producto vectorial no la usa. Precesión a $1,13$ y
+  $1,45$ rpm respectivamente.
+- **Problema 9** (satélite octogonal): los puntos 1 a 7 quedaron resueltos
+  —incluidos simbólicamente en función de $x_A,z_A,x_B,z_B$, que es
+  exactamente lo que el enunciado pide—, usando el mismo truco que 7 y 8
+  (la fuerza es paralela al eje de simetría $y$, así que tampoco hace falta
+  esa coordenada de los thrusters). **El punto 8 (los números) queda
+  abierto**: la figura no alcanza para decidir con certeza qué vértice del
+  octógono mira hacia $+x$, y de esa orientación dependen $x_A,z_A,x_B,z_B$.
+  Con esa orientación confirmada —mirando el PDF a mayor resolución que la
+  que tiene esta guía escaneada, o preguntándole a la cátedra— la cuenta es
+  mecánica, la misma de los Problemas 7/8.
+
+**Las respuestas de 5, 7 y 8, y las de 1-7 del 9, están marcadas en el
+propio Anexo A como "cuenta propia de este anexo"**: no tuvieron la
+segunda mirada (auditoría independiente) que sí tuvo el resto del apunte,
+más allá de los controles de consistencia hechos al resolverlas (para el
+Problema 5, el período dio un número redondo, $10,0$ s; para 7 y 8, el
+salto $bold(H)=Delta bold(H)$ cuando $bold(omega)_0=bold(0)$ se verificó
+explícitamente).
 
 **Descubierto de paso, y no corregido — no era parte del pedido:** las
 descripciones en prosa de "Lo que hay escrito en la Parte III/IV/V" (más
