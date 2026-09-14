@@ -227,7 +227,10 @@ combustible. La razón es de una línea:
   aceleración *(a)* al ser lanzado y *(b)* al consumirse la última partícula de
   combustible.
 
-  *El empuje, primero — es el mismo en los dos casos:*
+  *El empuje, primero — es el mismo en los dos casos*, porque no depende de
+  la masa que queda (@coh-empuje): con $mu = 12,5$ "kg/s" el caudal másico y
+  $abs(v_r) = 4000$ "m/s" la velocidad de escape, los dos dados en el
+  enunciado,
   $ f = mu abs(v_r) = 12,5 dot 4000 = 50 000 " N" $
 
   *(a)* Al despegar, $M = 1200$ kg y el peso es
@@ -246,8 +249,9 @@ combustible. La razón es de una línea:
 
 #ejemplo("Una etapa contra dos, con los mismos kilos", nivel: "a fondo")[
   _(Ejercicios 7 y 8 de la guía; Beer 14.97 y 14.98.)_ Una nave de $540$ kg se
-  monta sobre un cohete. En los dos casos $mu = 225$ kg/s y
-  $abs(v_r) = 3600$ m/s, y el lanzamiento es vertical desde el suelo.
+  monta sobre un cohete. En los dos casos $mu = 225$ "kg/s" (el caudal
+  másico) y $abs(v_r) = 3600$ "m/s" (la velocidad de escape), y el
+  lanzamiento es vertical desde el suelo.
 
   #v(4pt)
   #fig-etapas
@@ -334,13 +338,14 @@ combustible. La razón es de una línea:
   _(Adicional 3 de la guía.)_ Dos casos que usan lo mismo del módulo con
   varios motores en juego a la vez.
 
-  *(a) Un solo cohete.* Expulsa gases a $mu = 220$ kg/s con
-  $abs(v_r) = 900$ m/s, y su aceleración inicial es $6$ m/s². ¿Cuál es la
-  masa total en el instante del lanzamiento?
+  *(a) Un solo cohete.* Expulsa gases con caudal $mu = 220$ kg/s y velocidad
+  de escape $abs(v_r) = 900$ m/s, y su aceleración inicial es $a = 6$ m/s².
+  ¿Cuál es la masa total $M$ en el instante del lanzamiento?
 
-  Con la @coh-empuje el empuje es fijo y no depende de la masa:
+  Con la @coh-empuje el empuje $f$ es fijo y no depende de la masa:
   $ f = mu abs(v_r) = 220 dot 900 = 198 thin 000 " N" $
-  y despejando $M$ de $M a = f - M g$ (la @coh-vertical en $t=0$):
+  y despejando $M$ de $M a = f - M g$ (la @coh-vertical en $t=0$, con
+  $g = 9,81$ "m/s²" la gravedad terrestre):
   $ M = f / (a + g) = (198 thin 000) / (6 + 9,81) = 12 thin 525 " kg" $
 
   #geometria[
@@ -365,7 +370,10 @@ combustible. La razón es de una línea:
   $ a = f/M_0 - g = (29,60 times 10^6) / (2,04 times 10^6) - 9,81 = 14,51 - 9,81 = 4,70 " m/s"^2 $
 
   *El caudal de cada motor principal*, despejando de la definición de
-  impulso específico:
+  impulso específico: con $f_"motor" = 2,00 times 10^6$ N el empuje de *un*
+  motor principal e $I_"sp" = 455$ s el dato del enunciado, y $g_0 = 9,80665$
+  "m/s²" la constante que define $I_"sp"$ —*no* la gravedad local $g$ de la
+  parte (a), aunque el número se parezca—:
   $ mu = f_"motor" / (I_"sp" g_0) = (2,00 times 10^6) / (455 dot 9,80665) = 448,3 " kg/s" $
 
   #clave[

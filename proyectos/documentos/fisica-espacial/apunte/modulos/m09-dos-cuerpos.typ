@@ -329,7 +329,9 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
   En el módulo #M("gravitacion") se estimó la masa del Sol con la órbita de la Tierra y se
   obtuvo $1,99 times 10^30$ kg. ¿Qué es exactamente ese número?
 
-  La cuenta fue $mu = v^2 r$ y después $M = mu \/ G$. Pero por la @dosc-relativa,
+  La cuenta fue $mu = v^2 r$ —con $v$ la rapidez orbital de la Tierra y $r$
+  el radio de su órbita, los dos medibles sin pesar nada— y después
+  $M = mu \/ G$. Pero por la @dosc-relativa,
   lo que la órbita determina es $mu = G(M_"Sol" + M_T)$, no $G M_"Sol"$. Lo que
   se midió, entonces, es la *suma*:
   $ M_"Sol" + M_T = 1,99 times 10^30 " kg" $

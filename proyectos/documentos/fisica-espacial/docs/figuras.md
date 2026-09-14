@@ -187,6 +187,7 @@ cada figura.
 | `fig-impulso-area` | `cantidad-movimiento` | el impulso como area bajo F(t), y el rectangulo de F_med |
 | `fig-choque-oblicuo` | `cantidad-movimiento` | el Ej. 2 de la guia: el choque, y el triangulo de impulsos que lo resuelve |
 | `fig-cm-dos-cuerpos` | `centro-de-masa` | el CM sobre la recta que une los cuerpos, con d1/d2 |
+| `fig-konig-descomposicion` | `centro-de-masa` | v_i = v_cm + v*_i como suma de vectores, en el espacio de velocidades; v*_1 y v*_2 opuestos |
 | `fig-choque-cm` | `centro-de-masa` | el mismo choque en el laboratorio y en el sistema centro de masa |
 | `fig-cohete-elemento` | `cohete` | el intervalo del cohete: antes y despues, con v_r |
 | `fig-etapas` | `cohete` | una etapa contra dos, con los mismos kilos |

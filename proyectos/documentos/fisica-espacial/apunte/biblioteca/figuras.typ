@@ -396,6 +396,38 @@
   ], ancla: "center")
 })
 
+// --- La descomposición de König, en el espacio de velocidades ---------
+// v_i = v_cm + v*_i, dibujado como suma de vectores. El tramo v_cm es el
+// mismo para cualquier partícula; lo que cambia de una a otra es el tramo
+// final v*_i, medido desde la PUNTA de v_cm -- no desde ningún punto del
+// espacio real: esto es un diagrama de velocidades, no de posiciones.
+// Con dos partículas, v*_1 y v*_2 son exactamente opuestos (uno es el otro
+// escalado por -m1/m2): es la simetría p*_1 = -p*_2, dibujada.
+#let fig-konig-descomposicion = esquema({
+  let O = (0, 0)
+  let P = (1.9, 0.6)
+  let Q1 = (2.4, 2.3)
+  let Q2 = (1.625, -0.335)
+
+  cetz.draw.circle(O, radius: 0.04, fill: c-trazo, stroke: none)
+  rotulo((O.at(0) - 0.08, O.at(1) - 0.08), text(fill: luma(55))[$bold(v) = bold(0)$], ancla: "north-east")
+
+  flecha(O, P, etiqueta: $bold(v)_"cm"$, color: c-aux, lado: "south", pos: 60%)
+  cetz.draw.circle(P, radius: 0.045, fill: c-trazo, stroke: none)
+
+  flecha(O, Q1, etiqueta: $bold(v)_1$, color: luma(55), lado: "west", pos: 100%, punteada: true)
+  flecha(P, Q1, etiqueta: $bold(v)_1^*$, color: c-dato, lado: "east", pos: 55%)
+
+  flecha(O, Q2, etiqueta: $bold(v)_2$, color: luma(55), lado: "south", pos: 75%, punteada: true)
+  flecha(P, Q2, etiqueta: $bold(v)_2^*$, color: c-verde, lado: "west", pos: 38%)
+
+  rotulo((1.9, -0.75), text(size: 8pt, fill: luma(80))[
+    Mismo $bold(v)_"cm"$ para las dos partículas; lo\
+    que cambia es el tramo final, $bold(v)_i^*$ -- y con\
+    dos partículas, siempre opuestos entre sí.
+  ], ancla: "north")
+})
+
 // --- El mismo choque, en dos sistemas ----------------------------------
 // En el laboratorio no hay simetría; en el sistema centro de masa los dos
 // impulsos son opuestos antes y después, y todo el choque es un giro.
@@ -2261,6 +2293,7 @@
   ("fig-impulso-area", fig-impulso-area),
   ("fig-choque-oblicuo", fig-choque-oblicuo),
   ("fig-cm-dos-cuerpos", fig-cm-dos-cuerpos),
+  ("fig-konig-descomposicion", fig-konig-descomposicion),
   ("fig-choque-cm", fig-choque-cm),
   ("fig-cohete-elemento", fig-cohete-elemento),
   ("fig-etapas", fig-etapas),

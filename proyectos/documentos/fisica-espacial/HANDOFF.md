@@ -6,6 +6,14 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-14 (segunda parte) — figura de König + glosa de variables en 4/5/9
+
+Nada quedó a medias: figura compilada y verificada, 6 ejemplos expandidos,
+`verificar-apunte.py` en verde. Detalle completo en `ESTADO_ACTUAL.md`,
+sección de arriba de todo. Lo único abierto es una decisión de Fran, no una
+trampa técnica: si extender la glosa de variables al resto del apunte
+(17 módulos + Anexo A) o dejarlo sólo en los 3 módulos tocados.
+
 ## Sesión del 2026-09-14 — Anexo A, sin abrir fase (no tocó ningún módulo)
 
 Detalle completo en `ESTADO_ACTUAL.md`, sección de arriba. Acá sólo lo que

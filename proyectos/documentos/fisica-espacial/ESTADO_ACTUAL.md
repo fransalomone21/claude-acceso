@@ -1,5 +1,66 @@
 # Estado actual — Apunte de Física Espacial
 
+## Revisión de propuestas externas y mejoras a los módulos 4/5/9 — 2026-09-14, sin abrir fase nueva
+
+Fran trajo 4 propuestas de mejora que Gemini generó revisando el PDF del
+apunte (caja de erratas de Roederer, tabla de choque de notación de $mu$,
+derivación de la pérdida por gravedad, diagrama vectorial de König). Se
+verificó cada una contra el `.typ` real, no contra el resumen de Gemini:
+**3 de las 4 ya estaban implementadas**, casi palabra por palabra — el
+revisor externo no tenía el contrato del proyecto ni su taxonomía de cajas
+(`#cuidado` = rojo, `#notacion` = teal) y no las reconoció. Detalle de la
+verificación de las 4 en el chat de esa sesión, no acá — es historia, no
+estado. La lección de proceso (verificar propuestas externas contra la
+fuente, no contra el PDF) quedó en la auto-memoria de la sesión, no acá.
+
+**Lo único con mérito real: un diagrama vectorial nuevo para el teorema de
+König**, que faltaba. Agregado:
+
+- `apunte/biblioteca/figuras.typ`: `fig-konig-descomposicion`, en el
+  espacio de *velocidades* (no de posiciones — rótulo explícito "$v = 0$"
+  en el origen, para no repetir la confusión posición/velocidad que ya
+  pasó una vez con el "centro fijo" del módulo #dos-cuerpos: regla propia 4
+  del `CLAUDE.md` de este proyecto). Muestra
+  $bold(v)_i = bold(v)_"cm" + bold(v)_i^*$ como suma de vectores: un tramo
+  $bold(v)_"cm"$ compartido por las dos partículas, y el tramo final
+  $bold(v)_i^*$ —exactamente opuesto entre las dos—, medido desde la punta
+  del tramo compartido.
+- `apunte/modulos/m04-centro-de-masa.typ`: la figura entra justo después de
+  la ec. $bold(v)^* = bold(v) - bold(v)_"cm"$ y antes de la caja que
+  interpreta $bold(P)^* = bold(0)$ — antes de que el teorema de König la
+  use, no después (regla propia 4 otra vez).
+- `docs/figuras.md` y el `catalogo` de `galeria.typ`: actualizados.
+- **El primer intento de las etiquetas $v_2$ y $v_2^*$ salió superpuesto**
+  —se vio recién en el render de la galería a 400 dpi, no en el compile,
+  que da verde igual—: corregido moviendo `pos` de cada `flecha()` para que
+  las dos no caigan en la misma zona del lienzo.
+
+**Además, a pedido explícito de Fran: las explicaciones de los ejercicios
+de los módulos 4, 5 y 9 —los que esta revisión tocó— se expandieron para
+nombrar SIEMPRE qué es cada variable de cada ecuación**, no darla por
+sabida del enunciado o de la teoría de arriba. Siete ejemplos tocados: los
+2 de `centro-de-masa` (la astronauta —quedó autocontenido, ya no depende de
+que el lector haya leído antes el módulo #cantidad-movimiento— y los
+asteroides), los 3 de `cohete` (glosa de $mu$, $abs(v_r)$, $g$ y $g_0$
+—esta última aclarando que $g_0$ *no* es la $g$ de la parte anterior del
+mismo ejemplo, una distinción real que el enunciado no marca solo—), y 1 de
+los 2 de `dos-cuerpos` (glosa de $v$ y $r$ en $mu = v^2 r$; el otro ejemplo
+del módulo ya estaba autocontenido y no se tocó).
+
+**Alcance elegido, todavía sin confirmar con Fran: sólo estos 3 módulos**,
+no los otros 17 + Anexo A. Pesó que el pedido decía «un poco más» y que la
+sesión venía de revisar específicamente estos tres — una relectura del
+apunte entero para aplicar el mismo estándar es un trabajo de otro orden
+(~60-100 ejemplos más para recompilar y verificar). Si Fran confirma que lo
+quiere en todo el apunte, es la próxima tarea — no asumida acá.
+
+**Verificado:** `python verificar-apunte.py` en verde (orden, claves,
+grafo). Apunte recompilado completo — **168 páginas** (subió de 163; es
+reflow de las 7 ediciones empujando el resto del documento, no contenido
+nuevo de ese tamaño). Las páginas impresas 24-27, 31-32, 34 y 63 —las que
+tocaron estos cambios— miradas en render a 150-400 dpi: sin huérfanos, sin
+superposición, sin desborde.
+
 ## Anexo A agregado el 2026-09-14 — guía de ejercicios, sin abrir fase nueva
 
 Dos pedidos de Fran, resueltos en la misma sesión y sin tocar ningún módulo

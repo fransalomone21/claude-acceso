@@ -96,6 +96,14 @@ se reduce a restarle $bold(v)_"cm"$ a cada velocidad.
 
 $ bold(v)^* = bold(v) - bold(v)_"cm" $
 
+#fig([La resta de arriba, dibujada como lo que es: una suma de vectores.
+Es un diagrama de *velocidades*, no de posiciones —el origen $O$ es
+$bold(v) = bold(0)$, no ningún lugar del espacio—. Todas las partículas
+comparten el mismo tramo $bold(v)_"cm"$; lo que las distingue es su propio
+$bold(v)_i^*$, medido desde la *punta* de ese tramo compartido. Con dos
+partículas, $bold(v)_1^*$ y $bold(v)_2^*$ salen exactamente opuestos.],
+fig-konig-descomposicion)
+
 #clave[
   En ese sistema, por la @cm-p, $bold(P)^* = M bold(v)^*_"cm" = bold(0)$: la
   cantidad de movimiento total es *cero*. Con dos cuerpos eso significa
@@ -141,24 +149,34 @@ $ bold(v)^* = bold(v) - bold(v)_"cm" $
 ]
 
 #ejemplo("El mismo lanzamiento, visto desde el centro de masa")[
-  _(Ej. 1 de la guía, otra vez.)_ La astronauta de $68,5$ kg y su herramienta de
-  $2,25$ kg. *(a)* Rehacer el cálculo desde el centro de masa. *(b)* Diez
-  segundos después, ¿a qué distancia está cada uno del CM?
+  _(Ej. 1 de la guía, otra vez.)_ La misma astronauta del módulo #M("cantidad-movimiento"):
+  masa $m_a = 68,5$ kg, que arroja una herramienta de masa $m_h = 2,25$ kg con
+  rapidez $v_h = 3,20$ "m/s" respecto de la estación. *(a)* Rehacer el cálculo
+  desde el centro de masa. *(b)* Diez segundos después, ¿a qué distancia está
+  cada uno del CM?
 
   *(a)* Antes de soltar la herramienta el conjunto está en reposo, así que
   $bold(P) = bold(0)$ y, por la @cm-p, $bold(v)_"cm" = bold(0)$. No hay fuerzas
   externas: *el centro de masa se queda donde está, para siempre*. Y si el CM
-  no se mueve, la condición $mu_1 v_1 + mu_2 v_2 = 0$ da directamente
+  no se mueve, la condición $mu_1 v_1 + mu_2 v_2 = 0$ de la @cm-def —con
+  $mu_1 = m_a \/ M$ y $mu_2 = m_h \/ M$ el peso de cada masa, y $v_1$, $v_2$
+  la velocidad de cada una— es, multiplicada por $M$, la misma conservación
+  $m_a v_a + m_h v_h = 0$ de siempre. Despejando $v_a$ —la incógnita, la
+  velocidad de la astronauta—:
   $ v_a = -(m_h) / (m_a) v_h = -(2,25) / (68,5) dot 3,20 = -0,105 " m/s" $
   El mismo resultado del módulo #M("cantidad-movimiento"), con la diferencia de que acá no hizo falta
   escribir ninguna ecuación de conservación: *ya estaba escrita en el punto*.
 
-  *(b)* En 10 s la separación entre los dos es
-  $(3,20 + 0,105) dot 10 = 33,05$ m. El CM la reparte con la razón inversa de
-  las masas:
+  *(b)* En 10 s la separación entre los dos —astronauta y herramienta,
+  alejándose del CM cada una para su lado— es
+  $(3,20 + 0,105) dot 10 = 33,05$ m: la suma de las dos rapideces (una a cada
+  lado del CM quieto) multiplicada por el tiempo. El CM la reparte con la
+  razón inversa de las masas de la @cm-def —$d_a$ y $d_h$, las distancias de
+  la astronauta y de la herramienta al CM—:
   $ d_a = 33,05 dot (2,25) / (70,75) = 1,05 " m", quad
     d_h = 33,05 dot (68,5) / (70,75) = 32,0 " m" $
-  Control: la astronauta se movió $0,105 dot 10 = 1,05$ m y la herramienta
+  ($70,75 = m_a + m_h = M$, la masa total del conjunto.) Control: la
+  astronauta se movió $0,105 dot 10 = 1,05$ m y la herramienta
   $3,20 dot 10 = 32,0$ m. #sym.checkmark Cierra, y muestra lo que la razón
   $d_1 \/ d_2 = m_2 \/ m_1$ significa en la práctica: el cuerpo pesado casi no
   se corre.
@@ -205,7 +223,13 @@ $ bold(v)^* = bold(v) - bold(v)_"cm" $
   *el choque entero es una rotación de los dos impulsos, más un acortamiento*
   ($20,0 -> 15,59$).
 
-  *Paso 4 — la energía, separada en dos.* Con $M = 2m$:
+  *Paso 4 — la energía, separada en dos, con la partición de König.* Con
+  $M = 2m$: $K_"cm" = 1\/2 M v_"cm"^2$ es la energía del conjunto viajando
+  junto (la misma antes y después, porque $bold(v)_"cm"$ no cambia), y
+  $K^*_1$, $K^*_2$ son la energía interna —la única que el choque puede
+  tocar— antes y después, sumada sobre las dos partículas con los $v_i^*$ de
+  los pasos 2 y 3 (el factor $2 dot$ de cada una es porque, con masas
+  iguales, $abs(v_1^*) = abs(v_2^*)$ y las dos aportan lo mismo):
   $ K_"cm" = 1/2 (2m) (20,0)^2 = 400 m quad "(intocable)" $
   $ K^*_1 = 2 dot 1/2 m (20,0)^2 = 400 m, quad
     K^*_2 = 2 dot 1/2 m (15,59)^2 = 243 m $
