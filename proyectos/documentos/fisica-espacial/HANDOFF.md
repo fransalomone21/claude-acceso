@@ -6,6 +6,17 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-14 (tercera parte) — glosa de variables en el resto del apunte
+
+Nada quedó a medias ni pendiente de decisión de Fran esta vez —a diferencia
+de la parte anterior, que dejaba abierto si extender el estándar al resto
+del apunte: ya está hecho, en los 17 módulos + Anexo A. Detalle completo en
+`ESTADO_ACTUAL.md`, sección de arriba de todo.
+
+Una nota de proceso para la próxima vez que se pida algo parecido: **no
+ofrecer subagentes para editar contenido/prosa** — ver
+`feedback_sin-agentes-para-contenido` en la auto-memoria de la sesión.
+
 ## Sesión del 2026-09-14 (segunda parte) — figura de König + glosa de variables en 4/5/9
 
 Nada quedó a medias: figura compilada y verificada, 6 ejemplos expandidos,

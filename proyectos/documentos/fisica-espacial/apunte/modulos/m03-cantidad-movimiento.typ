@@ -198,7 +198,9 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   fuerzas externas apreciables, así que $bold(P)$ se conserva. Y arranca en
   reposo respecto de la estación, o sea $bold(P) = bold(0)$ *antes y después*.
 
-  *Cuenta.* Sobre el eje del lanzamiento:
+  *Cuenta.* Sobre el eje del lanzamiento, con $m_h$, $v_h$ la masa y la
+  rapidez de la herramienta (dato: $v_h = 3,20$ "m/s") y $m_a$, $v_a$ las de
+  la astronauta ($v_a$ la incógnita):
   $ 0 = m_h v_h + m_a v_a ==> v_a = - (m_h v_h) / (m_a) = - (2,25 dot 3,20) / (68,5) $
   $ v_a = -0,105 " m/s" $
 
@@ -251,7 +253,9 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   $ 40,0 = v_A (cos 30degree + 0,7071 cos 45degree) = v_A (0,8660 + 0,5000) = 1,3660 v_A $
   $ v_A = 29,3 " m/s", quad v_B = 20,7 " m/s" $
 
-  *Paso 4 — la energía.* Con masas iguales, las $m$ se cancelan también acá:
+  *Paso 4 — la energía.* Con masas iguales, las $m$ se cancelan también acá.
+  $K_1$ y $K_2$ son la energía cinética total del sistema antes y después del
+  choque, respectivamente:
   $ K_1 = 1/2 m (40,0)^2 = 800 m, quad
     K_2 = 1/2 m (29,283^2 + 20,706^2) = 643 m $
   $ (K_1 - K_2) / K_1 = (800 - 643) / 800 = 0,196 $
@@ -292,7 +296,8 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   la diferencia. $bold(P)$ se conserva igual —la carga explosiva es interna
   al sistema de las dos etapas.
 
-  *(a)* Con $m_3 = 400$ kg y $m_4 = 200$ kg:
+  *(a)* Con $m_3 = 400$ kg, $m_4 = 200$ kg, y $v_0 = 18 thin 000$ km/h la
+  velocidad común antes de separarse:
   $ (m_3 + m_4) v_0 = m_3 v_3 + m_4 v_4 $
   $ v_3 = ((m_3+m_4) v_0 - m_4 v_4) / m_3 = (600 dot 18 thin 000 - 200 dot 18 thin 060) / 400 $
   $ v_3 = 17 thin 970 " km/h" $

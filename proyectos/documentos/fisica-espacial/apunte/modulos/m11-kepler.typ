@@ -154,8 +154,9 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <kep-periodo>
   $ tau = (2 pi a^(3\/2)) / sqrt(mu) ==> a^3 = (mu tau^2) / (4 pi^2) = ((3,986 times 10^5)(6000)^2) / (4 pi^2) $
   $ a^3 = 3,635 times 10^11 " km"^3 ==> a = 7136 " km" $
 
-  *La excentricidad, de la @orb-absides.* El perigeo es $r_p = 6378 + 200 =
-  6578$ km, y como $r_p = a(1-e)$:
+  *La excentricidad, de la @orb-absides.* El perigeo es
+  $r_p = R_T + 200 = 6378 + 200 = 6578$ km (el radio terrestre más la
+  altura), y como $r_p = a(1-e)$:
   $ e = 1 - r_p/a = 1 - 6578/7136 = 0,0782 $
 
   #clave[

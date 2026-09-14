@@ -254,7 +254,9 @@ fig-velocidad-areolar)
 
   *(A) Los ábsides.* Primero los radios, desde el centro de la Tierra:
   $ r_P = 6378 + 400 = 6778 " km", quad r_A = 6378 + 4000 = 10 thin 378 " km" $
-  En los dos, $gamma = 0$, así que la @angm-h se reduce a $h = r v$:
+  En los dos, $gamma = 0$, así que la @angm-h se reduce a $h = r v$, con las
+  rapideces $v_P = 8,435$ "km/s" y $v_A = 5,509$ "km/s" leídas de la figura
+  de arriba:
   $ h_P = (6778)(8,435) = 57 thin 172 " km"^2\/"s" $
   $ h_A = (10 thin 378)(5,509) = 57 thin 172 " km"^2\/"s" $
 

@@ -315,7 +315,9 @@ porque dos de ellos no tienen análogo en cartesianas:
   problema pide justamente la traducción de lo que se mide a lo que se quiere.
 
   *Paso 1 — la geometría.* El triángulo $A B "cohete"$ es rectángulo en $B$,
-  con cateto adyacente $b$ (constante) y ángulo $theta$ en $A$:
+  con cateto adyacente $b$ (constante) y ángulo $theta$ en $A$. De ahí salen
+  las otras dos distancias: $r$, del radar al cohete, y $y$, la altura del
+  cohete sobre la plataforma:
   $ r = b / (cos theta), quad y = b tan theta $
 
   *Paso 2 — derivar el vínculo.* $b$ es constante, así que la única variable es

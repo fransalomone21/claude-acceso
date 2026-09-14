@@ -1,5 +1,58 @@
 # Estado actual — Apunte de Física Espacial
 
+## La glosa de variables, extendida al resto del apunte — 2026-09-14, sin abrir fase nueva
+
+Fran pidió extender a los otros 17 módulos + Anexo A el estándar de la
+entrada anterior (nombrar siempre qué es cada variable de cada ecuación en
+un ejercicio resuelto). **Primer intento: fan-out con 3 subagentes en
+paralelo, uno por grupo de módulos — Fran rechazó los 3 y contestó "andá
+sin agentes".** El resto se hizo inline, módulo por módulo, secuencial.
+Quedó una memoria de sesión sobre esto (`feedback_sin-agentes-para-contenido`,
+en la auto-memoria, no acá).
+
+**Resultado, y es la parte que vale la pena recordar:** de 17 módulos
+revisados (m01, m03, m06 a m20; m02 no tiene ejercicios), **la mayoría ya
+cumplía el estándar sin tocar nada** — desde el segundo ejemplo de
+`dos-cuerpos` en adelante (m09 en adelante: m10, m12, m13, m14, m15, m16,
+m17, m18, m19, m20), cero ediciones. Sólo hicieron falta cambios en:
+
+- **m01** (vectores): 1 — nombrar $r$ (distancia radar-cohete) e $y$
+  (altura) en el ejemplo del radar.
+- **m03** (cantidad de movimiento): 3 — $v_h$ en el ejemplo de la
+  astronauta (el mismo que en m04 ya se había arreglado, acá en su versión
+  original); $K_1$/$K_2$ como energía antes/después en los asteroides;
+  $v_0$ en la separación de etapas.
+- **m08** (momento angular): 1 — aclarar que las cuatro rapideces del
+  ejemplo del satélite se leen de la figura, no de ningún cálculo previo.
+- **m11** (Kepler): 1 — $R_T$ explícito en vez de un `6378` suelto.
+
+**Anexo A (49 fichas) — 7 arreglos, elegidos por valor, no exhaustivos.**
+El formato de ficha es deliberadamente corto (enunciado + "resuelve:" +
+respuesta, nunca el desarrollo) y la mayoría ya estaba bien; se tocaron
+sólo las que tenían una ambigüedad real, no una completitud cosmética:
+
+- Ej. 9 (vectores): `R` en el enunciado vs. `r` en la resolución — mismo
+  símbolo, unificado a `r` (la convención del resto del apunte).
+- Ej. 1 y Adicional 3 de cantidad de movimiento: mismas dos glosas que en
+  los módulos ($v_h$; $g$ vs. $g_0$).
+- El giroscopio de juguete (A.3): $M_"total"$ no decía que era
+  rotor+marco sumados.
+- **Los dos casos de más peso: Problema 2 y Ejercicio adicional 2 de
+  A.4, donde la ficha usaba $r_p$/$r_A$/$r_B$ sin decir que el dato del
+  enunciado era *altura*, no radio** — exactamente la trampa que el
+  `#cuidado` del módulo `gravitacion` marca como el error que más cambia
+  un resultado, y acá estaba sin red en una ficha pensada para alguien
+  que no leyó ese módulo. Corregido mostrando `r = R_T + altura`
+  explícito en las dos.
+- Problema 10 de A.4: "un cuarto de vuelta adelantado" nunca se traducía
+  a $Delta phi = 90°$ antes de usarse en la fórmula.
+
+**Verificado:** `python verificar-apunte.py` en verde. Recompilado
+completo — **168 páginas, sin cambio** (a diferencia de la tanda anterior,
+esta ronda no empujó paginación). Diez páginas de muestra, cubriendo las
+cinco archivos tocados (m01, m03 ×2, m08, m11, y cinco fichas de Anexo A),
+miradas en render a 150 dpi: sin huérfanos, sin superposición.
+
 ## Revisión de propuestas externas y mejoras a los módulos 4/5/9 — 2026-09-14, sin abrir fase nueva
 
 Fran trajo 4 propuestas de mejora que Gemini generó revisando el PDF del

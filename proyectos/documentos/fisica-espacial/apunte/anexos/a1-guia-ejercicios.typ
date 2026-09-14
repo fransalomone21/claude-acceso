@@ -29,7 +29,7 @@ cuándo pasa eso, no se salta en silencio).
 
 #disparador(
   [Ej. 9 — velocidad en polares],
-  [Con $R$ el módulo del vector posición, $theta$ su ángulo, y $hat(r)$,
+  [Con $r$ el módulo del vector posición, $theta$ su ángulo, y $hat(r)$,
   $hat(theta)$ los versores polares: escribir la velocidad de un punto en
   coordenadas polares.],
   resuelve: [derivar $bold(r) = r hat(r)$ con la regla del producto, usando que $dot(hat(r)) = dot(theta) hat(theta)$ porque el versor gira con la partícula (#M("vectores"), sección 1.6).],
@@ -86,8 +86,9 @@ cuándo pasa eso, no se salta en silencio).
 
 #disparador(
   [Ej. 1 — la astronauta y la herramienta (S&Z 8.16)],
-  [Una astronauta de 68,5 kg arroja una herramienta de 2,25 kg a 3,20 m/s
-  respecto de la estación. ¿Con qué rapidez se mueve la astronauta?],
+  [Una astronauta de masa $m_a=68,5$ kg arroja una herramienta de masa
+  $m_h=2,25$ kg a $v_h=3,20$ m/s respecto de la estación. ¿Con qué rapidez
+  $v_a$ se mueve la astronauta?],
   resuelve: [sin fuerzas externas, $bold(P)$ se conserva; como arranca en reposo, $bold(P)=bold(0)$ antes y después: $0 = m_h v_h + m_a v_a$ (#M("cantidad-movimiento")). Ya resuelto, y otra vez desde el CM en #M("centro-de-masa").],
   [$v_a = -0,105$ m/s (sentido contrario al de la herramienta).],
 )
@@ -175,7 +176,7 @@ cuándo pasa eso, no se salta en silencio).
   total al lanzamiento. (b) El transbordador (2,04 × 10⁶ kg) con dos SRB
   (11,80 × 10⁶ N c/u) y tres SSME (2,00 × 10⁶ N c/u, $I_"sp"=455$ s):
   aceleración inicial y caudal de cada motor principal.],
-  resuelve: [(a) empuje $=mu abs(v_r)$, y de $M a = f - M g$ se despeja $M=f\/(a+g)$. (b) el empuje total es la suma de los cinco motores; $a=f\/M_0 - g$; el caudal de cada SSME sale de $I_"sp" = abs(v_r)\/g_0$, o sea $mu = f_"motor"\/(I_"sp" g_0)$ (#M("cohete")). Ya resuelto.],
+  resuelve: [(a) empuje $=mu abs(v_r)$, y de $M a = f - M g$ (con $g=9,81$ m/s², la gravedad local) se despeja $M=f\/(a+g)$. (b) el empuje total es la suma de los cinco motores; $a=f\/M_0 - g$; el caudal de cada SSME sale de $I_"sp" = abs(v_r)\/g_0$, con $g_0=9,80665$ m/s² la constante que define $I_"sp"$ —*no* la $g$ local de la parte (a), aunque el número se parezca—, o sea $mu = f_"motor"\/(I_"sp" g_0)$ (#M("cohete")). Ya resuelto.],
   [(a) $M = 12 thin 525$ kg. (b) intermedio: empuje total $=29,60 times 10^6$ N. $a = 4,70$ m/s²; $448,3$ kg/s por motor principal.],
 )
 
@@ -213,7 +214,11 @@ cuándo pasa eso, no se salta en silencio).
   centro de masa a 4,00 cm del pivote. Precesa una vuelta cada 2,20 s.
   (a) Fuerza del pivote. (b) Rapidez angular del rotor. (c) Copiar el
   diagrama con $bold(H)$ y el torque.],
-  resuelve: [(a) el pivote sostiene todo el peso: $F=M_"total" g$. (b) precesión estable sin nutación, $Omega_p = tau\/(I omega)$, con $tau=M_"total" g d$ el torque gravitatorio por el brazo de 4 cm y $omega$ la incógnita (#M("euler-giroscopo"), #M("peonza")).],
+  resuelve: [(a) el pivote sostiene todo el peso: $F=M_"total" g$, con
+  $M_"total" = 0,140+0,0250=0,165$ kg la masa del rotor más el marco. (b)
+  precesión estable sin nutación, $Omega_p = tau\/(I omega)$, con
+  $tau=M_"total" g d$ el torque gravitatorio por el brazo $d=4,00$ cm y
+  $omega$ la rapidez angular del rotor, la incógnita (#M("euler-giroscopo"), #M("peonza")).],
   [(a) $F approx 1,62$ N. Intermedio: $tau = M_"total" g d approx 0,0647$ N·m. (b) $omega_"rotor" approx 1802$ rpm. (c) es un dibujo — $bold(H)$ va sobre el eje del rotor, y $bold(tau)$ perpendicular a $bold(H)$ y horizontal, en la dirección en que $bold(H)$ está girando. _(cuenta propia de este anexo; supone que la distancia de 4 cm es al CM del conjunto rotor+marco)_],
 )
 
@@ -275,7 +280,9 @@ cuándo pasa eso, no se salta en silencio).
   [Problema 2 — la sonda espacial (Beer)],
   [$v_A = 20,2 times 10^3$ mi/h, perpendicular al radio, con $h_A=2700$ mi
   y $h_B=7900$ mi sobre una Tierra de radio 3960 mi. Velocidad en $B$.],
-  resuelve: [conservación de la energía específica, $v_A^2\/2 - mu\/r_A = v_B^2\/2 - mu\/r_B$: no hace falta el momento angular porque sólo se pide la *rapidez* en $B$, no su dirección (#M("gravitacion") / #M("orbita-conicas")).],
+  resuelve: [con $r_A = 3960+2700=6660$ mi y $r_B=3960+7900=11 thin 860$ mi
+  —radio de la Tierra más la *altura*, nunca la altura sola (#M("gravitacion"))—,
+  conservación de la energía específica, $v_A^2\/2 - mu\/r_A = v_B^2\/2 - mu\/r_B$: no hace falta el momento angular porque sólo se pide la *rapidez* en $B$, no su dirección (#M("gravitacion") / #M("orbita-conicas")).],
   [$v_B approx 7,00$ km/s ($approx 15 thin 650$ mi/h). _(cuenta propia de este anexo)_],
 )
 
@@ -339,7 +346,7 @@ cuándo pasa eso, no se salta en silencio).
   [Problema 10 — rendez-vous, un cuarto de órbita adelantado],
   [*A)* Investigar el problema del reencuentro orbital. *B)* Formular una
   solución general. *C)* Resolver un caso numérico.],
-  resuelve: [B) la idea general es una *órbita de fasaje*: cambiar temporalmente el tamaño de la propia órbita para que el período nuevo, sostenido durante algunas vueltas, acumule (o recupere) el atraso angular $Delta phi$ respecto del blanco — la relación es $T'\/T = 1 - Delta phi\/360degree$ por vuelta de fasaje. C) con eso, más la ecuación de Tsiolkovsky (#M("cohete")) para el costo en combustible de los dos encendidos que cambian de órbita y vuelven (#M("maniobras")). Ya resuelto.],
+  resuelve: [B) la idea general es una *órbita de fasaje*: cambiar temporalmente el tamaño de la propia órbita para que el período nuevo, sostenido durante algunas vueltas, acumule (o recupere) el atraso angular $Delta phi$ respecto del blanco (acá, "un cuarto de vuelta adelantado" quiere decir $Delta phi = 90degree$) — la relación es $T'\/T = 1 - Delta phi\/360degree$ por vuelta de fasaje. C) con eso, más la ecuación de Tsiolkovsky (#M("cohete")) para el costo en combustible de los dos encendidos que cambian de órbita y vuelven (#M("maniobras")). Ya resuelto.],
   [A) es el problema clásico de reencuentro orbital: no se puede apurar acelerando en línea recta, porque acelerar sube la órbita y *reduce* la velocidad angular media. B) la solución general es la órbita de fasaje de arriba. C) caso geosíncrono a un cuarto de vuelta adelantado: $Delta v = 698$ m/s en una sola vuelta de fasaje.],
 )
 
@@ -357,7 +364,9 @@ cuándo pasa eso, no se salta en silencio).
   [Ejercicio adicional 2 — perigeo a 500 km y 10 km/s],
   [Hallar el ángulo de trayectoria de vuelo $gamma$ y la altitud para una
   anomalía verdadera de 120°.],
-  resuelve: [en el perigeo (ábside) $h=r_p v_p$ directo; la energía específica $v_p^2\/2-mu\/r_p$ da $a$, y con $a$ y $r_p=a(1-e)$ sale $e$; la ecuación de la órbita $r(nu)$ da el radio (y la altitud) a $nu=120degree$; ahí, $v_perp=h\/r$ y $v_r=(mu\/h) e sin nu$ dan $gamma=arctan(v_r\/v_perp)$ (#M("hiperbola"), sección 16.5).],
+  resuelve: [«perigeo a 500 km» es *altura*: el radio de perigeo es
+  $r_p = R_T + 500 = 6378+500=6878$ km, no $500$ km (#M("gravitacion")). En
+  el perigeo (ábside) $h=r_p v_p$ directo, con $v_p=10$ km/s el dato; la energía específica $v_p^2\/2-mu\/r_p$ da $a$, y con $a$ y $r_p=a(1-e)$ sale $e$; la ecuación de la órbita $r(nu)$ da el radio (y la altitud, restándole $R_T$) a $nu=120degree$; ahí, $v_perp=h\/r$ y $v_r=(mu\/h) e sin nu$ dan $gamma=arctan(v_r\/v_perp)$ (#M("hiperbola"), sección 16.5).],
   [intermedio: $h=68 thin 780$ km²/s, $a=25 thin 060$ km, $e=0,7255$. $gamma approx 44,6°$; altitud $approx 12 thin 250$ km. _(cuenta propia de este anexo)_],
 )
 
