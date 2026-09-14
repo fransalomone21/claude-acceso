@@ -76,6 +76,33 @@ Problema 5, el período dio un número redondo, $10,0$ s; para 7 y 8, el
 salto $bold(H)=Delta bold(H)$ cuando $bold(omega)_0=bold(0)$ se verificó
 explícitamente).
 
+**Actualizado el mismo día, más tarde — pasada de calidad a las 49
+fichas, a pedido de Fran.** Dos cosas, sobre el mismo archivo:
+
+1. Fran pidió que cada ficha alcance para alguien que baja el apunte
+   *sin haber leído los módulos* — hasta acá, varios "Se resuelve con"
+   eran una cita desnuda tipo "(8)", que sólo sirve si ya se sabe qué hay
+   en el módulo 8. Se reescribieron los treinta y pico que estaban así,
+   con el principio y la ecuación en palabras (p. ej. "el torque respecto
+   del centro de fuerza es nulo, así que $L$ se conserva para cualquier
+   fuerza central" en vez de sólo el número de módulo).
+2. Fran pidió, aparte, que **ningún inciso quedara sin respuesta**. La
+   auditoría encontró ocho fichas que dejaban uno o más incisos afuera
+   —el Problema 1 de gravitación (7 incisos, sólo decía "ver el módulo"),
+   el 3 (faltaba la velocidad), el 4 (faltaban razón y rapideces), el 5
+   (faltaba el sentido de encendido), los Problemas 8 y 9 del LEM
+   (faltaban rapidez, velocidad relativa y la magnitud de $v_C$), el
+   Ej. 3 de cantidad de movimiento (el calamar) y el Ej. 9 (la altura) — y
+   se completaron todas, la mayoría citando un número que YA estaba
+   calculado adentro de algún módulo (`grep` de `#ejemplo` en
+   `m06-trabajo-energia.typ`, `m11-kepler.typ`, `m18-inercia.typ`,
+   `m19-euler-giroscopo.typ` lo encontró) y dos con cuenta nueva de este
+   anexo (la altura del Ej. 9, integrando $V(t)$; la velocidad
+   geosíncrona del Problema 3).
+
+162 páginas impresas ahora (era 161). Recompilado, cero huérfanos,
+`verificar-apunte.py` en verde.
+
 **Descubierto de paso, y no corregido — no era parte del pedido:** las
 descripciones en prosa de "Lo que hay escrito en la Parte III/IV/V" (más
 abajo, en este mismo archivo) usan números de módulo **desactualizados en
