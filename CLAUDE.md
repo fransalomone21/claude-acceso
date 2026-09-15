@@ -75,7 +75,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 | Proyecto | Qué es | Estado |
 |---|---|---|
 | `caso-tio/` | Caso clínico familiar → guía para la familia | vivo, **repo aparte, no se pushea acá** |
-| [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **ACTIVO** — **fase 0 cerrada el 2026-09-14** con línea base medida (135 kg: banca 80 + fondo 40 + dominada 15, a 5 reps con RIR 2); fase 1 sin abrir. **Repo aparte**, privado y con remote desde el 2026-08-28 |
+| [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **ACTIVO** — **fase 1 abierta el 2026-09-14**, hasta el 26/10. Línea base de la fase 0: 135 kg (banca 80 + fondo 40 + dominada 15, a 5 reps con RIR 2). **Repo aparte**, privado y con remote desde el 2026-08-28 |
 
 ---
 
