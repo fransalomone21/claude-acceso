@@ -1,61 +1,71 @@
 # ESTADO ACTUAL — arquitectura-se
 
-**Fase 1 CERRADA** el 2026-09-16. Cerró por las **dos** cosas que la cerraban:
-**17/17 tramos destilados**, y el medidor de citas depurado, saboteado, y con
-el número re-medido y publicado. **Abre la fase 2** (INCOSE GtWR: requisitos).
+**Fase 2 CERRADA** el 2026-09-16. Cerró por las **dos** cosas que la cerraban:
+la **ficha del GtWR** con las 41 reglas ancladas, y el **chequeo mecánico** que
+lee un requisito y dice qué regla viola, con su saboteador en verde.
+**Abre la fase 3** (INCOSE SEH 5.ª ed.: marco e híbrido).
 
 ## Dónde está todo
 
 | Qué | Dónde |
 |---|---|
-| Destilados del handbook | `perfil-global/pilares/nasa-seh/` |
-| Medidor de fidelidad de citas | `perfil-global/pilares/nasa-seh/verificar-citas.py` |
-| **Saboteador del medidor** | `perfil-global/pilares/nasa-seh/probar-verificar-citas.ps1` |
-| Lector por página impresa (`PDF = libro + 10`) | `perfil-global/pilares/nasa-seh/pag.py` |
+| Destilados del handbook NASA (17 tramos) | `perfil-global/pilares/nasa-seh/` |
+| **Ficha del INCOSE GtWR** | `perfil-global/pilares/incose-gtwr/reglas.md` |
+| **Chequeo de requisitos** | `perfil-global/pilares/incose-gtwr/verificar-requisito.py` |
+| **Saboteador del chequeo** | `perfil-global/pilares/incose-gtwr/probar-verificar-requisito.ps1` |
+| Medidor de fidelidad de citas (sirve para los dos libros) | `perfil-global/pilares/nasa-seh/verificar-citas.py` |
+| Saboteador del medidor | `perfil-global/pilares/nasa-seh/probar-verificar-citas.ps1` |
 | Las **10** fuentes (PDF gitignoreados) + MD5 | `perfil-global/pilares/fuentes/INDICE.md` |
 | El plan de fases y los criterios de salida | `PDP.md`, sección 4 |
 
 ## Medido, no supuesto
 
-- **Citas textuales: 1424/1437 (99,1%)**, medido el 2026-09-16 con el medidor
-  ya depurado y ya saboteado. El desglose de los 13 fallos que quedan, y de
-  los 8 defectos reales que se corrigieron, está en
-  `perfil-global/pilares/nasa-seh/README.md`.
-- **Ese número no se compara con el 186/247 (75,3%) anterior.** El medidor
-  viejo apareaba mal las comillas y, al desfasarse, se comía el resto de cada
-  línea: llegaba a mirar 282 citas de las 1437 que hay. No medía peor — medía
-  otra cosa, sobre una muestra que él mismo elegía mal.
-- **Los 13 fallos que sobreviven son todos del extractor del PDF**, no de los
-  destilados: tablas intercaladas a mitad de oración, bloques desordenados y
-  texto de figura corrompido letra por letra. Auditados a mano, uno por uno.
-- Destilados: **17 de 17 tramos. El handbook está leído entero.** Los dos
-  últimos se leyeron **inline, sin un solo subagente**: `planes.md`
-  (ap. H-P, p. 214-243) y `conops-fase-e.md` (ap. R-T, p. 244-259). Sus 99
-  citas verificaron 99/99.
-- **Los apéndices N (peer reviews) y P (checklist de SOW) NO ESTÁN en el
-  Rev2**: dicen "This appendix has been removed" y remiten a la *Expanded
-  Guidance*, que ya tenemos. Cualquier ancla sobre esos dos temas va contra
-  ese PDF, no contra el handbook.
-- Fuentes: **10 archivos**, todos con MD5 verificado por `medir.py`. Douglass
-  y Reinertsen entraron el 2026-09-16.
+- **GtWR: citas 74/74 (100 %).** Mismo medidor de la fase 1, que ahora acepta
+  `--dir`. Saboteado sobre la ficha nueva: los tres sabotajes en rojo y limpio
+  al final.
+- **Ancla del GtWR: `impresa = PDF − 1`**, medida sobre **101 de 108 páginas**
+  y cruzada contra el índice en 41 de 41 reglas. **No se heredó el `+10` del
+  handbook**: es de ese libro.
+- **El chequeo cubre 32 de las 41 reglas** — 19 enteras, 13 parciales. Las 9
+  que no cubre están declaradas con el motivo en `--cobertura`.
+- **Control positivo: 0 VIOLA sobre 17 ejemplos que el propio GtWR marca como
+  aceptables.** Sin esa mitad, un chequeo que siempre dice que no se ve igual
+  de "verificado" que uno que funciona.
+- **NASA: 1424/1437 (99,1 %) sin cambios**, re-medido después de tocar
+  `verificar-citas.py`, y su saboteador corrido otra vez en verde.
+
+## Lo que el saboteador encontró en esta fase
+
+- **R16 (`/NonAmbiguity/AvoidNot`) estaba declarada en la matriz de cobertura y
+  no tenía código detrás.** La agarró el control de coherencia: toda regla que
+  la matriz declara mirar tiene que dispararse en algún caso. Una matriz que
+  miente, miente en verde.
+- **El sabotaje al propio chequeo falló en su primera versión, con razón:** R7
+  tiene dos mecanismos (la lista de términos vagos y la heurística de los
+  adverbios en `-ly`), y vaciar uno no apaga al otro. El control estaba mal
+  escrito, no la herramienta. Ahora además exige que el mecanismo que **no**
+  sabotea siga vivo.
 
 ## Lo que NO se hizo, y hay que saberlo
 
-- No se tocó **ningún** archivo vivo de la arquitectura. `CLAUDE.md`,
-  `cascada.ps1`, las naturalezas y las plantillas están intactos a propósito:
-  la migración es la fase 6, después del diseño y del trade study.
+- No se tocó **ningún** archivo vivo de la arquitectura. `CLAUDE.md` de la
+  raíz, `cascada.ps1`, las naturalezas y las plantillas siguen intactos: la
+  migración es la fase 6, después del diseño y del trade study. Lo único que se
+  tocó afuera del proyecto es `pilares/` —que es material de lectura— y
+  `verificar-citas.py`, con su saboteador corrido después.
 - `perfil-global/engineering-orchestrator/referencias/ingenieria-de-sistemas.md`
-  (267 líneas) sigue en pie y **se escribió sin abrir el libro**. No es fuente:
-  hay que contrastarlo contra `pilares/nasa-seh/` y corregir lo que no
-  coincida. Es tarea de la fase 5.
-- El ancla de página de **Douglass no es constante** (+9, +8, +7 medidos en
-  p. 72, 193 y 294). Cuando llegue su fase, la página impresa se lee de la
-  página; calcularla con offset fijo produce anclas inventadas. Reinertsen sí
-  es constante: PDF = impresa + 14.
+  sigue en pie y **se escribió sin abrir el libro**. Contrastarlo es la fase 5.
+- El ancla de **Douglass no es constante** (+9, +8, +7). Reinertsen sí:
+  `PDF = impresa + 14`.
+- Los apéndices N y P **no están** en el Rev2 del handbook: ese material va
+  anclado a la *Expanded Guidance*.
 
 ## Coste
 
-- **Fase 0:** 2,07 M tokens de subagentes, 17 lectores, 6,6 minutos de reloj —
-  y un límite de 5 horas del plan entero. Compró lo que no se podía comprar de
-  otra forma (297 páginas no entran en una ventana), y **no se repite**.
+- **Fase 0:** 2,07 M tokens de subagentes y un límite de 5 h en 6,6 minutos.
+  Compró lo que no se podía comprar de otra forma y **no se repite**.
 - **Fase 1:** inline, sin fan-out, un solo hilo en Opus.
+- **Fase 2:** inline, sin fan-out. **108 páginas leídas, la ficha escrita, la
+  herramienta construida y los dos saboteadores corridos costaron 7 puntos del
+  límite de 5 h y 0 del semanal** (74 % antes, 74 % después). El fan-out de la
+  fase 0 no compró velocidad: compró superficie que acá no hacía falta.

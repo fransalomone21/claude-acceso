@@ -20,7 +20,9 @@ impacto original escrito, o no sale.
 | **Cualquier cosa** | `ESTADO_ACTUAL.md` entero, primero |
 | Saber en qué fase estamos y qué la cierra | `PDP.md` § 4 |
 | Diseñar la matriz de cumplimiento | `perfil-global/pilares/nasa-seh/tailoring.md` |
-| Escribir o auditar requisitos | `.../nasa-seh/requisitos.md` + `.../glosario.md` (apéndice C) |
+| **Escribir o auditar un requisito** | `perfil-global/pilares/incose-gtwr/reglas.md` — las 41 reglas del GtWR. Y se **mide**: `python perfil-global/pilares/incose-gtwr/verificar-requisito.py <archivo>` |
+| Qué mira y qué NO mira ese chequeo | `verificar-requisito.py --cobertura` (matriz de las 41) |
+| Requisitos desde la óptica de NASA | `.../nasa-seh/requisitos.md` + `.../glosario.md` (apéndice C) |
 | Definir verificación o validación | `.../nasa-seh/verificacion.md`, `.../validacion.md` |
 | Puertas, revisiones y criterios de salida | `.../nasa-seh/ciclo-vida.md` |
 | Trade study antes de una decisión | `.../nasa-seh/datos-decision.md` (cap. 6.8) |
@@ -35,8 +37,11 @@ Ninguno se lee "por las dudas": son ~900 KB. Se abre el que la tarea pide.
 
 ## Reglas propias de este proyecto
 
-1. **Nada se cita sin ancla de página.** El ancla es la página **impresa** del
-   libro (`PDF = libro + 10`), que es la que se puede chequear después.
+1. **Nada se cita sin ancla de página, y el ancla es de CADA libro.** Es la
+   página **impresa**, la que se puede chequear después. Handbook NASA:
+   `PDF = impresa + 10`. INCOSE GtWR: `PDF = impresa + 1`, medida sobre 101
+   páginas. Douglass **no es constante** (+9, +8, +7): ahí se lee de la página.
+   Heredar el offset de otro libro produce anclas inventadas.
 2. **El medidor de citas corre antes de cerrar cualquier fase de lectura.**
    Un destilado infiel se ve idéntico a uno fiel; la única diferencia medible
    son las citas textuales. Y el medidor tiene su propio saboteador
