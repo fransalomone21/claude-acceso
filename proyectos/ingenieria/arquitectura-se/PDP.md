@@ -49,7 +49,7 @@ trabajo hecho. Una fase por chat.
 | # | Fase | Qué la cierra |
 |---|---|---|
 | **0** | **Leer el handbook NASA** | **CERRADA 2026-09-16.** 15/17 tramos destilados con anclas en `perfil-global/pilares/nasa-seh/`, medidor de citas corriendo, 8 fuentes indexadas con MD5 |
-| 1 | Cerrar la base documental y **medirla de verdad** | 17/17 tramos, y `verificar-citas.py` **depurado** (hoy mezcla fallos del medidor con fallos reales) con una muestra de 20 fallos auditada a mano. El número que quede es el número |
+| **1** | **Cerrar la base documental y medirla de verdad** | **CERRADA 2026-09-16.** 17/17 tramos; `verificar-citas.py` depurado (5 defectos suyos, hallados auditando 77 fallos a mano), saboteado con `probar-verificar-citas.ps1`, y re-medido: **1424/1437 (99,1%)**, con los 13 fallos que quedan clasificados uno por uno |
 | 2 | **Requisitos: INCOSE GtWR** | Ficha con las reglas numeradas y ancladas, **más un chequeo mecánico** que lea un requisito escrito y diga qué regla viola. Sin la herramienta, la fase no cierra |
 | 3 | **Marco e híbrido: INCOSE SEH 5.ª ed.** | Ficha con el mapeo 17 procesos NASA ↔ procesos ISO 15288, y la lista explícita de qué tiene INCOSE que NASA no — sobre todo el ciclo iterativo/agile |
 | 4 | **Forma: Rechtin & Maier** | Ficha con las heurísticas de arquitectura que aplican a un sistema de trabajo de una persona, cada una con un caso propio ya vivido |
