@@ -22,6 +22,7 @@ módulo se escriben `#M("clave")` y una clave mala **rompe la compilación**
 | verificar un dato contra la bibliografía | [`fuentes/RUTAS.md`](fuentes/RUTAS.md) — los seis libros, con ruta exacta |
 | entender qué pide la cátedra en cada tema | [`fuentes/TEMARIO.md`](fuentes/TEMARIO.md) — las listas de temas y el plan de 17 semanas, transcriptos |
 | **leer un enunciado de la guía, o verificar que un tema esté cubierto** | [`fuentes/GUIA-ENUNCIADOS.md`](fuentes/GUIA-ENUNCIADOS.md) — **la guía entera transcripta**. Los enunciados del PDF son imágenes: renderizarlas es la operación más cara del proyecto y ya está pagada. **Empezar siempre acá, no por el PDF.** |
+| **saber si un tema YA está en el apunte, o dónde entraría uno nuevo** | [`docs/INDICE-TEMAS.md`](docs/INDICE-TEMAS.md) — **empezar acá antes de grepear o de abrir el PDF**. Es el mapa de los veinte módulos por título, subtítulo, ejemplo y etiqueta de ecuación. Lo **genera** `indice-temas.py`: no se edita a mano |
 | tocar o agregar una figura | [`docs/figuras.md`](docs/figuras.md) |
 | **reordenar módulos, o agregar uno** | reglas propias 5 y 6 acá abajo, y después `python verificar-apunte.py` |
 | generar el PDF | `.\compilar.bat`. El flujo y el chequeo visual: `/pdf-con-codigo` |
@@ -70,6 +71,23 @@ antes de la primera ecuación" de
 módulo nuevo, y es motivo válido para reabrir uno viejo si alguien reporta
 la misma confusión.
 
+**4 bis. La fuente se nombra donde se usa, y además se dice qué capítulo
+leer.** Son dos cosas distintas y hasta el 2026-09-17 el apunte sólo hacía la
+primera. Citar «Beer ec. 12.46, pág. 740» al lado de una fórmula sirve para
+*verificar* esa fórmula; no contesta la pregunta que la cátedra hace en el
+oral, que es *de qué capítulo de qué autor salió este tema*. Por eso:
+
+- todo módulo lleva **una** caja `#lectura` —«Dónde leerlo»— con autor,
+  capítulo y sección, y una línea sobre *cuál de los dos libros conviene abrir
+  para qué*. Una por módulo, breve: no es una bibliografía, es un puntero;
+- toda figura **reciclada o redibujada de un libro** dice de dónde sale en su
+  propio epígrafe («Redibujada de Curtis, Fig. 2.12, pág. 73»), no en el
+  cuerpo del texto ni sólo en `docs/figuras.md`.
+
+Vale para todo módulo nuevo o que se vuelva a tocar. Al 2026-09-17 tienen
+`#lectura` los módulos 9, 10, 11, 12 y 13; los otros quince están pendientes,
+y eso **se ve**: `grep -L "#lectura" apunte/modulos/*.typ`.
+
 **5. El número de un módulo NO se escribe a mano. Nunca.** En la prosa va
 `#M("clave")` —por ejemplo `módulo #M("gravitacion")`— y el número sale del
 orden de los `#include` de `apunte.typ`, que es el único lugar donde ese orden
@@ -114,7 +132,9 @@ apunte/
     galeria.typ       compila SOLO las figuras (segundos, no minutos)
   modulos/            m01-*.typ … m20-*.typ, uno por modulo, numerados
                       SEGUN EL ORDEN de apunte.typ (lo mide verificar-apunte.py)
-docs/                 figuras.md (el catalogo de figuras)
+docs/                 figuras.md        el catalogo de figuras
+                      INDICE-TEMAS.md   que temas cubre el apunte y donde
+                                        -- GENERADO por indice-temas.py
 fuentes/
   RUTAS.md            donde esta cada libro en el disco
   TEMARIO.md          las listas de temas y el plan de 17 semanas
@@ -143,9 +163,12 @@ sesión no encuentra, por más que esté commiteado.
 ## Al cerrar cualquier sesión
 
 0. `python verificar-apunte.py` — el orden, los nombres de archivo y las
-   claves tienen que decir lo mismo. Y para probar que ese chequeo no está
-   ciego: `python probar-verificar-apunte.py`, que rompe los tres a propósito
-   y exige verlos en rojo.
+   claves tienen que decir lo mismo. Y **`python indice-temas.py`**, que
+   regenera `docs/INDICE-TEMAS.md`: si se tocó un módulo y no se regenera, el
+   índice miente en silencio, que es la única forma en que un índice falla.
+   Para probar que ninguno de los dos chequeos está ciego:
+   `python probar-verificar-apunte.py`, que rompe los cuatro a propósito
+   —incluido dejar el índice viejo— y exige verlos en rojo.
 1. Actualizar `ESTADO_ACTUAL.md` y `HANDOFF.md`.
 2. Registrar las lecciones de proceso:
    `python ..\..\..\perfil-global\herramientas\aprender.py agregar ...`

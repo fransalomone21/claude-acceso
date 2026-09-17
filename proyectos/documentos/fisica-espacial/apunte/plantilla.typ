@@ -99,6 +99,15 @@
 // aproxima ni se simplifica de mas, solo se cambia el registro.
 #let posta(cuerpo) = caja([La posta], c-rosa, cuerpo)
 
+// La cátedra insiste en que los temas se lean del libro, y hasta el
+// 2026-09-17 el apunte citaba la fuente sólo AL LADO del dato ("Beer ec.
+// 12.46, pág. 740"), que sirve para verificar una cuenta y no para saber
+// qué leer. Esta caja contesta la otra pregunta, que es la del alumno en el
+// oral: de qué capítulo y de qué sección de qué autor salió ESTE tema. Va
+// UNA por módulo o por sección grande, breve, y no repite lo que ya dicen
+// las citas puntuales.
+#let lectura(cuerpo) = caja([Dónde leerlo — el capítulo del libro], c-libro, cuerpo)
+
 // ---------- Ficha de ejercicio (anexos: guía de acompañamiento) ----------
 //
 // No es una caja semántica más del cuerpo del apunte -- no reemplaza a
@@ -453,6 +462,12 @@
             text(fill: c-viole, weight: "bold")[Violeta],
             [el problema de la guía de la cátedra que ese tema resuelve; en
              el Anexo A, cada ficha de práctica con su respuesta.],
+
+            text(fill: c-libro, weight: "bold")[Gris azulado],
+            [dónde leer ese tema en la bibliografía: autor, capítulo y sección.
+             La cátedra pide leer de los libros, y este cuadro dice cuál y qué
+             parte — el Curtis cap. 2 y el Bate cap. 1 son la mecánica orbital
+             entera.],
 
             text(fill: c-rosa, weight: "bold")[Rosa],
             [la posta: la misma idea de arriba, en criollo y sin vueltas —

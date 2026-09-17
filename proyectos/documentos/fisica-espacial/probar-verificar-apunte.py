@@ -24,19 +24,27 @@ import tempfile
 
 RAIZ = os.path.dirname(os.path.abspath(__file__))
 VERIF = os.path.join(RAIZ, 'verificar-apunte.py')
+INDICE = os.path.join(RAIZ, 'indice-temas.py')
 APUNTE = os.path.join(RAIZ, 'apunte', 'apunte.typ')
 MODULOS = os.path.join(RAIZ, 'apunte', 'modulos')
 
 
-def correr():
+def correr(script=None, args=()):
     env = dict(os.environ, PYTHONIOENCODING='utf-8')
-    p = subprocess.run([sys.executable, VERIF], cwd=RAIZ, env=env,
-                       capture_output=True, text=True)
+    p = subprocess.run([sys.executable, script or VERIF] + list(args), cwd=RAIZ,
+                       env=env, capture_output=True, text=True)
     return p.returncode, (p.stdout or '') + (p.stderr or '')
 
 
-def control_positivo(cuando):
-    rc, out = correr()
+def correr_indice():
+    # --check NO reescribe el indice: sólo compara. Si reescribiera, el
+    # sabotaje se arreglaria solo y el chequeo daria verde siempre -- que es
+    # exactamente la clase de alarma muda que este script existe para cazar.
+    return correr(INDICE, ('--check',))
+
+
+def control_positivo(cuando, runner=correr):
+    rc, out = runner()
     if rc == 0:
         print('[OK]    control positivo (%s): en verde da verde' % cuando)
         return True
@@ -45,7 +53,7 @@ def control_positivo(cuando):
     return False
 
 
-def sabotear(titulo, ruta, transformar, espera):
+def sabotear(titulo, ruta, transformar, espera, runner=correr):
     """Aplica `transformar` al texto de `ruta`, exige rojo, y restaura."""
     orig = io.open(ruta, encoding='utf-8').read()
     fd, tmp = tempfile.mkstemp()
@@ -53,7 +61,7 @@ def sabotear(titulo, ruta, transformar, espera):
     shutil.copy2(ruta, tmp)
     try:
         io.open(ruta, 'w', encoding='utf-8').write(transformar(orig))
-        rc, out = correr()
+        rc, out = runner()
         if rc == 0:
             print('[FALLA] %s: el verificador NO se puso en rojo' % titulo)
             return False
@@ -102,12 +110,28 @@ def main():
     ok.append(sabotear('3. clave declarada dos veces', m03, clave_repetida,
                        'esta declarada dos veces'))
 
+    # 4. el indice de temas queda viejo: se agrega una seccion a un modulo y
+    #    nadie regenera docs/INDICE-TEMAS.md. Es la falla silenciosa propia de
+    #    un indice -- sigue existiendo, sigue leyendose, y miente.
+    ok.append(control_positivo('indice, antes', correr_indice))
+
+    m07 = os.path.join(MODULOS, 'm07-gravitacion.typ')
+
+    def seccion_nueva(t):
+        a = '== Lo que se usa despu'
+        i = t.index(a)
+        return t[:i] + '== Una seccion que el indice no conoce' + chr(10) * 2 + t[i:]
+
+    ok.append(sabotear('4. indice de temas desactualizado', m07, seccion_nueva,
+                       'quedo VIEJO', correr_indice))
+
     ok.append(control_positivo('despues'))
+    ok.append(control_positivo('indice, despues', correr_indice))
 
     print('')
     if all(ok):
-        print('Los tres chequeos se pusieron en rojo cuando correspondia, y el '
-              'verificador quedo limpio.')
+        print('Los cuatro chequeos se pusieron en rojo cuando correspondia, y '
+              'los dos verificadores quedaron limpios.')
         return 0
     print('Algo no se puso en rojo. El verificador esta ciego en esa mitad.')
     return 1

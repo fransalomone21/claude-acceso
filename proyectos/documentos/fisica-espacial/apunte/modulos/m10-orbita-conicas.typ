@@ -25,6 +25,24 @@ para $r$ —y encima integrada— y $theta$ sale del momento angular. Ninguna de
 dos cosas costó una hipótesis nueva: las dos son la conservación de $bold(L)$,
 usada dos veces.
 
+#lectura[
+  Este módulo es *Curtis, capítulo 2*, secciones 2.4 a 2.7 —de «Angular
+  momentum and the orbit formulas» hasta «Elliptical orbits»—, y *Bate,
+  capítulo 1*, secciones 1.5 a 1.8: «The trajectory equation», «Relating
+  $epsilon$ and $h$ to the geometry of an orbit», «The elliptical orbit» y
+  «The circular orbit».
+
+  Los dos hacen el mismo recorrido con distinto énfasis. Bate deduce la
+  ecuación de la trayectoria integrando la ecuación de movimiento y le deja
+  *una constante de integración vectorial* adentro; Curtis llega a la misma
+  fórmula y la escribe ya con la excentricidad. Si algo de acá queda flojo, el
+  que lo explica más despacio es Bate §1.5.
+
+  El potencial eficaz, en cambio, *no está en ninguno de los dos*: es de los
+  libros de mecánica general —Roederer, cap. 9— y lo pide la lista de temas de
+  la cátedra aparte.
+]
+
 == El potencial eficaz: dos variables que se vuelven una
 
 #deduccion("el potencial eficaz")[
@@ -342,6 +360,24 @@ $ E = - (mu m)/(2 a) quad quad "y de ahí" quad quad v^2 = mu (2/r - 1/a) $ <orb
   entre un satélite de 100 kg y uno de 3 toneladas.
 ]
 
+#notacion[
+  *$p$ tiene tres nombres y una sola definición.* En este apunte es el
+  *parámetro* de la órbita; Curtis lo llama así también (§2.4) después de
+  presentarlo como *semilatus rectum*, y Bate usa esa forma latina en todo el
+  capítulo 1. Es la mitad de la cuerda que pasa por el foco perpendicular a la
+  línea de ábsides —el *latus rectum*—, y por eso mide una longitud de la
+  órbita y no un factor de escala: $r = p$ justo cuando $nu = 90°$.
+
+  *Y la letra que Bate arrastra y Curtis no.* Bate integra la ecuación de
+  movimiento y le queda una constante vectorial de integración $bold(B)$, con
+  lo que la trayectoria le sale
+  $ r = (h^2 \/ mu)/(1 + (B \/ mu) cos nu) $
+  Recién comparando con la cónica identifica $e = B \/ mu$. No es otra
+  deducción: es la misma, con el nombre puesto un renglón después. Si se lee
+  Bate §1.5 conviene saberlo de antemano, porque esa $bold(B)$ no vuelve a
+  aparecer nunca.
+]
+
 == La elipse y sus seis números
 
 #fig([La elipse orbital y todo lo que se le mide. Arriba de la línea de ábsides,
@@ -371,6 +407,37 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
   (Beer, problema 12.102, citada en la pág. 744.) Con los dos radios de ábside
   se obtiene $h$ *directamente*, sin pasar por $e$ ni por $a$ — y con $h$ salen
   las dos velocidades, porque en los ábsides $v = h \/ r$.
+]
+
+#posta[
+  *El camino, para el parcial.* Casi todos los problemas de órbitas dan dos
+  datos y piden seis, y siempre se recorre la misma cadena — de arriba hacia
+  abajo, cada escalón con lo que dejó el anterior:
+
+  #table(
+    columns: (auto, auto, 1fr),
+    align: (center, left, left),
+    table.header([*\#*], [*sale*], [*con qué, y de dónde*]),
+    [1], [$e$], [$e = (r_a - r_p)\/(r_a + r_p)$ — @orb-absides],
+    [2], [$h$], [$r = (h^2\/mu) \/ (1 + e cos nu)$ evaluada donde se sepa $r$; en
+      el perigeo, $nu = 0$ — @orb-orbita],
+    [3], [$v_p, v_a$], [$h = r v_perp$, y en los ábsides $v_perp = v$ — módulo #M("momento-angular")],
+    [4], [$a$], [$a = (r_p + r_a)\/2$ — @orb-semiejes],
+    [5], [$T$], [$T = 2 pi a^(3\/2) \/ sqrt(mu)$ — módulo #M("kepler")],
+    [6], [$epsilon$], [$epsilon = - mu \/ (2 a)$, o $epsilon = -(mu^2\/(2h^2))(1 - e^2)$ con
+      $h$ y $e$ — @orb-energia-especifica y @orb-e-E],
+  )
+
+  Dos cosas que se pagan caro si no se ven. *La primera:* los escalones 1 y 2
+  son los únicos que importan — con $e$ y $h$ la órbita ya está determinada, y
+  del 3 al 6 son fórmulas que los usan. *La segunda:* la cadena no tiene un
+  solo orden posible. Si el dato es $T$ en vez de $r_a$, se entra por el
+  escalón 5 y se sube: $T arrow.r a arrow.r r_a = 2a - r_p arrow.r e$.
+
+  Falta un séptimo escalón —el ángulo de vuelo $gamma$ en un punto cualquiera,
+  que es lo que la guía pide en los adicionales— y no está acá porque necesita
+  la componente radial de la velocidad: se agrega en el módulo #M("hiperbola"),
+  donde la cadena se cierra.
 ]
 
 #ejemplo("El satélite del Ej. 4, ahora con la ecuación de la órbita")[
@@ -409,6 +476,25 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
   $ nu = 102,1° ==> r = 8200/(1 + 0,2098 (-0,2096)) = 8200/(0,9560) = 8577 " km" $
   Los mismos $8387$ y $8577$ km que el módulo #M("momento-angular") sacó proyectando velocidades con
   $h = r v cos gamma$.
+
+  #clave[
+    *Esas dos anomalías no son dos números cualesquiera de la figura, y Curtis
+    les pone nombre* (ejemplo 2.7, pág. 86 — es este mismo satélite).
+
+    $8387$ km es el *radio promedio* de la órbita: el promedio de $r(nu)$ sobre
+    una vuelta completa de anomalía verdadera. Curtis lo integra (§2.7) y le da
+    $ overline(r) = a sqrt(1 - e^2) = sqrt(r_p thin r_a) $
+    o sea *el semieje menor $b$ de la @orb-semiejes* — acá,
+    $sqrt(6778 dot 10 thin 378) = 8387$ km. Y eso corrige una intuición que casi
+    todo el mundo trae: la distancia media al foco *no es* $a$, que es el
+    promedio de los dos ábsides, sino la media geométrica de los dos. El satélite
+    pasa por $overline(r)$ dos veces, en $nu = 96,09°$ yendo y en $nu = 263,9°$
+    volviendo.
+
+    $102,1°$ es donde $cos nu = -e$, que por la @orb-orbita es *el extremo del eje
+    menor*. Ahí pasa algo que se usa en el módulo #M("hiperbola"): es el punto en
+    el que la velocidad se sale lo más posible del horizonte local.
+  ]
 
   *La energía, y el control cruzado.* Por la @orb-visviva,
   $ E\/m = - mu/(2 a) = - (3,986 times 10^5)/(17 thin 156) = -23,23 " km"^2\/"s"^2 $

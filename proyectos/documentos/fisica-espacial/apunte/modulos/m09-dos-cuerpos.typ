@@ -21,6 +21,20 @@ Este módulo hace la cuenta bien y llega a una conclusión que da tranquilidad:
 no es cosmética, y hay sistemas —el Tierra–Luna, sin ir más lejos, que la guía
 usa en dos problemas— donde ignorarla se paga.
 
+#lectura[
+  El planteo de este módulo es *Bate, capítulo 1*, secciones 1.2 a 1.4 — «The
+  n-body problem», «The two-body problem» y «Constants of the motion» —, y
+  *Curtis, capítulo 2*, secciones 2.2 y 2.3: «Equations of motion in an
+  inertial frame» y «Equations of relative motion».
+
+  Bate es el que hace lo que acá se copia: arranca con $n$ cuerpos, muestra
+  cuáles son las hipótesis que hay que matar para quedarse con dos, y recién
+  entonces escribe la ecuación. Curtis va más rápido al resultado. La masa
+  reducida y el problema equivalente, en cambio, son de mecánica general —
+  Roederer, cap. 8 — y ninguno de los dos libros de astrodinámica los trata
+  con ese nombre.
+]
+
 == La idea completa, antes de la primera ecuación
 
 Todavía no hay ninguna cuenta hecha, y conviene tener el plan entero en la

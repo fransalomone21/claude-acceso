@@ -17,6 +17,18 @@ llegar al punto exacto del espacio en el momento exacto en que otro cuerpo
 —un planeta, un satélite— también está ahí. Las dos preguntas se resuelven
 con las mismas dos herramientas de siempre: la vis-viva y el período.
 
+#lectura[
+  *Bate, capítulo 3, §3.3* («In-plane orbit changes»), y *Curtis, capítulo 6*
+  («Orbital maneuvers»), la sección de la transferencia de Hohmann y la del
+  rendez-vous.
+
+  Vale saber cuál de los dos abrir: Bate razona la maniobra *desde la
+  energía* —cuánto hay que subir $epsilon$, y por qué conviene hacerlo en el
+  ábside—, que es como la trabaja este módulo; Curtis la trabaja con las
+  velocidades de cada órbita y da los ejemplos numéricos largos. El
+  rendez-vous y el ángulo de fase están mejor contados en Curtis.
+]
+
 == La transferencia de Hohmann
 
 #deduccion("por qué la elipse tangente a las dos circulares es la más barata")[

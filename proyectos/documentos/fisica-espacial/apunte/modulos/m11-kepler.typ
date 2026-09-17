@@ -17,6 +17,19 @@ notable, visto desde acá, es que las tres ya están adentro de lo que este
 apunte dedujo en los módulos #M("momento-angular") y #M("orbita-conicas") — no hace falta una hipótesis nueva, sólo
 leer lo que ya está escrito con otro nombre.
 
+#lectura[
+  *Curtis, capítulo 2, §2.7* («Elliptical orbits») es donde sale el período:
+  la tercera ley no aparece como ley, sino como consecuencia de integrar la
+  velocidad areolar sobre una vuelta. *Bate, capítulo 1, §1.7* («The
+  elliptical orbit») hace exactamente lo mismo, y es de las dos páginas más
+  cortas del libro.
+
+  Las tres leyes *como enunciado histórico* no están en ninguno de los dos:
+  para eso va el Beer (§12.12) o el Roederer, que las presenta antes de
+  deducirlas. Es la diferencia de público — un libro de astrodinámica da por
+  sabido lo que un libro de física general todavía está enseñando.
+]
+
 == Las tres leyes, ya deducidas
 
 #clave[

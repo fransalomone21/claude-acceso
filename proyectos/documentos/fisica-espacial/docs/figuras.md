@@ -208,6 +208,7 @@ cada figura.
 | `fig-vector-rotante` | `cinematica-cr` | los dos casos de la derivada en un sistema rotante: Q clavado al sistema, y Q que además cambia adentro |
 | `fig-suma-omegas` | `cinematica-cr`, `inercia` | el Problema 2 de la guía: las dos velocidades angulares que se suman, y el eje instantáneo que sale de la suma |
 | `fig-conos` | `cinematica-cr`, `peonza` | el cono espacial y el cono corporal, tangentes a lo largo del eje instantáneo |
+| `fig-angulo-vuelo` | `hiperbola` | el horizonte local: v_perp, v_r, la velocidad y el angulo de vuelo gamma sobre una elipse. Redibujada de Curtis, Fig. 2.12, pag. 73 |
 | `fig-hiperbola-geometria` | `hiperbola` | la hipérbola entera: las dos ramas, las asíntotas, β, el ángulo de giro δ, el radio de puntería Δ y el semieje a medido desde C |
 | `fig-hiperbola-energia` | `hiperbola` | el pozo de gravitación con una sola recta E > 0: el reparto entre lo que cuesta escapar y lo que sobra (v_∞) |
 | `fig-esfera-influencia` | `esfera-influencia` | la esfera de influencia de la Tierra mirada desde los dos lados, **a escala real las dos veces**: enorme desde la Tierra (145 R_T, dos veces y media la órbita de la Luna) y un punto desde el Sol (0,62% del radio de la órbita) |

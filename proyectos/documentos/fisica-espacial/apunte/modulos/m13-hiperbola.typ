@@ -26,6 +26,18 @@ una hipérbola, y el tramo que recorre cerca de Marte es otra. El módulo #M("es
 a pegar esos tramos con la elipse de Hohmann del módulo #M("maniobras")#";" acá se construye
 la pieza.
 
+#lectura[
+  *Curtis, capítulo 2*, §2.8 («Parabolic trajectories») y §2.9 («Hyperbolic
+  trajectories»), y *Bate, capítulo 1*, §1.9 («The parabolic orbit») y §1.10
+  («The hyperbolic orbit»). El ángulo de vuelo y las componentes de la
+  velocidad, en cambio, están antes: *Curtis §2.4*, que es de donde sale la
+  figura de este módulo.
+
+  El ángulo de giro $delta$ y la velocidad hiperbólica de exceso $v_oo$ son de
+  Bate §1.10 — Curtis los usa pero recién los explota en el capítulo 8, con
+  las trayectorias interplanetarias.
+]
+
 == La idea completa, antes de la primera ecuación
 
 Todavía no hay ninguna cuenta hecha. Lo que sigue es qué hace falta para
@@ -318,6 +330,54 @@ $ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp 
   sola. Recién con $e$ se vuelve a cualquiera de las dos y sale $nu$.
 ]
 
+#fig([La velocidad en el *horizonte local*, que es la perpendicular al radio y
+no la tangente a la órbita: $bold(v)_perp$ va sobre el horizonte,
+$bold(v)_r$ sobre el radio, y $gamma$ es lo que la velocidad se sale del
+horizonte. Vale para las cuatro cónicas, no sólo para la elipse dibujada.
+Redibujada de *Curtis, Fig. 2.12, pág. 73* (§2.4).], fig-angulo-vuelo)
+
+Con las dos componentes escritas en función de $nu$, el ángulo sale sin pasar
+por ningún número intermedio.
+
+#deduccion("el ángulo de vuelo en función de la anomalía verdadera")[
+  La transversal se puede escribir con $mu \/ h$ afuera, igual que la radial:
+  basta meter la ecuación de la órbita adentro de $v_perp = h \/ r$,
+  $ v_perp = h/r = h/((h^2\/mu) \/ (1 + e cos nu)) = mu/h (1 + e cos nu) $
+  Al dividir las dos, el factor $mu \/ h$ —que es lo único que trae la
+  información del tamaño de la órbita— se cancela:
+]
+
+$ tan gamma = v_r/v_perp = (e sin nu)/(1 + e cos nu) $ <hip-gamma>
+
+#clave[
+  *Que $mu$ y $h$ se hayan cancelado no es una casualidad de cuentas.* Dice que
+  el ángulo de vuelo no depende del tamaño de la órbita ni del cuerpo alrededor
+  del cual se orbita: *depende sólo de la forma* ($e$) y de dónde se está
+  parado en ella ($nu$). Dos satélites de la misma excentricidad, uno alrededor
+  de la Tierra y otro alrededor de Júpiter, cruzan su anomalía de $60°$ con
+  exactamente el mismo $gamma$.
+
+  Es la ec. 2.52 de Curtis, y los dos casos límite se leen de un vistazo: en los
+  ábsides ($nu = 0$ y $nu = 180°$) el numerador se anula y $gamma = 0$ — la
+  velocidad es horizontal, que es el resultado del módulo #M("momento-angular");
+  y en la circunferencia ($e = 0$) vale $gamma = 0$ *en todos lados*, que es la
+  definición misma de órbita circular.
+]
+
+#posta[
+  *Cuándo usar cuál de las dos.* Si el dato es la velocidad —módulo y ángulo, o
+  las dos componentes— vas por $tan gamma = v_r \/ v_perp$ y salís a $e$ y
+  $nu$. Si los datos son la órbita —$e$ y $nu$, o $r_p$ y $v_p$, que es lo
+  mismo— vas por la @hip-gamma y salís a $gamma$ *sin calcular ninguna
+  velocidad*. Los adicionales de la guía vienen de los dos lados: el 5 es el
+  primero, el 2 es el segundo.
+
+  Y una que ahorra tiempo en el parcial: $gamma$ es máximo donde
+  $cos nu = -e$ —el extremo del eje menor, el $102,1°$ del satélite del módulo
+  #M("orbita-conicas")—, no en el medio entre los ábsides, que es donde uno lo
+  pondría a ojo.
+]
+
 #cuidado[
   *El signo de $v_r$ dice en qué mitad de la órbita se está, y es lo que
   desambigua $nu$.* Al despejar $nu$ de un coseno quedan siempre dos ángulos,
@@ -437,6 +497,43 @@ $ v_perp = h/r, quad quad v_r = mu/h e sin nu, quad quad tan gamma = v_r/v_perp 
     parámetros de los que depende una cónica, y cualquier otra cosa que se
     pida es una fórmula que los usa.
   ]
+]
+
+#ejemplo("El radio promedio del satélite de la guía, y el ángulo de vuelo ahí")[
+  _(Curtis, ejemplo 2.7, pág. 86-88, partes (g) a (j). Es el satélite del Ej. 4
+  de la guía: perigeo a $400$ km, apogeo a $4000$ km.)_ El módulo
+  #M("orbita-conicas") ya midió esa órbita entera — $e = 0,2098$,
+  $h = 57 thin 172$ km²/s, $a = 8578$ km — y nombró su *radio promedio*,
+  $ overline(r) = sqrt(r_p thin r_a) = sqrt(6778 dot 10 thin 378) = 8387 " km" $
+  Falta lo que hasta este módulo no se podía calcular: *con qué ángulo cruza el
+  satélite ese radio*.
+
+  *La anomalía verdadera ahí*, con la ecuación de la órbita:
+  $ 8387 = (57 thin 172)^2/(3,986 times 10^5) 1/(1 + 0,2098 cos nu)
+    ==> cos nu = -0,1061 ==> nu = 96,09° $
+
+  *El ángulo de vuelo*, ahora directo con la @hip-gamma y sin calcular ninguna
+  velocidad:
+  $ tan gamma = (0,2098 sin 96,09°)/(1 + 0,2098 cos 96,09°) = (0,2086)/(0,9777) = 0,2134
+    ==> gamma = 12,05° $
+
+  #clave[
+    *Ese $12,05°$ ya estaba en el apunte, medido con una regla.* El módulo
+    #M("momento-angular") lo leyó *de la figura de la guía* para poder proyectar
+    $h = r v cos gamma$, y lo dijo con todas las letras: «la figura da
+    $gamma = 12,05°$ arriba». Acá sale *deducido*, de dos alturas y nada más.
+
+    Eso cierra el préstamo más viejo de esta parte del apunte. Y de paso da la
+    medida de cuánto se gana con cada módulo: el mismo número que en el módulo
+    #M("momento-angular") era un dato leído del dibujo —y por lo tanto un
+    límite a la precisión de todo lo que se hiciera con él— acá es una
+    consecuencia de $e$ y $nu$.
+  ]
+
+  Si además se pide la *rapidez* en ese punto, no hace falta componer las dos
+  componentes: sale sola de la vis-viva del módulo #M("orbita-conicas"),
+  $ v^2/2 - (3,986 times 10^5)/8387 = - (3,986 times 10^5)/(2 dot 8578)
+    ==> v = 6,970 " km/s" $
 ]
 
 == Lo que esto ya permite: el enlace con Hohmann

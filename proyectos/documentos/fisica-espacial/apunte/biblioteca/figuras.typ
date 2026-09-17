@@ -1529,6 +1529,88 @@
 //  Módulo `hiperbola` — La hipérbola: escapar, y llegar con velocidad de sobra
 // =====================================================================
 
+// --- El ángulo de trayectoria de vuelo ----------------------------------
+// La descomposición de la velocidad en el horizonte local: es la Fig. 2.12
+// de Curtis (pág. 73) redibujada, y vale para las CUATRO cónicas — está en
+// este módulo porque es acá donde el apunte necesita gamma con fórmula
+// cerrada, no porque sea propia de la hipérbola.
+//
+// Lo único delicado del dibujo es que las tres flechas salgan del MISMO
+// punto y que se vea cuál es la suma: v_r sobre el radio, v_perp sobre el
+// horizonte local, y v entre las dos. El cuadradito del ángulo recto es lo
+// que hace legible que el horizonte local es perpendicular al radio y no
+// tangente a la órbita — que es el error que el cuadro ámbar del módulo
+// nombra.
+//
+// Ninguna variable se llama como una letra griega (trampa 10 del HANDOFF):
+// la anomalía es `anom` y la excentricidad `ex`.
+#let fig-angulo-vuelo = esquema(escala: 1.25cm, {
+  let semi = 2.1
+  let ex = 0.55
+  let cen = semi * ex
+  let par = semi * (1 - ex * ex)
+  let F = (0, 0)
+  let anom = 75
+  let rad = par / (1 + ex * calc.cos(anom * 1deg))
+  let Q = (rad * calc.cos(anom * 1deg), rad * calc.sin(anom * 1deg))
+
+  // Los dos versores del punto: radial y transversal. Todo lo demás del
+  // dibujo se construye con ellos, y por eso no hay ninguna coordenada
+  // puesta a ojo en las flechas.
+  let ur = (calc.cos(anom * 1deg), calc.sin(anom * 1deg))
+  let ut = (-calc.sin(anom * 1deg), calc.cos(anom * 1deg))
+  let desde(base, u, t) = (base.at(0) + u.at(0) * t, base.at(1) + u.at(1) * t)
+
+  // Las dos componentes están en la proporción REAL que les da la órbita:
+  // v_perp va como (1 + e cos nu) y v_r como e sen nu. Dibujarlas a ojo
+  // daría un gamma que no es el que sale de la fórmula de al lado.
+  let esc = 1.5
+  let lperp = esc * (1 + ex * calc.cos(anom * 1deg))
+  let lr = esc * ex * calc.sin(anom * 1deg)
+
+  elipse-orbital(F, semi, ex, giro: 180deg, color: c-trazo, grosor: trazo-curva2)
+  cuerpo-central(F, radio: 0.2, etiqueta: none)
+  rotulo((-0.1, -0.3), $m_1$, ancla: "north-east")
+
+  // Línea de ábsides y vector excentricidad, que es la referencia desde la
+  // que se mide la anomalía verdadera.
+  cetz.draw.line((-cen - semi - 0.25, 0), (semi - cen + 0.9, 0), stroke: punteado)
+  // El rótulo arranca ADENTRO de la elipse a propósito: puesto en el extremo
+  // de la línea punteada cruzaba el contorno, que es donde peor se lee.
+  rotulo((-cen - semi + 0.2, 0.14), [línea de ábsides], ancla: "south-west")
+  flecha(F, (1.25, 0), etiqueta: $bold(e)$, color: c-aux, lado: "south", pos: 52%)
+  masa((semi - cen, 0), radio: 0.07, color: c-trazo)
+  rotulo((semi - cen + 0.1, -0.12), [perigeo], ancla: "north-west")
+
+  angulo(F, 0, anom, etiqueta: $nu$, radio: 0.62)
+  flecha(F, Q, etiqueta: $bold(r)$, color: c-dato, lado: "east", pos: 58%)
+  masa(Q, radio: 0.075, color: c-trazo)
+  rotulo(desde(Q, ur, 0.12), $m_2$, ancla: "west")
+
+  // El horizonte local: perpendicular al RADIO, no tangente a la órbita.
+  cetz.draw.line(desde(Q, ut, -0.7), desde(Q, ut, 2.5), stroke: punteado)
+  rotulo(desde(Q, ut, 2.55), [horizonte local], ancla: "south-east")
+
+  // El cuadradito del ángulo recto, construido con los dos versores.
+  let m = 0.17
+  cetz.draw.line(
+    desde(Q, ut, m),
+    desde(desde(Q, ut, m), ur, -m),
+    desde(Q, ur, -m),
+    stroke: 0.5pt + luma(110),
+  )
+
+  flecha(Q, desde(Q, ut, lperp), etiqueta: $bold(v)_perp$, color: c-aux, lado: "north", pos: 62%)
+  flecha(Q, desde(Q, ur, lr), etiqueta: $bold(v)_r$, color: c-aux, lado: "south-east", pos: 90%)
+  let V = desde(desde(Q, ut, lperp), ur, lr)
+  flecha(Q, V, etiqueta: $bold(v)$, color: c-dato, lado: "north-east", pos: 88%)
+
+  // gamma se mide DESDE el horizonte local HASTA la velocidad, y por eso el
+  // arco arranca en la dirección de v_perp y no en la del radio.
+  let dir-v = calc.atan2(V.at(0) - Q.at(0), V.at(1) - Q.at(1)) / 1deg
+  angulo(Q, dir-v, anom + 90, etiqueta: $gamma$, radio: 1.15)
+})
+
 // --- La geometría de la hipérbola ---------------------------------------
 // Todo lo que el módulo nombra, sobre un solo dibujo: la rama ocupada y la
 // vacía, el foco F, el centro C, las dos asíntotas, el ángulo beta que
@@ -2314,6 +2396,7 @@
   ("fig-vector-rotante", fig-vector-rotante),
   ("fig-suma-omegas", fig-suma-omegas),
   ("fig-conos", fig-conos),
+  ("fig-angulo-vuelo", fig-angulo-vuelo),
   ("fig-hiperbola-geometria", fig-hiperbola-geometria),
   ("fig-hiperbola-energia", fig-hiperbola-energia),
   ("fig-esfera-influencia", fig-esfera-influencia),

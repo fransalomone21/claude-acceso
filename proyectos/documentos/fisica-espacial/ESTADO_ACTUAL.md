@@ -1,5 +1,61 @@
 # Estado actual — Apunte de Física Espacial
 
+## El material de la clase del 11/11 (Bate cap. 1) incorporado, y el índice de temas — 2026-09-17
+
+Fran trajo cuatro PDFs de la cátedra: la Fig. 2.12 de Curtis suelta («Ángulo
+de vuelo»), el manuscrito de la clase sobre el capítulo 1 de Bate (parámetros
+orbitales, geometría de las cónicas, Hohmann, hipérbola), un «camino EO» que
+es el flujo para resolver un problema de órbitas, y un escaneo con los
+adicionales 1 a 3 y el Ej. 4 resueltos a mano.
+
+**Lo primero que se midió fue cuánto de eso faltaba, y faltaba poco:** los
+cuatro adicionales ya estaban en el Anexo A, y $epsilon$ en función de $h$ y
+$e$, el ángulo de giro $delta$, $v_oo$, $C_3$ y $tan gamma = v_r\/v_perp$ ya
+estaban deducidos. Lo que **no** estaba, y entró:
+
+1. **La forma cerrada del ángulo de vuelo**, $tan gamma = e sin nu \/ (1 + e
+   cos nu)$ (Curtis ec. 2.52, §2.4), en el módulo 13 con su deducción: el
+   factor $mu\/h$ se cancela, y eso dice que $gamma$ no depende del tamaño de
+   la órbita ni del cuerpo central, sólo de la forma y de dónde se está.
+2. **La figura del horizonte local** (`fig-angulo-vuelo`), redibujada de
+   Curtis Fig. 2.12, pág. 73. Es la que faltaba para que «perpendicular al
+   radio, no tangente a la órbita» se vea en vez de leerse.
+3. **El radio promedio**, que estaba calculado y sin nombre. El ejemplo del
+   módulo 10 ya sacaba $8387$ km y $102,1°$ de la figura de la guía; ahora
+   dice que $8387$ es $overline(r) = sqrt(r_p r_a) = b$ —la distancia media al
+   foco **no** es $a$— y que $102,1°$ es donde $cos nu = -e$.
+4. **Y el cierre que eso permitió, que es el que más vale:** el módulo 8 había
+   leído $gamma = 12,05°$ **de la figura de la guía, con una regla**, para
+   poder proyectar $h = r v cos gamma$. El ejemplo nuevo del módulo 13 lo
+   *deduce* de dos alturas. Un dato medido del dibujo pasó a ser una
+   consecuencia.
+5. **El camino del parcial** (módulo 10, caja rosa): la cadena
+   $e arrow.r h arrow.r v_p,v_a arrow.r a arrow.r T arrow.r epsilon$, que es
+   el «camino EO» de Fran, con la aclaración de que sólo los dos primeros
+   escalones importan y de que la cadena se puede entrar por el medio.
+6. **La notación de Bate**: $p$ como *semilatus rectum* y la constante
+   vectorial $bold(B)$ con $e = B\/mu$, que aparece en §1.5 y no vuelve a
+   aparecer nunca — saberlo antes de abrir el libro ahorra una lectura.
+
+**Lo segundo que pidió Fran, y es una regla nueva del proyecto (4 bis):
+nombrar al autor y el capítulo, no sólo la página.** Entró la caja `#lectura`
+—«Dónde leerlo»— con autor, capítulo, sección y una línea de *para qué sirve
+cada uno de los dos libros*, y está puesta en los módulos 9 a 13. Faltan los
+otros quince, y se ven con `grep -L "#lectura" apunte/modulos/*.typ`. Las
+figuras recicladas de un libro dicen su fuente en el epígrafe.
+
+**Lo tercero: `docs/INDICE-TEMAS.md`, generado por `indice-temas.py`.** Es el
+mapa de los veinte módulos por título, subtítulo, ejemplo, deducción y
+etiqueta de ecuación, y existe para que la pregunta «¿esto ya está?» cueste
+una lectura barata en vez de 163 páginas o veinte greps a ciegas — que fue
+exactamente lo que costó el arranque de esta sesión. **No se edita a mano** y
+tiene su propia alarma: `indice-temas.py --check` se pone en rojo si alguien
+tocó un módulo y no regeneró. La alarma se probó rompiéndola, y está adentro
+de `probar-verificar-apunte.py` como cuarto sabotaje (los ocho controles en
+verde).
+
+El apunte pasó de **163 a 170 páginas**.
+
 ## La glosa de variables, extendida al resto del apunte — 2026-09-14, sin abrir fase nueva
 
 Fran pidió extender a los otros 17 módulos + Anexo A el estándar de la

@@ -6,6 +6,27 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-17 — material de la clase de Bate, citas por capítulo, índice de temas
+
+**Nada quedó a medias de lo pedido.** Lo que queda abierto, y es trabajo
+deliberadamente no hecho, no a medias:
+
+- **Los quince módulos sin caja `#lectura`.** Están los 9 al 13. La lista
+  sale sola: `grep -L "#lectura" apunte/modulos/*.typ`. Para escribirlas hay
+  que tener el capítulo verificado contra el libro, no de memoria — el
+  índice de Bate está OCR-eado a medias y las secciones 1.5, 1.7 y 1.8 no
+  salen por regex: se leen renderizando las páginas 33, 45 y 47 del PDF.
+- **El PDF publicado en Drive quedó atrasado**: el apunte cambió de 163 a 170
+  páginas y no se subió. Lo mide `.\publicar-apuntes.ps1 -Verificar` desde la
+  raíz de `claude-acceso`, y lo sube sin `-Verificar`.
+
+Una trampa nueva, de proceso y no de Typst: **los cuatro PDFs de la cátedra
+son imágenes** (`pdftotext` devuelve entre 1 y 5 caracteres). Se leen
+rasterizando con `pdftoppm -r 130 -png`; diez páginas costaron cuatro
+lecturas. Y **los libros sí tienen capa de texto**: la sección y el número de
+ecuación de Curtis se verificaron contra el PDF con PyMuPDF antes de citarlos,
+que es lo que evitó escribir «ec. 2.51» donde va «ec. 2.52».
+
 ## Sesión del 2026-09-14 (tercera parte) — glosa de variables en el resto del apunte
 
 Nada quedó a medias ni pendiente de decisión de Fran esta vez —a diferencia
