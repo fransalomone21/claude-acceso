@@ -60,6 +60,9 @@ $medidores = @(
     # DEFAULT. Va en la capa rapida a proposito: es de las que no duelen el
     # mismo dia.
     @{ nombre = 'restas de las matrices';   cmd = 'python perfil-global\herramientas\medir-matriz.py' }
+    # Pieza P4: un criterio de salida sin su medidor es una intencion, y el
+    # medidor escrito DESPUES se elige sabiendo que resultado se quiere.
+    @{ nombre = 'certificacion de las fases'; cmd = 'python perfil-global\herramientas\medir-fase.py' }
 )
 
 $saboteadores = @(
@@ -69,6 +72,8 @@ $saboteadores = @(
     @{ nombre = 'saboteador del triage';         cmd = '.\perfil-global\probar-chequeo-lecciones.ps1' }
     @{ nombre = 'saboteador del ASCII puro';    cmd = '.\perfil-global\probar-chequeo-ascii.ps1' }
     @{ nombre = 'saboteador del desuso';      cmd = '.\perfil-global\probar-medidor-matriz.ps1' }
+    @{ nombre = 'saboteador del molde de fase'; cmd = '.\perfil-global\probar-medidor-fase.ps1' }
+    @{ nombre = 'saboteador de escapes';     cmd = '.\perfil-global\probar-guardia-escapes.ps1' }
     @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
 )
