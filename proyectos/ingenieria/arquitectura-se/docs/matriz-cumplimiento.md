@@ -121,79 +121,19 @@ punta a punta.
 
 ## 5. Instancia — la matriz
 
-Reglas ancladas a su archivo fuente. Aspectos por la letra de §4.
-
-### `~/.claude/CLAUDE.md` — las reglas del método
-
-| Regla | Aspecto | Estado | Justificación |
-|---|---|---|---|
-| #1 evidencia con grado anotado | a, b, d | `cumple` | |
-| #2 el éxito también se audita | a, d | `cumple` | |
-| #3 toda alarma se prueba rompiéndola | d | `cumple` | |
-| #3 toda alarma se prueba rompiéndola | b | **`recortado`** | Los requisitos A1-A10 **no tienen alarma que los pueda mirar**: `verificar-requisito.py` da 13 de 13 falsos positivos de idioma (D14). Se declaran **sin verificar** en vez de aceptar su verde. **La resta:** escribir el chequeo en español hoy cuesta la fase 5 entera y mide un documento de diseño que todavía no se aplicó; declararlo sin verificar cuesta que A1-A10 entren a la fase 6 sin chequeo mecánico, con la condición de aceptación ya escrita (`arquitectura.md` §9) |
-| #4 el repo es la memoria | a, b | `cumple` | |
-| #5 checkpoint antes de parar | a, b | `cumple` | |
-| #6 cambios mínimos | b | `cumple` | Ningún archivo vivo tocado en la fase 5 |
-| #7 ubicar la intervención en la escala | b | `cumple` | La reforma es *regla* y *flujo de información*, no *parámetro* |
-| #8 el modelo se enruta | a, b | `cumple` | |
-| #9 el presupuesto del plan gana | b | `cumple` | |
-| #9 el presupuesto del plan gana | a (**fase 0**) | **`recortado`, y se pagó** | La fase 0 gastó 2,07 M tokens de subagentes y un límite de 5 h en 6,6 minutos. **La resta no se escribió en su momento** — se escribe ahora: compró la lectura de un libro que no entraba en una ventana de contexto, y costó una sesión de trabajo perdida. Las fases 1-4 se hicieron inline y no perdieron nada, así que **la resta salió negativa**: el recorte fue un error, no un tailoring. Fila de cierre: de la fase 1 en adelante, `cumple` |
-| #10 cuadro PARA FRAN | b | `cumple` | |
-| #11 cuadro de fase | b | `cumple` | |
-| #12 mensaje de retome si el cuadro dice chat nuevo | b | `cumple` | |
-
-### `CLAUDE.md` del repo — las cuatro reglas de la estructura
-
-| Regla | Aspecto | Estado | Justificación |
-|---|---|---|---|
-| #1 un proyecto, una carpeta | b | `cumple` | |
-| #2 un archivo, un repo dueño | a, b | `cumple` | `pilares/fuentes/` con los PDF gitignoreados, 10/10 medidos |
-| #3 todo proyecto nace de un PDP | b | `cumple` | |
-| #4 lo que el enrutador dice se verifica antes de repetirlo | b | `cumple` | La fila del enrutador se corrige en el mismo turno |
-
-### `plantillas/naturalezas/ingenieria.md` — los cinco no negociables
-
-| Regla | Aspecto | Estado | Justificación |
-|---|---|---|---|
-| #1 confirmado = intervine y vi el efecto | a, d | `cumple` | |
-| #2 todo dato lleva su versión | a | `cumple` | Cinco libros, cinco anclas medidas, ninguna supuesta |
-| #3 el repo es la memoria, se anota al confirmar | a, b | `cumple` | |
-| #4 el éxito también se audita | a, d | `cumple` | |
-| #5 nada de volcados crudos en el chat | a | `cumple` | |
-
-### `plantillas/PDP.md` — el molde
-
-| Regla | Aspecto | Estado | Justificación |
-|---|---|---|---|
-| §4 criterio de salida como resultado verificable | a, b | `cumple` | |
-| §4 **cómo se certifica** el criterio | a, b | **`no aplica` — todavía** | El campo **no existe** en el molde vivo: es la pieza P4 que esta fase diseña. No se puede cumplir una regla que se está escribiendo. Pasa a `cumple` en la fase 6 |
-| §5 riesgos con disparador observable | b | `cumple` | |
-| §6 decisiones, con las descartadas y por qué perdieron | b | `cumple` | [`trade-study.md`](trade-study.md) §8 |
-| §7 el verificador, ¿alguna vez falló? | d | `cumple` | Cuatro saboteadores, corridos hace 4 días, en verde |
-
-### Las reglas que la arquitectura nueva agrega (P1-P10)
-
-Se listan ahora para que la fase 6 no tenga que inventarlas, con el estado que
-les corresponde **hoy**: ninguna está puesta, porque la fase 5 es de diseño.
-
-| Regla | Aspecto | Estado | Justificación |
-|---|---|---|---|
-| P1 catálogo derivado, no copiado | b | `no aplica` — todavía | Diseñada, no construida. Fase 6 |
-| P2 matriz por proyecto | b | `cumple` | **Este archivo.** Es la primera instancia |
-| P3 rigor por aspecto | b | `cumple` | §4 de este archivo |
-| P4 los dos campos del molde de fase | b | `no aplica` — todavía | Fase 6 |
-| P5 heurísticas pegadas a los pasos | b | `no aplica` — todavía | Fase 6 |
-| P6 criterio de entrada al registro | b | `no aplica` — todavía | Fase 6 |
-| P7 separación System 2 / System 3 | b | `no aplica` — todavía | Fase 6 |
-| P8 revisión independiente | a, b, c, d | **`recortado`** | **No hay segundo par de ojos.** Los tres candidatos están medidos y ninguno lo es: el saboteador lo escribe el mismo que el medidor; el chat nuevo comparte método y sesgos (aunque funcionó: los cinco defectos de `verificar-citas.py` v1 los encontró otra sesión); un LLM externo dio 4 propuestas de las cuales 3 ya estaban implementadas. **La resta:** no hay recurso que comprarlo, así que la comparación no es entre dos riesgos sino entre tener el hueco escrito o tenerlo invisible. Se elige escrito |
-| P9 elección del corte NASA 3/4 sobre INCOSE T4/T5 | b | `cumple` | Se elige NASA. **La resta:** compra trazabilidad a 17 destilados con ancla medida y citas al 99,1 %; cuesta que el vocabulario no sea el del 15288 que usa el resto del mundo, mitigado porque el mapeo de la fase 3 queda como traducción. Cumplir los dos cortes exigiría duplicar artefactos, que es lo que el tailoring evita |
-| P10 medidor de validación | b | `no aplica` — todavía | Diseñado acá, se construye en la fase 7. Construirlo antes sería medir una arquitectura que no se usó |
-
----
+> **Se mudó a la sección 8 del [`PDP.md`](../PDP.md) el 2026-09-17**, y estaba
+> declarado en la §2 de este archivo: la matriz **es una sección del PDP**
+> (NASA p. 35 y 3.11.4.2, p. 37), y vivía acá sólo porque la fase 5 no tocaba
+> archivos vivos.
+>
+> **No se deja una copia**, y eso es la regla, no una preferencia: un dato que
+> vive en dos lados diverge. Es el defecto D12 —el `186` contra el registro—
+> aplicado a la matriz misma, y sería el peor lugar donde tenerlo. Mientras
+> estuvo duplicada, `medir-matriz.py` contó 76 filas donde hay 38.
 
 ## 6. Qué dice esta matriz leída entera
 
-**Filas totales: 38. Recortadas: 3. Con `no aplica — todavía`: 7. Cumple: 28.**
+**Los números no se escriben acá.** Los cuenta `python perfil-global/herramientas/medir-matriz.py` sobre el `PDP.md`, y por la misma razón por la que la instancia se mudó: un conteo a mano diverge del que se mide. Al cerrar la fase 5 eran 38 filas, 3 recortadas y 7 `no aplica — todavía`, y el medidor lo confirmó fila por fila.
 
 Las tres recortadas son lo que la matriz existe para mostrar, y ninguna de las
 tres era visible antes de escribirla:
