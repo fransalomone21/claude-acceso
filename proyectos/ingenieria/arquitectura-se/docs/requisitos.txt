@@ -1,0 +1,10 @@
+El catalogo de reglas debe derivarse de los archivos fuente de cada regla, sin transcribir su enunciado.
+Cada regla del catalogo debe llevar escrito el impacto contra el que fue disenada.
+Cada proyecto debe declarar una matriz de cumplimiento adjunta a su PDP.
+Cada fila recortada de la matriz debe llevar escrita la comparacion entre el riesgo que evita la regla y el riesgo que crea el tiempo de cumplirla.
+La matriz debe dejar vacia la justificacion de cada fila que cumple.
+El rigor debe declararse por aspecto del proyecto y no por proyecto.
+El molde de fase debe pedir como se certifica el criterio de salida antes de abrir la fase.
+El molde de fase debe admitir el cierre por cancelacion de la fase siguiente.
+El registro de lecciones debe rechazar una leccion cuyo enunciado opuesto no sea absurdo.
+El arranque de sesion debe inyectar menos bytes que el arranque medido el 17 de septiembre de 2026.

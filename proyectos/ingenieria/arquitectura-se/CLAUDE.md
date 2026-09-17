@@ -19,7 +19,10 @@ impacto original escrito, o no sale.
 |---|---|
 | **Cualquier cosa** | `ESTADO_ACTUAL.md` entero, primero |
 | Saber en qué fase estamos y qué la cierra | `PDP.md` § 4 |
-| Diseñar la matriz de cumplimiento | `perfil-global/pilares/nasa-seh/tailoring.md` |
+| **Migrar (fase 6): qué pieza se instala y qué defecto cierra** | [`docs/arquitectura.md`](docs/arquitectura.md) — el diseño, las 10 piezas P1-P10 y los 14 defectos medidos |
+| **Por qué se eligió esta arquitectura y no otra** | [`docs/trade-study.md`](docs/trade-study.md) — criterios ponderados escritos antes, y por qué perdieron A y C |
+| **Llenar la matriz de un proyecto, o saber qué rigor le toca a un aspecto** | [`docs/matriz-cumplimiento.md`](docs/matriz-cumplimiento.md) — el molde, el selector de dos ejes y la instancia llenada |
+| Diseñar la matriz de cumplimiento (la fuente) | `perfil-global/pilares/nasa-seh/tailoring.md` |
 | **Escribir o auditar un requisito** | `perfil-global/pilares/incose-gtwr/reglas.md` — las 41 reglas del GtWR. Y se **mide**: `python perfil-global/pilares/incose-gtwr/verificar-requisito.py <archivo>` |
 | Qué mira y qué NO mira ese chequeo | `verificar-requisito.py --cobertura` (matriz de las 41) |
 | **Alinear el método con ISO/IEC/IEEE 15288**, o saber qué proceso de NASA equivale a cuál | `perfil-global/pilares/incose-seh/mapeo-15288.md` — el mapeo 17 ↔ 30, con las 10 filas que **no** son 1:1 |
