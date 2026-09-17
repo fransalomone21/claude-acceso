@@ -36,7 +36,7 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
 Windows viene con la ejecución de scripts **deshabilitada** en una instalación
-limpia. Sin esto, `.ootstrap.ps1` muere con `UnauthorizedAccess` antes de
+limpia. Sin esto, `.\bootstrap.ps1` muere con `UnauthorizedAccess` antes de
 correr su primera línea — y **por eso este chequeo no puede vivir adentro del
 script**: un verificador no puede medir la precondición que le impide
 arrancar. Tiene que estar en la capa que se lee, no en la que se corre.
