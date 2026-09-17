@@ -54,7 +54,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 
 | Proyecto | Qué es | Estado |
 |---|---|---|
-| [`arquitectura-se/`](proyectos/ingenieria/arquitectura-se/CLAUDE.md) | Reformar el método (cascada, PDP, naturalezas, frenos) contra NASA SP-2016-6105, INCOSE y Rechtin | **ACTIVO** — fases 0, 1 y 2 cerradas el 16/09 (handbook 17/17 con citas 1424/1437; GtWR con citas 74/74 y chequeo mecánico de requisitos que cubre 32 de las 41 reglas); fase 3 abierta: INCOSE SEH 5.ª ed. |
+| [`arquitectura-se/`](proyectos/ingenieria/arquitectura-se/CLAUDE.md) | Reformar el método (cascada, PDP, naturalezas, frenos) contra NASA SP-2016-6105, INCOSE y Rechtin | **ACTIVO** — fases 0-3 cerradas (handbook 17/17, citas 1424/1437; GtWR 74/74 + chequeo mecánico de 32 de 41 reglas; SEH 5.ª ed. 73/73 con el mapeo 17 NASA ↔ 30 procesos del 15288, cerrada el 17/09); fase 4 abierta: Rechtin & Maier |
 | [`black/`](proyectos/ingenieria/black/CLAUDE.md) | Ingeniería reversa de **BLACK** (PS2) sobre PCSX2 | **ACTIVO** — fase 7e abierta |
 | [`diagnostico-msi/`](proyectos/ingenieria/diagnostico-msi/) | Secure Boot y batería de la notebook MSI | cerrado con informe |
 | [`telescopio/`](proyectos/ingenieria/telescopio/) | Plataforma ecuatorial Dobson, CAD SolidWorks | dormido |
