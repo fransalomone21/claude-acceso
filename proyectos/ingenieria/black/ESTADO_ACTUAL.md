@@ -866,7 +866,7 @@ perseguir es de un contenedor de sonido. **6.4 se cierra sacándola del camino
 de la geometría**, que es donde estaba costando.
 
 **La puerta de entrada a los modelos de arma está ubicada:** el formato de
-ruta `Levels\Level_%02upguns\%s%s` está en `0x003F7790` y lo carga
+ruta `Levels\Level_%02u\fpguns\%s%s` está en `0x003F7790` y lo carga
 `0x001D820C` (`lui`/`addiu`). La extensión `.WDD` (`0x003F76D8`) **no** tiene
 referencia de código: sale de la tabla de punteros que empieza cerca de
 `0x003BD2B4`, junto a `chars\guns\` y `Sound\Streams\`.

@@ -1,0 +1,40 @@
+{
+  "_por_que": [
+    "La regla 8 de verificar-estructura.ps1 busca CARACTERES DE CONTROL (bytes",
+    "<32 que no sean tab, salto de linea o retorno) en lo que este repo",
+    "trackea. Este archivo es la lista de los que SI pueden estar.",
+    "",
+    "POR QUE EXISTE LA REGLA. El 2026-09-17 se encontraron CINCO archivos vivos",
+    "con un caracter de control adentro, y los cinco eran el mismo error: un",
+    "escape de C (\\b, \\f, \\v) escrito dentro de un string que alguna capa",
+    "interpreto antes de que el archivo lo recibiera. Ninguno se ve en un",
+    "editor. Ninguno lo atrapaba nada:",
+    "",
+    "  chequeo-de-trabajo.md      '\\bdel\\b'  -> se inyecta en CADA sesion",
+    "  MAQUINA-NUEVA.md           '.\\bootstrap.ps1'",
+    "  verificar-requisito.py     '\\bnot\\b'  -> APAGABA una excepcion de R16",
+    "  black/ESTADO_ACTUAL.md     'Levels\\Level_%02u\\fpguns\\%s%s'",
+    "  black/sesiones/HANDOFF.md  'C:\\Program Files\\AutoHotkey\\v2\\'",
+    "",
+    "Los dos ultimos son DATOS TECNICOS MEDIDOS contra el ELF y contra la",
+    "maquina: un formato de ruta de assets del juego y la ruta de una",
+    "instalacion. Un resumen degrada primero justo esa clase de dato, y un",
+    "caracter invisible lo degrada sin que el resumen intervenga.",
+    "",
+    "El chequeo que ya existia miraba bytes >127 sobre los CUATRO .md que se",
+    "inyectan. Dos puntas del problema le faltaban: el otro extremo del rango",
+    "(los controles) y el resto del repo. Esta regla tapa la segunda.",
+    "",
+    "Es deny-by-default, igual que datos-permitidos.json y",
+    "apuntes-publicos.json: declarar una excepcion es un ACTO, no un silencio.",
+    "Un chequeo sin forma de declarar excepciones se apaga entero la primera",
+    "vez que da un falso positivo, y ahi se pierde tambien la senal verdadera."
+  ],
+  "excepciones": [
+    {
+      "patron": "proyectos/documentos/clase-asincronica-3/guia/guia-asincronica-texto.txt",
+      "byte": "0x0C",
+      "por_que": "FORM FEED, y es legitimo: el archivo es el texto extraido de un PDF y el 0x0C es el separador de pagina que trae la extraccion. Sacarlo perderia donde cortaba cada pagina del original, que es lo que hace citable el extracto."
+    }
+  ]
+}

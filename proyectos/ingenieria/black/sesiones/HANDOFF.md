@@ -2940,7 +2940,7 @@ No hace falta nada de 7e ni del Remaster.
   `EECycleRate = 0` (sin overclock).
 - `Black-mod-7b.iso` fue lo último que Fran arrancó (`emulog.txt`). Los tres
   ISO dan CRC `5C891FF1`.
-- AutoHotkey **2.0.27** instalado en `C:\Program Files\AutoHotkey2\`.
+- AutoHotkey **2.0.27** instalado en `C:\Program Files\AutoHotkey\v2\`.
 - `kb/ubicaciones.json` tiene clave nueva **`pcsx2_exe_juego`** =
   `C:\Program Files\PCSX2\pcsx2-qt.exe` (el 2.8.0, el de JUGAR). El
   `pcsx2_exe` de siempre sigue siendo el fork MCP de `Downloads`, el de

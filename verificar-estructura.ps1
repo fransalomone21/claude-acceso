@@ -505,6 +505,78 @@ if ($cortes -eq 0) {
 # .\cascada.ps1 <proyecto>. Aca solo se verifica que no este roto.
 
 # =========================================================================
+# REGLA 8 -- Ningun caracter de control en lo que este repo trackea.
+# =========================================================================
+# El 2026-09-17 se encontraron CINCO archivos vivos con un byte de control
+# adentro, y los cinco eran el mismo error: un escape de C (\b, \f, \v)
+# escrito dentro de un string que alguna capa interpreto antes de que el
+# archivo lo recibiera. Ninguno se ve en un editor, y el dano no es cosmetico:
+#
+#   verificar-requisito.py     '\bnot\b' quedo como 0x08+not+0x08, y eso
+#                              APAGABA EN SILENCIO una excepcion de la regla
+#                              R16 del GtWR.
+#   chequeo-de-trabajo.md      '\bdel\b' -- y este .md se INYECTA en cada
+#                              sesion, asi que la basura viajaba a todas.
+#   black/ESTADO_ACTUAL.md     el formato de ruta de los assets del juego,
+#   black/sesiones/HANDOFF.md  y la ruta de una instalacion. Los dos son
+#                              datos MEDIDOS que no se reconstruyen sin
+#                              volver a la evidencia.
+#
+# Habia un chequeo de esto, y no podia verlos: verify-install.ps1 mira bytes
+# >127 sobre los CUATRO .md que se inyectan. Le faltaban las dos puntas --el
+# otro extremo del rango, y el resto del repo-- y es la misma ceguera POR
+# CONSTRUCCION de las reglas 5, 6 y 7: un verificador solo ve donde vive.
+#
+# Deny-by-default: lo legitimo se declara en .claude/controles-permitidos.json.
+Titulo "regla 8: ningun caracter de control en lo que el repo publica"
+
+$permitidos = @()
+$rutaPermitidos = Join-Path $raiz '.claude\controles-permitidos.json'
+if (Test-Path -LiteralPath $rutaPermitidos) {
+    try {
+        $permitidos = @((Get-Content -Raw -LiteralPath $rutaPermitidos |
+                         ConvertFrom-Json).excepciones)
+    } catch {
+        Fail "controles-permitidos.json no es JSON valido: no se puede saber que esta declarado."
+    }
+} else {
+    Warn "no esta .claude\controles-permitidos.json: no hay donde declarar una excepcion legitima."
+}
+
+# Solo lo que el repo TRACKEA. Lo ignorado (extracciones de PDF, volcados) no
+# se publica, asi que no es asunto de esta regla.
+$trackeados = @(& git -C $raiz ls-files)
+$conControl = 0
+$mirados = 0
+foreach ($rel in $trackeados) {
+    if ($rel -notmatch '\.(py|ps1|md|txt|json|jsonl|typ|bat|cmd|yml|yaml)$') { continue }
+    $abs = Join-Path $raiz ($rel -replace '/', '\')
+    if (-not (Test-Path -LiteralPath $abs)) { continue }
+    $mirados++
+    $bytes = [System.IO.File]::ReadAllBytes($abs)
+    $malos = @()
+    foreach ($x in $bytes) {
+        if ($x -lt 32 -and $x -ne 9 -and $x -ne 10 -and $x -ne 13) {
+            $malos += ("0x{0:X2}" -f $x)
+            if ($malos.Count -ge 3) { break }
+        }
+    }
+    if ($malos.Count -eq 0) { continue }
+    $declarado = $false
+    foreach ($e in $permitidos) {
+        if ($e -and $rel -like "*$($e.patron)*") { $declarado = $true }
+    }
+    if ($declarado) { continue }
+    $conControl++
+    Fail "$rel tiene caracter(es) de control ($($malos -join ', ')): basura invisible que puede romper un patron o un dato medido."
+    Write-Host "         Se ubican con python: [x for x in open(r,'rb').read() if x<32 and x not in (9,10,13)]" -ForegroundColor Red
+    Write-Host "         Si es legitimo, se DECLARA en .claude\controles-permitidos.json." -ForegroundColor Red
+}
+if ($conControl -eq 0) {
+    Ok "los $mirados archivos de texto trackeados no tienen caracteres de control"
+}
+
+# =========================================================================
 Write-Host ""
 if ($fallas -gt 0) {
     Write-Host "ESTRUCTURA CON $fallas FALLA(S) y $avisos aviso(s)." -ForegroundColor Red
