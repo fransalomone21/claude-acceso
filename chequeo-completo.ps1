@@ -53,6 +53,13 @@ $medidores = @(
     # que pudiera estar mas adelante. Con dos, abrir una sesion sobre un arbol
     # atrasado es la falla nueva, y es de las que no duelen el mismo dia.
     @{ nombre = 'sincronia con origin';     cmd = '.\verificar-sincronia.ps1' }
+    # La senal de desuso (criterio C6 del trade study de arquitectura-se).
+    # Una matriz de cumplimiento se deja de usar por el camino comodo: marcar
+    # 'recortado' y dejar la justificacion vacia. Nadie miente, nadie discute,
+    # y la disciplina se evapora sin dejar rastro, porque ahi el silencio es el
+    # DEFAULT. Va en la capa rapida a proposito: es de las que no duelen el
+    # mismo dia.
+    @{ nombre = 'restas de las matrices';   cmd = 'python perfil-global\herramientas\medir-matriz.py' }
 )
 
 $saboteadores = @(
