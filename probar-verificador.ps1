@@ -218,6 +218,33 @@ Probar "regla 7 - el contrato del proyecto enlaza al vacio (nivel 6)" "nivel 6" 
         -Value "`n[detalle](docs/no-existe-saboteador.md)" -Encoding utf8 } `
     { GitRestaurar 'proyectos/ingenieria/black/CLAUDE.md' }
 
+# --- regla 8: un caracter de control se cuela en un archivo del repo ---
+# Los cinco casos reales del 2026-09-17 eran un escape de C (\b, \f, \v)
+# escrito dentro de un string que alguna capa interpreto antes de que el
+# archivo lo recibiera. Ninguno se ve en un editor, y uno de ellos APAGABA en
+# silencio una excepcion de la regla R16 del chequeo de requisitos.
+#
+# Se sabotea con 0x0B (VERTICAL TAB), que es el caso de black/HANDOFF: un '\v'
+# adentro de una ruta de Windows. Se escribe por BYTES a proposito -- pasarlo
+# por un string de PowerShell seria repetir el error que se esta probando.
+Probar "regla 8 - un caracter de control invisible en un archivo trackeado" "control" `
+    {
+        $f = "$Raiz\MAQUINA-NUEVA.md"
+        $orig = [System.IO.File]::ReadAllBytes($f)
+        $lista = New-Object System.Collections.Generic.List[byte]
+        $lista.AddRange([byte[]]$orig)
+        $lista.Add([byte]0x0B)
+        [System.IO.File]::WriteAllBytes($f, $lista.ToArray())
+    } `
+    { GitRestaurar 'MAQUINA-NUEVA.md' }
+
+# --- regla 8 bis: el chequeo falla CERRADO si su config no parsea ---
+# Igual que la regla 5: si controles-permitidos.json se rompe, el chequeo NO
+# puede seguir como si no hubiera excepciones declaradas -- tiene que decirlo.
+Probar "regla 8 bis - controles-permitidos.json roto: el chequeo lo dice" "no es JSON valido" `
+    { Set-Content -LiteralPath "$Raiz\.claude\controles-permitidos.json" -Value '{ roto' -Encoding utf8 } `
+    { GitRestaurar '.claude/controles-permitidos.json' }
+
 # --- control negativo de la regla 6: lo declarado NO tiene que avisar ---
 # La otra mitad, la que no es decorativa: un censo que avisa por todo entrena a
 # ignorarlo, y ahi se pierde tambien la senal verdadera. El guardia del ISO
