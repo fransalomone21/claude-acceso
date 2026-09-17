@@ -22,6 +22,10 @@ impacto original escrito, o no sale.
 | Diseñar la matriz de cumplimiento | `perfil-global/pilares/nasa-seh/tailoring.md` |
 | **Escribir o auditar un requisito** | `perfil-global/pilares/incose-gtwr/reglas.md` — las 41 reglas del GtWR. Y se **mide**: `python perfil-global/pilares/incose-gtwr/verificar-requisito.py <archivo>` |
 | Qué mira y qué NO mira ese chequeo | `verificar-requisito.py --cobertura` (matriz de las 41) |
+| **Alinear el método con ISO/IEC/IEEE 15288**, o saber qué proceso de NASA equivale a cuál | `perfil-global/pilares/incose-seh/mapeo-15288.md` — el mapeo 17 ↔ 30, con las 10 filas que **no** son 1:1 |
+| **Ciclo iterativo, incremental, evolutivo o ágil**; criterios de entrada/salida de una fase ágil | `.../incose-seh/mapeo-15288.md` § 4.3 |
+| Tailoring desde INCOSE (proceso con IPO, y las 5 trampas) | `.../incose-seh/mapeo-15288.md` § 4.5 y § 6 |
+| Buscar una página del SEH, o regenerar su `.txt` | `perfil-global/pilares/incose-seh/README.md` |
 | Requisitos desde la óptica de NASA | `.../nasa-seh/requisitos.md` + `.../glosario.md` (apéndice C) |
 | Definir verificación o validación | `.../nasa-seh/verificacion.md`, `.../validacion.md` |
 | Puertas, revisiones y criterios de salida | `.../nasa-seh/ciclo-vida.md` |
@@ -33,15 +37,21 @@ impacto original escrito, o no sale.
 | Una definición exacta | `.../nasa-seh/glosario.md` |
 | Buscar una página del handbook | `python perfil-global/pilares/nasa-seh/pag.py <desde> <hasta>` |
 
-Ninguno se lee "por las dudas": son ~900 KB. Se abre el que la tarea pide.
+Ninguno se lee "por las dudas": los de `nasa-seh/` solos son ~900 KB. Se abre
+el que la tarea pide. **Y en la carpeta de cada pilar, entre comillas va sólo
+ese libro**: el medidor de citas corre contra un `.txt` por vez, así que una
+cita del otro libro da un rojo que no significa nada. Las citas cruzadas se
+referencian por su ficha, sin comillas.
 
 ## Reglas propias de este proyecto
 
 1. **Nada se cita sin ancla de página, y el ancla es de CADA libro.** Es la
    página **impresa**, la que se puede chequear después. Handbook NASA:
    `PDF = impresa + 10`. INCOSE GtWR: `PDF = impresa + 1`, medida sobre 101
-   páginas. Douglass **no es constante** (+9, +8, +7): ahí se lee de la página.
-   Heredar el offset de otro libro produce anclas inventadas.
+   páginas. INCOSE SEH 5.ª ed.: `PDF = impresa + 25`, medida por **dos**
+   caminos (321 encabezados y 41 de 41 entradas del índice). Douglass **no es
+   constante** (+9, +8, +7): ahí se lee de la página. Heredar el offset de otro
+   libro produce anclas inventadas, y ya van cuatro libros y cuatro offsets.
 2. **El medidor de citas corre antes de cerrar cualquier fase de lectura.**
    Un destilado infiel se ve idéntico a uno fiel; la única diferencia medible
    son las citas textuales. Y el medidor tiene su propio saboteador
