@@ -61,6 +61,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador del guardia fanout'; cmd = '.\perfil-global\probar-guardia-fanout.ps1' }
     @{ nombre = 'saboteador del triage';         cmd = '.\perfil-global\probar-chequeo-lecciones.ps1' }
     @{ nombre = 'saboteador del ASCII puro';    cmd = '.\perfil-global\probar-chequeo-ascii.ps1' }
+    @{ nombre = 'saboteador del desuso';      cmd = '.\perfil-global\probar-medidor-matriz.ps1' }
     @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
 )
