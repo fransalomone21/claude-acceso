@@ -1,144 +1,98 @@
 # ESTADO ACTUAL — arquitectura-se
 
-**Fase 5 CERRADA** el 2026-09-17. Cerró por lo que la cerraba: **documento de
-arquitectura + matriz de cumplimiento, con trade study explícito**. Los tres
-artefactos están en `docs/`. **No se tocó ningún archivo vivo.** **Abre la
-fase 6** (migrar).
+**Fase 6 ABIERTA** el 2026-09-17 (migrar). **Es la primera fase que toca
+archivos vivos**, así que el rigor es **pleno** (`docs/matriz-cumplimiento.md`
+§4, aspecto `c`): backup y saboteador **antes** de cada pieza, no después.
 
-**Es la primera fase de diseño del proyecto.** Las 0-4 fueron de lectura y
-están cerradas; los cuatro libros están leídos y medidos.
+**Las fases 0-5 están cerradas.** Los cuatro libros leídos y medidos; la
+arquitectura elegida con trade study explícito; los tres documentos de diseño
+en `docs/`.
 
-## Dónde está todo
+## Lo que la fase 6 ya cerró — los TRES defectos vivos
 
-| Qué | Dónde |
-|---|---|
-| **El diseño: 10 piezas P1-P10 contra 14 defectos medidos** | `docs/arquitectura.md` |
-| **Por qué esta arquitectura y no otra** | `docs/trade-study.md` |
-| **El molde de matriz, el selector de rigor y la instancia llenada** | `docs/matriz-cumplimiento.md` |
-| Los 10 requisitos A1-A10, como texto medible | `docs/requisitos.txt` |
-| Destilados del handbook NASA (17 tramos) | `perfil-global/pilares/nasa-seh/` |
-| Ficha del INCOSE GtWR (41 reglas) | `perfil-global/pilares/incose-gtwr/reglas.md` |
-| Chequeo de requisitos | `perfil-global/pilares/incose-gtwr/verificar-requisito.py` |
-| Ficha del INCOSE SEH 5.ª ed. — el mapeo | `perfil-global/pilares/incose-seh/mapeo-15288.md` |
-| Ficha de Rechtin & Maier — las heurísticas con caso propio | `perfil-global/pilares/rechtin-maier/heuristicas.md` |
-| Medidor de fidelidad de citas (sirve para los **cuatro** libros) | `perfil-global/pilares/nasa-seh/verificar-citas.py` |
-| Las **10** fuentes (PDF gitignoreados) + MD5 | `perfil-global/pilares/fuentes/INDICE.md` |
-| El plan de fases y los criterios de salida | `PDP.md`, sección 4 |
+| Defecto | Estado | Cómo se verificó |
+|---|---|---|
+| **D12** — el `186` contra el registro | **CERRADO** | El `INDICE.md` dice hoy **210**, y nadie lo escribió: sale de `len(utiles)`. `chequeo-de-trabajo.md` ya no lleva número |
+| **D14** — el chequeo de requisitos era de idioma inglés | **CERRADO** | Las dos mitades de la aceptación, ahora control permanente del saboteador |
+| **El medidor de desuso** (criterio C6) | **CERRADO** | `medir-matriz.py` + `probar-medidor-matriz.ps1`, 6 frenos que discriminan |
 
-## La arquitectura elegida, en una línea
+## Lo que se encontró midiendo, y no estaba en el plan
 
-**Catálogo de reglas derivado de sus archivos fuente + matriz de cumplimiento
-por proyecto, con el rigor declarado por ASPECTO y no por proyecto.**
-
-Las diez piezas: **P1** catálogo con el porqué de cada regla · **P2** la matriz
-(tres estados, default silencio, la resta escrita al recortar) · **P3** el
-selector de rigor de dos ejes (reversibilidad × incertidumbre), por aspecto ·
-**P4** el molde de fase con *cómo se certifica* y con la salida *cancelar* ·
-**P5** las heurísticas pegadas a los pasos en vez de inyectadas enteras ·
-**P6** el criterio de **entrada** al registro de lecciones · **P7** la
-separación System 2 / System 3 · **P8** la revisión independiente, declarada
-sin respuesta · **P9** se elige el corte de NASA sobre el de INCOSE, con la
-resta escrita · **P10** el medidor de validación, diseñado acá y construido en
-la fase 7.
-
-**Lo que NO cambia** —y esto es la mitad del diseño—: la cascada de seis
-niveles, las tres naturalezas, las cuatro reglas de la estructura, las tres
-capas de frenos, los cuatro saboteadores, los dos cuadros y el enrutado de
-modelo y esfuerzo. Cada uno entra al catálogo con su impacto original escrito,
-que era el criterio mandatorio M2.
+- **El freno de D12 existía, y su saboteador daba verde sobre el defecto
+  vivo.** El patrón de `install.ps1` estaba anclado a la **primera línea**
+  (`^CHEQUEO DE TRABAJO...`) y el saboteador rompía el archivo **ahí mismo**.
+  El `186` real estaba en la línea 19. **Un saboteador escrito por el autor
+  del freno hereda su punto ciego** — es la pieza P8 medida en carne propia, y
+  el argumento más fuerte que tiene el proyecto para que P8 siga declarada
+  como hueco sin respuesta.
+- **Tres archivos vivos tenían un BACKSPACE (0x08) adentro**, uno de ellos
+  `chequeo-de-trabajo.md`, que **se inyecta en cada sesión**. Los tres eran un
+  `\b` escrito dentro de comillas de shell. En `verificar-requisito.py` además
+  **apagaba en silencio una excepción de R16**. El chequeo de ASCII miraba
+  `>127` y era **ciego a los controles `<32`**: media punta de un rango.
+- **R24 marcaba VIOLA al determinante demostrativo** (`esa regla`), y el libro
+  prohíbe la referencia colgante, no la palabra. Corregido **en los dos
+  idiomas**: determinante → `REVISAR`, pronombre suelto → `VIOLA`.
+- **El medidor de desuso daba verde sobre un archivo sin una sola fila.** Lo
+  atrapó su propio saboteador. *Nada que medir* y *todo bien* no se pueden ver
+  igual: es el único verde que **crece** a medida que la disciplina se
+  abandona.
 
 ## Medido, no supuesto
 
-- **El trade study salió inconcluso en la primera pasada** —A 610 contra
-  B 630, sobre un máximo de 900— y eso disparó la regla de Rechtin p. 402: se
-  rehacen **los criterios**, no el estudio. El defecto estaba en la definición
-  de C1, que medía *cuánto cambia* cada alternativa en vez de *cuánto cuesta
-  operar la que resulte* — y cualquier criterio que premie la quietud le da el
-  máximo al statu quo antes de mirar si el statu quo es caro. Con la definición
-  corregida y **sin tocar un solo peso**: B 810, A 430, C 400.
-- **El ranking es robusto**, probado contra la única incertidumbre grande (C1
-  de B es predicción, no medición): aun en el peor caso posible B gana por 140
-  puntos. Por lo tanto reducir esa incertidumbre ahora no es *net beneficial*
-  (NASA p. 166); se difiere a la fase 7, que es la que la mide.
-- **D14, descubierto midiendo, no leyendo.** `verificar-requisito.py` corrido
-  sobre los 10 requisitos de la arquitectura dio **10 VIOLA y 3 REVISAR**, y
-  los **13 son falsos positivos de idioma**: R1 exige el literal inglés `shall`
-  y los diez dicen «debe». Control positivo: el mismo requisito traducido da
-  **0 VIOLA**. Del otro lado, un enunciado deliberadamente malo da **2**
-  violaciones en español y **6** en inglés. Su señal en español es nula en las
-  dos direcciones.
-- **La matriz de este proyecto: 38 filas, 28 cumple, 3 recortadas, 7 «no
-  aplica — todavía».** Las tres recortadas no eran visibles antes de escribirla.
-- `python perfil-global/pilares/fuentes/medir.py` → **10/10 OK**.
+- **D14, las dos mitades, y una tercera que se agregó:**
+  **0 VIOLA** sobre `docs/requisitos.txt` · **6 VIOLA** sobre *"The method
+  shall allow tailoring of any appropriate rule if necessary, etc."* · **5
+  VIOLA** sobre ese mismo enunciado **traducido** — sin la tercera, el español
+  podía ser la versión blanda de la regla.
+- **27 reglas léxicas del GtWR se disparan en español**, y las 26 del inglés
+  siguen disparándose: `rotos.txt` da 26 VIOLA y `sanos.txt` da 0, igual que
+  antes.
+- **Los cuatro requisitos que quedaron en VIOLA eran defectos reales**, no
+  falsos positivos: A1 y A3 con el posesivo `su`, A6 y A9 con una negación.
+  Reescritos. **No se aflojó ninguna regla para que pasaran.**
+- **La matriz, medida:** 38 filas, 28 cumple, 7 no aplica, 3 recortado —
+  **exactamente** lo que la sección 6 dice a mano. Control cruzado que no se
+  buscaba.
+- **210 lecciones, todas con triage** (eran 204; esta fase agregó 6).
 
-## Lo que la fase 5 encontró, y manda a la fase 6
+## Lo que FALTA para cerrar la fase 6
 
-- **D14 es nuevo y toca una herramienta viva.** El arreglo **no** es traducir
-  los requisitos —eso reintroduce D12— sino agregarle al chequeo las listas del
-  GtWR en español, con la misma estructura de dos severidades. **Condición de
-  aceptación ya escrita**: 0 VIOLA sobre A1-A10 **y** 6 VIOLA sobre el
-  enunciado malo. Sin la segunda mitad, el arreglo puede ser apagar R1.
-- **La resta del gasto de la fase 0 sale negativa.** Escribirla como fila de
-  matriz obligó a decidir algo que el `PDP.md` §5 dejaba en "ya pasó": 2,07 M
-  tokens y un límite de 5 h en 6,6 minutos **no fueron tailoring, fueron un
-  error**. La diferencia entre las dos cosas es lo que la columna de
-  justificación obliga a contestar.
-- **`ingenieria-de-sistemas.md` contrastado contra los libros** (era parte de
-  esta fase). Cinco cosas bien, **cuatro mal**: atribuye el tailoring a NPR
-  7150.2 (clases A-F **de software**) cuando está en el cap. 3.11 (tipos A-F
-  **de proyecto**); **omite la Compliance Matrix entera**, que resultó ser el
-  hallazgo que manda la reforma; omite la distinción *tailor/customize*; y
-  gradúa el rigor por proyecto cuando el handbook lo gradúa por aspecto — de
-  ahí salió D5. Y tres referencias (*Power of Ten*, NPR 7150.2, SWE-030) quedan
-  **no medidas**: ninguna de esas fuentes está entre las 10.
-- **El medidor de desuso que la fase 6 tiene que escribir**: filas `recortado`
-  con la justificación vacía = rojo. Es lo que hace cobrable el criterio C6.
+El criterio de salida (`PDP.md` §4): `chequeo-completo.ps1` en verde, **todos**
+los saboteadores corridos, y **un proyecto real migrado a la matriz**.
 
-## Lo que NO se hizo, y hay que saberlo
+- **Las 5 piezas que quedan**, de las 7 filas `no aplica — todavía`:
+  **P1** catálogo derivado · **P4** los dos campos del molde de fase (+ el
+  campo de certificación en `plantillas/PDP.md`) · **P5** heurísticas pegadas
+  a los pasos · **P6** criterio de entrada al registro · **P7** separación
+  System 2 / System 3.
+- **`ingenieria-de-sistemas.md`** con las 4 correcciones de `arquitectura.md`
+  §8, y la pregunta abierta: reescrito contra las fichas, ¿sigue haciendo
+  falta, o el catálogo P1 más las cuatro fichas ya lo reemplazan?
+- **Un proyecto real migrado.** Es lo que de verdad cierra la fase.
+- **P10 NO se construye acá**: es de la fase 7, a propósito.
 
-- **Ningún archivo vivo tocado.** `CLAUDE.md` de la raíz, `cascada.ps1`, las
-  naturalezas y las plantillas siguen intactos. Lo único que se actualizó
-  afuera de `docs/` son las filas de estado (reglas 4 y 7): el enrutador, el
-  contrato del proyecto y la fila 5 del `PDP.md`.
-- **DEFECTO VIVO, TODAVÍA NO ARREGLADO (D12).**
-  `perfil-global/chequeo-de-trabajo.md` línea 19 y
-  `perfil-global/herramientas/aprender.py` línea 243 dicen **186**; el registro
-  tiene **204** al cerrar esta sesión (eran 201 al abrirla; esta fase agregó 3). El arreglo correcto es **derivarlo**, no
-  actualizarlo. Fase 6.
-- **La revisión independiente sigue sin respuesta.** Este trade study lo
-  escribió el autor de la alternativa ganadora, y eso está declarado en su §9.
-- No se leyó la Parte II de Rechtin, ni la 4.ª ed. del SEH, ni Douglass,
-  Reinertsen o Leveson.
-- **P10 (el medidor de validación) está diseñado y no construido**, a
-  propósito: construirlo ahora sería medir una arquitectura que todavía no se
-  usó.
+## El único rojo abierto, y es correcto
+
+`chequeo-completo.ps1 -SoloMedidores` da **1 rojo**: `restas de las matrices`.
+Las 7 filas `no aplica — todavía` llevan `Fase 6` de justificación, que es un
+puntero y no una resta. **El medidor está midiendo el avance de esta fase**, y
+se pone en verde solo cuando las piezas estén puestas. Los otros 5 medidores,
+en verde.
 
 ## Coste
 
-- **Fase 0:** 2,07 M tokens de subagentes y un límite de 5 h en 6,6 minutos.
-  **La matriz lo reclasificó de tailoring a error**, con la resta escrita. No
-  se repite.
-- **Fase 1:** inline, sin fan-out, un solo hilo en Opus.
-- **Fase 2:** inline. 108 páginas, la ficha, la herramienta y dos saboteadores
-  por **7 puntos** del límite de 5 h y **0** del semanal.
-- **Fase 3:** inline. ~112 páginas de un libro de 370, la ficha, el extractor y
-  el ancla por dos caminos, por **11 puntos** y **1** del semanal.
-- **Fase 4:** inline. ~40 páginas de un libro de 468, la ficha con 99 citas, el
-  ancla por dos caminos, el saboteo y una mejora al medidor de citas, por
-  **12 puntos** y **1** del semanal.
-- **Fase 5:** inline, sin fan-out, **cero PDF extraídos**. Los tres documentos
-  de diseño, los 10 requisitos, la medición que descubrió D14 y las tres
-  lecciones registradas, por **10 puntos** del límite de 5 h (27 % → 37 %) y
-  **1** del semanal (81 % → 82 %), medidos al cerrar, no estimados.
-  **Es la fase más barata desde la 2, y la primera que no leyó un libro.**
-  **Cinco fases seguidas sin un solo subagente.**
+- **Fases 0-5:** ver el historial de abajo. La 0 gastó 2,07 M tokens y un
+  límite de 5 h en 6,6 minutos, y la matriz lo reclasificó de tailoring a
+  **error**, con la resta escrita.
+- **Fase 6, primer tramo:** inline, sin un solo subagente, **cero PDF
+  extraídos**. Los tres defectos vivos, dos saboteadores nuevos, un medidor
+  nuevo y seis lecciones, por **16 puntos** del límite de 5 h (39 % → 55 %) y
+  **2** del semanal (82 % → 84 %), medidos al cerrar el tramo, no estimados.
+  **Sexta fase seguida sin fan-out.**
 
-## Un freno saltó, y era real
+## Historial de fases
 
-Al instalar el perfil con las tres lecciones nuevas, `verify-install.ps1` salió
-en **rojo**: `chequeo-de-trabajo.md` tenía tres bytes >127 (los acentos de
-«español», «año» y «correlo»). Ese archivo es ASCII a propósito —se inyecta por
-hook y la consola de Windows lo lee como cp1252— y el error era mío, de esta
-sesión. **El freno hizo exactamente lo que tenía que hacer**: atrapó un defecto
-que habría llegado como mojibake a todas las sesiones siguientes, y que ningún
-otro chequeo miraba. Corregido y re-medido: los cinco medidores en verde.
+- **Fase 0:** lectura con subagentes. 2,07 M tokens. Reclasificada como error.
+- **Fases 1-4:** los cuatro libros, inline, por 7, 11 y 12 puntos del de 5 h.
+- **Fase 5:** los tres documentos de diseño, por 10 puntos y 1 del semanal.
