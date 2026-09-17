@@ -93,5 +93,5 @@ tiene INCOSE y NASA no**, con el ciclo iterativo/ágil desarrollado.
   saboteadores por **7 puntos** del límite de 5 h y **0** del semanal.
 - **Fase 3:** inline, sin fan-out. **~112 páginas de un libro de 370, la ficha,
   el extractor con des-partición medida, el ancla por dos caminos y el
-  saboteador, por ~10 puntos del límite de 5 h y 0 del semanal** (78 % antes,
-  78 % después). Tres fases seguidas sin un solo subagente.
+  saboteador, por 11 puntos del límite de 5 h y 1 del semanal** (78 % antes,
+  79 % después). Tres fases seguidas sin un solo subagente.

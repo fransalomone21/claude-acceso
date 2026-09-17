@@ -2,7 +2,7 @@
 
 Sesión 4 de N. **2026-09-17.** Opus, esfuerzo alto, **inline, sin un solo
 subagente** — la tercera fase seguida así. Cerrada con presupuesto de sobra:
-5 h al ~11 %, semanal al 78 % (entró al 78 %: **la fase entera costó 0 puntos
+5 h al 11 %, semanal al 79 % (entró al 78 %: **la fase entera costó 1 punto
 del semanal**).
 
 ## OBJETIVO
