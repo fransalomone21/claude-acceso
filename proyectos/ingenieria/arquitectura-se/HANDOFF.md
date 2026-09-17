@@ -1,109 +1,127 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
-Sesión 4 de N. **2026-09-17.** Opus, esfuerzo alto, **inline, sin un solo
-subagente** — la tercera fase seguida así. Cerrada con presupuesto de sobra:
-5 h al 11 %, semanal al 79 % (entró al 78 %: **la fase entera costó 1 punto
-del semanal**).
+Sesión 5 de N. **2026-09-17.** Opus, esfuerzo alto, **inline, sin un solo
+subagente** — la cuarta fase seguida así.
 
 ## OBJETIVO
 Rehacer la arquitectura del método (cascada, PDP, naturalezas, fases) sobre
-NASA SE Handbook + INCOSE + Agile. Fran: "mínima ambigüedad posible", y las
-necesidades que generaron la arquitectura actual **siguen valiendo**.
+NASA SE Handbook + INCOSE + Rechtin & Maier. Fran: "mínima ambigüedad
+posible", y las necesidades que generaron la arquitectura actual **siguen
+valiendo**.
 
-## ESTADO — fase 3 CERRADA, abre la fase 4
+## ESTADO — fase 4 CERRADA, abre la fase 5
 
-La fase 3 cerraba por dos cosas y cerró por las dos, las dos en
-**`perfil-global/pilares/incose-seh/mapeo-15288.md`**:
+La fase 4 cerraba por **dos** cosas y cerró por las dos, las dos en
+**`perfil-global/pilares/rechtin-maier/heuristicas.md`**:
 
-1. **El mapeo** de los 17 procesos de NASA contra los 30 del ISO/IEC/IEEE
-   15288 (2023), proceso por proceso, anclado a página impresa, con las **10
-   filas que no son 1:1** explicadas en las dos direcciones.
-2. **La lista de qué tiene INCOSE que NASA no**, con el ciclo iterativo/ágil
-   desarrollado en **cuatro capas separadas**, porque el libro las separa a
-   propósito y mezclarlas sería inventar.
+1. **Las heurísticas de arquitectura que aplican a un sistema de trabajo de
+   UNA persona**, organizadas por la taxonomía de tareas del propio libro
+   (scoping, modeling, prioritizing, aggregating, partitioning, integrating,
+   certifying, assessing, re-architecting) más las multitarea.
+2. **Cada una con su caso propio ya vivido** — del repo, no inventado. Cada
+   caso apunta a un archivo o a una lección del registro, buscable por
+   síntoma. **Las que no tenían caso no entraron**, y están listadas con su
+   motivo en la sección 6 de la ficha.
 
-**Citas 73/73 (100 %)**, medidas y saboteadas.
+**Citas 99/99**, medidas y saboteadas. **Los cuatro libros de lectura están
+cerrados.**
 
 ## LO QUE SE APRENDIÓ, Y CAMBIA CÓMO SE TRABAJA
 
-**1. El ancla se midió por DOS caminos, no por uno, y costó casi lo mismo.**
-`impresa = PDF − 25`, confirmado por 321 de 370 encabezados **y** por 41 de 41
-entradas del índice cruzadas contra el cuerpo. Un camino solo es una
-suposición con un número al lado. Cuatro libros, cuatro offsets: NASA `+10`,
-GtWR `−1`, Douglass no constante, SEH `+25`.
+**1. El denominador del medidor de citas se auditó, y había que auditarlo.**
+El medidor dijo 87/87. Un conteo independiente de comillas dio **106 spans
+candidatos**: faltaban 19. Se abrieron los 19 — **12 son citas cortas
+legítimas del libro** que el medidor descarta por su mínimo de 40 caracteres o
+7 palabras (*A model is not reality.*, *Simplify. Simplify. Simplify.*), y 7
+no son citas. Las 12 se verificaron a mano por secuencia de letras: **99/99**.
+Es la lección de la fase 1 (*un medidor con regex de comillas puede estar
+mirando el 27 % del corpus*) aplicada al medidor **ya arreglado**: un medidor
+depurado sigue teniendo un denominador que hay que medir.
 
-**2. La trampa de partición de palabras de este libro es la tercera variante
-distinta en tres libros, y hubo que resolverla midiendo.** El de NASA parte
-**sin** guion (`opera\ntions`), el GtWR **no parte**, y el SEH parte **con**
-guion (`configura-\ntions`). Medidos 982 cortes. Unir todos rompe
-`decision-\nmaking`; no unir ninguno deja `configura- tions` en cada cita. Se
-decide **por palabra** contra el vocabulario del propio libro: 909 re-unidas,
-74 dejadas, y el residuo se imprime con `-v` en vez de esconderse.
+**2. El ancla de este libro es CONSTANTE, y eso también se mide.** `+27`, con
+**cero excepciones** sobre 422 encabezados, y 191/191 del índice. Que Douglass
+no sea constante no vuelve sospechosos a los demás; que el SEH fuera +25 no
+predice nada de éste. Cinco libros, cinco anclas.
 
-**3. Un rojo del medidor fue una cita VERDADERA del libro equivocado.**
-*crosscutting tools for carrying out the processes* es de NASA p. 5 y estaba
-en un archivo que se mide contra el `.txt` del SEH. No se "arregló" la cita:
-se estableció la regla —**en la carpeta de un pilar, entre comillas va sólo
-ese libro**— y las citas de los otros se referencian por su ficha. La
-alternativa era un medidor por pilar, que es la copia que diverge.
+**3. Es el primer libro que no trajo trampa nueva de extracción, y se midió
+para saberlo.** La variante de partición de palabras es la misma del SEH (con
+guion): 1907 cortes, **0** de la variante de NASA. `extraer.py` se copió sin
+tocar una línea. **Copiarlo sin medir habría dado el mismo resultado esta
+vez** — y por eso es la vez en que más barato sale medir.
 
-**4. Un fallo del cruce índice↔cuerpo era del script del cruce, no del ancla.**
-Daba 39/41 y los dos "fallos" eran páginas de apertura de capítulo cuyo texto
-estaba ahí, en mayúsculas. La causa: el regex que partía páginas usaba un
-lookahead de tres saltos de línea y se comía 13 páginas enteras — 357 de 370
-capturadas. Partiendo por el marcador, como hace `pag.py`, dio **41/41**.
-*Antes de dudar del dato, dudar del medidor.*
+**4. El mismo falso rojo del cruce índice↔cuerpo apareció por segunda vez en
+dos libros.** Fase 3: 39/41, era el script. Esta: 186/191, era el parser del
+índice. La diferencia es que esta vez se abrieron los cinco **antes** de
+escribirlos como excepción, porque la lección ya estaba escrita. Costó dos
+minutos en vez de una hora. *Una lección escrita es una `P` para una `D` que
+va a volver.*
 
-## HALLAZGOS QUE CAMBIAN UNA DECISIÓN (entradas a la fase 5)
+## HALLAZGOS QUE CAMBIAN UNA DECISIÓN (entradas a la fase 5 y 6)
 
-1. **El SEH no menciona el NPR 7123.1 ni una vez.** El mapeo es **construido**,
-   no citado, y la ficha lo dice en su sección 0. Cada fila lleva su grado de
-   evidencia: `textual`, `probable` o `no 1:1`.
-2. **El corte NASA 3/4 (lógico/físico) contra INCOSE T4/T5
-   (arquitectura/diseño) no se puede cumplir a la vez sin duplicar
-   artefactos.** La matriz de la fase 5 **elige uno y lo declara**.
-3. **Verificación y validación aplican a ARTEFACTOS** (p. 138, 146): un
-   requisito se verifica y se valida, una arquitectura también. En NASA eso
-   está implícito en los reviews; acá es proceso, con lista de acciones por
-   tipo de artefacto (p. 141-142 y 149-150).
-4. **Una fase puede cerrar cancelando la siguiente** (p. 223): "the outcome of
-   stage activity may simply be valuable learned knowledge that aborts the need
-   for producing artifacts of use in other stages". El molde de fase actual no
-   tiene esa salida.
-5. **`perfil-global` es un System 3** —"the process improvement system that
-   learns, configures, and matures System-2"— y el repo es el System 2
-   (p. 223). Hoy viven mezclados en la misma cascada.
-6. **El repo es una VSE perfil `Entry`** (ISO/IEC/IEEE 29110, p. 219): menos de
-   6 personas. El tailoring no arranca de 30 procesos: arranca de un perfil.
-7. **El eje `certain/uncertain × static/dynamic` (Fig. 4.3, p. 222) es el
-   selector de naturaleza que falta.** Las naturalezas actuales clasifican por
-   dominio; esto clasifica por incertidumbre, que es lo que decide el rigor. Y
-   la Tabla 2.2 (p. 34) da el corte más barato: **¿se conocen los requisitos al
-   empezar?** Si no: evolutivo.
-8. **Las cuatro métricas de agilidad (p. 165-166) —timely, affordable,
-   predictable, comprehensive— son medibles y nadie las mide.** Candidatas
-   directas al medidor que le falta a la fase 7.
-9. **La Matriz de Cumplimiento sigue con TRES fuentes, no cuatro.** El SEH
-   **no** la agrega. Aporta el proceso de tailoring con IPO y las **cinco
-   trampas** (p. 218), de las cuales cuatro describen errores ya cometidos acá.
-10. **Los 10 temas de desafío del Lean SE (p. 226)**: el tema 4 —"Processes
-    that are locally optimized and not integrated for the entire enterprise"—
-    es el hallazgo C6-vs-C12 de la fase 2 dicho por otro libro.
+1. **Al molde de fase del PDP le falta un campo: CÓMO SE CERTIFICA el criterio
+   de salida.** Hoy pide el criterio; no pide el medidor ni exige que el
+   medidor no sea invariante bajo el error que busca. Caso: una fase de
+   `fisica-espacial` cerrada en falso por un `grep` del nombre. Fuente:
+   Rechtin p. 398, *define how an acceptance criterion is to be certified at
+   the same time the criterion is established*.
+2. **La tercera forma de usar heurísticas —pegarlas a los pasos del proceso—
+   es la que falta y la que más rinde.** Hoy el repo usa la 1 (escanear la
+   lista) y la 2 (codificar la experiencia). El libro advierte el límite: sólo
+   las que no dependen del dominio.
+3. **Al registro de lecciones le falta el criterio de ENTRADA.** Tiene
+   `--triage` (salida) y no los cinco criterios de selección (p. 33-34). Y el
+   propio `triage` resultó ser, palabra por palabra, la heurística del triage
+   del libro (p. 402) con sus tres ramas.
+4. **El trade study de la fase 5 lleva sus criterios ponderados ESCRITOS
+   ANTES.** Si empata, se rehacen los criterios, no el estudio.
+5. **«Chat nuevo cuando cambia la fase» no es sólo ahorro de contexto: es el
+   único reemplazo de EQUIPO que existe acá.** El *team* de la heurística
+   p. 406 es la sesión, no la persona. Caso: `verificar-citas.py` v1 lo dio
+   por bueno la sesión que lo escribió.
+6. **La revisión independiente no tiene respuesta, y se declara sin
+   respuesta.** Las tres cosas más cercanas (saboteador, chat nuevo, LLM
+   externo) no lo son, y del LLM externo hay lección propia: de 4 propuestas,
+   3 ya estaban implementadas.
+7. **Las heurísticas de cliente NO se descartan por ser una persona: se
+   traducen.** El cliente es el que ejecuta el lunes; el arquitecto, el que
+   diseña el método. Ya divergieron, y por eso existe el cuadro PARA FRAN.
+8. **DEFECTO VIVO, NO ARREGLADO, para la fase 6.**
+   `perfil-global/chequeo-de-trabajo.md` línea 19 y
+   `perfil-global/herramientas/aprender.py` línea 243 dicen **186**; el
+   registro tiene **201**. `CLAUDE.md` ya prohíbe ese número con el caso
+   anterior escrito (decía 45, había 76). El arreglo correcto es **derivarlo**,
+   no actualizarlo, y eso toca una herramienta viva.
 
 ## LO QUE SE TOCÓ FUERA DEL PROYECTO, Y POR QUÉ NO ROMPE LA REGLA 4
 
-Nada vivo de la arquitectura. Sólo `perfil-global/pilares/incose-seh/`, que es
-material de lectura nuevo. **No se tocó `verificar-citas.py`**: la fase 2 ya le
-había puesto `--dir` y sirvió tal cual para el tercer libro.
+Nada vivo de la arquitectura. Sólo `perfil-global/pilares/rechtin-maier/`, que
+es material de lectura nuevo. **No se tocó `verificar-citas.py`**: el `--dir`
+de la fase 2 sirvió tal cual para el cuarto libro.
 
-## LO SIGUIENTE — fase 4: Rechtin & Maier
+Sí se actualizaron, en el mismo turno y por las reglas 4 y 7: la fila del
+enrutador, las filas del contrato del proyecto y la fila 4 del `PDP.md`.
 
-La cierra (PDP §4): ficha con las heurísticas de arquitectura que aplican a un
-sistema de trabajo de una persona, **cada una con un caso propio ya vivido**.
+## LO SIGUIENTE — fase 5: diseñar la arquitectura nueva
 
-Fuente en `perfil-global/pilares/fuentes/` (ver `INDICE.md`). **El ancla de
-página hay que medirla otra vez** — van cuatro libros y cuatro offsets — y por
-los dos caminos, que cuesta lo mismo.
+La cierra (PDP §4): **documento de arquitectura + matriz de cumplimiento, con
+trade study explícito** (NASA cap. 6.8): 2-3 alternativas, criterios
+ponderados, y por qué perdieron las que perdieron. **Sin tocar un solo archivo
+vivo.**
+
+Entradas ya escritas y listas para usar:
+
+- Los **cuatro** destilados: `nasa-seh/` (17 tramos), `incose-gtwr/reglas.md`,
+  `incose-seh/mapeo-15288.md`, `rechtin-maier/heuristicas.md`.
+- **El hallazgo que manda la reforma**, con tres fuentes confirmadas: la
+  organización **elige** qué reglas usa y lo escribe (NASA 3.11 p. 34-42, SEMP
+  §9.0 p. 232, GtWR R39 p. 84). El SEH no la agrega: aporta el proceso de
+  tailoring con IPO (p. 216-218) y cinco trampas (p. 218).
+- **El desacople más grande, ya identificado:** el corte NASA 3/4
+  (lógico/físico) contra INCOSE T4/T5 (arquitectura/diseño). No se pueden
+  cumplir los dos sin duplicar artefactos. **La matriz elige uno y lo
+  declara.**
+- **`ingenieria-de-sistemas.md` se escribió sin abrir el libro.** Contrastarlo
+  es parte de esta fase.
 
 ## PRIMER COMANDO DE LA PRÓXIMA SESIÓN
 
@@ -111,8 +129,6 @@ los dos caminos, que cuesta lo mismo.
 python perfil-global\pilares\fuentes\medir.py      # 10/10 OK
 ```
 
-y después, sobre el PDF de Rechtin & Maier, el patrón ya probado tres veces:
-medir `page_count` y caracteres **antes** de decidir cómo leer, extraer con la
-tabla `TRAD`, **medir si el libro parte palabras y cómo** (las tres variantes
-ya vistas: sin guion, con guion, no parte), y medir el offset por encabezados
-**y** por índice.
+y después, **nada de extraer PDF**: la fase 5 es de diseño y sus entradas son
+las cuatro fichas, que ya están en el repo. Si hace falta volver a un libro,
+cada pilar tiene su `pag.py` con el ancla ya medida.

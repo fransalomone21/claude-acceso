@@ -26,6 +26,9 @@ impacto original escrito, o no sale.
 | **Ciclo iterativo, incremental, evolutivo o ágil**; criterios de entrada/salida de una fase ágil | `.../incose-seh/mapeo-15288.md` § 4.3 |
 | Tailoring desde INCOSE (proceso con IPO, y las 5 trampas) | `.../incose-seh/mapeo-15288.md` § 4.5 y § 6 |
 | Buscar una página del SEH, o regenerar su `.txt` | `perfil-global/pilares/incose-seh/README.md` |
+| **El problema está mal planteado y no hay análisis que lo cierre**; qué hacer cuando no hay procedimiento | `perfil-global/pilares/rechtin-maier/heuristicas.md` — las heurísticas de arquitectura que aplican a un sistema de **una persona**, cada una con su caso propio ya vivido |
+| Qué cuenta como heurística y qué no (los 5 criterios), y qué le falta a `lecciones.jsonl` | `.../rechtin-maier/heuristicas.md` § 1 y § 4 |
+| Buscar una página de Rechtin & Maier, o regenerar su `.txt` | `perfil-global/pilares/rechtin-maier/README.md` |
 | Requisitos desde la óptica de NASA | `.../nasa-seh/requisitos.md` + `.../glosario.md` (apéndice C) |
 | Definir verificación o validación | `.../nasa-seh/verificacion.md`, `.../validacion.md` |
 | Puertas, revisiones y criterios de salida | `.../nasa-seh/ciclo-vida.md` |
@@ -51,7 +54,10 @@ referencian por su ficha, sin comillas.
    páginas. INCOSE SEH 5.ª ed.: `PDF = impresa + 25`, medida por **dos**
    caminos (321 encabezados y 41 de 41 entradas del índice). Douglass **no es
    constante** (+9, +8, +7): ahí se lee de la página. Heredar el offset de otro
-   libro produce anclas inventadas, y ya van cuatro libros y cuatro offsets.
+   libro produce anclas inventadas, y ya van **cinco** libros y **cinco**
+   offsets. Rechtin & Maier: `PDF = impresa + 27`, constante, medida por los
+   dos caminos (422 encabezados sin una sola excepción y 191 de 191 entradas
+   del índice).
 2. **El medidor de citas corre antes de cerrar cualquier fase de lectura.**
    Un destilado infiel se ve idéntico a uno fiel; la única diferencia medible
    son las citas textuales. Y el medidor tiene su propio saboteador

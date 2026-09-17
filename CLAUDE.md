@@ -54,7 +54,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 
 | Proyecto | Qué es | Estado |
 |---|---|---|
-| [`arquitectura-se/`](proyectos/ingenieria/arquitectura-se/CLAUDE.md) | Reformar el método (cascada, PDP, naturalezas, frenos) contra NASA SP-2016-6105, INCOSE y Rechtin | **ACTIVO** — fases 0-3 cerradas (handbook 17/17, citas 1424/1437; GtWR 74/74 + chequeo mecánico de 32 de 41 reglas; SEH 5.ª ed. 73/73 con el mapeo 17 NASA ↔ 30 procesos del 15288, cerrada el 17/09); fase 4 abierta: Rechtin & Maier |
+| [`arquitectura-se/`](proyectos/ingenieria/arquitectura-se/CLAUDE.md) | Reformar el método (cascada, PDP, naturalezas, frenos) contra NASA SP-2016-6105, INCOSE y Rechtin | **ACTIVO** — **fases 0-4 cerradas, los cuatro libros leídos** (handbook 17/17, citas 1424/1437; GtWR 74/74 + chequeo mecánico de 32 de 41 reglas; SEH 5.ª ed. 73/73 con el mapeo 17 NASA ↔ 30 procesos del 15288; Rechtin & Maier 99/99, las heurísticas con **un caso propio ya vivido cada una**, cerrada el 17/09); **fase 5 abierta: diseñar la arquitectura nueva + trade study**, sin tocar un archivo vivo |
 | [`black/`](proyectos/ingenieria/black/CLAUDE.md) | Ingeniería reversa de **BLACK** (PS2) sobre PCSX2 | **ACTIVO** — fase 7e abierta |
 | [`diagnostico-msi/`](proyectos/ingenieria/diagnostico-msi/) | Secure Boot y batería de la notebook MSI | cerrado con informe |
 | [`telescopio/`](proyectos/ingenieria/telescopio/) | Plataforma ecuatorial Dobson, CAD SolidWorks | dormido |
