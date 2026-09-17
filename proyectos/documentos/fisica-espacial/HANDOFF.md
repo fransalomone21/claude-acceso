@@ -6,6 +6,32 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-17 (segunda parte) — la lista de temas `(3)` cruzada entera
+
+**Nada quedó a medias.** El cruce de las 23 filas está hecho y su resultado
+vive en `fuentes/TEMARIO.md`, no en el chat: la sección «Lo que la lista de
+temas del 2026-09-17 agregó — versión `(3)`».
+
+Lo que queda abierto, y es trabajo deliberadamente no hecho:
+
+- **Catorce módulos sin caja `#lectura`** (era quince; entró la del 15).
+  `grep -L "#lectura" apunte/modulos/*.typ`.
+- **La §15.3 no tiene figura.** Las tres del Bate (Fig. 2.2-1, 2.2-2 y 2.2-3)
+  están *citadas* para que el alumno las mire en el libro, no redibujadas. Un
+  dibujo del IJK con el punto vernal ayudaría; se dejó afuera a propósito para
+  no abrir `figuras.typ` en una tarea de cobertura.
+
+Dos trampas de proceso, las dos ya pagadas:
+
+- **El heredoc del Bash tool reescribe los acentos.** Los reemplazos sobre los
+  `.typ` se hicieron con un script escrito con la herramienta de archivos y
+  corrido con `PYTHONIOENCODING=utf-8`; hacerlo con `python -c` y comillas
+  desde Bash falló dos veces, una por los acentos y otra porque el backtick de
+  un literal se lo comió la shell.
+- **Una cadena que abarca un salto de línea del `.typ` no se encuentra
+  buscándola entera.** El ancla de un reemplazo tiene que caber en un renglón,
+  o el `count()` da 0 sobre un texto que está ahí.
+
 ## Sesión del 2026-09-17 — material de la clase de Bate, citas por capítulo, índice de temas
 
 **Nada quedó a medias de lo pedido.** Lo que queda abierto, y es trabajo
@@ -16,9 +42,10 @@ deliberadamente no hecho, no a medias:
   que tener el capítulo verificado contra el libro, no de memoria — el
   índice de Bate está OCR-eado a medias y las secciones 1.5, 1.7 y 1.8 no
   salen por regex: se leen renderizando las páginas 33, 45 y 47 del PDF.
-- **El PDF publicado en Drive quedó atrasado**: el apunte cambió de 163 a 170
-  páginas y no se subió. Lo mide `.\publicar-apuntes.ps1 -Verificar` desde la
-  raíz de `claude-acceso`, y lo sube sin `-Verificar`.
+- **El PDF publicado en Drive**: el apunte cambió de 163 a 170 y después a
+  173 páginas. Lo mide `.\publicar-apuntes.ps1 -Verificar` desde la raíz de
+  `claude-acceso`, y lo sube sin `-Verificar`; el estado real lo dice ese
+  medidor en cada arranque, no este archivo.
 
 Una trampa nueva, de proceso y no de Typst: **los cuatro PDFs de la cátedra
 son imágenes** (`pdftotext` devuelve entre 1 y 5 caracteres). Se leen

@@ -298,6 +298,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **El marco perifocal**
   - *(de donde sale)* la velocidad en el marco perifocal
   - *(ejemplo)* del marco perifocal a los vectores, y de los vectores al marco
+- **Los sistemas de referencia: respecto de qué se dan los seis números**
 - **Los seis números de una órbita**
   - **Cómo se pasa del estado a los elementos**
 - **Los coeficientes de Lagrange**

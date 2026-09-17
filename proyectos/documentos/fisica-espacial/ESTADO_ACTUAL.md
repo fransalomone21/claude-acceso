@@ -1,5 +1,62 @@
 # Estado actual — Apunte de Física Espacial
 
+## La lista de temas de Gravitación `(3)` cruzada entera, y el hueco que salió — 2026-09-17
+
+Fran trajo la versión `(3)` de *Lista de temas Gravitación* y pidió lo único
+que una lista de temas sirve para pedir: **que esté todo**. Se cruzaron las
+**23 filas** contra los veinte módulos, usando `docs/INDICE-TEMAS.md` —que
+existe justo para eso— y verificando contra los libros las filas que daban
+dudas.
+
+**La `(3)` es superconjunto de la `(2)` por dos filas**, y las dos ya estaban
+en el apunte: «Esfera de influencia — Curtis 8.4» y «Patched orbits —
+Curtis 8.5», que hasta ahora eran un pedido del destinatario y no de la
+cátedra. Las cubre el módulo 14 entero. O sea que lo que la lista nueva
+*agrega* no costó nada.
+
+**Salió un solo hueco, y no era de la parte nueva: era de la `(2)`.** La fila
+«Parámetros orbitales — Bate pág. 19 a 40 y pág. 53 a 74» pide, en su segundo
+tramo, el §2.2 del Bate: **los sistemas de coordenadas**. El apunte tenía
+*uno* de los cuatro —el perifocal, §2.2.4— y le faltaban los otros tres. Y no
+era un descuido silencioso: el propio `TEMARIO.md` lo tenía anotado como
+«pendiente» desde el 2026-09-07, con un número de módulo que además ya había
+quedado viejo.
+
+Lo que se midió antes de escribir, contra el PDF del Bate y no de memoria:
+las págs. 53 a 73 son §2.2 (sistemas de coordenadas), §2.3 (elementos
+orbitales), §2.4 (estado → elementos) y §2.5 (elementos → estado en
+perifocal). Los tres últimos ya estaban en el módulo 15. El §2.6 —las
+matrices de rotación perifocal → IJK— **empieza en la pág. 74, que la lista
+excluye**, así que la deuda que el módulo 15 ya declaraba en «Lo que se usa
+después» sigue siendo legítima y no hay que saldarla.
+
+**Lo que entró:** la §15.3 nueva del módulo 15, *Los sistemas de referencia:
+respecto de qué se dan los seis números*, puesta **antes** de «Los seis
+números de una órbita» y no después, porque es la regla 4 del contrato: la
+inclinación es «el ángulo respecto de $hat(k)$» y el nodo se mide «desde
+$hat(i)$», y hasta acá el módulo usaba esos dos versores sin haberlos
+definido nunca. Lleva:
+
+- las cuatro decisiones que definen cualquier sistema (origen, plano
+  fundamental, dirección principal, sentido del $Z$), del Bate §2.2;
+- las tres definiciones que faltaban: **heliocéntrico-eclíptico**,
+  **geocéntrico-ecuatorial (IJK)** y **ascensión recta–declinación**, con qué
+  instrumento entrega cada una;
+- el `#cuidado` que es la razón de ser de la sección: **el IJK está centrado
+  en la Tierra pero no pegado a la Tierra** — si girara no sería inercial y
+  la @dosc-relativa no valdría en él. Es un error que no deja rastro
+  algebraico;
+- la **precesión de los equinoccios** y por qué existe la época J2000;
+- el topocéntrico-horizonte nombrado y explícitamente fuera de lo pedido.
+
+Y de paso, porque el módulo se tocaba, la caja **`#lectura` del módulo 15**
+(regla 4 bis): quedan catorce módulos sin ella, no quince.
+
+El apunte pasó de **170 a 173 páginas**. `verificar-apunte.py` en verde,
+`indice-temas.py` regenerado, y `probar-verificar-apunte.py` corrido para que
+ese verde valga algo.
+
+
 ## El material de la clase del 11/11 (Bate cap. 1) incorporado, y el índice de temas — 2026-09-17
 
 Fran trajo cuatro PDFs de la cátedra: la Fig. 2.12 de Curtis suelta («Ángulo

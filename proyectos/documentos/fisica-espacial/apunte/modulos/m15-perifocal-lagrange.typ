@@ -24,6 +24,19 @@ $0,3$»: acepta $bold(r)_0$ y $bold(v)_0$ y devuelve $bold(r)$ y $bold(v)$. Y
 un catálogo de satélites no guarda trayectorias: guarda seis números por
 objeto. Este módulo es el puente entre las dos formas de decir lo mismo.
 
+#lectura[
+  *Bate, capítulo 2*, §2.2 («Coordinate systems»), §2.3 («Classical orbital
+  elements»), §2.4 («Determining the orbital elements from r and v») y §2.5
+  («Determining r and v from the orbital elements») — págs. 53 a 73, que es
+  exactamente el tramo que pide la lista de temas de la cátedra. Y *Curtis,
+  capítulo 2*, §2.10 («Perifocal frame») y §2.11 («The Lagrange coefficients»).
+
+  Cuál abrir para qué: el *Bate* para los sistemas de referencia y para los
+  elementos orbitales —es el que los define uno por uno y el que da las tres
+  reglas de cuadrante—; el *Curtis* para los coeficientes de Lagrange, que ahí
+  están deducidos con más cuentas a la vista y con la serie en $Delta t$.
+]
+
 == La idea completa, antes de la primera ecuación
 
 Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.
@@ -226,6 +239,142 @@ $ bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $ <perif-v>
   inocente pueden ser una trayectoria de la que no se vuelve. Es el primer
   aviso de lo que la sección que sigue va a decir con todas las letras — que
   los seis números del estado *no se leen*, se traducen.
+]
+
+== Los sistemas de referencia: respecto de qué se dan los seis números
+
+El marco perifocal de la sección anterior tiene una virtud y un defecto, y son
+la misma cosa: está *clavado a la órbita*. Por eso $bold(r)$ y $bold(v)$ salen
+en dos renglones — y por eso no sirve para nada que involucre a otra órbita.
+Dos satélites tienen dos perifocales distintos; comparar sus planos, apuntar
+una antena desde el suelo o sumar un $Delta bold(v)$ calculado por otro lado
+exige un sistema que *no dependa de la órbita que se esté mirando*.
+
+Ese sistema es el que hay que fijar antes de poder dar los seis números de la
+sección que sigue. La inclinación $i$ es «el ángulo respecto de $hat(k)$» y la
+longitud del nodo $Omega$ se mide «desde $hat(i)$»: mientras no se diga qué son
+$hat(i)$ y $hat(k)$, esos dos números no significan nada.
+
+#clave[
+  *Para definir un sistema de referencia hacen falta cuatro cosas, y sólo
+  cuatro* (Bate §2.2, pág. 53):
+
+  + el *origen*;
+  + el *plano fundamental*, que es el plano $X$–$Y$;
+  + la *dirección principal*, que es hacia dónde apunta el eje $X$ dentro de
+    ese plano;
+  + cuál de los dos lados del plano es el $Z$ *positivo*.
+
+  El eje $Y$ nunca se elige: queda determinado por los otros dos, porque la
+  terna siempre se toma derecha. Las cuatro se contestan de una manera
+  distinta en cada sistema, y esa es toda la diferencia entre ellos.
+]
+
+#definicion("heliocéntrico-eclíptico")[
+  Origen en el *centro del Sol*. Plano fundamental, la *eclíptica* — el plano
+  de la órbita de la Tierra alrededor del Sol. Dirección principal, la del
+  *punto vernal*: la recta en que se cortan el plano de la eclíptica y el del
+  ecuador terrestre, en el sentido que apunta del Sol a la Tierra el primer
+  día del otoño austral. Se lo anota $Upsilon$ —el símbolo
+  de Aries— porque hace dos mil años apuntaba a esa constelación.
+
+  Es el sistema de los planetas, los cometas, los asteroides y las sondas
+  interplanetarias: todo lo que orbita el Sol (Bate Fig. 2.2-1).
+]
+
+#definicion("geocéntrico-ecuatorial, o IJK")[
+  Origen en el *centro de la Tierra*. Plano fundamental, el *ecuador*.
+  Dirección principal, otra vez la del *punto vernal*. El eje $Z$ positivo
+  apunta al *polo norte*. Los versores de los tres ejes son $hat(i)$, $hat(j)$
+  y $hat(k)$, y son los que aparecen en todo lo que sigue.
+
+  Es el sistema de los satélites terrestres, y por lo tanto es *el* sistema en
+  el que se dan los seis elementos orbitales de la sección que viene
+  (Bate Fig. 2.2-2).
+]
+
+#cuidado[
+  *El sistema geocéntrico-ecuatorial no gira con la Tierra.* Está centrado en
+  ella, sí, pero no está pegado a ella: no rota. La que gira, respecto de él,
+  es la Tierra — una vuelta por día sideral.
+
+  Es el error más caro del tema, porque es silencioso: quien lo comete escribe
+  las ecuaciones bien y le da todo mal, y no hay ningún paso algebraico donde
+  se vea. Si el sistema girara, no sería inercial, y entonces la
+  @dosc-relativa —que es de donde salió absolutamente todo lo de la Parte
+  III— no valdría en él. La longitud geográfica de un satélite, que sí gira
+  con la Tierra, es otra cosa y se saca después, restando la rotación
+  terrestre.
+]
+
+#definicion("ascensión recta–declinación")[
+  Es el geocéntrico-ecuatorial visto como *dos ángulos* en vez de tres
+  componentes. El plano fundamental es el *ecuador celeste* —el ecuador
+  terrestre estirado hasta una esfera imaginaria de radio infinito, la *esfera
+  celeste*— y la posición de un objeto proyectado contra esa esfera se da con:
+
+  - la *ascensión recta* $alpha$, medida sobre el ecuador celeste *hacia el
+    este* desde la dirección del punto vernal;
+  - la *declinación* $delta$, medida desde el ecuador celeste *hacia el
+    norte*, hasta la línea de la visual.
+
+  El origen puede estar en el centro de la Tierra (*geocéntrico*) o en un
+  punto de su superficie (*topocéntrico*): a un radio infinito, cualquier
+  punto sirve de centro (Bate Fig. 2.2-3).
+
+  Es el sistema en que están escritos los catálogos de estrellas, y por eso es
+  el que devuelve una observación *óptica*: una foto de un satélite contra el
+  fondo de estrellas da $alpha$ y $delta$ y nada más — dos ángulos, ninguna
+  distancia.
+]
+
+#notacion[
+  Las direcciones no son observables directas de la misma clase que las
+  distancias, y por eso conviene tener presente qué entrega cada instrumento:
+  un *radar* mide distancia y velocidad radial desde un punto del suelo; una
+  *cámara* mide dos ángulos contra las estrellas. Ninguno de los dos entrega
+  un vector de estado servido: el vector de estado es el resultado de
+  *procesar* varias observaciones, y ese es el problema que da nombre al
+  capítulo 2 del Bate.
+]
+
+El cuarto sistema del capítulo es el *perifocal*, el de la sección anterior
+(Bate §2.2.4): origen en el foco ocupado, plano fundamental el de la órbita,
+dirección principal la del perigeo, y $hat(w)$ a lo largo de $bold(h)$. Y hay
+un quinto que el Bate nombra y posterga, el *topocéntrico-horizonte*: origen
+en la estación de seguimiento, plano fundamental el horizonte del lugar, ejes
+sur, este y cenit. Es el sistema en que un radar entrega sus números crudos, y
+queda fuera de lo que la cátedra pide de este capítulo.
+
+#cuidado[
+  *Ni el heliocéntrico-eclíptico ni el geocéntrico-ecuatorial son inerciales
+  del todo*, y el motivo es el mismo para los dos: el eje de la Tierra se
+  bambolea. Esa *precesión de los equinoccios* corre la recta de intersección
+  entre el ecuador y la eclíptica, o sea corre el punto vernal, unos $50$
+  segundos de arco por año — una vuelta entera en unos $26 thin 000$ años.
+
+  Por eso, cuando la precisión importa, un vector no se da en «el
+  geocéntrico-ecuatorial» a secas sino en el de una *época*: J2000 quiere decir
+  «con el punto vernal donde estaba el 1.º de enero del 2000». Dos efemérides
+  en épocas distintas no se comparan hasta pasarlas a la misma.
+]
+
+#posta[
+  Un sistema de referencia son cuatro decisiones —dónde está el centro, cuál
+  es el plano, para dónde mira la $X$, para dónde es arriba— y ninguna de las
+  cuatro le cambia nada a la órbita. La órbita es la que es. Lo único que
+  cambia es con qué tres números la escribís.
+
+  Y la que te va a salvar de la mitad de los errores del tema es la que está
+  en el cuadro rojo de arriba: el sistema IJK está *centrado* en la Tierra pero
+  no *pegado* a la Tierra. Centrado y pegado no son lo mismo, y el geocéntrico
+  ecuatorial es lo primero y no lo segundo.
+
+  Lo demás es vocabulario: eclíptico si el cuerpo gira alrededor del Sol, IJK
+  si gira alrededor de la Tierra, ascensión recta y declinación si lo que
+  tenés es una foto, perifocal si lo que querés es hacer una cuenta en el
+  plano de la órbita. Los cuatro dicen lo mismo y se pasa de uno a otro
+  girando ejes, que es lo único que un cambio de coordenadas sabe hacer.
 ]
 
 == Los seis números de una órbita

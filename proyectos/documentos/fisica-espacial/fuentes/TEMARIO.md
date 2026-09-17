@@ -81,12 +81,37 @@ final del bloque de órbitas:
 
 | Fila nueva | Qué pide | Dónde está en el apunte |
 |---|---|---|
-| «Parámetros orbitales — Bate pág. 19–40 y 53–74» | los seis elementos orbitales y los sistemas de coordenadas | módulos 9 y 10 (los elementos); los **sistemas de coordenadas** son el módulo 18, pendiente |
-| «Todo — Curtis cap. 2» | el capítulo entero, no una sección | §2.2–2.7 ya estaban en los módulos 6 a 10; **§2.8–2.9** son el módulo 16, **§2.10–2.11** el 18 y **§2.12** el 19 |
+| «Parámetros orbitales — Bate pág. 19–40 y 53–74» | los seis elementos orbitales y los sistemas de coordenadas | módulo 15 — los elementos en §15.4, y los **sistemas de coordenadas** en §15.3, escrita el 2026-09-17 |
+| «Todo — Curtis cap. 2» | el capítulo entero, no una sección | §2.2–2.7 en los módulos 7 a 11; **§2.8–2.9** en el 13, **§2.10–2.11** en el 15 y **§2.12** en el 16 |
 
 Y a pedido del destinatario, fuera de la lista de la cátedra pero pegado a
 ella: **esfera de influencia y órbitas parcheadas**, que no son el capítulo 2
-sino el 8 de Curtis (§8.4–8.6) y el capítulo 7 del Bate. Es el módulo 17.
+sino el 8 de Curtis (§8.4–8.6) y el capítulo 7 del Bate. Es el módulo 14 — y
+la versión `(3)` de la lista, de abajo, las **oficializó**.
+
+### Lo que la lista de temas del 2026-09-17 agregó — versión `(3)`
+
+La `(3)` es superconjunto de la `(2)`. Agrega **dos filas**, y las dos son las
+que el destinatario ya había pedido por fuera de la lista:
+
+| Fila nueva | Qué pide | Dónde está en el apunte |
+|---|---|---|
+| «Esfera de influencia — Curtis 8.4» | el radio de la esfera de influencia y de dónde sale | módulo 14, §«La cuenta que sí sirve» — `<soi-soi>` |
+| «Patched orbits — Curtis 8.5» | el método de las cónicas parcheadas | módulo 14, §«El método de las cónicas parcheadas» |
+
+Lo demás de la `(3)` es idéntico a la `(2)`, fila por fila.
+
+**El cruce completo se hizo el 2026-09-17**, las 23 filas de la `(3)` contra
+los veinte módulos. Salió **un solo hueco**, y era el que esta misma sección
+tenía anotado como pendiente: los **sistemas de coordenadas** del Bate §2.2
+(heliocéntrico-eclíptico, geocéntrico-ecuatorial IJK y ascensión
+recta–declinación), que caen adentro de las págs. 53–74 que la lista pide y de
+los que el apunte sólo tenía el cuarto, el perifocal. Quedó cubierto por la
+§15.3 nueva. Todo lo demás ya estaba.
+
+Lo que la lista **no** pide, y por eso sigue sin estar: la ecuación de Kepler
+(Bate cap. 4) y las matrices de rotación perifocal → IJK (Bate §2.6, que
+empieza justo en la pág. 74 que la lista excluye).
 
 ## Cuerpo rígido
 
