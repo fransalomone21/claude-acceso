@@ -60,12 +60,34 @@ C:\Users\frans\Desktop\
 │       └── RAMAS.md                  qué quedó en las ramas viejas
 │
 └── (fuera del sistema, no son proyectos de Claude)
-    fotos\ · Mis Documentos\ · PlanosGasista\ · Programas\ ·
-    Programas y juegos\ · vscode\
+    fotos\ · Mis Documentos\ · PlanosGasista\ · Juegos\ · Herramientas\
 ```
+
+**El Escritorio se ordenó el 2026-09-17** y pasó de 33 items a 15. Lo que
+cambió de lugar, porque los nombres viejos aparecen en sesiones anteriores:
+
+| Estaba | Está |
+|---|---|
+| `Programas y juegos\` — mezclaba juegos, BIOS de PS2, emuladores y scripts del sistema | se desarmó en `Juegos\` y `Herramientas\` |
+| `DBZ-mods\` · `juegos db tk3\` | `Juegos\Mods\Dragon Ball\` |
+| `vscode\` — TPs de la escuela técnica | `Mis Documentos\EESTN1\vscode\` |
+| `TP Cohete de Agua\` | `Mis Documentos\SistemasEspaciales\Programacion\` |
+| los `REVERTIR-*.ps1` de la MSI, **sueltos y sin versionar** | `proyectos/ingenieria/diagnostico-msi/optimizacion/` |
+
+La última fila es la que importa: esos scripts son lo único que deshace los
+cambios de undervolt y arranque sobre la máquina, y vivían en una carpeta
+llamada «Programas y juegos». Si se borraban, los cambios quedaban sin vuelta
+atrás.
 
 `PlanosGasista\` es material de trabajo sin proyecto asociado. Si algún día se
 trabaja sobre eso con Claude, entra como proyecto en `proyectos/documentos/`.
+
+**El Escritorio NO está en OneDrive, y está medido**: la clave
+`HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
+tiene `Desktop = C:\Users\frans\Desktop`. Lo que hay en `OneDrive\Desktop\`
+(29 items) es una **copia vieja abandonada** —tiene un `Programas\` que ya no
+existe y accesos a juegos que no están en el Escritorio real— y no se
+sincroniza con nada.
 
 ## 1.bis `claude-acceso` es PÚBLICO
 
