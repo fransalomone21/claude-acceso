@@ -114,6 +114,6 @@ diseño.
   y **1** del semanal.
 - **Fase 4:** inline, sin fan-out. **~40 páginas de un libro de 468, la ficha
   con 99 citas, el extractor, el ancla por dos caminos, el saboteo y una mejora medida al
-  medidor de citas, por ~11 puntos del límite de 5 h y **1** del semanal**
-  (79 % antes, 80 % después).
+  medidor de citas, por **12 puntos** del límite de 5 h y **1** del semanal
+  (13 % → 25 % y 79 % → 80 %, medidos al cerrar, no estimados).
   **Cuatro fases seguidas sin un solo subagente.**

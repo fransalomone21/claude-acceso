@@ -1,7 +1,9 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
 Sesión 5 de N. **2026-09-17.** Opus, esfuerzo alto, **inline, sin un solo
-subagente** — la cuarta fase seguida así.
+subagente** — la cuarta fase seguida así. Cerrada con presupuesto de sobra:
+**12 puntos** del límite de 5 h (13 % → 25 %) y **1** del semanal (79 % → 80 %),
+medidos al cerrar.
 
 ## OBJETIVO
 Rehacer la arquitectura del método (cascada, PDP, naturalezas, fases) sobre
