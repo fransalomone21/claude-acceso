@@ -116,6 +116,23 @@ Poner $p 'defaultMode' 'acceptEdits'
 # Los avisos que le llegaban al celular de Agustin.
 Poner $s 'agentPushNotifEnabled' $false
 
+# --- Plugins: se apagan los 20 que nunca se usaron ---
+# Medido en ~/.claude.json (pluginUsage): usageCount = 0 en todos menos
+# small-business (1) y anthropic-skills (7, y ese no es un plugin de esta
+# lista). Traen ~250 skills y ~20 servidores MCP que no arrancan, que es de
+# donde sale la mitad del ruido de arranque. Queda pdf-viewer, que es el
+# unico que toca lo que hacemos (los apuntes en Typst salen en PDF).
+$plugins = [ordered]@{ 'pdf-viewer@inline' = $true }
+foreach ($p in @('bio-research','brightdata-plugin','cowork-plugin-management',
+                 'data','design','desktop-commander','engineering',
+                 'fastly-agent-toolkit','figma','finance','human-resources',
+                 'legal','marketing','miro','operations','product-management',
+                 'product-tracking-skills','productivity','sales',
+                 'small-business')) {
+    $plugins["$p@inline"] = $false
+}
+Poner $s 'enabledPlugins' ([PSCustomObject]$plugins)
+
 $s | ConvertTo-Json -Depth 12 | Out-File $ruta -Encoding utf8
 
 Write-Host ""
@@ -125,6 +142,7 @@ Write-Host ("  ask   : {0} reglas  (borra o reescribe historia)" -f @($p.ask).Co
 Write-Host ("  deny  : {0} reglas  (irreversible: ni se pregunta)" -f @($p.deny).Count)
 Write-Host ("  modo  : {0}" -f $p.defaultMode)
 Write-Host ("  avisos push: {0}" -f $s.agentPushNotifEnabled)
+Write-Host ("  plugins   : 1 encendido (pdf-viewer), 20 apagados")
 Write-Host ("  hooks conservados: {0}" -f (($s.hooks.PSObject.Properties.Name) -join ', '))
 Write-Host ""
 Write-Host "Reinicia la sesion de Claude Code para que tome los permisos." -ForegroundColor Yellow
