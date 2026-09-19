@@ -18,6 +18,18 @@ dirección*. Con energía sola se puede saber cuánto vale la velocidad en el
 apogeo, pero no hacia dónde apunta — y ésa es la mitad que falta en casi todos
 los problemas de la guía.
 
+#lectura[
+  *Beer, Dinámica, capítulo 12* («Cinética de partículas: segunda ley de
+  Newton»), §12.7 a §12.9 (cantidad de movimiento angular, sus componentes
+  radial y transversal, y el movimiento bajo fuerza central, pág. 721-724).
+  *Roederer, capítulo 4*, §4.e («La conservación del impulso angular», pág.
+  120) y §4.f (leyes de Kepler, pág. 125).
+
+  Beer es el que define $bold(L)$ y deduce la conservación bajo fuerza central
+  con la notación que usa este módulo; Roederer conecta esa conservación
+  directamente con la segunda ley de Kepler, que es el cierre del módulo.
+]
+
 == Qué es el momento angular, y respecto de qué punto
 
 Para una partícula de cantidad de movimiento $m bold(v)$ ubicada en $bold(r)$

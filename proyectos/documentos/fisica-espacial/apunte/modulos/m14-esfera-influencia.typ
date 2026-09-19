@@ -28,6 +28,19 @@ el módulo #M("hiperbola") calculó el encendido de salida con una hipérbola, y
 números son los que usa la industria. *Ese* es el tema de este módulo: no
 cómo se hacen esas cuentas —ya están hechas— sino por qué están permitidas.
 
+#lectura[
+  *Curtis, capítulo 8* («Interplanetary trajectories»), §8.4 («Sphere of
+  influence») y §8.5 («Method of patched conics»), pág. 398-411 — la lista de
+  temas de la cátedra los cita por número de sección, y es de ahí que sale la
+  cifra de los $925 thin 000$ km de la Tierra. Este módulo, a diferencia de
+  los de vectores o gravitación de la Parte I, no es de Roederer ni de S&Z:
+  la esfera de influencia y las cónicas parcheadas son astrodinámica, no
+  mecánica general, y ninguno de esos dos libros los trata.
+
+  Bate no cubre este tema con ese nombre; Curtis es la única fuente entre los
+  libros disponibles.
+]
+
 == La idea completa, antes de la primera ecuación
 
 Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos,

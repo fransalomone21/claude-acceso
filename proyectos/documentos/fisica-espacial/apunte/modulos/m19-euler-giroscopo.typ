@@ -14,6 +14,18 @@ una cupla dada— hace falta $d bold(H)_G \/ d t$, y ésa es exactamente la
 @cin-derivada del módulo #M("cinematica-cr") aplicada a $bold(H)_G$ en vez de a un vector
 cualquiera.
 
+#lectura[
+  *Beer, Dinámica, capítulo 18* («Cinética de cuerpos rígidos en tres
+  dimensiones»), §18.6 («Ecuaciones de movimiento de Euler», pág. 1170) y
+  §18.9 («Movimiento de un giroscopio. Ángulos de Euler», pág. 1187).
+  *Roederer, capítulo 5*, §5.g («Giróscopo y trompo», pág. 189), para la misma
+  precesión con menos aparato matemático.
+
+  Beer es la fuente de las ecuaciones y de la notación de este módulo —ya
+  citada en el cuerpo—; Roederer sirve para una segunda lectura más corta,
+  sin el tensor completo, si alcanza con la idea física.
+]
+
 == La derivada de $bold(H)_G$: la @cin-derivada, por fin en uso
 
 #deduccion("de dónde sale la relación general entre cupla y H")[

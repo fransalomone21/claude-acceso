@@ -25,6 +25,21 @@ cae. Sin embargo el telescopio James Webb está hoy en un punto que acompaña a
 la Tierra alrededor del Sol a distancia fija, y no es magia ni es un motor
 prendido. Es geometría de tres cuerpos, y sale de acá.
 
+#lectura[
+  *Curtis, capítulo 2* («The two-body problem»), la sección «Circular
+  restricted three-body problem», pág. 124-139 —al final del capítulo, después
+  de agotar el caso de dos cuerpos que ocupa el resto—. Es, como el módulo
+  #M("esfera-influencia"), astrodinámica y no mecánica general: ni Roederer ni
+  S&Z tratan el problema de tres cuerpos, y Bate tampoco lo cubre con ese
+  nombre.
+
+  Para quien quiera más que la introducción de Curtis —la constante de
+  Jacobi, los puntos de Lagrange, las órbitas halo—, el libro de referencia es
+  Koon, Lo, Marsden & Ross, *Dynamical Systems, the Three-Body Problem and
+  Space Mission Design* (2022, de acceso libre), pero eso ya excede lo que
+  pide la cátedra.
+]
+
 == La idea completa, antes de la primera ecuación
 
 Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.

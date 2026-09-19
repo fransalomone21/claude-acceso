@@ -20,6 +20,18 @@ $bold(H)_G$ apuntando siempre como $bold(omega)$? La respuesta es no, y
 entender por qué es la herramienta que el módulo #M("euler-giroscopo") necesita para llegar a
 las ecuaciones de Euler.
 
+#lectura[
+  *Beer, Dinámica, Apéndice B* («Momentos de inercia de masas», pág. 1297),
+  que reproduce las secciones 9.11 a 9.18 del tomo de Estática —el propio
+  Beer las remite ahí porque los seis números de este módulo son geometría de
+  masas, no un tema nuevo de dinámica. *Roederer, capítulo 5*, §5.c
+  («Las ecuaciones de movimiento y las variables dinámicas del cuerpo
+  rígido», pág. 167), usa el tensor sin dedicarle una sección aparte.
+
+  Ir al Apéndice B de Beer para la deducción de los productos de inercia y el
+  cambio de ejes; Roederer alcanza para ver cómo se usa el tensor ya armado.
+]
+
 == $bold(H)_G$ por integrales: momentos y productos de inercia
 
 #deduccion("de dónde salen los seis números que hacen falta")[

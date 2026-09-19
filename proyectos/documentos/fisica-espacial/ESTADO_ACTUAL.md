@@ -1,5 +1,39 @@
 # Estado actual — Apunte de Física Espacial
 
+## Caja `#lectura` puesta en los 14 módulos que faltaban — 2026-09-17 (tercera parte)
+
+**Cerrado.** `grep -L "#lectura" apunte/modulos/*.typ` no da salida: los veinte
+módulos tienen la caja. Faltaban m01-08, m14, m16-20 (m09-13 y m15 ya la
+tenían de sesiones anteriores).
+
+**El mapeo de fuente por módulo se verificó contra el TOC real de cada libro**
+(Roederer, Young & Freedman Vol. 1, Beer Dinámica, Curtis), no de memoria:
+
+- m01-08 (vectores hasta momento angular): Roederer cap. 3-4, S&Z Vol. 1
+  caps. 1, 6-8 y 13, y Beer cap. 11-12 y 14 (coordenadas polares y sistemas
+  variables de partículas). Varios módulos ya citaban esas fuentes inline
+  (m04, m06, m07, m08) y eso confirmó el mapeo antes de escribir la caja.
+- **m14 y m16 NO son Roederer/S&Z/Beer, aunque el mensaje de retome de esta
+  sesión decía que sí.** La esfera de influencia y las cónicas parcheadas
+  (m14) y el problema restringido de tres cuerpos (m16) son astrodinámica,
+  y sólo Curtis los cubre (cap. 8 y cap. 2 respectivamente) — confirmado
+  contra el TOC real de Curtis, que trae «Circular restricted three-body
+  problem» como sección final del capítulo 2. El retome quedó desactualizado
+  en ese punto y la caja se escribió contra lo que el libro realmente tiene,
+  no contra el mensaje.
+- m17-20 (cuerpo rígido): Roederer cap. 5 (que tiene una sección llamada
+  literalmente «Giróscopo y trompo») y Beer cap. 15 y 18, más el Apéndice B
+  para momentos de inercia (m18).
+
+**Verificado:** `typst compile` sin errores (175 páginas, antes 173),
+`indice-temas.py` y `verificar-apunte.py` en verde, y
+`probar-verificar-apunte.py` confirma que los cuatro chequeos se ponen en
+rojo cuando corresponde. **No se hizo el chequeo visual página por página**
+(regla propia 1) por decisión explícita de Fran al cierre de la sesión —
+dado que los verificadores automáticos y el saboteador ya daban verde y el
+tiempo apremiaba. Queda como probable, no confirmado, hasta que alguien mire
+las páginas nuevas.
+
 ## La lista de temas de Gravitación `(3)` cruzada entera, y el hueco que salió — 2026-09-17
 
 Fran trajo la versión `(3)` de *Lista de temas Gravitación* y pidió lo único

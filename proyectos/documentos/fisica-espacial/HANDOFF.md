@@ -6,6 +6,24 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-17 (tercera parte) — las 14 cajas `#lectura` que faltaban
+
+**Cerrado.** `grep -L "#lectura" apunte/modulos/*.typ` sin salida. Detalle del
+mapeo de fuentes en `ESTADO_ACTUAL.md`.
+
+Lo único que queda deliberadamente sin hacer:
+
+- **El chequeo visual página por página (regla propia 1) no se hizo.** Fran
+  lo decidió al cierre para no seguir gastando permisos de Bash en el
+  celular. Las páginas nuevas están en el PDF (175 páginas) pero nadie las
+  miró todavía — probable, no confirmado.
+- **El registro de la lección de proceso sobre fricción de permisos en modo
+  Auto (celular) no se guardó** con `aprender.py` — el primer intento falló
+  por un problema de escaping de rutas en Bash y no se reintentó por tiempo.
+  Si vuelve a pasar, vale la pena escribirla: consolidar TODO lo posible en
+  una sola llamada a Bash cuando la sesión corre en el celular en modo Auto,
+  en vez de una llamada por libro o por chequeo.
+
 ## Sesión del 2026-09-17 (segunda parte) — la lista de temas `(3)` cruzada entera
 
 **Nada quedó a medias.** El cruce de las 23 filas está hecho y su resultado

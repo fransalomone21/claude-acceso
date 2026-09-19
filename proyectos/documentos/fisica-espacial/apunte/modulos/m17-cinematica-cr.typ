@@ -30,6 +30,21 @@ algún lado, y ese lado es lo que hay que controlar.
   se ocupa esta parte.
 ]
 
+#lectura[
+  *Roederer, capítulo 5* («Dinámica del cuerpo rígido»), §5.b («Cinemática del
+  cuerpo rígido», pág. 161) y §5.h («Sistemas no-inerciales en rotación», pág.
+  193). *Beer, Dinámica, capítulo 15* («Cinemática de cuerpos rígidos»),
+  §15.10 («Razón de cambio de un vector con respecto a un sistema de
+  referencia en rotación», pág. 975) y §15.11 («...Aceleración de Coriolis»,
+  pág. 977); las secciones opcionales *15.12 a *15.14 extienden lo mismo a
+  tres dimensiones.
+
+  Beer trae la deducción de la derivada en un sistema rotante con más detalle
+  algebraico y es la fuente de la fórmula que sostiene los módulos que siguen;
+  Roederer conecta el mismo resultado con el marco no inercial del módulo
+  #M("marcos"), que es el hilo que este módulo retoma.
+]
+
 == Con un punto fijo, todo movimiento es una rotación
 
 #deduccion("por qué siempre hay un eje, aunque el cuerpo se mueva de cualquier manera")[

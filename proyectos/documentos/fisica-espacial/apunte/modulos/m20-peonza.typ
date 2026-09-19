@@ -18,6 +18,18 @@ de toda la Parte IV, y por eso cierra el apunte: la @euler-precesion-estable
 del módulo #M("euler-giroscopo") vale con $sum bold(M)_O = 0$, y esa sola condición fija todo lo
 demás.
 
+#lectura[
+  *Beer, Dinámica, capítulo 18*, §18.11 («Movimiento de un cuerpo simétrico
+  con respecto a un eje y que no se somete a ninguna fuerza», pág. 1190) —ya
+  citada en el cuerpo de este módulo. *Roederer, capítulo 5*, §5.g
+  («Giróscopo y trompo», pág. 189), trata el mismo caso libre como parte de
+  la misma sección que el módulo #M("euler-giroscopo") usó para el trompo con cupla.
+
+  Beer es la fuente de la deducción geométrica del criterio directa/retrógrada
+  que usa este módulo; Roederer da la versión más corta si sólo hace falta el
+  resultado.
+]
+
 == Un cuerpo simétrico sin cuplas: $bold(H)_G$ queda fijo
 
 #deduccion("de dónde sale que la precesión es automática")[

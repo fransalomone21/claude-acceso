@@ -15,6 +15,19 @@ que su diagrama de energía contesta la mitad de las preguntas sin resolver
 ninguna ecuación diferencial. Acá se le pone la fuerza concreta —la de
 Newton— y esa mitad se cobra entera.
 
+#lectura[
+  *Young & Freedman (S&Z), Vol. 1, capítulo 13* («Gravitación»), completo para
+  la ley, el peso y la energía potencial. *Roederer, capítulo 3*, §3.c
+  («Interacciones gravitatorias», pág. 71) para la deducción alternativa, y
+  capítulo 4, §4.f («Movimiento de un satélite. Leyes de Kepler», pág. 125)
+  para la órbita circular.
+
+  S&Z es el que trae la velocidad de escape y la energía potencial con el
+  cero puesto en el infinito, tal como las usa este módulo; Roederer sirve
+  para ver la misma cuenta con otra notación si el paso de S&Z no convence a
+  la primera.
+]
+
 == La ley de Newton de la gravitación
 
 La ley, en palabras del propio libro (S&Z §13.1, pág. 398): toda partícula

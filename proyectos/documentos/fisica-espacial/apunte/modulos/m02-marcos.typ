@@ -42,6 +42,19 @@ delicados de lo que viene dependen de contestarla bien.
     acá.
 ]
 
+#lectura[
+  *Roederer, capítulo 3* («Dinámica del punto material»), §3.a («Primera y
+  Segunda ley de Newton») y §3.j («Sistemas inerciales y sistemas
+  acelerados»), págs. 65 y 99-106.
+
+  Roederer es el que trata el marco no inercial como problema central y no
+  como nota al margen: dedica una sección entera a la diferencia entre
+  «acelerado en línea recta» y «rotante», que es justo la que este módulo
+  necesita para las dos correcciones del final. Young & Freedman (S&Z) trae
+  las tres leyes en su capítulo 4, pero no desarrolla el marco rotante con el
+  detalle que hace falta acá.
+]
+
 == La idea completa, antes de la primera ecuación
 
 Antes de escribir nada conviene tener el plan entero, porque son tres pasos y

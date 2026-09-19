@@ -21,6 +21,22 @@ El módulo va de lo conocido a lo que probablemente no lo sea. Las secciones
 la #link(<vec-derivada>)[1.5] y la #link(<vec-polares>)[1.6] son el corazón, y de
 ahí sale la mitad de las fórmulas de los módulos #M("momento-angular") al #M("maniobras").
 
+#lectura[
+  El álgebra de vectores —componentes, cosenos directores, producto escalar y
+  vectorial— es *Young & Freedman (S&Z), Vol. 1, capítulo 1* («Unidades,
+  cantidades físicas y vectores»). La derivada de un vector y la cinemática en
+  coordenadas polares, en cambio, no están ahí: son *Beer, Dinámica, capítulo
+  11* («Cinemática de partículas»), secciones 11.9-11.10 (vector de posición,
+  velocidad y aceleración; derivadas de funciones vectoriales) y 11.14
+  («Componentes radial y transversal»), que es exactamente la deducción de
+  este módulo.
+
+  Cuál abrir para qué: S&Z para repasar el álgebra si hace falta; Beer para la
+  parte nueva —las coordenadas polares—, porque trae la figura del versor
+  radial y transversal girando, que es la que explica de dónde salen los dos
+  términos que no aparecen en cartesianas.
+]
+
 == El vector, sus componentes y sus cosenos directores
 
 Un vector en el espacio queda determinado por tres números, sus componentes

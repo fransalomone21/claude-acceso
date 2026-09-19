@@ -15,6 +15,20 @@ mucho más que una curiosidad: la Tierra y la Luna orbitan el centro de masa del
 par, no la una a la otra, y el problema de dos cuerpos del módulo #M("dos-cuerpos") se resuelve
 mudándose justamente a ese punto.
 
+#lectura[
+  *Roederer, capítulo 4*, §4.b («La conservación del impulso; el centro de
+  masa», pág. 108-112). *Young & Freedman (S&Z), Vol. 1, capítulo 8*, §8.5
+  («Centro de masa»), pág. 254. El teorema de König —la energía cinética
+  partida en la del centro de masa más la relativa a él— está en *Beer,
+  Dinámica, capítulo 14* («Sistemas de partículas»), §14.7 («Energía cinética
+  de un sistema de partículas»), pág. 877.
+
+  S&Z trae la definición y el ejemplo numérico más directo; Roederer conecta
+  el centro de masa con el teorema de conservación del módulo anterior sin
+  cortar el hilo; Beer es el único de los tres que deduce la partición de la
+  energía con la notación que usa este módulo.
+]
+
 == El centro de masa
 
 Para $N$ partículas de masas $m_i$ en posiciones $bold(r)_i$, con

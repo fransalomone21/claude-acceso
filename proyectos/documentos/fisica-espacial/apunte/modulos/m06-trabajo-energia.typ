@@ -17,6 +17,19 @@ vale la velocidad en el perigeo, cuánto cuesta escapar. La máquina que se arma
 acá —el *diagrama de energía*— es literalmente la misma que en el módulo #M("orbita-conicas") se
 aplica al potencial eficaz.
 
+#lectura[
+  *Young & Freedman (S&Z), Vol. 1*, capítulo 6 («Trabajo y energía cinética»)
+  para el trabajo y el teorema trabajo-energía, y capítulo 7 («Energía
+  potencial y conservación de la energía») para fuerzas conservativas y los
+  diagramas de energía. *Roederer, capítulo 4*, §4.g a §4.i (pág. 131-150),
+  cubre lo mismo con menos ejemplos y más cerca de la notación del resto del
+  apunte.
+
+  Empezar por S&Z: trae el diagrama de energía dibujado paso a paso, que es la
+  herramienta que este módulo necesita explicar antes de la primera ecuación
+  del potencial eficaz en #M("orbita-conicas").
+]
+
 == El trabajo de una fuerza
 
 Para una fuerza constante y un desplazamiento rectilíneo $bold(s)$ (S&Z §6.1,

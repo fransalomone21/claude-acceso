@@ -18,6 +18,18 @@ La cátedra lo dijo con una frase que conviene tomar en serio: *«es muy
 importante para entender el impulso de un cohete»*. El módulo #M("cohete") es la
 consecuencia directa de este.
 
+#lectura[
+  *Roederer, capítulo 4* («Teoremas de conservación»), §4.b («La conservación
+  del impulso; el centro de masa», pág. 108) para cuándo se conserva, y §4.j
+  («Colisiones», pág. 150) para los choques. También *Young & Freedman (S&Z),
+  Vol. 1, capítulo 8* («Cantidad de movimiento, impulso y colisiones»).
+
+  Roederer es más corto y va directo a la condición de conservación —fuerzas
+  internas contra externas—, que es el punto que este módulo pide decidir
+  antes de escribir nada; S&Z trae más ejemplos resueltos de choques oblicuos
+  si hace falta ver otro método de armar las ecuaciones.
+]
+
 == De $bold(F) = m bold(a)$ a $bold(F) = d bold(p) \/ d t$
 
 La *cantidad de movimiento* de una partícula es

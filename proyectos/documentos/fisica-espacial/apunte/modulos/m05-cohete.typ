@@ -18,6 +18,19 @@ Es también el primer sistema de la carrera cuya masa cambia mientras se mueve, 
 por eso el primero donde la segunda ley, tal como se aprendió, no se puede
 aplicar.
 
+#lectura[
+  *Roederer, capítulo 4*, §4.c («Fuerzas de retropropulsión y movimiento de un
+  cohete», pág. 112) y §4.d («Ecuaciones de movimiento para masas variables»,
+  pág. 116). *Beer, Dinámica, capítulo 14*, secciones opcionales *14.10 a
+  *14.12 («Sistemas variables de partículas... que ganan o pierden masa»,
+  pág. 890-893).
+
+  Roederer es el que arma la deducción en el orden de este módulo —primero el
+  empuje desde la conservación de $p$, después la ecuación de movimiento con
+  gravedad—; Beer trata el mismo tema como sección opcional de un capítulo más
+  general y con otra notación, útil sólo como segunda mirada.
+]
+
 == Por qué acá no sirve $bold(F) = m bold(a)$
 
 La tentación es escribir $bold(F) = d(m bold(v)) \/ d t = m bold(a) + dot(m) bold(v)$
