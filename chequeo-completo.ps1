@@ -74,6 +74,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador del desuso';      cmd = '.\perfil-global\probar-medidor-matriz.ps1' }
     @{ nombre = 'saboteador del molde de fase'; cmd = '.\perfil-global\probar-medidor-fase.ps1' }
     @{ nombre = 'saboteador de escapes';     cmd = '.\perfil-global\probar-guardia-escapes.ps1' }
+    @{ nombre = 'saboteador del heredoc';    cmd = '.\perfil-global\probar-guardia-heredoc.ps1' }
     @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
 )
