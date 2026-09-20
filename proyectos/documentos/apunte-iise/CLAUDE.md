@@ -55,9 +55,23 @@ tres párrafos de paráfrasis incumplen la segunda.
 **6. Una unidad por sesión.** Las 7 clases son 590 diapositivas y ~90k tokens.
 Una sesión lee el `.txt` de su unidad y nada más.
 
+**7. Una tabla de Typst con anchos `auto` no se da por buena hasta verla.** Si
+una columna tiene texto largo, `auto` le da todo el ancho y deja a las otras en
+una letra por renglón — *sin un solo warning*. En este apunte las tablas de más
+de dos columnas llevan fracciones explícitas (`1.5fr`), y es un caso particular
+de la regla 4: lo que se verifica es la página, no que el compilador no proteste.
+
 ## El estado en un comando
 
 ```powershell
-python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\extraer-clases.py" --figuras
+python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\verificar-lexico.py"
+python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\probar-verificar-lexico.py"
 python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\verificar-anclas.py"
+python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\extraer-clases.py" --figuras
+```
+
+El apunte se compila y se mira así — los dos pasos, siempre:
+
+```powershell
+cd "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\apunte"; typst compile apunte.typ apunte.pdf; typst compile apunte.typ "$env:TEMP\iise-{p}.png" --ppi 110
 ```

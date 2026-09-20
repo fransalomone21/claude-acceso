@@ -1,0 +1,517 @@
+// =====================================================================
+//  plantilla.typ — estilo del apunte de IISE
+//                  UNSAM · Ingeniería en Sistemas Espaciales
+//
+//  Sale de `proyectos/documentos/fisica-espacial/apunte/plantilla.typ` y es
+//  una COPIA, no un import compartido: los dos apuntes divergen (éste no
+//  tiene fórmulas ni guía de problemas, y sí tiene glosario y citas a
+//  diapositivas). Una plantilla común obligaría a que cada cambio de uno
+//  no rompiera al otro, y eso cuesta más que mantener dos archivos.
+//  Compilar el documento principal (apunte.typ), no este archivo.
+// =====================================================================
+
+// La paleta vive en biblioteca/paleta.typ para que las figuras usen los
+// mismos colores sin importar este archivo (sería un ciclo). Los imports
+// de abajo re-exportan las figuras: cada módulo hace
+// `#import "../plantilla.typ": *` y con eso ya tiene fig-*.
+#import "biblioteca/paleta.typ": *
+#import "biblioteca/figuras.typ": *
+
+// ---------- Contadores propios ----------
+#let cont-ej = counter("ejemplo")
+
+// Qué rótulo lleva un heading de nivel 1 SIN numerar. `#seccion()` y
+// `#anexo()` los dos usan `numbering: none` (ninguno de los dos es un
+// módulo), así que ese solo dato no alcanza para distinguirlos -- hace
+// falta este estado. Default `none` = "SECCIÓN PRELIMINAR", el
+// comportamiento de siempre; `#anexo()` lo pisa con su propio rótulo antes
+// de emitir el heading, y como el estado se lee EN la posición de cada
+// heading (`.at(it.location())`), agregar un tercer tipo el día de mañana
+// es una tercera llamada a `.update()`, no una tercera rama a mano en el
+// show-rule de abajo.
+#let rotulo-especial = state("rotulo-especial", none)
+
+// ---------- Referencia simbolica a un modulo ----------
+//
+// `#M("gravitacion")` imprime el NUMERO del modulo cuya clave es esa, leido
+// del documento compilado. El orden de los modulos pasa a vivir en un solo
+// lugar -- el orden de los `#include` de apunte.typ -- y reordenar deja de
+// obligar a reescribir la prosa.
+//
+// Una clave que no existe NO se imprime en rojo ni se ignora: rompe la
+// compilacion. Un aviso que no frena es un aviso que se aprende a saltear.
+#let M(clave) = context {
+  let ms = query(<mod-id>).filter(m => m.value == clave)
+  if ms.len() == 0 {
+    panic("M(): no existe ningun modulo con la clave '" + clave + "'")
+  }
+  numbering("1", ..counter(heading).at(ms.first().location()))
+}
+
+// ---------- Caja genérica ----------
+//
+// El título va en un `block(sticky: true)`: eso lo obliga a viajar con lo que
+// sigue. Sin eso, una caja que empieza al pie de una página deja el título
+// solo abajo y el cuerpo en la siguiente — pasó en la fase 1 con el cuadro
+// violeta, y volvió a pasar en cuanto entraron cuatro módulos más. Un
+// huérfano no se arregla moviendo texto a mano: se arregla en la caja.
+#let caja(titulo, color, cuerpo) = block(
+  width: 100%,
+  breakable: true,
+  fill: color.lighten(92%),
+  stroke: (left: 2.5pt + color),
+  radius: (right: 3pt),
+  inset: (x: 10pt, y: 9pt),
+  above: 12pt,
+  below: 12pt,
+)[
+  #block(sticky: true, above: 0pt, below: 5pt)[
+    #text(fill: color, weight: "bold", size: 9.5pt, tracking: 0.3pt)[#upper(titulo)]
+  ]
+  #cuerpo
+]
+
+// ---------- Cajas semánticas ----------
+//
+// Cada color quiere decir una cosa y sólo una. La lista está en la
+// carátula, y es el contrato con el lector: si un cuadro ámbar apareciera
+// alguna vez por algo que no es geometría, los otros veinte dejan de
+// significar lo que dicen.
+
+#let definicion(titulo, cuerpo) = caja([Definición — #titulo], c-azul, cuerpo)
+#let clave(cuerpo) = caja([Idea clave], c-azul, cuerpo)
+
+// El corazón del apunte: de dónde sale la fórmula que se acaba de usar.
+#let deduccion(titulo, cuerpo) = caja([De dónde sale — #titulo], c-azul.darken(15%), cuerpo)
+
+#let cuidado(cuerpo) = caja([Cuidado con esto], c-rojo, cuerpo)
+
+// Lo que se pide explícitamente: dónde se pierde el planteo. Respecto de
+// qué punto se toma el momento, qué versor es radial, qué ángulo entra en
+// el seno, en qué sistema de referencia vale lo que se escribió.
+#let geometria(cuerpo) = caja([Cuidado geométrico y vectorial], c-ambar, cuerpo)
+
+// Los tres libros de la cátedra usan letras distintas para las mismas
+// cantidades — Beer llama H al momento angular y L a la cantidad de
+// movimiento, justo al revés que la cátedra. Eso no es un detalle: es una
+// fuente de error de signo y de concepto en el parcial.
+#let notacion(cuerpo) = caja([Ojo con la notación], c-teal, cuerpo)
+
+#let guia(titulo, cuerpo) = caja([De la guía de la cátedra — #titulo], c-viole, cuerpo)
+
+// La misma idea de arriba, dicha en criollo. No reemplaza a las cajas
+// tecnicas -- va ADEMAS de ellas -- y no se permite que meta un concepto
+// que no este ya deducido en alguna de las otras cajas del tema: aca no se
+// aproxima ni se simplifica de mas, solo se cambia el registro.
+#let posta(cuerpo) = caja([La posta], c-rosa, cuerpo)
+
+// En IISE la bibliografía NO es el libro: es la clase. Esta caja contesta
+// la pregunta del alumno que abrió el apunte y quiere volver a la fuente —
+// qué clase y qué diapositivas cubren ESTE tema. Va UNA por módulo, arriba,
+// y no repite las citas puntuales de cada definición.
+#let lectura(cuerpo) = caja([Dónde está en las clases], c-libro, cuerpo)
+
+// ---------- Cita de una diapositiva ----------
+//
+// `#diapo(1, 17)` imprime "(clase 1, diapositiva 17)". Existe para que la
+// cita se escriba SIEMPRE igual y para que un `grep` la encuentre: el
+// riesgo medido de este apunte es citar una diapositiva equivocada, y un
+// formato libre no se puede auditar. El número es el del PDF real, el que
+// trae `fuentes/clases/clase-N.txt` — nunca el `[pN]` de NotebookLM, que
+// acertó 4 de 149 veces.
+#let diapo(clase, n) = text(size: 8.6pt, fill: c-libro)[(clase #clase, diapositiva #n)]
+
+// ---------- Término controlado del glosario ----------
+//
+// `#t[sistema]` marca una palabra como término controlado. No es adorno:
+// `verificar-lexico.py` lee estas marcas y exige que cada una tenga su
+// entrada en `fuentes/glosario.md`. En una materia que se corrige por el
+// uso exacto de la palabra, el léxico es el contenido — regla propia 1.
+#let t(cuerpo) = text(weight: "semibold", fill: c-azul)[#cuerpo]
+
+// ---------- Ficha de ejercicio (anexos: guía de acompañamiento) ----------
+//
+// No es una caja semántica más del cuerpo del apunte -- no reemplaza a
+// #ejemplo, que sí desarrolla la resolución. Ésta es la unidad propia de
+// los anexos de práctica: el enunciado, CON QUÉ se resuelve (referencias
+// #M() a los módulos, para que sigan valiendo si el apunte se reordena) y
+// la respuesta sola, para que el lector se autocorrija sin que el apunte le
+// regale el desarrollo. Usa el violeta porque ya significa "vínculo con la
+// guía de problemas" -- no es un color nuevo, es el mismo dicho en fichas.
+#let disparador(numero, enunciado, resuelve: none, respuesta) = block(
+  width: 100%,
+  breakable: true,
+  fill: c-viole.lighten(95%),
+  stroke: (left: 2.5pt + c-viole),
+  radius: (right: 3pt),
+  inset: (x: 10pt, y: 9pt),
+  above: 10pt,
+  below: 10pt,
+)[
+  #block(sticky: true, above: 0pt, below: 5pt)[
+    #text(fill: c-viole, weight: "bold", size: 10pt)[#numero]
+  ]
+  #enunciado
+  #if resuelve != none {
+    v(4pt)
+    text(size: 9pt, fill: c-azul, weight: "bold")[Se resuelve con: ]
+    text(size: 9pt)[#resuelve]
+  }
+  #v(3pt)
+  #text(size: 9pt, fill: c-verde.darken(15%), weight: "bold")[Respuesta: ]
+  #text(size: 9pt)[#respuesta]
+]
+
+// ---------- Subtítulo de anexo (agrupa fichas sin tocar el contador de headings) ----------
+//
+// Un heading de nivel 2 DENTRO de #anexo() saldría numerado contra el
+// contador que dejó el último módulo (ver la nota de `rotulo-especial`):
+// no es un heading real por esa razón, no porque no pueda serlo. Mismo
+// tamaño y color que el nivel 2 de verdad, así que a la vista no se nota
+// la diferencia; lo que se pierde es la entrada propia en el índice.
+#let subtitulo-anexo(texto) = block(above: 18pt, below: 8pt)[
+  #text(size: 13pt, fill: c-azul, weight: "bold")[#texto]
+  #v(-4pt)
+  #line(length: 100%, stroke: 0.6pt + c-azul.lighten(40%))
+]
+
+// ---------- Ejemplo resuelto (numerado por módulo) ----------
+// `nivel` distingue el ejemplo que fija el mecanismo del que tiene el
+// nivel de la guía. Cada módulo lleva por lo menos uno de cada uno.
+#let ejemplo(titulo, cuerpo, nivel: "simple") = {
+  cont-ej.step()
+  let etiqueta = if nivel == "simple" { "Ejemplo" } else { "Ejemplo a fondo" }
+  caja(
+    context [#etiqueta #counter(heading).get().first().#cont-ej.get().first() — #titulo],
+    c-verde,
+    cuerpo,
+  )
+}
+
+// ---------- Figura ----------
+#let fig(cap, body) = figure(align(center, body), caption: cap, kind: "fig", supplement: [Figura])
+
+// ---------- Divisor de parte ----------
+#let parte(numero, titulo, bajada) = {
+  pagebreak(weak: true)
+  page(numbering: none, header: none, footer: none, margin: (x: 2.6cm, y: 3.4cm))[
+    #align(center + horizon)[
+      #text(size: 10.5pt, tracking: 2pt, fill: luma(110))[#upper[Parte #numero]]
+      #v(0.25cm)
+      #line(length: 32%, stroke: 0.6pt + luma(160))
+      #v(0.9cm)
+      #text(size: 27pt, weight: "bold", fill: c-azul)[#titulo]
+      #v(0.5cm)
+      #line(length: 100%, stroke: 1.5pt + c-azul)
+      #v(1.1cm)
+      #block(width: 90%, inset: 14pt, fill: c-gris, radius: 4pt)[
+        #set text(size: 10pt)
+        #set par(justify: true)
+        #align(left)[#bajada]
+      ]
+    ]
+  ]
+}
+
+// ---------- Apertura de módulo ----------
+#let modulo(titulo, resumen, clave: none) = {
+  pagebreak(weak: true)
+  // Por si algún día hay un módulo DESPUÉS de un anexo (no es el caso hoy):
+  // sin este reset, ese módulo heredaría el rótulo "ANEXO X" del estado.
+  rotulo-especial.update(none)
+  cont-ej.update(0)
+  counter(math.equation).update(0)
+  counter(figure.where(kind: "fig")).update(0)
+  counter(figure.where(kind: table)).update(0)
+  heading(level: 1, titulo)
+  // El marcador va PEGADO al heading: `M()` lee el contador de headings en
+  // esta posicion y de ahi sale el numero del modulo. Sin el marcador, el
+  // numero de modulo vive escrito a mano en la prosa y el compilador no
+  // puede verlo: es lo que paso hasta el 2026-09-13, con 336 numeros a mano.
+  if clave != none { [#metadata(clave)<mod-id>] }
+  block(
+    width: 100%,
+    fill: c-gris,
+    stroke: (left: 2.5pt + c-azul),
+    inset: (x: 11pt, y: 10pt),
+    radius: (right: 3pt),
+    below: 16pt,
+  )[
+    #text(size: 9.5pt, weight: "bold", fill: c-azul, tracking: 0.3pt)[QUÉ VAS A PODER HACER AL TERMINAR ESTE MÓDULO]
+    #v(-2pt)
+    #text(size: 9.5pt)[#resumen]
+  ]
+}
+
+// ---------- Sección sin número (va ANTES de los módulos) ----------
+// Un heading de nivel 1 con `numbering: none` no incrementa el contador de
+// headings, así que el bloque de convenciones puede ir al frente sin correr
+// la numeración de los módulos. La contrapartida: adentro no van headings
+// de nivel 2 o 3, porque se numerarían "0.1".
+#let seccion(titulo, resumen) = {
+  pagebreak(weak: true)
+  cont-ej.update(0)
+  counter(math.equation).update(0)
+  counter(figure.where(kind: "fig")).update(0)
+  counter(figure.where(kind: table)).update(0)
+  heading(level: 1, numbering: none, titulo)
+  block(
+    width: 100%,
+    fill: c-gris,
+    stroke: (left: 2.5pt + c-azul),
+    inset: (x: 11pt, y: 10pt),
+    radius: (right: 3pt),
+    below: 16pt,
+  )[
+    #text(size: 9.5pt, weight: "bold", fill: c-azul, tracking: 0.3pt)[PARA QUÉ SIRVE ESTA SECCIÓN]
+    #v(-2pt)
+    #text(size: 9.5pt)[#resumen]
+  ]
+}
+
+// ---------- Apertura de anexo (va DESPUÉS de los módulos) ----------
+//
+// Mismo mecanismo que #seccion() -- `numbering: none` para no correr la
+// numeración de los módulos -- pero con rótulo propio ("ANEXO A") en vez
+// de "SECCIÓN PRELIMINAR", vía `rotulo-especial`. No emite `<mod-id>`: un
+// anexo no es un módulo, `#M()` no lo ve y el grafo de dependencias de
+// `verificar-apunte.py` tampoco -- no le corresponde, un anexo no enseña
+// contenido nuevo, apunta al que ya está.
+//
+// Para agregar el próximo anexo: crear `anexos/aN-clave.typ` con
+// `#anexo("B", "Título", [resumen])[...]` y un `#include` en `apunte.typ`,
+// debajo del que ya está. Nada más cambia.
+#let anexo(letra, titulo, resumen) = {
+  pagebreak(weak: true)
+  cont-ej.update(0)
+  counter(math.equation).update(0)
+  counter(figure.where(kind: "fig")).update(0)
+  counter(figure.where(kind: table)).update(0)
+  rotulo-especial.update([ANEXO #letra])
+  heading(level: 1, numbering: none, titulo)
+  block(
+    width: 100%,
+    fill: c-gris,
+    stroke: (left: 2.5pt + c-viole),
+    inset: (x: 11pt, y: 10pt),
+    radius: (right: 3pt),
+    below: 16pt,
+  )[
+    #text(size: 9.5pt, weight: "bold", fill: c-viole, tracking: 0.3pt)[PARA QUÉ SIRVE ESTE ANEXO]
+    #v(-2pt)
+    #text(size: 9.5pt)[#resumen]
+  ]
+}
+
+// ---------- Documento ----------
+#let apunte(titulo: "", subtitulo: "", institucion: "", catedra: "", ciclo: "", body) = {
+  set document(title: titulo, author: catedra)
+
+  set page(
+    paper: "a4",
+    margin: (top: 2.6cm, bottom: 2.2cm, left: 2.3cm, right: 2.1cm),
+    header: context {
+      let n = counter(page).get().first()
+      if n <= 1 { return }
+      // .before(here()) deja afuera el título que arranca en ESTA misma
+      // página —el encabezado se compone antes que el cuerpo— y el módulo
+      // salía con el nombre del anterior. Se filtra por número de página.
+      let pag = here().page()
+      let previos = query(heading.where(level: 1)).filter(h => h.location().page() <= pag)
+      let titulo-actual = if previos.len() > 0 {
+        let h = previos.last()
+        if h.numbering == none {
+          h.body
+        } else {
+          let num = counter(heading).at(h.location()).first()
+          [Módulo #num — #h.body]
+        }
+      } else [Apunte de la materia]
+      set text(size: 8.5pt, fill: luma(105))
+      grid(
+        columns: (1fr, auto),
+        align(left)[#titulo-actual],
+        align(right)[IISE — UNSAM],
+      )
+      v(-5pt)
+      line(length: 100%, stroke: 0.4pt + luma(190))
+    },
+    footer: context {
+      let n = counter(page).get().first()
+      if n <= 1 { return }
+      set text(size: 8.5pt, fill: luma(105))
+      align(center)[#n]
+    },
+  )
+
+  set text(
+    lang: "es",
+    region: "ar",
+    size: 10.5pt,
+    font: ("Libertinus Serif", "Linux Libertine O", "Georgia", "Times New Roman"),
+  )
+  set par(justify: true, leading: 0.68em, spacing: 0.95em)
+  set heading(numbering: "1.1.1")
+  // `supplement` es lo que se imprime cuando una ecuación se referencia con
+  // @etiqueta. Por defecto sale «Ecuación 7», que no combina con las citas
+  // del apunte («S&Z ec. 8.6»). Con esto sale «ec. (7)», igual que los libros.
+  set math.equation(numbering: "(1)", supplement: [ec.])
+  // La coma decimal del castellano no debe llevar espacio detrás: por
+  // defecto Typst la trata como separador y agrega uno ("15, 6" en vez de
+  // "15,6").
+  show math.equation: eq => {
+    show ",": it => math.class("normal", it)
+    eq
+  }
+  set enum(indent: 6pt, spacing: 0.8em)
+  set list(indent: 6pt, spacing: 0.8em, marker: ([•], [–], [·]))
+  set table(stroke: 0.4pt + luma(180))
+
+  // Títulos
+  show heading.where(level: 1): it => {
+    let rotulo = if it.numbering != none {
+      [MÓDULO #counter(heading).display()]
+    } else {
+      context {
+        let r = rotulo-especial.at(it.location())
+        if r != none { r } else [SECCIÓN PRELIMINAR]
+      }
+    }
+    block(above: 0pt, below: 14pt)[
+      #text(size: 9pt, fill: c-azul, weight: "bold", tracking: 1.2pt)[#rotulo]
+      #v(-6pt)
+      #text(size: 19pt, fill: c-azul, weight: "bold")[#it.body]
+      #v(-4pt)
+      #line(length: 100%, stroke: 1.2pt + c-azul)
+    ]
+  }
+  show heading.where(level: 2): it => block(above: 16pt, below: 8pt)[
+    #text(size: 13pt, fill: c-azul, weight: "bold")[
+      #counter(heading).display() #h(4pt) #it.body
+    ]
+  ]
+  show heading.where(level: 3): it => block(above: 12pt, below: 6pt)[
+    #text(size: 11pt, fill: c-azul.darken(10%), weight: "bold")[
+      #counter(heading).display() #h(4pt) #it.body
+    ]
+  ]
+
+  show raw.where(block: true): it => block(
+    width: auto,
+    fill: white,
+    stroke: 0.5pt + luma(185),
+    radius: 3pt,
+    inset: 9pt,
+    align(left, text(font: ("DejaVu Sans Mono", "Consolas"), size: 8pt, it)),
+  )
+  show raw.where(block: false): it => text(
+    font: ("DejaVu Sans Mono", "Consolas"),
+    size: 9pt,
+    fill: c-azul.darken(15%),
+    it,
+  )
+
+  show figure.where(kind: "fig"): set figure(numbering: "1")
+  show figure.caption: set text(size: 9pt, fill: luma(90))
+  show link: set text(fill: c-azul)
+  show emph: set text(fill: black)
+
+  // Una referencia a una ecuación sale, por defecto, «Ecuación 7»: ni el
+  // paréntesis con que la ecuación está impresa, ni la abreviatura con que el
+  // apunte cita a los libros («S&Z ec. 8.6»). Esto la deja como «ec. (7)»,
+  // que es lo mismo que se ve al costado de la ecuación.
+  show ref: it => {
+    let el = it.element
+    if el != none and el.func() == math.equation {
+      let n = counter(math.equation).at(el.location())
+      link(el.location())[ec.~#numbering(el.numbering, ..n)]
+    } else { it }
+  }
+
+  // ---- Carátula ----
+  page(numbering: none, margin: (x: 2.6cm, y: 3.2cm))[
+    #align(center)[
+      #v(1.2cm)
+      #text(size: 10.5pt, tracking: 1.5pt, fill: luma(90))[#upper(institucion)]
+      #v(0.2cm)
+      #line(length: 45%, stroke: 0.6pt + luma(150))
+      #v(1.8cm)
+      #text(size: 13pt, fill: luma(80))[#subtitulo]
+      #v(0.35cm)
+      #par(justify: false)[#text(size: 31pt, weight: "bold", fill: c-azul)[#titulo]]
+      #v(0.5cm)
+      #line(length: 100%, stroke: 1.5pt + c-azul)
+      #v(0.35cm)
+      #text(size: 12pt, fill: luma(70))[#catedra #h(6pt) · #h(6pt) #ciclo]
+      #v(2.0cm)
+      #block(width: 92%, inset: 14pt, fill: c-gris, radius: 4pt)[
+        #set text(size: 9.7pt)
+        #set par(justify: true)
+        #align(left)[
+          *Cómo está escrito este apunte.* Esta materia se rinde sobre
+          *distinciones léxicas*: no se pregunta cómo se calcula algo, sino qué
+          *es* algo, cuáles son sus *tipos* y cuáles son sus *entregables* — y se
+          corrige por la palabra exacta. De ahí la regla única del apunte: cada
+          término se define *una sola vez*, en el módulo 0, con la palabra que usa
+          la cátedra, y después se usa siempre igual. Toda definición dice de qué
+          clase y de qué diapositiva salió, para que se pueda volver a la fuente.
+
+          *Los cuadros de colores no son adorno; cada color dice una cosa y sólo una:*
+
+          #v(3pt)
+          #set par(justify: false)
+          #grid(
+            columns: (auto, 1fr),
+            row-gutter: 5pt,
+            column-gutter: 8pt,
+            text(fill: c-azul, weight: "bold")[Azul],
+            [la *definición canónica* de un término, o una *idea clave*. Es lo que
+             entra al parcial, con la palabra de la cátedra.],
+
+            text(fill: c-azul.darken(15%), weight: "bold")[Azul oscuro],
+            [de dónde sale algo: el razonamiento que conecta dos cosas que la
+             diapositiva deja sueltas. Se puede saltear en la primera lectura.],
+
+            text(fill: c-rojo, weight: "bold")[Rojo],
+            [*el error que la cátedra corrige.* Son pocos y están medidos contra
+             parcialitos reales — casi siempre es haber usado un término por otro.],
+
+            text(fill: c-rosa, weight: "bold")[Rosa],
+            [la posta: la misma idea, en criollo y sin jerga. Qué contestar si la
+             pregunta cae y hay tres líneas para escribir.],
+
+            text(fill: c-libro, weight: "bold")[Gris azulado],
+            [*dónde está en las clases*: qué clase y qué diapositivas cubren ese
+             módulo. Va una por módulo, arriba, y es el camino de vuelta al PDF
+             de la cátedra cuando el apunte y la memoria no coinciden.],
+
+            text(fill: c-verde, weight: "bold")[Verde],
+            [ejemplos desarrollados, cuando el concepto se entiende mejor
+             aplicándolo a un sistema concreto que definiéndolo otra vez.],
+          )
+        ]
+      ]
+      #v(1fr)
+      #text(size: 8.7pt, fill: luma(120))[
+        Material de estudio. Toda definición cita su fuente entre paréntesis, con
+        el número de clase y el de la diapositiva real del PDF de la cátedra.
+      ]
+    ]
+  ]
+
+  // ---- Índice ----
+  page(numbering: none, header: none, footer: none)[
+    #text(size: 20pt, weight: "bold", fill: c-azul)[Índice]
+    #v(0.3cm)
+    #line(length: 100%, stroke: 1pt + c-azul)
+    #v(0.4cm)
+    #show outline.entry.where(level: 1): it => {
+      v(9pt, weak: true)
+      strong(it)
+    }
+    #outline(title: none, depth: 2, indent: 1.1em)
+  ]
+
+  counter(page).update(1)
+  body
+}

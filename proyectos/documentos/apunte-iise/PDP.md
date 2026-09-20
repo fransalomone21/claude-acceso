@@ -57,16 +57,20 @@ Resultado: 590 diapositivas en `fuentes/clases/`, 177 PNG en `fuentes/figuras/`,
 `titulos.md` con el índice completo, y los dos entregables de NotebookLM en
 `fuentes/externo/`, con su medición de anclas.
 
-### Fase 1 — El glosario controlado (M00) y su verificador
+### Fase 1 — El glosario controlado (M00) y su verificador ✅ CERRADA (2026-09-20)
 
 **Criterio de salida:** `fuentes/glosario.md` con cada término controlado
 definido una sola vez, con su fuente (clase + diapositiva verificada) y sus
 confundibles; `verificar-lexico.py` en verde; y **el saboteador
 `probar-verificar-lexico.py` poniéndolo en rojo a propósito**.
 
-Es la fase que define todo lo demás: ningún módulo se escribe antes.
+Resultado: 29 términos de las unidades 1 a 3; `verificar-lexico.py` mide las
+tres cosas —término marcado sin entrada, par prohibido, doble definición— y el
+saboteador pone las tres en rojo, más dos controles positivos (árbol intacto en
+verde, y la excepción `// lexico-ok` respetada). El verificador encontró cinco
+defectos reales en su primera corrida.
 
-### Fase 2 — Redacción, una unidad por sesión
+### Fase 2 — Redacción, una unidad por sesión 🔵 ABIERTA (2026-09-20)
 
 **Criterio de salida por unidad:** sus módulos escritos en Typst, compilando,
 con **cada página mirada**, cada figura citada con su diapositiva confirmada
@@ -76,10 +80,17 @@ Siete sesiones, una por unidad. Modelo Sonnet, esfuerzo high, sin fan-out.
 
 ### Fase 3 — Cobertura contra los parcialitos
 
-**Criterio de salida:** cada pregunta de parcialito mapeada a un módulo que la
-responde; ninguna pregunta huérfana. Es la **validación** del apunte
-(¿sirve para rendir?), distinta de la verificación (¿dice lo que tenía que
-decir y compila bien?).
+**Criterio de salida:** cada pregunta de los parcialitos **que sí están** (1, 2
+y 3; 16 preguntas) mapeada a un módulo que la responde; ninguna pregunta
+huérfana. Es la **validación** del apunte (¿sirve para rendir?), distinta de la
+verificación (¿dice lo que tenía que decir y compila bien?).
+
+**Reinterpretada el 2026-09-20, por decisión de Fran.** La versión anterior
+esperaba los parcialitos 4 a 7 y dejaba la fase *bloqueada*. No llegaron y no
+van a llegar, y además el encargo es **un apunte general de la materia**, no un
+preparador de parcialitos: la cátedra puede tomar otra cosa. Así que la
+cobertura pasa a ser un **piso, no un techo** — un módulo que ningún parcialito
+toca no sobra, y la fase ya no bloquea a ninguna otra.
 
 ### Fase 4 — Publicación
 
@@ -92,8 +103,9 @@ verde.
 | Riesgo | Cómo se mide | Estado |
 |---|---|---|
 | Citar una diapositiva equivocada | `verificar-anclas.py`; el ancla se confirma mirando el PNG | **vivo y medido**: de 149 anclas de NotebookLM, sólo 4 coincidían con la página real |
-| Usar dos palabras para el mismo concepto | `verificar-lexico.py` | fase 1 |
-| Escribir un módulo que ningún parcialito toca, y dejar afuera uno que sí | cobertura de la fase 3 | **bloqueado**: faltan los parcialitos |
+| Usar dos palabras para el mismo concepto | `verificar-lexico.py` | **medido y en verde** desde el 2026-09-20; el saboteador lo pone en rojo |
+| Dejar afuera un tema que el parcialito sí toca | cobertura de la fase 3, contra los parcialitos 1 a 3 | **acotado**: los parcialitos 4 a 7 no van a llegar, y el apunte no se escribe en función de ellos (ver fase 3) |
+| Copiar una plantilla de otro proyecto y heredar su **contenido** | mirar la página compilada (regla propia 4) | **ocurrido y corregido** el 2026-09-20: la portada hablaba de Beer y de mecánica orbital, y Typst compilaba en verde |
 | Que el material de NotebookLM traiga algo que la clase no dice | se verifica contra `fuentes/clases/clase-N.txt` antes de entrar | permanente |
 
 ## 6. Decisiones
@@ -126,13 +138,19 @@ verde.
 
 ## 8. Matriz de cumplimiento
 
+**`MNN` es la clave de archivo y de planificación, no el número impreso.** El
+apunte numera los módulos por su posición: el glosario es el *módulo 1*
+impreso, y M01 es el *módulo 2*. No hay dos fuentes del número — la prosa nunca
+escribe uno, usa `#M("clave")` y el número sale del orden de los `#include` de
+`apunte.typ`.
+
 | Unidad | Diapositivas | Módulos | Estado |
 |---|---|---|---|
-| 1 — Introducción, CDIO, historia de la IS | 41 | M01–M03 | pendiente |
+| 1 — Introducción, CDIO, historia de la IS | 41 | M01–M03 | **escrita** (2026-09-20) |
 | 2 — Pensamiento sistémico, forma y función | 97 | M04–M07 | pendiente |
 | 3 — Rol del arquitecto, ambigüedad, PDP | 48 | M08–M10 | pendiente |
 | 4 — Necesidad de la IS, SoS, ISS, motor NASA | 124 | M11–M14 | pendiente |
 | 5 — Ciclo de vida, requerimientos, márgenes, alcance | 71 | M15–M18 | pendiente |
 | 6 — Familia de requerimientos, interfaces, modelos de ciclo | 155 | M19–M22 | pendiente |
 | 7 — Creación de arquitecturas, Fase A, N² | 54 | M23–M26 | pendiente |
-| 0 — Glosario controlado | transversal | M00 | fase 1 |
+| 0 — Glosario controlado | transversal | M00 | **escrito** (2026-09-20), 29 terminos |

@@ -217,9 +217,32 @@ foreach ($a in $decl.apuntes) {
 Escribir "" White
 Escribir "== apuntes sin declarar ==" Cyan
 $candidatos = Get-ChildItem (Join-Path $raiz 'proyectos\documentos') -Recurse -Filter 'apunte.pdf' -ErrorAction SilentlyContinue
+
+# DECIDIR ES DECIDIR LAS DOS COSAS, Y HASTA EL 2026-09-20 ESTO MIRABA UNA SOLA.
+# El mensaje de abajo dice "agregalo a 'apuntes' o a 'no-se-publican'", y
+# $declarados se llenaba SOLO con 'apuntes': un PDF declarado como que NO se
+# publica seguia saliendo en amarillo para siempre, sin forma de bajarlo. Nadie
+# lo habia notado porque los tres proyectos de 'no-se-publican' no tenian un
+# apunte.pdf; el primero que lo tuvo fue apunte-iise, el mismo dia que se
+# compilo por primera vez. Un medidor que ignora la mitad de sus propias
+# opciones no mide: obliga a apagarlo.
+$decididoNoPublicar = @()
+if ($decl.'no-se-publican') {
+    foreach ($prop in $decl.'no-se-publican'.PSObject.Properties) {
+        $decididoNoPublicar += (Join-Path $raiz ($prop.Name -replace '/', '\'))
+    }
+}
+
 $sinDeclarar = @()
 foreach ($c in $candidatos) {
-    if ($declarados -notcontains $c.FullName) { $sinDeclarar += $c.FullName }
+    if ($declarados -contains $c.FullName) { continue }
+    # 'no-se-publican' se declara por CARPETA, no por archivo: cubre el PDF que
+    # ya existe y el que aparezca manana en el mismo proyecto.
+    $cubierto = $false
+    foreach ($carpeta in $decididoNoPublicar) {
+        if ($c.FullName.StartsWith($carpeta, [StringComparison]::OrdinalIgnoreCase)) { $cubierto = $true }
+    }
+    if (-not $cubierto) { $sinDeclarar += $c.FullName }
 }
 if ($sinDeclarar.Count -eq 0) {
     Escribir "  ninguno -- todo apunte del disco esta decidido" Green

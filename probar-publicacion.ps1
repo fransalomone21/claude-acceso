@@ -39,11 +39,26 @@ Set-Content $confTest -Value '' -Encoding ASCII
 $fisica = 'proyectos/documentos/fisica-espacial/apunte/apunte.pdf'
 $electro = 'proyectos/documentos/electronica-analogica/apunte/apunte.pdf'
 
-function Lista($apuntes) {
+# Los proyectos que el JSON REAL declara como no publicables. Se leen de ahi y
+# no se copian a mano, porque si no este saboteador se pone en rojo solo cada
+# vez que nace un apunte nuevo en el disco -- que es justo lo que paso el
+# 2026-09-20 con apunte-iise, y lo que hace que un saboteador se termine
+# apagando. La lista vive en un solo lado.
+$noPublicarReal = [ordered]@{}
+try {
+    $jr = Get-Content -Raw (Join-Path $raiz '.claude\apuntes-publicos.json') | ConvertFrom-Json
+    foreach ($prop in $jr.'no-se-publican'.PSObject.Properties) {
+        $noPublicarReal[$prop.Name] = $prop.Value
+    }
+} catch { }
+
+function Lista($apuntes, $noPublicar = $null) {
+    if ($null -eq $noPublicar) { $noPublicar = $noPublicarReal }
     $o = [ordered]@{
         remote = 'fakedrive-apuntes'
         'carpeta-drive' = 'carpeta de prueba'
         apuntes = $apuntes
+        'no-se-publican' = $noPublicar
     }
     $p = Join-Path $tmp ('lista-' + [guid]::NewGuid().ToString('N').Substring(0,6) + '.json')
     $o | ConvertTo-Json -Depth 5 | Set-Content $p -Encoding UTF8
@@ -82,6 +97,21 @@ Caso 'CONTROL POSITIVO 1/2: publica sin errores' $l 0 'todo al dia' $false
 
 # ---- y ahora tiene que decir que esta al dia -----------------------------
 Caso 'CONTROL POSITIVO 2/2: -Verificar da verde con todo al dia' $l 0 'al dia' $true
+
+# ---- CONTROL POSITIVO 3/3: la OTRA mitad de "decidilo" --------------------
+# El mensaje del publicador ofrece dos salidas --'apuntes' o 'no-se-publican'--
+# y hasta el 2026-09-20 solo miraba la primera: un PDF declarado como que NO se
+# publica seguia en amarillo para siempre, sin forma de bajarlo. Nadie lo habia
+# notado porque ninguno de los tres proyectos de esa lista tenia un apunte.pdf;
+# el primero que lo tuvo fue apunte-iise, el dia que se compilo.
+# Se declara la CARPETA de electronica y se la deja fuera de 'apuntes': si la
+# declaracion se respeta, no queda nada sin decidir.
+# VA ACA, ANTES DE LOS ROJOS, y no es cosmetica: los casos de abajo ensucian el
+# drive falso a proposito, asi que un verde corrido despues de ellos falla por
+# la suciedad y no por lo que mide.
+$l3b = Lista @( @{ materia='Fisica Espacial'; local=$fisica; 'nombre-en-drive'='Apunte de Fisica Espacial.pdf' } ) `
+             ($noPublicarReal + @{ 'proyectos/documentos/electronica-analogica' = 'declarado en la prueba' })
+Caso 'CONTROL POSITIVO 3/3: lo declarado en no-se-publican NO sale en amarillo' $l3b 0 'todo apunte del disco esta decidido' $true
 
 # ---- ROJO 1: el archivo de Drive cambia -> desactualizado -----------------
 $victima = Join-Path $fake 'Fisica Espacial\Apunte de Fisica Espacial.pdf'

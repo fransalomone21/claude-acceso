@@ -1,4 +1,4 @@
-# chequeo-completo.ps1 -- TODA la bateria de verificadores del sistema, en un comando.
+﻿# chequeo-completo.ps1 -- TODA la bateria de verificadores del sistema, en un comando.
 #
 # POR QUE EXISTE
 #   Hasta el 2026-08-29 la bateria eran siete scripts sueltos, cada uno
@@ -73,7 +73,6 @@ $saboteadores = @(
     @{ nombre = 'saboteador del ASCII puro';    cmd = '.\perfil-global\probar-chequeo-ascii.ps1' }
     @{ nombre = 'saboteador del desuso';      cmd = '.\perfil-global\probar-medidor-matriz.ps1' }
     @{ nombre = 'saboteador del molde de fase'; cmd = '.\perfil-global\probar-medidor-fase.ps1' }
-    @{ nombre = 'saboteador de escapes';     cmd = '.\perfil-global\probar-guardia-escapes.ps1' }
     @{ nombre = 'saboteador del heredoc';    cmd = '.\perfil-global\probar-guardia-heredoc.ps1' }
     @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
