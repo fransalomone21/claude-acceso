@@ -1,0 +1,8 @@
+# Los PDF de la catedra (26 MB) viven en Drive y los baja extraer-clases.py.
+# Lo que este repo guarda es el TEXTO extraido, que es lo que se lee y lo que
+# no se puede regenerar sin volver al Drive.
+fuentes/pdf/
+
+# Las 177 diapositivas-figura: las regenera 'extraer-clases.py --figuras' en
+# segundos. Guardarlas serian ~40 MB de binarios en un repo publico.
+fuentes/figuras/

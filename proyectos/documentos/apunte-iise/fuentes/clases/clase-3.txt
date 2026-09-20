@@ -1,0 +1,1054 @@
+# IISE clase 3 -- 48 diapositivas
+# fuente: IISE Clase 3 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Introducción a la  [FIGURA]
+Introducción a la 
+Ingeniería de Sistemas 
+Espaciales
+Unidad # 3
+ Agosto 2026
+Campus virtual UNSAM
+UNSAM - Ing Sistemas Espaciales
+
+[p2] El Rol de la Arquitectura
+Capitulo 9 
+El Rol de la Arquitectura
+Proceso de Desarrollo de Producto
+System Arquitecture
+Strategy and Product Development for Complex Systems
+Crawley - Cameron - Selva
+
+[p3] 1 - Introducción
+1 - Introducción
+A lo largo de este texto, hemos enfatizado el holismo en el papel del arquitecto, que coloca una gran 
+carga sobre el arquitecto en cuanto al número de consideraciones a gestionar. Este impulso para el 
+holismo se puede interpretar erróneamente como una falla para definir un límite del sistema para el rol 
+del arquitecto. El arquitecto no es el equipo de diseño, el controlador financiero, el ejecutivo de 
+marketing o el gerente de planta. Parafraseando a Eberhardt Rechtin, el arquitecto no es un 
+generalista, sino un especialista en simplificar la complejidad, resolver la ambigüedad y enfocar la 
+creatividad.
+El arquitecto elabora la visión del sistema y comunica esa visión entre las partes interesadas y el equipo 
+ampliado del proyecto. Destacaremos específicamente tres roles principales del arquitecto:
+❖Reduce la ambigüedad: define los límites, los objetivos y las funciones del sistema.
+❖Emplea la creatividad: crea el concepto.
+❖Gestiona la complejidad: elige una descomposición del sistema.
+En este módulo, presentamos el rol del arquitecto y definimos los entregables del rol.
+
+[p4] 2 - La Ambigüedad y el Rol de la Arquitectura
+2 - La Ambigüedad y el Rol de la Arquitectura
+El Rol del Arquitecto
+Antes de que el arquitecto se involucre, ha habido un "proceso ascendente" que ha definido problemas, 
+oportunidades y necesidades para el nuevo sistema. Esta corriente está llena de ambigüedad. Por ejemplo, 
+¿cuáles son las necesidades de alta prioridad del cliente en comparación con las "agradables para tener"? 
+¿Cuáles son las regulaciones que deben ser consideradas y cómo serán tratadas? ¿Y cómo se alinea la 
+competencia de fabricación con el producto previsto?
+El arquitecto maneja la ambigüedad del proceso ascendente. El arquitecto es responsable de crear límites y 
+concretar objetivos. Esto incluye:
+• Interpretación de estrategias corporativas y funcionales.
+• Interpretar análisis de marketing competitivos.
+• Escuchar a los usuarios, beneficiarios, clientes o sus representantes
+• Considerando la competencia de la empresa y su cadena de suministro extendida
+• Teniendo en cuenta las operaciones y el entorno operacional del sistema.
+• Tecnología de infusión cuando sea apropiado
+• Interpretación de influencias regulatorias y pre-regulatorias.
+• Recomendación de estándares, marcos y mejores prácticas
+• Desarrollar objetivos para el sistema basados en las influencias de la parte alta
+
+[p5] El Rol del Arquitecto (continúa)
+El Rol del Arquitecto (continúa)
+Una vez que se han definido los objetivos para el sistema, existe la tarea creativa de definir un concepto 
+para el sistema. Un buen concepto no garantiza el éxito del sistema, sino una mala elección del 
+concepto es casi seguro que condena un sistema al fracaso.
+El arquitecto emplea la creatividad para crear el concepto para el producto, que captura la visión esencial 
+del sistema, y diferencia el producto en relación a conceptos anteriores. Varios de las tareas en la 
+definición del concepto son:
+• Proponer y desarrollar opciones conceptuales.
+• Identificación de métricas y drivers clave.
+• Realización de operaciones de alto nivel y optimización.
+• Selección de un concepto para llevar adelante, y tal vez una copia de seguridad
+• Pensar holísticamente sobre el ciclo de vida completo del producto.
+• Anticipar los modos de falla y los planes de mitigación y recuperación
+
+[p6] El Rol del Arquitecto (continúa)
+En el momento en que se elige el concepto, hay una cantidad relativamente pequeña de información 
+disponible para definir el sistema. Pero muy rápidamente la información explota, a medida que los miembros 
+del equipo comienzan a definir interfaces externas, se lleva a cabo el diseño y la descomposición de primer 
+nivel y se comienzan a definir las consideraciones para los factores posteriores.
+El arquitecto gestiona la inversión en complejidad y la evolución de la complejidad en el sistema, para 
+garantizar que se cumplan los objetivos. Un componente clave del rol del arquitecto en la gestión de la 
+complejidad es garantizar que el sistema sea comprensible para todos. Este objetivo se logra mediante:
+• Descomposición de forma y función.
+• Aclarar la asignación de funcionalidad a elementos de forma.
+• Definición de interfaces entre los subsistemas y el contexto circundante
+• Configuración de los subsistemas.
+• Gestión de la flexibilidad frente a la optimalidad
+• Definición del grado de modularidad.
+• Articulación vertical vs. estrategias horizontales.
+• Equilibrio interno y diseño y fabricación de outsourcing.
+• Controlar la evolución del producto.
+El Rol del Arquitecto (continúa)
+
+[p7] El Rol del Arquitecto (continúa)
+Estos tres roles principales del arquitecto se centran en la información: identificar la información 
+necesaria, coherente e importante mediante la reducción de la ambigüedad; añadiendo nueva 
+información a través de la creatividad; y gestionando la explosión de información en la arquitectura 
+final.
+La ingeniería de sistemas tradicional concibe un proyecto como una compensación a tres bandas entre 
+el desempeño, el cronograma y el costo. [1] La sabiduría duradera es que el ingeniero de sistemas debe 
+identificar las tensiones entre ellas y, al final, puede establecer una de estas tres variables, puede 
+administrar una segunda variable y debe permitir que la tercera variable flote. Las dinámicas que 
+combinan el desempeño, el costo y el cronograma se han definido en gran medida a través de los 
+modelos de gestión de proyectos en Sistemas Dinámicos - System Dynamics, [2], [3], [4] pero la 
+estimación endógena de las tres variables es rara, dada la dificultad de obtener los datos y la experiencia 
+requerida para calibrar estos modelos.
+La complejidad, la creatividad y la ambigüedad no están tan directamente relacionadas con el 
+desempeño, el costo y el cronograma, pero son mucho más amorfas y difíciles de manejar. La metáfora 
+de la tensión en la ingeniería de sistemas es directamente aplicable al rol del arquitecto; Uno de los 
+mecanismos principales por los cuales el arquitecto actúa es reconocer, comunicar y resolver tensiones 
+en el sistema (Recuadro 1 Principio de la función del arquitecto).
+El Rol del Arquitecto (continúa)
+
+[p8] Principios del Rol del Arquitecto
+Principios del Rol del Arquitecto
+"Alguna mente debe dominar, de lo contrario no habrá acuerdo en nada".
+Abraham Lincoln
+"El tiempo tiene mucho que ver con el resultado de un baile de lluvia".
+Dice el Cowboy
+El rol del arquitecto es resolver la ambigüedad, enfocar la creatividad y simplificar la complejidad.
+El arquitecto busca crear sistemas elegantes que creen valor y ventaja competitiva al definir objetivos, 
+funciones y límites; creando el concepto que incorpora la tecnología adecuada; asignación de 
+funcionalidad; y la definición de interfaces, jerarquías y abstracciones para gestionar la complejidad.
+• En vista de la ambigüedad y la complejidad presentes en la mayoría de los sistemas, y la necesidad de 
+equilibrio, a menudo es deseable que la arquitectura sea creada por un solo individuo o un pequeño 
+grupo.
+• El arquitecto mantiene una visión holística, pero siempre se enfoca en la pequeña cantidad de 
+problemas críticos para el diseño.
+• El arquitecto no sigue un solo método, pero adopta diferentes marcos, vistas y paradigmas, según 
+corresponda.
+
+[p9] Reduciendo la Ambigüedad
+Reduciendo la Ambigüedad
+Zhang y Doll [5] acuñaron el término "la parte delantera difusa" para expresar la idea de que las 
+actividades de desarrollo temprano son desafiantes porque los objetivos no están claros. Es posible que 
+estos objetivos no estén claros porque una base de clientes definida no puede articular lo que quiere a 
+continuación, porque el cliente final no tiene claro o porque el progreso de la tecnología subyacente no 
+está clara.
+El liderazgo no es una tarea de gestión exclusiva de los arquitectos de sistemas. Es el liderazgo el que 
+establece una visión para la empresa y moldea un contexto amorfo en un plan ejecutable. Sin embargo, 
+creemos que la tarea del arquitecto es particularmente desafiante porque el arquitecto se encuentra 
+entre la estrategia de la empresa y la definición del producto / sistema y, por lo tanto, debe salvar ambos 
+mundos de manera competente.
+Para estos fines, creemos que es importante que el arquitecto reconozca y sea capaz de lidiar con los 
+diversos tipos de ambigüedad. Hablando estrictamente, la ambigüedad se compone de dos ideas: 
+confusión e incertidumbre. Sin embargo, en el uso común, la ambigüedad también puede connotar 
+información incorrecta, faltante o conflictiva.
+La borrosidad se produce cuando un evento o estado está sujeto a múltiples interpretaciones. Un color 
+puede ser borroso; Si un color es azul o púrpura, se podría interpretar de manera diferente según el 
+espectador.
+
+[p10] Reduciendo la Ambigüedad (Cont.)
+El color tiene una longitud de onda definida, pero su adhesión a las categorías que llamamos azul y 
+púrpura es difusa. La falta de claridad es rampante en las declaraciones de necesidades de los clientes, 
+por ejemplo, cuando dicen que quieren un acabado "suave" o un "buen" kilometraje de gas. La 
+borrosidad también está influenciada por el contexto.
+Lo que es bueno el millaje de gas dependerá de los antecedentes del cliente. Los clientes en América del 
+Norte y Europa tienen diferentes expectativas. [6]
+La incertidumbre ocurre cuando el resultado de un evento no está claro o es objeto de duda. El resultado 
+de un lanzamiento de moneda es incierto. Podemos articular claramente los estados potenciales que 
+podrían ocurrir, pero no sabemos qué estado ocurrirá. Por ejemplo, una nueva tecnología puede o no 
+estar lista en la fecha necesaria para respaldar un nuevo producto.
+Para complicar la ambigüedad que surge de la confusión y la incertidumbre, se encuentran los 
+fenómenos relacionados de información desconocida, información conflictiva e información falsa. Para 
+ilustrar estas variaciones, usamos la abreviatura (X, Y, Z), donde X, Y y Z son las  entradas verdaderas al 
+sistema.
+Reduciendo la Ambigüedad (Cont.)
+
+[p11] Reduciendo la Ambigüedad (Cont.)
+La información desconocida (X, __, Z) ocurre cuando la información no está determinada o no está 
+disponible. Este es un caso muy común al principio del ciclo de desarrollo del producto; por ejemplo, es 
+posible que no sepa nada sobre las intenciones del producto / mercado de sus competidores. Usted 
+puede saber acerca de la ausencia de información; un ejemplo de un desconocido conocido ocurre 
+cuando no sabe si su competidor existente lanzará un producto. Aún más peligroso, es posible que no 
+sepa acerca de la ausencia de información; Esto a menudo se llama un desconocido desconocido. Por 
+ejemplo, un nuevo competidor podría introducir un producto competidor.
+La información conflictiva (X, D, Z y X, B, Z) ocurre cuando dos o más piezas de información ofrecen 
+indicaciones opuestas. El problema está sobre-determinado. Por ejemplo, puede tener información de 
+una fuente de que el gobierno impondrá una nueva regulación que afecta a su producto, pero la 
+información de otra fuente puede sugerir que el gobierno no lo hará.
+La información falsa (F, Y, Z) ocurre cuando se le presentan entradas incorrectas. En este caso, puede 
+creer que tiene toda la información (su información está completa), pero parte de ella es incorrecta. Por 
+ejemplo, es posible que le hayan dicho que un proveedor estará listo en una fecha determinada, cuando 
+el proveedor realmente no tenga ningún plan para estar listo en esa fecha.
+Reduciendo la Ambigüedad (Cont.)
+
+[p12] Reduciendo la Ambigüedad (CONT.)
+Considere las siguientes afirmaciones. ¿Qué tipos de ambigüedad están presentes?
+• ¿Será un niño o una niña? 
+(Incierto, borroso)
+• Producir un producto de alta calidad y bajo costo. 
+(Conflicto, borroso, desconocido)
+• Cada cuarto año es un año bisiesto. 
+(Falso)
+• Por favor, hazme una cubierta suave para este teléfono. 
+(Borroso)
+• Asegúrese de cumplir con sus objetivos trimestrales. 
+(Desconocido, en conflicto)
+La ambigüedad casi siempre está presente en las influencias ascendentes, que hemos segmentado 
+aproximadamente por funciones corporativas.
+❖ Estrategia: ¿Cuánto riesgo están dispuestos a asumir las empresas, la junta directiva o el gobierno?
+❖ Marketing: ¿Se ajustará a los planes de marketing para el posicionamiento de la línea de productos y los 
+canales de distribución?
+❖ Clientes: ¿Qué quieren / necesitan los clientes? ¿Cambiarán sus necesidades con el tiempo?
+Reduciendo la Ambigüedad (CONT.)
+
+[p13] Reduciendo la Ambigüedad (Cont.)
+❖ Fabricación: 
+¿La fabricación estará lista para producirla?
+❖ Operaciones:
+ ¿Qué fallas debe soportar el producto y seguir funcionando?
+❖ I + D: 
+¿Es esa tecnología infusible?
+❖ Regulaciones: 
+¿Cuáles son las regulaciones aplicables? ¿Es probable que cambien?
+❖ Estándares: 
+¿Cuáles son los estándares aplicables, y cambiarán?
+Para cada uno de estos, la información inicial que recibe el arquitecto podría ser borrosa, 
+incierta, faltante, conflictiva o falsa.
+Dadas todas estas fuentes de ambigüedad (Recuadro 9.2 Principio de ambigüedad), la 
+responsabilidad del arquitecto es proporcionar aportes más seguros y menos confusos al 
+equipo. En algunos casos, la ambigüedad puede reducirse mediante el análisis. En otros casos, 
+uno puede elegir imponer restricciones simplemente para hacer el problema más manejable. 
+A veces es necesario hacer una suposición para que el trabajo pueda continuar, teniendo 
+cuidado de marcar bien la suposición para una verificación futura.
+Reduciendo la Ambigüedad (Cont.)
+
+[p14] Principio de Ambigüedad
+Principio de Ambigüedad
+Los mejores planes de ratones y hombres suelen salir mal.
+Robert Burns
+La fase inicial de un diseño de sistema se caracteriza por una gran ambigüedad. El arquitecto debe 
+resolver esta ambigüedad para producir (y actualizar continuamente) los objetivos del equipo del 
+arquitecto.
+❖ El desarrollo es posible solo con la aceptación de la incertidumbre.
+❖ En general, nadie diseña ni controla de manera rigurosa el proceso anterior a la arquitectura, por lo 
+que no debe haber ninguna expectativa de no ambigüedad. Habrá insumos no coordinados, 
+incompletos y en conflicto.
+❖ La incertidumbre puede crear oportunidades; no siempre es malo.
+❖ La ambigüedad contiene incógnitas conocidas e incógnitas desconocidas, así como suposiciones en 
+conflicto y falsas.
+❖ La ambigüedad es especialmente evidente en la interfaz con las influencias ascendentes, porque 
+nadie diseña los procesos ascendentes.
+❖ Las incertidumbres deben identificarse y priorizarse para que puedan ser manejadas
+
+[p15] Reduciendo la Ambigüedad (Cont.)
+El arquitecto debe darse cuenta de que nadie "diseña" explícitamente las influencias en sentido 
+ascendente; más bien, simplemente ocurren, a menudo con resultados incompletos, superpuestos o en 
+conflicto. Es fácil quedar atrapado en el pensamiento de que las influencias ascendentes (estrategia 
+corporativa, mercadeo, la junta, el cliente, el gobierno, etc.) tienen conocimiento que puede reducir la 
+ambigüedad o que tienen la responsabilidad de informar a la arquitectura comentando los primeros 
+borradores.
+El arquitecto debe participar en estas influencias en sentido ascendente y eliminar la ambigüedad para 
+crear una visión y un plan para un producto exitoso. Esto requiere el conocimiento de cuáles son las 
+influencias en sentido ascendente, quién tiene el "control" de ellas y cómo están mejor comprometidas. 
+El arquitecto debe tener en cuenta el objetivo: un conjunto de objetivos coherentes, completos, 
+alcanzables, claros y concisos para el producto.
+Eliminar, reducir y resolver la ambigüedad es la función principal del arquitecto en la interfaz con el 
+proceso ascendente. Las herramientas que presentamos para ayudar con esto incluyen una lista de los 
+entregables del arquitecto y el uso de un proceso de desarrollo de producto holístico (Sección 3), el 
+examen de varias de las principales influencias ascendentes y descendentes (Capítulo 10), el ABCD Caso 
+del producto (Capítulo 10), y el proceso de necesidades a objetivos de los interesados (Capítulo 11).
+Reduciendo la Ambigüedad (Cont.)
+
+[p16] Entregables del arquitecto
+Entregables del arquitecto
+Como resumen del rol del arquitecto, se presenta a continuación la lista de entregables del arquitecto. Tengan 
+en cuenta que los entregables son muy diferentes de las tareas en que son el resultado final, no el 
+procedimiento por el cual se logra el estado. Los entregables incluyen:
+• Un conjunto de objetivos claros, completos, consistentes y alcanzables (con una confianza del 80–90%) (con 
+énfasis en los objetivos funcionales).
+• Una descripción del contexto más amplio en el que se sentará el sistema y todo el contexto del producto 
+(incluidos los legales y los estándares).
+• Un concepto para el sistema.
+• Un concepto de operaciones para el sistema, incluidas las operaciones de contingencia y emergencia.
+• Una descripción funcional del sistema, con al menos dos capas de descomposición, incluida la descripción de 
+la función primaria y secundaria entregada externamente; flujo de procesos con operandos y procesos 
+internos, incluidas las no idealidades, los procesos de soporte y los procesos de interfaz; y un proceso para 
+asegurar que se sigue la descomposición funcional.
+• La descomposición de la forma a dos niveles de detalle, la asignación de la función a la forma y la estructura 
+de la forma en este nivel.
+• Detalles de todas las interfaces externas y un proceso para el control de la interfaz.
+• Una noción del costo de desarrollo, el cronograma y los riesgos, y los planes de diseño e implementación.
+
+[p17] Entregables del arquitecto (Cont.)
+La Tabla 8.1 conduce al desarrollo de todos menos el último entregable, que representa un resumen del 
+proyecto que se realizará. Sin embargo, uno de los muchos desafíos que enfrenta el arquitecto es 
+representar estos entregables de manera que puedan ser fácilmente absorbidos y utilizados. En la Parte 3, 
+nos centramos en la representación de la arquitectura en el contexto de proyectos de desarrollo complejos, 
+donde reconocemos que los lenguajes esquemáticos como OPM y SysML, aunque sean semánticamente 
+exactos, pueden no coincidir con el proceso o la cultura existentes. Por lo tanto, parte del rol del arquitecto 
+es capturar la información de la Parte 2, sin embargo, se puede interpretar más fácilmente.
+En resumen:
+• El rol del arquitecto incluye reducir la ambigüedad, emplear la creatividad y administrar la complejidad.
+• La arquitectura se sienta a horcajadas sobre las actividades anteriores (las cosas que se hacen antes de que 
+se cree la arquitectura) y las actividades posteriores (las cosas que se hacen después de que se crea la 
+arquitectura pero que deben incluirse en la arquitectura). La ambigüedad surge de ambos.
+• En la práctica común, la ambigüedad es una combinación de información confusa, incertidumbre, 
+información faltante, información conflictiva e información incorrecta. El trabajo principal del arquitecto en 
+la interfaz con el flujo ascendente (el extremo frontal difuso) es conducir la mayor parte de esta ambigüedad 
+del sistema como sea posible.
+• Una forma de alto nivel para hacer esto es comenzar a preparar los entregables del arquitecto.
+Entregables del arquitecto (Cont.)
+
+[p18] 3 - Procesos de Desarrollo de Producto (PDP)
+3 - Procesos de Desarrollo de Producto (PDP)
+Casi todas las grandes empresas de hoy han definido un proceso interno de desarrollo de productos (PDP). Esto 
+captura la metodología de desarrollo de productos, incluida la terminología, las fases, los hitos, los cronogramas y 
+las listas de tareas y resultados. La intención del PDP es proporcionar un marco empresarial que capture la sabiduría 
+de los esfuerzos de desarrollo anteriores y los procesos y enfoques estándar (los esfuerzos en sentido ascendente 
+reflejan las lecciones aprendidas de desarrollos pasados, los procedimientos de prueba son críticos para el éxito 
+regulatorio, etc.).
+Desde nuestra perspectiva, una de las principales ventajas del PDP es que es una herramienta para reducir la 
+ambigüedad mediante la definición de tareas y responsabilidades. Es fácil dejarse llevar por la noción de que el 
+PDP trabajará paso a paso a través de las ambigüedades en sentido ascendente, dejando al arquitecto con una 
+comprensión clara de la estrategia, el mercado, las necesidades del cliente y la tecnología. Esto sólo es parcialmente 
+cierto.  El PDP puede perjudicar al arquitecto si supone más certeza de la que está presente. Usaremos el PDP como 
+punto de partida para examinar las influencias ascendentes y descendentes y como un método para eliminar la 
+ambigüedad inicial del sistema.
+Similitudes y diferencias entre los PDP de las empresas 
+Una inspección de varios PDP específicos de la empresa sugiere que parecen sorprendentemente similares, incluso 
+en industrias y sectores muy diferentes. Esto sugiere que existe una práctica efectiva subyacente en el desarrollo de 
+productos. El propósito principal de esta sección es desarrollar un PDP genérico, utilizando una representación 
+intencionalmente diferente de un gráfico de puerta de escenario tradicional. Nos centraremos en las actividades 
+comunes de desarrollo de productos, en lugar de su secuencia, de modo que el modelo sea aplicable tanto a 
+procesos sincronizados en etapas como a procesos no sincronizados.
+
+[p19] Similitudes y diferencias entre los PDP de las
+Similitudes y diferencias entre los PDP de las 
+Empresas (Cont.) 
+Un segundo propósito es desarrollar la habilidad del lector para comprender y evaluar la innovación 
+contemporánea en el desarrollo de productos, métodos como Lean, Agile, Six Sigma, Scrum y Voice of the 
+Customer. La cultura moderna de la ingeniería está llena de métodos e iniciativas. Algunos de estos métodos 
+avanzan en proposiciones que pueden ser probadas para su validez; Otros no lo hacen. Algunos de estos 
+métodos intentan capturar aspectos intangibles de la cultura de la empresa, con diversos grados de éxito. 
+Nuestro objetivo es que el lector se convierta en un consumidor educado de estos métodos: evaluar su utilidad, 
+comprender sus implicaciones y aplicarlos en el contexto en el que fueron creados, pero no más allá.
+Desde la perspectiva del alcance, muchos PDP excluyen el proceso ascendente de concebir el producto (define 
+qué se debe construir). Además, muchos no incluyen la operación real del producto, sino que simplemente 
+asumen que la responsabilidad del constructor termina con el envío. Esto es cierto en algunos sectores, pero a 
+menudo la necesidad de considerar las operaciones y el servicio es lo suficientemente grande como para que las 
+operaciones hasta su retiro se consideren para su inclusión en el PDP. De acuerdo con nuestro enfoque holístico, 
+buscamos un PDP que no solo sea “desde el nacimiento hasta morir” sino también “desde la lujuria al polvo”; es 
+decir, captura las actividades desde la primera vez que se visualiza un producto hasta que la última instancia. es 
+retira 
+Comenzamos con la NASA (ver Figura 1). El PDP de la NASA incluye algunos aspectos de la parte de inicio difuso 
+(factibilidad, aprobación, requerimientos), pero gran parte de lo difuso se oculta en esta fase inicial en  la 
+solicitud inicial de Adquisición de Equipamiento del Gobierno (GFE). El proceso de la NASA también incluye 
+operaciones, ya que la NASA es el operador de la mayoría de sus productos.
+
+[p20] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+Las influencias ascendentes en el PDP de la NASA no se capturan en este PDP; donde podría esperar encontrar un 
+análisis de mercado, el PDP de la NASA señala solo una pregunta de factibilidad. La realidad es que el análisis de 
+mercado de la NASA combina decisiones presupuestarias, valor público, objetivos científicos y preguntas básicas de la 
+industria.  Básicamente, el PDP de la NASA procede linealmente de la factibilidad a las operaciones, [8] sin iteración 
+y sin referencia explícita al proceso de desarrollo de la tecnología.
+El PDP de la NASA refleja las realidades de sus partes interesadas y los productos que construye: satélites científicos, 
+la Estación Espacial Internacional, el Transbordador Espacial, etc. Estos son sistemas espaciales predominantemente 
+costosos y de bajo volumen. No pueden probarse in situ antes de las operaciones, ni tampoco pueden repararse 
+fácilmente. Hay un alto costo percibido por el fracaso público, [9] especialmente para los vuelos espaciales humanos. 
+Ya sea a través de la lente de la seguridad o de las operaciones, el PDP de la NASA pone un énfasis significativo en la 
+trazabilidad de los requerimientos y los procesos formales de revisión, aprobación y control de cambios, un 
+atributo que ha sido recomendado (el proceso de reparación de imperfecciones en el espejo del Telescopio Espacial 
+Hubble) y desafiado (la junta de investigación de accidentes del transbordador espacial Columbia).
+El PDP de Helicopter Inc. se muestra en la Figura 9.2, donde se ha enmascarado el nombre de la empresa. Helicopter 
+Inc. fabrica helicópteros para aplicaciones militares y civiles.  Obtiene la mayoría de los ingresos de los contratos del 
+gobierno y sus productos compiten en un mercado altamente regulado. En comparación con el PDP de la NASA, los 
+bucles de iteración se destacan en la Figura 9.2. Este es un reconocimiento de que incluso en un entorno de 
+desarrollo aeroespacial similar a la NASA,  la iteración es inevitable y no está reñida con un proceso sincronizado. El 
+proceso de Helicopter Inc. se centra literalmente en un evento regulatorio, la certificación de la FAA. Sin embargo, esa 
+certificación es un instrumento del proceso más importante, a saber, las ventas.
+Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+
+[p21] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+Similitudes y Diferencias entre los PDP de las Empresas (CONT.) 
+Phase 1
+Phase 2
+Phase 3
+Phase 4
+Phase 5
+Phase 6
+Phase 7
+Phase 8
+Evaluación
+Factibilidad
+Definición del 
+Proyecto Y 
+Aprobación
+Definición
+Requerim.
+Diseño
+Preliminar
+Diseño
+Detalle
+Producc de 
+vuelo. y 
+Certificac.
+Despliegue
+Operación
+EMR 
+End of Mission Review
+FA 
+Feasibility Assessment
+FRR 
+Flight Readiness Review
+GFE 
+Government Furnished Equipment
+ITA 
+Internal Task Agreement
+CDR 
+Critical Design Review
+PDR 
+Preliminary Design Review
+PMP 
+Project Management Plan
+SAR 
+System Acceptance Review
+SRR 
+System Requirements Review
+Project Management of GFE Flight Projects, Work Instruction, Engineering Directorate, Project Management Office, Book Manager: EA2/Lauri Hansen
+GFE
+Request
+FA/fom
+EA 002
+Approval
+ITA/P
+MP
+SRR
+PD
+R
+CDR
+SAR
+FRR
+EMR
+Compuertas
+Para Cambio de 
+Fase
+Compuertas de Control
+Fases del ciclo de vida
+
+[p22] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)  [FIGURA]
+Similitudes y Diferencias entre los PDP de las Empresas (CONT.) 
+Concepción
+Diseno
+Implementación
+Operaciones
+
+[p23] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+Curiosamente, este diagrama incluye comentarios de productos (implícitos de los clientes) pero no representa explícitamente 
+a los clientes por adelantado. ¿Helicopter Inc. concibe productos y luego los prueba en el mercado, o reúne las necesidades 
+de los clientes y las subvenciones para el desarrollo, o una combinación de ambas? En este nivel, todo lo que se puede 
+determinar es el aporte de los clientes y otras partes interesadas, está implícito en la declaración de la misión.
+En el PDP de Helicopter Inc., podemos comenzar a ver las cuatro actividades principales que son comunes a casi todos los PDP 
+completos y formarán la base de nuestra PDP Genérico: 
+•
+Concepción - declaración de misión, desarrollo de conceptos, diseño a nivel de sistema; 
+•
+Diseño - diseño detallado; 
+•
+Implementación - fabricación, prueba y aceleración; y 
+•
+Operaciones  - implícitas en el soporte y el retiro, aunque Helicopter Inc. puede no operar sus productos explícitamente. 
+¿Algún parecido a nuestra metodología de aprendizaje CDIO?
+Un tercer PDP, para Camera Co., se muestra en la Figura 9.3, donde se ha enmascarado el nombre de la empresa. Camera Co. 
+vende películas y cámaras para aplicaciones amateur y profesionales.
+Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+
+[p24] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)  [FIGURA]
+Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+
+[p25] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+El nivel de competencia en sus mercados es muy diferente del que enfrentan la NASA y Helicopter Inc., al igual 
+que su base de clientes diversa y distribuida. El PDP de Camera Co. muestra explícitamente los procesos de 
+estrategia en sentido ascendente, la voz del cliente y la I + D, que forman parte de nuestra fase genérica de 
+concepción. El proceso de desarrollo de la fabricación en realidad precede al desarrollo del producto, dado que 
+Camera Co. se encuentra en una industria basada en procesos. Esto trae a la superficie la idea de que la 
+implementación de productos es un importante impulsor del PDP general.
+Aunque Camera Co. a menudo se considera una empresa impulsada por la investigación y el desarrollo, es 
+interesante observar que la voz del cliente precede teóricamente a la I + D y al flujo de tecnología. ¿Es esta una 
+representación real del proceso, o es un intento de influir en una compañía tradicionalmente centrada en la 
+tecnología? La fabricación se produce en el PDP antes del desarrollo del producto. ¿Qué sugiere esto sobre el 
+papel del arquitecto en la reducción de la ambigüedad? Quizás la reducción de la ambigüedad asociada con la 
+calidad de la fabricación sea un papel más importante que la innovación en la oferta de productos, dada la base 
+estable y leal de los clientes de Camera Co. 
+Como cuarto ejemplo, el PDP Agile enfatiza el desarrollo iterativo e incremental. Usando Agile, los equipos 
+colaborativos evolucionan los requerimientos y las soluciones en un enfoque algo evolutivo. Sus orígenes se 
+encuentran en la creación rápida de prototipos de código de software para aplicaciones pequeñas y medianas. 
+Agile enfatiza las interacciones entre individuos que están construyendo código real sobre documentación, 
+negociaciones y planificación (Figura 9.4). Más allá del software, Agile se ha utilizado como un vocablo para 
+agitar los procesos de desarrollo en industrias más intensivas en capital y con un ciclo de vida más largo. Para ser 
+un consumidor educado de PDP, el lector debe considerar en qué contextos Agile es apropiado y útil.
+Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+
+[p26] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+Sobre la base de un análisis de los cuatro procesos simplificados de desarrollo de productos, identificamos 
+muchas similitudes y diferencias. La clave de esta discusión de los PDP es la cuestión de si las diferencias 
+son superficiales o sustanciales: ¿Alguien diseñó las diferencias para reflejar los sectores en los que operan 
+las organizaciones? De manera similar, planteamos la pregunta de si el PDP representó los "datos reales" 
+del desarrollo del producto o una imagen desplazada con la intención de motivar y transformar la 
+organización.
+Estas son algunas de las diferencias que observamos entre los procesos de desarrollo de productos:
+❖Existencia y número de fases y criterios de la salida de fase (y grado de formalidad)
+❖ Existencia y número de revisiones de diseño
+❖Tiempo para comprometer capital
+❖ Requerimientos de “cumplimiento”
+❖ Grado de comentarios del cliente, comentarios, ventas e integración del mercado de accesorios
+❖ Grado de iteración explícita / implícita
+❖ Cantidad de prototipos
+❖ Pruebas internas y esfuerzo de validación, importancia de la trazabilidad
+❖ Tiempo de participación del proveedor
+Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+
+[p27]   [FIGURA]
+(sin texto)
+
+[p28] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+Argumentaríamos que varias de estas diferencias, como el número de fases y la representación de las 
+aportaciones de los clientes, son superficiales. ¿Qué diferencias son importantes?
+Hay muchos factores que podrían generar diferencias entre los PDP, como el hardware frente al software, el 
+producto existente o el nuevo producto, el modo de producción independiente, el volumen de producción, 
+la intensidad de capital y el impulso de la tecnología frente al impulso del mercado frente al proceso. Un 
+usuario informado de los PDP juzga qué aspectos del proceso están bien afinados por la experiencia, son 
+implementables y necesarios, y luego los aplica juiciosamente al producto en desarrollo.
+Similitudes y Diferencias entre los PDP de las Empresas (CONT.) 
+Plan y 
+recolección de 
+los datos del 
+cliente
+Implementar 
+diseño. 
+implementar funciones 
+de alto costo de desarr. 
+y bajo costo de interfaz 
+de usuario
+Diseñar para el ciclo 2
+Colectar datos del 
+cliente para el ciclo 3
+Ciclo 0
+Ciclo 1
+Ciclo 2
+Ciclo 3
+Ensayos del ciclo 1
+Diseno para el ciclo 3
+Colectar datos del 
+cliente para el ciclo 4
+Ensayos del ciclo 2
+Diseno para el ciclo 4
+Colectar datos del 
+cliente para el ciclo 5
+Camino del desarrollador
+Data
+Diseño
+Codigo
+Data
+Camino de 
+interación  del  
+diseñador
+Implementar 
+diseño. 
+Codigo
+Diseño
+
+[p29] Proceso de Desarrollo de Producto Genérico
+Proceso de Desarrollo de Producto Genérico
+A pesar de estas diferencias entre los PDP discutidos anteriormente, hay enormes similitudes. De hecho, cuando 
+ingenieros y arquitectos de diversos orígenes superan las distinciones superficiales en sus PDP, encuentran una gran 
+cantidad de prácticas comunes, que codificamos en el PDP genérico.
+La figura 9.5 proporciona una representación de las actividades comunes del PDP genérico. El énfasis está en las 
+actividades de varios tipos, y la Figura 9.5 no debe leerse como un enfoque por etapas. Los estudios han demostrado 
+que las representaciones lineales del proceso de diseño tienen fallas profundas. [10] No representan las iteraciones y 
+la retroalimentación, suponen un flujo lineal de tiempo y esfuerzo a través de las etapas, y pueden enmascarar la 
+inmadurez de un diseño cuando se comprometen los criterios de las puertas (revisiones entre Fases).
+El PDP genérico de la Figura 9.5 pretende ser una lista de verificación de las actividades que aparecen como PDP 
+incompletas, agrupadas en cuatro grupos: Concebir (determinar qué se construirá, basándose principalmente en las 
+necesidades del mercado y la disponibilidad de tecnología); Diseño (representación del objeto de información que 
+define lo que se va a implementar); Implementando (convirtiendo el diseño en realidad); y Operativo (la operación del 
+sistema para entregar valor). La palabra "implementación" se elige deliberadamente para incluir la codificación del 
+software, la fabricación de productos duros y la integración en los sistemas. “Operaciones” tiene la sensación de que 
+respalda las instancias existentes del producto y la liberación de productos futuros. Las operaciones terminan en el 
+retiro.
+La figura 9.5 también representa el límite del sistema del arquitecto. El arquitecto a menudo se involucra con un 
+proyecto después de un pequeño número de actividades anteriores, como las decisiones de estrategia funcional. Para 
+que tengan éxito, el arquitecto debe participar plenamente en las actividades etiquetadas como "el dominio principal 
+del arquitecto".
+
+[p30] Fases del Ciclo de vida de NASA -
+Concebir
+Diseñar
+Implementar
+Operar
+Misión
+Diseño 
+Concept.
+Diseño 
+Preliminar
+Diseño 
+Detalle
+Creación 
+Elementos
+Ensamble
+Integración y 
+Ensayos
+Soporte del 
+Ciclo de Vida
+Evolución
+• Estrategia de Negocio
+• Estratgia Funcional
+• Necesidad Cliente
+• Competidor
+• Plan del Programa
+• Caso de Negocio
+• Metas
+• Funciones
+• Conceptos
+• Regulaciones
+•Tecnologías
+• Plan de 
+Suministros
+• Plan de 
+Plataforma
+• Arquitectura
+• Compromiso
+• Def Requers
+• Desarrollo de 
+Modelos
+• Flujo 
+descendente de 
+Requer.
+• Descompos. en 
+Detalles
+• Interfaces
+• Elaboración del 
+Diseño
+• Metas de 
+Verificación
+• Análisis de 
+Contingencias y 
+Fallas
+• Diseño Validado
+• Fuentes
+• Incremento de 
+implement.
+• Implement. de 
+Elementos
+• Ensayos de 
+Elementos
+• Refinamiento de 
+elementos
+• Integración de 
+Producto
+• Ensayo de 
+Producto
+• Ensayo de 
+Sistema
+• Refinamiento
+• Certificación
+• Posicionam. En el 
+Mercado
+• Entrega
+• Distribución, 
+ventas
+• Operaciones
+• Logística
+• Soporte a 
+Clientes
+• Mantenim, 
+Reparación, 
+Revisar
+• Actualizar
+• Mejora de 
+Producto
+• Expansión 
+Familiar
+• Retiro
+Imaginar
+Diseñar
+Desarrollar
+Desplegar
+Fases del Ciclo de vida de NASA - 
+CDIO
+Dominio 
+Primario 
+del 
+Arquitecto
+Influencia Corriente Abajo
+Proceso de Desarrollo de Producto Genérico (CONT.)
+Figura 9.5 Nuestro PDP genérico.
+Representa las actividades de un PDP completo y no pretende representar un proceso de puerta - etapa
+
+[p31] Proceso de Desarrollo de Producto Genérico (CONT.)
+Una de los roles del arquitecto es mover la información relevante hacia abajo a la fase de arquitectura. Esto 
+se ilustra como un flujo inverso en la figura 9.5. La experiencia sugiere que es fácil mover las restricciones 
+hacia arriba. Por ejemplo, podríamos argumentar que la capacidad de reparación es un atributo importante 
+del producto, por lo tanto, todas las piezas que se desgastan deben tener un color diferente, deben ser 
+accesibles rápidamente y diagnosticarse fácilmente. La información para moverse en sentido ascendente es 
+abundante, pero es más difícil saber qué información diferenciará significativamente entre arquitecturas. 
+Este es un tema que revisaremos formalmente en la Parte 4. Con el fin de apoyar la comparación entre los 
+procesos de desarrollo de productos, nos moveremos fuera de esta representación más tradicional, y 
+construya un segundo PDP llamado Global PDP. Nuestra intención es construir una línea de base extendida 
+contra la cual se puedan analizar diferentes PDP, con el fin de identificar influencias en sentido ascendente y 
+descendente de la arquitectura. Para comenzar nuestro PDP global, desarrollamos tres vistas anidadas de las 
+influencias de la arquitectura. El primer nivel, que se muestra en la Figura 9.6, se centra en la arquitectura del 
+producto, que hemos representado por sus siete atributos de producto / sistema. La función y la forma se 
+discuten ampliamente en la Parte 2. La elección de la arquitectura del sistema es un reflejo de los objetivos 
+del producto, que a su vez están configurados para responder a las necesidades del mercado y de las partes 
+interesadas. Más allá de la arquitectura, hemos capturado las operaciones posteriores desde la perspectiva 
+del operador del producto, incluidas las operaciones y el costo, los cuales están determinados por las 
+elecciones arquitectónicas realizadas y representan una fuente de ambigüedad posterior para el arquitecto.
+Proceso de Desarrollo de Producto Genérico (CONT.)
+
+[p32] Proceso de Desarrollo de Producto Genérico (CONT.)
+Aunque se ejecuta de izquierda a derecha, esta representación genérica representa actividades, no un 
+proceso sincronizado de etapas. Las flechas de doble cabeza que muestran las dependencias principales que 
+implican la posibilidad de iteraciones
+En este nivel de ampliación, el arquitecto está tratando de responder las Preguntas W canónicas que también 
+se muestran en la Figura 9.6: por qué, qué, cómo, dónde, cuándo, quién y cuánto (preguntas que comienzan 
+con W en inglés). Tenga en cuenta que en esta representación, la forma que responde donde, dado que la 
+forma existe y, por lo tanto, tiene ubicación. Uno de los estudiantes opinó una vez que no asistió al MIT para 
+volver al cuarto grado de la secundaria. Como ocurre con muchas verdades fundamentales, esta lista 
+seguramente reaparecerá en la búsqueda del holismo en el desarrollo de sistemas.
+Las preguntas W (why, what, where ….) comparten un ancestro lingüístico común: quo del indoeuropeo. 
+Muchas lenguas indoeuropeas utilizan un sonido común como base para estas palabras. El francés usa "qu", 
+como en qui, quoi, quand, combien, ou, comment y pourquoi. Hindi usa "k", como en kab, kya, kyon, kitne, 
+kisne y kahan. El antiguo retórico griego Hermágoras definió siete circunstancias en el corazón de todas las 
+cuestiones: quis, quid, quando, ubi, cur, quem ad modum y quibus adminiculis.
+La implicación es que el arquitecto que desea tener una visión holística de los procesos de desarrollo del 
+producto debe comprender muy bien estos atributos.
+Proceso de Desarrollo de Producto Genérico (CONT.)
+
+[p33] Proceso de Desarrollo de Producto Genérico (CONT.)  [FIGURA]
+Proceso de Desarrollo de Producto Genérico (CONT.)
+
+[p34] Proceso de Desarrollo de Producto Genérico (CONT.)
+Avanzando una capa en nuestro PDP global (Figura 9.7), incluimos las actividades del proceso de diseño y el 
+proceso de implementación, y observamos que cada una tiene su propia instanciación de las Preguntas W 
+canónicas. Es probable que el proceso de diseño tenga su propio conjunto de formas, en particular 
+herramientas de diseño, que darán forma y limitarán la forma del sistema disponible (un dibujante equipado 
+con una regla fija producirá representaciones diferentes de uno equipado con una curva francesa, pistolete).
+Como ejemplo de los costos de diseño que influyen en la arquitectura, muchos fabricantes de automóviles 
+tienen una política de costos de diseño de ingeniería no recurrente (NRE) para los vehículos de plataforma, por 
+lo que cualquier vehículo que se produzca en el mismo año y que se produzca al mismo volumen debe dividir 
+los costos de diseño de NRE de manera uniforme. Esta política no es parte explícita de la evaluación técnica de 
+un concepto, ni habría estado presente en una revisión por etapas, pero es claramente parte de nuestro PDP 
+genérico porque tendrá un impacto significativo en la capacidad de una variante para entregar valor.
+Asimismo, el proceso de implementación tendrá capacidades y limitaciones. Para el arquitecto, esta 
+representación implica que los procesos existentes en la implementación se deben tener en cuenta en la 
+arquitectura del producto.
+Cualquier PDP o nuevo método de diseño puede evaluarse críticamente comparándolo con las 21 preguntas 
+implícitas en la Figura 9.7. Pocos métodos responderán a las 21 preguntas, por lo que el propósito es 
+comprender en qué áreas es más sólido un marco de referencia. Por ejemplo, el movimiento Lean comenzó 
+con estudios del Sistema de Producción Toyota y evolucionó hacia principios, métodos y herramientas para 
+mejorar los costos de fabricación y calidad. [11]
+Proceso de Desarrollo de Producto Genérico (CONT.)
+
+[p35] Proceso de Desarrollo de Producto Genérico (CONT.)
+La tercera vista anidada de nuestro PDP global (Figura 9.8) coloca al PDP de la empresa en el contexto de 
+sus actividades generales. Varias funciones de la empresa se muestran dentro de los límites de la 
+empresa. Por ejemplo, la I+D y las funciones corporativas son principalmente hacia arriba. Las relaciones 
+públicas, las ventas y la distribución son posteriores. Habilidades humanas, sistemas de información y 
+herramientas de ingeniería impregnan el diagrama. Algunas de estas funciones están bien representadas 
+como upstream o downstream, mientras que otras (como la estrategia corporativa) pueden desempeñar 
+un papel en varios lugares.
+Al margen de la empresa, el diagrama ilustra una lista incompleta de actores y atributos que afectan a la 
+empresa. Estos van desde la disponibilidad de capital en el mercado hasta la competencia y el impacto 
+social. Las funciones corporativas cercanas a las interacciones externas están destinadas a facilitar las 
+interacciones.
+El propósito de esta visión más amplia del PDP es recordar al arquitecto que comprender los contenidos 
+del PDP no es necesariamente suficiente. El arquitecto debe conocer otras cuestiones que influyen en la 
+empresa y el contexto, como se muestra en el Cuadro 9.3 Principio de las tensiones de la práctica 
+moderna. (Principle of the Stress of Modern Practice)
+Proceso de Desarrollo de Producto Genérico (CONT.)
+
+[p36] Proceso de Desarrollo de Producto Genérico (CONT.)  [FIGURA]
+Proceso de Desarrollo de Producto Genérico (CONT.)
+
+[p37] Operar
+Necesidad
+es de la 
+sociedad
+Clientes
+Implementacion 
+del Equipo
+Flujo del 
+Proceso
+Implementacion 
+de Planificación
+Implementacion de 
+Costos
+Implement.
+de Metas
+Implementacion 
+de Herramientas
+Costos de 
+Operación
+Operador 
+del 
+Producto
+Costos no 
+recurrentes
+Planifica.  
+del diseño
+Herram. 
+de Diseño
+Tiempo 
+del 
+Producto
+Función 
+del 
+Producto 
+Metas 
+del 
+Producto
+Forma del 
+Producto
+Métodos 
+Procesos
+Equipo de 
+Diseño
+Metas 
+del 
+Diseño
+Operar
+Concebir
+Implementar
+Diseñar
+Cuanto
+Quien 
+Cuando
+Donde
+Como
+Que
+Porque
+La Figura 9.7, la segunda vista anidada del PDP global, nuestro marco holístico para el desarrollo de productos / sistemas, muestra explícitamente los esfuerzos de diseño e 
+implementación como actividades paralelas. Tenga en cuenta que las interacciones son bidireccionales y que el flujo de izquierda a derecha no está implícito.
+
+[p38] Proceso de Desarrollo de Producto Genérico (CONT.)
+Implementar
+Concebir
+Diseñar
+Operar
+Economía Global
+Capital
+Metas Accionistas
+Politicas
+Recursos Humanos
+Regulaciones
+Necesidades
+De los Clientes
+Competencia
+Tecnologías
+Servicios
+Bienes 
+Manufacturados
+Material Crudo
+Corporaciones
+Legal
+Mercado
+I+D
+Operaciones
+Corporaciones
+Relaciones Públicas
+Legal
+Mercado
+Ventas 
+Distribución
+I+D
+Conformidad
+Ambientales
+Impacto Económico
+Ganancias
+Impacto Politico
+Impacto 
+Social
+Imagen Corporativa
+Propiedad 
+Intelectual
+Bienes
+Servicios
+Tecnologia
+Polución
+Habilidades 
+Humanas
+Gestión
+Empresa
+Cultura 
+Corporativa
+Proceso de Desarrollo de Producto Genérico (CONT.)
+Sistemas de 
+Información
+Herramientas 
+de Ingeniería
+La Figura 9.8, el PDP global en el contexto de la empresa productora, mostrando contribuciones desde dentro de la empresa 
+e interacciones en los límites de la empresa. 
+Upstream
+Downstream
+
+[p39] Principio de las tensiones (estrés) de la Práctica
+Principio de las tensiones (estrés) de la Práctica 
+Moderna
+"Las cosas que más importan nunca deben estar a merced de las cosas que menos importan".
+Johann Wolfgang Von Goethe
+El proceso moderno de desarrollo de productos, con concurrencia, equipos distribuidos y el 
+compromiso del proveedor, pone aún más énfasis en tener una buena arquitectura. Reconozca 
+esta tendencia y el impacto que tiene en el proceso de la arquitectura.
+• Acelerar el proceso de desarrollo mediante la concurrencia aumenta la importancia de las 
+decisiones conceptuales iniciales.
+• Llevar la toma de decisiones al nivel más bajo apropiado (empoderamiento) y el uso de 
+equipos distribuidos o no asociados aumenta la importancia de una guía de diseño de alto 
+nivel bien coordinada y visible.
+• Involucrar a los proveedores al principio del proceso aumenta la importancia de tener un 
+concepto arquitectónico y una línea de base; Los proveedores pueden definir o desafiar la 
+descomposición
+
+[p40] Resumen
+Resumen
+Este capítulo se centró en el papel del arquitecto, particularmente su papel en la reducción de la 
+ambigüedad. El principal hallazgo es que el arquitecto no es un generalista sino un especialista en 
+resolución de ambigüedades, que enfoca la creatividad y simplifica la complejidad. El arquitecto 
+debe comprender los tipos de ambigüedad: borrosidad, incertidumbre e información faltante, 
+conflictiva o incorrecta.
+El arquitecto es responsable de producir ciertos entregables, que son fundamentales para la función 
+de reducir la ambigüedad y servir de puente entre las funciones corporativas y el entorno de diseño.
+Para resaltar este rol, examinamos dónde encaja dentro del contexto de un proceso de desarrollo de 
+productos. Aunque muchos PDP parecen diferentes, comparten características subyacentes. Los 
+arquitectos deben poder discernir qué segmentos de un PDP están vinculados de manera central a 
+su rol, acciones y resultados, al igual que el arquitecto debe adquirir habilidad para interpretar 
+nuevas iniciativas de desarrollo de productos.
+
+[p41] Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+El término "arquitecto" surge de la arquitectura civil, pero ¿qué comparten los dos campos?
+Cuando se compara la arquitectura civil con la arquitectura del sistema, se da cuenta de que hay 
+un aspecto interpretativo-interactivo-rendimiento del diseño de edificios que hace que la 
+arquitectura civil sea diferente a muchas otras formas de diseño industrial o de producto. Más 
+que muchos otros tipos de productos, los edificios heredan complejas cualidades culturales y 
+simbólicas que afectan la planificación del espacio, la calidad del material y la experiencia del 
+usuario. Idealmente, los "problemas especiales" de un edificio informan el "diseño". Ciertos 
+dispositivos como helicópteros, veleros y computadoras (entre muchos otros) son buenos 
+ejemplos del éxito en la resolución de "problemas especiales" y cómo el concepto, diseño y la 
+ingeniería puede introducir una elegancia, simplicidad y belleza que trasciendan el estilo de estos 
+productos. Porque los edificios solo se pueden ver y experimentar como parte.
+ Debido a que los edificios normalmente no se burlan de antemano, existe un gran elemento de 
+riesgo para determinar el éxito de un diseño ... algo que generalmente se asocia con las artes.
+En contraste con un proceso de desarrollo de productos convencional, hemos utilizado el 
+siguiente "proceso de diseño con actitud" para llamar la atención sobre las propiedades de 
+emergentes más importantes que determinarán el éxito y la longevidad de la arquitectura.
+By Steve Imrich, Architect and Principal at Cambridge Seven Associates, With thanks to Allan Donnelly
+
+[p42] Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+❖ Contexto ... El contexto dentro del cual existe un edificio se basa en los edificios adyacentes existentes, las 
+normas culturales y las asociaciones sobre el entorno construido, las condiciones ambientales, la historia y las 
+motivaciones de las organizaciones y las personas para las cuales está diseñado el edificio.
+❖ Contenido ... El contenido de un edificio incluye sus requisitos programáticos y su desempeño funcional. El 
+contenido describe el propósito que el edificio debe servir y los elementos a través de los cuales se realiza ese 
+propósito.
+❖ Concepto ... El concepto para un proyecto de construcción es el punto de partida para la organización y la 
+experiencia. El concepto es la idea unificadora mediante la cual se evalúan todas las decisiones de diseño 
+(Figura 9.9).
+❖ Circuito ... El tejido conectivo entre los componentes funcionales del circuito del edificio, cuando se hace 
+bien, proporciona más que un camino para ir del punto A al B pero también crea interés y anticipación sobre 
+cómo se revelan de forma dinámica y progresiva los límites, umbrales y bordes de los espacios.
+❖ Carácter ... Al igual que con las personas, el carácter de un edificio puede generar un atractivo duradero, una 
+fascinación efímera o muy poca respuesta. La posibilidad de que un edificio se conecte con la naturaleza, su 
+sitio y un sentido de la vida más allá de las agregaciones de sus materiales se habla de él carácter. Con el 
+tiempo, las asociaciones positivas con el uso del edificio y su presencia visual se convierten en la sustancia que 
+se encuentra más allá de la fachada y los patrones que todos usamos para evaluar las cualidades de nuestro 
+entorno.
+Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+
+[p43] Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+❖ Magia ... La Magia es una calidad en gran parte intangible que se define principalmente por la 
+experiencia del usuario con un edificio. Los edificios que exhiben magia pueden tener una vida y una 
+atracción generalizadas más allá de las intenciones del propietario y del diseñador. Cuando se trabaja 
+bien, la magia de un lugar fomenta un deleite inherente y un aprecio gozoso por experimentar lo 
+inesperado. Los edificios que exhiben las mejores cualidades de la magia a menudo se convierten en las 
+estructuras más icónicas y memorables de nuestro mundo diseñado (Figura 9.10).
+Me gustaría centrarme en dos elementos, el concepto y la magia.
+Lo que se agrega a un diseño para que sea más práctico es un desafío que los arquitectos enfrentan cada 
+día. Un concepto es una idea que sigue a todo el proyecto, pero es más que una sola línea. La idea tiene 
+sustancia, profundidad, riqueza, sutileza y claridad. La idea tiene que tener sustancia; No es un 
+recubrimiento ni un camuflaje ni una metáfora. El concepto debe abarcar tanto la estructura del edificio 
+como su aspecto. La generación de conceptos es exitosa cuando integra y equilibra la naturaleza del 
+contenido y la naturaleza del contexto.
+Con este fin, los arquitectos hacen una investigación profunda para identificar esta "naturaleza". El 
+concepto es el punto de partida. Que nunca está limpio.
+Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+
+[p44] Figura 10 La magia en la arquitectura civil. Las cualidades de la
+Figura 10 La magia en la arquitectura civil. Las cualidades de la 
+"magia" permiten que las estructuras se conviertan en 
+memorables e icónicas para una cultura.
+
+[p45] Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+Debido a la naturaleza compleja de los proyectos de construcción, es útil en el proceso de diseño mantenerse 
+anclado a una idea más grande y simple. Un concepto sólido proporciona el marco para la integración de rendimiento 
+y forma. La arquitectura de un edificio debe racionalizar la experiencia del usuario. Un concepto claro junto con una 
+ejecución excelente hará que la idea sea comprensible para el usuario sin ninguna información externa.
+La magia es muy importante en la arquitectura. Es el surgimiento de la elegancia y el carácter a nivel de edificio, el 
+juego de manos. La magia es una cualidad que puede ser difícil de definir, pero cuando algo es mágico, la cualidad es 
+inmediatamente reconocible. La magia ocurre cuando un edificio se involucra y se deleita [para dejar una imagen 
+indeleble en la memoria de una persona]. La magia es la circunstancia inusual que se normaliza en una buena 
+arquitectura.
+La magia es ese momento de sorpresa que deja a una persona asombrada  e impresionada. Eladio Dieste dijo: “La 
+sorpresa, como todo arte y arquitectura, nos ayuda a contemplar. La vida desgasta nuestra capacidad de sorpresa. La 
+sorpresa es el comienzo de una verdadera visión del mundo ”. La arquitectura exuda una calidad mágica cuando sus 
+elementos formales y características funcionales se combinan para crear una experiencia emocional, atemporal y no 
+anticipada.
+El desempeño de una bailarina y el de una gimnasta tienen características en común que involucran el atletismo, los 
+patrones dinámicos y los matices de expresión, sin embargo, una de las actividades se considera más en el ámbito del 
+"arte" mientras que la otra está más en sintonía con experiencia "atlética". En la “arquitectura” mágica, 
+experimentamos la intriga de la expresión artística con logros funcionales de una manera totalmente integrada, que 
+imparte una elegancia simple y aparentemente sin esfuerzo que eleva nuestro espíritu más allá de las expectativas 
+comunes (Figura 9.11).
+Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+
+[p46] En la figura 11, la oportunidad y la responsabilidad de un
+En la figura 11, la oportunidad y la responsabilidad de un 
+arquitecto es superponer el rendimiento y la poesía y 
+comprender cómo interactúan esos ingredientes.
+
+[p47] El misterio detrás de la magia proporciona otra capa de sorpresa
+El misterio detrás de la magia proporciona otra capa de sorpresa 
+que se libera con el tiempo. La magia real hace que la arquitectura 
+sea simbólica e icónica, no solo a primera vista, sino de una 
+manera sostenida que va más allá de la intención original. Un 
+edificio mágico tiene un atractivo universal porque se comunica 
+visceralmente con sus usuarios de una manera que toca lo innato.
+Zarcillos emocionales de la experiencia humana. Un lugar mágico 
+incorpora las ideas más fuertes con cualidades e ingredientes que 
+se refuerzan mutuamente. La magia no es una calidad fácil de 
+diseñar, pero cuando se crea, tiene el poder de cambiar las 
+percepciones y cambiar el mundo.
+La arquitectura es un negocio arriesgado.
+Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+
+[p48] Referencias
+Referencias
+[1] Benjamin S. Blanchard and Wolter J. Fabrycky, Systems Engineering and Analysis (Englewood Cliffs,NJ, 1990), Vol. 4.
+[2] Edward B. Roberts, “A Simple Model of R & D Project Dynamics,” R&D Management 5, no. 1 (1974): 1–15.
+[3] Sterman, John D. Business Dynamics: Systems Thinking and Modeling for a Complex World. Vol. 19. Boston: Irwin/McGraw-Hill, 2000.
+[4] James M.Lyneis and David N. Ford, “System Dynamics Applied to Project Management: A survey, Assessment, and Directions for Future Research,” System 
+Dynamics Review 23, no. 2–3 (2007): 157–189.
+[5] Qingyu Zhang and William J. Doll, “The Fuzzy Front End and Success of New Product Development: A Causal Model,” European Journal of Innovation 
+Management 4, no. 2 (2001): 95–112.
+[6] http://www.c2es.org/federal/executive/vehicle-standards/fuel-economy-comparison
+[7] Project Management of GFE Flight Hardware Projects. EA-WI-023. Revision C, January 2002. Retrieved August 12, 2014 from: 
+http://snebulos.mit.edu/projects/reference/International-SpaceStation/EAWI023RC.pdf
+[8] Robert Shishkoand Robert Aster, “NASA Systems Engineering Handbook,” NASA Special Publication 6105 (1995).
+[9] B.J. Sauser, R.R. Reilly, and A.J. Shenhar, “Why Projects Fail? How Contingency Theory Can Provide New Insights–A Comparative Analysis of NASA’s Mars 
+Climate Orbiter Loss,” International Journal of Project Management 27, no. 7 (2009), 665–679.
+[10] Klaus Ehrlenspiel and Harald Meerkamm, Integrierte produktentwicklung: Denkabläufe, methodeneinsatz, zusammenarbeit (Carl Hanser Verlag GmbH Co 
+KG, 2013).
+[11] D.T. Jones and D. Roos, Machine That Changed the World (New York: Simon and Schuster, 1990).
+[12] K. Yang and B. El-Haik, Design for Six Sigma (New York: McGraw-Hill, 2003), pp. 184–186.
+[13] J. Freire and L.F. Alarcón, “Achieving Lean Design Process: Improvement Methodology,” Journal of Construction Engineering and Management 128, no. 3 
+(2002), 248-256.

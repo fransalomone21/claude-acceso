@@ -1,0 +1,697 @@
+# IISE clase 1 -- 41 diapositivas
+# fuente: IISE Clase 1 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Introducción a la  [FIGURA]
+Introducción a la 
+Ingeniería de Sistemas 
+Espaciales
+Tema # 01
+Agosto 2026
+Campus UNSAM
+UNSAM - Ing Sistemas Espaciales
+
+[p2] Equipo docente
+Equipo docente
+• Mentores
+– Erika Piaggio
+– Enzo Garabito
+• JTP
+– Erwin Beccari 
+• Coach de equipo
+– Agustina M. Yasielski
+– Nicolas Ciochi  
+• Director de Ingeniería en Sistemas Espaciales
+– Roberto O. Yasielski
+
+[p3] Objetivos del Aprendizaje del curso
+Objetivos del Aprendizaje del curso
+●Comprender el papel y las responsabilidades de los 
+ingenieros de sistemas
+●Aprender a aplicar herramientas de ingeniería de 
+sistemas (ej. Matriz N2, requerimientos) para resolver 
+problemas reales.
+●Desarrollar habilidades de pensamiento sistémico y 
+trabajo en equipo.
+●Estar listos para los Proyectos Integradores 1, 2, 3 y 4.
+
+[p4] Criterios de Aprobación  [FIGURA]
+Criterios de Aprobación
+
+[p5] Programa Introd. Ing. de Sistemas Espaciales - Tentativo
+Temas
+Contenido
+Semana
+PPTs
+Introducción a la Ing de Sistemas
+Ciencia Ingeniería tecnología, Proyecto, Sistemas, ing de 
+Sistemas, Historia, Deﬁniciones
+1
+1
+Arquitectura de Sistemas
+Def. de la Arquitectura de Sistema, Desarrollar la Arquitectura de 
+Sistema y Pensamiento Sistémico
+2
+2
+Rol del arquitecto y Desarrollo del Producto
+Jerarquía y Niveles del Sistema, Estructura de Desglose de 
+Producto y de Trabajo
+3
+3
+Introducción Ingeniería Espacial
+Deﬁnición y descripción de los Segmentos, Sistemas, 
+Subsistemas, componentes etc. Necesidades
+3,4
+4
+Introducción a Requerimientos y Ciclo de Vida NASA
+Fases del ciclo de vida de NASA, deﬁnición de requerimientos, 
+ejemplos e introducción a V&V
+5
+5
+Alcance y Concepto de Operaciones
+Def. del Alcance, Dimensión del Alcance, Concepto de Operación, 
+Req. continuación
+6,7
+6
+Pre-Fase A y Fase A
+Pre-Fase A, Fase A, Interfaces y Diagrama N²
+8
+7
+Plan de Trabajo en un Proyecto Espacial
+Estructura de Desglose de Trabajo, Ejemplos, Rov, Diagrama de 
+Bloques
+8,9
+8
+Fase B y C
+Fase B, TLR-ILR y Fase C
+9,10
+9
+PDR y Riesgos
+Instancia de Revisión PDR y Análisis de Riesgos
+10,11
+10
+AIT y V&V
+AIT y V&V
+11,12
+11
+Fase D y E
+Fase D, Interfaces, FRR y Fase E
+12,13
+12,13
+Trabajo Práctico Final
+14,15,16
+Final de la materia
+16
+Programa Introd. Ing. de Sistemas Espaciales - Tentativo
+
+[p6] Índice
+Índice 
+• Explicar qué es la Ingeniería de Sistemas, su aparición y 
+el contexto de la industria espacial.
+• Introducción a Sistema y Pensamiento Sistémico
+• Introducción a Gestión de Proyectos
+• Discutir la necesidad de la Ing. de Sistemas
+• Dar una mirada de la visión de conjunto de la Ing. de 
+sistemas de una agencia espacial y sus procesos 
+asociados
+• Atributos de un Ing. Sistemas
+• Definiciones comunes de la Ing. Sistemas
+
+[p7] Nuevo paradigma de la  [FIGURA]
+Nuevo paradigma de la 
+enseñanza de la Ingeniería
+Iniciativa CDIO
+ Concebir, Diseñar, Implementar y Operar
+
+[p8] Porque la iniciativa CDIO
+Porque la iniciativa CDIO
+Un vacío entre las necesidades de la industria y lo que se enseñaba 
+en las universidades en las carreras de ingeniería.  
+Después de la Segunda Guerra Mundial, la mayoría de los profesores 
+que impartían clase en las universidades americanas provenían de la 
+industria,  incorporaron a sus clases las necesidades prácticas.
+ 
+Pero con el tiempo, las universidades se centraron cada vez más en 
+hacer investigación básica y los aspectos científicos de la disciplina 
+de ingeniería se impusieron en las asignaturas de los programas. 
+La ingeniería se convirtió en la enseñanza de las ciencias de la 
+ingeniería.
+Se descuidó el trabajo de las capacidades personales e 
+interpersonales de los estudiantes. 
+El objetivo de la iniciativa CDIO es acentuar estas 
+capacidades sin disminuir el aprendizaje de las 
+competencias específicas de la disciplina.
+
+[p9] Evolución  [FIGURA]
+Evolución 
+de la Educación en Ingeniería
+Los ingenieros necesitan ambas dimensiones. Se 
+necesita  desarrollar la educación que involucre a ambas
+
+[p10] Transformación cultural
+Transformación cultural
+Hasta ahora
+• Ciencias de la ing.
+• Contexto I+D
+• Reduccionista
+• Individual
+Lo Deseado (nuestra carrera)
+• Hacer Ingeniería
+• Contexto de Producto
+• Integrante
+• Equipo
+
+[p11] Cómo se generó la iniciativa CDIO
+Cómo se generó la iniciativa CDIO
+Resultado: un conjunto de competencias que todos los centros adscriptos al 
+programa CDIO incorporan de forma obligatoria en sus planes de estudio; 
+cuatro categorías: 
+❖  Conocimiento técnico y razonamiento 
+❖  Competencias y atributos personales y profesionales 
+❖  Competencias interpersonales: trabajo en equipo y 
+comunicación 
+❖  Concebir, Diseñar, Implementar y Operar Sistemas en el 
+contexto de la empresa y la sociedad.
+
+[p12] Metodología CDIO en la carrera Ingeniería en
+Metodología CDIO en la carrera Ingeniería en 
+sistemas espaciales
+Focus of content 
+ CDIO fases 
+IISE Cuatri
+Curso de introducción. 
+Necesidades del cliente. Desarrollar 
+actividades de creación y diseño básicas
+Proy. Integr. 1 Cuat.
+Habilidades creativas y disciplina del diseño. 
+Curso introductorio. 
+C and some D, I,  
+O
+Proy. Integr. 2 Cuat.
+Centrarse en el diseño y la fabricación 
+vinculados a proyectos de creación de 
+prototipos del grupo.
+C, D and some I 
+y O 
+Proy Integr 3 Anual
+Enfoque en la gestión de proyecto 
+interdisciplinario. 
+C,D, I and some 
+O 
+Proy Integr 4 Anual
+Diseño y análisis de ingeniería.
+C, D, I, O
+
+[p13] Mirada rápida de la iniciativa CDIO en
+Al igual que con el desarrollo de cualquier producto, una vez identificada una 
+necesidad del cliente no satisfecha, la siguiente fase es determinar el alcance del 
+proyecto para establecer la viabilidad. 
+Por lo tanto, es necesario establecer primero una secuencia lógica de progresión 
+a lo largo de los diferentes años de la carrera. Como punto de partida, la premisa 
+era que los años siguientes cubrirían más de las 4 fases CDIO 
+(Concebir-Diseñar-Implementar-Operar) del desarrollo de nuevos productos. 
+El año 1 se centraría en la identificación de las necesidades del cliente y la 
+conversión de éstas en conceptos de diseño (C y algo de D). 
+El año 2 agregaría consideraciones más detalladas de diseño y fabricación (C, D y 
+algo de I). 
+El año 3 también incluiría planificación comercial y gestión de producción (C,D,I y 
+algo de O). De esta manera, los estudiantes desarrollarían conocimientos previos 
+en pasos manejables hasta que al final del tercer año tuvieran experiencia en 
+todas las fases del desarrollo de productos, como se ilustra en la Tabla 1
+Mirada rápida de la iniciativa CDIO en 
+nuestra carrera de ISE
+
+[p14] Ciencia  -  Tecnología  -  Ingeniería
+Ciencia  -  Tecnología  -  Ingeniería 
+¿Simbiósis? 
+•
+Cada una es una actividad en sí misma con su propia naturaleza. Tres 
+actividades de la racionalidad humana según sus fines, de igual 
+importancia. Están relacionadas fuertemente, íntimamente, pero son 
+independientes entre sí.
+•
+La Ciencia son sistemas teóricos de explicación de dominios 
+fenoménicos.  Justificaciones. Carácter descriptivo.
+•
+La tecnología es control de procesos, control de la acción. Actividad 
+orientada a control de procesos. 
+•
+La Ingeniería son reglas exitosas de transformación. Es una Actividad 
+orientada a crear productos, sistemas y procesos.  El diseño es un acto 
+puro de la mente caracterizado por la creatividad.
+A mitad del siglo XX, finales de los años cincuenta, la educación en 
+Ingeniería adquirió una orientación cada vez más científica (o académica) y 
+menos pragmática; hoy día parece haber una tendencia contraria. 
+ CIENCIA, TECNOLOGÍA E INGENIERÍA    Jorge Dettmer G
+
+[p15] Descripción de la Actividad del
+Descripción de la Actividad del 
+Ingeniero
+• Cliente e interesados (Customer and Stakeholder) con 
+necesidades de un producto, de un sistema 
+• Debemos satisfacer esas necesidades a través de un 
+PROYECTO que nos permita alcanzar esas metas u 
+objetivos exitosamente. 
+• Es una cultura de satisfacción de necesidades de un 
+cliente (mercado), de los requerimientos de un 
+Producto, de un Artefacto, de un Sistema.
+“La ingeniería se encuentra más cercana 
+en naturaleza y semejanza a las ciencias 
+de la cultura que de las ciencias 
+naturales”
+FORMACIÓN EN DISEÑO DE INGENIERÍA EN LA UNIVERSIDAD DEL QUINDÍO E INICIATIVA CDIO , Diego Fernando Jaramillo Patiño
+CIENCIA, TECNOLOGÍA E INGENIERÍA   Jorge Dettmer G.
+
+[p16] Definición de Proyecto
+Definición de Proyecto
+Un Proyecto es un conjunto de tareas que están 
+relacionadas unas con otras 
+tienen un objetivo común para ser completadas 
+dentro de ciertas especificaciones 
+(Performance o desempeño)
+tienen definida una fecha para empezar y una 
+fecha de terminación
+(Planificación)
+tienen fondos limitados  
+(Costos)
+consume recursos 
+ESD.36 System Project Management, MIT
+
+[p17] Proyecto
+Proyecto
+¿Es un Triángulo de Hierro?
+Proyecto
+Planificació
+n
+Schedule
+Performance
+Desempeño
+Costo
+s
+Cost
+Riesgo
+Es un Triángulo de 
+Hierro 
+si los tres están 
+restringidos
+ESD.36 System Project Management, MIT
+
+[p18] Proyecto
+Principalmente la autoridad máxima del proyecto, 
+el Jefe de Proyecto debe balancear el proyecto con 
+estas tres variables; 
+Performance Técnica , Costos, y Planificación
+Dirigiendo y Controlando el Riesgo
+Proyecto
+
+[p19] Dirección de Proyecto de Sistema
+Dirección de Proyecto de Sistema
+Preparació
+n del 
+Proyecto
+La EMPRESA ha 
+elegido qué producto 
+o sistema va a 
+desarrollar
+Comienzo
+Adaptación 
+del 
+Proyecto
+Monitoreo 
+del 
+Proyecto
+Planificació
+n del 
+Proyecto
+Aprendizaje 
+del 
+Proyecto
+Proyecto
+Terminado
+ 
+Control del 
+Proyecto
+Próximo 
+Proyecto
+ESD.36 System Project Management, MIT
+
+[p20] Investigación y Desarrollo
+Investigación y Desarrollo
+ESD.36 System Project Management, MIT 
+Investigación
+Desarrollo
+Desarrollo de 
+Producto / Sistema
+• Métodos Estructurados
+• Generalmente planeados
+• Predecible
+• Métodos no Estructurados
+• Dificil planificar
+• No Predecible
+Investigación, 
+Desarrollo de Tecnología
+Nuestro foco es 
+desarrollo de producto 
+Sistema
+
+[p21] Mirada de Actividades y Relaciones principales  en
+• Dirección de Proyecto : se trata de tareas de gestión para la mejor utilización 
+de los recursos en los procesos de ingeniería de sistemas para implementar el 
+conjunto de objetivos – 
+CPM, DSM, Dinámica de Sistemas … 
+MIT (ESD.36)
+• Ingeniería de Sistemas: se trata de procesos y herramientas que habilitan la 
+implementación exitosa de la arquitectura, entender y diseñar el sistema  – 
+Tabla N2 , Tabla QFD, Selección de Conceptos, Análisis y Verificación de los 
+Requerimientos, Análisis de la tabla de Tiempos, Diagramas de flujo Funcional, 
+Diseño Robusto, …
+MIT (ESD.33)
+• Arquitectura de Sistema : es una función de la ing de sistemas, es acerca (del 
+ADN) de los artefactos  propiamente dicho – como el producto está organizado
+ Concepto, forma, función, su descomposición…MIT
+(ESD.34)
+Es una función del Ing. de Sistemas. Es un especialista no un generalista
+Ingenieros - Especialistas : Son los Ingenieros Civiles, Mecánicos, 
+Estructuralistas, Mecatrónicos, Eléctricos, Electrónicos, Térmicos….
+Mirada de Actividades y Relaciones principales  en 
+un Proyecto
+
+[p22] Ingeniería de Sistemas
+Ingeniería de Sistemas
+Arte de la Gestión de la Complejidad 
+• La ingeniería de Sistemas ha emergido como 
+una disciplina profesional distinta en respuesta 
+directa a la complejidad creciente de los 
+proyectos de nuevos desarrollo.
+• Revisaremos algunos de las razones de la 
+emergencia de esta disciplina y discutiremos el 
+arte, las herramientas y metodologías que han 
+sido establecidas como un medio para tratar la 
+complejidad creciente de los sistemas.
+
+[p23] ¿Qué es la Ingeniería de
+Ingeniería de Sistemas es un enfoque robusto 
+para 
+la Creación, Diseño, Construcción Integración y 
+Operación de Productos - Sistemas (complejos).
+El enfoque consiste en:
+– Identificación y cuantificación de las metas de un sistema 
+– Creación de alternativas, de conceptos, de diseño de 
+sistema 
+– Performance de las alternativas de diseño
+– Selección e implementación del mejor diseño 
+– Verificar que el diseño está apropiadamente construido  
+integrado, Y
+– Evaluar cuán bien el sistema encuentra las metas.
+Este enfoque es iterativo, con sucesivos incrementos en la resolución del baseline del 
+sistema (el cual contiene requerimientos, detalles de diseño, planes de verificación y 
+estimación de costos y performance).
+¿Qué es la Ingeniería de 
+Sistemas?
+
+[p24] INCOSE
+INCOSE
+• The International Council on Systems Engineering 
+(INCOSE) es una organización sin fines de lucro fundada 
+para desarrollar y diseminar los principios interdisciplinarios y 
+prácticas  que habilitan la realización de sistemas exitosos.
+• Misión compartir promover y avanzar la mejor ingeniería de 
+sistemas a través del mundo para el beneficio de la 
+humanidad y el planeta.
+• Visión: La autoridad en el mundo de la Ingeniería de 
+Sistemas
+• hmp://www.incose.org/
+
+[p25] ¿Qué es un sistema?
+¿Qué es un sistema?
+Definición de Sistemas
+• Una combinación de interacción de elementos 
+organizados para alcanzar un propósito establecido.
+• Un conjunto de elementos integrados, o ensamblados 
+que realizan objetivos definidos. Estos elementos 
+incluyen productos (H/W, S/W, Firmware), procesos, 
+personas, información, técnicas, facilidades, servicios, y 
+otros elementos de soporte
+Fuente: INCOSE SE Handbook, V3.2
+ESD.33 --Systems engineering 
+MIT
+
+[p26] ¿Qué es la Ingeniería de
+¿Qué es la Ingeniería de 
+Sistemas?
+• La Ing de Sistemas es una disciplina que se concentra en 
+el diseño y aplicación del todo (sistema) como distinto de 
+las partes. Involucra un problema en su completitud, en su 
+totalidad teniendo en cuenta todas las facetas y todas las 
+variables y relaciones sociales y los aspecto técnico
+• La Ingeniería de sistemas es un proceso iterativo de 
+arriba hacia abajo de síntesis, desarrollo, y operación de 
+los sistemas del mundo real que satisfacen, de manera 
+cercana a lo óptimo, todo el rango de requerimientos para 
+el sistema.
+INCOSE SE Handbook V3.2
+
+[p27] ¿Qué es la Ingeniería de
+La ingeniería de Sistemas es un enfoque  interdisciplinario y 
+medios para permitir la realización de sistemas exitosos.
+Se focaliza en definir las necesidades del cliente y requiriendo 
+tempranamente la funcionalidad en el ciclo de desarrollo del 
+proyecto, documentando los requerimientos , y luego 
+procediendo con la síntesis del diseño y validación del sistema 
+mientras considera el problema en su completitud: operaciones, 
+costos y planificación, performance, entrenamiento y soporte, 
+ensayos, manufactura, y eliminación/fin de ciclo.
+La IS considera ambas necesidades, el negocio y lo 
+técnico del cliente con la meta de suministrar un producto 
+de calidad que encuentre las necesidades del cliente.
+INCOSE SE Handbook V3.2
+¿Qué es la Ingeniería de 
+Sistemas?
+
+[p28] Aplicaciones del Dominio de Sistemas
+Aplicaciones del Dominio de Sistemas
+Ingeniería
+• Espacial - Aeroespacial - Aeronáutica
+• Nuclear
+• Infraestructura Urbana
+• Sistemas de Comunicación
+• Sistemas de Data e información
+• Sistemas de Salud
+• Sistemas de Potencia Eléctrica 
+• Producción/Construcción de Sistemas
+• Sistemas de Transporte
+• Sistema Financiero
+• Sistema de Educación
+• …
+Source: Blanchard, Fabrycky, Systems Engineering and Analysis, 5th ed.
+Todos son sistemas complejos donde interactúan tecnología, personas 
+y procesos.
+
+[p29] Un Principio
+Un Principio
+Cada Sistema opera como un elemento de un Sistema 
+más grande y a su vez está compuesto de sistemas 
+más chicos
+Sistema  N+1
+Sistema  N
+Sistema  
+N-1
+
+[p30] Cliente  [FIGURA]
+Desplegando el Sistema
+Un sistema es un compuesto, integrado de
+Gente
+Para satisfacer
+Necesidades y Objetivos
+Establecidos
+Productos
+Procesos
+Cliente
+
+[p31] Introducción a la Ing. de Sistemas
+Introducción a la Ing. de Sistemas
+Un sistema integrado por persona especializadas en diferentes 
+áreas o disciplinas de la ingeniería
+Sub Sistema (SS) Térmico  -  SS Estructuras  -  SS Potencia –
+SS de Control de Actitud etc. 
+Esta variedad de personas piensan al sistema como producto 
+compuesto por HW y SW para ser desarrollado como partes 
+del sistema.  Tenemos que desarrollar con estas personas un 
+concepto de Ingeniería de Sistemas, entonces tenemos 
+personas,  procesos y productos 
+puestos juntos en un proceso de ingeniería de sistemas para 
+satisfacer las necesidades, metas y objetivos, hasta operar el 
+producto.
+El término de ingeniería de sistemas fue 
+desarrollado alrededor de 1940 en USA.
+
+[p32] Introducción a la Ing. de Sistemas
+Ha habido gente haciendo ing de sistemas desde siempre, desde 
+la antigüedad, hay claros ejemplos. 
+Como en todas las grandes obras han tenido evidentemente 
+procesos complejos que debían de alguna manera comunicarlos, 
+el sistema era tan grande que no podía ser manejado por una o 
+dos personas para poder dirigir el proyecto.  
+Con semejantes proyectos se debe estandarizar los procesos y 
+herramientas. 
+Así que la ingeniería de sistema ha sido usada durante mucho 
+tiempo pero hay evidencia que la formalización de esta realidad 
+fue desarrollada en USA alrededor de 1940 durante y 
+posteriormente a la WII, y principalmente comenzó en el programa 
+de misiles Nike.
+ La formalización definitiva puesta en documentos y estándares se 
+concretó con el proyecto Apollo en la NASA.
+Introducción a la Ing. de Sistemas
+
+[p33] Algunos ejemplos de grandes obras
+Algunos ejemplos de grandes obras 
+en la  historia 
+Ingeniería de Sistemas 
+• Sistema de distrib. de agua en la Mesopotamia
+• Sistema de irrigación en Egipto (Pirámides)
+• Sistema Urbano de Atenas, Grecia
+• Sistema de rutas Romano
+• Sistema de distribución de agua Romano
+• Transporte de agua en el canal del Erie
+• Sistema telefónico USA
+• Sistema de distribución de energía eléctrica USA
+ 
+4000 AC 
+3300 AC
+400 AC
+300 AC
+Siglo XIX
+1877
+1880
+
+[p34] Referencias Modernas de Ing.
+Referencias Modernas de Ing. 
+Sistemas
+• Equipo multidisciplinario formado en 1937 para analizar el 
+sistema de  defensa aéreo británico.
+• Bells Lab  desarrolló el sistema NIKE (1939 – 1945) 
+Se comenzó a usar el término Ing de Sistemas en el programa Nike (US Army) 
+cuya necesidad era defenderse de ataques aéreos de aviones jets, algo que los 
+equipos de esa época no podían hacer – misiles tierra aire – .
+Se necesitaba alta velocidad y 
+precisión. 
+Era un programa muy complejo que 
+involucraba muchas tecnologías 
+juntas. Frente a un problema difícil,
+para resolver se optó por poner a 
+todos juntos y coordinados, 
+asegurando el producto en un 
+equipo de ingeniería de sistemas
+
+[p35] Referencias Modernas de Ing.  [FIGURA]
+Referencias Modernas de Ing. 
+Sistemas
+
+[p36] Sistemas
+Referencia Modernas de Ing. de 
+Sistemas
+Programa de 
+Misiles Balísticos Intercontinentales 
+ATLAS
+Ramo Wooldridge Corp
+1954 – 1964    (Manufactura)
+Produjo el primer misil balístico intercontinental 
+(ICBM)
+ 18 000 científicos e ingenieros
+ 17 contratistas
+ 200 subcontratistas
+ 200 000 proveedores
+Coordinado por Ramo Wooldridge Corporation
+ESD.33 --Systems engineering
+
+[p37] Aspectos Claves del Proyecto Atlas
+•  Se estableció firmemente  la ¨Ingeniería de Sistemas¨ como 
+enfoque para la la gestión del proyecto
+•  Se identificó tempranamente los desafíos claves (problema de 
+re-entrada)
+R-W
+(Small:25 - 
+50)
+STUDIO CONTRATOS:
+Con la Industria y Universidades
+USAW
+ARDC-AMC
+   CONTRATISTA
+      DE SISTEMAS
+。- Airframe
+。- Ensamable Misil
+SUBCONTRATOS
+Propulsión
+Guiado
+Control
+Facilidades
+Enfoque Contratista Principal
+USAF
+ARDC - AMC
+Control Ejecutivo 
+& Dirección del  
+Program  Total
+Consideraciones
+Militares
+Control
+Contractual
+R - W Corp. 
+Responsabilidad 
+Ing. Sistemas
+Technical Advice
+DirecciónTecnica 
+Estructuras
+Ensamble
+Flight Test
+Propulsión
+Guiado
+Control
+8
+8
+8
+SUBCONTRATOS
+CONTRATOS 
+ASOCIADOS
+Enfoque de Ing de Sistemas
+ Aspectos Claves del Proyecto Atlas
+ESD.33 --Systems engineering
+
+[p38] Sistema SAGE de defensa aérea  [FIGURA]
+Definido y Gestionado por
+ el MIT(1951 – 1980)
+Sistema SAGE de defensa aérea 
+Referencia Modernas de Ing. de 
+Sistema
+ESD.33 --Systems engineering
+
+[p39] Aspectos claves de SAGE
+•  Primer proyecto que usó computadoras para procesar  
+información y controlar procesos:
+•  Los ingenieros jugaron un rol de gestión clave
+•  Militares / Industriales / Complejo Universitario
+ 
+  –MIT Lincoln Labs
+ 
+  –MITRE Corporation
+• Inspiró la creación de ARPANET
+Aspectos claves de SAGE
+ESD.33 --Systems engineering
+
+[p40] Formalización de la Ing de Sistemas
+Formalización de la Ing de Sistemas
+• La NASA realiza el primer gran esfuerzo de formalizar la 
+Ingeniería de Sistemas con el programa Apollo . Así 
+fueron desarrollándose gran cantidad de elementos de la 
+IS  en conjunto con proveedores esparcidos alrededor de 
+todo USA.
+• El proyecto era un conjunto de diferentes sistemas y 
+capacidades que debían trabajar juntas. 
+• La NASA es realmente la que comenzó a documentar 
+plenamente esta disciplina durante la era Apollo.  
+Durante este período se generaron muchísimos 
+documentos, como (handbooks) manuales de Ingeniería 
+de Sistemas que están disponible en diferentes lugares 
+online y ustedes pueden leer.
+
+[p41] Bibliografía  [FIGURA]
+Bibliografía

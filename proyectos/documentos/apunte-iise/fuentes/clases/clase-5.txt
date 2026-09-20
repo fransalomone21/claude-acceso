@@ -1,0 +1,1405 @@
+# IISE clase 5 -- 71 diapositivas
+# fuente: IISE Clase 5 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Introducción  [FIGURA]
+Introducción 
+a la Ingeniería de 
+Sistemas Espaciales
+Unidad # 05
+Agosto/Septiembre 2026
+Campus virtual UNSAM
+UNSAM - Ing Sistemas Espaciales
+
+[p2] ¿Cómo podemos empezar a  [FIGURA]
+¿Cómo podemos empezar a 
+diseñar algo si no sabemos 
+exactamente qué se necesita?
+
+[p3] ¨Nunca ha habido un proyecto en la historia
+¨Nunca ha habido un proyecto en la historia 
+que cualquier conjunto de requerimientos 
+haya cubierto el significado real de aquello 
+que necesita ser hecho¨ 
+Requerimientos son aproximaciones usando 
+el lenguaje, estamos interpretando
+Gentry Lee
+
+[p4] Índice
+Índice
+• Fases del Ciclo de vida de NASA
+• ¿Qué es un Requerimiento?
+Definición, Ejemplo, Evolución Estándar
+Flujo y Alojarlos   
+• Validación y Verificación
+• Resumen
+• Trabajo en Equipo y Liderazgo
+
+[p5] Fases del Ciclo de vida de
+Formulación
+Implementación
+Aprobación
+Pre 
+Fase A
+Estudio
+Concept.
+Fase A
+Desarrollo de 
+Concepto y 
+Tecnología
+Fase B
+Diseño 
+Preliminar y 
+Completar 
+Tecnología
+Fase C
+Diseño Final y 
+Fabricación
+Fase D
+AIT & 
+Lanzamiento
+Fase E
+Operaciones & 
+Sostenimiento
+Fase F
+Cierre
+Fases del 
+Ciclo de vida 
+de NASA
+Ciclo de vida 
+del Proyecto
+Puntos de 
+Decisión 
+Claves
+Revisiones
+Técnicas
+KDPA
+MCR
+Revisión de Pares, Revisión de SS, Revisión de Sistema
+SRR
+MDR
+PDR
+CDR - PRR
+SIR TRR
+ORR
+FRR
+PLAR
+CER
+Revisiones 
+de Soporte
+LANZAMIENTO
+KDPC
+KDPB
+KDPD
+KDPE
+KDPF
+DR
+Fases del Ciclo de vida de 
+NASA
+PDR Preliminary Design Review
+CDR Critical Design Review
+SRR System Requir. Review
+MCR Mission Conceptual Review
+ SIR   Review
+TRR  Review
+ORR  Review
+FFR  Review
+MDR Mission Design Review
+DR  Review
+CER  Review
+
+[p6] Fases del Ciclo de vida de NASA -
+Concebir
+Diseñar
+Implementa
+r
+Operar
+Misión
+Diseño 
+Concept.
+Diseño 
+Preliminar
+Diseño 
+Detalle
+Creación 
+Elementos
+Ensamble
+Integración 
+y Ensayos
+Soporte 
+del Ciclo 
+de Vida
+Evolución
+• Estrategia de 
+Negocio
+• Estrategia 
+Funcional
+• Necesidad
+Cliente
+• Competidor
+• Plan del 
+Programa
+• Caso de 
+Negocio
+• Metas
+• Funciones
+• Conceptos
+• Regulaciones
+•Tecnologías
+• Plan de 
+Suministros
+• Plan de 
+Plataforma
+• Arquitectura
+• Compromiso
+• Def Requers
+• Desarrollo de 
+Modelos
+• Flujo 
+descendente 
+de Requer.
+• Descompos. 
+en Detalles
+• Interfaces
+• Elaboración 
+del Diseño
+• Metas de 
+Verificación
+• Análisis de 
+Contingencias 
+y Fallas
+• Diseño 
+Validado
+• Fuentes
+• Incremento 
+de implement.
+• Implement. 
+de Elementos
+• Ensayos de 
+Elementos
+• Refinamiento 
+de elementos
+• Integración 
+de Producto
+• Ensayo de 
+Producto
+• Ensayo de 
+Sistema
+• Refinamiento
+• Certificación
+• Posicionam. 
+En el Mercado
+• Entrega
+• Distribución, 
+ventas
+• Operaciones
+• Logística
+• Soporte a 
+Clientes
+• Mantenim, 
+Reparación, 
+Revisar
+• Actualizar
+• Mejora de 
+Producto
+• Expansión 
+Familiar
+• Retiro
+Imaginar
+Diseñar
+Desarrollar
+Desplegar
+Fases del Ciclo de vida de NASA - 
+CDIO
+
+[p7] Diagrama de ¨V¨ del Ciclo de vida de un
+Perspectiva del Cliente / Usuario
+Perspectiva de la 
+Ingeniería  de 
+Sistemas
+Perspectiva del Contratista
+Validación 
+del 
+Sistema 
+Verific. 
+Sistema y 
+Despliegue 
+Verific.
+Subsist.
+Verific.
+Unidad
+S/W & H/W
+Implementación en 
+Campo 
+Estudios de 
+Factibilidad
+Exploración 
+Concepto
+Concepto
+De
+Operación
+Requeri.
+De 
+Sistema
+Diseño 
+de 
+Detalle
+Plan Verificación del Sistema
+Calif - Aceptación
+Plan  Validación del Sistema
+Plan Verific del Subsist.
+Calif - Aceptación
+Diseño de 
+Alto Nivel
+Plan Ensayos
+Unidad
+LINEA DE TIEMPO
+Implementación
+Descomposición Requerimientos
+Verificación  Requerimientos
+Operación 
+y Manten.
+Diagrama de ¨V¨ del Ciclo de vida de un 
+Proyecto  (Tradicional)
+Generación del Concepto de 
+Arquitectura de sistema
+Altamente Iterativo
+Principalmente Serial
+
+[p8] Perspectiva del Cliente / Usuario
+Perspectiva del Cliente / Usuario
+Perspectiva de la 
+Ingeniería  de 
+Sistemas
+Validación 
+del 
+Sistema 
+Verific. 
+Sistema y 
+Despliegue 
+Verific.
+Subsist.
+Verific.
+Unidad
+S/W & H/W
+Implementación en 
+Campo 
+Estudios de 
+Factibilidad
+Exploración 
+Concepto
+Concepto
+De
+Operación
+Requeri.
+De 
+Sistema
+Diseño 
+de 
+Detalle
+Plan Verificación del Sistema
+Calif - Aceptación
+Plan  Validación del Sistema
+Plan Verific del Subsist.
+Calif - Aceptación
+Diseño de 
+Alto Nivel
+Plan Ensayos
+Unidad
+Implementación
+Descomposición Requerimientos
+Verificación  Requerimientos
+Operación 
+y Manten.
+Generación del Concepto de 
+Arquitectura de sistema
+
+[p9] Ciclo de vida de un proyecto de S/W en
+Ciclo de Desarrollo, Verificación y Validación del S/W
+URD
+Definición de 
+Requisitos de 
+Usuarios
+CÓDIGO
+Diseño de 
+Detalle 
+Ensayos 
+Unitarios
+Diseño de 
+Aquitectura
+Ensayos  de 
+Integración 
+Definición de 
+Requisitos de 
+S/W
+Ensayos del 
+S/W
+Ensayos de 
+Aceptación 
+del H/W yS/W
+Requisitos de Proyecto
+Módulos
+Compilados
+Módulos
+Ensayados
+S/W 
+Integrado
+S/W 
+Validado
+ S/W Aceptado
+DDD
+ADD
+Aceptación Sistema   H/W- S/W                       SVVP/AT
+SRD
+Validación del S/W              SVVP/ST
+SVVP/DD
+Validación I/F    SVVP/IT
+Val. Mod. SVVP/UT
+SVVP/SR
+SVVP/AD
+SVVP/DD
+ACTIVIDAD
+Verificación
+Producto
+Desarrollo del Código
+Ensayos   del Código
+Ciclo de vida de un proyecto de S/W en 
+el 
+Área Espacial (Tradicional)
+
+[p10] Requerimientos
+Requerimientos
+❖ Los Requerimientos describen las funciones necesarias y características 
+del sistema que estamos por  Concebir, Diseñar, Implementar y 
+Operar.  Y estos impactan en:
+Performance 
+Planificación 
+Costos
+Y Otras Características (e.g. Propiedades del ciclo de vida) 
+Riesgo
+❖ Los Requerimientos son organizados jerárquicamente. 
+Los requerimientos de alto nivel focalizan sobre qué debe ser 
+alcanzado, no cómo alcanzarlo.
+Los Requerimientos son especificados en cada nivel, desde el 
+sistema 
+hasta cada H/W & S/W de componente y partes. 
+❖ Son de importancia crítica para establecer correctamente lo que vamos 
+a hacer, es decir:
+C.D.I.O .
+Muchos  sobrecostos son causados por demasiada 
+ambición 
+o por falta de requerimientos
+
+[p11] Ejemplo de Requerimientos Pobres:
+Ejemplo de Requerimientos Pobres: 
+MCO
+Mars Climate Orbiter (MCO) Orbitador de Clima 
+Marciano fue lanzado por NASA el 11 de diciembre 
+de 1998
+Contrato entre NASA y Lockheed Martin 
+especificaba  Interface de S/W.
+Este requer. bajó del Software Interface 
+Specification (SIS), pero no fue verificado 
+posteriormente, ni implementado.
+ftp://ftp.hq.nasa.gov/pub/pao/reports/1999/MCO_report.pdf 
+Intentaba estudiar el clima marciano, los cambios 
+meteorológicos y de superficie (polvo) y además 
+actuaría como relay de los landers en la 
+comunicación con la Tierra.  
+Se desintegró durante la inserción en órbita el 23 de 
+septiembre  de 1999 
+Confusión con las unidades: El S/W de Tierra 
+comandos de tierra en unidades inglesas
+ lbf sec en vez de Ns.
+
+[p12] Ejemplo de Buenos Requerimientos  DC-3
+Ejemplo de Buenos Requerimientos  DC-3
+Requerimientos basados sobre el deseo 
+de mejorar el DC-2: 
+Eran Muy Simples:
+   -  Solo con 3 páginas Request for Proposal
+(está en el museo de McDonnell)
+   -  Una Maratón telefónico entre Smith y Douglas
+Douglas DC-3 es un avión que revolucionó 
+el transporte de pasajeros en los 
+años  30 y 40  del siglo XX. 
+http://www.aviation-history.com/douglas/dc3.html
+El primer prototipo 
+de  DC-3 voló el 17 
+de  diciembre de  
+1935
+Requerimientos claves de alto 
+nivel
+• Rango: 1080 millas, 
+• Velocidad crucero: 150 mph
+• Velocidad de aterrizaje no excederá 
+de 65 mph
+• Pasajeros: 20-30 dependiendo la 
+configuración
+• Dos motores
+• Robusto y Económico
+
+[p13] DC1 - DC2
+DC1 - DC2
+El requerimiento más riguroso fue que debía 
+poder despegar con un solo motor 
+manteniendo el control de la nave haciéndolo 
+desde cualquier aeropuerto de EUA. 
+A elevaciones de 1.510 m y temperaturas que 
+excedían los 32° C, este no fue un pequeño 
+detalle
+El DC-1 fue desarrollado por solicitud de TWA, 1933.
+http://www.aviation-history.com/douglas/dc3.html
+Requerimientos:
+• Todo de metal
+• Tendrá tres motores (inicial), 
+pero encontró los requerimientos 
+operacionales con un motor 
+menos
+• …..  
+El Douglas DC-2 comenzó a  operar en 
+julio de 1934.
+El costo total del desarrollo fue U$S 307,000.
+
+[p14] ¡Todavía en
+El DC-3 se ha convertido tal vez en el avión de línea más importante de la historia. Rápidamente 
+estableció su reputación con muchos operadores, incluyendo los militares.
+¡Todavía en 
+vuelo!
+
+[p15] Estándares de Requerimientos
+Requerimientos Estándar 
+NASA Systems Engineering Handbook NASA/SP-2007-6105 
+Section 4.2 (pp. 40-48) – Technical Requirements Definition 
+Section 6.2 (pp. 131-135) – Requirements Management 
+Appendix C (pp. 279-281) – How to write a good Requirement 
+Appendix D (pp. 282-283) – Requirements Verification Matrix 
+International Council of Systems Engineering (INCOSE) Systems 
+Engineering Handbook, Version 3.1 
+Requirements Working Group 
+http://www.incose.org/ChaptersGroups/WorkingGroups/processes 
+ISO/IEC 15288 (IEEE STD 15288-2008) Systems and software 
+engineering 
+System life cycle processes 6.4.1 Stakeholder Requirements 
+Definition Process 
+Estándares de Requerimientos
+
+[p16] Requerimientos Descomposición,
+Requerimientos Descomposición,
+Alojarlos y Validarlos
+• Los Requer son descompuestos en 
+una estructura  jerárquica comenzando 
+con los de alto nivel.
+• Estos requer de alto nivel son 
+descompuestos en requer funcionales y 
+de performance y alojados a través del 
+sistema.
+• Estos son posteriormente 
+descompuestos y alojados entre los 
+elementos y subsistemas. Esto 
+completa el conjunto de requer. de 
+diseño que son alcanzados. 
+•  En cada nivel de descomposición 
+(sistemas, subsistemas, componentes, 
+etc) el conjunto total de requer. 
+derivados debe estar validado contra 
+las expectativas de los interesados, por  
+los requer. padres de alto nivel
+Autoridades de la 
+Misión
+Objetivos de la Misión
+Requerimientos de 
+Misión
+Programáticos
+Costos
+Planificación
+Restricciones
+Clasific. de Misión
+Requer. 
+Funcionales
+Sistema
+Restricciones 
+Institucionales
+Hipótesis
+Requer. 
+Ambientales y 
+otros de Diseño y 
+Directrices
+Requer. 
+Desempeño 
+del Sistema
+SS ¨A¨ 
+Requer. Funcional y 
+de Desempeño
+SS ¨B¨
+……
+……
+SS ¨C¨
+……
+……
+SS ¨X¨
+……
+……
+Requer.
+Alojado
+Requer.
+Deriv.
+Requer.
+Alojado
+Requer.
+Deriv.
+Cliente
+Organización 
+que Implementa
+
+[p17] Gestión de los Márgenes de los
+Gestión de los Márgenes de los 
+Requerimientos
+• Debido a la incertidumbre durante el inicio del diseño, debemos usar 
+márgenes de requerimientos adecuados (e.g. masa, tamaño, 
+memoria, potencia, etc…) 
+• Los márgenes son reservas, que son no alojadas en los 
+subsistemas pero si controladas por los Ing. de Sistemas y el 
+Director de Proyecto. 
+• Por ejemplo el crecimiento de la masa ha sido experimentada en 
+casi todos los proyectos y programas de desarrollo de vehículos 
+-  La masa crece típicamente en un rango de 10-60% 
+-  Dependiendo de cuán novedoso es el proyecto 
+• Típicas Guidelines: 
+ Establece en el SRR Masa + 30% margen 
+pre-PDR mantienen 20% masa margen 
+pre-CDR mantienen 10% masa margen 
+pre-IOC mantiene 5% masa margen
+
+[p18] Crecimiento de la Masa en los
+Crecimiento de la Masa en los 
+Proyectos
+http://www.alternatewars.com/BBOW/Space/JSC26098_Design_Mass_Properties_II.pdf 
+Fuente: NASA JSC-26098 (Nov 1994) for Manned Spacecraft (does not yet include CEV n Orion| ) This graph is in the public domain. 24 
+ 24 
+Mass Estimating And Forecasting For Aerospace Vehicles Based On Historical Data
+
+[p19] Definición de los Requerimientos Técnicos
+Definición de los Requerimientos Técnicos 
+Diagrama de Flujo de los Procesos de la Mejor Práctica
+Definir Diseño y 
+Restricciones de 
+Producto
+Expectativas básicas de 
+Interesados
+Concepto de Operación 
+básicas
+Baselined Enabling 
+Support Strategies
+Desde las Expectativas 
+de los interesados y los 
+Procesos de Gestión de 
+Configuración
+Descomposición lógica
+Y los Requerimientos y 
+Procesos de Gestión de 
+Interfaces
+Requerimientos 
+Técnicos Validados
+Medición de 
+Desempeño
+Descomposición Lógica  
+y Procesos de Gestión 
+de Datos Técnicos 
+  Procesos Evaluación 
+Técnica 
+Medición de 
+Desempeño Técnico
+Análisis del Alcance del 
+Problema
+Definir Funcionalidad y 
+Comportamiento 
+Esperado en Términos 
+Técnicos
+Definir  Requer 
+Técnicos en Sentencias 
+Aceptables con ¨Shall¨
+Definir Mediciones de 
+Desempeño para cada Medida 
+de Efectividad
+Desde la Definición de 
+las Expectativas de los 
+Interesados y Los 
+Procesos de Gestión 
+de Datos
+Efectividad de las 
+Mediciones
+Requer Técnicos 
+Validados
+Base de Requer. 
+Técnicos Establecidos
+Definir Mediciones de 
+Desempeño Técnico
+Definir Requer de 
+Desempeño para cada 
+Función Definida y 
+Comportamiento Esperado 
+ENTRADA
+SALIDA
+ACTIVIDADES
+
+[p20] El primer paso para construir una base sólida
+El primer paso para construir una base sólida 
+para escribir buenos requerimientos es definir el 
+alcance del proyecto
+“The beginning is the most important part of the 
+work.”   Plato, 4th Century BC
+
+[p21] Describimos el proceso de captura
+Describimos el proceso de captura 
+de los Requerimientos usando el 
+Alcance
+Necesidade
+s
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidade
+s
+Conceptos 
+Operacionale
+s
+CONOPS
+Alcanc
+e
+Dimensiones del alcance
+
+[p22] Describimos el proceso de captura
+Describimos el proceso de captura 
+de los Requerimientos
+Como la misión debe ser desarrollada nosotros necesitamos los niveles 
+más bajos finales de detalles para los diseñadores, para terminar el 
+diseño y construir el sistema que debe encontrar los requerimientos 
+definidos que dan lugar al sistema.
+El ejercicio de alcance más temprano que capture los requerimientos 
+Un requerimiento es una declaración y característica 
+que captura el entendimiento de:
+•  ¿Qué debe ser hecho?
+•  ¿Cuán bien lo debe hacer?
+•  ¿Bajo qué limitaciones?
+
+[p23] Otra Mirada de la Definición de
+Otra Mirada de la Definición de 
+Requerimientos
+Un Requerimiento es además: 
+Una declaración de contratación
+Un documento que define un Espacio de Problema
+Un ¨medio¨ que usamos para comunicarnos
+
+[p24] Introducción a la Semántica de los
+Introducción a la Semántica de los 
+Requerimientos 
+• Los requerimientos utilizan  “shall” / "deberá"
+- El sistema proporcionará ...
+- El sistema deberá ser capaz de ...
+- El sistema pesará ...
+• Las declaraciones de hechos usan "will“
+- Statements of fact use ‘will’ 
+- A menudo forma parte de un escenario inicial que 
+precede a uno o más requerimientos
+• Los Metas usan "debería“  (Goals use ‘should’)
+- Se utiliza para las metas del diseño cuando sean 
+cuantificables los requerimientos, no se pueden aplicar a un 
+atributo deseado
+
+[p25] Statement of Work (SOW)
+Statement of Work (SOW)
+Una declaración de trabajo ( SOW ) es un documento que 
+se emplea habitualmente en el campo de la gestión de 
+proyectos. Es la descripción narrativa del requerimientos de 
+trabajo de un proyecto. [1] Define actividades, entregables y 
+cronogramas específicos del proyecto para un proveedor 
+que brinda servicios al cliente. Por lo general, la SOW 
+también incluye requerimientos de muy alto nivel y precios 
+detallados, con términos y condiciones regulatorios y de 
+gobernanza estándar. A menudo es un acompañamiento 
+importante para un contrato de servicio maestro o una 
+solicitud de propuesta (RFP- Request For Proposal).
+
+[p26] Ejemplo del Programa Apollo
+Ejemplo del Programa Apollo
+Necesidad
+Contener la amenaza soviética
+Meta
+Demostrar la superioridad tecnología EUA en el espacio
+Objetivos 
+Hacer un movimiento decisivo en el área espacial. 
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+CONOP
+Alcance
+Misión o caso de Negocio 
+Mandar humanos a la Luna y retornarlos de manera segura para 
+el fin de la década
+Concepto operacional : 
+Lanzar la tripulación, el módulo de aterrizaje lunar y devolver el 
+vehículo en un cohete de varias etapas a la trayectoria de la luna. 
+La tripulación dejará el vehículo de regreso en órbita lunar mientras 
+llevan el módulo de aterrizaje lunar a la superficie lunar. La tripulación 
+regresará a la órbita lunar y se reunirá con el vehículo de regreso. La 
+tripulación a cambio del vehículo aterrizará en el océano.
+
+[p27] Ejemplo del Programa Apollo
+Ya estuvimos viendo una serie de elementos para el Apollo y ahora 
+podemos ir del alcance de alto nivel a las metas de las necesidades
+Primero en esta discusión sobre los diferentes tipos de requerimientos 
+no son todos creados de la misma manera, si vemos el próximo slide 
+nos muestra que hay tres diferentes tipos de requerimientos:
+Ejemplo del Programa Apollo
+Hipótesis: 
+Todas las necesidades tecnológicas son alcanzables.
+Restricciones: 
+hágalo dentro de esta década. Utilice componentes de fabricación 
+estadounidense.
+Autoridad y responsabilidad: 
+la NASA tiene la responsabilidad de llevar a cabo la misión.
+
+[p28] Ejemplo del Programa Apollo
+❖ Requerimientos Funcionales 
+❖ Requerimientos de Performance o Desempeño
+❖ Requerimientos que imponen Restricciones 
+Requerimiento funcional del Apollo.  Sistema de comunicación 
+de radio VHF. Es la manera cómo la tripulación a bordo de la cápsula 
+Apollo  se comunica con la Tierra u otro astronauta fuera de la nave 
+(entre el exterior de la nave y su interior).  En este sistema unificado 
+debemos mirar las interfaces entre ambos sistemas y estar seguro 
+que trabajará correctamente. Estos son requerimientos de 
+interfaces los cuales aseguran que cada pieza trabaja acompañada. 
+En cada nivel hay interfaces de todo tipo 
+Requerimientos Funcionales : 
+Definir qué debe hacer un Item
+Ejemplo del Programa Apollo
+
+[p29] Ejemplo del Requerimiento
+Ejemplo del Requerimiento 
+Funcional de Comunicación del 
+Apollo
+El sistema de radio VHF del Módulo de Comando será capaz 
+de tener comunicación en los dos sentidos con: 1, 2 y 3
+1.
+la Tierra, durante la fases de la misión cercana a la tierra 
+incluyendo con las fuerzas de recuperación durante el 
+amerizaje y las fases post amerizaje.
+El Módulo Comando 
+es donde la 
+tripulación está 
+ubicada en la última 
+fase.
+
+[p30] Eje. del Requerimiento Funcional de  [FIGURA]
+Comunicación cuando están flotando en el mar al fin de la misiòn
+Eje. del Requerimiento Funcional de 
+Comunicación del Apollo
+
+[p31] Eje. Requerimiento Funcional de
+El sistema de radio VHF 
+del Módulo de Comando 
+será capaz de tener 
+comunicación en los dos 
+sentidos con:
+2. Un astronauta afuera 
+del Módulo de 
+Comando
+Eje. Requerimiento Funcional de 
+ 
+Comunicación del Apollo
+
+[p32] Eje. Requerimiento Funcional de
+3. Comunicación 
+con el Módulo 
+Lunar, cuando el 
+Módulo de 
+Comando y el 
+Módulo Lunar 
+están en la línea 
+visual
+Eje. Requerimiento Funcional de 
+ 
+Comunicación del Apollo
+Foto desde el Módulo de Servicio/ 
+Comando del Módulo Lunar 
+ascendiendo
+
+[p33] Requerimiento de Performance o
+Eje. Restricciones por regulaciones al Apollo
+El sistema de radio VHF de los Módulo de Comando operará en la 
+región del espectro de 250MHz que ha sido regulada (alojada) por 
+el gobierno para la comunicación espacial.
+Captura operacional, ambiental, seguridad, restricciones por 
+regulaciones. 
+Ejemplo: El sistema de radio de banda ¨S¨ del Módulo de 
+Comando debe ser capaz de transmitir telemetría a la Tierra 
+con una velocidad de dato de 1.6 kbps
+Requerimiento de Performance o 
+Desempeño
+Define el grado de funcionalidad de un elemento
+Requerimientos que imponen 
+Restricciones
+
+[p34] Ejemplo del Programa Apollo
+Misión
+Sistema
+Segmento
+Elemento
+SS
+Componente
+Parte
+Soporte Extra 
+Vehicular
+Docking
+C. Térmico
+Comunic.
+Propul.
+Pot.  Elec 
+Soporte 
+Vida
+NG&C
+Vuelo
+Lanzamiento
+Tierra
+Módulo de 
+Comando
+Módulo de 
+Servicio
+Módulo 
+Lunar
+Lanzador
+Pad 
+Lanz
+Edificio 
+Ensamble
+Antena Radar
+Target
+Dispositivos MC 
+Ventana
+Control
+Radar
+Dispositivos  ML
+Ejemplo del Programa Apollo
+
+[p35] Ejemplo del Programa Apollo  [FIGURA]
+Ejemplo del Programa Apollo
+Sistema de Acoplamiento
+
+[p36]   [FIGURA]
+(sin texto)
+
+[p37] Proceso de los Requerimientos
+Proceso de los Requerimientos
+Hay requerimientos a diferentes niveles jerárquicos
+Los niveles desde el más alto, misión, segmento, elemento, 
+subsistema, componentes y partes
+. 
+Tenemos varios niveles de requer. que deben ser definidos, desde el más 
+alto de misión ya definido hacia los requerimientos más bajos de 
+construcción, es el detalle para concretar.  Así cada proveedor ahora sabe 
+cual es el requerimiento para su producto, en nuestro ejemplo del 
+transmisor receptor de radio.  
+¿Qué potencia consumirá? ¿Qué requerimiento tienen las baterías? 
+Otro ¿qué pasa con los pequeños motores cohetes (thrusters)? 
+Debemos dividir en pequeñas piezas, definir claramente los requerimientos 
+al más bajo nivel. Los requerimientos deben tener su trazabilidad, 
+hacia arriba.
+Si adquirimos cierta clase de radio para el Apollo y el Módulo de Comando, 
+ya definimos a muy bajo nivel los requer. de componente. Debe haber 
+trazabilidad hacia arriba y esto ha sido fijado por el sistema. 
+Será finalmente operado en el camino hacia la luna. 
+Deben cumplir los objetivos que el Presidente Kennedy había definido.
+
+[p38] Proceso de los Requerimientos
+Level 0 Requer de Misión
+Realizar un alunizaje con humanos antes de 1970
+Level 1 Requer de sistema
+Retornar con 45 kg de roca lunar y muestras del suelo sin contaminarlas
+Nivel 2 Requerimiento del nivel segmento
+Segmento de vuelo Apollo tendrá una masa no mayor que 40.823kg en la 
+inyección en la órbita de transferencia
+Nivel 3 Requer de elemento  Módulo Lunar 
+será capaz de operar 45 horas cerca
+ 
+de la superficie de la luna en cualquier tiempo cerca de la luna durante la luz 
+solar, la cara que mira a la Tierra. 
+Dos semanas a la luz del sol y dos semanas a la oscuridad. ML debía poder sobrevivir sobre 
+la superficie de la luna por 45 horas mientras debía soportar altas temperaturas 93,3°C
+Level 4 Requer de Subsistemas - sistema de acoplamiento  
+-  Docking
+Módulo Lunar debe diseñarse para permitir un simple acoplamiento no 
+asistido
+con el módulo de comando en órbita lunar.
+Nivel 5 nivel de los componentes - 
+docking radar
+El radar de encuentro rendezvous el sistema de acople para unir los dos vehículos.
+Proceso de los Requerimientos
+
+[p39] Proceso de los Requerimientos
+Este radar ayuda a la operación, debería ser capaz de trackear el Módulo 
+de Comando desde una mínima distancia de 5 pies y una máxima de 400 
+millas náuticas con una precisión de ± 1%.
+Level 6 Requerimiento de  Parte
+Los motores de manejo de la antena de radar de acople deben 
+poder mover la antena a través de todo el rango de movimiento a una 
+velocidad de 7 grados por segundo.
+Proceso de los Requerimientos
+
+[p40] Ejemplo de Trazabilidad
+Misión
+Sistema
+Segmento
+Elemento
+SS
+Componente
+Parte
+Soporte Extra 
+Vehicular
+Docking
+C. Térmico
+Comunic.
+Propul.
+Pot.  Elec 
+Soporte 
+Vida
+NG&C
+Vuelo
+Lanzamiento
+Tierra
+Módulo de 
+Comando
+Módulo de 
+Servicio
+Módulo 
+Lunar
+Lanzador
+Pad 
+Lanz
+Edificio Ensamble
+Target
+Dispositivos MC 
+Ventana
+Control
+Radar
+Dispositivos  ML
+Ejemplo de Trazabilidad
+
+[p41] Proceso de Descomposición
+Proceso de Descomposición
+Estamos haciendo lo que la ing. de sistemas debe hacer en el 
+proceso, tomar el concepto en el nivel más alto e ir bajando 
+particionando en más pequeños y más pequeña piezas sucesivamente, 
+definiendo requerimientos. 
+Habrá miles de requerimientos que están cada uno en su jerarquía, para 
+cada unos de los componentes / partes de los subsistemas etc.
+La clave del proceso es dividir de arriba hacia abajo en cada vez más 
+pequeñas partes, más fácilmente definibles para poder definir la 
+adquisición o construcción etc.
+Y luego poner las partes juntas, integrándolas. Deberíamos obtener un 
+sistema operando encontrando las metas y objetivos necesarios para el 
+cliente.
+Particionar hacia abajo en pequeñas y más pequeñas partes hasta 
+obtener piezas individuales ahora listas para ser integradas y trabajar en 
+conjunto en el sistema.  Para esto debemos ver las interfaces de todas 
+las partes, identificarlas, esto es requerimientos de interfaces
+. 
+En todos los niveles tenemos interfaces
+.
+
+[p42] Acople Módulo de Comando - Módulo Lunar
+Misión
+Sistema
+Segmento
+Elemento
+SS
+Componente
+Parte
+Soporte Extra 
+Vehicular
+Docking
+C. Térmico
+Comunic.
+Propul.
+Pot.  Elec 
+Soporte 
+Vida
+NG&C
+Vuelo
+Lanzamiento
+Tierra
+Módulo de 
+Comando
+Módulo de 
+Servicio
+Módulo 
+Lunar
+Lanzador
+Pad 
+Lanz
+Edificio 
+Ensamble
+Antena Radar
+Target
+Dispositivos MC 
+Ventana
+Control
+Radar
+Dispositivos  ML
+Acople Módulo de Comando - Módulo Lunar
+Requerimientos de Interfaces
+
+[p43] Acople Módulo de Comando - Módulo Lunar
+Acople Módulo de Comando - Módulo Lunar
+Requerimientos de Interfaces
+El Módulo de Comando y el Módulo Lunar, elementos básico deben 
+tener la capacidad de acoplarse juntos desde múltiples puntos, durante 
+la misión.  Los requerimientos de interfaces son críticos.
+La estructura de LEM y CSM serán diseñadas para proveer áreas de 
+ventana para permitir el encuentro y acople para poder iniciar el 
+procedimiento desde uno u otro usando medios ópticos.
+
+[p44] Acople Módulo de Comando - Módulo Lunar  [FIGURA]
+Acople Módulo de Comando - Módulo Lunar
+Requerimientos de Interfaces
+
+[p45] Acople Módulo de Comando - Módulo Lunar
+Es necesario estar seguro que podemos mirar por la ventana y poner 
+instrumentos ópticos para realizar el acople al ver al otro vehículo 
+Acople Módulo de Comando - Módulo Lunar
+Requerimientos de Interfaces
+
+[p46]   [FIGURA]
+(sin texto)
+
+[p47]   [FIGURA]
+(sin texto)
+
+[p48] Interfaces
+Interfaces
+Construyendo separadamente no tenemos la verdadera dimensión de lo 
+que ocurre al estar integrado, por eso los requerimientos de interfaces 
+deben estar perfectamente definidos lo más temprano posible.
+El CSM será responsable su enclavamiento con el LEM y asegurará la 
+continuidad entre las estructuras y presuriza cuando estén en 
+configuración acople.
+Esto define que la interface de una de las partes es pasiva, el Módulo 
+Lunar, y la otra será activa, el Módulo de Comando/ Servicio.
+La interfaz del Módulo de Comando es responsable de hacer un buen sello 
+entre ambos. El equipo del Módulo Lunar no tiene la preocupación de 
+interface.
+
+[p49] Verificación de los
+Verificación de los 
+Requerimientos
+Es crítica la verificación de los requerimientos.
+No tiene sentido leer los requerimientos si no los podemos verificar que se 
+cumplen antes del lanzamiento.
+Si la radio debe operar en un cierto parte del espectro necesito hacerlo en 
+Tierra, encenderla, sintonizarla a esa frecuencia cuando estoy hablando 
+con alguien en la otra habitación y si funciona correctamente.
+Si el peso del vehículo es no más que una cierta cantidad especificada, 
+ponerlo en una balanza y verificarlo, se construyó el vehículo con el peso 
+correcto.
+Para cada requerimiento debe haber un modo de verificarlo
+
+[p50] Verificar
+Verificar
+• Verificar es un proceso de confirmación que un sistema está en 
+conformidad con los requer.
+• En otras palabras, la verificación del sistema hace la pregunta 
+¿El sistema encuentra sus requerimientos? 
+• Esta temprana consideración de verificar los requerimientos ayuda 
+al entendimiento del sistema en general.
+• Confirmar que los requerimientos son en verdad verificables.
+• Identifica las facilidades necesarias por los ensayos de los 
+subsistemas y sistemas.
+• Por ejemplo un star tracker se puede ensayar poniendo una placa 
+con varios patrones de estrellas iluminados sucesivos para que 
+pueda reconocer esos patrones. 
+• ¨Pero hay otro tipo de requerimientos¨
+
+[p51] Verificación de los Requerimientos
+Verificación de los Requerimientos 
+Ambientales
+Para verificar cierto  
+requerimientos 
+se necesitan grandes 
+complejos de facilidades
+El Módulo de Comando dentro de 
+una gran cámara de vacío térmico en 
+el Johnson Space Center con 
+calentadores y simulador solar para 
+replicar las condiciones ambientales 
+del espacio. 
+Esto permite verificar si se cumplen los 
+requerimientos de diseño y opera 
+adecuadamente.
+A la derecha el artículo listo para 
+llevarlo a ensayar en la cámara de 
+Vacío térmico
+
+[p52]   [FIGURA]
+(sin texto)
+
+[p53] Dimensiones de la cámara de termo vacío  [FIGURA]
+Dimensiones de la cámara de termo vacío 
+19.8 m  Diámetro x 36.6 m Altura, Puerta es de 12,2m
+
+[p54]   [FIGURA]
+(sin texto)
+
+[p55] Ensayos Ambientales
+Ensayos Ambientales
+Debe poder operar en las dos situaciones: en el espacio y dentro 
+de las cámaras de vacío térmico.
+Debemos verificar que dentro de la cámara cumple con los 
+requerimientos. La cámara Simulador Ambiental Espacial.
+El hardware de vuelo de la Apollo será diseñado para soportar 5 
+ensayos 
+de 
+aceptación 
+(usando 
+un 
+perfil 
+de 
+ensayos 
+predeterminado) en la cámara de termo vacío a temperaturas de 
+-150°C a +132 °C y una presión 10-5 tor.
+
+[p56] Validación de los Requerimientos
+Validación de los Requerimientos
+Validación de Requerimientos es el proceso de 
+confirmar la completitud, la compatibilidad, y 
+la exactitud de los requerimientos.
+La validación de los requerimientos responde a las 
+preguntas :
+¿Están los requerimientos definido correctamente y 
+entendemos lo que estamos intentando?
+¿Es el conjunto de los requerimientos o las 
+especificaciones, auto consistentes?
+
+[p57] Los niveles 1, 2 & 3  de requerimientos se especifican en la  [FIGURA]
+Los niveles 1, 2 & 3  de requerimientos se especifican en la  Fase 
+A
+ Y los niveles de 4, 5 & 6  de requerimientos se especifican en la Fase B
+
+[p58] Resumen y Definiciones  [FIGURA]
+Resumen y Definiciones
+
+[p59] Para qué son los Requerimientos
+Para qué son los Requerimientos
+¿Automóvil 
+Eléctrico?
+¿Data link? 
+¿Central Nuclear?
+¿Impresora 3D de metales? 
+¿Sistema de transporte 
+Público? 
+¿Submarino?
+
+[p60] Resumen de Tipos de Requerimientos
+Resumen de Tipos de Requerimientos
+Funcionales: Requer. define qué función necesita ser hecha para 
+realizar los objetivos de la misión
+Eje.: EL TVC (Thrust Vector Controller) preverá el control de vehículo en los ejes pitch o yaw
+Esta declaración describe una función de alto nivel que el TVC debe realizar.
+Performance: Requer. define el grado de funcionalidad del sistema 
+Eje.: EL TVC (Thrust Vector Controller)  gimbalará el motor en máximo de 9° ±0,1°
+Restricciones:  Son Requer. que no pueden ser negociados con 
+respecto a Costo, Programación y Desempeño
+Eje.: EL TVC (Thrust Vector Controller) no puede pesar más que 50kg
+Requerimientos Interfaces:
+Eje.: EL TVC  interfaceará con el J-2X en las condiciones especificadas en los doc CxP 72262 
+_Ares I US J- Interface Control Doc,  Sec 3.4.3.
+Requerimientos Ambientales:
+Eje.: EL TVC usará las cargas vibroacústicas y shock definidas en el doc CxP72169 AresI…. En 
+todos los diseños análisis y actividades de ensayos.
+Otros: Factor humano, confiabilidad, seguridad etc.
+
+[p61] Resumen del Proceso de Alojar los
+Resumen del Proceso de Alojar los 
+Requerimientos
+1ra Aplicación
+• Límites del Sistema
+• Ciclo de Vida aplicable
+• Plan de Implementación-Top level
+Interesados Clientes
+Requerimientos
+Sistema
+2da Aplicación
+Sistem
+a
+Sistem
+a
+Función 
+1
+Función 
+2
+Función 
+3
+• Concepto Preliminar (Forma)
+• Mayores Piezas
+Sistem
+a
+SS 
+1
+SS 
+2
+SS 
+3
+SS 
+4
+Comp 
+1
+Comp 
+2
+Comp 
+3
+•  Parámetros de    
+Desempeño Claves del 
+Sistema
+•  SS Definidos
+•   Componentes
+3ra Aplicación
+
+[p62] Preciso - Exacto  [FIGURA]
+Preciso - Exacto
+
+[p63] Definición de los Elementos del Alcance
+Definición de los Elementos del Alcance
+♦
+Necesidades
+• Conduce a todo lo demás
+• Relacionado con su plan estratégico o plan de negocios
+• NO es una definición del sistema o solución
+• Explica por qué el proyecto está desarrollando este sistema desde el punto 
+de vista de los interesados
+• No cambia mucho durante la vida del proyecto.
+♦
+Metas
+• Un meta es un objetivo amplio y fundamental, que su organización espera  
+lograr para satisfacer su necesidad.
+♦
+Objetivos
+• Expandir cómo alcanzará los objetivos.
+• Iniciativas que implementan los objetivos
+• Especifique también los criterios de éxito: ¿cuál es el mínimo que las partes 
+interesadas esperan del sistema para que tenga éxito?
+♦
+Misión
+• El caso comercial de por qué se necesita un producto.
+• Definir y restringir las misiones ayudará a identificar los requerimientos.
+
+[p64] Definición de los Elementos del Alcance
+• Restricciones
+– Elementos externos que no se pueden controlar y que se deben 
+cumplir, y que se identifican al definir el alcance.
+– A menudo se define en términos de cronograma y presupuestos.
+• Autoridad y responsabilidad
+– ¿Quién tiene autoridad para los aspectos del desarrollo del sistema? 
+(por ejemplo, centro gubernamental, contratista, cliente)
+• Hipótesis
+– Según lo identificado por las partes interesadas, como parte de los 
+elementos de alcance enumerados anteriormente
+• Conceptos operacionales - CONOPS
+– Una descripción paso a paso de cómo el sistema propuesto debe 
+operar e interactuar con sus usuarios y sus interfaces externas (por 
+ejemplo, otros sistemas).
+– No olvide incluir las perspectivas de las partes interesadas, como por 
+ejemplo los astronautas.
+– Imagine el funcionamiento del sistema futuro y documente los pasos 
+de cómo se utilizará el sistema de extremo a extremo.
+– Describe, a un alto nivel, los escenarios nominales y no nominales
+Definición de los Elementos del Alcance
+
+[p65] Concepto de Operación
+Concepto de Operación
+•
+¿Qué es un ConOps ?: una descripción de cómo se operará el sistema 
+durante las fases de la misión para cumplir con las expectativas de las partes 
+interesadas.
+•
+Importancia de un ConOps:
+– Proporciona una perspectiva operativa.
+– Estimula el desarrollo de requerimientos relacionados con el usuario.
+– Revela requerimientos y funciones de diseño a medida que se consideran 
+diferentes "casos de uso" (por ejemplo, Shuttle)
+– Sirve como base para documentos de operaciones clave más adelante
+•
+Ejemplo de la misión Mars Phoenix:
+– ConOps lleva a la adición del requer. de "ver" el descenso y la fase de 
+aterrizaje durante la misión. Esto requiere una cámara en una ubicación 
+específica que pueda soportar el perfil de entrada. Bajo operaciones 
+nominales, la cámara puede no ser requerida.
+– "Comenzando justo después de que el aeroshell se arroje a una altitud de 
+aproximadamente 5 millas, el Mars Descent Imager (MARDI) adquirirá una 
+serie de imágenes en color de gran angular del sitio de aterrizaje hasta la 
+superficie".
+
+[p66] Información típica del ConOps
+Información típica del ConOps
+• Descripción de las fases principales.
+• Escenarios operacionales y / o misiones de referencia de 
+diseño (DRM)
+• Para misiones de exploración humana, múltiples DRM forman 
+un ConOps
+• Líneas de tiempo de operación
+• Estrategia de comunicación de punta a punta
+• Arquitectura de comando y datos
+• Instalaciones operativas (p. Ej., Control de misión, centro de 
+datos científicos)
+• Soporte logístico integrado (reabastecimiento, mantenimiento y 
+montaje)
+• Eventos críticos
+Misión de referencia de diseño DRM : un escenario de caso de uso que enfatiza todas las 
+capacidades del sistema en gran medida y que todas las alternativas de diseño deberán ser 
+capaces de lograr. El propósito de tales misiones es mantener abierto el espacio de diseño.
+
+[p67] Ejemplo de Alcance para el
+Necesidad: Proporcionar acceso tripulado al espacio una vez que se retire el 
+Shuttle.
+Meta: hacer que el acceso al espacio sea más seguro y económico que el 
+sistema actual.
+Objetivo: proporcionar acceso al espacio y al reingreso a la Tierra para 
+misiones a la EEI, la Luna y Marte.
+Misión o caso de negocios: Soporte para todas las misiones de vuelo espacial 
+humano posteriores al Shuttle.
+Concepto operativo: Lanzamiento ... Cita ... Atraque ... Transferencia ... 
+Reingreso ...
+Hipótesis: Separación de la tripulación y la carga para la fase de lanzamiento.
+Restricciones: entregar un vehículo operativo a más tardar en 2014; Minimice 
+la brecha con Shuttle Retirement en 2010.
+Autoridad y responsabilidad: el CEV será administrado por la NASA sin 
+participación internacional.
+Drivers: visión presidencial para la exploración espacial en 2004; 
+preocupaciones de seguridad con el accidente de Shuttle post Columbia.
+Ejemplo de Alcance para el 
+Crew Exploration Vehicle 
+(CEV)
+
+[p68] Comenzar el ConOps con dibujos de  [FIGURA]
+Comenzar el ConOps con dibujos de 
+Escenarios de Operaciones y Tiempos
+
+[p69]   [FIGURA]
+(sin texto)
+
+[p70] Ejemplo de ConOps del Diseño de Misión  [FIGURA]
+Ejemplo de ConOps del Diseño de Misión 
+de Referencia
+
+[p71] ConOps de la estrategia de comunicación  [FIGURA]
+ConOps de la estrategia de comunicación 
+End to End

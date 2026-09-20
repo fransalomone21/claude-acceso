@@ -1,0 +1,1701 @@
+# IISE clase 4 -- 124 diapositivas
+# fuente: IISE Clase 4 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Introducción  [FIGURA]
+Introducción 
+a la Ingeniería de 
+Sistemas Espaciales
+Unidad # 4
+Agosto 2026
+Campus virtual UNSAM
+UNSAM - Ing Sistemas Espaciales
+
+[p2] Objetivos
+Objetivos
+Clases Pasadas
+•
+Explicar que es la Ingeniería, su historia, la Ingeniería de Sistemas, 
+su aparición y el contexto de la industria espacial. 
+•
+Las definiciones comunes de la Ing. Sistemas. 
+•
+Arquitectura de Sistemas 
+•
+Función y Forma
+En esta 4ta clase
+•
+Continúa la discusión de la necesidad de la Ingeniería de 
+Sistemas recorriendo diferentes casos – Ejemplos
+•
+Dar una mirada de la visión de conjunto de la ingeniería de 
+sistemas de una agencia espacial y sus procesos asociados
+•
+El ¨Motor ¨ de la Ingeniería de Sistemas de NASA
+•
+Identificar los atributos de un Ingeniero de Sistema
+
+[p3] Estándares y Manuales de la
+Estándares y Manuales de la 
+Ingeniería de Sistemas
+1.
+NASA Systems Engineering Handbook, NASA/SP-2007-6105, 
+Rev 1, Dec 2007.
+ 
+2.
+INCOSE Systems Engineering Handbook, A Guide for System 
+Lifecycle Processes and Activities, INCOSE-TP-2003-002-03, 
+version 3, International Council on Systems Engineering 
+(INCOSE), June 2006 – version 4 was just issued in July 2015.
+ 
+3.
+ISO/IEC 15288:2008(E), IEEE Std 15288-2008, Second edition, 
+2008-02-01 Systems and software engineering — System life 
+cycle processes, Ingénierie des systèmes et du logiciel — 
+Processus du cycle de vie du système – May 2015 edition
+ 
+4.
+ECSS-E-10A – European Systems Engineering Standard, 
+http://www.ecss.nl/ 
+Estas son sugerencias  basadas en la experiencia y el mejor conocimiento. Siéntanse 
+libres de hacer lecturas adicionales en una literatura  que crece rápidamente.
+
+[p4] Arquitectura de sistemas
+• Arquitectura de sistemas: el mapeo de 
+la función a (con)formar a través del concepto.
+Arquitectura
+• La incorporación del concepto y la asignación de 
+la función física / informativa (proceso) a los 
+elementos de la forma (objetos) y la definición de 
+las interfaces estructurales entre los objetos.
+• Consiste en:
+– Función
+– Relacionado por el Concepto
+– a la Forma
+Concepto
+Forma
+Función
+
+[p5] Discutir la NECESIDAD de la Ing. de
+Veamos un par de ejemplos
+En todos estos casos grupos de personas tratan de 
+resolver problemas complejos
+Discutir la NECESIDAD de la Ing. de 
+Sistemas
+
+[p6] Primera Etapa
+Primera Etapa 
+Saturno V
+•
+Los diseños originales de primera 
+y segunda etapa de Saturn V 
+cumplian con todos los requisitos 
+con cuatro motores.
+•
+Pero el equipo de Von Braun en el 
+Marshall 
+Space 
+Flight 
+Center 
+agregó un quinto motor en la 
+primera y otro en la segunda etapa 
+para tener más margen.
+•
+La misión Apollo no hubiera sido 
+posible 
+sin 
+ese 
+plus 
+de 
+desempeño. 
+No 
+habría 
+sido 
+posible por el incremento de masa 
+sucesivo 
+de 
+los 
+módulos 
+de 
+comando/servicio y el módulo 
+lunar 
+los 
+cuales 
+crecieron 
+sucesivamente. 
+El 
+desempeño 
+(performance)  adicional también 
+permitió más contenido científico 
+en las misiones posteriores de 
+Apollo.
+
+[p7] Introd. a la Ing. de Sistemas
+Introd. a la Ing. de Sistemas 
+Espaciales
+Este curso es una introducción al enfoque riguroso de la Creación, 
+Diseño, Implementación y Operación de sistema complejos y 
+veremos que hay muchos otros elementos a considerar para optimizar el 
+sistema para encontrar los requerimientos y las metas que nos 
+proponemos.
+La ingeniería de sistemas está involucrada en el corazón del trabajo de 
+ingeniería que es la aplicación de las ciencias básicas 
+y las 
+tecnologías, como la Física, Matemáticas, para resolver problemas reales 
+y también toda una serie de tecnologías básicas y aplicadas.
+Hay tareas que necesitan ser hechas y los pasos de la ingeniería es el 
+uso de todas estas herramientas, todas estas leyes para encontrar las 
+soluciones, toda clase de diferentes disciplinas que se involucran 
+dependiendo de los problemas, que pueden ser químicos, metalúrgicos, 
+mecánicos, electrónicos, de software, ópticos, térmicos , fluidos etc. 
+La meta es encontrar la solución del problema, problemas del mundo 
+real. 
+Problemas como el espejo del telescopio Hubble durante su construcción, 
+y después también en órbita. MSFC estuvo involucrado resolviéndolos.
+
+[p8] Dos Ejemplo  [FIGURA]
+Dos Ejemplo
+Resolviendo problemas en el espejo del 
+telescopio en el Marshall Space Flight Center
+Telescopio 
+Hubble
+Montaje 
+Cassegrian
+
+[p9]   [FIGURA]
+(sin texto)
+
+[p10]   [FIGURA]
+(sin texto)
+
+[p11]   [FIGURA]
+(sin texto)
+
+[p12] SYS 612
+SYS 612 
+Final Project The Hubble Space Telescope 
+     Misalignment and Mismanagement 
+       Stevens Institute of Technology 
+    Systems Engineering and Engineering Management 
+Shortly after the HST was launched another problem was discovered; the telescope 
+seemed to be displaying distorted images. After a few tests were carried out, it was 
+verified that the primary mirror was causing a spherical aberration due to the primary 
+mirror being out of spec. Analysis of the images from the HST determined that the 
+error rate of the mirror was about ten times greater than the specification in the 
+contract called for. 
+The mirror in question had been manufactured by the PerkinElmer Corporation, so an 
+investigation began on tracing what went wrong in the manufacturing of the optics. 
+The team identified that the Reflective Null Corrector (RNC), a set of optics used to 
+test the primary mirror (shown in Figure 5) was not built correctly. The device is 
+constructed of two mirrors and a lens spaced apart from each other. The spacing of 
+these components was out of spec which threw the polishing of the primary mirror 
+off. The problem was that Perkin-Elmer never carried out any verification of the RNC’s 
+dimensions. After much research it was determined that the tests to ensure that the 
+mirror was polished into the correct geometry may have been set up incorrectly, this 
+raised many questions about the manufacturing and the quality inspection of the 
+mirror.
+
+[p13] The manufacturing of the mirror was exposed to a single point failure; Perkin-Elmer
+The manufacturing of the mirror was exposed to a single point failure; Perkin-Elmer 
+relied on a single test to verify the mirrors accuracy. Even though signs of the trouble 
+with the primary mirror were present during manufacturing, they were ignored, 
+leading to a very costly repair required. The repairs of the HST required that roughly 
+$20 million dollars were required to repair the spherical aberration of the primary 
+mirror. 
+The mirror itself was not designed to be replaceable so the solution was remarkably 
+similar to what an optometrist would do to fix a humans eye. This mission was called 
+COSTAR, Corrective Optics Space Telescope Axial Replacement. Its purpose was to 
+replace the high speed photometer, and use special relay mirrors on movable arms to 
+correct the light entering the primary mirror removing the spherical aberration. The 
+Hubble Space Telescope project management had failed two 
+key management points, quality and communication.
+ The 
+Perkin-Elmer team should have looked into the RNC failure further rather than risk a 
+misshapen mirror. Instead no alternate tests were conducted and a mirror ten times 
+out of specification was delivered to NASA for use in the telescope. If the team had 
+communicated its suspicions that the mirror may be out of spec and followed quality 
+procedures, the defects would have been detected and a back up mirror being 
+produced by the Kodak Corporation could have been delivered in its place. 
+http://faculty.ivytech.edu/~abell118/files/HubblePaper.pdf
+Final Project The Hubble Space Telescope 
+ Misalignment and Mismanagement
+
+[p14] Otros Ejemplos de expertos de niveles
+Otros Ejemplos de expertos de niveles 
+inferiores 
+•   Como construir un thermal coating del 
+exterior 
+del 
+vehículo, 
+ingenieros 
+muy 
+específicos que trabajan en sus disciplinas, 
+trabajan a una escala pequeña de nivel de un 
+pequeño equipo y que ellos pueden hacer 
+cambios sobre sus experiencias y desarrollos 
+y lograr un mejor producto basado en sus 
+experiencias. 
+Buscando nuevas maneras para resolver 
+los problemas, para que el sistema 
+trabaje correctamente.
+•    Hay niveles de diseño de las baterías 
+de un spacecraft, un grupo de ingenieros 
+abocado, trabajando solo en las baterías.
+A typical MLI blanket with VDA Kapton
+layers and dacron netting in between.
+
+[p15] Aislación Térmica Multicapa
+Aislación Térmica Multicapa
+Multilayer Insulator – MLI
+• MLI para satélites completos y naves planetarias.
+• Externo e interno MLI para satélites para encontrar los 
+requerimientos del cliente para cada parte.
+• Protección Térmica de formas complejas e.g. tuberías, 
+tanques, válvulas.
+• Grandes Mantas (blankets) hasta 3 m² es posible.
+• Conformidad con requerimientos de protecciones 
+planetarias y Cargas biológicas.
+• MLI Para Telescopios espaciales .
+
+[p16]   [FIGURA]
+(sin texto)
+
+[p17] Subsistema de Propulsión  [FIGURA]
+Subsistema de Propulsión 
+Protección Térmica de los 
+Tanques
+Hay que evitar
+se congele 
+Hidracina
+
+[p18] Cargando Hidracina
+Sentinel-2B está siendo cargado con propelente en spaceport europeo  en Guyana Francesa. Esta 
+es una tarea extremadamente peligrosa y delicada, se debe usar ropa especial de protección.
+Cargando Hidracina
+
+[p19] Pero cuando viene emparentado con  [FIGURA]
+Pero cuando viene emparentado con 
+un sistema mayor y 
+cada vez más complejo
+Sistema de Sistemas - Sistemas Complejos
+
+[p20] Sistema de Sistemas
+Sistema de Sistemas
+• Es un problema interdisciplinario de gran escala que 
+involucra sistemas múltiples, heterogéneos y distribuidos.
+• Elementos del Sistema que operan independientemente.
+• Elementos del Sistema que tienen diferentes ciclo de vida.
+• Los requerimientos iniciales son probablemente ambiguos.
+• La Complejidad es el factor más importante.
+• La gestión (Management) puede oscurecer la ingeniería.
+• Límites difusos causan confusión.
+• SoS ingenieril nunca termina.
+Fuente: INCOSE SE Handbook V3.2
+
+[p21] Ejemplo de la  EEI - ISS  [FIGURA]
+Ejemplo de la  EEI - ISS
+
+[p22] Las 5 Estaciones Espaciales  [FIGURA]
+Las 5 Estaciones Espaciales
+Ejemplo de Cómo fueron creciendo en  complejidad
+
+[p23] Las primeras 4 Estaciones Espaciales  [FIGURA]
+Las primeras 4 Estaciones Espaciales
+
+[p24] Estación Espacial Internacional - ISS
+Estación Espacial Internacional - ISS
+https://www.youtube.com/watch?v=5RjK9isGd_g
+https://www.nasa.gov/externalflash/iss-lessons-learned/
+World's Biggest international Space Station Ever Built - Full Documentary
+
+[p25] Pero esto es solo una parte del
+Pero esto es solo una parte del 
+sistema estación espacial que 
+ustedes ven, hay un resto que se ve 
+en el siguiente gráfico que habla del 
+sistema total, 
+el sistema de sistemas
+
+[p26] Sistema EEI - ISS
+Sistema EEI - ISS
+Payload Operations 
+Control Center 
+Alabama
+Space Network Operation 
+Center White Sands 
+New Mexico
+Columbus Control 
+Center 
+Germany
+Mission Control 
+Center Moscow 
+Rusia
+Space X Mission 
+Control Center  
+Florida
+Mission Control 
+Center  Houston Texas
+Kibo Control 
+Center 
+Japan
+
+[p27] Sistema EEI - ISS
+• Hay sistemas para transportar  la tripulación, yendo a la ISS 
+y volviendo a casa. Hasta hace poco era la cápsula Soyuz y 
+otras varias que se proponen.`Ahora se ha sumado SpaceX 
+con la Dragon
+• También hay un sistema de transporte de carga que 
+alimenta la estación (Japón -  Europa – Rusia con 
+elementos comerciales) 
+Hay varios proyectos de empresas que intentan cubrir estos 
+servicios
+ 
+Boeing Bigelow  - Orbital Science Cygnus Spacecraft - 
+NASA´s Orion Spacecraft  - Sierra Nevada 
+Corporation Dream Chaser 
+https://www youtube com/watch?v oljpxs7YhCM#t 424 774803
+Sistema EEI - ISS
+
+[p28] Sistema EEI - ISS
+Sistema EEI - ISS
+Payload Operations 
+Control Center 
+Alabama
+Space Network Operation 
+Center White Sands 
+New Mexico
+Columbus Control 
+Center 
+Germany
+Mission Control 
+Center Moscow 
+Rusia
+Space X Mission 
+Control Center  
+Florida
+Mission Control 
+Center  Houston Texas
+Kibo Control 
+Center 
+Japan
+
+[p29] Transportes Espaciales a la ISS  [FIGURA]
+Transportes Espaciales a la ISS
+
+[p30] NASA 2019  [FIGURA]
+NASA 2019
+https://www.youtube.com/watch?v=RqLNIBAroGY&feature=youtu.be
+
+[p31]   [FIGURA]
+(sin texto)
+
+[p32] Transportes Espaciales a la ISS  [FIGURA]
+Transportes Espaciales a la ISS
+
+[p33] Puertas de Acceso a la ISS
+Puertas de Acceso a la ISS
+https://www.youtube.com/watch?v=-l7MM9yoxII
+https://www.youtube.com/watch?v=M2_NeFbFcSw
+Soyuz rendezvous and docking explained
+Soyuz undocking, reentry and landing explained
+The Soyuz launch sequence explained
+https://www.youtube.com/watch?v=AVvgpKt5uCA
+
+[p34] Transporte de  [FIGURA]
+Transporte de 
+Personal
+Soyuz
+
+[p35] Transporte de Carga  [FIGURA]
+Cápsula Cygnus 
+La nave llevó 3,6 toneladas 
+de provisiones y material 
+destinado a 250 
+experimentos científicos.
+ATV
+Dragon
+HTV
+Transporte de Carga
+
+[p36] Incluyendo las
+Incluyendo las 
+versiones tripulada y 
+no tripulada de 
+Soyuz y Progress, 
+hay seis spacecraft 
+naves para viajar a la 
+ISS. 
+Ellas son, sentido del 
+reloj: JAXA’s HTV, 
+ESA’s ATV, 
+SpaceX’s Dragon, 
+Roscosmos’ Soyuz, 
+Orbital’s Cygnus y 
+Roscosmos’ 
+Progress.
+ Photo Credit: NASA
+Read more at 
+http://www.spaceflightinsider
+.com/missions/russian-resup
+ply-launch-go-despite-diplo
+matic-tensions/#tMzZysPxRl
+adKEMr.99
+
+[p37]   [FIGURA]
+(sin texto)
+
+[p38]   [FIGURA]
+(sin texto)
+
+[p39] Comunicaciones del
+Comunicaciones del
+Sistema ISS
+Payload Operations 
+Control Center 
+Alabama
+Space Network Operation 
+Center White Sands 
+New Mexico
+Columbus Control 
+Center 
+Germany
+Mission Control 
+Center Moscow 
+Rusia
+Space X Mission 
+Control Center  
+Florida
+Mission Control 
+Center  Houston Texa
+Kibo Control 
+Center 
+Japan
+Hay otros elementos, 
+todo un gran sistema de 
+comunicación de 
+satélites llevando datos 
+a la Tierra, 
+comunicación de  la 
+tripulación con 
+estaciones de Tierra
+
+[p40] Sistema ISS - EEI
+Hay una serie de facilidades desplegadas alrededor del mundo 
+que deben ser integradas juntas para que la estación opere 
+normalmente, hay que coordinar con miles de personas que 
+deben hacer trabajos y esto es donde el ingeniero de sistemas 
+juega su papel central y así la ingeniería de sistemas agrega esta 
+disciplina en estos proyectos de gran escala. 
+Durante años ha madurado la idea de que necesitamos 
+herramientas para hacer esta tarea gigante, necesitamos 
+procesos y estos procesos necesitan ser estandarizados para 
+que cada uno puede hablar la misma lengua, usar los mismos 
+términos que todos pueden entender. 
+Esto lo vamos a aprender en este  curso:
+ 
+Indentificación y cuantificación de las metas de 
+los sistemas
+Sistema ISS - EEI
+
+[p41] Modelo de los Procesos de la Ing. de Sistemas
+Modelo de los Procesos de la Ing. de Sistemas 
+♦
+Descomponer los problemas complejos en más pequeños, que son más fáciles 
+de resolver: divide y conquistarás, vieja estrategia para tener éxito.
+♦
+La Ing de Sistemas divide los proyectos de desarrollo complejos en varios 
+productos y fases .
+1.
+Descomponer un producto creando una jerarquía de piezas más pequeñas 
+progresivamente; (notación NASA)
+Sistema, 
+   Segmento, 
+  Elemento, 
+      Sub Sistemas,
+Ensambles, 
+       Sub ensambles, 
+Partes
+2.
+Descomponiendo la vida de desarrollo de un nuevo proyecto creando una 
+secuencia de actividades definidas, fases ,  esto es CDIO pero más detallado, 
+más específico:
+Necesitar, Requerir, Descomponer, Diseñar, Integrar, Verificar, Operar y 
+Disponer
+Comienza Particionando el gran Problema
+
+[p42] Veamos el Ejemplo del Space Shuttle
+Veamos el Ejemplo del Space Shuttle
+la Lanzadera Espacial 
+El enfoque de la Ingeniería de Sistemas consiste en la 
+creación de alternativas de Diseños Conceptuales
+ Función de la Arquitectura de Sistema
+¿Qué necesitamos 
+para generar 
+el concepto?
+
+[p43] Necesidades
+La necesidad del cliente era llevar todas 
+las carga útiles (Peso, Volumen, etc.) con 
+siete tripulantes a una órbita baja y traerlos 
+de vuelta.
+Y que además sea  íntegramente reusable 
+IRLV – Integrated Reusable Launch Vehicle
+Otras necesidades
+• Soporte Logístico a la Estación Espacial 
+• Lanzamientos Orbital y retiro de  satélites
+• Lanzamiento y delivery de etapas propulsivas y 
+Cargas Utiles 
+• Orbital delivery de propelente 
+• Servicio a satélites y mantenimiento
+• Misiones orbitales tripuladas de corta duración
+           ¿¿¿Qué hacemos con esto???? 
+De aquí nacen los requerimientos de alto 
+nivel
+Necesidades 
+y Pre Fase A
+
+[p44] del Space Shuttle
+Ejemplo del Space Shuttle
+¿Cómo podemos desarrollar un sistema  como el Space shuttle?
+El proceso desde el principio: hay diferentes formas de desarrollar un 
+sistema, para encontrar el concepto, para diseñar un concepto.
+Esta es la Función del Arquitecto de Sistemas 
+La tarea del ingeniero de sistemas consiste en seleccionar e 
+implementar el mejor diseño entre todas las alternativas propuestas.
+Esto puede tener algunas consideraciones subjetivas y otras objetivas. 
+¿Cuál es la mejor manera, la más segura, para llevar cargas al 
+espacio? 
+Veamos las alternativas de los diseños conceptuales del Space Shutte. 
+Una vez seleccionada una de ellas debe ser de alguna manera 
+verificable, que nos permita decir que ese concepto es el más 
+adecuado. 
+Más adelante también la verificación  nos dirá si se construyó ese 
+diseño y si el sistema encuentra todos los requerimientos , 
+definidos al principio del ciclo de vida del proyecto.
+
+[p45] Alternativas Propuestas  [FIGURA]
+Alternativas Propuestas 
+para Space Shuttle
+Diferentes Conceptos
+Pre Fase A
+
+[p46] Marzo de 1972  [FIGURA]
+Marzo de 1972
+Pre Fase A
+
+[p47] Marzo de 1972  [FIGURA]
+Marzo de 1972
+Pre Fase A
+
+[p48] Marzo de  [FIGURA]
+Marzo de 
+1972
+Pre Fase A
+
+[p49] Marzo de 1972  [FIGURA]
+Alternativa Elegida para el Space 
+Shuttle
+Marzo de 1972
+Pre Fase A
+
+[p50] Evolución de la Alternativa  [FIGURA]
+Evolución de la Alternativa 
+Elegida 
+ Fase A
+
+[p51] Necesidades del cliente convertidas
+Necesidades del cliente convertidas 
+finalmente en Requerimientos de Alto 
+Nivel
+Requerimientos Space Shuttle 
+•
+El Shuttle  deberá transportar cargas a órbitas bajas cercanas a la Tierra 
+(LEO) entre 185km  y 401 Km  por sobre la Tierra. Esta  carga - o 
+payload – será transportada en una bodega de 4,57 m de diámetro y 
+18,28m de longitud.
+•
+El requerimiento mayor del sistema es que el orbitador y los dos cohetes 
+sólidos boosters deberán ser reusables.
+•
+El orbitador  deberá transportar una tripulación de hasta ocho personas. 
+Hasta un total de 10 personas deberán poder ser transportadas en 
+condiciones de emergencia.
+•
+La misión básica deberá ser de 7 días en el espacio.
+•
+Los compartimentos de la tripulación deberán ser sin trajes de protección 
+ambiental, y la aceleración nunca deberá supercar 3g (¿G?).
+•
+En su viaje de retorno a la Tierra, el orbitador deberá tener una capacidad 
+de rango de maniobra de 2.037km.
+•
+………….
+https://spaceflight.nasa.gov/shuttle/reference/shutref/sts/requirements.html
+
+[p52] Requerimientos para alistar el Space  [FIGURA]
+Requerimientos para alistar el Space 
+Shuttle
+
+[p53] Finalmente cómo se alistaba el Space Shuttle  [FIGURA]
+Finalmente cómo se alistaba el Space Shuttle 
+(Operativo - Fase E )
+
+[p54] Ciclo de Vida del Space Shuttle 1977 -
+Ciclo de Vida del Space Shuttle 1977 - 
+2011
+Se comprobó que los vehículos desechables son 
+más baratos y flexibles para ese momento 
+tecnológico.
+SpaceX?
+Resultó una empresa sumamente cara 
+U$S192.000 Millones total, 135 lanzamientos
+Visión: Parcialmente reusable con rápido alistamiento y rápida salida al 
+próximo vuelo.
+Realmente resultó un vehículo complejo y frágil 
+con un costo promedio de U$S1.500 Millones (20.000 ho)
+¿Por qué?
+•
+Optimismo exagerado
+•
+El Congreso cubrió I+D & Ing. hasta U$S85.150M. (1971)
+•
+El foco estuvo en alcanzar performance.
+•
+El mantenimiento no fue pensado desde el principio 
+adecuadamente      - diseñado para - 
+•
+ Optimización NO realista del ciclo de vida  Costo / Valor
+
+[p55]   [FIGURA]
+(sin texto)
+
+[p56]   [FIGURA]
+(sin texto)
+
+[p57] Rovers a Marte
+La necesidad del cliente era como llevar todas (necesidades de volumen y 
+peso) esas carga útiles a órbita baja, con siete tripulantes y traerlos de 
+vuelta. A partir de esas necesidades se concretan y se escriben las metas 
+de los requerimientos y continuamos con estos procesos y así vamos a 
+verificar luego que los requerimientos de alto nivel se cumplen.
+El enfoque del Ing. de Sistemas consiste en evaluar cuán bien el sistema 
+encuentra las metas o requerimientos. Entonces es desde una idea, un 
+concepto, hasta un sistema completo, integrado y operando.
+Todo el ciclo de vida del proyecto.
+La Validación al final se quiere saber si operará correctamente y si el 
+cliente y los interesados están satisfechos.  Es decir, si cumple con las 
+necesidades.
+Verificar está ligado a cada requerimiento establecido: como masa, 
+potencia, órbita etc.
+Luego Validar si el sistema entero como un sistema hace todo las cosas 
+que esperamos que haga, que necesitamos que haga.
+Veamos Otro ejemplo: 
+Rovers a Marte 
+Verificación y Validación  (V&V)
+de Sistemas Espaciales
+
+[p58] Ejemplo: Un Nuevo Rover para Marte
+Ejemplo: Un Nuevo Rover para Marte
+ Mars Curiosity Rover
+ 
+Necesidades de los clientes
+1. Estudiar el clima y la geología de Marte
+2. Evaluar si las condiciones ambientales fueron adecuadas para 
+la supervivencia de la vida microbacterial
+3. Investigar el rol del agua en toda la historia de Marte
+4. Preparar la exploración humana futura
+
+[p59] Recorramos el proceso y la Ing. de
+Las necesidades de la comunidad de científicos se convertirán en 
+requerimiento de alto nivel, deliberando con los ingenieros 
+liderados por la Ingeniería de Sistemas.
+Un nuevo Rover para conocer más de la Geología y de la 
+atmósfera de Marte. También saber si Marte ha tenido vida, si su 
+ambiente permitió alguna forma de vida micro bacterial 
+desarrollada sobreviviente.  Así cuando hacemos Ing. de Sistemas 
+se deben tomar todas estas ideas iniciales y el primer paso es ver 
+si hay alguna herramienta ya desarrollada que pueda hacer lo que 
+estamos queriendo hacer. 
+¿Hay otros Rover anteriores que hayan ido a Marte, puede ser que 
+puedan cumplir con esto requerimientos?
+¿Podrán estos Rovers hacer la ciencia que estamos intentando 
+implementar? 
+Puede ser la respuesta que estamos buscando.
+Recorramos el proceso y la Ing. de 
+Sistemas
+
+[p60] Manejando en Otros Mundos con  [FIGURA]
+Manejando en Otros Mundos con 
+Diferentes Rovers
+
+[p61] Rovers a Marte
+Rovers a Marte
+• Sojourner. The first Mars rover was Sojourner, 
+named for abolitionist and early women's rights 
+activist Sojourner Truth. ...
+• Spirit and Opportunity. The next Mars 
+rovers were the golf-cart-size twins, Spirit and 
+Opportunity. ...
+• Curiosity. The most recent rover to touch down 
+on Mars is Curiosity, which landed on Aug. 6, 2012.
+• El Rover Perseverance de la NASA llegó a Marte 
+en busca de restos de vida en el planeta
+
+[p62]   [FIGURA]
+(sin texto)
+
+[p63]   [FIGURA]
+(sin texto)
+
+[p64] Propiedades de Marte
+Propiedades de Marte
+Características
+Marte
+Tierra
+Distancia media al Sol
+227.200.000 (1,52UA)
+148.800.000 (1 UA)
+Masa
+6,4169  1023
+5,9722  1024
+Velocidad media alrededor del sol
+23,2 km por seg
+29,6km por seg
+Diámetro
+6.752 km
+12.681,6 km
+Inclinación del eje de rotación 
+25 grados
+23,5 grados
+Duración del año
+687 días terrestre
+1,88 años  Tierra
+365,25 días
+1
+Duración del día
+24horas 37 minutos
+23 horas 56 minutos
+Gravedad Superficial
+3,7 m/s2
+0,37 de la Tierra
+9,81 m/s2
+2,66 veces de Marte
+Temperatura
+Promedio - 63⁰C
+-143⁰C    a   17⁰C
+Promedio 14⁰C
+-88⁰C    a   58⁰C
+Ambiente
+CO2
+95,32%
+0,038%
+O2
+0,13%
+21,00%
+N2
+2,70%
+77,00%
+Ar
+1,60%
+1,00%
+H2O vapor
+0.03%
+0,25%
+Presión atmosférica
+ 0,006 kg/cm2
+ 1 kg/cm2
+Cantidad de satélites naturales
+2  (Deimos y Fobos)
+1 (Luna)
+
+[p65] Se pide Nuevo tipo de movilidad
+https://www.youtube.com/watch?v=bP7p5Bd2d50
+https://www.youtube.com/watch?v=4QDJWIUDSEk
+Se pide Nuevo tipo de movilidad 
+ 
+del Rover en Marte
+Heriot-Watt EPS Mechanical Engineering, 
+Stair climbing Robot Shrimp 2011
+Rocker-Bogie Mechanism
+
+[p66] La familia de Rovers
+Dos ingenieros del  Jet Propulsion Laboratory con los tres vehiculos, vemos los tamaños  comparados, 3 
+generaciones de Mars rovers. El primer Mars rover, Sojourner, ¨aterrizó¨ en  Marte en 1997 como parte del 
+Mars Pathfinder Project. A la izquierda es el vehículo de ensayos Mars Exploration Rover (MER)  que es el 
+hermano del Spirit y Opportunity, aterrizaron en Marte en 2004.  A la derecha un rover de ensayos para 
+Mars Science Laboratory, Curiosity,  aterrizó en Marte en 2012.
+Curiosity 3 m long.
+Mars Exploration 
+Rovers (MER)  1.6 m  
+long. 
+Sojourner   65 cm long
+La familia de Rovers
+
+[p67] Perseverance  2021
+Perseverance  2021
+https://www.youtube.com/watch?v=Y83mPVHaTro&ab_channel=euronews%28enespa%C3%B1ol%29
+https://www.youtube.com/watch?v=yqqaW8DCc-I&ab_channel=RealEngineering
+https://www.youtube.com/watch?v=95hMM2u6Fgw&ab_channel=CarolMeierNarrator-revoeciov
+
+[p68] El Rover Anterior al Curiosity  [FIGURA]
+El Rover Anterior al Curiosity
+The Mars Exploration Rovers: Spirit and Opportunity
+
+[p69] Concepción del nuevo Rover
+Concepción del nuevo Rover 
+(concepción del Curiosity)
+Hay que mirar la ciencia de estos Rover respondiendo estas preguntas 
+básicas: primero si es posible obtener información sobre estas misiones 
+sin empezar a construirlas. Si se podría usar algo, en este caso la 
+respuesta fue no.
+Los actuales Rovers no son capaces de hacer la clase de investigación 
+que los científicos querían. Se precisa uno nuevo. 
+Hay que desarrollar un nuevo diseño, un nuevo sistema mirando las 
+diferencias, cuánto más grande tendrán que ser las ruedas, carga útil, etc.
+La Ing. de Sistemas irá haciendo trade studies, análisis de alternativas, 
+de opciones de como se realizará la misión y buscar cuál es el mejor de la 
+relación costo beneficio, el cual puede ser hecho más rápido desde la 
+mirada de la programación y ver cuál requiere nuevas tecnologías y en el 
+caso de agregar nuevas tecnologías medir los riesgos de madurez de 
+estas tecnologías (TRL) en los tiempos de la misión. 
+Se podría decidir usar otra tecnología.
+A través de las fases de diseño vamos desde conceptos que son 
+dibujos, esquemas de varias alternativas hacia el diseño preliminar. 
+Sobre estas alternativas eligiendo la óptima, con la ayuda estratégica de 
+ensayos  sobre modelos de ingeniería y prototipos.
+
+[p70] Diagrama de Subsistemas del Rover
+Diagrama de Subsistemas del Rover
+Nuevo tipo de Movilidad
+https://www.slideshare.net/mikerare/isu-internship-project-barcelona-moon-team-mission-design
+ISU Internship Project - Barcelona Moon Team Mission Design
+Preliminary Mission Analysis  for Barcelona Moon Team Rover
+
+[p71] Balancenado el Equilibrio entre los Subsistemas  [FIGURA]
+Balancenado el Equilibrio entre los Subsistemas
+Tarea de la Ing. de Sistemas
+
+[p72] Ejemplo del Diseño conceptual de la
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.538.6955&rep=rep1&type=pdf
+Design of a Mars Rover Suspension Mechanism By Fırat Barlas
+Ejemplo del Diseño conceptual de la 
+suspensión del Rover Clásico
+
+[p73] Modelos  [FIGURA]
+Modelos  
+de 
+Ingeniería 
+Para  ensayar 
+la movilidad y 
+la suspensión 
+del nuevo 
+rover
+
+[p74] Modelos de Rover
+Modelos de Rover
+Evaluando y mirando la capacidad de movilidad de la ruedas para ir 
+a terrenos muy arrugados con el modelo de ingeniería o prototipo. 
+Diseño de las ruedas. Todavía no se ha construido el modelo de 
+vuelo pero sí las partes a ser aplicadas a los prototipos o modelos 
+de ingeniería para evaluar y elegir el adecuado.
+
+[p75]   [FIGURA]
+(sin texto)
+
+[p76] Introd. a la Ing. de Sistemas
+Después de ensayar y evaluar los prototipos o modelos de desarrollo 
+de  ingeniería o modelos de ingeniería 
+pasamos a verificar que 
+hemos encontrado sus requerimientos.
+Construir el spacecraft es una parte de los procesos de la Ingeniería de 
+Sistemas: Construir, Integrar, Ensayar y luego lanzar el vehículo y 
+Operar.
+Participa gran cantidad de gente, tiempo y esfuerzo, en la manufactura e 
+integración y verificación, aplicando las herramientas y procesos de la Ing. de 
+Sistemas que dirán si estamos listos o no, ready to fly.
+Esta es la parte más crítica del proceso porque cambios en la etapas tempranas, 
+cuando se está trabajando en el diseño conceptual o un poco más avanzado se 
+está trabajando sobre los planos, el costo de hacer cualquier cambio es mínimo y 
+podemos optimizar el diseño. 
+Una vez que se está construyendo el vehículo, cualquier cambio que debe 
+hacerse, debido a que el vehículo no encontró sus requerimientos, no se está 
+trabajando en la línea correcta. Estos cambios a esta altura implican grandes 
+gastos. Ir para atrás, cambiar los planos y re-manufacturar los componentes. 
+Se produce un efecto dominó sobre la habilidad para encontrar su 
+programación y su presupuesto
+. Ya de por sí el tiempo que consume el 
+diseño de vehículos espaciales es muy largo.
+Introd. a la Ing. de Sistemas 
+Espaciales
+
+[p77]   [FIGURA]
+(sin texto)
+
+[p78]   [FIGURA]
+(sin texto)
+
+[p79] NASA’s  Curiosity  Rover dentro de la cámara de vacio térmico ensayando en las facilidades
+NASA’s  Curiosity  Rover dentro de la cámara de vacio térmico ensayando en las facilidades 
+de JPL NASA. Los ingenieros colocaron el Curiosity dentro de esta cámara para reproducir 
+las condiciones de la superficie de Marte que el rover experimentará cuando ¨aterrice¨  en 
+agosto 2012.  Credit: NASA/JPL-Caltech
+
+[p80] Curiosity dentro  de un espacio de
+Curiosity dentro  de un espacio de 
+7.6-metros de diámetro de la cámara 
+de  simulación espacial el 8 de marzo, 
+2011 en NASA's Jet Propulsion 
+Laboratory, Pasadena, California. 
+El rover está completamente 
+ensamblado con el H/W y S/W de 
+vuelo primario e instrumentos. 
+En esta foto la puerta de la cámara 
+está abierta todavía. 
+Credit: NASA/JPL-Caltech
+
+[p81] Del Concepto al Sistema Operacional
+Después de construido e integrado, el spacecraft es sometido a una serie de 
+ensayos para ver su comportamiento en los diferentes ambientes, muy similar 
+a donde irá. En grandes cámaras se reducirá la atmósfera  y se lo someterá a 
+temperaturas similares a las de operación. Todo esto impactará en los 
+componentes, la incidencia del sol, la presión ambiental, etc.
+Estas imágenes muestran cómo es el proceso y cómo el personal dentro de la 
+cámara  está ensayando con el brillo del sol artificial impactando y compara 
+con lo que debería ser.
+Sobrevivir de noche en Marte: se busca verificar los requerimientos de las 
+condiciones muy parecidas a las de Marte. Se deben cumplir los 
+requerimientos de alto nivel.
+Se diseña, se construye, se ensaya, se está listo para lanzar. Al final del 
+proceso de esta etapa de la Ing. de Sistemas, estamos listos para operar el 
+sistema. La Ing. de Sistemas acompaña al vehículo hasta el final de su vida.
+Hay una serie de fases PreA, A, B, C, D, E, F. Es el estándar NASA y 
+también similares en los estándares ESA. En la Fase D se construye el S/C. 
+Fase E se opera el sistema. La Ingeniería de Sistemas trabaja a través de un 
+proceso formal para convertir una idea, un concepto en un sistema real, en un 
+sistema operacional.
+Del Concepto al Sistema Operacional
+
+[p82] Descenso del Curiosity  [FIGURA]
+Descenso del Curiosity
+http://mars.jpl.nasa.gov/multimedia/interactives/edlcuriosity/index-2.html
+
+[p83]   [FIGURA]
+(sin texto)
+
+[p84] Video  [FIGURA]
+Video
+Curiosity: Mars Science Laboratory rover (part two)
+ 
+https://www.youtube.com/watch?v=JsLrMMm6XN8
+
+[p85] Inteligencia Artificial
+AI
+Inteligencia Artificial
+•
+NASA can't yet put a scientist on Mars. But in its next rover mission to the 
+Red Planet, NASA's Jet Propulsion Laboratory is hoping to use artificial 
+intelligence (AI) to at least put the equivalent of a talented research 
+assistant there. Steve Chien, head of the AI Group at NASA JPL, envisions 
+working with the Mars 2020 Rover "much more like [how] you would 
+interact with a graduate student instead of a rover that you typically have to 
+micromanage."
+•
+The 13-minute delay in communications between Earth and Mars means 
+that the movements and experiments conducted by past and current 
+Martian rovers have had to be meticulously planned. While more recent 
+rovers have had the capability of recognizing hazards and performing some 
+tasks autonomously, they've still placed great demands on their support 
+teams.
+•
+Chien sees AI's future role in the human spaceflight program as one in 
+which humans focus on the hard parts, like directing robots in a natural way 
+while the machines operate autonomously and give the humans a high-level 
+summary.
+
+[p86] Configuración Final de las cámaras  [FIGURA]
+Configuración Final de las cámaras 
+del Rover
+
+[p87] Helicóptero para la ayuda de la  [FIGURA]
+Helicóptero para la ayuda de la 
+Navegación en Marte
+
+[p88]   [FIGURA]
+(sin texto)
+
+[p89] Los grandes proyecto
+si uno no tiene el personal especializado estamos en problemas
+Los grandes proyecto 
+Espaciales 
+luchan con: 
+Costos 
+Planificación
+Desempeño 
+Técnico 
+Envejecimiento de la 
+fuerza de trabajo 
+Retención de 
+Habilidades 
+Schedule 
+Performance
+Cost 
+  Riesgo
+
+[p90] ¿Por qué?
+¿Por qué?
+♦
+Hay tendencia al desarrollo y diseño de nuevos sistemas 
+espaciales con más Ing Sistemas.
+♦
+Los proyectos de gran envergadura luchan con los costos, 
+la planificación y la performance técnica.
+♦
+Envejecimiento de la fuerza de trabajo, y la retención de 
+personal con habilidades. Son Problemas Serios
+♦
+Los sistemas espaciales son grandes y complejos, 
+requieren un mayor porcentaje de ingeniería de sistemas.
+Desarrolladores de Sistemas Espaciales están 
+llamando a más y mejor Ingeniería de Sistemas
+
+[p91] Grandes Equipos de Trabajo
+Nuevos Sistemas Espaciales Incluyen
+Desarrollo de 
+Tecnologías 
+Planificación
+Tecnologías Existentes
+Grandes Equipos de Trabajo 
+Más 
+Expertos 
+Muchos 
+Proveedores 
+de SS
+Requerimientos
+ Ambiguos 
+Socios 
+Institucionales 
+Más 
+Stakeholders 
+Más Riesgos 
+Técnicos
+
+[p92] Nuevos Sistemas Espaciales Incluyen
+Nuevas tech y también desarrollo de nuevas tecnologías, tecnologías 
+conocidas de subsistemas off the shelf (comerciales) parecen simples 
+pero a veces es muy complicado integrarlas, son productos comerciales 
+en nuevos sistemas, hay mucha gente involucrada, socios institucionales 
+de diferentes grupos involucrados, más interesados (stakeholders) - 
+partes interesadas, más personas en el equipo adicional, clientes 
+observando los procesos, tenemos varios subsistemas diferentes.
+Hay un montón de riesgos técnicos involucrados que podrían  terminar 
+con el dinero  y/o la programación. Hay muchas consideraciones que 
+debemos tener en cuenta cuando desarrollamos un sistema, tener un 
+proceso de ingeniería de sistemas nos permite socorrer a la 
+organización para asegurar que tenemos todo en cuenta.
+Nuevos Sistemas Espaciales Incluyen
+
+[p93] La Ing. de Sistemas nos ayuda a dirigir
+Será exitoso si el Presupuesto está al Costo, obteniendo el producto técnico que 
+se necesita al final y dentro de lo planificado. Cuando se trabaja con Ing. de 
+Sistemas la meta es trabajar a través de las disciplinas, el ing. térmico, el ing. en 
+propulsión, en potencia, etc. Los ing. de sistemas son un grupo alrededor de 
+todos estos ing. especialistas que asegura que todos los subsistemas  puedan 
+trabajar juntos, todas los elementos componentes y piezas (HW & S/W) de un 
+sistema.
+Van juntos con la idea de trabajar apropiadamente para completar la misión. Es el 
+rol de la Ing. de sistemas. También observan los diferentes riesgos que están 
+involucrados en la construcción del spacecraft. Estoy desarrollando este proyecto 
+donde está la mayor preocupación que me mantiene despierto a la noche. ¿Qué 
+puedo hacer para reducir ese riesgo?. Hay que tomar acciones que pueda 
+cambiar el diseño para hacerlo menos riesgoso para la misión. Puedo usar 
+diferentes tecnologías donde pienso que hay un potencial problema tecnológico 
+de tener una falla después del lanzamiento. Tal vez debiera poner redundancias 
+donde me preocupa, que no trabaje y cause una falla en la misión.
+El ing. de sistemas trabaja en el desempeño y operación del sistema en todas las 
+fases del proyecto mirando cómo mejorar y perfeccionar el diseño.
+Los ing. de sistemas espaciales construyen una cantidad de lecciones 
+aprendidas del pasado sobre sistemas 
+La Ing. de Sistemas nos ayuda a dirigir 
+todos los elementos para constituir un 
+sistema
+
+[p94] Sistema construido por diferentes grupos de
+Si el sistema se construye con diferentes grupos, no coordinados y sin una 
+disciplina de ingeniería de sistemas global para coordinarlos, a menudo 
+se rompe por las interfaces, cuando integramos las piezas, FALLA .
+Sistema construido por diferentes grupos de 
+subsistemas no coordinados resulta un sistema 
+inútil 
+Un ejemplo de esto es el puente de Tacoma, que se construyó con diferentes 
+grupos de  muy buenos ingenieros: ing. Estructurales, ing mecánicos un 
+motón de análisis, etc. Pero al final no hubo una coordinación suficiente 
+entre todas las disciplinas y el grupo de manufactura y se obtuvo esto que 
+vemos en la próximas imágenes.
+Vean el Video del puente Tacoma que se destruye. 
+Factor del viento se lo consideró en segundo orden
+Problema de sobrecostos : integrar piezas preexistentes: se termina 
+generalmente gastando dinero adicional para retrabajar las interfaces. 
+Creyendo ahorrar se termina gastando más recursos. Construir los 
+sistemas por diferentes grupos de subsistemas en el final resulta  inútil:
+
+[p95]   [FIGURA]
+(sin texto)
+
+[p96] Atla
+Atlas - Espesor de los tanques estructurales de acero inoxidable = 0.02¨ = 0.5 mm        
+LOX Presión = 28psi              Fuel Presión = 60psi
+Presurizados con Helio para que estable estructuralmente. Valores de los primeros 
+vehículos
+Atla
+s
+https://www.ulalaunch.com/docs/default-source/rockets/atlas400_cutaway.pdf
+Balloon tanks, which while having an excellent propellant mass fraction needed permanent pressurization to 
+remain structurally stable
+
+[p97] La Ing. de Sistemas coordina los
+La Ing. de Sistemas coordina los 
+proyectos para evitar las Catástrofes
+Ver los problemas desde diferentes perspectivas, es la mirada del 
+Ing. de Sistemas es la manera de asistir y ayudar a un proyecto.
+Los grandes proyectos sin coordinación de IS, sin esta disciplina, 
+conduce a esfuerzos desperdiciados donde las personas están 
+trabajando en diferentes ideas de lo que el sistema debe hacer y 
+cómo lo debe hacer. Debemos trabajar juntos.
+Si se construye una caja de computadora que no se puede conectar 
+con otros componentes lleva a una inconsistencia de diseño, 
+conflictos con las interfaces, no se puede enchufar sensores con 
+computadora, se necesita mandar los datos a la computadora, no se 
+puede hablar con otros grupos. 
+Hay que evitar la duplicación de esfuerzos donde los grupos asumen 
+responsabilidades que no les compete, no están coordinados.
+
+[p98] Future Imagery
+Declinación de Expertos en Ing. de Sistemas contribuyó 
+a un espectacular fallo en el desarrollo de un Satélite 
+Espía
+-  Los Esfuerzos malgastados
+-  Diseños inconsistentes
+-  Interfaces conflictivas 
+-  Duplicación de esfuerzos 
+Una disciplina sistemática  de enfoque  que no es global nos hace caer en 
+este ejemplo: satélite espía de U$S 5000M, después de 6 años gastando 
+U$S 4000M el sistema fue cancelado 2005 y Lessons Learned 
+Future Imagery 
+Architecture (FIA)
+No hubo un presupuesto realista, no se hicieron análisis apropiados,
+Conclusión: costos estimados no realistas
+Los Proyectos luchan con:
+
+[p99] Ejemplo FIA
+Ejemplo FIA
+Presupuesto no 
+Realista 
+Inversiones 
+no significativas
+ en I+D
+Satelite Future Imagery Architecture
+Hubo fallas debido a: 
+Análisis 
+Inadecuados
+Cambios de 
+Diseño
+Ausencia de 
+estimación de 
+costos realistas
+Intromisión de 
+stakeholders 
+Externos 
+Contratista sin 
+Experiencia
+Schedule no 
+Realista 
+Recortes en los 
+ensayos diseño
+
+[p100] Comentarios de la prensa
+Comentarios de la prensa
+¨Otro  factor fue una declinación de los expertos 
+americanos en Ingeniería de Sistemas, la ciencia y el 
+arte de dirigir proyectos de ingeniería  complejos para 
+sopesar riesgos, evaluar la viabilidad, ensayar 
+componentes y asegurar que las piezas calzan 
+perfectamente¨
+
+[p101] Necesidad
+NASA Lessons Learned Resources:
+http://www.appel.nasa.gov/ask/archives/lessons.php
+http://pbma.nasa.gov/lessonslearned_main_cid_3
+http://ildp1.nasa.gov/offices/oce/llis/home/
+http://klabs.org/DEI/lessons_learned/
+Necesidad 
+de la Ingeniería de Sistemas
+
+[p102] El ¨Motor¨ de la  [FIGURA]
+El ¨Motor¨ de la 
+Ingeniería de Sistema 
+NASA
+
+[p103] El ¨
+El ¨motor ¨ de la Ingeniería de 
+Sistemas de NASA tiene 17 
+actividades de procesos para 
+el Diseño, Realización y 
+Dirección 
+Tenemos un proceso que se ve en la siguiente filmina 
+desde el inicio las metas, las necesidades y los objetivos
+El ¨Motor¨ de la Ing. de Sistema NASA
+
+[p104] Ing. de Sistema NASA – Handbook SP61907, 2007
+Requerimientos fluyen hacia abajo 
+desde niveles superiores
+Ing. de Sistema NASA – Handbook SP61907, 2007
+Procesos de Diseño de Sistema 
+aplicados a cada Modelo de WBS 
+hacia abajo y a través de la 
+estructura del sistema
+Procesos de Realización del 
+Producto aplicado a cada capa de 
+producto hacia arriba y a través de la 
+estructura del sistema
+Productos realizados 
+desde niveles mas bajo
+Requerimientos fluyen hacia 
+abajo a niveles inferiores
+Productos realizados
+a niveles superiores
+Procesos de la 
+Gestión Técnica
+Procesos de 
+Diseño de 
+Sistemas
+Procesos de 
+Realización del 
+Producto
+Procesos de Def. de 
+Requerimientos
+1- Def. de las Expectativas 
+de los Interesados
+2- Def. Requer. Técnicos
+Procesos de Def. de 
+Soluciones Técnicas
+3- Descomposición Lógica
+4- Def. Solución de Diseño
+Procesos de Control 
+Técnico
+11- Gestión de Requer.
+12- Gestión de Interfaces
+13- Gestión Riesgo Técnico
+14- Gestión Configuración
+15- Gestión Datos Técnicos
+Proceso de Evaluación 
+Técnica
+16- Evaluación Técnica
+Proceso de Análisis de 
+Decisión Técnica
+17- Análisis de Decisión
+Proceso de Transición de 
+Producto
+9- Transición del Producto
+Proceso de Evaluación
+7- Verificación del Producto
+8- Validación del Producto
+Proceso de Realización 
+de Producto
+5- Implemen. Producto
+6- Integración del Producto
+Proceso de Planif Técnica
+10- Planificación Técnica
+
+[p105] El Motor de la Ing. de Sistemas
+Necesitamos construir un telescopio entonces necesitamos una 
+plataforma o satélite con su carga útil - telescopio, y operarlo, esto fluye, 
+caminamos a través de todo el proceso. La meta aquí es que si 
+miramos a la izquierda el proceso de diseño del sistema vemos como 
+desde la necesidades tomamos los requerimientos de alto nivel y como 
+comenzamos a descomponer hacia niveles más bajos y más bajos de 
+requerimientos asegurando que se entiende correctamente como cada 
+pieza del satélite trabaja y después lo vamos a poner juntos como 
+deben operar sabiendo lo que se necesita.
+ 1 – Definición de las Expectativas de los Interesados 
+ 2 - Definición de los Requerimientos Técnicos
+Proceso de Definición de Requerimientos
+El Motor de la Ing. de Sistemas 
+NASA
+
+[p106] El Motor de la Ing. de Sistemas NASA
+Se definen los requerimientos junto con el cliente desde el comienzo y 
+pensar cómo el sistema necesita operar, cuales son los 
+requerimientos. Si hablamos del sistema de power (Power SS), cuánta 
+potencia necesita suministrar al resto del satélite para que opere, 
+cuánta propulsión, qué tipo de propulsión, etc. 
+Tratamos de definir cada vez más abajo en los niveles. La 
+descomposición es una parte crítica de la Ingeniería de Sistemas 
+para resolver los problemas y luego debemos poder construir, 
+debemos tener partes manejables donde se puede luego asignar a 
+ingenieros especialistas; eléctricos de potencia, expertos en 
+propulsión, en determinación y control de órbita y actitud, etc. 
+Debemos encontrar el mejor diseño para cumplir con los 
+requerimientos. Estos primeros pasos son donde se está trabajando y 
+mirando al sistema integrado y vamos hacia niveles más bajo, de 
+detalles sucesivamente.
+Debemos entender que cada parte está encaminada en la dirección 
+de encontrar los requerimientos de operación, de metas y objetivos, 
+los requerimientos de más alto nivel.
+El Motor de la Ing. de Sistemas NASA
+
+[p107] El Motor de la Ingeniería de Sistemas
+Después de definir sus requerimientos, el paso 3 y 4 es dividir en soluciones 
+técnicas,  tener un conjunto de requerimientos para realizar alternativas haciendo 
+análisis sobre esquemas - dibujos  y conceptos. Por ahora no sé qué tipo de 
+batería voy a comprar pero sí que necesito una batería para el satélite.
+Comienzo con el diseño, necesito baterías, thrusters para el satélite para 
+mantenerlo en órbita, definir un sistema de propulsión, conceptos de cómo voy a 
+resolver los requerimientos. La solución técnica en los próximos dos pasos
+ 3 – Descomposición Lógica
+ 4 – Definición de Solución de Diseño
+El Motor de la Ingeniería de Sistemas 
+NASA
+Procesos de Definición de Soluciones 
+Técnicas
+Definición de las funciones que deben tener el sistema, subsistema y 
+componentes. Qué debemos tener para cumplir las funciones, y comenzamos a 
+desplegar jerárquicamente, así se puede entender los niveles más bajos, son todos 
+los elementos para que el sistema  opere.  Bajaremos los requerimientos hasta que 
+podamos construir el satélite y asegurar que haga lo que debe hacer.
+
+[p108] ¿Porque necesitamos descomponer el sistema?
+¿Porque necesitamos descomponer el sistema? 
+© Tesla Motors Club LLC. All rights reserved. This content is excluded from our Creative Commons license. For more information, see http://ocw.mit.edu/help/faq-fair-use/.
+
+[p109] Complejidad de los Sistemas
+¿Cuántos niveles de descomposición (profundidad del 
+árbol) necesitamos para describir el automóvil de la 
+figura anterior?
+•  1 nivel
+•  2 nivel
+•  3 nivel
+•  4 nivel
+•  5 nivel
+•  6 nivel
+• >6 nivel
+• Esta pregunta no tiene sentido para mí
+Complejidad de los Sistemas
+
+[p110] Complejidad de los Sistemas
+Complejidad de los Sistemas
+Limitaciones de la mente humana no más de 3 niveles
+B&D 
+Bauer
+HP
+Xerox
+GM
+Boeing
+Destornillador
+Rollers
+Impresora de Tinta
+Máquina Copiadora
+Automóvil
+Avión de línea 
+~#Partes
+3
+30
+300
+2.000
+10.000
+100.000
+#Niveles
+1
+2
+3
+4
+5
+6
+Simple
+Complejo
+Fórmula  # Niveles= log (#Partes) / log (7)
+¿Número de Partes?
+
+[p111] JERARQUÍA DEL SISTEMA SATELITAL
+JERARQUÍA DEL SISTEMA SATELITAL
+SiSTEMA
+SEGMENTO ESPACIO
+ELEMENTO
+SUBSiSTEMA  XX
+COMPONENTE
+SUB ENSAMBLE
+PARTE
+SUBSISTEMA
+COMPONENTE
+MODULE
+PROCEDURE/ROUTINE
+ESPACIO 
+SPACECRAFT / 
+PAYLOAD
+ACE - 
+C&DH
+EPS - TT&C
+BATERÍA / 
+ANTENA
+CSCI
+CSU
+CU
+HARDWAR
+E
+SOFTWAR
+E
+● One project’s system is another
+    project’s component
+TIPICA NOTACIÓN DE
+SOFTWARE
+SEGMENTO TERRENO
+
+[p112] JERARQUÍA DEL SISTEMA SATÉLITE
+JERARQUÍA DEL SISTEMA SATÉLITE
+SiSTEMA
+SEGMENTO ESPACIO
+ELEMENTO
+SUBSiSTEMA  XX
+COMPONENTE
+SUB ENSAMBLE
+PARTE
+SUBSISTEMA
+COMPONENTE
+MODULE
+PROCEDURE/ROUTINE
+SATÉLITE
+ESPACIO -  
+TIERRA
+SPACECRAFT / 
+PAYLOAD
+ACE - 
+C&DH
+EPS - TT&C
+BATERÍA / 
+ANTENA
+CSCI
+CSU
+CU
+HARDWAR
+E
+SOFTWAR
+E
+● One project’s system is another
+    project’s component
+TIPICA NOTACIÓN DE 
+SOFTWARE
+
+[p113] Los Requerimientos fluyen hacia abajo
+Proceso de Diseño del Sistema
+Aplicado hacia abajo a cada capa de producto
+a través de la estructura del sistema
+Los Requerimientos fluyen hacia abajo
+ a niveles inferiores
+Motor de la Ingeniería de Sistemas NASA
+
+[p114] Motor de la Ingeniería de Sistemas
+Procesos de Realización del Producto 
+aplicado a cada capa de producto hacia arriba y 
+a través de la estructura del sistema
+Productos realizados desde niveles más bajos
+Motor de la Ingeniería de Sistemas 
+NASA
+Voy al mercado y veo si existe ese producto si no lo tengo que 
+desarrollar – madurar. La verificación es una de las funciones del 
+IS. Si se compra el dispositivo debe verificar los requerimientos. 
+Una vez que integramos debemos verificar los requerimientos de 
+subsistema, si compramos las baterías debemos ponerlas en el 
+subsistema y comprobar que trabaja adecuadamente.
+
+[p115] Motor de la Ing. de Sistemas NASA
+El proceso de planificación técnica, el paso 10, donde ya está 
+establecido la programación y todas las eventos que necesitan 
+ocurrir, los trabajos técnicos, los equipos están trabajando juntos 
+todas las funciones que deben ser realizadas que hacen al sistema 
+del 11 al 15 requerimientos de dirección gestión manejo de 
+interfaces. 
+Se quiere asegurar cómo los requerimientos de gestión 
+(management) aseguran la conexión, que cada uno está usando 
+los requerimientos, están usando el mismo conjunto de 
+requerimientos correctos y los requerimientos están controlados. 
+La batería que obtuve del mercado entrega menos energía y para 
+el subsistema está bien, quiero hacer un cambio. Ingeniería de 
+Sistemas dice no, usted no puede cambiar eso porque impacta en 
+otros SS ese cambio de requerimientos.
+Motor de la Ing. de Sistemas NASA
+
+[p116] Ingeniería de Sistemas NASA
+En la columna del medio están los procesos de  gestión - dirección 
+técnica aseguran que se diseñó el sistema y se produjo un sistema 
+operacional que encuentra todos los requerimientos con un 
+presupuesto y programación, del paso 10 al 17. Procesos de 
+dirección o vigilancia que tienen que darse para hacer que el sistema 
+sea exitoso y es dónde el Ing Sistema cumple su mayor rol
+.
+Procesos de la Gestión Técnica
+11- Gestión de Requerim.
+12- Gestión de Interfaces
+13- Gestión Riesgo Técnico
+14- Gestión Configuración
+15- Gestión Datos Técnicos
+16- Evaluación Técnica
+17- Análisis de Decisión
+10- Planificación Técnica
+Procesos de Control 
+Técnico
+Proceso de Planificación 
+Técnica 
+Proceso de Evaluación Técnica 
+Proceso de Análisis de Decisión 
+Técnica
+Ingeniería de Sistemas NASA
+
+[p117] Ingeniería de Sistemas NASA
+12  Gestión de Interfaces (Interface management) -  Cómo es sumamente 
+crítico el descomponer el problema en muchas partes más pequeñas (las cuales 
+están conectadas) y que van a ser asignadas a diferentes grupos de trabajo 
+tenemos que estar sumamente preocupados por el cuidado de las interfaces.
+Debemos conectar la batería a otros subsistemas debemos tener definido 
+el 
+tipo de conexiones; Eléctricas, Mecánicas, Térmicas etc.
+ICD - Interface Control Document
+. Necesitamos un documento claro de 
+interfaces que asegure que todos cumplen con las interfaces comunes. Cuando 
+integramos baterías, paneles solares, computadoras (lado derecho del gráfico) todo 
+debe operar correctamente, la gestión de las interfaces (interface management). es 
+un elemento clave.
+13 El manejo de los riesgos es el próximo,  debemos ser proactivos. Si 
+pensamos que hay problemas con la llegada de la baterías busquemos alternativas 
+con otras tecnologías.
+14 Configuration Management - Gestión de la Configuración
+Tenemos que estar seguros que hay un baseline a lo largo del proyecto, el camino 
+del baseline es controlar el conjunto de requerimientos, un control del diseño, 
+asegurar que todos están trabajando con el mismo  baseline, con el mismo 
+documento de requerimientos.
+Ocurre que hay versiones viejas de planos o hicieron su propia actualización para 
+los planos en vez del baseline.
+Ingeniería de Sistemas NASA
+
+[p118] Motor de Ingeniería de Sistemas NASA
+15 Manejo / Gestión de los datos técnicos
+, todas las partes de este 
+proceso necesitan ser controladas, todos los datos que fluyen a través de los 
+estudios y evaluaciones que han sido hechas por alguien que debe manejar 
+todas en un solo lugar para uso de  cualquiera. Las versiones pasadas deben 
+guardarse en un lugar controlado, las lecciones han sido aprendidas (Lesson 
+Learned) por el proyecto que está maduro y así todos los datos deben ser 
+manejados.
+16 Procesos de evaluaciones técnicas
+ 
+Revisión de pares- mirada de día a día 
+17 Procesos de análisis de decisiones técnicas 
+proceso de hacer 
+seguro, si se han hecho trade studies o análisis de las alternativas que han sido 
+hechas con decisión, se hicieron  en tiempo y forma, estamos en un proyecto 
+correcto  donde tenemos que tomar decisiones desde la fase B y durante el 
+hacer y decidir gastamos más tiempo que el necesario, caeríamos detrás de 
+nuestro proceso de desarrollo pero por otro lado estamos ansiosos por tomar 
+rápidas decisiones donde no tenemos suficientes análisis, antes hacemos la 
+decisión o no tenemos suficiente gente para los diferentes subsistemas para 
+hacer una evaluación
+Motor de Ingeniería de Sistemas NASA
+
+[p119] Motor de la Ingeniería de
+Debemos ser cautos pero debemos estar seguros que 
+entendemos que todos los componentes, que todas las 
+áreas negocian correctamente una opción versus otra y 
+es el tiempo correcto para hacer decisiones que nosotros 
+podemos mantener en todo el proyecto on track,
+De nuevo todos estos pasos 10 a 17 el manejo técnico, 
+pensar la palabra gestión, management, no pensar la IS 
+es realmente una función del management es una función 
+técnica que asegura que cada cosa está coordinada para 
+obtener un punto donde se tiene un sistema maduro que 
+puede ponerse en operación ahora.
+Motor de la Ingeniería de 
+Sistemas NASA
+
+[p120] Atributos de un Ingeniero de
+Atributos de un Ingeniero de 
+Sistemas por Gentry Lee
+https://surp.jpl.nasa.gov/videos/index.cfm?fuseaction=ShowVideo&VNum=10&MainVNum=3
+https://www.youtube.com/watch?v=E6U_Ap2bDaE
+
+[p121] DVDs for student viewing:
+DVDs for student viewing: 
+So You Want to be a Systems Engineer? 
+Personal Behaviors of a Systems Engineer – 53 
+mins.; 2005
+Systems Engineering – When the Canvas is 
+Blank – 45 mins.; 2007
+
+[p122] Atributos de un Ing. de Sistemas
+Atributos de un Ing. de Sistemas
+Gentry Lee
+Comportamient
+o 
+Característico  
+de un buen 
+Ingeniero de 
+Sistemas 
+ Curiosidad 
+Intelectual
+Habilidad y deseos de 
+aprender nuevas cosas
+ Habilidad  para ver el 
+Big Picture y también 
+ver los detalles
+Habilidad  para hacer 
+conexiones en un gran 
+sistema  - N2
+  Confortable con los 
+cambios
+Confortable con las 
+incertidumbres y lo 
+desconocido
+Excepcional 
+comunicador en las 
+dos direcciones
+Apropiada Paranoia  
+Esperar lo mejor, 
+planificar para lo peor
+Confianza en si mismo y decidido
+Comission no omission
+ Apreciar los procesos – rigor 
+y conocimientos donde parar 
+Fuerte Miembro del equipo 
+y líder
+ Habilidades técnicas 
+diversas para aplicar 
+juicios técnicos
+https://dspace.mit.edu/bitstream/handle/1721.1/103819/16-842-fall-2009/contents/lecture-notes/MIT16_842F09_lec01.pdf
+
+[p123] ¨Nunca ha habido un proyecto en la
+• ¨Nunca ha habido un proyecto en la 
+historia que cualquier conjunto de 
+requerimientos haya cubierto el significado 
+real de aquello que necesita ser hecho¨
+• Requerimientos son aproximaciones 
+usando el lenguaje, estamos interpretando
+Gentry 
+Lee
+
+[p124] Resumen
+Resumen
+• La Ingeniería de sistemas es un arte y es un  
+proceso de gestión disciplinado y estandarizada 
+para 
+el 
+desarrollo 
+de 
+sistemas 
+complejos 
+(espaciales o no) en un ambiente de cambios
+• Vimos algunas definiciones de ing. de sistemas
+• La importancia de la IS en el desarrollo de 
+grandes proyectos
+• Las consecuencias de una pobre Ing. de 
+Sistemas
+• Los roles del ingeniero de Sistemas
+• EL ¨Motor¨ de ing. de sistemas de NASA como un 
+modelo para coordinar la ingeniería de Sistemas
+• Atributos de un ingeniero de sistemas

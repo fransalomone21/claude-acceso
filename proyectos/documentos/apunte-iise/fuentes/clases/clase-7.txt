@@ -1,0 +1,2391 @@
+# IISE clase 7 -- 54 diapositivas
+# fuente: IISE Clase 7 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Introducción  [FIGURA]
+Introducción 
+a la Ingeniería de Sistemas 
+Espaciales
+Clase # 7
+UNSAM - Ing. Sistemas Espaciales
+
+[p2] Los científicos estudian el mundo  [FIGURA]
+“Los científicos estudian el mundo 
+tal como él es; 
+los ingenieros crean el mundo 
+que nunca ha sido.”
+ 
+Theodore von Karman
+
+[p3] Temario de la Clase 7ma
+Temario de la Clase 7ma
+• Prefase A
+• Arquitectura de Sistemas 
+(Revisión y Otras definiciones)
+• Fase A - Desarrollo del Concepto y tecnologías
+Ejemplos Varios
+• Herramienta Genérica para vincular las 
+funciones usando interfaces
+Diagrama N2
+
+[p4] Ing. de Sistemas
+Ing. de Sistemas 
+PreFase A
+Funciones 
+Clave
+Estudio de 
+Conceptos 
+Pre Fase A
+Análisis 
+Prelim. 
+Fase A
+Definición 
+Fase B
+Diseño
+Fase C
+Desarrollo 
+Fase  D
+Operaciones 
+Fase E
+Entender los 
+objetivos
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Desarrollo del ConOp
+Concepto
+Baseline
+Refinar
+Completo
+Plan de 
+Operaciones
+Seguimiento 
+de los cambios
+Desarrollo de 
+Arquitectura y Diseño
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Análisis, Identif. y 
+Gestión de los 
+Requer.
+Concepto
+Baseline 
+de alto nivel
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+V&V
+Concepto
+Inicial
+Asignar 
+Métodos
+Desarrollo de 
+Planes
+Completo
+Interfaces  & ICDs
+Concepto
+Inicial
+Baseline
+Completo
+Seguimiento 
+de los cambios
+Ambiente de Misión
+Inicial 
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+Presupuesto y 
+Recursos Técnicos
+ Concepto
+Inicial
+Baseline
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Análisis, Reducción  y 
+Gestión de Riesgo
+Estimado
+FTA , RBD
+FMEA, FTA, 
+RBD
+FTA, FMEA, 
+RBD, PRA
+Actualizar 
+CAmbios
+Actualizar 
+Cambios
+Revisión Candidatos 
+Hitos Sistema
+MCR
+MDR
+SRR, SCR, 
+PDR, CR
+CDR
+MOR, PER, 
+FOR, PSR, 
+FRR, ORR
+DR
+Gestión y Doc de 
+Configuración
+Informal 
+Gestión 
+Configuración
+Control de 
+requerimientos 
+Nivel 1
+Gestión de 
+Configuración
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+Seguimiento 
+de cambios
+Plan de Gestión de la 
+Ing. de Sistemas
+Concepto
+Baseline
+Completo
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+
+[p5] “No hay nada más difícil de planificar, más dudoso de que sea
+“No hay nada más difícil de planificar, más dudoso de que sea 
+exitoso, ni más peligroso de administrar que la creación de un 
+nuevo sistema”. 
+(Nicolás Maquiavelo).
+Comentario 
+¨Se puede decir que no hay nada más difícil de planificar, nada con éxito que sea más 
+dudoso, ni nada mas difícil de dirigir que la creación de un nuevo sistema, ya que el 
+que el innova tiene asegurada la enemistad de todos los que le rodean y más aún de 
+todos aquellos que se beneficiarían con la continuación del viejo sistema, y sólo una 
+gran minoría serán defensores del nuevo sistema ya que ganarían algo con la 
+implementación del nuevo sistema. O sea, que no hay nada más peligroso de 
+conducir y asumir el liderazgo en la introducción y creación de un nuevo orden de 
+cosas, porque la innovación trae como consecuencia enemigos a todos aquellos que 
+lo han hecho bien bajo las antiguas condiciones y flojos defensores a los que lo 
+pueden hacer bien bajo nuevas condiciones¨.
+PUBLICADO POR SANTIAGO OVALLES BONILLA
+
+[p6] Revisión de la Arquitectura de Sistemas
+Revisión de la Arquitectura de Sistemas 
+• Colocar el desarrollo de la arquitectura del sistema en 
+contexto con Análisis de Necesidades, Conops, Análisis 
+funcional y Diseño del sistema.
+• Profundizando qué son las arquitecturas de sistemas y 
+algunas técnicas para su desarrollo.
+• Reconocer que el desarrollo de la arquitectura suele 
+ser un proceso inductivo que se beneficia de la 
+heurística y la experiencia del ingeniero de sistemas 
+que crea la arquitectura (también conocido como 
+arquitecto del sistema).
+
+[p7] ¿Qué es una Arquitectura?
+7
+¿Qué es una Arquitectura?
+Otras definiciones
+• Es la estructura fundamental y unificada del 
+sistema definido en términos de elementos del 
+sistema, interfaces, procesos, restricciones y 
+comportamientos. 
+–
+Fuente: International Council on Systems Engineering (INCOSE) System Architecture Working Group
+• Es la estructura de componentes, sus relaciones 
+y los principios y guías que gobiernan su diseño y 
+su evolución durante  todo el tiempo.
+–
+Fuente: Department of Defense (DOD) Architecture Framework v1.0
+• Una arquitectura de sistema es el enlace entre el 
+análisis de las necesidades, el alcance del 
+proyecto y el análisis de lo funcional y la primera 
+descripción de la estructura del sistema.
+
+[p8] Desarrollo de la  Arquitectura del
+8
+Crear una arquitectura es el comienzo del proceso de diseño del sistema y 
+establecer el enlace entre los requerimientos y el diseño. La típica secuencia 
+es la siguiente:
+1.
+Establecer los requerimientos iniciales por medio del análisis de la necesidades, 
+el alcance del proyecto y el desarrollo de los conceptos de operación (ConOp).
+2.
+Definir los límites externos, restricciones, alcance, contexto, hipótesis y 
+ambiente.
+3.
+Desarrollar las diferentes arquitecturas de los candidatos de sistema como 
+parte de un proceso iterativo usando los requerimientos iniciales.
+4. Para cada arquitectura, comparar los beneficios, costos, riesgos y los 
+requerimientos que manejan sus características más importantes y considerar 
+(interesados de por medio) sus ConOps, el desempeño del sistema y sus 
+funciones para mejorar las proposiciones del problema – solución.
+Desarrollo de la  Arquitectura del 
+Sistema
+
+[p9] Desarrollo de las Arquitecturas de Sistemas
+Desarrollo de las Arquitecturas de Sistemas 
+Candidatas - Recursivo e Iterativo
+✔ ¿Qué necesidades estamos tratando de llenar?
+✔ ¿Qué tan insuficientes son las soluciones actuales?
+✔ ¿Están completamente descritas las necesidades?
+✔ ¿Quiénes son los usuarios previstos?
+✔ ¿Cómo será usado el sistema?
+✔ ¿Cómo de diferente son en el uso los sistemas 
+heredados?
+✔¿Qué capacidades son requeridas?
+✔ ¿A qué nivel de desempeño?
+✔ ¿Las Interfaces de los segmentos están bien 
+definidas?
+✔ ¿Cuál es el enfoque total?
+✔ ¿Qué elementos deben crearse para este enfoque?
+✔ ¿Son estos elementos completos, lógicos, y 
+consistentes?
+Análisis de la 
+Necesidades
+ConOps
+Requerimientnos 
+Funcionales
+Arquitecturas de 
+Sistema 
+Trabajar con los 
+Interesados para 
+potencialmente 
+modificar el 
+enunciado del 
+problema basado 
+en las opciones de 
+solución
+Trabajar con los 
+Interesados para 
+potencialmente 
+modificar el 
+enunciado del 
+problema basado 
+en las opciones de 
+solución
+
+[p10] ¿Cómo Creamos Arquitecturas?
+¿Cómo Creamos Arquitecturas?
+Hay dos técnicas primarias para crear arquitecturas, ambas beneficiadas 
+al entender el desempeño y las limitaciones de los sistemas heredados.
+•
+Síntesis
+– Modificación o combinación de los sistemas existentes para satisfacer las 
+nuevas necesidades 
+– Requiere  lógica y buen conocimiento de los sistemas existentes
+– ¿Qué funciones necesitamos para obtener el trabajo hecho?
+– ¿Puedo combinar los sistemas existentes sin mucho bagaje? 
+•
+Descubrimiento
+– Hacer uso del conocimiento de las arquitecturas existentes para descubrir 
+una nueva.
+– Requiere conocimiento de los sistemas existentes y habilidades de 
+abstracción.
+– ¿Hay un sistema análogo en otro dominio?
+– ¿Cuáles son las propiedades buenas o malas de una dada arquitectura?
+
+[p11] Cuatro Métodos Deductivos / Inductivos
+Cuatro Métodos Deductivos / Inductivos 
+ Apoyan la Síntesis y el Descubrimiento
+• Basado en Ciencia, Métodos deductivos:
+– Normativa
+• Se proporcionan reglas estrictas (de alguna parte), el 
+éxito se define siguiendo las reglas
+– Racional
+• Soluciones derivadas de objetivos.
+• Solucionadores de problemas de sistema en general, 
+técnicas formales y optimizadas
+• Basado en Reglas 
+• Basado en Arte, método inductivo:
+– Participativo
+• Solución desde procesos grupales, diseño por consenso 
+de grupos. Los Interesados están involucrados.
+– Heurístico
+• Basados en lecciones aprendidas.
+• Desarrollo de soluciones a través de reglas blandas que 
+están manejadas por la experiencia.
+
+[p12] La arquitectura se centra en perfeccionar el
+La arquitectura se centra en perfeccionar el 
+problema a ser resuelto mientras se desarrollan 
+soluciones conceptuales
+•
+El desarrollo de una arquitectura de sistema, el hacer la arquitectura, es una 
+responsabilidad de la ingeniería de sistemas. Es el arte y la ciencia de la 
+determinación de los propósitos y la formulación de los conceptos.
+•
+La esencia de la arquitectura es estructurar, simplificar, comprometer y 
+balancear.
+•
+Este balanceo se logra mediante un compromiso adecuado entre los siguientes 
+factores:
+❖Requerimientos del sistema
+❖Función
+❖Forma
+.• Las arquitecturas candidatas se comparan utilizando estos factores y se elige un 
+concepto de referencia ‘baseline”,  y se va acordando la arquitectura del 
+sistema.
+• Se hace una elección a pesar de las incertidumbres típicamente grandes y, en 
+ocasiones, de las prioridades ambiguas de los clientes.
+❖Sencillez
+❖Robustez
+❖Asequibilidad
+❖Complejidad
+❖Imperativos ambientales, y
+❖Factores humanos, etc
+
+[p13] Arquitectura vs Diseño
+Arquitectura vs Diseño
+❖
+Una arquitectura de sistema crea el concepto (la estructura conceptual) dentro de 
+la cual se producirá el diseño del sistema posteriormente.
+❖
+Desarrollar una arquitectura de sistema y desarrollar un diseño de sistema son 
+funciones de ingeniería de sistemas que apoyan la síntesis del sistema, pero 
+tienen diferentes usos.
+❖
+Se utiliza la arquitectura del sistema:
+– Para establecer el marco (es decir, restringe el espacio comercial) para el 
+diseño del sistema posterior
+– Para respaldar las decisiones de fabricación y compra
+– Discriminar entre soluciones alternativas
+– Para "descubrir" los verdaderos requerimientos o las "verdaderas" prioridades
+❖
+Se utiliza el diseño del sistema:
+– Para desarrollar componentes del sistema que cumplan con los 
+requerimientos y restricciones funcionales y de desempeño.
+– Para construir el sistema
+– Para comprender los efectos dominó en todo el sistema de los cambios de 
+configuración
+
+[p14] Describir una arquitectura de un
+Describir una arquitectura de un 
+sistema espacial
+• Ninguna figura o diagrama por si solo puede capturar la 
+arquitectura de un sistema; requiere diferentes "vistas" o 
+perspectivas.
+• Las descripciones de la arquitectura son lo que producimos:
+o Rendering del spacecraft y diagramas de bloques de 
+subsistemas 
+o Diagramas de flujo de comunicación del sistema espacial 
+o Diagramas de flujo funcionales: a veces capturados en 
+diagramas de bloques de flujo funcionales 
+o 
+Diagramas 
+de 
+interfaces 
+de 
+los 
+subsistemas: 
+frecuentemente capturados en N diagramas cuadrados. 
+• Es por analogía como la arquitectura de un edificio son a  la ing 
+civil, como son los planos, cotas elevaciones, planos de planta, 
+presupuestos, planos de cableado, etc?
+
+[p15] Resumen: Arquitectura del sistema
+Resumen: Arquitectura del sistema
+•
+La creación de una arquitectura de sistema es una función de ingeniería de 
+sistemas y es el primer paso para traducir un problema definido en una 
+solución. La creación de una arquitectura es un proceso repetitivo e iterativo 
+que comienza con el planteamiento del problema, crea algunas soluciones 
+candidatas, evalúa sus méritos y elige una.
+•
+La creación de arquitectura no es un proceso meramente determinista, pero 
+comprender las fortalezas, debilidades y adaptabilidad de sistemas análogos o 
+heredados es un primer paso valioso.
+•
+Al trabajar con las partes interesadas, la función o los requerimientos de 
+desempeño del sistema pueden modificarse para crear una mejor 
+correspondencia entre el planteamiento del problema y la solución candidata.
+•
+Como muchas funciones de ingeniería de sistemas, la arquitectura consiste en 
+equilibrar factores en competencia y elegir una solución preferida con 
+información incierta y, a veces, ambigua.
+•
+Ninguna vista captura una arquitectura. Se utilizan muchas vistas para capturar 
+la estructura del sistema definida en términos de elementos, interfaces, 
+procesos, restricciones y comportamientos del sistema.
+
+[p16] Fase A  [FIGURA]
+Fase A
+ Desarrollo del Concepto 
+& Tecnologías
+
+[p17] Fases del Ciclo de vida de
+Formulación
+Implementación
+Aprobación
+Pre 
+Fase A
+Estudio
+Concept.
+Fase A
+Desarrollo de 
+Concepto y 
+Tecnología
+Fase B
+Diseño 
+Preliminar y 
+Completar 
+Tecnología
+Fase C
+Diseño Final y 
+Fabricación
+Fase D
+AIT & 
+Lanzamiento
+Fase E
+Operaciones & 
+Sostenimiento
+Fase F
+Cierre
+Fases del 
+Ciclo de vida 
+de NASA
+Ciclo de vida 
+del Proyecto
+Puntos de 
+Decisión 
+Claves
+Revisiones
+Técnicas
+KDPA
+MCR
+Revisión de Pares, Revisión de SS, Revisión de Sistema
+SRR
+MDR
+PDR
+CDR - PRR
+SIR TRR
+ORR
+FRR
+PLAR
+CER2
+Revisiones 
+de Soporte
+LANZAMIENTO
+KDPC
+KDPB
+KDPD
+KDPE
+KDPF
+DR
+Fases del Ciclo de vida de 
+NASA
+PDR Preliminary Design Review
+CDR Critical Design Review
+SRR System Requirements Review
+MCR Mission Concept Review
+SIR   Systems Integration Review
+TRR  Tech. Readiness Review
+ORR  Operational Readiness Review
+FRR   Flight Readiness Review
+MDR Mission Design Review
+DR  Decommissioning Review
+CER2  Critical Events Readiness Review
+PLAR  Operational Readiness Review
+ORR  Operational Readiness Review
+
+[p18] Fase A -
+Esta fase del ciclo de vida claramente define un baseline de los 
+requerimientos de alto nivel del sistema y establece un concepto de 
+baseline de sistema inicial (conjunto de datos de ingeniería de 
+referencia), basándonos  en los obtenidos en la fase Pre A desde los objetivos 
+establecidos con los interesados y particionándolos sucesivamente en niveles 
+más bajos. 
+Al final de esta fase podemos proveer detalles para la compra de componentes. 
+Tenemos información específica para comprar el tanque del sistema de propulsión 
+(SS), las baterías del sistema de potencia (SS) etc. Cuanta energía necesitamos 
+cuando estemos en situación de eclipse y todo el sistema funcionando etc. Todos 
+estos datos (documento de requerimientos de componentes o partes de los 
+subsistemas) vienen derivados de las definiciones de los objetivos hechas con el 
+interesados para obtener una misión que opere exitosamente. 
+¿Cuánta energía necesitamos para todos los sistemas del spacecraft? 
+Todos estos requerimientos documentados especifican que baterías tenemos que 
+comprar. 
+Ahora estamos estableciendo los requerimientos de alto nivel que están 
+debajo de los objetivos ya definidos por los interesados en conjunto con los 
+ingenieros.
+Fase A - Desarrollo del Concepto y de las tecnologías
+
+[p19] http://sites.nationalacademies.org/cs/groups/ssbsite/documents/webpage/ssb_181241.pdf  [FIGURA]
+http://sites.nationalacademies.org/cs/groups/ssbsite/documents/webpage/ssb_181241.pdf
+
+[p20] http://sites.nationalacademies.org/cs/groups/ssbsite/documents/webpage/ssb_181241.pdf  [FIGURA]
+http://sites.nationalacademies.org/cs/groups/ssbsite/documents/webpage/ssb_181241.pdf
+
+[p21] Fase A
+Future 
+Planning
+Ejemplo: Los interesados dicen que los objetivos de la misión a Marte podría 
+además de buscar agua en Marte estudiar la atmósfera para entender los 
+procesos.
+Fase A
+Baseline de la Misión  Mars 2020
+
+[p22] Fase A
+LANZAMIENTO
+•MSL Clase/
+         Capacidad del  LV
+•Período: Jul/Ago 2020
+CRUCERO 
+-ACERCAMIENTO
+•7.5 meses de  crucero
+•Arribo Feb 2021
+ENTRADA, DESCENSO 
+& ATERRIZAJE
+•MSL EDL system (Range 
+Trigger baselined, Terrain 
+Relative Navigation funded 
+thru PDR): guided entry and 
+powered descent/Sky Crane
+•16 x 14 km landing ellipse 
+(range trigger baselined)
+•Access to landing sites ±30° 
+latitude,
+ ≤ -0.5 km elevation
+•Curiosity-class Rover
+MISIÓN EN 
+SUPERFICIE
+•20 km capacidad de recorrido 
+en distancia
+•Buscar  signos de vida pasada
+•Cache con las muestras 
+retornables
+•Peparar la expedición a Marte 
+para los  humanos
+Fase A
+Síntesis del ConOp del Mars 2020
+
+[p23] Fase A
+Fase A
+Fluyen los requerimientos de alto nivel hacia abajo a niveles de mayor detalle 
+ganado un mejor entendimiento de los de alto nivel del sistema que finalmente 
+manejarán el diseño, y muy especialmente aquellos que son clave.
+   
+Tenemos que establecer las interfaces primarias internas y las externas. En este 
+punto debemos recordar que descomponiendo cualquier problema en piezas más 
+pequeñas inevitablemente aparecen las interfaces, las cuales empiezan a gravitar. 
+El SS de Potencia interfacea con casi todos los SS del spacecraft, por ejemplo con 
+el de propulsión. Necesitamos energía para operar las diferentes válvulas, los 
+calefactores. Energía para las computadoras del SS de Actitud, de C&DH etc. Hay 
+muchos equipos que están trabajando en su SS y necesitan saber como van a 
+interfacear con otros elementos. 
+La Ing. de Sistema debe 
+resolver estas incertidumbres 
+con el ICD y que cada equipo 
+de SS se dediquen a trabajar 
+en su tema y no se preocupen 
+por las interfaces. Esto diluye 
+las incertidumbres de este 
+tema y acelera los diseños.
+
+[p24] Fase A - Interfaces
+Fase A - Interfaces
+The propulsion subsystem of SPIRALE
+https://eoportal.org/web/eoportal/satellite-missions/content/-/article/spirale
+Interface externa mecánica entre el 
+Spacecraft y el Vehículo Lanzador
+Conector, Típica Interface interna dentro de un SS del  S/C 
+Interfaces interna en el Spacecraft,
+ SS de Propulsión Integrado en la plataforma, listo 
+para integrar e interfacear con el resto del 
+Spacecraft
+
+[p25] Fase A – Interfaces
+El satélite necesita una interface externa para conectarse 
+mecánicamente con el lanzador. Es un requerimiento de alto nivel. 
+Fase A – Interfaces
+Interfaz mecánica entre el Lanzador y el Satélite
+
+[p26] Fase A - Interfaces
+http://www.spacex.com/sites/spacex/files/falcon_9_users_guide_rev_2.0.pdf
+Fase A - Interfaces
+Interfaces externas eléctricas 
+entre el Spacecraft / Lanzador y 
+el Pad de Lanzamiento
+Interface externa 
+mecánica entre el
+ Spacecraft y el 
+Lanzador
+
+[p27] Fase A - Interfaces
+Definir interfaces externas e internas.
+Al descomponer un sistema inexorablemente aparecen interfaces
+Fase A - Interfaces
+Interfaces internas dentro del Spacecraft entre SS. El harness  es casi siempre un SS  
+Interfaces internas dentro de 
+una caja / componente  de un 
+SS del Spacecraft  definida 
+por el SS no por ICD
+
+[p28] Fase A
+Otra interface externa – 
+Interna dependiendo 
+como estemos 
+considerando entre las 
+dos etapas de un 
+vehículo lanzador.
+ 
+Falcon 9 
+Fase A
+Interfaces
+
+[p29] Fase A - Interfaces
+DS
+N
+DSN = Deep Space Network
+Spa
+cecr
+aft
+Con
+trol 
+and
+Dat
+a
+Han
+dlin
+g
+Proj
+ect 
+Mis
+sion
+Gro
+und
+Dat
+a 
+Syst
+ems
+S
+/
+C 
+C
+o
+m
+m
+S
+y
+s
+t
+e
+m
+G
+r
+o
+u
+n
+d
+Sp
+ac
+ec
+raf
+t
+Sci
+en
+ce
+Ins
+tru
+me
+nt
+Sci
+en
+ce
+Ins
+tru
+me
+nt
+S/
+C 
+En
+g
+Su
+bs
+yst
+em
+Sci
+en
+ce
+Inv
+est
+iga
+tor
+Sci
+en
+ce
+Inv
+est
+iga
+tor
+S/
+C
+En
+gin
+eer
+Error 
+correcti
+ng 
+codes-
+Transpo
+nder-
+Power 
+ampliﬁe
+r-
+Antenna
+-
+Sci 
+Proc & 
+Missio
+n Plan 
+& 
+Exec-
+Guidan
+ce, 
+Nav & 
+Cntrl-
+Missio
+n Data 
+Mgmt-
+-Sci 
+Proc & 
+-Missio
+n Plan 
+& Exec
+-Guida
+nce, 
+Nav & 
+Cntrl
+-Missio
+n Data 
+Mgmt
+-Decoders 
+-Receivers
+-Low-noise 
+ampliﬁers 
+-Antennas
+N
+o
+n
+-
+D
+S
+N 
+A
+s
+s
+e
+t
+s
+Space-Ground Communications Link
+Fase A - Interfaces
+Spacecraft - Ground Communications
+Mission Introduction to the Jet Propulsion Laboratory (JPL)
+Deep Space Network (DSN)
+Cube Quest Challenge Summit 
+7-8 January 2015
+
+[p30] Fase A - Interfaces
+Spacecraft Operations
+DSN  Antenna
+DSCC Signal Processing Center 
+(SPC) located at the DSN 
+complex
+JPL Deep Space Operations 
+Center (DSOC)
+Mission Operations 
+Center (MOC)
+WAN
+Mission Introduction to the Jet Propulsion Laboratory (JPL)
+Deep Space Network (DSN)
+Cube Quest Challenge Summit 
+7-8 January 2015
+Fase A - Interfaces
+Spacecraft - Ground Communications
+
+[p31] Fase A
+Por ejemplo la comunicación entre el spacecraft y la antena de la estación 
+Tierra es una interface externa. Son requerimientos de alto nivel que tienen 
+que ser definidos en esta Fase A. Se estarán realizando en esta fase análisis 
+de estudios para evaluar los diseños con sus atributos y alternativas.
+Por ejemplo hay en el mundo de los SubSistemas de propulsión dos o tres 
+alternativas diferentes posibles que cumplen con los requerimientos de alto 
+nivel.  Hay que elegir la que cumple mejor con todos los requerimientos y 
+además con el mejor de los costos, la mejor planificación de entrega, la mejor 
+performance, o la mejor combinación estratégica entre todas estas.
+¿Cuál de todas estas propuestas encuentra los requerimientos de costos 
+performance y plazos de entrega adecuados, etc? 
+En esta fase comenzamos el proceso de refinar nuestro sistema.
+Comenzamos a concebir y establecer un baseline inicial (la referencia). 
+Debemos identificar durante las fases A y B las tecnologías claves que 
+requerirán inversión futura.  Debemos asegurar tener estas para las etapas 
+que siguen en la implementación del sistema. Refinamos también la 
+estimación del costo del ciclo de vida y su planificación para asegurar que los 
+interesados entienden cuánto cuesta el proyecto, en su mejor estimación, 
+cuanto costará completar el desarrollo del sistema.
+Fase A
+
+[p32] Ejemplo de  Requerimientos de  Interface entre el
+Ejemplo de  Requerimientos de  Interface entre el 
+instrumento de ciencia  y la plataforma del 
+Spacecraft  GLAST
+Eléctrica
+3.2.4.1 Bus Voltage . Voltage del Bus . 
+El suministro del bus de tensión para el  Science Instrument 
+será de  28 V +/- 6 V  en los terminales de entrada  (input) del 
+Science Instrument.
+Data
+3.2.6.1.1 Interface Data Rates  La velocidad de los datos del 
+Spacecraft para el Science Instrument no será más grande de  
+70 Mbps.
+Mecánica
+3.2.2.2 Mass Constraint. Restricciones de Masa. La máxima masa 
+de lanzamiento del  Science Instrument estará restringida a 
+3000 kg. Esto se excluye  la interface del instrumento pero 
+incluye cualquier HW montado en el bus del S/C, tales como 
+los radiadores térmicos  y las cajas de electrónica.
+Térmica 
+3.2.3.4.1 Interface Temperature Ranges  Rango de temperatura 
+de interfaces de las cajas de la electrónica del  Science 
+Instrument estará controlada en operación de  –10°C  a  +40°C 
+(TBR) , y en supervivencia de –55°C a +60°C (TBR).
+GLAST —
+Gamma-ray Large Area
+Space Telescope
+Launched 6/11/08
+For more on GLAST see: http://www.nasa.gov/mission_pages/GLAST/main/index.html
+Source of interface requirements: Gamma-ray Large Area Space Telescope (GLAST)
+Science Instrument - Spacecraft Interface Requirements Document
+August 3, 1999
+(See document included in SE curriculum materials: IRD_GLAST.pdf)
+
+[p33] Fase A
+Debemos gestionar todos los procesos de riesgo o asuntos que 
+conciernen al equipo de trabajo que deben realizar la actividades 
+lidiando en todo el ciclo. Todos los proceso de ingeniería de sistema 
+que aseguran que el equipo se consolida y que cumple entendiendo 
+sus roles y responsabilidades  entre los miembros y como van a ir 
+trabajando a lo largo del proceso de ingeniería de sistemas en el ciclo 
+de vida del sistema.
+Fase A
+Se ponen en funcionamiento en esta Fase A todas las herramientas 
+de gestión para tener una idea clara del conjunto de procesos y 
+herramientas. Gestionar los recursos para seguir con las fases del 
+desarrollo dentro de los costos y planificación, como también la 
+masa y potencia y otras variables del sistema, también 
+gestionamos los recursos técnicos.
+
+[p34] Fase A
+Ejemplo el Mars 2020 Rover
+Presupuesto de 1.500.000.000 dólares, y reutilizando la tecnología del Curiosity para 
+este nuevo proyecto, es un nuevo sistema en el JPL en California.
+. 
+En la Fase A ya tenemos un diseño simple y único, un Baseline para el Mars 2020 
+Rover.  Fue fácil moverse en la Fase A porque hay algunos requerimientos de alto 
+nivel que se ven en el anterior Rover y además quieren mantener el presupuesto 
+dentro de ciertos límites, 1,5 billons of dolars. Dinero limitado para este caso. Para 
+este tipo de vehículo con este presupuesto la única forma es reusar un montón de 
+tecnologías y equipos ya desarrollados en el anterior Rover, el Curiosity. 
+Fase A
+
+[p35] Fase A
+En 
+ese 
+sentido 
+podemos 
+ver 
+básicamente las tecnologías del 
+Curiosity  ya diseñado y utilizado 
+con éxito y contamos con las partes 
+de repuestos.
+Tenemos que realizar los cambios 
+científicos 
+de 
+los 
+instrumentos 
+modificados  a bordo y los nuevos y 
+diferentes instrumentos a bordo. 
+La forma básica y el sistema total 
+que se usará en el descenso a la 
+superficie de Marte es la herencia 
+del Curiosity Rover. Esto mantendrá 
+el costo bajo y  se ahorrarán 
+recursos debido a menos estudios 
+de análisis en esta fase A. Hay que 
+estudiar si hay algunas diferencias 
+y la habilidades para cumplir con 
+los objetivos de esta nueva misión. 
+Pero esto es otro nivel de madurez.
+Fase A
+
+[p36] Fase A
+Alta Herencia del MSL
+▪Aviónica
+▪Potencia
+▪GN&C
+▪Telecom
+▪Térmica
+▪Mobilidad
+Cambios
+▪Nuevos Instrumentos  Cientificos
+▪Nuevo Sistema de Capturar 
+Muestras
+▪Chasis Modificado 
+▪Harness del Rover Modificado 
+▪FSW de la Superficie Modificado
+▪Controlador del Motor del  Rover 
+Modificado
+▪Ruedas Modificadas
+Concepto del Mars 2020 Rover
+Fase A
+
+[p37]   [FIGURA]
+(sin texto)
+
+[p38]   [FIGURA]
+(sin texto)
+
+[p39]   [FIGURA]
+(sin texto)
+
+[p40]   [FIGURA]
+(sin texto)
+
+[p41] Fase A
+Fase A
+Las revisiones técnicas primarias en la Fase A son dos, la (SRR) Revisión de 
+los Requerimientos de Sistema y (MDR) Revisión de Diseño de Misión.  La 
+SRR lo realizará con un equipo técnico de revisión externo.  Aquí de nuevo se 
+estarán viendo como tenemos los requerimientos de alto nivel claramente 
+definidos y ajustados con los objetivos de alto nivel de nuestros interesados y 
+como estos han fluido hacia abajo correctamente. Estos están listo operar 
+bajando a otros niveles de detalle y forma.
+Claramente definidas las interfaces internas y externas. Todos los riesgos 
+para el desarrollo identificados y un plan para  abordarlos. Un Plan de Gestión 
+de la Ingeniería de Sistemas y otros planes de gestión.
+Un Plan inicial para la Verificación y Validación del Sistema. Tenemos que 
+construir en otras fases este sistema y deben cumplirse los requerimientos de 
+capacidad, de performance. Por ejemplo los motores cohetes o Thrusters deben 
+suministrar la cantidad de empuje requerido para cumplir con la misión.  Estamos 
+desarrollando los requerimientos y tenemos que saber cuanto empuje 
+necesitamos para cumplir con la misión. En otra Fase tenemos que comprar los 
+thrusters tenemos que producir cierto cantidad empuje tenemos que ensayar a 
+ver si este producto cumple con lo requerido.  Debemos alojar estos 
+requerimientos de empuje pero cumpliendo con los requerimientos de masa que 
+podamos alojar.
+
+[p42] Fase A  [FIGURA]
+Fase A
+Thruster del Subsistema de Propulsión
+
+[p43] Fase A
+Fase A
+Cuando realizamos el Plan de Validación y Verificación y ponemos todos las 
+piezas juntas esto tiene que cerrar. El Plan de V&V debe ser muy preciso 
+específicamente, requerimiento por requerimiento. Cuando pongamos todo junto 
+integrado debe verificar todos los objetivos de alto nivel que fueron establecidos por 
+los interesados y el equipo de ingeniería con la ingeniería de sistemas.
+Estos planes deben ser desarrollados lo antes posible. Cuando construyamos las 
+piezas y las integremos debemos estar seguro que al fin del proceso todo 
+ensamblará y funcionará correctamente. Lo haremos a través de ensayos o 
+modelando en computadoras para verificar los requerimientos. Podríamos necesitar 
+herramientas especiales o equipos especiales para poder verificar y estas son 
+inversiones a todo lo largo del ciclo de vida.
+Tenemos que ver los Planes para el desarrollo de tecnologías para que maduren 
+correctamente y luego entender todas las tecnologías que necesitan ser 
+desarrolladas y completadas antes del fin de la fase B.  Verificar que si han 
+madurado.
+Después de la Revisión de Requerimientos de Sistema debemos mirar los 
+resultados de las actividades realizadas basadas en las acciones designadas (Action 
+Item) a los equipos en la Revisión del Concepto de Misión.
+Los equipos de revisores asignarán acciones al equipo de los diseñadores para la 
+próxima revisión estos deben estar resueltos, entonces pasan a ser acciones 
+cerradas.
+
+[p44] Fase A
+Fase A
+La segunda revisión técnica es la Revisión de Diseño de Misión (MDR). 
+Durante esta después de la SRR el equipo de revisión técnica irá hacia atrás 
+evaluando items como el concepto baseline basado en el concepto de diseño 
+corriente, es razonable, alcanzable y completo. Es receptivo a los requerimientos 
+de alto nivel, es consistente con lo recursos disponibles, masa y potencia.  
+Consistentes con los recursos programáticos de costo y planificación. Debemos 
+tomar conciencia que el concepto baseline está madurando y agregando mas 
+detalles.
+El abordaje de Diseño de Sistema y Concepto Operación están maduros  son 
+consistentes con los requer. de alto nivel de sistema. Estamos en una fase inicial  
+y estamos observando como el sistema está apareciendo.
+Los riegos mayores están identificados y las estrategias para abordarlos también. 
+Planes con estrategias para mitigar estos riesgos, Se estableció que clase de 
+pasos vamos a hacer para enfrentar a los riesgos.
+El equipo de revisión quiere conocer si todos los planes de los elementos para 
+madurar están siendo ejecutados según lo planeado en el plan de tecnologías y 
+estarán terminados al final de la fase B listas para ser implementadas y 
+posteriormente volar.
+Revisarán los resultado de la actividades realizadas basadas en las acciones 
+asignadas al equipo en el SRR. Estas acciones deben estar completas y cerradas 
+para comenzar la fase siguiente.
+
+[p45] Ciclo de Vida del Proyecto
+• Formulación 
+–
+Fase A (Desarrollo del Concepto & Tecnologías)
+–
+Propósito: Determinar la factibilidad del nuevo sistema sugerido en 
+preparación para conseguir los fondos.
+•
+Definir el éxito de la misión, y la misión mínima.
+•
+Realizar estudios de análisis para comparar las opciones de conceptos de misión.
+•
+Desarrollar un concepto de baseline de misión, incluyendo  las mejores  estrategias 
+técnicas, ejecución del proyecto, costos y planificación.
+•
+Completar los requerimientos a nivel subsistema. 
+•
+Identificar el flujo de requerimientos entre y a través de los susbsistemas.
+•
+Comenzar el desarrollo de la tecnologías necesarias.
+❖
+Completar la Revisión de Requer. de Sistema (SRR)  System Requirements 
+Review: Revisión de los requerimientos como el baseline  para el concepto 
+final. Establecer el baseline de los Requerimientos de Sistema.
+❖
+Completar la Revision de Definición de Sistema (SDR/MDR) System Definition 
+Review: Revisión del baseline para la Fase B.  Establecer el baseline 
+Funcional.
+Puertas 
+de 
+contro
+l
+Ciclo de Vida del Proyecto
+Fases de Formulación  - Fase A
+
+[p46] Herramienta Genérica para  [FIGURA]
+Herramienta Genérica para 
+vincular las funciones usando 
+interfaces
+Matriz N 2
+
+[p47] La Herramienta de interfaces más
+La Herramienta de interfaces más 
+común es el Diagrama N
+2 
+Definición: El diagrama N2 es usado para desarrollar 
+interfaces de sistema. 
+Los componentes de sistema o funciones son colocados 
+en la diagonal de una matriz cuadrada de NxN que 
+representa las interfaces de entradas y salidas.
+Donde el casillero está en blanco no hay interface entre 
+los respectivos componentes o funciones. El diagrama N2  
+puede ser aplicado en sucesivos niveles inferiores para 
+esas funciones o componentes. 
+Para definir la interfaces, el diagrama N2 también detalla 
+áreas donde podría generarse conflicto en las interfaces, 
+y resaltando las hipótesis de dependencias de las 
+entradas y salidas, y los requerimientos.
+.
+
+[p48] Diagrama Genérico de N
+I  = Entradas  - Input 
+O = Salidas  - Ouput
+O1
+2I
+O1
+3I
+O2
+3I
+O1
+4I
+O2
+4I
+O3
+4I
+O2
+1I
+O3
+2I
+O3
+1I
+O4
+2I
+O4
+1I
+O4
+3I
+Diagrama Genérico de N
+2 como 
+un artefacto de Interfaces
+Reglas del diagrama N2:
+– Items o funciones estan 
+sobre la diagonal
+– Items o funciones tienen 
+inputs y outputs
+– Las salidas de los Items o 
+funciones están 
+contenidas en las filas; 
+las entradas están 
+contenidas en las 
+columnas
+Item
+o
+Función
+4
+Item 
+o 
+Función
+3
+Item
+o 
+Función
+2
+Item 
+o 
+Función
+1
+Entradas Externas (un Item o Funciones 2)
+VERTICAL
+Salidas Externas
+Output
+(desde el  Item o
+Función 3
+HORIZONTA
+L
+
+[p49] Identificar los lazos de realimentación de los
+49
+I  =  Input      Entrada  
+O = Output    Saliida
+O1
+2I
+O2
+3I
+O2
+1I
+O3
+2I
+O3
+1I
+O4
+1I
+Identificar los lazos de realimentación de los 
+Subsistemas y los límites del Subsistemas Candidato
+♦
+Si hay un flujo bidireccional 
+entre funciones  es lo que 
+llamamos lazo de 
+realimentación. 
+♦
+En este ejemplo hay lazos  de 
+realimentación entre la  
+funciones 1 & 2 y  2 & 3.
+♦
+Considerara la funciones 
+combinadas donde hay un 
+conjunto de ¨acoplamientos¨ 
+(incluyendo lazos de 
+realimentación) entre un 
+subsistemas). Esto puede 
+simplificar el diseño del 
+subsistema y sus interfaces. 
+Función
+4
+Función
+3
+Función
+2
+Función
+1
+Entrada Externa  (del Item o Función 2)
+Salida Externa
+Output
+(del Item o
+Función 3
+
+[p50] TDRS Diagram N
+50
+TDRS Diagram N2 Con Información de Interfaces
+TDRS = Tracking and Data Relay Satellite     S/C = Spacecraft
+User 
+Request
+User Data Report
+• User 
+Needs
+TDR
+S
+Remote 
+Ground 
+Station
+Data 
+Sistema
+Satellite 
+Usuario 
+Primario 
+Relay 
+Control
+• Payload 
+Data
+• S/C 
+Status
+• 
+Status
+• S/C 
+Ranging
+• Schedule Req
+• S/C 
+Vectors
+• S/C 
+Commands
+   (STS)
+• 
+Directives
+• Data 
+Products
+• 
+Schedules
+• 
+Performance
+   Reports 
+and
+   
+Summaries
+• Data 
+Request
+• 
+Status
+• Surface 
+Truth
+• TDRS Status
+• Conf Schedule
+• TDRS Vectors
+• S/C 
+Ranging
+• S/C 
+Data
+• 
+Schedules
+• 
+Directives
+• S/C 
+Vectors
+• S/C Commands 
+   (STS 
+Only)
+• 
+S/C   
+Commands
+• 
+Schedules
+• 
+Directives
+• 
+S/C   
+Commands
+• S/C 
+Data
+• 
+Status   
+Requests
+Típica entrada 
+Externa
+Salida Externa
+Entidades 
+Físicas sobre 
+la Diagonal
+
+[p51] Ejercicio N
+✔
+Alojar los requerimientos de interfaces
+✔
+Identificar las interfaces en el Diagrama N2 
+Ejercicio N2  
+Señal de 
+RF 
+Apretar el 
+Botón
+Audio 
+& Video
+Keyboard
+Display
+Unidad 
+Control 
+Remote
+Televisión
+Humano
+
+[p52] Matriz NxN de Diseño de un Vehículo Lanzador
+Matriz NxN de Diseño de un Vehículo Lanzador
+Vehicle Design (WBS 3.0) N x N Diagram (modules in the matrix have been resequenced to reduce feedback)
+▪Production Operations
+▪Ground Operations
+▪Critical Interfaces
+▪Subsystem Definition
+▪EPA & OSHA Constraints
+▪Environmental Operations 
+Constraints
+▪Mission Definition
+▪Initial Performance
+▪Constraints (Max. G’s, Ground 
+Track, etc.)
+▪Work Breakdown Structure
+▪Vehicle Coordinate System
+▪Configuration Control Board 
+Directives
+▪Launch Pad Geometry
+▪Project Groundrules
+▪Factors of Safety Criteria and Fracture 
+Control Requirements
+▪Launch Platform FEM Analysis
+▪Vibration Data Base
+▪Project Groundrules
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+Products
+External
+Inputs
+Natural
+Environ.
+Database
+Inputs
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+▪Launch Probability Requirements
+▪EPA and OSHA Constraints
+▪Trajectory Requirements (TRL 
+level)
+▪Engine Interfaces
+▪Programmatic Constraints (I.e., 
+schedule, cost)
+▪Redundancy Requirements
+▪IP&CL Redundancy Reqmn’ts
+▪Verification Requirements
+▪Operational/Mission Timeline
+▪Operational Life
+▪External Interfaces
+▪EEE Parts Requirements
+▪EPA and OSHA Constraints
+▪Redundancy Requirements
+▪Verification Requirements
+▪Operational Timeline
+▪Operational Life
+▪External Interfaces
+▪EEE Parts Requirements
+▪EPA and OSHA Constraints
+▪Project Groundrules
+▪Facility Capabilities
+▪Critical Interfaces
+▪Project Groundrules
+▪Environmental Operations 
+Constraints
+▪EPA and OSHA Constraints
+▪EPA and OSHA Constraints
+▪Operations Concept
+▪Historical Data
+▪Reliability Requirement
+▪Project Groundrules
+▪Work Breakdown Structure
+▪Schedule
+▪Design-to-Cost Goals
+▪Technology Requirements
+▪Reliability
+▪Ground Wind Profiles
+▪Launch Pad Environments
+▪Use and Operational 
+Environments
+▪Atmospheric Model
+▪Ascent Wind Models
+▪Ground and Ascent Wind Profiles
+▪Atmospheric Models
+▪Launch Stand Ambient 
+Temperatures
+▪Ground and Ascent Wind Models
+▪Launch Pad Environments
+▪Atmospheric Model
+▪Wind Models (Ground & Ascent)
+▪Gust Models
+▪Use and Operational 
+Environments
+▪Lightning
+▪Atmospheric Constituents
+▪Clouds and Fog
+▪Precipitation
+▪Corona and Electrical Arcing 
+Prevention
+▪Atmospheric Constituents
+▪Lightning
+▪Humidity
+▪Precipitation
+▪Severe Weather
+▪Ground Winds
+▪Severe Weather
+▪Lightning
+▪Electromagnetic Effects Control Plan
+▪Electromechanical Effects Plan
+1
+3.1  VEHICLE
+CONFIGURATION
+& STRUCTURAL
+DESIGN
+3.2
+PERFORMANC
+E
+and
+TRAJECTORIES
+3.3
+MASS
+PROPERTIES
+3.4
+AERODYNAMIC
+S
+and INDUCED
+ENVIRONMENTS
+3.5
+STRUCTURA
+L
+ANALYSIS
+3.6
+THERMA
+L
+ANALYSIS
+3.7
+GUIDANCE
+and 
+CONTROL
+3.8
+MATERIALS
+3.9
+PROPULSION
+3.10
+COMMUNICAT.
+and
+DATA HANDLING
+3.11
+ELECTRICA
+L
+POWER
+3.12
+GROUND
+OPERATIONS
+3.13
+FLIGHT
+OPERATIONS
+3.14
+MANU-
+FACTURING
+3.15
+SAFETY and
+MISSION
+ASSURANC
+E
+3.16
+RELIABILIT
+Y
+3.17
+COS
+T
+▪Component Weight Estimates
+▪Vehicle Geometry (Drawing Model)
+▪Parts List
+▪Cross-Sectional Properties
+▪Vehicle Outer Moldline
+▪Vehicle Geometry
+▪Protuberance Geometry
+▪Engine Placement Geometry
+▪Vehicle Geometry
+▪Vehicle/Pad Interface Geometry
+▪Hold-down/Release Mechanism
+▪Engine Placement Geometry
+▪Structural Details
+▪Component Installations
+▪Shock/Vibration Sources
+▪Vehicle and Elements
+▪Configuration Definition
+▪Materials
+▪Dimensions
+▪Overall Vehicle Dimensions
+▪Engine Alignment Tolerance
+▪Propellant Feedlines
+▪Construction Type (honey comb, 
+isogrid, etc.)
+▪Critical Dimensions
+▪Tolerances
+▪Drawings & Schematics
+▪Vehicle Configuration and Tank 
+Geometry
+▪Vehicle Dimensions
+▪Line Routing Zones
+▪Pressurant Bottle Locations
+▪Vehicle Configuration
+▪Vehicle Dimensions
+▪Electrical Power Return Through 
+Structure
+▪Component Installation
+▪Hardware Design
+▪Verification Requirements
+▪Transportation, Handling, Storage 
+Requirements
+▪System Definition & Design 
+Description Document
+▪Hold-down Release Mechanism
+▪Vehicle Coordinate System
+▪Design Drawings/Schematics
+▪Design Drawings/Schematics
+▪Hazard Analysis Inputs
+▪System Definition & Design 
+Description Document
+▪Schematics & Diagrams
+▪FMEA/CIL Inputs
+▪Vehicle Configuration
+▪Technical Descriptions
+▪Test Requirements
+▪Production Quantities
+▪Make or Buy Plan
+▪Type of Construction
+▪Layouts
+▪3-dimensional Models
+▪Detail Drawings
+▪C.G. Locations
+▪Cross-Section Properties
+▪Staging Requirements
+▪Propellant Requirements
+▪Number of Engines
+▪Propellant Inventory
+▪Burn Times 
+▪Jettison Times
+▪Propellant Residuals at MECO, 
+etc.
+▪Ascent “Heating” Trajectory Data 
+Sets (altitude, velocity, α, β 
+histories)
+▪Reentry Trajectories
+▪“Loads” Trajectory Data
+▪Time History
+▪Maximum Dynamic Pressure (max. Q)
+▪Reference Trajectories
+▪Vehicle Mass vs. Time History
+▪Thrust, Acceleration, Pressure vs. Time
+▪Isp (propellant flowrates)
+▪Usable Propellant Requirements
+▪Axial Acceleration
+▪Dynamic Pressure
+▪Propellant Flowrates
+▪Mass Properties Control Plan
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Power/Energy Requirements
+▪Burn Times
+▪Jettison Times
+▪“Loads” Trajectory Data
+▪Vehicle Breakup and Disposal 
+Analysis
+▪Event Timelines
+▪Payload/Performance
+▪Trajectory Parameters
+▪Ground Track
+▪Impact Points
+▪Mass Properties Control Plan
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Mass Properties Control Plan
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Mass Properties Control Plan
+▪Documented Control Weights
+▪Current Weights, CG’s, and Moments 
+of Inertia of Vehicle and Components
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Mass Properties Control Plan
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Mass versus Time
+▪Mass Properties Control Plan
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Mass Properties Control Plan
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Documented Control Weights
+▪Weights, CG’s, and Moments of 
+Inertia of Vehicle and Components
+▪Vehicle Weights by WBS 
+Element
+▪Quantities
+▪Mass Properties Control Plan
+▪Periodical Mass Properties Reports
+▪Weights, CGs, and MOI
+▪Aerodynamic Design Consultation
+▪Pressure Vent Sizes and Locations
+▪Vehicle Ascent Aerodynamics
+▪Vehicle/Stage Entry Aerodynamics
+▪Trajectory Constraints for Heating
+▪External Aerodynamic Pressure 
+Distributions (vs. Mach No., Alt)
+▪Compartment Pressures
+▪Protuberance Airloads
+▪Acoustic and Overpressure Definition
+▪Ascent Aerothermodynamic Heating 
+Histories
+▪Entry Heating Histories
+▪Compartment Flow Rates in Vehicle
+▪Base Heating Environments
+▪Aerodynamic Coefficients
+▪Aerodynamic Stability Derivatives
+▪Aerothermal Test Requirements
+▪Exhaust Plume Electron Profiles
+▪Ascent and Descent Aerodyn. Pressure 
+Profiles
+▪Sonic Boom Overpressure
+▪Environments and Loads Definition
+▪Test Requirements
+▪Vehicle Aerodynamics
+▪Aerothermal (ascent & reentry aerothermal & 
+exhaust plume heating)
+▪External Vibroacoustics
+▪Launch Stand Heating & Pressures
+▪Compartment Pressures
+▪Test Requirements
+▪Structural Sizing
+▪Deflections
+▪Margins of Safety
+▪Propellant Slosh Baffle Sizing
+▪Temperature Gradient Design Limits
+▪Vehicle Flex-Body Modes
+▪Propellant Slosh Modes
+▪Propellant Feedline Flex Modes
+▪Q-Alpha, Q-Beta Constraints
+▪Loads
+▪Life Limits
+▪Bracket Analysis
+▪Loads Analysis on Lines
+▪Establish Dynamic Envelope of 
+Propellant Feedlines
+▪Determine Line Thicknesses
+▪Vibro-acoustical Requirements
+▪Vibro-acoustical Requirements
+▪Review of Battery Cell Design 
+(pressure vessel)
+▪Transportation, Storage, & Handling 
+Loads
+▪Structural Failure Modes
+▪Failure Propagation Logic 
+Development
+▪Structural Design Analysis
+▪Diagnostics/Control Logic
+▪Test Requirements
+▪Stress Analysis
+▪Fracture and Fatigue Assessment
+▪Design Loads
+▪Structural Dynamic Models & Analyses
+▪Test Requirements and Support: strength, modal 
+survey, acoustic, random vibrations, shock
+▪Thermal Protection System Sizing
+▪Cryogenic Insulation Sizing
+▪Compartment Purge and Conditioning 
+Analysis
+▪Auxiliary Thermal Control System Sizing
+▪Test Requirements
+▪Stability Margins
+▪Baseline Autopilot Configuration
+▪Guidance Algorithms
+▪Test Requirements
+▪Material and Process Control Plan
+▪Non-destructive Evaluation Plan
+▪Contamination Control Plan
+▪Material Identification and Usage List
+▪Material Utilization Agreements
+▪Propellant Inventory
+▪Main Propulsion System Design
+▪Tank, Fill, Drain, Pressure Profiles
+▪Main Propulsion System Analyses
+▪Pressure Models, Propellant Conditioning Models, 
+Steady-State Models
+▪Test Analysis Support
+▪Thrust Vector Control System Design
+▪Test Requirements
+▪Range Safety
+▪Flight Computer Specs/Design
+▪Data Handling Specs
+▪Instrumentation
+▪Software
+▪Communications Link Margin
+▪Electrical Power System Design
+▪Cable Harness Design
+▪Cable Interconnect Diagrams
+▪Electrical Systems Schematics
+▪Electrical Ground Support Equipment 
+Design
+▪Electrical Power Distributor Design
+▪Mechanical Ground Support Equipment 
+Design
+▪Integration and Test Plan
+▪Transportation and Logistics Plan
+▪Ground Operations Plan and Processing 
+Flows
+▪Launch Site Support Requirements
+▪Test and Checkout Requirements
+▪Launch Sequence Procedures
+▪Data Flow Analysis Timeline
+▪Ground Command Loads
+▪Flight Vehicle Definition
+▪Flight Ground Support Equipment
+▪Quality Assurance Plan
+▪Hazard Analysis Reports
+▪Failure Modes & Effects Analysis (FMEA)
+▪Critical Items List (CIL)
+▪Reliability Allocations and Estimates
+▪Integrated Risk Analysis
+▪Test Input
+▪System Tradeoffs Support
+▪ALERT Process
+▪PRACA System
+▪Cost Trades
+▪Cost Work Breakdown Structure
+▪Groundrules/Assumptions
+▪Program Cost Estimate
+▪Commercial Vehicle Business Analysis Plan
+▪Thermal Protection System Sizing
+▪Cryogenic Insulation Sizing
+▪Auxiliary Thermal Control System 
+Sizing
+▪Temperature Sensor Locations
+▪Thermal Protection System Sizing 
+(aerothermal/base heating)
+▪Cryogenic Insulation Sizing
+▪Auxiliary Thermal Control System Sizing
+▪Component Weight Estimates
+▪Parts List
+▪Heating Constraints (e.g., on 
+trajectory, attack angles, etc.)
+▪Propellant Slosh Damping Requirements
+▪Q-Alpha vs. Q-Beta Envelopes
+▪Flex-Body Mode Frequency Constraints
+▪Autopilot Definition
+▪Heating Constraints (e.g., on 
+trajectory, attack angles, etc.)
+▪Structural Temperatures and 
+Temperature Gradients
+▪Propellant Condition
+▪Temperature Time History
+▪Pressures
+▪Chilldown of Engine
+▪Temperature & Heating Loads
+▪Structural Temperature Requirements
+▪POGO Suppressor Requirements
+▪Thrust Vector Control Requirements
+▪Attitude & Reaction Control System 
+Requirements
+▪Material Compatibility
+▪Contamination Analysis
+▪Material Properties
+▪Thermal/Cryogenic Properties
+▪Temperature Limits
+▪Thermal Environment
+▪Software Requirements
+▪Computer Requirements
+▪Sensor Requirements
+▪Materials Properties
+▪Thermal Environment for Electrical 
+Power System
+▪Power Requirements for Thermal 
+Control System
+▪Power Requirements for Vehicle 
+Control Systems
+▪Materials Properties
+▪Structural Temperature Requirements
+▪Non-destructive Evaluation Plan
+▪Contamination Control Plan
+▪Subsystem Definition and Design 
+Description Document
+▪Material and Process Control Plan
+▪Non-destructive Evaluation Plan
+▪Contamination Control Plan
+▪Material Identification & Usage List
+▪Material Usage Agreements
+▪Material Certifications
+▪Materials Definition
+▪Structural Design Analysis Support
+▪Environmental and Loads Definition
+▪Material Type
+▪Technical Descriptions
+▪Test Requirements
+▪Production Quantities
+▪Make or Buy Plan
+▪Material  Properties
+▪Material Costs
+▪Technical Descriptions
+▪Test Requirements
+▪Production Quantities
+▪Make or Buy Plan
+▪Material Thermal Properties and 
+Allowables
+▪Maximum Engine (nozzle) Deflection
+▪Control Sensor Locations
+▪Control Surface Deflection 
+Requirements
+▪Material Allowables
+▪Autopilot Definition
+▪Guidance System Inputs
+▪Material Mass Density
+▪Material Thermal Properties
+▪Material Properties
+▪Material Allowables
+▪Propellant Inventory
+▪Propulsion System Layout
+▪Propellant Feedline Routing
+▪Propellant/Pressurant Tank Pressures
+▪Propellant Level Sensor Locations
+▪Packaging Volume Required
+▪Electrical Power System Component 
+Details
+▪Packaging Volume Required
+▪Ground Interfaces
+▪Access Requirements
+▪Vehicle Integrated Operations Concept 
+and Requirements
+▪Fabrication Parameters and Tolerances
+▪Range Safety Requirements
+▪Hazard Analyses
+▪Fault Tolerance Requirements
+▪Reliability Estimates
+▪Trade Studies Support
+▪FMEA/CIL Requirements
+▪System-to-Subsystem Reliability 
+Allocations
+▪Hardware DDT&E and Production 
+Costs
+▪Cost Trades
+▪Range Safety Requirements
+▪Hazard Analyses
+▪FMEA (Failure Modes & Effects 
+Analysis) and CIL (Critical Items List) 
+Requirements
+▪Hazard Analyses
+▪FMEA/CIL 
+Requirements
+▪Hazard Analysis
+▪Fault Tolerance Requirements
+▪System and Component Reliability 
+Allocation and Estimation
+▪FMEA/CIL Requirements
+▪Hardware Design, Development, Test 
+& Evaluation (DDT&E) and 
+Production Costs
+▪Cost Trades
+▪Hazard Analysis
+▪Fault Tolerance Requirements
+▪FMEA/CIL 
+Requirements
+▪Hardware DDT&E and Production 
+Costs
+▪Cost Trades
+▪Hardware DDT&E and Production 
+Costs
+▪Cost Trades
+▪Hardware DDT&E and Production 
+Costs
+▪Cost Trades
+▪FMEA/CIL 
+Requirements
+▪FMEA/CIL Requirements
+▪System-to-Subsystem Reliability 
+Allocations
+▪Hazard Analysis
+▪Fault Tolerance Requirements
+▪Hazard Analysis
+▪Hardware DDT&E and Production 
+Costs
+▪Cost Trades
+▪Procurement Support
+▪Reliability Allocation and 
+Estimation
+▪FMEA/CIL Requirements
+▪Flight Safety Review of Schematics and 
+Operations
+▪East and West Test Range Interface to 
+Assure Compliance
+▪Hazard Analysis
+▪Fault Tolerance Requirements
+▪Hardware DDT&E and Production 
+Costs
+▪Cost Trades
+▪Hardware DDT&E and Production 
+Costs
+▪Cost Trades
+▪Ground Support Equipment DDT&E 
+and Production Costs
+▪Operations Costs
+▪Costs Trades
+▪Hazard Analysis
+▪Fault Tolerance Requirements
+▪Reliability Estimates
+▪Hazard Analysis
+▪Fault Tolerance Requirements
+▪Reliability Estimates
+▪FMEA/CIL Requirements
+▪Hazard Analysis
+▪Fault Tolerance Requirements
+▪Reliability Inputs to Operations 
+Model
+▪FMEA/CIL Requirements
+▪Safety Constraints and Guidelines
+▪Vehicle and Launch Facility FMEA
+▪Hazards Analysis
+▪FMEA/CIL Requirements
+▪Quantified Operations Costs
+▪Costs Trades
+▪Quality Control Plan
+▪Hazard Analysis
+▪FMEA/CIL Requirements
+▪Facility/Tooling DDT&E and 
+Production Costs
+▪Cost Trades
+▪Reliability Model
+▪Cost Goals, Requirements, and 
+Constraints
+▪Vehicle Reliability
+▪Reliability Requirements and 
+Estimates
+▪Vehicle Integrated Operations Concept 
+and Requirements
+▪Vehicle Integrated Operations Concept 
+and Requirements
+▪Vehicle Integrated Operations Concept 
+and Requirements
+▪Manufacturing Control Plan
+▪Assembly and Verification Plan
+▪Make or Buy Plan
+▪Fabrication Parameters
+▪Review of Avionics Packaging 
+Documentation
+▪Review of Avionics Packaging 
+Documentation
+▪Input to Failure Propagation Logic
+▪Facility/Tooling Requirements
+▪Manufacturing Costs
+▪Integrated Operations Concept
+▪Flight Test Requirements
+▪Operational Timelines
+▪Crew Sizes
+▪Facility Requirements
+▪Software Requirements
+▪Ground Support Equipment Technical 
+Descriptions (specs)
+▪Ground Test Requirements
+▪Operational Timelines
+▪Crew Sizes
+▪Facility Requirements
+▪Software Requirements
+▪Technical Descriptions and 
+Specifications
+▪Test Requirements
+▪Production Quantities
+▪Make or Buy Plan
+▪Technical Descriptions and 
+Specifications
+▪Test Requirements
+▪Production Quantities
+▪Make or Buy Plan
+▪Technical Descriptions and 
+Specifications
+▪Vendor Quotes
+▪Test Requirements
+▪Production Quantities
+▪Make or Buy Plan
+▪Functional Failure Modes 
+Characterization
+▪Failure Propagation Logic 
+Development
+▪Failure Diagnostics and Control Logic
+▪FMEA/CIL Analysis Inputs
+▪Design Configuration
+▪Reliability Data
+▪FMEA/CIL Inputs
+▪Vehicle Integrated Operations 
+Concept and Requirements
+▪Drawings for Flight Ground Support 
+Equipment
+▪Hazard Analysis Inputs
+▪Hazard Analysis Inputs
+▪Design Configuration
+▪Reliability Data
+▪FMEA/CIL Inputs
+▪Drawings and Schematics
+▪Drawings
+▪Schematics
+▪Hazard Analysis Inputs
+▪Subsystem Definition and Design 
+Description Document
+▪Vehicle Controls
+▪Electrical Power Usage (budget)
+▪Main Propulsion System   Checkout and 
+Fill
+▪Refurbishment & Inspection Req’ts
+▪Hardware Design
+▪Verification Requirements
+▪Transportation (Handling & Storage) 
+Requirements
+▪Commands/Telemetry Uplink & 
+Downlink Database
+▪Subsystem Definition and Design 
+Description Document
+▪Instrumentation
+▪Software Design (coding/debug)
+▪Electrical Power Usage (budget)
+▪Hardware Design
+▪Verification Requirements
+▪Transportation Requirements
+▪Electrical Power Requirements
+▪Black Box Interfaces for Cable 
+Harness Design
+▪Power Requirements for 
+Communications & Data 
+Management Boxes
+▪MST Level IV Test Requirements
+▪Level I Requirements
+▪Human Factors & Operability Assmnt
+▪Ground Operations Req’ts
+▪Flight Operations Req’ts
+▪Vehicle Integrated Operations Concept and 
+Requirements
+▪Launch Sequence Timeline
+▪Launch Sequence Timeline
+▪Flight Sequence Timeline
+▪Vehicle Integrated Operations Concept 
+and Requirements
+▪Launch Sequence Timeline
+▪Flight Sequence Timeline
+▪Operations Health and Status Req’ts
+▪Flight Load Table Updates (Trajectory)
+▪Performance Req’ts for Mission
+▪Vehicle Integrated Operations Concept and 
+Requirements
+▪Vehicle Integrated Operations Concept 
+and Requirements
+▪Flight Timeline
+▪Operational Timelines
+▪Maintainability
+▪Ground Support Equipment Capability
+▪Instrumentation and Command 
+Requirements 
+(IP&CL—Instrumentation 
+Programming & Commands List)
+▪Data Processing/Throughput 
+Requirements
+▪Identify Needs & Requirements for 
+Electrical Ground Support Equipment 
+for Integrated Checkout
+▪Availability of Electrical Power 
+(current, voltage, phase)
+▪Electrical Power Budget
+▪Electrical Power Characteristics
+▪Instrumentation Requirements
+▪Telemetry Capability
+▪Sensor Characteristics
+▪Instrumentation
+▪Uplink & Downlink Req’ts
+▪Drive Electronics
+▪Thrust Vector Control Requirements
+▪Environment
+▪Structural Loads
+▪Life Limits
+▪Electrical Power System Operational 
+Environment Requirements
+▪Drawings & schematics for Flight 
+Ground Support Equipment
+▪Electrical System Drawings and 
+Models
+▪Component Weight Estimates
+▪Parts List
+▪Communications and Data 
+Management  System Drawings and 
+Models
+▪Component Weight Estimates
+▪Parts List
+▪Propellant Inventory
+▪Engine Performance (Isp, Thrust, 
+Mixture Ratio, etc.)
+▪Propulsion System Drawings and 
+Models
+▪Component Weight Estimates
+▪Parts List
+▪Engine Dimensional and Operational 
+Characteristics
+▪Turbine Exhaust Definition
+▪On-pad Effluent Definition
+▪Ignition and Shutdown Thrust 
+Transients
+▪Ignition and Shutdown Timing 
+Sequence
+▪Steady-state Thrust Oscillation
+▪Ullage Pressures and Tank Fill Heights 
+vs. Flight Time
+▪Ground Hold Conditions
+▪Heat Load Requirements for Propellant 
+Conditioning
+▪Chill-Down Requirements
+▪Engine Configuration Definition
+▪Engine Operating Characteristics
+▪Engine Thermal Requirements
+▪Thrust Vector Control Gimbal Capability 
+(degree & rates)
+▪Propellant/other Feedline Layout
+▪Kinematic Analysis
+▪Thermal Design Limits
+▪Sensor Characteristics
+▪Sensor Characteristics
+▪Computational Characteristics
+OUTPUTS
+INPUTS
+OUTPUTS
+INPUTS
+▪Ascent and Descent Aerodyn. Pressure 
+Profiles
+▪Electrical Power System Constraints
+▪Subsystem Definition and Design 
+Description Document
+▪Ground Test and Checkout 
+Procedures
+▪Ground Support Equipment Design 
+and Definition
+
+[p53] Resumen de N
+Resumen de N2 Interfaces
+♦
+Las interfaces Externas de sistema están definidas, distribuidas y 
+gestionadas con otros requerimientos de sistema 
+♦
+Las Interfaces internas, ya que son creadas  a medida que el sistema se 
+descompone pueden ser optimizadas  por el equipo de desarrollo.
+♦
+Al desarrollar grupos de interfaces como funciones - In developing 
+interfaces group like functions, las mantienen simples y consideran el uso 
+de interfaces estándar.
+♦
+Ya que todas las interfaces corren el riesgo de ser ignoradas  debido a que 
+cada  equipo de desarrollo focaliza sobre sus propias responsabilidades 
+de subsistema, debemos explicitar los propietarios futuros  de todas y 
+cada interface
+♦
+Los diagramas N-cuadrado  identifican la mayoría de las interfaces 
+comunes y manejan sus herramientas. Ellos son usados para: 
+• Capturar la existencia y naturaleza de las interfaces
+• Resaltar las hipótesis y requerimientos de entrada y salida  
+• Demostrar  donde hay un lazo de realimentación entre subsistemas
+• Identificar el candidato de alojar funcionalidades para cada subsistema
+
+[p54] Ing. de Sistemas
+Ing. de Sistemas
+Fase A
+Funciones 
+Clave
+Estudio de 
+Conceptos 
+Pre Fase A
+Análisis 
+Prelim. 
+Fase A
+Definición 
+Fase B
+Diseño
+Fase C
+Desarrollo 
+Fase  D
+Operaciones 
+Fase E
+Entender los 
+objetivos
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Desarrollo del ConOp
+Concepto
+Baseline
+Refinar
+Completo
+Plan de 
+Operaciones
+Seguimiento 
+de los cambios
+Desarrollo de 
+Arquitectura y Diseño
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Análisis, Identif. y 
+Gestión de los 
+Requer.
+Concepto
+Baseline 
+de alto nivel
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+V&V
+Concepto
+Inicial
+Asignar 
+Métodos
+Desarrollo de 
+Planes
+Completo
+Interfaces  & ICDs
+Concepto
+Inicial
+Baseline
+Completo
+Seguimiento 
+de los cambios
+Ambiente de Misión
+Inicial 
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+Presupuesto y 
+Recursos Técnicos
+ Concepto
+Inicial
+Baseline
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Análisis, Reducción  y 
+Gestión de Riesgo
+Estimado
+FTA , RBD
+FMEA, FTA, 
+RBD
+FTA, FMEA, 
+RBD, PRA
+Actualizar 
+CAmbios
+Actualizar 
+Cambios
+Revisión Candidatos 
+Hitos Sistema
+MCR
+MDR
+SRR, SCR, 
+PDR, CR
+CDR
+MOR, PER, 
+FOR, PSR, 
+FRR, ORR
+DR
+Gestión y Doc de 
+Configuración
+Informal Gestión 
+Configuración
+Control de 
+requerimientos 
+Nivel 1
+Gestión de 
+Configuración
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+Seguimiento 
+de cambios
+Plan de Gestión de la 
+Ing. de Sistemas
+Concepto
+Baseline
+Completo
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios

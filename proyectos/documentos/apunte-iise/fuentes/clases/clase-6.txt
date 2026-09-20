@@ -1,0 +1,2115 @@
+# IISE clase 6 -- 155 diapositivas
+# fuente: IISE Clase 6 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Introducción  [FIGURA]
+Introducción 
+a la Ingeniería de 
+Sistemas Espaciales
+Unidad # 6
+UNSAM - Ing. Sistemas Espaciales
+
+[p2] Preguntas para autoevaluación
+Preguntas para autoevaluación  
+ 
+1.
+¿Qué entiende por Ciencia, Ingeniería y Tecnología?
+2.
+Describa brevemente qué entiende por “proceso de 
+definición de expectativas del cliente”
+3.
+¿Qué entiende por “trazabilidad de requerimientos”?
+ 
+3. En la gestión de requerimientos, ¿son posibles los 
+cambios? ¿qué se puede cambiar y qué no y si es así 
+cuando?
+
+[p3] "Our only chance of long-term survival is
+"Our only chance of long-term survival is 
+not 
+to remain lurking on planet Earth, but to 
+spread out into space." 
+¨Nuestra única chance de supervivencia a 
+largo término no es permanecer en la 
+tierra expectantes, sino extenderse en el 
+espacio¨
+Stephen Hawking 
+Theoretical physicist & cosmologist
+
+[p4] Temario de la clase 6ta
+Temario de la clase 6ta
+• Curva de la Tasa de Fracasos Modelo 
+Bañadera
+• Requerimientos (Continuación)
+• ¨Ejercicio de Alcance¨  - Ejemplos varios -
+– Requerimientos de Interfaces
+– Escribir Buenos Requerimientos
+• Ciclo de Vida Pre Fase A
+– Misión Futura a TITAN
+– Dinámica: Traducir Necesidades en Requerimientos 
+• Ingeniería Concurrente
+– Trabajo en grupos de Proyectos
+Roles:  JP – IS – Ing.. Especialista
+• Elementos de Mecatrónica (comparación con Ing 
+Sist.)
+• Algunas Definiciones de Modelos de 
+Desarrollo de Ciclo de Vida y Procesos de 
+Desarrollo de Producto (INCOSE etc)
+
+[p5] Curva de la Tasa de Fracasos
+Curva de la Tasa de Fracasos 
+Modelo Bañadera
+Mortalidad 
+Infantil
+Chance 
+de Falla 
+Desgaste
+Mortalidad 
+Infantil
+Tasa 
+de Falla
+Tiempo o ciclos
+Debido a la fallas por burn in  y o prácticas de aseguramiento de la calidad inadecuados, 
+la tasa de falla es inicialmente alta, pero gradualmente decrece durante el período infantil. 
+Durante el período de vida útil, la tasa de falla permanece constante, reflejando falla de 
+ocurrencia al azar, Finalmente la tasa de falla comienza a incrementarse debido a falla por 
+desgaste
+Período de vida útil
+Burn in o
+ depuración
+Vejez
+
+[p6] Diagrama en  “V”
+6
+Diagrama en  “V” 
+Macro Nivel
+Desarrollo 
+del Concepto
+Diseño 
+Preliminar
+Diseño de 
+Detalle
+Construcción y 
+Verificación
+Integración 
+&
+ 
+Verificación
+Calificación
+Testing
+Validación 
+del Sistema
+Test & Evaluation Master Plan
+Plan de Ensayos  de SSs
+Producto & 
+Plan de 
+Ensayos 
+Componentes
+Credit to: Forsberg & Moor; Ben Blanchard & Wolter Fabrycky; J.O. Grady
+Necesidades
+Producto / Sistema
+
+[p7] El desarrollo de los  [FIGURA]
+El desarrollo de los 
+requerimientos es el 
+paso más importante!
+Requirements Module:The Basics  Space Systems Engineering, version 
+1 0
+
+[p8] La Importancia de los Requerimientos
+La Importancia de los Requerimientos
+• Los problemas en los Requerimientos son la mayor causa de los 
+problemas de los proyectos.
+• Los Requerimientos definen qué se debe hacer, cuán bien debe ser 
+hecho y bajo qué restricciones 
+– tener los requerimientos mal - el diseño resultará mal -
+• Los Requerimientos manejan…
+Costos - Diseño – Planificación - Habilidades requeridas – Planes de 
+Verificación  – Procedimientos Operacionales – todos los items del 
+proyecto
+• Es asombroso como cuantos equipos comienzan a resolver un 
+problema antes que haya un acuerdo sobre cuál es el problema. 
+• Los requerimientos y sus restricciones asociadas e hipótesis 
+cuantifican el problema para ser resuelto.  Estos establecen cómo el 
+éxito del proyecto será determinado.
+Requirements Module:The Basics  Space Systems Engineering, version 1.0
+
+[p9] La Familia de Requerimentos
+La Familia de Requerimentos
+Si los requerimientos padres son…
+– INCOMPLETOS
+– INCORRECTOS
+– AMBIGUOS
+– CONFLICTIVOS, o
+– INVERIFICABLES
+Luego…los hijos y las 
+subsecuentes generaciones de 
+requerimientos serán 
+progresivamente peores.
+Padre
+Hijos
+Pares
+Requerimiento
+Sistema
+SubSistema
+SubSistema
+Padre
+Hijo
+Elemento
+Requerimiento
+Requerimiento
+Requerimiento
+Requerimiento
+Requirements Module:The Basics  Space Systems Engineering, version 1.0
+
+[p10] Al Descomponer un Sistema
+Al Descomponer un Sistema 
+Inexorablemente se Crean Requerimientos 
+de Interface
+Pueden haber Interfaces entre cada 
+subsistema y entre cada 
+Subsistema y el Sistema
+Las Funciones, el desempeño, las  
+hipótesis y las restricciones de 
+estas interfaces serán definidas 
+en los requerimientos de 
+interfaces.
+La propiedad de la interface debe ser 
+establecida por el responsable 
+individual o organizativo, no es 
+siempre obvio
+Sistema
+SubSistema
+Elemento
+Requerimiento
+Requerimientos de Interfaces
+Requerimiento
+Requerimiento
+Requerimientos de Interfaces
+SubSistema
+Requerimiento
+Requerimiento
+Requirements Module:The Basics  Space Systems Engineering, version 1.0
+Req Inter
+
+[p11] Los Documentos de Interface
+Los Documentos de Interface 
+Claves
+•
+Doc. de definición de Interfaces -Interface Definition Document (IDD) - define 
+interfaces para un sistema existente (eje. un vehículo lanzador). Debemos 
+encontrar nuestras interfaces para que sean compatibles con LV elegido. En juego 
+todos los items de nuestro Spacecraft, como masa, tipo de conector, EMI, hidrazina 
+el pad de lanzamiento y en vuelo…
+– Propiedad del manager del sistema con el cual queremos interfacear
+– Probablemente no se pueden alterar, no hay cambio alguno.
+•
+Doc de Requerimiento de Interface - Interface Requirement Document (IRD) - 
+define interfaces para dos sistema en desarrollo. Incluye interfaces físicas y 
+funcionales y asegura compatibilidad entre el H/W & S/W. 
+– Gestionada en conjunto (NEEDS ONE OWNER), oficializada por los directores 
+de los sistemas en desarrollo.
+•
+Interface Control Document (ICD) 
+- 
+Identifica la solución para las
+ interfaces físicas (drawings).
+Sistema de
+Interés
+Otro
+Sistema
+Otro
+Sistema
+Sistema 
+LV
+Ambiente
+Interfaces
+IRDs
+IDD
+Requirements Module:The Basics  Space Systems Engineering, version 1.0
+
+[p12] Resumen : Requerimientos
+Resumen : Requerimientos 
+•
+Los Requerimientos definen el problema 
+que debe ser resuelto 
+y establece los términos para el éxito de la misión que será medida.
+•
+Los problemas de los Requerimientos son el mayor problema para los 
+proyectos en desarrollo, tengamos sumo cuidado en crear buenos 
+requerimentos que siempre vale el esfuerzo.
+•
+Cuando más tarde es descubierto un problema (un requerimiento) no 
+considerado inicialmente, más costoso resultará recuperarlo.
+•
+Los Requerimientos son distribuidos dentro de la arquitectura del sistema 
+vía el flujo descendente, alojándolos y derivándolos.
+•
+La trazabilidad de los requerimientos es una técnica de rastreo de la 
+fuente y la conexión entre requerimientos. 
+•
+La trazabilidad nos permite rápidamente evaluar las consecuencias 
+potenciales de los cambios en los requerimientos.
+•
+Cuando un sistema es descompuesto en segmentos más pequeños, las 
+interfaces son creadas, deben ser definidas y controladas.
+Requirements Module:The Basics  Space Systems Engineering, version 1.0
+
+[p13] Herramientas  Automatizadas
+Herramientas  Automatizadas  
+– Hay herramientas que dan capacidad 
+para manejar requerimientos y 
+también ofrecen modelos ejecutables 
+– Herramientas como CORE, DOORS, 
+CRADLE, SLATE, Popkin, Valispace, etc., 
+suministran características  ricas en 
+análisis interactivos
+– El INCOSE web site www.INCOSE.org 
+da acceso a un INCOSE Tool Survey
+• Quince herramientas de manejo de 
+requerimientos y diez herramientas 
+de  arquitecturas de sistemas son 
+listadas
+Requirements Module Writing Requirements  Space Systems Engineering, version 1.0
+
+[p14] Ejercicio de Alcance
+Ejercicio de Alcance
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Requerimientos
+
+[p15] Ejercicio de Alcance
+Ejercicio de Alcance 
+Hay una gran cantidad de  ideas y pensamientos que se intentan implementar en 
+una misión, gran cantidad de interesados claves. Muchos están en la comunidad 
+de la agencias espaciales (NASA, ESA, JAXA, CONAE etc) y otros en la 
+comunidad científica.
+Estos científicos o líderes del gobierno tienen algunas ideas de algunos grandes 
+preguntas científicas que ellos les gustaría responder o algunas áreas específicas 
+de investigación que ellos gustan implementar o servicios para el estado.
+Estas ideas son la génesis de muchas misiones. Estas necesitan poder 
+comunicar a los equipos de ingeniería para poder tomar las ideas y convertirlas 
+en una real misión que puedan hacer las mediciones y generar datos para hacer 
+descubrimientos o prestar servicios. 
+Esta inicial comunicación entre los interesados científicos y los ingenieros es 
+ayudado con el uso de una estructura llamada Ejercicio de Alcance . 
+Los científicos tienen ideas, y los ingenieros hacen que esas ideas se hagan 
+prácticas. Se trata de medir lo inmensurable, pero los ingenieros dicen; ¿Cuan 
+inmensurable es eso? 
+Hay que leer, interpretar exactamente lo que los científicos quieren medir. 
+Empezamos ayudándonos con las dimensiones del alcance
+Necesidad : la NASA, por años se preguntaban si Marte es habitable o 
+no, si ha tenido vida alguna vez.
+
+[p16] Ejercicio de Alcance -  Necesidades
+Ejercicio de Alcance -  Necesidades
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Necesidad : es un declaración de muy alto nivel, que determina que 
+debe poder hacer el sistema. 
+Va cambiando a través del ciclo de vida de desarrollo. 
+Hay que entender que se está pidiendo qué se debe construir.
+El próximo paso es fraccionar a niveles de detalle más bajos de la misión 
+¿cuál es el goal, la meta?
+
+[p17] Ejercicio de Alcance - Metas
+Las Metas son ayudas fundamentales para completar las Necesidades. 
+Son necesidades de alto nivel.  Queremos poder explorar Marte y encontrar 
+si fue habitable.
+Tenemos un goal, una meta que dice: me gustaría encontrar si ha habido 
+agua en Marte. Encontrar esta respuesta nos da la pista que podría haber 
+sido habitable Marte, así se puede ver la conexión de la necesidad de alto 
+nivel y el goal, un poco más abajo. El punto donde se puede definir un 
+spacecraft específico es el punto para hacerlo, realizar esta meta para 
+encontrar estas necesidades.
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Ejercicio de Alcance - Metas
+
+[p18] Ejercicio de Alcance - Objetivos
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Objetivos: son iniciativas que implementan 
+las metas y define como la meta será lograda. 
+Este es otro nivel de detalles y así el proceso 
+de encontrar agua puede tener un número de 
+objetivos, un objetivo puede ser buscar en un 
+área de Marte donde hay signos de agua, 
+como en la tierra, como en ciertos plateau o 
+en ciertos cañones producidos por erosión del 
+agua. 
+Cañones de los Valles Kanei en Marte
+Ejercicio de Alcance - Objetivos
+
+[p19] Ejercicio de Alcance - Hipótesis
+Recorrer estos valles da una gran oportunidad para encontrar la meta 
+de  vestigios de agua. Metas y objetivos de la misión de los ingenieros 
+de sistemas, debemos seguir particionando en niveles más bajos 
+sucesivamente hasta encontrar el producto para realizar la misión.
+Hipótesis; incluye niveles de tecnología, asociaciones, y extensiones 
+a otra misiones.
+Por ejemplo: cierta  sensibilidad de un instrumento
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Ejercicio de Alcance - Hipótesis
+
+[p20] Ejercicio de Alcance - Misión
+Misión: ayuda a identificar los requerimientos de alto nivel, vamos a Marte 
+a un valle donde es posible encontrar los vestigios de agua, tenemos que 
+poner un Rover, definir la misión en términos de alto nivel recorrer territorio 
+y poder analizar las muestras en el lugar adecuado. Describir la misión en 
+términos muy generales, encontrar la metas y los objetivos
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Ejercicio de Alcance - Misión
+
+[p21] Ejercicio de Alcance - ConOp
+Concepto Operacional – ConOp 
+es establecer como serán las fases de la 
+misión desde lo operacional. Tenemos que construirlo y operarlo para que soporte la 
+fases de la misión, debemos cumplir los objetivos y las metas. Un ConOp es una 
+mirada de alto nivel. Es una clase de cuadro donde podemos caminar a través de todo 
+el trayecto de la misión,  recorremos desde el ppio hasta el final la fases de esta misión. 
+Voy a Marte tengo que aterrizar sobre la superficie y comenzar a recorrer los territorios 
+elegidos para recabar info y mandarla a la tierra. Tenemos que hacer un layout de alto 
+nivel que se vea el concepto de operaciones. Es un ejercicio de alcance donde 
+tratamos de ver los requerimientos de alto nivel de las necesidades de alto nivel y 
+caminamos toda la misión.
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Ejercicio de Alcance - ConOp
+
+[p22] Ejercicio de Alcance - Restricciones
+Restricciones. 
+En todos los proyectos comprometidos hay restricciones, 
+algunas veces son fiscales, Muchas misiones que apostaron a cierto presupuesto 
+dinero para la misión. Alguna veces 200 M parece mucho dinero, pero alguna veces 
+billones de dólares o más son restricciones. 
+Para obtener la mejor órbita para enganchar a Marte de la mejor manera hay una 
+ventana.  Solo tengo un especifico tiempo para partir a Marte, sino debo esperar 18 
+meses más, entonces debo almacenar el sistema etc. Restricciones programáticas. 
+Regulaciones también por ejemplo para transportar un generador nuclear de 
+potencia eléctrica, en tierra en lanzamiento y en el espacio. 
+Seguridad para personal de tierra y los problemas de un lanzamiento. Por ejemplo 
+las condiciones del Range Safety etc.
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Ejercicio de Alcance - Restricciones
+
+[p23] Ejercicio de Alcance – Autoridad Responsabilidad
+Autoridades y responsabilidad
+Cuando hacemos un layout desde el comienzo debemos establecer quienes son 
+los responsables y las autoridades del proyecto. Claras líneas de responsabilidad 
+del spacecraft, quién lo va a construir, una compañía, quién se hace responsable 
+de los instrumentos  de la carga útil, cierta institución académica científica.
+Los sistemas operacionales, quien es el Ing. de sistemas o el equipo de Ing. 
+sistemas. 
+Muchos sistemas repartidos en el mundo podrían estar involucrados en esta 
+misión. La Ing. de sistemas es crucial nuevamente
+.
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Ejercicio de Alcance – Autoridad Responsabilidad
+
+[p24] Ejercicio de Alcance: Programa Apollo
+Necesidad
+Contener la amenaza militar soviética
+Meta
+Demostrar que la superioridad tecnología EUA en el espacio
+Objetivos 
+Mandar humanos a la luna y retornarlos de manera segura para el 
+fin de la década
+Ejercicio de Alcance: Programa Apollo
+Lanzar la tripulación con el vehículo Lunar Lander y retornar el vehículo 
+con la tripulación. 
+Parte de la tripulación debe dejar el vehículo de retorno en la órbita lunar 
+mientras el Lander Lunar toca la superficie de la luna.
+Luego la tripulación retornará a la órbita lunar y se encontrará con el 
+vehículo de retorno a la tierra.
+La tripulación y el vehículo de retorno debe aterrizar en el océano.
+Concepto de Operación CONOP
+Mostrar como la misión puede ser realizada
+
+[p25] Concepto de Operación: Programa
+ConOp: Es una descripción de cómo el sistema operará durante las fases de la 
+misión con el fin de satisfacer la expectativas de los interesados.
+Debemos proveer una perspectiva operacional en una línea de tiempos y eventos 
+críticos.
+Esta perspectiva estimula el desarrollo de los requerimientos relacionado con el 
+usuario y los interesados. También revela requerimientos y funciones de diseño de 
+cómo considerar diferentes caminos para que el sistema realice la misión, esto 
+generará un conjunto preliminar de diferentes requerimientos y algunas veces nos 
+permite identificar diferentes funciones.
+Esta manera de idear alternativas operacionales nos permite desarrollar la base 
+clave de los documentos de operaciones que debe contener un concepto de 
+operaciones.
+Este doc de alto nivel nos permite desarrollar el diseño que posteriormente nos 
+permitirá  desarrollar un doc mucho más específico de operaciones. 
+Tenemos que pensar instante a instante como el sistema operará. 
+Primero hay que hacer un layout un cuadro, un dibujo de toda la perspectiva del 
+concepto de operación.
+La info que se encontrará en este doc de ConOp incluye la descripción de la 
+fases mayores de la misión: como el lanzamiento, las operaciones en órbita, 
+las  contingencias o emergencias posibles, lo datos de las operaciones de 
+ciencia y el retorno , las diferentes fases de la misión.
+Concepto de Operación: Programa 
+Apolo
+
+[p26] Concepto de Operación:  [FIGURA]
+ConOp 
+Apollo
+Concepto de Operación:
+Programa Apolo
+
+[p27]   [FIGURA]
+(sin texto)
+
+[p28] Concepto de Operación: Programa
+Concepto de Operación: Programa 
+Apolo
+Debemos plasmar el concepto de línea de tiempo, desde el lanzamiento y a través 
+de diferentes eventos que ocurrirán. Algunas veces el tema de la estrategia de la 
+comunicación end to end, punta a punta, es  muy importante.
+La arquitectura de comando y data es el flujo de la info que recorre las antenas de 
+un extremo al otro. El Centro de Control de Misión y/o el Centro de Datos científicos 
+es donde los interesados científicos e ingenieros de operaciones procesan sus 
+datos.
+Hay que identificar las facilidades operacionales que son requeridas. Algunas son 
+procesadas en el satélite para optimizar la bajada a tierra al Centro de Control de 
+Misión  (Houston) para el soporte logístico integrado si fuese necesario.
+Debemos  Definir los Eventos Críticos, por ejemplo en la ISS, los astronautas 
+tienen que hacer una actividad extra vehicular, tienen que dejar el spacecraft e ir 
+afuera a realizar sus tareas. 
+Debemos considerar los soporte adicional a todos los eventos críticos.
+Debemos pensar tempranamente en el desarrollo de operar la misión con los 
+objetivos de alto nivel. ¿Qué debemos hacer,? ¿qué debemos operar?
+Hay que reunirse muy seguido durante la Fase PreA y Fase A para lograr el 
+concepto de flujo de operaciones. Es un punto clave inicial para lograr el producto 
+buscado.  
+¿Ingeniería concurrente?
+
+[p29] Example CONOPS:  [FIGURA]
+Example CONOPS: 
+Lunar Design Reference Mission
+
+[p30] Concepto de Operación: Space Shuttle
+Eje. de arquitectura de operaciones del Space Shuttle. No confundamos con el arquitecto 
+de sistema, el cual se dedica a todo el sistema, SS y elementos etc.  En este gráfico se ve 
+como los boosters (cohetes sólidos recuperables) son lanzados al mar una vez agotado su 
+combustible. Y luego lanza el tanque externo de hidrógeno no recuperable. Comienzan 
+juntos para operar y lograr el objetivo de estar a cierta altura y tal velocidad (6 
+parámetros de una órbita). El ConOp usa este conjunto de sistemas que operan de 
+acuerdo a su historia necesaria. Su arquitectura permite realizar una serie de operaciones 
+sucesivas para completar los objetivos de la misión.
+Concepto de Operación: Space Shuttle
+
+[p31] Concepto de  [FIGURA]
+Concepto de 
+Operación: 
+Space 
+Shuttle
+
+[p32] Concepto de Operación: Space Shuttle
+Esto comienza con una operaciones de procesos de tierra. Después de una misión 
+es limpiado, inspeccionado sus partes etc. Algunas deben ser reconstruidas.
+Hay un conjunto de procesos de tierra que deben ocurrir para poder ingresar 
+nuevamente al pad de lanzamiento. Completado todo esto, es transportado por un 
+gran tractor plataforma, un concepto total de transporte.
+Concepto de Operación: Space Shuttle
+
+[p33] Concepto de Operación
+Durante el desarrollo del ConOp hay que pensar de manera muy simple.
+Si miramos otros concepto de procesos de operación en el mundo, vemos otras 
+maneras de pensar y resolver estos problemas de una manera muy diferente. 
+Como la hace la ESA como lo hacen los rusos. 
+Los rusos lo transportan en una vía con un tren especial y luego lo fijan y elevan 
+en el pad. Son diferentes maneras de resolver este problema.
+Concepto de Operación
+
+[p34] Concepto de Operación  [FIGURA]
+Concepto de Operación
+
+[p35] Concepto de Operación  [FIGURA]
+Concepto de Operación
+
+[p36] Concepto de Operación: Falcon 9  [FIGURA]
+Concepto de Operación: Falcon 9
+
+[p37] Concepto de Operación: Falcon 9  [FIGURA]
+Concepto de Operación: Falcon 9
+
+[p38] Concepto de Operación: Falcon 9  [FIGURA]
+Concepto de Operación: Falcon 9
+
+[p39] Concepto de Operación: Falcon 9  [FIGURA]
+Concepto de Operación: Falcon 9
+
+[p40] Concepto de Operación: Falcon 9  [FIGURA]
+Concepto de Operación: Falcon 9
+
+[p41] Concepto de Operación: Falcon 9  [FIGURA]
+Concepto de Operación: Falcon 9
+
+[p42] Concepto de Operación: Falcon 9  [FIGURA]
+Concepto de Operación: Falcon 9
+
+[p43] Concepto de Operación: Falcon 9  [FIGURA]
+Concepto de Operación: Falcon 9
+
+[p44] Concepto de Operación:  [FIGURA]
+Concepto de Operación:
+Falcon 9
+
+[p45] Concepto de Operación:  [FIGURA]
+Concepto de Operación:
+Falcon 9
+
+[p46] Concepto de Operación: Falcon 9  [FIGURA]
+Concepto de Operación: Falcon 9
+
+[p47] Concepto de Operación: Curiosity
+En otras facilidades se están completando 
+el procedimiento de alistar el Curiosity y luego 
+lo ponen en el carga de lanzamiento dentro de 
+la Cofia. Hay diferentes facilidades en el 
+proceso de Integrar la carga útil al vehículo de 
+lanzador.
+Facilidades de Clean room
+Concepto de Operación: Curiosity 
+Como 
+se 
+Pensó
+Como 
+Resultó
+
+[p48] Concepto de  [FIGURA]
+Curiosity Encapsulado en el Fairing o Cofia
+Concepto de 
+Operación: Curiosity
+
+[p49] Debemos tener en cuenta estos requerimientos para el
+Debemos tener en cuenta estos requerimientos para el concepto de operación 
+del sistema en el pad. Es todo el proceso de la carga útil en esta caso en el Space 
+Shuttle 
+Facilidades de Clean room  en el pad de lanzamiento anterior a cargarlo en el LV
+
+[p50] Concepto de Operación: Space
+Reusable lo más posible para inyectar en órbita de manera segura a la 
+tripulaciones con su transporte de carga. 
+El tanque externo anaranjado cayendo una vez alcanzada la órbita, unos 8 
+minutos después del lanzamiento. El ConOp muestra realmente como bien 
+vamos a través de las fases de lanzamiento, conocemos los pasos que 
+estamos yendo.
+Un diagrama con el chart de Space Shuttle nos permite visualizar los 
+principales fases de la misión.
+Presión dinámica máxima y otros eventos como régimen de temperaturas etc. 
+Estamos detallando los principales eventos y cómo vamos a operar en órbita de 
+acuerdo a estos eventos críticos.
+En el mundo del ConOp debajo de cada concepto hay a veces las llamadas 
+misiones de referencia de diseño,  reflejan sólo una fase de este concepto.
+Debajo del concepto de operación hay una serie de otros conceptos
+Concepto de Operación: Space 
+Shuttle
+
+[p51] Concepto de Operación: Space
+La misión de diseño de referencia refleja una parte de este concepto. Hay un
+montón de pequeños detalles vinculados a pequeños eventos que ocurren.
+De esta manera ayuda a madurar el desarrollo de las operaciones.
+¿Que pasaría si tenemos que operar a inclinaciones mayores de órbitas?
+1999 primer misión para ISS
+Concepto de Operación: Space 
+Shuttle
+Las primera misiones era estar en órbita un tiempo para poner y desplegar un 
+satélite y luego ir a la ISS y retornar a tierra. Esto estaba limitado por los recursos 
+disponibles que tenían. Podían estar entre dos y tres semana en órbita.
+La ISS tiene varios puertos para atracar y existía la posibilidad de reabastecerse 
+si fuese necesario. Esto es parte del ConOp para cada misión específica.
+
+[p52] Concepto de Operación:
+Simulación del SSVL  a Mach 
+2,46 y 20,116 m. El color de la 
+superficie del vehículo en esta 
+imagen está determinado por el 
+coeficiente de fricción, y los 
+contornos grises representan la 
+densidad del aire a su alrededor, 
+calculado mediante software.
+Los problemas de Tensiones Térmicas (Thermal 
+Stresses) o radiación u otro ítem que deben tenerse en 
+cuenta como eventos críticos en una corta misión de 
+referencia que originalmente han sido usadas. 
+Trasladamos estas misiones de referencia a otra 
+más larga. 
+Usamos estos requerimientos para hacer más segura 
+nuestra misión.
+Concepto de Operación: 
+Space Shuttle
+
+[p53]   [FIGURA]
+(sin texto)
+
+[p54] Concepto de Operación: Space
+Como es la reentrada en la atmósfera con una nave espacial? El ángulo de 
+reentrada debe ser lo menos inclinado posible pero no mucho de lo contrario 
+rebotará en la atmósfera y saldrá disparada nuevamente al espacio. Para evitar 
+que la nave se desintegre contra la atmósfera el ángulo debe ser el adecuado y 
+poseer un escudo térmico  que lo proteja del calor (friccion) para que no se 
+convierta en un meteorito, pero esto hace que la nave vaya frenando, es decir 
+baja su velocidad a medida que atraviesa la atmósfera. 
+Ventajas y desventajas. Sin atmósfera necesitaríamos más energía dentro del 
+spacecraft para frenar en su entrada al planeta. Es el caso de la atmósfera de 
+Marte, que es más liviana que el de la tierra.
+Si el ángulo fuera muy inclinado la nave se desintegraría indefectiblemente 
+debido a la excesiva fricción con la atmósfera resultando un descenso brusco de 
+la aceleración 
+El corredor de entrada es estrecho, centrado en un ángulo de incidencia de 6,2º, 
+con un margen de sólo 0,7º para cada lado, necesario para acceder a la 
+atmósfera terrestre sin riesgo para la seguridad de la nave y de sus tripulantes. 
+Si el ángulo de entrada es inferior, la nave rebotará en las capas altas de la 
+atmósfera y se podría perder para siempre..
+Desafío de la entrada a la atmósfera Video
+https://www.youtube.com/watch?v=0pEZ1IFEpHs
+Concepto de Operación: Space 
+Shuttle
+
+[p55] Concepto de Operación: Space
+Concepto de Operación: Space 
+Shuttle
+Ventana de Entrada a la atmósfera terrestre
+• Entre 6.9° a 90°, exceso de fricción, explosión por fricción, se volatilizaría
+• Entre 5.5° o menor, repulsión. Una piedra en el agua, hagamos patito.
+
+[p56] Concepto de Operación: Space
+Tenemos que hacer control de superficies en la atmosfera, en la zona 
+aerodinámica.
+Entonces tenemos varias misiones de referencia de diseño, que pueden 
+soportar un concepto de una larga misión.
+También debemos considerar las posibilidades de los desempeños anómalos. 
+Cada Spacecraft está siempre listo para tener un mal día y debemos entender el 
+escenario de esos malos días para operarlo exitosamente. Tenemos que ser 
+Proactivos en el caso de las anomalías
+En el cuadro anterior vimos que se puede 
+abortar una misión y volver, y aterrizar. 
+Este es un nuevo requerimiento para 
+agregar, 
+pensar 
+desde 
+que 
+estamos 
+llegando al pad hasta su retorno a tierra 
+como un planeador, no necesariamente a 
+Cabo Kennedy, sino a otras opciones por 
+ejemplo al medio del océano, un aborto con 
+destrucción de equipo. Todos estos son 
+requerimientos que salen de un análisis 
+del concepto de operación
+Concepto de Operación: Space 
+Shuttle
+
+[p57] Concepto de Operación: Space
+Tenemos que hacer control de superficies en la atmosfera, en la zona 
+aerodinámica.
+Entonces tenemos varias misiones de referencia de diseño, que pueden 
+soportar un concepto de una larga misión.
+También debemos considerar las posibilidades de los desempeños anómalos. 
+Cada Spacecraft está siempre listo para tener un mal día y debemos entender el 
+escenario de esos malos días para operarlo exitosamente. Tenemos que ser 
+Proactivos en el caso de las anomalías
+En el cuadro anterior vimos que se puede 
+abortar una misión y volver, y aterrizar. 
+Este es un nuevo requerimiento para 
+agregar, 
+pensar 
+desde 
+que 
+estamos 
+llegando al pad hasta su retorno a tierra 
+como un planeador, no necesariamente a 
+Cabo Kennedy, sino a otras opciones por 
+ejemplo al medio del océano, un aborto con 
+destrucción de equipo. Todos estos son 
+requerimientos que salen de un análisis 
+del concepto de operación
+Concepto de Operación: Space 
+Shuttle
+
+[p58] Concepto de Operación: Satélite
+Veamos otro ejemplo de un 
+spacecraft robot (Satélite) 
+en órbita polar terrestre 
+PSS realizado entre NASA 
+& NOAA  para construir y 
+luego 
+monitorear 
+datos 
+meteorológico 
+para 
+el 
+pronóstico.
+La mayoría de los satélites de meteorológicos NOAA son geoestacionarios. Este 
+es LEO. Está más cerca de la tierra entonces sus cámaras pueden sacar mejores 
+fotos con más fidelidad de la información pero no cubren el mismo path. Observará 
+patrones meteorólogos. EL Concepto de Operación es un gran problema en este 
+satélite. Generará datos muy importantes para la predicción del tiempo. 
+Necesitamos un flujo más rápido de datos para alcanzar la situación actual del 
+tiempo real. Obtener datos para hacer el pronóstico del tiempo.  
+Concepto de Operación: Satélite 
+Meteorológico
+Órbita baja y alta inclinación LEO. Colecta datos del tiempo.
+
+[p59] Concepto
+Concepto 
+de 
+Operación :
+Abortar la 
+Misión 
+Space Shuttle 
+La Misión Space Shuttle tenía cuatro tipos 
+de abortos intactos: Retorno al sitio de 
+Lanz.; Aborto Transatlántico;  Aborto desde 
+una vuelta; Aborto desde cualquier órbita.
+
+[p60] Concepto de Operación:
+De polo a polo es su trayectoria. Para 
+bajar los datos nuestras antenas deben 
+apuntar al satélite y tienen un tiempo 
+exacto limitado. Cada estación tiene 
+una 
+visibilidad, 
+de 
+horizonte 
+a 
+horizonte, como todo satélite LEO, de 
+10 a 15 minutos.  Necesitamos varias 
+antenas alrededor del mundo para 
+obtener los datos para tener cobertura 
+global. Apenas tomados estos tienen 
+que ser descargados para que sea en 
+tiempo real las estimaciones de los 
+pronósticos de cada zona. También hay 
+que considerar la memoria limitada del 
+satélite. Hay entre 15 a 20 pequeñas 
+antenas 
+esparcidas 
+alrededor 
+del 
+mundo que van a  bajar los datos del 
+satélite.
+Concepto de Operación: 
+Satélite Meteorológico
+
+[p61] Concepto de Operación:
+Tenemos una complicada relación entre el satélite y el segmento terreno no por el 
+S/C sino por el segmento terreno de muchas estaciones de recepción esparcidas.
+Cuando desarrollamos un sistema espacial tenemos siempre que tener en mente 
+que es un sistema integrado. No solamente tenemos el segmento espacial sino 
+que además tenemos un sistema de tierra complicado de recepción. Debemos 
+considerar los dos segmentos en el Concepto de Operación.
+Concepto de Operación:
+Satélite Meteorológico
+Los datos son canalizados al Servicio Nacional 
+de Meteorología de EUA desde cada estación.
+
+[p62] Concepto de Operación – Misión a Marte
+Concepto de Operación – Misión a Marte
+Un programa más complejo todavía es la misión tripulada a Marte. NASA viene 
+pensando hace muchos años esta misión para poner gente en Marte
+
+[p63] Concepto de Operación – Misión a Marte
+Aterrizaje en Marte, estadía por un año y retorno a la tierra. Aquí vemos la función 
+arquitectura de sistema, vemos el vehículo que debe desarrollarse, es parte del 
+sistema pero el concepto de operación es más que la discusión como hacer esos 
+vehículos. Hay que  trabajar juntos para realizar la misión. Realizar este cuadro de 
+situación de punta a punta, ¨end to end¨, del lado izquierdo se ven los lanzadores 
+y su cantidad de gran capacidad de carga para llevarlas a donde se conectan con 
+otros vehículos que llevan a la tripulación y otros elementos. Hay en juego  muchos 
+lanzadores requeridos para poner mucho equipo en órbita de la tierra. Tenemos 
+que juntarlos para que viajen hacia Marte. Misión compleja con un montón de 
+piezas que tienen que estar juntas, y que tienen que trabajar juntas.  
+Este concepto de operación recorre desde el transfer del cargo (puesta en órbita 
+de diferentes equipos) y la tripulación hacia Marte, hasta las operaciones que 
+harán en la superficie de este planeta y retornar a la tierra. 
+Esta actividad permite visualizar a los diseñadores de los diferentes 
+requerimientos en todo este recorrido. Hay mucho equipo en juego. Tenemos 
+que analizar si hay otro diseño que simplifique el equipo, menor cantidad de 
+lanzadores, menor combustible etc. Esta representación visual nos permite 
+observar la arquitectura de un conjunto de sistemas pero también nos permite 
+describir el concepto de operación a cada fase, como bien operará. Tenemos un 
+concepto y debe madurar a través de las diferentes fases de diseño.
+Concepto de Operación – Misión a Marte
+
+[p64] Concepto de
+http://www.armaghplanet.com/blog/could-we-visit-an-asteroid-in-the-next-ten-years.html
+Concepto de 
+Operación
+Cuadro de un Viaje 
+a un Asteroide y su 
+retorno
+
+[p65] Concepto de Operación
+El alcance involucra  definir las necesidades, las metas y los 
+objetivos; identificar los interesados; desarrollar los conceptos de 
+operación, entender las restricciones.
+Este esfuerzo de la determinación del alcance nos induce a un 
+conjunto de requerimientos  de sistema organizados de la misión.
+El Concepto de Operación es una descripción de cómo el sistema 
+estará operando durante las fases de la misión para lograr las 
+expectativas de los interesados
+Concepto de Operación
+
+[p66] Concepto de Operación:  [FIGURA]
+Concepto de Operación:
+Concurso de Pequeños Cohetes Escolares
+
+[p67] Revisión Preliminar de Diseño  [FIGURA]
+Revisión Preliminar de Diseño
+Concurso de Pequeños Cohetes Escolares
+
+[p68] Escribir  [FIGURA]
+Escribir 
+Buenos 
+Requerimientos
+
+[p69] Escribir Requerimientos
+Escribir Requerimientos
+•
+Definir y entender las características de la reglas de escribir 
+buenos requerimientos.
+•
+Entender el valor de suministrar la rationale y las técnicas de 
+verificación preliminar con cada requerimiento.
+•
+Definir y establecer la diferencia entre requerimientos de 
+verificación y de validación.
+•
+Establecer la importancia de resolver lo indefinido 
+(TBD - To Be Defined) 
+(TBC - To Be Confirmed)  
+y estimado    (TBR - To Be Resolved) de los requerimientos 
+tempranos.
+Lecturas Relacionadas:
+Writing Good Requirements, INCOSE 1993, Ivy Hooks.
+NASA Systems Engineering Handbook 2007, Appendix C, How to Write a Good Requirement
+
+[p70] Los Buenos Requerimientos son SMART:
+– ESpecíficos - 
+• Deben abordar solamente un aspecto del diseño del sistema o desempeño.
+• Deben estar expresados en términos de la necesidad (qué y cuán bien), no la 
+solución (cómo).
+– Mensurables - 
+• El desempeño o Performance está expresado objetivamente y cuantitativamente 
+• E.g., un requerimiento de apuntamiento exacto (en grados), que puede ser 
+ensayado (verificado) antes del lanzamiento.
+– Alcanzables - 
+• Debe ser técnicamente alcanzable en los costos, considerados asequibles.
+• E.g., en el JWST los diseños tempranos especificaba un requer. de apertura 
+eventualmente inalcanzable debido a las características técnicas de despliegue.
+– Relevantes- 
+• Debe ser apropiado para el nivel que está siendo especificado.
+• E.g., el requerimiento sobre las celdas solares no debería ser designado en el 
+nivel spacecraft (sistema) sino en el nivel SS.
+– Trazables - 
+• Los requerimientos de más bajo nivel (hijos) deben claramente fluir desde y ser 
+soportados por los requerimientos de más alto nivel (padres).
+• Los requerimientos sin un padre son referidos como huérfanos, y necesitan ser 
+evaluados por su necesidad de inclusión.
+Los Buenos Requerimientos son SMART:
+
+[p71] Reglas para una buena escritura de
+•
+Los Requerimientos tienen características mandatorias:
+– Necesidad
+– Verificabilidad
+– Alcanzable: técnicamente, costos y planificación (schedule)
+•
+Cada requerimiento debe:
+– expresar un pensamiento,
+– ser conciso y simple,
+– ser positivamente enunciado,
+– ser gramáticamente correcto; libre de errores de tipeo y falta de 
+ortografía,
+– ser entendido de una sola manera; no ambiguo,
+– uso consistente de la terminología para referirse al sistema 
+producto y sus  entidades de más bajo niveles,
+– cumplir con el patrón (Template) del proyecto y las reglas de estilo.
+Reglas para una buena escritura de 
+Requerimientos
+
+[p72] Más Reglas para una buena escritura
+Lo que un Requerimiento debe enunciar:
+– QUIÉN es el responsable
+– QUÉ debe ser hecho
+– O CUÁN BIEN algo debe ser hecho
+– O bajo qué RESTRICCIONES algo debe ser hecho
+Formato de Requerimiento: “QUIÉN deberá QUÉ”
+–
+Usar voz activa  no pasiva 
+Ejemplo de requerimientos de producto:
+– El sistema deberá operar a un nivel de potencia de…
+– El software deberá adquirir data del…
+– La estructura deberá soportar cargas de…
+– El hardware deberá tener una masa de…
+– El sistema podría …..
+Uso de términos correctos:
+– Los Requerimientos son obligatorios – Debe 
+– Hecho o Declaración de propósito - Intención
+– Metas o provisiones opcionales – Debería
+Más Reglas para una buena escritura 
+de Requerimientos
+
+[p73] Un Checklist: ¿Es esto un Requerimiento….
+•
+¿Libre de términos ambiguos?
+– Ejemplo: según sea apropiado, etc., y/o, pero no limitado a,  ser capaz de.
+•
+¿Libre de pronombres indefinidos?
+– Ejemplos: este, estos 
+•
+¿Libre de términos inverificables?
+– Ejemplo: flexible, usuario amigable, robusto, liviano de peso, máximo, 
+adecuado, pequeño, portable, fácilmente - otros ¨mentes¨ y otras palabras con 
+¨able¨.
+•
+¿Libre de implementación?
+– Los requerimientos deben enunciar QUÉ se necesita, NO CÓMO realizarlo, 
+i.e., enunciar el problema, no la solución.
+•
+¿Necesario?
+– Preguntar “¿Por qué necesita el requerimiento?”; la respuesta puede conducir 
+al requerimiento verdadero.
+•
+¿Libre de descripciones de operaciones?
+– Para distinguir entre operaciones y requerimientos, preguntar “¿El 
+desarrollador tiene control sobre esto?” “¿Es esto una necesidad del producto, 
+que el  producto  debe satisfacer o una  actividad involucrando del producto?”
+•
+¿Libre de TBD (To Be Determined)? 
+– Use el mejor  estimador y un TBR (To Be Resolved) con  rationale cuándo es 
+posible.
+Un Checklist: ¿Es esto un Requerimiento….
+
+[p74] La Rationale Captura la Motivación
+La rationale de cada requerimiento define:
+– Por qué se necesita un requerimiento
+– Qué hipótesis fueron hechas
+– Qué esfuerzo de diseño manejo el requerimiento
+– Otros datos que se necesitarán para mantener el requerimiento 
+a tiempo
+Ejemplo
+•
+Requerimiento: “El camión de transporte deberá tener 
+una altura de no más de 14 feet - 4.26..m.”
+•
+Rationale: 99% de todas las autopistas interestatales de 
+EUA tienen 14 pies o más de  clearance. (Hipótesis: El 
+camión deberá usar primariamente las autopistas 
+interestatales en EUA para su transporte en un largo 
+recorrido.
+La Rationale Captura la Motivación 
+ 
+Hipótesis de un Requerimiento
+
+[p75] Ejemplo Espacial de
+Ejemplo Espacial de 
+Requerimiento & su Rationale
+•
+Requerimiento: “La arquitectura “Constellation” proveerá servicios de 
+comunicación y rastreo antes del lanzamiento, durante todas las 
+fases de la misión, hasta la recuperación.”
+•
+Rationale: El servicio de comunicación y rastreo debe estar 
+suministrados por  los elementos durante todas las fases del misión. 
+Los bienes basados en tierra pueden suministrar esta capacidad a los 
+elementos cuando está en línea recta de visión con la tierra. La red 
+Espacial puede soportar el lanzamiento, las operaciones LEO, la 
+reentrada y aterrizaje. Las comunicaciones basadas en tierra, y el 
+servicio de tracking no pueden, sostener el alunizaje, el ascenso de 
+lunar, o las operaciones lunares, si están en zona polar o sobre el lado 
+más alejado de la Luna. Otro elemento de la infraestructura como un 
+relay retransmisor lunar, debe ser suministrado para sostener la 
+comunicación y rastreo de los elementos durante la operaciones sobre 
+el lado más alejado de la luna o los polos.
+– Este requerimiento no implica cobertura continua.
+– Los requerimientos de más bajo nivel especificará continuidad y 
+tipos de cobertura.
+
+[p76] Verificación de los Requerimientos
+•
+El ingeniero de sistemas debe crear un plan de 
+verificación preliminar para los requerimientos escritos. 
+Típicamente este plan no es más que establecer las 
+técnicas (test, demostración, análisis o inspección) que 
+serán usadas para verificar cada requerimiento.  
+•
+Esta temprana consideración de verificación de 
+requerimientos ayuda :
+– Confirmar si el requerimiento es en verdad verificable.
+– Definir el plan de verificación del sistema .
+– Identificar las facilidades necesarias para ensayos de SS y 
+Sistema.
+Tempranas  Consideración  de la Verificación de los 
+Requerimientos ayuda a evitar costosos problemas.
+Verificación de los Requerimientos
+
+[p77] Validación de los Requerimientos
+•
+Para la validación de los requerimientos se pregunta tres cuestiones:
+– ¿Tenemos el problema correcto?
+– ¿Nuestros  requerimientos capturan este  problema?
+– ¿Son nuestros requerimientos SMART?
+•
+Se realiza para asegurar que el conjunto de los requerimientos del 
+sistema son completos, consistentes, y cada requerimiento es 
+alcanzable y verificable.
+•
+Se realiza por expertos en al materia, la organización que realiza el 
+sistema y el cliente autorizado.
+•
+¿Están los requerimientos completamente abordados y lograda la 
+misión?
+•
+¿Son los requerimientos consistentes con los límites establecidos del 
+sistema y sus restricciones?
+•
+¿Dónde son validados los requerimientos?
+– Usualmente antes de la revisión  llamada System Requirements 
+Review (SRR)
+Validación de los Requerimientos
+
+[p78] RESUMEN: Escribir Buenos Requerimientos
+• Los Buenos Requerimientos son SMART (sigla en inglés): 
+ESpecificos, Medibles, Alcanzables, Relevantes y 
+Trazables. 
+• Es de buena práctica capturar la rationale y las técnicas 
+preliminares 
+para 
+la 
+verificación 
+cuando 
+escribimos 
+los 
+requerimientos.
+• La validación de los Requerimientos es un proceso para asegurar 
+que: el conjunto de requerimientos es correcto, completo y 
+consistente.
+• Ya que el costo de arreglar o reconciliar los requerimientos 
+indefinidos crece en la medida que madura el proyecto, los 
+requerimientos indefinidos TBD y aproximados estimados TBR 
+deberían ser resueltos lo más temprano posible.
+RESUMEN: Escribir Buenos Requerimientos
+SMART requirements are an acronym for “specific, measurable, attainable (achievable/actionable/appropriate),
+ realistic, time-bound (timely, traceable)”.
+
+[p79] Ciclo de vida de un proyecto  [FIGURA]
+Ciclo de vida de un proyecto
+Fase Pre A
+
+[p80] Ciclo de vida de un proyecto
+Ciclo de vida de un proyecto
+Comienzo - Fase PreA
+El ciclo de vida de un proyecto 
+(CDIO – Fases Pre A, A, B, C, D, E, F) 
+es el conjunto de fases en las que se organiza 
+un proyecto desde su inicio hasta su cierre. Cada 
+fase es un conjunto de actividades del proyecto 
+relacionadas entre sí y que, en general, finaliza con 
+la entrega de productos parciales o completos.
+
+[p81] Ciclo de Vida  [FIGURA]
+Ciclo de Vida
+Fase Pre A
+Ejemplo Space Shuttle
+
+[p82] Ciclo de Vida del Proyecto
+•
+Las fases del ciclo de vida del proyecto de la Formulación y la Implementación 
+están divididas en partes o porciones incrementales.   Esto permite que el 
+equipo de desarrollo evalúe su progreso, estime el sistema y el desempeño del 
+proyecto, establezca el plan de la próxima fase y permita la decisión de los 
+hacedores de evaluar la dirección y el progreso técnico 
+• Formulación
+– Pre-Fase A (Estudios del Concepto)
+– Propósito: Producir un amplio espectro de ideas y alternativas para la misión 
+desde la cual el nuevo proyecto puede ser seleccionado.
+• Definir las necesidades de la misión, metas & objetivos.
+• Realizar estudios de un amplio rango de conceptos de misión que 
+contribuyen a la metas y objetivos. 
+• Desarrollar borradores de requerimientos de nivel proyecto y el concepto 
+de operaciones, y las necesidades de tecnologías potenciales.
+• Mostrar que al menos un concepto de misión puede funcionar.
+Ciclo de Vida del Proyecto
+Fase Formulación
+Completar el Mission Concept Review (MCR): revisión de 
+todos los estudios como un ¨baseline¨ inicial para la Fase A. 
+Puerta de 
+control
+
+[p83] Fases del Ciclo de vida de
+Formulación
+Implementación
+Aprobacion
+Pre 
+Fase A
+Estudio
+Concept.
+Fase A
+Desarrollo de 
+Concepto y 
+Tecnología
+Fase B
+Diseño 
+Preliminar y 
+Completar 
+Tecnología
+Fase C
+Diseño Final y 
+Fabricación
+Fase D
+AIT & 
+Lanzamiento
+Fase E
+Operaciones & 
+Sostenimiento
+Fase F
+Cierre
+Fases del 
+Ciclo de vida 
+de NASA
+Ciclo de vida 
+del Proyecto
+Puntos de 
+Decisión 
+Claves
+Revisiones
+Técnicas
+KDPA
+MCR
+Revisión de Pares, Revisión de SS, Revisión de Sistema
+SRR
+MDR
+PDR
+CDR - PRR
+SIR TRR
+ORR
+FRR
+PLAR
+CER2
+Revisiones 
+de Soporte
+LANZAMIENTO
+KDPC
+KDPB
+KDPD
+KDPE
+KDPF
+DR
+Fases del Ciclo de vida de 
+NASA
+PDR Preliminary Design Review
+CDR Critical Design Review
+SRR Systems Requirements. Review
+MCR Mission Concept Review
+SIR   Systems Integration Review
+TRR  Tech. Readiness Review
+ORR  Operational Readiness Review
+FRR   Flight Readiness Review
+MDR Mission Design Review
+DR  Decommissioning Review
+CER2  Critical Events Readiness Review
+PLAR  Operational Readiness Review
+ORR  Operational Readiness Review
+
+[p84] Fases del Ciclo de vida de
+Formulación
+Implementación
+Aprobacion
+Pre 
+Fase A
+Estudio
+Concept.
+Fase A
+Desarrollo de 
+Concepto y 
+Tecnología
+Fase B
+Diseño 
+Preliminar y 
+Completar 
+Tecnología
+Fase C
+Diseño Final y 
+Fabricación
+Fase D
+AIT & 
+Lanzamiento
+Fase E
+Operaciones & 
+Sostenimiento
+Fase F
+Cierre
+Fases del 
+Ciclo de vida 
+de NASA
+Ciclo de vida 
+del Proyecto
+Puntos de 
+Decisión 
+Claves
+Revisiones
+Técnicas
+KDPA
+MCR
+Revisión de Pares, Revisión de SS, Revisión de Sistema
+SRR
+MDR
+PDR
+CDR - PRR
+SIR TRR
+ORR
+FRR
+PLAR
+CER2
+Revisiones 
+de Soporte
+LANZAMIENTO
+KDPC
+KDPB
+KDPD
+KDPE
+KDPF
+DR
+Fases del Ciclo de vida de 
+NASA
+
+[p85] Comparación de Modelos de Ciclo de Vida  [FIGURA]
+Comparación de Modelos de Ciclo de Vida
+
+[p86] Cada Evento de Revisión Crea un
+•
+‘baseline’ es un sustantivo y un verbo. 
+– Como 
+sustantivo 
+refiere 
+a 
+un 
+conjunto 
+acordado 
+de 
+requerimientos, diseños, o documentos. (datos de ingeniería)
+– Como verbo se refiere al proceso de establecer un baseline.
+•
+En el contexto de una revisión de sistema, un baseline es también 
+definido como una descripción del sistema completa, incluyendo 
+requerimientos, diseños, o docs que tendrán control de cambios a 
+través de aprobaciones formales y monitoreadas o procesos de 
+control  de la configuración.
+•
+Ya que los baselines capturan la descripción del sistema completo 
+son herramientas poderosas en asegurar al equipo completo que 
+está trabajando todos con los mismos requerimientos, diseños, 
+restricciones, 
+hipótesis, 
+interfaces, 
+recursos 
+alojados 
+y 
+responsabilidades de los equipos.
+Cada Evento de Revisión Crea un 
+¨Baseline¨ de Sistema nuevo
+
+[p87] Pre Fase A
+Pre Fase A
+La Pre Fase A la más temprana de las fases identifica los requerimientos 
+de los interesados y establece un diseño preliminar para los costos efectivos 
+y la planificación del sistema. La planificación que es capaz de encontrar 
+estos requerimientos.
+Al final de esta fase tendremos un concepto específico y los interesados 
+pueden expresar que están maduras las ideas a este nivel para continuar el 
+proyecto.
+Esta fase de estudios de conceptos, los ingenieros se focalizan en evaluar la 
+alternativas posibles que dan con los objetivos de sistema definido por los 
+interesados.
+Se recorren un número grande de conceptos y se intenta encontrar 
+conjuntamente 
+con 
+los 
+interesados 
+aquellos 
+que 
+completen 
+sus 
+expectativas. Las actividades incluyen ver los diferentes costos, los diseños 
+mas simples.
+Las discusiones entre los interesados y los ing. nos permite definir los 
+objetivos del sistema y las prioridades de estos objetivos.
+Hay que definir los criterios de evaluación (y su importancia relativa) para ser 
+usados específicamente en la evaluación de los conceptos alternativos. Hay 
+que decidir cuál es el óptimo para continuar con las fases.
+
+[p88] Pre Fase A
+Identificación y evaluación  de los concepto alternativos que son parcialmente o 
+totalmente consistentes con los objetivos de sistema definidos por los interesados.
+Ya vimos el ejemplo del Space Shuttle. Se comenzó con muchas alternativas 
+costosas y entonces la agencia NASA decidió que sea parcialmente reusable.
+La primera revisión técnica es la Revisión del  Concepto de Misión MCR. Es la 
+primera revisión técnica externa. Revisarán el resultado del  Ejercicio de 
+Alcance .
+Se recorrerá el sistema para ver si está claramente definido las expectativas de los 
+interesados y ver cuando se convierten en operacional el sistema.
+Análisis técnicos de los conceptos alternativos, hay mostrar que al menos uno es 
+factible, y puede encontrar los objetivo y restricciones definidas. Todo esto dentro de 
+las restricciones presupuestarias para este desarrollo, dentro de la restricciones de 
+planificación.
+El equipo de revisión también evaluará los análisis programáticos de los conceptos 
+alternativos para establecer los costos preliminares y las planificaciones asociadas 
+con cada alternativa.
+También evaluarán el ConOp inicial del sistema. Una descripción de cómo el sistema 
+operará
+Pre Fase A
+
+[p89] Pre Fase A
+Es importante comenzar el ciclo de vida con un Conops, una especie de cuadro, de 
+cómo el sistema se comportará, cómo será operado a través de su vida una vez que 
+esté completado. Cuadro que nos ayudará a definir requerimientos para entender 
+cómo  el sistema necesita trabajar.
+Lo más temprano posible es necesario definir este concepto de cómo operará.
+Por último el criterio usado para evaluar los conceptos alternativos y la prioridad 
+establecida de estos criterios. Debemos elegir el óptimo concepto para continuar.
+Y luego hay una evaluación preliminar de las tecnológica claves y los riesgos 
+asociado con el sistema.
+El ejemplo de James Webb Space Telescope cuando debían construir un espejo 
+jamás construido para volar en el espacio se consideró diferentes tecnologías. Se 
+tuvieron que hacer inversiones y intensos ensayos para madurar esta innovación ya 
+desde la Fase Pre A.
+Pre Fase A
+
+[p90]   [FIGURA]
+(sin texto)
+
+[p91] Ejemplo  [FIGURA]
+Ejemplo 
+de 
+Misión 
+Futura 
+a Titán
+Vida en Titan?
+
+[p92] https://www.youtube.com/watch?v=bbkTJeHoOKY  [FIGURA]
+https://www.youtube.com/watch?v=bbkTJeHoOKY
+
+[p93]   [FIGURA]
+(sin texto)
+
+[p94] https://www.youtube.com/watch?v=bbkTJeHoOKY  [FIGURA]
+https://www.youtube.com/watch?v=bbkTJeHoOKY
+
+[p95] ¿Por qué explorar Titán?
+¿Por qué explorar Titán?
+CONCLUSION En resumen, la geología del hielo y la físicas del espacio que Titán 
+comparte con otros satélites de planetas, también comparte en muchos otros 
+campos. La hidrología y los sedimentos eólicos que pueden involucrar tanto a la 
+Tierra como a Marte, y la limnología (rama de la ecología que estudia los 
+ecosistemas acuáticos continentales; lagos, lagunas, ríos, charcas, marismas y 
+estuarios) y la oceanografía, están ahora no lejos de las ciencias de la Tierra. 
+El clima de Titán con sus aguaceros de metano en un clima de invernadero y con 
+una fotoquímica polar peculiar, puede ofrecer una visión significativa y relevante 
+en los procesos que nos afecta acá en la Tierra.
+Titán es también químicamente rico en el sistema solar, y así promete darnos una 
+importante visión en la generación de la complejidad química del universo, un 
+conjunto de procesos que últimamente conduce a la formación de vida. Titán 
+mantiene  mucho de sus secretos envueltos en la bruma en la primera décadas 
+de la exploración espacial, pero es ahora el comienzo de revelarse como uno de 
+los lugares más diversos, complejos y parecido a la Tierra en el sistema solar. 
+NASA has recently initiated a study at APL to examine what a Flagship-class 
+mission dedicated to Titan could accomplish. This bizarre orange-colored world 
+has a rosy future.
+http://techdigest.jhuapl.edu/TD/td2702/lorenz.pdf
+
+[p96] Spacecraft - Cassini Huygens  [FIGURA]
+Spacecraft - Cassini Huygens
+La visita realizada más 
+importante a Titán
+
+[p97] Algunos de los Métodos de
+Algunos de los Métodos de 
+exploración de Titán
+Exploración usando:
+ -  orbitador, lander, plataforma aérea y submarino. 
+Objetivos de Ciencia:
+-  Origen y evolución de Titan (Composición Original de superficie rocas  
+hielos y lagos océanos)
+-  Titán como un sistema (geológico, hidrológico, Ciencia atmosférica) 
+-  Posible Vida orgánica, Orígenes (Química orgánica compleja en Titán)
+
+[p98] Métodos de exploración de Titán
+https://solarsystem.nasa.gov/docs/1_Cutts_Terrestrial_Planet_Aerobots.pdf
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.459.5052&rep=rep1&type=pdf
+https://smcit.ecs.baylor.edu/2009/iwpss/papers/19.pdf
+Métodos de exploración de Titán
+
+[p99] Métodos de exploración de Titán  [FIGURA]
+https://solarsystem.nasa.gov/docs/1_Cutts_Terrestrial_Planet_Aerobots.pdf
+Métodos de exploración de Titán
+
+[p100] Videos recomendables de Titán
+Videos recomendables de Titán
+Titan Submarine: Exploring the Depths of Kraken Mare
+https://www.youtube.com/watch?v=NnKxbdpLP5E
+What Huygens Saw On Titan -
+https://www.youtube.com/watch?v=9L471ct7YDo
+Netflix
+“Misión Final a Saturno”
+
+[p101]   [FIGURA]
+(sin texto)
+
+[p102] Ambiente atmosférico de Titán  [FIGURA]
+http://elib.uni-stuttgart.de/bitstream/11682/3900/1/Dissertation_Esper2012.pdf
+Ambiente atmosférico de Titán
+
+[p103] Mission Design and Technology for a Titan Aerobot Balloon System (TABS)  [FIGURA]
+Mission Design and Technology for a Titan Aerobot Balloon System (TABS)
+
+[p104] Ambiente atmosférico  [FIGURA]
+Ambiente atmosférico 
+Tierra - Venus - Titán - Marte
+https://solarsystem.nasa.gov/docs/1_Cutts_Terrestrial_Planet_Aerobots.pdf
+
+[p105]   [FIGURA]
+(sin texto)
+
+[p106] Submarino en los mares de Titán
+Submarino en los mares de Titán
+El vehículo debería amerizar de 
+manera segura en el centro del Mar 
+de Kraken-1. Luego de algunas 
+pruebas, navegaría hacia el norte 
+para observar el flujo de la mareas  a 
+través del laberinto  Ligeia-Kraken  y 
+tal vez oler el líquido rico en metano 
+fluyendo desde el ecuador hacia 
+Ligeia. 
+Luego explorará el oeste costero del 
+Krarken e investigará los flujos de las 
+mareas en la garganta. Esta misión 
+nominal se hará a una velocidad de 
+~1m/s. La extensión de la Misión 
+podría permitir entrar en el mar de 
+Kraken 2 a través de la garganta. Y (si 
+los canales son lo suficientemente 
+largos) en Mar de Ligeia.
+https://www.hou.usra.edu/meetings/lpsc2015/pdf/1259.pdf
+Un mapa de los mares de Titan
+
+[p107] Submarino para Titán - Subsistemas  [FIGURA]
+GN&C 
+Phase I Final Report: Titan Submarine NASA/TM—2015-218831
+Submarino para Titán - Subsistemas
+
+[p108] Transportador del Submarino  [FIGURA]
+Transportador del Submarino
+De la Tierra a Titán
+
+[p109] Ejemplos de Vehículos Terrestres  [FIGURA]
+Ejemplos de Vehículos Terrestres 
+Subacuáticos
+
+[p110] Vehículo Subacuático
+http://www.isy.liu.se/edu/projekt/tsrt10/2016/rov/documentation/
+Vehículo Subacuático 
+Operado Remotamente - ROV
+http://www.isy.liu.se/edu/projekt/tsrt10/2016/rov/result/
+
+[p111] Ejercicio:
+Ejercicio:
+DINÁMICA: TRADUCIR 
+NECESIDADES EN 
+REQUERIMIENTOS 
+Clientes 
+Transmiten necesidades
+Ingeniero 
+Plasma en un papel los 
+requerimientos
+Rol del Cliente: Cada uno recibe una tarjeta con una necesidad, que será parcial 
+y distinta entre sí. NO se puede mostrar la tarjeta 
+Sólo pueden hablar de su tarjeta mencionando la funcionalidad
+No pueden decir el nombre del producto  (El cliente no sabe sobre sub productos, 
+quiere que funcione, la traducción es del ingeniero)
+No pueden hacer comentarios sobre otras necesidades  
+ 
+10 MINUTOS
+
+[p112] MOMENTO 2:
+Cada Ingeniero presenta el listado de requerimientos al resto
+MOMENTO 2: 
+Presentación de Requerimientos al 
+grupo
+MOMENTO 3: 
+Reflexión
+5 minutos para preparar exposición del 
+concepto y aprendizajes de equipo 
+Luego deben plasmarlo en la Bitácora
+
+[p113] ¿Qué es la Ingeniería Concurrente?  [FIGURA]
+¿Qué es la Ingeniería Concurrente?
+
+[p114] Tres diferentes tipos de Gestión del
+Diseño Secuencial: 
+esfuerzo serial que conlleva 
+largos períodos de iteración
+Diseño Centralizado
+Diseño Concurrente
+Ingeniería concurrente o simultánea:
+ Estudio del problema en conjunto. 
+Optimización universal
+Esfuerzo paralelo masivo.
+Tres diferentes tipos de Gestión del 
+Conocimiento En los proyectos del Área 
+Espacial
+
+[p115] Ejemplo de Sala de Estudio típica para la  [FIGURA]
+Ejemplo de Sala de Estudio típica para la 
+IC
+En el Área Espacial
+
+[p116] Ejemplo de Sala de Estudio típica para la IC  [FIGURA]
+Ejemplo de Sala de Estudio típica para la IC
+En el Área Espacial
+
+[p117] Ejemplo de Sala de Estudio típica para la  [FIGURA]
+Integrated Design Center
+Fuente GSFC
+Ejemplo de Sala de Estudio típica para la 
+IC
+En el Área Espacial
+
+[p118] Pasado de la Ingeniería Concurrente
+•
+El método de la IC comenzó durante la segunda Guerra mundial
+•
+La empresa American Aviation Corporation diseñó el avión de 
+combate Mustang P51 en 102 días, y desde el concepto a la 
+producción tardó 9 meses.
+•
+Este método ha estado en uso desde la década del 80
+TQM
+La aparición de los CAD con su capacidades catalizó IC
+• En la actualidad este gerenciamiento de ingeniería está difundido 
+en muchas áreas de diseño:
+Automóviles (Ford, BMW, Volvo etc.)
+Diseños de aviones
+Civil y arquitectura
+Espacial 
+ Pasado de la Ingeniería Concurrente
+
+[p119] Presente de la Ing. Concurrente
+Presente de la Ing. Concurrente
+ Área Espacial
+Agencias e Industrias Aeroespaciales USA
+•
+NASA / JPL 
+PDC   Project Design Center 
+1996
+•
+NASA / JPL
+Mission System Design Center
+2000
+•
+NASA / GSFC  
+IMDC  Integrated Mission Design Center
+•
+Aerospace Corporation  
+CDC  Concept Design Center
+1995 
+•
+Lockheed Martin
+CEE
+•
+TRW
+•
+Boeing
+•
+MIT 
+Design Studio
+•
+Aerospace System Design Laboratory Guggenheim School of Aerospace Engineering
+CoDE Collaborative Design Environment 
+Agencias Espaciales e Industrias en el resto del mundo
+•
+ESA 
+(19 centros)
+•
+EADS Astrium 
+SDO Satellite Design Office
+1999
+•
+ESTEC 
+CDF
+•
+CNES
+CIC
+2005
+•
+DLR
+CDF
+2008
+•
+ASI 
+Concurrent Eengineering Facility
+2007
+•
+NATO
+•
+Victorian Space Science Education center (Australia)
+ 2005
+•
+JAXA   (Japón)
+•
+MoD     (UK)
+Nombre de la Facilidad 
+desde
+
+[p120] Principales Beneficios de la
+Principales Beneficios de la 
+Ingeniería Concurrente
+• Marcado aumento de competitividad.
+• Reducción de alrededor de 4 veces tiempo de diseño.
+• Reducción estimada de 2 veces el costo estándar.
+• Notable mejoramiento en la calidad y en la reducción de 
+los riesgos; los errores de diseño se detectan con 
+anterioridad. 
+• Rápida obtención, mayor consistencia y completitud del 
+diseño de misión.
+• Capitalización del conocimiento del equipo para 
+posteriores usos.
+
+[p121] Elementos de  [FIGURA]
+Elementos de 
+Mecatrónica
+&
+Modelo V
+
+[p122] Robótica / Mecatrónica
+Robótica / Mecatrónica
+Ambas son subconjuntos de las temáticas 
+de la Ingeniería Sistemas  Espacial
+Mecatrónica
+Anti-Lock Braking System         CD Player
+AUV Subacuático – (Dirigible)
+Rovers Planetarios                   Robots Caminantes
+Robots Industriales
+Manipuladores Tele-operados       
+Vehículos Controlados Remotamente
+Robótica
+
+[p123] Mecatrónica  [FIGURA]
+Mecatrónica
+
+[p124] Mecatrónica – Diagrama Funcional Genérico  [FIGURA]
+http://www.mas.bg.ac.rs/_media/istrazivanje/fme/vol36/3/02_mlazarevic.pdf
+Mecatrónica – Diagrama Funcional Genérico
+
+[p125] Mecatrónica
+Mecatrónica
+Les recomendamos la lectura de un texto sobre los 
+lineamiento estándar para productos de mecatrónica que 
+como verán están en el mismo rumbo de todo los items 
+que estamos desplegando de Ingeniería de Sistemas 
+Espaciales 
+Standard Industrial Guideline for
+Mechatronic Product Design
+
+[p126]   [FIGURA]
+(sin texto)
+
+[p127]   [FIGURA]
+(sin texto)
+
+[p128] Diagrama V&V Genérico
+Diagrama V&V Genérico
+analysis
+  raw design
+    fine design
+analysis
+  raw design
+    fine design
+       integration
+   validation
+verification
+analysis
+  raw design
+    fine design
+       integration
+   validation
+verification
+       integration
+   validation
+verification
+mechanics
+electronics
+informatics, I&C
+system-
+level
+subsystem-leve
+l
+single part realisation 
+level
+product requirements
+product/unit
+
+[p129] Diagrama V&V - Mecatrónica  [FIGURA]
+http://www.mas.bg.ac.rs/_media/istrazivanje/fme/vol36/3/02_mlazarevic.pdf
+Diagrama V&V - Mecatrónica
+
+[p130] Diagrama V&V - Mecatrónica  [FIGURA]
+http://www.mas.bg.ac.rs/_media/istrazivanje/fme/vol36/3/02_mlazarevic.pdf
+Diagrama V&V - Mecatrónica
+
+[p131] Entrada
+i
+Ing Mecánica
+Ing Electronica
+Tec Información
+Definición 
+Proyecto
+Planificación de los Ppios 
+de Producción
+Planificación guresa del Layout de 
+laSecuencia de producción y esamble
+Metas de la 
+Planifcación
+Planificación de cadena 
+Tecnologica
+Implementación
+Dominio del 
+Diseño Especif.
+Protot 
+Funcional
+Muestra 
+piloto
+Espec 
+Lab
+Ing Mecánica
+Ing Electronica
+Tec Información
+Layout fino – Planificación de la producción
+Planificación de la operaciones de Producción y Ensamble
+Producto
+Requerimientos
+Entrada
+Grado de Madurez
+Grado de Madurez
+Preparación
+Concepto de 
+Producción
+Plannif.  detallada de 
+la implementación
+Sistema de Producción
+Análisis
+Producción Virtual  - Manufactura digital
+Producción Virtual  - Manufactura digital
+http://www.mas.bg.ac.rs/_media/istrazivanje/fme/vol36/3/02_mlazarevic.pdf
+
+[p132]   [FIGURA]
+(sin texto)
+
+[p133] Sucesivos Diagramas V&V  [FIGURA]
+•
+Mechatronics Engineering on the Example of a Multipurpose Mobile Robot
+Sucesivos Diagramas V&V
+
+[p134] VEE Development Model –  [FIGURA]
+VEE Development Model – 
+Para Software
+
+[p135] VEE Development Model - Software  [FIGURA]
+VEE Development Model - Software
+
+[p136] VEE Development Model - Software  [FIGURA]
+VEE Development Model - Software
+
+[p137] VEE Development Model - Software  [FIGURA]
+VEE Development Model - Software
+
+[p138] VEE Development Model - Software  [FIGURA]
+VEE Development Model - Software
+
+[p139] VEE Development Model - Software  [FIGURA]
+VEE Development Model - Software
+
+[p140] VEE Development Model - Software  [FIGURA]
+VEE Development Model - Software
+
+[p141] Algunas Definiciones de
+Algunas Definiciones de 
+Diferentes Modelos de Ciclo de Vida de 
+Producto y los 
+Procesos de Desarrollo de Productos
+INCOSE
+Systems Engineering and Project Management (SEPM)
+Joint Working Group
+Guide to Life Cycles and Life Cycle Models
+
+[p142] Modelo Cascada
+Modelo Cascada
+El modelo de desarrollo en cascada "clásico" se define como un flujo 
+secuencial lineal donde la actividad se mueve desde una fase a la siguiente 
+solo cuando la fase anterior está completa y congelada. Diferentes fases 
+pueden ser representado en el modelo, por ejemplo, la variante que se 
+muestra en la Figura 22, y estos serán determinados por el escenario en el que 
+se usa el modelo. El término "cascada" implica un flujo no retornable desde 
+la concepción hasta su terminación. 
+Una variante "modificada" del modelo en cascada introduce mecanismos de 
+retroalimentación entre las fases, como se muestra en la Figura 22, que luego 
+rompe el principio de las fases congeladas en la versión "clásica".
+Cabe señalar que existe un argumento de que el modelo "clásico" nunca se 
+usa en la práctica ni se recomienda, pero representa una línea de base contra 
+la cual se comparan y contrastan otros modelos34
+https://www.apm.org.uk/media/13835/guide-to-lifecycle-models.pdf
+34 “There’s no such thing as the Waterfall approach (and there never was)”, Weisert C., Information Disciplines Inc., Feb 2003
+(available at http://www.idinews.com/waterfall.html)
+
+[p143] Modelo Cascada  [FIGURA]
+Modelo Cascada
+https://www.apm.org.uk/media/13835/guide-to-lifecycle-models.pdf
+
+[p144] Modelo Vee
+Modelo Vee
+El modelo Vee (o modelo V) es otro ejemplo de un modelo secuencial que 
+describe el desarrollo del ciclo de vida de sistemas, pero este modelo resume el 
+concepto de Verificación y Validación que ocurre a lo largo de la vida ciclo. 
+Todavía tiene una dimensión de tiempo de izquierda a derecha, pero algunas 
+iteraciones localizadas ahora se pueden capturar como movimientos en un eje 
+vertical en cualquier momento específico del modelo. Para más detalles sobre la 
+naturaleza de estos las iteraciones se refieren al SEHBK35.
+No existe una definición única de un Modelo Vee, pero las filosofías 
+subyacentes básicas se ilustran en la Figura 23. Este ejemplo, tomado de la 
+Administración Federal de Carreteras del Departamento de Transporte de EE. 
+UU .36, también es una Ilustración de un modelo Vee extendido: estos incluyen 
+fases de definición de concepto aguas arriba y aguas abajo operaciones y fases 
+de retiro. Para más detalles sobre el modelo Vee, consulte SEHBK.
+https://www.apm.org.uk/media/13835/guide-to-lifecycle-models.pdf
+35 SEHBK, Section 3, pages 27 & 28, 31
+36 US Department of Transport Federal Highways Administration Office of Operations, “Designing for Transportation Management
+and Operations: A Primer”, Chapter 2: Putting it into Action – Policies and Procedures,
+http://www.ops.fhwa.dot.gov/publications/fhwahop13013/ch2.htm [accessed 16th Sept 2014]
+
+[p145] Modelo Vee
+Modelo Vee
+https://www.apm.org.uk/media/13835/guide-to-lifecycle-models.pdf
+Figure 23: Example extended Vee Model (after US DoT Federal Highway Administration)36
+
+[p146] Ejemplos de modelos de ciclo de vida de desarrollo
+Ejemplos de modelos de ciclo de vida de desarrollo 
+de sistemas interactivos y dinámicos
+Aplicación rápida / Desarrollo de prototipos
+Este enfoque de desarrollo divide un proyecto en elementos más 
+pequeños, y las etapas se desarrollan de forma iterativa, utilizando 
+prototipos para acelerar el desarrollo y validar o refinar los requisitos. El 
+énfasis con los enfoques de aplicación rápida está en el desarrollo en 
+comparación con los enfoques en cascada más tradicionales que ponen el 
+énfasis en la planificación y el control. Los prototipos a menudo se 
+utilizan además de, o en ocasiones en lugar de, especificaciones de 
+diseño, ya que los requerimientos se ajustan en respuesta a las lecciones 
+aprendidas en etapas anteriores.
+Inicialmente desarrollado en el espacio de software para dar una 
+respuesta rápida a los cambios en los requerimientos de la interfaz de 
+usuario, su uso ahora está más extendido en línea con la filosofía de 
+desarrollo ágil que está ganando terreno en la comunidad de PM en 
+general.
+https://www.apm.org.uk/media/13835/guide-to-lifecycle-models.pdf
+
+[p147] Desarrollo en Espiral
+Desarrollo en Espiral
+El modelo de desarrollo en espiral es un modelo de creación de prototipos cíclico 
+para desarrollar una definición e implementación del sistema a través de pasos 
+incrementales y disminuir el riesgo a través del proceso37. Cada ciclo incluye 
+revisiones para garantizar el compromiso de los interesados y la aceptación de los 
+desarrollos de soluciones de sistemas en evolución.
+En el modelo de desarrollo en espiral (Figura 24), la experiencia aumenta a través 
+de la evolución de soluciones prototipo al problema y, por lo tanto, el riesgo 
+debería reducirse con cada ciclo.
+Las ventajas también incluyen brechas en los requerimientos que se identifican a 
+medida que el trabajo avanza con más detalle y la flexibilidad del modelo permite 
+la implementación de cambios en las etapas durante el desarrollo. Sin embargo, 
+esto requiere una base sólida para comprender y gestionar el riesgo que puede 
+tener un costo considerable 38.
+https://www.apm.org.uk/media/13835/guide-to-lifecycle-models.pdf
+37 Boehm B., Hansen W.J., “Understanding the spiral model as a tool for evolutionary acquisition”, USC/Carnegie Mellon University,
+Jan 2001, available at http://sunset.usc.edu/csse/TECHRPTS/2001/usccse2001-501/usccse2001-501.pdf
+38 Sabharwal S., Software engineering, 2009, New Age International, pp18-19
+
+[p148] Desarrollo  [FIGURA]
+Desarrollo 
+en Espiral
+https://www.apm.org.uk/media/13835/guide-to-lifecycle-models.pdf
+Figure 24: Boehm’s 
+Spiral Development 
+Model39
+
+[p149] http://  [FIGURA]
+http://slideplayer.com/slide/3891250/
+
+[p150] Desarrollo Ágil (Agile)
+Desarrollo Ágil (Agile)
+Un método de desarrollo ágil se acerca a un conjunto de objetivos dividiendo las 
+tareas en pequeños pasos incrementales (basados en una priorización definida 
+por el cliente) con una planificación mínima y con cada paso resulta en un 
+sistema de trabajo o subsistema entregado al cliente. Un método de desarrollo 
+ágil también se caracteriza por equipos multifuncionales que trabajan en ráfagas 
+cortas. Por lo tanto, tiene la capacidad de reaccionar rápidamente a los cambios 
+en entornos dinámicos y adaptar el sistema que se está desarrollando a los 
+resultados ya generados.
+Hay varias metodologías ágiles diferentes (o relacionadas). Éstas incluyen
+• Programación extrema (XP)
+• Scrum
+• Método de desarrollo de sistemas dinámicos (DSDM)
+• modelado ágil
+• Proceso racional unificado
+Las filosofías de desarrollo Lean y Kanban a menudo también se agrupan con los 
+métodos ágiles: estos enfoques tienen sus raíces en las metodologías de sistemas 
+de fabricación, mientras que los otros normalmente son sinónimos y han surgido 
+del desarrollo de software.
+https://www.apm.org.uk/media/13835/guide-to-lifecycle-models.pdf
+
+[p151] Desarrollo Ágil (Agile)
+Por lo tanto, los ciclos de vida asociados con las actividades en un entorno ágil 
+están dominados por ráfagas cortas iterativas ("sprints") y revisiones, como se 
+ilustra en la representación del ciclo de vida que se muestra en la Figura 25..
+Desarrollo Ágil (Agile)
+https://www.apm.org.uk/media/13835/guide-to-lifecycle-models.pdf
+
+[p152]   [FIGURA]
+(sin texto)
+
+[p153] Combinar,
+Las discusiones incluidas en esta guía se basan en situaciones o marcos 
+generales, idealizados y conceptuales. Las aplicaciones prácticas implicarán 
+soluciones combinadas y personalizadas para adaptarse a la situación. Las 
+representaciones del ciclo de vida se pueden combinar con éxito de diferentes 
+maneras (teniendo en cuenta que las categorizaciones se definen con el fin de 
+facilitar las combinaciones y selecciones), pero esto debe hacerse con 
+precaución: la confusión sobre los ciclos de vida puede ser una fuente de fallas. 
+Un entorno de desarrollo ágil puede funcionar dentro de un marco de gestión de 
+proyectos o programas (un ejemplo de esto son los marcos AgilePgM® y 
+AgilePjM®57), y puede ser eficaz al abordar elementos clave de incertidumbre en 
+las primeras fases de un programa o al interactuar con las partes interesadas 
+clave. para lograr ganancias rápidas o una aceptación temprana (por ejemplo, el 
+uso de la creación rápida de prototipos). Los proyectos basados en métodos de 
+desarrollo ágiles y secuenciales también pueden actuar en paralelo dentro del 
+mismo programa, pero se debe tener mucho cuidado al separar los dos proyectos 
+(y administrar las relaciones entre ellos), ya que requieren diferentes entornos de 
+proyecto y la posible contaminación cruzada representará un peligro evidente 
+para cada proyecto.
+Combinar, 
+pero 
+no 
+confundir
+
+[p154] Combinar,
+No seleccione enfoques y modelos iterativos evolutivos en organizaciones 
+conservadoras estables con mercados y ciclos de vida a largo plazo si no es 
+apropiado. Si es apropiado, considere los cambios transformadores 
+necesarios para las personas, la cultura, la organización y los 
+comportamientos. Hay mucho más énfasis en la gobernanza en P3M Suite, y 
+estos marcos se inician temprano en los ciclos de vida del programa o 
+proyecto. Esto puede crear una tensión entre un enfoque en la gobernanza a 
+expensas del tiempo dedicado a analizar el problema de manera creativa, y es 
+una causa potencial de conflictos de gestión de proyectos ágiles versus 
+"tradicionales".
+La selección del ciclo de vida será un factor importante en el éxito de la 
+empresa. Facilita la discusión y el análisis que, cuando se combinan con las 
+técnicas P3M y SE, pueden desarrollar una comprensión más profunda del 
+problema enfrentado y sus complejidades. Sin embargo, el nivel de esfuerzo 
+aplicado debe ser apropiado a la naturaleza y escala del problema al que se 
+enfrenta; no todos los proyectos son complejos o enfrentan riesgos 
+importantes.
+Combinar, 
+pero 
+no 
+confundir 
+(cont.)
+
+[p155]   [FIGURA]
+(sin texto)

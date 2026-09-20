@@ -1,0 +1,615 @@
+# Las diapositivas de IISE, por titulo
+
+Lo genera `extraer-clases.py`: no se edita a mano.
+Sirve para ubicar UNA diapositiva sin abrir el .txt entero.
+
+## Clase 1 (41 diapositivas)
+
+- [p1] Introducción a la  [FIGURA]
+- [p2] Equipo docente
+- [p3] Objetivos del Aprendizaje del curso
+- [p4] Criterios de Aprobación  [FIGURA]
+- [p5] Programa Introd. Ing. de Sistemas Espaciales - Tentativo
+- [p6] Índice
+- [p7] Nuevo paradigma de la  [FIGURA]
+- [p8] Porque la iniciativa CDIO
+- [p9] Evolución  [FIGURA]
+- [p10] Transformación cultural
+- [p11] Cómo se generó la iniciativa CDIO
+- [p12] Metodología CDIO en la carrera Ingeniería en
+- [p13] Mirada rápida de la iniciativa CDIO en
+- [p14] Ciencia  -  Tecnología  -  Ingeniería
+- [p15] Descripción de la Actividad del
+- [p16] Definición de Proyecto
+- [p17] Proyecto
+- [p18] Proyecto
+- [p19] Dirección de Proyecto de Sistema
+- [p20] Investigación y Desarrollo
+- [p21] Mirada de Actividades y Relaciones principales  en
+- [p22] Ingeniería de Sistemas
+- [p23] ¿Qué es la Ingeniería de
+- [p24] INCOSE
+- [p25] ¿Qué es un sistema?
+- [p26] ¿Qué es la Ingeniería de
+- [p27] ¿Qué es la Ingeniería de
+- [p28] Aplicaciones del Dominio de Sistemas
+- [p29] Un Principio
+- [p30] Cliente  [FIGURA]
+- [p31] Introducción a la Ing. de Sistemas
+- [p32] Introducción a la Ing. de Sistemas
+- [p33] Algunos ejemplos de grandes obras
+- [p34] Referencias Modernas de Ing.
+- [p35] Referencias Modernas de Ing.  [FIGURA]
+- [p36] Sistemas
+- [p37] Aspectos Claves del Proyecto Atlas
+- [p38] Sistema SAGE de defensa aérea  [FIGURA]
+- [p39] Aspectos claves de SAGE
+- [p40] Formalización de la Ing de Sistemas
+- [p41] Bibliografía  [FIGURA]
+
+## Clase 2 (97 diapositivas)
+
+- [p1] Introducción a la  [FIGURA]
+- [p2] Introducción a la
+- [p3] Arquitectura de Sistemas
+- [p4] Introducción
+- [p5] Otras arquitecturas  [FIGURA]
+- [p6] Cuantas Arquitecturas Hay?  [FIGURA]
+- [p7]   [FIGURA]
+- [p8] Introducción
+- [p9] Introducción
+- [p10] Introducción  [FIGURA]
+- [p11] Arquit. de Sistemas Complejos
+- [p12] Arquitectura de Sistemas Complejos
+- [p13] Sea-based X-band radar  [FIGURA]
+- [p14] MV Blue Marlin  [FIGURA]
+- [p15] Las Ventajas de una Buena Arquitectura
+- [p16] Las Ventajas de una Buena Arquitectura
+- [p17] Las Ventajas de una Buena Arquitectura
+- [p18] Las Ventajas de una Buena Arquitectura
+- [p19] Las Ventajas de una Buena Arquitectura
+- [p20] Las Ventajas de una Buena Arquitectura
+- [p21] Objetivos del Aprendizaje
+- [p22] Objetivos del Aprendizaje
+- [p23] Pensamiento de Sistema  [FIGURA]
+- [p24] Pensamiento de Sistema o Sistémico
+- [p25]   [FIGURA]
+- [p26] Pensamiento Sistémico
+- [p27] Sistemas y sus Emergentes
+- [p28] Definición de Sistema
+- [p29] Algunos Ejemplos de Sistema
+- [p30] Introducción Pensamiento de Sistema o Sistémico
+- [p31] Introducción Pensamiento de Sistema o Sistémico
+- [p32] Introducción Pensamiento de Sistema o Sistémico
+- [p33] Introducción Pensamiento de Sistema o Sistémico
+- [p34] Introducción Pensamiento de Sistema o Sistémico
+- [p35] Principio de lo Emergente, de lo que Aparece
+- [p36] Emergentes
+- [p37] Emergentes  [FIGURA]
+- [p38] En resumen:
+- [p39] Pensamiento Sistema  [FIGURA]
+- [p40] Forma y Función
+- [p41] Forma y Función  [FIGURA]
+- [p42] Forma y Función
+- [p43] Tarea 1  Pensamiento de Sistema
+- [p44] Tarea 1 Pensamiento de Sistema
+- [p45] Tarea 1 Pensamiento de Sistema
+- [p46] Tarea 1 Pensamiento de Sistema
+- [p47] Tarea 1 Pensamiento de Sistema
+- [p48] Tarea 1 :  Pensamiento de Sistemas
+- [p49] Tarea 2 –  Pensamiento de Sistema
+- [p50] Tarea 2 –  Pensamiento de Sistema
+- [p51] Tarea 2 –  Pensamiento de Sistema
+- [p52] Tarea 2 –  Pensamiento de Sistema
+- [p53] Tarea 2 –  Pensamiento de Sistema
+- [p54] Tarea 2 –  Pensamiento de Sistema
+- [p55] Tarea 2 –  Pensamiento de Sistema
+- [p56] Tarea 2 –  Pensamiento de Sistema
+- [p57] Principio
+- [p58] Tarea 2 –  Pensamiento de Sistema
+- [p59] Tabla 2.4 La evolución del Pensamiento de sistema en el Team
+- [p60] Tarea 2 –  Pensamiento de Sistema
+- [p61] Cuadro 2.6
+- [p62] Tarea 2 –  Pensamiento de Sistema
+- [p63] Tarea 2 –  Pensamiento de Sistema
+- [p64] Tarea 2 –  Pensamiento de Sistema
+- [p65] Tarea 2 –  Pensamiento de Sistema
+- [p66] Tarea 2 –  Pensamiento de Sistema
+- [p67] Tarea 2 –  Pensamiento de Sistema
+- [p68] Tarea 2 –  Pensamiento de Sistema
+- [p69] Tarea 2 –  Pensamiento de Sistema
+- [p70] Tarea 3 –  Pensamiento de Sistema
+- [p71] Tarea 3 –  Pensamiento de Sistema
+- [p72] Tarea 3 –  Pensamiento de Sistema
+- [p73] Tarea 3 –  Pensamiento de Sistema
+- [p74]   [FIGURA]
+- [p75]   [FIGURA]
+- [p76] Tarea 3 –  Pensamiento de Sistema
+- [p77] Tarea 3 –  Pensamiento de Sistema
+- [p78] Tarea 4 –  Pensamiento de Sistema
+- [p79] Tarea 4 –  Pensamiento de Sistema
+- [p80] Tarea 4 –  Pensamiento de Sistema
+- [p81] Tarea 4 –  Pensamiento de Sistema
+- [p82] Tarea 4 –  Pensamiento de Sistema
+- [p83] Tarea 4 –  Pensamiento de Sistema
+- [p84] Tarea 4 –  Pensamiento de Sistema
+- [p85] Tarea 4 –  Pensamiento de Sistema  [FIGURA]
+- [p86] Tarea 4 –  Pensamiento de Sistema
+- [p87] Resumen de Pensamiento de Sistema
+- [p88] Características Esenciales de los Sistemas y
+- [p89] Pensamiento de Sistema en la Toma de Decisiones
+- [p90] Referencias
+- [p91] Arquitectura - Forma  [FIGURA]
+- [p92]   [FIGURA]
+- [p93] https://www.youtube.com/watch?v=caTaBeKUh-U  [FIGURA]
+- [p94] Arquitectura - Forma
+- [p95]   [FIGURA]
+- [p96]   [FIGURA]
+- [p97]   [FIGURA]
+
+## Clase 3 (48 diapositivas)
+
+- [p1] Introducción a la  [FIGURA]
+- [p2] El Rol de la Arquitectura
+- [p3] 1 - Introducción
+- [p4] 2 - La Ambigüedad y el Rol de la Arquitectura
+- [p5] El Rol del Arquitecto (continúa)
+- [p6] El Rol del Arquitecto (continúa)
+- [p7] El Rol del Arquitecto (continúa)
+- [p8] Principios del Rol del Arquitecto
+- [p9] Reduciendo la Ambigüedad
+- [p10] Reduciendo la Ambigüedad (Cont.)
+- [p11] Reduciendo la Ambigüedad (Cont.)
+- [p12] Reduciendo la Ambigüedad (CONT.)
+- [p13] Reduciendo la Ambigüedad (Cont.)
+- [p14] Principio de Ambigüedad
+- [p15] Reduciendo la Ambigüedad (Cont.)
+- [p16] Entregables del arquitecto
+- [p17] Entregables del arquitecto (Cont.)
+- [p18] 3 - Procesos de Desarrollo de Producto (PDP)
+- [p19] Similitudes y diferencias entre los PDP de las
+- [p20] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+- [p21] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+- [p22] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)  [FIGURA]
+- [p23] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+- [p24] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)  [FIGURA]
+- [p25] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+- [p26] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+- [p27]   [FIGURA]
+- [p28] Similitudes y Diferencias entre los PDP de las Empresas (CONT.)
+- [p29] Proceso de Desarrollo de Producto Genérico
+- [p30] Fases del Ciclo de vida de NASA -
+- [p31] Proceso de Desarrollo de Producto Genérico (CONT.)
+- [p32] Proceso de Desarrollo de Producto Genérico (CONT.)
+- [p33] Proceso de Desarrollo de Producto Genérico (CONT.)  [FIGURA]
+- [p34] Proceso de Desarrollo de Producto Genérico (CONT.)
+- [p35] Proceso de Desarrollo de Producto Genérico (CONT.)
+- [p36] Proceso de Desarrollo de Producto Genérico (CONT.)  [FIGURA]
+- [p37] Operar
+- [p38] Proceso de Desarrollo de Producto Genérico (CONT.)
+- [p39] Principio de las tensiones (estrés) de la Práctica
+- [p40] Resumen
+- [p41] Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+- [p42] Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+- [p43] Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+- [p44] Figura 10 La magia en la arquitectura civil. Las cualidades de la
+- [p45] Caso de Estudio Arquitectura Civil y Arquitectura de Sistemas
+- [p46] En la figura 11, la oportunidad y la responsabilidad de un
+- [p47] El misterio detrás de la magia proporciona otra capa de sorpresa
+- [p48] Referencias
+
+## Clase 4 (124 diapositivas)
+
+- [p1] Introducción  [FIGURA]
+- [p2] Objetivos
+- [p3] Estándares y Manuales de la
+- [p4] Arquitectura de sistemas
+- [p5] Discutir la NECESIDAD de la Ing. de
+- [p6] Primera Etapa
+- [p7] Introd. a la Ing. de Sistemas
+- [p8] Dos Ejemplo  [FIGURA]
+- [p9]   [FIGURA]
+- [p10]   [FIGURA]
+- [p11]   [FIGURA]
+- [p12] SYS 612
+- [p13] The manufacturing of the mirror was exposed to a single point failure; Perkin-Elmer
+- [p14] Otros Ejemplos de expertos de niveles
+- [p15] Aislación Térmica Multicapa
+- [p16]   [FIGURA]
+- [p17] Subsistema de Propulsión  [FIGURA]
+- [p18] Cargando Hidracina
+- [p19] Pero cuando viene emparentado con  [FIGURA]
+- [p20] Sistema de Sistemas
+- [p21] Ejemplo de la  EEI - ISS  [FIGURA]
+- [p22] Las 5 Estaciones Espaciales  [FIGURA]
+- [p23] Las primeras 4 Estaciones Espaciales  [FIGURA]
+- [p24] Estación Espacial Internacional - ISS
+- [p25] Pero esto es solo una parte del
+- [p26] Sistema EEI - ISS
+- [p27] Sistema EEI - ISS
+- [p28] Sistema EEI - ISS
+- [p29] Transportes Espaciales a la ISS  [FIGURA]
+- [p30] NASA 2019  [FIGURA]
+- [p31]   [FIGURA]
+- [p32] Transportes Espaciales a la ISS  [FIGURA]
+- [p33] Puertas de Acceso a la ISS
+- [p34] Transporte de  [FIGURA]
+- [p35] Transporte de Carga  [FIGURA]
+- [p36] Incluyendo las
+- [p37]   [FIGURA]
+- [p38]   [FIGURA]
+- [p39] Comunicaciones del
+- [p40] Sistema ISS - EEI
+- [p41] Modelo de los Procesos de la Ing. de Sistemas
+- [p42] Veamos el Ejemplo del Space Shuttle
+- [p43] Necesidades
+- [p44] del Space Shuttle
+- [p45] Alternativas Propuestas  [FIGURA]
+- [p46] Marzo de 1972  [FIGURA]
+- [p47] Marzo de 1972  [FIGURA]
+- [p48] Marzo de  [FIGURA]
+- [p49] Marzo de 1972  [FIGURA]
+- [p50] Evolución de la Alternativa  [FIGURA]
+- [p51] Necesidades del cliente convertidas
+- [p52] Requerimientos para alistar el Space  [FIGURA]
+- [p53] Finalmente cómo se alistaba el Space Shuttle  [FIGURA]
+- [p54] Ciclo de Vida del Space Shuttle 1977 -
+- [p55]   [FIGURA]
+- [p56]   [FIGURA]
+- [p57] Rovers a Marte
+- [p58] Ejemplo: Un Nuevo Rover para Marte
+- [p59] Recorramos el proceso y la Ing. de
+- [p60] Manejando en Otros Mundos con  [FIGURA]
+- [p61] Rovers a Marte
+- [p62]   [FIGURA]
+- [p63]   [FIGURA]
+- [p64] Propiedades de Marte
+- [p65] Se pide Nuevo tipo de movilidad
+- [p66] La familia de Rovers
+- [p67] Perseverance  2021
+- [p68] El Rover Anterior al Curiosity  [FIGURA]
+- [p69] Concepción del nuevo Rover
+- [p70] Diagrama de Subsistemas del Rover
+- [p71] Balancenado el Equilibrio entre los Subsistemas  [FIGURA]
+- [p72] Ejemplo del Diseño conceptual de la
+- [p73] Modelos  [FIGURA]
+- [p74] Modelos de Rover
+- [p75]   [FIGURA]
+- [p76] Introd. a la Ing. de Sistemas
+- [p77]   [FIGURA]
+- [p78]   [FIGURA]
+- [p79] NASA’s  Curiosity  Rover dentro de la cámara de vacio térmico ensayando en las facilidades
+- [p80] Curiosity dentro  de un espacio de
+- [p81] Del Concepto al Sistema Operacional
+- [p82] Descenso del Curiosity  [FIGURA]
+- [p83]   [FIGURA]
+- [p84] Video  [FIGURA]
+- [p85] Inteligencia Artificial
+- [p86] Configuración Final de las cámaras  [FIGURA]
+- [p87] Helicóptero para la ayuda de la  [FIGURA]
+- [p88]   [FIGURA]
+- [p89] Los grandes proyecto
+- [p90] ¿Por qué?
+- [p91] Grandes Equipos de Trabajo
+- [p92] Nuevos Sistemas Espaciales Incluyen
+- [p93] La Ing. de Sistemas nos ayuda a dirigir
+- [p94] Sistema construido por diferentes grupos de
+- [p95]   [FIGURA]
+- [p96] Atla
+- [p97] La Ing. de Sistemas coordina los
+- [p98] Future Imagery
+- [p99] Ejemplo FIA
+- [p100] Comentarios de la prensa
+- [p101] Necesidad
+- [p102] El ¨Motor¨ de la  [FIGURA]
+- [p103] El ¨
+- [p104] Ing. de Sistema NASA – Handbook SP61907, 2007
+- [p105] El Motor de la Ing. de Sistemas
+- [p106] El Motor de la Ing. de Sistemas NASA
+- [p107] El Motor de la Ingeniería de Sistemas
+- [p108] ¿Porque necesitamos descomponer el sistema?
+- [p109] Complejidad de los Sistemas
+- [p110] Complejidad de los Sistemas
+- [p111] JERARQUÍA DEL SISTEMA SATELITAL
+- [p112] JERARQUÍA DEL SISTEMA SATÉLITE
+- [p113] Los Requerimientos fluyen hacia abajo
+- [p114] Motor de la Ingeniería de Sistemas
+- [p115] Motor de la Ing. de Sistemas NASA
+- [p116] Ingeniería de Sistemas NASA
+- [p117] Ingeniería de Sistemas NASA
+- [p118] Motor de Ingeniería de Sistemas NASA
+- [p119] Motor de la Ingeniería de
+- [p120] Atributos de un Ingeniero de
+- [p121] DVDs for student viewing:
+- [p122] Atributos de un Ing. de Sistemas
+- [p123] ¨Nunca ha habido un proyecto en la
+- [p124] Resumen
+
+## Clase 5 (71 diapositivas)
+
+- [p1] Introducción  [FIGURA]
+- [p2] ¿Cómo podemos empezar a  [FIGURA]
+- [p3] ¨Nunca ha habido un proyecto en la historia
+- [p4] Índice
+- [p5] Fases del Ciclo de vida de
+- [p6] Fases del Ciclo de vida de NASA -
+- [p7] Diagrama de ¨V¨ del Ciclo de vida de un
+- [p8] Perspectiva del Cliente / Usuario
+- [p9] Ciclo de vida de un proyecto de S/W en
+- [p10] Requerimientos
+- [p11] Ejemplo de Requerimientos Pobres:
+- [p12] Ejemplo de Buenos Requerimientos  DC-3
+- [p13] DC1 - DC2
+- [p14] ¡Todavía en
+- [p15] Estándares de Requerimientos
+- [p16] Requerimientos Descomposición,
+- [p17] Gestión de los Márgenes de los
+- [p18] Crecimiento de la Masa en los
+- [p19] Definición de los Requerimientos Técnicos
+- [p20] El primer paso para construir una base sólida
+- [p21] Describimos el proceso de captura
+- [p22] Describimos el proceso de captura
+- [p23] Otra Mirada de la Definición de
+- [p24] Introducción a la Semántica de los
+- [p25] Statement of Work (SOW)
+- [p26] Ejemplo del Programa Apollo
+- [p27] Ejemplo del Programa Apollo
+- [p28] Ejemplo del Programa Apollo
+- [p29] Ejemplo del Requerimiento
+- [p30] Eje. del Requerimiento Funcional de  [FIGURA]
+- [p31] Eje. Requerimiento Funcional de
+- [p32] Eje. Requerimiento Funcional de
+- [p33] Requerimiento de Performance o
+- [p34] Ejemplo del Programa Apollo
+- [p35] Ejemplo del Programa Apollo  [FIGURA]
+- [p36]   [FIGURA]
+- [p37] Proceso de los Requerimientos
+- [p38] Proceso de los Requerimientos
+- [p39] Proceso de los Requerimientos
+- [p40] Ejemplo de Trazabilidad
+- [p41] Proceso de Descomposición
+- [p42] Acople Módulo de Comando - Módulo Lunar
+- [p43] Acople Módulo de Comando - Módulo Lunar
+- [p44] Acople Módulo de Comando - Módulo Lunar  [FIGURA]
+- [p45] Acople Módulo de Comando - Módulo Lunar
+- [p46]   [FIGURA]
+- [p47]   [FIGURA]
+- [p48] Interfaces
+- [p49] Verificación de los
+- [p50] Verificar
+- [p51] Verificación de los Requerimientos
+- [p52]   [FIGURA]
+- [p53] Dimensiones de la cámara de termo vacío  [FIGURA]
+- [p54]   [FIGURA]
+- [p55] Ensayos Ambientales
+- [p56] Validación de los Requerimientos
+- [p57] Los niveles 1, 2 & 3  de requerimientos se especifican en la  [FIGURA]
+- [p58] Resumen y Definiciones  [FIGURA]
+- [p59] Para qué son los Requerimientos
+- [p60] Resumen de Tipos de Requerimientos
+- [p61] Resumen del Proceso de Alojar los
+- [p62] Preciso - Exacto  [FIGURA]
+- [p63] Definición de los Elementos del Alcance
+- [p64] Definición de los Elementos del Alcance
+- [p65] Concepto de Operación
+- [p66] Información típica del ConOps
+- [p67] Ejemplo de Alcance para el
+- [p68] Comenzar el ConOps con dibujos de  [FIGURA]
+- [p69]   [FIGURA]
+- [p70] Ejemplo de ConOps del Diseño de Misión  [FIGURA]
+- [p71] ConOps de la estrategia de comunicación  [FIGURA]
+
+## Clase 6 (155 diapositivas)
+
+- [p1] Introducción  [FIGURA]
+- [p2] Preguntas para autoevaluación
+- [p3] "Our only chance of long-term survival is
+- [p4] Temario de la clase 6ta
+- [p5] Curva de la Tasa de Fracasos
+- [p6] Diagrama en  “V”
+- [p7] El desarrollo de los  [FIGURA]
+- [p8] La Importancia de los Requerimientos
+- [p9] La Familia de Requerimentos
+- [p10] Al Descomponer un Sistema
+- [p11] Los Documentos de Interface
+- [p12] Resumen : Requerimientos
+- [p13] Herramientas  Automatizadas
+- [p14] Ejercicio de Alcance
+- [p15] Ejercicio de Alcance
+- [p16] Ejercicio de Alcance -  Necesidades
+- [p17] Ejercicio de Alcance - Metas
+- [p18] Ejercicio de Alcance - Objetivos
+- [p19] Ejercicio de Alcance - Hipótesis
+- [p20] Ejercicio de Alcance - Misión
+- [p21] Ejercicio de Alcance - ConOp
+- [p22] Ejercicio de Alcance - Restricciones
+- [p23] Ejercicio de Alcance – Autoridad Responsabilidad
+- [p24] Ejercicio de Alcance: Programa Apollo
+- [p25] Concepto de Operación: Programa
+- [p26] Concepto de Operación:  [FIGURA]
+- [p27]   [FIGURA]
+- [p28] Concepto de Operación: Programa
+- [p29] Example CONOPS:  [FIGURA]
+- [p30] Concepto de Operación: Space Shuttle
+- [p31] Concepto de  [FIGURA]
+- [p32] Concepto de Operación: Space Shuttle
+- [p33] Concepto de Operación
+- [p34] Concepto de Operación  [FIGURA]
+- [p35] Concepto de Operación  [FIGURA]
+- [p36] Concepto de Operación: Falcon 9  [FIGURA]
+- [p37] Concepto de Operación: Falcon 9  [FIGURA]
+- [p38] Concepto de Operación: Falcon 9  [FIGURA]
+- [p39] Concepto de Operación: Falcon 9  [FIGURA]
+- [p40] Concepto de Operación: Falcon 9  [FIGURA]
+- [p41] Concepto de Operación: Falcon 9  [FIGURA]
+- [p42] Concepto de Operación: Falcon 9  [FIGURA]
+- [p43] Concepto de Operación: Falcon 9  [FIGURA]
+- [p44] Concepto de Operación:  [FIGURA]
+- [p45] Concepto de Operación:  [FIGURA]
+- [p46] Concepto de Operación: Falcon 9  [FIGURA]
+- [p47] Concepto de Operación: Curiosity
+- [p48] Concepto de  [FIGURA]
+- [p49] Debemos tener en cuenta estos requerimientos para el
+- [p50] Concepto de Operación: Space
+- [p51] Concepto de Operación: Space
+- [p52] Concepto de Operación:
+- [p53]   [FIGURA]
+- [p54] Concepto de Operación: Space
+- [p55] Concepto de Operación: Space
+- [p56] Concepto de Operación: Space
+- [p57] Concepto de Operación: Space
+- [p58] Concepto de Operación: Satélite
+- [p59] Concepto
+- [p60] Concepto de Operación:
+- [p61] Concepto de Operación:
+- [p62] Concepto de Operación – Misión a Marte
+- [p63] Concepto de Operación – Misión a Marte
+- [p64] Concepto de
+- [p65] Concepto de Operación
+- [p66] Concepto de Operación:  [FIGURA]
+- [p67] Revisión Preliminar de Diseño  [FIGURA]
+- [p68] Escribir  [FIGURA]
+- [p69] Escribir Requerimientos
+- [p70] Los Buenos Requerimientos son SMART:
+- [p71] Reglas para una buena escritura de
+- [p72] Más Reglas para una buena escritura
+- [p73] Un Checklist: ¿Es esto un Requerimiento….
+- [p74] La Rationale Captura la Motivación
+- [p75] Ejemplo Espacial de
+- [p76] Verificación de los Requerimientos
+- [p77] Validación de los Requerimientos
+- [p78] RESUMEN: Escribir Buenos Requerimientos
+- [p79] Ciclo de vida de un proyecto  [FIGURA]
+- [p80] Ciclo de vida de un proyecto
+- [p81] Ciclo de Vida  [FIGURA]
+- [p82] Ciclo de Vida del Proyecto
+- [p83] Fases del Ciclo de vida de
+- [p84] Fases del Ciclo de vida de
+- [p85] Comparación de Modelos de Ciclo de Vida  [FIGURA]
+- [p86] Cada Evento de Revisión Crea un
+- [p87] Pre Fase A
+- [p88] Pre Fase A
+- [p89] Pre Fase A
+- [p90]   [FIGURA]
+- [p91] Ejemplo  [FIGURA]
+- [p92] https://www.youtube.com/watch?v=bbkTJeHoOKY  [FIGURA]
+- [p93]   [FIGURA]
+- [p94] https://www.youtube.com/watch?v=bbkTJeHoOKY  [FIGURA]
+- [p95] ¿Por qué explorar Titán?
+- [p96] Spacecraft - Cassini Huygens  [FIGURA]
+- [p97] Algunos de los Métodos de
+- [p98] Métodos de exploración de Titán
+- [p99] Métodos de exploración de Titán  [FIGURA]
+- [p100] Videos recomendables de Titán
+- [p101]   [FIGURA]
+- [p102] Ambiente atmosférico de Titán  [FIGURA]
+- [p103] Mission Design and Technology for a Titan Aerobot Balloon System (TABS)  [FIGURA]
+- [p104] Ambiente atmosférico  [FIGURA]
+- [p105]   [FIGURA]
+- [p106] Submarino en los mares de Titán
+- [p107] Submarino para Titán - Subsistemas  [FIGURA]
+- [p108] Transportador del Submarino  [FIGURA]
+- [p109] Ejemplos de Vehículos Terrestres  [FIGURA]
+- [p110] Vehículo Subacuático
+- [p111] Ejercicio:
+- [p112] MOMENTO 2:
+- [p113] ¿Qué es la Ingeniería Concurrente?  [FIGURA]
+- [p114] Tres diferentes tipos de Gestión del
+- [p115] Ejemplo de Sala de Estudio típica para la  [FIGURA]
+- [p116] Ejemplo de Sala de Estudio típica para la IC  [FIGURA]
+- [p117] Ejemplo de Sala de Estudio típica para la  [FIGURA]
+- [p118] Pasado de la Ingeniería Concurrente
+- [p119] Presente de la Ing. Concurrente
+- [p120] Principales Beneficios de la
+- [p121] Elementos de  [FIGURA]
+- [p122] Robótica / Mecatrónica
+- [p123] Mecatrónica  [FIGURA]
+- [p124] Mecatrónica – Diagrama Funcional Genérico  [FIGURA]
+- [p125] Mecatrónica
+- [p126]   [FIGURA]
+- [p127]   [FIGURA]
+- [p128] Diagrama V&V Genérico
+- [p129] Diagrama V&V - Mecatrónica  [FIGURA]
+- [p130] Diagrama V&V - Mecatrónica  [FIGURA]
+- [p131] Entrada
+- [p132]   [FIGURA]
+- [p133] Sucesivos Diagramas V&V  [FIGURA]
+- [p134] VEE Development Model –  [FIGURA]
+- [p135] VEE Development Model - Software  [FIGURA]
+- [p136] VEE Development Model - Software  [FIGURA]
+- [p137] VEE Development Model - Software  [FIGURA]
+- [p138] VEE Development Model - Software  [FIGURA]
+- [p139] VEE Development Model - Software  [FIGURA]
+- [p140] VEE Development Model - Software  [FIGURA]
+- [p141] Algunas Definiciones de
+- [p142] Modelo Cascada
+- [p143] Modelo Cascada  [FIGURA]
+- [p144] Modelo Vee
+- [p145] Modelo Vee
+- [p146] Ejemplos de modelos de ciclo de vida de desarrollo
+- [p147] Desarrollo en Espiral
+- [p148] Desarrollo  [FIGURA]
+- [p149] http://  [FIGURA]
+- [p150] Desarrollo Ágil (Agile)
+- [p151] Desarrollo Ágil (Agile)
+- [p152]   [FIGURA]
+- [p153] Combinar,
+- [p154] Combinar,
+- [p155]   [FIGURA]
+
+## Clase 7 (54 diapositivas)
+
+- [p1] Introducción  [FIGURA]
+- [p2] Los científicos estudian el mundo  [FIGURA]
+- [p3] Temario de la Clase 7ma
+- [p4] Ing. de Sistemas
+- [p5] “No hay nada más difícil de planificar, más dudoso de que sea
+- [p6] Revisión de la Arquitectura de Sistemas
+- [p7] ¿Qué es una Arquitectura?
+- [p8] Desarrollo de la  Arquitectura del
+- [p9] Desarrollo de las Arquitecturas de Sistemas
+- [p10] ¿Cómo Creamos Arquitecturas?
+- [p11] Cuatro Métodos Deductivos / Inductivos
+- [p12] La arquitectura se centra en perfeccionar el
+- [p13] Arquitectura vs Diseño
+- [p14] Describir una arquitectura de un
+- [p15] Resumen: Arquitectura del sistema
+- [p16] Fase A  [FIGURA]
+- [p17] Fases del Ciclo de vida de
+- [p18] Fase A -
+- [p19] http://sites.nationalacademies.org/cs/groups/ssbsite/documents/webpage/ssb_181241.pdf  [FIGURA]
+- [p20] http://sites.nationalacademies.org/cs/groups/ssbsite/documents/webpage/ssb_181241.pdf  [FIGURA]
+- [p21] Fase A
+- [p22] Fase A
+- [p23] Fase A
+- [p24] Fase A - Interfaces
+- [p25] Fase A – Interfaces
+- [p26] Fase A - Interfaces
+- [p27] Fase A - Interfaces
+- [p28] Fase A
+- [p29] Fase A - Interfaces
+- [p30] Fase A - Interfaces
+- [p31] Fase A
+- [p32] Ejemplo de  Requerimientos de  Interface entre el
+- [p33] Fase A
+- [p34] Fase A
+- [p35] Fase A
+- [p36] Fase A
+- [p37]   [FIGURA]
+- [p38]   [FIGURA]
+- [p39]   [FIGURA]
+- [p40]   [FIGURA]
+- [p41] Fase A
+- [p42] Fase A  [FIGURA]
+- [p43] Fase A
+- [p44] Fase A
+- [p45] Ciclo de Vida del Proyecto
+- [p46] Herramienta Genérica para  [FIGURA]
+- [p47] La Herramienta de interfaces más
+- [p48] Diagrama Genérico de N
+- [p49] Identificar los lazos de realimentación de los
+- [p50] TDRS Diagram N
+- [p51] Ejercicio N
+- [p52] Matriz NxN de Diseño de un Vehículo Lanzador
+- [p53] Resumen de N
+- [p54] Ing. de Sistemas

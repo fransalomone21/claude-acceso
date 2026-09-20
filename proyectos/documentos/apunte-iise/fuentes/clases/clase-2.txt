@@ -1,0 +1,1515 @@
+# IISE clase 2 -- 97 diapositivas
+# fuente: IISE clase 2 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Introducción a la  [FIGURA]
+Introducción a la 
+Ingeniería de Sistemas 
+Espaciales
+Unidad # 02
+  Agosto 2026
+UNSAM - Ing Sistemas Espaciales
+
+[p2] Introducción a la
+Introducción a la 
+Arquitectura de Sistemas
+System  Architecture 
+Strategy and Product Development for Complex Systems
+Edward Crawley - Bruce Cameron - Daniel Selva
+
+[p3] Arquitectura de Sistemas
+•
+Introducción
+•
+Introducción a la Arquitectura de Sistemas
+– Introducción a la arquitectura del sistema 
+– Arquitectura de sistemas complejos 
+– Las ventajas de la buena arquitectura
+•
+Pensamiento de Sistema  
+– introducción 
+– Sistemas y emergencia 
+– Tarea 1: identificar el sistema, su forma y su función 
+– Tarea 2: identificar entidades de un sistema, su forma y su función 
+– Tarea 3: identificar las relaciones entre las entidades 
+– Tarea 4: Lo emergente 
+– Resumen
+Arquitectura de Sistemas
+
+[p4] Introducción
+Introducción
+ 
+Los autores señalan en el material que sigue, que el proceso de establecer la arquitectura de los sistemas 
+es tanto una ciencia como un arte. Pero, como se describe con tanta elegancia en este documento, existe 
+un fenómeno darwiniano en el que los sistemas que incorporan los errores del pasado no sobreviven; 
+mientras que aquellos que incorporan arquitecturas sólidas generalmente sobreviven, e incluso prosperan.
+La idea de la "arquitectura de un sistema" está creciendo en reconocimiento. Aparece en diversos campos, 
+incluida la arquitectura de una red eléctrica o la arquitectura de un sistema de pago móvil. Esto connota el 
+ADN del sistema, y la base para la ventaja competitiva. Hay hoy  más de 100,000 profesionales con el título 
+de arquitectos de sistema, y muchos más practican el rol de arquitecto bajo diferentes títulos. 
+Las ideas poderosas a menudo tienen límites nebulosos. Observamos que muchos de nuestros compañeros 
+de trabajo, clientes y estudiantes comparten un reconocimiento de los problemas de la arquitectura del 
+sistema, pero utilizaban el término en ámbitos muy diferentes. El término se usa a menudo para diferenciar 
+los (arquitecturas) sistemas existentes, como en "la arquitectura de estas nueve bicicletas de montaña son 
+diferente".
+
+[p5] Otras arquitecturas  [FIGURA]
+Otras arquitecturas
+https://www.youtube.com/watch?v=um_YIk_ap-U&ab_channel=noobqoou
+
+[p6] Cuantas Arquitecturas Hay?  [FIGURA]
+Cuantas Arquitecturas Hay?
+9 Suspensiones diferentes
+
+[p7]   [FIGURA]
+(sin texto)
+
+[p8] Introducción
+Lo que constituye exactamente la arquitectura de un sistema es a menudo un tema de gran debate. En 
+algunos campos, el término se usa para una decisión singular que diferencia dos tipos de sistemas en un 
+nivel alto, como en "arquitectura de conmutación de paquetes“ vs "arquitectura de conmutación de 
+circuitos". En otros campos, el término se utiliza para describir una implementación total, salvo por algunos 
+detalles más pequeños, como en “nuestro software como una arquitectura de servicio”. 
+Nuestro objetivo es captar el poder de la idea de la arquitectura y afinar los límites. Gran parte del poder 
+de la idea se origina con el potencial de comerciar entre varias arquitecturas de manera temprana, para 
+mirar hacia abajo e identificar qué limitaciones y oportunidades serán fundamentales para el valor. No es 
+posible intercambiar ideas tempranas si la arquitectura abarca todos los detalles, ni es un ejercicio 
+significativo si faltan importantes impulsores de valor.
+Escribimos este texto para desarrollar la idea de que el arquitecto es un especialista, no un generalista, 
+como lo propuso Eberhardt Rechtin. Nuestra intención es mostrar el análisis y las metodologías de la 
+arquitectura del sistema y desarrollar la "ciencia" de la arquitectura del sistema. Este texto es menos 
+prescriptivo en lugares que la disciplina del diseño del producto, ya que los sistemas abordados son más 
+complejos. Donde la comunidad de desarrollo de productos tiene un mayor enfoque en el diseño, 
+nuestro enfoque se centra más en lo emergente: la magia de las funciones que se unen para producir un 
+todo coherente.
+Introducción
+
+[p9] Introducción
+Hemos imbuido este texto con nuestra experiencia pasada. Hemos tenido la suerte de participar en el 
+desarrollo temprano de varios sistemas complejos de comunicaciones, transporte, publicidad móvil, finanzas, 
+robótica y dispositivos médicos, que van desde la complejidad de los equipos agrícolas hasta la Estación 
+Espacial Internacional.
+Además, hemos incluido casos de estudio de la experiencia de otros arquitectos de sistemas, en disciplinas 
+que van desde autos híbridos a aviones comerciales. Nuestra intención era que este texto solo pueda avanzar 
+en la arquitectura del sistema si funciona a partir de los desafíos que enfrentan los arquitectos de sistemas en 
+la actualidad.
+Escribimos este texto para dos audiencias principales: arquitectos profesionales y estudiantes de ingeniería. La 
+arquitectura del sistema como idea surgió de la sabiduría de los profesionales y de los intentos de codificar los 
+desafíos del desarrollo de una nueva arquitectura. Una audiencia principal son los profesionales de alto nivel 
+que se enfrentan a decisiones arquitectónicas. El campo abarca una variedad de profesionales en cargos 
+técnicos superiores y gerenciales en industrias técnicas: software, electrónica, productos industriales, 
+Aeroespacial, automoción y bienes de consumo.
+Este texto también se centra en los estudiantes de ingeniería como público principal. Este texto surgió del 
+curso de posgrado que hemos enseñado en MIT durante los últimos 15 años, donde hemos tenido la suerte de 
+educar a muchos líderes en el sector privado y el gobierno. La lente de la arquitectura nos ayuda a entender 
+cómo funciona un sistema hoy en día, pero, además, creemos que es una competencia necesaria para 
+aprender en la gestión de organizaciones técnicas.
+Introducción
+
+[p10] Introducción  [FIGURA]
+Introducción 
+a la 
+Arquitectura de Sistemas
+
+[p11] Arquit. de Sistemas Complejos
+Arquit. de Sistemas Complejos
+En junio de 1962, la NASA tomó la decisión de usar una cápsula especial dedicada para descender 
+en la superficie de la Luna desde la órbita lunar, en lugar de descender a la superficie con el 
+Módulo de Comando / Servicio utilizado para llevar a los astronautas a la órbita lunar. 
+Esta decisión implicó que la cápsula especial dedicada, más tarde llamada Módulo Lunar, tendría 
+que encontrarse en órbita lunar con el Módulo de Comando y servicio en su viaje a casa y apoyar 
+una transferencia de tripulación entre ambos vehículos.
+Esta decisión se tomó en el primer año del programa Apollo, siete años antes de que la maniobra 
+se ejecutara en órbita lunar. Se realizó antes de que se contratara a la mayoría del personal del 
+programa y antes de que se adjudicaran los contratos de diseño. 
+Sin embargo, la decisión fue formativa; eliminó muchos diseños posibles y dió a los equipos de 
+diseño un punto de partida. Guió el trabajo de cientos de miles de ingenieros y una inversión que 
+en 1968 superó el 4% de los desembolsos federales (USA).
+Concebimos, diseñamos, implementamos y operamos sistemas complejos (CDIO) y, a 
+veces, sin precedentes. El buque portacontenedores más grande hoy en día transporta 
+18,000 contenedores, frente a los 480 contenedores en 1950.
+
+[p12] Arquitectura de Sistemas Complejos
+Los autos que se construyen hoy en día rutinariamente tienen 70 procesadores repartidos por el 
+vehículo, conectados por hasta cinco buses separados que funcionan a 1 Mbit / s [3], muy lejos de 
+los primeros buses electrónicos utilizados para comunicar la inyección de combustible en solo 160 
+bit / s. Plataformas petroleras que cuestan entre U$S 200 y 800 millones se desarrollan y 
+producen casi rutinariamente; 39 fueron entregados entre 2003 y 2009.
+Estos sistemas no son meramente grandes y complejos. Ellos son algunas veces configurables 
+para cada cliente y a menudo son muy costosos de entregar. Los clientes de productos de 
+consumo esperan niveles de personalización y configuración sin precedentes. 
+Por ejemplo, BMW calculó que ofreció 1.500 millones de configuraciones potenciales a sus 
+clientes en 2004. Algunos sistemas complejos son muy costosos de entregar. Norma Agustín 
+señala que el costo unitario de un avión de combate aumentó exponencialmente desde 1910 
+hasta 1980, pronosticando que en 2053 todo el presupuesto de defensa de los Estados Unidos 
+sería para obtener exactamente un avión. 
+Curiosamente, la predicción de Agustín se ha mantenido bien durante 30 años: en 2010, un 
+Raptor F-22 costó U$S 160 millones, o U$S 350 millones si se incluyen los costos de desarrollo. 
+Arquitectura de Sistemas Complejos
+
+[p13] Sea-based X-band radar  [FIGURA]
+Sea-based X-band radar
+
+[p14] MV Blue Marlin  [FIGURA]
+MV Blue Marlin
+
+[p15] Las Ventajas de una Buena Arquitectura
+Las Ventajas de una Buena Arquitectura
+¿Estos sistemas complejos satisfacen las necesidades de las partes interesadas y entregan valor? ¿Se 
+integran fácilmente, evolucionan con flexibilidad y funcionan de manera simple y confiable?
+¡Los sistemas con buena  arquitectura  lo hacen!
+
+[p16] Las Ventajas de una Buena Arquitectura
+La noción más simple de arquitectura que usaremos es que la arquitectura es una descripción abstracta de 
+las entidades de un sistema y la relación entre esas entidades. En los sistemas construidos por humanos, 
+esta arquitectura puede representarse como un conjunto de decisiones.
+La premisa de este texto es que es más probable que nuestros sistemas tengan éxito si tenemos cuidado de 
+identificar y tomar las decisiones que establecen la arquitectura de un sistema. Este texto es un intento de 
+codificar la experiencia y el análisis sobre las decisiones tempranas del sistema y reconocer que estas 
+opciones comparten temas comunes. En los últimos 30 años, el análisis y los esfuerzos computacionales 
+abrieron un amplio espacio comercial de opciones, y en muchas áreas, ese espacio comercial creció más 
+rápido que nuestra capacidad para entenderlo. El campo de la arquitectura de sistemas surgió de los 
+intentos de los practicantes de captar la sabiduría de expertos de diseños pasados y de estructurar una 
+comprensión más amplia de los diseños futuros potenciales.
+El contexto de mercado en el que compiten nuestros productos y sistemas no ofrece ninguna comodidad.
+Considere la decisión de Boeing de "apostar a la compañía" en el desarrollo del avión 787 y la tecnología 
+compuesta asociada. Boeing es la mitad de un duopolio global para grandes aviones de pasajeros, pero en 
+su negocio principal, en lugar de distribuir el riesgo en muchos programas pequeños, la empresa se enfoca 
+en el éxito o fracaso emergente de un solo producto. 
+Las Ventajas de una Buena Arquitectura
+
+[p17] Las Ventajas de una Buena Arquitectura
+El mercado global para dispositivos móviles es aún más grande y más competitivo. Aunque se puede 
+argumentar que el riesgo del producto está más diversificado (es decir, una inversión en desarrollo de 
+producto individual es una fracción más pequeña de los ingresos de la empresa) en el sector móvil, es 
+testigo de las caídas de los ex gigantes de BlackBerry y Ericsson. Para capturar la cuota de mercado, los 
+sistemas deben innovar en la oferta de productos, incorporar tecnologías novedosas y abordar múltiples 
+mercados. Para competir en márgenes estrechos, deben estar diseñados para optimizar los costos de 
+fabricación, entregados a través de cadenas de suministro de múltiples niveles. Argumentaremos que las 
+buenas decisiones arquitectónicas tomadas por las empresas pueden crear una ventaja competitiva en 
+mercados difíciles, pero las malas decisiones pueden entorpecer grandes desarrollos desde el principio.
+Todo sistema construido por humanos tiene una arquitectura. Los productos como el software de los 
+teléfonos móviles, los automóviles y los equipos de capital semiconductor se definen mediante algunas 
+decisiones clave que se toman al principio del ciclo de vida de cada programa. Por ejemplo, las decisiones 
+tempranas en el desarrollo automotriz, como el montaje del motor, impulsan una serie de decisiones 
+posteriores. La elección de montar un motor transversalmente en un automóvil tiene implicaciones para la 
+modularización del motor, la caja de cambios y el tren motriz, así como para la suspensión y el 
+compartimiento de pasajeros. La arquitectura de un sistema transmite mucho sobre cómo se organiza el 
+producto.
+Las Ventajas de una Buena Arquitectura
+
+[p18] Las Ventajas de una Buena Arquitectura
+En el diseño de sistemas complejos, muchas de estas primeras decisiones arquitectónicas se toman sin un 
+conocimiento completo del eventual alcance del sistema. Estas primeras decisiones tienen un enorme 
+impacto en el diseño final. Limitan la cobertura del rendimiento, restringen los sitios de fabricación 
+potenciales, hacen posible o imposible que los proveedores capturen la participación en los ingresos del 
+mercado secundario, etc. Como ejemplo de la recopilación de información en sentido descendente para el 
+consumo en sentido ascendente, el ancho de los pulverizadores de cultivos de John Deere se debe limitar a 
+la separación de la columna  en el lugar de fabricación. En este caso, la restricción de ancho es obvia para el 
+equipo de desarrollo y no era incierta u oculta, pero es una de las principales variables en la ecuación de 
+productividad para un rociador de cultivos. 
+La afirmación central de este texto es que estas decisiones tempranas se pueden analizar y tratar.
+A pesar de la incertidumbre sobre el alcance, incluso sin conocer el diseño detallado de los componentes, 
+la arquitectura del sistema merece un examen. La arquitectura de un sistema es un proceso suave, un 
+compuesto de ciencia y arte; no abrigamos fantasías de que esto pueda o deba ser un proceso lineal que 
+resulte en una solución óptima. Más bien, escribimos este texto para reunir lo que hemos aprendido sobre 
+las ideas y prácticas centrales que componen la arquitectura del sistema. Nuestra afirmación central es que 
+la creatividad estructurada es mejor que la creatividad no estructurada.
+Las Ventajas de una Buena Arquitectura
+
+[p19] Las Ventajas de una Buena Arquitectura
+Este enfoque en las decisiones permite a los arquitectos del sistema intercambiar directamente las opciones 
+para cada decisión, en lugar de los diseños subyacentes que representan, lo que fomenta una evaluación 
+más amplia del concepto. Al mismo tiempo, este lenguaje de decisión permite a los arquitectos del sistema 
+ordenar las decisiones de acuerdo con su influencia en el rendimiento del sistema, en reconocimiento de 
+que las arquitecturas del sistema rara vez se eligen de una sola vez; más bien, se definen iterativamente por 
+una serie de elecciones.
+El fallido Sistema Nacional de Satélites Ambientales de órbita polar (NPOESS) es un ejemplo de decisiones 
+arquitectónicas que obstaculizan un sistema. NPOESS1 se creó en 1994 a partir de la fusión de dos 
+programas operacionales de satélites meteorológicos existentes, uno civil (predicción del clima) y uno 
+militar (imágenes del tiempo y de nubes). La justificación de la fusión no fue infundada; estos dos sistemas 
+que recopilan datos relacionados presentaron una oportunidad de consolidación de costos de $ 1.3 mil 
+millones de dólares.
+Al principio del programa fusionado, se tomó la decisión de incluir la capacidad de superconjunto de 
+instrumentos de ambos programas históricos. Por ejemplo, se esperaba que el instrumento VIIRS (Visible 
+Infrared Image Radiometer Suite) combinara las capacidades de tres instrumentos históricos.
+El supuesto subyacente al programa era que la complejidad funcional del programa fusionado se escalaría 
+linealmente con la suma de los dos programas históricos. Esto podría haberse sostenido, si el programa 
+hubiera derivado necesidades y conceptos de los instrumentos del patrimonio.
+Las Ventajas de una Buena Arquitectura
+
+[p20] Las Ventajas de una Buena Arquitectura
+Sin embargo, una segunda decisión de enumerar nuevas funciones independientes del concepto del sistema 
+atrapó el rendimiento arquitectónico en un rincón inalcanzable de su envolvente. Por ejemplo, el instrumento 
+VIIRS debía realizar las tareas de tres instrumentos con menos masa y volumen que un solo instrumento histórico. 
+Una serie de decisiones arquitectónicas tempranas colocaron a NPOESS en un camino de desarrollo largo y 
+problemático, intentando crear diseños detallados que ignoraban las tensiones fundamentales del sistema.
+Además, el hecho de no haber designado a un arquitecto de sistemas responsable de administrar estos 
+intercambios durante los primeros años del programa anticipó los desafíos futuros. El programa se canceló en 
+2010, $ 8.5 mil millones sobre el estimado original de $ 6.5 mil millones. 
+Este texto no es una fórmula o un manual para el desarrollo de productos. El éxito no está asegurado.
+La experiencia sugiere que equivocarse en la arquitectura hundirá el barco, pero que hacer lo "correcto" 
+simplemente crea una plataforma en la que la ejecución del producto puede florecer o fracasar.
+Hay muchos aspectos de este texto que son aplicables a todos los sistemas, ya sean construidos por humanos, 
+evolucionado por la sociedad, o evolucionado naturalmente. El análisis de arquitectura puede ser aplicado a 
+sistemas construidos o evolucionados.
+Por ejemplo, los investigadores del cerebro intentan desplegar la arquitectura del cerebro, los planificadores 
+urbanos se ocupan de la arquitectura de las ciudades y los científicos políticos y otros científicos se esfuerzan por 
+comprender la arquitectura del gobierno y la sociedad. Pero nos enfocaremos predominantemente en sistemas 
+construidos.
+Las Ventajas de una Buena Arquitectura
+
+[p21] Objetivos del Aprendizaje
+Este es un texto sobre cómo pensar, no qué pensar. Nuestra intención es ayudar al lector a desarrollar una 
+forma de pensar y crear una arquitectura de sistema, no proporcionar un conjunto de procedimientos. La 
+experiencia sugiere que los mejores arquitectos tienen una comprensión notablemente común de la 
+arquitectura y sus métodos, pero el contenido con el que trabajan y el contexto en el que trabajan varían 
+ampliamente. Este texto tiene como objetivo ayudar a los arquitectos de sistemas a estructurar y liderar las 
+fases iniciales y conceptuales del proceso de desarrollo del sistema, y apoyar el proceso a lo largo de su 
+desarrollo, implementación, operación y evolución. Para estos fines, este texto proporciona orientación 
+para ayudar a los arquitectos
+• Usar el pensamiento del sistema en un contexto de producto y un contexto de sistema 
+• Analizar y criticar la arquitectura de los sistemas existentes 
+• Identificar decisiones arquitectónicas y diferenciar entre decisiones arquitectónicas y no arquitectónicas 
+• Crear la arquitectura de sistemas nuevos o mejorados, y producir los resultados del arquitecto 
+• Colocar la arquitectura en el contexto de valor y la ventaja competitiva para el producto y la empresa 
+• Impulsar la ambigüedad del proceso ascendente definiendo el contexto y límites del sistema, interpretando 
+las necesidades, estableciendo metas y definiendo funciones entregadas externamente 
+• Crear el concepto para el sistema, que consiste en una función y forma internas, mientras piensa 
+holísticamente y fuera de la caja cuando sea necesario 
+Objetivos del Aprendizaje
+
+[p22] Objetivos del Aprendizaje
+• Administrar la evolución de la complejidad del sistema y prever la incertidumbre futura de tal manera que 
+se cumplan los objetivos y se entreguen las funciones, mientras el sistema permanece comprensible para 
+todos durante su diseño, implementación, operación y evolución 
+• Desafiar y evaluar críticamente los modos actuales de arquitectura
+• Identificar el valor de la arquitectura, analice el proceso de desarrollo de productos existente de una 
+empresa y localice el papel de la arquitectura en el proceso de desarrollo de productos 
+• Desarrollar los principios rectores para una arquitectura exitosa
+Para lograr estos objetivos, presentamos los principios, métodos y herramientas de la arquitectura del 
+sistema. Los principios son los fundamentos subyacentes y duraderos que son siempre (o casi siempre) 
+válidos. Los métodos son las formas de organizar enfoques y tareas para lograr un fin concreto; deberían 
+estar sólidamente fundamentados en principios, y son usualmente o con frecuencia aplicables. Las 
+herramientas son las formas contemporáneas de facilitar el proceso; son aplicables a veces. Uno de nuestros 
+objetivos declarados es que los lectores desarrollen sus propios principios de arquitectura del sistema a 
+medida que avanzan en el texto. El arquitecto debe basar las decisiones, métodos y herramientas en estos 
+principios.
+“Los principios son reglas y pautas generales, destinadas a ser duraderas y rara vez enmendadas, que 
+informan y respaldan la forma en que una organización establece el cumplimiento de su misión. A su vez, los 
+principios pueden ser solo un elemento en un conjunto estructurado de ideas que definen y guían 
+colectivamente a la organización, desde los valores hasta las acciones y los resultados ”
+Objetivos del Aprendizaje
+
+[p23] Pensamiento de Sistema  [FIGURA]
+Pensamiento de Sistema
+
+[p24] Pensamiento de Sistema o Sistémico
+Pensamiento de Sistema o Sistémico
+Es pensar en una pregunta, en una circunstancia o en un problema explícitamente como un 
+sistema, un conjunto de entidades interrelacionadas. No es pensar sistemáticamente. 
+El pensamiento sistémico 
+se puede utilizar de varias 
+maneras:
+
+[p25]   [FIGURA]
+(sin texto)
+
+[p26] Pensamiento Sistémico
+Cuatro tareas que nos ayudan en el pensamiento de sistema:
+1.
+Identificar el sistema, su forma y su función. 
+2.
+Identificar las entidades del sistema, sus forma y función, y los límites y contexto del 
+sistema.
+3.
+Identificar las relaciones entre las entidades en el sistema y en el límite, así como su 
+forma y función.
+4.
+Identificar las propiedades emergentes del sistema según la función de las entidades y sus 
+interacciones funcionales.
+Pensamiento Sistémico
+
+[p27] Sistemas y sus Emergentes
+Sistemas y sus Emergentes
+Sistema
+Debido a que el pensamiento sistémico es un razonamiento sobre una pregunta,  una 
+circunstancia o un problema explícitamente como un sistema, nuestro punto de partida 
+para el pensamiento del sistema debe ser una discusión de los sistemas.
+Pocas palabras en el idioma inglés moderno  se aplican o definen tan ampliamente 
+como la palabra “system”, en castellano “sistema”. 
+La definición que utilizamos es la siguiente.
+Un sistema es un conjunto de entidades y sus relaciones, cuya 
+funcionalidad es mayor que la suma de las entidades 
+individuales.
+
+[p28] Definición de Sistema
+Definición de Sistema
+La definición tiene dos partes importantes:
+2. Cuando las entidades interactúan, aparece una función que es mayor que, o distinta de 
+las funciones de las entidades individuales.
+En el núcleo de todas las definiciones de la palabra "sistema" se encuentra la primera propiedad que se 
+enumera aquí: la presencia de entidades y sus relaciones. Entidades (también llamadas partes, 
+módulos, rutinas, ensamblajes, subsistemas, etc.) son simplemente los trozos que conforman el 
+conjunto. Las relaciones pueden existir y ser estáticas (como en una conexión) o dinámicas e 
+interactivas (como en un intercambio de bienes).
+Según esta parte de la definición, ¿Porqué algo no calificaría como un sistema? 
+Si ese algo es uniforme en su consistencia, no es un sistema. Por ejemplo, un ladrillo (en un nivel 
+macroscópico) no es un sistema, porque no contiene entidades
+1. Un sistema está formado por entidades que interactúan o están interrelacionadas
+
+[p29] Algunos Ejemplos de Sistema
+¡Fíjense en lo difícil que se debe trabajar para definir cosas que no son sistemas! Alguien podría 
+argumentar que en la escala correcta, un ladrillo es un sistema: está hecho de arcilla, que a su vez es una 
+mezcla de materiales, y los materiales tienen relaciones tales como compartir la carga y estar en una 
+forma geométrica (un paralelepípedo). Del mismo modo, una persona en Ucrania podría gastar un euro 
+para comprar arroz asiático, vinculando a estas entidades a un sistema comercial.
+Sin embargo, un muro de ladrillos se calificaría como un sistema, porque contiene entidades (muchos 
+ladrillos y mucho mortero) y relaciones (intercambio de carga y geometría). Del mismo modo, si un 
+conjunto de entidades no tienen relaciones (por ejemplo, una persona en Ucrania y una bolsa de arroz 
+en Asia), no constituyen un sistema.
+De hecho, en términos generales, casi cualquier conjunto de entidades puede interpretarse como un 
+sistema, y es por eso que la palabra se usa tan comúnmente. Un concepto estrechamente relacionado es 
+el adjetivo "complejo", que (en su sentido original y primario) significa tener muchas entidades y 
+relaciones. En algunos idiomas, el sustantivo "complejo" se usa para referirse a un sistema, como a veces 
+lo es en inglés técnico (como en "Launch Complex 39A" en el Centro Espacial Kennedy).
+Algunos Ejemplos de Sistema
+
+[p30] Introducción Pensamiento de Sistema o Sistémico
+Otro concepto estrechamente relacionado es la arquitectura.  En su forma más 
+simple, la arquitectura se puede definir como "una descripción abstracta de las 
+entidades de un sistema, y la relación entre esas entidades".  Claramente, la noción 
+de un sistema (que existe y funciona) y la arquitectura (la descripción del sistema) 
+están íntimamente relacionados.
+Introducción Pensamiento de Sistema o Sistémico
+Dos ideas que a menudo se confunden son los conceptos de sistema y producto.
+Un producto es algo que es, o tiene el potencial de ser, intercambiado. Por lo tanto, 
+algunos productos no son sistemas (arroz) y algunos sistemas no son productos (el 
+sistema solar), pero muchas de las cosas que construimos son productos 
+(intercambiados) y sistemas (muchas entidades interrelacionadas), por lo que las dos 
+palabras se han mezclado en el uso común.
+
+[p31] Introducción Pensamiento de Sistema o Sistémico
+Emergentes
+El pensamiento de sistema enfatiza la segunda propiedad que se enumera en la definición de un 
+sistema: un sistema es un conjunto de entidades y sus relaciones, cuya funcionalidad es mayor que 
+la suma de las entidades individuales.
+Esta frase enfatizada describe lo que se llama lo que emerge, y es el poder y la magia de los sistemas. 
+La aparición se refiere a lo que aparece, se materializa o emerge cuando un sistema funciona. La 
+obtención de lo que surge deseado es por lo cual construimos sistemas. Comprender la “emergencia” 
+es la meta y el arte del pensamiento sistémico.
+¿Qué surge cuando un sistema se une, se integra? De manera más obvia y crucial, la función emerge. 
+La función es lo que hace a un sistema: sus acciones, resultados (Outcomes) o salidas (Outputs). En 
+un sistema diseñado, diseñamos para que surja la función primaria deseable anticipada (los 
+automóviles transportan personas).
+Esta función primaria a menudo está vinculada al beneficio producido por el sistema (compramos 
+automóviles porque transportan personas). También pueden surgir resultados anticipados pero 
+indeseables (los autos queman hidrocarburos). A veces, cuando un sistema se une, surge una función 
+no anticipada (los automóviles brindan un sentido de libertad personal). Este es un resultado 
+imprevisto deseable. 
+Introducción Pensamiento de Sistema o Sistémico
+
+[p32] Introducción Pensamiento de Sistema o Sistémico
+También puede surgir una función no anticipada no deseada (los autos pueden matar 
+personas). Como se sugiere en la Tabla 2.1, la función emergente puede ser anticipada o  no 
+anticipado, y puede ser deseable o indeseable. También está claro que algo más que la función 
+primaria deseable puede surgir de un sistema (los automóviles también pueden mantenernos 
+calientes o fríos, y los automóviles pueden entretener a las personas).
+Emergentes Anticipados
+Emergentes no anticipados
+Deseables 
+Autos transportan personas
+Autos mantienen cálidos o frescos
+Autos entretienen a las personas
+Autos crean un sentido de libertad 
+personal en las personas
+No deseables
+Autos queman hidrocarburos
+Autos matan personas
+Tabla 2.1 Tipos de funciones emergentes
+Introducción Pensamiento de Sistema o Sistémico
+
+[p33] Introducción Pensamiento de Sistema o Sistémico
+El aspecto esencial de los sistemas es que emergen algunas funciones nuevas. Considere los dos 
+elementos que se muestran en la Figura 2.1: arena y un tubo de vidrio con forma de embudo. La 
+arena es un material natural y no tiene función anticipada. Un embudo concentra o canaliza un 
+flujo. Sin embargo, cuando se juntan, surge una nueva función: medir el tiempo .¿Cómo 
+podríamos haber esperado eso? ¿Arena + embudo produciría un dispositivo de medir el 
+tiempo? ¿Y cómo dos elementos mecánicos, arena y vidrio en forma, producen un sistema 
+informativo que mantiene un registro de la abstracción llamada "tiempo"?
+Figura 2.1
+Introducción Pensamiento de Sistema o Sistémico
+
+[p34] Introducción Pensamiento de Sistema o Sistémico
+Además de la función, emerge su performance o desempeño. El desempeño es cuán bien 
+funciona un sistema o ejecuta su (s) función (es). Es un atributo de la función del sistema. ¿Cuán 
+rápido el carro transporta personas? ¿Con qué precisión el reloj de arena mantiene el tiempo? 
+Estos son temas de performance o desempeño. Tomemos como ejemplo un sistema humano 
+como lo es un equipo de fútbol. La función de todos los equipos de fútbol es la misma: los 
+miembros del equipo deben trabajar juntos para marcar más goles al oponente. Sin embargo, 
+algunos equipos de fútbol tienen una performance mejor que otros: ganan más juegos. Por 
+ejemplo? 
+Introducción Pensamiento de Sistema o Sistémico
+El primer principio de la arquitectura del sistema se refiere a lo que emerge lo que aparece 
+(recuadro 2.2). Los principios son verdades duraderas que son siempre, o casi siempre, 
+aplicables. Los principios que introducimos generalmente comenzarán con citas que ilustran 
+cómo los grandes pensadores de sistemas se han expresado.
+
+[p35] Principio de lo Emergente, de lo que Aparece
+Principio de lo Emergente, de lo que Aparece 
+Box 2.2
+"Un sistema no es la suma de sus partes, sino el producto de las interacciones de esas partes".
+Russell Ackoff
+“EL todo es más que la suma de la partes”
+Aristóteles - Metafísica
+A medida que se juntan las entidades de un sistema, su interacción hará que emerjan funciones, 
+comportamientos, desempeños y otras propiedades intrínsecas. Considere e intente predecir las 
+propiedades emergentes anticipadas e imprevistas del sistema.
+• La interacción de las entidades conduce a la emergencia. La aparición se refiere a lo que aparece, se 
+materializa o emerge cuando un sistema funciona. Es esto que emerge lo que puede dar valor agregado 
+a los sistemas.
+• Como consecuencia de lo que emerge, el cambio se propaga de manera impredecible.
+• Es difícil predecir cómo un cambio en una entidad influirá en las propiedades emergentes.
+• El éxito del sistema ocurre cuando emergen las propiedades anticipadas. La falla del sistema ocurre 
+cuando las propiedades emergentes anticipadas no aparecen o cuando aparecen propiedades 
+emergentes no deseadas no anticipadas
+
+[p36] Emergentes
+Hay otros atributos de operación que emergen de un sistema, tales como confiabilidad, mantenibilidad, 
+operabilidad, seguridad y robustez. A menudo se les llama "bilidades“ “ilities” en inglés . En contraste con lo 
+emergente funcional y de performance, que tiende a crear valor de inmediato, el valor emergente creado 
+por estas “bilidades" tiende a surgir a lo largo del ciclo de vida del sistema. ¿Qué tan seguro transporta un 
+automóvil a la gente? ¿Con qué fiabilidad el reloj de arena mantiene el tiempo? ¿Qué tan confiable se 
+ejecutará el software?
+Emergentes
+
+[p37] Emergentes  [FIGURA]
+Ejemplo natural de un  “emergente”: el huracán 
+Katrina en Nueva Orleans. La devastación de este 
+sistema fue enorme.
+Emergentes
+
+[p38] En resumen:
+En resumen:
+• Un sistema es un conjunto de entidades y sus relaciones, cuya funcionalidad es mayor 
+que la suma de las entidades individuales.
+• Casi cualquier cosa puede considerarse un sistema, porque casi todo contiene 
+entidades y relaciones.
+• La aparición ocurre cuando la funcionalidad del sistema es mayor que la suma de las 
+funcionalidades de las entidades individuales consideradas por separado.
+• Comprender lo “emergente” es la meta y el arte del pensamiento sistémico.
+• La función, el desempeño o performance y las "bilidades" surgen a medida que 
+operan los sistemas. Estos están estrechamente relacionados con el beneficio y 
+el valor, al igual que la ausencia de emergencias.
+
+[p39] Pensamiento Sistema  [FIGURA]
+Pensamiento Sistema
+Tarea 1 : Identificar el Sistema 
+Su Forma y Su Función
+
+[p40] Forma y Función
+Forma y Función
+Los sistemas tienen simultáneamente las características de forma y función. La forma es lo 
+que el sistema es. La función es lo que hace el sistema. Para ayudar a desarrollar una 
+comprensión de la forma y la función en sistemas y el pensamiento de sistema, utilizaremos 
+cuatro ejemplos corrientes: un amplificador OpAm, un equipo de diseño (personas), el 
+sistema circulatorio y el sistema solar. Las figuras 4 a 7 muestran ilustraciones simples o 
+esquemas de estos cuatro sistemas. Tengan en cuenta que los ejemplos son elegidos para 
+incluir sistemas construidos y evolucionados, así como sistemas informativos, organizativos, 
+mecánicos y naturales.
+Cada uno de estos sistemas tiene claramente una forma. La forma es lo que es un sistema; es 
+la encarnación física o informativa que existe o tiene el potencial de existir. La forma tiene 
+figura, configuración, arreglo o disposición, layout. 
+Durante un período de tiempo, la forma es estática y perseverante (aunque la forma se puede 
+alterar, crear o destruir). La forma es lo que se construye; el creador del sistema lo construye, 
+escribe, pinta, compone o fabrica. La forma no es función, pero es necesaria para entregar la 
+función.
+
+[p41] Forma y Función  [FIGURA]
+Figura 5
+Equipo X
+Figura 7 
+Sistema Solar
+Figura 6
+Sistema 
+Circulatorio
+Figura 4
+OpAmp
+Forma y Función
+
+[p42] Forma y Función
+La función es lo que hace un sistema; son las actividades, operaciones y 
+transformaciones que causan, crean o contribuyen al desempeño. La función es la 
+acción para la cual una cosa existe o se emplea. La función no es forma, pero la 
+función requiere un instrumento de forma. La aparición se produce en el dominio 
+funcional. La función, el desempeño, las “bilidades" y las emergencias son todas 
+cuestiones de funcionalidad. La función es más abstracta que la forma, y como se trata 
+de transiciones, es más difícil de diagramar que la forma. 
+La función consiste en un proceso y un operando. El proceso es la parte de la 
+función que es pura acción o transformación, y por lo tanto es la parte que cambia el 
+estado del operando. El operando es la cosa cuyo estado cambia mediante el 
+proceso. La función es inherentemente transitoria; esta implica un cambio en el estado 
+del operando (creación, destrucción o alteración de algún aspecto del estado del 
+operando). En las organizaciones, la función a veces se denomina rol o 
+responsabilidades.
+Forma y Función
+
+[p43] Tarea 1  Pensamiento de Sistema
+Tarea 1  Pensamiento de Sistema 
+Para cada uno de los sistemas construidos, hay un instrumento de forma, un proceso y un 
+operando relacionado con el valor, cuyo cambio en el estado es la razón de la existencia del 
+sistema. Para el circuito amplificador, la señal de salida es el operando relacionado con el 
+valor. Puede haber más de un operando de un proceso (por ejemplo, el voltaje de entrada), 
+pero la creación de la señal de salida amplificada es la razón principal por la que 
+construimos esta especie de dispositivo, y la producción de esta señal de salida amplificada 
+es la función principal del amplificador. 
+El equipo de diseño (Team X) es un tipo de sistema construido. La forma en el colectivo de 
+los individuos, y sus funciones primarias son el desarrollo de un diseño.
+En suma a esta función primaria, el Sistema construido puede también entregar funciones 
+secundarias. 
+Identificar del Sistema su Forma y su Función
+
+[p44] Tarea 1 Pensamiento de Sistema
+Para los sistemas naturales, como el sistema solar y el sistema circulatorio, es un poco más 
+difícil identificar la función. Para el sistema circulatorio, la forma es claramente el colectivo del 
+corazón, pulmones, venas, arterias y capilares. La función podría expresarse como suministro 
+de oxígeno a las células, como en la Tabla 2 (el suministro es el proceso, y el oxígeno es el 
+operando). 
+Pero también se podría decir que la función es absorber el CO2 de las células o, más 
+generalmente, mantener en equilibrio la química del gas de las células. En los sistemas que 
+han evolucionado (en lugar de haber sido diseñados), la identificación de una función definida 
+de forma precisa es un poco más difícil, ya que no es una declaración de intención de diseño 
+de un diseñador. (En principio, podríamos hablar con el diseñador del circuito amplificador y el 
+Equipo X y preguntar, “¿Cuál fue la función que intentabas realizar en el sistema?” O “¿Qué 
+emergencia funcional y de desempeño  anticiparon?
+Tarea 1 Pensamiento de Sistema 
+Identificar el Sistema su Formas y su 
+Función
+
+[p45] Tarea 1 Pensamiento de Sistema
+Tabla  2 Forma y Funciones en Sistemas Simples
+El sistema solar es un desafío aún mayor. Los elementos son incuestionables: el Sol, los 
+planetas, etc. 
+Pero ¿cuál es la función? Una visión centrada en la Tierra podría ser que el sistema solar 
+mantiene la temperatura de la Tierra para hacer posible la vida como la conocemos
+Sistema
+Forma
+Función
+Sistema Amplificador
+Circuito 
+Amplificador 
+Proceso
+Operando
+Amplificación
+Señal de Salida
+Output signal
+Equipo de Diseño Team X
+El Team
+Desarrollo
+Diseño
+Sistema Circulatorio 
+Humano
+Sistema 
+Circulatorio
+Fuentes 
+Suministro
+Oxígeno
+Sistema Solar
+El sistema Solar
+Mantener
+Flujo Solar constante
+Tarea 1 Pensamiento de Sistema 
+Identificar el Sistema su Formas y su Función
+
+[p46] Tarea 1 Pensamiento de Sistema
+Esta es ciertamente una función, pero hay docenas de otras formulaciones de la función del 
+sistema solar que son igualmente válidas. La función enumerada en la Tabla 2 es una 
+declaración más general: el sistema solar mantiene un flujo de energía solar 
+aproximadamente constante hacia los planetas. Esto es realmente un emergente, ya que 
+requiere tanto una salida solar constante como un radio orbital planetario aproximadamente 
+constante. El problema no es que el sistema solar no tenga una función, ¡sino que tiene 
+tantas! Y es muy difícil cuestionar al diseñador sobre la intención del diseño. 
+La distinción entre forma y función también aparece en aquello que los negocios llaman 
+bienes y  servicios. Los bienes son productos que son tangibles. Mientras los servicios son 
+productos menos tangibles y más orientados a procesos (aquello que nosotros podríamos 
+llamar función). Ent realidad cada sistema puedes ser vendido como forma, el cual entrega 
+valor desempeñando la función. O el sistema puede ser vendido como función (servicio) que 
+implícitamente requiere del instrumento de forma para ser ejecutado.
+Tarea 1 Pensamiento de Sistema 
+Identificar el Sistema su Formas y su 
+Función
+
+[p47] Tarea 1 Pensamiento de Sistema
+En cada uno de los cuatro sistemas de la Tabla 2.2, siempre se pueden identificar las características 
+canónicas del sistema: el instrumento de la forma (algo que es) y la función (lo que hace), que a su vez 
+se compone de un proceso (la transformación, mostrado en una fuente especial) y el operando (lo 
+que se transforma, se muestra en negrita). Todos los sistemas tienen estas  tres características
+Cuando Noam Chomsky desarrolló la gramática transformadora (Gramática Universal), proponiendo la 
+estructura profunda que subyace a todo el lenguaje natural humano, descubrió que en la estructura 
+subyacente del lenguaje tiene tres partes: un sustantivo que es el instrumento de la acción (lo que 
+llamamos forma), un verbo que describe la acción (lo que llamamos proceso), y un sustantivo que es el 
+objeto de la acción (lo que llamamos el operando). La unidad básica de todo lenguaje humano es la 
+oración, que tiene dos sustantivos (el instrumento y el operando) y un verbo. Por lo tanto, este modelo 
+sustantivo-verbo-sustantivo o instrumento-proceso-operando es fundamental para todos los sistemas o 
+fundamental para la forma en que el cerebro humano entiende todos los sistemas.
+Tarea 1 Pensamiento de Sistema
+ 
+Instrumento - Proceso - Operando: 
+¿Patrones canónicos en el pensamiento humano?
+
+[p48] Tarea 1 :  Pensamiento de Sistemas
+Tarea 1 :  Pensamiento de Sistemas  
+• Todos los sistemas tienen forma (lo que es el sistema) y función (lo que hace 
+el sistema).
+La forma es el instrumento de la función.
+• La función se desglosa en proceso (la transformación) y el operando (el 
+objeto que se transforma o cuyo estado cambia).
+• La función principal de la mayoría de los sistemas construidos por el hombre 
+generalmente es clara.
+• La función principal de los sistemas evolucionados es más difícil de discernir 
+y con frecuencia está sujeta a interpretación.
+• La representación propuesta de un sistema (forma de instrumento – proceso 
+- operando) se parece mucho a la estructura profunda del lenguaje natural 
+(sustantivo-verbo-objeto) Gramática Universal de Chomsky.
+Resumen: Tarea  1
+
+[p49] Tarea 2 –  Pensamiento de Sistema
+Tarea 2 –  Pensamiento de Sistema
+Sus formas y sus funciones
+Hemos establecido que un sistema en sí puede considerarse como una entidad única que 
+tiene forma y función. Ahora examinaremos cómo un sistema se descompone en 
+entidades, cada una de las cuales también tiene forma y función. Estas entidades están 
+representadas por abstracciones. La selección de las entidades está guiada por el 
+pensamiento holístico y por el enfoque. El sistema está rodeado por un límite que separa 
+el sistema de su contexto. Las siguientes discusiones examinan la Tarea 2 del 
+Pensamiento de Sistemas - System Thinking-, que se indica en el Cuadro 2.4.
+En general, cada una de las entidades del sistema también tendrá forma y función. 
+ Cuadro 2.4      Identificar las entidades de un Sistema, Límite y Contexto
+Entidades con forma y función
+Como cuestión de definición, los sistemas se componen de un conjunto de entidades. 
+Estas entidades son los constituyentes del sistema.
+
+[p50] Tarea 2 –  Pensamiento de Sistema
+Tabla 2. 3  Entidades Sistema y sus Funciones y Forma
+Función
+Sistema
+Función de la Entidad
+Forma de la Entidad
+Forma del Sistema
+Amplificar señal
+Establecer Ganancia
+Resistencia 1
+Circuito 
+Amplificador
+Establecer Ganancia
+Resistencia 2
+Amplificar voltaje
+Amplificador Operacional
+Equipo de diseño
+Interpretar Requerimientos
+Amelia
+Team X
+Desarrollo de Conceptos
+Juan
+Evaluar, Aprobar Diseno
+Jose
+Suministro de Oxígeno 
+a los órganos
+Bomba de sangre
+Pulmones
+El Sistema 
+Circulatorio
+Intercambio de gases con órganos
+Capilares
+Zoom > < Emergente
+                  Agregación >  <  Descomposición
+ Tarea 2 –  Pensamiento de Sistema
+Identificar las entidades de un Sistema, Límite y Contexto
+Algunas veces usaremos la palabra "elemento" (cuyos sinónimos incluyen "parte y pieza”, módulo, 
+subsistema) cuando queremos enfatizar algún aspecto de la forma del sistema. La palabra "entidad" (cuyos 
+sinónimos incluyen "unidad" y "cosa") tiende a evocar genéricamente tanto la forma como la función
+
+[p51] Tarea 2 –  Pensamiento de Sistema
+Las dos columnas en el lado derecho de la Tabla 2.3 muestran la descomposición de la forma de 
+nuestros sistemas de ejemplo en sus elementos constitutivos de forma. El circuito amplificador se 
+descompone en las dos resistencias y el amplificador operacional; El equipo X se descompone en 
+sus miembros, y así sucesivamente. Leyendo de derecha a izquierda, romper un sistema en partes 
+más pequeñas de forma se llama descomposición.
+La lectura de izquierda a derecha, la recopilación de piezas en la forma del sistema se denomina 
+agregación. 
+Las dos columnas del medio de la Tabla 2.3 indican el mapeo de la forma de las entidades 
+en la función de las entidades. Las resistencias 1 y 2 establecen la ganancia. El corazón 
+bombea sangre. Cada una de las entidades del sistema también tiene forma y función. 
+Tengan en cuenta que la función de cada entidad se escribe como un proceso y un 
+operando
+ Tarea 2 –  Pensamiento de Sistema
+Identificar las entidades de un Sistema, Límite y Contexto
+
+[p52] Tarea 2 –  Pensamiento de Sistema
+Las dos columnas en el lado izquierdo de la Tabla 2.3 muestran la forma en que se relacionan la función 
+del sistema y la función de las entidades. Leyendo de izquierda a derecha, dividir la función en 
+componentes se llama zooming. Leyendo de derecha a izquierda, cuando las funciones de las entidades se 
+combinan para producir la función del sistema, encontramos la propiedad buscada de lo emergente.
+La función es una vista casi estática del proceso que actúa sobre un operando. Cuando una serie de 
+funciones actúan en una secuencia de operaciones, surge un comportamiento más dinámico.
+ Tarea 2 –  Pensamiento de Sistema
+Identificar las entidades de un Sistema, Límite y Contexto
+A veces, en el pensamiento sistémico, es útil pensar solo en la función y el zooming (acercándose). Por 
+ejemplo, pensar en el circuito amplificador en términos de amplificación y ajuste de ganancia. Este tipo de 
+pensamiento funcional se utiliza a menudo al principio del análisis y el diseño. Por otro lado, a veces es 
+suficiente razonar sobre la forma y la descomposición, como cuando está desarrollando una “lista de 
+piezas” (amplificador, resistencia 1, resistencia 2). Razonar sobre la forma o la función por separado es 
+una conveniencia: no implica que ambas no estén presentes en última instancia o que no estén 
+vinculadas.
+
+[p53] Tarea 2 –  Pensamiento de Sistema
+Nuestra referencia inicial para "el sistema" es arbitraria. Podríamos haber empezado más 
+arriba con el cuerpo humano como "el sistema", que luego podría descomponerse para 
+encontrar el sistema circulatorio, el sistema digestivo, etc. O podríamos haber empezado más 
+abajo, definiendo el corazón como “el Sistema ", que se compone de cámaras, válvulas, y así 
+sucesivamente. Esto nos lleva a una generalización: 
+Todos los sistemas están compuestos por entidades que también son sistemas, y 
+todos los sistemas son entidades de sistemas más grandes.
+Debido a que la elección inicial de "el sistema" en estas jerarquías es arbitraria, todos los 
+sistemas deben estar formados por sistemas, que están compuestos por sistemas más 
+pequeños, y así sucesivamente. Hay límites: el cosmos en un extremo (pero ¿hay realmente 
+solo un cosmos?) Y los quarks en el otro extremo (pero ¿Realmente no hay nada más 
+pequeño que los quarks?). Lo que importa es que elegimos un límite del sistema que sea útil, 
+de modo que entrenemos nuestra lente de pensamiento sistémico en la parte más 
+importante del problema.
+ Tarea 2 –  Pensamiento de Sistema
+Identificar las entidades de un Sistema, Límite y Contexto
+
+[p54] Tarea 2 –  Pensamiento de Sistema
+En la práctica, la definición de las entidades y los límites es 
+importante y desafiante. Hay cinco problemas que enfrenta el 
+pensador de sistemas:
+• Definición de la descomposición inicial en entidades.
+• Identificar las entidades potenciales utilizando el pensamiento 
+holístico.
+• Bajando a las entidades consiguientes utilizando el enfoque.
+• Creación de abstracciones para las entidades.
+• Definir los límites del sistema y separar el sistema del contexto
+ Tarea 2 –  Pensamiento de Sistema
+
+[p55] Tarea 2 –  Pensamiento de Sistema
+El nivel de dificultad que se encuentra al definir las entidades y, por lo tanto, los límites 
+internos del sistema depende de si el sistema está compuesto de elementos distintos, es 
+modular o es integral. A veces, el sistema está formado por entidades claramente distintas, y la 
+descomposición es obvia. El equipo Team X está formado por tres personas. Cualquier otra 
+descomposición del equipo no tendría sentido. Del mismo modo, el sistema solar está 
+claramente formado por el sol, los planetas y los cuerpos más pequeños (de los cuales hay una 
+multitud). La descomposición inequívoca en entidades es un rasgo de los sistemas que 
+realmente están formados por entidades discretas reunidas y definidas como un sistema (una 
+flota de barcos, una manada de caballos, un bosque de árboles, una biblioteca de libros, etc.). 
+Para los sistemas que son fundamentalmente modulares, la descomposición es más desafiante 
+pero aún relativamente clara. Los módulos son relativamente independientes, especialmente 
+en función. Las relaciones internas son densas dentro de un módulo, y las relaciones entre los 
+módulos son más débiles o menos densas. Para el sistema de circuito amplificador, hay 
+entradas, resistencias, amplificadores, nodos internos y conexiones. Puede haber cierta 
+confusión sobre dónde termina la resistencia y comienza el conector, pero está bastante claro.
+ Tarea 2 –  Pensamiento de Sistema
+Definir la descomposición inicial en entidades
+
+[p56] Tarea 2 –  Pensamiento de Sistema
+Los sistemas integrales son los más difíciles de descomponer. Los sistemas integrales no se pueden dividir 
+fácilmente con su función intacta. A menudo son sistemas altamente interconectados, como el 
+componentes en los mecanismos de dirección de un automóvil (llantas, ruedas, suspensión, engranajes de 
+dirección, columna), algunos de los cuales también son componentes de otros sistemas (calidad de marcha, 
+manejo).
+Los elementos mecánicos verdaderamente integrales (como piezas forjadas complejas y piezas 
+mecanizadas) y circuitos integrados son ejemplos de elementos integrales. Muchos sistemas de información 
+son altamente integrales.
+Identificar las entidades potenciales del sistema: pensamiento holístico
+El holismo insiste en la interconexión íntima de las cosas, en la idea del todo, y pensar de manera holística 
+es pensar deliberadamente sobre el todo. El pensamiento holístico busca identificar todas las entidades (y 
+otros problemas) que podrían ser importantes para el sistema (vea el Principio de Holismo en el  siguiente 
+Cuadro 2.5). Pensamos de manera integral para poder ver todos los aspectos del sistema en cuestión, 
+teniendo en cuenta las influencias y las consecuencias de cualquier cosa que pueda interactuar con el 
+sistema. Usamos el holismo para expandir nuestro pensamiento sobre el problema o asunto en cuestión.
+ Tarea 2 –  Pensamiento de Sistema
+Definir la descomposición inicial en entidades (cont.)
+
+[p57] Principio
+Cada sistema funciona como parte de un sistema grande o varios sistemas más grandes, y cada uno está 
+compuesto de sistemas más pequeños. Piensa de manera holística sobre todas estas relaciones, y 
+desarrollar arquitecturas que estén en armonía con los sistemas más grandes, más pequeños y similares.
+• El holismo sostiene que todas las cosas existen y actúan como conjuntos, no solo como la suma de sus 
+partes. Su sentido es el opuesto al reduccionismo, lo que sugiere que las cosas pueden entenderse 
+explicando cuidadosamente sus partes.
+• Pensar de manera holística es abarcar todos los aspectos del sistema en cuestión, teniendo en cuenta 
+las influencias y las consecuencias de cualquier cosa que pueda interactuar con el sistema.
+• En términos más simples, pensar de manera holística es pensar en todas las cosas (entidades, 
+relaciones, etc.) que pueden ser importantes para la pregunta, circunstancia o problema en cuestión.
+• Los métodos para estimular el pensamiento holístico incluyen una lluvia de ideas estructurada y no 
+estructurada, marcos, pensamientos desde diferentes perspectivas y pensamientos sobre el contexto
+Principio
+s del 
+Holismo
+"Diseñe siempre una cosa considerándola en su próximo contexto más amplio: una silla en 
+una habitación, una habitación en una casa, una casa en un entorno, un entorno en un plano 
+de la ciudad".  Eliel Saarinen
+“Ningún hombre es una isla, entera de sí misma; Cada hombre es un pedazo del continente, 
+una parte de lo principal". 
+John Donne
+Cuadro 2.5
+
+[p58] Tarea 2 –  Pensamiento de Sistema
+El pensamiento holístico pone los problemas e incógnitas en el “radar” para analizarlos.
+Tipos de incógnitas:
+●
+Conocidos desconocidos: sabemos que existen, pero no tenemos información suficiente
+●
+Desconocidos desconocidos: no sabemos que existen, por lo que no podemos evaluar su importancia.
+Objetivo: identificar la mayor cantidad posible de incógnitas para poder considerar su importancia 
+potencial.
+Métodos para estimular el pensamiento holístico:
+●
+Lluvia de ideas (estructurada y no estructurada).
+●
+Desarrollo de marcos que aseguren cubrir todos los temas relevantes.
+●
+Analizar desde distintas perspectivas.
+●
+Pensar explícitamente en el contexto.
+ Tarea 2 –  Pensamiento de Sistema
+Identificar las entidades potenciales del sistema: pensamiento 
+holístico
+
+[p59] Tabla 2.4 La evolución del Pensamiento de sistema en el Team
+Pensamiento Inicial
+acerca de la Entidades
+Después del Pensamiento Holístico 
+Después  Focalizar 
+Después  de crear 
+abstracciones
+ Después  de definir los 
+limites del Sistema
+Juan desarrolla el 
+Concepto
+Juan desarrolla el concepto
+Juan desarrolla el concepto
+Juan desarrolla el concepto
+Juan desarrolla el 
+concepto
+José evalua, 
+Aprueba el diseño
+José evalúa, Aprueba el diseño
+José evalúa, Aprueba el 
+diseño
+José evalua, Aprueba el 
+diseño
+Amelia interpreta los Requerimientos
+Amelia interpreta los 
+Requerimientos
+Amelia interpreta los 
+Requerimientos
+Amelia interpreta los 
+Requerimientos
+Helena determina las necesidades del 
+cliente
+Helena determina las necesidades 
+del cliente
+Marketing hace análisis de 
+mercado
+Marketing hace análisis 
+de mercado
+Cristina hace análisis competitivo
+Cristina hace análisis competitivo
+Kevin Planifica manufactura 
+Kevin Planifica manufactura 
+Operaciones Planifica 
+manufactura y la cadena  
+suministros
+Operaciones Planifica 
+manufactura y la cadena  
+suministros
+James Planea la cadena de suministros
+James Planea la cadena de 
+suministros
+Nicole interpreta las regulaciones
+Luis entrena al equipo
+Juan modela el financiamiento del 
+proyecto
+Tabla 2.4 La evolución del Pensamiento de sistema en el Team 
+X
+
+[p60] Tarea 2 –  Pensamiento de Sistema
+Como ejemplo de aplicación para este tema, aplicaremos los cinco problemas que enfrenta un pensador de 
+sistemas al Equipo X. En un equipo con individuos discretos, la identificación de las entidades a primera vista 
+parece fácil. Como se indica en la primera columna de la Tabla 2.4, supongamos que primero consideramos el 
+diseño como la generación de conceptos (Juan) y la aprobación de diseño (José). La consideración inicial luego 
+se amplió con un pensamiento holístico en una lista más larga de posibles miembros del equipo, incluidos 
+analistas de requisitos, analistas financieros, asesores de equipo y expertos en marketing, fabricación y cadenas 
+de suministro, como se indica en la segunda columna.
+El resultado deseado del pensamiento holístico es una lista más larga de todas las entidades potencialmente 
+importantes a considerar al definir el sistema y su contexto. Esta lista es entonces reducida por el enfoque.
+ Tarea 2 –  Pensamiento de Sistema
+Identificar las entidades potenciales del sistema: pensamiento 
+holístico
+Incluir las Entidades importantes del sistema -  Enfoque
+
+[p61] Cuadro 2.6
+La cantidad de problemas identificables que influirán en un sistema en cualquier momento está más allá 
+de la capacidad de comprensión. Uno debe identificar los problemas más críticos y consecuentes, y 
+centrarse en ellos.
+• En un momento dado, hay decenas o incluso cientos de problemas identificados por un pensamiento 
+holístico que podrían afectar el sistema en cuestión. Esto es demasiado para que cualquier equipo 
+individual o pequeño lo entienda simultáneamente.
+• Para mantener una estrecha consideración de los temas importantes en cualquier momento, uno debe 
+estar preparado para dejar a otros atrás.
+• El fracaso rara vez ocurre en aspectos en los que te enfocas.
+• Procese o filtre este conjunto más amplio de problemas para identificar aquellos que son importantes 
+para ese día o actividad. Concéntrese en las cuestiones difíciles y evite la tentación de abordar primero 
+las más fáciles.
+Cuadro 2.6
+Principio de Enfoque
+"No veo más que tú, pero me he entrenado para darme cuenta de lo que veo".
+Sherlock Holmes en "La aventura del soldado 
+blanqueado" por 
+Sir Arthur Conan Doyle
+"La pregunta no es lo que miras, sino lo que ves".
+ Henry David Thoreau
+
+[p62] Tarea 2 –  Pensamiento de Sistema
+Pregunta 
+central: 
+¿Es 
+esta 
+entidad 
+importante 
+para 
+el 
+resultado 
+que 
+me 
+interesa?
+El 
+cerebro 
+humano 
+solo 
+puede 
+razonar 
+sobre 
+~7 
+± 
+2 
+elementos 
+a 
+la 
+vez.
+Método:
+1.
+Identificar una lista amplia de entidades potencialmente importantes.
+2.
+Seleccionar hasta 7 para enfocarse en un momento dado.
+3.
+Cambiar el conjunto de entidades si las circunstancias cambian.
+Asegurar que el conjunto elegido:
+●
+Sea lo suficientemente amplio para cubrir el problema.
+●
+Sea lo suficientemente reducido para analizarlo con los recursos disponibles.
+ Tarea 2 –  Pensamiento de Sistema
+Incluir las Entidades importantes del sistema - Enfoque
+
+[p63] Tarea 2 –  Pensamiento de Sistema
+Permite representar entidades del sistema de forma simplificada, enfocándose en lo esencial.
+Definición:
+●
+Expresión de la cualidad sin el objeto completo.
+●
+Representación que conserva lo intrínseco y oculta el detalle innecesario.
+Muchos problemas ya traen abstracciones predefinidas (personas, capas, volúmenes de control), que pueden 
+ayudar o limitar el razonamiento.
+Crear abstracciones implica:
+1.
+Destacar los detalles importantes de la entidad.
+2.
+Ocultar la complejidad no necesaria para la pregunta actual.
+ Tarea 2 –  Pensamiento de Sistema
+Crear o reconocer abstracciones para las entidades
+
+[p64] Tarea 2 –  Pensamiento de Sistema
+En el Equipo X, resumimos a una persona fisiológica y psicológicamente compleja en un "miembro del 
+equipo" que podría crear conceptos. Para el sistema circulatorio, extrajimos el complejo órgano llamado 
+corazón en una simple bomba. En el sistema solar, extrajimos toda la masa sólida, el ecosistema y la 
+población del planeta tierra en una esfera.
+Figura 2. 8 
+Detalles escondidos en la abstracción 
+de un amplificador operacional
+ Tarea 2 –  Pensamiento de Sistema
+Crear o reconocer abstracciones para las entidades
+
+[p65] Tarea 2 –  Pensamiento de Sistema
+A partir de estos ejemplos, podemos generalizar las siguientes pautas para crear abstracciones:
+• Cree abstracciones de forma y función con la información importante representada en la 
+superficie y con detalles menos importantes ocultos.
+• Crear abstracciones que permitan la representación de relaciones apropiadas.
+• Crear abstracciones en el nivel correcto de descomposición o agregación.
+• Cree el número mínimo de abstracciones que representarán efectivamente los aspectos del 
+sistema en cuestión.
+ Tarea 2 –  Pensamiento de Sistema
+Crear o reconocer abstracciones para las entidades
+Es posible crear abstracciones poco útiles. Por ejemplo, violaríamos la primera pauta anterior si 
+abstrayéramos un amplificador operacional como fuente de calor. Hacerlo sería técnicamente 
+correcto, pero no sacaría a la superficie el importante papel de la entidad en la amplificación. 
+Podríamos violar la tercera directriz al representar demasiados detalles sobre los componentes de 
+un amplificador operacional. Una vez más, esto podría ser cierto, pero es posible que no se 
+necesiten tantos detalles para comprender el papel del amplificador operacional en un circuito.
+
+[p66] Tarea 2 –  Pensamiento de Sistema
+Al crear abstracciones, naturalmente volverá muchas veces al problema de enfoque para asegurarse de que 
+estaba creando abstracciones que capturaron los problemas importantes. Incluso podría volver al tema del 
+holismo si se le recordara algo que faltaba en la visión holística.
+Las abstracciones no son únicas, qué abstracción es la correcta para elegir depende de la naturaleza de la 
+pregunta, circunstancia o problema en cuestión. Normalmente no se pueden hacer abstracciones 
+universales.
+Para volver al ejemplo del Equipo X de la Tabla 2.4, hemos mantenido como abstracciones a los tres 
+individuos Juan, José y Amelia, pero hemos abstraído a Heather y Cristina en "Marketing" y también sus 
+funciones en el "análisis de mercado". han resumido a Karen y James y sus funciones en la "planificación de 
+las operaciones de fabricación y cadena de suministro". Si bien esta reducción de siete entidades a cinco 
+parece trivial, veremos  que las relaciones entre las entidades se escalan como N2 (N cuadrado). Al definir 
+este pequeño conjunto de contracciones, probablemente hemos reducido las posibles relaciones de 49 a 25, 
+¡una mejora significativa!
+El resultado es un conjunto de abstracciones que son importantes para el sistema pero que aún no se han 
+definido para estar en el sistema. En otras palabras, aún no hemos trazado el límite del sistema.
+ Tarea 2 –  Pensamiento de Sistema
+Crear o reconocer abstracciones para las entidades
+
+[p67] Tarea 2 –  Pensamiento de Sistema
+●
+Delimita lo que está dentro y lo que está fuera del sistema.
+●
+Separa el sistema de su contexto (lo que lo rodea pero es relevante).
+¿Por qué es importante?
+●
+Ayuda a concentrarse en un conjunto manejable de entidades.
+●
+Permite claridad en el alcance y responsabilidades.
+Criterios para trazar el límite:
+●
+Incluir las entidades que necesitamos analizar (comprensión).
+●
+Incluir lo necesario para el diseño (si el objetivo es diseñar).
+●
+Incluir lo que debemos implementar y operar (entrega de valor).
+●
+Respetar límites formales: leyes, contratos, normas.
+●
+Considerar tradiciones o convenciones vigentes.
+●
+Cumplir definiciones de interfaz y estándares (p. ej. con proveedores).
+ Tarea 2 –  Pensamiento de Sistema
+Defina el límite del sistema y sepárelo del contexto
+
+[p68] Tarea 2 –  Pensamiento de Sistema
+Cuando una relación cruza un límite, define una interfaz externa entre el sistema y el contexto. Estas 
+interfaces externas son críticas para el sistema y se tratarán más adelante.
+Resumen de la Tarea 2
+1.
+Todo sistema está compuesto por entidades (que a su vez pueden ser sistemas).
+2.
+La dificultad para definir la composición varía:
+●
+Fácil → sistemas con entidades distintas.
+●
+Media → sistemas modulares.
+●
+Difícil → sistemas integrales.
+3.
+El pensamiento holístico ayuda a encontrar entidades relevantes… pero puede producir demasiadas para 
+un análisis útil.
+ Tarea 2 –  Pensamiento de Sistema
+Defina el límite del sistema y sepárelo del contexto
+
+[p69] Tarea 2 –  Pensamiento de Sistema
+Análisis del 
+desempeño del 
+Marketing
+Planes de 
+Operación
+Amelia Interpreta 
+Requerimientos
+José evalúa y a 
+prueba diseño
+Juan Desarrolla el  
+Concepto
+Límites del Sistema
+Fig 2. 9 Entidades del Team X y los límites de sistema
+• El enfoque ayuda a reducir las entidades a aquellas que deben considerarse en ese momento, pero el 
+conjunto puede cambiar con el tiempo y la actividad.
+• La creación de abstracciones ayuda a traer a la superficie los detalles esenciales de una entidad, mientras 
+oculta el resto de la complejidad.
+• La definición de un límite separa el sistema del contexto
+ Tarea 2 –  Pensamiento de Sistema
+Defina el límite del sistema y sepárelo del contexto
+
+[p70] Tarea 3 –  Pensamiento de Sistema
+Como cuestión de definición, los sistemas se componen de un conjunto de entidades y sus relaciones. A estas 
+alturas, deberíamos haber llegado a esperar que estas relaciones puedan tener dos caracteres: pueden ser 
+relaciones funcionales o relaciones formales.
+Las relaciones funcionales son relaciones entre entidades que hacen algo; implican operaciones, transferencias 
+o intercambios de algo entre las entidades. A veces llamamos interacciones de relaciones funcionales para 
+enfatizar su naturaleza dinámica. Durante las interacciones, los operandos son intercambiados por las 
+entidades o actuados conjuntamente. Así un corazón intercambia sangre con un pulmón, y un miembro del 
+equipo comparte los resultados con un colega. 
+Las relaciones formales son relaciones entre las entidades que existen o podrían existir de manera estable 
+durante un período de tiempo. El adjetivo "formal", derivado de "forma", no es solo una manera de describir 
+una cena fiesta!. Las relaciones formales a menudo incluyen una conexión o una relación geométrica. Por 
+ejemplo, cuando un pulmón está conectado al corazón, o cuando una persona se une a un equipo, existe una 
+relación formal. A veces llamamos estructura de relaciones formales para enfatizar su naturaleza estática.
+En general, una relación funcional generalmente requiere una relación formal. La relación formal es el 
+instrumento de la relación funcional. El corazón no puede intercambiar sangre con el pulmón sin una 
+conexión. Los miembros del equipo no pueden compartir resultados sin estar cerca o tener un enlace de 
+información.
+ Tarea 3 –  Pensamiento de Sistema
+Identificación de las relaciones entre las entidades
+Forma y función de las relaciones
+
+[p71] Tarea 3 –  Pensamiento de Sistema
+Estas relaciones formales y funcionales pueden representarse en un diagrama de relaciones o una tabla de N 
+cuadrados. La Figura 2.10 muestra un diagrama de relaciones de un sistema con dos entidades dentro del 
+sistema y una fuera en el contexto. Las interacciones formales están representadas por las flechas delgadas de 
+dos puntas, y las interacciones funcionales están representadas por flechas más amplias, que pueden ser de 
+una o dos cabezas, dependiendo de la naturaleza de las interacciones. Algunas relaciones están dentro del 
+sistema y otras cruzan el límite del sistema, que está etiquetado como tal e indicado por la línea discontinua. 
+La mejor práctica para tales diagramas es etiquetar las entidades con su forma y función, y también etiquetar 
+las relaciones, pero esto a menudo produce un diagrama muy desordenado.   
+ Ahora podemos usar nuestros ejemplos de ejecución para ilustrar la Tarea 3 de System Thinking, como se 
+expresa en el Cuadro 2.7. El diagrama de relaciones para el circuito amplificador se muestra en la Figura 2.11. 
+Las relaciones estructurales indican que la tensión del circuito de entrada está conectada a la resistencia 1, 
+que está conectada en su otro puerto a la resistencia 2 y al amplificador operacional. La salida del Resistor 2 
+está conectada al amplificador operacional en un puerto diferente y al circuito de salida. Este enlace 
+proporciona un tipo realimentación sobre el amplificador operacional. Para un circuito, estas conexiones 
+estructurales o relaciones formales son conexiones eléctricas. Las flechas indican las interacciones 
+funcionales, que para un circuito son flujos de corriente. En contraste, el diagrama eléctrico estándar para 
+este circuito (Figura 2.4) solo tendría una relación mostrada entre elementos, lo que implicaría para un 
+ingeniero eléctrico tanto una conexión como un flujo de corriente.
+ Tarea 3 –  Pensamiento de Sistema
+Identificación de las relaciones entre las entidades
+
+[p72] Tarea 3 –  Pensamiento de Sistema
+Resistencia 1
+Setear la 
+Ganancia
+Fig 2.10 Un sistema de Entidades Relaciones
+Límites del Sistema
+Amplificador 
+de voltaje
+Op Amp 
+La entrada 
+crea Voltage
+Voltage de 
+Referencia 
+de salida
+ Tarea 3 –  Pensamiento de Sistema
+Identificación de las relaciones entre las entidades
+Interfaces
+Interfaces
+Resistencia 2
+Setear la 
+Ganancia
+Fig 2.11 Estructura formal e interacción funcional para el 
+circuito amplificador
+Límites del Sistema
+
+[p73] Tarea 3 –  Pensamiento de Sistema
+Una representación alternativa de relaciones usa dos tablas N-cuadradas, como se muestra en la 
+Tabla 2.5. Cada tabla N cuadrado enumera las N entidades en cada lado. El primero muestra las 
+relaciones formales, el segundo las relaciones funcionales. Las entidades dentro del sistema 
+están arriba y a la izquierda de las líneas discontinuas. Los términos fuera de la diagonal indican 
+una conexión interna o interfaz. Hay valor tanto en el diagrama de relaciones, que es más fácil de 
+visualizar, como en la tabla N-cuadrada, que tiene más detalles y no se congestiona visualmente a 
+medida que proliferan los nodos y las conexiones.
+Las relaciones formales tienden a ser más concretas y son un buen punto de partida para pensar 
+en las relaciones en general. Sin embargo, al examinar cada relación formal, intente comprender 
+la relación funcional que permite. Las relaciones formales son importantes principalmente 
+porque son instrumentos de las relaciones funcionales. Debido a que la emergencia ocurre en el 
+dominio funcional, son realmente las interacciones funcionales las que son de importancia 
+primordial.
+ Tarea 3 –  Pensamiento de Sistema
+Identificación de las relaciones entre las entidades
+
+[p74]   [FIGURA]
+(sin texto)
+
+[p75]   [FIGURA]
+(sin texto)
+
+[p76] Tarea 3 –  Pensamiento de Sistema
+Interfaces externas
+Pueden existir relaciones formales y funcionales a través de los límites del sistema, entre 
+entidades en el sistema y su contexto. Estos se denominan interfaces externas del sistema. En la 
+tabla N-Cuadrado, Tabla 2.5, estas interfaces externas se indican como cualquier relación fuera de
+la parte de la mesa reservada para el sistema (como "conectado a la entrada"). En el diagrama de 
+relaciones, Figura 2.11, estas interfaces externas se muestran como flechas que cruzan el límite 
+del sistema y están marcadas. Se pueden encontrar interfaces externas similares entre los 
+miembros del Equipo X y los seguidores, y entre el sistema circulatorio y el aire. De hecho, es casi 
+imposible definir un sistema que no esté conectado de alguna manera a entidades más allá de 
+sus límites mediante interfaces externas.
+ Tarea 3 –  Pensamiento de Sistema
+Identificación de las relaciones entre las entidades
+Cuadro 2.7
+Métodos: Tarea 3 del pensamiento sistémico.
+Identificar las relaciones entre las entidades en el sistema y en el límite, así como su 
+forma y función.
+
+[p77] Tarea 3 –  Pensamiento de Sistema
+Resumen de la tarea 3:
+• Fundamental para la definición de un sistema es la existencia de relaciones entre las 
+entidades, que pueden ser formales (existen o podrían existir — estructura) o funcionales 
+(hacer algo — interacciones).
+• En general, algunas de las entidades de un sistema también tendrán relaciones 
+formales y funcionales con entidades de contexto fuera del sistema; tales relaciones 
+ocurren a través de interfaces externas.
+• Las interacciones formales y funcionales pueden representarse eficazmente mediante 
+diagramas de relaciones o tablas de N cuadrado.
+ Tarea 3 –  Pensamiento de Sistema
+Identificación de las relaciones entre las entidades
+
+[p78] Tarea 4 –  Pensamiento de Sistema
+La Importancia de lo emergente
+La emergencia es la magia de un sistema. A medida que se juntan las entidades de un sistema, surge 
+una nueva función como resultado de la combinación de la función de las entidades y las 
+interacciones funcionales entre las entidades. Recuerde que un sistema es un conjunto de 
+entidades y sus relaciones, cuya funcionalidad es mayor que la suma de las entidades individuales. 
+Esta segunda frase se centra puramente en la emergencia. "Mayor funcionalidad" se entrega a través 
+de lo que emerge.    Nada "emerge" en el dominio de la forma del sistema. Cuando la forma del 
+fragmento A y el fragmento B se juntan, nada más sucede en el dominio de formula que la suma A 
+más B. Las propiedades de la agregación de la forma son relativamente fáciles de calcular. La masa 
+del sistema es solo la masa del fragmento A y del fragmento B. La forma es "lineal“. 
+Sin embargo, en el dominio funcional, la suma de A y B es mucho más interesante, es mucho más 
+complicada y no tiene nada que ver con la linealidad. Cuando la función del fragmento A interactúa 
+con la función del fragmento B, ¡casi cualquier cosa puede pasar! Es exactamente esta propiedad de 
+la emergencia la que le da poder a los sistemas.
+Tratar de comprender y predecir la emergencia, y el poder que aporta a los sistemas, es el objetivo 
+principal del pensamiento sistémico.
+ Tarea 4 –  Pensamiento de Sistema
+
+[p79] Tarea 4 –  Pensamiento de Sistema
+Fallas del sistema
+○
+Emergencia deseada anticipada que NO ocurre.
+○
+Emergencia no anticipada y no deseada que sí ocurre.
+●
+Ejemplos de fallas:
+○
+Sistema circulatorio: obstrucción parcial → aumento de presión arterial → emergencia no 
+deseada.
+○
+Equipo X: requisitos bien desarrollados pero mal comunicados → el diseño no cumple 
+objetivos → emergencia deseada no ocurre.
+●
+Claves:
+○
+Un sistema puede “funcionar” en cada parte… pero fallar en su comportamiento emergente.
+○
+Identificar riesgos tanto en lo que puede faltar como en lo que puede aparecer 
+inesperadamente.
+ Tarea 4 –  Pensamiento de Sistema
+
+[p80] Tarea 4 –  Pensamiento de Sistema
+Prediciendo los Emergentes
+Figura 2.12 Las fallas son emergentes del sistema. A320 se siniestró en Varsovia Polonia 
+ Tarea 4 –  Pensamiento de Sistema
+
+[p81] Tarea 4 –  Pensamiento de Sistema
+En la figura anterior se muestra un caso bien documentado de emergencia no deseada no anticipada.
+Un Airbus A320 intentó aterrizar con un viento cruzado con el ala del viento en alto. En la pista resbaladiza, 
+los frenos de las ruedas no eran efectivos, por lo que, después de aterrizar, el piloto intentó aplicar el inversor 
+de empuje basado en el motor, pero no funcionó. ¿Qué pasó? Como medida de seguridad, el sistema de 
+software fue diseñado para no desplegar el inversor de empuje hasta que el avión hubiera "aterrizado“. ¿Que 
+pasó?  Como medida de seguridad, el sistema de software fue diseñado para no desplegar el inversor de 
+empuje hasta que el avión hubiera "aterrizado", lo que se señaló por el peso que comprimía ambos conjuntos 
+del tren de aterrizaje. Pero debido a que un ala se mantuvo baja, el tren de aterrizaje de un lado no estaba 
+comprimido. Todo funcionó exactamente como se planeó ese día, pero el resultado fue una falla del sistema, 
+una emergencia.
+Tratar de comprender y anticipar tales fallas del sistema también es un objetivo del pensamiento del sistema.
+Predicción de Emergentes
+Como lo sugiere el Cuadro 2.8, la última tarea en el pensamiento sistémico es predecir lo emergente. Es difícil 
+predecir a priori lo que surgirá de las combinaciones de las funciones de las diversas entidades de un sistema. 
+La función deseable anticipada puede emerger (éxito del sistema) o puede fallar, o puede surgir algo no 
+anticipado e indeseable (falla del sistema).
+ Tarea 4 –  Pensamiento de Sistema
+
+[p82] Tarea 4 –  Pensamiento de Sistema
+Predicción de Emergentes
+Tres formas de predecir lo emergente
+1.
+Por precedente (experiencia previa)
+-
+Basarse en soluciones idénticas o muy similares ya probadas.
+Ejemplo:
+Equipo X: experiencia previa sugería que ese grupo funcionaría bien junto.
+2.
+Por experimentación
+-
+Combinar entidades y relaciones propuestas para observar qué surge.
+Ejemplos:
+●
+Ajustes y pruebas pequeñas (retoques).
+●
+Prototipos más estructurados para evaluar el comportamiento emergente.
+Cuadro 2.8      
+ 
+Métodos: Tarea 4 del Pensamiento de Sistema
+Basado en la función de las entidades y sus interacciones funcionales, identificar las 
+propiedades emergentes del sistema
+ Tarea 4 –  Pensamiento de Sistema
+
+[p83] Tarea 4 –  Pensamiento de Sistema
+Prediciendo lo Emergente
+3. Por modelado
+Representar funciones de las entidades y su interacción para anticipar el comportamiento global.
+Ejemplos:
+-
+Circuitos integrados: miles de millones de compuertas lógicas fabricadas con propiedades emergentes 
+correctas. 
+¿Cómo? El elemento fundamental es un transistor, que se puede modelar de manera simple, y de ahí en 
+adelante todas las matemáticas. 
+-
+Amplificador operacional: modelado con álgebra y leyes de Kirchhoff.
+¿Qué debe hacer si necesita predecir la emergencia de sistemas que no tienen precedentes, ¿No se puede 
+experimentar y no se puede modelar de manera confiable? ¡Bienvenido a la pregunta en el punto crucial del 
+pensamiento sistémico!
+En estas situaciones, tenemos que razonar sobre lo que surgirá. Este razonamiento puede estar informado 
+parcialmente por precedentes (observando resultados en sistemas similares pero no idénticos) y parcialmente 
+por experimentos y modelos incompletos, pero la proyección sobre la emergencia depende en última instancia 
+del juicio humano.
+ Tarea 4 –  Pensamiento de Sistema
+
+[p84] Tarea 4 –  Pensamiento de Sistema
+Lo emergente depende de las entidades y las relaciones 
+Observe que la emergencia de la función de un sistema depende de la función de las entidades y sus 
+interacciones funcionales. La forma habilita la función de las entidades, y las relaciones formales son 
+instrumentales en las interacciones funcionales. Esto implica que es importante considerar tanto la forma 
+como las relaciones formales (estructura) para predecir la emergencia. Para ver esto más claramente, 
+veamos los sistemas simples que se muestran en la Figura 2.13:
+•
+Un filtro de paso bajo eléctrico, que consiste en una sola resistencia y un condensador. Coloque la 
+resistencia entre la tensión de entrada y la salida, y el condensador entre la salida y la tierra, y se 
+atenúan las altas frecuencias. Cambiar el patrón de conectividad al cambiar los dos componentes, se 
+atenúan las bajas frecuencias.
+•
+Una palanca mecánica, compuesta por una barra y un fulcro. Coloque el punto de apoyo cerca del 
+extremo más lejos del operador, y obtendrá la emergencia deseada de "aumentar la fuerza".Cambie la 
+ubicación, colocando el punto de apoyo más cerca del operador, y la emergencia deseada desaparecerá.
+•
+Un segmento de software simple, con una declaración condicional y un cálculo simple. Ponga la 
+instrucción IF en primer lugar y la instrucción "a = 100" se ejecuta solo si la condición es verdadera. 
+Cambie la secuencia, colocando primero la instrucción a = 100, y siempre se ejecutará.
+ Tarea 4 –  Pensamiento de Sistema
+
+[p85] Tarea 4 –  Pensamiento de Sistema  [FIGURA]
+Tarea 4 –  Pensamiento de Sistema
+Lo emergente depende de las entidades y las relaciones
+
+[p86] Tarea 4 –  Pensamiento de Sistema
+Las relaciones formales son críticas para la emergencia: el patrón de conexión de los componentes 
+eléctricos, la ubicación del fulcro y la secuencia de las instrucciones del software. Las relaciones formales 
+son importantes para guiar una cierta interacción funcional específica que conduce a una emergencia 
+específica a nivel de sistema.
+Resumen de la Tarea 4:
+•
+El emergente se produce cuando la función de las entidades y su interacción funcional se combinan para 
+producir una nueva funcionalidad, que es más que la "suma de las partes".
+•
+El éxito del sistema y la falla del sistema a menudo dependen de lo emergente.
+•
+Lo emergente se puede predecir a priori basándose en el precedente, la experimentación y el modelado. 
+Para sistemas sin precedentes para los cuales la experimentación y el modelado no son fáciles, los 
+humanos deben razonar acerca de la emergencia basándose en la información disponible.
+•
+Lo emergente depende de la función de las entidades habilitadas por la forma y de las relaciones 
+funcionales habilitadas por las relaciones formales.
+•
+ Es la propiedad de lo emergente lo que da a los sistemas su poder y también crea los desafíos para 
+comprenderlos y predecirlos.
+ Tarea 4 –  Pensamiento de Sistema
+Lo emergente depende de las entidades y las relaciones
+
+[p87] Resumen de Pensamiento de Sistema
+Resumen de Pensamiento de Sistema
+●
+Pensar en un problema como un sistema (con entidades y relaciones).
+●
+Objetivo: razonar sobre sistemas y simplificar su complejidad.
+Resultados posibles del pensamiento sistémico:
+●
+Comprender qué es un sistema.
+●
+Examinarlo y darle sentido.
+●
+Predecir cómo podría cambiar si se modifica algo.
+⚠ Predecir emergencias es difícil: los cambios pueden generar efectos imprevistos.
+
+[p88] Características Esenciales de los Sistemas y
+Características Esenciales de los Sistemas y 
+Tareas del Pensamiento de Sistemas
+Características Esenciales de un Sistema
+Tareas del Pensamiento de Sistema
+Tienen forma y función, y la forma es el instrumento de la función.
+Identificar el sistema, su forma y su función.
+Compuestos de entidades, cada una de las cuales también tiene 
+forma y función.
+Identificar las entidades del sistema,
+su forma y función, y el límite y contexto del 
+sistema.
+Las entidades del sistema están vinculadas a través de relaciones que 
+tienen un carácter formal y funcional. Algunas de las entidades están 
+vinculadas a través de relaciones con entidades fuera del sistema.
+Identificar las relaciones entre las entidades en el 
+sistema y en el límite, su forma y su función.
+La función y otras características emergen a medida que las 
+entidades interactúan, guiadas por la forma de las relaciones entre 
+las entidades. 
+Basándose en la función de las entidades y en sus 
+interacciones funcionales, identifique las 
+propiedades emergentes del sistema
+Tabla  2.6
+
+[p89] Pensamiento de Sistema en la Toma de Decisiones
+Informar el juicio y el equilibrio en la toma de decisiones
+●Identificar, analizar y ponderar opciones.
+●Realizar preguntas típicas de un pensador de sistemas:
+○¿Qué tensiones son evidentes en el sistema?
+○¿Qué alternativas equilibran factores y resuelven tensiones?
+○¿Cómo reaccionará la solución ante cambios futuros?
+●Considerar todas las implicaciones importantes de la decisión.
+●Sintetizar un sistema → dominio de la arquitectura de sistemas.
+Pensamiento de Sistema en la Toma de Decisiones
+
+[p90] Referencias
+Referencias
+• [1] Edward Crawley et al., “The Influence of Architecture in 
+Engineering Systems,” Engineering Systems Monograph (2004).
+• [2] George Miller, “The Magical Number Seven, Plus or Minus 
+Two: Some Limits on our Capacity for Information Processing,” 
+Psychological Review 63, no. 2 (1956): 81–97.
+
+[p91] Arquitectura - Forma  [FIGURA]
+Arquitectura - Forma
+
+[p92]   [FIGURA]
+(sin texto)
+
+[p93] https://www.youtube.com/watch?v=caTaBeKUh-U  [FIGURA]
+https://www.youtube.com/watch?v=caTaBeKUh-U
+
+[p94] Arquitectura - Forma
+Arquitectura - Forma
+Los puentes atirantados pueden parecerse a los puentes colgantes: ambos tienen caminos 
+que cuelgan de los cables y ambos tienen torres. ... La diferencia radica en cómo se conectan 
+los cables a las torres. En los puentes colgantes, los cables se mueven libremente a través de 
+las torres, transmitiendo la carga a los anclajes en cada extremo
+
+[p95]   [FIGURA]
+(sin texto)
+
+[p96]   [FIGURA]
+(sin texto)
+
+[p97]   [FIGURA]
+(sin texto)
