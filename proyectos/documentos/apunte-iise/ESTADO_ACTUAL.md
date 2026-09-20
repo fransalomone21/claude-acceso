@@ -11,7 +11,7 @@ y la **fase 1 también**, el mismo día.
 | Índice de diapositivas por título | **cerrado** — `fuentes/clases/titulos.md` |
 | Diapositivas-figura | **cerrado** — 177 PNG en `fuentes/figuras/` (no se commitean; las regenera el extractor) |
 | Insumos de NotebookLM | **guardados y medidos** — `fuentes/externo/` |
-| Glosario controlado | **unidades 1 a 3**: 29 términos en `fuentes/glosario.md`. Las 4 a 7 entran al escribir sus módulos. La cita de «tabla N²» se corrigió en esta sesión (diapositiva 31 → 71/73: apuntaba a la sección equivocada) |
+| Glosario controlado | **unidades 1 a 4**: 34 términos en `fuentes/glosario.md`. Las 5 a 7 entran al escribir sus módulos. La cita de «tabla N²» se corrigió en esta sesión (diapositiva 31 → 71/73: apuntaba a la sección equivocada) |
 | `verificar-lexico.py` | **escrito y en VERDE** |
 | `probar-verificar-lexico.py` | **escrito y en VERDE**: los tres sabotajes dan rojo, el control positivo da verde y la excepción declarada se respeta |
 | Infraestructura Typst | **montada** en `apunte/`: `plantilla.typ`, `biblioteca/paleta.typ`, `biblioteca/figuras.typ` |
@@ -19,8 +19,9 @@ y la **fase 1 también**, el mismo día.
 | **Unidad 1 — M01, M02, M03** | **ESCRITA** — los tres módulos, sobre las 41 diapositivas de la clase 1 |
 | **Unidad 2 — M04, M05, M06, M07** | **ESCRITA** (2026-09-20) — sobre las 97 diapositivas de la clase 2: arquitectura de sistema, pensamiento sistémico y emergentes, forma/función y entidades (Tareas 1-2), relaciones y tabla N² (Tareas 3-4) |
 | **Unidad 3 — M08, M09, M10** | **ESCRITA** (2026-09-20) — sobre las 48 diapositivas de la clase 3: rol del arquitecto y entregables, la ambigüedad (borrosidad/incertidumbre, información desconocida/conflictiva/falsa), y el PDP (cuatro casos reales + PDP genérico + PDP global de 3 vistas) |
-| Unidades 4 a 7 | **pendientes** — una sesión por unidad |
-| PDF | **compila**: `apunte/apunte.pdf`, **54 páginas** |
+| **Unidad 4 — M11, M12, M13, M14** | **ESCRITA** (2026-09-20) — sobre las 124 diapositivas de la clase 4 (la más grande): por qué hace falta la IS (Saturno V, Hubble), sistema de sistemas y la ISS, el proceso de punta a punta (Space Shuttle y un rover marciano) y el motor de NASA de 17 actividades |
+| Unidades 5 a 7 | **pendientes** — una sesión por unidad |
+| PDF | **compila**: `apunte/apunte.pdf`, **67 páginas** |
 | Parcialitos | 1, 2 y 3 en `fuentes/parcialitos.md`. Los de las clases 4 a 7 **no van a llegar**: la cátedra no los devolvió, y **el apunte NO se escribe en función de ellos** (decisión de Fran, 2026-09-20) |
 
 ## Lo que la fase 1 dejó medido
@@ -80,10 +81,30 @@ los `#include` de `apunte.typ`.
    letra, el mismo CDIO de la unidad 1 — la cátedra lo señala explícito
    (clase 3, diapositiva 23) y quedó como `deduccion` en M10.
 
+## Lo que esta sesión (unidad 4) dejó medido
+
+1. **Primer módulo con una figura fuera del libro de Crawley/Cameron/Selva:**
+   las Alternativas Propuestas para el Space Shuttle (Fig. en clase 4,
+   diapositiva 45) muestran 14 familias de conceptos reales evaluados antes
+   de elegir uno — se embebió igual que las de la unidad 3, copiando el PNG
+   a `apunte/figuras/`.
+2. **Dos conexiones nuevas con unidades anteriores**, quedaron explícitas
+   como `deduccion`/`clave` en los módulos: el CDIO detallado de 8 pasos
+   (clase 4, diapositiva 41) es el mismo CDIO de 4 fases de la unidad 1, con
+   más resolución; y la jerarquía del sistema (7 niveles: Sistema, Segmento,
+   Elemento, Subsistema, Componente, Sub ensamble, Parte) es el mismo
+   «principio de los niveles» (N+1/N/N-1) de la unidad 1, con nombre propio
+   en cada escalón — y la fórmula de niveles = log(partes)/log(7) conecta
+   directo con el 7±2 de la unidad 2.
+3. Glosario de la unidad 4 escrito de cero en esta sesión (5 términos
+   nuevos): sistema de sistemas, jerarquía del sistema, CDIO detallado,
+   motor de la ingeniería de sistemas, atributos del ingeniero de sistemas.
+
 ## Qué sigue
 
-**Unidad 4** (clase 4, 124 diapositivas — la más grande del apunte):
-necesidad de la IS, sistema de sistemas (SoS), ISS, el motor NASA. Son los
-módulos M11–M14 del PDP. El glosario de la unidad 4 **todavía no está
-escrito** — entra junto con sus módulos, a diferencia de las unidades 2 y 3
-que ya lo tenían adelantado.
+**Unidad 5** (ciclo de vida, requerimientos, márgenes, alcance): son los
+módulos M15–M18 del PDP. La unidad 4 ya dejó dos promesas explícitas que la
+5 tiene que cumplir: desarrollar **verificación y validación (V&V)** a
+fondo (prometido en M03 y otra vez en M13) y los **márgenes** (prometido en
+M11, con el Saturno V como ejemplo ya usado — no repetirlo, referenciarlo).
+El glosario de la unidad 5 todavía no está escrito.

@@ -162,3 +162,30 @@ color de caja está en la portada.
 #include "modulos/m08-rol-del-arquitecto.typ"
 #include "modulos/m09-la-ambiguedad.typ"
 #include "modulos/m10-el-pdp.typ"
+
+// ---------------------------------------------------------------------
+#parte(4, "La necesidad de la Ingeniería de Sistemas", [
+  Cuatro módulos que dejan el vocabulario de lado y muestran la disciplina
+  en casos reales — de éxitos y de fracasos.
+
+  El primero arranca con dos ejemplos: el margen extra del Saturno V, que
+  hizo posible el Apollo, y la falla del espejo del Hubble, que muestra que
+  cada disciplina puede trabajar bien y el sistema fallar igual.
+
+  El segundo define sistema de sistemas (SoS) y recorre la Estación
+  Espacial Internacional como el caso real: seis centros de control, seis
+  naves de transporte, ninguno con el mismo dueño.
+
+  El tercero recorre el proceso completo, de la necesidad a la operación,
+  en dos ejemplos: el Space Shuttle (con catorce familias de conceptos
+  propuestos antes de elegir uno) y un rover marciano nuevo.
+
+  El cuarto cierra con dos fracasos —el puente de Tacoma, el satélite
+  espía FIA— y con el modelo formal que existe para que no se repitan: el
+  motor de la ingeniería de sistemas de NASA, con sus 17 actividades.
+])
+
+#include "modulos/m11-la-necesidad-de-la-is.typ"
+#include "modulos/m12-sistema-de-sistemas-y-la-iss.typ"
+#include "modulos/m13-el-proceso-de-punta-a-punta.typ"
+#include "modulos/m14-el-motor-de-la-is-nasa.typ"

@@ -4,8 +4,9 @@ La fuente única de cómo se nombra cada cosa en el apunte. **Un término se
 define acá una vez, y después se usa siempre igual** — en esta materia dos
 palabras distintas son dos conceptos distintos, y así se corrige.
 
-Estado: **unidades 1 a 3 cubiertas** (las que ya tienen parcialito). Las
-unidades 4 a 7 se agregan a medida que se escriben sus módulos.
+Estado: **unidades 1 a 4 cubiertas** (las 1 a 3 tienen parcialito; la 4 se
+escribió junto con sus módulos, sin uno). Las unidades 5 a 7 se agregan a
+medida que se escriben sus módulos.
 
 ## Cómo se lee cada entrada
 
@@ -350,11 +351,82 @@ actualizar continuamente— los objetivos del equipo del arquitecto.»
 
 ---
 
+## Unidad 4 — la necesidad de la IS, sistema de sistemas, el motor NASA
+
+### sistema de sistemas (SoS)
+**Definición.** Un problema interdisciplinario de gran escala que involucra
+sistemas múltiples, heterogéneos y distribuidos. Sus ocho características:
+elementos del sistema que operan independientemente; elementos con
+**diferentes ciclos de vida**; requerimientos iniciales probablemente
+ambiguos; la **complejidad** es el factor más importante; la gestión
+(_management_) puede oscurecer la ingeniería; límites difusos causan
+confusión; y la ingeniería de un SoS **nunca termina**.
+**Fuente:** clase 4, diapositiva 20 (INCOSE SE Handbook v3.2). **Grado:** confirmado.
+**No confundir con:** un #t[sistema] grande. Lo que distingue a un SoS no es
+el tamaño: es que sus elementos **ya eran sistemas completos y operativos
+por su cuenta**, con dueños y ciclos de vida propios, antes de juntarse.
+
+### jerarquía del sistema
+**Definición.** La notación NASA para descomponer un producto en piezas cada
+vez más chicas: **Sistema → Segmento → Elemento → Subsistema → Componente →
+Sub ensamble → Parte**.
+**Fuente:** clase 4, diapositivas 41, 111 y 112. **Grado:** confirmado.
+**El detalle que se pierde:** el nivel es **relativo al proyecto, no
+absoluto** — *"el sistema de un proyecto es el componente de otro"*
+(diapositiva 111). Es la misma idea que el #t[principio de los niveles] de
+la unidad 1 (sistema N+1 / N / N-1), ahora con **siete escalones** con
+nombre en vez de tres genéricos.
+
+### CDIO detallado
+**Definición.** La versión de ocho pasos del ciclo de vida de un proyecto,
+más específica que el #t[CDIO] de cuatro fases: **Necesitar, Requerir,
+Descomponer, Diseñar, Integrar, Verificar, Operar y Disponer**.
+**Fuente:** clase 4, diapositiva 41. **Grado:** confirmado.
+**No confundir con:** el CDIO simple de la unidad 1. Son la misma secuencia
+vista con más resolución — la cátedra lo dice explícitamente: *"esto es CDIO
+pero más detallado, más específico"*.
+
+### motor de la ingeniería de sistemas
+**Definición.** El modelo de NASA con **17 actividades de proceso** para el
+diseño, la realización y la dirección de un sistema, agrupadas en seis
+procesos: **Definición de Requerimientos** (1-2), **Definición de
+Soluciones Técnicas** (3-4), **Realización de Producto** (5-6),
+**Evaluación** (7-8: verificación y validación del producto), **Transición
+del Producto** (9), **Planificación Técnica** (10) y **Control Técnico**
+(11-15: gestión de requerimientos, interfaces, riesgo técnico,
+configuración y datos técnicos), cerrando con **Evaluación Técnica** (16) y
+**Análisis de Decisión Técnica** (17).
+**Fuente:** clase 4, diapositivas 102 a 119 (NASA SE Handbook SP-2007-6105).
+**Grado:** confirmado.
+**Lo que se pierde si no se dice:** los requerimientos fluyen **hacia
+abajo** por la estructura del sistema (proceso de diseño) mientras los
+productos se realizan y fluyen **hacia arriba** (proceso de realización) —
+son dos direcciones simultáneas sobre la misma jerarquía, no dos fases
+sucesivas.
+
+### atributos del ingeniero de sistemas
+**Definición (Gentry Lee).** Los rasgos que distinguen a un buen ingeniero
+de sistemas: curiosidad intelectual; ver el _big picture_ y el detalle a la
+vez; hacer conexiones en un sistema grande (tabla N²); estar cómodo con el
+cambio, la incertidumbre y lo desconocido; ser un comunicador excepcional en
+las dos direcciones; «paranoia apropiada» (esperar lo mejor, planificar para
+lo peor); confianza en sí mismo y decisión («comisión, no omisión»);
+apreciar el rigor de los procesos y saber dónde parar; ser fuerte como
+miembro de equipo y como líder; y tener habilidades técnicas diversas para
+aplicar juicio técnico.
+**Fuente:** clase 4, diapositiva 122. **Grado:** confirmado.
+**La cita que cierra la unidad:** *"Nunca ha habido un proyecto en la
+historia que cualquier conjunto de requerimientos haya cubierto el
+significado real de aquello que necesita ser hecho"* — los requerimientos
+son aproximaciones hechas con lenguaje, y se interpretan.
+
+---
+
 ## Pendiente
 
-Las unidades 4 a 7 todavía no están: sistema de sistemas, niveles de sistema,
-requerimiento y su familia, márgenes, las siete palabras del alcance
-(necesidad, meta, objetivo, hipótesis, misión, ConOps, restricción),
-verificación y validación, interfaces e ICD/IDD, los modelos de ciclo de vida
-(V, cascada, espiral, ágil) y los métodos de creación de arquitecturas. Se
+Las unidades 5 a 7 todavía no están: requerimiento y su familia, márgenes,
+las siete palabras del alcance (necesidad, meta, objetivo, hipótesis,
+misión, ConOps, restricción), verificación y validación a fondo, interfaces
+e ICD/IDD, los modelos de ciclo de vida (V, cascada, espiral, ágil) y los
+métodos de creación de arquitecturas. Se
 agregan al escribir sus módulos.
