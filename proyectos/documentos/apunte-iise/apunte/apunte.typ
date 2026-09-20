@@ -189,3 +189,36 @@ color de caja está en la portada.
 #include "modulos/m12-sistema-de-sistemas-y-la-iss.typ"
 #include "modulos/m13-el-proceso-de-punta-a-punta.typ"
 #include "modulos/m14-el-motor-de-la-is-nasa.typ"
+
+// ---------------------------------------------------------------------
+#parte(5, "Ciclo de vida, requerimientos, márgenes y alcance", [
+  Cuatro módulos que dejan el vocabulario más denso de requerimientos de
+  toda la materia, y cumplen dos promesas que las unidades anteriores
+  dejaron abiertas: desarrollar la verificación y validación a fondo, y
+  desarrollar la gestión de márgenes.
+
+  El primero recorre las siete fases del ciclo de vida de NASA y el
+  diagrama en V, con sus tres perspectivas —cliente, ingeniería de
+  sistemas, contratista— y la misma lógica aplicada al desarrollo de
+  software.
+
+  El segundo define qué es un requerimiento, contrasta un caso mal escrito
+  (el Mars Climate Orbiter, perdido por una confusión de unidades) con uno
+  bien escrito (el DC-3, en tres páginas), y desarrolla la gestión de
+  márgenes que el margen del Saturno V dejó pendiente en la unidad 4.
+
+  El tercero cubre la semántica shall/will/should, los cinco tipos de
+  requerimientos con el ejemplo del TVC, y seis niveles de trazabilidad con
+  el radar de acople del Apollo — cerrando con la interfaz física entre el
+  Módulo de Comando y el Módulo Lunar.
+
+  El cuarto desarrolla a fondo la diferencia entre verificar y validar, con
+  la cámara de vacío térmico del Johnson Space Center como el caso de
+  verificación ambiental, y cierra con los siete elementos del alcance y el
+  Concepto de Operación, aplicados enteros al Crew Exploration Vehicle.
+])
+
+#include "modulos/m15-ciclo-de-vida-y-diagrama-en-v.typ"
+#include "modulos/m16-que-es-un-requerimiento-y-margenes.typ"
+#include "modulos/m17-familia-de-requerimientos-y-trazabilidad.typ"
+#include "modulos/m18-verificacion-validacion-y-alcance.typ"

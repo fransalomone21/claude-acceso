@@ -150,7 +150,7 @@ escribe uno, usa `#M("clave")` y el número sale del orden de los `#include` de
 | 2 — Pensamiento sistémico, forma y función | 97 | M04–M07 | **escrita** (2026-09-20) |
 | 3 — Rol del arquitecto, ambigüedad, PDP | 48 | M08–M10 | **escrita** (2026-09-20) |
 | 4 — Necesidad de la IS, SoS, ISS, motor NASA | 124 | M11–M14 | **escrita** (2026-09-20) |
-| 5 — Ciclo de vida, requerimientos, márgenes, alcance | 71 | M15–M18 | pendiente |
+| 5 — Ciclo de vida, requerimientos, márgenes, alcance | 71 | M15–M18 | **escrita** (2026-09-20) |
 | 6 — Familia de requerimientos, interfaces, modelos de ciclo | 155 | M19–M22 | pendiente |
 | 7 — Creación de arquitecturas, Fase A, N² | 54 | M23–M26 | pendiente |
-| 0 — Glosario controlado | transversal | M00 | **escrito** (2026-09-20), 29 terminos |
+| 0 — Glosario controlado | transversal | M00 | **escrito** (2026-09-20), 52 terminos |

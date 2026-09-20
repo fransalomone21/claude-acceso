@@ -4,9 +4,9 @@ La fuente única de cómo se nombra cada cosa en el apunte. **Un término se
 define acá una vez, y después se usa siempre igual** — en esta materia dos
 palabras distintas son dos conceptos distintos, y así se corrige.
 
-Estado: **unidades 1 a 4 cubiertas** (las 1 a 3 tienen parcialito; la 4 se
-escribió junto con sus módulos, sin uno). Las unidades 5 a 7 se agregan a
-medida que se escriben sus módulos.
+Estado: **unidades 1 a 5 cubiertas** (las 1 a 3 tienen parcialito; la 4 y la
+5 se escribieron junto con sus módulos, sin uno). Las unidades 6 y 7 se
+agregan a medida que se escriben sus módulos.
 
 ## Cómo se lee cada entrada
 
@@ -422,11 +422,182 @@ son aproximaciones hechas con lenguaje, y se interpretan.
 
 ---
 
+## Unidad 5 — ciclo de vida, requerimientos, márgenes, alcance
+
+### ciclo de vida de NASA
+**Definición.** Las siete fases con las que NASA organiza un proyecto:
+**Pre-Fase A** (Estudio Conceptual), **Fase A** (Desarrollo de Concepto y
+Tecnología), **Fase B** (Diseño Preliminar), **Fase C** (Diseño Final y
+Fabricación), **Fase D** (AIT y Lanzamiento), **Fase E** (Operaciones y
+Sostenimiento) y **Fase F** (Cierre). La cátedra las agrupa en tres bloques
+—**Formulación**, **Aprobación** e **Implementación**— sin marcar en qué
+fase exacta cae el corte entre uno y otro.
+**Fuente:** clase 5, diapositiva 5. **Grado:** confirmado (las siete fases);
+probable (el corte de los tres bloques, no explícito en la diapositiva).
+**No confundir con:** las **revisiones técnicas** (SRR, PDR, CDR…) ni los
+**KDP**, que son los puntos de decisión *entre* fases, no las fases en sí
+— #t[compuerta de control], unidad 3.
+
+### diagrama en V
+**Definición.** El modelo del ciclo de vida de un proyecto que dibuja, en el
+lado *descendente* (izquierdo), la descomposición desde el concepto de
+operación hasta el diseño de detalle, y en el lado *ascendente* (derecho),
+la verificación correspondiente a cada nivel —unidad, subsistema, sistema—
+en simetría con su contraparte de la izquierda. Muestra tres perspectivas a
+la vez: la del cliente/usuario, la de la ingeniería de sistemas y la del
+contratista.
+**Fuente:** clase 5, diapositivas 7 y 8. **Grado:** confirmado.
+**El detalle que se pierde:** el lado izquierdo es *altamente iterativo*; el
+lado derecho, una vez que arranca la implementación, es *principalmente
+serial* (diapositiva 7).
+
+### requerimiento
+**Definición.** Una declaración que describe una función necesaria o una
+característica del sistema que se va a Concebir, Diseñar, Implementar y
+Operar, e impacta en su performance, planificación, costos y otras
+características (riesgo incluido). Se organiza **jerárquicamente**: los de
+alto nivel dicen *qué* debe alcanzarse, no *cómo*, y se especifican en cada
+nivel hasta el hardware y software de cada componente.
+**Fuente:** clase 5, diapositiva 10. **Grado:** confirmado.
+**No confundir con:** *requisito* — el término prohibido de la cátedra, ver
+la tabla del principio de este glosario.
+
+### margen (de requerimientos)
+**Definición.** Una **reserva no alojada** a ningún subsistema en
+particular —de masa, tamaño, memoria, potencia— que existe para absorber la
+incertidumbre del diseño temprano, y que **controlan la ingeniería de
+sistemas y la dirección de proyecto**, no cada subsistema por separado.
+**Fuente:** clase 5, diapositivas 17 y 18. **Grado:** confirmado.
+**Guías típicas de margen de masa, y cómo se consumen con el tiempo:** se
+establece +30% en el SRR, y se va bajando a medida que el diseño madura:
+20% antes del PDR, 10% antes del CDR, 5% antes del IOC. El crecimiento de
+masa real medido en programas de vehículos tripulados es del 10 al 60%,
+según cuán novedoso es el proyecto.
+**La conexión que ya se usó:** es el mismo margen del *quinto motor* del
+Saturno V (unidad 4) — un margen que en el papel "no hacía falta" y que
+terminó siendo la diferencia entre una misión posible y una imposible.
+
+### verificación (de requerimientos)
+**Definición.** El proceso de confirmación de que un sistema está en
+conformidad con sus requerimientos: contesta la pregunta *¿el sistema
+encuentra sus requerimientos?* Confirma además que los requerimientos son
+en verdad verificables, e identifica qué facilidades de ensayo hacen falta.
+**Fuente:** clase 5, diapositiva 50. **Grado:** confirmado.
+**No confundir con:** #t[validación (de requerimientos)] — la verificación
+mira *un* requerimiento puntual contra el sistema ya construido; la
+validación mira el *conjunto* de requerimientos contra la intención
+original de los interesados. La distinción ya se usó, sin desarrollar, en
+el ejemplo del rover marciano (unidad 4).
+
+### validación (de requerimientos)
+**Definición.** El proceso de confirmar la **completitud, la compatibilidad
+y la exactitud** de los requerimientos: contesta si están definidos
+correctamente y si el conjunto completo es autoconsistente.
+**Fuente:** clase 5, diapositiva 56. **Grado:** confirmado.
+
+### tipos de requerimientos
+**Definición.** Cinco categorías, cada una con su propia prueba:
+**funcionales** (qué función debe cumplirse — *el TVC proveerá control de
+pitch y yaw*), **de performance o desempeño** (el grado de esa
+funcionalidad — *el TVC gimbalará el motor hasta 9° ±0,1°*), **de
+restricción** (no negociables en costo, programación o desempeño — *el TVC
+no pesará más de 50 kg*), **de interfaz** (cómo un ítem se conecta con
+otro) y **ambientales** (las cargas —vibroacústicas, térmicas, de shock—
+que el diseño debe soportar).
+**Fuente:** clase 5, diapositiva 60. **Grado:** confirmado.
+
+### trazabilidad
+**Definición.** La propiedad de un requerimiento de bajo nivel de poder
+seguirse **hacia arriba**, hasta el requerimiento de alto nivel del que
+proviene. Sin trazabilidad no se puede confirmar que una pieza construida
+en el nivel más bajo sigue sirviendo al objetivo original de la misión.
+**Fuente:** clase 5, diapositiva 37. **Grado:** confirmado.
+
+### Statement of Work (SOW)
+**Definición.** Un documento de gestión de proyecto: la descripción
+narrativa del trabajo requerido, con actividades, entregables y
+cronogramas específicos para el proveedor que le presta servicio al
+cliente. Suele incluir también requerimientos de muy alto nivel y
+precios, y acompaña a un contrato de servicio maestro o a un RFP (*Request
+For Proposal*).
+**Fuente:** clase 5, diapositiva 25. **Grado:** confirmado.
+
+### semántica de los requerimientos (shall / will / should)
+**Definición.** Tres verbos con tres funciones distintas en la redacción
+técnica: **"shall" / "deberá"** redacta un *requerimiento* en sí (*el
+sistema pesará...*); **"will"** redacta una *declaración de hecho*, que
+suele preceder a uno o más requerimientos dentro de un escenario; **"should"
+/ "debería"** redacta una *meta* de diseño, cuantificable pero no exigible
+como un requerimiento.
+**Fuente:** clase 5, diapositiva 24. **Grado:** confirmado.
+**No confundir con:** #t[meta (elemento del alcance)], que es la meta del
+*proyecto*, no la del diseño de un ítem puntual — comparten la palabra,
+no el nivel al que se aplican.
+
+### necesidad (elemento del alcance)
+**Definición.** El elemento del alcance del que se deriva todo lo demás:
+relacionado con el plan estratégico o de negocio, explica *por qué* el
+proyecto desarrolla este sistema desde el punto de vista de los
+interesados. **No es** una definición del sistema ni de una solución, y no
+cambia mucho durante la vida del proyecto.
+**Fuente:** clase 5, diapositiva 63. **Grado:** confirmado.
+
+### meta (elemento del alcance)
+**Definición.** Un objetivo amplio y fundamental que la organización espera
+lograr para satisfacer una #t[necesidad (elemento del alcance)].
+**Fuente:** clase 5, diapositiva 63. **Grado:** confirmado.
+
+### objetivo (elemento del alcance)
+**Definición.** La expansión concreta de *cómo* se va a alcanzar una
+#t[meta (elemento del alcance)]: las iniciativas que la implementan, junto
+con sus criterios de éxito — el mínimo que los interesados esperan del
+sistema para considerarlo exitoso.
+**Fuente:** clase 5, diapositiva 63. **Grado:** confirmado.
+
+### misión (elemento del alcance)
+**Definición.** El caso comercial —o de negocio— de por qué se necesita el
+producto; definir y restringir la misión ayuda a identificar los
+requerimientos.
+**Fuente:** clase 5, diapositiva 63. **Grado:** confirmado.
+
+### restricción (elemento del alcance)
+**Definición.** Un elemento externo que **no se puede controlar** y que se
+debe cumplir igual, identificado al definir el alcance — casi siempre en
+términos de cronograma y presupuesto.
+**Fuente:** clase 5, diapositiva 64. **Grado:** confirmado.
+
+### autoridad y responsabilidad (elemento del alcance)
+**Definición.** Quién tiene la potestad sobre los distintos aspectos del
+desarrollo del sistema — un centro gubernamental, un contratista, el
+cliente.
+**Fuente:** clase 5, diapositiva 64. **Grado:** confirmado.
+
+### hipótesis (elemento del alcance)
+**Definición.** Un supuesto identificado por los interesados como parte de
+la definición del alcance —por ejemplo, que cierta tecnología necesaria
+será alcanzable— que condiciona a los requerimientos que se derivan
+después.
+**Fuente:** clase 5, diapositiva 64. **Grado:** confirmado.
+
+### concepto de operación (ConOps)
+**Definición.** Una descripción, paso a paso, de cómo el sistema propuesto
+va a operar e interactuar con sus usuarios y con sus interfaces externas
+durante las fases de la misión, para cumplir las expectativas de los
+interesados. Estimula el desarrollo de requerimientos relacionados con el
+usuario y revela funciones de diseño a medida que se consideran distintos
+casos de uso.
+**Fuente:** clase 5, diapositivas 64 y 65. **Grado:** confirmado.
+**El ejemplo que lo prueba:** en la misión Mars Phoenix, el ConOps de
+"poder *ver* el descenso y aterrizaje" agregó un requerimiento de cámara
+(MARDI) que, en operación nominal, no habría hecho falta — la misma lógica
+del margen: una necesidad que aparece al pensar el ciclo de vida completo,
+no en el requerimiento del día uno.
+
+---
+
 ## Pendiente
 
-Las unidades 5 a 7 todavía no están: requerimiento y su familia, márgenes,
-las siete palabras del alcance (necesidad, meta, objetivo, hipótesis,
-misión, ConOps, restricción), verificación y validación a fondo, interfaces
-e ICD/IDD, los modelos de ciclo de vida (V, cascada, espiral, ágil) y los
-métodos de creación de arquitecturas. Se
-agregan al escribir sus módulos.
+Las unidades 6 y 7 todavía no están: la familia de requerimientos que falta
+(ICD/IDD y las interfaces a fondo), los modelos de ciclo de vida (cascada,
+espiral, ágil) y los métodos de creación de arquitecturas. Se agregan al
+escribir sus módulos.
