@@ -1,7 +1,8 @@
 # ESTADO ACTUAL — Apunte de IISE
 
-**Fase 2** (redacción, una unidad por sesión). La fase 0 cerró el **2026-09-20**
-y la **fase 1 también**, el mismo día.
+**Fase 3** (cobertura contra los parcialitos). Las fases 0, 1 y **2 —las 7
+unidades escritas— cerraron el 2026-09-20**, en la misma sesión de trabajo
+continuada.
 
 ## Qué hay
 
@@ -11,7 +12,7 @@ y la **fase 1 también**, el mismo día.
 | Índice de diapositivas por título | **cerrado** — `fuentes/clases/titulos.md` |
 | Diapositivas-figura | **cerrado** — 177 PNG en `fuentes/figuras/` (no se commitean; las regenera el extractor) |
 | Insumos de NotebookLM | **guardados y medidos** — `fuentes/externo/` |
-| Glosario controlado | **unidades 1 a 6**: 65 términos en `fuentes/glosario.md`. La 7 entra al escribir sus módulos. La cita de «tabla N²» se corrigió en una sesión previa (diapositiva 31 → 71/73: apuntaba a la sección equivocada) |
+| Glosario controlado | **las 7 unidades, completo**: 71 términos en `fuentes/glosario.md`. La cita de «tabla N²» se corrigió en una sesión previa (diapositiva 31 → 71/73: apuntaba a la sección equivocada) |
 | `verificar-lexico.py` | **escrito y en VERDE** |
 | `probar-verificar-lexico.py` | **escrito y en VERDE**: los tres sabotajes dan rojo, el control positivo da verde y la excepción declarada se respeta |
 | Infraestructura Typst | **montada** en `apunte/`: `plantilla.typ`, `biblioteca/paleta.typ`, `biblioteca/figuras.typ` |
@@ -22,8 +23,8 @@ y la **fase 1 también**, el mismo día.
 | **Unidad 4 — M11, M12, M13, M14** | **ESCRITA** (2026-09-20) — sobre las 124 diapositivas de la clase 4 (la más grande): por qué hace falta la IS (Saturno V, Hubble), sistema de sistemas y la ISS, el proceso de punta a punta (Space Shuttle y un rover marciano) y el motor de NASA de 17 actividades |
 | **Unidad 5 — M15, M16, M17, M18** | **ESCRITA** (2026-09-20) — sobre las 71 diapositivas de la clase 5: ciclo de vida de NASA y diagrama en V, qué es un requerimiento (MCO vs. DC-3) y gestión de márgenes a fondo, la familia de requerimientos con trazabilidad de 6 niveles, y verificación/validación a fondo con los 7 elementos del alcance |
 | **Unidad 6 — M19, M20, M21, M22, M23** | **ESCRITA** (2026-09-20) — sobre las 155 diapositivas de la clase 6 (la más larga): familia de requerimientos e interfaces (IDD/IRD/ICD), el Ejercicio de Alcance con seis ConOps reales, SMART y verificación/validación operativas, Pre-Fase A a fondo con los cinco modelos de ciclo de vida, e ingeniería concurrente y mecatrónica. **5 módulos, no los 4 previstos** — ver PDP.md §8 |
-| Unidad 7 | **pendiente** |
-| PDF | **compila**: `apunte/apunte.pdf`, **100 páginas** |
+| **Unidad 7 — M24, M25, M26, M27** | **ESCRITA** (2026-09-20) — sobre las 54 diapositivas de la clase 7: cómo se crea una arquitectura (síntesis/descubrimiento, 4 métodos, factores de balance, arquitectura vs. diseño), Fase A a fondo con el ConOps del Mars 2020 y la herencia del Curiosity, las revisiones SRR y MDR una al lado de la otra, y el diagrama N² aplicado a interfaces con el caso real del TDRS y una matriz de 17 disciplinas. **Cierra el apunte: las 7 unidades escritas** |
+| PDF | **compila**: `apunte/apunte.pdf`, **115 páginas** |
 | Parcialitos | 1, 2 y 3 en `fuentes/parcialitos.md`. Los de las clases 4 a 7 **no van a llegar**: la cátedra no los devolvió, y **el apunte NO se escribe en función de ellos** (decisión de Fran, 2026-09-20) |
 
 ## Lo que la fase 1 dejó medido
@@ -152,8 +153,35 @@ los `#include` de `apunte.typ`.
    en el HANDOFF (fracciones en tablas, tags `#t[]` sin partir en dos
    líneas) se aplicaron desde el primer borrador.
 
+## Lo que esta sesión (unidad 7, y cierre de la fase 2) dejó medido
+
+1. **Las 7 unidades quedaron escritas.** Fase 2 cerrada: 28 módulos
+   (M00–M27), 71 términos de glosario, 115 páginas, `verificar-lexico.py`
+   en verde en las 7 unidades sin excepción.
+2. **Seis términos nuevos en el glosario** (71 en total) — la unidad más
+   chica en léxico nuevo, porque gran parte de su contenido (ciclo de vida
+   de NASA, tabla N², arquitectura de sistema, baseline) ya estaba definido
+   en unidades anteriores y esta unidad lo *aplica* en vez de redefinirlo.
+3. **Repetido, ya en el segundo módulo, el error de re-`#definicion()`ar un
+   término ya definido** (ver HANDOFF — la unidad 6 ya lo había pagado una
+   vez): esta vez sobre `arquitectura de sistema`, en el borrador de M24.
+   Se corrigió antes de compilar, con `#t[]` en prosa en vez de una segunda
+   caja "DEFINICIÓN".
+4. **Un tag `#t[]` partido en el salto de línea, otra vez** (M25): el mismo
+   defecto que costó tres repeticiones en la unidad 6. Esta vez se detectó
+   con el mismo `grep -n "#t\[[^\]]*$"` ya incorporado al paso 4 del
+   HANDOFF — funcionó al primer uso.
+5. **Tres figuras reales embebidas**: el panorama de misiones a Marte
+   (M25), el rover Mars 2020 heredero del Curiosity (M25), y un thruster
+   real con su P&ID (M25).
+6. **La cátedra usa dos siglas para la misma revisión** (SDR/MDR, "System
+   Definition Review" / "Mission Design Review") sin distinguirlas — se
+   documentó la inconsistencia en vez de silenciarla, con `#cuidado` en M26
+   y en el glosario.
+
 ## Qué sigue
 
-**Unidad 7** (creación de arquitecturas, Fase A, N²): son los módulos
-M24–M27, sobre 54 diapositivas — la más chica de las tres últimas. Cierra
-el apunte.
+**Fase 3** (cobertura contra los parcialitos): mapear cada una de las 16
+preguntas de los parcialitos 1, 2 y 3 (`fuentes/parcialitos.md`) a un
+módulo que la responde, sin preguntas huérfanas. Después de eso, **fase 4**
+(publicación al Drive) queda a criterio de Fran.

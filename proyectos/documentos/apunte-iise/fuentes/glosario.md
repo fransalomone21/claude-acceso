@@ -4,9 +4,8 @@ La fuente única de cómo se nombra cada cosa en el apunte. **Un término se
 define acá una vez, y después se usa siempre igual** — en esta materia dos
 palabras distintas son dos conceptos distintos, y así se corrige.
 
-Estado: **unidades 1 a 6 cubiertas** (las 1 a 3 tienen parcialito; la 4, la
-5 y la 6 se escribieron junto con sus módulos, sin uno). La unidad 7 se
-agrega a medida que se escriben sus módulos.
+Estado: **las 7 unidades cubiertas, completo** (las 1 a 3 tienen parcialito;
+la 4, la 5, la 6 y la 7 se escribieron junto con sus módulos, sin uno).
 
 ## Cómo se lee cada entrada
 
@@ -719,8 +718,82 @@ modelo cascada.
 
 ---
 
+## Unidad 7 — creación de arquitecturas, Fase A, N²
+
+### síntesis y descubrimiento (crear arquitecturas)
+**Definición.** Las dos técnicas primarias para crear una arquitectura de
+sistema, las dos beneficiadas por entender el desempeño y las limitaciones
+de los sistemas heredados. La **síntesis** modifica o combina sistemas
+existentes para satisfacer necesidades nuevas —requiere lógica y buen
+conocimiento de esos sistemas—. El **descubrimiento** usa el conocimiento
+de arquitecturas existentes para descubrir una nueva —requiere, además,
+habilidad de abstracción para reconocer un sistema análogo en otro
+dominio—.
+**Fuente:** clase 7, diapositiva 10. **Grado:** confirmado.
+
+### métodos de creación de arquitectura (normativo, racional, participativo, heurístico)
+**Definición.** Cuatro métodos que apoyan a la síntesis y al descubrimiento,
+agrupados en dos familias. **Basados en ciencia (deductivos):**
+**normativo** (reglas estrictas ya dadas; el éxito se define siguiéndolas) y
+**racional** (soluciones derivadas de objetivos, con técnicas formales y
+optimizadas). **Basados en arte (inductivos):** **participativo** (solución
+por consenso de grupos, con los interesados involucrados) y **heurístico**
+(reglas blandas manejadas por la experiencia y las lecciones aprendidas).
+**Fuente:** clase 7, diapositiva 11. **Grado:** confirmado.
+
+### factores de balance de la arquitectura
+**Definición.** Los factores que la ingeniería de sistemas equilibra al
+elegir entre arquitecturas candidatas: **requerimientos del sistema**,
+**función**, **forma**, sencillez, robustez, asequibilidad, complejidad,
+imperativos ambientales y factores humanos. La elección de un concepto de
+referencia (*baseline*) se hace a pesar de incertidumbres típicamente
+grandes y, a veces, de prioridades ambiguas de los clientes.
+**Fuente:** clase 7, diapositiva 12. **Grado:** confirmado.
+**La esencia de la arquitectura, en una frase:** estructurar, simplificar,
+comprometer y balancear.
+
+### descripciones de arquitectura (vistas)
+**Definición.** Ninguna figura o diagrama, por sí solo, puede capturar la
+arquitectura completa de un sistema: hace falta usar varias vistas o
+perspectivas a la vez. Las principales: *renderings* del *spacecraft* y
+diagramas de bloques de subsistemas; diagramas de flujo de comunicación;
+diagramas de flujo funcionales (diagramas de bloques funcionales); y
+diagramas de interfaces de subsistemas —frecuentemente capturados con el
+#t[tabla N² (diagrama N²)]—.
+**Fuente:** clase 7, diapositiva 14. **Grado:** confirmado.
+**La analogía que da la cátedra:** son a la arquitectura de un sistema
+espacial lo que los planos, cotas, elevaciones, plantas, presupuestos y
+planos de cableado son a un edificio, en la ingeniería civil.
+
+### SRR — Revisión de Requerimientos de Sistema
+**Definición.** La primera de las dos revisiones técnicas primarias de la
+Fase A, a cargo de un equipo técnico externo. Confirma que los
+requerimientos de alto nivel están claramente definidos y ajustados a los
+objetivos de los interesados, que fluyeron correctamente hacia abajo; que
+las interfaces internas y externas están definidas; que los riesgos del
+desarrollo están identificados con un plan para abordarlos; y que existe un
+Plan de Gestión de la Ingeniería de Sistemas y un plan inicial de
+Verificación y Validación. **Establece el baseline de los Requerimientos de
+Sistema.**
+**Fuente:** clase 7, diapositivas 41 y 45. **Grado:** confirmado.
+
+### MDR — Revisión de Diseño de Misión
+**Definición.** La segunda revisión técnica primaria de la Fase A, posterior
+a la SRR. Evalúa si el concepto *baseline* —ya más maduro y con más
+detalle— es razonable, alcanzable y completo; si es consistente con los
+recursos disponibles (masa, potencia) y con costos y planificación; si los
+riesgos mayores están identificados con estrategias de mitigación; y si los
+planes de maduración tecnológica están en curso para terminar en la Fase B.
+**Establece el baseline Funcional.**
+**Fuente:** clase 7, diapositivas 44 y 45. **Grado:** confirmado.
+**Cuidado con la sigla:** la diapositiva 45 la nombra también *System
+Definition Review* (SDR/MDR) — la cátedra usa las dos siglas para la misma
+revisión, sin distinguirlas.
+
+---
+
 ## Pendiente
 
-La unidad 7 todavía no está: los métodos de creación de arquitecturas, la
-Fase A a fondo y la tabla N² aplicada a un caso de arquitectura. Se agregan al
-escribir sus módulos.
+No queda ninguna unidad pendiente: las 7 unidades y el glosario (M00-M27)
+están escritas. Lo que sigue es la fase 3 (cobertura contra los
+parcialitos) y la fase 4 (publicación) — ver PDP.md.

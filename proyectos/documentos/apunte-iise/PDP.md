@@ -70,15 +70,20 @@ saboteador pone las tres en rojo, más dos controles positivos (árbol intacto e
 verde, y la excepción `// lexico-ok` respetada). El verificador encontró cinco
 defectos reales en su primera corrida.
 
-### Fase 2 — Redacción, una unidad por sesión 🔵 ABIERTA (2026-09-20)
+### Fase 2 — Redacción, una unidad por sesión ✅ CERRADA (2026-09-20)
 
 **Criterio de salida por unidad:** sus módulos escritos en Typst, compilando,
 con **cada página mirada**, cada figura citada con su diapositiva confirmada
 contra el PNG, y `verificar-lexico.py` en verde sobre esos módulos.
 
-Siete sesiones, una por unidad. Modelo Sonnet, esfuerzo high, sin fan-out.
+Resultado: **las 7 unidades escritas** en la misma sesión de trabajo
+continuada (7 sub-sesiones, una por unidad, el mismo 2026-09-20): 28 módulos
+(M00–M27), 71 términos de glosario, 115 páginas de PDF, `verificar-lexico.py`
+en verde en cada cierre de unidad. La unidad 6 salió con 5 módulos en vez de
+los 4 previstos (nota en §8); las demás, con los previstos. Modelo Sonnet,
+esfuerzo medium-high, sin fan-out.
 
-### Fase 3 — Cobertura contra los parcialitos
+### Fase 3 — Cobertura contra los parcialitos 🔵 ABIERTA (2026-09-20)
 
 **Criterio de salida:** cada pregunta de los parcialitos **que sí están** (1, 2
 y 3; 16 preguntas) mapeada a un módulo que la responde; ninguna pregunta
@@ -152,8 +157,8 @@ escribe uno, usa `#M("clave")` y el número sale del orden de los `#include` de
 | 4 — Necesidad de la IS, SoS, ISS, motor NASA | 124 | M11–M14 | **escrita** (2026-09-20) |
 | 5 — Ciclo de vida, requerimientos, márgenes, alcance | 71 | M15–M18 | **escrita** (2026-09-20) |
 | 6 — Familia de requerimientos, interfaces, modelos de ciclo | 155 | M19–M23 | **escrita** (2026-09-20) — 5 módulos, no los 4 previstos: ver nota abajo |
-| 7 — Creación de arquitecturas, Fase A, N² | 54 | M24–M27 | pendiente |
-| 0 — Glosario controlado | transversal | M00 | **escrito** (2026-09-20), 65 terminos |
+| 7 — Creación de arquitecturas, Fase A, N² | 54 | M24–M27 | **escrita** (2026-09-20) |
+| 0 — Glosario controlado | transversal | M00 | **escrito** (2026-09-20), 71 terminos |
 
 **Nota sobre la unidad 6 (2026-09-20):** el plan original preveía M19–M22
 (cuatro módulos). Al escribirla, la ingeniería concurrente y la mecatrónica

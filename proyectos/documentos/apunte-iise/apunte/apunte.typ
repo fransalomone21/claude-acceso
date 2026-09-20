@@ -263,3 +263,36 @@ color de caja está en la portada.
 #include "modulos/m21-escribir-buenos-requerimientos.typ"
 #include "modulos/m22-ciclo-de-vida-a-fondo-y-modelos.typ"
 #include "modulos/m23-ingenieria-concurrente-y-mecatronica.typ"
+
+// ---------------------------------------------------------------------
+// La unidad 7 corre en M24-M27, no en M23-M26: la unidad 6 salio con un
+// modulo mas de los previstos (ver la nota arriba de m19). Este es el
+// UTIMO bloque del apunte -- cierra las 7 unidades del PDP.
+#parte(7, "Creación de arquitecturas, Fase A y el diagrama N²", [
+  Cuatro módulos que cierran el apunte: cómo se crea una arquitectura, qué
+  produce en concreto la Fase A, y cómo se aplica el diagrama N² a
+  interfaces reales.
+
+  El primero define síntesis y descubrimiento como las dos técnicas para
+  crear una arquitectura, ubica los cuatro métodos que las apoyan
+  —normativo, racional, participativo, heurístico—, y separa con precisión
+  arquitectura de diseño.
+
+  El segundo profundiza la Fase A con dos ejemplos reales: el ConOps del
+  Mars 2020 sintetizado en cuatro fases, la decisión de heredar del
+  Curiosity para sostener un presupuesto fijo, y un requerimiento de
+  interfaz real —con sus números— del telescopio espacial GLAST.
+
+  El tercero compara, lado a lado, las dos revisiones técnicas primarias de
+  la Fase A —SRR y MDR— y muestra cómo las acciones abiertas de una pasan a
+  la siguiente en vez de perderse.
+
+  El cuarto aplica la tabla N² de la unidad 2 a interfaces, con el diagrama
+  real del sistema TDRS y un ejemplo de escala industrial: una matriz de
+  17 disciplinas del diseño de un vehículo lanzador.
+])
+
+#include "modulos/m24-crear-arquitecturas.typ"
+#include "modulos/m25-fase-a-a-fondo.typ"
+#include "modulos/m26-revisiones-de-la-fase-a.typ"
+#include "modulos/m27-el-diagrama-n2-aplicado.typ"
