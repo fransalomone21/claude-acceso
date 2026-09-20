@@ -10,9 +10,10 @@
 | Índice de diapositivas por título | **cerrado** — `fuentes/clases/titulos.md` |
 | Diapositivas-figura | **cerrado** — 177 PNG en `fuentes/figuras/` (no se commitean; las regenera el extractor) |
 | Insumos de NotebookLM | **guardados y medidos** — `fuentes/externo/`: 149 descripciones de figuras y el relevamiento de términos |
-| Glosario controlado (M00) | **no empezado** — es la fase 1 |
-| Módulos del apunte | **ninguno escrito** |
-| Parcialitos | **no llegaron todavía** — fase 3 bloqueada hasta que estén |
+| Glosario controlado (M00) | **unidades 1 a 3 escritas** en `fuentes/glosario.md`: 27 términos con definición canónica, fuente verificada y confundibles. Faltan las unidades 4 a 7 |
+| Módulos del apunte | **ninguno escrito** en Typst todavía |
+| Parcialitos | **1, 2 y 3 en `fuentes/parcialitos.md`** — 16 preguntas y las 6 correcciones del profesor. Faltan los de las clases 4 a 7 |
+| `verificar-lexico.py` | **no escrito** — es lo que falta para cerrar la fase 1 |
 
 ## Las cifras del material
 
@@ -41,8 +42,21 @@
 3. **El léxico de la cátedra, medido:** `requerimiento` 342 + `requer.` 400 =
    **742**, contra `requisito` **8**. `interesado` **38**, `stakeholder` **5**.
 
+4. **Los parcialitos son todos de definición.** 16 preguntas medidas sobre los
+   tres primeros, uno por clase, 5 o 6 preguntas cada uno: *qué es X*, *cuáles
+   son los tipos de X*, *cuáles son los roles / entregables / tareas de X*.
+   Ninguna de cálculo ni de aplicación abierta. Eso **confirma por evidencia**
+   que el glosario es el apunte y no un anexo.
+5. **Las marcas del profesor valen más que las diapositivas** para saber qué se
+   castiga. La más filosa, en rojo sobre la definición del PDP: **«resultados
+   de procesos ≠ tareas»**. Y la frase que la respalda está textual en la clase
+   3, diapositiva 16.
+
 ## Qué sigue
 
-La **fase 1**: el glosario controlado (M00) y `verificar-lexico.py` con su
-saboteador. Ningún módulo se escribe antes — el glosario es lo que decide cómo
-se nombra todo lo demás.
+Cerrar la **fase 1**, y le falta una sola cosa: **`verificar-lexico.py`** —
+que lea `fuentes/glosario.md`, chequee que ningún módulo use un término
+controlado sin haberlo definido y que no aparezcan los pares prohibidos
+(*requisito*, *stakeholder*) — más su saboteador poniéndolo en rojo a
+propósito. El glosario de las unidades 1 a 3 ya está; las 4 a 7 se completan
+al escribir sus módulos.
