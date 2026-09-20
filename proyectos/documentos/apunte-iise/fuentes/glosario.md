@@ -237,8 +237,11 @@ sistema se colocan **en la diagonal** de una matriz cuadrada de N×N, y las
 celdas representan las interfaces. **Las salidas van en las filas
 (horizontal); las entradas, en las columnas (vertical).** Donde la celda está
 en blanco, **no hay interfaz** entre esos dos.
-**Fuente:** clase 7, diapositiva 22 · clase 2, diapositiva 31 (tabla 2.5).
-**Grado:** confirmado.
+**Fuente:** clase 7, diapositiva 22 · clase 2, diapositivas 71 (diagrama, fig.
+2.10-2.11) y 73 (las dos tablas, tabla 2.5). **Grado:** confirmado — corregido
+en esta sesión: la cita previa (diapositiva 31) apuntaba a la sección de
+Emergentes, no a la Tarea 3; se verificó mirando `c02-p074.png` y
+`c02-p075.png`, que son las tablas reales sin texto extraíble.
 **Lo que se pierde si no se dice:** existe **en versión de tabla y en versión
 de diagrama**, y hay una para las relaciones **formales** y otra para las
 **funcionales**. Un lazo de realimentación es un flujo bidireccional entre dos

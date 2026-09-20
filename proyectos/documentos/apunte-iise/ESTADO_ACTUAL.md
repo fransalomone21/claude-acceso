@@ -11,14 +11,15 @@ y la **fase 1 también**, el mismo día.
 | Índice de diapositivas por título | **cerrado** — `fuentes/clases/titulos.md` |
 | Diapositivas-figura | **cerrado** — 177 PNG en `fuentes/figuras/` (no se commitean; las regenera el extractor) |
 | Insumos de NotebookLM | **guardados y medidos** — `fuentes/externo/` |
-| Glosario controlado | **unidades 1 a 3**: 29 términos en `fuentes/glosario.md`. Las 4 a 7 entran al escribir sus módulos |
+| Glosario controlado | **unidades 1 a 3**: 29 términos en `fuentes/glosario.md`. Las 4 a 7 entran al escribir sus módulos. La cita de «tabla N²» se corrigió en esta sesión (diapositiva 31 → 71/73: apuntaba a la sección equivocada) |
 | `verificar-lexico.py` | **escrito y en VERDE** |
 | `probar-verificar-lexico.py` | **escrito y en VERDE**: los tres sabotajes dan rojo, el control positivo da verde y la excepción declarada se respeta |
 | Infraestructura Typst | **montada** en `apunte/`: `plantilla.typ`, `biblioteca/paleta.typ`, `biblioteca/figuras.typ` |
 | **Unidad 0 — el glosario (M00)** | **ESCRITA** — `apunte/modulos/m00-glosario.typ`, los 29 términos |
 | **Unidad 1 — M01, M02, M03** | **ESCRITA** — los tres módulos, sobre las 41 diapositivas de la clase 1 |
-| Unidades 2 a 7 | **pendientes** — una sesión por unidad |
-| PDF | **compila**: `apunte/apunte.pdf`, **25 páginas** |
+| **Unidad 2 — M04, M05, M06, M07** | **ESCRITA** (2026-09-20) — sobre las 97 diapositivas de la clase 2: arquitectura de sistema, pensamiento sistémico y emergentes, forma/función y entidades (Tareas 1-2), relaciones y tabla N² (Tareas 3-4) |
+| Unidades 3 a 7 | **pendientes** — una sesión por unidad |
+| PDF | **compila**: `apunte/apunte.pdf`, **41 páginas** |
 | Parcialitos | 1, 2 y 3 en `fuentes/parcialitos.md`. Los de las clases 4 a 7 **no van a llegar**: la cátedra no los devolvió, y **el apunte NO se escribe en función de ellos** (decisión de Fran, 2026-09-20) |
 
 ## Lo que la fase 1 dejó medido
@@ -47,8 +48,27 @@ apunte impreso numera los módulos por su posición: el glosario es el **módulo
 prosa nunca escribe un número, usa `#M("clave")` y el número sale del orden de
 los `#include` de `apunte.typ`.
 
+## Lo que esta sesión (unidad 2) dejó medido
+
+1. **Otro defecto real de citación, encontrado mirando el PNG antes de
+   escribir (regla propia 2):** el glosario citaba «tabla N²» en la
+   diapositiva 31 de la clase 2, que es la sección de Emergentes — nada que
+   ver. La ubicación real (diapositiva 71, diagrama; diapositiva 73, las dos
+   tablas) se confirmó mirando `c02-p074.png` y `c02-p075.png`, que son las
+   tablas reales sin texto extraíble del `.txt`.
+2. **Una tabla con una columna vacía de más compiló en verde** (Tabla 2.3
+   recortada, en M06): quedó una cuarta columna sin encabezado ni contenido,
+   visible sólo al mirar la página renderizada. Se sacó.
+3. Las dos tablas N² del circuito amplificador (formal y funcional) se
+   reprodujeron enteras como tablas Typst, verificadas contra las imágenes
+   `c02-p074.png`/`c02-p075.png` — no son un resumen, son el contenido real
+   de la Tabla 2.5 de la cátedra.
+
 ## Qué sigue
 
-**Unidad 2** (clase 2, 97 diapositivas, 21 de ellas figura): pensamiento
-sistémico, forma y función, emergentes, las cuatro Tareas. Son los módulos
-M04–M07 del PDP. Una sesión, leyendo **sólo** `fuentes/clases/clase-2.txt`.
+**Unidad 3** (clase 3, 48 diapositivas): rol del arquitecto, ambigüedad, PDP.
+Son los módulos M08–M10 del PDP. El glosario **ya tiene la unidad 3
+escrita** (rol del arquitecto, arquitecto de sistemas, ambigüedad,
+influencias ascendentes/descendentes, entregables, PDP, compuerta de
+control, principio de ambigüedad, las preguntas W) — esta sesión sólo
+escribe los módulos en prosa, leyendo `fuentes/clases/clase-3.txt`.

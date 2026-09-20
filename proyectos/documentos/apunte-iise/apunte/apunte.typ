@@ -110,3 +110,32 @@ color de caja está en la portada.
 #include "modulos/m01-ciencia-tecnologia-ingenieria.typ"
 #include "modulos/m02-proyecto.typ"
 #include "modulos/m03-que-es-la-ingenieria-de-sistemas.typ"
+
+// ---------------------------------------------------------------------
+#parte(2, "Pensamiento sistémico y arquitectura", [
+  Cuatro módulos para pasar de "qué es un sistema" a "cómo se piensa un
+  sistema" — el vocabulario más denso del apunte, porque es el que se usa
+  en el resto de la materia.
+
+  El primero define arquitectura de sistema y por qué las decisiones
+  tempranas pesan tanto, con NPOESS como el caso de una mala decisión y
+  Boeing 787 como el de una apuesta de alto riesgo bien pensada.
+
+  El segundo desarrolla la Tarea 0 del pensamiento sistémico: qué es un
+  sistema (con la prueba del ladrillo) y qué es lo emergente, con sus cuatro
+  tipos.
+
+  El tercero cubre las Tareas 1 y 2: forma y función con la regla
+  sustantivo/verbo, y cómo encontrar las entidades de un sistema con
+  holismo, enfoque y abstracción.
+
+  El cuarto cierra con las Tareas 3 y 4: relaciones formales y funcionales,
+  la tabla N² —con el ejemplo completo del circuito amplificador—, y los
+  tres métodos para predecir lo emergente, con el aterrizaje del A320 en
+  Varsovia como el caso de una falla que "funcionó como se diseñó".
+])
+
+#include "modulos/m04-arquitectura-de-sistemas.typ"
+#include "modulos/m05-pensamiento-de-sistema-y-emergentes.typ"
+#include "modulos/m06-forma-funcion-entidades.typ"
+#include "modulos/m07-relaciones-n2-emergentes.typ"

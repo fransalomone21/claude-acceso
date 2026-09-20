@@ -147,7 +147,7 @@ escribe uno, usa `#M("clave")` y el número sale del orden de los `#include` de
 | Unidad | Diapositivas | Módulos | Estado |
 |---|---|---|---|
 | 1 — Introducción, CDIO, historia de la IS | 41 | M01–M03 | **escrita** (2026-09-20) |
-| 2 — Pensamiento sistémico, forma y función | 97 | M04–M07 | pendiente |
+| 2 — Pensamiento sistémico, forma y función | 97 | M04–M07 | **escrita** (2026-09-20) |
 | 3 — Rol del arquitecto, ambigüedad, PDP | 48 | M08–M10 | pendiente |
 | 4 — Necesidad de la IS, SoS, ISS, motor NASA | 124 | M11–M14 | pendiente |
 | 5 — Ciclo de vida, requerimientos, márgenes, alcance | 71 | M15–M18 | pendiente |
