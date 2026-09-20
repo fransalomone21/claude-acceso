@@ -78,6 +78,32 @@
 // El corazón del apunte: de dónde sale la fórmula que se acaba de usar.
 #let deduccion(titulo, cuerpo) = caja([De dónde sale — #titulo], c-azul.darken(15%), cuerpo)
 
+// ---------- Repaso clicable ----------
+//
+// La regla propia 2 dice "se cita lo que sólo cambia el álgebra" -- y eso es
+// exactamente lo que pasa cuando una ecuación de un módulo tardío reutiliza un
+// resultado deducido varios módulos antes (la aceleración en polares del
+// módulo #M("vectores"), usada sin repetirse desde el módulo #M("gravitacion")
+// en adelante). Sin nada más, el lector que no reconoce el resultado no tiene
+// otra opción que salir a buscar el módulo de memoria -- que es justo lo que
+// reportó Fran leyendo el módulo 10 (2026-09-20).
+//
+// `#repaso()` cuelga una nota al pie de la palabra o el símbolo que dispara la
+// duda: un vistazo breve, en el pie de ESTA MISMA página -- no hace falta
+// saltar a ningún lado para leerlo --, y si el resultado tiene una deducción
+// completa en otro módulo, un link que salta ahí para el que la quiera entera.
+// Mismo azul que #deduccion(): un repaso es la misma promesa ("acá está de
+// dónde sale esto"), dicha en una línea en vez de en una caja.
+//
+// `destino` es una etiqueta (`<vec-polares>`), no un módulo: linkea al lugar
+// exacto de la deducción, y sigue valiendo si el apunte se reordena -- mismo
+// motivo por el que `#M()` usa claves y no números a mano (regla propia 5).
+#let repaso(cuerpo, destino: none) = footnote[
+  #text(fill: c-azul.darken(15%), weight: "bold")[Repaso — ]
+  #cuerpo
+  #if destino != none [ #link(destino)[Ir a la deducción completa →]]
+]
+
 #let cuidado(cuerpo) = caja([Cuidado con esto], c-rojo, cuerpo)
 
 // Lo que se pide explícitamente: dónde se pierde el planteo. Respecto de

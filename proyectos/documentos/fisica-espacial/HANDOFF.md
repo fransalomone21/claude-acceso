@@ -6,6 +6,30 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-20 — `#repaso()`, repaso clicable junto a una ecuación
+
+**Cerrado.** Función nueva en `plantilla.typ` (`#repaso(cuerpo, destino:
+none)`, sobre `footnote` de Typst) y un caso de uso en
+`m10-orbita-conicas.typ`. Motivo y verificación completos en
+`ESTADO_ACTUAL.md`; el porqué de la regla, en `CLAUDE.md` regla propia 7.
+
+**Trampa ya pagada, para el próximo `#repaso(destino: <etiqueta>)` que se
+agregue:** `indice-temas.py` lee etiquetas con una regex ciega a si es
+definición o referencia. Antes de este cambio nunca importaba, porque todo
+`link(<etiqueta>)` del apunte apuntaba a una etiqueta del propio módulo
+(deduplicada por el `set` de `ecuaciones()`); `destino:` es la primera vez
+que un módulo linkea a la etiqueta de OTRO. Ya está filtrado (`ecuaciones()`
+saca el patrón `destino: <etiqueta>` antes de buscar) — si se agrega otra
+forma de referenciar una etiqueta ajena que no sea `destino:`, revisar esa
+función de nuevo.
+
+**Lo único que queda deliberadamente sin hacer:** no se retrofitteó
+`#repaso()` a ninguna otra ecuación de los veinte módulos que también
+reutiliza un resultado sin rederivarlo (por ejemplo, la misma aceleración en
+polares se vuelve a usar en los módulos 8, 12 y 17, según el grafo de
+`verificar-apunte.py`). Es la misma decisión que con `#posta` (regla propia
+3): se aplica de acá en adelante, no retrofit completo de una sola vez.
+
 ## Sesión del 2026-09-17 (tercera parte) — las 14 cajas `#lectura` que faltaban
 
 **Cerrado.** `grep -L "#lectura" apunte/modulos/*.typ` sin salida. Detalle del

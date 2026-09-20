@@ -1,5 +1,48 @@
 # Estado actual — Apunte de Física Espacial
 
+## `#repaso()` — repaso clicable junto a una ecuación reutilizada — 2026-09-20
+
+**Cerrado, con un caso de uso.** Fran leyó el módulo 10 (pág. 75/176, la
+caja "De dónde sale — por qué se cambia t por theta, y r por 1/r") y no
+reconoció de dónde salían las dos ecuaciones de movimiento en polares: son
+la aceleración en polares del módulo #M("vectores") (sección 1.6),
+reutilizada sin repuntero seis módulos después. Pidió que el apunte tenga
+"la posibilidad de clickar en las ecuaciones" para un repaso breve, siempre
+que aparezcan ecuaciones así.
+
+**Qué se agregó:** `#repaso(cuerpo, destino: none)` en `plantilla.typ` — una
+nota al pie de Typst (`footnote`), pegada a la palabra que dispara la duda.
+El repaso breve aparece al pie de la MISMA página (no hace falta saltar a
+ningún lado), en azul, y si `destino` apunta a una etiqueta de otro módulo,
+suma un link clicable a la deducción completa. Aplicado como caso de
+referencia en
+[`m10-orbita-conicas.typ`](apunte/modulos/m10-orbita-conicas.typ), con
+`destino: <vec-polares>`. Detalle y motivo completos: regla propia 7 de
+`CLAUDE.md`.
+
+**No se retrofitteó a los demás módulos** —mismo criterio que `#posta`
+(regla propia 3)—: se usa de acá en adelante, en todo módulo nuevo o que se
+retoque por otro motivo. Retrofittear los veinte de una sola vez no lo pidió
+Fran y no es necesario para que la próxima confusión de este tipo ya tenga
+la herramienta lista.
+
+**Verificado:** `typst compile` sin errores (176 páginas, igual que antes —
+la etiqueta cruzada no rompió la compilación), página 75 mirada renderizada
+a 150 dpi (regla propia 1: el número "1" de nota al pie aparece pegado a
+"polares", y el pie de página trae el repaso y el link en azul, legibles).
+`verificar-apunte.py` y `python indice-temas.py --check` en verde.
+
+**Se encontró y arregló un bug real en `indice-temas.py` al agregar el
+primer caso de uso** (no antes, porque nunca había un `link()` cruzando de
+un módulo a otro): `ecuaciones()` leía cualquier `<etiqueta>` del archivo
+fuente sin distinguir definición de referencia, así que `destino:
+<vec-polares>` en el módulo 10 hacía aparecer esa etiqueta como si el módulo
+10 la hubiera definido. Se filtra ahora el patrón `destino: <etiqueta>`
+antes de buscar. Probado viendo el diff de `docs/INDICE-TEMAS.md`: con el
+bug, `<vec-polares>` aparecía en la lista de "usa después" del módulo 10;
+arreglado, desaparece de ahí y sigue apareciendo, correcto, en la del
+módulo 1.
+
 ## Caja `#lectura` puesta en los 14 módulos que faltaban — 2026-09-17 (tercera parte)
 
 **Cerrado.** `grep -L "#lectura" apunte/modulos/*.typ` no da salida: los veinte

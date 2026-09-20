@@ -119,6 +119,33 @@ al revés —el problema de tres cuerpos necesitaba la cinemática del cuerpo
 rígido— y por eso se movió la fórmula del marco rotante con $Omega$ constante
 al módulo de fundamentos, donde se deduce con lo que ya da el de vectores.
 
+**7. Una ecuación que reutiliza un resultado de otro módulo sin rederivarlo
+lleva `#repaso(destino: <etiqueta>)` pegado a la palabra o el símbolo que
+dispara la duda.** Es la regla propia 2 vista desde el lector: «se cita lo
+que sólo cambia el álgebra» deja al que no reconoce el resultado sin más
+opción que salir a buscar el módulo de memoria — lo que reportó Fran leyendo
+el módulo 10 (2026-09-20), sobre la aceleración en polares del módulo
+#M("vectores") reutilizada seis módulos después sin ningún puntero.
+`#repaso()` (en `plantilla.typ`) es una nota al pie: el repaso breve aparece
+al pie de la misma página —no hace falta saltar a ningún lado para leerlo— y,
+si el resultado tiene una deducción completa en otro módulo, un link que
+salta ahí. Primer caso de uso, de referencia:
+[`m10-orbita-conicas.typ`](apunte/modulos/m10-orbita-conicas.typ), sobre las
+ecuaciones de movimiento en polares (Beer ecs. 12.31-12.32).
+
+**No se retrofitteó a los usos ya existentes** —mismo criterio que la regla
+propia 3 con `#posta`—: se aplica de acá en adelante, en todo módulo nuevo o
+que se vuelva a tocar por otro motivo.
+
+`destino` es una etiqueta, no un módulo ni un número de página, por el mismo
+motivo que `#M()` usa claves (regla propia 5): sigue apuntando bien si el
+apunte se reordena. Y `indice-temas.py` sabe filtrarla —`ecuaciones()` saca
+el patrón `destino: <etiqueta>` antes de listar qué define cada módulo—
+porque sin ese filtro cada `#repaso()` hacía aparecer la etiqueta ajena como
+si el módulo que la usa la hubiera definido él. Se encontró y se arregló al
+agregar el primer caso de uso: probado viendo `<vec-polares>` desaparecer de
+la lista de "usa después" del módulo 10 y seguir en la del módulo 1.
+
 ## Dónde está cada cosa
 
 ```

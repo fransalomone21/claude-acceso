@@ -86,6 +86,12 @@ def temas_de(fuente):
 
 
 def ecuaciones(fuente):
+    # `#repaso(destino: <etiqueta>)` en plantilla.typ linkea a donde se dedujo
+    # un resultado la primera vez -- es una REFERENCIA a otro modulo, no una
+    # definicion nueva. Sacar `destino: <etiqueta>` antes de buscar: si no,
+    # cada uso de #repaso() hace aparecer la etiqueta ajena como si este
+    # modulo la hubiera definido.
+    fuente = re.sub(r"destino:\s*<[a-z0-9-]+>", "", fuente)
     # Sin deduplicar, una etiqueta aparece dos veces cuando la ecuacion se
     # reescribe mas abajo en el mismo modulo. El indice pregunta "¿existe?",
     # no "¿cuantas veces?".

@@ -235,7 +235,15 @@ independiente.
 
 #deduccion("por qué se cambia t por theta, y r por 1/r")[
   Con la fuerza central dirigida hacia $O$, las dos ecuaciones de movimiento en
-  polares son (Beer §12.11, ecs. 12.31 y 12.32, pág. 736)
+  polares#repaso(destino: <vec-polares>)[
+    Son la aceleración de una partícula en coordenadas polares, separada en
+    sus dos componentes: $dot.double(r) - r dot(theta)^2$ es la radial (el
+    término nuevo, $-r dot(theta)^2$, es la aceleración centrípeta) y $r
+    dot.double(theta) + 2 dot(r) dot(theta)$ es la transversal (con el término
+    de Coriolis, $2 dot(r) dot(theta)$). Se deducen paso a paso, con los
+    versores $hat(r)$ y $hat(theta)$ girando, en el módulo #M("vectores"),
+    sección 1.6.
+  ] son (Beer §12.11, ecs. 12.31 y 12.32, pág. 736)
   $ m (dot.double(r) - r dot(theta)^2) = -F, quad quad m (r dot.double(theta) + 2 dot(r) dot(theta)) = 0 $
   La segunda no hace falta: es la conservación del momento angular otra vez, y
   conviene usarla en su forma integrada, $r^2 dot(theta) = h$ (Beer ec. 12.33).
