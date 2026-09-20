@@ -169,7 +169,25 @@ Las tres cosas que se leen en esa figura, en orden de importancia:
 
 $ (d U_"ef")/(d r) = -L^2/(m r^3) + (mu m)/r^2 = 0 quad ==> quad r_0 = L^2/(mu m^2) = h^2/mu $ <orb-r0>
 
-y evaluando ahí,
+y evaluando ahí. Conviene reemplazar $r_0$ en la forma $L^2 \/ (mu m^2)$ y no
+todavía en la de $h^2 \/ mu$: así el primer término se simplifica sin
+arrastrar $L$ y $h$ a la vez. Partiendo de la @orb-Uef,
+
+$ U_"ef" (r_0) = L^2/(2 m r_0^2) - (mu m)/r_0 $
+
+el primer término se resuelve invirtiendo la propia @orb-r0 —$L^2 = mu m^2
+r_0$— y cancelando una $r_0$:
+
+$ L^2/(2 m r_0^2) = (mu m^2 r_0)/(2 m r_0^2) = (mu m)/(2 r_0) $
+
+con lo que los dos términos quedan con el mismo denominador y se restan
+directo:
+
+$ U_"ef" (r_0) = (mu m)/(2 r_0) - (mu m)/r_0 = (mu m)/(2 r_0) - (2 mu m)/(2 r_0)
+  = -(mu m)/(2 r_0) $
+
+y sustituyendo por último $r_0 = h^2 \/ mu$ se recupera también la forma en
+$h$:
 
 $ U_"ef" (r_0) = E_"mín" = - (mu^2 m)/(2 h^2) = - (mu m)/(2 r_0) $ <orb-Emin>
 
