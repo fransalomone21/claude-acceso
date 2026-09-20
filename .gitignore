@@ -49,3 +49,4 @@ __pycache__/
 # queda con hooks apuntando a una ruta que no existe: un freno que no corre y
 # no avisa. Lo genera bootstrap.ps1 en cada maquina.
 .claude/settings.json
+proyectos/seguimiento/haberes-docentes/

@@ -77,6 +77,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 | Proyecto | Qué es | Estado |
 |---|---|---|
 | `caso-tio/` | Caso clínico familiar → guía para la familia | vivo, **repo aparte, no se pushea acá** |
+| [`haberes-docentes/`](proyectos/seguimiento/haberes-docentes/CLAUDE.md) | Cobrar el cargo docente de la EEST N°1 de Vicente López: bancarización, primer COULI y ruteo del sueldo | **ACTIVO** — **fase 1 abierta el 2026-09-20**. La fase 0 cerró el mismo día: el portal dice *"Agente no Bancarizado"* y los tres instructivos oficiales están medidos. La cuenta sueldo tiene que ser de **Banco Provincia** — Mercado Pago, Patagonia y Ciudad no pueden serlo, el portal no tiene dónde cargarlas. Camino: `Nueva Cuenta/Sucursal`, sucursal en Vicente López. El banco procesa **una vez por mes** y el circuito pasa de 30 días, contra una liquidación apuntada al 5.º día hábil de octubre. **Repo aparte**, sin remote |
 | [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **ACTIVO** — **fase 1 abierta el 2026-09-14**, hasta el 26/10. Línea base de la fase 0: 135 kg (banca 80 + fondo 40 + dominada 15, a 5 reps con RIR 2). **Repo aparte**, privado y con remote desde el 2026-08-28 |
 
 ---
