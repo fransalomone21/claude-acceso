@@ -18,8 +18,9 @@ y la **fase 1 también**, el mismo día.
 | **Unidad 0 — el glosario (M00)** | **ESCRITA** — `apunte/modulos/m00-glosario.typ`, los 29 términos |
 | **Unidad 1 — M01, M02, M03** | **ESCRITA** — los tres módulos, sobre las 41 diapositivas de la clase 1 |
 | **Unidad 2 — M04, M05, M06, M07** | **ESCRITA** (2026-09-20) — sobre las 97 diapositivas de la clase 2: arquitectura de sistema, pensamiento sistémico y emergentes, forma/función y entidades (Tareas 1-2), relaciones y tabla N² (Tareas 3-4) |
-| Unidades 3 a 7 | **pendientes** — una sesión por unidad |
-| PDF | **compila**: `apunte/apunte.pdf`, **41 páginas** |
+| **Unidad 3 — M08, M09, M10** | **ESCRITA** (2026-09-20) — sobre las 48 diapositivas de la clase 3: rol del arquitecto y entregables, la ambigüedad (borrosidad/incertidumbre, información desconocida/conflictiva/falsa), y el PDP (cuatro casos reales + PDP genérico + PDP global de 3 vistas) |
+| Unidades 4 a 7 | **pendientes** — una sesión por unidad |
+| PDF | **compila**: `apunte/apunte.pdf`, **54 páginas** |
 | Parcialitos | 1, 2 y 3 en `fuentes/parcialitos.md`. Los de las clases 4 a 7 **no van a llegar**: la cátedra no los devolvió, y **el apunte NO se escribe en función de ellos** (decisión de Fran, 2026-09-20) |
 
 ## Lo que la fase 1 dejó medido
@@ -64,11 +65,25 @@ los `#include` de `apunte.typ`.
    `c02-p074.png`/`c02-p075.png` — no son un resumen, son el contenido real
    de la Tabla 2.5 de la cátedra.
 
+## Lo que esta sesión (unidad 3) dejó medido
+
+1. **Primera vez que el apunte embebe una imagen (`image()`) en vez de
+   reconstruir todo como tabla.** Dos figuras del libro —el PDP de
+   Helicopter Inc. (Fig. 9.2) y el marco holístico de las 7 preguntas W
+   (Fig. 9.6)— no se pueden reescribir como tabla sin perder el diagrama en
+   sí, que es el contenido. Typst sandboxea el proyecto a la carpeta de
+   `apunte.typ`: una ruta `../../fuentes/figuras/...` que sale de ahí falla
+   con «would escape the project root». Se resolvió copiando las dos PNG
+   necesarias a `apunte/figuras/` (nueva carpeta, DENTRO del sandbox, y esas
+   sí se commitean) en vez de mover el `--root` del compilador.
+2. El PDP genérico (Concebir–Diseñar–Implementar–Operar) es, letra por
+   letra, el mismo CDIO de la unidad 1 — la cátedra lo señala explícito
+   (clase 3, diapositiva 23) y quedó como `deduccion` en M10.
+
 ## Qué sigue
 
-**Unidad 3** (clase 3, 48 diapositivas): rol del arquitecto, ambigüedad, PDP.
-Son los módulos M08–M10 del PDP. El glosario **ya tiene la unidad 3
-escrita** (rol del arquitecto, arquitecto de sistemas, ambigüedad,
-influencias ascendentes/descendentes, entregables, PDP, compuerta de
-control, principio de ambigüedad, las preguntas W) — esta sesión sólo
-escribe los módulos en prosa, leyendo `fuentes/clases/clase-3.txt`.
+**Unidad 4** (clase 4, 124 diapositivas — la más grande del apunte):
+necesidad de la IS, sistema de sistemas (SoS), ISS, el motor NASA. Son los
+módulos M11–M14 del PDP. El glosario de la unidad 4 **todavía no está
+escrito** — entra junto con sus módulos, a diferencia de las unidades 2 y 3
+que ya lo tenían adelantado.

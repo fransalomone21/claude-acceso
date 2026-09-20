@@ -139,3 +139,26 @@ color de caja está en la portada.
 #include "modulos/m05-pensamiento-de-sistema-y-emergentes.typ"
 #include "modulos/m06-forma-funcion-entidades.typ"
 #include "modulos/m07-relaciones-n2-emergentes.typ"
+
+// ---------------------------------------------------------------------
+#parte(3, "El rol del arquitecto", [
+  Tres módulos sobre lo que hace el arquitecto entre que le llega la
+  ambigüedad ascendente y entrega sus resultados.
+
+  El primero enuncia los tres roles —reducir ambigüedad, emplear
+  creatividad, gestionar complejidad— y los entregables concretos que
+  produce cada uno.
+
+  El segundo abre la ambigüedad misma: borrosidad e incertidumbre no son lo
+  mismo, y la información puede faltar, contradecirse o ser directamente
+  falsa. Cierra con por qué nadie diseña las influencias ascendentes.
+
+  El tercero compara cuatro procesos de desarrollo de producto reales —NASA,
+  una fabricante de helicópteros, una de cámaras, Agile— para separar lo
+  superficial de lo sustancial, y arma el PDP genérico de cuatro fases que
+  resulta ser, letra por letra, el mismo CDIO de la unidad 1.
+])
+
+#include "modulos/m08-rol-del-arquitecto.typ"
+#include "modulos/m09-la-ambiguedad.typ"
+#include "modulos/m10-el-pdp.typ"
