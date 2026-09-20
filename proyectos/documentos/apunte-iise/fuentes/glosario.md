@@ -4,9 +4,9 @@ La fuente única de cómo se nombra cada cosa en el apunte. **Un término se
 define acá una vez, y después se usa siempre igual** — en esta materia dos
 palabras distintas son dos conceptos distintos, y así se corrige.
 
-Estado: **unidades 1 a 5 cubiertas** (las 1 a 3 tienen parcialito; la 4 y la
-5 se escribieron junto con sus módulos, sin uno). Las unidades 6 y 7 se
-agregan a medida que se escriben sus módulos.
+Estado: **unidades 1 a 6 cubiertas** (las 1 a 3 tienen parcialito; la 4, la
+5 y la 6 se escribieron junto con sus módulos, sin uno). La unidad 7 se
+agrega a medida que se escriben sus módulos.
 
 ## Cómo se lee cada entrada
 
@@ -595,9 +595,132 @@ no en el requerimiento del día uno.
 
 ---
 
+## Unidad 6 — familia de requerimientos, interfaces, modelos de ciclo
+
+### curva de la tasa de fracasos (curva de bañadera)
+**Definición.** El modelo que describe cómo varía la tasa de falla de un
+sistema a lo largo del tiempo, en tres períodos: *mortalidad infantil* (tasa
+alta que decrece, por fallas de fabricación o control de calidad
+inadecuado), *vida útil* (tasa constante, fallas al azar) y *desgaste* (tasa
+creciente, al final de la vida útil).
+**Fuente:** clase 6, diapositiva 5. **Grado:** confirmado.
+
+### familia de requerimientos (padres, hijos, huérfanos)
+**Definición.** La relación jerárquica entre requerimientos: un
+requerimiento *padre* da origen a requerimientos *hijos* en el nivel de
+abajo. Si el padre es incompleto, incorrecto, ambiguo, conflictivo o
+inverificable, los hijos y las generaciones siguientes serán
+*progresivamente peores*. Un requerimiento sin padre es un *huérfano*, y
+debe evaluarse si corresponde incluirlo.
+**Fuente:** clase 6, diapositivas 9 y 70. **Grado:** confirmado.
+
+### documentos de interfaz (IDD, IRD, ICD)
+**Definición.** Tres documentos distintos según qué se conecta. *IDD*
+(Interface Definition Document): define las interfaces de un sistema *ya
+existente* —por ejemplo, un lanzador ya elegido—; es propiedad de ese otro
+sistema y probablemente no se puede alterar. *IRD* (Interface Requirement
+Document): define interfaces entre *dos sistemas en desarrollo
+simultáneo*; necesita un dueño conjunto, oficializado por ambos
+directores. *ICD* (Interface Control Document): identifica la *solución
+física* de la interfaz — los planos.
+**Fuente:** clase 6, diapositiva 11. **Grado:** confirmado.
+
+### requerimiento SMART
+**Definición.** La sigla que resume las cinco cualidades de un buen
+requerimiento: **E**specífico (un solo aspecto, en términos de la
+necesidad — qué y cuán bien —, no de la solución), **M**edible (desempeño
+cuantificable y verificable), **A**lcanzable (técnica y económicamente),
+**R**elevante (apropiado para el nivel que se está especificando) y
+**T**razable (fluye claramente desde un requerimiento padre).
+**Fuente:** clase 6, diapositiva 70 (Ivy Hooks, INCOSE 1993). **Grado:**
+confirmado.
+
+### rationale (de un requerimiento)
+**Definición.** La justificación que acompaña a un requerimiento: por qué
+se necesita, qué hipótesis se hicieron, y qué esfuerzo de diseño lo
+originó. Captura la motivación para que el requerimiento se pueda mantener
+y entender con el tiempo.
+**Fuente:** clase 6, diapositiva 74. **Grado:** confirmado.
+
+### TBD / TBC / TBR
+**Definición.** Tres marcas para lo indefinido en un requerimiento
+temprano: **TBD** (*To Be Determined/Defined*) — todavía no determinado;
+**TBC** (*To Be Confirmed*) — pendiente de confirmar; **TBR** (*To Be
+Resolved*) — un valor estimado, con su rationale, a resolver. Cuanto más
+tarde se resuelven, más caro sale — se resuelven lo antes posible.
+**Fuente:** clase 6, diapositivas 69 y 73. **Grado:** confirmado.
+
+### baseline
+**Definición.** Sustantivo y verbo a la vez. Como sustantivo, un conjunto
+*acordado* de requerimientos, diseños o documentos (datos de ingeniería)
+con control de cambios formal. Como verbo, el proceso de establecer ese
+conjunto. **Cada revisión técnica crea un baseline nuevo** del sistema.
+**Fuente:** clase 6, diapositiva 86. **Grado:** confirmado.
+
+### ingeniería concurrente
+**Definición.** La gestión del conocimiento de un proyecto donde el
+problema se estudia *en conjunto*, con optimización universal y esfuerzo
+paralelo masivo.
+**Fuente:** clase 6, diapositiva 114. **Grado:** confirmado.
+**No confundir con:** el *diseño secuencial* (esfuerzo serial, con largos
+períodos de iteración) ni el *diseño centralizado* — son los otros dos
+tipos de gestión del conocimiento que distingue la cátedra, y la
+ingeniería concurrente es el tercero.
+
+### mecatrónica
+**Definición.** La disciplina que integra mecánica, electrónica e
+informática/control en un mismo producto. Junto con la *robótica*, es un
+subconjunto de las temáticas de la ingeniería de sistemas espacial.
+**Fuente:** clase 6, diapositivas 121 y 122. **Grado:** confirmado.
+
+### modelo cascada
+**Definición.** El modelo de desarrollo secuencial "clásico": el flujo se
+mueve de una fase a la siguiente *sólo cuando la anterior está completa y
+congelada*, sin retorno. La variante "modificada" agrega retroalimentación
+entre fases — lo que rompe el principio de fases congeladas de la versión
+clásica.
+**Fuente:** clase 6, diapositiva 142. **Grado:** confirmado.
+**No confundir con:** el #t[modelo Vee], que admite iteraciones localizadas
+en vez de fases estrictamente congeladas.
+
+### modelo Vee
+**Definición.** Un modelo secuencial de ciclo de vida que resume el
+concepto de verificación y validación a lo largo de todo el desarrollo:
+mantiene la dimensión de tiempo de izquierda a derecha, pero algunas
+iteraciones se capturan como movimientos en un eje vertical. No hay una
+única definición formal, pero la filosofía de fondo es siempre la misma.
+**Fuente:** clase 6, diapositivas 144 y 145. **Grado:** confirmado.
+**No confundir con:** el #t[diagrama en V] de la unidad 5 — el modelo Vee
+es el concepto general de ciclo de vida secuencial con V&V incorporada; el
+diagrama en V de la unidad 5 es una instancia concreta de él, con las tres
+perspectivas (cliente, ingeniería de sistemas, contratista) ya
+desarrolladas.
+
+### desarrollo en espiral
+**Definición.** Un modelo de creación de prototipos *cíclico* que
+desarrolla la definición e implementación del sistema en pasos
+incrementales, disminuyendo el riesgo en cada ciclo. Cada ciclo incluye una
+revisión que garantiza el compromiso de los interesados con la solución en
+evolución.
+**Fuente:** clase 6, diapositiva 147. **Grado:** confirmado.
+
+### desarrollo ágil (Agile)
+**Definición.** Un método que divide un conjunto de objetivos en pasos
+incrementales pequeños, priorizados por el cliente, con planificación
+mínima, entregando en cada paso un sistema o subsistema de trabajo.
+Se caracteriza por equipos multifuncionales trabajando en ráfagas cortas
+("*sprints*"). Incluye metodologías como Programación Extrema (XP), Scrum,
+DSDM y modelado ágil.
+**Fuente:** clase 6, diapositivas 150 y 151. **Grado:** confirmado.
+**No confundir con:** el #t[modelo cascada] ni el #t[desarrollo en
+espiral] — el ágil prioriza la entrega incremental rápida sobre la
+planificación exhaustiva, que es exactamente lo opuesto del énfasis del
+modelo cascada.
+
+---
+
 ## Pendiente
 
-Las unidades 6 y 7 todavía no están: la familia de requerimientos que falta
-(ICD/IDD y las interfaces a fondo), los modelos de ciclo de vida (cascada,
-espiral, ágil) y los métodos de creación de arquitecturas. Se agregan al
+La unidad 7 todavía no está: los métodos de creación de arquitecturas, la
+Fase A a fondo y la tabla N² aplicada a un caso de arquitectura. Se agregan al
 escribir sus módulos.

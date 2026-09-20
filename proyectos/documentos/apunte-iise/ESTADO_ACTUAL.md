@@ -11,7 +11,7 @@ y la **fase 1 también**, el mismo día.
 | Índice de diapositivas por título | **cerrado** — `fuentes/clases/titulos.md` |
 | Diapositivas-figura | **cerrado** — 177 PNG en `fuentes/figuras/` (no se commitean; las regenera el extractor) |
 | Insumos de NotebookLM | **guardados y medidos** — `fuentes/externo/` |
-| Glosario controlado | **unidades 1 a 5**: 52 términos en `fuentes/glosario.md`. Las 6 y 7 entran al escribir sus módulos. La cita de «tabla N²» se corrigió en una sesión previa (diapositiva 31 → 71/73: apuntaba a la sección equivocada) |
+| Glosario controlado | **unidades 1 a 6**: 65 términos en `fuentes/glosario.md`. La 7 entra al escribir sus módulos. La cita de «tabla N²» se corrigió en una sesión previa (diapositiva 31 → 71/73: apuntaba a la sección equivocada) |
 | `verificar-lexico.py` | **escrito y en VERDE** |
 | `probar-verificar-lexico.py` | **escrito y en VERDE**: los tres sabotajes dan rojo, el control positivo da verde y la excepción declarada se respeta |
 | Infraestructura Typst | **montada** en `apunte/`: `plantilla.typ`, `biblioteca/paleta.typ`, `biblioteca/figuras.typ` |
@@ -21,8 +21,9 @@ y la **fase 1 también**, el mismo día.
 | **Unidad 3 — M08, M09, M10** | **ESCRITA** (2026-09-20) — sobre las 48 diapositivas de la clase 3: rol del arquitecto y entregables, la ambigüedad (borrosidad/incertidumbre, información desconocida/conflictiva/falsa), y el PDP (cuatro casos reales + PDP genérico + PDP global de 3 vistas) |
 | **Unidad 4 — M11, M12, M13, M14** | **ESCRITA** (2026-09-20) — sobre las 124 diapositivas de la clase 4 (la más grande): por qué hace falta la IS (Saturno V, Hubble), sistema de sistemas y la ISS, el proceso de punta a punta (Space Shuttle y un rover marciano) y el motor de NASA de 17 actividades |
 | **Unidad 5 — M15, M16, M17, M18** | **ESCRITA** (2026-09-20) — sobre las 71 diapositivas de la clase 5: ciclo de vida de NASA y diagrama en V, qué es un requerimiento (MCO vs. DC-3) y gestión de márgenes a fondo, la familia de requerimientos con trazabilidad de 6 niveles, y verificación/validación a fondo con los 7 elementos del alcance |
-| Unidades 6 y 7 | **pendientes** — una sesión por unidad |
-| PDF | **compila**: `apunte/apunte.pdf`, **83 páginas** |
+| **Unidad 6 — M19, M20, M21, M22, M23** | **ESCRITA** (2026-09-20) — sobre las 155 diapositivas de la clase 6 (la más larga): familia de requerimientos e interfaces (IDD/IRD/ICD), el Ejercicio de Alcance con seis ConOps reales, SMART y verificación/validación operativas, Pre-Fase A a fondo con los cinco modelos de ciclo de vida, e ingeniería concurrente y mecatrónica. **5 módulos, no los 4 previstos** — ver PDP.md §8 |
+| Unidad 7 | **pendiente** |
+| PDF | **compila**: `apunte/apunte.pdf`, **100 páginas** |
 | Parcialitos | 1, 2 y 3 en `fuentes/parcialitos.md`. Los de las clases 4 a 7 **no van a llegar**: la cátedra no los devolvió, y **el apunte NO se escribe en función de ellos** (decisión de Fran, 2026-09-20) |
 
 ## Lo que la fase 1 dejó medido
@@ -128,9 +129,31 @@ los `#include` de `apunte.typ`.
    industria, no la elección de palabra de la cátedra. Marcada con
    `// lexico-ok` en `m15-ciclo-de-vida-y-diagrama-en-v.typ`.
 
+## Lo que esta sesión (unidad 6) dejó medido
+
+1. **La unidad más larga salió con cinco módulos, no cuatro.** 155
+   diapositivas con material genuinamente separable (ingeniería concurrente
+   + mecatrónica no encajaban en los otros cuatro sin diluirlos): se agregó
+   M23, y la unidad 7 corre un módulo más tarde (M24–M27). PDP.md §8 tiene
+   la nota completa.
+2. **Trece términos nuevos en el glosario** (65 en total).
+3. **Un hallazgo que corrigió retroactivamente la unidad 5:** la
+   diapositiva 85 de esta clase (comparación de seis modelos de ciclo de
+   vida) muestra el corte exacto Formulación/Aprobación/Implementación del
+   ciclo de NASA sobre el eje de baseline —algo que M15 (unidad 5) había
+   dejado deliberadamente sin precisar, por falta de evidencia—. Se
+   corrigió el `#cuidado` de M15 a `#clave` con el dato confirmado, citando
+   la clase 6. Es la primera vez que una unidad posterior corrige, con
+   evidencia, una hedge explícita de una unidad ya cerrada.
+4. **Tres figuras reales embebidas**: una simulación CFD del Shuttle en
+   reentrada (M20), y las figuras de comparación de ciclos de vida y de
+   la espiral de Boehm, las dos en M22.
+5. **Ningún defecto de redacción esta vez** — las trampas ya documentadas
+   en el HANDOFF (fracciones en tablas, tags `#t[]` sin partir en dos
+   líneas) se aplicaron desde el primer borrador.
+
 ## Qué sigue
 
-**Unidad 6** (familia de requerimientos, interfaces, modelos de ciclo de
-vida): son los módulos M19–M22 del PDP, sobre 155 diapositivas — la más
-grande de las tres que quedan, tanto en diapositivas como, según el HANDOFF
-anterior, en figuras (67).
+**Unidad 7** (creación de arquitecturas, Fase A, N²): son los módulos
+M24–M27, sobre 54 diapositivas — la más chica de las tres últimas. Cierra
+el apunte.

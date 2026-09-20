@@ -36,13 +36,13 @@
   (Operaciones y Sostenimiento) y *Fase F* (Cierre).
 ]
 
-#cuidado[
-  La cátedra agrupa estas siete fases en tres bloques —*Formulación*,
-  *Aprobación* e *Implementación*— pero la diapositiva no marca en qué fase
-  exacta cae cada corte. Lo que sí queda claro es el patrón: hay un tramo
-  inicial donde el proyecto todavía se está *definiendo* (Formulación), un
-  punto de decisión donde se compromete a seguir (Aprobación), y un tramo
-  final donde se *construye, opera y cierra* (Implementación).
+#clave[
+  La cátedra agrupa estas siete fases en tres bloques: *Formulación* llega
+  hasta el final de la Fase B, *Aprobación* es el punto de decisión entre B
+  y C, e *Implementación* cubre las fases C, D, E y F. La clase 6 lo
+  confirma con un diagrama que marca el corte sobre el eje de #t[baseline]:
+  Formulación termina con el *Allocated Baseline* (al cerrar la Fase B), e
+  Implementación arranca con el *Product Baseline* (al cerrar la Fase C).
 ]
 
 Cada fase termina en una *revisión técnica* —de pares, de subsistema, de

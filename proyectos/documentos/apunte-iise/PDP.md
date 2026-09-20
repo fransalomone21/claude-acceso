@@ -151,6 +151,14 @@ escribe uno, usa `#M("clave")` y el número sale del orden de los `#include` de
 | 3 — Rol del arquitecto, ambigüedad, PDP | 48 | M08–M10 | **escrita** (2026-09-20) |
 | 4 — Necesidad de la IS, SoS, ISS, motor NASA | 124 | M11–M14 | **escrita** (2026-09-20) |
 | 5 — Ciclo de vida, requerimientos, márgenes, alcance | 71 | M15–M18 | **escrita** (2026-09-20) |
-| 6 — Familia de requerimientos, interfaces, modelos de ciclo | 155 | M19–M22 | pendiente |
-| 7 — Creación de arquitecturas, Fase A, N² | 54 | M23–M26 | pendiente |
-| 0 — Glosario controlado | transversal | M00 | **escrito** (2026-09-20), 52 terminos |
+| 6 — Familia de requerimientos, interfaces, modelos de ciclo | 155 | M19–M23 | **escrita** (2026-09-20) — 5 módulos, no los 4 previstos: ver nota abajo |
+| 7 — Creación de arquitecturas, Fase A, N² | 54 | M24–M27 | pendiente |
+| 0 — Glosario controlado | transversal | M00 | **escrito** (2026-09-20), 65 terminos |
+
+**Nota sobre la unidad 6 (2026-09-20):** el plan original preveía M19–M22
+(cuatro módulos). Al escribirla, la ingeniería concurrente y la mecatrónica
+—155 diapositivas en total, la clase más larga— no cabían en ninguno de los
+otros cuatro sin diluirlos, así que se agregó un quinto módulo (M23). La
+unidad 7 corre en consecuencia un módulo más tarde (M24–M27 en vez de
+M23–M26). Es el número de módulos por unidad el que se ajustó — una
+estimación, no un contrato —; el criterio de cierre de cada fase no cambió.

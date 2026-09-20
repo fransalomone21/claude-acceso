@@ -222,3 +222,44 @@ color de caja está en la portada.
 #include "modulos/m16-que-es-un-requerimiento-y-margenes.typ"
 #include "modulos/m17-familia-de-requerimientos-y-trazabilidad.typ"
 #include "modulos/m18-verificacion-validacion-y-alcance.typ"
+
+// ---------------------------------------------------------------------
+// La unidad 6 salió con CINCO módulos (M19-M23), no los cuatro previstos
+// en el PDP (M19-M22): 155 diapositivas con material genuinamente separado
+// -- ingeniería concurrente y mecatrónica no cabían en ninguno de los
+// otros cuatro sin diluirlos. La unidad 7 corre un módulo más tarde
+// (M24-M27) que lo que el PDP tenía escrito; PDP.md §8 ya está corregido.
+#parte(6, "Familia de requerimientos, interfaces y modelos de ciclo", [
+  Cinco módulos sobre la clase más larga de la materia (155 diapositivas),
+  que profundiza vocabulario de las unidades 4 y 5 y agrega el que falta
+  para escribir requerimientos de calidad y elegir un modelo de desarrollo.
+
+  El primero cubre la familia de requerimientos (padres, hijos, huérfanos),
+  la curva de la tasa de fracasos, una versión más detallada del diagrama
+  en V, y los tres documentos de interfaz (IDD, IRD, ICD).
+
+  El segundo aplica el Ejercicio de Alcance a un caso científico real —¿fue
+  Marte habitable?— y recorre seis Conceptos de Operación reales: Space
+  Shuttle (con el corredor de reentrada y los cuatro tipos de aborto),
+  Falcon 9, Curiosity, un satélite meteorológico, una misión tripulada a
+  Marte y una misión a un asteroide.
+
+  El tercero enseña a escribir requerimientos SMART, con el formato "QUIÉN
+  deberá QUÉ", el checklist de nueve preguntas, la rationale que justifica
+  cada requerimiento, y la verificación y validación ya operativas —con sus
+  preguntas y técnicas concretas.
+
+  El cuarto profundiza la Pre-Fase A (qué produce, qué la cierra) y define
+  baseline, y compara cinco modelos de desarrollo —cascada, Vee, prototipado
+  rápido, espiral y ágil— para entender cuándo conviene cada uno.
+
+  El quinto cierra con la ingeniería concurrente —con el Mustang P-51 como
+  el caso que la probó cuarenta años antes de tener nombre— y ubica a la
+  mecatrónica y a la robótica como parientes de esta disciplina.
+])
+
+#include "modulos/m19-familia-de-requerimientos-e-interfaces.typ"
+#include "modulos/m20-el-alcance-en-la-practica.typ"
+#include "modulos/m21-escribir-buenos-requerimientos.typ"
+#include "modulos/m22-ciclo-de-vida-a-fondo-y-modelos.typ"
+#include "modulos/m23-ingenieria-concurrente-y-mecatronica.typ"
