@@ -15,10 +15,15 @@
       "local": "proyectos/documentos/electronica-analogica/apunte/apunte.pdf",
       "nombre-en-drive": "Apunte de Electronica Analogica.pdf",
       "estado": "ACTIVO -- cambia, se republica cada vez que se toca"
+    },
+    {
+      "materia": "IISE",
+      "local": "proyectos/documentos/apunte-iise/apunte/apunte.pdf",
+      "nombre-en-drive": "Apunte de Introduccion a la Ingenieria de Sistemas Espaciales.pdf",
+      "estado": "ACTIVO -- 28 modulos, 115 pag., las 7 unidades. Declarado el 2026-09-20, cuando se cumplio el criterio que pedia la entrada anterior: las 7 unidades escritas (fase 2 del PDP)"
     }
   ],
   "no-se-publican": {
-    "proyectos/documentos/apunte-iise": "TODAVIA NO -- es un apunte y va a publicarse, pero el 2026-09-20 son 25 paginas de 7 unidades (el glosario y la unidad 1). Compartir un apunte a un cuarto de camino hace que el companero lo descarte una vez y no vuelva. PASA A 'apuntes' cuando esten escritas las 7 unidades, que es el criterio de salida de la fase 2 del PDP.",
     "proyectos/documentos/teoria-circuitos": "informes de laboratorio, no apuntes; ademas la caratula lleva mails de companeros",
     "proyectos/documentos/clase-asincronica-3": "actividad de catedra, no apunte",
     "proyectos/seguimiento": "material personal -- nunca sale de su repo"

@@ -1,9 +1,14 @@
 # ESTADO ACTUAL — Apunte de IISE
 
-**Fase 4** (publicación al Drive), y queda **a criterio de Fran**: no arranca
-sola. Las fases 0, 1, 2 y **3 cerraron el 2026-09-20** — las 7 unidades
-escritas y las 16 preguntas de los parcialitos mapeadas, con medidor y
-saboteador.
+**PROYECTO CERRADO — las cinco fases (0 a 4) cerraron el 2026-09-20.** El
+apunte está escrito (7 unidades, 28 módulos, 115 páginas), mapeado contra los
+parcialitos (16 preguntas, ninguna huérfana) y **publicado en el Drive de los
+compañeros**, verificado por MD5.
+
+Lo único que queda vivo es el mantenimiento: si se toca un módulo, se
+recompila, se corren `verificar-lexico.py` y `verificar-cobertura.py`, y se
+vuelve a subir con `publicar-apuntes.ps1` — el medidor de cada arranque avisa
+si el Drive quedó atrasado.
 
 ## Qué hay
 
@@ -207,9 +212,20 @@ los `#include` de `apunte.typ`.
    estar mal. Las dos lecturas están cubiertas, así que no cambia nada — pero
    no se cita como `confirmado`.
 
+## Lo que la fase 4 dejó medido
+
+1. **Publicado**: `Apunte de Introduccion a la Ingenieria de Sistemas
+   Espaciales.pdf`, 10,3 MB, en la carpeta `IISE` del Drive. `publicar-apuntes.ps1
+   -Verificar` lo da al día **comparando MD5**, no fechas.
+2. **El medidor se puso en rojo antes del verde.** Declarar el apunte en
+   `.claude/apuntes-publicos.json` y todavía no subirlo dejó
+   `IISE: SIN PUBLICAR en Drive` — el rojo que hace creíble al verde de después.
+3. La entrada de `no-se-publican` traía escrito su propio criterio de salida
+   («pasa a `apuntes` cuando estén escritas las 7 unidades»), y se cumplió sin
+   discutirlo: la decisión estaba tomada de antemano, no en caliente.
+
 ## Qué sigue
 
-**Fase 4** (publicación al Drive), y **queda a criterio de Fran**: declarar el
-PDF en `.claude/apuntes-publicos.json`, subirlo a la carpeta `IISE` y dejar
-`publicar-apuntes.ps1 -Verificar` en verde. El apunte, como cuerpo de texto,
-está terminado.
+**Nada.** El proyecto está cerrado. Si la cátedra cambia algo o aparece un
+defecto en una página, se toca el módulo, se recompila, se corren los dos
+verificadores y se vuelve a publicar.

@@ -1,12 +1,20 @@
 # HANDOFF — Apunte de IISE
 
-Última sesión: **2026-09-20 (cierre de la fase 3)**. Mapeó las 16 preguntas de
-los parcialitos 1-3 contra los módulos escritos, **encontró el mapeo anterior
-mal en 9 de las 16**, lo corrigió con anclas `MNN §sección` y lo dejó medido
-por `verificar-cobertura.py` + `probar-verificar-cobertura.py`. **No se escribió
-contenido nuevo: no hizo falta, ninguna pregunta quedó huérfana.** La fase 3
-quedó cerrada en `PDP.md`; **la única fase abierta es la 4 (publicación), y es
-decisión de Fran**.
+**PROYECTO CERRADO el 2026-09-20.** Las cinco fases del PDP están cerradas: el
+apunte está escrito (7 unidades, 28 módulos, 71 términos, 115 páginas), mapeado
+contra los parcialitos (16 preguntas, ninguna huérfana, con medidor y
+saboteador) y **publicado en el Drive de los compañeros**, verificado por MD5.
+
+**No hay trabajo pendiente.** Lo que sigue abajo es referencia para el día que
+haya que TOCAR algo: cómo se escribe un módulo y las trampas ya pagadas.
+
+Última sesión: **2026-09-20 (fases 3 y 4)**. Mapeó las 16 preguntas de los
+parcialitos 1-3 contra los módulos escritos, **encontró el mapeo anterior mal
+en 9 de las 16**, lo corrigió con anclas `MNN §sección` y lo dejó medido por
+`verificar-cobertura.py` + `probar-verificar-cobertura.py`. **No se escribió
+contenido nuevo: no hizo falta, ninguna pregunta quedó huérfana.** Después, a
+pedido de Fran, declaró el apunte en `.claude/apuntes-publicos.json` y lo
+publicó en el Drive.
 
 ## La sesión anterior (redacción)
 
@@ -118,12 +126,13 @@ rota, el módulo cruzado y la numeración corrida.
 
 ## Lo que quedó abierto
 
-1. **Fase 4** (publicación al Drive), y es **decisión de Fran, no automática**:
-   declarar el PDF en `.claude/apuntes-publicos.json`, subirlo a la carpeta
-   `IISE` con `publicar-apuntes.ps1`, y dejar `-Verificar` en verde.
-2. **Nada de contenido queda pendiente.** El apunte de IISE, como cuerpo de
-   texto, está terminado: 28 módulos, 71 términos, 115 páginas.
-3. **Si aparecieran los parcialitos 4 a 7** —no se espera que aparezcan—: se
-   agregan sus filas a `fuentes/parcialitos.md`, se actualiza el conteo
-   declarado y se vuelve a correr `verificar-cobertura.py`, que se pone en
-   rojo solo si alguna queda huérfana o mal anclada.
+**Nada.** El proyecto está cerrado: contenido, cobertura y publicación.
+
+Si alguna vez hay que tocarlo, el circuito completo es: tocar el módulo,
+recompilar, `verificar-lexico.py`, `verificar-cobertura.py`, mirar las páginas
+que cambiaron, y `publicar-apuntes.ps1` — el medidor de cada arranque avisa si
+el Drive quedó atrasado respecto del PDF local.
+
+Y si aparecieran los parcialitos 4 a 7 —no se espera que aparezcan—: se agregan
+sus filas a `fuentes/parcialitos.md`, se actualiza el conteo declarado y se
+vuelve a correr `verificar-cobertura.py`.

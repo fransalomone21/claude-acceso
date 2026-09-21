@@ -115,11 +115,25 @@ en rojo a propósito. El saboteador encontró un agujero real en su primera
 corrida: el sabotaje (b) rompía una mención de ejemplo en la **prosa** del
 banco, no una fila de la tabla, y el verificador daba verde con razón.
 
-### Fase 4 — Publicación
+### Fase 4 — Publicación ✅ CERRADA (2026-09-20)
 
 **Criterio de salida:** el PDF declarado en `.claude/apuntes-publicos.json`,
 subido a la carpeta `IISE` del Drive, y `publicar-apuntes.ps1 -Verificar` en
 verde.
+
+Resultado: **publicado y verificado por MD5** — 10,3 MB, 115 páginas, en la
+carpeta `IISE` del Drive de los compañeros, por pedido de Fran. La entrada del
+apunte pasó de `no-se-publican` a `apuntes` cumpliendo el criterio que ella
+misma declaraba («pasa cuando estén escritas las 7 unidades»), y queda como
+`ACTIVO`: si el apunte se toca, el medidor de cada arranque avisa que el Drive
+quedó atrasado.
+
+**El medidor se puso en rojo antes de subir**, con el apunte ya declarado y
+todavía sin subir (`IISE: SIN PUBLICAR en Drive`, `RESULTADO: 1 cosa(s) sin
+resolver`). Eso no es un trámite: es la única corrida que prueba que el verde
+posterior significa algo.
+
+**Con esto el PDP queda completo: las cinco fases cerradas.**
 
 ## 5. Riesgos
 
