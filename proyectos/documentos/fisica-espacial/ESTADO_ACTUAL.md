@@ -1,5 +1,42 @@
 # Estado actual — Apunte de Física Espacial
 
+## `#repaso()` en los módulos 8 y 17 — corrección de un dato propio — 2026-09-20 (segunda parte)
+
+Fran pidió aplicar `#repaso()` también en los módulos 8, 12 y 17, siguiendo
+la lista que esta misma sesión había escrito más abajo ("se vuelve a usar en
+los módulos 8, 12 y 17, según el grafo de `verificar-apunte.py`"). Antes de
+tocar código se verificó esa lista contra el texto real, porque el grafo del
+verificador no dice lo que esa nota afirmaba:
+
+- **Módulo 8, confirmado.** Línea "Descomponiendo $v$ en polares —como en el
+  módulo 1—", sección 8.3. No es la aceleración: es la *velocidad* en
+  polares ($v_theta = r dot(theta)$), pero es el mismo patrón (resultado del
+  módulo #M("vectores") citado sin rederivar). `#repaso()` puesto ahí,
+  destino `<vec-polares>`, texto sobre la velocidad. Página 55.
+- **Módulo 17, confirmado.** Línea "La aceleración en polares del módulo 1
+  es la ec. (19)", sección 17.6 — el caso más directo de los tres: re-deriva
+  la aceleración por otro camino (marco rotante) y la compara término a
+  término con la del módulo 1. `#repaso()` puesto con el mismo texto que en
+  el módulo 10. Página 147.
+- **Módulo 12: NO tiene ningún uso de la aceleración (ni de la velocidad) en
+  polares.** `grep` de "polares", "vectores" y de los términos
+  $dot.double(r)$, $dot(theta)$ contra `m12-maniobras.typ` no da una sola
+  coincidencia. **La lista de la sesión anterior estaba mal**: leyó la
+  columna "anticipa (adelante)" de la fila 1 del grafo de
+  `verificar-apunte.py` (`[8, 10, 12, 17, 18]`) como "estos módulos reusan
+  el resultado", y esa columna dice otra cosa — son los `#M(...)` que el
+  PROPIO módulo 1 escribe mirando hacia adelante en su cierre ("de acá salen
+  las fórmulas de los módulos 8 al 12", "reaparece en el módulo 17"), no una
+  medición de qué módulo cita a cuál. Quedó como hipótesis sin marcar y no
+  se verificó contra el archivo antes de escribirla — no se retrofittea:
+  no hay ecuación ahí para colgarle un repaso.
+
+**Verificado:** `typst compile` sin errores (176 páginas, sin cambio),
+páginas 55 y 147 miradas renderizadas a 150 dpi, `verificar-apunte.py` y
+`indice-temas.py --check` en verde — y el filtro de `destino:` agregado en
+la sesión anterior sigue funcionando: ninguna de las dos etiquetas cruzadas
+nuevas ensucia `docs/INDICE-TEMAS.md`.
+
 ## `#repaso()` — repaso clicable junto a una ecuación reutilizada — 2026-09-20
 
 **Cerrado, con un caso de uso.** Fran leyó el módulo 10 (pág. 75/176, la

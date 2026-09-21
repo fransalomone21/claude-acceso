@@ -137,7 +137,12 @@ número, es lo que hace que este teorema rinda el doble.
 
 #clave[
   *Segunda consecuencia: $r^2 dot(theta)$ es constante.* Descomponiendo
-  $bold(v)$ en polares —como en el módulo #M("vectores")— sólo la componente transversal
+  $bold(v)$ en polares#repaso(destino: <vec-polares>)[
+    La velocidad de una partícula en coordenadas polares tiene dos
+    componentes: la radial, $dot(r)$, y la transversal, $r dot(theta)$ —la
+    que entra acá—. Se deducen paso a paso, con los versores $hat(r)$ y
+    $hat(theta)$ girando, en el módulo #M("vectores"), sección 1.6.
+  ] —como en el módulo #M("vectores")— sólo la componente transversal
   $v_theta = r dot(theta)$ contribuye al momento angular, porque la radial es
   paralela a $bold(r)$ (Beer ecs. 12.17 y 12.18, pág. 723):
   $ L_O = m r v_theta = m r^2 dot(theta) = "constante" $

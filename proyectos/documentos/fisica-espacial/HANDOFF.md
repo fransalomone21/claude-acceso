@@ -6,6 +6,22 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-20 (segunda parte) — `#repaso()` en 8 y 17, y un dato propio corregido
+
+**Cerrado.** Se agregó `#repaso()` en el módulo 8 (velocidad en polares,
+pág. 55) y en el módulo 17 (aceleración en polares, pág. 147). Detalle en
+`ESTADO_ACTUAL.md`.
+
+**Lo que no se hizo, a propósito: módulo 12.** No usa la aceleración (ni la
+velocidad) en polares en ningún lado — verificado con grep, cero
+coincidencias. La sesión anterior lo había puesto en una lista sin verificar
+contra el archivo, leyendo mal la columna "anticipa" del grafo de
+`verificar-apunte.py` (son los módulos que el módulo 1 MENCIONA mirando
+hacia adelante, no los que reusan su resultado). Si en el futuro alguien
+vuelve a mirar ese grafo para encontrar candidatos a `#repaso()`, la columna
+que sirve es "usa (atrás)" **del módulo candidato**, leyendo su propio
+archivo — no "anticipa" de la fila del módulo 1.
+
 ## Sesión del 2026-09-20 — `#repaso()`, repaso clicable junto a una ecuación
 
 **Cerrado.** Función nueva en `plantilla.typ` (`#repaso(cuerpo, destino:

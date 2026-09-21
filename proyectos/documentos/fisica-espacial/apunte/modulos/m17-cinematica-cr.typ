@@ -375,7 +375,14 @@ posiciones se miden desde $A$ (Beer ecs. 15.52 y 15.54, pág. 1004): nada más
 cambia.
 
 #clave[
-  *La aceleración en polares del módulo #M("vectores") es la @cin-coriolis-a, y se comprueba
+  *La aceleración en polares#repaso(destino: <vec-polares>)[
+    Son las dos componentes de la aceleración de una partícula en
+    coordenadas polares: la radial, $dot.double(r) - r dot(theta)^2$
+    (con el término centrípeto, $-r dot(theta)^2$), y la transversal,
+    $r dot.double(theta) + 2 dot(r) dot(theta)$ (con el de Coriolis,
+    $2 dot(r) dot(theta)$). Se deducen paso a paso en el módulo
+    #M("vectores"), sección 1.6.
+  ] del módulo #M("vectores") es la @cin-coriolis-a, y se comprueba
   en cuatro renglones.* Con $bold(Omega) = dot(theta) hat(k)$ y $bold(r) = r
   hat(r)$, término por término:
   $ dot(bold(Omega)) times bold(r) = r dot.double(theta) hat(theta), quad
