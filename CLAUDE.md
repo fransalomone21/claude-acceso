@@ -244,10 +244,14 @@ La carpeta es
 [esta](https://drive.google.com/drive/folders/1Uz_4Lu4i1LX7xbeS-dDVEF-TXi6EA1mL)
 y adentro va **una carpeta por materia** con el PDF del apunte. Se sube con
 `rclone` contra el remote `drive-apuntes`; el token vive en
-`%APPDATA%
-clone
-clone.conf`, **fuera del repo**, y por eso este archivo
-puede nombrar la carpeta sin publicar nada.
+`~/.config/rclone/rclone.conf` —medido, **no** en `%APPDATA%`—, **fuera
+del repo**, y por eso este archivo puede nombrar la carpeta sin publicar
+nada. Esa ruta es la que pasa `publicar-apuntes.ps1`, y es la fuente: un
+`rclone` invocado a mano con otra ruta corta con «empty token found -
+please run config reconnect», que se lee como token vencido y no lo es.
+Ya costó una vez; esta línea decía `%APPDATA%` y por eso costó una
+segunda. **Si hay un script propio que envuelve la herramienta, se lee
+el script antes de invocar la herramienta cruda.**
 
 ```powershell
 .\publicar-apuntes.ps1             # sube lo que cambio
@@ -256,7 +260,8 @@ puede nombrar la carpeta sin publicar nada.
 ```
 
 Los dos scripts pasan `--config` con la ruta completa **a propósito**: un
-archivo resuelto por `%APPDATA%` no es una ruta, es una función del entorno, y
+archivo resuelto por una variable de entorno no es una ruta, es una función
+del entorno, y
 ya pasó que una consola dijera «not found» sobre el mismo archivo que otra
 ventana de la misma máquina listaba sin problema.
 
