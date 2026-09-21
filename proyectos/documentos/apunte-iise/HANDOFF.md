@@ -1,7 +1,16 @@
 # HANDOFF — Apunte de IISE
 
-Última sesión: **2026-09-20**. Escribió la unidad 7 (M24–M27), la última que
-faltaba: cómo se crea una arquitectura (síntesis/descubrimiento, 4 métodos,
+Última sesión: **2026-09-20 (cierre de la fase 3)**. Mapeó las 16 preguntas de
+los parcialitos 1-3 contra los módulos escritos, **encontró el mapeo anterior
+mal en 9 de las 16**, lo corrigió con anclas `MNN §sección` y lo dejó medido
+por `verificar-cobertura.py` + `probar-verificar-cobertura.py`. **No se escribió
+contenido nuevo: no hizo falta, ninguna pregunta quedó huérfana.** La fase 3
+quedó cerrada en `PDP.md`; **la única fase abierta es la 4 (publicación), y es
+decisión de Fran**.
+
+## La sesión anterior (redacción)
+
+Escribió la unidad 7 (M24–M27), la última que faltaba: cómo se crea una arquitectura (síntesis/descubrimiento, 4 métodos,
 factores de balance, arquitectura vs. diseño), Fase A a fondo (ConOps del
 Mars 2020, herencia del Curiosity, un IRD real del GLAST), las revisiones
 SRR y MDR una al lado de la otra, y el diagrama N² aplicado a interfaces con
@@ -21,32 +30,30 @@ todavía.
 - **Discutir los parcialitos 4 a 7.** No van a llegar (decisión de Fran,
   2026-09-20); el apunte no se escribe en función de ellos.
 
-## Qué es la fase 3, y cómo se hace
+## La fase 3, cerrada — qué quedó y por qué así
 
-**Criterio de salida (PDP.md §4):** cada una de las 16 preguntas de los
-parcialitos 1, 2 y 3 (`fuentes/parcialitos.md`) mapeada a un módulo
-concreto que la responde. Ninguna pregunta huérfana. Es la
-**validación** del apunte —¿sirve para rendir?— y es distinta de la
-verificación que ya está hecha —¿compila, y dice lo que la clase dijo?—.
+**Las 16 preguntas mapeadas, ninguna huérfana, ningún hueco de contenido.** El
+mapeo vive en la columna «Dónde se responde» de `fuentes/parcialitos.md`, y
+cada ancla es `MNN §título exacto de la sección`.
 
-Procedimiento sugerido:
+**El mapeo que ya estaba escrito ahí estaba mal en 9 de las 16.** Se había
+hecho el mismo día, desde los parcialitos y sin abrir un módulo: CDIO y
+triángulo de hierro cruzados entre M01 y M02, ambigüedad y entregables
+cruzados entre M08 y M09, pensamiento holístico mandando a M04 cuando se
+define en M06, y la tabla N² aplicada apuntando a M26 — la numeración anterior
+a que la unidad 6 creciera a cinco módulos.
 
-1. Leer `fuentes/parcialitos.md` completo — son 16 preguntas, sobre los
-   parcialitos 1, 2 y 3 únicamente (los de las clases 4 a 7 no existen).
-2. Para cada pregunta, identificar qué módulo (o módulos) la responde,
-   citando la clave (`m0N-clave.typ`) y, si hace falta, la sección exacta.
-3. Si una pregunta **no** tiene módulo que la responda: eso es un hueco
-   real en el apunte, no un defecto del mapeo — hay que decidir si se
-   agrega contenido a un módulo existente o si se registra como pendiente
-   consciente.
-4. Dejar el resultado del mapeo escrito en algún lugar verificable —un
-   archivo `cobertura-parcialitos.md` en la raíz del proyecto es lo más
-   simple, siguiendo el patrón de `verificar-lexico.py`: un script que se
-   pueda volver a correr no hace falta acá porque las 16 preguntas son
-   estáticas, pero si en algún momento se agregan más parcialitos, evaluar
-   si conviene automatizarlo.
-5. Cerrar la fase en `PDP.md` (✅ CERRADA con la fecha) recién cuando las
-   16 preguntas tengan su módulo asignado.
+**Y por eso hay un script, en contra de lo que decía este mismo HANDOFF**
+(«las 16 preguntas son estáticas, no hace falta»). Eran estáticas las
+preguntas; lo que se mueve son los **módulos**, y ya se movieron una vez en
+silencio. `verificar-cobertura.py` mide cuatro cosas —pregunta huérfana,
+módulo inexistente, sección inexistente, y el conteo declarado contra el
+contado— y `probar-verificar-cobertura.py` las pone en rojo a propósito, más
+el control positivo.
+
+Lo que el medidor **no** puede medir, y está escrito en su docstring: que la
+sección realmente conteste la pregunta. Eso se lee. El script atrapa el ancla
+rota, el módulo cruzado y la numeración corrida.
 
 ## Cómo se escribe un módulo (referencia, ya no hace falta escribir ninguno)
 
@@ -111,11 +118,12 @@ Procedimiento sugerido:
 
 ## Lo que quedó abierto
 
-1. **Fase 3** (cobertura contra los parcialitos) — ver arriba. No arrancada
-   todavía.
-2. **Fase 4** (publicación al Drive): el PDF todavía no está declarado en
-   `.claude/apuntes-publicos.json`. Con **las 7 unidades escritas** (115
-   páginas), el apunte está completo — publicarlo ya es una decisión
-   razonable, pero sigue siendo a criterio de Fran, no automática.
-3. **Nada de contenido queda pendiente.** El apunte de IISE, como cuerpo de
-   texto, está terminado.
+1. **Fase 4** (publicación al Drive), y es **decisión de Fran, no automática**:
+   declarar el PDF en `.claude/apuntes-publicos.json`, subirlo a la carpeta
+   `IISE` con `publicar-apuntes.ps1`, y dejar `-Verificar` en verde.
+2. **Nada de contenido queda pendiente.** El apunte de IISE, como cuerpo de
+   texto, está terminado: 28 módulos, 71 términos, 115 páginas.
+3. **Si aparecieran los parcialitos 4 a 7** —no se espera que aparezcan—: se
+   agregan sus filas a `fuentes/parcialitos.md`, se actualiza el conteo
+   declarado y se vuelve a correr `verificar-cobertura.py`, que se pone en
+   rojo solo si alguna queda huérfana o mal anclada.

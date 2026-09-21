@@ -1,8 +1,9 @@
 # ESTADO ACTUAL — Apunte de IISE
 
-**Fase 3** (cobertura contra los parcialitos). Las fases 0, 1 y **2 —las 7
-unidades escritas— cerraron el 2026-09-20**, en la misma sesión de trabajo
-continuada.
+**Fase 4** (publicación al Drive), y queda **a criterio de Fran**: no arranca
+sola. Las fases 0, 1, 2 y **3 cerraron el 2026-09-20** — las 7 unidades
+escritas y las 16 preguntas de los parcialitos mapeadas, con medidor y
+saboteador.
 
 ## Qué hay
 
@@ -25,7 +26,9 @@ continuada.
 | **Unidad 6 — M19, M20, M21, M22, M23** | **ESCRITA** (2026-09-20) — sobre las 155 diapositivas de la clase 6 (la más larga): familia de requerimientos e interfaces (IDD/IRD/ICD), el Ejercicio de Alcance con seis ConOps reales, SMART y verificación/validación operativas, Pre-Fase A a fondo con los cinco modelos de ciclo de vida, e ingeniería concurrente y mecatrónica. **5 módulos, no los 4 previstos** — ver PDP.md §8 |
 | **Unidad 7 — M24, M25, M26, M27** | **ESCRITA** (2026-09-20) — sobre las 54 diapositivas de la clase 7: cómo se crea una arquitectura (síntesis/descubrimiento, 4 métodos, factores de balance, arquitectura vs. diseño), Fase A a fondo con el ConOps del Mars 2020 y la herencia del Curiosity, las revisiones SRR y MDR una al lado de la otra, y el diagrama N² aplicado a interfaces con el caso real del TDRS y una matriz de 17 disciplinas. **Cierra el apunte: las 7 unidades escritas** |
 | PDF | **compila**: `apunte/apunte.pdf`, **115 páginas** |
-| Parcialitos | 1, 2 y 3 en `fuentes/parcialitos.md`. Los de las clases 4 a 7 **no van a llegar**: la cátedra no los devolvió, y **el apunte NO se escribe en función de ellos** (decisión de Fran, 2026-09-20) |
+| Parcialitos | 1, 2 y 3 en `fuentes/parcialitos.md`, **mapeados**: 16 preguntas, 34 anclas `MNN §sección`, ninguna huérfana. Los de las clases 4 a 7 **no van a llegar**: la cátedra no los devolvió, y **el apunte NO se escribe en función de ellos** (decisión de Fran, 2026-09-20) |
+| `verificar-cobertura.py` | **escrito y en VERDE** — resuelve cada ancla contra el módulo y la sección reales |
+| `probar-verificar-cobertura.py` | **escrito y en VERDE**: los cuatro sabotajes dan rojo y el control positivo da verde |
 
 ## Lo que la fase 1 dejó medido
 
@@ -179,9 +182,34 @@ los `#include` de `apunte.typ`.
    documentó la inconsistencia en vez de silenciarla, con `#cuidado` en M26
    y en el glosario.
 
+## Lo que la fase 3 dejó medido
+
+1. **Ningún hueco de contenido.** Las 16 preguntas se contestan con los
+   módulos ya escritos; no hizo falta agregar una línea. La cobertura es un
+   piso, no un techo: 18 de los 28 módulos no los toca ningún parcialito y no
+   sobran.
+2. **El mapeo anterior estaba mal en 9 de las 16 preguntas, y era plausible.**
+   Se había escrito el mismo día, desde los parcialitos y sin abrir un módulo:
+   CDIO y triángulo de hierro cruzados entre M01 y M02, ambigüedad y
+   entregables cruzados entre M08 y M09, pensamiento holístico mandando a M04
+   cuando se define en M06, y la tabla N² aplicada apuntando a **M26** — la
+   numeración de antes de que la unidad 6 creciera a cinco módulos. Un mapeo a
+   nivel módulo se escribe de memoria y suena bien; por eso ahora la columna
+   lleva `§sección` exacta y la resuelve `verificar-cobertura.py`.
+3. **El saboteador encontró un agujero real en su primera corrida**, y no en
+   el verificador sino en sí mismo: el sabotaje (b) reemplazaba la primera
+   aparición del ancla de ejemplo, que está en la **prosa** del banco y no en
+   una fila de tabla — el verificador daba verde con razón. Es exactamente la
+   clase de falso verde que la regla 3 existe para atrapar.
+4. **Una salvedad quedó como `hipótesis`, no se silenció**: la corrección
+   «influyen en las influencias ascendentes y descendentes» (parcialito 2) usa
+   vocabulario de la clase 3, así que la reconstrucción de esa pregunta puede
+   estar mal. Las dos lecturas están cubiertas, así que no cambia nada — pero
+   no se cita como `confirmado`.
+
 ## Qué sigue
 
-**Fase 3** (cobertura contra los parcialitos): mapear cada una de las 16
-preguntas de los parcialitos 1, 2 y 3 (`fuentes/parcialitos.md`) a un
-módulo que la responde, sin preguntas huérfanas. Después de eso, **fase 4**
-(publicación al Drive) queda a criterio de Fran.
+**Fase 4** (publicación al Drive), y **queda a criterio de Fran**: declarar el
+PDF en `.claude/apuntes-publicos.json`, subirlo a la carpeta `IISE` y dejar
+`publicar-apuntes.ps1 -Verificar` en verde. El apunte, como cuerpo de texto,
+está terminado.

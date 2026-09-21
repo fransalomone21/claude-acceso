@@ -83,7 +83,7 @@ en verde en cada cierre de unidad. La unidad 6 salió con 5 módulos en vez de
 los 4 previstos (nota en §8); las demás, con los previstos. Modelo Sonnet,
 esfuerzo medium-high, sin fan-out.
 
-### Fase 3 — Cobertura contra los parcialitos 🔵 ABIERTA (2026-09-20)
+### Fase 3 — Cobertura contra los parcialitos ✅ CERRADA (2026-09-20)
 
 **Criterio de salida:** cada pregunta de los parcialitos **que sí están** (1, 2
 y 3; 16 preguntas) mapeada a un módulo que la responde; ninguna pregunta
@@ -96,6 +96,24 @@ van a llegar, y además el encargo es **un apunte general de la materia**, no un
 preparador de parcialitos: la cátedra puede tomar otra cosa. Así que la
 cobertura pasa a ser un **piso, no un techo** — un módulo que ningún parcialito
 toca no sobra, y la fase ya no bloquea a ninguna otra.
+
+Resultado: las **16 preguntas mapeadas, ninguna huérfana** y **ningún hueco de
+contenido** — las tres clases que sí tienen parcialito están cubiertas por los
+módulos ya escritos, sin agregar una línea de contenido nuevo. Lo que sí
+apareció fue un defecto del **mapeo**: estaba mal en **9 de las 16**, escrito
+el mismo día desde los parcialitos y sin abrir un módulo, y con la numeración
+anterior a que la unidad 6 creciera a cinco módulos (la tabla N² aplicada
+apuntaba a M26, que son las revisiones de la fase A, en vez de M27).
+
+**Por eso la fase cerró con un medidor y no con una lista**, en contra de lo
+que sugería el HANDOFF («las 16 preguntas son estáticas, no hace falta un
+script»). No hacía falta por las preguntas: hace falta por los **módulos**, que
+se renumeran — y ya se renumeraron una vez, en silencio. `verificar-cobertura.py`
+exige el **título exacto de la sección**, que es lo único que no se puede
+escribir de memoria, y `probar-verificar-cobertura.py` pone sus cuatro chequeos
+en rojo a propósito. El saboteador encontró un agujero real en su primera
+corrida: el sabotaje (b) rompía una mención de ejemplo en la **prosa** del
+banco, no una fila de la tabla, y el verificador daba verde con razón.
 
 ### Fase 4 — Publicación
 

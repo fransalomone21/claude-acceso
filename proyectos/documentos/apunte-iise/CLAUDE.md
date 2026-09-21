@@ -20,6 +20,7 @@ Destinatario: **el alumno que cursa la materia y rinde sus parciales**.
 | saber qué muestra una figura antes de abrirla | `fuentes/externo/notebooklm-figuras-reanclado.md` — **por su descripción, nunca por su número**. Ver la regla propia 2 |
 | buscar la definición textual de un término | `fuentes/externo/notebooklm-terminos.md`, y **verificarla contra el `.txt`** antes de usarla |
 | desambiguar un concepto que la diapositiva dice a medias | `perfil-global/pilares/nasa-seh/` e `incose-seh/` — los libros ya están extraídos a `.txt` por el proyecto `arquitectura-se` |
+| saber qué módulo responde una pregunta de parcialito | [`fuentes/parcialitos.md`](fuentes/parcialitos.md) — la columna «Dónde se responde» trae el módulo **y la sección exacta**, y la mide `verificar-cobertura.py` |
 | regenerar el material fuente | `python extraer-clases.py --figuras` |
 
 ## Las reglas propias
@@ -66,6 +67,8 @@ de la regla 4: lo que se verifica es la página, no que el compilador no protest
 ```powershell
 python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\verificar-lexico.py"
 python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\probar-verificar-lexico.py"
+python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\verificar-cobertura.py"
+python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\probar-verificar-cobertura.py"
 python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\verificar-anclas.py"
 python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\extraer-clases.py" --figuras
 ```
