@@ -152,7 +152,7 @@ está afuera, así que los tests 1 a 4 se pueden hacer directamente.
   [Sigue oscilando 3 o 4 veces antes de frenar],
   [*Amortiguadores gastados.* Sanos = frena casi en el acto],
 
-  [*T6*], [Linterna *entre el tambor y el bidón*, girando el tambor despacio],
+  [*T6*], [Linterna *entre el tambor de adentro y el de afuera*, girando el tambor despacio],
   [Moneda, aro de corpiño, clavo, botón, hebilla],
   [*Objeto atrapado* — el arreglo más barato que hay],
 
@@ -175,7 +175,7 @@ está afuera, así que los tests 1 a 4 se pueden hacer directamente.
   [*Rulemanes* #sym.arrow.l es lo que describimos],
 
   [*Metálico, rasca, tintinea*], [Apareció de golpe, un día],
-  [Objeto atrapado entre tambor y bidón],
+  [Objeto atrapado entre los dos tambores],
 
   [*Golpes secos*, la máquina camina], [Sólo en centrifugado, con poca carga],
   [Amortiguadores o resortes],
@@ -217,7 +217,7 @@ lo único que después dice cómo volvía cada cable.
   / *C. Aflojar el centro de la polea*: En esta máquina el eje termina en *rosca
     macho* y la polea la aprieta una *tuerca* — no hay hueco allen. Primero
     *trabar el tambor* para que no gire: una madera entre dos radios de la polea
-    apoyada contra el bidón, o una mano adentro del tambor. Dos avisos: si no
+    apoyada contra el tambor de afuera, o una mano adentro del tambor. Dos avisos: si no
     cede con fuerza normal, *probar al revés antes de seguir forzando* — algunos
     lavarropas llevan rosca invertida ahí, y reventarla es el peor final
     posible. Y si no sale en frío, calor suave con secador de pelo ablanda el
@@ -246,7 +246,7 @@ lo único que después dice cómo volvía cada cable.
   #v(0.3em)
 
   El retén es *la última pieza, del lado del agua*. No se ve desde afuera y no
-  se saca con el tambor puesto: para llegar hay que sacar el bidón y abrirlo
+  se saca con el tambor puesto: para llegar hay que sacar el tambor de afuera y abrirlo
   (paso E). Sacar la polea es el 5% del trabajo — el resto es lo de abajo.
 ]
 
@@ -255,10 +255,11 @@ lo único que después dice cómo volvía cada cable.
 #block(inset: (left: 2pt))[
   #set terms(separator: [ — ], hanging-indent: 0pt, spacing: 0.8em)
 
-  / *E. Sacar el bidón y abrirlo*: Salen primero los contrapesos de hormigón, la
-    manguera de la cuba, los cables de la resistencia, las trabas del fuelle, los
-    amortiguadores y los resortes de arriba. El bidón sale entero por adelante o
-    por arriba, entre dos. Después, mirar el perímetro donde se juntan las dos
+  / *E. Sacar el tambor de afuera y abrirlo*: Es el tacho de plástico donde va
+    metido el tambor de chapa. Salen primero los contrapesos de hormigón, la
+    manguera del cajón de jabón, los cables de la resistencia, las trabas del
+    fuelle, los amortiguadores y los resortes de arriba. Sale entero por adelante
+    o por arriba, entre dos. Después, mirar el perímetro donde se juntan las dos
     mitades:
 ]
 
@@ -267,8 +268,8 @@ lo único que después dice cómo volvía cada cable.
   - *Hay una corona de tornillos o de grampas metálicas* #sym.arrow se abre, y
     el arreglo es el normal.
   - *La junta es lisa y continua, sin tornillos* #sym.arrow está soldado de
-    fábrica. Ahí hay dos caminos: comprar el *bidón completo con rulemanes
-    puestos* (bastante más caro, pero se resuelve en una tarde), o que un
+    fábrica. Ahí hay dos caminos: comprar el *tambor de afuera completo, con los
+    rulemanes ya puestos* (bastante más caro, pero se resuelve en una tarde), o que un
     técnico lo *corte y lo vuelva a unir con bulones y sellador* — se hace y
     funciona, pero no es trabajo para la primera vez.
 ]
@@ -277,9 +278,9 @@ lo único que después dice cómo volvía cada cable.
 #block(inset: (left: 2pt))[
   #set terms(separator: [ — ], hanging-indent: 0pt, spacing: 0.8em)
 
-  / *F. Sacar el tambor y mirar el eje*: #text(fill: rojo, weight: "bold")[Este
-    es el punto de decisión caro.] Con el bidón abierto, el tambor sale con su
-    cruceta y su eje. Pasar la uña por el tramo de eje donde apoyaba el labio del
+  / *F. Sacar el tambor de adentro y mirar el eje*: #text(fill: rojo, weight: "bold")[Este
+    es el punto de decisión caro.] Con el de afuera abierto, el de adentro sale
+    con su cruceta y su eje. Pasar la uña por el tramo de eje donde apoyaba el labio del
     retén:
 ]
 
@@ -313,7 +314,7 @@ lo único que después dice cómo volvía cada cable.
     va último y con el labio hacia adentro (hacia el agua), con una película fina
     de grasa en el labio.
 
-  / *J. Armar al revés*: con junta nueva o sellador en la unión del bidón, y la
+  / *J. Armar al revés*: con junta nueva o sellador en la unión del tambor de afuera, y la
     tuerca de la polea con trabaquímico nuevo.
 ]
 
@@ -372,7 +373,7 @@ comprar como repuesto específico de lavarropas es el retén.
   table.header([*Si dio positivo*], [*Qué se compra*]),
   [*T5* — sigue oscilando], [*Par de amortiguadores.* Se cambian de a dos, nunca uno],
   [Correa rajada, vidriosa o floja], [*Correa*, por lo que dice grabado en el lomo (tipo `1195 J5`)],
-  [*Paso E* con bidón soldado], [*Bidón completo con rulemanes*, o la mano de obra del técnico],
+  [*Paso E* con el tambor de afuera soldado], [*Bidón completo con rulemanes*, o la mano de obra del técnico],
   [*Paso F* con eje picado], [*Cruceta con eje.* Acá conviene presupuestar antes de comprar],
 )
 
@@ -413,7 +414,7 @@ Parar no es fracasar: es lo que evita convertir un arreglo de \$20.000 en un
 lavarropas nuevo.
 
 #block(inset: (left: 14pt))[
-  - *El bidón está soldado* y no hay ganas de cortarlo y bulonarlo.
+  - *El tambor de afuera está soldado* y no hay ganas de cortarlo y bulonarlo.
   - *El eje está picado* (paso F).
   - *La tuerca de la polea no afloja* ni con calor, y se empieza a redondear.
   - *Aparece agua donde no debería* — por ejemplo, si la máquina ya perdía y
@@ -423,7 +424,7 @@ lavarropas nuevo.
 ]
 
 Pedir *dos presupuestos*, y preguntarle a los dos exactamente lo mismo: si abre
-el bidón, si cambia el retén además de los rulemanes, y si la mano de obra
+el tambor de afuera, si cambia el retén además de los rulemanes, y si la mano de obra
 incluye el desarme.
 
 = 8. Para que no vuelva a pasar

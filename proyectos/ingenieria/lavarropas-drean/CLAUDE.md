@@ -37,6 +37,15 @@ repite.
    necesita que alguien vuelva a preguntar, la guía tiene un hueco y se
    corrige ahí, no en el chat.
 
+4. **Se escribe con las palabras que usa la familia, no con las del manual.**
+   En esta casa las dos piezas se llaman **tambor de afuera** (el tacho de
+   plástico, fijo, el que se abre) y **tambor de adentro** (el de chapa donde
+   va la ropa). *No* se escribe «bidón», «cuba» ni «tambor exterior», aunque
+   sea lo correcto en el repuesto: quien ejecuta es el papá de Fran, y una
+   palabra que él no usa lo obliga a traducir en el peor momento. `retén`,
+   `rulemán` y `polea` sí se usan, porque son las que dice la casa de
+   repuestos.
+
 ## Dónde corre esto
 
 **Sobre la máquina, que está en la casa de Fran y no en el repo.** Ninguna
