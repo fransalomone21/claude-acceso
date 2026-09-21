@@ -31,6 +31,36 @@ recordarlo.
 celular al lado de la máquina; compilar un PDF agrega un paso y no cambia el
 uso. Si más adelante quieren imprimirla, ahí se compila.
 
+## 2026-09-21 (tarde) — dos datos medidos, y una divergencia que duró una hora
+
+**Lo que midió Fran, y lo que cambió.**
+
+- **T4 negativo: el motor gira bien.** Primera causa descartada por evidencia, y
+  la primera mitad del criterio de salida de la fase 1.
+- **No hay hueco allen en la punta del eje.** La fijación de la polea es una
+  *tuerca* sobre rosca macho. La guía decía "tornillo allen" — salió de la foto
+  del sellador verde, que es compatible con las dos cosas, y se escribió la
+  interpretación como si fuera el dato.
+- **Corregido también un error de orden**, que se descubrió por la pregunta
+  «¿dónde está el retén?»: la guía decía que al sacar la polea queda a la vista
+  el retén. No: queda a la vista el rulemán exterior. El retén es la última
+  pieza del lado del agua y no se alcanza sin abrir el bidón. El paso del eje
+  pasó de D a F, después de sacar el tambor, que es cuando de verdad se puede
+  mirar.
+
+**La divergencia, que es la lección del día.** Al compilar el PDF quedaron dos
+copias del mismo procedimiento —`guia-reparacion.md` y `guia.typ`— y las
+correcciones de arriba entraron **sólo en el PDF**. El markdown siguió diciendo
+"tornillo allen" y "con la polea afuera queda a la vista el retén" durante el
+mismo turno en que se corregía el otro. El sistema ya tiene la regla escrita
+("un dato que vive en dos lados diverge") y aun así se creó la segunda copia sin
+notarlo, porque cambiar de formato no se siente como duplicar.
+
+Arreglado dejando *una* fuente: `guia.typ` y su PDF. El `.md` quedó como archivo
+de fuentes y punteros, que es información que el PDF no lleva a propósito.
+
+## 2026-09-21 — apertura del proyecto, fase 0 (continuación)
+
 **Lo que quedó explícitamente sin resolver.** Si el bidón de este modelo se
 abre o viene soldado por ultrasonido. Es el dato que más mueve el presupuesto
 (de ~$20.000 a bidón completo), y se contesta mirando el perímetro del bidón

@@ -18,7 +18,8 @@ repite.
 |---|---|
 | retomar, saber en qué anda | [`ESTADO_ACTUAL.md`](ESTADO_ACTUAL.md) (entero — es corto) |
 | saber qué sigue y qué la cierra | [`PDP.md`](PDP.md), sección 4 |
-| **trabajar sobre la máquina** | [`docs/guia-reparacion.md`](docs/guia-reparacion.md) — es el entregable |
+| **trabajar sobre la máquina** | [`docs/guia.typ`](docs/guia.typ) y su PDF al lado — es el entregable, y la fuente única |
+| de dónde salió un precio o una medida | [`docs/guia-reparacion.md`](docs/guia-reparacion.md) — quedó como el archivo de fuentes |
 | entender cómo se llegó a algo, o qué no funcionó | [`docs/bitacora.md`](docs/bitacora.md) |
 | saber qué muestran las fotos | [`docs/evidencia-fotos.md`](docs/evidencia-fotos.md) |
 

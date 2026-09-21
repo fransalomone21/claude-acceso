@@ -1,6 +1,7 @@
 # Estado actual — lavarropas-drean
 
-**Última actualización:** 2026-09-21
+**Última actualización:** 2026-09-21 (segunda del día: entraron T4 y el dato de
+la fijación de la polea)
 
 ## Dónde estamos
 
@@ -25,6 +26,9 @@ por un test negativo. Un diagnóstico que no descarta nada no es un diagnóstico
 | La **tapa trasera ya está sacada y la correa ya está afuera** | Foto: la polea del tambor y el eje del motor están libres | 2026-09-21 |
 | Hay **óxido marrón alrededor del cubo de la polea y salpicado en patrón radial sobre las aspas** | Dos fotos de la polea, una de cerca | 2026-09-21 |
 | Existe en plaza **kit de rulemanes + retén para Drean de 6 y 7 kg: un 6203 y un 6204, con retén**, ~$18.000–21.000 (sept 2026) | Publicaciones de venta (byparts, rodazul, almacenweb) | 2026-09-21 |
+| **T4 NEGATIVO: el motor gira bien.** El motor queda descartado como origen del ruido | Fran lo giró a mano. Es el motor de la foto de la abertura trasera, abajo a la derecha | 2026-09-21 |
+| **La polea NO se fija con tornillo allen.** El eje termina en rosca macho y la aprieta una tuerca: no hay hueco hexagonal en la punta | Fran lo miró: "no hay hueco allen en el interior del eje" | 2026-09-21 |
+| En la foto de cerca del cubo, **la rosca del eje asoma desnuda, sin nada apretando la polea** | Foto macro del cubo de la polea | 2026-09-21 |
 
 ## Lo que es hipótesis
 
@@ -34,7 +38,8 @@ por un test negativo. Un diagnóstico que no descarta nada no es un diagnóstico
 | El óxido de la polea viene del retén y no de otra cosa | Sacar la polea y ver el retén y el eje mojados/oxidados detrás | Requiere el paso C del desarme |
 | Los rulemanes de **este** modelo son 6203 + 6204 | El número grabado en el aro del rulemán viejo | Las medidas publicadas que se pudieron leer son de la línea **Blue / Excellent 6.06**, no del **Next 6.06** |
 | El bidón **se abre** (tiene corona de tornillos o grampas, no soldadura por ultrasonido) | Mirar el perímetro donde se juntan las dos mitades | 30 segundos de mirada, pero con la máquina delante |
-| El eje está liso donde apoya el labio del retén | Pasar la uña por el eje con la polea afuera (paso D) | Idem |
+| El eje está liso donde apoya el labio del retén | Pasar la uña por el eje con el tambor ya afuera (paso F) | Idem |
+| **La tuerca de la polea ya está sacada** (la rosca asoma desnuda) | Buscar la tuerca entre lo que ya se desarmó, o probar si la polea se mueve a lo largo del eje | Se contesta mirando, no se pudo decidir desde la foto |
 
 ## Callejones sin salida
 
@@ -44,5 +49,9 @@ por un test negativo. Un diagnóstico que no descarta nada no es un diagnóstico
 
 ## Lo próximo
 
-Correr T1–T7 sobre la máquina y anotar los siete resultados acá arriba. Nada
-se compra antes de eso.
+**T4 ya está: negativo, el motor no es.** Faltan T1, T2, T3, T5, T6 y T7. Los
+dos que más pesan son **T1 y T2** — si los dos dan negativo, los rulemanes no
+son y todo el plan de compra se cae. Nada se compra antes de eso.
+
+Después de T1–T7, el siguiente paso físico es sacar la polea (pasos C y D de la
+guía), que es lo que deja ver el rulemán de afuera y habilita el paso E.

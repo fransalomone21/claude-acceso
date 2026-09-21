@@ -94,7 +94,7 @@ Estas siete cosas son las que arruinan una reparación que iba bien.
   + *No poner aceite en los rulemanes.* Van con *grasa* para rodamientos. El
     aceite se escurre en una semana y vuelve el ruido.
   + *No cambiar sólo los rulemanes si el eje está picado.* Es el error caro:
-    vuelve a perder agua en dos o tres meses. Ver paso D.
+    vuelve a perder agua en dos o tres meses. Ver paso F.
   + *No levantar el tambor de a uno.* Con los contrapesos pesa entre 25 y 30 kg
     y sale de golpe. Dos personas.
 ]
@@ -214,32 +214,52 @@ lo único que después dice cómo volvía cada cable.
 
   / *B. Sacar la correa*: y marcarla con birome del lado que iba hacia afuera.
 
-  / *C. Sacar la polea*: El tornillo central es allen y tiene sellador verde, así
-    que va a costar. Aflojar en frío, con la llave bien calzada, sin golpear la
-    polea. Si no sale, calor suave con secador de pelo ablanda el sellador.
-    Después la polea sale con extractor, o con golpes suaves y alternados de
-    taco de madera desde atrás.
+  / *C. Aflojar el centro de la polea*: En esta máquina el eje termina en *rosca
+    macho* y la polea la aprieta una *tuerca* — no hay hueco allen. Primero
+    *trabar el tambor* para que no gire: una madera entre dos radios de la polea
+    apoyada contra el bidón, o una mano adentro del tambor. Dos avisos: si no
+    cede con fuerza normal, *probar al revés antes de seguir forzando* — algunos
+    lavarropas llevan rosca invertida ahí, y reventarla es el peor final
+    posible. Y si no sale en frío, calor suave con secador de pelo ablanda el
+    sellador verde de fábrica.
 
-  / *D. Mirar el eje*: #text(fill: rojo, weight: "bold")[Este es el punto de
-    decisión caro.] Con la polea afuera queda a la vista el retén y el tramo de
-    eje donde apoya. Pasar la uña por ahí:
-]
-
-#v(-0.3em)
-#block(inset: (left: 18pt))[
-  - *Eje liso* #sym.arrow cambiar retén y rulemanes, y listo. Es el caso bueno.
-  - *Eje con surco, escalón o picado* #sym.arrow el retén nuevo va a perder
-    igual, porque apoya sobre una superficie que ya no es lisa. Hay que cambiar
-    la cruceta con eje, que es cara. *Si aparece esto, pedir presupuesto antes
-    de comprar nada.*
+  / *D. Sacar la polea*: Con extractor de tres patas apoyado en el *cubo*, nunca
+    en las aspas. Sin extractor: volver a enroscar la tuerca hasta que quede al
+    ras de la punta del eje — así protege la rosca — y golpes suaves y
+    alternados de taco de madera.
 ]
 
 #v(0.3em)
+
+#caja(ambar)[Qué hay adentro del cubo, y dónde está el retén][
+  Sacando la polea *no aparece el retén*: aparece el rulemán de afuera. El orden
+  de las piezas, desde donde estás mirando hacia el agua, es:
+
+  #v(0.4em)
+  #align(center)[
+    #text(9.5pt)[
+      tuerca #sym.arrow.r *polea* #sym.arrow.r rulemán chico (6203)
+      #sym.arrow.r separador #sym.arrow.r rulemán grande (6204)
+      #sym.arrow.r #text(fill: rojo, weight: "bold")[RETÉN] #sym.arrow.r cruceta del tambor
+    ]
+  ]
+  #v(0.3em)
+
+  El retén es *la última pieza, del lado del agua*. No se ve desde afuera y no
+  se saca con el tambor puesto: para llegar hay que sacar el bidón y abrirlo
+  (paso E). Sacar la polea es el 5% del trabajo — el resto es lo de abajo.
+]
+
+#v(0.3em)
+
 #block(inset: (left: 2pt))[
   #set terms(separator: [ — ], hanging-indent: 0pt, spacing: 0.8em)
 
-  / *E. Abrir el bidón*: Es la segunda decisión cara. Mirar el perímetro del
-    tambor exterior de plástico, donde se juntan las dos mitades:
+  / *E. Sacar el bidón y abrirlo*: Salen primero los contrapesos de hormigón, la
+    manguera de la cuba, los cables de la resistencia, las trabas del fuelle, los
+    amortiguadores y los resortes de arriba. El bidón sale entero por adelante o
+    por arriba, entre dos. Después, mirar el perímetro donde se juntan las dos
+    mitades:
 ]
 
 #v(-0.3em)
@@ -257,31 +277,50 @@ lo único que después dice cómo volvía cada cable.
 #block(inset: (left: 2pt))[
   #set terms(separator: [ — ], hanging-indent: 0pt, spacing: 0.8em)
 
-  / *F. Sacar los rulemanes viejos*: Golpeando desde el lado opuesto con una
-    varilla o un tubo apoyado en el aro #emph[exterior], dando vuelta alrededor,
-    un poquito por vez. Nunca todo de un lado, porque se traba. Sacar también el
-    retén, que va del lado de adentro.
+  / *F. Sacar el tambor y mirar el eje*: #text(fill: rojo, weight: "bold")[Este
+    es el punto de decisión caro.] Con el bidón abierto, el tambor sale con su
+    cruceta y su eje. Pasar la uña por el tramo de eje donde apoyaba el labio del
+    retén:
+]
 
-  / *G. Anotar el número grabado en cada rulemán*: Está marcado en el aro, tipo
+#v(-0.3em)
+#block(inset: (left: 18pt))[
+  - *Eje liso* #sym.arrow cambiar retén y rulemanes, y listo. Es el caso bueno.
+  - *Eje con surco, escalón o picado* #sym.arrow el retén nuevo va a perder
+    igual, porque apoya sobre una superficie que ya no es lisa. Hay que cambiar
+    la cruceta con eje, que es cara. *Si aparece esto, pedir presupuesto antes
+    de comprar nada.*
+]
+
+#v(0.3em)
+#block(inset: (left: 2pt))[
+  #set terms(separator: [ — ], hanging-indent: 0pt, spacing: 0.8em)
+
+  / *G. Sacar el retén y los rulemanes viejos*: El retén sale primero, del lado
+    de adentro, haciendo palanca con un destornillador (total se tira). Los
+    rulemanes salen a golpes desde el lado opuesto, con una varilla o un tubo
+    apoyado en el aro #emph[exterior], dando vuelta alrededor y un poquito por
+    vez. Nunca todo de un lado, porque se traba.
+
+  / *H. Anotar el número grabado en cada rulemán*: Está marcado en el aro, tipo
     `6203-2RS` o `6204-2RS`. #text(weight: "bold")[Con eso se va a comprar], no
     con el modelo del lavarropas. Del retén, medir con calibre: diámetro
     interno, externo y espesor.
 
-  / *H. Poner los nuevos*: Limpiar bien el alojamiento. Entran golpeando
+  / *I. Poner los nuevos*: Limpiar bien el alojamiento. Entran golpeando
     #emph[sólo el aro exterior] — con un tubo del diámetro justo, o usando el
     rodamiento viejo como taco — derechos y hasta que apoyen a fondo. El retén
-    va con el labio hacia adentro (hacia el agua), con una película fina de
-    grasa en el labio.
+    va último y con el labio hacia adentro (hacia el agua), con una película fina
+    de grasa en el labio.
 
-  / *I. Armar al revés*: y el tornillo de la polea con trabaquímico nuevo.
+  / *J. Armar al revés*: con junta nueva o sellador en la unión del bidón, y la
+    tuerca de la polea con trabaquímico nuevo.
 ]
-
-#pagebreak()
 
 = 5. Qué comprar
 
 #caja(rojo)[Regla de oro][
-  Se compra *después del paso G*, con el rulemán viejo en la mano. Los números
+  Se compra *después del paso H*, con el rulemán viejo en la mano. Los números
   de abajo son para saber cuánto va a salir, no para comprar a ciegas.
 ]
 
@@ -295,7 +334,7 @@ lo único que después dice cómo volvía cada cable.
   table.header([*Qué*], [*Detalle*], [*Precio aprox.*]),
   [*Kit rulemanes + retén*], [Lo venden armado], [\$18.000 – \$21.000],
   [Grasa para rodamientos], [Un pote chico alcanza y sobra], [\$3.000 – \$6.000],
-  [Trabaquímico (Loctite)], [Para el tornillo de la polea], [\$4.000 – \$8.000],
+  [Trabaquímico (Loctite)], [Para la tuerca de la polea], [\$4.000 – \$8.000],
 )
 
 #v(0.5em)
@@ -334,7 +373,7 @@ comprar como repuesto específico de lavarropas es el retén.
   [*T5* — sigue oscilando], [*Par de amortiguadores.* Se cambian de a dos, nunca uno],
   [Correa rajada, vidriosa o floja], [*Correa*, por lo que dice grabado en el lomo (tipo `1195 J5`)],
   [*Paso E* con bidón soldado], [*Bidón completo con rulemanes*, o la mano de obra del técnico],
-  [*Paso D* con eje picado], [*Cruceta con eje.* Acá conviene presupuestar antes de comprar],
+  [*Paso F* con eje picado], [*Cruceta con eje.* Acá conviene presupuestar antes de comprar],
 )
 
 == Herramientas
@@ -345,8 +384,6 @@ del rulemán para calzarlo · calibre · linterna · trapos.
 
 *Un extractor de poleas* es lo único que quizá haya que pedir prestado, y es lo
 que evita romper la polea de plástico.
-
-#pagebreak()
 
 = 6. La prueba final
 
@@ -377,9 +414,8 @@ lavarropas nuevo.
 
 #block(inset: (left: 14pt))[
   - *El bidón está soldado* y no hay ganas de cortarlo y bulonarlo.
-  - *El eje está picado* (paso D).
-  - *El tornillo de la polea no afloja* ni con calor, y se empieza a redondear
-    el allen.
+  - *El eje está picado* (paso F).
+  - *La tuerca de la polea no afloja* ni con calor, y se empieza a redondear.
   - *Aparece agua donde no debería* — por ejemplo, si la máquina ya perdía y
     nadie sabía de dónde.
   - *El ruido resultó ser el motor* (T4). Las escobillas se cambian, pero un
