@@ -58,7 +58,38 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--figuras", action="store_true",
                     help="ademas exporta a PNG las diapositivas que son puro diagrama")
+    ap.add_argument("--pagina", action="append", default=[], metavar="cN:pM",
+                    help="renderiza UNA diapositiva puntual a fuentes/figuras/, "
+                         "aunque tenga texto y el umbral la deje afuera. Se puede "
+                         "repetir: --pagina 4:105 --pagina 5:62")
     args = ap.parse_args()
+
+    # El umbral de UMBRAL_FIGURA descubre las diapositivas que son PURO
+    # diagrama, y esa es su virtud: no hay que saber cuales son. Pero deja
+    # afuera justo las mas didacticas -- las que tienen un diagrama Y sus
+    # rotulos--, que superan el umbral por el texto de los rotulos. Esas se
+    # piden por numero, y por eso este camino es aparte y no un umbral mas
+    # laxo: uno se descubre solo, el otro se elige mirando.
+    if args.pagina:
+        FIGURAS.mkdir(parents=True, exist_ok=True)
+        pedidas = {}
+        for spec in args.pagina:
+            c, p = spec.split(":")
+            pedidas.setdefault(int(c), []).append(int(p))
+        for pdf in sorted(PDFS.glob("*.pdf"), key=lambda p: numero_de_clase(p.name)):
+            n = numero_de_clase(pdf.name)
+            if n not in pedidas:
+                continue
+            doc = pymupdf.open(pdf)
+            for p in pedidas[n]:
+                if p < 1 or p > doc.page_count:
+                    print("  [ROJO] clase %d no tiene diapositiva %d (son %d)"
+                          % (n, p, doc.page_count))
+                    continue
+                png = FIGURAS / ("c%02d-p%03d.png" % (n, p))
+                doc[p - 1].get_pixmap(dpi=110).save(png)
+                print("  [OK]   clase %d, diapositiva %d -> %s" % (n, p, png.name))
+        return 0
 
     pdfs = sorted(PDFS.glob("*.pdf"), key=lambda p: numero_de_clase(p.name))
     if not pdfs:

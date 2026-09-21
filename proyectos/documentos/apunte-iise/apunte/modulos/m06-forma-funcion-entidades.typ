@@ -40,6 +40,11 @@
 ]
 
 #figure(
+  image("../figuras/c02-p041.png", width: 95%),
+  caption: [Los cuatro ejemplos, juntos y a propósito: dos construidos por humanos (uno técnico y uno social), uno evolucionado y uno natural. Verlos en la misma lámina es el argumento de que #t[forma] y #t[función] no son vocabulario de ingeniería electrónica, sino una distinción que se aplica a cualquier cosa que se pueda mirar como sistema #diapo(2, 41).],
+)
+
+#figure(
   table(
     columns: (1.1fr, 1.3fr, 1.6fr),
     align: (left, left, left),

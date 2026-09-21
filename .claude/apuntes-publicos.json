@@ -17,10 +17,10 @@
       "estado": "ACTIVO -- cambia, se republica cada vez que se toca"
     },
     {
-      "materia": "IISE",
+      "materia": "IISE/Material de Estudio nuestro/Apunte GENERAL",
       "local": "proyectos/documentos/apunte-iise/apunte/apunte.pdf",
       "nombre-en-drive": "Apunte de Introduccion a la Ingenieria de Sistemas Espaciales.pdf",
-      "estado": "ACTIVO -- 28 modulos, 115 pag., las 7 unidades. Declarado el 2026-09-20, cuando se cumplio el criterio que pedia la entrada anterior: las 7 unidades escritas (fase 2 del PDP)"
+      "estado": "ACTIVO -- 28 modulos, las 7 unidades. Publicado en la subcarpeta 'Material de Estudio nuestro/Apunte GENERAL' que armo Fran el 2026-09-21, no en la raiz de IISE"
     }
   ],
   "no-se-publican": {

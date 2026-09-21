@@ -198,6 +198,18 @@ principales, escenarios operacionales o misiones de referencia de diseño
 a punta, arquitectura de comando y datos, instalaciones operativas, soporte
 logístico integrado y eventos críticos.
 
+#figure(
+  image("../figuras/c05-p070.png", width: 93%),
+  caption: [Un ConOps dibujado, que es como se dibuja de verdad: la *misión de referencia de diseño* (DRM) lunar del CEV. El eje vertical son las órbitas —superficie terrestre, órbita baja, órbita lunar baja a 100 km, la Luna— y el recorrido va contando, paso a paso, qué pieza actúa y cuál se descarta: la etapa de partida (EDS) y la etapa de ascenso del módulo lunar quedan marcadas como _expended_. Ese descarte es una decisión de arquitectura, y se ve acá antes de estar escrita en ningún requerimiento #diapo(5, 70).],
+)
+
+#clave[
+  Vale la pena mirar la figura dos veces, porque contesta dos preguntas
+  distintas: leída de izquierda a derecha es la *línea de tiempo* de la
+  misión, y leída por columnas es el *inventario de elementos* que hay que
+  construir. Un ConOps que no permita las dos lecturas está incompleto.
+]
+
 == Ejemplo completo: el Crew Exploration Vehicle (CEV)
 
 #ejemplo("los siete elementos del alcance, en un solo caso real", nivel: "a-fondo")[

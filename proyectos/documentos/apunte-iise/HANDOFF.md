@@ -1,9 +1,19 @@
 # HANDOFF — Apunte de IISE
 
-**PROYECTO CERRADO el 2026-09-20.** Las cinco fases del PDP están cerradas: el
-apunte está escrito (7 unidades, 28 módulos, 71 términos, 115 páginas), mapeado
-contra los parcialitos (16 preguntas, ninguna huérfana, con medidor y
-saboteador) y **publicado en el Drive de los compañeros**, verificado por MD5.
+**PROYECTO CERRADO.** Las **seis** fases del PDP están cerradas: el apunte
+está escrito (7 unidades, 28 módulos, 71 términos, **123 páginas, 18
+figuras**), mapeado contra los parcialitos (16 preguntas, ninguna huérfana, con
+medidor y saboteador) y **publicado en el Drive de los compañeros**, verificado
+por MD5.
+
+**Última sesión: 2026-09-21 (fase 5, figuras didácticas).** Se agregaron 7
+figuras de las presentaciones donde el texto describía un diagrama sin
+mostrarlo, se descartaron 5 candidatas, y `extraer-clases.py` aprendió
+`--pagina cN:pM` para pedir una diapositiva por número (el umbral automático
+dejaba afuera las que tienen diagrama *y* rótulos). Detalle completo en
+`PDP.md` §4, fase 5. **El destino de publicación cambió**: ahora es
+`IISE/Material de Estudio nuestro/Apunte GENERAL`, la subcarpeta que armó
+Fran.
 
 **No hay trabajo pendiente.** Lo que sigue abajo es referencia para el día que
 haya que TOCAR algo: cómo se escribe un módulo y las trampas ya pagadas.

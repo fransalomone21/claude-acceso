@@ -133,7 +133,54 @@ todavía sin subir (`IISE: SIN PUBLICAR en Drive`, `RESULTADO: 1 cosa(s) sin
 resolver`). Eso no es un trámite: es la única corrida que prueba que el verde
 posterior significa algo.
 
-**Con esto el PDP queda completo: las cinco fases cerradas.**
+**Con esto el PDP quedó completo** — y al día siguiente se le agregó una fase
+más, la 5, porque Fran pidió las figuras. Un PDP cerrado no es un PDP
+clausurado: la fase nueva se abre, se le escribe su criterio de salida antes de
+empezarla y se cierra, igual que las otras.
+
+### Fase 5 — Figuras didácticas ✅ CERRADA (2026-09-21)
+
+**Abierta y cerrada el mismo día, a pedido de Fran**, sobre un proyecto que ya
+estaba cerrado: agregar imágenes de las presentaciones «sólo donde sean
+didácticas, y que no entorpezcan».
+
+**Criterio de salida:** cada figura nueva embebida con su diapositiva
+confirmada *mirando el PNG*, **y su página compilada mirada** (regla propia 4);
+`verificar-lexico.py` y `verificar-cobertura.py` en verde; el PDF republicado.
+
+Resultado: **7 figuras nuevas** (de 11 a 18), 115 → **123 páginas**. Dónde, y
+por qué cada una:
+
+| Figura | Módulo | Qué aporta que el texto no podía |
+|---|---|---|
+| Forma y función, los 4 ejemplos (clase 2, dia. 41) | M06 | la unidad 2 no tenía **ninguna** figura, y el argumento es visual: cuatro sistemas de clases distintas en una lámina |
+| Jerarquía del sistema satelital (clase 4, dia. 111) | M13 | las dos ramas (segmento espacio / terreno) y la nomenclatura de software, que la enumeración en prosa deja implícitas |
+| El motor de la IS de NASA (clase 4, dia. 104) | M14 | la **geometría**: requerimientos que bajan y productos que suben sobre la misma estructura. La tabla que ya estaba lo ordena, pero no lo muestra |
+| Diagrama en V (clase 5, dia. 7) | M15 | la **simetría** entre cada caja y la que la verifica. Un módulo que se llama «diagrama en V» y no lo mostraba |
+| ConOps del DRM lunar (clase 5, dia. 70) | M18 | un ConOps **dibujado**, al lado de su definición |
+| ConOps lunar anotado (clase 6, dia. 29) | M20 | el mismo ConOps **con Δv, masas y duraciones encima**: muestra que el ConOps dimensiona, no sólo describe |
+| ConOps de comunicaciones end-to-end (clase 5, dia. 71) | M20 | el reparto de la lámina *es* el argumento: el satélite ocupa una esquina y todo el resto es segmento terreno |
+
+**Lo que se descartó, y es la mitad del trabajo.** De los candidatos mirados:
+una foto del Falcon 9 en el hangar (bonita, no enseña nada), dos diapositivas
+separadoras que el extractor marca como figura porque casi no tienen texto, el
+esquema de niveles N+1/N/N−1 (M03 **ya** lo tiene, dibujado en Typst y más
+legible que la foto) y el clásico de precisión contra exactitud (el apunte no
+desarrolla esa distinción, así que la figura no colgaba de nada).
+
+**El extractor aprendió a pedir diapositivas por número.** `extraer-clases.py`
+sólo exportaba PNG de las diapositivas *casi sin texto*, que es un buen
+descubridor automático y a la vez deja afuera justo las más didácticas: las que
+tienen un diagrama **y sus rótulos**. Cuatro de las siete figuras elegidas
+—incluidos el motor y el diagrama en V— estaban de ese lado. Ahora hay
+`--pagina cN:pM`, que es un camino aparte a propósito: uno se descubre solo, el
+otro se elige mirando.
+
+**Dos defectos de maquetación, atrapados mirando la página** (regla propia 4,
+otra vez): la jerarquía satelital quedó sola al final de su módulo con media
+página en blanco (se movió al principio de la sección) y el motor de NASA al
+97% de ancho empujaba su tabla a la página siguiente (bajó a 78% y las dos
+entran juntas). Las dos veces el PDF compiló en verde.
 
 ## 5. Riesgos
 

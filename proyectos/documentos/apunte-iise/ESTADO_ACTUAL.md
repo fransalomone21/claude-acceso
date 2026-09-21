@@ -1,9 +1,11 @@
 # ESTADO ACTUAL — Apunte de IISE
 
-**PROYECTO CERRADO — las cinco fases (0 a 4) cerraron el 2026-09-20.** El
-apunte está escrito (7 unidades, 28 módulos, 115 páginas), mapeado contra los
-parcialitos (16 preguntas, ninguna huérfana) y **publicado en el Drive de los
-compañeros**, verificado por MD5.
+**PROYECTO CERRADO — las seis fases (0 a 5) cerradas.** Las fases 0 a 4
+cerraron el 2026-09-20; la **fase 5 (figuras didácticas) el 2026-09-21**. El
+apunte está escrito (7 unidades, 28 módulos, **123 páginas, 18 figuras**),
+mapeado contra los parcialitos (16 preguntas, ninguna huérfana) y **publicado
+en el Drive de los compañeros**, verificado por MD5, en la subcarpeta
+`Material de Estudio nuestro/Apunte GENERAL` que armó Fran.
 
 Lo único que queda vivo es el mantenimiento: si se toca un módulo, se
 recompila, se corren `verificar-lexico.py` y `verificar-cobertura.py`, y se
@@ -30,7 +32,7 @@ si el Drive quedó atrasado.
 | **Unidad 5 — M15, M16, M17, M18** | **ESCRITA** (2026-09-20) — sobre las 71 diapositivas de la clase 5: ciclo de vida de NASA y diagrama en V, qué es un requerimiento (MCO vs. DC-3) y gestión de márgenes a fondo, la familia de requerimientos con trazabilidad de 6 niveles, y verificación/validación a fondo con los 7 elementos del alcance |
 | **Unidad 6 — M19, M20, M21, M22, M23** | **ESCRITA** (2026-09-20) — sobre las 155 diapositivas de la clase 6 (la más larga): familia de requerimientos e interfaces (IDD/IRD/ICD), el Ejercicio de Alcance con seis ConOps reales, SMART y verificación/validación operativas, Pre-Fase A a fondo con los cinco modelos de ciclo de vida, e ingeniería concurrente y mecatrónica. **5 módulos, no los 4 previstos** — ver PDP.md §8 |
 | **Unidad 7 — M24, M25, M26, M27** | **ESCRITA** (2026-09-20) — sobre las 54 diapositivas de la clase 7: cómo se crea una arquitectura (síntesis/descubrimiento, 4 métodos, factores de balance, arquitectura vs. diseño), Fase A a fondo con el ConOps del Mars 2020 y la herencia del Curiosity, las revisiones SRR y MDR una al lado de la otra, y el diagrama N² aplicado a interfaces con el caso real del TDRS y una matriz de 17 disciplinas. **Cierra el apunte: las 7 unidades escritas** |
-| PDF | **compila**: `apunte/apunte.pdf`, **115 páginas** |
+| PDF | **compila**: `apunte/apunte.pdf`, **123 páginas**, 13 MB, 18 figuras embebidas |
 | Parcialitos | 1, 2 y 3 en `fuentes/parcialitos.md`, **mapeados**: 16 preguntas, 34 anclas `MNN §sección`, ninguna huérfana. Los de las clases 4 a 7 **no van a llegar**: la cátedra no los devolvió, y **el apunte NO se escribe en función de ellos** (decisión de Fran, 2026-09-20) |
 | `verificar-cobertura.py` | **escrito y en VERDE** — resuelve cada ancla contra el módulo y la sección reales |
 | `probar-verificar-cobertura.py` | **escrito y en VERDE**: los cuatro sabotajes dan rojo y el control positivo da verde |
@@ -223,6 +225,26 @@ los `#include` de `apunte.typ`.
 3. La entrada de `no-se-publican` traía escrito su propio criterio de salida
    («pasa a `apuntes` cuando estén escritas las 7 unidades»), y se cumplió sin
    discutirlo: la decisión estaba tomada de antemano, no en caliente.
+
+## Lo que la fase 5 (figuras) dejó medido
+
+1. **Siete figuras nuevas, y cinco candidatas descartadas.** Se miró cada PNG
+   antes de decidir: la foto del Falcon 9 en el hangar no enseña nada, dos
+   diapositivas son separadores de sección que el extractor marca como figura
+   porque casi no tienen texto, el esquema de niveles N+1/N/N−1 ya estaba
+   dibujado en Typst (mejor que la foto) y precisión-contra-exactitud no
+   colgaba de ningún texto del apunte. **El descarte es la mitad del trabajo.**
+2. **El extractor tenía un punto ciego con forma de virtud.** Exportaba PNG de
+   las diapositivas con menos de 150 caracteres, que descubre solo las que son
+   puro diagrama — y deja afuera justo las más didácticas, las que tienen el
+   diagrama *y sus rótulos*. Cuatro de las siete elegidas estaban de ese lado.
+   Se agregó `extraer-clases.py --pagina cN:pM`.
+3. **Dos defectos de maquetación atrapados mirando la página** (regla propia 4):
+   una figura sola al final de un módulo con media página en blanco, y otra al
+   97% de ancho que empujaba su tabla a la página siguiente. Las dos veces el
+   PDF compiló en verde.
+4. **La unidad 2 dejó de ser la única sin ninguna figura.** Las unidades 1 y 3
+   siguen con figuras dibujadas en Typst, no fotográficas, y así está bien.
 
 ## Qué sigue
 

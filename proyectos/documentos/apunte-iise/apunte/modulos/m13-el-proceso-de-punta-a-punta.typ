@@ -186,6 +186,11 @@ de su vida*.
 
 == Cuántos niveles de descomposición hacen falta
 
+#figure(
+  image("../figuras/c04-p111.png", width: 88%),
+  caption: [Los siete niveles sobre un sistema satelital real, con las dos ramas que la enumeración en prosa deja implícitas: el sistema se abre primero en *segmento espacio* y *segmento terreno*, y el software tiene su propia nomenclatura (CSCI, CSU, CU) para los mismos niveles del hardware. Arriba a la izquierda, la frase que resume el principio de los niveles de la unidad 1: _one project's system is another project's component_ #diapo(4, 111).],
+)
+
 #deduccion("la fórmula de niveles")[
   La mente humana no razona con solvencia más de tres niveles de
   descomposición a la vez — la misma limitación de *7 ± 2 elementos* de la

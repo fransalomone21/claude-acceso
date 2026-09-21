@@ -89,6 +89,11 @@ operaciones, logística, mantenimiento, retiro).
 ]
 
 #figure(
+  image("../figuras/c05-p007.png", width: 97%),
+  caption: [El diagrama en V tradicional, con lo que ninguna tabla conserva: la *simetría*. Cada caja de la izquierda tiene enfrente, a la misma altura, la que la verifica, y la línea punteada roja que las une es el plan de verificación correspondiente — escrito al bajar, ejecutado al subir. Abajo, las dos leyendas que explican por qué el V no es simétrico en el tiempo: *altamente iterativo* a la izquierda, *principalmente serial* a la derecha #diapo(5, 7).],
+)
+
+#figure(
   table(
     columns: (1.3fr, 2fr, 2fr),
     align: (left, left, left),

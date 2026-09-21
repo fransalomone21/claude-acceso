@@ -106,6 +106,14 @@ US\$ 4.000 millones gastados, se canceló en 2005 #diapo(4, 98).
 ]
 
 #figure(
+  image("../figuras/c04-p104.png", width: 78%),
+  caption: [El motor completo, como lo dibuja el _handbook_ de NASA. Las dos flechas de los costados son lo que la tabla de abajo no puede mostrar: los requerimientos *bajan* por la izquierda y los productos *suben* por la derecha, sobre la misma estructura y al mismo tiempo. Los procesos de gestión técnica están en el centro porque acompañan a los dos sentidos #diapo(4, 104).],
+)
+
+La tabla siguiente es el mismo diagrama, ordenado para estudiarlo: nueve
+procesos, diecisiete actividades numeradas.
+
+#figure(
   table(
     columns: (1.5fr, 2fr),
     align: (left, left),

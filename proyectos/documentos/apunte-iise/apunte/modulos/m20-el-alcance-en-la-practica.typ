@@ -72,6 +72,22 @@
   sistemas muy distintos entre sí.
 ]
 
+Antes de los seis, conviene ver un ConOps *con números encima*, porque es la
+forma en que se usa dentro de un proyecto real y no en una lámina de clase:
+
+#figure(
+  image("../figuras/c06-p029.png", width: 97%),
+  caption: [ConOps de la misión lunar de referencia, anotado. Cada tramo lleva su #sym.Delta#math.italic("v") y su masa —TLI 3.175 m/s, LOI 1.000 m/s, ascenso 1.881 m/s, 45 t inyectadas—, y la regla de abajo lleva la *duración* de cada fase: ≥ 90 min en órbita de estacionamiento, 4 días de tránsito, hasta 7 días en superficie. Con eso, el mismo dibujo que cuenta la misión ya dimensiona los tanques #diapo(6, 29).],
+)
+
+#clave[
+  Ahí está la razón de que el ConOps sea un entregable *temprano* y no una
+  descripción escrita al final: los números que quedan sobre las flechas
+  —#sym.Delta#math.italic("v"), masas, tiempos— son los que después aparecen
+  como #t[requerimiento]s de propulsión, de energía y de consumibles. El
+  ConOps no describe al sistema: lo *dimensiona*.
+]
+
 === 1. Space Shuttle: del pad al espacio, y la física de volver
 
 El ConOps del Shuttle no es sólo el vuelo: empieza con el *procesamiento en
@@ -124,6 +140,11 @@ del ConOps.
   bajar los datos casi en tiempo real, antes de que la memoria limitada del
   satélite se llene.
 ]
+
+#figure(
+  image("../figuras/c05-p071.png", width: 95%),
+  caption: [Un ConOps de comunicaciones de punta a punta, y el argumento entero está en el reparto de la lámina: el satélite ocupa la esquina superior izquierda, y *todo el resto* —dos estaciones de tierra con sus cadenas de banda S y banda Ka, el centro de operaciones con sus siete sistemas, la distribución de datos, los centros de instrumento— es segmento terreno. Las flechas punteadas son enlaces de radio; las llenas, datos ya en tierra #diapo(5, 71).],
+)
 
 #clave[
   Es la misma lección de la interfaz Módulo de Comando – Módulo Lunar de la
