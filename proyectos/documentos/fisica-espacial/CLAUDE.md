@@ -38,6 +38,22 @@ entró, o si una tabla se cortó.
 destinatario. Una fórmula que aparece de la nada incumple la primera mitad;
 tres páginas de despeje incumplen la segunda.
 
+**2 bis. Un cambio de variable independiente, o una derivada que se aplica más
+de una vez, no es "sólo álgebra": es el paso que la regla 2 pide deducir.**
+Decisión del 2026-09-21, a pedido explícito de Fran sobre el módulo 10: el
+cambio $t arrow.r theta$ y $r arrow.r u=1\/r$ de la ecuación de la órbita
+estaba citado ("Beer ecs. 12.35 y 12.36") pero no mostrado, y el lector no
+podía reconstruir cómo $dot(r)$ se convierte en $-h thin d u\/d theta$. El
+criterio: mostrar el operador que reemplaza a la derivada vieja, y aplicarlo
+las veces que haga falta —no cada paso posible, los que muestran *el camino*—
+hasta llegar al resultado que ya se cita. Ejemplo de referencia:
+[`m10-orbita-conicas.typ`](apunte/modulos/m10-orbita-conicas.typ), la caja
+"por qué se cambia t por theta, y r por 1/r" y, más abajo en el mismo módulo,
+el paso $p arrow.r a$ de la ecuación vis-viva. **No se retrofittea** —mismo
+criterio que `#posta` y `#repaso()` (reglas 3 y 7)—: se aplica de acá en
+adelante, en todo cambio de variable o derivada repetida que aparezca en un
+módulo nuevo o que se vuelva a tocar.
+
 **3. Todo tema no trivial lleva, además de las cajas técnicas, un cuadro
 `#posta` en la voz de Fran.** Decisión del 2026-09-07, a pedido explícito del
 destinatario. Es la misma idea de las cajas azules/ámbar/etc., dicha en

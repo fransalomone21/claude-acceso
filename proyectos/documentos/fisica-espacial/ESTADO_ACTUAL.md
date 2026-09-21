@@ -1,5 +1,43 @@
 # Estado actual — Apunte de Física Espacial
 
+## Pasos intermedios en la ecuación de la órbita (módulo 10) — 2026-09-21
+
+Fran pidió desarrollar con más pasos intermedios las ecuaciones de §10.3 "La
+ecuación de la órbita", y dejó el criterio para lo que sigue: donde aparezca
+otro cambio de variable o una derivada aplicada más de una vez, mostrar los
+pasos *importantes* del camino matemático — no todos.
+
+**Qué se agregó, en `m10-orbita-conicas.typ`:**
+
+- **La caja "por qué se cambia t por theta, y r por 1/r".** Antes citaba el
+  resultado de Beer (ecs. 12.35 y 12.36) sin mostrar cómo se llega. Ahora
+  desarrolla el operador $d\/d t = dot(theta) thin d\/d theta = h thin u^2
+  thin d\/d theta$, lo aplica una vez para $dot(r) = -h thin d u\/d theta$ y
+  una segunda vez para $dot.double(r) = -h^2 u^2 thin d^2u\/d theta^2$, arma
+  el término que faltaba ($r dot(theta)^2 = h^2 u^3$) y factoriza hasta la
+  ecuación de Binet. Verificado a mano contra Beer: los tres resultados
+  intermedios coinciden con los que el apunte ya citaba.
+- **El paso $p arrow.r a$ de la ecuación vis-viva.** Estaba como "la ec.
+  (e2E) se despeja en..." sin mostrar la sustitución; ahora muestra
+  $e^2-1=-p\/a$ y la cancelación del $p$. La otra mitad de esa misma
+  ecuación (de $E=-mu m\/(2a)$ a $v^2$) se dejó como estaba, marcada "sin
+  ningún paso intermedio" — es una cuenta de un renglón, no un cambio de
+  variable, y ya lo decía el propio apunte.
+
+**Se agregó una regla propia (2 bis) en `CLAUDE.md`** para que este criterio
+no dependa de que alguien se acuerde: un cambio de variable independiente o
+una derivada repetida no es "sólo álgebra" a los efectos de la regla 2,
+aunque cada paso individual sí lo sea. **No se retrofitteó** a otras
+secciones del apunte con el mismo patrón —geometría de la elipse, suma de
+inversos de los ábsides— que se revisaron y se dejaron así a propósito:
+son sustituciones de un renglón, no una cadena de cambios de variable.
+
+**Verificado:** `typst compile` sin errores (176 páginas, sin cambio),
+páginas 75, 76 y 78 miradas renderizadas a 150 dpi — las ecuaciones nuevas
+entran sin cortarse ni desbordar la caja. `verificar-apunte.py` y `python
+indice-temas.py` en verde, sin diferencia en `docs/INDICE-TEMAS.md` (no se
+tocó ninguna etiqueta).
+
 ## `#repaso()` en los módulos 8 y 17 — corrección de un dato propio — 2026-09-20 (segunda parte)
 
 Fran pidió aplicar `#repaso()` también en los módulos 8, 12 y 17, siguiendo

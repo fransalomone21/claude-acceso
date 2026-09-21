@@ -249,17 +249,27 @@ independiente.
   conviene usarla en su forma integrada, $r^2 dot(theta) = h$ (Beer ec. 12.33).
 
   *El primer cambio: sacarse el tiempo de encima.* De $dot(theta) = h \/ r^2$
-  sale $d \/ (d t) = (h \/ r^2) thin d \/ (d theta)$, y con eso toda derivada
-  temporal se convierte en una derivada respecto del ángulo. Lo que se gana es
-  que la incógnita pasa a ser *la forma de la trayectoria*, $r(theta)$, y no la
-  historia del recorrido, $r(t)$ — que es más información de la que el problema
-  pide.
+  sale el operador que reemplaza a $d \/ d t$ en todo lo que sigue —derivar
+  respecto del tiempo es lo mismo que derivar respecto de $theta$ y multiplicar
+  por $dot(theta)$—:
+  $ d/(d t) = dot(theta) d/(d theta) = h/r^2 d/(d theta) $
+  Lo que se gana es que la incógnita pasa a ser *la forma de la trayectoria*,
+  $r(theta)$, y no la historia del recorrido, $r(t)$ — que es más información
+  de la que el problema pide.
 
-  *El segundo cambio: llamar $u = 1 \/ r$.* Aplicando lo anterior dos veces
-  (Beer ecs. 12.35 y 12.36) queda $dot(r) = -h thin d u \/ d theta$ y
-  $dot.double(r) = -h^2 u^2 thin d^2 u \/ d theta^2$, y al sustituir en la
-  primera ecuación de movimiento todo el desorden se cancela:
-  $ (d^2 u)/(d theta^2) + u = F/(m h^2 u^2) $
+  *El segundo cambio: llamar $u = 1 \/ r$, y aplicar el operador de arriba dos
+  veces.* Con $r = 1 \/ u$, la regla de la cadena da $d r \/ d theta = -(1\/u^2)
+  thin d u \/ d theta$; metiendo eso en el operador (y usando $1 \/ r^2 = u^2$):
+  $ dot(r) = h/r^2 (d r)/(d theta) = h u^2 (-1/u^2 (d u)/(d theta)) = -h (d u)/(d theta) $
+  (Beer ec. 12.35.) Aplicando el mismo operador otra vez, ahora sobre $dot(r)$
+  en vez de sobre $r$:
+  $ dot.double(r) = h u^2 (d)/(d theta) (-h (d u)/(d theta)) = -h^2 u^2 (d^2 u)/(d theta^2) $
+  (Beer ec. 12.36.) Falta el otro término de la ecuación radial: con $r = 1\/u$
+  y $dot(theta) = h u^2$,
+  $ r dot(theta)^2 = 1/u (h u^2)^2 = h^2 u^3 $
+  Sustituyendo los dos en la ecuación radial y sacando $-h^2 u^2$ de factor
+  común:
+  $ -h^2 u^2 (d^2 u)/(d theta^2) - h^2 u^3 = -F/m quad ==> quad (d^2 u)/(d theta^2) + u = F/(m h^2 u^2) $
   (Beer ec. 12.37, pág. 736.) *Ésa es la razón del cambio*: con $u$ la ecuación
   es lineal en el miembro izquierdo, y con $r$ no lo es.
 ]
@@ -351,8 +361,15 @@ $ E = (mu m (e^2 - 1))/(2 p) = (mu^2 m (e^2 - 1))/(2 h^2) quad <==> quad e = sqr
   que es justo la @orb-Emin.
 ]
 
-Para la elipse hay una forma mucho más cómoda. Como $p = a (1 - e^2)$, la
-@orb-e-E se despeja en
+Para la elipse hay una forma mucho más cómoda. El cambio es de variable, no de
+física: cambiar $p$ por $a$ adentro de la @orb-e-E. De $p = a (1 - e^2)$ sale
+$e^2 - 1 = -p \/ a$, y sustituyendo en $E = mu m (e^2-1) \/ (2p)$ el $p$ se
+cancela:
+$ E = (mu m)/(2p) (- p/a) = - (mu m)/(2 a) $
+Y de ahí sale la forma que más se usa: igualando esto con
+$E = 1/2 m v^2 - mu m \/ r$ (la energía, escrita para un punto cualquiera de
+la órbita) y despejando $v^2$ —sin ningún paso intermedio, es una cuenta de
+un renglón—:
 
 $ E = - (mu m)/(2 a) quad quad "y de ahí" quad quad v^2 = mu (2/r - 1/a) $ <orb-visviva>
 

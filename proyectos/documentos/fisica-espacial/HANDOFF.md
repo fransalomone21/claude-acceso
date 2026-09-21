@@ -6,6 +6,20 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-21 — pasos intermedios en la ecuación de la órbita
+
+**Cerrado.** Detalle completo en `ESTADO_ACTUAL.md`. Regla nueva: `CLAUDE.md`
+regla propia 2 bis (cambio de variable o derivada repetida ⇒ se muestra el
+camino, no sólo el resultado citado).
+
+**Para la próxima sesión que toque un módulo con cambio de variable:** el
+criterio de "cuántos pasos" es el que quedó escrito en 2 bis — el operador
+que reemplaza la derivada vieja, aplicado las veces que haga falta, hasta el
+resultado que ya se cita. No es "mostrar toda la cuenta": los ejemplos ya
+puestos (m10, la ecuación de la órbita y el paso $p arrow.r a$ de vis-viva)
+son la vara para calibrar cuánto es "los pasos importantes" y cuánto es de
+más.
+
 ## Sesión del 2026-09-20 (segunda parte) — `#repaso()` en 8 y 17, y un dato propio corregido
 
 **Cerrado.** Se agregó `#repaso()` en el módulo 8 (velocidad en polares,
