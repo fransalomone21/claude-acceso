@@ -1,6 +1,8 @@
 # Banco de parcialitos — lo que la cátedra realmente pregunta
 
-Reconstruido el **2026-09-20** desde los parcialitos 1, 2 y 3 corregidos. Los
+Reconstruido el **2026-09-20** desde los parcialitos 1, 2 y 3 corregidos, y
+ampliado el **2026-09-21** con los parcialitos **4 y 5**, que aparecieron
+después de que este mismo archivo declarara que no iban a llegar. Los
 PDF originales están en `fuentes/pdf/parcialitos/` (ignorados: llevan nombre
 propio y las respuestas manuscritas). Acá va **sólo la pregunta**, que es lo
 que el apunte tiene que cubrir.
@@ -15,11 +17,16 @@ página, así que su redacción es **probable**, no textual. Lo que sí es
 **Un parcialito por clase. Cinco o seis preguntas. Todas de definición.** No
 hay una sola de cálculo ni de aplicación abierta: se pide *qué es X*, *cuáles
 son los tipos de X*, *cuáles son los roles / entregables / tareas de X*. Con
-16 preguntas medidas, ninguna se sale de esa forma.
+**28** preguntas medidas sobre **cinco** parcialitos, ninguna se sale de esa
+forma — y los dos últimos, que llegaron un día después de que el patrón
+estuviera escrito, lo confirmaron sin una sola excepción.
 
 Eso **confirma por evidencia** la decisión del PDP §6: el glosario controlado
-no es un anexo del apunte, es el apunte. Y predice la forma de los parcialitos
-4 a 7, que todavía no se rindieron o no volvieron corregidos.
+no es un anexo del apunte, es el apunte. La predicción se puso a prueba sola:
+con 16 preguntas medidas este archivo predijo la forma de los parcialitos que
+faltaban, y cuando llegaron los dos siguientes —12 preguntas más— **ninguna se
+salió de la forma**. Es lo más parecido a una validación que este banco puede
+ofrecer.
 
 ## Cómo se lee la columna «Dónde se responde»
 
@@ -65,6 +72,34 @@ deseable. Van con un ejemplo cada uno.
 | 4 | ¿Cuáles son los entregables del arquitecto de sistemas? | M08 §Los entregables del arquitecto |
 | 5 | ¿En qué es especialista el arquitecto de sistemas? | M08 §Un especialista, no un generalista |
 
+## Parcialito 4 — clase 5
+
+| # | Pregunta | Dónde se responde |
+|---|---|---|
+| 1 | ¿Cuáles son las fases del ciclo de vida de NASA? | M15 §Las siete fases del ciclo de vida de NASA · M22 §Pre-Fase A, a fondo |
+| 2 | ¿Qué es un requerimiento? ¿Qué tipos de requerimientos hay? | M16 §Qué es un requerimiento · M17 §El ejemplo largo: el Programa Apollo · M17 §Qué más es un requerimiento |
+| 3 | ¿Qué enseña el diagrama en V? | M15 §El diagrama en V · M15 §El mismo diagrama, aplicado a software |
+| 4 | ¿Qué es la validación de los requerimientos? | M18 §Validar · M18 §Verificar · M21 §Verificación y validación, en la práctica |
+| 5 | ¿Qué es la trazabilidad de un requerimiento? ¿Qué es un requerimiento huérfano? | M17 §Trazabilidad: seis niveles, un solo objetivo · M19 §La familia de requerimientos |
+| 6 | ¿Qué es un sistema de sistemas? | M12 §Qué es un sistema de sistemas · M12 §El ejemplo real: la Estación Espacial Internacional |
+
+## Parcialito 5 — clase 6 (rendido el 17/09)
+
+| # | Pregunta | Dónde se responde |
+|---|---|---|
+| 1 | ¿Qué implica que un requerimiento sea SMART? | M21 §Los buenos requerimientos son SMART · M21 §El checklist de nueve preguntas |
+| 2 | ¿Qué expresa el _rationale_ de un requerimiento? | M21 §La rationale: por qué existe un requerimiento |
+| 3 | ¿En qué orden van los elementos del alcance? | M18 §Los elementos del alcance · M20 §El Ejercicio de Alcance |
+| 4 | ¿En qué consiste el Ejercicio de Alcance? | M20 §El Ejercicio de Alcance · M19 §Interfaces: siempre que se descompone, aparecen · M23 §Tres formas de gestionar el conocimiento de un proyecto |
+| 5 | Comparar Waterfall y Agile | M22 §Comparación de modelos de ciclo de vida · M22 §Modelo cascada · M22 §Desarrollo ágil · M10 §Agile: iterativo e incremental |
+| 6 | Explicar cada elemento del alcance, con un ejemplo | M18 §Los elementos del alcance · M17 §El ejemplo largo: el Programa Apollo |
+
+**La pregunta 3 pide la CADENA, no la lista.** El orden —necesidad, meta,
+objetivo, misión, hipótesis, restricciones, autoridad y responsabilidad,
+ConOps— es la respuesta; enumerar los siete elementos sueltos contesta la
+pregunta 6, no la 3. M18 lo dice ahora explícitamente, con la cadena escrita en
+una línea.
+
 ## Lo que la cátedra CORRIGIÓ — el error que castiga
 
 Esto es lo más valioso del banco, y no se deduce de las diapositivas: son las
@@ -79,6 +114,11 @@ que el apunte tiene que dejar cerrada.
 | P2 · 1 | subrayado: **«descripción abstracta de las decisiones tomadas y del concepto»** | M04 §Qué es la arquitectura de un sistema — la definición canónica, más el `#clave` de las decisiones tempranas |
 | P2 · 2 | subrayado: **«influyen en las influencias ascendentes y descendentes»** | M09 §Las influencias ascendentes y descendentes |
 | P2 · 5 | subrayado: **«existe su versión en tablas Y en diagramas»** | M07 §Tarea 3 — Relaciones entre entidades · M07 §La tabla N² |
+| P4 · 1 (fases) | marcada la **Fase F** descripta como «operación y mantenimiento» | M15 §Las siete fases del ciclo de vida de NASA — el `#cuidado` nuevo: la Fase E opera, la **F cierra**. Correr las dos últimas deja el proyecto sin cierre |
+| P4 · 2 (requerimiento) | resaltado: **«declaración de ALTO NIVEL»** | M16 §Qué es un requerimiento — el requerimiento se enuncia al nivel del sistema, no al del componente |
+| P5 · 2 (_rationale_) | resaltado: **«el POR QUÉ / la justificación del requerimiento»** | M21 §El _rationale_ — el rationale no es una versión larga del requerimiento: es su fundamento, y va aparte |
+| P5 · 4 (alcance) | resaltado: **IDD, IRD, ICD** y **MCR** | M19 §Las interfaces y sus tres documentos · M22 §Pre-Fase A — el ejercicio termina en un _baseline_ que pasa el MCR |
+| P5 · 6 (elementos) | resaltados: **«necesidades: los intereses del usuario»**, **«misión: qué sistema y qué se logra con él»**, **«restricciones: delimitan el sistema del contexto»** | M18 §Los elementos del alcance — las tres definiciones, una por una |
 
 **Una salvedad sobre P2 · 2, y es `hipótesis`.** «Influencias ascendentes y
 descendentes» es vocabulario de la **clase 3** (el arquitecto y la ambigüedad),
@@ -90,7 +130,7 @@ ninguna decisión del apunte; queda anotada para no citarla como `confirmado`.
 
 ## Cobertura — el medidor de la fase 3
 
-**16 preguntas, 16 mapeadas, ninguna huérfana**, verificado el 2026-09-20
+**28 preguntas, 28 mapeadas, ninguna huérfana**, verificado el 2026-09-21
 contra los 28 módulos escritos:
 
 ```powershell
@@ -110,5 +150,12 @@ mapeo a nivel módulo se puede escribir sin mirar nada y suena plausible igual.
 Por eso ahora la columna lleva `§sección` y la resuelve un script.
 
 La cobertura es un **piso, no un techo** (PDP §4): un módulo que ningún
-parcialito toca no sobra. Faltan los parcialitos de las clases 4 a 7 y **no van
-a llegar**; si aparecieran, se agregan acá y se vuelve a correr el medidor.
+parcialito toca no sobra.
+
+**Faltan los de las clases 1 a 3 del segundo tramo —4 y 5 ya están— y este
+archivo decía que no iban a llegar.** Llegaron el 2026-09-21, un día después.
+Lo que hizo que eso costara poco fue que el mapeo estuviera medido: agregar 12
+preguntas fue escribir doce filas y volver a correr `verificar-cobertura.py`,
+que además exigió que el conteo declarado acompañara. Si en algún momento
+aparecen los de las clases 6 y 7, el procedimiento es el mismo — y esta vez el
+archivo no afirma que no vayan a aparecer.

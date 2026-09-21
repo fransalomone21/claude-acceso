@@ -99,10 +99,21 @@ def sabotaje_c(raiz):
 
 
 def sabotaje_d(raiz):
-    """El conteo declarado deja de coincidir con el contado: (d)."""
+    """El conteo declarado deja de coincidir con el contado: (d).
+
+    El numero NO se escribe aca. La primera version lo tenia literal ('16
+    preguntas') y el dia que el banco paso a 28 este sabotaje dejo de aplicarse
+    en silencio: el saboteador se rompio solo y siguio diciendo que todo estaba
+    bien --salvo que, por suerte, exigimos ver el rojo del chequeo (d) y no un
+    rojo cualquiera, asi que lo dijo--. Ahora se lee el numero que haya y se le
+    resta uno."""
     p = banco_de(raiz)
     texto = p.read_text(encoding="utf-8")
-    texto = texto.replace("**16 preguntas, 16 mapeadas", "**15 preguntas, 15 mapeadas", 1)
+    m = re.search(r"\*\*(\d+) preguntas, (\d+) mapeadas", texto)
+    if m is None:
+        raise RuntimeError("el banco no declara su conteo: el sabotaje (d) no aplica")
+    n = int(m.group(1))
+    texto = texto[:m.start()] + ("**%d preguntas, %d mapeadas" % (n - 1, n - 1)) + texto[m.end():]
     p.write_text(texto, encoding="utf-8")
 
 

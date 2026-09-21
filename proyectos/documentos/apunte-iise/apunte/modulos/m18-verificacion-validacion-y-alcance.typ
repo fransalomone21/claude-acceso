@@ -165,6 +165,21 @@ subsistemas definidos y sus componentes.
   3: información precisa en cada categoría, no una mezcla de todas.
 ]
 
+#posta[
+  *Y se piden en orden, porque son una cadena y no una bolsa:*
+
+  #align(center)[
+    necesidad → meta → objetivo → misión → hipótesis → restricciones →
+    autoridad y responsabilidad → #t[concepto de operación (ConOps)]
+  ]
+
+  Cada eslabón *acota* al siguiente, y el ConOps cierra la cadena porque es
+  el primero que obliga a contar el sistema *funcionando*: lo que hasta ahí
+  eran enunciados sobre qué se quiere, pasa a ser una secuencia de fases con
+  sus interfaces. Escribir los elementos en otro orden —o saltear uno— deja
+  un sistema definido contra una necesidad más vaga de lo que hacía falta.
+]
+
 == El Concepto de Operación (ConOps)
 
 #definicion("concepto de operación (ConOps)")[

@@ -36,6 +36,15 @@
   (Operaciones y Sostenimiento) y *Fase F* (Cierre).
 ]
 
+#cuidado[
+  *El error que se cobra en esta pregunta es correr las dos últimas.* La
+  *Fase E* es la que opera y mantiene el sistema —es la más larga de todas, y
+  la única que produce el resultado por el que se construyó—; la *Fase F* no
+  opera nada: desmantela, desorbita o dispone del sistema, y cierra los
+  archivos del proyecto. Decir que la Fase F es «operación y mantenimiento»
+  deja al proyecto sin cierre y a la operación contada dos veces.
+]
+
 #clave[
   La cátedra agrupa estas siete fases en tres bloques: *Formulación* llega
   hasta el final de la Fase B, *Aprobación* es el punto de decisión entre B

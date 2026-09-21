@@ -1,12 +1,18 @@
 # HANDOFF — Apunte de IISE
 
-**PROYECTO CERRADO.** Las **seis** fases del PDP están cerradas: el apunte
+**PROYECTO CERRADO.** Las **siete** fases del PDP están cerradas: el apunte
 está escrito (7 unidades, 28 módulos, 71 términos, **123 páginas, 18
 figuras**), mapeado contra los parcialitos (16 preguntas, ninguna huérfana, con
 medidor y saboteador) y **publicado en el Drive de los compañeros**, verificado
 por MD5.
 
-**Última sesión: 2026-09-21 (fase 5, figuras didácticas).** Se agregaron 7
+**Última sesión: 2026-09-21 (fases 5 y 6).** La fase 6 sumó los parcialitos 4
+y 5 —que este proyecto daba por perdidos— al banco: 28 preguntas mapeadas, un
+hueco real de contenido cerrado (la sexta categoría de requerimientos) y dos
+precisiones que salieron de las correcciones del profesor. Antes, en la misma
+jornada:
+
+**Fase 5, figuras didácticas.** Se agregaron 7
 figuras de las presentaciones donde el texto describía un diagrama sin
 mostrarlo, se descartaron 5 candidatas, y `extraer-clases.py` aprendió
 `--pagina cN:pM` para pedir una diapositiva por número (el umbral automático
@@ -45,8 +51,10 @@ todavía.
 - **El glosario.** 71 términos, las 7 unidades cubiertas.
 - **Montar infraestructura Typst, ni el verificador de léxico.** Los dos
   están hechos y verdes desde la fase 0/1.
-- **Discutir los parcialitos 4 a 7.** No van a llegar (decisión de Fran,
-  2026-09-20); el apunte no se escribe en función de ellos.
+- **Volver a mapear los parcialitos 1 a 5.** Están mapeados y medidos: 28
+  preguntas, 62 anclas, `verificar-cobertura.py` en verde. Los de las clases 7
+  en adelante pueden aparecer o no — el 2026-09-21 aparecieron dos que este
+  mismo archivo daba por imposibles, así que no se afirma nada al respecto.
 
 ## La fase 3, cerrada — qué quedó y por qué así
 
@@ -143,6 +151,9 @@ recompilar, `verificar-lexico.py`, `verificar-cobertura.py`, mirar las páginas
 que cambiaron, y `publicar-apuntes.ps1` — el medidor de cada arranque avisa si
 el Drive quedó atrasado respecto del PDF local.
 
-Y si aparecieran los parcialitos 4 a 7 —no se espera que aparezcan—: se agregan
-sus filas a `fuentes/parcialitos.md`, se actualiza el conteo declarado y se
-vuelve a correr `verificar-cobertura.py`.
+Y si aparece otro parcialito: se guarda el PDF en `fuentes/pdf/parcialitos/`
+(ignorado por git: lleva nombre propio), se agregan sus filas a
+`fuentes/parcialitos.md` con ancla `MNN §sección exacta` —leyendo el título del
+`.typ`, no de memoria—, se actualiza el conteo declarado y se corre
+`verificar-cobertura.py`. Es lo que se hizo el 2026-09-21 con el 4 y el 5, y
+tomó una sesión corta.

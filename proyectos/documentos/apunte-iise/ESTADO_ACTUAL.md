@@ -1,9 +1,10 @@
 # ESTADO ACTUAL — Apunte de IISE
 
-**PROYECTO CERRADO — las seis fases (0 a 5) cerradas.** Las fases 0 a 4
-cerraron el 2026-09-20; la **fase 5 (figuras didácticas) el 2026-09-21**. El
+**PROYECTO CERRADO — las siete fases (0 a 6) cerradas.** Las fases 0 a 4
+cerraron el 2026-09-20; la **fase 5 (figuras) y la 6 (parcialitos 4 y 5), el
+2026-09-21**. El
 apunte está escrito (7 unidades, 28 módulos, **123 páginas, 18 figuras**),
-mapeado contra los parcialitos (16 preguntas, ninguna huérfana) y **publicado
+mapeado contra los parcialitos (**28** preguntas, ninguna huérfana) y **publicado
 en el Drive de los compañeros**, verificado por MD5, en la subcarpeta
 `Material de Estudio nuestro/Apunte GENERAL` que armó Fran.
 
@@ -33,7 +34,7 @@ si el Drive quedó atrasado.
 | **Unidad 6 — M19, M20, M21, M22, M23** | **ESCRITA** (2026-09-20) — sobre las 155 diapositivas de la clase 6 (la más larga): familia de requerimientos e interfaces (IDD/IRD/ICD), el Ejercicio de Alcance con seis ConOps reales, SMART y verificación/validación operativas, Pre-Fase A a fondo con los cinco modelos de ciclo de vida, e ingeniería concurrente y mecatrónica. **5 módulos, no los 4 previstos** — ver PDP.md §8 |
 | **Unidad 7 — M24, M25, M26, M27** | **ESCRITA** (2026-09-20) — sobre las 54 diapositivas de la clase 7: cómo se crea una arquitectura (síntesis/descubrimiento, 4 métodos, factores de balance, arquitectura vs. diseño), Fase A a fondo con el ConOps del Mars 2020 y la herencia del Curiosity, las revisiones SRR y MDR una al lado de la otra, y el diagrama N² aplicado a interfaces con el caso real del TDRS y una matriz de 17 disciplinas. **Cierra el apunte: las 7 unidades escritas** |
 | PDF | **compila**: `apunte/apunte.pdf`, **123 páginas**, 13 MB, 18 figuras embebidas |
-| Parcialitos | 1, 2 y 3 en `fuentes/parcialitos.md`, **mapeados**: 16 preguntas, 34 anclas `MNN §sección`, ninguna huérfana. Los de las clases 4 a 7 **no van a llegar**: la cátedra no los devolvió, y **el apunte NO se escribe en función de ellos** (decisión de Fran, 2026-09-20) |
+| Parcialitos | **1 a 5** en `fuentes/parcialitos.md`, mapeados: **28 preguntas, 62 anclas** `MNN §sección`, ninguna huérfana. Los originales (manuscritos, con nombre propio) en `fuentes/pdf/parcialitos/`, ignorados por git. Faltan los de las clases 7 en adelante; **este archivo ya no afirma que no vayan a llegar** — lo afirmó una vez y se equivocó al día siguiente |
 | `verificar-cobertura.py` | **escrito y en VERDE** — resuelve cada ancla contra el módulo y la sección reales |
 | `probar-verificar-cobertura.py` | **escrito y en VERDE**: los cuatro sabotajes dan rojo y el control positivo da verde |
 
@@ -245,6 +246,21 @@ los `#include` de `apunte.typ`.
    PDF compiló en verde.
 4. **La unidad 2 dejó de ser la única sin ninguna figura.** Las unidades 1 y 3
    siguen con figuras dibujadas en Typst, no fotográficas, y así está bien.
+
+## Lo que la fase 6 (parcialitos 4 y 5) dejó medido
+
+1. **El apunte contestaba 11 de las 12 preguntas nuevas sin tocar una línea.**
+   El hueco real fue uno: la sexta categoría de requerimientos. Los otros dos
+   agregados no son huecos sino precisiones que la corrección del profesor
+   volvió visibles (Fase E vs. F; el alcance como cadena ordenada).
+2. **`verificar-cobertura.py` puso en rojo 11 de las 11 anclas nuevas**, todas
+   escritas de memoria: el mismo error que la fase 3 encontró a mano en 9 de
+   16, ahora atrapado por la máquina en la primera corrida.
+3. **La predicción del banco se confirmó.** El patrón escrito con 16 preguntas
+   —un parcialito por clase, cinco o seis, todas de definición— se cumplió en
+   las 12 nuevas sin una excepción.
+4. **«No van a llegar» era una predicción y estaba escrita como un hecho**, en
+   cuatro documentos. Llegaron al día siguiente. Corregido en los cuatro.
 
 ## Qué sigue
 

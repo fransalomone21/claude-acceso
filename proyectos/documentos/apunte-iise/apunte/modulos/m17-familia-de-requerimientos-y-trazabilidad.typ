@@ -3,7 +3,7 @@
 #modulo(
   "La familia de los requerimientos: semántica, tipos y trazabilidad",
   [Distinguir un requerimiento ("shall") de un hecho ("will") y de una meta
-   de diseño ("should"); reconocer los cinco tipos de requerimientos con el
+   de diseño ("should"); reconocer los seis tipos de requerimientos con el
    ejemplo del TVC; y seguir un requerimiento a través de seis niveles de
    trazabilidad con el radar de acople del Apollo.],
   clave: "familia-de-requerimientos-y-trazabilidad",
@@ -63,15 +63,17 @@ de servicio maestro o a un RFP (*Request For Proposal*).
   un caso; ahí se define cada pieza por separado.
 ]
 
-De ese alcance salen los tres tipos de requerimientos que la cátedra
-distingue con el mismo ejemplo:
+De ese alcance salen los tipos de requerimientos que la cátedra distingue, y
+los ilustra todos con el mismo ejemplo — el control de vector de empuje (TVC)
+del Ares I — para que la diferencia esté en la *categoría* y no en el sistema:
 
 #definicion("tipos de requerimientos")[
   *Funcionales* — qué función debe cumplirse. *De performance o desempeño*
   — el grado de esa funcionalidad. *De restricción* — no negociables en
   costo, programación o desempeño. A éstos se suman los *de interfaz* —
-  cómo un ítem se conecta con otro— y los *ambientales* — las cargas que el
-  diseño debe soportar.
+  cómo un ítem se conecta con otro—, los *ambientales* — las cargas que el
+  diseño debe soportar— y una sexta categoría abierta, *otros*: factor
+  humano, confiabilidad, seguridad. #diapo(5, 60)
 ]
 
 #figure(
@@ -85,9 +87,17 @@ distingue con el mismo ejemplo:
     [Restricción], [El TVC no pesará más de 50 kg.],
     [Interfaz], [El TVC interfaceará con el J-2X según el documento de control de interfaces.],
     [Ambiental], [El TVC soportará las cargas vibroacústicas y de shock definidas para Ares I.],
+    [Otros], [Factor humano, confiabilidad, seguridad: la categoría abierta, que la cátedra deja nombrada sin ejemplo propio.],
   ),
-  caption: [Los cinco tipos de requerimientos, con el mismo sistema (TVC) en los cinco ejemplos (diapositiva 60).],
+  caption: [Los seis tipos de requerimientos, con el mismo sistema (TVC) en los cinco primeros ejemplos #diapo(5, 60).],
 )
+
+#cuidado[
+  La sexta fila es la que se olvida al enumerar, porque la diapositiva la
+  escribe al pie y sin ejemplo — pero *está*, y una respuesta que liste cinco
+  categorías está incompleta. Vale como regla de estudio: cuando una lámina
+  cierra con un «etc.», ese «etc.» es parte de la lista.
+]
 
 == Requerimiento funcional del Apollo: comunicación
 

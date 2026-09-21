@@ -91,9 +91,12 @@ huérfana. Es la **validación** del apunte (¿sirve para rendir?), distinta de 
 verificación (¿dice lo que tenía que decir y compila bien?).
 
 **Reinterpretada el 2026-09-20, por decisión de Fran.** La versión anterior
-esperaba los parcialitos 4 a 7 y dejaba la fase *bloqueada*. No llegaron y no
-van a llegar, y además el encargo es **un apunte general de la materia**, no un
-preparador de parcialitos: la cátedra puede tomar otra cosa. Así que la
+esperaba los parcialitos 4 a 7 y dejaba la fase *bloqueada*. No habían llegado
+—y este PDP escribió que **no iban a llegar**, que era una predicción y se
+anotó como un hecho; el 2026-09-21 llegaron el 4 y el 5, ver fase 6—. El
+argumento de fondo, en cambio, sigue en pie y es el que vale: el encargo es
+**un apunte general de la materia**, no un preparador de parcialitos, y la
+cátedra puede tomar otra cosa. Así que la
 cobertura pasa a ser un **piso, no un techo** — un módulo que ningún parcialito
 toca no sobra, y la fase ya no bloquea a ninguna otra.
 
@@ -188,7 +191,7 @@ entran juntas). Las dos veces el PDF compiló en verde.
 |---|---|---|
 | Citar una diapositiva equivocada | `verificar-anclas.py`; el ancla se confirma mirando el PNG | **vivo y medido**: de 149 anclas de NotebookLM, sólo 4 coincidían con la página real |
 | Usar dos palabras para el mismo concepto | `verificar-lexico.py` | **medido y en verde** desde el 2026-09-20; el saboteador lo pone en rojo |
-| Dejar afuera un tema que el parcialito sí toca | cobertura de la fase 3, contra los parcialitos 1 a 3 | **acotado**: los parcialitos 4 a 7 no van a llegar, y el apunte no se escribe en función de ellos (ver fase 3) |
+| Dejar afuera un tema que el parcialito sí toca | `verificar-cobertura.py`, contra los parcialitos **1 a 5** | **medido**: 28 preguntas, ninguna huérfana. El riesgo bajó el 2026-09-21, cuando llegaron dos parcialitos más y el apunte los contestaba casi entero: un hueco real (la 6.ª categoría de requerimientos) sobre 12 preguntas nuevas |
 | Copiar una plantilla de otro proyecto y heredar su **contenido** | mirar la página compilada (regla propia 4) | **ocurrido y corregido** el 2026-09-20: la portada hablaba de Beer y de mecánica orbital, y Typst compilaba en verde |
 | Que el material de NotebookLM traiga algo que la clase no dice | se verifica contra `fuentes/clases/clase-N.txt` antes de entrar | permanente |
 
@@ -246,3 +249,35 @@ otros cuatro sin diluirlos, así que se agregó un quinto módulo (M23). La
 unidad 7 corre en consecuencia un módulo más tarde (M24–M27 en vez de
 M23–M26). Es el número de módulos por unidad el que se ajustó — una
 estimación, no un contrato —; el criterio de cierre de cada fase no cambió.
+
+### Fase 6 — Los parcialitos 4 y 5 ✅ CERRADA (2026-09-21)
+
+**Abierta porque llegó evidencia nueva**: Fran trajo los parcialitos 4 (clase
+5) y 5 (clase 6) corregidos, después de que el proyecto declarara —en cuatro
+documentos distintos— que no iban a llegar.
+
+**Criterio de salida:** las 12 preguntas nuevas mapeadas a sección exacta con
+`verificar-cobertura.py` en verde; los huecos reales de contenido, cerrados; y
+la afirmación «no van a llegar» corregida en todos los documentos que la
+repetían.
+
+Resultado: **28 preguntas, 62 anclas, ninguna huérfana.** De las 12 nuevas, 11
+ya estaban contestadas por los módulos escritos. Los tres cambios de contenido:
+
+| Qué faltaba | Dónde | Evidencia |
+|---|---|---|
+| La **sexta** categoría de requerimientos («otros»: factor humano, confiabilidad, seguridad) | M17 | el apunte decía «los cinco tipos»; la clase 5, dia. 60 cierra la lista con un «etc.» que *es parte de la lista* |
+| La distinción **Fase E opera / Fase F cierra** | M15 | es el error que el parcialito 4 tiene marcado: describir la Fase F como «operación y mantenimiento» |
+| Los elementos del alcance como **cadena ordenada** que termina en el ConOps | M18 | el parcialito 5 los pide en orden (pregunta 3) y por separado (pregunta 6): son dos preguntas distintas |
+
+**El medidor se ganó el sueldo.** De las 11 anclas nuevas escritas para las
+preguntas de estos dos parcialitos, `verificar-cobertura.py` puso **11 en
+rojo**: se habían escrito de memoria, exactamente el mismo error que la fase 3
+encontró a mano en 9 de 16. La diferencia es que esta vez lo atrapó la máquina
+en la primera corrida, y costó un minuto en lugar de una sesión.
+
+**Y el patrón del banco se validó solo.** Con 16 preguntas medidas, el banco
+predecía la forma de los parcialitos que faltaran: un parcialito por clase,
+cinco o seis preguntas, todas de definición. Llegaron 12 preguntas más y
+**ninguna se salió de la forma** — una predicción escrita antes, confirmada
+después, que es la única clase de validación que este proyecto puede producir.
