@@ -8,7 +8,7 @@ mapeado contra los parcialitos (**28** preguntas, ninguna huérfana) y **publica
 en el Drive de los compañeros**, verificado por MD5, en la subcarpeta
 `Material de Estudio nuestro/Apunte GENERAL` que armó Fran.
 
-**Mantenimiento 2026-09-22:** entró la sección «Los niveles de los requerimientos: L0, L1, L2…» en el módulo de la familia de requerimientos (`m17`, impreso como 18.6): escalera L0–L6 de la cátedra, asignados/derivados y tres ejemplos del _NASA SE Handbook_ (fig. 4.2-2 y 4.2-3), y el TP del cohete de agua como ejemplo (necesidades, L0 y L1). 123 → 126 páginas; léxico y cobertura en verde. **No se subió al Drive.**
+**Mantenimiento 2026-09-22:** entró la sección «Los niveles de los requerimientos: L0, L1, L2…» en el módulo de la familia de requerimientos (`m17`, impreso como 18.6): escalera L0–L6 de la cátedra, asignados/derivados y tres ejemplos del _NASA SE Handbook_ (fig. 4.2-2 y 4.2-3), y el TP del cohete de agua como ejemplo (necesidades, L0 y L1). 123 → 126 páginas; léxico y cobertura en verde. **Publicado en el Drive** por el hook post-commit (verificado por MD5).
 
 Lo único que queda vivo es el mantenimiento: si se toca un módulo, se
 recompila, se corren `verificar-lexico.py` y `verificar-cobertura.py`, y se
