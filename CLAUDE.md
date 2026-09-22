@@ -79,7 +79,7 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 |---|---|---|
 | `caso-tio/` | Caso clínico familiar → guía para la familia | vivo, **repo aparte, no se pushea acá** |
 | [`haberes-docentes/`](proyectos/seguimiento/haberes-docentes/CLAUDE.md) | Cobrar el cargo docente de la EEST N°1 de Vicente López: bancarización, primer COULI y ruteo del sueldo | **ACTIVO** — **fases 0 y 1 CERRADAS el 2026-09-20**, el día que abrió. La solicitud está **cargada y registrada**: `PEDIDO DE SUCURSAL` en `PENDIENTE` con el CBU de **Cuenta DNI**, que resultó ser una caja de ahorro del Banco Provincia — el portal declara que es el único tipo de cuenta que acepta, así que Mercado Pago, Patagonia y Ciudad quedaron afuera y el único aspecto caro del PDP (elegir sucursal, retirar la tarjeta, los 60 días) **desapareció con la decisión**: el sistema derivó la sucursal del CBU. **Fase 2 abierta: cuenta ACTIVA.** El banco procesa una vez por mes y el circuito pasa de 30 días, contra el 5.º día hábil de octubre. De paso, el medidor de la fase 1 **se puso en rojo una vez** —con el cartel verde de "solicitud exitosa" en la mano— y eso es lo que lo vuelve creíble. **Repo aparte**, sin remote |
-| [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **ACTIVO** — **fase 1 abierta el 2026-09-14**, hasta el 26/10. Línea base de la fase 0: 135 kg (banca 80 + fondo 40 + dominada 15, a 5 reps con RIR 2). **Semana 1 medida el 21/09**: 4 de 4 sesiones, pierna 1/4, calibrador 0/4, y el hallazgo que más mueve — el agarre ancho le sacó el dolor de hombro a 80 kg, `hipótesis` porque el orden de las series confunde el resultado. De paso: el parser llevaba una semana **midiendo el protocolo viejo** (rojo en 12 de 12, incluidas las cuatro sesiones correctas) y ahora nace la carpeta `rutina/`, el PDF versionado que Fran abre en el gimnasio — la traducción de protocolo a cargas era el paso que se salteaba. **Repo aparte**, privado y con remote desde el 2026-08-28 |
+| [`coaching/`](proyectos/seguimiento/coaching/CLAUDE.md) | Entrenamiento y dieta: músculo y fuerza | **ACTIVO** — **fase 1 abierta el 2026-09-14**, hasta el 26/10. Línea base de la fase 0: 135 kg (banca 80 + fondo 40 + dominada 15, a 5 reps con RIR 2). **Semana 1 medida el 21/09** (4 de 4) y **la primera de la semana 2 el 22/09**: 13 sesiones, pierna 1/4 y **calibrador 0/4, que es el criterio de cierre en riesgo**. El lunes 21/09 fue la mejor banca de la fase —las reps **subieron dentro de la sesión**, 4 → 6 → 8 a 80 kg, cosa que no había pasado nunca— y **no se sabe por qué**: hay tres variables cambiadas a la vez (una sola aproximación, agarre ancho desde el arranque, rotación externa en el calentamiento). La hipótesis principal es la más aburrida —faltó una aproximación y la serie 1 se comió el calentamiento— y quedó **escrita como predicción antes de medirla**: el 28/09 la serie 1 tiene que dar ≥ 6 reps. **La regla de progresión NO se tocó** aunque el número la invita, porque cambiarla con el resultado a la vista es inventar el criterio para que encaje. De paso: el ancho del agarre falló por **tercera** vez y dejó de pedirse — ahora hay un **default prescripto**; el calibrador perdió el «jueves *o* sábado», que era la elección que lo hacía saltable; y nació el **espejo en Drive** (`publicar-drive.ps1`), cuyo verificador arrancó en **rojo permanente** porque Typst estampaba la hora de compilación. **Repo aparte**, privado y con remote desde el 2026-08-28 |
 
 ---
 
@@ -275,9 +275,26 @@ hace que un apunte **nuevo** entre al circuito sin que nadie se acuerde de
 nada: aparece solo, en rojo, el día que se compila por primera vez.
 
 **Sólo apuntes.** Los informes de cátedra no van: la carátula lleva mails de
-compañeros y viven en un repo aparte. El material de `seguimiento/` no sale
-nunca de su repo. Las dos exclusiones están escritas en el JSON, con el
-motivo al lado.
+compañeros y viven en un repo aparte. El material de `seguimiento/` tampoco.
+Las dos exclusiones están escritas en el JSON, con el motivo al lado.
+
+> **Corregido el 2026-09-22, y la corrección importa más que la línea.** Esto
+> decía que el material de `seguimiento/` «no sale nunca de su repo», y el
+> 22/09 la rutina del coaching **sí** salió a Drive — a pedido de Fran. La
+> regla estaba escrita sobre el destino equivocado: el freno nunca fue contra
+> Drive, fue contra **este remote**, `drive-apuntes`, cuya carpeta es
+> **pública por link y hereda el permiso**. Lo que rige es el eje de
+> sensibilidad de la regla 2 de la estructura, aplicado a Drive:
+>
+> | remote | apunta a | qué puede ir |
+> |---|---|---|
+> | `drive-apuntes` | la carpeta de los compañeros — **pública por link** | sólo lo declarado en `apuntes-publicos.json` |
+> | `drive-personal` | la raíz de Mi unidad — **privada** | el espejo del coaching (`Coaching/`), verificado por permisos: un solo `owner` y ningún `anyone` |
+>
+> Los dos remotes usan el mismo token y se distinguen **sólo** por el
+> `root_folder_id`: `drive-apuntes` lo tiene y `drive-personal` no. Una regla
+> que quedó falsa no se obedece a medias — se deja de obedecer en todos
+> lados, y por eso se reescribe el mismo día en que deja de ser cierta.
 
 **Lo publicado se compara por MD5, no por fecha.** La fecha del lado de Drive
 no es la del archivo local —depende de cómo se subió—, así que comparar fechas

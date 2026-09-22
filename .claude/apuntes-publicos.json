@@ -26,6 +26,6 @@
   "no-se-publican": {
     "proyectos/documentos/teoria-circuitos": "informes de laboratorio, no apuntes; ademas la caratula lleva mails de companeros",
     "proyectos/documentos/clase-asincronica-3": "actividad de catedra, no apunte",
-    "proyectos/seguimiento": "material personal -- nunca sale de su repo"
+    "proyectos/seguimiento": "material personal -- NO sale por ESTE remote. Corregido 2026-09-22: decia 'nunca sale de su repo' y eso quedo falso el dia que la rutina del coaching se espejo en Drive. El freno nunca fue contra Drive, fue contra 'drive-apuntes', cuya carpeta es PUBLICA POR LINK y hereda el permiso. Lo personal va por el remote 'drive-personal' (raiz de Mi unidad, privada), y lo sube coaching/publicar-drive.ps1 desde su propio repo -- nunca este publicador."
   }
 }
