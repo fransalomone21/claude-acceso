@@ -3,10 +3,12 @@
 **PROYECTO CERRADO — las siete fases (0 a 6) cerradas.** Las fases 0 a 4
 cerraron el 2026-09-20; la **fase 5 (figuras) y la 6 (parcialitos 4 y 5), el
 2026-09-21**. El
-apunte está escrito (7 unidades, 28 módulos, **123 páginas, 18 figuras**),
+apunte está escrito (7 unidades, 28 módulos, **126 páginas, 18 figuras**),
 mapeado contra los parcialitos (**28** preguntas, ninguna huérfana) y **publicado
 en el Drive de los compañeros**, verificado por MD5, en la subcarpeta
 `Material de Estudio nuestro/Apunte GENERAL` que armó Fran.
+
+**Mantenimiento 2026-09-22:** entró la sección «Los niveles de los requerimientos: L0, L1, L2…» en el módulo de la familia de requerimientos (`m17`, impreso como 18.6): escalera L0–L6 de la cátedra, asignados/derivados y tres ejemplos del _NASA SE Handbook_ (fig. 4.2-2 y 4.2-3), y el TP del cohete de agua como ejemplo (necesidades, L0 y L1). 123 → 126 páginas; léxico y cobertura en verde. **No se subió al Drive.**
 
 Lo único que queda vivo es el mantenimiento: si se toca un módulo, se
 recompila, se corren `verificar-lexico.py` y `verificar-cobertura.py`, y se
@@ -33,7 +35,7 @@ si el Drive quedó atrasado.
 | **Unidad 5 — M15, M16, M17, M18** | **ESCRITA** (2026-09-20) — sobre las 71 diapositivas de la clase 5: ciclo de vida de NASA y diagrama en V, qué es un requerimiento (MCO vs. DC-3) y gestión de márgenes a fondo, la familia de requerimientos con trazabilidad de 6 niveles, y verificación/validación a fondo con los 7 elementos del alcance |
 | **Unidad 6 — M19, M20, M21, M22, M23** | **ESCRITA** (2026-09-20) — sobre las 155 diapositivas de la clase 6 (la más larga): familia de requerimientos e interfaces (IDD/IRD/ICD), el Ejercicio de Alcance con seis ConOps reales, SMART y verificación/validación operativas, Pre-Fase A a fondo con los cinco modelos de ciclo de vida, e ingeniería concurrente y mecatrónica. **5 módulos, no los 4 previstos** — ver PDP.md §8 |
 | **Unidad 7 — M24, M25, M26, M27** | **ESCRITA** (2026-09-20) — sobre las 54 diapositivas de la clase 7: cómo se crea una arquitectura (síntesis/descubrimiento, 4 métodos, factores de balance, arquitectura vs. diseño), Fase A a fondo con el ConOps del Mars 2020 y la herencia del Curiosity, las revisiones SRR y MDR una al lado de la otra, y el diagrama N² aplicado a interfaces con el caso real del TDRS y una matriz de 17 disciplinas. **Cierra el apunte: las 7 unidades escritas** |
-| PDF | **compila**: `apunte/apunte.pdf`, **123 páginas**, 13 MB, 18 figuras embebidas |
+| PDF | **compila**: `apunte/apunte.pdf`, **126 páginas**, 13 MB, 18 figuras embebidas |
 | Parcialitos | **1 a 5** en `fuentes/parcialitos.md`, mapeados: **28 preguntas, 62 anclas** `MNN §sección`, ninguna huérfana. Los originales (manuscritos, con nombre propio) en `fuentes/pdf/parcialitos/`, ignorados por git. Faltan los de las clases 7 en adelante; **este archivo ya no afirma que no vayan a llegar** — lo afirmó una vez y se equivocó al día siguiente |
 | `verificar-cobertura.py` | **escrito y en VERDE** — resuelve cada ancla contra el módulo y la sección reales |
 | `probar-verificar-cobertura.py` | **escrito y en VERDE**: los cuatro sabotajes dan rojo y el control positivo da verde |

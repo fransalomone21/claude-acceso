@@ -1,7 +1,7 @@
 # HANDOFF — Apunte de IISE
 
 **PROYECTO CERRADO.** Las **siete** fases del PDP están cerradas: el apunte
-está escrito (7 unidades, 28 módulos, 71 términos, **123 páginas, 18
+está escrito (7 unidades, 28 módulos, 71 términos, **126 páginas, 18
 figuras**), mapeado contra los parcialitos (16 preguntas, ninguna huérfana, con
 medidor y saboteador) y **publicado en el Drive de los compañeros**, verificado
 por MD5.
