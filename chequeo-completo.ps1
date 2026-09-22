@@ -49,6 +49,12 @@ $medidores = @(
     @{ nombre = 'perfil global instalado';  cmd = '.\perfil-global\verify-install.ps1' }
     @{ nombre = 'triage de lecciones';      cmd = 'python perfil-global\herramientas\aprender.py sin-triage' }
     @{ nombre = 'apuntes publicados en Drive'; cmd = '.\publicar-apuntes.ps1 -Verificar' }
+    # El de arriba mide si lo que esta en el REPO llego a Drive. Este mide lo
+    # de al lado y no se solapa: si algo en Drive quedo PUBLICO POR LINK donde
+    # no corresponde. Un verificador solo ve donde vive -- el publicador mira
+    # el repo, asi que no podia ver los dos informes del grupo que estuvieron
+    # publicos 25 dias sin estar declarados en ningun lado. 5 s.
+    @{ nombre = 'estructura y permisos de Drive'; cmd = '.\verificar-drive.ps1' }
     # Con una sola maquina este medidor no tenia sentido: no habia otra copia
     # que pudiera estar mas adelante. Con dos, abrir una sesion sobre un arbol
     # atrasado es la falla nueva, y es de las que no duelen el mismo dia.
@@ -75,6 +81,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador del molde de fase'; cmd = '.\perfil-global\probar-medidor-fase.ps1' }
     @{ nombre = 'saboteador del heredoc';    cmd = '.\perfil-global\probar-guardia-heredoc.ps1' }
     @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
+    @{ nombre = 'saboteador de Drive';            cmd = '.\probar-verificar-drive.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
 )
 
