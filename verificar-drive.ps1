@@ -190,15 +190,25 @@ if ($fueraDePub.Count -gt 0) {
 Write-Host ""
 Escribir "3. compartido con personas concretas: todo declarado" White
 
-$declMails = @()
-foreach ($d in $decl.'compartido-con-nombre'.declarado) { $declMails += $d.quien }
-$sinDeclarar = @($conNombre.Keys | Where-Object { $declMails -notcontains $_ })
+# Se compara por HASH, no por mail. El JSON esta en un repo PUBLICO y estos
+# son datos de terceros: la politica de datos-permitidos.json dice que eso no
+# se declara como excepcion, se saca. El hash alcanza para lo unico que hace
+# falta aca -- decidir si el mail que se acaba de LEER DE DRIVE esta declarado.
+function HashMail($m) {
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    $b = $sha.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($m.Trim().ToLower()))
+    return ((($b | ForEach-Object { $_.ToString('x2') }) -join '').Substring(0, 16))
+}
+$declHash = @()
+foreach ($d in $decl.'compartido-con-nombre'.declarado) { $declHash += $d.'quien-sha256' }
+$sinDeclarar = @($conNombre.Keys | Where-Object { $declHash -notcontains (HashMail $_) })
 
 foreach ($m in ($conNombre.Keys | Sort-Object)) {
-    if ($declMails -contains $m) {
+    if ($declHash -contains (HashMail $m)) {
         Escribir ("   [OK  ] {0,-38} {1,4} objeto(s) -- declarado" -f $m, $conNombre[$m]) Green
     } else {
         Escribir ("   [PEND] {0,-38} {1,4} objeto(s) -- SIN DECLARAR" -f $m, $conNombre[$m]) Yellow
+        Escribir ("          si es legitimo, su hash es: {0}" -f (HashMail $m)) Yellow
     }
 }
 if ($conNombre.Count -eq 0) { Escribir "   [OK  ] nada compartido con nadie" Green }

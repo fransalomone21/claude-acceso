@@ -3,13 +3,11 @@
   "_la-falla-que-lo-motivo": "El 2026-09-22 se midio que los DOS .docx de los informes del grupo estaban con 'anyone:reader' -- publicos por link -- aunque vivian en una carpeta privada. Se habian mudado AFUERA de la carpeta publica el 2026-09-15 y el permiso viajo con el archivo. Mudar no despublica. Se habia verificado la PRECONDICION (donde esta el archivo) en vez del EFECTO (que permiso tiene el objeto). Estuvieron publicos 25 dias y nada lo dijo.",
   "remote": "drive-personal",
   "_nota-remote": "drive-personal apunta a la raiz de Mi unidad (sin root_folder_id). drive-apuntes es el MISMO token con root_folder_id = la carpeta publica de abajo. Se distinguen SOLO por esa linea; confundirlos publica material personal.",
-
   "carpeta-publica": {
     "ruta": "01 - UNSAM - Ing. en Sistemas Espaciales/PUBLICO - Sistemas Espaciales fran",
     "id": "1Uz_4Lu4i1LX7xbeS-dDVEF-TXi6EA1mL",
     "_regla": "Es la UNICA rama de Mi unidad donde se admite el permiso 'anyone'. Cualquier objeto con 'anyone' fuera de aca es un ROJO, sin excepciones ni lista de perdon: si algo tiene que ser publico, se mueve adentro, no se declara afuera."
   },
-
   "raiz": {
     "_regla": "Cero archivos sueltos. La raiz son carpetas y nada mas. Un archivo en la raiz es un archivo que todavia no se decidio donde va, y esa decision es justo la que se posterga para siempre.",
     "archivo-permitido": "LEEME - como esta ordenado este Drive.txt",
@@ -47,23 +45,35 @@
       }
     ]
   },
-
   "compartido-con-nombre": {
-    "_regla": "Todo lo compartido con personas concretas se declara aca. Lo que aparezca compartido y no este declarado se reporta como 'sin declarar' -- no es un rojo, es un PENDIENTE amarillo, porque compartir con una persona no es publicar. Pero tiene que verse.",
+    "_regla": "Todo lo compartido con personas concretas se declara aca. Lo que aparezca compartido y no este declarado se reporta como 'sin declarar' -- no es un rojo, es un PENDIENTE amarillo, porque compartir con una persona no es publicar. Pero tiene que verse. Se declara por HASH del mail, nunca por el mail: ver _por-que-hash.",
     "declarado": [
       {
-        "quien": ["santiagofavazza@gmail.com", "vvalendiazsegui@gmail.com"],
         "sobre": "01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/Teoria de Circuitos - Favazza, Salomone, Diaz Segui",
         "rol": "writer",
-        "por-que": "es el grupo de laboratorio de Teoria de Circuitos. Legitimo y vigente."
+        "por-que": "es el grupo de laboratorio de Teoria de Circuitos. Legitimo y vigente.",
+        "quien-sha256": [
+          "cd50ccf11c007904",
+          "f7766ab34a1082dc"
+        ],
+        "quien-etiqueta": [
+          "companero del grupo de laboratorio de Teoria de Circuitos (1 de 2)",
+          "companera del grupo de laboratorio de Teoria de Circuitos (2 de 2)"
+        ]
       },
       {
-        "quien": ["roberto_salomone@carrefour.com"],
         "sobre": "02 - ARCHIVO - cursadas anteriores/Snapshot_Starter_SB_www.frenglish.ru.pdf",
         "rol": "writer",
-        "por-que": "familiar, libro de ingles de 2021. Inocuo, pero declarado para que no cuente como hallazgo nuevo cada vez."
+        "por-que": "familiar, libro de ingles de 2021. Inocuo, pero declarado para que no cuente como hallazgo nuevo cada vez.",
+        "quien-sha256": [
+          "5d03a754e7342d4b"
+        ],
+        "quien-etiqueta": [
+          "familiar"
+        ]
       }
     ],
-    "_revocado-2026-09-22": "Siscom tenia permiso de ESCRITURA para santiago.brites, demian.lopez, dinasgimenez, dina.gimenez.t1vl y nehuencamina desde 2023, sobre 1,25 GB que ya no se trabajan. Revocado a pedido de Fran. Escritura de hace tres anos sobre material muerto es riesgo sin contrapartida."
+    "_por-que-hash": "Los mails NO se escriben aca: se guarda el sha256 del mail en minusculas, primeros 16 hex. claude-acceso es un repo PUBLICO y estos son datos de terceros que no los consintieron -- y la politica de datos-permitidos.json dice literalmente que eso no se declara como excepcion. El hash alcanza para lo unico que el verificador necesita: decidir si el mail que LEE DE DRIVE en tiempo de ejecucion esta declarado o no. Lo agarro la regla 5 de verificar-estructura.ps1 en la misma sesion que escribio el archivo, que es justo para lo que existe.",
+    "_revocado-2026-09-22": "Siscom tenia permiso de ESCRITURA para cinco ex-companeros de la secundaria desde 2023, sobre 1,25 GB que ya no se trabajan. Revocado a pedido de Fran. Escritura de hace tres anos sobre material muerto es riesgo sin contrapartida."
   }
 }

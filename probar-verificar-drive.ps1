@@ -119,7 +119,7 @@ $o = & powershell -NoProfile -ExecutionPolicy Bypass -File $ver -DesdeJson $arbo
 $fallas += Exigir "un DNI publico por link" 'ROJO' $LASTEXITCODE $o
 # Idem D: el rojo tiene que salir CON el arbol real adentro, no sobre un
 # archivo que quedo vacio. Un rojo por la razon equivocada no prueba nada.
-if (($o -join "`n") -notmatch 'santiagofavazza@gmail.com') {
+if (($o -join "`n") -notmatch 'objeto\(s\) -- declarado') {
     Escribir "   [FALLA] salio en rojo pero PERDIO el arbol real -- mide sobre nada" Red
     $fallas++
 }
@@ -140,13 +140,18 @@ $fallas += Exigir "carpeta declarada y ausente" 'ROJO' $LASTEXITCODE $o
 Write-Host ""
 Escribir "D. un mail compartido SIN declarar (pendiente amarillo, no rojo)" White
 $arbolD = Join-Path $tmp 'arbol-d.json'
-DoparArbol '{"Path":"00 - PERSONAL - no se comparte con nadie/documentos de identidad/DNI.pdf","Name":"DNI.pdf","Size":1,"MimeType":"application/pdf","IsDir":false,"ID":"FALSO","Metadata":{"permissions":"[{\"id\":\"X\",\"type\":\"user\",\"role\":\"writer\",\"emailAddress\":\"desconocido@ejemplo.com\"}]"}}' $arbolD
+# El mail falso se arma partido a proposito: si el literal apareciera entero en
+# este archivo --que esta tracked en un repo PUBLICO-- la regla 5 de
+# verificar-estructura.ps1 lo acusaria en cada corrida. Mismo idioma que
+# probar-verificador.ps1. Un escaner se encuentra a si mismo, siempre.
+$mailFalso = 'desconocido' + '@' + 'ejemplo-inexistente.test'
+DoparArbol ('{"Path":"00 - PERSONAL - no se comparte con nadie/documentos de identidad/DNI.pdf","Name":"DNI.pdf","Size":1,"MimeType":"application/pdf","IsDir":false,"ID":"FALSO","Metadata":{"permissions":"[{\"id\":\"X\",\"type\":\"user\",\"role\":\"writer\",\"emailAddress\":\"' + $mailFalso + '\"}]"}}') $arbolD
 $o = & powershell -NoProfile -ExecutionPolicy Bypass -File $ver -DesdeJson $arbolD 2>&1
 $txtD = $o -join "`n"
 # Las DOS mitades. Que aparezca el mail dopado no alcanza: si el arbol llegara
 # vacio, el dopado seria lo unico que hay y el chequeo pareceria funcionar
 # midiendo nada. Se exige tambien que los declarados de verdad sigan contados.
-if ($txtD -match 'desconocido@ejemplo.com.*SIN DECLARAR' -and $txtD -match 'santiagofavazza@gmail.com') {
+if ($txtD -match ([regex]::Escape($mailFalso) + '.*SIN DECLARAR') -and $txtD -match 'objeto\(s\) -- declarado') {
     Escribir "   [OK  ] el mail sin declarar salio reportado, y los declarados siguen ahi" Green
 } elseif ($txtD -match 'SIN DECLARAR') {
     Escribir "   [FALLA] reporto el dopado pero PERDIO el arbol real -- mide sobre nada" Red
