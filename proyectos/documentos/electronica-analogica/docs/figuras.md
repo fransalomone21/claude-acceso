@@ -350,7 +350,7 @@ Ya no queda ningún circuito en ASCII en todo el apunte.
 | 2 — Señales | `graf-formas-de-onda`, `fig-bloques-osciloscopio`, `fig-filtro-rc`, **`graf-respuesta-rc`** |
 | 3 — Transformadores | `fig-transformador`, `fig-transformador-punto-medio` |
 | 4 — Diodos | `fig-polarizacion-diodo`, `graf-curva-diodo`, `fig-led-limitadora`, `fig-proteccion-polaridad`, `fig-rectificador-media-onda`, **`graf-media-onda`**, `fig-rectificador-punto-medio`, **`graf-onda-completa`**, `fig-puente-graetz` |
-| 5 — Fuentes | `fig-bloques-fuente`, `fig-filtro-capacitivo`, **`graf-rizado`**, `fig-regulador-zener`, **`graf-curva-zener`** |
+| 5 — Fuentes | `fig-bloques-fuente`, `fig-filtro-capacitivo`, **`graf-rizado`**, `fig-regulador-zener`, **`graf-curva-zener`**, `fig-fuente-doble` |
 | 6 — Transistores | `fig-simbolos-bjt`, `fig-conmutacion-npn`, `fig-rele-completo`, **`graf-recta-de-carga`** |
 | 7 — Kirchhoff | `fig-nodos-y-mallas`, `fig-delta-estrella` |
 | 8 — Nodal y mallas | `fig-nodal-primero`, `fig-nodal-basico`, `fig-supernodo`, `fig-mallas-basico`, `fig-supermalla`, `fig-nodal-controlada` |

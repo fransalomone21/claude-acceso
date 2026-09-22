@@ -62,6 +62,73 @@ $ I_D = I_S (e^(V_D \/ (eta V_T)) - 1) $ <ec-shockley>
 que se cita como referencia pero *no se usa para calcular a mano*. Para eso están los
 modelos simplificados.
 
+=== Levantar la curva en el laboratorio
+
+El punto 1 del TP N.º 6 pide construir esa curva midiendo, no dibujándola. El circuito
+es la fuente variable $V_S$, una resistencia $R$ en serie que limita la corriente, el
+amperímetro que mide $I_T$ y el voltímetro sobre el diodo, que mide $V_D$. La consigna
+hace variar $V_S$ de 0 a 1,2 V de a 0,1 V y anotar las tres columnas.
+
+#laboratorio[
+  *La resistencia serie no está en la consigna y hay que elegirla.* Con $R = 100 Omega$,
+  el último renglón de la tabla ($V_S = 1,2$ V) cae justo en $I_T approx 5$ mA y
+  $V_D approx 0,70$ V: la tabla barre el codo entero sin acercarse al límite del diodo.
+  Con $R$ mucho más chica, los últimos renglones se van de escala; con $R$ mucho más
+  grande, la curva se aplana y el codo no se ve.
+]
+
+La tabla que sigue es lo que *debería* salir con $R = 100 Omega$ y un diodo de silicio,
+calculada con la @ec-shockley tomando $eta = 2$ y $I_S$ ajustada para que dé 5 mA a
+0,70 V. Los valores exactos cambian de un diodo a otro; lo que tiene que reproducirse es
+*la forma*: tres décimas de nada, y después todo junto.
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto),
+    align: (center, center, center, center),
+    table.header([$V_S$ [V]], [$I_T$ [mA]], [$V_R$ [V]], [$V_D$ [V]]),
+    [0],   [0],        [0],     [0],
+    [0,1], [≈ 0],      [≈ 0],   [0,10],
+    [0,2], [≈ 0],      [≈ 0],   [0,20],
+    [0,3], [0,002],    [0,000], [0,30],
+    [0,4], [0,015],    [0,002], [0,40],
+    [0,5], [0,09],     [0,009], [0,49],
+    [0,6], [0,36],     [0,036], [0,56],
+    [0,7], [0,88],     [0,088], [0,61],
+    [0,8], [1,6],      [0,16],  [0,64],
+    [0,9], [2,4],      [0,24],  [0,66],
+    [1,0], [3,2],      [0,32],  [0,68],
+    [1,1], [4,1],      [0,41],  [0,69],
+    [1,2], [5,0],      [0,50],  [0,70],
+  ),
+  caption: [Valores esperados del punto 1 del TP N.º 6, con $R = 100 Omega$],
+) <tab-curva-tp6>
+
+#clave[
+  Mirando las dos últimas columnas se ve el reparto: hasta $V_S = 0,4$ V *toda* la
+  tensión de la fuente cae en el diodo y la resistencia no ve nada, porque no circula
+  corriente. Pasado el codo se invierte: de 0,7 V en adelante el diodo se queda clavado
+  en unas siete décimas y *todo el excedente se lo come $R$*. Eso es lo que significa
+  «el diodo no es una resistencia», leído en una tabla de laboratorio.
+]
+
+#atencion[
+  *En inversa el amperímetro va a marcar cero, y esa es la medición.* La corriente de
+  fuga del 1N4007 es de unos 5 µA: un multímetro en su rango de miliampere tiene una
+  resolución de 0,01 mA = 10 µA, así que no puede distinguirla de cero. No es un error
+  de conexión ni un instrumento roto — es la resolución del instrumento, la sección «Resolución, rango, alcance y clase» del Módulo 1.
+  La conclusión que el TP pide es justamente ésa: *la rama inversa no se puede medir con
+  el instrumental del banco*, y se la dibuja sobre el eje.
+]
+
+*Las dos ramas no entran en la misma escala, y ése es el resultado.* La rama directa va
+de 0 a 5 mA en 0,7 V; la inversa, de 0 a unos pocos microampere en decenas de volts. Son
+tres órdenes de magnitud en corriente y dos en tensión. En la hoja milimetrada se dibujan
+con *escalas distintas en cada cuadrante* —es lo que hace la figura de la consigna, y por
+eso su eje negativo parece vacío—, y se aclara al pie cuál se usó en cada uno. Un solo par
+de escalas para los cuatro cuadrantes deja la curva inversa pegada al eje y la directa
+aplastada contra el margen.
+
 == Modelos del diodo
 
 #figure(
@@ -328,12 +395,13 @@ Interpretar su hoja de datos es parte del punto 3 del TP N.º 6.
 ]
 
 #tp("TP N.º 6 — II Cuatrimestre")[
-  - *Punto 1 (curva del diodo)*: al levantar la tabla punto a punto se ve en el laboratorio
-    exactamente la curva de la sección 4.1. Hasta 0,5 V la corriente es casi nula; entre
-    0,6 y 0,7 V se dispara. En inversa, el miliamperímetro no marca nada: la fuga es de
-    microampere.
+  - *Punto 1 (curva del diodo)*: la sección «Levantar la curva en el laboratorio» tiene
+    la tabla de valores esperados con $R = 100 Ω$, por qué el amperímetro marca cero en
+    inversa —y por qué eso *es* la medición—, y por qué las dos ramas no entran en la
+    misma escala de la hoja milimetrada. La conclusión que el TP pide sale de ahí.
   - *Punto 2 (LED con 330 Ω)*: es el Ejercicio 4.1. Al repetirlo con otros colores se
     comprueba que $V_F$ cambia y la corriente también.
-  - *Punto 3 (datasheet del 1N4007)*: la tabla de arriba, con las explicaciones que el TP
-    pide redactar.
+  - *Punto 3 (datasheet del 1N4007)*: la tabla de arriba trae los ocho parámetros que la
+    consigna lista —$V_(R R M)$, $V_R$, $I_F$, $I_(F S M)$, $V_F$, $I_R$, $t_"rr"$ y
+    $C_j$— con la explicación de cada uno, que es lo que el TP pide redactar.
 ]

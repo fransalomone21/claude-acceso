@@ -45,29 +45,40 @@ es la vía de validación real, y hay que usarla en vez de suponer.
 - **No se toca el toolchain.** Typst y nada más; CircuiTikZ ya se descartó por
   obligar a instalar LaTeX y a mantener un segundo toolchain.
 
-## 3. Naturaleza y criticidad
+## 3. Naturaleza, y el rigor POR ASPECTO
 
 | Campo | Valor |
 |---|---|
 | Naturaleza | `documentos` |
-| Criticidad | `importante` |
-| Rigor que le corresponde | test + evidencia registrada + reversible. Los cinco chequeos de `verificar.py` corren antes de cerrar, y **ninguna figura ni página nueva se da por buena sin mirarla en render**: que compile no prueba que se vea bien. La aritmética de cada ejercicio se comprueba por un **segundo camino independiente**. |
 
-> Es `importante` y no `crítico` porque nada se pierde de forma irrecuperable
-> —el fuente está versionado y el PDF se recompila—, pero un error publicado lo
-> estudia un curso entero, y eso cuesta más que unas horas.
+> **Migrado el 2026-09-22 al molde nuevo (piezas P3 y P4 de `arquitectura-se`).**
+> Antes decía «Criticidad: `importante`» y de ahí salía un rigor único para
+> todo el proyecto. Eso es justo lo que NASA p. 39 desaconseja: el tailoring
+> va **por aspecto**, porque en este mismo proyecto reescribir un párrafo es
+> gratis y publicar un PDF con un circuito mal dibujado no se deshace.
+
+| Aspecto | Reversibilidad | Incertidumbre | Rigor | Por qué |
+|---|---|---|---|---|
+| `a` contenido y aritmética | se rehace gratis (fuente versionada) | baja: el temario y las dos guías de TP están escritos | mínimo: directo, **más el segundo camino** | El texto se corrige y se recompila. La aritmética lleva el agregado porque su error *no se ve*: un número mal compila igual, se imprime igual y se estudia igual |
+| `b` figuras de circuito | se rehace gratis (son código) | baja | **pleno** | Es el único aspecto donde el rigor sube por encima de lo que los dos ejes piden, y no es «por las dudas»: una figura legible y **eléctricamente incorrecta** ya se publicó una vez (`fig-puente-graetz`, corregida el 2026-08-25) y los cinco chequeos la dieron por buena. Toda figura con semiconductor u operacional pasa por recorte de pixel |
+| `c` publicación del PDF | **un solo tiro**: lo que se publicó, se estudió | baja | **pleno** | El costo de deshacer no es el del archivo, es el del lector. Ninguna página se cierra sin haberla mirado compilada |
+| `d` cobertura de las guías de TP | se rehace gratis | **alta**: no se sabía qué faltaba hasta medirlo | iterar corto y medir el efecto | Se creía cubierta y la primera medición encontró seis consignas sin sección que las respondiera. Lo que corresponde no es más rigor sino **un medidor**, y es `verificar-cobertura.py` |
 
 ## 4. Las fases
 
-| # | Fase | Criterio de salida (resultado verificable) | Estado |
-|---|---|---|---|
-| 0 | Parte I — módulos 1 a 6 (dispositivos) | los seis módulos escritos, cada uno atado a su TP, y el apunte compila | **cerrada** |
-| 1 | Parte II — módulos 7 a 13 (el método, en el orden de Teoría de Circuitos) | los siete módulos escritos, con la aritmética de cada ejercicio comprobada por un segundo camino | **cerrada** |
-| 1b | Las figuras | cero circuitos en ASCII en todo el apunte (`ASCII_PENDIENTE` vacía y borrada), y las figuras miradas en una pasada **completa** de la galería posterior al último retoque | **cerrada 2026-08-23** |
-| 2 | Convenciones y fasor en valor de pico | el bloque de convenciones al frente del apunte, el Módulo 11 convertido a pico con la equivalencia a eficaz publicada al lado, y los ejercicios recomprobados por dos caminos | **cerrada 2026-08-25** |
-| 2b | Módulo 8 didáctico | convención explícita → ejemplo chico resuelto a mano → recién ahí la generalización, en los dos métodos; páginas nuevas miradas en render | **cerrada 2026-08-28** |
-| 3 | Los temas que faltan del programa | ver abajo, «qué la cierra exactamente» | **EN CURSO** |
-| 4 | El anexo de informes técnicos | el anexo publica los criterios de la guía de la cátedra —nada de capturas de pantalla, gráficos procesados por software (la guía nombra Veusz, Octave, Python, GNU Plot y Matlab), ejes rotulados con unidades, leyenda adentro de la figura, símbolos para mediciones y líneas para simulaciones, figuras numeradas con descripción al pie, A4 con páginas numeradas, máximo 10 páginas— y los gráficos del propio apunte los cumplen | pendiente |
+| # | Fase | Criterio de salida (resultado verificable) | Cómo se certifica | Estado |
+|---|---|---|---|---|
+| 0 | Parte I — módulos 1 a 6 (dispositivos) | los seis módulos escritos, cada uno atado a su TP, y el apunte compila | `typst compile apunte.typ` y la lista de los seis módulos en `ESTADO_ACTUAL.md` | **cerrada** |
+| 1 | Parte II — módulos 7 a 13 (el método, en el orden de Teoría de Circuitos) | los siete módulos escritos, con la aritmética de cada ejercicio comprobada por un segundo camino | el segundo camino escrito **dentro** del ejercicio. En rojo se ve así: un ejercicio cuyo resultado aparece sin verificación al lado | **cerrada** |
+| 1b | Las figuras | cero circuitos en ASCII en todo el apunte (`ASCII_PENDIENTE` vacía y borrada), y las figuras miradas en una pasada **completa** de la galería posterior al último retoque | chequeo 3 de `python verificar.py`, probado rompiéndolo | **cerrada 2026-08-23** |
+| 2 | Convenciones y fasor en valor de pico | el bloque de convenciones al frente del apunte, el Módulo 11 convertido a pico con la equivalencia a eficaz publicada al lado, y los ejercicios recomprobados por dos caminos | las páginas del Módulo 11 miradas en render, no sólo compiladas | **cerrada 2026-08-25** |
+| 2b | Módulo 8 didáctico | convención explícita → ejemplo chico resuelto a mano → recién ahí la generalización, en los dos métodos; páginas nuevas miradas en render | las páginas nuevas miradas una por una | **cerrada 2026-08-28** |
+| 3 | Los temas que faltan del programa | ver abajo, «qué la cierra exactamente» | ver abajo, «cómo se certifica» | **abierta** |
+| 3b | Cobertura medida de la guía del II cuatrimestre | toda consigna de `fuentes/consignas-tp.md` con una sección del apunte que la responda, o una excepción declarada con motivo | `python verificar-cobertura.py` en verde **y** `python probar-verificar-cobertura.py` con los 5 sabotajes en rojo | **cerrada 2026-09-22** |
+| 3c | Lo mismo para la guía del I cuatrimestre (TP 1 a 5) | las consignas de `TP_I_cuatrimestre.pdf` itemizadas en el mismo banco y mapeadas | el mismo `verificar-cobertura.py`, con el conteo declarado subido | pendiente |
+| 4 | El anexo de informes técnicos | el anexo publica los criterios de la guía de la cátedra —nada de capturas de pantalla, gráficos procesados por software (la guía nombra Veusz, Octave, Python, GNU Plot y Matlab), ejes rotulados con unidades, leyenda adentro de la figura, símbolos para mediciones y líneas para simulaciones, figuras numeradas con descripción al pie, A4 con páginas numeradas, máximo 10 páginas— y los gráficos del propio apunte los cumplen | recorrer la lista de criterios de la guía contra los gráficos del apunte, uno por uno. Cierra además la consigna 43 de `consignas-tp.md`, hoy diferida | pendiente |
+
+> **Estado** es uno de: `abierta` / `cerrada` / `cancelada`.
 
 > La ex-«Fase 4 — Las figuras de la Parte II» del `HANDOFF.md` **ya está
 > cumplida** por la fase 1b: la lista `ASCII_PENDIENTE` llegó a cero el
@@ -109,6 +120,27 @@ de Circuitos (Prof. Gabriel Sanca, Ing. en Sistemas Espaciales, UNSAM):
 
 Se contesta sí o no, tema por tema. Un tema escrito sin ejercicio comprobado no
 cuenta como escrito.
+
+**Cómo se certifica:** los cuatro puntos de arriba, en este orden y con estos
+comandos:
+
+```bash
+cd apunte && python verificar.py            # los SEIS chequeos, no cinco
+cd .. && python verificar-cobertura.py      # que el apunte cubra las consignas
+cd .. && python probar-verificar-cobertura.py
+```
+
+Y lo que ningún comando hace: **mirar el render** de toda página nueva, y
+**recomprobar la aritmética por un segundo camino** escrito al lado del
+resultado.
+
+**El medidor en rojo se ve así.** Un tema de la lista escrito, con su ejercicio,
+y `verificar.py` en verde — pero el ejercicio dando un resultado sin la
+verificación independiente al lado. Ahí la fase no cierra aunque los seis
+chequeos estén verdes: los chequeos miden que el apunte *compile y se vea bien*,
+no que *diga lo que tenía que decir*. Ésa es la razón de que el chequeo de
+cobertura sea un script aparte y no un sexto caso de `verificar.py`.
+
 
 **Lo que entró el 2026-09-04 y no estaba en esta lista.** El profesor pasó material
 de *bobinas, capacitores y circuitos dinámicos* —filminas, guía asincrónica de doce
@@ -198,3 +230,29 @@ Era falso: la pasada del 2026-08-23 encontró ocho defectos en la Parte I, todos
 previos a esa sesión. La afirmación equivocada quedó **tachada y no borrada** en
 el estado, porque es el dato: es lo que hizo que la sesión siguiente no las
 mirara.
+
+## 8. Matriz de cumplimiento
+
+> Escrita el **2026-09-22** al migrar el PDP. El default es silencio: la
+> justificación se llena **sólo cuando se recorta**, y todo recorte lleva la
+> resta escrita — lo mide `python perfil-global\herramientas\medir-matriz.py`.
+> Una fila por **aspecto** de §3, no por proyecto.
+
+| Regla | Aspecto | Estado | Justificación |
+|---|---|---|---|
+| `CLAUDE.md §Las reglas #1` (evidencia graduada) | `a` | `cumple` | |
+| `CLAUDE.md §Las reglas #1` (evidencia graduada) | `d` | `cumple` | La cobertura pasó de `hipótesis` a `confirmado` el día que se midió, y no antes |
+| `CLAUDE.md §Las reglas #2` (el éxito se audita) | `b` | `cumple` | La pasada de lectura eléctrica del 2026-09-04 dio 0 corregidas sobre 72 figuras, y se auditó en vez de celebrarse: revirtió un falso positivo propio |
+| `CLAUDE.md §Las reglas #3` (toda alarma se prueba rompiéndola) | `a` | `cumple` | Los seis chequeos de `verificar.py` fueron probados en rojo; el 6 el 2026-09-22, con dos sabotajes |
+| `CLAUDE.md §Las reglas #3` (toda alarma se prueba rompiéndola) | `d` | `cumple` | `probar-verificar-cobertura.py`: 5 sabotajes en rojo + control positivo en verde |
+| `CLAUDE.md §Las reglas #3` (toda alarma se prueba rompiéndola) | `c` | `recortado` | **Resta:** no hay alarma que se pueda romper para «se miró el render». Mirar es un acto humano y ningún script lo mide — lo más cerca que se llega es que exista el PNG, que es la precondición y no el efecto. Se acepta el recorte y se compensa **registrando qué páginas se miraron y sobre qué versión** en `ESTADO_ACTUAL.md`. El riesgo que se crea es que alguien escriba que miró sin mirar, y ya pasó: durante días el estado afirmó «las 30 figuras se ven bien» y era falso. El riesgo que compraría automatizarlo no se puede comprar a ningún precio |
+| `CLAUDE.md §Las reglas #4` (el repo es la memoria) | todos | `cumple` | |
+| `CLAUDE.md §Las reglas #6` (cambios mínimos) | `a` | `cumple` | No se reordena la Parte I ni se agregan temas «por las dudas»: §2 y la decisión del 2026-08-28 |
+| `CLAUDE.md §Las reglas #7` (ubicar la intervención en la escala) | `d` | `cumple` | Lo que faltaba no era más esfuerzo revisando la guía a ojo: era el **flujo de información** que no existía. Por eso la respuesta fue un medidor y no una relectura más cuidadosa |
+| `plantillas/naturalezas/documentos.md §Las cinco #1` (el destinatario está escrito) | todos | `cumple` | §1: primero el docente, después los alumnos |
+| `plantillas/naturalezas/documentos.md §Las cinco #2` (el render se mira) | `c` | `cumple` | Es la regla propia del `CLAUDE.md` del proyecto |
+| `plantillas/naturalezas/documentos.md §Las cinco #3` (toda afirmación tiene fuente anotada donde se usa) | `a` | `recortado` | **Resta:** el apunte cita la cátedra y los datasheets donde el dato es discutible ($V_Z$, $Z_(Z T)$, los parámetros del 1N4007), pero no lleva referencia al pie en cada afirmación de teoría general. La resta es que un dato de teoría copiado mal no tiene de dónde rastrearse; se acepta porque el destinatario es un alumno de 4.º año y una referencia por párrafo haría el apunte ilegible para él, que es el riesgo mayor. Se compensa con el segundo camino aritmético, que atrapa el error donde más cuesta |
+| `plantillas/naturalezas/documentos.md §Las cinco #4` (las decisiones de contenido se registran) | todos | `cumple` | §6 de este PDP |
+| `plantillas/naturalezas/documentos.md §Las cinco #5` (se escribe con código) | todos | `cumple` | Typst, fuente única |
+| `plantillas/naturalezas/documentos.md §La trampa propia` (las referencias de texto plano no las valida el compilador) | `a` | `cumple` | Desde el 2026-09-22 lo mide el **chequeo 6** de `verificar.py`. Antes era una intención: la misma sesión que lo escribió rompió dos referencias al insertar un ejercicio en el medio |
+| `plantillas/naturalezas/documentos.md §Verificación y validación` (validación ≠ verificación) | todos | `recortado` | **Resta:** la validación —¿el docente lo adopta, el alumno entiende?— sigue sin medirse, y está declarada como PENDIENTE en §1. El único dato que hay es indirecto (el alumno reportó que nodos costaba). Se acepta porque el canal de validación no depende del proyecto sino de que el docente lo mire; el riesgo que se crea es el más caro que tiene el proyecto: un apunte impecable que nadie usa |

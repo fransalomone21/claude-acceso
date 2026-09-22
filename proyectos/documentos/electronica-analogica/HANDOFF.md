@@ -36,19 +36,50 @@ Fase     : FASE 3, tema 7 (simulación) CERRADO el 2026-09-04, junto con una
            sección "Pasada de lectura eléctrica de las 72 figuras".
 
            Lo que sigue, en orden de valor:
-           (b) los seis temas que quedan de la Fase 3 (ver PDP);
+           (b) los temas que quedan de la Fase 3 (ver PDP);
            (c) mirar en render las páginas del Módulo 14 que NO se miraron
                —se vieron cuatro de veintiséis: 98, 102, 110 y 117—.
+
+           **FASE 3b CERRADA el 2026-09-22 — la cobertura de la guía del II
+           cuatrimestre está MEDIDA, no supuesta.** El PDF que se aportó ese
+           día ya estaba en el repo desde el 23/08: mismo MD5
+           23556307f1dfb159f9708c4f3a5abc09 que TP_II_completo.pdf y que
+           TP_II_cuatrimestre.pdf, que además son el mismo archivo entre sí.
+           No faltaba la fuente: faltaba el medidor.
+           Itemizada, la guía da **43 consignas**, y seis no tenían ninguna
+           sección que las respondiera — entre ellas la parte 3 ENTERA del
+           TP 7, la fuente doble simétrica, que NO es el rectificador de
+           punto medio del Módulo 4. Escritas las cinco secciones nuevas
+           (M4 §Levantar la curva en el laboratorio; M5 §Sin carga y con
+           carga; M5 §La fuente doble (simétrica) con figura y Ej. 5.3;
+           M5 §Cuánto rizado queda después del zener; M5 §Lo que se mide, y
+           cómo). El apunte pasó de 149 a **156 páginas** y de 72 a **73
+           figuras**.
+           Medidores nuevos: `verificar-cobertura.py` (43/52/1, en verde) con
+           su saboteador en **5/5** y control positivo, y el **chequeo 6** de
+           `verificar.py` (las referencias `Ejercicio N.M` de texto plano),
+           probado en rojo dos veces. PDP migrado al molde nuevo: §3 rigor
+           por aspecto, §4 con "Cómo se certifica", §8 matriz de 16 filas.
+           Detalle: ESTADO_ACTUAL.md, sección "Cobertura de la guía de TP".
+
+           Pendiente y anotado: **la guía del I cuatrimestre (TP 1 a 5) no
+           está medida** — es la fase 3c del PDP.
 Modelo   : Opus para (b), que es escribir teoría nueva y decidir cómo se
            deduce. Sonnet 5 para (c), que es mirar imágenes contra un
-           criterio ya escrito.
+           criterio ya escrito, y para la fase 3c, que es itemizar una guía
+           contra un formato de banco que ya existe.
 Esfuerzo : medio, sin fan-out. Un archivo por vez, secuencial: el fan-out no
            compra nada acá y el presupuesto del plan sí lo paga.
-Contexto : chat nuevo — esta sesión gastó su contexto en recortes de pixel
-           uno por uno; (b) es escribir teoría nueva y arranca mejor fresca.
-Retomar  : ver el bloque al final de esta respuesta.
+Contexto : chat nuevo — esta sesión gastó su contexto en el render página por
+           página; (b) es escribir teoría nueva y arranca mejor fresca.
 Rama     : main — una sola rama, el proyecto es una carpeta.
 ```
+
+**De los temas de la Fase 3, medido con `grep` el 2026-09-22:** siguen sin
+escribirse **trifásicos**, **zpk / polos y ceros en el plano**, **filtros
+activos (Sallen-Key, Butterworth)** y **la impedancia reflejada**. El
+**amplificador de instrumentación sí está**, en el Módulo 14 — el handoff
+anterior lo contaba entre los que faltaban.
 
 ## Lo que quedó abierto, y no se puede perder
 
@@ -73,7 +104,27 @@ Rama     : main — una sola rama, el proyecto es una carpeta.
 2. Leer `ESTADO_ACTUAL.md`, en particular las cinco decisiones de contenido y la
    sección de los ocho defectos ya corregidos (para no reabrirla).
 
-## Trampas de Typst ya pagadas — no volver a pisarlas
+## Trampas ya pagadas — no volver a pisarlas
+
+### Las dos del 2026-09-22
+
+- **Insertar un `#ejercicio(...)` en el medio de un módulo corre todos los que
+  le siguen.** El contador es por módulo y las referencias «Ejercicio 5.3» son
+  **texto plano**: no las valida nada. Al entrar la fuente doble como 5.3, el
+  zener pasó a 5.4 y dos referencias quedaron mal, una de ellas la relativa
+  («del ejercicio anterior»), que además pasó a señalar otro circuito. Lo mide
+  ahora el **chequeo 6** de `verificar.py` — pero ese chequeo **no** puede ver
+  el caso de un ejercicio insertado al principio, donde los números siguen
+  existiendo y apuntan mal. Para eso, antes de insertar: `grep -rn "Ejercicio
+  N\." modulos/`.
+- **Dos tramos de cable a la misma altura se funden en una sola línea, y eso es
+  un error eléctrico, no de legibilidad.** `fig-fuente-doble` nació con el
+  ramal B y el riel negativo los dos en `y = −0,6`, porque los dos salían de
+  expresiones distintas que daban el mismo número. Compila, se ve prolijo y el
+  circuito está mal. Se vio **mirando el render**, no leyendo el fuente. Al
+  dibujar dos rieles paralelos, calcular sus `y` y compararlos.
+
+### Trampas de Typst
 
 - **Raya larga pegada a una fórmula**: `—$v arrow.l.r i$` compone la raya a la altura
   del eje matemático y con el largo de un menos, y se lee `−v ↔ i`. Es el mismo caso

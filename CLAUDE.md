@@ -65,12 +65,12 @@ siempre (nivel 3) y con cuánto rigor se trabaja.
 
 | Proyecto | Qué es | Estado |
 |---|---|---|
-| [`electronica-analogica/`](proyectos/documentos/electronica-analogica/) | Apunte de Electrónica Analógica 4.º en Typst, 149 pág. | **ACTIVO** |
+| [`electronica-analogica/`](proyectos/documentos/electronica-analogica/CLAUDE.md) | Apunte de Aplicaciones de Electrónica Analógica de 4.º año (E.E.S.T. N.º 1 de Vicente López) en Typst, **156 pág.**, 15 módulos en dos partes | **ACTIVO** — fase 3 abierta (faltan trifásicos, zpk, filtros activos e impedancia reflejada, medido con `grep` el 22/09) y **fase 3b cerrada el 2026-09-22: la cobertura de la guía de TP está medida, no supuesta**. La guía del II cuatrimestre **ya estaba en el repo desde el 23/08** —mismo MD5 que el PDF que se aportó el 22/09—, así que lo que faltaba no era la fuente sino el medidor: itemizada da **43 consignas** y **seis no tenían ninguna sección que las respondiera**, entre ellas la **parte 3 entera del TP 7**, la fuente doble simétrica, que no es el rectificador de punto medio del Módulo 4. Entraron cinco secciones nuevas y `fig-fuente-doble` (72 → 73 figuras), con el resultado que las justifica: **cada rama pierde un solo diodo, no dos**, verificado por dos caminos. Lo mide `verificar-cobertura.py` (43 consignas, 52 anclas, 1 diferida con motivo) y su saboteador va **5/5 con control positivo**. `verificar.py` pasó a **seis** chequeos: el nuevo resuelve las referencias `Ejercicio N.M` de texto plano, y **nació de un error propio de la misma sesión** —insertar la fuente doble corrió el zener de 5.3 a 5.4 y dos referencias quedaron mal, compilando en verde—. De paso, el **PDP quedó migrado** al molde nuevo (§3 rigor por aspecto, §4 «Cómo se certifica», §8 matriz de 16 filas con 3 recortes y su resta): `medir-fase.py` bajó de 8 PDP sin migrar a 7. **Pendiente: la guía del I cuatrimestre (TP 1 a 5) no está medida** — es la fase 3c |
 | [`fisica-espacial/`](proyectos/documentos/fisica-espacial/CLAUDE.md) | Apunte general de Física Espacial (UNSAM, Ing. en Sistemas Espaciales) en Typst, 173 pág. | **CERRADO** (fase 8, 2026-09-13), con trabajo posterior sin abrir fase nueva: **20 módulos + Anexo A** (49 fichas de práctica, agregado 2026-09-14), **173 pág.** verificadas, reordenado en «fundamentos → complejidad». El orden lo mide `verificar-apunte.py`. Se publica en Drive |
 | [`clase-asincronica-3/`](proyectos/documentos/clase-asincronica-3/CLAUDE.md) | Actividad asincrónica de Teoría de Circuitos (UNSAM): 12 problemas de Nilsson caps. 6-8, resueltos y simulados en LTspice | **ACTIVO** — fase 2; las 17 simulaciones cerradas y verificadas |
 | [`apunte-iise/`](proyectos/documentos/apunte-iise/CLAUDE.md) | Apunte general de Introducción a la Ingeniería de Sistemas Espaciales (UNSAM), unidades 1 a 7, en Typst. Se rinde sobre distinciones léxicas, así que el **glosario controlado es el módulo 0** y hay un verificador de léxico | **CERRADO** — las **siete fases** del PDP (0 a 4 el 2026-09-20; la 5, figuras, y la 6, parcialitos 4 y 5, el 2026-09-21). 7 unidades, 28 módulos, 71 términos, **123 páginas con 18 figuras**, `verificar-lexico.py` y `verificar-cobertura.py` en verde, y **publicado en el Drive** (13 MB, verificado por MD5). La cobertura contra los parcialitos va por **28 preguntas y 62 anclas, ninguna huérfana** — y las mide `verificar-cobertura.py`, que exige el **título exacto de la sección**: de las 11 anclas que la fase 6 escribió de memoria, puso **11 en rojo** |
 | [`repaso-iise/`](proyectos/documentos/repaso-iise/) | Repaso oral de IISE: guion + audios | terminado |
-| `teoria-circuitos/` | Informes de laboratorio de Teoría de Circuitos (UNSAM, cátedra Sanca), en grupo de tres | **ACTIVO** — **fases 1 a 5 CERRADAS**; el Informe 1 entregado con **nota 7**. La corrección en papel del profe abrió la fase 5: destilar lo que corrigió a mano en reglas medibles. Salió `CRITERIO-CATEDRA.md` —las **15 marcas** traducidas a **22 reglas**, con una hipótesis falsable sobre cómo lee— más `verificar-estilo.py`, que las mide sobre el **`.docx`** y no sobre el script que lo genera, y su saboteador en **14/14**. **Los dos informes quedaron en 0 incumplimientos y 6 páginas**, medidas sobre el PDF que exporta **Google Docs** y no sobre el de LibreOffice, que con el mismo archivo da 7 y un renglón fantasma. El **Pre-Lab** se reescribió con sus 4 errores técnicos arreglados —el peor definía −3 dB como caer al 30 % cuando es **al 71 %**— y va como Doc nuevo de Fran, sin pisar el de Santiago. De paso: los 12 esquemáticos perdieron las leyendas explicativas (el tono didáctico delata que no las escribió él) y **el generador también**, porque tocar sólo los `.asc` los devolvía; y apareció la **regla 22**, que no sale de una marca del profesor sino de un `%s` sin su operador `%` que Python no marca como error y que salió impreso en el `.docx`. En el Drive, la raíz de apuntes es **pública por link** y ese permiso **se hereda**, así que la carpeta «PRIVADOS» que estaba adentro no era privada: las del grupo se mudaron **afuera**, con el entregable arriba y el respaldo debajo. **Fase 6 sin abrir: la abre la consigna del laboratorio siguiente. Lo único pendiente lo hace Fran: entregar.** **Repo aparte**: la carátula lleva mails de compañeros |
+| `teoria-circuitos/` | Informes de laboratorio de Teoría de Circuitos (UNSAM, cátedra Sanca), en grupo de tres | **ACTIVO** — **fases 1 a 5 CERRADAS**; el Informe 1 entregado con **nota 7**. La corrección en papel del profe abrió la fase 5: destilar lo que corrigió a mano en reglas medibles. Salió `CRITERIO-CATEDRA.md` —las **15 marcas** traducidas a **22 reglas**, con una hipótesis falsable sobre cómo lee— más `verificar-estilo.py`, que las mide sobre el **`.docx`** y no sobre el script que lo genera, y su saboteador en **14/14**. **Los dos informes quedaron en 0 incumplimientos y 6 páginas**, medidas sobre el PDF que exporta **Google Docs** y no sobre el de LibreOffice, que con el mismo archivo da 7 y un renglón fantasma. El **Pre-Lab** se reescribió con sus 4 errores técnicos arreglados —el peor definía −3 dB como caer al 30 % cuando es **al 71 %**— y va como Doc nuevo de Fran, sin pisar el de Santiago. De paso: los 12 esquemáticos perdieron las leyendas explicativas (el tono didáctico delata que no las escribió él) y **el generador también**, porque tocar sólo los `.asc` los devolvía; y apareció la **regla 22**, que no sale de una marca del profesor sino de un `%s` sin su operador `%` que Python no marca como error y que salió impreso en el `.docx`. En el Drive, la raíz de apuntes es **pública por link** y ese permiso **se hereda**, así que la carpeta «PRIVADOS» que estaba adentro no era privada: las del grupo se mudaron **afuera**, con el entregable arriba y el respaldo debajo. **Corregido el 2026-09-22: mudarlas no las despublicó.** Los dos `.docx` —los que llevan los mails en la carátula— siguieron con `anyone:reader` **25 días**, porque el permiso viaja con el objeto y acá se verificó dónde quedaron, no qué permiso tenían. Ya revocado y medido; lo vigila `verificar-drive.ps1`. **Fase 6 sin abrir: la abre la consigna del laboratorio siguiente. Lo único pendiente lo hace Fran: entregar.** **Repo aparte**: la carátula lleva mails de compañeros |
 | [`taller-de-fisica/`](proyectos/documentos/taller-de-fisica/CLAUDE.md) | Apunte del Taller de Física (materia aparte, dinámica de cátedra), con Ferraro, Pisacane y Young-Freedman como fuentes | fase 0 (fuentes localizadas, recorte de Pisacane sin cerrar); **fase 1 bloqueada a propósito** hasta que Fran lo pida |
 
 ### `proyectos/seguimiento/` — datos longitudinales de la vida real
@@ -318,6 +318,54 @@ sube es exactamente la falla que no duele el mismo día.
 
 ---
 
+## Mi unidad — el orden, y por qué se mide
+
+Ordenada el **2026-09-22**. La raíz son **seis carpetas y un LEEME**, y el
+número no ordena por tema sino por **quién puede verlo**: `00 - PERSONAL`
+(nadie), `01 - UNSAM` (adentro conviven los tres niveles, cada uno dicho en su
+propio nombre), `02 - ARCHIVO`, `Coaching` y `Classroom` (las escriben scripts
+o Google: **no se tocan a mano**), y `_REVISAR`. Cuál es cuál no se escribe
+acá: vive en `.claude/estructura-drive.json`, que es la fuente.
+
+```powershell
+.\verificar-drive.ps1              # las tres reglas, contra Drive. ~5 s
+.\verificar-drive.ps1 -Rapido      # solo la raiz, sin pedir permisos. ~2 s
+.\probar-verificar-drive.ps1       # rompe las cinco y exige ver el rojo
+```
+
+**Lo que lo hizo falta.** El 22/09 se midió que los **dos `.docx` de los
+informes del grupo** —los que llevan los mails de Santiago y Valentina en la
+carátula— estaban con `anyone:reader`, o sea **públicos por link**, viviendo en
+una carpeta privada. El 15/09 se los había mudado afuera de la carpeta pública
+y este archivo lo registró como hecho: *«las del grupo se mudaron afuera»*.
+Era cierto, y aun así estuvieron públicos **25 días**.
+
+**Mudar un archivo no lo despublica: el permiso viaja con el objeto.** Se
+verificó la **precondición** —dónde está el archivo— en lugar del **efecto**
+—qué permiso tiene. Es la regla 3 del perfil, del lado que no duele: nadie
+revisa un cambio que ya salió bien.
+
+Por eso `verificar-drive.ps1` mide permisos y no rutas, y por eso su regla
+dura no admite lista de perdón: **nada con `anyone` fuera de la carpeta
+pública declarada**. Si algo tiene que ser público, se **mueve adentro**; no se
+declara una excepción afuera. Lo compartido con personas concretas no es rojo
+—compartir no es publicar— pero se declara en el JSON con su motivo, y lo que
+aparezca sin declarar sale en amarillo, que es la misma forma que
+`apuntes-publicos.json` y `datos-permitidos.json`.
+
+**Y no se solapa con el publicador.** `publicar-apuntes.ps1 -Verificar` mira el
+**repo** y contesta si lo que está acá llegó a Drive; por eso no podía ver esos
+dos informes, que no están declarados en ningún lado. *Un verificador sólo ve
+donde vive* — es el mismo agujero que taparon los bloques 5, 6 y 7 de
+`verificar-estructura.ps1`, ahora del lado de Drive.
+
+De paso, la raíz tenía **13 archivos sueltos** (DNI, partida, analítico, DDJJ)
+y `SOLO FRAN - no se comparte con nadie/` estaba **vacía**: el contenedor
+privado se había creado y nunca se había usado. Nada se borró para ordenar —
+lo que no tenía dueño claro está en `_REVISAR`, que se puede auditar.
+
+---
+
 ## Dónde está el resto
 
 - **Cómo se trabaja** (evidencia, modelo, esfuerzo, cierre de sesión):
@@ -348,4 +396,7 @@ sube es exactamente la falla que no duele el mismo día.
 - **¿El Drive de los compañeros está al día?**: `.\publicar-apuntes.ps1
   -Verificar`, y para probar que ese chequeo no está ciego:
   `.\probar-publicacion.ps1`.
+- **¿Quedó algo público por link que no tendría que estarlo?**:
+  `.\verificar-drive.ps1` — mide el permiso del objeto, no la carpeta donde
+  está. Para probar que no está ciego: `.\probar-verificar-drive.ps1`.
 - **Las ramas viejas** y qué quedó en cada una: [`archivo/RAMAS.md`](archivo/RAMAS.md).

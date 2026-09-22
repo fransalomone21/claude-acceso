@@ -76,6 +76,7 @@
 #muestra("fig-bloques-fuente()", fig-bloques-fuente())
 #muestra("fig-filtro-capacitivo()", fig-filtro-capacitivo())
 #muestra("graf-rizado()", graf-rizado())
+#muestra("fig-fuente-doble()", fig-fuente-doble())
 #muestra("fig-regulador-zener()", fig-regulador-zener())
 #muestra("graf-curva-zener()", graf-curva-zener())
 

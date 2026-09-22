@@ -191,12 +191,63 @@ def rotulos_cortos_adentro():
         print(u"  ok  ningún rótulo largo adentro de los ejes")
 
 
+def referencias_a_ejercicios():
+    u"""Chequeo 6: toda referencia en texto plano `Ejercicio N.M` tiene que
+    resolver a un ejercicio que EXISTA.
+
+    Es la trampa propia de la naturaleza `documentos`: el numero de ejercicio
+    no es una etiqueta que el compilador resuelva, es texto. Si entra un
+    `#ejercicio(...)` nuevo en el medio de un modulo, todos los que le siguen
+    se corren un numero y las referencias quedan apuntando al circuito
+    equivocado -- SIN UN SOLO WARNING. Ya paso: al entrar la fuente doble como
+    Ejercicio 5.3, el zener paso de 5.3 a 5.4 y dos referencias quedaron mal.
+
+    El chequeo cuenta los `#ejercicio(` de cada modulo y exige que toda
+    referencia `Ejercicio N.M` tenga N = numero del modulo existente y
+    M <= cantidad de ejercicios de ese modulo. Lo que NO puede medir es que
+    apunte al ejercicio CORRECTO dentro de los que existen -- eso se lee.
+    """
+    carpeta = os.path.join(AQUI, "modulos")
+    cuantos = {}
+    for f in sorted(os.listdir(carpeta)):
+        m = re.match(r"^m(\d{1,2})-", f)
+        if not (f.endswith(".typ") and m):
+            continue
+        s = io.open(os.path.join(carpeta, f), encoding="utf-8").read()
+        cuantos[int(m.group(1))] = len(re.findall(r"#ejercicio\(", s))
+
+    rotas = []
+    for f in sorted(os.listdir(carpeta)):
+        if not f.endswith(".typ"):
+            continue
+        s = io.open(os.path.join(carpeta, f), encoding="utf-8").read()
+        for linea_n, linea in enumerate(s.splitlines(), 1):
+            for mm in re.finditer(r"Ejercicio (\d{1,2})\.(\d{1,2})", linea):
+                mod, ej = int(mm.group(1)), int(mm.group(2))
+                if mod not in cuantos:
+                    rotas.append(u"%s:%d  Ejercicio %d.%d — no existe el m\u00f3dulo %d"
+                                 % (f, linea_n, mod, ej, mod))
+                elif ej < 1 or ej > cuantos[mod]:
+                    rotas.append(
+                        u"%s:%d  Ejercicio %d.%d — el m\u00f3dulo %d tiene %d ejercicio(s)"
+                        % (f, linea_n, mod, ej, mod, cuantos[mod]))
+
+    if rotas:
+        fallas.append(
+            u"referencias a ejercicios que no existen (el n\u00famero es texto plano, "
+            u"no lo valida el compilador):\n      " + u"\n      ".join(rotas))
+    else:
+        total = sum(cuantos.values())
+        print(u"  ok  las referencias a los %d ejercicios resuelven" % total)
+
+
 print(u"Verificando el apunte...")
 compila(os.path.join(AQUI, "apunte.typ"), u"apunte.typ")
 compila(os.path.join(BIBLIO, "galeria.typ"), u"galeria.typ")
 sin_ascii()
 todas_en_galeria()
 rotulos_cortos_adentro()
+referencias_a_ejercicios()
 
 if fallas:
     print(u"\nFALLA (%d):" % len(fallas))

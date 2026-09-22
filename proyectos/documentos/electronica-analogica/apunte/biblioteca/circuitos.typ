@@ -576,6 +576,95 @@
 })
 
 
+// Fuente doble (simétrica): puente de Graetz sobre el secundario COMPLETO
+// y el punto medio tomado como masa. No es el rectificador de punto medio
+// del Módulo 4 —ése usa dos diodos y da una sola rama—: acá los cuatro
+// diodos trabajan sobre toda la bobina y el punto medio parte la salida
+// en dos mitades iguales de signo opuesto.
+//
+// Geometría: el ramal B rodea el puente por abajo (y = y-B) y el riel
+// negativo baja MÁS abajo todavía (y = y-neg), así que los dos no se
+// confunden. El único cruce es el del bajante negativo contra el ramal B,
+// y va con salto explícito. La primera versión los dejó a la MISMA altura
+// —y quedaban fundidos en una sola línea, que es un error eléctrico, no
+// de legibilidad—; se vio mirando el render, no compilando.
+#let fig-fuente-doble() = esquema({
+  import zap: *
+  let (yb, ym, ya) = (0.2, 1.6, 3.0)
+  // --- transformador con punto medio ---
+  inductor("L1", (0, ya), (0, yb))
+  _nucleo(0.52, -0.15, ya + 0.15)
+  inductor("L2a", (1.25, ym + 0.08), (1.25, ya))
+  inductor("L2b", (1.25, yb), (1.25, ym - 0.08))
+  wire((1.25, ym - 0.08), (1.25, ym + 0.08))
+  node("m", (1.25, ym))
+  wire((0, ya), (-0.8, ya))
+  wire((0, yb), (-0.8, yb))
+  node("p1", (-0.8, ya), fill: false)
+  node("p2", (-0.8, yb), fill: false)
+  cetz.draw.content((-0.95, ym), text(size: letra-figura)[220 V], anchor: "east")
+  // el punto medio ES la masa: la salida se parte respecto de él
+  wire((1.25, ym), (2.3, ym))
+  ground("GM", (2.3, ym))
+  cetz.draw.content((2.3, ym - 0.62), text(size: letra-figura)[masa], anchor: "north")
+  // --- puente sobre el secundario completo ---
+  let (iz, ar, de, ab) = ((3.4, ym), (4.6, ym + 1.2), (5.8, ym), (4.6, ym - 1.2))
+  diode("D1", iz, ar, label: none)
+  diode("D2", de, ar, label: none)
+  diode("D3", ab, iz, label: none)
+  diode("D4", ab, de, label: none)
+  cetz.draw.content((3.65, ym + 0.95), text(size: letra-figura, $D_1$), anchor: "east")
+  cetz.draw.content((5.55, ym + 0.95), text(size: letra-figura, $D_2$), anchor: "west")
+  cetz.draw.content((3.65, ym - 0.95), text(size: letra-figura, $D_3$), anchor: "east")
+  cetz.draw.content((5.55, ym - 0.95), text(size: letra-figura, $D_4$), anchor: "west")
+  node("n-iz", iz)
+  node("n-de", de)
+  node("n-ar", ar)
+  node("n-ab", ab)
+  // toma A (arriba del secundario) -> vértice izquierdo
+  wire((1.25, ya), (2.8, ya))
+  wire((2.8, ya), (2.8, ym))
+  wire((2.8, ym), iz)
+  cetz.draw.content((2.8, ya + 0.18), text(size: letra-figura)[A], anchor: "south")
+  // toma B (abajo del secundario) -> vértice derecho, rodeando por abajo
+  let y-B = -0.8
+  wire((1.25, yb), (1.25, y-B))
+  wire((1.25, y-B), (4.44, y-B))
+  wire((4.76, y-B), (6.6, y-B))
+  _salto(4.6, y-B)
+  wire((6.6, y-B), (6.6, ym))
+  wire((6.6, ym), de)
+  cetz.draw.content((1.42, y-B + 0.18), text(size: letra-figura)[B], anchor: "west")
+  // --- rieles de salida: simétricos respecto de la masa ---
+  let y-gnd = 0.9
+  let y-pos = y-gnd + 2.9
+  let y-neg = y-gnd - 2.9
+  wire(ar, (4.6, y-pos))
+  wire((4.6, y-pos), (9.0, y-pos))
+  wire(ab, (4.6, y-neg))
+  wire((4.6, y-neg), (9.0, y-neg))
+  wire((6.9, y-gnd), (9.0, y-gnd))
+  ground("G", (9.0, y-gnd))
+  // capacitores y cargas, uno por rama
+  node("cp", (6.9, y-pos))
+  pcapacitor("C1", (6.9, y-pos), (6.9, y-gnd), label: none)
+  node("cg", (6.9, y-gnd))
+  pcapacitor("C2", (6.9, y-gnd), (6.9, y-neg), label: none)
+  node("cn", (6.9, y-neg))
+  cetz.draw.content((6.42, (y-pos + y-gnd) / 2), text(size: letra-figura, $C_1$), anchor: "east")
+  cetz.draw.content((6.42, (y-gnd + y-neg) / 2), text(size: letra-figura, $C_2$), anchor: "east")
+  node("rp", (8.1, y-pos))
+  resistor("RL1", (8.1, y-pos), (8.1, y-gnd), label: none)
+  node("rg", (8.1, y-gnd))
+  resistor("RL2", (8.1, y-gnd), (8.1, y-neg), label: none)
+  node("rn", (8.1, y-neg))
+  cetz.draw.content((8.28, (y-pos + y-gnd) / 2), text(size: letra-figura, $R_(L 1)$), anchor: "west")
+  cetz.draw.content((8.28, (y-gnd + y-neg) / 2), text(size: letra-figura, $R_(L 2)$), anchor: "west")
+  cetz.draw.content((9.15, y-pos), text(size: letra-figura)[$+V$], anchor: "west")
+  cetz.draw.content((9.15, y-neg), text(size: letra-figura)[$-V$], anchor: "west")
+})
+
+
 // ---------------------------------------------------------------
 //  Módulo 6 — Transistores y relés
 // ---------------------------------------------------------------

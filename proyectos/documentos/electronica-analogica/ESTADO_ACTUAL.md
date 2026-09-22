@@ -1,8 +1,95 @@
 # Estado actual — Apunte de Aplicaciones de Electrónica Analógica (4.º año)
 
-**Fecha:** 2026-09-04
+**Fecha:** 2026-09-22
 **Rama:** `main` — hay una sola rama; el proyecto es una carpeta, no una rama.
-**Estado: APUNTE COMPLETO EN DOS PARTES.** 149 páginas, 15 módulos más anexos.
+**Estado: APUNTE COMPLETO EN DOS PARTES.** **156 páginas**, 15 módulos más anexos.
+**Fase 3b cerrada el 2026-09-22**: la cobertura de la guía del II cuatrimestre
+está medida, no supuesta.
+
+## Cobertura de la guía de TP, medida (2026-09-22)
+
+**Lo primero que hay que decir, porque cambia cómo se lee todo lo demás: la
+guía del II cuatrimestre ya estaba en el repo.** `fuentes/TP_II_completo.pdf` y
+`fuentes/TP_II_cuatrimestre.pdf` son **el mismo archivo byte por byte**, MD5
+`23556307f1dfb159f9708c4f3a5abc09`, desde el 2026-08-23 — y el PDF que se
+aportó esta sesión tiene ese mismo MD5. No entró material nuevo. Lo que faltaba
+no era la fuente: era **un medidor que dijera si el apunte la cubría**.
+
+Al itemizarla salieron **43 consignas** y, contra el apunte del 2026-09-04,
+**seis sin ninguna sección que las respondiera**:
+
+| Consigna que no estaba cubierta | Qué faltaba |
+|---|---|
+| TP 7 parte 3 entera (4 consignas) | La **fuente doble simétrica** no existía en el apunte. El Módulo 4 tiene el *rectificador de punto medio* de dos diodos, que es otro circuito: el TP pide cuatro diodos sobre el secundario completo con el punto medio como masa |
+| «medir la continua **sin carga y con carga**», en las tres partes | El apunte calculaba sólo el caso con carga. Es el número que el alumno mide primero y el que más lo confunde |
+| «**evaluar la reducción del ripple**» del TP 8 | El apunte decía «algunas decenas de milivolts», que es una impresión y no una evaluación |
+
+Y tres más que estaban a medias: la tabla de valores esperados del punto 1 del
+TP 6, el procedimiento de medición del rizado, y la corriente **por cada**
+diodo del puente.
+
+### Lo que se escribió para cerrarlas
+
+- **`M5 §La fuente doble (simétrica)`** — sección nueva con la figura
+  `fig-fuente-doble` y el Ejercicio 5.3 resuelto (±15,5 V, 1,63 V de rizado por
+  rama, 10,5 %). El resultado que la hace valer la pena: **cada rama pierde un
+  solo diodo, no dos**, verificado por dos caminos (análisis por semiciclo, y
+  la salida total $2V_p - 1,4$ que un puente le saca al secundario completo).
+- **`M5 §Sin carga y con carga: por qué el tester marca de más`** — los dos
+  números y la tabla que los compara, más el dato que explica casi todas las
+  diferencias contra lo calculado: un transformador de «12 V» entrega 13 o 14 V
+  en vacío, porque su chapita es a plena carga.
+- **`M5 §Cuánto rizado queda después del zener`** — la resistencia dinámica
+  $r_z$, la @ec-rechazo-zener y la predicción falsable: entre **13 y 62 mV**,
+  o sea una reducción de 25 a 120 veces. Con el diagnóstico si sale menos: el
+  zener se está apagando en el valle.
+- **`M5 §Lo que se mide, y cómo`** (3 subsecciones) — el rizado en acoplamiento
+  CA, las cuatro capturas que piden los TP y **la masa del osciloscopio está
+  conectada a tierra**, que la consigna no menciona: en la fuente doble, el
+  segundo cocodrilo en $-V$ cortocircuita esa rama contra masa y quema diodos.
+- **`M4 §Levantar la curva en el laboratorio`** — la tabla de 13 valores
+  esperados con $R = 100 Ω$, por qué el amperímetro marca cero en inversa —y
+  por qué **eso es** la medición—, y por qué las dos ramas no entran en la
+  misma escala de la hoja milimetrada.
+
+### Lo que lo mide, y lo que se probó rompiendo
+
+`verificar-cobertura.py` (nuevo) resuelve cada ancla `M5 §Título exacto` contra
+el `.typ`: **43 consignas, 52 anclas, 1 diferida con motivo escrito** (el
+registro de resultados, que es la fase 4). Deny-by-default: una consigna no
+está cubierta por estar el tema en el apunte, sino por estar declarada.
+
+`probar-verificar-cobertura.py` (nuevo) lo rompe de cinco maneras y exige el
+rojo, más el control positivo: **5/5 en rojo, control en verde**. El sabotaje
+(c) es el caso real —renombrar una sección del apunte que el banco cita— y no
+el irreal de editar el banco para romperlo.
+
+Y `verificar.py` pasó de cinco chequeos a **seis**: el nuevo resuelve las
+referencias de texto plano `Ejercicio N.M`. Se probó en rojo dos veces
+(ejercicio inexistente y módulo inexistente) y el control positivo en verde.
+
+**Nació de un error propio de la misma sesión**, y por eso está: al insertar la
+fuente doble como Ejercicio 5.3, el zener pasó de 5.3 a 5.4 y **dos referencias
+quedaron apuntando al circuito equivocado**. El apunte compiló sin una queja.
+Es exactamente la trampa que `documentos.md` nombra, cometida por quien la
+tenía en el contexto.
+
+### Lo que este medidor NO mide
+
+Que la sección **realmente conteste** la consigna. Eso se lee. Atrapa el ancla
+rota, el módulo cruzado y la sección renombrada. Y no mide la guía del **I**
+cuatrimestre (TP 1 a 5): es la fase 3c, pendiente.
+
+### El PDP, migrado
+
+`PDP.md` pasó al molde nuevo de `arquitectura-se`: §3 con el rigor **por
+aspecto** (cuatro aspectos), §4 con la columna *Cómo se certifica*, §8 con la
+**matriz de cumplimiento** — 16 filas, 13 `cumple`, 3 `recortado`, las tres con
+su resta escrita. El recorte más caro y el que hay que tener a la vista: **no
+hay alarma que se pueda romper para «se miró el render»**, y ya pasó que el
+estado afirmara «las 30 figuras se ven bien» siendo falso.
+
+`medir-fase.py` bajó de 8 PDP sin migrar a **7**.
 
 ## Qué es esto
 
