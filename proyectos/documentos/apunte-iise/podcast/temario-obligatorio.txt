@@ -1,0 +1,151 @@
+TEMARIO OBLIGATORIO DEL PODCAST - Introduccion a la Ingenieria de Sistemas Espaciales (UNSAM)
+
+INSTRUCCIONES PARA LOS PRESENTADORES
+Este documento es una lista de control, no material nuevo. El contenido esta en el apunte (fuente principal).
+Reglas:
+1. Cada item numerado de abajo se NOMBRA en voz alta y se EXPLICA en 2 a 4 frases. Ninguno se omite ni se fusiona con otro.
+2. Se respeta el orden de la lista.
+3. Mejor breve y completo que profundo e incompleto. Si falta tiempo, se acorta la explicacion de cada tema, nunca se saltea un tema.
+4. Al terminar cada bloque, se dice en voz alta "cerramos el bloque X" y se enumeran sus temas en una frase.
+5. Las distinciones de vocabulario (lo que NO es sinonimo de otra cosa) se remarcan siempre: el examen evalua esas distinciones.
+
+======================================================================
+BLOQUE 1 - VOCABULARIO Y FUNDAMENTOS (modulos 1 a 4)
+======================================================================
+1.  Las dos decisiones de vocabulario del lexico controlado.
+2.  Unidad 1 del glosario: que es esto.
+3.  Unidad 2 del glosario: pensamiento de sistema y arquitectura.
+4.  Unidad 3 del glosario: el rol del arquitecto.
+5.  Ciencia, tecnologia e ingenieria: tres actividades, no tres sinonimos.
+6.  La actividad del ingeniero.
+7.  CDIO: que desbalance vino a corregir.
+8.  Que es un proyecto.
+9.  El triangulo de hierro.
+10. Investigacion no es desarrollo.
+11. Las tres actividades que se confunden.
+12. Como se ve un proyecto de punta a punta.
+13. La ingenieria de sistemas como disciplina y por que aparecio.
+14. Las definiciones de ingenieria de sistemas.
+15. Que es un sistema, y el principio de los niveles.
+16. INCOSE.
+17. Historia de la IS: que aporto cada programa.
+
+======================================================================
+BLOQUE 2 - ARQUITECTURA Y PENSAMIENTO DE SISTEMA (modulos 5 a 9)
+======================================================================
+18. Que es la arquitectura de un sistema.
+19. Sistemas complejos: no es solo "grande".
+20. Ventajas de una buena arquitectura y costo de una mala.
+21. Que hace buena a una arquitectura.
+22. Principios, metodos y herramientas.
+23. Pensamiento sistemico, no sistematico.
+24. La definicion de sistema y la prueba por el negativo.
+25. Lo emergente: la magia y el poder de los sistemas.
+26. Tarea 1: forma y funcion.
+27. Tarea 2: entidades, limite y contexto.
+28. Tarea 3: relaciones entre entidades.
+29. La tabla N2.
+30. Tarea 4: predecir lo emergente.
+31. El arquitecto: un especialista, no un generalista.
+32. Los tres roles.
+33. El principio del rol del arquitecto.
+34. Los entregables del arquitecto.
+
+======================================================================
+BLOQUE 3 - AMBIGUEDAD, PDP Y POR QUE HACE FALTA LA IS (modulos 10 a 15)
+======================================================================
+35. Por que la "parte delantera difusa" es dificil.
+36. Borrosidad e incertidumbre: dos ideas, no una.
+37. Informacion desconocida, conflictiva y falsa.
+38. Las influencias ascendentes y descendentes.
+39. Que es un PDP y para que sirve.
+40. Cuatro PDP reales y que tienen en comun.
+41. El PDP generico.
+42. El PDP global: tres vistas anidadas.
+43. El principio de las tensiones de la practica moderna.
+44. Saturno V: el margen que hizo posible el Apollo.
+45. El espejo del Hubble: cada parte funciona y el sistema falla.
+46. El nivel del especialista y por que no alcanza solo.
+47. Que es un sistema de sistemas.
+48. La Estacion Espacial Internacional como sistema de sistemas.
+49. Por que eso exige procesos estandarizados.
+50. Dos formas de descomponer un problema grande.
+51. Ejemplo: el Space Shuttle.
+52. Ejemplo: un nuevo rover para Marte.
+53. Cuantos niveles de descomposicion hacen falta.
+54. Por que los grandes proyectos espaciales luchan.
+55. El motor de la ingenieria de sistemas de NASA.
+56. Los atributos del ingeniero de sistemas.
+
+======================================================================
+BLOQUE 4 - CICLO DE VIDA Y REQUERIMIENTOS (modulos 16 a 22)
+======================================================================
+57. Las siete fases del ciclo de vida de NASA.
+58. El ciclo de vida en clave CDIO.
+59. El diagrama en V.
+60. El diagrama en V aplicado a software.
+61. Que es un requerimiento.
+62. Un requerimiento pobre: el Mars Climate Orbiter.
+63. Un buen requerimiento: el DC-3.
+64. Estandares de requerimientos.
+65. Descomposicion, alojamiento y validacion.
+66. La gestion de margenes.
+67. El flujo de definicion de requerimientos tecnicos.
+68. La semantica: shall, will, should (y en que se diferencian).
+69. El Programa Apollo como ejemplo largo.
+70. Requerimiento funcional del Apollo: comunicacion.
+71. Trazabilidad: seis niveles, un solo objetivo.
+72. Los niveles de requerimientos L0, L1, L2 y siguientes.
+73. Interfaces: la union Modulo de Comando - Modulo Lunar.
+74. Verificar (y por que no es lo mismo que validar).
+75. Validar.
+76. El alojamiento de requerimientos en tres aplicaciones.
+77. Los elementos del alcance.
+78. El Concepto de Operacion (ConOps).
+79. Ejemplo completo: el Crew Exploration Vehicle (CEV).
+80. Por que los requerimientos importan tanto.
+81. La curva de la tasa de fracasos.
+82. El diagrama en V a nivel macro.
+83. La familia de requerimientos.
+84. Interfaces: siempre que se descompone, aparecen.
+85. Herramientas automatizadas de requerimientos.
+86. El Ejercicio de Alcance.
+87. Seis Conceptos de Operacion reales.
+88. La dinamica de traducir necesidades en requerimientos.
+89. Requerimientos SMART.
+90. Reglas para una buena escritura de requerimientos.
+91. El checklist de nueve preguntas.
+92. La rationale: por que existe un requerimiento.
+93. Verificacion y validacion en la practica.
+
+======================================================================
+BLOQUE 5 - CICLO DE VIDA A FONDO, ARQUITECTURA Y FASE A (modulos 23 a 28)
+======================================================================
+94.  Pre-Fase A a fondo.
+95.  La baseline.
+96.  Comparacion de modelos de ciclo de vida.
+97.  Tres formas de gestionar el conocimiento de un proyecto (ingenieria concurrente).
+98.  Mecatronica y robotica.
+99.  Dos definiciones mas de arquitectura.
+100. Como se desarrolla una arquitectura, paso a paso.
+101. Dos tecnicas (sintesis y descubrimiento) y cuatro metodos.
+102. Los factores que se balancean.
+103. Arquitectura contra diseno, sin ambiguedad.
+104. Como se describe una arquitectura.
+105. Que produce la Fase A.
+106. Mars 2020: un ConOps sintetizado en un cuadro.
+107. Heredar del Curiosity, y por que fue la decision correcta.
+108. Interfaces en la Fase A.
+109. El thruster: de la necesidad al hardware.
+110. Gestion de riesgo y de recursos durante toda la fase.
+111. SRR: la primera revision tecnica.
+112. MDR: la segunda revision tecnica.
+113. Las acciones abiertas no se pierden entre revisiones.
+114. El diagrama N2 aplicado a interfaces.
+115. Lazos de realimentacion en el N2.
+116. Caso real: el TDRS.
+117. Ejercicio: alojar las interfaces de un control remoto de TV.
+118. La matriz de diseno de un vehiculo lanzador.
+119. Cuatro usos del N2.
+
+FIN DEL TEMARIO. Total: 119 temas. Al cerrar, los presentadores confirman que se cubrieron los cinco bloques.
