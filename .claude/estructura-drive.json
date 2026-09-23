@@ -29,6 +29,11 @@
         "que-va": "material de antes de UNSAM que ya no se trabaja. Se guarda, no se ordena mas."
       },
       {
+        "nombre": "03 - CLASES PARTICULARES - compartido con alumnos",
+        "sensibilidad": "compartido con nombre, alumno por alumno",
+        "que-va": "una subcarpeta por alumno/materia, compartida SOLO con ese alumno como lector. La escribe proyectos/documentos/clases-aed (repo aparte). Nada con 'anyone'."
+      },
+      {
         "nombre": "Coaching",
         "sensibilidad": "solo Fran",
         "que-va": "espejo que escribe proyectos/seguimiento/coaching/publicar-drive.ps1. NO SE TOCA A MANO: el script compara por checksum contra esta ruta exacta y un rename lo rompe en silencio."
@@ -59,6 +64,17 @@
         "quien-etiqueta": [
           "companero del grupo de laboratorio de Teoria de Circuitos (1 de 2)",
           "companera del grupo de laboratorio de Teoria de Circuitos (2 de 2)"
+        ]
+      },
+      {
+        "sobre": "03 - CLASES PARTICULARES - compartido con alumnos/AED 6to EEST1 - examen 10-10-2026",
+        "rol": "reader",
+        "por-que": "alumna particular de AED III (EEST N1), examen del 10/10/2026. Compartido 2026-09-23 a pedido de Fran. Revocar despues del examen si ya no se usa.",
+        "quien-sha256": [
+          "715c17b686dcde7d"
+        ],
+        "quien-etiqueta": [
+          "alumna particular de AED III"
         ]
       },
       {

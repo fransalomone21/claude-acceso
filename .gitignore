@@ -50,3 +50,4 @@ __pycache__/
 # no avisa. Lo genera bootstrap.ps1 en cada maquina.
 .claude/settings.json
 proyectos/seguimiento/haberes-docentes/
+proyectos/documentos/clases-aed/
