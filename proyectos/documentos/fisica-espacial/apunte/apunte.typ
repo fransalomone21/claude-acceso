@@ -126,7 +126,11 @@
   tiene sentido preguntarse hacia dónde apunta algo cuando ya se sabe dónde
   está.
 
-  Los cuatro módulos van en el orden en que se necesitan las piezas. Primero la
+  Abre el caso más simple, que es el del Sears y el de la lista de temas
+  «Impulso angular»: un cuerpo que gira alrededor de un eje que no se mueve.
+  Ahí aparecen el momento de inercia, el torque, $L = I omega$ y el
+  giróscopo, con una sola dirección en juego. Los cuatro módulos que siguen
+  sacan esa restricción, en el orden en que se necesitan las piezas. Primero la
   cinemática —cómo se describe la rotación, y sobre todo cómo se deriva un
   vector cuando el sistema desde el que se mira está girando, que es el caso
   general del que la Parte I dedujo la mitad—, y de esa herramienta dependen
@@ -138,10 +142,11 @@
   satélite estabilizado por rotación al que se le apagó el último motor.
 ])
 
-#include "modulos/m17-cinematica-cr.typ"
-#include "modulos/m18-inercia.typ"
-#include "modulos/m19-euler-giroscopo.typ"
-#include "modulos/m20-peonza.typ"
+#include "modulos/m17-rotacion.typ"
+#include "modulos/m18-cinematica-cr.typ"
+#include "modulos/m19-inercia.typ"
+#include "modulos/m20-euler-giroscopo.typ"
+#include "modulos/m21-peonza.typ"
 
 // ---------------------------------------------------------------------
 #parte(6, "Anexos", [

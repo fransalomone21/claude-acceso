@@ -134,6 +134,23 @@
 // las citas puntuales.
 #let lectura(cuerpo) = caja([Dónde leerlo — el capítulo del libro], c-libro, cuerpo)
 
+// El aparte: en teatro, lo que el actor le dice al público por un costado,
+// sin que se entere el resto de la escena. Acá es el humor del apunte, y va
+// FUERA de las cajas a propósito (decisión del 2026-09-25, a pedido de
+// Fran): un chiste adentro de una deducción compite con el rigor, y uno
+// suelto en la prosa no se puede contar. Reglas de uso en CLAUDE.md, regla
+// propia 8: nunca lleva física que no esté dicha en otro lado, nunca va en
+// medio de una cuenta, y va donde el lector afloja -- antes de una
+// deducción larga o después de un resultado que costó.
+#let aparte(cuerpo) = block(
+  width: 100%,
+  above: 9pt,
+  below: 9pt,
+  inset: (left: 9pt, y: 2pt),
+  stroke: (left: 1.4pt + c-rosa.lighten(35%)),
+  text(size: 9.6pt, style: "italic", fill: luma(55), cuerpo),
+)
+
 // ---------- Ficha de ejercicio (anexos: guía de acompañamiento) ----------
 //
 // No es una caja semántica más del cuerpo del apunte -- no reemplaza a
@@ -499,6 +516,11 @@
             [la posta: la misma idea de arriba, en criollo y sin vueltas —
              qué ganás, a qué te ahorrás pensar, y por qué el truco funciona.
              No reemplaza a los cuadros técnicos, va además de ellos.],
+
+            text(fill: c-rosa.lighten(20%), weight: "bold", style: "italic")[Al costado],
+            [los apartes, en cursiva y con una raya al margen: comentarios
+             para el lector, no para el examen. Se pueden saltear sin perder
+             nada de física — pero no se recomienda.],
           )
         ]
       ]

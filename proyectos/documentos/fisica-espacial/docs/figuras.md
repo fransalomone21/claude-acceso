@@ -205,6 +205,7 @@ cada figura.
 | `fig-hohmann` | `maniobras` | la transferencia Tierra–Marte: la media elipse, los dos Δv y el ángulo de fase en el lanzamiento |
 | `fig-rendezvous-phasing` | `maniobras` | el rendez-vous del Problema 10: la órbita de fasaje que cierra un cuarto de vuelta en una revolución |
 | `fig-roadmap-curtis` | `maniobras` | el mapa de Curtis (apéndice B) redibujado: los once resultados de la Parte III y de dónde sale cada uno |
+| `fig-giroscopo-pivote` | `rotacion` | el giróscopo apoyado en un pivote, en dos paneles: de costado (peso, normal, r y el torque que entra en la hoja) y desde arriba (L, dL, L + dL, dphi y el sentido de Omega). Redibujada de S&Z Figs. 10.34 y 10.35, pág. 323-324 |
 | `fig-vector-rotante` | `cinematica-cr` | los dos casos de la derivada en un sistema rotante: Q clavado al sistema, y Q que además cambia adentro |
 | `fig-suma-omegas` | `cinematica-cr`, `inercia` | el Problema 2 de la guía: las dos velocidades angulares que se suman, y el eje instantáneo que sale de la suma |
 | `fig-conos` | `cinematica-cr`, `peonza` | el cono espacial y el cono corporal, tangentes a lo largo del eje instantáneo |

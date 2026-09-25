@@ -6,6 +6,35 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-25 — módulo `rotacion` y el piloto del tono
+
+**Fase 9 cerrada; la 10 abierta y esperando a Fran.** Detalle en
+`ESTADO_ACTUAL.md`; las fases 10–12 con su criterio, en `PDP.md` §4.
+
+**Lo que sigue depende de una sola cosa: que Fran lea las págs. 141–150 y
+diga si el tono va.** Sin eso no se toca ningún otro módulo (rehacer 20 es el
+error caro) y **no se corre `publicar-apuntes.ps1`**: el Drive es público y
+los apartes nombran al profesor. `publicar-apuntes.ps1 -Verificar` va a dar
+el apunte como desactualizado hasta entonces — es esperado, no una falla.
+
+**Trampas pagadas en esta sesión:**
+
+- **`#f[...];` en Typst: el `;` se lo come el intérprete** como fin de la
+  expresión de código, y el texto sale sin él y sin error. Pasó dos veces
+  con `#repaso[...]; ...`. Se escribe `#repaso[...]\;`.
+- **Un `table` suelto se parte entre páginas.** La tabla de analogías quedó
+  con el encabezado solo al pie; se envuelve en
+  `block(breakable: false, ...)`.
+- **El título de una caja no es matemática**: `#deduccion("... tau = I
+  alpha")` imprime la palabra. Se escribe en castellano.
+- **Un ejemplo escrito de memoria antes de abrir el libro** — la patinadora
+  «del Ejemplo 10.10» — resultó ser otro ejemplo (un profesor con
+  mancuernas) y con otra ecuación (10.30). Se reemplazó por el del libro,
+  verificado.
+
+**Para la fase 11:** `python medir-estilo.py` dice qué falta, módulo por
+módulo. El orden de tandas está en el PDP.
+
 ## Sesión del 2026-09-21 — pasos intermedios en la ecuación de la órbita
 
 **Cerrado.** Detalle completo en `ESTADO_ACTUAL.md`. Regla nueva: `CLAUDE.md`

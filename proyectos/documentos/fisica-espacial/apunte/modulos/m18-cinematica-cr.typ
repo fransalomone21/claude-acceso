@@ -10,8 +10,10 @@
   aparato que en el módulo #M("euler-giroscopo") produce las ecuaciones de Euler.
 ]
 
-Los once módulos anteriores trataron a cada cuerpo como un *punto*: una masa
-sin tamaño, con una posición y nada más. Alcanzó para una órbita entera
+Hasta el módulo #M("tres-cuerpos"), cada cuerpo fue un *punto*: una masa sin tamaño, con una
+posición y nada más. El módulo #M("rotacion") hizo una trampa honesta —le dio
+tamaño al cuerpo pero le clavó el eje de giro en una dirección fija— y acá esa
+trampa se termina. Alcanzó para una órbita entera
 porque la Tierra vista desde $42 thin 000$ km efectivamente es un punto. Deja
 de alcanzar apenas la pregunta cambia de *dónde está* el satélite a *hacia
 dónde apunta*: una antena, una cámara, un panel solar y un motor apuntan a

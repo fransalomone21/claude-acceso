@@ -1,5 +1,56 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fase 9 cerrada: el módulo `rotacion` (Sears caps. 9–10), y el tono nuevo en piloto — 2026-09-25
+
+Fran trajo la *Lista de temas Impulso angular (1)* y pidió tres cosas: que
+todo esté explicado y diga de dónde sale («esto es del Sears que tanto le
+gusta a Aníbal»), un tono humorístico casual en todo el apunte, y resolver el
+ejercicio del giróscopo apoyado en un poste.
+
+**Lo que midió el cruce:** el apunte no tenía el escalón del Sears. Iba del
+momento angular de partícula (módulo 8, Beer) al cuerpo rígido en 3D (Beer
+cap. 18) sin $K = \frac12 I\omega^2$, $\tau = I\alpha$, $L = I\omega$ ni la
+precesión elemental — `grep` de cada una contra los 20 módulos: cero.
+
+**Lo que se hizo:**
+
+- **Módulo nuevo `m17-rotacion.typ`** (clave `rotacion`), primero de la parte
+  de cuerpo rígido; los cuatro de CR pasaron a ser 18–21 (`git mv`, y el
+  sabotaje 1 de `probar-verificar-apunte.py` actualizado a los nombres
+  nuevos). Nueve secciones, una por fila de la lista, con la sección y la
+  página impresa del Sears en cada una (offset medido: pág. impresa = pág.
+  del PDF − 27). Abre por el **experimento** —la rueda que no cae— y no por
+  la teoría, que es como pide la cátedra.
+- **El ejercicio del giróscopo es el Problema S&Z 10.51 de la guía** (rotor
+  0,140 kg, marco 0,0250 kg, 4,00 cm, una vuelta cada 2,20 s): resuelto a
+  fondo, $n = 1{,}62$ N y $\omega = 189$ rad/s $= 1{,}80\times10^3$ rpm.
+  Además el Ejemplo 10.13 del libro ($\omega = 277$ rad/s, horaria) y el
+  10.10 (el profesor con mancuernas, $2{,}5$ vueltas/s). Los tres,
+  recalculados a mano y coincidentes con el libro y con el Anexo A.
+- **Figura nueva `fig-giroscopo-pivote`** (de costado y desde arriba),
+  redibujada de S&Z Figs. 10.34–10.35 y mirada en la galería y en el PDF.
+- **`#aparte[...]`**, función nueva en `plantilla.typ` y en la leyenda de la
+  carátula: el humor va ahí, nunca suelto ni adentro de una caja. Regla
+  propia 8 en `CLAUDE.md`. El módulo 17 lleva 10, y es **el piloto**: el
+  resto del apunte no se toca hasta que Fran apruebe el tono (fase 10).
+- **Anexo A:** las fichas de S&Z 10.1, 10.51 y 10.53 apuntan ahora al módulo
+  `rotacion`, y dejaron de ser «cuenta propia» (quedan 13).
+- **`medir-estilo.py`**, el tablero de la fase 11: secciones sin libro,
+  módulos sin `#posta` y sin `#aparte`. Hoy da **PENDIENTE: 58**.
+- **PDP §4:** fases 9 (cerrada), 10, 11 y 12 escritas con su criterio de
+  salida.
+
+**Verificado:** `typst compile` sin errores (**187 páginas**, antes 176); las
+diez páginas del módulo (141–150 impresas) miradas en el render —se
+encontraron y arreglaron tres defectos: un `;` que Typst se comía después de
+una nota al pie, la tabla de analogías partida entre dos páginas y un título
+de caja con «TAU = I ALPHA»—; `verificar-apunte.py` en verde con el módulo
+nuevo usando sólo los módulos 1, 4 y 8; `indice-temas.py` regenerado;
+`probar-verificar-apunte.py` con los cuatro sabotajes en rojo.
+
+**No se publicó al Drive**, a propósito: la carpeta es pública por link y
+los apartes hablan del profesor. Se sube cuando cierre la fase 10.
+
 ## Pasos intermedios en la ecuación de la órbita (módulo 10) — 2026-09-21
 
 Fran pidió desarrollar con más pasos intermedios las ecuaciones de §10.3 "La

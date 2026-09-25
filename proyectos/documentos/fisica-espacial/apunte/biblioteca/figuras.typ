@@ -1353,6 +1353,58 @@
 })
 
 // =====================================================================
+//  Módulo `rotacion` — Rotación alrededor de un eje fijo (el Sears)
+// =====================================================================
+
+// --- El giróscopo apoyado en un pivote ----------------------------------
+// Dos paneles, como Sears Figs. 10.34 y 10.35: de costado, las dos fuerzas
+// y el torque del peso (que entra en la hoja); desde arriba, L + dL y el
+// ángulo d(phi) que barre el eje. En los dos, x hacia la derecha; de
+// costado z sube y y ENTRA en la hoja; desde arriba y sube y z SALE de la
+// hoja. Con L = +x y tau = +y, el eje gira antihorario visto desde arriba.
+#let fig-giroscopo-pivote = paneles(
+  ("de costado", esquema({
+    // el poste y la mesa
+    cetz.draw.line((-0.9, 0), (1.2, 0), stroke: trazo-cuerpo + c-trazo)
+    cetz.draw.line((0, 0), (0, 2.2), stroke: 1.6pt + c-trazo)
+    // el eje del volante, apoyado sólo en la punta del poste
+    cetz.draw.line((0, 2.2), (3.1, 2.2), stroke: 1.2pt + c-trazo)
+    // el volante, visto de canto
+    cetz.draw.rect((2.3, 1.3), (2.6, 3.1), fill: luma(225), stroke: trazo-cuerpo + c-trazo)
+    masa((2.45, 2.2), radio: 0.06)
+    // r, del pivote al centro de masa
+    flecha((0, 2.2), (2.45, 2.2), etiqueta: $bold(r)$, color: c-aux, lado: "south", pos: 40%)
+    // las dos fuerzas
+    flecha((2.45, 2.2), (2.45, 0.8), etiqueta: $bold(w) = M bold(g)$, lado: "west", pos: 95%)
+    flecha((0, 1.0), (0, 2.1), etiqueta: $bold(n)$, color: c-aux, lado: "east", pos: 30%)
+    // L a lo largo del eje, hacia afuera del pivote
+    flecha((2.6, 2.2), (3.9, 2.2), etiqueta: $bold(L)$, lado: "south", pos: 100%)
+    // el torque del peso entra en la hoja: cruz en un círculo
+    cetz.draw.circle((0, 2.9), radius: 0.16, stroke: 0.8pt + c-dato)
+    cetz.draw.line((-0.11, 2.79), (0.11, 3.01), stroke: 0.8pt + c-dato)
+    cetz.draw.line((-0.11, 3.01), (0.11, 2.79), stroke: 0.8pt + c-dato)
+    rotulo((-0.3, 2.9), text(fill: c-dato)[$bold(tau) = bold(r) times bold(w)$ \ (entra en la hoja)], ancla: "east")
+    rotulo((-0.25, 2.2), [$O$], ancla: "east")
+  })),
+  ("desde arriba", esquema({
+    let O = (0, 0)
+    masa(O, radio: 0.06)
+    rotulo((-0.1, -0.1), [$O$], ancla: "north-east")
+    // L, dL y L + dL
+    flecha(O, (2.8, 0), etiqueta: $bold(L)$, lado: "north", pos: 60%)
+    flecha((2.8, 0), (2.8, 0.75), etiqueta: $d bold(L) = bold(tau) thin d t$, lado: "west", pos: 60%)
+    flecha(O, (2.8, 0.75), etiqueta: $bold(L) + d bold(L)$, color: c-aux, lado: "south-east", pos: 55%, punteada: true)
+    angulo(O, 0, 15, etiqueta: $d phi$, radio: 1.3)
+    // la precesión: el eje entero gira alrededor de O
+    cetz.draw.arc(O, start: 35deg, stop: 150deg, radius: 1.5, anchor: "origin",
+      stroke: 0.8pt + c-aux, mark: (end: "stealth", scale: 0.45, fill: c-aux))
+    rotulo((-0.55, 1.55), text(fill: c-aux)[$Omega$ (sale de la hoja)], ancla: "south")
+    // el torque, visto desde arriba, apunta como d L
+    rotulo((0.1, -0.55), text(size: 7.5pt, fill: luma(80))[el peso entra en la hoja; $bold(tau)$ va como $d bold(L)$], ancla: "west")
+  })),
+)
+
+// =====================================================================
 //  Módulo `cinematica-cr` — Cinemática del cuerpo rígido y sistemas rotantes
 // =====================================================================
 
@@ -2393,6 +2445,7 @@
   ("fig-hohmann", fig-hohmann),
   ("fig-rendezvous-phasing", fig-rendezvous-phasing),
   ("fig-roadmap-curtis", fig-roadmap-curtis),
+  ("fig-giroscopo-pivote", fig-giroscopo-pivote),
   ("fig-vector-rotante", fig-vector-rotante),
   ("fig-suma-omegas", fig-suma-omegas),
   ("fig-conos", fig-conos),

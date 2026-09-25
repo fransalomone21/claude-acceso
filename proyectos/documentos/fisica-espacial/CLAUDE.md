@@ -162,6 +162,37 @@ si el módulo que la usa la hubiera definido él. Se encontró y se arregló al
 agregar el primer caso de uso: probado viendo `<vec-polares>` desaparecer de
 la lista de "usa después" del módulo 10 y seguir en la del módulo 1.
 
+**8. El humor va en `#aparte[...]`, nunca suelto ni adentro de una caja
+técnica.** Decisión del 2026-09-25, a pedido de Fran: el apunte lleva un tono
+humorístico casual que aparece *antes y después* de los formalismos, en los
+momentos en que el lector afloja, para que den ganas de seguir. `#aparte`
+(en `plantilla.typ`) es cursiva con una raya rosa al margen, y está en la
+leyenda de la carátula. Reglas:
+
+- **nunca lleva física que no esté dicha en otro lado** — igual que `#posta`
+  (regla 3), se puede saltear sin perder nada;
+- **nunca va en medio de una cuenta ni adentro de una caja** azul, verde o
+  roja: compite con el rigor;
+- **el personaje es la cátedra, no una persona a la que se ridiculiza.**
+  Aníbal —el profesor— aparece como lo que es: el que manda a leer los libros,
+  el que pide ir del experimento a la teoría y no al revés, el que corta una
+  exposición con «esto se hace así», el de los cuatrocientos PDFs del
+  Classroom. Se le toma el pelo a la *situación*, con cariño; nunca se le
+  atribuye algo que no dijo o hizo. **El PDF se publica en una carpeta
+  pública por link** que ven los compañeros —y quizás él—: si un chiste no
+  se le podría mostrar, no va;
+- **como mucho uno por página del PDF**, no uno por párrafo: el humor que
+  aparece siempre deja de sorprender, y sorprender es el punto. Se cuenta con
+  `grep -c "#aparte" apunte/modulos/*.typ` contra las páginas del módulo;
+- **y se ancla en la fuente**: el mejor aparte es el que dice de dónde sale
+  algo («esto es del famoso Sears que tanto le gusta a Aníbal»), porque
+  cumple la regla 4 bis de paso.
+
+Referencia, el primero que se escribió así de punta a punta:
+[`m17-rotacion.typ`](apunte/modulos/m17-rotacion.typ) (10 apartes en 10
+páginas; el piloto del tono, pendiente de que Fran lo apruebe antes de
+llevarlo a los otros 20).
+
 ## Dónde está cada cosa
 
 ```
@@ -173,7 +204,7 @@ apunte/
     estilo.typ        helpers de CeTZ compartidos por las figuras
     figuras.typ       las figuras del apunte, una funcion por figura
     galeria.typ       compila SOLO las figuras (segundos, no minutos)
-  modulos/            m01-*.typ … m20-*.typ, uno por modulo, numerados
+  modulos/            m01-*.typ … m21-*.typ, uno por modulo, numerados
                       SEGUN EL ORDEN de apunte.typ (lo mide verificar-apunte.py)
 docs/                 figuras.md        el catalogo de figuras
                       INDICE-TEMAS.md   que temas cubre el apunte y donde

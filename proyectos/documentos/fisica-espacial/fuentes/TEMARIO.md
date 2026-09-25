@@ -113,6 +113,41 @@ Lo que la lista **no** pide, y por eso sigue sin estar: la ecuación de Kepler
 (Bate cap. 4) y las matrices de rotación perifocal → IJK (Bate §2.6, que
 empieza justo en la pág. 74 que la lista excluye).
 
+## Impulso angular
+
+*Lista de temas Impulso angular (1).pdf* (2 pág., recibida el 2026-09-25;
+ruta en `RUTAS.md`). Es la primera lista que va entera al **Sears** y no al
+Beer: rotación alrededor de un eje fijo, el escalón entre el momento angular
+de partícula y el cuerpo rígido en 3D. Hasta el 2026-09-25 **ese escalón no
+estaba en el apunte** —no había $K = \frac12 I\omega^2$, ni $\tau = I\alpha$,
+ni $L = I\omega$, ni la precesión elemental—, y por eso entró un módulo
+nuevo: `m17-rotacion.typ`, clave `rotacion`, al principio de la parte de
+cuerpo rígido. La columna «dónde» es la sección del módulo nuevo que cubre
+cada fila (medido contra el texto, no supuesto).
+
+| Tema · subtema | S&Z vol. 1 (pág. impresa) | Comentario de la cátedra | Dónde en el apunte |
+|---|---|---|---|
+| Repaso velocidad angular | §9.1 (pág. 274) | «Este libro es un poco elemental, apoyarse en el Roederer» | `rotacion` §1 + `#lectura` |
+| — | gráfico 9.9 (pág. 280) | | `rotacion` §1, ec. `rot-v` |
+| — | ecs. 9.13 y 9.15 (pág. 281) | «Vel angular hay que tener clara su parte escalar y su definición vectorial» | `rotacion` §1, «Parte escalar y definición vectorial» + definición a la Roederer |
+| Energía de rotación · momento de inercia | §9.4, ecs. 9.16 y 9.17 (pág. 284) | «El momento de inercia aparece al escribir la energía cinética de rotación» | `rotacion` §2, deducción de `rot-energia` |
+| — | Tabla 9.2 (pág. 286) | «no hay que memorizar nada, solo saber buscar» | `rotacion` §2, tabla de seis cuerpos |
+| Teorema de Steiner | §9.5, ec. 9.19 (pág. 288) · resumen | | `rotacion` §3, con la deducción del término cruzado |
+| Torca, torque o cupla | §10.1 (pág. 304) | | `rotacion` §4 |
+| — | ec. 10.3 · Fig. 10.4 (pág. 305) | «Regla de mano derecha, muy importante!!» | `rotacion` §4, caja ámbar |
+| Rotación de un CR | §10.3 · Figs. 10.11 y 10.12 · ec. 10.8 (pág. 310) | | `rotacion` §5, ec. `rot-traslacion` |
+| — | ecs. 10.12 y 10.13 (pág. 313) | «Observar analogía entre la fuerza y el torque, entre la masa y el momento de inercia y entre la aceleración lineal y la acel angular» | `rotacion` §5, deducción de `rot-tau-ialfa` + tabla de analogías |
+| Impulso angular | §10.5 (pág. 316) | «el libro lo llama Momento angular» · «Razón de cambio en el SZ significa derivada respecto al tiempo» | `rotacion` §6, caja de notación |
+| — | ec. 10.28 (pág. 318) | «ojo con esa ecuación, no es la más general» | `rotacion` §6, caja roja → `inercia` |
+| — | ec. 10.29 (pág. 319) | | `rotacion` §6, `rot-tau-dl` con `#repaso` a `angm-tau` |
+| Conservación de L | §10.6, ec. 10.30 (pág. 321) | «L impulso angular» | `rotacion` §7, Ejemplo 10.10 del libro rehecho |
+| Giróscopos y precesión | §10.7 · Figs. 10.32–10.34 (pág. 323) | «Esta es una primera aproximación al tema, lo veremos más adelante en CR» | `rotacion` §8: deducción de `rot-precesion`, Ejemplo 10.13 del libro y el Problema S&Z 10.51 de la guía, a fondo |
+| Velocidad angular (segunda lectura) | Roederer pág. 58, apartado h) | «para una segunda lectura» | `rotacion` §1, definición a la Roederer, y `#lectura` |
+| Conservación de L (segunda lectura) | Roederer pág. 120, apartado e) | «para una segunda lectura» | `rotacion` `#lectura` y §7 |
+
+**17 filas, 17 con sección.** Offset medido en el PDF del S&Z vol. 1:
+**pág. impresa = pág. del PDF − 27** (el PDF de 764 páginas, índice 0).
+
 ## Cuerpo rígido
 
 > «Son muy útiles los resúmenes que hace el Beer al final (o a la mitad) de

@@ -205,6 +205,97 @@ existe para no hacer.
 cambió el total) y las tres páginas afectadas —46, 68 y 69— **miradas en el
 render**, que es la regla propia del proyecto.
 
+*(La fase 8 —«fundamentos primero», el orden que ahora se mide— está
+registrada en `ESTADO_ACTUAL.md` y no llegó a escribirse acá. Se deja
+constancia en vez de reconstruirla de memoria.)*
+
+### Fase 9 — Impulso angular: rotación alrededor de un eje fijo  ·  CERRADA (2026-09-25)
+
+La abrió la *Lista de temas Impulso angular (1)*, toda del Sears caps. 9–10.
+El cruce mostró que el escalón entero faltaba: el apunte iba del momento
+angular de partícula (Beer cap. 12) al cuerpo rígido en 3D (Beer cap. 18) sin
+pasar nunca por $K = \frac12 I\omega^2$, $\tau = I\alpha$, $L = I\omega$ ni la
+precesión elemental. Entró el módulo `rotacion` al principio de la parte de
+cuerpo rígido (los cuatro de CR se renumeraron 18–21).
+
+**Cerró con:** las 17 filas de la lista con sección (tabla en `TEMARIO.md`),
+el Ejemplo 10.13 del Sears y el Problema S&Z 10.51 de la guía resueltos y
+recalculados por separado —coinciden con el libro y con el Anexo A—, el
+apunte compilado (187 páginas), las diez páginas del módulo miradas en el
+render, y `verificar-apunte.py`, `indice-temas.py` y el saboteador en verde.
+
+### Fase 10 — el tono: el piloto aprobado por Fran
+
+El módulo `rotacion` se escribió ya con el tono nuevo (`#aparte`, regla
+propia 8), a propósito, para que sirva de piloto. **El tono es una decisión
+de gusto del destinatario, no de la sesión**, y pasarlo a 20 módulos antes de
+que lo lea es el error caro: se rehace todo si no le gusta.
+
+**Cierra con:** Fran leyó el módulo 17 (págs. 141–150 del PDF) y dijo «así»
+o dijo qué cambiar, y el cambio está aplicado al piloto.
+
+**Y hasta que cierre, el PDF no se sube al Drive de los compañeros.** Esa
+carpeta es pública por link; los apartes hablan del profesor. Publicar el
+piloto sin que Fran lo haya leído es publicar chistes sobre Aníbal que nadie
+aprobó.
+
+### Fase 11 — la pasada por los 20 módulos restantes y el Anexo A
+
+Lo que Fran pidió el 2026-09-25 para *todo* el apunte, en una sola lectura
+por módulo —porque las tres cosas se hacen mirando lo mismo, y leer cada
+módulo tres veces triplica el costo—:
+
+1. **apartes** con el tono aprobado en la fase 10, como mucho uno por página;
+2. **de dónde sale cada tema**: toda sección nombra el libro y el capítulo
+   («esto es del Curtis, cap. 3»), no sólo el módulo en su `#lectura`;
+3. **`#posta`** en los módulos que no tienen ninguno (13 de 21), que es la
+   deuda de la regla propia 3 que se había dejado para «cuando se toque el
+   módulo por otro motivo» — y éste es el motivo.
+
+De paso se cumple la regla 1 en páginas que nunca se miraron (las `#lectura`
+del 2026-09-17 quedaron sin chequeo visual).
+
+**Se mide con `python medir-estilo.py`**, que el 2026-09-25 da **PENDIENTE:
+58** (25 secciones sin libro, 13 módulos sin posta, 20 sin aparte).
+
+**Tandas de una sesión cada una**, porque cinco módulos entran en una sesión
+y veinte no: (a) 1–5, (b) 6–10, (c) 11–16, (d) 18–21 y el Anexo A.
+Checkpoint y commit por tanda.
+
+**Cierra con:** `medir-estilo.py` en PENDIENTE: 0, las páginas tocadas
+miradas en el render, los verificadores en verde y el PDF publicado al Drive
+con `publicar-apuntes.ps1` (MD5 al día).
+
+### Fase 12 — la deuda de exactitud que ya estaba anotada
+
+No es de estilo: son resultados que el apunte da y que nadie verificó dos
+veces, o datos que faltan medir. **Si hay un parcial de cuerpo rígido cerca,
+esta fase va antes que la 11**, porque un chiste de menos no desaprueba a
+nadie y una respuesta mal en el Anexo A sí.
+
+- **13 fichas del Anexo A marcadas «cuenta propia»**, sin segunda mirada
+  (`grep -c "cuenta propia" apunte/anexos/a1-guia-ejercicios.typ`). Eran 15:
+  el 2026-09-25 se recalcularon por separado el Problema 1 (torques), el
+  S&Z 10.51 y el Hubble, y coincidieron.
+- **Problema 9 de CR, el satélite octogonal**: la orientación del octógono
+  no está confirmada, y de ella dependen las coordenadas de los dos cohetes.
+- **Problema 7 de CR, la cápsula**: las posiciones de los cohetes A y B hay
+  que volver a medirlas sobre la figura.
+
+**Cierra con:** las tres cosas resueltas o declaradas irresolubles con el
+motivo (por ejemplo, «la figura escaneada no alcanza; preguntar a la
+cátedra»), y `grep -c "cuenta propia"` en 0.
+
+### Lo que queda fuera de fase, a propósito
+
+- **Los tres anexos** (formulario, constantes, correspondencia) — abajo.
+- **El estándar de ejemplos «un poco más» desarrollados** se aplicó a 3
+  módulos y nunca se confirmó si Fran lo quiere en los 21. Se pregunta
+  cuando se cierre la fase 10, que es cuando Fran va a estar leyendo.
+- **La demostración de que los ejes principales existen**: el Beer que la
+  tiene es el de *Estática*, que no está en el disco.
+- **El Ej. 6 de impulso angular** está en blanco en el PDF de la cátedra.
+
 ### Los tres anexos — SIGUEN SIN ESCRIBIRSE, y ya no bloquean nada
 
 Formulario, constantes y tabla de correspondencia con la cátedra. Eran el

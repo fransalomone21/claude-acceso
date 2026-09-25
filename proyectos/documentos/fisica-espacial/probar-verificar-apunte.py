@@ -82,8 +82,8 @@ def main():
     # 1. el numero del archivo deja de coincidir con el orden: se dan vuelta
     #    dos #include y ningun compilador puede ver el problema.
     def dar_vuelta(t):
-        a = '#include "modulos/m18-inercia.typ"\n#include "modulos/m19-euler-giroscopo.typ"'
-        b = '#include "modulos/m19-euler-giroscopo.typ"\n#include "modulos/m18-inercia.typ"'
+        a = '#include "modulos/m19-inercia.typ"\n#include "modulos/m20-euler-giroscopo.typ"'
+        b = '#include "modulos/m20-euler-giroscopo.typ"\n#include "modulos/m19-inercia.typ"'
         assert t.count(a) == 1, 'el sabotaje 1 no encontro su ancla'
         return t.replace(a, b)
 

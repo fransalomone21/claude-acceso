@@ -187,8 +187,8 @@ cuándo pasa eso, no se salta en silencio).
   [Varilla de 4,00 m desde $O$, fuerza $F=10,0$ N aplicada de seis maneras
   distintas (ver figura E10.1 del libro: en el extremo o a 2,00 m, con
   ángulos de 30° a 180°, o directamente en $O$). Torque en cada caso.],
-  resuelve: [$tau = r F sin phi$, con $r$ la distancia de $O$ al punto de aplicación y $phi$ el ángulo entre la varilla y la fuerza — el torque es cero apenas $r=0$ (fuerza en $O$) o $phi=0degree\/180degree$ (fuerza sobre la varilla) (#M("momento-angular")).],
-  [a) $40,0$ — b) $34,6$ — c) $20,0$ — d) $17,3$ — e) $0$ — f) $0$ N·m (magnitudes; el sentido de cada una depende de la figura del libro, no transcripta acá). _(cuenta propia de este anexo)_],
+  resuelve: [$tau = r F sin phi$, con $r$ la distancia de $O$ al punto de aplicación y $phi$ el ángulo entre la varilla y la fuerza — el torque es cero apenas $r=0$ (fuerza en $O$) o $phi=0degree\/180degree$ (fuerza sobre la varilla) (#M("rotacion")).],
+  [a) $40,0$ — b) $34,6$ — c) $20,0$ — d) $17,3$ — e) $0$ — f) $0$ N·m (magnitudes; el sentido de cada una depende de la figura del libro, no transcripta acá). _(verificada: recalculada por separado el 2026-09-25)_],
 )
 
 #disparador(
@@ -218,8 +218,8 @@ cuándo pasa eso, no se salta en silencio).
   $M_"total" = 0,140+0,0250=0,165$ kg la masa del rotor más el marco. (b)
   precesión estable sin nutación, $Omega_p = tau\/(I omega)$, con
   $tau=M_"total" g d$ el torque gravitatorio por el brazo $d=4,00$ cm y
-  $omega$ la rapidez angular del rotor, la incógnita (#M("euler-giroscopo"), #M("peonza")).],
-  [(a) $F approx 1,62$ N. Intermedio: $tau = M_"total" g d approx 0,0647$ N·m. (b) $omega_"rotor" approx 1802$ rpm. (c) es un dibujo — $bold(H)$ va sobre el eje del rotor, y $bold(tau)$ perpendicular a $bold(H)$ y horizontal, en la dirección en que $bold(H)$ está girando. _(cuenta propia de este anexo; supone que la distancia de 4 cm es al CM del conjunto rotor+marco)_],
+  $omega$ la rapidez angular del rotor, la incógnita (#M("rotacion")). Ya resuelto como ejemplo a fondo.],
+  [(a) $F approx 1,62$ N. Intermedio: $tau = M_"total" g d approx 0,0647$ N·m. (b) $omega_"rotor" approx 1802$ rpm. (c) es un dibujo — $bold(H)$ va sobre el eje del rotor, y $bold(tau)$ perpendicular a $bold(H)$ y horizontal, en la dirección en que $bold(H)$ está girando. _(verificada: resuelto de nuevo, por separado, en el módulo #M("rotacion"); la distancia de 4 cm es al CM del conjunto rotor+marco)_],
 )
 
 #disparador(
@@ -252,8 +252,8 @@ cuándo pasa eso, no se salta en silencio).
   [Giróscopos modelados como cilindros de pared delgada, 2,0 kg y 5,0 cm de
   diámetro, a 19 200 rpm. Torque para precesar $1,0 times 10^(-6)$ grados
   en 5,0 horas.],
-  resuelve: [momento angular del cilindro, $H=I omega$ con $I=m r^2$ (cilindro de pared delgada); la velocidad de precesión pedida es el ángulo total sobre el tiempo, $Omega_p="ángulo"\/"tiempo"$; y el torque necesario es $tau=Omega_p H$ (#M("euler-giroscopo")).],
-  [intermedio: $I=1,25 times 10^(-3)$ kg·m², $H=I omega approx 2,513$ kg·m²/s. $tau approx 2,4 times 10^(-12)$ N·m — un torque casi nulo, que es el punto del problema: así de estable queda un giróscopo bien diseñado. _(cuenta propia de este anexo)_],
+  resuelve: [momento angular del cilindro, $H=I omega$ con $I=m r^2$ (cilindro de pared delgada); la velocidad de precesión pedida es el ángulo total sobre el tiempo, $Omega_p="ángulo"\/"tiempo"$; y el torque necesario es $tau=Omega_p H$ (#M("rotacion")).],
+  [intermedio: $I=1,25 times 10^(-3)$ kg·m², $H=I omega approx 2,513$ kg·m²/s. $tau approx 2,4 times 10^(-12)$ N·m — un torque casi nulo, que es el punto del problema: así de estable queda un giróscopo bien diseñado. _(verificada: recalculada por separado el 2026-09-25)_],
 )
 
 #subtitulo-anexo("A.4 — Conservación de la energía y gravitación (Problemas 0 a 10, más cinco adicionales)")

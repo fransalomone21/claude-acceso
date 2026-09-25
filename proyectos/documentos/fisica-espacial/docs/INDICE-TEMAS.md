@@ -331,9 +331,33 @@ lado. Se referencian en la prosa como `@etiqueta`.
 
 ## Parte 5 — Cuerpo rígido
 
-### 17. Cinemática del cuerpo rígido y sistemas rotantes  ·  `cinematica-cr`
+### 17. Rotación alrededor de un eje fijo: el Sears, capítulos 9 y 10  ·  `rotacion`
 
-<small>`apunte/modulos/m17-cinematica-cr.typ`</small>
+<small>`apunte/modulos/m17-rotacion.typ`</small>
+
+- **La velocidad angular: un número y un vector**
+- **La energía de rotación: de ahí sale el momento de inercia**
+  - *(de donde sale)* por qué la energía cinética de rotación es un medio de I omega al cuadrado
+- **Steiner: cambiar de eje sin volver a integrar**
+  - *(de donde sale)* por qué el término cruzado se anula
+- **El torque: lo que hace girar**
+- **$tau = I alpha$: la segunda ley de Newton, versión rotación**
+  - *(de donde sale)* de dónde sale que el torque sea I por alfa
+- **El momento angular de un cuerpo que gira: $L = I omega$**
+- **Conservación del impulso angular**
+  - *(ejemplo)* Cualquiera puede bailar ballet (S&Z Ejemplo 10.10)
+- **El giróscopo que no se cae**
+  - *(de donde sale)* la velocidad de precesión
+  - *(ejemplo)* El giróscopo del Sears: cuánto gira la rueda (S&Z Ejemplo 10.13)
+  - *(ejemplo)* El giróscopo de juguete de la guía (S&Z 10.51)
+  - *(guia de la catedra)* qué ejercicios cubre este módulo
+- **Lo que se usa después**
+
+  Ecuaciones: `<rot-omega>`, `<rot-v>`, `<rot-energia>`, `<rot-steiner>`, `<rot-torque>`, `<rot-tau-ialfa>`, `<rot-traslacion>`, `<rot-l-iw>`, `<rot-tau-dl>`, `<rot-conserva>`, `<fig-giroscopo>`, `<rot-precesion>`
+
+### 18. Cinemática del cuerpo rígido y sistemas rotantes  ·  `cinematica-cr`
+
+<small>`apunte/modulos/m18-cinematica-cr.typ`</small>
 
 - **Con un punto fijo, todo movimiento es una rotación**
   - *(de donde sale)* por qué siempre hay un eje, aunque el cuerpo se mueva de cualquier manera
@@ -351,9 +375,9 @@ lado. Se referencian en la prosa como `@etiqueta`.
 
   Ecuaciones: `<cin-v>`, `<cin-a>`, `<cin-suma>`, `<cin-derivada>`, `<cin-vgen>`, `<cin-agen>`, `<cin-coriolis-v>`, `<cin-coriolis-a>`
 
-### 18. Momento de inercia y ejes principales  ·  `inercia`
+### 19. Momento de inercia y ejes principales  ·  `inercia`
 
-<small>`apunte/modulos/m18-inercia.typ`</small>
+<small>`apunte/modulos/m19-inercia.typ`</small>
 
 - **$bold(H)_G$ por integrales: momentos y productos de inercia**
   - *(de donde sale)* de dónde salen los seis números que hacen falta
@@ -369,9 +393,9 @@ lado. Se referencian en la prosa como `@etiqueta`.
 
   Ecuaciones: `<iner-hg-integral>`, `<iner-tensor>`, `<iner-diagonal>`, `<iner-ho>`, `<iner-energia>`
 
-### 19. Ecuaciones de Euler y el giróscopo  ·  `euler-giroscopo`
+### 20. Ecuaciones de Euler y el giróscopo  ·  `euler-giroscopo`
 
-<small>`apunte/modulos/m19-euler-giroscopo.typ`</small>
+<small>`apunte/modulos/m20-euler-giroscopo.typ`</small>
 
 - **La derivada de $bold(H)_G$: la @cin-derivada, por fin en uso**
   - *(de donde sale)* de dónde sale la relación general entre cupla y H
@@ -386,9 +410,9 @@ lado. Se referencian en la prosa como `@etiqueta`.
 
   Ecuaciones: `<euler-derivada-h>`, `<euler-euler-clasicas>`, `<euler-precesion-estable>`, `<euler-precesion-90>`
 
-### 20. Peonza simétrica, precesión directa y retrógrada  ·  `peonza`
+### 21. Peonza simétrica, precesión directa y retrógrada  ·  `peonza`
 
-<small>`apunte/modulos/m20-peonza.typ`</small>
+<small>`apunte/modulos/m21-peonza.typ`</small>
 
 - **Un cuerpo simétrico sin cuplas: $bold(H)_G$ queda fijo**
   - *(de donde sale)* de dónde sale que la precesión es automática
