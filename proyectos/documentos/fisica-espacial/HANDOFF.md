@@ -6,6 +6,31 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-25, octava parte — fase 12 cerrada
+
+**No queda fase abierta.** Lo que sigue lo decide Fran (PDP §4, «Lo que
+queda fuera de fase»). Lo que la próxima sesión tiene que saber:
+
+- **Las 12 fichas «cuenta propia» del Anexo A, recalculadas de cero** con un
+  script propio (en el scratchpad, se reescribe en diez minutos: una sección
+  por ficha, desde el enunciado, sin usar los intermedios de la ficha, y un
+  segundo camino donde es barato). Diez coincidieron; dos se corrigieron:
+  Ej. 4 B de impulso angular (8387 km, no 8388) y **el Problema 9 de CR**.
+  La marca pasó a _(verificada: recalculada por separado)_.
+- **El Problema 9 de CR es el Beer 18.125**, y eso estuvo en el disco todo
+  el tiempo: la ficha lo dejó como «falta confirmar la orientación contra
+  el PDF» cuando el libro tenía la figura, el $omega_0$ que la guía no copió
+  y las respuestas. Buscar el problema en el libro se hace con
+  `buscar.py Beer "18\.12[56]"`; las respuestas están en el PDF 786
+  (pág. 1360) y **la capa de texto invierte los dígitos** («8.3 5» es
+  53,8): leerlas renderizando.
+- **El signo que estaba mal:** «expulsa combustible en $+y$» quiere decir
+  empuje $-y$ sobre el satélite. La ficha usaba $+y$ y el ángulo de
+  $bold(H)$ con $x$ le daba 127,5° en vez de los 52,5° del libro.
+- **`plantilla.typ`:** `#deduccion` ya no antepone «De dónde sale —» si el
+  título lo trae; eran 7 cajas duplicadas, hoy 0 (medido sobre el texto del
+  PDF).
+
 ## Sesión del 2026-09-25, séptima parte — tanda (d) hecha, fase 11 cerrada
 
 **`medir-estilo.py` en PENDIENTE: 0.** Sigue la fase 12 (PDP §4). Lo que la
@@ -1244,8 +1269,8 @@ renderizando las páginas 15 a 18 del PDF de la guía. Ya miradas, las cinco:
 | 2 | el eje de giro del disco es **horizontal** y el vertical es el de la horquilla. El enunciado dice «gira … alrededor de un eje vertical», que la figura contradice: **se tomó la figura**, y el módulo 12 lo resuelve así |
 | 3 | los ejes *xyz* están clavados **al gimbal** (lo dice dentro de la figura, no en el texto); el torquer actúa sobre el eje x; la plataforma gira alrededor de y |
 | 4 | H_G apunta hacia arriba (+Z) y el eje z del cuerpo está a 2° de él; el cuerpo es **achatado**, coherente con k_z = 720 > k_t = 540 |
-| 7 | la cápsula es un **tronco de cono** con el eje z hacia arriba: 2 m de diámetro abajo, 1,25 m arriba, 2 m de alto. A y B son dos cohetes sobre el borde, A del lado de y y B más arriba. **Las coordenadas exactas de A y B hay que volver a medirlas sobre la figura al escribir el módulo 15**: de ellas depende el brazo de palanca, y de ahí todo el resultado |
-| 9 | el octógono con y vertical (eje de giro), los thrusters A, B, C, D en la tapa superior y F_s abajo; 2,4 m de alto, 1,2 m de lado |
+| 7 | la cápsula es un **tronco de cono** con el eje z hacia arriba. **Medido de nuevo el 2026-09-25 (fase 12):** las cotas van del eje al borde, así que son **radios** —2 m abajo, 1,25 m arriba—, no diámetros como decía esta fila. El origen está 1,25 m sobre la base y B 2 m sobre el origen: $r_A = (0, 2, -1{,}25)$, $r_B = (0, 1{,}25, 2)$ m, los dos del lado $+y$ y empujando paralelo a $x$. No está en el Beer del disco (la cita «B 18.126» de la guía es de otra edición) |
+| 9 | el octógono con y vertical (eje de giro), los thrusters A, B, C, D en la tapa superior y F_s abajo; 2,4 m de alto, 1,2 m de lado. **Es el Beer 18.125 (pág. 1198, PDF 624)**, misma figura, con $omega_0 = 36$ rev/h y respuestas en la pág. 1360: la cara A–B mira a $+z$, $A = (-0{,}6;\ 1{,}2;\ 1{,}449)$, $B = (0{,}6;\ 1{,}2;\ 1{,}449)$, D detrás de A en $z = -1{,}449$. **El gas sale hacia $+y$: el empuje sobre el satélite es $-y$** — sólo así salen las respuestas del libro |
 
 **El Beer no trae el potencial eficaz.** Lo resuelve todo por la ecuación
 diferencial de la trayectoria, sin diagrama de energía. El potencial eficaz

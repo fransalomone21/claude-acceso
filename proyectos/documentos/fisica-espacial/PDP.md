@@ -283,7 +283,22 @@ Checkpoint y commit por tanda.
 miradas en el render, los verificadores en verde y el PDF publicado al Drive
 con `publicar-apuntes.ps1` (MD5 al día).
 
-### Fase 12 — la deuda de exactitud que ya estaba anotada
+### Fase 12 — la deuda de exactitud que ya estaba anotada  ·  CERRADA (2026-09-25)
+
+**Cerrada con las tres cosas resueltas, ninguna declarada irresoluble.**
+`grep -c "cuenta propia"` en **0**: las doce fichas recalculadas de cero
+(la decimotercera línea era la prosa que explicaba la marca), diez
+coincidieron y dos se corrigieron — el Ejercicio 4 B de impulso angular
+(8388 → **8387 km**, redondeo) y el **Problema 9 de CR, con el signo del
+empuje dado vuelta**: el gas sale hacia $+y$, así que al satélite lo empuja
+$-J hat(j)$. La orientación del octógono salió del **Beer 18.125** (pág.
+1198), que es el mismo problema con la misma figura, $omega_0 = 36$ rev/h y
+respuestas al final del libro (pág. 1360): la cuenta con la orientación
+leída reproduce las seis respuestas del 18.125 y el 18.126, y con el signo
+viejo no. El 8 del P9 ya tiene números. Las posiciones de $A$ y $B$ del
+Problema 7 se midieron de nuevo sobre la figura: las cotas de 2 m y 1,25 m
+son **radios**, y coinciden con las de la ficha. De paso, los siete títulos
+«DE DÓNDE SALE — DE DÓNDE SALE …» se arreglaron en `plantilla.typ`.
 
 No es de estilo: son resultados que el apunte da y que nadie verificó dos
 veces, o datos que faltan medir. **Si hay un parcial de cuerpo rígido cerca,

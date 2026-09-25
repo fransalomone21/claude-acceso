@@ -21,9 +21,13 @@
 Los enunciados de acá van resumidos; el texto completo de la guía, con las
 figuras que hagan falta, está en `fuentes/GUIA-ENUNCIADOS.md`. Una respuesta
 marcada _"ya resuelto en tal módulo"_ tiene su desarrollo completo adentro
-del apunte, mirado en el render; una marcada _(cuenta propia de este anexo)_
-se calculó para esta ficha con las herramientas citadas y no tuvo esa
-segunda mirada — si algo no cierra al resolverlo, sospechar primero de la
+del apunte, mirado en el render; una marcada _(verificada: recalculada por
+separado)_ no tiene desarrollo en ningún módulo, pero se volvió a calcular
+de cero sin mirar la primera cuenta —por otro camino, cuando lo había— y
+coincidió o se corrigió. Hasta el 2026-09-25 eran doce fichas que nadie
+había mirado dos veces; la segunda mirada encontró un kilómetro mal
+redondeado y un signo que daba vuelta el Problema 9 de cuerpo rígido
+entero. Si algo igual no cierra al resolverlo, sospechar primero de la
 ficha, no del módulo. Ningún inciso queda sin respuesta salvo que el dato
 de partida no esté transcripto en ningún lado (se dice explícitamente
 cuándo pasa eso, no se salta en silencio).
@@ -95,7 +99,7 @@ tienen ficha: si hace falta una ficha para eso, hace falta el módulo
   iii) $(bold(A) times bold(B)) times bold(C)$; iv) $bold(A) times (bold(A) times bold(B))$;
   v) $(bold(A) dot bold(B))(bold(A) times bold(B))$; vi) $(bold(A) times bold(B)) times (bold(A) times bold(C))$.],
   resuelve: [i) es el producto mixto: el determinante de las tres filas. ii), iii), iv) y vi) son dobles productos vectoriales: se abren con BAC$-$CAB, $bold(X) times (bold(Y) times bold(Z)) = bold(Y)(bold(X) dot bold(Z)) - bold(Z)(bold(X) dot bold(Y))$ (#M("vectores"), @vec-dobles). v) es sólo un escalar multiplicando a un vector ya calculado. El punto del ejercicio es que ii) y iii) *no* coinciden: el producto vectorial no es asociativo.],
-  [i) $14$ — ii) $(3,-47,2)$ — iii) $(39,-15,-60)$ — iv) $(-3,-65,-2)$ — v) $(-120,8,-80)$ — vi) $(28,0,-42)$. _(cuenta propia de este anexo)_],
+  [i) $14$ — ii) $(3,-47,2)$ — iii) $(39,-15,-60)$ — iv) $(-3,-65,-2)$ — v) $(-120,8,-80)$ — vi) $(28,0,-42)$. _(verificada: recalculada por separado; ii) también por BAC$-$CAB)_],
 )
 
 #subtitulo-anexo("A.2 — Conservación de cantidad de movimiento (Ej. 1 a 9, más tres adicionales)")
@@ -170,7 +174,7 @@ ecuación; está en elegir bien el sistema y el marco.
   [Pide la *altura* alcanzada en el Ej. 7 (una etapa): hay que integrar
   $V(t)$ otra vez.],
   resuelve: [la altura es la integral de la velocidad del Ej. 7, $y(t)=integral_0^t V(t') d t'$ con $V(t)=v_r ln(M_0\/(M_0-mu t)) - g t$, entre $t=0$ y los $79,1$ s que dura el quemado de esa etapa —mismos $M_0=19 thin 540$ kg, $M_f=1740$ kg, $mu=225$ kg/s, $v_r=3600$ m/s (#M("cohete")).],
-  [$y approx 187$ km. _(cuenta propia de este anexo)_],
+  [$y approx 187$ km, con $V approx 7,93$ km/s al apagarse (la del Ej. 7). _(verificada: recalculada por separado, integrando numéricamente y por la primitiva cerrada)_],
 )
 
 #disparador(
@@ -252,7 +256,7 @@ El 2 y el 3 son demostraciones, no cuentas, y una demostración que dice
   dos puntos intermedios): A) impulso angular específico en apogeo y
   perigeo. B) distancias a los dos puntos intermedios.],
   resuelve: [A) en los ábsides la velocidad es perpendicular al radio, así que $h=r v$ sin senos ni cosenos. B) en los otros dos puntos, $h=r v cos gamma$ con $gamma$ el ángulo dado respecto de la perpendicular al radio: despejar $r=h\/(v cos gamma)$ con el mismo $h$ de A) (#M("momento-angular")).],
-  [A) $h = 57 thin 172$ km²/s en los dos ábsides (coinciden — control ya hecho en la guía). B) $r approx 8388$ km (altura $approx 2010$ km) y $r approx 8578$ km (altura $approx 2200$ km). _(punto B: cuenta propia de este anexo)_],
+  [A) $h = 57 thin 172$ km²/s en los dos ábsides (coinciden — control ya hecho en la guía). B) $r approx 8387$ km (altura $approx 2009$ km) y $r approx 8578$ km (altura $approx 2200$ km). _(punto B verificado: recalculado por separado con $h$ y, por otro camino, con la energía $v^2\/2 - mu\/r$ del perigeo — los dos dan lo mismo, así que los datos de la figura son coherentes también ahí)_],
 )
 
 #disparador(
@@ -312,7 +316,7 @@ medirlos desde el centro.
   resuelve: [con $r_A = 3960+2700=6660$ mi y $r_B=3960+7900=11 thin 860$ mi
   —radio de la Tierra más la *altura*, nunca la altura sola (#M("gravitacion"))—,
   conservación de la energía específica, $v_A^2\/2 - mu\/r_A = v_B^2\/2 - mu\/r_B$: no hace falta el momento angular porque sólo se pide la *rapidez* en $B$, no su dirección (#M("gravitacion") / #M("orbita-conicas")).],
-  [$v_B approx 7,00$ km/s ($approx 15 thin 650$ mi/h). _(cuenta propia de este anexo)_],
+  [$v_B approx 7,00$ km/s ($approx 15 thin 650$ mi/h), con $G M = g R^2$ como hace el Beer. _(verificada: recalculada por separado)_],
 )
 
 #disparador(
@@ -386,7 +390,7 @@ medirlos desde el centro.
   específica; (e) anomalía verdadera a 10 000 km de altitud; (f) $v_r$ y
   $v_perp$ ahí; (g) velocidad en perigeo y apogeo.],
   resuelve: [$e$ y $a$ salen directo de $r_p, r_a$; con $a$, la tercera ley de Kepler da el período (#M("kepler")); $h$ sale de $r_p v_p$ una vez que se tiene $v_p$ por vis-viva, o de $h=sqrt(mu p)$ con $p=a(1-e^2)$; con $h$, la ecuación de la órbita $r(nu)$ despejada da la anomalía a la altitud pedida, y $v_perp=h\/r$, $v_r=(mu\/h) e sin nu$ dan las dos componentes ahí (#M("hiperbola"), sección 16.5); $v_p=h\/r_p$, $v_a=h\/r_a$ porque los ábsides son perpendiculares.],
-  [intermedio: $h=85 thin 131$ km²/s. (a) $e=0,818$ — (b) $a=55 thin 000$ km — (c) $tau=35,7$ h — (d) $epsilon=-3,62$ km²/s² — (e) $nu approx plus.minus 82,3°$ — (f) $v_perp approx 5,20$ km/s, $v_r approx 3,80$ km/s — (g) $v_p=8,51$ km/s, $v_a=0,851$ km/s. _(cuenta propia de este anexo)_],
+  [intermedio: $h=85 thin 131$ km²/s. (a) $e=0,818$ — (b) $a=55 thin 000$ km — (c) $tau=35,7$ h — (d) $epsilon=-3,62$ km²/s² — (e) $nu approx plus.minus 82,3°$ — (f) $v_perp approx 5,20$ km/s, $v_r approx 3,80$ km/s — (g) $v_p=8,51$ km/s, $v_a=0,851$ km/s. _(verificada: recalculada por separado; control: $sqrt(v_perp^2 + v_r^2)$ da lo mismo que la vis-viva a esa altura)_],
 )
 
 #disparador(
@@ -396,7 +400,7 @@ medirlos desde el centro.
   resuelve: [«perigeo a 500 km» es *altura*: el radio de perigeo es
   $r_p = R_T + 500 = 6378+500=6878$ km, no $500$ km (#M("gravitacion")). En
   el perigeo (ábside) $h=r_p v_p$ directo, con $v_p=10$ km/s el dato; la energía específica $v_p^2\/2-mu\/r_p$ da $a$, y con $a$ y $r_p=a(1-e)$ sale $e$; la ecuación de la órbita $r(nu)$ da el radio (y la altitud, restándole $R_T$) a $nu=120degree$; ahí, $v_perp=h\/r$ y $v_r=(mu\/h) e sin nu$ dan $gamma=arctan(v_r\/v_perp)$ (#M("hiperbola"), sección 16.5).],
-  [intermedio: $h=68 thin 780$ km²/s, $a=25 thin 060$ km, $e=0,7255$. $gamma approx 44,6°$; altitud $approx 12 thin 250$ km. _(cuenta propia de este anexo)_],
+  [intermedio: $h=68 thin 780$ km²/s, $a=25 thin 060$ km, $e=0,7255$. $gamma approx 44,6°$; altitud $approx 12 thin 250$ km. _(verificada: recalculada por separado; $e$ por la energía y por $r_p = h^2\/(mu(1+e))$, coinciden)_],
 )
 
 #disparador(
@@ -411,7 +415,7 @@ medirlos desde el centro.
   [Altitud 1000 km a $nu=40°$, altitud 2000 km a $nu=150°$. Hallar:
   (a) excentricidad; (b) altitud de perigeo; (c) semieje mayor.],
   resuelve: [la ecuación de la órbita $r=p\/(1+e cos nu)$ escrita en los dos puntos da un sistema de dos ecuaciones con dos incógnitas, $p$ y $e$; despejando ese sistema sale (a); con $p$ y $e$, $r_p=p\/(1+e)$ da (b) y $a=p\/(1-e^2)$ da (c) (#M("orbita-conicas")).],
-  [intermedio: $p=7816$ km. (a) $e approx 0,0775$ — (b) altura de perigeo $approx 876$ km — (c) $a approx 7863$ km. _(cuenta propia de este anexo)_],
+  [intermedio: $p=7816$ km. (a) $e approx 0,0775$ — (b) altura de perigeo $approx 876$ km — (c) $a approx 7863$ km. _(verificada: recalculada por separado; control: con $p$ y $e$ vuelve a salir el radio a $150°$)_],
 )
 
 #disparador(
@@ -435,7 +439,7 @@ anexo ya la dio vuelta una vez.
   en un vértice, alineado con una arista. Velocidad angular tras 4 s de
   encendido; caudal másico del thruster; cuánto tiempo seguirá girando.],
   resuelve: [el cubo tiene los tres momentos de inercia iguales, $I=(1\/6)m d^2$: su tensor es isótropo, así que $bold(H)_G=I bold(omega)$ vale para cualquier eje. La cupla del thruster es $bold(tau)=bold(r) times bold(F)$ (con $bold(r)$ del centro al vértice); $Delta bold(H)_G = bold(tau) t$ da $bold(omega)=Delta bold(H)_G \/ I$ directo (#M("inercia")). El caudal sale de la definición de $I_"sp"$: $dot(m)=F_E\/(I_"sp" g_0)$ (#M("cohete")).],
-  [$bold(omega) = 0,2 hat(j) - 0,2 hat(k)$ rad/s (ya resuelto en #M("inercia")); caudal $approx 8,16$ g/s _(cuenta propia de este anexo)_; y sigue girando *para siempre* — inercia isótropa, sin torque, las ecuaciones de Euler dan $omega$ constante.],
+  [$bold(omega) = 0,2 hat(j) - 0,2 hat(k)$ rad/s (ya resuelto en #M("inercia")); caudal $approx 8,16$ g/s _(verificado: recalculado por separado)_; y sigue girando *para siempre* — inercia isótropa, sin torque, las ecuaciones de Euler dan $omega$ constante.],
 )
 
 #disparador(
@@ -471,8 +475,8 @@ anexo ya la dio vuelta una vez.
   eje $A$-$A$ precesa con ángulo pequeño respecto de un eje $Z$ fijo, sin
   que el CM acelere (sin torque externo). Velocidad angular de precesión
   $dot(chi)$.],
-  resuelve: [las esferas están dispuestas con simetría $>=3$ alrededor de $A$-$A$ (ver la figura), así que el teorema de ejes perpendiculares da $I_"transversal" = I_(A"-"A) \/ 2$ *sin* necesitar la posición ni la masa de cada esfera — es la misma razón por la que el enunciado dice "el doble". Con eso, precesión estable sin torque: $dot(chi) = H\/I_"transversal" = (I_(A"-"A)\/I_"transversal") omega_"spin"$ (mismo mecanismo que el Problema 4, #M("peonza")).],
-  [$dot(chi) = 2 omega_"spin" = 6$ rev/min $= 0,628$ rad/s (período $10,0$ s) — *retrógrada* (sentido opuesto al spin relativo), porque el eje $A$-$A$ tiene más inercia que el transversal: es un cuerpo achatado. _(cuenta propia de este anexo)_],
+  resuelve: [la redacción de la guía se enreda («respecto al eje $A$-$A$ respecto a $O$»), pero el dato es una razón: $I_(A"-"A)$ es el doble del momento respecto de un eje transversal por $O$, $I_"transversal" = I_(A"-"A) \/ 2$. La figura lo avala —cuatro esferas en cruz y una en el centro, todas en un plano, y para masas puntuales en un plano el teorema de ejes perpendiculares da justo la mitad; con esferas de tamaño finito, un poquito más—. No hacen falta ni la posición ni la masa de cada esfera. Con eso, precesión estable sin torque: $dot(chi) = H\/I_"transversal" = (I_(A"-"A)\/I_"transversal") omega_"spin"$ (mismo mecanismo que el Problema 4, #M("peonza")).],
+  [$dot(chi) = 2 omega_"spin" = 6$ rev/min $= 0,628$ rad/s (período $10,0$ s) — *retrógrada* (sentido opuesto al spin relativo), porque el eje $A$-$A$ tiene más inercia que el transversal: es un cuerpo achatado. _(verificada: recalculada por separado, por la fórmula del Beer y por la del Meriam, con el spin leído como $omega_z$ o como spin relativo — las cuatro dan $6$ rev/min)_],
 )
 
 #disparador(
@@ -490,7 +494,7 @@ anexo ya la dio vuelta una vez.
   con 50 N en $x$; $m=1000$ kg, $k_x=k_y=1$ m, $k_z=1,25$ m. Eje de
   precesión y velocidades de spin y precesión al terminar el impulso.],
   resuelve: [de la figura: $A$ está en el radio de la base, $bold(r)_A = (·,thin 2,thin -1,25)$ m respecto del CM (coordenada $x$ irrelevante: $bold(F)=F hat(i)$ no la usa). $Delta bold(H) = (bold(r)_A times bold(F)) Delta t$; con $I_x=I_y=1000$, $I_z=1562,5$ kg·m² se separa en $omega$ y de ahí $dot(phi) = H\/I_x$ (precesión), $dot(psi) = omega_z (I_x - I_z)\/I_x$ (spin) — mismo mecanismo que #M("euler-giroscopo") y #M("peonza").],
-  [$Delta bold(H) = (0,thin -62,5,thin -100)$ kg·m²/s $=> bold(omega) = (0,thin -0,0625,thin -0,064)$ rad/s. Eje de precesión: $bold(H)$, a $148,0°$ del eje $z$ del cuerpo. $dot(phi) approx 0,118$ rad/s ($1,13$ rpm); $dot(psi) approx 0,036$ rad/s ($0,34$ rpm). _(cuenta propia de este anexo, geometría leída de la figura de la guía)_],
+  [$Delta bold(H) = (0,thin -62,5,thin -100)$ kg·m²/s $=> bold(omega) = (0,thin -0,0625,thin -0,064)$ rad/s. Eje de precesión: $bold(H)$, a $148,0°$ del eje $z$ del cuerpo. $dot(phi) approx 0,118$ rad/s ($1,13$ rpm); $dot(psi) approx 0,036$ rad/s ($0,34$ rpm). _(verificada: recalculada por separado, con $A$ y $B$ medidos de nuevo en la figura — las cotas de 2 m y 1,25 m son radios, no diámetros. Empuje en $+x$; si fuera $-x$, $bold(H)$, $bold(omega)$ y el spin cambian de signo y el eje queda sobre la misma recta)_],
 )
 
 #disparador(
@@ -498,7 +502,7 @@ anexo ya la dio vuelta una vez.
   [Igual que el Problema 7, pero con $bold(omega)_0 = 0,02 hat(j) + 0,10 hat(k)$
   rad/s previa y el cohete $B$ en vez del $A$.],
   resuelve: [mismo mecanismo que el Problema 7, con $bold(r)_B = (·,thin 1,25,thin 2)$ m (el radio y la altura de $B$ están intercambiados respecto de $A$: $B$ está arriba, en el radio angosto) y $bold(H)_0 = (0,thin I_x omega_(0y), thin I_z omega_(0z)) != bold(0)$ antes del impulso.],
-  [$bold(H)_0=(0,20,156,25)$, $Delta bold(H)=(0,100,-62,5)$ $=> bold(H)_f=(0,120,93,75)$ kg·m²/s, $bold(omega)_f=(0,thin 0,12,thin 0,06)$ rad/s. Eje de precesión: $bold(H)_f$, a $52,0°$ del eje $z$. $dot(phi) approx 0,152$ rad/s ($1,45$ rpm); $dot(psi) approx -0,034$ rad/s ($-0,32$ rpm). _(cuenta propia de este anexo)_],
+  [$bold(H)_0=(0,20,156,25)$, $Delta bold(H)=(0,100,-62,5)$ $=> bold(H)_f=(0,120,93,75)$ kg·m²/s, $bold(omega)_f=(0,thin 0,12,thin 0,06)$ rad/s. Eje de precesión: $bold(H)_f$, a $52,0°$ del eje $z$. $dot(phi) approx 0,152$ rad/s ($1,45$ rpm); $dot(psi) approx -0,034$ rad/s ($-0,32$ rpm). _(verificada: recalculada por separado, con el mismo empuje en $+x$ del Problema 7 — acá el signo sí cambia los números, porque se suma a un $bold(H)_0$ que ya estaba)_],
 )
 
 #disparador(
@@ -507,12 +511,12 @@ anexo ya la dio vuelta una vez.
   $I_x=I_z=2000$ kg·m², girando a $omega_0$ en $y$ (eje de simetría) y
   libre de torques. Los thrusters $A$, $B$, $C$, $D$ —en posiciones
   $bold(R)_A=(x_A,y_A,z_A)$, $bold(R)_B=(x_B,y_B,z_B)$, en dos vértices
-  del octógono— pueden empujar en $+y$ con $J=20$ N. Se activan $A$ y $B$
+  de la tapa de arriba— expulsan gas hacia $+y$ con un empuje $J=20$ N. Se activan $A$ y $B$
   durante $T=2$ s. *1)* Tipo de precesión si se lo perturba. *2)* Impulso
   angular tras el disparo, en función de los parámetros. *3)* Velocidad
   angular, ídem. *4)* y *5)* Ángulos de $bold(H)$ y de $bold(omega)$ con
   el eje de simetría. *6)* y *7)* Dibujo y descripción cualitativa.
   *8)* Calcular explícitamente 2 a 5.],
-  resuelve: [$bold(F)=J hat(j)$ es *paralela* al eje de simetría: $bold(r) times bold(F)$ no usa la coordenada $y$ de ningún thruster (mismo truco que los Problemas 7 y 8), sólo $x$ y $z$. Con eso, 1 a 7 salen sin necesitar la figura; el 8 numérico sí la necesita —#M("inercia") para el impulso, #M("peonza") para los ángulos.],
-  [*1)* $I_y=2400 > I_x=2000$ (axial mayor que transversal, "achatado"): precesión *retrógrada*. *2)* $Delta bold(H) = J T [-(z_A + z_B), thin 0, thin x_A + x_B] + (0,thin I_y omega_0,thin 0)$. *3)* $bold(omega) = (Delta H_x \/ I_x,thin omega_0,thin Delta H_z\/I_x)$. *4)* $cos theta_H = (I_y omega_0)\/abs(bold(H))$. *5)* $cos theta_omega = omega_0 \/ abs(bold(omega))$. *6-7)* $bold(H)$, $bold(omega)$ y el spin quedan los tres del mismo lado del eje $y$, inclinados hacia el par aplicado; visto desde afuera el satélite hace un cono de precesión retrógrada —el cono espacial queda adentro del corporal— mientras gira sobre sí. *8)* no se resuelve con un número acá: falta fijar con certeza *qué vértice del octógono mira hacia $+x$* en la figura —con eso fijo, $x_A,z_A,x_B,z_B$ salen de la geometría regular (lado 1,2 m) y la cuenta es idéntica a la de los Problemas 7/8. _(1 a 7: cuenta propia de este anexo; 8 queda para cuando se confirme la orientación exacta contra el PDF original)_],
+  resuelve: [el gas sale hacia $+y$, así que al satélite lo empuja $bold(F) = -J hat(j)$ (ese es el signo que se da vuelta). Es *paralela* al eje de simetría: $bold(r) times bold(F) = J (z, thin 0, thin -x)$ no usa la coordenada $y$ de ningún thruster (mismo truco que los Problemas 7 y 8). Con eso, 1 a 7 salen sin la figura; el 8 la necesita, y la figura es la P18.125 del Beer (pág. 1198), que es este mismo problema con $omega_0 = 36$ rev/h —el dato que la guía no copió— y respuestas al final del libro (pág. 1360). Leída ahí: la cara entre $A$ y $B$ mira hacia $+z$, $bold(R)_A = (-0,6;thin 1,2;thin 1,449)$ m y $bold(R)_B = (0,6;thin 1,2;thin 1,449)$ m, con $1,449$ m la apotema del octógono de lado $1,2$ m. #M("inercia") para el impulso, #M("peonza") para los ángulos.],
+  [*1)* $I_y=2400 > I_x=2000$ (axial mayor que transversal, "achatado"): precesión *retrógrada*. *2)* $bold(H) = (0,thin I_y omega_0,thin 0) + J T [z_A + z_B, thin 0, thin -(x_A + x_B)]$. *3)* $bold(omega) = (H_x \/ I_x,thin omega_0,thin H_z\/I_x)$. *4)* $cos theta_H = (I_y omega_0)\/abs(bold(H))$. *5)* $cos theta_omega = omega_0 \/ abs(bold(omega))$. *6-7)* $bold(H)$, $bold(omega)$ y el eje $y$ quedan en un mismo plano, inclinados hacia $+x$, con $bold(H)$ entre el eje y $bold(omega)$ ($theta_omega > theta_H$ porque $I_y > I_x$); visto desde afuera, $bold(H)$ queda fijo y el eje de simetría y $bold(omega)$ giran alrededor de él —precesión retrógrada: el cono espacial queda adentro del corporal— mientras el satélite gira sobre sí. *8)* con $omega_0 = 36$ rev/h $= 0,0628$ rad/s: $x_A + x_B = 0$ y $z_A + z_B = 2,897$ m, así que $bold(H) = (115,9;thin 150,8;thin 0)$ kg·m²/s, $abs(bold(H)) = 190,2$ kg·m²/s; $bold(omega) = (0,0579;thin 0,0628;thin 0)$ rad/s; $theta_H = 37,5°$ y $theta_omega = 42,7°$. Precesión $dot(phi) = abs(bold(H))\/I_x = 0,0951$ rad/s ($54,5$ rev/h); spin $dot(psi) = omega_0 (I_x - I_y)\/I_x = -0,0126$ rad/s ($-7,2$ rev/h). _(verificada: recalculada por separado, y la misma cuenta con los radios de giro del Beer, $I_x = 2025$ e $I_y = 2401$ kg·m², da las respuestas del libro: $theta_x = 52,5°$, $theta_y = 37,5°$, $53,8$ y $6,68$ rev/h; con $A$ y $D$, las del 18.126)_],
 )

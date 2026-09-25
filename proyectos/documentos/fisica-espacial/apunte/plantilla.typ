@@ -91,7 +91,12 @@
 #let clave(cuerpo) = marca([La idea:], c-azul, cuerpo)
 
 // El corazón del apunte: de dónde sale la fórmula que se acaba de usar.
-#let deduccion(titulo, cuerpo) = caja([De dónde sale — #titulo], c-azul.darken(15%), cuerpo)
+// Si el título ya arranca con «de dónde sale(n)», no se le antepone otra vez:
+// hasta el 2026-09-25 siete cajas salían «DE DÓNDE SALE — DE DÓNDE SALE ...».
+#let deduccion(titulo, cuerpo) = {
+  let ya-dice = type(titulo) == str and lower(titulo).starts-with("de dónde sale")
+  caja(if ya-dice [#titulo] else [De dónde sale — #titulo], c-azul.darken(15%), cuerpo)
+}
 
 // ---------- Repaso clicable ----------
 //

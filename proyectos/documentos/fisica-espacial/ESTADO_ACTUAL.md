@@ -1,5 +1,42 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fase 12 CERRADA: exactitud del Anexo A — 2026-09-25 (octava parte)
+
+**No hay fase abierta.** La siguiente la abre Fran (PDP §4, «Lo que queda
+fuera de fase»: los tres anexos, el estándar de ejemplos).
+
+- **Las 12 fichas «cuenta propia» del Anexo A recalculadas por separado**,
+  desde el enunciado y sin mirar la primera cuenta; donde era barato, por
+  dos caminos (energía y $h$, integral numérica y primitiva cerrada, Beer y
+  Meriam). `grep -c "cuenta propia"` **13 → 0**. Diez coincidieron.
+- **Dos corregidas.** Ej. 4 B de impulso angular: $r approx 8387$ km (decía
+  8388). **Problema 9 de CR, el octógono: el signo del empuje estaba dado
+  vuelta** — el gas sale hacia $+y$, al satélite lo empuja $-J hat(j)$—, y
+  con eso cambia el inciso 2. El 8, que decía «no se resuelve con un número
+  acá», ahora tiene números: $bold(H) = (115,9;thin 150,8;thin 0)$
+  kg·m²/s, $theta_H = 37,5°$, $theta_omega = 42,7°$, precesión 54,5 rev/h,
+  spin −7,2 rev/h.
+- **La orientación del octógono, confirmada contra el Beer 18.125** (pág.
+  1198): es el mismo problema con la misma figura, y trae el $omega_0 = 36$
+  rev/h que la guía no copió. Con los radios de giro del libro la cuenta
+  reproduce sus seis respuestas (18.125 y 18.126, pág. 1360); con el signo
+  viejo, no.
+- **Problema 7 de CR:** las posiciones de $A$ y $B$ medidas de nuevo sobre
+  la figura de la guía. Las cotas son **radios** (el HANDOFF decía
+  diámetros); la ficha ya usaba radios y coincide. El empuje se toma en
+  $+x$ y la ficha lo dice.
+- **Problema 5 de CR:** el número estaba bien (6 rev/min, retrógrada), pero
+  el «se resuelve con» justificaba la razón 2 con el teorema de ejes
+  perpendiculares como si fuera exacto; es exacto sólo para masas puntuales
+  en un plano, y la razón es un dato del enunciado. Reescrito.
+- **`plantilla.typ`:** los 7 títulos «DE DÓNDE SALE — DE DÓNDE SALE …»
+  arreglados en `#deduccion`, medido sobre el texto del PDF (7 → 0).
+
+**Medido:** compila, **188 páginas**. Miradas en el render las páginas
+tocadas (173, 177, 182, 183 impresas, y la 168 por la plantilla).
+`verificar-apunte.py` en verde y su saboteador 4/4; `medir-estilo.py`
+PENDIENTE 0.
+
 ## Fase 11 CERRADA: tanda (d), m18 a m21 y el Anexo A — 2026-09-25 (séptima parte)
 
 Mismo método que (a)–(c): reemplazos exactos con `rep.py` y fuentes medidas
