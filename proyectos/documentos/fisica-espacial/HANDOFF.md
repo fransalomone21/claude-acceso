@@ -6,6 +6,26 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-25, quinta parte — tanda (c) arrancada, cortada por apagado
+
+**m11 NO se tocó** (PENDIENTE sigue en 30). Lo medido, para no repetirlo:
+
+- **m11, fuentes:** Curtis §2.7 pág. 80, período pág. 84; Bate §1.7 pág. 30,
+  §1.7.2 («Period of an elliptical orbit») pág. 31; Beer ec. 12.45 pág. 739
+  (fin de §12.12) y **§12.13 «Leyes de Kepler» pág. 740** — la `#lectura`
+  dice «§12.12», hay que corregirla; Roederer cap. 4, apartado f)
+  «Movimiento de un satélite. Leyes de Kepler», págs. 125–130.
+- **Roederer pág. 128 intercambia la 2.ª y la 3.ª ley**: dice que la tercera
+  es «mera consecuencia» de conservar L y que la segunda es «propia de las
+  interacciones gravitatorias», contradiciendo su propio párrafo anterior.
+  Va como `#cuidado` en «Las tres leyes, ya deducidas» (la cátedra manda a
+  leer «el Roederer pg. 120 y suc.»).
+- **m11 tiene dos números de módulo a mano** (viola la regla 5): «la
+  @angm-areas del módulo 7» → `#M("momento-angular")`; «ecuación de la
+  órbita en el 9» → `#M("orbita-conicas")`. Y los dos números están mal.
+- Los pares viejo/nuevo de m11 estaban escritos en el scratchpad (se pierden
+  con él); rehacerlos con los datos de arriba.
+
 ## Sesión del 2026-09-25, cuarta parte — fase 11, tanda (b) hecha
 
 **m06–m10 hechos y publicados; sigue la tanda (c): m11–m16** (PENDIENTE 30;
