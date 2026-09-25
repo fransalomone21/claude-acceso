@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (c)
 
 #modulo("El problema restringido de tres cuerpos y los puntos de Lagrange", clave: "tres-cuerpos")[
   Qué queda del problema de dos cuerpos cuando hay tres y ninguno se puede
@@ -13,10 +14,11 @@
 ]
 
 El módulo #M("esfera-influencia") dejó una deuda escrita con todas las letras: el método de las
-cónicas parcheadas *no sirve para la Luna*. La esfera de influencia de la Luna
+cónicas parcheadas *anda mal para la Luna*. La esfera de influencia de la Luna
 mide el 17% de su distancia a la Tierra, y ninguna de las dos mentiras que el
-método necesita —«es un punto», «está en el infinito»— se sostiene. El párrafo
-terminaba mandando acá.
+método necesita —«es un punto», «está en el infinito»— se sostiene bien. Los
+libros la parchean igual para un primer número; para la llegada en serio, el
+párrafo terminaba mandando acá.
 
 Y hay una segunda cosa que el problema de dos cuerpos no puede ni plantear.
 En una órbita alrededor de un solo cuerpo no existe ningún lugar donde una
@@ -26,9 +28,14 @@ la Tierra alrededor del Sol a distancia fija, y no es magia ni es un motor
 prendido. Es geometría de tres cuerpos, y sale de acá.
 
 #lectura[
-  *Curtis, capítulo 2* («The two-body problem»), la sección «Circular
-  restricted three-body problem», pág. 124-139 —al final del capítulo, después
-  de agotar el caso de dos cuerpos que ocupa el resto—. Es, como el módulo
+  *Curtis, capítulo 2* («The two-body problem»), §2.12, «Circular
+  restricted three-body problem», págs. 116–131 —al final del capítulo, después
+  de agotar el caso de dos cuerpos que ocupa el resto—.
+
+  El propio Curtis, en la presentación del capítulo (pág. 55), avisa que
+  este material *es opcional*. La lista de temas de la cátedra, en la fila
+  que agregó el 7/9, pide «Todo — Curtis cap. 2». Entre el autor del libro y
+  Aníbal, gana Aníbal, que es el que toma el parcial. Es, como el módulo
   #M("esfera-influencia"), astrodinámica y no mecánica general: ni Roederer ni
   S&Z tratan el problema de tres cuerpos, y Bate tampoco lo cubre con ese
   nombre.
@@ -42,12 +49,14 @@ prendido. Es geometría de tres cuerpos, y sale de acá.
 
 == La idea completa, antes de la primera ecuación
 
-Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.
+Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos,
+y es el orden del Curtis §2.12 (pág. 116).
 
 + *Aceptar la pérdida, y recortar el problema.* Tres cuerpos que se atraen
   entre sí no tienen solución cerrada: no hay fórmula que dé la posición en
   función del tiempo, y no es que todavía no se encontró — se sabe que no
-  existe. Así que se recorta el problema hasta el caso que sí se puede
+  existe. Newton lo intentó con la Luna y dijo que le daba dolor de cabeza;
+  trescientos años después, sigue doliendo. Así que se recorta el problema hasta el caso que sí se puede
   estudiar: dos cuerpos grandes girando en *círculo* uno alrededor del otro,
   y un tercero tan chico que no los perturba. Eso es el *problema restringido
   circular*, y describe bien a la nave frente a la Tierra y la Luna, o frente
@@ -416,7 +425,11 @@ esa diferencia y explica de dónde sale.], fig-lagrange-puntos)
 == Dos fronteras para lo mismo: Hill contra la esfera de influencia
 
 Acá hay algo que conviene mirar de frente, porque el apunte ya definió una
-frontera para el mismo problema y no es ésta.
+frontera para el mismo problema y no es ésta. El radio de Hill no está en
+ninguno de los libros de la bibliografía con ese nombre —en el Curtis se
+buscó y no aparece—: sale de la ecuación de $L_1$ del Curtis §2.12.1 (pág.
+120), desarrollada a primer orden. Es una de esas cuentas que ningún libro
+hace porque todos la dan por obvia, y por eso vale hacerla.
 
 El módulo #M("esfera-influencia") dibujó la *esfera de influencia* comparando perturbaciones, y le
 dio a la Luna un radio de $66 thin 200$ km (@soi-soi). Este módulo acaba de
@@ -533,7 +546,9 @@ comparación con la esfera de influencia es lo interesante:
 == Cuáles sirven para estacionar
 
 Que un punto sea de equilibrio no dice nada sobre qué pasa si la nave se
-corre un poco. Un lápiz parado sobre la punta está en equilibrio.
+corre un poco. Un lápiz parado sobre la punta está en equilibrio, y el que
+lo dejó ahí para ir a buscar un café ya sabe cómo termina. Todo lo de esta
+sección es del Curtis §2.12.1 (pág. 126), que a su vez lo toma de Battin.
 
 #definicion("equilibrio estable e inestable")[
   Un punto de equilibrio es *estable* si una nave desplazada un poco tiende a
@@ -578,7 +593,8 @@ que se puede pedir, porque nadie los puso.
   están en los puntos inestables*, no en los estables. SOHO y el James Webb
   están en $L_1$ y $L_2$ del par Sol–Tierra, que se les escapan solos.
 
-  Hay dos razones y las dos son plata. La primera es que los puntos
+  Hay dos razones y las dos son plata, como casi todo lo que se decide en
+  serio en una agencia espacial. La primera es que los puntos
   inestables están *donde uno los necesita* —$L_1$ mirando al Sol, $L_2$ con
   todo el calor a la espalda— y los estables están a 150 millones de
   kilómetros de la Tierra, tan lejos como el Sol.
@@ -813,8 +829,9 @@ la Tierra y la Luna.], fig-jacobi-perfil)
 
 == Lo que se usa después
 
-Este módulo cierra la Parte V y, con ella, el apunte. Lo que queda dicho para
-lo que siga:
+Este módulo cierra la Parte IV y, con ella, la mecánica orbital del apunte;
+lo que sigue, la Parte V, es cuerpo rígido. Lo que queda dicho para lo que
+siga:
 
 1. *La deuda del tiempo sigue abierta, y ya no es de este módulo.* Los $3,2$
    días que el módulo #M("esfera-influencia") le atribuye a la travesía de la esfera de influencia
@@ -826,11 +843,12 @@ lo que siga:
 2. *El problema de cuatro cuerpos no existe como tema aparte.* Cuando hay un
    cuerpo más —el Sol perturbando el par Tierra–Luna, por ejemplo— no hay una
    teoría nueva: se integra numéricamente, con las mismas ecuaciones de la
-   sección 19.2 más un término por cada cuerpo que se agregue. Todo lo que
+   sección «El marco que gira con los dos cuerpos» más un término por cada
+   cuerpo que se agregue. Todo lo que
    este módulo dedujo sin integrar —los puntos de equilibrio, la constante de
    Jacobi, las regiones prohibidas— *deja de valer exactamente* y sigue
-   valiendo como primera aproximación, que es justo lo que dice el cuadro
-   rojo sobre $L_4$ y $L_5$ del par Tierra–Luna.
+   valiendo como primera aproximación, que es justo lo que dice el aviso
+   sobre $L_4$ y $L_5$ del par Tierra–Luna.
 
 3. *Las tres fronteras de un cuerpo chico.* Quedan las tres definidas y con
    sus criterios separados: la esfera de influencia del módulo #M("esfera-influencia") para decidir
@@ -843,7 +861,7 @@ lo que siga:
    este módulo y el lugar donde están hoy varias de las misiones científicas
    más caras que hay volando.
 
-5. *Y la idea que atraviesa la Parte V entera.* El módulo #M("hiperbola") dio la forma de
+5. *Y la idea que atraviesa la Parte IV entera.* El módulo #M("hiperbola") dio la forma de
    toda salida y toda llegada; el #M("esfera-influencia"), la licencia para partir un viaje en
    problemas de dos cuerpos y la medida de cuánto miente esa licencia; el #M("perifocal-lagrange"),
    la forma de escribirlo todo en vectores para una computadora; y el #M("tres-cuerpos"), qué

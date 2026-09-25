@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (c)
 
 #modulo("Marco perifocal, vector de estado y coeficientes de Lagrange", clave: "perifocal-lagrange")[
   Escribir una órbita en *vectores*, que es como la escribe cualquier
@@ -12,7 +13,7 @@
   recalcular nada, con cuatro coeficientes.
 ]
 
-Todo lo que la Parte III y la Parte V hicieron hasta acá está escrito con
+Todo lo que la Parte III y la Parte IV hicieron hasta acá está escrito con
 *escalares*: $r$, $nu$, $h$, $e$, $a$. Alcanzó para deducir las cónicas, para
 Kepler, para Hohmann y para la hipérbola de escape, y va a seguir alcanzando
 para entender cualquier órbita.
@@ -22,14 +23,21 @@ entrega tres números de posición y tres de velocidad, en los ejes que ese
 radar usa. Un integrador numérico no acepta «una elipse de excentricidad
 $0,3$»: acepta $bold(r)_0$ y $bold(v)_0$ y devuelve $bold(r)$ y $bold(v)$. Y
 un catálogo de satélites no guarda trayectorias: guarda seis números por
-objeto. Este módulo es el puente entre las dos formas de decir lo mismo.
+objeto. Este módulo es el puente entre las dos formas de decir lo mismo. Es
+también el módulo con más letras por centímetro cuadrado del apunte, y no
+hay manera honesta de evitarlo: una órbita en el espacio tiene más ángulos
+que un rompecabezas.
 
 #lectura[
   *Bate, capítulo 2*, §2.2 («Coordinate systems»), §2.3 («Classical orbital
   elements»), §2.4 («Determining the orbital elements from r and v») y §2.5
   («Determining r and v from the orbital elements») — págs. 53 a 73, que es
-  exactamente el tramo que pide la lista de temas de la cátedra. Y *Curtis,
-  capítulo 2*, §2.10 («Perifocal frame») y §2.11 («The Lagrange coefficients»).
+  exactamente el tramo que pide la lista de temas de la cátedra. La misma
+  fila pide también las págs. 19–40 «con las *canonical units* excluidas»,
+  que es de las pocas veces que una lista de temas saca algo en vez de
+  agregarlo; se agradece y no se pregunta. Y *Curtis, capítulo 2*, §2.10
+  («Perifocal frame», pág. 102) y §2.11 («The Lagrange coefficients», pág.
+  105).
 
   Cuál abrir para qué: el *Bate* para los sistemas de referencia y para los
   elementos orbitales —es el que los define uno por uno y el que da las tres
@@ -39,7 +47,9 @@ objeto. Este módulo es el puente entre las dos formas de decir lo mismo.
 
 == La idea completa, antes de la primera ecuación
 
-Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos.
+Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos,
+y es el orden del Bate, cap. 2 (págs. 53–73), con los coeficientes del
+Curtis §2.11 (pág. 105) al final.
 
 + *Elegir bien los ejes.* Un vector no cambia porque uno cambie de ejes —lo
   único que cambia son los tres números con los que se escribe—, así que
@@ -352,6 +362,10 @@ queda fuera de lo que la cátedra pide de este capítulo.
   bambolea. Esa *precesión de los equinoccios* corre la recta de intersección
   entre el ecuador y la eclíptica, o sea corre el punto vernal, unos $50$
   segundos de arco por año — una vuelta entera en unos $26 thin 000$ años.
+  Es la peonza del módulo #M("peonza"), con la Tierra haciendo de peonza y
+  una paciencia que ningún alumno tiene. Y por eso el símbolo de Aries ya no
+  apunta a Aries: el punto vernal se mudó de constelación y nadie le cambió
+  el nombre.
 
   Por eso, cuando la precisión importa, un vector no se da en «el
   geocéntrico-ecuatorial» a secas sino en el de una *época*: J2000 quiere decir
@@ -366,9 +380,11 @@ queda fuera de lo que la cátedra pide de este capítulo.
   cambia es con qué tres números la escribís.
 
   Y la que te va a salvar de la mitad de los errores del tema es la que está
-  en el «ojo» en rojo de arriba: el sistema IJK está *centrado* en la Tierra pero
+  en el aviso de más arriba: el sistema IJK está *centrado* en la Tierra pero
   no *pegado* a la Tierra. Centrado y pegado no son lo mismo, y el geocéntrico
-  ecuatorial es lo primero y no lo segundo.
+  ecuatorial es lo primero y no lo segundo. Si te pegás al sistema que gira,
+  la Tierra te queda quieta y el cielo entero se pone a dar vueltas, que es
+  justo lo que creía todo el mundo antes de Copérnico.
 
   Lo demás es vocabulario: eclíptico si el cuerpo gira alrededor del Sol, IJK
   si gira alrededor de la Tierra, ascensión recta y declinación si lo que
@@ -506,7 +522,9 @@ $ cos omega = (bold(n) dot bold(e))/(n e), quad quad
     quedan indefinidos, y $bold(e) = bold(0)$.
 
   En los dos casos la órbita existe perfectamente y el vector de estado la
-  describe sin problema: lo que falla es la *moneda*, no el dinero. Se
+  describe sin problema: lo que falla es la *moneda*, no el dinero — y los
+  casos que rompen la moneda son justo los que más se usan, porque la
+  órbita geoestacionaria es circular *y* ecuatorial a la vez. Se
   arreglan cambiando de elemento —el Bate define el argumento de latitud
   $u_0 = omega + nu_0$ para el caso circular y la longitud verdadera
   $ell_0 = Omega + omega + nu_0$ para el ecuatorial y circular a la vez—, y
@@ -517,6 +535,8 @@ $ cos omega = (bold(n) dot bold(e))/(n e), quad quad
 == Los coeficientes de Lagrange
 
 Acá hay una sola idea, y se dice en un renglón antes de cualquier cuenta.
+Después vienen dos páginas de cuentas del Curtis §2.11 (págs. 105–110), que
+son el precio de haberla dicho en un renglón.
 
 El movimiento es plano: el módulo #M("momento-angular") mostró que $bold(h)$ se conserva y que por
 eso la órbita entera vive en un plano. Y en ese plano, $bold(r)_0$ y
@@ -732,7 +752,8 @@ $ r = h^2/mu 1/(1 + (h^2/(mu r_0) - 1) cos(Delta nu) - (h thin v_(r 0))/mu sin(D
 
 #cuidado[
   *El ejemplo 2.13 de Curtis imprime $r_0 = 10 thin 861$ km, y el valor
-  correcto es $10 thin 681$.* Es una transposición de dos cifras, y se
+  correcto es $10 thin 681$.* Es una transposición de dos cifras —hasta el
+  libro que la cátedra pide *entero* se equivoca en el tipeo—, y se
   confirma con el resultado que el propio libro imprime dos renglones más
   abajo: con $10 thin 681$ sale $h = 75 thin 366 " km"^2"/s"$, que es lo que
   el libro publica; con $10 thin 861$ saldría $76 thin 630$. El resto del
@@ -742,7 +763,8 @@ $ r = h^2/mu 1/(1 + (h^2/(mu r_0) - 1) cos(Delta nu) - (h thin v_(r 0))/mu sin(D
 
 #posta[
   Lo que hay que llevarse de esta sección no son las cuatro fórmulas: son
-  feas, están en el libro y nadie las escribe de memoria. Lo que hay que
+  feas, están en el libro y nadie las escribe de memoria, y el que diga que
+  sí miente o no tiene vida. Lo que hay que
   llevarse es *por qué existen*, que se dice en una línea: la órbita es plana,
   y dos vectores no paralelos de un plano alcanzan para escribir cualquier
   otro. Todo lo demás es despejar.
@@ -763,7 +785,9 @@ horas?».
 
 Pasar de $Delta t$ a $Delta nu$ es un problema aparte —la *ecuación de
 Kepler*—, y no es un despeje: la ecuación que los liga no se puede invertir en
-forma cerrada. Es el capítulo 3 de Curtis, y este apunte no lo desarrolla.
+forma cerrada. Es el capítulo 3 de Curtis, y este apunte no lo desarrolla,
+porque la lista de la cátedra tampoco lo pide. Es lo único en que la
+cátedra y el apunte están de acuerdo en no hacer nada.
 
 Lo que sí se puede hacer, y es barato, es escribir $f$ y $g$ *directamente en
 función del tiempo* para intervalos cortos, desarrollando $bold(r)(t)$ en

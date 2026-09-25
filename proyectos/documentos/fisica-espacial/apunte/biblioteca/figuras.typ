@@ -1888,7 +1888,7 @@
 
   // --- Cónica 2: la elipse heliocéntrica, la única que ve al Sol.
   arco-conica(Sol, p-t, e-t, dir-perigeo: 0, desde: 0, hasta: 180, color: c-verde, grosor: trazo-curva)
-  rotulo((-0.45, a-t + 0.06), text(fill: c-verde, size: 8pt)[elipse heliocéntrica: la de Hohmann, módulo 11], ancla: "south")
+  rotulo((-0.45, a-t + 0.06), text(fill: c-verde, size: 8pt)[elipse heliocéntrica: la de Hohmann], ancla: "south")
 
   // --- Cónica 1: la hipérbola de salida, adentro de la esfera terrestre.
   let T = (r1, 0)

@@ -1,5 +1,46 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fase 11 en curso: tanda (c), módulos 11 a 16 — 2026-09-25 (sexta parte)
+
+Hecha igual que la (a) y la (b): reemplazos exactos (pares viejo/nuevo y un
+script que no escribe nada si un texto viejo no aparece una sola vez —se lo
+puso en rojo a propósito antes de usarlo—), fuentes medidas contra los PDFs.
+
+- **m11 a m16 con la voz de la regla 8** y la marca `// voz:`. De la cátedra,
+  textual: el «Roederer pg. 120 y suc.» (m11), la «Fig. 12.23» del Beer para
+  Hohmann y el «investigar» del Problema 10 (m12), la fila «Todo — Curtis
+  cap. 2» (m13 y m16), las *canonical units* excluidas (m15). **Punto para
+  Aníbal** en m12: el Beer no nombra a Hohmann en todo el tomo, pero la Fig.
+  12.23 es exactamente la elipse de transferencia.
+- **`#posta` nueva en m11 y m12** (el período lo decide sólo $a$; para
+  alcanzar al de adelante hay que frenar). m13–m16 ya tenían.
+- **Libro y página en las 11 secciones que no los tenían**, medidos.
+- **Errores de fuente corregidos**, todos medidos contra el PDF:
+  - m11: la `#lectura` mandaba al Beer §12.12; las leyes de Kepler están en
+    **§12.13, pág. 740**. Y el **Roederer pág. 128 intercambia la 2.ª y la
+    3.ª ley**: entró como aviso, contra el S&Z pág. 412, que lo dice bien.
+  - m14: decía que **el Bate no trata la esfera de influencia**. La trata en
+    §1.10.3 (pág. 40), §7.4 (págs. 333–334, con el mismo criterio de
+    perturbaciones) y §8.3 (pág. 359). Y decía que el parcheo «no sirve» para
+    la Luna: el Bate §7.4 y el Curtis cap. 9 lo usan como primera
+    aproximación; quedó «anda mucho peor».
+  - m16: la `#lectura` citaba **págs. 124–139, que eran las del PDF**; las
+    impresas son 116–131. Y el Curtis (pág. 55) dice que §2.12 **es opcional**
+    —la cátedra pide «Todo»—: entró como chiste, textual.
+  - m14 ex. 8.4: págs. 399–401, no 401.
+- **Numeración vieja corregida**: «Parte V» por IV en m15 y m16 (el cuerpo
+  rígido es la V, y m16 decía que cerraba *el apunte*), «módulo 16» / «en el
+  9» / «del módulo 7» a mano en m11 y m14 → `#M(...)`, «sección 19.2» en
+  m16, y el rótulo «módulo 11» de la figura de las cónicas parcheadas
+  (`biblioteca/figuras.typ`), que era el 12. Tres menciones de color en la
+  prosa sacadas.
+
+**Medido:** `medir-estilo.py` **30 → 10** (m01–m17 en `ok`; lo que queda es
+la tanda (d)). Compila sin errores, **186 páginas** (eran 185). Miradas en
+el render las **35 páginas** tocadas: sin cajas rotas ni tablas cortadas.
+`verificar-apunte.py` e `indice-temas.py` en verde, y su saboteador 4/4.
+Sigue la **tanda (d): m18–m21 y el Anexo A**.
+
 ## Fase 11 en curso: tanda (b), módulos 6 a 10 — 2026-09-25 (cuarta parte)
 
 Hecha igual que la (a): reemplazos exactos, fuentes medidas contra los PDFs

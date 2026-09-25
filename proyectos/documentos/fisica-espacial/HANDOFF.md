@@ -6,6 +6,27 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-25, sexta parte — tanda (c) hecha
+
+**m11–m16 hechos y publicados; sigue la tanda (d): m18–m21 y el Anexo A**
+(PENDIENTE 10: 3 sin voz, 4 sin posta, 2 secciones sin libro en m21 —una se
+llama «Cierre de la Parte IV» y es la V: numeración vieja, como la que
+apareció en m15 y m16—). Lo que la (d) tiene que saber:
+
+- **Las `#lectura` siguen sin estar medidas y siguen fallando.** En esta
+  tanda: m14 negaba que el Bate tratara la esfera de influencia (la trata en
+  tres lugares) y m16 citaba páginas del PDF en vez de las impresas. Cada
+  `#lectura` se mide contra el PDF igual que una sección.
+- **Offsets confirmados** (impresa = PDF − n): Curtis 8 (págs. 55 a 401),
+  Bate 15 (págs. 34 a 359), Beer 574, S&Z vol. 1 28 en el cap. 13.
+- **Buscar la numeración vieja**: `grep -n "Parte V\|módulo [0-9]"` en cada
+  módulo. Las partes son I–V con el cuerpo rígido en la V (`apunte.typ`).
+- El método de siempre: `buscar.py <libro> <regex>` / `--pag N` y `rep.py
+  <archivo> <pares>`, los dos se reescriben en dos minutos (scratchpad).
+- Sin verificar, anotado: la figura de Hohmann a Marte (m12, pág. 88 del
+  PDF) tiene dos rótulos que se salen del recuadro a la derecha. No es de
+  esta tanda; va con la fase 12 o con la próxima vez que se toque la figura.
+
 ## Sesión del 2026-09-25, quinta parte — tanda (c) arrancada, cortada por apagado
 
 **m11 NO se tocó** (PENDIENTE sigue en 30). Lo medido, para no repetirlo:
