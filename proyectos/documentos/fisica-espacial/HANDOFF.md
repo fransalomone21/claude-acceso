@@ -6,6 +6,32 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-25, tercera parte — fase 11, tanda (a) hecha
+
+**La voz está aprobada (fase 10 cerrada); la tanda (a), m01–m05, hecha y
+publicada.** Sigue la **tanda (b): m06–m10**. `medir-estilo.py` dice qué
+falta en cada uno (hoy PENDIENTE 44).
+
+Cómo se hizo, para repetirlo igual en la (b):
+
+- **Edición por reemplazos exactos, no reescritura**: un archivo de pares
+  viejo/nuevo en el scratchpad y un script que exige que cada texto viejo
+  aparezca una sola vez y no escribe nada si uno falla. Las ecuaciones no
+  se tocan; se agrega voz en los párrafos que las rodean. El hook de la
+  guardia bloquea los heredocs largos con backslash: el script va a un
+  archivo con Write, no por heredoc.
+- **La fuente de cada sección se mide contra el PDF antes de citarla**
+  (pymupdf, glob por nombre como dice `fuentes/RUTAS.md`). Offset del S&Z
+  vol. 1 en cap. 1: pág. impresa = PDF − 27.
+- **Los chistes sobre la cátedra salen de `fuentes/TEMARIO.md`**: ahí están
+  transcriptos los comentarios textuales de cada lista de temas. Sobre Fran,
+  sólo si hay algo que dijo o escribió; en m01–m05 no había, y no se puso.
+
+**Hipótesis, sin verificar:** las páginas del S&Z cap. 8 citadas en m03
+(ec. 8.4 pág. 238, §8.2 pág. 243) podrían estar corridas en uno: el
+encabezado de §8.2 aparece en el PDF en la pág. impresa 244 con el offset
+−27. No se tocó; va con la fase 12 (exactitud).
+
 ## Sesión del 2026-09-25, segunda parte — la voz, tercera vuelta
 
 **La regla que manda ahora es la 8 de `CLAUDE.md`, reescrita**; el ejemplo

@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (a)
 
 #modulo("Marcos de referencia: cuándo vale F = m a, y qué pasa cuando no", clave: "marcos")[
   Decir desde dónde se está mirando, y saber qué cambia cuando eso cambia:
@@ -22,10 +23,12 @@ quieto en el asiento de al lado arranca solo hacia adelante. Nadie lo empujó,
 no hay ninguna fuerza nueva, y sin embargo aceleró. Para el que está parado en
 la vereda no pasó nada raro —el bolso siguió derecho, y lo que cambió de
 velocidad fue el colectivo—, pero para el pasajero $bold(F) = m bold(a)$ acaba
-de fallar adentro del colectivo.
+de fallar adentro del colectivo. El bolso no tiene a quién echarle la culpa; el
+pasajero sí, y elige al chofer. Tiene razón a medias: el chofer frenó, pero la
+fuerza que empujó el bolso no la hizo nadie.
 
-La pregunta no es filosófica, y no se puede postergar: tres de los momentos más
-delicados de lo que viene dependen de contestarla bien.
+La pregunta suena a filosofía, y no se puede postergar: tres de los momentos
+más delicados de lo que viene dependen de contestarla bien.
 
 #clave[
   *Los tres lugares donde este módulo se cobra, y por qué conviene pagarlo
@@ -58,7 +61,8 @@ delicados de lo que viene dependen de contestarla bien.
 == La idea completa, antes de la primera ecuación
 
 Antes de escribir nada conviene tener el plan entero, porque son tres pasos y
-cada uno contesta una pregunta distinta:
+cada uno contesta una pregunta distinta. Es el orden del Roederer, cap. 3, que
+es el libro que se toma este tema en serio:
 
 + *Escribir las tres leyes, y notar que la primera no dice lo mismo que las
   otras dos.* La segunda y la tercera son afirmaciones sobre fuerzas; la
@@ -100,7 +104,10 @@ cada uno contesta una pregunta distinta:
 
 == Las tres leyes, y cuál de ellas no es una ley
 
-Las tres, escritas, porque el apunte entero las usa y nunca están de más:
+Las tres, escritas, porque el apunte entero las usa y nunca están de más (S&Z
+§4.2, §4.3 y §4.5; Roederer §3.a, pág. 65). Sí, se las sabe cualquiera desde el
+secundario. Lo que no se enseña en el secundario es la vuelta que viene
+después de la tercera, y es la que importa acá:
 
 #definicion("las tres leyes de Newton")[
   + *Primera.* Un cuerpo libre de fuerzas de interacción permanece en reposo o
@@ -147,14 +154,17 @@ Las tres, escritas, porque el apunte entero las usa y nunca están de más:
 
   La pregunta útil, entonces, nunca es «¿es inercial?», que casi siempre se
   contesta que no. Es *«¿se aparta lo suficiente como para que se note en lo
-  que estoy calculando?»* — y ésa se contesta con un número.
+  que estoy calculando?»* — y ésa se contesta con un número. «Es inercial
+  porque el enunciado no dice nada» no es un número.
 ]
 
 == La transformación de Galileo
 
 Si un marco es inercial, ¿cuáles otros lo son? La respuesta es la que uno
 esperaría, y conviene verla salir, porque de ella cuelga el derecho a elegir
-marco.
+marco (Roederer §3.j, pág. 101). Galileo la tenía clara sin ecuaciones y
+arriba de un barco; acá se hace con una resta de vectores, que es menos
+poético y más difícil de discutir.
 
 #fig([Los dos marcos de la transformación de Galileo. El marco $S'$ se traslada
 respecto de $S$ con velocidad *constante* $bold(V)$, y al cabo de un tiempo $t$
@@ -212,7 +222,9 @@ se resta es un vector y no una rotación.], fig-galileo)
 == Qué sobrevive a la transformación, y qué no
 
 Es tentador leer lo anterior como «entonces da igual», y no da igual: lo que no
-cambia es la *forma de las leyes*, no el valor de las cantidades.
+cambia es la *forma de las leyes*, no el valor de las cantidades. Ahí se cae
+la mitad de los choques mal resueltos, y el Sears lo avisa (vol. 1, pág. 179)
+en un lugar donde nadie lo va a buscar: el teorema trabajo–energía.
 
 #cuidado[
   *La cantidad de movimiento, la energía cinética y el trabajo SÍ cambian de un
@@ -236,7 +248,8 @@ cambia es la *forma de las leyes*, no el valor de las cantidades.
 == Cuando el marco acelera en línea recta
 
 Sale del mismo cálculo, cambiando una sola cosa: que $bold(V)$ ya no sea
-constante.
+constante. Es el colectivo del principio, ahora con ecuaciones (Roederer §3.j,
+pág. 102).
 
 #deduccion("de dónde sale la fuerza de inercia")[
   Si el marco $S'$ acelera con $bold(A)$ respecto del inercial $S$, derivar dos
@@ -256,6 +269,10 @@ constante.
   es una fuerza de interacción: no la ejerce ningún cuerpo. Es el precio de
   haberse parado en un marco que acelera, escrito del lado de las fuerzas para
   poder seguir usando $bold(F) = m bold(a)$ con la forma de siempre.
+
+  Muchos libros la llaman *ficticia*, y es exacto y un poco injusto: el
+  pasajero que se dio la frente contra el asiento de adelante no opina que
+  haya sido ficticia.
 ]
 
 #geometria[
@@ -274,7 +291,9 @@ constante.
 == Cuando el marco gira
 
 Éste es el caso que la parte de gravitación necesita, y se deduce entero con lo
-que ya dio el módulo #M("vectores"): no hace falta ninguna herramienta nueva.
+que ya dio el módulo #M("vectores"): no hace falta ninguna herramienta nueva
+(el caso general está en el Beer, §15.11). El $2 dot(r) dot(theta)$ que allá
+parecía un capricho de las polares vuelve acá con nombre y apellido.
 Se toma el caso que alcanza —movimiento en un plano, y un marco que gira con
 velocidad angular $Omega$ *constante* alrededor del eje perpendicular—, que es
 justo el del problema de tres cuerpos.
@@ -336,7 +355,7 @@ $ m bold(a)_"rel" = bold(F) - 2 m bold(Omega) times bold(v)_"rel"
   —tres dimensiones, y un $bold(Omega)$ que además cambia— es la cinemática del
   cuerpo rígido, y se deduce en el módulo #M("cinematica-cr"), donde aparecen
   dos términos más. La @marcos-rotante es el caso particular de aquélla, no una
-  fórmula distinta.
+  fórmula distinta: no hace falta aprenderse dos.
 ]
 
 == Lo que se usa después

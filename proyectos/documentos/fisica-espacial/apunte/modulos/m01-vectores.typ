@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (a)
 
 #modulo("Vectores y cinemática en coordenadas polares", clave: "vectores")[
   Escribir un vector en componentes y volver de las componentes al vector;
@@ -13,13 +14,18 @@ Esta materia es, casi entera, la aplicación de tres teoremas de conservación a
 cuerpos que se mueven en el espacio. Los tres se escriben con vectores, y dos
 de ellos —el del momento angular y el de la energía en un campo central— sólo
 son manejables en coordenadas polares. De ahí que la cátedra dedique la primera
-semana entera a repasar vectores: no es trámite, es la herramienta con la que
-está escrito todo lo demás.
+semana entera a repasar vectores. Parece un trámite de ingreso, y es la
+tentación de todo primer día: «esto ya lo vi». Lo viste, sí. Lo que no viste
+es qué pasa cuando los versores se mueven, y eso hace de este módulo el que
+más se usa de todo el apunte, aunque sea el primero y el más aburrido.
 
 El módulo va de lo conocido a lo que probablemente no lo sea. Las secciones
 #link(<vec-escalar>)[1.2] a #link(<vec-dobles>)[1.4] son repaso y se leen rápido;
 la #link(<vec-derivada>)[1.5] y la #link(<vec-polares>)[1.6] son el corazón, y de
 ahí sale la mitad de las fórmulas de los módulos #M("momento-angular") al #M("maniobras").
+El que se saltee las dos últimas porque «son de repaso» se las va a volver a
+encontrar en la órbita, sin aviso y con un $2 dot(r) dot(theta)$ que no sabe de
+dónde salió.
 
 #lectura[
   El álgebra de vectores —componentes, cosenos directores, producto escalar y
@@ -35,19 +41,29 @@ ahí sale la mitad de las fórmulas de los módulos #M("momento-angular") al #M(
   parte nueva —las coordenadas polares—, porque trae la figura del versor
   radial y transversal girando, que es la que explica de dónde salen los dos
   términos que no aparecen en cartesianas.
+
+  Lo que el Sears *no* trae, aunque la guía lo pida: los cosenos directores y
+  los dobles productos. Los cosenos están en el Roederer (pág. 40, con la
+  identidad de los cuadrados incluida) y en el Apéndice A del Beer, que
+  resume en seis páginas el álgebra vectorial de la *Estática* (págs.
+  1291–1296). O sea que para la primera semana ya hacen falta tres libros.
+  Bienvenidos a la materia.
 ]
 
 == El vector, sus componentes y sus cosenos directores
 
 Un vector en el espacio queda determinado por tres números, sus componentes
-sobre una terna ortonormal:
+sobre una terna ortonormal (S&Z §1.8, pág. 16, y los versores $hat(i)$,
+$hat(j)$, $hat(k)$ en §1.9). Tres números y ninguna flecha: la flecha es para
+el dibujo, las cuentas se hacen con los números.
 
 $ bold(A) = A_x hat(i) + A_y hat(j) + A_z hat(k), quad abs(bold(A)) = sqrt(A_x^2 + A_y^2 + A_z^2) $
 
 El *versor* de $bold(A)$ —el vector de módulo 1 que apunta para el mismo
 lado— es $hat(u)_A = bold(A) \/ abs(bold(A))$. Sus tres componentes son los
 *cosenos directores*: los cosenos de los ángulos $alpha$, $beta$, $gamma$ que
-$bold(A)$ forma con cada eje.
+$bold(A)$ forma con cada eje. El nombre asusta más de lo que el concepto
+merece (Roederer pág. 40; Beer Apéndice A, pág. 1292).
 
 #deduccion("Por qué los cosenos directores son las componentes del versor")[
   El ángulo $alpha$ entre $bold(A)$ y el eje $x$ es, por definición, el ángulo
@@ -60,9 +76,10 @@ $bold(A)$ forma con cada eje.
 ]
 
 #cuidado[
-  Esa identidad es el chequeo más barato que hay: si los tres cosenos que
-  calculaste no cierran en 1, la cuenta está mal y lo sabés antes de seguir.
-  Vale la pena hacerla siempre — cuesta tres cuadrados y una suma.
+  esa identidad es el chequeo más barato que hay: si los tres cosenos que
+  calculaste no cierran en 1, la cuenta está mal y lo sabés antes de seguir,
+  en vez de enterarte en la devolución. Cuesta tres cuadrados y una suma; no
+  hacerla cuesta bastante más.
 ]
 
 == El producto escalar: proyectar <vec-escalar>
@@ -70,8 +87,9 @@ $bold(A)$ forma con cada eje.
 $ bold(A) dot bold(B) = A_x B_x + A_y B_y + A_z B_z = abs(bold(A)) abs(bold(B)) cos theta $
 
 Las dos expresiones son la misma cosa vista distinto: la primera es una cuenta,
-la segunda dice qué significa. Lo que el producto escalar mide es *cuánto de un
-vector va en la dirección del otro*.
+la segunda dice qué significa (S&Z §1.10, pág. 20–22). La primera la hace una
+calculadora; la segunda es la que se pregunta en un oral. Lo que el producto
+escalar mide es *cuánto de un vector va en la dirección del otro*.
 
 #fig([La proyección de $bold(B)$ sobre $bold(A)$. El producto escalar mide el
 largo de esa sombra, multiplicado por $abs(bold(A))$.], fig-proyeccion)
@@ -94,7 +112,8 @@ largo de esa sombra, multiplicado por $abs(bold(A))$.], fig-proyeccion)
   origen en común.* Si en el dibujo uno de los dos está trasladado —dibujado
   desde la punta del otro, como en una suma— el ángulo que se ve NO es
   $theta$: es su suplementario, y el coseno cambia de signo. Antes de escribir
-  $cos theta$, llevá mentalmente los dos vectores a un mismo origen.
+  $cos theta$, llevá mentalmente los dos vectores a un mismo origen. El
+  dibujo no miente, pero tampoco se ofrece a explicarse.
 ]
 
 #clave[
@@ -135,7 +154,9 @@ $ bold(A) times bold(B) = mat(delim: "|", hat(i), hat(j), hat(k); A_x, A_y, A_z;
 
 El resultado es un *vector*, perpendicular a los dos, con el sentido que da la
 regla de la mano derecha, y con módulo igual al área del paralelogramo que los
-dos vectores forman.
+dos vectores forman (S&Z §1.10, pág. 23–25). La mano derecha no es un
+recurso para principiantes: es la definición, y más adelante la cátedra la va
+a pedir con dos signos de exclamación. Conviene ir entrenándola.
 
 #fig([El módulo del producto vectorial es el área del paralelogramo: base
 $abs(bold(A))$ por altura $abs(bold(B)) sin theta$.], fig-producto-vectorial)
@@ -171,12 +192,16 @@ $abs(bold(A))$ por altura $abs(bold(B)) sin theta$.], fig-producto-vectorial)
 
   Y hay *dos* respuestas: $-hat(n)$ también es perpendicular a los dos. Cuál de
   las dos es «la» respuesta lo decide el orden en que se escribió el producto,
-  que es una elección, no un dato del problema.
+  que es una elección, no un dato del problema. Si te marcan mal el signo,
+  defendé la otra: es tan correcta como la primera.
 ]
 
 == Los dobles productos, y la trampa <vec-dobles>
 
-Con tres vectores hay dos combinaciones que aparecen todo el tiempo:
+Con tres vectores hay dos combinaciones que aparecen todo el tiempo, y ninguna
+de las dos está en el Sears: el producto mixto está en el Apéndice A del Beer
+(A.7, pág. 1295), y el doble producto vectorial, en ningún capítulo que la
+cátedra haya pedido. Los pide la guía, en el Ej. 15, que es donde importa:
 
 *Producto mixto* $bold(A) dot (bold(B) times bold(C))$. Es un *escalar*, y vale
 el volumen del paralelepípedo de aristas $bold(A)$, $bold(B)$, $bold(C)$ —con
@@ -190,7 +215,7 @@ $ bold(A) times (bold(B) times bold(C)) = bold(B) (bold(A) dot bold(C)) - bold(C
 
 Se la recuerda como *«BAC menos CAB»*, y se usa sin demostrarla: la deducción
 por componentes es tres páginas de álgebra que no cambian el entendimiento de
-nada. Lo que sí hay que entender es *por qué* el resultado cae en el plano de
+nada, y hacerla una vez en la vida alcanza. Lo que sí hay que entender es *por qué* el resultado cae en el plano de
 $bold(B)$ y $bold(C)$: porque $bold(B) times bold(C)$ es perpendicular a ese
 plano, y cruzar $bold(A)$ con algo perpendicular al plano devuelve algo que
 está *en* el plano.
@@ -200,8 +225,9 @@ está *en* el plano.
   $ (bold(A) times bold(B)) times bold(C) != bold(A) times (bold(B) times bold(C)) $
   El primero vive en el plano de $bold(A)$ y $bold(B)$; el segundo, en el de
   $bold(B)$ y $bold(C)$. Son vectores distintos, y en el Ej. 15 de la guía se
-  piden los dos justamente para que la diferencia se vea con números. *Los
-  paréntesis no son decorativos: sin ellos la expresión no significa nada.*
+  piden los dos justamente para que la diferencia se vea con números —es una
+  trampa puesta a propósito, y está bien puesta—. *Los paréntesis no son
+  decorativos: sin ellos la expresión no significa nada.*
 ]
 
 #geometria[
@@ -212,8 +238,9 @@ está *en* el plano.
 
 == La derivada de un vector: dos partes, no una <vec-derivada>
 
-Acá empieza lo que realmente hace falta. Un vector puede cambiar de dos maneras
-independientes: cambiando de *módulo* y cambiando de *dirección*. Su derivada
+Acá empieza lo que realmente hace falta, y lo que el Sears ya no cubre: esto es
+Beer, §11.9–11.10 (derivadas de funciones vectoriales). Un vector puede cambiar
+de dos maneras independientes: cambiando de *módulo* y cambiando de *dirección*. Su derivada
 tiene un término por cada una:
 
 $ bold(A) = A hat(u) ==> (d bold(A))/(d t) = underbrace(dot(A) hat(u), "cambia el módulo") + underbrace(A (d hat(u))/(d t), "cambia la dirección") $
@@ -221,7 +248,8 @@ $ bold(A) = A hat(u) ==> (d bold(A))/(d t) = underbrace(dot(A) hat(u), "cambia e
 En cartesianas el segundo término no aparece nunca, porque $hat(i)$, $hat(j)$ y
 $hat(k)$ no se mueven. Ese es todo el motivo por el que las cartesianas son
 cómodas — y también por el que son inútiles para una órbita, donde la dirección
-del radio cambia todo el tiempo.
+del radio cambia todo el tiempo. Las cartesianas son el colectivo que te deja a
+diez cuadras: cómodo, hasta que tenés que llegar.
 
 #deduccion("La derivada de un versor es perpendicular a él")[
   Un versor tiene módulo constante: $hat(u) dot hat(u) = 1$. Derivando los dos
@@ -258,7 +286,9 @@ $90degree$ en el sentido en que crece $theta$. *Los dos giran con la
 partícula.*], fig-versores-polares)
 
 Con el vector posición escrito como $bold(r) = r hat(r)$ y las dos derivadas
-recién deducidas, todo sale de derivar dos veces.
+recién deducidas, todo sale de derivar dos veces (Beer §11.14, pág. 668–669).
+No hay fórmula para memorizar: hay una regla del producto y la paciencia de
+aplicarla hasta el final sin perder ningún término en el camino.
 
 #deduccion("Velocidad y aceleración en polares, de punta a punta")[
   *Velocidad.* Derivando $bold(r) = r hat(r)$ con la regla del producto y
@@ -276,7 +306,8 @@ recién deducidas, todo sale de derivar dos veces.
 ]
 
 Los cuatro términos de la aceleración tienen nombre, y conviene reconocerlos
-porque dos de ellos no tienen análogo en cartesianas:
+porque dos de ellos no tienen análogo en cartesianas. Son, casualmente, los
+dos que se olvidan en el parcial:
 
 #table(
   columns: (auto, auto, 1fr),
@@ -290,10 +321,20 @@ porque dos de ellos no tienen análogo en cartesianas:
 
 #cuidado[
   *$a_r$ no es la derivada de $v_r$.* Es la advertencia textual del Beer
-  (pág. 669) y es de las que se cobran caro: $v_r = dot(r)$, pero
+  (pág. 669), y es de las que se cobran caro: $v_r = dot(r)$, pero
   $a_r = dot.double(r) - r dot(theta)^2$. Derivar la componente y componer la
   derivada no son la misma operación cuando los versores giran, porque al
-  derivar hay que derivar también el versor.
+  derivar hay que derivar también el versor. El versor, que parecía un
+  espectador, resulta que también se mueve.
+]
+
+#posta[
+  En cartesianas la base se queda quieta y el que se mueve sos vos. En polares
+  la base viaja con la partícula, y cada vez que derivás pagás el peaje de que
+  los versores giran: de ahí salen el $-r dot(theta)^2$ y el $2 dot(r)
+  dot(theta)$. No son física nueva ni fuerzas misteriosas; son el precio de
+  mirar con una base que se mueve. Y se paga con gusto, porque a cambio el
+  momento angular y la energía de una órbita se escriben en un renglón.
 ]
 
 #notacion[
@@ -301,7 +342,8 @@ porque dos de ellos no tienen análogo en cartesianas:
   $hat(theta)$* — misma cosa, otra letra. Roederer y el manuscrito de clase usan
   $hat(r)$, $hat(theta)$, que es lo que usa este apunte. Y en el manuscrito de
   la cátedra el mismo versor aparece a veces como $hat(u)_r$: es la notación de
-  Bate y de Curtis para los versores, y también es el mismo objeto.
+  Bate y de Curtis para los versores, y también es el mismo objeto. Cuatro
+  nombres para un versor: la física tiene sus prioridades.
 ]
 
 #geometria[
@@ -352,10 +394,11 @@ porque dos de ellos no tienen análogo en cartesianas:
   $ dot(y) = b sec^2 theta dot(theta) = (b dot(theta))/(cos^2 theta) $
   Idéntico. #sym.checkmark Las dos componentes polares, que por separado no se
   parecen a nada, se recomponen exactamente en la velocidad vertical que uno
-  esperaba.
+  esperaba. Es de las pocas veces en la materia en que dos caminos dan lo
+  mismo sin pelearse: disfrútenlo, que no se repite seguido.
 
   #geometria[
-    La trampa del problema es creer que como el movimiento es vertical, la
+    la trampa del problema es creer que como el movimiento es vertical, la
     componente $hat(theta)$ debería ser cero. No lo es: $hat(r)$ y $hat(theta)$
     están definidos *respecto del radar*, no respecto de la trayectoria. Un
     movimiento rectilíneo tiene las dos componentes polares distintas de cero
@@ -367,7 +410,9 @@ porque dos de ellos no tienen análogo en cartesianas:
   Los quince ejercicios de la sección *Vectores*. Los 11 a 15 son cuenta
   directa con lo de las secciones 1.1 a 1.4. El *9* pide escribir la velocidad
   en polares —es la deducción de la sección 1.6, no un ejercicio distinto— y el
-  *10* es el ejemplo de arriba. Si el 9 y el 10 salen, el módulo está.
+  *10* es el ejemplo de arriba. Si el 9 y el 10 salen, el módulo está. Si
+  salen sólo los del 11 al 15, el módulo está a medias, y la mitad que falta
+  es justo la que se usa.
 ]
 
 == Lo que se usa después

@@ -1,5 +1,38 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fase 10 cerrada, fase 11 en curso: tanda (a), módulos 1 a 5 — 2026-09-25 (tercera parte)
+
+**Fran aprobó la voz del módulo 17 tal como está** («así»), y con eso cerró
+la fase 10. Se abrió la 11 y se hizo la tanda (a):
+
+- **m01 a m05 con la voz de la regla 8**, integrada en la prosa y adentro de
+  las cajas técnicas, sin chistes anunciados ni cajas nuevas. Los chistes
+  sobre la cátedra salen de lo que la cátedra escribió de verdad en la
+  lista de temas (los cuatro signos de «¡el cohete puede comenzar con más
+  peso que empuje!!!!», el «¿recuerdan?», «es un sist. inercial», el
+  impulso específico «en clase»); ninguno sobre Fran, porque en estos
+  módulos no hay nada que Fran haya dicho o escrito y la regla prohíbe
+  inventarlo.
+- **Cada sección nombra libro y capítulo.** Medido contra los PDFs, no de
+  memoria: el Sears cap. 1 trae componentes (§1.8, pág. 16), versores (§1.9)
+  y productos (§1.10, pág. 20), pero **no** los cosenos directores ni los
+  dobles productos — esos están en el Roederer (pág. 40) y en el Apéndice A
+  del Beer (págs. 1291–1296, producto mixto en A.7, pág. 1295). El módulo 1
+  lo dice así, y la `#lectura` lo avisa.
+- **`#posta` nueva en m01, m03, m04 y m05** (m02 ya tenía): la base que
+  viaja con la partícula, lo que pasa adentro queda adentro, la pelea en el
+  colectivo (König), y el cohete que se empuja tirando casi todo lo que es.
+- Ningún «Ojo:» arrancaba repitiendo «Ojo»; tres cuerpos de marca se
+  pasaron a minúscula para que lean seguidos de la entrada.
+- Dos datos históricos agregados, verificables: Tsiolkovsky (1903, maestro
+  de escuela) y el editorial del _New York Times_ contra Goddard (1920) con
+  su fe de erratas de julio de 1969.
+
+**Medido:** `medir-estilo.py` bajó de **PENDIENTE 58 a 44** (m01–m05 en
+`ok`). Compila sin errores, **183 páginas** (eran 180). Miradas en el render
+las págs. 7–42 (los cinco módulos enteros): sin tablas cortadas ni cajas
+rotas. `verificar-apunte.py`, `indice-temas.py` y el saboteador en verde.
+
 ## Fase 10: la voz, en su tercera vuelta, y menos cajas en todo el apunte — 2026-09-25 (segunda parte)
 
 Fran leyó el piloto y lo corrigió dos veces el mismo día:

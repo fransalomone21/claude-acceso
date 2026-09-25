@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (a)
 
 #modulo("Cantidad de movimiento, impulso y choques", clave: "cantidad-movimiento")[
   Escribir la segunda ley en la forma que sobrevive cuando la masa cambia;
@@ -15,7 +16,9 @@ cuerpos, el retroceso de un satélite que suelta una antena, todo eso es este
 teorema y nada más.
 
 La cátedra lo dijo con una frase que conviene tomar en serio: *«es muy
-importante para entender el impulso de un cohete»*. El módulo #M("cohete") es la
+importante para entender el impulso de un cohete»*. Cuando una lista de temas
+dice «muy importante», no es un adorno tipográfico: es un aviso de parcial con
+semanas de anticipación, y hay que agradecerlo. El módulo #M("cohete") es la
 consecuencia directa de este.
 
 #lectura[
@@ -28,6 +31,10 @@ consecuencia directa de este.
   internas contra externas—, que es el punto que este módulo pide decidir
   antes de escribir nada; S&Z trae más ejemplos resueltos de choques oblicuos
   si hace falta ver otro método de armar las ecuaciones.
+
+  Antes de abrir el Roederer, leer la marca de notación de más abajo: llama
+  «impulso» a lo que la cátedra llama cantidad de movimiento, y sin ese aviso
+  la primera página parece escrita en otro idioma.
 ]
 
 == De $bold(F) = m bold(a)$ a $bold(F) = d bold(p) \/ d t$
@@ -41,7 +48,9 @@ segunda ley de Newton se escribe
 
 $ sum bold(F) = (d bold(p)) / (d t) $ <cant-segunda-ley>
 
-que es la forma en que Newton la enunció, y no la que se aprende primero.
+que es la forma en que Newton la enunció, y no la que se aprende primero. El
+secundario enseña $F = m a$ porque es más corta; Newton escribió la otra porque
+es la que no falla. Gana Newton, como casi siempre en esta materia.
 
 #deduccion("por qué esta forma es más general que F = ma")[
   Derivando $bold(p) = m bold(v)$ con la regla del producto:
@@ -53,8 +62,8 @@ que es la forma en que Newton la enunció, y no la que se aprende primero.
 ]
 
 #cuidado[
-  Ese $dot(m) bold(v)$ del renglón de arriba *no* es la ecuación del cohete, y
-  usarlo así es el error clásico. El motivo está en el módulo #M("cohete"): en un cohete el
+  ese $dot(m) bold(v)$ del renglón de arriba *no* es la ecuación del cohete, y
+  usarlo así es el error clásico, con el agravante de que se ve razonable. El motivo está en el módulo #M("cohete"): en un cohete el
   sistema de masa $m$ no es cerrado —le sale masa por atrás—, y la segunda ley
   vale para sistemas cerrados. El planteo correcto es aplicar la conservación de
   $bold(p)$ al conjunto *cohete más gas*, y de ahí sale un término distinto.
@@ -78,14 +87,17 @@ que es la forma en que Newton la enunció, y no la que se aprende primero.
   $integral bold(F) d t$. Textual de la cátedra: «ojo con las denominaciones:
   para nosotros $P$ es cantidad de movimiento y $Delta P$ es variación de
   cantidad de movimiento. La fuerza por el tiempo es el impulso». Este apunte
-  usa la convención de la cátedra.
+  usa la convención de la cátedra. El Roederer, que en casi todo lo demás es
+  una joya, en esto juega para el otro equipo; y el Beer, que llama $bold(L)$
+  a lo que todos los demás llaman $bold(p)$, juega directamente otro deporte.
 ]
 
 == El impulso: integrar la fuerza en el tiempo <cant-impulso>
 
 En un choque la fuerza dura milisegundos, es enorme y su forma exacta no la
-conoce nadie. Lo notable es que para saber cómo quedan los cuerpos *no hace
-falta conocerla*: alcanza con su integral.
+conoce nadie, ni siquiera los cuerpos que chocaron. Lo notable es que para
+saber cómo quedan *no hace falta conocerla*: alcanza con su integral (S&Z
+§8.1).
 
 #deduccion("el teorema del impulso, en dos renglones")[
   Se integra la @cant-segunda-ley entre $t_1$ y $t_2$:
@@ -111,13 +123,15 @@ $ bold(J) = bold(F)_"med" (t_2 - t_1) = bold(F)_"med" Delta t $
   $Delta bold(p)$. La cantidad de movimiento que hay que sacarle al cuerpo está
   fijada por el choque; el airbag no la toca. Lo que hace es *estirar $Delta t$*,
   y como $F_"med" = Delta p \/ Delta t$, la fuerza baja en la misma proporción.
-  Mismo impulso, otra fuerza.
+  Mismo impulso, otra fuerza. Es lo mismo que hace cualquiera que salta de un
+  paredón y dobla las rodillas al caer: el cuerpo aprendió el teorema del
+  impulso bastante antes que nosotros.
 ]
 
 == Cuándo se conserva: fuerzas internas y externas
 
 Para un sistema de dos partículas $A$ y $B$ que interactúan entre sí y además
-reciben fuerzas de afuera:
+reciben fuerzas de afuera (S&Z §8.2; Roederer §4.b, pág. 108):
 
 #deduccion("la conservación de P sale de la tercera ley")[
   Para cada partícula vale la @cant-segunda-ley:
@@ -134,12 +148,24 @@ reciben fuerzas de afuera:
 Lo importante de esa deducción no es el resultado sino *de dónde sale*: la
 conservación de $bold(P)$ es la tercera ley de Newton escrita de otra manera.
 Las fuerzas internas —por violentas que sean— nunca pueden cambiar el
-$bold(P)$ total, porque vienen siempre de a pares opuestos.
+$bold(P)$ total, porque vienen siempre de a pares opuestos. Nadie se levanta
+del piso tirándose de los cordones, por más fuerza que haga.
+
+#posta[
+  Lo que pasa adentro queda adentro. Las fuerzas internas pueden ser todo lo
+  bestias que quieran —una explosión, un choque, una astronauta revoleando
+  herramientas—: el $bold(P)$ total no se entera, porque cada empujón viene
+  con su contraempujón. Así que antes de pensar en las fuerzas del choque, que
+  no conocés ni vas a conocer, dibujá la frontera del sistema y fijate qué la
+  cruza. Si no la cruza nada, $bold(P)$ antes es igual a $bold(P)$ después, y
+  resolviste el problema sin saber nada de lo que pasó en el medio.
+]
 
 #geometria[
   *$bold(P)$ se conserva componente a componente, y cada componente es una
-  pregunta aparte.* La cátedra lo remarcó: «$P$ puede conservarse aun con
-  fuerzas externas distintas de cero». El caso típico es un choque sobre una
+  pregunta aparte.* La cátedra lo remarcó, con un «¿recuerdan?» adelante que es
+  puro optimismo: «$P$ puede conservarse aun con fuerzas externas distintas de
+  cero» (S&Z Ejemplo 8.2, Figs. 8.9 y 8.10). El caso típico es un choque sobre una
   mesa: el peso y la normal son externos y no se cancelan instantáneamente,
   pero son *verticales*, así que la componente horizontal de $bold(P)$ se
   conserva igual.
@@ -162,7 +188,7 @@ $bold(P)$ total, porque vienen siempre de a pares opuestos.
 == Choques: qué se conserva y qué no
 
 En todo choque —siempre que las externas no cuenten, por lo recién dicho— se
-conserva $bold(P)$. La energía cinética *puede o no* conservarse, y eso es lo
+conserva $bold(P)$ (S&Z §8.3 y §8.4). La energía cinética *puede o no* conservarse, y eso es lo
 que da la clasificación:
 
 #table(
@@ -175,7 +201,8 @@ que da la clasificación:
 )
 
 La cátedra lo dijo así: *«para evaluar un choque hay que tener $P$ y $E$ antes
-y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
+y después»*. Las dos cosas, siempre, aunque la segunda dé distinta. Sobre
+todo cuando da distinta: ahí está el dato.
 
 #deduccion("el choque elástico frontal y la velocidad relativa")[
   Con dos cuerpos sobre una recta, $bold(P)$ y $K$ conservadas dan dos
@@ -197,7 +224,9 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   $bold(P)$ da *dos* ecuaciones escalares (una por eje) y $K$ da *una* sola.
   Contar mal esto es el error que deja un problema con más incógnitas que
   ecuaciones — o con una ecuación de más, que es peor, porque parece que
-  sobra información y en realidad se está usando dos veces la misma.
+  sobra información y en realidad se está usando dos veces la misma. Contar
+  ecuaciones antes de resolver es aburrido; contarlas después, cuando no
+  cierra nada, es bastante peor.
 ]
 
 #ejemplo("La astronauta y la herramienta")[
@@ -217,7 +246,8 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   $ v_a = -0,105 " m/s" $
 
   El signo dice lo esperable: *en sentido contrario al de la herramienta*, a
-  unos 10,5 cm/s.
+  unos 10,5 cm/s. Paso de tortuga cansada. Si ésa era la única herramienta,
+  la reparación va a tener que esperar.
 
   #cuidado[
     El enunciado dice «respecto de la estación», y eso es un dato, no un
@@ -275,7 +305,8 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   *Se disipa el $19,6%$* de la energía cinética original. El choque es
   inelástico —lo era desde el principio, sólo que no se sabía—, y esto es lo
   que la cátedra quiere decir con «hay que tener $P$ y $E$ antes y después»:
-  $bold(P)$ *resuelve*, y $E$ *diagnostica*.
+  $bold(P)$ *resuelve*, y $E$ *diagnostica*. Uno hace el trabajo; el otro
+  firma el certificado.
 
   #geometria[
     Los dos ángulos suman $75degree$, no $90degree$, y eso no es un detalle:
@@ -327,7 +358,8 @@ y después»*. Las dos cosas, siempre, aunque la segunda dé distinta.
   la misma recta:
   $ v_3 - v_4 = 17 thin 970 - 18 thin 060 = -90 " km/h" $
   Negativa: la tercera etapa se queda atrás de la cuarta, y se separan a
-  $90$ km/h.
+  $90$ km/h. A dieciocho mil kilómetros por hora, noventa es lo que separa a
+  dos autos que se pasan en la autopista: una despedida sin drama.
 ]
 
 #ejemplo("El satélite que se suelta del transbordador, con la fuerza media", nivel: "a fondo")[

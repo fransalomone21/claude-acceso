@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (a)
 
 #modulo("Centro de masa y sistemas de partículas", clave: "centro-de-masa")[
   Ubicar el centro de masa de un sistema y saber por qué está siempre más cerca
@@ -13,7 +14,9 @@ lo da vuelta y pregunta qué punto del sistema es el que se comporta como si
 nada estuviera pasando. Ese punto es el centro de masa, y en mecánica orbital es
 mucho más que una curiosidad: la Tierra y la Luna orbitan el centro de masa del
 par, no la una a la otra, y el problema de dos cuerpos del módulo #M("dos-cuerpos") se resuelve
-mudándose justamente a ese punto.
+mudándose justamente a ese punto. Es el punto más tranquilo de cualquier
+sistema: mientras todo lo demás choca, explota o se revolea, él sigue derecho
+como si no fuera con él.
 
 #lectura[
   *Roederer, capítulo 4*, §4.b («La conservación del impulso; el centro de
@@ -38,7 +41,8 @@ $ bold(r)_"cm" = (sum_i m_i bold(r)_i) / (sum_i m_i) = 1/M sum_i m_i bold(r)_i $
 
 (S&Z §8.5, ecs. 8.28 y 8.29, pág. 254-255; Roederer ec. 4.3, pág. 110.) Es un
 promedio de posiciones *pesado por las masas*: cada partícula tira del punto
-hacia sí con una fuerza proporcional a lo que pesa.
+hacia sí en proporción a lo que pesa. Democracia no es: el que tiene más masa
+tiene más votos.
 
 #deduccion("por qué el CM está sobre la recta que une los dos cuerpos")[
   Con dos masas, la @cm-def se puede escribir como una combinación de
@@ -52,7 +56,8 @@ hacia sí con una fuerza proporcional a lo que pesa.
   $ d_1 / d_2 = m_2 / m_1 $
   *La razón es la inversa de las masas*: el centro de masa está siempre más
   cerca del más pesado. Es exactamente lo que la cátedra remarcó — «el CM está
-  en la línea que une los dos cuerpos».
+  en la línea que une los dos cuerpos». Parece obvio, y lo es; la cátedra lo
+  remarca igual, y cualquiera que haya corregido un parcial sabe por qué.
 ]
 
 #fig([El centro de masa de dos cuerpos: sobre la recta que los une, y a
@@ -68,12 +73,14 @@ distancias inversamente proporcionales a las masas.], fig-cm-dos-cuerpos)
   dimensión entre 0 y 1. El propio Roederer avisa además que no hay que
   confundir su $mu$ con la masa gravitatoria $mu = G M$ de la astrodinámica —
   que es una *tercera* cosa con la misma letra, y la que más se va a usar de
-  la Parte III en adelante.
+  la Parte III en adelante. El alfabeto griego tiene veinticuatro letras, y la
+  mecánica decidió usar la misma para tres cosas distintas.
 ]
 
 == El teorema del centro de masa
 
-Acá está el motivo por el que el punto vale la pena.
+Acá está el motivo por el que el punto vale la pena: hasta acá era una
+definición, y a partir de acá empieza a pagar (S&Z §8.5, pág. 256–258).
 
 #deduccion("el CM se mueve como si toda la masa estuviera ahí")[
   Derivando la @cm-def respecto del tiempo y multiplicando por $M$:
@@ -96,7 +103,9 @@ Las dos ecuaciones dicen lo mismo desde dos lados, y la consecuencia es fuerte:
   La figura 8.32 de S&Z (pág. 257), que la cátedra marcó, es la imagen que hay
   que recordar: un obús estalla en pleno vuelo, y el centro de masa de los
   fragmentos *sigue la misma parábola* que traía el obús entero. La explosión
-  es interna; la gravedad, que sí es externa, no se enteró de nada.
+  es interna; la gravedad, que sí es externa, no se enteró de nada. Bien
+  marcada: es de esas figuras que se entienden en cinco segundos y no se
+  olvidan más.
 ]
 
 == El sistema centro de masa <cm-sistema-cm>
@@ -104,7 +113,9 @@ Las dos ecuaciones dicen lo mismo desde dos lados, y la consecuencia es fuerte:
 Como $bold(v)_"cm"$ es constante cuando no hay externas, el sistema de
 referencia que se mueve con el centro de masa se traslada con velocidad
 constante respecto de uno inercial — y por el módulo #M("marcos") eso alcanza
-para que él también lo sea (lo dijo la cátedra, y está en Roederer pág. 111).
+para que él también lo sea. La cátedra lo anotó en la lista en cuatro palabras,
+«es un sist. inercial», y está en Roederer pág. 111; la condición para que sea
+cierto la tiene que poner uno, y está dos párrafos más abajo.
 Se llega a él con la transformación de Galileo de la @marcos-galileo, que acá
 se reduce a restarle $bold(v)_"cm"$ a cada velocidad.
 
@@ -124,7 +135,8 @@ fig-konig-descomposicion)
   $ bold(p)^*_1 = -bold(p)^*_2 quad "en todo momento, antes y después" $
   Un choque visto desde ahí es simétrico: dos impulsos opuestos que entran, dos
   impulsos opuestos que salen. Todo el choque se reduce a *cuánto giraron* y
-  *cuánto se acortaron*.
+  *cuánto se acortaron*: un choque de asteroides convertido en un problema de
+  transportador y regla.
 ]
 
 #geometria[
@@ -139,6 +151,10 @@ fig-konig-descomposicion)
 ]
 
 == La energía cinética se parte en dos
+
+König lo dejó escrito en el siglo XVIII, y el Beer lo deduce en §14.7 (pág.
+877) con la misma notación que acá. Es una cuenta de cuatro renglones con un
+término que se muere solo, que es el mejor tipo de cuenta que hay:
 
 #deduccion("el teorema de König")[
   Escribiendo cada velocidad como $bold(v)_i = bold(v)_"cm" + bold(v)^*_i$:
@@ -160,6 +176,15 @@ fig-konig-descomposicion)
   cosas distintas, y conviene saber cuál se está contestando: contra la energía
   cinética del laboratorio, o contra $K^*$, que es la única que estaba
   disponible.
+]
+
+#posta[
+  Pensá el choque como dos que se pelean arriba de un colectivo en marcha. El
+  viaje del colectivo —la energía del centro de masa— no lo pueden tocar: se
+  peleen como se peleen, el colectivo sigue a la misma velocidad. Lo único que
+  pueden romper es lo que pasa entre ellos, que es $K^*$. Así que para saber
+  cuánto puede perder un choque no mires desde la vereda: subite al colectivo,
+  parate en el centro de masa, y contá sólo el movimiento relativo.
 ]
 
 #ejemplo("El mismo lanzamiento, visto desde el centro de masa")[
@@ -193,7 +218,8 @@ fig-konig-descomposicion)
   astronauta se movió $0,105 dot 10 = 1,05$ m y la herramienta
   $3,20 dot 10 = 32,0$ m. #sym.checkmark Cierra, y muestra lo que la razón
   $d_1 \/ d_2 = m_2 \/ m_1$ significa en la práctica: el cuerpo pesado casi no
-  se corre.
+  se corre. La astronauta, un metro; la herramienta, treinta y dos, y
+  contando.
 ]
 
 #ejemplo("Los asteroides, ahora desde el centro de masa", nivel: "a fondo")[
@@ -268,8 +294,9 @@ fig-konig-descomposicion)
 ]
 
 #guia("qué ejercicios cubre este módulo")[
-  *La guía no trae un ejercicio propio de centro de masa*, y no es un olvido:
-  el CM aparece en la guía como herramienta, no como tema. Por eso los dos
+  *La guía no trae un ejercicio propio de centro de masa*, y no es un olvido
+  —o, si lo es, está muy bien disimulado—: el CM aparece en la guía como
+  herramienta, no como tema. Por eso los dos
   ejemplos de arriba son los ejercicios *1* y *2* de la sección de cantidad de
   movimiento resueltos otra vez desde el centro de masa. Vale la pena hacerlo
   así: en el parcial el CM no se pide, se *usa*, y el que lo usa resuelve el

@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (a)
 
 #modulo("Propulsión: la ecuación del cohete", clave: "cohete")[
   Deducir el empuje de un motor a retropropulsión desde la conservación de la
@@ -12,11 +13,14 @@ Este es el módulo que la cátedra pidió con más énfasis. Sobre la ecuación 
 cohete escribió dos veces lo mismo: *«deducción de la fórmula»* y *«entender
 esta ecuación»*. Y agregó, con cuatro signos de admiración, la advertencia que
 más contradice a la intuición: *«¡el cohete puede comenzar con más peso que
-empuje!»*.
+empuje!»*. Cuatro, en una lista de temas. La cátedra no reparte signos de
+admiración a lo loco, y cuando los gasta de a cuatro conviene sospechar que
+la frase va a volver.
 
 Es también el primer sistema de la carrera cuya masa cambia mientras se mueve, y
 por eso el primero donde la segunda ley, tal como se aprendió, no se puede
-aplicar.
+aplicar. La intuición, que venía acompañando bastante bien desde el primer
+módulo, acá se baja del auto.
 
 #lectura[
   *Roederer, capítulo 4*, §4.c («Fuerzas de retropropulsión y movimiento de un
@@ -29,13 +33,19 @@ aplicar.
   empuje desde la conservación de $p$, después la ecuación de movimiento con
   gravedad—; Beer trata el mismo tema como sección opcional de un capítulo más
   general y con otra notación, útil sólo como segunda mirada.
+
+  Sí: la ecuación que más importa del primer parcial está, en el Beer, en una
+  sección *opcional*, con asterisco y todo. Menos mal que el Roederer no opinó
+  lo mismo.
 ]
 
 == Por qué acá no sirve $bold(F) = m bold(a)$
 
 La tentación es escribir $bold(F) = d(m bold(v)) \/ d t = m bold(a) + dot(m) bold(v)$
 y llamar $dot(m) bold(v)$ al empuje. *Está mal*, y conviene ver exactamente por
-qué antes de hacer lo correcto.
+qué antes de hacer lo correcto. Es la tentación más lógica del mundo, y
+justamente por eso cae casi todo el mundo (el módulo #M("cantidad-movimiento")
+ya lo había advertido, y el Roederer lo resuelve en §4.c).
 
 #cuidado[
   $sum bold(F) = d bold(p) \/ d t$ vale para un *sistema cerrado*: un conjunto
@@ -88,7 +98,9 @@ $bold(v)_r = bold(v) - bold(V)$.], fig-cohete-elemento)
   $ f = mu abs(bold(v)_r) $
   El signo menos dice lo único que hay que recordar de la dirección: *el empuje
   apunta al revés que el chorro*. Si el gas sale para atrás, el cohete se va
-  para adelante.
+  para adelante. Es la astronauta del módulo #M("cantidad-movimiento")
+  tirando la herramienta, sólo que tirando de a gramos, muy rápido y durante
+  varios minutos.
 ]
 
 #clave[
@@ -99,7 +111,10 @@ $bold(v)_r = bold(v) - bold(V)$.], fig-cohete-elemento)
      a 8 km/s con el mismo motor tienen el mismo empuje.
   2. *No depende del medio.* No hay contra qué empujar: el motor a
      retropropulsión es —dice Roederer, pág. 113— el único utilizable en el
-     vacío, porque se trae su propio «medio» adentro.
+     vacío, porque se trae su propio «medio» adentro. La idea de que un
+     cohete «empuja contra el aire» le costó al _New York Times_ un
+     editorial de 1920 burlándose de Goddard, y una fe de erratas en julio de
+     1969, con el Apollo 11 ya camino a la Luna.
   3. *Sólo dos números lo fijan*, y los dos los pone el motor: el caudal $mu$ y
      la velocidad de escape $abs(bold(v)_r)$.
 ]
@@ -107,12 +122,13 @@ $bold(v)_r = bold(v) - bold(V)$.], fig-cohete-elemento)
 === Impulso específico
 
 La cátedra listó el *impulso específico* con la aclaración de que va «en clase»:
-no está ni en Roederer ni en S&Z. Es la forma en que la industria informa
+no está ni en Roederer ni en S&Z. O sea que para esto el libro es lo que cada
+uno haya anotado en clase, que es una fuente con una varianza considerable. Es la forma en que la industria informa
 $abs(bold(v)_r)$, dividida por $g_0 = 9,80665$ m/s²:
 
 $ I_"sp" = abs(bold(v)_r) / g_0 quad ==> quad f = I_"sp" g_0 mu $
 
-Se mide en *segundos*, y esa unidad rara tiene una lectura: es cuántos segundos
+Se mide en *segundos* —la unidad más rara de la materia—, y tiene una lectura: es cuántos segundos
 podría el motor sostener un empuje igual al peso terrestre de su propio
 consumo. Sirve para comparar motores sin importar su tamaño — un químico ronda
 los 300 s, uno iónico los 3000.
@@ -124,7 +140,7 @@ los 300 s, uno iónico los 3000.
   Roederer usa $mu > 0$. Cuidado con arrastrar el signo de un libro al otro: la
   ec. (8.38) de S&Z, pág. 259, es $F = -v_"esc" d m \/ d t$ y la (4.6) de
   Roederer es $f = -mu bold(v)_r$ — dicen lo mismo, con el menos en lugares
-  distintos.
+  distintos. Tres libros, tres nombres y dos signos: el cohete es lo de menos.
 ]
 
 == Con gravedad: la ecuación de movimiento
@@ -158,10 +174,17 @@ $ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <coh-vertical>
   advertencia quiere decir— la condición puede fallar al principio y cumplirse
   después, porque $M_0 - mu t$ baja: un motor encendido con el vehículo
   todavía sujeto va aligerando hasta que el empuje gana. La desigualdad se
-  evalúa en el instante que interesa, no una sola vez.
+  evalúa en el instante que interesa, no una sola vez. Los cuatro signos
+  estaban justificados: es contraintuitiva exactamente en el lugar donde la
+  intuición se equivoca.
 ]
 
 == La ecuación de Tsiolkovsky
+
+Tsiolkovsky la publicó en 1903, en Rusia, sin haber lanzado nunca un cohete:
+un maestro de escuela que dedujo el viaje espacial con papel y lápiz. Es el
+contraejemplo perfecto de «primero el experimento», y le salió bien. Acá se
+llega a ella en el orden del Roederer (§4.c, pág. 114):
 
 #deduccion("integrar la ecuación del cohete")[
   La @coh-vertical se integra directo, porque el segundo miembro sólo depende de
@@ -186,7 +209,8 @@ $ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <coh-vertical>
   que ese término no puede sumarse a una velocidad. Y la ecuación del renglón
   anterior —la de $V(t)$, en la misma página— sí lleva su $abs(v_r)$, igual que
   todas las de la pág. 115. *Es un error de imprenta, no de física.* La forma
-  correcta es la @coh-tsiolkovsky.
+  correcta es la @coh-tsiolkovsky. Moraleja: el libro que manda a leer la
+  cátedra también se lee con lápiz en la mano.
 
   En la misma deducción, la pág. 115 arrastra un segundo desliz tipográfico: el
   paso intermedio del cohete de dos etapas suma dos veces $-g m \/ mu$, cuando
@@ -210,11 +234,23 @@ $ (d V)/(d t) = a = (mu abs(v_r)) / (M_0 - mu t) - g $ <coh-vertical>
     tiempo pierde menos.
 ]
 
+#posta[
+  Un cohete se empuja tirando cosas para atrás, y lo que tira es casi todo lo
+  que es. Al principio empuja un montón de combustible que todavía no quemó
+  —por eso arranca pesado y lento—; al final se empuja a sí mismo casi vacío,
+  y ahí vuela. Todo el diseño es pelear contra eso por dos lados: que lo que
+  queda al final pese lo menos posible (la razón de masas, adentro del
+  logaritmo) y que lo que se tira salga lo más rápido posible (la velocidad
+  de escape, afuera). Las etapas son la versión bruta de la primera idea: lo
+  que ya no sirve, se tira.
+]
+
 == Etapas
 
 Roederer demuestra (pág. 114-115) que un cohete de dos etapas alcanza *siempre*
 más velocidad final que uno de una sola etapa con el mismo peso total y el mismo
-combustible. La razón es de una línea:
+combustible. La razón es de una línea, y es la lógica de cualquier mudanza: la
+caja vacía no se lleva hasta la casa nueva.
 
 #clave[
   La masa muerta —tanques, estructura, motores ya apagados— se sigue acelerando

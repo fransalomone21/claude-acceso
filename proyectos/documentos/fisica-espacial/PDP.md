@@ -242,7 +242,8 @@ texto** («Ojo:», «La idea:»…), cambio de plantilla que ya vale para los 21
 módulos.
 
 **Cierra con:** Fran leyó el módulo 17 en su tercera versión y dijo «así» o
-qué cambiar, y el cambio está aplicado.
+qué cambiar, y el cambio está aplicado. **CERRADA el 2026-09-25: Fran dijo
+«así».**
 
 **La intención era no subir el piloto al Drive de los compañeros hasta que
 cierre**, y no se cumplió: el hook `post-commit` lo publicó con el commit
