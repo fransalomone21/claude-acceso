@@ -48,8 +48,14 @@ de caja con «TAU = I ALPHA»—; `verificar-apunte.py` en verde con el módulo
 nuevo usando sólo los módulos 1, 4 y 8; `indice-temas.py` regenerado;
 `probar-verificar-apunte.py` con los cuatro sabotajes en rojo.
 
-**No se publicó al Drive**, a propósito: la carpeta es pública por link y
-los apartes hablan del profesor. Se sube cuando cierre la fase 10.
+**Sí se publicó al Drive, y no era la intención.** La sesión había decidido
+retenerlo hasta que Fran aprobara el tono —la carpeta es pública por link y
+los apartes hablan del profesor—, no corrió el publicador, y el commit
+`1ca33a4` lo subió igual: el hook `post-commit` publica cualquier commit que
+incluya `apunte/apunte.pdf`, y la sesión no lo había mirado. La versión
+pública del 2026-09-25 **es el piloto**. Lección registrada (grupo proceso) y
+línea nueva en `chequeo-de-trabajo.md`. Para retener versiones de acá en
+adelante: se commitean los `.typ` y el PDF queda fuera del commit.
 
 ## Pasos intermedios en la ecuación de la órbita (módulo 10) — 2026-09-21
 

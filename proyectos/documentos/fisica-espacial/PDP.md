@@ -234,10 +234,11 @@ que lo lea es el error caro: se rehace todo si no le gusta.
 **Cierra con:** Fran leyó el módulo 17 (págs. 141–150 del PDF) y dijo «así»
 o dijo qué cambiar, y el cambio está aplicado al piloto.
 
-**Y hasta que cierre, el PDF no se sube al Drive de los compañeros.** Esa
-carpeta es pública por link; los apartes hablan del profesor. Publicar el
-piloto sin que Fran lo haya leído es publicar chistes sobre Aníbal que nadie
-aprobó.
+**La intención era no subir el piloto al Drive de los compañeros hasta que
+cierre**, y no se cumplió: el hook `post-commit` lo publicó con el commit
+`1ca33a4` (ver `HANDOFF.md`). La decisión de dejarlo o volver a la versión
+anterior es de Fran. Para los commits de la fase 11, mientras el tono no esté
+aprobado, el PDF queda fuera del commit.
 
 ### Fase 11 — la pasada por los 20 módulos restantes y el Anexo A
 

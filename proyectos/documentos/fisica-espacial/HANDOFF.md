@@ -13,9 +13,16 @@ repite, porque un dato que vive en dos lados diverge.
 
 **Lo que sigue depende de una sola cosa: que Fran lea las págs. 141–150 y
 diga si el tono va.** Sin eso no se toca ningún otro módulo (rehacer 20 es el
-error caro) y **no se corre `publicar-apuntes.ps1`**: el Drive es público y
-los apartes nombran al profesor. `publicar-apuntes.ps1 -Verificar` va a dar
-el apunte como desactualizado hasta entonces — es esperado, no una falla.
+error caro).
+
+**El piloto YA está publicado en el Drive público** —lo subió el hook
+`post-commit` con el commit `1ca33a4`, sin que la sesión lo quisiera—. Si
+Fran decide sacarlo antes de aprobar, se vuelve a la versión anterior así, y
+el mismo hook la publica:
+`git checkout 1ca33a4~1 -- proyectos/documentos/fisica-espacial/apunte/apunte.pdf`
+y commit. **De acá en adelante, para retener una versión: commitear los
+`.typ` y dejar `apunte/apunte.pdf` fuera del commit** — el hook sólo se
+dispara si el PDF está adentro.
 
 **Trampas pagadas en esta sesión:**
 
