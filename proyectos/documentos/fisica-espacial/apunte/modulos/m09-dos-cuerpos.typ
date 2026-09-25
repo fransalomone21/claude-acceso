@@ -363,7 +363,7 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
   exacta — que es todo el contenido de este módulo.
 
   #cuidado[
-    Es el mismo mecanismo que el cuadro rojo del módulo #M("gravitacion"), y ahora se puede
+    Es el mismo mecanismo que el «ojo» en rojo del módulo #M("gravitacion"), y ahora se puede
     decir con precisión: pesar la Tierra con la Luna da $M_T + M_L$, y pesar el
     Sol con la Tierra da $M_"Sol" + M_T$. Sumar los dos resultados para «pesar
     el sistema solar» contaría la masa de la Tierra *dos veces*. En el primer

@@ -366,7 +366,7 @@ queda fuera de lo que la cátedra pide de este capítulo.
   cambia es con qué tres números la escribís.
 
   Y la que te va a salvar de la mitad de los errores del tema es la que está
-  en el cuadro rojo de arriba: el sistema IJK está *centrado* en la Tierra pero
+  en el «ojo» en rojo de arriba: el sistema IJK está *centrado* en la Tierra pero
   no *pegado* a la Tierra. Centrado y pegado no son lo mismo, y el geocéntrico
   ecuatorial es lo primero y no lo segundo.
 

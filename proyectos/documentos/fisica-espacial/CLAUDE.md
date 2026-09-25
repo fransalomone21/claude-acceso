@@ -162,36 +162,67 @@ si el módulo que la usa la hubiera definido él. Se encontró y se arregló al
 agregar el primer caso de uso: probado viendo `<vec-polares>` desaparecer de
 la lista de "usa después" del módulo 10 y seguir en la del módulo 1.
 
-**8. El humor va en `#aparte[...]`, nunca suelto ni adentro de una caja
-técnica.** Decisión del 2026-09-25, a pedido de Fran: el apunte lleva un tono
-humorístico casual que aparece *antes y después* de los formalismos, en los
-momentos en que el lector afloja, para que den ganas de seguir. `#aparte`
-(en `plantilla.typ`) es cursiva con una raya rosa al margen, y está en la
-leyenda de la carátula. Reglas:
+**8. La voz del apunte: un buen profesor, completo, sarcástico y en criollo —
+integrado en la redacción, no encerrado en cajas.** Decisión del 2026-09-25,
+en dos pasos, a pedido de Fran. El primer piloto puso el humor en una caja
+propia (`#aparte`), diez por módulo, con tono amable; Fran lo corrigió así:
+*«me gusta que haya cuadros, pero no que por cada cosa que te pido hagas uno;
+estos aspectos deben estar integrados humana y didácticamente a lo largo del
+apunte, en toda la redacción; la explicación formal también tiene que tener
+toque de criollo y humor, como lo haría un buen y completo profesor»*. Y el
+tono, *«más sarcástico y un poco más crudo»*. Las reglas que salen de ahí:
 
-- **nunca lleva física que no esté dicha en otro lado** — igual que `#posta`
-  (regla 3), se puede saltear sin perder nada;
-- **nunca va en medio de una cuenta ni adentro de una caja** azul, verde o
-  roja: compite con el rigor;
-- **el personaje es la cátedra, no una persona a la que se ridiculiza.**
-  Aníbal —el profesor— aparece como lo que es: el que manda a leer los libros,
-  el que pide ir del experimento a la teoría y no al revés, el que corta una
-  exposición con «esto se hace así», el de los cuatrocientos PDFs del
-  Classroom. Se le toma el pelo a la *situación*, con cariño; nunca se le
-  atribuye algo que no dijo o hizo. **El PDF se publica en una carpeta
-  pública por link** que ven los compañeros —y quizás él—: si un chiste no
-  se le podría mostrar, no va;
-- **como mucho uno por página del PDF**, no uno por párrafo: el humor que
-  aparece siempre deja de sorprender, y sorprender es el punto. Se cuenta con
-  `grep -c "#aparte" apunte/modulos/*.typ` contra las páginas del módulo;
-- **y se ancla en la fuente**: el mejor aparte es el que dice de dónde sale
-  algo («esto es del famoso Sears que tanto le gusta a Aníbal»), porque
-  cumple la regla 4 bis de paso.
+- **El humor y el criollo viven en la prosa**, incluida la de las cajas
+  técnicas —una `#deduccion` puede decir «el cuerpo no se puede hacer girar
+  a sí mismo tirándose de los pelos»— y en los títulos de sección si viene
+  al caso. **Nunca dentro de una ecuación ni rompiendo un paso de una
+  cuenta**: el chiste va antes o después del renglón matemático, no en el
+  medio.
+- **El chiste no se anuncia.** Tercera corrección de Fran, el mismo día:
+  *«un humano no dice "he aquí mi acotación humorística" antes de decir algo
+  gracioso; pierde la gracia si te anunciás»*. Por eso **no hay caja de
+  humor** (`#aparte` existió unas horas y se borró de la plantilla), ni
+  fórmulas repetidas del tipo «hay que reconocérselo», «resumen honesto»,
+  «dicho sea con humor». Si el chiste necesita un cartel, no era un chiste.
+- **No se crea una caja nueva por cada pedido, y hay menos cajas que antes.**
+  Trade-off decidido el 2026-09-25 contra la medición: había ~407 cajas en
+  187 páginas. **Quedan en cuadro** las que se *buscan* o se *saltean*:
+  `#ejemplo`, `#deduccion`, `#definicion`, `#guia`, `#lectura` y `#posta`
+  (el lugar de la idea en criollo separada, regla 3). **Pasaron al texto,
+  con la entrada en el color de su caja** y sin recuadro, los avisos cortos:
+  `#clave` («La idea:», azul), `#cuidado` («Ojo:», rojo), `#geometria` («Ojo
+  con la geometría:», ámbar) y `#notacion` («Ojo con la notación:», teal).
+  Son 218 de las 407; el cambio está en `plantilla.typ` (`#marca`) y vale
+  para los 21 módulos de una vez. Consecuencia para el que escribe: el
+  cuerpo de esas cuatro **no arranca repitiendo su entrada** («Ojo: *Ojo
+  con…*»), y en la prosa no se habla de «el cuadro rojo».
+- **Sarcástico y crudo, sin pudor, y con los dos lados.** Aníbal puede ser
+  «el hinchapelotas de la cátedra»: el que manda a leer, sube cuatrocientos
+  PDFs y fotos de manuscritos torcidos al Classroom, odia las «verdades
+  reveladas», corta una exposición con «no, no, no: esto se hace así», hace
+  dar la clase a los alumnos. **Y cuando la cátedra acierta —un buen
+  ejemplo, una advertencia que resulta cierta, una lista con páginas— se le
+  reconoce, con el mismo sarcasmo** («punto para Aníbal», «duele escribirlo,
+  pero tenía razón»).
+- **Fran también es blanco, sin pudor**: es coautor del apunte («Fran,
+  coautor de este apunte, lo describió como un giróscopo que *está
+  levitando*»). Mejor si el chiste sale de algo que Fran dijo o escribió de
+  verdad —sus apuntes de clase, sus preguntas— que de algo inventado.
+- **Lo que no cambia:** el humor nunca reemplaza física ni la aproxima de
+  más, y **nunca le atribuye a nadie algo que no dijo o hizo**: se exagera
+  la situación, no se inventan hechos. El sarcasmo va contra lo que la
+  cátedra *hace*, no contra la persona.
+- **Se ancla en la fuente cuando se puede**: el mejor chiste es el que de
+  paso dice de dónde sale algo («el famoso Sears que tanto le gusta a
+  Aníbal»), y cumple la regla 4 bis.
 
-Referencia, el primero que se escribió así de punta a punta:
-[`m17-rotacion.typ`](apunte/modulos/m17-rotacion.typ) (10 apartes en 10
-páginas; el piloto del tono, pendiente de que Fran lo apruebe antes de
-llevarlo a los otros 20).
+**Ojo con el Drive:** el PDF se publica en una carpeta pública por link que
+ven los compañeros. Qué tan crudo es aceptable ahí lo decidió Fran, que pidió
+este tono sabiéndolo; no es una decisión de la sesión.
+
+Referencia, el módulo escrito así de punta a punta:
+[`m17-rotacion.typ`](apunte/modulos/m17-rotacion.typ) — todo el tono está en
+la prosa y adentro de las cajas técnicas, sin ningún cartel que lo anuncie.
 
 ## Dónde está cada cosa
 

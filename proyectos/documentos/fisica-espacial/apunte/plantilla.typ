@@ -72,8 +72,23 @@
 // alguna vez por algo que no es geometría, los otros veinte dejan de
 // significar lo que dicen.
 
+// ---------- Marcas en el texto (sin caja) ----------
+//
+// Decisión del 2026-09-25, a pedido de Fran ("muchos cuadros distintos
+// quizás es excesivo; mejor integrar cositas al texto, con colores en el
+// propio texto en concordancia con los cuadros"). Había ~407 cajas en 187
+// páginas, más de dos por página, y 218 eran avisos cortos: idea clave,
+// cuidado, geometría y notación. Esos dejan de ser caja y pasan a ser un
+// párrafo con la entrada en el color que tenía su caja -- como lo diría un
+// profesor en el pizarrón, sin parar la clase para enmarcarlo. Quedan como
+// caja lo que se BUSCA o se SALTEA: ejemplos, deducciones, definiciones,
+// la guía, la lectura y la posta.
+#let marca(entrada, color, cuerpo) = block(width: 100%, breakable: true, above: 10pt, below: 10pt)[
+  #text(fill: color, weight: "bold")[#entrada] #cuerpo
+]
+
 #let definicion(titulo, cuerpo) = caja([Definición — #titulo], c-azul, cuerpo)
-#let clave(cuerpo) = caja([Idea clave], c-azul, cuerpo)
+#let clave(cuerpo) = marca([La idea:], c-azul, cuerpo)
 
 // El corazón del apunte: de dónde sale la fórmula que se acaba de usar.
 #let deduccion(titulo, cuerpo) = caja([De dónde sale — #titulo], c-azul.darken(15%), cuerpo)
@@ -104,18 +119,18 @@
   #if destino != none [ #link(destino)[Ir a la deducción completa →]]
 ]
 
-#let cuidado(cuerpo) = caja([Cuidado con esto], c-rojo, cuerpo)
+#let cuidado(cuerpo) = marca([Ojo:], c-rojo, cuerpo)
 
 // Lo que se pide explícitamente: dónde se pierde el planteo. Respecto de
 // qué punto se toma el momento, qué versor es radial, qué ángulo entra en
 // el seno, en qué sistema de referencia vale lo que se escribió.
-#let geometria(cuerpo) = caja([Cuidado geométrico y vectorial], c-ambar, cuerpo)
+#let geometria(cuerpo) = marca([Ojo con la geometría:], c-ambar, cuerpo)
 
 // Los tres libros de la cátedra usan letras distintas para las mismas
 // cantidades — Beer llama H al momento angular y L a la cantidad de
 // movimiento, justo al revés que la cátedra. Eso no es un detalle: es una
 // fuente de error de signo y de concepto en el parcial.
-#let notacion(cuerpo) = caja([Ojo con la notación], c-teal, cuerpo)
+#let notacion(cuerpo) = marca([Ojo con la notación:], c-teal, cuerpo)
 
 #let guia(titulo, cuerpo) = caja([De la guía de la cátedra — #titulo], c-viole, cuerpo)
 
@@ -133,23 +148,6 @@
 // UNA por módulo o por sección grande, breve, y no repite lo que ya dicen
 // las citas puntuales.
 #let lectura(cuerpo) = caja([Dónde leerlo — el capítulo del libro], c-libro, cuerpo)
-
-// El aparte: en teatro, lo que el actor le dice al público por un costado,
-// sin que se entere el resto de la escena. Acá es el humor del apunte, y va
-// FUERA de las cajas a propósito (decisión del 2026-09-25, a pedido de
-// Fran): un chiste adentro de una deducción compite con el rigor, y uno
-// suelto en la prosa no se puede contar. Reglas de uso en CLAUDE.md, regla
-// propia 8: nunca lleva física que no esté dicha en otro lado, nunca va en
-// medio de una cuenta, y va donde el lector afloja -- antes de una
-// deducción larga o después de un resultado que costó.
-#let aparte(cuerpo) = block(
-  width: 100%,
-  above: 9pt,
-  below: 9pt,
-  inset: (left: 9pt, y: 2pt),
-  stroke: (left: 1.4pt + c-rosa.lighten(35%)),
-  text(size: 9.6pt, style: "italic", fill: luma(55), cuerpo),
-)
 
 // ---------- Ficha de ejercicio (anexos: guía de acompañamiento) ----------
 //
@@ -476,7 +474,7 @@
           un satélite orbita sin caer, la cuenta que lleva hasta ahí está escrita—,
           y ningún despeje mecánico ocupa media página.
 
-          *Los cuadros de colores no son adorno; cada color dice una cosa y sólo una:*
+          *Los colores no son adorno; cada uno dice una cosa y sólo una, sea en cuadro o en el texto:*
 
           #v(3pt)
           #set par(justify: false)
@@ -485,22 +483,24 @@
             row-gutter: 5pt,
             column-gutter: 8pt,
             text(fill: c-azul, weight: "bold")[Azul],
-            [definiciones, ideas clave y las deducciones — de dónde sale cada fórmula.],
+            [en cuadro, las definiciones y las deducciones — de dónde sale cada
+             fórmula. En el texto, *La idea:* marca lo que no hay que perder.],
 
             text(fill: c-verde, weight: "bold")[Verde],
             [ejemplos resueltos. Cada módulo lleva al menos uno *simple*, que fija el
              mecanismo, y uno *a fondo*, del nivel de la guía de la cátedra.],
 
-            text(fill: c-ambar, weight: "bold")[Ámbar],
-            [cuidado geométrico y vectorial: respecto de qué punto, qué versor, qué
-             ángulo, en qué sistema de referencia. Es donde se pierde el planteo.],
-
             text(fill: c-rojo, weight: "bold")[Rojo],
-            [los errores que más se repiten.],
+            [en el texto, *Ojo:* — los errores que más se repiten.],
+
+            text(fill: c-ambar, weight: "bold")[Ámbar],
+            [en el texto, *Ojo con la geometría:* — respecto de qué punto, qué
+             versor, qué ángulo, en qué sistema. Es donde se pierde el planteo.],
 
             text(fill: c-teal, weight: "bold")[Verde azulado],
-            [choques de notación entre los libros. El Beer llama $H$ al momento
-             angular y $L$ a la cantidad de movimiento: justo al revés que la cátedra.],
+            [en el texto, *Ojo con la notación:* — los libros no se ponen de
+             acuerdo. El Beer llama $H$ al momento angular y $L$ a la cantidad de
+             movimiento: justo al revés que la cátedra.],
 
             text(fill: c-viole, weight: "bold")[Violeta],
             [el problema de la guía de la cátedra que ese tema resuelve; en
@@ -516,11 +516,6 @@
             [la posta: la misma idea de arriba, en criollo y sin vueltas —
              qué ganás, a qué te ahorrás pensar, y por qué el truco funciona.
              No reemplaza a los cuadros técnicos, va además de ellos.],
-
-            text(fill: c-rosa.lighten(20%), weight: "bold", style: "italic")[Al costado],
-            [los apartes, en cursiva y con una raya al margen: comentarios
-             para el lector, no para el examen. Se pueden saltear sin perder
-             nada de física — pero no se recomienda.],
           )
         ]
       ]

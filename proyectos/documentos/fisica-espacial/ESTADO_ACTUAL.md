@@ -1,5 +1,46 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fase 10: la voz, en su tercera vuelta, y menos cajas en todo el apunte — 2026-09-25 (segunda parte)
+
+Fran leyó el piloto y lo corrigió dos veces el mismo día:
+
+1. **Más sarcasmo y más crudo**: Aníbal puede ser «el hinchapelotas de la
+   cátedra», y cuando acierta se le reconoce con el mismo sarcasmo; Fran
+   también es blanco, sin pudor, como coautor. Y el humor **integrado** en
+   la prosa y en la explicación formal, «como lo haría un buen y completo
+   profesor», no en una caja por cada pedido.
+2. **El chiste no se anuncia**: «pierde la gracia si te anunciás». Y quizás
+   hay demasiados tipos de caja: considerar pasar cosas al texto, con color.
+
+**Lo que se hizo:**
+
+- **`m17-rotacion.typ` reescrito entero** con esa voz: de diez `#aparte` a
+  ninguno; el tono vive en la prosa y adentro de las deducciones y los
+  avisos. Los chistes sobre Fran salen de cosas que Fran dijo o escribió de
+  verdad (el giróscopo que «está levitando», la $tau$ que parece un seis en
+  sus apuntes de clase). Marca `// voz: 2026-09-25` en la línea 2.
+- **`#aparte` borrado** de la plantilla y de la leyenda: una caja de humor
+  es un chiste anunciado.
+- **Trade-off de cajas, aplicado a los 21 módulos de una vez** desde
+  `plantilla.typ`: había ~407 cajas en 187 páginas. Quedan en cuadro las
+  que se buscan o se saltean (ejemplo 46, deducción 61, definición 22, guía
+  18, lectura 21, posta 20). **Pasaron al texto** —entrada en el color de su
+  caja, sin recuadro, vía `#marca`— idea clave (109, «La idea:»), cuidado
+  (53, «Ojo:»), geometría (33) y notación (23): 218 cajas. El apunte bajó de
+  **187 a 180 páginas**. Tres referencias en prosa a «el cuadro rojo» (m09,
+  m13, m15) corregidas; leyenda de la carátula reescrita.
+- **Regla propia 8 reescrita** con las tres correcciones; `medir-estilo.py`
+  mide ahora la marca `// voz:` en vez de contar `#aparte` (sigue
+  PENDIENTE: 58).
+
+**Verificado:** compila sin errores (180 páginas); miradas la carátula, las
+págs. 141–150 del módulo 17 y una página con marcas del módulo 8;
+`verificar-apunte.py`, `indice-temas.py` y el saboteador en verde.
+
+**El PDF NO se commiteó** —y por lo tanto el hook no lo publicó—: la versión
+cruda («hinchapelotas») a una carpeta pública por link es decisión de Fran.
+En el Drive sigue el piloto de la primera vuelta.
+
 ## Fase 9 cerrada: el módulo `rotacion` (Sears caps. 9–10), y el tono nuevo en piloto — 2026-09-25
 
 Fran trajo la *Lista de temas Impulso angular (1)* y pidió tres cosas: que

@@ -437,7 +437,7 @@ $ tan gamma = v_r/v_perp = (e sin nu)/(1 + e cos nu) $ <hip-gamma>
   $ tan nu = (0,1931)/(0,0949) = 2,034 quad ==> quad nu = 63,8° $
 
   Las dos combinaciones salieron positivas, así que $sin nu$ y $cos nu$ lo
-  son: $nu$ está en el primer cuadrante, y el cuadro rojo de arriba lo
+  son: $nu$ está en el primer cuadrante, y el «ojo» en rojo de arriba lo
   confirma por el otro lado — $gamma = +10°$ quiere decir que el satélite se
   está alejando del perigeo.
 ]

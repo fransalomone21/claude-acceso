@@ -226,13 +226,23 @@ render, y `verificar-apunte.py`, `indice-temas.py` y el saboteador en verde.
 
 ### Fase 10 — el tono: el piloto aprobado por Fran
 
-El módulo `rotacion` se escribió ya con el tono nuevo (`#aparte`, regla
-propia 8), a propósito, para que sirva de piloto. **El tono es una decisión
-de gusto del destinatario, no de la sesión**, y pasarlo a 20 módulos antes de
-que lo lea es el error caro: se rehace todo si no le gusta.
+El módulo `rotacion` se escribe con la voz nueva (regla propia 8) para que
+sirva de piloto. **El tono es una decisión de gusto del destinatario, no de
+la sesión**, y pasarlo a 20 módulos antes de que lo lea es el error caro.
 
-**Cierra con:** Fran leyó el módulo 17 (págs. 141–150 del PDF) y dijo «así»
-o dijo qué cambiar, y el cambio está aplicado al piloto.
+**Llevó tres vueltas el mismo día**, y cada una corrigió algo que la anterior
+había hecho mal: (1) humor amable en diez cajas `#aparte` por módulo; (2)
+Fran pidió más sarcasmo y crudeza, que Aníbal sea «hinchapelotas» y se le
+reconozca cuando acierta, que Fran también sea blanco, y el humor *integrado*
+en la prosa y en la explicación formal, no en cajas; (3) Fran señaló que un
+chiste anunciado pierde la gracia, y que tantos tipos de caja distintos
+podían ser excesivos. Resultado: `#aparte` borrado, el humor sin carteles,
+y **218 de las 407 cajas del apunte pasaron a ser marcas de color en el
+texto** («Ojo:», «La idea:»…), cambio de plantilla que ya vale para los 21
+módulos.
+
+**Cierra con:** Fran leyó el módulo 17 en su tercera versión y dijo «así» o
+qué cambiar, y el cambio está aplicado.
 
 **La intención era no subir el piloto al Drive de los compañeros hasta que
 cierre**, y no se cumplió: el hook `post-commit` lo publicó con el commit
@@ -246,7 +256,9 @@ Lo que Fran pidió el 2026-09-25 para *todo* el apunte, en una sola lectura
 por módulo —porque las tres cosas se hacen mirando lo mismo, y leer cada
 módulo tres veces triplica el costo—:
 
-1. **apartes** con el tono aprobado en la fase 10, como mucho uno por página;
+1. **la voz** aprobada en la fase 10, integrada en la prosa y en las cajas
+   técnicas (regla propia 8), y la marca `// voz: <fecha>` al principio del
+   módulo cuando está hecho;
 2. **de dónde sale cada tema**: toda sección nombra el libro y el capítulo
    («esto es del Curtis, cap. 3»), no sólo el módulo en su `#lectura`;
 3. **`#posta`** en los módulos que no tienen ninguno (13 de 21), que es la
@@ -257,7 +269,10 @@ De paso se cumple la regla 1 en páginas que nunca se miraron (las `#lectura`
 del 2026-09-17 quedaron sin chequeo visual).
 
 **Se mide con `python medir-estilo.py`**, que el 2026-09-25 da **PENDIENTE:
-58** (25 secciones sin libro, 13 módulos sin posta, 20 sin aparte).
+58** (25 secciones sin libro, 13 módulos sin posta, 20 sin la voz nueva).
+**Las cajas ya no son parte de la pasada**: el trade-off de cuáles quedan
+se aplicó de una vez en la plantilla. Lo que sí queda por módulo es revisar
+que ningún «Ojo:» arranque repitiendo su propia entrada.
 
 **Tandas de una sesión cada una**, porque cinco módulos entran en una sesión
 y veinte no: (a) 1–5, (b) 6–10, (c) 11–16, (d) 18–21 y el Anexo A.

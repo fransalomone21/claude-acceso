@@ -346,7 +346,8 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **El momento angular de un cuerpo que gira: $L = I omega$**
 - **Conservación del impulso angular**
   - *(ejemplo)* Cualquiera puede bailar ballet (S&Z Ejemplo 10.10)
-- **El giróscopo que no se cae**
+- **El giróscopo que no se cae (y que Fran decía que levitaba)**
+- **M bold(g)$, en el centro de masa. El torque del peso es horizontal y**
   - *(de donde sale)* la velocidad de precesión
   - *(ejemplo)* El giróscopo del Sears: cuánto gira la rueda (S&Z Ejemplo 10.13)
   - *(ejemplo)* El giróscopo de juguete de la guía (S&Z 10.51)

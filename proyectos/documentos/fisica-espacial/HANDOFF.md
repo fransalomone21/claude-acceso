@@ -6,6 +6,23 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-25, segunda parte — la voz, tercera vuelta
+
+**La regla que manda ahora es la 8 de `CLAUDE.md`, reescrita**; el ejemplo
+es `m17-rotacion.typ` entero. Lo que la próxima sesión de la fase 11 tiene
+que saber antes de tocar un módulo:
+
+- **No hay caja de humor** y no se anuncia ningún chiste.
+- **`#clave`, `#cuidado`, `#geometria` y `#notacion` ya no son cajas**: son
+  una entrada de color en el texto («La idea:», «Ojo:»…). Si el cuerpo
+  arranca repitiendo la entrada («Ojo: *Ojo con…*»), queda mal: se reescribe
+  el arranque. Y en la prosa no se dice «el cuadro rojo».
+- Al terminar un módulo, **`// voz: <fecha>` en la línea 2**, y
+  `python medir-estilo.py` lo cuenta.
+- **El PDF no se commitea hasta que Fran decida si la versión cruda va al
+  Drive público**: el hook `post-commit` publica cualquier commit que lo
+  incluya.
+
 ## Sesión del 2026-09-25 — módulo `rotacion` y el piloto del tono
 
 **Fase 9 cerrada; la 10 abierta y esperando a Fran.** Detalle en
