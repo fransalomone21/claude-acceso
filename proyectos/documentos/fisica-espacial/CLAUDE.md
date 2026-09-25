@@ -196,8 +196,13 @@ tono, *«más sarcástico y un poco más crudo»*. Las reglas que salen de ahí:
   para los 21 módulos de una vez. Consecuencia para el que escribe: el
   cuerpo de esas cuatro **no arranca repitiendo su entrada** («Ojo: *Ojo
   con…*»), y en la prosa no se habla de «el cuadro rojo».
-- **Sarcástico y crudo, sin pudor, y con los dos lados.** Aníbal puede ser
-  «el hinchapelotas de la cátedra»: el que manda a leer, sube cuatrocientos
+- **Sarcástico y crudo, sin pudor, y con los dos lados — pero sin atacar.**
+  Calibrado por Fran al decidir publicarlo: *«Aníbal me trata de falluto y
+  tramposo, y yo a él también; si decís hinchapelotas, que no suene tan
+  ofensivo: la idea no es atacarlo, pero ser sincero a la vez»*. La cargada
+  es mutua y con cariño —si se le dice hinchapelotas, en la misma frase él
+  nos devuelve «fallutos»—, y la palabra fuerte va poco. Aníbal puede ser
+  el que manda a leer, sube cuatrocientos
   PDFs y fotos de manuscritos torcidos al Classroom, odia las «verdades
   reveladas», corta una exposición con «no, no, no: esto se hace así», hace
   dar la clase a los alumnos. **Y cuando la cátedra acierta —un buen

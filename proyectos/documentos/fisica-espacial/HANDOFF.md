@@ -19,9 +19,10 @@ que saber antes de tocar un módulo:
   el arranque. Y en la prosa no se dice «el cuadro rojo».
 - Al terminar un módulo, **`// voz: <fecha>` en la línea 2**, y
   `python medir-estilo.py` lo cuenta.
-- **El PDF no se commitea hasta que Fran decida si la versión cruda va al
-  Drive público**: el hook `post-commit` publica cualquier commit que lo
-  incluya.
+- **El Drive público recibe el tono crudo: Fran lo decidió.** El hook
+  `post-commit` publica cualquier commit que incluya el PDF, así que cada
+  tanda de la fase 11 se publica sola al commitearla. Si alguna vez hay que
+  retener una versión, el PDF se deja fuera del commit.
 
 ## Sesión del 2026-09-25 — módulo `rotacion` y el piloto del tono
 

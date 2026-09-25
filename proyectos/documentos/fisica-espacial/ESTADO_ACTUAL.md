@@ -37,9 +37,12 @@ Fran leyó el piloto y lo corrigió dos veces el mismo día:
 págs. 141–150 del módulo 17 y una página con marcas del módulo 8;
 `verificar-apunte.py`, `indice-temas.py` y el saboteador en verde.
 
-**El PDF NO se commiteó** —y por lo tanto el hook no lo publicó—: la versión
-cruda («hinchapelotas») a una carpeta pública por link es decisión de Fran.
-En el Drive sigue el piloto de la primera vuelta.
+**Publicado al Drive por decisión de Fran**, que calibró el tono al decidir:
+Aníbal lo trata de «falluto y tramposo» y Fran a él también, así que la
+cargada es mutua; «hinchapelotas» sí, pero sin que suene a ataque. Las dos
+apariciones se suavizaron antes de subir (la de la `#lectura` ahora trae su
+contrapartida: «él diría que nosotros somos unos fallutos»), y la regla 8
+quedó con esa calibración.
 
 ## Fase 9 cerrada: el módulo `rotacion` (Sears caps. 9–10), y el tono nuevo en piloto — 2026-09-25
 
