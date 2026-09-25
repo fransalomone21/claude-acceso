@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (c)
 
 #modulo("La esfera de influencia y las órbitas parcheadas", clave: "esfera-influencia")[
   Dar la licencia que el módulo #M("hiperbola") prometió y no dio: por qué está permitido
@@ -27,24 +28,35 @@ Y sin embargo el módulo #M("maniobras") calculó la transferencia a Marte con u
 el módulo #M("hiperbola") calculó el encendido de salida con una hipérbola, y los dos
 números son los que usa la industria. *Ese* es el tema de este módulo: no
 cómo se hacen esas cuentas —ya están hechas— sino por qué están permitidas.
+Hasta acá se hizo trampa con toda tranquilidad; este módulo es el que
+presenta los papeles.
 
 #lectura[
   *Curtis, capítulo 8* («Interplanetary trajectories»), §8.4 («Sphere of
-  influence») y §8.5 («Method of patched conics»), pág. 398-411 — la lista de
-  temas de la cátedra los cita por número de sección, y es de ahí que sale la
-  cifra de los $925 thin 000$ km de la Tierra. Este módulo, a diferencia de
-  los de vectores o gravitación de la Parte I, no es de Roederer ni de S&Z:
-  la esfera de influencia y las cónicas parcheadas son astrodinámica, no
-  mecánica general, y ninguno de esos dos libros los trata.
+  influence», pág. 390) y §8.5 («Method of patched conics», pág. 394), y la
+  partida planetaria de §8.6 (pág. 395), con el ejemplo 8.4 en las págs.
+  399–401 — la lista de temas de la cátedra los cita por número de sección,
+  y es de ahí que sale la cifra de los $925 thin 000$ km de la Tierra. Este
+  módulo, a diferencia de los de vectores o gravitación de la Parte I, no es
+  de Roederer ni de S&Z: la esfera de influencia y las cónicas parcheadas son
+  astrodinámica, no mecánica general, y en ninguno de esos dos libros
+  aparece la expresión (se buscó).
 
-  Bate no cubre este tema con ese nombre; Curtis es la única fuente entre los
-  libros disponibles.
+  *Bate* sí lo trata, y en tres lugares: la idea, en §1.10.3 «Sphere of
+  influence» (pág. 40); la cuenta de la frontera, con el mismo criterio de
+  cocientes de perturbación, en §7.4 «The patched-conic approximation»
+  (págs. 333–334), aplicada a la Luna; y el viaje interplanetario en §8.3,
+  con el mismo nombre (pág. 359). Una versión anterior de este apunte decía
+  que el Bate no cubría el tema. Lo cubría; nadie había abierto el capítulo 7.
 ]
 
 == La idea completa, antes de la primera ecuación
 
 Todavía no hay ninguna cuenta hecha. Lo que sigue es el plan, en tres pasos,
-para tenerlo en la cabeza antes de la primera ecuación.
+para tenerlo en la cabeza antes de la primera ecuación. Es el Curtis §8.5
+(pág. 394) contado antes de hacerlo; el Bate, en §7.4 (pág. 333), lo
+resume en una frase que no tiene desperdicio: en algún punto cerca de la
+Luna, se «apaga la Tierra y se prende la Luna».
 
 + *Hay que decidir de quién es la nave en cada tramo.* La idea es partir el
   viaje en pedazos y, en cada pedazo, quedarse con *un solo* cuerpo central y
@@ -63,7 +75,7 @@ para tenerlo en la cabeza antes de la primera ecuación.
 
 #posta[
   La posta de este módulo es que el viaje interplanetario *no se resuelve*:
-  se hace de vista. Nadie integra las ecuaciones de tres cuerpos para
+  se ata con alambre, y el alambre aguanta. Nadie integra las ecuaciones de tres cuerpos para
   planificar una misión — lo que se hace es partir el viaje en tres pedazos,
   y en cada pedazo mentir a propósito diciendo que hay un solo cuerpo
   tirando.
@@ -93,7 +105,10 @@ para tenerlo en la cabeza antes de la primera ecuación.
 == Por qué «quién tira más fuerte» es la pregunta equivocada
 
 La frontera que uno inventaría solo es la superficie donde el Sol y el
-planeta tiran de la nave con la misma fuerza. Sale de igualar las dos leyes
+planeta tiran de la nave con la misma fuerza. El Curtis §8.4 (pág. 390)
+arranca por ahí mismo —cerca del planeta su gravedad le gana a la del Sol,
+y lejos pierde—, y después hace la cuenta buena, que es la de la sección
+que sigue. Sale de igualar las dos leyes
 de Newton del módulo #M("gravitacion"). Con la nave a distancia $r$ del planeta y el planeta
 a distancia $R$ del Sol, y suponiendo $r << R$ para que la distancia al Sol
 sea $R$ y no $R - r$,
@@ -118,7 +133,8 @@ $ r = 1,733 times 10^(-3) dot 149,6 times 10^6 = 259 thin 000 " km" $
   *cierto*: el Sol le tira a la Luna más fuerte que la Tierra, por un factor
   de más de dos, y por eso la órbita de la Luna alrededor del Sol es siempre
   cóncava hacia el Sol — nunca hace rulos. Y sin embargo la Luna le da
-  vueltas a la Tierra hace cuatro mil millones de años y no se va.
+  vueltas a la Tierra hace cuatro mil millones de años y no se va. Si la
+  cuenta ingenua tuviera razón, alguien se lo tendría que avisar a la Luna.
 
   La conclusión no es que la cuenta esté mal hecha: es que *mide lo que no
   importa*. Que el Sol tire más fuerte no dice nada, porque el Sol tira de la
@@ -152,7 +168,9 @@ los dos puntos.
 
 Hay dos maneras de plantear el movimiento de la nave, y el criterio sale de
 compararlas. En las dos, el término que domina se llama *aceleración
-principal* y el que sobra, *perturbación*.
+principal* y el que sobra, *perturbación*. Es la deducción del Curtis §8.4
+(págs. 390–394), y el Bate §7.4 la resume en media página (pág. 334) con
+el mismo criterio de cocientes.
 
 #definicion("perturbación")[
   En un problema planteado alrededor de un cuerpo central, la *perturbación*
@@ -255,7 +273,9 @@ planeta que el planeta del Sol, así que $R_v approx R$.
   absolutamente nada cuando la nave la cruza, no hay ningún cambio en las
   fuerzas, y el radio que la @soi-soi devuelve depende de haber elegido
   «que los dos cocientes de perturbación se igualen» como definición. Otra
-  definición razonable daría otro número, del mismo orden.
+  definición razonable daría otro número, del mismo orden. El Bate lo admite
+  con una honestidad que se agradece (§1.10.3, pág. 40): cuesta poner de
+  acuerdo aunque sea a dos personas sobre dónde dibujarla.
 
   Además la condición exacta —sin la aproximación $R_v approx R$— no da una
   esfera sino una superficie ligeramente achatada en la dirección del Sol.
@@ -299,7 +319,9 @@ de este módulo funcione.], fig-esfera-influencia)
 
 Los números están calculados con la @soi-soi a partir de los $mu$ del
 apéndice F y coinciden con la tabla A.2 de Curtis. La última fila usa la
-misma fórmula con la Tierra en el papel del Sol y la Luna en el del planeta.
+misma fórmula con la Tierra en el papel del Sol y la Luna en el del planeta;
+el Bate da $66 thin 300$ km (pág. 334), cien kilómetros más, que es lo que
+cuesta usar otras constantes.
 
 Las dos comparaciones que le dan sentido al número de la Tierra son opuestas,
 y las dos importan:
@@ -317,7 +339,7 @@ y las dos importan:
 
   - Desde adentro decimos *«la frontera está en el infinito»*, y por eso se
     puede usar $v_oo$ —la velocidad de sobra *en el infinito* del módulo
-    16— como la velocidad con la que la nave sale de verdad. Vale porque 145
+    #M("hiperbola")— como la velocidad con la que la nave sale de verdad. Vale porque 145
     radios terrestres es prácticamente el infinito para la gravedad de la
     Tierra.
   - Desde afuera decimos *«la frontera es un punto»*, y por eso el módulo #M("maniobras")
@@ -332,7 +354,8 @@ y las dos importan:
 == El método de las cónicas parcheadas
 
 Con la frontera puesta, el viaje queda partido en tres tramos, y en cada uno
-vale exactamente lo que ya está deducido en los módulos anteriores.
+vale exactamente lo que ya está deducido en los módulos anteriores. Es el
+Curtis §8.5 (pág. 394) y el Bate §8.3 (pág. 359), que lo aplican igual.
 
 #definicion("método de las cónicas parcheadas")[
   Resolver un viaje interplanetario como una secuencia de problemas de dos
@@ -373,22 +396,30 @@ fig-conicas-parcheadas)
 ]
 
 #cuidado[
-  *Para la Luna el método no sirve, y la tabla dice por qué.* La esfera de
-  influencia de la Luna mide $66 thin 200$ km y la Luna orbita a
+  *Para la Luna el método anda mucho peor, y la tabla dice por qué.* La
+  esfera de influencia de la Luna mide $66 thin 200$ km y la Luna orbita a
   $384 thin 400$ km: la frontera es el *17%* de la distancia, no el 0,6%.
-  Ninguna de las dos mentiras se sostiene — ni «es un punto» ni «está en el
-  infinito» —, y encima la Tierra y la Luna tienen masas comparables, así que
-  el centro de masa del par no está ni cerca del centro de la Tierra (el
-  módulo #M("dos-cuerpos") ya lo había calculado).
+  Ninguna de las dos mentiras se sostiene bien — ni «es un punto» ni «está
+  en el infinito» —, y encima la Tierra y la Luna tienen masas comparables,
+  así que el centro de masa del par no está ni cerca del centro de la
+  Tierra (el módulo #M("dos-cuerpos") ya lo había calculado).
 
-  Un viaje a la Luna se plantea con el *problema restringido de tres
-  cuerpos*, que es el módulo #M("tres-cuerpos").
+  Y aun así los libros lo usan: el Bate §7.4 (pág. 333) parchea la Luna
+  avisando que es una aproximación, y el Curtis deja las trayectorias
+  lunares con cónicas parcheadas para su capítulo 9. Sirve para un primer
+  número, no para confiarle la llegada. Un viaje a la Luna en serio se
+  plantea con el *problema restringido de tres cuerpos*, que es el módulo
+  #M("tres-cuerpos").
 ]
 
 == Cuánto cuesta la mentira
 
 Que el método funcione no exime de medir el error, y el error se mide con
-las herramientas del módulo #M("hiperbola") y nada más. Se toma la hipérbola de salida
+las herramientas del módulo #M("hiperbola") y nada más. La cuenta es propia
+de este apunte; el Curtis mira otra cara del mismo asunto en §8.7,
+«Sensitivity analysis» (pág. 401): cuánto se erra la llegada por un error
+chico en el encendido. Acá la pregunta es más cruda: cuánto se miente en
+la frontera misma. Se toma la hipérbola de salida
 hacia Marte —la del ejemplo de abajo, con $v_oo = 2,943$ km/s y
 $r_p = 6678$ km— y se pregunta qué pasa *en la frontera* en vez de en el
 infinito.
@@ -443,7 +474,8 @@ exactamente*, mucho mejor que el módulo.
 
   Cambiar «esto es exacto» por «esto es una primera aproximación buena, y sé
   de qué tamaño es el error» es exactamente lo que separa una cuenta de
-  ingeniería de una cuenta de examen.
+  ingeniería de una cuenta de examen. Aníbal, que odia las verdades
+  reveladas, la firmaría. Y después pediría que la expongas vos.
 ]
 
 == El ejemplo completo: Tierra a Marte, con la licencia ya dada
@@ -495,7 +527,7 @@ ocurrir el encendido.
   $mu_"Sol" = 1,327 times 10^11 " km"^3"/s"^2$,
   $R_T = 149,6 times 10^6$ km, $R_M = 227,9 times 10^6$ km, órbita de
   estacionamiento de $300$ km de altura ($r_p = 6678$ km), impulso específico
-  del motor $I_"sp" = 300$ s. (Curtis, ejemplo 8.4, pág. 401.)
+  del motor $I_"sp" = 300$ s. (Curtis, ejemplo 8.4, págs. 399–401.)
 
   *(a) El $v_oo$ que la misión pide.* Sale del pegado, y es la cuenta del
   módulo #M("maniobras") leída con el nombre correcto: la velocidad de la Tierra menos la
@@ -539,7 +571,8 @@ ocurrir el encendido.
   confunda con la excentricidad, que en este módulo también se llama $e$).
 
   *El 70% de la masa de la nave, antes del encendido, es combustible* — y eso
-  para el viaje de ida solamente, sin frenar en Marte y sin volver.
+  para el viaje de ida solamente, sin frenar en Marte y sin volver. Una nave
+  interplanetaria es, sobre todo, un tanque con algo atado adelante.
 
   #clave[
     *Los cinco resultados salieron de dos números: $v_oo$ y $r_p$.* Y el

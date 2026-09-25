@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (c)
 
 #modulo("Maniobras: Hohmann y rendez-vous", clave: "maniobras")[
   Deducir la transferencia de Hohmann —el cambio de órbita circular que gasta
@@ -10,17 +11,30 @@
   completo de todo lo que se dedujo, de Newton hasta acá.
 ]
 
-Los diez módulos anteriores dedujeron *de qué forma* es una órbita y *cuánto
-dura*. Éste es el único de la Parte III que pregunta algo distinto: cómo
+Los módulos anteriores dedujeron *de qué forma* es una órbita y *cuánto
+dura*, que es mirar desde la vereda. Éste es el único de la Parte III que
+pregunta algo distinto, y es la pregunta del que tiene que manejar: cómo
 pasar de una órbita a otra gastando el mínimo combustible posible, y cómo
 llegar al punto exacto del espacio en el momento exacto en que otro cuerpo
 —un planeta, un satélite— también está ahí. Las dos preguntas se resuelven
-con las mismas dos herramientas de siempre: la vis-viva y el período.
+con las mismas dos herramientas de siempre: la vis-viva y el período. No
+hay física nueva; hay que usar la que ya se tiene con la cabeza fría.
 
 #lectura[
-  *Bate, capítulo 3, §3.3* («In-plane orbit changes»), y *Curtis, capítulo 6*
-  («Orbital maneuvers»), la sección de la transferencia de Hohmann y la del
-  rendez-vous.
+  *Bate, capítulo 3, §3.3* («In-plane orbit changes», pág. 162), y *Curtis,
+  capítulo 6* («Orbital maneuvers»): §6.3, «Hohmann transfer» (pág. 287), y
+  §6.5, «Phasing maneuvers» (pág. 296).
+
+  La lista de la cátedra, para Hohmann, manda al *Beer §12.13* y a su «Fig.
+  12.23». El Beer no nombra a Hohmann en todo el tomo —se buscó—, y la
+  figura es la elipse genérica del período, con el perigeo en $r_0$ y el
+  apogeo en $r_1$ (pág. 739, repetida en la 740). Parece un error, y no lo
+  es: esa elipse, con $a = (r_0 + r_1) \/ 2$ (ec. 12.46), es *exactamente* la
+  elipse de transferencia de la @man-at, con otras letras. Aníbal manda a
+  buscar la maniobra adonde el libro no le puso nombre, y la maniobra está
+  ahí igual. Punto para él. Para el rendez-vous, la lista ni siquiera da
+  libro: dice «ver Problema 10 de la guía», y el Problema 10 dice
+  «investigar». Coherente con alguien que odia las verdades reveladas.
 
   Vale saber cuál de los dos abrir: Bate razona la maniobra *desde la
   energía* —cuánto hay que subir $epsilon$, y por qué conviene hacerlo en el
@@ -30,6 +44,10 @@ con las mismas dos herramientas de siempre: la vis-viva y el período.
 ]
 
 == La transferencia de Hohmann
+
+Walter Hohmann la publicó en 1925, cuando nadie había puesto nada en órbita
+y faltaban treinta años para que alguien lo hiciera: es el Curtis §6.3 (pág.
+287) y el Bate §3.3 (pág. 162).
 
 #deduccion("por qué la elipse tangente a las dos circulares es la más barata")[
   Dos órbitas circulares coplanares, de radios $r_1 < r_2$, alrededor del
@@ -41,7 +59,8 @@ con las mismas dos herramientas de siempre: la vis-viva y el período.
   que ahí se tiene o se quiere tener —los dos ábsides son perpendiculares al
   radio, igual que toda velocidad circular—, así que cada encendido es un
   simple cambio de *magnitud*, sin cambiar de dirección: el caso más barato
-  que hay, porque no se paga ningún coseno.
+  que hay, porque no se paga ningún coseno. Todo el combustible va a cambiar
+  la rapidez y nada se desperdicia en doblar.
 ]
 
 $ a_t = (r_1 + r_2)/2 $ <man-at>
@@ -61,7 +80,9 @@ $ Delta v_1 = v_1' - v_1, quad quad Delta v_2 = v_2 - v_2' $ <man-deltav>
   suma velocidad. Y como $a_t < r_2$, $v_2' < v_2$: la elipse llega al apogeo
   *más lenta* que la circular exterior, así que el segundo encendido *también*
   suma velocidad, para terminar de subir. Subir de órbita cuesta acelerar dos
-  veces, no acelerar y después frenar.
+  veces, no acelerar y después frenar. Y sin embargo llega más lento de lo que
+  salió: la órbita alta es más lenta que la baja, aunque se le haya puesto
+  plata dos veces. Si eso no molesta un poco, conviene releerlo.
 ]
 
 #geometria[
@@ -95,7 +116,8 @@ $ phi = 180° - n_2 t_v $ <man-fase>
 
 #cuidado[
   *La @man-fase da el ángulo de lanzamiento, no el de encuentro.* Es el error
-  más común de este tema: pensar que hay que apuntar al planeta *donde está*.
+  más común de este tema: pensar que hay que apuntar al planeta *donde está*,
+  como quien le tira una pelota a un perro que ya salió corriendo.
   Para cuando la nave llegue, el planeta ya se movió — y por eso el ángulo que
   hay que medir en el instante del lanzamiento es *menor* que $180°$, no igual.
   Apuntar directamente al planeta en su posición de hoy manda la nave a un
@@ -109,7 +131,7 @@ $ phi = 180° - n_2 t_v $ <man-fase>
   $mu_"Sol" = 1,327 times 10^11$ km³/s².
 
   *(a) Dirección de los encendidos.* Ida (Tierra a Marte, hacia afuera): los
-  dos encendidos aceleran, en la dirección del movimiento —el cuadro azul de
+  dos encendidos aceleran, en la dirección del movimiento —la idea de más
   arriba—. Vuelta (Marte a Tierra, hacia adentro): los dos frenan, en contra
   del movimiento.
 
@@ -139,12 +161,15 @@ $ phi = 180° - n_2 t_v $ <man-fase>
     tengan una *ventana de lanzamiento*, y no cualquier fecha sirva: la
     geometría Tierra–Marte pasa por ese ángulo de $44,4°$ una vez cada
     *período sinódico* —cada $780$ días aproximadamente—, no todos los días.
+    El que pierde el colectivo espera más de dos años al siguiente.
   ]
 ]
 
 == Rendez-vous: encontrarse con algo en la misma órbita
 
-Hohmann cambia el *tamaño* de la órbita. El rendez-vous es otro problema: dos
+Es el Curtis §6.5, «Phasing maneuvers» (pág. 296), que lo resuelve con la
+misma idea y un ejemplo con una órbita elíptica de partida; acá alcanza con
+la circular. Hohmann cambia el *tamaño* de la órbita. El rendez-vous es otro problema: dos
 cuerpos que ya comparten la *misma* órbita circular, pero no están en el
 mismo punto de ella, y hay que hacer que coincidan. Subir o bajar de órbita
 no alcanza —volver a la misma órbita circular no cambia dónde se está en
@@ -170,6 +195,16 @@ una vuelta, tardando un tiempo distinto del que tardaría la órbita circular.
 ]
 
 $ T'/T = 1 - (Delta phi)/(360°) $ <man-fasaje>
+
+#posta[
+  En órbita, para alcanzar al de adelante hay que frenar. Suena a chiste y es
+  la receta: frenar baja la órbita, la órbita más baja es más corta y más
+  rápida, y en una vuelta se le descuenta la ventaja al otro. Al revés,
+  acelerar para alcanzarlo sube la órbita, la hace más lenta, y el de
+  adelante se aleja cada vez más, mientras uno lo mira por la ventanilla
+  con el motor prendido. Después, al volver al punto de partida, se hace
+  la cuenta al revés para quedar en la misma órbita que el otro, al lado.
+]
 
 #clave[
   *El chaser no persigue al blanco: los dos llegan al mismo lugar por caminos
@@ -242,14 +277,16 @@ $ a' = r (T'/T)^(2\/3) $ <man-fasaje-a>
     se parece más a la circular, pide menos $Delta v$, y tarda el doble en
     total. Es el mismo intercambio que el Júpiter del módulo #M("orbita-conicas") —rápido y caro
     contra lento y barato—, ahora con el tiempo de encuentro en el lugar de
-    la energía de captura.
+    la energía de captura. En el espacio, como en todos lados, el apuro se
+    paga.
   ]
 ]
 
 #guia("qué ejercicios cubre este módulo")[
   El *Problema 5* (Hohmann a Marte) es el ejemplo a fondo del tema central del
   módulo. El *Problema 10* (rendez-vous) es abierto en la guía —pide
-  investigar y proponer, no un número cerrado— y se resolvió acá con el
+  investigar y proponer, no un número cerrado: la cátedra pone a trabajar
+  a los alumnos, como siempre— y se resolvió acá con el
   método general de la órbita de fasaje más un caso numérico concreto, que es
   lo que el enunciado pide en su parte (C).
 ]

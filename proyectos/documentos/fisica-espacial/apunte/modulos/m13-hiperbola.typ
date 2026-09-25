@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (c)
 
 #modulo("La hipérbola: escapar, y llegar con velocidad de sobra", clave: "hiperbola")[
   Cerrar la clasificación de las cónicas que el módulo #M("orbita-conicas") dejó abierta: la
@@ -19,7 +20,10 @@ elipse porque el otro medio existe. La tabla de cónicas del módulo #M("orbita-
 los otros dos casos, $e = 1$ y $e > 1$, y ahí los dejó: son las trayectorias
 de las que no se vuelve.
 
-Este módulo las desarrolla, y no por completitud. La hipérbola es *la* forma
+Este módulo las desarrolla, y no por completitud — aunque la lista de temas
+del 7/9 agregó una fila que dice, textual, «Todo»: el capítulo 2 del Curtis
+entero, y la hipérbola está adentro, así que por completitud también. Pero
+la razón de verdad es otra. La hipérbola es *la* forma
 de toda trayectoria que sale de un planeta o que llega a él: cuando una nave
 se va de la Tierra rumbo a Marte, el tramo que recorre cerca de la Tierra es
 una hipérbola, y el tramo que recorre cerca de Marte es otra. El módulo #M("esfera-influencia") va
@@ -34,15 +38,17 @@ la pieza.
   figura de este módulo.
 
   El ángulo de giro $delta$ y la velocidad hiperbólica de exceso $v_oo$ son de
-  Bate §1.10 — Curtis los usa pero recién los explota en el capítulo 8, con
-  las trayectorias interplanetarias.
+  Bate §1.10 (págs. 38–40) — Curtis los usa pero recién los explota en el
+  capítulo 8, con las trayectorias interplanetarias. Las páginas: Curtis
+  §2.8 arranca en la 90, §2.9 en la 93; Bate §1.9 en la 34.
 ]
 
 == La idea completa, antes de la primera ecuación
 
 Todavía no hay ninguna cuenta hecha. Lo que sigue es qué hace falta para
 entender una hipérbola, en el orden en que hace falta, para tener el plan en
-la cabeza antes de la primera ecuación.
+la cabeza antes de la primera ecuación. Es el mismo recorrido del Curtis
+§2.9 (pág. 93) y del Bate §1.10 (pág. 38), contado antes de hacerlo.
 
 + *Necesitás que la trayectoria llegue al infinito.* Eso, en la ecuación de
   la órbita, quiere decir que el denominador $1 + e cos nu$ se anule en algún
@@ -118,7 +124,9 @@ frases dicen lo mismo con distinto vocabulario.
   es un solo valor entre infinitos: cualquier error de un metro por segundo
   en el encendido deja $e = 0,9999$ (elipse gigante) o $e = 1,0001$
   (hipérbola). La parábola sirve como *frontera* —de un lado se vuelve, del
-  otro no— y no como trayectoria de diseño.
+  otro no— y no como trayectoria de diseño. El Bate lo dice sin anestesia al
+  abrir su §1.9: en la naturaleza casi no se la encuentra. Es como caer
+  parado sobre el filo de una moneda: se puede, pero nadie lo planifica.
 ]
 
 == La geometría de la hipérbola
@@ -174,7 +182,8 @@ $e^2 - 1$ — el único cambio que hace falta para que las raíces existan
 (Curtis §2.9, ecs. 2.103 a 2.106).
 
 *El ángulo de giro.* Es el resultado que hace que este módulo valga: dice
-cuánto le tuerce la velocidad el planeta a una nave que pasa de largo.
+cuánto le tuerce la velocidad el planeta a una nave que pasa de largo. El
+Bate lo llama *turning angle* (§1.10, pág. 39) y lo deduce igual.
 
 #deduccion("el ángulo que se tuerce la velocidad al pasar")[
   Las asíntotas son las rectas a las que la trayectoria tiende, así que la
@@ -200,8 +209,9 @@ $ delta = 2 arcsin(1/e) $ <hip-delta>
   —una nave que pasa muy rápido o muy lejos—, $arcsin(1 \/ e)$ tiende a cero
   y el planeta casi no la desvía. Cuando $e arrow.r 1^+$ —el borde de quedar
   capturada—, $delta arrow.r 180°$: la nave se da vuelta entera y sale por
-  donde vino. Ésa es la razón por la que las maniobras de *asistencia
-  gravitatoria* buscan pasar cerca y despacio.
+  donde vino, como el que entra a un boliche, ve quién está y se va. Ésa es
+  la razón por la que las maniobras de *asistencia gravitatoria* buscan
+  pasar cerca y despacio.
 ]
 
 #definicion("radio de puntería")[
@@ -267,7 +277,11 @@ $ v_oo = sqrt(mu/a), quad quad v^2 = v_"esc"^2 + v_oo^2, quad quad C_3 = v_oo^2 
   en el perigeo: la energía va con el cuadrado de la velocidad, así que un
   $Delta v$ dado rinde más cuanto más rápido ya vas.
 
-  $C_3$ es simplemente $v_oo^2$ con otro nombre. Se usa así porque es lo que
+  Es la ec. 1.10-5 del Bate (pág. 40), que la saca igual: energía en el
+  punto de apagado del motor igual a energía en el infinito.
+
+  $C_3$ es simplemente $v_oo^2$ con otro nombre, porque a los ingenieros les
+  gusta tener un nombre más para lo mismo. Se usa así porque es lo que
   el catálogo de un lanzador publica: "este cohete pone $4$ toneladas con
   $C_3 = 10$ km²/s²". Para saber si un lanzador sirve para una misión se
   compara un número contra otro, sin cuentas de por medio —
@@ -437,7 +451,7 @@ $ tan gamma = v_r/v_perp = (e sin nu)/(1 + e cos nu) $ <hip-gamma>
   $ tan nu = (0,1931)/(0,0949) = 2,034 quad ==> quad nu = 63,8° $
 
   Las dos combinaciones salieron positivas, así que $sin nu$ y $cos nu$ lo
-  son: $nu$ está en el primer cuadrante, y el «ojo» en rojo de arriba lo
+  son: $nu$ está en el primer cuadrante, y el signo de $v_r$ de más arriba lo
   confirma por el otro lado — $gamma = +10°$ quiere decir que el satélite se
   está alejando del perigeo.
 ]
@@ -544,7 +558,9 @@ $Delta v_1$ que salió de la vis-viva era el salto entre la velocidad de la
 Tierra alrededor del Sol y la del perihelio de la elipse de transferencia.
 Con las herramientas de este módulo ya se puede ver qué le falta a esa
 cuenta, aunque la justificación completa —por qué está permitido pegar los
-dos problemas— sea el módulo #M("esfera-influencia").
+dos problemas— sea el módulo #M("esfera-influencia"). La cuenta de abajo es
+la del Bate §1.10.2 (pág. 39), la de la «velocidad hiperbólica de exceso»,
+con los números de Marte puestos.
 
 Con los datos de aquel ejemplo, la velocidad de la Tierra y la que la nave
 necesita en el perihelio de la transferencia son
@@ -579,7 +595,8 @@ $ Delta v = 11,32 - 7,73 = 3,59 " km/s" $
   trabajando: las velocidades se suman en cuadrado, no linealmente. Salir del
   pozo terrestre *y además* quedar con $2,94$ km/s de sobra cuesta apenas
   $0,39$ km/s más que salir justo. Todo el beneficio viene de encender abajo,
-  donde la nave ya va rápido.
+  donde la nave ya va rápido. Es de las pocas veces en la vida en que el
+  vuelto sale más barato que el precio.
 ]
 
 #posta[

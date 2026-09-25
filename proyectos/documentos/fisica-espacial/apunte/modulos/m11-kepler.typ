@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (c)
 
 #modulo("Las leyes de Kepler", clave: "kepler")[
   Mostrar que las tres leyes de Kepler —enunciadas cien años antes de Newton,
@@ -12,25 +13,37 @@
 
 Kepler llegó a sus tres leyes mirando las tablas de posiciones de Marte que
 había heredado de Tycho Brahe, sin ninguna teoría de la gravitación detrás:
-son un ajuste empírico, publicado casi un siglo antes que los *Principia*. Lo
-notable, visto desde acá, es que las tres ya están adentro de lo que este
-apunte dedujo en los módulos #M("momento-angular") y #M("orbita-conicas") — no hace falta una hipótesis nueva, sólo
-leer lo que ya está escrito con otro nombre.
+son un ajuste empírico, publicado casi un siglo antes que los *Principia*.
+Kepler mismo llamó a esos años su «guerra con Marte», y la ganó a mano, sin
+calculadora y sin saber por qué los planetas hacían lo que hacían. Acá se
+hace trampa: ya se tiene a Newton. Lo notable, visto desde acá, es que las
+tres ya están adentro de lo que este apunte dedujo en los módulos
+#M("momento-angular") y #M("orbita-conicas") — no hace falta una hipótesis
+nueva, sólo leer lo que ya está escrito con otro nombre. Es un módulo corto
+por eso, y se agradece.
 
 #lectura[
-  *Curtis, capítulo 2, §2.7* («Elliptical orbits») es donde sale el período:
-  la tercera ley no aparece como ley, sino como consecuencia de integrar la
-  velocidad areolar sobre una vuelta. *Bate, capítulo 1, §1.7* («The
-  elliptical orbit») hace exactamente lo mismo, y es de las dos páginas más
-  cortas del libro.
+  *Curtis, capítulo 2, §2.7* («Elliptical orbits», pág. 80) es donde sale el
+  período, en la pág. 84: la tercera ley no aparece como ley, sino como
+  consecuencia de integrar la velocidad areolar sobre una vuelta. *Bate,
+  capítulo 1, §1.7* («The elliptical orbit», pág. 30) hace exactamente lo
+  mismo en §1.7.2, pág. 31, y es de las dos páginas más cortas del libro.
 
   Las tres leyes *como enunciado histórico* no están en ninguno de los dos:
-  para eso va el Beer (§12.12) o el Roederer, que las presenta antes de
-  deducirlas. Es la diferencia de público — un libro de astrodinámica da por
-  sabido lo que un libro de física general todavía está enseñando.
+  para eso va el *S&Z, §13.5* (pág. 410), que es la fila que pide la lista
+  de la cátedra, el *Beer, §12.13* «Leyes de Kepler» (pág. 740), o el
+  *Roederer, cap. 4*, apartado f) (págs. 125–130). La lista manda al Beer
+  §12.12, que es la sección de antes: ahí está el período (ec. 12.45, pág.
+  739), y las leyes arrancan en la página siguiente. Media página de
+  diferencia, que no le hace mal a nadie. Es la diferencia de público — un
+  libro de astrodinámica da por sabido lo que un libro de física general
+  todavía está enseñando.
 ]
 
 == Las tres leyes, ya deducidas
+
+Las tres, como enunciado, son las del S&Z §13.5 (págs. 410–412); lo que
+cambia acá es que no se enuncian: se reconocen.
 
 #clave[
   *Primera ley: las órbitas son elipses, con el Sol en un foco.* Es la
@@ -41,16 +54,38 @@ leer lo que ya está escrito con otro nombre.
 ]
 
 #clave[
-  *Segunda ley: áreas iguales en tiempos iguales.* Es la @angm-areas del módulo
-  7, $d A \/ d t = h \/ 2 = "constante"$, que salió de la conservación del
-  momento angular y vale para *cualquier* fuerza central — no hace falta que
-  sea $1 \/ r^2$. Kepler la observó en un caso particular; este apunte mostró
-  que es más general que la gravitación misma.
+  *Segunda ley: áreas iguales en tiempos iguales.* Es la @angm-areas del
+  módulo #M("momento-angular"), $d A \/ d t = h \/ 2 = "constante"$, que salió
+  de la conservación del momento angular y vale para *cualquier* fuerza
+  central — no hace falta que sea $1 \/ r^2$. Kepler la observó en un caso
+  particular; este apunte mostró que es más general que la gravitación misma.
+  Es, de paso, la pregunta fina del Problema 5 de la guía, y la respuesta es
+  ésa: alcanza con que la fuerza sea central.
 ]
 
-Falta la tercera, y es la única que necesita una deducción nueva.
+#cuidado[
+  *El Roederer, justo acá, dice las cosas al revés.* La lista de la cátedra
+  recomienda como «muy útil» leer «el Roederer pg. 120 y suc.», y tiene
+  razón: es de lo mejor que hay para esto. Pero en la pág. 128, al final del
+  apartado f), dice que la *tercera* ley es «mera consecuencia» de conservar
+  el impulso angular y vale para cualquier interacción, y que la *segunda* es
+  «propia de las interacciones gravitatorias». Es exactamente al revés, y lo
+  contradice el propio párrafo de arriba, donde saca la segunda de la
+  velocidad areolar constante sin usar ni una vez que la fuerza vaya como
+  $1 \/ r^2$. El S&Z lo dice bien (pág. 412): la segunda vale para cualquier
+  fuerza central; la primera y la tercera, sólo para $1 \/ r^2$. Si en un
+  parcial se copia la frase del Roederer, se copia el error — y el Problema
+  5 pregunta justo eso.
+]
+
+Falta la tercera, y es la única que necesita una deducción nueva. Kepler
+tardó diez años más en encontrarla que las otras dos; acá son cinco
+renglones.
 
 == La tercera ley: de dónde sale el período
+
+La cuenta es la del Curtis §2.7 (pág. 84) y la del Bate §1.7.2 (pág. 31),
+que en esto no se pelean.
 
 #deduccion("el período, integrando el área")[
   La velocidad areolar es constante (@angm-areas), así que en un período completo
@@ -68,7 +103,9 @@ $b = a sqrt(1 - e^2)$ y $h^2 = mu p = mu a (1 - e^2)$:
   Elevando la @kep-tau-ab al cuadrado:
   $ tau^2 = (4 pi^2 a^2 b^2)/h^2 = (4 pi^2 a^2 dot a^2 (1-e^2))/(mu a (1-e^2)) = (4 pi^2 a^3)/mu $
   La excentricidad se cancela *entera* — no importa si la órbita es casi
-  circular o muy alargada, el período depende sólo de $a$.
+  circular o muy alargada, el período depende sólo de $a$. Cuando una
+  variable se va sola de una cuenta así, sin que nadie la eche, suele ser
+  que la física está diciendo algo.
 ]
 
 $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <kep-periodo>
@@ -107,7 +144,18 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <kep-periodo>
   diferencia entre planetas queda varios órdenes de magnitud por debajo de lo
   que Kepler podía medir con los datos de Tycho. La ley *aproximada* es
   extraordinariamente buena; la ley *exacta* compara el mismo sistema consigo
-  mismo, no un planeta con otro.
+  mismo, no un planeta con otro. Kepler tenía razón con los datos que tenía;
+  el que la usa hoy con Júpiter y sus lunas, no.
+]
+
+#posta[
+  El período lo decide el semieje mayor y nada más. Una órbita redondita y
+  otra estirada como chicle, si tienen el mismo $a$, tardan exactamente lo
+  mismo en dar la vuelta: la estirada va a los pedos cerca del perigeo y se
+  arrastra por el apogeo, y una cosa compensa la otra justo. Y cuanto más
+  lejos, más lento, y más que proporcional: el doble de $a$ es casi el
+  triple de período ($2^(3\/2) approx 2,8$). Por eso la Luna tarda un mes y
+  la estación espacial, hora y media.
 ]
 
 == Ejemplo: el satélite del módulo #M("orbita-conicas"), con período
@@ -134,8 +182,10 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <kep-periodo>
   pasar por $h$, como comprobación cruzada:
   $ v_p^2 = mu (2/r_p - 1/a) = (3,986 times 10^5) (2/6778 - 1/8578) = 71,15 ==> v_p = 8,435 " km/s" $
   $ v_a^2 = mu (2/r_a - 1/a) = (3,986 times 10^5) (2/(10 thin 378) - 1/8578) = 30,35 ==> v_a = 5,509 " km/s" $
-  Tres caminos —momento angular en el módulo #M("momento-angular"), ecuación de la órbita en el
-  9, vis-viva acá— y el mismo número las tres veces.
+  Tres caminos —momento angular en el módulo #M("momento-angular"), ecuación
+  de la órbita en el #M("orbita-conicas"), vis-viva acá— y el mismo número las
+  tres veces. Si alguna vez dan distinto, el que se equivocó es uno, no la
+  física.
 
   *(d) Escapar desde perigeo, o desde apogeo.* Escapar significa $E = 0$,
   o sea alcanzar $v_"esc" = sqrt(2 mu \/ r)$ (módulo #M("gravitacion")) en el punto donde se
@@ -286,7 +336,8 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <kep-periodo>
   ]
 
   #cuidado[
-    *La trampa de este problema es de signo, no de álgebra.* $v_B''$ tiene que
+    *La trampa de este problema es de signo, no de álgebra*, que es la peor
+  clase de trampa porque la cuenta sale prolija igual. $v_B''$ tiene que
     ser *menor* que $v_"circ"$ —el LEM frena respecto del módulo de mando, que
     sigue en su órbita— y por eso $B$ queda como el ábside *alto* de la nueva
     órbita, no el bajo. Restar al revés ($v_"circ" + 0,200$) daría una órbita
