@@ -251,7 +251,7 @@ cierre**, y no se cumplió: el hook `post-commit` lo publicó con el commit
 anterior es de Fran. Para los commits de la fase 11, mientras el tono no esté
 aprobado, el PDF queda fuera del commit.
 
-### Fase 11 — la pasada por los 20 módulos restantes y el Anexo A
+### Fase 11 — la pasada por los 20 módulos restantes y el Anexo A  ·  CERRADA (2026-09-25)
 
 Lo que Fran pidió el 2026-09-25 para *todo* el apunte, en una sola lectura
 por módulo —porque las tres cosas se hacen mirando lo mismo, y leer cada
@@ -290,6 +290,10 @@ veces, o datos que faltan medir. **Si hay un parcial de cuerpo rígido cerca,
 esta fase va antes que la 11**, porque un chiste de menos no desaprueba a
 nadie y una respuesta mal en el Anexo A sí.
 
+- **Ya pagado en la fase 11 (2026-09-25):** directa y retrógrada estaban
+  invertidas en m20, m21 y cuatro fichas del Anexo (P4, P5, P6, P9);
+  corregido contra el Beer pág. 1191. Es la prueba de que esta fase no es
+  decorativa: la respuesta mal estaba en el PDF publicado.
 - **13 fichas del Anexo A marcadas «cuenta propia»**, sin segunda mirada
   (`grep -c "cuenta propia" apunte/anexos/a1-guia-ejercicios.typ`). Eran 15:
   el 2026-09-25 se recalcularon por separado el Problema 1 (torques), el

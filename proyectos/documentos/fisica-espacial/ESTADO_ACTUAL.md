@@ -1,5 +1,46 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fase 11 CERRADA: tanda (d), m18 a m21 y el Anexo A — 2026-09-25 (séptima parte)
+
+Mismo método que (a)–(c): reemplazos exactos con `rep.py` y fuentes medidas
+contra los PDFs (Beer, offset impresa = PDF + 574; Roederer 0).
+
+- **m18–m21 y el Anexo A con la voz de la regla 8** y la marca `// voz:`.
+  De la cátedra, textual: «son muy útiles los resúmenes que hace el Beer»
+  (m18), «ojo!!! Notación L es H y P es L» (m19), «ver comentario
+  posterior» de las ecs. 18.22–23 (m20). `#posta` nueva: 2 en m18, 2 en
+  m19, 2 en m20, 1 en m21.
+- **ERROR DE FÍSICA corregido — directa y retrógrada estaban invertidas.**
+  La `@euler-precesion-estable` enmarcada de m20 tenía $(I - I')$ donde va
+  $(I' - I)$ y no coincidía con su propia deducción. De ahí m21 sacó «achatado
+  → directa», que es al revés: **Beer pág. 1191, literal: alargado ($I > I'$)
+  → directa; achatado ($I < I'$) → retrógrada**. Lo confirman tres caminos
+  (el texto del Beer, la derivación independiente y los Problemas 7/8 del
+  Anexo, que ya usaban la fórmula buena). Cambian las respuestas: **P4, el
+  spin es negativo** (antes decía positivo; el período 1,832 s no cambia),
+  **P5 y P9 retrógrada**, **P6 retrógrada para $ell\/r < sqrt(6)$ y
+  directa para $ell\/r > sqrt(6)$**. m20 quedó con los ejes del Beer
+  ($hat(e)$ del lado opuesto a $Z$, $hat(f)$ sobre la línea de nodos: antes
+  el texto le decía línea de nodos a $hat(e)$).
+- **Otros errores de fuente, medidos:** m19 decía que Estática §§9.16–9.17
+  «no forma parte del material de esta cátedra», y la cátedra manda ahí; el
+  Beer Dinámica la trae en el Apéndice B (§B.6–B.8, págs. 1319–1322). m19
+  citaba «ec. 18.10» para el tensor sin diagonalizar (es la 18.7/18.8). m20
+  atribuía al módulo 18 una página del Beer y confundía el disco con el
+  volante. m21 decía que el Roederer §5.g trata la peonza libre: no la
+  trata (§5.g es el trompo con peso, cualitativo).
+- **Numeración vieja:** «Parte IV» → V (m18–m21), «módulos … y 15», «módulo
+  7», «módulo 14» a mano → `#M(...)`, «Cierre de la Parte IV» → «Cierre de la
+  Parte V, y del apunte», «quince módulos» → veintiuno. Una mención de color
+  en la prosa sacada.
+- **Render de antes arreglado de paso:** `\geq` salía «dmg= 0» en m19; los
+  asteriscos de «*15.12 a *15.14» se comían como negrita en m18.
+
+**Medido:** `medir-estilo.py` **10 → 0**. Compila, **188 páginas** (eran 186).
+Miradas en el render las páginas del texto nuevo (150–176 y 178–187 del PDF).
+`verificar-apunte.py` e `indice-temas.py` en verde; su saboteador 4/4.
+**Sigue la fase 12** (exactitud: las fichas «cuenta propia» del Anexo).
+
 ## Fase 11 en curso: tanda (c), módulos 11 a 16 — 2026-09-25 (sexta parte)
 
 Hecha igual que la (a) y la (b): reemplazos exactos (pares viejo/nuevo y un

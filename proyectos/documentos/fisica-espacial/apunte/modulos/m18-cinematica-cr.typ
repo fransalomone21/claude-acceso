@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (d)
 
 #modulo("Cinemática del cuerpo rígido y sistemas rotantes", clave: "cinematica-cr")[
   Describir cómo se mueve un cuerpo que ya no es un punto: por qué todo
@@ -17,7 +18,14 @@ trampa se termina. Alcanzó para una órbita entera
 porque la Tierra vista desde $42 thin 000$ km efectivamente es un punto. Deja
 de alcanzar apenas la pregunta cambia de *dónde está* el satélite a *hacia
 dónde apunta*: una antena, una cámara, un panel solar y un motor apuntan a
-algún lado, y ese lado es lo que hay que controlar.
+algún lado, y ese lado es lo que hay que controlar. Un satélite en la órbita
+perfecta con la antena mirando al Sol es chatarra muy bien ubicada.
+
+Este módulo es, casi de punta a punta, el Beer, capítulo 15: la cátedra arma
+la lista de cuerpo rígido entera sobre el Beer, y avisa de entrada que «son
+muy útiles los resúmenes que hace el Beer al final (o a la mitad) de cada
+capítulo». Hay que darle la razón: los resúmenes existen y son buenos. Lo que
+la frase no dice es que para llegar al resumen hay que atravesar el capítulo.
 
 #definicion("cuerpo rígido")[
   Un sistema de partículas en el que la distancia entre dos cualesquiera de
@@ -28,8 +36,9 @@ algún lado, y ese lado es lo que hay que controlar.
   Tres de esos seis son la posición del centro de masa, y ésos ya están
   resueltos: el teorema del módulo #M("centro-de-masa") dice que el centro de masa se mueve como
   un punto de masa $M$ empujado por la resultante de las fuerzas externas, y
-  toda la Parte III fue eso. Los otros tres son la *orientación*, y de ellos
-  se ocupa esta parte.
+  las Partes III y IV enteras fueron eso. Los otros tres son la *orientación*,
+  y de ellos se ocupa esta parte. (El Roederer, §5.b, llega a los mismos
+  seis números en la pág. 165.)
 ]
 
 #lectura[
@@ -38,8 +47,10 @@ algún lado, y ese lado es lo que hay que controlar.
   193). *Beer, Dinámica, capítulo 15* («Cinemática de cuerpos rígidos»),
   §15.10 («Razón de cambio de un vector con respecto a un sistema de
   referencia en rotación», pág. 975) y §15.11 («...Aceleración de Coriolis»,
-  pág. 977); las secciones opcionales *15.12 a *15.14 extienden lo mismo a
-  tres dimensiones.
+  pág. 977); las secciones \*15.12 a \*15.14 (pág. 988–1004) extienden lo mismo
+  a tres dimensiones. El Beer les pone asterisco de opcionales; la lista de la
+  cátedra se los saca sin decir nada, y el cono espacial y la suma de
+  velocidades angulares —§15.12— entran al parcial igual.
 
   Beer trae la deducción de la derivada en un sistema rotante con más detalle
   algebraico y es la fuente de la fórmula que sostiene los módulos que siguen;
@@ -63,10 +74,12 @@ algún lado, y ese lado es lo que hay que controlar.
   (Beer §15.12, pág. 988–989; es el *teorema de Euler*.)
 ]
 
-Haciendo tender a cero el intervalo, esa rotación finita se vuelve una
-velocidad angular $bold(omega)$ a lo largo de un eje que pasa por $O$: el
-*eje instantáneo de rotación*. Y con él, la velocidad de cualquier punto del
-cuerpo:
+Lindo teorema para una demostración que entra en un párrafo: no importa cuán
+borracho sea el movimiento, si hay un punto fijo, cada instante es una
+rotación pura. Haciendo tender a cero el intervalo, esa rotación finita se
+vuelve una velocidad angular $bold(omega)$ a lo largo de un eje que pasa por
+$O$: el *eje instantáneo de rotación*. Y con él, la velocidad de cualquier
+punto del cuerpo:
 
 $ bold(v) = bold(omega) times bold(r) $ <cin-v>
 
@@ -88,7 +101,18 @@ $ bold(a) = bold(alpha) times bold(r) + bold(omega) times (bold(omega) times bol
   Consecuencia práctica, que el Beer subraya (pág. 989): *las partículas que
   están sobre el eje instantáneo tienen velocidad cero, pero no aceleración
   cero*, y las aceleraciones del cuerpo no se pueden calcular como si el
-  cuerpo estuviera girando para siempre alrededor de ese eje.
+  cuerpo estuviera girando para siempre alrededor de ese eje. Estar quieto un
+  instante no es estar quieto: pregúntenle a una pelota en el punto más alto
+  del tiro vertical.
+]
+
+#posta[
+  El eje instantáneo es como la bisagra de una puerta que se mueve mientras
+  la puerta gira: en cada instante hay una recta que no se mueve, pero no es
+  siempre la misma recta. Y como la bisagra se mueve, la derivada de
+  $bold(omega)$ tiene un pedazo que no apunta a lo largo de $bold(omega)$.
+  Si en un problema $bold(alpha)$ te sale paralela a $bold(omega)$ en 3D,
+  sospechá antes de festejar.
 ]
 
 #clave[
@@ -108,7 +132,8 @@ $ bold(a) = bold(alpha) times bold(r) + bold(omega) times (bold(omega) times bol
   velocidades angulares $bold(omega)_1$ y $bold(omega)_2$. Por el teorema de
   Euler ese movimiento tiene que ser equivalente a una sola rotación
   $bold(omega)$. Para una partícula cualquiera del cuerpo, en $bold(r)$, la
-  @cin-v da las tres velocidades:
+  @cin-v da las tres velocidades (la deducción es la del Beer §15.12,
+  paso por paso):
   $ bold(v) = bold(omega) times bold(r), quad bold(v)_1 = bold(omega)_1 times bold(r), quad bold(v)_2 = bold(omega)_2 times bold(r) $
   Y las *velocidades lineales* sí se suman como vectores, porque son derivadas
   de vectores posición y de eso no hay ninguna duda: $bold(v) = bold(v)_1 +
@@ -127,8 +152,11 @@ $ bold(omega) = bold(omega)_1 + bold(omega)_2 $ <cin-suma>
   orden inverso: no cumplen la ley del paralelogramo, así que no se pueden
   sumar. Lo que la @cin-suma dice es que *las velocidades angulares* —o, lo que
   es lo mismo, las rotaciones infinitesimales— sí. La demostración de arriba es
-  la que marca la diferencia, y es la que justifica que en toda la Parte IV se
-  escriba $bold(omega)$ como una suma de contribuciones.
+  la que marca la diferencia, y es la que justifica que en toda la Parte V se
+  escriba $bold(omega)$ como una suma de contribuciones. Se prueba con
+  cualquier libro que haya a mano —el Beer sirve, y es de las pocas cosas para
+  las que su peso ayuda—: dos vueltas de $90degree$ en un orden, dos en el
+  otro, y el libro queda mirando para lados distintos.
 ]
 
 #fig([El disco del Problema 2 de la guía: la horquilla gira con
@@ -168,7 +196,7 @@ fig-suma-omegas)
     *$bold(alpha)$ es perpendicular a los dos ejes de rotación y a
     $bold(omega)$.* Se comprueba en un renglón: $bold(alpha) dot bold(omega) =
     omega_1 omega_2 hat(i) dot (omega_2 hat(j) + omega_1 hat(k)) = 0$. Es el
-    caso del cuadro azul de más arriba —la punta de $bold(omega)$ recorre un
+    caso de la idea de más arriba —la punta de $bold(omega)$ recorre un
     círculo, así que su velocidad es perpendicular a él— y es también el origen
     de todo el comportamiento «raro» del giróscopo: para sostener este
     movimiento hace falta una cupla en la dirección $hat(i)$, perpendicular a
@@ -187,7 +215,7 @@ son tangentes a lo largo de él. El movimiento entero se resume en una imagen:
 pág. 989, fig. 15.33).
 
 #fig([Los dos conos, en el caso de precesión estable —el de los módulos #M("euler-giroscopo") y
-15—, donde los dos son circulares. $Z$ es el eje alrededor del cual precesa el
+#M("peonza")—, donde los dos son circulares. $Z$ es el eje alrededor del cual precesa el
 cuerpo; $z$ es su eje de simetría; $bold(omega)$ es el eje instantáneo, la
 generatriz común. El cono corporal está clavado al cuerpo y rueda sobre el
 espacial, que está clavado al espacio.], fig-conos)
@@ -201,7 +229,9 @@ espacial, que está clavado al espacio.], fig-conos)
   el único que se resuelve con fórmulas cerradas.
 ]
 
-En el disco de la horquilla los dos conos se leen del ejemplo anterior: el
+Es de esas imágenes que parecen poesía de libro y resultan ser la forma más
+barata de no equivocarse con un signo. En el disco de la horquilla los dos
+conos se leen del ejemplo anterior (Beer §15.12, fig. 15.33): el
 cono espacial tiene eje vertical y semiángulo $arctan((omega_1)/(omega_2))$; el
 corporal tiene eje sobre el eje del disco y semiángulo
 $arctan((omega_2)/(omega_1))$. Los dos comparten la generatriz $bold(omega)$.
@@ -209,9 +239,13 @@ $arctan((omega_2)/(omega_1))$. Los dos comparten la generatriz $bold(omega)$.
 == La derivada de un vector visto desde un sistema que rota
 
 Éste es el resultado central del módulo, y el que el resto de esta parte usa
-todo el tiempo. La pregunta es sencilla de enunciar: un mismo vector, mirado
-desde un sistema fijo y desde uno que gira, ¿tiene la misma derivada? No — y
-la diferencia es exactamente un producto vectorial.
+todo el tiempo: es el Beer §15.10, ec. 15.31 (pág. 976), que el propio Beer
+bautiza «relación fundamental» y que la lista de la cátedra marca con número
+—no marca muchas—. La pregunta es
+sencilla de enunciar: un mismo vector, mirado desde un sistema fijo y desde
+uno que gira, ¿tiene la misma derivada? No — y la diferencia es exactamente
+un producto vectorial. Si de todo el módulo queda una sola línea, que sea
+ésta.
 
 El módulo #M("marcos") ya contestó esta pregunta para el caso chico: plano, y
 con $bold(Omega)$ constante. Lo que sigue es el caso general —tres dimensiones,
@@ -236,6 +270,13 @@ caso particular: no son dos resultados, es uno y su recorte.
 ]
 
 $ (dot(bold(Q)))_(O X Y Z) = (dot(bold(Q)))_(O x y z) + bold(Omega) times bold(Q) $ <cin-derivada>
+
+#posta[
+  Lo que ve el de afuera es lo que ve el que gira, más lo que el giro le
+  agrega. El que va sentado en la calesita ve el vector quieto; el de afuera
+  lo ve dar vueltas; la diferencia entre los dos es $bold(Omega) times
+  bold(Q)$ y nada más. Toda la Parte V es esta frase aplicada a $bold(L)$.
+]
 
 #fig([La @cin-derivada, en sus dos casos. *Izquierda:* si $bold(Q)$ está
 clavado al sistema que rota, su punta recorre un círculo de radio $Q sin
@@ -270,7 +311,8 @@ como vectores.], fig-vector-rotante)
 
   La regla, entonces: *en la @cin-derivada va siempre la velocidad angular del
   sistema desde el que se mira.* Antes de escribirla, decir en voz alta a qué
-  está clavado el sistema elegido.
+  está clavado el sistema elegido. En voz alta de verdad: el compañero de al
+  lado va a mirar raro, pero el corrector mira peor.
 ]
 
 #notacion[
@@ -278,7 +320,8 @@ como vectores.], fig-vector-rotante)
   comentario textual de la cátedra sobre esta misma sección del Beer, y sobre
   la §12.7 que ya se usó en el módulo #M("momento-angular"). El Beer traducido la usa en todos los
   títulos, y el subíndice del paréntesis dice *respecto de qué sistema* se
-  deriva, no respecto de qué variable.
+  deriva, no respecto de qué variable. Punto para Aníbal: sin esa traducción,
+  «razón de cambio» suena a contabilidad.
 ]
 
 #ejemplo("El volante en el gimbal: por qué hace falta una cupla", nivel: "a fondo")[
@@ -352,7 +395,7 @@ una rotación alrededor de ese punto.
   papeles de $A$ y $B$ cambiados, con los *mismos* $bold(omega)$ y
   $bold(alpha)$. Es lo que permite hablar de «la velocidad angular del cuerpo»
   sin aclarar respecto de qué punto, algo que con el momento angular —módulo
-  7— nunca se puede hacer.
+  #M("momento-angular")— nunca se puede hacer.
 ]
 
 == Una partícula vista desde un sistema que rota: Coriolis en tres dimensiones
@@ -360,7 +403,9 @@ una rotación alrededor de ese punto.
 Falta el caso en que lo que se mueve no está clavado al cuerpo: una partícula
 que se desplaza *dentro* de un sistema que además gira. Es la situación del
 módulo #M("marcos"), ahora sin las dos restricciones que allá la hacían corta
-—el plano y el $bold(Omega)$ constante—. Se aplica la @cin-derivada dos veces
+—el plano y el $bold(Omega)$ constante—. Es el Beer §15.14, y también el
+Roederer §5.h («Sistemas no-inerciales en rotación», pág. 193), que lo cuenta
+desde la fuerza de Coriolis en la Tierra. Se aplica la @cin-derivada dos veces
 —una a $bold(r)$ y otra al resultado— y sale:
 
 $ bold(v)_P = bold(Omega) times bold(r) + (dot(bold(r)))_(O x y z) $ <cin-coriolis-v>
@@ -394,7 +439,9 @@ cambia.
   y sumando queda $bold(a) = (dot.double(r) - r dot(theta)^2) hat(r) + (r
   dot.double(theta) + 2 dot(r) dot(theta)) hat(theta)$, que es la del módulo #M("vectores")
   sin cambiarle una letra. Los cuatro términos que ahí había que aprender de
-  memoria son, uno a uno, los cuatro de la @cin-coriolis-a.
+  memoria son, uno a uno, los cuatro de la @cin-coriolis-a. Quien los
+  memorizó en el módulo #M("vectores") ahora puede olvidarlos tranquilo: los
+  vuelve a sacar en cuatro renglones cuando los necesite.
 ]
 
 #cuidado[
@@ -427,9 +474,9 @@ cambia.
    Newton acepta. Ese paso es la @cin-derivada, y de él salen las ecuaciones
    de Euler.
 
-2. *La @cin-suma.* Toda velocidad angular de la Parte IV se escribe como una
+2. *La @cin-suma.* Toda velocidad angular de la Parte V se escribe como una
    suma: precesión más nutación más giro. Los tres ángulos de Euler del módulo
-   14 son exactamente eso.
+   #M("euler-giroscopo") son exactamente eso.
 
 3. *Los dos conos.* Son la forma de *ver* un movimiento de precesión sin
    resolver ninguna ecuación, y en el módulo #M("peonza") la posición relativa de los dos

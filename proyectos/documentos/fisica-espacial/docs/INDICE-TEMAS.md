@@ -423,7 +423,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(guia de la catedra)* qué ejercicios cubre este módulo
   - *(ejemplo)* El satélite achatado: el período de una precesión que nadie sostiene
   - *(ejemplo)* El cilindro de paredes delgadas: el umbral entre directa y retrógrada
-- **Cierre de la Parte IV**
+- **Cierre de la Parte V, y del apunte**
 
   Ecuaciones: `<peon-precesion-libre>`, `<peon-tan-gamma>`, `<fig-conos-directa>`
 

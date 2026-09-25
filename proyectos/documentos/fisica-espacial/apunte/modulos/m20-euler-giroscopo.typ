@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (d)
 
 #modulo("Ecuaciones de Euler y el giróscopo", clave: "euler-giroscopo")[
   Derivar $bold(H)_G$ respecto del tiempo —con la herramienta del módulo #M("cinematica-cr") y
@@ -12,7 +13,9 @@ El módulo #M("inercia") calculó $bold(H)_G$ en un instante. Para llegar a la d
 —qué cupla hace falta para *sostener* un movimiento, o qué movimiento produce
 una cupla dada— hace falta $d bold(H)_G \/ d t$, y ésa es exactamente la
 @cin-derivada del módulo #M("cinematica-cr") aplicada a $bold(H)_G$ en vez de a un vector
-cualquiera.
+cualquiera. Dos módulos de preparación para una sola línea: es el tipo de
+inversión que en el momento parece un despilfarro y al final del módulo
+resulta barata.
 
 #lectura[
   *Beer, Dinámica, capítulo 18* («Cinética de cuerpos rígidos en tres
@@ -38,7 +41,10 @@ cualquiera.
   exactamente esa tensión:
   $ dot(bold(H))_G = (dot(bold(H))_G)_(O x y z) + bold(Omega) times bold(H)_G $
   <euler-derivada-h>
-  (Beer ecs. 18.22 y 18.23, pág. 1169–1170; la misma relación vale para
+  (Beer §18.5, ecs. 18.22 y 18.23, pág. 1169–1170 —las que la lista de la
+  cátedra marca con «ver comentario posterior»; lo que el Beer comenta
+  después, en el último párrafo de §18.5, es la opción de ejes que giran
+  menos que el cuerpo, que está acá abajo—; la misma relación vale para
   $bold(H)_O$ de un cuerpo con un punto fijo, ecs. 18.27 y 18.28, pág.
   1171–1172, cambiando $G$ por $O$.) El primer término es la derivada
   *tratando a los ejes como fijos* —lo que cambian $I_x omega_x$, etc., si
@@ -60,7 +66,7 @@ $ (bold(Omega) times bold(H))_x = Omega_y H_z - Omega_z H_y, quad
     clásicas, de la sección siguiente.
   - *Elegir ejes que acompañan sólo la simetría del cuerpo, sin girar con
     él* —$bold(Omega) != bold(omega)$—, la salida que el módulo #M("cinematica-cr") ya
-    recomendaba (pág. 1170) para un cuerpo con eje de revolución: los
+    recomendaba (Beer §18.5, último párrafo, pág. 1170) para un cuerpo con eje de revolución: los
     momentos de inercia siguen siendo constantes igual —cualquier eje
     transversal de un cuerpo de revolución es principal—, y la cuenta se
     simplifica porque no hace falta seguir el espín, que suele ser la
@@ -69,7 +75,17 @@ $ (bold(Omega) times bold(H))_x = Omega_y H_z - Omega_z H_y, quad
   Los dos ejemplos de este módulo son del segundo tipo: en los dos hay una
   pieza que gira rápido *relativa* a un armazón —el disco relativo a la
   horquilla, el volante relativo al gimbal— y los ejes se clavan al armazón,
-  no a la pieza.
+  no a la pieza. Clavarlos a la pieza es posible y es masoquismo: se paga con
+  senos y cosenos de un ángulo que da cien vueltas por segundo, para
+  terminar en el mismo resultado.
+]
+
+#posta[
+  Los ejes los elegís vos, y la derivada te cobra lo que giran: cuanto más
+  giran, más largo el término $bold(Omega) times bold(H)$. Entonces se
+  eligen ejes que giren lo menos posible sin dejar de ver al cuerpo siempre
+  igual. Si el cuerpo es redondo alrededor de un eje, el giro alrededor de
+  ese eje no hace falta seguirlo: el cuerpo se ve igual gire o no.
 ]
 
 == Las ecuaciones de Euler ($bold(Omega) = bold(omega)$, ejes clavados al cuerpo)
@@ -84,13 +100,16 @@ $ sum M_y = I_y dot(omega)_y - (I_z - I_x) omega_z omega_x $
 $ sum M_z = I_z dot(omega)_z - (I_x - I_y) omega_x omega_y $
 <euler-euler-clasicas>
 
-(Beer ec. 18.25, pág. 1170.) Son *las* ecuaciones de Euler: tres ecuaciones
+(Beer §18.6, ec. 18.25, pág. 1170.) Son *las* ecuaciones de Euler: tres ecuaciones
 diferenciales acopladas y no lineales —cada una tiene un producto de las
 otras dos velocidades— que valen para *cualquier* cuerpo rígido, en los ejes
 principales que lo acompañan. Los dos ejemplos de este módulo no las usan
 directamente —eligen $bold(Omega) != bold(omega)$—, pero son la forma que
 tiene el nombre «ecuaciones de Euler», y el módulo #M("peonza") vuelve a ellas para la
-peonza simétrica.
+peonza simétrica. Son, además, el lugar donde el apunte deja de poder
+resolver todo a mano: tres ecuaciones acopladas y no lineales no se
+despejan en un renglón, y quien diga lo contrario tiene un caso particular
+escondido en la manga.
 
 #guia("qué ejercicios cubre este módulo")[
   El punto 2 del Problema 2 (la cupla que sostiene al disco de la horquilla)
@@ -117,9 +136,8 @@ peonza simétrica.
     $bold(alpha)$.* Con $sum bold(M)_G = dot(bold(H))_G$, sostener este
     movimiento —los dos giros constantes, para siempre— exige una cupla
     $1/2 m r^2 omega_1 omega_2$ sobre $hat(i)$: la misma dirección que
-    $bold(alpha) = omega_1 omega_2 hat(i)$ del módulo #M("cinematica-cr") (ahí para el
-    volante del Problema 3, acá para el disco, pero el mecanismo es
-    idéntico). No es casualidad: es la cupla giroscópica que el módulo #M("cinematica-cr") ya
+    $bold(alpha) = omega_1 omega_2 hat(i)$ del módulo #M("cinematica-cr"), el mismo disco
+    mirado allá sólo con la cinemática. No es casualidad: es la cupla giroscópica que el módulo #M("cinematica-cr") ya
     había señalado sin poder calcularla, porque todavía no existía el tensor
     de inercia.
   ]
@@ -172,11 +190,22 @@ peonza simétrica.
     $I_z omega_s = 1000$, enorme frente a $I_x Omega_x$— gire junto con la
     plataforma sin cambiar de módulo, incluso si el gimbal no acelerara nada.
     Dividir cupla por inercia, $600\/5 = 120$ rad/s², ignora ese término y da
-    seis veces más de lo que en realidad acelera al gimbal. Es la misma
+    seis veces más de lo que en realidad acelera al gimbal —y es exactamente
+    la respuesta que el problema está esperando que alguien dé, para poder
+    corregirla—. Es la misma
     «rigidez giroscópica» que hace que un giróscopo resista a que le cambien
     el eje: buena parte de la cupla aplicada se gasta en seguirle el ritmo a
     un $bold(H)$ grande, no en acelerar nada.
   ]
+]
+
+#posta[
+  Un volante que gira rápido es un vector $bold(H)$ enorme, y a un vector
+  enorme no se lo lleva de paseo gratis. Si la plataforma lo obliga a
+  cambiar de dirección, alguien tiene que pagar esa cupla —acá, 500 de los
+  600 N·m— antes de que sobre algo para acelerar lo que uno quería
+  acelerar. Es lo que se siente en las manos al girar una rueda de bicicleta
+  que está girando: no se deja.
 ]
 
 == Los ángulos de Euler: cómo describir la orientación de un giróscopo
@@ -204,11 +233,19 @@ $theta$ pero *no* con $psi$ —el segundo camino de la sección anterior,
 $bold(Omega) != bold(omega)$—, porque son principales del cuerpo (uno de
 ellos es $z$, el eje de simetría) sin tener que seguir el espín:
 
-$ bold(Omega) = dot(phi) sin theta thin hat(e) + dot(theta) hat(f) + dot(phi) cos theta thin hat(k),
+$ bold(Omega) = -dot(phi) sin theta thin hat(e) + dot(theta) hat(f) + dot(phi) cos theta thin hat(k),
   quad quad bold(omega) = bold(Omega) + dot(psi) hat(k) $
 
-(Beer ecs. 18.35 a 18.38, pág. 1187–1188; $hat(e)$ es la línea de nodos y
-$hat(f) = hat(k) times hat(e)$.) Con $I$ el momento de inercia transversal
+(Beer ecs. 18.33 a 18.38, pág. 1187–1188.) Los ejes son exactamente los del
+Beer (su fig. 18.16): $hat(k)$ sobre el eje de simetría; $hat(f)$ sobre la
+línea de nodos, que es el eje alrededor del cual gira la nutación; y
+$hat(e) = hat(f) times hat(k)$, en el plano de $Z$ y $z$ pero del lado
+*opuesto* a $Z$ —por eso el eje fijo se descompone $bold(K) = -sin theta
+thin hat(e) + cos theta thin hat(k)$ (ec. 18.34) y la precesión aporta un
+menos—. Ese menos no es decorativo: con $hat(e)$ apuntando para el otro lado
+el corchete de la @euler-precesion-estable cambia de signo por dentro, y en
+el módulo #M("peonza") eso da vuelta la precesión directa y la retrógrada.
+Este apunte lo sabe por las malas. Con $I$ el momento de inercia transversal
 —sobre $hat(e)$ o $hat(f)$— e $I'$ el momento sobre el eje de simetría $z$,
 $bold(H)_O = I Omega_e hat(e) + I Omega_f hat(f) + I' omega_z hat(k)$, y las
 tres componentes de $sum bold(M)_O = dot(bold(H))_O$ dan las tres ecuaciones
@@ -223,25 +260,30 @@ caso particular que sí tiene solución simple.
   *Precesión estable* es el caso en que $theta$, $dot(phi)$ y $dot(psi)$ son
   las tres constantes: el eje $z$ barre un cono perfecto alrededor de $Z$, a
   velocidad angular y ángulo de apertura fijos. Entonces $dot(theta) = 0$ y
-  $bold(Omega) = dot(phi) sin theta thin hat(e) + dot(phi) cos theta thin
+  $bold(Omega) = -dot(phi) sin theta thin hat(e) + dot(phi) cos theta thin
   hat(k)$ es constante en el tiempo *dentro* de la base $(hat(e), hat(f),
   hat(k))$ que gira con ella —su módulo y su ángulo con $hat(k)$ no cambian—,
   así que $bold(H)_O$ también tiene componentes constantes en esa base:
-  $ bold(H)_O = I dot(phi) sin theta thin hat(e) + I' (dot(phi) cos theta +
+  $ bold(H)_O = -I dot(phi) sin theta thin hat(e) + I' (dot(phi) cos theta +
     dot(psi)) hat(k) $
   y el primer término de la @euler-derivada-h se anula. Queda sólo
   $bold(Omega) times bold(H)_O$, con $bold(Omega)$ y $bold(H)_O$ los de
-  arriba y usando $hat(e) times hat(k) = -hat(f)$:
-  $ sum bold(M)_O = dot(phi) sin theta thin [ (I - I') dot(phi) cos theta -
-    I' dot(psi) ] thin hat(f) $
+  arriba y usando $hat(e) times hat(k) = -hat(f)$ y $hat(k) times hat(e) = hat(f)$:
+  $ bold(Omega) times bold(H)_O = dot(phi) sin theta thin I' (dot(phi) cos theta + dot(psi)) hat(f)
+    - I dot(phi)^2 sin theta cos theta thin hat(f) $
+  y juntando:
+  $ sum bold(M)_O = dot(phi) sin theta thin [ I' dot(psi) + (I' - I) dot(phi) cos theta ] thin hat(f) $
 ]
 
-$ sum bold(M)_O = dot(phi) sin theta thin [ I' dot(psi) + (I - I') dot(phi)
+$ sum bold(M)_O = dot(phi) sin theta thin [ I' dot(psi) + (I' - I) dot(phi)
   cos theta ] thin hat(f) $ <euler-precesion-estable>
 
-(Beer ecs. 18.40 a 18.44, pág. 1189; con el signo que da $hat(e) times hat(k)$
-según la orientación elegida.) *La cupla necesaria es perpendicular al plano
-que forman $Z$ y $z$* —sobre $hat(f)$, la línea de nodos girada $90degree$—,
+(Beer §18.10, ecs. 18.40 a 18.44, pág. 1189: el Beer la escribe como
+$(I' omega_z - I dot(phi) cos theta) dot(phi) sin theta thin hat(j)$, con su
+$hat(j)$ igual a nuestro $hat(f)$ y $omega_z = dot(psi) + dot(phi) cos
+theta$; es la misma, y vale la pena comprobarlo abriendo el paréntesis.)
+*La cupla necesaria es perpendicular al plano
+que forman $Z$ y $z$* —sobre $hat(f)$, la línea de nodos—,
 nunca dentro de ese plano: es la traducción formal de que un giróscopo no
 «cae» en la dirección de la cupla aplicada, sino que precesa perpendicular a
 ella.
@@ -262,7 +304,7 @@ ella.
 == Lo que se usa después
 
 1. *La @euler-derivada-h, con $bold(Omega) != bold(omega)$.* Es la herramienta
-   entera de la Parte IV a partir de acá: cada vez que un cuerpo tiene un eje
+   entera de la Parte V a partir de acá: cada vez que un cuerpo tiene un eje
    de simetría rápido —un volante, una peonza, un satélite estabilizado por
    giro—, conviene elegir ejes que sigan la precesión y no el espín.
 

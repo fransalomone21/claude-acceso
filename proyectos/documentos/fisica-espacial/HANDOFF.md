@@ -6,6 +6,29 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-25, séptima parte — tanda (d) hecha, fase 11 cerrada
+
+**`medir-estilo.py` en PENDIENTE: 0.** Sigue la fase 12 (PDP §4). Lo que la
+próxima sesión tiene que saber:
+
+- **Directa y retrógrada estaban invertidas en m20, m21 y el Anexo**, y la
+  corrección de la sesión del módulo 15 (más abajo, en «Hallazgos de
+  bibliografía») era la equivocada. Detalle y los tres caminos que lo
+  confirman, ahí mismo. Si un parcial pregunta el sentido del spin del
+  Problema 4: **negativo**.
+- **La lección de método:** la ecuación enmarcada no coincidía con la
+  deducción que estaba dos renglones arriba, y una nota («con el signo …
+  según la orientación elegida») lo tapaba. Una nota que explica por qué
+  dos cosas que deberían ser iguales no lo son es la alarma, no la
+  explicación.
+- **Offset del Beer**: impresa = PDF **+** 574 (no menos). El Apéndice B está
+  en el PDF (págs. 723–750 del PDF).
+- **Anexo A no lo mide `medir-estilo.py`** (sólo mira `modulos/`); la voz se
+  le pasó igual, con la marca `// voz:`.
+- **Visto y no tocado:** los títulos de `#deduccion` salen «DE DÓNDE SALE —
+  DE DÓNDE SALE …» cuando el título ya empieza con «de dónde sale» (se ve en
+  m20 y m21). Es de toda la plantilla; va con la fase 12 o una pasada propia.
+
 ## Sesión del 2026-09-25, sexta parte — tanda (c) hecha
 
 **m11–m16 hechos y publicados; sigue la tanda (d): m18–m21 y el Anexo A**
@@ -1157,7 +1180,7 @@ capa de texto sección por sección, sin renderizar el capítulo.
 | caso θ = 90°: ΣM_O = I·φ̇·ψ̇·ĵ | ec. 18.45 | 1189 |
 | **cuerpo simétrico sin cuplas**: H_G constante define el eje de precesión | ecs. 18.46 a 18.48 | 1190 |
 | tan γ = (I/I′) tan θ | ec. 18.49 | 1190 |
-| **precesión directa** (I' > I, achatado) y **retrógrada** (I' < I, alargado) | §18.11, figs. 18.23 y 18.24 | 1191 |
+| **precesión directa** (I > I', alargado) y **retrógrada** (I < I', achatado) — corregido el 2026-09-25, ver abajo | §18.11, figs. 18.23 y 18.24 | 1191 |
 | el método completo, paso a paso (ley de los senos para φ̇ y ψ̇) | resumen §18.9–18.11 | 1193–1194 |
 | problema resuelto 18.6 — el satélite golpeado por un meteorito | — | 1192 |
 
@@ -1174,6 +1197,25 @@ corregida. *Regla: una nota de mapeo escrita antes de deducir la fórmula no
 es evidencia de la fórmula, es sólo un recordatorio de dónde está — y hay que
 volver a mirarla con sospecha cuando el módulo que la usa por fin se
 escribe.*
+
+**Y la «corrección» de arriba era la equivocada (medido el 2026-09-25, tanda
+(d)).** La nota original de memoria estaba bien. El Beer, pág. 1191, literal:
+caso 1, «I > I′ … cuerpo elongado … la precesión es directa»; caso 2, «I < I′
+… cuerpo achatado … la precesión es retrógrada». La rededucción de la sesión
+del módulo 15 se apoyaba en una `@euler-precesion-estable` enmarcada que **no
+coincidía con su propia deducción** (tenía $(I - I')$ donde va $(I' - I)$), y
+la nota decía «con el signo … según la orientación elegida», que tapaba la
+diferencia. El caso de control, Chandler, tampoco controlaba: ese bamboleo es
+«progrado» *visto desde la Tierra* (cono corporal), y el directa/retrógrada
+del Beer se mide desde el espacio. Lo que lo delató: los Problemas 7 y 8 del
+Anexo usaban $dot(psi) = omega_z (I - I')\/I$, la fórmula correcta, en
+contradicción con m21. Tres caminos coinciden (Beer, derivación con
+$dot(psi) = omega_z - dot(phi) cos theta$ y $dot(phi) = H\/I$, y el Anexo).
+Arreglado en m20 (ejes alineados con los del Beer, $hat(e)$ del lado opuesto
+a $Z$), m21 (criterio, P4 con spin **negativo**, P6 con retrógrada para
+$ell\/r < sqrt(6)$) y en el Anexo (P4, P5, P6, P9). *Regla nueva: un caso de
+control sólo controla si mide la misma cantidad; «progrado» y «directa» no
+son sinónimos porque cada uno se mira desde un marco distinto.*
 
 **Lo que el Beer de la cátedra NO trae, y hay que suplir.** El temario manda
 «Beer vol. 1, secciones 9.16 y 9.17» para *ejes de inercia y elipsoide de

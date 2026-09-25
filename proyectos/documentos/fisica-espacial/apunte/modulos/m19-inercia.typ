@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (d)
 
 #modulo("Momento de inercia y ejes principales", clave: "inercia")[
   Extender $bold(H)_G = I bold(omega)$ del plano al espacio, y descubrir que
@@ -20,13 +21,23 @@ $bold(H)_G$ apuntando siempre como $bold(omega)$? La respuesta es no, y
 entender por qué es la herramienta que el módulo #M("euler-giroscopo") necesita para llegar a
 las ecuaciones de Euler.
 
+Advertencia de notación antes de arrancar, porque la cátedra la pone con tres
+signos de admiración: «*ojo!!! Notación L es H y P es L*». En el Beer el
+momento angular se llama $bold(H)$ y la cantidad de movimiento $bold(L)$, al
+revés que en el Sears y en el resto de este apunte. Este módulo sigue al Beer
+y escribe $bold(H)_G$; es el mismo impulso angular del módulo
+#M("rotacion") con otro nombre, y no hay que buscarle una física nueva a una
+letra cambiada.
+
 #lectura[
   *Beer, Dinámica, Apéndice B* («Momentos de inercia de masas», pág. 1297),
   que reproduce las secciones 9.11 a 9.18 del tomo de Estática —el propio
   Beer las remite ahí porque los seis números de este módulo son geometría de
   masas, no un tema nuevo de dinámica. *Roederer, capítulo 5*, §5.c
   («Las ecuaciones de movimiento y las variables dinámicas del cuerpo
-  rígido», pág. 167), usa el tensor sin dedicarle una sección aparte.
+  rígido», pág. 167), usa el tensor sin dedicarle una sección aparte. Y el
+  Beer §18.2 («Cantidad de movimiento angular de un cuerpo rígido en tres
+  dimensiones», pág. 1151), que es de donde sale casi todo lo que sigue.
 
   Ir al Apéndice B de Beer para la deducción de los productos de inercia y el
   cambio de ejes; Roederer alcanza para ver cómo se usa el tensor ya armado.
@@ -51,7 +62,9 @@ las ecuaciones de Euler.
   $ omega_x (x^2+y^2+z^2) - x(x omega_x + y omega_y + z omega_z)
     = omega_x (y^2+z^2) - omega_y thin x y - omega_z thin x z $
   y las otras dos salen igual, permutando $x arrow.r y arrow.r z$. (Beer
-  ecs. 18.4 a 18.6, pág. 1151–1152.)
+  ecs. 18.4 a 18.6, pág. 1151–1152.) Nada de esto es difícil; es largo, que
+  es otra cosa, y es exactamente el tipo de cuenta que se hace una vez en la
+  vida y después se confía en el resultado.
 ]
 
 Definiendo los *momentos de inercia* $I_x = integral (y^2+z^2) d m$ (y cíclico
@@ -67,13 +80,23 @@ $ H_z = -I_(x z) omega_x - I_(y z) omega_y + I_z omega_z $
 
 #notacion[
   *Momento de inercia versus producto de inercia.* Un momento de inercia
-  $I_x$ es siempre positivo —es una suma de $(y^2+z^2) d m \geq 0$— y mide
+  $I_x$ es siempre positivo —es una suma de $(y^2+z^2) d m >= 0$— y mide
   cuánta masa está lejos del eje $x$. Un producto de inercia $I_(x y)$ puede
   ser positivo, negativo o cero, y mide una *asimetría*: si la masa está
   repartida igual a ambos lados del plano $x=0$ o del plano $y=0$, la integral
   se cancela. Por eso un cubo con ejes por las aristas, o un disco con un eje
   sobre su simetría, tienen productos de inercia nulos: son casos con la
-  simetría exacta que hace falta.
+  simetría exacta que hace falta. (Beer, Apéndice B, §B.6, pág. 1319.)
+]
+
+#posta[
+  El momento de inercia te dice cuánto le cuesta al cuerpo girar alrededor de
+  un eje; el producto de inercia te dice cuán «chueco» está el cuerpo
+  respecto de un par de ejes. Una rueda bien balanceada tiene productos
+  cero. Una rueda mal balanceada —la que hace vibrar el volante del auto a
+  100 km/h— tiene un producto de inercia distinto de cero, y el gomero le
+  pega plomitos para anularlo. Eso es, literalmente, diagonalizar un tensor
+  con una pinza.
 ]
 
 == El tensor de inercia
@@ -88,7 +111,9 @@ $ mat(H_x; H_y; H_z) = mat(I_x, -I_(x y), -I_(x z);
 (Beer ec. 18.8, pág. 1153.) Esa matriz simétrica de $3 times 3$ es el
 *tensor de inercia*: otra vez son *seis* números —como los seis grados de
 libertad del módulo #M("cinematica-cr"), pero éstos no describen dónde está el cuerpo sino
-*cómo* está hecho— y no cambian mientras el cuerpo no se deforme.
+*cómo* está hecho— y no cambian mientras el cuerpo no se deforme. La palabra
+«tensor» asusta más de lo que muerde: acá es una matriz que come un vector
+y devuelve otro.
 
 #geometria[
   *Toda matriz simétrica tiene una base propia ortogonal: eso es álgebra
@@ -97,10 +122,14 @@ libertad del módulo #M("cinematica-cr"), pero éstos no describen dónde está 
   anulan a la vez, y el tensor queda diagonal:
   $ H_x = I_x omega_x, quad H_y = I_y omega_y, quad H_z = I_z omega_z $
   <iner-diagonal>
-  (Beer §18.2 y ec. 18.9, pág. 1153.) El Beer lo afirma sin demostrarlo —la
-  demostración está en el volumen de Estática, §§9.16–9.17, que no forma parte
-  del material de esta cátedra— pero en la práctica no hace falta buscarlos a
-  ciegas: *todo eje de simetría material es principal*, y con él alcanza para
+  (Beer §18.2 y ec. 18.9, pág. 1153.) Acá el Beer lo afirma sin demostrarlo
+  y remite a las secciones 9.17 y 9.18 de Estática, que este mismo tomo
+  reproduce en el Apéndice B: §B.7 («Elipsoide de inercia», pág. 1320) y
+  §B.8 («Determinación de los ejes principales…», pág. 1322). La cátedra
+  manda ahí mismo —«Ver Beer vol. 1, secciones 9.16 y 9.17»—, así que no
+  hay excusa: la demostración está en el libro que uno ya tiene en la mano,
+  unas ciento setenta páginas más adelante. En la práctica, igual, no hace
+  falta buscar los ejes a ciegas: *todo eje de simetría material es principal*, y con él alcanza para
   resolver los problemas de esta parte. Un eje de simetría de revolución (el
   eje de un disco, de un cilindro, de un cono) es principal, y también lo es
   cualquier eje perpendicular a él que pase por el centro; los tres ejes por
@@ -121,9 +150,18 @@ libertad del módulo #M("cinematica-cr"), pero éstos no describen dónde está 
   son, y entonces $bold(H)_G$ queda apuntando para otro lado que
   $bold(omega)$: más cerca del eje con el momento de inercia más grande, en
   la misma proporción en que ese eje pesa más en la suma. (Beer ec. 18.10,
-  pág. 1153.) Es el hecho que hace no trivial toda la Parte IV que sigue: si
+  pág. 1153.) Es el hecho que hace no trivial todo lo que queda de la Parte V: si
   $bold(H)_G$ y $bold(omega)$ fueran siempre paralelos, el cuerpo rígido en
-  3D se resolvería exactamente como el movimiento plano.
+  3D se resolvería exactamente como el movimiento plano, y este apunte
+  terminaría tres módulos antes.
+]
+
+#posta[
+  Empujás el cuerpo para girar hacia un lado y el momento angular se va un
+  poco para otro: se tira hacia el eje donde el cuerpo tiene más inercia.
+  La única manera de que $bold(H)$ y $bold(omega)$ vayan juntos es girar
+  justo sobre un eje principal. Todo lo raro del giróscopo, del trompo y
+  del satélite que bambolea sale de esa diferencia de dirección.
 ]
 
 == De $G$ a un punto cualquiera: $bold(H)_O$
@@ -141,7 +179,8 @@ espín» que este módulo acaba de calcular. Cuando $O$ es un punto fijo *del
 cuerpo* (el pivote de un giróscopo, por ejemplo), $bold(macron(v)) =
 bold(omega) times bold(macron(r))$ y la @iner-ho se puede escribir directamente
 en términos del tensor de inercia calculado respecto de $O$ en vez de $G$
-—el módulo #M("euler-giroscopo") la usa así para el giróscopo con punto fijo.
+—es la ec. 18.13 del Beer (pág. 1155), que la cátedra marca junto con la
+18.11, y el módulo #M("euler-giroscopo") la usa así para el giróscopo con punto fijo.
 
 == Energía cinética
 
@@ -173,7 +212,8 @@ con los momentos de inercia tomados respecto de $O$:
 
 $ T = 1/2 (I_x omega_x^2 + I_y omega_y^2 + I_z omega_z^2) $
 
-(Beer ecs. 18.19 y 18.20, pág. 1157.)
+(Beer ecs. 18.19 y 18.20, pág. 1157.) Es la misma $1/2 I omega^2$ del
+módulo #M("rotacion"), sólo que ahora hay tres y cada una con su eje.
 
 #guia("qué ejercicios cubre este módulo")[
   El Problema 1 completo (el satélite cúbico) y el punto 1 del Problema 2 (el
@@ -223,7 +263,11 @@ $ T = 1/2 (I_x omega_x^2 + I_y omega_y^2 + I_z omega_z^2) $
 
   *(c) Cuánto tiempo sigue girando.* Para siempre. El encendido termina, y
   con él la única cupla externa; en el vacío no hay nada que frene al
-  satélite. Y como el tensor es isótropo, esto no es sólo «no hay torque, así
+  satélite. Es la pregunta trampa del problema, y se agradece: después de
+  dos incisos de cuentas, el tercero se contesta con dos palabras, y quien
+  se ponga a buscar una fórmula de «tiempo de frenado» está pensando con la
+  cabeza de la Tierra, donde siempre hay un rozamiento que haga el trabajo
+  sucio. Y como el tensor es isótropo, esto no es sólo «no hay torque, así
   que $bold(omega)$ no cambia» —lo mismo valdría para cualquier cuerpo—: acá
   además $bold(H)_G$ queda paralelo a $bold(omega)$ para *cualquier* eje que
   el satélite adopte, así que ni siquiera hace falta que $bold(omega)$ esté
@@ -278,7 +322,7 @@ fig-suma-omegas)
    giren *con* el cuerpo —o al menos acompañen a su eje de simetría—: de ahí
    salen las ecuaciones de Euler.
 
-2. *La ec. 18.10 —la @iner-tensor sin diagonalizar.* Es la razón física de que
+2. *La ec. 18.7 —la @iner-tensor sin diagonalizar.* Es la razón física de que
    $bold(H)_G$ tenga una derivada distinta de «$I$ veces $dot(bold(omega))$»:
    si $bold(H)_G$ y $bold(omega)$ fueran siempre paralelos, el cuerpo rígido
    en 3D no necesitaría nada nuevo respecto del movimiento plano.

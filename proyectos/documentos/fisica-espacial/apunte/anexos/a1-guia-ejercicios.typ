@@ -4,6 +4,7 @@
 // =====================================================================
 
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (d)
 
 #anexo("A", "Guía de ejercicios — disparadores y respuestas", [
   Los enunciados de `fuentes/GUIA-ENUNCIADOS.md`, organizados en las mismas
@@ -11,8 +12,10 @@
   líneas, *qué principio plantear y con qué ecuación* — pensada para
   alguien que baja el PDF sin haber leído los módulos, no sólo para quien
   ya los leyó — y da la *respuesta final de todos los incisos*, nunca el
-  desarrollo: eso ya está en los cuadros verdes de cada módulo. La idea es
-  resolver primero y mirar la ficha después, no al revés.
+  desarrollo: eso ya está en los ejemplos resueltos de cada módulo. La idea es
+  resolver primero y mirar la ficha después, no al revés. Que nadie se
+  engañe: todos vamos a mirar la ficha primero. Por lo menos que sea después
+  de haber escrito el planteo.
 ])
 
 Los enunciados de acá van resumidos; el texto completo de la guía, con las
@@ -25,7 +28,20 @@ ficha, no del módulo. Ningún inciso queda sin respuesta salvo que el dato
 de partida no esté transcripto en ningún lado (se dice explícitamente
 cuándo pasa eso, no se salta en silencio).
 
+Y la advertencia vale en los dos sentidos. Hasta el 2026-09-25 las fichas
+de los Problemas 4, 5, 6 y 9 de cuerpo rígido decían directa donde era
+retrógrada y al revés, copiadas de un módulo que tenía un signo cambiado.
+Las respuestas numéricas estaban bien; el sentido, no. Una respuesta que
+coincide con la del compañero no está verificada: puede ser que los dos
+hayan copiado del mismo apunte.
+
 #subtitulo-anexo("A.1 — Vectores (Ej. 9 a 15)")
+
+Los ejercicios que parecen de trámite y no lo son: el 9 y el 10 son la
+cinemática en polares que vuelve, sin avisar, en órbitas y en cuerpo
+rígido. Los del 1 al 8 son cuentas de producto escalar y vectorial y no
+tienen ficha: si hace falta una ficha para eso, hace falta el módulo
+#M("vectores") entero.
 
 #disparador(
   [Ej. 9 — velocidad en polares],
@@ -83,6 +99,11 @@ cuándo pasa eso, no se salta en silencio).
 )
 
 #subtitulo-anexo("A.2 — Conservación de cantidad de movimiento (Ej. 1 a 9, más tres adicionales)")
+
+Varios son del Sears, y casi todos se resuelven con la misma línea:
+elegir el sistema, ver que no hay fuerza externa en la dirección que
+importa, igualar antes y después. La dificultad nunca está en la
+ecuación; está en elegir bien el sistema y el marco.
 
 #disparador(
   [Ej. 1 — la astronauta y la herramienta (S&Z 8.16)],
@@ -182,6 +203,9 @@ cuándo pasa eso, no se salta en silencio).
 
 #subtitulo-anexo("A.3 — Conservación de impulso angular (Problemas 1 a 7)")
 
+El 2 y el 3 son demostraciones, no cuentas, y una demostración que dice
+«se ve que» no demostró nada.
+
 #disparador(
   [Problema 1 — torque en seis casos (S&Z 10.1)],
   [Varilla de 4,00 m desde $O$, fuerza $F=10,0$ N aplicada de seis maneras
@@ -257,6 +281,11 @@ cuándo pasa eso, no se salta en silencio).
 )
 
 #subtitulo-anexo("A.4 — Conservación de la energía y gravitación (Problemas 0 a 10, más cinco adicionales)")
+
+La sección más larga. La mitad orbital sale de
+dos ecuaciones —vis-viva y la conservación de $h$—, y el error más barato de cometer no
+es de física sino de radios: medidos desde la superficie cuando había que
+medirlos desde el centro.
 
 #disparador(
   [Problema 0 — estimar la masa del Sol],
@@ -395,6 +424,11 @@ cuándo pasa eso, no se salta en silencio).
 
 #subtitulo-anexo("A.5 — Cuerpo rígido (Problemas 1 a 9)")
 
+Todo del Beer, capítulo 18. Antes de mirar cualquier respuesta de acá:
+*alargado ($I > I'$) precesa directo; achatado ($I < I'$), retrógrado*
+(Beer §18.11, pág. 1191). Es la línea que más fácil se da vuelta, y este
+anexo ya la dio vuelta una vez.
+
 #disparador(
   [Problema 1 — el satélite cúbico],
   [Cubo de 2 m de lado, 120 kg, con un thruster ($F_E=4$ N, $I_"sp"=50$ s)
@@ -426,8 +460,8 @@ cuándo pasa eso, no se salta en silencio).
   [Simétrico en $z$, radio de giro 720 mm (eje) y 540 mm (transversal).
   El eje $z$ describe un cono de 2° al precesar, con spin de 1,5 rad/s.
   Período de precesión.],
-  resuelve: [precesión estable de un cuerpo simétrico sin torque: $tan gamma = (I\/I') tan theta$ relaciona el ángulo del eje instantáneo con el de $bold(H)$, y de ahí sale la razón entre spin y precesión, $dot(psi)\/dot(phi)=((I'-I)\/I') cos theta$, con $I=m k_"transversal"^2$, $I'=m k_"eje"^2$ (#M("peonza")). Despejando $dot(phi)$ con el spin dado, y el período es $2 pi\/dot(phi)$. Ya resuelto.],
-  [período de precesión $= 1,832$ s (con $dot(phi) approx 3,431$ rad/s; el spin es *positivo*, en el sentido de $+z$: precesión directa porque el cuerpo es achatado, $I'>I$).],
+  resuelve: [precesión estable de un cuerpo simétrico sin torque: $tan gamma = (I\/I') tan theta$ relaciona el ángulo del eje instantáneo con el de $bold(H)$, y de ahí sale la razón entre spin y precesión, $dot(psi)\/dot(phi)=((I-I')\/I') cos theta$, con $I=m k_"transversal"^2$, $I'=m k_"eje"^2$ (#M("peonza")). Despejando $dot(phi)$ con el spin dado, y el período es $2 pi\/abs(dot(phi))$. Ya resuelto.],
+  [período de precesión $= 1,832$ s (con $abs(dot(phi)) approx 3,431$ rad/s); el spin es *negativo*, en el sentido de $-z$: precesión retrógrada porque el cuerpo es achatado, $I'>I$ (Beer fig. 18.24).],
 )
 
 #disparador(
@@ -438,7 +472,7 @@ cuándo pasa eso, no se salta en silencio).
   que el CM acelere (sin torque externo). Velocidad angular de precesión
   $dot(chi)$.],
   resuelve: [las esferas están dispuestas con simetría $>=3$ alrededor de $A$-$A$ (ver la figura), así que el teorema de ejes perpendiculares da $I_"transversal" = I_(A"-"A) \/ 2$ *sin* necesitar la posición ni la masa de cada esfera — es la misma razón por la que el enunciado dice "el doble". Con eso, precesión estable sin torque: $dot(chi) = H\/I_"transversal" = (I_(A"-"A)\/I_"transversal") omega_"spin"$ (mismo mecanismo que el Problema 4, #M("peonza")).],
-  [$dot(chi) = 2 omega_"spin" = 6$ rev/min $= 0,628$ rad/s (período $10,0$ s) — *directa* (mismo sentido que el spin), porque el eje $A$-$A$ tiene más inercia que el transversal, igual criterio que un cuerpo achatado. _(cuenta propia de este anexo)_],
+  [$dot(chi) = 2 omega_"spin" = 6$ rev/min $= 0,628$ rad/s (período $10,0$ s) — *retrógrada* (sentido opuesto al spin relativo), porque el eje $A$-$A$ tiene más inercia que el transversal: es un cuerpo achatado. _(cuenta propia de este anexo)_],
 )
 
 #disparador(
@@ -446,8 +480,8 @@ cuándo pasa eso, no se salta en silencio).
   [Cilindro de paredes delgadas que rota sobre su eje de simetría, con
   precesión de ángulo pequeño. ¿Para qué $ell\/r$ la precesión es
   retrógrada, y para cuáles directa?],
-  resuelve: [el signo de $dot(psi)\/dot(phi) = ((I'-I)\/I') cos theta$ decide directa ($I'>I$) o retrógrada ($I'<I$); con $I$ e $I'$ del cilindro de paredes delgadas en función de $ell$ y $r$, el umbral sale de igualar $I=I'$ (#M("peonza")). Ya resuelto.],
-  [umbral $ell\/r = sqrt(6)$: directa de un lado, retrógrada del otro (caso límite isótropo, como el cubo del Problema 1).],
+  resuelve: [el signo de $dot(psi)\/dot(phi) = ((I-I')\/I') cos theta$ decide directa ($I>I'$) o retrógrada ($I<I'$); con $I$ e $I'$ del cilindro de paredes delgadas en función de $ell$ y $r$, el umbral sale de igualar $I=I'$ (#M("peonza")). Ya resuelto.],
+  [umbral $ell\/r = sqrt(6)$: *retrógrada* para $ell\/r < sqrt(6)$ (corto, tipo disco) y *directa* para $ell\/r > sqrt(6)$ (largo, tipo varilla); en el umbral, caso límite isótropo, como el cubo del Problema 1.],
 )
 
 #disparador(
@@ -480,5 +514,5 @@ cuándo pasa eso, no se salta en silencio).
   el eje de simetría. *6)* y *7)* Dibujo y descripción cualitativa.
   *8)* Calcular explícitamente 2 a 5.],
   resuelve: [$bold(F)=J hat(j)$ es *paralela* al eje de simetría: $bold(r) times bold(F)$ no usa la coordenada $y$ de ningún thruster (mismo truco que los Problemas 7 y 8), sólo $x$ y $z$. Con eso, 1 a 7 salen sin necesitar la figura; el 8 numérico sí la necesita —#M("inercia") para el impulso, #M("peonza") para los ángulos.],
-  [*1)* $I_y=2400 > I_x=2000$ (axial mayor que transversal, "achatado"): precesión *directa*. *2)* $Delta bold(H) = J T [-(z_A + z_B), thin 0, thin x_A + x_B] + (0,thin I_y omega_0,thin 0)$. *3)* $bold(omega) = (Delta H_x \/ I_x,thin omega_0,thin Delta H_z\/I_x)$. *4)* $cos theta_H = (I_y omega_0)\/abs(bold(H))$. *5)* $cos theta_omega = omega_0 \/ abs(bold(omega))$. *6-7)* $bold(H)$, $bold(omega)$ y el spin quedan los tres del mismo lado del eje $y$, inclinados hacia el par aplicado; visto desde afuera el satélite hace un cono de precesión directa mientras gira sobre sí. *8)* no se resuelve con un número acá: falta fijar con certeza *qué vértice del octógono mira hacia $+x$* en la figura —con eso fijo, $x_A,z_A,x_B,z_B$ salen de la geometría regular (lado 1,2 m) y la cuenta es idéntica a la de los Problemas 7/8. _(1 a 7: cuenta propia de este anexo; 8 queda para cuando se confirme la orientación exacta contra el PDF original)_],
+  [*1)* $I_y=2400 > I_x=2000$ (axial mayor que transversal, "achatado"): precesión *retrógrada*. *2)* $Delta bold(H) = J T [-(z_A + z_B), thin 0, thin x_A + x_B] + (0,thin I_y omega_0,thin 0)$. *3)* $bold(omega) = (Delta H_x \/ I_x,thin omega_0,thin Delta H_z\/I_x)$. *4)* $cos theta_H = (I_y omega_0)\/abs(bold(H))$. *5)* $cos theta_omega = omega_0 \/ abs(bold(omega))$. *6-7)* $bold(H)$, $bold(omega)$ y el spin quedan los tres del mismo lado del eje $y$, inclinados hacia el par aplicado; visto desde afuera el satélite hace un cono de precesión retrógrada —el cono espacial queda adentro del corporal— mientras gira sobre sí. *8)* no se resuelve con un número acá: falta fijar con certeza *qué vértice del octógono mira hacia $+x$* en la figura —con eso fijo, $x_A,z_A,x_B,z_B$ salen de la geometría regular (lado 1,2 m) y la cuenta es idéntica a la de los Problemas 7/8. _(1 a 7: cuenta propia de este anexo; 8 queda para cuando se confirme la orientación exacta contra el PDF original)_],
 )
