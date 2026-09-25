@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (b)
 
 #modulo("El problema de dos cuerpos y la masa reducida", clave: "dos-cuerpos")[
   Sacar la suposición que los módulos #M("gravitacion") y #M("momento-angular") hicieron sin decirlo —que el cuerpo
@@ -9,7 +10,8 @@
 ]
 
 Todo lo que se escribió en los módulos #M("gravitacion") y #M("momento-angular") tiene una suposición adentro que
-nunca se declaró: que la Tierra no se mueve. Pero la tercera ley de Newton no
+nunca se declaró: que la Tierra no se mueve. Galileo tuvo problemas serios por
+decir lo contrario; acá, por suerte, alcanza con una resta. La tercera ley de Newton no
 admite excepciones — si la Tierra tira del satélite, el satélite tira de la
 Tierra con la misma fuerza, y la Tierra también se acelera. El origen de
 coordenadas que se puso «en el centro de la Tierra» no era, entonces, un
@@ -29,13 +31,29 @@ usa en dos problemas— donde ignorarla se paga.
 
   Bate es el que hace lo que acá se copia: arranca con $n$ cuerpos, muestra
   cuáles son las hipótesis que hay que matar para quedarse con dos, y recién
-  entonces escribe la ecuación. Curtis va más rápido al resultado. La masa
-  reducida y el problema equivalente, en cambio, son de mecánica general —
-  Roederer, cap. 8 — y ninguno de los dos libros de astrodinámica los trata
-  con ese nombre.
+  entonces escribe la ecuación. Curtis va más rápido al resultado.
+
+  La masa reducida y el problema equivalente, en cambio, no están con este
+  uso en ninguno de los seis libros de la bibliografía —se buscaron uno por
+  uno—: salen del apunte de clase del 23/9. El S&Z la usa recién para el
+  átomo de hidrógeno, en el volumen 2. Y el Roederer tiene algo que se llama
+  casi igual y es otra cosa: llama «masas reducidas», en plural, a los
+  cocientes $m_1 \/ (m_1 + m_2)$ y $m_2 \/ (m_1 + m_2)$ (§4.b, pág. 110), que
+  no son masas sino fracciones —son justo los factores de la
+  @dosc-posiciones— y, para que no falte nada, les pone $mu$. Que la misma
+  letra griega termine significando tres cosas no es una exageración de
+  este apunte: está al final del módulo, en la trampa de notación.
 ]
 
 == La idea completa, antes de la primera ecuación
+
+Esta sección existe por una pregunta de Fran, coautor de este apunte, sobre
+la primera versión del módulo: *«no entiendo respecto de qué está ese
+punto»*. Era la pregunta correcta —el punto aparecía primero en una figura y
+se explicaba varios párrafos después, que es el orden exactamente al revés—,
+y la respuesta ocupa todo lo que sigue. Es la misma reducción que hace Bate
+en §1.3 (págs. 11–13) y Curtis en §2.3 (pág. 63); acá, antes de hacerla, se
+cuenta.
 
 Todavía no hay ninguna cuenta hecha, y conviene tener el plan entero en la
 cabeza antes de la primera línea, porque lo que sigue cambia *qué pregunta se
@@ -84,7 +102,8 @@ versor:
 $ bold(r) = bold(R)_2 - bold(R)_1, quad hat(u)_r = bold(r) \/ r $
 
 La fuerza sobre cada uno es la de Newton, y por la tercera ley
-$bold(F)_(2 1) = -bold(F)_(1 2)$ (apunte de clase, 23/9, pág. 1):
+$bold(F)_(2 1) = -bold(F)_(1 2)$ (apunte de clase, 23/9, pág. 1; es también
+el planteo de Bate, ecs. 1.3-1 y 1.3-2, pág. 12):
 
 $ m_1 bold(accent(R, dot.double))_1 = (G m_1 m_2) / r^2 hat(u)_r,
   quad m_2 bold(accent(R, dot.double))_2 = -(G m_1 m_2) / r^2 hat(u)_r $
@@ -101,6 +120,11 @@ $ m_1 bold(accent(R, dot.double))_1 = (G m_1 m_2) / r^2 hat(u)_r,
 
 $ bold(accent(r, dot.double)) = -mu/r^2 hat(u)_r = -mu/r^3 bold(r),
   quad mu = G(m_1 + m_2) $ <dosc-relativa>
+
+Es la ec. (1.3-3) de Bate, pág. 13, y las (2.20) y (2.21) de Curtis, pág. 63.
+La cátedra, Bate y Curtis llegan al mismo lugar por el mismo camino: restando,
+que es la operación más humilde del álgebra haciendo el trabajo más importante
+de la materia.
 
 #clave[
   *Ésta es la ecuación de la que salió toda la Parte III, y es exacta.* Compárese
@@ -138,7 +162,9 @@ $ bold(accent(r, dot.double)) = -mu/r^2 hat(u)_r = -mu/r^3 bold(r),
   dos cuerpos se acelerarían para el mismo lado. Es tipográfico y la cátedra
   llega igual al resultado correcto, pero *copiar la fórmula recuadrada sin
   mirar el renglón de arriba deja un signo cambiado que después no se
-  encuentra*.
+  encuentra*. Los apuntes de la cátedra también se leen con lápiz en la mano.
+  Y en defensa de la cátedra: este apunte tampoco está libre de pecado, y por
+  eso tiene una fase entera dedicada a buscarse los errores propios.
 ]
 
 == El centro de masa, y las dos órbitas verdaderas
@@ -147,7 +173,8 @@ La @dosc-relativa dice cómo cambia la *separación*, no dónde está cada cuerp
 Para eso hace falta el módulo #M("centro-de-masa"): como no hay fuerzas externas, el centro de masa
 se mueve con velocidad constante, así que *el sistema centro de masa es
 inercial* y conviene pararse ahí. Midiendo desde él, por definición de CM
-(apunte de clase, 23/9, pág. 2):
+(apunte de clase, 23/9, pág. 2; Curtis §2.3, pág. 66, justo antes de su
+ec. 2.26):
 
 $ m_1 bold(r)_1 + m_2 bold(r)_2 = bold(0) $ <dosc-cm>
 
@@ -175,7 +202,11 @@ $ bold(r)_1 = m_2 / (m_1 + m_2) bold(r), quad bold(r)_2 = -m_1 / (m_1 + m_2) bol
 
   *El cuerpo pesado recorre la elipse chica.* Es lo que hace que una estrella
   con un planeta se «bambolee» — y ese bamboleo es como se descubrieron los
-  primeros exoplanetas.
+  primeros exoplanetas. El S&Z lo cuenta al final de §13.5, con su figura
+  13.22 (pág. 414). La lista de temas de la cátedra pide, textual, «Figura
+  13.22 y comentario contiguo» —la anota en la fila de satélites, pero en la
+  edición de 2018 la figura 13.22 es ésta—: con esa precisión de GPS, figura
+  y comentario de al lado, no queda excusa para no encontrarla.
 ]
 
 == La masa reducida y el problema equivalente
@@ -314,6 +345,12 @@ $q = m_2 \/ m_1$ entre la masa chica y la grande:
 
 $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
 
+Bate lo despacha en la pág. 14: supone $m << M$, se queda con $mu = G M$ para
+todo el resto del libro, y en el mismo párrafo avisa que si $m$ no es mucho
+menor que $M$ hay que volver a $G(M + m)$. Una aproximación con su condición
+de validez escrita al lado: punto para Bate. Lo que esa advertencia no dice
+es *cuánto* es «mucho menor», y ése es el número que pone esta sección.
+
 #clave[
   *Y de ahí sale el error que se comete al ignorar todo esto.* El período de una
   órbita va como $T prop mu^(-1\/2)$ (módulo #M("gravitacion"), y con más generalidad en el
@@ -363,7 +400,8 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
   exacta — que es todo el contenido de este módulo.
 
   #cuidado[
-    Es el mismo mecanismo que el «ojo» en rojo del módulo #M("gravitacion"), y ahora se puede
+    Es el mismo mecanismo que la advertencia del final del ejemplo del Sol,
+    en el módulo #M("gravitacion"), y ahora se puede
     decir con precisión: pesar la Tierra con la Luna da $M_T + M_L$, y pesar el
     Sol con la Tierra da $M_"Sol" + M_T$. Sumar los dos resultados para «pesar
     el sistema solar» contaría la masa de la Tierra *dos veces*. En el primer
@@ -394,7 +432,8 @@ $ mu = G m_1 (1 + q), quad m_r = m_2 / (1 + q) $
     bajo la superficie. Por eso la Tierra no «orbita la Luna» de manera visible:
     su elipse —la chica de la figura— tiene un semieje de $4671$ km y queda
     íntegramente dentro del planeta. Lo que la Tierra hace es *bambolearse*
-    alrededor de un punto que lleva adentro.
+    alrededor de un punto que lleva adentro, como cualquiera después de un
+    asado.
 
     Y por eso la aproximación «la Luna gira alrededor de la Tierra» funciona
     tan bien a ojo, y sin embargo es falsa en el 1,2% que importa para las

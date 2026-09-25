@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (b)
 
 #modulo("Trabajo y energía", clave: "trabajo-energia")[
   Calcular el trabajo de una fuerza que cambia a lo largo de un camino curvo;
@@ -11,11 +12,13 @@
 
 Este módulo cierra la Parte II, y es el que más rinde en la Parte III. La razón
 es concreta: la ecuación de movimiento de una órbita no se puede integrar de
-cabeza, pero la conservación de la energía se escribe en un renglón y ya
-contesta la mitad de las preguntas — si la órbita es cerrada o abierta, cuánto
-vale la velocidad en el perigeo, cuánto cuesta escapar. La máquina que se arma
-acá —el *diagrama de energía*— es literalmente la misma que en el módulo #M("orbita-conicas") se
-aplica al potencial eficaz.
+cabeza —se puede, con una paciencia que nadie trae a un parcial—, pero la
+conservación de la energía se escribe en un renglón y ya contesta la mitad de
+las preguntas: si la órbita es cerrada o abierta, cuánto vale la velocidad en
+el perigeo, cuánto cuesta escapar. La máquina que se arma acá —el *diagrama de
+energía*— es literalmente la misma que en el módulo #M("orbita-conicas") se
+aplica al potencial eficaz. O sea que este módulo parece de primer año, y es la
+mitad de la mecánica orbital vestida de entrecasa.
 
 #lectura[
   *Young & Freedman (S&Z), Vol. 1*, capítulo 6 («Trabajo y energía cinética»)
@@ -28,6 +31,15 @@ aplica al potencial eficaz.
   Empezar por S&Z: trae el diagrama de energía dibujado paso a paso, que es la
   herramienta que este módulo necesita explicar antes de la primera ecuación
   del potencial eficaz en #M("orbita-conicas").
+
+  La lista de temas de la cátedra pide estos dos capítulos con dos
+  comentarios que merecen marco: al teorema trabajo–energía le anota «aprox.
+  $P = m g$», y a las fuerzas conservativas y no conservativas, «en general».
+  Así, entre comillas. Es el comentario más general que se le puede hacer a
+  un tema, y encima no miente: la Parte III entera es lo que pasa cuando se
+  deja de aproximar $P = m g$, y las fuerzas conservativas se piden,
+  efectivamente, en general —para cualquier $F(r)$—, que es justo lo que
+  este módulo demuestra.
 ]
 
 == El trabajo de una fuerza
@@ -37,7 +49,8 @@ ec. 6.2 y 6.3, pág. 173):
 
 $ W = bold(F) dot bold(s) = F s cos phi $
 
-El producto escalar del módulo #M("vectores"), otra vez, y con el mismo significado: lo que
+El producto escalar del módulo #M("vectores"), otra vez —el que parecía un
+trámite de la primera semana—, y con el mismo significado: lo que
 cuenta es *la componente de la fuerza en la dirección del movimiento*. Para una
 fuerza que cambia a lo largo de un camino curvo hay que sumar pedacito a
 pedacito (S&Z §6.3, ec. 6.14, pág. 187):
@@ -50,7 +63,8 @@ $ W = integral_(P_1)^(P_2) bold(F) dot d bold(l) $ <ener-trabajo>
   el producto escalar da cero. Tres casos que se usan todo el tiempo:
 
   - La *normal* de un vínculo — por eso una cuenta ensartada en un alambre liso
-    conserva la energía aunque el alambre la empuje todo el tiempo.
+    conserva la energía aunque el alambre la empuje todo el tiempo: empuja
+    mucho y no cobra nada.
   - La fuerza *magnética* sobre una carga.
   - La fuerza *centrípeta* en una órbita circular: la gravedad no le hace
     trabajo a un satélite en órbita circular, y por eso su rapidez no cambia.
@@ -75,7 +89,8 @@ $ W_"tot" = Delta K, quad K = 1/2 m v^2 $ <ener-teorema>
 
 #clave[
   El valor del teorema es que *pasa por alto el tiempo y el camino*. No hace
-  falta saber cuánto tardó ni por dónde fue: si se conoce el trabajo total, se
+  falta saber cuánto tardó ni por dónde fue —el teorema es un contador que
+  sólo mira quién entra y quién sale—: si se conoce el trabajo total, se
   conoce el cambio de rapidez. Esa es la misma economía que hace útil a la
   conservación de $bold(P)$, y la razón por la que los tres teoremas de
   conservación se estudian juntos.
@@ -86,7 +101,8 @@ $ W_"tot" = Delta K, quad K = 1/2 m v^2 $ <ener-teorema>
   siempre, incluso si la partícula va para atrás. La que puede ser negativa es
   $Delta K$, y el que puede ser negativo es $W$ — cuando la fuerza frena. Sumar
   energías cinéticas «con signo según el sentido» es un error que aparece
-  apenas hay más de un cuerpo.
+  apenas hay más de un cuerpo. Una energía cinética negativa no existe, ni
+  siquiera en el peor parcial.
 ]
 
 == Fuerzas conservativas y energía potencial
@@ -98,7 +114,8 @@ el trabajo como una diferencia (S&Z §7.3, pág. 217):
 $ W_"cons" = -Delta U = U_1 - U_2 $
 
 Las tres condiciones siguientes son equivalentes, y conviene tener las tres a
-mano porque cada problema hace obvia una distinta:
+mano porque cada problema hace obvia una distinta (y el parcial, con su
+generosidad habitual, suele hacer obvia justo la que uno no tenía a mano):
 
 + El trabajo entre dos puntos es el mismo por cualquier camino.
 + El trabajo a lo largo de cualquier circuito cerrado es cero.
@@ -106,7 +123,8 @@ mano porque cada problema hace obvia una distinta:
 
 #deduccion("toda fuerza central que dependa sólo de r es conservativa")[
   Es el resultado que sostiene toda la Parte III, y sale del módulo #M("vectores") sin
-  cuentas nuevas. Sea $bold(F) = F(r) hat(r)$. El desplazamiento, escrito en
+  cuentas nuevas: es el premio por haber sufrido los versores polares a
+  tiempo. Sea $bold(F) = F(r) hat(r)$. El desplazamiento, escrito en
   polares, es $d bold(l) = d r hat(r) + r d theta hat(theta)$. Entonces
   $ bold(F) dot d bold(l) = F(r) hat(r) dot (d r hat(r) + r d theta hat(theta)) = F(r) d r $
   porque $hat(r) dot hat(r) = 1$ y $hat(r) dot hat(theta) = 0$. Y por lo tanto
@@ -180,6 +198,18 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
   todos lados justamente porque el cero se pone en el infinito.
 ]
 
+#posta[
+  El diagrama de energía es una montaña rusa vista de costado. Dibujás la
+  curva $U$, trazás una raya horizontal a la altura de la energía que tenés,
+  y la partícula es un carrito que sólo puede andar donde la raya queda
+  *arriba* de la curva: cuanto más lejos de la curva está la raya, más rápido
+  va; donde la raya la toca, se frena y se vuelve. Un pozo cortado por la raya
+  de los dos lados es un carrito atrapado; una raya que ya no corta nada es un
+  carrito que se va para siempre. Ninguna ecuación diferencial, ningún
+  tiempo: una regla y un lápiz. Y dentro de cuatro módulos la curva va a ser
+  la de una órbita, y las preguntas van a ser exactamente éstas.
+]
+
 #ejemplo("De dónde sale la energía del calamar")[
   _(Ej. 3 de la guía, parte (b); S&Z 8.19.)_ Un calamar de $6,50$ kg —incluyendo
   $1,75$ kg de agua en su cavidad— está en reposo y expulsa el agua para
@@ -202,7 +232,9 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
 
   Y notar de dónde viene el grueso: $40$ de los $55$ J se los lleva *el agua*,
   no el calamar. Es lo mismo que en el módulo #M("cohete") — el chorro se lleva casi toda
-  la energía y el vehículo casi todo el provecho.
+  la energía y el vehículo casi todo el provecho. El calamar no leyó el
+  Roederer, pero es un cohete de una etapa: uno con una razón de masas
+  pésima, $6,50 \/ 4,75 = 1,37$, que para escaparse de un pez alcanza y sobra.
 
   #clave[
     En el lenguaje del módulo #M("centro-de-masa"): como $bold(v)_"cm" = bold(0)$, esos $55,1$ J
@@ -284,7 +316,9 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
 
   #cuidado[
     Los valores de arriba se *leen de un gráfico*, así que tienen una cifra
-    significativa y punto: no tiene sentido informar $K_"máx" = 5,73$ J. Lo que
+    significativa y punto: no tiene sentido informar $K_"máx" = 5,73$ J, que
+    es la clase de precisión que se gana un «no, no, no» antes de terminar de
+    escribirla. Lo que
     el problema evalúa no son los números sino las seis lecturas cualitativas —
     signo de la fuerza, dónde es máxima $K$, dónde hay equilibrio y de qué tipo,
     hasta dónde llega—, y esas no dependen de la precisión con que se lea la
@@ -299,7 +333,8 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
     (la órbita circular), entre qué dos radios queda atrapada la partícula
     (perigeo y apogeo), y con qué energía deja de estar atrapada (la escape).
     Vale la pena hacer este problema bien ahora, porque después se hace tres
-    veces más.
+    veces más — y ahí ya no hay un gráfico para mirar: la curva la tiene que
+    hacer uno.
   ]
 ]
 

@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (b)
 
 #modulo("El potencial eficaz y la ecuación de la órbita", clave: "orbita-conicas")[
   Meter la conservación del momento angular adentro de la conservación de la
@@ -23,7 +24,7 @@ partida tiene dos coordenadas, $r$ y $theta$, y una ecuación diferencial de
 segundo orden acoplada para cada una. Después de este módulo hay *una* ecuación
 para $r$ —y encima integrada— y $theta$ sale del momento angular. Ninguna de las
 dos cosas costó una hipótesis nueva: las dos son la conservación de $bold(L)$,
-usada dos veces.
+usada dos veces. Reciclaje, del bueno.
 
 #lectura[
   Este módulo es *Curtis, capítulo 2*, secciones 2.4 a 2.7 —de «Angular
@@ -38,12 +39,21 @@ usada dos veces.
   fórmula y la escribe ya con la excentricidad. Si algo de acá queda flojo, el
   que lo explica más despacio es Bate §1.5.
 
-  El potencial eficaz, en cambio, *no está en ninguno de los dos*: es de los
-  libros de mecánica general —Roederer, cap. 9— y lo pide la lista de temas de
-  la cátedra aparte.
+  El potencial eficaz, en cambio, *no está en ninguno de los dos*, y
+  tampoco —se buscó— en el Beer, el S&Z ni el Roederer: sale de la hoja de
+  clase de la cátedra. Lo que el Roederer sí tiene es la manera de leerlo,
+  el gráfico de un $V(r)$ con su «pozo» y su «barrera de potencial» (§4.g,
+  págs. 137–138). Un tema dado en clase que no está en ningún libro de la
+  bibliografía: para esta sección, el libro es la hoja manuscrita, con
+  errata incluida (ver más abajo).
 ]
 
 == El potencial eficaz: dos variables que se vuelven una
+
+La idea es una sola, y es una avivada: el momento angular se conserva, así que
+en vez de cargar con $theta$ se la esconde adentro de una constante, y el
+problema queda con una sola variable. La fuente, ya dicha arriba, es la hoja de
+clase: ni el Roederer ni ninguno de los otros cinco libros arma esta curva.
 
 #deduccion("el potencial eficaz")[
   En coordenadas polares la velocidad es $bold(v) = dot(r) hat(r) + r dot(theta)
@@ -100,7 +110,8 @@ $ E = 1/2 m dot(r)^2 + underbrace(L^2/(2 m r^2) + U(r), U_"ef" (r)) $ <orb-E>
   Copiar el menos da $U_"ef" = L^2 \/ (2 m r^2) + mu m \/ r$, que es *positiva
   para todo $r$* y no tiene pozo: con ese signo ninguna órbita sería ligada, ni
   siquiera la de la Luna. Es la clase de errata que no se nota hasta que el
-  gráfico sale sin mínimo.
+  gráfico sale sin mínimo. Con ese signo la Luna se habría ido hace rato, y
+  con ella la mitad de los problemas de la guía.
 ]
 
 #notacion[
@@ -136,7 +147,10 @@ puntos y da una elipse entre $r_p$ y $r_a$, $E = 0$ es la parábola y $E > 0$ la
 hipérbola. Es el diagrama del módulo #M("trabajo-energia"), con $U_"ef"$ en lugar de $U$.],
 fig-potencial-eficaz)
 
-Las tres cosas que se leen en esa figura, en orden de importancia:
+Las reglas de lectura son las del módulo #M("trabajo-energia") y las del
+Roederer, §4.g, que es de donde sale el nombre de «barrera»: un «montículo» de
+$V(r)$ que para cruzarse pide una energía mayor que su altura (pág. 138). Las
+tres cosas que se leen en esa figura, en orden de importancia:
 
 #clave[
   *Primera: hay una barrera centrífuga, y por eso un satélite con $L eq.not 0$
@@ -248,6 +262,11 @@ independiente.
   La segunda no hace falta: es la conservación del momento angular otra vez, y
   conviene usarla en su forma integrada, $r^2 dot(theta) = h$ (Beer ec. 12.33).
 
+  *Lo que sigue está escrito paso por paso porque Fran lo pidió*: la versión
+  anterior lo resolvía con un «Beer ecs. 12.35 y 12.36» y la fe ciega en que
+  el lector reconstruyera solo cómo $dot(r)$ se convierte en $-h thin d u \/ d
+  theta$. No lo reconstruía nadie.
+
   *El primer cambio: sacarse el tiempo de encima.* De $dot(theta) = h \/ r^2$
   sale el operador que reemplaza a $d \/ d t$ en todo lo que sigue —derivar
   respecto del tiempo es lo mismo que derivar respecto de $theta$ y multiplicar
@@ -288,7 +307,11 @@ $ (d^2 u)/(d theta^2) + u = mu/h^2 $ <orb-binet>
   $ 1/r = mu/h^2 + C cos theta $
   Y ése es el momento en que las cónicas dejan de ser un nombre: la expresión de
   arriba *es* la ecuación polar de una sección cónica con el foco en el origen.
-  No se buscaron elipses ni se supusieron: salieron de integrar.
+  No se buscaron elipses ni se supusieron: salieron de integrar. Kepler
+  necesitó años de datos de Tycho Brahe para adivinarlas; acá salen en media
+  página. La lista de temas lo despacha en dos palabras —«soluciones
+  cónicas»—, como quien anota algo en la lista del súper, y es probablemente
+  el resultado más lindo de toda la materia.
 ]
 
 Definiendo la *excentricidad* $e = C h^2 \/ mu$ (Beer ec. 12.40) y el
@@ -375,7 +398,8 @@ $ E = - (mu m)/(2 a) quad quad "y de ahí" quad quad v^2 = mu (2/r - 1/a) $ <orb
 
 #clave[
   *La segunda de las dos es la ecuación de la que más se va a usar en toda la
-  materia*, y se la conoce como *ecuación vis-viva*. Sale de escribir
+  materia*, y se la conoce como *ecuación vis-viva*. Si hubiera que tatuarse
+  una sola, es ésta. Sale de escribir
   $E = 1/2 m v^2 - mu m \/ r$ e igualar a $-mu m \/ (2 a)$: no hay ningún paso
   intermedio.
 

@@ -1,5 +1,41 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fase 11 en curso: tanda (b), módulos 6 a 10 — 2026-09-25 (cuarta parte)
+
+Hecha igual que la (a): reemplazos exactos, fuentes medidas contra los PDFs
+con pymupdf, chistes sobre la cátedra sólo de lo textual en `TEMARIO.md`.
+
+- **m06 a m10 con la voz de la regla 8** y la marca `// voz:` en la línea 2.
+  De la cátedra, textual: el «aprox. $P = m g$» y el «en general» de la
+  lista (m06), el «Roederer pg. 120 y suc.» y el «H es impulso angular»
+  (m08), «Figura 13.22 y comentario contiguo» (m09) y «soluciones cónicas»
+  (m10). **De Fran, lo que dijo de verdad**: su «no entiendo respecto de qué
+  está ese punto», que originó la sección de apertura de m09 (regla 4), y
+  su pedido de ver el cambio de variable paso a paso en m10 (regla 2 bis).
+- **`#posta` nueva en m06, m07 y m08** (la montaña rusa del diagrama de
+  energía, el satélite que se cae y le erra al suelo, la fuerza que no tiene
+  de dónde agarrarse para hacerte girar). m09 y m10 ya tenían.
+- **Libro y capítulo en las 6 secciones que no los tenían** (4 de m09, 2 de
+  m10), medidos: Bate §1.3 (ecs. 1.3-1 a 1.3-3, págs. 12–13; la advertencia
+  de $G(M+m)$, pág. 14), Curtis §2.3 (ecs. 2.20–2.21, pág. 63; el CM, pág.
+  66), S&Z fig. 13.22 (pág. 414), Roederer §4.g (pozo y barrera, págs.
+  137–138).
+- **Dos citas falsas corregidas**, de las `#lectura` del 2026-09-17: m09
+  mandaba a «Roederer, cap. 8» y m10 a «Roederer, cap. 9», y **el Roederer
+  termina en el capítulo 7**. Lo medido: la masa reducida $m_r$ no está con
+  este uso en ninguno de los seis libros (el Roederer llama «masas
+  reducidas» a las fracciones $m_i \/ (m_1 + m_2)$, §4.b, pág. 110), y el
+  potencial eficaz tampoco (sale de la hoja de clase). Barrido el resto de
+  las citas al Roederer en m11–m21: coinciden con su índice.
+- Tres menciones de color o de cuadro en la prosa, sacadas («el cuadro
+  azul», «el ojo en rojo», «el cuadro de arriba»). Ningún «Ojo:» arrancaba
+  repitiendo «Ojo».
+
+**Medido:** `medir-estilo.py` **44 → 30** (m01–m10 y m17 en `ok`). Compila
+sin errores, **185 páginas** (eran 183). Miradas en el render las 28
+páginas tocadas: sin cajas rotas ni tablas cortadas. `verificar-apunte.py`
+e `indice-temas.py` en verde. Sigue la **tanda (c): m11–m16**.
+
 ## Fase 10 cerrada, fase 11 en curso: tanda (a), módulos 1 a 5 — 2026-09-25 (tercera parte)
 
 **Fran aprobó la voz del módulo 17 tal como está** («así»), y con eso cerró

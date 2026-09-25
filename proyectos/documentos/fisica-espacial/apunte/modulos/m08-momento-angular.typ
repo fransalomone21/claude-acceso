@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (b)
 
 #modulo("Momento angular y fuerzas centrales", clave: "momento-angular")[
   Escribir $bold(L)$ diciendo siempre respecto de qué punto; demostrar que una
@@ -16,7 +17,9 @@ información sobre *el sistema entero*; la de $E$ da un escalar que dice hasta
 dónde llega el cuerpo. La de $bold(L)$ da algo que ninguna de las dos da: *la
 dirección*. Con energía sola se puede saber cuánto vale la velocidad en el
 apogeo, pero no hacia dónde apunta — y ésa es la mitad que falta en casi todos
-los problemas de la guía.
+los problemas de la guía. La energía dice cuánto; el momento angular, para
+dónde. Hacen falta los dos, como en cualquier indicación que se le pide a un
+desconocido por la calle.
 
 #lectura[
   *Beer, Dinámica, capítulo 12* («Cinética de partículas: segunda ley de
@@ -28,6 +31,13 @@ los problemas de la guía.
   Beer es el que define $bold(L)$ y deduce la conservación bajo fuerza central
   con la notación que usa este módulo; Roederer conecta esa conservación
   directamente con la segunda ley de Kepler, que es el cierre del módulo.
+
+  La lista de temas trae, para este tramo, el consejo más amable de todo el
+  temario: «Para tener una mejor comprensión de los temas, muy útil leer el
+  Roederer pg. 120 y suc.». Lo de «y suc.» es la parte seria —son las págs.
+  120 a 130, §4.e y §4.f enteras— y la recomendación es buena de verdad.
+  Punto para Aníbal, que esta vez hasta le puso «muy útil» a la orden de
+  leer.
 ]
 
 == Qué es el momento angular, y respecto de qué punto
@@ -85,7 +95,10 @@ fig-momento-angular)
 
   Y una segunda advertencia textual de la cátedra, sobre el mismo libro: donde
   el Beer dice *«razón de cambio»*, hay que leer *derivada respecto del
-  tiempo*. No hay ningún cociente escondido.
+  tiempo*. No hay ningún cociente escondido. Que la cátedra haya tenido que
+  dejarlo por escrito —junto con «H es impulso angular», así, como quien
+  avisa que la llave de la luz está instalada al revés— dice bastante del
+  Beer, y un poco de nosotros.
 ]
 
 == La ecuación de movimiento del momento angular
@@ -104,7 +117,8 @@ $ sum bold(tau)_O = (d bold(L)_O)/(d t) $ <angm-tau>
 
 Es la versión rotacional de $sum bold(F) = d bold(P) \/ d t$ del módulo #M("cantidad-movimiento"), y se
 parece tanto por la misma razón: las dos salen de derivar una definición y usar
-la segunda ley una sola vez.
+la segunda ley una sola vez. La receta de siempre, que a esta altura ya
+aburre de lo bien que funciona.
 
 == Fuerza central: las dos consecuencias
 
@@ -121,7 +135,8 @@ $bold(tau)_O = bold(r) times bold(F) = bold(0)$, y por la @angm-tau:
 $ bold(L)_O = "constante" quad "(en módulo y en dirección)" $ <angm-conserva>
 
 (Beer ec. 12.23, pág. 724.) Que sea *un vector* el que se conserva, y no un
-número, es lo que hace que este teorema rinda el doble.
+número, es lo que hace que este teorema rinda el doble: dos teoremas por el
+precio de uno.
 
 #clave[
   *Primera consecuencia: el movimiento es plano.* De la @angm-def, $bold(r)$ es
@@ -214,6 +229,18 @@ fig-velocidad-areolar)
   Las tres son cada vez más exigentes, y la tercera es la única que necesita la
   forma exacta de la ley de Newton. Confundirlas es contestar mal una pregunta
   que la cátedra ya escribió dos veces.
+]
+
+#posta[
+  Si la fuerza apunta siempre al mismo punto, no tiene de dónde agarrarse
+  para hacerte girar más ni menos: tira *hacia* el centro, nunca *de
+  costado*. Entonces el giro que traías se conserva, y eso tiene dos precios
+  fijos. Uno: no te podés salir del plano en el que arrancaste, porque para
+  eso haría falta un empujón de costado que no hay. Dos: cuando te acercás al
+  centro tenés que girar más rápido, y cuando te alejás, más lento, para que
+  $r^2 dot(theta)$ no cambie. Kepler lo sacó de las mediciones de Marte sin
+  saber por qué; acá el porqué entra en un renglón, y ni siquiera pregunta
+  cuánto vale la fuerza.
 ]
 
 #ejemplo("Dos demostraciones de una línea")[
@@ -319,7 +346,8 @@ fig-velocidad-areolar)
   #cuidado[
     *El error que este ejercicio busca.* Es usar $h = r v$ en las posiciones
     intermedias, olvidando el $cos gamma$. Da $8203$ km y $8386$ km — números
-    perfectamente creíbles, del orden correcto, y mal por casi 200 km. El
+    perfectamente creíbles, del orden correcto, y mal por casi 200 km: el
+    tipo de error que no se ve en la corrección propia y sí en la ajena. El
     $cos 12° = 0,978$ es una corrección del 2%, demasiado chica para que el
     resultado se vea absurdo y demasiado grande para ignorarla.
 
@@ -333,12 +361,13 @@ fig-velocidad-areolar)
   De la sección *Conservación impulso angular*: los *Problemas 2 y 3* son el
   ejemplo simple y el *Ejercicio 4* es el ejemplo a fondo. El *Ej. 5* —la ley
   de áreas y la pregunta sobre qué condición hace falta— está contestado entero
-  en el cuadro azul de la sección anterior. El *Problema 1* es cálculo de
+  más arriba, al final de la sección de la ley de las áreas. El *Problema 1* es cálculo de
   torques con la @angm-tau: es la aplicación directa de $tau = F d$ en seis
   configuraciones, y sale de la definición sin nada nuevo.
 
   *El Ej. 6 está en blanco en el PDF de la cátedra* — no es un problema de
-  impresión: el rótulo está y abajo no hay nada.
+  impresión: el rótulo está y abajo no hay nada. Es el ejercicio más fácil de
+  la guía, y el único que nadie resolvió mal.
 
   Los que quedan de esa sección —el giróscopo de juguete y la estabilización del
   Hubble— *no* son de fuerzas centrales sino de precesión, y necesitan cuerpo

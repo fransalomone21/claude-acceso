@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+// voz: 2026-09-25 -- pasada de la fase 11, tanda (b)
 
 #modulo("Gravitación de Newton, peso y energía potencial", clave: "gravitacion")[
   Escribir la fuerza gravitatoria con su signo y su versor bien puestos;
@@ -13,7 +14,10 @@ Este módulo abre la Parte III y es el que le pone fuerza a la máquina del
 módulo #M("trabajo-energia"). Ahí quedó demostrado que toda fuerza central $F(r)$ es conservativa y
 que su diagrama de energía contesta la mitad de las preguntas sin resolver
 ninguna ecuación diferencial. Acá se le pone la fuerza concreta —la de
-Newton— y esa mitad se cobra entera.
+Newton— y esa mitad se cobra entera. Es el módulo donde la materia deja de
+ser física de primer año con otro nombre y pasa a ser, de verdad, mecánica
+orbital: todo lo de antes era para llegar acá, y todo lo de después sale de
+acá.
 
 #lectura[
   *Young & Freedman (S&Z), Vol. 1, capítulo 13* («Gravitación»), completo para
@@ -121,9 +125,10 @@ cuadrado (S&Z ec. 13.5, pág. 403): $w = G m_T m \/ r^2$.
   grande, porque las alturas típicas de un satélite son chicas comparadas con
   $R_T$: a 300 km de altura, $r = 6370 + 300 = 6670$ km, apenas un 5% más que
   $R_T$ — y quien use $r = 300$ km se equivoca por un factor de 500 en la
-  fuerza. Todos los enunciados de la guía dan *altura*; todas las fórmulas
-  piden *radio*. La primera línea de la resolución es siempre la misma:
-  $r = R_T + h$.
+  fuerza, sin que la calculadora se queje. Todos los enunciados de la guía
+  dan *altura*; todas las fórmulas piden *radio*. Es una trampa tan vieja que
+  ya tendría que estar jubilada, y sigue cobrando. La primera línea de la
+  resolución es siempre la misma: $r = R_T + h$.
 ]
 
 == La energía potencial gravitatoria
@@ -218,7 +223,8 @@ $ 1/2 m v_"esc"^2 - (mu m) / R = 0 ==> v_"esc" = sqrt((2 mu) / R) $ <grav-vesc>
 
 == La órbita circular: por qué no cae
 
-Ésta es la pregunta que abre la materia, y merece la deducción entera.
+Ésta es la pregunta que abre la materia —la que hace cualquier pariente en un
+asado apenas se entera de qué estudiás—, y merece la deducción entera.
 
 #deduccion("la velocidad de una órbita circular")[
   Un cuerpo en circunferencia de radio $r$ a rapidez constante tiene
@@ -251,6 +257,16 @@ interrumpe contra la superficie —eso es «caer»—; con $v_"circ"$ el proyect
 nunca alcanza el suelo; con más, la órbita se abre en una elipse; con
 $v_"esc"$, ya no vuelve.], fig-canon-newton)
 
+#posta[
+  Un satélite no flota: se está cayendo todo el tiempo, igual que una piedra.
+  La diferencia es que va tan rápido de costado que, mientras cae, el suelo
+  se le escapa por la curvatura de la Tierra, y nunca lo alcanza. A 300 km de
+  altura eso pide unos 7,7 km/s, varias veces lo que anda una bala. Con menos,
+  gana el suelo; con eso justo, circunferencia; con más, elipse; y con
+  $sqrt(2)$ veces eso, chau para siempre. Douglas Adams lo dijo mejor que
+  cualquier libro de la bibliografía: volar es tirarse al piso y errarle.
+]
+
 De la @grav-vcirc salen las otras dos cantidades de una órbita circular. El
 período es la vuelta dividida por la rapidez, $T = 2 pi r \/ v$ (S&Z ec. 13.11,
 pág. 408), y sustituyendo (S&Z ec. 13.12, pág. 409):
@@ -265,8 +281,8 @@ $ E = K + U = 1/2 m (mu / r) - (mu m) / r = - (mu m) / (2 r) $ <grav-E>
 #clave[
   Tres lecturas de la @grav-E que se usan en todos los problemas de maniobras:
 
-  + $E < 0$ siempre, como corresponde a una órbita ligada. Consistente con el
-    cuadro de arriba.
+  + $E < 0$ siempre, como corresponde a una órbita ligada. Consistente con la
+    tabla de arriba.
   + $E$ es *la mitad de $U$*, y por lo tanto $K = -E = -U\/2$: la energía
     cinética de una órbita circular vale exactamente la mitad de la potencial,
     cambiada de signo.
@@ -274,7 +290,8 @@ $ E = K + U = 1/2 m (mu / r) - (mu m) / r = - (mu m) / (2 r) $ <grav-E>
     energía aunque la velocidad final sea *menor* — la @grav-vcirc dice que en
     una órbita más alta se va más despacio. Esa aparente contradicción es el
     ejemplo a fondo de este módulo, y es la razón de que un satélite que roza
-    la atmósfera se acelere mientras se cae.
+    la atmósfera se acelere mientras se cae: el aire lo frena y él,
+    desagradecido, va cada vez más rápido.
 ]
 
 Y una relación que conviene tener de memoria, comparando la @grav-vesc con la
@@ -290,7 +307,9 @@ no depende de nada.
   _(Problema 0 de la sección «Conservación de la Energía – Gravitación».)_
   Estime la masa del Sol.
 
-  El enunciado no da ningún dato: los datos son los que uno se sabe. La Tierra
+  El enunciado no da ningún dato: los datos son los que uno se sabe. Es el
+  ejercicio más corto de la guía y el más tramposo, porque no hay nada que
+  copiar: el enunciado son cinco palabras. La Tierra
   da una vuelta al Sol en un año y está a una unidad astronómica:
   $ r = 1,496 times 10^11 " m", quad T = 1 "año" = 3,156 times 10^7 " s" $
 

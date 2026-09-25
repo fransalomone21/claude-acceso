@@ -6,6 +6,24 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-25, cuarta parte — fase 11, tanda (b) hecha
+
+**m06–m10 hechos y publicados; sigue la tanda (c): m11–m16** (PENDIENTE 30;
+de eso, 20 son de la (c) y 10 de la (d)). El método es el de la (a), abajo, sin cambios.
+Tres cosas que la (c) tiene que saber:
+
+- **Las `#lectura` del 2026-09-17 no están medidas.** En esta tanda dos
+  citaban capítulos del Roederer que no existen (termina en el 7). En la
+  (c), cada `#lectura` se mide contra el PDF igual que una sección.
+- **Offsets medidos** (pág. impresa = pág. del PDF − n): Roederer n = 0,
+  Bate n = 15, Curtis n = 8, S&Z vol. 1 n = 28 en el cap. 6 y el 13 (en el
+  cap. 1 era 27: no es constante). Los scripts de búsqueda (`buscar.py`,
+  `pag.py`) estaban en el scratchpad; se reescriben en dos minutos con el
+  glob de `fuentes/RUTAS.md`.
+- **«Figura 13.22 y comentario contiguo»** de la lista de la cátedra está en
+  la fila de satélites, pero en el S&Z 2018 la figura 13.22 es el bamboleo
+  del centro de masa (pág. 414). m09 lo dice así; no reinterpretarlo.
+
 ## Sesión del 2026-09-25, tercera parte — fase 11, tanda (a) hecha
 
 **La voz está aprobada (fase 10 cerrada); la tanda (a), m01–m05, hecha y
