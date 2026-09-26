@@ -66,5 +66,9 @@ Estado de la maquina: nada instalado para este proyecto. PROHIBIDO
 correr el install.ps1 del export aca: pisa ~/.claude de Fran.
 Resuelto: transporte GitHub, nucleo generado, solo ida, nombre
 reemplazado solo en archivos operativos, pasan las lecciones no 'fuera'.
+OJO: el arranque del 2026-09-26 avisaba que los saboteadores quedaron
+EN ROJO en su ultima corrida (2026-09-22). No se exportan alarmas en
+rojo: antes del exportador, correrlos y ver que den verde.
 Primer comando: .\cascada.ps1 metodo-agustin
+Segundo: .\chequeo-completo.ps1 -SoloSaboteadores   (~96 s)
 ```
