@@ -6,6 +6,18 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-26 — «hinchapelotas» fuera, fase 13 abierta
+
+- La frase de m17 se sacó; la regla 8 del `CLAUDE.md` lo registra.
+- **Fase 13 abierta, sin empezar**: el criterio está en PDP §4. Primer paso
+  concreto: escribir `verificar-anexos.py` (lista las etiquetas `$ <clave>`
+  de `modulos/*.typ` y exige que cada una esté referenciada en
+  `anexos/a2-formulario.typ` o declarada fuera con motivo) y su saboteador
+  **antes** del formulario: así el formulario nace midiéndose.
+- Ojo, medido: las etiquetas de sección (`== Título <clave>`) también son
+  `<clave>`; el script tiene que separar ecuaciones de secciones, o el
+  formulario va a pedir referenciar títulos.
+
 ## Sesión del 2026-09-25, octava parte — fase 12 cerrada
 
 **No queda fase abierta.** Lo que sigue lo decide Fran (PDP §4, «Lo que

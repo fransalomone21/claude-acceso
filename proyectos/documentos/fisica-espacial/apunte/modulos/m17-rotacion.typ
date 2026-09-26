@@ -66,8 +66,7 @@ los cuatro módulos que siguen.
   Sí: el famoso Sears que tanto le gusta a Aníbal. Que en la misma lista de
   temas lo califica de «un poco elemental» y manda a apoyarse en el Roederer
   — o sea, te da el libro y en el mismo renglón te avisa que no alcanza.
-  Hinchapelotas, un poco —y él diría que nosotros somos unos fallutos que no
-  abren el libro, así que estamos a mano—; equivocado, no: el Sears va en orden y con muchos
+  Equivocado no está: el Sears va en orden y con muchos
   números, y el Roederer dice en media página vectorial lo que el Sears en
   cinco. Se leen los dos. Y la lista viene con sección, ecuación, figura y
   página, cosa que en alguien que sube al Classroom fotos de manuscritos

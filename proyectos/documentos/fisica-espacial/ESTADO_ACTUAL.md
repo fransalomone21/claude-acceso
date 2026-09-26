@@ -1,5 +1,17 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fase 13 ABIERTA: los tres anexos — 2026-09-26
+
+- **Fuera «hinchapelotas»**, a pedido de Fran: estaba una sola vez (m17,
+  la caja `#lectura`) y se fue con su «fallutos» de contrapeso. Medido: 0
+  en el fuente y 0 en el texto del PDF. La regla 8 del contrato lo dice,
+  para que no vuelva.
+- **Fase 13 abierta** (PDP §4): formulario, constantes y correspondencia
+  como Anexos B, C y D. El formulario **referencia** las ecuaciones por su
+  etiqueta en vez de copiarlas (124 etiquetadas, por `grep`), y lo mide un
+  `verificar-anexos.py` que todavía no existe.
+- Compila, 188 páginas; el PDF sube con el commit.
+
 ## Fase 12 CERRADA: exactitud del Anexo A — 2026-09-25 (octava parte)
 
 **No hay fase abierta.** La siguiente la abre Fran (PDP §4, «Lo que queda

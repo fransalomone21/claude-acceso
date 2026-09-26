@@ -322,9 +322,42 @@ nadie y una respuesta mal en el Anexo A sí.
 motivo (por ejemplo, «la figura escaneada no alcanza; preguntar a la
 cátedra»), y `grep -c "cuenta propia"` en 0.
 
+### Fase 13 — los tres anexos: formulario, constantes y correspondencia  ·  ABIERTA (2026-09-26)
+
+Abierta a pedido de Fran («sigamos con las fases»), que es lo único que la
+esperaba: el alcance está escrito abajo, en «Los tres anexos», desde la
+fase 7. Van como **Anexos B, C y D** —`anexos/a2-formulario.typ`,
+`a3-constantes.typ`, `a4-correspondencia.typ`—, con la receta que ya
+está en `apunte.typ` debajo del `#include` del Anexo A.
+
+El riesgo es el que ya estaba anotado: un formulario a medias se usa sin
+desconfiar. Por eso **el criterio no es «escrito», es medido**, con un
+script nuevo (`verificar-anexos.py`) y su saboteador:
+
+- **Formulario (B):** toda ecuación con etiqueta de los 21 módulos
+  (`$ <clave>`: **124** al 2026-09-26, contadas con `grep`, a re-medir con
+  el script) aparece en el formulario **por referencia a su etiqueta**
+  —`#link(<clave>)` o `@clave`—, o está declarada fuera con el motivo en
+  una lista del propio script. Las ecuaciones se **referencian, no se
+  copian**: una copia diverge del módulo la primera vez que alguien lo
+  corrige, y la fase 11 ya corrigió una enmarcada.
+- **Constantes (C):** cada constante numérica que usan los módulos y el
+  Anexo A ($mu_T$, $R_T$, $G$, $g_0$, $M_T$, masas y radios de otros
+  cuerpos si aparecen) con su valor, su unidad y **de qué libro sale, con
+  página medida**. Donde dos libros usan valores distintos, los dos.
+- **Correspondencia (D):** la notación de cada libro contra la del apunte
+  (ya hay casos medidos: el «L es H y P es L» de la cátedra en m19, el
+  $I$/$I'$ del Beer, el $h$ del Curtis), una fila por símbolo que cambia.
+
+**Cierra con:** `verificar-anexos.py` en verde (0 etiquetas sin referenciar
+y sin declarar), su saboteador rojo en cada chequeo, el apunte compilado,
+las páginas nuevas miradas en el render, `verificar-apunte.py` en verde y el
+PDF en el Drive verificado por MD5.
+
 ### Lo que queda fuera de fase, a propósito
 
-- **Los tres anexos** (formulario, constantes, correspondencia) — abajo.
+- **Los tres anexos** (formulario, constantes, correspondencia) — pasaron a
+  la fase 13.
 - **El estándar de ejemplos «un poco más» desarrollados** se aplicó a 3
   módulos y nunca se confirmó si Fran lo quiere en los 21. Se pregunta
   cuando se cierre la fase 10, que es cuando Fran va a estar leyendo.
@@ -337,9 +370,11 @@ cátedra»), y `grep -c "cuenta propia"` en 0.
 Formulario, constantes y tabla de correspondencia con la cátedra. Eran el
 alcance original de la fase 7 y siguen siendo **útiles para estudiar**, pero
 el cruce contra la guía mostró que **no hacen falta para resolverla**: eso era
-lo que no se sabía y es lo que cambia la decisión. Si alguna vez se escriben,
-el `#include` de `modulos/anexos.typ` sigue comentado en
-`apunte/apunte.typ:134`, y el alcance de cada uno está descrito abajo.
+lo que no se sabía y es lo que cambia la decisión. **Se escriben en la fase
+13** (arriba). Esta línea decía que el `#include` de `modulos/anexos.typ`
+estaba comentado en `apunte.typ:134`; medido el 2026-09-26, ese archivo no
+existe y la receta vigente es la nota debajo de `#include
+"anexos/a1-guia-ejercicios.typ"` en `apunte.typ`.
 
 **Cerrarían con:** los tres escritos, el apunte compilado y las páginas nuevas
 miradas en el render. Es una sesión propia: el formulario obliga a recorrer

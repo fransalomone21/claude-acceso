@@ -200,8 +200,9 @@ tono, *«más sarcástico y un poco más crudo»*. Las reglas que salen de ahí:
   Calibrado por Fran al decidir publicarlo: *«Aníbal me trata de falluto y
   tramposo, y yo a él también; si decís hinchapelotas, que no suene tan
   ofensivo: la idea no es atacarlo, pero ser sincero a la vez»*. La cargada
-  es mutua y con cariño —si se le dice hinchapelotas, en la misma frase él
-  nos devuelve «fallutos»—, y la palabra fuerte va poco. Aníbal puede ser
+  es mutua y con cariño, y la palabra fuerte va poco. **Y «hinchapelotas»
+  no va más: Fran pidió sacarlo el 2026-09-26** (estaba una sola vez, en
+  m17, y se fue con su «fallutos» de contrapeso). Aníbal puede ser
   el que manda a leer, sube cuatrocientos
   PDFs y fotos de manuscritos torcidos al Classroom, odia las «verdades
   reveladas», corta una exposición con «no, no, no: esto se hace así», hace
