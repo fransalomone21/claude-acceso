@@ -58,7 +58,7 @@ N1  CAPACIDADES    Cuatro, independientes entre sí.
      ├─ B. LEER EL CÓDIGO ................................ CERRADA
      │     Ghidra + r5900, 9842 funciones. Y desde 2026-08-16,
      │     la RAM viva ADENTRO de Ghidra (`decompilar.py estado`).
-     ├─ C. LEER EL ISO ................................... ABIERTA  <-- acá estamos
+     ├─ C. LEER EL ISO ................................... ABIERTA  (la empuja la 8b)
      │     Contenedor .BIN resuelto, LBAs resueltos (6.1).
      │     Faltan .WDD .DB .BKS .SSH .SLB.
      └─ D. ESCRIBIR ...................................... CERRADA
@@ -75,8 +75,29 @@ N2  FASES DEL JUEGO
      5a mod de daño ...................................... CERRADA 2026-09-04, por efecto
      5b qué elige la zona de impacto ..................... pendiente, es Opus
      6  exprimir el ISO ............... 6.1, 6.6 CERRADAS; 6.2/6.3/6.4 AVANZADAS 2026-09-04
-     7  arquitectura de entidades y de la IA .............. ABIERTA <-- acá estamos
-        (7a, 7b, 7c y 7d cerradas; la abierta es 7e)
+     8  CENSO ESTRUCTURAL ................................. ABIERTA <-- acá estamos
+        Abierta el 2026-09-26 por una revisión del plan contra los requisitos
+        de `docs/00-conops.md`. Medido ese día: de los cinco requisitos
+        abiertos, **R4 tiene su estructura conocida**, R6 a medias, y **R3 (la
+        IA), R5 (el coop) y el catálogo de R2 no la tienen** — mientras el
+        proyecto afinaba detalle en lo que ya conocía. Y `GLOBDATA.BIN` tiene
+        **seis secciones y sólo una tiene nombre** (armas: 8.960 B de
+        1.261.896, el 0,7 %; la de `0x80` es el 81 % y nadie la miró).
+        La ValueDB (`FUN_0027B950`) quedó **censada**: 63 registros, 58 con
+        nombre, todos de controles, colisión y audio — **no es el catálogo de
+        dificultad**.
+        **Cierra cuando** cada R2–R7 tenga en `kb/superficies.json` su
+        estructura con grado y evidencia (o `desconocida` con la sonda en frío
+        ya corrida), y las seis secciones de `GLOBDATA.BIN` tengan consumidor.
+        Lo mide `herramientas/superficies.py verificar` (se escribe en la fase,
+        con su saboteador). Tres preguntas adentro:
+          8a  ¿quién piensa por el enemigo? ¿Kynapse o código de Criterion?
+          8b  las seis secciones de GLOBDATA.BIN: consumidor y qué-es
+          8c  ¿el motor admite dos jugadores? (array/contador, segundo pad)
+        Herramientas: `censo_globdata.py`, `censo_valuedb.py`.
+     7  arquitectura de entidades y de la IA .............. 7a-7d cerradas
+        7e: mitad (a) CERRADA; mitad (b) CANCELADA el 2026-09-26 — su
+        verificación por efecto pasa a la fase 9 (R4), ver `PDP.md` §6
         7a  qué campo fija el ARMA de un enemigo ......... CERRADA 2026-08-17
             por efecto: `0x006E18B8 + n*0x24 + 0x04`, el puntero al bloque
             de IA del registro de arma. Daño 105→106 y cadencia
@@ -193,8 +214,9 @@ N2  FASES DEL JUEGO
             en RAM. Dos cruces no buscados: `b=0x05` = `BG1_AK1` (los
             enemigos llevan AK) y `b=0x00` = `BG1_PST` (el jugador arranca
             con pistola).
-        7e  el ÍNDICE DE MÓDULOS del nivel ................. ABIERTA <-- acá estamos
-            (mitad (a) HECHA y MEDIDA; falta (b), que necesita el emulador)
+        7e  el ÍNDICE DE MÓDULOS del nivel ................. (a) CERRADA, (b) CANCELADA
+            (mitad (a) HECHA y MEDIDA; la (b) se canceló el 2026-09-26 y su
+            efecto lo produce el experimento de R4, fase 9)
             Salió de una pregunta de Fran a mitad de la sesión de 7d: en vez
             de subir la cadena de llamadas eslabón por eslabón cada vez que
             se quiere tocar algo, buscar si el juego tiene un índice. **Lo
@@ -1116,7 +1138,11 @@ armas (`0x00130E20`) cae dentro de la sección de `0x00130C80` a `+0x1A0`; y en
   copia acá**: `python herramientas/ubicaciones.py ruta iso_original`.
   Accesos directos en `C:\Users\frans\Desktop\BLACK\`:
   `ABRIR-BLACK-ORIGINAL.bat` y `ABRIR-BLACK-MOD-ARMAS.bat`.
-- **`D:` y `E:` montan los dos el MISMO `Black.iso` original.** Verificado por
+- **2026-09-26, medido: NO hay ningún ISO montado** (`Get-Volume` sólo ve
+  `C:`; `Get-DiskImage` del original da `Attached = False`). Lo de abajo es
+  histórico. Las herramientas nuevas leen **por LBA** desde el `.iso` y no
+  necesitan montaje (`censo_globdata.py`).
+- ~~**`D:` y `E:` montan los dos el MISMO `Black.iso` original.**~~ Verificado por
   huella, no por letra: `GLOBDATA.BIN` de las dos unidades tiene el mismo md5
   `e48221c5d55af24abe41399fad359500`. **El ISO parcheado no está montado.**
   `lbas.py` y `parche_iso.py` no necesitan montaje: leen el `.iso`.

@@ -16,6 +16,38 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-26 (60) — Revisión del plan: faltan estructuras, no detalle. Fase 8 abierta
+**Máquina:** notebook · **Modelo:** Opus, esfuerzo medio, sin fan-out
+**Objetivo:** antes de retomar, revisar el plan contra los requisitos y contra
+el molde nuevo del método (arquitectura-se), para no seguir afinando un
+detalle cuando faltan estructuras grandes por descubrir.
+**Resultado:** cruzando cada requisito de `docs/00-conops.md` con lo que `kb/`
+sabe: **R4 tiene su estructura** (STLEVEL, unidades, personajes `0xB0`, stream
+de módulos), **R6 a medias** (geometría sí, colocación no), y **R3, R5 y el
+catálogo de R2 no la tienen**. Dos mediciones en frío lo dimensionaron:
+(1) **`GLOBDATA.BIN` tiene seis secciones y se entiende una** — la de armas,
+8.960 B de 1.261.896 (0,7 %); la de `0x80` es el 81 % y no tiene nombre; la de
+`0x133800` arranca con `33`, igual que los 33 valores del índice de tipo de
+personaje (hipótesis débil: el byte 0 de la de armas dice 2 y tiene 17).
+(2) **La ValueDB** (`FUN_0027B950`) **tiene 63 sitios de llamada, 58 con
+nombre**, y ninguno es de IA ni de daño: controles, colisión, audio. Control
+positivo: los cinco nombres de la mira aparecen. No es el catálogo de
+dificultad que se podía esperar.
+El PDP pasó al molde nuevo (rigor por aspecto `a`–`f`, «Cómo se certifica»,
+matriz de 10 filas con un recorte y su resta). **7e(b) se canceló**: lo que 7e
+compraba ya está y en frío; su efecto lo trae el experimento de R4. Se abrió la
+**fase 8 — censo estructural** (8a quién piensa por el enemigo, 8b las seis
+secciones de `GLOBDATA.BIN`, 8c si el motor admite dos jugadores), con
+`kb/superficies.json` de semilla. R7 (remaster visual) entró al conops: la
+línea existía desde el 2026-09-02 sin requisito.
+**No funcionó:** leer `D:\GLOBDATA.BIN` — **no hay ningún ISO montado**, y
+`ubicaciones.py` lo declaraba montado: imprime la sección `montajes` como
+texto, no la mide. Se leyó por LBA del `.iso`. Un conteo de accesos `$gp` al
+«directorio de subsistemas» `0x0040F4D0` dio **cero**: acusa al parámetro (se
+accede por `lui`, no por `$gp`), no al directorio.
+**Sigue:** 8a en Ghidra, en frío: el update del enemigo (vtable `0x003DCA78`)
+y si su cierre de llamadas toca código `Kaim::`.
+
 ## 2026-09-05 (59) — L2 CERRADA: los vértices, tres eslabones más abajo
 **Máquina:** notebook · **Modelo:** Opus, esfuerzo high, sin fan-out
 **Objetivo:** sacar la lista de vértices de `CO01TRUCK` (`LEVEL_01/UNIT_01`,

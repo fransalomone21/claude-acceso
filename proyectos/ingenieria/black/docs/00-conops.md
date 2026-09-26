@@ -31,8 +31,9 @@ preguntar si el juego mejoró.
 > **Adaptación explícita (el handbook lo pide, §3.11).** Esto es un proyecto de
 > una persona, sin seguridad de vidas y sin presupuesto que rendir. Se toma de
 > NASA la distinción V&V, la trazabilidad de requisitos y el registro de
-> riesgos. **No** se toman las revisiones formales, las juntas de control de
-> cambios ni la matriz de cumplimiento. Adoptar el aparato completo sería
+> riesgos. **No** se toman las revisiones formales ni las juntas de control de
+> cambios. *(La matriz de cumplimiento sí entró el 2026-09-26 con el molde
+> nuevo del PDP: vive en `PDP.md` §8, y su default es el silencio.)* Adoptar el aparato completo sería
 > teatro de proceso y costaría más de lo que rinde.
 
 ---
@@ -52,10 +53,11 @@ requisitos en conflicto, y la validación es que él lo juegue y lo sienta.
 |---|---|---|---|---|
 | **R1** | Un cambio al juego sobrevive a cerrar el emulador | el ISO parcheado difiere del original sólo en los bytes buscados | arrancar de cero y jugar con el cambio puesto | **CUMPLIDO** 2026-08-17 |
 | **R2** | Se puede cambiar la dificultad por parámetros, sin rehacer contenido | leer y escribir los tunables identificados | jugar y que se sienta distinto | parcial: daño sí; percepción de la IA, no todavía |
-| **R3** | La IA puede hacerse más aguda (ver antes, oír más, apuntar mejor) | escribir `VisualAcuteness` / `HearingAcuteness` / `MaxInaccuracy` y releer | los enemigos reaccionan antes y aciertan más | **abierto** — clases identificadas, valores no |
+| **R3** | La IA puede hacerse más aguda (ver antes, oír más, apuntar mejor) | escribir `VisualAcuteness` / `HearingAcuteness` / `MaxInaccuracy` y releer | los enemigos reaccionan antes y aciertan más | **abierto** — Kynapse está enlazado pero su reflexión no arranca (medido); **no se sabe qué código piensa por el enemigo**. Es la 8a |
 | **R4** | Se puede cambiar qué enemigos aparecen y cuántos | editar `STLEVEL.BIN` in-place y que el nivel cargue | el nivel se juega distinto | **abierto** |
 | **R5** | Coop de dos jugadores | hay dos entidades jugador vivas y dos mandos leídos | dos personas juegan juntas | **abierto, largo plazo** |
 | **R6** | Un nivel nuevo | el juego carga geometría que no venía en el ISO | se puede jugar de punta a punta | **abierto, muy largo plazo** |
+| **R7** | Remaster visual: texturas HD, resolución, DLSS5 | el pack carga por hash y el pipeline corre sobre D3D12 | Fran lo juega y se ve mejor de cerca y de lejos | **abierto** — agregado el 2026-09-26: la línea existía desde el 2026-09-02 sin requisito |
 
 ## Restricciones
 

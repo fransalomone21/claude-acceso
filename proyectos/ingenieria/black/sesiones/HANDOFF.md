@@ -4,8 +4,45 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL PRIMER BLOQUE DE ABAJO** («SESION DEL 2026-09-05 (NOCHE)»).
-> Es lo más nuevo y corrige varias cosas de las secciones numeradas. Debajo
+> **EMPEZÁ POR EL BLOQUE «2026-09-26» DE ACÁ ABAJO.** Cambió la fase abierta:
+> ya no es 7e, es la **8 (censo estructural)**. Los bloques del 2026-09-05
+> siguen valiendo como referencia de lo hecho.
+
+## 2026-09-26 — REVISIÓN DEL PLAN. FASE 8 ABIERTA
+
+**Qué cambió:** la fase abierta es la **8 — censo estructural**; 7e(a) cerrada,
+7e(b) **cancelada** (su efecto lo trae la fase 9, R4). Motivo, medido: R3 (IA),
+R5 (coop) y el catálogo de R2 no tienen estructura identificada, y de las seis
+secciones de `GLOBDATA.BIN` sólo se entiende una (0,7 % del archivo). Detalle:
+`PDP.md` §4 y §6, bitácora (60).
+
+**Qué cierra la 8:** `kb/superficies.json` con cada R2–R7 con estructura +
+grado + evidencia (o `desconocida` + sonda corrida) y las seis secciones con
+consumidor. Lo mide `herramientas/superficies.py verificar` — **todavía no
+existe**; se escribe en la fase, con `pruebas/probar-superficies.py` en rojo.
+
+**Orden de trabajo, todo en frío (Ghidra + ELF + ISO por LBA):**
+1. **8a** ¿quién piensa por el enemigo? Update de la vtable `0x003DCA78` y su
+   cierre de llamadas: ¿toca `Kaim::`? Decide dónde vive R3.
+2. **8b** consumidores de las secciones `0x80`, `0xF9300`, `0x132F80`,
+   `0x133800`, `0x133F80`: quién lee `base+0x04..0x18` después del
+   relocador `FUN_00105D48`. La `0x133800` y los 33 tipos de personaje es la
+   primera hipótesis a matar.
+3. **8c** ¿el jugador se instancia desde array/contador? ¿se lee el pad 2?
+4. `superficies.py` + saboteador.
+
+**Estado de la máquina, medido hoy:** **ningún ISO montado** (ni `D:` ni
+`E:`). `ubicaciones.py` lo declaraba montado porque imprime `montajes` como
+texto sin medirlo — **pendiente arreglarlo** (que lo mida con
+`Get-DiskImage`). Emulador cerrado, sin parches vivos.
+
+**Herramientas nuevas:** `censo_globdata.py` (secciones, por LBA, con control
+positivo de la tabla de armas) y `censo_valuedb.py` (63 sitios, 58 nombres,
+control positivo la mira). **Ninguna tiene saboteador todavía.**
+
+---
+
+> Bloques anteriores: empezaban por «SESION DEL 2026-09-05 (NOCHE)». Debajo
 > están el de la TARDE, el de la MAÑANA y el de la MADRUGADA, en ese orden.
 
 **Cuatro líneas de trabajo, independientes entre sí:**

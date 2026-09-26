@@ -1,0 +1,79 @@
+{
+  "_que_es": "El censo estructural de la fase 8: por cada requisito de docs/00-conops.md, QUE ESTRUCTURA del juego lo gobierna, con que grado y evidencia. Existe para que no se afine detalle sobre una estructura conocida mientras un requisito no tiene la suya identificada. Lo mide herramientas/superficies.py verificar (a escribir en la fase 8).",
+  "_version": "NTSC-U SLUS-21376, CRC 5C891FF1",
+  "_abierto": "2026-09-26",
+  "_reglas": [
+    "grado es uno de: hipotesis | probable | confirmado | desconocida",
+    "desconocida exige 'sonda' (la medicion en frio que la resolveria) y, para cerrar la fase 8, 'resultado_sonda'",
+    "evidencia nombra archivo, direccion o bitacora; nunca 'se sabe'"
+  ],
+  "requisitos": {
+    "R2": {
+      "que": "dificultad por parametros, sin rehacer contenido",
+      "estructuras": [
+        {"nombre": "tabla de armas", "donde": "GLOBDATA.BIN + 0x00130E20, 17 registros de 0x1E0; Power +0x18, TBB +0x20, bloque jugador +0x90, IA +0xC0", "grado": "confirmado", "evidencia": "mod permanente 2026-08-17, 24 impactos de -5.0; bitacora (27)"},
+        {"nombre": "dano de salida del jugador", "donde": "zona * 100.0 en 0x00142B90", "grado": "confirmado", "evidencia": "ESTADO_ACTUAL, Hechos confirmados"},
+        {"nombre": "ValueDB (registrador FUN_0027B950)", "donde": "63 sitios de llamada en el ELF, 58 con nombre resuelto", "grado": "confirmado", "evidencia": "censo 2026-09-26 con herramientas/censo_valuedb.py; control positivo: los 5 nombres de la mira aparecen. Son controles, colision y audio: NINGUNO de IA ni de dano"},
+        {"nombre": "vida maxima y regeneracion", "donde": "1200.0 / 750.0 sin fuente; regen +0.5 por tick", "grado": "hipotesis", "evidencia": "ESTADO_ACTUAL, Hipotesis activas"}
+      ],
+      "hueco": "no hay CATALOGO de tunables de juego: cada uno se encontro suelto. Candidato: las secciones sin nombre de GLOBDATA.BIN (ver globdata).",
+      "sonda": "8b"
+    },
+    "R3": {
+      "que": "IA mas aguda: ver antes, oir mas, apuntar mejor",
+      "estructuras": [
+        {"nombre": "Kynapse (Kaim::)", "donde": "182 clases en .rodata; CShooterAgent declara GunRange/MaxInaccuracy", "grado": "probable", "evidencia": "enlazado SI; su reflexion NO se inicializa: 0 de 182 metaclases con un byte distinto de cero en volcados/ee-nivel-mod0.bin (docs/07-ia-kynapse.md). Que corra el resto de Kynapse NO esta medido"},
+        {"nombre": "registro de personaje +0x94", "donde": "floats 0.071, 1.0, 10.0, 100.0, 20.0, 0.6 en STLEVEL", "grado": "hipotesis", "evidencia": "kb/formatos-iso.json#stlevel control_del_+0x94; sin nombre"},
+        {"nombre": "indice de tipo personaje +0x88", "donde": "33 valores (< 0x21), jumptable PTR_LAB_003F8130 en FUN_001E3018", "grado": "probable", "evidencia": "ESTADO_ACTUAL, Hechos confirmados (2026-08-21)"}
+      ],
+      "hueco": "NO SE SABE QUE CODIGO PIENSA POR EL ENEMIGO. Es el hueco mas grande del proyecto.",
+      "sonda": "8a",
+      "grado": "desconocida"
+    },
+    "R4": {
+      "que": "cambiar que enemigos aparecen y cuantos",
+      "estructuras": [
+        {"nombre": "unidades y personajes del stage", "donde": "STLEVEL: stage+0x04 unidades (paso 0x28), unidad+0x18/+0x20 enemigos, registro de personaje 0xB0 con modelo id64 en +0x18", "grado": "probable", "evidencia": "volcados/7b/, ESTADO_ACTUAL 2026-08-22; herramientas/stlevel.py lo lee en frio"},
+        {"nombre": "arma por nombre", "donde": "id64 en FUN_0015ef48 case 0x0A, o STLEVEL+0x80", "grado": "probable", "evidencia": "bitacora (35); falta efecto"},
+        {"nombre": "stream de modulos", "donde": "STUNIT0N.BIN, 61 tipos despachados, 23 grupos de destino", "grado": "confirmado", "evidencia": "stunit.py y pools_p1.py: 17/18 predicciones exactas"}
+      ],
+      "hueco": "la estructura esta; falta el experimento por efecto (E5). Es la fase 9."
+    },
+    "R5": {
+      "que": "coop de dos jugadores",
+      "estructuras": [
+        {"nombre": "clase jugador", "donde": "vtable 0x003DC5F8, instancia 0x005A8AB0, paso 0x8B0", "grado": "confirmado", "evidencia": "kb/campos-jugador.json"},
+        {"nombre": "lectura del pad", "donde": "FUN_0026bf60 (zona muerta)", "grado": "confirmado", "evidencia": "J1, bitacora (57)"}
+      ],
+      "hueco": "no se sabe si el motor instancia el jugador desde un array/contador ni si lee un segundo pad, ni como elige camara/viewport.",
+      "sonda": "8c",
+      "grado": "desconocida"
+    },
+    "R6": {
+      "que": "un nivel nuevo",
+      "estructuras": [
+        {"nombre": "geometria", "donde": "Unit_NN.bin -> modelos -> submallas -> BIH -> vertices u16 sesgados", "grado": "confirmado", "evidencia": "630.379 vertices por contencion; unit.py y modelo.py con saboteadores"},
+        {"nombre": "rebuild del ISO", "donde": "el ELF resuelve por nombre contra la TOC", "grado": "confirmado", "evidencia": "tarea 6.1"}
+      ],
+      "hueco": "donde se COLOCA cada submalla; colision o render; texturas del nivel. Largo plazo: no entra en la fase 8."
+    },
+    "R7": {
+      "que": "remaster visual (texturas HD, DLSS5, resolucion)",
+      "estructuras": [
+        {"nombre": "pipeline externo sobre PCSX2", "donde": "ReShade/DLSS5 sobre D3D12, pack HD por hash", "grado": "confirmado", "evidencia": "lineas R y T de ESTADO_ACTUAL"}
+      ],
+      "hueco": "ninguno estructural del juego: es trabajo del lado del emulador. T4 (costo en FPS) y R2 abiertas."
+    }
+  },
+  "globdata": {
+    "_como_se_midio": "2026-09-26, leido por LBA del ISO original (solo lectura), LBA 1900728, 1261896 B. Header u32[1..6] = offsets de seccion (relocables, FUN_00105D48).",
+    "secciones": [
+      {"offset": "0x000080", "tam": 1020544, "pct": 80.9, "primeros": "00003c5481eddebc...", "que_es": null, "consumidor": null, "nota": "el 81 % del archivo. Empieza con lo que parece un id64 (mitad alta 0x5481EDDE...). Hipotesis: directorio de recursos como el de .DB"},
+      {"offset": "0x0F9300", "tam": 227712, "pct": 18.0, "u8_0": 21, "que_es": null, "consumidor": null},
+      {"offset": "0x130C80", "tam": 8960, "pct": 0.7, "u8_0": 2, "que_es": "tabla de armas (17 x 0x1E0 desde 0x130E20)", "consumidor": "confirmado por efecto 2026-08-17"},
+      {"offset": "0x132F80", "tam": 2176, "pct": 0.2, "u8_0": 12, "que_es": null, "consumidor": null, "nota": "{u32 12, u32 0x80}: 12 registros"},
+      {"offset": "0x133800", "tam": 1920, "pct": 0.2, "u8_0": 33, "que_es": null, "consumidor": null, "nota": "HIPOTESIS DEBIL: 33 coincide con los 33 valores del indice de tipo de personaje (+0x88). El byte 0 no siempre es la cuenta (la de armas dice 2 y tiene 17)"},
+      {"offset": "0x133F80", "tam": 456, "pct": 0.0, "u8_0": 31, "que_es": null, "consumidor": null, "nota": "{u32 31, u32 0x80}"}
+    ]
+  }
+}
