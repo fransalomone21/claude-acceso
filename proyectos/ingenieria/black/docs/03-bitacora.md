@@ -16,6 +16,16 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (63) — MCR cerrada con los pesos delegados; la cartera es el coop
+**Máquina:** nube · **Modelo:** Opus, esfuerzo high, sin fan-out
+**Sirve a:** programa (MCR) y proyecto COOP (M2, M6); nodos que toca: ninguno por medición; plan para `camara`, `render`, `juego`, `entrada`, `codigo-nuevo`, `spawn`
+**Objetivo:** cerrar la Pre-Fase A: preguntas, pesos, trade study y KDP-A.
+**Resultado:** las 22 respuestas de Fran copiadas textuales (`docs/12` §7). NGOs N1–N7 validadas. Fran delegó los pesos y las decisiones («decide todo vos, primero el coop, despues vamos viendo»), y queda registrado como delegado. `trade` implementado: notas 0-1 derivadas de `kb/`, C1 por el método de rank-order centroid sobre el orden de NGOs, sensibilidad con 1000 corridas a ±50 % y N4/N5 intercambiadas, que no cambia el primero. KDP-A: la cartera es un proyecto, COOP; la meta pasa de M1 a **M2**, porque el juego es en primera persona; el segundo lugar queda vacío. Plan de desarrollo de tecnología con 7 sondas (`PDP.md` §4). Análisis en papel en `docs/13-coop.md`. `probar-programa.py` agrega el control positivo del trade (9/9).
+**No funcionó:** la primera versión de la función de puntaje deja subir conceptos fáciles de valor casi nulo (E2, P4), porque C4 y C6 salen los dos del vehículo y juntos pesan 30. Se anotó; no se retocó con el resultado a la vista. Al primer intento de escribir `kb/conceptos.json`, `json.dump` reformateó el archivo entero (1274 líneas de diff); se revirtió y se editó por línea.
+**Sigue:** en la notebook, la sonda 1 (`jugador+0x418 = 1` por PINE). En la nube, las sondas en frío 2, 4, 5, 6 y 7, si Fran sube el ELF y los volcados a un repo privado.
+
+---
+
 ## 2026-09-26 (62) — BLACK pasa a programa: el nivel 1 del juego, 48 conceptos, y la reforma del método (P11)
 **Máquina:** notebook · **Modelo:** Opus, esfuerzo máximo, sin fan-out
 **Sirve a:** Pre-Fase A del programa · **Nodos:** todos los de nivel 1 (`kb/subsistemas.json`)

@@ -38,7 +38,7 @@
     {"id": "C5", "que": "reutilizacion: cuantos otros conceptos habilita"},
     {"id": "C6", "que": "aislamiento: se apaga sin romper nada"}
   ],
-  "pesos": null,
+  "pesos": {"C1": 30, "C2": 10, "C3": 15, "C4": 25, "C5": 15, "C6": 5, "orden_ngos": ["N1", "N2", "N3", "N4", "N5", "N6", "N7"], "factor_c1": {"E1": 0.5, "E2": 0.5, "E3": 0.5}, "fuente": "DELEGADOS por Fran 2026-09-27: 'decide todo vos, primero el coop, despues vamos viendo'. La sesion eligio la opcion (b) 'avanzar de a poco' por su resp. 21 ('avanzar ocasionalmente'); orden de NGOs = su resp. 22; E1-E3 a la mitad por su resp. 15 ('inmersivo, bien realista'). docs/12 §7", "fecha": "2026-09-27"},
   "_pesos": "VACIO A PROPOSITO. Los pone Fran contestando las preguntas de docs/12-estudio-de-conceptos.md. Sin pesos del interesado, programa.py trade se niega a rankear.",
   "conceptos": [
     {"id": "M1", "cat": "multijugador", "nombre": "Coop local, pantalla compartida", "que": "segundo jugador en el mismo nivel y la misma pantalla", "ngos": ["N1"], "funciones": ["F1", "F2", "F5", "F7"], "habilitadores": ["juego", "entrada", "camara", "hud", "codigo-nuevo", "spawn"], "vehiculo": "pnach-codigo", "costo": "XL", "riesgo": "camara sin ubicar; el array de jugadores no tiene lugar (bitacora 61)"},

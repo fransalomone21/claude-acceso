@@ -4,10 +4,40 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «2026-09-26, NOCHE» DE ACÁ ABAJO.** BLACK pasó a ser
-> un **programa**; la fase abierta es la **Pre-Fase A** (estudio de
-> conceptos), y espera las respuestas de Fran. El bloque «2026-09-26» de la
-> tarde (fase 8, coop 8c) sigue valiendo como referencia.
+> **EMPEZÁ POR EL BLOQUE «2026-09-27» DE ACÁ ABAJO.** La Pre-Fase A cerró
+> con la MCR; la cartera es **un solo proyecto, COOP**, en su **Fase A**. Los
+> bloques del 2026-09-26 quedan como referencia.
+
+## 2026-09-27 — MCR CERRADA. COOP-A ABIERTA (sesión en la nube)
+
+**Qué pasó:** Fran contestó las 22 preguntas (`docs/12` §7, textuales) y
+después delegó: «decide todo vos, primero el coop, despues vamos viendo».
+NGOs N1–N7 validadas con sus frases. Pesos **delegados** en
+`kb/conceptos.json#pesos`: C1 30 · C2 10 · C3 15 · C4 25 · C5 15 · C6 5.
+`programa.py trade` implementado, con puntaje derivado de `kb/` y sensibilidad
+de 1000 corridas; sale 0. `probar-programa.py` pasa 9/9. KDP-A en `PDP.md` §6.
+
+**Qué leer para seguir:** `PDP.md` §4 «Proyecto COOP» (7 sondas, en orden) y
+`docs/13-coop.md` (el porqué, y qué sonda anda en la nube).
+
+**Lo primero en la NOTEBOOK:** la sonda 1, por PINE: escribir
+`jugador+0x418 = 1` y ver si el mando 2 maneja al jugador 1. Juntarla en lote
+con la 3 y la 5 si ya están en frío. Antes, `.\chequeo-completo.ps1
+-SoloSaboteadores` (lo pendiente del 26/09).
+
+**Lo primero en la NUBE:** las sondas 2, 4, 5, 6 y 7 son en frío y necesitan
+el ELF (`SLUS_213.76`, 3,4 MB) y uno o dos volcados de RAM de 32 MB. **No
+pueden ir a `claude-acceso`, que es público.** Camino propuesto a Fran: un
+repo **privado** aparte (`black-datos`) que la sesión de la nube agrega con
+`add_repo`. Ghidra y la extensión del EE se bajan de GitHub (medido: se
+llega) y `capstone` con pip.
+
+**Resultado del trade, y lo que NO dice:** el top 5 es M6, P5, E2, P4 y M7.
+Ni M6 ni P5 son proyectos por sí mismos: M6 depende de un coop local y P5 es
+desarrollo de tecnología del coop. E2 y P4 suben por fáciles, con valor casi
+nulo (C1 0,08 y 0,02). **La función no se retocó después de ver el
+resultado**; si Fran quiere, que el valor funcione como filtro es un cambio
+que se decide antes de volver a correr.
 
 ## 2026-09-26, NOCHE — PRE-FASE A DEL PROGRAMA, ESPERANDO A FRAN
 

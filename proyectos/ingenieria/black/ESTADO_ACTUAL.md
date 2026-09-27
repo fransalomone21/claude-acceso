@@ -37,27 +37,24 @@ decía.
 
 ---
 
-## EL PROGRAMA — Pre-Fase A abierta el 2026-09-26 (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-A abierta el 2026-09-27 (LEER ESTO PRIMERO)
 
-**BLACK pasó a ser un programa** (NASA §3): estudio de conceptos del programa,
-un ciclo A–F por cada mod, y el reversing como desarrollo de tecnología que un
-proyecto pide. Cómo se decide: `docs/11-programa.md`. Qué se puede hacer:
-`docs/12-estudio-de-conceptos.md`. Por qué: 61 entradas de bitácora de
-detalle, y el arranque que construye los **37 subsistemas** del juego
-(`FUN_001020c0`) leído recién en la 62 — con **6** tocados.
+**La Pre-Fase A cerró el 2026-09-27 con la MCR** (`PDP.md` §6). Fran contestó
+las 22 preguntas (`docs/12` §7) y **delegó** pesos y decisiones: «decide todo
+vos, primero el coop, despues vamos viendo». NGOs N1–N7 validadas con sus
+palabras. `programa.py trade` corre (0) con sensibilidad, y
+`probar-programa.py` da 9/9.
 
-**El mapa de nivel 1** (`kb/subsistemas.json`, 35 nodos: los 37 singletons
-agrupados, más disco y externos) se imprime al abrir sesión con
-`programa.py resumen`. Hoy: **K0 cámara y tiempo**; K1 seis nodos (entre ellos
-`0x0040F510`, la segunda interfaz más grande del juego, sin nombre); 13 en K2.
-**Catálogo:** 48 conceptos candidatos en 7 categorías (`kb/conceptos.json`,
-generado en `docs/12-catalogo.md`); **14 frenados por un habilitador en K0–K1,
-entre ellos los tres de coop, todos por la cámara.**
+**Cartera: un solo proyecto, COOP.** La meta es la **pantalla dividida (M2)**,
+con Parsec o Remote Play (M6) encima para jugar cada uno en su PC. La pantalla
+compartida (M1) quedó como paso del prototipo: el juego es en primera persona.
+Análisis: `docs/13-coop.md`. Plan de desarrollo de tecnología, con 7 sondas:
+`PDP.md` §4, «Proyecto COOP».
 
-**Qué la cierra:** la MCR con Fran (NGOs validadas, sus pesos C1–C6, trade
-study con sensibilidad, cartera de ≤ 2 proyectos). **Está esperando sus
-respuestas** a las 22 preguntas de `docs/12` §6. `programa.py trade` sale 2
-hasta que estén.
+**El mapa de nivel 1** (`kb/subsistemas.json`, 35 nodos) se imprime con
+`programa.py resumen`. **El cuello del coop es la cámara, en K0**, y detrás
+viene el `render` (K1): hace falta saber si el motor dibuja dos vistas.
+Catálogo: 48 candidatos (`docs/12-catalogo.md`).
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

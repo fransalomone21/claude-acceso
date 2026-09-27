@@ -5,6 +5,13 @@
     python herramientas/programa.py resumen     # el mapa, para abrir sesion
     python herramientas/programa.py trade       # sale 2 si faltan los pesos de Fran
 
+Como puntua 'trade' (propuesto y aceptado 2026-09-27, docs/12 §7): cada candidato
+recibe una nota 0-1 por criterio, todas derivadas de kb/. C1 = suma de los pesos
+de sus NGOs (rank-order centroid del orden que dio Fran, tope 1, con factor_c1
+opcional); C2 por costo; C3 = K minima / 7; C4 y C6 por vehiculo; C5 = cuantos
+candidatos comparten un habilitador en K0-K1 con el (normalizado). Sensibilidad:
+1000 corridas con cada peso +-50 % y el orden de N4/N5 intercambiado.
+
 Fuentes: kb/subsistemas.json (PBS de nivel 1 con madurez K0-K7) y
 kb/conceptos.json (NGOs, MOEs, funciones, criterios, conceptos).
 docs/12-catalogo.md es DERIVADO: verificar lo regenera en memoria y sale en
@@ -151,14 +158,88 @@ def resumen(raiz):
     return 0
 
 
-def trade(raiz):
+NOTA_COSTO = {"S": 1.0, "M": 0.67, "L": 0.33, "XL": 0.0}
+# C4 (tiempo a la primera partida) y C6 (se apaga sin romper nada) salen del vehiculo.
+NOTA_PARTIDA = {"externo": 1.0, "emulador": 1.0, "pine": 0.8, "datos-iso": 0.6,
+                "pnach-datos": 0.6, "pnach-codigo": 0.3}
+NOTA_AISLADO = {"externo": 1.0, "emulador": 1.0, "pine": 0.9, "datos-iso": 0.7,
+                "pnach-datos": 0.7, "pnach-codigo": 0.4}
+
+
+def pesos_roc(orden):
+    """Rank-order centroid: el orden de las NGOs pasado a pesos que suman 1."""
+    n = len(orden)
+    return {g: sum(1 / k for k in range(i + 1, n + 1)) / n for i, g in enumerate(orden)}
+
+
+def notas(c, subs, orden):
+    """Nota 0-1 de cada candidato en C1-C6. Todo sale de kb/, salvo el orden de NGOs."""
+    wn = pesos_roc(orden)
+    factor = c["pesos"].get("factor_c1", {})
+    vivos = [x for x in c["conceptos"] if x.get("estado", "candidato") == "candidato"]
+    flojos = {h for h, v in subs.items() if v["k"] <= 1}
+    out = {}
+    for x in vivos:
+        k, _ = k_minima(x, subs)
+        mios = set(x["habilitadores"]) & flojos
+        destraba = sum(1 for y in vivos if y is not x and mios & set(y["habilitadores"]))
+        out[x["id"]] = {
+            "C1": min(1.0, sum(wn.get(g, 0) for g in x["ngos"])) * factor.get(x["id"], 1.0),
+            "C2": NOTA_COSTO[x["costo"]],
+            "C3": 1.0 if k is None else k / 7,
+            "C4": NOTA_PARTIDA[x["vehiculo"]],
+            "C5": destraba,
+            "C6": NOTA_AISLADO[x["vehiculo"]],
+        }
+    mx = max(v["C5"] for v in out.values()) or 1
+    for v in out.values():
+        v["C5"] /= mx
+    return out
+
+
+def ranking(nt, w):
+    tot = sum(w.values())
+    return sorted(nt, key=lambda i: -sum(w[k] * nt[i][k] for k in w) / tot)
+
+
+def trade(raiz, top=15, corridas=1000):
     s, c = cargar(raiz)
     if c.get("pesos") is None:
         print("BLOQUEADO: no hay pesos del interesado en kb/conceptos.json.")
         print("Los criterios C1-C6 los pondera Fran (preguntas de docs/12-estudio-de-conceptos.md).")
         print("Un ranking con pesos inventados por la sesion es una opinion con formato de numero.")
         return 2
-    print("pesos presentes; el puntaje por criterio se define en la MCR (todavia no implementado)")
+    import random
+    subs = {x["id"]: x for x in s["subsistemas"]}
+    p = c["pesos"]
+    w = {k: v for k, v in p.items() if k.startswith("C") and len(k) == 2}
+    orden = p["orden_ngos"]
+    nt = notas(c, subs, orden)
+    base = ranking(nt, w)
+    nombres = {x["id"]: x["nombre"] for x in c["conceptos"]}
+    print(f"TRADE STUDY -- pesos {w} ({p['fuente']}, {p['fecha']})")
+    print(f"orden de NGOs para C1: {' > '.join(orden)}")
+    # sensibilidad: cada peso movido al azar hasta +-50 %, semilla fija (reproducible)
+    rnd = random.Random(20260927)
+    en_top5 = dict.fromkeys(nt, 0)
+    for _ in range(corridas):
+        wr = {k: v * rnd.uniform(0.5, 1.5) for k, v in w.items()}
+        for i in ranking(nt, wr)[:5]:
+            en_top5[i] += 1
+    print(f"\n{'#':>2} {'id':<4} {'puntaje':>7}  C1   C2   C3   C4   C5   C6  top5/{corridas}  nombre")
+    for n, i in enumerate(base[:top], 1):
+        v = nt[i]
+        pt = sum(w[k] * v[k] for k in w) / sum(w.values())
+        print(f"{n:>2} {i:<4} {pt:7.3f}  " + " ".join(f"{v[k]:.2f}" for k in sorted(w))
+              + f"  {en_top5[i]:>6}   {nombres[i]}")
+    # sensibilidad al orden: N4 y N5 intercambiadas (la resp. 1 y la 22 de Fran no coinciden)
+    if "N4" in orden and "N5" in orden:
+        o2 = list(orden)
+        a, b = o2.index("N4"), o2.index("N5")
+        o2[a], o2[b] = o2[b], o2[a]
+        alt = ranking(notas(c, subs, o2), w)
+        print(f"\ncon N4 y N5 intercambiadas: top5 {alt[:5]} (base {base[:5]}); "
+              f"primero {'IGUAL' if alt[0] == base[0] else 'CAMBIA'}")
     return 0
 
 

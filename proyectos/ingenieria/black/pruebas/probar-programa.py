@@ -6,7 +6,7 @@ Control positivo: sobre los archivos reales, verificar sale 0.
 Cinco sabotajes, cada uno sobre una COPIA en un directorio temporal:
 un NGO inexistente, un habilitador fuera del mapa, un K1 sin sonda, el
 catalogo editado a mano, y pesos sin fuente. Cada uno tiene que salir 1.
-Y 'trade' sin pesos tiene que salir 2.
+Y 'trade' sin pesos tiene que salir 2; con los pesos reales, 0 y reproducible.
 """
 import json
 import shutil
@@ -84,9 +84,17 @@ def main():
     rc = correr(d)
     print(f"sabotaje: {'catalogo editado a mano':<30}: sale {rc}  {'OK' if rc == 1 else 'FALLA'}")
     fallas += rc != 1
+    editar_json(d, "conceptos.json", lambda c: c.update(pesos=None))
     rc = correr(d, "trade")
     print(f"trade sin pesos del interesado          : sale {rc}  {'OK' if rc == 2 else 'FALLA'}")
     fallas += rc != 2
+    # control positivo del trade: con los pesos reales rankea, y es reproducible
+    # (semilla fija): dos corridas dan la misma salida
+    r1 = subprocess.run([sys.executable, str(PROG), "trade", "--raiz", str(RAIZ)], capture_output=True, text=True)
+    r2 = subprocess.run([sys.executable, str(PROG), "trade", "--raiz", str(RAIZ)], capture_output=True, text=True)
+    ok = r1.returncode == 0 and "TRADE STUDY" in r1.stdout and r1.stdout == r2.stdout
+    print(f"trade con pesos: sale 0 y reproducible  : {'OK' if ok else 'FALLA'}")
+    fallas += not ok
     # un habilitador en K0 tiene que contar como freno (el K0 es falsy en Python:
     # 'k or 9' lo tragaba y el coop, que depende de la camara en K0, no aparecia)
     r = subprocess.run([sys.executable, str(PROG), "resumen", "--raiz", str(RAIZ)],

@@ -97,40 +97,53 @@ puertas. N1 (capacidades A leer RAM, B leer código, D escribir) está
 | J1 · L1 · L2 | Jugabilidad, niveles en frío, geometría | ver `ESTADO_ACTUAL.md` | autotests con saboteador en rojo | cerradas 2026-09-05 |
 | R2 · T4 | Remaster: pipeline DLSS5, costo del pack HD | ver `ESTADO_ACTUAL.md` | — | abiertas, en pausa |
 | 8 | Censo estructural por requisito | cada R2–R7 con su estructura | `superficies.py` (nunca se escribió) | **absorbida** en la Pre-Fase A el 2026-09-26; la **8c** (coop) quedó respondida (`kb/superficies.json#R5`) |
-| **Pre-A** | **Estudio de conceptos del programa** | ver abajo | `programa.py verificar` + la MCR | **abierta** |
+| Pre-A | Estudio de conceptos del programa | la MCR (ver abajo) | `programa.py verificar` 0 rojos + `trade` 0 + `probar-programa.py` 9/9 | **cerrada 2026-09-27** (KDP-A en §6) |
+| **COOP-A** | **Proyecto coop, Fase A: concepto y desarrollo de tecnología** | ver «Proyecto COOP» abajo | los habilitadores en K5, cada uno por efecto | **abierta 2026-09-27** |
 
-**Fase en curso:** Pre-Fase A del programa — estudio de conceptos. Producir el
-espectro amplio de lo que se puede hacer con BLACK, con el mapa de nivel 1 del
-juego debajo, **antes** de elegir en qué bajar al detalle. Documento:
-[`docs/12-estudio-de-conceptos.md`](docs/12-estudio-de-conceptos.md).
+**Fase en curso: COOP-A** — el único proyecto activo del programa (KDP-A,
+2026-09-27). Análisis en papel: [`docs/13-coop.md`](docs/13-coop.md).
 
-**Qué la cierra, exactamente:** la **MCR** con sus criterios de éxito
-(`docs/11-programa.md` §6): NGOs validadas por Fran con sus palabras; los
-pesos C1–C6 puestos por él en `kb/conceptos.json#pesos` con fuente y fecha;
-el trade study corrido con sensibilidad; una cartera de **a lo sumo dos
-proyectos activos**, cada uno con su plan de desarrollo de tecnología; y la
-decisión del KDP-A escrita en §6.
+### Proyecto COOP
 
-**Cómo se certifica:** `python herramientas/programa.py verificar` sale 0
-(ninguna traza cortada: cada concepto a una NGO, a funciones y a subsistemas
-que existen en el mapa; cada K0–K1 con su sonda; cada función con dueño; el
-catálogo generado igual a `kb/`), **y** `programa.py trade` sale 0 — hoy sale
-**2** porque faltan los pesos de Fran, que es lo que tiene que pasar. **En
-rojo se ve así:** `pruebas/probar-programa.py` rompe cuatro trazas, edita el
-catálogo a mano, corre el trade sin pesos y comprueba que un habilitador en K0
-cuente como freno: siete casos, los siete en rojo donde tenían que estarlo
-(2026-09-26). El del K0 se vio además en rojo contra el error real que lo
-motivó (`k or 9` trataba al K0 como falso y escondía al coop).
+**Qué es.** Dos personas juegan la campaña de BLACK juntas (N1, MOE1). La meta
+es la **pantalla dividida (M2)**: el juego es en primera persona, así que en
+una pantalla compartida (M1) el segundo jugador no tendría una vista propia
+(razonamiento, grado `probable`; `docs/13-coop.md` §2). **«Cada uno en su
+computadora»** se resuelve **encima** de M2, con Parsec o Remote Play (M6):
+cero reversing, pero no existe sin un coop local debajo.
 
-**La fase también puede CANCELARSE:** si en la MCR Fran decide que el
-programa es **sólo coop**, el catálogo queda archivado como referencia y la
-cartera es un solo proyecto. Lo aprendido no se pierde: el mapa de nivel 1
-sirve igual.
+**Qué cierra la Fase A (criterio de salida, escrito antes de empezarla).**
+Cada habilitador crítico en **K5** —efecto visto en RAM, con control— y un
+**prototipo por PINE** en el que el segundo mando mueve a un segundo jugador
+que está en el nivel. **Cómo se certifica:** una entrada de bitácora por cada
+K5, con la predicción escrita antes y el efecto medido; `kb/subsistemas.json`
+actualizado; `programa.py verificar` 0.
 
-**Lo que viene después, sin detalle a propósito:** el análisis del coop
-(pedido por Fran para después de este estudio), las preguntas finas del coop,
-el consenso, y el proyecto coop entrando a su **Fase A** con la cámara (K0)
-como primer desarrollo de tecnología.
+**Plan de desarrollo de tecnología** (NASA p. 194: lo que exige pasar de A a
+B). Todo lo de la columna «sonda» necesita la notebook: ELF, volcados, Ghidra
+o PCSX2.
+
+| # | Subsistema | K hoy → objetivo | Sonda que lo sube | Dónde |
+|---|---|---|---|---|
+| 1 | `entrada` | K4 → K5 | por PINE: escribir `jugador+0x418 = 1` en RAM y ver que el **mando 2** maneja al jugador 1 (y que el 1 deja de hacerlo). Control: volver a 0 | notebook, emulador, 1 sesión |
+| 2 | `camara` | K0 → K3 | en frío: desde el yaw de mira `0x005A8DA0` hacia quién lo lee para armar la matriz de vista (candidatos: `vista-fp` y la clase `0x003DC2A8`, 2 instancias). **Es el cuello del coop** | notebook, Ghidra |
+| 3 | `camara` | K3 → K5 | por PINE: mover la cámara sin mover al jugador | notebook, emulador |
+| 4 | `render` | K1 → K3 | en frío: quién fija viewport/scissor del GS y la proyección; si el motor ya dibuja más de una vista por cuadro (espejos, mira telescópica `WPNSCOPE`) | notebook, Ghidra |
+| 5 | `juego` | K4 → K5 | en frío primero: **quién itera `jugadores[]` y con qué límite** (¿el 1 es una constante en cada lazo o un campo?). Después, por PINE: alojar un segundo bloque de 0x8C0 fuera del array | notebook |
+| 6 | `codigo-nuevo` | K2 → K5 | P2: memoria libre estable (fin de `.bss`) y un gancho con `jal`, probado con un contador que sube por cuadro | notebook |
+| 7 | `spawn` | K3 → K5 | P6: si existe una llamada de aparición fuera de la carga del stage | notebook |
+| — | `hud` | K2 | no entra en la Fase A: el jugador 2 puede jugar sin HUD propio en el prototipo | — |
+
+**Orden:** la **1** va primero, porque es la más barata (una escritura) y sola
+contesta si el motor admite que otro mando maneje a un jugador. La **2** es la
+que más destraba (en el trade study, P5 queda en el top 5 en 931 de 1000
+corridas). Las 1, 3 y 5 se juntan en **una sola sesión de emulador**, en lote
+(`docs/11-programa.md` §8).
+
+**Salida por abajo (también es resultado):** si la 4 muestra que el motor no
+puede dibujar dos vistas en el mismo cuadro sin reescribir el render, M2 pasa
+a L/XL con riesgo alto y se vuelve a Fran con dos caminos: la pantalla
+alternada, o el jugador 2 como compañero de escuadra (M3), que depende de la IA.
 
 ## 5. Riesgos
 
@@ -165,6 +178,9 @@ como primer desarrollo de tecnología.
 | 2026-09-26 | **La fase 8 se absorbe en la Pre-Fase A**; `superficies.py` no se escribe | escribirlo igual | su trabajo (estructura por requisito) lo hace ahora `programa.py` sobre el mapa y el catálogo, con traza a NGOs; dos verificadores del mismo dato divergen |
 | 2026-09-26 | **Ningún trade study sin los pesos de Fran**; la herramienta se niega | que la sesión proponga pesos «razonables» | Fran lo pidió («preguntas antes de trade-offs ambiguos»); NASA p. 46: las expectativas se elicitan, se validan y se comprometen con el interesado |
 | 2026-09-26 | La **ValueDB no es el catálogo de dificultad** | usarla como mapa de tunables | censada: 63 registros, 58 con nombre, todos de controles, colisión y audio. Ninguno de IA ni de daño |
+| 2026-09-27 | **MCR cerrada, con los pesos DELEGADOS**: Fran contestó las 22 preguntas (`docs/12` §7) y después dijo «decide todo vos, primero el coop, despues vamos viendo». La sesión fijó C1 30 · C2 10 · C3 15 · C4 25 · C5 15 · C6 5 (opción «avanzar de a poco», por su resp. 21), el orden de NGOs de su resp. 22, y E1–E3 a la mitad por su resp. 15 | esperar a que Fran reparta los 100 puntos | lo delegó explícitamente; queda registrado como delegado y no como suyo, en `kb/conceptos.json#pesos.fuente`. Se revisa si Fran lo pide |
+| 2026-09-27 | **KDP-A: la cartera es UN solo proyecto, COOP** (meta M2 pantalla dividida; M6 encima para jugar a distancia). El segundo lugar de la cartera queda **vacío** | llenar el segundo lugar con lo mejor rankeado del trade (M6, P5, E2, P4, M7) | Fran: «primero el coop, despues vamos viendo». Además, el top del trade **no es una cartera**: M6 depende de un coop local; P5 es desarrollo de tecnología del coop; E2 y P4 suben por ser fáciles con valor casi nulo (C1 0,08 y 0,02). Se anotó y **no** se retocó la función después de ver el resultado |
+| 2026-09-27 | **La meta del coop pasa de pantalla compartida (M1) a pantalla dividida (M2)**; revisa la decisión del 2026-09-26 | M1, como decía la fila del 26/09 | BLACK es en primera persona: con una sola cámara, el jugador 2 no tiene vista. Fran eligió «pantalla dividida o cada uno en una computadora» (resp. 5). M1 queda como paso intermedio del prototipo (dos jugadores en el mundo antes de dos vistas), no como entrega |
 
 ## 7. Verificación
 
