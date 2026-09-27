@@ -112,9 +112,27 @@ dice medido). Lo que cambió:
     ángulo) y vuelve a la primera persona. La animación 3 **depende del lugar**
     (`FUN_00120068` busca geometría en la dirección del impacto): en campo abierto
     se elige la 0 y no pasa nada. **Si entra al mod es decisión de Fran.**
-- **Siguiente:** los botones del mando falso y el **prototipo por PINE** (un segundo
-  bloque de jugador con el mando 2), que es el criterio de salida de la Fase A.
-  Detalle y comandos: `sesiones/HANDOFF.md`, bloque «2026-09-27, NOTEBOOK».
+- **Selector de depuración, 5a, código nuevo y el prototipo (2026-09-27, bitácora (78),
+  notebook).** Confirmado en RAM con control:
+  - **Hay un selector de niveles de depuración** y se abre sin manos: con `0x0040D986` = 0
+    el front-end abre el menú tipo 1 (`FUN_00205d40`); el mando falso lo maneja (4/5
+    columna, 7/6 ±, 8 acepta) y **carga cualquier nivel y unidad**
+    (`selector_depuracion.py`). City Streets carga; **Gun Street (96) y Danger Room (99)
+    cuelgan en la carga** (la tabla los nombra, el disco no los trae). El selector no
+    dibuja nada en pantalla.
+  - **5a cerrada:** nadie pide el modo de dos jugadores; el «entrar» del modo juego
+    (`FUN_00105318`) escribe la cuenta = 1 en cada llamada. `sesion` **K3 → K5**.
+  - **Código nuevo por PINE (sonda 6): `codigo-nuevo` K2 → K5.** Gancho por cuadro en
+    `0x00129574` → stub en `0x0046D700`, contador 59/s (el mundo corre a 60 Hz)
+    (`gancho.py`).
+  - **El prototipo, todavía no:** un clon del bloque enganchado a la lista del mundo se
+    actualiza pero **congela a J** (estado compartido); el constructor del juego
+    (`FUN_00139c68`, con índice −577 → `0x0046CDF0`) llamado en caliente **cuelga el
+    hilo** dos veces de dos. El cargador construye **un solo jugador por carga** aunque
+    la cuenta sea 2 (en frío).
+- **Siguiente:** construir al jugador 2 **durante una carga** (gancho en el
+  `jal 0x00129090` del cargador, carga disparada con el selector). Es el criterio de
+  salida de la Fase A. Detalle y comandos: `sesiones/HANDOFF.md`, bloque «(78)».
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

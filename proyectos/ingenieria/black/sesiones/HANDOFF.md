@@ -4,9 +4,34 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «2026-09-27, NOTEBOOK — BOTONES» DE ACÁ ABAJO.** La
-> cartera es **un solo proyecto, COOP**, en su **Fase A**. Lo que sigue es
-> **local**. El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+> **EMPEZÁ POR EL BLOQUE «(78)» DE ACÁ ABAJO.** La cartera es **un solo
+> proyecto, COOP**, en su **Fase A**. Lo que sigue es **local**. El mensaje
+> para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — SELECTOR DE DEPURACIÓN, CÓDIGO NUEVO Y EL PROTOTIPO (bitácora (78))
+
+**Confirmado con control:**
+- **Selector de niveles de depuración, sin manos:** `python herramientas/selector_depuracion.py pedir-frontend --bandera 0 --segundos 7`, después `elegir <nivel 0..11> <unidad 0..>` y `aceptar`. La bandera `0x0040D986` hay que reescribirla en los estados 6/7 del front-end (el estado 5 la repone en 1; el script ya lo hace). Tabla: 0 City Streets … 7 Gulag, 8 Character Viewer (97), 9 Object Viewer (98), 10 Danger Room (99), 11 Gun Street (96). **96 y 99 cuelgan en la carga** (estado 3 del modo juego); City Streets carga en ~15 s. El selector no dibuja nada: se maneja por RAM (`estado`).
+- **Cambiar de modo por PINE:** escribir `sesion+0x21074` = modo, `+0x210CB` = 1, `+0x210C8` = 0, `+0x21084` = 2 (y el fundido `*(0x0040F544)+0x394C` = 1, `+0x3948` = 1.0). Modos: `+0x20220` front-end, `+0x20F78` juego.
+- **5a:** la cuenta la escribe `FUN_00105318` (el «entrar» del modo juego) con 1 en cada llamada (`0x0010534C`); nadie pide el modo `+0x20F90`.
+- **Código nuevo (sonda 6):** `python herramientas/gancho.py poner | contar 2 | quitar`. `jal FUN_0013bac8` de `0x00129574` → stub en `0x0046D700`; contador en `0x0046D780` sube 59/s. `FUN_00129360` corre a **60 Hz**.
+- **Tramo `0x0046CDF0…0x0046DC00`:** nadie lo escribe en juego normal (vigilante `break`, 0 en 12 s en tres direcciones).
+
+**Lo que no anduvo (el prototipo):**
+- **Clon sin constructor** (`clon_jugador.py`): enganchado a la lista del mundo (`juego+0x5CA4`) se actualiza pero **congela a J**; desenganchado, J camina. Estado externo compartido.
+- **Constructor del juego en caliente** (`jugador2.py`: molde = copia de J en `0x0046CDF0`, stub en `0x0046D800`, estado en `0x0046D784`): `FUN_00129090(juego, −577)` **cuelga el hilo** (SleepThread) con el molde en `+0x8A4` = 0x37 y también en 2. Una tercera corrida con migas **tiró el emulador** (se relanzó con `lanzadores/ABRIR-BLACK-ORIGINAL.bat`).
+
+**Trampas nuevas:**
+- El vigilante de escritura parece disparar **sólo si el valor cambia** (hipótesis: el `sw zero` del prólogo del constructor sobre un 0 no se vio). Confirmarlo con `--tipo onchange` vs `write` antes de leer un cero como «no pasó».
+- `json.dump` reformatea `kb/subsistemas.json` entero (pasó otra vez); escribirlo con `herramientas/kb_formato.py` (`from kb_formato import volcar`; `kb_formato.py verificar` comprueba que reproduce HEAD byte a byte).
+- `programa.py verificar` encadenado con el commit no frena el commit: después de subir una K, correr `programa.py catalogo`.
+
+**Siguiente, en este orden:**
+1. **Prototipo durante la carga:** gancho en `0x00128EA4` (`jal 0x00129090` del cargador, `a1` = índice, `a0` = `juego` en el hueco) hacia un envoltorio: llama la original; cuando devuelve 1 (jugador 0 hecho), pasa a llamar `FUN_00129090(juego, −577)` hasta que devuelva 1 y recién ahí devuelve 1 al cargador. Molde en `0x0046CDF0` copiado de J **antes** de disparar la carga con el selector. Después, el gancho por cuadro de `0x00129574` para `FUN_0012a158(juego, J2)` una vez y `FUN_0013bac8(J2)` + update por cuadro, y las copias de control de J2 → `0x00585A0C` → falso 2 (`0x00472100`).
+2. Si cuelga también: vigilantes `onchange` y migas dentro de `FUN_00139c68`.
+3. **Decisión de Fran:** si la cámara de cine entra al mod (sigue sin contestar; no bloquea).
+
+**Estado de la máquina al cerrar:** PCSX2-MCP relanzado (`ABRIR-BLACK-ORIGINAL.bat`) con el **slot 3** cargado, vivo, **sin ganchos ni parches** (`0x00129574` = `0x0C04EEB2`), `ctrl1+0xC` = `0x00472000` (el mando falso 1 quedó puesto: `sondas_coop.py falso-quitar` lo devuelve).
 
 ## 2026-09-27, NOTEBOOK — BOTONES Y LA CÁMARA DESACTIVADA (bitácora (77))
 
