@@ -16,6 +16,35 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (84) — COOP-B abierta, y B1: el juego dibuja DOS VISTAS en el mismo cuadro
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2, la meta) · **Nodos:** `render` **K4 → K5**
+**Objetivo:** escribir el criterio de salida de COOP-B en el PDP **antes** de abrirla, y atacar primero el riesgo que cambia la forma del mod: dos vistas por cuadro (B1).
+
+### (84) El criterio de COOP-B
+Escrito en `PDP.md` §4 («Proyecto COOP — Fase B») y commiteado antes de tocar RAM (`7d8955f`): tres riesgos altos retirados por efecto (B1 dos vistas, B2 J2 con cuerpo —el modelo lo elige Fran—, B3 el mod sin PINE), tres medios a K4 (IA, muerte de J2, disparadores), y `docs/14-coop-diseno.md` medido por `coop_diseno.py verificar` con su saboteador. Controles de apertura: 0 rojos, 183 comprobaciones.
+
+### (84) B1a — En frío: la «segunda pasada» 160 × 112 NO es una vista: es la de sombras
+`FUN_001C9110` (desde `FUN_001297E0` → `FUN_001C9088`) arma una cámara **orientada por una dirección de luz** (`0x004432C0`) centrada en la caja de los objetos, la pone en la cámara 1 del gestor de render, achica el raster a la vista de `+0xD170` (160 × 112), dibuja las listas 3 y 4 y **restaura**. Grado: probable. La hipótesis de (69) —«el motor ya dibuja una segunda vista»— queda corregida: dibuja **una segunda pasada**, pero de sombras. Lo que sí prueba es el **mecanismo**: cambiar la cámara y el rectángulo a mitad del cuadro, dibujar y volver.
+- El gestor de render (`R = *(0x0040F4C0)`) tiene tres cámaras: `R+0xD360` (0, el HUD), `R+0xD400` (1, la escena), `R+0xD4A0` (2). Cada una tiene su `RwCamera` en `+0x58` (`+0x60` raster, `+0x68` ventana de vista, `+0x80` near/far).
+- La cámara 1 **lee su vista** de `R+0xD400+0x68` = gestor de cámara `+0x700`: `+0x00` FOV (70°), `+0x10` **cuaternión**, `+0x20` **ojo**, `+0x30` la cámara. `FUN_001AE998(R,1)` → `FUN_0027ACD0` la convierte, y `FUN_0027B2F0` hace `vw.x = tan(FOV/2)·(R+0xD400+0x70)`, `vw.y = vw.x/(+0x74)` (1,333 y 1,778: **16:9**).
+- La escena entera es `FUN_001297E0(juego)`, llamada por los tres modos (`jal` en `0x001056DC`, `0x0010656C`, `0x00106D8C`) **antes del HUD** (cámara 0) y del volteo.
+
+### (84) P18 — el rectángulo de la cámara de escena mueve la escena (confirmado, con control)
+**Predicción (escrita antes, en el guion):** con el ancho del sub-raster (`RwCamera+0x60` → `+0xC`) en 320 la escena se dibuja sólo en la mitad izquierda; con `nOffsetX` (`+0x1C`) = 320, en la derecha.
+**Medido:** con 320 la escena entera sale **comprimida** en la mitad (el arma pasa de x≈1130 a ≈565 en la captura); con offset, en la derecha. Girar la vista cambia **sólo** la mitad dibujada: diferencia media izquierda/derecha **0,0 / 19,4** (offset 320) y **32,8 / 6,7** (offset 0); control a pantalla entera **43,9 / 56,2** (`volcados/capturas-84/p18*`).
+
+### (84) P19 — dos pasadas de escena en el mismo cuadro (confirmado, con control)
+**Predicción:** un gancho en los tres `jal FUN_001297E0` que llama dos veces —la 2.ª con el **contenido** de gestor `+0x710`/`+0x720` cambiado (el puntero no sirve: la pasada de sombras lo vuelve a poner a mitad del cuadro) y re-sincronizado con `FUN_001AE998(R,1)` + `FUN_001B0948(R+0xD400)`— dibuja la vista pedida en la mitad derecha, sin colgar el juego.
+**Medido** (`pantalla_dividida.py`, stub `0x0046FA00`, datos `0x0046FC00`, puesto en pausa): el juego sigue vivo, y la mitad derecha muestra **la vista que se le da**: con la **misma** vista que J la diferencia entre las zonas visibles de las dos pasadas es **11,5** (dos veces), con la vista de J2 **25,3**, y sin división **50,1**. Con `+0x70`/`+0x74` a la escala de la mitad la imagen **no se deforma**, y con mitades de 256 las dos vistas entran enteras: `p20-dividida-256.png` (izquierda J con su arma; derecha la cámara de J2, frente a una pared, con su arma). `render` **K4 → K5**.
+- **El cuaternión:** calculado desde la matriz `+0xD0` del jugador da **exacto** el del juego para J (control `cuat`). Para J2 esa matriz trae un cabeceo que no corresponde (vista hacia el piso): la vista de J2 se arma con el **yaw de su mira** (`*(J2+0x32C)+8`) y el ojo `J2+0x100`. Hoy lo escribe Python; en la C lo tiene que hacer el stub.
+- **Costo** (dibujos de escena por segundo, contador del stub): en una vista liviana **73 con y 73 sin**; en una pesada **24 contra 51**. Grado del «cuánto cuesta»: probable, depende de la escena.
+
+**No funcionó / sorpresas:** (1) la primera medición del control comparó mitades de pantalla y dio «distintas» con la misma vista: **PCSX2 muestra 512 de los 640 px de ancho** del cuadro, así que la pasada 2 (320–639) se veía cortada. Medido en las capturas (las dos mitades se cortan en x = 960 de 1536 = 320 de 512). Hipótesis a revisar con Fran: el contador de munición del HUD cae fuera de lo visible también en el juego normal. (2) La ventana de vista escrita a mano se recalcula en cada cuadro: el parámetro que manda es `R+0xD400+0x70/+0x74`. (3) Un efecto de pantalla completa deja un **fantasma del HUD espejado** en la mitad 2 (pendiente de diseño).
+
+**Sigue:** B3 (el mod sin PINE: el cuaternión de J2 y las mitades dentro del stub, y todo como pnach) o B2 (el cuerpo de J2, que pide a Fran elegir el modelo).
+
+---
+
 ## 2026-09-27 (83) — `spawn`: la aparición fuera de la carga es un temporizador por cuadro, y se dispara con un byte
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `spawn`, `actores`, `disparadores`
 **Objetivo:** la sonda P6 de `spawn` (fila 7 del PDP §4, lo último de COOP-A): ¿hay una aparición fuera de la carga que podamos disparar? En frío primero.
