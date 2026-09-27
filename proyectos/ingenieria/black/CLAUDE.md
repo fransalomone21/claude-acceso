@@ -80,6 +80,8 @@ Todas tienen `--help` y se corren desde `black/`.
 | `censo_subsistemas.py` · `nombrar_subsistemas.py` | **el nivel 1**: los 37 singletons que construye `FUN_001020c0`, dónde viven, cuánto código los usa (cota inferior) y qué cadenas usa su código |
 | `censo_jugadores.py` | **sonda 5 del coop**: la cuenta de jugadores (`*(0x0040F0E0)+0x20208`), quién la escribe y qué lazos sobre `jugadores[]` la obedecen. Usa capstone; corre en la nube |
 | `perfil_singleton.py` | **qué hace el código con un singleton** cuando las cadenas no dicen nada: alojamiento, métodos, campos y desde qué lazo cuelga cada método (carga, cuadro del juego, render). Lee el decompilado de `black-datos`, sin Ghidra |
+| `sondas_coop.py` | **el lote del COOP por PINE**: `base` (los observables: mando, mira, matriz, cámara, cuenta), y el **mando falso** (`falso-poner`, `eje <nombre> <valor> <s>`, `falso-quitar`): el jugador camina y mira sin manos. Botones: todavía no |
+| `ritmo_vigilante.py` | **cuántas veces por cuadro** se toca una dirección y desde qué PC, con vigilante `break` puesto EN PAUSA (`log` no cuenta, y ponerlo en caliente tiró el emulador) |
 | `valuedb_aku.py` | **los VALORES de la ValueDB**: decodifica `ANDY.AKU` desde un volcado y le pone nombre a cada valor con el CRC de `nombre + grupo + "/" + ruta.cfg`. Trae su control positivo |
 | `windows/subir-datos-nube.ps1` | sube el ELF, los volcados y archivos del ISO al repo **privado** `black-datos`, para las sesiones en la nube (`BLACK_DATOS`, ver `sesiones/HANDOFF.md`) |
 | `desensamblar.py` · `punteros_a.py` · `instancias_vtable.py` | contrastar Ghidra contra las instrucciones; quién guarda un puntero a una dirección; qué objetos vivos tiene una clase (vtables GCC 2.9x de 8 B por entrada) |

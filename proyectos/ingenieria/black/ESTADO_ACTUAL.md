@@ -82,9 +82,25 @@ dice medido). Lo que cambió:
   volcados). La salida por abajo del PDP (no poder dibujar dos vistas) no se da.
 - **Sesión:** cuatro modos; el que pone la cuenta en 2 está **vacío** y nadie
   lo activa. No hay un 2 jugadores escondido: **el coop se construye.**
-- **Siguiente: en la NOTEBOOK** (`sesiones/RETOME-LOCAL.md`): registrar las
-  lecciones de la nube y correr, en una sola sesión de emulador, el lote de
-  sondas con sus predicciones (`sesiones/HANDOFF.md`, bloque del 27/09 CIERRE).
+- **Lote de sondas en la NOTEBOOK (2026-09-27, bitácora (76)), sin Fran frente a la
+  máquina.** Confirmado en RAM con control:
+  - **El mando 2 maneja al jugador 1** cambiando tres punteros (`J+0x588`,
+    `J+0x6D0`, `J+0x7C8` → `0x00585A0C`). `entrada` **K4 → K5**. `+0x418` en
+    caliente no hace nada. La tabla de mandos de la sesión (`+0x21060`) está
+    compilada para **1**, como `jugadores[]`.
+  - **La vista se gobierna con un float**: `mira+8` = `0x005A8FA8` (el integrador
+    `FUN_001404a8`; `+0` es copia). También en pantalla. `camara` **K3 → K5**.
+  - Medido en vivo: la cámara se sube **4 veces por cuadro** desde `FUN_00269ea0`,
+    y la vista 160 × 112 se lee por cuadro. `render` **K3 → K4**.
+  - **Entrada sin manos:** un mando falso detrás de `ctrl1+0xC` mueve y hace mirar
+    al jugador (`sondas_coop.py`). Los botones todavía no.
+  - Negativas: `cam+0x7E1`; mover una zona disparadora al jugador no la dispara.
+  - Sin hacer (piden mando o botones): 5a, la cámara desactivada `0x0040D9A3`,
+    ValueDB con efecto (sus valores con nombre son de sonido) y niveles 96–99.
+  - Volcado nuevo `ee-11.bin` (nivel 2) subido a `black-datos`.
+- **Siguiente:** los botones del mando falso y el **prototipo por PINE** (un segundo
+  bloque de jugador con el mando 2), que es el criterio de salida de la Fase A.
+  Detalle y comandos: `sesiones/HANDOFF.md`, bloque «2026-09-27, NOTEBOOK».
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

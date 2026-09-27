@@ -46,7 +46,8 @@ $archivos = @(
     'C:\Users\frans\herramientas\SLUS_213.76',
     (Join-Path $Black 'volcados\ee-e4.bin'),
     (Join-Path $Black 'volcados\ee-nivel-mod0.bin'),
-    (Join-Path $Black 'volcados\ee-03.bin')
+    (Join-Path $Black 'volcados\ee-03.bin'),
+    (Join-Path $Black 'volcados\ee-11.bin')   # slot 11, nivel 2 (2026-09-27, bitacora (76))
 )
 
 # los del ISO: si no esta montado, se monta (solo lectura) y se desmonta al final

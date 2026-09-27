@@ -4,11 +4,36 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «2026-09-27, CIERRE» DE ACÁ ABAJO.** La cartera es
-> **un solo proyecto, COOP**, en su **Fase A**. El plan del ELF en la nube está
-> **completo**; lo que sigue es **local**, en la notebook. El mensaje para
-> pegar está en `sesiones/RETOME-LOCAL.md`. Los bloques «NOCHE» y «TARDE»
-> siguen valiendo; el de CIERRE los junta y los completa.
+> **EMPEZÁ POR EL BLOQUE «2026-09-27, NOTEBOOK» DE ACÁ ABAJO.** La cartera es
+> **un solo proyecto, COOP**, en su **Fase A**. El lote de sondas de la notebook
+> se corrió (bitácora (76)); lo que sigue es **local**. El mensaje para pegar
+> está en `sesiones/RETOME-LOCAL.md`. El bloque «CIERRE» queda como historia
+> del lote: lo que no se hizo de ahí está listado abajo.
+
+## 2026-09-27, NOTEBOOK — LOTE DE SONDAS CORRIDO SIN FRAN (bitácora (76))
+
+**Confirmado en RAM con control** (todo en el slot 3, `LEVEL_00`, ISO original):
+- **Sonda 1, `entrada` K5:** el jugador `0x005A8AB0` guarda su control en **tres copias** (`J+0x588`, `J+0x6D0`, `J+0x7C8`), que copia la init `FUN_0013ba40` desde `sesión+0x21060`. Con las tres en `0x00585A0C` (control 2 = gestor `0x00585400` + `0x4A0` + `0x16C`) el mando 2 lo maneja; con `0x005858A0` vuelve el 1. `+0x418` en caliente no hace nada. **La tabla `sesión+0x21060` está compilada para 1**: su «entrada 1» es `sesión+0x21070` (el modo actual).
+- **Sonda 3a, `camara` K5:** la fuente del yaw es **`mira+8` = `0x005A8FA8`** (`FUN_001404a8` integra el stick con `dt` y copia `+8` en `+0`; pitch en `+0xC`, tope ±70°). `0x005A8FA0`, `J+0x2F0` y `0x006B81C0` son copias: escribirlas no hace nada.
+- **3b/4 (medido en vivo):** `0x0043F790` se escribe 4 veces por cuadro desde `0x00269F78`; la vista 160 × 112 se lee 10 veces por cuadro. `render` K4.
+- **Entrada sin manos:** `python herramientas/sondas_coop.py falso-poner`, después `eje adelante 0.8 0.5` (ejes: `adelante atras lateral_a lateral_b pitch_arriba yaw_izq yaw_der`), y `falso-quitar`. El mando falso vive en `0x00472000` (`.bss` en cero en 3 volcados y en vivo: libre **probable**).
+
+**Negativas:** `cam+0x7E1` = 1 no cambia la vista; mover una zona disparadora (armada en estado 3) sobre el jugador no la dispara, aunque su prueba corre por cuadro; los botones no son bytes en `+0x10…+0x8B` del mando procesado.
+
+**Sin hacer, y por qué:** 5a, `0x0040D9A3` (la cámara desactivada: hay que matar a un enemigo con el rifle a más de 6 m) y los niveles 96–99 necesitan **botones**; la ValueDB con efecto necesita oír (sus 49 valores con nombre son de sonido) o recargar el nivel.
+
+**Trampas medidas hoy:**
+- `depurador.py --accion log` **no cuenta**: usar `ritmo_vigilante.py` (break, puesto en pausa). Poner un `break` con el juego corriendo cerró PCSX2.
+- El emulador puede quedar **pausado por el depurador** sin pedirlo (se vio en `0x00336668`): antes de medir, `depurador.py estado`. Reanudar desde ahí lo cerró; se relanzó y se recargó el slot.
+- Los dos mandos físicos **derivan** (stick derecho del 1: +27°/s de yaw, pitch al tope −70°): cualquier medición de la vista tiene que contar con eso, o usar el mando falso quieto.
+- El savestate del slot 3 trae **vida 990.590** y hay enemigos disparando cerca.
+
+**Siguiente, en este orden:**
+1. **Botones del mando falso.** Hipótesis: el control virtual lee los bits crudos (activos en bajo) del búfer del puerto que dice `mando+0xEC`. En frío: leer `FUN_00124708` (update del control virtual) y ver de dónde saca los botones.
+2. **Prototipo por PINE** (el criterio de salida de la Fase A): alojar un segundo bloque de 0x8C0 fuera del array (¿en el tramo libre de `.bss`?), con sus tres copias de control en `0x00585A0C` y su objeto de mira propio.
+3. Con botones: 5a, `0x0040D9A3` (si funciona, **es decisión de Fran** si entra al mod) y los niveles 96–99.
+
+**Estado de la máquina al cerrar:** PCSX2-MCP abierto con el **slot 11** cargado (nivel 2), sin parches vivos, sin vigilantes, `ctrl1+0xC` en su valor real (`0x005856C0`). Todo lo escrito en RAM se pierde al recargar un slot.
 
 ## 2026-09-27, CIERRE — PLAN DEL ELF COMPLETO (E1–E7 + GLOBDATA). SIGUE LOCAL
 

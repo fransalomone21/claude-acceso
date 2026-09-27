@@ -1,24 +1,25 @@
-# Mensaje de retome para una sesión LOCAL (notebook) después de una tanda en la nube
+# Mensaje de retome para una sesión LOCAL (notebook)
 
 Copiar y pegar tal cual al abrir Claude Code en la notebook, en `claude-acceso`:
 
 ```
-Retomo BLACK en LOCAL (notebook), después de la tanda en la NUBE del 2026-09-27 (plan del ELF completo, bitácoras (66)–(75)). Proyecto: proyectos/ingenieria/black.
-0. RECOLECTAR LO DE LA NUBE: git pull en claude-acceso y en black-datos (el clon local del repo privado). Verificá que main tenga el commit de BLACK que tocó por última vez sesiones/HANDOFF.md (git log -1 -- proyectos/ingenieria/black/sesiones/HANDOFF.md). Si no está, pará.
-1. Leé SOLO: el bloque «2026-09-27, CIERRE» de sesiones/HANDOFF.md, ESTADO_ACTUAL.md (sección EL PROGRAMA), PDP.md §4 «Proyecto COOP» y las 5 primeras entradas de docs/03-bitacora.md.
-2. REGISTRAR, antes de tocar el emulador:
-   a. Las SEIS lecciones del bloque CIERRE, con perfil-global/herramientas/aprender.py agregar (los comandos están escritos tal cual). Después: aprender.py sin-triage tiene que quedar limpio.
-   b. .\chequeo-completo.ps1 -SoloSaboteadores (pendiente desde el 26/09) y .\verificar-estructura.ps1.
-   c. python herramientas/programa.py verificar (0 rojos) y python pruebas/prueba_herramientas.py.
-   d. Las herramientas nuevas de la nube (perfil_singleton.py, valuedb_aku.py) necesitan BLACK_DATOS apuntando al clon local de black-datos: corré su control positivo (python herramientas/valuedb_aku.py sale 0) y, si alguna ruta no resuelve, arreglala en kb/ubicaciones.json, no a mano.
-3. Fase: COOP-A. Siguiente: UNA sesión de PCSX2 con el LOTE de sondas del bloque CIERRE (1, 3a–c, 4, 5a y las cuatro NUEVAS: disparadores, 0x0040D9A3, ValueDB y niveles de prueba). Cada PREDICCIÓN se escribe en la bitácora ANTES de correrla; cada resultado lleva su control. Tomá un volcado nuevo en juego y subilo con windows/subir-datos-nube.ps1.
+Retomo BLACK en LOCAL (notebook), después del lote de sondas del 2026-09-27 (bitácora (76)). Proyecto: proyectos/ingenieria/black.
+0. git pull en claude-acceso y en C:\Users\frans\black-datos. Verificá que main tenga el último commit de BLACK que tocó sesiones/HANDOFF.md (git log -1 -- proyectos/ingenieria/black/sesiones/HANDOFF.md). Si no está, pará.
+1. Leé SOLO: el bloque «2026-09-27, NOTEBOOK» de sesiones/HANDOFF.md, ESTADO_ACTUAL.md (sección EL PROGRAMA), PDP.md §4 «Proyecto COOP» y la entrada (76) de docs/03-bitacora.md.
+2. Controles de apertura: .\proyectos\ingenieria\black\abrir-sesion.ps1 -Rapido, python herramientas/programa.py verificar (0 rojos) y python pruebas/prueba_herramientas.py. BLACK_DATOS ya no hace falta en la notebook: las herramientas de la nube resuelven black-datos por kb/ubicaciones.json (clave black_datos).
+3. Fase: COOP-A. La cierra: cada habilitador crítico en K5 y un PROTOTIPO POR PINE donde el mando 2 mueve a un SEGUNDO jugador que está en el nivel. Ya en K5: entrada y camara. En orden:
+   a. BOTONES del mando falso (sondas_coop.py ya mueve y hace mirar sin manos, pero no aprieta). En frío primero: FUN_00124708 (update del control virtual) y de dónde saca los bits (hipótesis: el búfer crudo del puerto que dice mando+0xEC, activo en bajo).
+   b. PROTOTIPO: un segundo bloque de jugador de 0x8C0 fuera de jugadores[] (candidato de memoria: el tramo de .bss en cero 0x0046CB6D..0x00477724, libre PROBABLE), con sus tres copias de control (J+0x588, J+0x6D0, J+0x7C8) en 0x00585A0C y su propio objeto de mira. Primero en frío: qué más de la init FUN_0013ba40 y del update por cuadro hace falta para que un bloque se mueva.
+   c. Con botones: 5a (vigilante en 0x004BC208 recorriendo los menús), 0x0040D9A3 = 1 + matar con el rifle a más de 6 m, y los niveles 96–99 desde el menú.
+   Cada PREDICCIÓN va a la bitácora ANTES de correrla; cada resultado con su control.
 4. Opus, esfuerzo high, SIN subagentes ni fan-out. Nunca Fable.
-5. Cuadros PARA VOS y de fase al abrir cada respuesta. Grado de evidencia en todo (hipótesis/probable/confirmado). «Confirmado» es sólo efecto visto en pantalla/RAM con control.
-6. AUTONOMÍA: trabajá solo, sonda tras sonda, sin pedirme permiso para lo técnico. Pará sólo si (a) el contexto llega al 40 %, (b) necesitás una decisión de valor mía (por ejemplo, si la cámara desactivada de 0x0040D9A3 funciona y hay que decidir si entra al mod), o (c) algo necesita que yo esté frente a la máquina (mandos, mirar la pantalla).
-7. Checkpoint después de CADA sonda o grupo de sondas: bitácora + kb/ (K del nodo en kb/subsistemas.json) + commit + push a main. Al parar: ESTADO_ACTUAL + HANDOFF + actualizar este mensaje (y sesiones/RETOME-NUBE.md si lo que sigue vuelve a ser en frío).
+5. Cuadros PARA VOS y de fase al abrir cada respuesta. Grado de evidencia en todo. «Confirmado» es sólo efecto visto en pantalla/RAM con control.
+6. AUTONOMÍA: trabajá solo. Pará sólo si (a) el contexto llega al 50 %, (b) necesitás una decisión de valor mía (por ejemplo, si la cámara desactivada de 0x0040D9A3 funciona y hay que decidir si entra al mod), o (c) algo necesita que yo esté frente a la máquina.
+7. Trampas medidas: depurador.py --accion log NO cuenta (usar herramientas/ritmo_vigilante.py, que pone el break EN PAUSA; ponerlo en caliente cerró PCSX2). Antes de medir, depurador.py estado: el emulador puede quedar pausado sin pedirlo. Los dos mandos físicos DERIVAN (+27°/s de yaw): para medir la vista, usar el mando falso quieto. Slot 3 = LEVEL_00 (vida 990.590, enemigos disparando); slot 11 = nivel 2.
+8. Checkpoint después de CADA sonda: bitácora + kb/subsistemas.json + commit + push a main. Al parar: ESTADO_ACTUAL + HANDOFF + este mensaje.
 ```
 
-**Por qué este orden:** lo que la nube no puede hacer (registrar en el perfil
-global y correr los saboteadores en PowerShell) va antes que lo nuevo. Una
-lección que no se registra el día que costó se pierde, y un verificador que no
-se sabotea hace una semana no dice nada.
+**Por qué este orden:** los botones son lo único que falta para que el lote
+entero corra sin Fran frente a la máquina, y el prototipo es el criterio de
+salida de la Fase A. Lo demás (5a, la cámara desactivada, los niveles de
+prueba) cuelga de los botones.
