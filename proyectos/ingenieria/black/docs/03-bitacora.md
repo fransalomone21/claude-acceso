@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (69) — E4, el render: el motor ya dibuja una segunda pasada de escena por cuadro, con su propio viewport y framebuffer
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2), sonda 4 · **Nodos:** `render` **K1 → K3**; `s-0x0040F4C0` gana nombre probable (gestor de render; se formaliza en E5)
+**Objetivo:** E4 de `docs/14`: viewport/scissor del GS, y si el motor ya dibuja más de una vista por cuadro.
+**Resultado (en frío; grado: probable, salvo lo medido):**
+- El cuadro es `FUN_001297E0(juego)` → `FUN_001C9110`. Las pasadas principales ponen la cámara con `FUN_0026a6f0` (framebuffer entero). **Dos pasadas más** (`FUN_001c1a98` → lista 3, `FUN_001c28b0` → lista 4) arman `{cámara RW = *(0x0040F4C0)+0xD540, vista = *(0x0040F4C0)+0xD170}`, ponen la cámara **con ese rectángulo** (`FUN_001d3fc0`/`FUN_001cfa58` → `FUN_0026A460`), pisan el ancho/alto del framebuffer, dibujan y restauran.
+- **Medido en los 3 volcados:** la vista de `+0xD170` (`0x004CA2F0`) es **160 × 112** con registros GS propios: `SCISSOR` 0..159 × 0..111, `FRAME` `0x3016B`, `ZBUF` `0x1000177`. Iguales en los tres.
+- `cam+0x14 == 1 → perspectiva` coincide con `rwPERSPECTIVE = 1` de RenderWare: la cámara es un `RwCamera`, y el camino es el del driver PS2.
+- La mira del francotirador no muestra una segunda cámara: `sniper_SetMaxZoom` sólo aparece registrado en `FUN_0021a7e0` (capa de scripts o eventos, singleton `0x0040F544`). Hipótesis: el zoom es un cambio de FOV sobre la misma cámara.
+**Qué contesta para el coop:** la «salida por abajo» del PDP (que el motor no pudiera dibujar dos vistas en un cuadro sin reescribir el render) **no se da**: ya dibuja una segunda pasada de escena por cuadro, por la misma cámara, a otro framebuffer y con otro viewport. M2 sigue siendo L, no XL. Lo que falta es del lado del juego: `FUN_001297E0` pasa `jugadores[0]` fijo y la vista principal es una sola. (probable; el efecto se ve recién en la notebook)
+**Predicciones para la notebook:** (a) *watch* de escritura en `0x004CA2F0` → quién arma la vista 160 × 112 y cuándo; (b) volcar el framebuffer `0x16B` durante el juego → qué se dibuja ahí (hipótesis: brillo o reflejo a ¼); (c) su `SCISSOR` a 0..319 × 0..223 → la imagen se agranda.
+**No funcionó:** buscar un puntero al texto `sniper_SetMaxZoom` en el ELF (cero): el código lo arma con `lui`/`addiu`, y sólo el decompilado lo encuentra.
+**Sigue:** E5, los dos grandes sin nombre (`0x0040F510` y `0x0040F4C0`).
+
+---
+
 ## 2026-09-27 (68) — E3, la cámara: el negativo de (65) era un error de UNIDADES, y el render recibe viewport y cámara como parámetros
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2), sonda 2 · **Nodos:** `camara` **K0 → K3**; pista fuerte para `render` (sonda 4, E4)
 **Objetivo:** E3 de `docs/14`: quién consume el yaw, dónde está la cámara y una predicción comprobable en la notebook.
