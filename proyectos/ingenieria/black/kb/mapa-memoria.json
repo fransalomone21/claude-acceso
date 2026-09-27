@@ -476,7 +476,7 @@
   },
   {
    "id": "bandera_camara_proyectil",
-   "nombre": "Bandera que habilita la secuencia de camara de 0x0040F504 (proyectil del rifle de asalto, objetivo a >= 6 m)",
+   "nombre": "Bandera que habilita la secuencia de camara de 0x0040F504 (objeto BG1_ASR_SHL, objetivo a >= 6 m)",
    "direccion": "0x0040D9A3",
    "tipo": "u8",
    "version": "ntsc_u",

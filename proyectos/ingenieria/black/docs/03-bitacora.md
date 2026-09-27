@@ -16,6 +16,18 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (75) — GLOBDATA.BIN: las seis secciones tienen consumidor; hay cuatro niveles de prueba sin datos en el disco; corrección de «SHL»
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** el mapa (P5); a F de contenido (pickups, niveles) · **Nodos:** `iso-globdata` **K1 → K2**; `proyectiles` (corrección de texto, sin cambio de K)
+**Objetivo:** la sonda de `iso-globdata` («el consumidor de cada sección después del relocador `FUN_00105D48`»), que se puede hacer en frío porque `GLOBDATA.BIN` está en `black-datos`.
+**Resultado (en frío; lo de formato, medido sobre el archivo):**
+- s0 = **`TEXDIC`** (64 texturas globales) → `recursos` tipo 0. s1 = **`MYDICTIONARY`** (28 modelos globales por id64: `BG1_PST/SHG/ASR_SHL`, `BG1_HGR`, `BG1_RPG_SHL`, `BG1_GRL_SHL`, pickups `BP1_*_AMO`, `BP1_MED`, llaves `BP1_BLUE/BLACK/RED`, `BP1_PLANS`…) → `FUN_001af930` y `recursos` tipo 1. s3 = armas (ya confirmada). s4 → `pickups`. s5 → `juego+0x5AB8` (consumidor sin leer).
+- s2 = **la tabla de niveles**: 12 registros de 0x24 B (nombre ASCII, id en `+0x10`) que usa el menú. 8 de campaña (ids 0, 1, 5, 3, 4, 6, 7, 8: **no hay id 2**) y **cuatro de prueba con ids 96–99: `Character Viewer`, `Object Viewer`, `Danger Room`, `Gun Street`**. Medido contra `kb/lbas-iso.json`: el ISO sólo trae `LEVEL_00…08` sin el 02, así que **los de prueba no tienen datos en el disco**.
+- **Corrección de (73):** `BG1_ASR_SHL` convive con las `_SHL` de pistola y escopeta, así que SHL es probablemente la **vaina**. Lo de «las secuencias de `F504`/`F530` siguen un proyectil» no estaba sostenido y se sacó de `kb/`. Queda lo medido: un objeto de 0x120 B con ese modelo, la cámara en modo 0xB/3 y el jugador sin control. La bandera `0x0040D9A3` sigue sin escritor.
+**No funcionó:** tomar las claves de `TEXDIC` por id64: son índices 1…64, no nombres.
+**Sigue:** esta tanda en la nube se cierra acá. En el mapa, en K1 queda sólo `frontend-datos` (con `WPNSCOPE.BIN` en `black-datos` se puede empezar en frío). Todo lo demás pide la notebook.
+
+---
+
 ## 2026-09-27 (74) — El resto de E5: `0x0040F510` es el gestor de bancos de sonido (y se fusiona en `audio`)
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** el mapa (P5) y los conceptos de audio (A1, A2) · **Nodos:** `s-0x0040F510` (K1) **se fusiona en `audio`**, que pasa de **K2 → K3**; quedan 37 nodos
 **Objetivo:** lo que E5 dejó a medias, con `perfil_singleton.py` y la raíz del cuadro de (73).
