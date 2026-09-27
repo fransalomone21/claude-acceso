@@ -16,6 +16,37 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-26 (61) — 8c: el motor es de N jugadores compilado con N = 1, y ya lee el segundo mando
+**Máquina:** notebook · **Modelo:** Opus, esfuerzo medio, sin fan-out
+**Objetivo:** Fran pidió dos jugadores. Contestar en frío si el motor lo
+admite, antes que la 8a.
+**Resultado:** (1) El jugador se construye en `FUN_00382778` **dentro del
+idioma de GCC para arrays** (contador N−1 hasta −1), con N = 1, paso `0x8C0`,
+desde `juego+0x30`; el objeto juego cuelga de `0x0040F4D0`. Verificado contra
+las instrucciones, no sólo el descompilado. Control de la base, no buscado:
+`juego+0x4990 = 0x005AD410`, el doble buffer que 7e había medido. (2) **22
+funciones** usan el paso `0x8C0`: el update recorre los jugadores en bucle
+(`FUN_0012a0d8`) y el HUD elige jugador **por un índice propio**
+(`FUN_0016bee0`). (3) **`jugador+0x418` es su número de mando**: `lb` en el
+delay slot de `0x0013BA58`, pasado a la init de controles, que indexa
+`gestor+0x77C+idx`. Vale 0 en tres volcados con vidas distintas. (4) **El
+gestor de entrada construye dos mandos en un bucle de 2**, puertos 0 y 1 en
+`+0xEC`, estado 4 los dos en los tres volcados, tope `idx < 2` en
+`FUN_0026c9c0`. **El juego ya lee el segundo mando en cada frame.**
+(5) Después del jugador (`juego+0x8F0`) **está ocupado**: 144 de 560 palabras.
+Veredicto: coop es código acotado (alojar un jugador 2 aparte, `+0x418 = 1`,
+redirigir los recorridos), no reescribir el motor. Falta la cámara.
+**No funcionó:** un escáner propio de «global→campo» dio **cero también en su
+control** (el gestor y su tabla de puertos), por `$gp` y por `lui`: el
+instrumento estaba ciego y se borró sin commitear. Las referencias de Ghidra
+sí resuelven `$gp`. Y el primer intento de ubicar la vtable del mando falló
+porque GCC 2.9x usa entradas de 8 B `{delta, puntero}`: control positivo
+`vtable_jugador + 0x4C = 0x0013BB78`, la rutina de daño ya confirmada.
+**Sigue:** el efecto. Predicción escrita antes: con un segundo mando
+asignado en PCSX2, mover su stick cambia `pad1+0x88` (`0x005857B0+0x88`), y
+con el `pad1` quieto no cambia. Después, `jugador+0x418 = 1` antes de la init
+de controles tiene que pasar el control del jugador al puerto 2.
+
 ## 2026-09-26 (60) — Revisión del plan: faltan estructuras, no detalle. Fase 8 abierta
 **Máquina:** notebook · **Modelo:** Opus, esfuerzo medio, sin fan-out
 **Objetivo:** antes de retomar, revisar el plan contra los requisitos y contra

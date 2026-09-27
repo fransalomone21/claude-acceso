@@ -21,14 +21,24 @@ grado + evidencia (o `desconocida` + sonda corrida) y las seis secciones con
 consumidor. Lo mide `herramientas/superficies.py verificar` — **todavía no
 existe**; se escribe en la fase, con `pruebas/probar-superficies.py` en rojo.
 
-**Orden de trabajo, todo en frío (Ghidra + ELF + ISO por LBA):**
+**ACTUALIZADO el mismo día: la 8c (coop) se hizo PRIMERO, a pedido de Fran, y
+está respondida (`probable`).** El motor es de N jugadores compilado con N = 1;
+cada jugador guarda su número de mando en `jugador+0x418` (= 0); el gestor de
+entrada (`*(0x0040F0E8)` = `0x00585400`) ya lee **dos** mandos, puertos 0 y 1,
+en `gestor+0x2C0` y `+0x3B0`. Falta lugar (`juego+0x8F0` ocupado) y cámara.
+Todo en `kb/superficies.json#R5` y bitácora (61).
+**Próximo paso de coop, por efecto (necesita emulador y a Fran con un segundo
+mando):** mover el stick del mando 2 → tiene que cambiar `0x005857B0+0x88`;
+con el mando 2 quieto, no. Predicción escrita en la bitácora (61).
+
+**Orden de trabajo que queda, en frío (Ghidra + ELF + ISO por LBA):**
 1. **8a** ¿quién piensa por el enemigo? Update de la vtable `0x003DCA78` y su
    cierre de llamadas: ¿toca `Kaim::`? Decide dónde vive R3.
 2. **8b** consumidores de las secciones `0x80`, `0xF9300`, `0x132F80`,
    `0x133800`, `0x133F80`: quién lee `base+0x04..0x18` después del
    relocador `FUN_00105D48`. La `0x133800` y los 33 tipos de personaje es la
    primera hipótesis a matar.
-3. **8c** ¿el jugador se instancia desde array/contador? ¿se lee el pad 2?
+3. ~~8c~~ hecha (arriba).
 4. `superficies.py` + saboteador.
 
 **Estado de la máquina, medido hoy:** **ningún ISO montado** (ni `D:` ni

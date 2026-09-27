@@ -157,6 +157,8 @@ pedía.
 | 2026-08-28 | Este PDP **no duplica** el mapa de fases | copiarlo acá | un dato en dos lados diverge |
 | 2026-09-26 | **7e(b) se cancela**; su verificación por efecto pasa a la fase 9 (R4) | cerrarla antes de seguir | lo que 7e compraba —el índice legible— ya está, y en frío (`stunit.py`). Un tipo cualquiera verificado por efecto no mueve ningún requisito; el experimento de R4 lo produce de paso sobre un tipo que sí importa |
 | 2026-09-26 | **Fase 8: censo estructural antes de más detalle** | seguir con 7e(b), 5b o el remaster | medido ese día: R3, R5 y el catálogo de R2 no tienen estructura, y el 81 % de `GLOBDATA.BIN` no tiene nombre. Afinar lo conocido con eso abierto es un parámetro, no una estructura |
+| 2026-09-26 | **La 8c (coop) va primero**, antes que la 8a | el orden 8a → 8b → 8c | lo pidió Fran («me encantaría que haya dos jugadores»): la meta la pone él, y la 8c no depende de las otras dos |
+| 2026-09-26 | **Coop = pantalla compartida, jugador 2 alojado aparte, código por `.pnach`** (a probar) | ampliar el array en el lugar; pantalla dividida; pad 2 manejando a un compañero de IA | el array no tiene lugar (`juego+0x8F0` está ocupado); la pantalla dividida no tiene estructura conocida; el compañero depende de la 8a, que no está. Ver `kb/superficies.json#R5` |
 | 2026-09-26 | La **ValueDB no es el catálogo de dificultad** | usarla como mapa de tunables | censada: 63 registros, 58 con nombre, todos de controles, colisión y audio. Ninguno de IA ni de daño |
 
 ## 7. Verificación

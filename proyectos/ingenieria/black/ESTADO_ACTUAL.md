@@ -93,8 +93,20 @@ N2  FASES DEL JUEGO
         con su saboteador). Tres preguntas adentro:
           8a  ¿quién piensa por el enemigo? ¿Kynapse o código de Criterion?
           8b  las seis secciones de GLOBDATA.BIN: consumidor y qué-es
-          8c  ¿el motor admite dos jugadores? (array/contador, segundo pad)
-        Herramientas: `censo_globdata.py`, `censo_valuedb.py`.
+          8c  ¿el motor admite dos jugadores? ........ RESPONDIDA 2026-09-26, `probable`
+              Se hizo PRIMERO, a pedido de Fran. **El motor está escrito para
+              N jugadores y compilado con N = 1.** `jugadores[i] = juego + 0x30
+              + i*0x8C0` (juego = `*(0x0040F4D0)` = `0x005A8A80`), construido
+              con el idioma de array de GCC con N = 1; 22 funciones recorren o
+              eligen jugador por índice. **Cada jugador guarda su número de
+              mando en `+0x418`** (vale 0). **El segundo mando YA se lee en
+              cada frame:** el gestor de entrada (`*(0x0040F0E8)` =
+              `0x00585400`) construye dos objetos mando, puertos 0 y 1, estado
+              4 y 4 en tres volcados. **Lo que falta:** lugar (después del
+              jugador está ocupado) y cámara. Coop = código acotado por
+              `.pnach`, no reescribir el motor. Detalle: `kb/superficies.json#R5`.
+        Herramientas: `censo_globdata.py`, `censo_valuedb.py`, `censo_jugador.py`,
+        `desensamblar.py`, `punteros_a.py`, `instancias_vtable.py`.
      7  arquitectura de entidades y de la IA .............. 7a-7d cerradas
         7e: mitad (a) CERRADA; mitad (b) CANCELADA el 2026-09-26 — su
         verificación por efecto pasa a la fase 9 (R4), ver `PDP.md` §6

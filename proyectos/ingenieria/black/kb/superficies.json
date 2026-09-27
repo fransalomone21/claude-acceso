@@ -43,11 +43,18 @@
       "que": "coop de dos jugadores",
       "estructuras": [
         {"nombre": "clase jugador", "donde": "vtable 0x003DC5F8, instancia 0x005A8AB0, paso 0x8B0", "grado": "confirmado", "evidencia": "kb/campos-jugador.json"},
-        {"nombre": "lectura del pad", "donde": "FUN_0026bf60 (zona muerta)", "grado": "confirmado", "evidencia": "J1, bitacora (57)"}
+        {"nombre": "lectura del pad", "donde": "FUN_0026bf60 (zona muerta)", "grado": "confirmado", "evidencia": "J1, bitacora (57)"},
+        {"nombre": "ARRAY DE JUGADORES de largo 1", "donde": "objeto juego = *(0x0040F4D0) = 0x005A8A80; jugadores[i] = juego + 0x30 + i*0x8C0. Lo construye FUN_00382778 con el idioma de GCC para arrays (contador N-1 hasta -1) y N = 1", "grado": "probable", "evidencia": "instrucciones 0x0038278C-0x003827B4 (s1 arranca en 0, sale en -1); control de la base: juego+0x4990 = 0x005AD410, el doble buffer del stage medido en 7e paso 3b. Bitacora (61)"},
+        {"nombre": "el codigo recorre y elige jugadores POR INDICE", "donde": "22 funciones con el paso 0x8C0 (herramientas/censo_jugador.py). FUN_0012a0d8 = update de cada jugador en bucle; FUN_0016bee0 (HUD) calcula juego + idx*0x8C0 + 0x30 con el idx leido de su propio objeto", "grado": "probable", "evidencia": "decompilado + censo; control positivo: el constructor FUN_00382778 sale en el censo"},
+        {"nombre": "cada jugador guarda SU numero de mando", "donde": "jugador+0x418 (s8). FUN_0013ba40 lo pasa a FUN_0013f3e0 (init de controles) y a FUN_001306d0; FUN_0013f3e0 indexa gestor+0x77C+idx", "grado": "probable", "evidencia": "lb a1,0x418(s0) en el delay slot de 0x0013BA58; vale 0 en ee-e4, ee-03 y ee-06 (vidas 998735 / 649.8 / 437.6: estados distintos)"},
+        {"nombre": "EL SEGUNDO MANDO YA SE LEE", "donde": "gestor de entrada = *(0x0040F0E8) = 0x00585400 (malloc 0x7C0). Construye DOS objetos mando en bucle de 2: gestor+0x2C0 y +0x3B0 (paso 0xF0, vtable 0x003E2508 en +8, update FUN_0026c100). Cada uno guarda gestor en +0xE8 y puerto en +0xEC (0 y 1). Estado por puerto en gestor+0x250+4*idx, con tope idx < 2 (FUN_0026c9c0). Tabla de puertos en gestor+0x240 = {pad0, pad1}", "grado": "probable", "evidencia": "constructor en 0x001021EC-0x00102224; en ee-e4, ee-03 y ee-06: puertos 0 y 1, estado 4 y 4 en los dos. Falta efecto: mover el stick del pad 2 y ver cambiar pad1+0x88"},
+        {"nombre": "mando 'activo' del flujo del juego", "donde": "*(0x0040F0E4) = 0x00575100 (malloc 0x102C0); su +0xA0 apunta a pad1 en ee-e4", "grado": "hipotesis", "evidencia": "punteros_a.py; que sea 'el mando que apreto START' es lectura del nombre, no medicion"},
+        {"nombre": "cantidad de jugadores", "donde": "juego+0x5BA3 (u8) = 1 y juego+0x5BA4 (u32) = 0, puestos por el mismo constructor", "grado": "hipotesis", "evidencia": "vale 1/0 en los tres volcados; nadie leyo quien los consume"}
       ],
-      "hueco": "no se sabe si el motor instancia el jugador desde un array/contador ni si lee un segundo pad, ni como elige camara/viewport.",
+      "hueco": "el lugar: juego+0x8F0..+0x11B0 esta OCUPADO (144 de 560 palabras no nulas), asi que un segundo jugador no entra en el array: hay que alojarlo aparte y redirigir los ~22 recorridos (codigo por .pnach). Tampoco se sabe como elige la camara a quien seguir, ni si hay pantalla dividida (se asume que no: coop en pantalla compartida).",
       "sonda": "8c",
-      "grado": "desconocida"
+      "resultado_sonda": "2026-09-26, en frio: el motor esta escrito para N jugadores y compilado con N = 1; lee los dos mandos en cada frame; cada jugador sabe su numero de mando. Lo que NO esta: el lugar para el segundo y la camara. Veredicto: coop es CODIGO acotado (alojar un jugador 2, poner jugador2+0x418 = 1, y los recorridos), no una reescritura del motor.",
+      "grado": "probable"
     },
     "R6": {
       "que": "un nivel nuevo",
