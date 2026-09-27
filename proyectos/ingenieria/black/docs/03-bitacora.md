@@ -16,6 +16,27 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (83) — `spawn`: la aparición fuera de la carga es un temporizador por cuadro, y se dispara con un byte
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `spawn`, `actores`, `disparadores`
+**Objetivo:** la sonda P6 de `spawn` (fila 7 del PDP §4, lo último de COOP-A): ¿hay una aparición fuera de la carga que podamos disparar? En frío primero.
+
+### (83) N1 — En frío: la cadena del spawner de enemigos, de abajo hacia arriba
+Leído con `leer_c.py` sobre el decompilado de `black-datos`; todo `probable` hasta la sonda.
+- **`FUN_00138C80(mgr, cerebro, datos)`** (mgr = `*(0x0040F514)`, `actores`): sale en 0 si no hay controlador libre (`FUN_0025CDF0(*(0x0040F4CC))`); si la lista viva está llena (`mgr+0x79A4` = `mgr+0x79A8`) recicla la más vieja (`FUN_00139060`); saca un bloque de la lista libre `+0x7990` a la viva `+0x79A0`, lo resetea (`FUN_001327F0` con tipo, posición, cuenta y modo de `datos`), `FUN_00135558`, cuerpo (`FUN_0016E660`), `FUN_0013D048`, `FUN_001354E0`, **controlador (`FUN_0025C210`)** y enlace (`FUN_0012A158`).
+- **`FUN_00178BC0`** arma `datos` en la pila: `[0]` = `FUN_00138C40(mgr, tipo)`, `+0x10` = la posición del punto de aparición (`punto+0x10`), `+0x30`/`+0x34`/`+0x38` = cuenta del contador `*(0x0040F4D4)+0xFA4` (lo incrementa), `+0x3C` = modo. Toma el «cerebro» de `FUN_0016DDC8(*(0x0040F4D4))` y al actor nuevo le pone **`+0x2F8` = 100,0** (la vida) y `+0x324` = el punto.
+- Arriba, **dos entradas**: `FUN_00178978` (tipos `0x24`–`0x2A`) y `FUN_00178AE8` (`0x1D`–`0x1F`), elegidas por el switch **`FUN_00178408(*(0x0040F4D4)+0xFA4, desc, …)`** según `*desc` (0–9).
+- **Y a `FUN_00178408` lo llaman dos:** `FUN_00173028`, un escuadrón de 4 lugares que rellena los vacíos (en `*(0x0040F4D4)+0x22800`, con `FUN_001729F8` virtual), y **`FUN_001746E0(spawner)`**, llamado por **`FUN_00174578`, un TEMPORIZADOR**: si `+0x28` activo, `+0x2C` restantes ≠ 0, `+0x2A` y `+0x2B`, y el actor de `+0x24` es 0 o está muerto (`+0x38C` ∉ {0, 1}), le resta `dt` (`juego+0x1C`) a `+0x30` y al llegar a 0 aparece; si aparece, `+0x2C` −1 y con 0 se desactiva. **`FUN_001746C8` = activar (`+0x28` = 1)**, `FUN_001746D8` = desactivar.
+- **Al temporizador lo llama el lazo por cuadro:** `FUN_00165F30(dt, *(0x0040F4F4))` —desde `0x00129360`, el mismo lazo del juego donde vive nuestro gancho— recorre las listas **12 y 13** de la tabla de `disparadores` (cuenta u16 en `tabla+2i`, array en `tabla+0x48+4i`) y llama `FUN_00174578` por cada una. **La aparición en caliente existe y es del juego**: no hay que llamar nada desde el stub.
+
+### (83) N2 — En vivo, SÓLO LECTURA: City Streets tiene 73 spawners en RAM
+`sondas_spawn.py censo` sobre el slot 13 («vivo» antes: yaw 25,4° → 133,4°). Tabla `0x005A8980`; lista 12 = **73 spawners** (lista 13 vacía); casi todos tipo 3, cada uno con su punto. Tres ya aparecieron **durante el juego**: dos con el actor muerto (`+0x38C` = 2, vida 0) y uno vivo (vida 100,0) con el temporizador en −0,033 —o sea que pasó por la resta de `dt`, no por la carga—. El resto: `+0x28` = 0, restantes = 1, actor = 0: **armados y esperando que un disparador los active**. Los datos del stage que hacen falta (descriptor y punto) **están en RAM todo el nivel**: la salida por abajo del retome (c) no se da. Pools: `actores` libre `[0, 32, 19]`, viva `[7, 16, 5]`; contador de apariciones 220; controladores 7 de 20.
+
+### (83) P17 — PREDICCIÓN, escrita antes de tocar RAM
+**Sonda:** escribir **un byte**, `+0x28` = 1, en el spawner `L12[43]` (`0x010AB2B0`, tipo 3, punto (−4,86; −3,57; 38,35), a 15,5 m de J, temporizador 0).
+**Efecto esperado, en el cuadro siguiente:** `+0x24` pasa de 0 a un actor nuevo con **vida 100,0** y estado 0; **el contador de apariciones sube exactamente 1** (220 → 221); la lista viva de `actores` +1 y la libre −1 (qué campo es la cuenta: `+0x79A8` y `+0x7998`, hipótesis); **controladores 7 → 8 de 20** y `actor+0xB4` ≠ 0; restantes 1 → 0 y `+0x28` vuelve a 0 (se desactiva solo). El actor aparece **en el punto** (`actor+0xA0` ≈ (−4,86; −3,57; 38,35)) y, mirando hacia ahí, **se ve** un enemigo nuevo.
+**Qué la refuta:** `+0x28` = 1 se queda y no aparece nada → alguna condición del temporizador no se lee como creo (o el lazo no recorre la lista 12 en este estado): se pone un vigilante de lectura sobre `+0x28` para ver si alguien lo mira.
+**Controles:** «vivo» antes; el **negativo en la misma corrida**: `mirar` sobre `L12[71]` (vecino, también armado, t = 0) **sin escribir nada**, el mismo tiempo: su `+0x24` sigue en 0 y el contador no se mueve.
+
 ## 2026-09-27 (82) — Cómo se da de alta un actor: J2 nunca recibió su controlador de colisión
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `fisica`, `juego`, `actores`
 **Objetivo:** contestar en frío la pregunta que dejó (81) —cómo se da de alta un cuerpo en el motor de física— y recién con eso tocar RAM.
