@@ -130,9 +130,22 @@ dice medido). Lo que cambió:
     (`FUN_00139c68`, con índice −577 → `0x0046CDF0`) llamado en caliente **cuelga el
     hilo** dos veces de dos. El cargador construye **un solo jugador por carga** aunque
     la cuenta sea 2 (en frío).
-- **Siguiente:** construir al jugador 2 **durante una carga** (gancho en el
-  `jal 0x00129090` del cargador, carga disparada con el selector). Es el criterio de
-  salida de la Fase A. Detalle y comandos: `sesiones/HANDOFF.md`, bloque «(78)».
+- **El jugador 2 construido por el juego (2026-09-27, bitácora (79), notebook).**
+  Confirmado en RAM con control:
+  - Un gancho en el `jal 0x00129090` del cargador construye **un segundo jugador con el
+    constructor del juego, durante la carga**, y el juego sigue (`jugador2.py`): en el
+    punto de aparición, con arma y cuerpo físico propios; corre a 60 Hz y **J no se
+    congela**. `juego` **K4 → K5**.
+  - **El mando 2 gira al jugador 2** (su mira) sin tocar a J. **Todavía no camina**: el
+    integrador de posición corre para J2 pero da desplazamiento 0 (probable: la ranura de
+    personaje `+0x330` es la de J0, sin atar).
+  - **Los cuelgues de (78) eran nuestros:** el índice −577 da `0x0046D1F0`, no
+    `0x0046CDF0`, y el constructor pisaba el stub. Tercer lugar compilado para uno: el pool
+    de cuerpos físicos del jugador (cuenta 1).
+- **Siguiente:** darle a J2 **su propia ranura de personaje** (copia del sistema
+  `0x004ED380` en memoria libre, cambiando el global `0x0040F50C` durante su construcción)
+  y medir si camina con el mando 2. Es lo que falta del criterio de salida de la Fase A.
+  Detalle y comandos: `sesiones/HANDOFF.md`, bloque «(79)».
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

@@ -241,7 +241,7 @@ def main() -> int:
     cp = sub.add_parser("carga-poner", help="P7: molde + gancho por cuadro (estado 0) + envoltorio del cargador")
     cp.add_argument("--desde", type=lambda s: int(s, 0), default=0x1C)
     cp.add_argument("--tipo-registro", type=int, default=1, help="J2+0xC4 durante FUN_0016e660 (2 = P10, cuelga)")
-    sub.add_parser("control2", help="copias de control de J2 -> 0x00585A0C, y su +0xC -> falso 2")
+    sub.add_parser("control2", help="copias de control de J2 -> 0x00585A0C, su +0xC -> falso 2, y J2+0x32C -> mira humana")
     sub.add_parser("autopsia", help="P8: ranuras de personaje, cargador de modelos y J2 (sin codigo)")
     sub.add_parser("quitar")
     e = sub.add_parser("estado")
@@ -312,6 +312,9 @@ def main() -> int:
             p.escribir32(cj.CTRL2 + 0xC, cj.FALSO2)
             for off in cj.COPIAS_CONTROL:
                 p.escribir32(cj.J2 + off, cj.CTRL2)
+            # la init deja activo el controlador +0x7D0 (sin mando); a J0 algo posterior le
+            # pone la mira humana +0x4F0, a J2 nadie (P11). Con esto el mando 2 lo gira (P12).
+            p.escribir32(cj.J2 + 0x32C, cj.J2 + 0x4F0)
         elif a.cmd == "quitar":
             p.escribir32(g.SITIO, g.ORIGINAL)
             if p.leer32(SITIO_CARGA) != ORIGINAL_CARGA:
