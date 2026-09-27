@@ -99,11 +99,10 @@ puertas. N1 (capacidades A leer RAM, B leer código, D escribir) está
 | 8 | Censo estructural por requisito | cada R2–R7 con su estructura | `superficies.py` (nunca se escribió) | **absorbida** en la Pre-Fase A el 2026-09-26; la **8c** (coop) quedó respondida (`kb/superficies.json#R5`) |
 | Pre-A | Estudio de conceptos del programa | la MCR (ver abajo) | `programa.py verificar` 0 rojos + `trade` 0 + `probar-programa.py` 9/9 | **cerrada 2026-09-27** (KDP-A en §6) |
 | **COOP-A** | **Proyecto coop, Fase A: concepto y desarrollo de tecnología** | ver «Proyecto COOP» abajo | los habilitadores en K5, cada uno por efecto | **cerrada 2026-09-27 (bitácora (83))**: los 7 habilitadores en su objetivo, prototipo hecho en (82), `verificar` 0 |
-| COOP-B | Proyecto coop, Fase B: diseño preliminar | **sin escribir**: se escribe antes de abrirla | — | sin abrir |
+| **COOP-B** | **Proyecto coop, Fase B: diseño preliminar** | ver «Proyecto COOP — Fase B» abajo | PDR recortada: los tres riesgos altos retirados por efecto + el diseño que nombra cada dirección, medido por `coop_diseno.py verificar` | **abierta 2026-09-27 (84)** |
 
-**Fase en curso: ninguna.** COOP-A cerró el 2026-09-27 (83); COOP-B se abre
-con su criterio de salida escrito acá, antes de empezarla. Análisis en papel:
-[`docs/13-coop.md`](docs/13-coop.md).
+**Fase en curso: COOP-B**, abierta el 2026-09-27 (84) con su criterio escrito
+abajo **antes** de empezarla. Análisis en papel: [`docs/13-coop.md`](docs/13-coop.md).
 
 ### Proyecto COOP
 
@@ -153,6 +152,79 @@ corridas). Las 1, 3 y 5 se juntan en **una sola sesión de emulador**, en lote
 puede dibujar dos vistas en el mismo cuadro sin reescribir el render, M2 pasa
 a L/XL con riesgo alto y se vuelve a Fran con dos caminos: la pantalla
 alternada, o el jugador 2 como compañero de escuadra (M3), que depende de la IA.
+
+### Proyecto COOP — Fase B (diseño preliminar)
+
+Escrito el 2026-09-27 (84), **antes** de abrirla. Según `docs/11-programa.md`
+§4, la B produce «el diseño del mod (datos, pnach, PINE), sus interfaces con
+los otros mods, riesgos», y su PDR recortada pide que «el diseño nombra cada
+dirección y archivo que toca, y no se pisa con otro mod». Lo que la A dejó es
+un **prototipo manejado desde afuera** (PINE + Python, memoria en `.bss`, una
+vista, J2 invisible salvo dos brazos). La B tiene que convertir eso en un
+diseño que se pueda fabricar en la C **sin sorpresas grandes**: por eso cierra
+retirando **por efecto** los riesgos que, si fallan, cambian la forma del mod.
+
+**Qué la cierra, exactamente** (las tres cosas):
+
+1. **Los tres riesgos altos retirados por efecto, con control** (grado
+   `confirmado`: visto en pantalla o en RAM):
+   - **B1 · dos vistas en el mismo cuadro.** La de J y la de J2, **lado a lado**
+     (vertical, `docs/13` §4), cada una con su cámara, visibles en **una
+     captura**, y los cuadros por segundo medidos con y sin la segunda vista.
+     Es la meta (M2); `render` **K4 → K5**.
+   - **B2 · J2 con cuerpo.** Visto desde J, J2 se dibuja como **un personaje**
+     (no dos brazos) que se mueve donde J2 camina. **Qué modelo** lo elige
+     Fran (es lo que va a ver jugando); la sesión le lleva las opciones que el
+     juego ya sabe dibujar. `vista-fp` K2 → K4 y el alta del modelo en
+     `personajes` K4 → K5.
+   - **B3 · el mod sin PINE.** Desde el arranque del juego, **sólo con un
+     pnach** (sin Python ni PINE corriendo): J2 se construye en la carga, se
+     le ata el controlador y camina con el mando 2. Es lo que convierte el
+     prototipo en algo que Fran prende desde el menú (N7).
+2. **Los riesgos medios decididos en el diseño**, cada uno con su mecanismo
+   leído (K4, en frío alcanza) y la política elegida: **IA frente a J2**
+   (`ia` K2 → K4: ¿le apuntan, le pegan?), **muerte y reaparición de J2**
+   (`flujo` K3 → K4: qué pasa con vida 0, y cómo se lo vuelve a dar de alta
+   con `FUN_00138C80` o equivalente), y **disparadores del jugador 0**
+   (`disparadores` K3 → K4: cuáles importan para avanzar y si «J abre el
+   camino» alcanza). El **HUD de J2 queda fuera de la B** (alcance, no
+   factibilidad).
+3. **El documento de diseño**, `docs/14-coop-diseno.md`: los requisitos del
+   mod con su método de verificación; cada componente (alta de J2, mando 2,
+   vista de J2, pantalla dividida, cuerpo, IA, muerte, disparadores) con
+   **cada dirección, gancho y rango de memoria** que toca y cómo se entrega
+   (pnach o ISO); y la **interfaz con los otros mods** de `mods/`. Lo mide
+   **`coop_diseno.py verificar`** en 0: ningún rango del coop se pisa con
+   otro componente ni con otro mod, y toda dirección del diseño tiene fuente
+   (`kb/` o bitácora). Su saboteador tiene que ponerlo en rojo.
+
+**Cómo se certifica:** una entrada de bitácora por cada riesgo retirado, con
+la **predicción escrita antes** y el efecto medido; `kb/subsistemas.json` con
+las K; `programa.py verificar` 0; `coop_diseno.py verificar` 0 con su
+saboteador en rojo; `prueba_herramientas.py` en verde.
+
+**Plan de desarrollo de tecnología de la B:**
+
+| # | Riesgo | Subsistema: K hoy → objetivo | Sonda | Dónde |
+|---|---|---|---|---|
+| B1a | dos vistas | `render` K4 | en frío: de dónde sacan **cámara, viewport y framebuffer** las dos pasadas extra (`FUN_001c1a98`, `FUN_001c28b0`), y qué dibujan (¿la escena entera o una lista reducida?) | decompilado |
+| B1b | dos vistas | `render` K4 → **K5** | en vivo: la segunda pasada con la cámara de J2 y un rectángulo de media pantalla, **vista en una captura**; FPS con y sin | notebook |
+| B2a | cuerpo | `vista-fp` K2 → K3 | en frío: qué decide que el jugador se dibuje como brazos y un enemigo como cuerpo (el modelo del actor, y quién lo elige al dar de alta) | decompilado |
+| B2b | cuerpo | `personajes` K4 → **K5** | en vivo: J2 con el modelo que elija Fran, visto desde J | notebook |
+| B3 | sin PINE | `codigo-nuevo` K5 (entrega) | el envoltorio de carga + `atar` + mando 2 como pnach; arranque en frío del juego sin Python | notebook |
+| B4 | IA | `ia` K2 → K4 | en frío: a quién apunta un enemigo (¿lee `jugadores[0]` o una lista?); en vivo, un enemigo con J2 más cerca que J | los dos |
+| B5 | muerte de J2 | `flujo` K3 → K4 | vida de J2 a 0: qué hace el juego (¿fin de misión, cuelgue, nada?) | notebook |
+| B6 | disparadores | `disparadores` K3 → K4 | en frío: cuáles de los que miran a `juego+0x1C0` cambian el progreso | decompilado |
+
+**Orden:** B1 primero — es la meta, y si falla la forma del mod cambia entera.
+Después B3 (sin ella no hay mod entregable), B2 (pide la decisión de Fran),
+y B4–B6, que son lectura en frío casi toda.
+
+**Salida por abajo (también es resultado):** si B1a muestra que la pasada extra
+dibuja una lista **reducida** (reflejo, brillo) y no la escena entera, y que
+dibujar la escena dos veces pide reescribir el cuadro, M2 pasa a costo alto y
+se vuelve a Fran con dos caminos: **la pantalla alternada** (un cuadro cada
+uno, 30 Hz por jugador) o M3.
 
 ## 5. Riesgos
 
