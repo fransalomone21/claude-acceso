@@ -114,24 +114,86 @@ addiu sp, sp, 0x30
 """
 
 
-def ensamblar_programa():
-    lineas = [l.strip() for l in PROGRAMA.strip().splitlines() if l.strip()]
+# --- P7: construir a J2 DURANTE la carga (bitacora (79)) ---------------------
+# El cargador (FUN_00128480, estado 0x12) hace `jal 0x129090` en 0x00128EA4 con
+# a0 = juego (hueco de retardo) y a1 = indice. El envoltorio llama la original;
+# cuando devuelve 1 (jugador 0 hecho) pasa a la fase 1 y le devuelve 0 al
+# cargador, que lo vuelve a llamar el cuadro siguiente; en la fase 1 llama
+# FUN_00129090(juego, -577) hasta que devuelve 1, y recien ahi devuelve 1.
+SITIO_CARGA = 0x00128EA4
+ORIGINAL_CARGA = 0x0C04A424    # jal 0x00129090 (medido en vivo)
+ENVOLTORIO = 0x0046DA00
+FASE = 0x0046D790              # 0 jugador 0, 1 construyendo J2, 2 hecho
+LLAMADAS_J2 = 0x0046D794
+LLAMADAS_J0 = 0x0046D79C
+ARMAS2 = 0x0046DBC0            # arreglo de armas propio de J2 (J+0x2A0 es de arranque)
+
+ENVOLTORIO_PROG = """
+addiu sp, sp, -0x30
+sd ra, 0(sp)
+sd s0, 8(sp)
+sd s1, 0x10(sp)
+move s0, a0
+lui s1, 0x47
+lw t0, -0x2870(s1)
+addiu t1, zero, 1
+beq t0, t1, @J2
+nop
+lw t1, -0x2864(s1)
+addiu t1, t1, 1
+sw t1, -0x2864(s1)
+jal 0x129090
+nop
+beq v0, zero, @SALIR
+nop
+lw t0, -0x2870(s1)
+bne t0, zero, @SALIR
+nop
+addiu t1, zero, 1
+sw t1, -0x2870(s1)
+move v0, zero
+beq zero, zero, @SALIR
+nop
+J2:
+lw t1, -0x286c(s1)
+addiu t1, t1, 1
+sw t1, -0x286c(s1)
+move a0, s0
+addiu a1, zero, -577
+jal 0x129090
+nop
+beq v0, zero, @SALIR
+nop
+addiu t1, zero, 2
+sw t1, -0x2870(s1)
+addiu v0, zero, 1
+SALIR:
+ld s1, 0x10(sp)
+ld s0, 8(sp)
+ld ra, 0(sp)
+jr ra
+addiu sp, sp, 0x30
+"""
+
+
+def ensamblar_programa(fuente=PROGRAMA, base=STUB, fin=0x0046D9F0):
+    lineas = [l.strip() for l in fuente.strip().splitlines() if l.strip()]
     etiquetas, instr = {}, []
     for l in lineas:
         if l.endswith(":"):
-            etiquetas[l[:-1]] = STUB + 4 * len(instr)
+            etiquetas[l[:-1]] = base + 4 * len(instr)
         else:
             instr.append(l)
     out = []
     for i, t in enumerate(instr):
-        pc = STUB + 4 * i
+        pc = base + 4 * i
         if t.startswith(".word"):
             out.append((pc, SWC1_F12 if "SWC1" in t else LWC1_F12, t))
             continue
         for k, v in etiquetas.items():
             t = t.replace("@" + k, "0x%x" % v)
         out.append((pc, ensamblar(t, pc), t))
-    assert 0x0046D780 + 8 <= STUB and STUB + 4 * len(out) < 0x0046DC00
+    assert 0x0046D7A0 <= base and base + 4 * len(out) <= fin
     return out
 
 
@@ -143,6 +205,9 @@ def main() -> int:
     pn = sub.add_parser("poner")
     pn.add_argument("--desde", type=lambda s: int(s, 0), default=2,
                     help="estado inicial del constructor en J2+0x8A4 (0x37 cuelga: P6)")
+    cp = sub.add_parser("carga-poner", help="P7: molde + gancho por cuadro (estado 0) + envoltorio del cargador")
+    cp.add_argument("--desde", type=lambda s: int(s, 0), default=2)
+    sub.add_parser("control2", help="copias de control de J2 -> 0x00585A0C, y su +0xC -> falso 2")
     sub.add_parser("quitar")
     e = sub.add_parser("estado")
     e.add_argument("n", type=int)
@@ -150,14 +215,18 @@ def main() -> int:
     m.add_argument("segundos", type=float)
     a = ap.parse_args()
     prog = ensamblar_programa()
+    envol = ensamblar_programa(ENVOLTORIO_PROG, ENVOLTORIO, ARMAS2)
     if a.cmd == "listar":
-        for pc, w, t in prog:
+        for pc, w, t in prog + envol:
             print("0x%08X  %08X  %s" % (pc, w, t))
         return 0
     with Pine() as p:
-        if a.cmd == "poner":
+        if a.cmd in ("poner", "carga-poner"):
             if p.leer32(g.SITIO) != g.ORIGINAL:
                 print("el gancho ya esta puesto o el sitio cambio: %08X" % p.leer32(g.SITIO))
+                return 1
+            if a.cmd == "carga-poner" and p.leer32(SITIO_CARGA) != ORIGINAL_CARGA:
+                print("el sitio del cargador cambio: %08X" % p.leer32(SITIO_CARGA))
                 return 1
             # molde: copia de J con autopunteros reubicados (clon_jugador), sin enganchar
             blk = bytearray(p.leer_bloque(cj.J, cj.TAM))
@@ -167,21 +236,43 @@ def main() -> int:
             # +0x8A4 = 0x37 es "terminado" y tambien "empezar": desde ahi el constructor
             # recarga el modelo (FUN_0016c3b8) y en juego eso cuelga el hilo (P6).
             struct.pack_into("<I", blk, 0x8A4, a.desde)
+            if a.cmd == "carga-poner":
+                # el constructor escribe **(J+0x2A0): con el de J, le pisaria las armas
+                struct.pack_into("<I", blk, 0x2A0, ARMAS2)
+                p.escribir_bloque(ARMAS2, bytes(0x20))
             p.escribir_bloque(cj.J2, bytes(blk))
             for pc, w, _ in prog:
                 p.escribir32(pc, w)
-            for dir_ in (ESTADO, CONTADOR, 0x0046D788, 0x0046D78C):   # estado, cuadros, llamadas, retornos
+            for dir_ in (ESTADO, CONTADOR, 0x0046D788, 0x0046D78C, FASE, LLAMADAS_J2, 0x0046D798, LLAMADAS_J0):
                 p.escribir32(dir_, 0)
             p.escribir32(g.SITIO, ensamblar("jal 0x%x" % STUB, g.SITIO))
+            if a.cmd == "carga-poner":
+                for pc, w, _ in envol:
+                    p.escribir32(pc, w)
+                p.escribir32(SITIO_CARGA, ensamblar("jal 0x%x" % ENVOLTORIO, SITIO_CARGA))
+        elif a.cmd == "control2":
+            f2 = bytearray(p.leer_bloque(cj.MANDO2_REAL, 0xF0))
+            for o in range(0x8C, 0xCC, 4):
+                f2[o:o + 4] = b"\0\0\0\0"
+            f2[0x0E:0x2A + 28] = bytes(0x2A + 28 - 0x0E)
+            p.escribir_bloque(cj.FALSO2, bytes(f2))
+            p.escribir32(cj.CTRL2 + 0xC, cj.FALSO2)
+            for off in cj.COPIAS_CONTROL:
+                p.escribir32(cj.J2 + off, cj.CTRL2)
         elif a.cmd == "quitar":
             p.escribir32(g.SITIO, g.ORIGINAL)
+            if p.leer32(SITIO_CARGA) != ORIGINAL_CARGA:
+                p.escribir32(SITIO_CARGA, ORIGINAL_CARGA)
         elif a.cmd == "estado":
             p.escribir32(ESTADO, a.n)
         elif a.cmd == "mirar":
             ult, t0 = None, time.time()
             while time.time() - t0 < a.segundos:
                 try:
-                    d = {"estado": p.leer32(ESTADO), "cuadros_J2": p.leer32(CONTADOR),
+                    jg = p.leer32(cj.JUEGO_PTR)
+                    d = {"cargador": p.leer32(jg + 0x5AA0), "fase": p.leer32(FASE),
+                         "llam_J0": p.leer32(LLAMADAS_J0), "llam_J2": p.leer32(LLAMADAS_J2),
+                         "estado": p.leer32(ESTADO), "cuadros_J2": p.leer32(CONTADOR),
                      "llamadas": p.leer32(0x0046D788), "retornos": p.leer32(0x0046D78C),
                          "J2_8A4": p.leer32(cj.J2 + 0x8A4), "J_pos": cj.pos(p, cj.J), "J2_pos": cj.pos(p, cj.J2),
                          "J2_c4": p.leer32(cj.J2 + 0xC4), "J2_arma": hex(p.leer32(cj.J2 + 0x2A4)),
