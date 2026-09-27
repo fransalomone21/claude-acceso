@@ -8,7 +8,7 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 > **un solo proyecto, COOP**, en su **Fase A**. El bloque «TARDE» sigue valiendo
 > para la notebook (sondas 1 y 5a), con lo que agrega el de la noche.
 
-## 2026-09-27, NOCHE — PLAN DEL ELF EN LA NUBE: E1–E5 y E7 HECHAS, FALTA E6
+## 2026-09-27, NOCHE — PLAN DEL ELF EN LA NUBE: E1–E5 y E7 HECHAS, E6 EMPEZADA
 
 **Para la sesión LOCAL (notebook), en este orden:**
 1. `git pull` en `claude-acceso` (todo en `main`).
@@ -27,7 +27,7 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 - `render` **K1 → K3**: el motor **ya dibuja por cuadro una segunda pasada de escena** con viewport y framebuffer propios (160 × 112, medido en 3 volcados). `s-0x0040F4C0` era el gestor de render y se fusionó en `render`.
 - `sesion`: cuatro modos; el que pone la cuenta en 2 está **vacío** y nadie lo activa. **El coop se construye, no se desbloquea.**
 
-**Para la próxima sesión en la NUBE:** pegar `sesiones/RETOME-NUBE.md`. Ghidra se monta con `bash herramientas/nube/instalar_ghidra.sh` (~5 min: Ghidra del caché de Nix porque los releases de GitHub dan 403, la extensión se compila, y el proyecto ya analizado se restaura de `black-datos/ghidra/`). El decompilado ya está en `black-datos/decompilado/` y se lee **sin Ghidra** con `python herramientas/leer_c.py 0xDIRECCION`. Siguiente: **E6** (los 12 sin nombre y `tiempo`) con `nombrar_por_decompilado.py --todos` y el diferencial de cada objeto entre volcados; y `s-0x0040F510`, cuya sonda quedó en `+0xB9D4…+0xC988`.
+**Para la próxima sesión en la NUBE:** pegar `sesiones/RETOME-NUBE.md`. Ghidra se monta con `bash herramientas/nube/instalar_ghidra.sh` (~5 min: Ghidra del caché de Nix porque los releases de GitHub dan 403, la extensión se compila, y el proyecto ya analizado se restaura de `black-datos/ghidra/`). El decompilado ya está en `black-datos/decompilado/` y se lee **sin Ghidra** con `python herramientas/leer_c.py 0xDIRECCION`. Siguiente: **el resto de E6** (los 12 sin nombre; `tiempo` ya quedó en K2, bitácora (72)) con `nombrar_por_decompilado.py --todos` y el diferencial de cada objeto entre volcados; y `s-0x0040F510`, cuya sonda quedó en `+0xB9D4…+0xC988`.
 
 **Lecciones para registrar en la notebook** (`perfil-global` no está en la nube), con `aprender.py agregar --proyecto black`:
 - `--grupo medicion --titulo "Unidad supuesta, no medida" --costo "una sonda entera dada por negativa (bitácora (65))" --sintoma "una búsqueda por datos da cero coincidencias en los tres volcados, y el resultado se anota como negativo" --regla "antes de buscar algo que sigue a un valor, contrastar la UNIDAD del valor contra un dato conocido (acá, el ángulo de la fila 0 de la matriz del jugador). Un cero puede ser el filtro, no el mundo"`

@@ -16,6 +16,15 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (72) — E6, primera parte: `tiempo` ubicado (el período de cuadro es 1/fps, y el fps es 30 o 25)
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** el mapa (y a cualquier mod que toque la velocidad) · **Nodos:** `tiempo` **K0 → K2**
+**Objetivo:** E6 de `docs/14`, empezando por el único nodo en K0.
+**Resultado:** se buscó en la zona estática un float con cara de *dt* que fuese coherente en los tres volcados y que usara el código. `0x0040EBAC` vale **1/30** en `ee-e4` y `ee-nivel-mod0` y **1/60** en `ee-03` (medido). Su único escritor es `FUN_0027f730(fps)`: `= 1.0/fps`. `FUN_00125060` elige **30, o 25 si `0x0040EAD8`** (bandera de 50 Hz), y además inicializa un reloj en `sesión+0x20120` (`FUN_0027f7d0`/`FUN_0027f818`); la llaman el arranque y cinco funciones del front-end. Ningún llamador pasa 60: **hipótesis**, `ee-03` se tomó con un parche de 60 FPS. `0x003C95AC` sigue el mismo patrón desde otro subsistema (`FUN_002e8920`).
+**No funcionó:** nada en particular; los otros 94 candidatos a *dt* no tienen usos con nombre en el decompilado.
+**Sigue (próxima sesión en la nube):** el resto de E6 —los 12 singletons de `sin-nombre`— y `s-0x0040F510`. Las cadenas rinden poco (E5): conviene el diferencial de cada objeto entre volcados y el grafo de llamadas.
+
+---
+
 ## 2026-09-27 (71) — E7, sesión y modos: el modo que pone la cuenta en 2 está vacío y nadie lo activa
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2), sonda 5 · **Nodos:** `sesion` (K3, con la tabla de modos en `kb/subsistemas.json#sesion.modos`)
 **Objetivo:** E7 de `docs/14`: las tres clases de modo y el camino hacia `FUN_00106010`. Se hizo antes que E6 porque el plan ordena por la cartera (primero el coop).

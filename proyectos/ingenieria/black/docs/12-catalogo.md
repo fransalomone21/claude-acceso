@@ -42,7 +42,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | J2 | Armas nuevas por combinacion | clonar registros y cambiar proyectil, impacto y modelo | N3, N4 | M | datos-iso | K1 (iso-globdata) | el directorio tiene 17 entradas fijas | candidato |
 | J3 | Arsenal distinto por nivel | habilitar armas que el nivel trae y no usa (en LEVEL_00 sobran 9) | N3 | S | datos-iso | K4 (iso-niveles) | bajo: L1 editable en frio; falta el efecto | candidato |
 | J4 | Fisica y destruccion exageradas | impulsos de Collision.cfg en la ValueDB | N3 | S | pnach-datos | K3 (fisica) | no se sabe de donde sale el valor que la ValueDB registra | candidato |
-| J5 | Camara lenta | escala de tiempo global, por ejemplo al matar | N3 | M | pnach-codigo | K0 (tiempo) | el reloj no esta ubicado (K0) | candidato |
+| J5 | Camara lenta | escala de tiempo global, por ejemplo al matar | N3 | M | pnach-codigo | K2 (codigo-nuevo) | el reloj no esta ubicado (K0) | candidato |
 | J6 | Movimiento | velocidad, carrera, salto | N3 | M | pnach-datos | K4 (juego) | campos del jugador sin nombre para esto | candidato |
 | J7 | Randomizer | enemigos, armas y pickups distintos cada partida | N3 | L | datos-iso | K2 (pickups) | depende de que D4 ande por efecto | candidato |
 | J8 | Horda o supervivencia | oleadas en una zona de un nivel existente | N3, N4 | XL | pnach-codigo | K2 (codigo-nuevo) | aparicion en runtime sin ubicar | candidato |
@@ -69,7 +69,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | G4 | 60 FPS | parche de la comunidad ya en el menu (pide EE al 180 %) | N5, N6 | S | pnach-datos | K6 (emu-imagen) | falta medirlo jugando (J1) | hecho |
 | G5 | Mas distancia de detalle | subir las distancias de LOD 30/60/100 del header de cada modelo | N5 | S | datos-iso | K3 (render) | costo en GS; falta el efecto | candidato |
 | G6 | HUD moderno o minimalista | rediseno de la interfaz, que es DATOS en /EXPORT/FRONTEND | N5, N3 | L | datos-iso | K1 (frontend-datos) | formato de la UI sin leer (K1) | candidato |
-| G7 | Modo foto o camara libre | pausar y mover la camara | N5 | M | pine | K0 (tiempo) | camara K0; sirve de paso a M1 y M2 | candidato |
+| G7 | Modo foto o camara libre | pausar y mover la camara | N5 | M | pine | K2 (tiempo) | camara K0; sirve de paso a M1 y M2 | candidato |
 | G8 | Filtro de color del juego | los parametros de tinte que dejan ver 'Tint channel' y 'Percentage Black Mode' | N5 | S | pnach-datos | K2 (estadisticas) | hipotesis por cadenas: puede ser debug | candidato |
 | X1 | Trazado de rayos con RTX Remix | descartado | N5 | XL | emulador | — | RTX Remix engancha juegos DX8/DX9 de funcion fija; PCSX2 dibuja con D3D11/12/Vulkan | descartado |
 

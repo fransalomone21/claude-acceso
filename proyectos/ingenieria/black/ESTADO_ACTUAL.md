@@ -58,7 +58,7 @@ Análisis: `docs/13-coop.md`. Plan de desarrollo de tecnología, con 7 sondas:
 12.1.2 headless corre en la nube (`herramientas/nube/instalar_ghidra.sh`), el
 ELF entero está decompilado en el repo privado (`black-datos/decompilado/`,
 11.041 funciones, con grafo de llamadas; se lee con `herramientas/leer_c.py`).
-Hechas E1, E2, E3, E4, E5 (a medias) y E7; **falta E6**. Lo que cambió para el
+Hechas E1, E2, E3, E4, E5 (a medias) y E7; **E6 empezada** (`tiempo` K0 → K2; faltan los 12 de `sin-nombre`). Lo que cambió para el
 coop (todo **probable**, en frío):
 - **`camara` K0 → K3.** Gestor `0x0040F4BC` (vistas en `+0x700`/`+0x750`,
   matriz en `+0x7A0`). La proyección y el viewport salen de
