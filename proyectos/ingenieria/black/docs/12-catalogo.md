@@ -16,7 +16,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | M3 | El segundo mando maneja a un companero de escuadra | el jugador 2 toma a Tom o a Matt, que ya existen como actores | N1 | L | pnach-codigo | K2 (codigo-nuevo) | los companeros no estan en todos los niveles; hay que desenchufar su IA (8a) | candidato |
 | M4 | Coop asimetrico: el segundo como apoyo | marca objetivos, pide municion o controla una vista de apoyo | N1, N3 | L | pnach-codigo | K2 (codigo-nuevo) | diseno de juego nuevo, no solo tecnica | candidato |
 | M5 | Versus 1 contra 1 | dos jugadores enfrentados en un nivel o arena | N1, N4 | XL | pnach-codigo | K2 (codigo-nuevo) | necesita M1 o M2 mas dano entre jugadores y reaparicion | candidato |
-| M6 | Coop a distancia con Parsec o Remote Play | un amigo se conecta al coop local desde su casa | N1 | S | externo | K4 (entrada) | latencia; depende de que exista M1, M2 o M3 | candidato |
+| M6 | Coop a distancia con Parsec o Remote Play | un amigo se conecta al coop local desde su casa | N1 | S | externo | K5 (entrada) | latencia; depende de que exista M1, M2 o M3 | candidato |
 | M7 | Puntaje por turnos | dos jugadores se turnan la misma mision y compiten por puntos | N1, N3 | S | pine | K2 (estadisticas) | poco: no toca el juego | candidato |
 | X2 | Online nativo del emulador | descartado | N1 | XL | emulador | — | PCSX2 2.8 no trae netplay; M6 cubre la necesidad sin tocar nada | descartado |
 

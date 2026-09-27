@@ -38,7 +38,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import decompilar as D  # noqa: E402
 from censo_subsistemas import SINGLETONS  # noqa: E402
 
-DATOS = Path(os.environ.get("BLACK_DATOS", "/home/user/black-datos"))
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ubicaciones import carpeta_black_datos as _carpeta_black_datos  # noqa: E402
+DATOS = _carpeta_black_datos()
 SALIDA = DATOS / "decompilado"
 
 

@@ -31,12 +31,13 @@ DOS COSAS QUE SON STUBS Y HAY QUE SABER
     2. Es el mismo patrón del `MemCheck::Log()` del PCSX2 oficial, que
        también es un stub vacío. No planificar alrededor de "el log".
 
-EL CAMINO NO INTRUSIVO (preferilo)
-    `list_memchecks` devuelve `hits`, `last_pc` y `last_addr` por watchpoint.
-    Con --accion log el watchpoint **cuenta sin pausar**: se deja corriendo,
-    se cosecha `last_pc` y ahí está la instrucción que escribió. Cero riesgo
-    de colgar la emulación (issue #5343 de PCSX2) y cero riesgo de perder la
-    partida. Ver el subcomando `cosechar`.
+--accion log NO CUENTA NADA (medido dos veces: agosto y 2026-09-27)
+    La idea era que `list_memchecks` devolviera `hits`/`last_pc` con un
+    vigilante `log` corriendo sin pausar (subcomando `cosechar`). En este
+    build los contadores quedan en 0 aunque el dato se escriba por cuadro:
+    un cero de `cosechar` NO es un negativo. Usar --accion break, y PONERLO
+    CON EL JUEGO EN PAUSA: ponerlo en caliente tiro el emulador. El ritmo
+    por cuadro lo mide `ritmo_vigilante.py`.
 
 USO RÁPIDO
     from depurador import Depurador

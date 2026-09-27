@@ -29,7 +29,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from censo_subsistemas import SINGLETONS  # noqa: E402
 from leer_c import cuerpo  # noqa: E402
 
-DEC = Path(os.environ.get("BLACK_DATOS", "/home/user/black-datos")) / "decompilado"
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ubicaciones import carpeta_black_datos as _carpeta_black_datos  # noqa: E402
+DEC = _carpeta_black_datos() / "decompilado"
 LIT = re.compile(r'"((?:[^"\\]|\\.){4,80})"')
 SLAB = re.compile(r"\bs_([A-Za-z0-9_]{4,60})_[0-9a-f]{8}\b")
 
@@ -43,7 +46,7 @@ def texto_en(va: int):
     global _ELF
     if _ELF is None:
         import struct
-        e = open(Path(os.environ.get("BLACK_DATOS", "/home/user/black-datos")) / "SLUS_213.76", "rb").read()
+        e = open(_carpeta_black_datos() / "SLUS_213.76", "rb").read()
         off, n = struct.unpack_from("<I", e, 0x1C)[0], struct.unpack_from("<H", e, 0x2C)[0]
         segs = [struct.unpack_from("<6I", e, off + 32 * k) for k in range(n)]
         _ELF = (e, [(va_, o, fs) for t, o, va_, pa, fs, ms in segs if t == 1])

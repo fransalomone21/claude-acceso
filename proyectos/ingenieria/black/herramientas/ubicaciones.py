@@ -63,6 +63,18 @@ def cargar() -> dict:
     return datos
 
 
+def carpeta_black_datos() -> Path:
+    """El clon de black-datos: BLACK_DATOS si esta puesta (la nube), si no la
+    ruta de kb/ubicaciones.json (la notebook). Una sola fuente por maquina."""
+    extra = os.environ.get("BLACK_DATOS")
+    if extra:
+        return Path(extra)
+    ficha = cargar().get("rutas", {}).get("black_datos")
+    if ficha and os.path.isdir(ficha["ruta"]):
+        return Path(ficha["ruta"])
+    return Path("/home/user/black-datos")
+
+
 def revisar_una(clave: str, ficha: dict) -> dict:
     """Mide UNA ruta. os.path, no PowerShell: los corchetes no son wildcard."""
     ruta = ficha["ruta"]

@@ -16,6 +16,12 @@
   ],
   "excepciones": [
     {
+      "patron": "R@R.T-np.eye",
+      "donde": "proyectos/ingenieria/black/herramientas/nube/",
+      "porque": "No es un mail: es algebra de numpy (R @ R.T - np.eye, ortogonalidad de una matriz de rotacion) escrita sin espacios. Falso positivo de la regla 5, commit 38c29c3.",
+      "fecha": "2026-09-27"
+    },
+    {
       "patron": "tecnica1vl@gmail.com",
       "donde": "proyectos/documentos/electronica-analogica/fuentes/",
       "porque": "Pie institucional de la E.E.S.T. N1 de Villa Lujan, impreso en los TPs de la materia que se escanearon como fuente. Es el contacto publico de una escuela, no el dato de un particular: ya figura en su propia papeleria.",

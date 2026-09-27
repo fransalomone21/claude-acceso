@@ -16,6 +16,12 @@
    "critico": false,
    "que_es": "la metodologia transversal. Repo PROPIO anidado dentro de claude-acceso e ignorado por el (regla 2: un archivo, un repo dueno)"
   },
+  "black_datos": {
+   "ruta": "C:\\Users\\frans\\black-datos",
+   "tipo": "carpeta",
+   "critico": false,
+   "que_es": "el clon local del repo PRIVADO black-datos (ELF, volcados, archivos del ISO, decompilado/ y ghidra/). Lo escribe windows/subir-datos-nube.ps1; perfil_singleton.py, valuedb_aku.py y leer_c.py lo leen via ubicaciones.carpeta_black_datos() (en la nube manda BLACK_DATOS). Medido 2026-09-27"
+  },
   "iso_original": {
    "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black.iso",
    "tipo": "archivo",

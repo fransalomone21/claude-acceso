@@ -40,7 +40,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from nombrar_por_decompilado import texto_en  # noqa: E402
 from perfil_singleton import palabra_elf  # noqa: E402
 
-BD = Path(os.environ.get("BLACK_DATOS", "/home/user/black-datos"))
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ubicaciones import carpeta_black_datos as _carpeta_black_datos  # noqa: E402
+BD = _carpeta_black_datos()
 BUF = 0x0040F54C
 TABLA = [None]
 

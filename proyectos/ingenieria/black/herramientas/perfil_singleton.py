@@ -38,7 +38,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from leer_c import cuerpo  # noqa: E402
 
-BD = Path(os.environ.get("BLACK_DATOS", "/home/user/black-datos"))
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ubicaciones import carpeta_black_datos as _carpeta_black_datos  # noqa: E402
+BD = _carpeta_black_datos()
 DEC = BD / "decompilado"
 
 # vtables de los modos (bitácora (71)); cada entrada son 8 B en GCC 2.9x

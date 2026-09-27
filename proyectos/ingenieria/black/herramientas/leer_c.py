@@ -16,7 +16,10 @@ import os
 import re
 from pathlib import Path
 
-DEC = Path(os.environ.get("BLACK_DATOS", "/home/user/black-datos")) / "decompilado"
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ubicaciones import carpeta_black_datos as _carpeta_black_datos  # noqa: E402
+DEC = _carpeta_black_datos() / "decompilado"
 
 
 def cargar():
