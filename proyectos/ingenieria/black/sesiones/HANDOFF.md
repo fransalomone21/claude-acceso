@@ -4,11 +4,31 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «2026-09-27, NOTEBOOK» DE ACÁ ABAJO.** La cartera es
-> **un solo proyecto, COOP**, en su **Fase A**. El lote de sondas de la notebook
-> se corrió (bitácora (76)); lo que sigue es **local**. El mensaje para pegar
-> está en `sesiones/RETOME-LOCAL.md`. El bloque «CIERRE» queda como historia
-> del lote: lo que no se hizo de ahí está listado abajo.
+> **EMPEZÁ POR EL BLOQUE «2026-09-27, NOTEBOOK — BOTONES» DE ACÁ ABAJO.** La
+> cartera es **un solo proyecto, COOP**, en su **Fase A**. Lo que sigue es
+> **local**. El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — BOTONES Y LA CÁMARA DESACTIVADA (bitácora (77))
+
+**Confirmado con control:**
+- **Botones del mando falso:** `python herramientas/sondas_coop.py boton <nombre|i> <s>`. 12 = disparar (el cargador baja 14 → 6 en 1 s), 2 = recargar (cargador 6 → 15, reserva 30 → 21), 6/7 = cambiar de arma, 11 = zoom, 8 = **pausa** (el manejador del jugador deja de correr). El mando procesado: `+0x2A+i` actual, `+0x0E+i` anterior, `+0x4C+4i` valor; el juego pide **acciones** por la tabla `*(0x003BCAC8)` = `0x004BC174`, que consume `FUN_0013f618(mira = J+0x4F0)`.
+- **Munición:** cargador = u16 en `*(J+0x2A4)+0xF4` → `+0x18`; reserva = u16[tipo] en `J+0x280`.
+- **Matar sin manos:** `python herramientas/matar_sin_manos.py <enemigo> <bandera 0|1>` (yaw = 90° − rumbo, pitch al pecho). Enemigos: pool de clase `0x003DCA78` (vida `+0x2F8`, posición `+0xA0`). En el slot 3: `0x00592F50` a ~10 m, `0x00592410` a ~13, `0x005936D0` a ~17.
+- **La cámara desactivada de fábrica ANDA** (RAM + pantalla, con control): forzando la animación de muerte 3 (`anim_muerte.py <enemigo> 1 90 --forzar3 --capturas <carpeta>`), ~1,5–2 s de cámara de cine con franjas y sin HUD. Sin forzar, la 3 casi nunca sale: la elige `FUN_00120068` según la **geometría** del lugar (6 de 6 muertes eligieron la 0). Capturas en `volcados/capturas-77/` (locales).
+
+**Trampas medidas hoy:**
+- El juego estaba en el **menú de pausa** al empezar (y el 8 lo abre): el eje del falso no mueve la vista y todo da negativo. **Antes de cada sonda, un control positivo de «vivo»** (un eje que mueve el yaw).
+- Después de continuar desde el vigilante en la secuencia forzada, **PINE no responde varios segundos** (el emulador sigue vivo). Lo que pasa ahí se mira con `rafaga-capturas.ps1`.
+- `FUN_0011c930` lee `0x0040D9A3` **una vez por cuadro** (`0x0011C948`): un vigilante ahí frena cada cuadro y el juego va a ~4 cuadros/s.
+- El breakpoint de ejecución sigue bloqueado a propósito (`--se-que-crashea`); el vigilante de lectura sobre un dato que lee la instrucción sirve igual.
+
+**Siguiente, en este orden:**
+1. **Decisión de Fran:** si la cámara de cine entra al mod (con `0x0040D9A3` = 1 saldría sólo donde el lugar arma la animación 3; forzarla siempre es otro parche).
+2. **5a por menús:** vigilante de escritura en `0x004BC208` y recorrer los menús con el falso (índices de menú 2, 4, 5, 6, 7, con flanco; 8 abre la pausa). Predicción pendiente de escribir.
+3. **Prototipo por PINE** (criterio de salida de la Fase A): segundo bloque de 0x8C0 fuera del array, tres copias de control en `0x00585A0C`, mira propia. Primero en frío: qué de `FUN_0013ba40` y del update por cuadro hace falta.
+4. Niveles 96–99 desde el menú (predicción: falla la carga).
+
+**Estado de la máquina al cerrar:** PCSX2-MCP abierto con el **slot 3** cargado (después de la muerte de control: un enemigo menos), `ctrl1+0xC` de vuelta en el mando real (`0x005856C0`), `0x0040D9A3` = 0, sin vigilantes ni parches vivos. Recargar el slot 3 antes de medir.
 
 ## 2026-09-27, NOTEBOOK — LOTE DE SONDAS CORRIDO SIN FRAN (bitácora (76))
 

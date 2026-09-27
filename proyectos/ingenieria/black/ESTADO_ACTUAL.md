@@ -98,6 +98,20 @@ dice medido). Lo que cambió:
   - Sin hacer (piden mando o botones): 5a, la cámara desactivada `0x0040D9A3`,
     ValueDB con efecto (sus valores con nombre son de sonido) y niveles 96–99.
   - Volcado nuevo `ee-11.bin` (nivel 2) subido a `black-datos`.
+- **Botones y la cámara desactivada (2026-09-27, bitácora (77), notebook).**
+  Confirmado en RAM con control:
+  - **El mando falso aprieta botones**: 12 dispara (el cargador baja), 2 recarga
+    (cargador ← reserva), 6/7 cambian de arma, 11 zoom, 8 pausa
+    (`sondas_coop.py boton <nombre|i> <s>`). El juego pide acciones por la tabla
+    `0x004BC174`; los menús leen el mismo control (índices 2, 4–7, probable).
+  - **Matar sin manos**: `matar_sin_manos.py` apunta la mira y dispara; un enemigo
+    a 10 m cae en ~1,7 s.
+  - **La cámara desactivada de fábrica FUNCIONA** (confirmado en pantalla y en RAM
+    con control): con `0x0040D9A3` = 1 y la animación de muerte 3, una muerte a más
+    de 6 m arma una **cámara de cine de ~1,5–2 s** (franjas negras, sin HUD, otro
+    ángulo) y vuelve a la primera persona. La animación 3 **depende del lugar**
+    (`FUN_00120068` busca geometría en la dirección del impacto): en campo abierto
+    se elige la 0 y no pasa nada. **Si entra al mod es decisión de Fran.**
 - **Siguiente:** los botones del mando falso y el **prototipo por PINE** (un segundo
   bloque de jugador con el mando 2), que es el criterio de salida de la Fase A.
   Detalle y comandos: `sesiones/HANDOFF.md`, bloque «2026-09-27, NOTEBOOK».
