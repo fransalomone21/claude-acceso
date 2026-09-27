@@ -127,6 +127,11 @@ FASE = 0x0046D790              # 0 jugador 0, 1 construyendo J2, 2 hecho
 LLAMADAS_J2 = 0x0046D794
 LLAMADAS_J0 = 0x0046D79C
 ARMAS2 = 0x0046DBC0            # arreglo de armas propio de J2 (J+0x2A0 es de arranque)
+# migas del camino de J2 (FUN_00129090 replicada por partes, P10):
+MIGA_A = 0x0046D7A0            # volvio FUN_0012bd98 (punto de aparicion)
+MIGA_B = 0x0046D798            # volvio FUN_00139c68 (el constructor)
+MIGA_V0 = 0x0046D7A4           # lo que devolvio el constructor
+MIGA_C = 0x0046D7A8            # volvio FUN_0016e660 (el registro)
 
 ENVOLTORIO_PROG = """
 addiu sp, sp, -0x30
@@ -159,11 +164,31 @@ lw t1, -0x286c(s1)
 addiu t1, t1, 1
 sw t1, -0x286c(s1)
 move a0, s0
-addiu a1, zero, -577
-jal 0x129090
-nop
+jal 0x12bd98
+lw a1, 0x5ab0(s0)
+lw t1, -0x2860(s1)
+addiu t1, t1, 1
+sw t1, -0x2860(s1)
+lw t0, 0x10(v0)
+lw t0, 4(t0)
+addiu a1, t0, 0x20
+lui a0, 0x47
+jal 0x139c68
+addiu a0, a0, -0x3210
+lw t1, -0x2868(s1)
+addiu t1, t1, 1
+sw t1, -0x2868(s1)
+sw v0, -0x285c(s1)
 beq v0, zero, @SALIR
 nop
+lui t0, 0x41
+lw a0, -0xb2c(t0)
+lui a1, 0x47
+jal 0x16e660
+addiu a1, a1, -0x3210
+lw t1, -0x2858(s1)
+addiu t1, t1, 1
+sw t1, -0x2858(s1)
 addiu t1, zero, 2
 sw t1, -0x2870(s1)
 addiu v0, zero, 1
@@ -244,7 +269,7 @@ def main() -> int:
             p.escribir_bloque(cj.J2, bytes(blk))
             for pc, w, _ in prog:
                 p.escribir32(pc, w)
-            for dir_ in (ESTADO, CONTADOR, 0x0046D788, 0x0046D78C, FASE, LLAMADAS_J2, 0x0046D798, LLAMADAS_J0):
+            for dir_ in (ESTADO, CONTADOR, 0x0046D788, 0x0046D78C, FASE, LLAMADAS_J2, LLAMADAS_J0, MIGA_A, MIGA_B, MIGA_V0, MIGA_C):
                 p.escribir32(dir_, 0)
             p.escribir32(g.SITIO, ensamblar("jal 0x%x" % STUB, g.SITIO))
             if a.cmd == "carga-poner":
@@ -260,7 +285,9 @@ def main() -> int:
                  "J_330": hex(p.leer32(cj.J + 0x330)), "J2_330": hex(p.leer32(cj.J2 + 0x330)),
                  "modelos_bufer": p.leer8(mod), "modelos_estado": p.leer32(p.leer32(mod + 0x80) + 0x1C),
                  "cargador": p.leer32(jg + 0x5AA0), "fase": p.leer32(FASE), "llam_J2": p.leer32(LLAMADAS_J2),
-                 "J2_8A4": p.leer32(cj.J2 + 0x8A4), "J2_4E0": hex(p.leer32(cj.J2 + 0x4E0))}
+                 "J2_8A4": p.leer32(cj.J2 + 0x8A4), "J2_4E0": hex(p.leer32(cj.J2 + 0x4E0)),
+                 "miga_A_aparicion": p.leer32(MIGA_A), "miga_B_constructor": p.leer32(MIGA_B),
+                 "miga_v0": p.leer32(MIGA_V0), "miga_C_registro": p.leer32(MIGA_C)}
             print(json.dumps(d, ensure_ascii=False))
             return 0
         elif a.cmd == "control2":
