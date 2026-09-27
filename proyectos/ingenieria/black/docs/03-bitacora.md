@@ -16,6 +16,30 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (82) — Cómo se da de alta un actor: J2 nunca recibió su controlador de colisión
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `fisica`, `juego`, `actores`
+**Objetivo:** contestar en frío la pregunta que dejó (81) —cómo se da de alta un cuerpo en el motor de física— y recién con eso tocar RAM.
+
+### (82) N1 — En frío: el «cuerpo físico» de `+0x34C` es un SEGUIDOR, no lo que mueve al jugador
+Leído en el decompilado y en las instrucciones (`leer_c.py`, `desensamblar.py`); todo `probable` hasta la sonda.
+- **`FUN_00170320` no integra: copia.** Lee el dueño (`cuerpo+0x20`, el jugador), carga su matriz (`J+0x70/+0x80/+0x90`) y su posición (`J+0xA0`) y los escribe en el cuerpo: `cuerpo+0x30` = `J+0xA0` + la constante de `0x00414DC0`, `cuerpo+0x48..0x50`, `cuerpo+0x3C..0x44` (vía `FUN_002E9F40`) y `cuerpo+0x54` = `J+0x2E0`. La flecha es **jugador → cuerpo**. La frase de (81) «el motor recorre su lista y el cuerpo de J2 no está: por eso no camina» confundía causa con efecto: aunque el cuerpo de J2 estuviera en la lista, copiaría una posición quieta.
+- **`ra` = `0x002EA92C` es el PRIMER lazo de `FUN_002EA898`:** recorre la lista activa `*(mundo+0x14)+8` (siguiente en `nodo+0xC`) y llama `vtable+0x2C` de `*(nodo+4)` para cada cuerpo. El alta es **`FUN_002E1248(mundo, cuerpo)`** → `FUN_002EABB0`: toma un nodo libre, lo engancha al final de la lista, `nodo+0x10` = 1, `nodo+4` = cuerpo, **`cuerpo+0x14` = nodo** y `cuerpo+0x28` = mundo; si `cuerpo+0x14` ya es ≠ 0 no hace nada. La baja es `FUN_002E1280` → `FUN_002EAD58`. El mundo es `DAT_003C9ED4`; el paso por cuadro, `FUN_0016EE38` → `FUN_002E1208` → `FUN_002EA898`.
+- **Los dos pools** los arma `FUN_0016F3D0` (mgr = `*(0x0040F4D4)+0x22B28`): tipo 1 (`+0x7C`) = **16 cuerpos con un controlador en `+0x18`** (los de los enemigos; el `+0x18` ≠ 0 de J2 que (81) leyó como «enlace de lista libre» es ese controlador), y tipo 2 (`+0x88`) = **un solo cuerpo**, construido con `juego+0x30` (cuenta compilada en 1). `FUN_0016FA50` saca uno del pool por `J+0xC4`, lo guarda en `J+0x34C`, le pone el dueño y lo da de alta.
+
+### (82) N2 — En frío: lo que mueve al jugador es un CONTROLADOR DE COLISIÓN en `J+0xB4`, y J2 nunca recibió el suyo
+- **El mover es `FUN_00132D98(dt, J)`** (llamado desde `0x0013A300`): guarda la posición previa (`J+0x190` = `J+0xA0`), calcula el desplazamiento pedido `d` = `mira+0x50` × `mira+0x10` × dt (+ gravedad `J+0x2EC`) y, si `*(J+0xB4)+0x3C` = 0, se lo entrega al controlador: **`FUN_0025D840(J+0xB4, d)`** escribe `d` en `*(*(*(ctrl+0x34)+0xC)+0x58)+0x20`. Si `+0x3C` ≠ 0, atajo sin colisión: `FUN_00126030(J, pos + d)`. Después `FUN_001334E0` deriva `J+0x1B0` = (`+0xA0` − `+0x190`)/dt y **`J+0x2E0` = |v|**: la rapidez real que en J2 da 0 es una **consecuencia** de que `+0xA0` no cambie, no un eslabón aparte.
+- **El controlador se da de alta con `FUN_0025C210(*(0x0040F4CC), actor)`:** `FUN_0025C758` saca uno de un pool de **20** (0x50 B en `mgr+0x2320`, ocupados en `mgr+0x2960`: **no** está compilado para uno), `FUN_0025CEF8` lo ata (`ctrl+0x30` = actor, **`actor+0xB4` = ctrl**, grupo por `actor+0xC4`: 3 para el jugador), `ctrl+0x3C` = 0 y `FUN_0032CB58(*mgr, ctrl+0x34, 4)` lo registra en el mundo de colisión (tabla `0x0043F3F0`).
+- **Quién lo llama, y por qué a J2 no:** `FUN_0012BE80(juego)`, el estado del cargador que sigue a construir jugadores, recorre `i < *(0x0040F0E0)+0x20208` —**la cuenta, = 1**— y para cada uno hace `FUN_0025C210` + `FUN_0012A158`. J2 vive en `0x0046CDF0`, fuera de `juego+0x30+i·0x8C0`, y la cuenta es 1: **nunca pasa por ahí**. La secuencia completa de alta de un actor está en el spawner de enemigos `FUN_00138C80`: `FUN_001327F0` (reset, que pone `+0xB4` = 0 vía `FUN_00125CD8`) → `FUN_0016E660` (cuerpo seguidor) → `FUN_0013D048` → `FUN_001354E0` → **`FUN_0025C210`** → `FUN_0012A158`. La réplica de `jugador2.py` hace los dos primeros y el último; **le falta el controlador**. Quinto lugar donde la cuenta = 1 decide.
+
+### (82) P15 — PREDICCIÓN, escrita antes de tocar RAM
+**Lectura (sin escribir):** `J+0xB4` = un controlador dentro del pool de 20 con `*(ctrl+0x30)` = J; **`J2+0xB4` = 0** (lo puso el reset del constructor) o, si el molde sobrevivió, el mismo controlador que J — en ninguno de los dos casos uno propio atado a J2.
+**Sonda:** llamar **una vez**, desde el hilo del juego (el stub por cuadro), `FUN_0025C210(*(0x0040F4CC), J2)`, con el mgr leído vivo.
+**Efecto esperado:** `J2+0xB4` = un controlador nuevo con `*(ctrl+0x30)` = J2; con «adelante» **sostenido** en el falso 2 durante 2 s, **`J2+0xA0` se desplaza** (≈ 4,5 m/s) y `J2+0x2E0` > 0, y **`J+0xA0` no cambia**.
+**Qué la refuta:** `J2+0xA0` con Δ = 0 teniendo el controlador atado → el controlador no es lo que falta, y lo siguiente es el paso del mundo de colisión (quién escribe `+0xA0` de vuelta: vigilante `write` sobre `J+0xA0` con J caminando).
+**Controles:** «vivo» antes; el negativo se re-mide en la misma corrida (adelante sostenido **antes** de atar: Δ = 0); J sigue caminando con el falso 1.
+
+---
+
 ## 2026-09-27 (81) — La ranura de personaje propia de J2: la sonda de un byte
 **Máquina:** notebook (PCSX2-MCP, ISO original, slot 3) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `personajes`, `juego`
 **Objetivo:** que J2 **camine** con el mando 2. Es lo único que le falta al criterio de salida de COOP-A.
