@@ -16,6 +16,18 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (66) — E1 del plan del ELF: Ghidra headless en la nube, sin GitHub releases
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) y todo el mapa: es la cadena de las sondas en frío · **Nodos:** ninguno sube (es instrumental)
+**Objetivo:** E1 de `docs/14-plan-elf.md`: Ghidra + `ghidra-emotionengine-reloaded` en la nube, ELF importado y analizado, `decompilar.py info` en verde.
+**Resultado:** **confirmado por control positivo**: `decompilar.py info` da `r5900:LE:32:default`, **9842 funciones**, 16.514 símbolos, y el 100.0 aparece en `0x00142B90` (el daño por zona, confirmado por efecto en la Fase 4b). El análisis automático tardó 132 s. El camino:
+- el proxy da **403 a los releases de GitHub** (sólo sirve `git clone`), y conda-forge no tiene Ghidra. **`cache.nixos.org` sí responde**, y Hydra compila `ghidra-bin` **12.1.2**, la misma versión oficial. `herramientas/nube/traer_nix.py` baja el paquete y su clausura a `/nix/store/` sin tener Nix, y compara cada NAR contra su `NarHash` firmado (37 paquetes, todos OK, ~1 GB);
+- la extensión **se compila desde la fuente** (tag `v2.1.36`, el que declara 12.1.2; el HEAD ya es 12.1.3) con Gradle 8.14.3 de `services.gradle.org`;
+- el proyecto analizado pesa 37 MB → 7 MB comprimido, y quedó en `black-datos/ghidra/BLACK.tar.zst` (con su SHA-256 en el `MANIFIESTO`). Se probó restaurarlo en otra carpeta y el control positivo volvió a dar verde. La próxima sesión no reanaliza: `herramientas/nube/instalar_ghidra.sh` hace todo.
+**No funcionó:** el primer import dijo `Unsupported language: r5900:LE:32:default` con la extensión bien puesta en `Ghidra/Extensions/`. El `support/launch.sh` de Nix es un **envoltorio** que ejecuta la copia de `/nix/store`, de sólo lectura y sin la extensión: la copia escribible nunca se usaba. Se reemplazó por el script real (`.launch.sh-wrapped`). Es la misma trampa que ya documenta `decompilar.py` (la extensión en la carpeta que Ghidra no carga), por otro camino: **el log decía de qué ruta cargaba los jar, y ahí estaba la respuesta.**
+**Sigue:** E2, el decompilado masivo (`herramientas/decompilar_todo.py`).
+
+---
+
 ## 2026-09-27 (65) — Sonda 2 (cámara), primer intento en frío: NEGATIVO por datos
 **Máquina:** nube · **Modelo:** Opus, high · **Sirve a:** COOP (M2), sonda 2 · **Nodos:** `camara` (sigue en K0)
 **Objetivo:** ubicar la cámara sin Ghidra.

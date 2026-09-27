@@ -14,3 +14,4 @@ python3 herramientas/censo_subsistemas.py $D/ee-e4.bin > /dev/null && echo "cont
 python3 herramientas/censo_jugadores.py $D/ee-e4.bin $D/ee-03.bin $D/ee-nivel-mod0.bin > /dev/null && echo "control positivo censo_jugadores: OK"
 python3 herramientas/programa.py verificar
 echo "LISTO. En cada comando: export BLACK_DATOS=$D"
+echo "Ghidra (E1 en adelante): bash herramientas/nube/instalar_ghidra.sh  (~5 min la primera vez)"

@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+decompilar_todo.py — E2 del plan del ELF (docs/14): TODO el ejecutable a C.
+
+Abre el proyecto de Ghidra una vez y decompila cada función, en paralelo
+(un DecompInterface por hilo; JPype suelta el GIL durante la llamada a Java).
+Escribe en el repo PRIVADO, nunca en claude-acceso (es código derivado del
+juego):
+
+    $BLACK_DATOS/decompilado/0x0010.c ... 0x003B.c   un archivo por 64 KB
+    $BLACK_DATOS/decompilado/indice.json              función -> singletons
+
+El índice sale de las REFERENCIAS de Ghidra a cada global de
+`censo_subsistemas.SINGLETONS`, no del texto del C. Así se puede comparar con
+`censo_subsistemas.py`, que cuenta lo mismo por patrón de instrucciones: dos
+caminos independientes (regla del proyecto: un número se cree cuando lo dan
+dos caminos).
+
+USO
+    export BLACK_DATOS=/home/user/black-datos
+    python herramientas/decompilar_todo.py              # todo (~10.000 funciones)
+    python herramientas/decompilar_todo.py --solo-indice
+    python herramientas/decompilar_todo.py --comparar   # contra censo_subsistemas
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+import threading
+import time
+from collections import defaultdict
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import decompilar as D  # noqa: E402
+from censo_subsistemas import SINGLETONS  # noqa: E402
+
+DATOS = Path(os.environ.get("BLACK_DATOS", "/home/user/black-datos"))
+SALIDA = DATOS / "decompilado"
+
+
+def indice(prog) -> dict:
+    """singleton -> funciones que tienen alguna referencia a su global."""
+    fm = prog.getFunctionManager()
+    rm = prog.getReferenceManager()
+    por_global = {}
+    for g, tam, nota in SINGLETONS:
+        fs = set()
+        n = 0
+        for r in rm.getReferencesTo(D.a_dir(prog, g)):
+            n += 1
+            f = fm.getFunctionContaining(r.getFromAddress())
+            fs.add(f"0x{f.getEntryPoint().getOffset():08X}" if f else "-")
+        por_global[f"0x{g:08X}"] = {"tam": tam, "constructor": nota,
+                                   "referencias": n, "funciones": sorted(fs)}
+    por_funcion = defaultdict(list)
+    for g, d in por_global.items():
+        for f in d["funciones"]:
+            por_funcion[f].append(g)
+    return {"por_singleton": por_global, "por_funcion": dict(sorted(por_funcion.items()))}
+
+
+def decompilar_todo(prog, hilos: int, segundos: int):
+    from ghidra.util.task import ConsoleTaskMonitor
+    fm = prog.getFunctionManager()
+    funcs = [f for f in fm.getFunctions(True) if not f.isThunk() and not f.isExternal()]
+    print(f"  {len(funcs)} funciones a decompilar con {hilos} hilos", flush=True)
+    resultados = {}
+    fallas = []
+    lock = threading.Lock()
+    siguiente = [0]
+    t0 = time.time()
+
+    def trabajador():
+        dec = D.decompilador(prog)
+        mon = ConsoleTaskMonitor()
+        while True:
+            with lock:
+                i = siguiente[0]
+                siguiente[0] += 1
+            if i >= len(funcs):
+                break
+            f = funcs[i]
+            ent = f.getEntryPoint().getOffset()
+            res = dec.decompileFunction(f, segundos, mon)
+            if res.decompileCompleted():
+                c = str(res.getDecompiledFunction().getC()).replace("\r\n", "\n")
+            else:
+                c = f"// FALLO: {res.getErrorMessage()}\n"
+                with lock:
+                    fallas.append(ent)
+            with lock:
+                resultados[ent] = (str(f.getName()), c)
+                if len(resultados) % 500 == 0:
+                    print(f"    {len(resultados)} / {len(funcs)}  ({time.time() - t0:.0f} s)", flush=True)
+        dec.dispose()
+
+    ts = [threading.Thread(target=trabajador) for _ in range(hilos)]
+    for t in ts:
+        t.start()
+    for t in ts:
+        t.join()
+
+    por_bloque = defaultdict(list)
+    for ent in sorted(resultados):
+        por_bloque[ent >> 16].append(ent)
+    SALIDA.mkdir(parents=True, exist_ok=True)
+    for bloque, ents in por_bloque.items():
+        partes = []
+        for e in ents:
+            nombre, c = resultados[e]
+            partes.append(f"/* ==== 0x{e:08X} {nombre} ==== */\n{c}")
+        (SALIDA / f"0x{bloque:04X}.c").write_text("\n".join(partes), encoding="utf-8")
+    print(f"  escritas {len(resultados)} funciones en {len(por_bloque)} archivos; "
+          f"{len(fallas)} fallas; {time.time() - t0:.0f} s")
+    return len(resultados), fallas
+
+
+def comparar(idx: dict) -> int:
+    """Control: la cuenta de funciones por singleton contra censo_subsistemas."""
+    import subprocess
+    r = subprocess.run([sys.executable, str(Path(__file__).parent / "censo_subsistemas.py"),
+                        str(DATOS / "ee-e4.bin")], capture_output=True, text=True)
+    censo = {}
+    for linea in r.stdout.splitlines():
+        p = linea.split()
+        if len(p) > 8 and p[0].startswith("0x") and p[1] == "->" and p[8] == "funciones":
+            censo[int(p[0], 16)] = int(p[7])
+    print(f"  {'global':<12}{'censo':>7}{'ghidra':>8}  diferencia")
+    dif_total = 0
+    for g, d in idx["por_singleton"].items():
+        c = censo.get(int(g, 16), -1)
+        n = len([f for f in d["funciones"] if f != "-"])
+        dif_total += abs(n - c)
+        marca = "" if abs(n - c) <= max(2, c // 10) else "  <-- mirar"
+        print(f"  {g:<12}{c:>7}{n:>8}  {n - c:+d}{marca}")
+    print(f"  suma de |diferencias|: {dif_total}")
+    return 0
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--hilos", type=int, default=4)
+    ap.add_argument("--segundos", type=int, default=90)
+    ap.add_argument("--solo-indice", action="store_true")
+    ap.add_argument("--comparar", action="store_true")
+    a = ap.parse_args()
+    ctx, prog = D.abrir()
+    try:
+        idx = indice(prog)
+        SALIDA.mkdir(parents=True, exist_ok=True)
+        if not a.solo_indice and not a.comparar:
+            n, fallas = decompilar_todo(prog, a.hilos, a.segundos)
+            idx["funciones_decompiladas"] = n
+            idx["fallas"] = [f"0x{x:08X}" for x in sorted(fallas)]
+        if not a.comparar:
+            (SALIDA / "indice.json").write_text(json.dumps(idx, indent=1), encoding="utf-8")
+        comparar(idx)
+    finally:
+        ctx.__exit__(None, None, None)
+
+
+if __name__ == "__main__":
+    main()
