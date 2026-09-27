@@ -4,9 +4,34 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(79)» DE ACÁ ABAJO.** La cartera es **un solo
-> proyecto, COOP**, en su **Fase A**. Lo que sigue es **local**. El mensaje
-> para pegar está en `sesiones/RETOME-LOCAL.md`.
+> **EMPEZÁ POR EL BLOQUE «(80, nube)» DE ACÁ ABAJO, Y DESPUÉS EL «(79)».** La
+> cartera es **un solo proyecto, COOP**, en su **Fase A**. Lo que sigue es
+> **local**. El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`, que ya
+> incorpora lo que midió (80): no hace falta leer (80) entero para arrancar.
+
+## 2026-09-27, NUBE — TANDA EN FRÍO N1–N5: LA RANURA DE PERSONAJE, MEDIDA (bitácora (80, nube))
+
+**Esto no tocó RAM.** Todo acá es `probable` (ELF + volcados). Lo que sigue es **local** y el mensaje para pegar está en `sesiones/RETOME-LOCAL.md`, **ya reescrito con esto**.
+
+**Lo que contesta, y ahorra sondas:**
+- **La copia del sistema de personajes PUEDE funcionar.** 35 accesos a `0x0040F50C` medidos sobre las instrucciones (`herramientas/lectores_global.py`), 23 funciones, **una sola escritura** del puntero (`0x00102174`, el init). La aritmética de la ranura existe en **dos** sitios y ninguno corre por cuadro; lo que el cuadro le hace al sistema por el global son dos contadores y **dos stubs vacíos**. El desplazamiento llega por **`J+0x330`** (`0x00133B10`), no por el global.
+- **Por qué J2 no camina (mecanismo, no hipótesis):** `FUN_001a6be0(ranura)` arranca leyendo `*(ranura)` = **el DUEÑO** y usa su matriz. J2 comparte la ranura 0, de J0.
+- **El índice de ranura NO está fijo en 0:** sale de **`J+0x2C3`**, que es **el arma en la mano** (`FUN_0016bee0` lo usa para indexar `J+0x2A0`). Las 2 ranuras son **las 2 armas del único jugador**. J2 lo hereda en 0 del molde.
+- **La copia son TRES bloques, no uno (0x1D10 B).** Cada ranura tiene un **compañero de 0x9D0 B en el montón**, en `ranura+0x54`, que `FUN_001a4ff0` aloja y que apunta de vuelta en `+0x84`. La especificación vieja (copiar 0x970 y reubicar autopunteros) **quedaba escribiendo en el estado de animación de J0**.
+- **`J+0x7C` y `+0x8C` NO son sonda:** son carriles W de la matriz del objeto, y **nada del camino de construcción los escribe** — los instala código de arranque que recorre `jugadores[]` con la cuenta en 1 (**cuarto lugar compilado para un solo jugador**).
+- **Argumentos del atado a mano:** `FUN_001a51c8(COPIA+0x470+k·0x240, J2, COPIA+0x398+k·0x6C)`, con **el global ya en la copia** (la función lo lee 3 veces adentro).
+
+**Herramientas nuevas (probadas, con saboteador en rojo):**
+- `herramientas/lectores_global.py` — todos los accesos del ELF a un global, por opcodes crudos. Encontró uno que el decompilado se come (`0x001ABFB8`).
+- `jugador2.py ranura-copiar [--seco] [--volcado F] [--dueno-a-mano]` — los tres bloques, reubicaciones **medidas en vivo**, `+0xB8` = 0.
+- `jugador2.py carga-poner --copia-ranura` — el envoltorio cambia `*(0x0040F50C)` alrededor del `jal 0x139c68` y lo restaura. Sin la opción no toca el global: es el control de (79).
+- `pruebas/prueba_herramientas.py`: **180** comprobaciones en verde (157 → 180), con cinco saboteadores puestos en rojo.
+
+**Trampa nueva, de diseño:** `FUN_0015be70` → `FUN_0013c868` recalcula `J+0x330` **desde el global** al **cambiar de arma**, y sólo si `+0xC4 == 2`, o sea justo para los jugadores. Con la copia puesta, si J2 cambia de arma su `+0x330` vuelve al sistema original. Para la Fase A: no cambiarle el arma a J2.
+
+**kb:** nace **`personajes`** (K4); `audio` pierde `0x0040F50C`, que nunca fue suyo (el error entró en (74) al fusionar el vecino). 37 → 38 subsistemas. `personajes` entra como habilitador de M1/M2/M5; se corrió `trade` **antes y después** y el orden no se movió.
+
+**Primero en la notebook:** la **sonda 0** de `RETOME-LOCAL.md` — `J2+0x2C3` = 1 y el dueño de la ranura 1 a mano. Un byte, y contesta sola si J2 camina cuando la ranura es suya, antes de gastar la copia.
 
 ## 2026-09-27, NOTEBOOK — EL JUGADOR 2 CONSTRUIDO POR EL JUEGO; EL MANDO 2 LO GIRA, NO CAMINA (bitácora (79))
 

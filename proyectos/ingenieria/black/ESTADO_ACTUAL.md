@@ -142,10 +142,29 @@ dice medido). Lo que cambió:
   - **Los cuelgues de (78) eran nuestros:** el índice −577 da `0x0046D1F0`, no
     `0x0046CDF0`, y el constructor pisaba el stub. Tercer lugar compilado para uno: el pool
     de cuerpos físicos del jugador (cuenta 1).
-- **Siguiente:** darle a J2 **su propia ranura de personaje** (copia del sistema
-  `0x004ED380` en memoria libre, cambiando el global `0x0040F50C` durante su construcción)
-  y medir si camina con el mando 2. Es lo que falta del criterio de salida de la Fase A.
-  Detalle y comandos: `sesiones/HANDOFF.md`, bloque «(79)».
+- **La ranura de personaje, medida en frío (2026-09-27, bitácora (80, nube)).** Nada de
+  esto tocó RAM: todo es `probable`. Nace el nodo **`personajes`** (K4); `audio` pierde
+  `0x0040F50C`, que nunca fue suyo (el error entró en (74) al fusionar el vecino).
+  - **La copia PUEDE funcionar:** 35 accesos al global medidos sobre las instrucciones
+    (`lectores_global.py`), **una sola escritura** del puntero, la aritmética de la ranura
+    en **dos** sitios y ninguno por cuadro, y lo que el cuadro hace con el sistema son dos
+    contadores y **dos stubs vacíos**. El desplazamiento llega por `J+0x330`.
+  - **Por qué J2 no camina, con mecanismo:** `FUN_001a6be0(ranura)` lee `*(ranura)` = el
+    **dueño** y usa su matriz; J2 comparte la ranura de J0. Y el índice de ranura **no está
+    fijo en 0**: sale de `J+0x2C3`, que es **el arma en la mano** — las 2 ranuras son **las
+    2 armas del único jugador**, y J2 hereda el 0 del molde.
+  - **La copia son TRES bloques (0x1D10 B), no uno:** cada ranura tiene un **compañero de
+    0x9D0 B en el montón** (`ranura+0x54`). La especificación vieja dejaba las ranuras de la
+    copia escribiendo en el estado de animación de J0.
+  - **Ahorro de sonda:** `J+0x7C`/`+0x8C` son carriles W de la matriz y **nada del camino de
+    construcción los escribe** (los pone código de arranque con la cuenta en 1: **cuarto**
+    lugar compilado para un solo jugador). No hay que sondearlos antes.
+  - Herramientas: `lectores_global.py`, `jugador2.py ranura-copiar` y
+    `carga-poner --copia-ranura`. **180** comprobaciones en verde, cinco saboteadores en rojo.
+- **Siguiente (notebook):** la **sonda 0** —`J2+0x2C3` = 1 y el dueño de la ranura 1 a mano,
+  un byte— y después la copia de tres bloques. Es lo que falta del criterio de salida de la
+  Fase A. Detalle y comandos: `sesiones/RETOME-LOCAL.md`, ya reescrito; contexto en
+  `sesiones/HANDOFF.md`, bloque «(80, nube)».
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo
