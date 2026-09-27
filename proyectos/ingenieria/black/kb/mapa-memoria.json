@@ -473,6 +473,32 @@
    "valor_medido": 5.53,
    "evidencia": "2026-09-05, EN VIVO sobre PCSX2 2.8.0 con el juego corriendo (LEVEL_02). La cadena en frio: FUN_001404a8 (0x001404A8) es la funcion de mira COMPLETA, y su ultimo tramo es literalmente `yaw += eje_x_suavizado * obj[0xA8] * dt * factor_zoom` y `pitch += eje_y_suavizado * obj[0xAC] * dt * factor_zoom`. Se llego a ella por el eje que discrimina y no por barrido: se buscaron los LECTORES del Analogue Control Power. Como el objeto de controles es jugador+0x4F0, el parametro esta en obj+0xB8, y `barrer.py off 0xB8 --solo load` restringido a 0x00130000-0x00150000 dio DOS lwc1 contiguos (0x00140638 y 0x00140670) -- X e Y de la mira -- entre 25 candidatos, todos los demas lw enteros. La base del objeto queda en 0x005A8AB0+0x4F0 = 0x005A8FA0, y eso se confirma por TRES vias independientes: (1) obj+0xB0..0xBC caen exactamente en los cuatro parametros de ValueDB ya medidos en diez volcados; (2) obj+0x7C, que la decompilacion usa como puntero a la estructura con +0x2AC, vale 0x005A8AB0, que es la base del jugador; (3) el diferencial de busqueda del yaw habia marcado 0x005A8FA0 y 0x005A8FA8 con el MISMO valor que 0x005A8DA0, que es lo que predice la ultima linea de la funcion (`*param_3 = uVar3`, o sea obj+0x00 recibe el yaw de obj+0x08). Es obj+0x0C. Se lo vio moverse con inyeccion de mouse en el eje Y y quedarse quieto con inyeccion en X.",
    "notas": "LA FUNCION LO RECORTA A +-70 GRADOS con dos constantes INMEDIATAS del codigo (0x428C0000 = 70.0f), no con un dato: `if (70.0 < v) v = 70.0; if (v < -70.0) v = -70.0`. Subir ese limite para poder mirar mas arriba y mas abajo es un parche de CODIGO, no de dato. Sin medir si el juego aguanta angulos mayores."
+  },
+  {
+   "id": "bandera_camara_proyectil",
+   "nombre": "Bandera que habilita la secuencia de camara de 0x0040F504 (proyectil del rifle de asalto, objetivo a >= 6 m)",
+   "direccion": "0x0040D9A3",
+   "tipo": "u8",
+   "version": "ntsc_u",
+   "estable": true,
+   "confianza": "hipotesis",
+   "descubierto": "2026-09-27",
+   "valor_medido": 0,
+   "evidencia": "2026-09-27, en frio (bitacora (73)). La leen FUN_0011c930 (update de 0x0040F508) y FUN_0011ca28 (manejador de muerte), y sin ella la secuencia de 0x0040F504 no arranca. NADIE LA ESCRIBE: escaneo de todas las instrucciones gp-relativas (gp = 0x004157F0) y absolutas (lui 0x41) del .text; control positivo, la vecina 0x0040D9A2 si aparece escrita (0x0010BBFC). Vale 0 en el ELF (.sdata) y en los 3 volcados.",
+   "notas": "Lo que hace AL PRENDERLA es hipotesis: es la sonda (a) del nodo proyectiles en kb/subsistemas.json. La vecina 0x0040D9A4 (tampoco escrita) agrega la bandera 8 a las ranuras de muerte de 0x0040F508."
+  },
+  {
+   "id": "posicion_jugador0",
+   "nombre": "Posicion (pies) del jugador 0, la que usan los triggers",
+   "direccion": null,
+   "tipo": "f32",
+   "version": "ntsc_u",
+   "estable": false,
+   "base": "juego+0x1C0 (juego = *(0x0040F4D0); = jugadores[0]+0x190)",
+   "confianza": "probable",
+   "descubierto": "2026-09-27",
+   "evidencia": "2026-09-27, en frio + volcados (bitacora (73)). FUN_0016a4c0 (test de volumen de los triggers) la lleva al marco local de cada zona. En los 3 volcados coincide en x,z con la fila 3 de la matriz de camara (camara+0x7A0) y queda 1,45 m por debajo: los ojos. juego+0x318 = 1,65 en los 3 (altura del jugador; los triggers usan la mitad).",
+   "notas": "Para el coop: los triggers leen SOLO esta posicion."
   }
  ]
 }

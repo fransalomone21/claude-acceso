@@ -16,6 +16,24 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (73) — E6 cerrada: los 12 sin nombre tienen nombre, y dos hallazgos de paso (la ValueDB compilada y una cámara desactivada)
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** el mapa (P5), COOP (M2) y cualquier mod de parámetros · **Nodos:** `sin-nombre` (K1) **se disuelve**; nacen `disparadores` (**K3**), `unidades`, `ragdoll` y `proyectiles` (K2); `render`, `arranque` y `valuedb` suman evidencia (sin cambio de K)
+**Objetivo:** el resto de E6 de `docs/14`: los 12 singletons de `sin-nombre`.
+**Resultado (en frío salvo donde dice «medido»; nombres = hipótesis con evidencia, K2):**
+- **Método.** Las cadenas no dieron nada (0 en los 12). Herramienta nueva `herramientas/perfil_singleton.py`: por singleton, el alojamiento en el arranque, los métodos (funciones que lo reciben como primer argumento), los campos y **desde qué lazo cuelga** cada método. Control positivo: `render` sale alojado con 0xD600 B (= censo) y sus métodos cuelgan del render de los modos. **Corrección de método:** el update del juego por cuadro es `FUN_00129360`, que cuelga de `main` y **no** de las vtables de los modos; sin esa raíz, la mitad de los updates salían «sin lazo».
+- `0x0040F4C8` → `render`: doble búfer en la **scratchpad** del EE (0x70002000 / 0x70002800, índice % 2).
+- `0x0040F548` → `arranque`: **cargador de los 10 IRX** del IOP (SIO2MAN … MC2_D). `0x0040F4F8` → `arranque`: 39 palabras en −1 que **nadie usa** después del init (medido: igual en los 3 volcados).
+- `0x0040F54C` → `valuedb`: **el búfer de `Data/Andy.aku`, que es la ValueDB compilada.** Contesta la sonda abierta de `valuedb` («de dónde sale el valor»): 1322 pares (f32, clave) + 21 archivos `.cfg`; la clave es un CRC-32 (tabla `0x003C09F0`, sin xor final, corrimiento **aritmético**) de `nombre + grupo + "/" + ruta.cfg`. Control positivo doble (`herramientas/valuedb_aku.py`): 5 de 8 rutas del ELF y 49 variables registradas caen en las tablas, con valores físicos coherentes (medido). 1273 claves siguen sin nombre.
+- `0x0040F4F4` → **`disparadores`** (K3): las zonas disparadoras del stage. Cada cuadro llevan la **posición del jugador 0** (`juego+0x1C0`, medido: la cámara está 1,45 m arriba) a su marco local y disparan al entrar o salir. Medido: 60 objetos de la clase `0x003DC010`. **Para el coop: sólo prueban al jugador 0.**
+- `0x0040F534` / `0x0040F538` → **`unidades`**: listas con doble búfer de la unidad actual y la siguiente, llenadas al cargar `Unit_%02d.bin` y `StUnit%02d.bin` (módulo de **tipo 0x24**, sin clasificar hasta hoy).
+- `0x0040F4CC` / `0x0040F52C` → **`ragdoll`**: el método de daño del personaje (vtable `0x003DC5F8`, entrada 52) aplica un impulso al cuerpo, lo activa en `F4CC` y lo sigue 0,7 s en `F52C`.
+- `0x0040F520` / `0x0040F504` / `0x0040F530` / `0x0040F508` → **`proyectiles`**: `F520` son las **granadas en vuelo** (id64 `BG1_HGR` y `BG1_GRL_SHL`); `F508`, 8 ranuras de **muerte animada**. `F504` y `F530` llevan cada uno **un** proyectil `BG1_ASR_SHL` y una secuencia que toma la cámara y el control del jugador. **La de `F504` está desactivada de fábrica:** la habilita `0x0040D9A3`, que **nada escribe** (escaneo gp-relativo y absoluto, con control positivo en la vecina `0x0040D9A2`). `F530` recorre un array con cuenta **compilada en 1**, como `jugadores[]`.
+**No funcionó:** las cadenas (otra vez). Suponer que `FUN_00107d20` era el constructor de `F54C`: es el asignador genérico del montón `0x0040F0F0`. Leer `FUN_0027f9c0` como la escala de tiempo: escribe `juego+0x24`, una bandera (corregido antes de anotarlo).
+**Sonda para la notebook (nueva, se suma al lote):** `0x0040D9A3 = 1` por PINE y matar con el rifle de asalto a un enemigo a más de 6 m → predicción: una secuencia de cámara que sigue al proyectil; control: con 0 no pasa.
+**Sigue:** `s-0x0040F510` (el único singleton en K1) con `perfil_singleton.py`, ahora con la raíz del cuadro.
+
+---
+
 ## 2026-09-27 (72) — E6, primera parte: `tiempo` ubicado (el período de cuadro es 1/fps, y el fps es 30 o 25)
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** el mapa (y a cualquier mod que toque la velocidad) · **Nodos:** `tiempo` **K0 → K2**
 **Objetivo:** E6 de `docs/14`, empezando por el único nodo en K0.

@@ -79,6 +79,8 @@ Todas tienen `--help` y se corren desde `black/`.
 | `programa.py` | **el programa**: `resumen` (mapa de nivel 1 con su madurez K), `verificar` (trazas concepto → NGO → función → subsistema), `catalogo`, `trade` (se niega sin los pesos de Fran). Saboteador: `pruebas/probar-programa.py` |
 | `censo_subsistemas.py` · `nombrar_subsistemas.py` | **el nivel 1**: los 37 singletons que construye `FUN_001020c0`, dónde viven, cuánto código los usa (cota inferior) y qué cadenas usa su código |
 | `censo_jugadores.py` | **sonda 5 del coop**: la cuenta de jugadores (`*(0x0040F0E0)+0x20208`), quién la escribe y qué lazos sobre `jugadores[]` la obedecen. Usa capstone; corre en la nube |
+| `perfil_singleton.py` | **qué hace el código con un singleton** cuando las cadenas no dicen nada: alojamiento, métodos, campos y desde qué lazo cuelga cada método (carga, cuadro del juego, render). Lee el decompilado de `black-datos`, sin Ghidra |
+| `valuedb_aku.py` | **los VALORES de la ValueDB**: decodifica `ANDY.AKU` desde un volcado y le pone nombre a cada valor con el CRC de `nombre + grupo + "/" + ruta.cfg`. Trae su control positivo |
 | `windows/subir-datos-nube.ps1` | sube el ELF, los volcados y archivos del ISO al repo **privado** `black-datos`, para las sesiones en la nube (`BLACK_DATOS`, ver `sesiones/HANDOFF.md`) |
 | `desensamblar.py` · `punteros_a.py` · `instancias_vtable.py` | contrastar Ghidra contra las instrucciones; quién guarda un puntero a una dirección; qué objetos vivos tiene una clase (vtables GCC 2.9x de 8 B por entrada) |
 | `pine.py` | hablarle a PCSX2 en vivo: leer, escribir, volcar, pedir savestates |
