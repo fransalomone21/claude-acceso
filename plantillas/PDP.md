@@ -81,6 +81,13 @@ viejo: es donde vive el criterio de salida de la fase en curso.
 
 ## 4. Las fases
 
+> **Si el proyecto persigue varias metas independientes, es un programa**: su
+> fase 0 es un estudio de conceptos (Pre-Fase A, NASA p. 22) que cierra con
+> una revisión con el interesado, y cada meta elegida tiene después su propio
+> ciclo. Y en cualquier proyecto de ingeniería, el nivel 1 del sistema va
+> antes que el detalle. Ver `plantillas/naturalezas/ingenieria.md`, «De arriba
+> hacia abajo».
+>
 > Se escriben todas las que se ven hoy, pero **sólo la próxima lleva criterio
 > de salida detallado**. Las de más adelante se reescriben cuando llegue su
 > turno: escribirlas en detalle ahora es planificar con la información de hoy

@@ -45,6 +45,36 @@ las otras dos, y de ahí sale todo lo demás.
 5. **Nada de volcados crudos en el chat.** Los hexdumps y los listados largos
    van a archivo y se referencian por ruta y offset.
 
+## De arriba hacia abajo — antes de bajar al detalle
+
+Un sistema que no se conoce se explora **por niveles**, y el de arriba va
+primero. El handbook lo advierte (NASA p. 67): *"there is always a danger that
+the top-down process cannot keep up with the bottom-up process."* En BLACK
+pasó: 61 entradas de detalle, y el arranque que construye los 37 subsistemas
+del juego se leyó en la 62, en una sola sesión.
+
+1. **El nivel 1 primero.** Antes de investigar una parte, se escribe de qué
+   partes está hecho el sistema: el punto donde se compone (la función de
+   arranque, el `main`, el índice de archivos, el esquema) y la lista de
+   subsistemas que sale de ahí. Leer ese punto es barato y casi nunca se hace
+   primero.
+2. **Refinamiento sucesivo** (NASA Fig. 4.4-2, p. 67): en cada nivel, metas →
+   conceptos → trade study → elección, y recién entonces se sube la
+   resolución, sólo donde lo elegido lo pide.
+3. **Madurez por nodo**, análoga al TRL: cuánto se sabe de cada parte (de «no
+   se sabe dónde vive» a «efecto confirmado y validado»), con la sonda que la
+   sube escrita donde es baja.
+4. **Si el proyecto persigue varias metas independientes, es un programa**:
+   un estudio de conceptos (Pre-Fase A, NASA p. 22) que termina en una
+   revisión con el interesado, y un ciclo de fases por cada meta elegida. La
+   exploración es desarrollo de tecnología que un proyecto pide, no un fin.
+5. **Los pesos de un trade study los pone el interesado**, preguntado. La
+   sesión decide cómo se ejecuta; qué importa más, no.
+
+El caso completo, con las herramientas que lo miden, está en
+`proyectos/ingenieria/black/docs/11-programa.md`, y el diseño de la pieza en
+`proyectos/ingenieria/arquitectura-se/docs/arquitectura.md` (P11).
+
 ## Verificación y validación — no son lo mismo
 
 - **Verificación:** ¿el sistema hace lo que el requisito dice? Se mide contra

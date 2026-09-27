@@ -45,9 +45,10 @@ mientras tanto el proyecto afinaba detalle en las estructuras que sí conocía.
   antes.
 - **No se persigue una pregunta cerrada con un negativo** (7b). Reabrirla es
   una decisión nueva.
-- **No se afina una estructura conocida mientras un requisito no tenga la suya
-  identificada** (desde el 2026-09-26). Es la regla que la fase 8 hace
-  medible: `kb/superficies.json`.
+- **No se baja de nivel de resolución sin el nivel de arriba hecho** (desde el
+  2026-09-26): refinamiento sucesivo, `docs/11-programa.md` §3. El mapa de
+  nivel 1 vive en `kb/subsistemas.json`, se imprime al abrir sesión y lo mide
+  `programa.py verificar`.
 - **No se cambia el ELF del ISO.** Código nuevo va por `.pnach` (el CRC del ELF
   indexa savestates y parches; ver conops).
 - **Las rutas no se copian a mano.** Viven en `kb/ubicaciones.json`.
@@ -69,9 +70,16 @@ mientras tanto el proyecto afinaba detalle en las estructuras que sí conocía.
 
 ## 4. Las fases
 
+> **Desde el 2026-09-26 BLACK es un PROGRAMA** (NASA §3): una Pre-Fase A del
+> programa, un ciclo A–F por cada proyecto (un mod) y el reversing como
+> desarrollo de tecnología que un proyecto pide. Cómo se trabaja:
+> [`docs/11-programa.md`](docs/11-programa.md). Las filas 0–8 de abajo son la
+> historia: casi todo desarrollo de tecnología hecho de abajo hacia arriba,
+> sin que un proyecto lo pidiera — y por eso el mapa de nivel 1 llegó último.
+
 El detalle de cada hallazgo está en `ESTADO_ACTUAL.md`. Acá el esqueleto y las
 puertas. N1 (capacidades A leer RAM, B leer código, D escribir) está
-**cerrada**; C (leer el ISO) sigue abierta y la fase 8 la empuja.
+**cerrada**; C (leer el ISO) sigue abierta.
 
 | # | Fase | Criterio de salida (resultado verificable) | Cómo se certifica | Estado |
 |---|---|---|---|---|
@@ -88,54 +96,48 @@ puertas. N1 (capacidades A leer RAM, B leer código, D escribir) está
 | 7e | Índice de módulos del nivel | (a) 61 casos a esquema en `kb/`; (b) un tipo ≠ `0x0A` por efecto | (a) `casos_dispatcher.py autotest` + `pools_p1.py`, 17/18 exactas | (a) **cerrada**; (b) **cancelada** 2026-09-26 (ver §6) |
 | J1 · L1 · L2 | Jugabilidad, niveles en frío, geometría | ver `ESTADO_ACTUAL.md` | autotests con saboteador en rojo | cerradas 2026-09-05 |
 | R2 · T4 | Remaster: pipeline DLSS5, costo del pack HD | ver `ESTADO_ACTUAL.md` | — | abiertas, en pausa |
-| **8** | **Censo estructural: la estructura de cada requisito** | ver abajo | `superficies.py verificar` | **abierta** |
+| 8 | Censo estructural por requisito | cada R2–R7 con su estructura | `superficies.py` (nunca se escribió) | **absorbida** en la Pre-Fase A el 2026-09-26; la **8c** (coop) quedó respondida (`kb/superficies.json#R5`) |
+| **Pre-A** | **Estudio de conceptos del programa** | ver abajo | `programa.py verificar` + la MCR | **abierta** |
 
-**Fase en curso:** 8 — censo estructural. Cada requisito abierto con la
-estructura que lo gobierna identificada, **antes** de volver a afinar detalle.
+**Fase en curso:** Pre-Fase A del programa — estudio de conceptos. Producir el
+espectro amplio de lo que se puede hacer con BLACK, con el mapa de nivel 1 del
+juego debajo, **antes** de elegir en qué bajar al detalle. Documento:
+[`docs/12-estudio-de-conceptos.md`](docs/12-estudio-de-conceptos.md).
 
-**Qué la cierra, exactamente:** cada requisito R2–R7 de `docs/00-conops.md`
-tiene en `kb/superficies.json` una fila con **la estructura que lo gobierna,
-su grado (`hipotesis`/`probable`/`confirmado`) y la evidencia** —o, si sigue
-`desconocida`, la **sonda en frío que la resolvería, ya corrida, con su
-resultado**—; y las **seis secciones de `GLOBDATA.BIN`** tienen consumidor
-(dirección de código) y qué-es a `probable` como mínimo. Adentro, tres
-preguntas que deciden todo lo que sigue:
+**Qué la cierra, exactamente:** la **MCR** con sus criterios de éxito
+(`docs/11-programa.md` §6): NGOs validadas por Fran con sus palabras; los
+pesos C1–C6 puestos por él en `kb/conceptos.json#pesos` con fuente y fecha;
+el trade study corrido con sensibilidad; una cartera de **a lo sumo dos
+proyectos activos**, cada uno con su plan de desarrollo de tecnología; y la
+decisión del KDP-A escrita en §6.
 
-- **8a — ¿quién piensa por el enemigo?** Desde la vtable del enemigo
-  (`0x003DCA78`), el método de update: ¿alcanza código `Kaim::` (Kynapse) o
-  sólo código de Criterion? Decide dónde se busca R3.
-- **8b — las seis secciones de `GLOBDATA.BIN`.** Hoy se entiende **una** (la
-  de armas, 8.960 B de 1.261.896: el 0,7 %). La de `0x80` es el 81 % del
-  archivo y no tiene nombre.
-- **8c — ¿el motor admite dos jugadores?** ¿La clase jugador (`0x003DC5F8`) se
-  instancia desde un array o un contador, y se lee un segundo pad? Veredicto
-  con evidencia para R5.
+**Cómo se certifica:** `python herramientas/programa.py verificar` sale 0
+(ninguna traza cortada: cada concepto a una NGO, a funciones y a subsistemas
+que existen en el mapa; cada K0–K1 con su sonda; cada función con dueño; el
+catálogo generado igual a `kb/`), **y** `programa.py trade` sale 0 — hoy sale
+**2** porque faltan los pesos de Fran, que es lo que tiene que pasar. **En
+rojo se ve así:** `pruebas/probar-programa.py` rompe cuatro trazas, edita el
+catálogo a mano, corre el trade sin pesos y comprueba que un habilitador en K0
+cuente como freno: siete casos, los siete en rojo donde tenían que estarlo
+(2026-09-26). El del K0 se vio además en rojo contra el error real que lo
+motivó (`k or 9` trataba al K0 como falso y escondía al coop).
 
-**Cómo se certifica:** `python herramientas/superficies.py verificar`, que
-sale **1** si una fila de requisito no tiene estructura, grado o evidencia, si
-una fila `desconocida` no nombra su sonda y su resultado, o si una sección de
-`GLOBDATA.BIN` no tiene consumidor. **En rojo se ve así:** borrarle la
-evidencia a una fila, o agregar una sección sin consumidor, y el verificador
-tiene que salir 1 — lo exige `pruebas/probar-superficies.py`, que se escribe
-con el verificador y no después. La herramienta es parte de la fase.
+**La fase también puede CANCELARSE:** si en la MCR Fran decide que el
+programa es **sólo coop**, el catálogo queda archivado como referencia y la
+cartera es un solo proyecto. Lo aprendido no se pierde: el mapa de nivel 1
+sirve igual.
 
-**La fase también puede CANCELARSE.** Si 8a muestra que la IA no tiene
-parámetros de percepción separables (todo horneado en código), R3 deja de ser
-«tocar datos» y pasa a ser «código por `.pnach`»: la fase cierra igual, con esa
-fila en `desconocida` + la sonda corrida, y la fase siguiente de R3 se
-reescribe como fase de código.
-
-**Lo que viene después, sin detalle a propósito:** la fase 9 es el primer
-experimento de validación sobre el requisito que la 8 deje mejor parado; con
-lo que se sabe hoy es **R4** (sustituir y sumar enemigos, E5 de
-`docs/08-experimentos.md`), y trae adentro la verificación por efecto que 7e(b)
-pedía.
+**Lo que viene después, sin detalle a propósito:** el análisis del coop
+(pedido por Fran para después de este estudio), las preguntas finas del coop,
+el consenso, y el proyecto coop entrando a su **Fase A** con la cámara (K0)
+como primer desarrollo de tecnología.
 
 ## 5. Riesgos
 
 | Riesgo | Prob. | Consec. | Estrategia | Disparador observable |
 |---|---|---|---|---|
-| **Se afina detalle mientras falta una estructura grande** | alta — pasó: 7e(b), mira y geometría avanzaron con R3/R5 sin estructura | alta: sesiones que no mueven ningún requisito | evitar: fase 8 y `kb/superficies.json` | una sesión que abre un experimento sobre un requisito cuya fila está `desconocida` |
+| **Se afina detalle mientras falta una estructura grande** | alta — pasó **dos veces**: 7e (se arregló con una regla de búsqueda) y todo el proyecto (el mapa de nivel 1 llegó en la entrada 62) | alta: sesiones que no mueven ningún requisito | evitar: refinamiento sucesivo (`docs/11-programa.md` §3), el mapa impreso al abrir sesión, y el reversing pedido por un proyecto | una entrada de bitácora que no declara concepto ni nodo del mapa, o `programa.py resumen` con un nodo que baja a R3 mientras hay K0 en su mismo nivel |
+| **La sesión rankea con pesos que no son de Fran** | media | alta: se construye la cosa equivocada con precisión | evitar: `programa.py trade` sale 2 sin pesos con fuente | un ranking en un documento que no cita `kb/conceptos.json#pesos` |
 | **El observable elegido no existe** | alta — pasó **dos veces** (`printf` stub; array del `0x2D` vacío) | alta | mitigar: characterization test en frío del observable antes de usarlo, predicción escrita antes | cualquier plan que diga «vamos a ver que pase X» sin haber medido que X se pueda ver |
 | Se daña el **ISO original** | baja | **irrecuperable** | evitar, con tres capas | `abrir-sesion.ps1` en rojo, o el guardia bloquea algo |
 | **Ghidra pierde un argumento** | media — pasó en `0x001759A4` (delay slot) | alta | mitigar: contrastar contra las instrucciones | una conclusión que depende de qué argumento recibe una función |
@@ -159,6 +161,9 @@ pedía.
 | 2026-09-26 | **Fase 8: censo estructural antes de más detalle** | seguir con 7e(b), 5b o el remaster | medido ese día: R3, R5 y el catálogo de R2 no tienen estructura, y el 81 % de `GLOBDATA.BIN` no tiene nombre. Afinar lo conocido con eso abierto es un parámetro, no una estructura |
 | 2026-09-26 | **La 8c (coop) va primero**, antes que la 8a | el orden 8a → 8b → 8c | lo pidió Fran («me encantaría que haya dos jugadores»): la meta la pone él, y la 8c no depende de las otras dos |
 | 2026-09-26 | **Coop = pantalla compartida, jugador 2 alojado aparte, código por `.pnach`** (a probar) | ampliar el array en el lugar; pantalla dividida; pad 2 manejando a un compañero de IA | el array no tiene lugar (`juego+0x8F0` está ocupado); la pantalla dividida no tiene estructura conocida; el compañero depende de la 8a, que no está. Ver `kb/superficies.json#R5` |
+| 2026-09-26 | **BLACK pasa a PROGRAMA** (NASA §3): Pre-Fase A del programa, un ciclo A–F por proyecto, el reversing como desarrollo de tecnología que un proyecto pide | seguir con fases numeradas por descubrimiento (8a, 8b…) | el mapa de nivel 1 (37 subsistemas, 6 tocados en 61 entradas) salió en una sola lectura de `FUN_001020c0`; NASA p. 67 advierte que lo de abajo le gana a lo de arriba si la arquitectura no se resuelve temprano |
+| 2026-09-26 | **La fase 8 se absorbe en la Pre-Fase A**; `superficies.py` no se escribe | escribirlo igual | su trabajo (estructura por requisito) lo hace ahora `programa.py` sobre el mapa y el catálogo, con traza a NGOs; dos verificadores del mismo dato divergen |
+| 2026-09-26 | **Ningún trade study sin los pesos de Fran**; la herramienta se niega | que la sesión proponga pesos «razonables» | Fran lo pidió («preguntas antes de trade-offs ambiguos»); NASA p. 46: las expectativas se elicitan, se validan y se comprometen con el interesado |
 | 2026-09-26 | La **ValueDB no es el catálogo de dificultad** | usarla como mapa de tunables | censada: 63 registros, 58 con nombre, todos de controles, colisión y audio. Ninguno de IA ni de daño |
 
 ## 7. Verificación

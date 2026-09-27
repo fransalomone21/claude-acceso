@@ -20,6 +20,7 @@ una herramienta.
 
 | Si la tarea es… | Leer |
 |---|---|
+| **decidir qué hacer con el juego, qué mod sigue, o cualquier plan** | [`docs/11-programa.md`](docs/11-programa.md) (cómo se decide) y [`docs/12-estudio-de-conceptos.md`](docs/12-estudio-de-conceptos.md) (qué se puede hacer). El mapa: `python herramientas/programa.py resumen` |
 | retomar el proyecto, saber en qué anda | `ESTADO_ACTUAL.md` (entero — es corto) |
 | saber qué cierra la fase abierta, o por qué se decidió algo | `PDP.md` |
 | entender cómo se llegó a algo, o qué no funcionó antes | `docs/03-bitacora.md` |
@@ -75,6 +76,9 @@ Todas tienen `--help` y se corren desde `black/`.
 
 | Comando | Para qué |
 |---|---|
+| `programa.py` | **el programa**: `resumen` (mapa de nivel 1 con su madurez K), `verificar` (trazas concepto → NGO → función → subsistema), `catalogo`, `trade` (se niega sin los pesos de Fran). Saboteador: `pruebas/probar-programa.py` |
+| `censo_subsistemas.py` · `nombrar_subsistemas.py` | **el nivel 1**: los 37 singletons que construye `FUN_001020c0`, dónde viven, cuánto código los usa (cota inferior) y qué cadenas usa su código |
+| `desensamblar.py` · `punteros_a.py` · `instancias_vtable.py` | contrastar Ghidra contra las instrucciones; quién guarda un puntero a una dirección; qué objetos vivos tiene una clase (vtables GCC 2.9x de 8 B por entrada) |
 | `pine.py` | hablarle a PCSX2 en vivo: leer, escribir, volcar, pedir savestates |
 | `escanear.py` | escaneo diferencial de los 32 MB. El reemplazo de Cheat Engine |
 | `inspeccionar.py` | mirar el entorno de una dirección: punteros, floats, texto |
@@ -151,8 +155,10 @@ segunda fuente de verdad. Ver lección 25 de `/lecciones-aprendidas`.
 
 ## Al cerrar cualquier sesión
 
-1. Actualizar `kb/` con lo que se haya averiguado.
-2. Agregar una entrada arriba de todo en `docs/03-bitacora.md`.
+1. Actualizar `kb/` con lo que se haya averiguado — y si subió la K de un
+   subsistema, en `kb/subsistemas.json`.
+2. Agregar una entrada arriba de todo en `docs/03-bitacora.md`, **que declare
+   a qué concepto sirve y qué nodo del mapa toca** (`docs/11-programa.md` §9).
 3. Registrar las lecciones de proceso con `aprender.py agregar`.
 4. Actualizar `ESTADO_ACTUAL.md` y `sesiones/HANDOFF.md`.
 5. Commit y push a `main`.

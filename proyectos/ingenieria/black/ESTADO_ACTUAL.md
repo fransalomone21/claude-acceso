@@ -37,6 +37,34 @@ decía.
 
 ---
 
+## EL PROGRAMA — Pre-Fase A abierta el 2026-09-26 (LEER ESTO PRIMERO)
+
+**BLACK pasó a ser un programa** (NASA §3): estudio de conceptos del programa,
+un ciclo A–F por cada mod, y el reversing como desarrollo de tecnología que un
+proyecto pide. Cómo se decide: `docs/11-programa.md`. Qué se puede hacer:
+`docs/12-estudio-de-conceptos.md`. Por qué: 61 entradas de bitácora de
+detalle, y el arranque que construye los **37 subsistemas** del juego
+(`FUN_001020c0`) leído recién en la 62 — con **6** tocados.
+
+**El mapa de nivel 1** (`kb/subsistemas.json`, 35 nodos: los 37 singletons
+agrupados, más disco y externos) se imprime al abrir sesión con
+`programa.py resumen`. Hoy: **K0 cámara y tiempo**; K1 seis nodos (entre ellos
+`0x0040F510`, la segunda interfaz más grande del juego, sin nombre); 13 en K2.
+**Catálogo:** 48 conceptos candidatos en 7 categorías (`kb/conceptos.json`,
+generado en `docs/12-catalogo.md`); **14 frenados por un habilitador en K0–K1,
+entre ellos los tres de coop, todos por la cámara.**
+
+**Qué la cierra:** la MCR con Fran (NGOs validadas, sus pesos C1–C6, trade
+study con sensibilidad, cartera de ≤ 2 proyectos). **Está esperando sus
+respuestas** a las 22 preguntas de `docs/12` §6. `programa.py trade` sale 2
+hasta que estén.
+
+**Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
+consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo
+de tecnología. Los dos mandos están conectados (Fran, 2026-09-26).
+
+---
+
 ## Mapa de fases — de mayor a menor abstracción
 
 Cuatro niveles. Se baja de nivel sólo cuando el de arriba tiene su criterio de
@@ -75,7 +103,7 @@ N2  FASES DEL JUEGO
      5a mod de daño ...................................... CERRADA 2026-09-04, por efecto
      5b qué elige la zona de impacto ..................... pendiente, es Opus
      6  exprimir el ISO ............... 6.1, 6.6 CERRADAS; 6.2/6.3/6.4 AVANZADAS 2026-09-04
-     8  CENSO ESTRUCTURAL ................................. ABIERTA <-- acá estamos
+     8  CENSO ESTRUCTURAL ....... ABSORBIDA en la Pre-Fase A del programa (arriba)
         Abierta el 2026-09-26 por una revisión del plan contra los requisitos
         de `docs/00-conops.md`. Medido ese día: de los cinco requisitos
         abiertos, **R4 tiene su estructura conocida**, R6 a medias, y **R3 (la

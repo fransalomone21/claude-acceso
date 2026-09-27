@@ -16,6 +16,47 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-26 (62) — BLACK pasa a programa: el nivel 1 del juego, 48 conceptos, y la reforma del método (P11)
+**Máquina:** notebook · **Modelo:** Opus, esfuerzo máximo, sin fan-out
+**Sirve a:** Pre-Fase A del programa · **Nodos:** todos los de nivel 1 (`kb/subsistemas.json`)
+**Objetivo:** Fran pidió frenar el coop y hacer primero el plan más amplio
+posible, siguiendo el handbook NASA, para que no vuelva a pasar lo de bajar al
+detalle sin haber descubierto lo de arriba. Y reformar el método general, no
+sólo BLACK.
+**Resultado:**
+(1) **El nivel 1 del juego, en una lectura:** `FUN_001020c0` construye **37
+singletons**, cada uno colgado de un global en `0x0040F0E4`–`0x0040F54C` con
+su tamaño. `censo_subsistemas.py` los ubica en `ee-e4.bin`, cuenta el código
+que los usa (cota inferior: Ghidra ve 50 referencias al flujo donde el
+escáner ve 8) y `nombrar_subsistemas.py` los nombra por sus cadenas. **En 61
+entradas se habían tocado 6.** Control positivo: el objeto juego contiene al
+jugador y el gestor de entrada a los dos mandos.
+(2) Estructuras altas que no se buscaban: **el esquema de armas tiene
+`AIParams` con Max Spread Angle y Accuracy Fall Off** (la puntería de la IA
+puede estar en la tabla que ya se parchea); una **capa de comandos con nombre
+hacia la interfaz** (objeto de 1 byte con ≥ 44 funciones) y la interfaz como
+**datos** en `/EXPORT/FRONTEND/`; subsistemas de **estadísticas**, **pickups
+(64)**, **guardado**; y `0x0040F510`, **la segunda interfaz más grande (≥ 219
+funciones), sin nombre seguro**.
+(3) **Pre-Fase A** con fuente única en `kb/`: 35 nodos con madurez K0–K7 y 48
+conceptos candidatos en 7 categorías, cada uno trazado a NGO, funciones y
+subsistemas. `programa.py` verifica las trazas, genera el catálogo y **se niega
+a rankear sin los pesos de Fran**; su saboteador, 7 de 7 en rojo.
+(4) **Método general:** D15 y P11 en `arquitectura-se`, sección «De arriba
+hacia abajo» en la naturaleza `ingenieria`, nota en la plantilla del PDP,
+lección de proceso con triage `propia` y su línea instalada en
+`chequeo-de-trabajo.md`. Las 8 citas del handbook, medidas: 8/8.
+**No funcionó:** (a) la primera corrida del medidor de citas dio 2/8 porque
+el `.txt` de `%TEMP%` no era la fuente (1 página); se regeneró con la receta de
+`pilares/README.md` y dio 8/8. (b) `programa.py resumen` escondía al coop: `k or
+9` trata al K0 como falso. Lo vio la lectura del número, no el saboteador; se
+sumó el caso y se lo vio en rojo contra el error real. (c) La lista de
+«conceptos baratos y maduros» la escribí a ojo y erré en seis; ahora sale
+calculada. (d) Atribuí a NASA el TRL 6 para la transición A→B y no lo dice:
+lo pide para integrar una tecnología «into an SE process» (p. 195). Corregido;
+la regla K5 quedó como decisión nuestra.
+**Sigue:** Fran contesta las 22 preguntas → MCR → análisis del coop.
+
 ## 2026-09-26 (61) — 8c: el motor es de N jugadores compilado con N = 1, y ya lee el segundo mando
 **Máquina:** notebook · **Modelo:** Opus, esfuerzo medio, sin fan-out
 **Objetivo:** Fran pidió dos jugadores. Contestar en frío si el motor lo

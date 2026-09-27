@@ -113,6 +113,15 @@ try {
         & python herramientas/decompilar.py info
         if ($LASTEXITCODE -ne 0) { Linea 'FAIL' "decompilar.py info salio $LASTEXITCODE"; $fallas++ }
     }
+
+    # El mapa de nivel 1, a la vista en la entrada (docs/11-programa.md s3):
+    # el proyecto bajo 61 entradas al detalle sin ver que 31 de 37 subsistemas
+    # no se habian tocado. Un medidor en el sotano no frena nada.
+    Write-Output ""
+    Write-Output "el programa -- mapa de nivel 1 y trazas (programa.py)"
+    & python herramientas/programa.py resumen
+    & python herramientas/programa.py verificar
+    if ($LASTEXITCODE -ne 0) { Linea 'FAIL' "programa.py verificar salio $LASTEXITCODE -- una traza concepto/NGO/subsistema se corto"; $fallas++ }
 } finally { Pop-Location }
 
 Write-Output ""

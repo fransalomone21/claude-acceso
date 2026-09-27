@@ -4,9 +4,34 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «2026-09-26» DE ACÁ ABAJO.** Cambió la fase abierta:
-> ya no es 7e, es la **8 (censo estructural)**. Los bloques del 2026-09-05
-> siguen valiendo como referencia de lo hecho.
+> **EMPEZÁ POR EL BLOQUE «2026-09-26, NOCHE» DE ACÁ ABAJO.** BLACK pasó a ser
+> un **programa**; la fase abierta es la **Pre-Fase A** (estudio de
+> conceptos), y espera las respuestas de Fran. El bloque «2026-09-26» de la
+> tarde (fase 8, coop 8c) sigue valiendo como referencia.
+
+## 2026-09-26, NOCHE — PRE-FASE A DEL PROGRAMA, ESPERANDO A FRAN
+
+> **Pendiente LOCAL (la nube no puede):** la corrida de saboteadores del sistema del 2026-09-26 se corto a mano por el tope del plan (97 %). probar-verificador.ps1 habia salido 1 en 0,8 s, sin diagnosticar. Correr .\chequeo-completo.ps1 -SoloSaboteadores en la notebook antes de tocar frenos. El corte dejo .claude/arranque.md movido a .probando: se restauro con git checkout.
+> **En la nube SI se puede:** la MCR (respuestas de Fran, pesos, programa.py trade) y el analisis del coop en papel. NO: nada que pida el ELF, el ISO, los volcados, Ghidra o el emulador (viven en la notebook, fuera del repo).
+
+**Qué leer, en orden:** `docs/11-programa.md` (cómo se decide), 
+`docs/12-estudio-de-conceptos.md` (qué se puede hacer y las 22 preguntas),
+`python herramientas/programa.py resumen` (el mapa). **No** hace falta releer
+la bitácora vieja: lo que importa quedó en `kb/subsistemas.json`.
+
+**En qué estado queda:** mapa de nivel 1 con 35 nodos y su K; catálogo de 48
+conceptos; `programa.py verificar` 0 rojos; `probar-programa.py` 7/7;
+`programa.py trade` **sale 2 a propósito** (faltan los pesos de Fran).
+
+**Lo primero cuando Fran conteste:** copiar sus respuestas textuales a
+`docs/12` §7 con fecha, poner sus pesos en `kb/conceptos.json#pesos` (con
+`fuente` y `fecha`), marcar `validada: true` en las NGOs que él confirme,
+correr la MCR (`docs/11` §6) y escribir el KDP-A en `PDP.md` §6. **Después**, el
+análisis del coop, que él pidió para ese momento, con sus preguntas finas.
+
+**Máquina:** nada abierto. Emulador cerrado, sin parches vivos, ningún ISO
+montado. Los dos mandos están conectados (dicho por Fran; el juego los lee
+en los volcados viejos, bitácora (61)).
 
 ## 2026-09-26 — REVISIÓN DEL PLAN. FASE 8 ABIERTA
 

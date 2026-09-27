@@ -59,6 +59,19 @@ todas las recortadas con su resta escrita.
   heredaban el código del último comando nativo, que en un saboteador es por
   construcción uno que **tiene** que fallar.
 
+## 2026-09-26 — D15 y P11: el ciclo de vida que la reforma no trajo
+
+Medido en BLACK, no en este proyecto: la reforma tomó de NASA el tailoring, la
+matriz y V&V, pero **no el ciclo de vida de arriba hacia abajo** (Pre-Fase A,
+refinamiento sucesivo, programa/proyecto, madurez). BLACK hizo 61 entradas de
+detalle y leyó último el arranque que construye sus 37 subsistemas. **P11**
+quedó diseñada en `docs/arquitectura.md` §3, con piloto en BLACK y una sección
+nueva en `plantillas/naturalezas/ingenieria.md`. El medidor genérico se
+difiere hasta que un segundo proyecto la use. **No cambia el criterio de
+salida de la fase 7** (P10): son la misma preocupación —construir la cosa
+correcta— de los dos lados. P11 elige antes de construir; P10 mide después si
+sirvió.
+
 ## Lo que FALTA, para la fase 7
 
 - **P10, el medidor de validación** — *timely / affordable / predictable /

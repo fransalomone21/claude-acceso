@@ -64,6 +64,7 @@ el denominador de C2 en el trade study.
 | **D12** | Números escritos a mano que divergen del registro que describen | Rechtin p. 401: "Constants aren't and variables don't." | `chequeo-de-trabajo.md:19` y `aprender.py:243` dicen 186; el registro tiene **204** al cerrar esta sesión. Ya había pasado: decía 45, había 76 |
 | **D13** | `ingenieria-de-sistemas.md` resume el handbook **sin haber abierto el libro** | §8 de este documento | — |
 | **D14** | `verificar-requisito.py` es un medidor de idioma inglés sobre un repo que escribe en español: falso rojo en el 100 % y falsos verdes en las cuatro reglas léxicas | §9 de este documento, medido hoy | 13 de 13 hallazgos falsos sobre A1-A10 |
+| **D15** | La reforma tomó de NASA el tailoring, la matriz y V&V, pero **no el ciclo de vida de arriba hacia abajo**: no hay Pre-Fase A, ni refinamiento sucesivo, ni programa/proyecto, ni madurez de la tecnología. Un proyecto de ingeniería puede bajar al detalle sin mapa de nivel 1 | NASA p. 67: *"there is always a danger that the top-down process cannot keep up with the bottom-up process"*; Fig. 4.4-2 (p. 67); Tabla 2.2-1 (p. 9) | **BLACK, 2026-09-26:** 61 entradas de bitácora; el arranque que construye los 37 subsistemas se leyó en la 62; 6 de 37 tocados. Ya había pasado en 7e y se arregló con una regla de búsqueda |
 
 **D14 apareció DESPUÉS del trade study**, midiendo los requisitos de §7 con la
 herramienta del propio repo. No cambia el ranking y está explicado en
@@ -345,6 +346,45 @@ antes sería medir una arquitectura que todavía no se usó. Queda declarado com
 la entrada de esa fase, que es lo que corresponde.
 
 **Cierra:** D11, como diseño. No como implementación.
+
+### P11 — De arriba hacia abajo: Pre-Fase A, refinamiento sucesivo y programa
+
+**Agregada el 2026-09-26, por D15**, que no estaba entre los 14 defectos
+porque ningún proyecto lo había hecho doler lo suficiente como para medirlo.
+Lo midió BLACK: sesenta y una entradas de detalle y el nivel 1 del sistema
+leído último.
+
+**Lo que es, en cinco partes que se sostienen entre sí** (una sola puerta ya
+se probó en 7e y no alcanzó):
+
+1. **Programa ≠ proyecto** (NASA §3). Un proyecto que persigue varias metas
+   independientes es un programa: Pre-Fase A del programa, un ciclo A–F por
+   proyecto, y el trabajo de exploración (reversing, lectura de fuentes) como
+   **desarrollo de tecnología que un proyecto pide**, no como fin.
+2. **Refinamiento sucesivo** (Fig. 4.4-2, p. 67). En cada nivel de resolución:
+   metas → conceptos → trade study → selección, y recién entonces se sube la
+   resolución, sólo en los nodos que lo elegido necesita.
+3. **Madurez medida**, análoga al TRL (Apéndice G, p. 195): una escala por nodo
+   del mapa, con la sonda que la sube escrita en los niveles bajos.
+4. **El mapa a la vista en la entrada.** El resumen del nivel 1 se imprime al
+   abrir sesión, junto a los otros medidores (pilar de Meadows: el medidor
+   fuera del sótano).
+5. **Los pesos de un trade study los pone el interesado, preguntado.** La
+   sesión decide la ejecución (modelo, esfuerzo, procedimiento); los valores
+   (qué importa más) se elicitan (NASA p. 46). La herramienta se niega a
+   rankear sin pesos con fuente.
+
+**Piloto: BLACK** (`docs/11-programa.md`, `kb/subsistemas.json`,
+`kb/conceptos.json`, `herramientas/programa.py` con su saboteador: siete casos,
+los siete en rojo donde tenían que estarlo, y el último visto en rojo también
+contra el error real que lo motivó). **Instalación genérica:** una sección en
+`plantillas/naturalezas/ingenieria.md` y una nota en `plantillas/PDP.md` §4.
+**Lo que falta, y se declara:** un medidor genérico (que `medir-fase.py`
+detecte un PDP de ingeniería con varias metas y sin Pre-Fase A). Se construye
+cuando un segundo proyecto lo use: hacerlo con un solo caso sería generalizar
+de uno.
+
+**Cierra:** D15 en BLACK, por efecto. En el resto, como diseño.
 
 ---
 
