@@ -47,7 +47,65 @@ Formato de cada entrada:
 **Para N2/N4, medido acá:** `FUN_001a51c8` **lee el global tres veces adentro** (`0x001A52D0`, `0x001A52DC`, `0x001A52E8`). Así que el camino (b) del retome —atar a mano— **no se hace pasándole punteros de la copia**: hay que llamarla con el global **ya apuntando a la copia**. Lo mismo `FUN_00143d90`, que en `0x00143E7C` toma la *dirección* del global (`addiu a0, v0, -0xaf4`) y recién la desreferencia en `0x00143EE0`, un ciclo antes del `jal 0x1AC960`: el envoltorio alrededor del constructor lo cubre.
 
 **No funcionó:** nada se refutó acá; lo que se cayó fue un saboteador propio, por el motivo equivocado.
-**Sigue:** N2 — el camino de atado `FUN_00143d90` → `FUN_001ac960` → `FUN_001a51c8`: qué escribe en la ranura y en J, qué significa `+0xB8`, qué libera, y qué hace el constructor con el molde 2 frente a 0x1C. Salida: los argumentos exactos del atado a mano y los campos que hay que dejar en cero en la copia.
+**Sigue (N1):** N2 — el camino de atado `FUN_00143d90` → `FUN_001ac960` → `FUN_001a51c8`: qué escribe en la ranura y en J, qué significa `+0xB8`, qué libera, y qué hace el constructor con el molde 2 frente a 0x1C. Salida: los argumentos exactos del atado a mano y los campos que hay que dejar en cero en la copia.
+
+### (80) N2 — El camino de atado, y por qué la copia de 0x970 NO alcanza
+
+**Predicción de N2 (la que estaba en pie, escrita en el retome antes de medir):** copiar el sistema de personajes (`0x004ED380`, **0x970 B**) a `0x0046DC00`, **reubicar los autopunteros** y poner `+0xB8` = 0 en las dos ranuras alcanza para que el constructor le ate a J2 una ranura propia.
+**Resultado: REFUTADA.** La copia de 0x970 deja las dos ranuras de la copia apuntando a **objetos de J0 que viven afuera del objeto**. Medido abajo.
+
+**El camino de atado, leído entero (`probable`; es el ELF, no RAM):**
+- `FUN_00143d90(streamer, jugador, k)` desreferencia el global **una instrucción antes** del `jal` (`0x00143EE0`: `lw a0, ($a0)`, con `a0` = `0x0040F50C` cargada en `0x00143E7C`) y llama `FUN_001ac960(sys, k, modelo, jugador, byte_anim, hash)`.
+- `FUN_001ac960`: `inst = sys + k·0x6C + 0x398`; la inicializa (`FUN_001a8168(inst, …, *(sys+0x940))`, `FUN_001adc30`, `FUN_001add58`, `FUN_001a8350`) y después `do { r = FUN_001a51c8(sys + k·0x240 + 0x470, jugador, inst); } while (r == 0)`.
+- **`FUN_001a51c8` devuelve 1 siempre** (un solo `return 1;` en toda la función): ese lazo da **exactamente una vuelta**. No es un punto de cuelgue, y eso cierra una sospecha que venía abierta desde (79).
+
+**Qué escribe `FUN_001a51c8(ranura, jugador, inst)` — la lista completa:**
+| dónde | qué |
+|---|---|
+| `ranura+0xB8` ≠ 0 | **primero suelta**: `FUN_001a5ee8(ranura)` |
+| `ranura+0x00` | `jugador` (el dueño) |
+| `jugador+0x330` | `ranura` |
+| `ranura+0x50` | `inst` ← **es el "autopuntero"** que (79) midió en `+0x4C0` y `+0x700` |
+| `ranura+0xA0`, `+0xCC` | 0 |
+| `ranura+0xB7`, `+0xB9` (bytes) | 0 |
+| `ranura+0x230` (byte) | 0 |
+| `*(*(ranura+0x54) + 4)` | `*(inst+8)` — **escribe en el compañero, ver abajo** |
+| `ranura+0x30 … +0x4C` | limpia las 8 matrices de enganche |
+| al final | `+0xB0` = −1, `+0x58` = 0, `+0xBB` = 1, **`+0xB8` = 1**, `+0xBA` = 1, `+0x234` = 1, `+0x235` = 0 |
+
+**`+0xB8` es la bandera de "atada".** La pone en 1 el atado y en 0 el soltar. **Qué libera `FUN_001a5ee8(ranura)`:** si `ranura+0x54` = 0, sólo `+0xB8` = 0; si no, `FUN_001a7450()` y, **sólo si `ranura+0x58` ≠ 0**, `FUN_001a6e58(ranura)`; después `+0xB8` = 0. Medido en `ee-03`: las dos ranuras tienen `+0x54` ≠ 0 y **`+0x58` = 0**, así que soltar correría `FUN_001a7450` pero no `FUN_001a6e58`. Con `+0xB8` = 0 en la copia no corre nada de eso: el plan del retome acierta en ese punto, y ahora se sabe **por qué**.
+
+**Lo que refuta la predicción — medido en `ee-03.bin` (`probable`):**
+- El sistema (`0x004ED380`, 0x970 B) tiene **2 autopunteros**, y ahora se sabe qué son: `+0x4C0` → `+0x398` y `+0x700` → `+0x404`, o sea **`ranura_k+0x50` = `instancia_k`**, escritos por el atado. Coincide con lo que midió (79) sin saber qué eran.
+- **Pero cada ranura tiene un COMPAÑERO de `0x9D0` bytes que vive AFUERA del objeto**, en `ranura+0x54`: `0x01303780` (ranura 0) y `0x01308B00` (ranura 1), en el montón. Lo aloja el constructor de la ranura, `FUN_001a4ff0` (`FUN_00107cf8(0x9d0)` → `ranura[0x15]`), que corre desde `FUN_001ab780`, el init del sistema.
+- Los compañeros tienen **0 autopunteros** y exactamente **un puntero de vuelta al sistema**: `compañero+0x84` → la ranura (`sys+0x470` y `sys+0x6B0`), que escribe `FUN_00345510(compañero, ranura, …)`.
+- **Consecuencia:** una copia de 0x970 deja las dos ranuras de la copia con `+0x54` apuntando a los compañeros **de J0**. El atado escribe ahí en la primera línea (`*(*(ranura+0x54)+4) = *(inst+8)`) y después el compañero es el estado de animación entero (`FUN_00345510`, `FUN_001ad070`, `FUN_003438d8`, `FUN_00347c70`, `FUN_00348288`). J2 y J0 compartirían el estado de animación — la misma clase de falla que congelaba a J en P4, un piso más abajo. Y dejar `+0x54` = 0 **no** es salida: el atado escribiría en la dirección `4`, que es el cuelgue de P10 otra vez.
+
+**Entonces la copia es de tres bloques, no de uno** (y entra: hay `0x0046DC00…0x00472000` = 0x4400 B libres en el `.bss`; esto pide **0x22B0**):
+
+| bloque | origen | tamaño | destino propuesto |
+|---|---|---|---|
+| sistema | `*(0x0040F50C)` | `0x970` | `0x0046DC00` |
+| compañero 0 | `*(sys+0x470+0x54)` | `0x9D0` | `0x0046E580` |
+| compañero 1 | `*(sys+0x6B0+0x54)` | `0x9D0` | `0x0046EF80` |
+
+y cinco reubicaciones, **todas medidas en vivo, no de esta lista**: `COPIA+0x4C0` = `COPIA+0x398`; `COPIA+0x700` = `COPIA+0x404`; `COPIA+0x470+k·0x240+0x54` = `COMP_k`; `COMP_k+0x84` = `COPIA+0x470+k·0x240`. Más `+0xB8` = 0 en las dos ranuras de la copia.
+
+**Argumentos exactos del atado a mano (lo que pedía el retome):**
+`FUN_001a51c8(a0 = COPIA + 0x470 + k·0x240, a1 = J2, a2 = COPIA + 0x398 + k·0x6C)`, con **el global ya apuntando a la copia** — la función lo lee **tres veces adentro** (`0x001A52D0`, `0x001A52DC`, `0x001A52E8`), así que pasarle punteros de la copia no alcanza.
+
+**El molde 2 frente al 0x1C:**
+- **2** pide el modelo (`FUN_001438a8`) y después `FUN_00143d90` → **ata** por todo el camino de arriba.
+- **0x1C** va derecho a la init principal, que **sólo apunta y no ata**: `*(J+0x330) = DAT_0040f50c + J[0x2C3]·0x240 + 0x470` (en `0x0013A038` y siguientes).
+- Por qué el molde 2 colgó en P8 sigue siendo **hipótesis** —(79) le retiró el sostén—; lo medido es que todos los cuelgues de P6–P9 eran el índice −577.
+
+**Hallazgo que corrige la premisa del retome: el índice de ranura NO está fijo en 0.** El constructor lo lee de **`J+0x2C3`** (`cVar5 = *(char *)(J + 0x2c3)`) y lo vuelve a escribir sin cambiarlo. Y `FUN_0016bee0` usa **ese mismo byte** para indexar el **arreglo de armas** `J+0x2A0`. O sea:
+- **`J+0x2C3` = qué arma tiene en la mano (0 o 1), y ES el índice de ranura.** Las dos ranuras del sistema no son "dos personajes": son **las dos armas del único jugador**. Cuadra con `FUN_0013c868`, que al cambiar de arma recalcula `J+0x330` con el índice `arma+0x43` (la trampa de N1), y con lo medido en `ee-03`: `J+0x2C3` = 0 y `J+0x330` = `0x004ED7F0` = ranura 0.
+- Por eso `J2`, cuyo molde copia el bloque de J, hereda `+0x2C3` = 0 y **apunta a la ranura 0 de J0**. No se la "roba el constructor": la hereda del molde.
+- **Sonda barata que esto habilita, y por qué no es el diseño:** `J2+0x2C3` = 1 apunta a J2 a la ranura 1 sin copiar nada. No sirve como diseño —la ranura 1 es el arma secundaria de J0, y el primer cambio de arma de J0 se la lleva de vuelta— pero sirve como **control de una pregunta sola**: ¿J2 camina cuando su `+0x330` es una ranura atada A ÉL? Cuesta un byte y una llamada, contra 0x22B0 bytes y cinco reubicaciones. Va como sonda 0 en `RETOME-LOCAL.md`.
+
+**No funcionó:** la especificación de N4 del retome (copiar 0x970 y reubicar los autopunteros) — le faltaban los dos compañeros de 0x9D0.
+**Sigue (N2):** N3 — quién escribe `J+0x7C` y `+0x8C` en la construcción de J0, y de qué campo sale el desplazamiento que en J2 da 0.
 
 ## 2026-09-27 (79) — El prototipo durante la carga: el jugador 2 construido por el cargador
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `juego`, `spawn`, `codigo-nuevo`
