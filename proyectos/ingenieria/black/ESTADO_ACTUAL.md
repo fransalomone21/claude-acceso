@@ -161,10 +161,28 @@ dice medido). Lo que cambió:
     lugar compilado para un solo jugador). No hay que sondearlos antes.
   - Herramientas: `lectores_global.py`, `jugador2.py ranura-copiar` y
     `carga-poner --copia-ranura`. **180** comprobaciones en verde, cinco saboteadores en rojo.
-- **Siguiente (notebook):** la **sonda 0** —`J2+0x2C3` = 1 y el dueño de la ranura 1 a mano,
-  un byte— y después la copia de tres bloques. Es lo que falta del criterio de salida de la
-  Fase A. Detalle y comandos: `sesiones/RETOME-LOCAL.md`, ya reescrito; contexto en
-  `sesiones/HANDOFF.md`, bloque «(80, nube)».
+- **La ranura propia no era lo que faltaba (2026-09-27, bitácora (81), notebook).** Las dos
+  sondas de la ranura **refutadas** y la cadena del paso medida eslabón por eslabón, en vivo:
+  - **Refutadas:** (a) `molde+0x2C3` = 1 **no sobrevive** a la construcción — el constructor
+    escribe ese byte él mismo; (b) con `J2+0x330` = ranura 1 y su **dueño en J2**, escritos a
+    mano con el sistema vivo, `FUN_001334E0` **sí** corre para J2 y **usa la ranura nueva**
+    (el `a0` de la llamada es `0x004EDA30`), y J2 **igual no se desplaza**.
+  - **No es una pared** (control que pidió Fran mirando la pantalla): los **cuatro** empujes
+    dan Δ = 0,000000 y rapidez 0,0000, con el yaw respondiendo en la misma pasada.
+  - **Dónde se corta, medido:** el pedido llega (`J2+0x5C4` = 1,0), la rapidez pedida se
+    calcula (`+0x5D8` = 4,5) y el **cuerpo físico de J2 no lo toca nadie**: 0 campos que
+    responden y **0 de ruido**, contra 8 y 1 del cuerpo de J. El integrador es
+    **`FUN_00170320`**, un **callback virtual** que invoca `FUN_002EA898` del motor de
+    física: el motor recorre **su propia lista** y el cuerpo de J2 no está en ella.
+  - **Dos correcciones que cambian el mapa:** `FUN_001A6BE0` propaga **acoples**, no camina
+    (la frase de (80) queda retirada); y la posición del jugador es **`+0xA0`**, no `+0x100`,
+    que es la del **ojo** (`+0xA0` + 1,65 − 0,2). `fisica` **K3 → K4**; `personajes` **sigue
+    en K4**, porque la sonda que lo subía no produjo el efecto.
+- **Siguiente (notebook, y arranca en frío):** **cómo se da de alta un cuerpo en el motor de
+  física** — `FUN_0016E660` entera y quién mete un cuerpo en la lista que recorre
+  `FUN_002EA898`. Es lo único que falta del criterio de salida de la Fase A. Hay un
+  **savestate en el slot 12** con J2 vivo, corriendo, con el mando 2 y la ranura propia:
+  reproducir el estado cuesta un comando. Detalle: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

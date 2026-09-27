@@ -41,7 +41,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | J1 | Rebalanceo de armas del jugador | PlayerParams: cadencia, rafaga, dispersion, cargador, rebote, alcance | N3 | S | datos-iso | K6 (armas) | el dano de salida no usa Power (4b): hay que medir que campos gobiernan al jugador | candidato |
 | J2 | Armas nuevas por combinacion | clonar registros y cambiar proyectil, impacto y modelo | N3, N4 | M | datos-iso | K2 (iso-globdata) | el directorio tiene 17 entradas fijas | candidato |
 | J3 | Arsenal distinto por nivel | habilitar armas que el nivel trae y no usa (en LEVEL_00 sobran 9) | N3 | S | datos-iso | K4 (iso-niveles) | bajo: L1 editable en frio; falta el efecto | candidato |
-| J4 | Fisica y destruccion exageradas | impulsos de Collision.cfg en la ValueDB | N3 | S | pnach-datos | K3 (fisica) | RESUELTO en frio 2026-09-27 (bitacora (73)): el valor sale de Data/Andy.aku (herramientas/valuedb_aku.py). Medido: Collision Heavy/Medium/Light Object Max Weight = 6000/200/1, Max Impulse = 100/5/1. OJO: esos son los del .cfg de SONIDO de colision; los impulsos de la fisica pueden ser otra tabla. Falta el efecto (notebook) | candidato |
+| J4 | Fisica y destruccion exageradas | impulsos de Collision.cfg en la ValueDB | N3 | S | pnach-datos | K3 (valuedb) | RESUELTO en frio 2026-09-27 (bitacora (73)): el valor sale de Data/Andy.aku (herramientas/valuedb_aku.py). Medido: Collision Heavy/Medium/Light Object Max Weight = 6000/200/1, Max Impulse = 100/5/1. OJO: esos son los del .cfg de SONIDO de colision; los impulsos de la fisica pueden ser otra tabla. Falta el efecto (notebook) | candidato |
 | J5 | Camara lenta | escala de tiempo global, por ejemplo al matar | N3 | M | pnach-codigo | K2 (tiempo) | el reloj no esta ubicado (K0) | candidato |
 | J6 | Movimiento | velocidad, carrera, salto | N3 | M | pnach-datos | K5 (juego) | campos del jugador sin nombre para esto | candidato |
 | J7 | Randomizer | enemigos, armas y pickups distintos cada partida | N3 | L | datos-iso | K2 (pickups) | depende de que D4 ande por efecto | candidato |
@@ -55,7 +55,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 |---|---|---|---|---|---|---|---|---|
 | L1 | Remezcla de niveles | mover apariciones, pickups y objetivos dentro de niveles existentes | N3, N4 | L | datos-iso | K2 (pickups) | colocacion y objetivos sin mapear | candidato |
 | L2 | Noche, niebla o clima | otra atmosfera sobre el mismo nivel | N3, N5 | L | datos-iso | K4 (iso-niveles) | luces y niebla sin ubicar (LevelDat es candidato) | candidato |
-| L3 | Nivel nuevo | geometria propia jugable de punta a punta | N4 | XL | datos-iso | K3 (fisica) | colocacion de submallas, colision y reconstruir el ISO | candidato |
+| L3 | Nivel nuevo | geometria propia jugable de punta a punta | N4 | XL | datos-iso | K4 (fisica) | colocacion de submallas, colision y reconstruir el ISO | candidato |
 | L4 | Arenas recortadas | una zona chica de un nivel existente para horda o versus | N4 | L | datos-iso | K3 (flujo) | limites y puntos de aparicion | candidato |
 | L5 | Selector de mision y checkpoint | entrar directo a cualquier tramo: para jugar y para probar mods | N3, N7 | S | pnach-datos | K3 (flujo) | nivel y stage son dos bytes de una global (bitacora 30) | candidato |
 

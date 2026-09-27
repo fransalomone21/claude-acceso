@@ -4,10 +4,41 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(80, nube)» DE ACÁ ABAJO, Y DESPUÉS EL «(79)».** La
-> cartera es **un solo proyecto, COOP**, en su **Fase A**. Lo que sigue es
-> **local**. El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`, que ya
-> incorpora lo que midió (80): no hace falta leer (80) entero para arrancar.
+> **EMPEZÁ POR EL BLOQUE «(81)» DE ACÁ ABAJO, Y DESPUÉS EL «(79)».** La
+> cartera es **un solo proyecto, COOP**, en su **Fase A**. El bloque «(80, nube)»
+> quedó **parcialmente corregido por (81)**: leelo sólo después, y con esa
+> advertencia. El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — LA RANURA NO ERA LO QUE FALTABA: EL CUERPO FÍSICO DE J2 NO LO INTEGRA NADIE (bitácora (81))
+
+**Dos predicciones escritas antes y las dos refutadas** (eso es el resultado, no un fracaso):
+- **P13a:** `molde+0x2C3` = 1 **no sobrevive a la construcción**. El constructor escribe ese byte él mismo (`J2+0x2C0..0x2C7` queda **idéntico byte a byte** al de J) y pone el arma en `armas2[0]`. `J2+0x330` quedó en la ranura 0. La lectura de (80) —el índice sale de `+0x2C3`— **no queda refutada**: esta sonda no llegó a ponerla a prueba.
+- **P14:** con `J2+0x330` = `0x004EDA30` (ranura 1) y `*(0x004EDA30)` = J2, escritos a mano con el sistema **vivo** (`*(0x0040F50C)` = `0x004ED380`), `FUN_001334E0` **sí corre para J2 y usa la ranura nueva** —medido: el `a0` de la llamada a `FUN_001A6BE0` es `0x004EDA30`— y **J2 igual no se desplaza** (8 muestras).
+
+**El control que pidió Fran, y descarta la explicación competidora:** no es una pared. Los **cuatro** empujes (adelante, atrás, los dos laterales, 1 s cada uno) dan Δ = **0,000000** y `+0x2E0` = **0,0000**, con el yaw de la mira yendo 22,88° → 80,21° en la misma pasada. Una pared frena una dirección, y contra una pared el jugador **desliza**.
+
+**La cadena del paso, medida eslabón por eslabón con el eje SOSTENIDO** (no en pulsos), con `ritmo_vigilante.py --ra`:
+1. **El pedido llega:** `falso2+0x8C` = 1,0 → `J2+0x5C4` (= mira+0xD4) = 1,0. Lectores: `0x0013F718` (la tabla de acciones de (77), `a0` = `0x00472100`) y `0x0013AB80`, que es `lwc1 $f3, 0x5C4($s1)` con **`s1` = J2** — suavizado de la mira, no el paso.
+2. **El motor de movimiento corre para J2:** `FUN_001334E0` escribe `J2+0xD0` desde `0x001338AC` y `0x00133B20`.
+3. **La rapidez pedida se calcula:** en J2 responden `+0x540` = 0,3888, `+0x548` = 0,9213 (versor de avance de su yaw), `+0x5C4` = 1,0 y **`+0x5D8` = 4,5**. En J responden esos cuatro **y 40 campos más** (posición, velocidad, rapidez real, suelo, estela). En J2, **ninguno de esos 40**.
+4. **Acá se corta:** el **cuerpo físico de J2** (`0x00699200`) tiene **0 campos que responden y 0 de ruido**; el de J (`0x006B8180`), 8 y 1. **Nadie lo integra.**
+
+**Quién integra el cuerpo de J:** vigilante `write` sobre `0x006B81B0` → PC `0x00170600` las 3 veces, dentro de **`FUN_00170320`**, que **no tiene llamadores en el ELF**: es un **callback virtual** que invoca **`FUN_002EA898`** (`ra` = `0x002EA92C`, `a0` = `0x01FFFA70`, `a1` = cuerpo+0x48), del motor de física. **El motor recorre su propia lista de cuerpos activos y el de J2 no está.**
+**Cabeceras de los dos cuerpos:** iguales en `+0` (vtable `0x003DCFE0`), `+8`, `+0xC`, `+0x10`, `+0x1C` (0x1B); distintas en `+0x14` (`0x0066EBE4` vs `0x0066EBBC`) y en **`+0x18`** (**0** en J, **`0x00699680`** en J2, puntero dentro del mismo pool). Hipótesis **sin confirmar**: `+0x18` es el enlace de la lista libre y el cuerpo se entregó sin darse de alta.
+
+**Dos correcciones que cambian el mapa, y no son menores:**
+- **`FUN_001A6BE0` no camina:** recorre 7 sub-objetos de la ranura y multiplica la matriz del **dueño** por la matriz local de cada uno. Es la **propagación de acoples**. La frase de (80) queda retirada.
+- **La posición del jugador es `+0xA0`, no `+0x100`.** `FUN_001334E0` escribe `+0x100` = `+0xA0` + `+0x2E8` − 0,2, con `+0x2E8` = **1,65** en los dos: `+0x100` es el **ojo**. Todo lo que se mida de ahora en más va contra `+0xA0`.
+
+**kb:** `fisica` **K3 → K4** (mecanismo medido en vivo con control positivo, sin efecto causado por nosotros). **`personajes` sigue en K4**: la sonda que lo subía a K5 se corrió y **no** produjo el efecto; su sonda quedó reescrita.
+
+**Trampa nueva, medida:** `jugador2.py carga-poner` **mató PCSX2 la primera vez**, con una tormenta de `[EE] Impossible block clearing failure` en `emulog.txt` exactamente en la ventana de la corrida (el recompilador del EE contra las escrituras de código). Se relanzó con `lanzadores/ABRIR-BLACK-ORIGINAL.bat`, se recargó el slot 3 y el **mismo comando anduvo**. O sea: es intermitente, no determinista — **si muere, se reintenta; no se busca la causa en el comando.**
+
+**Ahorro para la próxima:** `pine.py savestate --slot 12` guardó **J2 vivo, corriendo, con el mando 2 y con la ranura 1 propia**. Reproducir el estado de (79) + P14 pasa a costar **un comando**. (El slot 12 estaba libre: había 0 a 11.)
+
+**Sigue, y arranca EN FRÍO:** **cómo se da de alta un cuerpo en el motor de física** — `FUN_0016E660` entera, y quién mete un cuerpo en la lista que recorre `FUN_002EA898`. Es lo único que falta del criterio de salida de la Fase A.
+
+**Estado de la máquina al cerrar:** PCSX2-MCP abierto, **City Streets cargado**, J2 vivo con el gancho puesto (`0x00129574` = `0x0C11B600`) y el envoltorio del cargador puesto; `ctrl1+0xC` = `0x00472000` (falso 1) y `ctrl2+0xC` = `0x00472100` (falso 2), los dos ejes en 0. J caminó unos 5 m en el control positivo. **Todo esto se pierde al recargar: está guardado en el slot 12.**
 
 ## 2026-09-27, NUBE — TANDA EN FRÍO N1–N5: LA RANURA DE PERSONAJE, MEDIDA (bitácora (80, nube))
 
