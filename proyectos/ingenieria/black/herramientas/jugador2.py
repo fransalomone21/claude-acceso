@@ -174,9 +174,24 @@ sw t1, -0x2860(s1)
 lw t0, 0x10(v0)
 lw t0, 4(t0)
 addiu a1, t0, 0x20
+lui t2, 0x41
+lw t3, -0xaf4(t2)
+sw t3, -0x2850(s1)
+lw t4, -0x284c(s1)
+beq t4, zero, @SINCOPIA
+nop
+sw t4, -0xaf4(t2)
+SINCOPIA:
 lui a0, 0x47
 jal 0x139c68
 addiu a0, a0, -0x3210
+lw t4, -0x284c(s1)
+beq t4, zero, @SINREST
+nop
+lui t2, 0x41
+lw t3, -0x2850(s1)
+sw t3, -0xaf4(t2)
+SINREST:
 lw t1, -0x2868(s1)
 addiu t1, t1, 1
 sw t1, -0x2868(s1)
@@ -209,6 +224,92 @@ addiu sp, sp, 0x30
 """
 
 
+# --- N4 (bitacora (80)): ranura de personaje propia para J2 ------------------
+# El sistema de personajes (*(0x0040F50C), 0x970 B) tiene DOS ranuras de 0x240 en
+# +0x470, y son las dos ARMAS del unico jugador: el indice sale de J+0x2C3, que es
+# el arma en la mano. J2 hereda +0x2C3 = 0 del molde y por eso apunta a la ranura
+# de J0; como FUN_001a6be0 arranca leyendo *(ranura) -- el DUENO --, todo lo que
+# calcula "para J2" es sobre J0, y J2 no se desplaza (bitacora (80), N3).
+#
+# La copia NO es un bloque: cada ranura tiene un COMPANERO de 0x9D0 B que vive
+# AFUERA del objeto, en ranura+0x54, alojado por FUN_001a4ff0. Copiar solo los
+# 0x970 deja las ranuras de la copia escribiendo en el estado de animacion de J0.
+SISTEMA_PTR = 0x0040F50C
+TAM_SISTEMA = 0x970
+TAM_COMPANERO = 0x9D0
+RANURA_0 = 0x470
+PASO_RANURA = 0x240
+COPIA_DESTINO = 0x0046DC00     # .bss en cero hasta 0x00472000 (0x4400 B); esto pide 0x22B0
+GUARDA_SIS = 0x0046D7B0        # el envoltorio guarda aca el sistema original
+COPIA_SIS = 0x0046D7B4         # ...y lee de aca la direccion de la copia (la escribe el host)
+
+
+def plan_copia(leer32, leer_bloque, destino=COPIA_DESTINO, dueno=None):
+    """Las escrituras que hacen falta para darle a J2 un sistema de personajes propio.
+
+    NO escribe nada: devuelve (bloques, parches, mapa). Todas las reubicaciones
+    se MIDEN sobre la memoria que da `leer32`/`leer_bloque` -- nunca se toman de
+    una lista escrita a mano, porque la lista de un volcado no es la de la
+    sesion que corre (los companeros viven en el monton y se mueven).
+    """
+    sis = leer32(SISTEMA_PTR)
+    if not (0x00100000 <= sis < 0x02000000):
+        raise ValueError("*(0x0040F50C) = %#010x no parece un objeto del EE" % sis)
+    cuerpo = bytearray(leer_bloque(sis, TAM_SISTEMA))
+
+    def alinear(x):
+        return (x + 0xF) & ~0xF
+
+    copia = alinear(destino)
+    comps, comp_dest = [], []
+    d = alinear(copia + TAM_SISTEMA)
+    for k in (0, 1):
+        c = leer32(sis + RANURA_0 + k * PASO_RANURA + 0x54)
+        comps.append(c)
+        comp_dest.append(d)
+        d = alinear(d + TAM_COMPANERO)
+    fin = d
+
+    mapa = dict(sistema=sis, copia=copia, companeros=comps, companeros_copia=comp_dest,
+                fin=fin, bytes=fin - copia)
+
+    # --- el sistema: autopunteros medidos, +0x54 a los companeros nuevos, +0xB8 = 0
+    reub = []
+    for o in range(0, TAM_SISTEMA, 4):
+        v = struct.unpack_from("<I", cuerpo, o)[0]
+        if sis <= v < sis + TAM_SISTEMA:
+            struct.pack_into("<I", cuerpo, o, copia + (v - sis))
+            reub.append(("autopuntero", o, v, copia + (v - sis)))
+    for k in (0, 1):
+        r = RANURA_0 + k * PASO_RANURA
+        struct.pack_into("<I", cuerpo, r + 0x54, comp_dest[k])
+        reub.append(("companero", r + 0x54, comps[k], comp_dest[k]))
+        # +0xB8 = 0: sin la bandera de atada, FUN_001a51c8 no llama a FUN_001a5ee8,
+        # que soltaria el companero de J0 (medido: +0x58 = 0, asi que no liberaria
+        # memoria, pero igual correria FUN_001a7450 sobre lo de J0).
+        cuerpo[r + 0xB8] = 0
+        reub.append(("B8=0", r + 0xB8, None, 0))
+        if dueno is not None:
+            # el molde 0x1C solo APUNTA: la init hace J+0x330 = global + k*0x240 + 0x470
+            # y no ata. Sin esto, la ranura de la copia sigue con J0 de dueno.
+            struct.pack_into("<I", cuerpo, r, dueno)
+            reub.append(("dueno", r, None, dueno))
+
+    bloques = [(copia, bytes(cuerpo), "sistema de personajes")]
+    for k in (0, 1):
+        cb = bytearray(leer_bloque(comps[k], TAM_COMPANERO))
+        for o in range(0, TAM_COMPANERO, 4):
+            v = struct.unpack_from("<I", cb, o)[0]
+            if comps[k] <= v < comps[k] + TAM_COMPANERO:
+                struct.pack_into("<I", cb, o, comp_dest[k] + (v - comps[k]))
+                reub.append(("comp%d autopuntero" % k, o, v, comp_dest[k] + (v - comps[k])))
+            elif sis <= v < sis + TAM_SISTEMA:
+                struct.pack_into("<I", cb, o, copia + (v - sis))
+                reub.append(("comp%d -> sistema" % k, o, v, copia + (v - sis)))
+        bloques.append((comp_dest[k], bytes(cb), "companero de la ranura %d" % k))
+    return bloques, reub, mapa
+
+
 def ensamblar_programa(fuente=PROGRAMA, base=STUB, fin=0x0046D9F0):
     lineas = [l.strip() for l in fuente.strip().splitlines() if l.strip()]
     etiquetas, instr = {}, []
@@ -230,6 +331,19 @@ def ensamblar_programa(fuente=PROGRAMA, base=STUB, fin=0x0046D9F0):
     return out
 
 
+def informar_copia(bloques, reub, mapa, seco):
+    print("sistema  %#010x -> copia %#010x  (%#x B en total, hasta %#010x)"
+          % (mapa["sistema"], mapa["copia"], mapa["bytes"], mapa["fin"]))
+    for k in (0, 1):
+        print("companero %d  %#010x -> %#010x" % (k, mapa["companeros"][k], mapa["companeros_copia"][k]))
+    print("%d reubicaciones medidas en vivo:" % len(reub))
+    for que, off, de, a_ in reub:
+        print("   %-22s +%#06x  %s -> %#010x" % (que, off, ("%#010x" % de) if de else "     --   ", a_))
+    for dir_, datos, nombre in bloques:
+        print("%s escribir %#x B en %#010x (%s)" % ("[SECO]" if seco else "      ", len(datos), dir_, nombre))
+    return mapa
+
+
 def main() -> int:
     tolerar_salida_pobre()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -241,6 +355,18 @@ def main() -> int:
     cp = sub.add_parser("carga-poner", help="P7: molde + gancho por cuadro (estado 0) + envoltorio del cargador")
     cp.add_argument("--desde", type=lambda s: int(s, 0), default=0x1C)
     cp.add_argument("--tipo-registro", type=int, default=1, help="J2+0xC4 durante FUN_0016e660 (2 = P10, cuelga)")
+    cp.add_argument("--copia-ranura", action="store_true",
+                    help="el envoltorio cambia *(0x0040F50C) a la copia alrededor del constructor "
+                         "(hay que haber corrido `ranura-copiar` antes)")
+    rc = sub.add_parser("ranura-copiar",
+                        help="N4 (80): copia el sistema de personajes y sus DOS companeros a memoria "
+                             "libre, reubicando los punteros que mide EN VIVO, y pone +0xB8 = 0")
+    rc.add_argument("--destino", type=lambda s: int(s, 0), default=COPIA_DESTINO)
+    rc.add_argument("--dueno-a-mano", action="store_true",
+                    help="tambien pone J2 de dueno de las dos ranuras de la copia (para el molde 0x1C, "
+                         "que solo apunta y no ata)")
+    rc.add_argument("--seco", action="store_true", help="no escribe: imprime lo que escribiria")
+    rc.add_argument("--volcado", help="medir desde un eeMemory.bin en vez de PINE (implica --seco)")
     sub.add_parser("control2", help="copias de control de J2 -> 0x00585A0C, su +0xC -> falso 2, y J2+0x32C -> mira humana")
     sub.add_parser("autopsia", help="P8: ranuras de personaje, cargador de modelos y J2 (sin codigo)")
     sub.add_parser("quitar")
@@ -250,6 +376,14 @@ def main() -> int:
     m.add_argument("segundos", type=float)
     a = ap.parse_args()
     prog = ensamblar_programa()
+
+    if a.cmd == "ranura-copiar" and a.volcado:
+        d = Path(a.volcado).read_bytes()
+        bl, reub, mapa = plan_copia(lambda x: struct.unpack_from("<I", d, x)[0],
+                                    lambda x, n: d[x:x + n], a.destino,
+                                    cj.J2 if a.dueno_a_mano else None)
+        informar_copia(bl, reub, mapa, seco=True)
+        return 0
     envol = ensamblar_programa(ENVOLTORIO_PROG.replace("TIPO_REG", str(getattr(a, "tipo_registro", 1))),
                                ENVOLTORIO, ARMAS2)
     if a.cmd == "listar":
@@ -281,11 +415,24 @@ def main() -> int:
                 p.escribir32(pc, w)
             for dir_ in (ESTADO, CONTADOR, 0x0046D788, 0x0046D78C, FASE, LLAMADAS_J2, LLAMADAS_J0, MIGA_A, MIGA_B, MIGA_V0, MIGA_C):
                 p.escribir32(dir_, 0)
+            if a.cmd == "carga-poner" and not a.copia_ranura:
+                p.escribir32(COPIA_SIS, 0)   # el envoltorio no toca el global
             p.escribir32(g.SITIO, ensamblar("jal 0x%x" % STUB, g.SITIO))
             if a.cmd == "carga-poner":
                 for pc, w, _ in envol:
                     p.escribir32(pc, w)
                 p.escribir32(SITIO_CARGA, ensamblar("jal 0x%x" % ENVOLTORIO, SITIO_CARGA))
+        elif a.cmd == "ranura-copiar":
+            bl, reub, mapa = plan_copia(p.leer32, p.leer_bloque, a.destino,
+                                        cj.J2 if a.dueno_a_mano else None)
+            if not a.seco:
+                for dir_, datos, _ in bl:
+                    p.escribir_bloque(dir_, datos)
+                # el envoltorio lee de aca la direccion de la copia; 0 = no cambiar el global
+                p.escribir32(COPIA_SIS, mapa["copia"])
+                p.escribir32(GUARDA_SIS, 0)
+            informar_copia(bl, reub, mapa, a.seco)
+            return 0
         elif a.cmd == "autopsia":
             pers = p.leer32(0x0040F50C)            # sistema de personajes: 2 ranuras de 0x240 en +0x470
             mod = p.leer32(0x0040F540)             # cargador de modelos: byte 0 = bufer, +0x80 -> estado en +0x1C

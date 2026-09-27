@@ -81,7 +81,7 @@ Formato de cada entrada:
 - Los compañeros tienen **0 autopunteros** y exactamente **un puntero de vuelta al sistema**: `compañero+0x84` → la ranura (`sys+0x470` y `sys+0x6B0`), que escribe `FUN_00345510(compañero, ranura, …)`.
 - **Consecuencia:** una copia de 0x970 deja las dos ranuras de la copia con `+0x54` apuntando a los compañeros **de J0**. El atado escribe ahí en la primera línea (`*(*(ranura+0x54)+4) = *(inst+8)`) y después el compañero es el estado de animación entero (`FUN_00345510`, `FUN_001ad070`, `FUN_003438d8`, `FUN_00347c70`, `FUN_00348288`). J2 y J0 compartirían el estado de animación — la misma clase de falla que congelaba a J en P4, un piso más abajo. Y dejar `+0x54` = 0 **no** es salida: el atado escribiría en la dirección `4`, que es el cuelgue de P10 otra vez.
 
-**Entonces la copia es de tres bloques, no de uno** (y entra: hay `0x0046DC00…0x00472000` = 0x4400 B libres en el `.bss`; esto pide **0x22B0**):
+**Entonces la copia es de tres bloques, no de uno** (y entra: hay `0x0046DC00…0x00472000` = 0x4400 B libres en el `.bss`; esto pide **0x1D10** (0x970 + 2·0x9D0; en (80) N4 se midió)):
 
 | bloque | origen | tamaño | destino propuesto |
 |---|---|---|---|
@@ -135,6 +135,42 @@ Como float, un puntero de esos es un denormal (≈5e−38), así que los `lqc2` 
 
 **No funcionó:** la predicción de N3. No hay llamada de construcción que asigne `J+0x7C`.
 **Sigue (N3):** N4 — el subcomando `jugador2.py ranura-copiar` con los tres bloques de N2, el envoltorio y el modo `--seco`.
+
+### (80) N4 — `jugador2.py ranura-copiar` y el envoltorio que cambia el global
+
+**Predicción de N4 (escrita antes de correrlo):** con los tres bloques de N2 y las reubicaciones medidas, el plan en seco contra `ee-03.bin` tiene que dar **exactamente 8** reubicaciones —2 autopunteros del sistema, 2 compañeros, 2 `+0xB8` y 2 punteros de vuelta `compañero+0x84`—, ninguna tomada de una lista escrita a mano, y **ningún** puntero de la copia debe quedar cayendo en el sistema ni en los compañeros de J0.
+**Resultado: cumplida.** 8 reubicaciones, 0 punteros al original.
+
+**`plan_copia(leer32, leer_bloque, destino, dueño)`** es una **función pura**: no escribe nada, devuelve los bloques, las reubicaciones y el mapa. Por eso se puede correr en frío contra un volcado, que es lo que la hace probable sin emulador. Mide todo **en vivo**: los autopunteros salen de barrer el bloque buscando palabras que caigan adentro de él, no de la lista de `ee-03` — los compañeros viven en el montón y se mueven de sesión a sesión.
+
+```
+python herramientas/jugador2.py ranura-copiar --volcado black-datos/ee-03.bin   # en frio, no toca nada
+python herramientas/jugador2.py ranura-copiar --seco                            # en vivo, imprime y no escribe
+python herramientas/jugador2.py ranura-copiar [--dueno-a-mano]                  # escribe
+python herramientas/jugador2.py carga-poner --copia-ranura                      # el envoltorio cambia el global
+```
+
+**Corrida en seco contra `ee-03.bin`** (la cuenta de N2 decía 0x22B0 y estaba mal: son **0x1D10**, 0x970 + 2·0x9D0):
+
+| bloque | de | a |
+|---|---|---|
+| sistema (0x970) | `0x004ED380` | `0x0046DC00` |
+| compañero 0 (0x9D0) | `0x01303780` | `0x0046E570` |
+| compañero 1 (0x9D0) | `0x01308B00` | `0x0046EF40` |
+
+y las 8 reubicaciones: `+0x4C0` → `0x0046DF98` (instancia 0), `+0x700` → `0x0046E004` (instancia 1), `+0x4C4` y `+0x704` a los compañeros nuevos, `+0x528` y `+0x768` (= `ranura_k+0xB8`) a **0**, y `compañero_k+0x84` → `0x0046E070` / `0x0046E2B0`, las ranuras de la copia. Termina en `0x0046F910`, holgado contra `0x00472000`.
+
+**El envoltorio:** alrededor del `jal 0x139c68` de J2 (ahora en `0x0046DAB4`) guarda el sistema original en `0x0046D7B0`, pone `*(0x0040F50C)` = la copia y lo restaura al volver. **Lee la dirección de la copia de `0x0046D7B4`, y si ahí hay 0 no toca el global** — así `carga-poner` sin `--copia-ranura` se comporta exactamente como en (79), que es el control. Los `t` no sobreviven al `jal`, así que el original se recarga de memoria, no del registro. El envoltorio creció a 81 instrucciones y sigue entrando (`0x0046DB44` contra el tope `0x0046DBC0`).
+
+**`--dueno-a-mano`** existe por lo que midió N2: con el molde `0x1C` la init **sólo apunta** (`J+0x330 = global + J[0x2C3]·0x240 + 0x470`) y no ata, así que la ranura de la copia se queda con J0 de dueño —y `FUN_001a6be0` lee justo eso—. Con la opción, las dos ranuras de la copia quedan con J2. Es un atajo, no el atado: el atado de verdad es `FUN_001a51c8(COPIA+0x470+k·0x240, J2, COPIA+0x398+k·0x6C)` con el global ya en la copia, y lo hace solo el molde **2**.
+
+**23 comprobaciones nuevas** en `pruebas/prueba_herramientas.py` (**180** en total, en verde), sobre una RAM sintética con la misma forma que la real. **Tres saboteadores, los tres en rojo:**
+- no reubicar `+0x54` —**que es exactamente la especificación que traía el retome**—: 3 en rojo, entre ellas el medidor que pregunta si algún puntero de la copia sigue cayendo en lo de J0;
+- dejar `+0xB8` = 1: 2 en rojo;
+- no reubicar los autopunteros internos del compañero: 3 en rojo.
+Y un **control positivo del medidor**: se arma a propósito el plan viejo (copiar sólo los 0x970) y se exige que declare **2** punteros apuntando a los compañeros de J0. Sin ese control, el medidor podría estar dando verde por no mirar nada.
+
+**Sigue (N4):** N5 — `kb/subsistemas.json`: `0x0040F50C` no es `audio`.
 
 ## 2026-09-27 (79) — El prototipo durante la carga: el jugador 2 construido por el cargador
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `juego`, `spawn`, `codigo-nuevo`

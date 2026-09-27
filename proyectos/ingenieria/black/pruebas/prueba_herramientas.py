@@ -871,6 +871,135 @@ finally:
     shutil.rmtree(tmp_lg, ignore_errors=True)
 
 
+
+# =============================================================================
+# jugador2.plan_copia -- la copia del sistema de personajes para que J2 tenga
+# ranura propia (bitacora (80), N4). Se prueba sobre una RAM sintetica, sin
+# PCSX2 y sin black-datos.
+#
+# Lo que la prueba existe para atrapar es el error que el retome traia: copiar
+# solo los 0x970 del sistema y dejar las ranuras de la copia con `+0x54`
+# apuntando a los COMPANEROS de J0. Eso no se ve mirando el bloque copiado --
+# se ve preguntandole al plan si algun puntero de la copia sigue cayendo en el
+# original, que es lo que mide `_j2_apunta_al_viejo`.
+
+import jugador2 as _j2  # noqa: E402
+
+_J2_SIS = 0x004ED380
+_J2_C0, _J2_C1 = 0x01303780, 0x01308B00
+_J2_DUENO = 0x005A8AB0
+
+
+def _j2_ram():
+    """Un sistema de personajes de juguete, con la MISMA forma que el real."""
+    mem = bytearray(0x02000000)
+
+    def w32(a, v):
+        struct.pack_into("<I", mem, a, v)
+
+    w32(_j2_ORIG_PTR, _J2_SIS)
+    for k in (0, 1):
+        r = _J2_SIS + _j2.RANURA_0 + k * _j2.PASO_RANURA
+        w32(r + 0x00, _J2_DUENO)                                  # dueno: J0
+        w32(r + 0x50, _J2_SIS + 0x398 + k * 0x6C)                 # autopuntero -> instancia
+        w32(r + 0x54, (_J2_C0, _J2_C1)[k])                        # companero, AFUERA del objeto
+        mem[r + 0xB8] = 1                                         # atada
+    for k, c in enumerate((_J2_C0, _J2_C1)):
+        w32(c + 0x84, _J2_SIS + _j2.RANURA_0 + k * _j2.PASO_RANURA)   # vuelta al sistema
+        w32(c + 0x200, c + 0x400)                                 # un autopuntero del companero
+        w32(c + 0x300, 0x01FF0000)                                # un puntero AJENO: no se toca
+    return mem
+
+
+_j2_ORIG_PTR = _j2.SISTEMA_PTR
+_j2_mem = _j2_ram()
+_j2_leer32 = lambda a: struct.unpack_from("<I", _j2_mem, a)[0]
+_j2_bloque = lambda a, n: bytes(_j2_mem[a:a + n])
+
+_bl, _reub, _mapa = _j2.plan_copia(_j2_leer32, _j2_bloque)
+_dest = {d: b for d, b, _ in _bl}
+_cop = _mapa["copia"]
+_cd = _mapa["companeros_copia"]
+
+ok(len(_bl) == 3, "plan_copia: tres bloques (sistema + los DOS companeros)", str(len(_bl)))
+ok([len(b) for _, b, _ in _bl] == [0x970, 0x9D0, 0x9D0],
+   "plan_copia: los tamanos son 0x970 y 0x9D0 x2", str([len(b) for _, b, _ in _bl]))
+ok(_mapa["bytes"] == 0x1D10, "plan_copia: 0x1D10 B en total", hex(_mapa["bytes"]))
+ok(all(_cop <= d < 0x00472000 for d in [_cop] + _cd),
+   "plan_copia: todo entra en el hueco del .bss hasta 0x00472000")
+
+
+def _j2_u32(bloque, off):
+    return struct.unpack_from("<I", bloque, off)[0]
+
+
+_sis = _dest[_cop]
+for k in (0, 1):
+    _r = _j2.RANURA_0 + k * _j2.PASO_RANURA
+    ok(_j2_u32(_sis, _r + 0x50) == _cop + 0x398 + k * 0x6C,
+       f"plan_copia: el autopuntero de la ranura {k} (+0x50) queda dentro de la COPIA")
+    ok(_j2_u32(_sis, _r + 0x54) == _cd[k],
+       f"plan_copia: +0x54 de la ranura {k} apunta al companero COPIADO, no al de J0")
+    ok(_sis[_r + 0xB8] == 0,
+       f"plan_copia: +0xB8 = 0 en la ranura {k} (asi FUN_001a51c8 no suelta lo de J0)")
+    ok(_j2_u32(_dest[_cd[k]], 0x84) == _cop + _r,
+       f"plan_copia: el companero {k} apunta de vuelta a la ranura de la COPIA")
+    ok(_j2_u32(_dest[_cd[k]], 0x200) == _cd[k] + 0x400,
+       f"plan_copia: el autopuntero interno del companero {k} se reubica")
+    ok(_j2_u32(_dest[_cd[k]], 0x300) == 0x01FF0000,
+       f"plan_copia: un puntero AJENO del companero {k} NO se toca")
+    ok(_j2_u32(_sis, _r + 0x00) == _J2_DUENO,
+       f"plan_copia: sin --dueno-a-mano, el dueno de la ranura {k} queda como estaba")
+
+
+def _j2_apunta_al_viejo(bloques, mapa):
+    """Punteros de los bloques copiados que siguen cayendo en los originales."""
+    rangos = [(mapa["sistema"], mapa["sistema"] + _j2.TAM_SISTEMA)]
+    rangos += [(c, c + _j2.TAM_COMPANERO) for c in mapa["companeros"]]
+    malos = []
+    for dir_, datos, _ in bloques:
+        for o in range(0, len(datos), 4):
+            v = _j2_u32(datos, o)
+            if any(lo <= v < hi for lo, hi in rangos):
+                malos.append((dir_, o, v))
+    return malos
+
+
+ok(_j2_apunta_al_viejo(_bl, _mapa) == [],
+   "plan_copia: NINGUN puntero de la copia cae en el sistema ni en los companeros de J0",
+   str(_j2_apunta_al_viejo(_bl, _mapa))[:200])
+
+# control positivo del medidor de arriba: el plan que traia el retome -- copiar
+# SOLO los 0x970 y reubicar los autopunteros -- tiene que salir en rojo.
+_solo_sis = bytearray(_j2_bloque(_J2_SIS, _j2.TAM_SISTEMA))
+for _o in range(0, _j2.TAM_SISTEMA, 4):
+    _v = _j2_u32(_solo_sis, _o)
+    if _J2_SIS <= _v < _J2_SIS + _j2.TAM_SISTEMA:
+        struct.pack_into("<I", _solo_sis, _o, _cop + (_v - _J2_SIS))
+_malos = _j2_apunta_al_viejo([(_cop, bytes(_solo_sis), "solo el sistema")], _mapa)
+ok(len(_malos) == 2,
+   "CONTROL POSITIVO: copiar SOLO los 0x970 deja 2 punteros en los companeros de J0",
+   f"dio {len(_malos)}: {[(hex(m[1]), hex(m[2])) for m in _malos]}")
+
+_bl2, _reub2, _mapa2 = _j2.plan_copia(_j2_leer32, _j2_bloque, dueno=0x0046CDF0)
+_sis2 = {d: b for d, b, _ in _bl2}[_mapa2["copia"]]
+ok(all(_j2_u32(_sis2, _j2.RANURA_0 + k * _j2.PASO_RANURA) == 0x0046CDF0 for k in (0, 1)),
+   "plan_copia --dueno-a-mano: las dos ranuras de la copia quedan con J2 de dueno")
+
+# el destino se alinea a 0x10 y el mapa lo declara
+_bl3, _, _mapa3 = _j2.plan_copia(_j2_leer32, _j2_bloque, destino=0x0046DC05)
+ok(_mapa3["copia"] == 0x0046DC10, "plan_copia: alinea el destino a 0x10", hex(_mapa3["copia"]))
+
+# SABOTEADOR: un global que no apunta a un objeto del EE tiene que rebotar
+try:
+    _j2.plan_copia(lambda a: 0 if a == _j2.SISTEMA_PTR else _j2_leer32(a), _j2_bloque)
+    ok(False, "SABOTEADOR: plan_copia acepta un global en 0 sin protestar")
+except ValueError:
+    ok(True, "SABOTEADOR: plan_copia se niega si *(0x0040F50C) no es un objeto del EE")
+
+del _j2_mem
+
+
 shutil.rmtree(tmp, ignore_errors=True)
 
 # =============================================================================
