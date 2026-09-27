@@ -167,4 +167,22 @@ vienen con su análisis, después de esto.
 
 ## 7. Tus respuestas
 
-*(vacío hasta que contestes; se copian acá textuales, con la fecha)*
+### 2026-09-27 — respuestas de Fran a las 22 preguntas (textuales, sesión en la nube)
+
+Copiadas tal cual las escribió, sin corregir. En la sesión, las preguntas 1 y 22
+se le presentaron con estas opciones, y a ellas remite «en ese orden»:
+**1** (a) coop · (b) más difícil · (c) remaster visual · (d) contenido nuevo ·
+(e) otra; **22** N1 coop · N2 desafío · N3 novedad y ganas de volver a jugarlo ·
+N4 contenido nuevo · N5 remaster · N6 cómodo en PC · N7 cada mod sobrevive al
+reinicio, se prende y apaga, y no rompe a los demás.
+
+> 1) en ese orden quiero 2- es para mi y para jugar con quien quiera 3- quiero que se agreguen cosas, y se mejoren las que ya estan, sin cambair lo que esta bien. 4- que me resulta facil aun en dificil y quiero jugarlo con alguien o nuevas sorpresas ya que me lo pase varias veces 5- me gustaria que sea pantalla dividida o cada uno en una computadora seria mejor, quiero la que sea viable, que permita jugar de a dos. 6- tengo la notebook y PC de r7 5700g y 3090, con quien sea jugare, amigos o familia. 7- campania entera y despues vamos viendo en el futuro 8- si acepto, perder lo menor posible pero perder lo necesario. 9-  todas esas caracteristicas o cambios me gustan y las considero como aumento de dificultad 10-  un modo que se elige antes de entrar al nivel 11- ambas me gustan 12- todas me gustan 13- algun dia, no lo veo viable por ahora 14- del remaster me gustaria luz y niebla y nitidez el resto tambien 15- quiero que sea inmersivo, bien realista. 16- eso lo voy manejando yo cuando quiero retomar o no 17-  cuando le dedico tiempo, hacemos pruebas obvio conmigo con ambos controles o pcs. 18- no hay problema con cuelgues en el emu o savestates. 19- cuando sea necesario mas al principio de conceptos y alto nivel 20- en bloque asi esta bien, me hace contestar todo de una y no darte informacion a cuotas haciendo que avances sin saber todas mis necesidades. Hacer preguntas luego antes de implementar nuevas cosas que no vienen de los requerimientos, asi no perdemos trazabilidad.  21 me interesa basicamente avanzar ocasionalmente y que hags caso a la intensidad, o costos que maneje en el momento y tokens que disponga. 22- en ese orden que me pusiste
+
+**Abierto después de leerlas** (lo pregunta la sesión, no se decide sola):
+
+- La **1** pone remaster (c) antes que contenido (d); la **22** pone N4
+  contenido antes que N5 remaster. Falta saber cuál manda.
+- La **21** no reparte los 100 puntos: dice que el costo lo maneja Fran en el
+  momento. Sin un reparto, `trade` sigue bloqueado, y se le proponen
+  opciones.
+

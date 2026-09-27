@@ -97,10 +97,10 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 
 ## NGOs (borrador hasta la MCR)
 
-- **N1** jugar BLACK con otra persona — Fran 2026-09-26: 'me encantaria que haya dos jugadores'; conops R5 — *SIN VALIDAR*
-- **N2** que sea mas desafiante — Fran 2026-08-17; conops R2, R3 — *SIN VALIDAR*
-- **N3** reinventarlo con cambios drasticos: novedad y ganas de volver a jugarlo — Fran 2026-08-17: 'reinventarlo' — *SIN VALIDAR*
-- **N4** contenido nuevo: algun nivel o modo que no existia — Fran 2026-08-17; conops R6 — *SIN VALIDAR*
-- **N5** que se vea como un remaster — conops R7; interes en la PC a 2K — *SIN VALIDAR*
+- **N1** jugar BLACK con otra persona — Fran 2026-09-26: 'me encantaria que haya dos jugadores'; conops R5 — *validada*
+- **N2** que sea mas desafiante — Fran 2026-08-17; conops R2, R3 — *validada*
+- **N3** reinventarlo con cambios drasticos: novedad y ganas de volver a jugarlo — Fran 2026-08-17: 'reinventarlo' — *validada*
+- **N4** contenido nuevo: algun nivel o modo que no existia — Fran 2026-08-17; conops R6 — *validada*
+- **N5** que se vea como un remaster — conops R7; interes en la PC a 2K — *validada*
 - **N6** que se juegue comodo en PC — J1, cerrada 2026-09-05 — *validada*
 - **N7** que cada cambio sobreviva al reinicio, se prenda y apague, y no rompa a los demas — conops R1; menu 'BLACK - Parches' — *validada*

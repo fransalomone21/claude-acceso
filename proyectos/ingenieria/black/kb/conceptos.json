@@ -2,13 +2,13 @@
   "_que_es": "El estudio de conceptos de la Pre-Fase A del programa BLACK (NASA p. 22: 'a broad spectrum of ideas and alternatives'). Fuente unica del catalogo: docs/12-catalogo.md se GENERA de aca con herramientas/programa.py catalogo. Lo mide programa.py verificar.",
   "_abierto": "2026-09-26",
   "ngos": [
-    {"id": "N1", "que": "jugar BLACK con otra persona", "fuente": "Fran 2026-09-26: 'me encantaria que haya dos jugadores'; conops R5", "validada": false},
-    {"id": "N2", "que": "que sea mas desafiante", "fuente": "Fran 2026-08-17; conops R2, R3", "validada": false},
-    {"id": "N3", "que": "reinventarlo con cambios drasticos: novedad y ganas de volver a jugarlo", "fuente": "Fran 2026-08-17: 'reinventarlo'", "validada": false},
-    {"id": "N4", "que": "contenido nuevo: algun nivel o modo que no existia", "fuente": "Fran 2026-08-17; conops R6", "validada": false},
-    {"id": "N5", "que": "que se vea como un remaster", "fuente": "conops R7; interes en la PC a 2K", "validada": false},
-    {"id": "N6", "que": "que se juegue comodo en PC", "fuente": "J1, cerrada 2026-09-05", "validada": true},
-    {"id": "N7", "que": "que cada cambio sobreviva al reinicio, se prenda y apague, y no rompa a los demas", "fuente": "conops R1; menu 'BLACK - Parches'", "validada": true}
+    {"id": "N1", "que": "jugar BLACK con otra persona", "fuente": "Fran 2026-09-26: 'me encantaria que haya dos jugadores'; conops R5", "validada": true, "validacion": "Fran 2026-09-27, docs/12 §7, resp. 2, 4, 5 y 7: 'para jugar con quien quiera'; 'quiero jugarlo con alguien'; 'campania entera'"},
+    {"id": "N2", "que": "que sea mas desafiante", "fuente": "Fran 2026-08-17; conops R2, R3", "validada": true, "validacion": "Fran 2026-09-27, docs/12 §7, resp. 4 y 9: 'me resulta facil aun en dificil'; 'todas esas caracteristicas o cambios me gustan y las considero como aumento de dificultad'"},
+    {"id": "N3", "que": "reinventarlo con cambios drasticos: novedad y ganas de volver a jugarlo", "fuente": "Fran 2026-08-17: 'reinventarlo'", "validada": true, "validacion": "Fran 2026-09-27, docs/12 §7, resp. 3, 4 y 11: 'que se agreguen cosas, y se mejoren las que ya estan, sin cambair lo que esta bien'; 'nuevas sorpresas ya que me lo pase varias veces'"},
+    {"id": "N4", "que": "contenido nuevo: algun nivel o modo que no existia", "fuente": "Fran 2026-08-17; conops R6", "validada": true, "validacion": "Fran 2026-09-27, docs/12 §7, resp. 11 y 13: 'ambas me gustan'; el nivel nuevo 'algun dia, no lo veo viable por ahora'"},
+    {"id": "N5", "que": "que se vea como un remaster", "fuente": "conops R7; interes en la PC a 2K", "validada": true, "validacion": "Fran 2026-09-27, docs/12 §7, resp. 14: 'luz y niebla y nitidez el resto tambien'"},
+    {"id": "N6", "que": "que se juegue comodo en PC", "fuente": "J1, cerrada 2026-09-05", "validada": true, "validacion": "Fran 2026-09-27, docs/12 §7, resp. 22: la ordeno sexta"},
+    {"id": "N7", "que": "que cada cambio sobreviva al reinicio, se prenda y apague, y no rompa a los demas", "fuente": "conops R1; menu 'BLACK - Parches'", "validada": true, "validacion": "Fran 2026-09-27, docs/12 §7, resp. 22: la ordeno septima"}
   ],
   "moes": [
     {"id": "MOE1", "ngo": "N1", "que": "dos personas terminan una mision entera juntas sin que el emulador caiga, y quieren jugar otra"},
