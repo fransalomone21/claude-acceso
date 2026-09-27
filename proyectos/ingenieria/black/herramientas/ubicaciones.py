@@ -36,7 +36,7 @@ import argparse
 import json
 import os
 import sys
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from salida import tolerar_salida_pobre  # noqa: E402
@@ -49,7 +49,18 @@ def cargar() -> dict:
     if not KB.exists():
         raise SystemExit(f"no existe {KB}")
     with open(KB, encoding="utf-8") as fh:
-        return json.load(fh)
+        datos = json.load(fh)
+    # Sesion en la nube: el repo privado black-datos trae copias del ELF, de
+    # volcados y de archivos del ISO. Con BLACK_DATOS apuntando a su carpeta,
+    # toda ruta cuyo archivo este ahi se resuelve ahi. Las rutas de Windows no
+    # se tocan en el JSON: la fuente sigue siendo una sola.
+    extra = os.environ.get("BLACK_DATOS")
+    if extra:
+        for ficha in datos.get("rutas", {}).values():
+            cand = Path(extra) / PureWindowsPath(ficha["ruta"]).name
+            if cand.is_file():
+                ficha["ruta"] = str(cand)
+    return datos
 
 
 def revisar_una(clave: str, ficha: dict) -> dict:

@@ -16,6 +16,22 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (64) — Sonda 5 del coop en frío, desde la nube: el juego recorre a sus jugadores con una cuenta, y hay código que la pone en 2
+**Máquina:** nube (sin emulador), con el repo privado `black-datos` · **Modelo:** Opus, esfuerzo high, sin fan-out
+**Sirve a:** proyecto COOP (M2), sonda 5 de `PDP.md` §4 · **Nodos:** `juego` (K4, evidencia nueva), `sesion` (**nodo nuevo, K3**), `hud` (pista)
+**Objetivo:** contestar en frío quién recorre `jugadores[]` y con qué límite.
+**Resultado:** Fran subió el ELF, tres volcados (`ee-e4`, `ee-03`, `ee-nivel-mod0`), `WPNSCOPE.BIN` y `GLOBDATA.BIN` a un repo privado. Los SHA-256 coinciden con su manifiesto. Control positivo: `censo_subsistemas.py` reproduce en la nube los 37 singletons, con el jugador dentro de `juego` y los dos mandos dentro de `entrada`. Después, con capstone sobre el `.text` del volcado (`herramientas/censo_jugadores.py`):
+- hay 9 lazos que avanzan de a 0x8C0. Los que **construyen** son de una vuelta, con N = 1 compilado (`FUN_00382778`, `0x001282E0`, `0x0012A0F0`). **Cuatro que recorren** (`0x0012A068`, `0x0012BF28`, `0x0012C038` y un par) usan como límite `*(0x0040F0E0)+0x20208`, una cuenta que vale 1 en los tres volcados;
+- `0x0040F0E0` **no está entre los 37 de `FUN_001020c0`**. Apunta a `0x0049C000`, un objeto de sesión que construye `FUN_00387e50` con tres objetos de modo embebidos (vtables `0x003DB590`, `0x003DB538` y `0x003DB4E0`). Entró al mapa como `sesion`, en K3;
+- tres funciones escriben la cuenta: **`FUN_00106010` escribe 2** (primera virtual de la vtable `0x003DB538`), `FUN_00106868` escribe 1 (con un switch de 0x37 casos) y `FUN_00213CA8` escribe 1;
+- 15 sitios indexan `jugadores[k]` con un k guardado en otro objeto: armas en `obj+0x48` y el HUD en `0x001F7C48–0x001FD6xx`. El motor sabe de qué jugador es cada cosa.
+
+Grado de todo: **probable**. Es lectura de código en frío, sin efecto. Que exista un modo de dos jugadores alcanzable desde un menú es **desconocido**.
+**No funcionó:** en el ELF no aparece ningún nombre del tipo «split», «versus» o «2 player»: la pista es sólo el código. capstone decodifica mal las `lq`/`sq` del R5900 y las muestra como instrucciones DSP; son guardados de pila y acá no importan. El primer script se llamó `dis.py` y tapó al módulo `dis` de Python.
+**Sigue:** en la notebook, la sonda 5a: un *watch* de escritura sobre `0x004BC208` (la cuenta) recorriendo todos los menús, para ver si algún camino llega a `FUN_00106010`. Es inofensiva y va en lote con la sonda 1. En la nube, la sonda 2 (la cámara) desde el yaw `0x005A8DA0`, y la 4 (el render) con `WPNSCOPE.BIN`.
+
+---
+
 ## 2026-09-27 (63) — MCR cerrada con los pesos delegados; la cartera es el coop
 **Máquina:** nube · **Modelo:** Opus, esfuerzo high, sin fan-out
 **Sirve a:** programa (MCR) y proyecto COOP (M2, M6); nodos que toca: ninguno por medición; plan para `camara`, `render`, `juego`, `entrada`, `codigo-nuevo`, `spawn`

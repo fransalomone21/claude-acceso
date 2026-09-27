@@ -56,6 +56,13 @@ Análisis: `docs/13-coop.md`. Plan de desarrollo de tecnología, con 7 sondas:
 viene el `render` (K1): hace falta saber si el motor dibuja dos vistas.
 Catálogo: 48 candidatos (`docs/12-catalogo.md`).
 
+**Sonda 5 hecha en frío (2026-09-27, nube, bitácora (64)):** `jugadores[]` se
+construye con N = 1, pero se recorre con una cuenta en tiempo de ejecución,
+`*(0x0040F0E0)+0x20208`, y `FUN_00106010` la pone en **2** (probable). Nodo
+nuevo en el mapa: `sesion` (K3). Siguiente, en la notebook: sondas 1 y 5a en
+lote (`sesiones/HANDOFF.md`). Material del juego para la nube: repo privado
+`black-datos`.
+
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo
 de tecnología. Los dos mandos están conectados (Fran, 2026-09-26).

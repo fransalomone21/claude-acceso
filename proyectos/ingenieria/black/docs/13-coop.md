@@ -14,8 +14,20 @@ razonamiento que lo sostiene, hecho en la nube, sin el ELF ni el emulador.
 | `jugador+0x418` es el número de mando del jugador, y vale 0 | probable | ídem |
 | el gestor de entrada `*(0x0040F0E8)` arma dos mandos (puertos 0 y 1, estado 4) | probable (K4) | tres volcados, bitácora (61) |
 | `juego+0x8F0` está ocupado: un segundo jugador no entra en el mismo lugar | probable | ídem |
+| **`jugadores[]` se construye con N = 1 compilado, pero se RECORRE con una cuenta en tiempo de ejecución**: `*(0x0040F0E0) + 0x20208`, que vale 1 en los tres volcados | probable (lectura de código en frío) | 2026-09-27, `herramientas/censo_jugadores.py`, bitácora (64) |
+| **`FUN_00106010` escribe 2 en esa cuenta.** Es la primera virtual de la clase de vtable `0x003DB538`, un objeto de modo embebido en la sesión (+0x20F90). Nada la llama con `jal`: se llega por la vtable | probable que exista un **modo de dos jugadores** en el código; si se puede alcanzar desde un menú: **desconocido** | ídem |
+| 15 sitios indexan `jugadores[k]` con un k guardado en otro objeto: armas (`obj+0x48`), HUD (bloque `0x001F7C48–0x001FD6xx`) | probable | ídem |
 | la cámara no está ubicada | — (K0) | `kb/subsistemas.json` |
 | el render (RenderWare dentro del ELF) está ubicado y nada más | — (K1) | ídem |
+
+**Qué cambia esto.** Antes, el supuesto era «motor de N jugadores compilado
+con N = 1»: habría que tocar cada lazo. Ahora está medido que **la mitad de los
+lazos ya obedece a una variable**, y que el juego trae una función que pone esa
+variable en 2. Lo que sigue sin lugar es el **almacenamiento**: en `juego+0x8F0`,
+donde iría `jugadores[1]`, hay otro objeto (`0x00128F28` le pasa `juego+0x8F0` a
+una función). Si la cuenta se pone en 2 sin mover nada, los lazos escriben
+sobre ese objeto. **No hay que probarlo así**: primero el *watch* de la sonda
+5a, que no rompe nada.
 
 ## 2. Qué forma de coop, y por qué
 
@@ -76,7 +88,7 @@ cambiaría.
 | 2. `camara` K0 → K3, en frío | ELF, Ghidra o capstone, un volcado de RAM | **sí, si se suben el ELF y los volcados** |
 | 3. `camara` K5 | emulador | no |
 | 4. `render` K1 → K3, en frío | ELF, más `WPNSCOPE` del ISO | **sí, con el ELF y ese archivo** |
-| 5. `juego`: quién itera `jugadores[]` | ELF | **sí, con el ELF** |
+| 5. `juego`: quién itera `jugadores[]` | ELF | **hecha, 2026-09-27** |
 | 6. `codigo-nuevo`: memoria libre estable | ELF + volcado | **sí**, en su mitad en frío |
 | 7. `spawn` fuera de la carga | ELF | **sí, con el ELF** |
 

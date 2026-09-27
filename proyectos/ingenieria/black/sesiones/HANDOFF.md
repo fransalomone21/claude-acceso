@@ -4,9 +4,30 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «2026-09-27» DE ACÁ ABAJO.** La Pre-Fase A cerró
+> **EMPEZÁ POR EL BLOQUE «2026-09-27, TARDE» DE ACÁ ABAJO.** La Pre-Fase A cerró
 > con la MCR; la cartera es **un solo proyecto, COOP**, en su **Fase A**. Los
 > bloques del 2026-09-26 quedan como referencia.
+
+## 2026-09-27, TARDE — SONDA 5 DEL COOP HECHA EN FRÍO DESDE LA NUBE
+
+**Para la sesión LOCAL, en este orden:**
+1. `git pull` en `claude-acceso` (todo está en `main`; no hay ramas por mergear).
+2. `.\chequeo-completo.ps1 -SoloSaboteadores` (pendiente del 26/09).
+3. **Una sesión de emulador, en lote:**
+   - **sonda 1:** por PINE, escribir `jugador+0x418 = 1` y ver si el mando 2 maneja al jugador 1;
+   - **sonda 5a:** un *watch* de escritura sobre `0x004BC208` (la cuenta de jugadores) mientras se recorren **todos** los menús, para ver si algún camino llega a `FUN_00106010`, que la pone en 2.
+
+   Las dos predicciones van escritas **antes**, en la bitácora. **No** escribir un 2 en la cuenta a mano: los lazos pisarían el objeto de `juego+0x8F0`.
+
+**Lo nuevo, en una línea:** el juego construye un solo jugador, pero recorre a
+sus jugadores con una **cuenta que es una variable**, y hay una función que la
+pone en 2 (probable; bitácora (64); `kb/subsistemas.json#sesion`).
+Reproducible con `python herramientas/censo_jugadores.py volcados/ee-e4.bin`.
+
+**Cómo trabaja la NUBE (para que no diverja):**
+- El material del juego vive en el repo **privado** `fransalomone21/black-datos` (local: `C:\Users\frans\black-datos`), nunca en `claude-acceso`. Se sube con `herramientas\windows\subir-datos-nube.ps1`, que es re-ejecutable: para mandar un volcado nuevo, se agrega su ruta al script.
+- En la nube: `BLACK_DATOS=/home/user/black-datos`. `ubicaciones.py` resuelve ahí los archivos que encuentra por nombre, y el JSON no se toca. `pip install capstone` hace de Ghidra para leer el código.
+- Todo commit de la nube va a `main`, y a la rama de la sesión como espejo.
 
 ## 2026-09-27 — MCR CERRADA. COOP-A ABIERTA (sesión en la nube)
 
