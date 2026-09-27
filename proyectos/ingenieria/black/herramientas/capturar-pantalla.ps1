@@ -17,6 +17,9 @@ param(
     [switch]$SinFoco
 )
 $ErrorActionPreference = 'Stop'
+# Bitmap.Save es .NET: resuelve una ruta relativa contra el directorio del PROCESO,
+# no contra Push-Location, y falla con "Error generico en GDI+" (bitacora (83)).
+if (-not [IO.Path]::IsPathRooted($Salida)) { $Salida = Join-Path (Get-Location).Path $Salida }
 Add-Type -AssemblyName System.Windows.Forms, System.Drawing
 Add-Type @'
 using System;

@@ -15,7 +15,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | M2 | Coop con pantalla dividida | cada jugador con su vista | N1 | XL | pnach-codigo | K4 (personajes) | dos vistas cuestan el doble de GS/EE; render K1 | candidato |
 | M3 | El segundo mando maneja a un companero de escuadra | el jugador 2 toma a Tom o a Matt, que ya existen como actores | N1 | L | pnach-codigo | K2 (ia) | los companeros no estan en todos los niveles; hay que desenchufar su IA (8a) | candidato |
 | M4 | Coop asimetrico: el segundo como apoyo | marca objetivos, pide municion o controla una vista de apoyo | N1, N3 | L | pnach-codigo | K2 (comandos-ui) | diseno de juego nuevo, no solo tecnica | candidato |
-| M5 | Versus 1 contra 1 | dos jugadores enfrentados en un nivel o arena | N1, N4 | XL | pnach-codigo | K3 (spawn) | necesita M1 o M2 mas dano entre jugadores y reaparicion | candidato |
+| M5 | Versus 1 contra 1 | dos jugadores enfrentados en un nivel o arena | N1, N4 | XL | pnach-codigo | K4 (personajes) | necesita M1 o M2 mas dano entre jugadores y reaparicion | candidato |
 | M6 | Coop a distancia con Parsec o Remote Play | un amigo se conecta al coop local desde su casa | N1 | S | externo | K5 (entrada) | latencia; depende de que exista M1, M2 o M3 | candidato |
 | M7 | Puntaje por turnos | dos jugadores se turnan la misma mision y compiten por puntos | N1, N3 | S | pine | K2 (estadisticas) | poco: no toca el juego | candidato |
 | X2 | Online nativo del emulador | descartado | N1 | XL | emulador | — | PCSX2 2.8 no trae netplay; M6 cubre la necesidad sin tocar nada | descartado |
@@ -27,7 +27,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | D1 | Perfil 'Black Ops+' | dano de la IA, vida, regeneracion y botiquines ajustados como un preset | N2 | M | datos-iso | K2 (pickups) | vida maxima y regeneracion son hipotesis (K2) | candidato |
 | D2 | Punteria de la IA | Max Spread Angle y Accuracy Fall Off del bloque AIParams de cada arma | N2 | S | datos-iso | K6 (armas) | el offset de esos campos se deriva del esquema; falta el efecto | candidato |
 | D3 | Percepcion de la IA | ver antes y oir mas | N2 | L | datos-iso | K2 (ia) | depende de 8a: no se sabe que codigo piensa por el enemigo | candidato |
-| D4 | Mas enemigos, y otros tipos, por nivel | editar las unidades de StLevel | N2, N3 | M | datos-iso | K3 (spawn) | el pool tiene 32 lugares; E5 sin probar por efecto | candidato |
+| D4 | Mas enemigos, y otros tipos, por nivel | editar las unidades de StLevel | N2, N3 | M | datos-iso | K4 (iso-niveles) | el pool tiene 32 lugares; E5 sin probar por efecto | candidato |
 | D5 | Enemigos mas duros | multiplicadores de dano por zona de impacto | N2 | S | pnach-datos | K6 (armas) | bajo: zona*100 confirmado (4b) | candidato |
 | D6 | Municion escasa | cargadores (Num Bullets In Clip) y cuanto dan los pickups | N2 | S | datos-iso | K2 (pickups) | los pickups estan en K2 | candidato |
 | D7 | Modo hardcore | sin HUD ni reticula, sin auto-apuntado, sin regeneracion | N2, N3 | M | pnach-codigo | K2 (comandos-ui) | HUD en K2 | candidato |
@@ -92,7 +92,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | P3 | Arnes de prototipos por PINE | probar una mecanica desde Python antes de escribirla en MIPS | N7 | S | pine | K6 (pine) | latencia: sirve para prototipo, no para el producto | candidato |
 | P4 | Registro de interfaces entre mods | que direcciones escribe cada mod; avisa si dos se pisan | N7 | S | externo | — | ninguno | candidato |
 | P5 | Encontrar la camara | llevar la camara de K0 a K4 | N1, N5 | M | externo | K5 (camara) | puede estar repartida entre vista-fp y render | candidato |
-| P6 | Aparicion en runtime | hacer aparecer un personaje fuera de la carga del stage | N1, N2, N3 | L | pnach-codigo | K3 (spawn) | puede no existir como funcion aislada | candidato |
+| P6 | Aparicion en runtime | hacer aparecer un personaje fuera de la carga del stage | N1, N2, N3 | L | pnach-codigo | K5 (codigo-nuevo) | puede no existir como funcion aislada | candidato |
 | P7 | Leer la UI como datos | el formato de /EXPORT/FRONTEND y la capa de comandos | N1, N5 | M | externo | K1 (frontend-datos) | formato propio de Criterion | candidato |
 
 ## NGOs (borrador hasta la MCR)

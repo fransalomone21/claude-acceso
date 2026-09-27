@@ -37,7 +37,7 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-A abierta el 2026-09-27 (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-A CERRADA el 2026-09-27 (83); COOP-B sin abrir (LEER ESTO PRIMERO)
 
 **La Pre-Fase A cerró el 2026-09-27 con la MCR** (`PDP.md` §6). Fran contestó
 las 22 preguntas (`docs/12` §7) y **delegó** pesos y decisiones: «decide todo
@@ -198,9 +198,23 @@ dice medido). Lo que cambió:
   - **Cierra el prototipo del criterio de COOP-A.** Contra la tabla del PDP §4 queda
     **`spawn` (fila 7, K3 → K5)**; punto de partida en frío: el spawner de enemigos
     `FUN_00138C80`, una aparición fuera de la carga.
-- **Siguiente (notebook):** la sonda de `spawn` (fila 7), que es lo último de la Fase A; y
-  hacer permanente `atar` en el envoltorio de carga. **Slot 13** = J2 con controlador (y la
-  ranura 1 de (81), que no hace falta). Detalle: `sesiones/RETOME-LOCAL.md`.
+- **`spawn` en caliente, y COOP-A cerrada (2026-09-27, bitácora (83), notebook).** Confirmado
+  en RAM y en pantalla, con control:
+  - **La aparición fuera de la carga existe y es del juego.** Por cuadro, `FUN_00165F30(dt,
+    *(0x0040F4F4))` recorre los spawners (listas 12/13 de `disparadores`; City Streets tiene
+    **73**, en RAM todo el nivel) y `FUN_00174578` es un temporizador: con `+0x28` = 1 descuenta
+    `dt` y aparece por `FUN_001746E0` → … → `FUN_00138C80` (el alta completa de un actor).
+  - **Un byte** (`+0x28` = 1) en un spawner armado → un enemigo nuevo en el cuadro siguiente,
+    **4 de 4** (negativo sin escribir: nada), vida 100, en la lista viva, con controlador y
+    cuerpo en el mundo. **Moviendo el punto** (`*(desc+4)+0x10`) nace **donde se lo pone** y
+    **se ve** (capturas antes/después). `spawn` **K3 → K5**. Herramienta: `sondas_spawn.py`.
+  - El contador de apariciones sube solo (apariciones de fondo): no sirve como medida.
+  - **COOP-A cerrada:** los 7 habilitadores en su objetivo y el prototipo de (82).
+- **Siguiente:** abrir **COOP-B** con su criterio de salida escrito en el PDP antes de
+  empezarla. Candidatos, sin priorizar todavía: el cuerpo de J2 (hoy dos brazos), la pantalla
+  dividida sobre la segunda pasada de `render`, `atar` permanente en el envoltorio de carga,
+  los disparadores que miran sólo al jugador 0, la IA frente a J2 y la reaparición de J2.
+  **Slot 13** = J2 con controlador. Detalle: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

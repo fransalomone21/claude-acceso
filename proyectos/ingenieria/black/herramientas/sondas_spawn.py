@@ -21,8 +21,12 @@ Uso (desde black/):
   python herramientas/sondas_spawn.py foto <i>           # JSON del spawner i y de los pools
   python herramientas/sondas_spawn.py mirar <i> <s>      # ACTIVA el i (+0x28 = 1) y registra s segundos
   python herramientas/sondas_spawn.py mirar <i> <s> --sin-activar   # el control: mismo registro, sin escribir
+  python herramientas/sondas_spawn.py apuntar <i>        # gira la vista de J hacia el punto (el signo del yaw se mide)
+  python herramientas/sondas_spawn.py punto-delante <i> <m>   # P17b: mueve el punto del spawner a m metros delante de J
 
-Solo `mirar` sin --sin-activar escribe, y escribe un solo byte.
+Escriben: `mirar` sin --sin-activar (un byte), `apuntar` (el yaw de la vista) y
+`punto-delante` (tres floats del punto). Confirmado en (83): 4 de 4 apariciones,
+y con el punto movido el enemigo nace donde se lo puso y se ve.
 """
 from __future__ import annotations
 
@@ -147,9 +151,13 @@ def cmd_mirar(a) -> None:
         while time.time() - t0 < a.segundos:
             s = leer_spawner(p, sp)
             q = pools(p)
-            clave = (s["activo"], s["restantes"], s["actor"], s["actor_estado"], json.dumps(q))
+            act = int(s["actor"], 16)
+            a0 = pos(p, act + 0xA0) if act else None
+            # la posicion entra redondeada a 0,5 m: registra si el actor nace en el punto y camina
+            clave = (s["activo"], s["restantes"], s["actor"], s["actor_estado"], json.dumps(q),
+                     tuple(round(v * 2) for v in a0) if a0 else None)
             if clave != ultimo:
-                print(f"  t={time.time() - t0:5.2f}s {json.dumps(s)} {json.dumps(q)}")
+                print(f"  t={time.time() - t0:5.2f}s A0={a0} {json.dumps(s)} {json.dumps(q)}")
                 ultimo = clave
             time.sleep(0.1)
         s = leer_spawner(p, sp)
@@ -161,20 +169,74 @@ def cmd_mirar(a) -> None:
         print("DESPUES", json.dumps(res))
 
 
+MIRA_YAW = 0x005A8FA8      # mira+8, el yaw en GRADOS que gobierna la vista (bitacora (76))
+
+
+def adelante_xz(p: Pine) -> tuple[float, float]:
+    # matriz de RenderWare: derecha +0x70, arriba +0x80, ADELANTE +0x90, posicion +0xA0
+    j = p.leer32(G_JUEGO) + 0x30
+    return f32(p, j + 0x90), f32(p, j + 0x98)
+
+
+def cmd_apuntar(a) -> None:
+    """Gira la vista de J hacia el punto del spawner i. El signo del yaw se MIDE, no se supone."""
+    with Pine() as p:
+        s = leer_spawner(p, buscar(p, a.i, a.lista))
+        j = jugador(p)
+        objetivo = math.atan2(s["punto"][0] - j[0], s["punto"][2] - j[2])
+        signo = 1.0
+        for paso in range(4):
+            fx, fz = adelante_xz(p)
+            err = math.remainder(objetivo - math.atan2(fx, fz), math.tau)
+            print(f"  paso {paso}: yaw={f32(p, MIRA_YAW):8.2f} adelante=({fx:+.3f},{fz:+.3f}) error={math.degrees(err):+7.2f} grados")
+            if abs(math.degrees(err)) < 2.0:
+                break
+            yaw = f32(p, MIRA_YAW)
+            p.escribir_f32(MIRA_YAW, yaw + signo * math.degrees(err))
+            time.sleep(0.3)
+            fx2, fz2 = adelante_xz(p)
+            err2 = math.remainder(objetivo - math.atan2(fx2, fz2), math.tau)
+            if abs(err2) > abs(err):          # empeoro: el yaw va al reves
+                signo = -signo
+                p.escribir_f32(MIRA_YAW, yaw + signo * math.degrees(err))
+                time.sleep(0.3)
+        print(json.dumps({"jugador": j, "punto": s["punto"], "yaw": round(f32(p, MIRA_YAW), 2), "signo": signo}))
+
+
+def cmd_punto_delante(a) -> None:
+    """P17b: escribe el punto de aparicion del spawner i a `metros` delante de J, a la altura de sus pies."""
+    with Pine() as p:
+        sp = buscar(p, a.i, a.lista)
+        punto = p.leer32(p.leer32(sp + 0x18) + 4)
+        j = jugador(p)
+        fx, fz = adelante_xz(p)
+        n = math.hypot(fx, fz) or 1.0
+        nuevo = [j[0] + a.metros * fx / n, j[1], j[2] + a.metros * fz / n]
+        viejo = pos(p, punto + 0x10)
+        for k, v in enumerate(nuevo):
+            p.escribir_f32(punto + 0x10 + 4 * k, v)
+        j2 = pos(p, 0x0046CDF0 + 0xA0)
+        print(json.dumps({"punto": f"0x{punto:08X}", "viejo": viejo, "nuevo": pos(p, punto + 0x10),
+                          "jugador": j, "j2": j2}))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("censo")
     c.add_argument("--n", type=int, default=12)
-    for nombre in ("foto", "mirar"):
+    for nombre in ("foto", "mirar", "apuntar", "punto-delante"):
         s = sub.add_parser(nombre)
         s.add_argument("i", type=int)
         s.add_argument("--lista", type=int, default=12)
         if nombre == "mirar":
             s.add_argument("segundos", type=float)
             s.add_argument("--sin-activar", action="store_true")
+        if nombre == "punto-delante":
+            s.add_argument("metros", type=float)
     a = ap.parse_args()
-    {"censo": cmd_censo, "foto": cmd_foto, "mirar": cmd_mirar}[a.cmd](a)
+    {"censo": cmd_censo, "foto": cmd_foto, "mirar": cmd_mirar, "apuntar": cmd_apuntar,
+     "punto-delante": cmd_punto_delante}[a.cmd](a)
 
 
 if __name__ == "__main__":

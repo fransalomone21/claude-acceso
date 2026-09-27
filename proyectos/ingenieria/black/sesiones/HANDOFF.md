@@ -4,10 +4,27 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(82)» DE ACÁ ABAJO.** La cartera es **un solo
-> proyecto, COOP**, en su **Fase A**. El bloque «(81)» quedó **corregido por
-> (82)** en lo que dice del cuerpo físico: leelo sólo si hace falta, y con esa
-> advertencia. El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+> **EMPEZÁ POR EL BLOQUE «(83)» DE ACÁ ABAJO.** La cartera es **un solo
+> proyecto, COOP**. **La Fase A cerró el 2026-09-27 (83)**; la B **no está
+> abierta**: su criterio de salida se escribe en el PDP antes de empezarla. El
+> bloque «(81)» quedó **corregido por (82)** en lo que dice del cuerpo físico.
+> El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — SPAWN EN CALIENTE CON UN BYTE; COOP-A CERRADA (bitácora (83))
+
+**El resultado:** la aparición fuera de la carga **existe y es del juego**. Por cuadro, `FUN_00165F30(dt, *(0x0040F4F4))` (desde `0x00129360`) recorre los spawners —listas **12 y 13** de la tabla de `disparadores` (cuenta u16 en `tabla+2i`, array en `tabla+0x48+4i`); City Streets tiene **73**, en RAM todo el nivel— y `FUN_00174578(spawner)` es un **temporizador**: si `+0x28` activo, `+0x2C` restantes ≠ 0, `+0x2A`/`+0x2B` y el actor de `+0x24` es 0 o está muerto (`+0x38C` ∉ {0,1}), resta `dt` a `+0x30` y al llegar a 0 aparece por `FUN_001746E0` → `FUN_00178408` (switch por `*desc`) → `FUN_00178978`/`FUN_00178AE8` → `FUN_00178BC0` → `FUN_00138C80` (`actores`: libre `+0x7990` → viva `+0x79A0`, cuerpo, controlador `FUN_0025C210`, enlace; vida `+0x2F8` = 100). La posición sale de **`*(desc+4)+0x10`, leída al aparecer**.
+
+**Medido (`sondas_spawn.py`, slot 13):** escribir **un byte**, `+0x28` = 1, en un spawner armado → enemigo nuevo **en el cuadro siguiente**, **4 de 4** (`L12[43]`, `[71]`, `[17]` a los 7 s de su temporizador, `[4]`); negativo `L12[71]` sin escribir: nada. En la lista viva, no en la libre; controlador atado; cuerpo en el mundo `0x0066E900`. **P17b:** con el punto de `L12[43]` escrito 4 m delante de J, nace **ahí** y **se ve** (`volcados/capturas-83/p17c-antes.png` vacío → `c/rafaga-00-00006ms.png` con el soldado). `spawn` **K3 → K5**.
+
+**Ojo:** el contador `*(0x0040F4D4)+0xFA4` sube solo (apariciones de fondo, ~1 cada 7–10 s): el efecto se lee en el propio spawner. Desde donde está J en el slot 13 **no hay línea de vista** a los puntos de la planta de abajo (se ve una pared): para ver una aparición, `apuntar` + `punto-delante`. Sin explicar: el actor de `L12[4]` murió en ~3 s; el de P17b quedó mirando hacia J2.
+
+**COOP-A cerrada:** `entrada`, `camara`, `sesion`, `juego`, `codigo-nuevo`, `ragdoll`, `spawn` en K5, `render` en K4 (su objetivo), prototipo de (82); `verificar` 0, 183 comprobaciones.
+
+**De paso:** `capturar-pantalla.ps1` fallaba con ruta relativa («Error genérico en GDI+»: .NET resuelve contra el directorio del proceso); ahora la resuelve sola. Lección foldeada en `chequeo-de-trabajo.md`.
+
+**Sigue:** abrir **COOP-B** (diseño preliminar) escribiendo **antes** su criterio de salida en el PDP §4. Candidatos, sin priorizar: el cuerpo de J2 (dos brazos flotando), la pantalla dividida sobre la segunda pasada de `render` (160 × 112), `atar` permanente en el envoltorio de carga, los disparadores que sólo miran al jugador 0, la IA frente a J2, la reaparición de J2 si muere.
+
+**Estado de la máquina al cerrar:** PCSX2-MCP abierto, City Streets, **slot 13 recargado** y encima: `L12[43]` con el punto movido a (−5,534; −0,335; 57,38) y su enemigo vivo delante de J; la vista de J con yaw −11,74. Nada de eso está en un slot: se pierde al recargar (y está bien). Slot 13 = J2 con controlador; slot 12 = sin controlador.
 
 ## 2026-09-27, NOTEBOOK — J2 CAMINA: LE FALTABA EL CONTROLADOR DE COLISIÓN (bitácora (82))
 

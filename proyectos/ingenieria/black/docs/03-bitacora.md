@@ -37,6 +37,27 @@ Leído con `leer_c.py` sobre el decompilado de `black-datos`; todo `probable` ha
 **Qué la refuta:** `+0x28` = 1 se queda y no aparece nada → alguna condición del temporizador no se lee como creo (o el lazo no recorre la lista 12 en este estado): se pone un vigilante de lectura sobre `+0x28` para ver si alguien lo mira.
 **Controles:** «vivo» antes; el **negativo en la misma corrida**: `mirar` sobre `L12[71]` (vecino, también armado, t = 0) **sin escribir nada**, el mismo tiempo: su `+0x24` sigue en 0 y el contador no se mueve.
 
+### (83) P17b — PREDICCIÓN, escrita antes de tocar RAM: el punto se mueve y el enemigo nace donde lo pusimos
+Desde donde está J (en el slot 13) **no hay línea de vista** a ningún punto de aparición de la planta de abajo: apuntando a `L12[43]` se ve una pared de ladrillos, y el de `L12[4]` queda detrás de otra pared (capturas `volcados/capturas-83/`). En frío, `FUN_00178BC0` lee la posición de `*(desc+4)+0x10` **en el momento** de aparecer.
+**Sonda:** escribir la posición del punto de `L12[43]` **4 m delante de J**, a la altura de sus pies (la dirección libre, la de `L12[4]`), apuntar la vista ahí, captura «antes», y el byte `+0x28` = 1.
+**Efecto esperado:** el actor nuevo nace **en la posición escrita** (`actor+0xA0` ≈ la escrita en el primer registro) y **se ve un enemigo** en la captura siguiente, donde la de «antes» no tenía nada. **Qué la refuta:** nace en el punto viejo (la posición se copia antes, en la carga) o no se ve nada con el actor en la posición escrita (el dibujo de los actores nuevos necesita algo más).
+
+### (83) P17 y P17b CONFIRMADAS en RAM y en pantalla, con control: `spawn` K3 → K5
+Herramienta: **`sondas_spawn.py`** (`censo`, `foto`, `mirar <i> <s> [--sin-activar]`, `apuntar <i>`, `punto-delante <i> <m>`). «Vivo» antes de cada sonda.
+- **Negativo, misma corrida:** `L12[71]` 3 s **sin escribir**: `+0x24` = 0, restantes 1, pools quietos.
+- **P17, `L12[43]`:** el byte → **en el cuadro siguiente** `+0x24` = actor `0x00592B90` con **vida 100,0** y estado 0; restantes 1 → 0 y `+0x28` → 0 (se desactiva solo); t = −0,033 (pasó por la resta de `dt`); controladores **7 → 8** de 20. El actor está **en la lista viva** (índice 5, el más nuevo) y **no** en la libre; `ctrl+0x30` = el actor; su cuerpo (`+0x34C` = `0x006A9200`) está **en el mundo** `0x0066E900` (`+0x28`) con dueño = el actor, siguiéndolo (+0,8 en y).
+- **Reproducido 4 de 4:** `L12[71]` → `0x00592050`, que **nace exactamente en el punto** (−5,985; −3,575; 36,889) y sale corriendo (~32 m en 3,6 s); `L12[17]` aparece **a los 7 s**, que es su temporizador; `L12[4]` a los 1,25 s, el suyo.
+- **P17b:** con el punto de `L12[43]` escrito 4 m delante de J (−5,534; −0,335; 57,38), el actor nace en **(−5,534; −0,339; 57,38)** y **se ve**: la captura «antes» muestra el cuarto vacío y la de 6 ms después del byte, un soldado enemigo parado ahí (`volcados/capturas-83/p17c-antes.png` y `c/rafaga-00-00006ms.png`). La posición se lee **al aparecer**: se puede elegir dónde nace alguien.
+- **Qué NO es evidencia:** el contador `*(0x0040F4D4)+0xFA4` **sube solo** (~1 cada 7–10 s: 220 → 238 entre el censo y la sonda) y la lista viva oscila sin nosotros: hay apariciones de fondo. El efecto se leyó en el **propio** spawner (`+0x24`, restantes) y en el actor, no en ese agregado.
+- **La salida por abajo del retome (c) no se da:** los datos que hacen falta (descriptor y punto) están en RAM todo el nivel.
+
+**No funcionó:** la primera ráfaga de capturas (con `L12[17]`) falló entera con «Error genérico en GDI+»: `capturar-pantalla.ps1` le pasaba a `Bitmap.Save` una ruta **relativa**, y .NET la resuelve contra el directorio del proceso. Arreglado en la herramienta (resuelve la ruta sola) y medido con la misma ruta; lección foldeada. Y apuntando a `L12[43]` y `L12[4]` desde donde está J se ve **una pared**: por eso P17b movió el punto en vez de mover a J.
+**Sin explicar:** el actor de `L12[4]` estaba **muerto** (estado 2, vida 0) ~3 s después de aparecer, detrás de una pared y 2,6 m más arriba; y el de P17b quedó **de espaldas a J, mirando hacia donde está J2** (a 3,8 m). ¿Orientación del punto, o la IA apunta a J2? Hipótesis para la Fase B; no se midió.
+
+### (83) Cierre: el criterio de salida de COOP-A se cumple
+Contra la tabla del PDP §4: `entrada`, `camara`, `sesion`, `juego`, `codigo-nuevo`, `ragdoll` y ahora **`spawn` en K5**; `render` en K4, que es su objetivo en la tabla; y el prototipo por PINE hecho en (82) (J2 camina con el mando 2). `programa.py verificar` 0 rojos, 183 comprobaciones. **COOP-A queda cerrada.** La Fase B no se abre acá: su criterio de salida se escribe **antes** de empezarla.
+**Sigue:** abrir COOP-B con su criterio escrito en el PDP (diseño preliminar: el cuerpo de J2 —hoy dos brazos flotando—, la pantalla dividida sobre la segunda pasada de escena de `render`, `atar` permanente en el envoltorio de carga, los disparadores que sólo miran al jugador 0, la IA frente a J2 y la aparición de J2 si muere, que ahora tiene de dónde partir).
+
 ## 2026-09-27 (82) — Cómo se da de alta un actor: J2 nunca recibió su controlador de colisión
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `fisica`, `juego`, `actores`
 **Objetivo:** contestar en frío la pregunta que dejó (81) —cómo se da de alta un cuerpo en el motor de física— y recién con eso tocar RAM.
