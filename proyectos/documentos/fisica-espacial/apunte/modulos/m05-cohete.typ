@@ -395,14 +395,14 @@ caja vacía no se lleva hasta la casa nueva.
   $ f = mu abs(v_r) = 220 dot 900 = 198 thin 000 " N" $
   y despejando $M$ de $M a = f - M g$ (la @coh-vertical en $t=0$, con
   $g = 9,81$ "m/s²" la gravedad terrestre):
-  $ M = f / (a + g) = (198 thin 000) / (6 + 9,81) = 12 thin 525 " kg" $
+  $ M = f / (a + g) = (198 thin 000) / (6 + 9,81) = 12 thin 524 " kg" $
 
   #geometria[
     *Una sola ecuación, una sola incógnita.* El enunciado pide «la masa total
     del cohete y del combustible», que es una manera de decir *la masa total
     en el instante del lanzamiento* —tanque lleno—, no dos números separados:
     con sólo $mu$, $abs(v_r)$ y $a$ no hay forma de separar cuánto de esos
-    $12 thin 525$ kg es estructura y cuánto combustible, y el enunciado no lo
+    $12 thin 524$ kg es estructura y cuánto combustible, y el enunciado no lo
     pide.
   ]
 
@@ -423,12 +423,12 @@ caja vacía no se lleva hasta la casa nueva.
   motor principal e $I_"sp" = 455$ s el dato del enunciado, y $g_0 = 9,80665$
   "m/s²" la constante que define $I_"sp"$ —*no* la gravedad local $g$ de la
   parte (a), aunque el número se parezca—:
-  $ mu = f_"motor" / (I_"sp" g_0) = (2,00 times 10^6) / (455 dot 9,80665) = 448,3 " kg/s" $
+  $ mu = f_"motor" / (I_"sp" g_0) = (2,00 times 10^6) / (455 dot 9,80665) = 448,2 " kg/s" $
 
   #clave[
     *Los dos cohetes propulsores no entran en la cuenta del caudal*, porque
     la pregunta es específicamente por los motores principales —los únicos de
-    los que se dio $I_"sp"$—. Y $448,3$ kg/s por motor, tres motores, son
+    los que se dio $I_"sp"$—. Y $448,2$ kg/s por motor, tres motores, son
     $1345$ kg/s sólo de los principales: una cifra que dimensiona por qué el
     tanque central del transbordador es del tamaño que es.
   ]

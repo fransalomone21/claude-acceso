@@ -156,6 +156,15 @@ foreach ($a in $decl.apuntes) {
     Escribir "== $($a.materia) ==" Cyan
 
     if (-not (Test-Path $local)) {
+        # 'regenerable' (2026-09-27): PDFs que NO van al repo porque llevan
+        # material de terceros (la guia de la catedra recortada) y se generan
+        # en la maquina que tiene la fuente. En otra maquina no estan, y eso
+        # no es una falla: se dice, en amarillo, y no se verifica. Declararlo
+        # es un acto -- sin el campo, sigue siendo rojo como siempre.
+        if ($a.regenerable) {
+            Escribir "  [AMARILLO] no esta en esta maquina: se genera con $($a.regenerable). No se verifica aca." Yellow
+            continue
+        }
         Escribir "  [ROJO] no existe el PDF local: $($a.local)" Red
         Escribir "         declarado en la lista pero no en el disco -- compilalo o sacalo de la lista." Yellow
         $problemas++

@@ -51,3 +51,11 @@ __pycache__/
 .claude/settings.json
 proyectos/seguimiento/haberes-docentes/
 proyectos/documentos/clases-aed/
+
+# --- fisica-espacial/practica: la guia de la catedra recortada ---
+# Los recortes y las dos guias completas llevan la guia de la catedra (con
+# escaneos de los libros): no son nuestros y este repo es publico. Salen de
+# practica/compilar.ps1 con la guia en Downloads, y viven en Drive
+# (declarados "regenerable" en .claude/apuntes-publicos.json).
+proyectos/documentos/fisica-espacial/practica/recortes/
+proyectos/documentos/fisica-espacial/practica/salida/guia-*.pdf

@@ -1,9 +1,33 @@
 # Estado actual — Apunte de Física Espacial
 
-## Fase 13 CERRADA: los tres anexos — 2026-09-26 (segunda parte)
+## Fase 14 CERRADA: guía completa y modelos de parcial — 2026-09-27
 
 **No queda fase abierta.** Lo que sigue lo decide Fran (PDP §4, «Lo que
 queda fuera de fase»).
+
+- **En Drive, carpeta pública `Fisica Espacial/`**, tres subcarpetas nuevas,
+  verificadas por MD5:
+  - `Modelos de Parcial/`: *Parcialito - Momento angular (con resolucion)*
+    (3 ejercicios, 60 min) y *Modelo de parcial integrador (con
+    resolucion)* (4 ejercicios, 3 h: Hohmann con Tsiolkovsky, órbita desde
+    un estado, cilindro que precesa, yo-yo).
+  - `Guia completa con resultados y tips/` (24 pág.) y `Guia completa sin
+    resultados/` (23 pág., con tips): los **56 ejercicios** de la guía (4),
+    recortados tal como los pegó Aníbal (60 recortes), con un tip de una
+    oración y el resultado.
+- **Validado, no copiado:** `practica/validar.py` recalcula **233 números**
+  de cero y busca cada uno textual en el documento; `probar-validar.py` 8 de
+  8 sabotajes en rojo. Cubre también la regla de nombres (regla propia 9:
+  $bold(L)$ es el momento angular).
+- **Tres errores del apunte publicados, corregidos**: rendez-vous del m12
+  (698 → **688** m/s) y dos redondeos del m05 (12 524 kg, 448,2 kg/s), con
+  el Anexo A. Apunte recompilado (202 pág.), mirado en el render y
+  republicado.
+- **Pendiente, fuera de fase:** el apunte todavía dice «impulso angular» por
+  $bold(L)$ (~30 veces) y cita la numeración vieja de la sección de impulso
+  angular (la guía (4) renumeró). Y el Google Doc de Fran no se pudo leer.
+
+## Fase 13 CERRADA: los tres anexos — 2026-09-26 (segunda parte)
 
 - **Anexo B, formulario** (`anexos/a2-formulario.typ`, 9 pág.): las
   ecuaciones etiquetadas **no se copian**: `#ec(<clave>)[qué es]` las trae

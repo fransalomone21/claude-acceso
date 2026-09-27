@@ -202,7 +202,7 @@ ecuación; está en elegir bien el sistema y el marco.
   (11,80 × 10⁶ N c/u) y tres SSME (2,00 × 10⁶ N c/u, $I_"sp"=455$ s):
   aceleración inicial y caudal de cada motor principal.],
   resuelve: [(a) empuje $=mu abs(v_r)$, y de $M a = f - M g$ (con $g=9,81$ m/s², la gravedad local) se despeja $M=f\/(a+g)$. (b) el empuje total es la suma de los cinco motores; $a=f\/M_0 - g$; el caudal de cada SSME sale de $I_"sp" = abs(v_r)\/g_0$, con $g_0=9,80665$ m/s² la constante que define $I_"sp"$ —*no* la $g$ local de la parte (a), aunque el número se parezca—, o sea $mu = f_"motor"\/(I_"sp" g_0)$ (#M("cohete")). Ya resuelto.],
-  [(a) $M = 12 thin 525$ kg. (b) intermedio: empuje total $=29,60 times 10^6$ N. $a = 4,70$ m/s²; $448,3$ kg/s por motor principal.],
+  [(a) $M = 12 thin 524$ kg. (b) intermedio: empuje total $=29,60 times 10^6$ N. $a = 4,70$ m/s²; $448,2$ kg/s por motor principal.],
 )
 
 #subtitulo-anexo("A.3 — Conservación de impulso angular (Problemas 1 a 7)")
@@ -380,7 +380,7 @@ medirlos desde el centro.
   [*A)* Investigar el problema del reencuentro orbital. *B)* Formular una
   solución general. *C)* Resolver un caso numérico.],
   resuelve: [B) la idea general es una *órbita de fasaje*: cambiar temporalmente el tamaño de la propia órbita para que el período nuevo, sostenido durante algunas vueltas, acumule (o recupere) el atraso angular $Delta phi$ respecto del blanco (acá, "un cuarto de vuelta adelantado" quiere decir $Delta phi = 90degree$) — la relación es $T'\/T = 1 - Delta phi\/360degree$ por vuelta de fasaje. C) con eso, más la ecuación de Tsiolkovsky (#M("cohete")) para el costo en combustible de los dos encendidos que cambian de órbita y vuelven (#M("maniobras")). Ya resuelto.],
-  [A) es el problema clásico de reencuentro orbital: no se puede apurar acelerando en línea recta, porque acelerar sube la órbita y *reduce* la velocidad angular media. B) la solución general es la órbita de fasaje de arriba. C) caso geosíncrono a un cuarto de vuelta adelantado: $Delta v = 698$ m/s en una sola vuelta de fasaje.],
+  [A) es el problema clásico de reencuentro orbital: no se puede apurar acelerando en línea recta, porque acelerar sube la órbita y *reduce* la velocidad angular media. B) la solución general es la órbita de fasaje de arriba. C) caso geosíncrono a un cuarto de vuelta adelantado: $Delta v = 688$ m/s en una sola vuelta de fasaje. _(corregida el 2026-09-27: decía 698, porque redondeaba $v_"circ"$ a 3,08 km/s antes de restar; es 3,0755)_],
 )
 
 #disparador(

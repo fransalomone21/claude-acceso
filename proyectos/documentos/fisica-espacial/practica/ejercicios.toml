@@ -1,0 +1,508 @@
+# =====================================================================
+#  ejercicios.toml -- la guia completa, un registro por ejercicio
+#
+#  UNA sola fuente para las dos guias (con y sin resultados): guia.typ la
+#  lee con toml(), recortar.py saca los recortes de la guia de la catedra,
+#  y validar.py recalcula cada numero de `resultado` por su cuenta.
+#
+#  recortes = [[pagina, y0, y1], ...]  en puntos PDF de la guia (4),
+#             ancho fijo; recortar.py avisa si un borde parte un renglon.
+#  tip      = UNA oracion: que principio plantear. No la cuenta.
+#  resultado= markup de Typst; cada numero tiene su control en validar.py.
+#  nota     = opcional; va en las DOS guias (aclaraciones del enunciado).
+#
+#  Terminologia (pedido de Fran, 2026-09-27): L = r x p es el MOMENTO
+#  angular. "Impulso angular" es la integral del torque en el tiempo, que
+#  es el CAMBIO de L. La guia de la catedra usa "impulso angular" por L;
+#  donde el enunciado lo dice, la nota lo aclara. validar.py lo mide.
+# =====================================================================
+
+[[seccion]]
+id = "vec"
+titulo = "Vectores"
+bajada = '''Ejercicios 1 a 15. Los del 1 al 8 son del Sears (cap. 1) y del Beer de estática (cap. 3); el 9 y el 10 son la cinemática en polares que vuelve después en órbitas.'''
+
+[[seccion]]
+id = "cm"
+titulo = "Conservación de la cantidad de movimiento"
+bajada = '''Ejercicios 1 a 9 y los tres adicionales. Casi todos salen igual: elegir el sistema, ver en qué dirección no hay fuerza externa e igualar antes y después.'''
+
+[[seccion]]
+id = "ma"
+titulo = "Conservación del momento angular"
+bajada = '''Problemas 1 a 7. La guía titula esta sección «impulso angular», pero lo que se conserva acá es el *momento angular* $bold(L) = bold(r) times bold(p)$. El *impulso angular* es otra cosa: $integral bold(tau) dif t = Delta bold(L)$, lo que el torque le *cambia* al momento angular, igual que el impulso lineal $integral bold(F) dif t = Delta bold(p)$.'''
+
+[[seccion]]
+id = "grav"
+titulo = "Conservación de la energía — Gravitación"
+bajada = '''Problemas 0 a 10 y los cinco ejercicios adicionales. Salvo que el enunciado diga otra cosa: $mu_T = G M_T = 398 thin 600$ km³/s² y $R_T = 6378$ km. Los problemas del Beer usan $G M = g R^2$ con $R = 6370$ km y $g = 9,81$ m/s², y así están resueltos, salvo el Problema 6, que usa las mismas constantes que su resolución en el apunte.'''
+
+[[seccion]]
+id = "cr"
+titulo = "Cuerpo rígido"
+bajada = '''Problemas 1 a 9. Donde la guía dice «impulso angular» $bold(H)_G$ o $bold(L)_G$, léase *momento angular* respecto del centro de masa. Los sentidos de precesión: *directa* si el cuerpo es alargado ($I_"axial" < I_"transversal"$) y *retrógrada* si es achatado.'''
+
+# ------------------------------------------------------------ VECTORES
+
+[[ej]]
+id = "vec-1"
+seccion = "vec"
+titulo = "Ej. 1 — S&Z 1.38"
+recortes = [[1, 138, 240]]
+tip = '''Restá componente a componente, y la dirección sale de $arctan(D_y\/D_x)$ mirando en qué cuadrante cae el vector.'''
+resultado = '''*(a)* $abs(bold(A)) = 8,06$; $abs(bold(B)) = 5,39$. *(b)* $bold(A) - bold(B) = -1,00 hat(i) + 9,00 hat(j)$. *(c)* $abs(bold(A) - bold(B)) = 9,06$, a $96,3°$ del eje $+x$ (segundo cuadrante).'''
+
+[[ej]]
+id = "vec-2"
+seccion = "vec"
+titulo = "Ej. 2 — S&Z 1.42"
+recortes = [[1, 269, 314]]
+tip = '''Con los vectores del Ej. 1, el producto escalar por componentes da $A B cos phi$, y de ahí se despeja el ángulo.'''
+resultado = '''*(a)* $bold(A) dot bold(B) = 6,00$. *(b)* $phi = 82,1°$.'''
+
+[[ej]]
+id = "vec-3"
+seccion = "vec"
+titulo = "Ej. 3 — S&Z 1.47"
+recortes = [[1, 343, 597]]
+tip = '''Escribí $bold(A)$ y $bold(D)$ en componentes leyendo los ángulos de la figura, y el producto vectorial de dos vectores del plano $x y$ apunta sobre $plus.minus hat(k)$.'''
+resultado = '''*(a)* $abs(bold(A) times bold(D)) = 48,1$ m², en la dirección $-z$ (entrando a la página). *(b)* $bold(D) times bold(A)$: mismo módulo, $48,1$ m², en $+z$ (saliendo).'''
+
+[[ej]]
+id = "vec-4"
+seccion = "vec"
+titulo = "Ej. 4 — S&Z 1.60"
+recortes = [[1, 627, 762]]
+nota = '''El 1.61 que asoma debajo del texto no es parte del ejercicio.'''
+tip = '''La cuarta fuerza es la opuesta de la suma de las otras tres, así que sumá componentes y dale vuelta el signo.'''
+resultado = '''$abs(bold(D)) = 90,2$ N, a $255,5°$ del eje $+x$ (o sea, $75,5°$ por debajo del eje $-x$).'''
+
+[[ej]]
+id = "vec-5"
+seccion = "vec"
+titulo = "Ej. 5 — S&Z 1.78"
+recortes = [[2, 124, 211]]
+tip = '''El ángulo entre dos direcciones sale del producto escalar dividido el producto de los módulos.'''
+resultado = '''$cos phi = -1\/3$, así que $phi = 109,5°$.'''
+
+[[ej]]
+id = "vec-6-8"
+seccion = "vec"
+titulo = "Ej. 6, 7 y 8 — Beer (estática) 3.37, 3.38 y 3.39"
+recortes = [[2, 241, 588]]
+tip = '''Con el origen en $O$, $A = (0; -600; 0)$, $B = (450; 0; 0)$, $C = (0; 0; -320)$ y $D = (-500; 0; 360)$ mm: cada cable es la resta de dos puntos, y el ángulo sale del producto escalar.'''
+resultado = '''*Ej. 6 (3.37):* $theta_(A B, A D) = 77,9°$. *Ej. 7 (3.38):* $theta_(A C, A D) = 65,3°$. *Ej. 8 (3.39):* *(a)* $theta_(A C, A B) = 45,1°$; *(b)* la proyección de la fuerza del cable $A C$ sobre $A B$ vale $197,6$ lb.'''
+
+[[ej]]
+id = "vec-9"
+seccion = "vec"
+titulo = "Ej. 9 — velocidad en polares"
+recortes = [[2, 622, 672]]
+tip = '''Derivá $bold(r) = r hat(r)$ con la regla del producto, sabiendo que el versor gira con el punto: $dot(hat(r)) = dot(theta) hat(theta)$.'''
+resultado = '''$bold(v) = dot(r) hat(r) + r dot(theta) hat(theta)$.'''
+
+[[ej]]
+id = "vec-10"
+seccion = "vec"
+titulo = "Ej. 10 — el cohete visto por el radar"
+recortes = [[2, 708, 740], [3, 122, 334]]
+tip = '''El cohete sube en vertical a una altura $y = b tan theta$, y alcanza con derivar eso respecto del tiempo.'''
+resultado = '''$v = (b dot(theta))\/cos^2 theta$, vertical hacia arriba (en polares: $dot(r) = b dot(theta) tan theta \/ cos theta$ y $r dot(theta) = b dot(theta)\/cos theta$, que dan lo mismo).'''
+
+[[ej]]
+id = "vec-11"
+seccion = "vec"
+titulo = "Ej. 11 — cosenos directores de $(1, -1, 3)$"
+recortes = [[3, 381, 399]]
+tip = '''Cada coseno director es la componente dividida por el módulo, $sqrt(11)$.'''
+resultado = '''$cos alpha = 0,302$; $cos beta = -0,302$; $cos gamma = 0,905$.'''
+
+[[ej]]
+id = "vec-12"
+seccion = "vec"
+titulo = "Ej. 12 — vectores paralelos al eje $Z$"
+recortes = [[3, 444, 462]]
+tip = '''Un vector $(0, 0, C)$ sólo tiene componente sobre $Z$, así que dos de los tres cosenos son cero.'''
+resultado = '''$(0, 0, 1)$ si apunta a $+Z$, y $(0, 0, -1)$ si apunta a $-Z$.'''
+
+[[ej]]
+id = "vec-13"
+seccion = "vec"
+titulo = "Ej. 13 — versor perpendicular a $bold(A)$ y $bold(B)$"
+recortes = [[3, 507, 545]]
+tip = '''El producto vectorial $bold(A) times bold(B)$ ya es perpendicular a los dos, y dividirlo por su módulo lo deja unitario.'''
+resultado = '''$bold(A) times bold(B) = (2, -15, 3)$, de módulo $sqrt(238)$; $hat(n) = (0,130; -0,972; 0,194)$, o su opuesto.'''
+
+[[ej]]
+id = "vec-14"
+seccion = "vec"
+titulo = "Ej. 14 — proyección de $bold(B)$ sobre $bold(A)$"
+recortes = [[3, 590, 608]]
+tip = '''La proyección escalar es $(bold(A) dot bold(B))\/abs(bold(A))$, y la vectorial es ese número por el versor de $bold(A)$.'''
+resultado = '''Escalar: $5\/sqrt(10) = 1,581$. Vectorial: $(0,5; 0; -1,5)$.'''
+
+[[ej]]
+id = "vec-15"
+seccion = "vec"
+titulo = "Ej. 15 — seis productos"
+recortes = [[3, 654, 735]]
+tip = '''Los dobles productos vectoriales se abren con $bold(X) times (bold(Y) times bold(Z)) = bold(Y)(bold(X) dot bold(Z)) - bold(Z)(bold(X) dot bold(Y))$, y comparar ii) con iii) muestra que el producto vectorial no es asociativo.'''
+resultado = '''i) $14$ — ii) $(3, -47, 2)$ — iii) $(39, -15, -60)$ — iv) $(-3, -65, -2)$ — v) $(-120, 8, -80)$ — vi) $(28, 0, -42)$.'''
+
+# ------------------------------------------ CANTIDAD DE MOVIMIENTO
+
+[[ej]]
+id = "cm-1"
+seccion = "cm"
+titulo = "Ej. 1 — S&Z 8.16, la astronauta"
+recortes = [[4, 181, 241]]
+tip = '''Sin fuerza externa y partiendo del reposo, la cantidad de movimiento total es cero antes y después del lanzamiento.'''
+resultado = '''$v_a = -0,105$ m/s: $0,105$ m/s en sentido contrario al de la herramienta.'''
+
+[[ej]]
+id = "cm-2"
+seccion = "cm"
+titulo = "Ej. 2 — S&Z 8.31, el choque de asteroides"
+recortes = [[4, 278, 497]]
+tip = '''La cantidad de movimiento se conserva por separado en cada eje, y la componente perpendicular al movimiento inicial arranca en cero.'''
+resultado = '''$v_A = 29,3$ m/s y $v_B = 20,7$ m/s; se disipa el $19,6 %$ de la energía cinética inicial.'''
+
+[[ej]]
+id = "cm-3"
+seccion = "cm"
+titulo = "Ej. 3 — S&Z 8.19, el calamar"
+recortes = [[4, 559, 697]]
+tip = '''Separá calamar sin agua ($4,75$ kg) y agua ($1,75$ kg), igualá la cantidad de movimiento total a cero, y la energía la pone el músculo, así que se calcula aparte.'''
+resultado = '''*(a)* $v_"agua" = 6,79$ m/s. *(b)* $K = 55,1$ J.'''
+
+[[ej]]
+id = "cm-4"
+seccion = "cm"
+titulo = "Ej. 4 — S&Z 8.61, la unidad de maniobra"
+recortes = [[5, 95, 181]]
+tip = '''El empuje es la fuerza que produce la aceleración pedida, y el caudal es el empuje dividido la velocidad de salida del gas.'''
+resultado = '''*(a)* $F = 5,22$ N. *(b)* caudal $= 1,07 times 10^(-2)$ kg/s, o sea $0,053$ kg de gas en 5 s.'''
+
+[[ej]]
+id = "cm-5"
+seccion = "cm"
+titulo = "Ej. 5 — S&Z 8.63, la rapidez razonable de un cohete"
+recortes = [[5, 218, 346]]
+tip = '''Sin gravedad, $v_f = v_r ln(m_0\/m_f)$, así que la fracción que no es combustible es $m_f\/m_0 = e^(-v_f\/v_r)$.'''
+resultado = '''*(a)* con $c = 3,00 times 10^8$ m/s: $m_f\/m_0 = e^(-150) = 7,2 times 10^(-66)$ — no hay cohete químico que haga eso. *(b)* $m_f\/m_0 = e^(-1,5) = 0,223$.'''
+
+[[ej]]
+id = "cm-6"
+seccion = "cm"
+titulo = "Ej. 6 — Beer 14.94"
+recortes = [[5, 383, 469]]
+tip = '''El empuje $mu abs(v_r)$ es constante, y la aceleración $a = (f - M g)\/M$ cambia sólo porque la masa baja.'''
+resultado = '''Al despegar $a = 31,9$ m/s²; al agotarse el combustible $a = 240$ m/s² (unas $24 g$).'''
+
+[[ej]]
+id = "cm-7-8"
+seccion = "cm"
+titulo = "Ej. 7 y 8 — Beer 14.97 y 14.98, una etapa contra dos"
+recortes = [[6, 102, 530]]
+tip = '''Usá $V = v_r ln(M_0\/M_f) - g t$ de punta a punta para una etapa, y dos veces seguidas para dos etapas, soltando la cubierta vacía entre una y otra.'''
+resultado = '''Razón de masas: una etapa $11,23$; dos etapas, $1,836 times 8,807$. *(Ej. 7)* una etapa: $V_f = 7,93$ km/s. *(Ej. 8)* dos etapas: $V_f = 9,24$ km/s.'''
+
+[[ej]]
+id = "cm-9"
+seccion = "cm"
+titulo = "Ej. 9 — Beer 14.99, la altura"
+recortes = [[6, 578, 665]]
+tip = '''La altura es la integral en el tiempo de la velocidad del Ej. 7, $V(t) = v_r ln(M_0\/(M_0 - mu t)) - g t$, durante los $79,1$ s de quemado.'''
+resultado = '''$y approx 187$ km al apagarse el motor.'''
+
+[[ej]]
+id = "cm-ad1"
+seccion = "cm"
+titulo = "Adicional 1 — las dos etapas que se separan"
+recortes = [[6, 701, 760], [7, 79, 377]]
+tip = '''La explosión es interna, así que la cantidad de movimiento del conjunto antes de separarse es la misma que la suma de las dos etapas después.'''
+resultado = '''*(a)* $v_3 = 17 thin 970$ km/h. *(b)* $v_3 - v_4 = -90$ km/h: la tercera etapa se aleja hacia atrás a $90$ km/h.'''
+
+[[ej]]
+id = "cm-ad2"
+seccion = "cm"
+titulo = "Adicional 2 — el satélite que sale de la bodega"
+recortes = [[7, 377, 727]]
+tip = '''Conservá la cantidad de movimiento del transbordador más el satélite, con la velocidad del satélite *relativa* al transbordador, y la fuerza media es el cambio de cantidad de movimiento del satélite dividido $4$ s.'''
+resultado = '''$v_f = -2,64 times 10^(-3)$ m/s (en $-z$); $F_"prom" = 59,5$ N.'''
+
+[[ej]]
+id = "cm-ad3"
+seccion = "cm"
+titulo = "Adicional 3 — el cohete y el transbordador"
+recortes = [[8, 79, 747]]
+tip = '''El empuje es caudal por velocidad de salida, la segunda ley da $f - M g = M a$, y el impulso específico da la velocidad de salida como $I_"sp" g$.'''
+resultado = '''*(a)* $M = 12,5 times 10^3$ kg. *(b)* empuje total $29,6 times 10^6$ N, $a = 4,70$ m/s², y $448$ kg/s por cada motor principal.'''
+
+# -------------------------------------------------- MOMENTO ANGULAR
+
+[[ej]]
+id = "ma-1"
+seccion = "ma"
+titulo = "Problema 1 — S&Z 10.1, el torque en seis casos"
+recortes = [[9, 126, 401]]
+tip = '''$abs(bold(tau)) = r F sin phi$ con $r$ la distancia de $O$ al punto donde se aplica la fuerza, y el sentido sale de la regla de la mano derecha con $bold(r) times bold(F)$.'''
+resultado = '''a) $40,0$ N·m, saliendo de la página (antihorario). b) $34,6$ N·m, saliendo. c) $20,0$ N·m, saliendo. d) $17,3$ N·m, entrando (horario). e) $0$: la fuerza se aplica en $O$. f) $0$: la fuerza va sobre la varilla.'''
+
+[[ej]]
+id = "ma-2"
+seccion = "ma"
+titulo = "Problema 2 — $bold(L)$ de una partícula libre"
+recortes = [[9, 439, 470]]
+nota = '''Donde dice «impulso angular $bold(L)$», léase *momento angular*.'''
+tip = '''Derivá $bold(L) = bold(r) times bold(p)$: queda $dot(bold(r)) times bold(p) + bold(r) times dot(bold(p))$, y los dos términos se anulan.'''
+resultado = '''$dot(bold(L)) = bold(v) times m bold(v) + bold(r) times bold(0) = bold(0)$. Geométricamente: $abs(bold(L)) = m v d$, con $d$ la distancia (fija) del punto a la recta que recorre la partícula.'''
+
+[[ej]]
+id = "ma-3"
+seccion = "ma"
+titulo = "Problema 3 — $bold(L)$ igual desde cualquier origen"
+recortes = [[9, 506, 551]]
+nota = '''Donde dice «impulso angular $bold(L)$», léase *momento angular*.'''
+tip = '''Si corrés el origen en $bold(a)$, cada $bold(r)_i$ pasa a $bold(r)_i - bold(a)$ y $bold(L)$ cambia en $-bold(a) times bold(P)_"total"$, que acá es cero.'''
+resultado = '''$bold(L)' = bold(L) - bold(a) times bold(P) = bold(L)$ porque $bold(P) = m bold(v) - m bold(v) = bold(0)$; su módulo es $m v d$, perpendicular al plano de las dos trayectorias.'''
+
+[[ej]]
+id = "ma-4"
+seccion = "ma"
+titulo = "Problema 4 — S&Z 10.51, el giróscopo de juguete"
+recortes = [[10, 146, 434]]
+tip = '''El pivote sostiene todo el peso, el torque del peso respecto del pivote hace girar $bold(L)$ con $Omega = tau\/L$, y de ahí sale $omega = L\/I$.'''
+resultado = '''*(a)* $F = 1,62$ N hacia arriba. *(b)* con $tau = 0,0647$ N·m y $Omega = 2,86$ rad/s: $L = 0,0226$ kg·m²/s y el rotor gira a $1800$ rpm. *(c)* $bold(L)$ sobre el eje del rotor, apuntando hacia afuera del pivote si el giro es el del dibujo; $bold(tau)$ horizontal y perpendicular a $bold(L)$, en el sentido en que el eje avanza.'''
+
+[[ej]]
+id = "ma-5"
+seccion = "ma"
+titulo = "Problema 5 — el satélite de la figura"
+recortes = [[10, 473, 841]]
+nota = '''Donde dice «impulso angular específico», léase *momento angular específico* $h = abs(bold(r) times bold(v))$.'''
+tip = '''En los ábsides la velocidad es perpendicular al radio, así que $h = r v$, y en los otros dos puntos $h = r v cos gamma$ con $gamma$ el ángulo que marca la figura.'''
+resultado = '''*(A)* $h = r_P v_P = 57 thin 170$ km²/s, y $r_A v_A$ da lo mismo. *(B)* $r = 8387$ km (altura $2009$ km) arriba, y $r = 8578$ km (altura $2200$ km) abajo.'''
+
+[[ej]]
+id = "ma-6"
+seccion = "ma"
+titulo = "Problema 6 — Kepler y la velocidad areolar"
+recortes = [[11, 147, 218]]
+tip = '''El área barrida en $dif t$ es $1\/2 abs(bold(r) times dif bold(r))$, que es $L\/(2m),dif t$.'''
+resultado = '''$dif A\/dif t = L\/(2 m)$: la velocidad areolar es constante si y sólo si $bold(L)$ lo es. Alcanza con que la fuerza sea *central*; que sea $1\/r^2$ hace falta para que la órbita sea una cónica, no para la segunda ley.'''
+
+[[ej]]
+id = "ma-7"
+seccion = "ma"
+titulo = "Problema 7 — S&Z 10.53, el Hubble"
+recortes = [[11, 253, 402]]
+tip = '''El cilindro de pared delgada tiene $I = m r^2$, y un torque perpendicular a $bold(L)$ lo hace precesar con $Omega = tau\/L$, así que $tau = L Omega$.'''
+resultado = '''$I = 1,25 times 10^(-3)$ kg·m²; $L = I omega = 2,51$ kg·m²/s; $Omega = 9,7 times 10^(-13)$ rad/s; $tau = 2,4 times 10^(-12)$ N·m.'''
+
+# ------------------------------------------------------- GRAVITACION
+
+[[ej]]
+id = "g-0"
+seccion = "grav"
+titulo = "Problema 0 — la masa del Sol"
+recortes = [[12, 150, 167]]
+tip = '''La órbita de la Tierra, casi circular, cumple la tercera ley de Kepler $T^2 = 4 pi^2 a^3\/(G M)$, y de ahí se despeja $M$.'''
+resultado = '''Con $a = 1,496 times 10^11$ m y $T = 1$ año: $M_"Sol" = 1,99 times 10^30$ kg.'''
+
+[[ej]]
+id = "g-1"
+seccion = "grav"
+titulo = "Problema 1 — S&Z 7.76, el diagrama de energía potencial"
+recortes = [[12, 193, 511]]
+tip = '''La fuerza es $F = -dif U\/dif x$, la energía cinética es $E - U$ con $E = U(A)$, y los equilibrios están donde la curva tiene tangente horizontal.'''
+resultado = '''(a) hacia $+x$. (b) hacia $-x$. (c) en $x approx 0,75$ m, con $K approx 5,7$ J. (d) $F = 0$. (e) $x approx 2,2$ m. (f) estables en $x approx 0,75$ m y $x approx 1,9$ m. (g) inestable en $x approx 1,4$ m. _(Leído del gráfico: los valores dependen de la lectura.)_'''
+
+[[ej]]
+id = "g-2"
+seccion = "grav"
+titulo = "Problema 2 — Beer, la sonda espacial"
+recortes = [[12, 539, 740]]
+tip = '''Entre $A$ y $B$ sólo actúa la gravedad, así que alcanza con conservar la energía, $v^2\/2 - G M\/r$, con $G M = g R^2$.'''
+resultado = '''$v_B = 15 thin 650$ mi/h ($7,00$ km/s).'''
+
+[[ej]]
+id = "g-3"
+seccion = "grav"
+titulo = "Problema 3 — Beer 12.80, la órbita geosincrónica"
+recortes = [[13, 110, 234]]
+tip = '''En órbita circular la gravedad es la fuerza centrípeta, lo que da $r^3 = G M T^2\/(4 pi^2)$ con $T$ el día sideral.'''
+resultado = '''*(a)* altura $= 35 thin 780$ km. *(b)* $v = 3,07$ km/s.'''
+
+[[ej]]
+id = "g-4"
+seccion = "grav"
+titulo = "Problema 4 — S&Z 13.67, perigeo y apogeo"
+recortes = [[13, 272, 508]]
+tip = '''El período sale de $a = (r_p + r_a)\/2$, la razón de rapideces de $r_p v_p = r_a v_a$, y cada rapidez de la energía $-mu\/(2a) = v^2\/2 - mu\/r$.'''
+resultado = '''*(a)* $T = 7907$ s. *(b)* $v_p\/v_a = 1,531$. *(c)* $v_p = 8,435$ km/s, $v_a = 5,509$ km/s. *(d)* $v_"esc"(r_p) = 10,85$ km/s, así que hay que sumar $2,41$ km/s en el perigeo contra $3,26$ km/s en el apogeo: conviene el perigeo.'''
+
+[[ej]]
+id = "g-5"
+seccion = "grav"
+titulo = "Problema 5 — S&Z 13.79, Hohmann a Marte"
+recortes = [[14, 95, 570]]
+tip = '''La transferencia es media elipse con $a = (r_"T" + r_"M")\/2$, y el ángulo de fase es $180°$ menos lo que avanza Marte durante el viaje.'''
+resultado = '''*(a)* de la Tierra a Marte los dos encendidos son en el sentido del movimiento; de Marte a la Tierra, los dos en contra. *(b)* $258,8$ días. *(c)* Marte tiene que ir $44,4°$ adelante de la Tierra.'''
+
+[[ej]]
+id = "g-6"
+seccion = "grav"
+titulo = "Problema 6 — Beer 13.85, subir a la geosíncrona"
+recortes = [[14, 608, 756]]
+tip = '''La energía mecánica de una órbita circular es $E = -G M m\/(2 r)$, y en la superficie (sin la rotación de la Tierra) es $-G M m\/R$.'''
+resultado = '''Con $mu = 3,986 times 10^14$ m³/s² y $R = 6370$ km, como en el apunte: $E_(300 "km") = -107,6$ GJ, $E_"geo" = -17,0$ GJ, $E_"sup" = -225,3$ GJ. *(a)* $90,6$ GJ. *(b)* $208,3$ GJ. (Con el $G M = g R^2$ del Beer sale $90,4$ y $208,0$: la diferencia es la constante, no la física.)'''
+
+[[ej]]
+id = "g-7"
+seccion = "grav"
+titulo = "Problema 7 — Beer 13.100, frenar en Júpiter"
+recortes = [[15, 110, 524]]
+tip = '''$A$ es el apoapsis de la elipse pedida, así que su velocidad sale de energía y momento angular entre $A$ y $B$, y el frenado es la diferencia con la parabólica.'''
+resultado = '''$v_"elipse" (A) = 12,70$ km/s, contra $26,9$ km/s de la parabólica: $Delta v = 14,2$ km/s.'''
+
+[[ej]]
+id = "g-8"
+seccion = "grav"
+titulo = "Problema 8 — Beer 13.101, el LEM del Apollo"
+recortes = [[16, 110, 452]]
+tip = '''$A$ y $B$ son los ábsides de la elipse del LEM, así que $r_A v_A = r_B v_B$ más la energía dan las dos velocidades, y el módulo de mando va en órbita circular.'''
+resultado = '''*(a)* $v_A = 1,704$ km/s. *(b)* en $B$ el LEM va a $1,584$ km/s y el módulo de mando a $1,614$ km/s: se acerca a unos $30$ m/s.'''
+
+[[ej]]
+id = "g-9"
+seccion = "grav"
+titulo = "Problema 9 — Beer, el LEM que se estrella"
+recortes = [[16, 490, 643]]
+tip = '''Después del impulso hacia atrás el LEM sale de $B$ con $1,614 - 0,200$ km/s horizontal, y en $C$ la energía da el módulo y el momento angular da el ángulo.'''
+resultado = '''$v_C = 1,555$ km/s, a $phi = 79,2°$ de la vertical $O C$: un impacto casi rasante.'''
+
+[[ej]]
+id = "g-10"
+seccion = "grav"
+titulo = "Problema 10 — el rendez-vous"
+recortes = [[16, 681, 758]]
+tip = '''Para alcanzar al que va adelante hay que *bajar* a una órbita de fase más corta, cuyo período es lo que tarda el otro en llegar al punto de partida.'''
+resultado = '''Caso resuelto: los dos en la geoestacionaria ($r = 42 thin 164$ km) y el blanco $90°$ adelante. Una vuelta de fase de período $3\/4$ del original, con $a = 34 thin 806$ km; dos encendidos iguales de $0,344$ km/s (frenar al salir, acelerar al volver): $Delta v_"total" = 0,689$ km/s (el apunte, con $r = 42 thin 140$ km, da $0,688$). Las partes A y B son de investigación y no tienen un número.'''
+
+[[ej]]
+id = "g-ad1"
+seccion = "grav"
+titulo = "Adicional 1 — el satélite no tripulado"
+recortes = [[17, 127, 281]]
+tip = '''Con $r_p$ y $r_a$ salen $e$ y $a$, y el resto es la ecuación de la órbita $r = h^2\/(mu(1 + e cos nu))$ con $v_perp = h\/r$ y $v_r = (mu\/h) e sin nu$.'''
+resultado = '''$h = 85 thin 130$ km²/s. *(a)* $e = 0,818$. *(b)* $a = 55 thin 000$ km. *(c)* $T = 35,7$ h. *(d)* $epsilon = -3,62$ km²/s². *(e)* $nu = plus.minus 82,3°$. *(f)* $v_perp = 5,20$ km/s, $v_r = 3,80$ km/s (alejándose en $+82,3°$, acercándose en $-82,3°$). *(g)* $v_p = 8,51$ km/s, $v_a = 0,851$ km/s.'''
+
+[[ej]]
+id = "g-ad2"
+seccion = "grav"
+titulo = "Adicional 2 — perigeo a 500 km y 10 km/s"
+recortes = [[17, 281, 342]]
+tip = '''En el perigeo $h = r_p v_p$ y $e = h^2\/(mu r_p) - 1$, y después $tan gamma = e sin nu\/(1 + e cos nu)$.'''
+resultado = '''$e = 0,7255$; a $nu = 120°$: $gamma = 44,6°$ y altitud $12 thin 250$ km.'''
+
+[[ej]]
+id = "g-ad3"
+seccion = "grav"
+titulo = "Adicional 3 — órbita polar"
+recortes = [[17, 343, 404]]
+tip = '''El período de $100$ min da $a$ por la tercera ley, y $200$ km sobre el polo es el perigeo, $r_p = a(1 - e)$.'''
+resultado = '''$a = 7136$ km, $r_p = 6578$ km, $e = 0,0782$.'''
+
+[[ej]]
+id = "g-ad4"
+seccion = "grav"
+titulo = "Adicional 4 — dos alturas con sus anomalías"
+recortes = [[17, 405, 466]]
+tip = '''El semilatus rectum $p = r(1 + e cos nu)$ es el mismo en los dos puntos, así que igualar las dos expresiones despeja $e$.'''
+resultado = '''$p = 7816$ km. *(a)* $e = 0,0775$. *(b)* altura de perigeo $876$ km. *(c)* $a = 7863$ km.'''
+
+[[ej]]
+id = "g-ad5"
+seccion = "grav"
+titulo = "Adicional 5 — velocidad y ángulo de vuelo dados"
+recortes = [[17, 466, 526]]
+tip = '''Separá la velocidad en $v_perp = v cos gamma$ y $v_r = v sin gamma$, y las dos ecuaciones de $e cos nu$ y $e sin nu$ dan $e$ y $nu$ juntas.'''
+resultado = '''*(a)* $nu = 63,8°$. *(b)* $e = 0,215$.'''
+
+# ------------------------------------------------------ CUERPO RIGIDO
+
+[[ej]]
+id = "cr-1"
+seccion = "cr"
+titulo = "Problema 1 — el satélite cúbico"
+recortes = [[17, 571, 741]]
+tip = '''El impulso angular del thruster, $bold(r) times bold(F),Delta t$ con $bold(r)$ del centro al vértice, es el momento angular final, y con inercia isótropa $bold(omega) = bold(L)\/I$.'''
+resultado = '''$I = 80$ kg·m²; con el thruster en el vértice $(1, 1, 1)$ m empujando sobre $+x$: $bold(omega) = (0; 0,2; -0,2)$ rad/s, $abs(bold(omega)) = 0,283$ rad/s. Caudal: $8,16$ g/s. Gira *para siempre*: sin torque y con inercia isótropa, $bold(omega)$ no cambia.'''
+
+[[ej]]
+id = "cr-2"
+seccion = "cr"
+titulo = "Problema 2 — el disco en la horquilla"
+recortes = [[18, 79, 338]]
+nota = '''Donde dice «impulso angular $bold(L)_G$», léase *momento angular* respecto de $G$. El enunciado dice «eje vertical» pero la figura muestra el eje del disco horizontal: se resuelve con la figura.'''
+tip = '''En ejes principales del disco, $bold(L)_G = I_x omega_x hat(i) + I_y omega_y hat(j) + I_z omega_z hat(k)$, y como $bold(L)_G$ gira con la horquilla, $dif bold(L)_G\/dif t = bold(omega)_2 times bold(L)_G$.'''
+resultado = '''$bold(L)_G = 1\/4 m r^2 omega_2 hat(j) + 1\/2 m r^2 omega_1 hat(k)$ (no paralelo a $bold(omega)$). $dif bold(L)_G\/dif t = 1\/2 m r^2 omega_1 omega_2 hat(i)$.'''
+
+[[ej]]
+id = "cr-3"
+seccion = "cr"
+titulo = "Problema 3 — el volante en el gimbal"
+recortes = [[18, 402, 711]]
+tip = '''$bold(M) = I_x alpha hat(i) + bold(omega)_p times bold(H)$: parte del torque se va en girar la dirección de $bold(H)$ y sólo el resto acelera al gimbal.'''
+resultado = '''$600 = 5 alpha + 0,5 dot 10 dot 100$, así que $alpha = 20$ rad/s²: $500$ N·m sostienen el giro de $bold(H)$ y sólo $100$ aceleran.'''
+
+[[ej]]
+id = "cr-4"
+seccion = "cr"
+titulo = "Problema 4 — el spacecraft que precesa"
+recortes = [[19, 79, 376]]
+nota = '''Donde dice «impulso angular ($bold(H)_G$)», léase *momento angular*.'''
+tip = '''Libre de torques y simétrico, el spin y la precesión cumplen $dot(psi) = (I - I')\/I',dot(phi) cos theta$ con $I'$ el axial e $I$ el transversal.'''
+resultado = '''$abs(dot(phi)) = 3,431$ rad/s, período de precesión $1,832$ s. El spin es *negativo* (sentido $-z$): el cuerpo es achatado ($I' > I$) y la precesión es retrógrada.'''
+
+[[ej]]
+id = "cr-5"
+seccion = "cr"
+titulo = "Problema 5 — M 7.99, la estación de cinco esferas"
+recortes = [[19, 415, 650]]
+tip = '''Con $I_"axial" = 2 I_"transversal"$ la misma relación entre spin y precesión del Problema 4 da la precesión directamente en función del spin.'''
+resultado = '''$dot(chi) = 2 times 3 = 6$ rev/min $= 0,628$ rad/s (período $10,0$ s), retrógrada.'''
+
+[[ej]]
+id = "cr-6"
+seccion = "cr"
+titulo = 'Problema 6 — la relación $ell\/r$'
+recortes = [[19, 689, 719], [20, 95, 255]]
+tip = '''Compará $I_"axial" = m r^2$ con $I_"transversal" = 1\/2 m r^2 + 1\/12 m ell^2$ del tubo delgado: directa si el axial es el menor.'''
+resultado = '''Retrógrada para $ell\/r < sqrt(6) approx 2,45$ (corto, tipo disco) y directa para $ell\/r > sqrt(6)$ (largo, tipo varilla).'''
+
+[[ej]]
+id = "cr-7"
+seccion = "cr"
+titulo = "Problema 7 — la cápsula espacial"
+recortes = [[20, 294, 512]]
+tip = '''El impulso angular del cohete, $bold(r)_A times bold(F),Delta t$, es el momento angular final, y $bold(omega)$ sale componente a componente dividiendo por cada momento de inercia.'''
+resultado = '''$bold(H) = (0; -62,5; -100)$ kg·m²/s, $bold(omega) = (0; -0,0625; -0,064)$ rad/s. El eje de precesión es $bold(H)$, a $148,0°$ del eje $z$. Precesión $dot(phi) = 0,118$ rad/s; spin $dot(psi) = 0,036$ rad/s.'''
+
+[[ej]]
+id = "cr-8"
+seccion = "cr"
+titulo = "Problema 8 — Beer 18.126"
+recortes = [[20, 551, 581]]
+tip = '''Ahora el momento angular final es el inicial, $(0; I_x omega_y; I_z omega_z)$, más el impulso angular del cohete $B$.'''
+resultado = '''$bold(H)_f = (0; 120; 93,75)$ kg·m²/s, $bold(omega)_f = (0; 0,12; 0,06)$ rad/s; eje de precesión a $52,0°$ del eje $z$; $dot(phi) = 0,152$ rad/s; $dot(psi) = -0,034$ rad/s.'''
+
+[[ej]]
+id = "cr-9"
+seccion = "cr"
+titulo = "Problema 9 — el satélite octogonal (Beer 18.125)"
+recortes = [[20, 617, 771], [21, 79, 475]]
+nota = '''Donde dice «impulso angular», léase *momento angular*. El dato $omega_0$ no está en la guía: es el del Beer 18.125, $36$ rev/h.'''
+tip = '''El disparo de $A$ y $B$ agrega $J T (z_A + z_B)$ sobre $x$ al $I_y omega_0$ que ya había sobre $y$, y todo lo demás sale de dividir por los momentos de inercia.'''
+resultado = '''*1)* retrógrada ($I_y > I_x$). *2)* $bold(H) = (J T (z_A + z_B); I_y omega_0; -J T (x_A + x_B))$. *3)* $bold(omega) = (H_x\/I_x; omega_0; H_z\/I_x)$. *4)* $cos theta_H = I_y omega_0\/abs(bold(H))$. *5)* $cos theta_omega = omega_0\/abs(bold(omega))$. *8)* con $z_A + z_B = 2,897$ m: $bold(H) = (115,9; 150,8; 0)$ kg·m²/s, $bold(omega) = (0,0580; 0,0628; 0)$ rad/s, $theta_H = 37,5°$, $theta_omega = 42,7°$; precesión $0,0951$ rad/s y spin $-0,0126$ rad/s.'''

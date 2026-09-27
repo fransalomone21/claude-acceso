@@ -16,6 +16,16 @@ páginas 10 y 11 del PDF nuevo, no asumido por la ausencia de texto. Es la
 misma trampa que el párrafo de abajo ya advertía, y por eso conviene
 dejarlo anotado: *ausencia en `pdftotext` no es ausencia en el PDF.*
 
+**Versión (4), recibida el 2026-09-27 — la vigente.** Medida contra la (3)
+comparando la posición de cada bloque y el hash de cada imagen: **sólo cambió
+la sección de impulso angular.** Se sacó el «Ej 6» en blanco y todo pasó a
+llamarse *Problema*: el giróscopo de juguete (S&Z 10.51, sin número en las
+anteriores) es el **Problema 4**, el satélite de la figura (el «Ejercicio 4»
+de abajo) es el **Problema 5**, Kepler y la velocidad areolar (el «Ej. 5») es
+el **Problema 6** y el Hubble (el «Ej. 7») es el **Problema 7**. El Problema 3
+tiene un renglón más de texto. Los títulos de abajo conservan la numeración
+vieja; `practica/ejercicios.toml` usa la nueva.
+
 **Por qué existe este archivo.** Los enunciados de la guía son, en su mayoría,
 **imágenes pegadas** dentro del PDF: `pdftotext` devuelve sólo los rótulos
 «Ej. 5», «PROBLEMA 3» y nada más. Leerlos obliga a renderizar el PDF con

@@ -6,6 +6,46 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-27 — fase 14 cerrada: guía completa y modelos de parcial
+
+**No queda fase abierta.** Lo que la próxima sesión tiene que saber:
+
+- **Todo sale de `practica/ejercicios.toml`** y de un comando:
+  `.\practica\compilar.ps1` (recorta → valida → 4 PDF), `-Publicar` para
+  subir. Cambiar un tip o un resultado es editar el TOML; el número nuevo
+  **tiene que tener su cuenta** en `validar.py` o el script sale en rojo.
+- **Los recortes salen de la guía más nueva de Downloads** (`PROBLEMAS
+  F*SICA ESPACIAL*.pdf`, por fecha). Si la cátedra sube una (5), las
+  coordenadas de `recortes = [[pag, y0, y1]]` pueden correrse:
+  `recortar.py` lo avisa si un borde parte un renglón, pero **no** si un
+  recorte agarra el ejercicio equivocado. Medir antes la diferencia de
+  bloques e imágenes entre versiones (así se vio que la (4) sólo renumeró
+  impulso angular).
+- **Las dos guías no están en el repo** (`.gitignore`): llevan la guía de la
+  cátedra. En otra máquina el publicador las marca `[AMARILLO] no está en
+  esta máquina`, no rojo: es el campo `regenerable` nuevo de
+  `.claude/apuntes-publicos.json` (y la rama nueva en `publicar-apuntes.ps1`,
+  probada en las dos direcciones y con `probar-publicacion.ps1` en verde).
+- **El Google Doc que mandó Fran** con «los ejercicios actuales» no se pudo
+  leer: 404 por el conector de Drive y por rclone, y Claude in Chrome sin
+  conexión. Se usó el PDF (4). Si el Doc trae ejercicios que el PDF no
+  tiene, entran como registros nuevos del TOML (sin recorte: habría que
+  agregarle a `guia.typ` un enunciado en texto).
+- **Trampas pagadas en esta sesión:**
+  - `sed 's/\\,/ thin /g'` desde el Bash tool reemplazó **todas las comas**
+    del TOML: una capa de quoting se comió una barra y el patrón quedó en
+    `,`. Se reparó con un script porque la marca era reversible. Cualquier
+    edición con barras invertidas: script con Write, nunca `sed` en línea.
+  - Typst: `\,` **no** es un espacio fino, es una coma escapada. Es `thin`.
+  - Typst no deja importar `../apunte/...` sin `--root ..`: los `.typ` de
+    `practica/` se compilan con `--root ..` (lo hace `compilar.ps1`).
+  - `block(sticky: true)` sobre el último recorte no alcanzó para que el
+    tip no quedara huérfano: cada ejercicio es un bloque no partible salvo
+    que sus recortes pasen de 560 pt.
+  - Una cuenta nueva que no coincide con el apunte **no es un error del
+    apunte hasta reproducir la del apunte con sus constantes**: el 90,6 vs
+    90,4 GJ era $mu$ contra $g R^2$. El 698 vs 688 sí era error.
+
 ## Sesión del 2026-09-26, segunda parte — fase 13 cerrada
 
 **No queda fase abierta.** Lo que la próxima sesión tiene que saber:

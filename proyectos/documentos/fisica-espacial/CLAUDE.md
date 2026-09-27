@@ -26,6 +26,7 @@ módulo se escriben `#M("clave")` y una clave mala **rompe la compilación**
 | tocar o agregar una figura | [`docs/figuras.md`](docs/figuras.md) |
 | **reordenar módulos, o agregar uno** | reglas propias 5 y 6 acá abajo, y después `python verificar-apunte.py` |
 | generar el PDF | `.\compilar.bat`. El flujo y el chequeo visual: `/pdf-con-codigo` |
+| **la guía completa (con/sin resultados) o los modelos de parcial** | [`practica/`](practica/): `ejercicios.toml` es la fuente de los 56 ejercicios (recorte, tip, resultado); `.\practica\compilar.ps1` recorta la guía de Downloads, valida y genera los 4 PDF; `-Publicar` los sube a `Fisica Espacial/` en Drive. Los recortes y las guías **no van al repo** (llevan la guía de la cátedra) |
 
 ## Las reglas propias
 
@@ -230,6 +231,15 @@ Referencia, el módulo escrito así de punta a punta:
 [`m17-rotacion.typ`](apunte/modulos/m17-rotacion.typ) — todo el tono está en
 la prosa y adentro de las cajas técnicas, sin ningún cartel que lo anuncie.
 
+**9. $bold(L)$ es el *momento angular*, no el «impulso angular».** Pedido de
+Fran, 2026-09-27. El *impulso angular* es $integral bold(tau) dif t = Delta
+bold(L)$, lo que un torque le cambia al momento angular, igual que el impulso
+lineal es $Delta bold(p)$. La guía de la cátedra usa «impulso angular» por
+$bold(L)$: si hace falta nombrarlo así (para citar el enunciado), se aclara
+en el mismo párrafo que es el momento angular. En `practica/` lo mide
+`validar.py` (chequeo 4, con su sabotaje). **En el apunte todavía no**: hay
+unas 30 apariciones del uso viejo, pendientes de una pasada propia.
+
 ## Dónde está cada cosa
 
 ```
@@ -285,6 +295,9 @@ sesión no encuentra, por más que esté commiteado.
    con motivo, y toda constante del Anexo C con su página. Una etiqueta
    nueva lo pone en rojo **a propósito**. Su saboteador:
    `python probar-verificar-anexos.py` (9 sabotajes, ~45 s).
+   Si se tocó `practica/`: **`.\practica\compilar.ps1`** (recorta, valida los
+   233 números contra sus cuentas y genera) y su saboteador
+   `python practica\probar-validar.py` (8 sabotajes).
 1. Actualizar `ESTADO_ACTUAL.md` y `HANDOFF.md`.
 2. Registrar las lecciones de proceso:
    `python ..\..\..\perfil-global\herramientas\aprender.py agregar ...`

@@ -11,6 +11,32 @@
       "estado": "CERRADO 2026-09-13 -- 19 modulos, 149 pag."
     },
     {
+      "materia": "Fisica Espacial/Modelos de Parcial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-momento-angular.pdf",
+      "nombre-en-drive": "Parcialito - Momento angular (con resolucion).pdf",
+      "estado": "2026-09-27 -- 3 ejercicios sobre la seccion de impulso angular de la guia; numeros validados por practica/validar.py"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-integrador.pdf",
+      "nombre-en-drive": "Modelo de parcial integrador (con resolucion).pdf",
+      "estado": "2026-09-27 -- 4 ejercicios integradores sobre el apunte; numeros validados por practica/validar.py"
+    },
+    {
+      "materia": "Fisica Espacial/Guia completa con resultados y tips",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/guia-con-resultados.pdf",
+      "nombre-en-drive": "Guia completa - con tips y resultados.pdf",
+      "regenerable": "proyectos/documentos/fisica-espacial/practica/compilar.ps1 (necesita la guia de la catedra en Downloads)",
+      "estado": "2026-09-27 -- los 56 ejercicios de la guia (4), recortados como los pego Anibal, con tip y resultado. NO va al repo: lleva la guia de la catedra"
+    },
+    {
+      "materia": "Fisica Espacial/Guia completa sin resultados",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/guia-sin-resultados.pdf",
+      "nombre-en-drive": "Guia completa - sin resultados.pdf",
+      "regenerable": "proyectos/documentos/fisica-espacial/practica/compilar.ps1 (necesita la guia de la catedra en Downloads)",
+      "estado": "2026-09-27 -- la misma guia, con tips y sin resultados. NO va al repo: lleva la guia de la catedra"
+    },
+    {
       "materia": "Electronica Analogica",
       "local": "proyectos/documentos/electronica-analogica/apunte/apunte.pdf",
       "nombre-en-drive": "Apunte de Electronica Analogica.pdf",

@@ -265,10 +265,10 @@ $ a' = r (T'/T)^(2\/3) $ <man-fasaje-a>
   *El costo, en $Delta v$.* Con la @orb-visviva, la rapidez de la elipse de
   fasaje en su apogeo (el punto de partida):
   $ v_a'^2 = mu (2/r - 1/a') = (398 thin 600) (2/(42 thin 140) - 1/(34 thin 790)) = 7,459 $
-  $ v_a' = 2,731 " km/s" $
+  $ v_a' = 2,7314 " km/s" $
   El primer encendido frena de $v_"circ"$ a $v_a'$; el segundo, al volver, es
   igual y contrario para recircularizar:
-  $ Delta v_1 = 3,08 - 2,731 = 0,349 " km/s", quad quad Delta v_"total" = 2 (0,349) = 0,698 " km/s" $
+  $ Delta v_1 = 3,0755 - 2,7314 = 0,3441 " km/s", quad quad Delta v_"total" = 2 (0,3441) = 0,688 " km/s" $
 
   y el encuentro ocurre a los $T' = 0,75 (86 thin 162) = 64 thin 622$ s, unas
   $17,9$ horas después del primer encendido.

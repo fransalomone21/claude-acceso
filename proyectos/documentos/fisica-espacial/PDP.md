@@ -366,8 +366,40 @@ y sin declarar), su saboteador rojo en cada chequeo, el apunte compilado,
 las páginas nuevas miradas en el render, `verificar-apunte.py` en verde y el
 PDF en el Drive verificado por MD5.
 
+### Fase 14 — la guía completa y los modelos de parcial  ·  CERRADA (2026-09-27)
+
+Abierta y cerrada el mismo día, a pedido de Fran: *un parcialito sobre la
+guía de impulso angular, un modelo de parcial integrador sobre el apunte, y
+la guía entera con las imágenes que puso Aníbal, un tip de una oración y el
+resultado validado, en dos versiones (con y sin resultados), en la carpeta
+pública de Física Espacial ordenada en tres carpetas*. Y una regla de
+nombres: $bold(L)$ es el **momento angular** (regla propia 9).
+
+Vive aparte del apunte, en `practica/`, porque es otro producto: no se lee,
+se *resuelve*. La fuente es `ejercicios.toml` (56 ejercicios de la guía (4),
+60 recortes); los enunciados **no se transcriben**, se recortan del PDF de la
+cátedra (vectoriales) y `recortar.py` mide que ningún borde parta un renglon.
+
+**Cierra con** —y cerró con—: `validar.py` en verde (233 números recalculados
+de cero, cada uno buscado *textual* en el documento; cobertura: todo
+ejercicio con cuenta o con motivo; terminología), `probar-validar.py` 8 de 8
+en rojo por su motivo con control positivo, los 4 PDF mirados en el render,
+y en Drive por MD5 (`publicar-apuntes.ps1 -Verificar` en verde).
+
+Lo que encontró: el **rendez-vous del m12 daba 698 m/s y son 688** (redondeaba
+$v_"circ"$ a 3,08 antes de restar, y los dos encendidos duplican el error), y
+dos redondeos del m05 (12 525 → 12 524 kg, 448,3 → 448,2 kg/s). Los tres se
+corrigieron en el apunte y el Anexo A. El 90,6 GJ del Problema 6, que la
+cuenta nueva daba 90,4, **no era un error**: el módulo usa $mu = 3,986 times
+10^14$ y la cuenta nueva el $g R^2$ del Beer; se alineó la guía al apunte y
+se imprimen los dos.
+
 ### Lo que queda fuera de fase, a propósito
 
+- **«Impulso angular» por $bold(L)$ en el apunte** (~30 apariciones, regla
+  propia 9) y **los números de la sección de impulso angular**: la guía (4)
+  renumeró los Problemas 4 a 7 y el apunte cita la numeración vieja («Ej.
+  4», «Ej. 5», «Ej. 7»). Una pasada propia, que Fran decide.
 - **Los tres anexos** (formulario, constantes, correspondencia) — pasaron a
   la fase 13.
 - **El estándar de ejemplos «un poco más» desarrollados** se aplicó a 3
@@ -376,6 +408,7 @@ PDF en el Drive verificado por MD5.
 - **La demostración de que los ejes principales existen**: el Beer que la
   tiene es el de *Estática*, que no está en el disco.
 - **El Ej. 6 de impulso angular** está en blanco en el PDF de la cátedra.
+  *(Resuelto por la cátedra en la guía (4): lo sacó y renumeró.)*
 
 ### Los tres anexos — ESCRITOS en la fase 13 (2026-09-26); lo de abajo es la historia
 
