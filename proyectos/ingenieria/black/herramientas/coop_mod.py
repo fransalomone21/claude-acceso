@@ -25,7 +25,9 @@ CTRL2+0xC ahi y empuja el eje adelante. Es lo que haria un humano con el mando 2
     python herramientas/coop_mod.py poner       # EN PAUSA: pone a cero datos y J2, escribe codigo y ganchos
     python herramientas/coop_mod.py mirar 40    # registra fase, estado, moldes, atadas, J2
     python herramientas/coop_mod.py manos 2 [--control]
-    python herramientas/coop_mod.py toml        # escribe mods/coop.toml (el pnach lo compila)
+    python herramientas/coop_mod.py toml        # escribe mods/coop.toml (fuente para pnach.py)
+    python herramientas/coop_mod.py instalar    # el bloque, APAGADO, en el pnach de parches de PCSX2
+    python herramientas/coop_mod.py activar     # Enable = ... en los ajustes del juego (desactivar lo saca)
     python herramientas/coop_mod.py quitar
 """
 import argparse
@@ -307,8 +309,10 @@ def cmd_manos(a):
     """Las manos de la prueba: clonar el mando 2 en el falso 2 y empujar el eje adelante."""
     with Pine() as p:
         ctrl2 = p.leer32(cj.J2 + 0x588)
-        if not ctrl2:
-            print(json.dumps({"error": "J2+0x588 = 0: el mod todavia no preparo el control2"}))
+        # (86) J2 recien copiado tiene el control DE J: sin este freno, `manos` le
+        # redirigia a J el mando al falso 2 (paso en la segunda carga)
+        if not ctrl2 or ctrl2 == p.leer32(p.leer32(cj.JUEGO_PTR) + 0x30 + 0x588):
+            print(json.dumps({"error": "el mod todavia no preparo el control2 (J2+0x588 = %#x)" % ctrl2}))
             return 1
         fuente = p.leer32(ctrl2 + 0xC)
         if fuente != cj.FALSO2:
@@ -353,17 +357,88 @@ def cmd_toml(_a):
     return 0
 
 
+# --- la entrega: un bloque con nombre en el pnach de PARCHES de PCSX2 ----------------
+# Fran juega con Documents\PCSX2\patches\SLUS-21376_5C891FF1.pnach (bloques con nombre) y
+# prende cada uno con `Enable = <nombre>` en gamesettings\SLUS-21376_5C891FF1.ini [Patches].
+# `instalar` pone (o reemplaza) el bloque APAGADO; `activar`/`desactivar` tocan solo esa linea.
+# Lo mide el emulog: "Enabled patch: <nombre>" al arrancar el juego.
+PCSX2 = Path.home() / "Documents" / "PCSX2"
+PARCHES = PCSX2 / "patches" / "SLUS-21376_5C891FF1.pnach"
+AJUSTES = PCSX2 / "gamesettings" / "SLUS-21376_5C891FF1.ini"
+NOMBRE_BLOQUE = "COOP - jugador 2 (B3)"
+
+
+def bloque_pnach():
+    lineas = ["[%s]" % NOMBRE_BLOQUE, "author=proyecto BLACK",
+              "description=J2 construido en la carga, mando 2, enlazado y atado; sin PINE (bitacora (86))",
+              "// GENERADO por herramientas/coop_mod.py -- solo CODIGO: los datos nacen del .bss en cero"]
+    for nombre, prog in programas():
+        for pc, w, t in prog:
+            lineas.append("// %s: %s" % (nombre, t))
+            lineas.append("patch=1,EE,%08X,word,%08X" % (pc, w))
+    return "\n".join(lineas) + "\n"
+
+
+def _sin_bloque(texto):
+    """El pnach sin el bloque del coop (desde su encabezado hasta el encabezado siguiente)."""
+    out, dentro = [], False
+    for l in texto.splitlines(keepends=True):
+        if l.startswith("["):
+            dentro = l.strip() == "[%s]" % NOMBRE_BLOQUE
+        if not dentro:
+            out.append(l)
+    return "".join(out)
+
+
+def _respaldo(ruta):
+    r = ruta.with_name(ruta.name + ".bak-" + time.strftime("%Y%m%d-%H%M%S"))
+    r.write_bytes(ruta.read_bytes())
+    return r
+
+
+def cmd_instalar(_a):
+    viejo = PARCHES.read_bytes().decode("utf-8")
+    base = _sin_bloque(viejo).rstrip("\r\n")
+    nl = "\r\n" if "\r\n" in viejo else "\n"
+    nuevo = base + nl + nl + bloque_pnach().replace("\n", nl)
+    if nuevo == viejo:
+        print(json.dumps({"pnach": str(PARCHES), "cambio": False}))
+        return 0
+    r = _respaldo(PARCHES)
+    PARCHES.write_bytes(nuevo.encode("utf-8"))
+    print(json.dumps({"pnach": str(PARCHES), "respaldo": r.name, "palabras": sum(len(x[1]) for x in programas()),
+                      "ajuste_intacto": "Enable = %s" % NOMBRE_BLOQUE not in AJUSTES.read_text(encoding="utf-8")}))
+    return 0
+
+
+def _ajustes(activar):
+    t = AJUSTES.read_bytes().decode("utf-8")
+    nl = "\r\n" if "\r\n" in t else "\n"
+    linea = "Enable = %s" % NOMBRE_BLOQUE
+    ls = [l for l in t.split(nl) if l.strip() != linea]
+    if activar:
+        i = ls.index("[Patches]")
+        ls.insert(i + 1, linea)
+    nuevo = nl.join(ls)
+    if nuevo != t:
+        _respaldo(AJUSTES)
+        AJUSTES.write_bytes(nuevo.encode("utf-8"))
+    print(json.dumps({"ajustes": str(AJUSTES), "activo": linea in nuevo.split(nl), "cambio": nuevo != t}))
+    return 0
+
+
 def main() -> int:
     tolerar_salida_pobre()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for c in ("listar", "poner", "quitar", "toml"):
+    for c in ("listar", "poner", "quitar", "toml", "instalar", "activar", "desactivar"):
         sub.add_parser(c)
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)
     h = sub.add_parser("manos"); h.add_argument("segundos", type=float); h.add_argument("--control", action="store_true")
     a = ap.parse_args()
     return {"listar": cmd_listar, "poner": cmd_poner, "mirar": cmd_mirar, "manos": cmd_manos,
-            "quitar": cmd_quitar, "toml": cmd_toml}[a.cmd](a)
+            "quitar": cmd_quitar, "toml": cmd_toml, "instalar": cmd_instalar,
+            "activar": lambda _a: _ajustes(True), "desactivar": lambda _a: _ajustes(False)}[a.cmd](a)
 
 
 if __name__ == "__main__":
