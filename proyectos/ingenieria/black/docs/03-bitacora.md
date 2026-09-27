@@ -16,6 +16,23 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (86) — B3: J2 se arma en la carga SIN datos desde afuera (el molde lo copia el envoltorio)
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3, el mod sin PINE) · **Nodos:** `codigo-nuevo` K5 (evidencia), `personajes` K4 (evidencia)
+**Objetivo:** contestar la primera pregunta de B3: ¿J2 se construye en la carga desde un molde que un pnach pueda producir? Hasta (85) el molde lo escribía Python (`jugador2.py carga-poner` copia a J en vivo antes de la carga).
+
+### (86) Lo que un pnach no puede escribir — medido
+El molde (J, `0x8C0` B, leído en vivo) tiene **7 autopunteros**, **5 punteros al ELF** (vtables), 1 a `.bss` y **29 al montón** (`+0x30`, `+0x7C`, `+0xB4`, `+0x2A0`, `+0x328`, `+0x330`, `+0x34C`, `+0x588`…). Un pnach sólo escribe constantes, y en `continuo` las reescribe cada cuadro: el molde no puede ir en el pnach. **Pero el envoltorio del cargador corre justo cuando J termina de construirse**, así que puede copiarlo él: es lo mismo que hacía Python, un instante después. De paso: `CTRL2 = *(J+0x588) + 0x16C` (J `0x5858A0`, J2 `0x585A0C`), y `CTRL2+0xC` apunta de fábrica al **mando 2 real** (`0x5857B0`).
+
+### (86) B3.1 — EN VIVO: el mod arma a J2 solo — confirmado
+Herramienta nueva `herramientas/coop_mod.py` (ENVOLTORIO_MOD + POR_CUADRO_MOD, 165 palabras). El envoltorio, cuando la original devuelve 1 para J, **copia J → J2 con `lq/sq`** (`0x8C` vueltas), reubica los 7 autopunteros, `+0xB0 = 0`, `+0x8A4 = 0x1C`, `+0x2A0 = ARMAS2` en cero, y pasa a la fase 1 (lo de (79)); con fase 2 la **carga siguiente vuelve a armarlo**. El stub por cuadro, con fase 2: espera 30 cuadros → **control2** (`J2+0x588/+0x6D0/+0x7C8 = CTRL2`, `+0x32C = J2+0x4F0`) + **enlazar** `FUN_0012A158(juego, J2)` → **atar** `FUN_0025C210(*(0x0040F4CC), J2)` → controlador y update de J2 cada cuadro.
+Predicción escrita antes: *escribiendo sólo código y ganchos, con J2, `ARMAS2` y los datos en cero, al cargar el nivel 0 0: moldes 1, fase 2, `J2+0x8A4 = 0x37`, estado 3 solo, atadas 1, `J2+0xB4 ≠ 0`; con las manos 2 s J2 camina ≥ 3 m, control < 0,3 m. Si el molde de la carga no sirve, el constructor se cuelga (`llam_J2` crece con `v0 = 0`) o cae el emulador.*
+- Slot 3 → `coop_mod.py poner` (EN PAUSA: pone en cero J2, `ARMAS2` y los 12 datos; escribe sólo código y los 2 ganchos) → selector → nivel 0 0. **Moldes 1, fase 2, `llam_J2` = 1** (el constructor devolvió 1 al primer llamado), `J2+0x8A4 = 0x37`, a ~1 s de juego **estado 3, atadas 1, `J2+0xB4 = 0x5880B0`, `J2+0x588 = 0x585A0C`**, y el contador de J2 sube por cuadro (2551 en ~40 s).
+- **Las manos** (`coop_mod.py manos`, lo único escrito por PINE después de `poner`: clona el mando 2 en el falso 2 y empuja el eje): control 2 s **0,00 m**; empujando 2 s **7,57 m**; control otra vez **0,00 m**. J sigue vivo (`selector_depuracion.py vivo`).
+- **Lo que esto NO prueba todavía:** que ande desde el **arranque** con el pnach (sin PINE ni para escribir el código), ni con dos cargas seguidas, ni con el mando 2 real. Eso es B3.2.
+
+**No funcionó:** nada en esta sonda.
+**Sigue:** B3.2 — `coop_mod.py toml` → `pnach.py compilar --instalar` y arranque en frío; después la copia del títere, la vista de J2 y el cabeceo en los stubs.
+
 ## 2026-09-27 (85) — B2b: el cuerpo de J2 es un ALIADO del nivel; B7: J2 hace daño (su cabeceo está al revés); sin fuego amigo entre jugadores
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B2, cuerpo de J2; fuego amigo) · **Nodos:** `vista-fp` **K2 → K3**, `ia` **K2 → K3**, `personajes` K4 (evidencia), `armas` K6 (evidencia)
 **Objetivo:** Fran contestó la pregunta de B2: *«en el mismo nivel 1 hay aliados, así que buscá un modelo de aliado; y para los aliados no debe haber fuego amigo»*, y agregó que *al apuntarle a un aliado la mira se pone verde* (los aliados no están en todos los niveles).
