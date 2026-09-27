@@ -172,6 +172,21 @@ Y un **control positivo del medidor**: se arma a propósito el plan viejo (copia
 
 **Sigue (N4):** N5 — `kb/subsistemas.json`: `0x0040F50C` no es `audio`.
 
+### (80) N5 — `0x0040F50C` no es `audio`: nace el nodo `personajes`
+
+El nodo `audio` de `kb/subsistemas.json` tenía **dos** globales: `0x0040F510` (el gestor de bancos de sonido, que es lo suyo) y `0x0040F50C`, que no tiene nada que ver. El error entró en **(74)**, cuando `0x0040F510` se fusionó con `audio` y **se llevó al vecino puesto**: nadie midió el segundo, se heredó la etiqueta del primero por estar al lado en el mapa de globales. Es la forma exacta de la regla 4 del contrato — «probablemente sea X» escrito como si fuera X — y costó que (79) tuviera que aclarar «el kb lo tiene bajo `audio` y **no es de audio**» en dos lugares distintos.
+
+**Hecho:** `audio` se queda sólo con `0x0040F510` y lleva la corrección escrita con su fecha; nace **`personajes`** (K **4**, no 5: se midió en volcados con control, pero **todavía nadie le escribió y vio el efecto**, que es lo que pide la escala). Lleva la disposición del objeto, el camino de atado, qué es `+0xB8`, que el índice de ranura es el **arma en la mano** (`J+0x2C3`), lo que hace —y lo que no hace— el cuadro con el global, y su sonda. 37 → **38 subsistemas**.
+
+**Y de paso una decisión que no es de formato:** `personajes` entra como **habilitador** de M1, M2 y M5 (el desplazamiento del segundo jugador sale de ahí: N3). Es una dependencia **medida**, no una opinión. Para que no quede la duda de haber tocado una entrada del trade con el resultado a la vista, se corrió `trade` **antes y después**: el orden no se movió (P7, M6, P5, E2, M7, G2, D2), porque M1, M2 y M5 ya tenían un habilitador en K ≤ 4. La entrada cambió; la decisión, no.
+
+**Verde:** `kb_formato.py verificar` reproduce HEAD (el diff del `.json` es de **2 líneas**, no de cientos); `programa.py catalogo` regenerado; `programa.py verificar` **0 rojos** — y en el camino se puso **en rojo una vez**, sola, cuando el catálogo quedó atrasado respecto del `kb/`, que es lo que lo vuelve creíble. `pruebas/probar-programa.py`: **todo en rojo donde tenía que estarlo**.
+
+**Estado de la Fase A al cerrar esta tanda:** sin cambios en el criterio — J2 está construido, corre a 60 Hz y el mando 2 le gira la vista; **falta que camine**, y eso es de la notebook. Lo que esta tanda cambió es que el camino está **medido** en vez de supuesto: se sabe que la copia puede funcionar, cuánto hay que copiar (tres bloques, 0x1D10 B, no uno de 0x970), con qué argumentos se ata a mano, qué **no** hace falta sondear (`+0x7C`/`+0x8C`) y qué trampa espera (el cambio de arma). Ningún nodo sube de K: nada de esto es efecto en RAM.
+
+**No funcionó (la tanda):** dos especificaciones que venían escritas —la de N4 en el retome y la de N3— y un saboteador propio que daba verde por el motivo equivocado. Las tres se arreglaron en el mismo turno.
+**Sigue:** la notebook, con `sesiones/RETOME-LOCAL.md` actualizado: sonda 0 (`J2+0x2C3` = 1, un byte) y después la copia.
+
 ## 2026-09-27 (79) — El prototipo durante la carga: el jugador 2 construido por el cargador
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `juego`, `spawn`, `codigo-nuevo`
 **Objetivo:** el criterio de salida de COOP-A: un segundo jugador en el nivel, movido por el mando 2. Camino (1) del «Sigue» de (78): construirlo **durante una carga**.
