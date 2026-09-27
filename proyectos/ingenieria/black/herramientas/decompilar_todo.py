@@ -48,14 +48,13 @@ def indice(prog) -> dict:
     rm = prog.getReferenceManager()
     por_global = {}
     for g, tam, nota in SINGLETONS:
-        fs = set()
-        n = 0
+        fs, sit = set(), set()
         for r in rm.getReferencesTo(D.a_dir(prog, g)):
-            n += 1
+            sit.add(f"0x{r.getFromAddress().getOffset():08X}")
             f = fm.getFunctionContaining(r.getFromAddress())
             fs.add(f"0x{f.getEntryPoint().getOffset():08X}" if f else "-")
         por_global[f"0x{g:08X}"] = {"tam": tam, "constructor": nota,
-                                   "referencias": n, "funciones": sorted(fs)}
+                                   "sitios": sorted(sit), "funciones": sorted(fs)}
     por_funcion = defaultdict(list)
     for g, d in por_global.items():
         for f in d["funciones"]:
@@ -120,25 +119,32 @@ def decompilar_todo(prog, hilos: int, segundos: int):
 
 
 def comparar(idx: dict) -> int:
-    """Control: la cuenta de funciones por singleton contra censo_subsistemas."""
-    import subprocess
-    r = subprocess.run([sys.executable, str(Path(__file__).parent / "censo_subsistemas.py"),
-                        str(DATOS / "ee-e4.bin")], capture_output=True, text=True)
-    censo = {}
-    for linea in r.stdout.splitlines():
-        p = linea.split()
-        if len(p) > 8 and p[0].startswith("0x") and p[1] == "->" and p[8] == "funciones":
-            censo[int(p[0], 16)] = int(p[7])
-    print(f"  {'global':<12}{'censo':>7}{'ghidra':>8}  diferencia")
-    dif_total = 0
+    """Control: los SITIOS de censo_subsistemas tienen que estar entre las
+    referencias de Ghidra. La cuenta de funciones no sirve para comparar:
+    censo busca el `lui` sólo 40 bytes atrás (es cota inferior por diseño) y
+    parte funciones por el `addiu sp`, que no es el mismo corte que Ghidra."""
+    import struct
+    import ubicaciones
+    from censo_subsistemas import OFF, sitios_por_global
+    elf = open(ubicaciones.cargar()["rutas"]["elf_copia"]["ruta"], "rb").read()
+    w = lambda a: struct.unpack_from("<I", elf, a - OFF)[0]  # noqa: E731
+    censo = sitios_por_global(w)
+    faltan_total = extra_total = cubiertos = 0
+    print(f"  {'global':<12}{'censo':>7}{'ghidra':>8}{'faltan':>8}")
     for g, d in idx["por_singleton"].items():
-        c = censo.get(int(g, 16), -1)
-        n = len([f for f in d["funciones"] if f != "-"])
-        dif_total += abs(n - c)
-        marca = "" if abs(n - c) <= max(2, c // 10) else "  <-- mirar"
-        print(f"  {g:<12}{c:>7}{n:>8}  {n - c:+d}{marca}")
-    print(f"  suma de |diferencias|: {dif_total}")
-    return 0
+        c = {f"0x{a:08X}" for a in censo.get(int(g, 16), [])}
+        gh = set(d["sitios"])
+        faltan = sorted(c - gh)
+        faltan_total += len(faltan)
+        cubiertos += len(c & gh)
+        extra_total += len(gh - c)
+        print(f"  {g:<12}{len(c):>7}{len(gh):>8}{len(faltan):>8}  {' '.join(faltan[:4])}")
+    total = cubiertos + faltan_total
+    print(f"  sitios de censo cubiertos por Ghidra: {cubiertos}/{total}; "
+          f"Ghidra ve {extra_total} sitios más")
+    ok = faltan_total <= total // 100
+    print("  control E2 (censo ⊆ Ghidra, tolerancia 1 %):", "OK" if ok else "FALLA")
+    return 0 if ok else 1
 
 
 def main():
@@ -158,10 +164,10 @@ def main():
             idx["fallas"] = [f"0x{x:08X}" for x in sorted(fallas)]
         if not a.comparar:
             (SALIDA / "indice.json").write_text(json.dumps(idx, indent=1), encoding="utf-8")
-        comparar(idx)
+        return comparar(idx)
     finally:
         ctx.__exit__(None, None, None)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -60,12 +60,9 @@ CONOCIDAS = {
 }
 
 
-def main():
-    dump = open(sys.argv[1], "rb").read()
-    u = lambda a: struct.unpack_from("<I", dump, a)[0]  # noqa: E731
-    elf = open(ubicaciones.cargar()["rutas"]["elf_copia"]["ruta"], "rb").read()
-    w = lambda a: struct.unpack_from("<I", elf, a - OFF)[0]  # noqa: E731
-
+def sitios_por_global(w):
+    """global -> instrucciones (lw/sw/addiu) que lo cargan. Lo usa también
+    decompilar_todo.py para compararse contra las referencias de Ghidra."""
     sitios = collections.defaultdict(list)
     lo_a_glob = {g & 0xFFFF: g for g, _, _ in SINGLETONS}
     gp_a_glob = {(g - GP) & 0xFFFF: g for g, _, _ in SINGLETONS}
@@ -80,6 +77,16 @@ def main():
                 w(b) >> 26 == 0x0F and (w(b) >> 16) & 31 == rs and w(b) & 0xFFFF == 0x41
                 for b in range(a - 4, a - 40, -4)):
             sitios[lo_a_glob[imm]].append(a)
+    return sitios
+
+
+def main():
+    dump = open(sys.argv[1], "rb").read()
+    u = lambda a: struct.unpack_from("<I", dump, a)[0]  # noqa: E731
+    elf = open(ubicaciones.cargar()["rutas"]["elf_copia"]["ruta"], "rb").read()
+    w = lambda a: struct.unpack_from("<I", elf, a - OFF)[0]  # noqa: E731
+
+    sitios = sitios_por_global(w)
 
     def funcion(a):
         for b in range(a, max(TEXT[0], a - 0x6000), -4):

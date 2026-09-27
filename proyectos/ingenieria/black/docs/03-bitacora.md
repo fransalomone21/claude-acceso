@@ -16,6 +16,16 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (67) — E2: el ELF entero a C, y 1194 funciones que Ghidra no había visto
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** todo el mapa (la materia prima de E3–E7) · **Nodos:** ninguno sube de K por esto solo
+**Objetivo:** E2 de `docs/14`: decompilar todas las funciones a `black-datos/decompilado/` con un índice función → singletons, y certificarlo contra `censo_subsistemas.py`.
+**Resultado:** **11.041 funciones a C, 0 fallas, 48 s** con 4 hilos (`herramientas/decompilar_todo.py`). 42 archivos de 64 KB de código cada uno más `indice.json` (13 MB, en el repo privado). El control compara **sitios** (la instrucción que carga el global), no cuentas de funciones: **2454 de 2471 sitios de `censo` (99,3 %) están entre las referencias de Ghidra**, que además ve 1577 más (censo busca el `lui` sólo 40 B atrás: es cota inferior, como ya decía). Los 17 que faltan son casi todos `addiu` que arman el puntero en el constructor `FUN_001020c0`, donde Ghidra no crea referencia. Control en verde con tolerancia 1 %.
+**Lo que encontró el control, que es lo importante:** en la primera pasada faltaban 44 sitios, y en la mitad **Ghidra no tenía ni una instrucción**. Medido: el análisis automático dejaba el **95,2 %** del `.text` dentro de funciones y 304 huecos de ≥ 64 B con 170 prólogos adentro. Es código que sólo se llama por puntero. `herramientas/completar_funciones.py` crea funciones en los punteros de `.data`/`.rodata` hacia esos huecos y en los prólogos, con un filtro para no partir funciones (la palabra anterior tiene que cerrar otra: `nop` o el delay slot de un `jr ra`): **+1194 funciones** (1096 desde `.data`, casi todas vtables), **97,8 %** cubierto, 107 huecos grandes. El decompilado de E2 se rehízo después; el control positivo de `info` sigue en verde (11.046 funciones).
+**No funcionó:** comparar **cuentas de funciones** por singleton (primera versión del control): daba diferencias de +27, +71… que no decían nada, porque censo parte funciones por el `addiu sp` y Ghidra no. La comparación por sitio es la misma unidad en los dos caminos. `completar_funciones.py` se cayó dos veces antes de andar: importaba `ghidra` antes de arrancar la JVM, y leía la palabra anterior a `0x00100000`, que no está mapeada.
+**Sigue:** E3, la cámara.
+
+---
+
 ## 2026-09-27 (66) — E1 del plan del ELF: Ghidra headless en la nube, sin GitHub releases
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) y todo el mapa: es la cadena de las sondas en frío · **Nodos:** ninguno sube (es instrumental)
 **Objetivo:** E1 de `docs/14-plan-elf.md`: Ghidra + `ghidra-emotionengine-reloaded` en la nube, ELF importado y analizado, `decompilar.py info` en verde.

@@ -52,6 +52,9 @@ if [ ! -f "$P/BLACK.gpr" ]; then
   else
     GHIDRA_HEADLESS_MAXMEM=8G "$G/support/analyzeHeadless" "$P" BLACK \
       -import /home/user/black-datos/SLUS_213.76 -processor "r5900:LE:32:default" -max-cpu 4
+    # el análisis automático deja ~1200 funciones sin descubrir (sólo se llaman
+    # por vtable): bitácora (67)
+    (cd "$AQUI/../.." && python3 herramientas/completar_funciones.py)
   fi
 fi
 cd "$AQUI/../.."

@@ -2,7 +2,9 @@ import numpy as np,struct,math
 fs=['ee-e4','ee-03','ee-nivel-mod0']
 def mats(f):
     ram=open(f'/home/user/black-datos/{f}.bin','rb').read()
-    yaw=math.degrees(struct.unpack_from('<f',ram,0x5A8DA0)[0])%360
+    # El yaw de jugador+0x2F0 YA ESTÁ EN GRADOS (bitácora (67)). La primera versión
+    # le aplicaba math.degrees() y el resultado negativo de (65) salió de ahí.
+    yaw=struct.unpack_from('<f',ram,0x5A8DA0)[0]%360
     a=np.frombuffer(ram,dtype='<f4'); v=a.reshape(-1,4)
     with np.errstate(all='ignore'):
         ok=np.isfinite(v).all(1); r=v[:,:3]; nr=np.linalg.norm(r,axis=1)
