@@ -29,7 +29,7 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 - El savestate del slot 3 trae **vida 990.590** y hay enemigos disparando cerca.
 
 **Siguiente, en este orden:**
-1. **Botones del mando falso.** Hipótesis: el control virtual lee los bits crudos (activos en bajo) del búfer del puerto que dice `mando+0xEC`. En frío: leer `FUN_00124708` (update del control virtual) y ver de dónde saca los botones.
+1. **Botones del mando falso — empezado.** Lo más probable (frío, `FUN_0026baf8`): 28 entradas por mando, y los **16 botones como floats de presión en `+0x4C…+0x88`** del mando procesado (los sticks son las entradas 16–27). Con 1.0 ahí, los botones 4, 8 y 10 cambian la pose del arma en pantalla y el 11/12 mueven RAM del jugador: **hipótesis**. Falta un observable en RAM del arma (munición) para mapearlos con control; después, disparar a un enemigo con el rifle.
 2. **Prototipo por PINE** (el criterio de salida de la Fase A): alojar un segundo bloque de 0x8C0 fuera del array (¿en el tramo libre de `.bss`?), con sus tres copias de control en `0x00585A0C` y su objeto de mira propio.
 3. Con botones: 5a, `0x0040D9A3` (si funciona, **es decisión de Fran** si entra al mod) y los niveles 96–99.
 
