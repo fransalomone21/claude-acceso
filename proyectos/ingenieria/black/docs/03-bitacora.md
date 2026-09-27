@@ -80,6 +80,44 @@ O sea: el aviso de (80) («no los sondees antes de a0/a1») ya **no** aplica, po
 
 **Sigue, y en este orden:** leer **`FUN_001a6be0`** en el decompilado (local, en frío) para saber **qué campos** usa del dueño además de la matriz — es lo que decide si lo que falta son los carriles W o el atado real `FUN_001a51c8`. Poner más punteros a mano sin eso es adivinar.
 
+### (81) N6 — La cadena del paso, medida eslabón por eslabón: **el cuerpo físico de J2 no lo toca nadie**
+
+Con las dos predicciones refutadas, en vez de seguir poniendo punteros se midió **dónde se corta la cadena**. Todo lo de acá es efecto medido en vivo, con el eje «adelante» del falso 2 **sostenido** (no en pulsos) y con `ritmo_vigilante.py --tipo write/read --ra`, que da el PC y los registros de cada disparo.
+
+**Corrección de lectura, y cambia el mapa:** `FUN_001a6be0` **no es «el que camina»**. Leído en el decompilado: recorre 7 sub-objetos de la ranura (`ranura+0x30` en adelante), y para cada uno multiplica la matriz del **dueño** (`+0x70/+0x80/+0x90/+0xA0`) por la matriz local del sub-objeto y guarda el resultado en el propio sub-objeto. Es la **propagación de acoples** (lo que hace que el modelo y el arma sigan al jugador), no el desplazamiento. La frase de (80) —«la posición la escribe `FUN_001a6be0`»— queda corregida.
+
+**Y la posición del jugador no es `+0x100`:** `FUN_001334e0` escribe `+0x100` = `+0xA0` + `+0x2E8` − 0,2, con `+0x2E8` = **1,65** medido en los dos jugadores. `+0x100` es la **posición del ojo**; la posición real (los pies) es **`+0xA0`**. Las dos estaban quietas, así que el negativo no cambia, pero todo lo que se mida de ahora en más va contra `+0xA0`.
+
+**Los cuatro eslabones, en orden, y dónde se corta:**
+1. **El pedido llega.** Con el eje sostenido: `falso2+0x8C` = 1,0 → `J2+0x5C4` (= mira+0xD4) = **1,0**. Dos lectores medidos: `0x0013F718` (la tabla de acciones de (77), con `a0` = `0x00472100`, el falso 2) y `0x0013AB80`, que es `lwc1 $f3, 0x5C4($s1)` con **`s1` = J2** — un suavizado de la mira hacia `J2+0x4CC..0x4D8`, no el paso.
+2. **El motor de movimiento corre para J2.** `FUN_001334e0` escribe la matriz de vista de J2 (`+0xD0`) desde `0x001338AC` y `0x00133B20`, y en el segundo el `a0` es **`0x004EDA30`**, la ranura que le puse en P14: la función corre y usa la ranura nueva.
+3. **La rapidez pedida se calcula, y es la misma que la de J.** Diferencia de bloques de 0x8C0 con el eje suelto contra sostenido, descontando el ruido propio: en **J2** responden `+0x540` = 0,3888 y `+0x548` = 0,9213 (el versor de avance de su propio yaw), `+0x5C4` = 1,0 y **`+0x5D8` = 4,5** (la rapidez pedida). En **J**, los mismos cuatro **más 40 campos**: `+0xA0`/`+0x100`/`+0x190` (posición, −4,23 → −9,74 en x), `+0x1B0..0x1B8` (velocidad), `+0x2E0`/`+0x2E4` (rapidez real, 4,15 y 4,39), `+0x1C0..0x1D8` (suelo), `+0x210..0x238` (la estela de posiciones) y los carriles de la matriz. **En J2 ninguno de esos 40 se mueve.**
+4. **Acá se corta: el cuerpo físico de J2 no lo toca nadie.** Misma diferencia sobre el cuerpo (`J+0x34C`): el de J (`0x006B8180`) responde en `+0x30..+0x54` (posición y matriz) y tiene **1** campo de ruido propio; el de J2 (`0x00699200`) tiene **0 campos que responden y 0 de ruido** — o sea, ni siquiera un contador cambia. **Nadie lo integra.**
+
+**Quién integra el cuerpo de J:** vigilante `write` sobre `0x006B81B0` (cuerpo+0x30) → PC `0x00170600` las 3 veces, dentro de **`FUN_00170320`**, que **no tiene llamadores en el ELF**: es un **callback virtual** que invoca `FUN_002EA898` (`ra` = `0x002EA92C`), del motor de física (rango `0x002Exxxx`), con `a0` = `0x01FFFA70` (objeto del montón) y `a1` = cuerpo+0x48. O sea: **el motor recorre su propia lista de cuerpos activos, y el de J2 no está en ella.**
+
+**Diferencia de cabecera entre los dos cuerpos, medida:** iguales en `+0` (vtable `0x003DCFE0`), `+8`, `+0xC`, `+0x10` y `+0x1C` (0x1B); distintas en `+0x14` (`0x0066EBE4` en J, `0x0066EBBC` en J2) y en **`+0x18`** (**0** en J, **`0x00699680`** en J2 — un puntero dentro del mismo pool, a cuerpo+0x480). Hipótesis a probar, no confirmada: `+0x18` es el enlace de la **lista libre** del pool y el cuerpo de J2 se entregó sin darse de alta en el motor.
+
+**Sigue:** de acá sale una sola pregunta, y es la que cierra la Fase A — **cómo se da de alta un cuerpo en el motor de física**. Se contesta en frío (`FUN_0016e660` completa, y quién llama a lo que pone un cuerpo en la lista que recorre `FUN_002EA898`), no poniendo más punteros a mano.
+
+**Estado guardado:** `pine.py savestate --slot 12` con **J2 vivo, corriendo, con el mando 2 y con la ranura 1 propia** — reproducir el estado de (79) + P14 pasa a costar un comando en vez de cuatro minutos.
+
+### (81) N7 — El control que pidió Fran: no es una pared
+
+**Fran, mirando la pantalla mientras corría la sonda: «creo que te estás moviendo contra una pared, y una mesa que te frenan».** Es una explicación competidora legítima del negativo —J había quedado contra el marco de una ventana después del empujón de control— y es barata de descartar, así que se descartó **antes** de seguir.
+
+**Medido, con J2 en el punto de aparición, 1 s por dirección:**
+
+| empuje | `+0xA0` antes → después | \|Δ\|máx | `+0x2E0` |
+|---|---|---|---|
+| adelante | (−4,2152 · −0,3332 · 52,5614) → igual | **0,000000** | 0,0000 |
+| atrás | ídem | **0,000000** | 0,0000 |
+| lateral a | ídem | **0,000000** | 0,0000 |
+| lateral b | ídem | **0,000000** | 0,0000 |
+| *control positivo* | yaw de la mira | — | **22,88° → 80,21°** |
+
+**Una pared frena una dirección, no las cuatro**, y un jugador apoyado contra una pared **desliza**: `+0x2E0` daría algo distinto de cero. Acá los cuatro dan **cero exacto** y la rapidez real nunca arranca, con el yaw respondiendo en la misma pasada. Sumado al cuerpo físico con **0 escrituras y 0 ruido** (N6), la geometría queda descartada: lo que falta no es espacio, es que **nadie integra el cuerpo de J2**.
+
 ## 2026-09-27 (80, nube) — ¿Sirve la copia del sistema de personajes? Los 35 accesos al global, medidos sobre las instrucciones
 **Máquina:** nube (sin PCSX2) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `juego`, `codigo-nuevo`
 **Objetivo (N1 del retome):** antes de escribir la herramienta que copia el sistema de personajes, contestar si el truco del envoltorio —`*(0x0040F50C)` = copia alrededor del constructor de J2, y de vuelta al original después— **puede** funcionar. Si alguien deriva la ranura del **global** por cuadro, no alcanza, y hay que proponer un gancho por cuadro en vez de una copia.
