@@ -150,19 +150,23 @@
 
 // ---------------------------------------------------------------------
 #parte(6, "Anexos", [
-  Un solo anexo por ahora. La guía de ejercicios de la cátedra entera, en
-  fichas: qué conceptos y ecuaciones aplicar, y la respuesta final — nunca
-  la resolución desarrollada, que es lo que ya hacen los cuadros verdes de
-  cada módulo. La idea es que sirva para practicar de verdad: se resuelve
-  primero, se mira la ficha después.
+  Cuatro anexos, y ninguno enseña nada nuevo: apuntan a lo que ya está.
+  El *A* es la guía de ejercicios de la cátedra entera, en fichas: qué
+  conceptos y ecuaciones aplicar, y la respuesta final — nunca la
+  resolución desarrollada, que es lo que ya hacen los cuadros verdes de
+  cada módulo. Se resuelve primero, se mira la ficha después.
 
-  Que el apunte crezca con más anexos —formulario, tabla de constantes,
-  correspondencia de notación entre libros y cátedra— no debería costar más
-  que escribir el archivo nuevo y agregar una línea acá abajo: ver la nota
-  en `#anexo()`, en `plantilla.typ`.
+  El *B* es el formulario: las ecuaciones numeradas de los veintiún
+  módulos, traídas de su lugar al compilar, con un link a cada una. El *C*,
+  las constantes, cada una con el libro y la página de donde sale. El *D*,
+  las letras que cambian de un libro a otro — que son más de las que uno
+  querría.
 ])
 
 #include "anexos/a1-guia-ejercicios.typ"
+#include "anexos/a2-formulario.typ"
+#include "anexos/a3-constantes.typ"
+#include "anexos/a4-correspondencia.typ"
 // Para agregar el próximo anexo: crear anexos/a2-<clave>.typ con
 // #anexo("B", "Título", [resumen])[...contenido...] e incluirlo acá abajo,
 // en orden alfabético de letra. No hace falta tocar nada más -- un anexo

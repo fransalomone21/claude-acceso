@@ -1,6 +1,39 @@
 # Estado actual — Apunte de Física Espacial
 
-## Fase 13 ABIERTA: los tres anexos — 2026-09-26
+## Fase 13 CERRADA: los tres anexos — 2026-09-26 (segunda parte)
+
+**No queda fase abierta.** Lo que sigue lo decide Fran (PDP §4, «Lo que
+queda fuera de fase»).
+
+- **Anexo B, formulario** (`anexos/a2-formulario.typ`, 9 pág.): las
+  ecuaciones etiquetadas **no se copian**: `#ec(<clave>)[qué es]` las trae
+  de su módulo al compilar (`query(...).first()`, número y página reales,
+  link a la ecuación), así que no pueden divergir. **136** etiquetadas, no
+  124: el `grep` del retome no veía 8 etiquetas con mayúscula ni 4 con la
+  etiqueta en el renglón siguiente. **122 en el formulario y 14 excluidas
+  con motivo** (pasos intermedios, y el criterio ingenuo de la SOI que m14
+  refuta).
+- **Anexo C, constantes** (`a3-constantes.typ`): 42 filas, una por valor y
+  por libro, **cada página medida en el PDF**. Curtis tiene tres $mu_L$
+  (4905 en la Tabla A.2, 4903 en la pág. 530, 4903,02 en el ej. 2.16). El
+  offset de páginas de Curtis **no es constante**: 8 al principio, 4 en el
+  cap. 10, 3 en el Apéndice A.
+- **Anexo D, correspondencia** (`a4-correspondencia.typ`): 23 filas, cada
+  una con el módulo donde se explica (`#M()`); una sola sale de una página
+  de libro y no de un módulo (Curtis §11.8: $A$ y $C$ por $I$ e $I'$).
+- **m12 corregido**: decía «datos del apéndice F» sobre números que son de
+  la Tabla A.1 de Curtis, y usaba $tau_"Marte" = 686,98$ días, que no está
+  en ninguno de los seis libros. Ahora cita cada uno; con 687,0 (S&Z pág.
+  A-8) el $n_"Marte" = 0,5240$°/día impreso no cambia.
+- **`verificar-anexos.py` en verde** (5 chequeos; el 1 cuenta las
+  etiquetas por dos caminos, regex y `typst query`) y
+  **`probar-verificar-anexos.py` 9 de 9 en rojo** por el motivo correcto,
+  con los dos controles positivos en verde. `verificar-apunte.py` y su
+  saboteador, en verde.
+- Compila, **202 páginas** (188 + 14 de los tres anexos), miradas en el
+  render. El PDF sube con el commit.
+
+## Fase 13 abierta — 2026-09-26 (primera parte)
 
 - **Fuera «hinchapelotas»**, a pedido de Fran: estaba una sola vez (m17,
   la caja `#lectura`) y se fue con su «fallutos» de contrapeso. Medido: 0

@@ -280,6 +280,11 @@ sesión no encuentra, por más que esté commiteado.
    Para probar que ninguno de los dos chequeos está ciego:
    `python probar-verificar-apunte.py`, que rompe los cuatro a propósito
    —incluido dejar el índice viejo— y exige verlos en rojo.
+   Y **`python verificar-anexos.py`**: toda ecuación etiquetada de un módulo
+   tiene que estar en el formulario (Anexo B, `#ec(<clave>)`) o excluida
+   con motivo, y toda constante del Anexo C con su página. Una etiqueta
+   nueva lo pone en rojo **a propósito**. Su saboteador:
+   `python probar-verificar-anexos.py` (9 sabotajes, ~45 s).
 1. Actualizar `ESTADO_ACTUAL.md` y `HANDOFF.md`.
 2. Registrar las lecciones de proceso:
    `python ..\..\..\perfil-global\herramientas\aprender.py agregar ...`

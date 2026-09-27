@@ -126,9 +126,13 @@ $ phi = 180° - n_2 t_v $ <man-fase>
 
 #ejemplo("Hohmann a Marte: cuándo lanzar y cuánto tarda", nivel: "a fondo")[
   _(Problema 5 de la sección de energía; S&Z 13.79, "Navegación
-  interplanetaria".)_ Datos del apéndice F: $r_"Tierra" = 1,496 times 10^8$
-  km, $r_"Marte" = 2,279 times 10^8$ km, $tau_"Marte" = 686,98$ días, y
-  $mu_"Sol" = 1,327 times 10^11$ km³/s².
+  interplanetaria".)_ El enunciado manda a los datos del apéndice F, que en
+  esta edición del Sears son los del G (pág. A-8) y vienen con tres cifras;
+  con cuatro, de Curtis (Tablas A.1 y A.2, págs. 737–738):
+  $r_"Tierra" = 1,496 times 10^8$ km, $r_"Marte" = 2,279 times 10^8$ km y
+  $mu_"Sol" = 1,327 times 10^11$ km³/s². El período de Marte, $tau_"Marte" =
+  687,0$ días, es del Sears. Todos juntos, con los valores de los otros
+  libros, en el Anexo C.
 
   *(a) Dirección de los encendidos.* Ida (Tierra a Marte, hacia afuera): los
   dos encendidos aceleran, en la dirección del movimiento —la idea de más
@@ -149,7 +153,7 @@ $ phi = 180° - n_2 t_v $ <man-fase>
 
   *(c) El ángulo Sol–Marte / Sol–Tierra en el lanzamiento.* La velocidad
   angular media de Marte es
-  $ n_"Marte" = (360°)/(686,98) = 0,5240 "°/día" $
+  $ n_"Marte" = (360°)/(687,0) = 0,5240 "°/día" $
   y en los $258,8$ días del viaje recorre
   $ n_"Marte" t_v = (0,5240)(258,8) = 135,6° $
   Por la @man-fase:

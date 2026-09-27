@@ -322,7 +322,19 @@ nadie y una respuesta mal en el Anexo A sí.
 motivo (por ejemplo, «la figura escaneada no alcanza; preguntar a la
 cátedra»), y `grep -c "cuenta propia"` en 0.
 
-### Fase 13 — los tres anexos: formulario, constantes y correspondencia  ·  ABIERTA (2026-09-26)
+### Fase 13 — los tres anexos: formulario, constantes y correspondencia  ·  CERRADA (2026-09-26)
+
+**Cerrada el mismo día que abrió**, con el criterio de abajo medido:
+`verificar-anexos.py` en verde (136 ecuaciones etiquetadas: 122 en el
+formulario, 14 excluidas con motivo, 0 sin cubrir; 42 constantes, todas
+con página), `probar-verificar-anexos.py` con los 9 sabotajes en rojo por
+su motivo y los dos controles positivos en verde, `verificar-apunte.py` y
+su saboteador en verde, las 14 páginas nuevas (202 en total) miradas en el
+render, y el PDF en el Drive por MD5. **El número de abajo estaba mal**: el
+`grep` daba 124 y son 136 — lo encontró el chequeo 1 del script, que
+cuenta por dos caminos. Se deja escrito como estaba, con esta corrección
+arriba, porque es el caso que justifica ese chequeo. De paso, m12 dejó de
+atribuirle al apéndice F del Sears números que son de Curtis.
 
 Abierta a pedido de Fran («sigamos con las fases»), que es lo único que la
 esperaba: el alcance está escrito abajo, en «Los tres anexos», desde la
@@ -365,7 +377,7 @@ PDF en el Drive verificado por MD5.
   tiene es el de *Estática*, que no está en el disco.
 - **El Ej. 6 de impulso angular** está en blanco en el PDF de la cátedra.
 
-### Los tres anexos — SIGUEN SIN ESCRIBIRSE, y ya no bloquean nada
+### Los tres anexos — ESCRITOS en la fase 13 (2026-09-26); lo de abajo es la historia
 
 Formulario, constantes y tabla de correspondencia con la cátedra. Eran el
 alcance original de la fase 7 y siguen siendo **útiles para estudiar**, pero

@@ -6,6 +6,35 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-26, segunda parte — fase 13 cerrada
+
+**No queda fase abierta.** Lo que la próxima sesión tiene que saber:
+
+- **El formulario no tiene ecuaciones escritas.** `#ec(<clave>)[texto]`
+  (definido en `anexos/a2-formulario.typ`) hace `query(clave).first()` y
+  vuelve a mostrar `el.body` con número y página del módulo. Corregir una
+  ecuación en su módulo la corrige en el formulario. Una etiqueta que no
+  existe **rompe la compilación** (lo prueba el sabotaje 1c).
+- **Etiqueta nueva en un módulo = rojo en `verificar-anexos.py`** hasta
+  que se agregue un `#ec()` en su módulo del formulario o se excluya con
+  motivo en `EXCLUIDAS` (dentro del script). Es a propósito.
+- **Las etiquetas se cuentan por dos caminos** porque el `grep` de una
+  línea mintió: 124 contra 136 (mayúsculas en `<grav-E>`, `<orb-Uef>`…,
+  y etiquetas en el renglón de abajo en m19 y m20). La regex del script
+  admite `[A-Za-z_][A-Za-z0-9_.:-]*`.
+- **Anexo C: una fila por valor**, y `#cte()` exige «pág.» o «págs.». Las
+  páginas están medidas; los números de sección que no se midieron se
+  sacaron. Offsets medidos hoy: Curtis PDF 22→14, 85→77, 136→128,
+  534→530, 740→737 (el 8 del retome vale sólo al principio); Beer
+  impresa = PDF + 574 confirmado en 152, 159, 164, 167, 232; S&Z 28.
+- **Trampas de Typst pagadas hoy**: «737 y⏎738.» al principio de renglón
+  es una **lista numerada**; el `above` de un bloque que es lo primero de
+  un contenedor `sticky` se pierde (va en el contenedor); celdas angostas
+  sin `set par(justify: false)` abren huecos.
+- **`buscar.py` y `folios.py`** (scratchpad, se pierden): buscar por regex
+  en un libro o volcar una página; `folios.py` imprime los renglones que
+  son sólo un número, que es cómo se lee la página impresa.
+
 ## Sesión del 2026-09-26 — «hinchapelotas» fuera, fase 13 abierta
 
 - La frase de m17 se sacó; la regla 8 del `CLAUDE.md` lo registra.
