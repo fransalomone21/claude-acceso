@@ -112,8 +112,8 @@ una pantalla compartida (M1) el segundo jugador no tendría una vista propia
 computadora»** se resuelve **encima** de M2, con Parsec o Remote Play (M6):
 cero reversing, pero no existe sin un coop local debajo.
 
-**Qué cierra la Fase A (criterio de salida, escrito antes de empezarla).**
-Cada habilitador crítico en **K5** —efecto visto en RAM, con control— y un
+**Qué la cierra, exactamente:** (la Fase A; criterio de salida escrito antes
+de empezarla) cada habilitador crítico en **K5** —efecto visto en RAM, con control— y un
 **prototipo por PINE** en el que el segundo mando mueve a un segundo jugador
 que está en el nivel. **Cómo se certifica:** una entrada de bitácora por cada
 K5, con la predicción escrita antes y el efecto medido; `kb/subsistemas.json`
