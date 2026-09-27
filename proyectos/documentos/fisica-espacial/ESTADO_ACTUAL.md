@@ -25,7 +25,7 @@ queda fuera de fase»).
   republicado.
 - **Pendiente, fuera de fase:** el apunte todavía dice «impulso angular» por
   $bold(L)$ (~30 veces) y cita la numeración vieja de la sección de impulso
-  angular (la guía (4) renumeró). Y el Google Doc de Fran no se pudo leer.
+  angular (la guía (4) renumeró). (El PDF (4) es el Google Doc de la cátedra exportado: la guía está completa.)
 
 ## Fase 13 CERRADA: los tres anexos — 2026-09-26 (segunda parte)
 

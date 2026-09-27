@@ -26,11 +26,9 @@ repite, porque un dato que vive en dos lados diverge.
   esta máquina`, no rojo: es el campo `regenerable` nuevo de
   `.claude/apuntes-publicos.json` (y la rama nueva en `publicar-apuntes.ps1`,
   probada en las dos direcciones y con `probar-publicacion.ps1` en verde).
-- **El Google Doc que mandó Fran** con «los ejercicios actuales» no se pudo
-  leer: 404 por el conector de Drive y por rclone, y Claude in Chrome sin
-  conexión. Se usó el PDF (4). Si el Doc trae ejercicios que el PDF no
-  tiene, entran como registros nuevos del TOML (sin recorte: habría que
-  agregarle a `guia.typ` un enunciado en texto).
+- **El PDF (4) ES el Google Doc de la cátedra exportado** (lo confirmó Fran):
+  no falta nada. El Doc no se puede abrir desde acá (404 en las dos cuentas),
+  así que cuando cambie, la versión nueva tiene que llegar exportada a PDF.
 - **Trampas pagadas en esta sesión:**
   - `sed 's/\\,/ thin /g'` desde el Bash tool reemplazó **todas las comas**
     del TOML: una capa de quoting se comió una barra y el patrón quedó en
