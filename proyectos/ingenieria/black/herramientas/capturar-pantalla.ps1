@@ -26,6 +26,7 @@ using System;
 using System.Text;
 using System.Runtime.InteropServices;
 public class Foco {
+  [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
   [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
   [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
   [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int n);
@@ -48,6 +49,10 @@ public class Foco {
   }
 }
 '@
+# Sin DPI-aware, con escalado de Windows > 100 % Bounds da la resolucion ESCALADA y
+# CopyFromScreen devuelve la esquina superior izquierda (1536x864 de 1920x1080): en (84)
+# eso se leyo como "PCSX2 muestra 512 de 640 px" y no era cierto.
+[void][Foco]::SetProcessDPIAware()
 if (-not $SinFoco) {
     $p = Get-Process pcsx2-qt -ErrorAction Stop
     $h = [Foco]::Buscar([uint32]$p.Id, $TituloJuego)

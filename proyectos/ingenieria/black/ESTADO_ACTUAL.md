@@ -37,7 +37,7 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-A CERRADA el 2026-09-27 (83); COOP-B sin abrir (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1 (dos vistas) HECHA (LEER ESTO PRIMERO)
 
 **La Pre-Fase A cerró el 2026-09-27 con la MCR** (`PDP.md` §6). Fran contestó
 las 22 preguntas (`docs/12` §7) y **delegó** pesos y decisiones: «decide todo
@@ -210,11 +210,27 @@ dice medido). Lo que cambió:
     **se ve** (capturas antes/después). `spawn` **K3 → K5**. Herramienta: `sondas_spawn.py`.
   - El contador de apariciones sube solo (apariciones de fondo): no sirve como medida.
   - **COOP-A cerrada:** los 7 habilitadores en su objetivo y el prototipo de (82).
-- **Siguiente:** abrir **COOP-B** con su criterio de salida escrito en el PDP antes de
-  empezarla. Candidatos, sin priorizar todavía: el cuerpo de J2 (hoy dos brazos), la pantalla
-  dividida sobre la segunda pasada de `render`, `atar` permanente en el envoltorio de carga,
-  los disparadores que miran sólo al jugador 0, la IA frente a J2 y la reaparición de J2.
-  **Slot 13** = J2 con controlador. Detalle: `sesiones/RETOME-LOCAL.md`.
+- **COOP-B abierta y B1 hecha: dos vistas en el mismo cuadro (2026-09-27, bitácora (84), notebook).**
+  Criterio de la B escrito en `PDP.md` §4 antes de empezar (B1 dos vistas, B2 J2 con cuerpo,
+  B3 el mod sin PINE; IA, muerte de J2 y disparadores a K4; `docs/14` + `coop_diseno.py`).
+  Confirmado en pantalla con control:
+  - La «segunda pasada» 160 × 112 de (69) es **de sombras**, no una vista. La cámara de escena
+    (la 1 del gestor de render, `R+0xD400`) lee su vista de **gestor de cámara `+0x700`** (FOV,
+    **cuaternión**, **ojo**) y dibuja en un **sub-raster** (`RwCamera+0x60`: ancho `+0xC`, offset
+    `+0x1C`).
+  - **`pantalla_dividida.py`** engancha los tres `jal FUN_001297E0` y dibuja la escena **dos veces
+    por cuadro**: J a la izquierda, J2 a la derecha (control: con la misma vista las mitades
+    coinciden). Proporción con `R+0xD400+0x70/+0x74`. `render` **K4 → K5**.
+  - Costo: 73/73 dibujos por segundo en una vista liviana, 24/51 en una pesada.
+  - Mitades de **320** con la proporción ×0,5 (captura a 1920 × 1080). La primera lectura, «PCSX2
+    muestra 512 de 640», era el recorte de una captura sin DPI-aware: corregido en la herramienta.
+  - Pendiente de diseño: un efecto de pantalla completa deja un fantasma espejado del HUD en la
+    mitad 2; el cuaternión de J2 lo escribe Python (sale del yaw de su mira).
+  - **B2 en frío:** hay una sola tabla de tipos de personaje (`actores+0x7A10`, 0x40 B); en City
+    Streets, el tipo 0 (el jugador: brazos) y **cinco soldados** (`0x1D`, `0x1E`, `0x24`, `0x25`,
+    `0x27`). El cuerpo de J2 sale barato como **títere** de uno de ellos: **lo elige Fran**.
+- **Siguiente:** B3 (el mod sin PINE) en un chat nuevo; B2b cuando Fran elija el cuerpo. Detalle y
+  comandos: `sesiones/RETOME-LOCAL.md`. **Slot 13** = J2 con controlador.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

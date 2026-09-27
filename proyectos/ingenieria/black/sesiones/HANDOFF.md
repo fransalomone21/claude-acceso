@@ -4,11 +4,24 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(83)» DE ACÁ ABAJO.** La cartera es **un solo
-> proyecto, COOP**. **La Fase A cerró el 2026-09-27 (83)**; la B **no está
-> abierta**: su criterio de salida se escribe en el PDP antes de empezarla. El
-> bloque «(81)» quedó **corregido por (82)** en lo que dice del cuerpo físico.
-> El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+> **EMPEZÁ POR EL BLOQUE «(84)» DE ACÁ ABAJO.** La cartera es **un solo
+> proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
+> criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1 está hecha**. El
+> mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — COOP-B ABIERTA; B1: DOS VISTAS EN EL MISMO CUADRO (bitácora (84))
+
+**El resultado:** `render` **K4 → K5**. La escena (`FUN_001297E0(juego)`, desde los `jal` de `0x001056DC`, `0x0010656C`, `0x00106D8C`) se dibuja **dos veces por cuadro** con `pantalla_dividida.py`: mitad izquierda con la vista de J, derecha con la de J2, visto en pantalla con control (misma vista → las mitades coinciden: 11,5; vista de J2: 25,3; sin división: 50,1). Captura: `volcados/capturas-84/p21-dividida-320.png`, 1920 × 1080 (local, no versionada).
+
+**Cómo funciona:** la cámara de escena es la 1 del gestor de render (`R = *(0x0040F4C0)`, `R+0xD400`; su `RwCamera` en `+0x58`, sub-raster en `RwCamera+0x60` con ancho `+0xC` y offset `+0x1C`). Lee su vista del **gestor de cámara `+0x700`** (`*(0x0040F4BC)`): `+0x00` FOV, `+0x10` cuaternión, `+0x20` ojo. El stub (`0x0046FA00`, datos `0x0046FC00`) dibuja, cambia el **contenido** de `+0x710`/`+0x720` (el puntero no: la pasada de sombras lo repone), re-sincroniza con `FUN_001AE998(R,1)` + `FUN_001B0948(R+0xD400)`, dibuja otra vez con el offset, y restaura. La proporción la ponen `R+0xD400+0x70` (1,333) y `+0x74` (1,778): para mitades de 320, ×0,5.
+
+**Corregido en la misma sesión:** «PCSX2 muestra 512 de 640 px» era el recorte de `capturar-pantalla.ps1` sin DPI-aware (1536 × 864 de 1920 × 1080); arreglada, captura 1920 × 1080. La pasada 160 × 112 de (69) es **de sombras**. Costo: 73/73 dibujos/s en vista liviana, 24/51 en pesada. El cuaternión desde la matriz `+0xD0` da exacto el del juego para J; para J2 esa matriz trae un cabeceo raro, así que la vista de J2 sale del **yaw de su mira** (`*(J2+0x32C)+8`) y el ojo `J2+0x100`.
+
+**B2 en frío:** una sola tabla de tipos de personaje (`actores+0x7A10`, 0x40 B por tipo; la usan el constructor del jugador y el de enemigos). City Streets: tipo 0 (el jugador) y cinco soldados, `0x1D`, `0x1E`, `0x24`, `0x25`, `0x27`. Diseño barato: un **títere** de uno de ellos que copia posición y yaw de J2. **El modelo lo elige Fran** (pregunta abierta).
+
+**Pendiente de la B:** B3 (todo como pnach: el cuaternión de J2 y las mitades en el stub; el riesgo es si J2 se construye desde un molde que un pnach pueda escribir al arrancar — hoy `carga-poner` copia a J en vivo como molde, con `+0x8A4` = 0x1C), B2b (el títere), B4–B6 en frío, `docs/14-coop-diseno.md` y `coop_diseno.py`. Diseño: el fantasma espejado del HUD en la mitad 2 (efecto de pantalla completa) y el HUD por mitad.
+
+**Estado de la máquina al cerrar:** PCSX2 abierto, City Streets desde el **slot 13**, con `pantalla_dividida.py poner` puesto (los tres `jal` desviados al stub) y la división **apagada** (`DATOS+0x80` = 0); cámara restaurada (1,333 / 1,778). Nada de eso está en un slot: se pierde al recargar.
 
 ## 2026-09-27, NOTEBOOK — SPAWN EN CALIENTE CON UN BYTE; COOP-A CERRADA (bitácora (83))
 
