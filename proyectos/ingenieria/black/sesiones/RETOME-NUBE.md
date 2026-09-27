@@ -13,5 +13,6 @@ Retomo BLACK en la NUBE (claude-acceso, proyectos/ingenieria/black). Proyecto LO
 4. Opus, esfuerzo high, SIN subagentes ni fan-out. Nunca Fable.
 5. Cuadros PARA VOS y de fase al abrir cada respuesta. Grado de evidencia en todo (hipótesis/probable/confirmado).
 6. Lo que necesite emulador se anota como sonda para la notebook; no se simula.
-7. Checkpoint antes de parar: ESTADO_ACTUAL + HANDOFF + bitácora + commit + push a main.
+7. AUTONOMÍA: trabajá solo, etapa tras etapa de docs/14 (E1 → E7), sin pedirme permiso para lo técnico. Pará sólo si (a) el contexto llega al 40 %, (b) necesitás una decisión de valor mía, o (c) algo pide la notebook y no hay otra etapa que se pueda hacer en la nube.
+8. Checkpoint después de CADA etapa (bitácora + kb/ + commit + push a main), no sólo al final. Al parar: ESTADO_ACTUAL + HANDOFF + actualizar este mensaje de retome si cambió algo.
 ```
