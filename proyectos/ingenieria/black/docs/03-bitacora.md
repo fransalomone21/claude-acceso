@@ -16,6 +16,18 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (70) — E5, los dos grandes sin nombre: uno era el render; el otro sigue sin nombre, con la sonda achicada
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** el mapa (P5 del trade) · **Nodos:** `s-0x0040F4C0` **se fusiona en `render`** (35 nodos); `s-0x0040F510` sigue en **K1**
+**Objetivo:** E5 de `docs/14`: nombrar `0x0040F510` y `0x0040F4C0` con evidencia.
+**Resultado:**
+- **`0x0040F4C0` es el gestor de render** (probable): es el objeto de E4 —listas de dibujo, cámara RW en `+0xD540`, la vista 160 × 112 en `+0xD170`— y además, al cargar cada `Unit_NN.bin` (`FUN_0012EAE8 → FUN_00383978`), registra las texturas de reflejo `Glass_Ref`/`Glass_Ref2` en `+0xCD70`. Tener dos nodos para el mismo objeto era una segunda fuente de verdad: `s-0x0040F4C0` se borró y su evidencia pasó a `render`.
+- **`0x0040F510` no se deja nombrar en frío con lo que hay.** Sin cadenas propias; convive con `juego` (68 funciones), `vista-fp` (24), `recursos` (22) y `front-end` (19); el subobjeto de `+0xCBA0` (vtable `0x003DB640`, 5 métodos) sólo levanta banderas. Pista débil: el cargador de habla por nivel (`spch_%s%s`) está entre sus usuarios. **Medido:** entre los tres volcados cambian 456 de 13.058 palabras, **todas** en `+0xB9D4…+0xC988`; los primeros ~46 KB son idénticos. La sonda quedó chica: un *watch* sobre ese tramo durante un diálogo y durante un tiroteo.
+- Herramienta nueva: `herramientas/nombrar_por_decompilado.py` (cadenas por singleton, ponderadas por rareza, resolviendo las constantes que Ghidra deja como número).
+**No funcionó:** las cadenas como señal: el código del motor casi no usa texto (2 y 3 cadenas para objetos de 52 KB). Leer la vtable con paso 4 (son de 8 B por entrada en GCC 2.9x, como ya dice el contrato).
+**Sigue:** E6 (los 12 sin nombre y `tiempo`), E7 (sesión y modos).
+
+---
+
 ## 2026-09-27 (69) — E4, el render: el motor ya dibuja una segunda pasada de escena por cuadro, con su propio viewport y framebuffer
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2), sonda 4 · **Nodos:** `render` **K1 → K3**; `s-0x0040F4C0` gana nombre probable (gestor de render; se formaliza en E5)
 **Objetivo:** E4 de `docs/14`: viewport/scissor del GS, y si el motor ya dibuja más de una vista por cuadro.
