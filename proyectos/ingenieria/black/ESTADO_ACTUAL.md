@@ -252,12 +252,17 @@ dice medido). Lo que cambió:
     `Documents\PCSX2\patches\SLUS-21376_5C891FF1.pnach`, prendido con `Enable =` en
     `gamesettings`): J2 se arma y camina **7,54 m** en 2 s con el mando 2 (control 0,00 m). El mando 2
     de fábrica ya es el real (`CTRL2+0xC = 0x5857B0`).
-  - **La segunda carga cuelga el emulador** (`pc=0x33DDB0`): H1 (correr a J2 durante el desarme)
-    refutada; H2 probable: algo dado de alta a J2 sobrevive al nivel. **Bloque APAGADO** hasta arreglarlo.
+  - ~~La segunda carga cuelga el emulador~~ — **arreglado en (87), B3.3:** al salir del nivel el
+    juego da de baja a cada jugador con `FUN_0012BFC8` (suelta el controlador de colisión y lo saca de
+    la lista), sólo para `i < cuenta`. `coop_mod.py` engancha ese desarme (`0x00129E38` →
+    `0x0046DD00`) y le hace lo mismo a J2: **tres cargas seguidas**, J2 camina 7,55 / 7,54 / 7,56 m,
+    0 cuelgues. Control sin la baja y variante «sólo lista»: la 2.ª carga cae igual. La causa era el
+    **controlador de colisión de J2** que quedaba en el mundo de colisión. 202 palabras. El bloque
+    del pnach está **actualizado y sigue APAGADO** (falta que Fran lo pruebe con el mando 2 real).
   - Trampa: el selector de depuración **desde el menú del arranque** cae con o sin mod (se pide desde
     adentro de un nivel). El aviso «patches.zip» es de la copia `PCSX2-MCP`, inocuo.
-- **Siguiente:** **B3** (el mod sin PINE) en un chat nuevo, con el títere, el cabeceo de J2 y su
-  recarga adentro del stub. Detalle y comandos: `sesiones/RETOME-LOCAL.md`. **Slot 13** = J2 con
+- **Siguiente:** el resto de **B3** en un chat nuevo: el títere, la vista de J2 (pantalla dividida)
+  y su cabeceo adentro de los stubs; la recarga de J2. Detalle y comandos: `sesiones/RETOME-LOCAL.md`. **Slot 13** = J2 con
   controlador.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el

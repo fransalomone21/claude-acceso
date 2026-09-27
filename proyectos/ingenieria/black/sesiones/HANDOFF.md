@@ -4,11 +4,19 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(86)» DE ACÁ ABAJO.** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(87)» DE ACÁ ABAJO.** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1 hecha, B2b hecha
-> como prototipo por PINE, B7 hecha y B3 hecha en la PRIMERA carga** (la segunda
-> cuelga). El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+> como prototipo por PINE, B7 hecha y B3 hecha con la baja: aguanta cargas
+> seguidas** (87). El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — B3.3: LA BAJA DE J2 AL SALIR DEL NIVEL (bitácora (87))
+
+**El resultado:** el desarme del nivel es `FUN_00129DE8`; en su estado 0x1D llama (`0x00129E38`) a **`FUN_0012BFC8`**, espejo de `FUN_0012BE80`: por jugador `i < cuenta`, `FUN_0025C2C8(*(0x0040F4CC), J)` (suelta el controlador de colisión y lo saca del mundo de colisión) y `FUN_0012A280(juego, J)` (lo saca de la lista `juego+0x5CA4`). `coop_mod.py` suma el programa **desarme** (`0x0046DD00`, 36 palabras) y el gancho en `0x00129E38`: la original y lo mismo para J2; fase = estado = 0; `DESARMES` en `0x0046D7C8`. **202 palabras.** Con la baja: **tres cargas seguidas**, J2 7,55 / 7,54 / 7,56 m (control 0,00), 0 `TLB Miss`, y J2 reusa la misma entrada del pool (`0x5880B0`). Control `poner --sin-baja`: la 2.ª carga cae igual; variante sin `FUN_0025C2C8` (sólo lista): cae igual. **La causa era el controlador de colisión de J2.**
+
+**Herramientas:** `coop_mod.py poner [--sin-baja]`; `mirar` ahora muestra `desarmes`. `mods/coop.toml` regenerado y versionado. El bloque del pnach está **reinstalado (202 palabras) y APAGADO**.
+
+**Estado de la máquina al cerrar:** PCSX2 **colgado** en la corrida de aislamiento (sólo lista): cerrarlo y relanzarlo. Nada guardado en un slot.
 
 ## 2026-09-27, NOTEBOOK — B3: EL MOD SIN PINE ANDA EN LA PRIMERA CARGA; LA SEGUNDA CUELGA (bitácora (86))
 
