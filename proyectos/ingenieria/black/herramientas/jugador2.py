@@ -208,6 +208,7 @@ def main() -> int:
     cp = sub.add_parser("carga-poner", help="P7: molde + gancho por cuadro (estado 0) + envoltorio del cargador")
     cp.add_argument("--desde", type=lambda s: int(s, 0), default=2)
     sub.add_parser("control2", help="copias de control de J2 -> 0x00585A0C, y su +0xC -> falso 2")
+    sub.add_parser("autopsia", help="P8: ranuras de personaje, cargador de modelos y J2 (sin codigo)")
     sub.add_parser("quitar")
     e = sub.add_parser("estado")
     e.add_argument("n", type=int)
@@ -250,6 +251,18 @@ def main() -> int:
                 for pc, w, _ in envol:
                     p.escribir32(pc, w)
                 p.escribir32(SITIO_CARGA, ensamblar("jal 0x%x" % ENVOLTORIO, SITIO_CARGA))
+        elif a.cmd == "autopsia":
+            pers = p.leer32(0x0040F50C)            # sistema de personajes: 2 ranuras de 0x240 en +0x470
+            mod = p.leer32(0x0040F540)             # cargador de modelos: byte 0 = bufer, +0x80 -> estado en +0x1C
+            jg = p.leer32(cj.JUEGO_PTR)
+            d = {"ranuras": [{"dir": hex(pers + 0x470 + k * 0x240), "dueno": hex(p.leer32(pers + 0x470 + k * 0x240)),
+                              "B8": p.leer8(pers + 0x470 + k * 0x240 + 0xB8)} for k in (0, 1)],
+                 "J_330": hex(p.leer32(cj.J + 0x330)), "J2_330": hex(p.leer32(cj.J2 + 0x330)),
+                 "modelos_bufer": p.leer8(mod), "modelos_estado": p.leer32(p.leer32(mod + 0x80) + 0x1C),
+                 "cargador": p.leer32(jg + 0x5AA0), "fase": p.leer32(FASE), "llam_J2": p.leer32(LLAMADAS_J2),
+                 "J2_8A4": p.leer32(cj.J2 + 0x8A4), "J2_4E0": hex(p.leer32(cj.J2 + 0x4E0))}
+            print(json.dumps(d, ensure_ascii=False))
+            return 0
         elif a.cmd == "control2":
             f2 = bytearray(p.leer_bloque(cj.MANDO2_REAL, 0xF0))
             for o in range(0x8C, 0xCC, 4):
