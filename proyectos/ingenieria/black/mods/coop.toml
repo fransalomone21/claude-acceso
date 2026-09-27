@@ -1,0 +1,1219 @@
+# GENERADO por herramientas/coop_mod.py toml -- no editar a mano: la fuente son los
+# programas de coop_mod.py (bitacora (86)). Solo CODIGO: los datos nacen del .bss en cero.
+nombre = "COOP -- jugador 2 (B3)"
+autor = "proyecto BLACK"
+descripcion = "J2 construido en la carga, mando 2, enlazado y atado; sin PINE"
+habilitado = false
+cuando = "continuo"
+
+[[parche]]
+direccion = 0x0046DA00
+tipo = "u32"
+valor = 0x27BDFFD0
+nota = "envoltorio: addiu sp, sp, -0x30"
+
+[[parche]]
+direccion = 0x0046DA04
+tipo = "u32"
+valor = 0xFFBF0000
+nota = "envoltorio: sd ra, 0(sp)"
+
+[[parche]]
+direccion = 0x0046DA08
+tipo = "u32"
+valor = 0xFFB00008
+nota = "envoltorio: sd s0, 8(sp)"
+
+[[parche]]
+direccion = 0x0046DA0C
+tipo = "u32"
+valor = 0xFFB10010
+nota = "envoltorio: sd s1, 0x10(sp)"
+
+[[parche]]
+direccion = 0x0046DA10
+tipo = "u32"
+valor = 0x00808021
+nota = "envoltorio: move s0, a0"
+
+[[parche]]
+direccion = 0x0046DA14
+tipo = "u32"
+valor = 0x3C110047
+nota = "envoltorio: lui s1, 0x47"
+
+[[parche]]
+direccion = 0x0046DA18
+tipo = "u32"
+valor = 0x8E28D790
+nota = "envoltorio: lw t0, -0x2870(s1)"
+
+[[parche]]
+direccion = 0x0046DA1C
+tipo = "u32"
+valor = 0x24090001
+nota = "envoltorio: addiu t1, zero, 1"
+
+[[parche]]
+direccion = 0x0046DA20
+tipo = "u32"
+valor = 0x1109002B
+nota = "envoltorio: beq t0, t1, 0x46dad0"
+
+[[parche]]
+direccion = 0x0046DA24
+tipo = "u32"
+valor = 0x00000000
+nota = "envoltorio: nop"
+
+[[parche]]
+direccion = 0x0046DA28
+tipo = "u32"
+valor = 0x8E29D79C
+nota = "envoltorio: lw t1, -0x2864(s1)"
+
+[[parche]]
+direccion = 0x0046DA2C
+tipo = "u32"
+valor = 0x25290001
+nota = "envoltorio: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046DA30
+tipo = "u32"
+valor = 0xAE29D79C
+nota = "envoltorio: sw t1, -0x2864(s1)"
+
+[[parche]]
+direccion = 0x0046DA34
+tipo = "u32"
+valor = 0x0C04A424
+nota = "envoltorio: jal 0x129090"
+
+[[parche]]
+direccion = 0x0046DA38
+tipo = "u32"
+valor = 0x00000000
+nota = "envoltorio: nop"
+
+[[parche]]
+direccion = 0x0046DA3C
+tipo = "u32"
+valor = 0x1040004A
+nota = "envoltorio: beq v0, zero, 0x46db68"
+
+[[parche]]
+direccion = 0x0046DA40
+tipo = "u32"
+valor = 0x00000000
+nota = "envoltorio: nop"
+
+[[parche]]
+direccion = 0x0046DA44
+tipo = "u32"
+valor = 0xAE20D784
+nota = "envoltorio: sw zero, -0x287c(s1)"
+
+[[parche]]
+direccion = 0x0046DA48
+tipo = "u32"
+valor = 0xAE20D7B8
+nota = "envoltorio: sw zero, -0x2848(s1)"
+
+[[parche]]
+direccion = 0x0046DA4C
+tipo = "u32"
+valor = 0x26080030
+nota = "envoltorio: addiu t0, s0, 0x30"
+
+[[parche]]
+direccion = 0x0046DA50
+tipo = "u32"
+valor = 0x2629CDF0
+nota = "envoltorio: addiu t1, s1, -0x3210"
+
+[[parche]]
+direccion = 0x0046DA54
+tipo = "u32"
+valor = 0x240A008C
+nota = "envoltorio: addiu t2, zero, 0x8c"
+
+[[parche]]
+direccion = 0x0046DA58
+tipo = "u32"
+valor = 0x790B0000
+nota = "envoltorio: lq t3, 0(t0)"
+
+[[parche]]
+direccion = 0x0046DA5C
+tipo = "u32"
+valor = 0x7D2B0000
+nota = "envoltorio: sq t3, 0(t1)"
+
+[[parche]]
+direccion = 0x0046DA60
+tipo = "u32"
+valor = 0x25080010
+nota = "envoltorio: addiu t0, t0, 0x10"
+
+[[parche]]
+direccion = 0x0046DA64
+tipo = "u32"
+valor = 0x254AFFFF
+nota = "envoltorio: addiu t2, t2, -1"
+
+[[parche]]
+direccion = 0x0046DA68
+tipo = "u32"
+valor = 0x1540FFFB
+nota = "envoltorio: bne t2, zero, 0x46da58"
+
+[[parche]]
+direccion = 0x0046DA6C
+tipo = "u32"
+valor = 0x25290010
+nota = "envoltorio: addiu t1, t1, 0x10"
+
+[[parche]]
+direccion = 0x0046DA70
+tipo = "u32"
+valor = 0x2629CDF0
+nota = "envoltorio: addiu t1, s1, -0x3210"
+
+[[parche]]
+direccion = 0x0046DA74
+tipo = "u32"
+valor = 0xAD290054
+nota = "envoltorio: sw t1, 0x54(t1)"
+
+[[parche]]
+direccion = 0x0046DA78
+tipo = "u32"
+valor = 0xAD29029C
+nota = "envoltorio: sw t1, 0x29c(t1)"
+
+[[parche]]
+direccion = 0x0046DA7C
+tipo = "u32"
+valor = 0xAD29056C
+nota = "envoltorio: sw t1, 0x56c(t1)"
+
+[[parche]]
+direccion = 0x0046DA80
+tipo = "u32"
+valor = 0xAD29069C
+nota = "envoltorio: sw t1, 0x69c(t1)"
+
+[[parche]]
+direccion = 0x0046DA84
+tipo = "u32"
+valor = 0xAD2907AC
+nota = "envoltorio: sw t1, 0x7ac(t1)"
+
+[[parche]]
+direccion = 0x0046DA88
+tipo = "u32"
+valor = 0xAD29084C
+nota = "envoltorio: sw t1, 0x84c(t1)"
+
+[[parche]]
+direccion = 0x0046DA8C
+tipo = "u32"
+valor = 0x252A04F0
+nota = "envoltorio: addiu t2, t1, 0x4f0"
+
+[[parche]]
+direccion = 0x0046DA90
+tipo = "u32"
+valor = 0xAD2A032C
+nota = "envoltorio: sw t2, 0x32c(t1)"
+
+[[parche]]
+direccion = 0x0046DA94
+tipo = "u32"
+valor = 0xAD2000B0
+nota = "envoltorio: sw zero, 0xb0(t1)"
+
+[[parche]]
+direccion = 0x0046DA98
+tipo = "u32"
+valor = 0x240A001C
+nota = "envoltorio: addiu t2, zero, 0x1c"
+
+[[parche]]
+direccion = 0x0046DA9C
+tipo = "u32"
+valor = 0xAD2A08A4
+nota = "envoltorio: sw t2, 0x8a4(t1)"
+
+[[parche]]
+direccion = 0x0046DAA0
+tipo = "u32"
+valor = 0x262ADBC0
+nota = "envoltorio: addiu t2, s1, -0x2440"
+
+[[parche]]
+direccion = 0x0046DAA4
+tipo = "u32"
+valor = 0xAD2A02A0
+nota = "envoltorio: sw t2, 0x2a0(t1)"
+
+[[parche]]
+direccion = 0x0046DAA8
+tipo = "u32"
+valor = 0x7D400000
+nota = "envoltorio: sq zero, 0(t2)"
+
+[[parche]]
+direccion = 0x0046DAAC
+tipo = "u32"
+valor = 0x7D400010
+nota = "envoltorio: sq zero, 0x10(t2)"
+
+[[parche]]
+direccion = 0x0046DAB0
+tipo = "u32"
+valor = 0x8E2AD7C0
+nota = "envoltorio: lw t2, -0x2840(s1)"
+
+[[parche]]
+direccion = 0x0046DAB4
+tipo = "u32"
+valor = 0x254A0001
+nota = "envoltorio: addiu t2, t2, 1"
+
+[[parche]]
+direccion = 0x0046DAB8
+tipo = "u32"
+valor = 0xAE2AD7C0
+nota = "envoltorio: sw t2, -0x2840(s1)"
+
+[[parche]]
+direccion = 0x0046DABC
+tipo = "u32"
+valor = 0x24090001
+nota = "envoltorio: addiu t1, zero, 1"
+
+[[parche]]
+direccion = 0x0046DAC0
+tipo = "u32"
+valor = 0xAE29D790
+nota = "envoltorio: sw t1, -0x2870(s1)"
+
+[[parche]]
+direccion = 0x0046DAC4
+tipo = "u32"
+valor = 0x00001021
+nota = "envoltorio: move v0, zero"
+
+[[parche]]
+direccion = 0x0046DAC8
+tipo = "u32"
+valor = 0x10000027
+nota = "envoltorio: beq zero, zero, 0x46db68"
+
+[[parche]]
+direccion = 0x0046DACC
+tipo = "u32"
+valor = 0x00000000
+nota = "envoltorio: nop"
+
+[[parche]]
+direccion = 0x0046DAD0
+tipo = "u32"
+valor = 0x8E29D794
+nota = "envoltorio: lw t1, -0x286c(s1)"
+
+[[parche]]
+direccion = 0x0046DAD4
+tipo = "u32"
+valor = 0x25290001
+nota = "envoltorio: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046DAD8
+tipo = "u32"
+valor = 0xAE29D794
+nota = "envoltorio: sw t1, -0x286c(s1)"
+
+[[parche]]
+direccion = 0x0046DADC
+tipo = "u32"
+valor = 0x02002021
+nota = "envoltorio: move a0, s0"
+
+[[parche]]
+direccion = 0x0046DAE0
+tipo = "u32"
+valor = 0x0C04AF66
+nota = "envoltorio: jal 0x12bd98"
+
+[[parche]]
+direccion = 0x0046DAE4
+tipo = "u32"
+valor = 0x8E055AB0
+nota = "envoltorio: lw a1, 0x5ab0(s0)"
+
+[[parche]]
+direccion = 0x0046DAE8
+tipo = "u32"
+valor = 0x8E29D7A0
+nota = "envoltorio: lw t1, -0x2860(s1)"
+
+[[parche]]
+direccion = 0x0046DAEC
+tipo = "u32"
+valor = 0x25290001
+nota = "envoltorio: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046DAF0
+tipo = "u32"
+valor = 0xAE29D7A0
+nota = "envoltorio: sw t1, -0x2860(s1)"
+
+[[parche]]
+direccion = 0x0046DAF4
+tipo = "u32"
+valor = 0x8C480010
+nota = "envoltorio: lw t0, 0x10(v0)"
+
+[[parche]]
+direccion = 0x0046DAF8
+tipo = "u32"
+valor = 0x8D080004
+nota = "envoltorio: lw t0, 4(t0)"
+
+[[parche]]
+direccion = 0x0046DAFC
+tipo = "u32"
+valor = 0x25050020
+nota = "envoltorio: addiu a1, t0, 0x20"
+
+[[parche]]
+direccion = 0x0046DB00
+tipo = "u32"
+valor = 0x3C040047
+nota = "envoltorio: lui a0, 0x47"
+
+[[parche]]
+direccion = 0x0046DB04
+tipo = "u32"
+valor = 0x0C04E71A
+nota = "envoltorio: jal 0x139c68"
+
+[[parche]]
+direccion = 0x0046DB08
+tipo = "u32"
+valor = 0x2484CDF0
+nota = "envoltorio: addiu a0, a0, -0x3210"
+
+[[parche]]
+direccion = 0x0046DB0C
+tipo = "u32"
+valor = 0x8E29D798
+nota = "envoltorio: lw t1, -0x2868(s1)"
+
+[[parche]]
+direccion = 0x0046DB10
+tipo = "u32"
+valor = 0x25290001
+nota = "envoltorio: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046DB14
+tipo = "u32"
+valor = 0xAE29D798
+nota = "envoltorio: sw t1, -0x2868(s1)"
+
+[[parche]]
+direccion = 0x0046DB18
+tipo = "u32"
+valor = 0xAE22D7A4
+nota = "envoltorio: sw v0, -0x285c(s1)"
+
+[[parche]]
+direccion = 0x0046DB1C
+tipo = "u32"
+valor = 0x10400012
+nota = "envoltorio: beq v0, zero, 0x46db68"
+
+[[parche]]
+direccion = 0x0046DB20
+tipo = "u32"
+valor = 0x00000000
+nota = "envoltorio: nop"
+
+[[parche]]
+direccion = 0x0046DB24
+tipo = "u32"
+valor = 0x3C050047
+nota = "envoltorio: lui a1, 0x47"
+
+[[parche]]
+direccion = 0x0046DB28
+tipo = "u32"
+valor = 0x24A5CDF0
+nota = "envoltorio: addiu a1, a1, -0x3210"
+
+[[parche]]
+direccion = 0x0046DB2C
+tipo = "u32"
+valor = 0x24090001
+nota = "envoltorio: addiu t1, zero, 1"
+
+[[parche]]
+direccion = 0x0046DB30
+tipo = "u32"
+valor = 0xACA900C4
+nota = "envoltorio: sw t1, 0xc4(a1)"
+
+[[parche]]
+direccion = 0x0046DB34
+tipo = "u32"
+valor = 0x3C080041
+nota = "envoltorio: lui t0, 0x41"
+
+[[parche]]
+direccion = 0x0046DB38
+tipo = "u32"
+valor = 0x0C05B998
+nota = "envoltorio: jal 0x16e660"
+
+[[parche]]
+direccion = 0x0046DB3C
+tipo = "u32"
+valor = 0x8D04F4D4
+nota = "envoltorio: lw a0, -0xb2c(t0)"
+
+[[parche]]
+direccion = 0x0046DB40
+tipo = "u32"
+valor = 0x3C050047
+nota = "envoltorio: lui a1, 0x47"
+
+[[parche]]
+direccion = 0x0046DB44
+tipo = "u32"
+valor = 0x24A5CDF0
+nota = "envoltorio: addiu a1, a1, -0x3210"
+
+[[parche]]
+direccion = 0x0046DB48
+tipo = "u32"
+valor = 0x24090002
+nota = "envoltorio: addiu t1, zero, 2"
+
+[[parche]]
+direccion = 0x0046DB4C
+tipo = "u32"
+valor = 0xACA900C4
+nota = "envoltorio: sw t1, 0xc4(a1)"
+
+[[parche]]
+direccion = 0x0046DB50
+tipo = "u32"
+valor = 0x8E29D7A8
+nota = "envoltorio: lw t1, -0x2858(s1)"
+
+[[parche]]
+direccion = 0x0046DB54
+tipo = "u32"
+valor = 0x25290001
+nota = "envoltorio: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046DB58
+tipo = "u32"
+valor = 0xAE29D7A8
+nota = "envoltorio: sw t1, -0x2858(s1)"
+
+[[parche]]
+direccion = 0x0046DB5C
+tipo = "u32"
+valor = 0x24090002
+nota = "envoltorio: addiu t1, zero, 2"
+
+[[parche]]
+direccion = 0x0046DB60
+tipo = "u32"
+valor = 0xAE29D790
+nota = "envoltorio: sw t1, -0x2870(s1)"
+
+[[parche]]
+direccion = 0x0046DB64
+tipo = "u32"
+valor = 0x24020001
+nota = "envoltorio: addiu v0, zero, 1"
+
+[[parche]]
+direccion = 0x0046DB68
+tipo = "u32"
+valor = 0xDFB10010
+nota = "envoltorio: ld s1, 0x10(sp)"
+
+[[parche]]
+direccion = 0x0046DB6C
+tipo = "u32"
+valor = 0xDFB00008
+nota = "envoltorio: ld s0, 8(sp)"
+
+[[parche]]
+direccion = 0x0046DB70
+tipo = "u32"
+valor = 0xDFBF0000
+nota = "envoltorio: ld ra, 0(sp)"
+
+[[parche]]
+direccion = 0x0046DB74
+tipo = "u32"
+valor = 0x03E00008
+nota = "envoltorio: jr ra"
+
+[[parche]]
+direccion = 0x0046DB78
+tipo = "u32"
+valor = 0x27BD0030
+nota = "envoltorio: addiu sp, sp, 0x30"
+
+[[parche]]
+direccion = 0x0046D800
+tipo = "u32"
+valor = 0x27BDFFD0
+nota = "por cuadro: addiu sp, sp, -0x30"
+
+[[parche]]
+direccion = 0x0046D804
+tipo = "u32"
+valor = 0xFFBF0000
+nota = "por cuadro: sd ra, 0(sp)"
+
+[[parche]]
+direccion = 0x0046D808
+tipo = "u32"
+valor = 0xFFB00008
+nota = "por cuadro: sd s0, 8(sp)"
+
+[[parche]]
+direccion = 0x0046D80C
+tipo = "u32"
+valor = 0xE7AC0018
+nota = "por cuadro: .word SWC1"
+
+[[parche]]
+direccion = 0x0046D810
+tipo = "u32"
+valor = 0x0C04EEB2
+nota = "por cuadro: jal 0x13bac8"
+
+[[parche]]
+direccion = 0x0046D814
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D818
+tipo = "u32"
+valor = 0x3C100047
+nota = "por cuadro: lui s0, 0x47"
+
+[[parche]]
+direccion = 0x0046D81C
+tipo = "u32"
+valor = 0x8E08D790
+nota = "por cuadro: lw t0, -0x2870(s0)"
+
+[[parche]]
+direccion = 0x0046D820
+tipo = "u32"
+valor = 0x24090002
+nota = "por cuadro: addiu t1, zero, 2"
+
+[[parche]]
+direccion = 0x0046D824
+tipo = "u32"
+valor = 0x15090036
+nota = "por cuadro: bne t0, t1, 0x46d900"
+
+[[parche]]
+direccion = 0x0046D828
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D82C
+tipo = "u32"
+valor = 0x8E08D784
+nota = "por cuadro: lw t0, -0x287c(s0)"
+
+[[parche]]
+direccion = 0x0046D830
+tipo = "u32"
+valor = 0x24090003
+nota = "por cuadro: addiu t1, zero, 3"
+
+[[parche]]
+direccion = 0x0046D834
+tipo = "u32"
+valor = 0x11090023
+nota = "por cuadro: beq t0, t1, 0x46d8c4"
+
+[[parche]]
+direccion = 0x0046D838
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D83C
+tipo = "u32"
+valor = 0x24090001
+nota = "por cuadro: addiu t1, zero, 1"
+
+[[parche]]
+direccion = 0x0046D840
+tipo = "u32"
+valor = 0x11090016
+nota = "por cuadro: beq t0, t1, 0x46d89c"
+
+[[parche]]
+direccion = 0x0046D844
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D848
+tipo = "u32"
+valor = 0x8E09D7B8
+nota = "por cuadro: lw t1, -0x2848(s0)"
+
+[[parche]]
+direccion = 0x0046D84C
+tipo = "u32"
+valor = 0x25290001
+nota = "por cuadro: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046D850
+tipo = "u32"
+valor = 0xAE09D7B8
+nota = "por cuadro: sw t1, -0x2848(s0)"
+
+[[parche]]
+direccion = 0x0046D854
+tipo = "u32"
+valor = 0x292A001E
+nota = "por cuadro: slti t2, t1, 30"
+
+[[parche]]
+direccion = 0x0046D858
+tipo = "u32"
+valor = 0x15400029
+nota = "por cuadro: bne t2, zero, 0x46d900"
+
+[[parche]]
+direccion = 0x0046D85C
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D860
+tipo = "u32"
+valor = 0x3C080041
+nota = "por cuadro: lui t0, 0x41"
+
+[[parche]]
+direccion = 0x0046D864
+tipo = "u32"
+valor = 0x8D08F4D0
+nota = "por cuadro: lw t0, -0xb30(t0)"
+
+[[parche]]
+direccion = 0x0046D868
+tipo = "u32"
+valor = 0x8D0905B8
+nota = "por cuadro: lw t1, 0x5b8(t0)"
+
+[[parche]]
+direccion = 0x0046D86C
+tipo = "u32"
+valor = 0x2529016C
+nota = "por cuadro: addiu t1, t1, 0x16c"
+
+[[parche]]
+direccion = 0x0046D870
+tipo = "u32"
+valor = 0x2605CDF0
+nota = "por cuadro: addiu a1, s0, -0x3210"
+
+[[parche]]
+direccion = 0x0046D874
+tipo = "u32"
+valor = 0xACA90588
+nota = "por cuadro: sw t1, 0x588(a1)"
+
+[[parche]]
+direccion = 0x0046D878
+tipo = "u32"
+valor = 0xACA906D0
+nota = "por cuadro: sw t1, 0x6d0(a1)"
+
+[[parche]]
+direccion = 0x0046D87C
+tipo = "u32"
+valor = 0xACA907C8
+nota = "por cuadro: sw t1, 0x7c8(a1)"
+
+[[parche]]
+direccion = 0x0046D880
+tipo = "u32"
+valor = 0x24AA04F0
+nota = "por cuadro: addiu t2, a1, 0x4f0"
+
+[[parche]]
+direccion = 0x0046D884
+tipo = "u32"
+valor = 0xACAA032C
+nota = "por cuadro: sw t2, 0x32c(a1)"
+
+[[parche]]
+direccion = 0x0046D888
+tipo = "u32"
+valor = 0x0C04A856
+nota = "por cuadro: jal 0x12a158"
+
+[[parche]]
+direccion = 0x0046D88C
+tipo = "u32"
+valor = 0x01002021
+nota = "por cuadro: move a0, t0"
+
+[[parche]]
+direccion = 0x0046D890
+tipo = "u32"
+valor = 0x24090001
+nota = "por cuadro: addiu t1, zero, 1"
+
+[[parche]]
+direccion = 0x0046D894
+tipo = "u32"
+valor = 0x1000001A
+nota = "por cuadro: beq zero, zero, 0x46d900"
+
+[[parche]]
+direccion = 0x0046D898
+tipo = "u32"
+valor = 0xAE09D784
+nota = "por cuadro: sw t1, -0x287c(s0)"
+
+[[parche]]
+direccion = 0x0046D89C
+tipo = "u32"
+valor = 0x3C080041
+nota = "por cuadro: lui t0, 0x41"
+
+[[parche]]
+direccion = 0x0046D8A0
+tipo = "u32"
+valor = 0x8D04F4CC
+nota = "por cuadro: lw a0, -0xb34(t0)"
+
+[[parche]]
+direccion = 0x0046D8A4
+tipo = "u32"
+valor = 0x0C097084
+nota = "por cuadro: jal 0x25c210"
+
+[[parche]]
+direccion = 0x0046D8A8
+tipo = "u32"
+valor = 0x2605CDF0
+nota = "por cuadro: addiu a1, s0, -0x3210"
+
+[[parche]]
+direccion = 0x0046D8AC
+tipo = "u32"
+valor = 0x8E09D7C4
+nota = "por cuadro: lw t1, -0x283c(s0)"
+
+[[parche]]
+direccion = 0x0046D8B0
+tipo = "u32"
+valor = 0x25290001
+nota = "por cuadro: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046D8B4
+tipo = "u32"
+valor = 0xAE09D7C4
+nota = "por cuadro: sw t1, -0x283c(s0)"
+
+[[parche]]
+direccion = 0x0046D8B8
+tipo = "u32"
+valor = 0x24090003
+nota = "por cuadro: addiu t1, zero, 3"
+
+[[parche]]
+direccion = 0x0046D8BC
+tipo = "u32"
+valor = 0x10000010
+nota = "por cuadro: beq zero, zero, 0x46d900"
+
+[[parche]]
+direccion = 0x0046D8C0
+tipo = "u32"
+valor = 0xAE09D784
+nota = "por cuadro: sw t1, -0x287c(s0)"
+
+[[parche]]
+direccion = 0x0046D8C4
+tipo = "u32"
+valor = 0x2604CDF0
+nota = "por cuadro: addiu a0, s0, -0x3210"
+
+[[parche]]
+direccion = 0x0046D8C8
+tipo = "u32"
+valor = 0xC7AC0018
+nota = "por cuadro: .word LWC1"
+
+[[parche]]
+direccion = 0x0046D8CC
+tipo = "u32"
+valor = 0x0C04EEB2
+nota = "por cuadro: jal 0x13bac8"
+
+[[parche]]
+direccion = 0x0046D8D0
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D8D4
+tipo = "u32"
+valor = 0x2604CDF0
+nota = "por cuadro: addiu a0, s0, -0x3210"
+
+[[parche]]
+direccion = 0x0046D8D8
+tipo = "u32"
+valor = 0x8C880010
+nota = "por cuadro: lw t0, 0x10(a0)"
+
+[[parche]]
+direccion = 0x0046D8DC
+tipo = "u32"
+valor = 0x85090008
+nota = "por cuadro: lh t1, 8(t0)"
+
+[[parche]]
+direccion = 0x0046D8E0
+tipo = "u32"
+valor = 0x8D0A000C
+nota = "por cuadro: lw t2, 0xc(t0)"
+
+[[parche]]
+direccion = 0x0046D8E4
+tipo = "u32"
+valor = 0x00892021
+nota = "por cuadro: addu a0, a0, t1"
+
+[[parche]]
+direccion = 0x0046D8E8
+tipo = "u32"
+valor = 0xC7AC0018
+nota = "por cuadro: .word LWC1"
+
+[[parche]]
+direccion = 0x0046D8EC
+tipo = "u32"
+valor = 0x0140F809
+nota = "por cuadro: jalr t2"
+
+[[parche]]
+direccion = 0x0046D8F0
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D8F4
+tipo = "u32"
+valor = 0x8E09D780
+nota = "por cuadro: lw t1, -0x2880(s0)"
+
+[[parche]]
+direccion = 0x0046D8F8
+tipo = "u32"
+valor = 0x25290001
+nota = "por cuadro: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046D8FC
+tipo = "u32"
+valor = 0xAE09D780
+nota = "por cuadro: sw t1, -0x2880(s0)"
+
+[[parche]]
+direccion = 0x0046D900
+tipo = "u32"
+valor = 0xDFB00008
+nota = "por cuadro: ld s0, 8(sp)"
+
+[[parche]]
+direccion = 0x0046D904
+tipo = "u32"
+valor = 0xDFBF0000
+nota = "por cuadro: ld ra, 0(sp)"
+
+[[parche]]
+direccion = 0x0046D908
+tipo = "u32"
+valor = 0x03E00008
+nota = "por cuadro: jr ra"
+
+[[parche]]
+direccion = 0x0046D90C
+tipo = "u32"
+valor = 0x27BD0030
+nota = "por cuadro: addiu sp, sp, 0x30"
+
+[[parche]]
+direccion = 0x0046DD00
+tipo = "u32"
+valor = 0x27BDFFD0
+nota = "desarme: addiu sp, sp, -0x30"
+
+[[parche]]
+direccion = 0x0046DD04
+tipo = "u32"
+valor = 0xFFBF0000
+nota = "desarme: sd ra, 0(sp)"
+
+[[parche]]
+direccion = 0x0046DD08
+tipo = "u32"
+valor = 0xFFB00008
+nota = "desarme: sd s0, 8(sp)"
+
+[[parche]]
+direccion = 0x0046DD0C
+tipo = "u32"
+valor = 0xFFB10010
+nota = "desarme: sd s1, 0x10(sp)"
+
+[[parche]]
+direccion = 0x0046DD10
+tipo = "u32"
+valor = 0x00808021
+nota = "desarme: move s0, a0"
+
+[[parche]]
+direccion = 0x0046DD14
+tipo = "u32"
+valor = 0x0C04AFF2
+nota = "desarme: jal 0x12bfc8"
+
+[[parche]]
+direccion = 0x0046DD18
+tipo = "u32"
+valor = 0x00000000
+nota = "desarme: nop"
+
+[[parche]]
+direccion = 0x0046DD1C
+tipo = "u32"
+valor = 0x3C110047
+nota = "desarme: lui s1, 0x47"
+
+[[parche]]
+direccion = 0x0046DD20
+tipo = "u32"
+valor = 0x8E28D790
+nota = "desarme: lw t0, -0x2870(s1)"
+
+[[parche]]
+direccion = 0x0046DD24
+tipo = "u32"
+valor = 0x24090002
+nota = "desarme: addiu t1, zero, 2"
+
+[[parche]]
+direccion = 0x0046DD28
+tipo = "u32"
+valor = 0x15090014
+nota = "desarme: bne t0, t1, 0x46dd7c"
+
+[[parche]]
+direccion = 0x0046DD2C
+tipo = "u32"
+valor = 0x00000000
+nota = "desarme: nop"
+
+[[parche]]
+direccion = 0x0046DD30
+tipo = "u32"
+valor = 0x8E28D784
+nota = "desarme: lw t0, -0x287c(s1)"
+
+[[parche]]
+direccion = 0x0046DD34
+tipo = "u32"
+valor = 0x24090003
+nota = "desarme: addiu t1, zero, 3"
+
+[[parche]]
+direccion = 0x0046DD38
+tipo = "u32"
+valor = 0x15090005
+nota = "desarme: bne t0, t1, 0x46dd50"
+
+[[parche]]
+direccion = 0x0046DD3C
+tipo = "u32"
+valor = 0x00000000
+nota = "desarme: nop"
+
+[[parche]]
+direccion = 0x0046DD40
+tipo = "u32"
+valor = 0x3C080041
+nota = "desarme: lui t0, 0x41"
+
+[[parche]]
+direccion = 0x0046DD44
+tipo = "u32"
+valor = 0x8D04F4CC
+nota = "desarme: lw a0, -0xb34(t0)"
+
+[[parche]]
+direccion = 0x0046DD48
+tipo = "u32"
+valor = 0x0C0970B2
+nota = "desarme: jal 0x25c2c8"
+
+[[parche]]
+direccion = 0x0046DD4C
+tipo = "u32"
+valor = 0x2625CDF0
+nota = "desarme: addiu a1, s1, -0x3210"
+
+[[parche]]
+direccion = 0x0046DD50
+tipo = "u32"
+valor = 0x8E28D784
+nota = "desarme: lw t0, -0x287c(s1)"
+
+[[parche]]
+direccion = 0x0046DD54
+tipo = "u32"
+valor = 0x11000004
+nota = "desarme: beq t0, zero, 0x46dd68"
+
+[[parche]]
+direccion = 0x0046DD58
+tipo = "u32"
+valor = 0x00000000
+nota = "desarme: nop"
+
+[[parche]]
+direccion = 0x0046DD5C
+tipo = "u32"
+valor = 0x02002021
+nota = "desarme: move a0, s0"
+
+[[parche]]
+direccion = 0x0046DD60
+tipo = "u32"
+valor = 0x0C04A8A0
+nota = "desarme: jal 0x12a280"
+
+[[parche]]
+direccion = 0x0046DD64
+tipo = "u32"
+valor = 0x2625CDF0
+nota = "desarme: addiu a1, s1, -0x3210"
+
+[[parche]]
+direccion = 0x0046DD68
+tipo = "u32"
+valor = 0xAE20D784
+nota = "desarme: sw zero, -0x287c(s1)"
+
+[[parche]]
+direccion = 0x0046DD6C
+tipo = "u32"
+valor = 0xAE20D790
+nota = "desarme: sw zero, -0x2870(s1)"
+
+[[parche]]
+direccion = 0x0046DD70
+tipo = "u32"
+valor = 0x8E29D7C8
+nota = "desarme: lw t1, -0x2838(s1)"
+
+[[parche]]
+direccion = 0x0046DD74
+tipo = "u32"
+valor = 0x25290001
+nota = "desarme: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046DD78
+tipo = "u32"
+valor = 0xAE29D7C8
+nota = "desarme: sw t1, -0x2838(s1)"
+
+[[parche]]
+direccion = 0x0046DD7C
+tipo = "u32"
+valor = 0xDFB10010
+nota = "desarme: ld s1, 0x10(sp)"
+
+[[parche]]
+direccion = 0x0046DD80
+tipo = "u32"
+valor = 0xDFB00008
+nota = "desarme: ld s0, 8(sp)"
+
+[[parche]]
+direccion = 0x0046DD84
+tipo = "u32"
+valor = 0xDFBF0000
+nota = "desarme: ld ra, 0(sp)"
+
+[[parche]]
+direccion = 0x0046DD88
+tipo = "u32"
+valor = 0x03E00008
+nota = "desarme: jr ra"
+
+[[parche]]
+direccion = 0x0046DD8C
+tipo = "u32"
+valor = 0x27BD0030
+nota = "desarme: addiu sp, sp, 0x30"
+
+[[parche]]
+direccion = 0x00129574
+tipo = "u32"
+valor = 0x0C11B600
+nota = "ganchos: gancho por cuadro: jal stub (era jal 0x13bac8)"
+
+[[parche]]
+direccion = 0x00128EA4
+tipo = "u32"
+valor = 0x0C11B680
+nota = "ganchos: gancho del cargador: jal envoltorio (era jal 0x129090)"
+
+[[parche]]
+direccion = 0x00129E38
+tipo = "u32"
+valor = 0x0C11B740
+nota = "ganchos: gancho del desarme: jal baja (era jal 0x12bfc8)"

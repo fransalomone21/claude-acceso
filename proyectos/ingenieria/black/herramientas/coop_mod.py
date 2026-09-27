@@ -17,6 +17,11 @@ que el codigo va en el pnach y los datos nacen del .bss en cero:
               *(J+0x588) + 0x16C, J2+0x32C = J2+0x4F0) y ENLAZAR FUN_0012a158(juego, J2)
     ESTADO 1: ATAR FUN_0025C210(*(0x0040F4CC), J2)
     ESTADO 3: controlador y update de J2 cada cuadro (lo de jugador2.py)
+  DESARME (sitio 0x00129E38, jal 0x0012BFC8 -- la baja de los jugadores al salir del nivel), (87):
+    la original, y con FASE 2 lo mismo para J2: ESTADO 3 -> FUN_0025C2C8 (suelta el controlador
+    de colision); ESTADO >= 1 -> FUN_0012A280 (lo saca de la lista del nivel). FASE = ESTADO = 0.
+    Sin esto la SEGUNDA carga cae en FUN_0033DD98 (TLB Miss 0x2000000): el controlador de J2
+    quedaba en el mundo de colision. `poner --sin-baja` es el control.
 
 Las MANOS de la prueba (no son del mod): `manos` clona el mando 2 en el falso 2, apunta
 CTRL2+0xC ahi y empuja el eje adelante. Es lo que haria un humano con el mando 2.
@@ -51,9 +56,61 @@ import jugador2 as j2  # noqa: E402
 CONTADOR, ESTADO, FASE = 0x0046D780, 0x0046D784, 0x0046D790
 LLAM_J2, LLAM_J0 = 0x0046D794, 0x0046D79C
 MIGA_A, MIGA_B, MIGA_V0, MIGA_C = 0x0046D7A0, 0x0046D798, 0x0046D7A4, 0x0046D7A8
-ESPERA, MOLDES, ATADAS = 0x0046D7B8, 0x0046D7C0, 0x0046D7C4
-DATOS = (CONTADOR, ESTADO, FASE, LLAM_J2, LLAM_J0, MIGA_A, MIGA_B, MIGA_V0, MIGA_C, ESPERA, MOLDES, ATADAS)
+ESPERA, MOLDES, ATADAS, DESARMES = 0x0046D7B8, 0x0046D7C0, 0x0046D7C4, 0x0046D7C8
+DATOS = (CONTADOR, ESTADO, FASE, LLAM_J2, LLAM_J0, MIGA_A, MIGA_B, MIGA_V0, MIGA_C, ESPERA, MOLDES, ATADAS,
+         DESARMES)
 CUADROS_ESPERA = 30
+
+# (87) B3.3 -- la BAJA de J2 al salir del nivel. El desarme del juego es FUN_00129de8, estado
+# 0x1d: `jal FUN_0012bfc8(juego)`, que para i < cuenta (= 1) suelta el controlador de colision
+# (FUN_0025c2c8: FUN_0025c798 libera la entrada del pool de 0x00585C00 y la saca del mundo de
+# colision con FUN_0032cde0) y saca al jugador de la lista del nivel (FUN_0012a280: juego+0x5CA4,
+# siguiente en +0xB0, y juego+0x4920). Es el espejo exacto de FUN_0012be80 (atar + enlazar).
+# A J2 nadie se lo hacia. El envoltorio del desarme llama a la original y despues lo mismo para J2.
+SITIO_DESARME = 0x00129E38     # jal 0x12bfc8 (delay: move a0, s3 = juego)
+DESARME = 0x0046DD00           # .bss en cero (0x0046DC00..0x00472000 libre, (82))
+
+DESARME_MOD = """
+addiu sp, sp, -0x30
+sd ra, 0(sp)
+sd s0, 8(sp)
+sd s1, 0x10(sp)
+move s0, a0
+jal 0x12bfc8
+nop
+lui s1, 0x47
+lw t0, -0x2870(s1)
+addiu t1, zero, 2
+bne t0, t1, @SALIR
+nop
+lw t0, -0x287c(s1)
+addiu t1, zero, 3
+bne t0, t1, @LISTA
+nop
+lui t0, 0x41
+lw a0, -0xb34(t0)
+jal 0x25c2c8
+addiu a1, s1, -0x3210
+LISTA:
+lw t0, -0x287c(s1)
+beq t0, zero, @FIN
+nop
+move a0, s0
+jal 0x12a280
+addiu a1, s1, -0x3210
+FIN:
+sw zero, -0x287c(s1)
+sw zero, -0x2870(s1)
+lw t1, -0x2838(s1)
+addiu t1, t1, 1
+sw t1, -0x2838(s1)
+SALIR:
+ld s1, 0x10(sp)
+ld s0, 8(sp)
+ld ra, 0(sp)
+jr ra
+addiu sp, sp, 0x30
+"""
 
 ENVOLTORIO_MOD = """
 addiu sp, sp, -0x30
@@ -235,10 +292,18 @@ def programas():
     """[(nombre, [(pc, palabra, texto)])] -- lo unico que va en el pnach, junto con los ganchos."""
     env = j2.ensamblar_programa(ENVOLTORIO_MOD, j2.ENVOLTORIO, j2.ARMAS2)
     pc = j2.ensamblar_programa(POR_CUADRO_MOD.replace("ESPERA_N", str(CUADROS_ESPERA)), j2.STUB, 0x0046D9F0)
+    des = j2.ensamblar_programa(DESARME_MOD, DESARME, 0x0046DE00)
     ganchos = [(g.SITIO, ensamblar("jal 0x%x" % j2.STUB, g.SITIO), "gancho por cuadro: jal stub (era jal 0x13bac8)"),
                (j2.SITIO_CARGA, ensamblar("jal 0x%x" % j2.ENVOLTORIO, j2.SITIO_CARGA),
                 "gancho del cargador: jal envoltorio (era jal 0x129090)")]
-    return [("envoltorio", env), ("por cuadro", pc), ("ganchos", ganchos)]
+    if not SIN_BAJA:
+        ganchos.append((SITIO_DESARME, ensamblar("jal 0x%x" % DESARME, SITIO_DESARME),
+                        "gancho del desarme: jal baja (era jal 0x12bfc8)"))
+    return [("envoltorio", env), ("por cuadro", pc), ("desarme", des), ("ganchos", ganchos)]
+
+
+SIN_BAJA = False   # `poner --sin-baja`: el control de B3.3 (la baja de J2 no se engancha)
+ORIGINAL_DESARME = ensamblar("jal 0x12bfc8", SITIO_DESARME)
 
 
 def depurador(accion):
@@ -254,12 +319,16 @@ def cmd_listar(_a):
     return 0
 
 
-def cmd_poner(_a):
+def cmd_poner(a):
+    global SIN_BAJA
+    SIN_BAJA = a.sin_baja
     progs = programas()
     with Pine() as p:
-        if p.leer32(g.SITIO) != g.ORIGINAL or p.leer32(j2.SITIO_CARGA) != j2.ORIGINAL_CARGA:
+        if (p.leer32(g.SITIO) != g.ORIGINAL or p.leer32(j2.SITIO_CARGA) != j2.ORIGINAL_CARGA
+                or p.leer32(SITIO_DESARME) != ORIGINAL_DESARME):
             print(json.dumps({"error": "un gancho ya esta puesto o el sitio cambio",
-                              "por_cuadro": hex(p.leer32(g.SITIO)), "cargador": hex(p.leer32(j2.SITIO_CARGA))}))
+                              "por_cuadro": hex(p.leer32(g.SITIO)), "cargador": hex(p.leer32(j2.SITIO_CARGA)),
+                              "desarme": hex(p.leer32(SITIO_DESARME))}))
             return 1
         depurador("pausar")
         # lo que el arranque deja en cero: J2, sus armas y los datos del mod
@@ -267,14 +336,14 @@ def cmd_poner(_a):
         p.escribir_bloque(j2.ARMAS2, bytes(0x20))
         for d in DATOS:
             p.escribir32(d, 0)
-        for nombre, prog in progs[:2]:
+        for nombre, prog in progs[:-1]:
             for pc, w, _ in prog:
                 p.escribir32(pc, w)
-        for pc, w, _ in progs[2][1]:
+        for pc, w, _ in progs[-1][1]:
             p.escribir32(pc, w)
         ok = all(p.leer32(pc) == w for _, prog in progs for pc, w, _ in prog)
         depurador("continuar")
-        print(json.dumps({"palabras": sum(len(x[1]) for x in progs), "escrito": ok}))
+        print(json.dumps({"palabras": sum(len(x[1]) for x in progs), "escrito": ok, "baja": not SIN_BAJA}))
     return 0 if ok else 1
 
 
@@ -282,7 +351,8 @@ def leer_estado(p):
     jg = p.leer32(cj.JUEGO_PTR)
     return {"cargador": p.leer32(jg + 0x5AA0), "fase": p.leer32(FASE), "moldes": p.leer32(MOLDES),
             "llam_J0": p.leer32(LLAM_J0), "llam_J2": p.leer32(LLAM_J2), "estado": p.leer32(ESTADO),
-            "espera": p.leer32(ESPERA), "atadas": p.leer32(ATADAS), "cuadros_J2": p.leer32(CONTADOR),
+            "espera": p.leer32(ESPERA), "atadas": p.leer32(ATADAS), "desarmes": p.leer32(DESARMES),
+            "cuadros_J2": p.leer32(CONTADOR),
             "J2_8A4": hex(p.leer32(cj.J2 + 0x8A4)), "J2_B4": hex(p.leer32(cj.J2 + 0xB4)),
             "J2_588": hex(p.leer32(cj.J2 + 0x588)), "J2_32C": hex(p.leer32(cj.J2 + 0x32C)),
             "J_pos": [round(x, 2) for x in cj.pos(p, cj.J)], "J2_pos": [round(x, 2) for x in cj.pos(p, cj.J2)]}
@@ -337,6 +407,7 @@ def cmd_quitar(_a):
     with Pine() as p:
         p.escribir32(g.SITIO, g.ORIGINAL)
         p.escribir32(j2.SITIO_CARGA, j2.ORIGINAL_CARGA)
+        p.escribir32(SITIO_DESARME, ORIGINAL_DESARME)
     return 0
 
 
@@ -431,8 +502,9 @@ def main() -> int:
     tolerar_salida_pobre()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for c in ("listar", "poner", "quitar", "toml", "instalar", "activar", "desactivar"):
+    for c in ("listar", "quitar", "toml", "instalar", "activar", "desactivar"):
         sub.add_parser(c)
+    po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)
     h = sub.add_parser("manos"); h.add_argument("segundos", type=float); h.add_argument("--control", action="store_true")
     a = ap.parse_args()

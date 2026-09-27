@@ -16,6 +16,26 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (87) — B3.3: la baja de J2 al salir del nivel; el mod aguanta TRES cargas seguidas
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3.3) · **Nodos:** `ragdoll` K5 (evidencia), `juego` K5 (evidencia)
+**Objetivo:** que la segunda carga no cuelgue el emulador (H2 de (86): algo dado de alta a J2 sobrevive al nivel).
+
+### (87) En frío: el desarme del nivel y su espejo
+- `censo_jugadores.py` da cuatro lazos sobre `jugadores[]` que obedecen a `cuenta`: `0x0012A070`/`0x0012A098` (dentro de **`FUN_00129DE8`**, el desarme), `0x0012BF58` (**`FUN_0012BE80`**, el alta: atar + enlazar) y `0x0012C068` (**`FUN_0012BFC8`**, la baja).
+- **`FUN_0012BFC8` es el espejo exacto de `FUN_0012BE80`:** por jugador `i < cuenta`, `FUN_0025C2C8(*(0x0040F4CC), J)` suelta el controlador de colisión (`FUN_0025C798`: libera la entrada del pool, borra `DAT_0043F3F0[i]` y la saca del mundo de colisión con `FUN_0032CDE0`; `J+0xB4 = 0`) y `FUN_0012A280(juego, J)` lo saca de la lista del nivel (`juego+0x5CA4`, siguiente en `+0xB0`) y de `juego+0x4920`. La llama `FUN_00129DE8` en su estado **0x1D**, en **`0x00129E38`** (`jal 0x12BFC8`, delay `move a0, s3`).
+- El registro físico de `FUN_0016E660` no hace falta replicarlo (hipótesis): el desarme resetea el registro entero (`FUN_0016DC80`, estado 0x1F). Los estados 0x1F..0x21 llaman además `vtable+0x24` de cada jugador; a J2 no, y no hizo falta.
+- La caída de (86), leída del emulog del emulador colgado: `FUN_0033DD98` recorre memoria **de a 0x10 hacia arriba** desde `0x2000000` (fin de la RAM), o sea un arreglo con cuenta basura; el cartel «FQC = 0 on VIF FIFO READ» que vio Fran es de después, del mismo cuelgue (la copia `PCSX2-MCP` tiene las aserciones prendidas).
+
+### (87) La baja para J2 — confirmado, con control
+`coop_mod.py` suma un tercer programa, **el desarme** (`0x0046DD00`, 36 palabras) y un tercer gancho en `0x00129E38`: llama a la original y, con fase 2, lo mismo para J2 (estado 3 → `FUN_0025C2C8`; estado ≥ 1 → `FUN_0012A280`), deja fase = estado = 0 y suma `DESARMES` (`0x0046D7C8`). El mod pasa a **202 palabras**.
+Predicción escrita antes: *con la baja, la 2.ª carga da desarmes 1, moldes 2, estado 3, atadas 2, sin `TLB Miss`, y J2 camina ≥ 3 m (control < 0,3 m); si la causa es otra, cae igual con desarmes 1.*
+- **Con la baja** (slot 3 → `poner` → selector → 0 0, tres veces seguidas): carga 1 moldes 1, J2 **7,55 m** (control 0,00); carga 2 **desarmes 1, moldes 2, estado 3, atadas 2**, `J2+0xB4 = 0x5880B0` (**la misma entrada del pool**: la baja la liberó), J2 **7,54 m** (control 0,00); carga 3 desarmes 2, moldes 3, atadas 3, J2 **7,56 m** (control 0,00). **0 `TLB Miss`** en el emulog. J vivo antes de cada carga.
+- **Control, emulador relanzado, `poner --sin-baja`:** carga 1 igual (7,55 m); carga 2 **moldes 2, espera 1, desarmes 0 y la misma caída**, `TLB Miss, pc=0x33DDB0 addr=0x2000000`.
+- **Aislamiento (regla del éxito inexplicado):** relanzado, la baja con la llamada a `FUN_0025C2C8` anulada (sólo la lista): **desarmes 1 y la misma caída**. La causa es **el controlador de colisión de J2 que queda en el mundo de colisión** y la carga siguiente lo recorre. Si sacarlo de la lista también hace falta no se midió (se deja: es lo mismo que el juego le hace a J).
+
+**No funcionó:** nada nuevo; la variante «sólo lista» se cae, como se predijo.
+**Sigue:** el títere (matriz `J2+0x70..+0xAF` → aliado 1 cada cuadro), la vista de J2 (cuaternión y ojo en `DATOS+0x40`/`+0x50` de la pantalla dividida) y su cabeceo (`+0xD0` al revés) en los stubs; el mando 2 real lo prueba Fran.
+
 ## 2026-09-27 (86) — B3: J2 se arma en la carga SIN datos desde afuera (el molde lo copia el envoltorio)
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3, el mod sin PINE) · **Nodos:** `codigo-nuevo` K5 (evidencia), `personajes` K4 (evidencia)
 **Objetivo:** contestar la primera pregunta de B3: ¿J2 se construye en la carga desde un molde que un pnach pueda producir? Hasta (85) el molde lo escribía Python (`jugador2.py carga-poner` copia a J en vivo antes de la carga).
