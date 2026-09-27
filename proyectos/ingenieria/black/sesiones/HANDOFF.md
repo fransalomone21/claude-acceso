@@ -19,6 +19,12 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 
    Las dos predicciones van escritas **antes**, en la bitácora. **No** escribir un 2 en la cuenta a mano: los lazos pisarían el objeto de `juego+0x8F0`.
 
+**Sonda 2 (cámara), primer intento en frío: NEGATIVO** (bitácora (65)). Sigue en
+K0. Siguiente paso: Ghidra headless en la nube (`docs/14-plan-elf.md`, E1 a E3) o
+un *watch* de lectura sobre `0x005A8DA0` en la notebook.
+
+**Sesión nueva en la nube:** pegar el mensaje de `sesiones/RETOME-NUBE.md`.
+
 **Lo nuevo, en una línea:** el juego construye un solo jugador, pero recorre a
 sus jugadores con una **cuenta que es una variable**, y hay una función que la
 pone en 2 (probable; bitácora (64); `kb/subsistemas.json#sesion`).

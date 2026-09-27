@@ -16,6 +16,20 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (65) — Sonda 2 (cámara), primer intento en frío: NEGATIVO por datos
+**Máquina:** nube · **Modelo:** Opus, high · **Sirve a:** COOP (M2), sonda 2 · **Nodos:** `camara` (sigue en K0)
+**Objetivo:** ubicar la cámara sin Ghidra.
+**Resultado:** tres caminos, ninguno la encontró (resultado **negativo**, que también es dato):
+1. las cadenas `<camerapath ...fov...>` (`0x003F3C20`) no tienen ninguna referencia en el código: es un escritor de depuración que quedó sin llamar;
+2. en los tres volcados hay entre 8.700 y 9.900 matrices de rotación (tres filas unitarias y ortogonales). **Ninguna**, a dirección fija, cambia de rumbo junto con el yaw del jugador (`0x005A8DA0`: 67,9°, 284,8° y 109,0° en los tres volcados). Se probaron filas y columnas, los dos signos y dos planos (`herramientas/nube/matrices_vs_yaw.py`). Entre pares de volcados coinciden 100 a 300 casos, pero en los tres a la vez ninguno: son azar;
+3. `jugador+0x2F0` casi no se lee con `lwc1` directo (1 sitio, `0x0013B6EC`): el yaw se lee a través de otro puntero.
+
+Hipótesis que siguen en pie: la cámara está en el heap y cambia de dirección entre volcados, o guarda la vista como matriz de vista × proyección, que no es ortonormal.
+**No funcionó:** la búsqueda por datos a dirección fija.
+**Sigue:** Ghidra en frío (decompilar `0x0013B6EC` y a quienes la llaman, y `sniper_SetMaxZoom` en `vista-fp`: si toca un FOV, la cámara está cerca). En la notebook: un *watch* de lectura sobre `0x005A8DA0` por PINE.
+
+---
+
 ## 2026-09-27 (64) — Sonda 5 del coop en frío, desde la nube: el juego recorre a sus jugadores con una cuenta, y hay código que la pone en 2
 **Máquina:** nube (sin emulador), con el repo privado `black-datos` · **Modelo:** Opus, esfuerzo high, sin fan-out
 **Sirve a:** proyecto COOP (M2), sonda 5 de `PDP.md` §4 · **Nodos:** `juego` (K4, evidencia nueva), `sesion` (**nodo nuevo, K3**), `hud` (pista)
