@@ -1,5 +1,7 @@
 # Mensaje de retome para una sesión LOCAL (notebook)
 
+> **Si antes corrió la tanda en frío de `RETOME-NUBE.md` (N1–N5)**, leé primero la entrada «(80, nube)» de la bitácora: puede cambiar los pasos 3a/3b (argumentos del atado, `jugador2.py ranura-copiar`, o que la copia no alcance). Si no corrió, este mensaje vale tal cual.
+
 Copiar y pegar tal cual al abrir Claude Code en la notebook, en `claude-acceso`:
 
 ```
