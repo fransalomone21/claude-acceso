@@ -33,7 +33,7 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 2. **Prototipo por PINE** (el criterio de salida de la Fase A): alojar un segundo bloque de 0x8C0 fuera del array (¿en el tramo libre de `.bss`?), con sus tres copias de control en `0x00585A0C` y su objeto de mira propio.
 3. Con botones: 5a, `0x0040D9A3` (si funciona, **es decisión de Fran** si entra al mod) y los niveles 96–99.
 
-**Estado de la máquina al cerrar:** PCSX2-MCP abierto con el **slot 11** cargado (nivel 2), sin parches vivos, sin vigilantes, `ctrl1+0xC` en su valor real (`0x005856C0`). Todo lo escrito en RAM se pierde al recargar un slot.
+**Estado de la máquina al cerrar:** PCSX2-MCP abierto con el **slot 3** cargado (`LEVEL_00`; el volcado `ee-11` se tomó antes, del slot 11), sin parches vivos, sin vigilantes, `ctrl1+0xC` en su valor real (`0x005856C0`). Todo lo escrito en RAM se pierde al recargar un slot.
 
 ## 2026-09-27, CIERRE — PLAN DEL ELF COMPLETO (E1–E7 + GLOBDATA). SIGUE LOCAL
 
