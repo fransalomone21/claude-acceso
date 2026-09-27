@@ -29,7 +29,7 @@ import sondas_coop as sc  # noqa: E402
 
 J = sc.JUGADOR                # 0x005A8AB0
 TAM = 0x8C0
-J2 = 0x0046CDF0               # = juego + 0x30 - 577 * 0x8C0; .bss en cero (probable libre)
+J2 = 0x0046CDF0               # .bss en cero (probable libre). NO es juego+0x30-577*0x8C0: eso da 0x0046D1F0 (bitacora (79))
 AUTOPUNTEROS = {0x54: 0, 0x29C: 0, 0x56C: 0, 0x69C: 0, 0x7AC: 0, 0x84C: 0, 0x32C: 0x4F0}
 COPIAS_CONTROL = (0x588, 0x6D0, 0x7C8)
 CTRL2 = 0x00585A0C

@@ -3,8 +3,8 @@
 
 Usa el gancho de la sonda 6 (0x00129574, una vez por cuadro) con un stub que,
 ademas de llamar al controlador del jugador 0, maneja un ESTADO en 0x0046D784:
-  1 -> llama FUN_00129090(juego, -577) cada cuadro hasta que devuelve 1: el
-       constructor del juego (FUN_00139c68) sobre juego+0x30-577*0x8C0 = 0x0046CDF0
+  1 -> llama FUN_00129090(juego, -577) cada cuadro hasta que devuelve 1. OJO (79): -577 construye en
+       0x0046D1F0, ENCIMA de este stub y del envoltorio; no usar el estado 1 (P6/P6b colgaron por eso)
   2 -> FUN_0012a158(juego, J2): lo engancha a la lista del mundo y a la grilla
   3 -> cada cuadro: controlador de J2 (FUN_0013bac8) y su update (vtable +0xC),
        y suma 1 al contador 0x0046D780
@@ -119,7 +119,9 @@ addiu sp, sp, 0x30
 # a0 = juego (hueco de retardo) y a1 = indice. El envoltorio llama la original;
 # cuando devuelve 1 (jugador 0 hecho) pasa a la fase 1 y le devuelve 0 al
 # cargador, que lo vuelve a llamar el cuadro siguiente; en la fase 1 llama
-# FUN_00129090(juego, -577) hasta que devuelve 1, y recien ahi devuelve 1.
+# FUN_00129090 replicada por partes con J2 = 0x0046CDF0 (el indice -577 da 0x0046D1F0, encima del
+# envoltorio: la causa de P6-P9), y recien ahi devuelve 1. Alrededor del registro fisico (FUN_0016e660)
+# J2+0xC4 = TIPO_REG: el pool de cuerpos del tipo 2 (jugador) tiene cuenta 1; el del tipo 1, 16 libres.
 SITIO_CARGA = 0x00128EA4
 ORIGINAL_CARGA = 0x0C04A424    # jal 0x00129090 (medido en vivo)
 ENVOLTORIO = 0x0046DA00
@@ -181,11 +183,17 @@ sw t1, -0x2868(s1)
 sw v0, -0x285c(s1)
 beq v0, zero, @SALIR
 nop
+lui a1, 0x47
+addiu a1, a1, -0x3210
+addiu t1, zero, TIPO_REG
+sw t1, 0xc4(a1)
 lui t0, 0x41
+jal 0x16e660
 lw a0, -0xb2c(t0)
 lui a1, 0x47
-jal 0x16e660
 addiu a1, a1, -0x3210
+addiu t1, zero, 2
+sw t1, 0xc4(a1)
 lw t1, -0x2858(s1)
 addiu t1, t1, 1
 sw t1, -0x2858(s1)
@@ -231,7 +239,8 @@ def main() -> int:
     pn.add_argument("--desde", type=lambda s: int(s, 0), default=2,
                     help="estado inicial del constructor en J2+0x8A4 (0x37 cuelga: P6)")
     cp = sub.add_parser("carga-poner", help="P7: molde + gancho por cuadro (estado 0) + envoltorio del cargador")
-    cp.add_argument("--desde", type=lambda s: int(s, 0), default=2)
+    cp.add_argument("--desde", type=lambda s: int(s, 0), default=0x1C)
+    cp.add_argument("--tipo-registro", type=int, default=1, help="J2+0xC4 durante FUN_0016e660 (2 = P10, cuelga)")
     sub.add_parser("control2", help="copias de control de J2 -> 0x00585A0C, y su +0xC -> falso 2")
     sub.add_parser("autopsia", help="P8: ranuras de personaje, cargador de modelos y J2 (sin codigo)")
     sub.add_parser("quitar")
@@ -241,7 +250,8 @@ def main() -> int:
     m.add_argument("segundos", type=float)
     a = ap.parse_args()
     prog = ensamblar_programa()
-    envol = ensamblar_programa(ENVOLTORIO_PROG, ENVOLTORIO, ARMAS2)
+    envol = ensamblar_programa(ENVOLTORIO_PROG.replace("TIPO_REG", str(getattr(a, "tipo_registro", 1))),
+                               ENVOLTORIO, ARMAS2)
     if a.cmd == "listar":
         for pc, w, t in prog + envol:
             print("0x%08X  %08X  %s" % (pc, w, t))
@@ -287,7 +297,10 @@ def main() -> int:
                  "cargador": p.leer32(jg + 0x5AA0), "fase": p.leer32(FASE), "llam_J2": p.leer32(LLAMADAS_J2),
                  "J2_8A4": p.leer32(cj.J2 + 0x8A4), "J2_4E0": hex(p.leer32(cj.J2 + 0x4E0)),
                  "miga_A_aparicion": p.leer32(MIGA_A), "miga_B_constructor": p.leer32(MIGA_B),
-                 "miga_v0": p.leer32(MIGA_V0), "miga_C_registro": p.leer32(MIGA_C)}
+                 "miga_v0": p.leer32(MIGA_V0), "miga_C_registro": p.leer32(MIGA_C),
+                 "J_34C": hex(p.leer32(cj.J + 0x34C)), "J2_34C": hex(p.leer32(cj.J2 + 0x34C)),
+                 "J2_34C_dueno": hex(p.leer32(p.leer32(cj.J2 + 0x34C) + 0x20)) if p.leer32(cj.J2 + 0x34C) else None,
+                 "J2_c4": p.leer32(cj.J2 + 0xC4), "J2_arma": hex(p.leer32(cj.J2 + 0x2A4))}
             print(json.dumps(d, ensure_ascii=False))
             return 0
         elif a.cmd == "control2":
