@@ -95,9 +95,19 @@ def main():
     ok = r1.returncode == 0 and "TRADE STUDY" in r1.stdout and r1.stdout == r2.stdout
     print(f"trade con pesos: sale 0 y reproducible  : {'OK' if ok else 'FALLA'}")
     fallas += not ok
+    shutil.rmtree(d, ignore_errors=True)
     # un habilitador en K0 tiene que contar como freno (el K0 es falsy en Python:
-    # 'k or 9' lo tragaba y el coop, que depende de la camara en K0, no aparecia)
-    r = subprocess.run([sys.executable, str(PROG), "resumen", "--raiz", str(RAIZ)],
+    # 'k or 9' lo tragaba y el coop, que depende de la camara en K0, no aparecia).
+    # Se pone la camara en K0 EN UNA COPIA: la prueba leia el mapa vivo y se
+    # rompio el dia que la camara subio a K3 (bitacora (68)).
+    d = copia()
+
+    def camara_k0(c):
+        for n in c["subsistemas"]:
+            if n["id"] == "camara":
+                n["k"] = 0
+    editar_json(d, "subsistemas.json", camara_k0)
+    r = subprocess.run([sys.executable, str(PROG), "resumen", "--raiz", str(d)],
                        capture_output=True, text=True)
     ok = "M1" in r.stdout.split("frenados")[-1]
     print(f"resumen: M1 (camara en K0) cuenta como frenado: {'OK' if ok else 'FALLA'}")

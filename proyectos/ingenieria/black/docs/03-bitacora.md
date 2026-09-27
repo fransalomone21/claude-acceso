@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (68) — E3, la cámara: el negativo de (65) era un error de UNIDADES, y el render recibe viewport y cámara como parámetros
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2), sonda 2 · **Nodos:** `camara` **K0 → K3**; pista fuerte para `render` (sonda 4, E4)
+**Objetivo:** E3 de `docs/14`: quién consume el yaw, dónde está la cámara y una predicción comprobable en la notebook.
+**Resultado (todo en frío; grado: probable, salvo donde dice medido):**
+1. **El yaw de `jugador+0x2F0` está en GRADOS.** Medido en los 3 volcados: −23,95 / −145,83 / −86,06, y la fila 0 de la matriz en `jugador+0xD0` está a 23,95° / 145,9° / 86,05°. `matrices_vs_yaw.py` le aplicaba `math.degrees()` a un valor que ya estaba en grados; con la unidad corregida, la **misma** búsqueda que dio cero encuentra matrices a dirección fija que siguen al yaw en los tres volcados. **El negativo de (65) queda anulado.**
+2. `FUN_0013b628` copia el yaw de `*(jugador+0x32C)` = `0x005A8FA0`, un objeto de mira: `+0` yaw, `+0xC` pitch (11,48°, que coincide con la fila 2 de la matriz). La matriz `jugador+0xD0` (filas de rotación + posición en la fila 3) es la cabeza del jugador; `+0x460` = `+0xD0` × `+0x420` (el arma en primera persona, que se dibuja con `FUN_001af738`).
+3. **El gestor de cámara es el singleton `0x0040F4BC`** (5.760 B, `FUN_00382500`; estaba en «sin nombre»). Tiene dos vistas, `+0x700` y `+0x750`, y el byte `+0x7E1` elige cuál (`FUN_00110650`). En `+0x7A0` (`0x0058EF20`) hay una **copia exacta de la matriz del jugador** en los 3 volcados (medido).
+4. **La cadena del render, entera:** `FUN_001297E0(juego)` —llamado por tres funciones de la zona de modos (`0x001056C0`, `0x00106550`, `0x00106D70`)— hace `FUN_001368f0(jugadores[0], cam+0x7A0)` y después `FUN_001C9088 → FUN_001C9110` (el cuadro) → `FUN_001cfa58` / `FUN_001d3fc0` → `FUN_0026A460` → **`FUN_00269ea0(&0x0043F710, viewport, cámara)`**, que copia la matriz de `cam+0x20…+0x5C`, arma la perspectiva con near/far de `cam+0x80`/`+0x84` (far = 5000 en los 3 volcados, visto en la columna w de `0x0043F710`) y sube 10 qw a la dirección `0x3F6` del VU1 (`UNPACK V4-32`).
+5. **Para la pantalla dividida, lo central:** el viewport es un rectángulo empaquetado (4 × 11 bits, centrado en 2048 como el GS) y la cámara es un puntero: **los dos son parámetros**. Si el holder trae un rectángulo, `FUN_001cfa58` dibuja en un sub-rectángulo con su propio XYOFFSET (`x·−8 + 0x8000`); si no, `FUN_0026a6f0` usa el framebuffer entero. Lo que está compilado para uno es la llamada: `FUN_001297E0` pasa `jugadores[0]` fijo.
+**Predicciones para la notebook (sonda 3, en lote con la 1 y la 5a):** (a) escribir el yaw de mira `0x005A8FA0` (f32, grados) gira la vista, y la fila 0 de `0x005A8B80` queda a −yaw; (b) un *watch* de escritura sobre `0x0043F790` salta una vez por cuadro desde `FUN_00269ea0`; (c) `0x0058EF61` (`cam+0x7E1`) en 1 cambia la vista activa.
+**No funcionó:** el primer listado de referencias a `0x0043F000–0x0043FC00` volcó 200 líneas al chat: había que agrupar por función. Contexto gastado sin necesidad.
+**Sigue:** E4, el render: quién arma el rectángulo que reciben `FUN_001cfa58`/`FUN_001d3fc0` (las pasadas en `*(0x0040F4D8)+0x66280/+0x66288`) y si algo del juego ya lo usa (la mira `WPNSCOPE`, espejos).
+
+---
+
 ## 2026-09-27 (67) — E2: el ELF entero a C, y 1194 funciones que Ghidra no había visto
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** todo el mapa (la materia prima de E3–E7) · **Nodos:** ninguno sube de K por esto solo
 **Objetivo:** E2 de `docs/14`: decompilar todas las funciones a `black-datos/decompilado/` con un índice función → singletons, y certificarlo contra `censo_subsistemas.py`.

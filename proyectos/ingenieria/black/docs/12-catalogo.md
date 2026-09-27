@@ -11,11 +11,11 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 
 | id | concepto | que | NGO | costo | vehiculo | K min (cuello) | riesgo | estado |
 |---|---|---|---|---|---|---|---|---|
-| M1 | Coop local, pantalla compartida | segundo jugador en el mismo nivel y la misma pantalla | N1 | XL | pnach-codigo | K0 (camara) | camara sin ubicar; el array de jugadores no tiene lugar (bitacora 61) | candidato |
-| M2 | Coop con pantalla dividida | cada jugador con su vista | N1 | XL | pnach-codigo | K0 (camara) | dos vistas cuestan el doble de GS/EE; render K1 | candidato |
+| M1 | Coop local, pantalla compartida | segundo jugador en el mismo nivel y la misma pantalla | N1 | XL | pnach-codigo | K2 (codigo-nuevo) | camara sin ubicar; el array de jugadores no tiene lugar (bitacora 61) | candidato |
+| M2 | Coop con pantalla dividida | cada jugador con su vista | N1 | XL | pnach-codigo | K1 (render) | dos vistas cuestan el doble de GS/EE; render K1 | candidato |
 | M3 | El segundo mando maneja a un companero de escuadra | el jugador 2 toma a Tom o a Matt, que ya existen como actores | N1 | L | pnach-codigo | K2 (codigo-nuevo) | los companeros no estan en todos los niveles; hay que desenchufar su IA (8a) | candidato |
 | M4 | Coop asimetrico: el segundo como apoyo | marca objetivos, pide municion o controla una vista de apoyo | N1, N3 | L | pnach-codigo | K2 (codigo-nuevo) | diseno de juego nuevo, no solo tecnica | candidato |
-| M5 | Versus 1 contra 1 | dos jugadores enfrentados en un nivel o arena | N1, N4 | XL | pnach-codigo | K0 (camara) | necesita M1 o M2 mas dano entre jugadores y reaparicion | candidato |
+| M5 | Versus 1 contra 1 | dos jugadores enfrentados en un nivel o arena | N1, N4 | XL | pnach-codigo | K2 (codigo-nuevo) | necesita M1 o M2 mas dano entre jugadores y reaparicion | candidato |
 | M6 | Coop a distancia con Parsec o Remote Play | un amigo se conecta al coop local desde su casa | N1 | S | externo | K4 (entrada) | latencia; depende de que exista M1, M2 o M3 | candidato |
 | M7 | Puntaje por turnos | dos jugadores se turnan la misma mision y compiten por puntos | N1, N3 | S | pine | K2 (estadisticas) | poco: no toca el juego | candidato |
 | X2 | Online nativo del emulador | descartado | N1 | XL | emulador | — | PCSX2 2.8 no trae netplay; M6 cubre la necesidad sin tocar nada | descartado |
@@ -65,11 +65,11 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 |---|---|---|---|---|---|---|---|---|
 | G1 | Resolucion interna y pack HD | hecho: renderer, escala y pack del ~93 % | N5 | S | emulador | K6 (emu-imagen) | T4 (costo en FPS) abierta | hecho |
 | G2 | Pipeline DLSS5/ReShade | R2 abierta: instalado y corriendo | N5 | M | emulador | K6 (emu-imagen) | techo de la notebook (1080p) | candidato |
-| G3 | Pantalla ancha y FOV | parche 16:9 de la comunidad ya en el menu; FOV propio | N5, N6 | S | pnach-datos | K0 (camara) | FOV propio depende de la camara (K0) | candidato |
+| G3 | Pantalla ancha y FOV | parche 16:9 de la comunidad ya en el menu; FOV propio | N5, N6 | S | pnach-datos | K3 (camara) | FOV propio depende de la camara (K0) | candidato |
 | G4 | 60 FPS | parche de la comunidad ya en el menu (pide EE al 180 %) | N5, N6 | S | pnach-datos | K6 (emu-imagen) | falta medirlo jugando (J1) | hecho |
 | G5 | Mas distancia de detalle | subir las distancias de LOD 30/60/100 del header de cada modelo | N5 | S | datos-iso | K1 (render) | costo en GS; falta el efecto | candidato |
 | G6 | HUD moderno o minimalista | rediseno de la interfaz, que es DATOS en /EXPORT/FRONTEND | N5, N3 | L | datos-iso | K1 (frontend-datos) | formato de la UI sin leer (K1) | candidato |
-| G7 | Modo foto o camara libre | pausar y mover la camara | N5 | M | pine | K0 (camara) | camara K0; sirve de paso a M1 y M2 | candidato |
+| G7 | Modo foto o camara libre | pausar y mover la camara | N5 | M | pine | K0 (tiempo) | camara K0; sirve de paso a M1 y M2 | candidato |
 | G8 | Filtro de color del juego | los parametros de tinte que dejan ver 'Tint channel' y 'Percentage Black Mode' | N5 | S | pnach-datos | K1 (render) | hipotesis por cadenas: puede ser debug | candidato |
 | X1 | Trazado de rayos con RTX Remix | descartado | N5 | XL | emulador | — | RTX Remix engancha juegos DX8/DX9 de funcion fija; PCSX2 dibuja con D3D11/12/Vulkan | descartado |
 
@@ -91,7 +91,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | P2 | Inyector de codigo | code cave y gancho: donde vive el MIPS nuevo y como se llama | N1, N3, N7 | M | pnach-codigo | K2 (codigo-nuevo) | memoria libre estable sin probar | candidato |
 | P3 | Arnes de prototipos por PINE | probar una mecanica desde Python antes de escribirla en MIPS | N7 | S | pine | K6 (pine) | latencia: sirve para prototipo, no para el producto | candidato |
 | P4 | Registro de interfaces entre mods | que direcciones escribe cada mod; avisa si dos se pisan | N7 | S | externo | — | ninguno | candidato |
-| P5 | Encontrar la camara | llevar la camara de K0 a K4 | N1, N5 | M | externo | K0 (camara) | puede estar repartida entre vista-fp y render | candidato |
+| P5 | Encontrar la camara | llevar la camara de K0 a K4 | N1, N5 | M | externo | K3 (camara) | puede estar repartida entre vista-fp y render | candidato |
 | P6 | Aparicion en runtime | hacer aparecer un personaje fuera de la carga del stage | N1, N2, N3 | L | pnach-codigo | K2 (codigo-nuevo) | puede no existir como funcion aislada | candidato |
 | P7 | Leer la UI como datos | el formato de /EXPORT/FRONTEND y la capa de comandos | N1, N5 | M | externo | K1 (frontend-datos) | formato propio de Criterion | candidato |
 

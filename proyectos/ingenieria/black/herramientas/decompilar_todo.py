@@ -62,6 +62,27 @@ def indice(prog) -> dict:
     return {"por_singleton": por_global, "por_funcion": dict(sorted(por_funcion.items()))}
 
 
+def grafo(prog) -> dict:
+    """función -> {nombre, llama: [...], llamada_por: [...], datos: [...]}.
+    `datos` son las referencias desde datos (vtables, tablas de handlers)."""
+    fm = prog.getFunctionManager()
+    rm = prog.getReferenceManager()
+    g = {}
+    for f in fm.getFunctions(True):
+        e = f"0x{f.getEntryPoint().getOffset():08X}"
+        llama = sorted({f"0x{c.getEntryPoint().getOffset():08X}" for c in f.getCalledFunctions(None)})
+        por, datos = set(), set()
+        for r in rm.getReferencesTo(f.getEntryPoint()):
+            h = fm.getFunctionContaining(r.getFromAddress())
+            if h is not None:
+                por.add(f"0x{h.getEntryPoint().getOffset():08X}")
+            else:
+                datos.add(f"0x{r.getFromAddress().getOffset():08X}")
+        g[e] = {"nombre": str(f.getName()), "llama": llama,
+                "llamada_por": sorted(por), "datos": sorted(datos)}
+    return g
+
+
 def decompilar_todo(prog, hilos: int, segundos: int):
     from ghidra.util.task import ConsoleTaskMonitor
     fm = prog.getFunctionManager()
@@ -153,11 +174,17 @@ def main():
     ap.add_argument("--segundos", type=int, default=90)
     ap.add_argument("--solo-indice", action="store_true")
     ap.add_argument("--comparar", action="store_true")
+    ap.add_argument("--grafo", action="store_true", help="sólo rehacer grafo.json")
     a = ap.parse_args()
     ctx, prog = D.abrir()
     try:
-        idx = indice(prog)
         SALIDA.mkdir(parents=True, exist_ok=True)
+        if not a.comparar:
+            (SALIDA / "grafo.json").write_text(json.dumps(grafo(prog), indent=0), encoding="utf-8")
+            print("  grafo.json escrito")
+        if a.grafo:
+            return 0
+        idx = indice(prog)
         if not a.solo_indice and not a.comparar:
             n, fallas = decompilar_todo(prog, a.hilos, a.segundos)
             idx["funciones_decompiladas"] = n

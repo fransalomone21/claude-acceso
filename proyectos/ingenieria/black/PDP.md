@@ -126,8 +126,8 @@ o PCSX2.
 | # | Subsistema | K hoy → objetivo | Sonda que lo sube | Dónde |
 |---|---|---|---|---|
 | 1 | `entrada` | K4 → K5 | por PINE: escribir `jugador+0x418 = 1` en RAM y ver que el **mando 2** maneja al jugador 1 (y que el 1 deja de hacerlo). Control: volver a 0 | notebook, emulador, 1 sesión |
-| 2 | `camara` | K0 → K3 | en frío: desde el yaw de mira `0x005A8DA0` hacia quién lo lee para armar la matriz de vista (candidatos: `vista-fp` y la clase `0x003DC2A8`, 2 instancias). **Es el cuello del coop** | notebook, Ghidra |
-| 3 | `camara` | K3 → K5 | por PINE: mover la cámara sin mover al jugador | notebook, emulador |
+| 2 | `camara` | K0 → K3 | ~~en frío: desde el yaw hacia la matriz de vista~~ **HECHA en frío el 2026-09-27 en la nube (bitácora (68))**: gestor `0x0040F4BC` (vistas en +0x700/+0x750, matriz en +0x7A0), proyección y viewport en `FUN_00269ea0(&0x0043F710, viewport, cámara)`, **los dos como parámetros**. El negativo de (65) era de unidades (el yaw está en grados) | hecha |
+| 3 | `camara` | K3 → K5 | por PINE: (a) yaw de mira `0x005A8FA0` (grados) gira la vista; (b) *watch* de escritura en `0x0043F790` una vez por cuadro; (c) `0x0058EF61` = 1 cambia la vista activa (bitácora (68)) | notebook, emulador |
 | 4 | `render` | K1 → K3 | en frío: quién fija viewport/scissor del GS y la proyección; si el motor ya dibuja más de una vista por cuadro (espejos, mira telescópica `WPNSCOPE`) | notebook, Ghidra |
 | 5 | `juego` + `sesion` | K4 → K5 | ~~en frío: quién itera `jugadores[]` y con qué límite~~ **HECHA en frío el 2026-09-27 en la nube (bitácora (64))**: se construye con N = 1 compilado y se recorre con una **cuenta en tiempo de ejecución**, `*(0x0040F0E0)+0x20208`; `FUN_00106010` la pone en **2**. Falta, por PINE: (a) un *watch* de escritura sobre `0x004BC208` recorriendo los menús, para ver si algún camino llega a `FUN_00106010`; (b) alojar un segundo bloque de 0x8C0 fuera del array | en frío: hecha · PINE: notebook |
 | 6 | `codigo-nuevo` | K2 → K5 | P2: memoria libre estable (fin de `.bss`) y un gancho con `jal`, probado con un contador que sube por cuadro | notebook |
