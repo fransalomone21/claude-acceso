@@ -4,9 +4,36 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «2026-09-27, TARDE» DE ACÁ ABAJO.** La Pre-Fase A cerró
-> con la MCR; la cartera es **un solo proyecto, COOP**, en su **Fase A**. Los
-> bloques del 2026-09-26 quedan como referencia.
+> **EMPEZÁ POR EL BLOQUE «2026-09-27, NOCHE» DE ACÁ ABAJO.** La cartera es
+> **un solo proyecto, COOP**, en su **Fase A**. El bloque «TARDE» sigue valiendo
+> para la notebook (sondas 1 y 5a), con lo que agrega el de la noche.
+
+## 2026-09-27, NOCHE — PLAN DEL ELF EN LA NUBE: E1–E5 y E7 HECHAS, FALTA E6
+
+**Para la sesión LOCAL (notebook), en este orden:**
+1. `git pull` en `claude-acceso` (todo en `main`).
+2. `.\chequeo-completo.ps1 -SoloSaboteadores` (sigue pendiente del 26/09).
+3. **Una sesión de emulador, en lote**, con las predicciones escritas ANTES en la bitácora:
+   - **sonda 1:** `jugador+0x418 = 1` por PINE → el mando 2 maneja al jugador 1;
+   - **sonda 3a:** escribir el yaw de mira `0x005A8FA0` (f32, **grados**) → la vista gira y la fila 0 de `0x005A8B80` queda a −yaw;
+   - **sonda 3b:** *watch* de escritura en `0x0043F790` → salta una vez por cuadro desde `FUN_00269ea0`;
+   - **sonda 3c:** `0x0058EF61` (`cámara+0x7E1`) en 1 → cambia la vista activa;
+   - **sonda 4:** *watch* en `0x004CA2F0` (la vista 160 × 112) y volcar el framebuffer `0x16B` → qué se dibuja en la segunda pasada (hipótesis: brillo o reflejo a ¼);
+   - **sonda 5a:** *watch* sobre `0x004BC208` recorriendo **todos** los menús → predicción: **nunca** se escribe 2 (bitácora (71)).
+   **No** escribir un 2 en la cuenta a mano: los lazos pisarían el objeto de `juego+0x8F0`.
+
+**Lo nuevo, en tres líneas** (bitácoras (66)–(71), todo **probable**, en frío):
+- `camara` **K0 → K3**: el negativo de la sonda 2 era de **unidades** (el yaw está en grados). Gestor `0x0040F4BC`; proyección y viewport en `FUN_00269ea0(&0x0043F710, viewport, cámara)`, **los dos como parámetros**.
+- `render` **K1 → K3**: el motor **ya dibuja por cuadro una segunda pasada de escena** con viewport y framebuffer propios (160 × 112, medido en 3 volcados). `s-0x0040F4C0` era el gestor de render y se fusionó en `render`.
+- `sesion`: cuatro modos; el que pone la cuenta en 2 está **vacío** y nadie lo activa. **El coop se construye, no se desbloquea.**
+
+**Para la próxima sesión en la NUBE:** pegar `sesiones/RETOME-NUBE.md`. Ghidra se monta con `bash herramientas/nube/instalar_ghidra.sh` (~5 min: Ghidra del caché de Nix porque los releases de GitHub dan 403, la extensión se compila, y el proyecto ya analizado se restaura de `black-datos/ghidra/`). El decompilado ya está en `black-datos/decompilado/` y se lee **sin Ghidra** con `python herramientas/leer_c.py 0xDIRECCION`. Siguiente: **E6** (los 12 sin nombre y `tiempo`) con `nombrar_por_decompilado.py --todos` y el diferencial de cada objeto entre volcados; y `s-0x0040F510`, cuya sonda quedó en `+0xB9D4…+0xC988`.
+
+**Lecciones para registrar en la notebook** (`perfil-global` no está en la nube), con `aprender.py agregar --proyecto black`:
+- `--grupo medicion --titulo "Unidad supuesta, no medida" --costo "una sonda entera dada por negativa (bitácora (65))" --sintoma "una búsqueda por datos da cero coincidencias en los tres volcados, y el resultado se anota como negativo" --regla "antes de buscar algo que sigue a un valor, contrastar la UNIDAD del valor contra un dato conocido (acá, el ángulo de la fila 0 de la matriz del jugador). Un cero puede ser el filtro, no el mundo"`
+- `--grupo herramientas --titulo "Un lanzador puede ejecutar otra copia" --costo "un import fallido con la extensión bien instalada" --sintoma "Unsupported language con la extensión en la carpeta correcta" --regla "si una instalación copiada no ve un cambio, leer en el log DE QUÉ RUTA carga los jar: el launch.sh de Nix era un envoltorio que ejecutaba la copia de sólo lectura"`
+
+**Material nuevo en `black-datos`:** `ghidra/BLACK.tar.zst` (proyecto analizado, con las 1194 funciones completadas), `decompilado/` (42 archivos C + `indice.json` + `grafo.json`). El `MANIFIESTO` tiene el SHA-256 del proyecto.
 
 ## 2026-09-27, TARDE — SONDA 5 DEL COOP HECHA EN FRÍO DESDE LA NUBE
 

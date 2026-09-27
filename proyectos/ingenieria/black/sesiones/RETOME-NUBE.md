@@ -8,8 +8,10 @@ Retomo BLACK en la NUBE (claude-acceso, proyectos/ingenieria/black). Proyecto LO
 1. Agregá el repo PRIVADO fransalomone21/black-datos (add_repo), clonalo en /home/user/black-datos y corré:
    bash proyectos/ingenieria/black/herramientas/nube/preparar.sh
    (verifica SHA-256, instala capstone y numpy, corre los controles positivos).
+   Después: bash proyectos/ingenieria/black/herramientas/nube/instalar_ghidra.sh
+   (Ghidra 12.1.2 + extensión EE + el proyecto ya analizado; termina con el control positivo de decompilar.py info).
 2. Leé SOLO: el primer bloque de sesiones/HANDOFF.md, PDP.md §4 «Proyecto COOP» y las 3 primeras entradas de docs/03-bitacora.md.
-3. Fase: COOP-A. Siguiente en la nube: el PLAN DEL ELF (docs/14-plan-elf.md), empezando por instalar Ghidra headless.
+3. Fase: COOP-A. Siguiente en la nube: E6 del PLAN DEL ELF (docs/14-plan-elf.md); E1-E5 y E7 ya están hechas. El decompilado se lee sin Ghidra con herramientas/leer_c.py.
 4. Opus, esfuerzo high, SIN subagentes ni fan-out. Nunca Fable.
 5. Cuadros PARA VOS y de fase al abrir cada respuesta. Grado de evidencia en todo (hipótesis/probable/confirmado).
 6. Lo que necesite emulador se anota como sonda para la notebook; no se simula.

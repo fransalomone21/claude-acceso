@@ -52,16 +52,25 @@ Análisis: `docs/13-coop.md`. Plan de desarrollo de tecnología, con 7 sondas:
 `PDP.md` §4, «Proyecto COOP».
 
 **El mapa de nivel 1** (`kb/subsistemas.json`, 35 nodos) se imprime con
-`programa.py resumen`. **El cuello del coop es la cámara, en K0**, y detrás
-viene el `render` (K1): hace falta saber si el motor dibuja dos vistas.
-Catálogo: 48 candidatos (`docs/12-catalogo.md`).
+`programa.py resumen`. Catálogo: 48 candidatos (`docs/12-catalogo.md`).
 
-**Sonda 5 hecha en frío (2026-09-27, nube, bitácora (64)):** `jugadores[]` se
-construye con N = 1, pero se recorre con una cuenta en tiempo de ejecución,
-`*(0x0040F0E0)+0x20208`, y `FUN_00106010` la pone en **2** (probable). Nodo
-nuevo en el mapa: `sesion` (K3). Siguiente, en la notebook: sondas 1 y 5a en
-lote (`sesiones/HANDOFF.md`). Material del juego para la nube: repo privado
-`black-datos`.
+**El plan del ELF, en la nube (2026-09-27, bitácoras (66)–(71)):** Ghidra
+12.1.2 headless corre en la nube (`herramientas/nube/instalar_ghidra.sh`), el
+ELF entero está decompilado en el repo privado (`black-datos/decompilado/`,
+11.041 funciones, con grafo de llamadas; se lee con `herramientas/leer_c.py`).
+Hechas E1, E2, E3, E4, E5 (a medias) y E7; **falta E6**. Lo que cambió para el
+coop (todo **probable**, en frío):
+- **`camara` K0 → K3.** Gestor `0x0040F4BC` (vistas en `+0x700`/`+0x750`,
+  matriz en `+0x7A0`). La proyección y el viewport salen de
+  `FUN_00269ea0(&0x0043F710, viewport, cámara)`: **los dos son parámetros**.
+  El negativo de la sonda 2 era de unidades: **el yaw está en grados**.
+- **`render` K1 → K3.** El motor **ya dibuja por cuadro una segunda pasada de
+  escena** con su propio viewport y framebuffer (160 × 112, medido en los 3
+  volcados). La salida por abajo del PDP (no poder dibujar dos vistas) no se da.
+- **Sesión:** cuatro modos; el que pone la cuenta en 2 está **vacío** y nadie
+  lo activa. No hay un 2 jugadores escondido: **el coop se construye.**
+- Siguiente en la notebook, en lote: sondas 1, 3 (a–c) y 5a, con las
+  predicciones escritas en `PDP.md` §4 y en `sesiones/HANDOFF.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo
