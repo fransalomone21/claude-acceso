@@ -107,6 +107,35 @@ y cinco reubicaciones, **todas medidas en vivo, no de esta lista**: `COPIA+0x4C0
 **No funcionó:** la especificación de N4 del retome (copiar 0x970 y reubicar los autopunteros) — le faltaban los dos compañeros de 0x9D0.
 **Sigue (N2):** N3 — quién escribe `J+0x7C` y `+0x8C` en la construcción de J0, y de qué campo sale el desplazamiento que en J2 da 0.
 
+### (80) N3 — `J+0x7C` y `+0x8C` son carriles W de la matriz, y el desplazamiento sale del DUEÑO de la ranura
+
+**Predicción de N3 (escrita antes de medir):** en la construcción de J0 hay una llamada que le asigna la instancia de animación de `J+0x7C`, y J2 no pasa por ella (por el molde, o porque corre en un momento distinto). Apuesto a encontrarla dentro del árbol del constructor.
+**Resultado: refutada, y por el lado bueno — no hay tal llamada.**
+
+**Qué son `+0x7C` y `+0x8C` (medido en `ee-03`, `probable`):** `J+0x70…0x9F` es la **matriz 3×4 del objeto**, y está sana — las tres filas son vectores unitarios de una rotación en yaw: `(−0.8283, 0, +0.5603)`, `(0, +1, 0)`, `(−0.5603, 0, −0.8283)`. Los **carriles W** no son ceros: llevan campos empaquetados, que es el truco clásico de PS2.
+
+| carril | valor en `ee-03` | qué es |
+|---|---|---|
+| `+0x7C` (W de la fila 0) | `0x01937E70` | puntero a un objeto cuyas primeras palabras son más punteros (instancia de animación) |
+| `+0x8C` (W de la fila 1) | `0x018A9530` | puntero a un bloque de **floats** (3.4e−8, 0.1, 1.0e−7, 0, 0.005, 1e8): parámetros |
+| `+0x9C` (W de la fila 2) | `0x00000057` | un entero chico (87). **No estaba en la lista de (79)** |
+
+Como float, un puntero de esos es un denormal (≈5e−38), así que los `lqc2` que cargan la matriz entera lo multiplican como si fuera cero: los carriles W **nunca se limpian** y por eso se pueden usar de campos.
+
+**Quién los escribe en la construcción de J0: NADIE.** Barrido de **todas** las escrituras —`sw`, `sb`, `sh`, `sd`, `swc1` **y las de cuadra `sq`/`sqc2`**— que tocan `+0x7C` o `+0x8C` sobre el objeto (descartando las de `(sp)`), en los tres tramos del camino: constructor `FUN_00139c68`, init de entidad `FUN_001327f0` e init principal `FUN_0013ba40`. Resultado: **una sola**, `0x001329E0` (`sq $v1, 0x70($s2)`), que escribe la fila 0 de la matriz y **pisa `+0x7C` con lo que traiga el registro**. A `+0x8C` no lo toca nada.
+**Lectura:** los punteros de `+0x7C` y `+0x8C` se instalan **fuera del camino de construcción**. Cuadra exactamente con lo que midió (79) sin poder explicarlo: son dos de los 15 punteros **idénticos en los tres volcados** de niveles distintos, o sea asignados **al arrancar**, uno por jugador. Los ceros de J2 no son algo que el constructor no hizo — **no hay nada en el constructor que lo haga**. Lo hace código de arranque que recorre `jugadores[]` con la cuenta compilada en 1: es el **cuarto lugar compilado para un solo jugador**, después de `jugadores[]`, la tabla de mandos y el pool de cuerpos físicos.
+
+**De qué campo sale el desplazamiento que en J2 da 0 (`probable`, leído en el código):**
+- En `FUN_001334e0` la posición del jugador se escribe por el camino `J+0x38C == 2` → `if (J+0x330 != 0) FUN_001a6be0(J+0x330)`. Es el camino que (79) midió: `0x00133B10` es `lw $a0, 0x330($s0)` y `0x00133B2C` el `jal 0x1A6BE0`. El otro camino (`else if (J+0x32C != 0)`) es el del **giro**: toma `*(float *)(controlador+8)` en grados, lo pasa a radianes y calcula seno y coseno en la VU — y ése a J2 **ya le funciona** desde P12.
+- **`FUN_001a6be0(ranura)` arranca con `iVar1 = *(int *)param_1`, o sea el DUEÑO de la ranura**, y carga `dueño+0x70`, `+0x80` y `+0x90` —la matriz de arriba— para transformar las 8 entradas de enganche de `ranura+0x30`.
+- **Con J2 compartiendo la ranura 0, cuyo dueño es J0, toda llamada "de J2" trabaja sobre la matriz de J0 y escribe en las cosas de J0.** El desplazamiento de J2 nunca llega a J2. Ése es el mecanismo detrás de la hipótesis de (79), ahora leído en el código y apoyado en la matriz medida.
+- **Y explica por qué el vigilante disparó igual sobre la posición quieta de J2** sin que el valor cambiara: es el mismo hallazgo del instrumento de (79) (`write` dispara sin cambio de valor), no una escritura real de desplazamiento.
+
+**Consecuencia para la sonda:** que J2 tenga `+0x7C`/`+0x8C` en cero **no es lo que le impide caminar** —no lo lee ninguna de las cuatro funciones del camino por cuadro que se revisaron (`FUN_0013a6e8`, `FUN_001334e0`, `FUN_00135580`, `FUN_00137ca0`)—, así que **no hace falta sondearlo antes** de probar la ranura propia. Es un ahorro de sonda, no un descarte: si J2 camina y algo de animación sale mal, vuelve a la lista.
+
+**No funcionó:** la predicción de N3. No hay llamada de construcción que asigne `J+0x7C`.
+**Sigue (N3):** N4 — el subcomando `jugador2.py ranura-copiar` con los tres bloques de N2, el envoltorio y el modo `--seco`.
+
 ## 2026-09-27 (79) — El prototipo durante la carga: el jugador 2 construido por el cargador
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `juego`, `spawn`, `codigo-nuevo`
 **Objetivo:** el criterio de salida de COOP-A: un segundo jugador en el nivel, movido por el mando 2. Camino (1) del «Sigue» de (78): construirlo **durante una carga**.
