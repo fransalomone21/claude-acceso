@@ -51,15 +51,28 @@ compartida (M1) quedó como paso del prototipo: el juego es en primera persona.
 Análisis: `docs/13-coop.md`. Plan de desarrollo de tecnología, con 7 sondas:
 `PDP.md` §4, «Proyecto COOP».
 
-**El mapa de nivel 1** (`kb/subsistemas.json`, 35 nodos) se imprime con
+**El mapa de nivel 1** (`kb/subsistemas.json`, 37 nodos, ninguno en K0 y uno solo en K1) se imprime con
 `programa.py resumen`. Catálogo: 48 candidatos (`docs/12-catalogo.md`).
 
-**El plan del ELF, en la nube (2026-09-27, bitácoras (66)–(71)):** Ghidra
-12.1.2 headless corre en la nube (`herramientas/nube/instalar_ghidra.sh`), el
+**El plan del ELF, en la nube (2026-09-27, bitácoras (66)–(75)): COMPLETO.**
+Ghidra 12.1.2 headless corre en la nube (`herramientas/nube/instalar_ghidra.sh`), el
 ELF entero está decompilado en el repo privado (`black-datos/decompilado/`,
 11.041 funciones, con grafo de llamadas; se lee con `herramientas/leer_c.py`).
-Hechas E1, E2, E3, E4, E5 (a medias) y E7; **E6 empezada** (`tiempo` K0 → K2; faltan los 12 de `sin-nombre`). Lo que cambió para el
-coop (todo **probable**, en frío):
+Hechas E1–E7, y además `GLOBDATA.BIN`. Todo en frío (**probable** salvo donde
+dice medido). Lo que cambió:
+- **E6 + E5 (bitácoras (73)–(74)):** los 13 singletons sin nombre tienen nombre.
+  Nodos nuevos: `disparadores` (K3), `unidades`, `ragdoll` y `proyectiles` (K2);
+  `0x0040F510` es el **gestor de bancos de sonido** y se fusionó en `audio` (K3).
+  Herramienta: `perfil_singleton.py`.
+- **La ValueDB compilada es `Data/Andy.aku`** (73): 1322 valores con nombre por
+  CRC; `valuedb_aku.py` los lee de un volcado. Destraba A1, A2 y J4 del catálogo.
+- **Para el coop:** los triggers del nivel prueban **sólo la posición del
+  jugador 0** (`juego+0x1C0`, medido); `F530` recorre un array con cuenta
+  **compilada en 1**, como `jugadores[]`.
+- **Una función desactivada de fábrica:** la secuencia de cámara de `0x0040F504`
+  depende de `0x0040D9A3`, que nada escribe (sonda para la notebook).
+- **`GLOBDATA.BIN` (75):** seis secciones con consumidor; la tabla de niveles trae
+  **cuatro de prueba (ids 96–99) sin datos en el disco**.
 - **`camara` K0 → K3.** Gestor `0x0040F4BC` (vistas en `+0x700`/`+0x750`,
   matriz en `+0x7A0`). La proyección y el viewport salen de
   `FUN_00269ea0(&0x0043F710, viewport, cámara)`: **los dos son parámetros**.
@@ -69,8 +82,9 @@ coop (todo **probable**, en frío):
   volcados). La salida por abajo del PDP (no poder dibujar dos vistas) no se da.
 - **Sesión:** cuatro modos; el que pone la cuenta en 2 está **vacío** y nadie
   lo activa. No hay un 2 jugadores escondido: **el coop se construye.**
-- Siguiente en la notebook, en lote: sondas 1, 3 (a–c) y 5a, con las
-  predicciones escritas en `PDP.md` §4 y en `sesiones/HANDOFF.md`.
+- **Siguiente: en la NOTEBOOK** (`sesiones/RETOME-LOCAL.md`): registrar las
+  lecciones de la nube y correr, en una sola sesión de emulador, el lote de
+  sondas con sus predicciones (`sesiones/HANDOFF.md`, bloque del 27/09 CIERRE).
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

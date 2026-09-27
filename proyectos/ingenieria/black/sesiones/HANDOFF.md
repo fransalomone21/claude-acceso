@@ -4,9 +4,47 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «2026-09-27, NOCHE» DE ACÁ ABAJO.** La cartera es
-> **un solo proyecto, COOP**, en su **Fase A**. El bloque «TARDE» sigue valiendo
-> para la notebook (sondas 1 y 5a), con lo que agrega el de la noche.
+> **EMPEZÁ POR EL BLOQUE «2026-09-27, CIERRE» DE ACÁ ABAJO.** La cartera es
+> **un solo proyecto, COOP**, en su **Fase A**. El plan del ELF en la nube está
+> **completo**; lo que sigue es **local**, en la notebook. El mensaje para
+> pegar está en `sesiones/RETOME-LOCAL.md`. Los bloques «NOCHE» y «TARDE»
+> siguen valiendo; el de CIERRE los junta y los completa.
+
+## 2026-09-27, CIERRE — PLAN DEL ELF COMPLETO (E1–E7 + GLOBDATA). SIGUE LOCAL
+
+**Qué se hizo en la nube** (bitácoras (66)–(75); todo en `main`, commits `f6d7a8c`, `e142dde` y `02209e2` de esta tanda):
+- **E6:** los 12 singletons de `sin-nombre` quedaron nombrados y repartidos (73). **E5:** `0x0040F510` = gestor de bancos de sonido, fusionado en `audio`, que pasa a K3 (74). **GLOBDATA:** las seis secciones tienen consumidor (75).
+- Mapa: **37 nodos, ninguno en K0**. En K1 sólo queda `frontend-datos`. Nuevos: `disparadores` K3, `unidades`, `ragdoll`, `proyectiles` K2.
+- Herramientas nuevas (corren en la nube y en la notebook con `BLACK_DATOS`): `herramientas/perfil_singleton.py`, `herramientas/valuedb_aku.py`.
+- `black-datos` **no cambió** en esta tanda.
+
+**Para la sesión LOCAL (notebook), en este orden:**
+1. `git pull` en `claude-acceso`.
+2. `.\chequeo-completo.ps1 -SoloSaboteadores` (pendiente desde el 26/09).
+3. **Registrar las lecciones** (abajo, seis) con `aprender.py agregar` del **perfil global**.
+4. `python herramientas/programa.py verificar` (tiene que dar 0 rojos) y `python pruebas/prueba_herramientas.py`.
+5. **Una sesión de emulador, en lote.** Las predicciones se escriben en la bitácora ANTES de correr:
+   - **sonda 1:** `jugador+0x418 = 1` por PINE → el mando 2 maneja al jugador 1 (control: volver a 0).
+   - **sonda 3a:** escribir el yaw `0x005A8FA0` (f32, grados) → la vista gira. **3b:** *watch* de escritura en `0x0043F790` → una vez por cuadro desde `FUN_00269ea0`. **3c:** `0x0058EF61` = 1 → cambia la vista activa.
+   - **sonda 4:** *watch* en `0x004CA2F0` (vista 160 × 112) y volcar el framebuffer `0x16B`.
+   - **sonda 5a:** *watch* sobre `0x004BC208` recorriendo todos los menús → predicción: **nunca** se escribe 2. No escribir un 2 a mano.
+   - **NUEVA, disparadores:** cruzar una puerta que dispara algo, con *watch* sobre los `+0x11D` de los objetos de `*(0x0040F4F4)+0x48` → cambia el del trigger que se cruzó. Coop: predicción de que el jugador 2 no dispara nada.
+   - **NUEVA, cámara desactivada:** `0x0040D9A3 = 1` (u8) y matar a un enemigo a más de 6 m → predicción: arranca la secuencia de `0x0040F504` (cámara modo 0xB, el jugador sin control, aparece el objeto `BG1_ASR_SHL`). Control: con 0 no pasa. Si pasa, **es una función cortada que vuelve**: anotarlo para Fran.
+   - **NUEVA, ValueDB:** con `python herramientas/valuedb_aku.py --volcado <volcado nuevo>` ubicar un valor (p. ej. `Low Health/HeartbeatThreshold = 0.4`), escribirlo en RAM y ver el efecto → primer K4/K5 de `valuedb` con un vehículo de datos.
+   - **NUEVA, niveles de prueba:** elegir desde el menú un nivel de id 96–99 (si hay forma) → predicción: falla la carga, porque sus archivos no están en el disco.
+6. Tomar **un volcado nuevo** en juego y subirlo con `windows/subir-datos-nube.ps1`, así la próxima tanda en la nube mide contra algo nuevo.
+
+**Lecciones para registrar en la notebook** (`perfil-global` no está en la nube). Las dos primeras vienen de la tanda anterior y siguen pendientes:
+```
+python ../../../perfil-global/herramientas/aprender.py agregar --proyecto black --grupo medicion --titulo "Unidad supuesta, no medida" --costo "una sonda entera dada por negativa (bitacora (65))" --sintoma "una busqueda por datos da cero coincidencias en los tres volcados, y el resultado se anota como negativo" --regla "antes de buscar algo que sigue a un valor, contrastar la UNIDAD del valor contra un dato conocido. Un cero puede ser el filtro, no el mundo"
+python ../../../perfil-global/herramientas/aprender.py agregar --proyecto black --grupo herramientas --titulo "Un lanzador puede ejecutar otra copia" --costo "un import fallido con la extension bien instalada" --sintoma "Unsupported language con la extension en la carpeta correcta" --regla "si una instalacion copiada no ve un cambio, leer en el log DE QUE RUTA carga los jar"
+python ../../../perfil-global/herramientas/aprender.py agregar --proyecto black --grupo busqueda --titulo "La raiz que falta esconde el lazo" --costo "la mitad de los updates de E6 salian 'sin lazo' (bitacora (73))" --sintoma "un metodo que claramente corre en juego no cuelga de ninguna raiz del grafo" --regla "antes de concluir 'no se llama por cuadro', buscar el update real desde main: en BLACK FUN_00129360 cuelga de main y no de las vtables de los modos"
+python ../../../perfil-global/herramientas/aprender.py agregar --proyecto black --grupo evidencia --titulo "Un sufijo no es un significado" --costo "una hipotesis inflada ('proyectil del rifle', 'camara de bala') escrita en kb/ y corregida el mismo dia (bitacora (75))" --sintoma "un nombre como BG1_ASR_SHL se lee por lo que 'suena' y arma una historia" --regla "antes de interpretar un token de un nombre, listar sus otros usos en el mismo diccionario (BG1_PST_SHL, BG1_SHG_SHL): el significado es lo comun a todos"
+python ../../../perfil-global/herramientas/aprender.py agregar --proyecto black --grupo medicion --titulo "Nadie la escribe: medirlo por instruccion" --costo "casi se afirma una funcion desactivada solo con el decompilado" --sintoma "Ghidra muestra una bandera solo leida" --regla "confirmar la ausencia de escrituras en el binario (gp-relativas y absolutas) con control positivo en una vecina que SI se escribe; Ghidra puede no resolver un acceso"
+python ../../../perfil-global/herramientas/aprender.py agregar --proyecto black --grupo evidencia --titulo "Un control positivo en cero puede ser del armado" --costo "una vuelta de mas con valuedb_aku.py (bitacora (73))" --sintoma "el control da 0 cuando la prueba en crudo daba 64" --regla "si el control sale en 0, revisar primero que la prueba reciba los mismos insumos que el experimento crudo (aca Ghidra no dejaba la ruta .cfg como literal) antes de dudar del hallazgo"
+```
+
+**Pendiente en frío (para una próxima tanda en la nube, si Fran la pide):** `frontend-datos` (K1; `WPNSCOPE.BIN` está en `black-datos`), el consumidor de `GLOBDATA` s5 (`juego+0x5AB8`), la clase de los objetos de 0x60 B del módulo tipo 0x24, y las 1273 claves sin nombre de `ANDY.AKU`.
 
 ## 2026-09-27, NOCHE — PLAN DEL ELF EN LA NUBE: E1–E5 y E7 HECHAS, E6 EMPEZADA
 

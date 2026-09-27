@@ -134,6 +134,12 @@ o PCSX2.
 | 7 | `spawn` | K3 → K5 | P6: si existe una llamada de aparición fuera de la carga del stage | notebook |
 | — | `hud` | K2 | no entra en la Fase A: el jugador 2 puede jugar sin HUD propio en el prototipo | — |
 
+**Hallazgos en frío que cambian el diseño del coop (2026-09-27, bitácoras (73)–(75), probables):**
+los triggers del nivel (`disparadores`) prueban **sólo la posición del jugador 0**,
+y `0x0040F530` recorre un array con cuenta **compilada en 1**, como
+`jugadores[]`. El prototipo no los necesita (el jugador 1 abre el camino), pero
+M2 completa sí; entran como sondas en `sesiones/HANDOFF.md`.
+
 **Orden:** la **1** va primero, porque es la más barata (una escritura) y sola
 contesta si el motor admite que otro mando maneje a un jugador. La **2** es la
 que más destraba (en el trade study, P5 queda en el top 5 en 931 de 1000
