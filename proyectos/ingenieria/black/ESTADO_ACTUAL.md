@@ -111,7 +111,7 @@ dice medido). Lo que cambió:
     de 6 m arma una **cámara de cine de ~1,5–2 s** (franjas negras, sin HUD, otro
     ángulo) y vuelve a la primera persona. La animación 3 **depende del lugar**
     (`FUN_00120068` busca geometría en la dirección del impacto): en campo abierto
-    se elige la 0 y no pasa nada. **Si entra al mod es decisión de Fran.**
+    se elige la 0 y no pasa nada. **Fran (2026-09-27): mejora de experiencia de prioridad mínima, para el futuro** (`PDP.md` §6).
 - **Selector de depuración, 5a, código nuevo y el prototipo (2026-09-27, bitácora (78),
   notebook).** Confirmado en RAM con control:
   - **Hay un selector de niveles de depuración** y se abre sin manos: con `0x0040D986` = 0

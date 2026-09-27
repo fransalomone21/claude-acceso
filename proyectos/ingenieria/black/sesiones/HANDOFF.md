@@ -29,7 +29,7 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 **Siguiente, en este orden:**
 1. **Prototipo durante la carga:** gancho en `0x00128EA4` (`jal 0x00129090` del cargador, `a1` = índice, `a0` = `juego` en el hueco) hacia un envoltorio: llama la original; cuando devuelve 1 (jugador 0 hecho), pasa a llamar `FUN_00129090(juego, −577)` hasta que devuelva 1 y recién ahí devuelve 1 al cargador. Molde en `0x0046CDF0` copiado de J **antes** de disparar la carga con el selector. Después, el gancho por cuadro de `0x00129574` para `FUN_0012a158(juego, J2)` una vez y `FUN_0013bac8(J2)` + update por cuadro, y las copias de control de J2 → `0x00585A0C` → falso 2 (`0x00472100`).
 2. Si cuelga también: vigilantes `onchange` y migas dentro de `FUN_00139c68`.
-3. **Decisión de Fran:** si la cámara de cine entra al mod (sigue sin contestar; no bloquea).
+3. ~~Decisión de Fran sobre la cámara de cine~~ **Contestada:** mejora de experiencia de **prioridad mínima**, para el futuro (`PDP.md` §6). No se trabaja en COOP-A.
 
 **Estado de la máquina al cerrar:** PCSX2-MCP relanzado (`ABRIR-BLACK-ORIGINAL.bat`) con el **slot 3** cargado, vivo, **sin ganchos ni parches** (`0x00129574` = `0x0C04EEB2`), `ctrl1+0xC` = `0x00472000` (el mando falso 1 quedó puesto: `sondas_coop.py falso-quitar` lo devuelve).
 
