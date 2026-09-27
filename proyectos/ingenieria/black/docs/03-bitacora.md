@@ -16,6 +16,19 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (71) — E7, sesión y modos: el modo que pone la cuenta en 2 está vacío y nadie lo activa
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2), sonda 5 · **Nodos:** `sesion` (K3, con la tabla de modos en `kb/subsistemas.json#sesion.modos`)
+**Objetivo:** E7 de `docs/14`: las tres clases de modo y el camino hacia `FUN_00106010`. Se hizo antes que E6 porque el plan ordena por la cartera (primero el coop).
+**Resultado (en frío; probable):**
+- La sesión tiene **cuatro** modos embebidos, no tres: front-end (`+0x20220`, vtable `0x003DB5E8`), juego B (`+0x20F78`, `0x003DB590`), juego A (`+0x20FA0`, `0x003DB4E0`) y el **vacío** (`+0x20F90`, `0x003DB538`). `FUN_001034b0(sesión, modo)` cambia de modo; `sesión+0x21070` es el actual. **Medido:** en los 3 volcados el actual es B, y el global `0x0040EADC` también apunta a B.
+- B y A son juego: su método 3 es el render del cuadro (`FUN_001297E0`), y A entra desde el menú con un parámetro y carga el stage. El front-end es el que activa el juego (`FUN_00103990` y `FUN_0020F268` escriben `0x0040EADC = B`).
+- **El vacío:** su «entrar» (`FUN_00106010`) pone la cuenta en **2** y borra `+0x2020C/+0x2020D`; los otros 8 métodos son `return`, **sin update ni render**. Ningún código lo pasa directo a `FUN_001034b0`. Queda un camino indirecto (`*(0x0040F544)+0x3880`, leído en `0x0020xxxx`), que vale 0 en los 3 volcados.
+**Qué contesta para el coop:** no hay un modo de dos jugadores escondido y jugable. El vacío parece el **resto** de uno recortado (hipótesis): deja la cuenta en 2, pero no trae ni lógica ni render. El coop se **construye** (una cuenta en 2 sobre el modo B, un segundo jugador y la segunda pasada de cámara de E3/E4), no se desbloquea. La sonda 5a de la notebook sigue valiendo, con una predicción ahora concreta: **ningún camino de los menús escribe 2 en `0x004BC208`**.
+**No funcionó:** buscar un puntero al modo activo dentro de la sesión con el objeto empezando en el vptr: en GCC 2.x el vptr va después de los datos (`+8`), y el objeto B empieza en `+0x20F78`, no en `+0x20F80`.
+**Sigue:** E6 (los 12 sin nombre y `tiempo`), si alcanza el contexto; si no, queda para la próxima sesión en la nube.
+
+---
+
 ## 2026-09-27 (70) — E5, los dos grandes sin nombre: uno era el render; el otro sigue sin nombre, con la sonda achicada
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** el mapa (P5 del trade) · **Nodos:** `s-0x0040F4C0` **se fusiona en `render`** (35 nodos); `s-0x0040F510` sigue en **K1**
 **Objetivo:** E5 de `docs/14`: nombrar `0x0040F510` y `0x0040F4C0` con evidencia.

@@ -20,7 +20,7 @@ Mide el avance `programa.py resumen`, con la K de cada nodo.
 | E4 ✔ | **Render (sonda 4)** (HECHA, bitácora (69): `render` K1 → K3; ya hay una segunda pasada de escena de 160 × 112 por cuadro): viewport/scissor del GS, y si la mira `WPNSCOPE` dibuja con otra cámara | `render` K1 → K3 | ídem |
 | E5 ✔ | **Los dos grandes sin nombre** (HECHA a medias, bitácora (70): `0x0040F4C0` es el render y se fusionó; `0x0040F510` sigue K1 con la sonda achicada): `0x0040F510` y `0x0040F4C0`, nombrados por las cadenas y los decompilados | K1 → K2/K3 | nombre con evidencia en `kb/subsistemas.json` |
 | E6 | **Los 13 «sin-nombre»** y `tiempo` | K1 → K2 | ídem |
-| E7 | **Sesión y modos**: las tres clases de modo (vtables `0x003DB590`, `0x003DB538` y `0x003DB4E0`) y el switch de 0x37 casos de `FUN_00106868` | `sesion` K3 | la tabla de modos en `kb/` |
+| E7 ✔ | **Sesión y modos** (HECHA, bitácora (71): cuatro modos; el que pone la cuenta en 2 está vacío y nadie lo activa): las tres clases de modo (vtables `0x003DB590`, `0x003DB538` y `0x003DB4E0`) y el switch de 0x37 casos de `FUN_00106868` | `sesion` K3 | la tabla de modos en `kb/` |
 
 **Límite honesto:** en frío un nodo llega a **K3** como mucho. De K4 para
 arriba hace falta la notebook (volcados nuevos o efecto por PINE). «Ninguna
