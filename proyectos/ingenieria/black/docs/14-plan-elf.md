@@ -8,7 +8,7 @@ Mide el avance `programa.py resumen`, con la K de cada nodo.
 ## Estado al 2026-09-27
 
 - **Herramientas en la nube:** capstone (desensamblado; decodifica mal las MMI del R5900) y numpy. **Ghidra 12.1.2 + extensión del EE: instalados y con control positivo desde E1** (bitácora (66)). Se montan con `bash herramientas/nube/instalar_ghidra.sh`: Ghidra sale del caché de Nix (los releases de GitHub dan 403), la extensión se compila, y el proyecto analizado se restaura de `black-datos/ghidra/`.
-- **Mapa:** 38 nodos (al cierre de E6). Ninguno en K0. K1: `s-0x0040F510` (246 funciones) y dos del disco (`frontend-datos`, `iso-globdata`).
+- **Mapa:** 37 nodos (al cierre de E6 y del resto de E5). Ninguno en K0. En K1 quedan sólo dos, los dos del disco: `frontend-datos` e `iso-globdata`.
 
 ## Etapas (cada una deja un script en `herramientas/` y una entrada de bitácora)
 
@@ -18,7 +18,7 @@ Mide el avance `programa.py resumen`, con la K de cada nodo.
 | E2 ✔ | **Decompilado masivo** (HECHA, bitácora (67): 11.041 funciones, 99,3 % de los sitios de censo; antes, +1194 funciones con `completar_funciones.py`): las ~10.000 funciones a C en `black-datos/decompilado/` (privado), con un índice función → singletons que usa (`decompilar_todo.py`; el nombre `decompilar_lote.py` ya lo usaba otro script) | todos los K1 a K2 | la cuenta de funciones por singleton reproduce `censo_subsistemas.py` |
 | E3 ✔ | **Cámara (sonda 2)** (HECHA, bitácora (68): `camara` K0 → K3; el negativo de (65) era de unidades): quién consume el yaw (`0x0013B6EC` y quienes la llaman) y `sniper_SetMaxZoom`; buscar la escritura de la matriz de vista | `camara` K0 → K3 | una predicción comprobable en la notebook (dirección + campo) |
 | E4 ✔ | **Render (sonda 4)** (HECHA, bitácora (69): `render` K1 → K3; ya hay una segunda pasada de escena de 160 × 112 por cuadro): viewport/scissor del GS, y si la mira `WPNSCOPE` dibuja con otra cámara | `render` K1 → K3 | ídem |
-| E5 ✔ | **Los dos grandes sin nombre** (HECHA a medias, bitácora (70): `0x0040F4C0` es el render y se fusionó; `0x0040F510` sigue K1 con la sonda achicada): `0x0040F510` y `0x0040F4C0`, nombrados por las cadenas y los decompilados | K1 → K2/K3 | nombre con evidencia en `kb/subsistemas.json` |
+| E5 ✔ | **Los dos grandes sin nombre** (HECHA, bitácoras (70) y (74): `0x0040F4C0` es el render y `0x0040F510` el gestor de bancos de sonido; los dos se fusionaron en su nodo, `audio` sube a K3): `0x0040F510` y `0x0040F4C0`, nombrados por las cadenas y los decompilados | K1 → K2/K3 | nombre con evidencia en `kb/subsistemas.json` |
 | E6 ✔ | **Los 13 «sin-nombre»** y `tiempo` (HECHA, bitácoras (72) y (73): `tiempo` K0 → K2; los 12 repartidos en `render`, `arranque`, `valuedb` y cuatro nodos nuevos: `disparadores` K3, `unidades`, `ragdoll` y `proyectiles` K2; de paso, la ValueDB compilada es `ANDY.AKU`) | K1 → K2 | ídem |
 | E7 ✔ | **Sesión y modos** (HECHA, bitácora (71): cuatro modos; el que pone la cuenta en 2 está vacío y nadie lo activa): las tres clases de modo (vtables `0x003DB590`, `0x003DB538` y `0x003DB4E0`) y el switch de 0x37 casos de `FUN_00106868` | `sesion` K3 | la tabla de modos en `kb/` |
 

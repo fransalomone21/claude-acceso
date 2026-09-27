@@ -16,6 +16,16 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (74) — El resto de E5: `0x0040F510` es el gestor de bancos de sonido (y se fusiona en `audio`)
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** el mapa (P5) y los conceptos de audio (A1, A2) · **Nodos:** `s-0x0040F510` (K1) **se fusiona en `audio`**, que pasa de **K2 → K3**; quedan 37 nodos
+**Objetivo:** lo que E5 dejó a medias, con `perfil_singleton.py` y la raíz del cuadro de (73).
+**Resultado:** los métodos más usados de `F510` (`FUN_00280200`, 19 sitios) recorren bloques de **0x1040 B** y buscan una clave de 64 bits con **búsqueda binaria** (`FUN_0027fcf8`) sobre entradas de 0x20 B ordenadas. Se decodificaron las claves de los bloques en los volcados con `id64.py`: **son nombres de sonido** (`PSTFIRE`, `SHTG01-COCK0`, `BULLETBYS0…`, `BODYFALL`, `CHNGWPN0`, `CONCRETE__`, `E_BLACKHD_M0`). **Medido en los 3 volcados:** 11 bancos, 213–214 sonidos, todos los directorios ordenados. Además, 35 ranuras de 0x3C B en `+0xE00` que se piden y se sueltan (hipótesis: voces; en los volcados ninguna está marcada). Con la interfaz leída, `audio` sube a K3 (el tope en frío) y el nodo sin nombre se borra: dos nodos para el mismo objeto serían una segunda fuente de verdad (como `render` en (70)).
+**De paso:** A1, A2 y J4 del catálogo tenían como riesgo «de dónde sale el valor»; quedó contestado con (73) y se reescribió en `kb/conceptos.json` con los valores medidos. En J4 va una advertencia: los de `Collision.cfg` son del `.cfg` de **sonido** de colisión, no necesariamente de la física.
+**No funcionó:** contar voces ocupadas por el bit 0 de `ranura+0x30` dio 0 en los tres volcados: o no había sonidos en ese instante, o ese bit no es «ocupada». No se afirma.
+**Sigue:** el plan del ELF quedó entero (E1–E7). En el mapa quedan dos nodos en K1, los dos del disco: `frontend-datos` e `iso-globdata`.
+
+---
+
 ## 2026-09-27 (73) — E6 cerrada: los 12 sin nombre tienen nombre, y dos hallazgos de paso (la ValueDB compilada y una cámara desactivada)
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** el mapa (P5), COOP (M2) y cualquier mod de parámetros · **Nodos:** `sin-nombre` (K1) **se disuelve**; nacen `disparadores` (**K3**), `unidades`, `ragdoll` y `proyectiles` (K2); `render`, `arranque` y `valuedb` suman evidencia (sin cambio de K)
 **Objetivo:** el resto de E6 de `docs/14`: los 12 singletons de `sin-nombre`.

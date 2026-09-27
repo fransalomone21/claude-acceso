@@ -41,7 +41,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | J1 | Rebalanceo de armas del jugador | PlayerParams: cadencia, rafaga, dispersion, cargador, rebote, alcance | N3 | S | datos-iso | K6 (armas) | el dano de salida no usa Power (4b): hay que medir que campos gobiernan al jugador | candidato |
 | J2 | Armas nuevas por combinacion | clonar registros y cambiar proyectil, impacto y modelo | N3, N4 | M | datos-iso | K1 (iso-globdata) | el directorio tiene 17 entradas fijas | candidato |
 | J3 | Arsenal distinto por nivel | habilitar armas que el nivel trae y no usa (en LEVEL_00 sobran 9) | N3 | S | datos-iso | K4 (iso-niveles) | bajo: L1 editable en frio; falta el efecto | candidato |
-| J4 | Fisica y destruccion exageradas | impulsos de Collision.cfg en la ValueDB | N3 | S | pnach-datos | K3 (fisica) | no se sabe de donde sale el valor que la ValueDB registra | candidato |
+| J4 | Fisica y destruccion exageradas | impulsos de Collision.cfg en la ValueDB | N3 | S | pnach-datos | K3 (fisica) | RESUELTO en frio 2026-09-27 (bitacora (73)): el valor sale de Data/Andy.aku (herramientas/valuedb_aku.py). Medido: Collision Heavy/Medium/Light Object Max Weight = 6000/200/1, Max Impulse = 100/5/1. OJO: esos son los del .cfg de SONIDO de colision; los impulsos de la fisica pueden ser otra tabla. Falta el efecto (notebook) | candidato |
 | J5 | Camara lenta | escala de tiempo global, por ejemplo al matar | N3 | M | pnach-codigo | K2 (codigo-nuevo) | el reloj no esta ubicado (K0) | candidato |
 | J6 | Movimiento | velocidad, carrera, salto | N3 | M | pnach-datos | K4 (juego) | campos del jugador sin nombre para esto | candidato |
 | J7 | Randomizer | enemigos, armas y pickups distintos cada partida | N3 | L | datos-iso | K2 (pickups) | depende de que D4 ande por efecto | candidato |
@@ -77,8 +77,8 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 
 | id | concepto | que | NGO | costo | vehiculo | K min (cuello) | riesgo | estado |
 |---|---|---|---|---|---|---|---|---|
-| A1 | Sordera y latido | Tinnitus, LowHealth, HeartbeatThreshold y Full Muff de la ValueDB DSP | N3 | S | pnach-datos | K2 (audio) | de donde sale el valor (igual que J4) | candidato |
-| A2 | Mezcla | duck de explosiones, balas que pasan (BaseMix) | N3 | S | pnach-datos | K2 (audio) | idem | candidato |
+| A1 | Sordera y latido | Tinnitus, LowHealth, HeartbeatThreshold y Full Muff de la ValueDB DSP | N3 | S | pnach-datos | K3 (audio) | RESUELTO en frio 2026-09-27 (bitacora (73)): el valor sale de Data/Andy.aku, la ValueDB compilada (herramientas/valuedb_aku.py la lee y la nombra). Medido: Tinnitus/Trigger Threshold = 10, Low Health/HeartbeatThreshold = 0.4, Full Muff = 0.1. Falta el efecto de cambiarlo (notebook) y elegir vehiculo: parchear ANDY.AKU en el ISO o escribir la copia en RAM | candidato |
+| A2 | Mezcla | duck de explosiones, balas que pasan (BaseMix) | N3 | S | pnach-datos | K3 (audio) | idem A1: BaseMix.cfg esta en ANDY.AKU (medido: BulletBy Ducker Dist = 1, Outer Dist = 5, Stereo Spread = 0.4) | candidato |
 | E1 | Estadisticas en vivo | ventana aparte con muertes, precision y tiempo, leidas por PINE | N3, N1 | S | pine | K2 (estadisticas) | no toca el juego | candidato |
 | E2 | RetroAchievements | logros de la comunidad si BLACK tiene set | N3 | S | emulador | — | puede no existir set; exige cuenta (la crea Fran) | candidato |
 | E3 | Cronometro de speedrun | tiempos por tramo leidos por PINE | N3 | S | pine | K3 (flujo) | bajo | candidato |
