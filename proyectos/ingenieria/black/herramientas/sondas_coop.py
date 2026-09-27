@@ -68,13 +68,59 @@ def base(p: Pine) -> dict:
     return d
 
 
+# Mando FALSO (bitacora (76)): el control virtual 1 lee el mando procesado por
+# el puntero CTRL1+0xC. Apuntado a una copia que el gestor NO actualiza, lo que
+# se escriba en sus ejes es la entrada del jugador. FALSO vive en un tramo de
+# .bss en cero en los 3 volcados y en vivo: libre PROBABLE, no confirmado.
+CTRL1 = 0x005858A0
+MANDO1_REAL = 0x005856C0
+FALSO = 0x00472000
+EJES = {  # medidos con el yaw fijo, 0,8 durante 0,5 s
+    "adelante": 0x8C, "atras": 0x90, "lateral_a": 0x94, "lateral_b": 0x98,
+    "pitch_arriba": 0xA0, "yaw_izq": 0xA4, "yaw_der": 0xA8,
+}
+
+
+def falso_poner(p: Pine) -> None:
+    blk = bytearray(p.leer_bloque(MANDO1_REAL, 0xF0))
+    for o in range(0x8C, 0xCC, 4):
+        blk[o:o + 4] = b"\0\0\0\0"
+    p.escribir_bloque(FALSO, bytes(blk))
+    p.escribir32(CTRL1 + 0xC, FALSO)
+
+
+def falso_quitar(p: Pine) -> None:
+    p.escribir32(CTRL1 + 0xC, MANDO1_REAL)
+
+
 def main() -> int:
     tolerar_salida_pobre()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     b = sub.add_parser("base")
     b.add_argument("--json", action="store_true")
+    sub.add_parser("falso-poner", help="el jugador pasa a leer el mando falso (quieto)")
+    sub.add_parser("falso-quitar", help="vuelve al mando real")
+    e = sub.add_parser("eje", help="empuja un eje del mando falso un rato")
+    e.add_argument("nombre", choices=sorted(EJES))
+    e.add_argument("valor", type=float)
+    e.add_argument("segundos", type=float)
     a = ap.parse_args()
+    if a.cmd != "base":
+        import time
+        with Pine() as p:
+            if a.cmd == "falso-poner":
+                falso_poner(p)
+            elif a.cmd == "falso-quitar":
+                falso_quitar(p)
+            else:
+                if p.leer32(CTRL1 + 0xC) != FALSO:
+                    falso_poner(p)
+                p.escribir_f32(FALSO + EJES[a.nombre], a.valor)
+                time.sleep(a.segundos)
+                p.escribir_f32(FALSO + EJES[a.nombre], 0.0)
+            print("ctrl1+0xC =", hex(p.leer32(CTRL1 + 0xC)))
+        return 0
     with Pine() as p:
         d = base(p)
     if a.json:
