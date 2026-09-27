@@ -16,6 +16,39 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (80, nube) — ¿Sirve la copia del sistema de personajes? Los 35 accesos al global, medidos sobre las instrucciones
+**Máquina:** nube (sin PCSX2) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `juego`, `codigo-nuevo`
+**Objetivo (N1 del retome):** antes de escribir la herramienta que copia el sistema de personajes, contestar si el truco del envoltorio —`*(0x0040F50C)` = copia alrededor del constructor de J2, y de vuelta al original después— **puede** funcionar. Si alguien deriva la ranura del **global** por cuadro, no alcanza, y hay que proponer un gancho por cuadro en vez de una copia.
+**Desvío de método, dicho primero:** la predicción de N1 **no se escribió antes de medir**. El retome lo pedía para cada etapa; en una etapa que es lectura estática la medición fue el primer acto. Vale como lectura en frío (grado `probable`), no como predicción cumplida. De N2 en adelante van escritas antes.
+
+**Instrumento nuevo: `herramientas/lectores_global.py`** — todos los accesos del ELF a un global, **por opcodes crudos**, sin Ghidra. Dos mitades, porque cada una sola miente:
+- **cota superior:** toda instrucción de memoria (o `addiu`) con el desplazamiento de 16 bits del objetivo (`-0xAF4` para `0x0040F50C`). Ninguna se puede escapar: un acceso por `lui`+`lw` tiene siempre ese desplazamiento.
+- **base:** para cada candidata, quién definió su registro base, **siguiendo los `move`**; si no sale de `lui 0x41`, se descarta, y el descarte se imprime para poder auditarlo.
+9 comprobaciones nuevas en `pruebas/prueba_herramientas.py` (157 en total, en verde) sobre un **ELF sintético** —así corre en cualquier máquina—, con dos saboteadores puestos en rojo: sacarle el seguimiento del `move` (3 en rojo) y aceptar cualquier página alta (4 en rojo).
+**Falla propia, del mismo turno, y es la que vale:** el saboteador de la página alta daba **verde** la primera vez. El señuelo (`lui 0x42` con el mismo desplazamiento) se descartaba, pero **por el borde de función** del grafo sintético —había una entrada plantada justo encima del señuelo, y la búsqueda hacia atrás ni corría—, no por lo que la prueba dice medir. Un saboteador que pasa por el motivo equivocado es un verde falso, que es peor que no tenerlo. Arreglado moviendo la segunda entrada fuera del programa plantado y **midiendo el motivo del descarte**, no sólo el descarte.
+
+**Medido en el ELF (`probable`; es lectura estática, no efecto):**
+- **35 accesos a `0x0040F50C`, en 23 funciones, 0 candidatas descartadas.**
+- **Una sola ESCRITURA del puntero en todo el ELF:** `0x00102174` (`sw v0, -0xaf4(s1)`), dentro de `FUN_001020c0`, el init de los 37 singletons. Nadie más lo reescribe: el envoltorio no compite con nada.
+- **0 palabras sueltas** con el valor `0x0040F50C` en el ELF: el global no vive en ninguna tabla de punteros. Todo consumidor lo lee por `lui`+`lw`, o sea **fresco en cada uso**.
+- **Los dos caminos no coinciden, y el crudo gana:** el decompilado muestra **34** referencias textuales a `DAT_0040f50c`; los opcodes dan **35**. La que falta en el C es `0x001ABFB8` (en `FUN_001abee0`), donde Ghidra la representó como un parámetro. Es el mismo tipo de pérdida que el delay slot de `0x001759A4`.
+
+**La respuesta de N1: la copia SÍ puede funcionar.** Tres medidas, en orden de peso:
+1. **La aritmética de la ranura (`global + k·0x240 + 0x470`) existe en exactamente DOS sitios**, y ninguno corre por cuadro: `0x0013A038` en **`FUN_00139c68`** (el constructor, que escribe `J+0x330`) y `0x0013C884` en **`FUN_0013c868`** (cambio de arma; ver la trampa de abajo). El resto de los 35 accesos pasa el global **como `this` del sistema entero**, no como base de una ranura.
+2. **Lo que el cuadro le hace al sistema por el global es casi nada.** `FUN_00129360` lo lee 3 veces (`0x001295AC`, `0x001295E0`, `0x001296A4`) y llama: `FUN_001ab428(sys)`, que toca **sólo `sys+0x44` y `sys+0x50`** (dos contadores de pico, con `pmaxw`), y `FUN_001abe08(sys)` y `FUN_001abe10(sys)`, que son **dos stubs vacíos: `return;` y nada más**. O sea: una copia que nunca es el global en tiempo de cuadro **no se pierde ningún tick**, porque no hay tick.
+3. **El camino de la posición llega a la ranura por el JUGADOR, no por el global.** Medido en las instrucciones: en `FUN_001334e0`, `0x00133B10` es `lw $a0, 0x330($s0)` y `0x00133B2C` es `jal 0x1A6BE0` — el `a0` de la llamada sale de `J+0x330`. `FUN_001334e0` **no está entre las 23 funciones que tocan el global**.
+
+**Alcanzabilidad por cuadro** (desde `FUN_00129360`, sobre el grafo de llamadas): 8 de las 23 llegan — `0x00129360` (d0), `0x00139190` (d2), `0x001ACAC8` (d3), `0x001A8168` (d4), `0x001327F0` (d4), `0x00137320` (d5), `0x001A51C8` (d5), `0x001A6E58` (d7). Pero ninguna es *de cada cuadro*: cuelgan de sucesos (aparición por `0x0012DAB8`, construcción, atado, soltar). Es una cota superior del grafo, no una medición de frecuencia; lo que cierra el caso es el punto 1.
+
+**Trampa nueva, y cambia el diseño del prototipo:** `FUN_0015be70` (sistema de armas, llamado por `FUN_0015bbd8` y `FUN_0015c3c8`) hace, **sólo si `J+0xC4 == 2`** —o sea, **justo para los jugadores**—, `FUN_0013c868(J, arma+0x43)`, que recalcula `J+0x330 = GLOBAL + idx·0x240 + 0x470` **desde el global**. Es decir: hecha la copia, **si J2 cambia de arma su `+0x330` vuelve de un salto a la ranura del sistema ORIGINAL**, la de J0, y se deshace todo. Dos salidas: (a) en el prototipo, no cambiarle el arma a J2 —y anotarlo como límite conocido—, o (b) extender el envoltorio a `FUN_0015be70`/`FUN_0013c868` cuando el jugador es J2. Para la Fase A alcanza (a); (b) es Fase B.
+
+**Corrección de una lectura que el decompilado invita a hacer mal:** `FUN_001327f0` también ata por el global —`FUN_001a51c8(J+0x330, J, GLOBAL + idx·0x60 + 0xf8)`, en `0x00132988`–`0x00132998`— pero el desensamblado muestra `beq $v1, $v0, 0x1329A0` en `0x0013296C` saltándoselo cuando `+0xC4 == 2`: **a un jugador nunca le corre**. Y ojo que ahí el tercer argumento sale de **otro arreglo** del mismo objeto (`+0xF8`, paso `0x60`), no del de instancias que usa `FUN_001ac960` (`+0x398`, paso `0x6C`). El objeto tiene al menos tres arreglos paralelos indexados por la misma `k`.
+
+**Para N2/N4, medido acá:** `FUN_001a51c8` **lee el global tres veces adentro** (`0x001A52D0`, `0x001A52DC`, `0x001A52E8`). Así que el camino (b) del retome —atar a mano— **no se hace pasándole punteros de la copia**: hay que llamarla con el global **ya apuntando a la copia**. Lo mismo `FUN_00143d90`, que en `0x00143E7C` toma la *dirección* del global (`addiu a0, v0, -0xaf4`) y recién la desreferencia en `0x00143EE0`, un ciclo antes del `jal 0x1AC960`: el envoltorio alrededor del constructor lo cubre.
+
+**No funcionó:** nada se refutó acá; lo que se cayó fue un saboteador propio, por el motivo equivocado.
+**Sigue:** N2 — el camino de atado `FUN_00143d90` → `FUN_001ac960` → `FUN_001a51c8`: qué escribe en la ranura y en J, qué significa `+0xB8`, qué libera, y qué hace el constructor con el molde 2 frente a 0x1C. Salida: los argumentos exactos del atado a mano y los campos que hay que dejar en cero en la copia.
+
 ## 2026-09-27 (79) — El prototipo durante la carga: el jugador 2 construido por el cargador
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `juego`, `spawn`, `codigo-nuevo`
 **Objetivo:** el criterio de salida de COOP-A: un segundo jugador en el nivel, movido por el mando 2. Camino (1) del «Sigue» de (78): construirlo **durante una carga**.

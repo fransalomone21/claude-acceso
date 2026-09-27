@@ -762,6 +762,115 @@ ok(r.returncode == 2, "pedir una clave inexistente falla con código 2",
 shutil.rmtree(tmp_ub, ignore_errors=True)
 
 
+
+# =============================================================================
+# lectores_global.py — los accesos del ELF a un global, por opcodes crudos.
+#
+# Se prueba contra un ELF SINTÉTICO, no contra el de BLACK: así corre en
+# cualquier máquina y, sobre todo, se puede PLANTAR el caso que el decompilado
+# de Ghidra se comió en el proyecto real — el base que llega por un `move`
+# (0x001296A4 en FUN_00129360, base $fp copiado de $s0).
+# Cada plantada tiene su par negativo: un `lui` de OTRA página alta y un base
+# que no viene de ningún `lui`. Si el scanner los contara, daría una lista
+# inflada y el envoltorio se diseñaría contra lectores que no existen.
+
+def _mips(pal: list[int]) -> bytes:
+    return b"".join(struct.pack("<I", w) for w in pal)
+
+
+def _elf32(vaddr: int, cuerpo: bytes) -> bytes:
+    """ELF32 LE mínimo con un solo PT_LOAD, como el SLUS de la PS2."""
+    ehsize, phentsize = 52, 32
+    off = ehsize + phentsize
+    eh = (b"\x7fELF\x01\x01\x01" + b"\x00" * 9
+          + struct.pack("<HHIIIIIHHHHHH", 2, 8, 1, vaddr, ehsize, 0, 0,
+                        ehsize, phentsize, 1, 40, 0, 0))
+    ph = struct.pack("<8I", 1, off, vaddr, vaddr, len(cuerpo), len(cuerpo), 5, 0x10)
+    return eh + ph + cuerpo
+
+
+_LG_BASE = 0x00100000
+#  lui rt, imm        = 0x3C00_0000 | rt<<16 | imm
+#  lw  rt, off(rs)    = 0x8C00_0000 | rs<<21 | rt<<16 | off
+#  sw  rt, off(rs)    = 0xAC00_0000 | rs<<21 | rt<<16 | off
+#  move rd, rs        = addu rd, rs, zero = rs<<21 | rd<<11 | 0x21
+_V0, _V1, _S0, _S1, _S2, _A0, _FP = 2, 3, 16, 17, 18, 4, 30
+_OFF = 0xF50C                                   # -0x0AF4, o sea 0x41_0000 - 0xAF4
+_lg_prog = _mips([
+    0x3C000000 | (_V0 << 16) | 0x41,            # 0: lui  v0, 0x41
+    0x8C000000 | (_V0 << 21) | (_A0 << 16) | _OFF,   # 1: lw a0, -0xaf4(v0)   LEE
+    0x3C000000 | (_S1 << 16) | 0x41,            # 2: lui  s1, 0x41
+    0xAC000000 | (_S1 << 21) | (_V0 << 16) | _OFF,   # 3: sw v0, -0xaf4(s1)   ESCRIBE
+    0x3C000000 | (_S0 << 16) | 0x41,            # 4: lui  s0, 0x41
+    (_S0 << 21) | (_FP << 11) | 0x21,           # 5: move fp, s0
+    0x8C000000 | (_FP << 21) | (_A0 << 16) | _OFF,   # 6: lw a0, -0xaf4(fp)   LEE (por move)
+    0x3C000000 | (_V1 << 16) | 0x42,            # 7: lui  v1, 0x42   <- OTRA página
+    0x8C000000 | (_V1 << 21) | (_A0 << 16) | _OFF,   # 8: lw a0, -0xaf4(v1)   NO cuenta
+    0x8C000000 | (29 << 21) | (_S2 << 16) | 0x10,    # 9: lw s2, 0x10(sp)
+    0x8C000000 | (_S2 << 21) | (_A0 << 16) | _OFF,   # 10: lw a0, -0xaf4(s2)  NO cuenta
+])
+
+tmp_lg = tempfile.mkdtemp(prefix="lectores-global-")
+os.makedirs(os.path.join(tmp_lg, "decompilado"))
+with open(os.path.join(tmp_lg, "SLUS_213.76"), "wb") as fh:
+    fh.write(_elf32(_LG_BASE, _lg_prog))
+with open(os.path.join(tmp_lg, "decompilado", "grafo.json"), "w", encoding="utf-8") as fh:
+    # UNA sola función sobre el programa plantado. La segunda entrada vive
+    # FUERA de él, y es sólo para probar la alcanzabilidad: si cayera adentro,
+    # cortaría la búsqueda hacia atrás del `lui` y los saboteadores darían
+    # verde por el borde de función, no por lo que se quiere medir. Pasó.
+    json.dump({"0x00100000": {"nombre": "FUN_plantada", "llama": ["0x00100100"],
+                              "llamada_por": [], "datos": []},
+               "0x00100100": {"nombre": "FUN_hija", "llama": [],
+                              "llamada_por": ["0x00100000"], "datos": []}}, fh)
+
+_lg_env = os.environ.get("BLACK_DATOS")
+os.environ["BLACK_DATOS"] = tmp_lg
+try:
+    import lectores_global  # noqa: E402
+
+    _elf = lectores_global.Elf(os.path.join(tmp_lg, "SLUS_213.76"))
+    ok(_elf.cargas == [(_LG_BASE, _LG_BASE + len(_lg_prog), 84)],
+       "lectores_global: el PT_LOAD sale del ELF, no de una constante",
+       str(_elf.cargas))
+
+    _g, _ents = lectores_global.cargar_grafo()
+    _conf, _desc = lectores_global.accesos(_elf, 0x0040F50C, _ents)
+    _dirs = {h["dir"] for h in _conf}
+
+    ok(len(_conf) == 3, "lectores_global: cuenta los 3 accesos plantados y ninguno más",
+       f"dio {len(_conf)}: {[hex(x) for x in sorted(_dirs)]}")
+    ok(_LG_BASE + 4 in _dirs, "lectores_global: encuentra el `lw` directo")
+    ok(_LG_BASE + 24 in _dirs,
+       "CONTROL POSITIVO del caso que Ghidra se comió: base llegado por `move`")
+    ok([h["tipo"] for h in _conf if h["dir"] == _LG_BASE + 12] == [1],
+       "lectores_global: el `sw` sale marcado como ESCRITURA del puntero")
+    ok(_LG_BASE + 32 not in _dirs,
+       "SABOTEADOR: `lui 0x42` con el mismo desplazamiento NO cuenta como acceso")
+    ok([d["fuente"] for d in _desc if d["dir"] == _LG_BASE + 32] == ["0x0010001C"],
+       "...y se descarta por la PAGINA ALTA, no por un borde de funcion",
+       str(_desc))
+    ok(_LG_BASE + 40 not in _dirs,
+       "SABOTEADOR: base que no viene de ningún `lui` NO cuenta como acceso")
+    ok(len(_desc) == 2, "lectores_global: las dos candidatas falsas quedan declaradas",
+       f"dio {len(_desc)}")
+
+    # control negativo: un global que NO está en el programa
+    _c2, _ = lectores_global.accesos(_elf, 0x00410000, _ents)
+    ok(_c2 == [], "CONTROL NEGATIVO: un global inexistente da cero accesos",
+       str(_c2)[:120])
+
+    _d = lectores_global.alcanzables(_g, ["0x00100000"])
+    ok(_d.get("0x00100100") == 1,
+       "lectores_global: la alcanzabilidad por cuadro sigue el grafo de llamadas")
+finally:
+    if _lg_env is None:
+        os.environ.pop("BLACK_DATOS", None)
+    else:
+        os.environ["BLACK_DATOS"] = _lg_env
+    shutil.rmtree(tmp_lg, ignore_errors=True)
+
+
 shutil.rmtree(tmp, ignore_errors=True)
 
 # =============================================================================
