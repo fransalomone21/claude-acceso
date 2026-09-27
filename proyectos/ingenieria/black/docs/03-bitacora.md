@@ -52,11 +52,28 @@ Slot 12 cargado; «vivo» → yaw −54,6° → 90,8° y otra vez justo antes (9
 ### (82) N4 — Corrección a (81): el cuerpo de J2 SÍ está en la lista y SÍ sigue a J2
 Con J2 caminando: la lista activa del mundo `0x0066E900` (`L` = `0x0066EA00`) tiene **6 cuerpos, y el de J2 (`0x00699200`) es el segundo**, con nodo `0x0066EBBC` activo, dueño J2 y mundo puesto; `cuerpo+0x30` = `J2+0xA0` + (0; 0,8; 0) exacto (la constante de `0x00414DC0`) antes y durante el empuje. El «0 campos que responden y 0 de ruido» de (81) salió de **diferenciar valores con J2 quieto**: un seguidor de una posición quieta no cambia. `fisica` **sigue en K4** (no causamos ningún efecto en ese nodo), con la evidencia corregida.
 
-**No funcionó / no se hizo:** la captura para ver si J2 **se dibuja** desde la vista de J: la pantalla de la notebook tenía otra ventana adelante (Fran usándola) y no se trajo PCSX2 al frente. Queda para la Fase B —y es una pregunta de peso: en primera persona el jugador no tiene por qué tener modelo propio dibujado.
+### (82) N5 — Reproducible en un comando, y guardado
+`jugador2.py atar` hace lo mismo que la sonda (reescribe el estado 1 del stub **en pausa**, lo dispara y espera el 3). Corrido **desde cero** sobre el slot 12 recién cargado (`J2+0xB4` = 0): 46 palabras, `J2+0xB4` = `0x00588100`, dueño J2, y los cuatro empujes dan 4,71 / 6,97 / 10,90 / 6,29 m — segunda corrida independiente, mismo resultado. **Slot 13** = J2 con controlador (43,7 MB, 15:26). Prueba offline nueva en `prueba_herramientas.py` (**183** comprobaciones): el programa llama `FUN_0025C210` una vez con `a0` = `*(0x0040F4CC)` y `a1` = J2 y ya no llama al constructor; su saboteador (cambiar el `jal` por `0x129090`) la pone en **rojo 1 de 183**, y vuelve a verde al restaurar.
+
+### (82) N6 — Cómo se ve J2 desde J: los BRAZOS de primera persona, sin cuerpo (confirmado en pantalla, con control)
+Con PCSX2 al frente (Fran), la vista de J apuntada a J2 (`MIRA_OBJ+8/+0xC`, como `matar_sin_manos.py`) y **tres capturas**, moviendo a J2 entre una y otra con la vista de J quieta:
+
+| captura | J2 (x, z) medido | el objeto en pantalla |
+|---|---|---|
+| 1 | (−5,13; 61,15), a 7,7 m, en la mira | sobre la puerta, en la mira |
+| 2 | (−3,60; 58,53) | sobre la pared izquierda |
+| 3 | (−8,24; 60,16) | sobre la ventana derecha |
+
+El objeto **se mueve con J2** y del lado que da la geometría (+x a la izquierda). Ampliado, son **dos antebrazos de mangas azules que cuelgan de un punto**: el modelo de brazos de primera persona dibujado en la posición de J2. **No hay cuerpo.** En la captura 2, además, apareció un **arma grande** en primer plano en lugar de la de J, y en la 3 volvió la de J: **sin explicar** (no se midió qué la dibuja).
+
+### (82) P16 — Auditoría del éxito: la ranura propia de (81) NO es parte de la receta
+En el slot 12 J2 tenía **dos** cambios: la ranura 1 propia (P14 de (81)) y el controlador. Con el sistema vivo (`*(0x0040F50C)` = `0x004ED380`) se le devolvió la ranura **compartida** de (79) —`J2+0x330` = `0x004ED7F0`, `*(0x004EDA30)` = J— y los cuatro empujes dan **8,90 / 6,97 / 10,16 / 6,41 m** a 4,5 m/s: **camina igual** (confirmado en RAM, con el estado anterior como control). La receta es **(79) + `control2` + `estado 2` + `atar`**; la copia de tres bloques de (80) y la ranura a mano de (81) no hacen falta para caminar. Captura 4, con la ranura compartida y J2 otra vez en la puerta: **los brazos siguen ahí**, así que no eran el modelo de la ranura 1; son de J2 (probable: el modelo de brazos que el constructor le arma al jugador).
+
+**Cambia la Fase B:** J2 camina y choca, pero **no se ve como una persona**. En primera persona el jugador nunca necesitó cuerpo; para el coop, sí. Habilitador nuevo para el diseño: dibujar a J2 con un modelo de personaje (probable punto de partida: el de un enemigo o el de un aliado de la campaña, que el juego ya sabe dibujar y animar).
 
 **Lección de proceso (la misma forma que (81) ya pagó una vez):** un negativo «nadie lo escribe» medido **por diferencia de valores** no distingue «no corre» de «copia algo quieto». Antes de concluir que un camino no corre, se mide con un vigilante de **escritura** o con el objeto en movimiento.
 
-**Sigue:** cerrar COOP-A (KDP-B): contra la tabla del PDP §4 queda `spawn` (fila 7, K3 → K5) sin sonda corrida; el resto de los habilitadores de la tabla está en su objetivo. Y hacer **permanente** el alta del controlador en el envoltorio de carga (hoy es un paso a mano del stub por cuadro).
+**Sigue:** cerrar COOP-A (KDP-B): contra la tabla del PDP §4 queda **`spawn` (fila 7, K3 → K5)** sin sonda corrida —y (82) dejó el punto de partida: el spawner de enemigos `FUN_00138C80` (llamado por `FUN_00178BC0`) es una aparición **fuera de la carga**—; el resto de la tabla está en su objetivo. Después: hacer **permanente** el alta del controlador en el envoltorio de carga (hoy `atar` es un paso aparte), y llevar a la Fase B lo que (82) abrió: J2 **se dibuja como brazos**.
 
 ---
 

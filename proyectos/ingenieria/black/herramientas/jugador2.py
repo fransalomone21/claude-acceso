@@ -16,6 +16,7 @@ corre una sola vez, para N = 1.
     python herramientas/jugador2.py poner          # molde + stub + gancho, estado 0
     python herramientas/jugador2.py estado <n>     # escribe el estado (1 = construir)
     python herramientas/jugador2.py mirar 10       # registra estado, contador y posiciones
+    python herramientas/jugador2.py atar           # (82) controlador de colision para J2: sin esto no camina
     python herramientas/jugador2.py quitar         # devuelve la palabra original del gancho
 """
 
@@ -224,6 +225,61 @@ addiu sp, sp, 0x30
 """
 
 
+# --- P15 (bitacora (82)): el controlador de colision de J2 --------------------
+# El mover (FUN_00132D98) le entrega el desplazamiento al controlador de J+0xB4. A los
+# `cuenta` = 1 jugadores de juego+0x30 se lo ata FUN_0012BE80 con FUN_0025C210; a J2, nadie
+# (J2+0xB4 = 0 y no camina). `atar` reescribe, EN PAUSA, el estado 1 del stub por cuadro (el
+# viejo CONSTRUIR, que no se usa) para que llame FUN_0025C210(*(0x0040F4CC), J2) una vez y
+# vuelva al estado 3. Medido: J2 camina 8,14 m en 2 s a 4,5 m/s, con colision.
+ATAR_PROG = """CONSTRUIR:
+lw t1, -0x2878(s0)
+addiu t1, t1, 1
+sw t1, -0x2878(s0)
+lui t0, 0x41
+lw a0, -0xb34(t0)
+lui a1, 0x47
+addiu a1, a1, -0x3210
+jal 0x25c210
+nop
+lw t1, -0x2874(s0)
+addiu t1, t1, 1
+sw t1, -0x2874(s0)
+addiu t1, zero, 3
+sw t1, -0x287c(s0)
+beq zero, zero, @SALIR
+nop
+ENLAZAR:"""
+
+
+def programa_atar():
+    i, k = PROGRAMA.index("CONSTRUIR:"), PROGRAMA.index("ENLAZAR:")
+    return PROGRAMA[:i] + ATAR_PROG + PROGRAMA[k + len("ENLAZAR:"):]
+
+
+def atar(p):
+    """Ata a J2 un controlador de colision (P15). Devuelve el dict de lo medido."""
+    import subprocess
+    dep = str(Path(__file__).resolve().parent / "depurador.py")
+    if p.leer32(cj.J2 + 0xB4):
+        return {"ya_atado": hex(p.leer32(cj.J2 + 0xB4))}
+    nuevo = ensamblar_programa(programa_atar())
+    cambios = [(pc, w) for pc, w, _ in nuevo if p.leer32(pc) != w]
+    subprocess.run([sys.executable, dep, "pausar"], capture_output=True)
+    for pc, w in cambios:
+        p.escribir32(pc, w)
+    ok = all(p.leer32(pc) == w for pc, w, _ in nuevo)
+    subprocess.run([sys.executable, dep, "continuar"], capture_output=True)
+    if not ok:
+        return {"error": "el programa no quedo escrito"}
+    p.escribir32(ESTADO, 1)
+    t0 = time.time()
+    while p.leer32(ESTADO) != 3 and time.time() - t0 < 5:
+        time.sleep(0.05)
+    ctrl = p.leer32(cj.J2 + 0xB4)
+    return {"palabras": len(cambios), "estado": p.leer32(ESTADO), "J2_B4": hex(ctrl),
+            "ctrl_30": hex(p.leer32(ctrl + 0x30)) if ctrl else None}
+
+
 # --- N4 (bitacora (80)): ranura de personaje propia para J2 ------------------
 # El sistema de personajes (*(0x0040F50C), 0x970 B) tiene DOS ranuras de 0x240 en
 # +0x470, y son las dos ARMAS del unico jugador: el indice sale de J+0x2C3, que es
@@ -368,6 +424,7 @@ def main() -> int:
     rc.add_argument("--seco", action="store_true", help="no escribe: imprime lo que escribiria")
     rc.add_argument("--volcado", help="medir desde un eeMemory.bin en vez de PINE (implica --seco)")
     sub.add_parser("control2", help="copias de control de J2 -> 0x00585A0C, su +0xC -> falso 2, y J2+0x32C -> mira humana")
+    sub.add_parser("atar", help="P15 (82): ata a J2 un controlador de colision (FUN_0025C210); sin esto no camina")
     sub.add_parser("autopsia", help="P8: ranuras de personaje, cargador de modelos y J2 (sin codigo)")
     sub.add_parser("quitar")
     e = sub.add_parser("estado")
@@ -462,6 +519,9 @@ def main() -> int:
             # la init deja activo el controlador +0x7D0 (sin mando); a J0 algo posterior le
             # pone la mira humana +0x4F0, a J2 nadie (P11). Con esto el mando 2 lo gira (P12).
             p.escribir32(cj.J2 + 0x32C, cj.J2 + 0x4F0)
+        elif a.cmd == "atar":
+            print(json.dumps(atar(p), ensure_ascii=False))
+            return 0
         elif a.cmd == "quitar":
             p.escribir32(g.SITIO, g.ORIGINAL)
             if p.leer32(SITIO_CARGA) != ORIGINAL_CARGA:

@@ -999,6 +999,19 @@ except ValueError:
 
 del _j2_mem
 
+# jugador2.programa_atar (bitacora (82), P15): el estado 1 del stub por cuadro pasa de
+# construir (FUN_00129090, -577: el que colgaba) a atar el controlador de colision.
+_atar = _j2.ensamblar_programa(_j2.programa_atar())
+_atar_txt = [t for _, _, t in _atar]
+ok(sum(t == "jal 0x25c210" for t in _atar_txt) == 1 and not any("0x129090" in t for t in _atar_txt),
+   "programa_atar: llama FUN_0025C210 una vez y ya no llama al constructor")
+ok("lw a0, -0xb34(t0)" in _atar_txt and 0x00410000 - 0xB34 == 0x0040F4CC,
+   "programa_atar: a0 = *(0x0040F4CC), el gestor de cuerpos de personaje")
+ok("lui a1, 0x47" in _atar_txt and "addiu a1, a1, -0x3210" in _atar_txt and 0x00470000 - 0x3210 == 0x0046CDF0,
+   "programa_atar: a1 = J2 (0x0046CDF0)")
+ok(_atar_txt[-4:] == [t for _, _, t in _j2.ensamblar_programa()][-4:],
+   "programa_atar: el SALIR del stub queda igual")
+
 
 shutil.rmtree(tmp, ignore_errors=True)
 

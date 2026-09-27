@@ -178,11 +178,29 @@ dice medido). Lo que cambió:
     (la frase de (80) queda retirada); y la posición del jugador es **`+0xA0`**, no `+0x100`,
     que es la del **ojo** (`+0xA0` + 1,65 − 0,2). `fisica` **K3 → K4**; `personajes` **sigue
     en K4**, porque la sonda que lo subía no produjo el efecto.
-- **Siguiente (notebook, y arranca en frío):** **cómo se da de alta un cuerpo en el motor de
-  física** — `FUN_0016E660` entera y quién mete un cuerpo en la lista que recorre
-  `FUN_002EA898`. Es lo único que falta del criterio de salida de la Fase A. Hay un
-  **savestate en el slot 12** con J2 vivo, corriendo, con el mando 2 y la ranura propia:
-  reproducir el estado cuesta un comando. Detalle: `sesiones/RETOME-LOCAL.md`.
+- **J2 CAMINA (2026-09-27, bitácora (82), notebook).** Confirmado en RAM con control, y en
+  pantalla:
+  - **Lo que faltaba era el controlador de colisión**, no el cuerpo físico. El mover
+    (`FUN_00132D98`) le entrega el desplazamiento al controlador de `J+0xB4`; a los `cuenta`
+    = 1 jugadores se lo ata `FUN_0012BE80` con `FUN_0025C210(*(0x0040F4CC), actor)`, y a J2
+    nadie (`J2+0xB4` = 0). **Llamarla una vez** (`jugador2.py atar`) → J2 camina 8,14 m en
+    2 s a 4,5 m/s, en las cuatro direcciones, **choca con las paredes y empuja a J**.
+    Negativo en la misma corrida (Δ = 0) y reproducido desde cero. Nodo **`ragdoll` K2 → K5**
+    (`0x0040F4CC` son los cuerpos de personaje: controladores de los vivos y ragdoll de los
+    muertos; pool de **20**, no compilado para uno).
+  - **Correcciones a (81):** `FUN_00170320` **copia** jugador → cuerpo (el cuerpo de
+    `+0x34C` es un seguidor); el de J2 **sí** está en la lista del mundo y **sí** lo sigue.
+    El «nadie lo integra» salió de medir con J2 quieto. `fisica` sigue en K4.
+  - **Auditoría:** con la ranura **compartida** de (79) J2 camina igual. La receta es (79) +
+    `control2` + `estado 2` + `atar`; la ranura propia no hace falta.
+  - **Cómo se ve J2 desde J** (4 capturas, moviendo a J2 entre una y otra): **dos brazos de
+    primera persona flotando, sin cuerpo**. Entra al diseño de la Fase B.
+  - **Cierra el prototipo del criterio de COOP-A.** Contra la tabla del PDP §4 queda
+    **`spawn` (fila 7, K3 → K5)**; punto de partida en frío: el spawner de enemigos
+    `FUN_00138C80`, una aparición fuera de la carga.
+- **Siguiente (notebook):** la sonda de `spawn` (fila 7), que es lo último de la Fase A; y
+  hacer permanente `atar` en el envoltorio de carga. **Slot 13** = J2 con controlador (y la
+  ranura 1 de (81), que no hace falta). Detalle: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

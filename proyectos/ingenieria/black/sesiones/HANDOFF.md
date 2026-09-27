@@ -4,12 +4,35 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(81)» DE ACÁ ABAJO, Y DESPUÉS EL «(79)».** La
-> cartera es **un solo proyecto, COOP**, en su **Fase A**. El bloque «(80, nube)»
-> quedó **parcialmente corregido por (81)**: leelo sólo después, y con esa
+> **EMPEZÁ POR EL BLOQUE «(82)» DE ACÁ ABAJO.** La cartera es **un solo
+> proyecto, COOP**, en su **Fase A**. El bloque «(81)» quedó **corregido por
+> (82)** en lo que dice del cuerpo físico: leelo sólo si hace falta, y con esa
 > advertencia. El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
 
+## 2026-09-27, NOTEBOOK — J2 CAMINA: LE FALTABA EL CONTROLADOR DE COLISIÓN (bitácora (82))
+
+**El resultado:** con `jugador2.py atar` —que llama **una vez** `FUN_0025C210(*(0x0040F4CC), J2)` desde el stub por cuadro— **J2 camina con el mando 2**: 8,14 m en 2 s a 4,5 m/s (la rapidez pedida), en las cuatro direcciones, **se frena contra las paredes y empuja a J** (4,16 m una vez). Negativo en la misma corrida: Δ = 0,0000. Reproducido desde cero sobre el slot 12. **Es el prototipo del criterio de salida de COOP-A.**
+
+**Por qué, en frío y después medido:**
+- El mover del jugador es **`FUN_00132D98(dt, J)`**: guarda `J+0x190` = `J+0xA0`, calcula `d` = `mira+0x50` × `mira+0x10` × dt y, si `*(J+0xB4)+0x3C` = 0, **`FUN_0025D840(J+0xB4, d)`** (escribe `d` en `*(*(*(ctrl+0x34)+0xC)+0x58)+0x20`). `FUN_001334E0` deriva después velocidad (`+0x1B0`) y rapidez real (`+0x2E0`) de cuánto cambió `+0xA0`.
+- El controlador se da de alta con **`FUN_0025C210(mgr, actor)`**: pool de **20** de 0x50 B en `mgr+0x2320` (banderas `+0x2960`), `FUN_0025CEF8` pone `actor+0xB4` = ctrl y `ctrl+0x30` = actor, `FUN_0032CB58` lo registra en el mundo de colisión. La llama **`FUN_0012BE80`** (estado del cargador) para `i < cuenta` = 1 — J2 nunca pasa — y el spawner de enemigos **`FUN_00138C80`**, que tiene la secuencia completa de alta de un actor.
+- Medido: mgr = `0x00585C00`, J → controlador `0x00587FC0` (índice 2), **`J2+0xB4` = 0** antes y `0x00588100` (índice 6) después, 6 → 7 de 20 ocupados.
+
+**Correcciones a (81), medidas con J2 caminando:** `FUN_00170320` **copia** la matriz y la posición del jugador al cuerpo de `+0x34C` (`cuerpo+0x30` = `J+0xA0` + (0; 0,8; 0)): ese cuerpo es un **seguidor**. El de J2 (`0x00699200`) **está** en la lista activa del mundo `0x0066E900` (2.º de 6) y **sí** sigue a J2. El «0 campos que responden» de (81) era de medir con J2 quieto. `fisica` sigue en K4; su evidencia quedó corregida.
+
+**Auditoría del éxito:** con la ranura **compartida** de (79) (`J2+0x330` = `0x004ED7F0`, `*(0x004EDA30)` = J), J2 camina igual (8,90 / 6,97 / 10,16 / 6,41 m). **Receta: (79) + `control2` + `estado 2` + `atar`.** La ranura propia y la copia de tres bloques no hacen falta.
+
+**En pantalla (Fran puso PCSX2 al frente):** desde J, J2 se ve como **dos brazos de primera persona flotando, sin cuerpo** — cuatro capturas, el objeto se mueve con J2 y del lado que da la geometría, y sigue ahí con la ranura compartida. Un arma grande en primer plano apareció en una captura sola: sin explicar. **Entra a la Fase B:** J2 necesita un modelo de personaje.
+
+**kb:** `ragdoll` **K2 → K5**, renombrado: `0x0040F4CC` son los **cuerpos de personaje** (controladores de colisión de los vivos, ragdoll de los muertos). `juego` K5 con la nota. **Prueba offline nueva** (183 comprobaciones), con su saboteador en rojo 1 de 183. **Lección** registrada y foldeada en `chequeo-de-trabajo.md`: un «no cambia» medido con el objeto quieto no distingue «no corre» de «copia algo quieto».
+
+**Sigue:** lo último de la Fase A contra la tabla del PDP §4 es **`spawn` (fila 7, K3 → K5)**: una aparición fuera de la carga. Punto de partida en frío: `FUN_00138C80(mgr, spawner, datos)` (llamada por `FUN_00178BC0`) saca un actor de las listas libres de `mgr+0x7990`/`+0x79A0`, lo resetea (`FUN_001327F0`) y le da cuerpo, cerebro, controlador y enlace. Después: `atar` permanente en el envoltorio de carga.
+
+**Estado de la máquina al cerrar:** PCSX2-MCP abierto, City Streets, J2 vivo **con controlador** (`0x00588100`) y con la **ranura compartida** (P16 la devolvió); el stub por cuadro tiene el programa de `atar` en el estado 1 (estado actual 3). **Slot 13** = J2 con controlador y con la ranura 1 de (81) (15:26). Slot 12 = lo de (81), sin controlador. Todo lo que no está en un slot se pierde al recargar.
+
 ## 2026-09-27, NOTEBOOK — LA RANURA NO ERA LO QUE FALTABA: EL CUERPO FÍSICO DE J2 NO LO INTEGRA NADIE (bitácora (81))
+
+> **Corregido por (82):** el cuerpo físico de J2 **sí** está en la lista y **sí** sigue a J2; lo que faltaba era el controlador de colisión de `J+0xB4`.
 
 **Dos predicciones escritas antes y las dos refutadas** (eso es el resultado, no un fracaso):
 - **P13a:** `molde+0x2C3` = 1 **no sobrevive a la construcción**. El constructor escribe ese byte él mismo (`J2+0x2C0..0x2C7` queda **idéntico byte a byte** al de J) y pone el arma en `armas2[0]`. `J2+0x330` quedó en la ranura 0. La lectura de (80) —el índice sale de `+0x2C3`— **no queda refutada**: esta sonda no llegó a ponerla a prueba.
