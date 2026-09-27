@@ -37,6 +37,7 @@ def main() -> int:
     ap.add_argument("-n", type=int, default=8)
     ap.add_argument("--espera", type=float, default=8.0)
     ap.add_argument("--fps", type=float, default=30.0)
+    ap.add_argument("--ra", action="store_true", help="en cada disparo, leer ra, a0 y a1")
     a = ap.parse_args()
     dirv = int(a.direccion, 0)
     por_cuadro = RELOJ_EE / a.fps
@@ -56,6 +57,10 @@ def main() -> int:
                     break
                 pc = int(str(e.get("pc", "0")), 0) if not isinstance(e.get("pc"), int) else e["pc"]
                 cyc = int(e.get("cycles", 0))
+                if a.ra:   # el llamador: un getter hoja no dice quien lo pidio (bitacora (79))
+                    extra = {r: d.evaluar(r) for r in ("ra", "a0", "a1")}
+                    print("  pc 0x%08X  %s" % (pc, " ".join("%s=%s" % (k, v.get("value", v) if isinstance(v, dict) else v)
+                                                          for k, v in extra.items())))
                 hits.append((pc, cyc))
                 d.continuar()
         finally:
