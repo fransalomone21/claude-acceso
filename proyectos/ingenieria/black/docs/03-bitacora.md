@@ -38,6 +38,26 @@ Leído en el decompilado y en las instrucciones (`leer_c.py`, `desensamblar.py`)
 **Qué la refuta:** `J2+0xA0` con Δ = 0 teniendo el controlador atado → el controlador no es lo que falta, y lo siguiente es el paso del mundo de colisión (quién escribe `+0xA0` de vuelta: vigilante `write` sobre `J+0xA0` con J caminando).
 **Controles:** «vivo» antes; el negativo se re-mide en la misma corrida (adelante sostenido **antes** de atar: Δ = 0); J sigue caminando con el falso 1.
 
+### (82) P15 CONFIRMADA en RAM con control: J2 CAMINA con el mando 2
+Slot 12 cargado; «vivo» → yaw −54,6° → 90,8° y otra vez justo antes (90,8° → −170,6°). Script: `p15_sonda.py` (scratchpad; lo que queda en el repo es este registro y `jugador2.py`, que no cambió).
+- **Lectura, sin escribir:** mgr = `*(0x0040F4CC)` = `0x00585C00`; pool de 20 en `0x00587F20`, **6 ocupados**; `J+0xB4` = `0x00587FC0` (índice 2) con `ctrl+0x30` = J y `ctrl+0x3C` = 0; **`J2+0xB4` = 0**. Y `*(0x34)` = 0: con `ctrl` = 0 la cadena de `FUN_0025D840` da 0 en el primer eslabón, así que el mover de J2 escribía el desplazamiento **en ningún lado** (y `*(0x3C)` = 0 lo mantenía en esa rama).
+- **Negativo, misma corrida:** adelante sostenido 2 s en el falso 2 → **J2 Δ = 0,0000**, `J2+0x2E0` máx 0,0.
+- **Atar:** el estado 1 del stub por cuadro (el viejo CONSTRUIR, que no se usaba) pasó a llamar **`FUN_0025C210(*(0x0040F4CC), J2)`** y volver al estado 3; 46 palabras escritas **con el emulador en pausa** y verificadas antes de continuar. Una llamada, un retorno. **`J2+0xB4` = `0x00588100`** (índice 6), `ctrl+0x30` = J2, `ctrl+0x3C` = 0, 7 de 20 ocupados; `J+0xB4` intacto.
+- **Positivo, el mismo empuje:** **J2 se desplaza 8,14 m en 2 s** con `J2+0x2E0` = **4,5** (la rapidez pedida de (81)). **Control:** el falso 1 mueve a J 3,55 m en 1 s.
+- **Los cuatro empujes de (81), repetidos con el controlador:** atrás 9,51 m, lateral_a 3,61, lateral_b 8,91, adelante 6,05. El primer «adelante» después del positivo casi no avanzó (0,12 m): J2 había quedado **contra una pared** en z ≈ 60,76, y ahora sí se frena — es la colisión funcionando.
+- **Los dos jugadores chocan entre sí** (probable, por el patrón): al atar, J y J2 estaban a 4 cm y J se corrió 0,23 m cuando J2 arrancó; en lateral_a J2 pasó por donde estaba J y **lo empujó 4,16 m** mientras J2 bajaba a 1,68 m/s.
+
+**Cierra el prototipo del criterio de COOP-A:** el segundo mando (por el camino del mando 2: `ctrl2+0xC` → falso 2) **mueve a un segundo jugador que está en el nivel** —con colisión contra el nivel y contra J—. Nodo **`ragdoll` K2 → K5**, renombrado por lo que es: `0x0040F4CC` son los **cuerpos de personaje** (controladores de colisión de los vivos y ragdoll de los muertos).
+
+### (82) N4 — Corrección a (81): el cuerpo de J2 SÍ está en la lista y SÍ sigue a J2
+Con J2 caminando: la lista activa del mundo `0x0066E900` (`L` = `0x0066EA00`) tiene **6 cuerpos, y el de J2 (`0x00699200`) es el segundo**, con nodo `0x0066EBBC` activo, dueño J2 y mundo puesto; `cuerpo+0x30` = `J2+0xA0` + (0; 0,8; 0) exacto (la constante de `0x00414DC0`) antes y durante el empuje. El «0 campos que responden y 0 de ruido» de (81) salió de **diferenciar valores con J2 quieto**: un seguidor de una posición quieta no cambia. `fisica` **sigue en K4** (no causamos ningún efecto en ese nodo), con la evidencia corregida.
+
+**No funcionó / no se hizo:** la captura para ver si J2 **se dibuja** desde la vista de J: la pantalla de la notebook tenía otra ventana adelante (Fran usándola) y no se trajo PCSX2 al frente. Queda para la Fase B —y es una pregunta de peso: en primera persona el jugador no tiene por qué tener modelo propio dibujado.
+
+**Lección de proceso (la misma forma que (81) ya pagó una vez):** un negativo «nadie lo escribe» medido **por diferencia de valores** no distingue «no corre» de «copia algo quieto». Antes de concluir que un camino no corre, se mide con un vigilante de **escritura** o con el objeto en movimiento.
+
+**Sigue:** cerrar COOP-A (KDP-B): contra la tabla del PDP §4 queda `spawn` (fila 7, K3 → K5) sin sonda corrida; el resto de los habilitadores de la tabla está en su objetivo. Y hacer **permanente** el alta del controlador en el envoltorio de carga (hoy es un paso a mano del stub por cuadro).
+
 ---
 
 ## 2026-09-27 (81) — La ranura de personaje propia de J2: la sonda de un byte
