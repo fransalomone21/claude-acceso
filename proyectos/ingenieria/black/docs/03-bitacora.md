@@ -16,6 +16,30 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (85) — B2b: el cuerpo de J2 es un ALIADO del nivel; y las balas de J2 no hacen daño
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B2, cuerpo de J2; fuego amigo) · **Nodos:** `vista-fp` **K2 → K3**, `ia` **K2 → K3**, `personajes` K4 (evidencia), `armas` K6 (evidencia)
+**Objetivo:** Fran contestó la pregunta de B2: *«en el mismo nivel 1 hay aliados, así que buscá un modelo de aliado; y para los aliados no debe haber fuego amigo»*, y agregó que *al apuntarle a un aliado la mira se pone verde* (los aliados no están en todos los niveles).
+
+### (85) En frío: el BANDO y el TIPO de cada personaje
+- **`+0x328`** de todo personaje = su entrada de la tabla de tipos (`actores+0x7A10+0x40·tipo`); la guarda `FUN_001327F0` (`puVar19` es `undefined8*`: `+0x65·8`). **`+0x3A4`** = el **bando**: `FUN_00178BC0` (constructor de enemigos) lo pasa como `param_8`, y hay ~50 comparaciones `+0x3A4` contra el del otro en el ELF (`FUN_0013D388`, `FUN_0013D9A0`, …); `FUN_0013D400` indexa `DAT_0040F4D4+0x22B20` por bando; `FUN_00134990` (un daño de valor fijo 100/50) **vuelve sin hacer nada si la víctima es de bando 0**.
+- Leído en los cuatro volcados del mismo nivel y en vivo: **J y J2 bando 0; actor 0 tipo `0x1E` y actor 1 tipo `0x1D`, bando 0, vida FLT_MAX (los aliados, Tom y Matt: `Team0_Tom`/`Team1_Matt` de 2026-08-17); todos los `0x24` bando 1** (enemigos). Grado: probable (el bando se lee en código y RAM; la mira verde no se midió contra el campo). **El «no fuego amigo» de los aliados ya es del juego: vida FLT_MAX.**
+
+### (85) B2b — EN VIVO: el aliado se dibuja donde está J2 y lo sigue — confirmado
+Predicción escrita antes: *el aliado 1 (0x1D) aparece como soldado completo donde se lo ponga; si el controlador de colisión es el dueño de la posición, deriva > 0,5 m entre escrituras.*
+- **P1:** posición del aliado 1 escrita a mitad de camino J–J2 y sostenida por PINE: **se ve el soldado** (visor nocturno, cuerpo entero) y **la mira se pone verde sobre él** (`volcados/capturas-85/p1b-aliado1d-durante.png`); control, la captura de antes: sólo los brazos flotando de J2 junto a la puerta (`p1b-aliado1d-antes.png`). Al soltarlo **se queda donde se lo puso** (1 s después, a 0 m).
+- **P2:** la **matriz entera** de J2 (`+0x70..+0xAF`) copiada al aliado en cada vuelta de PINE (`herramientas/titere.py`), con J2 caminando con el mando falso 2: **J2 camina 9,96 m y el aliado 10,05 m, a 0,21 m como máximo**; control (sin copiar): J2 camina y el aliado se mueve 0,00 m. Visto desde J: el soldado parado donde quedó J2, con los brazos de J2 flotando encima (`p2c-quieto-durante.png`).
+- **Queda para el diseño (no para la factibilidad):** los brazos de J2 se siguen dibujando encima del títere en la vista de J; el títere tiene sus propias animaciones (no camina cuando J2 camina); la copia tiene que vivir en el gancho por cuadro (`0x0046D800`), no en PINE; en la vista de J2 hay que esconder el títere; y **en los niveles sin aliados** hay que dar de alta un soldado con bando 0.
+
+### (85) Fuego amigo — lo que se midió, y una trampa que contaminó media sesión
+- **J → J2: no hay daño.** `matar_sin_manos.py` apuntando a J2: 14 balas nativas a 4,5 m, J2 sigue en 750; con J2 en **bando 1** (y `sondas_coop.py boton disparar 2`): 10 balas más, sigue en 750. No es el bando: el jugador **no tiene blanco de bala** (probable; en un jugador solo nunca hizo falta).
+- **LAS BALAS DE J2 NO HACEN DAÑO — confirmado con control.** Mismo enemigo, misma sala, mismo script (`herramientas/tirador.py`), 12 s después de nacer: J2 le tira **sus 15 balas nativas** a 1,1 m (cargador 15 → 0) y el enemigo queda en 100; acto seguido **J lo mata** (100 → 0). El disparo de J2 sale (agujeros en la pared, `p7-J2-a-enemigo.png`). Por eso **J2 → J** no se puede medir todavía: J2 no daña a nadie.
+- **La IA le tira a J, no a J2:** un enemigo nacido a 6 m bajó a J de 750 a 30 (y lo mató: «Mission failed», `p8-J-no-dispara.png`) y dejó a J2 en 750, aunque caminó hasta 1 m de J2.
+- **TRAMPA (costó ~8 sondas):** un enemigo **recién nacido por spawner no recibe daño los primeros segundos** — J, con el mismo script, 15 tiros sin daño a los ~5 s y lo mata a los ~40 s. Todas las pruebas «J2 no daña» anteriores a la limpia estaban contaminadas por eso; la limpia espera 12 s y tiene control. Otra: después de `pine.py cargarestado` desde la carpeta equivocada no se carga nada y se mide sobre el estado viejo (salió con `*> $null`).
+
+**No funcionó:** apuntar por el «adelante» del cuerpo de J2 (`+0x90`) no apunta el arma (el arma sigue la mira, `*(J2+0x32C)+8`/`+0xC`); dos conexiones PINE a la vez (una se corta por tiempo); el botón recargar del mando falso 2 no le recarga a J2, ni con reserva `J2+0x280` = 30.
+
+**Sigue:** en frío, **por qué las balas de J2 no dañan** (la cadena del disparo del jugador: ¿el golpe se asigna a `jugadores[0]`, o el daño exige que el tirador sea J?) — riesgo nuevo **B7** en el PDP, porque sin eso J2 no puede jugar. Después B3 (el mod sin PINE) con la copia del títere adentro del stub.
+
 ## 2026-09-27 (84) — COOP-B abierta, y B1: el juego dibuja DOS VISTAS en el mismo cuadro
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2, la meta) · **Nodos:** `render` **K4 → K5**
 **Objetivo:** escribir el criterio de salida de COOP-B en el PDP **antes** de abrirla, y atacar primero el riesgo que cambia la forma del mod: dos vistas por cuadro (B1).

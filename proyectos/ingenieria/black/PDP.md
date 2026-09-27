@@ -181,6 +181,12 @@ retirando **por efecto** los riesgos que, si fallan, cambian la forma del mod.
      pnach** (sin Python ni PINE corriendo): J2 se construye en la carga, se
      le ata el controlador y camina con el mando 2. Es lo que convierte el
      prototipo en algo que Fran prende desde el menú (N7).
+   - **B7 · J2 hace daño** (agregado el 2026-09-27 (85), al **medir** que no:
+     15 balas de J2 a 1 m de un enemigo, 0 de daño; J lo mata acto seguido).
+     J2 le dispara a un enemigo y le baja la vida, con control. Sin esto J2 no
+     puede jugar, así que entra como riesgo alto y no medio. `armas` sigue en K6
+     (el arma de J anda); lo que se sube es el conocimiento de la cadena
+     disparo → golpe → daño para un segundo jugador.
 2. **Los riesgos medios decididos en el diseño**, cada uno con su mecanismo
    leído (K4, en frío alcanza) y la política elegida: **IA frente a J2**
    (`ia` K2 → K4: ¿le apuntan, le pegan?), **muerte y reaparición de J2**
@@ -210,7 +216,8 @@ saboteador en rojo; `prueba_herramientas.py` en verde.
 | B1a | dos vistas | `render` K4 | **HECHA (84)**: la pasada 160 × 112 es de **sombras**, no una vista; la cámara de escena lee su vista del gestor `+0x700` y dibuja en un sub-raster. En frío: de dónde sacan **cámara, viewport y framebuffer** las dos pasadas extra (`FUN_001c1a98`, `FUN_001c28b0`), y qué dibujan (¿la escena entera o una lista reducida?) | decompilado |
 | B1b | dos vistas | `render` K4 → **K5, HECHA 2026-09-27 (84)** | `pantalla_dividida.py`: la escena dibujada dos veces por cuadro, J a la izquierda y J2 a la derecha, con control (`p20-dividida-256.png`). En vivo: la segunda pasada con la cámara de J2 y un rectángulo de media pantalla, **vista en una captura**; FPS con y sin | notebook |
 | B2a | cuerpo | `vista-fp` K2 → K3 | en frío: qué decide que el jugador se dibuje como brazos y un enemigo como cuerpo (el modelo del actor, y quién lo elige al dar de alta) | decompilado |
-| B2b | cuerpo | `personajes` K4 → **K5** | en vivo: J2 con el modelo que elija Fran, visto desde J | notebook |
+| B2b | cuerpo | `personajes` K4 → **K5** | **PROTOTIPO HECHO (85)**: Fran eligió **un aliado del nivel**; el aliado 1 (tipo `0x1D`, bando 0) con la matriz de J2 copiada por PINE se dibuja donde está J2 y lo sigue 10 m a ≤ 0,21 m, con control. Falta: la copia en el stub, esconder los brazos de J2 en la vista de J, las animaciones, y los niveles sin aliados | notebook |
+| B7 | J2 hace daño | `armas` (cadena del disparo de un 2.º jugador) | en frío: por qué el golpe de J2 no daña (¿se asigna a `jugadores[0]`? ¿el daño pide tirador = J?); en vivo, J2 le baja la vida a un enemigo con control (**esperar ≥ 12 s después de que nazca**: el recién nacido no recibe daño) | los dos |
 | B3 | sin PINE | `codigo-nuevo` K5 (entrega) | el envoltorio de carga + `atar` + mando 2 como pnach; arranque en frío del juego sin Python | notebook |
 | B4 | IA | `ia` K2 → K4 | en frío: a quién apunta un enemigo (¿lee `jugadores[0]` o una lista?); en vivo, un enemigo con J2 más cerca que J | los dos |
 | B5 | muerte de J2 | `flujo` K3 → K4 | vida de J2 a 0: qué hace el juego (¿fin de misión, cuelgue, nada?) | notebook |
