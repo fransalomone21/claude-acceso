@@ -16,6 +16,38 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (77) — Botones del mando falso: el mapa acción → botón, en frío y en vivo
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `entrada`, `armas`
+**Objetivo:** que el mando falso apriete botones, con un observable en RAM, para que 5a, `0x0040D9A3` y los niveles 96–99 corran sin Fran.
+**En frío (probable, leído antes de tocar RAM):**
+- El mando procesado tiene 28 entradas: `+0x2A+i` = estado **actual** (u8), `+0x0E+i` = **anterior**, `+0x4C+4i` = valor (f32). Accesores: `FUN_0026bb98` (valor), `FUN_0026bc30` (actual), `FUN_0026bbc0` (**recién apretado**: actual ≠ 0 y anterior = 0), `FUN_0026bbf8` (soltado). Por eso el barrido de (76) no podía andar: escribía un byte en `+0x10…` (la zona de «anterior»), no las tres cosas juntas.
+- El juego no pregunta por botones sino por **acciones**: `FUN_00124840(control, acción)` traduce con una tabla apuntada por `*(0x003BCAC8)` = `0x004BC174` (leída en vivo, 38 acciones). Acciones 9, 0xB, 0x19–0x1D, 0x1F, 0x20 y 0x24 piden **flanco** (recién apretado); el resto, valor sostenido.
+- El que las consume en juego es `FUN_0013f618(mira)`, con `mira = J+0x4F0` (su `+0x98` es la copia de control `J+0x588` y su `+0x7C` es el jugador). Tabla botón → acción → efecto:
+  - 0 → 0x1F (flanco) → `FUN_00156e90`: estado del arma `+0xD8` = 0x17/0x18 · 1 → 0xD → levantar arma del piso · 2 → 0xB (flanco) → `mira+0x34` · 3 → 0x20 (flanco) → `mira+0x3B`
+  - 4 → 0x1E (flanco) → `FUN_00156d80` → `FUN_0015a990`: **modo de fuego** `sub+0x20` = (x+1) % 3 · 5 → 0x21 → `FUN_0013c9d8` · 6 / 7 → 0xF / 0xE → `FUN_0015be08`: **cambiar de arma**
+  - 9 → 0x22 → sonido cada 10 cuadros · 10 → 0x10 → `mira+0x35` · 11 → 0xC → `mira+0x30` (zoom, `FUN_001f2cd0`) · **12 → 9 (flanco) → `mira+0x31`** · 13 → 0x1B (flanco) → `mira+0x33`
+  - 8, 14 y 15 no pasan por `FUN_0013f618`.
+- **La munición** (`FUN_0015a830`, recarga, y `FUN_00155140`, la resta del código público de munición infinita): el arma equipada es `J+0x2A4`; su subobjeto `*(arma+0xF4)` guarda el **cargador en `+0x18` (u16)** y el modo de fuego en `+0x20`; la reserva es un arreglo de u16 por tipo en `*(arma+0xFC)` = `J+0x280`. En vivo: arma `0x006DE690`, sub `0x006E18B0`, cargador **4**, reserva `[30, 24, …]`.
+**Predicciones, escritas antes de correr** (mando falso puesto; cada botón i con `+0x4C+4i` = 1.0, `+0x2A+i` = 1, `+0x0E+i` = 0 durante 0,5 s; el falso no lo actualiza nadie, así que un flanco queda «recién apretado» cada cuadro):
+- **12 → `mira+0x31` = 1 y el cargador baja** (hipótesis: la acción 9 es disparar). Si el cargador no baja pero la bandera sí, disparar es otra acción.
+- 11 → `mira+0x30` = 1 · 10 → `mira+0x35` · 2 → `mira+0x34` · 3 → `mira+0x3B` · 13 → `mira+0x33` (o `+0x32`).
+- 4 → el modo de fuego `sub+0x20` cambia · 6 o 7 → `J+0x2A4` pasa de `0x006DE690` a `0x006DEF10` (el arma del otro slot).
+- 8, 14 y 15 → nada de lo anterior.
+**Control:** el mismo registro con todos los botones del falso en 0 (banderas quietas, cargador quieto), y cada botón vuelto a 0 antes del siguiente.
+**Primer intento fallido, con su causa:** control y botón 12 dieron **nada**, ni la bandera. El control positivo (un eje de yaw, que en (76) giraba la vista) **tampoco** movía nada: el juego estaba en el **menú de pausa** («RESTART? YES / NO», captura), donde `FUN_0013f618` no corre. No se sabe si lo abrió el barrido de (76) o uno de los míos; sí se sabe que desde entonces cada corrida lleva su control positivo de «vivo». Se recargó el slot 3.
+**Resultado** (slot 3, `LEVEL_00`; `sondas_coop.py boton <i> 1.0`, y después de cada uno el eje de yaw como control de que el juego sigue corriendo):
+- **12 = DISPARAR — CONFIRMADO en RAM con control.** `mira+0x31` = 1 mientras está apretado y el **cargador baja 14 → 6 en 1 s**; con ningún botón (control) queda en 14, y con el 11 (zoom) también: la bandera sola no gasta balas.
+- **2 = RECARGAR — confirmado.** `mira+0x34` = 1, el arma pasa por los estados 4 y 8, y el cargador sube **6 → 15** mientras la reserva de su tipo baja **30 → 21** (los 9 que faltaban). Coincide con `FUN_0015a830` leída en frío.
+- **6 y 7 = CAMBIAR DE ARMA — confirmado.** `J+0x2A4` pasa a `0x006DEF10` (el otro slot, cargador 5) con los estados 11 y 9; como el flanco queda sostenido, el 6 fue y volvió.
+- **11 → `mira+0x30`** (zoom), **10 → `+0x35`**, **13 → `+0x33`**, **3 → `+0x3B`** y el arma a los estados 28/29 (sin identificar: no gastó balas ni reserva). Las banderas: medidas; qué hace cada una en pantalla, no.
+- **8 = PAUSA** (medido por efecto: después del 8 el eje deja de mover la vista; se recargó el slot). Es lo que (76) vio como «cambia la pose del arma».
+- **Sin efecto visto:** 0, 1, 5, 9, 14, 15, y **el 4, que falló la predicción**: el modo de fuego no cambió. Causa probable (frío): `FUN_00156d80` sólo actúa si el arma admite modos (`*(arma+0xEC)+0xC4` ≠ 0) y ésta no.
+- **Los menús leen el mismo control, o sea el falso** (probable, frío: `FUN_00124a70/ae8/b58/bc8/c38` piden flanco en los índices **2, 4, 5, 6, 7** del control de la sesión, que es `0x005858A0`, el mismo cuyo `+0xC` apunta al falso). Es lo que destraba 5a y los niveles 96–99 sin manos.
+- **La munición como observable:** cargador = u16 en `*(J+0x2A4)+0xF4` → `+0x18`; reserva = u16[tipo] en `J+0x280`. Medido.
+**Sigue:** con disparar y recargar, la cámara desactivada (`0x0040D9A3` = 1 y matar a un enemigo a más de 6 m) y 5a por menús; después el prototipo.
+
+---
+
 ## 2026-09-27 (76) — Lote de sondas COOP-A en la notebook: el mando 2 maneja al jugador 1, la vista se gobierna con un float, y entrada sin manos
 **Sigue:** (1) los **botones** del mando falso (dónde lee el control virtual los bits crudos), que destraban 5a, la cámara desactivada y los niveles de prueba sin Fran; (2) el **prototipo por PINE** del criterio de salida: un segundo bloque de jugador de 0x8C0 fuera del array, con sus tres copias de mando en `0x00585A0C` y su propio objeto de mira; (3) en frío, por qué mover una zona no la dispara (`FUN_0016a5e8`). Las predicciones de abajo se escribieron antes de cada corrida.
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `camara`, `render`, `sesion`, `valuedb`, `entrada`

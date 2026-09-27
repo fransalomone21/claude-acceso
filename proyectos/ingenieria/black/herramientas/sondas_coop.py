@@ -10,6 +10,7 @@ estan UNA vez.
 
     python herramientas/sondas_coop.py base          # imprime todos los observables
     python herramientas/sondas_coop.py base --json   # lo mismo, para guardar
+    python herramientas/sondas_coop.py boton disparar 1.0   # aprieta con el mando falso (77)
 """
 from __future__ import annotations
 
@@ -93,6 +94,43 @@ def falso_quitar(p: Pine) -> None:
     p.escribir32(CTRL1 + 0xC, MANDO1_REAL)
 
 
+# BOTONES (bitacora (77)). El mando procesado tiene 28 entradas: +0x2A+i es el
+# estado ACTUAL (u8), +0x0E+i el ANTERIOR y +0x4C+4i el valor (f32). Las
+# acciones de flanco piden actual != 0 y anterior == 0; como el falso no lo
+# actualiza nadie, un boton puesto asi queda "recien apretado" cada cuadro.
+MIRA_OBJ = JUGADOR + 0x4F0    # = MIRA; su +0x98 es el control y +0x7C el jugador
+BOTONES = {  # medidos en vivo con control (bitacora (77)); el resto, sin efecto visto
+    "disparar": 12,      # mira+0x31; el cargador baja
+    "recargar": 2,       # mira+0x34; cargador <- reserva. En menus, indice 2 (FUN_00124a70)
+    "zoom": 11,          # mira+0x30
+    "arma_a": 6, "arma_b": 7,   # cambian J+0x2A4 al otro slot
+    "b3": 3,             # mira+0x3B; estado del arma 28/29 (sin identificar)
+    "b10": 10,           # mira+0x35
+    "b13": 13,           # mira+0x33
+    "pausa": 8,          # abre el menu de pausa (el manejador del jugador deja de correr)
+}
+
+
+def poner_boton(p: Pine, i: int, apretado: bool) -> None:
+    p.escribir8(FALSO + 0x0E + i, 0)
+    p.escribir8(FALSO + 0x2A + i, 1 if apretado else 0)
+    p.escribir_f32(FALSO + 0x4C + 4 * i, 1.0 if apretado else 0.0)
+
+
+def observables_arma(p: Pine) -> dict:
+    arma = p.leer32(JUGADOR + 0x2A4)
+    sub = p.leer32(arma + 0xF4) if arma else 0
+    reserva = p.leer_bloque(JUGADOR + 0x280, 8)
+    return {
+        "banderas_mira_30_3B": list(p.leer_bloque(MIRA_OBJ + 0x30, 0xC)),
+        "arma": hex(arma),
+        "estado_arma_D8": p.leer32(arma + 0xD8) if arma else None,
+        "cargador": struct.unpack("<H", p.leer_bloque(sub + 0x18, 2))[0] if sub else None,
+        "modo_fuego": p.leer8(sub + 0x20) if sub else None,
+        "reserva": list(struct.unpack("<4H", reserva)),
+    }
+
+
 def main() -> int:
     tolerar_salida_pobre()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -105,7 +143,34 @@ def main() -> int:
     e.add_argument("nombre", choices=sorted(EJES))
     e.add_argument("valor", type=float)
     e.add_argument("segundos", type=float)
+    bt = sub.add_parser("boton", help="aprieta un boton del mando falso y registra el arma")
+    bt.add_argument("indice", help="0..15, un nombre de BOTONES, o -1 (control: ninguno)")
+    bt.add_argument("segundos", type=float)
     a = ap.parse_args()
+    if a.cmd == "boton":
+        a.indice = BOTONES[a.indice] if a.indice in BOTONES else int(a.indice)
+        import time
+        with Pine() as p:
+            if p.leer32(CTRL1 + 0xC) != FALSO:
+                falso_poner(p)
+            for i in range(16):
+                poner_boton(p, i, False)
+            time.sleep(0.2)
+            antes = observables_arma(p)
+            if a.indice >= 0:
+                poner_boton(p, a.indice, True)
+            medio = []
+            t0 = time.time()
+            while time.time() - t0 < a.segundos:
+                medio.append(observables_arma(p))
+                time.sleep(0.1)
+            if a.indice >= 0:
+                poner_boton(p, a.indice, False)
+            time.sleep(0.3)
+            despues = observables_arma(p)
+            print(json.dumps({"boton": a.indice, "antes": antes, "durante": medio,
+                              "despues": despues}, ensure_ascii=False))
+        return 0
     if a.cmd != "base":
         import time
         with Pine() as p:
