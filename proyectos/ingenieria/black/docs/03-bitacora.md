@@ -34,6 +34,14 @@ Formato de cada entrada:
 **Lectura:** el contexto de carga **no** es lo que le faltaba al constructor. Lo que distingue a J2 de J0 en el mismo camino es el **molde**: los punteros y valores copiados del bloque de J (entre ellos los 15 objetos de arranque compartidos) o el índice −577.
 **Sigue:** 3b — confirmar el vigilante `onchange` vs `write` y poner **migas dentro** de `FUN_001438a8`/`FUN_00143d90` para saber en qué llamada se duerme.
 
+**3b en frío (probable, antes de tocar RAM) — el cuelgue tiene candidato, y es de diseño:**
+- `FUN_001438a8(streamer, hash)` → `FUN_00143908`: máquina de estados del **cargador de modelos** `*(0x0040F540)` (doble búfer, `+0x7C`/`+0x80`, estado en `*(+0x80)+0x1C`; 8 = listo, y devuelve 1 si el hash pedido es el cargado). Con el hash de J (el molde lo trae) da 1 en la primera llamada.
+- `FUN_00143d90(streamer, J2, 0)`: si el búfer está en 8, lo **da vuelta** (`FUN_00144078`) y llama `FUN_001ac960(*(0x0040F50C), 0, modelo, J2, …)`, que inicializa la instancia `base+0x398+k·0x6C` y termina en un **lazo** `do { r = FUN_001a51c8(base+0x470+k·0x240, J2, inst) } while (r == 0)`.
+- `FUN_001a51c8(ranura, jugador, inst)` **ata una ranura de personaje al jugador**: si `ranura+0xB8` ≠ 0 la suelta primero (`FUN_001a5ee8`), después `*ranura = jugador` y `jugador+0x330 = ranura`.
+- **El índice lo fija el constructor en 0** (`move a2, zero` en `0x00139DD0`). El sistema de armas llama lo mismo con otro índice (`FUN_0015bbd8`, `FUN_0015c3c8`, `+0x43`).
+- **Medido en vivo (slot 3):** `*(0x0040F50C)` = `0x004ED380` (2.416 B; el kb lo tiene bajo `audio` y **no es de audio**); ranura 0 (`0x004ED7F0`, = `J+0x330`) y ranura 1 (`0x004EDA30`) **las dos con dueño J** (`0x005A8AB0`) y `+0xB8` = 1. Instancias 0 y 1 en `+0x398`/`+0x404`, y `0x398 + 2·0x6C` = `0x470`: **caben exactamente dos**. No hay ranura libre para J2: el constructor le **roba la ranura 0** a J0.
+**Predicción P8 (localización, escrita antes):** repetir P7 tal cual y, después del cuelgue, leer (sin código nuevo) las escrituras del propio juego: (i) el dueño de la ranura 0 (`0x004ED7F0`) y `J2+0x330`; (ii) el byte de búfer del cargador de modelos (`*(0x0040F540)+0`, se da vuelta en `FUN_00144078`). Apuesto a **(i) = J2 y `J2+0x330` = `0x004ED7F0`**: el cuelgue está en el lazo de `FUN_001a51c8` después de atar, o en lo que sigue (P6b vio escribir `J2+0x4E0` a `FUN_00137018`, que sólo corre con el jugador atado). Si el dueño sigue siendo J0 y el búfer se dio vuelta, el cuelgue está en **soltar** a J0 (`FUN_001a5ee8`). Si el búfer no se dio vuelta, está antes (`FUN_00143908`). **Control:** los mismos campos leídos antes de la carga (J dueño de las dos ranuras) y, para el búfer, su valor antes. El vigilante `onchange`/`write` no hace falta para esta lectura (no se usa vigilante); queda para cuando se use.
+
 ---
 
 ## 2026-09-27 (78) — 5a y los niveles 96–99: el selector de niveles de depuración, en frío y por PINE
