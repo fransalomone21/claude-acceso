@@ -4,11 +4,23 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(85)» DE ACÁ ABAJO.** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(86)» DE ACÁ ABAJO.** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1 hecha, B2b hecha
-> como prototipo por PINE y B7 hecha**. El mensaje para pegar está en
-> `sesiones/RETOME-LOCAL.md`.
+> como prototipo por PINE, B7 hecha y B3 hecha en la PRIMERA carga** (la segunda
+> cuelga). El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — B3: EL MOD SIN PINE ANDA EN LA PRIMERA CARGA; LA SEGUNDA CUELGA (bitácora (86))
+
+**El resultado:** `herramientas/coop_mod.py` pone todo el prototipo en los stubs, **sólo código** (165 palabras): el envoltorio del cargador (`0x0046DA00`) **copia J → J2 con `lq/sq`** cuando J termina de construirse (el molde que antes escribía Python), y el stub por cuadro (`0x0046D800`) espera 30 cuadros → control2 (`CTRL2 = *(J+0x588) + 0x16C`; `CTRL2+0xC` ya es el mando 2 real, `0x5857B0`) → enlazar → atar → corre a J2. B3.1 (código por PINE, datos en cero) y **B3.2 (entregado por el pnach**, bloque `[COOP - jugador 2 (B3)]` en `Documents\PCSX2\patches\SLUS-21376_5C891FF1.pnach`): J2 se arma en la carga y camina **7,5 m en 2 s** con el mando 2, control 0,00 m.
+
+**Lo que falta en B3:** **la segunda carga cuelga el emulador** (`TLB Miss, pc=0x33DDB0 addr=0x2000000`, en `FUN_0033DD98` llamada por `FUN_00336520`, al primer cuadro del nivel nuevo, con `moldes = 2`). Con J2 frenado por PINE (`fase = 0`) cuelga igual: **H1 refutada**; **H2 probable**: algo que se le da de alta a J2 sobrevive al nivel y nadie lo da de baja. Falta el mando 2 REAL (lo prueba Fran) y el títere, la vista y el cabeceo en los stubs.
+
+**Herramientas:** `coop_mod.py` `listar` · `poner` (PINE, en pausa: simula el pnach) · `mirar <s>` · `manos <s> [--control]` (las manos de la prueba: falso 2) · `instalar` (el bloque, apagado, con respaldo) · `activar`/`desactivar` (la línea `Enable` de `gamesettings`) · `quitar` · `toml`.
+
+**Trampas medidas:** `selector_depuracion.py pedir-frontend` **desde el menú del arranque** hace saltar la CPU a datos (con y sin el mod, controlado): se entra al nivel cargando el **slot 3** (zona del mod en cero, leído del `.p2s`) y pidiendo el selector desde ahí. El aviso «Failed to open patches.zip» es de la copia `PCSX2-MCP`, inocuo. `manos` antes del control2 le robaba el mando a J (corregido).
+
+**Estado de la máquina al cerrar:** PCSX2 **colgado** en la segunda carga (hay que cerrarlo y relanzarlo con `lanzadores\ABRIR-BLACK-ORIGINAL.bat` o con `pcsx2-qt.exe -fastboot -batch -- <iso>`). **El bloque del coop está INSTALADO y APAGADO** (`coop_mod.py activar` lo prende). Nada guardado en un slot.
 
 ## 2026-09-27, NOTEBOOK — B2b: EL CUERPO DE J2 ES UN ALIADO; B7: J2 HACE DAÑO (bitácora (85))
 

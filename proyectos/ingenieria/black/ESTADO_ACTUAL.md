@@ -243,6 +243,19 @@ dice medido). Lo que cambió:
     8 que pide una víctima jugador; medido J → J2 y J2 → J); los aliados tienen vida FLT_MAX.
   - La IA le tira a J y no a J2. **Trampa:** el enemigo recién nacido no recibe daño unos segundos.
   - A J2 no le anda la recarga; las matrices de acople de la ranura 1 están en cero.
+- **B3: el mod sin PINE, en la primera carga (2026-09-27, bitácora (86), notebook).**
+  - `coop_mod.py`: el **envoltorio del cargador** (`0x0046DA00`) copia J → J2 con `lq/sq` cuando J
+    termina de construirse (reubica 7 autopunteros, `+0x8A4 = 0x1C`) y el **stub por cuadro**
+    (`0x0046D800`) espera 30 cuadros → control2 (`CTRL2 = *(J+0x588) + 0x16C`) + enlazar → atar →
+    corre a J2. 165 palabras, **sólo código**: los datos nacen del `.bss` en cero.
+  - **Entregado por el pnach** (bloque `[COOP - jugador 2 (B3)]` en
+    `Documents\PCSX2\patches\SLUS-21376_5C891FF1.pnach`, prendido con `Enable =` en
+    `gamesettings`): J2 se arma y camina **7,54 m** en 2 s con el mando 2 (control 0,00 m). El mando 2
+    de fábrica ya es el real (`CTRL2+0xC = 0x5857B0`).
+  - **La segunda carga cuelga el emulador** (`pc=0x33DDB0`): H1 (correr a J2 durante el desarme)
+    refutada; H2 probable: algo dado de alta a J2 sobrevive al nivel. **Bloque APAGADO** hasta arreglarlo.
+  - Trampa: el selector de depuración **desde el menú del arranque** cae con o sin mod (se pide desde
+    adentro de un nivel). El aviso «patches.zip» es de la copia `PCSX2-MCP`, inocuo.
 - **Siguiente:** **B3** (el mod sin PINE) en un chat nuevo, con el títere, el cabeceo de J2 y su
   recarga adentro del stub. Detalle y comandos: `sesiones/RETOME-LOCAL.md`. **Slot 13** = J2 con
   controlador.
