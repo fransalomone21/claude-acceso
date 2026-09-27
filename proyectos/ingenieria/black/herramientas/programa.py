@@ -11,6 +11,7 @@ de sus NGOs (rank-order centroid del orden que dio Fran, tope 1, con factor_c1
 opcional); C2 por costo; C3 = K minima / 7; C4 y C6 por vehiculo; C5 = cuantos
 candidatos comparten un habilitador en K0-K1 con el (normalizado). Sensibilidad:
 1000 corridas con cada peso +-50 % y el orden de N4/N5 intercambiado.
+Filtro de valor (2026-09-27): con pesos.umbral_c1, lo que no llega no se rankea.
 
 Fuentes: kb/subsistemas.json (PBS de nivel 1 con madurez K0-K7) y
 kb/conceptos.json (NGOs, MOEs, funciones, criterios, conceptos).
@@ -215,10 +216,17 @@ def trade(raiz, top=15, corridas=1000):
     w = {k: v for k, v in p.items() if k.startswith("C") and len(k) == 2}
     orden = p["orden_ngos"]
     nt = notas(c, subs, orden)
+    # filtro de valor: un concepto que casi no mueve las metas de Fran no compite,
+    # por facil que sea (C4 y C6 salen los dos del vehiculo y lo subian solos)
+    umbral = p.get("umbral_c1", 0)
+    fuera = sorted(i for i in nt if nt[i]["C1"] < umbral)
+    nt = {i: v for i, v in nt.items() if i not in fuera}
     base = ranking(nt, w)
     nombres = {x["id"]: x["nombre"] for x in c["conceptos"]}
     print(f"TRADE STUDY -- pesos {w} ({p['fuente']}, {p['fecha']})")
     print(f"orden de NGOs para C1: {' > '.join(orden)}")
+    if fuera:
+        print(f"fuera por valor (C1 < {umbral}): {', '.join(fuera)}")
     # sensibilidad: cada peso movido al azar hasta +-50 %, semilla fija (reproducible)
     rnd = random.Random(20260927)
     en_top5 = dict.fromkeys(nt, 0)
@@ -237,7 +245,8 @@ def trade(raiz, top=15, corridas=1000):
         o2 = list(orden)
         a, b = o2.index("N4"), o2.index("N5")
         o2[a], o2[b] = o2[b], o2[a]
-        alt = ranking(notas(c, subs, o2), w)
+        n2 = notas(c, subs, o2)
+        alt = ranking({i: v for i, v in n2.items() if v["C1"] >= umbral}, w)
         print(f"\ncon N4 y N5 intercambiadas: top5 {alt[:5]} (base {base[:5]}); "
               f"primero {'IGUAL' if alt[0] == base[0] else 'CAMBIA'}")
     return 0
