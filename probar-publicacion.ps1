@@ -50,6 +50,15 @@ try {
     foreach ($prop in $jr.'no-se-publican'.PSObject.Properties) {
         $noPublicarReal[$prop.Name] = $prop.Value
     }
+    # Los apuntes que la lista REAL declara y el fixture no usa tambien estan
+    # decididos: sin esto, cada apunte nuevo (apunte-iise, 2026-09-21) sale
+    # 'sin declarar' adentro del saboteador y tumba sus controles positivos.
+    $fixture = @($fisica, 'proyectos/documentos/electronica-analogica/apunte/apunte.pdf')
+    foreach ($a in $jr.apuntes) {
+        if ($fixture -notcontains $a.local) {
+            $noPublicarReal[(Split-Path $a.local -Parent) -replace '\\','/'] = 'declarado en la lista real; fuera del fixture'
+        }
+    }
 } catch { }
 
 function Lista($apuntes, $noPublicar = $null) {
