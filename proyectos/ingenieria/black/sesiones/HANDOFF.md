@@ -4,10 +4,25 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(84)» DE ACÁ ABAJO.** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(85)» DE ACÁ ABAJO.** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
-> criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1 está hecha**. El
-> mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+> criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1 hecha, B2b hecha
+> como prototipo por PINE y B7 hecha**. El mensaje para pegar está en
+> `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — B2b: EL CUERPO DE J2 ES UN ALIADO; B7: J2 HACE DAÑO (bitácora (85))
+
+**Lo que pidió Fran:** cuerpo de J2 = **un aliado del nivel 1**; sin fuego amigo con los aliados; «al apuntarle a un aliado la mira se pone verde».
+
+**El resultado:** todo personaje tiene en `+0x328` su entrada de la tabla de tipos y en **`+0x3A4` su bando** (0 jugadores y aliados, 1 enemigos). En City Streets los aliados son **los actores 0 y 1 del pool** (`actores+0x90+i·0x3C0`; tipos `0x1E` y `0x1D`, Tom y Matt), bando 0, vida FLT_MAX. **Títere:** copiar la matriz de J2 (`+0x70..+0xAF`) al aliado 1 en cada vuelta de PINE lo dibuja donde está J2 y lo sigue 10 m a ≤ 0,21 m (control: quieto; capturas `volcados/capturas-85/p1b-*`, `p2c-*`). **B7:** las balas de J2 no dañaban porque su **matriz de vista `+0xD0` tiene el cabeceo al revés de su mira** (mira −19,4° → adelante `+0xF0` con y = +0,332): con el signo cambiado J2 mata (100 → 0 en 6 balas, control 5 y 100), también con el títere pegado. **Fuego amigo:** entre jugadores no existe (máscara del rayo de jugador `0x57`, `FUN_00159198`; el filtro `FUN_0015ADA8` pide el bit 8 para una víctima jugador); los aliados tienen FLT_MAX. La IA le tira a J y no a J2.
+
+**Herramientas nuevas:** `titere.py` (el títere, con `--control`), `tirador.py J|J2 <blanco> <s>` (`--pitch-invertido`, `--titere=<i>`, `--cargar`, `--acercar=`), `ranura_j2.py` (sonda de la ranura, refutada).
+
+**Trampas medidas:** el enemigo recién nacido por spawner **no recibe daño unos segundos** (esperar ≥ 12 s); en las pruebas J va con vida FLT_MAX (un enemigo nacido a 6 m lo mató); `cargarestado` desde la carpeta equivocada no carga nada (no redirigir su salida a `$null`); dos conexiones PINE a la vez se cortan. A J2 **no le anda la recarga** (ni con reserva `J2+0x280`); las **matrices de acople de la ranura 1 están en cero**.
+
+**Pendiente de la B:** **B3** (el mod sin PINE; ahora con el títere, el cabeceo de J2 y su recarga en el stub), B2b fino (esconder los brazos de J2 en la vista de J y el títere en la de J2; animación de caminar; niveles sin aliados), B4–B6 en frío, `docs/14-coop-diseno.md` y `coop_diseno.py`.
+
+**Estado de la máquina al cerrar:** PCSX2 abierto, City Streets desde el **slot 13** con un enemigo nacido y muerto, J y J2 con vida FLT_MAX, J2 sin balas; la pantalla dividida **no** está puesta. Nada de eso está en un slot.
 
 ## 2026-09-27, NOTEBOOK — COOP-B ABIERTA; B1: DOS VISTAS EN EL MISMO CUADRO (bitácora (84))
 

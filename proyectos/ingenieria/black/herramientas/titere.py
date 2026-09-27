@@ -1,6 +1,7 @@
 """P2 (B2b): el aliado sigue a J2 (posicion + matriz) mientras J2 camina con el mando falso 2.
 Uso: python herramientas/titere.py <indice_actor> <segundos_caminar> <prefijo_captura> [--control]
 --control: J2 camina igual, pero el aliado NO se escribe (tiene que quedarse donde esta).
+--giro=<grados>: gira la mira de J2 antes de caminar. --sin-caminar: sostiene el titere con J2 quieto.
 """
 import math, subprocess, sys, threading, time, json
 sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent))

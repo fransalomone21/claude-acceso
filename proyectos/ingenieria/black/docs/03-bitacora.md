@@ -16,7 +16,7 @@ Formato de cada entrada:
 
 ---
 
-## 2026-09-27 (85) — B2b: el cuerpo de J2 es un ALIADO del nivel; y las balas de J2 no hacen daño
+## 2026-09-27 (85) — B2b: el cuerpo de J2 es un ALIADO del nivel; B7: J2 hace daño (su cabeceo está al revés); sin fuego amigo entre jugadores
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B2, cuerpo de J2; fuego amigo) · **Nodos:** `vista-fp` **K2 → K3**, `ia` **K2 → K3**, `personajes` K4 (evidencia), `armas` K6 (evidencia)
 **Objetivo:** Fran contestó la pregunta de B2: *«en el mismo nivel 1 hay aliados, así que buscá un modelo de aliado; y para los aliados no debe haber fuego amigo»*, y agregó que *al apuntarle a un aliado la mira se pone verde* (los aliados no están en todos los niveles).
 
@@ -32,13 +32,25 @@ Predicción escrita antes: *el aliado 1 (0x1D) aparece como soldado completo don
 
 ### (85) Fuego amigo — lo que se midió, y una trampa que contaminó media sesión
 - **J → J2: no hay daño.** `matar_sin_manos.py` apuntando a J2: 14 balas nativas a 4,5 m, J2 sigue en 750; con J2 en **bando 1** (y `sondas_coop.py boton disparar 2`): 10 balas más, sigue en 750. No es el bando: el jugador **no tiene blanco de bala** (probable; en un jugador solo nunca hizo falta).
-- **LAS BALAS DE J2 NO HACEN DAÑO — confirmado con control.** Mismo enemigo, misma sala, mismo script (`herramientas/tirador.py`), 12 s después de nacer: J2 le tira **sus 15 balas nativas** a 1,1 m (cargador 15 → 0) y el enemigo queda en 100; acto seguido **J lo mata** (100 → 0). El disparo de J2 sale (agujeros en la pared, `p7-J2-a-enemigo.png`). Por eso **J2 → J** no se puede medir todavía: J2 no daña a nadie.
+- **Primera medición: las balas de J2 no hacen daño.** Mismo enemigo, misma sala, mismo script (`herramientas/tirador.py`), 12 s después de nacer: J2 le tira **sus 15 balas nativas** a 1,1 m (cargador 15 → 0) y el enemigo queda en 100; acto seguido **J lo mata** (100 → 0). El disparo de J2 sale (agujeros en la pared, `p7-J2-a-enemigo.png`). Se abrió **B7** en el PDP. **Lo que sigue lo corrige.**
+
+### (85) B7 — J2 SÍ hace daño: su matriz de vista tiene el cabeceo AL REVÉS — confirmado
+- **En frío (las instrucciones, no Ghidra):** el despachador de impactos `FUN_0015BA80` llama al método de daño (vtable `0x003DCA78` `+0x4C` = `FUN_00133FA8`) con el tirador que le pasa `FUN_0015AA60`; el tirador sale de `bala+4 → +0xF0`. La **máscara** del rayo la arma `FUN_00159198` (`0x001591D4..0x001592CC`): tirador con `+0xC4 = 2` (jugador) → **`0x57`**, cualquier otro → **`0x1F`**. El filtro `FUN_0015ADA8` exige **bit 4** para una víctima NPC y **bit 8** para una víctima jugador: la máscara no era el problema (J2 es jugador: `0x57` pega a NPCs). El rayo lo arma el método del tirador vtable `+0xA4` = `FUN_0013B4C0`: acople 5 de su ranura (`FUN_001A68B0(J+0x330, 5)`) por su **matriz de vista** `+0xD0/+0xE0/+0xF0/+0x100`.
+- **Dos hipótesis refutadas en vivo (`herramientas/ranura_j2.py`):** «la bala nace en el arma de J porque la ranura es compartida» — el slot 13 **ya** tiene a J2 en su ranura propia (ranura 1, dueño J2) y no daña; y con J2 en la ranura 0 (la de J, animada) tampoco. De paso: las **matrices de acople de la ranura 1 están en cero** (las de la 0 tienen el caño a 0,44 m).
+- **Medido:** la mira de J2 dice cabeceo **−19,42°** (abajo, al pecho del enemigo) y el «adelante» de su matriz de vista (`+0xF0`) tiene **y = +0,332** = 19,4° **arriba**. Las balas pasaban por encima de la cabeza.
+- **Predicción escrita antes:** *con el cabeceo escrito con el signo cambiado, J2 le baja la vida al enemigo.* **Medido, con control en el mismo minuto, mismo enemigo:** cabeceo normal, 5 balas y 100; **cabeceo invertido, 6 balas y 100 → 0** (`tirador.py --pitch-invertido`). **Con el títere aliado pegado a J2** (`--titere=1`) J2 igual lo mata (6 balas, 100 → 0): **el cuerpo no tapa sus balas.** Grado: confirmado.
+- **Para el diseño:** la vista de J2 en la pantalla dividida sale hoy del yaw de su mira (sin cabeceo, (84)); la mira de J2 y lo que dispara tienen que salir de **la misma** matriz, y el eje vertical del mando 2 va invertido respecto de J (o se niega el cabeceo al construir la matriz).
+
+### (85) Fuego amigo — la política queda decidida por el juego
+- **Entre jugadores no existe, por máscara** (mecanismo leído arriba: `0x57` no tiene el bit 8 que pide una víctima jugador). Medido: **J → J2** 24 balas, 0 daño (con J2 en bando 0 y en 1); **J2 → J** 4 balas con la puntería buena, 0 daño.
+- **A los aliados**, vida FLT_MAX: las balas les pegan (la mira se pone verde) y no les bajan nada.
+- **Política:** no hace falta ningún parche de fuego amigo; si algún día se le da a J2 vida finita o un cuerpo propio que sea NPC, esto se vuelve a medir.
 - **La IA le tira a J, no a J2:** un enemigo nacido a 6 m bajó a J de 750 a 30 (y lo mató: «Mission failed», `p8-J-no-dispara.png`) y dejó a J2 en 750, aunque caminó hasta 1 m de J2.
 - **TRAMPA (costó ~8 sondas):** un enemigo **recién nacido por spawner no recibe daño los primeros segundos** — J, con el mismo script, 15 tiros sin daño a los ~5 s y lo mata a los ~40 s. Todas las pruebas «J2 no daña» anteriores a la limpia estaban contaminadas por eso; la limpia espera 12 s y tiene control. Otra: después de `pine.py cargarestado` desde la carpeta equivocada no se carga nada y se mide sobre el estado viejo (salió con `*> $null`).
 
 **No funcionó:** apuntar por el «adelante» del cuerpo de J2 (`+0x90`) no apunta el arma (el arma sigue la mira, `*(J2+0x32C)+8`/`+0xC`); dos conexiones PINE a la vez (una se corta por tiempo); el botón recargar del mando falso 2 no le recarga a J2, ni con reserva `J2+0x280` = 30.
 
-**Sigue:** en frío, **por qué las balas de J2 no dañan** (la cadena del disparo del jugador: ¿el golpe se asigna a `jugadores[0]`, o el daño exige que el tirador sea J?) — riesgo nuevo **B7** en el PDP, porque sin eso J2 no puede jugar. Después B3 (el mod sin PINE) con la copia del títere adentro del stub.
+**Sigue:** **B3** (el mod sin PINE), que ahora lleva adentro del stub: la copia de la matriz de J2 al títere, el cabeceo de J2 corregido (una sola matriz para la vista y para el disparo) y la recarga de J2. Después B4–B6 en frío y `docs/14`.
 
 ## 2026-09-27 (84) — COOP-B abierta, y B1: el juego dibuja DOS VISTAS en el mismo cuadro
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2, la meta) · **Nodos:** `render` **K4 → K5**

@@ -37,7 +37,7 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1 (dos vistas) HECHA (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1 (dos vistas), B2b (títere aliado, prototipo) y B7 (J2 hace daño) HECHAS (LEER ESTO PRIMERO)
 
 **La Pre-Fase A cerró el 2026-09-27 con la MCR** (`PDP.md` §6). Fran contestó
 las 22 preguntas (`docs/12` §7) y **delegó** pesos y decisiones: «decide todo
@@ -228,9 +228,24 @@ dice medido). Lo que cambió:
     mitad 2; el cuaternión de J2 lo escribe Python (sale del yaw de su mira).
   - **B2 en frío:** hay una sola tabla de tipos de personaje (`actores+0x7A10`, 0x40 B); en City
     Streets, el tipo 0 (el jugador: brazos) y **cinco soldados** (`0x1D`, `0x1E`, `0x24`, `0x25`,
-    `0x27`). El cuerpo de J2 sale barato como **títere** de uno de ellos: **lo elige Fran**.
-- **Siguiente:** B3 (el mod sin PINE) en un chat nuevo; B2b cuando Fran elija el cuerpo. Detalle y
-  comandos: `sesiones/RETOME-LOCAL.md`. **Slot 13** = J2 con controlador.
+    `0x27`). El cuerpo de J2 sale barato como **títere** de uno de ellos.
+- **B2b prototipo y B7 hechos (2026-09-27, bitácora (85), notebook).** Fran eligió **un aliado del
+  nivel** y pidió que no haya fuego amigo con los aliados.
+  - Todo personaje: `+0x328` = su entrada de la tabla de tipos, **`+0x3A4` = bando** (0 jugadores y
+    aliados, 1 enemigos). City Streets: los aliados son los actores 0 y 1 del pool (tipos **`0x1E`**
+    y **`0x1D`**, Tom y Matt), bando 0, **vida FLT_MAX**. La mira se pone verde sobre ellos.
+  - **Títere:** la matriz de J2 (`+0x70..+0xAF`) copiada al aliado 1 en cada vuelta de PINE → el
+    soldado se dibuja donde está J2 y lo sigue 10 m a ≤ 0,21 m (control: quieto). `titere.py`.
+  - **B7:** las balas de J2 no dañaban porque su **matriz de vista (`+0xD0`) tiene el cabeceo al
+    revés de su mira** (iban por arriba). Con el signo cambiado J2 mata (100 → 0 en 6 balas;
+    control 5 y 100), **también con el títere pegado**. `tirador.py --pitch-invertido`.
+  - **Fuego amigo:** entre jugadores **no existe** (máscara del disparo de jugador `0x57`, sin el bit
+    8 que pide una víctima jugador; medido J → J2 y J2 → J); los aliados tienen vida FLT_MAX.
+  - La IA le tira a J y no a J2. **Trampa:** el enemigo recién nacido no recibe daño unos segundos.
+  - A J2 no le anda la recarga; las matrices de acople de la ranura 1 están en cero.
+- **Siguiente:** **B3** (el mod sin PINE) en un chat nuevo, con el títere, el cabeceo de J2 y su
+  recarga adentro del stub. Detalle y comandos: `sesiones/RETOME-LOCAL.md`. **Slot 13** = J2 con
+  controlador.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

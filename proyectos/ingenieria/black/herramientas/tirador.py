@@ -3,7 +3,9 @@ cada vuelta y mantiene 'disparar' en su mando falso. Mide vida del blanco y carg
 OJO: un enemigo recien nacido por spawner no recibe dano los primeros segundos: esperar >= 12 s.
 Uso: python herramientas/tirador.py <J|J2> <blanco_hex> <segundos> [--cargar] [--acercar=<m>]
 --cargar: pone el cargador del tirador en 15 antes. --acercar=m: sostiene al blanco a m metros del tirador,
-en la direccion en que ya esta (misma altura del tirador)."""
+en la direccion en que ya esta (misma altura del tirador). --pitch-invertido: escribe el cabeceo con el signo
+cambiado (la matriz de vista de J2, +0xD0, tiene el cabeceo al reves de su mira: bitacora (85)).
+--titere=<i>: en cada vuelta copia la matriz de J2 al aliado i del pool (el cuerpo de J2 puesto)."""
 import math, struct, sys, time, json
 sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent))
 from pine import Pine
@@ -17,6 +19,7 @@ OJOS, PECHO = 1.6, 1.2
 quien, E, seg = sys.argv[1], int(sys.argv[2], 16), float(sys.argv[3])
 T = J if quien == 'J' else J2
 F = FALSO[quien]
+signo_pitch = -1.0 if '--pitch-invertido' in sys.argv else 1.0
 acercar = next((float(x.split('=')[1]) for x in sys.argv if x.startswith('--acercar=')), None)
 
 def boton(p, i, v):
@@ -47,15 +50,19 @@ with Pine() as p:
     for i in range(16):
         boton(p, i, False)
     apretado = False
+    titere = next((int(x.split('=')[1]) for x in sys.argv if x.startswith('--titere=')), None)
+    A = p.leer32(0x0040F514) + 0x90 + titere * 0x3C0 if titere is not None else None
     while time.time() - t0 < seg:
         if punto:
             p.escribir_bloque(E + 0xA0, struct.pack('<3f', *punto))
+        if A:                        # el titere (un aliado) pegado a J2, como titere.py
+            p.escribir_bloque(A + 0x70, p.leer_bloque(J2 + 0x70, 0x40))
         tx, ty, tz = pos(T)
         ex, ey, ez = pos(E)
         dx, dz = ex - tx, ez - tz
         d = math.hypot(dx, dz)
         p.escribir_f32(mira + 8, 90.0 - math.degrees(math.atan2(dz, dx)))
-        p.escribir_f32(mira + 0xC, math.degrees(math.atan2((ey + PECHO) - (ty + OJOS), d)))
+        p.escribir_f32(mira + 0xC, signo_pitch * math.degrees(math.atan2((ey + PECHO) - (ty + OJOS), d)))
         if time.time() - t0 > 0.4 and not apretado:
             boton(p, 12, True)       # UNA vez y se sostiene, como matar_sin_manos
             apretado = True
