@@ -11,11 +11,11 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 
 | id | concepto | que | NGO | costo | vehiculo | K min (cuello) | riesgo | estado |
 |---|---|---|---|---|---|---|---|---|
-| M1 | Coop local, pantalla compartida | segundo jugador en el mismo nivel y la misma pantalla | N1 | XL | pnach-codigo | K2 (codigo-nuevo) | camara sin ubicar; el array de jugadores no tiene lugar (bitacora 61) | candidato |
-| M2 | Coop con pantalla dividida | cada jugador con su vista | N1 | XL | pnach-codigo | K2 (codigo-nuevo) | dos vistas cuestan el doble de GS/EE; render K1 | candidato |
-| M3 | El segundo mando maneja a un companero de escuadra | el jugador 2 toma a Tom o a Matt, que ya existen como actores | N1 | L | pnach-codigo | K2 (codigo-nuevo) | los companeros no estan en todos los niveles; hay que desenchufar su IA (8a) | candidato |
-| M4 | Coop asimetrico: el segundo como apoyo | marca objetivos, pide municion o controla una vista de apoyo | N1, N3 | L | pnach-codigo | K2 (codigo-nuevo) | diseno de juego nuevo, no solo tecnica | candidato |
-| M5 | Versus 1 contra 1 | dos jugadores enfrentados en un nivel o arena | N1, N4 | XL | pnach-codigo | K2 (codigo-nuevo) | necesita M1 o M2 mas dano entre jugadores y reaparicion | candidato |
+| M1 | Coop local, pantalla compartida | segundo jugador en el mismo nivel y la misma pantalla | N1 | XL | pnach-codigo | K2 (hud) | camara sin ubicar; el array de jugadores no tiene lugar (bitacora 61) | candidato |
+| M2 | Coop con pantalla dividida | cada jugador con su vista | N1 | XL | pnach-codigo | K4 (juego) | dos vistas cuestan el doble de GS/EE; render K1 | candidato |
+| M3 | El segundo mando maneja a un companero de escuadra | el jugador 2 toma a Tom o a Matt, que ya existen como actores | N1 | L | pnach-codigo | K2 (ia) | los companeros no estan en todos los niveles; hay que desenchufar su IA (8a) | candidato |
+| M4 | Coop asimetrico: el segundo como apoyo | marca objetivos, pide municion o controla una vista de apoyo | N1, N3 | L | pnach-codigo | K2 (comandos-ui) | diseno de juego nuevo, no solo tecnica | candidato |
+| M5 | Versus 1 contra 1 | dos jugadores enfrentados en un nivel o arena | N1, N4 | XL | pnach-codigo | K3 (spawn) | necesita M1 o M2 mas dano entre jugadores y reaparicion | candidato |
 | M6 | Coop a distancia con Parsec o Remote Play | un amigo se conecta al coop local desde su casa | N1 | S | externo | K5 (entrada) | latencia; depende de que exista M1, M2 o M3 | candidato |
 | M7 | Puntaje por turnos | dos jugadores se turnan la misma mision y compiten por puntos | N1, N3 | S | pine | K2 (estadisticas) | poco: no toca el juego | candidato |
 | X2 | Online nativo del emulador | descartado | N1 | XL | emulador | — | PCSX2 2.8 no trae netplay; M6 cubre la necesidad sin tocar nada | descartado |
@@ -42,10 +42,10 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | J2 | Armas nuevas por combinacion | clonar registros y cambiar proyectil, impacto y modelo | N3, N4 | M | datos-iso | K2 (iso-globdata) | el directorio tiene 17 entradas fijas | candidato |
 | J3 | Arsenal distinto por nivel | habilitar armas que el nivel trae y no usa (en LEVEL_00 sobran 9) | N3 | S | datos-iso | K4 (iso-niveles) | bajo: L1 editable en frio; falta el efecto | candidato |
 | J4 | Fisica y destruccion exageradas | impulsos de Collision.cfg en la ValueDB | N3 | S | pnach-datos | K3 (fisica) | RESUELTO en frio 2026-09-27 (bitacora (73)): el valor sale de Data/Andy.aku (herramientas/valuedb_aku.py). Medido: Collision Heavy/Medium/Light Object Max Weight = 6000/200/1, Max Impulse = 100/5/1. OJO: esos son los del .cfg de SONIDO de colision; los impulsos de la fisica pueden ser otra tabla. Falta el efecto (notebook) | candidato |
-| J5 | Camara lenta | escala de tiempo global, por ejemplo al matar | N3 | M | pnach-codigo | K2 (codigo-nuevo) | el reloj no esta ubicado (K0) | candidato |
+| J5 | Camara lenta | escala de tiempo global, por ejemplo al matar | N3 | M | pnach-codigo | K2 (tiempo) | el reloj no esta ubicado (K0) | candidato |
 | J6 | Movimiento | velocidad, carrera, salto | N3 | M | pnach-datos | K4 (juego) | campos del jugador sin nombre para esto | candidato |
 | J7 | Randomizer | enemigos, armas y pickups distintos cada partida | N3 | L | datos-iso | K2 (pickups) | depende de que D4 ande por efecto | candidato |
-| J8 | Horda o supervivencia | oleadas en una zona de un nivel existente | N3, N4 | XL | pnach-codigo | K2 (codigo-nuevo) | aparicion en runtime sin ubicar | candidato |
+| J8 | Horda o supervivencia | oleadas en una zona de un nivel existente | N3, N4 | XL | pnach-codigo | K3 (flujo) | aparicion en runtime sin ubicar | candidato |
 | J9 | Todo desbloqueado y nueva partida+ | armas plateadas, municion infinita, todos los niveles | N3 | S | pnach-datos | K2 (guardado) | banderas de desbloqueo sin ubicar | candidato |
 | J10 | Companeros distintos | mortales, o mas utiles en combate | N2, N3 | M | pnach-datos | K2 (ia) | hoy tienen vida FLT_MAX; su IA en K2 | candidato |
 
@@ -88,11 +88,11 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | id | concepto | que | NGO | costo | vehiculo | K min (cuello) | riesgo | estado |
 |---|---|---|---|---|---|---|---|---|
 | P1 | Mapa de nivel 1 a la vista | los 37 subsistemas con su K, impresos al abrir sesion | N7 | S | externo | — | ninguno | hecho |
-| P2 | Inyector de codigo | code cave y gancho: donde vive el MIPS nuevo y como se llama | N1, N3, N7 | M | pnach-codigo | K2 (codigo-nuevo) | memoria libre estable sin probar | candidato |
+| P2 | Inyector de codigo | code cave y gancho: donde vive el MIPS nuevo y como se llama | N1, N3, N7 | M | pnach-codigo | K5 (codigo-nuevo) | memoria libre estable sin probar | candidato |
 | P3 | Arnes de prototipos por PINE | probar una mecanica desde Python antes de escribirla en MIPS | N7 | S | pine | K6 (pine) | latencia: sirve para prototipo, no para el producto | candidato |
 | P4 | Registro de interfaces entre mods | que direcciones escribe cada mod; avisa si dos se pisan | N7 | S | externo | — | ninguno | candidato |
 | P5 | Encontrar la camara | llevar la camara de K0 a K4 | N1, N5 | M | externo | K5 (camara) | puede estar repartida entre vista-fp y render | candidato |
-| P6 | Aparicion en runtime | hacer aparecer un personaje fuera de la carga del stage | N1, N2, N3 | L | pnach-codigo | K2 (codigo-nuevo) | puede no existir como funcion aislada | candidato |
+| P6 | Aparicion en runtime | hacer aparecer un personaje fuera de la carga del stage | N1, N2, N3 | L | pnach-codigo | K3 (spawn) | puede no existir como funcion aislada | candidato |
 | P7 | Leer la UI como datos | el formato de /EXPORT/FRONTEND y la capa de comandos | N1, N5 | M | externo | K1 (frontend-datos) | formato propio de Criterion | candidato |
 
 ## NGOs (borrador hasta la MCR)
