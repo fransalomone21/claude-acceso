@@ -31,6 +31,22 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 
 **kb:** nace **`personajes`** (K4); `audio` pierde `0x0040F50C`, que nunca fue suyo (el error entró en (74) al fusionar el vecino). 37 → 38 subsistemas. `personajes` entra como habilitador de M1/M2/M5; se corrió `trade` **antes y después** y el orden no se movió.
 
+**PENDIENTE que no se pudo hacer en la nube:** registrar las dos lecciones de proceso con
+`aprender.py agregar` — **`perfil-global` no está en el árbol de la nube** (repo aparte, no
+clonado). Las dos, escritas con el síntoma como se veía *antes* de entenderlo, para que la
+notebook las cargue:
+1. *(grupo `medicion`)* **Síntoma:** un saboteador pasa —el caso malo sale descartado— y uno
+   lo da por bueno. **Qué era:** se descartaba por otra razón que la que la prueba dice medir
+   (acá, un borde de función del grafo sintético en vez de la página alta del `lui`).
+   **Regla:** un saboteador tiene que medir el **motivo** del descarte, no sólo el descarte;
+   si no, es un verde falso, que es peor que no tenerlo.
+2. *(grupo `evidencia`)* **Síntoma:** un dato del `kb` con una etiqueta que no le cuadra a
+   nadie, y dos bitácoras seguidas aclarando «el kb lo tiene bajo X y no es X».
+   **Qué era:** al **fusionar** dos nodos, el global vecino se vino puesto con la etiqueta del
+   primero, sin que nadie lo midiera (aquí: `0x0040F50C` bajo `audio`, desde (74)).
+   **Regla:** al fusionar nodos, **cada dirección que entra necesita su propia evidencia**;
+   la vecindad en el mapa de globales no es evidencia de nada.
+
 **Primero en la notebook:** la **sonda 0** de `RETOME-LOCAL.md` — `J2+0x2C3` = 1 y el dueño de la ranura 1 a mano. Un byte, y contesta sola si J2 camina cuando la ranura es suya, antes de gastar la copia.
 
 ## 2026-09-27, NOTEBOOK — EL JUGADOR 2 CONSTRUIDO POR EL JUEGO; EL MANDO 2 LO GIRA, NO CAMINA (bitácora (79))
