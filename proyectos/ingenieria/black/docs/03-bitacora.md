@@ -16,6 +16,70 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (81) — La ranura de personaje propia de J2: la sonda de un byte
+**Máquina:** notebook (PCSX2-MCP, ISO original, slot 3) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `personajes`, `juego`
+**Objetivo:** que J2 **camine** con el mando 2. Es lo único que le falta al criterio de salida de COOP-A.
+
+**Estado de partida, MEDIDO antes de tocar nada** (no leído del handoff), y coincide con lo que (80) leyó en frío:
+`*(0x0040F50C)` = `0x004ED380`; ranura 0 = `0x004ED7F0`, ranura 1 = `0x004EDA30`, **las dos con dueño `0x005A8AB0` (J) y `+0xB8` = 1**; `J+0x2C3` = **0**; `J+0x330` = `0x004ED7F0` (la ranura 0); `J+0x2A0` = `0x006ED780`; `J+0x2A4` = `0x006DE690`; `J+0x100` = (−22.10, −2.24, 61.00); `J2+0x100` = (0, 0, 0); los dos sitios de gancho **limpios** (`0x00129574` = `0x0C04EEB2`, `0x00128EA4` = `0x0C04A424`).
+**Control positivo de «vivo»:** `selector_depuracion.py vivo` → yaw 53,1° → 87,8°.
+
+### (81) P13 — PREDICCIÓN, escrita antes de correr (sonda a0: un byte, sin copiar nada)
+
+**Qué se hace:** `carga-poner` como en (79) (molde `+0x8A4` = 0x1C, registro con tipo 1) y, **antes de disparar la carga**, un solo byte: `molde+0x2C3` = 1. Después de que J2 exista, el dueño de la ranura 1 a mano: `*(0x004EDA30)` = `0x0046CDF0`, con la dirección recalculada con el sistema **vivo** (`*(0x0040F50C)` + 0x6B0).
+
+**P13a:** la init de J2 le pone `J2+0x330` = **`0x004EDA30`** (la ranura 1), porque el índice sale de `J+0x2C3`. *(base: (80) N2, `0x0013A038` en `FUN_00139c68`; grado hoy `probable`.)*
+**P13b:** con el dueño de la ranura 1 puesto en J2, «adelante» en el falso 2 **cambia `J2+0x100`** (`0x0046CEF0`) y **no** mueve `J+0x100`.
+
+**Qué la refuta, y qué se hace entonces:** si `J2+0x330` sigue en `0x004ED7F0`, el índice no sale de `+0x2C3` y la lectura en frío de (80) se retira; se pasa a a1 (la copia de tres bloques) con `--dueno-a-mano`. Si `J2+0x330` es la ranura 1 pero J2 igual no se desplaza, el dueño no es lo único que falta: queda el atado real (`FUN_001a51c8`).
+
+**Controles:** (i) «vivo» antes de cada sonda; (ii) el negativo de (79) se re-mide en esta misma corrida —con la ranura compartida, «adelante» en el falso 2 no mueve a J2—, así que el positivo no se compara contra un recuerdo; (iii) J (falso 1) sigue caminando.
+
+**Límite conocido, aceptado a propósito:** la ranura 1 es **el arma secundaria de J0**. Esto no es el diseño final: el primer cambio de arma de J0 se la lleva de vuelta. La sonda contesta la pregunta —¿J2 camina cuando la ranura es suya?— por un byte, antes de gastar la copia de 0x1D10 B.
+
+### (81) P13a REFUTADA como se corrió: el byte no llega vivo a la init
+
+**Corrido:** `carga-poner` (sitio `0x0C11B600`, estado 0) → `molde+0x2C3` 0 → **1** (medido antes y después de escribirlo) → selector (`pedir-frontend --bandera 0`, `elegir 0 0`, `aceptar`; el front-end pasó 4 → 5 → 6 → 7 → **28** con `menu_tipo` 1) → `mirar 30`.
+
+**J2 se construyó igual que en (79)** (confirmado): `fase` 2, `llam_J2` 1, `J2+0x8A4` = 55 (0x37), en el punto de aparición (−4,215 · 1,117 · 52,561), arma propia `0x006DE7A0`, cuerpo físico propio `0x00699200` con `+0x20` = `0x0046CDF0` (se apunta a J2), `J2+0xC4` = 2.
+
+**Lo medido, y refuta P13a:** `J2+0x330` = **`0x004ED7F0`** (la ranura 0, la de J0) y **`J2+0x2C3` = 0**. El byte que escribí en el molde **no sobrevivió a la construcción**: el constructor escribe `+0x2C3` él mismo (`J2+0x2C0..0x2C7` = `06 00 02 00 00 00 00 00`, **idéntico byte a byte al de J**) y además puso el arma en `armas2[0]` (`0x0046DBC0` = `a0 e7 6d 00`, el resto en cero). O sea: el índice se **inicializa dentro del constructor**, así que precargarlo en el molde no puede funcionar. La lectura de (80) —el índice sale de `+0x2C3`— **no queda refutada**: esta sonda no llegó a ponerla a prueba, porque el valor que la init leyó fue 0 y no 1.
+
+**Controles de esta corrida, los dos en la misma pasada:**
+- **Positivo:** `empujar yaw_der 0.8 1` → `J2_yaw` −25,12° → **+22,88°**. El mando 2 llega a J2 (P12 de (79), re-medido hoy).
+- **Negativo de (79), re-medido y no recordado:** `empujar adelante 1.0 2` → `J2_pos` queda en (−4,215 · 1,117 · 52,561) las 8 muestras, y `J_pos` en (−4,228 · 1,117 · 52,602) las 8. Con la ranura compartida, **J2 no se desplaza**.
+- J2 corre a ~60 Hz con `estado` 3 (`cuadros_J2` 245 → 301 en 0,8 s).
+
+### (81) P14 — PREDICCIÓN corregida, escrita antes de correr: la ranura a mano, sin pasar por la init
+
+**Por qué cambia el tiro:** si el índice se inicializa adentro del constructor, el camino barato no es el molde — es escribir el **puntero** ya construido. `J2+0x330` es un puntero de 32 bits: apuntarlo a la ranura 1 y ponerle J2 de dueño son **dos escrituras**, y contestan exactamente la misma pregunta que la sonda de (80) quería contestar con un byte.
+
+**Qué se hace:** con J2 vivo, corriendo y con el mando 2 (estado 3), `J2+0x330` = `0x004EDA30` y `*(0x004EDA30)` = `0x0046CDF0`, las dos direcciones recalculadas con el sistema **vivo** (`*(0x0040F50C)` = `0x004ED380`; ranura 1 = +0x6B0).
+
+**Lo que NO se toca, y es una corrección de la sonda original:** `J2+0x2C3` se deja en **0**. Poner 1 ahí ahora indexaría `armas2[1]`, que está en cero, y el manejador por cuadro se quedaría sin arma. El índice de ranura y el índice de arma se desacoplan a propósito; (80) midió que la aritmética de la ranura sólo corre en el constructor y en el cambio de arma, así que nada por cuadro lo vuelve a derivar.
+
+**P14:** con la ranura 1 apuntada y su dueño en J2, «adelante» en el falso 2 **cambia `J2+0x100`** (`0x0046CEF0`) y **no** mueve `J+0x100`.
+**Qué la refuta:** si `J2+0x100` sigue quieto, el dueño no es lo único que falta y queda el **atado real** (`FUN_001a51c8`), que es el camino a1 con la copia. Si se mueve J en vez de J2, la ranura sigue derivándose de otro lado y hay que buscar quién.
+**Control:** el negativo de arriba, medido en esta misma corrida y con el mismo comando; y `empujar yaw_der` después, para saber que J2 sigue vivo al terminar.
+
+### (81) P14 REFUTADA: con la ranura propia y el dueño puesto, J2 sigue quieto
+
+**Escrito, con el sistema vivo:** `*(0x0040F50C)` = `0x004ED380` → ranura 1 = `0x004EDA30`. `J2+0x330`: `0x004ED7F0` → **`0x004EDA30`**; `*(0x004EDA30)`: `0x005A8AB0` (J) → **`0x0046CDF0`** (J2). `J+0x330` quedó intacto en `0x004ED7F0`, medido después.
+**Medido:** `empujar adelante 1.0 2` → `J2_pos` = (−4,215 · 1,117 · 52,561) en las **8** muestras, igual que el negativo. **El dueño de la ranura no es lo único que falta.**
+
+**Y lo que la refutación destapa** (medido acá, no leído): la matriz del objeto de J2 **no está vacía** —`J2+0x70..0x9B` tiene una rotación válida y coherente con su yaw (0,9213 / −0,3888 / 0,3888 / 0,9213)— pero los **carriles W están en cero y en J no**:
+
+| offset | J | J2 |
+|---|---|---|
+| `+0x7C` | `0x01937E70` (un objeto del montón) | **0** |
+| `+0x8C` | `0x018A9530` (un objeto del montón) | **0** |
+| `+0x9C` | `0x00000057` (87) | `0x3F800000` (1,0 — el 1 de la fila 2, sin empaquetar nada) |
+| `+0xAC` | `0x700027C0` | **0** |
+
+O sea: el aviso de (80) («no los sondees antes de a0/a1») ya **no** aplica, porque a0 y a1-por-el-dueño están corridas y refutadas. Los tres carriles W de J2 están vacíos y el cuarto lleva el 1,0 de la matriz en vez del entero empaquetado. `J2+0x32C` = `0x0046D2E0` (= J2+0x4F0, la mira propia que pone `control2`), así que el camino de entrada sigue bien.
+
+**Sigue, y en este orden:** leer **`FUN_001a6be0`** en el decompilado (local, en frío) para saber **qué campos** usa del dueño además de la matriz — es lo que decide si lo que falta son los carriles W o el atado real `FUN_001a51c8`. Poner más punteros a mano sin eso es adivinar.
+
 ## 2026-09-27 (80, nube) — ¿Sirve la copia del sistema de personajes? Los 35 accesos al global, medidos sobre las instrucciones
 **Máquina:** nube (sin PCSX2) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (M2) · **Nodos:** `juego`, `codigo-nuevo`
 **Objetivo (N1 del retome):** antes de escribir la herramienta que copia el sistema de personajes, contestar si el truco del envoltorio —`*(0x0040F50C)` = copia alrededor del constructor de J2, y de vuelta al original después— **puede** funcionar. Si alguien deriva la ranura del **global** por cuadro, no alcanza, y hay que proponer un gancho por cuadro en vez de una copia.
