@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (103, nube) — T6, HUD, agachado y zoom: el estado es de cada uno, lo compartido es la salida; la tabla de las cinco primitivas
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase A · **Nodos:** `hud`, `entrada`, `camara` (sin cambio de K)
+**Objetivo:** T6: dónde vive el agachado y el zoom, qué dibuja el HUD y de dónde lee.
+
+- **J2 tiene su propio control** (`confirmado en volcado`, 3 volcados): `J2+0x32C` = `J2+0x4F0`, con su mando. El agachado (`ctrl+0x30`) y los modos son por jugador; lo compartido es **la salida**: un HUD dibujado una vez después de la escena, un ícono, un efecto de vida baja, un FOV en el sostén del render (el stub no se lo pone a la pasada 2: N8 `probable`).
+- **El 2D se corre y se recorta, no se achica** (`probable`, `FUN_00266088`): el HUD del juego no entra en una mitad.
+- **F6 sigue abierto**: nada de lo leído explica «se agachan los dos»; queda una sonda con tres hipótesis (el ojo de J2, el sostén del render, la entrada) y su control.
+- **La tabla de las primitivas** (`docs/16`): P1 pasar a J2, P2 conmutar el juego, P3 conmutar el contexto, **P4 difundir**, **P5 silenciar** (lo que hace hoy el aislador), más duplicar (el sub). Cada cosa compartida tiene la suya.
+- **HUD de J2 (F5):** elegido un **mini HUD hecho por el mod** (vida, cargador, retícula; texto con `FUN_00275DC0`) y silenciar las salidas de J2 al HUD del juego. Pregunta para Fran: qué tiene que ver J2, y si J1 conserva el HUD entero.
+
+**No funcionó:** dos lecturas de consumidores de `ctrl+0x30` en el aparejo (reciben al personaje por parámetro: no explican F6). Se cortó ahí y se escribió la sonda.
+**Sigue:** T7, el diseño del cambio de contexto (concepción cerrada; el código espera las sondas que deciden).
+
+---
+
 ## 2026-09-28 (102, nube) — T5, la pasada 2: lo que se cuela entre mitades no sería el puerto sino el modelo del arma compartido
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase A · **Nodos:** `render`, `personajes` (sin cambio de K)
 **Objetivo:** T5: qué se dibuja fuera del filtro por pasada y por qué la fuga dependería del puerto.

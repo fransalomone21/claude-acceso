@@ -343,3 +343,58 @@ sub** (`confirmado en frío` por construcción; `docs/15` ya lo anotaba como rie
   puerto fuera la causa, las dos darían igual.
 - **Refuta:** con índices distintos y la recarga de J visible igual en la mitad de J2 → no es el sub; se vuelve a
   «dibujos directos» de la tabla de arriba.
+
+## Clase A, HUD, agachado y zoom (T6, (103) nube)
+
+### Concepción
+
+- **El estado es de cada jugador** (`confirmado en volcado`, los 3 del parpadeo): J2 tiene **su** control
+  (`J2+0x32C` = `J2+0x4F0`, `ctrl+0x7C` = J2, mando `0x00585A0C`; J: `0x005A8FA0`, mando `0x005858A0`). El control de cada
+  uno escribe su agachado (`ctrl+0x30`, acción `0xC`) y sus modos (`+0x31`, `+0x33`, `+0x35`, `+0x3B`) en
+  `FUN_0013F618`; los que lo leen en el aparejo (`FUN_001A9908`, `FUN_001A8F78`) reciben al personaje por parámetro.
+- **Lo compartido es la salida, no el estado**: un solo HUD (`0x0040F518`, dibujado **una vez** después de la escena),
+  un solo ícono de agachado (`FUN_001F2CD0`), un solo efecto de vida baja (N19), una sola cámara y un solo **FOV** en el
+  sostén del render (`R+0x00`): el stub de la pantalla le pone a la pasada 2 el cuaternión y el ojo de J2
+  (`J2+0x100`), **no** el FOV. Con el zoom (N8), el FOV de J2 sería el de J (`probable`).
+- **El 2D se puede correr y recortar, no achicar** (`probable`): `FUN_00266088` (empezar 2D) carga registros del GS
+  desde globales (`0x0040DFF8`, `0x0040E000`), no una escala. Un HUD dibujado para 640 px no entra en 320.
+- **F6 no se liquida en frío**: el agachado es por control y la vista 2 sale del ojo de J2, así que nada de lo leído
+  explica que «se agachen los dos». Queda para la sonda de abajo.
+
+### La tabla de las primitivas — qué le toca a cada cosa compartida
+
+Síntesis de T2–T6. **P5 silenciar** es lo que el mod hace hoy (el aislador): sirve cuando J2 no tiene copia de algo y
+**no debe** tocar la de J.
+
+| Cosa compartida | Quién la toca por J2 | Primitiva | Por qué |
+|---|---|---|---|
+| la IA ve / visibles | los recorridos de la IA | **P1 pasar a J2** | la pregunta recibe al personaje |
+| juntar (candidato) | la consulta de recogibles | **P2 conmutar el juego** + cabecera sombra + `CAND2` | la pregunta lee a J por el global |
+| disparadores (N3) | `FUN_0016A250`/`FUN_0016A4C0` | **P2** (conmutables limpios) | ídem; falta decidir la política (docs/14: «J abre el camino») |
+| `V` (sonido, fogonazo, animación FP) | el código de armas de J2 | **P3 conmutar el contexto** (`X+0xC` ↔ `V2`) | J2 necesita una propia |
+| modelo del arma (sub) | la carga de R3 | **duplicar** (sub propio) | es de la ranura, no un global |
+| estados de la vista (pausa, cine) | el juego | **P4 difundir** a `V` y `V2` | los causa el juego, no un jugador |
+| FOV / zoom (N8) | el zoom de J2 | **P3** sobre el FOV (el stub usa `FOV2` en la pasada 2) | cada mitad, su lente |
+| HUD, ícono, vida baja (F5, F6-ícono, N19) | la actualización de J2 | **P5 silenciar** + **HUD propio de J2** | hay un HUD y no se puede achicar |
+
+### Alternativas para el HUD de J2 (F5) y elección
+
+| Opción | Qué | En contra |
+|---|---|---|
+| 1. el HUD del juego dos veces | conmutar (P2) y dibujarlo corrido y recortado a la mitad | no se achica: la mitad de los elementos cae afuera; depende de dónde está cada uno (sin medir) |
+| **2. mini HUD de J2 hecho por el mod** | vida, cargador/munición y retícula de J2 en la mitad derecha, con la función de texto del juego (`FUN_00275DC0`) y leyendo a J2 directo; las salidas de J2 al HUD del juego, silenciadas (P5) | es nuestro: hay que diseñar qué muestra |
+| 3. un HUD compartido ampliado | el de J1 más un recuadro de J2 | tapa la mitad de J1 |
+
+**Elección: opción 2**, con N19 y el ícono de agachado de J2 silenciados. **Pregunta para Fran:** ¿qué tiene que ver
+J2 sí o sí (vida, cargador, munición total, arma, retícula)? ¿Y J1 conserva el HUD entero sobre la pantalla completa
+(hoy) o se reduce a su mitad?
+
+### Sonda que discrimina F6 (vivo)
+
+J1 (= J) aprieta agachar 2 s, J2 quieto. Se registran cada 0,1 s: `ctrl+0x30` de J y de J2, `J+0x100`/`J2+0x100`
+(la altura del ojo) y el ojo que el stub puso en la pasada 2 (`DATOS+0x70`).
+- **H6a** (algo del juego baja el ojo de J2): `J2+0x100.y` baja con `J2.ctrl+0x30` = 0.
+- **H6b** (lo baja la imagen, no el ojo): `J2+0x100.y` quieto y la mitad de J2 baja → algo del sostén del render de la
+  pasada 2 que el stub no pisa viene de J.
+- **H6c** (la entrada se comparte): `J2.ctrl+0x30` pasa a 1.
+- **Control:** J2 agacha 2 s con J quieto: el espejo de lo anterior.
