@@ -64,6 +64,11 @@ if ($LASTEXITCODE -ne 0) {
 # --- coop: el bloque del pnach y a que mando va cada jugador -----------------
 # configurar-controles.ps1 solo escribe [Pad1] (SDL-0 + teclado/mouse). Aca se
 # ajusta despues: con un solo mando, SDL-0 sale de [Pad1] y pasa a [Pad2].
+if ($Coop) {
+    # el bloque instalado sale siempre de la fuente del repo (no cambia nada si ya coincide)
+    & python (Join-Path $raiz 'herramientas\coop_mod.py') instalar
+    if ($LASTEXITCODE -ne 0) { throw 'coop_mod.py instalar fallo' }
+}
 $accion = if ($Coop) { 'activar' } else { 'desactivar' }
 & python (Join-Path $raiz 'herramientas\coop_mod.py') $accion
 if ($LASTEXITCODE -ne 0) { throw "coop_mod.py $accion fallo" }

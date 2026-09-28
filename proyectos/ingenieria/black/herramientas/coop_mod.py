@@ -13,8 +13,10 @@ que el codigo va en el pnach y los datos nacen del .bss en cero:
     FASE 1  ->  aparicion + constructor + registro de J2 (lo de jugador2.py), FASE = 2.
     Con FASE 2 la carga siguiente vuelve a armar el molde (jugador2.py no lo hacia).
   POR CUADRO (sitio 0x00129574, jal 0x0013BAC8), con FASE 2:
-    ESTADO 0: espera 30 cuadros; despues CONTROL2 (J2+0x588/+0x6D0/+0x7C8 = CTRL2 =
-              *(J+0x588) + 0x16C, J2+0x32C = J2+0x4F0), EL CABECEO (88c: cabeceo de la mira
+    ESTADO 0: espera 30 cuadros; despues CONTROL2 (J2+0x588/+0x6D0/+0x7C8 = CTRL2 = el control
+              del puerto que J NO usa: 0x005858A0 (puerto 1) o +0x16C (puerto 2) -- (90c): el juego
+              le da a J el puerto que apreto Start, y "J + 0x16C" caia en un 3.er control vacio;
+              J2+0x32C = J2+0x4F0), EL CABECEO (88c: cabeceo de la mira
               guardado negado y su +0xF1 "invertir Y" dado vuelta) y ENLAZAR FUN_0012a158(juego, J2)
     ESTADO 1: ATAR FUN_0025C210(*(0x0040F4CC), J2)
     ESTADO 3: controlador y update de J2 cada cuadro (lo de jugador2.py) y EL TITERE (88): la
@@ -245,7 +247,12 @@ nop
 lui t0, 0x41
 lw t0, -0xb30(t0)
 lw t1, 0x5b8(t0)
-addiu t1, t1, 0x16c
+lui t2, 0x58
+ori t2, t2, 0x58a0
+beq t1, t2, @OTRO_PUERTO
+addiu t1, t2, 0x16c
+move t1, t2
+OTRO_PUERTO:
 addiu a1, s0, -0x3210
 sw t1, 0x588(a1)
 sw t1, 0x6d0(a1)
