@@ -111,6 +111,36 @@ $r_p = 6378 + 600 = 6978$ km y $r_a = 6378 + 2000 = 8378$ km.
   sí: es tangencial y está aplicado a $r_a$ del centro, y es lo único que puede
   cambiar $bold(L)$.
 
+#caja([Aclaración — ¿y si el punto 4 se hace por energía?], c-gris.darken(40%))[
+  El camino por energía da lo mismo, y conviene ver *por qué* y *qué le falta*.
+  La energía específica depende sólo del semieje mayor: $epsilon = -mu\/(2 a)$.
+  La elipse inicial tiene $a_1 = (r_p + r_a)\/2 = 7678$ km y
+  $epsilon_1 = -25,96$ km²/s²; la circular de radio $r_a$ tiene $a_2 = r_a$ y
+  $epsilon_2 = -23,79$ km²/s², mayor, porque el encendido agregó energía. Con
+  vis-viva, $v^2 = 2 (epsilon + mu\/r)$, en $r = r_a$:
+  $v^2 = 2(-mu\/(2 r_a) + mu\/r_a) = mu\/r_a$. Que dé *exactamente* $v_c$ no es
+  una coincidencia: es una identidad, y por eso no prueba nada sobre la forma.
+
+  *Lo que la energía no asegura.* $epsilon_2$ fija $a_2 = r_a$, pero *no* la
+  excentricidad: todas las elipses con semieje $r_a$ tienen esa misma energía, y
+  en su punto con $r = a$ (los extremos del eje menor) *todas* van a
+  $sqrt(mu\/a)$. Lo que falta es la dirección: $e^2 = 1 + 2 epsilon h^2\/mu^2$
+  pide también $h$. Como el encendido es *tangencial* en el apogeo, la velocidad
+  sigue horizontal ($gamma = 0$) y $h_2 = r_a v_c = sqrt(mu r_a)$; entonces
+  $e^2 = 1 - (mu\/r_a)(mu r_a)\/mu^2 = 0$. *Energía más dirección* hacen la
+  circular. Control: con la misma rapidez $v_c$ en $r_a$ pero $gamma = 30°$,
+  la energía sería idéntica y saldría una elipse con $e = 0,50$ y perigeo a
+  $4189$ km del centro, adentro de la Tierra.
+
+  *¿La elipse inicial no pasa por $r = a$?* Sí: en $r = a_1 = 7678$ km va a
+  $sqrt(mu\/a_1) = 7,205$ km/s, la rapidez de la circular de radio $a_1$, y
+  tiene su misma energía — pero es otra circular, la de radio $a_1$, no la de
+  $r_a$. Y ahí no es circular porque la velocidad no es horizontal:
+  $cos gamma = sqrt(1 - e_1^2)$, $gamma = 5,23°$ (muy cerca del punto del radar
+  del inciso 3, que está en $7600$ km). Energía igual significa semieje igual,
+  no órbita igual.
+]
+
 == Ejercicio 3
 
 + Disco: $I = 1\/2 m R^2 = 1\/2 dot 0,200 dot 0,030^2 = 9,0 times 10^(-5)$
