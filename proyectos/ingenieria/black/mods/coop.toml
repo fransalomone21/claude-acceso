@@ -2301,73 +2301,73 @@ nota = "pantalla: pantalla dividida 152"
 [[parche]]
 direccion = 0x0046FA64
 tipo = "u32"
-valor = 0x3C080041
+valor = 0x8E29FC90
 nota = "pantalla: pantalla dividida 153"
 
 [[parche]]
 direccion = 0x0046FA68
 tipo = "u32"
-valor = 0x8D04F4C0
+valor = 0xAE49000C
 nota = "pantalla: pantalla dividida 154"
 
 [[parche]]
 direccion = 0x0046FA6C
 tipo = "u32"
-valor = 0x0C06BA66
+valor = 0xA640001C
 nota = "pantalla: pantalla dividida 155"
 
 [[parche]]
 direccion = 0x0046FA70
 tipo = "u32"
-valor = 0x24050001
+valor = 0x3C080041
 nota = "pantalla: pantalla dividida 156"
 
 [[parche]]
 direccion = 0x0046FA74
 tipo = "u32"
-valor = 0x3C080041
+valor = 0x8D04F4C0
 nota = "pantalla: pantalla dividida 157"
 
 [[parche]]
 direccion = 0x0046FA78
 tipo = "u32"
-valor = 0x8D04F4C0
+valor = 0x0C06BA66
 nota = "pantalla: pantalla dividida 158"
 
 [[parche]]
 direccion = 0x0046FA7C
 tipo = "u32"
-valor = 0x3409D400
+valor = 0x24050001
 nota = "pantalla: pantalla dividida 159"
 
 [[parche]]
 direccion = 0x0046FA80
 tipo = "u32"
-valor = 0x0C06C252
+valor = 0x3C080041
 nota = "pantalla: pantalla dividida 160"
 
 [[parche]]
 direccion = 0x0046FA84
 tipo = "u32"
-valor = 0x00892021
+valor = 0x8D04F4C0
 nota = "pantalla: pantalla dividida 161"
 
 [[parche]]
 direccion = 0x0046FA88
 tipo = "u32"
-valor = 0x8E29FC90
+valor = 0x3409D400
 nota = "pantalla: pantalla dividida 162"
 
 [[parche]]
 direccion = 0x0046FA8C
 tipo = "u32"
-valor = 0xAE49000C
+valor = 0x0C06C252
 nota = "pantalla: pantalla dividida 163"
 
 [[parche]]
 direccion = 0x0046FA90
 tipo = "u32"
-valor = 0xA640001C
+valor = 0x00892021
 nota = "pantalla: pantalla dividida 164"
 
 [[parche]]

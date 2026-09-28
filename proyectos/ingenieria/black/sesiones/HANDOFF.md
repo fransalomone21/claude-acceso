@@ -4,11 +4,22 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(88)» DE ACÁ ABAJO.** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(89)» DE ACÁ ABAJO, y después el «(88)».** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y
 > B3 hechas: el coop en pantalla dividida sale del pnach solo** (88). El
 > mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — LA IMAGEN DE LA PANTALLA DIVIDIDA: PROPORCIÓN Y FANTASMA (bitácora (89))
+
+**El resultado:** el bloque pasa a **430 palabras** (pantalla 181 en `0x0046F800..0x0046FAD4`, filtro 8 en `0x0046FB00`, 5 constantes, **7 ganchos**: se suma `0x00129AD0` → filtro). Instalado y **APAGADO**.
+- **(89) proporción:** el stub guarda `R+0xD470`/`+0xD474` en `DATOS+0x30/+0x34`, los × 0,5 si `DATOS+0x38` ≠ 0, sincroniza, dibuja y restaura. Confirmado con control (`herramientas/prop89.py`).
+- **(89b) fantasma:** es `FUN_001B0AC8(R+0xD290)` (tinte a pantalla completa, dos quads `FUN_001CFB50`), hallado apagando 9 llamadas de a una (`herramientas/fantasma.py`). Filtro: con `DATOS+0x3C` ≠ 0 vuelve sin dibujar; el stub lo pone en 1 durante las pasadas y llama al tinte una vez al final. Confirmado (`herramientas/filtro89b.py`: contra `nop` 1,0, original 8,1). Por el pnach: **64 dibujos/s** partidos (antes 38–40).
+- **(89c) ABIERTO — banda amarilla:** por el pnach, ~30 s después de cargar, la mitad derecha lleva una banda amarilla sólida de x 320 a ~608 (PS2) y el borde negro (`volcados/capturas-88/h1-*`, `h2-*`). Refutado que sea el viewport de la llamada única (se reordenó: ancho/offset antes del SYNC final; el cambio quedó). Las 430 palabras están en memoria tal cual. Próximo: por PINE con el bloque apagado, apagar la llamada única en el stub (`jal 0x1b0ac8` cerca del final de la pantalla) y ver si la banda se va; y repetir por PINE ~30 s después de una carga.
+
+**Trampa medida:** la primera corrida de `fantasma.py` mató a PCSX2 entero después de la captura base sin tocar nada (emulog sin error); repetida, completó. Sin explicar.
+
+**Estado de la máquina al cerrar:** PCSX2 **cerrado**, bloque **apagado**. Nada en un slot.
 
 ## 2026-09-27, NOTEBOOK — EL COOP ENTERO EN EL PNACH: TÍTERE, VISTA, CABECEO Y PANTALLA DIVIDIDA (bitácora (88))
 

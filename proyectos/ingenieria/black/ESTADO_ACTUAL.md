@@ -278,8 +278,17 @@ dice medido). Lo que cambió:
   - **(88e) la pantalla dividida en el bloque:** stub en `0x0046F800` (136 palabras), raster leído en
     vivo, sólo divide con J2 corriendo (`FASE` 2, `ESTADO` 3). Costo: ~40 dibujos/s (sin división ~60).
     Defectos a la vista: el fantasma amarillo del HUD en la mitad 2 y las mitades aplastadas.
-- **Siguiente:** que **Fran lo juegue con el mando 2 real**; la proporción de las mitades y el HUD por
-  mitad; esconder los brazos de J2 en la vista de J; la recarga de J2; B4–B6 en frío; `docs/14` +
+- **(89) la imagen de la pantalla dividida.** Bloque de **430 palabras**, instalado y APAGADO.
+  - **Proporción:** `R+0xD470/+0xD474` × 0,5 durante las pasadas (`DATOS+0x38`): la mitad se parece al
+    recorte central (17,4 contra 30,6; control al revés, 15,4 contra 32,0).
+  - **El «fantasma»** era **`FUN_001B0AC8(R+0xD290)`**, el tinte a pantalla completa (su `jal` en
+    `0x00129AD0`), dibujado dentro de cada pasada. Filtro en `0x0046FB00` (`DATOS+0x3C` = en pasada) y
+    una llamada única al final: limpio (contra `nop` 1,0; original 8,1). De paso, **64 dibujos/s** con la
+    pantalla partida (antes 38–40).
+  - **ABIERTO:** por el pnach, recién cargado el nivel, una **banda amarilla sólida** en la mitad derecha
+    (x 320–608) — no es el viewport de la llamada única (refutado). Hipótesis en la bitácora (89c).
+- **Siguiente:** la banda amarilla; que **Fran lo juegue con el mando 2 real**; los brazos flotantes
+  (J2 los ve de J y J de J2: J tampoco tiene cuerpo); la recarga de J2; B4–B6 en frío; `docs/14` +
   `coop_diseno.py`. Detalle y comandos: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el

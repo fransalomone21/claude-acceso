@@ -142,8 +142,10 @@ FUENTE = [
     "lq t1, -0x400(s1)", "sq t1, 0x710(t0)", "lq t1, -0x3f0(s1)", "sq t1, 0x720(t0)",
     "lui t0, 0x41", "lw t0, -0xb40(t0)", "ori t1, zero, 0xd400", "addu t0, t0, t1",   # (89) proporcion
     "lw t2, -0x3d0(s1)", "sw t2, 0x70(t0)", "lw t2, -0x3cc(s1)", "sw t2, 0x74(t0)",
-    "SYNC",
+    # (89c) el raster entero ANTES del SYNC final: si no, el tinte de abajo se dibuja con el viewport de la
+    # mitad derecha (banda amarilla desde x = 320, visto por el pnach)
     "lw t1, -0x370(s1)", "sw t1, 0xc(s2)", "sh zero, 0x1c(s2)",
+    "SYNC",
     # (89b) el tinte de pantalla completa, UNA vez y con el raster entero (el filtro lo salteo en las pasadas)
     "sw zero, -0x3c4(s1)",
     "lui t0, 0x41", "lw a0, -0xb40(t0)", "ori t1, zero, 0xd290", "jal 0x1b0ac8", "addu a0, a0, t1",

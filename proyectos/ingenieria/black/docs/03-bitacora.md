@@ -51,6 +51,13 @@ Ruido entre dos capturas enteras seguidas: 8,2. A ojo: ventanas y mesa en propor
 A ojo (`capturas-89/g-tira.png`): con el filtro y con el `nop` la imagen sale limpia; con la original, el tinte amarillo y el «015» fantasma. El bloque suma el filtro (8 palabras, `0x0046FB00`) y su gancho; la pantalla, 181 palabras (`..0x0046FAD4`).
 - **Sin probar:** que el tinte de daño o de fundido siga viéndose a pantalla completa con la llamada única (en una escena quieta la llamada única no deja marca visible, coherente con un efecto que mezcla el cuadro anterior: hipótesis).
 
+### (89c) Por el pnach solo: 64 cuadros/s, y una banda amarilla ABIERTA
+- **Bloque de 430 palabras, PCSX2 reiniciado, sin Python del mod:** J2 se arma, camina 8,29 m (títere ≤ 0,28 m), la mitad izquierda sale **limpia y en proporción**, y la escena se dibuja **64 veces por segundo con la pantalla partida** (en (88e), 38–40): el tinte dibujado dos veces por cuadro era lo caro. Medido con `ritmo`.
+- **Problema abierto:** en la mitad derecha, una **banda amarilla sólida** de x = 320 a ~608 (en píxeles de PS2), con el borde derecho negro (`capturas-88/h1-*.png`, `h2-*.png`). En la prueba por PINE de (89b) no apareció (nivel corriendo hacía minutos; esta, ~30 s después de cargar).
+- **Refutado:** que fuera la llamada única del tinte con el viewport viejo de la mitad derecha. Se restauró ancho y offset del raster **antes** de la sincronización final (el cambio queda: es el orden coherente) y la banda sigue igual (`h2-1-chica.png`).
+- **Medido:** las 430 palabras del bloque están en memoria tal cual (`chequear_filtro.py`: 0 distintas), el gancho del filtro puesto.
+- **Hipótesis para la próxima:** (a) la banda es la llamada única del tinte pero su quad no depende del raster de la cámara (probar por PINE, con el bloque apagado, apagando esa llamada en el stub: sin el pnach nadie la reescribe); (b) es un efecto del arranque del nivel que la prueba por PINE no vio por el momento (repetir por PINE ~30 s después de cargar).
+
 ---
 
 ## 2026-09-27 (88) — B2b en el stub: el títere de J2 sin PINE
