@@ -23,6 +23,15 @@ Formato de cada entrada:
 - **Los ISO se mudaron** de `C:\Program Files\PCSX2\PCSX2\games\` a `Escritorio\Juegos\Juegos de emulador\PS2\` (`BLACK\ISOs\`, `God of War II\`, `DBZ Budokai Tenkaichi 4 (Beta 14)\`), con el pack de texturas HD de Downloads en `BLACK\Texturas\` y un `LEEME.txt`. Actualizados `kb/ubicaciones.json` (`ubicaciones.py` en OK), `kb/estructuras.json`, los tres `.bat`, `subir-datos-nube.ps1`, `docs/05`, `RETOME-LOCAL.md`, el acceso de GoW2 y el `RecursivePaths` del `PCSX2.ini` (sale `Downloads`, que hacía escanear basura; entra `PS2`). Las entradas viejas del HANDOFF quedan como historia.
 - **`JUGAR-BLACK.ps1 -Coop teclado|2mandos`**: prende el bloque del pnach (`coop_mod.py activar`) y reparte los mandos en el ini **después** de `configurar-controles.ps1`, que sólo escribe `[Pad1]`. Hallazgo de paso, **medido en el ini**: `[Pad1]` tenía `SDL-0` **y** teclado, y `[Pad2]` `SDL-1`: con un solo mando enchufado, ese mando manejaba a **J1** y J2 no tenía nada. Sin `-Coop` el bloque se apaga y `[Pad2]` vuelve a `SDL-1`.
 - **Medido por efecto en el 2.8.0 de Program Files** (no el fork): con `-Coop teclado`, `Enabled patch: COOP - jugador 2 (B3)` en el emulog, `[Pad1]` 22 líneas de teclado/mouse y 0 de SDL, `[Pad2]` 27 de `SDL-0`; sin `-Coop`, 0 líneas del coop y `[Pad2]` 27 de `SDL-1`. **La pantalla dividida en el 2.8.0 queda `probable`**: la vio el fork en (88)–(89); la prueba es la de Fran.
+- **(90b) LA BANDA AMARILLA — confirmada en pantalla, con control, y arreglada.** Hipótesis (a) de (89c). `banda90.py` (scratchpad; fork MCP, **bloque apagado**, `coop_mod.py poner` por PINE, nivel 0 por el selector, capturas a los ~33 s de aceptar; `volcados/capturas-90/`, tira `tira.png`). Fracción de píxeles amarillos (R>150, G>130, B<90) por mitad:
+  | | izquierda | derecha |
+  |---|---|---|
+  | base (2 capturas) | 0 | **0,076 / 0,070** |
+  | `jal 0x1b0ac8` de `0x0046FAA4` en `nop` | 0 | **0 / 0** |
+  | repuesto (control) | 0 | 0,080 / 0,012 |
+  | +20 s | 0 | 0,047 |
+  A ojo, lo mismo: la mitad derecha entera velada de amarillo, limpia sin la llamada y velada otra vez al reponerla. La llamada única al tinte, aun con el raster entero restaurado, **dibuja sobre la mitad derecha**: el porqué (qué estado de la pasada 2 hereda su quad) es hipótesis, no se leyó. Tampoco era el arranque del nivel (hipótesis (b)): aparece por PINE igual que por el pnach.
+  **Arreglo**: la llamada queda en `nop` en la fuente (`pantalla_dividida.py`, misma cantidad de palabras: nada se corre); bloque reinstalado (430 palabras). **Por el pnach solo** (bloque prendido, sin `poner`, PCSX2 relanzado): 0 / 0 amarillo a los 33 s y 0 / 0 a los 55 s, J2 camina 9,0 m y el aliado lo sigue a ≤ 0,16 m. **Costo aceptado**: con la pantalla partida no se dibuja el tinte de daño ni el de fundido (el filtro de (89b) ya lo sacaba de las pasadas). Bloque de vuelta **apagado** (lo prenden los accesos COOP).
 - **Trampa**: `CloseMainWindow()` sobre el 2.8.0 con un juego corriendo abre «Confirmar apagado» (con `SaveStateOnShutdown = true`) y queda colgado esperando un clic. Para cerrar el de prueba, `Stop-Process` (además no pisa el ini).
 
 ---

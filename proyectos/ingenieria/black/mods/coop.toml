@@ -2397,7 +2397,7 @@ nota = "pantalla: pantalla dividida 168"
 [[parche]]
 direccion = 0x0046FAA4
 tipo = "u32"
-valor = 0x0C06C2B2
+valor = 0x00000000
 nota = "pantalla: pantalla dividida 169"
 
 [[parche]]

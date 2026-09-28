@@ -285,9 +285,12 @@ dice medido). Lo que cambió:
     `0x00129AD0`), dibujado dentro de cada pasada. Filtro en `0x0046FB00` (`DATOS+0x3C` = en pasada) y
     una llamada única al final: limpio (contra `nop` 1,0; original 8,1). De paso, **64 dibujos/s** con la
     pantalla partida (antes 38–40).
-  - **ABIERTO:** por el pnach, recién cargado el nivel, una **banda amarilla sólida** en la mitad derecha
-    (x 320–608) — no es el viewport de la llamada única (refutado). Hipótesis en la bitácora (89c).
-- **Siguiente:** la banda amarilla; que **Fran lo juegue con el mando 2 real**; los brazos flotantes
+  - ~~ABIERTO: banda amarilla~~ → **cerrada en (90b)**: la dibujaba esa llamada única (`0x0046FAA4`);
+    en `nop` sale limpia, repuesta vuelve (control). Queda en `nop`: sin tinte de daño con la pantalla partida.
+- **(90) el coop con doble clic.** ISO en `Escritorio\Juegos\Juegos de emulador\PS2\BLACK\ISOs\`; accesos
+  `JUGAR BLACK` (apaga el bloque) y `JUGAR BLACK COOP - teclado y mando` / `- dos mandos` (lo prenden y
+  reparten los mandos en el ini). Medido en el 2.8.0.
+- **Siguiente:** que **Fran lo juegue con el mando real** (acceso COOP); los brazos flotantes
   (J2 los ve de J y J de J2: J tampoco tiene cuerpo); la recarga de J2; B4–B6 en frío; `docs/14` +
   `coop_diseno.py`. Detalle y comandos: `sesiones/RETOME-LOCAL.md`.
 

@@ -147,8 +147,11 @@ FUENTE = [
     "lw t1, -0x370(s1)", "sw t1, 0xc(s2)", "sh zero, 0x1c(s2)",
     "SYNC",
     # (89b) el tinte de pantalla completa, UNA vez y con el raster entero (el filtro lo salteo en las pasadas)
+    # (90) ...y esa llamada era la BANDA AMARILLA de la mitad derecha: sin ella sale limpia, al reponerla vuelve
+    # (capturas-90, con control). Queda en nop -- el tinte de dano/fundido no se dibuja con la pantalla partida.
+    # Mismas palabras que antes, a proposito: nada se corre de lugar.
     "sw zero, -0x3c4(s1)",
-    "lui t0, 0x41", "lw a0, -0xb40(t0)", "ori t1, zero, 0xd290", "jal 0x1b0ac8", "addu a0, a0, t1",
+    "lui t0, 0x41", "lw a0, -0xb40(t0)", "ori t1, zero, 0xd290", "nop", "addu a0, a0, t1",
     "b FIN", "nop",
     "SOLO:", "jal 0x1297e0", "or a0, s0, zero",
     "FIN:", "ld ra, 0(sp)", "lq s0, 16(sp)", "lq s1, 32(sp)", "lq s2, 48(sp)",

@@ -4,11 +4,21 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(89)» DE ACÁ ABAJO, y después el «(88)».** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(90)» DE ACÁ ABAJO, después el «(89)» y el «(88)».** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y
 > B3 hechas: el coop en pantalla dividida sale del pnach solo** (88). El
 > mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — EL COOP CON DOBLE CLIC, LOS ISO EN SU CARPETA Y LA BANDA ARREGLADA (bitácora (90))
+
+- **Los ISO se mudaron**: `C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\BLACK\ISOs\Black.iso` (y `-mod-armas`, `-mod-7b`). La fuente es `kb/ubicaciones.json`; `ubicaciones.py` en OK. Las rutas viejas que quedan en este HANDOFF, más abajo, son historia.
+- **Accesos** en `PS2\BLACK\`: `JUGAR BLACK` (apaga el bloque), `JUGAR BLACK COOP - teclado y mando` (`JUGAR-BLACK.ps1 -Coop teclado`: prende el bloque, `[Pad1]` sin `SDL-0`, `[Pad2]` en `SDL-0`), `... - dos mandos` (`-Coop 2mandos`: `[Pad2]` en `SDL-1`). Medido en el 2.8.0 en los dos sentidos. El `RecursivePaths` del `PCSX2.ini` ya no escanea `Downloads`.
+- **(90b) banda amarilla: confirmada con control y arreglada.** La dibujaba la llamada única a `FUN_001B0AC8` del final del stub (`jal` en `0x0046FAA4`): en `nop`, la mitad derecha limpia; repuesta, vuelve. Queda en `nop` en la fuente (430 palabras, nada se corre). Por el pnach solo: 0 amarillo a los 33 y 55 s. Costo: sin tinte de daño/fundido con la pantalla partida.
+- **Pendiente de Fran:** la prueba con el mando real por el acceso COOP (pantalla partida en el 2.8.0 = `probable`; camina, gira, cabeceo, daño, fluidez).
+- **Sigue:** lo que diga Fran; los brazos flotantes (en frío: qué dibuja los brazos de un jugador, `vista-fp` K2); recarga de J2; B4–B6; docs/14.
+
+**Estado de la máquina al cerrar:** PCSX2 **cerrado**, bloque **instalado y apagado** (430 palabras, con el `nop`).
 
 ## 2026-09-27, NOTEBOOK — LA IMAGEN DE LA PANTALLA DIVIDIDA: PROPORCIÓN Y FANTASMA (bitácora (89))
 
