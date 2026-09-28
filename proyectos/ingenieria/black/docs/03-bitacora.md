@@ -16,6 +16,18 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (92) — La recarga eterna de J2, en frío: el fin de recarga es un evento de animación
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, «J2 dispara») · **Nodos:** `vista-fp`, `armas`
+**Objetivo:** tramo a) del retome, en frío.
+
+- **El objeto global** `V = *(*(0x0040F510)+0xCBD8)`: 0x60 B, **uno solo**, alojado una vez por `FUN_001d5828` (junto a `+0xCBD4` 0x2D8 B, `+0xCBDC` 0x1C B, `+0xCBE0` 0x2A80 B) y armado por `FUN_001e82a8`: es un **agregado de ~18 subobjetos** (`V+4..+0x4C`; tres de 0x1B8 B con vtable en `+0x44/+0x48/+0x4C`). `V+0xC` = 0x1C50 B, armado por `FUN_001d6488`: conjunto de animaciones `+0x1BE0` (y `+0x1BE4/+0x1BE8`), banco de sonido del arma (ValueDB `Sound`), por cuadro `FUN_001d6f90`. Accesos a `V+off` en todo el decompilado: `+0x10` 66, `+0xC` 32, `+0x24` 25, `+0x30` 21. Lectura: **la presentación del jugador local** (arma en primera persona y lo que la rodea), `probable`: se leyó la construcción, no el dibujo.
+- **La recarga, leída:** `FUN_00156dc0` (empezar a recargar): si el dueño tiene `+0xC4` ≠ 2 (un PNJ) **llena el cargador en el acto** (`FUN_0015a830`) y pone el estado `arma+0xD8` = 4; si es 2 (jugador) sólo pone el estado 4 (o 5, de a un cartucho) **y no llena nada**. El llenado del jugador lo hace `FUN_00158ae0(evento, &jugador)` con el evento `0xB12FC567E6600000`: estado 8 + `FUN_00156d60` → `FUN_0015a830` (o `FUN_0015a8d0`, de a uno). `FUN_00158ae0` es el **manejador de eventos de animación**, registrado en `+0x950` de un singleton por `FUN_001ab780` (con otros cinco en `+0x958..+0x96C`). En el mismo manejador, el evento `0x73063d2f95228000` (fin de cambio de arma) toca `V+0xC` con `FUN_001d73d8`.
+- **Hipótesis que sale (una causa para la recarga eterna):** el evento de fin de recarga lo emite una animación que J2 **nunca reproduce** (su recarga se pide a `V+0xC`, que es de J y además está con el arma de J), así que su arma se queda en el estado 4 con cargador 0. Predicción: por PINE, el `+0xD8` del arma en la mano de J2 (`*(J2+0x2A4)+0xD8`) queda en 4 para siempre; escribiendo el estado 8 y llamando al llenado (o, más barato, llenando `*(arma+0xF4)+0x18` y el estado a mano) J2 vuelve a disparar.
+
+**Sigue:** quién emite el evento (qué animación y con qué `&jugador`), y la sonda por PINE de la predicción.
+
+---
+
 ## 2026-09-28 (91) — Las armas de J2: propias; lo compartido es la vista en primera persona
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, riesgo alto «J2 dispara») · **Nodos:** `vista-fp` K2 (evidencia nueva, sin subir), `armas`
 **Objetivo:** el punto a) del retome (J2 no dispara con el mando real).
