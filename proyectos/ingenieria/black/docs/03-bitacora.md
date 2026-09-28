@@ -58,6 +58,28 @@ Corrida por PINE (`coop_mod.py poner` + selector, nivel 0/0, que es City Streets
 - La vista de J2 sigue **sin cabeceo** (sólo el yaw, igual que `vista2 --fuente mira`): la trae (c).
 **Sigue:** (c) el cabeceo de J2.
 
+### (88c) El cabeceo de J2 — medido, y la predicción
+- **Corrige a (85): la matriz `+0xD0` de J2 NO está al revés respecto de la de J.** Con el mismo cabeceo de mira escrito en los dos (`mira+0xC` = −20°), **J y J2 dan lo mismo**: `+0xF0.y` = **+0,342**, `+0xE0` = (∓0,079 / ∓0,198, 0,94, ±…); con +20°, −0,342. El yaw de `+0xF0` coincide con el adelante del cuerpo (`+0x90`) en los dos. O sea: la convención de `+0xD0` es la misma para todo jugador; **J acierta por otro camino** (hipótesis: su disparo sale de la cámara, que es la de J) y J2, que no tiene cámara, dispara por `+0xD0`. No se buscó ese camino: el arreglo no lo necesita.
+- **El orden por cuadro, leído:** `FUN_0013BAC8(J)` llama al update de la mira (`*(J+0x32C)`, vtable en `mira+0x84`, entrada `+0xC`) = **`FUN_0013F618`**, que es el que integra el mando (`FUN_001404A8`; con `mira+0xF1` ≠ 0 invierte el eje vertical: la opción «invertir Y»). El stub de J2 llama primero a `FUN_0013BAC8(J2)` y **después** al update de J2 (vtable `+0x10`, entrada `+0xC`), que arma `+0xD0` y dispara.
+- **El cambio:** en la rama que corre a J2, entre las dos llamadas, se niega el signo de `mira+0xC` (xor del bit 31) y se restaura después del update. El integrador ve el cabeceo real; la matriz sale con el opuesto. `poner --sin-cabeceo` es el control.
+- **Predicción:** con el arreglo, `tirador.py J2 <blanco>` **sin** `--pitch-invertido` le baja la vida al enemigo (en (85): 6 balas, 100 → 0); control `--sin-cabeceo`: 5+ balas y 100. El eje vertical del mando 2 **no** se invierte (el integrador corre antes). Riesgo conocido: si el update suma retroceso a `mira+0xC`, con el xor el retroceso queda con el signo cambiado.
+
+### (88c) Resultado — el xor alrededor del update REFUTADO; el cabeceo guardado negado, confirmado en RAM
+- **Refutado:** con el xor puesto, `+0xF0.y` de J2 con cabeceo −20° sigue en **+0,342**: la matriz `+0xD0` **no** la arma el update que corre el stub (hipótesis: la arma el lazo del nivel, `FUN_001334E0`, porque J2 está enlazado). El xor se sacó.
+- **Lo que quedó en el mod** (`CABECEO_MOD`, 7 palabras, en el paso del control2 del stub): una sola vez, cabeceo de la mira de J2 **guardado negado** (bit 31 de `mira+0xC`) y **bandera «invertir Y» de su mira dada vuelta** (`mira+0xF1`, la que leen los dos sitios de `FUN_0013F618`). Es lo de `--pitch-invertido` de (85), pero hecho por el mod y con el mando 2 moviéndolo.
+- **Medido, con control** (`stick88c.py`: cabeceo en 0, `pitch_arriba` 0,8 durante 0,4 s):
+| | `+0xF1` | cabeceo guardado | «adelante» `+0xF0.y` |
+|---|---|---|---|
+| J (referencia) | 0 | 0 → +70 | 0 → **−0,94** |
+| J2 sin arreglo (control) | 0 | 0 → +70 | 0 → **−0,94** (arriba en la mira = balas al piso) |
+| **J2 con arreglo**, carga nueva | **1** | 0 → **−70** | 0 → **+0,94** |
+  Tercera carga seguida con el mod: sin cuelgue (`desarmes` 2, `atadas` 3). El mod: **232 palabras** (stub por cuadro 98).
+- **Las pruebas de daño de hoy NO valen, en ningún sentido.** Con `tirador.py --acercar=6` (el enemigo sostenido a 6 m escribiendo su `+0xA0`): el par con el títere prendido dio muertes en control y con el xor (las hizo, probablemente, **el aliado-títere**, que tiene IA y estaba al lado de J2); sin títere y con los dos aliados a ~70 m, **ninguna** bala de J2 le pega, con cabeceo real o negado — **y J tampoco** (15 balas, 100: control negativo del montaje). O el blanco movido a mano no es golpeable donde se lo pone (hipótesis: su cuerpo de colisión no sigue a `+0xA0`), o quedó tras una pared (`c1-j2-apunta-23.png`: J2 mirando una pared). **Lo que sostiene que el cabeceo negado mata sigue siendo (85)**; el cierre de punta a punta lo da Fran con el mando 2 real, o un enemigo que llegue solo a la línea de tiro.
+- `tirador.py` suma `--traza` (cada cambio de cargador y vida con su tiempo).
+
+**No funcionó:** el xor alrededor del update; `--acercar` como banco de prueba de daño; dos corridas del 17 y el 3 (el spawner no disparó a tiempo y se leyó un actor viejo).
+**Sigue:** (d) — la pantalla dividida en el pnach (con la vista de J2 **con cabeceo**, que ahora es `−mira+0xC`), la recarga de J2, B2b fino, B4–B6 en frío, `docs/14` + `coop_diseno.py`.
+
 ---
 
 ## 2026-09-27 (87) — B3.3: la baja de J2 al salir del nivel; el mod aguanta TRES cargas seguidas

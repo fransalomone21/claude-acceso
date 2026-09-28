@@ -5,7 +5,9 @@ Uso: python herramientas/tirador.py <J|J2> <blanco_hex> <segundos> [--cargar] [-
 --cargar: pone el cargador del tirador en 15 antes. --acercar=m: sostiene al blanco a m metros del tirador,
 en la direccion en que ya esta (misma altura del tirador). --pitch-invertido: escribe el cabeceo con el signo
 cambiado (la matriz de vista de J2, +0xD0, tiene el cabeceo al reves de su mira: bitacora (85)).
---titere=<i>: en cada vuelta copia la matriz de J2 al aliado i del pool (el cuerpo de J2 puesto)."""
+--titere=<i>: en cada vuelta copia la matriz de J2 al aliado i del pool (el cuerpo de J2 puesto).
+--traza (88c): registra cada cambio de (cargador del tirador, vida del blanco) con su tiempo, para ver si la
+vida baja cuando dispara el tirador o cuando no (un aliado cerca tambien le tira)."""
 import math, struct, sys, time, json
 sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent))
 from pine import Pine
@@ -52,7 +54,13 @@ with Pine() as p:
     apretado = False
     titere = next((int(x.split('=')[1]) for x in sys.argv if x.startswith('--titere=')), None)
     A = p.leer32(0x0040F514) + 0x90 + titere * 0x3C0 if titere is not None else None
+    traza, ult = [], (c0, hp0)       # --traza (88c): cada cambio de (cargador, vida) con su tiempo
     while time.time() - t0 < seg:
+        if '--traza' in sys.argv:
+            ahora = (carg(), p.leer_f32(E + 0x2F8))
+            if ahora != ult:
+                traza.append([round(time.time() - t0, 2), ahora[0], round(ahora[1], 1)])
+                ult = ahora
         if punto:
             p.escribir_bloque(E + 0xA0, struct.pack('<3f', *punto))
         if A:                        # el titere (un aliado) pegado a J2, como titere.py
@@ -70,4 +78,5 @@ with Pine() as p:
     boton(p, 12, False)
     time.sleep(0.5)
     print(json.dumps({'tirador': quien, 'blanco': hex(E), 'distancia_m': round(d, 2), 'cargador': [c0, carg()],
-                      'hp_blanco': [hp0, p.leer_f32(E + 0x2F8)], 'bando_blanco': p.leer32(E + 0x3A4)}))
+                      'hp_blanco': [hp0, p.leer_f32(E + 0x2F8)], 'bando_blanco': p.leer32(E + 0x3A4),
+                      **({'traza_t_cargador_vida': traza} if '--traza' in sys.argv else {})}))

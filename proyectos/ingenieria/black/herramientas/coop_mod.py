@@ -14,9 +14,11 @@ que el codigo va en el pnach y los datos nacen del .bss en cero:
     Con FASE 2 la carga siguiente vuelve a armar el molde (jugador2.py no lo hacia).
   POR CUADRO (sitio 0x00129574, jal 0x0013BAC8), con FASE 2:
     ESTADO 0: espera 30 cuadros; despues CONTROL2 (J2+0x588/+0x6D0/+0x7C8 = CTRL2 =
-              *(J+0x588) + 0x16C, J2+0x32C = J2+0x4F0) y ENLAZAR FUN_0012a158(juego, J2)
+              *(J+0x588) + 0x16C, J2+0x32C = J2+0x4F0), EL CABECEO (88c: cabeceo de la mira
+              guardado negado y su +0xF1 "invertir Y" dado vuelta) y ENLAZAR FUN_0012a158(juego, J2)
     ESTADO 1: ATAR FUN_0025C210(*(0x0040F4CC), J2)
-    ESTADO 3: controlador y update de J2 cada cuadro (lo de jugador2.py)
+    ESTADO 3: controlador y update de J2 cada cuadro (lo de jugador2.py) y EL TITERE (88): la
+              matriz de J2 (+0x70..+0xAF) al aliado 1 del pool, si es aliado (+0x3A4 = 0)
   DESARME (sitio 0x00129E38, jal 0x0012BFC8 -- la baja de los jugadores al salir del nivel), (87):
     la original, y con FASE 2 lo mismo para J2: ESTADO 3 -> FUN_0025C2C8 (suelta el controlador
     de colision); ESTADO >= 1 -> FUN_0012A280 (lo saca de la lista del nivel). FASE = ESTADO = 0.
@@ -249,6 +251,7 @@ sw t1, 0x6d0(a1)
 sw t1, 0x7c8(a1)
 addiu t2, a1, 0x4f0
 sw t2, 0x32c(a1)
+CABECEO_BLOQUE
 jal 0x12a158
 move a0, t0
 addiu t1, zero, 1
@@ -323,6 +326,23 @@ addiu t1, t1, 1
 sw t1, -0x2834(s0)
 """
 SIN_TITERE = False   # `poner --sin-titere`: el control de (88) (el aliado no se escribe)
+
+# (88c) EL CABECEO DE J2. La matriz +0xD0 del jugador tiene la misma convencion para J y J2 (medido);
+# J acierta por otro camino y J2 dispara por ella, con el cabeceo al reves. Negar mira+0xC alrededor del
+# update de J2 en el stub NO llega a +0xD0 (medido: se arma en otro lado). Lo que hace (85)
+# --pitch-invertido, pero en el mod: UNA vez, al preparar el control2, el cabeceo de la mira de J2
+# (t2 = J2+0x4F0) se guarda NEGADO (bit 31 de +0xC) y se invierte su bandera "invertir Y" (+0xF1, la
+# que lee FUN_0013F618), para que el mando 2 lo siga moviendo para el mismo lado.
+CABECEO_MOD = """
+lbu t3, 0xf1(t2)
+xori t3, t3, 1
+sb t3, 0xf1(t2)
+lw t3, 0xc(t2)
+lui t4, 0x8000
+xor t3, t3, t4
+sw t3, 0xc(t2)
+"""
+SIN_CABECEO = False  # `poner --sin-cabeceo`: el control de (88c)
 ALIADO = 1
 
 
@@ -336,6 +356,7 @@ def programas():
     env = j2.ensamblar_programa(ENVOLTORIO_MOD, j2.ENVOLTORIO, j2.ARMAS2)
     fuente = POR_CUADRO_MOD.replace("ESPERA_N", str(CUADROS_ESPERA))
     fuente = fuente.replace("TITERE_BLOQUE", "" if SIN_TITERE else TITERE_MOD)
+    fuente = fuente.replace("CABECEO_BLOQUE", "" if SIN_CABECEO else CABECEO_MOD)
     pc = j2.ensamblar_programa(fuente, j2.STUB, 0x0046D9F0)
     des = j2.ensamblar_programa(DESARME_MOD, DESARME, 0x0046DE00)
     ganchos = [(g.SITIO, ensamblar("jal 0x%x" % j2.STUB, g.SITIO), "gancho por cuadro: jal stub (era jal 0x13bac8)"),
@@ -365,8 +386,8 @@ def cmd_listar(_a):
 
 
 def cmd_poner(a):
-    global SIN_BAJA, SIN_TITERE
-    SIN_BAJA, SIN_TITERE = a.sin_baja, a.sin_titere
+    global SIN_BAJA, SIN_TITERE, SIN_CABECEO
+    SIN_BAJA, SIN_TITERE, SIN_CABECEO = a.sin_baja, a.sin_titere, a.sin_cabeceo
     progs = programas()
     with Pine() as p:
         if (p.leer32(g.SITIO) != g.ORIGINAL or p.leer32(j2.SITIO_CARGA) != j2.ORIGINAL_CARGA
@@ -561,6 +582,7 @@ def main() -> int:
         sub.add_parser(c)
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
+    po.add_argument("--sin-cabeceo", action="store_true")
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)
     h = sub.add_parser("manos"); h.add_argument("segundos", type=float); h.add_argument("--control", action="store_true")
     a = ap.parse_args()
