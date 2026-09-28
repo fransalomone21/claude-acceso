@@ -509,3 +509,37 @@ reposición.
 | 4 | disparadores | **los maneja J1** por ahora | la política v1 queda (nada que construir) |
 | 5 | muerte | **si muere cualquiera, pierden los dos**, como jugando solo; reanimación, después | la muerte de J2 tiene que hacer **lo mismo que la de J**: ya no se silencia nada; hace falta que el control de J2 cumpla la condición de fin de partida igual que el de J (`ctrl+0x100`) |
 | — | cuerpos | **los dos jugadores con skin de aliado**; lo estético, después | J1 también necesita un cuerpo visible en la mitad de J2; la opción 2 de T8 (un cuerpo por jugador) queda aprobada en lo funcional |
+
+## La IA, con las decisiones de Fran (107, nube): cuatro sitios, código escrito en frío, sin instalar
+
+**Diseño final** (liquidado): los enemigos atacan a los dos. **Por sitio, no por agente.** La alternativa de conmutar
+el juego alrededor de la actualización de cada agente (`FUN_0013D1D0`, llamada por el lazo de `FUN_0016DB58`) quedó
+**descartada**: su cierre pide sólo `+0x1C`/`+0x20` de sombra, pero llama métodos del juego que necesitan el juego
+verdadero (`FUN_0012A7C0`, un rayo contra el mundo y las unidades; `FUN_0012A280`, sacar de la lista del nivel) y
+además métodos virtuales que el grafo no ve: con el juego falso podrían romper sin que el frío lo avise.
+
+| Sitio | Hoy | Con el coop |
+|---|---|---|
+| ver `0x0018FC4C` | `FUN_0018FB88(agente, J)` | con J y, con `FASE` = 2, con J2 |
+| visibles `0x0019098C` | `FUN_001908A0(agente, J)` | ídem |
+| blanco por defecto `0x0018A8BC` | `FUN_00189740(lista, J, 1)` | con **el más cercano** de J y J2 al agente |
+| blanco hostil `0x00184904` | `p[3] = J` | **el más cercano** |
+
+Las seis heurísticas de distancia (`FUN_00176D18` interés hasta 50 m, `FUN_00186F40` no cubrirse a < 5 m,
+`FUN_00190C18` ir hacia el jugador, `FUN_0019D6B8` más de 10 m, `FUN_00180CD8`, `FUN_00197678`) **quedan con J**: el
+movimiento táctico sigue centrado en J1. Si en vivo se nota (enemigos que ignoran dónde está J2 para moverse), se
+revisa.
+
+**Código:** `herramientas/coop_ia.py` (94 palabras en `0x0046E600..0x0046E778`, la reserva de `coop-plan-b`), con
+`CERCA` (distancia al cuadrado desde `+0xA0`, coma flotante codificada a mano y controlada contra las del juego en
+`0x00184988`), `VER2`, `VIS2`, `DEF2` y `HOST2`. Listado desensamblado por capstone:
+`docs/listados/107-coop-ia.txt`. `coop_ia.py verificar` controla que capstone lo decodifique, que todo salto
+condicional caiga adentro y que cada sitio tenga en el ELF lo que el diseño supone; `coop_diseno.py` (regla 7), que
+el código no se salga de su reserva ni toque un sitio sin fila. **No está en `coop_mod.py`**: entra cuando la
+notebook lo pruebe.
+
+**Sonda en vivo (la de T2, ahora con el código):** instalar el bloque con la IA (un `--con-ia` en `coop_mod.py`, a
+agregar al integrarlo) y, en City Streets, J quieto detrás de una pared y J2 a la vista de un enemigo: predicción, en
+< 2 s el bit 1 (`0x2`) en `agente+0x274` y el id 1 en una ranura de amenaza (`+0x150/+0x1B0/+0x210`); después la vida
+de J2 baja sin que J2 haya disparado. Control en la misma corrida: los cinco sitios con su palabra original (por PINE,
+en pausa; el pnach los repone en el cuadro siguiente, así que el control es con el bloque sin `--con-ia`).

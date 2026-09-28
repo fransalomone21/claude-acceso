@@ -16,6 +16,22 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (107, nube) — La IA a los dos: cuatro sitios, el código escrito en frío y verificado, sin instalar
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase B · **Nodos:** `ia` (K3, sin cambio)
+**Objetivo:** con la decisión de Fran (106) — los enemigos atacan a los dos — cerrar el diseño de la IA y escribir su código en frío.
+
+- **Leído (R6):** las seis lecturas de distancia a J son heurísticas de movimiento (interés hasta 50 m, no cubrirse a < 5 m, ir hacia J, estado a > 10 m). La actualización por agente es `FUN_0013D1D0` (vtable `0x003DC268`, llamada por el lazo de `FUN_0016DB58` desde el cuadro del juego).
+- **Descartado: conmutar el juego por agente.** Su cierre sólo pide `+0x1C`/`+0x20`, pero llama `FUN_0012A7C0` (rayo contra el mundo, lee `juego+0x4990`) y `FUN_0012A280` (lista del nivel) con el juego entero, más virtuales que el grafo no ve.
+- **Elegido: cuatro sitios.** Ver `0x0018FC4C` y visibles `0x0019098C` con J y J2; blanco por defecto `0x0018A8BC` y hostil `0x00184904` al más cercano. El movimiento táctico queda centrado en J1 (se revisa si se nota).
+- **Código** (`herramientas/coop_ia.py`, 94 palabras en `0x0046E600..0x0046E778`; listado en `docs/listados/107-coop-ia.txt`). **El listado atrapó dos errores antes de la RAM:** un choque de etiquetas (`@VER2` reemplazado dentro de `@VER2F` mandaba un `bne` a `0x466A4C`) y el nombre que capstone le da a `c.lt.s` (`c.olt.s`). Ahora `coop_ia.py verificar` exige que todo salto condicional caiga adentro; la coma flotante se controla contra `0x00184988` del juego.
+- **Plano:** dos sitios nuevos en `coop-plan-b`, las reservas reacomodadas (el código de la IA pide `0x180`); `coop_diseno.py` regla 7 (el código cae en su reserva y cada gancho en una fila); saboteador 12 de 12.
+- **No instalado**: pasa a `coop_mod.py` con `--con-ia` cuando la notebook corra la sonda.
+
+**No funcionó:** los dos errores del listado (arriba), atrapados antes de instalar.
+**Sigue:** la muerte (que J2 cumpla la condición de fin como J), el HUD separado y las retículas, los cuerpos.
+
+---
+
 ## 2026-09-28 (106, nube) — Las decisiones de Fran: el juego como con uno, pero con dos
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR) · **Nodos:** ninguno
 **Objetivo:** anotar las respuestas de Fran a las cinco preguntas de (104)/(105) y lo que cambian en el diseño.

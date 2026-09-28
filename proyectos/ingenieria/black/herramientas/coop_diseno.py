@@ -13,7 +13,9 @@ Lee el bloque ```coop-rangos del documento y exige, en este orden:
   5. toda fila tiene fuente: una entrada `(NN)` (o `(NN, nube)`) que existe en docs/03-bitacora.md, o un archivo de kb/;
   6. (104) el bloque ```coop-plan-b (el DISENO de COOP-B, todavia sin codigo): sus filas no se pisan entre si
      ni con coop-rangos; cada `gancho` espera en el ELF la instruccion que declara (varias separadas por `;`
-     para palabras seguidas), porque el diseno se apoya en ella; y cada fila tiene fuente como en 5.
+     para palabras seguidas), porque el diseno se apoya en ella; y cada fila tiene fuente como en 5;
+  7. (107) el codigo ya escrito del plan (coop_ia.py) cae entero en su reserva y cada gancho suyo en una fila
+     gancho del plan: si el codigo crece o toca otro sitio, rojo.
 Sale 0 si todo esta bien y 1 si algo falla (y dice que). Su saboteador: pruebas/probar-coop-diseno.py.
 """
 import argparse
@@ -129,6 +131,15 @@ def verificar_plan(doc: Path, rangos, bit) -> list[str]:
                 if " ".join(real.lower().split()) != " ".join(esp.lower().split()):
                     errores.append("plan '%s': en %#x el ELF tiene '%s', el diseno espera '%s'"
                                    % (a["nombre"], pc, real, esp))
+    import coop_ia
+    prog = coop_ia.programa()
+    desde, hasta = prog[0][0], prog[-1][0] + 4
+    if not any(f["tipo"] == "reserva" and f["nombre"].startswith("IA: los dos") and f["desde"] <= desde
+               and hasta <= f["hasta"] for f in plan):
+        errores.append("coop_ia.py [%#x, %#x) fuera de su reserva del plan" % (desde, hasta))
+    for pc, _, texto in coop_ia.ganchos():
+        if not any(f["tipo"] == "gancho" and f["desde"] <= pc < f["hasta"] for f in plan):
+            errores.append("gancho de coop_ia %#x (%s) sin fila en el plan" % (pc, texto))
     return errores
 
 

@@ -1,0 +1,102 @@
+0046E600  3C190041  lui $t9, 0x41                      ; lui t9, 0x41
+0046E604  8F22F4D0  lw $v0, -0xb30($t9)                ; lw v0, -0xb30(t9)
+0046E608  24420030  addiu $v0, $v0, 0x30               ; addiu v0, v0, 0x30
+0046E60C  3C190047  lui $t9, 0x47                      ; lui t9, 0x47
+0046E610  8F29D790  lw $t1, -0x2870($t9)               ; lw t1, -0x2870(t9)
+0046E614  240A0002  addiu $t2, $zero, 2                ; addiu t2, zero, 2
+0046E618  152A0020  bne $t1, $t2, 0x46e69c             ; bne t1, t2, 0x46e69c
+0046E61C  00000000  nop                                ; nop
+0046E620  C50000A0  lwc1 $f0, 0xa0($t0)                ; .word 0xc50000a0
+0046E624  C50100A4  lwc1 $f1, 0xa4($t0)                ; .word 0xc50100a4
+0046E628  C50200A8  lwc1 $f2, 0xa8($t0)                ; .word 0xc50200a8
+0046E62C  C44300A0  lwc1 $f3, 0xa0($v0)                ; .word 0xc44300a0
+0046E630  460018C1  sub.s $f3, $f3, $f0                ; .word 0x460018c1
+0046E634  460318C2  mul.s $f3, $f3, $f3                ; .word 0x460318c2
+0046E638  C44400A4  lwc1 $f4, 0xa4($v0)                ; .word 0xc44400a4
+0046E63C  46012101  sub.s $f4, $f4, $f1                ; .word 0x46012101
+0046E640  46042102  mul.s $f4, $f4, $f4                ; .word 0x46042102
+0046E644  460418C0  add.s $f3, $f3, $f4                ; .word 0x460418c0
+0046E648  C44400A8  lwc1 $f4, 0xa8($v0)                ; .word 0xc44400a8
+0046E64C  46022101  sub.s $f4, $f4, $f2                ; .word 0x46022101
+0046E650  46042102  mul.s $f4, $f4, $f4                ; .word 0x46042102
+0046E654  460418C0  add.s $f3, $f3, $f4                ; .word 0x460418c0
+0046E658  2729CDF0  addiu $t1, $t9, -0x3210            ; addiu t1, t9, -0x3210
+0046E65C  C52500A0  lwc1 $f5, 0xa0($t1)                ; .word 0xc52500a0
+0046E660  46002941  sub.s $f5, $f5, $f0                ; .word 0x46002941
+0046E664  46052942  mul.s $f5, $f5, $f5                ; .word 0x46052942
+0046E668  C52400A4  lwc1 $f4, 0xa4($t1)                ; .word 0xc52400a4
+0046E66C  46012101  sub.s $f4, $f4, $f1                ; .word 0x46012101
+0046E670  46042102  mul.s $f4, $f4, $f4                ; .word 0x46042102
+0046E674  46042940  add.s $f5, $f5, $f4                ; .word 0x46042940
+0046E678  C52400A8  lwc1 $f4, 0xa8($t1)                ; .word 0xc52400a8
+0046E67C  46022101  sub.s $f4, $f4, $f2                ; .word 0x46022101
+0046E680  46042102  mul.s $f4, $f4, $f4                ; .word 0x46042102
+0046E684  46042940  add.s $f5, $f5, $f4                ; .word 0x46042940
+0046E688  46032834  c.olt.s $f5, $f3                   ; .word 0x46032834
+0046E68C  00000000  nop                                ; nop
+0046E690  45000002  bc1f 0x46e69c                      ; .word 0x45000002
+0046E694  00000000  nop                                ; nop
+0046E698  01201021  move $v0, $t1                      ; move v0, t1
+0046E69C  03E00008  jr $ra                             ; jr ra
+0046E6A0  00000000  nop                                ; nop
+0046E6A4  27BDFFE0  addiu $sp, $sp, -0x20              ; addiu sp, sp, -0x20
+0046E6A8  AFBF0000  sw $ra, ($sp)                      ; sw ra, 0(sp)
+0046E6AC  AFA40004  sw $a0, 4($sp)                     ; sw a0, 4(sp)
+0046E6B0  0C063EE2  jal 0x18fb88                       ; jal 0x18fb88
+0046E6B4  00000000  nop                                ; nop
+0046E6B8  3C190047  lui $t9, 0x47                      ; lui t9, 0x47
+0046E6BC  8F38D790  lw $t8, -0x2870($t9)               ; lw t8, -0x2870(t9)
+0046E6C0  240F0002  addiu $t7, $zero, 2                ; addiu t7, zero, 2
+0046E6C4  170F0004  bne $t8, $t7, 0x46e6d8             ; bne t8, t7, 0x46e6d8
+0046E6C8  00000000  nop                                ; nop
+0046E6CC  8FA40004  lw $a0, 4($sp)                     ; lw a0, 4(sp)
+0046E6D0  0C063EE2  jal 0x18fb88                       ; jal 0x18fb88
+0046E6D4  2725CDF0  addiu $a1, $t9, -0x3210            ; addiu a1, t9, -0x3210
+0046E6D8  8FBF0000  lw $ra, ($sp)                      ; lw ra, 0(sp)
+0046E6DC  03E00008  jr $ra                             ; jr ra
+0046E6E0  27BD0020  addiu $sp, $sp, 0x20               ; addiu sp, sp, 0x20
+0046E6E4  27BDFFE0  addiu $sp, $sp, -0x20              ; addiu sp, sp, -0x20
+0046E6E8  AFBF0000  sw $ra, ($sp)                      ; sw ra, 0(sp)
+0046E6EC  AFA40004  sw $a0, 4($sp)                     ; sw a0, 4(sp)
+0046E6F0  0C064228  jal 0x1908a0                       ; jal 0x1908a0
+0046E6F4  00000000  nop                                ; nop
+0046E6F8  3C190047  lui $t9, 0x47                      ; lui t9, 0x47
+0046E6FC  8F38D790  lw $t8, -0x2870($t9)               ; lw t8, -0x2870(t9)
+0046E700  240F0002  addiu $t7, $zero, 2                ; addiu t7, zero, 2
+0046E704  170F0004  bne $t8, $t7, 0x46e718             ; bne t8, t7, 0x46e718
+0046E708  00000000  nop                                ; nop
+0046E70C  8FA40004  lw $a0, 4($sp)                     ; lw a0, 4(sp)
+0046E710  0C064228  jal 0x1908a0                       ; jal 0x1908a0
+0046E714  2725CDF0  addiu $a1, $t9, -0x3210            ; addiu a1, t9, -0x3210
+0046E718  8FBF0000  lw $ra, ($sp)                      ; lw ra, 0(sp)
+0046E71C  03E00008  jr $ra                             ; jr ra
+0046E720  27BD0020  addiu $sp, $sp, 0x20               ; addiu sp, sp, 0x20
+0046E724  27BDFFE0  addiu $sp, $sp, -0x20              ; addiu sp, sp, -0x20
+0046E728  AFBF0000  sw $ra, ($sp)                      ; sw ra, 0(sp)
+0046E72C  AFA40004  sw $a0, 4($sp)                     ; sw a0, 4(sp)
+0046E730  AFA60008  sw $a2, 8($sp)                     ; sw a2, 8(sp)
+0046E734  8C880130  lw $t0, 0x130($a0)                 ; lw t0, 0x130(a0)
+0046E738  0C11B980  jal 0x46e600                       ; jal 0x46e600
+0046E73C  8D08007C  lw $t0, 0x7c($t0)                  ; lw t0, 0x7c(t0)
+0046E740  00402821  move $a1, $v0                      ; move a1, v0
+0046E744  8FA40004  lw $a0, 4($sp)                     ; lw a0, 4(sp)
+0046E748  8FA60008  lw $a2, 8($sp)                     ; lw a2, 8(sp)
+0046E74C  8FBF0000  lw $ra, ($sp)                      ; lw ra, 0(sp)
+0046E750  080625D0  j 0x189740                         ; j 0x189740
+0046E754  27BD0020  addiu $sp, $sp, 0x20               ; addiu sp, sp, 0x20
+0046E758  27BDFFF0  addiu $sp, $sp, -0x10              ; addiu sp, sp, -0x10
+0046E75C  AFBF0000  sw $ra, ($sp)                      ; sw ra, 0(sp)
+0046E760  8E280000  lw $t0, ($s1)                      ; lw t0, 0(s1)
+0046E764  0C11B980  jal 0x46e600                       ; jal 0x46e600
+0046E768  8D08007C  lw $t0, 0x7c($t0)                  ; lw t0, 0x7c(t0)
+0046E76C  8FBF0000  lw $ra, ($sp)                      ; lw ra, 0(sp)
+0046E770  03E00008  jr $ra                             ; jr ra
+0046E774  27BD0010  addiu $sp, $sp, 0x10               ; addiu sp, sp, 0x10
+
+ganchos:
+0018FC4C  0C11B9A9  jal 0x46e6a4                       ; IA ver: jal VER2 (era jal 0x18fb88)  [pisa: jal 0x0018FB88]
+0019098C  0C11B9B9  jal 0x46e6e4                       ; IA visibles: jal VIS2 (era jal 0x1908a0)  [pisa: jal 0x001908A0]
+0018A8BC  0C11B9C9  jal 0x46e724                       ; IA defecto: jal DEF2 (era jal 0x189740)  [pisa: jal 0x00189740]
+00184904  0C11B9D6  jal 0x46e758                       ; IA hostil: jal HOST2 (era lw v0,-0xB30(v1))  [pisa: lw v0, -2864(v1)]
+00184908  00000000  nop                                ; IA hostil: nop (era addiu v0,v0,0x30)  [pisa: addiu v0, v0, 48]
+coop_ia: 94 palabras en [0x46e600, 0x46e778), 0 problema(s)
