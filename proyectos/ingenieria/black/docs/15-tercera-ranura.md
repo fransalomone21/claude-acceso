@@ -1,6 +1,6 @@
 # La tercera ranura — J2 con su propio modelo en primera persona
 
-**Estado:** diseño en frío cerrado (bitácora (93o), 2026-09-28). Prototipo por PINE: `herramientas/ranura3.py`. Nada de esto está en el pnach todavía.
+**Estado:** diseño en frío cerrado (bitácora (93o), 2026-09-28). Prototipo por PINE: `herramientas/ranura3.py`. **El código para el pnach está escrito (93s)** en `coop_mod.py` (bandera `SIN_R3`, 785 palabras con la ranura, 636 sin ella) y **no se instaló todavía**: lo instala y lo mide la notebook.
 
 ## Para qué
 
@@ -67,7 +67,13 @@ J2 usa la ranura de J (`J2+0x330` = `pers+0x470+i·0x240`). La ranura es el mode
 - Si `R3+0xAC` sale −1, no se carga (`R3_PEDIDO` = 3).
 - El sub se comparte con la ranura `i` de J: si J2 cambiara a un arma **de otro tipo** en ese índice, recargaría el modelo de J. Mientras J2 sea el molde de J, las armas coinciden.
 
-**Para el pnach (después del prototipo):**
+**Para el pnach — lo que quedó en el código (93s), corrigiendo este plan:**
+1. **Armar y cargar desde la llamada por cuadro a `FUN_001ab428`** (`0x001295A8`), no desde el envoltorio del cargador: con FASE 2, arma una vez y, si `J2+0x330` != R3, carga (o sólo reapunta, si R3 ya tiene `sub_i` en este nivel). Eso cubre la carga de cada nivel **y** el final del cambio de arma, sin envoltorio de `FUN_0013C868`.
+2. **Los accesorios NO se reatan:** `J2+0x25C..` son los objetos de J (el molde los copia; medido en volcado).
+3. **Envoltorio del único `jal 0x1a51c8` de `FUN_001ac960`** (`0x001ACA84`), no de la función entera: si `a1` = J2 y `a0` es r0/r1 → R3; y recarga `r_i` para su dueño si la tiene en la mano, porque `FUN_001ac960` ya le reconstruyó el sub.
+4. **Baja en el desarme:** `FUN_001a5ee8(R3)`, el espejo del destructor de J (`FUN_00133ed8`), que a J2 no se le corre.
+
+**El plan original (antes de (93s)):**
 1. Armar + cargar en el envoltorio del cargador (cuando J2 ya está armado).
 2. Envoltorio de `FUN_0013C868`: si el dueño es J2, al volver poner `J2+0x330` = R3 y reatar sus accesorios con `R3+0x30..`.
 3. Envoltorio de `FUN_001a51c8`: si `a1` = J2 y `a0` es r0 o r1, cambiar `a0` por R3.

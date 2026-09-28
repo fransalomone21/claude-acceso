@@ -16,6 +16,190 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93s) — La ranura 3 en el código del pnach (T1): el cambio de arma de J2 le pisaba la ranura a J, y los accesorios no se reatan porque son de J
+**Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (brazos propios de J2, B-brazos) · **Nodos:** `personajes`, `codigo-nuevo` (evidencia en frío; sin cambio de K)
+**Objetivo:** dejar escrito, ensamblado y desensamblado el código de la ranura 3 para el pnach, detrás de una bandera, contestando antes en frío las tres preguntas del retome. No se instaló nada: lo caliente es de la notebook.
+
+**Las preguntas, en frío:**
+- **(a) `J2+0x2C3` existe y sigue al arma en la mano** (`confirmado en frío`). El manejador de armas del jugador está **embebido en `J+0x280`** (el constructor `FUN_00139C68` hace `FUN_0015c100(J+0x280)`), así que `W+0x1C` = `J+0x29C` (el dueño: uno de los autopunteros que el molde ya reubica), `W+0x20` = `+0x2A0` (las armas: `ARMAS2`), `W+0x24` = `+0x2A4` (la de la mano) y **`W+0x43` = `+0x2C3`** (su índice). Lo escriben el constructor, `FUN_0015BE70` (fin del cambio de arma: busca `W+0x28` en `W+0x20[]`) y el levantar un arma (el cuerpo que llama `FUN_00143d90` en `0x0015C7xx`).
+- **(b) Sí hace falta el envoltorio de la carga, y va** (`confirmado en frío`). El cambio de arma (caso 2 del estado del arma) y el levantar un arma llaman `FUN_00143d90(*(0x0040F540), W+0x1C, i)`; con J2, eso es `FUN_001ac960(pers, i, …, J2)`, que **reconstruye el sub compartido** (`FUN_001a8168(pers+0x398+i·0x6C)`) y hace `FUN_001a51c8(r_i, J2, sub_i)`: **`*r_i` = J2** y la ranura de J se recarga. Con eso los eventos de la animación de J en `r_i` salen a nombre de J2 y el filtro de (93m) los **saltea** (la recarga de J dejaría de verse) hasta que J cambie de arma. `FUN_001ac960` tiene un solo llamador y un solo `jal 0x1a51c8` (`0x001ACA84`); el otro `jal 0x1a51c8` del ELF (`0x00132998`) es el de los personajes del pool. **El constructor no pasa por ahí para J2**: el molde lo deja en `+0x8A4` = 0x1C, que construye y vuelve con 1 y estado 0x37 sin llegar a `FUN_00143d90(…, 0)` (lo corre el estado 2; para J lo vuelve a llamar el cargador). Coincide con (93p): después de armar, el dueño de r0 seguía siendo J.
+- **(c) Al salir del nivel, se da de baja R3** (`confirmado en frío` el camino; `probable` que sea necesario). El juego descarga la ranura del jugador en su destructor: `FUN_00129de8` estado 0x21 llama el método `+0x24` de cada jugador **para i < cuenta** (= 1), que en la vtable de jugador `0x003DC5F8` (medida en J y en J2 en los volcados) es `FUN_0013b9a0` → `FUN_00133ed8` → **`FUN_001a5ee8(J+0x330)`**. A J2 nadie lo destruye. Sin baja, R3 queda con `+0xB8` = 1 y la carga del nivel siguiente la descarga igual (`FUN_001a51c8` con `+0xB8` = 1 → `FUN_001a5ee8`), lo mismo que el juego ya hace con la ranura del arma que J no tiene en la mano (en los tres volcados, r1 está cargada con dueño J mientras J usa r0). La baja en el desarme (estado 0x1D, antes de que se liberen los subsistemas) es el espejo del destructor de J.
+- **El «reatar» del retome está REFUTADO** (`confirmado en volcado`): `J2+0x25C..` son **los mismos objetos** que `J+0x25C..` (el molde los copia; en `ee-parpadeo-quieto.bin` y `ee-parpadeo-fuego-0.bin` los dos apuntan a `0x006ED6F0/710/730`, los accesorios 5..7 que cuelgan de las matrices de primera persona). Reatarlos a `R3+0x30..` se los sacaría a J. El prototipo de (93p)/(93q) no los reataba y midió bien. Orden de argumentos de `FUN_00142ed8`, verificado en las instrucciones de `FUN_0013C868` igual: `a0` = accesorio (`*(J+0x25C+4k)`), `a1` = `*(ranura+0x30+4k)`, `a2` = 0, y el juego sólo mira que `a0` != 0.
+
+**El código** (`coop_mod.py`, bandera `SIN_R3`; `listar/poner/instalar --sin-r3` es el control; **785 palabras** con la ranura 3, **636** sin ella, las mismas de antes):
+- **Por cuadro** (`0x0046E340`, 81 palabras; gancho `0x001295A8` = `jal 0x1ab428`, `a0` = pers): con FASE 2 arma R3 una vez por arranque (`FUN_00343fc8(R3+0x10)`, `FUN_001a4ff0(R3, 1)`, `R3_ARMADA` = 1, fuera del pnach); si `R3+0xAC` = −1 no hace nada; si `J2+0x330` != R3: si R3 ya está cargada con `sub_i` **en este nivel** (`+0xB8` = 1, `+0x50` = `sub_i`, `R3_MOLDE` = `MOLDES`) sólo reapunta `J2+0x330` = R3; si no, y `r_i+0xB8` = 1, `FUN_001a51c8(R3, J2, sub_i)`. Guarda y repone `ra`, `a0..a3`, `s0`, `s1` y sigue a `0x1ab428`.
+- **Envoltorio de la carga** (`0x0046E4A0`, 54 palabras; gancho `0x001ACA84`): si `a1` = J2, `a0` es r0/r1 y R3 está armada con bloque, carga R3 en su lugar; y como `FUN_001ac960` ya reconstruyó `sub_i`, **recarga `r_i` para su dueño si ese dueño la tiene en la mano** (`*(dueño+0x330)` = `r_i`): el juego nunca deja un sub reconstruido debajo de una ranura en uso. Devuelve 1 (el lazo de `FUN_001ac960` sale). Sin J2, salto directo a `0x1a51c8`.
+- **Baja** (12 palabras dentro del desarme, que pasa de 36 a 48): `FUN_001a5ee8(R3)` si está armada y cargada.
+- **Datos** (fuera del pnach): `R3_ARMADA` `0x0046E0B4`, contadores `R3_CARGAS`/`R3_REAPUNTES`/`R3_DESVIOS`/`R3_BAJAS` en `0x0046E0B8..C4`, `R3_MOLDE` `0x0046E0C8`. `poner` no los pone en cero (armar dos veces se come otro bloque).
+- **El sello por nivel** salió de releer el listado: sin él, una recarga del nivel que no pase por el desarme (el punto de control de T3) dejaría R3 «cargada» con el mismo sub, y el cuadro sólo la reapuntaría con la instancia del nivel viejo.
+- Plano: 6 filas nuevas en `coop-rangos` y la del desarme corregida; `coop_diseno.py verificar` en 0.
+
+**Riesgos que quedan, para medir en vivo** (`hipótesis`): (1) el cuadro en que J2 cambia de arma, el mover de J2 puede animar un paso sobre `r_i` antes de que `0x001295A8` reapunte; (2) si J2 levanta un arma de **otro tipo** en el índice que J tiene en la mano, `sub_i` pasa a ser el modelo de J2 y la recarga de `r_i` le pone a J los brazos de esa arma (el sub compartido, ya anotado en docs/15); (3) `FUN_0013C868(J2, i)` le reata a `r_i` los accesorios **de J** cuando J2 cambia de arma: si J tiene en la mano la otra, sus accesorios quedan colgados de la ranura equivocada hasta que cambie (ya pasaba antes del mod de la ranura; no lo arregla ni lo empeora).
+
+<details><summary>Listado (ensamblado con mips.py, desensamblado con capstone; <code>mult</code> de 3 operandos es del R5900 y capstone no lo decodifica)</summary>
+
+```
+== desarme
+0x0046DD68  3C040047  lui $a0, 0x47
+0x0046DD6C  8C88E0B4  lw $t0, -0x1f4c($a0)
+0x0046DD70  11000009  beqz $t0, 0x46dd98
+0x0046DD74  2484E100  addiu $a0, $a0, -0x1f00
+0x0046DD78  908800B8  lbu $t0, 0xb8($a0)
+0x0046DD7C  11000006  beqz $t0, 0x46dd98
+0x0046DD80  00000000  nop 
+0x0046DD84  0C0697BA  jal 0x1a5ee8
+0x0046DD88  00000000  nop 
+0x0046DD8C  8E29E0C4  lw $t1, -0x1f3c($s1)
+0x0046DD90  25290001  addiu $t1, $t1, 1
+0x0046DD94  AE29E0C4  sw $t1, -0x1f3c($s1)
+== ranura 3 por cuadro
+0x0046E340  3C080047  lui $t0, 0x47
+0x0046E344  8D09D790  lw $t1, -0x2870($t0)
+0x0046E348  240A0002  addiu $t2, $zero, 2
+0x0046E34C  152A004B  bne $t1, $t2, 0x46e47c
+0x0046E350  00000000  nop 
+0x0046E354  27BDFFC0  addiu $sp, $sp, -0x40
+0x0046E358  FFBF0000  sd $ra, ($sp)
+0x0046E35C  FFA40008  sd $a0, 8($sp)
+0x0046E360  FFA50010  sd $a1, 0x10($sp)
+0x0046E364  FFA60018  sd $a2, 0x18($sp)
+0x0046E368  FFA70020  sd $a3, 0x20($sp)
+0x0046E36C  FFB00028  sd $s0, 0x28($sp)
+0x0046E370  FFB10030  sd $s1, 0x30($sp)
+0x0046E374  3C100047  lui $s0, 0x47
+0x0046E378  2610E100  addiu $s0, $s0, -0x1f00
+0x0046E37C  8D09E0B4  lw $t1, -0x1f4c($t0)
+0x0046E380  15200009  bnez $t1, 0x46e3a8
+0x0046E384  00000000  nop 
+0x0046E388  0C0D0FF2  jal 0x343fc8
+0x0046E38C  26040010  addiu $a0, $s0, 0x10
+0x0046E390  02002021  move $a0, $s0
+0x0046E394  0C0693FC  jal 0x1a4ff0
+0x0046E398  24050001  addiu $a1, $zero, 1
+0x0046E39C  3C080047  lui $t0, 0x47
+0x0046E3A0  24090001  addiu $t1, $zero, 1
+0x0046E3A4  AD09E0B4  sw $t1, -0x1f4c($t0)
+0x0046E3A8  8E0900AC  lw $t1, 0xac($s0)
+0x0046E3AC  240AFFFF  addiu $t2, $zero, -1
+0x0046E3B0  112A002A  beq $t1, $t2, 0x46e45c
+0x0046E3B4  00000000  nop 
+0x0046E3B8  3C050047  lui $a1, 0x47
+0x0046E3BC  24A5CDF0  addiu $a1, $a1, -0x3210
+0x0046E3C0  8CA90330  lw $t1, 0x330($a1)
+0x0046E3C4  11300025  beq $t1, $s0, 0x46e45c
+0x0046E3C8  00000000  nop 
+0x0046E3CC  3C080041  lui $t0, 0x41
+0x0046E3D0  8D11F50C  lw $s1, -0xaf4($t0)
+0x0046E3D4  80AA02C3  lb $t2, 0x2c3($a1)
+0x0046E3D8  240B006C  addiu $t3, $zero, 0x6c
+0x0046E3DC  014B6018  (R5900: mult t4, t2, t3)
+0x0046E3E0  022C3021  addu $a2, $s1, $t4
+0x0046E3E4  24C60398  addiu $a2, $a2, 0x398
+0x0046E3E8  920D00B8  lbu $t5, 0xb8($s0)
+0x0046E3EC  11A0000C  beqz $t5, 0x46e420
+0x0046E3F0  8E0D0050  lw $t5, 0x50($s0)
+0x0046E3F4  15A6000A  bne $t5, $a2, 0x46e420
+0x0046E3F8  3C080047  lui $t0, 0x47
+0x0046E3FC  8D0ED7C0  lw $t6, -0x2840($t0)
+0x0046E400  8D0FE0C8  lw $t7, -0x1f38($t0)
+0x0046E404  15CF0006  bne $t6, $t7, 0x46e420
+0x0046E408  00000000  nop 
+0x0046E40C  ACB00330  sw $s0, 0x330($a1)
+0x0046E410  8D09E0BC  lw $t1, -0x1f44($t0)
+0x0046E414  25290001  addiu $t1, $t1, 1
+0x0046E418  10000010  b 0x46e45c
+0x0046E41C  AD09E0BC  sw $t1, -0x1f44($t0)
+0x0046E420  240B0240  addiu $t3, $zero, 0x240
+0x0046E424  014B6018  (R5900: mult t4, t2, t3)
+0x0046E428  022C6021  addu $t4, $s1, $t4
+0x0046E42C  918D0528  lbu $t5, 0x528($t4)
+0x0046E430  240E0001  addiu $t6, $zero, 1
+0x0046E434  15AE0009  bne $t5, $t6, 0x46e45c
+0x0046E438  00000000  nop 
+0x0046E43C  0C069472  jal 0x1a51c8
+0x0046E440  02002021  move $a0, $s0
+0x0046E444  3C080047  lui $t0, 0x47
+0x0046E448  8D09E0B8  lw $t1, -0x1f48($t0)
+0x0046E44C  25290001  addiu $t1, $t1, 1
+0x0046E450  AD09E0B8  sw $t1, -0x1f48($t0)
+0x0046E454  8D0ED7C0  lw $t6, -0x2840($t0)
+0x0046E458  AD0EE0C8  sw $t6, -0x1f38($t0)
+0x0046E45C  DFBF0000  ld $ra, ($sp)
+0x0046E460  DFA40008  ld $a0, 8($sp)
+0x0046E464  DFA50010  ld $a1, 0x10($sp)
+0x0046E468  DFA60018  ld $a2, 0x18($sp)
+0x0046E46C  DFA70020  ld $a3, 0x20($sp)
+0x0046E470  DFB00028  ld $s0, 0x28($sp)
+0x0046E474  DFB10030  ld $s1, 0x30($sp)
+0x0046E478  27BD0040  addiu $sp, $sp, 0x40
+0x0046E47C  0806AD0A  j 0x1ab428
+0x0046E480  00000000  nop 
+== ranura 3 envoltorio
+0x0046E4A0  3C080047  lui $t0, 0x47
+0x0046E4A4  2509CDF0  addiu $t1, $t0, -0x3210
+0x0046E4A8  14A90031  bne $a1, $t1, 0x46e570
+0x0046E4AC  8D0AE0B4  lw $t2, -0x1f4c($t0)
+0x0046E4B0  1140002F  beqz $t2, 0x46e570
+0x0046E4B4  3C0B0041  lui $t3, 0x41
+0x0046E4B8  8D6BF50C  lw $t3, -0xaf4($t3)
+0x0046E4BC  256C0470  addiu $t4, $t3, 0x470
+0x0046E4C0  108C0003  beq $a0, $t4, 0x46e4d0
+0x0046E4C4  256C06B0  addiu $t4, $t3, 0x6b0
+0x0046E4C8  148C0029  bne $a0, $t4, 0x46e570
+0x0046E4CC  00000000  nop 
+0x0046E4D0  250DE100  addiu $t5, $t0, -0x1f00
+0x0046E4D4  8DAE00AC  lw $t6, 0xac($t5)
+0x0046E4D8  240FFFFF  addiu $t7, $zero, -1
+0x0046E4DC  11CF0024  beq $t6, $t7, 0x46e570
+0x0046E4E0  00000000  nop 
+0x0046E4E4  27BDFFD0  addiu $sp, $sp, -0x30
+0x0046E4E8  FFBF0000  sd $ra, ($sp)
+0x0046E4EC  FFB00008  sd $s0, 8($sp)
+0x0046E4F0  FFB10010  sd $s1, 0x10($sp)
+0x0046E4F4  FFB20018  sd $s2, 0x18($sp)
+0x0046E4F8  00808021  move $s0, $a0
+0x0046E4FC  00A08821  move $s1, $a1
+0x0046E500  00C09021  move $s2, $a2
+0x0046E504  8D0EE0C0  lw $t6, -0x1f40($t0)
+0x0046E508  25CE0001  addiu $t6, $t6, 1
+0x0046E50C  AD0EE0C0  sw $t6, -0x1f40($t0)
+0x0046E510  0C069472  jal 0x1a51c8
+0x0046E514  01A02021  move $a0, $t5
+0x0046E518  3C080047  lui $t0, 0x47
+0x0046E51C  8D0ED7C0  lw $t6, -0x2840($t0)
+0x0046E520  AD0EE0C8  sw $t6, -0x1f38($t0)
+0x0046E524  920800B8  lbu $t0, 0xb8($s0)
+0x0046E528  1100000A  beqz $t0, 0x46e554
+0x0046E52C  8E050000  lw $a1, ($s0)
+0x0046E530  10A00008  beqz $a1, 0x46e554
+0x0046E534  00000000  nop 
+0x0046E538  10B10006  beq $a1, $s1, 0x46e554
+0x0046E53C  00000000  nop 
+0x0046E540  8CA80330  lw $t0, 0x330($a1)
+0x0046E544  15100003  bne $t0, $s0, 0x46e554
+0x0046E548  02403021  move $a2, $s2
+0x0046E54C  0C069472  jal 0x1a51c8
+0x0046E550  02002021  move $a0, $s0
+0x0046E554  DFB20018  ld $s2, 0x18($sp)
+0x0046E558  DFB10010  ld $s1, 0x10($sp)
+0x0046E55C  DFB00008  ld $s0, 8($sp)
+0x0046E560  DFBF0000  ld $ra, ($sp)
+0x0046E564  27BD0030  addiu $sp, $sp, 0x30
+0x0046E568  03E00008  jr $ra
+0x0046E56C  24020001  addiu $v0, $zero, 1
+0x0046E570  08069472  j 0x1a51c8
+0x0046E574  00000000  nop 
+== ganchos
+0x001295A8  0C11B8D0  jal 0x46e340
+0x001ACA84  0C11B928  jal 0x46e4a0
+```
+</details>
+
+**No funcionó:** el «reatar» de los accesorios del retome (refutado en volcado, arriba). Nada se corrió en vivo.
+**Sigue:** en la notebook, instalar con y sin `--sin-r3`, la campaña (8 de 8) y `ranura3b.py` sobre el pnach (con `--sin-r3` como control). Acá, T2 (el parpadeo).
+
+---
+
 ## 2026-09-28 (93r) — Volcados de RAM del parpadeo, para el frío en la nube
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (el parpadeo de la mitad de J2) · **Nodos:** `render` (evidencia)
 **Objetivo:** dejarle a la nube (sin emulador) lo que sólo la notebook puede tomar: la RAM en las dos fases del parpadeo.

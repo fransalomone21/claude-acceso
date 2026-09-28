@@ -111,6 +111,7 @@ move a0, s0
 jal 0x12a280
 addiu a1, s1, -0x3210
 FIN:
+R3_BAJA_BLOQUE
 sw zero, -0x287c(s1)
 sw zero, -0x2870(s1)
 lw t1, -0x2838(s1)
@@ -525,6 +526,217 @@ nop
     return prog, ganchos
 
 
+# (93s) LA TERCERA RANURA EN EL PNACH (docs/15-tercera-ranura.md; prototipo por PINE en ranura3.py, (93p)/(93q)).
+# R3 es una ranura de primera persona propia para J2, fuera de pers. Tres piezas:
+#  POR CUADRO (sitio 0x001295A8, jal 0x1ab428 = la actualizacion de pers, a0 = pers, FUERA del gancho del mod):
+#    con FASE 2: arma R3 UNA vez por arranque (R3_ARMADA persiste entre niveles y NO va en el pnach: armar dos
+#    veces se come otro bloque del pool de animacion); si R3+0xAC = -1 no hace nada; si J2+0x330 != R3:
+#      - R3 ya cargada con el sub del arma en la mano (+0xB8 = 1 y +0x50 = sub_i) EN ESTE NIVEL (R3_MOLDE = MOLDES)
+#        -> solo J2+0x330 = R3
+#        (lo deja asi el cambio de arma: el envoltorio de abajo ya cargo R3 y FUN_0013C868 la piso con r_i);
+#      - si no, y la ranura de J del indice i ya esta cargada -> FUN_001a51c8(R3, J2, pers+0x398+i*0x6C).
+#    i = (signed char) J2+0x2C3 = W+0x43 del manejador de armas de J2 (W = J2+0x280), confirmado en frio.
+#    NO reata los accesorios: J2+0x25C.. son LOS MISMOS objetos que J+0x25C.. (el molde los copia; en los
+#    volcados del parpadeo los dos apuntan a 0x006ED6F0/710/730). Reatarlos a R3 se los sacaria a J.
+#  ENVOLTORIO DE LA CARGA (sitio 0x001ACA84, el unico jal 0x1a51c8 de FUN_001ac960, el cargador del aparejo):
+#    el cambio de arma y el levantar un arma de J2 llaman FUN_00143d90(cargador, W+0x1C = J2, i) ->
+#    FUN_001ac960 -> FUN_001a51c8(r_i, J2, sub_i): le PISABAN el dueno a la ranura de J (*r_i = J2, y los
+#    eventos de la animacion de J salian a nombre de J2 y el filtro (93m) los salteaba). Con a1 = J2 y a0 = r0/r1
+#    (y R3 armada con bloque) carga R3 en su lugar; despues, como FUN_001ac960 ya reconstruyo sub_i (FUN_001a8168)
+#    bajo los pies de r_i, recarga r_i para su dueno SI ese dueno la tiene en la mano (*(dueno+0x330) = r_i):
+#    el juego nunca deja un sub reconstruido debajo de una ranura en uso.
+#  BAJA (en el desarme, (87)): FUN_001a5ee8(R3) si esta cargada, como el destructor del jugador
+#    (FUN_0013b9a0 -> FUN_00133ed8) hace con J+0x330 en el estado 0x21 -- a J2 nadie lo destruye (cuenta = 1).
+# `poner/instalar --sin-r3` es el control: sin nada de esto, J2 comparte la ranura de J como hasta (93q).
+R3_ARMADA = 0x0046E0B4         # dato: 1 = R3 ya armada en este arranque. NO va en el pnach
+R3_CARGAS, R3_REAPUNTES, R3_DESVIOS, R3_BAJAS = 0x0046E0B8, 0x0046E0BC, 0x0046E0C0, 0x0046E0C4  # contadores
+R3_MOLDE = 0x0046E0C8          # dato: MOLDES (0x0046D7C0) cuando se cargo R3. Reapuntar solo vale en el mismo
+                               # nivel: una recarga que no pase por el desarme deja R3 cargada con el MISMO sub
+R3 = 0x0046E100                # la ranura, 0x240 B (.bss en cero)
+R3_POR_CUADRO = 0x0046E340
+R3_ENVOLTORIO = 0x0046E4A0
+SITIO_R3, ORIGINAL_R3 = 0x001295A8, ensamblar("jal 0x1ab428", 0x001295A8)
+SITIO_R3_CARGA, ORIGINAL_R3_CARGA = 0x001ACA84, ensamblar("jal 0x1a51c8", 0x001ACA84)
+SIN_R3 = False
+
+R3_POR_CUADRO_MOD = """
+lui t0, 0x47
+lw t1, -0x2870(t0)
+addiu t2, zero, 2
+bne t1, t2, @FIN
+nop
+addiu sp, sp, -0x40
+sd ra, 0(sp)
+sd a0, 8(sp)
+sd a1, 0x10(sp)
+sd a2, 0x18(sp)
+sd a3, 0x20(sp)
+sd s0, 0x28(sp)
+sd s1, 0x30(sp)
+lui s0, 0x47
+addiu s0, s0, -0x1f00
+lw t1, -0x1f4c(t0)
+bne t1, zero, @ARMADA
+nop
+jal 0x343fc8
+addiu a0, s0, 0x10
+move a0, s0
+jal 0x1a4ff0
+addiu a1, zero, 1
+lui t0, 0x47
+addiu t1, zero, 1
+sw t1, -0x1f4c(t0)
+ARMADA:
+lw t1, 0xac(s0)
+addiu t2, zero, -1
+beq t1, t2, @SALIR
+nop
+lui a1, 0x47
+addiu a1, a1, -0x3210
+lw t1, 0x330(a1)
+beq t1, s0, @SALIR
+nop
+lui t0, 0x41
+lw s1, -0xaf4(t0)
+lb t2, 0x2c3(a1)
+addiu t3, zero, 0x6c
+mult t4, t2, t3
+addu a2, s1, t4
+addiu a2, a2, 0x398
+lbu t5, 0xb8(s0)
+beq t5, zero, @CARGAR
+lw t5, 0x50(s0)
+bne t5, a2, @CARGAR
+lui t0, 0x47
+lw t6, -0x2840(t0)
+lw t7, -0x1f38(t0)
+bne t6, t7, @CARGAR
+nop
+sw s0, 0x330(a1)
+lw t1, -0x1f44(t0)
+addiu t1, t1, 1
+beq zero, zero, @SALIR
+sw t1, -0x1f44(t0)
+CARGAR:
+addiu t3, zero, 0x240
+mult t4, t2, t3
+addu t4, s1, t4
+lbu t5, 0x528(t4)
+addiu t6, zero, 1
+bne t5, t6, @SALIR
+nop
+jal 0x1a51c8
+move a0, s0
+lui t0, 0x47
+lw t1, -0x1f48(t0)
+addiu t1, t1, 1
+sw t1, -0x1f48(t0)
+lw t6, -0x2840(t0)
+sw t6, -0x1f38(t0)
+SALIR:
+ld ra, 0(sp)
+ld a0, 8(sp)
+ld a1, 0x10(sp)
+ld a2, 0x18(sp)
+ld a3, 0x20(sp)
+ld s0, 0x28(sp)
+ld s1, 0x30(sp)
+addiu sp, sp, 0x40
+FIN:
+j 0x1ab428
+nop
+"""
+
+R3_ENVOLTORIO_MOD = """
+lui t0, 0x47
+addiu t1, t0, -0x3210
+bne a1, t1, @ORIG
+lw t2, -0x1f4c(t0)
+beq t2, zero, @ORIG
+lui t3, 0x41
+lw t3, -0xaf4(t3)
+addiu t4, t3, 0x470
+beq a0, t4, @DESVIAR
+addiu t4, t3, 0x6b0
+bne a0, t4, @ORIG
+nop
+DESVIAR:
+addiu t5, t0, -0x1f00
+lw t6, 0xac(t5)
+addiu t7, zero, -1
+beq t6, t7, @ORIG
+nop
+addiu sp, sp, -0x30
+sd ra, 0(sp)
+sd s0, 8(sp)
+sd s1, 0x10(sp)
+sd s2, 0x18(sp)
+move s0, a0
+move s1, a1
+move s2, a2
+lw t6, -0x1f40(t0)
+addiu t6, t6, 1
+sw t6, -0x1f40(t0)
+jal 0x1a51c8
+move a0, t5
+lui t0, 0x47
+lw t6, -0x2840(t0)
+sw t6, -0x1f38(t0)
+lbu t0, 0xb8(s0)
+beq t0, zero, @LISTO
+lw a1, 0(s0)
+beq a1, zero, @LISTO
+nop
+beq a1, s1, @LISTO
+nop
+lw t0, 0x330(a1)
+bne t0, s0, @LISTO
+move a2, s2
+jal 0x1a51c8
+move a0, s0
+LISTO:
+ld s2, 0x18(sp)
+ld s1, 0x10(sp)
+ld s0, 8(sp)
+ld ra, 0(sp)
+addiu sp, sp, 0x30
+jr ra
+addiu v0, zero, 1
+ORIG:
+j 0x1a51c8
+nop
+"""
+
+R3_BAJA_MOD = """
+lui a0, 0x47
+lw t0, -0x1f4c(a0)
+beq t0, zero, @R3NO
+addiu a0, a0, -0x1f00
+lbu t0, 0xb8(a0)
+beq t0, zero, @R3NO
+nop
+jal 0x1a5ee8
+nop
+lw t1, -0x1f3c(s1)
+addiu t1, t1, 1
+sw t1, -0x1f3c(s1)
+R3NO:
+"""
+
+
+def ranura3():
+    """(93s) [(nombre, prog)] y los ganchos de la ranura 3; vacios con SIN_R3."""
+    if SIN_R3:
+        return [], []
+    pc = j2.ensamblar_programa(R3_POR_CUADRO_MOD, R3_POR_CUADRO, R3_ENVOLTORIO)
+    env = j2.ensamblar_programa(R3_ENVOLTORIO_MOD, R3_ENVOLTORIO, 0x0046E5A0)
+    ganchos = [(SITIO_R3, ensamblar("jal 0x%x" % R3_POR_CUADRO, SITIO_R3),
+                "gancho ranura 3 por cuadro: jal r3 (era jal 0x1ab428) (93s)"),
+               (SITIO_R3_CARGA, ensamblar("jal 0x%x" % R3_ENVOLTORIO, SITIO_R3_CARGA),
+                "gancho ranura 3 carga: jal envoltorio (era jal 0x1a51c8) (93s)")]
+    return [("ranura 3 por cuadro", pc), ("ranura 3 envoltorio", env)], ganchos
+
+
 def aliado(p):
     """(93h) el titere que eligio el stub en el ultimo cuadro; si todavia no eligio, el aliado 1 de antes."""
     t = p.leer32(TITERE_ACT)
@@ -544,7 +756,8 @@ def programas():
                             TITERE_MOD.replace("ELEGIR_N", "0x%x" % ELEGIR))
     fuente = fuente.replace("CABECEO_BLOQUE", "" if SIN_CABECEO else CABECEO_MOD)
     pc = j2.ensamblar_programa(fuente, j2.STUB, 0x0046D9F0)
-    des = j2.ensamblar_programa(DESARME_MOD, DESARME, 0x0046DE00)
+    des = j2.ensamblar_programa(DESARME_MOD.replace("R3_BAJA_BLOQUE", "" if SIN_R3 else R3_BAJA_MOD),
+                                DESARME, 0x0046DE00)
     # (88e) la pantalla dividida en el mismo bloque: el stub de pantalla_dividida.py (raster leido en vivo,
     # solo con J2 corriendo, la vista de J2 calculada por el stub) y sus constantes. El pnach las reescribe
     # cada cuadro, asi que son constantes de verdad: division prendida, mitad 320, entero 640, fuente = stub.
@@ -581,6 +794,9 @@ def programas():
         progs.append(("aislar vista FP", [x for x in ais if x[0] < AISLAR_CUENTAS]))
         progs.append(("aislar evento FP", [x for x in ais if x[0] >= AISLAR_EVENTO]))
         ganchos += gan
+    r3, gan = ranura3()
+    progs += r3
+    ganchos += gan
     return progs + [("ganchos", ganchos)]
 
 
@@ -600,6 +816,8 @@ def depurador(accion):
 
 
 def cmd_listar(_a):
+    global SIN_R3
+    SIN_R3 = getattr(_a, "sin_r3", False)
     for nombre, prog in programas():
         print("== %s: %d palabras, %#010x..%#010x" % (nombre, len(prog), prog[0][0], prog[-1][0] + 4))
         for pc, w, t in prog:
@@ -608,8 +826,9 @@ def cmd_listar(_a):
 
 
 def cmd_poner(a):
-    global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA, SIN_OCULTAR
+    global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA, SIN_OCULTAR, SIN_R3
     SIN_OCULTAR = a.sin_ocultar
+    SIN_R3 = a.sin_r3
     SIN_BAJA, SIN_TITERE, SIN_CABECEO = a.sin_baja, a.sin_titere, a.sin_cabeceo
     SIN_RECARGA = a.sin_recarga
     SIN_PANTALLA = a.sin_pantalla
@@ -619,7 +838,8 @@ def cmd_poner(a):
                 or p.leer32(SITIO_DESARME) != ORIGINAL_DESARME
                 or any(p.leer32(s) != pd.ORIGINAL for s in pd.SITIOS)
                 or p.leer32(pd.SITIO_FILTRO) != ensamblar("jal 0x1b0ac8", pd.SITIO_FILTRO)
-                or p.leer32(oc.GANCHO_LUI) != ensamblar(oc.ORIG_LUI, oc.GANCHO_LUI)):
+                or p.leer32(oc.GANCHO_LUI) != ensamblar(oc.ORIG_LUI, oc.GANCHO_LUI)
+                or p.leer32(SITIO_R3) != ORIGINAL_R3 or p.leer32(SITIO_R3_CARGA) != ORIGINAL_R3_CARGA):
             print(json.dumps({"error": "un gancho ya esta puesto o el sitio cambio",
                               "por_cuadro": hex(p.leer32(g.SITIO)), "cargador": hex(p.leer32(j2.SITIO_CARGA)),
                               "desarme": hex(p.leer32(SITIO_DESARME))}))
@@ -631,6 +851,8 @@ def cmd_poner(a):
         for d in DATOS:
             p.escribir32(d, 0)
         p.escribir_bloque(pd.DATOS, bytes(0x98))
+        # (93s) R3 y R3_ARMADA NO se ponen en cero: si ya se armo en este arranque, armarla otra vez se come
+        # otro bloque del pool de animacion. En un arranque nuevo el .bss ya viene en cero.
         for nombre, prog in progs[:-1]:
             for pc, w, _ in prog:
                 p.escribir32(pc, w)
@@ -639,7 +861,7 @@ def cmd_poner(a):
         ok = all(p.leer32(pc) == w for _, prog in progs for pc, w, _ in prog)
         depurador("continuar")
         print(json.dumps({"palabras": sum(len(x[1]) for x in progs), "escrito": ok, "baja": not SIN_BAJA,
-                          "titere": not SIN_TITERE}))
+                          "titere": not SIN_TITERE, "ranura3": not SIN_R3}))
     return 0 if ok else 1
 
 
@@ -716,6 +938,8 @@ def cmd_quitar(_a):
         for s in pd.SITIOS:
             p.escribir32(s, pd.ORIGINAL)
         p.escribir32(pd.SITIO_FILTRO, ensamblar("jal 0x1b0ac8", pd.SITIO_FILTRO))
+        p.escribir32(SITIO_R3, ORIGINAL_R3)
+        p.escribir32(SITIO_R3_CARGA, ORIGINAL_R3_CARGA)
         # (93) el lui/addiu del callback van juntos: a medias, la escena salta a cualquier lado
         depurador("pausar")
         p.escribir32(oc.GANCHO_LUI, ensamblar(oc.ORIG_LUI, oc.GANCHO_LUI))
@@ -781,8 +1005,9 @@ def _respaldo(ruta):
 
 
 def cmd_instalar(_a):
-    global SIN_AISLAR
+    global SIN_AISLAR, SIN_R3
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
+    SIN_R3 = getattr(_a, "sin_r3", False)
     viejo = PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -793,6 +1018,7 @@ def cmd_instalar(_a):
     r = _respaldo(PARCHES)
     PARCHES.write_bytes(nuevo.encode("utf-8"))
     print(json.dumps({"pnach": str(PARCHES), "respaldo": r.name, "palabras": sum(len(x[1]) for x in programas()),
+                      "ranura3": not SIN_R3,
                       "ajuste_intacto": "Enable = %s" % NOMBRE_BLOQUE not in AJUSTES.read_text(encoding="utf-8")}))
     return 0
 
@@ -817,15 +1043,18 @@ def main() -> int:
     tolerar_salida_pobre()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for c in ("listar", "quitar", "toml", "activar", "desactivar"):
+    for c in ("quitar", "toml", "activar", "desactivar"):
         sub.add_parser(c)
+    li = sub.add_parser("listar"); li.add_argument("--sin-r3", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
+    ins.add_argument("--sin-r3", action="store_true")
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
     po.add_argument("--sin-recarga", action="store_true")
     po.add_argument("--sin-ocultar", action="store_true")
     po.add_argument("--sin-cabeceo", action="store_true")
     po.add_argument("--sin-pantalla", action="store_true")
+    po.add_argument("--sin-r3", action="store_true")
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)
     h = sub.add_parser("manos"); h.add_argument("segundos", type=float); h.add_argument("--control", action="store_true")
     a = ap.parse_args()
