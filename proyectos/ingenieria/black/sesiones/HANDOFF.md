@@ -4,6 +4,8 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **Dos sesiones pueden correr a la vez desde acá:** la NOTEBOOK (`sesiones/RETOME-LOCAL.md`, numera desde (109)) y una NUBE de estructuras (`sesiones/RETOME-NUBE.md`: el jugador por dentro, lo de al lado y el HUD; numera desde (120, nube)). Antes de cada commit, `git pull --rebase`; si choca la bitácora, quedan las dos entradas.
+>
 > **(106)–(108) MANDA (nube, 2026-09-28): las decisiones de Fran en `docs/16` («Decisiones de Fran») y la IA a los
 > dos lista para probar** (`coop_ia.py`; `coop_mod.py instalar --con-ia`, apagada por defecto; listado en
 > `docs/listados/107-coop-ia.txt`). Lo siguiente es CALIENTE: `sesiones/RETOME-LOCAL.md` (S0 la IA, S1–S5 las sondas
