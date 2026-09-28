@@ -893,6 +893,16 @@
           "confianza": "probable"
         }
       ]
-    }
-  ]
+    },
+  {
+    "id": "arma_estado",
+    "area": "armas",
+    "nombre": "Arma en la mano de un jugador: su estado (+0xD8) y el cargador",
+    "tamano": "sin medir",
+    "como_llegar": "arma = *(J+0x2A4) (J2: *(J2+0x2A4)); cargador = u16 *(arma+0xF4)+0x18",
+    "campos": [{"offset": "0xD8", "tipo": "u32", "id": "estado", "descripcion": "0 quieta, 1 disparando, 4/5 recargando, 8 fin de recarga (llena el cargador), 28 -> 29 culatazo. La recarga y el culatazo salen de 4 y 28 con un EVENTO de la animacion de primera persona del duenio de la ranura (92), (93y)", "confianza": "confirmado"}],
+    "confianza": "confirmado",
+    "evidencia": "(93y) prueba_acciones_j2.py, mando falso de J2, City Streets por el pnach: con la ranura 3, recargar 0-4-8-0 (cargador 7 -> 15 en 0,96 s, fin 1,7 s) y culatazo (boton 3 del mando procesado = circulo) 0-28-29-0 en 0,7 s; control sin la ranura: recargar 0-4-0 con el cargador en 7, culatazo clavado en 28. Estados 1/4/8 ya medidos en (77) y (92)."
+  }
+]
 }

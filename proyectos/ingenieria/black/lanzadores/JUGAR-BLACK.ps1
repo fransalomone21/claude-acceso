@@ -119,6 +119,12 @@ if (-not $Coop) { $ls.Insert($ls.IndexOf('[Patches]') + 1, $ancho) }
 # Sacar la linea no alcanza (medido en el emulog, 2026-09-28): la opcion GLOBAL de PCSX2
 # EnableWideScreenPatches = true (PCSX2.ini) prende el 'Widescreen 16:9' de la GameDB igual. Con el coop se
 # la apaga POR JUEGO en [EmuCore] de estos ajustes; solo, se saca la linea y manda la global.
+# El desenfoque de recarga es a pantalla completa: con el coop, la recarga de J tapa tambien la mitad de J2
+# (video de Fran, (93y)). Con el coop se prende el parche comunitario que lo apaga (una palabra,
+# 0x005719D4 = 0); solo, el juego queda como siempre.
+$sinBlur = 'Enable = No Blur While Reload'
+$ls = [Collections.Generic.List[string]]($ls | Where-Object { $_.Trim() -ne $sinBlur })
+if ($Coop) { $ls.Insert($ls.IndexOf('[Patches]') + 1, $sinBlur) }
 $wsp = 'EnableWideScreenPatches = false'
 $ls = [Collections.Generic.List[string]]($ls | Where-Object { $_.Trim() -notmatch '^EnableWideScreenPatches\s*=' })
 if ($Coop) {

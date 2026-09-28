@@ -13,7 +13,7 @@
    "espera": 30,
    "atadas": 1,
    "desarmes": 0,
-   "cuadros_J2": 28,
+   "cuadros_J2": 29,
    "titeres": 0,
    "J2_8A4": "0x37",
    "J2_B4": "0x587f70",
@@ -42,17 +42,30 @@
   "aliado_tipo": "0x597f50",
   "aliado_bando": 0,
   "titeres_2s": 0,
-  "pantalla_llamadas_2s": 72,
-  "ocultos_p1_2s": 72,
+  "pantalla_llamadas_2s": 79,
+  "ocultos_p1_2s": 79,
   "ocultos_p2_2s": 0,
+  "r3": {
+   "armada": 1,
+   "cargas": 1,
+   "reapuntes": 0,
+   "desvios": 0,
+   "bajas": 0,
+   "J2_330": "0x46e100",
+   "J_330": "0x4ed7f0",
+   "duenio_R3": "0x46cdf0",
+   "duenio_r0": "0x5a8ab0",
+   "J": "0x5a8ab0",
+   "J2": "0x46cdf0"
+  },
   "manos": {
-   "metros": 11.4,
-   "aliado_J2_final_m": 106.449,
+   "metros": 12.33,
+   "aliado_J2_final_m": 105.796,
    "aliado_J2_max_m": 114.746,
    "titeres": 0
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 09:00"
+  "fecha": "2026-09-28 13:21"
  },
  "2": {
   "indice": 2,
@@ -68,8 +81,8 @@
    "espera": 30,
    "atadas": 2,
    "desarmes": 1,
-   "cuadros_J2": 747,
-   "titeres": 12,
+   "cuadros_J2": 817,
+   "titeres": 14,
    "J2_8A4": "0x37",
    "J2_B4": "0x588010",
    "J2_588": "0x585a0c",
@@ -90,29 +103,42 @@
     -316.18
    ]
   },
-  "juego_s": 12.6,
+  "juego_s": 12.7,
   "starts": 0,
   "titere_act": "0x58fe90",
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597fd0",
   "aliado_bando": 0,
-  "titeres_2s": 101,
+  "titeres_2s": 100,
   "pantalla_llamadas_2s": 101,
   "ocultos_p1_2s": 0,
   "ocultos_p2_2s": 101,
+  "r3": {
+   "armada": 1,
+   "cargas": 2,
+   "reapuntes": 0,
+   "desvios": 0,
+   "bajas": 1,
+   "J2_330": "0x46e100",
+   "J_330": "0x4ed7f0",
+   "duenio_R3": "0x46cdf0",
+   "duenio_r0": "0x5a8ab0",
+   "J": "0x5a8ab0",
+   "J2": "0x46cdf0"
+  },
   "manos": {
-   "metros": 14.95,
+   "metros": 15.1,
    "aliado_J2_final_m": 0.35,
    "aliado_J2_max_m": 0.506,
-   "titeres": 117
+   "titeres": 118
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 09:00"
+  "fecha": "2026-09-28 13:22"
  },
  "3": {
   "indice": 3,
   "nombre": "Steelworks",
-  "armado_s": 13.3,
+  "armado_s": 13.2,
   "estado": {
    "cargador": 28,
    "fase": 2,
@@ -123,8 +149,8 @@
    "espera": 30,
    "atadas": 3,
    "desarmes": 2,
-   "cuadros_J2": 1764,
-   "titeres": 1008,
+   "cuadros_J2": 1838,
+   "titeres": 1013,
    "J2_8A4": "0x37",
    "J2_B4": "0x588150",
    "J2_588": "0x585a0c",
@@ -140,12 +166,12 @@
     -8.01
    ],
    "A1_pos": [
-    103.9,
-    25.26,
-    33.94
+    103.94,
+    25.25,
+    33.9
    ]
   },
-  "juego_s": 14.8,
+  "juego_s": 14.7,
   "starts": 0,
   "titere_act": "0x0",
   "aliado": "0x590250",
@@ -155,14 +181,27 @@
   "pantalla_llamadas_2s": 49,
   "ocultos_p1_2s": 0,
   "ocultos_p2_2s": 0,
+  "r3": {
+   "armada": 1,
+   "cargas": 3,
+   "reapuntes": 0,
+   "desvios": 0,
+   "bajas": 2,
+   "J2_330": "0x46e100",
+   "J_330": "0x4ed7f0",
+   "duenio_R3": "0x46cdf0",
+   "duenio_r0": "0x5a8ab0",
+   "J": "0x5a8ab0",
+   "J2": "0x46cdf0"
+  },
   "manos": {
-   "metros": 2.74,
-   "aliado_J2_final_m": 83.932,
-   "aliado_J2_max_m": 89.098,
+   "metros": 2.82,
+   "aliado_J2_final_m": 83.125,
+   "aliado_J2_max_m": 88.481,
    "titeres": 0
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 09:01"
+  "fecha": "2026-09-28 13:22"
  },
  "4": {
   "indice": 4,
@@ -178,8 +217,8 @@
    "espera": 30,
    "atadas": 4,
    "desarmes": 3,
-   "cuadros_J2": 2254,
-   "titeres": 1030,
+   "cuadros_J2": 2347,
+   "titeres": 1036,
    "J2_8A4": "0x37",
    "J2_B4": "0x588010",
    "J2_588": "0x585a0c",
@@ -200,24 +239,37 @@
     -100.27
    ]
   },
-  "juego_s": 14.7,
+  "juego_s": 14.8,
   "starts": 0,
   "titere_act": "0x58fe90",
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597f90",
   "aliado_bando": 0,
-  "titeres_2s": 47,
-  "pantalla_llamadas_2s": 47,
+  "titeres_2s": 51,
+  "pantalla_llamadas_2s": 50,
   "ocultos_p1_2s": 0,
-  "ocultos_p2_2s": 47,
+  "ocultos_p2_2s": 50,
+  "r3": {
+   "armada": 1,
+   "cargas": 4,
+   "reapuntes": 0,
+   "desvios": 0,
+   "bajas": 3,
+   "J2_330": "0x46e100",
+   "J_330": "0x4ed7f0",
+   "duenio_R3": "0x46cdf0",
+   "duenio_r0": "0x5a8ab0",
+   "J": "0x5a8ab0",
+   "J2": "0x46cdf0"
+  },
   "manos": {
-   "metros": 6.75,
-   "aliado_J2_final_m": 0.3,
-   "aliado_J2_max_m": 0.405,
-   "titeres": 53
+   "metros": 7.95,
+   "aliado_J2_final_m": 0.328,
+   "aliado_J2_max_m": 0.338,
+   "titeres": 61
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 09:02"
+  "fecha": "2026-09-28 13:23"
  },
  "5": {
   "indice": 5,
@@ -233,8 +285,8 @@
    "espera": 30,
    "atadas": 5,
    "desarmes": 4,
-   "cuadros_J2": 2734,
-   "titeres": 1510,
+   "cuadros_J2": 2876,
+   "titeres": 1565,
    "J2_8A4": "0x37",
    "J2_B4": "0x5880b0",
    "J2_588": "0x585a0c",
@@ -255,24 +307,37 @@
     217.34
    ]
   },
-  "juego_s": 14.7,
+  "juego_s": 14.8,
   "starts": 0,
   "titere_act": "0x58fe90",
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597f90",
   "aliado_bando": 0,
-  "titeres_2s": 59,
-  "pantalla_llamadas_2s": 59,
+  "titeres_2s": 63,
+  "pantalla_llamadas_2s": 64,
   "ocultos_p1_2s": 0,
-  "ocultos_p2_2s": 59,
+  "ocultos_p2_2s": 63,
+  "r3": {
+   "armada": 1,
+   "cargas": 5,
+   "reapuntes": 0,
+   "desvios": 0,
+   "bajas": 4,
+   "J2_330": "0x46e100",
+   "J_330": "0x4ed7f0",
+   "duenio_R3": "0x46cdf0",
+   "duenio_r0": "0x5a8ab0",
+   "J": "0x5a8ab0",
+   "J2": "0x46cdf0"
+  },
   "manos": {
-   "metros": 4.5,
-   "aliado_J2_final_m": 0.3,
-   "aliado_J2_max_m": 0.415,
-   "titeres": 68
+   "metros": 4.56,
+   "aliado_J2_final_m": 0.301,
+   "aliado_J2_max_m": 0.417,
+   "titeres": 70
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 09:02"
+  "fecha": "2026-09-28 13:24"
  },
  "6": {
   "indice": 6,
@@ -288,8 +353,8 @@
    "espera": 30,
    "atadas": 6,
    "desarmes": 5,
-   "cuadros_J2": 3296,
-   "titeres": 2072,
+   "cuadros_J2": 3479,
+   "titeres": 2168,
    "J2_8A4": "0x37",
    "J2_B4": "0x588100",
    "J2_588": "0x585a0c",
@@ -316,10 +381,23 @@
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597f90",
   "aliado_bando": 0,
-  "titeres_2s": 47,
+  "titeres_2s": 46,
   "pantalla_llamadas_2s": 47,
   "ocultos_p1_2s": 47,
   "ocultos_p2_2s": 47,
+  "r3": {
+   "armada": 1,
+   "cargas": 6,
+   "reapuntes": 0,
+   "desvios": 0,
+   "bajas": 5,
+   "J2_330": "0x46e100",
+   "J_330": "0x4ed7f0",
+   "duenio_R3": "0x46cdf0",
+   "duenio_r0": "0x5a8ab0",
+   "J": "0x5a8ab0",
+   "J2": "0x46cdf0"
+  },
   "manos": {
    "metros": 6.9,
    "aliado_J2_final_m": 0.301,
@@ -327,7 +405,7 @@
    "titeres": 53
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 09:03"
+  "fecha": "2026-09-28 13:24"
  },
  "7": {
   "indice": 7,
@@ -343,8 +421,8 @@
    "espera": 30,
    "atadas": 7,
    "desarmes": 6,
-   "cuadros_J2": 3756,
-   "titeres": 2528,
+   "cuadros_J2": 3943,
+   "titeres": 2627,
    "J2_8A4": "0x37",
    "J2_B4": "0x587f70",
    "J2_588": "0x585a0c",
@@ -372,22 +450,35 @@
   "aliado_tipo": "0x597fd0",
   "aliado_bando": 0,
   "titeres_2s": 0,
-  "pantalla_llamadas_2s": 64,
+  "pantalla_llamadas_2s": 67,
   "ocultos_p1_2s": 0,
   "ocultos_p2_2s": 0,
+  "r3": {
+   "armada": 1,
+   "cargas": 7,
+   "reapuntes": 0,
+   "desvios": 0,
+   "bajas": 6,
+   "J2_330": "0x46e100",
+   "J_330": "0x4ed7f0",
+   "duenio_R3": "0x46cdf0",
+   "duenio_r0": "0x5a8ab0",
+   "J": "0x5a8ab0",
+   "J2": "0x46cdf0"
+  },
   "manos": {
-   "metros": 10.05,
-   "aliado_J2_final_m": 228.934,
+   "metros": 10.2,
+   "aliado_J2_final_m": 228.837,
    "aliado_J2_max_m": 235.514,
    "titeres": 0
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 09:04"
+  "fecha": "2026-09-28 13:25"
  },
  "0": {
   "indice": 0,
   "nombre": "City Streets",
-  "armado_s": 12.1,
+  "armado_s": 12.2,
   "estado": {
    "cargador": 28,
    "fase": 2,
@@ -398,8 +489,8 @@
    "espera": 30,
    "atadas": 8,
    "desarmes": 7,
-   "cuadros_J2": 4433,
-   "titeres": 2564,
+   "cuadros_J2": 4646,
+   "titeres": 2670,
    "J2_8A4": "0x37",
    "J2_B4": "0x5880b0",
    "J2_588": "0x585a0c",
@@ -420,23 +511,36 @@
     52.9
    ]
   },
-  "juego_s": 13.6,
+  "juego_s": 13.7,
   "starts": 0,
   "titere_act": "0x58fe90",
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597f90",
   "aliado_bando": 0,
-  "titeres_2s": 125,
-  "pantalla_llamadas_2s": 125,
+  "titeres_2s": 136,
+  "pantalla_llamadas_2s": 135,
   "ocultos_p1_2s": 0,
-  "ocultos_p2_2s": 125,
+  "ocultos_p2_2s": 135,
+  "r3": {
+   "armada": 1,
+   "cargas": 8,
+   "reapuntes": 0,
+   "desvios": 0,
+   "bajas": 7,
+   "J2_330": "0x46e100",
+   "J_330": "0x4ed7f0",
+   "duenio_R3": "0x46cdf0",
+   "duenio_r0": "0x5a8ab0",
+   "J": "0x5a8ab0",
+   "J2": "0x46cdf0"
+  },
   "manos": {
    "metros": 10.14,
-   "aliado_J2_final_m": 0.332,
-   "aliado_J2_max_m": 0.449,
-   "titeres": 141
+   "aliado_J2_final_m": 0.327,
+   "aliado_J2_max_m": 0.45,
+   "titeres": 150
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 09:05"
+  "fecha": "2026-09-28 13:26"
  }
 }

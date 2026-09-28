@@ -21,10 +21,13 @@ from pathlib import Path
 H = Path(__file__).resolve().parent
 sys.path.insert(0, str(H))
 from pine import Pine  # noqa: E402
+from salida import tolerar_salida_pobre  # noqa: E402
 import coop_mod as cm  # noqa: E402
 import pantalla_dividida as pd  # noqa: E402
 import ocultar_pasada as oc  # noqa: E402
 import sondas_coop as sc  # noqa: E402
+
+tolerar_salida_pobre()   # (93y) tambien cuando otra herramienta importa esto: log() imprime la salida de otras
 
 EXE = r"C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe"
 ISO = r"C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\BLACK\ISOs\Black.iso"
@@ -130,6 +133,14 @@ def probar_nivel(n):
         res["pantalla_llamadas_2s"] = p.leer32(pd.DATOS + 0x88) - c1
         res["ocultos_p1_2s"] = p.leer32(oc.CNT1) - o1a
         res["ocultos_p2_2s"] = p.leer32(oc.CNT2) - o2a
+        # (93y) la ranura 3 (solo si se instalo con --con-r3; si no, todo en 0 y J2+0x330 = la ranura de J)
+        pers = p.leer32(0x0040F50C)
+        res["r3"] = {"armada": p.leer32(cm.R3_ARMADA), "cargas": p.leer32(cm.R3_CARGAS),
+                     "reapuntes": p.leer32(cm.R3_REAPUNTES), "desvios": p.leer32(cm.R3_DESVIOS),
+                     "bajas": p.leer32(cm.R3_BAJAS), "J2_330": hex(p.leer32(cm.cj.J2 + 0x330)),
+                     "J_330": hex(p.leer32(cm.cj.J + 0x330)), "duenio_R3": hex(p.leer32(cm.R3)),
+                     "duenio_r0": hex(p.leer32(pers + 0x470)) if pers else None,
+                     "J": hex(cm.cj.J), "J2": hex(cm.cj.J2)}
     cap("n%d-quieto.png" % n)
     r = run("coop_mod.py", "manos", "2")
     try:
@@ -165,7 +176,22 @@ def probar_sin_mod(n):
     return res
 
 
+def pcsx2_de_fran_abierto() -> bool:
+    """(93y) El 2.8.0 de Fran comparte PINE 28011 y la tarjeta de memoria con el fork: con el abierto, los
+    pedidos de esta regresion le llegan a SU partida (paso: cargarestado --slot 3 fue a la de el)."""
+    r = subprocess.run(["powershell", "-NoProfile", "-Command",
+                        "@(Get-Process pcsx2* -ErrorAction SilentlyContinue | "
+                        "? { $_.Path -notlike '*Downloads\\PCSX2-MCP*' }).Count"],
+                       capture_output=True, text=True)
+    return r.stdout.strip() not in ("", "0")
+
+
 def main():
+    if "-h" in sys.argv or "--help" in sys.argv:   # (93y) sin esto, '--help' corria la regresion entera
+        print(__doc__); return 0
+    tolerar_salida_pobre()
+    if pcsx2_de_fran_abierto():
+        log("el PCSX2 de Fran esta abierto: cerralo antes (comparte PINE y la tarjeta con el fork)"); return 1
     sin_mod = "--sin-mod" in sys.argv
     niveles = [int(x) for x in sys.argv[1:] if not x.startswith("--")] or [1, 2, 3, 4, 5, 6, 7, 0]
     if sin_mod:

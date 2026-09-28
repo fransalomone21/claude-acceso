@@ -547,7 +547,8 @@ nop
 #    el juego nunca deja un sub reconstruido debajo de una ranura en uso.
 #  BAJA (en el desarme, (87)): FUN_001a5ee8(R3) si esta cargada, como el destructor del jugador
 #    (FUN_0013b9a0 -> FUN_00133ed8) hace con J+0x330 en el estado 0x21 -- a J2 nadie lo destruye (cuenta = 1).
-# Sin `--con-r3` (el defecto desde (93v)) J2 comparte la ranura de J como hasta (93q): es el control.
+# Con `--sin-r3` J2 comparte la ranura de J como hasta (93q): es el control. Desde (93y) la ranura va por defecto
+# (`--con-r3` queda aceptado y no hace nada).
 R3_ARMADA = 0x0046E0B4         # dato: 1 = R3 ya armada en este arranque. NO va en el pnach
 R3_CARGAS, R3_REAPUNTES, R3_DESVIOS, R3_BAJAS = 0x0046E0B8, 0x0046E0BC, 0x0046E0C0, 0x0046E0C4  # contadores
 R3_MOLDE = 0x0046E0C8          # dato: MOLDES (0x0046D7C0) cuando se cargo R3. Reapuntar solo vale en el mismo
@@ -560,7 +561,7 @@ SITIO_R3_CARGA, ORIGINAL_R3_CARGA = 0x001ACA84, ensamblar("jal 0x1a51c8", 0x001A
 # (93v) APAGADA POR DEFECTO hasta que la notebook la pruebe en vivo: el acceso «JUGAR BLACK COOP» corre
 # `instalar` en cada doble clic, y lo que se juega es lo probado. `--con-r3` la prende (listar/poner/instalar);
 # coop_diseno.py verifica el plano con la ranura puesta.
-SIN_R3 = True
+SIN_R3 = False   # (93y) PRENDIDA: campana 8 de 8 y recarga/culatazo de J2 arreglados, con control
 
 R3_POR_CUADRO_MOD = """
 lui t0, 0x47
@@ -823,7 +824,7 @@ def depurador(accion):
 
 def cmd_listar(_a):
     global SIN_R3
-    SIN_R3 = not getattr(_a, "con_r3", False)
+    SIN_R3 = getattr(_a, "sin_r3", False)
     for nombre, prog in programas():
         print("== %s: %d palabras, %#010x..%#010x" % (nombre, len(prog), prog[0][0], prog[-1][0] + 4))
         for pc, w, t in prog:
@@ -834,7 +835,7 @@ def cmd_listar(_a):
 def cmd_poner(a):
     global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA, SIN_OCULTAR, SIN_R3
     SIN_OCULTAR = a.sin_ocultar
-    SIN_R3 = not a.con_r3
+    SIN_R3 = getattr(a, "sin_r3", False)
     SIN_BAJA, SIN_TITERE, SIN_CABECEO = a.sin_baja, a.sin_titere, a.sin_cabeceo
     SIN_RECARGA = a.sin_recarga
     SIN_PANTALLA = a.sin_pantalla
@@ -1031,7 +1032,7 @@ def _respaldo(ruta):
 def cmd_instalar(_a):
     global SIN_AISLAR, SIN_R3
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
-    SIN_R3 = not getattr(_a, "con_r3", False)
+    SIN_R3 = getattr(_a, "sin_r3", False)
     viejo = PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -1069,16 +1070,16 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     for c in ("quitar", "toml", "activar", "desactivar"):
         sub.add_parser(c)
-    li = sub.add_parser("listar"); li.add_argument("--con-r3", action="store_true")
+    li = sub.add_parser("listar"); li.add_argument("--con-r3", action="store_true"); li.add_argument("--sin-r3", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
-    ins.add_argument("--con-r3", action="store_true")
+    ins.add_argument("--con-r3", action="store_true"); ins.add_argument("--sin-r3", action="store_true")
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
     po.add_argument("--sin-recarga", action="store_true")
     po.add_argument("--sin-ocultar", action="store_true")
     po.add_argument("--sin-cabeceo", action="store_true")
     po.add_argument("--sin-pantalla", action="store_true")
-    po.add_argument("--con-r3", action="store_true")
+    po.add_argument("--con-r3", action="store_true"); po.add_argument("--sin-r3", action="store_true")
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)
     h = sub.add_parser("manos"); h.add_argument("segundos", type=float); h.add_argument("--control", action="store_true")
     a = ap.parse_args()

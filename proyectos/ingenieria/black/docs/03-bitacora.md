@@ -16,6 +16,26 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93z) — La ranura 3 por el pnach: campaña 8 de 8, y la recarga y el culatazo de J2 arreglados (con control). Queda PRENDIDA por defecto
+**Máquina:** notebook, fork de pruebas (2.8.0 de Fran cerrado) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (brazos propios de J2) · **Nodos:** `personajes` K4 → **K5**, `armas`, `entrada`
+**Objetivo:** tramo a) del retome, sin Fran: la ranura 3 instalada por el pnach, en toda la campaña y en las acciones de J2 que él reportó rotas.
+
+**Lo que vio Fran en sus dos videos de 60 s** (`volcados/video/20260928-130804` y `-131214`, rotulados con `registro_mandos.py`): J2 dispara con fogonazos propios, pero **la recarga no se ve** (12 recargas pedidas, ninguna animación), sus brazos son la silueta del arma de J, y el **círculo lo deja en un bucle de culatazos al aire**. Y un error mío de rótulo: el registro ponía «J1 = puerto 1», pero J1 es **el puerto que apretó Start** (90); hoy era el 2, y sus pruebas «de J2» parecían de J1. Ahora `registro_mandos.py` lee `*(J+0x588)` al empezar y lo guarda en `puertos.json` (`confirmado`: el juego dijo puerto 2 y el video lo muestra).
+
+**Hipótesis (antes de medir):** la recarga y el culatazo terminan con un evento de la animación de primera persona (92); con la ranura compartida J2 no reproduce la suya y el evento no llega. La ranura 3 lo arregla.
+
+- **Regresión de la campaña con `--con-r3`** (`campana_coop.py`, ahora mide la ranura por nivel): **8 de 8**, sin cuelgues ni relanzamientos, J2 camina en todos. En RAM: `R3_ARMADA` = 1 en todo el arranque, `R3_CARGAS` 1 → 8 (una por nivel cargado), `R3_BAJAS` 0 → 7 (una por nivel dejado), `J2+0x330` = `0x0046E100` con dueño J2 y la ranura de J (`pers+0x470`) con dueño J en los 8. Predicción del retome cumplida (`confirmado` en RAM).
+- **Las acciones de J2 sin Fran** (`prueba_acciones_j2.py`, mando falso de J2 `mando_j2.py` sobre `cj.FALSO2`, City Streets cargado con el selector): **con la ranura**, recargar = estados 0-4-**8**-0, cargador **7 → 15** (0,96 s), fin a 1,7 s; culatazo (botón 3 del mando procesado, el círculo) = 0-28-29-**0** en 0,7 s. Dos corridas, iguales. **Control, sin la ranura** (638 palabras, misma prueba): recargar 0-4-0 con el cargador **en 7** (no recarga) y el culatazo **clavado en 28** más de 5 s — el bucle de Fran, reproducido sin él. `confirmado` en RAM con control. `RECARGA_MOD` (el arreglo forzado de (92)) no actuó en ninguna.
+- **El cambio de arma de J2 NO se pudo probar**: al cargar el nivel J y J2 tienen **una sola arma** (`armas_j2.py`: un solo puntero en cada arreglo), así que `arma_b` no hace nada en ninguno. El camino del envoltorio de la carga (`0x001ACA84`) con J2 **queda sin ejercitar en vivo**: se ejercita cuando J2 junta un arma.
+- **Decisión: la ranura 3 queda PRENDIDA por defecto** (`coop_mod.py`: `SIN_R3 = False` y la línea de comandos ya no la apaga sola; `--sin-r3` es el control; `--con-r3` se acepta y no hace nada). El acceso COOP instala **787 palabras**.
+- **Sin Fran, también**: el acceso COOP prende el parche comunitario **«No Blur While Reload»** (`0x005719D4` = 0), porque el desenfoque de recarga de J tapa las dos mitades (su primer video). Que lo quite es `hipótesis` hasta verlo.
+- **El error del día** (lección registrada): `campana_coop.py --help` **corrió la regresión**, que abrió el fork encima del 2.8.0 de Fran («Memory Card Read Failed») y le mandó `cargarestado --slot 3` a SU partida. Ahora `--help` imprime la ayuda y la regresión **se niega a arrancar si el PCSX2 de Fran está abierto** (la rama «abierto» sin poner en rojo todavía). De paso, el `log()` de la regresión se caía con un carácter que cp1252 no tiene: `tolerar_salida_pobre()` al importar.
+
+**No funcionó:** el cambio de arma (no hay segunda arma al cargar el nivel); la primera corrida de `prueba_acciones_j2.py` (en el slot 3 J2 todavía no existe: hay que cargar un nivel).
+**Sigue:** que Fran juegue con el acceso COOP y **junte un arma con J2 y la cambie** (el camino no probado); después, parpadeo con control y B5.
+
+---
+
 ## 2026-09-28 (93y) — La primera grabación de Fran: lo que se ve, y el «Widescreen 16:9» comunitario seguía prendido con el COOP
 **Máquina:** notebook (PCSX2 2.8.0 de Fran, abierto por él) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (jugar y medir) · **Nodos:** `render`, `emu-imagen` (sin cambio de K)
 **Objetivo:** ver la grabación `volcados/video/20260928-124226/` (20 s, ddagrab) y convertir lo raro en preguntas medibles.

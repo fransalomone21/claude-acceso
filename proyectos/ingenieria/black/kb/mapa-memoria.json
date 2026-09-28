@@ -580,6 +580,32 @@
     "descubierto": "2026-09-28",
     "evidencia": "(93w): FUN_00123c90(0x0048EFA8, categoria, i); los salteos del menu miran la categoria 0, ranuras 0..3 (-1 = sin completar)",
     "notas": "la categoria 7 la usa el menu para otra cosa (FUN_001046b0); sin mapear"
+  },
+  {
+    "id": "control_de_j1",
+    "area": "entrada",
+    "nombre": "Control del jugador 1 (J+0x588): dice que puerto es J1",
+    "direccion": "0x005A9038",
+    "tipo": "u32",
+    "version": "ntsc_u",
+    "estable": true,
+    "confianza": "confirmado",
+    "descubierto": "2026-09-28",
+    "evidencia": "(90) medido: 0x005858A0 = control del puerto 1, 0x00585A0C = del puerto 2; el juego le da a J el del puerto que apreto Start. (93y): con Fran, *(J+0x588) = 0x00585A0C y en su video los disparos del puerto 1 salen en la mitad de J2 (fogonazos e impactos a la derecha, municion de J quieta)",
+    "notas": "registro_mandos.py lo lee al empezar a grabar para rotular J1/J2 (puertos.json). J2 toma el otro control (coop_mod, (90))."
+  },
+  {
+    "id": "sin_desenfoque_recarga",
+    "area": "render",
+    "nombre": "Palabra que apaga el desenfoque de recarga (parche comunitario 'No Blur While Reload')",
+    "direccion": "0x005719D4",
+    "tipo": "u32",
+    "version": "ntsc_u",
+    "estable": true,
+    "confianza": "hipotesis",
+    "descubierto": "2026-09-28",
+    "evidencia": "(93y): el parche de Gabominated escribe 0 aca (patch=1). Que quite el desenfoque que en el coop tapa las DOS mitades cuando J recarga (video de Fran, 4,0-4,5 s) no esta visto todavia",
+    "notas": "JUGAR-BLACK.ps1 -Coop lo prende; solo, no."
   }
- ]
+]
 }
