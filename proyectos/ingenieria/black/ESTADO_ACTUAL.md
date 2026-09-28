@@ -39,7 +39,13 @@ decía.
 
 ## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88) (LEER ESTO PRIMERO)
 
-> **(96), 2026-09-28 tarde — LO ÚLTIMO.** Dos videos de Fran (J1 = puerto 2): el arma de J1 se dibuja en la mitad
+> **(97), 2026-09-28 noche — LO ÚLTIMO.** `docs/17-lo-que-falta.md`: **todo lo que le falta al coop**, en
+> tres clases (lo que J2 *tiene*, lo que el mundo le *pregunta*, lo que se *ve* del otro): 12 vistas (entre ellas
+> J2 no junta armas y J1 no tiene cuerpo en la mitad de J2) y 18 sospechadas (¿la IA le apunta a J2?, disparadores
+> del guion, carga por zonas, Parsec nunca probado). Lo que sigue es **frío en la nube**: `sesiones/RETOME-NUBE.md`
+> (T1 el censo A/B … T7 el diseño del cambio de contexto). Los videos de (96) están en `black-datos` (77aceb5).
+>
+> **(96), 2026-09-28 tarde.** Dos videos de Fran (J1 = puerto 2): el arma de J1 se dibuja en la mitad
 > de J2 (la escopeta «mergeada» con la pistola), a J2 no le suena el disparo, un solo HUD y el agacharse compartido.
 > El arreglo de ocultar a J en la pasada 2 quedó **refutado** (sale apagado por defecto). En el fork (J1 = puerto 1)
 > la recarga de cada uno se ve bien. **Lo que sigue es FRÍO, no prueba y error:** `docs/16-contexto-j2.md` —

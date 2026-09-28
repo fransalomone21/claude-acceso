@@ -16,6 +16,20 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (97) — Lo que le falta al coop, entero y en tres clases; la nube preparada para el frío
+**Máquina:** notebook (sin emulador) · **Modelo:** Opus, bajo, sin fan-out · **Sirve a:** COOP-B (la PDR necesita la lista completa) · **Nodos:** ninguno
+**Objetivo:** pedido de Fran: registrar todo lo que falta, sumar lo que no se le ocurrió a nadie, y dejar la nube lista para avanzar en frío.
+
+- `docs/17-lo-que-falta.md`: **F1–F12** vistos (nuevos de Fran: **F1 J2 no junta armas**, **F3 J1 sin cuerpo en la mitad de J2**) y **N1–N18** sospechados, todos `hipótesis` (los de más peso: N1 ¿la IA le apunta a J2?, N3 disparadores del guion, N4 carga por zonas alrededor de J, N12 morir y volver al punto de control, N15 Parsec nunca probado).
+- **Fuera de la caja:** todo cae en tres clases con un arreglo cada una: **A** lo que el jugador *tiene* (conmutar su contexto, `docs/16`), **B** lo que el mundo le *pregunta* al jugador (que la pregunta recorra a los dos), **C** lo que se *ve* del otro (títeres y filtro). La pregunta de frío que separa A de B es un solo censo: cada lectura de «el jugador» en el código.
+- `sesiones/RETOME-NUBE.md` reescrito: T1 censo A/B, T2 la IA, T3 juntar armas, T4 V y sonido, T5 pasada 2 y puerto, T6 HUD y agachado, T7 diseño del cambio de contexto, T8 lo que sobre.
+- `black-datos` 77aceb5: las hojas con botones y los eventos de los dos videos de (96), para que la nube los pueda mirar.
+
+**No funcionó:** nada (no hubo sondas).
+**Sigue:** la nube, por T1.
+
+---
+
 ## 2026-09-28 (96) — El video de Fran de las 14:58, cuadro por cuadro: cuatro errores, y el principal es el arma de J dibujada en la mitad de J2
 **Máquina:** notebook (el 2.8.0 de Fran abierto: sólo lectura por PINE) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (cada mitad muestra lo suyo) · **Nodos:** `render`, `personajes` (sin cambio de K)
 **Objetivo:** revisar `volcados/video/20260928-145814/` (60 s, J1 = puerto 2) con la línea de botones y convertir cada cosa rara en pregunta medible.
