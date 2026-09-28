@@ -16,6 +16,19 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93d) — El plano del mod (`docs/14-coop-diseno.md`) con su verificador, y la IA frente a J2 en frío
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, punto 3 del criterio: el documento de diseño; punto 2: B4 y B6) · **Nodos:** `ia` (evidencia; sin cambio de K), `disparadores` (política)
+**Objetivo:** tramo f).
+
+- **`docs/14-coop-diseno.md`**: requisitos R1–R7 con su método y su estado, los componentes (alta, por cuadro, desarme, pantalla, filtro del tinte, visibilidad por pasada) con sus ganchos, la política de los riesgos medios, y un bloque `coop-rangos` con los 19 rangos de memoria y ganchos del coop, cada uno con su fuente.
+- **`herramientas/coop_diseno.py verificar` = 0**: (1) cada programa de `coop_mod.programas()` tiene su fila con el mismo rango (el plano no puede quedar atrás del código), (2) todo gancho que escribe el mod está declarado, (3) ninguna fila se pisa con otra ni con los sitios de la escena de `pantalla_dividida.py`, (4) ninguna `direccion` de los otros mods de `mods/` cae adentro, (5) toda fila tiene fuente (una entrada de bitácora que existe, o un archivo de `kb/`). **Saboteador** `pruebas/probar-coop-diseno.py`: rango viejo, fila que pisa, fuente inexistente, gancho sin declarar, otro mod adentro y sin bloque → **6 de 6 en rojo**; el plano sin tocar, verde.
+- **B4, la IA frente a J2, en frío** (decompilado de `black-datos`): cada bando (`ia+0x22800` bando 0, `ia+0x22AD0` bando 1, `ia` = `*(0x0040F4D4)`; `FUN_0013D400` los indexa por `+0x3A4`) guarda **un** jugador: `FUN_00172830` (al armar el nivel) hace `FUN_00172618(bando, J)` (`bando+0x10`) y `FUN_00172C00(bando, 3, J)` (ranura 3 de la escuadra; las 0..2 las llena `FUN_00173028` con los agentes que aparecen). La lista de proximidad de un agente (`FUN_0018B190`; `FUN_0018B400` = a ≤ 4 m) es **el jugador 0 más los 16 agentes** de `ia+0x2B00` (paso 0x1FD0); `FUN_001848C0` elige como líder al agente del mismo bando más cercano o al jugador 0. **J2 no aparece en ninguna** → los enemigos no saben que J2 existe (`probable`: falta leer la elección del blanco de disparo y la prueba en vivo con un enemigo más cerca de J2 que de J). Política v1 en el plano: **se acepta** (J2 no es blanco).
+- **B6, disparadores**: el mecanismo ya estaba leído en (73) (sólo la posición del jugador 0). Política v1: **J abre el camino**.
+**No funcionó:** buscar la elección del blanco por las referencias a `*(0x0040F4D0)+0x30` (30 funciones): las que están en el código de la IA son de escuadra y proximidad, no de disparo.
+**Sigue:** B5 (vida de J2 en 0) en vivo; la elección del blanco de disparo (cadenas `TargetBot`, `AimAtTargetInterval` de `docs/07`).
+
+---
+
 ## 2026-09-28 (93c) — La campaña: con el mod, los niveles con cartel se colgaban; J2 nacía encima de J
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3 en toda la campaña, pedido de Fran) · **Nodos:** `fisica` (evidencia), `codigo-nuevo` (entrega)
 **Objetivo:** tramo e): cargar cada nivel de la campaña con el bloque puesto y medir J2 por nivel.
