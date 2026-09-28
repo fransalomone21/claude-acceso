@@ -227,6 +227,15 @@ medidores del mismo dato divergen.
    medidor tiene que dar **0 cortados y 0 cancelados**, y el tiempo de arranque
    bajar de ~60 s a ~40 s. Eso cierra A1.
 
+**Avance (2026-09-28, 2.ª sesión): pasos 1 y 2 construidos.** El medidor
+nació en rojo sobre el estado de hoy y su saboteador va 10/10 (ver
+`ESTADO_ACTUAL.md`). Dos notas de construcción, sin cambio de diseño: el
+timeout por defecto de un hook sin `timeout` se toma 60 s (`hipótesis`: no se
+encontró en el binario); y **S3 queda corregida**: `publicar-apuntes
+-Verificar` es bimodal corriendo solo (10–11 s o 45–46 s), así que la lentitud
+en paralelo no era contención con el otro medidor de Drive. La conclusión de
+S3 (paralelizar no alcanza; hace falta la fecha límite) se sostiene igual.
+
 **Riesgos:** el clasificador al paso inyecta donde no hace falta (se ve en
 S2: por eso sólo claves que discriminan, y deduplicado); el harness cambia el
 umbral en una versión nueva (lo atrapa la mitad «después» del medidor, que no

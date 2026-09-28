@@ -18,6 +18,7 @@ $ErrorActionPreference = 'Stop'
 $raiz = $PSScriptRoot
 $guardia = Join-Path $raiz '.claude\hooks\guardia-iso.ps1'
 $arranque = Join-Path $raiz '.claude\hooks\arranque-proyecto.ps1'
+$medicion = Join-Path $raiz '.claude\hooks\arranque-medicion.ps1'
 $cfg = Join-Path $raiz '.claude\protegidos.json'
 
 $fallas = 0
@@ -85,7 +86,7 @@ Write-Output ""
 
 # ---------------------------------------------------------------- precondicion
 Write-Output "precondicion: los archivos del sistema de frenos existen"
-foreach ($f in @($guardia, $arranque, $cfg, (Join-Path $raiz '.claude\arranque.md'), (Join-Path $raiz '.claude\settings.json'))) {
+foreach ($f in @($guardia, $arranque, $medicion, $cfg, (Join-Path $raiz '.claude\arranque.md'), (Join-Path $raiz '.claude\settings.json'))) {
     Resultado (Test-Path -LiteralPath $f) ("existe " + (Split-Path -Leaf $f)) "falta $f"
 }
 
@@ -340,13 +341,26 @@ try {
 } finally { Move-Item -LiteralPath $bak -Destination $md -Force }
 
 # --- el bloque que MIDE, no el que narra -------------------------------------
-# Desde el 2026-08-29 el hook no solo emite arranque.md: corre la capa rapida
-# de chequeo-completo.ps1 y mete el resultado en la sesion. Ese bloque es una
-# alarma nueva, y una alarma sin sabotaje esta sin verificar.
+# Desde el 2026-08-29 el arranque no solo emite arranque.md: corre la capa
+# rapida de chequeo-completo.ps1 y mete el resultado en la sesion. Ese bloque
+# es una alarma nueva, y una alarma sin sabotaje esta sin verificar.
+# Desde el 2026-09-28 es un hook APARTE (arranque-medicion.ps1): en el mismo
+# proceso, el timeout del harness se llevaba puesto tambien el texto.
 
+$out = & powershell -NoProfile -ExecutionPolicy Bypass -File $medicion 2>&1 | Out-String
 Resultado ($out -match 'ESTADO DEL SISTEMA' -and $out -match 'estructura del repo') `
-    "el hook MIDE el estado del sistema, no solo lo narra" `
+    "el hook de medicion MIDE el estado del sistema, no solo lo narra" `
     "el bloque de estado no salio: '$($out.Trim())'"
+
+# SABOTAJE 0: la fecha limite. Con 2 s no termina casi nada: el hook tiene que
+# terminar igual, a tiempo, y NOMBRAR lo que quedo sin medir -- no callarlo ni
+# esperar a que el harness lo mate (que es lo que pasaba en 13 de 30 sesiones).
+$sw = [Diagnostics.Stopwatch]::StartNew()
+$out0 = & powershell -NoProfile -ExecutionPolicy Bypass -File $medicion -FechaLimite 2 2>&1 | Out-String
+$seg = $sw.Elapsed.TotalSeconds
+Resultado ($out0 -match 'SIN MEDIR' -and $seg -lt 20) `
+    "SABOTAJE: con fecha limite de 2 s, termina a tiempo y NOMBRA lo que no midio" `
+    ("tardo {0:N1} s; emitio: '{1}'" -f $seg, $out0.Trim())
 
 # SABOTAJE 1: un medidor en ROJO -> el hook tiene que decirlo, no tragarselo.
 # Se rompe el JSON de datos-permitidos, que ya sabemos que pone en rojo a
@@ -356,7 +370,7 @@ $dpb = "$dp.probando"
 Copy-Item -LiteralPath $dp -Destination $dpb -Force
 try {
     Set-Content -LiteralPath $dp -Value '{ esto no es json' -Encoding UTF8
-    $out3 = & powershell -NoProfile -ExecutionPolicy Bypass -File $arranque 2>&1 | Out-String
+    $out3 = & powershell -NoProfile -ExecutionPolicy Bypass -File $medicion 2>&1 | Out-String
     Resultado ($out3 -match 'HAY ROJO EN EL ARRANQUE') `
         "SABOTAJE: con un medidor en rojo, el arranque lo DICE" `
         "el hook emitio el bloque en verde con la estructura rota: '$($out3.Trim())'"
@@ -368,10 +382,11 @@ $chq  = Join-Path $raiz 'chequeo-completo.ps1'
 $chqb = "$chq.probando"
 Move-Item -LiteralPath $chq -Destination $chqb -Force
 try {
-    $out4 = & powershell -NoProfile -ExecutionPolicy Bypass -File $arranque 2>&1 | Out-String
-    Resultado ($out4 -match 'NO SE PUDO MEDIR' -and $out4 -match 'AUTORIZACIONES PERMANENTES') `
+    $out4 = & powershell -NoProfile -ExecutionPolicy Bypass -File $medicion 2>&1 | Out-String
+    $out4t = & powershell -NoProfile -ExecutionPolicy Bypass -File $arranque 2>&1 | Out-String
+    Resultado ($out4 -match 'NO SE PUDO MEDIR' -and $out4t -match 'AUTORIZACIONES PERMANENTES') `
         "SABOTAJE: sin chequeo-completo.ps1 lo DICE, y no se lleva puesto el arranque" `
-        "o se callo, o se comio el resto del contexto: '$($out4.Trim())'"
+        "o se callo, o se comio el resto del contexto: '$($out4.Trim())' / '$($out4t.Trim())'"
 } finally { Move-Item -LiteralPath $chqb -Destination $chq -Force }
 
 # CONTROL POSITIVO: con todo restaurado, el bloque vuelve a decir que no hay
@@ -387,7 +402,7 @@ try {
 # La precondicion se MIDE, no se asume: si los medidores estan en rojo, este
 # caso no se puede correr y se declara SALTEADO, con el motivo. Solo se paga
 # la corrida extra cuando el caso iba a fallar igual.
-$out5 = & powershell -NoProfile -ExecutionPolicy Bypass -File $arranque 2>&1 | Out-String
+$out5 = & powershell -NoProfile -ExecutionPolicy Bypass -File $medicion 2>&1 | Out-String
 $gritaMal = -not ($out5 -match 'Chequeo OK' -and $out5 -notmatch 'HAY ROJO EN EL ARRANQUE')
 
 $sistemaSano = $true

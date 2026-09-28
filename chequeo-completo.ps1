@@ -37,7 +37,13 @@ param(
     [switch]$SoloMedidores,
     [switch]$SoloSaboteadores,
     [switch]$Compacto,
-    [int]$DiasSaboteadores = 7
+    [int]$DiasSaboteadores = 7,
+    # > 0: los medidores corren EN PARALELO y a los N segundos se entrega lo
+    # que termino y se NOMBRA lo que no. Lo usa el hook de arranque (T1 de
+    # arquitectura-se): en serie tardaban ~58 s contra un timeout de 60 y el
+    # harness se corto en 13 de 30 sesiones -- y un hook cortado no entrega
+    # NADA, ni lo que ya habia medido.
+    [int]$FechaLimite = 0
 )
 
 $ErrorActionPreference = 'Stop'
@@ -48,6 +54,10 @@ $medidores = @(
     @{ nombre = 'estructura del repo';      cmd = '.\verificar-estructura.ps1' }
     @{ nombre = 'perfil global instalado';  cmd = '.\perfil-global\verify-install.ps1' }
     @{ nombre = 'triage de lecciones';      cmd = 'python perfil-global\herramientas\aprender.py sin-triage' }
+    # Bimodal, medido el 2026-09-28: 10-11 s o 45-46 s, corriendo SOLO. Con
+    # -FechaLimite 40 el modo lento sale "SIN MEDIR", que es lo que tiene que
+    # decir. (La sonda S3 de T1 lo atribuyo a correr junto al de abajo; corrido
+    # solo tambien tarda 45: la causa es otra y no esta medida.)
     @{ nombre = 'apuntes publicados en Drive'; cmd = '.\publicar-apuntes.ps1 -Verificar' }
     # El de arriba mide si lo que esta en el REPO llego a Drive. Este mide lo
     # de al lado y no se solapa: si algo en Drive quedo PUBLICO POR LINK donde
@@ -69,6 +79,11 @@ $medidores = @(
     # Pieza P4: un criterio de salida sin su medidor es una intencion, y el
     # medidor escrito DESPUES se elige sabiendo que resultado se quiere.
     @{ nombre = 'certificacion de las fases'; cmd = 'python perfil-global\herramientas\medir-fase.py' }
+    # T1 de arquitectura-se: el harness corta cada hook a 10 000 caracteres y
+    # la sesion ve 2 000; un hook que pasa su timeout no entrega nada. Mide lo
+    # emitido (corriendo los hooks) y lo que el harness hizo (transcripts).
+    # ~3,5 s. No se mide a si mismo en bucle: ver MEDIR_INYECCION en el script.
+    @{ nombre = 'presupuesto de inyeccion';  cmd = 'python perfil-global\herramientas\medir-inyeccion.py' }
 )
 
 $saboteadores = @(
@@ -80,6 +95,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador del desuso';      cmd = '.\perfil-global\probar-medidor-matriz.ps1' }
     @{ nombre = 'saboteador del molde de fase'; cmd = '.\perfil-global\probar-medidor-fase.ps1' }
     @{ nombre = 'saboteador del heredoc';    cmd = '.\perfil-global\probar-guardia-heredoc.ps1' }
+    @{ nombre = 'saboteador de la inyeccion'; cmd = '.\perfil-global\probar-medir-inyeccion.ps1' }
     @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
     @{ nombre = 'saboteador de Drive';            cmd = '.\probar-verificar-drive.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
@@ -113,6 +129,87 @@ function Correr($lista, $titulo) {
         }
     }
     return $rojos
+}
+
+# La misma bateria, en paralelo y con fecha limite. Lo que termino se informa
+# igual que en Correr; lo que no, se NOMBRA ("sin medir"), que es distinto de
+# verde y distinto de rojo: no se sabe. Un arranque que se corta entero por
+# timeout no dice ni eso.
+function CorrerConFecha($lista, $titulo, [int]$segundos) {
+    if (-not $Compacto) { Write-Host ""; Write-Host $titulo }
+    $dir = Join-Path $env:TEMP ('chequeo-' + [guid]::NewGuid().ToString('N').Substring(0, 8))
+    New-Item -ItemType Directory -Path $dir -Force | Out-Null
+    $res   = @{}
+    $vivos = @{}
+    $reloj = [Diagnostics.Stopwatch]::StartNew()
+
+    function Lanzar($i) {
+        $script = "Set-Location '$raiz'; $($lista[$i].cmd); exit `$LASTEXITCODE"
+        $enc = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($script))
+        $out = Join-Path $dir "$i.out"
+        $p = Start-Process powershell -NoNewWindow -PassThru `
+                -ArgumentList "-NoProfile -ExecutionPolicy Bypass -EncodedCommand $enc" `
+                -RedirectStandardOutput $out -RedirectStandardError "$out.err"
+        $null = $p.Handle   # sin esto, ExitCode sale vacio en PS 5.1
+        $vivos[$i] = @{ p = $p; i = $i; sw = [Diagnostics.Stopwatch]::StartNew(); out = $out }
+    }
+
+    try {
+        for ($i = 0; $i -lt $lista.Count; $i++) { Lanzar $i }
+        while ($vivos.Count -gt 0) {
+            foreach ($k in @($vivos.Keys)) {
+                $v = $vivos[$k]
+                if (-not $v.p.HasExited) { continue }
+                $v.p.WaitForExit()
+                $res[$v.i] = @{ estado = 'fin'; seg = $v.sw.Elapsed.TotalSeconds; code = $v.p.ExitCode; out = $v.out }
+                $vivos.Remove($k)
+            }
+            if ($reloj.Elapsed.TotalSeconds -ge $segundos) {
+                foreach ($k in @($vivos.Keys)) {
+                    $v = $vivos[$k]
+                    # /T: matar powershell no mata a sus hijos (rclone, git, python)
+                    # Y taskkill escribe a stderr por cada hijo que ya habia
+                    # muerto: con EAP=Stop eso tiraba el chequeo entero, que
+                    # es justo lo que la fecha limite existe para evitar.
+                    Start-Process taskkill -ArgumentList "/T /F /PID $($v.p.Id)" -NoNewWindow -Wait `
+                        -RedirectStandardOutput (Join-Path $dir 'tk.out') -RedirectStandardError (Join-Path $dir 'tk.err')
+                    $res[$v.i] = @{ estado = 'corte'; seg = $v.sw.Elapsed.TotalSeconds }
+                }
+                $vivos.Clear()
+                break
+            }
+            Start-Sleep -Milliseconds 200
+        }
+
+        $rojos = 0; $sinMedir = 0
+        for ($i = 0; $i -lt $lista.Count; $i++) {
+            $c = $lista[$i]; $r = $res[$i]
+            if (-not $r) {
+                Write-Host ("  [----] {0,-32}   SIN MEDIR: no llego a arrancar antes de los {1} s" -f $c.nombre, $segundos) -ForegroundColor Yellow
+                $sinMedir++
+            } elseif ($r.estado -eq 'corte') {
+                Write-Host ("  [----] {0,-32} {1,5:N1} s   SIN MEDIR: cortado a los {2} s" -f $c.nombre, $r.seg, $segundos) -ForegroundColor Yellow
+                $sinMedir++
+            } elseif ($r.code -eq 0) {
+                Write-Host ("  [OK  ] {0,-32} {1,5:N1} s" -f $c.nombre, $r.seg) -ForegroundColor Green
+            } else {
+                Write-Host ("  [FAIL] {0,-32} {1,5:N1} s   exit={2}" -f $c.nombre, $r.seg, $r.code) -ForegroundColor Red
+                Write-Host ("         {0}" -f $c.cmd) -ForegroundColor Red
+                if (-not $Compacto -and (Test-Path -LiteralPath $r.out)) {
+                    foreach ($l in (Get-Content -LiteralPath $r.out | Where-Object { $_ -match '\[FAIL\]|FALLIDA|FALLA|FALLO|CIEGO|RUIDO|ALARMA|no discrimin' })) {
+                        Write-Host ("         {0}" -f $l.Trim()) -ForegroundColor Red
+                    }
+                }
+                $rojos++
+            }
+        }
+        if ($sinMedir -gt 0) {
+            Write-Host ("  {0} medidor(es) SIN MEDIR en este arranque: no es verde. A mano:  .\chequeo-completo.ps1 -SoloMedidores" -f $sinMedir) -ForegroundColor Yellow
+        }
+        return @{ rojos = $rojos; sinMedir = $sinMedir }
+    } finally {
+        Remove-Item -LiteralPath $dir -Recurse -Force -ErrorAction SilentlyContinue
+    }
 }
 
 function LeerSello {
@@ -156,9 +253,16 @@ if (-not $Compacto) {
 $rojos = 0
 
 if (-not $SoloSaboteadores) {
-    $r = Correr $medidores "MEDIDORES -- que mide el estado (rapido, no escribe nada)"
-    $rojos += $r
-    EscribirSello 'medidores' ($r -eq 0)
+    $titulo = "MEDIDORES -- que mide el estado (rapido, no escribe nada)"
+    if ($FechaLimite -gt 0) {
+        $rf = CorrerConFecha $medidores $titulo $FechaLimite
+        $rojos += $rf.rojos
+        EscribirSello 'medidores' ($rf.rojos -eq 0 -and $rf.sinMedir -eq 0)
+    } else {
+        $r = Correr $medidores $titulo
+        $rojos += $r
+        EscribirSello 'medidores' ($r -eq 0)
+    }
 }
 
 if (-not $SoloMedidores) {

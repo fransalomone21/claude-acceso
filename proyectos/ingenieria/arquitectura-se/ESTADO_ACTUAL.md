@@ -1,7 +1,8 @@
 # ESTADO ACTUAL — arquitectura-se
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D): T1 del diagnóstico
-**diseñada** el 2026-09-28 y sin construir (ver «Lo que FALTA»).
+**diseñada** el 2026-09-28; **construidos los pasos 1 (medidor) y 2 (arranque
+partido)**, faltan del 3 al 6 (ver «Lo que FALTA»).
 
 **Fase 6 CERRADA** el 2026-09-17. Cerró por lo que la cerraba (`PDP.md` §4):
 **`chequeo-completo.ps1` en verde, todos los saboteadores corridos, y un
@@ -111,11 +112,35 @@ medidor `medir-inyeccion.py` con su saboteador **primero**. Al arrancar: de
 fila): corregida a 7, tipo D, **y medido el efecto** sobre lo que el hook
 inyecta.
 
+## 2026-09-28 (noche, 2.ª) — T1 pasos 1 y 2 construidos
+
+- **El medidor** `perfil-global/herramientas/medir-inyeccion.py`, en los
+  medidores de `chequeo-completo.ps1`: nació **en rojo sobre el estado de
+  hoy**, como pedía el §7 — `pilares` 12 863 y `chequeo` 133 973 (antes) y
+  los tres cortes/cancelaciones de las sesiones posteriores al último cambio
+  de settings (después); **amarillo** en la apertura (9 592, margen 408). Su
+  saboteador `perfil-global/probar-medir-inyeccion.ps1`, **10 de 10** (siete
+  del §6 + 10 000 exactos, cortes anteriores al cambio y 5 000 limpio), y
+  **saboteado él mismo**: sin umbral y sin leer `hook_cancelled`, da CIEGO.
+  `verify-install` dejó de imprimir el número: mide que el hook anda; el
+  tamaño tiene un solo medidor.
+- **El arranque partido:** `arranque-proyecto.ps1` = sólo el texto (0,5 s,
+  timeout 15); `arranque-medicion.ps1` = la capa rápida **en paralelo** con
+  `-FechaLimite 40` (nuevo en `chequeo-completo.ps1`): entrega lo que terminó
+  y nombra lo que no («SIN MEDIR»), matcher `startup|resume|clear` (no corre
+  en compact). Medido: **41 s de pared** contra 56 s en serie. `probar-hooks`
+  51 OK, con un caso nuevo (fecha límite 2 s → termina y nombra), roto a
+  propósito sin fecha límite: da rojo.
+- **Corrige a S3:** `publicar-apuntes -Verificar` es **bimodal corriendo
+  solo** (10–11 s o 45–46 s, 5 corridas): la lentitud no era por correr junto
+  al otro de Drive. En el arranque su modo lento sale «SIN MEDIR».
+
 ## Lo que FALTA, para la fase 7
 
-- **T1, construir** según `docs/t1-presupuesto-inyeccion.md` §7, en ese orden:
-  el medidor y su saboteador (rojo sobre el estado de hoy), el arranque
-  partido, pilares en dos, el núcleo generado, el hook al paso. Y con el
+- **T1, construir** según `docs/t1-presupuesto-inyeccion.md` §7: **pasos 1 y
+  2 hechos**; siguen pilares en dos, el núcleo generado, el hook al paso, y la
+  validación (paso 6: 0 cortados y 0 cancelados en 3–5 sesiones reales, que
+  la mitad «después» del medidor ya cuenta sola). Y con el
   núcleo, corregir las dos frases que hoy mienten: `aprender.py agregar` e
   `install.ps1` dicen que `chequeo-de-trabajo.md` «se lee solo».
 - Después, el resto del camino crítico del diagnóstico (T2 → T3 → T4 → T7 →

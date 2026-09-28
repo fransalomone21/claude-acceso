@@ -46,6 +46,7 @@ Write-Output "capa 2 -- hooks en .claude/settings.json (ruta medida, no copiada)
 
 $ps = 'powershell -NoProfile -ExecutionPolicy Bypass -File'
 $cmdArranque = "$ps `"$(Join-Path $claude 'hooks\arranque-proyecto.ps1')`""
+$cmdMedicion = "$ps `"$(Join-Path $claude 'hooks\arranque-medicion.ps1')`""
 $cmdGuardia  = "$ps `"$(Join-Path $claude 'hooks\guardia-iso.ps1')`""
 $cmdFase     = "python `"$(Join-Path $claude 'hooks\fase_activa.py')`""
 
@@ -58,7 +59,14 @@ if ($null -eq $obj) { $obj = New-Object psobject }
 
 $hooks = [ordered]@{
     SessionStart = @(
-        @{ hooks = @( [ordered]@{ type = 'command'; command = $cmdArranque; timeout = 60 } ) }
+        # (2026-09-28, T1 de arquitectura-se) el texto y la medicion en hooks
+        # separados: el harness no entrega nada de un hook cortado por timeout,
+        # y la medicion en serie tardaba 58 s contra 60. El texto es
+        # instantaneo; la medicion tiene fecha limite interna de 40 s y no
+        # corre al compactar (el matcher de SessionStart es el origen).
+        @{ hooks = @( [ordered]@{ type = 'command'; command = $cmdArranque; timeout = 15 } ) }
+        @{ matcher = 'startup|resume|clear'
+           hooks = @( [ordered]@{ type = 'command'; command = $cmdMedicion; timeout = 60 } ) }
     )
     PreToolUse = @(
         @{ matcher = 'Bash|PowerShell|Write|Edit|NotebookEdit'

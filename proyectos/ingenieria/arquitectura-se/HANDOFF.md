@@ -1,6 +1,25 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
-> **2026-09-28 (noche) — LO ÚLTIMO. T1 está DISEÑADA, sin construir:
+> **2026-09-28 (noche, 2.ª) — LO ÚLTIMO. T1 pasos 1 y 2 CONSTRUIDOS.**
+> (1) `perfil-global/herramientas/medir-inyeccion.py` en los medidores de
+> `chequeo-completo.ps1`, **en rojo sobre el estado de hoy** (pilares 12 863,
+> chequeo 133 973, cortes y cancelaciones en los transcripts) y amarillo en la
+> apertura (9 592); saboteador `perfil-global/probar-medir-inyeccion.ps1` 10/10
+> y saboteado él mismo. `verify-install` ya no imprime el tamaño. (2) Arranque
+> partido: `.claude/hooks/arranque-proyecto.ps1` sólo texto (timeout 15) +
+> `.claude/hooks/arranque-medicion.ps1` (capa rápida en paralelo,
+> `-FechaLimite 40`, matcher `startup|resume|clear`), instalados en
+> `.claude/settings.json`; 41 s de pared contra 56 en serie; `probar-hooks`
+> 51 OK. **Sigue el paso 3: pilares en dos hooks** (la fuente sigue siendo un
+> archivo; corte en frontera de sección, 2 × ~6 400). El medidor va a pasar
+> `pilares` a verde y dejar `chequeo` en rojo hasta el paso 4. **La primera
+> sesión nueva ya valida el paso 2**: `python perfil-global\herramientas\
+> medir-inyeccion.py --solo despues` tiene que dar 0 `hook_cancelled` para
+> `arranque-medicion.ps1`. Corrige a S3: `publicar-apuntes -Verificar` es
+> bimodal SOLO (10 o 45 s). Rojo ajeno al arrancar: los PDF de Física Espacial
+> recompilados a las 19:32 y sin subir (otra sesión).
+>
+> **Antes (2026-09-28, noche) — T1 DISEÑADA, sin construir:
 > [`docs/t1-presupuesto-inyeccion.md`](docs/t1-presupuesto-inyeccion.md).**
 > Umbral del harness **10 000 caracteres por hook** (`confirmado`: constante
 > `1e4` en `claude.exe` 2.1.284 + censo de 1 235 salidas). El arranque del repo
