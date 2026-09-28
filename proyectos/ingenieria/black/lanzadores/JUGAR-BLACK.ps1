@@ -86,6 +86,23 @@ $out = foreach ($l in $lineas) {
     $l
 }
 [IO.File]::WriteAllLines($ini, [string[]]$out, (New-Object Text.UTF8Encoding($false)))
+
+# --- la sensibilidad de mira: solo cuando se juega con MOUSE -------------------
+# Los tres parches de docs/10-jugar.md (curva lineal, giro a 350 grados/seg, zona
+# muerta a cero) existen para el mouse. Con dos mandos, Fran pidio la sensibilidad
+# ORIGINAL (2026-09-28): se apagan. Son globales del juego: en -Coop teclado valen
+# tambien para el mando de J2.
+$mira = @('Mira lineal - exponente del stick a 1.0',
+          'Mira sensible - velocidad de giro de 70 a 350 grados/seg',
+          'Zona muerta del pad a cero')
+$conMouse = ($Coop -ne '2mandos')
+$aj = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'PCSX2\gamesettings\SLUS-21376_5C891FF1.ini'
+$ls = [Collections.Generic.List[string]]([IO.File]::ReadAllLines($aj) | Where-Object {
+        $_.Trim() -notin ($mira | ForEach-Object { "Enable = $_" }) })
+if ($conMouse) { $ls.InsertRange($ls.IndexOf('[Patches]') + 1, [string[]]($mira | ForEach-Object { "Enable = $_" })) }
+[IO.File]::WriteAllLines($aj, [string[]]$ls, (New-Object Text.UTF8Encoding($false)))
+Write-Output "Sensibilidad de mira: $(if ($conMouse) {'la del mouse (parches prendidos)'} else {'ORIGINAL (parches apagados)'})."
+
 if ($Coop) { Write-Output "COOP ($Coop): pantalla dividida, J2 con el mando $(if ($Coop -eq 'teclado') {'unico'} else {'2'})." }
 
 # --- agachado mantenido ----------------------------------------------------

@@ -27,6 +27,8 @@ sólo teclado/mouse y `[Pad2]` en `SDL-0`; sin `-Coop`, cero líneas del coop en
 el emulog y `[Pad2]` vuelve a `SDL-1`. Que la pantalla se divida en **este**
 emulador es `probable`, no `confirmado`: lo de (88)–(89) se vio en el fork MCP.
 
+**La sensibilidad de mira sólo con mouse** (pedido de Fran, 2026-09-28): los tres parches `Mira lineal`, `Mira sensible` y `Zona muerta del pad a cero` se **prenden** con `JUGAR BLACK` y con `COOP - teclado y mando`, y se **apagan** con `COOP - dos mandos` (con mandos, la sensibilidad original del juego). Son globales: en `teclado y mando` también los recibe el mando de J2. Probado sobre copias del ini en los tres modos (0 / 3 / 3 parches, el resto intacto). Lo que **no** se toca es el ajuste propio de PCSX2 de `[Pad1]` (`AxisScale = 1`).
+
 Se regeneran con `lanzadores/crear-accesos-directos.ps1` (se puede correr
 cuantas veces se quiera; pisa los `.lnk`).
 
