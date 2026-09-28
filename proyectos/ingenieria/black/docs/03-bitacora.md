@@ -29,6 +29,14 @@ Formato de cada entrada:
 - **Botón nombrado:** `b1` = **agarrar** (cuadrado, mantener): J1 44,2 s «HOLD □ TO PICK UP SPAS 12» → «SPAS 12 PICKED UP» (`confirmado` en pantalla). Y `b3` pasa a llamarse `melee` en `sondas_coop.BOTONES` (93z).
 - No son errores nuevos: los carteles centrados (30,5 y 44–50 s), el HUD único de J1.
 
+**Medido en el fork** (Fran cerró su 2.8.0; bloque instalado con `--sin-ocultar-j`, 792 palabras, `C` por PINE):
+- **Las capturas sueltas mienten** (`capturar-pantalla.ps1`, ~1,3 s cada una): mostraban la recarga de J2 en la mitad de J. Con **video a 30 cuadros/s** (`rafaga_vista.py`, ffmpeg ddagrab, 20 cuadros a 8/s desde que se aprieta) la recarga **a mano** de cada uno se ve entera en **su** mitad y la otra queda quieta, con `C` = 0 y con `C` = J (`rv-hoja-*.png`). **E1 y E2 no se reproducen en el fork**, que arranca con J en el **puerto 1**; Fran jugó con J1 = **puerto 2** (`hipótesis` principal: la fuga depende del puerto). `C` no cambió nada visible: el arreglo de E1 queda **sin demostrar**.
+- En RAM (`prueba_pose_r3.py`): la pose de la ranura de J2 cambia **30** palabras cuando recarga J2 y **0** cuando recarga J; la de J, **29** y **2**. Las poses están separadas (`confirmado` con control cruzado).
+- **E3 no se reproduce**: J2 dispara 3 s seguidos y la vista no sube (el agujero queda quieto en los 18 cuadros). El cabeceo de la mira (`+0x4F0+0xC`) vale 0 en J y J2 todo el tiempo: esa no es la variable del retroceso.
+- **E5 (nuevo, visto en video del fork):** cuando J2 **vacía el cargador y recarga solo**, la mitad de J muestra **fogonazos** (cuadros 2 y 6) y **la recarga** (15–17) con J quieto (`rv-hoja-J2-e3.png`).
+- **Los aisladores de la vista FP** (`prueba_aislar_j2.py`): con J2 vaciando y recargando solo, salteados **15** disparos y **19** eventos, **0** pasadas; control J: 15 y 19 pasadas. **E5 no es lógica de J2 que se cuela**: es algo dibujado en la pasada equivocada (el fogonazo es una partícula, no un nodo del filtro). `probable`.
+- **Pedidos nuevos de Fran:** (S) de J2 no se oye el disparo, sólo los impactos → `probable`: los 15 disparos salteados por el aislador `0x001D6F90` (camino del disparo en la vista FP, `FUN_001d7020`) llevan el sonido; se confirma de oído, no hay captura de audio del emulador en la notebook (sólo micrófonos). (H) HUD por jugador (el pendiente d). (A) al agacharse uno, se agachan los dos.
+
 **No funcionó:** a mitad de sesión otra sesión de Claude (fisica-espacial) cambió de rama en esta misma carpeta y guardó este trabajo en un stash; lo devolvió y se fue a su propio worktree. Nada se perdió.
 **Sigue:** con el PCSX2 de Fran cerrado, la sonda de E1 con control en el fork; después E2, E3, E4.
 
