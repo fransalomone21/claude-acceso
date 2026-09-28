@@ -341,8 +341,12 @@ dice medido). Lo que cambió:
   entre la pasada 1 y la 2. Arreglo propuesto, sin escribir.
 - **(93u) nube: B5, en frío.** La muerte de un jugador no mira cuál es: con `ctrl+0x100` ≥ 1, la de J2
   terminaría la partida para los dos. Propuesta: envoltorio de `FUN_0013ffa0` para que J2 reaparezca junto a J.
-- **Siguiente (en la notebook):** instalar la ranura 3 y la regresión (8 de 8), la sonda causal del parpadeo
-  (parche apagado / prendido) y las dos sondas de B5. Detalle: `sesiones/RETOME-LOCAL.md`.
+- **(93v) nube: el arreglo del parpadeo, listo para jugar (sin probar en vivo).** El coop trae su pantalla
+  ancha y el stub es el dueño de la proporción (4 palabras cambiadas, nada se corre); los accesos `COOP`
+  apagan el «Widescreen 16:9» comunitario y `JUGAR BLACK` lo vuelve a prender. **La ranura 3 queda apagada
+  por defecto** (`--con-r3`): el acceso de jugar instala sólo lo probado, **638 palabras** + la pantalla ancha.
+- **Siguiente (en la notebook):** `git pull` y jugar con el acceso COOP; medir el parpadeo con control, la
+  ranura 3 con `--con-r3` y su regresión (8 de 8), y las dos sondas de B5. Detalle: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

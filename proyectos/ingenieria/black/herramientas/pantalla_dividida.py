@@ -122,8 +122,12 @@ FUENTE = [
     # (89) LA PROPORCION: vw.x = tan(FOV/2)*(R+0xD470) y vw.y = vw.x/(R+0xD474) (FUN_0027B2F0, (84)); con
     # las dos a x0,5 la mitad tiene la mitad del campo horizontal y el MISMO vertical: no se aplasta.
     # Se guardan en DATOS+0x30/+0x34, se dividen si DATOS+0x38 != 0, SYNC, y se restauran antes del SYNC final.
+    # (93v) PROPORCION PROPIA: en lugar de GUARDAR lo que hay en R+0xD470/74, se TOMA de DATOS+0x30/+0x34
+    # (4/3 y 16/9, constantes que pone el pnach) y se escribe en la camara. Mismas 4 palabras, nada se corre.
+    # Asi el mod es el UNICO que escribe esas dos palabras: el parche comunitario «Widescreen 16:9» las
+    # reescribia en cada cuadro desde el emulador y pisaba la mitad entre las dos pasadas (el parpadeo, (93t)).
     "lui t0, 0x41", "lw t0, -0xb40(t0)", "ori t1, zero, 0xd400", "addu t0, t0, t1",
-    "lw t2, 0x70(t0)", "sw t2, -0x3d0(s1)", "lw t2, 0x74(t0)", "sw t2, -0x3cc(s1)",
+    "PROPORCION",
     "lw t2, -0x3c8(s1)", "beq t2, zero, SINPROP", "nop",
     "lui t2, 0x3f00", _fpu("mtc1", T2, 1),
     _fpu("lwc1", 4, 0x70, T0), _fpu("mul.s", 4, 4, 1), _fpu("swc1", 4, 0x70, T0),
@@ -157,6 +161,13 @@ FUENTE = [
     "FIN:", "ld ra, 0(sp)", "lq s0, 16(sp)", "lq s1, 32(sp)", "lq s2, 48(sp)",
     "jr ra", "addiu sp, sp, 96",
 ]
+# (93v) la proporcion de la camara de escena: con PROPORCION_PROPIA el stub la toma de DATOS+0x30/+0x34
+# (4/3 y 16/9, lo que ponia el parche comunitario) en lugar de guardar lo que encuentra. Sin eso (False) es
+# el stub de (89) tal cual, que depende de que nadie mas escriba R+0xD470/74 durante el cuadro.
+ASPECTO_X, ASPECTO_Y = 0x3FAAAAAB, 0x3FE38E39
+PROPORCION_PROPIA = True
+PROPORCION_GUARDAR = ["lw t2, 0x70(t0)", "sw t2, -0x3d0(s1)", "lw t2, 0x74(t0)", "sw t2, -0x3cc(s1)"]
+PROPORCION_TOMAR = ["lw t2, -0x3d0(s1)", "sw t2, 0x70(t0)", "lw t2, -0x3cc(s1)", "sw t2, 0x74(t0)"]
 SYNC = ["lui t0, 0x41", "lw a0, -0xb40(t0)", "jal 0x1ae998", "addiu a1, zero, 1",
         "lui t0, 0x41", "lw a0, -0xb40(t0)", "ori t1, zero, 0xd400", "jal 0x1b0948", "addu a0, a0, t1"]
 
@@ -176,8 +187,9 @@ def codigo_filtro() -> list[int]:
 
 def codigo() -> list[int]:
     lineas = []
+    prop = PROPORCION_TOMAR if PROPORCION_PROPIA else PROPORCION_GUARDAR
     for t in FUENTE:
-        lineas.extend(SYNC if t == "SYNC" else VISTA_J2 if t == "VISTA_J2" else [t])
+        lineas.extend(SYNC if t == "SYNC" else VISTA_J2 if t == "VISTA_J2" else prop if t == "PROPORCION" else [t])
     etiquetas, instr = {}, []
     for t in lineas:
         if t.endswith(":"):
@@ -241,6 +253,8 @@ def cmd_poner(_a) -> int:
         p.escribir32(DATOS + 0x84, raster(p))
         p.escribir32(DATOS + 0x8C, MEDIO)
         p.escribir32(DATOS + 0x90, ENTERO)
+        p.escribir32(DATOS + 0x30, ASPECTO_X)   # (93v) la proporcion propia
+        p.escribir32(DATOS + 0x34, ASPECTO_Y)
         c = codigo()
         p.escribir_bloque(STUB, struct.pack("<%dI" % len(c), *c))
         f = codigo_filtro()

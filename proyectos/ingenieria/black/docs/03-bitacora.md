@@ -16,6 +16,22 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93v) — El arreglo del parpadeo (opción 2, aprobada por Fran): el coop trae su pantalla ancha y el stub es el dueño de la proporción; la ranura 3 queda apagada por defecto
+**Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (el parpadeo; dejar el coop listo para jugarlo) · **Nodos:** `render`, `codigo-nuevo` (sin cambio de K: nada medido en vivo)
+**Objetivo:** Fran pidió dejar el juego listo para probar cómo viene el coop, con la opción 2 de (93t).
+
+- **El juego tiene pantalla ancha propia** (`confirmado en frío`): `FUN_00108bb8(*(0x0040F0E0)+0x2014C)` —llamada al aplicar las opciones (`FUN_00212088`, con la variable del menú `0x003BE83C` ↔ `+0x20150`)— pone `+0x74` = 16/9 (o 4/3) en las tres cámaras (`FUN_0027b388`) y `R+0xC` = 1. **No toca `+0x70`**: el parche comunitario la sube de 1,0 a 4/3 para ganar campo horizontal. Sus líneas son exactamente eso (`0x003BE83C` = 1, `0x004BD18C` = `R+0xC` = 1, los `+0x74` de las cámaras 0/1/2, `+0x70` de la 1, y `0x005BC390` = 0,75), escritas **en cada cuadro**.
+- **El arreglo, sin mover una instrucción** (`pantalla_dividida.py`, `PROPORCION_PROPIA` = True): las 4 palabras que **guardaban** `R+0xD470/74` en `DATOS+0x30/+0x34` ahora **toman** de ahí y escriben en la cámara (`0x0046F960..0x0046F96C`: `lw t2, -0x3d0(s1)`, `sw t2, 0x70(t0)`, `lw t2, -0x3cc(s1)`, `sw t2, 0x74(t0)`); el pnach pone `DATOS+0x30/+0x34` = 4/3 y 16/9 (datos del mod: los lee sólo el stub, reescribirlos en cada cuadro no pisa nada). La restauración del final ya leía de ahí: el stub deja 4/3 y 16/9 al terminar cada cuadro partido. Con el comunitario apagado, **nadie más escribe esas dos palabras** ((93k): ningún `sw` del EE fuera del stub), así que no hay carrera.
+- **El bloque trae su pantalla ancha**: `gsaspectratio=16:9` y las líneas del comunitario **menos `0x004CA5F0/F4`** (`coop_mod.PANTALLA_ANCHA`, fuera de `programas()`: son datos del juego, no del coop).
+- **El lanzador** (`lanzadores/JUGAR-BLACK.ps1`): con `-Coop` **saca** `Enable = Widescreen 16:9` de los ajustes del juego; sin `-Coop` lo vuelve a poner (jugar solo queda como siempre). Sin PowerShell en la nube: no se corrió.
+- **La ranura 3 queda APAGADA por defecto** (`SIN_R3` = True; `--con-r3` la prende): el acceso de jugar corre `coop_mod.py instalar` en cada doble clic y la ranura no está probada en vivo. `coop_diseno.py verificar` mide el plano con la ranura puesta.
+- **Palabras:** el bloque que instala el acceso pasa de 636 a **638** (+2 datos de la proporción) más las 6 líneas y el `gsaspectratio` de la pantalla ancha; con `--con-r3`, 787.
+- **Lo que queda abierto** (`hipótesis`): los primeros cuadros de cada nivel, antes de que J2 esté listo (ESTADO 0), usan la proporción que dejó el juego (1,0 y la de su opción) hasta el primer cuadro partido; y si la opción de pantalla ancha del propio juego está apagada, el menú se ve estirado. Cosmético.
+**No funcionó:** nada (nada se corrió en vivo).
+**Sigue:** en la notebook: `git pull` y jugar con el acceso COOP; la medición con control está en `sesiones/RETOME-LOCAL.md` (b).
+
+---
+
 ## 2026-09-28 (93u) — B5 en frío: la muerte de un jugador no mira cuál es; con `ctrl+0x100` ≥ 1, la de J2 terminaría la partida
 **Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B5, «muerte de J2») · **Nodos:** `flujo`, `personajes` (evidencia en frío; sin cambio de K)
 **Objetivo:** T3 del retome: el camino de muerte de J, si mira sólo a J o recorre `jugadores[]`, y qué le pasaría a J2.

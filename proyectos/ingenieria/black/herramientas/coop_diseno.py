@@ -43,6 +43,7 @@ def verificar(doc: Path, mods: Path) -> list[str]:
     filas = leer_rangos(doc)
     if not filas:
         return ["no hay bloque coop-rangos en %s" % doc]
+    cm.SIN_R3 = False   # (93v) el plano describe el mod entero, con la ranura 3 (apagada por defecto al instalar)
     progs = cm.programas()
     # 1. los programas contra el plano
     for nombre, prog in progs[:-1]:

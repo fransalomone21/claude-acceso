@@ -35,6 +35,10 @@ Los datos no van en el pnach: nacen del `.bss` en cero.
   lista al salir del nivel (87).
 - **Pantalla dividida.** Tres ganchos a `FUN_001297E0` → stub de la pantalla: dos pasadas con sub-raster de
   media anchura, la vista de J2 calculada en el stub, la proporción a la mitad (84)–(89).
+- **Pantalla ancha propia** (93v). El stub **toma** la proporción de la cámara de escena (`R+0xD470/74` = 4/3 y
+  16/9) de `DATOS+0x30/+0x34`, que pone el pnach, y el bloque trae las líneas del parche comunitario «Widescreen
+  16:9» **menos** `0x004CA5F0/F4`; el comunitario va apagado con el coop (lo apaga `JUGAR-BLACK.ps1 -Coop`).
+  Con él prendido, sus escrituras por cuadro pisaban la mitad entre las dos pasadas: el parpadeo (93t).
 - **Filtro del tinte.** Gancho `0x00129AD0` → filtro: el tinte a pantalla completa no se dibuja por mitad (89b);
   la llamada única del final queda en `nop` (90b).
 - **Visibilidad por pasada.** El callback de dibujo de la escena (`lui/addiu` en `0x001298F8/0x00129900`) →

@@ -547,7 +547,7 @@ nop
 #    el juego nunca deja un sub reconstruido debajo de una ranura en uso.
 #  BAJA (en el desarme, (87)): FUN_001a5ee8(R3) si esta cargada, como el destructor del jugador
 #    (FUN_0013b9a0 -> FUN_00133ed8) hace con J+0x330 en el estado 0x21 -- a J2 nadie lo destruye (cuenta = 1).
-# `poner/instalar --sin-r3` es el control: sin nada de esto, J2 comparte la ranura de J como hasta (93q).
+# Sin `--con-r3` (el defecto desde (93v)) J2 comparte la ranura de J como hasta (93q): es el control.
 R3_ARMADA = 0x0046E0B4         # dato: 1 = R3 ya armada en este arranque. NO va en el pnach
 R3_CARGAS, R3_REAPUNTES, R3_DESVIOS, R3_BAJAS = 0x0046E0B8, 0x0046E0BC, 0x0046E0C0, 0x0046E0C4  # contadores
 R3_MOLDE = 0x0046E0C8          # dato: MOLDES (0x0046D7C0) cuando se cargo R3. Reapuntar solo vale en el mismo
@@ -557,7 +557,10 @@ R3_POR_CUADRO = 0x0046E340
 R3_ENVOLTORIO = 0x0046E4A0
 SITIO_R3, ORIGINAL_R3 = 0x001295A8, ensamblar("jal 0x1ab428", 0x001295A8)
 SITIO_R3_CARGA, ORIGINAL_R3_CARGA = 0x001ACA84, ensamblar("jal 0x1a51c8", 0x001ACA84)
-SIN_R3 = False
+# (93v) APAGADA POR DEFECTO hasta que la notebook la pruebe en vivo: el acceso «JUGAR BLACK COOP» corre
+# `instalar` en cada doble clic, y lo que se juega es lo probado. `--con-r3` la prende (listar/poner/instalar);
+# coop_diseno.py verifica el plano con la ranura puesta.
+SIN_R3 = True
 
 R3_POR_CUADRO_MOD = """
 lui t0, 0x47
@@ -765,6 +768,9 @@ def programas():
     pant_datos = [(pd.DATOS + 0x80, 1, "division prendida"), (pd.DATOS + 0x8C, pd.MEDIO, "ancho de la mitad"),
                   (pd.DATOS + 0x90, pd.ENTERO, "ancho entero"), (pd.DATOS + 0x94, 1, "la vista de J2 la calcula el stub"),
                   (pd.DATOS + 0x38, 1, "proporcion de la mitad (89)")]
+    if pd.PROPORCION_PROPIA:
+        pant_datos += [(pd.DATOS + 0x30, pd.ASPECTO_X, "proporcion propia: 4/3 (93v)"),
+                       (pd.DATOS + 0x34, pd.ASPECTO_Y, "proporcion propia: 16/9 (93v)")]
     ganchos = [(g.SITIO, ensamblar("jal 0x%x" % j2.STUB, g.SITIO), "gancho por cuadro: jal stub (era jal 0x13bac8)"),
                (j2.SITIO_CARGA, ensamblar("jal 0x%x" % j2.ENVOLTORIO, j2.SITIO_CARGA),
                 "gancho del cargador: jal envoltorio (era jal 0x129090)")]
@@ -817,7 +823,7 @@ def depurador(accion):
 
 def cmd_listar(_a):
     global SIN_R3
-    SIN_R3 = getattr(_a, "sin_r3", False)
+    SIN_R3 = not getattr(_a, "con_r3", False)
     for nombre, prog in programas():
         print("== %s: %d palabras, %#010x..%#010x" % (nombre, len(prog), prog[0][0], prog[-1][0] + 4))
         for pc, w, t in prog:
@@ -828,7 +834,7 @@ def cmd_listar(_a):
 def cmd_poner(a):
     global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA, SIN_OCULTAR, SIN_R3
     SIN_OCULTAR = a.sin_ocultar
-    SIN_R3 = a.sin_r3
+    SIN_R3 = not a.con_r3
     SIN_BAJA, SIN_TITERE, SIN_CABECEO = a.sin_baja, a.sin_titere, a.sin_cabeceo
     SIN_RECARGA = a.sin_recarga
     SIN_PANTALLA = a.sin_pantalla
@@ -976,10 +982,28 @@ AJUSTES = PCSX2 / "gamesettings" / "SLUS-21376_5C891FF1.ini"
 NOMBRE_BLOQUE = "COOP - jugador 2 (B3)"
 
 
+# (93v) LA PANTALLA ANCHA PROPIA DEL COOP. El parche comunitario «Widescreen 16:9» (No.47, pcsx2_patches) son estas
+# lineas MAS 0x004CA5F0/F4 (= R+0xD470/74, la proporcion de la camara de escena), que reescribia en cada cuadro
+# y pisaban la mitad del stub entre las dos pasadas: el parpadeo (93t). Con PROPORCION_PROPIA esas dos las pone
+# el stub; el resto se copia tal cual. Con el coop, el comunitario va APAGADO (lo apaga JUGAR-BLACK.ps1 -Coop).
+PANTALLA_ANCHA = [
+    "gsaspectratio=16:9",
+    "// pantalla ancha (93v): el parche comunitario Widescreen 16:9 SIN 004CA5F0/F4 (esas las pone el stub)",
+    "patch=1,EE,203BE83C,word,00000001",
+    "patch=1,EE,204BC150,word,00000001",
+    "patch=1,EE,204BD18C,word,00000001",
+    "patch=1,EE,204CA554,word,3FE38E39",
+    "patch=1,EE,204CA694,word,3FE38E39",
+    "patch=1,EE,205BC390,word,3F400000",
+]
+
+
 def bloque_pnach():
     lineas = ["[%s]" % NOMBRE_BLOQUE, "author=proyecto BLACK",
               "description=J2 construido en la carga, mando 2, enlazado y atado; sin PINE (bitacora (86))",
               "// GENERADO por herramientas/coop_mod.py -- solo CODIGO: los datos nacen del .bss en cero"]
+    if pd.PROPORCION_PROPIA:
+        lineas += PANTALLA_ANCHA
     for nombre, prog in programas():
         for pc, w, t in prog:
             lineas.append("// %s: %s" % (nombre, t))
@@ -1007,7 +1031,7 @@ def _respaldo(ruta):
 def cmd_instalar(_a):
     global SIN_AISLAR, SIN_R3
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
-    SIN_R3 = getattr(_a, "sin_r3", False)
+    SIN_R3 = not getattr(_a, "con_r3", False)
     viejo = PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -1045,16 +1069,16 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     for c in ("quitar", "toml", "activar", "desactivar"):
         sub.add_parser(c)
-    li = sub.add_parser("listar"); li.add_argument("--sin-r3", action="store_true")
+    li = sub.add_parser("listar"); li.add_argument("--con-r3", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
-    ins.add_argument("--sin-r3", action="store_true")
+    ins.add_argument("--con-r3", action="store_true")
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
     po.add_argument("--sin-recarga", action="store_true")
     po.add_argument("--sin-ocultar", action="store_true")
     po.add_argument("--sin-cabeceo", action="store_true")
     po.add_argument("--sin-pantalla", action="store_true")
-    po.add_argument("--sin-r3", action="store_true")
+    po.add_argument("--con-r3", action="store_true")
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)
     h = sub.add_parser("manos"); h.add_argument("segundos", type=float); h.add_argument("--control", action="store_true")
     a = ap.parse_args()

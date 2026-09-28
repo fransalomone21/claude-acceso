@@ -4,20 +4,22 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(93s)–(93u)» DE ACÁ ABAJO, después el «(93n)–(93q)».** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(93s)–(93v)» DE ACÁ ABAJO, después el «(93n)–(93q)».** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y
 > B3 hechas: el coop en pantalla dividida sale del pnach solo** (88). El
 > mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
 
-## 2026-09-28 tarde, NUBE (sin emulador) — LA RANURA 3 EN CÓDIGO, LA CAUSA DEL PARPADEO Y LA CADENA DE MUERTE (bitácora (93s)–(93u))
+## 2026-09-28 tarde, NUBE (sin emulador) — LA RANURA 3 EN CÓDIGO, EL PARPADEO (CAUSA Y ARREGLO) Y LA CADENA DE MUERTE (bitácora (93s)–(93v))
 
 - **(93s) la ranura 3 para el pnach** (`coop_mod.py`, `SIN_R3`; 785 / 636 palabras): por cuadro en `0x0046E340` (gancho `0x001295A8`), envoltorio del `jal 0x1a51c8` de `FUN_001ac960` en `0x0046E4A0` (gancho `0x001ACA84`), baja en el desarme; datos fuera del pnach en `0x0046E0B4..0x0046E0CC` (armada, contadores, sello por nivel). En frío: `J2+0x2C3` = `W+0x43` del manejador de armas embebido en `J2+0x280`; el cambio de arma de J2 pasaba por el cargador y le pisaba el dueño a la ranura de J; el constructor no carga el aparejo para J2 (estado 0x1C → 0x37); el destructor del jugador descarga `+0x330` sólo para `cuenta` = 1. **El reatar de accesorios del retome está refutado** (en volcado, J y J2 comparten `0x006ED6F0/710/730`). Listado ensamblado y desensamblado con capstone en la bitácora.
 - **(93t) el parpadeo**: lo que el stub le da a la pasada 2 es idéntico en A y B; la vista B es la A comprimida a 0,5 en horizontal (`herramientas/parpadeo_escala.py`, autotest con las capturas de (93r)). El parche comunitario «Widescreen 16:9» escribe `0x004CA5F0/F4` (= `R+0xD470/74`) en cada cuadro; (93k) no lo veía porque PCSX2 aplica los `patch=1` desde afuera del EE. El volcado fuego-1 cayó dentro de la pasada 1 con la ventana a la mitad y la proporción ya entera.
 - **(93u) B5**: `FUN_0013c3e8` (daño al jugador) → vida == 0 → `FUN_0013ffa0(ctrl, 5)`: con `ctrl+0x100` ≥ 1, fin de partida (`*(0x0040F0E0)+0x21098` = 1, cámara de muerte sobre el que murió, modo «muerto» `FUN_0012d270` que sólo actualiza a J); con < 1, estado 2 y cabecera en cero. No mira cuál jugador es. `ctrl+0x100` vale 0 en J y J2 en los volcados: se mide.
 - **Proceso**: Fran pidió priorizar el pseudocódigo (el C decompilado) antes de mirar bits, para no tener que alejarse después de acercarse mucho. En T2 lo que destrabó fue preguntarse qué ES la vista B (medirla en la imagen) antes de buscar quién la escribe.
 
-**Estado de la máquina:** sin cambios (la nube no toca la notebook): pnach con **636 palabras**, bloque **activo**; la ranura 3 sólo está en el código.
+- **(93v) el arreglo del parpadeo (opción 2, aprobada por Fran)**: `pantalla_dividida.PROPORCION_PROPIA` (4 palabras del stub: toma 4/3 y 16/9 de `DATOS+0x30/+0x34` en vez de guardar lo que encuentra), `coop_mod.PANTALLA_ANCHA` (el comunitario sin `0x004CA5F0/F4`, con `gsaspectratio=16:9`) y `JUGAR-BLACK.ps1` apaga/prende el `Widescreen 16:9` comunitario según `-Coop`. De paso: el juego tiene pantalla ancha propia (`FUN_00108bb8`, sólo toca `+0x74`). **La ranura 3 pasa a apagada por defecto** (`--con-r3`).
+
+**Estado de la máquina:** sin cambios (la nube no toca la notebook): pnach con **636 palabras**, bloque **activo**, hasta el próximo doble clic en un acceso COOP después del `git pull`, que instala **638 + la pantalla ancha**, sin la ranura 3.
 
 ## 2026-09-28 mañana, NOTEBOOK (chat) — LA TERCERA RANURA: FRÍO COMPLETO, PROTOTIPO EN VIVO Y LA FUGA CERRADA EN RAM (bitácora (93n)–(93q))
 

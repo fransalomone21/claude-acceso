@@ -100,8 +100,18 @@ $aj = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'PCSX2\gamesetting
 $ls = [Collections.Generic.List[string]]([IO.File]::ReadAllLines($aj) | Where-Object {
         $_.Trim() -notin ($mira | ForEach-Object { "Enable = $_" }) })
 if ($conMouse) { $ls.InsertRange($ls.IndexOf('[Patches]') + 1, [string[]]($mira | ForEach-Object { "Enable = $_" })) }
+
+# --- la pantalla ancha (bitacora (93t)/(93v)) --------------------------------
+# El parche comunitario 'Widescreen 16:9' reescribe en cada cuadro la proporcion de la camara de escena y
+# pisa la mitad que pone el coop entre las dos pasadas: la mitad de J2 parpadeaba comprimida. Con el coop
+# lo APAGAMOS: el bloque COOP trae su propia pantalla ancha (las mismas lineas menos esas dos, que pone el
+# stub). Solo, se PRENDE como siempre.
+$ancho = 'Enable = Widescreen 16:9'
+$ls = [Collections.Generic.List[string]]($ls | Where-Object { $_.Trim() -ne $ancho })
+if (-not $Coop) { $ls.Insert($ls.IndexOf('[Patches]') + 1, $ancho) }
 [IO.File]::WriteAllLines($aj, [string[]]$ls, (New-Object Text.UTF8Encoding($false)))
 Write-Output "Sensibilidad de mira: $(if ($conMouse) {'la del mouse (parches prendidos)'} else {'ORIGINAL (parches apagados)'})."
+Write-Output "Pantalla ancha: $(if ($Coop) {'la del coop (Widescreen 16:9 comunitario APAGADO)'} else {'Widescreen 16:9 comunitario'})."
 
 if ($Coop) { Write-Output "COOP ($Coop): pantalla dividida, J2 con el mando $(if ($Coop -eq 'teclado') {'unico'} else {'2'})." }
 
