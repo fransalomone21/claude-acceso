@@ -15,10 +15,11 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 - **Los ISO se mudaron**: `C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\BLACK\ISOs\Black.iso` (y `-mod-armas`, `-mod-7b`). La fuente es `kb/ubicaciones.json`; `ubicaciones.py` en OK. Las rutas viejas que quedan en este HANDOFF, más abajo, son historia.
 - **Accesos** en `PS2\BLACK\`: `JUGAR BLACK` (apaga el bloque), `JUGAR BLACK COOP - teclado y mando` (`JUGAR-BLACK.ps1 -Coop teclado`: prende el bloque, `[Pad1]` sin `SDL-0`, `[Pad2]` en `SDL-0`), `... - dos mandos` (`-Coop 2mandos`: `[Pad2]` en `SDL-1`). Medido en el 2.8.0 en los dos sentidos. El `RecursivePaths` del `PCSX2.ini` ya no escanea `Downloads`.
 - **(90b) banda amarilla: confirmada con control y arreglada.** La dibujaba la llamada única a `FUN_001B0AC8` del final del stub (`jal` en `0x0046FAA4`): en `nop`, la mitad derecha limpia; repuesta, vuelve. Queda en `nop` en la fuente (430 palabras, nada se corre). Por el pnach solo: 0 amarillo a los 33 y 55 s. Costo: sin tinte de daño/fundido con la pantalla partida.
-- **Pendiente de Fran:** la prueba con el mando real por el acceso COOP (pantalla partida en el 2.8.0 = `probable`; camina, gira, cabeceo, daño, fluidez).
-- **Sigue:** lo que diga Fran; los brazos flotantes (en frío: qué dibuja los brazos de un jugador, `vista-fp` K2); recarga de J2; B4–B6; docs/14.
+- **(90c/d) Fran lo jugó con dos mandos reales**: pantalla partida **confirmada** en el 2.8.0 (~60 cuadros/s). El mando 2 no movía a J2 porque el juego le da a J **el puerto que apretó Start** (J estaba en `0x00585A0C`, puerto 2) y el mod le daba a J2 `J + 0x16C` = un tercer control vacío. Arreglo: J2 toma el puerto que J no usa (434 palabras); probado en caliente en su partida → **J2 camina y gira con el otro mando, confirmado por Fran**.
+- **Abierto (lo que vio Fran):** J2 no dispara con el mando real; el aliado-títere se ve superpuesto en la cámara de J2 y J2 ve el arma de J (visibilidad por pasada); el arma de J2 no sigue la mirada como la de J1; sensibilidad rara y un mando con palancas gastadas.
+- **Sigue:** el orden está en `sesiones/RETOME-LOCAL.md` §3.
 
-**Estado de la máquina al cerrar:** PCSX2 **cerrado**, bloque **instalado y apagado** (430 palabras, con el `nop`).
+**Estado de la máquina al cerrar:** el **PCSX2 2.8.0 de Fran abierto** con su partida coop (J2 con el puerto 1 escrito en caliente). El pnach instalado puede ser el de 430 palabras: el acceso COOP lo reinstala con 434 al abrirlo.
 
 ## 2026-09-27, NOTEBOOK — LA IMAGEN DE LA PANTALLA DIVIDIDA: PROPORCIÓN Y FANTASMA (bitácora (89))
 

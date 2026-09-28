@@ -290,7 +290,11 @@ dice medido). Lo que cambió:
 - **(90) el coop con doble clic.** ISO en `Escritorio\Juegos\Juegos de emulador\PS2\BLACK\ISOs\`; accesos
   `JUGAR BLACK` (apaga el bloque) y `JUGAR BLACK COOP - teclado y mando` / `- dos mandos` (lo prenden y
   reparten los mandos en el ini). Medido en el 2.8.0.
-- **Siguiente:** que **Fran lo juegue con el mando real** (acceso COOP); los brazos flotantes
+- **(90c/d) Fran lo jugó con dos mandos**: pantalla partida confirmada; J2 camina y gira con el otro mando
+  tras el arreglo del puerto (el que aprieta Start es J1; J2 toma el otro). Abierto: J2 no dispara con el
+  mando real, el aliado-títere tapa la cámara de J2 y J2 ve el arma de J, el arma de J2 no sigue la mirada,
+  y la zona muerta con un mando gastado.
+- **Siguiente:** el disparo de J2 con el mando real; visibilidad por pasada (títere y armas); los brazos flotantes
   (J2 los ve de J y J de J2: J tampoco tiene cuerpo); la recarga de J2; B4–B6 en frío; `docs/14` +
   `coop_diseno.py`. Detalle y comandos: `sesiones/RETOME-LOCAL.md`.
 
