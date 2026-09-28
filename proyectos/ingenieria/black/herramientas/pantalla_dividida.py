@@ -25,8 +25,10 @@ Uso (desde black/):
   python herramientas/pantalla_dividida.py quitar       # en PAUSA: vuelve los 3 jal originales
   python herramientas/pantalla_dividida.py ritmo <s>    # cuantas veces por segundo se dibuja la escena
   python herramientas/pantalla_dividida.py cuat         # control: el cuaternion de J calculado vs el del juego
+  python herramientas/pantalla_dividida.py fuente-stub 1 [--prender]  # (88b) la vista de J2 la calcula el stub
+  python herramientas/pantalla_dividida.py comparar <s> # (88b) control: stub (DATOS+0x60) contra la formula
 
-Memoria: STUB 0x0046FA00..0x0046FB14, DATOS 0x0046FC00..0x0046FC94 (dentro del .bss en
+Memoria: STUB 0x0046FA00..0x0046FB90, DATOS 0x0046FC00..0x0046FC98 (dentro del .bss en
 cero 0x0046DC00..0x00472000, sin usar desde que la ranura propia no hizo falta (82)).
 """
 from __future__ import annotations
@@ -51,12 +53,51 @@ G_CAMARA = 0x0040F4BC
 G_RENDER = 0x0040F4C0
 J2 = 0x0046CDF0
 MEDIO, ENTERO = 320, 640
+SINF, COSF = 0x0029DC18, 0x0029DA28   # newlib/fdlibm del ELF, argumento en $f12, resultado en $f0 (88b)
+
+
+def _fpu(op: str, *r: int) -> str:
+    """Las pocas instrucciones de FPU que hacen falta (mips.py no las ensambla), como .word."""
+    if op == "lwc1":            # ft, off, base
+        w = 0xC4000000 | r[2] << 21 | r[0] << 16 | (r[1] & 0xFFFF)
+    elif op == "swc1":
+        w = 0xE4000000 | r[2] << 21 | r[0] << 16 | (r[1] & 0xFFFF)
+    elif op == "mtc1":          # rt, fs
+        w = 0x44800000 | r[0] << 16 | r[1] << 11
+    elif op == "mul.s":         # fd, fs, ft
+        w = 0x46000002 | r[2] << 16 | r[1] << 11 | r[0] << 6
+    else:
+        raise ValueError(op)
+    return ".word 0x%08x" % w
+
+
+T0, T1, T2, S1, SP = 8, 9, 10, 17, 29
+MEDIO_GRADO = struct.unpack("<I", struct.pack("<f", math.pi / 360))[0]   # yaw (grados) -> medio angulo (rad)
+# (88b) la vista de J2 calculada EN EL STUB, sin Python: q = (0, sin h, 0, cos h), h = yaw*pi/360, con el
+# yaw de *(J2+0x32C)+8 (grados), y el ojo J2+0x100 (w = 1). Queda en DATOS+0x60/+0x70; si DATOS+0x94 != 0
+# se copia a +0x40/+0x50, que es lo que lee la pasada 2. h se guarda en la pila (sp+0x50) entre llamadas.
+VISTA_J2 = [
+    "lui t0, 0x47", "lw t1, -0x2ee4(t0)", "beq t1, zero, NOJ2", "nop",   # *(J2+0x32C): la mira de J2
+    _fpu("lwc1", 12, 8, T1),
+    "lui t2, 0x%x" % (MEDIO_GRADO >> 16), "ori t2, t2, 0x%x" % (MEDIO_GRADO & 0xFFFF),
+    _fpu("mtc1", T2, 1), _fpu("mul.s", 12, 12, 1), _fpu("swc1", 12, 0x50, SP),
+    "jal 0x%x" % SINF, "nop", _fpu("swc1", 0, -0x39c, S1),             # +0x64 = sin h
+    _fpu("lwc1", 12, 0x50, SP),
+    "jal 0x%x" % COSF, "nop", _fpu("swc1", 0, -0x394, S1),             # +0x6C = cos h
+    "sw zero, -0x3a0(s1)", "sw zero, -0x398(s1)",
+    "lui t0, 0x47", "lq t1, -0x3110(t0)", "sq t1, -0x390(s1)",         # +0x70 = ojo (J2+0x100)
+    "lui t1, 0x3f80", "sw t1, -0x384(s1)",
+    "lw t0, -0x36c(s1)", "beq t0, zero, NOJ2", "nop",                  # +0x94: la fuente es el stub
+    "lq t1, -0x3a0(s1)", "sq t1, -0x3c0(s1)", "lq t1, -0x390(s1)", "sq t1, -0x3b0(s1)",
+    "NOJ2:",
+]
 
 FUENTE = [
     "addiu sp, sp, -96", "sd ra, 0(sp)", "sq s0, 16(sp)", "sq s1, 32(sp)", "sq s2, 48(sp)",
     "or s0, a0, zero", "lui s1, 0x47",
     "lw t0, -0x378(s1)", "addiu t0, t0, 1", "sw t0, -0x378(s1)",        # contador de llamadas
     "lw t0, -0x380(s1)", "beq t0, zero, SOLO", "nop",
+    "VISTA_J2",
     "lw s2, -0x37c(s1)", "lw t1, -0x374(s1)", "sw t1, 0xc(s2)", "sh zero, 0x1c(s2)",
     "jal 0x1297e0", "or a0, s0, zero",                                  # pasada 1: J, izquierda
     "lui t0, 0x41", "lw t0, -0xb44(t0)",
@@ -80,7 +121,7 @@ SYNC = ["lui t0, 0x41", "lw a0, -0xb40(t0)", "jal 0x1ae998", "addiu a1, zero, 1"
 def codigo() -> list[int]:
     lineas = []
     for t in FUENTE:
-        lineas.extend(SYNC if t == "SYNC" else [t])
+        lineas.extend(SYNC if t == "SYNC" else VISTA_J2 if t == "VISTA_J2" else [t])
     etiquetas, instr = {}, []
     for t in lineas:
         if t.endswith(":"):
@@ -89,9 +130,13 @@ def codigo() -> list[int]:
             instr.append(t)
     out = []
     for i, t in enumerate(instr):
+        if t.startswith(".word"):
+            out.append(int(t.split()[1], 16))
+            continue
         for k, v in etiquetas.items():
             t = t.replace(k, hex(v))
         out.append(ensamblar(t, STUB + 4 * i))
+    assert STUB + 4 * len(out) <= DATOS
     return out
 
 
@@ -211,16 +256,47 @@ def cmd_cuat(_a) -> int:
     return 0
 
 
+def cmd_fuente_stub(a) -> int:
+    """(88b) DATOS+0x94: 1 = la vista de J2 la calcula el stub; 0 = la escribe Python (vista2)."""
+    with Pine() as p:
+        p.escribir32(DATOS + 0x94, a.valor)
+        if a.prender:
+            p.escribir32(DATOS + 0x80, 1)
+        print(json.dumps({"fuente_stub": p.leer32(DATOS + 0x94), "dividida": p.leer32(DATOS + 0x80)}))
+    return 0
+
+
+def cmd_comparar(a) -> int:
+    """(88b) control numerico: lo que el stub dejo en DATOS+0x60/+0x70 contra la formula de Python."""
+    with Pine() as p:
+        peor, n = 0.0, 0
+        fin = time.time() + a.segundos
+        while True:
+            y = math.radians(p.leer_f32(p.leer32(J2 + 0x32C) + 8))
+            py = [0.0, math.sin(y / 2), 0.0, math.cos(y / 2)] + floats(p, J2 + 0x100, 3) + [1.0]
+            st = floats(p, DATOS + 0x60, 8)
+            peor, n = max(peor, max(abs(u - v) for u, v in zip(py, st))), n + 1
+            if time.time() >= fin:
+                break
+            time.sleep(0.05)
+        print(json.dumps({"muestras": n, "peor_diferencia": peor, "stub": [round(x, 4) for x in st],
+                          "python": [round(x, 4) for x in py], "llamadas": p.leer32(DATOS + 0x88)}))
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("poner"); sub.add_parser("quitar"); sub.add_parser("apagar"); sub.add_parser("cuat")
+    f = sub.add_parser("fuente-stub"); f.add_argument("valor", type=int, choices=(0, 1))
+    f.add_argument("--prender", action="store_true")
+    c = sub.add_parser("comparar"); c.add_argument("segundos", type=float)
     v = sub.add_parser("vista2"); v.add_argument("segundos", type=float); v.add_argument("--dejar", action="store_true")
     v.add_argument("--fuente", choices=("mira", "matriz", "igual-J"), default="mira")
     r = sub.add_parser("ritmo"); r.add_argument("segundos", type=float)
     a = ap.parse_args()
     return {"poner": cmd_poner, "quitar": cmd_quitar, "apagar": cmd_apagar, "vista2": cmd_vista2,
-            "ritmo": cmd_ritmo, "cuat": cmd_cuat}[a.cmd](a)
+            "ritmo": cmd_ritmo, "cuat": cmd_cuat, "fuente-stub": cmd_fuente_stub, "comparar": cmd_comparar}[a.cmd](a)
 
 
 if __name__ == "__main__":

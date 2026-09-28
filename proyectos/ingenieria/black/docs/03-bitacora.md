@@ -42,6 +42,22 @@ Corrida por PINE (`coop_mod.py poner` + selector, nivel 0/0, que es City Streets
 **No funcionó / sin explicar:** la primera caminata con títere dio 2,43 m y no 7,5: arrancó desde otro punto, al lado de una pared (la de control de la misma zona dio 0,85 m). Guarda **sin probar en rojo**: un nivel sin aliado 1 (bando ≠ 0 o `+0x328` = 0) no se midió.
 **Sigue:** (b) la vista de J2 en el stub (el cuaternión desde el yaw de su mira), (c) su cabeceo.
 
+### (88b) La vista de J2 en el stub — en frío, y la predicción
+- **El juego trae `sinf` y `cosf` de newlib/fdlibm, llamables:** `FUN_0029DC18` = `sinf` y `FUN_0029DA28` = `cosf` (la misma reducción `FUN_002A14B8` y el mismo `switch (n & 3)` con los núcleos `FUN_002A3408` = `__kernel_sinf` y `FUN_002A2960` = `__kernel_cosf`, en el orden de cada una); `FUN_0029DD08` = `tanf` (la usa la proyección con FOV/2). Las dos leen el argumento de `$f12` (`mfc1 v0, $f12`, medido con capstone). **El cálculo de la mira del jugador no las usa**: lo hace en línea con macros de VU0 (`FUN_001334E0`), así que no hay que escribir trigonometría a mano ni VU0.
+- **El cambio:** el stub de `pantalla_dividida.py` calcula en cada dibujo con la división prendida `q = (0, sin h, 0, cos h)`, `h = yaw · π/360` (el yaw de `*(J2+0x32C)+8`, en grados) y el ojo `J2+0x100` (con w = 1), en `DATOS+0x60/+0x70`; si `DATOS+0x94` = 1 lo copia a `+0x40/+0x50`, que es lo que usa la pasada 2. Con `+0x94` = 0 sigue mandando Python.
+- **Predicción:** (1) con Python escribiendo la vista (`vista2 --fuente mira`), lo que el stub deja en `+0x60/+0x70` coincide con la fórmula de Python a < 1e-4 (float contra double); (2) con `+0x94` = 1 y **sin Python**, la mitad derecha muestra la vista de J2 y **sigue** su giro (gira J2 150° → cambia la mitad derecha, no la izquierda); (3) control: `+0x94` = 0 y sin Python, la mitad derecha queda congelada en la última vista escrita.
+
+### (88b) Resultado — confirmado, en RAM y en pantalla, con control
+- **Numérico:** con Python escribiendo la vista, `comparar 3` da **peor diferencia 1,2e-7** en 60 muestras entre lo que calcula el stub (`DATOS+0x60/+0x70`) y la fórmula de Python; con el stub mandando y J2 girado, 2,9e-8. El stub pasa a **100 palabras** (`0x0046FA00..0x0046FB90`).
+- **En pantalla** (`volcados/capturas-88/b1..b5`, tira `b-tira.png`), diferencia media de gris por mitad, sin la franja del HUD:
+| par | fuente | izquierda (J) | derecha (J2) |
+|---|---|---|---|
+| b1 → b2: J2 gira 150° | stub | 2,1 | **21,5** |
+| b3 → b4: J2 gira 150° | Python quieto (control) | 0,5 | **1,5** |
+| b4 → b5: se prende el stub | stub | 4,5 | **26,4** |
+- La vista de J2 sigue **sin cabeceo** (sólo el yaw, igual que `vista2 --fuente mira`): la trae (c).
+**Sigue:** (c) el cabeceo de J2.
+
 ---
 
 ## 2026-09-27 (87) — B3.3: la baja de J2 al salir del nivel; el mod aguanta TRES cargas seguidas
