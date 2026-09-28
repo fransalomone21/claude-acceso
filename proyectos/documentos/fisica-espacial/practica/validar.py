@@ -300,6 +300,11 @@ def c_parciales():
     r3c = h / (v3_d * m.cos(rad(g3_d)))
     vc = m.sqrt(MU / ra)
     J = 500 * ra * (vc - va) * 1e6   # kg km^2/s -> kg m^2/s
+    h30 = ra * vc * m.cos(rad(30))                     # misma rapidez, gamma = 30
+    e30 = m.sqrt(1 + 2 * (-MU / (2 * ra)) * h30 ** 2 / MU ** 2)
+    rp30 = ra * (1 - e30)
+    e1 = (ra - rp) / (ra + rp)
+    g_b = deg(m.acos(m.sqrt(1 - e1 ** 2)))             # gamma en r = a_1
     # Parcialito, ej. 3
     Irot = 0.5 * 0.200 * 0.030 ** 2
     w = 3000 * 2 * m.pi / 60
@@ -354,6 +359,13 @@ def c_parciales():
             ('%s' % fmt(v3_d, 3), v3), ('%s' % fmt(g3_d, 2), g3), ('%s' % fmt(round(r3c), 0), r3c),
             ('%s' % fmt(round(r3c - RT), 0), r3c - RT), ('%s' % fmt(round(vc, 3), 3), vc),
             ('1,35 times 10^12', J), ('%s' % fmt(round((vc - va) * 1000), 0), (vc - va) * 1000),
+            # aclaracion del punto 4: energia fija a, no e
+            ('= %s$ km y' % fmt(round(a), 0), a),
+            ('= %s$ km²/s²; la' % fmt(round(-MU / (2 * a), 2), 2), -MU / (2 * a)),
+            ('= %s$ km²/s², mayor' % fmt(round(-MU / (2 * ra), 2), 2), -MU / (2 * ra)),
+            ('$e = %s$' % fmt(e30, 2), e30), ('$%s$ km del centro' % fmt(round(rp30), 0), rp30),
+            ('= %s$ km/s, la rapidez' % fmt(round(m.sqrt(MU / a), 3), 3), m.sqrt(MU / a)),
+            ('= %s°$ (muy' % fmt(round(g_b, 2), 2), g_b),
             ('%s' % fmt(round(Irot * 1e5, 1), 1), Irot * 1e5), ('%s' % fmt(round(w, 1), 1), w),
             ('%s' % fmt(round(Lg, 4), 4), Lg), ('%s' % fmt(round(tq, 3), 3), tq),
             ('%s' % fmt(round(Om, 2), 2), Om), ('%s' % fmt(round(2 * m.pi / Om, 2), 2), 2 * m.pi / Om),
