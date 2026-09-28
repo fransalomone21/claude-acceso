@@ -83,6 +83,17 @@
         ]
       },
       {
+        "sobre": "04 - TERCEROS - compartido con nombre/(la subcarpeta del CV)",
+        "rol": "writer",
+        "por-que": "el dueno del CV que armamos el 2026-09-27; lo edita el. Compartido a pedido de Fran. La subcarpeta lleva su nombre y por eso no se escribe en este repo publico.",
+        "quien-sha256": [
+          "c106ca5d5e3efcc9"
+        ],
+        "quien-etiqueta": [
+          "dueno del CV de 04 - TERCEROS"
+        ]
+      },
+      {
         "sobre": "02 - ARCHIVO - cursadas anteriores/Snapshot_Starter_SB_www.frenglish.ru.pdf",
         "rol": "writer",
         "por-que": "familiar, libro de ingles de 2021. Inocuo, pero declarado para que no cuente como hallazgo nuevo cada vez.",

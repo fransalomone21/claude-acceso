@@ -1,6 +1,11 @@
 # Estado actual — metodo-agustin
 
-**Última actualización:** 2026-09-26
+**Última actualización:** 2026-09-27
+
+**Entregado aparte (no cierra ninguna fase):** `entregables/EL-METODO.md`, la
+guía de un solo archivo para Agustín y Matías (plan gratis, sin Claude Code).
+Sin datos personales: escaneo con 0 hallazgos y control positivo con 1 hit.
+Está también en el Drive compartido con Matías, como copia de esta versión.
 
 ## Dónde estamos
 

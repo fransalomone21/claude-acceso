@@ -24,3 +24,32 @@ Hallazgo que cambió una regla del proyecto: `install.ps1` no tiene parámetro
 de destino. Probar el `install.ps1` del export en esta máquina pisaría el
 perfil de Fran, así que queda prohibido y la instalación se certifica en la
 notebook de Agustín.
+
+## 2026-09-27 — entregable aparte: la guía de un solo archivo
+
+Fran pidió pasarle la arquitectura también a **Matías**, que usa el plan
+gratis de claude.ai sin Claude Code. Pidió que fuera **un archivo** que los
+nombre a los dos, explique la primera vez y deje regular el rigor según el
+proyecto y el presupuesto. El núcleo instalable de la fase 1 no le sirve a
+Matías, así que salió `entregables/EL-METODO.md` con:
+
+- las ideas de fondo, las 12 reglas y los cuadros;
+- el PDP, las tres naturalezas y la cascada;
+- lecciones, frenos, y modelo y esfuerzo;
+- un **dial de tres niveles** (Liviano / Medio / Completo);
+- un bloque para pegar como primer mensaje o como instrucciones de Proyecto.
+
+La guía está escrita a mano, no generada, así que **no reemplaza** la fase 1:
+Agustín, para usar Claude Code, sigue necesitando el núcleo.
+
+La regla 2 del contrato ("nada sale sin el verificador del export") no se pudo
+cumplir tal cual, porque el verificador todavía no existe. Se cubrió el
+aspecto `b` (datos personales) así:
+
+- escaneo de mail, teléfono, DNI, rutas `frans` y nombres de proyectos de
+  Fran: **0** hallazgos;
+- control positivo: el mismo escaneo sobre un archivo que sí tiene un DNI da
+  1 hit;
+- la regla 5 de `verificar-estructura.ps1` da verde.
+
+Después se subió a la carpeta de Drive que se comparte con Matías.

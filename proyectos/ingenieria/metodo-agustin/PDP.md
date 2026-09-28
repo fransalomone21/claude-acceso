@@ -108,6 +108,7 @@ cuesta un dato personal publicado.
 | 2026-09-26 | Ídem | partir `perfil-global` en núcleo + capa personal en el repo de Fran | Reforma un sistema que anda por un requisito de otra persona (regla 6). La vista generada da lo mismo sin tocarlo |
 | 2026-09-26 | Sólo ida | ida y vuelta | Decisión de Fran. Saca la fase de importación |
 | 2026-09-26 | El nombre se sustituye **sólo en los archivos operativos** (los que le hablan al usuario: `CLAUDE.md`, `apertura-proyecto.md`, `recordatorio-transversal.md`, los hooks, `arranque.md`) | sustituir "Fran" en todo | En las lecciones y los pilares "Fran" es la historia del caso: reescribirlo falsea quién lo vivió |
+| 2026-09-27 | Además del núcleo, una **guía de un solo archivo** escrita a mano (`entregables/EL-METODO.md`) para Agustín y para **Matías** (plan gratis, sin Claude Code), con un dial de tres niveles de rigor | esperar al núcleo instalable | Matías no puede instalar nada: su única vía es un archivo que se sube a un chat. El núcleo sigue siendo la fase 1 para quien use Claude Code |
 | 2026-09-26 | Pasan las lecciones con triage distinto de `fuera` (230 de 248) | todas / sólo las de proyecto `general` | `fuera` ya es el triage de "de un dominio, no entra". Filtrar por proyecto tiraría lecciones de proceso: los títulos de las de `coaching` son de proceso |
 
 ## 7. Verificación
