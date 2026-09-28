@@ -44,3 +44,19 @@ Cada fila: qué se asumió, por qué hay duda, y cómo se revisa. **R** = se rev
 | B14 | Juntar: J2 con □ levanta el arma cercana a **J** | `hipótesis` del efecto | define si el diseño de F1 es el correcto | V: S1 | V |
 | B15 | Las 103 funciones del censo son una **cota inferior** | método | lo que Ghidra no nombró `DAT_0040f4d0` no sale | R: `lectores_global.py 0x0040F4D0` (por instrucciones) y comparar | R |
 | B16 | `docs/listados/107-coop-ia.txt` y `coop_ia.py` están en sincronía | al cerrar, sí | si alguien cambia el código y no el listado | R: `coop_ia.py listado` y comparar | R |
+
+## C. Resultados de la revisión en frío — (109), 2026-09-28, notebook
+
+Sin emulador. Fran cortó el bajo nivel a mitad de sesión para pasar al método: **B6, B7 y B8 quedan sin revisar**,
+a propósito. Detalle y evidencia en la entrada (109) de `docs/03-bitacora.md`.
+
+| # | Resultado (109) | Grado |
+|---|---|---|
+| B2 | **La premisa no se sostiene.** `ctrl+0x100` (= `J+0x5F0`) vale 0 en los 7 volcados, y ninguna escritura del ELF pone ahí un valor no nulo por `ctrl+0x100`, `J+0x5F0` ni `juego+0x620`. Con 0, `FUN_0013FFA0` toma la rama «personaje cualquiera»: `FUN_001354E0(J, J+0x620)` pasa J de su controlador de mando (`J+0x4F0`, clase `0x003DCC20`) al **segundo controlador embebido** `J+0x620` (clase `0x003DCA38`, `FUN_00130750`) y pone el estado 2. **Copiar `J+0x5F0` copiaría un 0.** J2 tiene los dos controladores propios, de las mismas clases. Abierto: si el fin de partida mira «al jugador» por el global. S5 rediseñada (vigilar `J+0x32C`, `J+0x38C`, `J+0x5F0` y `*(0x0040F0E0)+0x21098` al morir J) | `probable` (no se descarta una escritura por copia de bloque en el instante de la muerte) |
+| B3 | `ctrl+0x30` sólo lo leen el control (`FUN_0013F618` → `FUN_00140068`, que **baja la velocidad al agacharse**) y una función de la IA sobre su propio controlador; por `J+0x520` / `juego+0x550`, nadie. F6 no sale de un lector de `+0x30`: siguen H6a/H6b en vivo. De paso, `FUN_00140068` lee `J+0x4E4` por el global (fuga chica, clase B) | `+0x30` = agachado: `confirmado en frío` |
+| B5 | Ningún puntero a `0x0046CDDC..E4` ni a `0x004728AC` en los 7 volcados. Los accesos por instrucciones, sin medir | `probable` libre |
+| B6 | sin revisar | — |
+| B7 | sin revisar | — |
+| B8 | sin revisar | — |
+| B15 | `censo_ab.py` tenía dos huecos (J+campo pasado como argumento; el índice multiplicado por 0x8c0 escrito antes del global): **103 → 110**. Las 7 nuevas no cambian ninguna clase (HUD que ya indexa `jugadores[k]`, el objeto `J+0x3C0`, y funciones ya listadas en `docs/16`). `lectores_global.py` no veía `lqc2` (opcode 0x36): arreglado. Las dos, con prueba en rojo | `confirmado en frío` |
+| B16 | El listado coincide con el código; ahora lo exige `coop_ia.py verificar` | `confirmado` |

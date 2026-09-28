@@ -23,6 +23,16 @@ una herramienta.
 | **decidir qué hacer con el juego, qué mod sigue, o cualquier plan** | [`docs/11-programa.md`](docs/11-programa.md) (cómo se decide) y [`docs/12-estudio-de-conceptos.md`](docs/12-estudio-de-conceptos.md) (qué se puede hacer). El mapa: `python herramientas/programa.py resumen` |
 | retomar el proyecto, saber en qué anda | `ESTADO_ACTUAL.md` (entero — es corto) |
 | saber qué cierra la fase abierta, o por qué se decidió algo | `PDP.md` |
+| **retomar una tanda: el mensaje exacto de la sesión que sigue** | `sesiones/RETOME-LOCAL.md` (caliente, con emulador), `sesiones/RETOME-LOCAL-FRIO.md` (notebook sin emulador), `sesiones/RETOME-NUBE.md` (nube) |
+| qué se equivocó la tanda (98)–(108b) y qué se revisó después | `sesiones/REVISAR-98-108.md` (§C: resultados de (109)) |
+| **el proyecto COOP**: el análisis de la Fase A, el plano del mod, la tercera ranura | `docs/13-coop.md`, `docs/14-coop-diseno.md` (lo mide `coop_diseno.py`), `docs/15-tercera-ranura.md` |
+| **COOP-B: diseñar a J2 con contexto propio, y todo lo que le falta** | `docs/16-contexto-j2.md` (el diseño por pasos) y `docs/17-lo-que-falta.md` (el registro entero) |
+| el catálogo de conceptos del programa (generado, no se edita) | `docs/12-catalogo.md` (`programa.py catalogo`) |
+| el plan en frío del ELF (nube, (66)–(75)) | `docs/14-plan-elf.md` |
+| contra qué se valida todo, y cómo se prueba algo | `docs/00-conops.md` y `docs/08-experimentos.md` |
+| la IA de terceros (Kynapse) | `docs/07-ia-kynapse.md` |
+| la presentación del repo, para quien llega sin contexto | `README.md` |
+| el registro VIEJO de lecciones del proyecto (deprecado: las lecciones van al registro global) | `APRENDIZAJE.md` |
 | entender cómo se llegó a algo, o qué no funcionó antes | `docs/03-bitacora.md` |
 | buscar una dirección o rutina nueva | `docs/02-metodologia.md` |
 | configurar una máquina desde cero | `docs/01-entorno.md` |

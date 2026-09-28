@@ -9,7 +9,7 @@ Retomo BLACK EN LA NUBE, SOLO EN FRÍO (no hay emulador), después de la bitáco
 
 1. LEÉ SOLO: CLAUDE.md del proyecto; docs/16-contexto-j2.md desde «Paso 1 hecho» hasta el final; las entradas (104)–(108b) de docs/03-bitacora.md; en PDP.md la sección «Proyecto COOP — Fase B» (criterio de cierre con el punto 4 y la tabla B1–B11); el bloque coop-plan-b de docs/14; en kb/estructuras.json las entradas «jugador», «controlador_jugador», «manejador_armas» y «arma». Nada más.
 
-2. CONTROLES al empezar y antes de cada commit: python herramientas/programa.py verificar (0 rojos), python pruebas/prueba_herramientas.py (184), python herramientas/coop_diseno.py verificar (0), python pruebas/probar-coop-diseno.py (TODO BIEN, 12), python herramientas/coop_ia.py verificar (0), python herramientas/censo_ab.py --autotest.
+2. CONTROLES al empezar y antes de cada commit: python herramientas/programa.py verificar (0 rojos), python pruebas/prueba_herramientas.py (184 en Windows, 185 en la nube desde (109)), python herramientas/coop_diseno.py verificar (0), python pruebas/probar-coop-diseno.py (TODO BIEN, 12), python herramientas/coop_ia.py verificar (0), python herramientas/censo_ab.py --autotest.
 
 3. HERRAMIENTAS DE (98)–(108): coop_ia.py (la IA a los dos: `listado`/`verificar`; el modelo para escribir código en frío con capstone), censo_ab.py (el censo; --conmutables <dir…> dice si una función se puede correr con el juego conmutado a J2 − 0x30 y qué campos de la cabecera sombra pide), leer_c.py, perfil_singleton.py, desensamblar.py (capstone NO decodifica el VU0 en macro: lqc2/sqc2/vadd salen como bbit032; para eso, el C), mips.py.
 

@@ -37,13 +37,23 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); diseño del resto en frío (98)–(108) y la IA a los dos escrita (107) (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); diseño del resto en frío (98)–(108) y la IA a los dos escrita (107); revisión en frío (109): el diseño de la muerte no se sostiene (LEER ESTO PRIMERO)
 
-> **(106)–(108), 2026-09-28, NUBE — LO ÚLTIMO. Fran decidió** (el juego como con uno pero con dos): IA a los dos,
+> **(109), 2026-09-28, NOTEBOOK EN FRÍO — LO ÚLTIMO. Revisión de la tanda (98)–(108b)** (`sesiones/REVISAR-98-108.md`,
+> sección C). **La muerte hay que rediseñarla**: `ctrl+0x100` (= `J+0x5F0`) vale 0 en los 7 volcados y nada en el ELF lo
+> sube, así que «copiar `J+0x5F0` a J2» copiaría un 0; al morir con 0, el juego **cambia el controlador de J** al
+> segundo que tiene embebido en `J+0x620`, y J2 tiene los dos propios. Falta saber si el fin de partida mira al jugador
+> por el global: S5 rediseñada en `sesiones/RETOME-LOCAL.md`. **Dos herramientas tenían agujeros** (`censo_ab.py`:
+> 103 → 110 funciones, sin cambio de clases; `lectores_global.py`: no veía `lqc2`), arregladas con su prueba en rojo.
+> El agachado `ctrl+0x30` sube a `confirmado en frío` (baja la velocidad). **B6, B7 y B8 sin revisar**: Fran cortó el
+> bajo nivel para ir al método; el diagnóstico de arquitectura quedó en `arquitectura-se/docs/diagnostico-2026-09-28.md`.
+> **Sigue igual que antes: CALIENTE** (S0 la IA y las sondas), con S5 nueva.
+>
+> **(106)–(108), 2026-09-28, NUBE. Fran decidió** (el juego como con uno pero con dos): IA a los dos,
 > recogibles al primero, HUD separado con vida/munición/punto de mira propios, disparadores de J1, si muere cualquiera
 > pierden los dos, los dos con cuerpo de aliado. **La IA a los dos está escrita en frío** (`coop_ia.py`, 94 palabras,
 > cuatro sitios, verificada con capstone y contra el ELF) e **integrada apagada** (`coop_mod.py instalar --con-ia`).
-> Muerte: copiar `J+0x5F0` a J2 (pierden los dos). HUD: son páginas del sistema de menús; se hará un HUD por jugador
+> Muerte: copiar `J+0x5F0` a J2 (pierden los dos) — **no se sostiene en frío (`probable`, (109)), ver arriba**. HUD: son páginas del sistema de menús; se hará un HUD por jugador
 > dibujado por el mod. **Sigue: CALIENTE** (`sesiones/RETOME-LOCAL.md`: probar la IA S0 y las sondas S1–S5); en
 > paralelo puede ir otro FRÍO (`sesiones/RETOME-NUBE.md`: HUD, código de la ventana 1, cuerpos, V2, sub3).
 >

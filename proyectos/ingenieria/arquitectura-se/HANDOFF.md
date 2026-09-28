@@ -1,5 +1,17 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-09-28 — LO ÚLTIMO. El diagnóstico medido del método entero está en
+> [`docs/diagnostico-2026-09-28.md`](docs/diagnostico-2026-09-28.md)**: once
+> problemas (A1–A11) con su evidencia, el N² de quién le entrega qué a quién y
+> el camino crítico de la reforma (T1 → T2 → T3 → T4 → T7 → T9, ~9-16
+> sesiones a ojo). Lo pidió Fran para dedicar sesiones a reformar y dejarlo
+> sostenible. **El primero es A1**: `chequeo-de-trabajo.md` (129 KB) y
+> `pilares.md` llegan a la sesión como **2 KB de vista previa**: lo que el
+> método dice que «se lee solo» no se lee. Salió de una sesión de BLACK (109),
+> no de una sesión de este proyecto; la fase 7 sigue abierta y el diagnóstico
+> es su insumo. De paso: la fila 6 del PDP quedó marcada CERRADA (el hook
+> inyectaba «fase 6» como activa).
+
 Sesión 7 de N. **2026-09-17.** Opus, esfuerzo alto, **inline, sin un solo
 subagente** — la sexta fase seguida así. **Cero PDF extraídos.**
 

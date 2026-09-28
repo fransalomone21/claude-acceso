@@ -25,7 +25,7 @@ function G {
     param([string]$En, [string[]]$a, [string]$Fecha)
     $ErrorActionPreference = 'Continue'
     if ($Fecha) { $env:GIT_AUTHOR_DATE = $Fecha; $env:GIT_COMMITTER_DATE = $Fecha }
-    & git -C $En -c user.name=prueba -c user.email=prueba@example.invalid -c core.autocrlf=false @a *> $null
+    & git -C $En -c user.name=prueba -c user.email=prueba-sin-arroba -c core.autocrlf=false @a *> $null
     Remove-Item Env:GIT_AUTHOR_DATE, Env:GIT_COMMITTER_DATE -ErrorAction SilentlyContinue
 }
 

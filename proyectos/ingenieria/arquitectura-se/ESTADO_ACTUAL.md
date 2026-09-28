@@ -72,7 +72,24 @@ salida de la fase 7** (P10): son la misma preocupación —construir la cosa
 correcta— de los dos lados. P11 elige antes de construir; P10 mide después si
 sirvió.
 
+## 2026-09-28 — el diagnóstico medido del método entero
+
+Pedido de Fran desde una sesión de BLACK (109): los problemas de arquitectura
+de todo el sistema, medidos, para dedicarles sesiones de reforma.
+**[`docs/diagnostico-2026-09-28.md`](docs/diagnostico-2026-09-28.md)**: A1–A11,
+el N² de las interfaces (la columna *Sesión* —el único consumidor— tiene una
+entrada verificada y cinco rotas) y el camino crítico T1 → T2 → T3 → T4 → T7 →
+T9 (~9-16 sesiones, `hipótesis`). **A1 cambia la prioridad de P5:** la
+inyección no es que pese mucho, es que **no llega** — el harness muestra 2 KB
+de los 129 KB de `chequeo-de-trabajo.md` y de los 12,6 KB de `pilares.md`.
+De paso: la cascada mide ahora si todo está **al día** por git
+(`probar-cascada.ps1`), y la fila 6 del PDP quedó marcada CERRADA.
+
 ## Lo que FALTA, para la fase 7
+
+- **Atacar el diagnóstico del 2026-09-28 en el orden de su camino crítico**,
+  empezando por A1 (el presupuesto de inyección), que es la mitad de P5 que
+  faltaba, medida con un síntoma más grave que el tamaño.
 
 - **P10, el medidor de validación** — *timely / affordable / predictable /
   comprehensive* (SEH p. 165-166), contra el costo por fase ya registrado acá

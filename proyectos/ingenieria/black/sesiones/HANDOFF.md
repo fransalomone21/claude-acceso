@@ -4,6 +4,14 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(109), 2026-09-28, notebook en frío — LO ÚLTIMO.** La revisión en frío de la tanda quedó en
+> `sesiones/REVISAR-98-108.md` §C: **el diseño de la muerte no se sostiene** (`ctrl+0x100` = 0 en los 7 volcados, nada lo
+> sube; al morir, el juego pasa J a su segundo controlador `J+0x620`), dos herramientas arregladas (`censo_ab.py` 110
+> funciones, `lectores_global.py` con `lqc2`), B6/B7/B8 sin revisar (Fran pidió alto nivel). **Lo que sigue es CALIENTE:
+> `sesiones/RETOME-LOCAL.md`, con la S5 rediseñada.** El frío que quedaba (B6-B8 y el fin de partida tras el cambio de
+> controlador) va en `sesiones/RETOME-LOCAL-FRIO.md`. Controles de esta máquina: `prueba_herramientas.py` **184** en
+> Windows (185 en la nube). La cascada (`..\..\..\cascada.ps1 black`) ahora mide si todo está al día por git.
+>
 > **Para seguir en la NOTEBOOK EN FRÍO (sin emulador): `sesiones/RETOME-LOCAL-FRIO.md`**, que empieza por `sesiones/REVISAR-98-108.md` (errores corregidos de la tanda y lo que hay que revisar por las dudas).
 >
 > **(108b, nube): PDP, `docs/13`, `ESTADO_ACTUAL` y contrato en concordancia con las decisiones de Fran y el trabajo de (96)–(108)** (la B amplió su alcance: criterio punto 4 y filas B8–B11). Lo que la nube no pudo correr (PowerShell y `aprender.py`) está en el paso 2b de `sesiones/RETOME-LOCAL.md`.
