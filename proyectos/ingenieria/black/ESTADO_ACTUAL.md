@@ -39,7 +39,21 @@ decía.
 
 ## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88) (LEER ESTO PRIMERO)
 
-> **(97), 2026-09-28 noche — LO ÚLTIMO.** `docs/17-lo-que-falta.md`: **todo lo que le falta al coop**, en
+> **(98)–(105), 2026-09-28, NUBE — LO ÚLTIMO. La concepción y el diseño de COOP-B, sin código.** El censo
+> (`censo_ab.py`): 103 funciones preguntan por «el jugador» por el global. Cada cosa que le falta a J2 quedó con su
+> mecanismo leído en frío, sus alternativas y una elección: **la IA no ve a J2** porque «ver» recorre J + 16 agentes
+> (elegido: J2 en las dos puertas); **J2 junta el arma que está cerca de J** (candidato único; elegido: preguntar
+> también por J2 con el juego conmutado); **el disparo de J2 no suena** porque su sonido vive en `V` y el aislador la
+> saltea (elegido: `V2` propia, construida, no clonada); **la mezcla de armas entre mitades** sería el **modelo del
+> arma** que la ranura 3 comparte con J (el índice, no el puerto; elegido: sub propio); **HUD**: mini HUD de J2 hecho
+> por el mod. Cinco primitivas (pasar, conmutar el juego, conmutar el contexto, difundir, silenciar). El **Paso 6** de
+> `docs/16` junta todo en dos ventanas que ya existen y cuatro sitios nuevos; su memoria y sitios están en el bloque
+> `coop-plan-b` de `docs/14`, que `coop_diseno.py` (regla 6) verifica contra el ELF. **Sigue:** las cinco sondas del
+> concepto en la notebook, sin código nuevo (`sesiones/RETOME-LOCAL.md`), y el frío que queda
+> (`sesiones/RETOME-NUBE.md`: recetas de `V2` y del sub3, el zoom, el mini HUD). **Cinco preguntas para Fran** en
+> `docs/16`, Paso 6.
+>
+> **(97), 2026-09-28 noche.** `docs/17-lo-que-falta.md`: **todo lo que le falta al coop**, en
 > tres clases (lo que J2 *tiene*, lo que el mundo le *pregunta*, lo que se *ve* del otro): 12 vistas (entre ellas
 > J2 no junta armas y J1 no tiene cuerpo en la mitad de J2) y 18 sospechadas (¿la IA le apunta a J2?, disparadores
 > del guion, carga por zonas, Parsec nunca probado). Lo que sigue es **frío en la nube**: `sesiones/RETOME-NUBE.md`

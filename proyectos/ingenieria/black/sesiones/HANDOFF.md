@@ -4,6 +4,15 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(98)–(105) MANDA (nube, 2026-09-28): la concepción y el diseño de COOP-B están cerrados en `docs/16`
+> («Paso 1 hecho» … «Paso 6»), sin código.** Lo siguiente en la NOTEBOOK: `sesiones/RETOME-LOCAL.md` (cinco
+> sondas del concepto que no piden código nuevo: juntar, el índice del sub, el agachado, el sonido con
+> `--sin-aislar`, `ctrl+0x100`). Lo siguiente en la NUBE: `sesiones/RETOME-NUBE.md` (R1–R8: los estados de la
+> vista, las recetas de `V2` y del sub3, el zoom, el mini HUD, lo que queda de la IA; el MIPS de la IA al final).
+> Herramienta nueva `censo_ab.py` (`--autotest`, `--conmutables`); `coop_diseno.py` con regla 6 (el bloque
+> `coop-plan-b` de `docs/14`: 4 sitios verificados contra el ELF, 13 reservas) y su saboteador en 10 de 10. Sin
+> cambios en la máquina (la nube no la toca). Cinco preguntas para Fran en `docs/16`, Paso 6.
+>
 > **(97) MANDA, EN LA NUBE: `sesiones/RETOME-NUBE.md` (el mensaje para pegar), `docs/17-lo-que-falta.md` (la
 > lista de trabajo: F1–F12 vistos, N1–N18 sospechados, en clases A/B/C) y `docs/16-contexto-j2.md` (el plan).**
 > Sin cambios en la máquina desde (96). `black-datos` en 77aceb5 (suma las hojas y eventos de los videos de (96)).
