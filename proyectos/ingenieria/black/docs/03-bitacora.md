@@ -16,6 +16,24 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (98, nube) — T1, el censo A/B: 103 funciones preguntan por «el jugador» por el global, y F1, F6, N3 y N4 cambian de forma
+**Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR: separar A de B) · **Nodos:** `pickups`, `disparadores`, `hud`, `audio`, `ia` (sin cambio de K: todo en frío)
+**Objetivo:** T1 de `RETOME-NUBE`: toda lectura de «el jugador» que no cuelga de J, clasificada en A (lo que J tiene), B (lo que el mundo pregunta), C (compartido).
+
+- **Herramienta nueva `censo_ab.py`** (`--autotest`: control positivo sobre los disparadores de (73) y el alta de (82), 2 de 2): lee el C y junta el global del juego con desplazamiento dentro de `jugadores[0]`, `jugadores[k]` y la cuenta. **103 funciones** (`confirmado en frío`, cota inferior). La tabla, con clases y filas, quedó en `docs/16` («Paso 1 hecho»).
+- **F1 (juntar) es B con un lugar compartido** (`confirmado en frío`): `FUN_00126328` (por cuadro) busca alrededor de `J+0xA0` y `FUN_00127118` decide con la altura, la vida y las armas **de J**; el arma candidata va a **un** lugar, `pickups+0x5848`. El control de cada jugador (`FUN_0013F618`, acción `0xD`) la toma para **su** jugador (`ctrl+0x7C`): J2 apretando □ juntaría el arma cercana a J (`hipótesis` del efecto).
+- **F6 (agachado) no es un singleton** (`confirmado en frío`): es `ctrl+0x30`, lo escribe el mismo `FUN_0013F618` por jugador (acción `0xC`, `ctrl+0xF2` = alterno); lo único único es el ícono (`FUN_001F2CD0`). Por qué «se agachan los dos» queda abierto para T6.
+- **N3 = N4** (`probable`): no hay carga por distancia (las «unidades» `0x0040F534/538` son listas de animación por cuadro); el guion lo mueven los **disparadores**, que prueban sólo `J+0x190`/`J+0x2E8` (siete formas de volumen) y al entrar/salir activan objetos o le avisan a la IA (`FUN_00169D48` → `FUN_0018D698`).
+- **N1 tiene dónde mirar**: la IA propia de Criterion (`0x0017–0x0019`, fuera de Kynapse) recibe **J como blanco** en al menos seis funciones (`FUN_00189740(ia, J, 1)`, `ia[3] = J`, …). T2.
+- **`V` cuelga de un contexto de efectos único** `X = *(0x0040F510+0xCBD8)` = `0x00656000` en los 4 volcados, construido una vez al arrancar (`FUN_001D5828` → `FUN_001E82A8`); `X+0x30` es el emisor de los sonidos «del jugador» (juntar, curarse). T4.
+- **Nuevos N19** (la vida baja de J2 prende el efecto de vida baja del HUD único: la actualización de cada jugador llama `FUN_001F2C98/FUN_001F2A60`) y **N20** (efectos del mundo alrededor de J).
+- **Controles** en la nube: `programa.py verificar` 0 rojos; `prueba_herramientas.py` **184** (una más que las 183 del retome: no es rojo); `coop_diseno.py verificar` 0; `probar-coop-diseno.py` TODO BIEN.
+
+**No funcionó:** `desensamblar.py` (capstone) no decodifica las instrucciones del VU0 en macro (`lqc2`/`sqc2`/`vadd`: salen como `bbit032` de Octeon), así que la forma que se le pasa a la consulta espacial `FUN_00273568` (un registro de 128 bits) no se pudo leer en las instrucciones: queda en el C.
+**Sigue:** T2 (la IA y el blanco).
+
+---
+
 ## 2026-09-28 (97) — Lo que le falta al coop, entero y en tres clases; la nube preparada para el frío
 **Máquina:** notebook (sin emulador) · **Modelo:** Opus, bajo, sin fan-out · **Sirve a:** COOP-B (la PDR necesita la lista completa) · **Nodos:** ninguno
 **Objetivo:** pedido de Fran: registrar todo lo que falta, sumar lo que no se le ocurrió a nadie, y dejar la nube lista para avanzar en frío.
