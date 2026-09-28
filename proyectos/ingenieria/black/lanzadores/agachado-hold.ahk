@@ -21,6 +21,10 @@ global MODO_TOGGLE := true
 
 ; Shift esta mapeado a L2 en PCSX2 (ver herramientas/configurar-controles.ps1).
 ; Solo actua con la ventana del emulador al frente: fuera de ahi, Shift es Shift.
+; Ctrl+Alt+G: graba 20 s de pantalla para que Claude lo mire (grabar-gameplay.ps1, bitacora (93x)). Anda en
+; cualquier ventana. Pita al empezar y al terminar; lo deja en black\volcados\video\<fecha-hora>\.
+^!g:: Run 'powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "' A_ScriptDir '\grabar-gameplay.ps1" -Segundos 20', A_ScriptDir, "Hide"
+
 #HotIf WinActive("ahk_exe pcsx2-qt.exe") && MODO_TOGGLE
 
 $LShift:: {

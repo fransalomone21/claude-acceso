@@ -27,6 +27,8 @@ sólo teclado/mouse y `[Pad2]` en `SDL-0`; sin `-Coop`, cero líneas del coop en
 el emulog y `[Pad2]` vuelve a `SDL-1`. Que la pantalla se divida en **este**
 emulador es `probable`, no `confirmado`: lo de (88)–(89) se vio en el fork MCP.
 
+**Grabar para Claude** (bitácora (93x)): **Ctrl+Alt+G** mientras se juega graba 20 s (pita al empezar y al terminar); sin AutoHotkey, el acceso «BLACK - Grabar 20 s». Queda en `volcados/video/<fecha-hora>/` con hojas de contacto que la sesión local mira.
+
 **Start saltea los videos** (2026-09-28, bitácora (93w); sin probar todavía en la notebook): en **todos** los accesos se instala y se prende el bloque `Saltear videos con Start`. Apretar Start en cualquiera de los dos mandos mientras corre un video (la intro, los de antes de cada nivel) lo corta como si hubiera terminado; el video de fondo del menú no se corta.
 
 **La pantalla ancha, distinta en coop** (2026-09-28, bitácoras (93t)/(93v); sin probar todavía en la notebook): los dos accesos `COOP` **apagan** el parche comunitario `Widescreen 16:9` y el bloque del coop trae su propia pantalla ancha (las mismas líneas, menos las dos que pisaban la mitad de la pantalla partida: por eso la mitad de J2 parpadeaba comprimida cuando J2 disparaba). `JUGAR BLACK` (solo) lo **vuelve a prender**. Si se juega el coop con el comunitario prendido a mano, vuelve el parpadeo.

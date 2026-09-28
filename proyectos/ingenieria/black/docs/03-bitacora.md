@@ -16,6 +16,19 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93x) — Grabar el gameplay para que Claude lo mire: 20 s con Ctrl+Alt+G, en hojas de contacto
+**Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** jugar y medir (pedido de Fran: que Claude pueda ver su partida) · **Nodos:** `emu-imagen` (herramienta; sin cambio de K)
+**Objetivo:** que Fran grabe unos segundos jugando y la sesión local los analice.
+
+- **`lanzadores/grabar-gameplay.ps1`**: graba con ffmpeg (ya instalado, `Gyan.FFmpeg`), primero con `ddagrab` (Desktop Duplication, agarra la ventana del emulador a pantalla completa) y si falla con `gdigrab`; deja en `volcados/video/<fecha-hora>/` el `.mp4`, **hojas de contacto** (`hojas/hoja_NN.png`, 12 cuadros por hoja, 2 por segundo, con la hora del video) y **cuadros sueltos** (`cuadros/c_NNN.png`, 4 por segundo). Claude no ve video: ve imágenes, y una hoja muestra 6 s de un vistazo. Pita al empezar y al terminar.
+- **Atajo Ctrl+Alt+G** en `agachado-hold.ahk` (lo levanta `JUGAR-BLACK.ps1`): graba 20 s sin salir del juego. Sin AutoHotkey: el acceso **«BLACK - Grabar 20 s»** (espera 5 s para volver al juego).
+- **El retome local** abre con un apartado «LO QUE VI PROBANDO EL COOP» que escribe Fran, y la regla de registrar lo aprendido clasificado por tipo (rutinas / mapa-memoria / estructuras) y área (`area` = nodo de `subsistemas.json`).
+- Sin PowerShell en la nube: no se corrió (`hipótesis` que `ddagrab` ande con el PCSX2 de Fran; si no, cae a `gdigrab`).
+**No funcionó:** nada.
+**Sigue:** Fran juega, graba y escribe lo que vio; la sesión local lo analiza.
+
+---
+
 ## 2026-09-28 (93w) — Start saltea cualquier video (bloque propio, en todos los accesos) y lo aprendido de esta tanda, al kb clasificado
 **Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** jugar (pedido de Fran: saltear la intro y los videos de antes de cada nivel) · **Nodos:** `front-end`, `entrada` (evidencia en frío; sin cambio de K)
 **Objetivo:** que Start saltee los videos, también la intro que el juego no deja saltear sin un nivel completado; y registrar lo aprendido.

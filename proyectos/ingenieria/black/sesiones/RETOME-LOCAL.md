@@ -7,6 +7,8 @@ Retomo BLACK en LOCAL (notebook), después de la tanda en frío de la NUBE: bit�
 
 0. git pull en claude-acceso y en C:\Users\frans\black-datos. El último commit que tocó proyectos/ingenieria/black tiene que ser el cierre de la nube (93w) o posterior; si no, pará.
 
+0b. LO QUE VIO FRAN (está al final de este mensaje, en «LO QUE VI PROBANDO EL COOP»): leelo ANTES que nada; manda sobre el orden de abajo. Si hay grabaciones en proyectos/ingenieria/black/volcados/video/<fecha-hora>/ (las hace lanzadores/grabar-gameplay.ps1 o Ctrl+Alt+G mientras se juega), mirá primero sus hojas (hojas/hoja_NN.png: 12 cuadros cada una, 2 por segundo, con la hora) y después, del momento que interese, los cuadros sueltos (cuadros/c_NNN.png, 4 por segundo). Anotá qué se ve y en qué segundo, y convertí cada cosa rara en una pregunta medible (qué dirección, qué función, qué sonda) antes de tocar nada.
+
 1. Leé SOLO: las entradas (93s) a (93w) de docs/03-bitacora.md (arriba de todo), docs/15-tercera-ranura.md (la sección «Para el pnach — lo que quedó en el código (93s)») y, de herramientas/coop_mod.py, el bloque de la ranura 3 (R3_POR_CUADRO_MOD, R3_ENVOLTORIO_MOD, R3_BAJA_MOD, ranura3()). Si hay entradas más nuevas en la bitácora, leelas: manda la bitácora.
 
 2. Controles: .\proyectos\ingenieria\black\abrir-sesion.ps1 -Rapido, python herramientas/programa.py verificar (0 rojos), python pruebas/prueba_herramientas.py (184), python herramientas/coop_diseno.py verificar (0), python pruebas/probar-coop-diseno.py (TODO BIEN), python herramientas/parpadeo_escala.py --autotest (BIEN).
@@ -43,5 +45,16 @@ YA HECHO, NO REHACER: (85)–(93r); (93s) el código de la ranura 3 (en frío: e
    - Dos cuerpos de colisión EXACTAMENTE en el mismo punto cuelgan el EE en FUN_0033DD98. Breakpoints de ejecución tiran el emulador (usar vigilante de lectura sobre una bandera). Un «cartel eterno» al cargar no es una espera: muestreá el PC. No apretes Start en pleno juego. Los savestates tienen a J en el puerto 1. UNA sola conexión PINE a la vez. Commits con mensaje en archivo, sin BOM y sin «J:».
    - Un volcado «en pausa» puede caer A MITAD de la escena (el de (93r) fuego-1 cayó dentro de la pasada 1: DATOS+0x3C = 1). Antes de comparar volcados, mirá DATOS+0x3C.
    - Memoria (la tabla que manda es el bloque coop-rangos de docs/14): ranura 3 datos 0x0046E0B0..0x0046E0CC (fuera del pnach), R3 0x0046E100..0x0046E340, por cuadro 0x0046E340..0x0046E484, envoltorio 0x0046E4A0..0x0046E578, desarme hasta 0x0046DDC0. Libre: 0x0046E580..0x0046F700 (0x0046F700..0x0046F7F4 es de Saltear videos con Start, (93w)).
+9b. TODO LO APRENDIDO SE REGISTRA CLASIFICADO (pedido de Fran): por TIPO en kb/rutinas.json (código: qué hace, convención, puntos de parche), kb/mapa-memoria.json (datos y direcciones), kb/estructuras.json (formas de objetos, campo por campo), y por ÁREA con el campo "area" = el id del nodo de kb/subsistemas.json (render, front-end, entrada, personajes, flujo, armas…); cada entrada con su grado de evidencia. Las K de subsistemas.json sólo suben con efecto visto en vivo.
 9. Checkpoint después de CADA sonda: bitácora + kb/subsistemas.json + commit + push a main. Al parar: ESTADO_ACTUAL + HANDOFF + este mensaje.
+
+LO QUE VI PROBANDO EL COOP (lo escribe Fran; si está vacío, preguntale antes de empezar):
+- Acceso que usé (dos mandos / teclado y mando):
+- Pantalla partida (¿16:9 sin estirar? ¿la mitad de J2 se comprime cuando dispara?):
+- Fluidez (¿se traba? ¿dónde?):
+- J2 (camina, apunta, dispara, recarga, cambia de arma, se ve su cuerpo):
+- Videos (¿Start los saltea? la intro / el de antes del nivel):
+- Nivel(es) que probé y qué pasó al cargar o cambiar de nivel:
+- Cosas raras (qué, en qué nivel, en qué momento):
+- Grabaciones (la carpeta de volcados/video/ y en qué segundo mirar):
 ```
