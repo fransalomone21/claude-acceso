@@ -16,6 +16,30 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93e) — Toda la campaña con el coop, por el pnach solo: los 8 niveles se arman, se parten y cargan seguidos
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3 en la campaña, pedido de Fran; R1 y R6 de `docs/14`) · **Nodos:** `codigo-nuevo` (entrega)
+**Objetivo:** tramo e), con el arreglo de (93c).
+
+- **Corrida** (`campana_coop.py`, bloque de **514 palabras** instalado y activo, sin `poner` ni Python del mod; `volcados/campana/campana.json`, capturas `n<i>-quieto/-camino.png`, hoja `tira-campana.png`). Wilderness de la corrida del arreglo; Town → City Streets en **una sola corrida**, cada nivel cargado desde el anterior (7 cargas seguidas: `moldes` 7, `desarmes` 6, sin relanzar):
+  | nivel | se arma (s) | al juego (s) | J2 a J (m) | títere (bando, sigue a J2) | stub pantalla /2 s | oculto p1 / p2 | camina (m) | la carga siguiente |
+  |---|---|---|---|---|---|---|---|---|
+  | 1 Wilderness | 12,4 | 13,9 | 1,02 | 0, no (115 m) | 73 | 73 / 0 | 11,2 | ok |
+  | 2 Town | 11,2 | 12,7 | 1,00 | 1, no (181 m) | 97 | 0 / 0 | 14,8 | ok |
+  | 3 Steelworks | 13,2 | 14,8 | 1,08 | 1, no (90 m) | 45 | 0 / 0 | 2,7 | ok |
+  | 4 Asylum | 13,2 | 14,7 | 1,00 | 0, sí (≤ 0,15 m) | 48 | 0 / 48 | 6,9 | ok |
+  | 5 Docks | 13,2 | 14,7 | 1,00 | 0, sí (≤ 0,16 m) | 57 | 0 / 58 | 4,5 | ok |
+  | 6 City Bridge | 12,2 | 13,7 | 1,00 | 0, sí (≤ 0,39 m) | 47 | 47 / 47 | 6,9 | ok |
+  | 7 Gulag | 12,2 | 13,7 | 1,00 | 0, no (228 m) | 65 | 0 / 0 | 10,1 | ok |
+  | 0 City Streets | 12,2 | 13,7 | 1,06 | 0, sí (≤ 0,16 m) | 122 | 0 / 123 | 10,1 | ok |
+
+  **Los 8 niveles de la campaña: J2 se arma, llegan al juego, J2 camina con `manos`, la pantalla se parte** (vista en las 8 capturas) **y el nivel siguiente carga sin cuelgue** (`confirmado` por efecto, en el fork; el 2.8.0 de Fran no se tocó). Los dibujos por segundo de la pantalla partida van de ~23 a ~61 según el nivel (el stub cuenta una llamada por cuadro). En City Bridge se ve el filtro de (93b) trabajando: J ve al soldado-títere donde está J2 y los brazos flotantes de J2 no se dibujan (47 ocultos en 2 s).
+- **El títere anda en 4 de 8.** En Town y Steelworks el aliado 1 del pool es **enemigo** (bando 1): la guarda de `TITERE_MOD` no lo toca (bien: no se roba un enemigo). En Wilderness y Gulag es bando 0 pero **no sigue** a J2 aunque el stub copie la matriz (TITERES sube): hipótesis, un actor sin alta en el nivel (sin dibujo ni física). Es trabajo de diseño: elegir el títere por nivel (buscar un aliado vivo, o dar de alta uno).
+- **La herramienta, corregida:** esperaba el juego apretando Start cada 20 s; en Town eso abrió la pausa en pleno juego (el por cuadro de J2 frenó y la vista no giró). Ahora espera sólo a que el por cuadro de J2 corra, sin apretar nada.
+**No funcionó:** la primera corrida de Town (la de los Start).
+**Sigue:** el títere por nivel; B5 (vida de J2 en 0).
+
+---
+
 ## 2026-09-28 (93d) — El plano del mod (`docs/14-coop-diseno.md`) con su verificador, y la IA frente a J2 en frío
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, punto 3 del criterio: el documento de diseño; punto 2: B4 y B6) · **Nodos:** `ia` (evidencia; sin cambio de K), `disparadores` (política)
 **Objetivo:** tramo f).

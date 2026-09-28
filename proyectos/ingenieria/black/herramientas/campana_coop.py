@@ -100,22 +100,16 @@ def probar_nivel(n):
     if armado is None:
         res["cuelga_o_no_arma"] = True
         return res
-    # los niveles con presentacion (el cartel con el nombre, cinematicas) no corren el por cuadro hasta el
-    # juego: se espera a que TITERES suba y, pasados 30 s, se aprieta Start (boton 8 del falso) cada 20 s
-    t_juego, starts, t_ult = time.time(), 0, None
-    while time.time() - t_juego < 240:
+    # se espera el juego: el por cuadro de J2 corre (CONTADOR sube). (93e) Sin apretar nada: los "carteles
+    # eternos" eran el EE caido (93c), y Start en pleno juego abre la pausa y frena el por cuadro.
+    t_juego, starts = time.time(), 0
+    while time.time() - t_juego < 120:
         with Pine() as p:
-            t_a = p.leer32(cm.TITERES)
+            t_a = p.leer32(cm.CONTADOR)
         time.sleep(1.5)
         with Pine() as p:
-            if p.leer32(cm.TITERES) - t_a > 30:
+            if p.leer32(cm.CONTADOR) - t_a > 5:
                 break
-            esp = time.time() - t_juego
-            if esp > 30 and (t_ult is None or time.time() - t_ult > 20):
-                if p.leer32(sc.CTRL1 + 0xC) != sc.FALSO:
-                    sc.falso_poner(p)
-                sc.poner_boton(p, 8, True); time.sleep(0.15); sc.poner_boton(p, 8, False)
-                starts, t_ult = starts + 1, time.time()
     else:
         res["juego_no_arranca"] = True
     res["juego_s"] = round(time.time() - t_acept, 1)
