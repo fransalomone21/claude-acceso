@@ -12,7 +12,8 @@
   "archivos": [
     {
       "clave": "iso_original_black",
-      "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black.iso",
+      "ruta": "C:\\Users\\frans\\Desktop\\Juegos\\Juegos de emulador\\PS2\\BLACK\\ISOs\\Black.iso",
+      "_ruta_vieja": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black.iso -- mudado en la bitacora (90) de BLACK, 2026-09-27; la huella (tam, mtime) medida igual el 2026-09-28",
       "nombre": "Black.iso",
       "tam": 3919609856,
       "mtime_utc": "2016-03-24T05:56:28Z",
