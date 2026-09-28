@@ -375,9 +375,12 @@ def programas():
                         "gancho del desarme: jal baja (era jal 0x12bfc8)"))
     progs = [("envoltorio", env), ("por cuadro", pc), ("desarme", des)]
     if not SIN_PANTALLA:
-        progs += [("pantalla", pant), ("pantalla datos", pant_datos)]
+        filtro = [(pd.FILTRO + 4 * i, w, t) for i, (w, t) in enumerate(zip(pd.codigo_filtro(), pd.FILTRO_FUENTE))]
+        progs += [("pantalla", pant), ("pantalla datos", pant_datos), ("filtro del tinte", filtro)]
         ganchos += [(s, ensamblar("jal 0x%x" % pd.STUB, s), "gancho de la escena: jal pantalla (era jal 0x1297e0)")
                     for s in pd.SITIOS]
+        ganchos.append((pd.SITIO_FILTRO, ensamblar("jal 0x%x" % pd.FILTRO, pd.SITIO_FILTRO),
+                        "gancho del tinte: jal filtro (era jal 0x1b0ac8) (89b)"))
     return progs + [("ganchos", ganchos)]
 
 
@@ -409,7 +412,8 @@ def cmd_poner(a):
     with Pine() as p:
         if (p.leer32(g.SITIO) != g.ORIGINAL or p.leer32(j2.SITIO_CARGA) != j2.ORIGINAL_CARGA
                 or p.leer32(SITIO_DESARME) != ORIGINAL_DESARME
-                or any(p.leer32(s) != pd.ORIGINAL for s in pd.SITIOS)):
+                or any(p.leer32(s) != pd.ORIGINAL for s in pd.SITIOS)
+                or p.leer32(pd.SITIO_FILTRO) != ensamblar("jal 0x1b0ac8", pd.SITIO_FILTRO)):
             print(json.dumps({"error": "un gancho ya esta puesto o el sitio cambio",
                               "por_cuadro": hex(p.leer32(g.SITIO)), "cargador": hex(p.leer32(j2.SITIO_CARGA)),
                               "desarme": hex(p.leer32(SITIO_DESARME))}))
@@ -505,6 +509,7 @@ def cmd_quitar(_a):
         p.escribir32(SITIO_DESARME, ORIGINAL_DESARME)
         for s in pd.SITIOS:
             p.escribir32(s, pd.ORIGINAL)
+        p.escribir32(pd.SITIO_FILTRO, ensamblar("jal 0x1b0ac8", pd.SITIO_FILTRO))
     return 0
 
 

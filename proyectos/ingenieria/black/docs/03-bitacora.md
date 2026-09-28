@@ -35,6 +35,22 @@ Ruido entre dos capturas enteras seguidas: 8,2. A ojo: ventanas y mesa en propor
 - **Visto de paso:** el tinte amarillo del HUD («fantasma») aparece en **las dos** mitades, no sólo en la derecha. Es lo siguiente.
 **Sigue:** el HUD por mitad (qué dibuja ese efecto de pantalla completa, en frío).
 
+### (89b) El «fantasma»: quién lo dibuja, y el arreglo — predicción
+- **Sondeo por efecto** (`fantasma.py`: de a una, 9 llamadas de `FUN_001297E0` pasadas a `nop` con la división prendida, captura, restaurar; tira `capturas-89/f-tira.png`): sólo con **`FUN_001B0AC8(R+0xD290)`** (`jal` en `0x00129AD0`) apagado la imagen sale limpia, sin las rayas amarillas ni el «015» fantasma; las otras ocho (`1B0260`, `1B1DC0`, `1AF768(…,6)`, `1BE4C0`, `1B1E00`, `1AE5A0`, `110430`, `1AE5C8`) no lo tocan. En frío: `FUN_001B0AC8` arma un color (con `DAT_0040F528+0x60` y `param+0x28`) y dibuja dos quads a pantalla completa (`FUN_001CFB50`): el tinte de fundidos y daño. Dentro de cada pasada, con el sub-raster a media anchura, cada mitad recibe el efecto entero. Grado: identificado por efecto con el control de las otras ocho; el mecanismo exacto del «015» (si el quad lleva textura del cuadro anterior) es hipótesis.
+- De paso: la **primera** corrida de la sonda mató a PCSX2 entero justo después de la captura base, **antes de tocar nada** (emulog sin error, proceso ausente). Repetida idéntica, completó. Sin explicar.
+- **El arreglo:** un filtro (`0x0046FB00`) en el `jal` de `0x00129AD0`: si `DATOS+0x3C` ≠ 0 vuelve sin dibujar, si no salta a `FUN_001B0AC8`. El stub de la pantalla pone `+0x3C` = 1 durante las dos pasadas, lo baja, restaura el raster entero y llama **una vez** a `FUN_001B0AC8(R+0xD290)` a pantalla completa.
+- **Predicción:** con el arreglo, la captura dividida se parece a la del `nop` (sin fantasma) y no a la base; el tinte de daño sigue apareciendo a pantalla completa cuando a J le pegan (no se prueba acá).
+
+### (89b) Resultado — confirmado en pantalla, con control
+`filtro89b.py` (el stub repuesto sin riesgo: `quitar` → esperar → `poner` en pausa), mismo cuadro, alternando la palabra de `0x00129AD0`; diferencia media sin la franja del HUD:
+| | contra el `nop` |
+|---|---|
+| **con el filtro** | **1,0** |
+| original (control) | 8,1 |
+| filtro contra filtro, segundos después (ruido) | 5,7 |
+A ojo (`capturas-89/g-tira.png`): con el filtro y con el `nop` la imagen sale limpia; con la original, el tinte amarillo y el «015» fantasma. El bloque suma el filtro (8 palabras, `0x0046FB00`) y su gancho; la pantalla, 181 palabras (`..0x0046FAD4`).
+- **Sin probar:** que el tinte de daño o de fundido siga viéndose a pantalla completa con la llamada única (en una escena quieta la llamada única no deja marca visible, coherente con un efecto que mezcla el cuadro anterior: hipótesis).
+
 ---
 
 ## 2026-09-27 (88) — B2b en el stub: el títere de J2 sin PINE

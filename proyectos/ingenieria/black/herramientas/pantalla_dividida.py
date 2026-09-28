@@ -130,6 +130,7 @@ FUENTE = [
     _fpu("lwc1", 5, 0x74, T0), _fpu("mul.s", 5, 5, 1), _fpu("swc1", 5, 0x74, T0),
     "SYNC",
     "SINPROP:",
+    "addiu t2, zero, 1", "sw t2, -0x3c4(s1)",                          # (89b) DATOS+0x3C: en pasada dividida
     "jal 0x1297e0", "or a0, s0, zero",                                  # pasada 1: J, izquierda
     "lui t0, 0x41", "lw t0, -0xb44(t0)",
     "lq t1, 0x710(t0)", "sq t1, -0x400(s1)", "lq t1, 0x720(t0)", "sq t1, -0x3f0(s1)",
@@ -142,13 +143,30 @@ FUENTE = [
     "lui t0, 0x41", "lw t0, -0xb40(t0)", "ori t1, zero, 0xd400", "addu t0, t0, t1",   # (89) proporcion
     "lw t2, -0x3d0(s1)", "sw t2, 0x70(t0)", "lw t2, -0x3cc(s1)", "sw t2, 0x74(t0)",
     "SYNC",
-    "lw t1, -0x370(s1)", "sw t1, 0xc(s2)", "b FIN", "sh zero, 0x1c(s2)",
+    "lw t1, -0x370(s1)", "sw t1, 0xc(s2)", "sh zero, 0x1c(s2)",
+    # (89b) el tinte de pantalla completa, UNA vez y con el raster entero (el filtro lo salteo en las pasadas)
+    "sw zero, -0x3c4(s1)",
+    "lui t0, 0x41", "lw a0, -0xb40(t0)", "ori t1, zero, 0xd290", "jal 0x1b0ac8", "addu a0, a0, t1",
+    "b FIN", "nop",
     "SOLO:", "jal 0x1297e0", "or a0, s0, zero",
     "FIN:", "ld ra, 0(sp)", "lq s0, 16(sp)", "lq s1, 32(sp)", "lq s2, 48(sp)",
     "jr ra", "addiu sp, sp, 96",
 ]
 SYNC = ["lui t0, 0x41", "lw a0, -0xb40(t0)", "jal 0x1ae998", "addiu a1, zero, 1",
         "lui t0, 0x41", "lw a0, -0xb40(t0)", "ori t1, zero, 0xd400", "jal 0x1b0948", "addu a0, a0, t1"]
+
+
+# (89b) EL FILTRO del tinte a pantalla completa FUN_001B0AC8(R+0xD290), cuyo jal esta en 0x00129AD0 dentro de
+# FUN_001297E0: durante las pasadas divididas (DATOS+0x3C != 0) vuelve sin dibujar; si no, salta a la original
+# con a0 intacto. Sin esto cada mitad recibe el efecto entero (el "fantasma" amarillo con el HUD adentro).
+FILTRO = 0x0046FB00
+SITIO_FILTRO = 0x00129AD0
+FILTRO_FUENTE = ["lui t0, 0x47", "lw t0, -0x3c4(t0)", "bne t0, zero, 0x%x" % (FILTRO + 0x18), "nop",
+                 "j 0x1b0ac8", "nop", "jr ra", "nop"]
+
+
+def codigo_filtro() -> list[int]:
+    return [ensamblar(t, FILTRO + 4 * i) for i, t in enumerate(FILTRO_FUENTE)]
 
 
 def codigo() -> list[int]:
@@ -169,7 +187,7 @@ def codigo() -> list[int]:
         for k, v in etiquetas.items():
             t = t.replace(k, hex(v))
         out.append(ensamblar(t, STUB + 4 * i))
-    assert STUB + 4 * len(out) <= DATOS
+    assert STUB + 4 * len(out) <= FILTRO
     return out
 
 
@@ -220,6 +238,9 @@ def cmd_poner(_a) -> int:
         p.escribir32(DATOS + 0x90, ENTERO)
         c = codigo()
         p.escribir_bloque(STUB, struct.pack("<%dI" % len(c), *c))
+        f = codigo_filtro()
+        p.escribir_bloque(FILTRO, struct.pack("<%dI" % len(f), *f))
+        p.escribir32(SITIO_FILTRO, ensamblar("jal 0x%x" % FILTRO, SITIO_FILTRO))
         for s in SITIOS:
             p.escribir32(s, ensamblar("jal 0x%x" % STUB, s))
         print(json.dumps({"stub": hex(STUB), "instrucciones": len(c), "fin": hex(STUB + 4 * len(c)),
@@ -232,7 +253,8 @@ def cmd_quitar(_a) -> int:
         p.escribir32(DATOS + 0x80, 0)
         for s in SITIOS:
             p.escribir32(s, ORIGINAL)
-        print(json.dumps({"sitios": [hex(p.leer32(s)) for s in SITIOS]}))
+        p.escribir32(SITIO_FILTRO, ensamblar("jal 0x1b0ac8", SITIO_FILTRO))
+        print(json.dumps({"sitios": [hex(p.leer32(s)) for s in SITIOS], "filtro": hex(p.leer32(SITIO_FILTRO))}))
     return 0
 
 
