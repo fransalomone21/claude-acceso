@@ -47,7 +47,11 @@ $archivos = @(
     (Join-Path $Black 'volcados\ee-e4.bin'),
     (Join-Path $Black 'volcados\ee-nivel-mod0.bin'),
     (Join-Path $Black 'volcados\ee-03.bin'),
-    (Join-Path $Black 'volcados\ee-11.bin')   # slot 11, nivel 2 (2026-09-27, bitacora (76))
+    (Join-Path $Black 'volcados\ee-11.bin'),  # slot 11, nivel 2 (2026-09-27, bitacora (76))
+    # (93r) el parpadeo: J2 quieto, y J2 disparando en la vista A (fuego-0) y en la B (fuego-1)
+    (Join-Path $Black 'volcados\ee-parpadeo-quieto.bin'),
+    (Join-Path $Black 'volcados\ee-parpadeo-fuego-0.bin'),
+    (Join-Path $Black 'volcados\ee-parpadeo-fuego-1.bin')
 )
 
 # los del ISO: si no esta montado, se monta (solo lectura) y se desmonta al final

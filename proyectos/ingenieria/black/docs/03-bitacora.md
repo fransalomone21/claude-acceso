@@ -16,6 +16,17 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93r) — Volcados de RAM del parpadeo, para el frío en la nube
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (el parpadeo de la mitad de J2) · **Nodos:** `render` (evidencia)
+**Objetivo:** dejarle a la nube (sin emulador) lo que sólo la notebook puede tomar: la RAM en las dos fases del parpadeo.
+
+- `herramientas/parpadeo_volcados.py`: City Streets por el pnach (sin la ranura 3), 1 volcado con J2 quieto y 4 con J2 disparando, cada uno **en pausa** y con su captura en la misma pausa. Mitad de J2 (`parpadeo-mitadJ2.png`): quieto, fuego-0, fuego-2 y fuego-3 en la vista **A**; fuego-1 en la **B** (otra pared). fuego-0 y fuego-1 tienen el mismo cargador de J2 (11): el par para el diff.
+- A `black-datos` (`1b4af53`): `ee-parpadeo-quieto.bin`, `ee-parpadeo-fuego-0.bin`, `ee-parpadeo-fuego-1.bin`; `subir-datos-nube.ps1` los lista. El retome de la nube (`sesiones/RETOME-NUBE.md`, T2) arranca por ese diff.
+**No funcionó:** nada.
+**Sigue:** el frío de T1–T3 en la nube; lo caliente, en la notebook.
+
+---
+
 ## 2026-09-28 (93q) — La tercera ranura cierra la fuga, medido en RAM con control: la pose de J ya no la mueve J2
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (brazos propios de J2; la recarga de J2 fuera de la mitad de J) · **Nodos:** `personajes`, `vista-fp` (evidencia; sin cambio de K)
 **Objetivo:** saber si el «1 de 8» que quedó en (93p) es una fuga real, midiendo en RAM en vez de con capturas.
