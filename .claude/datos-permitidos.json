@@ -16,6 +16,12 @@
   ],
   "excepciones": [
     {
+      "patron": "noreply@anthropic.com",
+      "donde": "proyectos/ingenieria/black/sesiones/",
+      "porque": "No es de una persona: es la direccion publica de la linea Co-Authored-By de Claude, que un mensaje de retome cita como molde de commit. Publica por diseno.",
+      "fecha": "2026-09-28"
+    },
+    {
       "patron": "R@R.T-np.eye",
       "donde": "proyectos/ingenieria/black/herramientas/nube/",
       "porque": "No es un mail: es algebra de numpy (R @ R.T - np.eye, ortogonalidad de una matriz de rotacion) escrita sin espacios. Falso positivo de la regla 5, commit 38c29c3.",
