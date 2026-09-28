@@ -34,6 +34,11 @@
         "que-va": "una subcarpeta por alumno/materia, compartida SOLO con ese alumno como lector. La escribe proyectos/documentos/clases-aed (repo aparte). Nada con 'anyone'."
       },
       {
+        "nombre": "04 - TERCEROS - compartido con nombre",
+        "sensibilidad": "compartido con nombre, persona por persona",
+        "que-va": "trabajos hechos para otra persona (p. ej. un CV), una subcarpeta por persona y compartida SOLO con ella. Lleva datos personales de terceros: nada con 'anyone', y el nombre de la persona no se escribe en este repo publico. Nacio el 2026-09-27."
+      },
+      {
         "nombre": "Coaching",
         "sensibilidad": "solo Fran",
         "que-va": "espejo que escribe proyectos/seguimiento/coaching/publicar-drive.ps1. NO SE TOCA A MANO: el script compara por checksum contra esta ruta exacta y un rename lo rompe en silencio."
