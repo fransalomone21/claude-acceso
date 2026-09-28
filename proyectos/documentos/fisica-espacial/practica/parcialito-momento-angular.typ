@@ -4,6 +4,49 @@
 //  Cada numero de la resolucion tiene su cuenta en validar.py.
 // =====================================================================
 #import "estilo.typ": *
+// El vocabulario de dibujo y las figuras del apunte, con alias: los nombres
+// de estilo.typ (documento, caja) no se pisan con los del apunte.
+#import "../apunte/biblioteca/estilo.typ" as dib
+#import "../apunte/biblioteca/figuras.typ" as figs
+
+// --- El giroscopo del ejercicio 3, de costado ---------------------------
+// Solo los datos: NO lleva tau ni la precesion, que son la respuesta del
+// inciso 3. A escala entre si: d = 5,0 cm -> 2,5 u; R = 3,0 cm -> 1,5 u.
+// x a la derecha, z arriba; el sentido de giro se fija con palabras porque
+// en una vista de costado la flecha circular es ambigua.
+#let fig-giroscopo-enunciado = dib.esquema({
+  import dib: *
+  let P = (0, 2.4)        // el pivote
+  let C = (2.5, 2.4)      // el centro de masa del rotor
+  // la mesa y el poste
+  cetz.draw.line((-0.9, 0), (0.9, 0), stroke: trazo-cuerpo + c-trazo)
+  cetz.draw.line((0, 0), P, stroke: 1.6pt + c-trazo)
+  // el eje, apoyado solo en la punta del poste
+  cetz.draw.line(P, (3.3, 2.4), stroke: 1.2pt + c-trazo)
+  // el rotor, un disco visto casi de canto
+  cetz.draw.circle(C, radius: (0.32, 1.5), fill: luma(225), stroke: trazo-cuerpo + c-trazo)
+  cetz.draw.line((2.82, 2.4), (3.3, 2.4), stroke: 1.2pt + c-trazo)
+  masa(C, radio: 0.06)
+  masa(P, radio: 0.07)
+  rotulo((-0.15, 2.4), [pivote], ancla: "east")
+  // el giro propio
+  cetz.draw.arc((3.45, 2.4), start: 130deg, stop: 410deg, radius: (0.16, 0.45), anchor: "origin",
+    stroke: 0.8pt + c-aux, mark: (end: "stealth", scale: 0.45, fill: c-aux))
+  rotulo((3.7, 2.75), text(fill: c-aux)[$omega$ = 3000 rpm \ antihorario visto \ desde la derecha], ancla: "west")
+  // el peso
+  flecha(C, (2.5, 0.3), etiqueta: $m bold(g)$, lado: "east", pos: 100%)
+  // cota d, por arriba del disco
+  auxiliar(P, (0, 4.3))
+  auxiliar((2.5, 3.9), (2.5, 4.3))
+  cetz.draw.line((0, 4.2), (2.5, 4.2), stroke: 0.5pt + luma(80),
+    mark: (start: "stealth", end: "stealth", scale: 0.35, fill: luma(80)))
+  rotulo((1.25, 4.2), [$d = 5,0$ cm], ancla: "south")
+  // cota R, sobre la mitad de abajo del disco
+  cetz.draw.line((3.05, 0.9), (3.05, 2.35), stroke: 0.5pt + luma(80),
+    mark: (start: "stealth", end: "stealth", scale: 0.35, fill: luma(80)))
+  auxiliar((2.5, 0.9), (3.15, 0.9))
+  rotulo((3.1, 1.25), [$R = 3,0$ cm], ancla: "west")
+}, escala: 0.68cm)
 
 #show: documento.with(
   titulo: [Parcialito — Momento angular],
@@ -61,6 +104,8 @@ El rotor de un giróscopo de juguete es un disco macizo de $0,200$ kg y $3,0$ cm
 de radio, que gira a $3000$ rpm alrededor de su eje, horizontal. El giróscopo se
 apoya en un pivote, con el centro de masa a $5,0$ cm del pivote sobre el eje;
 la masa del marco es despreciable.
+
+#fig-giroscopo-enunciado
 
 + Calcule el momento de inercia y el momento angular del rotor.
 + Calcule el torque del peso respecto del pivote, la velocidad angular de
@@ -154,7 +199,14 @@ $r_p = 6378 + 600 = 6978$ km y $r_a = 6378 + 2000 = 8378$ km.
 + $bold(L)$ sobre el eje, saliendo del pivote si el rotor gira en sentido
   antihorario visto desde afuera; $bold(tau) = bold(r) times m bold(g)$ es
   horizontal y perpendicular a $bold(L)$; la punta de $bold(L)$ avanza en el
-  sentido de $bold(tau)$.
+  sentido de $bold(tau)$. Con el giro del dibujo del enunciado, $bold(L)$
+  apunta hacia la derecha, $bold(tau)$ entra en la hoja y, visto desde
+  arriba, el eje precesa en sentido antihorario:
+
+  #figs.fig-giroscopo-pivote
+  #dib.pie-figura[La misma figura que el apunte (módulo de rotación, Sears
+    Figs. 10.34 y 10.35). La $M$ del apunte es la $m$ de este ejercicio, y $bold(n)$ es la fuerza
+    del pivote.]
 + El impulso angular es $Delta bold(L)$. En un cuarto de vuelta $bold(L)$ gira
   $90°$ sin cambiar el módulo: $abs(Delta bold(L)) = sqrt(2) L = 0,0400$
   kg·m²/s. En una vuelta completa $bold(L)$ vuelve a ser el mismo vector: el

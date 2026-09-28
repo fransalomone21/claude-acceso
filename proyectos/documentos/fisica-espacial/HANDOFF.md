@@ -6,6 +6,16 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-28, segunda parte — dibujo del giróscopo (fuera de fase)
+
+`practica/parcialito-momento-angular.typ`: figura nueva `fig-giroscopo-enunciado`
+(CeTZ, con el vocabulario de `apunte/biblioteca/estilo.typ` importado **con
+alias** `dib`, porque el `estilo.typ` de `practica/` define `documento` y
+`caja` y un `import *` de los dos se pisaría). La resolución usa
+`figs.fig-giroscopo-pivote` del apunte. Trampa pagada: a escala 1 cm el
+enunciado pasaba a dos páginas con un solo inciso en la segunda; a 0,68 cm
+entra en una. Pendiente: publicar el PDF (`.\practica\compilar.ps1 -Publicar`).
+
 ## Sesión del 2026-09-28 — hoja de fórmulas (fuera de fase)
 
 - Fuente `practica/hoja-formulas.typ`; importa la paleta del apunte, así que

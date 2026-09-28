@@ -1,5 +1,18 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fuera de fase, 2026-09-28: el giróscopo del parcialito, dibujado
+
+A pedido de Fran. El ejercicio 3 del parcialito de momento angular tiene
+ahora **su dibujo en el enunciado** (de costado, a escala: pivote, eje, rotor
+con $R = 3,0$ cm, $d = 5,0$ cm, $m bold(g)$ y el giro «antihorario visto desde
+la derecha») y **sin** $bold(tau)$ ni la precesión, que son la respuesta del
+inciso 3. En la resolución, el inciso 3 lleva `fig-giroscopo-pivote` **del
+apunte**, importada y no copiada. El sentido de giro quedó fijado en el
+enunciado, y con él $bold(L)$ a la derecha, $bold(tau)$ entrando en la hoja y
+la precesión antihoraria vista desde arriba. El enunciado sigue en una
+página. `compilar.ps1` en verde (240 controles), `probar-validar.py` 8/8.
+**El PDF de Drive quedó atrasado** hasta que se publique.
+
 ## Fuera de fase, 2026-09-28: hoja de fórmulas en Drive
 
 A pedido de Fran. `practica/hoja-formulas.typ` → `practica/salida/hoja-formulas.pdf`,
