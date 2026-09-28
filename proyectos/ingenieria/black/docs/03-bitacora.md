@@ -16,6 +16,17 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93g) — B4/B5 en vivo: un enemigo nacido junto a J2 no le dispara, pero tampoco a J (la prueba no mide)
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B4 «la IA frente a J2», B5 «muerte de J2») · **Nodos:** `ia`, `flujo` (evidencia; sin cambio de K)
+**Objetivo:** hacerle daño real a J2 para ver por dónde entra, y de paso B4 en vivo.
+
+- **La máquina de estados del controlador** (`herramientas/estados93.py`, `volcados/campana/estados93.json`): con el nivel andando, `*(P+0x32C)` = `P+0x4F0` **para J y para J2** (J2 tiene la suya, no la de J), con `+0x80` = **0** en los dos y `vtable(+0x84)` = `0x003DCC20`. Justo después de la carga, J tenía `+0x32C` = `J+0x7D0`, `+0x80` = 4 (un estado de la carga). Ni 1 ni 2: **la lectura de (93f) sobre el «tipo 2 = jugador» no se sostiene tal cual** (`hipótesis` refutada en su forma; el índice `+0x4B4` y las ranuras `+0x490` caen afuera del bloque de 0x8C0 del jugador, así que ese objeto no es el controlador del jugador). Con `+0x80` = 0, la función de daño no llama a ningún método del controlador para J ni para J2: la vida del jugador se maneja en otra parte.
+- **B4/B5 en vivo** (`herramientas/enemigo93.py`, `volcados/campana/enemigo93.json`, capturas `enemigo93-prueba.png`/`-control.png`): City Streets por el pnach solo, J2 apartado 9,5 m con `manos 3`, dos spawners candidatos (68 en el nivel) con el punto movido. **Prueba** (a 5 m de J2, 14 m de J): el enemigo nace **muerto** (vida 0, `+0x38C` = 2) y queda así 25 s. **Control** (a 5 m de J): nace vivo (vida 100, `+0x38C` = 0), se lo ve en la mitad de J apuntando, **y en 25 s no dispara ni se mueve**: la vida de J queda en 750. **Sin control positivo, la prueba no mide nada** (igual que en (88)): un enemigo de spawner movido a mano no entra en combate. Hipótesis: el combate lo arma el guion del nivel (disparadores), no la aparición.
+**No funcionó:** el enemigo de spawner como fuente de daño.
+**Sigue:** B5 queda con la política del plano (J2 no recibe daño de enemigos ni de J; ver `docs/14` §2) hasta que haya un combate real para medir; siguiente tramo, el títere por nivel.
+
+---
+
 ## 2026-09-28 (93f) — B5, la vida de J2 en 0: no pasa nada, y se regenera
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B5, riesgo medio «muerte de J2») · **Nodos:** `flujo` (evidencia; sin cambio de K)
 **Objetivo:** qué hace el juego con la vida de J2 en 0.
