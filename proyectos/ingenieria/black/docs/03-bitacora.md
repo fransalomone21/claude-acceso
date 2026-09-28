@@ -21,9 +21,10 @@ Formato de cada entrada:
 **Objetivo:** tramo e): quién escribe `R+0xD470`/`+0xD474` (ancho y proporción de la vista, (89)) en el mismo cuadro.
 
 - **Medido** (`herramientas/parpadeo93.py` → `ritmo_vigilante.py`, `break` puesto en pausa; City Streets por el pnach, 530 palabras; `volcados/campana/parpadeo93.txt`): `R+0xD470`, **300 escrituras (~150 cuadros): 150 en `0x0046F98C` y 150 en `0x0046FA58`**, las dos del stub de la pantalla (la mitad antes de las pasadas, la restauración después). `R+0xD474`, 24 escrituras: sólo `0x0046F998`/`0x0046FA60`. **Ningún intruso** (`confirmado` para el régimen quieto: J y J2 parados).
-- **Lo que queda:** el parpadeo que vio Fran fue jugando (moverse, apuntar, disparar). Hipótesis a medir con eventos: el zoom al apuntar (mira) o un cuadro que el juego dibuja dos veces. Mismo método, con J2 disparando/apuntando durante el conteo.
-**No funcionó:** nada.
-**Sigue:** repetir el conteo con eventos, o que Fran diga en qué momento lo ve.
+- **Con eventos** (`herramientas/parpadeo93b.py`: durante el conteo, J2 sostiene «disparar» y aprieta «zoom» 75 veces con el mando falso 2): **J2 disparó y recargó** (cargador 15 → 3, reserva 30 → 15: control positivo de que los eventos ocurrieron; la primera corrida no lo tenía porque el botón iba sin su valor en float `+0x4C+4i`, como en `tirador.py`). **Otra vez 300 de 300 en el stub.** El ancho de la vista **no es** el parpadeo, tampoco con disparo, zoom y recarga (`confirmado` que no hay otro escritor en esas condiciones).
+- **De paso, en pantalla** (`parpadeo93b-antes.png`): con J2 recargando, **las dos mitades muestran la misma animación de recarga** (J no recargaba) y el HUD de J muestra el ícono de agachado. Es la vista en primera persona única de (93j), ahora vista en pantalla: lo que anima J2 lo anima también J. `probable` (una captura; el cargador de J no se midió).
+**No funcionó:** la primera corrida con eventos (botón sin el float: J2 no disparó).
+**Sigue:** que Fran diga en qué momento ve el parpadeo; candidato siguiente, el sub-raster (`*(R+0xD458)+0x60`).
 
 ---
 
