@@ -16,6 +16,20 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93i) — Un cuerpo donde no hay aliado: un soldado de spawner con bando 0 y grupo de colisión 4 (prototipo por PINE, Wilderness)
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B2 en los 3 niveles sin aliado) · **Nodos:** `fisica` (evidencia), `spawn`, `codigo-nuevo` (entrega)
+**Objetivo:** que Wilderness, Steelworks y Gulag también tengan títere.
+
+- **La sonda** (`herramientas/titere_spawn93.py`, Wilderness, bloque del pnach; `volcados/campana/titere_spawn93.json`): se hace nacer un soldado con un spawner (83) junto a J2 y, ya con alta, se le pone bando 0. **Control** (bando sin tocar, 1): `ELEGIR` no lo toma (`TITERE_ACT` = 0). **Con bando 0** lo toma en ≤ 0,5 s.
+- **Primer problema, el cuelgue:** en cuanto el stub le copia la matriz de J2, el EE queda dando vueltas en `0x0033DDB0` (6 de 6 muestras de PC; `FUN_0033DD98` recorriendo memoria con una cuenta basura): **dos cuerpos de colisión exactamente en el mismo punto**, la misma caída que J2 encima de J en (93c). 2 de 2 corridas. **Arreglo en el stub**: después de copiar, `+0xA0` del títere += 0,3 m en x (5 palabras FPU como `.word`; por cuadro hasta `0x0046D9D4`). Con eso no cuelga (1 de 1).
+- **Segundo problema, J2 trabado:** sin cuelgue, el soldado empuja a J2 (lo corrió ~6 m) y `manos` no lo mueve (0 m). **En frío** (`FUN_0025CEF8`, al atar el controlador de colisión): el **grupo de colisión** va en `*(*(ctrl+0x34)+0x18)` y se fija una sola vez: **jugador 3, aliado (bando 0) 4, enemigo (bando 1) 6**, 5 si el tipo es 0x28, 7 → 0xD. El soldado nació enemigo: grupo 6 (medido), y cambiarle el bando no se lo cambia. **Escribiendo grupo 4 por PINE: J2 camina 11,1 m con `manos` y el soldado lo sigue a ≤ 0,36 m**; en la mitad de J se lo ve donde está J2 (`titere93i-camino.png`). **`confirmado` con control** (la corrida sin grupo: 0 m).
+- **Regresión** (la campaña entera con el bloque de **530 palabras**, 8 cargas seguidas): 8 de 8 sin cuelgue, J2 camina, títere nativo en 5 a ≤ 0,56 m (antes ≤ 0,39: el corrimiento de 0,3 m). El cuelgue de City Bridge de (93h) no volvió (0 de 2 corridas más).
+- **Lo que falta para que salga del pnach solo, y por qué NO se hizo:** el stub tendría que elegir un spawner, moverle el punto a J2, activarlo y, con el alta, poner bando 0 y grupo 4 (~50 palabras). El riesgo es de **juego**, no técnico: el spawner es del guion del nivel; si una oleada espera que mueran sus soldados, un títere invulnerable para los enemigos puede **trabar el avance**. Es una decisión de valor (cuerpo en 3 niveles contra ese riesgo): queda para Fran.
+**No funcionó:** la matriz copiada exacta (cuelgue); el bando solo (traba a J2).
+**Sigue:** la decisión de Fran; los brazos de J2 animados.
+
+---
+
 ## 2026-09-28 (93h) — El títere por nivel: el stub elige el primer aliado VIVO del pool; 5 de 8 niveles, y los otros 3 no tienen aliado
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B2, el cuerpo de J2 en toda la campaña) · **Nodos:** `actores` (evidencia), `codigo-nuevo` (entrega)
 **Objetivo:** tramo b) del retome: que el títere no sea «el aliado 1» fijo.

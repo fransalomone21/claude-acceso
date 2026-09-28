@@ -63,6 +63,12 @@ def main():
         # PRUEBA: el mismo soldado con bando 0
         if a:
             p.escribir32(a + 0x3A4, 0)
+            # (93i) el grupo de colision se fija al atar (FUN_0025CEF8: jugador 3, aliado 4, enemigo 6);
+            # sin esto el soldado sigue chocando como enemigo y traba a J2. `--sin-grupo` es el control.
+            g = p.leer32(p.leer32(a + 0xB4) + 0x34) + 0x18
+            res["grupo_antes"] = p.leer32(g)
+            if "--sin-grupo" not in sys.argv:
+                p.escribir32(g, 4)
             time.sleep(0.5)
             res["prueba"] = {"titere_act": hex(p.leer32(cm.TITERE_ACT)), "d_J2": round(math.dist(
                 ss.pos(p, a + 0xA0), ss.pos(p, cj.J2 + 0xA0)), 2), "vida": round(p.leer_f32(a + 0x2F8), 1)}

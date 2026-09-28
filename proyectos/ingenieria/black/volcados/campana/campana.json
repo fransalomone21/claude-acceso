@@ -13,7 +13,7 @@
    "espera": 30,
    "atadas": 1,
    "desarmes": 0,
-   "cuadros_J2": 24,
+   "cuadros_J2": 28,
    "titeres": 0,
    "J2_8A4": "0x37",
    "J2_B4": "0x587f70",
@@ -42,22 +42,22 @@
   "aliado_tipo": "0x597f50",
   "aliado_bando": 0,
   "titeres_2s": 0,
-  "pantalla_llamadas_2s": 68,
-  "ocultos_p1_2s": 68,
+  "pantalla_llamadas_2s": 72,
+  "ocultos_p1_2s": 72,
   "ocultos_p2_2s": 0,
   "manos": {
-   "metros": 10.78,
-   "aliado_J2_final_m": 106.887,
+   "metros": 11.09,
+   "aliado_J2_final_m": 106.667,
    "aliado_J2_max_m": 114.746,
    "titeres": 0
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 07:42"
+  "fecha": "2026-09-28 08:02"
  },
  "2": {
   "indice": 2,
   "nombre": "Town",
-  "armado_s": 11.3,
+  "armado_s": 11.2,
   "estado": {
    "cargador": 28,
    "fase": 2,
@@ -68,8 +68,8 @@
    "espera": 30,
    "atadas": 2,
    "desarmes": 1,
-   "cuadros_J2": 713,
-   "titeres": 17,
+   "cuadros_J2": 741,
+   "titeres": 16,
    "J2_8A4": "0x37",
    "J2_B4": "0x588010",
    "J2_588": "0x585a0c",
@@ -85,29 +85,29 @@
     -316.18
    ],
    "A1_pos": [
-    99.52,
+    99.8,
     2.21,
-    -316.17
+    -316.18
    ]
   },
-  "juego_s": 12.8,
+  "juego_s": 12.7,
   "starts": 0,
   "titere_act": "0x58fe90",
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597fd0",
   "aliado_bando": 0,
-  "titeres_2s": 98,
-  "pantalla_llamadas_2s": 98,
+  "titeres_2s": 100,
+  "pantalla_llamadas_2s": 99,
   "ocultos_p1_2s": 0,
-  "ocultos_p2_2s": 98,
+  "ocultos_p2_2s": 99,
   "manos": {
-   "metros": 14.65,
-   "aliado_J2_final_m": 0.056,
-   "aliado_J2_max_m": 0.241,
+   "metros": 14.8,
+   "aliado_J2_final_m": 0.35,
+   "aliado_J2_max_m": 0.515,
    "titeres": 115
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 07:43"
+  "fecha": "2026-09-28 08:03"
  },
  "3": {
   "indice": 3,
@@ -123,8 +123,8 @@
    "espera": 30,
    "atadas": 3,
    "desarmes": 2,
-   "cuadros_J2": 1704,
-   "titeres": 988,
+   "cuadros_J2": 1754,
+   "titeres": 1008,
    "J2_8A4": "0x37",
    "J2_B4": "0x588150",
    "J2_588": "0x585a0c",
@@ -140,9 +140,9 @@
     -8.01
    ],
    "A1_pos": [
-    103.85,
-    25.27,
-    33.97
+    103.9,
+    25.26,
+    33.94
    ]
   },
   "juego_s": 14.7,
@@ -156,18 +156,18 @@
   "ocultos_p1_2s": 0,
   "ocultos_p2_2s": 0,
   "manos": {
-   "metros": 2.66,
-   "aliado_J2_final_m": 84.278,
-   "aliado_J2_max_m": 89.355,
+   "metros": 2.7,
+   "aliado_J2_final_m": 84.207,
+   "aliado_J2_max_m": 89.303,
    "titeres": 0
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 07:43"
+  "fecha": "2026-09-28 08:03"
  },
  "4": {
   "indice": 4,
   "nombre": "Asylum",
-  "armado_s": 13.2,
+  "armado_s": 13.1,
   "estado": {
    "cargador": 28,
    "fase": 2,
@@ -178,8 +178,8 @@
    "espera": 30,
    "atadas": 4,
    "desarmes": 3,
-   "cuadros_J2": 2187,
-   "titeres": 1008,
+   "cuadros_J2": 2237,
+   "titeres": 1028,
    "J2_8A4": "0x37",
    "J2_B4": "0x588010",
    "J2_588": "0x585a0c",
@@ -195,7 +195,7 @@
     -100.27
    ],
    "A1_pos": [
-    -189.19,
+    -188.89,
     24.12,
     -100.27
    ]
@@ -206,18 +206,18 @@
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597f90",
   "aliado_bando": 0,
-  "titeres_2s": 48,
-  "pantalla_llamadas_2s": 47,
+  "titeres_2s": 47,
+  "pantalla_llamadas_2s": 46,
   "ocultos_p1_2s": 0,
   "ocultos_p2_2s": 47,
   "manos": {
-   "metros": 7.05,
-   "aliado_J2_final_m": 0.057,
-   "aliado_J2_max_m": 0.152,
+   "metros": 7.2,
+   "aliado_J2_final_m": 0.301,
+   "aliado_J2_max_m": 0.34,
    "titeres": 55
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 07:44"
+  "fecha": "2026-09-28 08:04"
  },
  "5": {
   "indice": 5,
@@ -233,8 +233,8 @@
    "espera": 30,
    "atadas": 5,
    "desarmes": 4,
-   "cuadros_J2": 2666,
-   "titeres": 1487,
+   "cuadros_J2": 2722,
+   "titeres": 1513,
    "J2_8A4": "0x37",
    "J2_B4": "0x5880b0",
    "J2_588": "0x585a0c",
@@ -250,7 +250,7 @@
     217.34
    ],
    "A1_pos": [
-    110.59,
+    110.89,
     9.2,
     217.34
    ]
@@ -261,18 +261,18 @@
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597f90",
   "aliado_bando": 0,
-  "titeres_2s": 57,
-  "pantalla_llamadas_2s": 57,
+  "titeres_2s": 58,
+  "pantalla_llamadas_2s": 58,
   "ocultos_p1_2s": 0,
-  "ocultos_p2_2s": 58,
+  "ocultos_p2_2s": 57,
   "manos": {
-   "metros": 4.44,
-   "aliado_J2_final_m": 0.0,
-   "aliado_J2_max_m": 0.154,
-   "titeres": 66
+   "metros": 4.47,
+   "aliado_J2_final_m": 0.3,
+   "aliado_J2_max_m": 0.417,
+   "titeres": 67
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 07:45"
+  "fecha": "2026-09-28 08:05"
  },
  "6": {
   "indice": 6,
@@ -288,8 +288,8 @@
    "espera": 30,
    "atadas": 6,
    "desarmes": 5,
-   "cuadros_J2": 3214,
-   "titeres": 2035,
+   "cuadros_J2": 3281,
+   "titeres": 2072,
    "J2_8A4": "0x37",
    "J2_B4": "0x588100",
    "J2_588": "0x585a0c",
@@ -305,7 +305,7 @@
     -116.39
    ],
    "A1_pos": [
-    -329.33,
+    -329.05,
     -3.82,
     -116.39
    ]
@@ -316,18 +316,18 @@
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597f90",
   "aliado_bando": 0,
-  "titeres_2s": 45,
-  "pantalla_llamadas_2s": 45,
-  "ocultos_p1_2s": 45,
-  "ocultos_p2_2s": 45,
+  "titeres_2s": 46,
+  "pantalla_llamadas_2s": 46,
+  "ocultos_p1_2s": 46,
+  "ocultos_p2_2s": 46,
   "manos": {
-   "metros": 6.75,
-   "aliado_J2_final_m": 0.0,
-   "aliado_J2_max_m": 0.393,
-   "titeres": 52
+   "metros": 6.6,
+   "aliado_J2_final_m": 0.3,
+   "aliado_J2_max_m": 0.252,
+   "titeres": 51
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 07:45"
+  "fecha": "2026-09-28 08:05"
  },
  "7": {
   "indice": 7,
@@ -343,8 +343,8 @@
    "espera": 30,
    "atadas": 7,
    "desarmes": 6,
-   "cuadros_J2": 3666,
-   "titeres": 2486,
+   "cuadros_J2": 3732,
+   "titeres": 2519,
    "J2_8A4": "0x37",
    "J2_B4": "0x587f70",
    "J2_588": "0x585a0c",
@@ -372,7 +372,7 @@
   "aliado_tipo": "0x597fd0",
   "aliado_bando": 0,
   "titeres_2s": 0,
-  "pantalla_llamadas_2s": 62,
+  "pantalla_llamadas_2s": 63,
   "ocultos_p1_2s": 0,
   "ocultos_p2_2s": 0,
   "manos": {
@@ -382,7 +382,7 @@
    "titeres": 0
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 07:46"
+  "fecha": "2026-09-28 08:06"
  },
  "0": {
   "indice": 0,
@@ -398,8 +398,8 @@
    "espera": 30,
    "atadas": 8,
    "desarmes": 7,
-   "cuadros_J2": 4334,
-   "titeres": 2528,
+   "cuadros_J2": 4403,
+   "titeres": 2563,
    "J2_8A4": "0x37",
    "J2_B4": "0x5880b0",
    "J2_588": "0x585a0c",
@@ -415,7 +415,7 @@
     52.89
    ],
    "A1_pos": [
-    -3.22,
+    -2.93,
     1.12,
     52.9
    ]
@@ -426,17 +426,17 @@
   "aliado": "0x58fe90",
   "aliado_tipo": "0x597f90",
   "aliado_bando": 0,
-  "titeres_2s": 129,
-  "pantalla_llamadas_2s": 128,
+  "titeres_2s": 130,
+  "pantalla_llamadas_2s": 129,
   "ocultos_p1_2s": 0,
-  "ocultos_p2_2s": 128,
+  "ocultos_p2_2s": 129,
   "manos": {
    "metros": 10.14,
-   "aliado_J2_final_m": 0.15,
-   "aliado_J2_max_m": 0.161,
-   "titeres": 138
+   "aliado_J2_final_m": 0.332,
+   "aliado_J2_max_m": 0.56,
+   "titeres": 141
   },
   "vivo_despues": true,
-  "fecha": "2026-09-28 07:47"
+  "fecha": "2026-09-28 08:07"
  }
 }
