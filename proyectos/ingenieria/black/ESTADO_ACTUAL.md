@@ -39,6 +39,13 @@ decía.
 
 ## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88) (LEER ESTO PRIMERO)
 
+> **(96), 2026-09-28 tarde — LO ÚLTIMO.** Dos videos de Fran (J1 = puerto 2): el arma de J1 se dibuja en la mitad
+> de J2 (la escopeta «mergeada» con la pistola), a J2 no le suena el disparo, un solo HUD y el agacharse compartido.
+> El arreglo de ocultar a J en la pasada 2 quedó **refutado** (sale apagado por defecto). En el fork (J1 = puerto 1)
+> la recarga de cada uno se ve bien. **Lo que sigue es FRÍO, no prueba y error:** `docs/16-contexto-j2.md` —
+> J2 comparte cada singleton «del jugador»; darle su contexto y conmutarlo. Video con sonido: `grabar_audio.py`.
+> Botones: 1 = agarrar, 3 = melee, 11 = agacharse.
+
 **La Pre-Fase A cerró el 2026-09-27 con la MCR** (`PDP.md` §6). Fran contestó
 las 22 preguntas (`docs/12` §7) y **delegó** pesos y decisiones: «decide todo
 vos, primero el coop, despues vamos viendo». NGOs N1–N7 validadas con sus

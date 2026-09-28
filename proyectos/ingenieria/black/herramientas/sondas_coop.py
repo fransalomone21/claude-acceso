@@ -102,7 +102,7 @@ MIRA_OBJ = JUGADOR + 0x4F0    # = MIRA; su +0x98 es el control y +0x7C el jugado
 BOTONES = {  # medidos en vivo con control (bitacora (77)); el resto, sin efecto visto
     "disparar": 12,      # mira+0x31; el cargador baja
     "recargar": 2,       # mira+0x34; cargador <- reserva. En menus, indice 2 (FUN_00124a70)
-    "zoom": 11,          # mira+0x30
+    "agacharse": 11,     # mira+0x30. (96) era "zoom": J1 11 a 16,85 s -> icono de agachado en su HUD (video 155124)
     "arma_a": 6, "arma_b": 7,   # cambian J+0x2A4 al otro slot
     "melee": 3,          # mira+0x3B; estado del arma 28/29 = el culatazo (circulo; (93z), medido con control)
     "agarrar": 1,        # cuadrado, mantener: junta el arma del piso (96: video 20260928-145814, J1 44,2 s

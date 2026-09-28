@@ -4,6 +4,9 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(96) MANDA: `docs/16-contexto-j2.md` (el plan de frío) y la entrada (96) de la bitácora.** Estado de la
+> máquina al cerrar (96): pnach de Fran reinstalado por su acceso COOP (793 palabras con `C` = J; el próximo
+> `instalar` lo deja en 792, sin `C`, porque quedó refutado); el fork cerrado; `pyaudiowpatch` instalado.
 > **EMPEZÁ POR EL BLOQUE «(93y)–(95)» DE ACÁ ABAJO, después el «(93s)–(93w)».** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y

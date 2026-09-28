@@ -44,6 +44,14 @@ if ($py) {
     $reg = Start-Process -FilePath $py -WindowStyle Hidden -PassThru -ArgumentList @(
         "`"$(Join-Path $raiz 'herramientas\registro_mandos.py')`"", 'grabar', "`"$dir`"", '--segundos', ($Segundos + 1))
 }
+# 0b) (96) el SONIDO: lo que sale por la salida por defecto de Windows (WASAPI loopback, pyaudiowpatch) a
+#     audio.wav, en paralelo; al final se junta con el video en gameplay_audio.mp4. Sin el, el video sale igual.
+$wav = Join-Path $dir 'audio.wav'
+$aud = $null
+if ($py) {
+    $aud = Start-Process -FilePath $py -WindowStyle Hidden -PassThru -ArgumentList @(
+        "`"$(Join-Path $raiz 'herramientas\grabar_audio.py')`"", "`"$wav`"", $Segundos)
+}
 function Marcar-Inicio { [string]([DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() / 1000.0) |
     Set-Content -LiteralPath (Join-Path $dir 'inicio_video.txt') -Encoding ASCII }
 
@@ -63,6 +71,13 @@ if (-not $ok) {
 }
 [console]::beep(660, 150); [console]::beep(440, 250)
 if (-not $ok) { Write-Output "No se pudo grabar. Mira $log"; exit 1 }
+if ($aud) {
+    $aud.WaitForExit(20000) | Out-Null
+    if (Test-Path -LiteralPath $wav) {
+        & $ff -y -hide_banner -loglevel error -i $mp4 -i $wav -c:v copy -c:a aac -shortest `
+            (Join-Path $dir 'gameplay_audio.mp4') 2>> $log
+    }
+}
 
 # 2) lo que mira Claude: hojas de 12 cuadros (2 por segundo, con la hora del video) y cuadros sueltos (4 por segundo)
 # fontfile explicito: sin el, ffmpeg de winget no encuentra Fontconfig y las hojas salian sin la hora.

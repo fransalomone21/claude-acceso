@@ -811,7 +811,7 @@ def programas():
 
 
 SIN_OCULTAR = False  # `poner --sin-ocultar`: el control de (93)
-SIN_OCULTAR_J = False  # `poner|instalar --sin-ocultar-j`: el control de (96); C queda fuera del pnach (se prende por PINE)
+SIN_OCULTAR_J = True  # (96) REFUTADO como arreglo de E1 (Fran 15:51 con C = J: la escopeta de J sigue en la mitad de J2). `--con-ocultar-j` lo pone
 
 
 SIN_PANTALLA = False  # `poner --sin-pantalla`: el mod sin la pantalla dividida (como hasta (88d))
@@ -839,7 +839,7 @@ def cmd_listar(_a):
 def cmd_poner(a):
     global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA, SIN_OCULTAR, SIN_R3, SIN_OCULTAR_J
     SIN_OCULTAR = a.sin_ocultar
-    SIN_OCULTAR_J = getattr(a, "sin_ocultar_j", False)
+    SIN_OCULTAR_J = not getattr(a, "con_ocultar_j", False)
     SIN_R3 = getattr(a, "sin_r3", False)
     SIN_BAJA, SIN_TITERE, SIN_CABECEO = a.sin_baja, a.sin_titere, a.sin_cabeceo
     SIN_RECARGA = a.sin_recarga
@@ -1038,7 +1038,7 @@ def cmd_instalar(_a):
     global SIN_AISLAR, SIN_R3, SIN_OCULTAR_J
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
     SIN_R3 = getattr(_a, "sin_r3", False)
-    SIN_OCULTAR_J = getattr(_a, "sin_ocultar_j", False)
+    SIN_OCULTAR_J = not getattr(_a, "con_ocultar_j", False)
     viejo = PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -1079,12 +1079,12 @@ def main() -> int:
     li = sub.add_parser("listar"); li.add_argument("--con-r3", action="store_true"); li.add_argument("--sin-r3", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
     ins.add_argument("--con-r3", action="store_true"); ins.add_argument("--sin-r3", action="store_true")
-    ins.add_argument("--sin-ocultar-j", action="store_true")
+    ins.add_argument("--con-ocultar-j", action="store_true"); ins.add_argument("--sin-ocultar-j", action="store_true")
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
     po.add_argument("--sin-recarga", action="store_true")
     po.add_argument("--sin-ocultar", action="store_true")
-    po.add_argument("--sin-ocultar-j", action="store_true")
+    po.add_argument("--con-ocultar-j", action="store_true"); po.add_argument("--sin-ocultar-j", action="store_true")
     po.add_argument("--sin-cabeceo", action="store_true")
     po.add_argument("--sin-pantalla", action="store_true")
     po.add_argument("--con-r3", action="store_true"); po.add_argument("--sin-r3", action="store_true")

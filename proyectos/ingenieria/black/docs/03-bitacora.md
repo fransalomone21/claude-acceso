@@ -37,6 +37,13 @@ Formato de cada entrada:
 - **Los aisladores de la vista FP** (`prueba_aislar_j2.py`): con J2 vaciando y recargando solo, salteados **15** disparos y **19** eventos, **0** pasadas; control J: 15 y 19 pasadas. **E5 no es lógica de J2 que se cuela**: es algo dibujado en la pasada equivocada (el fogonazo es una partícula, no un nodo del filtro). `probable`.
 - **Pedidos nuevos de Fran:** (S) de J2 no se oye el disparo, sólo los impactos → `probable`: los 15 disparos salteados por el aislador `0x001D6F90` (camino del disparo en la vista FP, `FUN_001d7020`) llevan el sonido; se confirma de oído, no hay captura de audio del emulador en la notebook (sólo micrófonos). (H) HUD por jugador (el pendiente d). (A) al agacharse uno, se agachan los dos.
 
+**Segundo video de Fran** (`volcados/video/20260928-155124`, J1 = puerto 2, con `C` = J en su pnach, 793 palabras):
+- **El arreglo de E1 queda REFUTADO:** J1 junta la SPAS (30,1 s) y desde ahí la mitad de J2 muestra la escopeta de J1 **mezclada** con la pistola de J2 (lo que Fran llamó «mergeada»); la recarga propia de J2 (46,9 s) sí se ve. Al arma de J en la pasada 2 no la dibuja el nodo J del filtro. `SIN_OCULTAR_J = True` por defecto (`--con-ocultar-j` lo pone).
+- **Botón 11 = agacharse** (antes «zoom»): J1 lo aprieta a 16,85 s y aparece el ícono de agachado en su HUD (`confirmado` en pantalla).
+- **Sonido (de oído, Fran, en el fork y en su partida):** a J2 no le suena el disparo, y los impactos de sus balas suenan flojos, «como picar piedra», aunque dejan marca.
+- **Grabar sonido** (pedido de Fran): `herramientas/grabar_audio.py` (WASAPI loopback, `pip install pyaudiowpatch`) y `grabar-gameplay.ps1` lo graba en paralelo y lo junta en `gameplay_audio.mp4`. Probado: 2 s con pico 16413 y una grabación de 6 s con pistas de video y de audio (`ffprobe`).
+- **El diseño, en vez de prueba y error** (pedido de Fran): `docs/16-contexto-j2.md`. Los síntomas son todos el mismo: J2 es una copia de J y comparte cada singleton «del jugador»; el mod lo **aísla** (y así le saca el sonido) en vez de darle **su contexto** y conmutarlo. Plan de frío en 6 pasos.
+
 **No funcionó:** a mitad de sesión otra sesión de Claude (fisica-espacial) cambió de rama en esta misma carpeta y guardó este trabajo en un stash; lo devolvió y se fue a su propio worktree. Nada se perdió.
 **Sigue:** con el PCSX2 de Fran cerrado, la sonda de E1 con control en el fork; después E2, E3, E4.
 
