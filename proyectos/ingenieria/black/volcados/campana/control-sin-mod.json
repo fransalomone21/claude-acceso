@@ -1,0 +1,16 @@
+{
+ "1": {
+  "indice": 1,
+  "nombre": "Wilderness",
+  "sin_mod": true,
+  "juego_s": 17.6,
+  "starts": 0
+ },
+ "2": {
+  "indice": 2,
+  "nombre": "Town",
+  "sin_mod": true,
+  "juego_s": 17.6,
+  "starts": 0
+ }
+}

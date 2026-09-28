@@ -11,6 +11,10 @@ que el codigo va en el pnach y los datos nacen del .bss en cero:
     sobre J2 con lq/sq, reubica los 7 autopunteros, +0xB0 = 0, +0x8A4 = 0x1C,
     +0x2A0 = ARMAS2 (en cero), ESTADO = ESPERA = 0, FASE = 1, y le devuelve 0 al cargador.
     FASE 1  ->  aparicion + constructor + registro de J2 (lo de jugador2.py), FASE = 2.
+              (93c) APARTAR: FUN_0012BD98 le da a J2 la aparicion DE J; si J2 nacio con la misma x
+              que J, se corre 1 m en x (+0xA0, +0x100, +0x190). Encimados, los dos controladores de
+              colision cuelgan el mundo de colision (FUN_0033DD98) en los niveles con cartel
+              (Wilderness, Town): medido con control (apartar93.py).
     Con FASE 2 la carga siguiente vuelve a armar el molde (jugador2.py no lo hacia).
   POR CUADRO (sitio 0x00129574, jal 0x0013BAC8), con FASE 2:
     ESTADO 0: espera 30 cuadros; despues CONTROL2 (J2+0x588/+0x6D0/+0x7C8 = CTRL2 = el control
@@ -207,6 +211,21 @@ lui a1, 0x47
 addiu a1, a1, -0x3210
 addiu t1, zero, 2
 sw t1, 0xc4(a1)
+lw t0, 0x100(a1)
+lw t1, 0x130(s0)
+bne t0, t1, @NOAPARTAR
+lui t0, 0x3f80
+.word 0x44880800
+.word 0xC4A000A0
+.word 0x46010000
+.word 0xE4A000A0
+.word 0xC4A00100
+.word 0x46010000
+.word 0xE4A00100
+.word 0xC4A00190
+.word 0x46010000
+.word 0xE4A00190
+NOAPARTAR:
 lw t1, -0x2858(s1)
 addiu t1, t1, 1
 sw t1, -0x2858(s1)

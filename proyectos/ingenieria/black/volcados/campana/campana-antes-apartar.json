@@ -1,0 +1,164 @@
+{
+ "0": {
+  "indice": 0,
+  "nombre": "City Streets",
+  "armado_s": 10.3,
+  "estado": {
+   "cargador": 28,
+   "fase": 2,
+   "moldes": 1,
+   "llam_J0": 46,
+   "llam_J2": 1,
+   "estado": 3,
+   "espera": 30,
+   "atadas": 1,
+   "desarmes": 0,
+   "cuadros_J2": 20,
+   "titeres": 20,
+   "J2_8A4": "0x37",
+   "J2_B4": "0x5880b0",
+   "J2_588": "0x585a0c",
+   "J2_32C": "0x46d2e0",
+   "J_pos": [
+    -4.52,
+    1.11,
+    53.58
+   ],
+   "J2_pos": [
+    -4.23,
+    1.12,
+    52.62
+   ],
+   "A1_pos": [
+    -4.22,
+    1.12,
+    52.57
+   ]
+  },
+  "aliado": "0x590250",
+  "aliado_tipo": "0x597f50",
+  "aliado_bando": 0,
+  "titeres_2s": 111,
+  "pantalla_llamadas_2s": 111,
+  "ocultos_p1_2s": 0,
+  "ocultos_p2_2s": 112,
+  "manos": {
+   "metros": 9.0,
+   "aliado_J2_final_m": 0.0,
+   "aliado_J2_max_m": 0.162,
+   "titeres": 129
+  },
+  "vivo_despues": true,
+  "fecha": "2026-09-28 02:29"
+ },
+ "1": {
+  "indice": 1,
+  "nombre": "Wilderness",
+  "armado_s": 12.3,
+  "estado": {
+   "cargador": 28,
+   "fase": 2,
+   "moldes": 1,
+   "llam_J0": 45,
+   "llam_J2": 1,
+   "estado": 3,
+   "espera": 30,
+   "atadas": 1,
+   "desarmes": 0,
+   "cuadros_J2": 0,
+   "titeres": 0,
+   "J2_8A4": "0x37",
+   "J2_B4": "0x587f70",
+   "J2_588": "0x585a0c",
+   "J2_32C": "0x46d2e0",
+   "J_pos": [
+    -120.42,
+    27.98,
+    -65.43
+   ],
+   "J2_pos": [
+    -120.42,
+    27.98,
+    -65.43
+   ],
+   "A1_pos": [
+    -71.17,
+    -2.25,
+    34.26
+   ]
+  },
+  "juego_no_arranca": true,
+  "juego_s": 253.3,
+  "starts": 10,
+  "aliado": "0x590250",
+  "aliado_tipo": "0x597f50",
+  "aliado_bando": 0,
+  "titeres_2s": 0,
+  "pantalla_llamadas_2s": 0,
+  "ocultos_p1_2s": 0,
+  "ocultos_p2_2s": 0,
+  "manos": {
+   "metros": 0.0,
+   "aliado_J2_final_m": 115.227,
+   "aliado_J2_max_m": 115.227,
+   "titeres": 0
+  },
+  "vivo_despues": false,
+  "fecha": "2026-09-28 02:37"
+ },
+ "2": {
+  "indice": 2,
+  "nombre": "Town",
+  "armado_s": 11.2,
+  "estado": {
+   "cargador": 28,
+   "fase": 2,
+   "moldes": 1,
+   "llam_J0": 45,
+   "llam_J2": 1,
+   "estado": 3,
+   "espera": 30,
+   "atadas": 1,
+   "desarmes": 0,
+   "cuadros_J2": 0,
+   "titeres": 0,
+   "J2_8A4": "0x37",
+   "J2_B4": "0x588010",
+   "J2_588": "0x585a0c",
+   "J2_32C": "0x46d2e0",
+   "J_pos": [
+    98.48,
+    2.19,
+    -316.22
+   ],
+   "J2_pos": [
+    98.48,
+    2.19,
+    -316.22
+   ],
+   "A1_pos": [
+    -11.79,
+    6.19,
+    -173.12
+   ]
+  },
+  "juego_no_arranca": true,
+  "juego_s": 252.0,
+  "starts": 10,
+  "aliado": "0x590250",
+  "aliado_tipo": "0x5981d0",
+  "aliado_bando": 1,
+  "titeres_2s": 0,
+  "pantalla_llamadas_2s": 0,
+  "ocultos_p1_2s": 0,
+  "ocultos_p2_2s": 0,
+  "manos": {
+   "metros": 0.0,
+   "aliado_J2_final_m": 180.707,
+   "aliado_J2_max_m": 180.707,
+   "titeres": 0
+  },
+  "vivo_despues": false,
+  "fecha": "2026-09-28 02:43"
+ }
+}

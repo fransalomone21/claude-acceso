@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93c) — La campaña: con el mod, los niveles con cartel se colgaban; J2 nacía encima de J
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3 en toda la campaña, pedido de Fran) · **Nodos:** `fisica` (evidencia), `codigo-nuevo` (entrega)
+**Objetivo:** tramo e): cargar cada nivel de la campaña con el bloque puesto y medir J2 por nivel.
+
+- **La herramienta:** `herramientas/campana_coop.py <índices>` lanza el fork con el bloque instalado y **activo** (sin `poner`: el pnach solo), entra desde el slot 3 y carga los niveles con el selector (tabla de (78): 0 City Streets, 1 Wilderness, 2 Town, 3 Steelworks, 4 Asylum, 5 Docks, 6 City Bridge, 7 Gulag; los de prueba 8..11 no se piden). Por nivel: FASE 2 y ESTADO 3, espera el juego (TITERES sube; Start cada 20 s pasado 30 s), el títere, la pantalla (llamadas del stub) y lo oculto por pasada, `manos 2`, captura, y el nivel siguiente se carga desde éste. `--sin-mod` es el control (bloque apagado; juego = el eje gira la vista).
+- **City Streets por el pnach solo** (500 palabras): se arma en 10,3 s, títere bando 0, 111 llamadas del stub en 2 s, la pasada 2 oculta al títere 112 veces, J2 camina 9,0 m y el títere lo sigue a ≤ 0,16 m. **Wilderness y Town: se quedaban en el cartel** («TRENESK») para siempre, J2 armado (FASE 2, ESTADO 3) y el por cuadro sin correr; ni con Start. **Control, bloque apagado:** los dos llegan al juego en 17,6 s sin tocar nada (`control-sin-mod.json`, `s1-inicio.png`).
+- **No era una espera: el EE está caído.** `atasco93.py`: 12 muestras de PC en pausas, **todas en `0x0033DDB0`** (`FUN_0033DD98`, `lqc2 vf03,(t1)`), llamada desde `FUN_00336520`: el mismo punto del mundo de colisión donde caía la segunda carga en (87). La pantalla sigue mostrando el último cuadro (el cartel).
+- **La causa:** J2 **nace exactamente donde J** (`J_pos` = `J2_pos` = −120,42 / 27,98 / −65,43 en Wilderness): el envoltorio le pide la aparición a `FUN_0012BD98(juego, *(juego+0x5AB0))`, que busca entre las dos entradas de `juego+0x4990` (paso 0x880) la del id **de J**. Con los dos controladores de colisión encimados, la colisión cae. En City Streets J2 queda a ~1 m (sin medir por qué).
+- **Confirmado con control** (`apartar93.py`: en cuanto FASE = 2, en pausa, J2 corrido `dx` en x en `+0xA0/+0x100/+0x190`, antes de que el por cuadro le ate el controlador): **dx = 1 m → al juego en 14,0 s y J2 camina 11,2 m con `manos`; dx = 0 → nunca llega** (4 de 4 sin apartar, 1 de 1 apartado).
+- **Arreglo en la fuente** (`coop_mod.py`, envoltorio, 14 palabras: 95 → 109, hasta `0x0046DBB4`, antes de las armas de J2 en `0x0046DBC0`): si J2 nació con la misma x que J (comparación entera de `+0x100`), se le suma 1,0 a la x de `+0xA0/+0x100/+0x190`. `jugador2.ensamblar_programa` acepta `.word 0x…` literal (las FPU que `mips.py` no ensambla). **Bloque: 514 palabras**, reinstalado y activo. Riesgo que queda: 1 m en +x puede caer dentro de una pared en algún nivel.
+**No funcionó:** esperar el juego apretando Start: el emulador no esperaba nada, estaba caído.
+**Sigue:** la campaña entera con el arreglo (93d).
+
+---
+
 ## 2026-09-28 (93b) — Visibilidad por pasada: un filtro en el callback de dibujo de la escena
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, «el títere tapa la cámara de J2; cada uno ve el arma del otro») · **Nodos:** `render` (evidencia), `vista-fp` (evidencia; sin cambio de K)
 **Objetivo:** tramo b) de la tarea: la bandera que oculta a un personaje, en frío, y usarla por pasada.

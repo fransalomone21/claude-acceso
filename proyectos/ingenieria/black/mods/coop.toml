@@ -99,8 +99,8 @@ nota = "envoltorio: nop"
 [[parche]]
 direccion = 0x0046DA3C
 tipo = "u32"
-valor = 0x1040004A
-nota = "envoltorio: beq v0, zero, 0x46db68"
+valor = 0x10400058
+nota = "envoltorio: beq v0, zero, 0x46dba0"
 
 [[parche]]
 direccion = 0x0046DA40
@@ -309,8 +309,8 @@ nota = "envoltorio: move v0, zero"
 [[parche]]
 direccion = 0x0046DAC8
 tipo = "u32"
-valor = 0x10000027
-nota = "envoltorio: beq zero, zero, 0x46db68"
+valor = 0x10000035
+nota = "envoltorio: beq zero, zero, 0x46dba0"
 
 [[parche]]
 direccion = 0x0046DACC
@@ -435,8 +435,8 @@ nota = "envoltorio: sw v0, -0x285c(s1)"
 [[parche]]
 direccion = 0x0046DB1C
 tipo = "u32"
-valor = 0x10400012
-nota = "envoltorio: beq v0, zero, 0x46db68"
+valor = 0x10400020
+nota = "envoltorio: beq v0, zero, 0x46dba0"
 
 [[parche]]
 direccion = 0x0046DB20
@@ -513,65 +513,149 @@ nota = "envoltorio: sw t1, 0xc4(a1)"
 [[parche]]
 direccion = 0x0046DB50
 tipo = "u32"
+valor = 0x8CA80100
+nota = "envoltorio: lw t0, 0x100(a1)"
+
+[[parche]]
+direccion = 0x0046DB54
+tipo = "u32"
+valor = 0x8E090130
+nota = "envoltorio: lw t1, 0x130(s0)"
+
+[[parche]]
+direccion = 0x0046DB58
+tipo = "u32"
+valor = 0x1509000B
+nota = "envoltorio: bne t0, t1, 0x46db88"
+
+[[parche]]
+direccion = 0x0046DB5C
+tipo = "u32"
+valor = 0x3C083F80
+nota = "envoltorio: lui t0, 0x3f80"
+
+[[parche]]
+direccion = 0x0046DB60
+tipo = "u32"
+valor = 0x44880800
+nota = "envoltorio: .word 0x44880800"
+
+[[parche]]
+direccion = 0x0046DB64
+tipo = "u32"
+valor = 0xC4A000A0
+nota = "envoltorio: .word 0xC4A000A0"
+
+[[parche]]
+direccion = 0x0046DB68
+tipo = "u32"
+valor = 0x46010000
+nota = "envoltorio: .word 0x46010000"
+
+[[parche]]
+direccion = 0x0046DB6C
+tipo = "u32"
+valor = 0xE4A000A0
+nota = "envoltorio: .word 0xE4A000A0"
+
+[[parche]]
+direccion = 0x0046DB70
+tipo = "u32"
+valor = 0xC4A00100
+nota = "envoltorio: .word 0xC4A00100"
+
+[[parche]]
+direccion = 0x0046DB74
+tipo = "u32"
+valor = 0x46010000
+nota = "envoltorio: .word 0x46010000"
+
+[[parche]]
+direccion = 0x0046DB78
+tipo = "u32"
+valor = 0xE4A00100
+nota = "envoltorio: .word 0xE4A00100"
+
+[[parche]]
+direccion = 0x0046DB7C
+tipo = "u32"
+valor = 0xC4A00190
+nota = "envoltorio: .word 0xC4A00190"
+
+[[parche]]
+direccion = 0x0046DB80
+tipo = "u32"
+valor = 0x46010000
+nota = "envoltorio: .word 0x46010000"
+
+[[parche]]
+direccion = 0x0046DB84
+tipo = "u32"
+valor = 0xE4A00190
+nota = "envoltorio: .word 0xE4A00190"
+
+[[parche]]
+direccion = 0x0046DB88
+tipo = "u32"
 valor = 0x8E29D7A8
 nota = "envoltorio: lw t1, -0x2858(s1)"
 
 [[parche]]
-direccion = 0x0046DB54
+direccion = 0x0046DB8C
 tipo = "u32"
 valor = 0x25290001
 nota = "envoltorio: addiu t1, t1, 1"
 
 [[parche]]
-direccion = 0x0046DB58
+direccion = 0x0046DB90
 tipo = "u32"
 valor = 0xAE29D7A8
 nota = "envoltorio: sw t1, -0x2858(s1)"
 
 [[parche]]
-direccion = 0x0046DB5C
+direccion = 0x0046DB94
 tipo = "u32"
 valor = 0x24090002
 nota = "envoltorio: addiu t1, zero, 2"
 
 [[parche]]
-direccion = 0x0046DB60
+direccion = 0x0046DB98
 tipo = "u32"
 valor = 0xAE29D790
 nota = "envoltorio: sw t1, -0x2870(s1)"
 
 [[parche]]
-direccion = 0x0046DB64
+direccion = 0x0046DB9C
 tipo = "u32"
 valor = 0x24020001
 nota = "envoltorio: addiu v0, zero, 1"
 
 [[parche]]
-direccion = 0x0046DB68
+direccion = 0x0046DBA0
 tipo = "u32"
 valor = 0xDFB10010
 nota = "envoltorio: ld s1, 0x10(sp)"
 
 [[parche]]
-direccion = 0x0046DB6C
+direccion = 0x0046DBA4
 tipo = "u32"
 valor = 0xDFB00008
 nota = "envoltorio: ld s0, 8(sp)"
 
 [[parche]]
-direccion = 0x0046DB70
+direccion = 0x0046DBA8
 tipo = "u32"
 valor = 0xDFBF0000
 nota = "envoltorio: ld ra, 0(sp)"
 
 [[parche]]
-direccion = 0x0046DB74
+direccion = 0x0046DBAC
 tipo = "u32"
 valor = 0x03E00008
 nota = "envoltorio: jr ra"
 
 [[parche]]
-direccion = 0x0046DB78
+direccion = 0x0046DBB0
 tipo = "u32"
 valor = 0x27BD0030
 nota = "envoltorio: addiu sp, sp, 0x30"

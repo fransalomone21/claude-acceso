@@ -148,8 +148,44 @@ def probar_nivel(n):
     return res
 
 
+def probar_sin_mod(n):
+    """El CONTROL: la misma carga con el bloque apagado. Juego = el eje del falso gira la vista (vivo)."""
+    res = {"indice": n, "nombre": NOMBRES[n], "sin_mod": True}
+    run("selector_depuracion.py", "pedir-frontend", "--bandera", "0", "--segundos", "7")
+    run("selector_depuracion.py", "elegir", str(n), "0")
+    run("selector_depuracion.py", "aceptar")
+    t0, starts, juego = time.time(), 0, None
+    while time.time() - t0 < 240:
+        time.sleep(8)
+        r = run("selector_depuracion.py", "vivo", t=30)
+        if r is not None and '"vivo": true' in r.stdout and time.time() - t0 > 15:
+            juego = round(time.time() - t0, 1)
+            break
+        if time.time() - t0 > 30:
+            with Pine() as p:
+                sc.poner_boton(p, 8, True); time.sleep(0.15); sc.poner_boton(p, 8, False)
+            starts += 1
+    res["juego_s"], res["starts"] = juego, starts
+    cap("s%d-inicio.png" % n)
+    return res
+
+
 def main():
-    niveles = [int(x) for x in sys.argv[1:]] or [1, 2, 3, 4, 5, 6, 7, 0]
+    sin_mod = "--sin-mod" in sys.argv
+    niveles = [int(x) for x in sys.argv[1:] if not x.startswith("--")] or [1, 2, 3, 4, 5, 6, 7, 0]
+    if sin_mod:
+        run("coop_mod.py", "desactivar")
+        SAL.mkdir(parents=True, exist_ok=True)
+        out = {}
+        for n in niveles:
+            if not lanzar():
+                log("el fork no quedo vivo"); break
+            out[str(n)] = probar_sin_mod(n)
+            log(json.dumps(out[str(n)], ensure_ascii=False))
+            (SAL / "control-sin-mod.json").write_text(json.dumps(out, indent=1, ensure_ascii=False))
+        matar_fork()
+        run("coop_mod.py", "activar")
+        return 0
     assert all(0 <= n <= 7 for n in niveles), "solo la campana (0..7)"
     SAL.mkdir(parents=True, exist_ok=True)
     arch = SAL / "campana.json"

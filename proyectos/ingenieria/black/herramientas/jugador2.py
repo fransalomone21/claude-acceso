@@ -377,6 +377,9 @@ def ensamblar_programa(fuente=PROGRAMA, base=STUB, fin=0x0046D9F0):
     out = []
     for i, t in enumerate(instr):
         pc = base + 4 * i
+        if t.startswith(".word 0x"):      # (93c) palabra literal (FPU que mips.py no ensambla)
+            out.append((pc, int(t.split()[1], 16), t))
+            continue
         if t.startswith(".word"):
             out.append((pc, SWC1_F12 if "SWC1" in t else LWC1_F12, t))
             continue
