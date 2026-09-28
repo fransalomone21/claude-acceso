@@ -294,6 +294,10 @@ dice medido). Lo que cambió:
   tras el arreglo del puerto (el que aprieta Start es J1; J2 toma el otro). Abierto: J2 no dispara con el
   mando real, el aliado-títere tapa la cámara de J2 y J2 ve el arma de J, el arma de J2 no sigue la mirada,
   y la zona muerta con un mando gastado.
+- **(91) J2 dispara y las balas salen** (Fran); sus armas son **propias** (medido en RAM). Lo roto sería **la
+  vista en primera persona, una sola para los dos** (`hipótesis`: un objeto global que maneja todo jugador con
+  `+0xC4` = 2): animaciones de J1 en la mitad de J2 y **recarga eterna** de J2. Abierto también: la mitad de
+  J2 a veces parpadea. **El siguiente real es la vista en primera persona** (`sesiones/RETOME-LOCAL.md` §3).
 - **Siguiente:** el disparo de J2 con el mando real; visibilidad por pasada (títere y armas); los brazos flotantes
   (J2 los ve de J y J de J2: J tampoco tiene cuerpo); la recarga de J2; B4–B6 en frío; `docs/14` +
   `coop_diseno.py`. Detalle y comandos: `sesiones/RETOME-LOCAL.md`.

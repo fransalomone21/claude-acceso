@@ -1,20 +1,20 @@
-# Mensaje de retome — BLACK, notebook (después de la bitácora (90))
+# Mensaje de retome — BLACK, notebook (después de la bitácora (91))
 
 Pegar tal cual como primer mensaje del chat siguiente.
 
 ```
-Retomo BLACK en LOCAL (notebook), después de la bitácora (90) del 2026-09-28: COOP-B ABIERTA. FRAN YA JUGÓ EL COOP CON DOS MANDOS REALES en el PCSX2 2.8.0 (acceso «JUGAR BLACK COOP - dos mandos»): la pantalla se parte (confirmado en su pantalla, ~60 cuadros/s) y J2 CAMINA Y GIRA con el otro mando (confirmado por él, después del arreglo (90c)). La banda amarilla quedó arreglada en (90b). coop_mod.py = 434 palabras. Proyecto: proyectos/ingenieria/black.
+Retomo BLACK en LOCAL (notebook), después de la bitácora (91) del 2026-09-28: COOP-B ABIERTA. (91): J2 DISPARA Y LAS BALAS SALEN (Fran); sus armas son PROPIAS (medido en RAM); lo roto es la VISTA EN PRIMERA PERSONA, que es una sola y la manejan los dos. FRAN YA JUGÓ EL COOP CON DOS MANDOS REALES en el PCSX2 2.8.0 (acceso «JUGAR BLACK COOP - dos mandos»): la pantalla se parte (confirmado en su pantalla, ~60 cuadros/s) y J2 CAMINA Y GIRA con el otro mando (confirmado por él, después del arreglo (90c)). La banda amarilla quedó arreglada en (90b). coop_mod.py = 434 palabras. Proyecto: proyectos/ingenieria/black.
 
-0. git pull en claude-acceso y en C:\Users\frans\black-datos. Verificá que el último commit que tocó proyectos/ingenieria/black/sesiones/HANDOFF.md sea el cierre de la (90) o posterior. Si no, pará.
+0. git pull en claude-acceso y en C:\Users\frans\black-datos. Verificá que el último commit que tocó proyectos/ingenieria/black/sesiones/HANDOFF.md sea el cierre de la (91) o posterior. Si no, pará.
 
-1. Leé SOLO: el bloque «(90)» de sesiones/HANDOFF.md y la entrada (90) de docs/03-bitacora.md (con (90b), (90c) y (90d)). Si hace falta contexto del stub, el bloque «(89)». Del código, sólo lo que toque la tarea: herramientas/coop_mod.py (POR_CUADRO_MOD, TITERE_MOD) y herramientas/pantalla_dividida.py (FUENTE). NO leas jugador2.py.
+1. Leé SOLO: el bloque «(91)» de sesiones/HANDOFF.md y la entrada (91) de docs/03-bitacora.md (la tabla de J vs J2). Si hace falta, (90d). Si hace falta contexto del stub, el bloque «(89)». Del código, sólo lo que toque la tarea: herramientas/coop_mod.py (POR_CUADRO_MOD, TITERE_MOD) y herramientas/pantalla_dividida.py (FUENTE). NO leas jugador2.py.
 
 2. Controles: .\proyectos\ingenieria\black\abrir-sesion.ps1 -Rapido, python herramientas/programa.py verificar (0 rojos), python pruebas/prueba_herramientas.py (183).
 
 3. Fase: COOP-B, ABIERTA. La cierran las tres cosas de PDP.md §4 (riesgos altos retirados por efecto; riesgos medios IA/muerte/disparadores decididos con su mecanismo leído; docs/14-coop-diseno.md medido por coop_diseno.py verificar con su saboteador en rojo). Lo que sigue, en orden (lo reportó Fran jugando, bitácora (90d)):
-   a) J2 NO DISPARA con el mando real (en (85) sí hizo daño con el botón del mando FALSO 2 por tirador.py). Descartado: J2+0x418 (J y J2 valen 0 con J en el puerto 2). Primer paso barato, por PINE con la partida abierta: con Fran apretando R1 en el mando de J2, ¿cambia el buffer del puerto (0x005856C0 puerto 1 / 0x005857B0 puerto 2, +0x8C.. ejes, botones antes) y el control 0x005858A0? Si el control ve el botón, lo que falta está entre el control y el arma de J2 (J2+0x2A0 = ARMAS2).
-   b) EL CUERPO DEL ALIADO SE VE SUPERPUESTO EN LA CÁMARA DE J2 (el títere está parado donde está J2 y J2 lo ve desde adentro), y J2 ve el arma en primera persona de J: CUALQUIER animación del arma de J (disparo, recarga, inspección) aparece también en la mitad de J2 (captura de Fran, (90d) punto 5) — el arma en primera persona es UNA sola, la de J. Primero: quién la dibuja y de qué jugador toma el estado (vista-fp K2); ese mismo objeto sirve para ocultarla en la pasada 2 y para dibujar una de J2. Hace falta VISIBILIDAD POR PASADA: en la pasada 2 ocultar el aliado-títere y el arma de J; en la 1, el arma de J2. En frío primero: qué dibuja los brazos/arma de un jugador (vista-fp K2) y qué flag oculta un personaje.
-   c) «La cámara de la pistola no funciona igual que en J1»: el arma de J2 en su vista no sigue la mirada como la de J1 (capturas de Fran). Probablemente misma raíz que b).
+   a) LA VISTA EN PRIMERA PERSONA (causa candidata de: animaciones de J1 en la mitad de J2, arma que no sigue la mirada de J2, RECARGA ETERNA de J2). En frío primero, en el decompilado de C:\Users\frans\black-datos\decompilado\: FUN_0015bf50 (0x0015.c), con dueño+0xC4 == 2, cambia el arma de UN objeto global *(*(0x0040F510)+0xCBD8)+0xC vía FUN_001d6e78 (0x001D.c; animaciones en +0x1BE0). Confirmar que ese objeto es la vista en primera persona (quién lo dibuja, su tamaño, si su constructor se puede llamar dos veces) y qué espera la recarga (buscar el fin de recarga entre los 22 caminos «+ 0xc4) == 2» de 0x0015.c). Después, por PINE con Fran recargando con J2: ¿cambia +0x1BE0 de la vista? Decisión técnica (se toma, no se pregunta): vista propia para J2 (segunda instancia) o J2 sin vista y la recarga desacoplada.
+   b) VISIBILIDAD POR PASADA: en la pasada 2 ocultar el aliado-títere (J2 lo ve desde adentro) y la vista de J; en la 1, la de J2 si la hay. Qué flag oculta un personaje: sin buscar todavía.
+   c) EL PARPADEO de la mitad de J2 (Fran: «a veces se angosta y se reacomoda»): sin medir. Sospecha barata: la proporción que el stub cambia a la mitad (R+0xD470/+0xD474, (89)) pisada por otro que la escribe en el mismo cuadro.
    d) HECHO: la sensibilidad de los mandos queda ORIGINAL (decisión de Fran): «- dos mandos» apaga los tres parches de mira; se prenden sólo con mouse (docs/10-jugar.md). No tocar sin que Fran lo pida.
    e) La recarga de J2, B4–B6 en frío, docs/14 + coop_diseno.py.
 
@@ -26,7 +26,7 @@ ESTADO DE LA MÁQUINA: los ISO están en C:\Users\frans\Desktop\Juegos\Juegos de
 
 REPRODUCIR (por PINE, bloque apagado): lanzar el fork -> ~35 s -> pine.py cargarestado --slot 3 (desde herramientas/) -> 8 s -> depurador.py continuar -> 12 s -> selector_depuracion.py vivo -> coop_mod.py poner -> selector_depuracion.py pedir-frontend --bandera 0 --segundos 7 -> elegir 0 0 -> aceptar -> coop_mod.py mirar 30 -> coop_mod.py manos 2. Con el bloque PRENDIDO: lo mismo sin «poner». Esperas en un script de Python del scratchpad (el de (90b) es el modelo), nunca Start-Sleep suelto.
 
-YA HECHO, NO REHACER: (85)–(89); (90b) la banda amarilla era la llamada única al tinte (0x0046FAA4, ahora nop; sin tinte de daño con la pantalla partida); (90c) J2 toma el control del puerto que J no usa (0x005858A0 puerto 1 / 0x00585A0C puerto 2; el tercer control 0x00585B78 tiene fuente 0).
+YA HECHO, NO REHACER: (85)–(89); (91) J2 dispara con el mando real y sus armas son propias: objeto, cargador, reserva y dueño = J2+0x280 (medido; J = *(0x0040F4D0) + 0x30, NO el puntero solo); (90b) la banda amarilla era la llamada única al tinte (0x0046FAA4, ahora nop; sin tinte de daño con la pantalla partida); (90c) J2 toma el control del puerto que J no usa (0x005858A0 puerto 1 / 0x00585A0C puerto 2; el tercer control 0x00585B78 tiene fuente 0).
 
 7. Trampas medidas:
    - El 2.8.0 con un juego corriendo: CloseMainWindow() abre «Confirmar apagado» y queda esperando; para cerrar uno de prueba, Stop-Process (no pisa el ini). NUNCA cerrar la partida de Fran sin avisar.

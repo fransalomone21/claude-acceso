@@ -16,6 +16,29 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (91) — Las armas de J2: propias; lo compartido es la vista en primera persona
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, riesgo alto «J2 dispara») · **Nodos:** `vista-fp` K2 (evidencia nueva, sin subir), `armas`
+**Objetivo:** el punto a) del retome (J2 no dispara con el mando real).
+
+- **Lo que reportó Fran jugando (2.8.0, dos mandos, su partida):** **J2 dispara y las balas salen** — (a) queda **refutado como «no dispara»**. Pero: en la mitad de J2 las animaciones del arma son las de J1; J2 se quedó sin balas y quedó **recargando para siempre**; al agarrar la SPAS «no me deja disparar» y después «dejó de buguearse»; y **a veces la mitad de J2 parpadea: se angosta y se reacomoda** (sin medir).
+- **Medido por PINE, sólo lectura, sobre su partida** (`volcados/armas-91/J-b.bin`, `J2-b.bin`; scripts `armas91.py`/`armas91b.py` del scratchpad). **Trampa pagada:** `*(0x0040F4D0)` es **el juego**, J = juego + 0x30 (`0x005A8AB0`); la primera lectura usó el juego como J y daba basura.
+  | | J | J2 |
+  |---|---|---|
+  | `+0x2A0` armas | `0x006ED780` → `006DE690`, `006DF020` | `ARMAS2` → `006DE7A0`, 0 |
+  | en la mano `+0x2A4` / `+0x2C3` | `006DF020` / 1 | `006DE7A0` / 0 |
+  | tipo del arma `+0xE8` | `01842090` (cargador 15), `018420B0` (cargador 6) | `01842090` (**cargador 0**) |
+  | reserva por tipo (`+0x280`, 10 × u16) | 30, 15 | 30, **0** |
+  | dueño del arma `+0xFC` | `0x005A8D30` (= J+0x280) | `0x0046D070` (= J2+0x280) |
+  | `+0xC4` | 2 | 2 |
+  **Las armas de J2 son suyas** (objeto, cargador `*(arma+0xF4)+0x18` y reserva propios, dueño J2): `confirmado` en RAM. El HUD `006 / 015` en la mitad de J2 es **el de J** (la escopeta que J tiene en la mano: cargador 6, reserva 15). La SPAS **la tiene J** (ranura 1): el recoger se lo dio a J aunque lo intentara J2 (`probable`: no se vio quién la tocó).
+- **Lo compartido (mismo puntero en J y J2, copiado del molde):** `+0x270/+0x274/+0x278` → tres bloques de 0x20 B **cuyo dueño es J** (`+0` = `0x005A8AB0`, `+8` = `0x013094D0`/`...570`/`...610`); `+0x294` → `0x007081E0` (arreglo de bytes por tipo de arma del administrador de armas `J+0x280`, `+0x14`; `+0x298` = 17); y además `+0x0B8/+0x0BC`, `+0x328`, `+0x354..+0x360`, `+0x410`.
+- **En frío** (decompilado de `black-datos`): el administrador de armas es `W = J+0x280` (`FUN_0015c100`/`FUN_0015bb90`/`FUN_0015bf50`): `W+0` reserva por tipo, `+0x14` el arreglo de `+0x294`, `+0x1C` dueño, `+0x20` armas, `+0x24` en la mano, `+0x42` cantidad, `+0x43` índice. **`FUN_0015bf50` (cambiar de arma), si el dueño tiene `+0xC4` = 2, le cambia el arma a UN SOLO objeto global**: `*(*(0x0040F510)+0xCBD8)+0xC`, con `FUN_001d6e78` (conjunto de animaciones en `+0x1BE0`, sonido por ValueDB). Ese objeto es **el candidato a la vista en primera persona** (`probable`: la llamada se leyó, el dibujo no). Hay **22** caminos con `dueño+0xC4 == 2` en `0x0015.c` (el código de armas).
+- **Lectura (hipótesis):** con J2 en `+0xC4` = 2, **los dos jugadores manejan la misma vista en primera persona**: los disparos y recargas de J2 se animan en el arma de J, y la vista se dibuja en las dos pasadas. La recarga eterna de J2 sería una recarga que espera un evento de esa animación compartida, que está con el arma de J (se destrabó cuando la vista cambió por la SPAS de J). Explicaría b) y c) del retome y la recarga, con **una** causa.
+**No funcionó:** la primera lectura (J tomado del puntero del juego, sin + 0x30). Los escritores de `+0x270..+0x278` no aparecen como `+ 0x270) =` en el decompilado: se escriben por otro camino, sin hallar.
+**Sigue:** (1) en frío, confirmar que `*(*(0x0040F510)+0xCBD8)+0xC` es la vista en primera persona (quién la dibuja; tamaño; si hay constructor que se pueda llamar por segunda vez) y qué hace la recarga con ella (buscar el fin de recarga en los 22 caminos `+0xC4 == 2`); (2) por PINE, con Fran recargando con J2: ¿cambia `+0x1BE0`/estado de la vista? (3) decidir: vista propia para J2 (una segunda instancia) o J2 sin vista en primera persona y la recarga desacoplada. Y el parpadeo de la mitad de J2, sin medir.
+
+---
+
 ## 2026-09-27 (90) — El coop con doble clic, y los juegos de PS2 en su carpeta
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3, prueba de punta a punta) · **Nodos:** ninguno (entrega; `entrada` sin cambio de K)
 **Objetivo:** que Fran pruebe el coop con el mando real sin comandos.

@@ -4,11 +4,21 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(90)» DE ACÁ ABAJO, después el «(89)» y el «(88)».** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(91)» DE ACÁ ABAJO, después el «(90)» y el «(89)».** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y
 > B3 hechas: el coop en pantalla dividida sale del pnach solo** (88). El
 > mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-28, NOTEBOOK — LAS ARMAS DE J2 SON SUYAS; LA VISTA EN PRIMERA PERSONA ES UNA SOLA (bitácora (91))
+
+- **J2 dispara y las balas salen** (Fran, con el mando real): el «no dispara» de (90d) queda refutado. Problemas que siguen: en la mitad de J2 las animaciones del arma son las de J1; J2 quedó **recargando para siempre** con cargador 0 y reserva 30; la mitad de J2 **a veces parpadea** (se angosta y se reacomoda, sin medir).
+- **Medido en RAM (su partida, sólo lectura):** las armas de J2 son **propias** (objeto, cargador, reserva y dueño = J2+0x280). J = `*(0x0040F4D0)` **+ 0x30**. El HUD de la mitad de J2 es el de J. La SPAS la tiene J.
+- **Causa candidata única (hipótesis):** `FUN_0015bf50` y 22 caminos del código de armas, con `dueño+0xC4` = 2, manejan **un solo objeto global** `*(*(0x0040F510)+0xCBD8)+0xC` (`FUN_001d6e78`: conjunto de animaciones en `+0x1BE0`) = candidato a la vista en primera persona. J y J2 tienen `+0xC4` = 2 → los dos la manejan. Explicaría animaciones de J1, arma que no sigue la mirada de J2 y la recarga eterna.
+- **Compartido con J por el molde:** `+0x270/+0x274/+0x278` (tres bloques con dueño J), `+0x294` (bytes por tipo de arma), `+0xB8/+0xBC`, `+0x328`, `+0x354..+0x360`, `+0x410`.
+- **Sigue:** `sesiones/RETOME-LOCAL.md` §3.
+
+**Estado de la máquina al cerrar:** el PCSX2 2.8.0 de Fran abierto con su partida coop; no se escribió nada en ella.
 
 ## 2026-09-27, NOTEBOOK — EL COOP CON DOBLE CLIC, LOS ISO EN SU CARPETA Y LA BANDA ARREGLADA (bitácora (90))
 
