@@ -72,17 +72,24 @@ trabajo hecho. Una fase por chat.
 | **4** | **Forma: Rechtin & Maier** | **CERRADA 2026-09-17.** `pilares/rechtin-maier/heuristicas.md`: las heurísticas de arquitectura que aplican a un sistema de trabajo de **una** persona, **cada una con su caso propio ya vivido** del repo — 10 tareas de la taxonomía del libro, más las 4 que el propio libro nombra como las más aplicables, más las meta-heurísticas de generación/aplicación contrastadas contra `lecciones.jsonl`, más la tabla de **las que NO entraron y por qué**. Citas **99/99** (87 por el medidor, 12 cortas a mano tras auditar el denominador), ancla `impresa = PDF − 27` **constante**, medida por **dos caminos** (422 encabezados sin excepción + 191 de 191 del índice), saboteador en verde | el medidor de citas sobre la ficha de Rechtin, y el ancla por **dos** caminos | `cerrada` |
 | **5** | **Diseñar la arquitectura nueva** | **CERRADA 2026-09-17.** Los tres artefactos en `docs/`: [`arquitectura.md`](docs/arquitectura.md) (10 piezas P1-P10 contra **14** defectos medidos, cada pieza con su página de fuente y su medidor), [`trade-study.md`](docs/trade-study.md) (3 alternativas, **criterios mandatorios separados de los ponderados y escritos antes de puntuar**; la primera pasada salió inconclusa —610 contra 630— y se rehicieron las **definiciones**, no los pesos, según Rechtin p. 402 y NASA p. 169-170; resultado B 810 / A 430 / C 400, con el ranking probado robusto contra la incertidumbre dominante) y [`matriz-cumplimiento.md`](docs/matriz-cumplimiento.md) (molde + selector de rigor por aspecto + la instancia de este proyecto: 38 filas, 3 recortadas con su resta escrita). Ningún archivo vivo tocado. **D14 se descubrió midiendo**: `verificar-requisito.py` da 13 de 13 falsos positivos sobre requisitos en español | los tres archivos existen en `docs/` y `medir-matriz.py` lee la matriz sin filas sin resta | `cerrada` |
 | 6 | **Migrar** | `chequeo-completo.ps1` en verde, **todos** los saboteadores corridos, y **un proyecto real ya migrado** a la matriz | `.\chequeo-completo.ps1` sale con código 0, y `medir-fase.py` cuenta al menos un PDP en `[OK]` | **CERRADA 2026-09-17** (`ESTADO_ACTUAL.md`: chequeo en verde, 7 medidores + 10 saboteadores, este proyecto migrado). Esta celda decía `abierta` hasta el 2026-09-28 y el hook inyectaba «fase 6» como activa |
-| 7 | **Validar** (≠ verificar) | Una sesión real trabajada bajo la arquitectura nueva, con el costo medido contra la anterior | el medidor P10, que esta fase construye: *timely / affordable / predictable / comprehensive* (SEH p. 165-166), contra el costo por fase ya registrado en `ESTADO_ACTUAL.md` | `abierta` |
+| 7 | **Validar** (≠ verificar). Tipo: **Fase D** (fabricación, integración y prueba) | Una sesión real trabajada bajo la arquitectura nueva, con el costo medido contra la anterior | el medidor P10, que esta fase construye: *timely / affordable / predictable / comprehensive* (SEH p. 165-166), contra el costo por fase ya registrado en `ESTADO_ACTUAL.md` | `abierta` |
 
-**Fase en curso:** 6 — Migrar.
+**Fase en curso:** 7 — Validar (≠ verificar). Tipo: Fase D.
 
-**Qué la cierra, exactamente:** `chequeo-completo.ps1` sale con código 0 con
-sus siete medidores, los diez saboteadores corren en verde, y al menos un
-proyecto real tiene su matriz de cumplimiento en la sección 8 de su PDP.
+> Hasta el 2026-09-28 esta línea decía «6 — Migrar», y es la que lee el hook
+> `fase_activa`: marcar la fila 6 como CERRADA ese día no cambió lo que se
+> inyectaba. Se corrigió la precondición y no se miró el efecto.
 
-**Cómo se certifica:** `.\chequeo-completo.ps1` (las dos capas) y
-`python perfil-global\herramientas\medir-fase.py`, que tiene que contar al
-menos un PDP en `[OK]`. Las corre la sesión, no Fran.
+**Qué la cierra, exactamente:** una sesión real trabajada bajo la
+arquitectura nueva, con su costo medido contra la anterior por el medidor P10.
+El camino son las tareas T1–T10 de
+[`docs/diagnostico-2026-09-28.md`](docs/diagnostico-2026-09-28.md) §3, en el
+orden de su camino crítico; T1 está diseñada en
+[`docs/t1-presupuesto-inyeccion.md`](docs/t1-presupuesto-inyeccion.md).
+
+**Cómo se certifica:** el medidor P10 —*timely / affordable / predictable /
+comprehensive* (SEH p. 165-166)— contra el costo por fase registrado en
+`ESTADO_ACTUAL.md`. Lo corre la sesión, no Fran.
 
 > **El medidor no es invariante bajo el error que busca, y está probado:**
 > `probar-medidor-fase.ps1` lo pone en rojo con el campo vacío, con el

@@ -1,6 +1,20 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
-> **2026-09-28 — LO ÚLTIMO. El diagnóstico medido del método entero está en
+> **2026-09-28 (noche) — LO ÚLTIMO. T1 está DISEÑADA, sin construir:
+> [`docs/t1-presupuesto-inyeccion.md`](docs/t1-presupuesto-inyeccion.md).**
+> Umbral del harness **10 000 caracteres por hook** (`confirmado`: constante
+> `1e4` en `claude.exe` 2.1.284 + censo de 1 235 salidas). El arranque del repo
+> se pierde entero en **13 de 30** sesiones (58 s contra 60 de timeout). Lo que
+> sigue es el §7 del doc, **en orden**: (1) `perfil-global/herramientas/
+> medir-inyeccion.py` + `probar-medir-inyeccion.ps1`, que tienen que dar
+> **rojo sobre el estado de hoy**; (2) arranque partido (texto / medición con
+> fecha límite 40 s); (3) pilares en dos hooks; (4) núcleo generado de
+> `chequeo` en dos hooks; (5) hook al paso. Nada de eso está hecho. De paso:
+> la línea `Fase en curso` del PDP ya dice 7, tipo D, verificado sobre lo que
+> inyecta el hook. Dos lecciones nuevas (`propia`), con su línea en
+> `chequeo-de-trabajo.md` e instaladas.
+>
+> **Antes (2026-09-28, tarde): el diagnóstico medido del método entero está en
 > [`docs/diagnostico-2026-09-28.md`](docs/diagnostico-2026-09-28.md)**: once
 > problemas (A1–A11) con su evidencia, el N² de quién le entrega qué a quién y
 > el camino crítico de la reforma (T1 → T2 → T3 → T4 → T7 → T9, ~9-16

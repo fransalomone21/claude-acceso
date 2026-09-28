@@ -87,19 +87,44 @@ De paso: la cascada mide ahora si todo está **al día** por git
 A11 (sesiones paralelas) se vio en vivo: dos sesiones en el mismo árbol a la
 vez, y el rojo de una era trabajo en curso de la otra.
 
+## 2026-09-28 (noche) — T1 diseñada: el umbral medido y el arranque que se pierde
+
+**[`docs/t1-presupuesto-inyeccion.md`](docs/t1-presupuesto-inyeccion.md)**, en
+frío, sin tocar nada vivo. **El umbral es 10 000 caracteres por hook**
+(`confirmado` por dos caminos: la constante en el binario de Claude Code
+2.1.284 y un censo de 1 235 salidas de hooks sin una excepción); es por hook,
+así que partir sirve. `chequeo-de-trabajo.md` llega cortado desde el **22/08**.
+**Y el arranque del repo se pierde entero en 13 de las últimas 30 sesiones**:
+tarda 58 s contra 60 de timeout (su comentario dice 7 s) y el texto fijo muere
+con la medición. `verify-install` decía `[OK] emite 134667 chars`: medía el
+efecto sin umbral. **Elegida la D**: núcleo generado de `chequeo` en dos hooks
+(las 198 reglas de cabecera, 17,5 K), el detalle **al paso** sólo para los
+momentos que discriminan (la sonda sobre 165 sesiones mostró que «creerle» y
+«negativo» disparan en el 93–98 % y en la 4.ª llamada: van al núcleo),
+`pilares` en dos hooks, el arranque partido con fecha límite interna, y el
+medidor `medir-inyeccion.py` con su saboteador **primero**. Al arrancar: de
+160 K emitidos y 16 K recibidos a ~45 K emitidos y recibidos. De paso, la línea
+`Fase en curso` del PDP seguía en «6 — Migrar» (el hook la lee a ella, no a la
+fila): corregida a 7, tipo D, **y medido el efecto** sobre lo que el hook
+inyecta.
+
 ## Lo que FALTA, para la fase 7
 
-- **Atacar el diagnóstico del 2026-09-28 en el orden de su camino crítico**,
-  empezando por A1 (el presupuesto de inyección), que es la mitad de P5 que
-  faltaba, medida con un síntoma más grave que el tamaño.
+- **T1, construir** según `docs/t1-presupuesto-inyeccion.md` §7, en ese orden:
+  el medidor y su saboteador (rojo sobre el estado de hoy), el arranque
+  partido, pilares en dos, el núcleo generado, el hook al paso. Y con el
+  núcleo, corregir las dos frases que hoy mienten: `aprender.py agregar` e
+  `install.ps1` dicen que `chequeo-de-trabajo.md` «se lee solo».
+- Después, el resto del camino crítico del diagnóstico (T2 → T3 → T4 → T7 →
+  T9).
 
 - **P10, el medidor de validación** — *timely / affordable / predictable /
   comprehensive* (SEH p. 165-166), contra el costo por fase ya registrado acá
   abajo. Es lo que cierra la fase 7.
 - **P1, el catálogo derivado**, diferido con su resta escrita en la matriz.
-- **La mitad de P5 que falta:** partir `chequeo-de-trabajo.md`, que sigue
-  pesando **95 KB**. Criterio ya escrito: lo que se inyecta pesa menos, **y**
-  la lección del paso en curso está adentro.
+- **La mitad de P5 que falta:** partir `chequeo-de-trabajo.md` (hoy
+  **136 KB**) — es T1, ya diseñada. Criterio: lo que se inyecta pesa menos,
+  **y** la lección del paso en curso está adentro.
 - **`ingenieria-de-sistemas.md`** con las 4 correcciones de `arquitectura.md`
   §8, y la pregunta abierta: ¿sigue haciendo falta, o el catálogo P1 más las
   cuatro fichas ya lo reemplazan?
