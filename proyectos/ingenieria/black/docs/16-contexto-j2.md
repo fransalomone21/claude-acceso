@@ -237,3 +237,55 @@ Sirve para confirmar la concepción **antes** de construir: *candidato compartid
   (`pickups+0x5848` = 0 al leerlo por PINE).
 - **Refuta:** si en la predicción J2 no levanta nada, el control o `FUN_0015C920` miran algo más (candidato: el
   estado de agarre `ctrl+0xFB/+0xFC`).
+
+## Clase A, `V` y el sonido (T4, (101) nube): el disparo de J2 no suena porque su sonido vive en `V`, y el mod le saltea `V`
+
+### Concepción (`confirmado en frío`; tamaños y punteros `confirmado en volcado`)
+
+- **`V` es la vista del arma en primera persona**: un objeto de `0x1C50` B que el arranque aloja una sola vez en el
+  contexto de efectos (`X+0xC`, `X = *(0x0040F510+0xCBD8)`, `FUN_001E82A8`), con 6 sub-ranuras de `0x430` (vtables
+  `0x003E2898`/`0x003E0910`). Es la **misma** en los cuatro volcados (`0x00657180`).
+- **El sonido del disparo del jugador sale de `V`**: `FUN_001D6F90(V)` (el disparo) → pista de animación
+  (`FUN_001F0678(V+0x1BE0)`) y, si `*(X+0x24)+0x1E54` = 0, `FUN_001D7020(V)`: alterna al azar dos muestras
+  (`V+0x1C0C`/`+0x1C10`) y las crea (`FUN_00283E78`, evento `0x85C`) **en el emisor propio de `V`** (`V+0x40`), con
+  volumen `V+0x1C48`. Los impactos son sonidos del mundo, aparte.
+- **Quién usa `V`** (todos por el global `X+0xC`, ninguno por parámetro): el código de armas **del jugador que se está
+  actualizando** (disparo `FUN_0011C5A8`, `FUN_00159198`, `FUN_00159938`, `FUN_0015A098`, `FUN_0015A400`; recarga
+  `FUN_00158AE0`; cambio `FUN_00156F18`, `FUN_0015BF50`; `FUN_00156FD0`, `FUN_001575A8`; consultas `FUN_001435F8`,
+  `FUN_00143700`), el callback de eventos de animación (`FUN_001E80C0`, (93m)), y **una máquina de estados de la vista**
+  de cuatro estados (vtables `0x003E07B8`, `0x003E0800`, `0x003E0848`, `0x003E0890`; métodos `FUN_001EDC80`,
+  `FUN_001EE0B0`, `FUN_001EE298`, `FUN_001EE678`, `FUN_001EDE98`…) que le cambia el modo desde afuera
+  (candidatos, `hipótesis`: normal, mira con zoom (N8), muerte, cine).
+- **Por qué J2 no suena (F4):** el aislador de (93l) hace que, mientras se actualiza J2, `FUN_001D6F90` vuelva sin hacer
+  nada (15 de 15 disparos salteados, (96)). Con eso se va el sonido, el fogonazo y la animación de J2 **sobre `V`**. Lo
+  que se oye de J2 son sólo sus impactos.
+- **`V` no se puede clonar**: tiene **10 punteros a sí misma** (las 6 sub-ranuras y `+0x1BE0/+0x1BE8/+0x1BF0`) y unos
+  **15 a objetos de animación del montón** (`0x0185xxxx–0x01ABxxxx`). Una copia compartiría esos objetos: es la trampa
+  de la ranura compartida de (80)/(93n), otra vez.
+
+### Alternativas y elección
+
+| Opción | Qué | A favor | En contra |
+|---|---|---|---|
+| **1. `V2` propia + conmutar `X+0xC`** (P3) | construir una segunda vista con las funciones del juego (como la ranura 3); mientras se actualiza J2, `X+0xC` = `V2`; después, `V` | el camino entero del disparo de J2 corre **como el de J**: sonido, pista de animación, configuración por arma (`FUN_001D6E78` la hace el mismo cambio de arma, ya conmutado). **Reemplaza al aislador**, que deja de hacer falta | construir `V2` (la parte cara, T7); la máquina de estados de la vista actúa sobre el global: hay que decidir a quién le habla (abajo) |
+| 2. aislador + sonido a mano | dejar el aislador y, cuando J2 dispara, crear el sonido con `FUN_00283E78` | chico | arregla F4 y nada más; el fogonazo y la animación de J2 siguen sin existir (F8) |
+| 3. no aislar | sacar el aislador | cero código | vuelve lo de (93k): J2 recarga y **las dos mitades** recargan |
+
+**Elección: opción 1**, y el aislador de (93l)/(93m) queda como **control**: prendido = el comportamiento de hoy.
+
+**Lo que la opción 1 obliga a decidir en T7** (diseño, no código):
+1. **Cuándo se arma `V2`**: `V` se arma una vez por arranque. Mismo criterio que la ranura 3: una vez por arranque,
+   fuera del pnach, con su bandera (como `R3_ARMADA`).
+2. **La máquina de estados de la vista** habla con `X+0xC` cuando cambia de estado. Si esos cambios los causa **un
+   jugador** (el zoom, la muerte), tienen que correr con el contexto de ese jugador; si los causa **el juego** (pausa,
+   cine), tienen que llegar a `V` **y** a `V2` (una primitiva nueva, **P4 difundir**). Se decide con T6 (zoom).
+3. **Dónde suena** J2: el emisor de `V2+0x40` suena «en la cabeza» del oyente, que es J (N5): con Parsec los dos oyen
+   lo mismo; prioridad baja, se acepta.
+
+### Sonda del concepto (vivo, con lo que ya está instalado)
+
+- **Predicción:** con el aislador **apagado** (`coop_mod.py poner --sin-aislar`, el control que ya existe), J2 dispara
+  3 s y **su disparo suena** (`grabar_audio.py`: los picos del disparo aparecen), y vuelve el síntoma de (93k) (las dos
+  mitades animan). Con el aislador **prendido**, en la misma corrida, J2 dispara 3 s: sólo impactos.
+- **Refuta:** si con el aislador apagado J2 tampoco suena, el sonido no vive en `V` (o la bandera `*(X+0x24)+0x1E54`
+  está en 1 mientras se actualiza J2) y la opción 1 no alcanza para F4.

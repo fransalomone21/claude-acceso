@@ -16,6 +16,22 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (101, nube) — T4, `V` y el sonido: el disparo de J2 no suena porque su sonido vive en `V` y el mod le saltea `V`; `V2` se construye, no se copia
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase A · **Nodos:** `audio`, `vista-fp` (sin cambio de K)
+**Objetivo:** T4 en el plano del diseño: qué es `V`, de dónde sale el sonido del disparo y si el camino de J2 puede correr contra una `V2`.
+
+- **`V` = la vista del arma en primera persona** (`0x1C50` B, alojada una vez por arranque en `X+0xC`, `0x00657180` en los 4 volcados). **El sonido del disparo sale de ahí** (`confirmado en frío`): `FUN_001D6F90` → `FUN_001D7020`, dos muestras al azar creadas con `FUN_00283E78` (0x85C) en el emisor `V+0x40`. El aislador de (93l) saltea eso para J2: **F4 explicado**.
+- **Usuarios de `V`**, todos por el global: el código de armas del jugador que se actualiza (disparo, recarga, cambio, consultas), el callback de eventos (93m) y una **máquina de estados de la vista** de 4 estados (vtables `0x003E07B8`–`0x003E0890`).
+- **`V` no se puede clonar** (`confirmado en volcado`, 3 volcados): 10 punteros a sí misma y ~15 a objetos de animación del montón. Se construye con las funciones del juego, como la ranura 3.
+- **Elección:** `V2` propia + conmutar `X+0xC` alrededor de la actualización de J2 (**P3**); reemplaza al aislador, que queda como control. Descartadas: sonido a mano (sólo F4), no aislar (vuelve (93k)).
+- **Primitiva nueva, P4 difundir:** lo que el **juego** le hace a `V` (pausa, cine) tiene que llegarle también a `V2`; lo que hace **un jugador** (zoom, muerte) corre en su contexto. Se decide con T6.
+- **Sonda del concepto** con lo ya instalado: `--sin-aislar` → el disparo de J2 suena (y vuelve (93k)); con el aislador, sólo impactos.
+
+**No funcionó:** nada.
+**Sigue:** T5 (la pasada 2 y el puerto).
+
+---
+
 ## 2026-09-28 (100, nube) — T3, juntar: la pregunta es de J, la respuesta es una sola, y el que la usa ya es cada jugador; las tres primitivas del diseño
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase B · **Nodos:** `pickups` (K2, sin cambio)
 **Objetivo:** T3 en el plano de concepción y diseño (pedido de Fran en (99)): cómo junta J, por qué J2 no, qué alternativas hay.
