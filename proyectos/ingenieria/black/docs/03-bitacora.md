@@ -16,6 +16,24 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (96) — El video de Fran de las 14:58, cuadro por cuadro: cuatro errores, y el principal es el arma de J dibujada en la mitad de J2
+**Máquina:** notebook (el 2.8.0 de Fran abierto: sólo lectura por PINE) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (cada mitad muestra lo suyo) · **Nodos:** `render`, `personajes` (sin cambio de K)
+**Objetivo:** revisar `volcados/video/20260928-145814/` (60 s, J1 = puerto 2) con la línea de botones y convertir cada cosa rara en pregunta medible.
+
+- **Sincronía:** el video va ~0,25 s adelante de los botones (J1 dispara a 0,99 y el contador baja en el cuadro de 0,75).
+- **E1 (probable):** con J2 sin tocar nada, **la mitad de J2 repite lo que hace el arma de J**: la recarga de J1 (1,5–3,5 s y 9,0–11,8 s) y, cuando J1 junta la SPAS 12 (44,2 s), el gesto de juntar y la escopeta hasta el final. En RAM (`herramientas/foto_coop.py`, sólo lectura, `vivo/foto-1.json`) la ranura 3 está bien: armada, `J2+0x330` = `0x0046E100` con dueño J2; J tiene 2 armas (la SPAS en la mano, `J+0x330` = su 2.ª ranura, dueño J) y J2 **una sola** (la pistola). **Hipótesis:** el filtro por pasada (`ocultar_pasada`, (93)) oculta a J2 en la pasada 1 y al títere en la 2, pero **nunca a J en la 2**: el `FUN_00133BA0` de J dibuja su arma en primera persona encima de la de J2. Antes de la ranura 3 era la misma ranura y no se notaba.
+- **Arreglo escrito, sin probar:** en la pasada 2 también se saltea el objeto `C` = `0x0046FBEC` (= J; 0 = como antes). +5 instrucciones (código hasta `0x0046FBCC`) y 1 dato. Control: `coop_mod.py instalar --sin-ocultar-j` deja `C` fuera del pnach y se prende/apaga por PINE en la misma corrida. **Predicción:** con `C` = J, J recarga y la mitad de J2 muestra la pistola quieta de J2; con `C` = 0, la repite.
+- **E2 (hipótesis):** J2 recargar (27,3–30,4 ×7; 42,0; 54,3–56,6) y melee (57,1–60,5 ×6): ninguna animación en su mitad. Puede ser E1 (el arma quieta de J encima) o el cargador lleno: se mide después de E1.
+- **E3 (hipótesis):** 21,7–27,3, J2 dispara seguido sin tocar la mira y **la vista sube sola** (mitad superior negra = techo) hasta 27,5. ¿El retroceso de J2 se acumula sin recuperarse? Sonda: cabeceo `J2+0x4F0+0xC` cada 0,1 s disparando 3 s; control: J igual.
+- **E4 (hipótesis):** 51–60 s, un arma chica **flotando** frente a la pared de ladrillos en la mitad de J2 (la captura de Fran de las 15:01). Se mira con E1 arreglado.
+- **Botón nombrado:** `b1` = **agarrar** (cuadrado, mantener): J1 44,2 s «HOLD □ TO PICK UP SPAS 12» → «SPAS 12 PICKED UP» (`confirmado` en pantalla). Y `b3` pasa a llamarse `melee` en `sondas_coop.BOTONES` (93z).
+- No son errores nuevos: los carteles centrados (30,5 y 44–50 s), el HUD único de J1.
+
+**No funcionó:** a mitad de sesión otra sesión de Claude (fisica-espacial) cambió de rama en esta misma carpeta y guardó este trabajo en un stash; lo devolvió y se fue a su propio worktree. Nada se perdió.
+**Sigue:** con el PCSX2 de Fran cerrado, la sonda de E1 con control en el fork; después E2, E3, E4.
+
+---
+
 ## 2026-09-28 (95) — B5, sonda 1: no midió (el enemigo lo mató el aliado); la vida del jugador se regenera
 **Máquina:** notebook, fork · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (B5, muerte de J2) · **Nodos:** `flujo`, `personajes` (sin cambio de K)
 **Objetivo:** sonda 1 de (93u): qué es `ctrl+0x100` (`J+0x5F0`) y si sube antes de que J muera.

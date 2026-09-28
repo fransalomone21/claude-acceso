@@ -794,6 +794,9 @@ def programas():
             progs += [("ocultar por pasada", ocu),
                       ("ocultar datos", [(oc.A, oc.J2, "pasada 1: no dibujar a J2"),
                                          (oc.B, 1, "pasada 2: no dibujar al titere")])]
+            if not SIN_OCULTAR_J:
+                # (96) ni el arma en primera persona de J en la vista de J2 (video 20260928-145814)
+                progs.append(("ocultar J", [(oc.C, cj.J, "pasada 2: no dibujar a J")]))
             ganchos += [(a, w, "gancho del dibujo de la escena: callback ocultar (era 0x1297a0) (93)")
                         for a, w in oc.ganchos()]
     if not SIN_AISLAR:
@@ -808,6 +811,7 @@ def programas():
 
 
 SIN_OCULTAR = False  # `poner --sin-ocultar`: el control de (93)
+SIN_OCULTAR_J = False  # `poner|instalar --sin-ocultar-j`: el control de (96); C queda fuera del pnach (se prende por PINE)
 
 
 SIN_PANTALLA = False  # `poner --sin-pantalla`: el mod sin la pantalla dividida (como hasta (88d))
@@ -833,8 +837,9 @@ def cmd_listar(_a):
 
 
 def cmd_poner(a):
-    global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA, SIN_OCULTAR, SIN_R3
+    global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA, SIN_OCULTAR, SIN_R3, SIN_OCULTAR_J
     SIN_OCULTAR = a.sin_ocultar
+    SIN_OCULTAR_J = getattr(a, "sin_ocultar_j", False)
     SIN_R3 = getattr(a, "sin_r3", False)
     SIN_BAJA, SIN_TITERE, SIN_CABECEO = a.sin_baja, a.sin_titere, a.sin_cabeceo
     SIN_RECARGA = a.sin_recarga
@@ -1030,9 +1035,10 @@ def _respaldo(ruta):
 
 
 def cmd_instalar(_a):
-    global SIN_AISLAR, SIN_R3
+    global SIN_AISLAR, SIN_R3, SIN_OCULTAR_J
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
     SIN_R3 = getattr(_a, "sin_r3", False)
+    SIN_OCULTAR_J = getattr(_a, "sin_ocultar_j", False)
     viejo = PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -1073,10 +1079,12 @@ def main() -> int:
     li = sub.add_parser("listar"); li.add_argument("--con-r3", action="store_true"); li.add_argument("--sin-r3", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
     ins.add_argument("--con-r3", action="store_true"); ins.add_argument("--sin-r3", action="store_true")
+    ins.add_argument("--sin-ocultar-j", action="store_true")
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
     po.add_argument("--sin-recarga", action="store_true")
     po.add_argument("--sin-ocultar", action="store_true")
+    po.add_argument("--sin-ocultar-j", action="store_true")
     po.add_argument("--sin-cabeceo", action="store_true")
     po.add_argument("--sin-pantalla", action="store_true")
     po.add_argument("--con-r3", action="store_true"); po.add_argument("--sin-r3", action="store_true")

@@ -18,6 +18,7 @@ from mips import ensamblar
 
 OCULTAR = 0x0046FB20
 A, B, CNT1, CNT2 = 0x0046FBF0, 0x0046FBF4, 0x0046FBF8, 0x0046FBFC
+C = 0x0046FBEC                # (96) pasada 2: tampoco se dibuja este objeto (J); 0 = nadie
 GANCHO_LUI, GANCHO_ADDIU = 0x001298F8, 0x00129900
 ORIG_LUI, ORIG_ADDIU = "lui a2, 0x13", "addiu a2, a2, -0x6860"
 J2 = 0x0046CDF0
@@ -28,11 +29,14 @@ FUENTE = [
     "lw t3, 0x58(t3)", "lw t3, 0x60(t3)", "lh t3, 0x1c(t3)", "bne t3, zero, P2", "nop",
     "lw t1, -0x410(t0)", "bne t1, t2, SIGUE", "nop",
     "lw t1, -0x408(t0)", "addiu t1, t1, 1", "b NO", "sw t1, -0x408(t0)",
-    "P2:", "lw t1, -0x40c(t0)", "addiu t3, zero, 1", "bne t1, t3, CMP2", "nop",
+    # (96) en la pasada 2 tambien se saltea el objeto C (J): su FUN_00133BA0 dibujaba el arma en primera
+    # persona de J encima de la de J2 (la recarga y la escopeta de J en la mitad de J2). C = 0: como antes.
+    "P2:", "lw t1, -0x414(t0)", "beq t1, zero, TIT", "nop", "beq t1, t2, CUENTA2", "nop",
+    "TIT:", "lw t1, -0x40c(t0)", "addiu t3, zero, 1", "bne t1, t3, CMP2", "nop",
     # (93h) el titere es el que eligio el por cuadro (coop_mod.TITERE_ACT = 0x0046DEF0), no el aliado 1 fijo
     "lui t1, 0x47", "lw t1, -0x2110(t1)", "beq t1, zero, SIGUE", "nop",
     "CMP2:", "bne t1, t2, SIGUE", "nop",
-    "lw t1, -0x404(t0)", "addiu t1, t1, 1", "b NO", "sw t1, -0x404(t0)",
+    "CUENTA2:", "lw t1, -0x404(t0)", "addiu t1, t1, 1", "b NO", "sw t1, -0x404(t0)",
     "SIGUE:", "j 0x1297a0", "nop",
     "NO:", "jr ra", "addiu v0, zero, 1",
 ]
