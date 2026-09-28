@@ -33,9 +33,15 @@
 }
 
 // --- piezas -----------------------------------------------------------
-#let tema(n, titulo) = block(above: 9pt, below: 4pt, sticky: true, width: 100%,
-  fill: c-azul, inset: (x: 6pt, y: 3.5pt), radius: 2pt,
-)[#text(fill: white, weight: "bold", size: 9.5pt)[#n. #titulo]]
+#let tema(n, titulo, cuerpo) = block(breakable: false, width: 100%,
+  above: 7pt, below: 7pt, radius: 4pt, clip: true,
+  stroke: 0.6pt + c-azul.lighten(55%), fill: c-azul.lighten(97%),
+)[
+  #block(width: 100%, fill: c-azul, inset: (x: 7pt, y: 4pt), below: 0pt)[
+    #text(fill: white, weight: "bold", size: 9.5pt)[#box(width: 13pt)[#n] #titulo]
+  ]
+  #block(width: 100%, inset: (x: 7pt, top: 4pt, bottom: 6pt), above: 0pt)[#cuerpo]
+]
 
 #let ctx(cuerpo) = block(above: 3pt, below: 5pt, width: 100%,
   fill: c-gris, inset: (x: 6pt, y: 4pt), radius: 2pt,
@@ -75,7 +81,7 @@
 ])
 
 // =====================================================================
-#tema(1)[Vectores, cinemática y marcos]
+#tema(1)[Vectores, cinemática y marcos][
 #ctx[La herramienta de todo lo que sigue: los versores polares *giran* con la
 partícula, y eso hace aparecer términos que en cartesianas no existen.]
 
@@ -92,9 +98,10 @@ partícula, y eso hace aparecer términos que en cartesianas no existen.]
 #f[Marco que gira][
   $ m bold(a)_"rel" = bold(F) - 2 m bold(Omega) times bold(v)_"rel" - m bold(Omega) times (bold(Omega) times bold(r)) $
 ][$bold(Omega)$ constante y origen común con el marco inercial. Si $bold(Omega)$ varía, se suma $-m dot(bold(Omega)) times bold(r)$ (ver 13).][marcos-rotante-f]
+]
 
 // =====================================================================
-#tema(2)[Cantidad de movimiento, centro de masa, choques]
+#tema(2)[Cantidad de movimiento, centro de masa, choques][
 #ctx[Para *sistemas*: lo interno se cancela de a pares (3.ª ley) y sólo mueve el
 centro de masa lo externo.]
 
@@ -113,9 +120,10 @@ centro de masa lo externo.]
 #f[Energía en el sistema CM (König)][
   $ K = 1/2 M v_"cm"^2 + K_"rel al CM" $
 ][siempre. La parte del CM no se puede gastar en un choque: lo que se pierde sale de $K_"rel"$.]
+]
 
 // =====================================================================
-#tema(3)[El cohete]
+#tema(3)[El cohete][
 #ctx[Masa variable: $bold(F) = m bold(a)$ no sirve. Se conserva $bold(P)$ del
 cohete + gas expulsado. $mu = -d M\/d t > 0$ es el caudal, $bold(v)_r$ la velocidad del gas *relativa al cohete*.]
 
@@ -130,9 +138,10 @@ cohete + gas expulsado. $mu = -d M\/d t > 0$ es el caudal, $bold(v)_r$ la veloci
 #f[Tsiolkovsky][
   $ V_f = V_0 + abs(v_r) ln (M_0)/(M_f) - g t_f quad quad "(en el espacio: " Delta V = abs(v_r) ln (M_0)/(M_f) ")" $
 ][las mismas de arriba. Sin gravedad ni arrastre queda la del paréntesis. *Por etapas*: se aplica a cada etapa por separado y los $Delta V$ se suman.][coh-tsiolkovsky]
+]
 
 // =====================================================================
-#tema(4)[Trabajo, energía y gravitación]
+#tema(4)[Trabajo, energía y gravitación][
 
 #f[Trabajo y teorema trabajo–energía][
   $ W = integral_(P_1)^(P_2) bold(F) dot d bold(l), quad quad W_"tot" = Delta K, quad quad bold(F) = -nabla U $
@@ -149,9 +158,10 @@ cohete + gas expulsado. $mu = -d M\/d t > 0$ es el caudal, $bold(v)_r$ la veloci
 #f[Circular y escape][
   $ v_"circ" = sqrt(mu/r), quad quad v_"esc" = sqrt((2 mu)/r) = sqrt(2) thin v_"circ" $
 ][$m << M$ (el central no se mueve). Escape: energía total justo cero, sin importar la dirección del disparo.][grav-vesc]
+]
 
 // =====================================================================
-#tema(5)[Momento angular y fuerzas centrales]
+#tema(5)[Momento angular y fuerzas centrales][
 
 #f[Momento angular y su ecuación][
   $ bold(L)_O = bold(r) times m bold(v), quad L_O = m v r sin phi, quad quad sum bold(tau)_O = (d bold(L)_O)/(d t) $
@@ -161,9 +171,10 @@ cohete + gas expulsado. $mu = -d M\/d t > 0$ es el caudal, $bold(v)_r$ la veloci
   $ h = L/m = r v_theta = r v cos gamma = "cte", quad quad (d A)/(d t) = h/2 $
 ][la fuerza apunta siempre a $O$ (torque nulo). Consecuencias: movimiento plano y 2.ª ley de Kepler. $gamma$ = ángulo de vuelo (de la velocidad con la horizontal local).][angm-h]
 #ojo[Sirve para ir de periapsis a apoapsis sin nada más: allí $gamma = 0$, así que $r_p v_p = r_a v_a$.]
+]
 
 // =====================================================================
-#tema(6)[El problema de dos cuerpos]
+#tema(6)[El problema de dos cuerpos][
 #ctx[Dos cuerpos aislados que se atraen: se parte en el movimiento del CM
 (uniforme) y el de la separación $bold(r) = bold(r)_2 - bold(r)_1$, que es un problema de *un* cuerpo.]
 
@@ -174,9 +185,10 @@ cohete + gas expulsado. $mu = -d M\/d t > 0$ es el caudal, $bold(v)_r$ la veloci
 #f[Masa reducida y posiciones desde el CM][
   $ m_r = (m_1 m_2)/(m_1 + m_2), quad quad bold(r)_1 = m_2/(m_1 + m_2) bold(r), quad bold(r)_2 = -m_1/(m_1 + m_2) bold(r) $
 ][origen en el CM. Cada cuerpo describe una cónica semejante a la relativa, escalada por su fracción de masa.][dosc-posiciones]
+]
 
 // =====================================================================
-#tema(7)[La órbita: cónicas, energía y Kepler]
+#tema(7)[La órbita: cónicas, energía y Kepler][
 #ctx[Todas valen bajo *dos cuerpos ideales* (sección 6). La forma sale de $h$ y
 $e$; el tamaño, de la energía. $e < 1$ elipse, $e = 1$ parábola, $e > 1$ hipérbola.]
 
@@ -197,9 +209,10 @@ $e$; el tamaño, de la energía. $e < 1$ elipse, $e = 1$ parábola, $e > 1$ hip�
 #f[Tercera ley de Kepler][
   $ tau = (2 pi a b)/h = (2 pi a^(3\/2))/sqrt(mu) $
 ][órbita cerrada (elipse o circular). El período depende *sólo* de $a$.][kep-periodo]
+]
 
 // =====================================================================
-#tema(8)[Maniobras: Hohmann y rendez-vous]
+#tema(8)[Maniobras: Hohmann y rendez-vous][
 #ctx[Encendidos *impulsivos* (instantáneos: cambia $v$, no $r$). Cada $Delta v$ se saca con vis-viva, antes y después.]
 
 #f[Transferencia de Hohmann][
@@ -213,12 +226,14 @@ $e$; el tamaño, de la energía. $e < 1$ elipse, $e = 1$ parábola, $e > 1$ hip�
 #f[Órbita de fasaje (rendez-vous en la misma órbita)][
   $ T'/T = 1 - (Delta phi)/(360°), quad quad a' = r (T'/T)^(2\/3) $
 ][misma circular de radio $r$, blanco $Delta phi$ adelante, *una* vuelta en la órbita de fasaje. Se frena para quedar en una más chica (y más rápida en período).][man-fasaje-a]
+]
 
 // =====================================================================
-#tema(9)[Hipérbola, escape y cónicas parcheadas]
+#tema(9)[Hipérbola, escape y cónicas parcheadas][
 
 #f[Hipérbola][
-  $ a = p/(e^2 - 1), quad r_p = a(e - 1), quad nu_oo = arccos(-1/e), quad delta = 2 arcsin(1/e) $
+  $ a = p/(e^2 - 1), quad quad r_p = a(e - 1) $
+  $ nu_oo = arccos(-1/e), quad quad delta = 2 arcsin(1/e) $
 ][$e > 1$; $a > 0$ por convención del apunte. $nu_oo$: anomalía de la asíntota; $delta$: cuánto se tuerce la velocidad al pasar.][hip-delta]
 
 #f[Velocidad de sobra y $C_3$][
@@ -237,14 +252,16 @@ $e$; el tamaño, de la energía. $e < 1$ elipse, $e = 1$ parábola, $e > 1$ hip�
   $ bold(v)_oo = bold(V)_"nave" - bold(V)_"planeta", quad e = 1 + (r_p v_oo^2)/mu, quad v_p = sqrt(v_oo^2 + (2 mu)/r_p) $
   $ Delta v = v_p - v_c = v_c (sqrt(2 + (v_oo \/ v_c)^2) - 1) $
 ][se ignora la otra gravedad dentro de cada esfera y la SOI se toma como «infinito» del planeta. Encendido tangente en el periapsis, desde la circular $v_c = sqrt(mu\/r_p)$. $bold(v)_oo$ sale del Hohmann heliocéntrico.][soi-dv]
+]
 
 // =====================================================================
-#tema(10)[Vector de estado, marco perifocal y coeficientes de Lagrange]
+#tema(10)[Vector de estado, marco perifocal y coeficientes de Lagrange][
 #ctx[Marco perifocal: $hat(p)$ hacia el periapsis, $hat(q)$ a 90° en el sentido del
 movimiento, $hat(w) = hat(h)$. Seis números fijan la órbita: $bold(r)$ y $bold(v)$ en un instante.]
 
 #f[Posición y velocidad en el marco perifocal][
-  $ bold(r) = h^2/mu 1/(1 + e cos nu) (cos nu hat(p) + sin nu hat(q)), quad bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $
+  $ bold(r) = h^2/mu 1/(1 + e cos nu) (cos nu hat(p) + sin nu hat(q)) $
+  $ bold(v) = mu/h [-sin nu hat(p) + (e + cos nu) hat(q)] $
 ][dos cuerpos.][perif-v]
 
 #f[Del estado a la órbita][
@@ -253,11 +270,13 @@ movimiento, $hat(w) = hat(h)$. Seis números fijan la órbita: $bold(r)$ y $bold
 
 #f[Coeficientes de Lagrange][
   $ bold(r) = f bold(r)_0 + g bold(v)_0, quad bold(v) = dot(f) bold(r)_0 + dot(g) bold(v)_0, quad f dot(g) - dot(f) g = 1 $
-  $ f = 1 - (mu r)/h^2 (1 - cos Delta nu), quad g = (r r_0)/h sin Delta nu, quad dot(g) = 1 - (mu r_0)/h^2 (1 - cos Delta nu) $
+  $ f = 1 - (mu r)/h^2 (1 - cos Delta nu), quad quad g = (r r_0)/h sin Delta nu $
+  $ dot(g) = 1 - (mu r_0)/h^2 (1 - cos Delta nu) $
 ][dos cuerpos: propagan el estado un $Delta nu$ sin conocer los elementos. $r$ al final sale de la ecuación de la órbita.][perif-fg-dnu]
+]
 
 // =====================================================================
-#tema(11)[Tres cuerpos restringido y puntos de Lagrange]
+#tema(11)[Tres cuerpos restringido y puntos de Lagrange][
 #ctx[Un cuerpo de masa despreciable ($m_3 << m_1, m_2$) entre dos primarios que
 giran en *círculos* alrededor de su CM. Se trabaja en el marco que gira con ellos.]
 
@@ -281,9 +300,10 @@ giran en *círculos* alrededor de su CM. Se trabaja en el marco que gira con ell
 #f[Constante de Jacobi y zonas prohibidas][
   $ C = v^2/2 - (Omega^2 (x^2 + y^2))/2 - mu_1/r_1 - mu_2/r_2, quad quad C >= U_J (x, y, z) $
 ][$v$ medida *en el marco rotante*. Es la energía de ese marco; $C < U_J$ es región inaccesible.][tres-jacobi]
+]
 
 // =====================================================================
-#tema(12)[Rotación alrededor de un eje fijo]
+#tema(12)[Rotación alrededor de un eje fijo][
 #ctx[Cuerpo rígido que gira alrededor de un eje de dirección fija. La
 «masa» de la rotación es $I$, y depende del eje.]
 
@@ -310,9 +330,10 @@ giran en *círculos* alrededor de su CM. Se trabaja en el marco que gira con ell
 #f[Precesión del giróscopo][
   $ Omega = (M g r)/(I omega) $
 ][aproximación giroscópica: el espín $omega$ es mucho mayor que la precesión $Omega$, y el eje es horizontal. $r$: del apoyo al CM.][rot-precesion]
+]
 
 // =====================================================================
-#tema(13)[Cuerpo rígido en 3D: cinemática, inercia, Euler]
+#tema(13)[Cuerpo rígido en 3D: cinemática, inercia, Euler][
 
 #f[Velocidad y aceleración de un punto del cuerpo][
   $ bold(v)_B = bold(v)_A + bold(omega) times bold(r)_(B\/A), quad bold(a)_B = bold(a)_A + bold(alpha) times bold(r)_(B\/A) + bold(omega) times (bold(omega) times bold(r)_(B\/A)) $
@@ -347,9 +368,10 @@ giran en *círculos* alrededor de su CM. Se trabaja en el marco que gira con ell
   $ dot(phi) = H\/I, quad quad tan gamma = I/I' tan theta $
 ][sin torque ($bold(H)_G$ fijo). Acá $gamma$ = ángulo entre $bold(H)_G$ y el eje de simetría, $theta$ = ángulo entre $bold(omega)$ y el eje (notación del Beer).][peon-tan-gamma]
 #ojo[$I > I'$ (alargado, una varilla): precesión *directa*. $I < I'$ (achatado, un disco): *retrógrada*, espín y precesión giran para lados opuestos.]
+]
 
 // =====================================================================
-#tema(14)[Constantes]
+#tema(14)[Constantes][
 #table(columns: (auto, 1fr), stroke: none, inset: (x: 3pt, y: 2pt),
   [$G$], [$6,674 times 10^(-11)$ N·m²/kg²],
   [$mu_T$], [$398 thin 600$ km³/s² #h(4pt) $R_T = 6378$ km],
@@ -358,3 +380,5 @@ giran en *círculos* alrededor de su CM. Se trabaja en el marco que gira con ell
   [$g_0$], [$9,80665$ m/s² (para $I_"sp"$)],
 )
 #text(size: 7.3pt, fill: luma(110))[Los valores y sus fuentes, en el Anexo C del apunte.]
+]
+
