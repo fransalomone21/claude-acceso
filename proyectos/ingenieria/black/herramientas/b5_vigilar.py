@@ -57,8 +57,13 @@ def main():
             p.escribir8(sp + 0x28, 1)
             print(json.dumps({"enemigo": enemigo, "spawner": hex(sp), "punto": ss.pos(p, punto + 0x10)}), flush=True)
         t0, ult = time.time(), None
+        mantener = "--mantener" in sys.argv   # (95) la vida se regenera ~30/s: se la vuelve a bajar cada vuelta
         while time.time() - t0 < seg:
             try:
+                if mantener and vida_j is not None and p.leer8(cj.J + 0x8B2) == 0:
+                    v = struct.unpack("<f", struct.pack("<I", p.leer32(cj.J + 0x2F8)))[0]
+                    if v > vida_j:
+                        p.escribir_f32(cj.J + 0x2F8, vida_j)
                 d = foto(p)
             except Exception as ex:  # noqa: BLE001
                 d = {"error": str(ex)}

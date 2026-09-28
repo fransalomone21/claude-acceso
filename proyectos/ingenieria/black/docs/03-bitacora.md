@@ -24,7 +24,9 @@ Formato de cada entrada:
 - City Streets, vida de J a 40, spawner L12[17] movido a 6 m delante de J y activado, 75 s: **ningún golpe**; la vida de J **se regenera** (~30 por segundo, de 40 a 750). El enemigo **nació y murió** (`actor_estado` 2, vida 0) sin tocar a J: lo más probable es que lo haya matado el aliado que hace de títere (tiene IA). `ctrl+0x100` = 0 en J y J2 todo el tiempo.
 - **No mide.** Para la próxima: un nivel **sin aliado** (Wilderness, Steelworks, Gulag) y la vida de J baja escrita en cada cuadro de la ventana, o un código de una vez que llame `FUN_0013c3e8` (con la ranura 3, `0x001295A8` y `0x001ACA84` son del pnach: otro sitio).
 
-**No funcionó:** la sonda entera (arriba). **Sigue:** repetirla sin aliado.
+- **Segundo intento, Wilderness** (`--vida-J 20 --mantener`: la vida se reescribe baja cada vuelta; spawner L12[9] a 6 m, 90 s): **tampoco** hubo golpe; el enemigo nació y murió (estado 2, vida 0). **Dato raro:** el actor ocupó `0x0058FE90`, **la misma dirección que el títere de City Streets** (`titere_act`). `hipótesis`: el títere del stub (93h: «el primer aliado vivo») toma al recién nacido, o lo mata algo del mod. **Pregunta medible**: con el bloque `--sin-titere` (control), ¿el enemigo nacido vive y ataca? Si sí, el títere se queda con enemigos y eso también pasaría jugando.
+
+**No funcionó:** la sonda entera, dos veces. **Sigue:** la pregunta del títere (con su control) antes de insistir con B5; o un código de una vez que llame `FUN_0013c3e8`.
 
 ---
 
