@@ -808,6 +808,8 @@ _lg_prog = _mips([
     0x8C000000 | (_V1 << 21) | (_A0 << 16) | _OFF,   # 8: lw a0, -0xaf4(v1)   NO cuenta
     0x8C000000 | (29 << 21) | (_S2 << 16) | 0x10,    # 9: lw s2, 0x10(sp)
     0x8C000000 | (_S2 << 21) | (_A0 << 16) | _OFF,   # 10: lw a0, -0xaf4(s2)  NO cuenta
+    0x3C000000 | (_V0 << 16) | 0x41,            # 11: lui  v0, 0x41
+    0xD8000000 | (_V0 << 21) | (1 << 16) | _OFF,     # 12: lqc2 vf1, -0xaf4(v0) LEE (opcode 0x36, (109))
 ])
 
 tmp_lg = tempfile.mkdtemp(prefix="lectores-global-")
@@ -838,8 +840,11 @@ try:
     _conf, _desc = lectores_global.accesos(_elf, 0x0040F50C, _ents)
     _dirs = {h["dir"] for h in _conf}
 
-    ok(len(_conf) == 3, "lectores_global: cuenta los 3 accesos plantados y ninguno más",
+    ok(len(_conf) == 4, "lectores_global: cuenta los 4 accesos plantados y ninguno más",
        f"dio {len(_conf)}: {[hex(x) for x in sorted(_dirs)]}")
+    ok([h["ins"] for h in _conf if h["dir"] == _LG_BASE + 48] == ["lqc2"],
+       "lectores_global: la lectura vectorial `lqc2` (opcode 0x36 del R5900) cuenta",
+       str([(hex(h["dir"]), h["ins"]) for h in _conf]))
     ok(_LG_BASE + 4 in _dirs, "lectores_global: encuentra el `lw` directo")
     ok(_LG_BASE + 24 in _dirs,
        "CONTROL POSITIVO del caso que Ghidra se comió: base llegado por `move`")

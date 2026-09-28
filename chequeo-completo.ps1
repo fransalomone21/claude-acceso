@@ -83,6 +83,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
     @{ nombre = 'saboteador de Drive';            cmd = '.\probar-verificar-drive.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
+    @{ nombre = 'saboteador de la cascada';       cmd = '.\probar-cascada.ps1' }
 )
 
 function Correr($lista, $titulo) {

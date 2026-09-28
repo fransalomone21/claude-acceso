@@ -36,6 +36,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $faltantes = 0
+$avisos = 0      # lo que existe pero el indice no nombra: se ve, no corta
+$atrasos = 0     # lo que el repo no registro todavia: corta, como un faltante
 
 function Nivel($n, $que)  { Write-Host ""; Write-Host ("  NIVEL $n -- $que") -ForegroundColor Cyan }
 function Hay($ruta, $nota) {
@@ -166,7 +168,40 @@ if ($hayContrato) {
             $faltantes++
         }
     }
+    # Las rutas entre comillas invertidas (`PDP.md`, `docs/03-bitacora.md`) son
+    # la mitad del indice que el regex de arriba no veia: el contrato de black
+    # nombra asi casi todo. Se miden igual: si no existen, la cascada se corta.
+    foreach ($m in [regex]::Matches($txt, '`([A-Za-z0-9_./-]+\.md)`')) {
+        $d = $m.Groups[1].Value
+        if ($vistos -contains $d) { continue }
+        $abs = Join-Path $pr.Ruta ($d -replace '/', '\')
+        if (-not (Test-Path -LiteralPath $abs)) { continue }   # un nombre suelto de otro proyecto no es un enlace
+        $vistos += $d
+        Write-Host ("    -   {0}" -f $d) -ForegroundColor DarkGray
+    }
     if ($vistos.Count -eq 0) { Write-Host "    (el contrato no enlaza a nada: el nivel 6 esta vacio)" -ForegroundColor DarkGray }
+
+    # Los documentos que HAY y el contrato no nombra. Sin esto la cascada da
+    # "completa" mientras la sesion ignora los documentos nuevos: el indice
+    # envejece en silencio y nadie lo nota hasta que alguien no lee algo.
+    $nombrados = @($vistos | ForEach-Object { ($_ -replace '\\', '/').TrimStart('./') })
+    $sinIndice = @()
+    foreach ($sub in @('', 'docs', 'sesiones')) {
+        $dir = if ($sub) { Join-Path $pr.Ruta $sub } else { $pr.Ruta }
+        if (-not (Test-Path -LiteralPath $dir)) { continue }
+        foreach ($f in Get-ChildItem -LiteralPath $dir -Filter '*.md' -File) {
+            $rel = if ($sub) { "$sub/$($f.Name)" } else { $f.Name }
+            if ($rel -in @('CLAUDE.md', 'ESTADO_ACTUAL.md', 'HANDOFF.md', 'sesiones/HANDOFF.md')) { continue }
+            if ($nombrados -contains $rel) { continue }
+            if ($txt -match [regex]::Escape($f.Name)) { continue }   # nombrado sin ruta, igual cuenta
+            $sinIndice += $rel
+        }
+    }
+    if ($sinIndice.Count -gt 0) {
+        Write-Host ("    EN EL DISCO Y SIN NOMBRAR EN EL CONTRATO ({0}) -- existen; el indice no los ve:" -f $sinIndice.Count) -ForegroundColor Yellow
+        foreach ($s in $sinIndice) { Write-Host ("    ?   {0}" -f $s) -ForegroundColor Yellow }
+        $avisos += $sinIndice.Count
+    }
 } else {
     Write-Host "    (sin contrato no hay nivel 6: la cascada se corta en el 4)" -ForegroundColor Red
 }
@@ -193,7 +228,24 @@ if (Test-Path -LiteralPath $ea) {
     # contrastado. Se busca una linea que ademas afirme algo.
     $lineas = @(Get-Content -Encoding UTF8 -LiteralPath $ea -TotalCount 40 |
                 Where-Object { $_.Trim() -ne '' -and $_ -notmatch '^#{1,6}\s' })
-    $dice = @($lineas | Where-Object { $_ -match '(?i)(fase|estado)\s*\**\s*[:=]' })
+    # Un ESTADO_ACTUAL largo (black: 118 KB) abre con un parrafo de COMO leerlo
+    # y el estado vive en su primer titulo de seccion que afirma una fase. Ese
+    # titulo manda sobre cualquier renglon del preambulo: hasta 2026-09-28 aca
+    # salia "Indice operativo compacto...", y el contraste quedaba ciego.
+    # Solo "abierta/cerrada": con "fase" a secas salian titulos como "Lo que
+    # FALTA, para la fase 7", que nombran una fase sin afirmar su estado.
+    $titulo = @(Get-Content -Encoding UTF8 -LiteralPath $ea -TotalCount 120 |
+                Where-Object { $_ -match '^##\s' -and $_ -match '(?i)(abiert|cerrad)' })
+    $dice = @($titulo | ForEach-Object { $_ -replace '^##\s+', '' })
+    # El encabezado de una tabla ("| Fase | Estado |") y su separador no afirman
+    # nada: se sacan antes de los otros intentos.
+    $crudo = @(Get-Content -Encoding UTF8 -LiteralPath $ea -TotalCount 40)
+    $cabeceras = @()
+    for ($k = 0; $k -lt $crudo.Count - 1; $k++) {
+        if ($crudo[$k + 1] -match '^\s*\|[\s\-:|]+\|\s*$') { $cabeceras += $crudo[$k] }
+    }
+    $lineas = @($lineas | Where-Object { $_ -notmatch '^\s*\|[\s\-:|]+\|\s*$' -and $cabeceras -notcontains $_ })
+    if ($dice.Count -eq 0) { $dice = @($lineas | Where-Object { $_ -match '(?i)(fase|estado)\s*\**\s*[:=]' }) }
     if ($dice.Count -eq 0) { $dice = @($lineas | Where-Object { $_ -match '(?i)\bfase\b' }) }
     if ($dice.Count -eq 0) { $dice = @($lineas | Where-Object { $_ -match '\*\*' }) }
     if ($dice.Count -gt 0) { Write-Host ("    proyecto  : {0}" -f $dice[0].Trim()) }
@@ -203,10 +255,94 @@ if (Test-Path -LiteralPath $ea) {
     Write-Host "    proyecto  : sin ESTADO_ACTUAL.md -- no hay con que contrastar" -ForegroundColor Yellow
 }
 
+# ------------------------------------------------------------ AL DIA (git)
+# Que los archivos EXISTAN no dice que esten al dia. Lo que si se puede medir,
+# sin ninguna lista propia, es lo que el repo registro: (1) nada del proyecto
+# sin commitear, (2) nada sin pushear, (3) que el ultimo checkpoint haya tocado
+# ESTADO_ACTUAL y HANDOFF (regla 5: los cuatro), y (4) que la fila del
+# enrutador no sea mas vieja que el ESTADO_ACTUAL (regla 4 de CLAUDE.md).
+# Mide el REGISTRO, no el contenido: un ESTADO reescrito con datos viejos pasa.
+# Eso sigue siendo del que lo escribe; esto atrapa el que ni se escribio.
+Write-Host ""
+Write-Host "  AL DIA -- lo que el repo registro (git), no lo que dice el disco" -ForegroundColor Cyan
+# En PS 5.1, con 'Stop', el stderr de un ejecutable nativo redirigido se vuelve
+# una excepcion: adentro de git se baja a 'Continue' y manda el codigo de salida.
+function Git-P {
+    param([string[]]$a, [string]$En = $pr.Ruta)
+    $ErrorActionPreference = 'Continue'
+    $o = & git -C $En @a 2>$null
+    if ($LASTEXITCODE -ne 0) { return $null }
+    return $o
+}
+$top = Git-P @('rev-parse', '--show-toplevel')
+if (-not $top) {
+    Write-Host "    [ ] el proyecto no esta en ningun repo git: nada de esto quedo registrado" -ForegroundColor Red
+    $atrasos++
+} else {
+    $sucio = @(Git-P @('status', '--porcelain', '--', '.'))
+    if ($sucio.Count -gt 0) {
+        Write-Host ("    [ ] {0} archivo(s) del proyecto SIN COMMITEAR:" -f $sucio.Count) -ForegroundColor Red
+        $sucio | Select-Object -First 8 | ForEach-Object { Write-Host "          $_" -ForegroundColor Red }
+        $atrasos++
+    } else { Write-Host "    [x] nada del proyecto sin commitear" -ForegroundColor Green }
+
+    $up = Git-P @('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}')
+    if (-not $up) {
+        Write-Host "    [~] la rama no sigue a ningun remote: lo commiteado no salio de esta maquina" -ForegroundColor Yellow
+        $avisos++
+    } else {
+        $sinPush = @(Git-P @('rev-list', "$up..HEAD", '--', '.'))
+        if ($sinPush.Count -gt 0) {
+            Write-Host ("    [ ] {0} commit(s) del proyecto SIN PUSHEAR a {1}" -f $sinPush.Count, $up) -ForegroundColor Red
+            $atrasos++
+        } else { Write-Host "    [x] nada del proyecto sin pushear a $up" -ForegroundColor Green }
+    }
+
+    # El HANDOFF sale del disco, igual que en el nivel 5.
+    $hoRel = if (Test-Path -LiteralPath (Join-Path $pr.Ruta 'HANDOFF.md')) { 'HANDOFF.md' } else {
+        $h = @(Get-ChildItem -Path $pr.Ruta -Recurse -Filter 'HANDOFF.md' -File -ErrorAction SilentlyContinue | Select-Object -First 1)
+        if ($h.Count) { $h[0].FullName.Substring($pr.Ruta.Length).TrimStart('\') -replace '\\', '/' } else { $null } }
+    foreach ($doc in @('ESTADO_ACTUAL.md', $hoRel)) {
+        if (-not $doc -or -not (Test-Path -LiteralPath (Join-Path $pr.Ruta $doc))) { continue }
+        $ultimo = Git-P @('log', '-1', '--format=%H', '--', $doc)
+        if (-not $ultimo) {
+            Write-Host "    [ ] $doc nunca se commiteo" -ForegroundColor Red; $atrasos++; continue
+        }
+        $despues = @(Git-P @('log', '--format=%h %s', "$ultimo..HEAD", '--', '.', ":(exclude)$doc"))
+        if ($despues.Count -gt 0) {
+            Write-Host ("    [ ] {0} ATRASADO: {1} commit(s) del proyecto despues de su ultimo cambio" -f $doc, $despues.Count) -ForegroundColor Red
+            $despues | Select-Object -First 3 | ForEach-Object {
+                $l = if ($_.Length -gt 110) { $_.Substring(0, 110) + '...' } else { $_ }
+                Write-Host "          $l" -ForegroundColor Red }
+            $atrasos++
+        } else { Write-Host "    [x] $doc lo toco el ultimo commit del proyecto" -ForegroundColor Green }
+    }
+
+    # La fila del enrutador vive en OTRO archivo (y a veces en otro repo): se
+    # compara por fecha. Mas vieja que el ESTADO_ACTUAL = el enrutador no se
+    # entero del ultimo estado (regla 4: gana el proyecto, se corrige la fila).
+    $tEstado = Git-P @('log', '-1', '--format=%ct', '--', 'ESTADO_ACTUAL.md')
+    $tFila = Git-P @('log', '-1', '--format=%ct', '-G', ([regex]::Escape($pr.Nombre + '/')), '--', 'CLAUDE.md') -En $Raiz
+    if ($tEstado -and $tFila) {
+        if ([long]$tFila -lt [long]$tEstado) {
+            $dias = [math]::Round(([long]$tEstado - [long]$tFila) / 86400, 1)
+            Write-Host ("    [ ] la fila del ENRUTADOR es mas vieja que el ESTADO_ACTUAL ({0} dias): corregirla" -f $dias) -ForegroundColor Red
+            $atrasos++
+        } else { Write-Host "    [x] la fila del enrutador se toco despues del ultimo ESTADO_ACTUAL" -ForegroundColor Green }
+    }
+}
+
 # exit EXPLICITO en los dos caminos. Sin el, el script termina con el
 # $LASTEXITCODE que hubiera quedado de antes y "EXIT=1" aparece sobre una
 # corrida que salio perfecta -- ya paso al probar este mismo archivo.
 Write-Host ""
+if ($avisos -gt 0) {
+    Write-Host "  $avisos aviso(s): documentos que existen y el contrato no nombra, o rama sin remote." -ForegroundColor Yellow
+}
+if ($atrasos -gt 0) {
+    Write-Host "  $atrasos atraso(s): el repo no registro el estado actual. Commit + push, y ESTADO/HANDOFF/enrutador al dia." -ForegroundColor Red
+    if ($faltantes -eq 0) { Write-Host ""; exit 1 }
+}
 if ($faltantes -gt 0) {
     Write-Host "  $faltantes archivo(s) de la cascada faltan o estan rotos." -ForegroundColor Red
     Write-Host "  Un nivel que falta no se saltea: se crea, o se dice explicitamente por que no va." -ForegroundColor Red

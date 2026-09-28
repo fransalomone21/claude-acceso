@@ -33,7 +33,9 @@ llamadas indirectas (vtables) no están en el grafo: la respuesta es necesaria, 
 
 Control positivo (--autotest): FUN_0016a4c0 (los disparadores de (73)) lee
 juego+0x1C0 (= J+0x190, la posición), el render FUN_001297e0 pasa jugadores[0],
-y FUN_0012be80 (el alta, (82)) lee la cuenta. Si alguno falta, sale 1.
+y FUN_0012be80 (el alta, (82)) lee la cuenta. Si alguno falta, sale 1. Desde (109) también
+FUN_0012d5a8 (pasa J+0x3C0 como argumento) y FUN_001fbd90 (`k * 0x8c0 + juego`): los dos agujeros
+del borrador que encontró la comparación con lectores_global.py.
 """
 import argparse
 import collections
@@ -54,7 +56,9 @@ def analizar(c):
     """Devuelve (campos_J, indexado, cuenta, pasa_J) de un cuerpo de C."""
     alias = set(re.findall(rf"(\w+) = (?:\(\w+\s*\**\))?{DAT};", c)) | {DAT}
     campos = collections.Counter()
-    for m in re.finditer(r"\((\w+) \+ (0x[0-9a-f]+)\)", c):
+    # (109) cualquier `alias + 0x..`, no sólo el que cierra paréntesis: el borrador de (98) no veía
+    # `FUN_x(DAT_0040f4d0 + 0x3f0, ...)` ni `iVar3 = DAT_0040f4d0 + 0x300;` (J+campo pasado o guardado)
+    for m in re.finditer(r"(?<!\* 0x8c0 \+ )\b(\w+) \+ (0x[0-9a-f]+)\b(?! \*)", c):
         if m.group(1) in alias:
             o = int(m.group(2), 16)
             if J0 <= o < J1:
@@ -66,6 +70,8 @@ def analizar(c):
     idx = 0
     for a in alias:
         idx += len(re.findall(rf"\b{a} \+ [^;]*\* 0x8c0", c))
+        # (109) el índice también sale ANTES del global: `k * 0x8c0 + DAT_0040f4d0`
+        idx += len(re.findall(rf"\* 0x8c0 \+ {a}\b", c))
     return campos, idx, len(CUENTA.findall(c)), pasa
 
 
@@ -144,6 +150,9 @@ def autotest(filas):
     for f, cond, txt in [
         ("0x0016A4C0", lambda r: "+0x190" in r["campos_J"], "disparadores leen J+0x190 (posicion)"),
         ("0x0012BE80", lambda r: r["cuenta"] > 0, "el alta lee la cuenta"),
+        # (109) los dos agujeros del borrador, medidos contra lectores_global.py (instrucciones)
+        ("0x0012D5A8", lambda r: "+0x3C0" in r["campos_J"], "pasa J+0x3C0 como argumento"),
+        ("0x001FBD90", lambda r: r["indexa"] > 0, "HUD: k * 0x8c0 + juego (k en +0x140)"),
     ]:
         r = por.get(f)
         bien = bool(r and cond(r))

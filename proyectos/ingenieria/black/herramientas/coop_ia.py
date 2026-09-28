@@ -130,10 +130,12 @@ def verificar(mostrar=False) -> int:
     prog = programa()
     if prog[-1][0] + 4 > FIN:
         errores.append("el codigo pasa de la reserva")
+    lineas = []
     for pc, w, t in prog:
         c = capstone_des(pc, w)
+        lineas.append(f"{pc:08X}  {w:08X}  {c:34s} ; {t}")
         if mostrar:
-            print(f"{pc:08X}  {w:08X}  {c:34s} ; {t}")
+            print(lineas[-1])
         if c.startswith("(capstone"):
             errores.append(f"{pc:#x} {t}: capstone no lo decodifica")
         if t.startswith(".word") and t.split()[1].lower() != "0x%08x" % w:
@@ -162,6 +164,17 @@ def verificar(mostrar=False) -> int:
             errores.append(f"gancho {pc:#x}: el ELF tiene '{real}', se esperaba '{ORIGINAL[pc]}'")
         if mostrar:
             print(f"{pc:08X}  {w:08X}  {capstone_des(pc, w):34s} ; {t}  [pisa: {real}]")
+    # (109) el listado guardado es lo que se revisa en los documentos: si el codigo cambia y el
+    # listado no, se revisaria un programa que ya no existe (REVISAR-98-108, B16)
+    guardado = Path(__file__).resolve().parent.parent / "docs" / "listados" / "107-coop-ia.txt"
+    if guardado.exists():
+        g = [l.rstrip() for l in guardado.read_text(encoding="utf-8-sig").splitlines()][:len(lineas)]
+        if g != [l.rstrip() for l in lineas]:
+            n = next((i for i, (x, y) in enumerate(zip(g, lineas)) if x != y.rstrip()), min(len(g), len(lineas)))
+            errores.append(f"docs/listados/107-coop-ia.txt no coincide con el codigo (primera diferencia en la linea {n + 1}):"
+                           " regenerarlo con `coop_ia.py listado`")
+    else:
+        errores.append("falta docs/listados/107-coop-ia.txt")
     for e in errores:
         print("ROJO:", e)
     print(f"coop_ia: {len(prog)} palabras en [{BASE:#x}, {prog[-1][0] + 4:#x}), {len(errores)} problema(s)")
