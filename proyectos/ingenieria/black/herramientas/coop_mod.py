@@ -56,6 +56,7 @@ import clon_jugador as cj  # noqa: E402
 import gancho as g  # noqa: E402
 import jugador2 as j2  # noqa: E402
 import pantalla_dividida as pd  # noqa: E402
+import ocultar_pasada as oc  # noqa: E402
 
 # datos: .bss en cero al arrancar; NINGUNO va en el pnach
 CONTADOR, ESTADO, FASE = 0x0046D780, 0x0046D784, 0x0046D790
@@ -422,7 +423,18 @@ def programas():
                     for s in pd.SITIOS]
         ganchos.append((pd.SITIO_FILTRO, ensamblar("jal 0x%x" % pd.FILTRO, pd.SITIO_FILTRO),
                         "gancho del tinte: jal filtro (era jal 0x1b0ac8) (89b)"))
+        if not SIN_OCULTAR:
+            # (93) visibilidad por pasada: J2 no se dibuja en la vista de J, ni el titere en la de J2
+            ocu = [(oc.OCULTAR + 4 * i, w, "ocultar por pasada %d" % i) for i, w in enumerate(oc.codigo())]
+            progs += [("ocultar por pasada", ocu),
+                      ("ocultar datos", [(oc.A, oc.J2, "pasada 1: no dibujar a J2"),
+                                         (oc.B, 1, "pasada 2: no dibujar al titere")])]
+            ganchos += [(a, w, "gancho del dibujo de la escena: callback ocultar (era 0x1297a0) (93)")
+                        for a, w in oc.ganchos()]
     return progs + [("ganchos", ganchos)]
+
+
+SIN_OCULTAR = False  # `poner --sin-ocultar`: el control de (93)
 
 
 SIN_PANTALLA = False  # `poner --sin-pantalla`: el mod sin la pantalla dividida (como hasta (88d))
@@ -446,7 +458,8 @@ def cmd_listar(_a):
 
 
 def cmd_poner(a):
-    global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA
+    global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA, SIN_OCULTAR
+    SIN_OCULTAR = a.sin_ocultar
     SIN_BAJA, SIN_TITERE, SIN_CABECEO = a.sin_baja, a.sin_titere, a.sin_cabeceo
     SIN_RECARGA = a.sin_recarga
     SIN_PANTALLA = a.sin_pantalla
@@ -455,7 +468,8 @@ def cmd_poner(a):
         if (p.leer32(g.SITIO) != g.ORIGINAL or p.leer32(j2.SITIO_CARGA) != j2.ORIGINAL_CARGA
                 or p.leer32(SITIO_DESARME) != ORIGINAL_DESARME
                 or any(p.leer32(s) != pd.ORIGINAL for s in pd.SITIOS)
-                or p.leer32(pd.SITIO_FILTRO) != ensamblar("jal 0x1b0ac8", pd.SITIO_FILTRO)):
+                or p.leer32(pd.SITIO_FILTRO) != ensamblar("jal 0x1b0ac8", pd.SITIO_FILTRO)
+                or p.leer32(oc.GANCHO_LUI) != ensamblar(oc.ORIG_LUI, oc.GANCHO_LUI)):
             print(json.dumps({"error": "un gancho ya esta puesto o el sitio cambio",
                               "por_cuadro": hex(p.leer32(g.SITIO)), "cargador": hex(p.leer32(j2.SITIO_CARGA)),
                               "desarme": hex(p.leer32(SITIO_DESARME))}))
@@ -552,6 +566,11 @@ def cmd_quitar(_a):
         for s in pd.SITIOS:
             p.escribir32(s, pd.ORIGINAL)
         p.escribir32(pd.SITIO_FILTRO, ensamblar("jal 0x1b0ac8", pd.SITIO_FILTRO))
+        # (93) el lui/addiu del callback van juntos: a medias, la escena salta a cualquier lado
+        depurador("pausar")
+        p.escribir32(oc.GANCHO_LUI, ensamblar(oc.ORIG_LUI, oc.GANCHO_LUI))
+        p.escribir32(oc.GANCHO_ADDIU, ensamblar(oc.ORIG_ADDIU, oc.GANCHO_ADDIU))
+        depurador("continuar")
     return 0
 
 
@@ -651,6 +670,7 @@ def main() -> int:
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
     po.add_argument("--sin-recarga", action="store_true")
+    po.add_argument("--sin-ocultar", action="store_true")
     po.add_argument("--sin-cabeceo", action="store_true")
     po.add_argument("--sin-pantalla", action="store_true")
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)

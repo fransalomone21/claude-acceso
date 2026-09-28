@@ -633,8 +633,8 @@ nota = "por cuadro: addiu t1, zero, 2"
 [[parche]]
 direccion = 0x0046D824
 tipo = "u32"
-valor = 0x15090058
-nota = "por cuadro: bne t0, t1, 0x46d988"
+valor = 0x15090069
+nota = "por cuadro: bne t0, t1, 0x46d9cc"
 
 [[parche]]
 direccion = 0x0046D828
@@ -711,8 +711,8 @@ nota = "por cuadro: slti t2, t1, 30"
 [[parche]]
 direccion = 0x0046D858
 tipo = "u32"
-valor = 0x1540004B
-nota = "por cuadro: bne t2, zero, 0x46d988"
+valor = 0x1540005C
+nota = "por cuadro: bne t2, zero, 0x46d9cc"
 
 [[parche]]
 direccion = 0x0046D85C
@@ -867,8 +867,8 @@ nota = "por cuadro: addiu t1, zero, 1"
 [[parche]]
 direccion = 0x0046D8C0
 tipo = "u32"
-valor = 0x10000031
-nota = "por cuadro: beq zero, zero, 0x46d988"
+valor = 0x10000042
+nota = "por cuadro: beq zero, zero, 0x46d9cc"
 
 [[parche]]
 direccion = 0x0046D8C4
@@ -927,8 +927,8 @@ nota = "por cuadro: addiu t1, zero, 3"
 [[parche]]
 direccion = 0x0046D8E8
 tipo = "u32"
-valor = 0x10000027
-nota = "por cuadro: beq zero, zero, 0x46d988"
+valor = 0x10000038
+nota = "por cuadro: beq zero, zero, 0x46d9cc"
 
 [[parche]]
 direccion = 0x0046D8EC
@@ -1029,20 +1029,20 @@ nota = "por cuadro: sw t1, -0x2880(s0)"
 [[parche]]
 direccion = 0x0046D92C
 tipo = "u32"
-valor = 0x3C080041
-nota = "por cuadro: lui t0, 0x41"
+valor = 0x2608CDF0
+nota = "por cuadro: addiu t0, s0, -0x3210"
 
 [[parche]]
 direccion = 0x0046D930
 tipo = "u32"
-valor = 0x8D08F514
-nota = "por cuadro: lw t0, -0xaec(t0)"
+valor = 0x8D0802A4
+nota = "por cuadro: lw t0, 0x2a4(t0)"
 
 [[parche]]
 direccion = 0x0046D934
 tipo = "u32"
-valor = 0x11000014
-nota = "por cuadro: beq t0, zero, 0x46d988"
+valor = 0x1100000E
+nota = "por cuadro: beq t0, zero, 0x46d970"
 
 [[parche]]
 direccion = 0x0046D938
@@ -1053,137 +1053,239 @@ nota = "por cuadro: nop"
 [[parche]]
 direccion = 0x0046D93C
 tipo = "u32"
-valor = 0x25090450
-nota = "por cuadro: addiu t1, t0, 0x450"
+valor = 0x8D0900D8
+nota = "por cuadro: lw t1, 0xd8(t0)"
 
 [[parche]]
 direccion = 0x0046D940
 tipo = "u32"
-valor = 0x8D2A0328
-nota = "por cuadro: lw t2, 0x328(t1)"
+valor = 0x2529FFFC
+nota = "por cuadro: addiu t1, t1, -4"
 
 [[parche]]
 direccion = 0x0046D944
 tipo = "u32"
-valor = 0x11400010
-nota = "por cuadro: beq t2, zero, 0x46d988"
+valor = 0x2D290002
+nota = "por cuadro: sltiu t1, t1, 2"
 
 [[parche]]
 direccion = 0x0046D948
 tipo = "u32"
-valor = 0x00000000
-nota = "por cuadro: nop"
+valor = 0x11200008
+nota = "por cuadro: beq t1, zero, 0x46d96c"
 
 [[parche]]
 direccion = 0x0046D94C
 tipo = "u32"
-valor = 0x8D2A03A4
-nota = "por cuadro: lw t2, 0x3a4(t1)"
+valor = 0x8E09D7D0
+nota = "por cuadro: lw t1, -0x2830(s0)"
 
 [[parche]]
 direccion = 0x0046D950
-tipo = "u32"
-valor = 0x1540000D
-nota = "por cuadro: bne t2, zero, 0x46d988"
-
-[[parche]]
-direccion = 0x0046D954
-tipo = "u32"
-valor = 0x00000000
-nota = "por cuadro: nop"
-
-[[parche]]
-direccion = 0x0046D958
-tipo = "u32"
-valor = 0x260ACE60
-nota = "por cuadro: addiu t2, s0, -0x31a0"
-
-[[parche]]
-direccion = 0x0046D95C
-tipo = "u32"
-valor = 0x25290070
-nota = "por cuadro: addiu t1, t1, 0x70"
-
-[[parche]]
-direccion = 0x0046D960
-tipo = "u32"
-valor = 0x240B0010
-nota = "por cuadro: addiu t3, zero, 16"
-
-[[parche]]
-direccion = 0x0046D964
-tipo = "u32"
-valor = 0x8D4C0000
-nota = "por cuadro: lw t4, 0(t2)"
-
-[[parche]]
-direccion = 0x0046D968
-tipo = "u32"
-valor = 0xAD2C0000
-nota = "por cuadro: sw t4, 0(t1)"
-
-[[parche]]
-direccion = 0x0046D96C
-tipo = "u32"
-valor = 0x254A0004
-nota = "por cuadro: addiu t2, t2, 4"
-
-[[parche]]
-direccion = 0x0046D970
-tipo = "u32"
-valor = 0x256BFFFF
-nota = "por cuadro: addiu t3, t3, -1"
-
-[[parche]]
-direccion = 0x0046D974
-tipo = "u32"
-valor = 0x1560FFFB
-nota = "por cuadro: bne t3, zero, 0x46d964"
-
-[[parche]]
-direccion = 0x0046D978
-tipo = "u32"
-valor = 0x25290004
-nota = "por cuadro: addiu t1, t1, 4"
-
-[[parche]]
-direccion = 0x0046D97C
-tipo = "u32"
-valor = 0x8E09D7CC
-nota = "por cuadro: lw t1, -0x2834(s0)"
-
-[[parche]]
-direccion = 0x0046D980
 tipo = "u32"
 valor = 0x25290001
 nota = "por cuadro: addiu t1, t1, 1"
 
 [[parche]]
+direccion = 0x0046D954
+tipo = "u32"
+valor = 0x292A005A
+nota = "por cuadro: slti t2, t1, 90"
+
+[[parche]]
+direccion = 0x0046D958
+tipo = "u32"
+valor = 0x15400005
+nota = "por cuadro: bne t2, zero, 0x46d970"
+
+[[parche]]
+direccion = 0x0046D95C
+tipo = "u32"
+valor = 0xAE09D7D0
+nota = "por cuadro: sw t1, -0x2830(s0)"
+
+[[parche]]
+direccion = 0x0046D960
+tipo = "u32"
+valor = 0xAD0000D8
+nota = "por cuadro: sw zero, 0xd8(t0)"
+
+[[parche]]
+direccion = 0x0046D964
+tipo = "u32"
+valor = 0x0C055B58
+nota = "por cuadro: jal 0x156d60"
+
+[[parche]]
+direccion = 0x0046D968
+tipo = "u32"
+valor = 0x01002021
+nota = "por cuadro: move a0, t0"
+
+[[parche]]
+direccion = 0x0046D96C
+tipo = "u32"
+valor = 0xAE00D7D0
+nota = "por cuadro: sw zero, -0x2830(s0)"
+
+[[parche]]
+direccion = 0x0046D970
+tipo = "u32"
+valor = 0x3C080041
+nota = "por cuadro: lui t0, 0x41"
+
+[[parche]]
+direccion = 0x0046D974
+tipo = "u32"
+valor = 0x8D08F514
+nota = "por cuadro: lw t0, -0xaec(t0)"
+
+[[parche]]
+direccion = 0x0046D978
+tipo = "u32"
+valor = 0x11000014
+nota = "por cuadro: beq t0, zero, 0x46d9cc"
+
+[[parche]]
+direccion = 0x0046D97C
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D980
+tipo = "u32"
+valor = 0x25090450
+nota = "por cuadro: addiu t1, t0, 0x450"
+
+[[parche]]
 direccion = 0x0046D984
+tipo = "u32"
+valor = 0x8D2A0328
+nota = "por cuadro: lw t2, 0x328(t1)"
+
+[[parche]]
+direccion = 0x0046D988
+tipo = "u32"
+valor = 0x11400010
+nota = "por cuadro: beq t2, zero, 0x46d9cc"
+
+[[parche]]
+direccion = 0x0046D98C
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D990
+tipo = "u32"
+valor = 0x8D2A03A4
+nota = "por cuadro: lw t2, 0x3a4(t1)"
+
+[[parche]]
+direccion = 0x0046D994
+tipo = "u32"
+valor = 0x1540000D
+nota = "por cuadro: bne t2, zero, 0x46d9cc"
+
+[[parche]]
+direccion = 0x0046D998
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D99C
+tipo = "u32"
+valor = 0x260ACE60
+nota = "por cuadro: addiu t2, s0, -0x31a0"
+
+[[parche]]
+direccion = 0x0046D9A0
+tipo = "u32"
+valor = 0x25290070
+nota = "por cuadro: addiu t1, t1, 0x70"
+
+[[parche]]
+direccion = 0x0046D9A4
+tipo = "u32"
+valor = 0x240B0010
+nota = "por cuadro: addiu t3, zero, 16"
+
+[[parche]]
+direccion = 0x0046D9A8
+tipo = "u32"
+valor = 0x8D4C0000
+nota = "por cuadro: lw t4, 0(t2)"
+
+[[parche]]
+direccion = 0x0046D9AC
+tipo = "u32"
+valor = 0xAD2C0000
+nota = "por cuadro: sw t4, 0(t1)"
+
+[[parche]]
+direccion = 0x0046D9B0
+tipo = "u32"
+valor = 0x254A0004
+nota = "por cuadro: addiu t2, t2, 4"
+
+[[parche]]
+direccion = 0x0046D9B4
+tipo = "u32"
+valor = 0x256BFFFF
+nota = "por cuadro: addiu t3, t3, -1"
+
+[[parche]]
+direccion = 0x0046D9B8
+tipo = "u32"
+valor = 0x1560FFFB
+nota = "por cuadro: bne t3, zero, 0x46d9a8"
+
+[[parche]]
+direccion = 0x0046D9BC
+tipo = "u32"
+valor = 0x25290004
+nota = "por cuadro: addiu t1, t1, 4"
+
+[[parche]]
+direccion = 0x0046D9C0
+tipo = "u32"
+valor = 0x8E09D7CC
+nota = "por cuadro: lw t1, -0x2834(s0)"
+
+[[parche]]
+direccion = 0x0046D9C4
+tipo = "u32"
+valor = 0x25290001
+nota = "por cuadro: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046D9C8
 tipo = "u32"
 valor = 0xAE09D7CC
 nota = "por cuadro: sw t1, -0x2834(s0)"
 
 [[parche]]
-direccion = 0x0046D988
+direccion = 0x0046D9CC
 tipo = "u32"
 valor = 0xDFB00008
 nota = "por cuadro: ld s0, 8(sp)"
 
 [[parche]]
-direccion = 0x0046D98C
+direccion = 0x0046D9D0
 tipo = "u32"
 valor = 0xDFBF0000
 nota = "por cuadro: ld ra, 0(sp)"
 
 [[parche]]
-direccion = 0x0046D990
+direccion = 0x0046D9D4
 tipo = "u32"
 valor = 0x03E00008
 nota = "por cuadro: jr ra"
 
 [[parche]]
-direccion = 0x0046D994
+direccion = 0x0046D9D8
 tipo = "u32"
 valor = 0x27BD0030
 nota = "por cuadro: addiu sp, sp, 0x30"
@@ -2569,6 +2671,288 @@ valor = 0x00000000
 nota = "filtro del tinte: nop"
 
 [[parche]]
+direccion = 0x0046FB20
+tipo = "u32"
+valor = 0x3C080047
+nota = "ocultar por pasada: ocultar por pasada 0"
+
+[[parche]]
+direccion = 0x0046FB24
+tipo = "u32"
+valor = 0x8D09FC3C
+nota = "ocultar por pasada: ocultar por pasada 1"
+
+[[parche]]
+direccion = 0x0046FB28
+tipo = "u32"
+valor = 0x11200026
+nota = "ocultar por pasada: ocultar por pasada 2"
+
+[[parche]]
+direccion = 0x0046FB2C
+tipo = "u32"
+valor = 0x8C8A0034
+nota = "ocultar por pasada: ocultar por pasada 3"
+
+[[parche]]
+direccion = 0x0046FB30
+tipo = "u32"
+valor = 0x3C0B0041
+nota = "ocultar por pasada: ocultar por pasada 4"
+
+[[parche]]
+direccion = 0x0046FB34
+tipo = "u32"
+valor = 0x8D6BF4C0
+nota = "ocultar por pasada: ocultar por pasada 5"
+
+[[parche]]
+direccion = 0x0046FB38
+tipo = "u32"
+valor = 0x340CD400
+nota = "ocultar por pasada: ocultar por pasada 6"
+
+[[parche]]
+direccion = 0x0046FB3C
+tipo = "u32"
+valor = 0x016C5821
+nota = "ocultar por pasada: ocultar por pasada 7"
+
+[[parche]]
+direccion = 0x0046FB40
+tipo = "u32"
+valor = 0x8D6B0058
+nota = "ocultar por pasada: ocultar por pasada 8"
+
+[[parche]]
+direccion = 0x0046FB44
+tipo = "u32"
+valor = 0x8D6B0060
+nota = "ocultar por pasada: ocultar por pasada 9"
+
+[[parche]]
+direccion = 0x0046FB48
+tipo = "u32"
+valor = 0x856B001C
+nota = "ocultar por pasada: ocultar por pasada 10"
+
+[[parche]]
+direccion = 0x0046FB4C
+tipo = "u32"
+valor = 0x15600008
+nota = "ocultar por pasada: ocultar por pasada 11"
+
+[[parche]]
+direccion = 0x0046FB50
+tipo = "u32"
+valor = 0x00000000
+nota = "ocultar por pasada: ocultar por pasada 12"
+
+[[parche]]
+direccion = 0x0046FB54
+tipo = "u32"
+valor = 0x8D09FBF0
+nota = "ocultar por pasada: ocultar por pasada 13"
+
+[[parche]]
+direccion = 0x0046FB58
+tipo = "u32"
+valor = 0x152A001A
+nota = "ocultar por pasada: ocultar por pasada 14"
+
+[[parche]]
+direccion = 0x0046FB5C
+tipo = "u32"
+valor = 0x00000000
+nota = "ocultar por pasada: ocultar por pasada 15"
+
+[[parche]]
+direccion = 0x0046FB60
+tipo = "u32"
+valor = 0x8D09FBF8
+nota = "ocultar por pasada: ocultar por pasada 16"
+
+[[parche]]
+direccion = 0x0046FB64
+tipo = "u32"
+valor = 0x25290001
+nota = "ocultar por pasada: ocultar por pasada 17"
+
+[[parche]]
+direccion = 0x0046FB68
+tipo = "u32"
+valor = 0x10000018
+nota = "ocultar por pasada: ocultar por pasada 18"
+
+[[parche]]
+direccion = 0x0046FB6C
+tipo = "u32"
+valor = 0xAD09FBF8
+nota = "ocultar por pasada: ocultar por pasada 19"
+
+[[parche]]
+direccion = 0x0046FB70
+tipo = "u32"
+valor = 0x8D09FBF4
+nota = "ocultar por pasada: ocultar por pasada 20"
+
+[[parche]]
+direccion = 0x0046FB74
+tipo = "u32"
+valor = 0x240B0001
+nota = "ocultar por pasada: ocultar por pasada 21"
+
+[[parche]]
+direccion = 0x0046FB78
+tipo = "u32"
+valor = 0x152B000C
+nota = "ocultar por pasada: ocultar por pasada 22"
+
+[[parche]]
+direccion = 0x0046FB7C
+tipo = "u32"
+valor = 0x00000000
+nota = "ocultar por pasada: ocultar por pasada 23"
+
+[[parche]]
+direccion = 0x0046FB80
+tipo = "u32"
+valor = 0x3C090041
+nota = "ocultar por pasada: ocultar por pasada 24"
+
+[[parche]]
+direccion = 0x0046FB84
+tipo = "u32"
+valor = 0x8D29F514
+nota = "ocultar por pasada: ocultar por pasada 25"
+
+[[parche]]
+direccion = 0x0046FB88
+tipo = "u32"
+valor = 0x1120000E
+nota = "ocultar por pasada: ocultar por pasada 26"
+
+[[parche]]
+direccion = 0x0046FB8C
+tipo = "u32"
+valor = 0x00000000
+nota = "ocultar por pasada: ocultar por pasada 27"
+
+[[parche]]
+direccion = 0x0046FB90
+tipo = "u32"
+valor = 0x25290450
+nota = "ocultar por pasada: ocultar por pasada 28"
+
+[[parche]]
+direccion = 0x0046FB94
+tipo = "u32"
+valor = 0x8D2B0328
+nota = "ocultar por pasada: ocultar por pasada 29"
+
+[[parche]]
+direccion = 0x0046FB98
+tipo = "u32"
+valor = 0x1160000A
+nota = "ocultar por pasada: ocultar por pasada 30"
+
+[[parche]]
+direccion = 0x0046FB9C
+tipo = "u32"
+valor = 0x00000000
+nota = "ocultar por pasada: ocultar por pasada 31"
+
+[[parche]]
+direccion = 0x0046FBA0
+tipo = "u32"
+valor = 0x8D2B03A4
+nota = "ocultar por pasada: ocultar por pasada 32"
+
+[[parche]]
+direccion = 0x0046FBA4
+tipo = "u32"
+valor = 0x15600007
+nota = "ocultar por pasada: ocultar por pasada 33"
+
+[[parche]]
+direccion = 0x0046FBA8
+tipo = "u32"
+valor = 0x00000000
+nota = "ocultar por pasada: ocultar por pasada 34"
+
+[[parche]]
+direccion = 0x0046FBAC
+tipo = "u32"
+valor = 0x152A0005
+nota = "ocultar por pasada: ocultar por pasada 35"
+
+[[parche]]
+direccion = 0x0046FBB0
+tipo = "u32"
+valor = 0x00000000
+nota = "ocultar por pasada: ocultar por pasada 36"
+
+[[parche]]
+direccion = 0x0046FBB4
+tipo = "u32"
+valor = 0x8D09FBFC
+nota = "ocultar por pasada: ocultar por pasada 37"
+
+[[parche]]
+direccion = 0x0046FBB8
+tipo = "u32"
+valor = 0x25290001
+nota = "ocultar por pasada: ocultar por pasada 38"
+
+[[parche]]
+direccion = 0x0046FBBC
+tipo = "u32"
+valor = 0x10000003
+nota = "ocultar por pasada: ocultar por pasada 39"
+
+[[parche]]
+direccion = 0x0046FBC0
+tipo = "u32"
+valor = 0xAD09FBFC
+nota = "ocultar por pasada: ocultar por pasada 40"
+
+[[parche]]
+direccion = 0x0046FBC4
+tipo = "u32"
+valor = 0x0804A5E8
+nota = "ocultar por pasada: ocultar por pasada 41"
+
+[[parche]]
+direccion = 0x0046FBC8
+tipo = "u32"
+valor = 0x00000000
+nota = "ocultar por pasada: ocultar por pasada 42"
+
+[[parche]]
+direccion = 0x0046FBCC
+tipo = "u32"
+valor = 0x03E00008
+nota = "ocultar por pasada: ocultar por pasada 43"
+
+[[parche]]
+direccion = 0x0046FBD0
+tipo = "u32"
+valor = 0x24020001
+nota = "ocultar por pasada: ocultar por pasada 44"
+
+[[parche]]
+direccion = 0x0046FBF0
+tipo = "u32"
+valor = 0x0046CDF0
+nota = "ocultar datos: pasada 1: no dibujar a J2"
+
+[[parche]]
+direccion = 0x0046FBF4
+tipo = "u32"
+valor = 0x00000001
+nota = "ocultar datos: pasada 2: no dibujar al titere"
+
+[[parche]]
 direccion = 0x00129574
 tipo = "u32"
 valor = 0x0C11B600
@@ -2609,3 +2993,15 @@ direccion = 0x00129AD0
 tipo = "u32"
 valor = 0x0C11BEC0
 nota = "ganchos: gancho del tinte: jal filtro (era jal 0x1b0ac8) (89b)"
+
+[[parche]]
+direccion = 0x001298F8
+tipo = "u32"
+valor = 0x3C060047
+nota = "ganchos: gancho del dibujo de la escena: callback ocultar (era 0x1297a0) (93)"
+
+[[parche]]
+direccion = 0x00129900
+tipo = "u32"
+valor = 0x24C6FB20
+nota = "ganchos: gancho del dibujo de la escena: callback ocultar (era 0x1297a0) (93)"

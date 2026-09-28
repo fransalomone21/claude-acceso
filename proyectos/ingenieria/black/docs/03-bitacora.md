@@ -16,6 +16,26 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93b) — Visibilidad por pasada: un filtro en el callback de dibujo de la escena
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, «el títere tapa la cámara de J2; cada uno ve el arma del otro») · **Nodos:** `render` (evidencia), `vista-fp` (evidencia; sin cambio de K)
+**Objetivo:** tramo b) de la tarea: la bandera que oculta a un personaje, en frío, y usarla por pasada.
+
+- **En frío:** los personajes se dibujan **dentro** de `FUN_001297E0`, o sea en cada pasada: `FUN_00273A18(juego+0x4920, R+0xCFD0, 0x1297A0, 0)` recorre lo visible y el callback `FUN_001297A0(nodo, modo)` llama al método `vtable+0x30` de `*(nodo+0x34)`; en un personaje (vtable base `0x003DCA78`) es `FUN_00133BA0`: modelo (`FUN_00136BD0`, que saltea cada submalla con su bit de `+0x370` en 0 — pero esa máscara la **recalcula** `FUN_00136D60` en cada dibujo, así que no sirve de bandera), agregados (`+0x25C`, `+0x3AD`) y el arma en la mano (`+0x2A4`, `FUN_00137B88`). El callback entra como inmediato: `lui a2,0x13` / `addiu a2,a2,-0x6860` en `0x001298F8`/`0x00129900`.
+- **El filtro** (`herramientas/ocultar_pasada.py`, 45 palabras en `0x0046FB20`): va en lugar del callback; con la pantalla partida (`DATOS+0x3C` ≠ 0) distingue la pasada por el offset x del sub-raster (`*(*(R+0xD458)+0x60)+0x1C`: 0 / 320, sin tocar el stub de la pantalla), saltea el objeto `A` (`0x0046FBF0`) en la 1 y el `B` (`0x0046FBF4`; 1 = el títere, con las guardas de `TITERE_MOD`) en la 2, y cuenta en `0x0046FBF8`/`0x0046FBFC`.
+- **Medido** (fork, `volcados/capturas-93/`, `ocultar93.json`, `ocultar93b.json`, tiras `tira.png` y `tira-b.png`), A/B escritos en caliente, control A = B = 0 antes y después:
+  | caso | ocultos pasada 1 / 2 (por 2 s) | efecto en pantalla |
+  |---|---|---|
+  | control | 0 / 0 | brazos y arma en las dos mitades |
+  | A = J2, B = títere | 0 / ~230 | ninguno visible (el títere está en el ojo de J2: fuera del plano cercano en este encuadre) |
+  | **A = J, B = J2** | ~206 / ~207 | **los brazos y el arma desaparecen de las dos mitades** (dif 3,9 / 4,1 contra 1,3 / 1,0 del control) |
+
+  **Los brazos y el arma en primera persona son el dibujo del propio personaje** (`confirmado` en pantalla, con control): la mitad de J2 muestra el modelo de J2, no el de J. La «animación de J1 en la mitad de J2» es entonces **la animación de los brazos de J2 igual a la de J** (se ve en `v_c0`: la misma pose en las dos mitades), no el arma de J dibujada dos veces. El filtro por pasada anda (`confirmado`). Ocultar a J2 en la vista de J queda `probable`: la comparación es la misma que lo encontró en la pasada 2, pero en ningún encuadre de la sonda J2 entró en la vista de J (el giro de la mira de J escrito por PINE no giró su cámara).
+- **En el mod** (`coop_mod.py`): el filtro, `A` = J2, `B` = títere y los dos ganchos (se escriben juntos, en pausa, en `poner`/`quitar`); `poner --sin-ocultar` es el control. **Bloque: 500 palabras**, reinstalado y activo. Por el pnach solo, en City Streets: la pasada 2 oculta al títere ~56 veces por segundo, J2 camina 9,0 m y el títere lo sigue a ≤ 0,16 m (`campana_coop.py`, (93c)).
+**No funcionó:** girar la cámara de J escribiendo su mira (`0x005A8FA0`): la mitad izquierda no cambió.
+**Sigue:** la animación compartida de los brazos (qué de J2 apunta a lo de J: los bloques `+0x270..+0x278` con dueño J son los candidatos); J visto desde J2 son brazos flotando (un segundo títere).
+
+---
+
 ## 2026-09-28 (93) — La recarga de J2 en el stub: confirmada en RAM, con control
 **Máquina:** notebook (tarea programada, Fran durmiendo) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, «J2 dispara») · **Nodos:** `armas` (evidencia; sin cambio de K)
 **Objetivo:** tramo a) de la tarea: probar el `RECARGA_MOD` de (92) en el fork, con el 2.8.0 de Fran cerrado.
