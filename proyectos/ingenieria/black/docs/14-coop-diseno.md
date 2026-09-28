@@ -65,7 +65,7 @@ con los de `coop_mod.py`**: si el código crece y este plano no, el verificador 
 # nombre                    | desde      | hasta      | tipo   | fuente
 J2 (el jugador 2)           | 0x0046CDF0 | 0x0046D6B0 | datos  | (79)
 datos del mod               | 0x0046D780 | 0x0046D7D4 | datos  | (86)
-por cuadro                  | 0x0046D800 | 0x0046D9C0 | codigo | (86)
+por cuadro                  | 0x0046D800 | 0x0046D9D4 | codigo | (86)
 envoltorio                  | 0x0046DA00 | 0x0046DBB4 | codigo | (93c)
 armas de J2                 | 0x0046DBC0 | 0x0046DBE0 | datos  | (86)
 desarme                     | 0x0046DD00 | 0x0046DD90 | codigo | (87)

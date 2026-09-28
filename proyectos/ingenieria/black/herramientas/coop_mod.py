@@ -344,6 +344,11 @@ addiu t2, t2, 4
 addiu t3, t3, -1
 bne t3, zero, @COPIAT
 addiu t1, t1, 4
+.word 0xc44000a0
+lui t4, 0x3e9a
+.word 0x448c0800
+.word 0x46010000
+.word 0xe44000a0
 lw t1, -0x2834(s0)
 addiu t1, t1, 1
 sw t1, -0x2834(s0)
@@ -353,6 +358,9 @@ sw t1, -0x2834(s0)
 # aliado vivo no siempre es el 1 (Town: el 0; el 1 es enemigo). ELEGIR recorre los 16 primeros actores del
 # pool y devuelve (y deja en TITERE_ACT) el primero con tipo != 0, bando 0, +0x38C = 0 y +0xB4 != 0; 0 si no
 # hay. Hoja: solo t0..t3 y v0. El filtro de ocultar_pasada lee TITERE_ACT.
+# (93i) Despues de copiar, la x del titere (+0xA0) se corre +0,3 m (lwc1/mtc1/add.s/swc1 como .word): un
+# soldado con controlador de colision puesto EXACTAMENTE sobre J2 cuelga el EE en FUN_0033DD98 (cuenta
+# basura), igual que J2 encima de J en (93c).
 ELEGIR = 0x0046DE00            # .bss en cero (libre 0x0046DE00..0x0046F800, docs/14)
 TITERE_ACT = 0x0046DEF0        # dato: el titere elegido en el ultimo cuadro (0 = ninguno). No va en el pnach
 ELEGIR_MOD = """
