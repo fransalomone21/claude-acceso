@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (94) — El arreglo del parpadeo, medido con control: 0 de 16 con el acceso COOP, 2 de 16 con la pantalla ancha comunitaria
+**Máquina:** notebook, fork · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (pantalla partida estable) · **Nodos:** `render` (K5, sin cambio)
+**Objetivo:** tramo b) del retome: medir el arreglo de (93v)+(93y) con su control.
+
+- `parpadeo_control.py coop|control`: lanza el fork, carga City Streets con el selector, J2 quieto (captura de referencia) y después J2 disparando sin parar con el mando falso (cargador rellenado por PINE), 16 capturas clasificadas con `parpadeo_escala.py`. Deja los ajustes como el acceso COOP al terminar (comparados con `diff`: iguales).
+- **Con los ajustes del acceso COOP** (emulog SIN «Widescreen 16:9»; ranura 3 puesta): **0 de 16** en vista B (escalas 0,95–1,25).
+- **Control**, la misma corrida con «Enable = Widescreen 16:9» y la global mandando (emulog CON el parche): **2 de 16** en B (escala 0,65) y 2 dudosas (0,75). El control mide.
+- A ojo (`parp-comparacion.png`): en el control la pared y el agujero de bala de la mitad de J2 salen comprimidos; con el acceso COOP no, y **J2 tiene su pistola en su propia pose** (la ranura 3, visto en pantalla).
+- `confirmado` con control: el parpadeo era el parche comunitario y el acceso COOP lo apaga de verdad desde (93y).
+
+**No funcionó:** nada.
+**Sigue:** B5 (la muerte de un jugador).
+
+---
+
 ## 2026-09-28 (93z) — La ranura 3 por el pnach: campaña 8 de 8, y la recarga y el culatazo de J2 arreglados (con control). Queda PRENDIDA por defecto
 **Máquina:** notebook, fork de pruebas (2.8.0 de Fran cerrado) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (brazos propios de J2) · **Nodos:** `personajes` K4 → **K5**, `armas`, `entrada`
 **Objetivo:** tramo a) del retome, sin Fran: la ranura 3 instalada por el pnach, en toda la campaña y en las acciones de J2 que él reportó rotas.
