@@ -78,6 +78,12 @@ Corrida por PINE (`coop_mod.py poner` + selector, nivel 0/0, que es City Streets
 - `tirador.py` suma `--traza` (cada cambio de cargador y vida con su tiempo).
 
 **No funcionó:** el xor alrededor del update; `--acercar` como banco de prueba de daño; dos corridas del 17 y el 3 (el spawner no disparó a tiempo y se leyó un actor viejo).
+
+### (88d) La vista de J2 con cabeceo, en el stub
+- **La convención, medida sobre J** (`conv_cuat.py`: yaw y cabeceo de su mira contra el cuaternión que el juego pone en `gestor+0x710`): **q = q_yaw · q_cabeceo = (cy·sp, sy·cp, −sy·sp, cy·cp)** con medios ángulos y el cabeceo positivo hacia arriba; error ≤ 0,002 con yaw 60° y −179° y cabeceo 0/−25/+30 (las otras tres combinaciones: 0,2–0,5). Con yaw ≈ 180° casi no discrimina (0,005): por eso la segunda tanda en 60°.
+- **El stub** (`pantalla_dividida.py`, 123 palabras, hasta `0x0046FBEC`): cuatro llamadas a `sinf`/`cosf` (medios ángulos en la pila, senos y cosenos en `DATOS+0x20..+0x2C`) y el cabeceo **real** de J2 = −`mira+0xC` (el mod lo guarda negado, (88c)). Contra la fórmula de Python: **1,1e-8 y 7,2e-8** con cabeceo real −20° y +20°.
+- **En pantalla: no concluyente.** Las capturas `d1..d3` salen con el desenfoque de daño de J en toda la pantalla (un enemigo le tira; vida FLT_MAX) y la comparación por mitades no discrimina (control 18,4 contra 14,9). La cadena que sí vale: convención medida contra la cámara real + stub = fórmula + (88b), que ya probó en pantalla que ese cuaternión es el que dibuja la mitad derecha.
+- **Reemplazar el stub en caliente**, sin volver a una dirección corrida: `quitar` (vuelven los `jal` originales), esperar, y recién ahí `poner` en pausa. Para el stub por cuadro del mod: `FASE` = 0, esperar, escribir en pausa, `FASE` = 2.
 **Sigue:** (d) — la pantalla dividida en el pnach (con la vista de J2 **con cabeceo**, que ahora es `−mira+0xC`), la recarga de J2, B2b fino, B4–B6 en frío, `docs/14` + `coop_diseno.py`.
 
 ---

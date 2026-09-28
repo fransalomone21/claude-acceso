@@ -28,7 +28,7 @@ Uso (desde black/):
   python herramientas/pantalla_dividida.py fuente-stub 1 [--prender]  # (88b) la vista de J2 la calcula el stub
   python herramientas/pantalla_dividida.py comparar <s> # (88b) control: stub (DATOS+0x60) contra la formula
 
-Memoria: STUB 0x0046FA00..0x0046FB90, DATOS 0x0046FC00..0x0046FC98 (dentro del .bss en
+Memoria: STUB 0x0046FA00..0x0046FBEC, DATOS 0x0046FC00..0x0046FC98 (dentro del .bss en
 cero 0x0046DC00..0x00472000, sin usar desde que la ranura propia no hizo falta (82)).
 """
 from __future__ import annotations
@@ -66,6 +66,8 @@ def _fpu(op: str, *r: int) -> str:
         w = 0x44800000 | r[0] << 16 | r[1] << 11
     elif op == "mul.s":         # fd, fs, ft
         w = 0x46000002 | r[2] << 16 | r[1] << 11 | r[0] << 6
+    elif op == "neg.s":         # fd, fs
+        w = 0x46000007 | r[1] << 11 | r[0] << 6
     else:
         raise ValueError(op)
     return ".word 0x%08x" % w
@@ -73,18 +75,31 @@ def _fpu(op: str, *r: int) -> str:
 
 T0, T1, T2, S1, SP = 8, 9, 10, 17, 29
 MEDIO_GRADO = struct.unpack("<I", struct.pack("<f", math.pi / 360))[0]   # yaw (grados) -> medio angulo (rad)
-# (88b) la vista de J2 calculada EN EL STUB, sin Python: q = (0, sin h, 0, cos h), h = yaw*pi/360, con el
-# yaw de *(J2+0x32C)+8 (grados), y el ojo J2+0x100 (w = 1). Queda en DATOS+0x60/+0x70; si DATOS+0x94 != 0
-# se copia a +0x40/+0x50, que es lo que lee la pasada 2. h se guarda en la pila (sp+0x50) entre llamadas.
+# (88b) la vista de J2 calculada EN EL STUB, sin Python, con sinf/cosf del ELF. (88d) con cabeceo:
+# q = q_yaw * q_cabeceo = (cy*sp, sy*cp, -sy*sp, cy*cp), medios angulos (medido sobre J contra gestor+0x710:
+# error <= 0,002 con yaw 60 y 180 y cabeceo -25/+30). yaw = *(J2+0x32C)+8; el cabeceo REAL de J2 es
+# -(mira+0xC), porque el mod lo guarda negado (88c). Ojo J2+0x100 (w = 1). Queda en DATOS+0x60/+0x70; si
+# DATOS+0x94 != 0 se copia a +0x40/+0x50, que es lo que lee la pasada 2. Medios angulos en la pila
+# (sp+0x50/+0x54); senos y cosenos en DATOS+0x20..+0x2C (sy, cy, sp, cp) entre llamadas.
 VISTA_J2 = [
     "lui t0, 0x47", "lw t1, -0x2ee4(t0)", "beq t1, zero, NOJ2", "nop",   # *(J2+0x32C): la mira de J2
-    _fpu("lwc1", 12, 8, T1),
+    _fpu("lwc1", 12, 8, T1), _fpu("lwc1", 2, 0xC, T1),
     "lui t2, 0x%x" % (MEDIO_GRADO >> 16), "ori t2, t2, 0x%x" % (MEDIO_GRADO & 0xFFFF),
     _fpu("mtc1", T2, 1), _fpu("mul.s", 12, 12, 1), _fpu("swc1", 12, 0x50, SP),
-    "jal 0x%x" % SINF, "nop", _fpu("swc1", 0, -0x39c, S1),             # +0x64 = sin h
+    _fpu("mul.s", 2, 2, 1), _fpu("neg.s", 2, 2), _fpu("swc1", 2, 0x54, SP),
+    "jal 0x%x" % SINF, "nop", _fpu("swc1", 0, -0x3e0, S1),             # +0x20 = sy
     _fpu("lwc1", 12, 0x50, SP),
-    "jal 0x%x" % COSF, "nop", _fpu("swc1", 0, -0x394, S1),             # +0x6C = cos h
-    "sw zero, -0x3a0(s1)", "sw zero, -0x398(s1)",
+    "jal 0x%x" % COSF, "nop", _fpu("swc1", 0, -0x3dc, S1),             # +0x24 = cy
+    _fpu("lwc1", 12, 0x54, SP),
+    "jal 0x%x" % SINF, "nop", _fpu("swc1", 0, -0x3d8, S1),             # +0x28 = sp
+    _fpu("lwc1", 12, 0x54, SP),
+    "jal 0x%x" % COSF, "nop", _fpu("swc1", 0, -0x3d4, S1),             # +0x2C = cp
+    _fpu("lwc1", 4, -0x3e0, S1), _fpu("lwc1", 5, -0x3dc, S1),
+    _fpu("lwc1", 6, -0x3d8, S1), _fpu("lwc1", 7, -0x3d4, S1),
+    _fpu("mul.s", 8, 5, 6), _fpu("swc1", 8, -0x3a0, S1),               # +0x60 x = cy*sp
+    _fpu("mul.s", 8, 4, 7), _fpu("swc1", 8, -0x39c, S1),               # +0x64 y = sy*cp
+    _fpu("mul.s", 8, 4, 6), _fpu("neg.s", 8, 8), _fpu("swc1", 8, -0x398, S1),   # +0x68 z = -sy*sp
+    _fpu("mul.s", 8, 5, 7), _fpu("swc1", 8, -0x394, S1),               # +0x6C w = cy*cp
     "lui t0, 0x47", "lq t1, -0x3110(t0)", "sq t1, -0x390(s1)",         # +0x70 = ojo (J2+0x100)
     "lui t1, 0x3f80", "sw t1, -0x384(s1)",
     "lw t0, -0x36c(s1)", "beq t0, zero, NOJ2", "nop",                  # +0x94: la fuente es el stub
@@ -272,8 +287,10 @@ def cmd_comparar(a) -> int:
         peor, n = 0.0, 0
         fin = time.time() + a.segundos
         while True:
-            y = math.radians(p.leer_f32(p.leer32(J2 + 0x32C) + 8))
-            py = [0.0, math.sin(y / 2), 0.0, math.cos(y / 2)] + floats(p, J2 + 0x100, 3) + [1.0]
+            m = p.leer32(J2 + 0x32C)
+            y, c = math.radians(p.leer_f32(m + 8)) / 2, -math.radians(p.leer_f32(m + 0xC)) / 2   # (88d)
+            sy, cy, sp, cp = math.sin(y), math.cos(y), math.sin(c), math.cos(c)
+            py = [cy * sp, sy * cp, -sy * sp, cy * cp] + floats(p, J2 + 0x100, 3) + [1.0]
             st = floats(p, DATOS + 0x60, 8)
             peor, n = max(peor, max(abs(u - v) for u, v in zip(py, st))), n + 1
             if time.time() >= fin:
