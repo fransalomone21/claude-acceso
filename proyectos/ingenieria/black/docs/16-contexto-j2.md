@@ -174,3 +174,66 @@ dos blancos el juego es **más fácil** para cada uno: ¿se compensa (N18)?
   el bit 1 y el id 1 no aparecen hasta que J2 dispara (entonces entra por la puerta del daño, la tercera fila).
 - **Negativo que refuta:** con el gancho prendido, J2 a la vista 10 s y ni el bit ni el id → la puerta «ver» tiene
   otra condición que J2 no cumple (candidato: `FUN_00185C38(agente+0x6F0)`, la percepción).
+
+## Clase B, juntar (T3, (100) nube): la pregunta es de J, la respuesta es una sola, y el que la usa ya es cada jugador
+
+### Concepción (`confirmado en frío`)
+
+«Juntar» son **tres** cosas, y ninguna es un botón que mire al que lo aprieta:
+
+| Qué | Pregunta (por cuadro) | Respuesta | Quién la usa |
+|---|---|---|---|
+| **activar** los recogibles cercanos (y la munición del arma en la mano, `FUN_00126F80`) | `FUN_00126328`: los 64 a < 20 m de `J+0xA0` | bandera `+0x152` bit 4 del recogible | el mundo físico |
+| **tocar**: botiquín, munición, objeto de misión | la consulta espacial alrededor de J (`FUN_00273568(juego+0x4920, …, FUN_00127118)`) | se aplica **en el acto** a J (`FUN_0013C9D8(J)`, `FUN_001551C8(J+0x280)`, `J+0x294`) | — |
+| **arma** (mantener □) | la misma consulta | **un solo candidato**: `pickups+0x5848` (la más cercana a J), borrado cada cuadro | el **control de cada jugador** (`FUN_0013F618`, acción `0xD`) → `FUN_0015C920` («¿no la tengo?») → `FUN_0015C1A8(su jugador+0x280)`; el cartel `FUN_001F5F58` |
+
+Lo que viene después ya es **por jugador** (`probable`): `FUN_0015C3C8` suelta el arma vieja y carga la nueva por
+`FUN_00143D90` → `FUN_001AC960` → el envoltorio de la ranura 3 (`0x001ACA84`), que (93s) ya diseñó para «cambio de
+arma y levantar un arma de J2». **F2 (cambiar de arma) cuelga del mismo camino.**
+
+**Lectura:** J2 apretando □ **junta el arma que está cerca de J**, esté donde esté J2 (predicción: si J está parado
+sobre un arma y J2 lejos, J2 la levanta). J2 nunca toca botiquines ni munición (se aplican a J cuando J pasa).
+
+### Las tres primitivas del diseño (salen de acá y valen para toda la clase B)
+
+Medido con `censo_ab.py --conmutables` (cierre por llamadas directas; las indirectas no están: necesario, no
+suficiente):
+
+- **P1 — pasar a J2.** La pregunta recibe al jugador por parámetro: se la llama también con J2. Es la IA (T2), el
+  control (`FUN_0013F618` ya lo hace), `FUN_0015C1A8`.
+- **P2 — conmutar el juego.** La pregunta lee al jugador por el global: se la corre con `*(0x0040F4D0)` = `J2 − 0x30`
+  (así `juego+0x30+x` = `J2+x`) y se restaura. Vale sólo si la pregunta **y todo lo que llama** leen el global dentro
+  de `[0x30, 0x8F0)`, salvo una lista chica de campos que se copian a una **cabecera sombra** (`juego'+o` ← `juego+o`)
+  antes de preguntar. Resultado: **disparadores `FUN_0016A4C0`/`FUN_0016A250`: conmutables limpios** (0 campos);
+  **`FUN_00127118`: conmutable con sombra de `+0x20` y `+0x5AEC`** (los lee el sonido `FUN_001EED98`); `FUN_00126328`
+  **no** (usa el mundo `+0x4920` y pasa el juego entero).
+- **P3 — conmutar el contexto** (clase A, T4–T6): los punteros de `V`, HUD, efectos.
+
+La cabecera sombra cae **dentro de la memoria del mod** (`J2 − 0x30 + 0x20` = `0x0046CDE0`, `+0x5AEC` = `0x004728AC`):
+el plano de memoria de T7 tiene que reservar esas palabras y el verificador de `docs/14` exigirlo.
+
+### Alternativas y elección para F1
+
+| Opción | Qué | En contra |
+|---|---|---|
+| **1. preguntar también por J2, con respuesta propia** | por cuadro, después de la pregunta de J: activar y consultar alrededor de `J2+0xA0` con el callback **conmutado** (P2); el candidato de J2 se guarda aparte y se **intercambia** con `pickups+0x5848` sólo alrededor de la actualización de J2 | una réplica chica de la vuelta de `FUN_00126328` (no es conmutable) |
+| 2. conmutar `FUN_00126328` entera | un gancho | **imposible**: `juego+0x4920` y `FUN_00129108(juego)` no son de J |
+| 3. candidato compartido, el más cercano de los dos | un solo lugar | J con □ podría levantar el arma de al lado de J2: pelea por el mismo lugar |
+| 4. botón propio del mod | simple | salta las reglas del juego (dos del mismo tipo, cartel, munición) |
+
+**Elección: opción 1.** Orden por cuadro: (a) el juego pregunta por J (como siempre, borra y llena `+0x5848`);
+(b) el mod guarda la respuesta de J, pregunta por J2 y deja la de J2 en `CAND2`, y repone la de J; (c) alrededor de
+la actualización de J2 (el gancho por cuadro que ya existe), `+0x5848/+0x584C` ↔ `CAND2`. Botiquines y munición
+salen solos con la opción 1 (se aplican al jugador conmutado). **El cartel «HOLD □» de J2** espera al HUD (F5).
+**Pregunta para Fran:** ¿un botiquín lo toma el que pasa (como hoy), o se reparte?
+
+### Sonda del concepto (vivo, sin instalar nada nuevo)
+
+Sirve para confirmar la concepción **antes** de construir: *candidato compartido, consumidor por jugador*.
+- **Predicción:** J parado sobre un arma que J no tiene y J2 a más de 20 m; J2 mantiene □ (mando falso 2,
+  `mando_j2.py boton agarrar 1.0`): **J2 levanta el arma que está bajo J** (el arma de J2 cambia, `armas_j2.py`, y el
+  recogible desaparece del piso) y J no cambia.
+- **Control en la misma corrida:** J2 parado sobre otra arma y J lejos, J2 mantiene □: no pasa nada
+  (`pickups+0x5848` = 0 al leerlo por PINE).
+- **Refuta:** si en la predicción J2 no levanta nada, el control o `FUN_0015C920` miran algo más (candidato: el
+  estado de agarre `ctrl+0xFB/+0xFC`).

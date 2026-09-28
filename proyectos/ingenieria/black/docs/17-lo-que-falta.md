@@ -25,8 +25,8 @@ global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) 
 
 | ID | Qué falta, en criollo | Evidencia | Pista | Frío / vivo |
 |---|---|---|---|---|
-| F1 | **J2 no puede juntar armas** del piso (cuadrado mantenido, «HOLD □ TO PICK UP») | Fran, (97); J1 sí junta (96, `b1` = agarrar) | **(98) `confirmado en frío`:** la consulta es `FUN_00126328` → `FUN_00127118` y mide contra `J+0xA0` por el global del juego; el arma candidata vive en **un** lugar, `pickups+0x5848`, y el control de cada jugador (`FUN_0013F618`, acción `0xD`) la toma para **su** jugador: J2 juntaría el arma cercana a J. Diseño en T3 | frío: buscar el texto «PICK UP» y quién lo pide; vivo: la sonda |
-| F2 | J2 **cambiar de arma** (6/7) | sin probar: J2 arranca con una sola arma (93z) | mismo camino que F1 después de juntar | vivo, cuando F1 ande |
+| F1 | **J2 no puede juntar armas** del piso (cuadrado mantenido, «HOLD □ TO PICK UP») | Fran, (97); J1 sí junta (96, `b1` = agarrar) | **(98) `confirmado en frío`:** la consulta es `FUN_00126328` → `FUN_00127118` y mide contra `J+0xA0` por el global del juego; el arma candidata vive en **un** lugar, `pickups+0x5848`, y el control de cada jugador (`FUN_0013F618`, acción `0xD`) la toma para **su** jugador: J2 juntaría el arma cercana a J. Diseño en T3 → **(100)**: elegida «preguntar también por J2 con respuesta propia» (P2, conmutar el juego, con cabecera sombra); sonda del concepto en `docs/16` | frío: buscar el texto «PICK UP» y quién lo pide; vivo: la sonda |
+| F2 | J2 **cambiar de arma** (6/7) | sin probar: J2 arranca con una sola arma (93z) | (100) `probable`: el cambio y el levantar pasan por `FUN_00143D90` → `FUN_001AC960` → el envoltorio de la ranura 3 (93s), por jugador | vivo, cuando F1 ande |
 | F3 | **J1 no tiene cuerpo** en la mitad de J2 | Fran, (97) | J2 tiene títere (un aliado del nivel que copia su matriz, (85)); J no | frío: cuántos aliados vivos hay por nivel, si dos títeres entran; alternativa: soldado de spawner (93i) |
 | F4 | a J2 **no le suena el disparo**; sus impactos suenan flojos | Fran de oído (96); `probable`: el aislador `0x001D6F90` saltea el camino que lleva el sonido | clase A | frío: `FUN_001d7020`, `FUN_00283e78` id `0x85C` |
 | F5 | **HUD de J2** (vida, munición, arma, mira, ícono de agachado) | pendiente (d) desde (90) | clase A: el HUD lee a J / `V` | frío: quién dibuja el HUD y de dónde lee |
@@ -50,7 +50,7 @@ global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) 
 | N6 | **pausa**: sólo J1 pausa; ¿qué hace Start en el mando 2? (hoy saltea videos) | — | vivo |
 | N7 | **granadas de J2** | BLACK tiene granadas; `b0`/`b10` sin nombre | vivo: nombrar el botón con J1 primero |
 | N8 | **apuntar con mira (zoom) de J2**: si cambia el campo visual de la vista única, cambia la de J | clase A | frío |
-| N9 | **munición y botiquines del piso** para J2 | misma prueba de cercanía que F1 (`hipótesis`) | con F1 |
+| N9 | **munición y botiquines del piso** para J2 | (100) `confirmado en frío`: misma pregunta que F1 (`FUN_00127118`, tipos 0 y 1) y se aplica en el acto **a J** | sale con la opción 1 de F1 |
 | N10 | **vibración** del mando 2 | clase A | vivo, prioridad baja |
 | N11 | **cinemáticas en motor y cámara de cine al matar** con la pantalla partida | cortan a una cámara única | vivo |
 | N12 | **morir y volver al punto de control / cargar partida**: ¿J2 reaparece bien? (tres cargas seguidas andan (87), pero nunca desde una muerte ni desde un guardado) | — | vivo |

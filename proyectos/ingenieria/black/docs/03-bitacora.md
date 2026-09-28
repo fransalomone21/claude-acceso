@@ -16,6 +16,22 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (100, nube) — T3, juntar: la pregunta es de J, la respuesta es una sola, y el que la usa ya es cada jugador; las tres primitivas del diseño
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase B · **Nodos:** `pickups` (K2, sin cambio)
+**Objetivo:** T3 en el plano de concepción y diseño (pedido de Fran en (99)): cómo junta J, por qué J2 no, qué alternativas hay.
+
+- **Concepción** (`confirmado en frío`): juntar son tres cosas — **activar** (< 20 m de J), **tocar** (botiquín, munición, objeto de misión: se aplican en el acto a J) y **arma** (un solo candidato `pickups+0x5848`, el más cercano a J). El que lo usa, el control, ya es **por jugador** (`FUN_0013F618` → `FUN_0015C1A8(su jugador+0x280)`), y el arma nueva llega a la ranura FP por el envoltorio de la ranura 3 (93s): **F2 cuelga del mismo camino**. Predicción: J2 con □ levanta el arma que está bajo **J**.
+- **Las tres primitivas** (`docs/16`): **P1 pasar a J2** (la pregunta recibe al jugador), **P2 conmutar el juego** (`*(0x0040F4D0)` = `J2 − 0x30` con una **cabecera sombra** para los pocos campos fuera del rango de J), **P3 conmutar el contexto** (clase A). `censo_ab.py --conmutables` lo mide con el cierre de llamadas: los **disparadores son conmutables limpios** (N3 queda a un gancho), `FUN_00127118` con sombra de `+0x20` y `+0x5AEC`, `FUN_00126328` no.
+- **Elección para F1:** preguntar también por J2 con respuesta propia (`CAND2`, intercambiado con `+0x5848` alrededor de la actualización de J2). Descartadas: conmutar `FUN_00126328` (imposible), candidato compartido (pelean), botón propio (salta las reglas).
+- **Sonda del concepto** sin instalar nada: J sobre un arma, J2 lejos aprieta □ → predicción: la levanta J2. Control: J2 sobre un arma y J lejos → nada.
+- El texto «PICK UP» no está en el ELF: son claves (`HINT_INGAME_53/54`, `FE_PICKEDUP`, `FE_PICKUPAMMO_*`); el texto vive en el front-end. No hace falta para el diseño.
+- **Pregunta para Fran:** ¿el botiquín lo toma el que pasa (como hoy) o se reparte?
+
+**No funcionó:** el primer borrador de «¿es conmutable?» marcaba como uso del global la asignación a un alias y no miraba lo que la función llama; corregido (alias ignorados, cierre transitivo), y el resultado cambió: `FUN_00127118` dejó de ser «limpia».
+**Sigue:** T4 (V y el sonido), en el mismo plano.
+
+---
+
 ## 2026-09-28 (99, nube) — T2, la IA: el blanco es genérico, pero el mundo de la IA es «J + 16 agentes» y J2 no está; diseño elegido (J2 en las dos puertas «ver» y «visibles»)
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase B · **Nodos:** `ia` (K3, sin cambio)
 **Objetivo:** T2: cómo elige blanco un enemigo, si J2 podría entrar, y el cambio mínimo con su sonda.
