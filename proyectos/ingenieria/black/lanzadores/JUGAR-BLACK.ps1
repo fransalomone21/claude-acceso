@@ -116,6 +116,15 @@ if ($conMouse) { $ls.InsertRange($ls.IndexOf('[Patches]') + 1, [string[]]($mira 
 $ancho = 'Enable = Widescreen 16:9'
 $ls = [Collections.Generic.List[string]]($ls | Where-Object { $_.Trim() -ne $ancho })
 if (-not $Coop) { $ls.Insert($ls.IndexOf('[Patches]') + 1, $ancho) }
+# Sacar la linea no alcanza (medido en el emulog, 2026-09-28): la opcion GLOBAL de PCSX2
+# EnableWideScreenPatches = true (PCSX2.ini) prende el 'Widescreen 16:9' de la GameDB igual. Con el coop se
+# la apaga POR JUEGO en [EmuCore] de estos ajustes; solo, se saca la linea y manda la global.
+$wsp = 'EnableWideScreenPatches = false'
+$ls = [Collections.Generic.List[string]]($ls | Where-Object { $_.Trim() -notmatch '^EnableWideScreenPatches\s*=' })
+if ($Coop) {
+    if ($ls.IndexOf('[EmuCore]') -lt 0) { $ls.Add('[EmuCore]') }
+    $ls.Insert($ls.IndexOf('[EmuCore]') + 1, $wsp)
+}
 [IO.File]::WriteAllLines($aj, [string[]]$ls, (New-Object Text.UTF8Encoding($false)))
 Write-Output "Sensibilidad de mira: $(if ($conMouse) {'la del mouse (parches prendidos)'} else {'ORIGINAL (parches apagados)'})."
 Write-Output "Pantalla ancha: $(if ($Coop) {'la del coop (Widescreen 16:9 comunitario APAGADO)'} else {'Widescreen 16:9 comunitario'})."

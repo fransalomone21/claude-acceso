@@ -25,12 +25,12 @@ function Acceso([string]$nombre, [string]$script, [string]$extra, [string]$icono
 }
 
 # los viejos (antes vivian en el Escritorio y en Juegos\Mods\BLACK con otro nombre)
-foreach ($v in 'BLACK.lnk') { $p = Join-Path $dest $v; if (Test-Path -LiteralPath $p) { Remove-Item -LiteralPath $p } }
+foreach ($v in 'BLACK.lnk', 'BLACK - Grabar 20 s.lnk') { $p = Join-Path $dest $v; if (Test-Path -LiteralPath $p) { Remove-Item -LiteralPath $p } }
 
 Acceso 'JUGAR BLACK'                        'JUGAR-BLACK.ps1' ''                $icoP 'BLACK solo, pantalla completa, teclado y mouse (apaga el coop)' -Min
 Acceso 'JUGAR BLACK COOP - teclado y mando' 'JUGAR-BLACK.ps1' '-Coop teclado'   $icoP 'Coop en pantalla dividida: J1 teclado+mouse, J2 el mando' -Min
 Acceso 'JUGAR BLACK COOP - dos mandos'      'JUGAR-BLACK.ps1' '-Coop 2mandos'   $icoP 'Coop en pantalla dividida: J1 mando 1, J2 mando 2' -Min
-Acceso 'BLACK - Grabar 20 s'                'grabar-gameplay.ps1' '-Segundos 20 -Espera 5' ((Join-Path $env:SystemRoot 'System32\shell32.dll') + ',116') 'Graba 20 s de pantalla para Claude (espera 5 s: volve al juego). Mientras se juega: Ctrl+Alt+G' -Min
+Acceso 'BLACK - Grabar 30 s'                'grabar-gameplay.ps1' '-Segundos 30 -Espera 5' ((Join-Path $env:SystemRoot 'System32\shell32.dll') + ',116') 'Graba 30 s de pantalla para Claude (espera 5 s: volve al juego). Mientras se juega: Ctrl+Alt+G' -Min
 Acceso 'BLACK - Parches'                    'PARCHES-BLACK.ps1' ''              ((Join-Path $env:SystemRoot 'System32\shell32.dll') + ',21') 'Prender y apagar parches de BLACK (60 FPS, widescreen, mods del proyecto)'
 
 Get-ChildItem -LiteralPath $dest -Filter '*.lnk' | Select-Object Name, LastWriteTime

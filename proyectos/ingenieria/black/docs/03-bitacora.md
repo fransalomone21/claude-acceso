@@ -16,6 +16,30 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93y) — La primera grabación de Fran: lo que se ve, y el «Widescreen 16:9» comunitario seguía prendido con el COOP
+**Máquina:** notebook (PCSX2 2.8.0 de Fran, abierto por él) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (jugar y medir) · **Nodos:** `render`, `emu-imagen` (sin cambio de K)
+**Objetivo:** ver la grabación `volcados/video/20260928-124226/` (20 s, ddagrab) y convertir lo raro en preguntas medibles.
+
+- **La herramienta anda** (`ddagrab`, 600 cuadros 1280×720). Dos arreglos: las hojas salían **sin la hora** (el ffmpeg de winget no encuentra Fontconfig: ahora `fontfile=` explícito, y la hora abajo al centro para no tapar el HUD) y el acceso y el atajo pasan a **30 s** (pedido de Fran). El acceso viejo «Grabar 20 s» se borra solo al recrear los accesos.
+- **Acceso usado: COOP dos mandos** (`probable`: los ajustes del juego no tienen los parches de mira, que sólo se prenden con mouse).
+- **El «Widescreen 16:9» comunitario estaba PRENDIDO con el COOP** (`confirmado` en el emulog: «Enabled patch: Widescreen 16:9» junto a «COOP - jugador 2 (B3)»). La predicción de (93v) —con el acceso COOP, no aparece— queda **refutada**. El lanzador sí sacó la línea `Enable = Widescreen 16:9` de los ajustes del juego; lo prende la opción **global** `EnableWideScreenPatches = true` de `PCSX2.ini`, que habilita el de la GameDB (el del pnach se saltea por nombre duplicado). Arreglo: `JUGAR-BLACK.ps1 -Coop` escribe `EnableWideScreenPatches = false` en `[EmuCore]` de los ajustes del juego; solo, la saca. Que el override por juego alcance es `hipótesis` hasta el próximo emulog.
+- **Fluidez**: en la mitad de J no hay ningún hueco de más de 2 cuadros en 20 s (`mpdecimate`: 585 de 600 cuadros distintos). Es cota de 30 cuadros/s: no dice si el juego va a 60.
+- **Pose compartida visible** (`probable`, es la de (93m); la ranura 3 no está instalada): entre 0 y 6,5 s, con J2 quieto, los brazos de la mitad de J2 hacen lo que hace J — la silueta del arma sube con el cambio de arma de J (0,0 s) y **recarga cuando J recarga** (4,0–4,75 s).
+- **El desenfoque de recarga de J cubre las dos mitades** (4,0–4,5 s): efecto a pantalla completa dibujado una vez, como el tinte de (89). En el pnach hay un «No Blur While Reload» que no está prendido.
+- **HUD único, el de J, partido**: la vida arriba a la izquierda (mitad de J) y la munición arriba a la derecha (mitad de J2); el contador baja cuando dispara J (015 → 007, 0–3,75 s), se repone con la recarga de J y cambia con la escopeta que junta J (0/024), y **no se mueve** cuando dispara J2 (7,5–11 s). Los carteles («SPAS 12 PICKED UP», «USE SHOTGUN TO BLAST DOORS») salen centrados en la pantalla entera, sobre el corte. J2 no tiene HUD.
+- **Parpadeo**: en los 80 cuadros a 4/s de la mitad de J2 no se ve ninguna vista comprimida, pero J2 dispara sólo caminando: **no mide** (el clasificador pide J2 quieto disparando).
+
+**Preguntas medibles que salen de acá:**
+1. ¿Con `EnableWideScreenPatches = false` por juego, el emulog del COOP deja de listar «Widescreen 16:9»? Control: el acceso solo lo lista.
+2. ¿El HUD se dibuja una sola vez por cuadro, fuera de las dos pasadas? (Mismo camino que el tinte de (89): contar llamadas por cuadro.) Si es así, un HUD para J2 es una segunda llamada con el jugador cambiado.
+3. ¿El desenfoque de recarga es un efecto a pantalla completa filtrable por pasada como el tinte, o alcanza con prender «No Blur While Reload» en el COOP?
+4. ¿La silueta que recarga en la mitad de J2 desaparece con `--con-r3`? (Es la fuga de (93q) vista en pantalla.)
+
+**No funcionó:** la hora de las hojas (arreglada).
+**Sigue:** Fran cierra el emulador, abre el acceso COOP y graba 30 s; en el emulog se mide la pregunta 1 y en el video lo que él quiera mostrar.
+
+---
+
 ## 2026-09-28 (93x) — Grabar el gameplay para que Claude lo mire: 20 s con Ctrl+Alt+G, en hojas de contacto
 **Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** jugar y medir (pedido de Fran: que Claude pueda ver su partida) · **Nodos:** `emu-imagen` (herramienta; sin cambio de K)
 **Objetivo:** que Fran grabe unos segundos jugando y la sesión local los analice.

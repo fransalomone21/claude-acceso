@@ -8,15 +8,15 @@
 # Graba con ffmpeg (ya instalado: winget Gyan.FFmpeg). Primero con ddagrab (Desktop Duplication: agarra bien
 # la ventana del emulador a pantalla completa) y, si falla, con gdigrab.
 #
-#   .\grabar-gameplay.ps1                 # 20 s, empieza ya
-#   .\grabar-gameplay.ps1 -Segundos 30 -Espera 5   # espera 5 s (para volver al juego) y graba 30
+#   .\grabar-gameplay.ps1                 # 30 s, empieza ya
+#   .\grabar-gameplay.ps1 -Segundos 30 -Espera 5   # espera 5 s (para volver al juego) y graba 30 (el acceso)
 # Atajo mientras se juega: Ctrl+Alt+G (lo agrega agachado-hold.ahk). Pita al empezar y al terminar.
 #
 # Sin acentos a proposito: la consola de Windows lee cp1252.
 
 [CmdletBinding()]
 param(
-    [int]$Segundos = 20,
+    [int]$Segundos = 30,
     [int]$Espera = 0,
     [int]$Fps = 30
 )
@@ -52,7 +52,9 @@ if (-not $ok) {
 if (-not $ok) { Write-Output "No se pudo grabar. Mira $log"; exit 1 }
 
 # 2) lo que mira Claude: hojas de 12 cuadros (2 por segundo, con la hora del video) y cuadros sueltos (4 por segundo)
-$hora = "drawtext=text='%{pts\:hms}':x=8:y=8:fontsize=28:fontcolor=yellow:box=1:boxcolor=black@0.6"
+# fontfile explicito: sin el, ffmpeg de winget no encuentra Fontconfig y las hojas salian sin la hora.
+# La hora va abajo al centro: arriba tapa la vida (izq.) y la municion (der.).
+$hora = "drawtext=fontfile='C\:/Windows/Fonts/arial.ttf':text='%{pts\:hms}':x=(w-tw)/2:y=h-th-8:fontsize=24:fontcolor=yellow:box=1:boxcolor=black@0.6"
 & $ff -y -hide_banner -loglevel error -i $mp4 -vf "fps=2,scale=480:-2,$hora,tile=4x3" `
     (Join-Path $dir 'hojas\hoja_%02d.png') 2>> $log
 if ($LASTEXITCODE -ne 0) {   # sin fuente para drawtext: las mismas hojas, sin la hora
