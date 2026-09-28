@@ -69,6 +69,9 @@ MAX_IPC_SIZE = 650_000
 MAX_IPC_RETURN_SIZE = 450_000
 
 SLOT_POR_DEFECTO = 28011
+# (92) BLACK_PINE_SLOT: otro puerto para un segundo PCSX2 (el fork de pruebas) sin tocar la partida del
+# 2.8.0, que tiene el 28011. Las herramientas que hacen Pine() lo toman solas.
+SLOT_ENTORNO = int(os.environ.get("BLACK_PINE_SLOT", SLOT_POR_DEFECTO))
 
 # opcode de lectura y de escritura, indexado por ancho en bytes
 _OP_LEER = {1: MSG_READ8, 2: MSG_READ16, 4: MSG_READ32, 8: MSG_READ64}
@@ -103,7 +106,7 @@ class Pine:
 
     def __init__(
         self,
-        slot: int = SLOT_POR_DEFECTO,
+        slot: int = SLOT_ENTORNO,
         host: str = "127.0.0.1",
         ruta_socket: str | None = None,
         timeout: float = 10.0,

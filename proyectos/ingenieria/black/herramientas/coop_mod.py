@@ -63,8 +63,9 @@ LLAM_J2, LLAM_J0 = 0x0046D794, 0x0046D79C
 MIGA_A, MIGA_B, MIGA_V0, MIGA_C = 0x0046D7A0, 0x0046D798, 0x0046D7A4, 0x0046D7A8
 ESPERA, MOLDES, ATADAS, DESARMES = 0x0046D7B8, 0x0046D7C0, 0x0046D7C4, 0x0046D7C8
 TITERES = 0x0046D7CC           # (88) cuadros en que el stub copio la matriz de J2 al aliado 1
+RECARGA = 0x0046D7D0           # (92) cuadros que el arma de J2 lleva en estado 4/5 (recargando)
 DATOS = (CONTADOR, ESTADO, FASE, LLAM_J2, LLAM_J0, MIGA_A, MIGA_B, MIGA_V0, MIGA_C, ESPERA, MOLDES, ATADAS,
-         DESARMES, TITERES)
+         DESARMES, TITERES, RECARGA)
 CUADROS_ESPERA = 30
 
 # (87) B3.3 -- la BAJA de J2 al salir del nivel. El desarme del juego es FUN_00129de8, estado
@@ -292,6 +293,7 @@ nop
 lw t1, -0x2880(s0)
 addiu t1, t1, 1
 sw t1, -0x2880(s0)
+RECARGA_BLOQUE
 TITERE_BLOQUE
 SALIR:
 ld s0, 8(sp)
@@ -335,6 +337,36 @@ sw t1, -0x2834(s0)
 """
 SIN_TITERE = False   # `poner --sin-titere`: el control de (88) (el aliado no se escribe)
 
+# (92) LA RECARGA DE J2. Para el jugador (+0xC4 = 2) FUN_00156dc0 pone el arma en estado 4 (5: de a un
+# cartucho) y NO llena el cargador: lo llena FUN_00158ae0 cuando la animacion de la vista en primera
+# persona manda el evento 0xB12FC567E6600000, y esa vista es una sola y es de J. J2 nunca lo recibe:
+# medido en su partida, estado 4 y cargador 0 durante horas. El arreglo hace lo que el juego hace con
+# un PNJ (FUN_00156dc0, rama +0xC4 != 2): tras RECARGA_N cuadros en 4/5, estado 0 y FUN_00156d60(arma)
+# (el llenado del juego, que descuenta la reserva de J2). `poner --sin-recarga` es el control.
+RECARGA_MOD = """
+addiu t0, s0, -0x3210
+lw t0, 0x2a4(t0)
+beq t0, zero, @REC_FIN
+nop
+lw t1, 0xd8(t0)
+addiu t1, t1, -4
+sltiu t1, t1, 2
+beq t1, zero, @REC_CERO
+lw t1, -0x2830(s0)
+addiu t1, t1, 1
+slti t2, t1, RECARGA_N
+bne t2, zero, @REC_FIN
+sw t1, -0x2830(s0)
+sw zero, 0xd8(t0)
+jal 0x156d60
+move a0, t0
+REC_CERO:
+sw zero, -0x2830(s0)
+REC_FIN:
+"""
+RECARGA_N = 90
+SIN_RECARGA = False
+
 # (88c) EL CABECEO DE J2. La matriz +0xD0 del jugador tiene la misma convencion para J y J2 (medido);
 # J acierta por otro camino y J2 dispara por ella, con el cabeceo al reves. Negar mira+0xC alrededor del
 # update de J2 en el stub NO llega a +0xD0 (medido: se arma en otro lado). Lo que hace (85)
@@ -363,6 +395,8 @@ def programas():
     """[(nombre, [(pc, palabra, texto)])] -- lo unico que va en el pnach, junto con los ganchos."""
     env = j2.ensamblar_programa(ENVOLTORIO_MOD, j2.ENVOLTORIO, j2.ARMAS2)
     fuente = POR_CUADRO_MOD.replace("ESPERA_N", str(CUADROS_ESPERA))
+    fuente = fuente.replace("RECARGA_BLOQUE", "" if SIN_RECARGA else
+                            RECARGA_MOD.replace("RECARGA_N", str(RECARGA_N)))
     fuente = fuente.replace("TITERE_BLOQUE", "" if SIN_TITERE else TITERE_MOD)
     fuente = fuente.replace("CABECEO_BLOQUE", "" if SIN_CABECEO else CABECEO_MOD)
     pc = j2.ensamblar_programa(fuente, j2.STUB, 0x0046D9F0)
@@ -412,8 +446,9 @@ def cmd_listar(_a):
 
 
 def cmd_poner(a):
-    global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA
+    global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA, SIN_RECARGA
     SIN_BAJA, SIN_TITERE, SIN_CABECEO = a.sin_baja, a.sin_titere, a.sin_cabeceo
+    SIN_RECARGA = a.sin_recarga
     SIN_PANTALLA = a.sin_pantalla
     progs = programas()
     with Pine() as p:
@@ -615,6 +650,7 @@ def main() -> int:
         sub.add_parser(c)
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
+    po.add_argument("--sin-recarga", action="store_true")
     po.add_argument("--sin-cabeceo", action="store_true")
     po.add_argument("--sin-pantalla", action="store_true")
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)
