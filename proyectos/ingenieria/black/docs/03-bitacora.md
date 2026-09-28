@@ -16,6 +16,20 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (102, nube) — T5, la pasada 2: lo que se cuela entre mitades no sería el puerto sino el modelo del arma compartido
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase A · **Nodos:** `render`, `personajes` (sin cambio de K)
+**Objetivo:** T5: qué se dibuja fuera del filtro por pasada y por qué la fuga dependería del puerto.
+
+- **Taxonomía del dibujo** (`confirmado en frío`, `docs/16` T5): por pasada, los nodos del mundo (filtrados), los dibujos directos (efectos del mundo, unidades, RenderWare, tinte: sin filtro) y, una vez, HUD y menú. `V` no se dibuja: anima el aparejo, que dibuja el nodo del personaje.
+- **Dos candidatos descartados en frío:** `FUN_001ABE18` es texto de depuración; el lazo de dos entradas `juego+0x4990+k·0x880` es el doble búfer de unidades (no dos puertos).
+- **El mecanismo candidato de F7, E1 y E5/F8:** la ranura 3 comparte con la ranura `i` de J el **sub** (`+0x50`: la instancia del modelo del arma del índice `i`). Las poses están separadas (96), el modelo no. Confirmado en volcado que `ranura+0x50` = `sub_i` en J (4 volcados); ningún volcado tiene la ranura 3 cargada, así que el compartir es `confirmado en frío` por construcción. **La hipótesis del puerto queda reemplazada** por «mismo índice de arma» (`hipótesis` a medir).
+- **Elección:** un sub propio para R3 (termina el diseño de la ranura 3: pose y modelo propios). Sonda: J con el índice de J2 recarga → se ve en la mitad de J2; J con el otro índice → no; con J1 en el mismo puerto.
+
+**No funcionó:** dos lecturas de bajo nivel sin concepción previa (el texto de depuración y el doble búfer), que costaron sin aportar; la pregunta que destrabó fue la de concepción («qué se dibuja una vez y qué por pasada») y releer `docs/15`.
+**Sigue:** T6 (HUD y agachado).
+
+---
+
 ## 2026-09-28 (101, nube) — T4, `V` y el sonido: el disparo de J2 no suena porque su sonido vive en `V` y el mod le saltea `V`; `V2` se construye, no se copia
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase A · **Nodos:** `audio`, `vista-fp` (sin cambio de K)
 **Objetivo:** T4 en el plano del diseño: qué es `V`, de dónde sale el sonido del disparo y si el camino de J2 puede correr contra una `V2`.

@@ -289,3 +289,57 @@ Sirve para confirmar la concepción **antes** de construir: *candidato compartid
   mitades animan). Con el aislador **prendido**, en la misma corrida, J2 dispara 3 s: sólo impactos.
 - **Refuta:** si con el aislador apagado J2 tampoco suena, el sonido no vive en `V` (o la bandera `*(X+0x24)+0x1E54`
   está en 1 mientras se actualiza J2) y la opción 1 no alcanza para F4.
+
+## Clase A, la pasada 2 (T5, (102) nube): lo que se cuela entre mitades no es el puerto, es el modelo del arma compartido
+
+### Concepción — qué se dibuja en cada pasada (`confirmado en frío`)
+
+El modo dibuja **una** escena por pasada (`FUN_001297E0`, dos veces con la pantalla partida) y **después, una vez**, el
+HUD y el menú (`FUN_001056C0`: `FUN_001F2618(hud)`, `FUN_0020B170(front-end)`). Dentro de la escena hay tres clases
+de dibujo:
+
+| Clase | Qué | ¿Se filtra por pasada? |
+|---|---|---|
+| **nodos del mundo** | el recorrido `FUN_00273A18(juego+0x4920, …, FUN_001297A0)`: personajes (y sus brazos FP con la ranura `+0x330`), objetos | **sí** (`ocultar`, (93b)) |
+| **dibujos directos** | efectos del mundo (`0x0040F4D8`: `FUN_001C0518`, `FUN_001B1DC0`, `FUN_001BE4C0`, `FUN_001B1E00`), el doble búfer de unidades (`FUN_001D4F38`), la escena de RenderWare (`FUN_001C9088`), el tinte (`FUN_001B0AC8`), disparadores y depuración (`FUN_00166808`, `FUN_001ABE18` = **texto** de depuración) | **no**: salen en las dos mitades, cada una con su cámara |
+| **después de la escena** | HUD, menú | una vez, pantalla completa |
+
+`V` **no se dibuja**: ninguna función de la escena toca el contexto de efectos por llamada directa. `V` **anima** el
+aparejo FP; el aparejo se dibuja desde el nodo del personaje.
+
+### El mecanismo de F7 (y de E1, E5/F8, F9): la ranura 3 comparte el MODELO del arma con J
+
+Una ranura FP (`0x240` B) tiene su **pose** propia y apunta en `+0x50` a un **sub**: la instancia del modelo del arma
+para el índice `i` (`pers+0x398+i·0x6C`, construido por `FUN_001A8168` dentro de `FUN_001AC960`). En los cuatro
+volcados, la ranura `i` de J tiene `+0x50` = `sub_i` (`confirmado en volcado`). La ranura 3 se carga con
+`FUN_001A51C8(R3, J2, pers+0x398+i·0x6C)`, con `i` = el índice de J2 (`J2+0x2C3`): **R3 y la ranura `i` de J comparten el
+sub** (`confirmado en frío` por construcción; `docs/15` ya lo anotaba como riesgo). Las **poses** están separadas
+(medido en (96): 30/0 y 29/2 palabras), pero **lo que vive en el sub no**:
+
+- **F7 «mergeada»**: J levanta la SPAS en el índice `i`; `FUN_001AC960` reconstruye `sub_i` con el modelo de la SPAS
+  debajo de R3: J2 dibuja su pose con parte del modelo de J.
+- **E1** (la recarga de J en la mitad de J2) y **E5/F8** (la recarga y el fogonazo de J2 en la mitad de J): las partes
+  animadas del modelo (cargador, corredera, fogonazo si es del modelo) se mueven para los dos, en las dos direcciones.
+- **Por qué «el puerto»** (hipótesis de (96)): **reemplazada**. La variable sería **el índice**: se ve cuando
+  `J+0x2C3` = `J2+0x2C3`. En el video de Fran los dos arrancaron con el índice 0; en el fork, no se registró qué índice
+  tenía cada uno (`hipótesis` a medir).
+
+### Alternativas y elección
+
+| Opción | Qué | En contra |
+|---|---|---|
+| **1. un sub propio para R3** (sub 3) | construir con las funciones del juego un tercer sub para el arma de J2, como se hizo con la ranura; R3 apunta a él | más memoria del montón de modelos (medir que entra, como el pool de 44 de (93n)) |
+| 2. índices distintos | forzar que J2 use siempre el índice que J no usa | J cambia de arma y los choca; frágil |
+| 3. aceptarlo | — | es lo que ve Fran |
+
+**Elección: opción 1**, que termina el diseño de la ranura 3: J2 con pose **y** modelo propios.
+
+### Sonda del concepto (vivo, con lo que ya está instalado)
+
+- **Predicción A (RAM):** con el coop andando, `*(R3+0x50)` = `*(J+0x330+0x50)` cuando `J+0x2C3` = `J2+0x2C3`.
+- **Predicción B (pantalla):** J con el arma de índice 0 (la misma que J2) recarga: la mitad de J2 muestra la recarga
+  (E1). J cambia a su otra arma (índice 1) y recarga: la mitad de J2 queda quieta.
+- **Control:** la misma corrida, en el orden inverso (primero índice 1, después 0), con J1 en el **mismo** puerto: si el
+  puerto fuera la causa, las dos darían igual.
+- **Refuta:** con índices distintos y la recarga de J visible igual en la mitad de J2 → no es el sub; se vuelve a
+  «dibujos directos» de la tabla de arriba.
