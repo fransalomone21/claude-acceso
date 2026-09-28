@@ -26,6 +26,7 @@ Formato de cada entrada:
 - **K sin cambios**: el frío de `ia`, `pickups` y `hud` alcanzaría la K3/K4 de la escala, pero la regla de la tanda es no subir K sin efecto en vivo; queda anotado en el PDP (B4).
 - **Lo que la nube no puede** (sin PowerShell ni `perfil-global`): `verificar-estructura.ps1`, `chequeo-completo.ps1`, `cascada.ps1 black` y las dos lecciones de proceso con `aprender.py`, asentados como paso 2b de `sesiones/RETOME-LOCAL.md` con los comandos exactos.
 - Numeración: esta entrada es (108b) para no pisar la (109) de la notebook ni la (120, nube) de la próxima nube.
+- **Revisión de la tanda** (pedido de Fran): `sesiones/REVISAR-98-108.md` lista los **13 errores corregidos** dentro de la tanda y **16 cosas a revisar por las dudas** (frío o vivo). Una se cerró al escribirla: en `DEF2`, `*(lista+0x130)` es el agente en **22 de 22** agentes de 4 volcados (`confirmado en volcado`). Retome para seguir en la notebook sin emulador: `sesiones/RETOME-LOCAL-FRIO.md`.
 
 **No funcionó:** nada.
 **Sigue:** notebook (RETOME-LOCAL) y nube de estructuras (RETOME-NUBE), en paralelo.
