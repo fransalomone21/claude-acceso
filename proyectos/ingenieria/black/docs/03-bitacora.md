@@ -16,6 +16,24 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93) — La recarga de J2 en el stub: confirmada en RAM, con control
+**Máquina:** notebook (tarea programada, Fran durmiendo) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, «J2 dispara») · **Nodos:** `armas` (evidencia; sin cambio de K)
+**Objetivo:** tramo a) de la tarea: probar el `RECARGA_MOD` de (92) en el fork, con el 2.8.0 de Fran cerrado.
+
+- **Predicción (escrita en (92)):** con el arreglo en `nop` el arma de J2 trabada a mano (`+0xD8` = 4, cargador 0) sigue trabada; repuesto, se destraba sola a ~1,5 s (90 cuadros) con la reserva descontada.
+- **Resultado** (`herramientas/recarga92c.py`: fork MCP, puerto normal 28011, bloque apagado en los ajustes durante la sonda y `coop_mod.py poner` por PINE, slot 3 → nivel 0 por el selector; `volcados/recarga92c.json`):
+  | | `+0xD8` | cargador | reserva |
+  |---|---|---|---|
+  | antes | 0 | 15 | 30 |
+  | **control** (`sw +0xD8` y `jal 0x156d60` en `nop`, en pausa), 6 s | **4** | **0** | 30 |
+  | repuesto, +0,5 s (el contador ya iba por 88) | 0 | 15 | 15 |
+  | trabada otra vez, +1,0 s / **+1,5 s** | 4 / **0** | 0 / **15** | 15 / **0** |
+  El contador sube ~66 por segundo (60 Hz) y en el control da la vuelta cada 90 sin tocar el arma. **`confirmado` en RAM con control**; en pantalla (J2 disparando otra vez con el mando real) falta: lo ve Fran.
+- **Pnach reinstalado desde la fuente** (`coop_mod.py instalar`, 451 palabras, respaldo `.bak-20260928-021432`); el bloque queda **activo** en los ajustes, como estaba.
+**No funcionó:** nada en este tramo.
+**Sigue:** tramo b), visibilidad por pasada, en frío.
+---
+
 ## 2026-09-28 (92) — La recarga eterna de J2, en frío: el fin de recarga es un evento de animación
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B, «J2 dispara») · **Nodos:** `vista-fp`, `armas`
 **Objetivo:** tramo a) del retome, en frío.

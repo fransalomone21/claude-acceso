@@ -1,0 +1,248 @@
+{
+ "antes": {
+  "D8": 0,
+  "cargador": 15,
+  "reserva": 30,
+  "cuenta": 0
+ },
+ "control": [
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 0
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 33
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 66
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 7
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 40
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 73
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 13
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 44
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 77
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 21
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 54
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 83
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 24
+  }
+ ],
+ "prueba": [
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 30,
+   "cuenta": 88
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 15,
+   "cuenta": 0
+  }
+ ],
+ "prueba2": [
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 15,
+   "cuenta": 0
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 15,
+   "cuenta": 31
+  },
+  {
+   "D8": 4,
+   "cargador": 0,
+   "reserva": 15,
+   "cuenta": 65
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  },
+  {
+   "D8": 0,
+   "cargador": 15,
+   "reserva": 0,
+   "cuenta": 0
+  }
+ ]
+}
