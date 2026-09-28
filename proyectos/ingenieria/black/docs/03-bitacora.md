@@ -16,6 +16,18 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93f) — B5, la vida de J2 en 0: no pasa nada, y se regenera
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B5, riesgo medio «muerte de J2») · **Nodos:** `flujo` (evidencia; sin cambio de K)
+**Objetivo:** qué hace el juego con la vida de J2 en 0.
+
+- **Predicción (escrita antes):** escribir 0 en `J2+0x2F8` no hace nada, porque la muerte se decide en la función de daño (`0x00134654`, el «piso de muerte»), no cada cuadro; si algo pasa, fin de misión o cuelgue.
+- **Resultado** (`herramientas/muerte93.py`, fork, bloque del pnach, City Streets; `volcados/campana/muerte93.json`, capturas `muerte-control.png`/`muerte-prueba.png`): control (se escribe la vida que tenía, 750): nada cambia. **Prueba (0):** J2 sigue en FASE 2 / ESTADO 3, su por cuadro sigue corriendo (863 → 1295 cuadros), `+0xC4` = 2, la vista de J responde; la vida queda en 0 unos 3,5 s y **después se regenera** a ~17 por segundo (0 → 74 en 4 s). Ni fin de misión ni cuelgue. **La predicción se cumple** (`confirmado` en RAM con control): la muerte no sale de la vida en 0.
+- **Para el plano:** a J2 no lo matan los enemigos (no lo conocen, (93d)) ni J (sin fuego amigo, (85)); lo que queda es el daño del entorno (explosiones, caídas) por la función de daño. Qué hace esa función cuando el que muere es un jugador que no es el 0 se lee en frío (la rama del piso de muerte de `0x00134654` con `+0xC4` = 2).
+**No funcionó:** nada.
+**Sigue:** en frío, la rama de muerte de la función de daño para un jugador; en vivo, una granada junto a J2.
+
+---
+
 ## 2026-09-28 (93e) — Toda la campaña con el coop, por el pnach solo: los 8 niveles se arman, se parten y cargan seguidos
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3 en la campaña, pedido de Fran; R1 y R6 de `docs/14`) · **Nodos:** `codigo-nuevo` (entrega)
 **Objetivo:** tramo e), con el arreglo de (93c).

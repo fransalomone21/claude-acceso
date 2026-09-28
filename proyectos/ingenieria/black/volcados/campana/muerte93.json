@@ -1,0 +1,334 @@
+{
+ "control": {
+  "vida_antes": 750.0,
+  "serie": [
+   {
+    "t": 0.0,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 403,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 0.5,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 436,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 1.0,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 469,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 1.5,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 502,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 2.0,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 534,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 2.5,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 565,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 3.0,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 592,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 3.5,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 617,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 4.0,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 645,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 4.5,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 675,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 5.0,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 705,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 5.5,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 737,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 6.0,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 768,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 6.5,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 800,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 7.0,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 831,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 7.5,
+    "vida_J2": 750.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 863,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   }
+  ],
+  "vivo": true
+ },
+ "prueba": {
+  "vida_antes": 750.0,
+  "serie": [
+   {
+    "t": 0.0,
+    "vida_J2": 0.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1026,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 0.5,
+    "vida_J2": 0.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1045,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 1.0,
+    "vida_J2": 0.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1064,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 1.5,
+    "vida_J2": 0.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1083,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 2.0,
+    "vida_J2": 0.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1101,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 2.5,
+    "vida_J2": 0.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1118,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 3.0,
+    "vida_J2": 0.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1137,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 3.5,
+    "vida_J2": 4.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1155,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 4.0,
+    "vida_J2": 13.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1173,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 4.5,
+    "vida_J2": 22.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1191,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 5.0,
+    "vida_J2": 31.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1209,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 5.5,
+    "vida_J2": 39.5,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1226,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 6.0,
+    "vida_J2": 47.5,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1242,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 6.5,
+    "vida_J2": 56.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1259,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 7.0,
+    "vida_J2": 65.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1277,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   },
+   {
+    "t": 7.5,
+    "vida_J2": 74.0,
+    "vida_J": 750.0,
+    "fase": 2,
+    "estado": 3,
+    "cuadros_J2": 1295,
+    "J2_8A4": "0x37",
+    "J2_C4": 2
+   }
+  ],
+  "vivo": true
+ }
+}
