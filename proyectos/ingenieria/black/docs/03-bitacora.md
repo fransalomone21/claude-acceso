@@ -16,6 +16,29 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93k) — El parpadeo de la mitad de J2: en régimen quieto nadie más escribe el ancho de la vista
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (lo que vio Fran: «la mitad de J2 se angosta y se reacomoda») · **Nodos:** `render` (evidencia; sin cambio de K)
+**Objetivo:** tramo e): quién escribe `R+0xD470`/`+0xD474` (ancho y proporción de la vista, (89)) en el mismo cuadro.
+
+- **Medido** (`herramientas/parpadeo93.py` → `ritmo_vigilante.py`, `break` puesto en pausa; City Streets por el pnach, 530 palabras; `volcados/campana/parpadeo93.txt`): `R+0xD470`, **300 escrituras (~150 cuadros): 150 en `0x0046F98C` y 150 en `0x0046FA58`**, las dos del stub de la pantalla (la mitad antes de las pasadas, la restauración después). `R+0xD474`, 24 escrituras: sólo `0x0046F998`/`0x0046FA60`. **Ningún intruso** (`confirmado` para el régimen quieto: J y J2 parados).
+- **Lo que queda:** el parpadeo que vio Fran fue jugando (moverse, apuntar, disparar). Hipótesis a medir con eventos: el zoom al apuntar (mira) o un cuadro que el juego dibuja dos veces. Mismo método, con J2 disparando/apuntando durante el conteo.
+**No funcionó:** nada.
+**Sigue:** repetir el conteo con eventos, o que Fran diga en qué momento lo ve.
+
+---
+
+## 2026-09-28 (93j) — Los brazos de J2 con la pose de J, en frío: la vista en primera persona es un objeto de 0x1C50 B armado una sola vez
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (los brazos de J2 animados) · **Nodos:** `vista-fp` (evidencia; sin cambio de K)
+**Objetivo:** tramo c): qué de J2 apunta a lo de J.
+
+- **Medido en vivo** (`herramientas/compartido93.py`, City Streets por el pnach; `volcados/campana/compartido93.json`): punteros **iguales** en J y J2 que apuntan fuera de los dos bloques: `+0x10` (vtable), `+0x30` (`0x005AD320`), `+0x7C`/`+0x8C` (**relleno de la matriz** `+0x70..+0xAF`: el stub del títere los copia; no son la animación, contra lo que se sospechó en (79)), `+0xB8/+0xBC`, `+0xFC`, `+0x270/+0x274/+0x278` (los bloques del arma con dueño J), `+0x294`, `+0x328`, `+0x330`, `+0x354/+0x358/+0x35C/+0x360`, `+0x410`, y los vtables de los controles. Propios: `+0x34`, `+0xB0/+0xB4`, el arma (`+0x2A0..+0x2A8`), `+0x2D0`, `+0x34C`, los tres controles.
+- **En frío:** la hipótesis de (91) se afina. El contenedor `*(0x0040F510)+0xCBD8` (0x60 B, **~340 referencias** en el código) lo arma `FUN_001D5828` al arrancar el juego con `FUN_001E82A8`, que aloja en línea sus sub-objetos; el de `+0xC` (la vista en primera persona, con el conjunto de animaciones en `+0x1BE0`) mide **0x1C50 B** con 6 reproductores de 0x430. No hay un constructor aparte que se pueda llamar dos veces.
+- **Qué costaría** (plan, sin probar): clonar ese objeto para J2 (0x1C50 B: no entra en el hueco libre de `0x0046DE64..0x0046F800`, 0x199C B) y, como con la cámara, **cambiar el puntero `+0xC`** durante la actualización de J2 y durante la pasada 2. El riesgo es el del molde de (80): punteros internos del clon que siguen apuntando al original. Varias sesiones; no se empezó.
+**No funcionó:** nada (no se tocó nada).
+**Sigue:** decidir si vale el costo (es cosmético: J2 ve sus brazos con la pose de J).
+
+---
+
 ## 2026-09-28 (93i) — Un cuerpo donde no hay aliado: un soldado de spawner con bando 0 y grupo de colisión 4 (prototipo por PINE, Wilderness)
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B2 en los 3 niveles sin aliado) · **Nodos:** `fisica` (evidencia), `spawn`, `codigo-nuevo` (entrega)
 **Objetivo:** que Wilderness, Steelworks y Gulag también tengan títere.
