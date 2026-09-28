@@ -16,6 +16,32 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93h) — El títere por nivel: el stub elige el primer aliado VIVO del pool; 5 de 8 niveles, y los otros 3 no tienen aliado
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B2, el cuerpo de J2 en toda la campaña) · **Nodos:** `actores` (evidencia), `codigo-nuevo` (entrega)
+**Objetivo:** tramo b) del retome: que el títere no sea «el aliado 1» fijo.
+
+- **Censo** (`herramientas/censo_titere.py`, `volcados/campana/censo_titere.json`; pool = 16 bloques de 0x3C0 desde `*(0x0040F514)+0x90`, del 16 al 31 con tipo 0): **`+0x38C` = 4 es un bloque sin alta** (sin controlador de colisión en `+0xB4`, sin enlaces en `+0x0..`, quieto): el aliado 1 de Wilderness era un resto del nivel anterior (vida `FLT_MAX`, a 1 m de J porque el stub lo movía) y por eso «no seguía». **Aliado vivo** (bando 0, `+0x38C` = 0, `+0xB4` ≠ 0; vida `FLT_MAX`, invulnerable): City Streets y Town lo tienen en el **actor 0**; en Town el 1 es enemigo. **Wilderness, Steelworks y Gulag no tienen ningún aliado vivo** al empezar (Gulag: ni un actor vivo).
+- **El cambio** (`coop_mod.py`): rutina nueva **`ELEGIR`** (25 palabras en `0x0046DE00`, hoja, sólo `t0..t3`/`v0`): recorre los 16 actores y devuelve —y deja en **`TITERE_ACT` = `0x0046DEF0`**, dato fuera del pnach— el primero con tipo ≠ 0, bando 0, `+0x38C` = 0 y `+0xB4` ≠ 0, o 0. `TITERE_MOD` la llama y copia la matriz sólo si hay (25 → 16 palabras; por cuadro termina en `0x0046D9C0`). El filtro de `ocultar_pasada.py` lee `TITERE_ACT` en vez de repetir las guardas (45 → 38 palabras). `coop_mod.aliado()` también. **Bloque: 525 palabras.** `docs/14` actualizado (dos filas nuevas; el verificador marcó los tres rangos viejos en rojo antes de corregirlos).
+- **Resultado** (`campana_coop.py`, la campaña entera de corrido con el pnach solo, 8 cargas seguidas sin relanzar; `volcados/campana/campana.json`, `campana93h.log`):
+  | nivel | títere | copias en 2 s | oculto en p2 | lo sigue (máx.) |
+  |---|---|---|---|---|
+  | Wilderness | ninguno | 0 | 0 | — |
+  | Town | actor 0 | 98 | 98 | 0,24 m (antes: enemigo, no se tocaba) |
+  | Steelworks | ninguno | 0 | 0 | — |
+  | Asylum | actor 0 | 48 | 47 | 0,15 m |
+  | Docks | actor 0 | 57 | 58 | 0,15 m |
+  | City Bridge | actor 0 | 45 | 45 | 0,39 m |
+  | Gulag | ninguno | 0 | 0 | — |
+  | City Streets | actor 0 | 129 | 128 | 0,16 m |
+
+  Los 8 se arman, J2 camina y la carga siguiente anda. **Town gana cuerpo** (`confirmado`: la captura `n2-camino.png` muestra al soldado donde está J2, en la mitad de J; el control es la corrida de (93e), mismo nivel y misma herramienta, con el aliado 1 enemigo sin tocar). En los tres niveles sin aliado el stub no escribe nada (antes movía un bloque muerto).
+- **Un cuelgue sin explicar:** en la primera tanda (Asylum → Docks → City Bridge) el emulador murió ~2 s después de entrar a City Bridge. Repetido sólo y dentro de la campaña entera: anda (1 de 3 corridas). `hipótesis` abierta; si se repite, se muestrea el PC.
+- **Para los 3 niveles sin aliado** (diseño, sin probar): hacer nacer un soldado con un spawner (83) en el punto de J2 y ponerle bando 0; `ELEGIR` lo tomaría solo. Riesgo: el guion del nivel cuenta sus apariciones.
+**No funcionó:** nada.
+**Sigue:** los brazos de J2 animados como los de J; el cuerpo en los 3 niveles sin aliado.
+
+---
+
 ## 2026-09-28 (93g) — B4/B5 en vivo: un enemigo nacido junto a J2 no le dispara, pero tampoco a J (la prueba no mide)
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B4 «la IA frente a J2», B5 «muerte de J2») · **Nodos:** `ia`, `flujo` (evidencia; sin cambio de K)
 **Objetivo:** hacerle daño real a J2 para ver por dónde entra, y de paso B4 en vivo.

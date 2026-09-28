@@ -118,6 +118,7 @@ def probar_nivel(n):
     time.sleep(8)   # que termine el fundido y el titere copie
     with Pine() as p:
         al = cm.aliado(p)
+        res["titere_act"] = hex(p.leer32(cm.TITERE_ACT))   # (93h) 0 = el stub no encontro aliado vivo
         res["aliado"] = hex(al) if al else None
         if al:
             res["aliado_tipo"] = hex(p.leer32(al + 0x328))

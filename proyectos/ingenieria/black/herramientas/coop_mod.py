@@ -330,19 +330,12 @@ addiu sp, sp, 0x30
 # Guardas: pool no nulo, entrada de tipo (+0x328) no nula y bando (+0x3A4) = 0 -- un nivel cuyo
 # actor 1 sea enemigo o este vacio no se toca.
 TITERE_MOD = """
-lui t0, 0x41
-lw t0, -0xaec(t0)
-beq t0, zero, @SALIR
+jal ELEGIR_N
 nop
-addiu t1, t0, 0x450
-lw t2, 0x328(t1)
-beq t2, zero, @SALIR
-nop
-lw t2, 0x3a4(t1)
-bne t2, zero, @SALIR
+beq v0, zero, @SALIR
 nop
 addiu t2, s0, -0x31a0
-addiu t1, t1, 0x70
+addiu t1, v0, 0x70
 addiu t3, zero, 16
 COPIAT:
 lw t4, 0(t2)
@@ -354,6 +347,44 @@ addiu t1, t1, 4
 lw t1, -0x2834(s0)
 addiu t1, t1, 1
 sw t1, -0x2834(s0)
+"""
+# (93h) EL TITERE POR NIVEL. El aliado 1 fijo servia en 4 de 8 niveles: el censo del pool (censo_titere.py)
+# mostro que +0x38C = 4 es un bloque SIN ALTA (sin controlador de colision en +0xB4, no se dibuja) y que el
+# aliado vivo no siempre es el 1 (Town: el 0; el 1 es enemigo). ELEGIR recorre los 16 primeros actores del
+# pool y devuelve (y deja en TITERE_ACT) el primero con tipo != 0, bando 0, +0x38C = 0 y +0xB4 != 0; 0 si no
+# hay. Hoja: solo t0..t3 y v0. El filtro de ocultar_pasada lee TITERE_ACT.
+ELEGIR = 0x0046DE00            # .bss en cero (libre 0x0046DE00..0x0046F800, docs/14)
+TITERE_ACT = 0x0046DEF0        # dato: el titere elegido en el ultimo cuadro (0 = ninguno). No va en el pnach
+ELEGIR_MOD = """
+lui t0, 0x41
+lw t0, -0xaec(t0)
+beq t0, zero, @EL_NADA
+addiu t1, t0, 0x90
+addiu t3, zero, 16
+EL_BUCLE:
+lw t2, 0x328(t1)
+beq t2, zero, @EL_SIG
+nop
+lw t2, 0x3a4(t1)
+bne t2, zero, @EL_SIG
+nop
+lw t2, 0x38c(t1)
+bne t2, zero, @EL_SIG
+nop
+lw t2, 0xb4(t1)
+bne t2, zero, @EL_FIN
+nop
+EL_SIG:
+addiu t3, t3, -1
+bne t3, zero, @EL_BUCLE
+addiu t1, t1, 0x3c0
+EL_NADA:
+move t1, zero
+EL_FIN:
+lui t0, 0x47
+sw t1, -0x2110(t0)
+jr ra
+move v0, t1
 """
 SIN_TITERE = False   # `poner --sin-titere`: el control de (88) (el aliado no se escribe)
 
@@ -407,6 +438,10 @@ ALIADO = 1
 
 
 def aliado(p):
+    """(93h) el titere que eligio el stub en el ultimo cuadro; si todavia no eligio, el aliado 1 de antes."""
+    t = p.leer32(TITERE_ACT)
+    if t:
+        return t
     act = p.leer32(0x0040F514)
     return act + 0x90 + ALIADO * 0x3C0 if act else 0
 
@@ -417,7 +452,8 @@ def programas():
     fuente = POR_CUADRO_MOD.replace("ESPERA_N", str(CUADROS_ESPERA))
     fuente = fuente.replace("RECARGA_BLOQUE", "" if SIN_RECARGA else
                             RECARGA_MOD.replace("RECARGA_N", str(RECARGA_N)))
-    fuente = fuente.replace("TITERE_BLOQUE", "" if SIN_TITERE else TITERE_MOD)
+    fuente = fuente.replace("TITERE_BLOQUE", "" if SIN_TITERE else
+                            TITERE_MOD.replace("ELEGIR_N", "0x%x" % ELEGIR))
     fuente = fuente.replace("CABECEO_BLOQUE", "" if SIN_CABECEO else CABECEO_MOD)
     pc = j2.ensamblar_programa(fuente, j2.STUB, 0x0046D9F0)
     des = j2.ensamblar_programa(DESARME_MOD, DESARME, 0x0046DE00)
@@ -435,6 +471,8 @@ def programas():
         ganchos.append((SITIO_DESARME, ensamblar("jal 0x%x" % DESARME, SITIO_DESARME),
                         "gancho del desarme: jal baja (era jal 0x12bfc8)"))
     progs = [("envoltorio", env), ("por cuadro", pc), ("desarme", des)]
+    if not SIN_TITERE:
+        progs.append(("elegir titere", j2.ensamblar_programa(ELEGIR_MOD, ELEGIR, TITERE_ACT)))
     if not SIN_PANTALLA:
         filtro = [(pd.FILTRO + 4 * i, w, t) for i, (w, t) in enumerate(zip(pd.codigo_filtro(), pd.FILTRO_FUENTE))]
         progs += [("pantalla", pant), ("pantalla datos", pant_datos), ("filtro del tinte", filtro)]

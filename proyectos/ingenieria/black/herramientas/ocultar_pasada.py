@@ -4,7 +4,7 @@ FUN_001297E0 recorre lo visible con FUN_00273A18(juego+0x4920, R+0xCFD0, 0x1297A
 FUN_001297A0(nodo, modo) llama al metodo vtable+0x30 de *(nodo+0x34) (personajes: FUN_00133BA0, que dibuja
 el modelo, el arma en la mano y los agregados). El filtro (OCULTAR) va en lugar de 0x1297A0 (el lui/addiu de
 0x001298F8/0x00129900): con la pantalla partida (DATOS+0x3C != 0) saltea el objeto A en la pasada 1 (sub-raster
-x = 0) y en la pasada 2 (x = 320) el objeto B, o el titere si B = 1 (aliado 1, con las guardas de TITERE_MOD).
+x = 0) y en la pasada 2 (x = 320) el objeto B, o el titere si B = 1 (el que eligio el por cuadro en coop_mod.TITERE_ACT, (93h)).
 Cuenta lo que oculto en 0x0046FBF8 (pasada 1) y 0x0046FBFC (pasada 2).
 
   python herramientas/ocultar_pasada.py sonda        # lanza el fork, arma el coop y mide con capturas y control
@@ -29,9 +29,8 @@ FUENTE = [
     "lw t1, -0x410(t0)", "bne t1, t2, SIGUE", "nop",
     "lw t1, -0x408(t0)", "addiu t1, t1, 1", "b NO", "sw t1, -0x408(t0)",
     "P2:", "lw t1, -0x40c(t0)", "addiu t3, zero, 1", "bne t1, t3, CMP2", "nop",
-    "lui t1, 0x41", "lw t1, -0xaec(t1)", "beq t1, zero, SIGUE", "nop",
-    "addiu t1, t1, 0x450", "lw t3, 0x328(t1)", "beq t3, zero, SIGUE", "nop",
-    "lw t3, 0x3a4(t1)", "bne t3, zero, SIGUE", "nop",
+    # (93h) el titere es el que eligio el por cuadro (coop_mod.TITERE_ACT = 0x0046DEF0), no el aliado 1 fijo
+    "lui t1, 0x47", "lw t1, -0x2110(t1)", "beq t1, zero, SIGUE", "nop",
     "CMP2:", "bne t1, t2, SIGUE", "nop",
     "lw t1, -0x404(t0)", "addiu t1, t1, 1", "b NO", "sw t1, -0x404(t0)",
     "SIGUE:", "j 0x1297a0", "nop",
