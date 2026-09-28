@@ -298,9 +298,21 @@ dice medido). Lo que cambió:
   vista en primera persona, una sola para los dos** (`hipótesis`: un objeto global que maneja todo jugador con
   `+0xC4` = 2): animaciones de J1 en la mitad de J2 y **recarga eterna** de J2. Abierto también: la mitad de
   J2 a veces parpadea. **El siguiente real es la vista en primera persona** (`sesiones/RETOME-LOCAL.md` §3).
-- **Siguiente:** el disparo de J2 con el mando real; visibilidad por pasada (títere y armas); los brazos flotantes
-  (J2 los ve de J y J de J2: J tampoco tiene cuerpo); la recarga de J2; B4–B6 en frío; `docs/14` +
-  `coop_diseno.py`. Detalle y comandos: `sesiones/RETOME-LOCAL.md`.
+- **(92)–(93) la recarga eterna de J2, ARREGLADA** en el stub (confirmado en RAM con control): el fin de
+  recarga del jugador es un evento de animación que J2 no recibe; el stub llena el cargador a los 90 cuadros.
+- **(93b) visibilidad por pasada**: un filtro en el callback de dibujo de la escena; la pasada 1 no dibuja a
+  J2 (sus brazos flotantes) y la 2 no dibuja al títere. **El arma en primera persona de cada mitad es el
+  dibujo del propio personaje** (confirmado con control); lo de «animaciones de J1» es que los brazos de J2
+  se animan igual que los de J (causa sin medir).
+- **(93c)–(93e) TODA LA CAMPAÑA con el pnach solo**: con el mod, 7 de los 8 niveles colgaban el EE
+  (`FUN_0033DD98`) porque J2 nacía encima de J; el envoltorio ahora lo corre 1 m (confirmado con control) y
+  **los 8 niveles se arman, llegan al juego, se parten y cargan seguidos**. El títere anda en 4 de 8.
+- **(93d) `docs/14-coop-diseno.md`** con `coop_diseno.py verificar` = 0 y su saboteador 6 de 6 en rojo; B4
+  (IA) leída en frío: los enemigos no saben que J2 existe (`probable`), política v1 aceptarlo; B6: J abre el
+  camino. **Bloque: 514 palabras, instalado y activo.**
+- **Siguiente:** B5 (vida de J2 en 0, en vivo); el títere por nivel (aliado vivo o alta propia); los brazos
+  de J2 animados como los de J; J visto desde J2 (brazos flotantes, un segundo títere); el parpadeo de la
+  mitad de J2 (sin medir); la prueba de Fran con dos mandos de la recarga. Detalle: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

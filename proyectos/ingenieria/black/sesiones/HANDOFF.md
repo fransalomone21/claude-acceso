@@ -4,11 +4,22 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(91)» DE ACÁ ABAJO, después el «(90)» y el «(89)».** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(93)» DE ACÁ ABAJO, después el «(91)».** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y
 > B3 hechas: el coop en pantalla dividida sale del pnach solo** (88). El
 > mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-28 madrugada, NOTEBOOK (tarea programada) — RECARGA, VISIBILIDAD POR PASADA, TODA LA CAMPAÑA Y EL PLANO (bitácora (93)–(93e))
+
+- **(93) recarga de J2**: `RECARGA_MOD` confirmado en RAM con control (`herramientas/recarga92c.py`).
+- **(93b) visibilidad por pasada**: filtro en el callback de dibujo (`herramientas/ocultar_pasada.py`, 45 palabras en `0x0046FB20`; ganchos `lui/addiu` en `0x001298F8/0x00129900`, se escriben juntos y en pausa). Pasada 1 sin J2, pasada 2 sin el títere. Los brazos+arma de cada mitad son el dibujo del propio personaje (confirmado con control).
+- **(93c) el cuelgue de la campaña**: con el mod, Wilderness/Town/... caían en `FUN_0033DD98` (EE caído, la pantalla congelada en el cartel) porque J2 nacía encima de J. Arreglo en el envoltorio: si J2 tiene la x de J, +1 m en x (`+0xA0/+0x100/+0x190`). Confirmado con control (`herramientas/apartar93.py`).
+- **(93e) la campaña entera** (`herramientas/campana_coop.py`): 8 de 8 niveles se arman, llegan al juego, J2 camina, la pantalla se parte y 7 cargas seguidas sin cuelgue. El títere anda en 4 (Town/Steelworks: el aliado 1 es enemigo; Wilderness/Gulag: no sigue).
+- **(93d) plano**: `docs/14-coop-diseno.md` + `herramientas/coop_diseno.py verificar` (0) + `pruebas/probar-coop-diseno.py` (6 de 6 en rojo). B4 en frío: los enemigos no saben que J2 existe (`probable`); B6: J abre el camino.
+- **Trampa nueva**: el guardia `PreToolUse` bloquea comandos de PowerShell con prosa en castellano adentro (falso positivo «Remove-Item on system path '*'»): los textos van a archivo con la herramienta Write y el shell sólo corre Python.
+
+**Estado de la máquina al cerrar:** pnach instalado con **514 palabras**, bloque **activo** en los ajustes del juego; fork cerrado; el 2.8.0 de Fran cerrado, su partida en el **slot 14** sin tocar.
 
 ## 2026-09-28, NOTEBOOK — LAS ARMAS DE J2 SON SUYAS; LA VISTA EN PRIMERA PERSONA ES UNA SOLA (bitácora (91))
 
