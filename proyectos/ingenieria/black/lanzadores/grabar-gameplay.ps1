@@ -36,14 +36,27 @@ $ErrorActionPreference = 'Continue'
 if ($Espera -gt 0) { Start-Sleep -Seconds $Espera }
 [console]::beep(880, 150)
 
+# 0) los botones de cada puerto, por PINE, en paralelo (herramientas\registro_mandos.py, bitacora (93y)).
+#    Sin PINE no frena nada: deja mandos.txt diciendo por que y el video se graba igual.
+$py = (Get-Command python -ErrorAction SilentlyContinue).Source
+$reg = $null
+if ($py) {
+    $reg = Start-Process -FilePath $py -WindowStyle Hidden -PassThru -ArgumentList @(
+        "`"$(Join-Path $raiz 'herramientas\registro_mandos.py')`"", 'grabar', "`"$dir`"", '--segundos', ($Segundos + 1))
+}
+function Marcar-Inicio { [string]([DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() / 1000.0) |
+    Set-Content -LiteralPath (Join-Path $dir 'inicio_video.txt') -Encoding ASCII }
+
 # 1) grabar: ddagrab y, si no anda, gdigrab
 $vf = 'hwdownload,format=bgra,scale=1280:-2,format=yuv420p'
+Marcar-Inicio
 & $ff -y -hide_banner -loglevel error -f lavfi -i "ddagrab=framerate=$($Fps)" -t $Segundos -vf $vf `
     -c:v libx264 -preset veryfast -crf 23 $mp4 2> $log
 $ok = ($LASTEXITCODE -eq 0) -and (Test-Path -LiteralPath $mp4) -and ((Get-Item -LiteralPath $mp4).Length -gt 100KB)
 $metodo = 'ddagrab'
 if (-not $ok) {
     $metodo = 'gdigrab'
+    Marcar-Inicio
     & $ff -y -hide_banner -loglevel error -f gdigrab -framerate $Fps -i desktop -t $Segundos `
         -vf 'scale=1280:-2,format=yuv420p' -c:v libx264 -preset veryfast -crf 23 $mp4 2>> $log
     $ok = ($LASTEXITCODE -eq 0) -and (Test-Path -LiteralPath $mp4)
@@ -63,12 +76,21 @@ if ($LASTEXITCODE -ne 0) {   # sin fuente para drawtext: las mismas hojas, sin l
 }
 & $ff -y -hide_banner -loglevel error -i $mp4 -vf 'fps=4,scale=960:-2' (Join-Path $dir 'cuadros\c_%03d.png') 2>> $log
 
+# 3) los botones estampados debajo de cada mitad: hojas_mandos\ (12 cuadros a 4 por segundo) y eventos.txt
+if ($reg) {
+    if (-not $reg.WaitForExit(15000)) { $reg.Kill() }
+    & $py (Join-Path $raiz 'herramientas\registro_mandos.py') anotar $dir 2>> $log | Out-Null
+}
+$mandos = if (Test-Path -LiteralPath (Join-Path $dir 'mandos.txt')) {
+    (Get-Content -LiteralPath (Join-Path $dir 'mandos.txt') -TotalCount 1) } else { 'sin registro (no hay python)' }
+
 $nh = (Get-ChildItem -LiteralPath (Join-Path $dir 'hojas') -Filter *.png).Count
 $nc = (Get-ChildItem -LiteralPath (Join-Path $dir 'cuadros') -Filter *.png).Count
 @(
     "grabado: $(Get-Date -Format s)  ($metodo, $Segundos s a $Fps cuadros/s)",
     "video:   gameplay.mp4",
     "hojas:   $nh (12 cuadros cada una, 2 por segundo)  <- lo primero que mira Claude",
-    "cuadros: $nc (4 por segundo)"
+    "cuadros: $nc (4 por segundo)",
+    "mandos:  $mandos  -> hojas_mandos\ y eventos.txt (lo que recibio el juego en cada puerto)"
 ) | Set-Content -LiteralPath (Join-Path $dir 'LEEME.txt') -Encoding ASCII
 Write-Output "Listo: $dir  ($nh hojas, $nc cuadros, $metodo)"
