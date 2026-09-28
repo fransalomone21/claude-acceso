@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93w) — Start saltea cualquier video (bloque propio, en todos los accesos) y lo aprendido de esta tanda, al kb clasificado
+**Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** jugar (pedido de Fran: saltear la intro y los videos de antes de cada nivel) · **Nodos:** `front-end`, `entrada` (evidencia en frío; sin cambio de K)
+**Objetivo:** que Start saltee los videos, también la intro que el juego no deja saltear sin un nivel completado; y registrar lo aprendido.
+
+- **El reproductor** (`confirmado en frío` el camino; `probable` el efecto): hay uno solo, `V = *(0x0040F0E0)+0x2026C` (el menú, `FE = +0x20220`, lo tiene en `+0x4C`). `FUN_00109918` es su máquina de estados, llamada sólo desde `0x00104B80` (la actualización del menú, `a0` = V en el delay slot). `V+0x1A8`: 0x1C reproduciendo, 0x37 quieto; `V+0x198` bit 0 = en bucle (el fondo del menú); **`V+0x1B9` = cortar**: en 0x1C lleva el video a 0x1D por **el mismo camino que cuando termina solo**, y con 0x37 el menú avisa `FmvHasFinished`. La página `FMVPlayer` (la de antes del nivel, a la que va `StartGame`) usa el mismo reproductor.
+- **Por qué la intro no se salteaba:** los salteos del juego (`SkipIntroCredits` = `FUN_00103c28`, `StartMainMenuSkip` = `FUN_00103b38`) vuelven sin hacer nada si las 4 ranuras de progreso (`FUN_00123c90(0x0048EFA8, 0, 0..3)`) valen −1: sin un nivel completado, no hay salteo.
+- **El mod** (`herramientas/saltear_videos.py`, bloque «Saltear videos con Start», 28 palabras; código en `0x0046F700`, contador `0x0046F7F0` fuera del pnach): gancho en `0x00104B80`; si V está en 0x1C, **no** es de bucle y Start se acaba de apretar en el mando 1 (`0x005856C0`) o en el 2 (`0x005857B0`) —actual `+0x32` ≠ 0 y anterior `+0x16` = 0, Start = índice 8—, pone `V+0x1B9` = 1; siempre sigue a `FUN_00109918` con `a0` intacto. Ensamblado y contrastado con capstone. El menú lee los botones del mismo mando procesado (`FUN_0026bc30`: `+0x2A+i`).
+- **En todos los accesos:** `JUGAR-BLACK.ps1` lo instala y lo prende siempre (solo y coop). Memoria: fuera de todo rango del coop (el libre de docs/14 queda `0x0046E580..0x0046F700`).
+- **Riesgo** (`hipótesis`): si el mando procesado no se actualiza durante los videos, Start no hace nada (no rompe nada). Si el «anterior» no se actualiza en el menú, basta con apretarlo (sin flanco).
+- **Al kb, clasificado por tipo y con su `area` (el nodo de `subsistemas.json`):** `rutinas.json` +10 (el reproductor, pedir video, los salteos del menú, la pantalla ancha nativa, la sincronización de cámara, el daño y la muerte del jugador, el modo «muerto», el cargador del aparejo, el destructor del jugador); `mapa-memoria.json` +6 (los dos mandos procesados, la proporción de la cámara de escena con la trampa del parche comunitario, el estado de muerte de la partida, la opción de pantalla ancha, la tabla de progreso); `estructuras.json` +4 (el reproductor de video, la cámara del gestor de render, el controlador del jugador, el manejador de armas).
+**No funcionó:** nada (nada se corrió en vivo).
+**Sigue:** en la notebook, `git pull` y probar la intro y un video de nivel con Start (predicción: se cortan y el juego sigue como si hubieran terminado; `0x0046F7F0` cuenta los cortes).
+
+---
+
 ## 2026-09-28 (93v) — El arreglo del parpadeo (opción 2, aprobada por Fran): el coop trae su pantalla ancha y el stub es el dueño de la proporción; la ranura 3 queda apagada por defecto
 **Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (el parpadeo; dejar el coop listo para jugarlo) · **Nodos:** `render`, `codigo-nuevo` (sin cambio de K: nada medido en vivo)
 **Objetivo:** Fran pidió dejar el juego listo para probar cómo viene el coop, con la opción 2 de (93t).

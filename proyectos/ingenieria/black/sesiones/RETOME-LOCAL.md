@@ -1,13 +1,13 @@
-# Mensaje de retome — BLACK, notebook (después de la nube: bitácoras (93s)–(93v))
+# Mensaje de retome — BLACK, notebook (después de la nube: bitácoras (93s)–(93w))
 
 Pegar tal cual como primer mensaje del chat siguiente.
 
 ```
-Retomo BLACK en LOCAL (notebook), después de la tanda en frío de la NUBE: bitácoras (93s), (93t), (93u) y (93v) del 2026-09-28. Proyecto: proyectos/ingenieria/black. COOP-B ABIERTA. Trabajo EN ESTE CHAT, sin tareas programadas y sin agentes (tampoco «remotos»: gastan el plan Pro). Lo que sigue es LO CALIENTE: el frío ya está hecho.
+Retomo BLACK en LOCAL (notebook), después de la tanda en frío de la NUBE: bitácoras (93s) a (93w) del 2026-09-28. Proyecto: proyectos/ingenieria/black. COOP-B ABIERTA. Trabajo EN ESTE CHAT, sin tareas programadas y sin agentes (tampoco «remotos»: gastan el plan Pro). Lo que sigue es LO CALIENTE: el frío ya está hecho.
 
-0. git pull en claude-acceso y en C:\Users\frans\black-datos. El último commit que tocó proyectos/ingenieria/black tiene que ser el cierre de la nube (93v) o posterior; si no, pará.
+0. git pull en claude-acceso y en C:\Users\frans\black-datos. El último commit que tocó proyectos/ingenieria/black tiene que ser el cierre de la nube (93w) o posterior; si no, pará.
 
-1. Leé SOLO: las entradas (93s), (93t), (93u) y (93v) de docs/03-bitacora.md (arriba de todo), docs/15-tercera-ranura.md (la sección «Para el pnach — lo que quedó en el código (93s)») y, de herramientas/coop_mod.py, el bloque de la ranura 3 (R3_POR_CUADRO_MOD, R3_ENVOLTORIO_MOD, R3_BAJA_MOD, ranura3()). Si hay entradas más nuevas en la bitácora, leelas: manda la bitácora.
+1. Leé SOLO: las entradas (93s) a (93w) de docs/03-bitacora.md (arriba de todo), docs/15-tercera-ranura.md (la sección «Para el pnach — lo que quedó en el código (93s)») y, de herramientas/coop_mod.py, el bloque de la ranura 3 (R3_POR_CUADRO_MOD, R3_ENVOLTORIO_MOD, R3_BAJA_MOD, ranura3()). Si hay entradas más nuevas en la bitácora, leelas: manda la bitácora.
 
 2. Controles: .\proyectos\ingenieria\black\abrir-sesion.ps1 -Rapido, python herramientas/programa.py verificar (0 rojos), python pruebas/prueba_herramientas.py (184), python herramientas/coop_diseno.py verificar (0), python pruebas/probar-coop-diseno.py (TODO BIEN), python herramientas/parpadeo_escala.py --autotest (BIEN).
 
@@ -23,6 +23,7 @@ Retomo BLACK en LOCAL (notebook), después de la tanda en frío de la NUBE: bit�
       - Primero mirá que el lanzador hizo lo suyo: en el emulog, con el acceso COOP, «Enabled patch: COOP - jugador 2 (B3)» y NO «Widescreen 16:9»; con JUGAR BLACK (solo), al revés. En RAM, R+0xD470/74 (0x004CA5F0/F4) = 4/3 y 16/9 fuera de las pasadas.
       - Medición con control, J2 quieto disparando, 16 capturas (como parpadeo_volcados.py), medidas con python herramientas/parpadeo_escala.py REF.png cap*.png (REF = captura con J2 quieto): (1) como lo deja el acceso COOP: predicción 0 de 16 en B y la imagen en 16:9 sin estirar; (2) control, la misma corrida con «Enable = Widescreen 16:9» agregado a mano en los ajustes del juego: predicción >= 1 de 16 en B (vuelve la carrera). Si (2) da 0, el control no mide: más capturas o J2 con más carga.
    c) B5 (93u). Sonda 1: vigilar J+0x5F0 (= ctrl+0x100 de J) mientras J recibe daño hasta morir; predicción: sube a >= 1 antes de morir y *(0x0040F0E0)+0x21098 pasa a 1. Sonda 2: J2 muere por un código de una vez que llama FUN_0013c3e8 sobre J2 con daño >= su vida (control: daño menor). Predicción según la 1. Con eso, el envoltorio de FUN_0013ffa0 (0x0013FFA0): si a0 = 0x0046D2E0 y a1 = 5 -> J2 reaparece junto a J con vida, sin terminar la partida.
+   c2) SALTEAR VIDEOS (93w): con JUGAR BLACK, en la intro (partida sin niveles completados) y en el video de antes de un nivel, apretar Start. Predicción: el video se corta, el juego sigue como si hubiera terminado y *(0x0046F7F0) sube de a uno por corte; el fondo del menú no se corta. Control: sin apretar nada, el contador no se mueve. Si Start no hace nada, mirar en RAM si 0x005856F2 cambia al apretar durante el video.
    d) El cuerpo en los 3 niveles sin aliado sólo si Fran dice que sí. NO tocar la sensibilidad de los mandos.
 
 5. Opus, esfuerzo high, SIN subagentes ni fan-out: MIPS en stubs, donde un error cuelga el emulador. Nunca Fable.
@@ -41,6 +42,6 @@ YA HECHO, NO REHACER: (85)–(93r); (93s) el código de la ranura 3 (en frío: e
    - Las capturas de la mitad de J incluyen al títere (el cuerpo de J2), que se mueve con J2: medir en la caja de los brazos (ranura3.mitades).
    - Dos cuerpos de colisión EXACTAMENTE en el mismo punto cuelgan el EE en FUN_0033DD98. Breakpoints de ejecución tiran el emulador (usar vigilante de lectura sobre una bandera). Un «cartel eterno» al cargar no es una espera: muestreá el PC. No apretes Start en pleno juego. Los savestates tienen a J en el puerto 1. UNA sola conexión PINE a la vez. Commits con mensaje en archivo, sin BOM y sin «J:».
    - Un volcado «en pausa» puede caer A MITAD de la escena (el de (93r) fuego-1 cayó dentro de la pasada 1: DATOS+0x3C = 1). Antes de comparar volcados, mirá DATOS+0x3C.
-   - Memoria (la tabla que manda es el bloque coop-rangos de docs/14): ranura 3 datos 0x0046E0B0..0x0046E0CC (fuera del pnach), R3 0x0046E100..0x0046E340, por cuadro 0x0046E340..0x0046E484, envoltorio 0x0046E4A0..0x0046E578, desarme hasta 0x0046DDC0. Libre: 0x0046E580..0x0046F800.
+   - Memoria (la tabla que manda es el bloque coop-rangos de docs/14): ranura 3 datos 0x0046E0B0..0x0046E0CC (fuera del pnach), R3 0x0046E100..0x0046E340, por cuadro 0x0046E340..0x0046E484, envoltorio 0x0046E4A0..0x0046E578, desarme hasta 0x0046DDC0. Libre: 0x0046E580..0x0046F700 (0x0046F700..0x0046F7F4 es de Saltear videos con Start, (93w)).
 9. Checkpoint después de CADA sonda: bitácora + kb/subsistemas.json + commit + push a main. Al parar: ESTADO_ACTUAL + HANDOFF + este mensaje.
 ```

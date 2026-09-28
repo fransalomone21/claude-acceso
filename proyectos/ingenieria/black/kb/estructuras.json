@@ -678,6 +678,221 @@
           "descripcion": "Tambien particiona como el arma, pero solo en dos valores y coincide con la faccion: 7.0f en los enemigos, 0.8f en los companeros. Mas parecido a un parametro de IA que a un selector. Sin probar -- 7b se cerro con +0x78 refutado (bitacora (33)) sin testear este campo."
         }
       ]
+    },
+    {
+      "id": "reproductor_video",
+      "area": "front-end",
+      "nombre": "Reproductor de video (FMVPlayer)",
+      "tamano": null,
+      "como_llegar": "*(0x0040F0E0)+0x2026C (FE = +0x20220, +0x4C)",
+      "confianza": "probable",
+      "campos": [
+        {
+          "offset": "0x0",
+          "tipo": "u32",
+          "id": "decodificador",
+          "descripcion": "lo que usan FUN_00272308 (termino) y FUN_00271f10",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x44",
+          "tipo": "char[]",
+          "id": "ruta",
+          "descripcion": "videos/%s.m2v",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x198",
+          "tipo": "u32",
+          "id": "banderas",
+          "descripcion": "bit 0 = en bucle (el fondo del menu)",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x1A8",
+          "tipo": "u32",
+          "id": "estado",
+          "descripcion": "0x1C reproduciendo, 0x1D..0x1F cortando, 0x37 quieto, 2..4 arrancando",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x1B4",
+          "tipo": "u32",
+          "id": "subtitulos_pedidos",
+          "descripcion": "pista de subtitulos del pedido",
+          "confianza": "hipotesis"
+        },
+        {
+          "offset": "0x1B8",
+          "tipo": "u8",
+          "id": "pedido",
+          "descripcion": "1 = reproducir",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x1B9",
+          "tipo": "u8",
+          "id": "cortar",
+          "descripcion": "1 = cortar el video en curso (mismo camino que el fin natural): lo usa Saltear videos con Start",
+          "confianza": "probable"
+        }
+      ]
+    },
+    {
+      "id": "camara_render",
+      "area": "render",
+      "nombre": "Camara del gestor de render (envoltorio de RwCamera)",
+      "tamano": "0xA0",
+      "como_llegar": "R = *(0x0040F4C0); R+0xD360 (0), R+0xD400 (1, la escena), R+0xD4A0 (2); la actual en R+0xD540",
+      "confianza": "probable",
+      "campos": [
+        {
+          "offset": "0x48",
+          "tipo": "f32",
+          "id": "vw_x",
+          "descripcion": "ventana de vista x = tan(FOV/2)*(+0x70)",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x4C",
+          "tipo": "f32",
+          "id": "vw_y",
+          "descripcion": "vw_x / (+0x74)",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x50",
+          "tipo": "f32",
+          "id": "inv_vw_x",
+          "descripcion": "1/vw_x (tambien +0x90)",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x58",
+          "tipo": "ptr",
+          "id": "rwcamera",
+          "descripcion": "RwCamera; su +0x60 es el sub-raster (ancho +0xC, x +0x1C) y su +4 el marco",
+          "confianza": "confirmado"
+        },
+        {
+          "offset": "0x68",
+          "tipo": "ptr",
+          "id": "fuente_vista",
+          "descripcion": "gestor de camara+0x700 (FOV, cuaternion, ojo); +0x750 en camara libre",
+          "confianza": "confirmado"
+        },
+        {
+          "offset": "0x6C",
+          "tipo": "f32",
+          "id": "fov",
+          "descripcion": "FOV en grados de la ultima sincronizacion",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x70",
+          "tipo": "f32",
+          "id": "aspecto_x",
+          "descripcion": "1,0 de fabrica; 4/3 con la pantalla ancha comunitaria",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x74",
+          "tipo": "f32",
+          "id": "aspecto_y",
+          "descripcion": "4/3 o 16/9 (la opcion del juego)",
+          "confianza": "probable"
+        }
+      ]
+    },
+    {
+      "id": "controlador_jugador",
+      "area": "personajes",
+      "nombre": "Controlador (la 'mira') del jugador",
+      "tamano": null,
+      "como_llegar": "*(jugador+0x32C) = jugador+0x4F0",
+      "confianza": "probable",
+      "campos": [
+        {
+          "offset": "0x7C",
+          "tipo": "ptr",
+          "id": "jugador",
+          "descripcion": "autopuntero al jugador (el molde de J2 lo reubica)",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x84",
+          "tipo": "ptr",
+          "id": "vtable",
+          "descripcion": "0x003DCC20; +0x28/+0x2C = FUN_0013ffa0 (eventos: 5 = muerte)",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0xF1",
+          "tipo": "u8",
+          "id": "invertir_y",
+          "descripcion": "copiado de los ajustes del jugador i (*(0x0040F0E0)+0x21060+i*0xC) por FUN_0013F3E0",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x100",
+          "tipo": "i32",
+          "id": "puerta_muerte",
+          "descripcion": ">= 1: la muerte termina la partida; < 1: muere como un personaje cualquiera. 0 en J y J2 en los volcados; quien lo sube, sin medir",
+          "confianza": "hipotesis"
+        }
+      ]
+    },
+    {
+      "id": "manejador_armas",
+      "area": "armas",
+      "nombre": "Manejador de armas embebido en el jugador",
+      "tamano": null,
+      "como_llegar": "jugador+0x280 (lo construye FUN_00139c68: FUN_0015c100/FUN_0015bb90)",
+      "confianza": "probable",
+      "campos": [
+        {
+          "offset": "0x1C",
+          "tipo": "ptr",
+          "id": "dueno",
+          "descripcion": "el jugador (autopuntero, J+0x29C)",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x20",
+          "tipo": "ptr",
+          "id": "armas",
+          "descripcion": "arreglo de armas (J+0x2A0; en J2, ARMAS2)",
+          "confianza": "confirmado"
+        },
+        {
+          "offset": "0x24",
+          "tipo": "ptr",
+          "id": "en_mano",
+          "descripcion": "arma en la mano (J+0x2A4)",
+          "confianza": "confirmado"
+        },
+        {
+          "offset": "0x28",
+          "tipo": "ptr",
+          "id": "siguiente",
+          "descripcion": "arma a la que se cambia",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x42",
+          "tipo": "i8",
+          "id": "cuantas",
+          "descripcion": "cantidad de armas",
+          "confianza": "probable"
+        },
+        {
+          "offset": "0x43",
+          "tipo": "i8",
+          "id": "indice",
+          "descripcion": "indice del arma en la mano = J+0x2C3 = la ranura FP que usa (lo escribe FUN_0015be70 al terminar el cambio)",
+          "confianza": "probable"
+        }
+      ]
     }
   ]
 }

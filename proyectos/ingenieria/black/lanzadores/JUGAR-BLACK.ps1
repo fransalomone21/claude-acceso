@@ -73,6 +73,13 @@ $accion = if ($Coop) { 'activar' } else { 'desactivar' }
 & python (Join-Path $raiz 'herramientas\coop_mod.py') $accion
 if ($LASTEXITCODE -ne 0) { throw "coop_mod.py $accion fallo" }
 
+# --- saltear videos con Start (bitacora (93w)): en TODOS los accesos ------------
+$sv = Join-Path $raiz 'herramientas\saltear_videos.py'
+& python $sv instalar
+if ($LASTEXITCODE -ne 0) { throw 'saltear_videos.py instalar fallo' }
+& python $sv activar
+if ($LASTEXITCODE -ne 0) { throw 'saltear_videos.py activar fallo' }
+
 $ini = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'PCSX2\inis\PCSX2.ini'
 $lineas = [IO.File]::ReadAllLines($ini)
 $seccion = ''

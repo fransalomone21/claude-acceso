@@ -345,6 +345,8 @@ dice medido). Lo que cambió:
   ancha y el stub es el dueño de la proporción (4 palabras cambiadas, nada se corre); los accesos `COOP`
   apagan el «Widescreen 16:9» comunitario y `JUGAR BLACK` lo vuelve a prender. **La ranura 3 queda apagada
   por defecto** (`--con-r3`): el acceso de jugar instala sólo lo probado, **638 palabras** + la pantalla ancha.
+- **(93w) Start saltea los videos** (intro y los de antes de cada nivel), en todos los accesos; sin probar en vivo.
+  Lo aprendido de (93s)–(93w) quedó en el `kb/` con su área (`rutinas`, `mapa-memoria`, `estructuras`).
 - **Siguiente (en la notebook):** `git pull` y jugar con el acceso COOP; medir el parpadeo con control, la
   ranura 3 con `--con-r3` y su regresión (8 de 8), y las dos sondas de B5. Detalle: `sesiones/RETOME-LOCAL.md`.
 

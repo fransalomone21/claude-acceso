@@ -39,6 +39,8 @@ Los datos no van en el pnach: nacen del `.bss` en cero.
   16/9) de `DATOS+0x30/+0x34`, que pone el pnach, y el bloque trae las líneas del parche comunitario «Widescreen
   16:9» **menos** `0x004CA5F0/F4`; el comunitario va apagado con el coop (lo apaga `JUGAR-BLACK.ps1 -Coop`).
   Con él prendido, sus escrituras por cuadro pisaban la mitad entre las dos pasadas: el parpadeo (93t).
+- **Fuera del coop, en la misma zona de memoria:** el bloque «Saltear videos con Start» (93w) usa
+  `0x0046F700..0x0046F76C` (código) y `0x0046F7F0` (contador). No es del coop: no lleva fila acá.
 - **Filtro del tinte.** Gancho `0x00129AD0` → filtro: el tinte a pantalla completa no se dibuja por mitad (89b);
   la llamada única del final queda en `nop` (90b).
 - **Visibilidad por pasada.** El callback de dibujo de la escena (`lui/addiu` en `0x001298F8/0x00129900`) →

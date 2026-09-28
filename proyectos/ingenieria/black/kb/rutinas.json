@@ -749,6 +749,139 @@
       "evidencia": "2026-09-05, y ya se habia usado por esta via en 2026-08-16 para GlobData.bin (ver fixup_contenedor_bin). Los cinco callbacks de nivel encontrados asi tienen los cinco la misma forma de tres pasos, y uno de ellos (StUnit) desemboca en un formato que ya estaba resuelto por otra via.",
       "descubierto": "2026-08-16",
       "notas": "LA TABLA DE CALLBACKS DE NIVEL, medida el 2026-09-05: LevelDat.bin (0x003F4348, tipo 6) -> FUN_0012a310 -> parser FUN_002881a8. StLevel.bin (0x003F4388, tipo 0xB) -> FUN_0012a418 -> parser FUN_00288488. Guns%s.bin (0x003F43B8, tipo 0xC) -> FUN_0012a480 -> parser FUN_00288930. Unit_%02d.bin (0x003F4508, tipo 8) -> FUN_0012e728 -> parser FUN_0012eae8. StUnit%02d.bin (0x003F4528, tipo 8) -> FUN_0012e8b8 -> parser FUN_002886d0."
+    },
+    {
+      "id": "video_actualizar",
+      "area": "front-end",
+      "nombre": "Maquina de estados del reproductor de video (por cuadro)",
+      "direccion": "0x00109918",
+      "version": "ntsc_u",
+      "descripcion": "Actualiza el reproductor V. En 0x1C (reproduciendo): si V+0x1B9 != 0, o el decodificador termino (FUN_00272308) y el video no es de bucle (V+0x198 bit 0), pasa a 0x1D (cortar); si es de bucle, lo vuelve a empezar. 0x1D..0x36 -> FUN_00109cf8 (detiene) -> 0x37 (quieto). Con 0x37 el menu avisa FmvHasFinished.",
+      "convencion": "a0 = V = *(0x0040F0E0)+0x2026C (FE+0x4C)",
+      "llamadores": [
+        "0x00104B80 (FUN_001046b0, la actualizacion del menu; unico)"
+      ],
+      "puntos_de_parche": [
+        {
+          "direccion": "0x00104B80",
+          "instruccion_original": "jal 0x109918 (delay: move a0, s0)",
+          "efecto_si_se_modifica": "gancho por cuadro del reproductor: el mod Saltear videos con Start (93w)"
+        }
+      ],
+      "confianza": "probable",
+      "evidencia": "en frio, pseudocodigo de black-datos (bitacora (93w)); el corte por V+0x1B9 recorre el mismo camino que el fin natural",
+      "descubierto": "2026-09-28"
+    },
+    {
+      "id": "video_reproducir",
+      "area": "front-end",
+      "nombre": "Pedir un video al reproductor",
+      "direccion": "0x001094C0",
+      "version": "ntsc_u",
+      "descripcion": "Arma la ruta videos/%s.m2v (0x003F3040) en V+0x44, el nombre en V+0x84, pide reproducir (V+0x1B8 = 1), guarda subtitulos (V+0x1B4) y bucle (V+0x198); si ya habia uno, pide cortarlo (V+0x1B9 = 1). FUN_00109550 es el pedido de parar (V+0x1B8 = 0 y corte). La pagina StartVideo del menu llama FUN_00104078 -> FUN_001040d8 -> esta.",
+      "convencion": "a0 = V, a1 = nombre, a2 = pista de subtitulos, a3 = bucle",
+      "confianza": "probable",
+      "evidencia": "en frio (93w)",
+      "descubierto": "2026-09-28"
+    },
+    {
+      "id": "fe_saltear_intro",
+      "area": "front-end",
+      "nombre": "SkipIntroCredits / StartMainMenuSkip (los salteos del juego)",
+      "direccion": "0x00103C28",
+      "version": "ntsc_u",
+      "descripcion": "Callbacks del menu registrados por nombre (FUN_00209618(FE+4, nombre, funcion)): SkipIntroCredits = FUN_00103c28, StartMainMenuSkip = FUN_00103b38. LOS DOS vuelven sin hacer nada si las 4 ranuras de progreso (FUN_00123c90(0x0048EFA8, 0, 0..3)) valen -1: sin haber completado un nivel, la intro no se puede saltear. Otros callbacks del mismo registro: StartGame FUN_00103990 (va a la pagina FMVPlayer), StartMainMenu 0x00103BF8, StartVideo FUN_00104078, StartVideoPage FUN_00103d08, StartNewMission 0x00103930.",
+      "confianza": "probable",
+      "evidencia": "en frio (93w), pseudocodigo y cadenas 0x003F26E0..0x003F2750",
+      "descubierto": "2026-09-28"
+    },
+    {
+      "id": "pantalla_ancha_nativa",
+      "area": "render",
+      "nombre": "Aplicar la opcion de pantalla ancha del propio juego",
+      "direccion": "0x00108BB8",
+      "version": "ntsc_u",
+      "descripcion": "Con la opcion en 1 pone +0x74 = 16/9 en las tres camaras del gestor de render (FUN_0027b388) y R+0xC = 1; si no, 4/3 y 0. NO toca +0x70 (el aspecto horizontal): el parche comunitario Widescreen 16:9 la sube de 1,0 a 4/3 por cuadro para ganar campo horizontal. La llaman el arranque (0x0010.c) y el aplicar opciones (FUN_00212088, variable del menu 0x003BE83C <-> *(0x0040F0E0)+0x20150).",
+      "convencion": "a0 = *(0x0040F0E0)+0x2014C (ajustes); +4 = pantalla ancha",
+      "confianza": "probable",
+      "evidencia": "en frio (93v)",
+      "descubierto": "2026-09-28"
+    },
+    {
+      "id": "camara_sincronizar",
+      "area": "render",
+      "nombre": "Pasar la vista a una camara del gestor de render (SYNC)",
+      "direccion": "0x001AE998",
+      "version": "ntsc_u",
+      "descripcion": "FUN_001ae998(R, i) -> FUN_001b0910(cam) -> FUN_0027acd0(cam): arma el marco desde *(cam+0x68) (FOV, cuaternion, ojo) y llama FUN_0027b2f0(FOV, cam): vw.x = tan(FOV/2)*cam+0x70, vw.y = vw.x/cam+0x74, y RwCameraSetViewWindow (FUN_002a91d8). FUN_0027b2f0 es el UNICO que fija la ventana de vista (lo llaman esto y el armado de la camara 0 con FOV 30). FUN_001ae938(R, i, fuente) solo cambia la fuente (cam+0x68). La pasada de sombras FUN_001c9110 resincroniza la camara 1 a mitad de la escena.",
+      "convencion": "a0 = R = *(0x0040F4C0), a1 = 0 (R+0xD360), 1 (R+0xD400, la de la escena), 2 (R+0xD4A0)",
+      "confianza": "probable",
+      "evidencia": "en frio (93t)",
+      "descubierto": "2026-09-28"
+    },
+    {
+      "id": "danio_jugador",
+      "area": "personajes",
+      "nombre": "Dano a un jugador (y la puerta de la muerte)",
+      "direccion": "0x0013C3E8",
+      "version": "ntsc_u",
+      "descripcion": "Si jugador+0x8B2 = 0: sacude el mando, prende el indicador de dano del HUD (FUN_001f28d0, UNO solo), sacude la camara del gestor (FUN_00110698, UNA sola), aplica el dano (FUN_00134990) y, con la vida en 0, llama el metodo +0x2C del controlador con el evento 5 = FUN_0013ffa0.",
+      "convencion": "f12 = dano, a0 = ?, a1 = jugador, a3 = atacante",
+      "confianza": "probable",
+      "evidencia": "en frio (93u)",
+      "descubierto": "2026-09-28"
+    },
+    {
+      "id": "muerte_jugador_evento",
+      "area": "flujo",
+      "nombre": "Evento 5 del controlador del jugador: la muerte",
+      "direccion": "0x0013FFA0",
+      "version": "ntsc_u",
+      "descripcion": "Jugador = ctrl+0x7C. Con ctrl+0x100 >= 1: FUN_0011a890(*(0x0040F530), jugador, atacante) = camara de muerte sobre ESE jugador, HUD modo 3, +0x8B2 = 1, estado 3, y *(0x0040F0E0)+0x21098 = 1 (fin de partida). Con < 1: FUN_001354e0 + estado 2 (+0x38C) y las primeras 8 B del jugador en 0. NO mira si el que murio es el jugador 0.",
+      "convencion": "a0 = controlador (vtable 0x003DCC20, entrada +0x28/+0x2C), a1 = evento",
+      "confianza": "probable",
+      "evidencia": "en frio (93u); ctrl+0x100 vale 0 en J y J2 en los volcados: falta medir quien lo sube",
+      "descubierto": "2026-09-28"
+    },
+    {
+      "id": "modo_muerto",
+      "area": "flujo",
+      "nombre": "El modo 'muerto' de la partida (por cuadro)",
+      "direccion": "0x0012D270",
+      "version": "ntsc_u",
+      "descripcion": "Cuando *(0x0040F0E0)+0x2109C (lo latchea FUN_00102f68 desde +0x21098) vale 1, la actualizacion del juego llama esto en lugar del cuadro normal: actualiza la camara de muerte (FUN_0011a270), el HUD y SOLO a J (FUN_0013bac8(dt, juego+0x30)). Con 3 va a FUN_0012d3d0 y con 2 a FUN_0012d310 (otros modos, sin identificar).",
+      "confianza": "probable",
+      "evidencia": "en frio (93u)",
+      "descubierto": "2026-09-28"
+    },
+    {
+      "id": "aparejo_fp_cargar",
+      "area": "personajes",
+      "nombre": "Cargador del aparejo en primera persona (sub + ranura)",
+      "direccion": "0x001AC960",
+      "version": "ntsc_u",
+      "descripcion": "FUN_001ac960(pers, i, modelo, jugador, ...) reconstruye el sub pers+0x398+i*0x6C (FUN_001a8168, en su bufer fijo de 18000 B) y, en un lazo hasta que devuelva != 0, FUN_001a51c8(pers+0x470+i*0x240, jugador, sub) (siempre devuelve 1). Unico llamador: FUN_00143d90, al construir al jugador (estado 2 del constructor, i = 0) y al cambiar/levantar un arma (i = W+0x43, dueno W+0x1C).",
+      "puntos_de_parche": [
+        {
+          "direccion": "0x001ACA84",
+          "instruccion_original": "jal 0x1a51c8 (delay: addu a2, s2, s1)",
+          "efecto_si_se_modifica": "envoltorio de la ranura 3 (93s): con a1 = J2 carga R3 en lugar de r0/r1"
+        }
+      ],
+      "confianza": "probable",
+      "evidencia": "en frio (93s); el unico otro jal 0x1a51c8 del ELF (0x00132998) es el de los personajes del pool",
+      "descubierto": "2026-09-28"
+    },
+    {
+      "id": "jugador_destructor",
+      "area": "flujo",
+      "nombre": "Destructor del jugador (baja de su ranura FP)",
+      "direccion": "0x0013B9A0",
+      "version": "ntsc_u",
+      "descripcion": "Metodo +0x24 de la vtable del jugador 0x003DC5F8: FUN_0013baf8 + FUN_00133ed8 (suelta los 8 accesorios, FUN_001a5ee8(jugador+0x330) descarga la ranura, pone +0x38C = 4). Lo llama el desarme del nivel (FUN_00129de8, estado 0x21) SOLO para i < cuenta (= 1): a J2 nadie lo destruye.",
+      "confianza": "probable",
+      "evidencia": "en frio (93s); vtable medida en J y J2 en los volcados de (93r)",
+      "descubierto": "2026-09-28"
     }
   ]
 }

@@ -499,6 +499,87 @@
    "descubierto": "2026-09-27",
    "evidencia": "2026-09-27, en frio + volcados (bitacora (73)). FUN_0016a4c0 (test de volumen de los triggers) la lleva al marco local de cada zona. En los 3 volcados coincide en x,z con la fila 3 de la matriz de camara (camara+0x7A0) y queda 1,45 m por debajo: los ojos. juego+0x318 = 1,65 en los 3 (altura del jugador; los triggers usan la mitad).",
    "notas": "Para el coop: los triggers leen SOLO esta posicion."
+  },
+  {
+    "id": "mando_procesado_1",
+    "area": "entrada",
+    "nombre": "Mando procesado del puerto 1",
+    "direccion": "0x005856C0",
+    "tipo": "u8",
+    "version": "ntsc_u",
+    "estable": true,
+    "confianza": "probable",
+    "descubierto": "2026-09-28",
+    "evidencia": "(77) y (93w): CTRL1 (0x005858A0)+0xC apunta aca en los volcados sin mando falso; FUN_0026bc30 (el lector de botones del menu) lee +0x2A+i.",
+    "notas": "boton i: actual +0x2A+i (u8), anterior +0x0E+i, valor +0x4C+4i (f32); 28 entradas. Start = 8. El del puerto 2 esta en 0x005857B0 (0xF0 despues; CTRL1+0x16C+0xC)."
+  },
+  {
+    "id": "mando_procesado_2",
+    "area": "entrada",
+    "nombre": "Mando procesado del puerto 2",
+    "direccion": "0x005857B0",
+    "tipo": "u8",
+    "version": "ntsc_u",
+    "estable": true,
+    "confianza": "probable",
+    "descubierto": "2026-09-28",
+    "evidencia": "(93w): *(0x005858A0+0x16C+0xC) = 0x005857B0 en ee-03 y ee-nivel-mod0.",
+    "notas": "misma forma que mando_procesado_1"
+  },
+  {
+    "id": "proporcion_camara_escena",
+    "area": "render",
+    "nombre": "Aspecto de la camara de escena (x, y)",
+    "direccion": "0x004CA5F0",
+    "tipo": "f32",
+    "version": "ntsc_u",
+    "estable": true,
+    "base": "R+0xD470/+0xD474 (R = *(0x0040F4C0) = 0x004BD180)",
+    "confianza": "probable",
+    "descubierto": "2026-09-28",
+    "evidencia": "(93t): en los volcados vale 4/3 y 16/9 (las del parche comunitario); el inicializador de la camara pone 1,0 y 4/3.",
+    "notas": "EL PARCHE COMUNITARIO 'Widescreen 16:9' (No.47) LAS REESCRIBE EN CADA CUADRO desde el emulador (invisible para un vigilante del EE): era el parpadeo de la pantalla partida. Con el coop, las pone el stub (93v)."
+  },
+  {
+    "id": "estado_muerte_partida",
+    "area": "flujo",
+    "nombre": "Pedido de muerte / estado de la partida",
+    "direccion": null,
+    "tipo": "u32",
+    "version": "ntsc_u",
+    "estable": false,
+    "base": "*(0x0040F0E0)+0x21098 (pedido) y +0x2109C (latcheado por cuadro, FUN_00102f68; lo lee FUN_00103908)",
+    "confianza": "probable",
+    "descubierto": "2026-09-28",
+    "evidencia": "(93u), en frio",
+    "notas": "1 = muerte del jugador (modo FUN_0012d270). 2 y 3: otros modos sin identificar."
+  },
+  {
+    "id": "opcion_pantalla_ancha",
+    "area": "render",
+    "nombre": "Opcion de pantalla ancha del juego",
+    "direccion": "0x003BE83C",
+    "tipo": "u32",
+    "version": "ntsc_u",
+    "estable": true,
+    "base": "espejo del menu de *(0x0040F0E0)+0x20150",
+    "confianza": "probable",
+    "descubierto": "2026-09-28",
+    "evidencia": "(93v), en frio: FUN_00212048/FUN_00212088",
+    "notas": "el parche comunitario la fuerza en 1"
+  },
+  {
+    "id": "progreso_partida",
+    "area": "guardado",
+    "nombre": "Tabla de progreso de la partida",
+    "direccion": "0x0048EFA8",
+    "tipo": "u32",
+    "version": "ntsc_u",
+    "estable": true,
+    "confianza": "hipotesis",
+    "descubierto": "2026-09-28",
+    "evidencia": "(93w): FUN_00123c90(0x0048EFA8, categoria, i); los salteos del menu miran la categoria 0, ranuras 0..3 (-1 = sin completar)",
+    "notas": "la categoria 7 la usa el menu para otra cosa (FUN_001046b0); sin mapear"
   }
  ]
 }
