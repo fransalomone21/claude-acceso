@@ -298,6 +298,8 @@ addiu t1, zero, 3
 beq zero, zero, @SALIR
 sw t1, -0x287c(s0)
 CORRER:
+addiu t1, zero, 1
+sw t1, -0x210c(s0)
 addiu a0, s0, -0x3210
 .word LWC1
 jal 0x13bac8
@@ -310,6 +312,7 @@ addu a0, a0, t1
 .word LWC1
 jalr t2
 nop
+sw zero, -0x210c(s0)
 lw t1, -0x2880(s0)
 addiu t1, t1, 1
 sw t1, -0x2880(s0)
@@ -445,6 +448,55 @@ SIN_CABECEO = False  # `poner --sin-cabeceo`: el control de (88c)
 ALIADO = 1
 
 
+# (93l) LA VISTA EN PRIMERA PERSONA ES UNA SOLA ((91), (93j)): el objeto *(*(0x0040F510)+0xCBD8)+0xC, y el codigo
+# de armas le cambia el estado a cualquier jugador (+0xC4 = 2). Visto en pantalla (93k): cuando J2 recarga, las
+# DOS mitades hacen la recarga. El aislamiento: el por cuadro prende AISLAR_BANDERA mientras actualiza a J2, y la
+# entrada de las 5 funciones que cambian la vista salta a un envoltorio que, con la bandera prendida, vuelve sin
+# hacer nada (v0 = 0); si no, ejecuta las dos instrucciones que desplazo el gancho y sigue en la original + 8.
+# Las consultas (FUN_001D74C8, FUN_001D7278) no se tocan. `instalar --sin-aislar` es el control.
+AISLAR_BANDERA = 0x0046DEF4    # dato, no va en el pnach
+AISLAR = 0x0046DF00            # 5 envoltorios de 15 palabras
+AISLAR_CUENTAS = 0x0046E040    # por envoltorio k: +8k pasadas (bandera apagada), +8k+4 salteadas. No va en el pnach
+FP_ENTRADAS = [                # (funcion, sus dos primeras palabras en el ELF)
+    (0x001D6E78, 0x27BDFF80, 0x7FB10060),   # conjunto de animaciones del arma (cambiar de arma)
+    (0x001D7360, 0x27BDFFF0, 0x0080182D),
+    (0x001D7500, 0x27BDFF10, 0x7FB000E0),
+    (0x001D73D8, 0x27BDFFE0, 0x7FB00010),   # la llama el llenado del cargador (FUN_00158AE0)
+    (0x001D6F90, 0x27BDFFE0, 0x7FB00010),   # 4 caminos del disparo/arma
+]
+SIN_AISLAR = False
+
+
+def aislar():
+    """[(pc, palabra, texto)] de los envoltorios, y los ganchos de entrada."""
+    prog, ganchos = [], []
+    for k, (f, w0, w1) in enumerate(FP_ENTRADAS):
+        base = AISLAR + 0x3C * k
+        pasa, saltea = AISLAR_CUENTAS + 8 * k - 0x470000, AISLAR_CUENTAS + 8 * k + 4 - 0x470000
+        fuente = """
+lui t9, 0x47
+lw t8, -0x210c(t9)
+bne t8, zero, @SK%d
+lw t8, %d(t9)
+addiu t8, t8, 1
+sw t8, %d(t9)
+.word 0x%08x
+.word 0x%08x
+j 0x%x
+nop
+SK%d:
+lw t8, %d(t9)
+addiu t8, t8, 1
+sw t8, %d(t9)
+jr ra
+move v0, zero
+""" % (k, pasa, pasa, w0, w1, f + 8, k, saltea, saltea)
+        prog += j2.ensamblar_programa(fuente, base, base + 0x3C)
+        ganchos += [(f, ensamblar("j 0x%x" % base, f), "gancho vista FP: j aislar %d (93l)" % k),
+                    (f + 4, 0, "gancho vista FP: nop (93l)")]
+    return prog, ganchos
+
+
 def aliado(p):
     """(93h) el titere que eligio el stub en el ultimo cuadro; si todavia no eligio, el aliado 1 de antes."""
     t = p.leer32(TITERE_ACT)
@@ -496,6 +548,10 @@ def programas():
                                          (oc.B, 1, "pasada 2: no dibujar al titere")])]
             ganchos += [(a, w, "gancho del dibujo de la escena: callback ocultar (era 0x1297a0) (93)")
                         for a, w in oc.ganchos()]
+    if not SIN_AISLAR:
+        ais, gan = aislar()
+        progs.append(("aislar vista FP", ais))
+        ganchos += gan
     return progs + [("ganchos", ganchos)]
 
 
@@ -696,6 +752,8 @@ def _respaldo(ruta):
 
 
 def cmd_instalar(_a):
+    global SIN_AISLAR
+    SIN_AISLAR = getattr(_a, "sin_aislar", False)
     viejo = PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -730,8 +788,9 @@ def main() -> int:
     tolerar_salida_pobre()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for c in ("listar", "quitar", "toml", "instalar", "activar", "desactivar"):
+    for c in ("listar", "quitar", "toml", "activar", "desactivar"):
         sub.add_parser(c)
+    ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
     po.add_argument("--sin-recarga", action="store_true")

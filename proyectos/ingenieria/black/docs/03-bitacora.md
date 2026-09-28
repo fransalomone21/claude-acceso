@@ -16,6 +16,20 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93l) — Aislar la vista en primera persona de J2: las llamadas de J2 se saltean, pero la recarga sigue viéndose en la mitad de J (parcial)
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (lo visto en (93k): la recarga de J2 aparece en la mitad de J) · **Nodos:** `vista-fp` (evidencia), `codigo-nuevo` (entrega parcial)
+**Objetivo:** que las acciones de J2 no animen la vista única (opción (3b) de (91): J2 sin vista propia).
+
+- **En frío:** en el código de armas hay 11 llamadas a la vista (`*(*(0x0040F510)+0xCBD8)+0xC`), a 5 funciones que le cambian el estado: `FUN_001D6E78` (conjunto de animaciones al cambiar de arma), `FUN_001D7360`, `FUN_001D7500`, `FUN_001D73D8` (desde el llenado del cargador) y `FUN_001D6F90` (4 caminos del arma); las consultas (`FUN_001D74C8`, `FUN_001D7278`) son del controlador del jugador. Las 5 empiezan con `addiu sp` + un guardado (palabras leídas del ELF).
+- **El cambio** (`coop_mod.py`, **618 palabras**): el por cuadro prende **`AISLAR_BANDERA` (`0x0046DEF4`)** mientras actualiza a J2 (3 palabras; por cuadro hasta `0x0046D9E0`); la entrada de cada una de las 5 funciones salta (`j` + `nop`) a un **envoltorio** (15 palabras cada uno, `0x0046DF00..0x0046E02C`) que, con la bandera prendida, vuelve con `v0` = 0 y, si no, ejecuta las dos instrucciones desplazadas y sigue en la original + 8. Cuenta pasadas/salteadas en **`0x0046E040..0x0046E068`**. `instalar --sin-aislar` es el control. `docs/14`: 9 filas nuevas.
+- **Medido** (`herramientas/aislar93.py`, City Streets por el pnach, J2 sosteniendo «disparar» 4 s con el mando falso 2, después J dispara 2 s; `aislar93-prueba.json`): en reposo **nadie** llama a la vista (`aislar93b.py`, vigilante de lectura sobre la bandera: 0 en 6 s). Con J2 disparando: **las llamadas de J2 se saltean todas** (`FUN_001D6F90` 45, `FUN_001D7500` 344 —desde `0x00159304` y `0x001579CC`—, 0 pasadas), las de J pasan (12 al disparar J), J2 vacía y recarga dos veces (30 → 15 → 0), J dispara (15 → 3) y el emulador sigue vivo. **Pero la mitad de J sigue mostrando la recarga de J2** (capturas 1 y 3 de `tira-aislar-prueba.png`), y en ese momento **el arma de J pasa a estado 8** (`+0xD8`) sin que J haga nada. El que escribe el estado de J es su propia actualización por cuadro (`0x00157388`, llamada desde `0x001570B4`, 22 de 22, igual con o sin J2 disparando: `aislar93c.py`): el 8 es **una reacción de J a algo compartido**, no una escritura de J2.
+- **Lectura:** la recarga de J2 (`FUN_00156DC0` sólo pone `+0xD8` = 4) llega a la vista por otro camino que no pasa por las 5 funciones; candidatos, los bloques compartidos del arma `+0x270..+0x278` (dueño J, (91)) o una consulta de la vista que mira el estado del arma. `hipótesis`.
+- **Estado:** el aislamiento queda **instalado** (618 palabras, bloque activo): no rompe nada de lo medido y saca de la vista 389 llamadas de J2 en 4 s; su efecto visible (que J no haga el retroceso del disparo de J2) **no está medido**.
+**No funcionó:** aislar por esas 5 funciones no alcanza para la recarga.
+**Sigue:** diferencia de fotos del objeto de la vista (0x1C50 B) en reposo contra J2 recargando, y un vigilante sobre el campo que cambie.
+
+---
+
 ## 2026-09-28 (93k) — El parpadeo de la mitad de J2: en régimen quieto nadie más escribe el ancho de la vista
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (lo que vio Fran: «la mitad de J2 se angosta y se reacomoda») · **Nodos:** `render` (evidencia; sin cambio de K)
 **Objetivo:** tramo e): quién escribe `R+0xD470`/`+0xD474` (ancho y proporción de la vista, (89)) en el mismo cuadro.

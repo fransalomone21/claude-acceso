@@ -1,0 +1,50 @@
+arma J +0xD8 = 0x6de768, arma J2 +0xD8 = 0x6de878
+== BASE
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+10 disparos (write en 0x006DE768)
+  pc 0x00157388  ciclos 3241672018  
+  pc 0x00157388  ciclos 3245934382      +4262364 ciclos = 0.43 cuadros
+  pc 0x00157388  ciclos 3250344744      +4410362 ciclos = 0.45 cuadros
+  pc 0x00157388  ciclos 3254904438      +4559694 ciclos = 0.46 cuadros
+  pc 0x00157388  ciclos 3259160887      +4256449 ciclos = 0.43 cuadros
+  pc 0x00157388  ciclos 3263137139      +3976252 ciclos = 0.40 cuadros
+  pc 0x00157388  ciclos 3267296244      +4159105 ciclos = 0.42 cuadros
+  pc 0x00157388  ciclos 3271222050      +3925806 ciclos = 0.40 cuadros
+  pc 0x00157388  ciclos 3275411593      +4189543 ciclos = 0.43 cuadros
+  pc 0x00157388  ciclos 3279244955      +3833362 ciclos = 0.39 cuadros
+
+== J2 DISPARA
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+  pc 0x00157388  ra={'ok': True, 'result': 1405108, 'hex': '0x1570b4'} a0={'ok': True, 'result': 18446744073709551615, 'hex': '0xffffffffffffffff'} a1={'ok': True, 'result': 1, 'hex': '0x1'}
+12 disparos (write en 0x006DE768)
+  pc 0x00157388  ciclos 3283795975  
+  pc 0x00157388  ciclos 3287756995      +3961020 ciclos = 0.40 cuadros
+  pc 0x00157388  ciclos 3291835591      +4078596 ciclos = 0.41 cuadros
+  pc 0x00157388  ciclos 3295827475      +3991884 ciclos = 0.41 cuadros
+  pc 0x00157388  ciclos 3299795015      +3967540 ciclos = 0.40 cuadros
+  pc 0x00157388  ciclos 3303983170      +4188155 ciclos = 0.43 cuadros
+  pc 0x00157388  ciclos 3308173507      +4190337 ciclos = 0.43 cuadros
+  pc 0x00157388  ciclos 3312399802      +4226295 ciclos = 0.43 cuadros
+  pc 0x00157388  ciclos 3316679398      +4279596 ciclos = 0.44 cuadros
+  pc 0x00157388  ciclos 3321073726      +4394328 ciclos = 0.45 cuadros
+  pc 0x00157388  ciclos 3325450542      +4376816 ciclos = 0.45 cuadros
+  pc 0x00157388  ciclos 3329836175      +4385633 ciclos = 0.45 cuadros

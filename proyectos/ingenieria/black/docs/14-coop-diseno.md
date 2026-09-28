@@ -65,12 +65,15 @@ con los de `coop_mod.py`**: si el código crece y este plano no, el verificador 
 # nombre                    | desde      | hasta      | tipo   | fuente
 J2 (el jugador 2)           | 0x0046CDF0 | 0x0046D6B0 | datos  | (79)
 datos del mod               | 0x0046D780 | 0x0046D7D4 | datos  | (86)
-por cuadro                  | 0x0046D800 | 0x0046D9D4 | codigo | (86)
+por cuadro                  | 0x0046D800 | 0x0046D9E0 | codigo | (86)
 envoltorio                  | 0x0046DA00 | 0x0046DBB4 | codigo | (93c)
 armas de J2                 | 0x0046DBC0 | 0x0046DBE0 | datos  | (86)
 desarme                     | 0x0046DD00 | 0x0046DD90 | codigo | (87)
 elegir titere               | 0x0046DE00 | 0x0046DE64 | codigo | (93h)
 titere elegido              | 0x0046DEF0 | 0x0046DEF4 | datos  | (93h)
+aislar bandera              | 0x0046DEF4 | 0x0046DEF8 | datos  | (93l)
+aislar vista FP             | 0x0046DF00 | 0x0046E02C | codigo | (93l)
+aislar contadores           | 0x0046E040 | 0x0046E068 | datos  | (93l)
 pantalla                    | 0x0046F800 | 0x0046FAD4 | codigo | (89b)
 filtro del tinte            | 0x0046FB00 | 0x0046FB20 | codigo | (89b)
 ocultar por pasada          | 0x0046FB20 | 0x0046FBB8 | codigo | (93b)
@@ -84,6 +87,11 @@ gancho del desarme          | 0x00129E38 | 0x00129E3C | gancho | (87)
 gancho del tinte            | 0x00129AD0 | 0x00129AD4 | gancho | (89b)
 gancho callback lui         | 0x001298F8 | 0x001298FC | gancho | (93b)
 gancho callback addiu       | 0x00129900 | 0x00129904 | gancho | (93b)
+gancho vista FP 0           | 0x001D6E78 | 0x001D6E80 | gancho | (93l)
+gancho vista FP 1           | 0x001D7360 | 0x001D7368 | gancho | (93l)
+gancho vista FP 2           | 0x001D7500 | 0x001D7508 | gancho | (93l)
+gancho vista FP 3           | 0x001D73D8 | 0x001D73E0 | gancho | (93l)
+gancho vista FP 4           | 0x001D6F90 | 0x001D6F98 | gancho | (93l)
 ```
 
 Los tres ganchos de la escena (`pd.SITIOS`) los compara el verificador contra `pantalla_dividida.py`

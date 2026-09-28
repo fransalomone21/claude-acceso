@@ -1,0 +1,127 @@
+== BASE
+0 disparos en 6 s con break: nadie hace read en 0x0046DEF4
+
+
+== J2 DISPARA
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DFA4  ra={'ok': True, 'result': 1413892, 'hex': '0x159304'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 9999999, 'hex': '0x98967f'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+  pc 0x0046DF54  ra={'ok': True, 'result': 1407436, 'hex': '0x1579cc'} a0={'ok': True, 'result': 6648192, 'hex': '0x657180'} a1={'ok': True, 'result': 0, 'hex': '0x0'}
+60 disparos (read en 0x0046DEF4)
+  pc 0x0046DFA4  ciclos 4251465353  
+  pc 0x0046DFA4  ciclos 4291551866     +40086513 ciclos = 4.08 cuadros
+  pc 0x0046DFA4  ciclos 36572702   -4254979164 ciclos = -432.84 cuadros
+  pc 0x0046DFA4  ciclos 77569789     +40997087 ciclos = 4.17 cuadros
+  pc 0x0046DFA4  ciclos 117500780     +39930991 ciclos = 4.06 cuadros
+  pc 0x0046DFA4  ciclos 157183894     +39683114 ciclos = 4.04 cuadros
+  pc 0x0046DFA4  ciclos 196314321     +39130427 ciclos = 3.98 cuadros
+  pc 0x0046DFA4  ciclos 234375610     +38061289 ciclos = 3.87 cuadros
+  pc 0x0046DFA4  ciclos 273904687     +39529077 ciclos = 4.02 cuadros
+  pc 0x0046DFA4  ciclos 314263283     +40358596 ciclos = 4.11 cuadros
+  pc 0x0046DFA4  ciclos 354829502     +40566219 ciclos = 4.13 cuadros
+  pc 0x0046DFA4  ciclos 394913089     +40083587 ciclos = 4.08 cuadros
+  pc 0x0046DFA4  ciclos 435262634     +40349545 ciclos = 4.10 cuadros
+  pc 0x0046DFA4  ciclos 838734346    +403471712 ciclos = 41.04 cuadros
+  pc 0x0046DFA4  ciclos 879117957     +40383611 ciclos = 4.11 cuadros
+  pc 0x0046DFA4  ciclos 922902004     +43784047 ciclos = 4.45 cuadros
+  pc 0x0046DFA4  ciclos 965570054     +42668050 ciclos = 4.34 cuadros
+  pc 0x0046DFA4  ciclos 1009433625     +43863571 ciclos = 4.46 cuadros
+  pc 0x0046DFA4  ciclos 1052885075     +43451450 ciclos = 4.42 cuadros
+  pc 0x0046DFA4  ciclos 1096546535     +43661460 ciclos = 4.44 cuadros
+  pc 0x0046DFA4  ciclos 1138895618     +42349083 ciclos = 4.31 cuadros
+  pc 0x0046DFA4  ciclos 1179231290     +40335672 ciclos = 4.10 cuadros
+  pc 0x0046DFA4  ciclos 1219622701     +40391411 ciclos = 4.11 cuadros
+  pc 0x0046DFA4  ciclos 1262006546     +42383845 ciclos = 4.31 cuadros
+  pc 0x0046DFA4  ciclos 1302404242     +40397696 ciclos = 4.11 cuadros
+  pc 0x0046DFA4  ciclos 1342699397     +40295155 ciclos = 4.10 cuadros
+  pc 0x0046DFA4  ciclos 1383924030     +41224633 ciclos = 4.19 cuadros
+  pc 0x0046DFA4  ciclos 1423291216     +39367186 ciclos = 4.00 cuadros
+  pc 0x0046DFA4  ciclos 1827098251    +403807035 ciclos = 41.08 cuadros
+  pc 0x0046DFA4  ciclos 1867305668     +40207417 ciclos = 4.09 cuadros
+  pc 0x0046DFA4  ciclos 1907596015     +40290347 ciclos = 4.10 cuadros
+  pc 0x0046DFA4  ciclos 1948054473     +40458458 ciclos = 4.12 cuadros
+  pc 0x0046DFA4  ciclos 1988224688     +40170215 ciclos = 4.09 cuadros
+  pc 0x0046DFA4  ciclos 2029201924     +40977236 ciclos = 4.17 cuadros
+  pc 0x0046DFA4  ciclos 2069011930     +39810006 ciclos = 4.05 cuadros
+  pc 0x0046DFA4  ciclos 2109364170     +40352240 ciclos = 4.10 cuadros
+  pc 0x0046DFA4  ciclos 2149853653     +40489483 ciclos = 4.12 cuadros
+  pc 0x0046DFA4  ciclos 2190068579     +40214926 ciclos = 4.09 cuadros
+  pc 0x0046DFA4  ciclos 2230324447     +40255868 ciclos = 4.10 cuadros
+  pc 0x0046DFA4  ciclos 2270763858     +40439411 ciclos = 4.11 cuadros
+  pc 0x0046DFA4  ciclos 2311138307     +40374449 ciclos = 4.11 cuadros
+  pc 0x0046DFA4  ciclos 2351317728     +40179421 ciclos = 4.09 cuadros
+  pc 0x0046DFA4  ciclos 2390318026     +39000298 ciclos = 3.97 cuadros
+  pc 0x0046DF54  ciclos 2429526396     +39208370 ciclos = 3.99 cuadros
+  pc 0x0046DF54  ciclos 2433523725      +3997329 ciclos = 0.41 cuadros
+  pc 0x0046DF54  ciclos 2437136418      +3612693 ciclos = 0.37 cuadros
+  pc 0x0046DF54  ciclos 2440816276      +3679858 ciclos = 0.37 cuadros
+  pc 0x0046DF54  ciclos 2444470853      +3654577 ciclos = 0.37 cuadros
+  pc 0x0046DF54  ciclos 2448207223      +3736370 ciclos = 0.38 cuadros
+  pc 0x0046DF54  ciclos 2452205387      +3998164 ciclos = 0.41 cuadros
+  pc 0x0046DF54  ciclos 2456472177      +4266790 ciclos = 0.43 cuadros
+  pc 0x0046DF54  ciclos 2460442297      +3970120 ciclos = 0.40 cuadros
+  pc 0x0046DF54  ciclos 2464404009      +3961712 ciclos = 0.40 cuadros
+  pc 0x0046DF54  ciclos 2468431690      +4027681 ciclos = 0.41 cuadros
+  pc 0x0046DF54  ciclos 2472355386      +3923696 ciclos = 0.40 cuadros
+  pc 0x0046DF54  ciclos 2476280529      +3925143 ciclos = 0.40 cuadros
+  pc 0x0046DF54  ciclos 2480269645      +3989116 ciclos = 0.41 cuadros
+  pc 0x0046DF54  ciclos 2484185581      +3915936 ciclos = 0.40 cuadros
+  pc 0x0046DF54  ciclos 2488205107      +4019526 ciclos = 0.41 cuadros
+  pc 0x0046DF54  ciclos 2492162809      +3957702 ciclos = 0.40 cuadros
+
