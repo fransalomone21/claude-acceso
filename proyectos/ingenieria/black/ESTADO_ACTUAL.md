@@ -37,7 +37,7 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1 (dos vistas), B2b (títere aliado, prototipo) y B7 (J2 hace daño) HECHAS (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88) (LEER ESTO PRIMERO)
 
 **La Pre-Fase A cerró el 2026-09-27 con la MCR** (`PDP.md` §6). Fran contestó
 las 22 preguntas (`docs/12` §7) y **delegó** pesos y decisiones: «decide todo
@@ -261,9 +261,26 @@ dice medido). Lo que cambió:
     del pnach está **actualizado y sigue APAGADO** (falta que Fran lo pruebe con el mando 2 real).
   - Trampa: el selector de depuración **desde el menú del arranque** cae con o sin mod (se pide desde
     adentro de un nivel). El aviso «patches.zip» es de la copia `PCSX2-MCP`, inocuo.
-- **Siguiente:** el resto de **B3** en un chat nuevo: el títere, la vista de J2 (pantalla dividida)
-  y su cabeceo adentro de los stubs; la recarga de J2. Detalle y comandos: `sesiones/RETOME-LOCAL.md`. **Slot 13** = J2 con
-  controlador.
+- **EL COOP ENTERO SALE DEL PNACH (2026-09-27, bitácora (88), notebook).** Bloque de **375
+  palabras**, instalado y **APAGADO** (`coop_mod.py activar` con PCSX2 cerrado). Con PCSX2 reiniciado
+  y sin Python del mod: J2 se arma, camina con el mando 2, tiene cuerpo y **la pantalla se divide sola**
+  (J izquierda, J2 derecha; `volcados/capturas-88/f1-2-despues.png`). Lo que sumó (88):
+  - **(88) el títere en el stub:** cada cuadro la matriz de J2 al aliado 1 (guardas de tipo y bando);
+    8,5 m a ≤ 0,16 m, control 63–69 m, visto en pantalla.
+  - **(88b/d) la vista de J2 en el stub:** `sinf` = `FUN_0029DC18`, `cosf` = `FUN_0029DA28` del ELF,
+    **q = q_yaw · q_cabeceo = (cy·sp, sy·cp, −sy·sp, cy·cp)** (medida sobre la cámara de J, ≤ 0,002);
+    stub = fórmula a 1e-8; en pantalla sigue el giro de J2 (21,5 contra control 1,5).
+  - **(88c) el cabeceo:** corrige a (85) — `+0xD0` tiene **la misma convención en J y J2**. El mod
+    guarda el cabeceo de J2 **negado** y le invierte `mira+0xF1` («invertir Y», la lee `FUN_0013F618`,
+    el update de la mira): `pitch_arriba` → adelante de J2 +0,94 (J y control −0,94). Negarlo
+    alrededor del update del stub **no** llega a la matriz (refutado). La prueba de daño de punta a
+    punta queda pendiente: el banco con `--acercar` no sirve (J tampoco le pega al blanco movido).
+  - **(88e) la pantalla dividida en el bloque:** stub en `0x0046F800` (136 palabras), raster leído en
+    vivo, sólo divide con J2 corriendo (`FASE` 2, `ESTADO` 3). Costo: ~40 dibujos/s (sin división ~60).
+    Defectos a la vista: el fantasma amarillo del HUD en la mitad 2 y las mitades aplastadas.
+- **Siguiente:** que **Fran lo juegue con el mando 2 real**; la proporción de las mitades y el HUD por
+  mitad; esconder los brazos de J2 en la vista de J; la recarga de J2; B4–B6 en frío; `docs/14` +
+  `coop_diseno.py`. Detalle y comandos: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

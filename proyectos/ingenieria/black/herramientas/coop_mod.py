@@ -53,6 +53,7 @@ from mips import ensamblar  # noqa: E402
 import clon_jugador as cj  # noqa: E402
 import gancho as g  # noqa: E402
 import jugador2 as j2  # noqa: E402
+import pantalla_dividida as pd  # noqa: E402
 
 # datos: .bss en cero al arrancar; NINGUNO va en el pnach
 CONTADOR, ESTADO, FASE = 0x0046D780, 0x0046D784, 0x0046D790
@@ -359,13 +360,27 @@ def programas():
     fuente = fuente.replace("CABECEO_BLOQUE", "" if SIN_CABECEO else CABECEO_MOD)
     pc = j2.ensamblar_programa(fuente, j2.STUB, 0x0046D9F0)
     des = j2.ensamblar_programa(DESARME_MOD, DESARME, 0x0046DE00)
+    # (88e) la pantalla dividida en el mismo bloque: el stub de pantalla_dividida.py (raster leido en vivo,
+    # solo con J2 corriendo, la vista de J2 calculada por el stub) y sus constantes. El pnach las reescribe
+    # cada cuadro, asi que son constantes de verdad: division prendida, mitad 320, entero 640, fuente = stub.
+    pant = [(pd.STUB + 4 * i, w, "pantalla dividida %d" % i) for i, w in enumerate(pd.codigo())]
+    pant_datos = [(pd.DATOS + 0x80, 1, "division prendida"), (pd.DATOS + 0x8C, pd.MEDIO, "ancho de la mitad"),
+                  (pd.DATOS + 0x90, pd.ENTERO, "ancho entero"), (pd.DATOS + 0x94, 1, "la vista de J2 la calcula el stub")]
     ganchos = [(g.SITIO, ensamblar("jal 0x%x" % j2.STUB, g.SITIO), "gancho por cuadro: jal stub (era jal 0x13bac8)"),
                (j2.SITIO_CARGA, ensamblar("jal 0x%x" % j2.ENVOLTORIO, j2.SITIO_CARGA),
                 "gancho del cargador: jal envoltorio (era jal 0x129090)")]
     if not SIN_BAJA:
         ganchos.append((SITIO_DESARME, ensamblar("jal 0x%x" % DESARME, SITIO_DESARME),
                         "gancho del desarme: jal baja (era jal 0x12bfc8)"))
-    return [("envoltorio", env), ("por cuadro", pc), ("desarme", des), ("ganchos", ganchos)]
+    progs = [("envoltorio", env), ("por cuadro", pc), ("desarme", des)]
+    if not SIN_PANTALLA:
+        progs += [("pantalla", pant), ("pantalla datos", pant_datos)]
+        ganchos += [(s, ensamblar("jal 0x%x" % pd.STUB, s), "gancho de la escena: jal pantalla (era jal 0x1297e0)")
+                    for s in pd.SITIOS]
+    return progs + [("ganchos", ganchos)]
+
+
+SIN_PANTALLA = False  # `poner --sin-pantalla`: el mod sin la pantalla dividida (como hasta (88d))
 
 
 SIN_BAJA = False   # `poner --sin-baja`: el control de B3.3 (la baja de J2 no se engancha)
@@ -386,12 +401,14 @@ def cmd_listar(_a):
 
 
 def cmd_poner(a):
-    global SIN_BAJA, SIN_TITERE, SIN_CABECEO
+    global SIN_BAJA, SIN_TITERE, SIN_CABECEO, SIN_PANTALLA
     SIN_BAJA, SIN_TITERE, SIN_CABECEO = a.sin_baja, a.sin_titere, a.sin_cabeceo
+    SIN_PANTALLA = a.sin_pantalla
     progs = programas()
     with Pine() as p:
         if (p.leer32(g.SITIO) != g.ORIGINAL or p.leer32(j2.SITIO_CARGA) != j2.ORIGINAL_CARGA
-                or p.leer32(SITIO_DESARME) != ORIGINAL_DESARME):
+                or p.leer32(SITIO_DESARME) != ORIGINAL_DESARME
+                or any(p.leer32(s) != pd.ORIGINAL for s in pd.SITIOS)):
             print(json.dumps({"error": "un gancho ya esta puesto o el sitio cambio",
                               "por_cuadro": hex(p.leer32(g.SITIO)), "cargador": hex(p.leer32(j2.SITIO_CARGA)),
                               "desarme": hex(p.leer32(SITIO_DESARME))}))
@@ -402,6 +419,7 @@ def cmd_poner(a):
         p.escribir_bloque(j2.ARMAS2, bytes(0x20))
         for d in DATOS:
             p.escribir32(d, 0)
+        p.escribir_bloque(pd.DATOS, bytes(0x98))
         for nombre, prog in progs[:-1]:
             for pc, w, _ in prog:
                 p.escribir32(pc, w)
@@ -484,6 +502,8 @@ def cmd_quitar(_a):
         p.escribir32(g.SITIO, g.ORIGINAL)
         p.escribir32(j2.SITIO_CARGA, j2.ORIGINAL_CARGA)
         p.escribir32(SITIO_DESARME, ORIGINAL_DESARME)
+        for s in pd.SITIOS:
+            p.escribir32(s, pd.ORIGINAL)
     return 0
 
 
@@ -583,6 +603,7 @@ def main() -> int:
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
     po.add_argument("--sin-cabeceo", action="store_true")
+    po.add_argument("--sin-pantalla", action="store_true")
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)
     h = sub.add_parser("manos"); h.add_argument("segundos", type=float); h.add_argument("--control", action="store_true")
     a = ap.parse_args()

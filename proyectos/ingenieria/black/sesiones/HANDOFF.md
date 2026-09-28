@@ -4,11 +4,27 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(87)» DE ACÁ ABAJO.** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(88)» DE ACÁ ABAJO.** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
-> criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1 hecha, B2b hecha
-> como prototipo por PINE, B7 hecha y B3 hecha con la baja: aguanta cargas
-> seguidas** (87). El mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+> criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y
+> B3 hechas: el coop en pantalla dividida sale del pnach solo** (88). El
+> mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-27, NOTEBOOK — EL COOP ENTERO EN EL PNACH: TÍTERE, VISTA, CABECEO Y PANTALLA DIVIDIDA (bitácora (88))
+
+**El resultado:** `coop_mod.py` = **375 palabras**, sólo código + 4 constantes: envoltorio (`0x0046DA00`), por cuadro (`0x0046D800..0x0046D988`, 98), desarme (`0x0046DD00`), **pantalla** (`0x0046F800..0x0046FA20`, 136, de `pantalla_dividida.py`), constantes `0x0046FC80` = 1, `+0x8C` = 320, `+0x90` = 640, `+0x94` = 1, y **6 ganchos** (`0x00129574`, `0x00128EA4`, `0x00129E38`, y los tres `jal 0x1297E0` de `0x001056DC`/`0x0010656C`/`0x00106D8C`). Con PCSX2 reiniciado, el bloque prendido y **sin Python del mod**: J2 se arma, camina 8 m, el títere lo sigue y la pantalla se divide sola. Captura: `volcados/capturas-88/f1-2-despues.png` (local).
+- **(88) títere:** en el estado 3, tras el update de J2, 16 palabras `lw/sw` de `J2+0x70` a `*(0x0040F514)+0x450+0x70` si `+0x328` ≠ 0 y `+0x3A4` = 0. `TITERES` en `0x0046D7CC`.
+- **(88b/d) vista de J2:** el stub de la pantalla llama a `sinf` `FUN_0029DC18` / `cosf` `FUN_0029DA28` (arg `$f12`, resultado `$f0`); q = (cy·sp, sy·cp, −sy·sp, cy·cp), medios ángulos, yaw = `*(J2+0x32C)+8`, cabeceo **real** = −`mira+0xC`; ojo `J2+0x100`. Senos en `DATOS+0x20..`, resultado en `+0x60/+0x70`, copiado a `+0x40/+0x50` con `+0x94` = 1. Convención medida sobre J (`herramientas/conv_cuat.py`).
+- **(88c) cabeceo:** `+0xD0` tiene la misma convención en J y J2 (corrige a (85)). Una vez, al preparar el control2: cabeceo de la mira de J2 negado (bit 31 de `+0xC`) y `+0xF1` (invertir Y) dado vuelta. Medido: `pitch_arriba` → adelante de J2 +0,94 (J y control −0,94).
+- **(88e):** el raster se lee en vivo (`*(*(*(0x0040F4C0)+0xD400+0x58)+0x60)`), y la división sólo con `FASE` 2 y `ESTADO` 3.
+
+**Herramientas:** `coop_mod.py poner [--sin-titere] [--sin-cabeceo] [--sin-pantalla] [--sin-baja]`; `mirar` muestra `titeres` y `A1_pos`; `manos` mide al aliado. `pantalla_dividida.py fuente-stub 0|1 [--prender]`, `comparar <s>`. `tirador.py --traza`. `conv_cuat.py [yaw]`.
+
+**Trampas medidas:** reescribir un stub **en caliente** con otra disposición puede volver a una instrucción corrida: para el de la pantalla, `quitar` → esperar → `poner` en pausa; para el por cuadro, `FASE` = 0 → esperar → escribir en pausa → `FASE` = 2. **El banco de daño con `--acercar` no mide:** al blanco movido a mano no le pega ni J, y un aliado con IA al lado del tirador mata por su cuenta. El guardia de PowerShell lee «J:» en un mensaje de commit como una unidad de disco: los mensajes largos van a archivo y sin «J:».
+
+**Pendiente:** el mando 2 **real** (Fran); proporción de las mitades (`R+0xD400+0x70/+0x74` × 0,5) y HUD por mitad (el fantasma amarillo); esconder los brazos de J2 en la vista de J; la recarga de J2; la prueba de daño de punta a punta con el cabeceo nuevo (enemigo que llegue solo a la línea de tiro, con J como referencia positiva); B4–B6 en frío; `docs/14-coop-diseno.md` + `coop_diseno.py`.
+
+**Estado de la máquina al cerrar:** PCSX2 **cerrado**. El bloque `[COOP - jugador 2 (B3)]` (375 palabras) **instalado y APAGADO** (el emulog de la corrida con el bloque prendido decía `Enabled patch: COOP - jugador 2 (B3)`). Nada guardado en un slot.
 
 ## 2026-09-27, NOTEBOOK — B3.3: LA BAJA DE J2 AL SALIR DEL NIVEL (bitácora (87))
 

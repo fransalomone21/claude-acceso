@@ -47,7 +47,7 @@ from mips import ensamblar  # noqa: E402
 
 SITIOS = (0x001056DC, 0x0010656C, 0x00106D8C)
 ORIGINAL = 0x0C04A5F8            # jal 0x001297E0 (medido en vivo en los tres)
-STUB = 0x0046FA00
+STUB = 0x0046F800          # (88e) era 0x0046FA00: con la vista de J2 y la guarda ya no entraba antes de DATOS
 DATOS = 0x0046FC00
 G_CAMARA = 0x0040F4BC
 G_RENDER = 0x0040F4C0
@@ -112,8 +112,13 @@ FUENTE = [
     "or s0, a0, zero", "lui s1, 0x47",
     "lw t0, -0x378(s1)", "addiu t0, t0, 1", "sw t0, -0x378(s1)",        # contador de llamadas
     "lw t0, -0x380(s1)", "beq t0, zero, SOLO", "nop",
+    # (88e) solo con J2 corriendo: FASE (0x0046D790) = 2 y ESTADO (0x0046D784) = 3 de coop_mod.py
+    "lw t0, -0x2870(s1)", "addiu t1, zero, 2", "bne t0, t1, SOLO", "nop",
+    "lw t0, -0x287c(s1)", "addiu t1, zero, 3", "bne t0, t1, SOLO", "nop",
     "VISTA_J2",
-    "lw s2, -0x37c(s1)", "lw t1, -0x374(s1)", "sw t1, 0xc(s2)", "sh zero, 0x1c(s2)",
+    # (88e) el sub-raster de la camara de escena, leido aca y no escrito por Python (DATOS+0x84 queda sin uso)
+    "lui t0, 0x41", "lw t0, -0xb40(t0)", "ori t1, zero, 0xd400", "addu t0, t0, t1",
+    "lw t0, 0x58(t0)", "lw s2, 0x60(t0)", "lw t1, -0x374(s1)", "sw t1, 0xc(s2)", "sh zero, 0x1c(s2)",
     "jal 0x1297e0", "or a0, s0, zero",                                  # pasada 1: J, izquierda
     "lui t0, 0x41", "lw t0, -0xb44(t0)",
     "lq t1, 0x710(t0)", "sq t1, -0x400(s1)", "lq t1, 0x720(t0)", "sq t1, -0x3f0(s1)",

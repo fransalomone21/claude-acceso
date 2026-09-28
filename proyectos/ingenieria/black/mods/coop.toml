@@ -1381,6 +1381,846 @@ valor = 0x27BD0030
 nota = "desarme: addiu sp, sp, 0x30"
 
 [[parche]]
+direccion = 0x0046F800
+tipo = "u32"
+valor = 0x27BDFFA0
+nota = "pantalla: pantalla dividida 0"
+
+[[parche]]
+direccion = 0x0046F804
+tipo = "u32"
+valor = 0xFFBF0000
+nota = "pantalla: pantalla dividida 1"
+
+[[parche]]
+direccion = 0x0046F808
+tipo = "u32"
+valor = 0x7FB00010
+nota = "pantalla: pantalla dividida 2"
+
+[[parche]]
+direccion = 0x0046F80C
+tipo = "u32"
+valor = 0x7FB10020
+nota = "pantalla: pantalla dividida 3"
+
+[[parche]]
+direccion = 0x0046F810
+tipo = "u32"
+valor = 0x7FB20030
+nota = "pantalla: pantalla dividida 4"
+
+[[parche]]
+direccion = 0x0046F814
+tipo = "u32"
+valor = 0x00808025
+nota = "pantalla: pantalla dividida 5"
+
+[[parche]]
+direccion = 0x0046F818
+tipo = "u32"
+valor = 0x3C110047
+nota = "pantalla: pantalla dividida 6"
+
+[[parche]]
+direccion = 0x0046F81C
+tipo = "u32"
+valor = 0x8E28FC88
+nota = "pantalla: pantalla dividida 7"
+
+[[parche]]
+direccion = 0x0046F820
+tipo = "u32"
+valor = 0x25080001
+nota = "pantalla: pantalla dividida 8"
+
+[[parche]]
+direccion = 0x0046F824
+tipo = "u32"
+valor = 0xAE28FC88
+nota = "pantalla: pantalla dividida 9"
+
+[[parche]]
+direccion = 0x0046F828
+tipo = "u32"
+valor = 0x8E28FC80
+nota = "pantalla: pantalla dividida 10"
+
+[[parche]]
+direccion = 0x0046F82C
+tipo = "u32"
+valor = 0x11000074
+nota = "pantalla: pantalla dividida 11"
+
+[[parche]]
+direccion = 0x0046F830
+tipo = "u32"
+valor = 0x00000000
+nota = "pantalla: pantalla dividida 12"
+
+[[parche]]
+direccion = 0x0046F834
+tipo = "u32"
+valor = 0x8E28D790
+nota = "pantalla: pantalla dividida 13"
+
+[[parche]]
+direccion = 0x0046F838
+tipo = "u32"
+valor = 0x24090002
+nota = "pantalla: pantalla dividida 14"
+
+[[parche]]
+direccion = 0x0046F83C
+tipo = "u32"
+valor = 0x15090070
+nota = "pantalla: pantalla dividida 15"
+
+[[parche]]
+direccion = 0x0046F840
+tipo = "u32"
+valor = 0x00000000
+nota = "pantalla: pantalla dividida 16"
+
+[[parche]]
+direccion = 0x0046F844
+tipo = "u32"
+valor = 0x8E28D784
+nota = "pantalla: pantalla dividida 17"
+
+[[parche]]
+direccion = 0x0046F848
+tipo = "u32"
+valor = 0x24090003
+nota = "pantalla: pantalla dividida 18"
+
+[[parche]]
+direccion = 0x0046F84C
+tipo = "u32"
+valor = 0x1509006C
+nota = "pantalla: pantalla dividida 19"
+
+[[parche]]
+direccion = 0x0046F850
+tipo = "u32"
+valor = 0x00000000
+nota = "pantalla: pantalla dividida 20"
+
+[[parche]]
+direccion = 0x0046F854
+tipo = "u32"
+valor = 0x3C080047
+nota = "pantalla: pantalla dividida 21"
+
+[[parche]]
+direccion = 0x0046F858
+tipo = "u32"
+valor = 0x8D09D11C
+nota = "pantalla: pantalla dividida 22"
+
+[[parche]]
+direccion = 0x0046F85C
+tipo = "u32"
+valor = 0x11200033
+nota = "pantalla: pantalla dividida 23"
+
+[[parche]]
+direccion = 0x0046F860
+tipo = "u32"
+valor = 0x00000000
+nota = "pantalla: pantalla dividida 24"
+
+[[parche]]
+direccion = 0x0046F864
+tipo = "u32"
+valor = 0xC52C0008
+nota = "pantalla: pantalla dividida 25"
+
+[[parche]]
+direccion = 0x0046F868
+tipo = "u32"
+valor = 0xC522000C
+nota = "pantalla: pantalla dividida 26"
+
+[[parche]]
+direccion = 0x0046F86C
+tipo = "u32"
+valor = 0x3C0A3C0E
+nota = "pantalla: pantalla dividida 27"
+
+[[parche]]
+direccion = 0x0046F870
+tipo = "u32"
+valor = 0x354AFA35
+nota = "pantalla: pantalla dividida 28"
+
+[[parche]]
+direccion = 0x0046F874
+tipo = "u32"
+valor = 0x448A0800
+nota = "pantalla: pantalla dividida 29"
+
+[[parche]]
+direccion = 0x0046F878
+tipo = "u32"
+valor = 0x46016302
+nota = "pantalla: pantalla dividida 30"
+
+[[parche]]
+direccion = 0x0046F87C
+tipo = "u32"
+valor = 0xE7AC0050
+nota = "pantalla: pantalla dividida 31"
+
+[[parche]]
+direccion = 0x0046F880
+tipo = "u32"
+valor = 0x46011082
+nota = "pantalla: pantalla dividida 32"
+
+[[parche]]
+direccion = 0x0046F884
+tipo = "u32"
+valor = 0x46001087
+nota = "pantalla: pantalla dividida 33"
+
+[[parche]]
+direccion = 0x0046F888
+tipo = "u32"
+valor = 0xE7A20054
+nota = "pantalla: pantalla dividida 34"
+
+[[parche]]
+direccion = 0x0046F88C
+tipo = "u32"
+valor = 0x0C0A7706
+nota = "pantalla: pantalla dividida 35"
+
+[[parche]]
+direccion = 0x0046F890
+tipo = "u32"
+valor = 0x00000000
+nota = "pantalla: pantalla dividida 36"
+
+[[parche]]
+direccion = 0x0046F894
+tipo = "u32"
+valor = 0xE620FC20
+nota = "pantalla: pantalla dividida 37"
+
+[[parche]]
+direccion = 0x0046F898
+tipo = "u32"
+valor = 0xC7AC0050
+nota = "pantalla: pantalla dividida 38"
+
+[[parche]]
+direccion = 0x0046F89C
+tipo = "u32"
+valor = 0x0C0A768A
+nota = "pantalla: pantalla dividida 39"
+
+[[parche]]
+direccion = 0x0046F8A0
+tipo = "u32"
+valor = 0x00000000
+nota = "pantalla: pantalla dividida 40"
+
+[[parche]]
+direccion = 0x0046F8A4
+tipo = "u32"
+valor = 0xE620FC24
+nota = "pantalla: pantalla dividida 41"
+
+[[parche]]
+direccion = 0x0046F8A8
+tipo = "u32"
+valor = 0xC7AC0054
+nota = "pantalla: pantalla dividida 42"
+
+[[parche]]
+direccion = 0x0046F8AC
+tipo = "u32"
+valor = 0x0C0A7706
+nota = "pantalla: pantalla dividida 43"
+
+[[parche]]
+direccion = 0x0046F8B0
+tipo = "u32"
+valor = 0x00000000
+nota = "pantalla: pantalla dividida 44"
+
+[[parche]]
+direccion = 0x0046F8B4
+tipo = "u32"
+valor = 0xE620FC28
+nota = "pantalla: pantalla dividida 45"
+
+[[parche]]
+direccion = 0x0046F8B8
+tipo = "u32"
+valor = 0xC7AC0054
+nota = "pantalla: pantalla dividida 46"
+
+[[parche]]
+direccion = 0x0046F8BC
+tipo = "u32"
+valor = 0x0C0A768A
+nota = "pantalla: pantalla dividida 47"
+
+[[parche]]
+direccion = 0x0046F8C0
+tipo = "u32"
+valor = 0x00000000
+nota = "pantalla: pantalla dividida 48"
+
+[[parche]]
+direccion = 0x0046F8C4
+tipo = "u32"
+valor = 0xE620FC2C
+nota = "pantalla: pantalla dividida 49"
+
+[[parche]]
+direccion = 0x0046F8C8
+tipo = "u32"
+valor = 0xC624FC20
+nota = "pantalla: pantalla dividida 50"
+
+[[parche]]
+direccion = 0x0046F8CC
+tipo = "u32"
+valor = 0xC625FC24
+nota = "pantalla: pantalla dividida 51"
+
+[[parche]]
+direccion = 0x0046F8D0
+tipo = "u32"
+valor = 0xC626FC28
+nota = "pantalla: pantalla dividida 52"
+
+[[parche]]
+direccion = 0x0046F8D4
+tipo = "u32"
+valor = 0xC627FC2C
+nota = "pantalla: pantalla dividida 53"
+
+[[parche]]
+direccion = 0x0046F8D8
+tipo = "u32"
+valor = 0x46062A02
+nota = "pantalla: pantalla dividida 54"
+
+[[parche]]
+direccion = 0x0046F8DC
+tipo = "u32"
+valor = 0xE628FC60
+nota = "pantalla: pantalla dividida 55"
+
+[[parche]]
+direccion = 0x0046F8E0
+tipo = "u32"
+valor = 0x46072202
+nota = "pantalla: pantalla dividida 56"
+
+[[parche]]
+direccion = 0x0046F8E4
+tipo = "u32"
+valor = 0xE628FC64
+nota = "pantalla: pantalla dividida 57"
+
+[[parche]]
+direccion = 0x0046F8E8
+tipo = "u32"
+valor = 0x46062202
+nota = "pantalla: pantalla dividida 58"
+
+[[parche]]
+direccion = 0x0046F8EC
+tipo = "u32"
+valor = 0x46004207
+nota = "pantalla: pantalla dividida 59"
+
+[[parche]]
+direccion = 0x0046F8F0
+tipo = "u32"
+valor = 0xE628FC68
+nota = "pantalla: pantalla dividida 60"
+
+[[parche]]
+direccion = 0x0046F8F4
+tipo = "u32"
+valor = 0x46072A02
+nota = "pantalla: pantalla dividida 61"
+
+[[parche]]
+direccion = 0x0046F8F8
+tipo = "u32"
+valor = 0xE628FC6C
+nota = "pantalla: pantalla dividida 62"
+
+[[parche]]
+direccion = 0x0046F8FC
+tipo = "u32"
+valor = 0x3C080047
+nota = "pantalla: pantalla dividida 63"
+
+[[parche]]
+direccion = 0x0046F900
+tipo = "u32"
+valor = 0x7909CEF0
+nota = "pantalla: pantalla dividida 64"
+
+[[parche]]
+direccion = 0x0046F904
+tipo = "u32"
+valor = 0x7E29FC70
+nota = "pantalla: pantalla dividida 65"
+
+[[parche]]
+direccion = 0x0046F908
+tipo = "u32"
+valor = 0x3C093F80
+nota = "pantalla: pantalla dividida 66"
+
+[[parche]]
+direccion = 0x0046F90C
+tipo = "u32"
+valor = 0xAE29FC7C
+nota = "pantalla: pantalla dividida 67"
+
+[[parche]]
+direccion = 0x0046F910
+tipo = "u32"
+valor = 0x8E28FC94
+nota = "pantalla: pantalla dividida 68"
+
+[[parche]]
+direccion = 0x0046F914
+tipo = "u32"
+valor = 0x11000005
+nota = "pantalla: pantalla dividida 69"
+
+[[parche]]
+direccion = 0x0046F918
+tipo = "u32"
+valor = 0x00000000
+nota = "pantalla: pantalla dividida 70"
+
+[[parche]]
+direccion = 0x0046F91C
+tipo = "u32"
+valor = 0x7A29FC60
+nota = "pantalla: pantalla dividida 71"
+
+[[parche]]
+direccion = 0x0046F920
+tipo = "u32"
+valor = 0x7E29FC40
+nota = "pantalla: pantalla dividida 72"
+
+[[parche]]
+direccion = 0x0046F924
+tipo = "u32"
+valor = 0x7A29FC70
+nota = "pantalla: pantalla dividida 73"
+
+[[parche]]
+direccion = 0x0046F928
+tipo = "u32"
+valor = 0x7E29FC50
+nota = "pantalla: pantalla dividida 74"
+
+[[parche]]
+direccion = 0x0046F92C
+tipo = "u32"
+valor = 0x3C080041
+nota = "pantalla: pantalla dividida 75"
+
+[[parche]]
+direccion = 0x0046F930
+tipo = "u32"
+valor = 0x8D08F4C0
+nota = "pantalla: pantalla dividida 76"
+
+[[parche]]
+direccion = 0x0046F934
+tipo = "u32"
+valor = 0x3409D400
+nota = "pantalla: pantalla dividida 77"
+
+[[parche]]
+direccion = 0x0046F938
+tipo = "u32"
+valor = 0x01094021
+nota = "pantalla: pantalla dividida 78"
+
+[[parche]]
+direccion = 0x0046F93C
+tipo = "u32"
+valor = 0x8D080058
+nota = "pantalla: pantalla dividida 79"
+
+[[parche]]
+direccion = 0x0046F940
+tipo = "u32"
+valor = 0x8D120060
+nota = "pantalla: pantalla dividida 80"
+
+[[parche]]
+direccion = 0x0046F944
+tipo = "u32"
+valor = 0x8E29FC8C
+nota = "pantalla: pantalla dividida 81"
+
+[[parche]]
+direccion = 0x0046F948
+tipo = "u32"
+valor = 0xAE49000C
+nota = "pantalla: pantalla dividida 82"
+
+[[parche]]
+direccion = 0x0046F94C
+tipo = "u32"
+valor = 0xA640001C
+nota = "pantalla: pantalla dividida 83"
+
+[[parche]]
+direccion = 0x0046F950
+tipo = "u32"
+valor = 0x0C04A5F8
+nota = "pantalla: pantalla dividida 84"
+
+[[parche]]
+direccion = 0x0046F954
+tipo = "u32"
+valor = 0x02002025
+nota = "pantalla: pantalla dividida 85"
+
+[[parche]]
+direccion = 0x0046F958
+tipo = "u32"
+valor = 0x3C080041
+nota = "pantalla: pantalla dividida 86"
+
+[[parche]]
+direccion = 0x0046F95C
+tipo = "u32"
+valor = 0x8D08F4BC
+nota = "pantalla: pantalla dividida 87"
+
+[[parche]]
+direccion = 0x0046F960
+tipo = "u32"
+valor = 0x79090710
+nota = "pantalla: pantalla dividida 88"
+
+[[parche]]
+direccion = 0x0046F964
+tipo = "u32"
+valor = 0x7E29FC00
+nota = "pantalla: pantalla dividida 89"
+
+[[parche]]
+direccion = 0x0046F968
+tipo = "u32"
+valor = 0x79090720
+nota = "pantalla: pantalla dividida 90"
+
+[[parche]]
+direccion = 0x0046F96C
+tipo = "u32"
+valor = 0x7E29FC10
+nota = "pantalla: pantalla dividida 91"
+
+[[parche]]
+direccion = 0x0046F970
+tipo = "u32"
+valor = 0x7A29FC40
+nota = "pantalla: pantalla dividida 92"
+
+[[parche]]
+direccion = 0x0046F974
+tipo = "u32"
+valor = 0x7D090710
+nota = "pantalla: pantalla dividida 93"
+
+[[parche]]
+direccion = 0x0046F978
+tipo = "u32"
+valor = 0x7A29FC50
+nota = "pantalla: pantalla dividida 94"
+
+[[parche]]
+direccion = 0x0046F97C
+tipo = "u32"
+valor = 0x7D090720
+nota = "pantalla: pantalla dividida 95"
+
+[[parche]]
+direccion = 0x0046F980
+tipo = "u32"
+valor = 0x3C080041
+nota = "pantalla: pantalla dividida 96"
+
+[[parche]]
+direccion = 0x0046F984
+tipo = "u32"
+valor = 0x8D04F4C0
+nota = "pantalla: pantalla dividida 97"
+
+[[parche]]
+direccion = 0x0046F988
+tipo = "u32"
+valor = 0x0C06BA66
+nota = "pantalla: pantalla dividida 98"
+
+[[parche]]
+direccion = 0x0046F98C
+tipo = "u32"
+valor = 0x24050001
+nota = "pantalla: pantalla dividida 99"
+
+[[parche]]
+direccion = 0x0046F990
+tipo = "u32"
+valor = 0x3C080041
+nota = "pantalla: pantalla dividida 100"
+
+[[parche]]
+direccion = 0x0046F994
+tipo = "u32"
+valor = 0x8D04F4C0
+nota = "pantalla: pantalla dividida 101"
+
+[[parche]]
+direccion = 0x0046F998
+tipo = "u32"
+valor = 0x3409D400
+nota = "pantalla: pantalla dividida 102"
+
+[[parche]]
+direccion = 0x0046F99C
+tipo = "u32"
+valor = 0x0C06C252
+nota = "pantalla: pantalla dividida 103"
+
+[[parche]]
+direccion = 0x0046F9A0
+tipo = "u32"
+valor = 0x00892021
+nota = "pantalla: pantalla dividida 104"
+
+[[parche]]
+direccion = 0x0046F9A4
+tipo = "u32"
+valor = 0x8E29FC8C
+nota = "pantalla: pantalla dividida 105"
+
+[[parche]]
+direccion = 0x0046F9A8
+tipo = "u32"
+valor = 0xA649001C
+nota = "pantalla: pantalla dividida 106"
+
+[[parche]]
+direccion = 0x0046F9AC
+tipo = "u32"
+valor = 0x0C04A5F8
+nota = "pantalla: pantalla dividida 107"
+
+[[parche]]
+direccion = 0x0046F9B0
+tipo = "u32"
+valor = 0x02002025
+nota = "pantalla: pantalla dividida 108"
+
+[[parche]]
+direccion = 0x0046F9B4
+tipo = "u32"
+valor = 0x3C080041
+nota = "pantalla: pantalla dividida 109"
+
+[[parche]]
+direccion = 0x0046F9B8
+tipo = "u32"
+valor = 0x8D08F4BC
+nota = "pantalla: pantalla dividida 110"
+
+[[parche]]
+direccion = 0x0046F9BC
+tipo = "u32"
+valor = 0x7A29FC00
+nota = "pantalla: pantalla dividida 111"
+
+[[parche]]
+direccion = 0x0046F9C0
+tipo = "u32"
+valor = 0x7D090710
+nota = "pantalla: pantalla dividida 112"
+
+[[parche]]
+direccion = 0x0046F9C4
+tipo = "u32"
+valor = 0x7A29FC10
+nota = "pantalla: pantalla dividida 113"
+
+[[parche]]
+direccion = 0x0046F9C8
+tipo = "u32"
+valor = 0x7D090720
+nota = "pantalla: pantalla dividida 114"
+
+[[parche]]
+direccion = 0x0046F9CC
+tipo = "u32"
+valor = 0x3C080041
+nota = "pantalla: pantalla dividida 115"
+
+[[parche]]
+direccion = 0x0046F9D0
+tipo = "u32"
+valor = 0x8D04F4C0
+nota = "pantalla: pantalla dividida 116"
+
+[[parche]]
+direccion = 0x0046F9D4
+tipo = "u32"
+valor = 0x0C06BA66
+nota = "pantalla: pantalla dividida 117"
+
+[[parche]]
+direccion = 0x0046F9D8
+tipo = "u32"
+valor = 0x24050001
+nota = "pantalla: pantalla dividida 118"
+
+[[parche]]
+direccion = 0x0046F9DC
+tipo = "u32"
+valor = 0x3C080041
+nota = "pantalla: pantalla dividida 119"
+
+[[parche]]
+direccion = 0x0046F9E0
+tipo = "u32"
+valor = 0x8D04F4C0
+nota = "pantalla: pantalla dividida 120"
+
+[[parche]]
+direccion = 0x0046F9E4
+tipo = "u32"
+valor = 0x3409D400
+nota = "pantalla: pantalla dividida 121"
+
+[[parche]]
+direccion = 0x0046F9E8
+tipo = "u32"
+valor = 0x0C06C252
+nota = "pantalla: pantalla dividida 122"
+
+[[parche]]
+direccion = 0x0046F9EC
+tipo = "u32"
+valor = 0x00892021
+nota = "pantalla: pantalla dividida 123"
+
+[[parche]]
+direccion = 0x0046F9F0
+tipo = "u32"
+valor = 0x8E29FC90
+nota = "pantalla: pantalla dividida 124"
+
+[[parche]]
+direccion = 0x0046F9F4
+tipo = "u32"
+valor = 0xAE49000C
+nota = "pantalla: pantalla dividida 125"
+
+[[parche]]
+direccion = 0x0046F9F8
+tipo = "u32"
+valor = 0x10000003
+nota = "pantalla: pantalla dividida 126"
+
+[[parche]]
+direccion = 0x0046F9FC
+tipo = "u32"
+valor = 0xA640001C
+nota = "pantalla: pantalla dividida 127"
+
+[[parche]]
+direccion = 0x0046FA00
+tipo = "u32"
+valor = 0x0C04A5F8
+nota = "pantalla: pantalla dividida 128"
+
+[[parche]]
+direccion = 0x0046FA04
+tipo = "u32"
+valor = 0x02002025
+nota = "pantalla: pantalla dividida 129"
+
+[[parche]]
+direccion = 0x0046FA08
+tipo = "u32"
+valor = 0xDFBF0000
+nota = "pantalla: pantalla dividida 130"
+
+[[parche]]
+direccion = 0x0046FA0C
+tipo = "u32"
+valor = 0x7BB00010
+nota = "pantalla: pantalla dividida 131"
+
+[[parche]]
+direccion = 0x0046FA10
+tipo = "u32"
+valor = 0x7BB10020
+nota = "pantalla: pantalla dividida 132"
+
+[[parche]]
+direccion = 0x0046FA14
+tipo = "u32"
+valor = 0x7BB20030
+nota = "pantalla: pantalla dividida 133"
+
+[[parche]]
+direccion = 0x0046FA18
+tipo = "u32"
+valor = 0x03E00008
+nota = "pantalla: pantalla dividida 134"
+
+[[parche]]
+direccion = 0x0046FA1C
+tipo = "u32"
+valor = 0x27BD0060
+nota = "pantalla: pantalla dividida 135"
+
+[[parche]]
+direccion = 0x0046FC80
+tipo = "u32"
+valor = 0x00000001
+nota = "pantalla datos: division prendida"
+
+[[parche]]
+direccion = 0x0046FC8C
+tipo = "u32"
+valor = 0x00000140
+nota = "pantalla datos: ancho de la mitad"
+
+[[parche]]
+direccion = 0x0046FC90
+tipo = "u32"
+valor = 0x00000280
+nota = "pantalla datos: ancho entero"
+
+[[parche]]
+direccion = 0x0046FC94
+tipo = "u32"
+valor = 0x00000001
+nota = "pantalla datos: la vista de J2 la calcula el stub"
+
+[[parche]]
 direccion = 0x00129574
 tipo = "u32"
 valor = 0x0C11B600
@@ -1397,3 +2237,21 @@ direccion = 0x00129E38
 tipo = "u32"
 valor = 0x0C11B740
 nota = "ganchos: gancho del desarme: jal baja (era jal 0x12bfc8)"
+
+[[parche]]
+direccion = 0x001056DC
+tipo = "u32"
+valor = 0x0C11BE00
+nota = "ganchos: gancho de la escena: jal pantalla (era jal 0x1297e0)"
+
+[[parche]]
+direccion = 0x0010656C
+tipo = "u32"
+valor = 0x0C11BE00
+nota = "ganchos: gancho de la escena: jal pantalla (era jal 0x1297e0)"
+
+[[parche]]
+direccion = 0x00106D8C
+tipo = "u32"
+valor = 0x0C11BE00
+nota = "ganchos: gancho de la escena: jal pantalla (era jal 0x1297e0)"
