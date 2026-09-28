@@ -347,8 +347,16 @@ dice medido). Lo que cambió:
   por defecto** (`--con-r3`): el acceso de jugar instala sólo lo probado, **638 palabras** + la pantalla ancha.
 - **(93w) Start saltea los videos** (intro y los de antes de cada nivel), en todos los accesos; sin probar en vivo.
   Lo aprendido de (93s)–(93w) quedó en el `kb/` con su área (`rutinas`, `mapa-memoria`, `estructuras`).
-- **Siguiente (en la notebook):** `git pull` y jugar con el acceso COOP; medir el parpadeo con control, la
-  ranura 3 con `--con-r3` y su regresión (8 de 8), y las dos sondas de B5. Detalle: `sesiones/RETOME-LOCAL.md`.
+- **(93y)–(95) notebook, 2026-09-28:** Fran grabó dos videos de 60 s (**grabar 60 s** con los botones de cada
+  jugador estampados: `registro_mandos.py`; J1 = el puerto que apretó Start). **El acceso COOP apaga de verdad
+  el «Widescreen 16:9»** (lo prendía la opción global de PCSX2) y **el parpadeo está arreglado, medido con
+  control** (0 de 16 contra 2 de 16). **La ranura 3 quedó PRENDIDA por defecto: el acceso COOP instala 787
+  palabras** (`--sin-r3` = 638, el control): campaña 8 de 8, y con ella J2 **recarga** (el cargador se llena) y
+  el **culatazo termina** — sin ella, recarga vacía y culatazo en bucle (lo que vio Fran). **Sin probar**: J2
+  juntando y cambiando de arma (al cargar el nivel hay una sola). El acceso COOP prende además «No Blur While
+  Reload» (sin ver). B5: la sonda 1 no midió (el enemigo lo mató el aliado).
+- **Siguiente:** Fran juega con el acceso COOP (juntar un arma con J2 y cambiarla); B5 en un nivel sin aliado;
+  HUD de J2. Detalle: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

@@ -4,11 +4,22 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(93s)–(93w)» DE ACÁ ABAJO, después el «(93n)–(93q)».** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(93y)–(95)» DE ACÁ ABAJO, después el «(93s)–(93w)».** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y
 > B3 hechas: el coop en pantalla dividida sale del pnach solo** (88). El
 > mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-28 tarde, NOTEBOOK — VIDEOS DE FRAN CON BOTONES, RANURA 3 PRENDIDA, PARPADEO ARREGLADO (bitácora (93y)–(95))
+
+- **Grabar** (`lanzadores/grabar-gameplay.ps1`, acceso «BLACK - Grabar 60 s», Ctrl+Alt+G si AutoHotkey corre): 60 s, hojas con la hora, y **`registro_mandos.py`** (PINE, en paralelo) guarda lo que el juego recibe de cada jugador y lo estampa bajo cada mitad (`hojas_mandos/`, `eventos.txt`, `puertos.json`). **J1 = el puerto que apretó Start** (`*(J+0x588)` = `0x00585A0C` → puerto 2). Botones: `disparar` 12, `recargar` 2, `melee` 3 (círculo), `b1` sin nombre (¿cuadrado?), `b16..b27` = direcciones de stick (se omiten).
+- **(93y)** el «Widescreen 16:9» lo prendía `EnableWideScreenPatches = true` (global): `JUGAR-BLACK.ps1 -Coop` escribe `EnableWideScreenPatches = false` en `[EmuCore]` de los ajustes del juego y prende «No Blur While Reload» (`0x005719D4` = 0; efecto sin ver).
+- **(93z)** ranura 3: `campana_coop.py` (ahora mide la ranura por nivel) **8 de 8**; `prueba_acciones_j2.py r3|control` (mando falso de J2: `mando_j2.py`, sobre `cj.FALSO2`) — con ranura: recarga 0-4-8-0 y cargador 7→15, culatazo 28-29-0 en 0,7 s; sin ranura: recarga sin llenar, culatazo clavado en 28. **`SIN_R3 = False` y `--sin-r3` es el control** (787 / 638). `personajes` K5. **No probado**: cambio/levantar arma de J2 (`armas_j2.py`: J y J2 arrancan con una sola arma) — ahí entra el envoltorio `0x001ACA84` con J2.
+- **(94)** `parpadeo_control.py coop|control`: 0 de 16 contra 2 de 16 (+2 dudosas). Confirmado.
+- **(95)** B5 sonda 1 (`b5_vigilar.py 75 --vida-J 40 --enemigo 17`, City Streets): la vida de J se **regenera** (~30/s); el enemigo nació 6 m delante y **murió sin pegarle a J** (lo mató el aliado, `probable`). `ctrl+0x100` = 0 en J y J2 todo el tiempo. Repetir en Wilderness/Steelworks/Gulag (sin aliado) o con un código de una vez que llame `FUN_0013c3e8`.
+- **Trampas nuevas**: `campana_coop.py --help` CORRÍA la regresión (ya no; y se niega con el PCSX2 de Fran abierto). En el slot 3 J2 no existe hasta cargar un nivel (`cc.probar_nivel(0)`). Una conexión PINE a la vez vale también entre MIS scripts (el vigilante y el spawn van en el mismo proceso).
+
+**Estado de la máquina:** los dos PCSX2 cerrados. pnach con **787 palabras (ranura 3)**, bloque COOP **activo**, ajustes del juego como los deja el acceso COOP (sin «Widescreen 16:9», `EnableWideScreenPatches = false`). **El 2.8.0 de Fran recibió un `cargarestado --slot 3` por error** (su sesión en curso, no su guardado; el slot 14 intacto).
 
 ## 2026-09-28 tarde, NUBE (sin emulador) — LA RANURA 3 EN CÓDIGO, EL PARPADEO (CAUSA Y ARREGLO) Y LA CADENA DE MUERTE (bitácora (93s)–(93w))
 

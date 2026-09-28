@@ -16,6 +16,18 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (95) — B5, sonda 1: no midió (el enemigo lo mató el aliado); la vida del jugador se regenera
+**Máquina:** notebook, fork · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (B5, muerte de J2) · **Nodos:** `flujo`, `personajes` (sin cambio de K)
+**Objetivo:** sonda 1 de (93u): qué es `ctrl+0x100` (`J+0x5F0`) y si sube antes de que J muera.
+
+- `b5_vigilar.py <s> [--vida-J v] [--enemigo i]`: vida (`+0x2F8`), `ctrl+0x100`, `+0x8B2`, `+0x38C` de J y J2 y el global `+0x21098/C`, sólo los cambios; el spawn (`sondas_spawn`, 83) va **por la misma conexión PINE** (con dos procesos el segundo se cae por tiempo: PINE atiende de a uno).
+- City Streets, vida de J a 40, spawner L12[17] movido a 6 m delante de J y activado, 75 s: **ningún golpe**; la vida de J **se regenera** (~30 por segundo, de 40 a 750). El enemigo **nació y murió** (`actor_estado` 2, vida 0) sin tocar a J: lo más probable es que lo haya matado el aliado que hace de títere (tiene IA). `ctrl+0x100` = 0 en J y J2 todo el tiempo.
+- **No mide.** Para la próxima: un nivel **sin aliado** (Wilderness, Steelworks, Gulag) y la vida de J baja escrita en cada cuadro de la ventana, o un código de una vez que llame `FUN_0013c3e8` (con la ranura 3, `0x001295A8` y `0x001ACA84` son del pnach: otro sitio).
+
+**No funcionó:** la sonda entera (arriba). **Sigue:** repetirla sin aliado.
+
+---
+
 ## 2026-09-28 (94) — El arreglo del parpadeo, medido con control: 0 de 16 con el acceso COOP, 2 de 16 con la pantalla ancha comunitaria
 **Máquina:** notebook, fork · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (pantalla partida estable) · **Nodos:** `render` (K5, sin cambio)
 **Objetivo:** tramo b) del retome: medir el arreglo de (93v)+(93y) con su control.
