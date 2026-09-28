@@ -3,7 +3,8 @@
 Arma una ranura de primera persona propia para J2 con las funciones del juego, como el constructor arma r0/r1:
   una vez:  submonton 6 -> FUN_00343fc8(R3+0x10) -> FUN_001a4ff0(R3, 1) -> soltar el submonton
   cargar:   FUN_001a51c8(R3, J2, pers+0x398+i*0x6C), i = (signed char) J2+0x2C3
-El codigo corre UNA vez desde el gancho por cuadro (0x00129574, desviado a UNA en pausa) y sigue al stub.
+El codigo corre UNA vez desde la llamada por cuadro a FUN_001ab428(pers) (0x001295A8, desviada a UNA en pausa)
+y sigue a FUN_001ab428 con los argumentos intactos.
 
 Control en la misma corrida: J2 dispara y recarga con la ranura COMPARTIDA (8 capturas), despues se arma la
 ranura 3 y se repite. Prediccion: con la ranura 3 la mitad de J queda quieta y J2 tiene brazos propios.
@@ -28,6 +29,9 @@ PEDIDO, ARMADA, DBG_AC, DBG_330 = 0x0046E0B0, 0x0046E0B4, 0x0046E0B8, 0x0046E0BC
 R3, TAM = 0x0046E100, 0x240
 UNA = 0x0046E340
 PERS_PTR, J2 = 0x0040F50C, 0x0046CDF0
+# jal FUN_001ab428(pers): por cuadro, en el mismo lazo que el gancho del mod y FUERA del pnach. El gancho
+# del mod (0x00129574) no sirve para esto: el pnach es patch=1 y lo reescribe en cada cuadro (medido).
+SITIO3, DESTINO3 = 0x001295A8, 0x001AB428
 
 FUENTE = [
     "lui t0, 0x47", "lw t1, -0x1f50(t0)", "addiu t2, zero, 1", "bne t1, t2, FIN", "nop",
@@ -54,7 +58,7 @@ FUENTE = [
     "SALIR:",
     "ld ra, 0(sp)", "ld a0, 8(sp)", "ld a1, 0x10(sp)", "ld a2, 0x18(sp)", "ld a3, 0x20(sp)",
     "ld s0, 0x28(sp)", "ld s1, 0x30(sp)", "addiu sp, sp, 0x40",
-    "FIN:", "j 0x%x" % j2.STUB, "nop",
+    "FIN:", "j 0x%x" % DESTINO3, "nop",
 ]
 
 
@@ -71,10 +75,21 @@ def pool(p):
             "sub6_libre": p.leer32(sub6 + 0xC) - p.leer32(sub6 + 0x10), "submonton": p.leer32(0x40F4A4)}
 
 
+def rellenar(p, P, cargador=15, reserva=60):
+    """Repone la municion del arma en la mano (la corrida 1 vacio a J2 en el control y la prueba no recargo)."""
+    a = p.leer32(P + 0x2A4)
+    t = p.leer32(p.leer32(a + 0xEC) + 0x64)
+    p.escribir16(p.leer32(a + 0xF4) + 0x18, cargador)
+    p.escribir16(P + 0x280 + 2 * t, reserva)
+
+
 def tanda(nombre, J):
     """J2 sostiene disparar 4 s (vacia y recarga); 8 capturas cada 0,5 s. J quieto."""
     serie = []
     with Pine() as p:
+        rellenar(p, J2)
+        time.sleep(0.3)
+        serie.append({"k": -1, "J2": municion(p, J2), "J": municion(p, J)})
         boton2(p, DISPARAR, True)
     for k in range(8):
         time.sleep(0.5)
@@ -88,14 +103,15 @@ def tanda(nombre, J):
 
 
 def mitades(nombre):
-    """Diferencia media de cada mitad contra la captura 0 de la tanda (0 = quieta)."""
+    """Diferencia media contra la captura 0 de la tanda (0 = quieta), en las cajas de los BRAZOS de cada mitad
+    (abajo a la derecha de cada una): la mitad entera de J incluye al titere (el cuerpo de J2), que se mueve."""
     from PIL import Image, ImageChops, ImageStat
     ims = [Image.open(cc.SAL / ("ranura3-%s-%d.png" % (nombre, k))).convert("L") for k in range(8)]
     w, h = ims[0].size
     out = []
     for im in ims[1:]:
         d = []
-        for caja in ((0, 0, w // 2, h), (w // 2, 0, w, h)):
+        for caja in ((w * 5 // 16, h // 2, w // 2, h), (w * 13 // 16, h // 2, w, h)):
             d.append(round(ImageStat.Stat(ImageChops.difference(ims[0].crop(caja), im.crop(caja))).mean[0], 2))
         out.append(d)
     return out
@@ -124,8 +140,8 @@ def main():
     cc.run("coop_mod.py", "manos", "0.5")
     with Pine() as p:
         J = p.leer32(cj.JUEGO_PTR) + 0x30
-        gancho_esperado = ensamblar("jal 0x%x" % j2.STUB, g.SITIO)
-        res["gancho_ok"] = p.leer32(g.SITIO) == gancho_esperado
+        gancho_esperado = ensamblar("jal 0x%x" % DESTINO3, SITIO3)
+        res["gancho_ok"] = p.leer32(SITIO3) == gancho_esperado
         res["antes"] = {"pool": pool(p), "J_330": hex(p.leer32(J + 0x330)), "J2_330": hex(p.leer32(J2 + 0x330)),
                         "J2_2C3": p.leer8(J2 + 0x2C3), "J_2C3": p.leer8(J + 0x2C3)}
     if not res["gancho_ok"]:
@@ -143,7 +159,7 @@ def main():
         for i, w in enumerate(prog):
             p.escribir32(UNA + 4 * i, w)
         escrito = all(p.leer32(UNA + 4 * i) == w for i, w in enumerate(prog))
-        p.escribir32(g.SITIO, ensamblar("jal 0x%x" % UNA, g.SITIO))
+        p.escribir32(SITIO3, ensamblar("jal 0x%x" % UNA, SITIO3))
     dep("continuar")
     res["codigo_palabras"], res["codigo_escrito"] = len(prog), escrito
     with Pine() as p:
@@ -154,7 +170,7 @@ def main():
         res["pedido"] = p.leer32(PEDIDO)
     dep("pausar")
     with Pine() as p:
-        p.escribir32(g.SITIO, gancho_esperado)
+        p.escribir32(SITIO3, gancho_esperado)
     dep("continuar")
     time.sleep(1)
     with Pine() as p:

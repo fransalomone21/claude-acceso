@@ -325,8 +325,14 @@ dice medido). Lo que cambió:
   salteadas en 4 s) y un filtro de eventos listo para cuando J2 tenga su ranura.
 - **(93k) el parpadeo**: el ancho de la vista lo escribe sólo el stub, quieto y con disparo/zoom/recarga.
 - **Bloque: 636 palabras, instalado y activo; la campaña entera, 8 de 8.**
-- **Siguiente:** la tercera ranura (lo que más se ve); el cuerpo en los 3 niveles sin aliado (si Fran dice que
-  sí); el parpadeo (en qué momento lo ve Fran). Detalle: `sesiones/RETOME-LOCAL.md`.
+- **(93n)–(93p) la tercera ranura**: diseñada en frío (`docs/15-tercera-ranura.md`) y **probada por PINE**
+  (`herramientas/ranura3.py`): se arma con las funciones del juego, J2 queda con su ranura y brazos en cuadro,
+  sin colgar. La recarga de J2 en los brazos de J baja de 2/8 a 1/8, **no a 0**. **No está en el pnach.**
+- **El parpadeo** (visto en el video de Fran): con J2 disparando, su mitad alterna entre dos puntos de vista.
+- **Siguiente:** medir en RAM por dónde se cuela la recarga que queda (compañero de r0 y `+0x90`); después
+  llevar la ranura 3 al pnach (armar una vez, cargar por nivel, envoltorios de `FUN_0013C868` y
+  `FUN_001a51c8`); el parpadeo; el cuerpo en los 3 niveles sin aliado (si Fran dice que sí). Detalle:
+  `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

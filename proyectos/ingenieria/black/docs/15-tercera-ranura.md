@@ -57,7 +57,7 @@ J2 usa la ranura de J (`J2+0x330` = `pers+0x470+i·0x240`). La ranura es el mode
 | `0x0046E100..0x0046E340` | R3 (0x240 B, alineada a 16) |
 | `0x0046E340..` | el código de una vez |
 
-**Armar (una vez por arranque):** elegir el submontón 6 (`FUN_00107ab8(0x0040F0F0, 6, 0)`), `FUN_00343fc8(R3+0x10)`, `FUN_001a4ff0(R3, 1)` y soltar el submontón (`FUN_00107b08(0x0040F0F0, 6, 0)`, que lo deja en −1 como estaba). Toma **un** bloque del pool y ~0xBB0 B del submontón 6.
+**Armar (una vez por arranque):** elegir el submontón 6 (`FUN_00107ab8(0x0040F0F0, 6, 0)`), `FUN_00343fc8(R3+0x10)`, `FUN_001a4ff0(R3, 1)` y soltar el submontón (`FUN_00107b08(0x0040F0F0, 6, 0)`, que lo deja en −1 como estaba). Toma **un** bloque del pool. **Corregido en vivo (93p):** el compañero no sale del submontón 6 sino del `malloc` del sistema (`FUN_00107c20` → `FUN_0035e7d8` cuando `*(0x0040F0F0+0x3B8)` = 0), así que elegir el submontón no hace falta.
 
 **Cargar (en cada nivel):** `FUN_001a51c8(R3, J2, pers+0x398+i·0x6C)` con `i` = `(signed char) J2+0x2C3`. Deja `J2+0x330` = R3 y `*R3` = J2.
 
@@ -74,6 +74,8 @@ J2 usa la ranura de J (`J2+0x330` = `pers+0x470+i·0x240`). La ranura es el mode
 
 ## El prototipo (`herramientas/ranura3.py`)
 
-Por PINE, en City Streets por el pnach (636 palabras, bloque activo). Se escriben R3 y el código en pausa. El gancho por cuadro (`0x00129574`: `jal 0x0046D800`) se desvía a `jal 0x0046E340`: el código corre una vez si `R3_PEDIDO` = 1 y sigue a `0x0046D800` con los argumentos intactos. Al terminar se repone el gancho.
+Por PINE, en City Streets por el pnach (636 palabras, bloque activo). Se escriben R3 y el código en pausa. La llamada por cuadro `0x001295A8: jal 0x1ab428` (la actualización de `pers`) se desvía a `jal 0x0046E340`: el código corre una vez si `R3_PEDIDO` = 1 y sigue a `FUN_001ab428` con los argumentos intactos. Al terminar se repone. (El gancho del mod en `0x00129574` no sirve: el pnach es `patch=1` y lo reescribe en cada cuadro.)
+
+**Resultado (93p):** la ranura se arma y se carga sin colgar, y J2 tiene brazos en cuadro. La recarga de J2 en los brazos de J baja de 2/8 a 1/8, **no a 0**: falta medir en RAM por dónde se cuela.
 
 **Predicción, escrita antes de medir:** con la ranura 3, J2 recarga, la **mitad de J queda quieta** (diferencia de imagen ≈ la de reposo) y en la mitad de J2 los **brazos quedan en cuadro con pose propia**. En el control (misma corrida, antes de armar, ranura compartida) la mitad de J se mueve con la recarga de J2. El emulador sigue vivo, y `R3+0xAC` ≥ 2 con un bloque menos en el pool.

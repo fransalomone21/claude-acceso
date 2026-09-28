@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93p) — La tercera ranura en vivo: J2 tiene su ranura y sus brazos en cuadro; la recarga en la mitad de J baja de 2/8 a 1/8, no a 0
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (brazos propios de J2) · **Nodos:** `personajes`, `vista-fp`, `codigo-nuevo` (evidencia; sin cambio de K)
+**Objetivo:** el prototipo de `docs/15-tercera-ranura.md`, con control en la misma corrida.
+
+- **La ranura 3 se arma y se carga** (`herramientas/ranura3.py`, código de una vez de 74 palabras en `0x0046E340`; 3 corridas): `R3+0xAC` = bloque 0x24/0x26 (el primero libre, y el pool pierde exactamente uno), `J2+0x330` = R3, `*R3` = J2, `R3+0x50` = `pers+0x398` (el sub de J), nombre `FP_P_S_001`, `+0xB8` = 1; J no cambia (`J+0x330` = r0, dueño de r0 = J) y **el emulador sigue vivo**. `confirmado` en RAM.
+- **El compañero NO sale del submontón 6** (su espacio libre no cambia): sale del `malloc` del sistema (`0x01F287A0`), porque `FUN_00107c20` va a `FUN_0035e7d8` cuando `*(0x0040F0F0+0x3B8)` = 0 y `FUN_001080f0()` = 0. Elegir el submontón no hace falta (se deja: no molesta).
+- **El gancho del mod no sirve para código de una vez:** el pnach es `patch=1` y reescribe `0x00129574` en cada cuadro (corrida 1: el pedido quedó en 1). Se usa `0x001295A8: jal 0x1ab428` (la actualización por cuadro de `pers`, `a0` = pers), en el mismo lazo y fuera del pnach.
+- **Medido** (corrida 3, J2 con munición repuesta: dispara y recarga 4 veces en cada fase; cajas de los brazos de cada mitad, `ranura3-brazosJ.png`): en el control (ranura compartida) los brazos de J hacen la recarga de J2 en **2 de 8** capturas; con la ranura 3 en **1 de 8**. En la mitad de J2 los brazos quedan **en cuadro** (con la ranura 1 de (93m) quedaban bajos). La corrida 2 no vale: el control le vació toda la munición a J2 y la prueba no recargó.
+- **Confundidor de (93m):** el «0 de 8» con la ranura 1 puede deberse a que ese aparejo es el de la otra arma (la recarga de J2 quizá ni existe ahí), no a que la fuga estuviera tapada. `hipótesis`.
+- **El parpadeo, visto** (video de Fran de la corrida 1, 10:33, y las capturas): con J2 disparando, **la mitad de J2 alterna entre dos puntos de vista distintos** cada otra captura, en las dos fases. Contesta la pregunta (c) del retome: se ve cuando J2 dispara.
+**No funcionó:** el gancho del mod para el código de una vez (pnach `patch=1`); la corrida 2 (sin munición).
+**Sigue:** medir en RAM, no con capturas, qué hace moverse a los brazos de J (fotos del compañero de r0, `+0x990..+0x9D0`, y `r0+0x90` contra `R3+0x90`, con J2 recargando contra J2 quieto); los contadores del filtro de eventos durante la tanda.
+
+---
+
 ## 2026-09-28 (93o) — La tercera ranura, en frío (2): el cargador del aparejo, el pool de ranuras y el plan del prototipo
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (ranura propia de J2: brazos con pose propia y recarga fuera de la mitad de J) · **Nodos:** `personajes`, `vista-fp` (evidencia; sin cambio de K)
 **Objetivo:** contestar lo que dejó (93n) —quién carga `ranura+0x44..+0x5C`, qué hay en `pers+0x8F0`— y dejar el prototipo diseñado antes de abrir el emulador.
