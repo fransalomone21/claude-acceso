@@ -76,6 +76,8 @@ J2 usa la ranura de J (`J2+0x330` = `pers+0x470+i·0x240`). La ranura es el mode
 
 Por PINE, en City Streets por el pnach (636 palabras, bloque activo). Se escriben R3 y el código en pausa. La llamada por cuadro `0x001295A8: jal 0x1ab428` (la actualización de `pers`) se desvía a `jal 0x0046E340`: el código corre una vez si `R3_PEDIDO` = 1 y sigue a `FUN_001ab428` con los argumentos intactos. Al terminar se repone. (El gancho del mod en `0x00129574` no sirve: el pnach es `patch=1` y lo reescribe en cada cuadro.)
 
-**Resultado (93p):** la ranura se arma y se carga sin colgar, y J2 tiene brazos en cuadro. La recarga de J2 en los brazos de J baja de 2/8 a 1/8, **no a 0**: falta medir en RAM por dónde se cuela.
+**Resultado (93p):** la ranura se arma y se carga sin colgar, y J2 tiene brazos en cuadro. La recarga de J2 en los brazos de J baja de 2/8 a 1/8 en las capturas.
+
+**Resultado (93q), en RAM con control (`herramientas/ranura3b.py`):** con la ranura 3, la pose de J (compañero de r0) no cambia con J2 disparando (1 palabra contra 33 con la ranura compartida), la cola de eventos de V no se mueve (0 contra 8), el arma de J no pasa a 8 y el filtro de eventos saltea todo lo de J2 (19 contra 9 que pasaban). **La fuga está cerrada.** El «1 de 8» de las capturas no tiene correlato en RAM (`hipótesis`: la animación de reposo de J).
 
 **Predicción, escrita antes de medir:** con la ranura 3, J2 recarga, la **mitad de J queda quieta** (diferencia de imagen ≈ la de reposo) y en la mitad de J2 los **brazos quedan en cuadro con pose propia**. En el control (misma corrida, antes de armar, ranura compartida) la mitad de J se mueve con la recarga de J2. El emulador sigue vivo, y `R3+0xAC` ≥ 2 con un bloque menos en el pool.

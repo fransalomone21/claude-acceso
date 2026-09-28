@@ -120,6 +120,35 @@ def mitades(nombre):
 def main():
     res = {}
     prog = codigo(UNA, FUENTE)
+    J = arrancar()
+    with Pine() as p:
+        gancho_esperado = ensamblar("jal 0x%x" % DESTINO3, SITIO3)
+        res["gancho_ok"] = p.leer32(SITIO3) == gancho_esperado
+        res["antes"] = {"pool": pool(p), "J_330": hex(p.leer32(J + 0x330)), "J2_330": hex(p.leer32(J2 + 0x330)),
+                        "J2_2C3": p.leer8(J2 + 0x2C3), "J_2C3": p.leer8(J + 0x2C3)}
+    if not res["gancho_ok"]:
+        (cc.SAL / "ranura3.json").write_text(json.dumps(res, indent=1))
+        cc.matar_fork()
+        raise SystemExit("el gancho por cuadro no es el esperado")
+    res["control"] = tanda("control", J)
+    res.update(armar(prog, gancho_esperado, J))
+    if res["pedido"] == 2:
+        res["prueba"] = tanda("prueba", J)
+    r = cc.run("selector_depuracion.py", "vivo")
+    res["vivo"] = r is not None and '"vivo": true' in r.stdout
+    try:
+        res["mitades_control"] = mitades("control")
+        if "prueba" in res:
+            res["mitades_prueba"] = mitades("prueba")
+    except Exception as ex:  # noqa: BLE001
+        res["mitades_error"] = str(ex)
+    (cc.SAL / "ranura3.json").write_text(json.dumps(res, indent=1))
+    print(json.dumps({k: v for k, v in res.items() if k not in ("control", "prueba")}, indent=1))
+    cc.matar_fork()
+
+
+def arrancar():
+    """Lanza el fork, entra a City Streets por el selector y le da manos a J2. Devuelve J."""
     if not cc.lanzar():
         raise SystemExit("fork no vivo")
     cc.run("selector_depuracion.py", "pedir-frontend", "--bandera", "0", "--segundos", "7")
@@ -139,17 +168,13 @@ def main():
     time.sleep(8)
     cc.run("coop_mod.py", "manos", "0.5")
     with Pine() as p:
-        J = p.leer32(cj.JUEGO_PTR) + 0x30
-        gancho_esperado = ensamblar("jal 0x%x" % DESTINO3, SITIO3)
-        res["gancho_ok"] = p.leer32(SITIO3) == gancho_esperado
-        res["antes"] = {"pool": pool(p), "J_330": hex(p.leer32(J + 0x330)), "J2_330": hex(p.leer32(J2 + 0x330)),
-                        "J2_2C3": p.leer8(J2 + 0x2C3), "J_2C3": p.leer8(J + 0x2C3)}
-    if not res["gancho_ok"]:
-        (cc.SAL / "ranura3.json").write_text(json.dumps(res, indent=1))
-        cc.matar_fork()
-        raise SystemExit("el gancho por cuadro no es el esperado")
-    res["control"] = tanda("control", J)
-    # armar la ranura 3: en pausa se escribe R3 en cero, el codigo y el desvio del gancho
+        return p.leer32(cj.JUEGO_PTR) + 0x30
+
+
+def armar(prog, gancho_esperado, J):
+    """Arma y carga la ranura 3 con el codigo de una vez. Devuelve lo medido (pedido 2 = hecho)."""
+    res = {}
+    # en pausa se escribe R3 en cero, el codigo y el desvio del gancho
     dep("pausar")
     with Pine() as p:
         for o in range(0, TAM, 4):
@@ -179,19 +204,7 @@ def main():
                           "R3_54": hex(p.leer32(R3 + 0x54)), "R3_B8": p.leer8(R3 + 0xB8),
                           "R3_nombre": bytes(p.leer8(R3 + 0x5C + i) for i in range(13)).split(b"\0")[0].decode("latin-1"),
                           "r0_dueno": hex(p.leer32(p.leer32(PERS_PTR) + 0x470)), "J_330": hex(p.leer32(J + 0x330))}
-    if res["pedido"] == 2:
-        res["prueba"] = tanda("prueba", J)
-    r = cc.run("selector_depuracion.py", "vivo")
-    res["vivo"] = r is not None and '"vivo": true' in r.stdout
-    try:
-        res["mitades_control"] = mitades("control")
-        if "prueba" in res:
-            res["mitades_prueba"] = mitades("prueba")
-    except Exception as ex:  # noqa: BLE001
-        res["mitades_error"] = str(ex)
-    (cc.SAL / "ranura3.json").write_text(json.dumps(res, indent=1))
-    print(json.dumps({k: v for k, v in res.items() if k not in ("control", "prueba")}, indent=1))
-    cc.matar_fork()
+    return res
 
 
 if __name__ == "__main__":

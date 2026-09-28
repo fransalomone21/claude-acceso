@@ -327,10 +327,11 @@ dice medido). Lo que cambió:
 - **Bloque: 636 palabras, instalado y activo; la campaña entera, 8 de 8.**
 - **(93n)–(93p) la tercera ranura**: diseñada en frío (`docs/15-tercera-ranura.md`) y **probada por PINE**
   (`herramientas/ranura3.py`): se arma con las funciones del juego, J2 queda con su ranura y brazos en cuadro,
-  sin colgar. La recarga de J2 en los brazos de J baja de 2/8 a 1/8, **no a 0**. **No está en el pnach.**
+  sin colgar. **(93q) La fuga está cerrada, medido en RAM con control** (`ranura3b.py`): con la ranura 3 la
+  pose de J no se mueve con J2 disparando (1 palabra contra 33), la vista única no recibe nada y el arma de J
+  no pasa a 8. **No está en el pnach.**
 - **El parpadeo** (visto en el video de Fran): con J2 disparando, su mitad alterna entre dos puntos de vista.
-- **Siguiente:** medir en RAM por dónde se cuela la recarga que queda (compañero de r0 y `+0x90`); después
-  llevar la ranura 3 al pnach (armar una vez, cargar por nivel, envoltorios de `FUN_0013C868` y
+- **Siguiente:** llevar la ranura 3 al pnach (armar una vez, cargar por nivel, envoltorios de `FUN_0013C868` y
   `FUN_001a51c8`); el parpadeo; el cuerpo en los 3 niveles sin aliado (si Fran dice que sí). Detalle:
   `sesiones/RETOME-LOCAL.md`.
 

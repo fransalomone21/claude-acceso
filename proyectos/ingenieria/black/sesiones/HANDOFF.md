@@ -4,16 +4,17 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(93n)–(93p)» DE ACÁ ABAJO, después el «(93f)–(93m)».** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(93n)–(93q)» DE ACÁ ABAJO, después el «(93f)–(93m)».** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y
 > B3 hechas: el coop en pantalla dividida sale del pnach solo** (88). El
 > mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
 
-## 2026-09-28 mañana, NOTEBOOK (chat) — LA TERCERA RANURA: FRÍO COMPLETO Y PROTOTIPO EN VIVO (bitácora (93n)–(93p))
+## 2026-09-28 mañana, NOTEBOOK (chat) — LA TERCERA RANURA: FRÍO COMPLETO, PROTOTIPO EN VIVO Y LA FUGA CERRADA EN RAM (bitácora (93n)–(93q))
 
 - **Frío** (`docs/15-tercera-ranura.md`, la fuente): `pers` se construye una vez al arrancar; `pers+0x8F0` es un pool de 44 bloques de animación (no está libre); `pers` tiene además un pool de 33 ranuras de personajes (`FUN_001abe48`). `FUN_001a4ff0(r, 1)` arma una ranura de primera persona (toma un bloque) y `FUN_001a51c8(r, jugador, sub)` la carga y pone `jugador+0x330` = r. Anima el mover (`FUN_001a54e0(dt, J+0x330)`) y dibuja `FUN_00133BA0` por `+0x330`: una ranura colgada de J2 se anima y se dibuja sola, y el filtro por pasada la tapa con J2. Medido en 4 volcados: 1 a 9 bloques libres.
 - **Vivo** (`herramientas/ranura3.py`): R3 en `0x0046E100`, código de una vez en `0x0046E340` enganchado en `0x001295A8` (**no** en el gancho del mod: el pnach es `patch=1` y lo reescribe cada cuadro). Se arma y carga sin colgar, J2 con brazos en cuadro; la recarga de J2 en los brazos de J baja de **2/8 a 1/8**, no a 0. El compañero sale del `malloc` del sistema, no del submontón 6.
+- **(93q) en RAM con control** (`herramientas/ranura3b.py`): con la ranura 3 la pose de J (compañero de r0) no cambia con J2 disparando (1 palabra contra 33), la cola de V no se mueve (0 contra 8), el arma de J no pasa a 8 y el filtro saltea todo lo de J2. **La fuga está cerrada**; el «1 de 8» de las capturas no tiene correlato en RAM.
 - **El parpadeo** (video de Fran, 10:33): con J2 disparando, la mitad de J2 alterna entre dos puntos de vista.
 - **Proceso**: un agente «remoto» para el frío gastaba el plan Pro (no los créditos de nube); se cortó. Lección en `chequeo-de-trabajo.md`.
 

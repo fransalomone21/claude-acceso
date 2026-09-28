@@ -1,21 +1,21 @@
-# Mensaje de retome — BLACK, notebook (después de la bitácora (93p))
+# Mensaje de retome — BLACK, notebook (después de la bitácora (93q))
 
 Pegar tal cual como primer mensaje del chat siguiente.
 
 ```
-Retomo BLACK en LOCAL (notebook), después de la bitácora (93p) del 2026-09-28. Proyecto: proyectos/ingenieria/black. COOP-B ABIERTA. Trabajo EN ESTE CHAT, sin tareas programadas y sin agentes (tampoco «remotos»: gastan el plan Pro, no los créditos de nube).
+Retomo BLACK en LOCAL (notebook), después de la bitácora (93q) del 2026-09-28. Proyecto: proyectos/ingenieria/black. COOP-B ABIERTA. Trabajo EN ESTE CHAT, sin tareas programadas y sin agentes (tampoco «remotos»: gastan el plan Pro, no los créditos de nube).
 
-0. git pull en claude-acceso y en C:\Users\frans\black-datos. El último commit que tocó proyectos/ingenieria/black tiene que ser el cierre de (93p) o posterior; si no, pará.
+0. git pull en claude-acceso y en C:\Users\frans\black-datos. El último commit que tocó proyectos/ingenieria/black tiene que ser el cierre de (93q) o posterior; si no, pará.
 
-1. Leé SOLO: docs/15-tercera-ranura.md (entero: es la fuente de la ranura 3), las entradas (93o) y (93p) de docs/03-bitacora.md, y herramientas/ranura3.py. NO leas jugador2.py entero. Si hay entradas más nuevas que (93p) en la bitácora, leelas: manda la bitácora.
+1. Leé SOLO: docs/15-tercera-ranura.md (entero: es la fuente de la ranura 3), las entradas (93o), (93p) y (93q) de docs/03-bitacora.md, y herramientas/ranura3.py (FUENTE, armar()). NO leas jugador2.py entero. Si hay entradas más nuevas que (93p) en la bitácora, leelas: manda la bitácora.
 
 2. Controles: .\proyectos\ingenieria\black\abrir-sesion.ps1 -Rapido, python herramientas/programa.py verificar (0 rojos), python pruebas/prueba_herramientas.py (183), python herramientas/coop_diseno.py verificar (0), python pruebas/probar-coop-diseno.py (TODO BIEN).
 
 3. FRÍO ANTES QUE CALIENTE (pedido de Fran): no se abre el emulador sin saber en frío las estructuras que la sonda toca, y la predicción se escribe antes.
 
 4. Fase: COOP-B, ABIERTA (criterio: PDP.md §4). Lo que sigue, en orden:
-   a) La recarga de J2 que TODAVÍA se ve en los brazos de J con la ranura 3 (1 de 8 capturas; 2 de 8 sin ella). En frío primero: qué guarda el compañero (0x9D0, ranura+0x54) del estado de animación (+0x990..+0x9D0; FUN_001a54e0, FUN_001a5738, FUN_001a59d8, FUN_001a7e58) y qué es ranura+0x90 (FUN_0028bf90 sobre sub+0x58). Después, en vivo con ranura3.py como base: fotos del compañero de r0 (pers+0x470+0x54) y de R3, y r0+0x90 contra R3+0x90, con J2 recargando contra J2 quieto; y los contadores del filtro de eventos (coop_mod.AISLAR_CUENTAS) durante la tanda. Confundidor a descartar: en (93m) la ranura 1 era el aparejo de la otra arma (quizá sin la recarga de J2).
-   b) Llevar la ranura 3 al pnach: armar UNA vez por arranque (bandera persistente, NO en el pnach: armar dos veces se come otro bloque del pool), cargar en cada nivel con FUN_001a51c8(R3, J2, pers+0x398+i*0x6C), y los envoltorios de FUN_0013C868 (si dueño == J2 → +0x330 = R3 y reatar accesorios con R3+0x30..) y FUN_001a51c8 (si a1 == J2 y a0 es r0/r1 → a0 = R3). Filas nuevas en docs/14 (coop-rangos) y coop_diseno verificar en 0. Regresión: campana_coop.py 8 de 8.
+   a) HECHO (93q): la fuga está cerrada, medido en RAM con control (ranura3b.py): con la ranura 3 la pose de J no se mueve con J2 disparando (1 palabra contra 33), la cola de V no se mueve y el arma de J no pasa a 8. No rehacer.
+   b) PRIMERO: llevar la ranura 3 al pnach: armar UNA vez por arranque (bandera persistente, NO en el pnach: armar dos veces se come otro bloque del pool), cargar en cada nivel con FUN_001a51c8(R3, J2, pers+0x398+i*0x6C), y los envoltorios de FUN_0013C868 (si dueño == J2 → +0x330 = R3 y reatar accesorios con R3+0x30..) y FUN_001a51c8 (si a1 == J2 y a0 es r0/r1 → a0 = R3). Filas nuevas en docs/14 (coop-rangos) y coop_diseno verificar en 0. Regresión: campana_coop.py 8 de 8.
    c) EL PARPADEO: con J2 disparando, su mitad alterna entre dos puntos de vista (video de Fran y capturas ranura3-control/prueba 0 contra 2). En frío: qué escribe la vista/cámara de J2 en el disparo (retroceso, cámara de la vista FP) dos veces por cuadro.
    d) B5 (qué pasa si J2 muere) en frío, y el cuerpo en los 3 niveles sin aliado sólo si Fran dice que sí.
    e) NO tocar la sensibilidad de los mandos.
@@ -26,7 +26,7 @@ Retomo BLACK en LOCAL (notebook), después de la bitácora (93p) del 2026-09-28.
 
 ESTADO DE LA MÁQUINA: ISO en C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\BLACK\ISOs\Black.iso (fuente: kb/ubicaciones.json). pnach instalado con 636 palabras y el bloque ACTIVO (los accesos COOP lo reinstalan con coop_mod.py instalar + activar; «JUGAR BLACK» lo apaga). La ranura 3 NO está en el pnach: sólo por PINE con ranura3.py (se pierde al cerrar el fork). El 2.8.0 de Fran: CERRADO; su partida está en el slot 14 (no la pises). Fork de pruebas: C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe (comparte Documents\PCSX2 con el 2.8.0: probar con el 2.8.0 cerrado; PINE 28011). Cerrar el fork con Stop-Process filtrando la ruta de Downloads\PCSX2-MCP.
 
-YA HECHO, NO REHACER: (85)–(93m); (93n)/(93o) el frío de la ranura (docs/15); (93p) la ranura 3 por PINE se arma y carga sin colgar, J2 con brazos en cuadro, 2/8 → 1/8.
+YA HECHO, NO REHACER: (85)–(93m); (93n)/(93o) el frío de la ranura (docs/15); (93p) la ranura 3 por PINE se arma y carga sin colgar, J2 con brazos en cuadro; (93q) la fuga cerrada en RAM con control.
 
 8. Trampas medidas:
    - EL PNACH ES patch=1: reescribe sus palabras EN CADA CUADRO. Un desvío por PINE sobre una palabra del mod (p. ej. el gancho 0x00129574) se pisa solo. Para código de una vez: 0x001295A8 (jal 0x1ab428, a0 = pers), fuera del pnach.

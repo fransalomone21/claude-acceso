@@ -16,6 +16,19 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93q) — La tercera ranura cierra la fuga, medido en RAM con control: la pose de J ya no la mueve J2
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (brazos propios de J2; la recarga de J2 fuera de la mitad de J) · **Nodos:** `personajes`, `vista-fp` (evidencia; sin cambio de K)
+**Objetivo:** saber si el «1 de 8» que quedó en (93p) es una fuga real, midiendo en RAM en vez de con capturas.
+
+- **Frío previo:** el arma de J nunca salió del estado 0 en (93p), y el arreglo de la recarga del stub (93) actúa a los 90 cuadros en estado 4, no en los cuadros de los saltos: ninguno explica la pose. Quedaban la pose de J (el compañero de r0) y la vista única V.
+- **Medido** (`herramientas/ranura3b.py`, `ranura3b.json`; ~60 ms por muestra, 2,5 s con J2 quieto y 4 s con J2 disparando y recargando, control y prueba en la misma corrida): con la ranura **compartida**, 33 palabras del compañero de r0 cambian **sólo** mientras J2 dispara, cambian 8 de la cola de eventos de V, el arma de J pasa a **8** y el filtro de eventos deja pasar 9 eventos de J2 a nombre de J. Con la **ranura 3**: 1 palabra del compañero de r0 (ruido: en la base cambian 8), **0** de V, el arma de J **nunca sale de 0**, el filtro saltea **19** y deja pasar **0**; el compañero de R3 (la pose de J2) se anima. `confirmado` en RAM con control.
+- `r0+0x90` = `R3+0x90` = `0x01318CB0`: el recurso de animación que se busca por nombre en el sub es el mismo y se lee; compartir el sub no filtra (`probable`).
+- **El «1 de 8» de las capturas** no tiene correlato en RAM: `hipótesis`, la animación de reposo de J.
+**No funcionó:** nada.
+**Sigue:** llevar la ranura 3 al pnach (armar una vez por arranque, cargar por nivel, envoltorios de `FUN_0013C868` y `FUN_001a51c8`) y la regresión de la campaña; después, el parpadeo.
+
+---
+
 ## 2026-09-28 (93p) — La tercera ranura en vivo: J2 tiene su ranura y sus brazos en cuadro; la recarga en la mitad de J baja de 2/8 a 1/8, no a 0
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (brazos propios de J2) · **Nodos:** `personajes`, `vista-fp`, `codigo-nuevo` (evidencia; sin cambio de K)
 **Objetivo:** el prototipo de `docs/15-tercera-ranura.md`, con control en la misma corrida.
