@@ -72,11 +72,11 @@ cambiaría.
 
 | Pregunta | Decisión | Qué la cambia |
 |---|---|---|
-| ¿Qué personaje es el jugador 2? | un segundo soldado con el mismo modelo que el jugador 1; ninguno de la escuadra | si alojar un jugador nuevo resulta más caro que apropiarse de un compañero (sonda 5) |
+| ¿Qué personaje es el jugador 2? | un segundo soldado con el mismo modelo que el jugador 1; ninguno de la escuadra. **2026-09-28 (106), Fran: los dos jugadores con cuerpo de aliado** | si alojar un jugador nuevo resulta más caro que apropiarse de un compañero (sonda 5) |
 | ¿División horizontal o vertical? | vertical (lado a lado): conserva el ancho de la mira en 16:9 | que la proyección no admita cambiar el aspecto (sonda 4) |
-| ¿Qué pasa si muere uno? | reaparece en el siguiente punto de control; la misión falla sólo si mueren los dos | lo que permita el flujo de misión (`flujo`, K3) |
-| ¿HUD del jugador 2? | fuera de la Fase A; después, una copia del HUD en su mitad | nada: es alcance, no factibilidad |
-| ¿Dificultad en coop? | la misma que en solo; el ajuste queda para el proyecto de desafío | que Fran lo pida |
+| ¿Qué pasa si muere uno? | ~~reaparece en el siguiente punto de control; la misión falla sólo si mueren los dos~~ **2026-09-28 (106), Fran: si muere cualquiera, pierden los dos** (como jugando solo); la reanimación, después | lo que permita el flujo de misión (`flujo`, K3) |
+| ¿HUD del jugador 2? | fuera de la Fase A; después, una copia del HUD en su mitad. **2026-09-28 (106), Fran: HUD separado para los dos**, con vida, munición y punto de mira propios; **entra a la Fase B** | nada: es alcance, no factibilidad |
+| ¿Dificultad en coop? | la misma que en solo; el ajuste queda para el proyecto de desafío (**Fran (106): después, cuando el coop esté perfecto**) | que Fran lo pida |
 | ¿Cómo se prende? | un pnach aparte en el menú «BLACK - Parches», apagado por defecto (N7) | — |
 | ¿Primer nivel? | el primero de la campaña, sin tocar el flujo | — |
 

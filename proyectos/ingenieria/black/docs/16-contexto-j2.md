@@ -443,7 +443,7 @@ arma de al lado de J), T4 (`--sin-aislar`: J2 suena), T5 (el índice, no el puer
 Después, código en este orden, cada uno con su control: **IA** (dos sitios, el más barato y el que más cambia el
 juego) → **juntar** → **sub3** → **`V2`** (el más caro) → **mini HUD** (espera a Fran) → **FOV2**.
 
-### Preguntas para Fran (juntas)
+### Preguntas para Fran (juntas) — **CONTESTADAS el 2026-09-28 (106)**, ver «Decisiones de Fran» más abajo
 
 1. IA: ¿los enemigos se reparten, o van al más cercano? Con dos blancos el juego es más fácil: ¿se compensa (N18)?
 2. Botiquín: ¿lo toma el que pasa, o se reparte?

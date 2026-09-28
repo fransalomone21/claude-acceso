@@ -16,6 +16,22 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (108b, nube) — Todo en concordancia con la arquitectura y las fases: PDP, `docs/13`, `ESTADO_ACTUAL`, contrato y retomes
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR) · **Nodos:** ninguno
+**Objetivo:** pedido de Fran: que todo quede en concordancia con la arquitectura (PDP, fases, programa) y con fechas actualizadas; lo que no se pueda desde la nube, asentado para el retome.
+
+- **PDP**: encabezado con la actualización del 28/09; la fila de COOP-B con «alcance ampliado 2026-09-28 (106)»; el «HUD de J2 queda fuera de la B» tachado y corregido con las decisiones de Fran; **criterio de cierre punto 4** agregado (lo de `docs/17` con su diseño en `docs/16` y sus sitios en `coop-plan-b` verificados contra el ELF; construirlo entero es la C); B4/B5/B6 al día y **B8–B11** nuevos (contexto propio de J2, HUD por jugador, juntar, cuerpos); **riesgo nuevo** «bajar a la implementación antes de liquidar concepción y diseño» (pasó en (99) y (102)); **cuatro decisiones** del 28/09 en §6. Cambiar el criterio después de abrir la fase queda **declarado** como decisión, no escondido.
+- **`docs/13`**: las decisiones delegadas del 27/09 (cuerpo, muerte, HUD, dificultad) anotadas con lo que Fran decidió en (106).
+- **`ESTADO_ACTUAL`** (título del programa), **contrato** (`coop_mod.py`, `coop_diseno.py`, `censo_ab.py`, `coop_ia.py` en la tabla de herramientas), **`docs/16`** (preguntas marcadas como contestadas).
+- **K sin cambios**: el frío de `ia`, `pickups` y `hud` alcanzaría la K3/K4 de la escala, pero la regla de la tanda es no subir K sin efecto en vivo; queda anotado en el PDP (B4).
+- **Lo que la nube no puede** (sin PowerShell ni `perfil-global`): `verificar-estructura.ps1`, `chequeo-completo.ps1`, `cascada.ps1 black` y las dos lecciones de proceso con `aprender.py`, asentados como paso 2b de `sesiones/RETOME-LOCAL.md` con los comandos exactos.
+- Numeración: esta entrada es (108b) para no pisar la (109) de la notebook ni la (120, nube) de la próxima nube.
+
+**No funcionó:** nada.
+**Sigue:** notebook (RETOME-LOCAL) y nube de estructuras (RETOME-NUBE), en paralelo.
+
+---
+
 ## 2026-09-28 (108, nube) — Muerte, HUD y cuerpos con las decisiones de Fran; la IA integrada detrás de `--con-ia`
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B · **Nodos:** `flujo`, `hud`, `frontend-datos`, `spawn` (sin cambio de K)
 **Objetivo:** llevar al diseño las decisiones 3 y 5 de Fran y los cuerpos, e integrar la IA sin prenderla.

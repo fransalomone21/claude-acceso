@@ -7,7 +7,7 @@ Retomo BLACK EN LA NUBE, SOLO EN FRÍO (no hay emulador), después de la bitáco
 
 0. PREPARACIÓN. git pull (último commit de black = (108) o posterior; si hay entradas de la notebook más nuevas, MANDAN: leé sus resultados de sondas antes que nada). Cloná fransalomone21/black-datos en /home/user/black-datos (77aceb5 o posterior; si no se puede, add_repo primero) y export BLACK_DATOS=/home/user/black-datos. pip install capstone.
 
-1. LEÉ SOLO: CLAUDE.md del proyecto; docs/16-contexto-j2.md desde «Paso 1 hecho» hasta el final; las entradas (104)–(108) de docs/03-bitacora.md; el bloque coop-plan-b de docs/14; en kb/estructuras.json las entradas «jugador», «controlador_jugador», «manejador_armas» y «arma». Nada más.
+1. LEÉ SOLO: CLAUDE.md del proyecto; docs/16-contexto-j2.md desde «Paso 1 hecho» hasta el final; las entradas (104)–(108b) de docs/03-bitacora.md; en PDP.md la sección «Proyecto COOP — Fase B» (criterio de cierre con el punto 4 y la tabla B1–B11); el bloque coop-plan-b de docs/14; en kb/estructuras.json las entradas «jugador», «controlador_jugador», «manejador_armas» y «arma». Nada más.
 
 2. CONTROLES al empezar y antes de cada commit: python herramientas/programa.py verificar (0 rojos), python pruebas/prueba_herramientas.py (184), python herramientas/coop_diseno.py verificar (0), python pruebas/probar-coop-diseno.py (TODO BIEN, 12), python herramientas/coop_ia.py verificar (0), python herramientas/censo_ab.py --autotest.
 

@@ -4,6 +4,8 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(108b, nube): PDP, `docs/13`, `ESTADO_ACTUAL` y contrato en concordancia con las decisiones de Fran y el trabajo de (96)–(108)** (la B amplió su alcance: criterio punto 4 y filas B8–B11). Lo que la nube no pudo correr (PowerShell y `aprender.py`) está en el paso 2b de `sesiones/RETOME-LOCAL.md`.
+>
 > **Dos sesiones pueden correr a la vez desde acá:** la NOTEBOOK (`sesiones/RETOME-LOCAL.md`, numera desde (109)) y una NUBE de estructuras (`sesiones/RETOME-NUBE.md`: el jugador por dentro, lo de al lado y el HUD; numera desde (120, nube)). Antes de cada commit, `git pull --rebase`; si choca la bitácora, quedan las dos entradas.
 >
 > **(106)–(108) MANDA (nube, 2026-09-28): las decisiones de Fran en `docs/16` («Decisiones de Fran») y la IA a los

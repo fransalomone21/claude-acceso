@@ -5,7 +5,9 @@
 > de escribirse antes, y quedó anotado). **Migrado al molde nuevo el
 > 2026-09-26** (rigor por aspecto, «Cómo se certifica», estado `cancelada`,
 > matriz de cumplimiento), en la misma sesión que **revisó el plan contra los
-> requisitos** y abrió la fase 8.
+> requisitos** y abrió la fase 8. **Actualizado el 2026-09-28 (108b, nube)**: la
+> Fase COOP-B incorpora el trabajo de (96)–(108) y las **decisiones de Fran (106)**,
+> que amplían su alcance (HUD, muerte, cuerpos); ver §4 «Fase B» y §6.
 >
 > El **mapa de fases de `ESTADO_ACTUAL.md` sigue siendo la fuente de la verdad
 > operativa**. Este PDP guarda el problema, el alcance negativo, el rigor, los
@@ -99,7 +101,7 @@ puertas. N1 (capacidades A leer RAM, B leer código, D escribir) está
 | 8 | Censo estructural por requisito | cada R2–R7 con su estructura | `superficies.py` (nunca se escribió) | **absorbida** en la Pre-Fase A el 2026-09-26; la **8c** (coop) quedó respondida (`kb/superficies.json#R5`) |
 | Pre-A | Estudio de conceptos del programa | la MCR (ver abajo) | `programa.py verificar` 0 rojos + `trade` 0 + `probar-programa.py` 9/9 | **cerrada 2026-09-27** (KDP-A en §6) |
 | **COOP-A** | **Proyecto coop, Fase A: concepto y desarrollo de tecnología** | ver «Proyecto COOP» abajo | los habilitadores en K5, cada uno por efecto | **cerrada 2026-09-27 (bitácora (83))**: los 7 habilitadores en su objetivo, prototipo hecho en (82), `verificar` 0 |
-| **COOP-B** | **Proyecto coop, Fase B: diseño preliminar** | ver «Proyecto COOP — Fase B» abajo | PDR recortada: los tres riesgos altos retirados por efecto + el diseño que nombra cada dirección, medido por `coop_diseno.py verificar` | **abierta 2026-09-27 (84)** |
+| **COOP-B** | **Proyecto coop, Fase B: diseño preliminar** | ver «Proyecto COOP — Fase B» abajo | PDR recortada: los tres riesgos altos retirados por efecto + el diseño que nombra cada dirección, medido por `coop_diseno.py verificar` (desde (104)–(107) también el plan `coop-plan-b` contra el ELF) | **abierta 2026-09-27 (84)**; **alcance ampliado 2026-09-28 (106)** |
 
 **Fase en curso: COOP-B**, abierta el 2026-09-27 (84) con su criterio escrito
 abajo **antes** de empezarla. Análisis en papel: [`docs/13-coop.md`](docs/13-coop.md).
@@ -193,8 +195,14 @@ retirando **por efecto** los riesgos que, si fallan, cambian la forma del mod.
    (`flujo` K3 → K4: qué pasa con vida 0, y cómo se lo vuelve a dar de alta
    con `FUN_00138C80` o equivalente), y **disparadores del jugador 0**
    (`disparadores` K3 → K4: cuáles importan para avanzar y si «J abre el
-   camino» alcanza). El **HUD de J2 queda fuera de la B** (alcance, no
-   factibilidad).
+   camino» alcanza). ~~El **HUD de J2 queda fuera de la B** (alcance, no
+   factibilidad).~~ **Corregido el 2026-09-28 (106), decisión de Fran:** «el juego
+   como con uno pero con dos». Las políticas quedan: **IA a los dos** (el más
+   cercano), **si muere cualquiera pierden los dos** (no hay reaparición; la
+   reanimación, después), **disparadores de J1**, **recogibles para el primero que
+   llega**, **HUD separado** con vida, munición y punto de mira propios (**entra a
+   la B**), y **los dos jugadores con cuerpo de aliado**. Lo estético y el balance,
+   después.
 3. **El documento de diseño**, `docs/14-coop-diseno.md`: los requisitos del
    mod con su método de verificación; cada componente (alta de J2, mando 2,
    vista de J2, pantalla dividida, cuerpo, IA, muerte, disparadores) con
@@ -203,6 +211,13 @@ retirando **por efecto** los riesgos que, si fallan, cambian la forma del mod.
    **`coop_diseno.py verificar`** en 0: ningún rango del coop se pisa con
    otro componente ni con otro mod, y toda dirección del diseño tiene fuente
    (`kb/` o bitácora). Su saboteador tiene que ponerlo en rojo.
+
+4. **(Agregado el 2026-09-28, (106)/(108b), al ampliarse el alcance.) Lo que le
+   falta a J2 para jugar «como uno»** (`docs/17`: F1–F12, N1–N20, en clases A/B/C) con
+   **su diseño liquidado** en `docs/16` (concepción → alternativas → elección →
+   sonda del concepto, Paso 6) y **sus sitios y memoria en `coop-plan-b`**,
+   verificados contra el ELF por `coop_diseno.py` (reglas 6 y 7). Para la B alcanza
+   con el diseño y la sonda del concepto de cada ítem; construirlos entero es la C.
 
 **Cómo se certifica:** una entrada de bitácora por cada riesgo retirado, con
 la **predicción escrita antes** y el efecto medido; `kb/subsistemas.json` con
@@ -219,9 +234,13 @@ saboteador en rojo; `prueba_herramientas.py` en verde.
 | B2b | cuerpo | `personajes` K4 → **K5** | **PROTOTIPO HECHO (85)**: Fran eligió **un aliado del nivel**; el aliado 1 (tipo `0x1D`, bando 0) con la matriz de J2 copiada por PINE se dibuja donde está J2 y lo sigue 10 m a ≤ 0,21 m, con control. **La copia en el stub, HECHA (88)**: sin PINE, 8,5 m a ≤ 0,16 m (control: 63–69 m), y visto en pantalla. Falta: esconder los brazos de J2 en la vista de J, las animaciones, y los niveles sin aliados | notebook |
 | B7 | J2 hace daño | `armas` (cadena del disparo de un 2.º jugador) | **HECHA (85)**: la matriz de vista de J2 (`+0xD0`) tiene el cabeceo al revés de su mira y las balas pasaban por encima; con el signo cambiado J2 mata (100 → 0 en 6 balas; control 5 balas y 100), también con el títere pegado. Sin fuego amigo entre jugadores (máscara `0x57` sin bit 8), medido. **(88c) corrige la lectura:** `+0xD0` tiene la misma convención en J y J2; el mod guarda el cabeceo de J2 negado y le invierte `mira+0xF1` («invertir Y»), así el mando 2 apunta para el lado correcto (medido en RAM con control). Falta la prueba de daño de punta a punta con ese mecanismo: el banco con `--acercar` no sirvió (tampoco J le pega al blanco movido) | los dos |
 | B3 | sin PINE | `codigo-nuevo` K5 (entrega) | **HECHA (86)–(88e)**: el pnach solo (375 palabras) arma a J2 en la carga, lo ata, lo corre con el mando 2, le pone el cuerpo (títere), el cabeceo y **la pantalla dividida con la vista de J2 calculada en el stub**; aguanta cargas seguidas (la baja de (87)). Visto en pantalla con PCSX2 reiniciado y sin Python del mod. Falta que Fran lo pruebe con el mando 2 **real** | notebook |
-| B4 | IA | `ia` K2 → K4 | en frío: a quién apunta un enemigo (¿lee `jugadores[0]` o una lista?); en vivo, un enemigo con J2 más cerca que J | los dos |
-| B5 | muerte de J2 | `flujo` K3 → K4 | vida de J2 a 0: qué hace el juego (¿fin de misión, cuelgue, nada?) | notebook |
-| B6 | disparadores | `disparadores` K3 → K4 | en frío: cuáles de los que miran a `juego+0x1C0` cambian el progreso | decompilado |
+| B4 | IA | `ia` K3 → K5 | **frío completo (99)/(107)**: el blanco es genérico (amenazas por id del registro y bando), pero «ver» y «visibles» recorren J + 16 agentes; **decisión de Fran: a los dos** (106); **código escrito en frío** (`coop_ia.py`, cuatro sitios, integrado apagado con `--con-ia`). Falta la sonda S0 en vivo; la K sube con ella (regla de la tanda: sin subir K sin efecto en vivo) | los dos |
+| B5 | muerte de J2 | `flujo` K3 → K4 | **decisión de Fran (106): pierden los dos**. Frío (93u)/(108): el único camino al fin de partida es `FUN_0013FFA0` con `ctrl+0x100` ≥ 1; **diseño**: copiar `J+0x5F0` en `J2+0x5F0`. Falta la sonda S5 (vigilante de escritura en `J+0x5F0`: quién la sube) | notebook |
+| B6 | disparadores | `disparadores` K3 → K4 | **decisión de Fran (106): los maneja J1** (la política v1). Frío (98)/(100): prueban sólo `J+0x190`/`J+0x2E8`, y son conmutables limpios si algún día se quiere que abra cualquiera | decompilado |
+| B8 | J2 con contexto propio (clase A) | `audio`, `vista-fp`, `personajes` | **diseño (101)–(104)**: `V2` propia para el sonido y el fogonazo (F4/F8), sub propio para el modelo del arma (F7); sondas del concepto S2 y S4 | los dos |
+| B9 | HUD por jugador | `hud` K2, `frontend-datos` K1 | **decisión de Fran (106)**; frío (103)/(108): el HUD es una página del sistema de menús; elegido un HUD por jugador dibujado por el mod, retícula en el centro de cada mitad. Falta la receta (E3 del retome de nube) | nube |
+| B10 | juntar y recogibles | `pickups` K2 | **diseño (100)**: preguntar también por J2 con el juego conmutado; sonda del concepto S1 | los dos |
+| B11 | cuerpos para los dos | `spawn` K5 | **decisión de Fran (106)**; falta la receta del cuerpo por spawner (93i) | nube |
 
 **Orden:** B1 primero — es la meta, y si falla la forma del mod cambia entera.
 Después B3 (sin ella no hay mod entregable), B2 (pide la decisión de Fran),
@@ -238,6 +257,7 @@ uno, 30 Hz por jugador) o M3.
 | Riesgo | Prob. | Consec. | Estrategia | Disparador observable |
 |---|---|---|---|---|
 | **Se afina detalle mientras falta una estructura grande** | alta — pasó **dos veces**: 7e (se arregló con una regla de búsqueda) y todo el proyecto (el mapa de nivel 1 llegó en la entrada 62) | alta: sesiones que no mueven ningún requisito | evitar: refinamiento sucesivo (`docs/11-programa.md` §3), el mapa impreso al abrir sesión, y el reversing pedido por un proyecto | una entrada de bitácora que no declara concepto ni nodo del mapa, o `programa.py resumen` con un nodo que baja a R3 mientras hay K0 en su mismo nivel |
+| **Bajar a la implementación antes de liquidar concepción y diseño** | media — pasó en (99) (el MIPS de la IA antes del diseño; Fran lo frenó) y en (102) (dos lecturas de bajo nivel sin pregunta) | media: horas en detalle que después no se usa | evitar: cada tarea cierra concepción → alternativas → elección → sonda; el código sólo sobre un diseño liquidado y **verificado contra el ELF** (`coop_diseno.py` reglas 6 y 7) | un stub o una lectura de bits sin su sección de diseño en `docs/16` |
 | **La sesión rankea con pesos que no son de Fran** | media | alta: se construye la cosa equivocada con precisión | evitar: `programa.py trade` sale 2 sin pesos con fuente | un ranking en un documento que no cita `kb/conceptos.json#pesos` |
 | **El observable elegido no existe** | alta — pasó **dos veces** (`printf` stub; array del `0x2D` vacío) | alta | mitigar: characterization test en frío del observable antes de usarlo, predicción escrita antes | cualquier plan que diga «vamos a ver que pase X» sin haber medido que X se pueda ver |
 | Se daña el **ISO original** | baja | **irrecuperable** | evitar, con tres capas | `abrir-sesion.ps1` en rojo, o el guardia bloquea algo |
@@ -271,6 +291,10 @@ uno, 30 Hz por jugador) o M3.
 | 2026-09-27 | **Las sondas en frío del coop corren en la nube**: el ELF, tres volcados, `WPNSCOPE.BIN` y `GLOBDATA.BIN` en el repo PRIVADO `black-datos` (verificados por SHA-256), `ubicaciones.py` los resuelve con `BLACK_DATOS`, y capstone reemplaza a Ghidra para leer el código | esperar a la notebook para todo | Fran lo pidió («lo que podamos seguir del proyecto en nube, hagamoslo posible»). `claude-acceso` es público: el material del juego nunca entra acá. La fuente de las rutas sigue siendo una sola (`kb/ubicaciones.json`) |
 | 2026-09-27 | **La meta del coop pasa de pantalla compartida (M1) a pantalla dividida (M2)**; revisa la decisión del 2026-09-26 | M1, como decía la fila del 26/09 | BLACK es en primera persona: con una sola cámara, el jugador 2 no tiene vista. Fran eligió «pantalla dividida o cada uno en una computadora» (resp. 5). M1 queda como paso intermedio del prototipo (dos jugadores en el mundo antes de dos vistas), no como entrega |
 | 2026-09-27 | **La cámara de cine desactivada de fábrica (`0x0040D9A3`) queda como mejora de experiencia de PRIORIDAD MÍNIMA, para el futuro** (Fran, tras ver la captura de (77)) | A) sólo el byte (sale cerca de paredes, en muertes a más de 6 m); B) forzarla siempre (segundo parche); C) descartarla | ninguna perdió: se posterga. No compite con el coop por sesiones; si vuelve, hay que resolver que en pantalla dividida le tapa la vista ~2 s al que mata |
+| 2026-09-28 | **J2 con contexto propio en vez de aislado** ((96)–(97), `docs/16`): lo que J2 comparte con J se le **da** (su vista, su modelo de arma, su HUD) o se le **pregunta** igual que a J, en lugar de apagárselo | seguir aislando síntoma por síntoma | cada aislamiento le sacaba algo a J2 (el sonido del disparo salió de ahí); siete síntomas pasaron a ser una sola causa |
+| 2026-09-28 | **El diseño se verifica contra el ELF antes de escribir código** ((104): bloque `coop-plan-b` en `docs/14`, `coop_diseno.py` reglas 6 y 7) | escribir el MIPS y probarlo en vivo | si una lectura en frío estaba mal, el plano se pone rojo antes de la RAM; en (107) el listado atrapó dos errores reales antes de instalar |
+| 2026-09-28 | **Decisiones de Fran para el coop** ((106)): el juego como con uno pero con dos — IA a los dos, recogibles al primero, HUD separado con punto de mira propio, disparadores de J1, si muere uno pierden los dos, los dos con cuerpo de aliado; primero funcionalidad | las políticas v1 de `docs/14` (J2 no es blanco, reaparece junto a J, HUD fuera de la B) | las decide Fran: son lo que va a jugar |
+| 2026-09-28 | **La IA a los dos, por sitio y no por agente** ((107)): cuatro sitios (ver y visibles con J y J2; blancos por defecto y hostil al más cercano) | conmutar el juego alrededor de la actualización de cada agente (todo «el jugador» pasa a ser el más cercano) | el cierre de esa actualización llama métodos del juego que necesitan el juego verdadero (`FUN_0012A7C0`, `FUN_0012A280`) y virtuales que el grafo no ve: riesgo de cuelgue sin aviso en frío. Queda el movimiento táctico centrado en J1, a revisar en vivo |
 
 ## 7. Verificación
 

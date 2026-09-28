@@ -37,7 +37,7 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88) (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); diseño del resto en frío (98)–(108) y la IA a los dos escrita (107) (LEER ESTO PRIMERO)
 
 > **(106)–(108), 2026-09-28, NUBE — LO ÚLTIMO. Fran decidió** (el juego como con uno pero con dos): IA a los dos,
 > recogibles al primero, HUD separado con vida/munición/punto de mira propios, disparadores de J1, si muere cualquiera
