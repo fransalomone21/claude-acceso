@@ -25,7 +25,8 @@ Formato de cada entrada:
 - **Para el plano:** a J2 no lo matan los enemigos (no lo conocen, (93d)) ni J (sin fuego amigo, (85)); lo que queda es el daño del entorno (explosiones, caídas) por la función de daño. Qué hace esa función cuando el que muere es un jugador que no es el 0 se lee en frío (la rama del piso de muerte de `0x00134654` con `+0xC4` = 2).
 - **En frío, de paso** (`FUN_00133FA8` = método `vtable+0x48` del personaje, la función de daño): la rama del «piso de muerte» (`swc1 f20,0x2F8` en `0x00134654`, con `vida ≤ 0` → 0 y, si bando 0, `FUN_00121F00`) es la de los **agentes de IA** (controlador `+0x32C` con `+0x80` = 1). Si el controlador es de tipo **2** (jugador: la mira, `J+0x4F0`; J2 tiene la suya copiada del molde), el daño va a su método `vtable(+0x84)+0x24`: la clase del jugador (vtable `0x003DC348`, armada en `FUN_00382BF0`) → `FUN_001411A0` → `FUN_001412C0` → método `+0x28` de otro objeto (`+0x4C`). La clase del agente (vtable `0x003DC268`) → `FUN_0013D388`. **La muerte de J2 pasaría por el camino del jugador** (`probable`): falta leer `FUN_001412C0` y qué hace con la vida en 0 (¿fin de misión para cualquier jugador?).
 **No funcionó:** nada.
-**Sigue:** en frío, `FUN_001412C0` y el método `+0x28` al que despacha; en vivo, una granada junto a J2.
+  `FUN_001412C0` devuelve **el estado actual de la máquina de estados del controlador** (`mira+0x490[mira+0x4B4]`, −1 = ninguno): el daño al jugador lo maneja un método (`vtable(+0x4C)+0x28`) **del estado en curso**.
+**Sigue:** en vivo, qué estados tiene la máquina del controlador de J2 (`J2+0x4F0+0x490..`, índice en `+0x4B4`) y cuál maneja el daño; una granada junto a J2 con el estado mirado.
 
 ---
 
