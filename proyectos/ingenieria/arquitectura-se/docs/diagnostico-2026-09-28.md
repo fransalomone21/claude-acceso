@@ -167,6 +167,15 @@ de bitácora a mano. Ya hubo un `git reset --hard` intentado para alinear `main`
 (REVISAR A13), y hoy la notebook estaba **14 commits atrás** de `origin/main`
 al abrir. El único freno es `verificar-sincronia.ps1`, que avisa.
 
+**Y se vio en vivo, peor** (`confirmado`): mientras esta sesión corría la
+tercera capa de saboteadores, **otra sesión de Claude trabajaba en
+`fisica-espacial` en el mismo árbol de trabajo**, recompiló sus PDF a las
+19:32 y commiteó (`1b4d4db`). La limpieza dio rojo en «apuntes publicados en
+Drive» por ese cambio ajeno, que no era un error. Dos sesiones en el mismo
+checkout comparten índice, archivos y medidores: cualquier rojo de una puede
+ser trabajo en curso de la otra, y nada lo distingue. Es candidato fuerte a
+explicar también el rojo intermitente de A6.
+
 ---
 
 ## 2. N²: quién le entrega qué a quién
