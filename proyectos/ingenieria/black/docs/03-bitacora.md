@@ -16,6 +16,19 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (105, nube) — T8, cuerpos y muerte de J2: nadie dibuja a un jugador en tercera persona, y la muerte tiene un solo punto de decisión
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clases B y C · **Nodos:** `spawn`, `flujo` (sin cambio de K)
+**Objetivo:** T8, en concepción y diseño: F3/F11 (cuerpos), F10 (muerte de J2), lo que quedaba de N3/N4/N12.
+
+- **Cuerpos** (`docs/16` T8): el jugador es tipo 0 (brazos); el cuerpo de J2 es prestado de un aliado. **Nivel 0: 2 aliados vivos** en sus 4 volcados; nivel 1 (`ee-11`): 0 (`confirmado en volcado`). Tres opciones; **recomendada un cuerpo por spawner para cada jugador** (8 de 8 niveles, no le saca aliados al juego); decide Fran, con F11.
+- **Muerte de J2**: un solo punto de decisión, `FUN_0013FFA0` con el control de J2 (93u). Cuatro opciones; recomendada la v1 (silenciar el fin de partida para J2, P5, y reponerlo a ≥ 1 m de J en la ventana 1). Falta la sonda (1) de (93u) (`ctrl+0x100`) y la decisión de Fran.
+- N3/N4 quedaron cerrados en concepción en (98)/(100); N12 tiene candidato (`J+0x3C0`, sin leer).
+
+**No funcionó:** nada.
+**Sigue:** el cierre de la sesión (estado, handoff, retomes).
+
+---
+
 ## 2026-09-28 (104, nube) — T7, el diseño del cambio de contexto: dos ventanas que ya existen y cuatro sitios nuevos; el plano verifica que el ELF tenga lo que el diseño supone
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR) · **Nodos:** `codigo-nuevo` (sin cambio de K)
 **Objetivo:** T7: con T1–T6, el diseño del cambio de contexto, con su memoria en el plano y su verificador y saboteador. **Sin código** (pedido de Fran en (99)).

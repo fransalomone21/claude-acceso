@@ -450,3 +450,48 @@ juego) → **juntar** → **sub3** → **`V2`** (el más caro) → **mini HUD** 
 3. HUD de J2: ¿qué tiene que ver sí o sí? ¿J1 conserva el HUD entero?
 4. Disparadores (N3): ¿sigue «J abre el camino» (v1), o que cualquiera de los dos abra (P2, un gancho)?
 5. Muerte de J2 (F10): la v1 dice «reaparece junto a J»: ¿con penalidad?
+
+## Clase C y B restantes (T8, (105) nube): cuerpos y la muerte de J2
+
+### Cuerpos (F3, F11) — concepción
+
+Un jugador se dibuja **sólo en primera persona**: su tipo es el 0 de la tabla de tipos, cuyo modelo son los brazos
+(84)–(85). **Nadie dibuja el cuerpo de un jugador en tercera persona**; el coop le presta a J2 el cuerpo de un aliado
+(el títere copia la matriz de J2). A J nadie le presta uno: por eso F3. En el nivel 0 hay **dos aliados vivos**
+(agentes 14 y 15, bando 0) en los cuatro volcados de ese nivel; en `ee-11` (nivel 1), ninguno
+(`confirmado en volcado`); (93i): 3 de 8 niveles no tienen aliado.
+
+| Opción | Qué | En contra |
+|---|---|---|
+| 1. segundo aliado como títere de J | `ELEGIR` toma el segundo aliado vivo; el filtro lo oculta en la pasada 1 y lo muestra en la 2 | sólo donde hay ≥ 2 aliados; el juego pierde dos aliados que pelean; si muere, J queda sin cuerpo |
+| **2. un cuerpo por spawner para cada jugador** | el prototipo de (93i) (soldado bando 0, grupo de colisión 4), uno para J y uno para J2 | gasta dos spawners del guion (la decisión que F11 ya espera de Fran) |
+| 3. modelo de tercera persona para el tipo 0 | darle al jugador un modelo de cuerpo | el jugador no tiene animaciones de cuerpo; es un proyecto aparte |
+
+**Recomendación: 2**, porque es la única que anda en los 8 niveles y no le saca aliados al juego; **decide Fran**
+(la misma pregunta que F11). Mientras tanto, la 1 sirve como paso intermedio sólo en el nivel 0.
+
+### La muerte de J2 (F10) — concepción y alternativas
+
+(93u), leído en frío: la muerte de cualquier jugador pasa por `FUN_0013FFA0(ctrl, 5)`; si `ctrl+0x100` ≥ 1 arma la
+cámara de muerte sobre **ese** jugador y termina la partida (el modo «muerto» actualiza sólo a J y no pasa por el
+gancho por cuadro: J2 se congelaría); si es < 1, muere como un personaje cualquiera. Quién sube `ctrl+0x100` no se sabe
+(0 en J y J2 en los volcados). El punto de decisión es uno solo: **`FUN_0013FFA0` con el control de J2**.
+
+| Opción | Qué | Primitiva |
+|---|---|---|
+| a. como un jugador: muere uno, pierden los dos | no tocar | — |
+| **b. cae y reaparece junto a J** (la v1 de `docs/14`) | con el control de J2, la rama de fin de partida se **silencia** (P5); en la ventana 1 el mod ve a J2 muerto, espera N s y lo repone: vida, estado, posición a ≥ 1 m de J (dos cuerpos en el mismo punto cuelgan el EE) | P5 + ventana 1 |
+| c. cae hasta que J lo levante | como b, pero la reposición pide a J cerca y un botón | P5 + ventana 1 + una pregunta de cercanía (P1) |
+| d. J2 no muere | vida fija | — (le saca el juego) |
+
+**Recomendación: b** (la v1), **decide Fran** (¿con penalidad?, ¿c?). Antes de construir hace falta la sonda (1) de
+(93u): qué es `ctrl+0x100`. Si J2 muere con `ctrl+0x100` = 0 y el juego ya no termina, la opción b se reduce a la
+reposición.
+
+### N3/N4 y N12
+
+- N3/N4: cerrados en concepción en T1/T3 (disparadores conmutables limpios con P2); la política es la pregunta 4 para
+  Fran.
+- N12 (volver al punto de control / cargar partida): el objeto `J+0x3C0` (`FUN_0016BEA8`…`FUN_0016C700`, llamado desde
+  la entrada y la salida del modo) es el candidato a «estado guardado del jugador» (`hipótesis`, sin leer). Queda para
+  otra tanda de frío.
