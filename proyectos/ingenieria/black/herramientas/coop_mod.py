@@ -57,8 +57,9 @@ CONTADOR, ESTADO, FASE = 0x0046D780, 0x0046D784, 0x0046D790
 LLAM_J2, LLAM_J0 = 0x0046D794, 0x0046D79C
 MIGA_A, MIGA_B, MIGA_V0, MIGA_C = 0x0046D7A0, 0x0046D798, 0x0046D7A4, 0x0046D7A8
 ESPERA, MOLDES, ATADAS, DESARMES = 0x0046D7B8, 0x0046D7C0, 0x0046D7C4, 0x0046D7C8
+TITERES = 0x0046D7CC           # (88) cuadros en que el stub copio la matriz de J2 al aliado 1
 DATOS = (CONTADOR, ESTADO, FASE, LLAM_J2, LLAM_J0, MIGA_A, MIGA_B, MIGA_V0, MIGA_C, ESPERA, MOLDES, ATADAS,
-         DESARMES)
+         DESARMES, TITERES)
 CUADROS_ESPERA = 30
 
 # (87) B3.3 -- la BAJA de J2 al salir del nivel. El desarme del juego es FUN_00129de8, estado
@@ -280,6 +281,7 @@ nop
 lw t1, -0x2880(s0)
 addiu t1, t1, 1
 sw t1, -0x2880(s0)
+TITERE_BLOQUE
 SALIR:
 ld s0, 8(sp)
 ld ra, 0(sp)
@@ -288,10 +290,53 @@ addiu sp, sp, 0x30
 """
 
 
+# (88) B2b en el stub: EL TITERE. Lo que titere.py hacia por PINE (85): cada cuadro, despues del
+# update de J2, copiar su matriz (J2+0x70..+0xAF, 16 palabras) al aliado 1 del pool de actores
+# (*(0x0040F514) + 0x90 + 0x3C0). Con lw/sw y no lq/sq: la alineacion del pool no esta medida y
+# sq con direccion desalineada escribe en OTRO lado sin avisar (el EE ignora los 4 bits bajos).
+# Guardas: pool no nulo, entrada de tipo (+0x328) no nula y bando (+0x3A4) = 0 -- un nivel cuyo
+# actor 1 sea enemigo o este vacio no se toca.
+TITERE_MOD = """
+lui t0, 0x41
+lw t0, -0xaec(t0)
+beq t0, zero, @SALIR
+nop
+addiu t1, t0, 0x450
+lw t2, 0x328(t1)
+beq t2, zero, @SALIR
+nop
+lw t2, 0x3a4(t1)
+bne t2, zero, @SALIR
+nop
+addiu t2, s0, -0x31a0
+addiu t1, t1, 0x70
+addiu t3, zero, 16
+COPIAT:
+lw t4, 0(t2)
+sw t4, 0(t1)
+addiu t2, t2, 4
+addiu t3, t3, -1
+bne t3, zero, @COPIAT
+addiu t1, t1, 4
+lw t1, -0x2834(s0)
+addiu t1, t1, 1
+sw t1, -0x2834(s0)
+"""
+SIN_TITERE = False   # `poner --sin-titere`: el control de (88) (el aliado no se escribe)
+ALIADO = 1
+
+
+def aliado(p):
+    act = p.leer32(0x0040F514)
+    return act + 0x90 + ALIADO * 0x3C0 if act else 0
+
+
 def programas():
     """[(nombre, [(pc, palabra, texto)])] -- lo unico que va en el pnach, junto con los ganchos."""
     env = j2.ensamblar_programa(ENVOLTORIO_MOD, j2.ENVOLTORIO, j2.ARMAS2)
-    pc = j2.ensamblar_programa(POR_CUADRO_MOD.replace("ESPERA_N", str(CUADROS_ESPERA)), j2.STUB, 0x0046D9F0)
+    fuente = POR_CUADRO_MOD.replace("ESPERA_N", str(CUADROS_ESPERA))
+    fuente = fuente.replace("TITERE_BLOQUE", "" if SIN_TITERE else TITERE_MOD)
+    pc = j2.ensamblar_programa(fuente, j2.STUB, 0x0046D9F0)
     des = j2.ensamblar_programa(DESARME_MOD, DESARME, 0x0046DE00)
     ganchos = [(g.SITIO, ensamblar("jal 0x%x" % j2.STUB, g.SITIO), "gancho por cuadro: jal stub (era jal 0x13bac8)"),
                (j2.SITIO_CARGA, ensamblar("jal 0x%x" % j2.ENVOLTORIO, j2.SITIO_CARGA),
@@ -320,8 +365,8 @@ def cmd_listar(_a):
 
 
 def cmd_poner(a):
-    global SIN_BAJA
-    SIN_BAJA = a.sin_baja
+    global SIN_BAJA, SIN_TITERE
+    SIN_BAJA, SIN_TITERE = a.sin_baja, a.sin_titere
     progs = programas()
     with Pine() as p:
         if (p.leer32(g.SITIO) != g.ORIGINAL or p.leer32(j2.SITIO_CARGA) != j2.ORIGINAL_CARGA
@@ -343,7 +388,8 @@ def cmd_poner(a):
             p.escribir32(pc, w)
         ok = all(p.leer32(pc) == w for _, prog in progs for pc, w, _ in prog)
         depurador("continuar")
-        print(json.dumps({"palabras": sum(len(x[1]) for x in progs), "escrito": ok, "baja": not SIN_BAJA}))
+        print(json.dumps({"palabras": sum(len(x[1]) for x in progs), "escrito": ok, "baja": not SIN_BAJA,
+                          "titere": not SIN_TITERE}))
     return 0 if ok else 1
 
 
@@ -352,10 +398,11 @@ def leer_estado(p):
     return {"cargador": p.leer32(jg + 0x5AA0), "fase": p.leer32(FASE), "moldes": p.leer32(MOLDES),
             "llam_J0": p.leer32(LLAM_J0), "llam_J2": p.leer32(LLAM_J2), "estado": p.leer32(ESTADO),
             "espera": p.leer32(ESPERA), "atadas": p.leer32(ATADAS), "desarmes": p.leer32(DESARMES),
-            "cuadros_J2": p.leer32(CONTADOR),
+            "cuadros_J2": p.leer32(CONTADOR), "titeres": p.leer32(TITERES),
             "J2_8A4": hex(p.leer32(cj.J2 + 0x8A4)), "J2_B4": hex(p.leer32(cj.J2 + 0xB4)),
             "J2_588": hex(p.leer32(cj.J2 + 0x588)), "J2_32C": hex(p.leer32(cj.J2 + 0x32C)),
-            "J_pos": [round(x, 2) for x in cj.pos(p, cj.J)], "J2_pos": [round(x, 2) for x in cj.pos(p, cj.J2)]}
+            "J_pos": [round(x, 2) for x in cj.pos(p, cj.J)], "J2_pos": [round(x, 2) for x in cj.pos(p, cj.J2)],
+            "A1_pos": [round(x, 2) for x in cj.pos(p, aliado(p))] if aliado(p) else None}
 
 
 def cmd_mirar(a):
@@ -364,7 +411,7 @@ def cmd_mirar(a):
         while time.time() - t0 < a.segundos:
             try:
                 d = leer_estado(p)
-                clave = {k: v for k, v in d.items() if k not in ("cuadros_J2", "espera", "J_pos", "J2_pos")}
+                clave = {k: v for k, v in d.items() if k not in ("cuadros_J2", "titeres", "espera", "J_pos", "J2_pos", "A1_pos")}
             except Exception as ex:  # noqa: BLE001
                 d = clave = {"error": str(ex)}
             if clave != ult:
@@ -392,14 +439,22 @@ def cmd_manos(a):
             f2[0x0E:0x2A + 28] = bytes(0x2A + 28 - 0x0E)
             p.escribir_bloque(cj.FALSO2, bytes(f2))
             p.escribir32(ctrl2 + 0xC, cj.FALSO2)
-        antes = cj.pos(p, cj.J2)
+        al = aliado(p)
+        antes, a_antes, t_antes = cj.pos(p, cj.J2), cj.pos(p, al), p.leer32(TITERES)
         p.escribir_f32(cj.FALSO2 + 0x8C, 0.0 if a.control else 0.8)
-        time.sleep(a.segundos)
+        t0, dmax = time.time(), 0.0
+        while time.time() - t0 < a.segundos:
+            dmax = max(dmax, math.dist(cj.pos(p, cj.J2), cj.pos(p, al)))
+            time.sleep(0.05)
         p.escribir_f32(cj.FALSO2 + 0x8C, 0.0)
-        despues = cj.pos(p, cj.J2)
+        time.sleep(0.3)
+        despues, a_despues = cj.pos(p, cj.J2), cj.pos(p, al)
         print(json.dumps({"ctrl2": hex(ctrl2), "fuente_original": hex(fuente), "control": a.control,
                           "J2_antes": [round(x, 2) for x in antes], "J2_despues": [round(x, 2) for x in despues],
-                          "metros": round(math.dist(antes, despues), 2)}))
+                          "metros": round(math.dist(antes, despues), 2),
+                          "aliado": hex(al), "aliado_metros": round(math.dist(a_antes, a_despues), 2),
+                          "aliado_J2_final_m": round(math.dist(despues, a_despues), 3),
+                          "aliado_J2_max_m": round(dmax, 3), "titeres": p.leer32(TITERES) - t_antes}))
     return 0
 
 
@@ -505,6 +560,7 @@ def main() -> int:
     for c in ("listar", "quitar", "toml", "instalar", "activar", "desactivar"):
         sub.add_parser(c)
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
+    po.add_argument("--sin-titere", action="store_true")
     m = sub.add_parser("mirar"); m.add_argument("segundos", type=float)
     h = sub.add_parser("manos"); h.add_argument("segundos", type=float); h.add_argument("--control", action="store_true")
     a = ap.parse_args()

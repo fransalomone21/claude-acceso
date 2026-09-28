@@ -633,8 +633,8 @@ nota = "por cuadro: addiu t1, zero, 2"
 [[parche]]
 direccion = 0x0046D824
 tipo = "u32"
-valor = 0x15090036
-nota = "por cuadro: bne t0, t1, 0x46d900"
+valor = 0x1509004D
+nota = "por cuadro: bne t0, t1, 0x46d95c"
 
 [[parche]]
 direccion = 0x0046D828
@@ -711,8 +711,8 @@ nota = "por cuadro: slti t2, t1, 30"
 [[parche]]
 direccion = 0x0046D858
 tipo = "u32"
-valor = 0x15400029
-nota = "por cuadro: bne t2, zero, 0x46d900"
+valor = 0x15400040
+nota = "por cuadro: bne t2, zero, 0x46d95c"
 
 [[parche]]
 direccion = 0x0046D85C
@@ -801,8 +801,8 @@ nota = "por cuadro: addiu t1, zero, 1"
 [[parche]]
 direccion = 0x0046D894
 tipo = "u32"
-valor = 0x1000001A
-nota = "por cuadro: beq zero, zero, 0x46d900"
+valor = 0x10000031
+nota = "por cuadro: beq zero, zero, 0x46d95c"
 
 [[parche]]
 direccion = 0x0046D898
@@ -861,8 +861,8 @@ nota = "por cuadro: addiu t1, zero, 3"
 [[parche]]
 direccion = 0x0046D8BC
 tipo = "u32"
-valor = 0x10000010
-nota = "por cuadro: beq zero, zero, 0x46d900"
+valor = 0x10000027
+nota = "por cuadro: beq zero, zero, 0x46d95c"
 
 [[parche]]
 direccion = 0x0046D8C0
@@ -963,23 +963,161 @@ nota = "por cuadro: sw t1, -0x2880(s0)"
 [[parche]]
 direccion = 0x0046D900
 tipo = "u32"
+valor = 0x3C080041
+nota = "por cuadro: lui t0, 0x41"
+
+[[parche]]
+direccion = 0x0046D904
+tipo = "u32"
+valor = 0x8D08F514
+nota = "por cuadro: lw t0, -0xaec(t0)"
+
+[[parche]]
+direccion = 0x0046D908
+tipo = "u32"
+valor = 0x11000014
+nota = "por cuadro: beq t0, zero, 0x46d95c"
+
+[[parche]]
+direccion = 0x0046D90C
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D910
+tipo = "u32"
+valor = 0x25090450
+nota = "por cuadro: addiu t1, t0, 0x450"
+
+[[parche]]
+direccion = 0x0046D914
+tipo = "u32"
+valor = 0x8D2A0328
+nota = "por cuadro: lw t2, 0x328(t1)"
+
+[[parche]]
+direccion = 0x0046D918
+tipo = "u32"
+valor = 0x11400010
+nota = "por cuadro: beq t2, zero, 0x46d95c"
+
+[[parche]]
+direccion = 0x0046D91C
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D920
+tipo = "u32"
+valor = 0x8D2A03A4
+nota = "por cuadro: lw t2, 0x3a4(t1)"
+
+[[parche]]
+direccion = 0x0046D924
+tipo = "u32"
+valor = 0x1540000D
+nota = "por cuadro: bne t2, zero, 0x46d95c"
+
+[[parche]]
+direccion = 0x0046D928
+tipo = "u32"
+valor = 0x00000000
+nota = "por cuadro: nop"
+
+[[parche]]
+direccion = 0x0046D92C
+tipo = "u32"
+valor = 0x260ACE60
+nota = "por cuadro: addiu t2, s0, -0x31a0"
+
+[[parche]]
+direccion = 0x0046D930
+tipo = "u32"
+valor = 0x25290070
+nota = "por cuadro: addiu t1, t1, 0x70"
+
+[[parche]]
+direccion = 0x0046D934
+tipo = "u32"
+valor = 0x240B0010
+nota = "por cuadro: addiu t3, zero, 16"
+
+[[parche]]
+direccion = 0x0046D938
+tipo = "u32"
+valor = 0x8D4C0000
+nota = "por cuadro: lw t4, 0(t2)"
+
+[[parche]]
+direccion = 0x0046D93C
+tipo = "u32"
+valor = 0xAD2C0000
+nota = "por cuadro: sw t4, 0(t1)"
+
+[[parche]]
+direccion = 0x0046D940
+tipo = "u32"
+valor = 0x254A0004
+nota = "por cuadro: addiu t2, t2, 4"
+
+[[parche]]
+direccion = 0x0046D944
+tipo = "u32"
+valor = 0x256BFFFF
+nota = "por cuadro: addiu t3, t3, -1"
+
+[[parche]]
+direccion = 0x0046D948
+tipo = "u32"
+valor = 0x1560FFFB
+nota = "por cuadro: bne t3, zero, 0x46d938"
+
+[[parche]]
+direccion = 0x0046D94C
+tipo = "u32"
+valor = 0x25290004
+nota = "por cuadro: addiu t1, t1, 4"
+
+[[parche]]
+direccion = 0x0046D950
+tipo = "u32"
+valor = 0x8E09D7CC
+nota = "por cuadro: lw t1, -0x2834(s0)"
+
+[[parche]]
+direccion = 0x0046D954
+tipo = "u32"
+valor = 0x25290001
+nota = "por cuadro: addiu t1, t1, 1"
+
+[[parche]]
+direccion = 0x0046D958
+tipo = "u32"
+valor = 0xAE09D7CC
+nota = "por cuadro: sw t1, -0x2834(s0)"
+
+[[parche]]
+direccion = 0x0046D95C
+tipo = "u32"
 valor = 0xDFB00008
 nota = "por cuadro: ld s0, 8(sp)"
 
 [[parche]]
-direccion = 0x0046D904
+direccion = 0x0046D960
 tipo = "u32"
 valor = 0xDFBF0000
 nota = "por cuadro: ld ra, 0(sp)"
 
 [[parche]]
-direccion = 0x0046D908
+direccion = 0x0046D964
 tipo = "u32"
 valor = 0x03E00008
 nota = "por cuadro: jr ra"
 
 [[parche]]
-direccion = 0x0046D90C
+direccion = 0x0046D968
 tipo = "u32"
 valor = 0x27BD0030
 nota = "por cuadro: addiu sp, sp, 0x30"

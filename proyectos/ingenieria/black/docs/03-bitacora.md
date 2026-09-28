@@ -16,6 +16,34 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (88) — B2b en el stub: el títere de J2 sin PINE
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B2b, B3) · **Nodos:** `personajes` K4 (hacia K5), `codigo-nuevo` K5 (entrega)
+**Objetivo:** que el cuerpo de J2 (el aliado 1, (85)) lo mueva el mod y no Python.
+
+### (88) Predicción, escrita antes de abrir el emulador
+`coop_mod.py` suma al stub por cuadro, en la rama que corre a J2 (estado 3), la copia de la matriz de J2 (`J2+0x70..+0xAF`, 16 palabras con `lw/sw`) al aliado 1 (`*(0x0040F514)+0x90+0x3C0`, en su `+0x70`), con guardas: pool no nulo, `+0x328` ≠ 0 y bando `+0x3A4` = 0; cuenta en `TITERES` (`0x0046D7CC`). El stub pasa de 68 a 91 palabras (`0x0046D800..0x0046D96C`, tope `0x0046D9F0`); el mod, a 225.
+- **Con títere:** en City Streets, `manos 2` → J2 camina ~7,5 m y el aliado 1 lo sigue: distancia aliado–J2 ≤ 0,3 m durante y al final; `TITERES` sube ~60 por segundo; sin cuelgue.
+- **Control (`poner --sin-titere`):** J2 camina igual y el aliado se mueve < 1 m (o lo que haga su IA), lejos de J2.
+- Riesgo: si la actualización del aliado corre **después** del stub y recalcula su matriz desde otro estado, el efecto puede ser nulo (el de PINE escribía muchas veces por cuadro). Eso sería un resultado, no un error del stub.
+
+### (88) Resultado — confirmado, en RAM y en pantalla, con control
+Corrida por PINE (`coop_mod.py poner` + selector, nivel 0/0, que es City Streets: el aliado 1 está en `0x00590250`, bando 0).
+| corrida | J2 camina | aliado se mueve | aliado–J2 máx / final | `TITERES` |
+|---|---|---|---|---|
+| carga 1, `--sin-titere` (control) | 7,58 m | 1,65 m (su IA) | 69,05 / 62,84 m | 0 |
+| misma carga, stub cambiado en pausa | 2,43 m (pared) | 2,57 m (primero salta 69 m hasta J2) | 0,15 / 0,15 m | +121 en 2 s |
+| **carga 2** (con la baja de (87)) | **8,47 m** | **8,52 m** | **0,16 / 0,00 m** | +133 en 2 s |
+| J2 girado 150°, otra dirección | 9,52 m | 9,59 m | 0,22 / 0,00 m | +163 |
+- `TITERES` sube ~60 por segundo: una copia por cuadro. La segunda carga no cuelga (`desarmes` 1, `atadas` 2): la baja convive con el títere.
+- **En pantalla:** `volcados/capturas-88/p1-titere-stub.png` — J mira a J2 después de que J2 caminara 9,5 m en otra dirección: el soldado está ahí, a 2,2 m, y la mira de J se pone **verde** sobre él (es aliado). `p2-sin-titere.png` es la de control, pero **no discrimina**: el aliado quedó parado donde el títere lo dejó (J2 se había movido 0,85 m); el control que vale es el de RAM (fila 1).
+- Lo de «actualización después del stub» no pasó: con una copia por cuadro alcanza, igual que las muchas de PINE. El orden de las actualizaciones dentro del cuadro sigue sin medir.
+- El mod pasa a **225 palabras**; `mods/coop.toml` regenerado y el bloque del pnach **reinstalado, apagado**.
+
+**No funcionó / sin explicar:** la primera caminata con títere dio 2,43 m y no 7,5: arrancó desde otro punto, al lado de una pared (la de control de la misma zona dio 0,85 m). Guarda **sin probar en rojo**: un nivel sin aliado 1 (bando ≠ 0 o `+0x328` = 0) no se midió.
+**Sigue:** (b) la vista de J2 en el stub (el cuaternión desde el yaw de su mira), (c) su cabeceo.
+
+---
+
 ## 2026-09-27 (87) — B3.3: la baja de J2 al salir del nivel; el mod aguanta TRES cargas seguidas
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3.3) · **Nodos:** `ragdoll` K5 (evidencia), `juego` K5 (evidencia)
 **Objetivo:** que la segunda carga no cuelgue el emulador (H2 de (86): algo dado de alta a J2 sobrevive al nivel).
