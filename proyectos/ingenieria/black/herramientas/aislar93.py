@@ -60,7 +60,7 @@ def main():
         time.sleep(0.5)
         cc.cap("aislar93-%s-j2-%d.png" % (tag, k))
         with Pine() as p:
-            serie.append({"k": k, "J2": municion(p, cj.J2), "J": municion(p, J), "cuentas": [p.leer32(cm.AISLAR_CUENTAS + 4 * i) for i in range(10)]})
+            serie.append({"k": k, "J2": municion(p, cj.J2), "J": municion(p, J), "cuentas": [p.leer32(cm.AISLAR_CUENTAS + 4 * i) for i in range(12)]})
     with Pine() as p:
         boton2(p, DISPARAR, False)
     res["serie_J2_dispara"] = serie
@@ -71,7 +71,7 @@ def main():
     cc.cap("aislar93-%s-j.png" % tag)
     with Pine() as p:
         res["J_despues_2"] = municion(p, J)
-        res["cuentas_final"] = [p.leer32(cm.AISLAR_CUENTAS + 4 * i) for i in range(10)]
+        res["cuentas_final"] = [p.leer32(cm.AISLAR_CUENTAS + 4 * i) for i in range(12)]
     r = cc.run("selector_depuracion.py", "vivo")
     res["vivo"] = r is not None and '"vivo": true' in r.stdout
     (cc.SAL / ("aislar93-%s.json" % tag)).write_text(json.dumps(res, indent=1))

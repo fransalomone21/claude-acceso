@@ -310,9 +310,23 @@ dice medido). Lo que cambió:
 - **(93d) `docs/14-coop-diseno.md`** con `coop_diseno.py verificar` = 0 y su saboteador 6 de 6 en rojo; B4
   (IA) leída en frío: los enemigos no saben que J2 existe (`probable`), política v1 aceptarlo; B6: J abre el
   camino. **Bloque: 514 palabras, instalado y activo.**
-- **Siguiente:** B5 (vida de J2 en 0, en vivo); el títere por nivel (aliado vivo o alta propia); los brazos
-  de J2 animados como los de J; J visto desde J2 (brazos flotantes, un segundo títere); el parpadeo de la
-  mitad de J2 (sin medir); la prueba de Fran con dos mandos de la recarga. Detalle: `sesiones/RETOME-LOCAL.md`.
+- **(93f)–(93g) B5**: la vida de J2 en 0 no hace nada y se regenera; un enemigo de spawner no le dispara a
+  nadie (tampoco a J): el daño a J2 no se puede medir sin un combate del guion.
+- **(93h) el títere por nivel**: el stub elige el primer **aliado vivo** del pool (`ELEGIR`); **5 de 8 niveles**
+  (se suma Town). Wilderness, Steelworks y Gulag **no tienen aliado vivo**.
+- **(93i) cuerpo donde no hay aliado** (prototipo por PINE, con control): un soldado de spawner con bando 0 y
+  **grupo de colisión 4** camina con J2; exacto encima de J2 colgaba el EE, así que el títere va corrido 0,3 m.
+  Llevarlo al stub gasta un spawner del guion: **decisión de Fran**.
+- **(93j)–(93m) la vista en primera persona**: la causa de «los brazos de J2 con la pose de J» y de «la recarga
+  de J2 en la mitad de J» es **la ranura** (`+0x330`): J2 usa la de J, que es el modelo en primera persona del
+  arma en la mano, con su animación; los eventos de J2 salen a nombre de J. Con la otra ranura la mitad de J
+  queda limpia (confirmado con control) pero J2 ve el aparejo de la otra arma. El arreglo es **una tercera
+  ranura para J2** (varias sesiones). Instalado de paso: el disparo de J2 ya no anima la vista (389 llamadas
+  salteadas en 4 s) y un filtro de eventos listo para cuando J2 tenga su ranura.
+- **(93k) el parpadeo**: el ancho de la vista lo escribe sólo el stub, quieto y con disparo/zoom/recarga.
+- **Bloque: 636 palabras, instalado y activo; la campaña entera, 8 de 8.**
+- **Siguiente:** la tercera ranura (lo que más se ve); el cuerpo en los 3 niveles sin aliado (si Fran dice que
+  sí); el parpadeo (en qué momento lo ve Fran). Detalle: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo

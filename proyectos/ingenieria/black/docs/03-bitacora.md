@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93m) — La causa de la pose compartida: J2 usa la RANURA de J, que es el modelo en primera persona del arma en la mano
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (la recarga de J2 en la mitad de J; los brazos de J2 con la pose de J) · **Nodos:** `vista-fp`, `personajes` (evidencia), `codigo-nuevo` (entrega parcial)
+**Objetivo:** encontrar por dónde llega la recarga de J2 a la vista, ya que (93l) no alcanzó.
+
+- **Fotos del objeto de la vista** (`herramientas/vistafp93.py`, `vistafp93.json`; 6 fotos en reposo para descartar relojes, después J2 dispara 5 s): con J2 **disparando no cambia nada** (el aislamiento de (93l) cubre el disparo); con J2 **recargando** —y sólo entonces— cambian `V+0xBB8..+0xBE0`, pares (id, 1) con ids 7, 0x1E, 0xB, 0x22, 3, 0xD, 2, 0x1A: una cola de eventos de animación. Los bloques compartidos `+0x270..+0x278` no cambian. Los escribe la biblioteca de animación (`0x00281C34`/`0x00281DD0`), llamada desde `FUN_001D6038`/`FUN_001D63A8` del módulo de la vista (`aislar93d.py`). `FUN_001D63A8` la llama **`FUN_001E80C0(evento, &x)`**, que es el callback `*(0x0040F50C)+0x964` (junto con `+0x948` = `FUN_001E7E58`, los sonidos de animación): usa el arma de `*x` y, si el evento corresponde, anima la vista única.
+- **Filtro de eventos** (`coop_mod.py`, envoltorio de 16 palabras en `0x0046E070`, gancho en `0x001E80C0`; **bloque de 636 palabras**): vuelve si `*a1` == J2. **No saltea nada**: vigilando su contador (`aislar93e.py`), `a1` = **`0x004ED7F0` = `+0x330`, la ranura, que J2 comparte con J** (su dueño es J). Los eventos de la animación de J2 salen **a nombre de J**.
+- **Con ranura propia** (`herramientas/ranura93.py`, por PINE: J2+0x330 = la ranura 1, `pers+0x6B0`, con dueño J2): J2 vacía y recarga, **el arma de J no pasa nunca a 8**, a la vista no llega ningún evento de recarga y **la mitad de J queda quieta en los 8 cuadros** (en el control, `aislar93.py prueba2` con la ranura compartida y el mismo bloque, 2 de 8 mostraban la recarga de J2) — `confirmado` con control. **Pero** en la mitad de J2 los brazos quedan bajos y el arma fuera de cuadro (`j2-mitad-ranura.png`).
+- **Por qué** (`herramientas/ranuras_cmp93.py`, `ranuras93.json`): las dos ranuras están inicializadas y difieren en el aparejo: la 0 es `FP_P_S_01`, la 1 `FP_S_G_S_001`. **Las ranuras son los modelos en primera persona de las dos armas del jugador** (lo que (80) intuyó), con su animación: con la 1, J2 anima el aparejo de la *otra* arma de J. La ranura explica también (93b)/(93j): los brazos de J2 tienen la pose de J porque comparten la ranura.
+- **Lo que haría falta:** una **tercera ranura** armada para J2 con el aparejo de su arma (0x240 B en el singleton de personajes + su compañero de 0x9D0 B + el modelo): carga de recursos, varias sesiones. Con eso, el filtro de eventos (ya instalado) haría el resto.
+- **Regresión** (la campaña entera con 636 palabras): 8 de 8, igual que antes.
+**No funcionó:** la ranura 1 como ranura de J2 (aparejo equivocado).
+**Sigue:** decidir si se encara la tercera ranura (es lo que arregla, a la vez, la pose de los brazos de J2 y la recarga en la mitad de J).
+
+---
+
 ## 2026-09-28 (93l) — Aislar la vista en primera persona de J2: las llamadas de J2 se saltean, pero la recarga sigue viéndose en la mitad de J (parcial)
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (lo visto en (93k): la recarga de J2 aparece en la mitad de J) · **Nodos:** `vista-fp` (evidencia), `codigo-nuevo` (entrega parcial)
 **Objetivo:** que las acciones de J2 no animen la vista única (opción (3b) de (91): J2 sin vista propia).

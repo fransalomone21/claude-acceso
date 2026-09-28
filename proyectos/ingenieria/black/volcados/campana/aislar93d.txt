@@ -1,0 +1,22 @@
+arma J +0xD8 = 0x657d38, arma J2 +0xD8 = 0x6de878
+== BASE
+0 disparos en 4 s con break: nadie hace write en 0x00657D38
+
+== J2 DISPARA
+  pc 0x00281DD0  ra={'ok': True, 'result': 1926244, 'hex': '0x1d6464'} a0={'ok': True, 'result': 6651188, 'hex': '0x657d34'} a1={'ok': True, 'result': 5878576, 'hex': '0x59b330'}
+  pc 0x00281C34  ra={'ok': True, 'result': 1925216, 'hex': '0x1d6060'} a0={'ok': True, 'result': 6651188, 'hex': '0x657d34'} a1={'ok': True, 'result': 56427, 'hex': '0xdc6b'}
+  pc 0x00281C34  ra={'ok': True, 'result': 1925216, 'hex': '0x1d6060'} a0={'ok': True, 'result': 6651188, 'hex': '0x657d34'} a1={'ok': True, 'result': 56428, 'hex': '0xdc6c'}
+  pc 0x00281C34  ra={'ok': True, 'result': 1925216, 'hex': '0x1d6060'} a0={'ok': True, 'result': 6651188, 'hex': '0x657d34'} a1={'ok': True, 'result': 56429, 'hex': '0xdc6d'}
+  pc 0x00281C34  ra={'ok': True, 'result': 1925216, 'hex': '0x1d6060'} a0={'ok': True, 'result': 6651188, 'hex': '0x657d34'} a1={'ok': True, 'result': 56430, 'hex': '0xdc6e'}
+  pc 0x00281C34  ra={'ok': True, 'result': 1925216, 'hex': '0x1d6060'} a0={'ok': True, 'result': 6651188, 'hex': '0x657d34'} a1={'ok': True, 'result': 56431, 'hex': '0xdc6f'}
+  pc 0x00281C34  ra={'ok': True, 'result': 1925216, 'hex': '0x1d6060'} a0={'ok': True, 'result': 6651188, 'hex': '0x657d34'} a1={'ok': True, 'result': 56432, 'hex': '0xdc70'}
+  pc 0x00281C34  ra={'ok': True, 'result': 1925216, 'hex': '0x1d6060'} a0={'ok': True, 'result': 6651188, 'hex': '0x657d34'} a1={'ok': True, 'result': 56433, 'hex': '0xdc71'}
+8 disparos (write en 0x00657D38)
+  pc 0x00281DD0  ciclos 73971159  
+  pc 0x00281C34  ciclos 77153325      +3182166 ciclos = 0.32 cuadros
+  pc 0x00281C34  ciclos 81220040      +4066715 ciclos = 0.41 cuadros
+  pc 0x00281C34  ciclos 85256410      +4036370 ciclos = 0.41 cuadros
+  pc 0x00281C34  ciclos 89559558      +4303148 ciclos = 0.44 cuadros
+  pc 0x00281C34  ciclos 93717638      +4158080 ciclos = 0.42 cuadros
+  pc 0x00281C34  ciclos 97791218      +4073580 ciclos = 0.41 cuadros
+  pc 0x00281C34  ciclos 101382471      +3591253 ciclos = 0.37 cuadros

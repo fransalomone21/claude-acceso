@@ -73,7 +73,8 @@ elegir titere               | 0x0046DE00 | 0x0046DE64 | codigo | (93h)
 titere elegido              | 0x0046DEF0 | 0x0046DEF4 | datos  | (93h)
 aislar bandera              | 0x0046DEF4 | 0x0046DEF8 | datos  | (93l)
 aislar vista FP             | 0x0046DF00 | 0x0046E02C | codigo | (93l)
-aislar contadores           | 0x0046E040 | 0x0046E068 | datos  | (93l)
+aislar evento FP            | 0x0046E070 | 0x0046E0B0 | codigo | (93m)
+aislar contadores           | 0x0046E040 | 0x0046E070 | datos  | (93l)
 pantalla                    | 0x0046F800 | 0x0046FAD4 | codigo | (89b)
 filtro del tinte            | 0x0046FB00 | 0x0046FB20 | codigo | (89b)
 ocultar por pasada          | 0x0046FB20 | 0x0046FBB8 | codigo | (93b)
@@ -92,6 +93,7 @@ gancho vista FP 1           | 0x001D7360 | 0x001D7368 | gancho | (93l)
 gancho vista FP 2           | 0x001D7500 | 0x001D7508 | gancho | (93l)
 gancho vista FP 3           | 0x001D73D8 | 0x001D73E0 | gancho | (93l)
 gancho vista FP 4           | 0x001D6F90 | 0x001D6F98 | gancho | (93l)
+gancho evento FP            | 0x001E80C0 | 0x001E80C8 | gancho | (93m)
 ```
 
 Los tres ganchos de la escena (`pd.SITIOS`) los compara el verificador contra `pantalla_dividida.py`

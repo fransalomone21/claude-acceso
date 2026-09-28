@@ -457,6 +457,8 @@ ALIADO = 1
 AISLAR_BANDERA = 0x0046DEF4    # dato, no va en el pnach
 AISLAR = 0x0046DF00            # 5 envoltorios de 15 palabras
 AISLAR_CUENTAS = 0x0046E040    # por envoltorio k: +8k pasadas (bandera apagada), +8k+4 salteadas. No va en el pnach
+EVENTO_FP = 0x001E80C0         # (93m) el callback de eventos de animacion -> vista FP (palabras 27BDFFE0 7FB00010)
+AISLAR_EVENTO = 0x0046E070     # su envoltorio, 16 palabras
 FP_ENTRADAS = [                # (funcion, sus dos primeras palabras en el ELF)
     (0x001D6E78, 0x27BDFF80, 0x7FB10060),   # conjunto de animaciones del arma (cambiar de arma)
     (0x001D7360, 0x27BDFFF0, 0x0080182D),
@@ -494,6 +496,32 @@ move v0, zero
         prog += j2.ensamblar_programa(fuente, base, base + 0x3C)
         ganchos += [(f, ensamblar("j 0x%x" % base, f), "gancho vista FP: j aislar %d (93l)" % k),
                     (f + 4, 0, "gancho vista FP: nop (93l)")]
+    # (93m) LA FUGA DE LA RECARGA: la animacion del CUERPO de J2 emite eventos que el juego manda al callback
+    # *(0x0040F50C)+0x964 = FUN_001E80C0(evento, &jugador), que con el arma de ESE jugador dispara la
+    # animacion en la vista unica. Envoltorio: si *a1 == J2, vuelve sin hacer nada. Cuentas en +0x28/+0x2C.
+    pasa, saltea = AISLAR_CUENTAS + 0x28 - 0x470000, AISLAR_CUENTAS + 0x2C - 0x470000
+    fuente = """
+lui t9, 0x47
+lw t8, 0(a1)
+addiu t7, t9, -0x3210
+beq t8, t7, @SKE
+lw t8, %d(t9)
+addiu t8, t8, 1
+sw t8, %d(t9)
+.word 0x27bdffe0
+.word 0x7fb00010
+j 0x%x
+nop
+SKE:
+lw t8, %d(t9)
+addiu t8, t8, 1
+sw t8, %d(t9)
+jr ra
+nop
+""" % (pasa, pasa, EVENTO_FP + 8, saltea, saltea)
+    prog += j2.ensamblar_programa(fuente, AISLAR_EVENTO, AISLAR_EVENTO + 0x40)
+    ganchos += [(EVENTO_FP, ensamblar("j 0x%x" % AISLAR_EVENTO, EVENTO_FP), "gancho evento FP: j filtro J2 (93m)"),
+                (EVENTO_FP + 4, 0, "gancho evento FP: nop (93m)")]
     return prog, ganchos
 
 
@@ -550,7 +578,8 @@ def programas():
                         for a, w in oc.ganchos()]
     if not SIN_AISLAR:
         ais, gan = aislar()
-        progs.append(("aislar vista FP", ais))
+        progs.append(("aislar vista FP", [x for x in ais if x[0] < AISLAR_CUENTAS]))
+        progs.append(("aislar evento FP", [x for x in ais if x[0] >= AISLAR_EVENTO]))
         ganchos += gan
     return progs + [("ganchos", ganchos)]
 

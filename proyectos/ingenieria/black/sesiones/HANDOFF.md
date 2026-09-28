@@ -4,11 +4,22 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **EMPEZÁ POR EL BLOQUE «(93)» DE ACÁ ABAJO, después el «(91)».** La cartera es **un solo
+> **EMPEZÁ POR EL BLOQUE «(93f)–(93m)» DE ACÁ ABAJO, después el «(93)».** La cartera es **un solo
 > proyecto, COOP**. **La Fase B está ABIERTA** desde el 2026-09-27 (84), con su
 > criterio en `PDP.md` §4 («Proyecto COOP — Fase B»); **B1, B2b (en el stub) y
 > B3 hechas: el coop en pantalla dividida sale del pnach solo** (88). El
 > mensaje para pegar está en `sesiones/RETOME-LOCAL.md`.
+
+## 2026-09-28 mañana, NOTEBOOK (tarea programada 07:10) — B5, EL TÍTERE POR NIVEL Y LA CAUSA DE LA POSE COMPARTIDA (bitácora (93f)–(93m))
+
+- **(93f)/(93g) B5**: la vida de J2 en 0 no hace nada (se regenera). Un enemigo de spawner movido a mano no dispara a nadie (tampoco a J, sin control positivo): el daño a J2 no se mide sin un combate del guion. La lectura de (93f) del «controlador tipo 2» no se sostiene (`+0x80` = 0 en J y J2).
+- **(93h) títere por nivel**: rutina `ELEGIR` (`0x0046DE00`, deja el elegido en `TITERE_ACT` = `0x0046DEF0`): el primer actor del pool con tipo ≠ 0, bando 0, `+0x38C` = 0 y `+0xB4` ≠ 0. `+0x38C` = 4 es un bloque sin alta. **5 de 8** (se suma Town); Wilderness/Steelworks/Gulag no tienen aliado vivo. `censo_titere.py`.
+- **(93i) cuerpo sin aliado** (prototipo por PINE, `titere_spawn93.py`): soldado de spawner → bando 0 **y grupo de colisión 4** (`*(*(B4+0x34)+0x18)`; jugador 3, aliado 4, enemigo 6, fijado al atar en `FUN_0025CEF8`) → camina con J2, confirmado con control. El títere va **corrido +0,3 m en x** en el stub (exacto encima colgaba el EE en `FUN_0033DD98`). Al stub **no** se llevó: gasta un spawner del guion (decisión de Fran).
+- **(93j)–(93m) la vista en primera persona**: la ranura `+0x330` (compartida con J, dueño J) es el modelo FP del arma en la mano con su animación; los eventos de animación de J2 salen por ahí a nombre de J (`FUN_001E80C0`, callback `*(0x0040F50C)+0x964`). Con la ranura 1 (`pers+0x6B0`, dueño J2) la mitad de J queda limpia (confirmado con control) pero J2 ve el aparejo de la otra arma de J (`FP_S_G_S_001` vs `FP_P_S_01`). **Arreglo pendiente: una tercera ranura para J2.** Instalado: aislamiento de 5 funciones de la vista durante la actualización de J2 (bandera `0x0046DEF4`, envoltorios `0x0046DF00`, contadores `0x0046E040`) y el filtro de eventos (`0x0046E070`, gancho `0x001E80C0`).
+- **(93k) parpadeo**: `R+0xD470` lo escribe sólo el stub (300/300), quieto y con J2 disparando/apuntando/recargando.
+- **Trampas nuevas**: el botón del mando falso necesita también el float (`+0x4C+4i`) o no dispara; el vigilante de lectura sobre una bandera que lee un envoltorio da el llamador (`ra`) sin breakpoints de ejecución (que tiran el emulador).
+
+**Estado de la máquina al cerrar:** pnach instalado con **636 palabras**, bloque **activo**; campaña 8 de 8 con ese bloque; fork cerrado; el 2.8.0 de Fran sin tocar (slot 14).
 
 ## 2026-09-28 madrugada, NOTEBOOK (tarea programada) — RECARGA, VISIBILIDAD POR PASADA, TODA LA CAMPAÑA Y EL PLANO (bitácora (93)–(93e))
 

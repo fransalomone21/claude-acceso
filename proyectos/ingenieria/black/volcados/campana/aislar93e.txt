@@ -1,0 +1,22 @@
+arma J +0xD8 = 0x46e068, arma J2 +0xD8 = 0x6de878
+== BASE
+0 disparos en 3 s con break: nadie hace write en 0x0046E068
+
+== J2 DISPARA
+  pc 0x0046E088  ra={'ok': True, 'result': 1752944, 'hex': '0x1abf70'} a0={'ok': True, 'result': 12077718996590080000, 'hex': '0xa79cad6fd8bd3000'} a1={'ok': True, 'result': 5167088, 'hex': '0x4ed7f0'}
+  pc 0x0046E088  ra={'ok': True, 'result': 1752944, 'hex': '0x1abf70'} a0={'ok': True, 'result': 12077658288128000000, 'hex': '0xa79c76390e6c0000'} a1={'ok': True, 'result': 5167088, 'hex': '0x4ed7f0'}
+  pc 0x0046E088  ra={'ok': True, 'result': 1752944, 'hex': '0x1abf70'} a0={'ok': True, 'result': 12077658289561600000, 'hex': '0xa79c763963df0000'} a1={'ok': True, 'result': 5167088, 'hex': '0x4ed7f0'}
+  pc 0x0046E088  ra={'ok': True, 'result': 1752944, 'hex': '0x1abf70'} a0={'ok': True, 'result': 12077601159547136000, 'hex': '0xa79c4243c5a72800'} a1={'ok': True, 'result': 5167088, 'hex': '0x4ed7f0'}
+  pc 0x0046E088  ra={'ok': True, 'result': 1752944, 'hex': '0x1abf70'} a0={'ok': True, 'result': 12077718996590080000, 'hex': '0xa79cad6fd8bd3000'} a1={'ok': True, 'result': 5167088, 'hex': '0x4ed7f0'}
+  pc 0x0046E088  ra={'ok': True, 'result': 1752944, 'hex': '0x1abf70'} a0={'ok': True, 'result': 12077658288128000000, 'hex': '0xa79c76390e6c0000'} a1={'ok': True, 'result': 5167088, 'hex': '0x4ed7f0'}
+  pc 0x0046E088  ra={'ok': True, 'result': 1752944, 'hex': '0x1abf70'} a0={'ok': True, 'result': 12077658289561600000, 'hex': '0xa79c763963df0000'} a1={'ok': True, 'result': 5167088, 'hex': '0x4ed7f0'}
+  pc 0x0046E088  ra={'ok': True, 'result': 1752944, 'hex': '0x1abf70'} a0={'ok': True, 'result': 12077601159547136000, 'hex': '0xa79c4243c5a72800'} a1={'ok': True, 'result': 5167088, 'hex': '0x4ed7f0'}
+8 disparos (write en 0x0046E068)
+  pc 0x0046E088  ciclos 5038286  
+  pc 0x0046E088  ciclos 42526067     +37487781 ciclos = 3.81 cuadros
+  pc 0x0046E088  ciclos 73315853     +30789786 ciclos = 3.13 cuadros
+  pc 0x0046E088  ciclos 127990281     +54674428 ciclos = 5.56 cuadros
+  pc 0x0046E088  ciclos 174316032     +46325751 ciclos = 4.71 cuadros
+  pc 0x0046E088  ciclos 211092149     +36776117 ciclos = 3.74 cuadros
+  pc 0x0046E088  ciclos 242553542     +31461393 ciclos = 3.20 cuadros
+  pc 0x0046E088  ciclos 298414145     +55860603 ciclos = 5.68 cuadros
