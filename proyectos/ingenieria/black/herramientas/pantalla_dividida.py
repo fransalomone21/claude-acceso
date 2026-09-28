@@ -119,6 +119,17 @@ FUENTE = [
     # (88e) el sub-raster de la camara de escena, leido aca y no escrito por Python (DATOS+0x84 queda sin uso)
     "lui t0, 0x41", "lw t0, -0xb40(t0)", "ori t1, zero, 0xd400", "addu t0, t0, t1",
     "lw t0, 0x58(t0)", "lw s2, 0x60(t0)", "lw t1, -0x374(s1)", "sw t1, 0xc(s2)", "sh zero, 0x1c(s2)",
+    # (89) LA PROPORCION: vw.x = tan(FOV/2)*(R+0xD470) y vw.y = vw.x/(R+0xD474) (FUN_0027B2F0, (84)); con
+    # las dos a x0,5 la mitad tiene la mitad del campo horizontal y el MISMO vertical: no se aplasta.
+    # Se guardan en DATOS+0x30/+0x34, se dividen si DATOS+0x38 != 0, SYNC, y se restauran antes del SYNC final.
+    "lui t0, 0x41", "lw t0, -0xb40(t0)", "ori t1, zero, 0xd400", "addu t0, t0, t1",
+    "lw t2, 0x70(t0)", "sw t2, -0x3d0(s1)", "lw t2, 0x74(t0)", "sw t2, -0x3cc(s1)",
+    "lw t2, -0x3c8(s1)", "beq t2, zero, SINPROP", "nop",
+    "lui t2, 0x3f00", _fpu("mtc1", T2, 1),
+    _fpu("lwc1", 4, 0x70, T0), _fpu("mul.s", 4, 4, 1), _fpu("swc1", 4, 0x70, T0),
+    _fpu("lwc1", 5, 0x74, T0), _fpu("mul.s", 5, 5, 1), _fpu("swc1", 5, 0x74, T0),
+    "SYNC",
+    "SINPROP:",
     "jal 0x1297e0", "or a0, s0, zero",                                  # pasada 1: J, izquierda
     "lui t0, 0x41", "lw t0, -0xb44(t0)",
     "lq t1, 0x710(t0)", "sq t1, -0x400(s1)", "lq t1, 0x720(t0)", "sq t1, -0x3f0(s1)",
@@ -128,6 +139,8 @@ FUENTE = [
     "jal 0x1297e0", "or a0, s0, zero",                                  # pasada 2: J2, derecha
     "lui t0, 0x41", "lw t0, -0xb44(t0)",
     "lq t1, -0x400(s1)", "sq t1, 0x710(t0)", "lq t1, -0x3f0(s1)", "sq t1, 0x720(t0)",
+    "lui t0, 0x41", "lw t0, -0xb40(t0)", "ori t1, zero, 0xd400", "addu t0, t0, t1",   # (89) proporcion
+    "lw t2, -0x3d0(s1)", "sw t2, 0x70(t0)", "lw t2, -0x3cc(s1)", "sw t2, 0x74(t0)",
     "SYNC",
     "lw t1, -0x370(s1)", "sw t1, 0xc(s2)", "b FIN", "sh zero, 0x1c(s2)",
     "SOLO:", "jal 0x1297e0", "or a0, s0, zero",

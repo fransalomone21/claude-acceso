@@ -365,7 +365,8 @@ def programas():
     # cada cuadro, asi que son constantes de verdad: division prendida, mitad 320, entero 640, fuente = stub.
     pant = [(pd.STUB + 4 * i, w, "pantalla dividida %d" % i) for i, w in enumerate(pd.codigo())]
     pant_datos = [(pd.DATOS + 0x80, 1, "division prendida"), (pd.DATOS + 0x8C, pd.MEDIO, "ancho de la mitad"),
-                  (pd.DATOS + 0x90, pd.ENTERO, "ancho entero"), (pd.DATOS + 0x94, 1, "la vista de J2 la calcula el stub")]
+                  (pd.DATOS + 0x90, pd.ENTERO, "ancho entero"), (pd.DATOS + 0x94, 1, "la vista de J2 la calcula el stub"),
+                  (pd.DATOS + 0x38, 1, "proporcion de la mitad (89)")]
     ganchos = [(g.SITIO, ensamblar("jal 0x%x" % j2.STUB, g.SITIO), "gancho por cuadro: jal stub (era jal 0x13bac8)"),
                (j2.SITIO_CARGA, ensamblar("jal 0x%x" % j2.ENVOLTORIO, j2.SITIO_CARGA),
                 "gancho del cargador: jal envoltorio (era jal 0x129090)")]

@@ -16,6 +16,27 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (89) — La proporción de las mitades, en el stub
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B1, B3) · **Nodos:** `render` K5 (evidencia)
+**Objetivo:** que las dos mitades no salgan aplastadas, sin Python.
+
+### (89) Predicción
+- **El cambio:** el stub de la pantalla guarda `R+0xD470` y `R+0xD474` (`R = *(0x0040F4C0)`; 1,333 y 1,778) en `DATOS+0x30/+0x34`, los multiplica por 0,5 si `DATOS+0x38` ≠ 0, sincroniza (`FUN_001AE998` + `FUN_001B0948`), dibuja las dos pasadas y los restaura antes de la sincronización final. Por (84): `vw.x = tan(FOV/2)·(+0x70)`, `vw.y = vw.x/(+0x74)`: la mitad queda con la mitad del campo horizontal y el mismo vertical. El stub pasa a 172 palabras (`..0x0046FAB0`); `DATOS+0x38` = 1 entra como constante del bloque.
+- **Medida:** con J quieto, captura a pantalla entera (división apagada) y dividida. Con `+0x38` = 1 la mitad izquierda (960 px) se parece más al **recorte central** (480..1440) de la entera que a la entera **aplastada** a 960; con `+0x38` = 0 (control), al revés.
+
+### (89) Resultado — confirmado en pantalla, con control
+`prop89.py` (PCSX2 recién abierto, `coop_mod.py poner`, J quieto; capturas en `volcados/capturas-89/`, tira `tira.png`). Diferencia media de gris de la mitad izquierda, sin la franja del HUD:
+| | contra el recorte central de la entera | contra la entera aplastada |
+|---|---|---|
+| **`+0x38` = 1** (corregida) | **17,4** | 30,6 |
+| `+0x38` = 0 (control) | 32,0 | **15,4** |
+Ruido entre dos capturas enteras seguidas: 8,2. A ojo: ventanas y mesa en proporción con la corrección, angostas sin ella. Una lectura por PINE cayó entre la división y la restauración y dio **0,667 / 0,889**: los valores sí se dividen durante las pasadas; las demás lecturas dan 1,333 / 1,778 (restaurados).
+- El bloque pasa a **412 palabras** (pantalla 172 + 5 constantes); `mods/coop.toml` y el pnach **reinstalados, apagados**.
+- **Visto de paso:** el tinte amarillo del HUD («fantasma») aparece en **las dos** mitades, no sólo en la derecha. Es lo siguiente.
+**Sigue:** el HUD por mitad (qué dibuja ese efecto de pantalla completa, en frío).
+
+---
+
 ## 2026-09-27 (88) — B2b en el stub: el títere de J2 sin PINE
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B2b, B3) · **Nodos:** `personajes` K4 (hacia K5), `codigo-nuevo` K5 (entrega)
 **Objetivo:** que el cuerpo de J2 (el aliado 1, (85)) lo mueva el mod y no Python.
