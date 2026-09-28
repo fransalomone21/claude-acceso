@@ -16,6 +16,17 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93n) — La tercera ranura, en frío: la ranura es el índice del arma en la mano
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (plan de la ranura propia de J2) · **Nodos:** `personajes` (evidencia; sin cambio de K)
+**Objetivo:** saber qué haría falta para darle a J2 una ranura propia bien armada.
+
+- **Quién asigna la ranura:** el constructor del jugador (`FUN_00139C68`) crea las dos armas (`FUN_0015CEF0`) y hace `+0x330 = pers + 0x470 + (+0x2C3)·0x240`; al cambiar de arma, `FUN_0015BE70` llama a **`FUN_0013C868(dueño, W+0x43)`**, que vuelve a poner `+0x330 = pers + 0x470 + i·0x240` y reata los 8 accesorios del personaje (`+0x25C..`) con los de la ranura (`ranura+0x30..`). **La ranura es el índice del arma en la mano (0 o 1)**, no el jugador: J usa la 1 cuando cambia a su segunda arma. Por eso la ranura 1 no le sirve a J2 ni como parche (se pisaría con J), además del aparejo equivocado de (93m).
+- **Lo que haría falta** (plan, `hipótesis`): una ranura 2 en `pers + 0x8F0` (medir antes si ese espacio es del singleton y está libre) armada con el aparejo del arma de J2, y un `FUN_0013C868` propio para J2 que la use en lugar de `W+0x43`. Falta encontrar quién **carga** el aparejo (los punteros `+0x44..+0x54` y el nombre `+0x5C` de la ranura) al empezar el nivel o al levantar un arma.
+**No funcionó:** nada (lectura en frío).
+**Sigue:** en frío, quién escribe `ranura+0x44..+0x5C` (el cargador del aparejo en primera persona); en vivo, qué hay en `pers+0x8F0`.
+
+---
+
 ## 2026-09-28 (93m) — La causa de la pose compartida: J2 usa la RANURA de J, que es el modelo en primera persona del arma en la mano
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (la recarga de J2 en la mitad de J; los brazos de J2 con la pose de J) · **Nodos:** `vista-fp`, `personajes` (evidencia), `codigo-nuevo` (entrega parcial)
 **Objetivo:** encontrar por dónde llega la recarga de J2 a la vista, ya que (93l) no alcanzó.
