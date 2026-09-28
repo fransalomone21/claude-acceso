@@ -16,6 +16,27 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93u) — B5 en frío: la muerte de un jugador no mira cuál es; con `ctrl+0x100` ≥ 1, la de J2 terminaría la partida
+**Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B5, «muerte de J2») · **Nodos:** `flujo`, `personajes` (evidencia en frío; sin cambio de K)
+**Objetivo:** T3 del retome: el camino de muerte de J, si mira sólo a J o recorre `jugadores[]`, y qué le pasaría a J2.
+
+**La cadena, leída en el pseudocódigo** (`confirmado en frío` salvo donde se dice):
+- **El daño al jugador** es `FUN_0013c3e8(daño, jugador, …, atacante)`: si `jugador+0x8B2` = 0 (sin muerte en curso) sacude el mando (`FUN_00140468(*(jugador+0x32C), daño·40)`), prende el **indicador de daño del HUD** (`FUN_001f28d0(daño, *(0x0040F51C), …)`), **sacude la cámara del gestor** (`FUN_00110698(daño·0,0004, *(0x0040F4BC), 2, 1)`), aplica el daño (`FUN_00134990`) y, **si la vida quedó en 0**, llama el método `+0x2C` de la vtable del controlador (`*(ctrl+0x84)` = `0x003DCC20`, la misma en J y en J2) con el evento **5**: `FUN_0013ffa0(ctrl, 5, …)`. Por eso (93f) no vio nada al escribir 0: la muerte se decide dentro del daño, no cada cuadro.
+- **`FUN_0013ffa0`** toma el jugador de `ctrl+0x7C` (en J2 es J2: es uno de los autopunteros que el molde reubica) y decide por **`ctrl+0x100`**:
+  - **≥ 1 → muerte del jugador:** `FUN_0011a890(*(0x0040F530), jugador, atacante)` arma la **cámara de muerte sobre ese jugador**, pone el HUD en modo 3, marca `jugador+0x8B2` = 1, deja al jugador en el estado 3 (`FUN_00135b80`) y escribe **`*(0x0040F0E0)+0x21098` = 1** (`FUN_00103918`). El cuadro siguiente `FUN_00102f68` lo pasa a `+0x2109C`, y la actualización del juego (`0x0012.c`, la que mira `juego+0x5AA0` = 0x1C) con ese estado en 1 se va a **`FUN_0012d270`**: el modo «muerto», que cada cuadro actualiza la cámara de muerte, el HUD y **sólo a J** (`FUN_0013bac8(dt, juego+0x30)`) y vuelve sin pasar por el resto (ni por el gancho por cuadro del mod: J2 se congelaría, `probable`).
+  - **< 1:** `FUN_001354e0(jugador, jugador+0x620, atacante)` y `FUN_00135b80(jugador, 2)`: estado 2 en `+0x38C` y **las primeras 8 B del jugador en cero** (el camino de un personaje cualquiera).
+- **Ningún paso mira si el que murió es el jugador 0 ni recorre `jugadores[]`**: si J2 muere con `ctrl+0x100` ≥ 1, **se termina la partida para los dos** y la cámara de muerte mira a J2. Si muere con `ctrl+0x100` < 1, J2 queda en estado 2 con la cabecera en cero mientras el mod lo sigue actualizando (`hipótesis`: se cae o desaparece).
+- **`ctrl+0x100` no se sabe** (`hipótesis`): vale **0 en J y en J2** en los volcados de (93r) (vida 750, `+0x38C` = 0, `+0x8B2` = 0); el inicializador del controlador (`FUN_0013F3E0`, que también copia de `*(0x0040F0E0)+0x21060+i·0xC` los ajustes del jugador `i`, entre ellos «invertir Y» de (88c)) lo pone en 0, y en el pseudocódigo no aparece quién lo sube. Con 0, **la muerte de J tampoco terminaría la partida**, lo que no cierra: algo lo sube antes de morir (un contador de golpes o del modo «adrenalina» del juego, candidatos). Se mide en vivo.
+- **De paso:** el daño a **J2** sacude **la cámara de J** y le prende **a J** el indicador de daño (el gestor de cámara y el HUD son uno solo).
+
+**Qué hacer (propuesta, sin código):** la política v1 del plano (docs/14: «si J2 muere, reaparece junto a J») se implementa en **un envoltorio de `FUN_0013ffa0`** (entrada `0x0013FFA0`; la vtable es compartida, así que no se toca): si `a0` = el controlador de J2 (`0x0046D2E0`) y `a1` = 5 → vida de J2 a un valor fijo, `J2+0x8B2` = 0, J2 a 1 m de J (lo mismo que APARTAR de (93c)) y volver sin llamar a la original; si no, la original. Así la muerte de J sigue siendo la del juego y la de J2 nunca termina la partida.
+
+**Sonda en vivo** (para la notebook): (1) **qué es `ctrl+0x100`**: vigilar `J+0x5F0` (= `ctrl+0x100`) mientras J recibe daño hasta morir en City Streets; predicción: sube a ≥ 1 antes de la muerte y `*(0x0040F0E0)+0x21098` pasa a 1 al morir (control: un enemigo que muere no lo toca). (2) **J2 muere**: con un código de una vez (como `ranura3.py`), llamar `FUN_0013c3e8` sobre J2 con daño ≥ su vida; predicción según (1): si `J2+0x5F0` ≥ 1, `+0x21098` = 1, cámara de muerte sobre J2 y fin de partida; si es 0, `J2+0x38C` = 2 y la cabecera de J2 en cero. Control: el mismo llamado con daño menor que la vida: sólo sacudida y HUD de J.
+**No funcionó:** nada. T4 (el cuerpo de los 3 niveles sin aliado) no se tocó: no sobró.
+**Sigue:** en la notebook, las sondas (1) y (2); con eso, escribir el envoltorio de `FUN_0013ffa0`.
+
+---
+
 ## 2026-09-28 (93t) — El parpadeo, en frío: la vista B es la mitad de J2 con la proporción ENTERA, y la repone el parche «Widescreen 16:9» en cada cuadro
 **Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (el parpadeo de la mitad de J2) · **Nodos:** `render` (evidencia; sin cambio de K)
 **Objetivo:** T2 del retome: con los volcados de (93r), encontrar qué escribe, cuando J2 dispara, algo que la pasada 2 lea.

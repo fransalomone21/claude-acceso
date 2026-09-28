@@ -330,10 +330,19 @@ dice medido). Lo que cambió:
   sin colgar. **(93q) La fuga está cerrada, medido en RAM con control** (`ranura3b.py`): con la ranura 3 la
   pose de J no se mueve con J2 disparando (1 palabra contra 33), la vista única no recibe nada y el arma de J
   no pasa a 8. **No está en el pnach.**
-- **El parpadeo** (visto en el video de Fran): con J2 disparando, su mitad alterna entre dos puntos de vista.
-- **Siguiente:** llevar la ranura 3 al pnach (armar una vez, cargar por nivel, envoltorios de `FUN_0013C868` y
-  `FUN_001a51c8`); el parpadeo; el cuerpo en los 3 niveles sin aliado (si Fran dice que sí). Detalle:
-  `sesiones/RETOME-LOCAL.md`.
+- **(93s) nube: el código de la ranura 3 para el pnach está escrito, SIN instalar** (`coop_mod.py`, bandera
+  `SIN_R3`; 785 palabras con la ranura, 636 sin ella). Se arma y carga desde la llamada por cuadro a
+  `FUN_001ab428` (`0x001295A8`); un envoltorio del `jal 0x1a51c8` del cargador del aparejo (`0x001ACA84`)
+  impide que el cambio de arma de J2 le pise el dueño a la ranura de J; la baja va en el desarme. **Los
+  accesorios no se reatan**: `J2+0x25C..` son los objetos de J (medido en volcado).
+- **(93t) nube: el parpadeo, en frío.** La vista B es la mitad de J2 **con la proporción entera** (comprimida
+  a 0,5 en horizontal, medido sobre las capturas con `parpadeo_escala.py`). La causa: el parche comunitario
+  **«Widescreen 16:9»** reescribe `R+0xD470/74` en cada cuadro desde el emulador y pisa la mitad del stub
+  entre la pasada 1 y la 2. Arreglo propuesto, sin escribir.
+- **(93u) nube: B5, en frío.** La muerte de un jugador no mira cuál es: con `ctrl+0x100` ≥ 1, la de J2
+  terminaría la partida para los dos. Propuesta: envoltorio de `FUN_0013ffa0` para que J2 reaparezca junto a J.
+- **Siguiente (en la notebook):** instalar la ranura 3 y la regresión (8 de 8), la sonda causal del parpadeo
+  (parche apagado / prendido) y las dos sondas de B5. Detalle: `sesiones/RETOME-LOCAL.md`.
 
 **Después**, por pedido de Fran: el análisis del coop, sus preguntas finas, el
 consenso, y la Fase A del proyecto coop con la cámara como primer desarrollo
