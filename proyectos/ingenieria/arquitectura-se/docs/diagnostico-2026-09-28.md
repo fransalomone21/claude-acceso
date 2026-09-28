@@ -97,6 +97,11 @@ Saboteador nuevo `probar-cascada.ps1` (7 casos, repo sintético con remote),
 registrado en `chequeo-completo.ps1` y probado en rojo cegando la cascada.
 
 **Falta:** que corra sola (no está en el arranque) y que **bloquee** (A5).
+**Y tiene un costo que ya se vio:** exige que *cada* último commit toque
+ESTADO y HANDOFF, así que un agregado chico a un documento obliga a tocarlos;
+eso empuja a tocarlos por trámite. Se resuelve con T2 (un dueño por dato: si
+el ESTADO fuera una vista corta, tocarlo sería barato y significativo), no
+aflojando la regla.
 
 ### A5. Los verificadores informan, no frenan — `confirmado`
 

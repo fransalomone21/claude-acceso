@@ -83,7 +83,9 @@ T9 (~9-16 sesiones, `hipótesis`). **A1 cambia la prioridad de P5:** la
 inyección no es que pese mucho, es que **no llega** — el harness muestra 2 KB
 de los 129 KB de `chequeo-de-trabajo.md` y de los 12,6 KB de `pilares.md`.
 De paso: la cascada mide ahora si todo está **al día** por git
-(`probar-cascada.ps1`), y la fila 6 del PDP quedó marcada CERRADA.
+(`probar-cascada.ps1`), y la fila 6 del PDP quedó marcada CERRADA. Al cerrar,
+A11 (sesiones paralelas) se vio en vivo: dos sesiones en el mismo árbol a la
+vez, y el rojo de una era trabajo en curso de la otra.
 
 ## Lo que FALTA, para la fase 7
 

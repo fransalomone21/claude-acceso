@@ -10,7 +10,9 @@
 > método dice que «se lee solo» no se lee. Salió de una sesión de BLACK (109),
 > no de una sesión de este proyecto; la fase 7 sigue abierta y el diagnóstico
 > es su insumo. De paso: la fila 6 del PDP quedó marcada CERRADA (el hook
-> inyectaba «fase 6» como activa).
+> inyectaba «fase 6» como activa). **Al cerrar se vio A11 en vivo:** otra
+> sesión de Claude trabajaba en `fisica-espacial` en este mismo árbol mientras
+> corrían los saboteadores, y su recompilación puso en rojo la limpieza.
 
 Sesión 7 de N. **2026-09-17.** Opus, esfuerzo alto, **inline, sin un solo
 subagente** — la sexta fase seguida así. **Cero PDF extraídos.**
