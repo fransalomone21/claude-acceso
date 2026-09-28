@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (104, nube) — T7, el diseño del cambio de contexto: dos ventanas que ya existen y cuatro sitios nuevos; el plano verifica que el ELF tenga lo que el diseño supone
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR) · **Nodos:** `codigo-nuevo` (sin cambio de K)
+**Objetivo:** T7: con T1–T6, el diseño del cambio de contexto, con su memoria en el plano y su verificador y saboteador. **Sin código** (pedido de Fran en (99)).
+
+- **La arquitectura** (`docs/16`, «Paso 6»): J2 no se aísla, se le da lo suyo y se le pregunta igual que a J. Todo cae en la **ventana 1** (la actualización de J2 en el gancho por cuadro) y la **ventana 2** (la pasada 2), más **cuatro sitios nuevos**: IA ver `0x0018FC4C`, IA visibles `0x0019098C`, silenciar vida baja `FUN_001F2A60` y el ícono `FUN_001F2CD0` (`FUN_001F2C98` es vacía: no hace falta). Tabla de qué se hace por arranque (`V2`), por nivel (sub3, `CAND2`) y por cuadro; cinco invariantes; el aislador queda como control.
+- **El plano** (`docs/14`, bloque nuevo `coop-plan-b`): 4 sitios con la instrucción que el diseño espera y 13 reservas de memoria en el libre `0x0046E580..0x0046EE00`, más la cabecera sombra en `0x0046CDDC..E4` y `0x004728AC` (`probable` libres: en cero en los 6 volcados, incluidos los del mod andando, y ningún `DAT_` del decompilado las nombra).
+- **`coop_diseno.py` regla 6**: el plan no se pisa con nada y el ELF tiene en cada sitio lo que el diseño supone (4 de 4 al escribirlo). La regla 5 ahora acepta `(NN, nube)` (hay precedente: (80, nube)); sigue exigiendo que la entrada exista. **Saboteador**: tres casos nuevos (instrucción equivocada, reserva que pisa al mod, sin bloque), 10 en total.
+- **Orden:** primero las sondas del concepto sin código nuevo (T3, T4, T5, T6); después IA → juntar → sub3 → `V2` → mini HUD → FOV2. Cinco preguntas para Fran juntas en `docs/16`.
+- La política v1 de `docs/14` (IA: «J2 no es blanco», (93d)) queda vigente hasta que la sonda confirme la v2 y Fran la apruebe; nota agregada.
+
+**No funcionó:** el primer verificar del plano dio rojo por la entrada (104), que todavía no existía: la regla 5 hacía su trabajo.
+**Sigue:** T8 (clase C y B restantes) si sobra; si no, el cierre.
+
+---
+
 ## 2026-09-28 (103, nube) — T6, HUD, agachado y zoom: el estado es de cada uno, lo compartido es la salida; la tabla de las cinco primitivas
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase A · **Nodos:** `hud`, `entrada`, `camara` (sin cambio de K)
 **Objetivo:** T6: dónde vive el agachado y el zoom, qué dibuja el HUD y de dónde lee.

@@ -398,3 +398,55 @@ J1 (= J) aprieta agachar 2 s, J2 quieto. Se registran cada 0,1 s: `ctrl+0x30` de
   pasada 2 que el stub no pisa viene de J.
 - **H6c** (la entrada se comparte): `J2.ctrl+0x30` pasa a 1.
 - **Control:** J2 agacha 2 s con J quieto: el espejo de lo anterior.
+
+## Paso 6: el diseño del cambio de contexto (T7, (104) nube)
+
+> Cierra la concepción de T1–T6 en **una** arquitectura. **Sin código todavía**: la memoria y los sitios del ELF que
+> toca están reservados en el bloque `coop-plan-b` de `docs/14`, y `coop_diseno.py` (regla 6) verifica que no se pisen
+> con nada y que **el ELF tenga en cada sitio la instrucción en la que el diseño se apoya** (hoy: 4 de 4). El código va
+> después de las sondas del concepto, que no piden instalar nada nuevo.
+
+### La idea en una línea
+
+J2 no se aísla: **se le da lo suyo y se le pregunta igual que a J**. Todo cae en dos **ventanas** que el mod ya tiene
+(la actualización de J2 en el gancho por cuadro `0x00129574`, y la pasada 2 en el stub de la pantalla) y en **cuatro
+sitios nuevos** (dos de la IA, dos del HUD).
+
+### Qué pasa, cuándo y dónde
+
+| Cuándo | Qué | Primitiva | Dónde | Estado |
+|---|---|---|---|---|
+| **una vez por arranque** | armar `V2` con las funciones del juego (como `V` en `FUN_001E82A8`, en el montón del juego; bandera como `R3_ARMADA`) | duplicar | código de una vez, desde la ventana 1 | receta sin leer (qué parte de `FUN_001E82A8` y qué inicialización posterior le pone las muestras de sonido) |
+| **por nivel** | sub propio para R3 al cargarla; `CAND2` = 0 | duplicar | junto a la carga de R3 (`0x001295A8`/`0x001ACA84`) | receta sin leer (`FUN_001A8168`) |
+| **por cuadro, ventana 1** (antes de actualizar a J2) | (a) cabecera sombra ← juego; (b) juntar por J2: activar y consultar alrededor de `J2+0xA0` con el callback conmutado (`*(0x0040F4D0)` = `J2 − 0x30`) → `CAND2`; (c) `X+0xC` ← `V2`; `pickups+0x5848/+0x584C` ↔ `CAND2`; bandera de silencio del HUD = 1 | P2, P3, P5 | stub por cuadro | diseñado |
+| ventana 1, **después** de actualizar a J2 | todo lo de (c) vuelve; silencio = 0 | — | ídem | diseñado |
+| **por cuadro, IA** | ver y visibles: J y, con `FASE` = 2, J2 | P1 | `0x0018FC4C`, `0x0019098C` | diseñado; sonda T2 |
+| **por cuadro, ventana 2** (pasada 2) | `R+0x00` ← `FOV2` (el FOV que el juego calculó para J2 en su ventana); después de la pasada, el mini HUD de J2 | P3 | stub de la pantalla | falta: qué campo lleva el zoom (N8) |
+| cuando el **juego** cambia el estado de la vista | llevarlo también a `V2` | P4 | los métodos de los 4 estados (`0x003E07B8`–`0x003E0890`) | falta: qué es cada estado |
+| **desarme** del nivel | soltar sub3; `CAND2` = 0; el id de J2 en el registro, como hoy | — | gancho del desarme `0x00129E38` | diseñado |
+
+### Invariantes (lo que el código tiene que cumplir y la prueba tiene que medir)
+
+1. **Todo lo conmutado vuelve** antes de salir de la ventana, también si la actualización de J2 sale por un camino raro;
+   fuera de las ventanas, el juego ve exactamente lo de siempre (J, `V`, el candidato de J).
+2. **Nada se conmuta** durante la actualización de J ni en la pasada 1.
+3. **Alta y baja simétricas**: lo que se arma por nivel se suelta en el desarme (lección de (87)); lo que se arma por
+   arranque no se arma dos veces (lección de R3: armar dos veces se come otro bloque).
+4. La cabecera sombra se copia **cada vez** antes de preguntar con el juego conmutado.
+5. **El aislador de (93l)/(93m) queda como control**: con `V2` andando se apaga por defecto; prendido, el mod vuelve a
+   lo de hoy.
+
+### Orden de trabajo
+
+Primero **las cinco sondas del concepto, sin código nuevo** (notebook): T2 no tiene sonda sin código; T3 (J2 junta el
+arma de al lado de J), T4 (`--sin-aislar`: J2 suena), T5 (el índice, no el puerto), T6 (agachado: tres hipótesis).
+Después, código en este orden, cada uno con su control: **IA** (dos sitios, el más barato y el que más cambia el
+juego) → **juntar** → **sub3** → **`V2`** (el más caro) → **mini HUD** (espera a Fran) → **FOV2**.
+
+### Preguntas para Fran (juntas)
+
+1. IA: ¿los enemigos se reparten, o van al más cercano? Con dos blancos el juego es más fácil: ¿se compensa (N18)?
+2. Botiquín: ¿lo toma el que pasa, o se reparte?
+3. HUD de J2: ¿qué tiene que ver sí o sí? ¿J1 conserva el HUD entero?
+4. Disparadores (N3): ¿sigue «J abre el camino» (v1), o que cualquiera de los dos abra (P2, un gancho)?
+5. Muerte de J2 (F10): la v1 dice «reaparece junto a J»: ¿con penalidad?

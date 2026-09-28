@@ -48,6 +48,7 @@ Los datos no van en el pnach: nacen del `.bss` en cero.
 
 ### Política de los riesgos medios (PDP §4, punto 2)
 
+- **(99)–(104), v2 propuesta:** la IA ve a J2 (P1 en las dos puertas), J2 junta (P2), `V2` y sub propios, mini HUD. Diseño en `docs/16` («Paso 6»); cada política v1 de abajo sigue vigente hasta que su sonda confirme la v2 y Fran la apruebe.
 - **IA frente a J2 (B4, `ia`).** Leído en frío (93d): cada bando guarda **un** jugador (`bando+0x10` y la
   ranura 3 de la escuadra, `FUN_00172618`/`FUN_00172C00`, escritos una vez al armar el nivel con el jugador 0,
   `FUN_00172830`), y la lista de proximidad de un agente (`FUN_0018B190`) es el jugador 0 más los 16 agentes
@@ -111,6 +112,35 @@ gancho ranura 3 carga       | 0x001ACA84 | 0x001ACA88 | gancho | (93s)
 
 Los tres ganchos de la escena (`pd.SITIOS`) los compara el verificador contra `pantalla_dividida.py`
 directamente: están en esa fuente, no en esta tabla, y se exige que no caigan en ningún rango de arriba.
+
+### El plan de COOP-B (104): diseño sin código todavía
+
+El diseño del cambio de contexto (`docs/16`, «Paso 6») reserva memoria y declara los sitios del ELF que va a
+tocar **antes** de escribir código. `coop_diseno.py` (regla 6) exige que no se pisen con nada de arriba ni entre sí,
+y que en cada sitio el ELF tenga **la instrucción en la que el diseño se apoya**: si una lectura en frío estaba mal,
+el plano se pone en rojo antes de que se escriba una línea de MIPS. Cuando una fila pase a código, sale de acá y va
+a `coop-rangos` con su rango exacto.
+
+```coop-plan-b
+# nombre                       | desde      | hasta      | tipo    | espera (ELF)                        | fuente
+IA ver: J y J2                 | 0x0018FC4C | 0x0018FC50 | gancho  | jal 0x0018FB88                      | (99)
+IA visibles: J y J2            | 0x0019098C | 0x00190990 | gancho  | jal 0x001908A0                      | (99)
+silenciar vida baja de J2      | 0x001F2A60 | 0x001F2A68 | gancho  | addiu sp, sp, -144; lui v0, 0x44    | (103)
+silenciar icono de J2          | 0x001F2CD0 | 0x001F2CD8 | gancho  | addiu sp, sp, -16; lui v1, 0x41     | (103)
+cabecera sombra +0x1C/+0x20    | 0x0046CDDC | 0x0046CDE4 | reserva | -                                   | (100)
+cabecera sombra +0x5AEC        | 0x004728AC | 0x004728B0 | reserva | -                                   | (100)
+CAND2 (candidato de J2)        | 0x0046E580 | 0x0046E588 | reserva | -                                   | (100)
+V2 y su bandera                | 0x0046E588 | 0x0046E590 | reserva | -                                   | (101)
+FOV2 y bandera de silencio     | 0x0046E590 | 0x0046E598 | reserva | -                                   | (103)
+sub3 (datos)                   | 0x0046E5A0 | 0x0046E5B0 | reserva | -                                   | (102)
+IA: llamar dos veces (código)  | 0x0046E600 | 0x0046E680 | reserva | -                                   | (99)
+juntar J2 (código)             | 0x0046E680 | 0x0046E800 | reserva | -                                   | (100)
+ventana de J2 (código)         | 0x0046E800 | 0x0046E900 | reserva | -                                   | (104)
+silenciar HUD (código)         | 0x0046E900 | 0x0046E980 | reserva | -                                   | (103)
+mini HUD de J2 (código)        | 0x0046E980 | 0x0046EC00 | reserva | -                                   | (103)
+sub3 (código)                  | 0x0046EC00 | 0x0046ED00 | reserva | -                                   | (102)
+armar V2 (código)              | 0x0046ED00 | 0x0046EE00 | reserva | -                                   | (101)
+```
 
 ## 4. Interfaz con los otros mods
 

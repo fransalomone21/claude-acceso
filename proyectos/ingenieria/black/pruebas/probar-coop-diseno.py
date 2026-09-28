@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Saboteador de coop_diseno.py: rompe el plano de a una cosa por vez (en copias temporales) y exige ROJO;
-el plano sin tocar tiene que dar VERDE. Sale 0 sólo si las siete cosas se cumplen."""
+el plano sin tocar tiene que dar VERDE. Sale 0 sólo si todas se cumplen (diez desde (104): tres del plan de COOP-B)."""
 import re
 import shutil
 import subprocess
@@ -33,6 +33,11 @@ def main() -> int:
         ("otro mod escribe adentro del coop", lambda t: t,
          'nombre = "sabotaje"\n[[parche]]\ndireccion = 0x0046D804\ntipo = "u32"\nvalor = 0\n', 1),
         ("sin bloque de rangos", lambda t: t.replace("```coop-rangos", "```texto"), None, 1),
+        ("plan B: el ELF no tiene lo que el diseño supone",
+         lambda t: t.replace("| jal 0x0018FB88 ", "| jal 0x0018FB90 "), None, 1),
+        ("plan B: reserva que pisa un rango del mod",
+         lambda t: t.replace("| 0x0046E580 | 0x0046E588 | reserva", "| 0x0046E4F0 | 0x0046E588 | reserva"), None, 1),
+        ("plan B: sin bloque del plan", lambda t: t.replace("```coop-plan-b", "```texto"), None, 1),
     ]
     fallas = 0
     with tempfile.TemporaryDirectory() as tmp:

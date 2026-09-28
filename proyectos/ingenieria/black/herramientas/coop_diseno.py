@@ -10,7 +10,10 @@ Lee el bloque ```coop-rangos del documento y exige, en este orden:
      de tipo gancho o en un sitio de la escena declarado en la fuente;
   3. ningun par de filas se pisa;
   4. ninguna `direccion = 0x...` de los otros mods de mods/ cae en un rango del coop;
-  5. toda fila tiene fuente: una entrada `(NN)` que existe en docs/03-bitacora.md, o un archivo de kb/.
+  5. toda fila tiene fuente: una entrada `(NN)` (o `(NN, nube)`) que existe en docs/03-bitacora.md, o un archivo de kb/;
+  6. (104) el bloque ```coop-plan-b (el DISENO de COOP-B, todavia sin codigo): sus filas no se pisan entre si
+     ni con coop-rangos; cada `gancho` espera en el ELF la instruccion que declara (varias separadas por `;`
+     para palabras seguidas), porque el diseno se apoya en ella; y cada fila tiene fuente como en 5.
 Sale 0 si todo esta bien y 1 si algo falla (y dice que). Su saboteador: pruebas/probar-coop-diseno.py.
 """
 import argparse
@@ -79,10 +82,53 @@ def verificar(doc: Path, mods: Path) -> list[str]:
     for f in filas:
         m = re.fullmatch(r"\((\d+[a-z]?)\)", f["fuente"])
         if m:
-            if not re.search(r"(?m)^#{2,3} .*\(%s\)" % re.escape(m.group(1)), bit):
+            if not re.search(r"(?m)^#{2,3} .*\(%s(?:, [^)]*)?\)" % re.escape(m.group(1)), bit):
                 errores.append("'%s': la entrada %s no esta en la bitacora" % (f["nombre"], f["fuente"]))
         elif not (f["fuente"].startswith("kb/") and (RAIZ / f["fuente"]).exists()):
             errores.append("'%s': fuente '%s' no es (NN) ni un archivo de kb/" % (f["nombre"], f["fuente"]))
+    errores += verificar_plan(doc, todos, bit)
+    return errores
+
+
+def leer_plan(doc: Path):
+    t = doc.read_text(encoding="utf-8")
+    m = re.search(r"```coop-plan-b\n(.*?)```", t, re.S)
+    if not m:
+        return None
+    filas = []
+    for l in m.group(1).splitlines():
+        if not l.strip() or l.lstrip().startswith("#"):
+            continue
+        c = [x.strip() for x in l.split("|")]
+        filas.append({"nombre": c[0], "desde": int(c[1], 16), "hasta": int(c[2], 16), "tipo": c[3],
+                      "espera": c[4], "fuente": c[5]})
+    return filas
+
+
+def verificar_plan(doc: Path, rangos, bit) -> list[str]:
+    from mips import desensamblar
+    from perfil_singleton import palabra_elf
+    plan = leer_plan(doc)
+    if plan is None:
+        return ["no hay bloque coop-plan-b en %s" % doc]
+    errores = []
+    for i, a in enumerate(plan):
+        if a["tipo"] not in ("gancho", "reserva"):
+            errores.append("plan '%s': tipo '%s' (gancho o reserva)" % (a["nombre"], a["tipo"]))
+        for b in plan[i + 1:] + rangos:
+            if a["desde"] < b["hasta"] and b["desde"] < a["hasta"]:
+                errores.append("plan: se pisan '%s' y '%s'" % (a["nombre"], b["nombre"]))
+        m = re.fullmatch(r"\((\d+[a-z]?)\)", a["fuente"])
+        if not m or not re.search(r"(?m)^#{2,3} .*\(%s(?:, [^)]*)?\)" % re.escape(m.group(1)), bit):
+            errores.append("plan '%s': fuente '%s' no esta en la bitacora" % (a["nombre"], a["fuente"]))
+        if a["tipo"] == "gancho":
+            for k, esp in enumerate(x.strip() for x in a["espera"].split(";")):
+                pc = a["desde"] + 4 * k
+                w = palabra_elf(pc)
+                real = desensamblar(w, pc) if w is not None else "(sin ELF)"
+                if " ".join(real.lower().split()) != " ".join(esp.lower().split()):
+                    errores.append("plan '%s': en %#x el ELF tiene '%s', el diseno espera '%s'"
+                                   % (a["nombre"], pc, real, esp))
     return errores
 
 
