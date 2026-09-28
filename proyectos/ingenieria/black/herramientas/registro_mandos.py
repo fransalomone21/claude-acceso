@@ -42,6 +42,9 @@ BOT_DESDE, BOT_N = 0x2A, 28          # +0x2A+i, i = 0..27
 LEER_BOT = (0x28, 0x48)              # alineado a 8: cubre +0x2A..+0x45
 LEER_EJE = (0x88, 0xD0)              # alineado a 8: cubre +0x8C..+0xCC
 UMBRAL_EJE = 0.3
+# (90) el juego le da a J1 el control del puerto que apreto Start; J2 toma el otro. *(J+0x588) dice cual.
+J_CONTROL = 0x005A8AB0 + 0x588
+CONTROL_PUERTO_2 = 0x00585A0C
 NOMBRE_BOTON = {v: k for k, v in BOTONES.items()}
 GRUPO_EJE = {"adelante": "camina", "atras": "camina", "lateral_a": "camina", "lateral_b": "camina",
              "pitch_arriba": "mira", "yaw_izq": "mira", "yaw_der": "mira"}
@@ -76,7 +79,8 @@ def _decodificar(valores: list[int]) -> dict:
 
 def acciones(estado: dict) -> list[str]:
     """Lo que se estampa: nombres de botones y 'camina'/'mira' si hay ejes."""
-    s = [NOMBRE_BOTON.get(i, f"b{i}") for i in estado["b"]]
+    # b16..b27 son las direcciones de los sticks como botones (medido en vivo, (93y)): ya salen como camina/mira
+    s = [NOMBRE_BOTON.get(i, f"b{i}") for i in estado["b"] if i < 16]
     for g in ("camina", "mira"):
         if any(GRUPO_EJE.get(n) == g for n in estado["e"]):
             s.append(g)
@@ -93,6 +97,8 @@ def grabar(dir_: Path, segundos: float, hz: float = 30.0) -> int:
         return 0
     ds = _direcciones()
     n = 0
+    j1 = puerto_de_j1(p)
+    (dir_ / "puertos.json").write_text(json.dumps({"j1_puerto": j1}) + "\n", encoding="utf-8")
     with p, open(dir_ / "mandos.jsonl", "w", encoding="utf-8") as f:
         fin = time.time() + segundos
         paso = 1.0 / hz
@@ -103,7 +109,8 @@ def grabar(dir_: Path, segundos: float, hz: float = 30.0) -> int:
             except PineError as e:
                 nota.write_text(f"PINE se corto a las {n} muestras: {e}\n", encoding="utf-8")
                 return 0
-            f.write(json.dumps({"t": round(t, 3), **{str(k): v for k, v in est.items()}}) + "\n")
+            # las claves "1"/"2" del registro son JUGADORES (J1 = el puerto que apreto Start), no puertos
+            f.write(json.dumps({"t": round(t, 3), "1": est[j1], "2": est[3 - j1]}) + "\n")
             n += 1
             espera = paso - (time.time() - t)
             if espera > 0:
@@ -112,8 +119,14 @@ def grabar(dir_: Path, segundos: float, hz: float = 30.0) -> int:
     return 0
 
 
-def _cargar(dir_: Path) -> tuple[list[dict], float]:
+def puerto_de_j1(p: Pine) -> int:
+    return 2 if p.leer32(J_CONTROL) == CONTROL_PUERTO_2 else 1
+
+
+def _cargar(dir_: Path, j1_puerto: int | None = None) -> tuple[list[dict], float]:
     ms = [json.loads(l) for l in (dir_ / "mandos.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    if j1_puerto == 2:   # registro viejo (antes de puertos.json), guardado por puerto: se da vuelta
+        ms = [{"t": m["t"], "1": m["2"], "2": m["1"]} for m in ms]
     ini = dir_ / "inicio_video.txt"
     t0 = float(ini.read_text(encoding="ascii").strip()) if ini.exists() else ms[0]["t"]
     return ms, t0
@@ -133,12 +146,12 @@ def eventos(ms: list[dict], t0: float) -> list[str]:
     return lineas
 
 
-def anotar(dir_: Path, desfase: float = 0.0) -> int:
+def anotar(dir_: Path, desfase: float = 0.0, j1_puerto: int | None = None) -> int:
     from PIL import Image, ImageDraw, ImageFont
 
     if not (dir_ / "mandos.jsonl").exists():
         print("sin mandos.jsonl: nada que anotar"); return 0
-    ms, t0 = _cargar(dir_)
+    ms, t0 = _cargar(dir_, j1_puerto)
     t0 += desfase
     (dir_ / "eventos.txt").write_text("\n".join(eventos(ms, t0)) + "\n", encoding="utf-8")
     cuadros = sorted((dir_ / "cuadros").glob("c_*.png"))   # 4 por segundo; c_001 = t 0
@@ -184,10 +197,13 @@ def anotar(dir_: Path, desfase: float = 0.0) -> int:
 def probar(segundos: float) -> int:
     with Pine() as p:
         ds = _direcciones()
+        j1 = puerto_de_j1(p)
+        print(f"J1 = puerto {j1}")
         antes = {1: set(), 2: set()}
         t0 = time.time(); n = 0
         while time.time() - t0 < segundos:
             est = _decodificar(p.leer_muchas(ds, ancho=8)); n += 1
+            est = {1: est[j1], 2: est[3 - j1]}
             for pto in (1, 2):
                 ahora = set(acciones(est[pto]))
                 if ahora != antes[pto]:
@@ -204,12 +220,13 @@ def main() -> int:
     g = sub.add_parser("grabar"); g.add_argument("dir"); g.add_argument("--segundos", type=float, default=30)
     a = sub.add_parser("anotar"); a.add_argument("dir")
     a.add_argument("--desfase", type=float, default=0.0, help="s a sumar a la hora del video (sincronia a ojo)")
+    a.add_argument("--j1-puerto", type=int, choices=(1, 2), help="solo registros viejos, sin puertos.json")
     pr = sub.add_parser("probar"); pr.add_argument("--segundos", type=float, default=5)
     x = ap.parse_args()
     if x.cmd == "grabar":
         return grabar(Path(x.dir), x.segundos)
     if x.cmd == "anotar":
-        return anotar(Path(x.dir), x.desfase)
+        return anotar(Path(x.dir), x.desfase, x.j1_puerto)
     return probar(x.segundos)
 
 

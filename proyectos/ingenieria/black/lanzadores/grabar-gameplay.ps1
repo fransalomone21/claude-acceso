@@ -8,15 +8,15 @@
 # Graba con ffmpeg (ya instalado: winget Gyan.FFmpeg). Primero con ddagrab (Desktop Duplication: agarra bien
 # la ventana del emulador a pantalla completa) y, si falla, con gdigrab.
 #
-#   .\grabar-gameplay.ps1                 # 30 s, empieza ya
-#   .\grabar-gameplay.ps1 -Segundos 30 -Espera 5   # espera 5 s (para volver al juego) y graba 30 (el acceso)
+#   .\grabar-gameplay.ps1                 # 60 s, empieza ya
+#   .\grabar-gameplay.ps1 -Segundos 60 -Espera 5   # espera 5 s (para volver al juego) y graba 60 (el acceso)
 # Atajo mientras se juega: Ctrl+Alt+G (lo agrega agachado-hold.ahk). Pita al empezar y al terminar.
 #
 # Sin acentos a proposito: la consola de Windows lee cp1252.
 
 [CmdletBinding()]
 param(
-    [int]$Segundos = 30,
+    [int]$Segundos = 60,
     [int]$Espera = 0,
     [int]$Fps = 30
 )
