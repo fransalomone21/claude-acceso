@@ -16,6 +16,24 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (93o) — La tercera ranura, en frío (2): el cargador del aparejo, el pool de ranuras y el plan del prototipo
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (ranura propia de J2: brazos con pose propia y recarga fuera de la mitad de J) · **Nodos:** `personajes`, `vista-fp` (evidencia; sin cambio de K)
+**Objetivo:** contestar lo que dejó (93n) —quién carga `ranura+0x44..+0x5C`, qué hay en `pers+0x8F0`— y dejar el prototipo diseñado antes de abrir el emulador.
+
+- **`pers+0x8F0` no está libre** (`confirmado` en frío, constructor de `pers` `FUN_001ab780`): es un **asignador** (`FUN_001adf58`, modo en `+0x20`: 0 = pool de bloques, 1 = montón, 2 = lineal) con un pool de **44 bloques de `0x3F9A` B** sobre el montón `pers+0x920` (44 × 0x3F9A = 0xAEE78, lo que se aloja). La ranura 3 no entra en `pers`.
+- **`pers` tiene un pool de 33 ranuras** (`0x4A40` = 33 × 0x240 en el montón, lista en `pers+0x70..+0xF0`, contador `+0xF4`): `FUN_001abe48(pers)` da la siguiente, inicializada con `FUN_001a4ff0(r, 0)`. Cada personaje la pide en `FUN_00131ef0` (`+0x330` = ranura del pool); el jugador después la pisa con `pers+0x470+i·0x240` (`FUN_00139C68`, `0x00139FD0`).
+- **Inicializar una ranura:** `FUN_001a4ff0(r, fp)` aloja el compañero 0x9D0 (`+0x54`), matrices de 0xA0 en `+0x30..+0x4C` (con `fp` = 1 sólo las 5..7, las de primera persona: por eso r0/r1 tienen `+0x44/+0x48/+0x4C`), pone `+0xB6` = `fp`, `+0xB8` = 0 y `+0xAC` = **un bloque del pool** (`FUN_001abfd8`).
+- **Cargar el aparejo:** `FUN_00143d90(*(0x0040F540), jugador, idx)` (constructor con idx 0; cambio de arma con `W+0x43`) → `FUN_001ac960(pers, idx, modelo, jugador, …)` carga el sub de 0x6C en `pers+0x398+idx·0x6C` → **`FUN_001a51c8(ranura, jugador, sub)`**: `*ranura` = jugador, **`jugador+0x330` = ranura**, `+0x50` = sub, instancia el modelo en el compañero **dentro del bloque `+0xAC`** y copia el nombre a `+0x5C`.
+- **Presupuesto de bloques** (`probable`): los piden sólo `FUN_001a4ff0` (33 del pool + 2 de primera persona) y una lista de 8 en `pers+0x93C` (con desalojo), así que el peor caso usa 43 de 44 y **queda 1**. Descargar una ranura (`FUN_001a5ee8`) no devuelve su bloque, y en frío no aparece quién reinicia el pool ni `+0xF4` entre niveles (`pers` se construye una vez, desde `FUN_001020c0`): **se mide en vivo**.
+- **Actualización y dibujo** (`probable`): la animación de la ranura la corre el mover de cada jugador (`FUN_00132D98` → `FUN_001a54e0(dt, J+0x330)`), y el dibujo sigue a `+0x330` (en (93m), con `J2+0x330` = r1 cambió la mitad de J2). Una ranura fuera de `pers` colgada de `J2+0x330` se animaría y dibujaría sola.
+- **`FUN_0013C868` exacto:** calcula `pers+0x470+i·0x240`, reata los 8 accesorios (`+0x25C..`) con `ranura+0x30..` (`FUN_00142ed8`), llama `FUN_00137320` y `FUN_00136b50`, y **al final** escribe `+0x330`.
+- **Plan del prototipo** (`docs/15-tercera-ranura.md`): R3 estática en `0x0046E100`; una vez por nivel, `FUN_00343fc8(R3+0x10)`, `FUN_001a4ff0(R3, 1)`, `FUN_001a51c8(R3, J2, pers+0x398+i·0x6C)` con `i` = `J2+0x2C3`; y dos envoltorios para que el cambio de arma no se la saque.
+- **De proceso:** se lanzó un agente «remoto» para hacer este frío con los créditos de la nube; gastaba el plan Pro (lo vio Fran en el límite semanal) y se cortó sin que escribiera nada. El frío se hizo acá, en el hilo que ya tenía el contexto.
+**No funcionó:** el agente remoto (ver arriba). Queda abierto en frío B5 (la muerte de J2).
+**Sigue:** en vivo, bloques libres y `pers+0xF4` en el nivel 1 y tras una segunda carga; después el prototipo de una sola vez por PINE, con control.
+
+---
+
 ## 2026-09-28 (93n) — La tercera ranura, en frío: la ranura es el índice del arma en la mano
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (plan de la ranura propia de J2) · **Nodos:** `personajes` (evidencia; sin cambio de K)
 **Objetivo:** saber qué haría falta para darle a J2 una ranura propia bien armada.
