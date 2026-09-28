@@ -59,9 +59,13 @@ global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) 
 | N15 | **Parsec nunca se probó**: que el mando del amigo, remoto, llegue como puerto 2, y la demora | la META lo pide | vivo, **lo hace Fran con el amigo** |
 | N16 | **prender y apagar el coop** sin cambiar de acceso (entrar/salir J2 en partida) | comodidad | después de B |
 | N17 | **sensibilidad / invertir Y por jugador** (el mod le invierte Y a J2 por la convención de la matriz, (88)) | — | prioridad baja |
-| N18 | **dificultad**: el juego está balanceado para uno | decisión de Fran, no de ingeniería | preguntar |
+| N18 | **dificultad**: el juego está balanceado para uno | **(106) Fran: después**, cuando el coop esté perfecto | después |
 | N19 | **la vida baja de J2 prende el efecto de vida baja del HUD único** (el de J1) | (98) `confirmado en frío` que la actualización de cada jugador (`FUN_0013A300`) llama `FUN_001F2C98`/`FUN_001F2A60(comandos-ui, 0x14/0x18)` con **su** vida; el efecto en pantalla, `hipótesis` | vivo: J2 con poca vida y J con toda; clase A (se arregla con el HUD, F5) |
 | N20 | **los efectos del mundo se generan alrededor de J** (`FUN_001B1CB8` sobre `0x0040F4D8`) | (98) `confirmado en frío` que leen `J+0xA0`; lo que se nota, `hipótesis` | clase C, prioridad baja |
+
+## Decisiones de Fran (106)
+
+IA a los dos (el más cercano); los recogibles los toma el primero que los agarra; HUD separado con vida, munición y punto de mira propios (el ícono de agachado después); disparadores los maneja J1; si muere cualquiera pierden los dos (reanimación después); los dos jugadores con cuerpo de aliado. Detalle en `docs/16`, «Decisiones de Fran».
 
 ## Orden (se decide, y se revisa con Fran en la PDR)
 

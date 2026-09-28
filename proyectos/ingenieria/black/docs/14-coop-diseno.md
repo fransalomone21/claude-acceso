@@ -48,6 +48,7 @@ Los datos no van en el pnach: nacen del `.bss` en cero.
 
 ### Política de los riesgos medios (PDP §4, punto 2)
 
+- **(106) Decisiones de Fran:** IA a los dos (v2 aprobada), recogibles para el primero que llega, HUD separado con punto de mira propio, disparadores de J1 (v1), **si muere cualquiera pierden los dos** (reemplaza la v1 «reaparece junto a J»), los dos jugadores con cuerpo de aliado. Detalle en `docs/16`.
 - **(99)–(104), v2 propuesta:** la IA ve a J2 (P1 en las dos puertas), J2 junta (P2), `V2` y sub propios, mini HUD. Diseño en `docs/16` («Paso 6»); cada política v1 de abajo sigue vigente hasta que su sonda confirme la v2 y Fran la apruebe.
 - **IA frente a J2 (B4, `ia`).** Leído en frío (93d): cada bando guarda **un** jugador (`bando+0x10` y la
   ranura 3 de la escuadra, `FUN_00172618`/`FUN_00172C00`, escritos una vez al armar el nivel con el jugador 0,

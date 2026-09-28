@@ -16,6 +16,24 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (106, nube) — Las decisiones de Fran: el juego como con uno, pero con dos
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR) · **Nodos:** ninguno
+**Objetivo:** anotar las respuestas de Fran a las cinco preguntas de (104)/(105) y lo que cambian en el diseño.
+
+- «Todos pueden interactuar con todo; primero jugabilidad y funcionalidad, después estética y balance.»
+- **IA:** atacan a los dos (el más cercano, o la lógica que convenga) → la v2 de T2 aprobada, y también el blanco hostil (`FUN_001848C0`) y el por defecto (`FUN_0018A890`) pasan a «el más cercano de J y J2».
+- **Recogibles:** los toma el primero que los agarra → T3 tal cual.
+- **HUD:** separado para los dos, con vida y munición propias y **punto de mira funcional para cada uno**; el ícono de agachado, después → el HUD de J2 deja de ser «mini»; el de J1, sólo de J1; retículas en el centro de cada mitad.
+- **Disparadores:** los maneja J1 (v1, nada que construir).
+- **Muerte:** si muere cualquiera, **pierden los dos**, como jugando solo (reemplaza la v1 «reaparece junto a J»). La muerte de J2 tiene que cumplir la misma condición de fin que la de J.
+- **Cuerpos:** los dos jugadores con cuerpo de aliado; lo estético después.
+- Tabla en `docs/16` («Decisiones de Fran»), nota en `docs/14`, N18 a «después».
+
+**No funcionó:** nada.
+**Sigue:** el frío que estas decisiones abren: la IA completa (y su MIPS), la condición de muerte de J2, el HUD y las retículas, los cuerpos, `V2` y el sub3.
+
+---
+
 ## 2026-09-28 (105, nube) — T8, cuerpos y muerte de J2: nadie dibuja a un jugador en tercera persona, y la muerte tiene un solo punto de decisión
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clases B y C · **Nodos:** `spawn`, `flujo` (sin cambio de K)
 **Objetivo:** T8, en concepción y diseño: F3/F11 (cuerpos), F10 (muerte de J2), lo que quedaba de N3/N4/N12.

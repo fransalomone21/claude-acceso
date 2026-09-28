@@ -495,3 +495,17 @@ reposición.
 - N12 (volver al punto de control / cargar partida): el objeto `J+0x3C0` (`FUN_0016BEA8`…`FUN_0016C700`, llamado desde
   la entrada y la salida del modo) es el candidato a «estado guardado del jugador» (`hipótesis`, sin leer). Queda para
   otra tanda de frío.
+
+## Decisiones de Fran (106), 2026-09-28 — mandan sobre las recomendaciones de arriba
+
+> «El juego debe funcionar igual que con un jugador pero ahora con dos; todos pueden interactuar con todo. Primero
+> la jugabilidad y la funcionalidad, después lo estético y el balance.»
+
+| # | Pregunta | Decisión | Qué cambia en el diseño |
+|---|---|---|---|
+| 1 | IA | los enemigos atacan **a los dos** (al más cercano, o la lógica que convenga) | la opción 1 de T2 (J2 en «ver» y «visibles») queda **aprobada**, y además el blanco del modo hostil (`FUN_001848C0`) y el blanco por defecto (`FUN_0018A890`) pasan a **el más cercano de J y J2** |
+| 2 | botiquín / recogibles | **lo toma el que lo agarre primero**; el balance, después | la opción 1 de T3 tal cual (cada uno pregunta por sí mismo) |
+| 3 | HUD | **HUD separado para los dos**, con vida y munición propias; **cada uno con su punto de mira funcional**; el ícono de agachado, después | el HUD de J2 pasa de «mini» a **completo en lo funcional** (vida, munición, retícula); el de J1 tiene que mostrar **sólo** lo de J1; las dos retículas en el centro de **su** mitad (hoy la del juego cae sobre el corte) |
+| 4 | disparadores | **los maneja J1** por ahora | la política v1 queda (nada que construir) |
+| 5 | muerte | **si muere cualquiera, pierden los dos**, como jugando solo; reanimación, después | la muerte de J2 tiene que hacer **lo mismo que la de J**: ya no se silencia nada; hace falta que el control de J2 cumpla la condición de fin de partida igual que el de J (`ctrl+0x100`) |
+| — | cuerpos | **los dos jugadores con skin de aliado**; lo estético, después | J1 también necesita un cuerpo visible en la mitad de J2; la opción 2 de T8 (un cuerpo por jugador) queda aprobada en lo funcional |
