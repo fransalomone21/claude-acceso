@@ -11,6 +11,12 @@
       "estado": "CERRADO 2026-09-13 -- 19 modulos, 149 pag."
     },
     {
+      "materia": "Fisica Espacial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/hoja-formulas.pdf",
+      "nombre-en-drive": "Hoja de formulas.pdf",
+      "estado": "2026-09-28 -- 3 carillas, 13 temas, cada formula con sus hipotesis; copiadas de las ecuaciones etiquetadas del apunte (fuente: practica/hoja-formulas.typ)"
+    },
+    {
       "materia": "Fisica Espacial/Modelos de Parcial",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-momento-angular.pdf",
       "nombre-en-drive": "Parcialito - Momento angular (con resolucion).pdf",

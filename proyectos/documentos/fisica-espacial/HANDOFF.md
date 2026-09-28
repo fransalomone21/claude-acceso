@@ -6,6 +6,18 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-28 — hoja de fórmulas (fuera de fase)
+
+- Fuente `practica/hoja-formulas.typ`; importa la paleta del apunte, así que
+  **hay que compilar con `--root ..`** (sin eso Typst corta con «would escape
+  the project root»). `compilar.ps1` no la incluye: se compila a mano.
+- La etiqueta gris de cada fórmula es el 4.º argumento posicional de `#f`,
+  no un argumento con nombre (`[etq: "x"]` es contenido y Typst lo rechaza).
+- Si se toca una fórmula del apunte, revisar la hoja: `grep` la etiqueta en
+  `hoja-formulas.typ`. No hay verificador que las compare.
+
+---
+
 ## Sesión del 2026-09-27 — fase 14 cerrada: guía completa y modelos de parcial
 
 **No queda fase abierta.** Lo que la próxima sesión tiene que saber:

@@ -1,5 +1,24 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fuera de fase, 2026-09-28: hoja de fórmulas en Drive
+
+A pedido de Fran. `practica/hoja-formulas.typ` → `practica/salida/hoja-formulas.pdf`,
+**3 carillas, 13 temas + constantes**, cada fórmula con su «Vale si:» (las
+hipótesis) y el nombre de la etiqueta del apunte de donde sale. Publicada en
+la raíz de `Fisica Espacial/` como *Hoja de formulas.pdf* (declarada en
+`.claude/apuntes-publicos.json`, MD5 verificado). Las ecuaciones se copiaron
+de las **etiquetadas** de los módulos (extraídas por script, no de memoria);
+las pocas sin etiqueta (impulso, $I_"sp"$, Tsiolkovsky sin gravedad, König,
+vis-viva de la hipérbola) salen del cuerpo del mismo módulo o de despejar la
+etiquetada. **No la mide ningún verificador**: si el apunte cambia una
+fórmula, la hoja no se entera. Se compila con
+`typst compile --root .. hoja-formulas.typ salida/hoja-formulas.pdf` desde `practica/`.
+
+De paso: el arranque dio rojo en `publicar-apuntes -Verificar` porque las dos
+guías completas en Drive (subidas el 28/09 desde otra sesión) tenían otro MD5
+que las locales del 27/09, con el mismo tamaño. Drive era la más nueva: se
+bajó a local, no al revés.
+
 ## Fase 14 CERRADA: guía completa y modelos de parcial — 2026-09-27
 
 **No queda fase abierta.** Lo que sigue lo decide Fran (PDP §4, «Lo que
