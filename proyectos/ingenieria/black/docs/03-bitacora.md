@@ -16,6 +16,22 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (99, nube) — T2, la IA: el blanco es genérico, pero el mundo de la IA es «J + 16 agentes» y J2 no está; diseño elegido (J2 en las dos puertas «ver» y «visibles»)
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase B · **Nodos:** `ia` (K3, sin cambio)
+**Objetivo:** T2: cómo elige blanco un enemigo, si J2 podría entrar, y el cambio mínimo con su sonda.
+
+- **Concepción** (`confirmado en frío`): un enemigo apunta a una **amenaza** de su lista (3 ranuras en `agente+0x150`), que es un **id del registro físico** (`fisica+0xFA8`) elegido por bando (`personaje+0x3A4`). Entran por **ver** (`FUN_0018FC18`), **visibles** (`FUN_00190958`), **daño** (`FUN_0013D388`) y **por defecto J** (`FUN_0018A890`). Las dos primeras recorren **J por el global + los 16 agentes** de `fisica+0x2B00`: J2 no está en ninguno.
+- **Datos** (`confirmado en volcado`, `ee-parpadeo-*` con `FASE` = 2): J2 es la entrada 1 del registro, bando 0, vivo, tipo 2; agentes 14/15 bando 0 (aliados, persiguen enemigos), 8–13 bando 1 (enemigos, en `ee-e4` tienen a J = id 0 como amenaza); con J2 armado nadie tiene el id 1.
+- **Diseño** (`docs/16`, «Clase B, la IA»): cuatro alternativas; **elegida la 1** — en los dos recorridos, preguntar por J y por J2 (sitios `0x0018FC4C` y `0x0019098C`). Descartadas: J2 como agente (sería un cerebro), sólo por daño (no es coop), conmutar el global (la IA vería uno por vez). Invariante: el id de J2 se da de baja al desarmar.
+- **Sonda** escrita con predicción, control en la misma corrida y negativo que refuta.
+- **Preguntas para Fran:** ¿reparto de enemigos o el más cercano?; con dos blancos es más fácil: ¿se compensa? (N18).
+- **Corrección de rumbo (Fran, a mitad de tarea):** «evitar ir al bajo nivel o a la implementación sin antes liquidar la concepción y el diseño». Estaba por escribir el stub MIPS de la opción 1; **no se escribió**. Desde T2, cada tarea cierra concepción + alternativas + elección + sonda; el código va todo junto en T7.
+
+**No funcionó:** nada.
+**Sigue:** T3, juntar armas (F1, N9), en el mismo plano.
+
+---
+
 ## 2026-09-28 (98, nube) — T1, el censo A/B: 103 funciones preguntan por «el jugador» por el global, y F1, F6, N3 y N4 cambian de forma
 **Máquina:** nube (sin emulador) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR: separar A de B) · **Nodos:** `pickups`, `disparadores`, `hud`, `audio`, `ia` (sin cambio de K: todo en frío)
 **Objetivo:** T1 de `RETOME-NUBE`: toda lectura de «el jugador» que no cuelga de J, clasificada en A (lo que J tiene), B (lo que el mundo pregunta), C (compartido).

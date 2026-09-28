@@ -109,3 +109,68 @@ agachar alterno, `+0x30` **agachado**), `+0x8B2` muerto.
    `0x0046D1F0`, (79)). Dato para T7.
 5. **`V` cuelga de un contexto de efectos único**, construido al arrancar (`FUN_001D5828` → `FUN_001E82A8`), junto
    con el emisor de sonido del jugador (`X+0x30`). Eso es lo que T4 tiene que duplicar.
+
+## Clase B, la IA (T2, (99) nube): el mundo de la IA es «J + 16 agentes», y J2 no está en ninguno de los dos
+
+### Concepción — qué ES el blanco de un enemigo (`confirmado en frío`; datos `confirmado en volcado`)
+
+Un enemigo **no apunta al jugador**: apunta a una **amenaza** de su lista (3 ranuras de `0x60` en `agente+0x150`,
+la actual en `agente+0x270`), y cada amenaza es un **id del registro físico** (`*(0x0040F4D4)+0xFA8`: entradas
+`{i, estado, personaje}` de `0xC`; el id del personaje vive en `personaje+0x380`). Es genérico: aliados y enemigos
+usan la misma lista y se eligen por **bando** (`personaje+0x3A4`: 0 = los nuestros, 1 = los de ellos).
+
+Las amenazas entran por **tres puertas**:
+
+| Puerta | Quién | Qué le pregunta al mundo | ¿J2 entra? |
+|---|---|---|---|
+| **ver** | `FUN_0018FC18` → `FUN_0018FB88` (por agente, por cuadro): «¿a quién de otro bando, vivo y no anotado, veo?» | recorre **[J por el global] + las 16 ranuras de agentes** (`fisica+0x2B00`, paso `0x1FD0`) | **no**: J2 no es J ni un agente |
+| **visibles** | `FUN_00190958` → `FUN_001908A0`: mantiene la máscara de visibles `agente+0x274` | el mismo recorrido | **no** |
+| **daño** | `FUN_0013D388` → `FUN_00189550`: el que me pegó entra como amenaza, con peso = daño | el atacante, por su id | **sí** (`probable`: lo resuelve por el registro, donde J2 está) |
+| (por defecto) | `FUN_0018A890`: sin amenaza, `FUN_00189740(agente, J, 1)` | J fijo | no (y está bien que el defecto sea uno) |
+
+Además, con **J fijo** (no genéricos): el blanco del modo hostil `FUN_001848C0` (`p[3] = J`), la lista de
+cercanía a 4 m `FUN_0018B190` (J + agentes), y seis lecturas de distancia a `J+0xA0` (`FUN_00176D18`,
+`FUN_00180CD8`, `FUN_00186F40`, `FUN_00190C18`, `FUN_00197678`, `FUN_0019D6B8`: sin leer qué deciden).
+
+**Los datos de J2 ya alcanzan** (`confirmado en volcado`, `ee-parpadeo-quieto/fuego-0`, con `FASE` = 2): la entrada 1
+del registro es J2 (`0x0046CDF0`), `J2+0x380` = 1, bando 0 (el de J), vivo (`+0x38C` = 0), tipo 2. En esos volcados
+ningún enemigo tiene el id 1 como amenaza (J2 estaba quieto: evidencia débil, pero coherente).
+
+**Respuesta a N1:** los enemigos **no ven** a J2; sólo lo tomarían como blanco **después de que J2 les pegue**
+(`probable`), y aun así no lo tendrían en la máscara de visibles, que es lo que la IA usa para decidir si le tira
+(`hipótesis`). N2 depende de eso.
+
+### Diseño — alternativas y elección
+
+| Opción | Qué es | A favor | En contra |
+|---|---|---|---|
+| **1. J2 en «el mundo de la IA»** | en los dos recorridos (ver, visibles), donde el juego pregunta por J, preguntar **por J y por J2** | ataca la causa (la IA ya sabe manejar N personajes por id y bando); dos puntos de cambio; nada nuevo que mantener por cuadro | el costo por agente se duplica en esas dos preguntas (barato: una prueba de visibilidad más) |
+| 2. J2 como agente 17 | darle una ranura de agente | la IA lo recorrería sola | una ranura de agente es un **cerebro** (`0x1FD0`): J2 pasaría a tener IA. Descartada |
+| 3. sólo por daño | no tocar nada: J2 existe para el que le pega | cero cambios | la IA nunca **inicia** contra J2; los enemigos ignoran a quien no les disparó. No es coop |
+| 4. conmutar «J» | cambiar el global del juego a J2 alrededor de la IA (como la clase A) | un solo gancho | la IA vería **sólo** a uno por vez: J2 o J, nunca los dos. Descartada |
+
+**Elección: opción 1**, en dos lugares: el llamado con J dentro de `FUN_0018FC18` (sitio `0x0018FC4C`) y dentro de
+`FUN_00190958` (sitio `0x0019098C`). Cada uno pasa a «hacé esto para J, y si J2 está armado (`FASE` = 2), también
+para J2». El modo hostil (`FUN_001848C0`) y la cercanía de 4 m (`FUN_0018B190`) quedan **para después de la sonda**:
+si con la opción 1 los enemigos ya le tiran a J2, no hacen falta; si no, son los siguientes candidatos. El defecto
+(`FUN_0018A890`) queda en J.
+
+**Invariante que el diseño tiene que cuidar:** una amenaza es un id; J2 tiene que conservar **su** id (1) toda la
+partida y darse de baja del registro al desarmar el nivel (lo hace el desarme de (87)). Si el id quedara vivo en una
+ranura de amenaza después del desarme, un enemigo del nivel siguiente apuntaría a una entrada vieja.
+
+**Preguntas para Fran (decisión de valor, no de ingeniería):** (a) ¿los enemigos se reparten entre los dos, o
+priorizan al más cercano? (la opción 1 deja que el juego decida con sus pesos de siempre: distancia, daño); (b) con
+dos blancos el juego es **más fácil** para cada uno: ¿se compensa (N18)?
+
+### Sonda en vivo (para la notebook, con la opción 1 instalada)
+
+- **Qué se mira:** por cada agente activo (`fisica+0x2B00+i·0x1FD0`, `+0x78` ≠ 0): la máscara de visibles `+0x274`
+  (bit 1 = J2) y las amenazas `+0x150/+0x1B0/+0x210` (id 1 = J2).
+- **Predicción:** J quieto detrás de una pared, J2 camina hasta quedar a la vista de un enemigo: en menos de 2 s el
+  bit 1 aparece en `+0x274` y el id 1 entra en una ranura de amenaza de ese enemigo; después, la vida de J2 baja
+  (N2) sin que J2 haya disparado.
+- **Control, en la misma corrida:** con el gancho apagado (la palabra original en los dos sitios), la misma escena:
+  el bit 1 y el id 1 no aparecen hasta que J2 dispara (entonces entra por la puerta del daño, la tercera fila).
+- **Negativo que refuta:** con el gancho prendido, J2 a la vista 10 s y ni el bit ni el id → la puerta «ver» tiene
+  otra condición que J2 no cumple (candidato: `FUN_00185C38(agente+0x6F0)`, la percepción).
