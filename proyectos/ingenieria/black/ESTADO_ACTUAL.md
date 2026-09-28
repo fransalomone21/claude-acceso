@@ -39,7 +39,15 @@ decía.
 
 ## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88) (LEER ESTO PRIMERO)
 
-> **(98)–(105), 2026-09-28, NUBE — LO ÚLTIMO. La concepción y el diseño de COOP-B, sin código.** El censo
+> **(106)–(108), 2026-09-28, NUBE — LO ÚLTIMO. Fran decidió** (el juego como con uno pero con dos): IA a los dos,
+> recogibles al primero, HUD separado con vida/munición/punto de mira propios, disparadores de J1, si muere cualquiera
+> pierden los dos, los dos con cuerpo de aliado. **La IA a los dos está escrita en frío** (`coop_ia.py`, 94 palabras,
+> cuatro sitios, verificada con capstone y contra el ELF) e **integrada apagada** (`coop_mod.py instalar --con-ia`).
+> Muerte: copiar `J+0x5F0` a J2 (pierden los dos). HUD: son páginas del sistema de menús; se hará un HUD por jugador
+> dibujado por el mod. **Sigue: CALIENTE** (`sesiones/RETOME-LOCAL.md`: probar la IA S0 y las sondas S1–S5); en
+> paralelo puede ir otro FRÍO (`sesiones/RETOME-NUBE.md`: HUD, código de la ventana 1, cuerpos, V2, sub3).
+>
+> **(98)–(105), 2026-09-28, NUBE. La concepción y el diseño de COOP-B, sin código.** El censo
 > (`censo_ab.py`): 103 funciones preguntan por «el jugador» por el global. Cada cosa que le falta a J2 quedó con su
 > mecanismo leído en frío, sus alternativas y una elección: **la IA no ve a J2** porque «ver» recorre J + 16 agentes
 > (elegido: J2 en las dos puertas); **J2 junta el arma que está cerca de J** (candidato único; elegido: preguntar

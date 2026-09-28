@@ -4,7 +4,14 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(98)–(105) MANDA (nube, 2026-09-28): la concepción y el diseño de COOP-B están cerrados en `docs/16`
+> **(106)–(108) MANDA (nube, 2026-09-28): las decisiones de Fran en `docs/16` («Decisiones de Fran») y la IA a los
+> dos lista para probar** (`coop_ia.py`; `coop_mod.py instalar --con-ia`, apagada por defecto; listado en
+> `docs/listados/107-coop-ia.txt`). Lo siguiente es CALIENTE: `sesiones/RETOME-LOCAL.md` (S0 la IA, S1–S5 las sondas
+> del concepto; S5 con vigilante de escritura en `J+0x5F0` = `0x005A90A0`). El frío que queda, en paralelo:
+> `sesiones/RETOME-NUBE.md` (R5 HUD, R8 código de la ventana 1, R9 cuerpos, R2 V2, R3 sub3, R1, R4, R7).
+> `coop_diseno.py` regla 7 y saboteador 12/12. Sin cambios en la máquina.
+>
+> **(98)–(105) (nube, 2026-09-28): la concepción y el diseño de COOP-B están cerrados en `docs/16`
 > («Paso 1 hecho» … «Paso 6»), sin código.** Lo siguiente en la NOTEBOOK: `sesiones/RETOME-LOCAL.md` (cinco
 > sondas del concepto que no piden código nuevo: juntar, el índice del sub, el agachado, el sonido con
 > `--sin-aislar`, `ctrl+0x100`). Lo siguiente en la NUBE: `sesiones/RETOME-NUBE.md` (R1–R8: los estados de la
