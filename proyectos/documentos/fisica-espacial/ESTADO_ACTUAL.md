@@ -27,6 +27,15 @@ queda fuera de fase»).
   $bold(L)$ (~30 veces) y cita la numeración vieja de la sección de impulso
   angular (la guía (4) renumeró). (El PDF (4) es el Google Doc de la cátedra exportado: la guía está completa.)
 
+**Addendum, sesión cloud del 2026-09-28** (rama `claude/wizardly-brahmagupta-4tirdm`,
+mergeada): aclaración en el punto 4 del Ejercicio 2 del parcialito de momento
+angular — la energía fija el semieje, no la excentricidad (que vis-viva
+devuelva $v_c$ es una identidad); lo que hace circular la órbita es el
+encendido tangencial ($gamma = 0$ en $r_a$), con control ($gamma = 30°$,
+misma energía, $e = 0{,}50$) y el caso de la elipse inicial en $r = a_1$.
+**Siete números nuevos en `validar.py`: 240 en verde** (antes 233). No abre
+fase; publicado a Drive (`Fisica Espacial/Modelos de Parcial/`).
+
 ## Fase 13 CERRADA: los tres anexos — 2026-09-26 (segunda parte)
 
 - **Anexo B, formulario** (`anexos/a2-formulario.typ`, 9 pág.): las
