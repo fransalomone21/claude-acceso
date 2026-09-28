@@ -16,6 +16,21 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-28 (108, nube) — Muerte, HUD y cuerpos con las decisiones de Fran; la IA integrada detrás de `--con-ia`
+**Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B · **Nodos:** `flujo`, `hud`, `frontend-datos`, `spawn` (sin cambio de K)
+**Objetivo:** llevar al diseño las decisiones 3 y 5 de Fran y los cuerpos, e integrar la IA sin prenderla.
+
+- **Muerte** (`confirmado en frío`): el único camino al fin de partida es `FUN_0013FFA0` con `ctrl+0x100` ≥ 1 → `FUN_0011A890` (cámara de muerte, sin otro llamador) → `FUN_00103918(sesión, 1)`. **Quién sube `ctrl+0x100` no aparece en el C** (sólo se escribe en 0; no es ValueDB). **Diseño:** copiar `J+0x5F0` en `J2+0x5F0` en la ventana 1: la muerte de J2 hace lo mismo que la de J (pierden los dos), sin depender de quién lo sube. El vigilante de escritura de S5 cierra el mecanismo.
+- **HUD** (`confirmado en frío`): los paneles del HUD de tipo 0/5/6 son **páginas del sistema de menús** (`FUN_0020BA98`, motor por datos del ISO). **Elegido para que funcione:** un HUD por jugador dibujado por el mod (vida, cargador, reserva, retícula en el centro de su mitad) escondiendo esas partes de la página; la página del juego por mitad queda para lo estético. Falta R5 (qué página tiene qué).
+- **Cuerpos:** aprobada la opción 2 (un cuerpo por jugador); falta la receta de (93i) (R9).
+- **IA integrada:** `coop_mod.py listar|instalar|poner --con-ia`; apagada por defecto (sin la bandera, el bloque no cambia).
+- **Dos veces me frené** antes de bajar más (la escritura de `ctrl+0x100` y el motor de menús): el diseño se cerró con lo que se sabía y lo que falta quedó como sonda o receta con dueño.
+
+**No funcionó:** tres búsquedas del escritor de `ctrl+0x100` en el C (por desplazamiento, por el jugador `+0x5F0`, por el control): ninguna lo encuentra.
+**Sigue:** el cierre: estado, handoff y los dos retomes.
+
+---
+
 ## 2026-09-28 (107, nube) — La IA a los dos: cuatro sitios, el código escrito en frío y verificado, sin instalar
 **Máquina:** nube · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B, clase B · **Nodos:** `ia` (K3, sin cambio)
 **Objetivo:** con la decisión de Fran (106) — los enemigos atacan a los dos — cerrar el diseño de la IA y escribir su código en frío.

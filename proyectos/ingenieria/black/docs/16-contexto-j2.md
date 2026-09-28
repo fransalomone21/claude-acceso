@@ -418,7 +418,7 @@ sitios nuevos** (dos de la IA, dos del HUD).
 |---|---|---|---|---|
 | **una vez por arranque** | armar `V2` con las funciones del juego (como `V` en `FUN_001E82A8`, en el montón del juego; bandera como `R3_ARMADA`) | duplicar | código de una vez, desde la ventana 1 | receta sin leer (qué parte de `FUN_001E82A8` y qué inicialización posterior le pone las muestras de sonido) |
 | **por nivel** | sub propio para R3 al cargarla; `CAND2` = 0 | duplicar | junto a la carga de R3 (`0x001295A8`/`0x001ACA84`) | receta sin leer (`FUN_001A8168`) |
-| **por cuadro, ventana 1** (antes de actualizar a J2) | (a) cabecera sombra ← juego; (b) juntar por J2: activar y consultar alrededor de `J2+0xA0` con el callback conmutado (`*(0x0040F4D0)` = `J2 − 0x30`) → `CAND2`; (c) `X+0xC` ← `V2`; `pickups+0x5848/+0x584C` ↔ `CAND2`; bandera de silencio del HUD = 1 | P2, P3, P5 | stub por cuadro | diseñado |
+| **por cuadro, ventana 1** (antes de actualizar a J2) | (a) cabecera sombra ← juego; (b) juntar por J2: activar y consultar alrededor de `J2+0xA0` con el callback conmutado (`*(0x0040F4D0)` = `J2 − 0x30`) → `CAND2`; (c) `X+0xC` ← `V2`; `pickups+0x5848/+0x584C` ↔ `CAND2`; bandera de silencio del HUD = 1; **(108) `J2+0x5F0` ← `J+0x5F0`** (la muerte de J2 termina la partida como la de J) | P2, P3, P5 | stub por cuadro | diseñado |
 | ventana 1, **después** de actualizar a J2 | todo lo de (c) vuelve; silencio = 0 | — | ídem | diseñado |
 | **por cuadro, IA** | ver y visibles: J y, con `FASE` = 2, J2 | P1 | `0x0018FC4C`, `0x0019098C` | diseñado; sonda T2 |
 | **por cuadro, ventana 2** (pasada 2) | `R+0x00` ← `FOV2` (el FOV que el juego calculó para J2 en su ventana); después de la pasada, el mini HUD de J2 | P3 | stub de la pantalla | falta: qué campo lleva el zoom (N8) |
@@ -543,3 +543,47 @@ agregar al integrarlo) y, en City Streets, J quieto detrás de una pared y J2 a 
 < 2 s el bit 1 (`0x2`) en `agente+0x274` y el id 1 en una ranura de amenaza (`+0x150/+0x1B0/+0x210`); después la vida
 de J2 baja sin que J2 haya disparado. Control en la misma corrida: los cinco sitios con su palabra original (por PINE,
 en pausa; el pnach los repone en el cuadro siguiente, así que el control es con el bloque sin `--con-ia`).
+
+## Muerte, HUD y cuerpos con las decisiones de Fran (108, nube)
+
+### Muerte: «si muere cualquiera, pierden los dos»
+
+- **Concepción** (`confirmado en frío`): toda muerte de un jugador pasa por `FUN_0013FFA0(ctrl, 5)`. Con
+  `ctrl+0x100` < 1 muere como un personaje cualquiera (`FUN_001354E0(J, J+0x620)`, estado 2); con ≥ 1,
+  `FUN_0011A890(*(0x0040F530), J)` arma la cámara de muerte, que es **el único camino** a la bandera de fin de partida
+  (`FUN_00103918(sesión, 1)` desde la máquina de la cámara de muerte `FUN_0011A270`). `FUN_0011A890` no tiene otro
+  llamador.
+- **Lo que no cierra en frío:** `ctrl+0x100` sólo se escribe en 0 en el C (`FUN_0013F3E0`); ninguna escritura visible
+  lo sube, y no es un parámetro de la ValueDB (el control sólo registra `+0xB0..+0xBC`). Algo lo sube (si no, la muerte
+  de J no terminaría la partida), por un camino que el decompilado no muestra. **Lo resuelve un vigilante de
+  escritura** en `J+0x5F0` en la notebook (S5).
+- **Diseño** (no depende de quién lo sube): en la ventana 1, antes de actualizar a J2, **copiar `J+0x5F0` en `J2+0x5F0`**.
+  Así el control de J2 cumple la misma condición que el de J, y la muerte de J2 hace exactamente lo que haría la de J:
+  cámara de muerte sobre J2 y fin de partida para los dos. No hace falta memoria nueva.
+
+### HUD separado, con punto de mira propio
+
+- **Concepción** (`confirmado en frío`): el HUD del juego no es código fijo. El singleton `0x0040F518` tiene hasta
+  `+0x23C` paneles de `0xA8`, y `FUN_001F1660` dibuja cada uno según su tipo (`+0x8C`): el 3 son textos centrados, y los
+  0, 5 y 6 **son páginas del sistema de menús** (`FUN_0020BA98(front-end, 1/2/6, 0)`), el motor de interfaz por datos
+  del ISO (`frontend-datos`, K1). La vida, la munición y la retícula viven ahí, dibujadas para la pantalla entera.
+- **Alternativas:** (a) la página del juego dos veces, una por mitad, con la transformación de cada una y los valores
+  conmutados: la más fiel, pero depende de que el motor de menús acepte una transformación raíz (sin leer); (b) **un HUD
+  por jugador dibujado por el mod** (vida, cargador y reserva, retícula en el centro de **su** mitad), escondiendo esas
+  partes de la página del juego; (c) el HUD del juego para J1 más el de J2 del mod (desparejo, y la retícula de J1 cae
+  sobre el corte).
+- **Elección para que funcione: (b)**; (a) queda para lo estético. Las dos retículas en el centro de su mitad
+  coinciden con la puntería, porque cada pasada proyecta centrada en su mitad (84)–(89).
+- **Lo que falta en frío** (R5): qué página tiene qué elemento, cómo esconder sólo la vida, la munición y la retícula,
+  y la función de primitivas 2D (`FUN_00266F50` dibuja rectángulos en el panel 5; `FUN_00275DC0` escribe texto).
+
+### Cuerpos: los dos con skin de aliado
+
+- Aprobada la opción 2 de T8: un cuerpo por jugador. Falta en frío (R9) la receta del prototipo de (93i) (soldado por
+  spawner, bando 0, grupo de colisión 4): qué spawner usó, si puede no gastar uno del guion, y el filtro por pasada
+  (el cuerpo de J oculto en la pasada 1 y visible en la 2; el de J2, al revés).
+
+### La IA, integrada y apagada
+
+`coop_mod.py listar|instalar|poner --con-ia` suma `coop_ia.py` (94 palabras, 5 ganchos). Sin la bandera, el bloque no
+cambia. La fila del plan pasa a `coop-rangos` cuando la sonda de la notebook la confirme.
