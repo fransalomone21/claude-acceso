@@ -1,5 +1,8 @@
 # ESTADO ACTUAL — arquitectura-se
 
+**Fase 7 ABIERTA** (validar ≠ verificar, tipo D): T1 del diagnóstico
+**diseñada** el 2026-09-28 y sin construir (ver «Lo que FALTA»).
+
 **Fase 6 CERRADA** el 2026-09-17. Cerró por lo que la cerraba (`PDP.md` §4):
 **`chequeo-completo.ps1` en verde, todos los saboteadores corridos, y un
 proyecto real migrado a la matriz.** Los tres, medidos:

@@ -12,7 +12,8 @@
 > `chequeo` en dos hooks; (5) hook al paso. Nada de eso está hecho. De paso:
 > la línea `Fase en curso` del PDP ya dice 7, tipo D, verificado sobre lo que
 > inyecta el hook. Dos lecciones nuevas (`propia`), con su línea en
-> `chequeo-de-trabajo.md` e instaladas.
+> `chequeo-de-trabajo.md` e instaladas. El doc de T1 ya está en el índice del
+> contrato, y el título del ESTADO dice «Fase 7 ABIERTA».
 >
 > **Antes (2026-09-28, tarde): el diagnóstico medido del método entero está en
 > [`docs/diagnostico-2026-09-28.md`](docs/diagnostico-2026-09-28.md)**: once
