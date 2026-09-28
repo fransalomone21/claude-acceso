@@ -47,6 +47,7 @@ Write-Output "capa 2 -- hooks en .claude/settings.json (ruta medida, no copiada)
 $ps = 'powershell -NoProfile -ExecutionPolicy Bypass -File'
 $cmdArranque = "$ps `"$(Join-Path $claude 'hooks\arranque-proyecto.ps1')`""
 $cmdGuardia  = "$ps `"$(Join-Path $claude 'hooks\guardia-iso.ps1')`""
+$cmdFase     = "python `"$(Join-Path $claude 'hooks\fase_activa.py')`""
 
 $settings = Join-Path $claude 'settings.json'
 $obj = $null
@@ -62,6 +63,12 @@ $hooks = [ordered]@{
     PreToolUse = @(
         @{ matcher = 'Bash|PowerShell|Write|Edit|NotebookEdit'
            hooks = @( [ordered]@{ type = 'command'; command = $cmdGuardia; timeout = 15; statusMessage = 'guardia de archivos protegidos' } ) }
+    )
+    # (2026-09-28) el disparador de la arquitectura: la primera vez que la sesion toca un proyecto, le pone
+    # delante el TIPO de su fase abierta (leido del PDP) y lo que NO se hace en ella. Falla abierto.
+    PostToolUse = @(
+        @{ matcher = 'Read|Bash|PowerShell|Write|Edit|Glob|Grep'
+           hooks = @( [ordered]@{ type = 'command'; command = $cmdFase; timeout = 15 } ) }
     )
 }
 
