@@ -12,5 +12,5 @@ echo  Para que el experimento valga: arrancar o seguir un nivel, NUNCA
 echo  cargar un savestate viejo (restaura la RAM entera, tapa el parche).
 echo  Jugar hasta LEVEL_00 y avisar.
 echo.
-start "" "C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe" -fastboot -batch -- "C:\Program Files\PCSX2\PCSX2\games\Black [NTSC]\Black-mod-7b.iso"
+start "" "C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe" -fastboot -batch -- "C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\BLACK\ISOs\Black-mod-7b.iso"
 timeout /t 4 >nul

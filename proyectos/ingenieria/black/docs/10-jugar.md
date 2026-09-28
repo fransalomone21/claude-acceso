@@ -8,12 +8,24 @@ Abierta el **2026-09-04**.
 
 ---
 
-## Los dos accesos directos del Escritorio
+## Los accesos directos — `Escritorio\Juegos\Juegos de emulador\PS2\BLACK\`
+
+Desde el 2026-09-27 los ISO y los accesos viven juntos en esa carpeta (los ISO
+en `ISOs\`; la ruta la manda `kb/ubicaciones.json`), con un `LEEME.txt` en
+`PS2\` que cataloga todo.
 
 | Acceso | Qué hace |
 |---|---|
-| **BLACK** | cierra nada, verifica el mapeo de controles, levanta el agachado-mantenido y abre el juego a pantalla completa |
+| **JUGAR BLACK** | verifica el mapeo de controles, **apaga el bloque del coop**, levanta el agachado-mantenido y abre el juego a pantalla completa |
+| **JUGAR BLACK COOP - teclado y mando** | lo mismo con `-Coop teclado`: **prende** el bloque `COOP - jugador 2 (B3)`, saca `SDL-0` de `[Pad1]` (J1 queda en teclado+mouse) y pasa `[Pad2]` a `SDL-0` (J2 = el único mando) |
+| **JUGAR BLACK COOP - dos mandos** | `-Coop 2mandos`: prende el bloque; J1 = `SDL-0` (+teclado), J2 = `SDL-1` |
 | **BLACK - Parches** | menú para prender y apagar parches (60 FPS, widescreen, mods del proyecto) y el overclock del EE |
+
+Medido el 2026-09-27 sobre el PCSX2 2.8.0 de Program Files: con `-Coop teclado`
+el emulog dice `Enabled patch: COOP - jugador 2 (B3)` y el ini queda `[Pad1]`
+sólo teclado/mouse y `[Pad2]` en `SDL-0`; sin `-Coop`, cero líneas del coop en
+el emulog y `[Pad2]` vuelve a `SDL-1`. Que la pantalla se divida en **este**
+emulador es `probable`, no `confirmado`: lo de (88)–(89) se vio en el fork MCP.
 
 Se regeneran con `lanzadores/crear-accesos-directos.ps1` (se puede correr
 cuantas veces se quiera; pisa los `.lnk`).

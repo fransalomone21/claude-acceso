@@ -10,7 +10,7 @@ efecto — para eso hay que jugar.
 ## Montarlo
 
 ```powershell
-$img = Mount-DiskImage -ImagePath "C:\Program Files\PCSX2\PCSX2\games\Black [NTSC]\Black.iso" -PassThru
+$img = Mount-DiskImage -ImagePath "C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\BLACK\ISOs\Black.iso" -PassThru
 ($img | Get-Volume).DriveLetter
 ```
 

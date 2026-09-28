@@ -23,14 +23,14 @@
    "que_es": "el clon local del repo PRIVADO black-datos (ELF, volcados, archivos del ISO, decompilado/ y ghidra/). Lo escribe windows/subir-datos-nube.ps1; perfil_singleton.py, valuedb_aku.py y leer_c.py lo leen via ubicaciones.carpeta_black_datos() (en la nube manda BLACK_DATOS). Medido 2026-09-27"
   },
   "iso_original": {
-   "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black.iso",
+   "ruta": "C:\\Users\\frans\\Desktop\\Juegos\\Juegos de emulador\\PS2\\BLACK\\ISOs\\Black.iso",
    "tipo": "archivo",
    "tam": 3919609856,
    "critico": true,
    "que_es": "el ISO limpio. NUNCA editarlo. Es el que está montado en D:"
   },
   "iso_mod_armas": {
-   "ruta": "C:\\Program Files\\PCSX2\\PCSX2\\games\\Black [NTSC]\\Black-mod-armas.iso",
+   "ruta": "C:\\Users\\frans\\Desktop\\Juegos\\Juegos de emulador\\PS2\\BLACK\\ISOs\\Black-mod-armas.iso",
    "tipo": "archivo",
    "tam": 3919609856,
    "critico": false,

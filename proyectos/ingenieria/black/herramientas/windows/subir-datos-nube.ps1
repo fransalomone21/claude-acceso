@@ -13,7 +13,7 @@ $Repo    = 'black-datos'
 $Destino = 'C:\Users\frans\black-datos'
 $Acceso  = 'C:\Users\frans\Desktop\claude-acceso'
 $Black   = Join-Path $Acceso 'proyectos\ingenieria\black'
-$Iso     = 'C:\Program Files\PCSX2\PCSX2\games\Black [NTSC]\Black.iso'
+$Iso     = 'C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\BLACK\ISOs\Black.iso'
 $Limite  = 95MB   # GitHub rechaza archivos de mas de 100 MB
 
 function Paso($t) { Write-Host "`n== $t" -ForegroundColor Cyan }

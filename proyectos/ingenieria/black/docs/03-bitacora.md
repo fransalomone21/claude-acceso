@@ -16,6 +16,17 @@ Formato de cada entrada:
 
 ---
 
+## 2026-09-27 (90) — El coop con doble clic, y los juegos de PS2 en su carpeta
+**Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B3, prueba de punta a punta) · **Nodos:** ninguno (entrega; `entrada` sin cambio de K)
+**Objetivo:** que Fran pruebe el coop con el mando real sin comandos.
+
+- **Los ISO se mudaron** de `C:\Program Files\PCSX2\PCSX2\games\` a `Escritorio\Juegos\Juegos de emulador\PS2\` (`BLACK\ISOs\`, `God of War II\`, `DBZ Budokai Tenkaichi 4 (Beta 14)\`), con el pack de texturas HD de Downloads en `BLACK\Texturas\` y un `LEEME.txt`. Actualizados `kb/ubicaciones.json` (`ubicaciones.py` en OK), `kb/estructuras.json`, los tres `.bat`, `subir-datos-nube.ps1`, `docs/05`, `RETOME-LOCAL.md`, el acceso de GoW2 y el `RecursivePaths` del `PCSX2.ini` (sale `Downloads`, que hacía escanear basura; entra `PS2`). Las entradas viejas del HANDOFF quedan como historia.
+- **`JUGAR-BLACK.ps1 -Coop teclado|2mandos`**: prende el bloque del pnach (`coop_mod.py activar`) y reparte los mandos en el ini **después** de `configurar-controles.ps1`, que sólo escribe `[Pad1]`. Hallazgo de paso, **medido en el ini**: `[Pad1]` tenía `SDL-0` **y** teclado, y `[Pad2]` `SDL-1`: con un solo mando enchufado, ese mando manejaba a **J1** y J2 no tenía nada. Sin `-Coop` el bloque se apaga y `[Pad2]` vuelve a `SDL-1`.
+- **Medido por efecto en el 2.8.0 de Program Files** (no el fork): con `-Coop teclado`, `Enabled patch: COOP - jugador 2 (B3)` en el emulog, `[Pad1]` 22 líneas de teclado/mouse y 0 de SDL, `[Pad2]` 27 de `SDL-0`; sin `-Coop`, 0 líneas del coop y `[Pad2]` 27 de `SDL-1`. **La pantalla dividida en el 2.8.0 queda `probable`**: la vio el fork en (88)–(89); la prueba es la de Fran.
+- **Trampa**: `CloseMainWindow()` sobre el 2.8.0 con un juego corriendo abre «Confirmar apagado» (con `SaveStateOnShutdown = true`) y queda colgado esperando un clic. Para cerrar el de prueba, `Stop-Process` (además no pisa el ini).
+
+---
+
 ## 2026-09-27 (89) — La proporción de las mitades, en el stub
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP (B1, B3) · **Nodos:** `render` K5 (evidencia)
 **Objetivo:** que las dos mitades no salgan aplastadas, sin Python.

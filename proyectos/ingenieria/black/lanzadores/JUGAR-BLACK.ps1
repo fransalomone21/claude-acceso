@@ -15,6 +15,12 @@
 param(
     # 'original' (default), 'mod-armas', 'mod-7b', o una ruta completa a un .iso
     [string]$Iso = 'original',
+    # el coop en pantalla dividida (bloque del pnach de coop_mod.py). Sin -Coop el
+    # bloque se APAGA, para que jugar solo no arme un jugador 2.
+    #   teclado : J1 teclado+mouse, J2 el unico mando (SDL-0)
+    #   2mandos : J1 mando SDL-0 (+teclado), J2 mando SDL-1
+    [ValidateSet('', 'teclado', '2mandos')]
+    [string]$Coop = '',
     [switch]$SinAhk,
     [switch]$Ventana
 )
@@ -54,6 +60,28 @@ if ($LASTEXITCODE -ne 0) {
     Write-Output 'El mapeo de controles no coincide con el del repo: lo aplico.'
     & $cfg
 }
+
+# --- coop: el bloque del pnach y a que mando va cada jugador -----------------
+# configurar-controles.ps1 solo escribe [Pad1] (SDL-0 + teclado/mouse). Aca se
+# ajusta despues: con un solo mando, SDL-0 sale de [Pad1] y pasa a [Pad2].
+$accion = if ($Coop) { 'activar' } else { 'desactivar' }
+& python (Join-Path $raiz 'herramientas\coop_mod.py') $accion
+if ($LASTEXITCODE -ne 0) { throw "coop_mod.py $accion fallo" }
+
+$ini = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'PCSX2\inis\PCSX2.ini'
+$lineas = [IO.File]::ReadAllLines($ini)
+$seccion = ''
+$out = foreach ($l in $lineas) {
+    if ($l -match '^\[(.+)\]$') { $seccion = $Matches[1] }
+    if ($Coop -eq 'teclado' -and $seccion -eq 'Pad1' -and $l -match '= SDL-0/') { continue }
+    if ($seccion -eq 'Pad2') {
+        if ($Coop -eq 'teclado') { $l = $l -replace '= SDL-1/', '= SDL-0/' }
+        else                     { $l = $l -replace '= SDL-0/', '= SDL-1/' }
+    }
+    $l
+}
+[IO.File]::WriteAllLines($ini, [string[]]$out, (New-Object Text.UTF8Encoding($false)))
+if ($Coop) { Write-Output "COOP ($Coop): pantalla dividida, J2 con el mando $(if ($Coop -eq 'teclado') {'unico'} else {'2'})." }
 
 # --- agachado mantenido ----------------------------------------------------
 if (-not $SinAhk) {

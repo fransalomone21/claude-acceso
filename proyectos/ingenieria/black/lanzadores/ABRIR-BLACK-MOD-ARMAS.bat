@@ -12,5 +12,5 @@ echo  restaura la RAM ENTERA, tabla de armas incluida, con los valores
 echo  de antes del parche. Para sentir el mod hay que empezar o seguir
 echo  un nivel, no cargar un estado guardado previo al parche.
 echo.
-start "" "C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe" -fastboot -batch -- "C:\Program Files\PCSX2\PCSX2\games\Black [NTSC]\Black-mod-armas.iso"
+start "" "C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe" -fastboot -batch -- "C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\BLACK\ISOs\Black-mod-armas.iso"
 timeout /t 4 >nul
