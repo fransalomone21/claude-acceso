@@ -6,6 +6,12 @@ partido), 3 (pilares en dos hooks), 4 (núcleo de chequeo en cuatro) y 5 (hook
 al paso)**. Falta el 6: validar en 3–5 sesiones reales con 0 cortados y 0
 cancelados (los pasos 2, 3 y 4 ya pasaron una; el 5 empieza a contar desde
 la próxima sesión, porque instalarlo movió `settings.json`).
+**Paso 6, cuenta con el hook al paso: sesión 1 de 3–5 LIMPIA (2026-09-28,
+21:32)** — `medir-inyeccion.py --solo despues` = 1 sesión posterior al cambio
+del 21:17, 0 cortados y 0 cancelados; `disparos.log` sin una línea ERROR
+(1 324 líneas; las 6 claves de `al-paso` salen todas OK, pero las de 21:31:59
+son las muestras sintéticas del propio medidor, no disparos reales de esta
+sesión). Faltan 2–4.
 
 **Fase 6 CERRADA** el 2026-09-17. Cerró por lo que la cerraba (`PDP.md` §4):
 **`chequeo-completo.ps1` en verde, todos los saboteadores corridos, y un

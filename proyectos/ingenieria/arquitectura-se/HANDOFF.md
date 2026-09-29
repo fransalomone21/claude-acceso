@@ -1,5 +1,14 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-09-28 (noche, 5.ª) — LO ÚLTIMO. Paso 6 de T1: sesión 1 de 3–5
+> LIMPIA** con el hook al paso instalado (`--solo despues`: 1 sesión, 0
+> cortados, 0 cancelados; `disparos.log` sin ERROR). No se construyó nada. No
+> es la 3.ª–5.ª, así que **T2 no se elige todavía**. Ojo al leer el log: las
+> líneas `al-paso` de 21:31:59 son las muestras sintéticas que corre el
+> medidor, no disparos reales. Próxima sesión: mismo comando, anotar «2 de
+> 3–5»; mirar además que `~/.claude/hooks/al-paso-estado/<session_id>.txt`
+> exista si se usó alguna clave real.
+
 > **2026-09-28 (noche, 4.ª) — LO ÚLTIMO. T1 paso 5 CONSTRUIDO: el hook al paso.**
 > (0) Validado: la primera sesión con pilares y núcleo partidos dio `--solo
 > despues` = 0 cortados y 0 cancelados. (5) `perfil-global/hooks/al-paso.py`
