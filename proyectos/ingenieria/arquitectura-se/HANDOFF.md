@@ -1,5 +1,31 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-09-29 (00:30–00:50) — LO ÚLTIMO. T1 CERRADA: el paso 6 validó en 3
+> sesiones reales limpias.** Contadas desde los saboteadores (28/09 21:42:33),
+> como fijó la corrección de abajo: `53e404af`, `e5fa731f` (Escritorio) y
+> `b3a19cc1` (ésta); `medir-inyeccion --solo despues` sobre esa ventana = 3
+> sesiones, 0 cortados, 0 cancelados; `disparos.log` sin ERROR. **El medidor
+> tal cual anclaba en 23:44:41 y daba 2:** esa escritura la hizo **la app** al
+> enviarse el primer mensaje de la sesión del Escritorio (al segundo, sin
+> herramienta corrida; ningún hook cambió después de 21:43; `probable`). Se
+> midió con una copia fechada (`--settings <copia con mtime 21:42:33>`).
+> Lección 298 (`fuera`) y `perfil-global/PENDIENTES.md` §11 (anclar por
+> contenido, no por mtime). **Validación cerrada, así que se corrió
+> `install.ps1`:** PENDIENTES §10 cerrado (líneas de 295 y 296 escritas; núcleo
+> 201 reglas; `verify-install` verde). **De paso:** `install.ps1` leía
+> `settings.json` sin `-Encoding` y le agregaba una capa de mojibake cada vez
+> que la app lo dejaba sin BOM (la raya de `autoMode`, desde las 20:50 del
+> 28/09): seis lectores arreglados en cuatro scripts, probado en réplica
+> (viejo 1 capa / nuevo limpio), 9 rayas reparadas con `autoMode` igual al
+> respaldo limpio, `probar-guardia-fanout` 5/5. Lección 297 (foldeada).
+> **Sigue T2 «un dueño por dato»**, con el alcance fijado en `ESTADO_ACTUAL.md`
+> (entran las rutas locales a mano y `fuera-del-sistema.txt`; el censo fuera
+> del Escritorio y el contenedor que oculta a sus hijos van a P10). T2 es
+> diseño: Opus, esfuerzo alto, un hilo. Primer paso: la tabla dato → archivo
+> dueño, medida sobre el disco (qué datos se repiten y dónde), no de memoria.
+> **Fran pidió que la próxima sesión real de prueba sea la guía de IDEs de
+> `software-de-vuelo`** (STM32 con VS Code y Wokwi): sirve de dato para P10.
+
 > **CORRECCIÓN 23:35 — la cuenta del paso 6 es 1 de 3–5, no 2.** Los
 > saboteadores reescriben `~/.claude/settings.json` (21:42:33) y el medidor
 > cuenta desde ese cambio: hoy da «1 sesión posterior». No correr

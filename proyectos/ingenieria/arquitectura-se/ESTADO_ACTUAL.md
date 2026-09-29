@@ -1,38 +1,55 @@
 # ESTADO ACTUAL — arquitectura-se
 
-**Fase 7 ABIERTA** (validar ≠ verificar, tipo D): T1 del diagnóstico
-**diseñada** el 2026-09-28; **construidos los pasos 1 (medidor), 2 (arranque
-partido), 3 (pilares en dos hooks), 4 (núcleo de chequeo en cuatro) y 5 (hook
-al paso)**. Falta el 6: validar en 3–5 sesiones reales con 0 cortados y 0
-cancelados (los pasos 2, 3 y 4 ya pasaron una; el 5 empieza a contar desde
-la próxima sesión, porque instalarlo movió `settings.json`).
-**Paso 6, cuenta con el hook al paso: sesión 1 de 3–5 LIMPIA (2026-09-28,
-21:32)** — `medir-inyeccion.py --solo despues` = 1 sesión posterior al cambio
-del 21:17, 0 cortados y 0 cancelados; `disparos.log` sin una línea ERROR
-(1 324 líneas; las 6 claves de `al-paso` salen todas OK, pero las de 21:31:59
-son las muestras sintéticas del propio medidor, no disparos reales de esta
-sesión). Faltan 2–4.
-**CORRECCIÓN (2026-09-28, 23:35): la cuenta es «1 de 3–5», no «2».** Correr
-`chequeo-completo -SoloSaboteadores` reescribió `~/.claude/settings.json` a las
-21:42:33 (lo hace el saboteador del perfil instalado), y `medir-inyeccion`
-cuenta desde el último cambio de ese archivo: ahora dice «1 sesión posterior,
-0 cortados, 0 cancelados» (ésta). **Los saboteadores reinician la cuenta**: no
-correrlos a mitad de la validación, o hacerlo sabiendo que se pierde lo
-contado. Lo de abajo (nota de las 21:35) quedó con la cuenta vieja.
-**Sesión 2 de 3–5 LIMPIA (2026-09-28, 21:35) [cuenta anulada, ver arriba]** — `--solo despues` = 2 sesiones
-posteriores al cambio del 21:17, 0 cortados y 0 cancelados; `disparos.log`
-sin ERROR (1 354 líneas). `al-paso-estado/` sigue con un solo archivo (21:11,
-anterior al cambio): ninguna clave real disparó todavía desde entonces; las de
-21:35 son otra vez las muestras del medidor. Faltan 1–3.
-**Clave real de `al-paso` CONFIRMADA en uso (2026-09-28, 23:31):** un
-`rclone version` de esta sesión disparó la clave `rclone` (7 de 7 viñetas, OK
-en `disparos.log`) y creó `al-paso-estado/<session_id>.txt`. Cierra el
-pendiente de la nota anterior.
-**`chequeo-completo.ps1 -SoloSaboteadores` (2026-09-28, ~22:00): «Chequeo
-OK. Ningun rojo»** — 14 saboteadores en verde (el de la estructura tardó
-257 s, no 96 s: la suma total fue de ~9 min) y los 9 medidores de limpieza
-también. El rojo del 28/09 no se reprodujo: era de otra sesión o transitorio,
-no del árbol actual (`hipótesis`, no se identificó la causa).
+**Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
+
+**T1 CERRADA el 2026-09-29: los seis pasos.** Construidos el 28/09 los pasos
+1 (medidor), 2 (arranque partido), 3 (pilares en dos hooks), 4 (núcleo de
+chequeo en cuatro) y 5 (hook al paso); **el 6 validó en 3 sesiones reales
+limpias**, contadas desde los saboteadores del 28/09 21:42:33, como fijó la
+corrección de las 23:35: `53e404af` (la que corrió los saboteadores),
+`e5fa731f` (la del Escritorio) y `b3a19cc1` (ésta). `medir-inyeccion.py --solo
+despues` sobre esa ventana: **3 sesiones, 0 cortados y 0 cancelados**;
+`disparos.log` **sin una línea ERROR**; `al-paso` disparó en uso real en dos
+de ellas (`rclone` 23:31; la del Escritorio, 00:12). Desde la instalación del
+paso 5 (21:17) son **cuatro** arranques bajo la misma configuración de hooks,
+los cuatro limpios.
+
+**Cómo se contó, porque el medidor tal cual daba 2.** El «desde» se había
+movido a **23:44:41**. Esa escritura de `~/.claude/settings.json` la hizo **la
+app**, no una sesión: coincide al segundo con el primer mensaje de la sesión
+del Escritorio, que todavía no había corrido ninguna herramienta; ningún
+archivo de hooks cambió después de 21:43, y `verify-install` da el registro
+igual al manifiesto (`probable`). Se midió la ventana desde 21:42 con una
+copia de `settings.json` fechada a esa hora (`--settings`), sin tocar la real.
+**Deuda del medidor, para P10:** anclar en el mtime confunde «archivo tocado»
+con «configuración cambiada» — ya pasó con los saboteadores y ahora con la
+app (lección 298, `fuera`; `perfil-global/PENDIENTES.md` §11).
+
+**Siguiente: T2, «un dueño por dato»** (camino crítico T1 → T2 → T3 → T4 →
+T7 → T9, `docs/diagnostico-2026-09-28.md` §3). Alcance, con el insumo del
+29/09 (`docs/insumo-2026-09-29-cambio-externo.md`):
+- **entra**: las **rutas locales escritas a mano** (insumo 4) — un dato con N
+  copias y ningún dueño, que es exactamente lo que T2 ataca: una fuente por
+  dato, el resto puntero, y un medidor que la ejecute; y
+  **`fuera-del-sistema.txt`** (insumo 3) como dato con dueño que tiene que
+  poder encoger (aviso de entrada muerta, como ya hace
+  `datos-permitidos.json`).
+- **no entra, va a P10 como dato de validación**: el censo que sólo mira el
+  Escritorio (insumo 1) y el contenedor declarado que oculta a sus hijos
+  (insumo 2). Son alcance del verificador («un verificador sólo ve donde
+  vive»), no dueño de un dato.
+
+**De paso (29/09): `install.ps1` corrompía `settings.json`.** Lo leía con
+`Get-Content` sin `-Encoding`; la app lo deja sin BOM, PS 5.1 lo tomaba como
+cp1252 y el `Out-File` lo reescribía con una capa de mojibake: la raya de
+`autoMode` tenía una desde la instalación de las 20:50 del 28/09 (medido en
+los respaldos: limpia a las 19:59). Arreglados los seis lectores
+(`install.ps1`, `verify-install.ps1`, `probar-guardia-fanout.ps1`,
+`arreglar-permisos.ps1`), probado en réplica (viejo: 1 capa; nuevo: limpio) y
+reparadas las 9 rayas con `autoMode` idéntico al respaldo limpio. Y
+**PENDIENTES §10 cerrado**: las líneas de las lecciones 295 y 296 están en
+`chequeo-de-trabajo.md` (el núcleo pasó a 201 reglas), `install.ps1` corrido y
+`verify-install` en verde.
 
 **Fase 6 CERRADA** el 2026-09-17. Cerró por lo que la cerraba (`PDP.md` §4):
 **`chequeo-completo.ps1` en verde, todos los saboteadores corridos, y un

@@ -35,7 +35,7 @@ $bak   = "$ruta.bak-permisos-$stamp"
 Copy-Item $ruta $bak -Force
 Write-Host "respaldo: $bak" -ForegroundColor DarkGray
 
-$json = Get-Content -Raw $ruta
+$json = Get-Content -Raw -Encoding UTF8 $ruta   # sin BOM, PS 5.1 leeria cp1252
 $s = $json | ConvertFrom-Json
 
 $allow = @(
