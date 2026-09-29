@@ -1,6 +1,11 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
-> **2026-09-28 (noche, 6.ª) — LO ÚLTIMO. Paso 6 de T1: sesión 2 de 3–5
+> **CORRECCIÓN 23:35 — la cuenta del paso 6 es 1 de 3–5, no 2.** Los
+> saboteadores reescriben `~/.claude/settings.json` (21:42:33) y el medidor
+> cuenta desde ese cambio: hoy da «1 sesión posterior». No correr
+> `-SoloSaboteadores` durante la validación. Próxima sesión: «2 de 3–5».
+>
+> **2026-09-28 (noche, 6.ª) — Paso 6 de T1: sesión 2 de 3–5 [ANULADA, ver arriba]
 > LIMPIA** (`--solo despues`: 2 sesiones, 0 cortados, 0 cancelados;
 > `disparos.log` sin ERROR). No se construyó nada. **ACTUALIZACIÓN 23:31: la
 > clave real `rclone` YA disparó en uso real (7 viñetas, archivo de estado de la

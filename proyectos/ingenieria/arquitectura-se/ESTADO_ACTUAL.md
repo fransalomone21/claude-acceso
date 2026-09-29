@@ -12,7 +12,14 @@ del 21:17, 0 cortados y 0 cancelados; `disparos.log` sin una línea ERROR
 (1 324 líneas; las 6 claves de `al-paso` salen todas OK, pero las de 21:31:59
 son las muestras sintéticas del propio medidor, no disparos reales de esta
 sesión). Faltan 2–4.
-**Sesión 2 de 3–5 LIMPIA (2026-09-28, 21:35)** — `--solo despues` = 2 sesiones
+**CORRECCIÓN (2026-09-28, 23:35): la cuenta es «1 de 3–5», no «2».** Correr
+`chequeo-completo -SoloSaboteadores` reescribió `~/.claude/settings.json` a las
+21:42:33 (lo hace el saboteador del perfil instalado), y `medir-inyeccion`
+cuenta desde el último cambio de ese archivo: ahora dice «1 sesión posterior,
+0 cortados, 0 cancelados» (ésta). **Los saboteadores reinician la cuenta**: no
+correrlos a mitad de la validación, o hacerlo sabiendo que se pierde lo
+contado. Lo de abajo (nota de las 21:35) quedó con la cuenta vieja.
+**Sesión 2 de 3–5 LIMPIA (2026-09-28, 21:35) [cuenta anulada, ver arriba]** — `--solo despues` = 2 sesiones
 posteriores al cambio del 21:17, 0 cortados y 0 cancelados; `disparos.log`
 sin ERROR (1 354 líneas). `al-paso-estado/` sigue con un solo archivo (21:11,
 anterior al cambio): ninguna clave real disparó todavía desde entonces; las de
