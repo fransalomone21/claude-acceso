@@ -255,7 +255,8 @@ la placa en la mano.]
 
 *`diagram.json`* — el de la clase: la placa, un LED en `PB2` y el monitor
 serie. Para el TP2 agregás componentes (`wokwi-led`, `wokwi-potentiometer`)
-con el editor visual.
+en wokwi.com o como texto: una línea en `parts` por componente y una en
+`connections` por cable.
 ```json
 {
   "version": 1,
