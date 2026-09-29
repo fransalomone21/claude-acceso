@@ -1,5 +1,17 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-09-28 (noche, 6.ª) — LO ÚLTIMO. Paso 6 de T1: sesión 2 de 3–5
+> LIMPIA** (`--solo despues`: 2 sesiones, 0 cortados, 0 cancelados;
+> `disparos.log` sin ERROR). No se construyó nada. **Ninguna clave real de
+> `al-paso` disparó todavía** desde el cambio de settings de las 21:17
+> (`al-paso-estado/` sólo tiene el archivo de las 21:11; las líneas de las
+> 21:35 son muestras del medidor): en la próxima sesión, usar una clave real
+> (`rclone`, un Edit, `typst`) y ver que aparezca su archivo de estado.
+> `chequeo-completo -SoloSaboteadores`: **14/14 + 9 medidores de limpieza en
+> verde** (el rojo del 28/09 no se reprodujo; el de estructura tardó 257 s).
+> Próxima: mismo comando, anotar «3 de 3–5»; si es la 3.ª–5.ª y limpia, cerrar
+> el paso 6 y elegir T2 (`docs/diagnostico-2026-09-28.md`, sólo su sección).
+
 > **2026-09-28 (noche, 5.ª) — LO ÚLTIMO. Paso 6 de T1: sesión 1 de 3–5
 > LIMPIA** con el hook al paso instalado (`--solo despues`: 1 sesión, 0
 > cortados, 0 cancelados; `disparos.log` sin ERROR). No se construyó nada. No

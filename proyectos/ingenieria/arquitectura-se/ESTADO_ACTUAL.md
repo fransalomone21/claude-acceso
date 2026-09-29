@@ -12,6 +12,16 @@ del 21:17, 0 cortados y 0 cancelados; `disparos.log` sin una línea ERROR
 (1 324 líneas; las 6 claves de `al-paso` salen todas OK, pero las de 21:31:59
 son las muestras sintéticas del propio medidor, no disparos reales de esta
 sesión). Faltan 2–4.
+**Sesión 2 de 3–5 LIMPIA (2026-09-28, 21:35)** — `--solo despues` = 2 sesiones
+posteriores al cambio del 21:17, 0 cortados y 0 cancelados; `disparos.log`
+sin ERROR (1 354 líneas). `al-paso-estado/` sigue con un solo archivo (21:11,
+anterior al cambio): ninguna clave real disparó todavía desde entonces; las de
+21:35 son otra vez las muestras del medidor. Faltan 1–3.
+**`chequeo-completo.ps1 -SoloSaboteadores` (2026-09-28, ~22:00): «Chequeo
+OK. Ningun rojo»** — 14 saboteadores en verde (el de la estructura tardó
+257 s, no 96 s: la suma total fue de ~9 min) y los 9 medidores de limpieza
+también. El rojo del 28/09 no se reprodujo: era de otra sesión o transitorio,
+no del árbol actual (`hipótesis`, no se identificó la causa).
 
 **Fase 6 CERRADA** el 2026-09-17. Cerró por lo que la cerraba (`PDP.md` §4):
 **`chequeo-completo.ps1` en verde, todos los saboteadores corridos, y un
