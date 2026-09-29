@@ -1,5 +1,14 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-09-29 (03:00) — circuito del TP2 armado; mañana, el código
+
+`tp2\diagram.json` escrito con los dos ejercicios del TP2 (PB0–PB3 contador, PB5
+alarma, potenciómetro en PA0, monitor serie en PA2/PA3); JSON válido, **sin
+simular todavía**. `3V3` como nombre de pin es `hipótesis`. **El editor visual de
+Wokwi en VS Code es pago** (Community: «Upgrade to Edit Diagram»); las dos guías
+lo dicen. **Mañana Fran sigue con `Core/Src/main.c`**: el `.ioc` tiene que tener
+PB0–PB3 y PB5 en `GPIO_Output` y `ADC1 → IN0`.
+
 ## 2026-09-29 (02:40) — el doc del grupo, leído
 
 `Downloads\Sistema cohete de agua.pdf` (9 pág.): **no tiene mails** (0, medido) y
