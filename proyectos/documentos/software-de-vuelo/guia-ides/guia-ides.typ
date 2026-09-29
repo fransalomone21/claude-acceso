@@ -11,7 +11,7 @@
   institucion: "UNSAM · Ingeniería en Sistemas Espaciales",
   materia: "Ingeniería de Software de Vuelo para Sistemas Espaciales Críticos",
   ciclo: "2.º cuatrimestre 2026",
-  version: "Versión 0.3 · 29/09/2026 · probada con STM32CubeIDE 1.18.1, VS Code 1.139 y Wokwi for VS Code 3.7, en Windows 11",
+  version: "Versión 0.4 · 29/09/2026 · probada con STM32CubeIDE 1.18.1, VS Code 1.139 y Wokwi for VS Code 3.7, en Windows 11",
   presentacion: [
     *Para quién es.* Para vos, que ya instalaste STM32CubeIDE en la clase de
     la semana 4 y tenés que hacer el TP2 simulado en Wokwi. El método es *el
@@ -72,6 +72,10 @@ reinstalar nada.]
   *NUCLEO-C031C6* (no la F446RE) → le ponés nombre → Finish. Conviene un
   nombre *sin espacios ni acentos*: la cátedra lo pide para el workspace, y
   ese nombre termina en la ruta del `.elf`.
++ Después del Finish aparece *Board Project Options*: los componentes de la
+  placa (LED verde LD4, botón de usuario y *Virtual Com Port*, los tres
+  tildados) y «Generate demonstration code», sin tildar. Se deja así y *OK*.
+  El Virtual Com Port es el que después da la consola de `printf`.
 + A la pregunta «Initialize all peripherals with their default Mode?»,
   *Yes*. Con eso el LED de la placa queda en `PA5` y se genera sola la
   consola por el ST-LINK (`BSP_COM_Init`), que es la que usa `printf`.
@@ -91,8 +95,64 @@ reinstalar nada.]
 
 == En VS Code: la simulación
 
-+ `File → Open Folder` → la carpeta del workspace. Así lo hace la cátedra; más
-  abajo hay una variante más cómoda.
+Wokwi *no es un programa aparte*: es una extensión de VS Code, y la
+simulación se abre como una pestaña más. Lo que simula lo leen dos archivos de
+texto, y todo lo demás es cómo se arman.
+
+*Una sola vez:*
+
++ Extensiones (`Ctrl+Shift+X`) → buscás *Wokwi Simulator* → *Install*.
++ `Ctrl+Shift+P` → `Wokwi: Request a New License` → se abre el navegador, entrás
+  con tu cuenta y vuelve solo a VS Code. La licencia dura 30 días; cuando
+  vence, lo mismo.
+
+*Por proyecto, paso a paso:*
+
++ *Dónde van los archivos.* En la carpeta que abrís en VS Code (`File → Open
+  Folder`), *en la raíz*: la extensión busca `wokwi.toml` ahí y en ningún otro
+  lado. La cátedra abre la carpeta del workspace
+  (`...\workspace_1.18.1\`), así que van ahí; más abajo hay una variante más
+  cómoda.
++ *De dónde salen.* Hay tres formas, de la más rápida a la más a mano:
+  (a) el script `preparar-vscode.ps1` los escribe solo (ver la mejora de
+  abajo); (b) copiás los de la sección 7 y cambiás el nombre del proyecto;
+  (c) los creás vacíos: `wokwi.toml` con cuatro líneas, `diagram.json` desde
+  wokwi.com (ver el paso de editar).
++ *`wokwi.toml`: qué programa carga.* Cuatro líneas, con la ruta relativa a la
+  carpeta abierta y barras `/`:
+  ```
+  [wokwi]
+  version = 1
+  firmware = 'tp2/Debug/tp2.elf'
+  elf = 'tp2/Debug/tp2.elf'
+  ```
+  Si la ruta está mal, Wokwi no arranca: probala con `Ctrl+clic` sobre ella.
++ *`diagram.json`: qué circuito simula.* Tiene dos listas: `parts` (la placa
+  `board-st-nucleo-c031c6` y cada componente, con un `id`) y `connections`
+  (cada cable: `["nucleo:PA5", "led1:A", "green", []]`, de un pin a otro).
++ *Editarlo — tres formas:*
+  - *visual, en VS Code:* abrís `diagram.json` y aparece el editor de
+    circuito (si se abre como texto: clic derecho en la pestaña →
+    *Reopen Editor With…* → el editor de Wokwi). *+* agrega componentes,
+    un cable se tira haciendo clic en un pin y después en otro, y el
+    componente seleccionado se borra con `Supr`;
+  - *visual, en #link("https://wokwi.com")[wokwi.com]*, como el profe:
+    proyecto nuevo con la misma placa, armás el circuito, pestaña
+    `diagram.json`, copiás todo y lo pegás en tu archivo;
+  - *a mano, como texto:* para cambiar un pin o agregar un cable es lo más
+    rápido. Cada `id` de `connections` tiene que existir en `parts`.
++ *Correrlo.* Compilás primero (el `.elf` tiene que existir), después
+  `Ctrl+Shift+P` → `Wokwi: Start Simulator`. Se abre la placa simulada en una
+  pestaña; lo que imprime `printf` sale en la terminal de VS Code, y los
+  botones del circuito se aprietan con el mouse.
++ *Cortar o reiniciar.* El botón de arriba a la izquierda de la pestaña de
+  la simulación; `Wokwi: Stop Simulator` la cierra.
+
+#ojo[la pestaña de la simulación tiene que quedar *a la vista*: si la tapás
+con otra o minimizás VS Code, Wokwi pausa la simulación y parece colgada.]
+
+*Qué dice cada archivo, en detalle:*
+
 + En esa carpeta van dos archivos. `wokwi.toml` dice *qué programa* cargar:
   `firmware` y `elf` apuntan al `.elf`, con la ruta relativa a la carpeta
   abierta. `diagram.json` dice *qué circuito* simular: la placa

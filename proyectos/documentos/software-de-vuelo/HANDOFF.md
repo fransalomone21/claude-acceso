@@ -1,5 +1,9 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-09-29 (02:10) — guía pública v0.4 (Wokwi paso a paso)
+
+Ampliada la sección de Wokwi (dónde van los archivos, tres formas de editarlos, correr y reiniciar) y agregado el cartel Board Project Options. Publicada por el hook post-commit. **La guía personal sigue en v0.3**: falta pasarle lo mismo. Máquina de estados del Cohete en `01 - UNSAM\Software de Vuelo\TP Cohete de Agua (Petrilli)\maquina-de-estados\` (PNG + .drawio editable + generar.py). El doc del grupo está en OneDrive y **no se pudo leer** (Word Online no expone el texto): hace falta una copia .docx para ver si ya trae máquina de estados y los mails.
+
 ## 2026-09-29 (01:20) — guía de IDEs publicada; el TP Cohete salió de lo público
 
 **Hecho:** guía de IDEs v0.3 publicada y verificada por MD5; el hook
