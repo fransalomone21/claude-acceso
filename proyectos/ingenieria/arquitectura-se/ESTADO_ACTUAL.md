@@ -17,6 +17,10 @@ posteriores al cambio del 21:17, 0 cortados y 0 cancelados; `disparos.log`
 sin ERROR (1 354 líneas). `al-paso-estado/` sigue con un solo archivo (21:11,
 anterior al cambio): ninguna clave real disparó todavía desde entonces; las de
 21:35 son otra vez las muestras del medidor. Faltan 1–3.
+**Clave real de `al-paso` CONFIRMADA en uso (2026-09-28, 23:31):** un
+`rclone version` de esta sesión disparó la clave `rclone` (7 de 7 viñetas, OK
+en `disparos.log`) y creó `al-paso-estado/<session_id>.txt`. Cierra el
+pendiente de la nota anterior.
 **`chequeo-completo.ps1 -SoloSaboteadores` (2026-09-28, ~22:00): «Chequeo
 OK. Ningun rojo»** — 14 saboteadores en verde (el de la estructura tardó
 257 s, no 96 s: la suma total fue de ~9 min) y los 9 medidores de limpieza

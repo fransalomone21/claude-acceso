@@ -2,7 +2,9 @@
 
 > **2026-09-28 (noche, 6.ª) — LO ÚLTIMO. Paso 6 de T1: sesión 2 de 3–5
 > LIMPIA** (`--solo despues`: 2 sesiones, 0 cortados, 0 cancelados;
-> `disparos.log` sin ERROR). No se construyó nada. **Ninguna clave real de
+> `disparos.log` sin ERROR). No se construyó nada. **ACTUALIZACIÓN 23:31: la
+> clave real `rclone` YA disparó en uso real (7 viñetas, archivo de estado de la
+> sesión creado); el pendiente de abajo quedó cerrado.** (Antes: ninguna clave real de
 > `al-paso` disparó todavía** desde el cambio de settings de las 21:17
 > (`al-paso-estado/` sólo tiene el archivo de las 21:11; las líneas de las
 > 21:35 son muestras del medidor): en la próxima sesión, usar una clave real
