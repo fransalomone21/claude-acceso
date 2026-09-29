@@ -76,3 +76,37 @@
 #let nota(cuerpo) = block(above: 4pt, below: 4pt)[
   #text(fill: c-teal, weight: "bold", size: 9.5pt)[Ojo con el enunciado: ]#text(size: 9.5pt)[#cuerpo]
 ]
+
+// ---------------------------------------------------------------------
+//  Lo que usan las resoluciones de los modelos de parcial
+// ---------------------------------------------------------------------
+// El encabezado de un ejercicio del enunciado, con su puntaje a la derecha.
+#let ejercicio(n, titulo, puntos) = heading(level: 2)[Ejercicio #n — #titulo #h(1fr) #text(size: 10pt, weight: "regular")[(#puntos puntos)]]
+// De qué temas sale y en qué ejercicio de la guía se apoya.
+#let origen(cuerpo) = block(above: 2pt, below: 6pt, text(size: 9pt, fill: luma(90), style: "italic", cuerpo))
+// La notación del tema: la de este apunte y cómo aparece en la guía y los libros.
+#let notacion(cuerpo) = caja([Notación de este tema], c-teal, text(size: 9.5pt, cuerpo))
+// La idea física, en palabras, antes de la primera cuenta (ANI-02).
+#let idea(cuerpo) = caja([La idea, antes de la cuenta], c-azul, cuerpo)
+// Un paso numerado de la resolución.
+#let paso(n, titulo) = block(above: 9pt, below: 4pt, sticky: true,
+  text(fill: c-azul, weight: "bold")[Paso #n — #titulo])
+// Qué camino se tomó y por qué ese y no otro.
+#let camino(cuerpo) = caja([Camino elegido, y por qué], c-verde, cuerpo)
+// El otro camino, desarrollado: tiene que dar lo mismo.
+#let alternativa(titulo, cuerpo) = caja([Otro camino — #titulo], c-ambar, cuerpo)
+// El error que más se ve en este tipo de ejercicio.
+#let trampa(cuerpo) = caja([Ojo], c-rojo, cuerpo)
+// El resultado final del ejercicio, en una línea.
+#let final(cuerpo) = block(width: 100%, above: 8pt, below: 10pt, inset: (x: 10pt, y: 6pt),
+  stroke: 0.8pt + c-verde, radius: 3pt)[#text(fill: c-verde.darken(10%), weight: "bold")[Resultado: ]#cuerpo]
+// Tabla chica "ejercicio / tema / base en la guía" de la primera página.
+#let mapa(..filas) = {
+  set par(justify: false)
+  table(
+    columns: (auto, 1fr, 1.3fr),
+    inset: (x: 5pt, y: 4pt),
+    table.header(..([Ej.], [Temas], [Se apoya en]).map(t => text(size: 8.5pt, weight: "bold", fill: c-azul)[#t])),
+    ..filas.pos().flatten().map(c => text(size: 8.5pt, c)),
+  )
+}

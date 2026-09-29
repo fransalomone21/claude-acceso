@@ -25,9 +25,13 @@ def correr(dirx, script, *args):
 
 
 def reemplazar(ruta, viejo, nuevo):
+    # TODAS las apariciones: validar.py mide que cada numero correcto este
+    # AL MENOS una vez. Un numero que se repite (en un paso y en el
+    # resultado final) y se rompe en una sola copia NO lo ve -- es su limite
+    # conocido, no algo que este sabotaje deba simular (2026-09-29).
     t = io.open(ruta, encoding='utf-8').read()
     assert viejo in t, 'el sabotaje no encontro "%s" en %s' % (viejo, ruta)
-    io.open(ruta, 'w', encoding='utf-8', newline='\n').write(t.replace(viejo, nuevo, 1))
+    io.open(ruta, 'w', encoding='utf-8', newline='\n').write(t.replace(viejo, nuevo))
 
 
 SABOTAJES = [
@@ -50,6 +54,13 @@ SABOTAJES = [
      '$v_a = h\\/r_a = 6,590$', 'validar.py', 'parcialito-momento-angular.typ: "6,576" no esta'),
     ('numero mal en el modelo', 'modelo-parcial-integrador.typ', '171,0', '171,3',
      'validar.py', '"171,0" no esta'),
+    ('numero mal en el modelo 2 (la integral por partes)', 'modelo-parcial-2.typ', '135 thin 208', '135 thin 280',
+     'validar.py', '"135 thin 208" no esta'),
+    ('numero mal en el modelo 3 (el descenso)', 'modelo-parcial-3.typ', '1416,5', '1461,5',
+     'validar.py', '"1416,5" no esta'),
+    ('impulso angular por L en el modelo 1', 'modelo-parcial-1.typ',
+     'El módulo de $bold(r) times bold(p)$ es $p$ por el *brazo*',
+     'El impulso angular $bold(r) times bold(p)$ vale $p$ por el *brazo*', 'validar.py', 'terminologia'),
     ('recorte que parte un renglon', 'ejercicios.toml', 'recortes = [[3, 381, 399]]',
      'recortes = [[3, 381, 390]]', 'recortar.py', 'vec-11 recorte 1'),
 ]

@@ -26,7 +26,25 @@
       "materia": "Fisica Espacial/Modelos de Parcial",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-integrador.pdf",
       "nombre-en-drive": "Modelo de parcial integrador (con resolucion).pdf",
-      "estado": "2026-09-27 -- 4 ejercicios integradores sobre el apunte; numeros validados por practica/validar.py"
+      "estado": "2026-09-29 -- 4 ejercicios integradores sobre el apunte, ahora con figuras, notacion por tema y camino alternativo en cada resolucion; numeros validados por practica/validar.py"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-1.pdf",
+      "nombre-en-drive": "Modelo de parcial 1 (con resolucion).pdf",
+      "estado": "2026-09-29 -- 7 ejercicios para la 1.a evaluacion: separacion de etapas, cohete con mas peso que empuje, energia, orbita desde un estado, Hohmann + Tsiolkovsky, rueda de reaccion, particula libre; numeros validados por practica/validar.py"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-2.pdf",
+      "nombre-en-drive": "Modelo de parcial 2 (con resolucion).pdf",
+      "estado": "2026-09-29 -- 7 ejercicios: acople oblicuo, cohete de dos etapas integrado (a, v, y por partes, desacople), Luna y escape, orbita desde apsides, escape perigeo/apogeo, banqueta y rueda, particulas antiparalelas; numeros validados por practica/validar.py"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-3.pdf",
+      "nombre-en-drive": "Modelo de parcial 3 (con resolucion).pdf",
+      "estado": "2026-09-29 -- 7 ejercicios: explosion en tres, descenso con retrocohete (condiciones iniciales no nulas) y masa que entra, Kepler y geoestacionaria, orbita desde dos mediciones, encuentro con estacion, giroscopo, segunda ley de Kepler; numeros validados por practica/validar.py"
     },
     {
       "materia": "Fisica Espacial/Guia completa con resultados y tips",

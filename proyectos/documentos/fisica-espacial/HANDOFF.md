@@ -26,6 +26,34 @@ dos papers al final. El resultado es `docs/PLAN-FASE-15.md`.
 - **No hacer la pasada de «impulso angular» → «momento angular»**: está
   frenada por el choque C1 hasta que decida Fran.
 
+## Sesión del 2026-09-29, segunda parte — tres modelos de parcial (fuera de fase)
+
+Hechos y publicados: `practica/modelo-parcial-{1,2,3}.typ` y el integrador
+revisado (ver `ESTADO_ACTUAL.md`). Se compilan con `.\practica\compilar.ps1`.
+
+**Pendiente:** Fran dijo que iba a pasar **ejercicios adicionales de cohete**
+«por si no están». Si llegan, entran como ejercicio nuevo en un modelo (o un
+Modelo 4), con su cuenta en `c_modelos()` de `validar.py`. Y la lectura de
+«ingreso del cohete desde afuera» fue *un cohete que llega y frena*
+(`hipótesis`): si Fran quería decir *reentrada atmosférica* o *masa que
+entra*, la segunda ya está como inciso del M3 Ej. 2 y la primera falta.
+
+**Trampas pagadas hoy:**
+- En Typst math, **una coma decimal dentro de los argumentos de una función**
+  (`sqrt(0,0949^2 + ...)`) es un separador de argumentos: «unexpected
+  argument». Se escribe `0","0949`.
+- `398 thin 600 / 6678` arma la fracción sólo con `600`: hay que poner
+  paréntesis, `(398 thin 600) / 6678`. `\/` (barra literal) no tiene el
+  problema. Se busca con `grep -n 'thin [0-9]* /'`.
+- `validar.py` compara el **primer** número del texto de control: el texto
+  tiene que *empezar* por el número que se compara (`'1172'`, no
+  `'y(t_s) = ... = 1172'`).
+- Una variable local de CeTZ con nombre de letra griega (`nu`, `gamma`,
+  `phi`) pisa la letra en `$...$` de la misma función: en
+  `figuras-parcial.typ` se usan `anom`, `gam`.
+- Los números que se repiten entre el paso y el `#final[...]` los mide
+  `validar.py` **una sola vez**: si se corrige uno, corregir los dos a mano.
+
 ## Sesión del 2026-09-28, segunda parte — dibujo del giróscopo (fuera de fase)
 
 `practica/parcialito-momento-angular.typ`: figura nueva `fig-giroscopo-enunciado`

@@ -25,7 +25,10 @@ try {
         @('guia.typ', 'salida\guia-con-resultados.pdf', 'resultados=si'),
         @('guia.typ', 'salida\guia-sin-resultados.pdf', 'resultados=no'),
         @('parcialito-momento-angular.typ', 'salida\parcialito-momento-angular.pdf', $null),
-        @('modelo-parcial-integrador.typ', 'salida\modelo-parcial-integrador.pdf', $null)
+        @('modelo-parcial-integrador.typ', 'salida\modelo-parcial-integrador.pdf', $null),
+        @('modelo-parcial-1.typ', 'salida\modelo-parcial-1.pdf', $null),
+        @('modelo-parcial-2.typ', 'salida\modelo-parcial-2.pdf', $null),
+        @('modelo-parcial-3.typ', 'salida\modelo-parcial-3.pdf', $null)
     )
     foreach ($t in $trabajos) {
         if ($t[2]) { typst compile --root .. $t[0] $t[1] --input $t[2] }

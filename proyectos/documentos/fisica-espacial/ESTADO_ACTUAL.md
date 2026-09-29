@@ -30,6 +30,39 @@ tabla); Steiner, que exista y qué dice.
 `fuentes/RUTAS.md` quedó corregida (el glob de ejemplo se corrió y encuentra
 el Roederer). La ruta vieja ya estaba mal desde antes.
 
+## Fuera de fase, 2026-09-29: tres modelos de parcial para el jueves 1/10
+
+A pedido de Fran, para la primera evaluación (jueves 1/10: «todos los temas
+vistos, un integrador por tema»). En `practica/`:
+
+- **`modelo-parcial-1.typ`, `-2.typ`, `-3.typ`**: siete ejercicios cada uno,
+  basados en la guía, que cubren los temas centrales —cantidad de movimiento,
+  cohete, energía y gravitación, parámetros orbitales, maniobras, momento
+  angular (el «impulso angular» de la guía) y una demostración corta—. Cada
+  enunciado con su figura, y la resolución al final: notación del tema (la del
+  apunte y cómo aparece en la guía y en cada libro), la idea antes de la
+  cuenta, pasos numerados, **el camino elegido y por qué** y **el otro camino,
+  desarrollado**. Pedidos de Fran en la misma sesión: el cohete **todo
+  integrado** (M2 Ej. 2: $a arrow.r v arrow.r y$ con las constantes, por
+  partes, dos etapas con desacople y ascenso libre con $1\/r^2$) y el
+  **cohete que llega desde afuera** (M3 Ej. 2: descenso con retrocohete,
+  $v_0 = -60$ m/s e $y_0 = 2000$ m, más la masa que entra como contraejemplo
+  de $F = d(m v)\/d t$).
+- **El integrador revisado**: mismos números (estaban bien), ahora con cuatro
+  figuras, notación por tema y caminos alternativos. Su Ejercicio 3 (precesión
+  libre, Beer §18.11) queda **marcado como de la segunda evaluación**: el plan
+  de la cátedra pone cuerpo rígido en las semanas 11–14 (`hipótesis` que no lo
+  tomen el jueves; los modelos 1–3 no lo tocan).
+- **`figuras-parcial.typ`**: las figuras, parametrizadas (Hohmann, órbita con
+  puntos y $gamma$, cohete de una y dos etapas y el que baja, etc.).
+- **`validar.py`**: 494 números en verde (254 nuevos, cada uno con su cuenta de
+  cero; las integrales del cohete, además, contra integración numérica). Su
+  saboteador pasó a **11/11**, y al correrlo encontró un límite del chequeo:
+  mide que el número correcto *esté*, así que una copia mala del mismo número
+  en otro renglón pasa (anotado en `probar-validar.py`).
+- Los tres modelos, **declarados públicos** en `.claude/apuntes-publicos.json`
+  (`Fisica Espacial/Modelos de Parcial`), junto al integrador.
+
 ## Fuera de fase, 2026-09-28: el giróscopo del parcialito, dibujado
 
 A pedido de Fran. El ejercicio 3 del parcialito de momento angular tiene
