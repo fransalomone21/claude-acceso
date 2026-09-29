@@ -25,6 +25,13 @@
 > dueño, medida sobre el disco (qué datos se repiten y dónde), no de memoria.
 > **Fran pidió que la próxima sesión real de prueba sea la guía de IDEs de
 > `software-de-vuelo`** (STM32 con VS Code y Wokwi): sirve de dato para P10.
+> **Hecha en esta misma sesión, y ya es dato:**
+> [`docs/insumo-2026-09-29-sesion-ides.md`](docs/insumo-2026-09-29-sesion-ides.md)
+> — Fran corrigió tres veces en vivo cosas que ya pide en otros proyectos
+> (método del profe primero, formato de los apuntes, público ≠ personal) y
+> ninguna capa se las trajo a la sesión; el detector de «sin declarar» sólo ve
+> `apunte.pdf`; y el núcleo pierde la regla cuando la viñeta abre con un
+> anuncio. Entra al alcance de T2/T10 junto con el insumo del Escritorio.
 
 > **CORRECCIÓN 23:35 — la cuenta del paso 6 es 1 de 3–5, no 2.** Los
 > saboteadores reescriben `~/.claude/settings.json` (21:42:33) y el medidor

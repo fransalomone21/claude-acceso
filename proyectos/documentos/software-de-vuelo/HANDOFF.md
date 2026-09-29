@@ -1,5 +1,29 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-09-29 (madrugada) — la guía de IDEs v0.3, adelantada para el TP2
+
+**Hecho:** guía pública (`guia-ides/`, 6 pág., sin publicar) y guía personal
+(`catedras/software-de-vuelo/personal/`, PDF en la carpeta local de la
+materia). Detalle en `ESTADO_ACTUAL.md`.
+
+**Lo que sigue, en orden:**
+1. **Preguntarle a Fran si se publica la pública** en el Drive de apuntes. Si
+   dice que sí: declararla en `.claude/apuntes-publicos.json` (materia
+   «Software de Vuelo», `local` = `proyectos/documentos/software-de-vuelo/guia-ides/guia-ides.pdf`)
+   y `.\publicar-apuntes.ps1`. **Ojo:** el detector de «sin declarar» busca
+   sólo archivos llamados `apunte.pdf`, así que esta guía **no aparece** en
+   rojo si nadie la declara — no esperar que el arranque lo recuerde.
+2. Con lo que Fran cuente del TP2 (si el script, el simulador o IntelliSense
+   fallaron), corregir y subir a v0.4. Es la validación real de la guía.
+3. La fase 0 sigue igual: criterios de Leandro en `catedras`, y
+   `docs/ALCANCE.md`.
+
+**Trampas de esta sesión:** en PowerShell, `"...$placa: ..."` no compila (la
+variable seguida de `:` es un calificador; va `${placa}`). En Typst, un bloque
+de código en medio de una lista numerada la corta y reinicia la numeración: se
+indenta dentro del ítem. Y un `raw` largo sin espacios (una ruta de WSL) se
+sale de la celda de una tabla.
+
 ## 2026-09-29 — primera sesión
 
 **Lo que sigue:** la fase 0 de este proyecto espera a la fase 0 de
