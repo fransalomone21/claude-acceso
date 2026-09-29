@@ -7,9 +7,34 @@
 TP Cohete salió de la carpeta pública `TDC` a una carpeta de GRUPOS privada
 (detalle en `ESTADO_ACTUAL.md`).
 
+**Búsqueda de los autores del Cohete (01:40), para retomar mañana con Fran.**
+Fran cree que los mails están en «el doc inicial» del grupo y dice que se va
+a trabajar sobre ese, no sobre los generados. **No apareció:**
+- Drive (búsqueda de texto completo, incluidos los compartidos conmigo desde
+  el 15/08): con «cohete», «apogeo», «BMP280», «paracaídas», «Petrilli» y
+  «ESP32» sale sólo nuestro .docx y, además, un dibujo **«Esquema ESP32»
+  de Santiago** (el del grupo de TdC), creado el 15/09 a las 03:39. Es
+  del Cohete, así que Santiago es integrante `probable`. Ese dibujo es de él y
+  está **público por link**; no es nuestro y no se tocó.
+- Las sesiones de Claude: el informe se armó el 15/09 (`ddd5e1a3`) **a partir
+  de lo que Fran dictó**, sin ningún doc adjunto ni link. Tampoco aparece en
+  `Classroom` ni en `SOLO FRAN`, ni en `Downloads`.
+- Hipótesis: el doc inicial es de otro integrante y a Fran le llegó por link
+  (un doc abierto sólo por link no figura en «compartidos conmigo»). Pedirle
+  el link a Fran.
+
+**CubeIDE, para la v0.4 de la guía:** al crear el proyecto de la C031C6, después
+del Finish aparece **«Board Project Options»**: elegir los componentes BSP (LED
+verde LD4, botón de usuario, Virtual Com Port, los tres tildados por defecto) y
+«Generate demonstration code» sin tildar. Se deja así y OK. El Virtual Com
+Port es lo que genera `BSP_COM_Init`. La guía v0.3 no lo menciona (Fran lo vio
+el 29/09 al crear `tp2`).
+
 **Lo que sigue, en orden:**
 1. **Compartir la carpeta del TP Cohete con los autores**, cuando Fran diga
-   quiénes son (el .docx no tiene mails: medido). Al compartir, declararla en
+   quiénes son o pase el link del doc inicial (el .docx nuestro no tiene mails:
+   medido). Y abrir el Cohete como proyecto **privado** aparte (regla 2 del
+   contrato), no acá. Al compartir, declararla en
    `.claude/estructura-drive.json` → `compartido-con-nombre`, **por hash del
    mail** (nunca el mail: el repo es público), y renombrar la carpeta con los
    apellidos, como la de Teoría de Circuitos.
