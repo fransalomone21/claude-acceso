@@ -1,5 +1,16 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-09-29 (02:40) — el doc del grupo, leído
+
+`Downloads\Sistema cohete de agua.pdf` (9 pág.): **no tiene mails** (0, medido) y
+la **sección 7, «Máquina de estados», está vacía**. La nuestra quedó alineada con
+sus fases (Tierra, Ascenso, Apogeo, Descenso, Aterrizaje; ≤ 250 m el principal) y
+sin las balizas, que el doc no pide. Errores encontrados en el doc, para Fran: el
+índice no coincide con el cuerpo; «BPM280» (es BMP280); «6. 2.6.1 Operaciones»
+sobrante en el ConOps; REQ-L0-4 con el rationale cortado; REQ-L0-6 sin rationale;
+L1 vacío y con REQ-L1-01 repetido; «controlador» y «demostrador» tecnológico
+mezclados en 2.7. **Los mails siguen sin aparecer.**
+
 ## 2026-09-29 (02:10) — guía pública v0.4 (Wokwi paso a paso)
 
 Ampliada la sección de Wokwi (dónde van los archivos, tres formas de editarlos, correr y reiniciar) y agregado el cartel Board Project Options. Publicada por el hook post-commit. **La guía personal sigue en v0.3**: falta pasarle lo mismo. Máquina de estados del Cohete en `01 - UNSAM\Software de Vuelo\TP Cohete de Agua (Petrilli)\maquina-de-estados\` (PNG + .drawio editable + generar.py). El doc del grupo está en OneDrive y **no se pudo leer** (Word Online no expone el texto): hace falta una copia .docx para ver si ya trae máquina de estados y los mails.
