@@ -53,6 +53,7 @@ C:\Users\frans\Desktop\
 │   │   │   ├── repaso-iise\            guion + audios — terminado
 │   │   │   ├── teoria-circuitos\     ← REPO PROPIO · ignorado acá · NO se pushea
 │   │   │   ├── catedras\             ← REPO PROPIO · ignorado acá · lo que pide cada profesor
+│   │   │   ├── cohete-de-agua\       ← REPO PROPIO · ignorado acá · TP Cohete de Agua (grupo)
 │   │   │   └── software-de-vuelo\    guías de C y de IDEs (STM32) — ACTIVO
 │   │   └── seguimiento\
 │   │       └── coaching\             ← REPO PROPIO PRIVADO · ignorado acá
@@ -147,6 +148,7 @@ dato publicado.
 | `proyectos/documentos/clases-aed/` | `clases-aed` (local) | **a ningún lado** — lleva nombre y mail de una alumna particular |
 | `proyectos/documentos/teoria-circuitos/` | `teoria-circuitos` (local) | **a ningún lado** — la carátula de los informes lleva nombre y correo de dos compañeros, que la guía de la materia exige ahí |
 | `proyectos/documentos/catedras/` | `catedras` (local) | **a ningún lado** — lo que pide cada profesor, textual; Fran decidió el 2026-09-28 que los criterios son locales y lo público es sólo lo pactado |
+| `proyectos/documentos/cohete-de-agua/` | `cohete-de-agua` (local) | **a ningún lado** — trabajo en grupo con los apellidos de los compañeros; lo compartido va por la carpeta de Drive del grupo |
 
 **La regla que sostiene esta tabla: un archivo, un repo dueño.** Si una carpeta
 tiene su propio `.git`, `claude-acceso` la ignora en el mismo turno en que
