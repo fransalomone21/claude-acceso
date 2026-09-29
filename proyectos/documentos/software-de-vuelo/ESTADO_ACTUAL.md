@@ -1,5 +1,28 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-09-29 (01:20) — la guía de IDEs v0.3, PUBLICADA
+
+Fran dio el OK sin contar nada del TP2 todavía, así que **v0.4 no existe**:
+se publicó la v0.3 tal cual. Declarada en `.claude/apuntes-publicos.json`
+(materia «Software de Vuelo», en Drive como «Guia de IDEs - STM32CubeIDE y VS
+Code.pdf») y **verificada por MD5** con `publicar-apuntes.ps1 -Verificar`.
+**Regla de Fran desde hoy:** lo público se sube ni bien se tiene o se modifica.
+Para que eso no dependa de acordarse, el hook `post-commit` ahora mira la
+**lista declarada** y no sólo `apunte/apunte.pdf`: un commit que toque
+`guia-ides/guia-ides.pdf` la republica solo (probado con el commit 8f15bfe:
+el hook viejo decía «no», el nuevo «sí»; con la lista saboteada vuelve a «no»).
+
+**La guía de C queda para después**, a pedido de Fran.
+
+**TP Cohete (Petrilli):** su informe (`Informe_Cohete_de_Agua.docx`) estaba en
+la carpeta **pública** `TDC` del Drive de apuntes, con link público. Se movió
+(mismo ID de archivo) a `01 - UNSAM…/GRUPOS - trabajos por materia/Software de
+Vuelo - TP Cohete de Agua (Petrilli)/` y el permiso `anyone` **se cayó con la
+mudanza** (era heredado de la carpeta: medido, queda sólo el dueño). **No está
+compartido con los autores:** el documento **no tiene mails ni nombres** —se
+buscaron en el texto, encabezados, metadatos y comentarios del .docx de Drive y
+en los 30+ archivos locales del TP (0 mails)—. Falta que Fran diga quiénes son.
+
 ## 2026-09-29 (00:50–02:00) — la guía de IDEs, adelantada para el TP2
 
 **Fase 0 sigue abierta** (faltan los criterios de Leandro y `docs/ALCANCE.md`).

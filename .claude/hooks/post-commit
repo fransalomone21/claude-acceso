@@ -15,7 +15,25 @@
 
 raiz=$(git rev-parse --show-toplevel)
 
-if ! git diff-tree --no-commit-id --name-only -r HEAD | grep -q 'apunte/apunte\.pdf$'; then
+# QUE CUENTA COMO "UN APUNTE" LO DICE LA LISTA, NO EL NOMBRE DEL ARCHIVO.
+# Hasta el 2026-09-29 esto miraba solo 'apunte/apunte.pdf', y cuatro PDFs
+# declarados y trackeados (la hoja de formulas y los dos parciales de Fisica
+# Espacial, la guia de IDEs) cambiaban sin que nada los subiera. Regla de
+# Fran: lo publico se sube ni bien cambia. Se mantiene el patron viejo como
+# segunda condicion: un apunte.pdf SIN declarar dispara igual, y el
+# publicador lo reporta como 'sin declarar' en vez de callarlo.
+# $1 y PUBLICAR_SOLO_DECIDIR son costuras de prueba: git llama al hook sin
+# argumentos, asi que en uso real es HEAD y publica.
+rev=${1:-HEAD}
+declarados=$(sed -n 's/.*"local": *"\([^"]*\)".*/\1/p' "$raiz/.claude/apuntes-publicos.json")
+toco=no
+for f in $(git diff-tree --no-commit-id --name-only -r "$rev"); do
+    if printf '%s\n' "$declarados" | grep -qxF "$f"; then toco=si; fi
+    case "$f" in */apunte/apunte.pdf|apunte/apunte.pdf) toco=si ;; esac
+done
+
+if [ -n "$PUBLICAR_SOLO_DECIDIR" ]; then echo "toco=$toco"; exit 0; fi
+if [ "$toco" = no ]; then
     exit 0
 fi
 

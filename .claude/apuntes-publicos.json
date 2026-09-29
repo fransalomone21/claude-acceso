@@ -49,6 +49,18 @@
       "estado": "ACTIVO -- cambia, se republica cada vez que se toca"
     },
     {
+      "materia": "TDC",
+      "local": "proyectos/documentos/electronica-analogica/apunte/apunte.pdf",
+      "nombre-en-drive": "Apunte de Electronica Analogica.pdf",
+      "estado": "2026-09-29 -- a pedido de Fran, el apunte de Electronica Analogica es TAMBIEN el apunte de la carpeta de Teoria de Circuitos. Mismo PDF que la entrada de arriba: se republican juntos."
+    },
+    {
+      "materia": "Software de Vuelo",
+      "local": "proyectos/documentos/software-de-vuelo/guia-ides/guia-ides.pdf",
+      "nombre-en-drive": "Guia de IDEs - STM32CubeIDE y VS Code.pdf",
+      "estado": "2026-09-29 -- v0.3, 6 pag. Se llama guia-ides.pdf y no apunte.pdf, asi que el detector de 'sin declarar' NO la ve: esta entrada es la unica que la sube."
+    },
+    {
       "materia": "IISE/Material de Estudio nuestro/Apunte GENERAL",
       "local": "proyectos/documentos/apunte-iise/apunte/apunte.pdf",
       "nombre-en-drive": "Apunte de Introduccion a la Ingenieria de Sistemas Espaciales.pdf",

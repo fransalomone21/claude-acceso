@@ -1,5 +1,22 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-09-29 (01:20) — guía de IDEs publicada; el TP Cohete salió de lo público
+
+**Hecho:** guía de IDEs v0.3 publicada y verificada por MD5; el hook
+`post-commit` la republica sola en cada commit que toque su PDF. El informe del
+TP Cohete salió de la carpeta pública `TDC` a una carpeta de GRUPOS privada
+(detalle en `ESTADO_ACTUAL.md`).
+
+**Lo que sigue, en orden:**
+1. **Compartir la carpeta del TP Cohete con los autores**, cuando Fran diga
+   quiénes son (el .docx no tiene mails: medido). Al compartir, declararla en
+   `.claude/estructura-drive.json` → `compartido-con-nombre`, **por hash del
+   mail** (nunca el mail: el repo es público), y renombrar la carpeta con los
+   apellidos, como la de Teoría de Circuitos.
+2. Con lo que Fran cuente del TP2, corregir y subir a v0.4 las dos versiones.
+   Commitear el PDF público alcanza: el hook lo sube.
+3. La guía de C, cuando Fran la pida (la dejó para después el 29/09).
+
 ## 2026-09-29 (madrugada) — la guía de IDEs v0.3, adelantada para el TP2
 
 **Hecho:** guía pública (`guia-ides/`, 6 pág., sin publicar) y guía personal
