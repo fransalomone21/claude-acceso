@@ -193,7 +193,8 @@ cada dato del proyecto y escribe la tarea de compilar, la configuración para
 que VS Code reconozca la HAL y los dos archivos de Wokwi (estos últimos, sólo
 si no existen). Se corre una vez por proyecto:
 ```
-powershell -ExecutionPolicy Bypass -File preparar-vscode.ps1 -Proyecto "C:\...\workspace_1.18.1\tp2"
+cd "<carpeta donde bajaste preparar-vscode.ps1>"
+powershell -ExecutionPolicy Bypass -File preparar-vscode.ps1 -Proyecto "<ruta de tp2>"
 ```
 *La condición:* el proyecto tiene que haberse compilado *una vez en
 CubeIDE*, y cada vez que tocás el `.ioc` volvés a compilar ahí, porque el
