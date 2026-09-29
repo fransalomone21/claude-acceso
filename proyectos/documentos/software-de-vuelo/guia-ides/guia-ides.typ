@@ -230,6 +230,7 @@ pisó, `printf` deja de salir y el código no tiene nada de malo.]
   [Wokwi pide licencia], [venció (dura 30 días): `Wokwi: Request a New License`],
   [`printf` no muestra nada], [en este orden: `USE_COM_LOG` en `1U`; el monitor en `PA2`/`PA3` en `diagram.json`; la pestaña del simulador *a la vista* (tapada o minimizada, Wokwi pausa la simulación)],
   [el cambio no se ve en la simulación], [no recompilaste, o no reiniciaste la simulación],
+  [un cable de `diagram.json` no aparece], [el nombre del pin no existe, y Wokwi no avisa. En la C031C6 algunos llevan número porque están en los dos conectores: `PB0.1`, `3V3.1`, `GND.1` a `GND.9`. La lista oficial: `boards/st-nucleo-c031c6/board.json` en `github.com/wokwi/wokwi-boards`],
   [un pin sale naranja en el `.ioc`], [conflicto de configuración: ese pin o su periférico ya está en uso],
   [`Ctrl+Shift+B` no encuentra `Debug` o el `makefile` (con la mejora)], [el proyecto nunca se compiló en CubeIDE: un martillo y listo],
   [`undefined reference to ...` después de tocar el `.ioc` (con la mejora)], [el `makefile` quedó viejo: un martillo en CubeIDE],

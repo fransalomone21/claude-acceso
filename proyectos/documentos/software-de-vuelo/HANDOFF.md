@@ -1,5 +1,27 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-09-29 (04:50) — TP2 hecho y empaquetado; carpeta del Cohete compartida
+
+**TP2:** `workspace_1.18.1\tp2` completo. PB5 y ADC1 IN0 se agregaron al `.ioc`
+y el código se regeneró **sin abrir CubeIDE**, con el motor de CubeMX que trae
+adentro (`java -jar ...\com.st.stm32cube.common.mx_*\STM32CubeMX.jar -q
+script`, con `config load` + `project generate`). La compilación también fue
+sin GUI (`stm32cubeidec.exe ... headlessbuild -cleanBuild tp2/Debug`):
+**0 errores, 0 advertencias**. El código va en los bloques USER CODE, con
+comentarios cortos en criollo. `diagram.json` verificado **pin por pin** contra
+`wokwi-boards/boards/st-nucleo-c031c6/board.json`, con saboteador en rojo: `PB0`
+y `3V3` **no existen** en esa placa, son `PB0.1` y `3V3.1`. **Sin simular**: lo
+abre Fran. La entrega está en `Desktop\01 - UNSAM\Software de Vuelo\TP2_Salomone.zip`
+(proyecto + `.elf` + `diagram.json` + `wokwi.toml`). Hay un respaldo del tp2
+anterior en el scratchpad de la sesión.
+
+**Cohete:** la carpeta de Drive está compartida como `writer` con los dos
+compañeros, renombrada con los apellidos y declarada por hash en
+`.claude/estructura-drive.json` (`verificar-drive` en verde). El análisis
+contra los criterios de Petrilli y la predicción de qué no le gustó de la
+presentación están en el repo privado:
+`catedras/software-de-vuelo/COHETE-ANALISIS.md`.
+
 ## 2026-09-29 (03:00) — circuito del TP2 armado; mañana, el código
 
 `tp2\diagram.json` escrito con los dos ejercicios del TP2 (PB0–PB3 contador, PB5

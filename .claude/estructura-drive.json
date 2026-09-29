@@ -72,6 +72,19 @@
         ]
       },
       {
+        "sobre": "01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/Software de Vuelo - TP Cohete de Agua - Favazza, Ojeda, Salomone",
+        "rol": "writer",
+        "por-que": "grupo del TP Cohete de Agua (Petrilli, Software de Vuelo). Compartido 2026-09-29 a pedido de Fran, con los mails que dio el.",
+        "quien-sha256": [
+          "cd50ccf11c007904",
+          "7a2939b38dfb6cb9"
+        ],
+        "quien-etiqueta": [
+          "companero del grupo del TP Cohete (el mismo de Teoria de Circuitos)",
+          "companero del grupo del TP Cohete (2 de 2)"
+        ]
+      },
+      {
         "sobre": "03 - CLASES PARTICULARES - compartido con alumnos/AED 6to EEST1 - examen 10-10-2026",
         "rol": "reader",
         "por-que": "alumna particular de AED III (EEST N1), examen del 10/10/2026. Compartido 2026-09-23 a pedido de Fran. Revocar despues del examen si ya no se usa.",
