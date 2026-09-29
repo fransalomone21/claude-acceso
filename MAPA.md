@@ -51,17 +51,52 @@ C:\Users\frans\Desktop\
 │   │   ├── documentos\
 │   │   │   ├── electronica-analogica\  apunte Typst 103 pág — ACTIVO
 │   │   │   ├── repaso-iise\            guion + audios — terminado
-│   │   │   └── teoria-circuitos\     ← REPO PROPIO · ignorado acá · NO se pushea
+│   │   │   ├── teoria-circuitos\     ← REPO PROPIO · ignorado acá · NO se pushea
+│   │   │   ├── catedras\             ← REPO PROPIO · ignorado acá · lo que pide cada profesor
+│   │   │   └── software-de-vuelo\    guías de C y de IDEs (STM32) — ACTIVO
 │   │   └── seguimiento\
-│   │       └── caso-tio\             ← REPO PROPIO · ignorado acá · NO se pushea
 │   │       └── coaching\             ← REPO PROPIO PRIVADO · ignorado acá
+│   │       (caso-tio: borrado por Fran el 2026-09-29, no se sigue;
+│   │        la línea de .gitignore queda, por si reaparece una copia)
 │   │
 │   └── archivo\
 │       └── RAMAS.md                  qué quedó en las ramas viejas
 │
 └── (fuera del sistema, no son proyectos de Claude)
-    fotos\ · Mis Documentos\ · PlanosGasista\ · Juegos\ · Herramientas\
+    00 - Personal\ · 01 - UNSAM\ · 02 - Archivo\ · 03 - Docencia\
+    04 - Terceros\ · Juegos\ · Herramientas\
 ```
+
+**El Escritorio se reordenó de nuevo el 2026-09-28/29**, y ahora usa **la
+misma numeración que la raíz de Mi unidad en Drive** (`.claude/estructura-drive.json`):
+un solo mapa para los dos lados. El número dice el **área**; lo que se
+**produce** con Claude sigue viviendo en `claude-acceso\proyectos\`, y lo de
+las carpetas numeradas es **material de entrada** (lo que da la cátedra, lo
+que ya se entregó, lo personal).
+
+| Carpeta | Qué va | Espejo en Drive |
+|---|---|---|
+| `00 - Personal\` | documentación, CV, fotos, inglés, varios | `00 - PERSONAL` |
+| `01 - UNSAM\` | una carpeta **por materia** con el nombre de la materia: `Fisica Espacial`, `IISE`, `Software de Vuelo`, `Teoria de Circuitos`. Adentro, el material de la cátedra y lo propio de esa materia | `01 - UNSAM - Ing. en Sistemas Espaciales` |
+| `02 - Archivo\` | cursadas que ya no se trabajan: `Programacion 1C 2026` (el STAR_WARS de PlatformIO) | `02 - ARCHIVO - cursadas anteriores` |
+| `03 - Docencia\` | `EEST N1`: el cargo docente | (Drive tiene `03 - CLASES PARTICULARES`: mismo rubro, otra cosa) |
+| `04 - Terceros\` | trabajos hechos para otra persona: `Planos gasista` | `04 - TERCEROS` |
+
+Cada movimiento, con su origen y su destino, quedó en
+`archivo/mudanza-escritorio-2026-09-28.csv` (sólo en esta máquina: es estado
+de la máquina y no se commitea). Con ese archivo la mudanza se deshace entera.
+
+**Tres cosas que viven fuera del Escritorio y se sabe dónde:**
+- El **workspace de STM32CubeIDE** se mudó a
+  `01 - UNSAM\Software de Vuelo\STM32\workspace_1.18.1\` y CubeIDE apunta ahí
+  (`C:\ST\STM32CubeIDE_1.18.1\STM32CubeIDE\configuration\.settings\org.eclipse.ui.ide.prefs`,
+  con `.bak-2026-09-28` al lado). Compila desde la ruta nueva, medido.
+- Los **proyectos de C en WSL** (`\\wsl.localhost\Ubuntu\home\franco_salomone\projects\`)
+  **no se mudaron**: fuera de Linux se rompe el flujo de compilar ahí. Los de
+  la carpeta raíz son de Programación 1C 2026; `espaciales\` es de Software de
+  Vuelo.
+- Las **descargas** siguen en `Downloads`, que no se ordena: lo que sirve se
+  mueve a su materia.
 
 **El Escritorio se ordenó el 2026-09-17** y pasó de 33 items a 15. Lo que
 cambió de lugar, porque los nombres viejos aparecen en sesiones anteriores:
@@ -70,8 +105,8 @@ cambió de lugar, porque los nombres viejos aparecen en sesiones anteriores:
 |---|---|
 | `Programas y juegos\` — mezclaba juegos, BIOS de PS2, emuladores y scripts del sistema | se desarmó en `Juegos\` y `Herramientas\` |
 | `DBZ-mods\` · `juegos db tk3\` | `Juegos\Mods\Dragon Ball\` |
-| `vscode\` — TPs de la escuela técnica | `Mis Documentos\EESTN1\vscode\` |
-| `TP Cohete de Agua\` | `Mis Documentos\SistemasEspaciales\Programacion\` |
+| `vscode\` — TPs de la escuela técnica | `Mis Documentos\EESTN1\vscode\` → desde el 2026-09-29, `03 - Docencia\EEST N1\vscode\` |
+| `TP Cohete de Agua\` | `Mis Documentos\SistemasEspaciales\Programacion\` → desde el 2026-09-29, `01 - UNSAM\Software de Vuelo\TP Cohete de Agua (Petrilli)\` |
 | los `REVERTIR-*.ps1` de la MSI, **sueltos y sin versionar** | `proyectos/ingenieria/diagnostico-msi/optimizacion/` |
 
 La última fila es la que importa: esos scripts son lo único que deshace los
@@ -79,8 +114,9 @@ cambios de undervolt y arranque sobre la máquina, y vivían en una carpeta
 llamada «Programas y juegos». Si se borraban, los cambios quedaban sin vuelta
 atrás.
 
-`PlanosGasista\` es material de trabajo sin proyecto asociado. Si algún día se
-trabaja sobre eso con Claude, entra como proyecto en `proyectos/documentos/`.
+`PlanosGasista\` (hoy `04 - Terceros\Planos gasista\`) es material de trabajo
+sin proyecto asociado. Si algún día se trabaja sobre eso con Claude, entra
+como proyecto en `proyectos/documentos/`.
 
 **El Escritorio NO está en OneDrive, y está medido**: la clave
 `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
@@ -106,11 +142,11 @@ dato publicado.
 |---|---|---|
 | `claude-acceso/` (todo salvo lo de abajo) | `claude-acceso` | `github.com/fransalomone21/claude-acceso` |
 | `perfil-global/` | `perfil-global` | `github.com/fransalomone21/perfil-global` |
-| `proyectos/seguimiento/caso-tio/` | `caso-tio` (local) | **a ningún lado** — datos de salud de un familiar |
 | `proyectos/seguimiento/coaching/` | `coaching` (local) | GitHub **privado** — falta crear el remote |
 | `proyectos/seguimiento/haberes-docentes/` | `haberes-docentes` (local) | **a ningún lado** — CBU, CUIL y datos de haberes |
 | `proyectos/documentos/clases-aed/` | `clases-aed` (local) | **a ningún lado** — lleva nombre y mail de una alumna particular |
 | `proyectos/documentos/teoria-circuitos/` | `teoria-circuitos` (local) | **a ningún lado** — la carátula de los informes lleva nombre y correo de dos compañeros, que la guía de la materia exige ahí |
+| `proyectos/documentos/catedras/` | `catedras` (local) | **a ningún lado** — lo que pide cada profesor, textual; Fran decidió el 2026-09-28 que los criterios son locales y lo público es sólo lo pactado |
 
 **La regla que sostiene esta tabla: un archivo, un repo dueño.** Si una carpeta
 tiene su propio `.git`, `claude-acceso` la ignora en el mismo turno en que

@@ -23,6 +23,7 @@ la fase 0 — ver `HANDOFF.md`.
 
 | Si la tarea es… | Leer |
 |---|---|
+| **producir CUALQUIER cosa para la materia** (apunte, la exposición de Compton y pares, un PowerPoint) | **primero** [`../catedras/taller-de-fisica/CRITERIOS.md`](../catedras/taller-de-fisica/CRITERIOS.md) y los generales de Aníbal en [`../catedras/fisica-espacial/CRITERIOS.md`](../catedras/fisica-espacial/CRITERIOS.md) §A: orden cronológico, gráficos que se explican solos, experimental y modelo siempre distinguibles. Repo **privado**, sólo en esta máquina |
 | retomar, saber en qué anda | `ESTADO_ACTUAL.md` (entero — es corto) |
 | saber qué sigue y qué la cierra | `PDP.md`, sección 4 |
 | entender cómo se llegó a las fuentes y al recorte propuesto | `docs/bitacora.md` |

@@ -394,12 +394,51 @@ cuenta nueva daba 90,4, **no era un error**: el módulo usa $mu = 3,986 times
 10^14$ y la cuenta nueva el $g R^2$ del Beer; se alineó la guía al apunte y
 se imprimen los dos.
 
+### Fase 15 — el material del 28/09 y lo que pidió Aníbal ese día  ·  ABIERTA (2026-09-29)
+
+**Tipo: Fase C** (diseño detallado): se decide **qué** entra y **dónde**,
+con el material leído; la escritura en el apunte es la fase siguiente. **No
+se hace** en esta fase: escribir módulos ni tocar los ya escritos.
+
+La abrió Fran el 2026-09-28: bajó material nuevo de la cátedra y pidió
+*incorporarlo al apunte* (audiovisual, imágenes, PDF y PPT). Ese mismo día
+Aníbal dijo en clase qué quiere (registrado en el repo privado
+`catedras/fisica-espacial/`, entrada ANI-R1): **concepto e intuición antes
+que deducción**, la **analogía giróscopo ↔ órbita**, la **pseudo-ingravidez**,
+el momento de inercia que **aparece al escribir la energía cinética** y **no
+se calcula** (se va a la tabla), Steiner «que exista y qué dice».
+
+El material está en `C:\Users\frans\Desktop\01 - UNSAM\Fisica Espacial\Material catedra\2026-09-28 Impulso angular\`
+(índice en `fuentes/RUTAS.md`): `Repaso impulso angular.pptx`,
+`Analogía Precesión - MCU.pdf`, `Giroscopos como Actuador_Sensor.pdf`, dos
+papers (`lappas2002.pdf`, `wrigley1965.pdf`), `Video 2 ventilador.mp4`, el
+problema `Niña con rueda.pdf` con su resolución, y el parcialito 3 de Fran.
+
+**Qué la cierra, exactamente:** que exista `docs/PLAN-FASE-15.md` con **cada
+uno** de los nueve archivos leído o visto, y por cada uno: qué dice en dos
+líneas, si entra al apunte o no y por qué, y en qué módulo y sección; que
+**los cinco pedidos de ANI-R1** (analogía, pseudo-ingravidez, momento de
+inercia desde la energía, no calcular I, Steiner) tengan cada uno su lugar
+decidido o su motivo para no entrar; y que el choque C1 («impulso» o
+«momento» angular) esté decidido por Fran o marcado como abierto.
+
+**Cómo se certifica:** `Select-String -Path docs\PLAN-FASE-15.md -Pattern`
+con los nueve nombres de archivo y los cinco pedidos (ANI-20, ANI-21, ANI-23,
+ANI-24, ANI-25), encontrando los catorce; lo corre la sesión que cierre la
+fase. Que el plan diga la verdad sobre el contenido no lo mide un grep: se
+comprueba leyendo, y por eso cada fila lleva la página o el minuto del
+material de donde sale.
+
+**Fase en curso:** 15 — el material del 28/09 y lo que pidió Aníbal ese día.
+
 ### Lo que queda fuera de fase, a propósito
 
 - **«Impulso angular» por $bold(L)$ en el apunte** (~30 apariciones, regla
   propia 9) y **los números de la sección de impulso angular**: la guía (4)
   renumeró los Problemas 4 a 7 y el apunte cita la numeración vieja («Ej.
-  4», «Ej. 5», «Ej. 7»). Una pasada propia, que Fran decide.
+  4», «Ej. 5», «Ej. 7»). Una pasada propia, que Fran decide. **Desde el
+  2026-09-29 está en disputa** (choque C1 de `catedras`): la cátedra dice
+  «impulso angular», y la pasada no se hace hasta que Fran decida.
 - **Los tres anexos** (formulario, constantes, correspondencia) — pasaron a
   la fase 13.
 - **El estándar de ejemplos «un poco más» desarrollados** se aplicó a 3

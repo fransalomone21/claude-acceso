@@ -16,6 +16,7 @@ módulo se escriben `#M("clave")` y una clave mala **rompe la compilación**
 
 | Si la tarea es… | Leer |
 |---|---|
+| **producir CUALQUIER cosa para la materia** (módulo, guía, parcial, resumen, presentación) | **primero** [`../catedras/fisica-espacial/CRITERIOS.md`](../catedras/fisica-espacial/CRITERIOS.md): lo que pide Aníbal, textual y graduado. Repo **privado**, sólo en esta máquina; si no está, decirlo. Tiene **dos choques abiertos con este apunte** (C1: «impulso» o «momento» angular; C2: el nivel) que decide Fran |
 | retomar, saber qué módulos están cerrados | [`ESTADO_ACTUAL.md`](ESTADO_ACTUAL.md) (entero) |
 | saber qué cierra la fase en curso, o por qué se decidió algo | [`PDP.md`](PDP.md) — sobre todo §3 y §4 |
 | lo que quedó a medias y las trampas de Typst ya pagadas | [`HANDOFF.md`](HANDOFF.md) |
@@ -239,6 +240,11 @@ $bold(L)$: si hace falta nombrarlo así (para citar el enunciado), se aclara
 en el mismo párrafo que es el momento angular. En `practica/` lo mide
 `validar.py` (chequeo 4, con su sabotaje). **En el apunte todavía no**: hay
 unas 30 apariciones del uso viejo, pendientes de una pasada propia.
+**En disputa desde el 2026-09-29** (choque C1 de
+`../catedras/fisica-espacial/CRITERIOS.md`): la cátedra llama a $bold(L)$
+«impulso angular», y lo que Aníbal dijo el 28/09 sobre la palabra «momento»
+puede ser su razón. **No hacer la pasada de las ~30 apariciones hasta que
+Fran decida**; lo que ya está no se toca.
 
 ## Dónde está cada cosa
 

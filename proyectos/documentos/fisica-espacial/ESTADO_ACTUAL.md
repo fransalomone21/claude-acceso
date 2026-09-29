@@ -1,5 +1,35 @@
 # Estado actual — Apunte de Física Espacial
 
+## Fase 15 ABIERTA, 2026-09-29: el material del 28/09 y lo que pidió Aníbal
+
+**Se sigue con esto.** Fran bajó material nuevo de la cátedra (PPT, PDF,
+papers, un video) y pidió incorporarlo al apunte. Está guardado e indexado,
+**sin leer**: nueve archivos en
+`C:\Users\frans\Desktop\01 - UNSAM\Fisica Espacial\Material catedra\2026-09-28 Impulso angular\`
+(lista en `fuentes/RUTAS.md`). Qué cierra la fase y cómo se certifica:
+`PDP.md`, fase 15. Es de diseño: se decide qué entra y dónde, no se escribe
+todavía.
+
+**Lo que pidió Aníbal en la clase del 28/09** quedó registrado en el repo
+privado `catedras/fisica-espacial/` (ANI-R1), junto con los comentarios de
+las listas de temas, destilado en 23 criterios. Los que mandan en esta fase:
+concepto e intuición antes que deducción y álgebra vectorial; la **analogía
+giróscopo ↔ órbita**; la **pseudo-ingravidez**; el momento de inercia que
+aparece al escribir la energía cinética y **no se calcula** (se va a la
+tabla); Steiner, que exista y qué dice.
+
+**Dos choques con el apunte, que decide Fran** (detalle en
+`catedras/fisica-espacial/CRITERIOS.md`):
+- **C1:** la cátedra dice «impulso angular» por $bold(L)$ y la regla propia 9
+  dice «momento angular». La pasada de las ~30 apariciones **queda frenada**.
+- **C2:** el nivel. Lo nuevo va por concepto primero; revisar lo ya escrito
+  sería una pasada cara y la decide Fran.
+
+**El Escritorio se reordenó** y los libros se mudaron a
+`C:\Users\frans\Desktop\01 - UNSAM\Fisica Espacial\Libros de Fisica\`;
+`fuentes/RUTAS.md` quedó corregida (el glob de ejemplo se corrió y encuentra
+el Roederer). La ruta vieja ya estaba mal desde antes.
+
 ## Fuera de fase, 2026-09-28: el giróscopo del parcialito, dibujado
 
 A pedido de Fran. El ejercicio 3 del parcialito de momento angular tiene

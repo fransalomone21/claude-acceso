@@ -2,8 +2,10 @@
 
 Los PDFs no se commitean: pesan demasiado y no son nuestros. Esta tabla dice
 dónde están en el disco. Todos viven en
-`C:\Users\frans\Desktop\Mis Documentos\SistemasEspaciales\Libros de Fisica\`
-— la misma carpeta que usa `fuentes/RUTAS.md` de `fisica-espacial`.
+`C:\Users\frans\Desktop\01 - UNSAM\Fisica Espacial\Libros de Fisica\`
+— la misma carpeta que usa `fuentes/RUTAS.md` de `fisica-espacial`. (Mudada
+el 2026-09-29, al reordenar el Escritorio; antes vivía bajo
+`Mis Documentos\SistemasEspaciales\`.)
 
 **Ojo con el path largo de Pisacane: localizarlo con `glob`, nunca escribir
 el nombre a mano.** Su ruta completa pasa los 260 caracteres que Windows

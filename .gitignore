@@ -59,3 +59,9 @@ proyectos/documentos/clases-aed/
 # (declarados "regenerable" en .claude/apuntes-publicos.json).
 proyectos/documentos/fisica-espacial/practica/recortes/
 proyectos/documentos/fisica-espacial/practica/salida/guia-*.pdf
+proyectos/documentos/catedras/
+
+# Manifiestos de mudanza del Escritorio: estado de ESTA maquina (rutas locales
+# origen -> destino, para deshacer), no una decision del proyecto. Mismo caso
+# que ultimo-chequeo.json.
+archivo/mudanza-*.csv

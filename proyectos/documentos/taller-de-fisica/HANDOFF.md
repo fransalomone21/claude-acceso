@@ -3,7 +3,28 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
-## Arrancá por acá
+## 2026-09-29 — lo nuevo va ARRIBA de lo de abajo
+
+**Si Fran pide algo de la exposición** (Compton y creación de pares /
+Bremsstrahlung, semanas 12 y 13; define los subtemas el miércoles 30/09):
+
+1. Leer **primero** `../catedras/taller-de-fisica/CRITERIOS.md` y los
+   generales de Aníbal (`../catedras/fisica-espacial/CRITERIOS.md` §A). Ahí
+   está también **dónde está el tema en los tres libros de la cátedra**,
+   medido: Sears-Zemansky vol. 2 cap. 38, Pisacane cap. 9. El material sale
+   de esos libros (TAL-05, ANI-14).
+2. **Dónde se produce:** si el PowerPoint lleva los nombres de los
+   integrantes en la carátula, **no** va en este repo, que es público (regla
+   2 de la estructura): se abre una carpeta privada al empezar, igual que
+   `teoria-circuitos`. Si no los lleva, puede ir acá, en una carpeta
+   `exposicion/` fuera de las fases del apunte.
+3. La fase 1 (el apunte de la materia) **sigue bloqueada**: la exposición no
+   la abre. Fran pidió «luego» que el apunte condense las clases de todos los
+   grupos; se redefine cuando diga «arrancamos».
+
+El cronograma está en `C:\Users\frans\Desktop\01 - UNSAM\Taller de Fisica\`.
+
+## Arrancá por acá (lo del 2026-09-13)
 
 **No escribas ningún módulo todavía**, aunque la fase 0 esté cerrada y el
 recorte confirmado. Fran fue explícito: "todo lo de taller de física es

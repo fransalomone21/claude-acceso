@@ -1,6 +1,25 @@
 # Estado actual — Taller de Física
 
-**Última actualización:** 2026-09-13
+**Última actualización:** 2026-09-29
+
+## 2026-09-29 — lo que pidió Fran, sin abrir fase todavía
+
+- **La materia la da Aníbal** (el de Física Espacial), y funciona así:
+  **delega semanas a grupos que dan la clase** de un tema. Sus criterios para
+  exponer (orden cronológico, gráficos que se explican solos, experimental y
+  modelo siempre distinguibles) quedaron registrados en el repo privado
+  `catedras` (ANI-05 a ANI-07, TAL-01 y TAL-02).
+- **La exposición de Fran: efecto Compton y producción de pares**, en
+  PowerPoint, con un compañero de la facultad (quién es está en `catedras`,
+  que es privado). **Reunión de preparación: miércoles 2026-09-30, después
+  de clase.** Fecha de la exposición: PENDIENTE.
+- **Fran pidió, «luego»,** que este proyecto condense las clases que dan los
+  grupos durante el cuatrimestre en un apunte de la materia. Eso **cambia el
+  alcance** de la fase 1 (que era escribir sobre Ferraro, Pisacane y
+  Young-Freedman): se redefine en el PDP cuando Fran diga «arrancamos». Hasta
+  ahí, la fase 1 sigue bloqueada.
+- Los libros se mudaron a `C:\Users\frans\Desktop\01 - UNSAM\Fisica Espacial\Libros de Fisica\`
+  (`fuentes/RUTAS.md`, actualizada).
 
 ## Dónde estamos
 

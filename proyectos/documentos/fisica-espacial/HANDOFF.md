@@ -6,6 +6,26 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-09-29 — fase 15 abierta, nada escrito todavía
+
+**Arrancá por acá:** `PDP.md`, fase 15, y **antes de cualquier cosa**
+`../catedras/fisica-espacial/CRITERIOS.md` (privado, en esta máquina). Después,
+leer los nueve archivos del material del 28/09 en este orden, que va de lo que
+más decide a lo que menos: `Analogía Precesión - MCU.pdf` (es la analogía que
+Aníbal pidió), `Repaso impulso angular.pptx` (probablemente la del momento de
+inercia desde la energía cinética: `hipótesis`), `Giroscopos como
+Actuador_Sensor.pdf`, `Niña con rueda.pdf` + su resolución, el video, y los
+dos papers al final. El resultado es `docs/PLAN-FASE-15.md`.
+
+**Trampas:**
+- Los `.pptx` se leen con `python-pptx` (texto) o renderizando; un
+  `.pptx` sin texto extraíble no está vacío, puede ser todo imagen.
+- El video (12 MB) no se puede «leer»: se describe a partir de cuadros
+  extraídos (por ejemplo con `ffmpeg`, si está) o se le pregunta a Fran qué
+  muestra.
+- **No hacer la pasada de «impulso angular» → «momento angular»**: está
+  frenada por el choque C1 hasta que decida Fran.
+
 ## Sesión del 2026-09-28, segunda parte — dibujo del giróscopo (fuera de fase)
 
 `practica/parcialito-momento-angular.typ`: figura nueva `fig-giroscopo-enunciado`

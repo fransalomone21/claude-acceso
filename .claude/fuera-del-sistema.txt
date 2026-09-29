@@ -19,10 +19,17 @@
 # Una linea por carpeta, sin ruta: solo el nombre tal cual esta en el disco.
 # Las lineas vacias y las que empiezan con # se ignoran.
 
+# --- las areas del Escritorio (2026-09-29): misma numeracion que la raiz de
+# Drive. Son MATERIAL DE ENTRADA (catedra, entregas, lo personal); lo que se
+# PRODUCE con Claude vive en proyectos/. Reemplazan a 'Mis Documentos',
+# 'PlanosGasista' y 'fotos', que se repartieron adentro (MAPA.md seccion 1).
+00 - Personal
+01 - UNSAM
+02 - Archivo
+03 - Docencia
+04 - Terceros
+
 # --- material de trabajo sin proyecto asociado ---
-Mis Documentos
-PlanosGasista
-fotos
 EA
 facu pendrive07del07
 

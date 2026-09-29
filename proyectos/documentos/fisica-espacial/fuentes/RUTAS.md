@@ -5,7 +5,7 @@ tabla es el puntero. Medida contra el disco el 2026-08-30.
 
 | Cita en el apunte | Libro | Ruta |
 |---|---|---|
-| S&Z vol. 1 | Young & Freedman, *Física universitaria con Física Moderna* Vol. 1 (Pearson, 2018) | `C:\Users\frans\Desktop\Mis Documentos\SistemasEspaciales\Libros de Fisica\Hugh D. Young_ Roger A. Freedman - Física universitaria_ con Física Moderna. 1-Pearson Educación (2018).pdf` |
+| S&Z vol. 1 | Young & Freedman, *Física universitaria con Física Moderna* Vol. 1 (Pearson, 2018) | `C:\Users\frans\Desktop\01 - UNSAM\Fisica Espacial\Libros de Fisica\Hugh D. Young_ Roger A. Freedman - Física universitaria_ con Física Moderna. 1-Pearson Educación (2018).pdf` |
 | S&Z vol. 2 | ídem, Vol. 2 | `…\Libros de Fisica\Hugh D. Young_ Mark Waldo Zemansky_ … - Física universitaria con física moderna 2-Pearson Educación (2018).pdf` |
 | Roederer | Roederer, *Mecánica elemental* (Eudeba, 2008) | `…\Libros de Fisica\Roederer, Juan G. - Mecánica elemental-Eudeba (2008).pdf` |
 | Beer | Beer & Johnston, *Mecánica vectorial para ingenieros: Dinámica* | `…\Libros de Fisica\Beer_ Mec vectorial para ingenieros _ dinámica.pdf` |
@@ -29,15 +29,28 @@ y el error apunta al código, que está bien. Se localiza el libro por glob:
 
 ```python
 import glob, os
-base = os.path.join(os.path.expanduser('~'), 'Desktop', 'Mis Documentos',
-                    'SistemasEspaciales', 'Libros de Fisica')
+base = os.path.join(os.path.expanduser('~'), 'Desktop', '01 - UNSAM',
+                    'Fisica Espacial', 'Libros de Fisica')
 p = [f for f in glob.glob(os.path.join(base, '*.pdf')) if 'Roederer' in f][0]
 ```
+
+**Medido de nuevo el 2026-09-29: la carpeta se mudó.** El Escritorio se
+reordenó y `Mis Documentos` dejó de existir: los libros están ahora en
+`C:\Users\frans\Desktop\01 - UNSAM\Fisica Espacial\Libros de Fisica\` (12
+archivos, entre ellos Landau, Ross y el Pisacane del Taller). La ruta vieja
+ya estaba mal **desde antes**: esta tabla decía
+`SistemasEspaciales\Libros de Fisica` y los libros vivían en
+`SistemasEspaciales\Fisica Espacial\Libros de Fisica`. El glob de arriba se
+corrigió al mismo tiempo y se corrió: encuentra el Roederer. De dónde vino
+cada cosa lo dice el manifiesto de la mudanza,
+`claude-acceso/archivo/mudanza-escritorio-2026-09-28.csv` (sólo en esta
+máquina: no se commitea).
 
 ## Material de la cátedra (no libros)
 
 | Qué | Ruta | Estado |
 |---|---|---|
+| **Material del 2026-09-28** (impulso angular, giróscopo): `Repaso impulso angular.pptx`, `Analogía Precesión - MCU.pdf`, `Giroscopos como Actuador_Sensor.pdf`, `lappas2002.pdf`, `wrigley1965.pdf`, `Video 2 ventilador.mp4`, `Niña con rueda.pdf`, `Rueda - resolucion.pdf` (y el parcialito 3 de Fran, personal) | `C:\Users\frans\Desktop\01 - UNSAM\Fisica Espacial\Material catedra\2026-09-28 Impulso angular\` | **sin leer**: es la fase 15 del PDP. Los papers y el video no son nuestros y no van al repo |
 | Guía de problemas 2026, original (18 pág., transcripta el 2026-08-31) | `C:\Users\frans\Downloads\PROBLEMAS FÍSICA ESPACIAL.pdf` | los enunciados largos son texto; los cortos son **imágenes** — se renderizan con PyMuPDF para leerlos |
 | Guía de problemas 2026, ampliada (21 pág., recibida el 2026-09-07) | `C:\Users\frans\Downloads\PROBLEMAS FÍSICA ESPACIAL (2).pdf` | superconjunto de la anterior: agrega «ADICIONALES» (cantidad de movimiento, 3) y «EJERCICIOS ADICIONALES» (gravitación, 5) — verificado renderizando, no sólo por `pdftotext`. Ver la nota al principio de `GUIA-ENUNCIADOS.md` |
 | Guía de problemas 2026, **versión (4)** (21 pág., recibida el 2026-09-27) — **la vigente** | `C:\Users\frans\Downloads\PROBLEMAS FÍSICA ESPACIAL (4).pdf` | renumera la sección de impulso angular (ver `GUIA-ENUNCIADOS.md`); el resto, idéntico a la (3). Es la fuente de los recortes de `practica/` (`recortar.py` toma la más nueva de Downloads). **Es el Google Doc de la cátedra exportado a PDF** (`1zFbdSLu_nbSvn7r4r78hyZf2ixvo-TIf3PNkX5N8dV4`, confirmado por Fran el 2026-09-27): el Doc es la fuente viva y el PDF su foto. Ninguna de las dos cuentas puede abrir el Doc (404 por el conector y por rclone), así que la versión nueva llega como PDF exportado |
