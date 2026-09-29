@@ -131,14 +131,14 @@ texto, y todo lo demás es cómo se arman.
   `board-st-nucleo-c031c6` y cada componente, con un `id`) y `connections`
   (cada cable: `["nucleo:PA5", "led1:A", "green", []]`, de un pin a otro).
 + *Editarlo — tres formas:*
-  - *visual, en VS Code:* abrís `diagram.json` y aparece el editor de
-    circuito (si se abre como texto: clic derecho en la pestaña →
-    *Reopen Editor With…* → el editor de Wokwi). *+* agrega componentes,
-    un cable se tira haciendo clic en un pin y después en otro, y el
-    componente seleccionado se borra con `Supr`;
-  - *visual, en #link("https://wokwi.com")[wokwi.com]*, como el profe:
-    proyecto nuevo con la misma placa, armás el circuito, pestaña
-    `diagram.json`, copiás todo y lo pegás en tu archivo;
+  - *visual, en #link("https://wokwi.com")[wokwi.com]*, como el profe, y es
+    *la única visual gratis*: proyecto nuevo con la misma placa, armás el
+    circuito (*+* agrega componentes, un cable se tira con clic en un pin y
+    clic en otro), pestaña `diagram.json`, copiás todo y lo pegás en tu
+    archivo;
+  - *visual, en VS Code:* abrir `diagram.json` muestra el circuito, pero
+    *editarlo ahí pide un plan pago* (Hobby+ o Pro): con la licencia gratis
+    sale «Upgrade to Edit Diagram». *Close*, y se edita de otra forma;
   - *a mano, como texto:* para cambiar un pin o agregar un cable es lo más
     rápido. Cada `id` de `connections` tiene que existir en `parts`.
 + *Correrlo.* Compilás primero (el `.elf` tiene que existir), después
