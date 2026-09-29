@@ -2,9 +2,10 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D): T1 del diagnóstico
 **diseñada** el 2026-09-28; **construidos los pasos 1 (medidor), 2 (arranque
-partido), 3 (pilares en dos hooks) y 4 (núcleo de chequeo en cuatro)**: la
-capa rápida entera da verde. Faltan el 5 (hook al paso) y el 6 (validar en
-3–5 sesiones reales; el paso 2 ya pasó la primera).
+partido), 3 (pilares en dos hooks), 4 (núcleo de chequeo en cuatro) y 5 (hook
+al paso)**. Falta el 6: validar en 3–5 sesiones reales con 0 cortados y 0
+cancelados (los pasos 2, 3 y 4 ya pasaron una; el 5 empieza a contar desde
+la próxima sesión, porque instalarlo movió `settings.json`).
 
 **Fase 6 CERRADA** el 2026-09-17. Cerró por lo que la cerraba (`PDP.md` §4):
 **`chequeo-completo.ps1` en verde, todos los saboteadores corridos, y un
@@ -137,16 +138,52 @@ inyecta.
   solo** (10–11 s o 45–46 s, 5 corridas): la lentitud no era por correr junto
   al otro de Drive. En el arranque su modo lento sale «SIN MEDIR».
 
+## 2026-09-28 (noche, 4.ª) — T1 paso 5: el hook al paso
+
+- **Paso 0, validado:** la primera sesión con pilares y núcleo partidos dio
+  `medir-inyeccion --solo despues` = **0 cortados y 0 cancelados** (1 sesión
+  posterior al cambio de settings).
+- **`perfil-global/hooks/al-paso.py`** (PreToolUse, registrado por
+  `install.ps1` desde `Get-Guardias` con `Interprete`/`Decide`/`Timeout`
+  nuevos; desinstalable sacando su entrada de `settings.json`): clasifica cada
+  llamada por herramienta y entrada, e inyecta las viñetas **enteras** de la
+  clave **una vez por sesión** (estado por `session_id` en
+  `hooks/al-paso-estado/`, poda a 3 días). **Seis claves** que discriminan
+  según S2: `freno`, `fanout`, `gui`, `rclone`, `typst`, `pcsx2`. Emite
+  8 441 / 3 799 / 1 532 / 5 242 / 7 029 / 7 350 (tope 9 000 de **stdout**,
+  con los escapes del JSON). Queda **fuera** ghidra y gh: la sonda no midió
+  si discriminan.
+- **`freno` no entra entero:** son 31 viñetas (~18 K) y salen 16; el pie del
+  extracto dice cuántas faltan y dónde leerlas. Es el orden de la fuente, no
+  un ranking; si pesa, el arreglo es entregar el resto en la segunda llamada de
+  la clave (cambio de diseño: vuelve al doc).
+- **Falla abierto a propósito** (no decide, inyecta): cualquier error termina en
+  silencio y queda en `disparos.log`. Su primera versión falló abierto en las
+  seis claves por un BOM (PowerShell 5.1 lo antepone al pipe) y **sólo el log
+  lo delató**: por eso el saboteador exige el *texto* y no `exit 0`.
+- **`probar-al-paso.ps1`, 20 de 20**, en `chequeo-completo`: efecto por clave,
+  la viñeta entera llega, una vez por sesión (y sus dos controles), no dispara
+  en Read / `ls` / `.md`, fuente ausente, stdin roto, **tres mutaciones del
+  hook** (sin tope, sin marcar, todo es clave) que ponen en rojo su caso, y el
+  medidor (control verde, clave > 10 000, fuente vacía).
+- **`medir-inyeccion`** corre ahora una entrada sintética por clave (la declara
+  el hook con `--muestras`) y da FAIL si una clave pasa 10 000 o no emite.
+  `verify-install` comprueba registro y efecto (`additionalContext` ante un
+  Write a `hooks/`, silencio ante Read).
+- **Confirmado en sesión real** (no sólo en frío): el `settings.json` se
+  recargó en caliente y el primer `rclone` de la sesión trajo las 7 viñetas
+  como `PreToolUse:Bash hook additional context`; el segundo, nada.
+
 ## Lo que FALTA, para la fase 7
 
-- **T1, construir** según `docs/t1-presupuesto-inyeccion.md` §7: **pasos 1 a
-  4 hechos** (pilares 7 940 + 4 791; núcleo 6 831 / 3 732 / 7 790 / 7 764;
-  las frases «se lee solo» corregidas); siguen el hook al paso (5) y la
-  validación (6: 0 cortados y 0 cancelados en 3–5 sesiones reales, que la
-  mitad «después» del medidor cuenta sola; el paso 2 ya pasó la primera, la
-  próxima sesión es la primera con pilares y núcleo partidos). Riesgo nuevo:
-  un momento de `chequeo-de-trabajo.md` que pase ~8 900 de cabeceras no entra
-  en ningún hook (el corte es por momento); lo atrapa el medidor.
+- **T1, validar (paso 6)** según `docs/t1-presupuesto-inyeccion.md` §7:
+  **pasos 1 a 5 hechos** (pilares 7 940 + 4 791; núcleo 6 831 / 3 732 / 7 790
+  / 7 764; hook al paso en 6 claves). Falta 0 cortados y 0 cancelados en 3–5
+  sesiones reales, que la mitad «después» del medidor cuenta sola; como
+  instalar el paso 5 movió `settings.json`, la cuenta arranca de nuevo en la
+  próxima sesión. Riesgo nuevo: un momento de `chequeo-de-trabajo.md` que
+  pase ~8 900 de cabeceras no entra en ningún hook (el corte es por momento);
+  lo atrapa el medidor.
 - Después, el resto del camino crítico del diagnóstico (T2 → T3 → T4 → T7 →
   T9).
 

@@ -96,6 +96,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador del molde de fase'; cmd = '.\perfil-global\probar-medidor-fase.ps1' }
     @{ nombre = 'saboteador del heredoc';    cmd = '.\perfil-global\probar-guardia-heredoc.ps1' }
     @{ nombre = 'saboteador de la inyeccion'; cmd = '.\perfil-global\probar-medir-inyeccion.ps1' }
+    @{ nombre = 'saboteador del hook al paso'; cmd = '.\perfil-global\probar-al-paso.ps1' }
     @{ nombre = 'saboteador del publicador';      cmd = '.\probar-publicacion.ps1' }
     @{ nombre = 'saboteador de Drive';            cmd = '.\probar-verificar-drive.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }

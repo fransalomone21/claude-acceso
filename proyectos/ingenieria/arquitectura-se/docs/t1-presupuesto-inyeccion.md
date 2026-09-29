@@ -258,6 +258,21 @@ Tres notas de construcción:
   partes. Ahora toda entrada que invoca el lanzador es suya y por evento deja
   exactamente `Get-Ganchos` (M4).
 
+**Avance (2026-09-28, 4.ª sesión): paso 5 construido.** `hooks/al-paso.py`,
+seis claves (freno, fanout, gui, rclone, typst, pcsx2), saboteador 20/20
+(`probar-al-paso.ps1`) y medido por `medir-inyeccion` con una entrada por
+clave. Tres notas, sin cambio de diseño:
+
+- **Sólo PreToolUse.** Toda clave se detecta por la herramienta y su entrada,
+  así que no hace falta PostToolUse; `additionalContext` en PreToolUse llega
+  (`confirmado`: se vio en la sesión que lo instaló, recargado en caliente).
+- **El tope se mide sobre stdout**, no sobre el texto: el JSON escapa cada
+  salto de línea y eso cuenta contra el corte de 10 000.
+- **`freno` no entra entero** (31 viñetas, salen 16 en ~8 400): el pie del
+  extracto cuenta las que faltan. Entregar el resto en la segunda llamada de la
+  clave sería un cambio de diseño («una vez por sesión»), así que queda anotado
+  y no hecho.
+
 **Riesgos:** el clasificador al paso inyecta donde no hace falta (se ve en
 S2: por eso sólo claves que discriminan, y deduplicado); el harness cambia el
 umbral en una versión nueva (lo atrapa la mitad «después» del medidor, que no

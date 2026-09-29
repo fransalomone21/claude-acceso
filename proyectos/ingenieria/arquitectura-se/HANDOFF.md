@@ -1,5 +1,31 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-09-28 (noche, 4.ª) — LO ÚLTIMO. T1 paso 5 CONSTRUIDO: el hook al paso.**
+> (0) Validado: la primera sesión con pilares y núcleo partidos dio `--solo
+> despues` = 0 cortados y 0 cancelados. (5) `perfil-global/hooks/al-paso.py`
+> (PreToolUse, Python; lo registra `install.ps1` desde `Get-Guardias` con los
+> campos nuevos `Interprete`/`Decide='contexto'`/`Timeout`; se desinstala
+> sacando su entrada de `~/.claude/settings.json`): por clave inyecta las
+> viñetas **enteras** de `chequeo-de-trabajo.md` una vez por sesión (estado en
+> `~/.claude/hooks/al-paso-estado/<session_id>.txt`). Seis claves que
+> discriminan: `freno`, `fanout`, `gui`, `rclone`, `typst`, `pcsx2` (ghidra y gh
+> quedan fuera: la sonda no midió si discriminan). 8 441 / 3 799 / 1 532 /
+> 5 242 / 7 029 / 7 350, tope 9 000 sobre **stdout** (los escapes del JSON
+> cuentan). **`freno` no entra entero** (31 viñetas, salen 16, el pie lo dice);
+> entregar el resto en la 2.ª llamada sería cambio de diseño y no se hizo.
+> Saboteador `perfil-global/probar-al-paso.ps1` **20/20** (en
+> `chequeo-completo`); `medir-inyeccion` corre una muestra por clave;
+> `verify-install` mide registro y efecto. **Confirmado en sesión real:** el
+> `settings.json` se recargó en caliente y el primer `rclone` trajo sus 7
+> viñetas; el segundo, nada; un Edit a `medir-inyeccion.py` disparó `freno`.
+> **Sigue el paso 6:** instalar movió `settings.json`, así que la cuenta de
+> 3–5 sesiones reales arranca de nuevo con la próxima; en cada una
+> `python perfil-global\herramientas\medir-inyeccion.py --solo despues` tiene
+> que dar 0 cortados y 0 cancelados. Después, T2 del diagnóstico. Aviso: el
+> hook usa `python` del PATH bajo el shell del harness (igual que
+> `fase_activa.py`); si una máquina no lo tiene, falla abierto y sólo lo dice
+> `~/.claude/hooks/disparos.log`.
+
 > **2026-09-28 (noche, 3.ª) — LO ÚLTIMO. T1 pasos 3 y 4 CONSTRUIDOS; la capa
 > rápida entera en VERDE** (9 medidores, primera vez desde que existe el de
 > inyección). (0) **Paso 2 validado en su primera sesión real**: `--solo
