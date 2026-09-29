@@ -236,6 +236,28 @@ encontró en el binario); y **S3 queda corregida**: `publicar-apuntes
 en paralelo no era contención con el otro medidor de Drive. La conclusión de
 S3 (paralelizar no alcanza; hace falta la fecha límite) se sostiene igual.
 
+**Avance (2026-09-28, 3.ª sesión): pasos 3 y 4 construidos; la capa rápida
+entera en verde.** El paso 2 pasó su primera sesión real (0 `hook_cancelled`).
+Tres notas de construcción:
+
+- **El corte lo hace el lanzador** (`emitir-contexto.ps1 archivo parte de`),
+  al emitir: la parte es una vista que no puede quedar vieja, y la fuente
+  instalada sigue verificándose por hash. Empaca secciones hasta 9 000; si el
+  archivo pide más partes que hooks registrados, la última se lleva el resto
+  y el medidor da rojo (saboteador, casos 11 y 12). Pilares: 7 940 + 4 791.
+- **El núcleo va en cuatro hooks, no en dos.** Medido: las 200 cabeceras
+  suman ~17 800 enteras y, con el preámbulo y las oraciones que se suman
+  cuando la primera abre una lista, 25 914. Ni con tope de 90 por cabecera
+  entraba en 2 × 9 000, y el corte es por momento: «antes de confiar en una
+  herramienta» sola ocupa 7 800. Queda 6 831 / 3 732 / 7 790 / 7 764. No es
+  cambio de diseño —M1 es ≤ 9 000 **por hook**; el «2» era una estimación—,
+  pero sí un **riesgo nuevo**: un momento que pase ~8 900 no entra en ningún
+  hook. Lo emitido al arrancar queda en ~51 000 (esperado ~45 000).
+- **`install.ps1` retira lo que sale del manifiesto.** Reemplazaba por
+  archivo, y así la entrada vieja de `pilares.md` quedaba viva al lado de las
+  partes. Ahora toda entrada que invoca el lanzador es suya y por evento deja
+  exactamente `Get-Ganchos` (M4).
+
 **Riesgos:** el clasificador al paso inyecta donde no hace falta (se ve en
 S2: por eso sólo claves que discriminan, y deduplicado); el harness cambia el
 umbral en una versión nueva (lo atrapa la mitad «después» del medidor, que no

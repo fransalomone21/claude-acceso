@@ -1,8 +1,10 @@
 # ESTADO ACTUAL — arquitectura-se
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D): T1 del diagnóstico
-**diseñada** el 2026-09-28; **construidos los pasos 1 (medidor) y 2 (arranque
-partido)**, faltan del 3 al 6 (ver «Lo que FALTA»).
+**diseñada** el 2026-09-28; **construidos los pasos 1 (medidor), 2 (arranque
+partido), 3 (pilares en dos hooks) y 4 (núcleo de chequeo en cuatro)**: la
+capa rápida entera da verde. Faltan el 5 (hook al paso) y el 6 (validar en
+3–5 sesiones reales; el paso 2 ya pasó la primera).
 
 **Fase 6 CERRADA** el 2026-09-17. Cerró por lo que la cerraba (`PDP.md` §4):
 **`chequeo-completo.ps1` en verde, todos los saboteadores corridos, y un
@@ -137,12 +139,14 @@ inyecta.
 
 ## Lo que FALTA, para la fase 7
 
-- **T1, construir** según `docs/t1-presupuesto-inyeccion.md` §7: **pasos 1 y
-  2 hechos**; siguen pilares en dos, el núcleo generado, el hook al paso, y la
-  validación (paso 6: 0 cortados y 0 cancelados en 3–5 sesiones reales, que
-  la mitad «después» del medidor ya cuenta sola). Y con el
-  núcleo, corregir las dos frases que hoy mienten: `aprender.py agregar` e
-  `install.ps1` dicen que `chequeo-de-trabajo.md` «se lee solo».
+- **T1, construir** según `docs/t1-presupuesto-inyeccion.md` §7: **pasos 1 a
+  4 hechos** (pilares 7 940 + 4 791; núcleo 6 831 / 3 732 / 7 790 / 7 764;
+  las frases «se lee solo» corregidas); siguen el hook al paso (5) y la
+  validación (6: 0 cortados y 0 cancelados en 3–5 sesiones reales, que la
+  mitad «después» del medidor cuenta sola; el paso 2 ya pasó la primera, la
+  próxima sesión es la primera con pilares y núcleo partidos). Riesgo nuevo:
+  un momento de `chequeo-de-trabajo.md` que pase ~8 900 de cabeceras no entra
+  en ningún hook (el corte es por momento); lo atrapa el medidor.
 - Después, el resto del camino crítico del diagnóstico (T2 → T3 → T4 → T7 →
   T9).
 
@@ -150,9 +154,10 @@ inyecta.
   comprehensive* (SEH p. 165-166), contra el costo por fase ya registrado acá
   abajo. Es lo que cierra la fase 7.
 - **P1, el catálogo derivado**, diferido con su resta escrita en la matriz.
-- **La mitad de P5 que falta:** partir `chequeo-de-trabajo.md` (hoy
-  **136 KB**) — es T1, ya diseñada. Criterio: lo que se inyecta pesa menos,
-  **y** la lección del paso en curso está adentro.
+- **La mitad de P5 que falta:** partir `chequeo-de-trabajo.md` — la primera
+  condición ya está (se inyecta el núcleo, 26 K en vez de 134 K, y llega
+  entero); la segunda, **la lección del paso en curso adentro**, es el hook al
+  paso (T1 paso 5).
 - **`ingenieria-de-sistemas.md`** con las 4 correcciones de `arquitectura.md`
   §8, y la pregunta abierta: ¿sigue haciendo falta, o el catálogo P1 más las
   cuatro fichas ya lo reemplazan?

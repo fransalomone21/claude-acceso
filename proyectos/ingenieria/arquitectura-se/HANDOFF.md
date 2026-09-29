@@ -1,6 +1,28 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
-> **2026-09-28 (noche, 2.ª) — LO ÚLTIMO. T1 pasos 1 y 2 CONSTRUIDOS.**
+> **2026-09-28 (noche, 3.ª) — LO ÚLTIMO. T1 pasos 3 y 4 CONSTRUIDOS; la capa
+> rápida entera en VERDE** (9 medidores, primera vez desde que existe el de
+> inyección). (0) **Paso 2 validado en su primera sesión real**: `--solo
+> despues` sin `hook_cancelled` (1 de 3-5). (3) `pilares.md` en **dos hooks**
+> (7 940 + 4 791): lo corta el lanzador `perfil-global/hooks/emitir-contexto.ps1`
+> (`archivo parte de`, frontera de sección, empaque a 9 000; si pide más partes
+> que hooks, la última se lleva el resto y el medidor da rojo). `install.ps1`
+> ahora es dueño de toda entrada que invoca el lanzador y **retira** lo que sale
+> del manifiesto. (4) **El núcleo**: `perfil-global/herramientas/nucleo-chequeo.py`
+> genera `chequeo-nucleo.md` (la primera oración de cada una de las 200
+> viñetas, tope 160; 25 914 caracteres) y va en **cuatro hooks**
+> (6 831 / 3 732 / 7 790 / 7 764), no dos: el corte es por momento y «antes de
+> confiar en una herramienta» sola ocupa 7 800 (nota de construcción en el doc
+> §7). La fuente se sigue instalando en `~/.claude/` para leer la viñeta
+> entera. `install.ps1` lo regenera; `verify-install` exige que esté al día;
+> saboteador de T1 **14/14**. Las frases «se lee solo» (aprender.py,
+> install.ps1, los dos CLAUDE.md, README, skill) corregidas. Los PDF de Física
+> Espacial, **subidos** (MD5 al día). **Sigue el paso 5 (hook al paso)** y
+> juntar sesiones reales para el 6: `medir-inyeccion.py --solo despues` en
+> cada una; la próxima es la **primera con pilares y núcleo partidos**, y
+> tiene que dar 0 cortados.
+>
+> **Antes (2026-09-28, noche, 2.ª) — T1 pasos 1 y 2 CONSTRUIDOS.**
 > (1) `perfil-global/herramientas/medir-inyeccion.py` en los medidores de
 > `chequeo-completo.ps1`, **en rojo sobre el estado de hoy** (pilares 12 863,
 > chequeo 133 973, cortes y cancelaciones en los transcripts) y amarillo en la
