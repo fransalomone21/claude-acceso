@@ -69,10 +69,15 @@ entra en una. Pendiente: publicar el PDF (`.\practica\compilar.ps1 -Publicar`).
 - Fuente `practica/hoja-formulas.typ`; importa la paleta del apunte, así que
   **hay que compilar con `--root ..`** (sin eso Typst corta con «would escape
   the project root»). `compilar.ps1` no la incluye: se compila a mano.
-- La etiqueta gris de cada fórmula es el 4.º argumento posicional de `#f`,
-  no un argumento con nombre (`[etq: "x"]` es contenido y Typst lo rechaza).
-- Si se toca una fórmula del apunte, revisar la hoja: `grep` la etiqueta en
-  `hoja-formulas.typ`. No hay verificador que las compare.
+- **Desde el 2026-09-30 es de una carilla** (sin `#f` ni etiquetas; la de 3
+  carillas está en 72727fa). Ya no importa la paleta, pero `--root ..` no
+  molesta. Cada tema es un bloque `breakable: false`: no se parte entre
+  columnas. **Las ecuaciones en bloque no se cortan solas**: una demasiado
+  larga se pisa con la columna de al lado sin error; por eso cada renglón es
+  corto, y al agregar algo hay que mirar el render. Hoy entra a 9 pt con ~10 %
+  de aire abajo.
+- Si se toca una fórmula del apunte, revisar la hoja. No hay verificador que
+  las compare.
 
 ---
 

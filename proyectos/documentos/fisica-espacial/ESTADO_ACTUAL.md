@@ -90,6 +90,14 @@ etiquetada. **No la mide ningún verificador**: si el apunte cambia una
 fórmula, la hoja no se entera. Se compila con
 `typst compile --root .. hoja-formulas.typ salida/hoja-formulas.pdf` desde `practica/`.
 
+**2026-09-30, reformulada a UNA carilla A4** para llevar a la evaluación del
+1/10, a pedido de Fran: sólo fórmulas y títulos de tema, sin hipótesis ni
+etiquetas, tres columnas, un solo color. 15 temas + constantes; primero los de
+la primera evaluación, después cuerpo rígido en 3D, vector de estado y tres
+cuerpos. Agrega la tabla de momentos de inercia (m17) y Hohmann con los
+$Delta v$ cerrados. La versión de 3 carillas con hipótesis queda en el commit
+72727fa.
+
 De paso: el arranque dio rojo en `publicar-apuntes -Verificar` porque las dos
 guías completas en Drive (subidas el 28/09 desde otra sesión) tenían otro MD5
 que las locales del 27/09, con el mismo tamaño. Drive era la más nueva: se
