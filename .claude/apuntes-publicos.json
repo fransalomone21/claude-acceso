@@ -14,7 +14,7 @@
       "materia": "Fisica Espacial",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/hoja-formulas.pdf",
       "nombre-en-drive": "Hoja de formulas.pdf",
-      "estado": "2026-10-01 -- 1 carilla A4, 15 temas + constantes, solo formulas; Hohmann con v_P y v_A como en clase (13.79) (la de 3 carillas con hipotesis: commit 72727fa) (fuente: practica/hoja-formulas.typ)"
+      "estado": "2026-10-01 -- 1 carilla A4, 15 temas + constantes, solo formulas; Hohmann con v_P y v_A como en clase (13.79); cohete con V(t) e y(t) para mu cte (la de 3 carillas con hipotesis: commit 72727fa) (fuente: practica/hoja-formulas.typ)"
     },
     {
       "materia": "Fisica Espacial/Modelos de Parcial",

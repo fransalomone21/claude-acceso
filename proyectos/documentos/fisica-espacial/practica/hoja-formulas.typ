@@ -56,7 +56,10 @@ $ K = 1/2 M v_"cm"^2 + K_"rel al CM" $
 $ mu = -(d M)/(d t), quad f = mu abs(v_r) = I_"sp" g_0 mu $
 $ M bold(a) = -mu bold(v)_r $
 $ (d V)/(d t) = (mu abs(v_r))/(M_0 - mu t) - g $
-$ V_f = V_0 + abs(v_r) ln (M_0)/(M_f) - g t_f $
+$ M(t) = M_0 - mu t $
+$ V(t) = V_0 + abs(v_r) ln (M_0)/(M(t)) - g t $
+$ y(t) = y_0 + V_0 t - 1/2 g t^2 $
+$ #h(3em) + abs(v_r) [t - (M(t))/mu ln (M_0)/(M(t))] $
 $ Delta V = abs(v_r) ln (M_0)/(M_f), quad Delta V_"tot" = sum_"etapas" Delta V_i $
 ]
 
