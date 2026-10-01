@@ -182,10 +182,12 @@ $ T_"sid" = 24 "h" dot (360°)/(360,986°) = 23,934 "h" $
 ]
 #aire
 #tema[Maniobras][
-$ v_P = sqrt((2 mu r_2)/(r_1 (r_1 + r_2))), quad v_A = r_1/r_2 v_P $
-$ Delta v_1 = v_P - v_(c 1), quad Delta v_2 = v_(c 2) - v_A, quad v_(c i) = sqrt(mu/r_i) $
-$ a_t = (r_1 + r_2)/2, quad t_v = T_t/2 = pi sqrt(a_t^3/mu) $
-$ phi = 180° - n_2 t_v, quad n_2 = 360° \/ T_2 $
+$ v_P = [2 mu r_A/r_P dot 1/(r_A + r_P)]^(1\/2), quad v_A = r_P/r_A v_P $
+$ v_(c P) = sqrt(mu/r_P), quad v_(c A) = sqrt(mu/r_A) $
+$ Delta v_1 = v_P - v_(c P), quad Delta v_2 = v_(c A) - v_A $
+$ v_P > v_(c P) arrow.l.r.double r_A/(r_A + r_P) > 1/2 $
+$ a_t = (r_P + r_A)/2, quad t_v = T_t/2 = pi sqrt(a_t^3/mu) $
+$ phi = 180° - n_A t_v, quad n_A = 360° \/ T_A $
 $ T'/T = 1 - (Delta phi)/(360°), quad a' = r (T'/T)^(2\/3) $
 $ r_P' = 2 a' - r $
 ]
