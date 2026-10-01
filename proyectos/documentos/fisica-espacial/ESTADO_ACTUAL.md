@@ -98,6 +98,13 @@ cuerpos. Agrega la tabla de momentos de inercia (m17) y Hohmann con los
 $Delta v$ cerrados. La versión de 3 carillas con hipótesis queda en el commit
 72727fa.
 
+**2026-10-01:** Hohmann pasó a la forma de la clase (problema 13.79 resuelto
+en clase, escaneado por Fran): $v_P$ y $v_A$ de la elipse por momento angular
+y energía, y $Delta v = $ final $-$ inicial contra las circulares, en vez de
+los $Delta v$ cerrados. Ápsides con $P$ y $A$ mayúsculas, como en clase, y la
+energía entre ápsides agregada en «Órbita». Comprobado: da lo mismo que la
+fórmula cerrada y reproduce los números de la clase ($32,75$ y $21,55$ km/s).
+
 ## Fuera de fase, 2026-09-30: modelos de parcial 4 y 5, conceptuales
 
 A pedido de Fran, «al estilo Aníbal», con los tres parcialitos de 2026 como

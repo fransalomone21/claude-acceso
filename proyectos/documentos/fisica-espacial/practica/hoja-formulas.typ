@@ -74,7 +74,7 @@ $ v_"circ" = sqrt(mu/r), quad v_"esc" = sqrt((2 mu)/r) = sqrt(2) thin v_"circ" $
 $ bold(L)_O = bold(r) times m bold(v), quad L = m v r sin phi $
 $ sum bold(tau)_O = (d bold(L)_O)/(d t) $
 $ h = r v_theta = r v cos gamma = "cte", quad (d A)/(d t) = h/2 $
-$ r_p v_p = r_a v_a $
+$ r_P v_P = r_A v_A quad (bold(r) perp bold(v) " en " P " y " A) $
 ]
 
 #tema[Dos cuerpos][
@@ -87,17 +87,19 @@ $ bold(r)_1 = m_2/(m_1 + m_2) bold(r), quad bold(r)_2 = -m_1/(m_1 + m_2) bold(r)
 $ r = p/(1 + e cos nu), quad p = h^2/mu = a(1 - e^2) $
 $ epsilon = v^2/2 - mu/r = -mu/(2 a) $
 $ v^2 = mu (2/r - 1/a) $
-$ r_p = a(1 - e), quad r_a = a(1 + e) $
-$ a = (r_p + r_a)/2, quad e = (r_a - r_p)/(r_a + r_p), quad b = sqrt(r_p r_a) $
+$ 1/2 v_P^2 - mu/r_P = 1/2 v_A^2 - mu/r_A $
+$ r_P = a(1 - e), quad r_A = a(1 + e) $
+$ a = (r_P + r_A)/2, quad e = (r_A - r_P)/(r_A + r_P), quad b = sqrt(r_P r_A) $
 $ tau = (2 pi a b)/h = 2 pi sqrt(a^3/mu) $
 $ v_perp = h/r, quad v_r = mu/h e sin nu $
 $ tan gamma = v_r/v_perp = (e sin nu)/(1 + e cos nu) $
 ]
 
 #tema[Maniobras: Hohmann y fasaje][
-$ a_t = (r_1 + r_2)/2, quad t_v = pi sqrt(a_t^3/mu) $
-$ Delta v_1 = sqrt(mu/r_1) (sqrt((2 r_2)/(r_1 + r_2)) - 1) $
-$ Delta v_2 = sqrt(mu/r_2) (1 - sqrt((2 r_1)/(r_1 + r_2))) $
+$ v_P = sqrt((2 mu r_A)/(r_P (r_A + r_P))), quad v_A = r_P/r_A v_P $
+$ v_(c 1) = sqrt(mu/r_P), quad v_(c 2) = sqrt(mu/r_A) $
+$ Delta v_1 = v_P - v_(c 1), quad Delta v_2 = v_(c 2) - v_A $
+$ a_t = (r_P + r_A)/2, quad t_v = pi sqrt(a_t^3/mu) $
 $ phi = 180° - n_2 t_v, quad n_2 = 360° \/ tau_2 $
 $ T'/T = 1 - (Delta phi)/(360°), quad a' = r (T'/T)^(2\/3) $
 ]
