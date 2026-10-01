@@ -27,7 +27,8 @@ alrededor del poste. Fran, coautor de este apunte, lo describió la primera
 vez como un giróscopo que «está levitando». No levita —en este apunte no
 levita nada, salvo algunas notas de parcial—, pero la sensación es
 exactamente ésa, y el propio Sears lo confiesa: dice que es un movimiento que
-«se opone a la intuición» (S&Z §10.7, pág. 323). Se llama *precesión*.
+«se opone a la intuición» (S&Z §10.7, pág. 323). Se llama *precesión*, y
+está dibujada en la @fig-giroscopo, más abajo.
 
 Para entender por qué no cae hacen falta cuatro piezas, y el módulo las arma
 en el orden en que se necesitan —que, casualmente, es el orden del Sears:
@@ -123,7 +124,16 @@ $ v = r omega, quad quad a_"tan" = r alpha, quad quad a_"rad" = v^2/r = omega^2 
 con $alpha = d omega_z \/ d t$ la aceleración angular. En forma vectorial,
 $bold(v) = bold(omega) times bold(r)$, y el producto vectorial hace solo el
 trabajo sucio: da el módulo $omega r sin phi$ —que es $omega$ por la distancia
-al *eje*— y la dirección tangente, sin que haya que pensarla.
+al *eje*— y la dirección tangente, sin que haya que pensarla. La
+@fig-omega junta las dos cosas: el vector sobre el eje y la velocidad de un
+punto.
+
+#fig([Un rígido que gira alrededor de un eje fijo. La velocidad angular es un
+vector sobre el eje: con los dedos de la mano derecha acompañando el giro, el
+pulgar marca $bold(omega)$. Cada punto $P$ recorre un círculo alrededor del
+eje con $bold(v) = bold(omega) times bold(r)$, tangente, de módulo $omega r$,
+con $r$ la distancia al eje. Como la S&Z Fig. 9.5, pág. 276.],
+fig-omega-vector) <fig-omega>
 
 == La energía de rotación: de ahí sale el momento de inercia
 
@@ -190,7 +200,12 @@ demostración de un renglón: el mejor negocio del capítulo.
 
 $ I_P = I_"cm" + M d^2 $ <rot-steiner>
 
-con $d$ la distancia entre los dos ejes.
+con $d$ la distancia entre los dos ejes (@fig-steiner).
+
+#fig([Dos ejes paralelos: uno por el centro de masa y otro a distancia $d$.
+El momento de inercia respecto del segundo es el del primero más $M d^2$.
+Para la varilla, con $d = L\/2$, da $1/3 M L^2$: el de la tabla.],
+fig-steiner) <fig-steiner>
 
 #deduccion("por qué el término cruzado se anula")[
   Se pone el origen en el centro de masa, el eje por el cm sobre $z$ y el eje
@@ -212,7 +227,7 @@ inercia y un tensor en lugar de un número— está en el módulo #M("inercia").
 
 == El torque: lo que hace girar
 
-Una puerta no se abre empujando al lado de las bisagras. Cualquiera que lo
+Una puerta no se abre empujando al lado de las bisagras (@fig-puerta). Cualquiera que lo
 intentó lo sabe; lo que no todos saben es que eso es un producto vectorial.
 Lo que hace girar no es la fuerza sino la fuerza *por su distancia al eje*.
 Para una fuerza $bold(F)$ aplicada en un punto que está en $bold(r)$ respecto
@@ -225,6 +240,13 @@ de palanca*: la distancia de $O$ a la recta de acción de la fuerza. Una fuerza
 aplicada en el propio $O$, o apuntando hacia él, no hace girar nada, por más
 fuerza que se haga — que es la descripción física exacta de empujar una
 puerta por las bisagras.
+
+#fig([La puerta, en perspectiva. La fuerza $bold(F)$ en el picaporte, a
+$bold(r)$ del eje de las bisagras, hace un torque $bold(tau) = bold(r) times
+bold(F)$ que apunta sobre ese eje (hacia arriba, por la mano derecha), de
+módulo $F l$, con $l = r sin phi$ el brazo de palanca: la distancia de $O$ a
+la recta de acción de $bold(F)$. La misma fuerza cerca de las bisagras tiene
+$r$ chico y no abre nada. La idea es la de S&Z pág. 305.], fig-torque-puerta) <fig-puerta>
 
 #geometria[
   *«Regla de mano derecha, muy importante!!»* Así, con dos signos de
@@ -284,7 +306,7 @@ problema que este apunte no puede resolver.
 )))
 
 *Rotación y traslación a la vez.* Un cuerpo que rueda —una rueda, un yo-yo,
-un cilindro por un plano inclinado— se mueve y gira al mismo tiempo, y el
+un cilindro por un plano inclinado— se mueve y gira al mismo tiempo (@fig-rodar), y el
 Sears lo parte en dos, que es exactamente lo que el módulo
 #M("centro-de-masa") ya había hecho con el teorema del centro de masa y con
 König. Nada nuevo bajo el sol; nuevo es sólo el yo-yo (S&Z Figs. 10.11 y
@@ -299,6 +321,11 @@ $1/2 I_"cm" omega^2$.]\; la segunda es el teorema del centro de masa; la
 tercera es la @rot-tau-ialfa *tomada alrededor del centro de masa*, que vale
 aunque ese eje se esté trasladando — siempre que no cambie de dirección, que
 es la letra chica de todo este módulo.
+
+#fig([Una rueda que rueda sin deslizar. El centro avanza con $v_"cm" = R
+omega$; el punto de contacto está quieto en ese instante y el de arriba va a
+$2 v_"cm"$. La energía cinética es la del centro de masa más la de la
+rotación alrededor de él. Como en S&Z, pág. 310–313.], fig-rodar) <fig-rodar>
 
 == El momento angular de un cuerpo que gira: $L = I omega$
 
@@ -360,8 +387,15 @@ $ I_1 omega_1 = I_2 omega_2 $ <rot-conserva>
 
 El Sears lo ilustra con un ejemplo que hay que agradecerle, porque no se
 olvida nunca: un profesor de física arriba de una mesa giratoria, con una
-mancuerna en cada mano. Está en el libro, no lo inventamos. Queda a criterio
-del lector a qué profesor se imagina.
+mancuerna en cada mano (@fig-mesa). Está en el libro, no lo inventamos.
+Queda a criterio del lector a qué profesor se imagina.
+
+#fig([El profesor en la mesa giratoria (S&Z Ejemplo 10.10, pág. 321). Con los
+brazos abiertos, las mancuernas quedan a $1,0$ m del eje: $I_1 = 13$ kg·m² y
+$omega_1 = 0,50$ vueltas/s. Con las mancuernas al abdomen, a $0,20$ m:
+$I_2 = 2,6$ kg·m² y $omega_2 = 2,5$ vueltas/s. Nadie lo tuerce desde afuera,
+así que $L = I omega$ es el mismo en los dos paneles. $bold(omega)$ va sin
+escala.], fig-mesa-giratoria) <fig-mesa>
 
 #ejemplo("Cualquiera puede bailar ballet (S&Z Ejemplo 10.10)")[
   El profesor se para en el centro de una mesa giratoria sin fricción, con los
@@ -407,10 +441,13 @@ hace torque respecto de $O$ porque está aplicada *en* $O$, y el peso $bold(w)
 perpendicular al eje (@fig-giroscopo). Hasta acá, nada que un buen diagrama de
 cuerpo libre no diga.
 
-#fig([El giróscopo apoyado en un pivote. De costado: el peso hace un torque
-$bold(tau) = bold(r) times bold(w)$ horizontal, que entra en la hoja. Desde
-arriba: ese torque le suma a $bold(L)$ un $d bold(L)$ perpendicular, y el eje
-gira un ángulo $d phi$ sin cambiar de largo. Redibujada de S&Z Figs. 10.34 y
+#fig([El giróscopo apoyado en un pivote. En perspectiva: el peso $bold(w) = M
+bold(g)$, en el centro de masa, hace respecto del pivote $O$ un torque
+$bold(tau) = bold(r) times bold(w)$ horizontal y perpendicular al eje. $d
+bold(L) = bold(tau) thin d t$ va para el mismo lado, así que la punta de
+$bold(L)$ se corre de costado y el eje gira alrededor del poste con
+$bold(Omega)$. Desde arriba: ese $d bold(L)$ perpendicular hace girar el eje
+un ángulo $d phi$ sin cambiarle el largo. Redibujada de S&Z Figs. 10.34 y
 10.35, pág. 323–324.], fig-giroscopo-pivote) <fig-giroscopo>
 
 *Si el volante no gira*, $bold(L)$ arranca en cero, y la @rot-tau-dl dice que

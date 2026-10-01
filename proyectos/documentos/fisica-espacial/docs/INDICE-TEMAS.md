@@ -354,7 +354,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(guia de la catedra)* qué ejercicios cubre este módulo
 - **Lo que se usa después**
 
-  Ecuaciones: `<rot-omega>`, `<rot-v>`, `<rot-energia>`, `<rot-steiner>`, `<rot-torque>`, `<rot-tau-ialfa>`, `<rot-traslacion>`, `<rot-l-iw>`, `<rot-tau-dl>`, `<rot-conserva>`, `<fig-giroscopo>`, `<rot-precesion>`
+  Ecuaciones: `<rot-omega>`, `<rot-v>`, `<fig-omega>`, `<rot-energia>`, `<rot-steiner>`, `<fig-steiner>`, `<rot-torque>`, `<fig-puerta>`, `<rot-tau-ialfa>`, `<rot-traslacion>`, `<fig-rodar>`, `<rot-l-iw>`, `<rot-tau-dl>`, `<rot-conserva>`, `<fig-mesa>`, `<fig-giroscopo>`, `<rot-precesion>`
 
 ### 18. Cinemática del cuerpo rígido y sistemas rotantes  ·  `cinematica-cr`
 

@@ -17,6 +17,7 @@
 // =====================================================================
 
 #import "estilo.typ": *
+#import "perspectiva.typ": *
 
 // =====================================================================
 //  Módulo `vectores` — Vectores y cinemática
@@ -1357,35 +1358,48 @@
 // =====================================================================
 
 // --- El giróscopo apoyado en un pivote ----------------------------------
-// Dos paneles, como Sears Figs. 10.34 y 10.35: de costado, las dos fuerzas
-// y el torque del peso (que entra en la hoja); desde arriba, L + dL y el
-// ángulo d(phi) que barre el eje. En los dos, x hacia la derecha; de
-// costado z sube y y ENTRA en la hoja; desde arriba y sube y z SALE de la
-// hoja. Con L = +x y tau = +y, el eje gira antihorario visto desde arriba.
+// Dos paneles, como Sears Figs. 10.34 y 10.35. El primero EN PERSPECTIVA
+// (perspectiva.typ): z sube, el eje del rotor va por +x (hacia el lector,
+// a la izquierda) e y va a la derecha. Con r = +x y w = -z,
+// tau = r x w = +y: el torque es horizontal y perpendicular al eje —lo que
+// de costado había que decir con «entra en la hoja»—. dL va como tau, así
+// que la punta de L se corre hacia +y y el eje gira antihorario visto desde
+// arriba (Omega = +z). El segundo panel es el mismo vector visto desde
+// arriba.
+#let _giroscopo-3d = esquema(escala: 1.1cm, {
+  let v = vista3d(az: 35, el: 18)
+  let O = (0, 0, 2.2)
+  let C = (2.4, 0, 2.2)
+  // la base del poste y el camino del centro de masa en la precesión
+  cilindro3(v, (0, 0, 0.06), (0, 0, 1), 0.5, 0.12)
+  linea3(v, circulo3-pts(O, (0, 0, 1), 2.4), color: c-guia, grosor: 0.5pt, punteada: true)
+  giro3(v, O, (0, 0, 1), (calc.cos(55deg), calc.sin(55deg), 0), 2.4, 60)
+  // el poste y la normal del pivote
+  linea3(v, ((0, 0, 0.12), O), grosor: 1.6pt)
+  flecha3(v, (0, 0.25, 1.0), (0, 0.25, 2.05), etiqueta: $bold(n)$, color: c-trazo, lado: "west", pos: 35%)
+  // el torque del peso en O, horizontal y perpendicular al eje
+  flecha3(v, O, (0, 1.6, 2.2), etiqueta: $bold(tau) = bold(r) times bold(w)$, color: c-dato, lado: "south", pos: 100%)
+  // la precesión: Omega hacia arriba
+  flecha3(v, (0, 0, 2.3), (0, 0, 3.6), etiqueta: $bold(Omega)$, color: c-aux, lado: "east", pos: 100%)
+  // el eje del rotor y r, del pivote al centro de masa
+  linea3(v, (O, (3.05, 0, 2.2)), grosor: 1.3pt)
+  flecha3(v, O, C, etiqueta: $bold(r)$, color: c-aux, lado: "north", pos: 45%)
+  rotulo3(v, O, [$O$], ancla: "south-west")
+  // el rotor
+  cilindro3(v, C, (1, 0, 0), 1.0, 0.3)
+  masa3(v, C, radio: 0.06)
+  // el peso, en el centro de masa
+  flecha3(v, C, (2.4, 0, 0.75), etiqueta: $bold(w) = M bold(g)$, color: c-trazo, lado: "east", pos: 92%)
+  // L sobre el eje, y el giro propio que lo da por la mano derecha
+  giro3(v, (4.7, 0, 2.2), (1, 0, 0), (0, 0, 1), 0.3, 300)
+  rotulo3(v, (4.7, 0, 2.55), text(fill: c-aux)[$omega$], ancla: "south")
+  flecha3(v, (2.55, 0, 2.2), (5.7, 0, 2.2), etiqueta: $bold(L)$, color: c-dato, lado: "north-east", pos: 100%)
+  // dL en la punta de L: paralelo a tau
+  flecha3(v, (5.7, 0, 2.2), (5.7, 0.75, 2.2), etiqueta: $d bold(L) = bold(tau) thin d t$, color: c-dato, lado: "north", pos: 100%)
+})
+
 #let fig-giroscopo-pivote = paneles(
-  ("de costado", esquema({
-    // el poste y la mesa
-    cetz.draw.line((-0.9, 0), (1.2, 0), stroke: trazo-cuerpo + c-trazo)
-    cetz.draw.line((0, 0), (0, 2.2), stroke: 1.6pt + c-trazo)
-    // el eje del volante, apoyado sólo en la punta del poste
-    cetz.draw.line((0, 2.2), (3.1, 2.2), stroke: 1.2pt + c-trazo)
-    // el volante, visto de canto
-    cetz.draw.rect((2.3, 1.3), (2.6, 3.1), fill: luma(225), stroke: trazo-cuerpo + c-trazo)
-    masa((2.45, 2.2), radio: 0.06)
-    // r, del pivote al centro de masa
-    flecha((0, 2.2), (2.45, 2.2), etiqueta: $bold(r)$, color: c-aux, lado: "south", pos: 40%)
-    // las dos fuerzas
-    flecha((2.45, 2.2), (2.45, 0.8), etiqueta: $bold(w) = M bold(g)$, lado: "west", pos: 95%)
-    flecha((0, 1.0), (0, 2.1), etiqueta: $bold(n)$, color: c-aux, lado: "east", pos: 30%)
-    // L a lo largo del eje, hacia afuera del pivote
-    flecha((2.6, 2.2), (3.9, 2.2), etiqueta: $bold(L)$, lado: "south", pos: 100%)
-    // el torque del peso entra en la hoja: cruz en un círculo
-    cetz.draw.circle((0, 2.9), radius: 0.16, stroke: 0.8pt + c-dato)
-    cetz.draw.line((-0.11, 2.79), (0.11, 3.01), stroke: 0.8pt + c-dato)
-    cetz.draw.line((-0.11, 3.01), (0.11, 2.79), stroke: 0.8pt + c-dato)
-    rotulo((-0.3, 2.9), text(fill: c-dato)[$bold(tau) = bold(r) times bold(w)$ \ (entra en la hoja)], ancla: "east")
-    rotulo((-0.25, 2.2), [$O$], ancla: "east")
-  })),
+  ("en perspectiva", _giroscopo-3d),
   ("desde arriba", esquema({
     let O = (0, 0)
     masa(O, radio: 0.06)
@@ -1402,6 +1416,149 @@
     // el torque, visto desde arriba, apunta como d L
     rotulo((0.1, -0.55), text(size: 7.5pt, fill: luma(80))[el peso entra en la hoja; $bold(tau)$ va como $d bold(L)$], ancla: "west")
   })),
+)
+
+// --- La velocidad angular como vector -----------------------------------
+// Un disco que gira alrededor de z. omega va sobre el eje (mano derecha:
+// antihorario visto desde arriba = +z); un punto P a distancia r del eje
+// recorre su círculo con v = omega x r, tangente. Como S&Z Fig. 9.5.
+#let fig-omega-vector = esquema(escala: 1.25cm, {
+  let v = vista3d(az: 35, el: 24)
+  let arriba = 0.1
+  linea3(v, ((0, 0, -1.0), (0, 0, -0.1)), color: c-guia, grosor: 0.6pt, punteada: true)
+  rotulo3(v, (0, 0, -1.0), text(fill: luma(90))[eje], ancla: "north")
+  cilindro3(v, (0, 0, 0), (0, 0, 1), 1.8, 0.2)
+  linea3(v, circulo3-pts((0, 0, arriba), (0, 0, 1), 1.4), color: c-guia, grosor: 0.5pt, punteada: true)
+  let P = (1.4 * calc.cos(25deg), 1.4 * calc.sin(25deg), arriba)
+  flecha3(v, (0, 0, arriba), P, etiqueta: $bold(r)$, color: c-aux, lado: "south-east", pos: 50%)
+  masa3(v, P, radio: 0.06)
+  rotulo3(v, P, [$P$], ancla: "south-east")
+  let tang = (-calc.sin(25deg), calc.cos(25deg), 0)
+  flecha3(v, P, suma3(P, esc3(1.2, tang)), etiqueta: $bold(v) = bold(omega) times bold(r)$, color: c-dato, lado: "north-west", pos: 100%)
+  flecha3(v, (0, 0, arriba), (0, 0, 2.3), etiqueta: $bold(omega)$, color: c-dato, lado: "west", pos: 100%)
+  giro3(v, (0, 0, 1.4), (0, 0, 1), (1, 0, 0), 0.42, 300)
+})
+
+// --- Steiner: dos ejes paralelos ----------------------------------------
+// La varilla del «control con la tabla»: un eje por el centro de masa y
+// otro paralelo por un extremo, a d = L/2.
+#let fig-steiner = esquema(escala: 1.25cm, {
+  let v = vista3d(az: 35, el: 22)
+  let m = 1.7
+  linea3(v, ((0, 0, -1.0), (0, 0, 1.55)), color: c-guia, grosor: 0.7pt, punteada: true)
+  linea3(v, ((0, m, -1.0), (0, m, 1.55)), color: c-guia, grosor: 0.7pt, punteada: true)
+  cilindro3(v, (0, 0, 0), (0, 1, 0), 0.09, 2 * m)
+  masa3(v, (0, 0, 0), radio: 0.07)
+  rotulo3(v, (0, 0, -0.12), [cm], ancla: "north-east")
+  masa3(v, (0, m, 0), radio: 0.06, color: c-aux)
+  rotulo3(v, (0, m + 0.15, 0), [$P$], ancla: "west")
+  giro3(v, (0, 0, 1.1), (0, 0, 1), (1, 0, 0), 0.3, 300)
+  giro3(v, (0, m, 1.1), (0, 0, 1), (1, 0, 0), 0.3, 300)
+  rotulo3(v, (0, 0, 1.6), [$I_"cm"$], ancla: "south")
+  rotulo3(v, (0, m, 1.6), [$I_P = I_"cm" + M d^2$], ancla: "south")
+  cetz.draw.line(p3(v, (0, 0, -0.75)), p3(v, (0, m, -0.75)), stroke: 0.5pt + luma(70),
+    mark: (start: "stealth", end: "stealth", scale: 0.35, fill: luma(70)))
+  rotulo3(v, (0, m / 2, -0.82), [$d = L\/2$], ancla: "north")
+})
+
+// --- El torque: la puerta -------------------------------------------------
+// La puerta en el plano yz, bisagras sobre z. F se aplica en el picaporte,
+// empujando hacia atrás (-x) y un poco hacia +y: con r = +y, tau = r x F
+// apunta hacia +z, sobre el eje de las bisagras. l = r sin(phi) es la
+// distancia de O a la recta de acción de F.
+#let fig-torque-puerta = esquema(escala: 1.15cm, {
+  let v = vista3d(az: 35, el: 18)
+  let h = 1.5
+  linea3(v, ((0, 0, -0.3), (0, 0, 3.3)), color: c-guia, grosor: 0.7pt, punteada: true)
+  caja3(v, (-0.1, 0, 0), (0, 2.2, 0), (0, 0, 3.1), (0.1, 0, 0))
+  cilindro3(v, (0, 0, 0.55), (0, 0, 1), 0.06, 0.35, relleno: luma(150), tapa: luma(185))
+  cilindro3(v, (0, 0, 2.55), (0, 0, 1), 0.06, 0.35, relleno: luma(150), tapa: luma(185))
+  let O = (0.02, 0, h)
+  let K = (0.02, 1.95, h)
+  esfera3(v, (0.1, 1.95, h), 0.08, color: luma(120))
+  let u = (-0.8, 0.6, 0)
+  let cola = suma3(K, esc3(-1.7, u))
+  let pie = suma3(K, esc3(prod3(resta3(O, K), u), u))
+  linea3(v, (suma3(cola, esc3(-0.5, u)), cola), color: c-guia, grosor: 0.6pt, punteada: true)
+  linea3(v, (O, pie), color: c-viole, grosor: 0.8pt, punteada: true)
+  rotulo3(v, suma3(O, esc3(0.5, resta3(pie, O))), text(fill: c-viole)[$l = r sin phi$], ancla: "north-east")
+  flecha3(v, O, K, etiqueta: $bold(r)$, color: c-aux, lado: "south", pos: 55%)
+  linea3(v, arco3-pts(K, (0, 0, 1), (0, -1, 0), 0.55, 53.13), color: luma(60), grosor: 0.6pt)
+  rotulo3(v, suma3(K, (0.42, -0.62, 0)), [$phi$], ancla: "north-east")
+  flecha3(v, cola, K, etiqueta: $bold(F)$, color: c-trazo, lado: "north-west", pos: 10%)
+  masa3(v, O, radio: 0.05)
+  rotulo3(v, O, [$O$], ancla: "south-east")
+  flecha3(v, (0, 0, 3.3), (0, 0, 4.4), etiqueta: $bold(tau) = bold(r) times bold(F)$, color: c-dato, lado: "west", pos: 100%)
+})
+
+// --- Rodar sin deslizar -------------------------------------------------
+// Rueda de eje x (hacia el lector) que avanza por +y. El centro va a
+// v_cm = R omega, el punto de contacto está quieto y el de arriba va a
+// 2 v_cm. omega apunta a -x: horario visto desde el lector.
+#let fig-rodar = esquema(escala: 1.15cm, {
+  let v = vista3d(az: 35, el: 16)
+  let R = 1.2
+  let xf = 0.25
+  cetz.draw.line(..((-1.0, -2.2, 0), (1.0, -2.2, 0), (1.0, 3.5, 0), (-1.0, 3.5, 0)).map(p => p3(v, p)),
+    close: true, fill: luma(242), stroke: 0.5pt + c-guia)
+  cilindro3(v, (0, 0, R), (1, 0, 0), R, 2 * xf)
+  let C = (xf, 0, R)
+  linea3(v, (C, (xf, 0, 0)), color: c-guia, grosor: 0.6pt, punteada: true)
+  rotulo3(v, (xf, 0, R * 0.3), [$R$], ancla: "east")
+  giro3(v, C, (-1, 0, 0), (0, 0, 1), 0.78, 250)
+  rotulo3(v, (xf, -0.8, R + 0.55), text(fill: c-aux)[$omega$], ancla: "south-east")
+  masa3(v, C, radio: 0.06)
+  flecha3(v, C, (xf, 2.0, R), etiqueta: $bold(v)_"cm" = R omega$, color: c-dato, lado: "south-west", pos: 100%)
+  flecha3(v, (xf, 0, 2 * R), (xf, 3.0, 2 * R), etiqueta: $2 bold(v)_"cm"$, color: c-dato, lado: "south", pos: 100%)
+  masa3(v, (xf, 0, 0), radio: 0.07, color: c-dato)
+  rotulo3(v, (xf, 0.15, 0), text(fill: c-dato)[$bold(v) = 0$], ancla: "north-west")
+})
+
+// --- El profesor en la mesa giratoria (S&Z Ejemplo 10.10) ---------------
+// Dos paneles con el mismo L: brazos abiertos (mancuernas a 1,0 m del eje)
+// y mancuernas al abdomen (0,20 m). omega se dibuja más larga en el
+// segundo (5 veces, sin escala). Se dibuja de atrás para adelante: el
+// brazo de -y está más lejos del lector que el de +y.
+#let _profesor(abierto) = esquema(escala: 1.15cm, {
+  let v = vista3d(az: 35, el: 14)
+  let brazo = (paint: c-trazo, thickness: 2.4pt, cap: "round", join: "round")
+  let pierna = (paint: c-trazo, thickness: 3.2pt, cap: "round")
+  let hombro(s) = (0, s * 0.24, 1.8)
+  let codo(s) = if abierto { (0, s * 0.62, 1.8) } else { (0.06, s * 0.36, 1.42) }
+  let mano(s) = if abierto { (0, s * 1.0, 1.8) } else { (0.24, s * 0.2, 1.33) }
+  let mancuerna(s) = {
+    esfera3(v, suma3(mano(s), (-0.16, 0, 0)), 0.1, color: luma(70))
+    cilindro3(v, mano(s), (1, 0, 0), 0.04, 0.32, relleno: luma(90), tapa: luma(120), grosor: 0.4pt)
+    esfera3(v, suma3(mano(s), (0.16, 0, 0)), 0.1, color: luma(70))
+  }
+  let un-brazo(s) = {
+    cetz.draw.line(..(hombro(s), codo(s), mano(s)).map(p => p3(v, p)), stroke: brazo)
+    mancuerna(s)
+  }
+  // la mesa y su giro
+  cilindro3(v, (0, 0, 0.1), (0, 0, 1), 1.15, 0.2, relleno: luma(205), tapa: luma(232))
+  giro3(v, (0, 0, 0.2), (0, 0, 1), (calc.cos(-40deg), calc.sin(-40deg), 0), 1.4, 80, color: c-dato,
+    grosor: if abierto { 0.8pt } else { 1.4pt })
+  // de atrás para adelante
+  un-brazo(-1)
+  cetz.draw.line(p3(v, (0, -0.12, 0.2)), p3(v, (0, -0.12, 1.05)), stroke: pierna)
+  cetz.draw.line(p3(v, (0, 0.12, 0.2)), p3(v, (0, 0.12, 1.05)), stroke: pierna)
+  cilindro3(v, (0, 0, 1.45), (0, 0, 1), 0.25, 0.8, relleno: luma(195), tapa: luma(220))
+  esfera3(v, (0, 0, 2.12), 0.2, color: luma(175))
+  un-brazo(1)
+  // omega, sobre el eje: 5 veces más grande con las mancuernas adentro
+  let largo = if abierto { 0.45 } else { 1.6 }
+  flecha3(v, (0, 0, 2.38), (0, 0, 2.38 + largo), color: c-dato,
+    etiqueta: if abierto { $bold(omega)_1$ } else { $bold(omega)_2 = 5 thin bold(omega)_1$ }, lado: "west", pos: 100%)
+  if abierto {
+    rotulo3(v, (0, 1.05, 1.62), [$1,0$ m del eje], ancla: "north-west")
+  } else {
+    rotulo3(v, (0.24, 0.45, 1.25), [$0,20$ m del eje], ancla: "north-west")
+  }
+})
+#let fig-mesa-giratoria = paneles(
+  ("brazos abiertos", _profesor(true)),
+  ("mancuernas al abdomen", _profesor(false)),
 )
 
 // =====================================================================
@@ -2446,6 +2603,11 @@
   ("fig-rendezvous-phasing", fig-rendezvous-phasing),
   ("fig-roadmap-curtis", fig-roadmap-curtis),
   ("fig-giroscopo-pivote", fig-giroscopo-pivote),
+  ("fig-omega-vector", fig-omega-vector),
+  ("fig-steiner", fig-steiner),
+  ("fig-torque-puerta", fig-torque-puerta),
+  ("fig-rodar", fig-rodar),
+  ("fig-mesa-giratoria", fig-mesa-giratoria),
   ("fig-vector-rotante", fig-vector-rotante),
   ("fig-suma-omegas", fig-suma-omegas),
   ("fig-conos", fig-conos),

@@ -205,7 +205,17 @@ cada figura.
 | `fig-hohmann` | `maniobras` | la transferencia Tierra–Marte: la media elipse, los dos Δv y el ángulo de fase en el lanzamiento |
 | `fig-rendezvous-phasing` | `maniobras` | el rendez-vous del Problema 10: la órbita de fasaje que cierra un cuarto de vuelta en una revolución |
 | `fig-roadmap-curtis` | `maniobras` | el mapa de Curtis (apéndice B) redibujado: los once resultados de la Parte III y de dónde sale cada uno |
-| `fig-giroscopo-pivote` | `rotacion` | el giróscopo apoyado en un pivote, en dos paneles: de costado (peso, normal, r y el torque que entra en la hoja) y desde arriba (L, dL, L + dL, dphi y el sentido de Omega). Redibujada de S&Z Figs. 10.34 y 10.35, pág. 323-324 |
+| `fig-giroscopo-pivote` | `rotacion` | el giróscopo apoyado en un pivote, en dos paneles: **en perspectiva** (desde el 2026-10-01; antes de costado): peso, normal, r, el torque horizontal, L con su giro ω, dL, Ω y el camino de la precesión; y desde arriba (L, dL, L + dL, dphi y el sentido de Omega). Redibujada de S&Z Figs. 10.34 y 10.35, pág. 323-324 |
+| `fig-omega-vector` | `rotacion` | en perspectiva: un disco que gira alrededor de un eje fijo, ω sobre el eje por la mano derecha, y un punto P con r y v = ω × r. Como S&Z Fig. 9.5, pág. 276 |
+| `fig-steiner` | `rotacion` | en perspectiva: la varilla con el eje por el cm y el paralelo por un extremo, a d = L/2 |
+| `fig-torque-puerta` | `rotacion` | en perspectiva: la puerta, F en el picaporte, r, φ, el brazo l = r sin φ y τ sobre el eje de las bisagras |
+| `fig-rodar` | `rotacion` | en perspectiva: la rueda que rueda sin deslizar, v_cm = Rω, 2 v_cm arriba, v = 0 en el contacto, ω |
+| `fig-mesa-giratoria` | `rotacion` | en perspectiva, dos paneles: el profesor de S&Z Ejemplo 10.10 con las mancuernas a 1,0 m y a 0,20 m del eje, ω₁ y ω₂ = 5 ω₁ |
+
+Las figuras «en perspectiva» usan `biblioteca/perspectiva.typ`: proyección
+central suave con z hacia arriba (`vista3d`, `p3`), y cilindros, esferas,
+cajas, arcos de giro y flechas en 3D sobre el mismo vocabulario de
+`estilo.typ`. El orden de dibujo (lo de atrás primero) lo decide cada figura.
 | `fig-vector-rotante` | `cinematica-cr` | los dos casos de la derivada en un sistema rotante: Q clavado al sistema, y Q que además cambia adentro |
 | `fig-suma-omegas` | `cinematica-cr`, `inercia` | el Problema 2 de la guía: las dos velocidades angulares que se suman, y el eje instantáneo que sale de la suma |
 | `fig-conos` | `cinematica-cr`, `peonza` | el cono espacial y el cono corporal, tangentes a lo largo del eje instantáneo |

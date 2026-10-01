@@ -205,8 +205,10 @@ $r_p = 6378 + 600 = 6978$ km y $r_a = 6378 + 2000 = 8378$ km.
 
   #figs.fig-giroscopo-pivote
   #dib.pie-figura[La misma figura que el apunte (módulo de rotación, Sears
-    Figs. 10.34 y 10.35). La $M$ del apunte es la $m$ de este ejercicio, y $bold(n)$ es la fuerza
-    del pivote.]
+    Figs. 10.34 y 10.35), en perspectiva: ahí el eje del rotor viene hacia el
+    lector en vez de ir a la derecha, y $bold(tau)$ queda horizontal a su
+    costado. La $M$ del apunte es la $m$ de este ejercicio, y $bold(n)$ es la
+    fuerza del pivote.]
 + El impulso angular es $Delta bold(L)$. En un cuarto de vuelta $bold(L)$ gira
   $90°$ sin cambiar el módulo: $abs(Delta bold(L)) = sqrt(2) L = 0,0400$
   kg·m²/s. En una vuelta completa $bold(L)$ vuelve a ser el mismo vector: el

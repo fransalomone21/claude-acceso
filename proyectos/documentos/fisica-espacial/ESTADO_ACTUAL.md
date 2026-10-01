@@ -119,6 +119,23 @@ sacaron a pedido de Fran («el profe no lo va a querer, son muy ayudadores»).
 `verificar-hoja.py` mide en el PDF que ningún renglón se salga de su columna
 (lo corre `compilar.ps1`; sabotaje con un renglón ancho: rojo).
 
+## Fuera de fase, 2026-10-01: las figuras del módulo 17 en perspectiva
+
+A pedido de Fran: «si me nombrás al profe en la mesa con las mancuernas, o a
+la rueda en el pivote, quiero los dibujos bien hechos, con los vectores».
+Cada escena que el módulo de rotación describe tiene ahora su figura **en
+perspectiva**, con sus vectores: la velocidad angular (ω sobre el eje, r y
+v = ω × r), Steiner (la varilla con los dos ejes), la puerta (r, F, φ, el
+brazo l y τ sobre las bisagras), la rueda que rueda (v_cm, 2 v_cm, v = 0, ω),
+el profesor en la mesa giratoria (dos paneles, ω₁ y ω₂ = 5 ω₁) y el
+giróscopo, cuyo panel «de costado» pasó a perspectiva (τ horizontal visible
+en vez de «entra en la hoja»). Herramienta: `biblioteca/perspectiva.typ`,
+una proyección propia sobre CeTZ con cilindros, esferas, cajas y arcos de
+giro en 3D; no hizo falta descargar nada. Apunte 203 pág.; `verificar-apunte`,
+`indice-temas` y `verificar-anexos` en verde. El parcialito de momento
+angular, que usa la figura del giróscopo, aclara en el pie la orientación
+nueva.
+
 ## Fuera de fase, 2026-09-30: modelos de parcial 4 y 5, conceptuales
 
 A pedido de Fran, «al estilo Aníbal», con los tres parcialitos de 2026 como
