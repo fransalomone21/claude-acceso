@@ -431,6 +431,148 @@
 })
 
 // ---------------------------------------------------------------------
+// La elipse del parcialito 1, con P, A y dos puntos simetricos respecto
+// del eje mayor (Ej. 4 del modelo 4). Con `respuesta` dibuja v y a en los
+// cuatro puntos, y las componentes tangencial y normal en Q1 y Q2.
+// Los largos son CUALITATIVOS: |a| va como 1/r (no 1/r^2, que en el
+// apoapsis la dejaria invisible) y |v| como la rapidez real escalada.
+// Giro antihorario; el foco ocupado en el origen, periapsis a la derecha.
+// ---------------------------------------------------------------------
+#let fig-elipse-aceleracion(respuesta: false) = esquema(escala: 0.95cm, {
+  let F = (0, 0)
+  let ad = 3.0
+  let ex = 0.5
+  let pp = ad * (1 - ex * ex)
+  elipse-orbital(F, ad, ex, giro: 180deg, grosor: 0.9pt)
+  masa(F, radio: 0.08)
+  rotulo((0.08, -0.1), [$F$], ancla: "north-west")
+  auxiliar((-ad * (1 + ex), 0), (ad * (1 - ex), 0))
+  // el sentido de giro
+  cetz.draw.arc(F, start: 35deg, stop: 75deg, radius: 3.0, anchor: "origin",
+    stroke: 0.8pt + luma(90), mark: (end: "stealth", scale: 0.45, fill: luma(90)))
+  rotulo(_pt(3.05, 58), text(fill: luma(70))[sentido de giro], ancla: "south-west")
+  let puntos = ((0, [$P$], "west"), (180, [$A$], "east"), (110, [$Q_1$], "south"), (250, [$Q_2$], "north"))
+  for (an, rot, anc) in puntos {
+    let rr = pp / (1 + ex * calc.cos(an * 1deg))
+    let Q = _pt(rr, an)
+    masa(Q, radio: 0.07, color: c-trazo)
+    let d = if anc == "west" { (0.15, 0.25) } else if anc == "east" { (-0.15, 0.25) } else if anc == "south" { (0.3, 0.15) } else { (-0.3, -0.15) }
+    rotulo(_suma(Q, d), rot, ancla: if anc == "west" { "south-west" } else if anc == "east" { "south-east" } else if anc == "south" { "south-west" } else { "north-east" })
+    if respuesta {
+      // velocidad: (-sin nu, e + cos nu), con |v| proporcional a la rapidez
+      let vx = -calc.sin(an * 1deg)
+      let vy = ex + calc.cos(an * 1deg)
+      let nv = calc.sqrt(vx * vx + vy * vy)
+      let Lv = 1.2 * nv
+      let vu = (vx / nv, vy / nv)
+      flecha(Q, _suma(Q, _esc(Lv, vu)), color: c-aux, etiqueta: $bold(v)$, lado: "north-east", pos: 100%)
+      // aceleracion: hacia F, largo como 1/r
+      let ru = (calc.cos(an * 1deg), calc.sin(an * 1deg))
+      let La = calc.min(2.2 / rr, 1.05)   // en P no llega hasta F
+      let av = _esc(-La, ru)
+      flecha(Q, _suma(Q, av), color: c-dato, etiqueta: $bold(a)$, lado: "west", pos: 100%)
+      if an == 110 or an == 250 {
+        let at = av.at(0) * vu.at(0) + av.at(1) * vu.at(1)
+        let atv = _esc(at, vu)
+        let anv = (av.at(0) - atv.at(0), av.at(1) - atv.at(1))
+        flecha(Q, _suma(Q, atv), color: c-verde, etiqueta: $bold(a)_t$, lado: "north", pos: 100%, punteada: true, grosor: 0.8pt)
+        flecha(Q, _suma(Q, anv), color: c-viole, etiqueta: $bold(a)_n$, lado: "east", pos: 100%, punteada: true, grosor: 0.8pt)
+      }
+    }
+  }
+})
+
+// ---------------------------------------------------------------------
+// a(t) y v(t) del cohete que arranca con empuje = 0,8 del peso (Ej. 2 del
+// modelo 4). CUALITATIVO: los numeros (M0 = 1000 kg, v_r = 3000 m/s,
+// M0/Mf = 4) solo fijan la forma; los ejes no llevan escala a proposito.
+// ---------------------------------------------------------------------
+#let fig-cohete-a-v = {
+  let g0 = 9.81
+  let vr = 3000.0
+  let M0 = 1000.0
+  let caudal = 0.8 * M0 * g0 / vr
+  let ts = 0.2 * M0 / caudal          // despega cuando M = 0,8 M0
+  let tb = 0.75 * M0 / caudal         // se apaga con M = M0/4
+  let Ms = 0.8 * M0
+  let acel = t => if t < ts { 0 } else { caudal * vr / (M0 - caudal * t) - g0 }
+  let vel = t => if t < ts { 0 } else { vr * calc.ln(Ms / (M0 - caudal * t)) - g0 * (t - ts) }
+  let n = 200
+  let pa = range(0, n + 1).map(i => { let t = tb * i / n; (t, acel(t)) })
+  let pv = range(0, n + 1).map(i => { let t = tb * i / n; (t, vel(t) / 1000) })
+  let ra = acel(tb)
+  let panel-a = grafico({
+    ejes-libro(tam: (5.2, 3.4), x-label: $t$, y-label: $a$,
+      x-min: 0, x-max: tb * 1.12, y-min: -2, y-max: ra * 1.15, {
+      plot.add(pa, style: (stroke: trazo-curva + c-dato))
+      plot.add(((ts, 0), (ts, ra)), style: (stroke: punteado))
+      plot.add(((tb, 0), (tb, ra)), style: (stroke: punteado))
+    })
+    rotulo((5.2 * ts / (tb * 1.12), -0.05), [$t^*$], ancla: "north")
+    rotulo((5.2 * tb / (tb * 1.12), -0.05), [$t_b$], ancla: "north")
+  })
+  let rv = vel(tb) / 1000
+  let panel-v = grafico({
+    ejes-libro(tam: (5.2, 3.4), x-label: $t$, y-label: $v$,
+      x-min: 0, x-max: tb * 1.12, y-min: -0.1, y-max: rv * 1.15, {
+      plot.add(pv, style: (stroke: trazo-curva + c-aux))
+      plot.add(((ts, 0), (ts, rv)), style: (stroke: punteado))
+      plot.add(((tb, 0), (tb, rv)), style: (stroke: punteado))
+    })
+    rotulo((5.2 * ts / (tb * 1.12), -0.05), [$t^*$], ancla: "north")
+    rotulo((5.2 * tb / (tb * 1.12), -0.05), [$t_b$], ancla: "north")
+  })
+  paneles(("aceleración", panel-a), ("velocidad", panel-v))
+}
+
+// ---------------------------------------------------------------------
+// La particula libre barre areas iguales (Ej. 4 del modelo 5): tres
+// triangulos con vertice en O, la misma base (lo que recorre en el mismo
+// tiempo) y la misma altura (d).
+// ---------------------------------------------------------------------
+#let fig-areas-particula = esquema(escala: 1cm, {
+  let O = (0, 0)
+  let yy = 1.8
+  cetz.draw.line((-3.4, yy), (3.6, yy), stroke: (paint: c-guia, thickness: 0.6pt, dash: "dashed"))
+  let xs = (-2.7, -0.9, 0.9, 2.7)
+  let colores = (c-dato, c-aux, c-verde)
+  for i in range(3) {
+    cetz.draw.line(O, (xs.at(i), yy), (xs.at(i + 1), yy), close: true,
+      fill: colores.at(i).lighten(80%), stroke: 0.5pt + colores.at(i))
+  }
+  for x in xs { masa((x, yy), radio: 0.07, color: c-trazo) }
+  rotulo((xs.at(0), yy + 0.12), [$t_0$], ancla: "south")
+  rotulo((xs.at(1), yy + 0.12), [$t_0 + Delta t$], ancla: "south")
+  rotulo((xs.at(2), yy + 0.12), [$t_0 + 2 Delta t$], ancla: "south")
+  rotulo((xs.at(3), yy + 0.12), [$t_0 + 3 Delta t$], ancla: "south")
+  masa(O, radio: 0.08, etiqueta: [$O$], hacia: "south")
+  auxiliar((3.3, 0), (3.3, yy))
+  rotulo((3.38, yy / 2), [$d$], ancla: "west")
+  flecha((xs.at(3), yy), (xs.at(3) + 0.8, yy), color: c-dato, etiqueta: $bold(v)$, lado: "south", pos: 100%)
+})
+
+// ---------------------------------------------------------------------
+// Dos naves en la misma orbita circular, la otra un cuarto adelante
+// (Ej. 5 del modelo 5; es el Problema 10 de gravitacion).
+// ---------------------------------------------------------------------
+#let fig-misma-orbita = esquema(escala: 0.9cm, {
+  let O = (0, 0)
+  let r = 2.2
+  cuerpo-central(O, radio: 0.4, etiqueta: [Tierra])
+  cetz.draw.circle(O, radius: r, stroke: 0.7pt + c-trazo)
+  masa((r, 0), radio: 0.09, color: c-dato)
+  rotulo((r + 0.12, 0), text(fill: c-dato)[nave $C$ (persigue)], ancla: "west")
+  masa((0, r), radio: 0.09, color: c-aux)
+  rotulo((0.12, r + 0.1), text(fill: c-aux)[nave $B$ (blanco)], ancla: "south-west")
+  auxiliar(O, (r, 0))
+  auxiliar(O, (0, r))
+  angulo(O, 0, 90, etiqueta: [$90°$], radio: 0.8)
+  cetz.draw.arc(O, start: 120deg, stop: 160deg, radius: r + 0.35, anchor: "origin",
+    stroke: 0.8pt + luma(90), mark: (end: "stealth", scale: 0.45, fill: luma(90)))
+  rotulo(_pt(r + 0.45, 140), text(fill: luma(70))[sentido de giro], ancla: "south-east")
+})
+
+// ---------------------------------------------------------------------
 // v(t) del cohete de dos etapas (resolucion del Ej. 2 del modelo 2).
 // Se calcula aca, con las mismas formulas del texto.
 // ---------------------------------------------------------------------

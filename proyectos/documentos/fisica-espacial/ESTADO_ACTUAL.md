@@ -98,6 +98,20 @@ cuerpos. Agrega la tabla de momentos de inercia (m17) y Hohmann con los
 $Delta v$ cerrados. La versión de 3 carillas con hipótesis queda en el commit
 72727fa.
 
+## Fuera de fase, 2026-09-30: modelos de parcial 4 y 5, conceptuales
+
+A pedido de Fran, «al estilo Aníbal», con los tres parcialitos de 2026 como
+fuente del estilo. Se leyó entre líneas cómo pregunta la cátedra y quedó
+escrito en el repo privado `catedras` (ANI-R3, criterios ANI-30 a ANI-40,
+todos `inferido`). Cada modelo tiene **6 ejercicios, 10 puntos, 2 horas**,
+anclados en ejercicios de la guía, con resolución completa (notación, idea,
+inciso por inciso, trampa, resultado). **27 números** nuevos con su cuenta en
+`validar.py` (todo en verde) y dos sabotajes más en `probar-validar.py`
+(13 de 13 en rojo). Cuatro figuras nuevas en `figuras-parcial.typ` (la elipse
+con $bold(v)$ y $bold(a)$, $a(t)$ y $v(t)$ del cohete, las áreas de la
+partícula libre, las dos naves en la misma órbita). Publicados en
+`Fisica Espacial/Modelos de Parcial/`.
+
 De paso: el arranque dio rojo en `publicar-apuntes -Verificar` porque las dos
 guías completas en Drive (subidas el 28/09 desde otra sesión) tenían otro MD5
 que las locales del 27/09, con el mismo tamaño. Drive era la más nueva: se

@@ -28,7 +28,9 @@ try {
         @('modelo-parcial-integrador.typ', 'salida\modelo-parcial-integrador.pdf', $null),
         @('modelo-parcial-1.typ', 'salida\modelo-parcial-1.pdf', $null),
         @('modelo-parcial-2.typ', 'salida\modelo-parcial-2.pdf', $null),
-        @('modelo-parcial-3.typ', 'salida\modelo-parcial-3.pdf', $null)
+        @('modelo-parcial-3.typ', 'salida\modelo-parcial-3.pdf', $null),
+        @('modelo-parcial-4.typ', 'salida\modelo-parcial-4.pdf', $null),
+        @('modelo-parcial-5.typ', 'salida\modelo-parcial-5.pdf', $null)
     )
     foreach ($t in $trabajos) {
         if ($t[2]) { typst compile --root .. $t[0] $t[1] --input $t[2] }

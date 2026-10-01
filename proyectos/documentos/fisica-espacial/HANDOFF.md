@@ -79,6 +79,22 @@ entra en una. Pendiente: publicar el PDF (`.\practica\compilar.ps1 -Publicar`).
 - Si se toca una fórmula del apunte, revisar la hoja. No hay verificador que
   las compare.
 
+## Sesión del 2026-09-30 — modelos de parcial 4 y 5 (conceptuales)
+
+- Antes de escribir otro modelo «estilo Aníbal», leer §C de
+  `../catedras/fisica-espacial/CRITERIOS.md` (ANI-30 a ANI-40): es cómo
+  pregunta, inferido de los parcialitos. Si llegan parcialitos corregidos,
+  van primero ahí.
+- `validar.py`, chequeo 4: cada **párrafo** (separado por línea en blanco) que
+  diga «impulso angular» tiene que decir también «momento angular» (o la
+  integral, o $Delta bold(L)$). Un `#origen[...]` con «Problemas 4 y 7 de
+  impulso angular» y nada más sale en rojo: se escribe «de la sección de
+  impulso angular» y se nombra el momento angular en la misma línea.
+- `fig-elipse-aceleracion`: los rótulos se acomodaron a mano mirando el
+  render (cuatro puntos, hasta cuatro vectores por punto). Si se cambia la
+  excentricidad o las anomalías, mirar de nuevo; el largo de $bold(a)$ va como
+  $1\/r$ con tope $1,05$ para que en $P$ no tape a $F$.
+
 ---
 
 ## Sesión del 2026-09-27 — fase 14 cerrada: guía completa y modelos de parcial

@@ -399,7 +399,8 @@ def c_parciales():
     }
 
 
-PARCIALES_NUEVOS = ('modelo-parcial-1.typ', 'modelo-parcial-2.typ', 'modelo-parcial-3.typ')
+PARCIALES_NUEVOS = ('modelo-parcial-1.typ', 'modelo-parcial-2.typ', 'modelo-parcial-3.typ',
+                    'modelo-parcial-4.typ', 'modelo-parcial-5.typ')
 
 
 def c_modelos():
@@ -459,7 +460,29 @@ def c_modelos():
     tq = m.pi * m.sqrt(aq ** 3 / MU); T1q, T2q = 2 * m.pi * m.sqrt(q1 ** 3 / MU), 2 * m.pi * m.sqrt(q2 ** 3 / MU)
     fase = 180 - 360 * tq / T2q; rel = 360 / (T1q / 60) - 360 / (T2q / 60)
     Ig = 2.0 * 0.025 ** 2; Lg = Ig * 19200 * 2 * m.pi / 60; Omg = rad(1e-6) / 18000
+    # ------------------------------------------------- modelos 4 y 5 (conceptuales)
+    UA, anio = 1.496e11, 365.25 * 86400
+    Msol = 4 * m.pi ** 2 * UA ** 3 / (G * anio ** 2)
+    rLEO = RT + 300
+    dU = MU * (1 / RT - 1 / rLEO); K300 = MU / (2 * rLEO)
+    a_fas = (3 / 4) ** (2 / 3)
+    modelo4 = [
+        ('95$ %', 100 * 20 / 21), ('20$ % de la masa', 100 * (1 - 0.8)),
+        ('1,386', m.log(4)), ('2,772', 2 * m.log(4)), ('2,079', m.log(8)), ('1,50$ veces', m.log(8) / m.log(4)),
+        ('0,885', (RT / (RT + 400)) ** 2), ('89$ %', 100 * (RT / (RT + 400)) ** 2),
+        ('10 thin 378', RT + 4000), ('1,531', (RT + 4000) / (RT + 400)),
+        ('3,156 times 10^7', anio), ('1,99 times 10^30', Msol),
+        ('0,707', 1 / m.sqrt(2)), ('258', 365.25 / m.sqrt(2)), ('42 thin 164', rg),
+    ]
+    modelo5 = [
+        ('112,5', 90000 / 800), ('2,64$ mm/s', 800 * 0.3 / 90800 * 1000),
+        ('4464', 455 * G0), ('981$ m/s', G0 * 100), ('98,1', G0 * 10), ('883', G0 * 90),
+        ('2,81$ MJ/kg', dU), ('29,8$ MJ/kg', K300), ('32,6', dU + K300), ('10,6$ veces', K300 / dU),
+        ('0,825', a_fas), ('0,651', 2 * a_fas - 1),
+    ]
     return {
+        'modelo-parcial-4.typ': modelo4,
+        'modelo-parcial-5.typ': modelo5,
         'modelo-parcial-1.typ': [
             ('7,726', v0), ('7,786', v4), ('7,696', v3), ('90$ m/s: la', (v4 - v3) * 1000),
             ('540 thin 000', 0.5 * mr * 90 ** 2), ('1,791 times 10^(10)', 0.5 * 600 * (v0 * 1000) ** 2),

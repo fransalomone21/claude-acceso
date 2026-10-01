@@ -47,6 +47,18 @@
       "estado": "2026-09-29 -- 7 ejercicios: explosion en tres, descenso con retrocohete (condiciones iniciales no nulas) y masa que entra, Kepler y geoestacionaria, orbita desde dos mediciones, encuentro con estacion, giroscopo, segunda ley de Kepler; numeros validados por practica/validar.py"
     },
     {
+      "materia": "Fisica Espacial/Modelos de Parcial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-4.pdf",
+      "nombre-en-drive": "Modelo de parcial 4 - conceptual (con resolucion).pdf",
+      "estado": "2026-09-30 -- conceptual, al estilo de los parcialitos: astronauta y llave, cohete mas pesado que su empuje, pseudo-ingravidez, la elipse dibujada, Newton a Kepler, la rueda; numeros validados por practica/validar.py"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-5.pdf",
+      "nombre-en-drive": "Modelo de parcial 5 - conceptual (con resolucion).pdf",
+      "estado": "2026-09-30 -- conceptual, al estilo de los parcialitos: satelite que sale de la bodega, cohete en el vacio, subir o acelerar, areas iguales, alcanzar al de adelante, antenas que se despliegan; numeros validados por practica/validar.py"
+    },
+    {
       "materia": "Fisica Espacial/Guia completa con resultados y tips",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/guia-con-resultados.pdf",
       "nombre-en-drive": "Guia completa - con tips y resultados.pdf",
