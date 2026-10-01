@@ -14,7 +14,13 @@
       "materia": "Fisica Espacial",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/hoja-formulas.pdf",
       "nombre-en-drive": "Hoja de formulas.pdf",
-      "estado": "2026-10-01 -- 1 carilla A4, 15 temas + constantes, solo formulas; Hohmann con v_P y v_A como en clase (13.79); cohete con V(t) e y(t) para mu cte (la de 3 carillas con hipotesis: commit 72727fa) (fuente: practica/hoja-formulas.typ)"
+      "estado": "2026-10-01 -- la definitiva de toda la materia: 2 carillas A4, solo formulas y titulos de tema; la 1.a es la del parcial y la 2.a trae marcos, SOI, Lagrange, tres cuerpos y rigido 3D (fuente: practica/hoja-formulas.typ; la de 3 carillas con hipotesis: commit 72727fa)"
+    },
+    {
+      "materia": "Fisica Espacial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/hoja-formulas-parcial.pdf",
+      "nombre-en-drive": "Hoja de formulas - parcial.pdf",
+      "estado": "2026-10-01 -- 1 carilla A4 para el parcial: solo formulas y titulos de tema, sin tres cuerpos, Lagrange ni rigido 3D; con elementos orbitales (clase de Valenti y Bate) y producto vectorial (fuente: practica/hoja-formulas.typ --input version=parcial)"
     },
     {
       "materia": "Fisica Espacial/Modelos de Parcial",

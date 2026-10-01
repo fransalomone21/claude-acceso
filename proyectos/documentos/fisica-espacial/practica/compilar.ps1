@@ -30,7 +30,9 @@ try {
         @('modelo-parcial-2.typ', 'salida\modelo-parcial-2.pdf', $null),
         @('modelo-parcial-3.typ', 'salida\modelo-parcial-3.pdf', $null),
         @('modelo-parcial-4.typ', 'salida\modelo-parcial-4.pdf', $null),
-        @('modelo-parcial-5.typ', 'salida\modelo-parcial-5.pdf', $null)
+        @('modelo-parcial-5.typ', 'salida\modelo-parcial-5.pdf', $null),
+        @('hoja-formulas.typ', 'salida\hoja-formulas.pdf', $null),
+        @('hoja-formulas.typ', 'salida\hoja-formulas-parcial.pdf', 'version=parcial')
     )
     foreach ($t in $trabajos) {
         if ($t[2]) { typst compile --root .. $t[0] $t[1] --input $t[2] }
@@ -38,6 +40,9 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "typst fallo en $($t[0])" }
         Write-Host "  listo: $($t[1])" -ForegroundColor Green
     }
+    # la hoja de formulas: ningun renglon fuera de su columna
+    python verificar-hoja.py salida\hoja-formulas-parcial.pdf salida\hoja-formulas.pdf
+    if ($LASTEXITCODE -ne 0) { throw 'verificar-hoja.py en rojo: un renglon se sale de su columna' }
 }
 finally { Pop-Location }
 if ($Publicar) {

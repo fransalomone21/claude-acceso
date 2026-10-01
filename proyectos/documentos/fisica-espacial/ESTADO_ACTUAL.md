@@ -105,6 +105,20 @@ los $Delta v$ cerrados. Ápsides con $P$ y $A$ mayúsculas, como en clase, y la
 energía entre ápsides agregada en «Órbita». Comprobado: da lo mismo que la
 fórmula cerrada y reproduce los números de la clase ($32,75$ y $21,55$ km/s).
 
+**2026-10-01, más tarde: dos hojas desde el mismo fuente.** `hoja-formulas.typ`
+genera la **del parcial** (`--input version=parcial`, una carilla, sin tres
+cuerpos, coeficientes de Lagrange ni rígido en 3D) y la **definitiva** (dos
+carillas: la misma primera y, atrás, lo que la del parcial deja afuera). Entró
+lo que pidió Fran: $e$ por energía y $h$, $cos nu$ despejado, varias formas de
+$e$, $h$, $v_P$ y $v_A$, tiempo de vuelo (anomalía excéntrica, de la hoja de
+un compañero), elementos orbitales (clase de Valenti y fotocopias del Bate:
+$bold(h)$, $bold(n)$, $bold(e)$, los cuatro cosenos con su cuadrante, los casos
+$i = 0$ y $e = 0$, el perifocal, el día sidéreo) y el producto vectorial.
+**Sólo fórmulas y títulos de tema**: los subtítulos y notas explicativas se
+sacaron a pedido de Fran («el profe no lo va a querer, son muy ayudadores»).
+`verificar-hoja.py` mide en el PDF que ningún renglón se salga de su columna
+(lo corre `compilar.ps1`; sabotaje con un renglón ancho: rojo).
+
 ## Fuera de fase, 2026-09-30: modelos de parcial 4 y 5, conceptuales
 
 A pedido de Fran, «al estilo Aníbal», con los tres parcialitos de 2026 como
