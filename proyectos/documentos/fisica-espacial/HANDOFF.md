@@ -81,8 +81,20 @@ entra en una. Pendiente: publicar el PDF (`.\practica\compilar.ps1 -Publicar`).
   **por renglón** (la primera versión miraba trozos de texto y no vio un
   renglón que se pasaba 45 pt). Los márgenes y el gutter de ese script tienen
   que coincidir con los del `.typ`. A 9 pt no entra: va a 8,6 pt.
-- `tema(..., junto: false)` deja partir un tema largo entre columnas (órbitas,
-  elementos, cohete, rotación); los cortos van enteros.
+- **La compaginación es a mano** (Fran: «que no quede dividido en trozos»):
+  ningún tema se parte; cada columna tiene sus temas fijos, separados por
+  `#colbreak()`, y el aire sobrante se reparte con `#aire` (`v(1fr)`).
+  Columna 1, dinámica: cantidad de movimiento, cohete, trabajo y energía,
+  momento angular, rotación. Columna 2: gravitación, dos cuerpos, órbitas,
+  hipérbola. Columna 3: Kepler, maniobras, elementos orbitales, constantes.
+  Si un tema crece y no entra, Typst lo manda a otra columna **sin error** y
+  la hoja del parcial pasa a dos carillas: por eso `verificar-hoja.py` lleva
+  `:1` / `:2` y exige las páginas (control: pedirle 1 a la definitiva da rojo).
+- **`compilar.ps1` re-estampa la fecha de TODOS los PDF** (Typst pone la hora
+  de compilación): los modelos de parcial salen «modificados» con el texto
+  idéntico. Antes de commitear, `git restore` de los que no se tocaron, o se
+  vuelven a subir a Drive sin cambio. Pendiente: `--creation-timestamp` fijo
+  en `compilar.ps1`.
 - Si se toca una fórmula del apunte, revisar la hoja. No hay verificador que
   las compare.
 

@@ -40,9 +40,10 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "typst fallo en $($t[0])" }
         Write-Host "  listo: $($t[1])" -ForegroundColor Green
     }
-    # la hoja de formulas: ningun renglon fuera de su columna
-    python verificar-hoja.py salida\hoja-formulas-parcial.pdf salida\hoja-formulas.pdf
-    if ($LASTEXITCODE -ne 0) { throw 'verificar-hoja.py en rojo: un renglon se sale de su columna' }
+    # la hoja de formulas: ningun renglon fuera de su columna, y la del
+    # parcial en UNA carilla (la definitiva en dos)
+    python verificar-hoja.py salida\hoja-formulas-parcial.pdf:1 salida\hoja-formulas.pdf:2
+    if ($LASTEXITCODE -ne 0) { throw 'verificar-hoja.py en rojo: un renglon fuera de su columna o una carilla de mas' }
 }
 finally { Pop-Location }
 if ($Publicar) {

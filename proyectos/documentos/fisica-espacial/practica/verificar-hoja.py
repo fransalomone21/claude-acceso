@@ -11,10 +11,16 @@ izquierdo. Tolerancia 1,5 pt.
 
 Los margenes y el gutter tienen que coincidir con los de hoja-formulas.typ.
 
-    python verificar-hoja.py salida/hoja-formulas-parcial.pdf salida/hoja-formulas.pdf
+    python verificar-hoja.py salida/hoja-formulas-parcial.pdf:1 salida/hoja-formulas.pdf:2
 
-Sale con 1 si hay algun renglon afuera, o si un PDF no tiene renglones
-(control: un PDF vacio daria verde por no medir nada).
+El ':N' opcional exige exactamente N paginas: la compaginacion es a mano
+(cada tema entero en su columna), y si un tema crece y no entra, Typst lo
+manda a otra columna y la hoja del parcial pasa a tener dos carillas sin
+dar ningun error.
+
+Sale con 1 si hay algun renglon afuera, si una hoja no tiene las paginas
+pedidas, o si un PDF no tiene renglones (control: un PDF vacio daria verde
+por no medir nada).
 """
 import sys
 
@@ -46,11 +52,18 @@ def desbordes(pdf):
 
 def main():
     rojo = False
-    for f in sys.argv[1:]:
+    for arg in sys.argv[1:]:
+        f, pedidas = arg, None
+        base, _, sufijo = arg.rpartition(":")
+        if base and sufijo.isdigit():          # 'C:\...' no se confunde: 'C' no es un numero
+            f, pedidas = base, int(sufijo)
         n, renglones, afuera = desbordes(f)
         print("%s: %d pag, %d renglones, %d fuera de su columna" % (f, n, renglones, len(afuera)))
         for o in afuera:
             print("   pag %d col %d y=%d  +%.1f pt  %s" % o)
+        if pedidas is not None and n != pedidas:
+            print("   [ROJO] tiene %d pagina(s) y tiene que tener %d" % (n, pedidas))
+            rojo = True
         if afuera or renglones == 0:
             rojo = True
     sys.exit(1 if rojo else 0)
