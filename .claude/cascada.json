@@ -14,6 +14,7 @@
   "necesidades": {
     "materia": {
       "que": "producir algo para una materia o una clase: apunte, guia, TP, informe, hoja de formulas, modelo de parcial, clase particular",
+      "herramientas": ["/pdf-con-codigo (Typst; el render se MIRA)", "catedras/verificar-criterios.py", "publicar-apuntes.ps1 -Verificar (MD5)", "respaldo: el PDF anterior en Drive; nada se pisa sin la version previa"],
       "leer": [
         {"ruta": "proyectos/documentos/catedras/CLAUDE.md", "por": "lo que pide cada profesor: se lee ANTES de producir"},
         {"ruta": "plantillas/naturalezas/documentos.md", "por": "como se produce un documento"},
@@ -28,6 +29,7 @@
     },
     "ingenieria-inversa": {
       "que": "entender o modificar un sistema tecnico que no se conoce del todo: juego, emulador, firmware, hardware, una maquina",
+      "herramientas": ["dos metodos independientes para contrastar (A9: el C de Ghidra contra las instrucciones)", "control positivo antes de creerle a un cero", "respaldo ANTES de intervenir: savestate, copia fechada, rama"],
       "leer": [
         {"ruta": "plantillas/naturalezas/ingenieria.md", "por": "confirmado = intervine y vi el efecto; de arriba hacia abajo"},
         {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^ANTES DE CREERLE A UN RESULTADO$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "las vinetas enteras del momento, no su primera oracion"},
@@ -37,6 +39,7 @@
     },
     "diseno": {
       "que": "decidir o disenar algo antes de construirlo: una arquitectura, un mod, un plan, elegir entre alternativas, escribir requisitos",
+      "herramientas": ["/spec-interview y /verify-before-build", "verificar-requisito.py (GtWR)", "trade study con pesos de Fran (nunca de la sesion)", "respaldo: el diseno escrito en el repo antes de tocar nada vivo"],
       "leer": [
         {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "desde": "^## Qu. leer", "hasta": "^## ", "por": "el indice de las fichas NASA / INCOSE / Rechtin segun la tarea"},
         {"ruta": "perfil-global/pilares/nasa-seh/README.md", "por": "que tramo del handbook NASA contesta que"},
@@ -48,6 +51,7 @@
     },
     "metodo": {
       "que": "cambiar el metodo mismo: hooks, frenos, verificadores, perfil, cascada, plantillas, el enrutador",
+      "herramientas": ["chequeo-completo.ps1 (medidores y saboteadores)", "el primer uso real es parte de la suite", "respaldo: .claude\\desinstalar-hooks.ps1 y los .bak de settings/CLAUDE.md"],
       "leer": [
         {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "por": "el contrato de la reforma"},
         {"ruta": "proyectos/ingenieria/arquitectura-se/docs/diagnostico-2026-09-28.md", "por": "que esta roto, medido, y en que orden"},
@@ -60,6 +64,7 @@
     },
     "investigar": {
       "que": "investigar o depurar algo que falla, o algo que anda y no se sabe por que",
+      "herramientas": ["aprender.py buscar \"<sintoma>\"", "~/.claude/aprendizaje/fichas/INDICE.md", "regla 15: si el error era evitable, se arregla la causa mas arriba antes de seguir"],
       "leer": [
         {"ruta": "~/.claude/skills/lecciones-aprendidas/SKILL.md", "por": "regla del perfil: antes de investigar o debuggear"},
         {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^AL LEER UN NEGATIVO$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "descarta primero la explicacion trivial"}
@@ -67,9 +72,19 @@
     },
     "publicar": {
       "que": "subir, compartir o mandar algo: Drive, un link, un mail, un PDF publico",
+      "herramientas": ["publicar-apuntes.ps1 (y -Verificar)", "verificar-drive.ps1 (permisos del objeto, no la carpeta)", "respaldo: el MD5 de lo publicado antes"],
       "leer": [
         {"ruta": ".claude/apuntes-publicos.json", "por": "que se publica es una lista, no una regla implicita"},
         {"ruta": "{memoria}/feedback_publico-se-sube-al-cambiar.md", "por": "se sube apenas existe o cambia"}
+      ]
+    },
+    "nueva": {
+      "que": "NO ENCAJA en ninguna: se escribe como requisitos verificables (que tiene que pasar, como se ve que paso) y de ahi salen que leer y con que herramienta. Si va a volver, se crea su clase en este archivo en la misma sesion (Fran, 2026-10-02: las necesidades son abiertas)",
+      "herramientas": ["verificar-requisito.py sobre los requisitos escritos", "el indice de fichas NASA / INCOSE / Rechtin para encontrar la herramienta", "respaldo: preguntarle a Fran lo que es de valor (regla 14)"],
+      "leer": [
+        {"ruta": "perfil-global/pilares/incose-gtwr/README.md", "por": "como se escribe un requisito que se puede verificar"},
+        {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "desde": "^## Qu. leer", "hasta": "^## ", "por": "de cada requisito a la ficha que lo resuelve"},
+        {"ruta": "{memoria}/feedback_necesidades-abiertas.md", "por": "clase nueva o requisitos; herramientas y respaldo"}
       ]
     },
     "ninguna": {
@@ -98,6 +113,7 @@
     },
     "pcsx2": {
       "que": "lanzar o manejar el emulador: PCSX2, PINE, un pnach, un lanzador de BLACK",
+      "herramientas": ["abrir-sesion.ps1 (integridad del ISO)", "codigo por PINE solo con el EE en pausa", "respaldo: savestate antes de escribir; PCSX2.ini con su .bak"],
       "comando": "(?i)(pcsx2|\\bpine\\b|\\.pnach|lanzadores[/\\\\]|JUGAR-BLACK|campana_coop|sondas_coop|llamar_una_vez)",
       "leer": [
         {"ruta": "proyectos/ingenieria/black/CLAUDE.md", "por": "el contrato de BLACK: herramientas y lo que no se toca"},

@@ -5,8 +5,10 @@ Pegar tal cual como primer mensaje del chat siguiente.
 > **2026-10-02 — BLACK EN PAUSA hasta sellar la arquitectura (T11), por pedido de Fran.** Lo de abajo sigue
 > valiendo tal cual. Lo nuevo: desde ese día una **puerta** no deja tocar BLACK sin antes correr
 > `.\cascada.ps1 black -Necesidad ingenieria-inversa,diseno` (COOP-B es diseño), leer con Read lo que
-> imprime y correr `abrir-sesion.ps1`. La sesión que retome BLACK es además la **validación 2 de 3 de T11**:
-> al cerrar, `python perfil-global\herramientas\medir-cascada.py`.
+> imprime y correr `abrir-sesion.ps1`. La sesión que retome BLACK es además la **validación 1 de 5 de T11**:
+> al cerrar, `python perfil-global\herramientas\medir-cascada.py`. **Y regla 15 (Fran):** un error que se
+> podía evitar FRENA la tarea; no se emparcha para salir del paso: se arregla la causa uno o n niveles más
+> arriba (herramienta → regla/freno → catálogo/hook → meta), con su prueba en rojo, y recién ahí se sigue.
 
 ```
 Retomo BLACK en LOCAL (notebook). Proyecto: proyectos/ingenieria/black. COOP-B ABIERTA (Fase B, diseño preliminar; la cierra la PDR: el diseño escrito, verificado contra el ELF y revisado por Fran). DECISIONES DE FRAN (106): el juego como con uno pero con dos (IA a los dos, recogibles al primero, HUD separado con vida/munición/punto de mira propios, disparadores de J1, si muere uno pierden los dos, cuerpos de aliado para los dos). Opus, esfuerzo high, sin subagentes, nunca Fable. Castellano rioplatense. Cuadros PARA VOS (con «Cómo venimos» en criollo, contra la META: jugar el coop en pantalla dividida) y de fase en cada respuesta. Grado de evidencia en todo; «confirmado» = efecto visto en pantalla o RAM, con control. Fran pide (2026-10-01): fotos y audio ingeniosos para encontrar problemas MACRO de J2 y bajar de ahí; eficiencia de contexto (cortar al ~50 %).

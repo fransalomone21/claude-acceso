@@ -1,5 +1,23 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (00:40–01:00) — LO ÚLTIMO. Fran respondió y abrió T11b.** Dijo:
+> las necesidades son abiertas (si una no encaja, clase nueva o requisitos);
+> buscar las herramientas y el respaldo de cada tarea; ser ingeniero aunque la
+> tarea sea de albañilería; validar con **más de 3** sesiones (quedó en 5); y
+> **regla 15**: un error evitable frena la tarea y se arregla uno o n niveles
+> más arriba, no con un parche. **Hecho (escrito y en el catálogo):** clase
+> `nueva` (requisitos), campo `herramientas` con respaldo en cada clase (lo
+> imprime `cascada.ps1`), reglas 14 ampliada y 15 en el perfil, dos memorias.
+> **Falta diseñar e implementar (T11b, la próxima sesión):** (1) que la regla
+> 15 tenga freno —`aprender.py agregar --nivel parche|herramienta|regla|flujo|meta`
+> obligatorio, `parche` solo rechazado sin `--por-que-no-mas-arriba`, con su
+> caso en `probar-chequeo-lecciones.ps1`—; (2) `--verificar` exige que cada
+> clase tenga herramientas y una de respaldo; (3) la puerta, ante una
+> necesidad desconocida, dice «creá la clase o declarala `nueva`», y
+> `medir-cascada` cuenta los `nueva` repetidos (señal de clase que falta);
+> (4) **medir** cuántas sesiones actúan fuera de todo proyecto (la puerta no
+> las ve) antes de decidir si la «albañilería» necesita puerta propia.
+
 > **2026-10-02 (00:00–00:35) — LO ÚLTIMO. T11 CONSTRUIDA: la puerta de la
 > cascada.** Pedido de Fran al cerrar BLACK (110), con prioridad máxima.
 > Medido antes (censo, `perfil-global/herramientas/medir-cascada.py --desde

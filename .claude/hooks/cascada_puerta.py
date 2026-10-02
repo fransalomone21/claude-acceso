@@ -505,6 +505,12 @@ def cli_exige(proyecto: str, necs) -> int:
     for n in notas:
         print("  ! " + n)
     print("  total: %d caracteres (~%d K tokens), una vez por sesion" % (total, total // 3500))
+    # Herramientas y RESPALDO de cada necesidad (Fran, 2026-10-02: saber ir a buscar las herramientas y el backup
+    # de cada tarea). Se imprimen, no se exigen: son el flujo de informacion, no la puerta.
+    for n in dict.fromkeys(list((entrada or {}).get("necesidades", [])) + list(necs or [])):
+        hs = cat.get("necesidades", {}).get(n, {}).get("herramientas", [])
+        if hs:
+            print("  HERRAMIENTAS Y RESPALDO (%s): %s" % (n, " | ".join(hs)))
     if not necs:
         print("  NECESIDAD SIN DECLARAR. La puerta no deja actuar hasta: .\\cascada.ps1 %s -Necesidad <a,b>" % p)
         print(menu(cat))

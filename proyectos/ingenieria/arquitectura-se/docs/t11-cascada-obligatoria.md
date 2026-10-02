@@ -185,12 +185,23 @@ que dar **pasa**. Y `--verificar`: cada ruta del catálogo existe, cada
 proyecto del disco tiene entrada, ningún rango pasa lo que entra en una
 lectura. Corre en `probar-hooks.ps1` y en la capa rápida.
 
-**Validación** (que sirve): en las próximas **3 sesiones reales** con
-proyecto, `medir-cascada.py` tiene que dar **las lecturas exigidas completas
+**Validación** (que sirve): en las próximas **5 sesiones reales** con
+proyecto (Fran, 2026-10-02: «más de 3»), `medir-cascada.py` tiene que dar **las lecturas exigidas completas
 antes de la 1.ª acción en el 100 %** de las entradas (contra 1 de 113), con
 las excepciones contadas y su motivo legible; y **ninguna corrección de Fran
 por algo que ya estaba escrito en un documento exigido**. La primera es la
 sesión de BLACK que retoma COOP-B.
+
+## 6 bis. Lo que Fran agregó al ver la primera versión (2026-10-02)
+
+- **Las necesidades son abiertas.** Si una no encaja, se declara `nueva`: se
+  escribe como requisitos verificables y de ahí salen qué leer y con qué
+  herramienta; si va a volver, su clase entra al catálogo en esa sesión.
+  Una necesidad desconocida sigue frenando: o se crea la clase, o es `nueva`.
+- **Herramientas y respaldo por tarea.** Cada clase lista sus herramientas y
+  qué guardar antes de intervenir; `cascada.ps1` los imprime al declarar.
+- **Ingeniero aunque sea albañilería**, y **un error evitable frena la tarea y
+  se arregla uno o n niveles más arriba** (reglas 14 y 15 del perfil).
 
 ## 7. Costo, medido contra lo que pidió Fran
 

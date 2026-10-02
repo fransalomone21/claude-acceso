@@ -19,8 +19,10 @@ tokens) y el Edit pasó.** En el camino encontró dos defectos que el autotest
 no podía ver (no cruzaba la frontera real): un `cascada.ps1` que sale con
 código 1 no dispara el hook de *después* (la declaración se perdía) y el
 parser de `-Necesidad` se cortaba ante una redirección. Arreglados, con caso.
-Falta validar en 3 sesiones reales más (`medir-cascada.py`); la primera es la
-que retoma BLACK.
+Falta validar en **5** sesiones reales (`medir-cascada.py`; Fran pidió «más
+de 3»); la primera es la que retoma BLACK. Después de la primera versión Fran
+agregó: necesidades abiertas (clase `nueva` → requisitos), herramientas y
+respaldo por clase, y la regla 15 (error evitable → causa raíz más arriba).
 
 **T1 CERRADA el 2026-09-29: los seis pasos.** Construidos el 28/09 los pasos
 1 (medidor), 2 (arranque partido), 3 (pilares en dos hooks), 4 (núcleo de
