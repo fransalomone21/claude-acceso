@@ -1,5 +1,16 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (01:05) — LO ÚLTIMO, y REORDENA lo de abajo. Fran aceptó las
+> críticas y pidió simplificar.** Le dije que el método crece por acumulación
+> (cada falla suma una capa y no se saca nada; hoy, para editar un párrafo,
+> hubo que releer ~37 K tokens), que los requisitos absolutos empujan a más
+> maquinaria y que el método se come la ventana de 5 h. Respondió: «ingeniá
+> vos la simplificación, con los libros; yo aporto intuición; sensatez antes
+> que orgullo». **Por eso la próxima sesión NO arranca por T11b** (sumaría
+> cuatro piezas más): arranca por **T12, simplificar**, y de T11b entra sólo
+> lo que sobreviva a esa poda (candidato firme: el `--nivel` de la regla 15,
+> que es barato). Plan de T12 en el mensaje de retome de esta fecha.
+
 > **2026-10-02 (00:40–01:00) — LO ÚLTIMO. Fran respondió y abrió T11b.** Dijo:
 > las necesidades son abiertas (si una no encaja, clase nueva o requisitos);
 > buscar las herramientas y el respaldo de cada tarea; ser ingeniero aunque la
