@@ -198,13 +198,82 @@ Costo: **S** = por sesión, **T** = por turno, **E** = por entrada a proyecto,
 
 | # | Poda | Ahorro estimado | Riesgo si se corta a mitad | Saboteador después |
 |---|---|---|---|---|
-| 1 | Catálogo de la puerta (`metodo`, `diseno`, rango del HANDOFF) | E −65 000 | ninguno: un JSON, se valida antes de guardar | `cascada_puerta --verificar` y `--autotest` |
-| 2 | Enrutador a vista corta | S −40 000 | bajo: un `.md` | `verificar-estructura` + `probar-verificador` |
-| 3 | Recordatorio a sólo el molde | T −3 500 | bajo en el repo; **se instala** | `verify-install` + `probar-hooks` |
-| 4 | Reglas 10-12 y autoperfeccionamiento a puntero | S −6 000 | bajo en el repo; **se instala** | `verify-install` |
-| 5 | `nested_memory` del perfil (renombrar la fuente) | S −18 000 al tocar el perfil | **medio**: toca `install.ps1` | `verify-install` + `chequeo-completo` |
+| 1 | Catálogo de la puerta (`metodo`, `diseno`, rango del HANDOFF) | E −65 000 → **hecho: −87 884** | ninguno: un JSON, se valida antes de guardar | `cascada_puerta --verificar` y `--autotest` |
+| 2 | Enrutador a vista corta | S −40 000 → **hecho: −42 171** | bajo: un `.md` | `verificar-estructura` + `probar-verificador` |
+| 3 | Recordatorio a sólo el molde | T −3 500 → **hecho: −3 749** | bajo en el repo; **se instala** | `verify-install` + `probar-hooks` |
+| 4 | Reglas 10-12 y autoperfeccionamiento a puntero | S −6 000 → **hecho: −6 704 (+ apertura −4 531)** | bajo en el repo; **se instala** | `verify-install` |
+| 5 | `nested_memory` del perfil (renombrar la fuente) | S −18 000 al tocar el perfil → **hecho, se valida en la próxima sesión** | **medio**: toca `install.ps1` | `verify-install` + `chequeo-completo` |
 
 1 y 2 son vivas en cuanto se guardan (archivos del repo). 3 a 5 tocan el
 perfil y sólo actúan después de `install.ps1`, que va **después de la
 renovación del plan**: es lo único que, cortado a la mitad, deja la máquina
 sucia.
+
+## 8. Lo que Fran contestó, y cómo cambió la poda 3-4
+
+Las dos preguntas de sensación (2026-10-02):
+
+1. *¿Leés los dos cuadros en una pregunta suelta?* — **«necesito que me nombre
+   la fase y el título según NASA y simplifiques los subtítulos del cuadro
+   que sean redundantes o que puedan contener la misma información. Me gusta
+   la explicación formal y la contrapartida en criollo.»** Eso convirtió la
+   poda 3-4 en un **rediseño del cuadro**: uno solo, con la línea de fase por
+   su nombre NASA (lo da `fase_activa`, tabla `TIPOS`, con su criollo al
+   lado) y los subtítulos fusionados — `Tramo` + `Fase`; `Hacés` + `Cambió` +
+   `Hacé vos` → `Lo tuyo`; `Modelo` + `Esfuerzo` → `Motor`. De 13 subtítulos
+   y 24 líneas como máximo a **8 y 14**. Cada fusión con lo que conserva, en
+   `perfil-global/cuadro-de-fase/SKILL.md`. Memoria:
+   `feedback_cuadro-formal-y-criollo`.
+2. *¿Usás los plugins de SEO y Adobe?* — **«no sé ni qué son».** No vienen de
+   la configuración local (`~/.claude/settings.json` no los nombra): vienen de
+   la cuenta de claude.ai. Medido en esta sesión: **29 434 caracteres por
+   sesión** entre los dos (SEO 8 726, Adobe 20 708) — más que los pilares y la
+   apertura juntos. Apagarlos es un cambio de su cuenta: va a su «hacé».
+
+## 9. El DESPUÉS, medido con la misma vara (2026-10-02)
+
+`medir-costo.py --simular` corre los hooks instalados (los dos
+`settings.json`) y suma lo que **emiten**, más los `CLAUDE.md` y `MEMORY.md`
+que el harness carga: es el efecto de la configuración, no el tamaño de las
+fuentes. Control: sobre los hooks que no se tocaron reproduce lo que el
+transcript de esta sesión registró (pilares 1/2: 7 942 contra 7 940; la
+diferencia de 2 es el fin de línea de stdout). La entrada a proyecto, con
+`cascada_puerta.py --exige`, que es lo que la puerta exige de verdad.
+
+| Presupuesto | Antes | Después | Cambio |
+|---|---|---|---|
+| **Por sesión, método** | 131 889 | **77 685** | **−41 %** |
+| **Por turno** (recordatorio) | 5 541 | **1 792** | **−68 %** |
+| Por turno, salida (el cuadro) | ~1 450 – 2 300 | ~1 100 (14 líneas tope) | a ojo hasta medir en sesiones reales |
+| **Por entrada** (`metodo,diseno` a arquitectura-se) | 137 884 | **50 000** | **−64 %** |
+| Al leer en `perfil-global/` (`nested_memory`) | 18 475 | **0** esperado | se valida en la próxima sesión (`medir-costo`, columna *nested*) |
+
+Desglose del después: enrutador 12 431 (era 54 602), perfil 11 279 (17 983),
+apertura 5 061 (9 592), recordatorio 1 792 (5 541); pilares, núcleo, arranque
+y `MEMORY.md` sin cambio (este último creció 1 571 por las dos memorias de
+hoy). Una sesión de 30 mensajes que entra a un proyecto de método pasaba de
+~436 K caracteres de método a ~181 K (131 889 + 30 × 5 541 + 137 884, contra 77 685 + 30 × 1 792 + 50 000).
+
+**Lo que cada poda dejó frenando** (saboteador corrido después de cada una):
+
+| Poda | Verificación |
+|---|---|
+| 1 catálogo | `--verificar` OK; `--autotest` 23/23 |
+| 2 enrutador | `verificar-estructura` 0 avisos; `probar-verificador` 15/15 en rojo y control en verde; `probar-cascada` 8/8 (caso nuevo: la fila que no copia el estado no se atrasa; la que copia una fase sigue vigilada) |
+| 3-4 cuadro y perfil | `fase_activa --autotest` con caso nuevo, saboteado (nombre NASA borrado → 2 MAL); `install` + `verify-install` verde |
+| 5 fuente del perfil | `install` + `verify-install` verde; el instalado trae el texto nuevo |
+| todas | `chequeo-completo` entero: ver ESTADO_ACTUAL |
+
+**Lo que T12 NO cerró, y queda medido para que no se pierda:**
+
+- La entrada a **BLACK** sigue en **110 868**: su ESTADO (23 K), su contrato
+  (16 K) y el §4 de su PDP (20 K) son contenido del proyecto, no del método.
+  Es T3 (vistas cortas), no T12.
+- El **núcleo** de `chequeo-de-trabajo` (26 K por sesión) no se podó: hace
+  falta medir qué renglones se repiten antes de sacar ninguno.
+- La puerta pide releer un tramo cuando `install.ps1` lo corre unos renglones
+  (pasó hoy: 5 renglones que escribió la misma sesión). Es barato —se lee lo
+  que falta— y falla del lado seguro; anotado, sin arreglar.
+- **La validación:** el criterio de §2 pide que en 5 sesiones reales no suba
+  ninguna falla medida (cascada salteada, inyección cortada, correcciones de
+  Fran por algo ya escrito). Corre junto con la de T11.

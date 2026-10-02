@@ -80,7 +80,48 @@ def medir(p: Path) -> dict:
     return m
 
 
+def simular() -> int:
+    """El DESPUES sin esperar una sesion: corre los hooks SessionStart y UserPromptSubmit instalados (los dos
+    settings.json) y suma lo que EMITEN, mas los CLAUDE.md y MEMORY.md que el harness carga. Es el efecto de la
+    configuracion de hoy, no el tamano de los archivos fuente. Lo que no reproduce: la salida de un hook que
+    depende del evento (al paso, fase_activa) y el listado del harness."""
+    import subprocess
+    raiz = Path(__file__).resolve().parents[3]
+    filas, turno = [], 0
+    for st in (Path.home() / ".claude" / "settings.json", raiz / ".claude" / "settings.json"):
+        try:
+            d = json.loads(st.read_text(encoding="utf-8-sig"))
+        except Exception:
+            continue
+        for ev in ("SessionStart", "UserPromptSubmit"):
+            for m in (d.get("hooks") or {}).get(ev, []):
+                for h in m.get("hooks", []):
+                    cmd = h.get("command", "")
+                    if "arranque-medicion" in cmd:  # la medicion: su salida es corta y tarda 40 s; se cuenta aparte
+                        filas.append((ev, 900, "arranque-medicion (estimado de la ultima sesion)"))
+                        continue
+                    r = subprocess.run(cmd, shell=True, capture_output=True, cwd=str(raiz),
+                                       input=json.dumps({"hook_event_name": ev, "source": "startup"}).encode())
+                    salida = r.stdout.decode("utf-8", "replace")
+                    try:  # un hook puede emitir JSON con additionalContext
+                        salida = json.loads(salida)["hookSpecificOutput"]["additionalContext"]
+                    except Exception:
+                        pass
+                    filas.append((ev, len(salida), cmd.split("\\")[-1][:70]))
+    md = Path.home() / ".claude" / "projects" / "C--Users-frans-Desktop-claude-acceso" / "memory" / "MEMORY.md"
+    for f in (Path.home() / ".claude" / "CLAUDE.md", raiz / "CLAUDE.md", md):
+        filas.append(("carga", len(f.read_text(encoding="utf-8")), "md " + f.name + " (" + f.parent.name + ")"))
+    sesion = sum(n for ev, n, _ in filas if ev != "UserPromptSubmit")
+    turno = sum(n for ev, n, _ in filas if ev == "UserPromptSubmit")
+    for ev, n, nombre in sorted(filas, key=lambda x: -x[1]):
+        print("  %8d  %-17s %s" % (n, ev, nombre))
+    print("POR SESION (metodo): %d   POR TURNO: %d" % (sesion, turno))
+    return 0
+
+
 def main() -> int:
+    if "--simular" in sys.argv:
+        return simular()
     ap = argparse.ArgumentParser()
     ap.add_argument("--transcript", action="append")
     ap.add_argument("--ultimas", type=int, default=8)
