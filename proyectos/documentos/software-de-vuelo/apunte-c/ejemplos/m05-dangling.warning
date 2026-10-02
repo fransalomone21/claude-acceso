@@ -1,0 +1,4 @@
+m05-dangling.c: In function ‘main’:
+m05-dangling.c:11:12: warning: suggest explicit braces to avoid ambiguous ‘else’ [-Wdangling-else]
+   11 |         if (en_pasada)
+      |            ^

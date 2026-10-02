@@ -1,5 +1,26 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube, 3.ª) — apunte de C v0.4: sigue el módulo 6
+
+**Lo primero, en la PC de Fran:** `git pull`, recompilar, `python
+apunte-c\verificar-ejemplos.py` (23 en verde) y `.\publicar-apuntes.ps1` (ni
+la v0.2, ni la v0.3, ni la v0.4 están en el Drive). Y **cotejar con el material
+de la PC** que ningún ejemplo de los módulos 4 y 5 resuelva el Práctico 1 ej.
+4, 5, 6 o 7: en la nube no se pudo leer.
+
+**Después: el módulo 6, funciones** (declarar y definir como pide
+`template.c`, retorno, por valor y por referencia, recursión y por qué no en
+vuelo; clase 102-107; Práctico 1 ej. 8 y 9; Práctico 3 ej. 3,
+`mostrar_digito`: **no** escribir un `mostrar_digito` ni un display de 7
+segmentos). Desde el módulo 3 los ejemplos ya usan funciones `static`
+declaradas arriba y definidas abajo: el 6 lo formaliza. Por referencia
+necesita `&` y `*`, que son del 8: mostrarlo como receta («el `*` en el
+parámetro y el `&` en la llamada») y remitir al 8.
+
+**Cómo se usa la entrada nueva:** un ejemplo con `scanf` lleva
+`ejemplos/<nombre>.entrada` y se cita con `#codigo("<nombre>", salida: true,
+entrada: true)`.
+
 ## 2026-10-02 (nube, 2.ª) — apunte de C v0.3: sigue el módulo 5
 
 **Lo primero, en la PC de Fran:** `git pull`, recompilar

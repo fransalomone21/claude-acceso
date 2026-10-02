@@ -1,5 +1,27 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (nube, 3.ª) — apunte de C v0.4: módulo 5, control de flujo
+
+- **Módulo 5** (`apunte-c/modulos/m05-control-flujo.typ`): `if`/`else if`
+  (la primera cierta gana: el orden de los umbrales *es* la lógica), `=` por
+  `==`, *dangling else* (con `ESPERA-WARNING: -Wdangling-else`), `switch` con
+  `break`, `case` apilados y `default`, `while` con cota y el `;` pegado,
+  `do-while` para reintentos, `for` contando para atrás con `uint8_t` (`t > 0u`,
+  no `t >= 0u`), `break`/`continue`, `scanf` mirando lo que devuelve, con
+  `SCNu16` y una entrada que trae basura. MISRA 15.6, 15.7, 16.3, 16.4.
+  **6 programas nuevos** (`m05-enlace`, `m05-dangling`, `m05-comandos`,
+  `m05-reintentos`, `m05-despliegue`, `m05-periodo` con `.entrada`): en total
+  **23**, verificador en verde, `probar-verificar-ejemplos.py` TODO BIEN. Render
+  mirado (págs. 27 a 34; el PDF tiene 34). Carátula: «v0.4 — módulos 1 a 5 de 12».
+- **Plantilla:** `#codigo(..., entrada: true)` muestra el `.entrada` (lo que se
+  tipeó) entre el código y la salida, en azul. Para todo ejemplo con `scanf`.
+- **Medido a mano en gcc 13.3:** `if (x = 3u)` avisa `-Wparentheses`; un
+  `break` olvidado entre `case` con código avisa `-Wimplicit-fallthrough`
+  (lo prende `-Wextra`); `uint8_t i < 300` y `t >= 0u` avisan `-Wtype-limits`;
+  `while (c > 0u);` con el `;` pegado **no avisa**.
+- **Prácticos:** el Práctico 1 ej. 5, 6 y 7 tampoco se pudieron leer en la
+  nube: que no se pisen es `hipótesis`, como el ej. 4.
+
 ## 2026-10-02 (nube) — apunte de C v0.3: módulo 4, operadores y los de bit
 
 - **Módulo 4** (`apunte-c/modulos/m04-operadores-bits.typ`): `/` y `%` juntos,

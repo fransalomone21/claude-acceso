@@ -1,0 +1,4 @@
+TC 0x01: pong
+TC 0x11: camara: foto en cola
+TC 0x10: camara: foto en cola
+TC 0x7F: desconocido, rechazado

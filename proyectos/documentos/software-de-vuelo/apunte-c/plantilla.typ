@@ -23,7 +23,7 @@
 #let c-verde = rgb("#1E8449") // el código y lo que imprime
 
 // ---------- Código de ejemplo ----------
-#let codigo(nombre, salida: false, titulo: none) = {
+#let codigo(nombre, salida: false, entrada: false, titulo: none) = {
   // La marca ESPERA-WARNING es para el verificador, no para el lector: va en la
   // ULTIMA línea del .c (así no corre la numeración que cita gcc) y no se imprime.
   let fuente = read("ejemplos/" + nombre + ".c").split("\n").filter(l => not l.contains("ESPERA-WARNING")).join("\n")
@@ -34,6 +34,16 @@
     #v(-6pt)
     #raw(fuente, lang: "c", block: true)
   ]
+  // Lo que se "tipeó": el .entrada que verificar-ejemplos.py le pasa como stdin.
+  if entrada {
+    block(breakable: false, above: 2pt, below: 2pt, width: 100%,
+      fill: luma(30), radius: 3pt, inset: 8pt)[
+      #text(size: 7.5pt, fill: luma(170), weight: "bold", tracking: 0.4pt)[ENTRADA (lo que se tipeó; el verificador se lo pasa al programa)]
+      #v(-4pt)
+      #show raw: it => text(font: ("DejaVu Sans Mono", "Consolas"), size: 8pt, fill: rgb("#80D8FF"), it.text)
+      #raw(read("ejemplos/" + nombre + ".entrada"))
+    ]
+  }
   if salida {
     let s = read("ejemplos/" + nombre + ".salida")
     block(breakable: false, above: 2pt, below: 10pt, width: 100%,
