@@ -179,7 +179,29 @@ clon. **Sigue abierto:** que la sesión lo corra por sí sola sin depender de
 leer el aviso (un hook, que en la nube no corre: §4 bis punto 1), y los hooks
 de la puerta y de la fase.
 
+## 4 quinquies. Construido en la PC (2026-10-02, sesión de retome)
+
+| Qué | Cómo se midió | Grado |
+|---|---|---|
+| **R3**: en Windows el harness corre los hooks con `/usr/bin/bash` de Git (`MSYSTEM=MINGW64`) y `$CLAUDE_PROJECT_DIR` llega expandida, con barras `/` | sonda en un proyecto descartable con `claude.exe` 2.1.286 (el mismo binario de la sesión) **y** un hook marcador en la sesión viva: `settings.json` se recarga en caliente | confirmado |
+| `claude -p` desde la app de escritorio **no sirve** para R3: responde «Not logged in» (no hereda la credencial del host) | intento directo | confirmado |
+| **Opción (a) del §4 bis**: `.claude/settings.json` **trackeado**, rutas `$CLAUDE_PROJECT_DIR/...`, fuera del `.gitignore`; `instalar-hooks.ps1` ya no lo genera: lo verifica y, si un desinstalar le sacó los hooks, lo restaura del repo | vuelta desinstalar → instalar: el archivo quedó idéntico al commiteado | confirmado |
+| La puerta sigue frenando en local con el comando nuevo | un `Write` sobre `carrera` sin declarar salió negado **después** de ver el marcador | confirmado |
+| Gate por **capacidad**, no por etiqueta: `command -v powershell \|\| exit 0`. En la PC powershell existe siempre (no abre un fail-open local); en la nube callan el guardia (no hay ISO) y la puerta (no hay `cascada.ps1` con qué declarar: frenaría todo sin salida). `fase_activa` corre en los dos | `probar-settings.py`, casos 6 y 7 | confirmado en Windows; en la nube `hipótesis` |
+| **Punto 3 del retome — el libro sin depender del aviso:** `SessionStart` corre `traer-perfil.sh` sólo donde no hay PowerShell, y sale 0 siempre para que su ROJO llegue al contexto | `probar-settings.py`, caso 6 (sin PowerShell: dice ROJO y `add_repo`) y 7 (en la PC no corre) | confirmado en Windows simulando la nube; en la nube real `hipótesis` |
+| `cascada_puerta.py` en Linux niega igual que en Windows | WSL (Ubuntu, Python 3.12) con un payload de Edit sin declarar | confirmado |
+| `fase_activa.py` en Linux corre (rc 0) pero **no dice nada** con rutas POSIX | WSL, mismo payload sobre el PDP | `hipótesis` de la causa (rutas); no estorba |
+| El saboteador de las líneas de comando: `.claude/probar-settings.py` (16 casos, Git Bash, `bash -c`, payload por stdin), llamado por `probar-hooks.ps1` | rojo con el `settings.json` viejo; 3 rojos con un mutante (gate de la puerta invertido); el enganche en `probar-hooks` también se vio en rojo | confirmado |
+
+**Lo que falta para cerrar R2 (la puerta en la nube):** `cascada.sh` (§3 punto 4) y,
+recién entonces, sacarle el gate a la puerta. Y **una sesión real en la nube** que
+mida tres `hipótesis`: que `CLAUDE_PROJECT_DIR` está puesta, que `command -v
+powershell` falla, y que la salida de `traer-perfil.sh` llega al contexto.
+
 ## 5. Orden de construcción
 
-R3 (la prueba de la frontera en Windows) → 3 → 4 → 1-2 → R5 → R6. Los rojos
-del arranque de hoy: `carrera` sin entrada en `.claude/cascada.json` (abierto).
+R3 (la prueba de la frontera en Windows) → 3 → 4 → 1-2 → R5 → R6. **Hechos el
+2026-10-02: R3 y 3** (§4 quinquies), más el `traer-perfil` automático. Sigue
+**4** (`cascada.sh`). El rojo de `carrera` sin entrada en `.claude/cascada.json`
+quedó cerrado, y `nuevo-proyecto.ps1` ahora escribe la fila
+(`probar-nuevo-proyecto.ps1`).

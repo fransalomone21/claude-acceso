@@ -2,6 +2,14 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
+**2026-10-02 — T7 (paridad nube/local), R3 y punto 3 construidos.** En Windows
+los hooks corren por Git Bash y `$CLAUDE_PROJECT_DIR` se expande (**confirmado**
+en la sesión viva); `.claude/settings.json` va **trackeado** con esa variable y
+llega a cualquier clon; en la nube calla lo que no tiene con qué correr y
+`traer-perfil.sh` se corre solo. `nuevo-proyecto.ps1` registra el proyecto en el
+catálogo de la puerta. Falta `cascada.sh` (la puerta en la nube) y una sesión
+real en la nube que lo mida ([`docs/t7-paridad-nube.md`](docs/t7-paridad-nube.md) §4 quinquies).
+
 **2026-10-02 — T12 CONSTRUIDA: el método pesa menos, medido**
 ([`docs/t12-simplificar.md`](docs/t12-simplificar.md); instrumento
 [`medir-costo.py`](medir-costo.py), que lee el transcript o corre los hooks

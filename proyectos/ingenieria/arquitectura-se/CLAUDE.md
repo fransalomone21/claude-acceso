@@ -23,6 +23,7 @@ impacto original escrito, o no sale.
 | **T1: qué ve de verdad la sesión de lo inyectado, el umbral del harness y el diseño elegido (núcleo + al paso, medidor)** | [`docs/t1-presupuesto-inyeccion.md`](docs/t1-presupuesto-inyeccion.md) — §7 es el orden de construcción |
 | **T11: la puerta de la cascada** — qué se exige leer según la necesidad, cómo frena, cómo se valida | [`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md); el catálogo es `.claude/cascada.json` |
 | **T12: simplificar el método** — el costo medido (por turno, sesión y entrada), la matriz de todo el método y qué se poda | [`docs/t12-simplificar.md`](docs/t12-simplificar.md); el instrumento es [`medir-costo.py`](medir-costo.py) |
+| **T7: paridad nube/local** — qué llega a la nube y qué no, los hooks trackeados con `$CLAUDE_PROJECT_DIR`, el libro que se trae solo | [`docs/t7-paridad-nube.md`](docs/t7-paridad-nube.md) — §4 quinquies es lo construido y medido; §5 el orden |
 | Insumos de validación (P10): sesiones reales que mostraron lo que la arquitectura no veía | [`docs/insumo-2026-09-29-sesion-ides.md`](docs/insumo-2026-09-29-sesion-ides.md), [`docs/insumo-2026-09-29-cambio-externo.md`](docs/insumo-2026-09-29-cambio-externo.md) |
 | **Migrar (fase 6): qué pieza se instala y qué defecto cierra** | [`docs/arquitectura.md`](docs/arquitectura.md) — el diseño, las 10 piezas P1-P10 y los 14 defectos medidos |
 | **Por qué se eligió esta arquitectura y no otra** | [`docs/trade-study.md`](docs/trade-study.md) — criterios ponderados escritos antes, y por qué perdieron A y C |
