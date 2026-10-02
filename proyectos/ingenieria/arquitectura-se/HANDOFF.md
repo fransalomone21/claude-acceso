@@ -1,5 +1,24 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (tarde) — VALIDACIÓN 5 DE 5 de T11/T12: la sesión de BLACK (114)**, `eb1dd110` (caliente, con Fran
+> jugando; cerró la Fase B de BLACK y abrió la C). **CIERRA la validación de T11 y T12.**
+> **T11** (`medir-cascada.py`): las **dos** filas de esta sesión cumplen (BLACK y el cierre en arquitectura-se, que
+> declaró `metodo` y leyó los seis rangos). La puerta frenó 3 veces, las tres legítimas: el concepto `pcsx2` (una
+> memoria), **un rango de `chequeo-de-trabajo.md` que se corrió de línea** porque la misma sesión agregó una lección y
+> corrió `install.ps1` (la puerta pidió releerlo: anda como debe, el rango sigue al archivo), y la necesidad sin
+> declarar en arquitectura-se. Período: **7 de 9, «NO cumple (2 sin leer)»**, las mismas dos filas de cierre de (111)
+> y (112). **Balance de las cinco validaciones:** las filas de PROYECTO (BLACK) cumplieron **5 de 5**; las de CIERRE
+> en arquitectura-se, **3 de 5** (las dos que no, de antes de que el retome pidiera leer). Contra la línea de base
+> (1 de 113), T11 **funciona** para lo que fue hecho: entrar a un proyecto leyendo lo que hace falta. Lo que la
+> validación deja para decidir: (1) `-Necesidad ninguna` sigue imprimiendo «NECESIDAD SIN DECLARAR» (**2 de 2**,
+> `probable`: `ninguna` no registra; con `metodo` sí); (2) el cierre de una validación cuesta ~36 K caracteres de
+> lectura para anotar un párrafo: conviene una necesidad liviana para «anotar en HANDOFF» en vez de que la sesión
+> declare `metodo`.
+> **T12** (`medir-costo.py --ultimas 3`): esta sesión **ses.met 78 070**, cuadro/turno 1111, al-paso 8143, **nested 0**;
+> mediana de las tres 78 070 contra **131 889** antes de T12: la baja de −41 % **se sostiene en sesiones reales**. La
+> entrada de ésta (200 203) suma dos declaraciones de BLACK (la segunda por el rango corrido) y la de cierre.
+> **Sigue:** T2 (un dueño por dato) del camino crítico; y decidir (1) y (2) de arriba en T11.
+
 > **2026-10-02 (mediodía) — VALIDACIÓN 4 DE 5 de T11/T12: la sesión de BLACK (113)**, `f885a69f` (caliente, pantalla
 > libre; V1–V3 confirmadas con control). **T11** (`medir-cascada.py`): las **dos** filas de esta sesión cumplen —BLACK
 > y también arquitectura-se: esta vez el cierre declaró `metodo` y leyó los seis rangos (~35 K caracteres) antes de

@@ -16,7 +16,8 @@ perfil renombrada (`CLAUDE-global.md`) para que no se cargue dos veces.
 `--nivel` de la regla 15 en `aprender.py` y el respaldo obligatorio por
 necesidad en la puerta; y quedó **medido** que más de la mitad de las acciones
 caen fuera de las carpetas de proyecto (casi todas, trabajo de método). Falta
-**validar en 5 sesiones** (con T11: van 4 de 5 al 2026-10-02, anotadas en `HANDOFF.md`). Fran tiene que apagar los
+**validar en 5 sesiones** (con T11): **hechas las 5 el 2026-10-02**, anotadas en `HANDOFF.md`: las entradas a
+proyecto cumplieron 5 de 5 (base: 1 de 113) y ses.met se sostiene en ~78 K (antes 131 889). Fran tiene que apagar los
 plugins de SEO y Adobe de su cuenta (~29 K por sesión).
 
 **2026-10-02 — T11 CONSTRUIDA: la cascada dejó de ser un consejo.** Medido
