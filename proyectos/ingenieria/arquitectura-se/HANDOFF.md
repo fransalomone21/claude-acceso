@@ -1,5 +1,27 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (00:00–00:35) — LO ÚLTIMO. T11 CONSTRUIDA: la puerta de la
+> cascada.** Pedido de Fran al cerrar BLACK (110), con prioridad máxima.
+> Medido antes (censo, `perfil-global/herramientas/medir-cascada.py --desde
+> 2026-09-01`): **1 de ~110** entradas sesión × proyecto leía ESTADO + HANDOFF
+> + PDP + contrato antes de su 1.ª acción; BLACK abría 7 de 28. Construido:
+> `.claude/cascada.json` (catálogo: base, 7 necesidades, 3 conceptos, 20
+> proyectos), `.claude/hooks/cascada_puerta.py` (PreToolUse deny + registro +
+> CLI `--exige/--verificar/--autotest`), `cascada.ps1 -Necesidad/-Excepcion`,
+> instalado por `.claude\instalar-hooks.ps1`, medidor `--verificar` en la capa
+> rápida y `--autotest` (23 casos, con mutante) en los saboteadores. Diseño:
+> [`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md); A12 en
+> el diagnóstico. **Validación 1 de 4, esta sesión** (es de transición: empezó
+> antes de la puerta, así que `medir-cascada` no la cuenta): frenó, se declaró
+> `metodo,diseno`, se leyeron 16 rangos (~37 K tokens) y pasó; encontró **cuatro
+> defectos de frontera real** que el autotest no veía, todos arreglados con
+> caso. La salida explícita se usó una vez (nota en el retome de BLACK) y quedó
+> en `~/.claude/hooks/cascada-excepciones.log`. **De paso, pedidos de Fran:**
+> reglas 13 (al chat lo que cambia, en su idioma; lo técnico al repo) y 14
+> (pregunta de marco y preguntarle para aprender) en el perfil global, y tres
+> memorias de feedback. **Sigue:** las 3 sesiones reales que validan T11 (la
+> primera es BLACK, ya anotado en su `sesiones/RETOME-LOCAL.md`); después, T2.
+
 > **2026-09-29 (00:30–00:50) — LO ÚLTIMO. T1 CERRADA: el paso 6 validó en 3
 > sesiones reales limpias.** Contadas desde los saboteadores (28/09 21:42:33),
 > como fijó la corrección de abajo: `53e404af`, `e5fa731f` (Escritorio) y

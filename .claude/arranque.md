@@ -5,7 +5,12 @@ se repite aca, porque un dato que vive en dos lados diverge. Lo de abajo es
 lo que hoy vive en archivos que NO se leen solos, y por eso se olvidaba.
 
 ENTRAR A UN PROYECTO ES UN COMANDO, NO UN ACTO DE MEMORIA
-    .\cascada.ps1 <proyecto>
+    .\cascada.ps1 <proyecto> -Necesidad <a,b>
+  Y DESDE EL 2026-10-02 UNA PUERTA LO EXIGE (T11): no deja editar ni correr
+  nada sobre un proyecto hasta declarar la necesidad y leer CON Read lo que
+  ese comando imprime (rangos exactos). Antes de esto, 1 de 113 sesiones lo
+  hacia. Si frena, no se pelea: se lee lo que pide. Salida explicita y
+  registrada: -Excepcion "motivo".
   Emite los seis niveles con las RUTAS EXACTAS de ese proyecto: la naturaleza
   (nivel 3), el contrato (4), ESTADO_ACTUAL y HANDOFF (5) y lo que el contrato
   manda (6), midiendo contra el disco cual existe y cual no. Sin argumento,

@@ -181,6 +181,14 @@ checkout comparten índice, archivos y medidores: cualquier rojo de una puede
 ser trabajo en curso de la otra, y nada lo distingue. Es candidato fuerte a
 explicar también el rojo intermitente de A6.
 
+### A12. La cascada existe y no se ejecuta — `confirmado` (agregado el 2026-10-02)
+
+De 113 entradas sesión × proyecto desde el 1/9, **una** leyó ESTADO + HANDOFF
++ PDP + contrato antes de su primera acción; BLACK corrió su apertura 7 de 28
+veces. Lo arregla **T11** (puerta por permiso que mide la lectura):
+[`t11-cascada-obligatoria.md`](t11-cascada-obligatoria.md). Fuera del camino
+crítico, porque no dependía de nada: se construyó primero por pedido de Fran.
+
 ---
 
 ## 2. N²: quién le entrega qué a quién

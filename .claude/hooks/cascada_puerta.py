@@ -427,7 +427,14 @@ def registrar_comando(sid: str, cmd: str):
     perdia. El autotest llamaba al hook directo y no podia verlo: no cruzaba la misma frontera que el uso real.
     Solo cuenta una INVOCACION (un segmento del comando que EMPIEZA por el script), no un texto que lo nombra: si no,
     un 'echo abrir-sesion' o un script que edita este archivo satisfacian a la puerta."""
-    for seg in re.split(r";|&&|\|\||\n", cmd):
+    # Se parte por los separadores que estan FUERA de comillas: un motivo con ';' adentro partia el comando y la
+    # excepcion no quedaba registrada (medido en la 1.a sesion real).
+    blanco, cortes, k = sin_comillas(cmd), [0], 0
+    for m in re.finditer(r";|&&|\|\||\n", blanco):
+        cortes += [m.start(), m.end()]
+    cortes.append(len(cmd))
+    segmentos = [cmd[cortes[i]:cortes[i + 1]] for i in range(0, len(cortes) - 1, 2)]
+    for seg in segmentos:
         if re.match(r"""\s*(&\s*)?["']?[\w.:\\/\-]*(abrir-sesion|cascada)\.ps1\b""", seg, re.I):
             registrar_invocacion(sid, seg)
 
@@ -661,7 +668,7 @@ def autotest() -> int:
          correr(pre_ev("PowerShell", {"command": "python C:\\x\\campana_coop.py lanzar"}, s2)), True, "abrir-sesion")
     # 10. excepcion explicita: pasa y queda en el log
     s3 = sid + "-c"
-    correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 black -Excepcion \"autotest: consulta de un dato\""}, s3))
+    correr(pre_ev("PowerShell", {"command": ".\\cascada.ps1 black -Excepcion \"autotest: consulta de un dato; con punto y coma\" *> $null; Get-Date"}, s3))
     caso("CONTROL: excepcion declarada -> pasa", correr(pre_ev(*edit_black, s=s3)), False)
     log = (tmp / "exc.log").read_text(encoding="utf-8") if (tmp / "exc.log").exists() else ""
     ok = "autotest: consulta de un dato" in log

@@ -21,6 +21,8 @@ impacto original escrito, o no sale.
 | Saber en qué fase estamos y qué la cierra | `PDP.md` § 4 |
 | **Reformar la arquitectura: qué está roto hoy, medido, y en qué orden atacarlo** | [`docs/diagnostico-2026-09-28.md`](docs/diagnostico-2026-09-28.md) — A1–A11, el N² de interfaces y el camino crítico |
 | **T1: qué ve de verdad la sesión de lo inyectado, el umbral del harness y el diseño elegido (núcleo + al paso, medidor)** | [`docs/t1-presupuesto-inyeccion.md`](docs/t1-presupuesto-inyeccion.md) — §7 es el orden de construcción |
+| **T11: la puerta de la cascada** — qué se exige leer según la necesidad, cómo frena, cómo se valida | [`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md); el catálogo es `.claude/cascada.json` |
+| Insumos de validación (P10): sesiones reales que mostraron lo que la arquitectura no veía | [`docs/insumo-2026-09-29-sesion-ides.md`](docs/insumo-2026-09-29-sesion-ides.md), [`docs/insumo-2026-09-29-cambio-externo.md`](docs/insumo-2026-09-29-cambio-externo.md) |
 | **Migrar (fase 6): qué pieza se instala y qué defecto cierra** | [`docs/arquitectura.md`](docs/arquitectura.md) — el diseño, las 10 piezas P1-P10 y los 14 defectos medidos |
 | **Por qué se eligió esta arquitectura y no otra** | [`docs/trade-study.md`](docs/trade-study.md) — criterios ponderados escritos antes, y por qué perdieron A y C |
 | **Llenar la matriz de un proyecto, o saber qué rigor le toca a un aspecto** | [`docs/matriz-cumplimiento.md`](docs/matriz-cumplimiento.md) — el molde, el selector de dos ejes y la instancia llenada |
