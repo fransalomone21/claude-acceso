@@ -1,0 +1,4 @@
+"OBC-1": strlen=5, sizeof=6
+el ultimo byte vale 0
+foto 42: "IMG_0042.RAW"
+foto 10042: "IMG_10042.RA" no entraba (necesitaba 13 + 1): recortado

@@ -1,0 +1,7 @@
+m07-parametro.c: In function ‘mal’:
+m07-parametro.c:24:47: warning: ‘sizeof’ on array function parameter ‘celdas_mv’ will return size of ‘const uint16_t *’ {aka ‘const short unsigned int *’} [-Wsizeof-array-argument]
+   24 |         printf("en mal:  sizeof=%zu\n", sizeof(celdas_mv));
+      |                                               ^
+m07-parametro.c:23:32: note: declared here
+   23 | static void mal(const uint16_t celdas_mv[N_CELDAS]) {
+      |                 ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~

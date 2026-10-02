@@ -1,5 +1,44 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube, 5.ª) — apunte de C v0.6: sigue el módulo 8
+
+**Lo primero, en la PC de Fran:** `git pull`, recompilar, `python
+apunte-c\verificar-ejemplos.py` (32 en verde), `.\publicar-apuntes.ps1` (la
+v0.2 a la v0.6 no están en el Drive). Lo que la nube no pudo medir sigue igual
+(Práctico 1 ej. 2 y 4 a 9; `_Min_Stack_Size` del `.ld` del `tp2`).
+
+**Corrección al bloque de la 4.ª sesión:** decía que `-Warray-bounds` avisa
+un índice constante fuera de rango «con optimización». **Medido: no avisa**
+(`m[8] = 3u` en un vector de 8, ni con `-O0` ni con `-O2`). El módulo 7 dice
+lo medido.
+
+**Después: el módulo 8, punteros** (dirección y `&`, `*`, `NULL`, aritmética,
+puntero y nombre de array, puntero a puntero, punteros a función y *dispatch
+table*; clase 57-72, 83-85, 108-111; Práctico 1 ej. 9). Tiene que **cerrar**
+lo adelantado: la receta `*`/`&` del módulo 6, el `&` de `scanf` (5), el
+vector que llega como puntero (7), el `const char *` (4 y 7), el `const
+volatile uint32_t *` del registro del ADC (3). La *dispatch table* puede
+reescribir el despachador de telecomandos de `m05-comandos` con una tabla de
+punteros a función: es el mismo OBC y no es un práctico. Imprimir direcciones
+con `%p` cambia en cada corrida (ASLR): el verificador compara la salida
+**igual**, así que no se imprimen direcciones; se imprimen diferencias o
+comparaciones.
+
+**Regla de forma nueva:** las líneas de código de un ejemplo, con tabulador
+de 2, no pasan de 92 columnas (más largas se parten en el PDF). Se mide con
+`expand -t2 ejemplos/X.c | awk 'length > 92'`.
+
+### LECCIONES PARA aprender.py (las registra la PC)
+
+- **Título:** en un HANDOFF, lo que no se midió va como pregunta, no con la
+  respuesta puesta. **Síntoma:** el bloque de la 4.ª sesión listaba «trampas
+  a medir» y, entre paréntesis, adelantaba el resultado (`-Warray-bounds`
+  avisa con optimización). La 5.ª sesión lo midió y era falso; si lo hubiera
+  copiado al apunte sin medir, el apunte publicaba un dato falso con cara de
+  medido. **Regla:** en el HANDOFF, «a medir: X» sin resultado; el resultado
+  se escribe recién con la medición, y con la marca «medido». **Opuesto:**
+  escribir lo que uno espera que dé el compilador como si ya lo hubiera dado.
+
 ## 2026-10-02 (nube, 4.ª) — apunte de C v0.5: sigue el módulo 7
 
 **Lo primero, en la PC de Fran:** `git pull`, recompilar, `python

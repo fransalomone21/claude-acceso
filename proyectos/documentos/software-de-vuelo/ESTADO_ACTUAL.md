@@ -1,5 +1,29 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (nube, 5.ª) — apunte de C v0.6: módulo 7, vectores y cadenas
+
+- **Módulo 7** (`apunte-c/modulos/m07-vectores-cadenas.typ`): declarar e
+  inicializar, índice desde cero, `<` y el *off-by-one*, `sizeof` total y
+  cantidad, índice fuera de rango (C no controla), `= { 0u }`; buffer circular
+  con máscara (LEA-16, sin `malloc`); tabla de dos dimensiones (patrón del LED
+  de estado por modo, `static const`, fila tras fila); cadenas con `'\0'`,
+  `strlen` contra `sizeof`, `char x[5] = "ORBIT"`; `snprintf` mirando lo que
+  devuelve; vector como parámetro (se pasa como puntero, `sizeof` se rompe;
+  `ESPERA-WARNING: -Wsizeof-array-argument`) y `const` en el parámetro. MISRA
+  21.6 mencionada. **5 programas nuevos** (`m07-muestras`, `m07-circular`,
+  `m07-patrones`, `m07-cadenas`, `m07-parametro`): en total **32**,
+  verificador en verde, `probar-verificar-ejemplos.py` TODO BIEN. Render
+  mirado (págs. 42 a 48; el PDF tiene 48). Carátula: «v0.6 — módulos 1 a 7 de 12».
+- **No resuelve el Práctico 3 ej. 3**: la tabla de patrones es la del LED de
+  estado por modo, no la de un display de 7 segmentos. Práctico 1 ej. 2: sin
+  leer (nube), `hipótesis`.
+- **Medido a mano en gcc 13.3:** `m[8] = 3u` en un vector de 8 **no avisa**, ni
+  con `-O2`; `char x[5] = "ORBIT"` **no avisa**; `snprintf` con todo constante
+  que no entra avisa `-Wformat-truncation` (y con `-Werror` corta); `sizeof`
+  de un parámetro vector avisa `-Wsizeof-array-argument`.
+- Se verificó que ninguna línea de código de los ejemplos pase de 92
+  columnas (con tabulador de 2): más larga, se parte en el PDF.
+
 ## 2026-10-02 (nube, 4.ª) — apunte de C v0.5: módulo 6, funciones
 
 - **Módulo 6** (`apunte-c/modulos/m06-funciones.typ`): por qué funciones
