@@ -18,7 +18,7 @@ El plan y las fases están en [`PDP.md`](PDP.md).
 
 | Si la tarea es… | Leer |
 |---|---|
-| **producir cualquier cosa de las guías** | **primero** [`../catedras/software-de-vuelo/CRITERIOS.md`](../catedras/software-de-vuelo/CRITERIOS.md) (repo privado, sólo en esta máquina). Regla 1 |
+| **producir cualquier cosa de las guías** | **primero** [`../catedras/software-de-vuelo/CRITERIOS.md`](../catedras/software-de-vuelo/CRITERIOS.md) (repo privado, sólo en esta máquina). Regla 1. **Sin ese repo** (la nube): [`docs/CRITERIOS-LEANDRO.md`](docs/CRITERIOS-LEANDRO.md) |
 | retomar | [`ESTADO_ACTUAL.md`](ESTADO_ACTUAL.md) |
 | saber qué cierra la fase en curso | [`PDP.md`](PDP.md) §4 |
 | encontrar el material de la cátedra o los proyectos de STM32 | [`../catedras/software-de-vuelo/MATERIAL.md`](../catedras/software-de-vuelo/MATERIAL.md) |
@@ -38,6 +38,9 @@ proyecto **privado** aparte. Acá van sólo las dos guías públicas.
 **3. Lo público es sólo lo pactado.** Las guías, sí. Los criterios de los
 profesores, el material de la cátedra y las entregas de otros alumnos, nunca
 (Fran, 2026-09-28).
+Excepción pactada el 2026-10-02: un **resumen interpretado y fechado** de los
+criterios de Leandro, en [`docs/CRITERIOS-LEANDRO.md`](docs/CRITERIOS-LEANDRO.md).
+El textual sigue en `catedras`, y si discrepan gana el privado.
 
 ## Dónde corre esto
 

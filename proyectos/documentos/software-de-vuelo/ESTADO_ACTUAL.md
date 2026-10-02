@@ -1,5 +1,32 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (nube) — apunte de C v0.3: módulo 4, operadores y los de bit
+
+- **Módulo 4** (`apunte-c/modulos/m04-operadores-bits.typ`): `/` y `%` juntos,
+  asignación compuesta, `%` con negativos; relacionales y lógicos con
+  cortocircuito como guardia (dividir por cero: en la PC mata el proceso, en
+  un Cortex-M4 devuelve 0 salvo `DIV_0_TRP`); `&` contra `&&`; `++` antes y
+  después, `k = k++`; ternario; tabla de precedencia y la trampa `&` con `==`;
+  operadores de bit, las cuatro operaciones con máscara, imprimir en binario;
+  `~` promovido a `int`; armar y desarmar la cabecera CCSDS (133.0-B) con `<<`,
+  `>>` y máscaras; desplazar sólo sin signo. MISRA 13.5, 12.1, 10.1, 12.2 en
+  cajas «Mejora». **5 programas nuevos** (`m04-reloj`, `m04-logicos`,
+  `m04-precedencia` con `ESPERA-WARNING: -Wparentheses`, `m04-banderas`,
+  `m04-paquete`): en total **17**, verificador en verde,
+  `probar-verificar-ejemplos.py` TODO BIEN. Render mirado (págs. 19 a 26; el
+  PDF tiene 26). Carátula: «v0.3 — módulos 1 a 4 de 12».
+- **No resuelve el Práctico 2 ej. 1** (contador de 4 bits en PB0–PB3, según el
+  HANDOFF del 2026-09-29): ningún ejemplo cuenta en LEDs. **El Práctico 1
+  ej. 4 no se pudo leer** (está en el material de la PC): que no se pise con
+  los ejemplos es `hipótesis` hasta que la PC lo compare.
+- **Medido a mano en gcc 13.3** (no entra al verificador): `~m == 0xFBu` con
+  `uint8_t` avisa `-Wsign-compare`; `k = k++` avisa `-Wsequence-point`;
+  `1 << 31` y `-16 >> 2` pasan callados; `printf("%b")` imprime en la glibc
+  2.39 sin aviso (es C23, no C11); dividir por cero da SIGFPE.
+- **Criterios de Leandro, públicos y resumidos** en `docs/CRITERIOS-LEANDRO.md`
+  (decisión de Fran del 2026-10-02; la regla 3 del `CLAUDE.md` lo dice).
+- **Sin publicar**: lo sube Fran desde la PC.
+
 ## 2026-10-02 (nube) — apunte de C v0.2: módulo 3, constantes y calificadores
 
 - **Módulo 3** (`apunte-c/modulos/m03-constantes-calificadores.typ`): literales

@@ -1,0 +1,4 @@
+m04-precedencia.c: In function ‘main’:
+m04-precedencia.c:12:20: warning: suggest parentheses around comparison in operand of ‘&’ [-Wparentheses]
+   12 |         if (estado & ESTADO_GPS_FIX == ESTADO_GPS_FIX) {
+      |                    ^

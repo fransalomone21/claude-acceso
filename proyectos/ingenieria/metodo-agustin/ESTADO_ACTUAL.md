@@ -1,6 +1,6 @@
 # Estado actual — metodo-agustin
 
-**Última actualización:** 2026-09-27
+**Última actualización:** 2026-10-02 (nube, sólo la decisión)
 
 **Entregado aparte (no cierra ninguna fase):** `entregables/EL-METODO.md`, la
 guía de un solo archivo para Agustín y Matías (plan gratis, sin Claude Code).
@@ -49,6 +49,8 @@ operativo) y vuelve al verde al sacar la siembra.
 |---|---|---|
 
 ## Lo próximo
+
+**2026-10-02 — cambió el destino** (PDP §6): la copia del método va **pública, en `claude-acceso`, sin lecciones**; Fran ya no comparte la cuenta con Agustín. Antes de escribir el exportador, reescribir los criterios de las fases 1 y 2 de §4 con eso (sin la cuenta `lecciones fuera`, sin repo privado, sin el usuario de GitHub de Agustín). Se hace en la PC: `perfil-global` no está en la nube.
 
 Escribir `exportar-nucleo.ps1` y `probar-exportador.ps1` (fase 1). Antes de la
 fase 2 hace falta el usuario de GitHub de Agustín.

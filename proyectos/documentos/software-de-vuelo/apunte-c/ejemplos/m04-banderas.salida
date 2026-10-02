@@ -1,0 +1,6 @@
+arranque     0x03  00000011
++TX +camara  0x17  00010111
+-camara      0x07  00000111
+^calefactor  0x0F  00001111
+^calefactor  0x07  00000111
+TX prendido? 1  camara prendida? 0

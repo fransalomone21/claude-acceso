@@ -1,5 +1,44 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube, 2.ª) — apunte de C v0.3: sigue el módulo 5
+
+**Lo primero, en la PC de Fran:** `git pull`, recompilar
+(`typst compile --root .. apunte.typ apunte.pdf` en `apunte-c/`),
+`python apunte-c\verificar-ejemplos.py` (17 en verde) y
+`.\publicar-apuntes.ps1`: ni la v0.2 ni la v0.3 están en el Drive. Y una
+comparación que la nube no pudo hacer: abrir el **Práctico 1, ej. 4** y
+confirmar que ningún ejemplo del módulo 4 (`m04-*.c`) lo resuelve.
+
+**Después: el módulo 5, control de flujo** (`if`/`else if`, *dangling else*,
+`switch`, `while` con cota, `do-while`, `for`, `scanf`; clase 31-55; Práctico
+1 ej. 5, 6 y 7). El 4 ya usó un `for` (en `imprimir_bits`) y un `while` con
+cota está en el 3: el 5 los formaliza. Un ejemplo con `scanf` necesita
+`ejemplos/<nombre>.entrada` (el verificador lo pasa como stdin). Trampa
+medida que le toca al 5: `for (uint8_t i = 7u; i >= 0u; i--)` nunca termina, y
+gcc avisa con `-Wextra` (`-Wtype-limits`).
+
+**Criterios en la nube:** ahora están en `docs/CRITERIOS-LEANDRO.md` (resumen
+público y fechado, decisión de Fran del 2026-10-02). Ya no hace falta pegarlos
+en el pedido.
+
+**Trampas nuevas de Typst:** un código en línea (entre comillas invertidas)
+**no se corta entre renglones**: si no entra, se pasa entero al renglón
+siguiente (y si el corte deja un `+` al principio del renglón, abre lista
+numerada). Un mensaje de gcc largo va en cursiva (`_..._`), que sí se corta.
+Una tabla larga que queda partida entre páginas se envuelve en
+`#block(breakable: false)[...]`.
+
+### LECCIONES PARA aprender.py (las registra la PC)
+
+- **Título:** el esqueleto de `template.c` se copia, no se recuerda.
+  **Síntoma:** `m04-banderas.c` salió con `/* Function declarations */` y
+  `/* Function definitions */`, y compilaba y daba verde: el verificador no
+  mira comentarios. Se vio recién al leer `m01-template.c` para otra cosa; el
+  `template.c` dice `/* Functions declaration */` y `/* Functions definition */`.
+  **Regla:** antes de escribir un ejemplo con secciones nuevas, abrir
+  `m01-template.c` y copiar los encabezados tal cual. **Opuesto:** escribir los
+  encabezados de memoria porque «son comentarios».
+
 ## 2026-10-02 (nube) — apunte de C v0.2: sigue el módulo 4
 
 **Lo primero, en la PC de Fran:** `git pull`, recompilar
