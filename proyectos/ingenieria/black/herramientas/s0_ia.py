@@ -68,6 +68,7 @@ def agentes(p):
 def muestra(p, t0):
     return {"t": round(time.time() - t0, 2), "vJ": round(f32(p, cj.J + 0x2F8), 1),
             "vJ2": round(f32(p, cj.J2 + 0x2F8), 1), "tit": hex(p.leer32(cm.TITERE_ACT)),
+            "eJ2": p.leer32(cj.J2 + 0x38C), "eJ": p.leer32(cj.J + 0x38C),   # (111) estado: 2 = muerto (110)
             "J": posa(p, cj.J), "J2": posa(p, cj.J2), "ag": agentes(p)}
 
 
@@ -160,6 +161,8 @@ def modo_spawner(p, a, reg):
     punto = p.leer32(p.leer32(sp + 0x18) + 4)
     if a.hacia_j:   # sobre el piso que J2 ya camino (110: el punto en el aire nace y cae muerto)
         fx, fz = jp[0] - j2p[0], jp[2] - j2p[2]
+    elif a.lejos_j:  # (111) del lado de J2 opuesto a J: que el nacido vea primero a J2
+        fx, fz = j2p[0] - jp[0], j2p[2] - jp[2]
     else:
         fx, fz = f32(p, cj.J2 + 0x90), f32(p, cj.J2 + 0x98)
     n = math.hypot(fx, fz) or 1.0
@@ -210,6 +213,21 @@ def resumir(reg):
                                 ("id0_J", reg["ids"]["J"] in g["am"]), ("id1_J2", reg["ids"]["J2"] in g["am"])):
                 if cond and res[clave] is None:
                     res[clave] = m["t"]
+    # (111) la amenaza ACTUAL: +0x270 como indice de la lista (hipotesis; act_crudos dice si alguna vez salio de 0..2/-1)
+    res["act_J2"], res["act_J"], crudos = None, None, set()
+    for m in serie:
+        for g in m["ag"]:
+            if g["bando"] != 1:
+                continue
+            crudos.add(g["act"])
+            blanco = g["am"][g["act"]] if g["act"] in (0, 1, 2) else None
+            for clave, quien in (("act_J2", "J2"), ("act_J", "J")):
+                if blanco == reg["ids"][quien] and res[clave] is None:
+                    res[clave] = [m["t"], g["i"]]
+    res["act_crudos"] = sorted(hex(x) for x in crudos)
+    if reg.get("nacido"):
+        nac = [m["nac"] for m in serie if m.get("nac")]
+        res["nacido_vivo_final"] = nac[-1]["vida"] if nac else None
     res["agentes_b1"] = sorted(res["agentes_b1"])
     res["titere_tomo_nacido"] = any(m.get("nac") and m["tit"] == m["nac"]["d"] for m in serie)
     return res
@@ -225,6 +243,8 @@ def main():
     ap.add_argument("--lista", type=int)
     ap.add_argument("--i", type=int)
     ap.add_argument("--hacia-j", action="store_true", help="el punto va de J2 hacia J, no adelante de J2")
+    ap.add_argument("--lejos-j", action="store_true", help="(111) el punto del lado de J2 opuesto a J")
+    ap.add_argument("--vida-j2", type=float, help="(111) vida de J2 al empezar (la muerte por dano real)")
     ap.add_argument("--ir", choices=("J", "J2"))
     ap.add_argument("--proto-percep", action="store_true", help="prototipo por PINE de la percepcion de J2 (110)")
     ap.add_argument("--vida-j", action="store_true", help="vida de J en 1e6 al empezar (J no muere)")
@@ -247,6 +267,8 @@ def main():
             reg["proto_percep"] = [hex(p.leer32(esc + 0x74)), hex(p.leer32(0x00185184))]
         if a.vida_j:
             p.escribir_f32(cj.J + 0x2F8, 1.0e6)            # que J no muera durante la medicion
+        if a.vida_j2 is not None:
+            p.escribir_f32(cj.J2 + 0x2F8, a.vida_j2)
         (modo_ir if a.ir else modo_spawner)(p, a, reg)
     reg["resumen"] = res = resumir(reg)
     (SAL / ("%s.json" % a.etiqueta)).write_text(json.dumps(reg, ensure_ascii=False), encoding="utf-8")

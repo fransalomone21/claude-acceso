@@ -16,6 +16,18 @@ Formato de cada entrada:
 
 ---
 
+## 2026-10-02 (111, notebook, caliente, de noche y sin Fran) — La IA a los dos por defecto; un enemigo elige a J2 y lo mata (confirmado con control); el disparo de J2 no suena y sin el aislador sí
+**Máquina:** notebook, fork solo (Fran durmiendo: «avanzá lo más posible») · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (B4 la IA, B5 la muerte, B8 el sonido) · **Nodos:** `ia` K4 → K5, `flujo` K4, `audio` K3
+**Objetivo:** `sesiones/RETOME-LOCAL.md`: lo decidido (CON_IA por defecto) y T1 (un enemigo elige a J2), T2 (audio callado), T5 (punto de control). Predicciones en `sesiones/PREDICCIONES-111.md`, escritas antes de cada corrida.
+
+- **CON_IA prendida por defecto** (`coop_mod.py`; `--sin-ia` es el control, `--con-ia` se acepta y no hace nada, como `SIN_R3` en (93y)): el acceso «JUGAR BLACK COOP» instala 938 palabras. La IA salió de `coop-plan-b` y pasó a `coop-rangos` (docs/14); la regla 7 de `coop_diseno.py` mide que esté prendida y que sus seis sitios tengan en el ELF lo que reemplazan. Saboteador **14/14**; los rojos nuevos exigen la marca de su regla (un sabotaje viejo del plan apuntaba a una fila que se mudó y el propio saboteador lo cantó: «SABOTAJE SIN EFECTO»).
+- **T1 — un enemigo ELIGE a J2, confirmado con control.** Banco: City Streets, un enemigo de spawner nacido sobre el piso a 2,5 m de J2 (`s0_ia.py`, opciones nuevas `--lejos-j` y `--vida-j2`; el resumen suma la amenaza actual). Con la IA: su actual (`+0x270`, índice 0..2 de la lista, medido en 7 corridas) es J2 desde 0,11 s y otro enemigo a 16 m también; J2 baja 750 → 680 sin disparar. **Control `--sin-ia`, 3 de 3**: J2 nunca en ninguna lista, nadie le apunta, vida 750.
+- **Límite medido:** la actual es **la primera percibida**: un nacido que vio antes a J siguió con J 20 s con J2 a 2,5 m. «El más cercano» de HOST2/DEF2 no reevalúa. Para el coop alcanza (los dos reciben enemigos); el ajuste fino es de la C.
+- **B5 por daño real:** con vida 60 o 40 la regeneración de J2 (~13/s hasta ~225) le gana al enemigo; con 6, un disparo: `J2+0x38C` = 2 a 0,68 s y **«MISSION FAILED» con J en 1e6** (`volcados/campana/t1b-3-final.png`).
+- **T5 no se pudo:** «CONTINUE MISSION» no se elige sin un punto de control alcanzado (el cursor lo saltea con vuelta).
+- **T2 — el disparo de J2 no suena (F4), confirmado con control, y la sonda S4 de `docs/16` también:** en Town (sin tiroteo de fondo; Wilderness no sirvió: silenciador y nadie gastó balas), los dos vacían el cargador 90 → 0. Con el aislador: fuego-J2 media 3079 (fondo ~2000 y ráfagas sueltas = impactos), fuego-J 9028 continuo. **Sin el aislador** (`instalar --sin-aislar`): fuego-J2 **8349**, como J. El sonido vive en `V`: la opción 1 (`V2` propia) es la que arregla F4.
+- Máquina: el pnach vuelve siempre al default (938 palabras) después de cada control.
+
 ## 2026-10-01 (110, notebook, caliente) — La IA ve a J2 (PERC2, confirmado); la muerte de J2 ya termina la misión sola; reiniciar misión anda con el coop; recorrido macro con fotos y audio
 **Máquina:** notebook, fork, sin Fran en el mando · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (B4 la IA, B5 la muerte) · **Nodos:** `ia` K3 → K4, `flujo` K3 → K4
 **Objetivo:** `sesiones/RETOME-LOCAL.md` S0 (probar la IA a los dos) y, a pedido de Fran, inspección macro con fotos y audio.
