@@ -36,6 +36,11 @@ param(
     # CLAUDE.md, fila del medio de la tabla de sensibilidad.
     [switch]$Sensible,
 
+    # Las necesidades con que la puerta de la cascada lo trata (.claude/cascada.json).
+    # Por defecto, segun la naturaleza: documentos -> materia, ingenieria ->
+    # ingenieria-inversa, seguimiento -> ninguna.
+    [string[]]$Necesidades,
+
     [string]$Raiz = $PSScriptRoot
 )
 
@@ -113,6 +118,60 @@ foreach ($c in $copias) {
     if (Test-Path $final) { Warn "$($c.A) ya venia en la carpeta adoptada: NO se piso"; continue }
     Copy-Item -LiteralPath $origen -Destination $final
     Ok "$($c.A) desde plantillas/$($c.De)"
+}
+
+# --- la fila del catalogo de la cascada (.claude/cascada.json) -------------
+#
+# (2026-10-02, regla 15) carrera nacio con este script y SIN fila en el
+# catalogo: la puerta no sabia que exigirle y solo lo vio el arranque
+# siguiente, en rojo. El medidor detectaba; faltaba que no pudiera nacer asi.
+# Se escribe como TEXTO, una linea: el catalogo es un registro por linea y
+# ConvertTo-Json lo reformatearia entero. Antes de escribir se valida con el
+# mismo parser que usa la puerta (json de Python); si no parsea, no se toca.
+# Lo prueba .\probar-nuevo-proyecto.ps1.
+if ($null -eq $Necesidades) {
+    $Necesidades = @{ documentos = @('materia'); ingenieria = @('ingenieria-inversa'); seguimiento = @() }[$Naturaleza]
+}
+$cat = Join-Path $Raiz '.claude\cascada.json'
+if (-not (Test-Path -LiteralPath $cat)) {
+    Alto "no existe $cat : la puerta no va a saber que exigirle a '$Nombre'."
+    exit 1
+}
+$txt = [System.IO.File]::ReadAllText($cat, [System.Text.UTF8Encoding]::new($false))
+$nl  = if ($txt.Contains("`r`n")) { "`r`n" } else { "`n" }
+$lin = [System.Collections.Generic.List[string]]::new([string[]]($txt -split "\r?\n"))
+$i0 = -1; $i1 = -1; $ya = $false
+for ($k = 0; $k -lt $lin.Count; $k++) { if ($lin[$k] -match '^\s*"proyectos"\s*:\s*\{\s*$') { $i0 = $k; break } }
+if ($i0 -ge 0) {
+    for ($k = $i0 + 1; $k -lt $lin.Count; $k++) { if ($lin[$k] -match '^  \}') { $i1 = $k; break } }
+    for ($k = $i0 + 1; $k -lt $i1; $k++) {
+        if ($lin[$k] -match ('^\s*"' + [regex]::Escape($Nombre) + '"\s*:')) { $ya = $true }
+    }
+}
+if ($i0 -lt 0 -or $i1 -lt 0) {
+    Alto "no encontre el bloque `"proyectos`" de cascada.json: agrega la fila a mano."
+    exit 1
+} elseif ($ya) {
+    Ok "cascada.json ya tenia la fila de '$Nombre' (no se toco)"
+} else {
+    $necJson = (@($Necesidades) | ForEach-Object { '"' + $_ + '"' }) -join ', '
+    $fila = '    {0,-24} {{"necesidades": [{1}]}}' -f ('"' + $Nombre + '":'), $necJson
+    if ($i1 - 1 -gt $i0) { $lin[$i1 - 1] = $lin[$i1 - 1].TrimEnd() + ',' }
+    $lin.Insert($i1, $fila)
+    $nuevo = $lin -join $nl
+    $tmp = [System.IO.Path]::GetTempFileName()
+    try {
+        [System.IO.File]::WriteAllText($tmp, $nuevo, [System.Text.UTF8Encoding]::new($false))
+        & python -c "import json,sys; d=json.load(open(sys.argv[1],encoding='utf-8')); n=d['proyectos'][sys.argv[2]]['necesidades']; m=[x for x in n if x not in d['necesidades']]; sys.exit('necesidad desconocida: %s' % m if m else 0)" $tmp $Nombre
+        $valida = ($LASTEXITCODE -eq 0)
+    } finally { Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue }
+    if (-not $valida) {
+        Alto "la fila nueva no deja un cascada.json valido: NO se escribio. Agregala a mano:"
+        Info "  $fila"
+        exit 1
+    }
+    [System.IO.File]::WriteAllText($cat, $nuevo, [System.Text.UTF8Encoding]::new($false))
+    Ok "cascada.json: fila de '$Nombre' con necesidades [$necJson] (cambiala ahi si no es esa)"
 }
 
 # --- sensible: repo propio -------------------------------------------------

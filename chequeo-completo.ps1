@@ -105,6 +105,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador de Drive';            cmd = '.\probar-verificar-drive.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
     @{ nombre = 'saboteador de la cascada';       cmd = '.\probar-cascada.ps1' }
+    @{ nombre = 'saboteador de nuevo-proyecto';   cmd = '.\probar-nuevo-proyecto.ps1' }
     @{ nombre = 'saboteador de la puerta';        cmd = 'python .claude\hooks\cascada_puerta.py --autotest' }
 )
 
