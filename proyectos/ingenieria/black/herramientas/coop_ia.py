@@ -90,11 +90,49 @@ def fuente():
     return "\n".join(lineas)
 
 
-def etiquetas(src):
+BASE2, FIN2 = 0x0046F000, 0x0046F100   # (110) reserva «IA: percepcion de J2» de coop-plan-b (docs/14)
+
+
+def fuente2():
+    """(110) PERC2, en lugar de `jal FUN_00184DE0` (la percepcion de un enemigo, 0x00184DB8).
+    Medido en vivo: VER2/VIS2 no alcanzaban, porque (1) `FUN_0018FB88` solo anota un blanco cuyo bit de id este en la
+    mascara de percepcion `agente+0x71C`, que `FUN_00184DE0` llena recorriendo las 4 ranuras del escuadron
+    (`*(0x0040F4D4)+0x22864`, aliados 0-2 y J en la 3: J2 no esta), y (2) «ver» y «visibles» son nodos del arbol de
+    comportamiento de BUSCAR: un enemigo que ya pelea con J no los corre. Entonces:
+      antes:   escuadron+0x74 (la 5.a palabra, 0 en los 7 volcados) = J2 si FASE = 2, si no 0; y el lazo de la
+               percepcion va hasta 5 (0x00185184: slti 4 -> 5). Las ranuras 0-2 NO se tocan: el juego rellena las
+               vacias con aliados del guion al cambiar de unidad (FUN_00173028).
+      despues: si FASE = 2, el enemigo percibe a J2, esta EN COMBATE (amenaza actual +0x270 != -1) y todavia no
+               conoce a J2 -> FUN_001897e8(agente+0x150, id de J2, 0), lo mismo que hace «ver». (Primero se pidio
+               «ya conoce a J»: medido en perc2-1, un enemigo que peleaba con el titere no anotaba a J2.)
+               Sin combate, J2 entra como J: por «ver» (VER2), ahora que la percepcion lo ve."""
+    return "\n".join([
+        "PERC2:", "addiu sp, sp, -0x20", "sw ra, 0(sp)", "sw a0, 4(sp)",
+        "lui t9, 0x47", "lw t8, -0x2870(t9)", "addiu t7, zero, 2",
+        "lui t6, 0x41", "lw t6, -0xb2c(t6)", "lui t5, 0x2", "addu t6, t6, t5",
+        "bne t8, t7, @PNOJ", "move t4, zero", "addiu t4, t9, -0x3210",
+        "PNOJ:", "sw t4, 0x2874(t6)",
+        "jal 0x184de0", "nop",
+        "lui t9, 0x47", "lw t8, -0x2870(t9)", "addiu t7, zero, 2", "bne t8, t7, @PFIN", "nop",
+        "addiu t1, t9, -0x3210", "lw a1, 0x380(t1)", "addiu t3, zero, 1", "sllv t3, t3, a1",
+        "lw a0, 4(sp)", "lw t0, 0(a0)",
+        "lw t1, 0x71c(t0)", "and t1, t1, t3", "beq t1, zero, @PFIN", "nop",
+        "lw t2, 0x270(t0)", "addiu t4, zero, -1", "beq t2, t4, @PFIN", "nop",
+        "lw t1, 0x274(t0)", "and t2, t1, t3", "bne t2, zero, @PFIN", "nop",
+        "addiu a0, t0, 0x150", "jal 0x1897e8", "move a2, zero",
+        "PFIN:", "lw ra, 0(sp)", "jr ra", "addiu sp, sp, 0x20"])
+
+
+def programa2():
+    return j2.ensamblar_programa(fuente2(), BASE2, FIN2)
+
+
+def etiquetas(src, base=None):
+    base = BASE if base is None else base
     pos, n = {}, 0
     for l in src.splitlines():
         if l.endswith(":"):
-            pos[l[:-1]] = BASE + 4 * n
+            pos[l[:-1]] = base + 4 * n
         else:
             n += 1
     return pos
@@ -110,11 +148,14 @@ def ganchos():
             (0x0019098C, ensamblar("jal 0x%x" % e["VIS2"], 0x0019098C), "IA visibles: jal VIS2 (era jal 0x1908a0)"),
             (0x0018A8BC, ensamblar("jal 0x%x" % e["DEF2"], 0x0018A8BC), "IA defecto: jal DEF2 (era jal 0x189740)"),
             (0x00184904, ensamblar("jal 0x%x" % e["HOST2"], 0x00184904), "IA hostil: jal HOST2 (era lw v0,-0xB30(v1))"),
-            (0x00184908, 0, "IA hostil: nop (era addiu v0,v0,0x30)")]
+            (0x00184908, 0, "IA hostil: nop (era addiu v0,v0,0x30)"),
+            (0x00184DB8, ensamblar("jal 0x%x" % BASE2, 0x00184DB8), "IA percepcion: jal PERC2 (era jal 0x184de0) (110)"),
+            (0x00185184, ensamblar("slti v0, s3, 5", 0x00185184), "IA percepcion: el lazo del escuadron hasta 5 (era slti 4) (110)")]
 
 
 ORIGINAL = {0x0018FC4C: "jal 0x0018FB88", 0x0019098C: "jal 0x001908A0", 0x0018A8BC: "jal 0x00189740",
-            0x00184904: "lw v0, -2864(v1)", 0x00184908: "addiu v0, v0, 48"}
+            0x00184904: "lw v0, -2864(v1)", 0x00184908: "addiu v0, v0, 48",
+            0x00184DB8: "jal 0x00184DE0", 0x00185184: "slti v0, s3, 4"}
 
 
 def capstone_des(pc, w):
@@ -127,28 +168,28 @@ def capstone_des(pc, w):
 def verificar(mostrar=False) -> int:
     from perfil_singleton import palabra_elf
     errores = []
-    prog = programa()
-    if prog[-1][0] + 4 > FIN:
-        errores.append("el codigo pasa de la reserva")
     lineas = []
-    for pc, w, t in prog:
-        c = capstone_des(pc, w)
-        lineas.append(f"{pc:08X}  {w:08X}  {c:34s} ; {t}")
-        if mostrar:
-            print(lineas[-1])
-        if c.startswith("(capstone"):
-            errores.append(f"{pc:#x} {t}: capstone no lo decodifica")
-        if t.startswith(".word") and t.split()[1].lower() != "0x%08x" % w:
-            errores.append(f"{pc:#x}: palabra literal cambiada")
-    # saltos condicionales: dentro del codigo (en (107) un choque de etiquetas, @VER2 dentro de @VER2F,
-    # mandaba un bne a 0x466A4C)
-    for pc, w, t in prog:
-        op = w >> 26
-        if op in (4, 5) or (w >> 16) in (0x4500, 0x4501):
-            off = struct.unpack("<h", struct.pack("<H", w & 0xFFFF))[0]
-            dest = pc + 4 + 4 * off
-            if not (BASE <= dest < prog[-1][0] + 4):
-                errores.append(f"{pc:#x} {t}: salta a {dest:#x}, fuera del codigo")
+    for prog, base, fin in ((programa(), BASE, FIN), (programa2(), BASE2, FIN2)):   # (110) dos programas
+        if prog[-1][0] + 4 > fin:
+            errores.append(f"el codigo de {base:#x} pasa de la reserva")
+        for pc, w, t in prog:
+            c = capstone_des(pc, w)
+            lineas.append(f"{pc:08X}  {w:08X}  {c:34s} ; {t}")
+            if mostrar:
+                print(lineas[-1])
+            if c.startswith("(capstone"):
+                errores.append(f"{pc:#x} {t}: capstone no lo decodifica")
+            if t.startswith(".word") and t.split()[1].lower() != "0x%08x" % w:
+                errores.append(f"{pc:#x}: palabra literal cambiada")
+        # saltos condicionales: dentro del codigo (en (107) un choque de etiquetas, @VER2 dentro de @VER2F,
+        # mandaba un bne a 0x466A4C)
+        for pc, w, t in prog:
+            op = w >> 26
+            if op in (4, 5) or (w >> 16) in (0x4500, 0x4501):
+                off = struct.unpack("<h", struct.pack("<H", w & 0xFFFF))[0]
+                dest = pc + 4 + 4 * off
+                if not (base <= dest < prog[-1][0] + 4):
+                    errores.append(f"{pc:#x} {t}: salta a {dest:#x}, fuera del codigo")
     # FPU: la codificacion propia tiene que decir lo mismo que las del juego
     for pc, esperado in ((0x00184988, "c.olt.s $f0, $f20"), (0x00184990, "bc1f 0x1849a8")):
         c = capstone_des(pc, palabra_elf(pc))
@@ -177,7 +218,8 @@ def verificar(mostrar=False) -> int:
         errores.append("falta docs/listados/107-coop-ia.txt")
     for e in errores:
         print("ROJO:", e)
-    print(f"coop_ia: {len(prog)} palabras en [{BASE:#x}, {prog[-1][0] + 4:#x}), {len(errores)} problema(s)")
+    print(f"coop_ia: {len(programa()) + len(programa2())} palabras en [{BASE:#x}, {FIN:#x}) y [{BASE2:#x}, {FIN2:#x}),"
+          f" {len(errores)} problema(s)")
     return 1 if errores else 0
 
 

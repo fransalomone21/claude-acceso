@@ -92,6 +92,51 @@
 0046E76C  8FBF0000  lw $ra, ($sp)                      ; lw ra, 0(sp)
 0046E770  03E00008  jr $ra                             ; jr ra
 0046E774  27BD0010  addiu $sp, $sp, 0x10               ; addiu sp, sp, 0x10
+0046F000  27BDFFE0  addiu $sp, $sp, -0x20              ; addiu sp, sp, -0x20
+0046F004  AFBF0000  sw $ra, ($sp)                      ; sw ra, 0(sp)
+0046F008  AFA40004  sw $a0, 4($sp)                     ; sw a0, 4(sp)
+0046F00C  3C190047  lui $t9, 0x47                      ; lui t9, 0x47
+0046F010  8F38D790  lw $t8, -0x2870($t9)               ; lw t8, -0x2870(t9)
+0046F014  240F0002  addiu $t7, $zero, 2                ; addiu t7, zero, 2
+0046F018  3C0E0041  lui $t6, 0x41                      ; lui t6, 0x41
+0046F01C  8DCEF4D4  lw $t6, -0xb2c($t6)                ; lw t6, -0xb2c(t6)
+0046F020  3C0D0002  lui $t5, 2                         ; lui t5, 0x2
+0046F024  01CD7021  addu $t6, $t6, $t5                 ; addu t6, t6, t5
+0046F028  170F0002  bne $t8, $t7, 0x46f034             ; bne t8, t7, 0x46f034
+0046F02C  00006021  move $t4, $zero                    ; move t4, zero
+0046F030  272CCDF0  addiu $t4, $t9, -0x3210            ; addiu t4, t9, -0x3210
+0046F034  ADCC2874  sw $t4, 0x2874($t6)                ; sw t4, 0x2874(t6)
+0046F038  0C061378  jal 0x184de0                       ; jal 0x184de0
+0046F03C  00000000  nop                                ; nop
+0046F040  3C190047  lui $t9, 0x47                      ; lui t9, 0x47
+0046F044  8F38D790  lw $t8, -0x2870($t9)               ; lw t8, -0x2870(t9)
+0046F048  240F0002  addiu $t7, $zero, 2                ; addiu t7, zero, 2
+0046F04C  170F0016  bne $t8, $t7, 0x46f0a8             ; bne t8, t7, 0x46f0a8
+0046F050  00000000  nop                                ; nop
+0046F054  2729CDF0  addiu $t1, $t9, -0x3210            ; addiu t1, t9, -0x3210
+0046F058  8D250380  lw $a1, 0x380($t1)                 ; lw a1, 0x380(t1)
+0046F05C  240B0001  addiu $t3, $zero, 1                ; addiu t3, zero, 1
+0046F060  00AB5804  sllv $t3, $t3, $a1                 ; sllv t3, t3, a1
+0046F064  8FA40004  lw $a0, 4($sp)                     ; lw a0, 4(sp)
+0046F068  8C880000  lw $t0, ($a0)                      ; lw t0, 0(a0)
+0046F06C  8D09071C  lw $t1, 0x71c($t0)                 ; lw t1, 0x71c(t0)
+0046F070  012B4824  and $t1, $t1, $t3                  ; and t1, t1, t3
+0046F074  1120000C  beqz $t1, 0x46f0a8                 ; beq t1, zero, 0x46f0a8
+0046F078  00000000  nop                                ; nop
+0046F07C  8D0A0270  lw $t2, 0x270($t0)                 ; lw t2, 0x270(t0)
+0046F080  240CFFFF  addiu $t4, $zero, -1               ; addiu t4, zero, -1
+0046F084  114C0008  beq $t2, $t4, 0x46f0a8             ; beq t2, t4, 0x46f0a8
+0046F088  00000000  nop                                ; nop
+0046F08C  8D090274  lw $t1, 0x274($t0)                 ; lw t1, 0x274(t0)
+0046F090  012B5024  and $t2, $t1, $t3                  ; and t2, t1, t3
+0046F094  15400004  bnez $t2, 0x46f0a8                 ; bne t2, zero, 0x46f0a8
+0046F098  00000000  nop                                ; nop
+0046F09C  25040150  addiu $a0, $t0, 0x150              ; addiu a0, t0, 0x150
+0046F0A0  0C0625FA  jal 0x1897e8                       ; jal 0x1897e8
+0046F0A4  00003021  move $a2, $zero                    ; move a2, zero
+0046F0A8  8FBF0000  lw $ra, ($sp)                      ; lw ra, 0(sp)
+0046F0AC  03E00008  jr $ra                             ; jr ra
+0046F0B0  27BD0020  addiu $sp, $sp, 0x20               ; addiu sp, sp, 0x20
 
 ganchos:
 0018FC4C  0C11B9A9  jal 0x46e6a4                       ; IA ver: jal VER2 (era jal 0x18fb88)  [pisa: jal 0x0018FB88]
@@ -99,4 +144,5 @@ ganchos:
 0018A8BC  0C11B9C9  jal 0x46e724                       ; IA defecto: jal DEF2 (era jal 0x189740)  [pisa: jal 0x00189740]
 00184904  0C11B9D6  jal 0x46e758                       ; IA hostil: jal HOST2 (era lw v0,-0xB30(v1))  [pisa: lw v0, -2864(v1)]
 00184908  00000000  nop                                ; IA hostil: nop (era addiu v0,v0,0x30)  [pisa: addiu v0, v0, 48]
-coop_ia: 94 palabras en [0x46e600, 0x46e778), 0 problema(s)
+00184DB8  0C11BC00  jal 0x46f000                       ; IA percepcion: jal PERC2 (era jal 0x184de0) (110)  [pisa: jal 0x00184DE0]
+00185184  2A620005  slti $v0, $s3, 5                   ; IA percepcion: el lazo del escuadron hasta 5 (era slti 4) (110)  [pisa: slti v0, s3, 4]

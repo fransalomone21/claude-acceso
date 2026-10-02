@@ -812,6 +812,7 @@ def programas():
         # APAGADA por defecto hasta la sonda de la notebook; su memoria esta en coop-plan-b (docs/14)
         import coop_ia
         progs.append(("IA los dos", coop_ia.programa()))
+        progs.append(("IA percepcion de J2", coop_ia.programa2()))   # (110)
         ganchos += coop_ia.ganchos()
     return progs + [("ganchos", ganchos)]
 

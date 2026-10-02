@@ -16,6 +16,22 @@ Formato de cada entrada:
 
 ---
 
+## 2026-10-01 (110, notebook, caliente) — S0: la IA no veía a J2 por la PERCEPCIÓN (el escuadrón de 4) y porque «ver» es un nodo de buscar; la muerte de J termina la misión con `ctrl+0x100` = 0
+**Máquina:** notebook, fork, sin Fran en el mando · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (B4 la IA, B5 la muerte) · **Nodos:** `ia`, `flujo` (K sin cambio hasta el efecto con control)
+**Objetivo:** `sesiones/RETOME-LOCAL.md` S0 (probar la IA a los dos) y, a pedido de Fran, inspección macro con fotos y audio.
+
+- **Herramienta:** `s0_ia.py` registra cada 0,1 s, por agente activo, la máscara `+0x274`, las amenazas `+0x150/+0x1B0/+0x210`, la actual `+0x270`, bando, id, vida y posición; hace nacer un enemigo con un spawner (`--hacia-j`: sobre el piso que J2 ya caminó) o camina a un jugador hacia el combate (`--ir`). Volcados en `volcados/s0/`.
+- **«Nace muerto junto a J2» (93g) era trivial:** el punto quedaba **en el aire** (a la altura de J2, que estaba en un primer piso) y el enemigo caía 3,4 m. Sobre el piso nace vivo (`con-ia-2`). No es un problema de J2.
+- **S0 con `--con-ia` (107), enemigo vivo a 3 m de J2:** ve a J (bit 0x1 a los 0,77 s) y al títere de J2 (id 2), **nunca a J2** (`con-ia-2`). Los cuatro sitios estaban puestos (leídos en RAM).
+- **Causa 1, en frío (Ghidra perdió el argumento; leído en las instrucciones, `0x0018FBA8`):** `FUN_0018FB88` sólo anota un blanco si `FUN_00185C38(agente+0x6F0, id)` = el bit del id en la **máscara de percepción** `agente+0x71C`. La llena `FUN_00184DE0` recorriendo **las 4 ranuras del escuadrón** `S = *(0x0040F4D4)+0x22800`, `S+0x64..+0x70` (aliados 0–2, J en la 3, la pone `FUN_00172830` → `FUN_00172C00(S, 3, J)`, medido con vigilante de escritura en la carga). J2 no está. Las ranuras 0–2 **no se pueden usar**: `FUN_00173028` rellena las vacías con aliados del guion al cambiar de unidad. `S+0x74..+0x7C` = 0 en los 7 volcados y en RAM.
+- **Prototipo por PINE** (`S+0x74` = J2 y `0x00185184` `slti 4 → 5`): la percepción **procesa a J2** (vigilante de lectura de `J2+0x380`: 48 lecturas desde `0x00185060` en 6 s; antes 0) y la máscara del enemigo da `0x7` (J, J2, títere). **Pero J2 igual no entra** a las amenazas.
+- **Causa 2:** «ver» (`FUN_0018FC18`, desde `FUN_0018F7C8`) y «visibles» (`FUN_00190958`, desde `FUN_001904D8`) son **nodos del árbol de comportamiento de buscar**: con J ya anotado, no corren (0 lecturas desde `0x0018FBA8`). Control del instrumento: el id de J sí se lee (`0x00185060`, `0x0018A6C8`).
+- **Diseño (110): PERC2**, en lugar del `jal FUN_00184DE0` de `0x00184DB8`: antes, `S+0x74` = J2 si `FASE` = 2 (si no, 0); después, si el enemigo percibe a J2, **ya conoce a J** y no a J2 → `FUN_001897E8(agente+0x150, id de J2, 0)`, lo mismo que hace «ver». `coop_ia.py` programa 2 (`0x0046F000`, 44 palabras) + los dos sitios, en `coop-plan-b`. Predicción en `sesiones/PREDICCIONES-110.md`.
+- **S5 de paso, medido en RAM:** en `proto-percep` el enemigo **mató a J** (750 → 1,5; «MISSION FAILED», con la pantalla todavía partida). Al morir: `J+0x32C` = `J+0x620` (el segundo controlador), `J+0x38C` = 2, **`J+0x5F0` = 0**, sesión `+0x21098` = 0. **La predicción de (109) se cumple y el fin de misión NO sale de `ctrl+0x100`.** El diseño de la muerte cambia: si muere J2, matar a J por el camino del juego (pierden los dos).
+- **Macro, en las capturas** (`volcados/s0/con-ia-j2-2.png`, `proto-percep.png`): un solo HUD partido entre mitades (vida a la izquierda, munición a la derecha, las dos de J); la retícula cae sobre el corte; **el indicador rojo de daño de J se dibuja en la mitad de J2**.
+
+---
+
 ## 2026-09-28 (109, notebook en frío) — Revisión de la tanda (98)–(108b): dos herramientas con agujeros, la premisa de la muerte no se sostiene, y la cascada mide si todo está al día
 **Máquina:** notebook, sin emulador · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR) · **Nodos:** `jugador`, `ia`, `hud` (sin cambio de K)
 **Objetivo:** `sesiones/RETOME-LOCAL-FRIO.md`: correr lo que la nube no pudo, revisar en frío las filas R de `sesiones/REVISAR-98-108.md` y, a pedido de Fran, que no quede nada sin verificar. A mitad de sesión Fran pidió **no seguir en bajo nivel** y pasar al alto nivel (método y arquitectura): B6, B7 y B8 quedaron sin revisar, a propósito.
