@@ -251,11 +251,43 @@ def archivo_estado(sid: str) -> Path:
     return ESTADO_DIR / ("%s.jsonl" % re.sub(r"[^A-Za-z0-9_.-]", "_", sid or "sin-sesion"))
 
 
+def _candado(fh, tomar: bool):
+    """Candado del SO sobre el byte 0 del .lock: se suelta solo si el proceso muere. Sin candado en ~2 s se escribe
+    igual: un renglon pisado hace que la puerta frene de mas (falla cerrado), nunca que deje pasar."""
+    if os.name == "nt":
+        import msvcrt
+        fh.seek(0)
+        if not tomar:
+            try:
+                msvcrt.locking(fh.fileno(), msvcrt.LK_UNLCK, 1)
+            except OSError:
+                pass
+            return
+        for _ in range(200):
+            try:
+                msvcrt.locking(fh.fileno(), msvcrt.LK_NBLCK, 1)
+                return
+            except OSError:
+                time.sleep(0.01)
+    else:
+        import fcntl
+        fcntl.flock(fh.fileno(), fcntl.LOCK_EX if tomar else fcntl.LOCK_UN)
+
+
 def anotar(sid: str, ev: dict):
+    # Un hook por llamada, y las llamadas en paralelo corren hooks en paralelo. En Windows el modo "a" no es atomico
+    # entre procesos (busca el final y despues escribe): dos renglones se pisan y una lectura se pierde. Medido el
+    # 2026-10-02 en uso real (6 Read en paralelo, 2 renglones pisados) y en el autotest (1057 de 1200 sin candado).
     ESTADO_DIR.mkdir(parents=True, exist_ok=True)
     ev["ts"] = time.time()
-    with open(archivo_estado(sid), "a", encoding="utf-8") as fh:
-        fh.write(json.dumps(ev, ensure_ascii=False) + "\n")
+    f = archivo_estado(sid)
+    with open(str(f) + ".lock", "a+b") as lk:
+        _candado(lk, True)
+        try:
+            with open(f, "ab") as fh:
+                fh.write((json.dumps(ev, ensure_ascii=False) + "\n").encode("utf-8"))
+        finally:
+            _candado(lk, False)
 
 
 def estado(sid: str) -> dict:
@@ -696,6 +728,28 @@ def autotest() -> int:
     caso("catalogo corrupto -> deny (falla cerrado)", correr(pre_ev(*edit_black, s=s3), e_roto), True, "catalogo")
     caso("CONTROL: con el catalogo roto, editar el catalogo pasa", correr(pre_ev(
         "Edit", {"file_path": str(RAIZ / ".claude" / "cascada.json"), "old_string": "a", "new_string": "b"}, s3), e_roto), False)
+    # 12b. lecturas en PARALELO: el harness corre un hook por llamada, en procesos paralelos, y todos anotan en el
+    # mismo archivo. Medido el 2026-10-02 (1.a sesion de T12): 6 Read en paralelo, 2 renglones pisados y una lectura
+    # perdida -- la puerta pidio releer el ESTADO ya leido. Se exige que las N queden.
+    # Lanzar N hooks no alcanza: arrancan escalonados y la ventana del choque es de microsegundos (dio 24 de 24 con
+    # el codigo roto). Se golpea la funcion que escribe: N procesos x M anotaciones a la vez.
+    s8 = sid + "-par"
+    n_proc, n_vez = 8, 150
+    golpe = ("import importlib.util,sys; s=importlib.util.spec_from_file_location('p', sys.argv[1]); "
+             "m=importlib.util.module_from_spec(s); s.loader.exec_module(m); "
+             "[m.anotar(sys.argv[2], {'t': 'lee', 'ruta': 'par-%s-%d' % (sys.argv[3], i), 'a': 1, 'b': 9}) "
+             "for i in range(int(sys.argv[4]))]")
+    procs = [subprocess.Popen([sys.executable, "-c", golpe, __file__, s8, str(k), str(n_vez)], env=env)
+             for k in range(n_proc)]
+    for p in procs:
+        p.wait()
+    est = json.loads(subprocess.run([sys.executable, __file__, "--estado", s8], capture_output=True,
+                                    env=env).stdout.decode() or "{}")
+    quedan = sum(1 for r in est.get("lecturas", {}) if r.startswith("par-"))
+    ok = quedan == n_proc * n_vez
+    mal += not ok
+    print("%s  %-62s -> %d de %d" % ("ok " if ok else "MAL", "%d procesos anotando a la vez -> no se pierde ninguna"
+                                     % n_proc, quedan, n_proc * n_vez))
     # 13. mutacion: si 'cubierto' acepta cualquier cosa, tiene que dejar de exigir lecturas (el autotest no es ciego
     # a la funcion que decide). Se reemplaza SOLO la primera aparicion: la definicion, no este texto.
     mut = tmp / "mutante.py"
