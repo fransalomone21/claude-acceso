@@ -175,11 +175,22 @@ def autotest() -> int:
     ok = all(len(t) == 7 and t[5].startswith(("Pre-Phase", "Phase")) and t[6] for t in TIPOS)
     mal += not ok
     print("%s  los %d tipos traen nombre NASA y criollo" % ("ok " if ok else "MAL", len(TIPOS)))
-    # el de BLACK, medido sobre su PDP real
-    txt = compuerta(RAIZ / "proyectos" / "ingenieria" / "black")
+    # un PDP sintetico con la fase CONOCIDA: el caso exacto. (Hasta el 2026-10-02 este caso leia el PDP real de BLACK
+    # y esperaba "Fase B" escrito aca; BLACK paso a la C y el autotest quedo en rojo sin que nadie lo corriera.)
+    sint = Path(tempfile.mkdtemp(prefix="fase-activa-autotest-"))
+    (sint / "PDP.md").write_text("| # | Fase | Cierra | Estado |\n|---|---|---|---|\n"
+                                 "| **COOP-B** | **Proyecto coop, Fase B: diseño preliminar** | PDR | **abierta** |\n\n"
+                                 "**Fase en curso:** COOP-B\n", encoding="utf-8")
+    txt = compuerta(sint)
+    __import__("shutil").rmtree(sint, ignore_errors=True)
     ok = "Fase B (diseno preliminar)" in txt and "NO SE HACE" in txt and 'NASA Phase B, "Preliminary Design' in txt
     mal += not ok
-    print("%s  BLACK real -> %s" % ("ok " if ok else "MAL", txt.splitlines()[0][:100]))
+    print("%s  PDP sintetico en Fase B -> %s" % ("ok " if ok else "MAL", txt.splitlines()[0][:100]))
+    # el de BLACK real: la ESTRUCTURA, no la fase (la fase cambia; que se tipe y traiga el nombre NASA, no)
+    txt = compuerta(RAIZ / "proyectos" / "ingenieria" / "black")
+    ok = "TIPO      :" in txt and "NO SE HACE" in txt and "NASA Phase" in txt
+    mal += not ok
+    print("%s  BLACK real se tipa y trae NASA -> %s" % ("ok " if ok else "MAL", txt.splitlines()[0][:100]))
     # el hook: evento con una ruta de BLACK emite; sin proyecto, calla
     ev = {"session_id": "autotest-%d" % os.getpid(), "hook_event_name": "PostToolUse",
           "tool_input": {"file_path": str(RAIZ / "proyectos" / "ingenieria" / "black" / "PDP.md")}}
@@ -190,7 +201,7 @@ def autotest() -> int:
     import subprocess
     salidas = [subprocess.run([sys.executable, __file__], input=json.dumps(ev), capture_output=True, text=True).stdout
                for _ in range(2)]
-    ok = "additionalContext" in salidas[0] and "Fase B" in salidas[0] and salidas[1].strip() == ""
+    ok = "additionalContext" in salidas[0] and "FASE ACTIVA de black" in salidas[0] and salidas[1].strip() == ""
     mal += not ok
     print("%s  hook de punta a punta: inyecta una vez y despues calla" % ("ok " if ok else "MAL"))
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))

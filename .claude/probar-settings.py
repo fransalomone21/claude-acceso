@@ -16,8 +16,9 @@ Casos (sabotajes y controles; cada uno reporta QUE linea lo satisfizo):
   3. puerta: Edit fuera de todo proyecto -> pasa en silencio (control positivo)
   4. SABOTAJE: CLAUDE_PROJECT_DIR roto -> la puerta NO pasa en silencio (rc 2: falla cerrado)
   5. guardia: Write sobre un archivo protegido -> deny del guardia
-  6. sin PowerShell (la nube): puerta y guardia salen 0 sin decir nada (declarado: sin cascada.ps1
-     no hay como declarar, y el ISO no esta), y traer-perfil SI corre y dice ROJO + add_repo
+  6. sin PowerShell (la nube): la puerta FRENA y nombra .claude/cascada.sh, que corre y cuya declaracion
+     cuenta; sin python ni python3 la puerta sale 2 (falla cerrado); el guardia calla (el ISO no esta);
+     traer-perfil SI corre y dice ROJO + add_repo
   7. con PowerShell (la PC): traer-perfil no corre (el perfil lo instala install.ps1)
 
 Uso:  python .claude/probar-settings.py      (sale 1 si algun caso falla; lo llama probar-hooks.ps1)
@@ -74,16 +75,25 @@ def cmd_de(script: str, evento: str) -> str:
     raise SystemExit("[REVENTO] settings.json no tiene %s en %s" % (script, evento))
 
 
-def correr(cmd: str, payload: dict, sin_powershell=False, **extra):
+def dir_bash(p: str) -> str:
+    """La carpeta de un ejecutable como la ve Git Bash (C:\\x\\y -> /c/x/y)."""
+    d = os.path.dirname(p)
+    if os.name == "nt" and len(d) > 1 and d[1] == ":":
+        d = "/" + d[0].lower() + d[2:].replace("\\", "/")
+    return d
+
+
+def correr(cmd: str, payload, sin_powershell=False, sin_python=False, estado=None, **extra):
     tmp = Path(tempfile.mkdtemp(prefix="probar-settings-"))
     env = dict(os.environ, CLAUDE_PROJECT_DIR=str(RAIZ).replace("\\", "/"),
-               CASCADA_ESTADO_DIR=str(tmp / "estado"), CASCADA_LOG_EXC=str(tmp / "exc.log"))
+               CASCADA_ESTADO_DIR=str(estado or tmp / "estado"), CASCADA_LOG_EXC=str(tmp / "exc.log"))
     env.pop("CLAUDE_CODE_REMOTE", None)
     env.update({k: str(v) for k, v in extra.items()})
     if sin_powershell:
-        env["PATH"] = "/usr/bin:/bin"  # lo que tiene la nube: bash, git, grep; ni powershell ni pwsh
+        # lo que tiene la nube: bash, git, grep y un python; ni powershell ni pwsh. sin_python: tampoco python.
+        env["PATH"] = "/usr/bin:/bin" + ("" if sin_python else ":" + dir_bash(sys.executable))
     try:
-        r = subprocess.run([BASH, "-c", cmd], input=json.dumps(payload), capture_output=True,
+        r = subprocess.run([BASH, "-c", cmd], input=json.dumps(payload or {}), capture_output=True,
                            text=True, encoding="utf-8", errors="replace", env=env, timeout=60)
         return r.returncode, r.stdout + r.stderr
     finally:
@@ -128,10 +138,34 @@ ruta = next(a["ruta"] for a in prot if a.get("se_puede_escribir") is not True)
 rc, out = correr(guardia, ev("PreToolUse", "Write", file_path=ruta, content="x"))
 caso('"deny"' in out, "5. guardia: Write sobre un archivo protegido -> deny", "rc=%d %s" % (rc, out))
 
-for nombre, c in (("puerta", puerta), ("guardia", guardia)):
-    rc, out = correr(c, ev("PreToolUse", "Edit", file_path=pdp), sin_powershell=True)
-    caso(rc == 0 and not out.strip(), "6. sin PowerShell (nube): %s sale 0 sin decir nada" % nombre,
-         "rc=%d salida=%r" % (rc, out))
+# 6. la nube. Primero la PRECONDICION del entorno simulado: si powershell se cuela por el PATH, los casos de abajo
+# miden la PC y dan verde por el motivo equivocado.
+rc, out = correr("command -v powershell pwsh; echo PY=$(command -v python || command -v python3)", None,
+                 sin_powershell=True)
+caso("powershell" not in out.lower() and "PY=/" in out, "6. precondicion: el entorno simulado no tiene PowerShell y si python",
+     out.strip())
+rc, out = correr(puerta, ev("PreToolUse", "Edit", file_path=pdp, old_string="a", new_string="b"), sin_powershell=True)
+caso(rc == 0 and '"deny"' in out and "bash .claude/cascada.sh" in out,
+     "6. sin PowerShell (nube): la puerta FRENA y manda a declarar con cascada.sh", "rc=%d %s" % (rc, out))
+rc, out = correr('bash "$CLAUDE_PROJECT_DIR/.claude/cascada.sh" arquitectura-se -Necesidad metodo', None,
+                 sin_powershell=True)
+caso(rc == 0 and "EXIGIDO POR LA PUERTA" in out, "6. sin PowerShell (nube): cascada.sh corre y lista lo exigido",
+     "rc=%d %s" % (rc, out))
+est = Path(tempfile.mkdtemp(prefix="probar-settings-est-"))
+sid = "probar-settings-nube-" + uuid.uuid4().hex[:8]
+decl = dict(ev("PreToolUse", "Bash", command="bash .claude/cascada.sh arquitectura-se -Necesidad metodo"), session_id=sid)
+correr(puerta, decl, sin_powershell=True, estado=est)
+rc, out = correr(puerta, dict(ev("PreToolUse", "Edit", file_path=pdp, old_string="a", new_string="b"), session_id=sid),
+                 sin_powershell=True, estado=est)
+shutil.rmtree(est, ignore_errors=True)
+caso(rc == 0 and "falta LEER" in out and "-Necesidad <a,b>" not in out,
+     "6. sin PowerShell (nube): declarar con cascada.sh cuenta (ya no pide declarar, pide leer)", "rc=%d %s" % (rc, out))
+rc, out = correr(puerta, ev("PreToolUse", "Edit", file_path=pdp), sin_powershell=True, sin_python=True)
+caso(rc == 2 and "falla cerrado" in out, "6. SABOTAJE: sin python ni python3 la puerta sale 2 (falla cerrado), nunca 0",
+     "rc=%d %s" % (rc, out))
+rc, out = correr(guardia, ev("PreToolUse", "Edit", file_path=pdp), sin_powershell=True)
+caso(rc == 0 and not out.strip(), "6. sin PowerShell (nube): el guardia sale 0 sin decir nada (no hay ISO)",
+     "rc=%d salida=%r" % (rc, out))
 
 home = tempfile.mkdtemp(prefix="probar-settings-home-")
 rc, out = correr(perfil, {"hook_event_name": "SessionStart"}, sin_powershell=True,

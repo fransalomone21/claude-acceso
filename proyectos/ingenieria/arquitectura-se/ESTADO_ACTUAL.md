@@ -7,8 +7,11 @@ los hooks corren por Git Bash y `$CLAUDE_PROJECT_DIR` se expande (**confirmado**
 en la sesión viva); `.claude/settings.json` va **trackeado** con esa variable y
 llega a cualquier clon; en la nube calla lo que no tiene con qué correr y
 `traer-perfil.sh` se corre solo. `nuevo-proyecto.ps1` registra el proyecto en el
-catálogo de la puerta. Falta `cascada.sh` (la puerta en la nube) y una sesión
-real en la nube que lo mida ([`docs/t7-paridad-nube.md`](docs/t7-paridad-nube.md) §4 quinquies).
+catálogo de la puerta. **Y el punto 4:** `.claude/cascada.sh` declara donde no
+hay PowerShell, la puerta corre **sin gate** (en la nube frena y deja declarar;
+sin intérprete falla cerrado) y el autotest de `fase_activa` dejó de esperar una
+fase escrita a mano y entró a `chequeo-completo` (que dio entero en verde). Falta
+una sesión real en la nube que lo mida ([`docs/t7-paridad-nube.md`](docs/t7-paridad-nube.md) §4 quinquies).
 
 **2026-10-02 — T12 CONSTRUIDA: el método pesa menos, medido**
 ([`docs/t12-simplificar.md`](docs/t12-simplificar.md); instrumento

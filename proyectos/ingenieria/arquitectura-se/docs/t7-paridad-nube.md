@@ -190,18 +190,24 @@ de la puerta y de la fase.
 | Gate por **capacidad**, no por etiqueta: `command -v powershell \|\| exit 0`. En la PC powershell existe siempre (no abre un fail-open local); en la nube callan el guardia (no hay ISO) y la puerta (no hay `cascada.ps1` con qué declarar: frenaría todo sin salida). `fase_activa` corre en los dos | `probar-settings.py`, casos 6 y 7 | confirmado en Windows; en la nube `hipótesis` |
 | **Punto 3 del retome — el libro sin depender del aviso:** `SessionStart` corre `traer-perfil.sh` sólo donde no hay PowerShell, y sale 0 siempre para que su ROJO llegue al contexto | `probar-settings.py`, caso 6 (sin PowerShell: dice ROJO y `add_repo`) y 7 (en la PC no corre) | confirmado en Windows simulando la nube; en la nube real `hipótesis` |
 | `cascada_puerta.py` en Linux niega igual que en Windows | WSL (Ubuntu, Python 3.12) con un payload de Edit sin declarar | confirmado |
-| `fase_activa.py` en Linux corre (rc 0) pero **no dice nada** con rutas POSIX | WSL, mismo payload sobre el PDP | `hipótesis` de la causa (rutas); no estorba |
+| ~~`fase_activa.py` en Linux corre (rc 0) pero **no dice nada** con rutas POSIX~~ **Refutada** (2.ª sesión de retome): con una sesión nueva y ruta POSIX **sí** emite la compuerta; el patrón ya aceptaba `/`. El silencio de la medición anterior era, `probable`, la marca de «una vez por sesión» | WSL, sesión nueva, ruta `/mnt/c/...` | confirmado que habla; la causa del silencio viejo, `probable` |
+| **§3 punto 4 — `.claude/cascada.sh`**: envuelve `cascada_puerta.py --exige` con la sintaxis de `cascada.ps1` (`-Necesidad`, `-Excepcion`); elige `python` o `python3`. La puerta reconoce `cascada\.(ps1\|sh)` (también con `bash ` delante) en `LECTURA`, `DECL` y el registro de invocaciones, y el deny nombra el comando que sirve en esa máquina (mismo gate por capacidad: con PowerShell, `cascada.ps1`) | autotest de la puerta: 3 casos nuevos (declarar por `.sh` cuenta, un `echo` que lo nombra no, excepción por `.sh` pasa); con el reconocimiento viejo, **2 MAL** por el motivo correcto (pedía declarar). WSL: `cascada.sh` corre con sólo `python3` y el deny nombra `bash .claude/cascada.sh` | confirmado (Windows y Linux) |
+| **Puerta sin gate** en `settings.json` (Pre, Post y `compact`): `$(command -v python \|\| command -v python3)`, y en `PreToolUse` sin ninguno de los dos sale **2** (falla cerrado). `fase_activa` con el mismo respaldo (WSL no tiene `python`) | `probar-settings.py` casos 6 (precondición: sin PowerShell y con python; la puerta frena y nombra `cascada.sh`; `cascada.sh` lista lo exigido; su declaración cuenta; sin intérprete rc 2): con el `settings.json` viejo **3 FAIL**, con el nuevo verde. En la sesión viva, un `Write` sobre un proyecto sin declarar salió negado con el comando nuevo | confirmado en Windows simulando la nube; en la nube real `hipótesis` |
+| **Hallazgo, sin arreglar a propósito (fase D: no se rediseña en la marcha):** si un archivo que el catálogo exige **no existe** (en la nube sin perfil: la skill `pdf-con-codigo`), la puerta **deja pasar en silencio** — sólo lo anota, y sin otra cosa pendiente sale 0. Es un `return` temprano que falla abierto (Saltzer). Con el perfil traído no pasa; sin perfil, la regla 16 ya frena por otro lado | autotest de la puerta en WSL: «concepto typst sin leer pdf-con-codigo» da **pasa** | confirmado; decisión de diseño pendiente (¿el «NO EXISTE» de un exigido niega, con la reparación del catálogo como salida?) |
 | El saboteador de las líneas de comando: `.claude/probar-settings.py` (16 casos, Git Bash, `bash -c`, payload por stdin), llamado por `probar-hooks.ps1` | rojo con el `settings.json` viejo; 3 rojos con un mutante (gate de la puerta invertido); el enganche en `probar-hooks` también se vio en rojo | confirmado |
 
-**Lo que falta para cerrar R2 (la puerta en la nube):** `cascada.sh` (§3 punto 4) y,
-recién entonces, sacarle el gate a la puerta. Y **una sesión real en la nube** que
-mida tres `hipótesis`: que `CLAUDE_PROJECT_DIR` está puesta, que `command -v
-powershell` falla, y que la salida de `traer-perfil.sh` llega al contexto.
+**Lo que falta para cerrar R2 (la puerta en la nube):** `cascada.sh` y la puerta sin
+gate ya están (arriba). Falta **una sesión real en la nube** que mida cuatro
+`hipótesis`: que `CLAUDE_PROJECT_DIR` está puesta, que `command -v powershell`
+falla, que hay `python` o `python3`, y que la salida de `traer-perfil.sh` llega al
+contexto. Y en esa misma sesión: que la puerta frena el primer Edit sobre un
+proyecto y que `bash .claude/cascada.sh <p> -Necesidad …` la destraba.
 
 ## 5. Orden de construcción
 
 R3 (la prueba de la frontera en Windows) → 3 → 4 → 1-2 → R5 → R6. **Hechos el
-2026-10-02: R3 y 3** (§4 quinquies), más el `traer-perfil` automático. Sigue
-**4** (`cascada.sh`). El rojo de `carrera` sin entrada en `.claude/cascada.json`
+2026-10-02: R3, 3 y 4** (§4 quinquies), más el `traer-perfil` automático y la
+puerta sin gate. Sigue la sesión real en la nube; después 1-2 (lo que queda: el
+perfil ya no necesita copia, §4 quater). El rojo de `carrera` sin entrada en `.claude/cascada.json`
 quedó cerrado, y `nuevo-proyecto.ps1` ahora escribe la fila
 (`probar-nuevo-proyecto.ps1`).

@@ -35,7 +35,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "command -v powershell >/dev/null 2>&1 || exit 0; python \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
+            "command": "\"$(command -v python || command -v python3)\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
             "timeout": 15
           }
         ]
@@ -58,7 +58,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "command -v powershell >/dev/null 2>&1 || exit 0; python \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
+            "command": "P=$(command -v python || command -v python3) || { echo 'PUERTA DE LA CASCADA: no hay python ni python3 con que correr la puerta; falla cerrado' >&2; exit 2; }; \"$P\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
             "timeout": 15,
             "statusMessage": "puerta de la cascada"
           }
@@ -71,7 +71,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/fase_activa.py\"",
+            "command": "\"$(command -v python || command -v python3)\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/fase_activa.py\"",
             "timeout": 15
           }
         ]
@@ -81,7 +81,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "command -v powershell >/dev/null 2>&1 || exit 0; python \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
+            "command": "\"$(command -v python || command -v python3)\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
             "timeout": 15
           }
         ]

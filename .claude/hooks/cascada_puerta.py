@@ -13,7 +13,7 @@ Un solo archivo, una sola implementacion de "que se exige":
   (hook PreToolUse)   Edit/Write/NotebookEdit/Bash/PowerShell que nombra un proyecto o dispara un concepto: DENY
                       con la lista exacta de lo que falta leer/correr, o silencio si esta todo.
   (hook PostToolUse)  Read -> registra el rango leido; Bash/PowerShell -> registra cascada.ps1 -Necesidad/-Excepcion
-                      y los comandos de apertura.
+                      (o .claude/cascada.sh, donde no hay PowerShell: la nube) y los comandos de apertura.
   (hook SessionStart) compact -> lo leido antes deja de contar (un resumen no es una lectura).
   python cascada_puerta.py --exige <proyecto> [--necesidad a,b]   lo que se exige, con rangos (lo usa cascada.ps1)
   python cascada_puerta.py --verificar                            el catalogo contra el disco (rojo = exit 1)
@@ -49,7 +49,7 @@ LECTURA = re.compile(
     r"""Get-Content|gc|cat|type|head|tail|less|more|sed\s+-n|Select-String|sls|grep|rg|ls|dir|Get-ChildItem|gci|"""
     r"""Get-Item|Test-Path|wc|git\s+(log|status|diff|show|rev-parse|ls-files|blame|branch)\b|"""
     r"""python\s+\S*cascada_puerta\.py\s+--(exige|estado|verificar)|"""
-    r"""([\w.:\-]+[\\/])*cascada\.ps1|([\w.:\-]+[\\/])*abrir-sesion\.ps1)""", re.I)
+    r"""((ba)?sh\s+)?([\w.:\-]+[\\/])*cascada\.(ps1|sh)|([\w.:\-]+[\\/])*abrir-sesion\.ps1)""", re.I)
 FILTRO = re.compile(r"^\s*(Select-Object|select|Select-String|sls|Where-Object|where|Measure-Object|measure|"
                     r"Sort-Object|sort|Format-\w+|ft|fl|Out-String|head|tail|grep|wc|uniq|findstr|more|less)\b", re.I)
 REDIRS_INOCUAS = re.compile(r"\s[12]?>\s*(\$null|/dev/null|&1)", re.I)
@@ -335,6 +335,13 @@ def rel(p: str) -> str:
     return p[len(r) + 1:] if p.lower().startswith(r.lower()) else p
 
 
+def entrada() -> str:
+    """El comando que declara, segun lo que hay en ESTA maquina: el mismo gate por capacidad que settings.json. En la
+    nube no hay PowerShell, y pedir '.\\cascada.ps1' ahi es un freno sin salida."""
+    import shutil
+    return ".\\cascada.ps1" if shutil.which("powershell") else "bash .claude/cascada.sh"
+
+
 def menu(cat: dict) -> str:
     return "\n".join("    %-19s %s" % (n, d.get("que", "")) for n, d in cat.get("necesidades", {}).items())
 
@@ -380,9 +387,10 @@ def pre(ev: dict) -> int:
             return deny(
                 "PUERTA DE LA CASCADA (T11): vas a actuar sobre '%s' sin haber declarado la NECESIDAD.\n"
                 "Clasifica el pedido de Fran (puede ser mas de una) y corre:\n"
-                "    .\\cascada.ps1 %s -Necesidad <a,b>\n  Necesidades:\n%s\n"
+                "    %s %s -Necesidad <a,b>\n  Necesidades:\n%s\n"
                 "Despues lee con Read lo que imprima, con los rangos que diga. Solo si de verdad no corresponde: "
-                ".\\cascada.ps1 %s -Excepcion \"motivo\" (queda registrada)." % (proyecto, proyecto, menu(cat), proyecto))
+                "%s %s -Excepcion \"motivo\" (queda registrada)." % (proyecto, entrada(), proyecto, menu(cat),
+                                                                     entrada(), proyecto))
         it, cm, nt = exigido(cat, proyecto, st["declaradas"][proyecto], [])
         faltan += it
         cmds_faltan += cm
@@ -396,7 +404,7 @@ def pre(ev: dict) -> int:
     hechos = " || ".join(c.replace("\\", "/").lower() for c in st["comandos"])
     cpend = [c for c in cmds_faltan if c["sub"].lower() not in hechos]
     if any(n.startswith("NECESIDAD DESCONOCIDA") for n in notas):
-        cpend.append({"sub": ".\\cascada.ps1 %s -Necesidad <una del menu>" % proyecto, "por": "declarada una que no existe"})
+        cpend.append({"sub": "%s %s -Necesidad <una del menu>" % (entrada(), proyecto), "por": "declarada una que no existe"})
     if not pend and not cpend:
         return 0
     lin = ["PUERTA DE LA CASCADA (T11): antes de esta accion (%s%s) falta LEER con la herramienta Read:" % (
@@ -411,7 +419,7 @@ def pre(ev: dict) -> int:
     return deny("\n".join(lin))
 
 
-DECL = re.compile(r"cascada\.ps1\W+([A-Za-z0-9_.-]+)(.*)", re.I | re.S)
+DECL = re.compile(r"cascada\.(?:ps1|sh)\W+([A-Za-z0-9_.-]+)(.*)", re.I | re.S)
 
 
 def post(ev: dict) -> int:
@@ -467,7 +475,7 @@ def registrar_comando(sid: str, cmd: str):
     cortes.append(len(cmd))
     segmentos = [cmd[cortes[i]:cortes[i + 1]] for i in range(0, len(cortes) - 1, 2)]
     for seg in segmentos:
-        if re.match(r"""\s*(&\s*)?["']?[\w.:\\/\-]*(abrir-sesion|cascada)\.ps1\b""", seg, re.I):
+        if re.match(r"""\s*(&\s*)?((ba)?sh\s+)?["']?[\w.:\\/\-]*(abrir-sesion\.ps1|cascada\.(ps1|sh))\b""", seg, re.I):
             registrar_invocacion(sid, seg)
 
 
@@ -487,7 +495,7 @@ def registrar_invocacion(sid: str, cmd: str):
                 LOG_EXC.parent.mkdir(parents=True, exist_ok=True)
                 with open(LOG_EXC, "a", encoding="utf-8") as fh:
                     fh.write("%s\t%s\t%s\t%s\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), sid, proy, e.group(1)))
-    if re.search(r"abrir-sesion|cascada\.ps1", cmd, re.I):
+    if re.search(r"abrir-sesion|cascada\.(ps1|sh)", cmd, re.I):
         anotar(sid, {"t": "cmd", "cmd": cmd.replace("\\", "/")})
 
 
@@ -544,7 +552,7 @@ def cli_exige(proyecto: str, necs) -> int:
         if hs:
             print("  HERRAMIENTAS Y RESPALDO (%s): %s" % (n, " | ".join(hs)))
     if not necs:
-        print("  NECESIDAD SIN DECLARAR. La puerta no deja actuar hasta: .\\cascada.ps1 %s -Necesidad <a,b>" % p)
+        print("  NECESIDAD SIN DECLARAR. La puerta no deja actuar hasta: %s %s -Necesidad <a,b>" % (entrada(), p))
         print(menu(cat))
     print("  PREGUNTA DE MARCO, antes de actuar: que tendria que ser verdad para que esto sea el problema "
           "equivocado? Si depende de lo que Fran quiere y no de lo tecnico, se le pregunta.")
@@ -728,6 +736,19 @@ def autotest() -> int:
     correr(pre_ev("PowerShell", {"command": ".\\cascada.ps1 black -Necesidad ninguna"}, s5))
     caso("declaracion vista SOLO en PreToolUse -> ya no pide declarar", correr(pre_ev(*edit_black, s=s5)), True,
          "falta LEER")
+    # 10d. la nube no tiene PowerShell: se declara con cascada.sh (T7 §3 punto 4), y tiene que contar igual. Un
+    # texto que solo lo NOMBRA no declara.
+    s9 = sid + "-sh"
+    correr(pre_ev("Bash", {"command": "bash .claude/cascada.sh black -Necesidad diseno"}, s9))
+    caso("declaracion por cascada.sh (la nube) -> ya no pide declarar", correr(pre_ev(*edit_black, s=s9)), True,
+         "falta LEER")
+    s10 = sid + "-sh-echo"
+    correr(pre_ev("Bash", {"command": "echo bash .claude/cascada.sh black -Necesidad diseno"}, s10))
+    caso("un echo que NOMBRA cascada.sh no declara -> sigue pidiendo", correr(pre_ev(*edit_black, s=s10)), True,
+         "-Necesidad")
+    s11 = sid + "-sh-exc"
+    correr(pre_ev("Bash", {"command": ".claude/cascada.sh black -Excepcion \"autotest: la nube\""}, s11))
+    caso("CONTROL: excepcion por cascada.sh -> pasa", correr(pre_ev(*edit_black, s=s11)), False)
     # 11. otra sesion no hereda nada (A11: dos sesiones en el mismo arbol)
     caso("otra sesion no hereda lo leido por esta -> deny", correr(pre_ev(*edit_black, s=sid + "-d")), True)
     # 12. falla cerrado con catalogo roto; la salida de reparacion pasa igual
