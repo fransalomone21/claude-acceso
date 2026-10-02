@@ -89,6 +89,22 @@ crítico (`diagnostico-2026-09-28.md` §3), adelantada por necesidad real.
   generador, el resumen manual dice «si discrepan, gana el privado» y nadie
   mide la divergencia (hueco declarado).
 
+- **Todo lo privado va a GitHub privado** (Fran, 2026-10-02: «poder seguir
+  avanzando proyectos en nube cuando me quedo sin créditos, no me importa cómo;
+  la única indicación es que lo mantengas todo privado para mí lo de GitHub, y
+  lo público del Drive es lo que ya convenimos»). Consecuencia: cada repo propio
+  sin remote (`catedras`, `clases-aed`, `cohete-de-agua`, `teoria-circuitos`,
+  `haberes-docentes`) se crea **privado** con su nombre; el material de cátedra
+  (`catedras/fisica-espacial/iluminacion-final.pdf`) va también, porque es
+  privado y GitHub privado es su destino. Drive: sin cambios. Lo hace el paso 3
+  de `herramientas/cierre-desde-la-nube.ps1`, que frena si un remote resulta
+  público o si hay un archivo de más de 95 MB.
+- **Pregunta abierta para Fran:** `claude-acceso` mismo es **público** (por
+  diseño desde el inicio, y la decisión 1 de arriba publica ahí el método). Si
+  «todo privado lo de GitHub» lo incluye, hay que pasarlo a privado desde la
+  web de GitHub (Settings → Danger zone → Change visibility); la integración de
+  Claude no puede cambiar la visibilidad.
+
 ## 4 bis. Lo que la 2.ª sesión en la nube cambia del diseño
 
 1. **§3 punto 3 no alcanza tal cual.** Cambiar las rutas de `settings.json` a

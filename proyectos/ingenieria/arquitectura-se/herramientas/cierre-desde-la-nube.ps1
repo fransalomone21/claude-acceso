@@ -8,8 +8,10 @@
 
     1. claude-acceso: pull y verificar-estructura (rojo = se frena, NO se publica nada)
     2. perfil-global: commit de lo pendiente, pull y push (la nube lo puede leer)
-    3. catedras: si no tiene remote, crea el repo PRIVADO en GitHub y lo sube. Se frena
-       antes si hay PDF/PPT/ZIP trackeados (subir material de la catedra es otra decision).
+    3. repos propios (catedras, clases-aed, cohete-de-agua, teoria-circuitos, haberes-docentes,
+       coaching...): los que no tienen remote se crean PRIVADOS en GitHub y se suben; los que
+       tienen, pull y push. Instala gh si falta. Frena si un remote es publico o si hay un
+       archivo de mas de 95 MB (GitHub no lo acepta).
     4. apunte de C: verificador, saboteador, revisar-pdf y su saboteador (el PDF del repo ya
        esta compilado: recompilarlo solo cambia la fecha y ensucia el arbol)
     5. publicar-apuntes y -Verificar (cierra la fase 1 de software-de-vuelo)
@@ -61,36 +63,55 @@ Correr 'push de perfil-global' { git push }
 Pop-Location
 
 # ---------------------------------------------------------------- 3
-Paso '3. catedras: repo privado en GitHub'
-$catedras = Join-Path $raiz 'proyectos\documentos\catedras'
-if (-not (Test-Path (Join-Path $catedras '.git'))) { Frenar "no encuentro $catedras como repo" }
-Push-Location $catedras
-if (git status --porcelain) {
-    git add -A
-    Correr 'commit de catedras' { git commit -m "catedras: estado local antes de subirlo a GitHub" }
+# Decision de Fran (2026-10-02): todo lo privado va a GitHub PRIVADO, para poder seguir cualquier
+# proyecto desde la nube; a Drive va solo lo publico ya convenido. Cada repo propio (carpeta con
+# .git adentro de proyectos/) que no tenga remote se crea privado con su mismo nombre y se sube.
+# Un remote que resulte PUBLICO frena: nada privado a un repo publico.
+Paso '3. repos propios: privados en GitHub, para que la nube los pueda abrir'
+if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
+    Write-Host 'No esta gh (GitHub CLI): se instala con winget...'
+    winget install --id GitHub.cli -e --silent --accept-package-agreements --accept-source-agreements
+    $env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [Environment]::GetEnvironmentVariable('Path', 'User')
+    if (-not (Get-Command gh -ErrorAction SilentlyContinue)) { Frenar 'no se pudo instalar gh: bajarlo de https://cli.github.com y volver a correr' }
 }
-$remotos = @(git remote)
-if ($remotos -contains 'origin') {
-    Correr 'pull de catedras' { git pull --no-rebase }
-    Correr 'push de catedras' { git push }
-} else {
-    $pesados = @(git ls-files | Where-Object { $_ -match '\.(pdf|pptx?|zip|docx?)$' })
-    if ($pesados.Count -gt 0) {
-        Write-Host "Archivos de material trackeados en catedras:" -ForegroundColor Yellow
-        $pesados | ForEach-Object { Write-Host "  $_" }
-        Frenar 'catedras tiene material de la catedra trackeado: decidir si sube a GitHub (privado) antes de seguir'
+gh auth status *> $null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host 'gh no tiene sesion: se abre el navegador para entrar con tu cuenta de GitHub.'
+    Correr 'gh auth login' { gh auth login --hostname github.com --git-protocol https --web }
+}
+$cuenta = 'fransalomone21'
+$propios = Get-ChildItem -Path (Join-Path $raiz 'proyectos') -Directory -Recurse -Depth 2 |
+    Where-Object { Test-Path (Join-Path $_.FullName '.git') }
+foreach ($r in $propios) {
+    $nombre = $r.Name
+    Write-Host "`n-- $nombre ($($r.FullName))"
+    Push-Location $r.FullName
+    if (git status --porcelain) {
+        git add -A
+        Correr "commit de $nombre" { git commit -m "$($nombre): estado local antes de pasar a la nube" }
     }
-    if (Get-Command gh -ErrorAction SilentlyContinue) {
-        Correr 'crear fransalomone21/catedras PRIVADO y subirlo' {
-            gh repo create fransalomone21/catedras --private --source . --remote origin --push
+    $grandes = @(git ls-files | Where-Object { (Test-Path -LiteralPath $_) -and ((Get-Item -LiteralPath $_).Length -gt 95MB) })
+    if ($grandes.Count -gt 0) { Frenar "$nombre tiene archivos de mas de 95 MB, que GitHub no acepta: $($grandes -join ', ')" }
+    if (-not (@(git remote) -contains 'origin')) {
+        gh repo view "$cuenta/$nombre" *> $null
+        if ($LASTEXITCODE -eq 0) {
+            Correr "agregar el remote de $cuenta/$nombre (ya existia)" { git remote add origin "https://github.com/$cuenta/$nombre.git" }
+        } else {
+            Correr "crear $cuenta/$nombre PRIVADO" { gh repo create "$cuenta/$nombre" --private --source . --remote origin }
         }
-    } else {
-        Frenar ("no hay 'gh'. Crear a mano en https://github.com/new el repo 'catedras', PRIVATE, sin README, " +
-                "y despues: git -C `"$catedras`" remote add origin https://github.com/fransalomone21/catedras.git ; " +
-                "git -C `"$catedras`" push -u origin HEAD ; y volver a correr este script")
     }
+    $url = (git remote get-url origin).Trim()
+    $vis = (gh repo view $url --json visibility --jq .visibility).Trim()
+    if ($vis -ne 'PRIVATE') { Frenar "$nombre apunta a $url, que es ${vis}: lo privado no va a un repo publico" }
+    git rev-parse --abbrev-ref '@{u}' *> $null
+    if ($LASTEXITCODE -eq 0) {
+        Correr "pull de $nombre" { git pull --no-rebase }
+        Correr "push de $nombre" { git push }
+    } else {
+        Correr "primer push de $nombre" { git push -u origin HEAD }
+    }
+    Pop-Location
 }
-Pop-Location
 
 # ---------------------------------------------------------------- 4
 Paso '4. apunte de C: medir'
@@ -122,6 +143,7 @@ if (Test-Path $stm) {
 # ---------------------------------------------------------------- fin
 Paso 'Listo. Sigue siendo a mano (para la proxima sesion local)'
 @(
+  '- en claude.ai/connect-github: si la GitHub App de Claude esta en "repositorios seleccionados", sumar los repos nuevos',
   '- registrar con aprender.py las lecciones de los HANDOFF (software-de-vuelo: 3; arquitectura-se: 1)',
   '- cotejar Practico 1 (ej. 2 y 4 a 9), Practico 2 ej. 1 y Practico 3 (ej. 3 y 4) contra los ejemplos del apunte',
   '- en la placa: leer *(volatile uint32_t *)0 en el depurador (modulo 8)',
