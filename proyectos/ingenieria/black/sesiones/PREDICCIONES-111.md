@@ -84,6 +84,19 @@ camina 8,9 m. La lectura de T3a («el controlador no guarda copia») era de busc
 controlador, que es chico y apunta afuera): queda corregida acá y en `docs/16`. En Town alcanzó una escritura porque
 el controlador estaba quieto (hipótesis: en City Streets lo mantiene activo el títere superpuesto a J2).
 
+## F2 — J2 cambia de arma (escrita antes; J2 tiene dos armas desde S1)
+Mecanismo (`docs/16`, (100), `probable`): el cambio pasa por `FUN_00143D90` → `FUN_001AC960` → el envoltorio de la
+ranura 3 (`0x001ACA84`, (93s)), por jugador. **Predicción:** J2 aprieta `arma_a` (6) 0,3 s → su arma en la mano
+(`J2+0x2A4`) pasa de `0x6dead0` a `0x6de7a0` e índice `+0x2C3` 1 → 0 en < 2 s; las de J no cambian.
+**Control:** 2 s sin apretar nada: no cambia. **Refuta:** no cambia (el cambio de arma de J2 no corre) o cambia la de J.
+
+**Resultado F2:** control: igual a los 2 s. Con `arma_a`: J2 `0x6dead0`/1 → `0x6de7a0`/0, y de vuelta con otro
+`arma_a`; J sigue en `0x6de690`/0. **Confirmado.**
+**De paso, F7 visto con control** (`volcados/campana/f2-cambio.png` y `f2-arma-nueva.png`): con J2 en la pistola las
+dos mitades muestran pistola; con J2 en el AK **las dos mitades muestran el AK**, con J todavía con la pistola en RAM.
+El modelo del arma en primera persona es uno solo y lo pone el último que cambió (el «sub» compartido de (102)): la
+dirección J2 → J queda confirmada en pantalla, y con ella la elección del sub3 propio (B8).
+
 ## T1b — J2 muere por daño REAL (escrita después de `t1-ia-1`, antes de esta corrida)
 Banco: el mismo, con la vida de J2 en 40 escrita a mano (la vida en 0 escrita no mata, (93f); acá el 0 lo pone el daño)
 y J en 1e6. **Predicción:** al llegar a 0 por los disparos, J2 pasa a su segundo controlador (`J2+0x32C` =

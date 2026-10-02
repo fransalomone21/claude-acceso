@@ -33,6 +33,9 @@ global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) 
 - **N12 a medias:** reiniciar misión anda (110); «continuar» no se pudo elegir sin punto de control alcanzado.
 - **F1 (y N9) con su sonda del concepto confirmada:** J2 junta el arma que está bajo J, no la suya (`s1_juntar.py`);
   el diseño de `docs/16` (preguntar también por J2, `CAND2`) queda apoyado en algo medido. Construirlo es de la C.
+- **F2 CERRADA:** J2 cambia de arma con su mando (confirmado con control).
+- **F7 confirmado en pantalla con control, dirección J2 → J:** el arma que J2 tiene en la mano se dibuja en las dos
+  mitades (el último que cambia manda). El arreglo sigue siendo el sub3 propio (B8).
 
 ## Lo que ya se vio (Fran o las sondas)
 
