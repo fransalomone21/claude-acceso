@@ -15,6 +15,11 @@ crítico (`diagnostico-2026-09-28.md` §3), adelantada por necesidad real.
 | La puerta sólo reconoce `cascada.ps1` | regex `DECL` y `LECTURA` de `cascada_puerta.py` (líneas ~52 y ~414) | confirmado (leído) |
 | Los criterios de cátedra viajan **pegados** en el retome | `catedras` es privado y **sin remote**: en la nube no existe | confirmado |
 | `python` existe en la nube | la sesión de la nube corrió `verificar-ejemplos.py` | confirmado |
+| **Causa raíz de que no corran los hooks:** en el clon de la nube **no hay** `.claude/settings.json` | está en `.gitignore` (línea 51) y lo **genera** `.claude/instalar-hooks.ps1` con la ruta medida de la máquina; en la nube nadie lo corre. Las rutas `C:\...` son un segundo problema, detrás de éste | confirmado (2.ª sesión en la nube: `ls -a .claude/` sin `settings.json`) |
+| typst y pymupdf **no vienen** en el contenedor, en ninguna sesión | `typst: command not found` y `No module named 'fitz'` al arrancar; se bajan en ~10 s | confirmado (dos sesiones) |
+| Un `rm -f $S/*.png` lo **bloquea** un chequeo de seguridad de Claude Code en la nube (variable que podría quedar vacía) | el comando entero no corrió; la salida propone `"${S:?}"/*.png` | confirmado (2.ª sesión) |
+| El retome puede pedir algo que en la nube **no existe** | el de la 2.ª sesión pedía «buscar en el Práctico qué ejercicios toca el módulo»; el Práctico es material de la PC. Se resolvió dejándolo como `hipótesis` en el ESTADO | confirmado |
+| `git push origin HEAD:main` **anda** desde la nube | commits `83dea96`, `f1b58bf`, `5ed2d60` | confirmado |
 
 ## 2. Requisitos (verificables)
 
@@ -71,14 +76,47 @@ crítico (`diagnostico-2026-09-28.md` §3), adelantada por necesidad real.
    «sin fan-out»), rclone/Drive (lo publica la PC con un pull), los repos
    privados sin remote.
 
-## 4. Pendiente de Fran (valor, no técnica)
+## 4. Decidido por Fran (2026-10-02)
 
-- ¿Se publica la copia del perfil (método sin lecciones) en este repo
-  público? `metodo-agustin` ya apunta a compartir el método filtrado, así que
-  se asume **sí** salvo que diga lo contrario.
-- ¿Los criterios de Leandro pueden ir como resumen público fechado en
-  `software-de-vuelo/docs/`? (Ya están en parte en las cajas `#catedra` del
-  apunte público.)
+- **Sí**, la copia del perfil (método **sin lecciones**) se publica en este
+  repo público: «Esta cuenta es mía ahora, ya no comparto con Agustín».
+  Registrado también en `metodo-agustin` (PDP §6), cuyas fases 1 y 2 cambian.
+- **Sí**, los criterios de Leandro van como resumen público fechado: «son
+  interpretaciones nuestras». Hecho a mano en
+  `software-de-vuelo/docs/CRITERIOS-LEANDRO.md` (la regla 3 del proyecto lo
+  dice). R7 pide que salga **generado** desde `catedras`: hasta que exista el
+  generador, el resumen manual dice «si discrepan, gana el privado» y nadie
+  mide la divergencia (hueco declarado).
+
+## 4 bis. Lo que la 2.ª sesión en la nube cambia del diseño
+
+1. **§3 punto 3 no alcanza tal cual.** Cambiar las rutas de `settings.json` a
+   `$CLAUDE_PROJECT_DIR` no sirve si el archivo no llega al clon. Opciones:
+   **(a)** trackear un `.claude/settings.json` con rutas relativas a
+   `$CLAUDE_PROJECT_DIR` y que `instalar-hooks.ps1` deje de generarlo (lo
+   local se vuelve a medir con R3); **(b)** dejarlo ignorado y que el *setup
+   script* del entorno de la nube (se edita en claude.ai, en el menú del
+   entorno de la sesión → Edit → Setup script) lo genere con un instalador
+   Linux. La (a) tiene un solo dueño y se ve en el diff; la (b) esconde una
+   pieza fuera del repo. **Recomendada: (a)**, con R3 primero.
+2. **Herramientas del contenedor:** typst 0.15 y pymupdf se pueden instalar
+   en el *setup script* del entorno (corre antes de cada sesión nueva) en vez
+   de en `nube.py arranque`. Lo del setup script no está versionado: si se
+   elige, se copia su texto a `.claude/nube/setup-script.sh` y un medidor
+   compara (como R4).
+3. **R6 necesita un control del retome:** antes de escribir el retome,
+   `pasar-a-nube.ps1` tiene que mirar que lo que manda leer **existe en el
+   clon** (no en un repo privado sin remote ni en el Escritorio). Lo que no
+   existe se marca en el retome como «no está en la nube: queda como
+   `hipótesis`», que es lo que esta sesión hizo a mano.
+4. **R5 tiene hoy una versión manual:** las lecciones de la nube van al
+   HANDOFF del proyecto en un bloque «LECCIONES PARA aprender.py (las registra
+   la PC)». Hoy hay **un** archivo con ese bloque
+   (`software-de-vuelo/HANDOFF.md`, 1 lección). La bandeja de R5 reemplaza
+   eso, y mientras tanto el arranque local podría buscar ese título con `grep`
+   (barato, y no se pierde ninguna).
+5. **En los scripts, `rm` con variable lleva `"${VAR:?}"`**: lo pide el chequeo
+   de seguridad de la nube, y es más sano igual.
 
 ## 5. Orden de construcción
 

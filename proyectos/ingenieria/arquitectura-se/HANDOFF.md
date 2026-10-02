@@ -1,5 +1,7 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (nube, 2.ª sesión) — T7 con evidencia nueva y las dos decisiones de Fran.** La causa raíz de que no corran hooks en la nube es que `.claude/settings.json` **no está en el clon** (gitignored, lo genera `instalar-hooks.ps1`): el punto 3 del diseño no alcanza tal cual. Fran dijo **sí** a las dos preguntas del §4 (método público sin lecciones; criterios de Leandro en resumen público, ya hecho a mano). Todo en [docs/t7-paridad-nube.md](docs/t7-paridad-nube.md) §1, §4 y §4 bis. Sigue sin construirse nada: R3 primero, en la PC.
+
 > **2026-10-02 (noche, plan al 97 %) — T7 ADELANTADA: paridad nube/local.** Fran pidió un método general para pasar a la nube sin pensar el «cómo». Medido: en la nube no corre ningún hook (rutas C:\), el perfil es repo privado, prender.py no está. Diseño y requisitos R1-R7 en [docs/t7-paridad-nube.md](docs/t7-paridad-nube.md); **nada construido todavía**. Primero R3: probar en Windows que los hooks expanden \ (si no, la puerta local falla abierta). Rojo abierto: carrera sin entrada en .claude/cascada.json.
 
 > **2026-10-02 (tarde) — VALIDACIÓN 5 DE 5 de T11/T12: la sesión de BLACK (114)**, `eb1dd110` (caliente, con Fran
