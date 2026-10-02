@@ -424,8 +424,8 @@ sitios nuevos** (dos de la IA, dos del HUD).
 
 | Cuándo | Qué | Primitiva | Dónde | Estado |
 |---|---|---|---|---|
-| **una vez por arranque** | armar `V2` con las funciones del juego (como `V` en `FUN_001E82A8`, en el montón del juego; bandera como `R3_ARMADA`) | duplicar | código de una vez, desde la ventana 1 | receta sin leer (qué parte de `FUN_001E82A8` y qué inicialización posterior le pone las muestras de sonido) |
-| **por nivel** | sub propio para R3 al cargarla; `CAND2` = 0 | duplicar | junto a la carga de R3 (`0x001295A8`/`0x001ACA84`) | receta sin leer (`FUN_001A8168`) |
+| **una vez por arranque** | armar `V2` con las funciones del juego (como `V` en `FUN_001E82A8`, en el montón del juego; bandera como `R3_ARMADA`) | duplicar | código de una vez, desde la ventana 1 | **(116) receta leída; para el sonido NO se usa** (ver «La pieza 2 a nivel instrucción»): queda para el fogonazo (F8) |
+| **por nivel** | sub propio para R3 al cargarla; `CAND2` = 0 | duplicar | **(116) en `FUN_001AC960` (`0x001ACA2C`)**, el envoltorio `0x001ACA84` y el por cuadro `0x001295A8` | **(116) receta leída, diseñada con la regla del dueño de plantilla** |
 | **por cuadro, ventana 1** (antes de actualizar a J2) | (a) cabecera sombra ← juego; (b) juntar por J2: activar y consultar alrededor de `J2+0xA0` con el callback conmutado (`*(0x0040F4D0)` = `J2 − 0x30`) → `CAND2`; (c) `X+0xC` ← `V2`; `pickups+0x5848/+0x584C` ↔ `CAND2`; bandera de silencio del HUD = 1; **(108) `J2+0x5F0` ← `J+0x5F0`** (la muerte de J2 termina la partida como la de J) | P2, P3, P5 | stub por cuadro | diseñado |
 | ventana 1, **después** de actualizar a J2 | todo lo de (c) vuelve; silencio = 0 | — | ídem | diseñado |
 | **por cuadro, IA** | ver y visibles: J y, con `FASE` = 2, J2 | P1 | `0x0018FC4C`, `0x0019098C` | diseñado; sonda T2 |
@@ -730,3 +730,83 @@ quieto (Town) y se pisa en el mismo cuadro si está activo (City Streets): el ca
 **Corrección:** la primera lectura de (111), «el controlador no guarda copia», buscó en el lugar equivocado.
 El sitio y la memoria están en `coop-plan-b` (docs/14), verificados contra el ELF. Falta, para la C: escribirlo y
 medirlo en un cambio de unidad real (y, de paso, el síntoma sin el arreglo, que es su control).
+
+## La pieza 2 a nivel instrucción (116, notebook en frío): el sonido sin `V2`, y el sub3 con dueño de plantilla
+
+> COOP-C pieza 2 (PDP §4). Las dos recetas que la tabla «Qué pasa, cuándo y dónde» tenía **sin leer**, leídas en el
+> decompilado y en las instrucciones (`confirmado en frío` salvo donde dice otra cosa). Las dos cambian el diseño de
+> T4/T5: por la regla de la C, el cambio se escribe acá y en `coop-plan-b` **antes** del stub.
+
+### `V2`: la receta leída, y por qué el sonido NO la usa
+
+- **Construcción** (`FUN_001E82A8`, una vez por arranque): `V` = `FUN_00107CF8(0x1C50)` (el montón `0x0040F0F0`), las 6
+  sub-ranuras con vtables `0x003E2898`/`0x003E0910` (base `V+0x428`, paso `0x430`) y `FUN_001D6488(V)`: 4 bloques de
+  `0xB8`, el emisor en `V+0x40` (`FUN_00280A08`) y **`DAT_0042A3D0` = 0, un global** (efecto lateral).
+- **La carga es por nivel y asincrónica** (`FUN_001D65F8`, estado en `V+0x1C2C`): carga el banco «`%s` Level.awd»
+  (`FUN_0027FF78`, en `V+0x1C00`), las **dos muestras del disparo** de la ficha del jugador
+  (`*(*(0x0040F4D0)+0x5AEC)+0x220/+0x228` → `V+0x1C0C`/`+0x1C10`: **no dependen del arma**), el emisor y las pistas
+  de las 6 sub-ranuras. La descarga (`FUN_001D6CB8`) suelta todo eso.
+- **Quién la maneja: no es el global.** Las tres máquinas de estado del contexto (`X+0x44`, `+0x48`, `+0x4C`; vtables
+  `0x003E0778`, `0x003E0740`, `0x003E0708`) se construyen con una **copia** de la tabla de punteros del contexto
+  (`FUN_001E8120`: `V` en `+0x178`). La carga de `V` la hace un método de `X+0x44` (`FUN_001E8B60` → `FUN_001D65F8`)
+  con su copia. **Corrige a T4:** «todos por el global `X+0xC`» vale para el código de armas, no para la carga ni
+  para los cambios de estado; conmutar `X+0xC` no los redirige.
+- **Costo de `V2` medido en frío:** un segundo banco «Level.awd» por nivel (memoria de sonido duplicada, sin medir si
+  entra), su carga y su descarga propias (dos máquinas de pasos que hoy maneja otro objeto) y difundir los cambios de
+  las tres máquinas (P4). Es lo más caro de toda la C.
+- **Lo que el sonido necesita es mucho menos:** `FUN_001D6F90(V)` (el disparo) hace tres cosas — el conjunto del arma
+  si cambió (`FUN_001D6E78`), la pista (`FUN_001F0678`) y, con `*(*(X+0x24)+0x1E54)` = 0, **`FUN_001D7020(V)`**, que
+  sólo alterna las dos muestras y las crea en el emisor `V+0x40` con el volumen `V+0x1C48`. Ninguna toca el estado
+  del arma de J más que el generador al azar `V+0x2A0`.
+
+> **REFUTADO EN VIVO el mismo día (116, `sesiones/PREDICCIONES-116.md`):** `FUN_001D7020` **no es el sonido audible**
+> del disparo: con J disparando su azar no avanza (`V+0x1C44` = 0; volumen `V+0x1C48` = 0 en 15 de 16 volcados). La
+> pieza quedó apagada (`CON_SONIDO = False`). El sonido sale de otra parte de `FUN_001D6F90` — la pista
+> `FUN_001F0678` (sus eventos) o `FUN_001D6E78`, `hipótesis` —; si es la pista, sonido y animación vienen juntos y la
+> opción 1 (`V2`) vuelve a ser la candidata. Lo de abajo queda como registro de lo que se probó.
+
+**Elección (cambia la de T4): opción 2, «aislador + sonido»**, a nivel instrucción en `herramientas/coop_sonido.py`
+(13 palabras en la reserva nueva «sonido de J2 (código)» `0x0046EE00`; en cero en los 16 volcados, control no cero):
+el envoltorio 4 del aislador (el de `FUN_001D6F90`), en vez de `jr ra`, salta a `SONJ2`, que repite la guarda de la
+original (`0x001D6FC8`–`0x001D6FE4`) y hace `j FUN_001D7020` con `a0` = `V` intacto (vuelve directo al que disparó).
+`coop_diseno.py` regla 9. **Lo que se acepta:** suena «en la cabeza» como el de J (N5, ya aceptado) y con las mismas
+muestras (las carga el nivel); si el emisor tiene una sola voz, el disparo de uno puede cortar el del otro (a medir).
+**Lo que queda afuera:** el fogonazo y la pista de la vista para J2 (F8): `V2` queda como el camino para eso, con su
+receta escrita arriba; es estética (Fran (106): «lo estético y el balance, después»). El invariante 5 cambia de
+sujeto: el aislador **sigue prendido** y la pieza vive adentro de él; `--sin-sonido` es el control (S4 de (111)).
+
+### sub3: la receta leída, y el peligro que no estaba en T5
+
+- **El sub es una estructura de `0x6C` B** (`pers+0x398+i·0x6C`, `pers` = `*(0x0040F50C)`), construida **una vez por
+  arranque** por `FUN_001A80F8`: aloja `0xB0` B (el mapa de huesos, `+0x30`) y **18 000 B** (su arena, `+4`), del mismo
+  montón que la ranura 3. **Se rearma con cada arma** sólo por `FUN_001AC960` (el cargador del aparejo, desde
+  `FUN_00143D90`: el constructor del jugador `0x00139C68` y los dos cambios de arma `0x0015BBD8`/`0x0015C3C8`), con
+  `FUN_001A8168(sub, plantilla, tabla, *(pers+0x940))`. `FUN_001ACAC8` (la carga por nivel) arma **otro** juego de
+  subs (`pers+0xF8+k·0x60`), no éste (medido en `0x001ACDF0`: `a0 = pers+0xF8+…`).
+- **El peligro (`confirmado en frío`):** `FUN_001A8168` instancia la **plantilla** del arma (`sub+8` = un recurso del
+  nivel, el mismo para cualquiera que tenga esa arma) **dentro de la arena del sub** y guarda los punteros **en la
+  plantilla** (`FUN_00342A80`: plantilla `+0x20`, `+0x24`, `+0x28`, `+0x2C`). La ranura los lee al cargarse
+  (`FUN_00345510`) **y por cuadro** (`FUN_001A54E0` ← `0x00132D98` → `FUN_001A7D48`). En el juego original nunca hay
+  dos subs con la misma plantilla (un jugador no tiene dos armas iguales); con J y J2 es el caso **común** (arrancan
+  con la misma pistola). Con un sub3 ingenuo: J2 cambia a otra arma → la arena del sub3 se rearma → la plantilla de la
+  pistola queda apuntando a basura → J cambia de arma y vuelve a la pistola → su ranura lee basura (`hipótesis` de
+  cuelgue; el mecanismo, en frío).
+- **La regla que lo evita («dueño de plantilla»):** después de armar un sub S con la plantilla Bn (la vieja era Bo),
+  (1) se guarda la cuádrupla de Bn (`+0x20..+0x2C`) como la de S; (2) si otro sub T de los tres (`sub0`, `sub1`,
+  sub3) todavía tiene Bo (`T+8` = Bo) y Bo ≠ Bn, se le vuelve a escribir a Bo la cuádrupla guardada de T. Funciona
+  porque la arena de T conserva entera su instancia de Bo (nadie la pisó): sólo hay que volver a apuntarla.
+
+**Diseño a nivel instrucción (sin código todavía):**
+
+| Sitio | Hoy | Con sub3 |
+|---|---|---|
+| `0x001ACA2C` `jal 0x1A8168` (delay `move a0, s0`) | arma `sub_i` de J aunque el arma sea de J2 (F7) | `jal SUBH`: si `s7` (el jugador) = J2, arma sub3 una vez por arranque (`FUN_001A80F8`, bandera como `R3_ARMADA`) y cambia `s0`/`a0` a sub3; llama `FUN_001A8168`; aplica la regla del dueño. El resto de `FUN_001AC960` usa `s0`: queda sobre sub3 |
+| envoltorio de la ranura 3 (`0x001ACA84`) | carga R3 con `a2` = `sub_i` y recarga `r_i` de J | con R3 armada y sub3 armado: `a2` = sub3 y **no** recarga `r_i` (no se tocó) |
+| por cuadro de la ranura 3 (`0x001295A8`) | carga R3 con `sub_i` | si sub3 se armó en este nivel (`SUB3_MOLDE` = `MOLDES`), con sub3 |
+| desarme (`0x00129E38`) | baja R3 | además `SUB3_MOLDE` = 0 y la cuádrupla de sub3 inválida (la memoria es por arranque, como R3) |
+
+Memoria: sub3 (`0x6C`) + bandera + `SUB3_MOLDE` + tres cuádruplas (`0x30`) ≈ `0xA8` B — **no entra** en la reserva
+vieja «sub3 (datos)» (16 B). Va a `0x0046EF00`–`0x0046F000` (en cero en los 16 volcados, control no cero); el código, a
+la reserva «sub3 (código)» `0x0046ED00`. **Predicción para la prueba:** J2 cambia de arma y la mitad de J sigue
+mostrando el arma de J (control `--sin-sub3`: la de J2 en las dos, F7); y J y J2 con la misma pistola, J2 cambia y J
+cambia de arma y vuelve: sin cuelgue (control: la misma secuencia sin la regla del dueño, `hipótesis` de basura).

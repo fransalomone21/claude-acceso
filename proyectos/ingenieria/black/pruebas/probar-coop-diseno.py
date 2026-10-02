@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Saboteador de coop_diseno.py: rompe el plano de a una cosa por vez (en copias temporales) y exige ROJO;
-el plano sin tocar tiene que dar VERDE. Sale 0 sólo si todas se cumplen (veinte desde (115): tres del plan de COOP-B, cuatro de la IA y seis del HUD doble)."""
+el plano sin tocar tiene que dar VERDE. Sale 0 sólo si todas se cumplen (veinte desde (115): tres del plan de COOP-B, cuatro de la IA y seis del HUD doble; veinticinco desde (116), con cinco
+del sonido de J2)."""
 import re
 import shutil
 import subprocess
@@ -27,6 +28,15 @@ SALTO_HUD_MAL = ("import coop_hud; f = coop_hud.fuente; coop_hud.fuente = lambda
 MARCA_PASO = ("pass", "HUD: gancho 0x1fbfd4")
 MARCA_RESERVA = ("pass", "HUD: el codigo")
 APAGAR_HUD = ("import coop_mod; coop_mod.CON_HUD = False", "CON_HUD apagado")
+# (116) regla 9, el sonido de J2: la guarda de la original que no es la del ELF; un salto a otra funcion; SONJ2 que
+# pisa a0 (= V); el envoltorio de otra entrada (el 4 no sale por SONJ2); la reserva achicada
+APOYO_SON_MAL = ("import coop_sonido; coop_sonido.APOYO[0x001D6FE0] = 'lbu v0, 7765(a0)'", "sonido: apoyo 0x1d6fe0")
+SALTO_SON_MAL = ("import coop_sonido; coop_sonido.FUENTE = coop_sonido.FUENTE.replace('j 0x1d7020', 'j 0x1d7024')",
+                 "no es FUN_001D7020")
+A0_SON_MAL = ("import coop_sonido; coop_sonido.FUENTE = coop_sonido.FUENTE.replace('lw t9, 0x24(t9)', 'lw a0, 0x24(t9)')",
+              "escribe a0")
+ENTRADA_SON_MAL = ("import coop_sonido; coop_sonido.DISPARO_V = 0x001D7360", "el envoltorio 1")
+MARCA_RESERVA_SON = ("pass", "sonido: el codigo")
 
 
 def correr(doc: Path, mods: Path, previo=None) -> int:
@@ -74,6 +84,13 @@ def main() -> int:
          lambda t: t.replace("| 0x0046EA80 | 0x0046EC14 | codigo", "| 0x0046EA80 | 0x0046EB00 | codigo"),
          MARCA_RESERVA, 1),
         ("HUD: apagado por defecto en coop_mod (115)", lambda t: t, APAGAR_HUD, 1),
+        ("sonido: la guarda no es la del ELF (116)", lambda t: t, APOYO_SON_MAL, 1),
+        ("sonido: salto a otra función (116)", lambda t: t, SALTO_SON_MAL, 1),
+        ("sonido: SONJ2 pisa a0 = V (116)", lambda t: t, A0_SON_MAL, 1),
+        ("sonido: la pieza cuelga de otro envoltorio (116)", lambda t: t, ENTRADA_SON_MAL, 1),
+        ("sonido: reserva achicada (116)",
+         lambda t: t.replace("| 0x0046EE00 | 0x0046EE40 | reserva", "| 0x0046EE00 | 0x0046EE20 | reserva"),
+         MARCA_RESERVA_SON, 1),
     ]
     fallas = 0
     with tempfile.TemporaryDirectory() as tmp:

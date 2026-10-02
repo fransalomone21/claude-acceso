@@ -4,7 +4,13 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(115), 2026-10-02, notebook (frío + caliente) — LO ÚLTIMO.** **Pieza 1 de la C hecha:** el HUD doble en el stub
+> **(116), 2026-10-02, notebook (frío + caliente) — LO ÚLTIMO.** Pieza 2 de la C: recetas de `V2` y del sub3 leídas
+> (`docs/16` «La pieza 2 a nivel instrucción»); sub3 diseñado con la regla del dueño de plantilla (sin código); el
+> sonido por `FUN_001D7020` (`coop_sonido.py`, regla 9, saboteador 25/25) **refutado en vivo con control**: no es el
+> sonido audible (`sesiones/PREDICCIONES-116.md`). **Máquina:** pnach igual que en (115) (1052 palabras, `CON_SONIDO`
+> apagado), COOP activo, parches de mira prendidos, fork y PCSX2 de Fran cerrados. **Sigue: `sesiones/RETOME-LOCAL.md`.**
+>
+> **(115), 2026-10-02, notebook (frío + caliente).** **Pieza 1 de la C hecha:** el HUD doble en el stub
 > (`herramientas/coop_hud.py`), confirmado con control y dos cargas (`sesiones/PREDICCIONES-115.md`): cada mitad con el
 > HUD de su jugador a 3/4. Filas en `coop-rangos`, regla 8 de `coop_diseno.py`, saboteador 20/20, `hud` K5.
 > **Máquina:** pnach con COOP + IA + HUD (1052 palabras, el default de `instalar`); COOP activo; parches de mira

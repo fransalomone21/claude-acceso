@@ -21,6 +21,9 @@ Lee el bloque ```coop-rangos del documento y exige, en este orden:
      (cuando la pieza pase su prueba y sus filas se muden) en una fila de codigo de coop-rangos con su rango exacto;
      cada gancho suyo cae en una fila gancho del plan o de coop-rangos; y coop_hud.problemas() vacio (capstone,
      saltos, floats del PDP, la sombra en sus reservas, lo que pisa y en lo que se apoya contra el ELF, el listado).
+  9. (116, COOP-C pieza 2a) el sonido del disparo de J2 (coop_sonido.py): su codigo en la reserva «sonido de J2 (codigo)»
+     del plan o en su fila de coop-rangos (y ahi prendido por defecto); coop_sonido.problemas() vacio; y el envoltorio
+     4 del aislador sale por `j SONJ2` con la pieza prendida y por `jr ra` con la pieza apagada.
 Sale 0 si todo esta bien y 1 si algo falla (y dice que). Su saboteador: pruebas/probar-coop-diseno.py.
 """
 import argparse
@@ -60,6 +63,7 @@ def verificar(doc: Path, mods: Path) -> list[str]:
     con_hud_por_defecto = cm.CON_HUD
     cm.CON_HUD = True   # (115) y con el HUD doble, que desde que vive en coop-rangos va prendido por defecto (regla 8)
     errores += verificar_hud(doc, filas, con_hud_por_defecto)
+    errores += verificar_sonido(doc, filas, cm.CON_SONIDO)   # (116) regla 9; programas() la incluye segun su default
     progs = cm.programas()
     # 1. los programas contra el plano
     for nombre, prog in progs[:-1]:
@@ -181,6 +185,41 @@ def verificar_hud(doc: Path, filas_rangos, con_hud_por_defecto=True) -> list[str
     for pc, _, texto in coop_hud.ganchos():
         if not any(f["tipo"] == "gancho" and f["desde"] <= pc < f["hasta"] for f in plan + filas_rangos):
             errores.append("HUD: gancho %#x (%s) sin fila en el plan ni en coop-rangos" % (pc, texto))
+    return errores
+
+
+def verificar_sonido(doc: Path, filas_rangos, con_sonido_por_defecto=False) -> list[str]:
+    """(116) regla 9: la pieza 2a (coop_sonido.py) contra el plano. Su codigo cae en la reserva «sonido de J2» del plan
+    o en su fila de coop-rangos (y ahi, prendida por defecto); coop_sonido.problemas() vacio; y con la pieza prendida
+    el envoltorio 4 del aislador (FUN_001D6F90) sale por `j SONJ2` y no por `jr ra` (si no, la pieza no corre)."""
+    import coop_mod as cm
+    import coop_sonido
+    from mips import ensamblar
+    errores = ["sonido: " + e for e in coop_sonido.problemas()]
+    plan = leer_plan(doc) or []
+    prog = coop_sonido.programa()
+    desde, hasta = prog[0][0], prog[-1][0] + 4
+    en_plan = any(f["tipo"] == "reserva" and f["nombre"].startswith("sonido de J2") and f["desde"] <= desde
+                  and hasta <= f["hasta"] for f in plan)
+    en_rangos = any(f["tipo"] == "codigo" and f["nombre"].startswith("sonido de J2") for f in filas_rangos)
+    if not (en_plan or en_rangos):
+        errores.append("sonido: el codigo [%#x, %#x) no cae en su reserva del plan ni en una fila de coop-rangos"
+                       % (desde, hasta))
+    if en_rangos and not con_sonido_por_defecto:
+        errores.append("sonido: coop_mod.CON_SONIDO apagado por defecto con sus filas en coop-rangos: el acceso COOP "
+                       "instalaria sin la pieza")
+    k = [f for f, _, _ in cm.FP_ENTRADAS].index(coop_sonido.DISPARO_V)
+    salida = cm.AISLAR + 0x3C * k + 13 * 4
+    viejo = cm.CON_SONIDO
+    try:
+        for prendida, esperada in ((True, "j 0x%x" % coop_sonido.ENTRADA), (False, "jr ra")):
+            cm.CON_SONIDO = prendida
+            w = {pc: x for pc, x, _ in cm.aislar()[0]}.get(salida)
+            if w != ensamblar(esperada, salida):
+                errores.append("sonido: con la pieza %s, el envoltorio %d en %#x no es '%s'"
+                               % ("prendida" if prendida else "apagada", k, salida, esperada))
+    finally:
+        cm.CON_SONIDO = viejo
     return errores
 
 

@@ -476,6 +476,12 @@ def aislar():
     for k, (f, w0, w1) in enumerate(FP_ENTRADAS):
         base = AISLAR + 0x3C * k
         pasa, saltea = AISLAR_CUENTAS + 8 * k - 0x470000, AISLAR_CUENTAS + 8 * k + 4 - 0x470000
+        # (116) COOP-C pieza 2a: el disparo salteado de J2 (FUN_001D6F90) salta a SONJ2 (coop_sonido.py), que crea
+        # solo el sonido del disparo sobre V. Misma cantidad de palabras: `jr ra` -> `j SONJ2`
+        salida = "jr ra"
+        if CON_SONIDO and f == 0x001D6F90:
+            import coop_sonido
+            salida = "j 0x%x" % coop_sonido.ENTRADA
         fuente = """
 lui t9, 0x47
 lw t8, -0x210c(t9)
@@ -491,9 +497,9 @@ SK%d:
 lw t8, %d(t9)
 addiu t8, t8, 1
 sw t8, %d(t9)
-jr ra
+%s
 move v0, zero
-""" % (k, pasa, pasa, w0, w1, f + 8, k, saltea, saltea)
+""" % (k, pasa, pasa, w0, w1, f + 8, k, saltea, saltea, salida)
         prog += j2.ensamblar_programa(fuente, base, base + 0x3C)
         ganchos += [(f, ensamblar("j 0x%x" % base, f), "gancho vista FP: j aislar %d (93l)" % k),
                     (f + 4, 0, "gancho vista FP: nop (93l)")]
@@ -804,6 +810,11 @@ def programas():
         progs.append(("aislar vista FP", [x for x in ais if x[0] < AISLAR_CUENTAS]))
         progs.append(("aislar evento FP", [x for x in ais if x[0] >= AISLAR_EVENTO]))
         ganchos += gan
+        if CON_SONIDO:
+            # (116) COOP-C pieza 2a, el disparo de J2 suena (coop_sonido.py): el envoltorio 4 del aislador salta a
+            # SONJ2 en vez de volver. Sin el aislador no hace falta (la original ya suena, y anima las dos mitades)
+            import coop_sonido
+            progs.append(("sonido de J2", coop_sonido.programa()))
     r3, gan = ranura3()
     progs += r3
     ganchos += gan
@@ -822,6 +833,10 @@ def programas():
         progs.append(("HUD doble", coop_hud.programa()))
         ganchos += coop_hud.ganchos()
     return progs + [("ganchos", ganchos)]
+
+
+CON_SONIDO = False  # (116) APAGADO: la pieza 2a quedo REFUTADA en vivo (FUN_001D7020 no es el sonido audible; ver
+                    # coop_sonido.py). `--con-sonido` la prende para volver a medir
 
 
 CON_HUD = True  # (115) PRENDIDO por defecto; `--sin-hud` es el control y `--con-hud` se acepta y no hace nada
@@ -846,11 +861,19 @@ def depurador(accion):
     return subprocess.run([sys.executable, dep, accion], capture_output=True, text=True)
 
 
+def _sonido(a):
+    """(116) la pieza 2a: el default de CON_SONIDO, salvo que el comando diga --con-sonido o --sin-sonido."""
+    if getattr(a, "sin_sonido", False):
+        return False
+    return True if getattr(a, "con_sonido", False) else CON_SONIDO
+
+
 def cmd_listar(_a):
-    global SIN_R3, CON_IA, CON_HUD
+    global SIN_R3, CON_IA, CON_HUD, CON_SONIDO
     SIN_R3 = getattr(_a, "sin_r3", False)
     CON_IA = not getattr(_a, "sin_ia", False)
     CON_HUD = not getattr(_a, "sin_hud", False)
+    CON_SONIDO = _sonido(_a)
     for nombre, prog in programas():
         print("== %s: %d palabras, %#010x..%#010x" % (nombre, len(prog), prog[0][0], prog[-1][0] + 4))
         for pc, w, t in prog:
@@ -1063,9 +1086,10 @@ def cmd_instalar(_a):
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
     SIN_R3 = getattr(_a, "sin_r3", False)
     SIN_OCULTAR_J = not getattr(_a, "con_ocultar_j", False)
-    global CON_IA, CON_HUD
+    global CON_IA, CON_HUD, CON_SONIDO
     CON_IA = not getattr(_a, "sin_ia", False)
     CON_HUD = not getattr(_a, "sin_hud", False)
+    CON_SONIDO = _sonido(_a)
     viejo =PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -1077,6 +1101,7 @@ def cmd_instalar(_a):
     PARCHES.write_bytes(nuevo.encode("utf-8"))
     print(json.dumps({"pnach": str(PARCHES), "respaldo": r.name, "palabras": sum(len(x[1]) for x in programas()),
                       "ranura3": not SIN_R3, "hud_doble": CON_HUD,
+                      "sonido_j2": CON_SONIDO and not SIN_AISLAR,
                       "ajuste_intacto": "Enable = %s" % NOMBRE_BLOQUE not in AJUSTES.read_text(encoding="utf-8")}))
     return 0
 
@@ -1106,8 +1131,10 @@ def main() -> int:
     li = sub.add_parser("listar"); li.add_argument("--con-r3", action="store_true"); li.add_argument("--sin-r3", action="store_true")
     li.add_argument("--con-ia", action="store_true"); li.add_argument("--sin-ia", action="store_true")
     li.add_argument("--con-hud", action="store_true"); li.add_argument("--sin-hud", action="store_true")
+    li.add_argument("--con-sonido", action="store_true"); li.add_argument("--sin-sonido", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
     ins.add_argument("--con-hud", action="store_true"); ins.add_argument("--sin-hud", action="store_true")
+    ins.add_argument("--con-sonido", action="store_true"); ins.add_argument("--sin-sonido", action="store_true")
     ins.add_argument("--con-ia", action="store_true"); ins.add_argument("--sin-ia", action="store_true")
     ins.add_argument("--con-r3", action="store_true"); ins.add_argument("--sin-r3", action="store_true")
     ins.add_argument("--con-ocultar-j", action="store_true"); ins.add_argument("--sin-ocultar-j", action="store_true")

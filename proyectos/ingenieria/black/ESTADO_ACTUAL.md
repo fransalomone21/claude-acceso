@@ -37,9 +37,20 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA el 2026-10-02 (115); sigue la pieza 2, el sonido y el arma de J2 (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2 (sonido y arma de J2) con las recetas leídas y el primer intento de sonido refutado (116) (LEER ESTO PRIMERO)
 
-> **(115), 2026-10-02, NOTEBOOK (frío + caliente) — LO ÚLTIMO** (bitácora (115), `sesiones/PREDICCIONES-115.md`).
+> **(116), 2026-10-02, NOTEBOOK (frío + caliente) — LO ÚLTIMO** (bitácora (116), `sesiones/PREDICCIONES-116.md`).
+> - **Recetas leídas en frío** (`docs/16` «La pieza 2 a nivel instrucción»): `V` se carga por nivel con una máquina
+>   asincrónica que manejan objetos con **su copia** del puntero (conmutar `X+0xC` no los redirige); el sub del arma
+>   (`0x6C` B, arena de 18 000 B) **comparte la plantilla** con cualquiera que tenga la misma arma, y la plantilla apunta
+>   a la arena del último que la armó → el sub3 lleva la **regla del dueño de plantilla** (diseñado, sin código;
+>   memoria en `0x0046EF00`, en cero en los 16 volcados).
+> - **El sonido por `FUN_001D7020` REFUTADO con control** (`coop_sonido.py`, apagado): no es el sonido audible (su
+>   guarda `V+0x1C44` en 0 y volumen 0; ni J lo usa). El audible sale de la pista de `V` o del conjunto del arma
+>   (`hipótesis`). Banco: `sonido_pieza_banco.py pieza|control` (audio + el azar de `V` como seam en RAM).
+> - Máquina: pnach sin cambios (1052 palabras), fork cerrado. **Sigue: `sesiones/RETOME-LOCAL.md`.**
+
+> **(115), 2026-10-02, NOTEBOOK (frío + caliente)** (bitácora (115), `sesiones/PREDICCIONES-115.md`).
 > - **El HUD doble, fabricado en el stub y confirmado con control:** dos HUD, uno por mitad, a 3/4; J dispara → cambia
 >   sólo la izquierda, J2 dispara → sólo la derecha; sin la pieza, un HUD. Dos cargas seguidas sin colgar. `hud` **K5**.
 >   `herramientas/coop_hud.py` (101 palabras + 13 ganchos), filas en `coop-rangos`, **prendido por defecto** (el pnach
