@@ -45,7 +45,8 @@ def probar():
             typ = pathlib.Path(tmp) / f"p{n}.typ"
             typ.write_text(plantilla.replace("{lineas}", "\\n".join(f"int x{k} = {k};" for k in range(n))),
                            encoding="utf-8")
-            r = subprocess.run(["typst", "compile", str(typ)], capture_output=True, text=True)
+            r = subprocess.run(["typst", "compile", str(typ)], capture_output=True, text=True,
+                               encoding="utf-8", errors="replace")  # typst escribe UTF-8; en Windows el defecto es cp1252
             if r.returncode != 0:
                 print(f"[ROJO] no compila la prueba de {n} lineas: {r.stderr.strip()}")
                 return 1
