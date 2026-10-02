@@ -37,9 +37,10 @@ información que hay que leer antes de operar.
     [$V_"cc" = 12$ V],
 
     [$V_m$, $I_m$],
-    [*Amplitud*, o valor de pico, de una senoidal. Es exactamente el $V_p$ de la Parte I:
+    if materia == "ea" [*Amplitud*, o valor de pico, de una senoidal. Es exactamente el $V_p$ de la Parte I:
      dos nombres del mismo número, por seguir a la cátedra en una parte y a la
-     bibliografía de la otra.],
+     bibliografía de la otra.] else [*Amplitud*, o valor de pico, de una senoidal. Hay
+     textos que la llaman $V_p$: mismo número, otro apellido.],
     [$V_m = 311$ V],
 
     [$V_"ef"$, $I_"ef"$],
@@ -148,7 +149,7 @@ del apunte trabajan con valores distintos y las dos tienen razón para hacerlo.
 
   Es el convenio de los cuatro libros de la cátedra de Teoría de Circuitos
   —Nilsson-Riedel, Alexander-Sadiku, Hayt-Kemmerly y Dorf-Svoboda— y el que se usa en
-  toda la Parte II.
+  #toda-la-parte-ii.
 ]
 
 #clave[
@@ -159,14 +160,15 @@ del apunte trabajan con valores distintos y las dos tienen razón para hacerlo.
 ]
 
 #definicion("Equivalencia con el valor eficaz")[
-  La Parte I trabaja en *eficaz*, porque es lo que mide el multímetro en CA y lo que
+  #if materia == "ea" [La Parte I trabaja] else [El laboratorio trabaja] en *eficaz*, porque es lo que mide el multímetro en CA y lo que
   dice la chapa de cualquier aparato. La conversión entre las dos formas es un solo
   factor, $V_"ef" = V_m \/ sqrt(2)$, y aparece siempre en el mismo lugar:
 
   #table(
     columns: (auto, auto, auto),
     align: (left, center, center),
-    table.header([], [*En pico* (Parte II)], [*En eficaz* (Parte I)]),
+    table.header([], ..if materia == "ea" { ([*En pico* (Parte II)], [*En eficaz* (Parte I)]) }
+      else { ([*En pico* (este apunte)], [*En eficaz* (el multímetro)]) }),
 
     [Fasor de $V_m cos(omega t + phi)$],
       [$overline(V) = V_m angle phi$], [$overline(V) = (V_m\/sqrt(2)) angle phi$],
@@ -193,7 +195,7 @@ del apunte trabajan con valores distintos y las dos tienen razón para hacerlo.
 #atencion[
   *Un dato de línea siempre viene en eficaz*, aunque el apunte trabaje en pico: «220 V»,
   «12 V de un transformador», «$V_"in" = 12 thin V_"ef"$ del TP N.º 7» son todos valores
-  eficaces. Para llevarlos al fasor de la Parte II hay que multiplicar por $sqrt(2)$:
+  eficaces. Para llevarlos al fasor de #la-parte-ii hay que multiplicar por $sqrt(2)$:
 
   $ 220 thin "V"_"ef" quad arrow.r quad overline(V) = 220 sqrt(2) angle 0 degree
     = 311 angle 0 degree "V" $

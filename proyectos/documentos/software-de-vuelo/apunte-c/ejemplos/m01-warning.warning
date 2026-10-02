@@ -1,0 +1,4 @@
+m01-warning.c: In function ‘main’:
+m01-warning.c:5:17: warning: unused variable ‘temperatura’ [-Wunused-variable]
+    5 |         int16_t temperatura = -18;   /* declarada... y olvidada */
+      |                 ^~~~~~~~~~~

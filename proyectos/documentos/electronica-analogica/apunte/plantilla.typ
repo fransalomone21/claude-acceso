@@ -13,6 +13,17 @@
 #import "biblioteca/circuitos.typ": *
 #import "biblioteca/graficos.typ": *
 
+// ---------- Para que materia se compila ----------
+// Un solo fuente, dos apuntes: `ea` (default, el de la escuela) y `tdc`
+// (Teoria de Circuitos, UNSAM: solo la Parte II, sin lo que es de la escuela).
+// apunte-tdc.typ exige `--input materia=tdc` y falla si no se lo pasan.
+#let materia = sys.inputs.at("materia", default: "ea")
+#assert(materia in ("ea", "tdc"), message: "materia desconocida: " + materia)
+#let solo-ea(cuerpo) = if materia == "ea" { cuerpo }
+// En el apunte de TDC no hay Parte I ni II: "la Parte II" es el apunte entero.
+#let la-parte-ii = if materia == "ea" [la Parte II] else [el apunte]
+#let toda-la-parte-ii = if materia == "ea" [toda la Parte II] else [todo el apunte]
+
 // ---------- Contadores propios ----------
 #let cont-ej = counter("ejercicio")
 
@@ -36,7 +47,8 @@
 #let definicion(titulo, cuerpo) = caja([Definicion — #titulo], c-azul, cuerpo)
 #let atencion(cuerpo)           = caja([Cuidado con esto], c-rojo, cuerpo)
 #let laboratorio(cuerpo)        = caja([En el laboratorio], c-ambar, cuerpo)
-#let tp(titulo, cuerpo)         = caja([TP relacionado — #titulo], c-viole, cuerpo)
+// Los TP de las cajas violetas son los de la escuela: en el apunte de TDC no van.
+#let tp(titulo, cuerpo)         = solo-ea(caja([TP relacionado — #titulo], c-viole, cuerpo))
 #let clave(cuerpo)              = caja([Idea clave], c-azul, cuerpo)
 
 // ---------- Ejercicio resuelto (numerado por modulo) ----------
@@ -144,6 +156,14 @@
   institucion: "",
   catedra: "",
   ciclo: "",
+  // Los tres que siguen tienen por default el texto del apunte de la escuela;
+  // apunte-tdc.typ los pisa.
+  encabezado: [Aplicaciones de Electronica Analogica — 4to Ano],
+  como-usar: none,
+  pie: [
+    Material de estudio y de catedra. Los trabajos practicos citados
+    corresponden a las guias de la materia (Prof. Guillermo Ruisi).
+  ],
   body,
 ) = {
   set document(title: titulo, author: catedra)
@@ -172,7 +192,7 @@
       grid(
         columns: (1fr, auto),
         align(left)[#titulo-actual],
-        align(right)[Aplicaciones de Electronica Analogica — 4to Ano],
+        align(right)[#encabezado],
       )
       v(-5pt)
       line(length: 100%, stroke: 0.4pt + luma(190))
@@ -270,7 +290,7 @@
       #block(width: 88%, inset: 14pt, fill: c-gris, radius: 4pt)[
         #set text(size: 10pt)
         #set par(justify: true)
-        #align(left)[
+        #align(left)[#if como-usar != none { como-usar } else [
           *Como usar este apunte.* Sirve para dos cosas: preparar la clase y
           estudiarla. Cada modulo abre con lo que hay que poder hacer al terminarlo,
           desarrolla la teoria con las deducciones completas — de donde sale cada
@@ -291,13 +311,10 @@
           transitorios, fasores, Bode y filtrado, cuadripolos y operacional— en el orden
           de la materia Teoria de Circuitos de la UNSAM. El anexo trae el formulario
           completo y las dos secuencias de lectura posibles.
-        ]
+        ]]
       ]
       #v(1fr)
-      #text(size: 9pt, fill: luma(120))[
-        Material de estudio y de catedra. Los trabajos practicos citados
-        corresponden a las guias de la materia (Prof. Guillermo Ruisi).
-      ]
+      #text(size: 9pt, fill: luma(120))[#pie]
     ]
   ]
 

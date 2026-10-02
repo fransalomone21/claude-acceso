@@ -1029,6 +1029,7 @@ manda.
   supuestos cuando no se tiene la hoja de datos.
 ]
 
+#solo-ea[
 == Dónde estaba esto en la Parte I
 
 #figure(
@@ -1058,6 +1059,7 @@ manda.
   ),
   caption: [Los transitorios que ya se habían visto sin nombre],
 )
+]
 
 #tp("Con los TP N.º 5 y 7 — guías de la cátedra")[
   *TP N.º 7 (fuentes de alimentación).* El rizado que el práctico manda calcular y medir

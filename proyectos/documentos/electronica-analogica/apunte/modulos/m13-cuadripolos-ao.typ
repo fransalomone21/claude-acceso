@@ -113,7 +113,7 @@ comodidad en un transistor y porque tienen sentido físico inmediato. En emisor 
 )
 
 #clave[
-  Acá se cierra el arco de toda la Parte II. El $beta = h_(f e)$ que en el Módulo 6 era "un
+  Acá se cierra el arco de #toda-la-parte-ii. El $beta = h_(f e)$ que en el Módulo 6 era "un
   número que dice el fabricante" es, formalmente, *el parámetro $h_21$ de un cuadripolo*, y
   la fuente controlada que lo representa es la CCCS que se presentó en el Módulo 7. El
   transistor no es un caso aparte: es un cuadripolo no recíproco, y una vez modelado así

@@ -1,9 +1,13 @@
 #import "../plantilla.typ": *
 
-#modulo("Anexos", [
+#modulo("Anexos", if materia == "ea" [
   Material de consulta rápida: código de colores, series de valores comerciales,
   formulario completo de las dos partes, las dos secuencias de lectura posibles,
   símbolos y normas de seguridad del laboratorio.
+] else [
+  Material de consulta rápida: código de colores, series de valores comerciales, el
+  formulario, la guía asincrónica problema por problema, símbolos y las normas del
+  laboratorio. O sea: lo que se busca con el parcial encima y el café frío.
 ])
 
 == Código de colores de resistores
@@ -55,6 +59,7 @@ que da 881 $Omega$ con 820 $Omega$.
 
 == Formulario de la materia
 
+#solo-ea[
 === Módulo 1 — Mediciones
 
 $ Delta x = |X_i - X_v| quad quad e = (Delta x)/X_v quad quad e% = e dot 100 $
@@ -120,6 +125,7 @@ $ I_E = I_B + I_C quad quad beta = h_"FE" = I_C/I_B quad quad
 
 $ V_"BE(on)" approx 0,7 "V" quad quad V_"CE(sat)" approx 0,2 "V" quad quad
   P = V_"CE(sat)" dot I_C $
+]
 
 === Módulo 7 — Leyes de Kirchhoff
 
@@ -392,6 +398,7 @@ enunciados, las figuras y los valores se toman del libro.
   amortiguado— que está en M15, «El paso de integración».
 ]
 
+#solo-ea[
 == Dos órdenes de lectura
 
 El apunte se puede recorrer de dos maneras, según para qué se lo use.
@@ -435,6 +442,7 @@ anteriores, y se puede leer en cualquier momento a partir del 10. Quien dicte la
 orden de la escuela puede usar la Parte II como fundamento al que volver; quien la use
 para preparar Teoría de Circuitos, leerla de corrido y tomar la Parte I como banco de
 ejemplos reales.
+]
 
 == Símbolos usados en el apunte
 

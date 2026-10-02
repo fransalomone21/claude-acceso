@@ -46,7 +46,7 @@ $ v(t) = V_m cos(omega t + phi) = "Re"{ V_m e^(j(omega t + phi)) }
   $V_m$ —lo que se lee en la pantalla del osciloscopio—, no el valor eficaz. Es el
   convenio de los cuatro libros de la cátedra de Teoría de Circuitos.
 
-  La Parte I trabaja en eficaz, porque es lo que marca el multímetro en CA. La
+  #if materia == "ea" [La Parte I trabaja] else [El laboratorio trabaja] en eficaz, porque es lo que marca el multímetro en CA. La
   conversión entre las dos formas está publicada entera en la sección *Convenciones y
   notación*, al frente del apunte. En dos líneas: $V_"ef" = V_m \/ sqrt(2)$, las
   impedancias y las ganancias no cambian —son cocientes— y el precio del convenio es
@@ -116,7 +116,7 @@ Aplicando la @ec-deriv-fasor a las tres relaciones constitutivas:
     idénticos, con matrices complejas.
   - Superposición, transformación de fuentes, Thévenin, Norton, Millman: idénticos.
 
-  Esto es lo que justifica haber puesto tanto trabajo en la Parte II antes de llegar acá.
+  Esto es lo que justifica haber puesto tanto trabajo en #la-parte-ii antes de llegar acá.
   No hay una teoría de alterna aparte: hay *la misma teoría*, con otro cuerpo numérico.
 ]
 

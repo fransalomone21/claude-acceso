@@ -23,6 +23,7 @@ El plan y las fases están en [`PDP.md`](PDP.md).
 | saber qué cierra la fase en curso | [`PDP.md`](PDP.md) §4 |
 | encontrar el material de la cátedra o los proyectos de STM32 | [`../catedras/software-de-vuelo/MATERIAL.md`](../catedras/software-de-vuelo/MATERIAL.md) |
 | generar un PDF | `/pdf-con-codigo` (Typst) |
+| **escribir o tocar el apunte de C** | `docs/ALCANCE.md` (qué módulo, con qué clase y práctico) y `HANDOFF.md` (cómo se escribe un módulo). Todo programa va en `apunte-c/ejemplos/` y se mide con `python apunte-c\verificar-ejemplos.py` |
 
 ## Las reglas propias
 

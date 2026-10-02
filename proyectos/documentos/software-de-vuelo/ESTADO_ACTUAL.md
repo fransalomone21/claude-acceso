@@ -1,5 +1,25 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 — fase 0 cerrada; el apunte de C arranca (v0.1, módulos 1 y 2)
+
+- **Alcance** (`docs/ALCANCE.md`): 12 módulos en el orden de la clase de C de
+  Leandro, cada uno con su diapositiva y su práctico. Los criterios de Leandro
+  quedaron en `catedras` (LEA-R1 a R4, LEA-01 a 18). **La «presentación del
+  18/08» no existe en el material**: ese PDF es la entrega del grupo de Fran
+  (comparativa de OBC).
+- **Apunte de C** en `apunte-c/` (`apunte.pdf`, 10 pág.): módulo 1 (el
+  programa mínimo: `template.c`, compilar con los flags, leer un warning, el
+  superloop) y módulo 2 (variables y tipos: ancho fijo, signo, `sizeof`,
+  `printf`, desborde, división entera). **7 programas**, todos en
+  `apunte-c/ejemplos/`, compilados en el gcc 13.3 de Ubuntu (WSL) con
+  `-Wall -Wextra -std=c11 -Werror`; la salida y el warning impresos son los de
+  la corrida real. `verificar-ejemplos.py` en verde; `probar-verificar-ejemplos.py`
+  5 de 5 en rojo por su motivo, control en verde. Render mirado, las 10 págs.
+- **Medido con el gcc de CubeIDE 1.18.1 (ARM, Cortex-M4):** `uint32_t` es
+  `long unsigned int`, `%u` da `-Wformat` y `PRIu32` no; `long` mide 4 bytes
+  (en la PC, 8). Está en el módulo 2.
+- **Publicado** en el Drive de apuntes (carpeta Software de Vuelo).
+
 ## 2026-09-29 (01:20) — la guía de IDEs v0.3, PUBLICADA
 
 Fran dio el OK sin contar nada del TP2 todavía, así que **v0.4 no existe**:

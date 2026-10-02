@@ -45,23 +45,28 @@ PENDIENTE de medir: es posterior a la fase 2.
 
 | # | Fase | Criterio de salida (resultado verificable) | Cómo se certifica | Estado |
 |---|---|---|---|---|
-| 0 | **Alcance de las dos guías** (tipo: **Fase A**) | `docs/ALCANCE.md` lista cada tema de cada guía con la clase o el práctico de la materia que lo pide, y ningún práctico (1 a 3) queda sin tema | los criterios de Leandro registrados en `catedras` (su fase 0 cerrada) **y** un chequeo de que cada práctico aparezca en `docs/ALCANCE.md` | abierta |
-| 1 | Guía de C (tipo: **Fase D**) | PDF compilado, cada ejemplo de código compila con `gcc -Wall -Wextra` sin warnings, publicado en Drive y verificado por MD5 | a escribir al abrir la fase | — |
+| 0 | **Alcance de las dos guías** (tipo: **Fase A**) | `docs/ALCANCE.md` lista cada tema de cada guía con la clase o el práctico de la materia que lo pide, y ningún práctico (1 a 3) queda sin tema | los criterios de Leandro registrados en `catedras` (su fase 0 cerrada) **y** un chequeo de que cada práctico aparezca en `docs/ALCANCE.md` | **cerrada 2026-10-02**: 12 módulos con su clase y su práctico; LEA-R1 a R4 y LEA-01 a 18 en `catedras` (`verificar-criterios.py` 97/15 en verde, saboteador 3 de 3) |
+| 1 | **Apunte de C** (tipo: **Fase D**) | los 12 módulos de `docs/ALCANCE.md` escritos en `apunte-c/`; **todo** programa del apunte es un `.c` de `apunte-c/ejemplos/` que compila con `gcc -Wall -Wextra -std=c11` sin warnings y cuya salida impresa es la de la corrida real; publicado en Drive y verificado por MD5 | `python apunte-c\verificar-ejemplos.py` en verde **y** `python apunte-c\probar-verificar-ejemplos.py` con sus 5 sabotajes en rojo por su motivo; el render de cada módulo nuevo **mirado**; `publicar-apuntes.ps1 -Verificar` | **abierta 2026-10-02**: módulos 1 y 2 escritos (v0.1, 10 pág., 7 programas) |
 | 2 | Guía de IDEs (tipo: **Fase D**) | PDF que contesta la pregunta de §1 con una recomendación y su porqué, con el flujo probado en la NUCLEO-F446RE (compilar y cargar un proyecto por el camino recomendado) | a escribir al abrir la fase | **adelantada**: v0.3 entregada el 2026-09-29 (flujo de simulación probado; F446RE sin probar; sin publicar) |
 
 > **Tipo Fase A:** se decide **qué** entra y por qué, no se escribe la guía.
 
-**Fase en curso:** 0 — Alcance de las dos guías.
+**Fase en curso:** 1 — Apunte de C (tipo **Fase D**: se escribe lo que la
+fase 0 decidió; un tema nuevo no se agrega sobre la marcha, vuelve a
+`docs/ALCANCE.md`).
 
-**Qué la cierra, exactamente:** que exista `docs/ALCANCE.md` con cada tema de
-las dos guías y, al lado, la clase o el práctico de la materia que lo pide;
-que los prácticos 1, 2 y 3 aparezcan los tres; y que los criterios de Leandro
-estén en `catedras/software-de-vuelo/CRITERIOS.md`.
+**Qué la cierra, exactamente:** los 12 módulos de `docs/ALCANCE.md` escritos;
+cada programa del apunte es un `.c` de `apunte-c/ejemplos/` que compila sin
+warnings con los flags de la cátedra y cuya salida impresa es la real; el
+render de cada módulo, mirado; y el PDF publicado y verificado por MD5.
 
-**Cómo se certifica:** `python ..\catedras\verificar-criterios.py` en verde con
-entradas `LEA-R` presentes, y
-`Select-String -Path docs\ALCANCE.md -Pattern 'Práctico 1','Práctico 2','Práctico 3'`
-encontrando los tres. Lo corre la sesión que cierre la fase.
+**Cómo se certifica:** `python apunte-c\verificar-ejemplos.py` en verde (en
+rojo se ve así: un programa con un warning, una salida que el programa no
+imprime, un `.c` que nadie cita o un `#codigo` sin su `.c`) y
+`python apunte-c\probar-verificar-ejemplos.py` diciendo `TODO BIEN`; más
+`.\publicar-apuntes.ps1 -Verificar`. Lo que ningún comando hace: mirar el
+render. **No cubierto por el saboteador:** la entrada «entorno» (sin WSL o sin
+gcc, el verificador sale en rojo por código, pero ese camino no se provocó).
 
 ## 5. Riesgos
 
@@ -79,6 +84,9 @@ encontrando los tres. Lo corre la sesión que cierre la fase.
 | 2026-09-29 | **La guía de IDEs se adelanta** (fase 2, tipo D) como **v0.3**, con la fase 0 todavía abierta, porque Fran la necesita para entregar el TP2 | esperar a cerrar las fases 0 y 1 | la prioridad la pone Fran: el TP2 se entrega hoy. La fase 2 **no cierra**: falta el flujo en la F446RE real y publicarla |
 | 2026-09-29 | **El método base es el de la cátedra** (semana 4, TP2, TP3), y lo que se agrega va en cajas «Mejora» | un método propio (compilar en VS Code como camino principal) | pedido de Fran: *«antes de inventar un método, sacalo de las presentaciones del profe; si lo podés mejorar, hacelo»* |
 | 2026-09-29 | **Dos versiones**: la pública (esta, para la materia) y una **personal** con las rutas y el entorno de Fran, en el repo privado `catedras/software-de-vuelo/personal/`, con el PDF en su carpeta local | una sola guía con todo | pedido de Fran: lo público es lo que la materia pide; lo de su máquina es suyo |
+| 2026-10-02 | **Ningún programa vive adentro del `.typ`**: cada ejemplo es un `.c` completo en `apunte-c/ejemplos/`, el apunte lo lee con `#codigo()`, y la salida y el warning que muestra son los de la corrida real en el gcc de Ubuntu (WSL) | código escrito a mano en el `.typ` y compilado aparte | un apunte público que enseña con un ejemplo que no compila enseña mal a muchos (aspecto `a`); así no puede pasar |
+| 2026-10-02 | **El orden del apunte es el de la clase de Leandro** (12 módulos, `docs/ALCANCE.md`); los ejemplos usan el mismo OBC imaginario pero **otros casos** que los prácticos | seguir un libro de C | el método del profe primero (memoria `feedback_apuntes-materia`); y el apunte no resuelve los prácticos (§2) |
+| 2026-10-02 | **Voz de la casa con humor**: criollo, sarcástico, integrado en la prosa (regla 8 de `fisica-espacial`), a pedido de Fran: «dale el toque artístico y humorístico nuestro a todo, es nuestra esencia» | tono neutro de manual | lo pidió Fran |
 | 2026-09-29 | Formato: una **plantilla liviana** (`guia-ides/plantilla.typ`) con la paleta, la tipografía, las marcas y las cajas del apunte de Física Espacial, sin módulos ni anexos | usar la plantilla de Física Espacial entera | pedido de Fran: *«el formato que usamos, sin complicarla»*. La guía de C la puede reusar |
 
 ## 7. Verificación

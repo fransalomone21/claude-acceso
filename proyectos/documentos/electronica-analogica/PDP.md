@@ -177,6 +177,8 @@ diodo de protección parecía al revés; el recorte mostró que está bien).
 | Fecha | Decisión | Alternativas descartadas | Por qué perdieron |
 |---|---|---|---|
 | (inicio) | Fuente única en **Typst**, compilada a PDF | LaTeX; Word | Typst no pide un segundo toolchain y compila en un comando |
+| 2026-10-02 | **Dos PDF del mismo fuente**: `apunte.typ` (EA, completo) y `apunte-tdc.typ` (TDC: convenciones, módulos 7 a 15 y anexos), elegidos con `--input materia=`; lo de la escuela va en `#solo-ea[...]` | copiar los módulos a un proyecto de TDC; recortar el de EA | la copia diverge en la primera corrección; recortar EA le saca al docente la Parte II |
+| 2026-10-02 | En el TDC los módulos **conservan su número** (7 a 15) | renumerar a 1-9 | ~120 referencias de texto plano («Módulo 10», «Ejercicio 9.2») que el compilador no valida quedaban mal en silencio |
 | (figuras) | `zap` + `cetz-plot` sobre `cetz`, **adentro de Typst** | CircuiTikZ | obligaba a instalar LaTeX y a mantener un paso de conversión por figura |
 | 2026-08-23 | Los gráficos **cuantitativos** van en **matplotlib** exportado a SVG, con la tipografía del apunte reescrita en el SVG | cetz-plot para todo | cetz-plot no hace bien los ejes logarítmicos |
 | 2026-08-23 | La Parte II sigue el orden de **Teoría de Circuitos** y no reordena la Parte I; los cruces se resuelven por referencia y no por repetición | fundir las dos partes en una sola secuencia | rompía la correspondencia de la Parte I con el laboratorio |

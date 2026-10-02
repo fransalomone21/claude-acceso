@@ -6,6 +6,28 @@
 **Fase 3b cerrada el 2026-09-22**: la cobertura de la guía del II cuatrimestre
 está medida, no supuesta.
 
+## 2026-10-02 — el apunte de TDC, separado (mismo fuente, dos PDF)
+
+A pedido de Fran, el apunte que estaba publicado en la carpeta de Teoría de
+Circuitos ya no es el de Electrónica Analógica entero: `apunte/apunte-tdc.typ`
+compila **sólo lo de ISE03** —convenciones, módulos 7 a 15 y anexos—, sin la
+Parte I de la escuela, sin sus cajas de TP (`#tp` no se imprime) y sin las
+secciones que explican la Parte I (envueltas en `#solo-ea[...]`). **103 pág.**
+Se compila con `typst compile --input materia=tdc apunte-tdc.typ apunte-tdc.pdf`;
+sin el `--input`, un `assert` frena (probado).
+
+- **Los módulos conservan su número (7 a 15)**: hay ~120 referencias de texto
+  plano a números de módulo y de ejercicio, y renumerar las rompía en
+  silencio. La carátula del TDC lo explica, y dice qué falta del programa.
+- **El de EA quedó idéntico, letra por letra** (364 818 caracteres de texto,
+  comparados contra una compilación previa al cambio). La comparación agarró
+  un error propio en el camino: un `else` en otra línea salía impreso.
+- El PDF de EA que estaba commiteado **no era el del fuente** (131 caracteres
+  de diferencia: dos correcciones del 2026-09-22 en el módulo 5 que nunca se
+  recompilaron). Salen ahora.
+- `verificar.py`: los seis chequeos en verde.
+
+
 ## Cobertura de la guía de TP, medida (2026-09-22)
 
 **Lo primero que hay que decir, porque cambia cómo se lee todo lo demás: la

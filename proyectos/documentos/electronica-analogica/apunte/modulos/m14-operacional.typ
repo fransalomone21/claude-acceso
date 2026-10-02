@@ -1022,12 +1022,15 @@ aparecer acá, porque no es casualidad: el operacional es el componente que las 
     columns: (auto, auto),
     align: (left, left),
     table.header([*De dónde venía*], [*Dónde reapareció acá*]),
+    // Las tres filas de la Parte I no van en el apunte de TDC.
+    ..if materia == "ea" { (
     [Módulo 1 — el voltímetro altera lo que mide],
       [el seguidor es la solución exacta a ese problema],
     [Módulo 4 — la curva exponencial del diodo],
       [el amplificador logarítmico, con un diodo en la realimentación],
     [Módulo 5 — el regulador con zener que se carga],
       [el zener en la pata del $+$, que no toma corriente],
+    ) } else { () },
     [Módulo 7 — el divisor que se derrumba al cargarlo],
       [el ejercicio del seguidor, con los 0,83 V contra los 5 V],
     [Módulo 8 — análisis nodal y sus tres convenciones],
@@ -1057,7 +1060,7 @@ sistemática de circuitos (Módulos 7 a 9), teoría de los cuadripolos (Módulo 
 amplificador operacional con sus configuraciones y su filtrado activo (este módulo).
 
 #clave[
-  El hilo que atraviesa la Parte II, dicho en una línea: *todo circuito lineal se resuelve
+  El hilo que atraviesa #la-parte-ii, dicho en una línea: *todo circuito lineal se resuelve
   con Kirchhoff; elegir bien las incógnitas lo hace corto; los teoremas lo hacen
   reutilizable; los complejos lo extienden a la alterna; y el logaritmo lo extiende a todas
   las frecuencias a la vez.* Lo que sigue en la carrera —Señales y Sistemas, Electrónica

@@ -1,5 +1,24 @@
 # Handoff — próxima sesión
 
+## 2026-10-02 — dos apuntes del mismo fuente
+
+**Todo lo que se escriba en los módulos 7 a 15 sale en los dos PDF.** Lo que
+es sólo de la escuela va en `#solo-ea[...]`, o es una caja `#tp` (que en el TDC
+no se imprime). Después de tocar algo: compilar **los dos**
+(`typst compile apunte.typ apunte.pdf` y
+`typst compile --input materia=tdc apunte-tdc.typ apunte-tdc.pdf`) y mirar el
+render de los dos. Una mención a «la Parte II» en un módulo compartido va con
+`#la-parte-ii` / `#toda-la-parte-ii` (en el TDC dicen «el apunte»).
+
+**Lo que sigue es la fase 3, y ahora rinde doble:** lo que le falta al TDC
+contra sus contenidos mínimos es lo mismo que la fase 3 ya tenía pendiente
+—Laplace, polos y ceros, filtros activos, trifásicos, impedancia reflejada—
+(tablero en `proyectos/documentos/carrera/MATERIAS.md`).
+
+**Pendiente de Fran:** la pasada de humor y voz de la casa sobre los módulos
+ya escritos (pidió «el toque artístico y humorístico nuestro a todo»). No se
+hizo: son 155 páginas cerradas, y el destinatario de EA es el docente.
+
 ## Cuadro de fase para abrir el próximo chat
 
 ```

@@ -27,8 +27,8 @@ todas las demás. Todo eso es *respuesta en frecuencia*.
   *No depende del convenio de fasores.* $overline(H)$ es un cociente entre dos fasores,
   así que el $sqrt(2)$ que separa el valor de pico del eficaz se cancela arriba y abajo:
   el módulo, la fase, los decibeles, la frecuencia de corte y el ancho de banda dan
-  exactamente lo mismo se haya escrito el circuito en pico —como en la Parte II— o en
-  eficaz —como en la Parte I—. Todo este módulo se lee igual en las dos escalas; lo
+  exactamente lo mismo se haya escrito el circuito en pico
+  #if materia == "ea" [—como en la Parte II— o en eficaz —como en la Parte I—.] else [—como en este apunte— o en eficaz —como el multímetro—.] Todo este módulo se lee igual en las dos escalas; lo
   único que hay que respetar es no mezclarlas dentro de la misma cuenta.
 ]
 

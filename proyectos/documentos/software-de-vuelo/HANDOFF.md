@@ -1,5 +1,31 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 — apunte de C v0.1: sigue el módulo 3
+
+**Arrancá por acá:** `cd apunte-c; python verificar-ejemplos.py` (tiene que dar
+verde) y después el **módulo 3, constantes y calificadores** (`#define`,
+`const`, `volatile`, `static`; clase diap. 15 y 28; Práctico 1 ej. 2 y 3). El
+orden de los 12 está en `docs/ALCANCE.md`.
+
+**Cómo se escribe un módulo** (no cambiar sin motivo): el programa va en
+`apunte-c/ejemplos/mNN-nombre.c`, completo; en el módulo, `#codigo("mNN-nombre",
+salida: true)`; después `python verificar-ejemplos.py --regenerar` (escribe el
+`.salida` de la corrida real) y `python verificar-ejemplos.py` sin flag. Un
+ejemplo que existe para mostrar un warning lleva `// ESPERA-WARNING: <flag>` en
+la **última** línea y se muestra con `#aviso("...")`. Compilar con
+`typst compile --root .. apunte.typ apunte.pdf` (el `--root` hace falta: la
+plantilla sale de `../guia-ides/`). Al terminar, mirar el render.
+
+**Trampas pagadas hoy:** `*mili*ampere` (asterisco pegado a letras) no
+compila en Typst: `#strong[mili]ampere`. Identificadores con `_` van siempre
+entre comillas invertidas, o abren cursiva. Un `#codigo("...")` en un
+comentario del `.typ` cuenta como cita para el verificador. Los ejemplos
+**no resuelven los prácticos**: mismo OBC, otros casos y otros números.
+
+**Voz:** criollo, sarcástico e integrado en la prosa (pedido de Fran del
+2026-10-02, «nuestra esencia»); el humor nunca adentro de una línea de código
+ni rompiendo una cuenta.
+
 ## 2026-09-29 (04:50) — TP2 hecho y empaquetado; carpeta del Cohete compartida
 
 **TP2:** `workspace_1.18.1\tp2` completo. PB5 y ADC1 IN0 se agregaron al `.ioc`

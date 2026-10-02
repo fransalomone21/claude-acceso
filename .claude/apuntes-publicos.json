@@ -86,15 +86,23 @@
     },
     {
       "materia": "TDC",
-      "local": "proyectos/documentos/electronica-analogica/apunte/apunte.pdf",
-      "nombre-en-drive": "Apunte de Electronica Analogica.pdf",
-      "estado": "2026-09-29 -- a pedido de Fran, el apunte de Electronica Analogica es TAMBIEN el apunte de la carpeta de Teoria de Circuitos. Mismo PDF que la entrada de arriba: se republican juntos."
+      "local": "proyectos/documentos/electronica-analogica/apunte/apunte-tdc.pdf",
+      "nombre-en-drive": "Apunte de Teoria de Circuitos.pdf",
+      "regenerable": "cd proyectos/documentos/electronica-analogica/apunte; typst compile --input materia=tdc apunte-tdc.typ apunte-tdc.pdf",
+      "estado": "2026-10-02 -- a pedido de Fran, separado del de Electronica Analogica: mismo fuente, compilado solo con lo de ISE03 (modulos 7 a 15 y anexos, sin la Parte I de la escuela ni sus TP). Reemplaza a la copia del apunte de EA que estaba en esta carpeta desde el 2026-09-29 (mandada a la papelera de Drive)."
     },
     {
       "materia": "Software de Vuelo",
       "local": "proyectos/documentos/software-de-vuelo/guia-ides/guia-ides.pdf",
       "nombre-en-drive": "Guia de IDEs - STM32CubeIDE y VS Code.pdf",
       "estado": "2026-09-29 -- v0.3, 6 pag. Se llama guia-ides.pdf y no apunte.pdf, asi que el detector de 'sin declarar' NO la ve: esta entrada es la unica que la sube."
+    },
+    {
+      "materia": "Software de Vuelo",
+      "local": "proyectos/documentos/software-de-vuelo/apunte-c/apunte.pdf",
+      "nombre-en-drive": "Apunte de C - Software de Vuelo.pdf",
+      "regenerable": "cd proyectos/documentos/software-de-vuelo/apunte-c; typst compile --root .. apunte.typ apunte.pdf",
+      "estado": "2026-10-02 -- v0.1, modulos 1 y 2 de 12. Publico por el pacto del 2026-09-28 (las dos guias de la materia). Cada programa compila sin warnings: verificar-ejemplos.py"
     },
     {
       "materia": "IISE/Material de Estudio nuestro/Apunte GENERAL",

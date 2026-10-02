@@ -76,6 +76,7 @@ siempre y con cuánto rigor. Qué fase y qué falta: `.\cascada.ps1 <proyecto>`.
 | [`taller-de-fisica/`](proyectos/documentos/taller-de-fisica/CLAUDE.md) | Apunte del Taller de Física (UNSAM, Aníbal); fase 1 bloqueada a propósito hasta que Fran diga «arrancamos» | en pausa |
 | [`software-de-vuelo/`](proyectos/documentos/software-de-vuelo/CLAUDE.md) | Guía de C y guía de IDEs (STM32CubeIDE, VS Code) para Software de Vuelo (Leandro), públicas en el Drive | **ACTIVO** |
 | [`cohete-de-agua/`](proyectos/documentos/cohete-de-agua/CLAUDE.md) | TP Cohete de Agua de Petrilli (Software de Vuelo), en grupo. **Repo aparte** | **ACTIVO** |
+| [`carrera/`](proyectos/documentos/carrera/CLAUDE.md) | Los **contenidos mínimos** de la carrera (textuales, por código ISE) y el **tablero** de qué tiene y qué le falta a cada materia. Toda sesión de materia lo lee | **ACTIVO** |
 | [`catedras/`](proyectos/documentos/catedras/CLAUDE.md) | Lo que pide cada profesor, textual y con fecha, y los criterios que salen de ahí. Todo proyecto de una materia lo lee **antes** de producir. **Repo aparte, privado** | **ACTIVO** |
 
 ### `proyectos/seguimiento/` — datos longitudinales de la vida real

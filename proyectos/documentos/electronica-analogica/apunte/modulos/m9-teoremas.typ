@@ -306,6 +306,7 @@ Es literalmente la ecuación nodal de un solo nodo, despejada. Sirve para el cas
 de *fuentes en paralelo*: dos baterías distintas alimentando la misma carga, o el sumador
 resistivo que reaparece en el Módulo 13 como sumador con amplificador operacional.
 
+#solo-ea[
 == Lo que estos teoremas explican de los módulos anteriores
 
 #figure(
@@ -331,6 +332,7 @@ resistivo que reaparece en el Módulo 13 como sumador con amplificador operacion
   ),
   caption: [Los teoremas, aplicados hacia atrás sobre la Parte I],
 )
+]
 
 #tp("Con el TP N.º 8 y el Anexo 1 — guías de la cátedra")[
   *TP N.º 8 (fuente con regulador zener).* Medir la tensión de la fuente en vacío y con
