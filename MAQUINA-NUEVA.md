@@ -87,6 +87,7 @@ arranque en vez de descubrirse en la próxima máquina.
 | paso | qué |
 |---|---|
 | 0 | mide las dependencias de la máquina (`git`, `python`, `rclone`, `typst`) y corta si falta una crítica |
+| 0 bis | pone Python en modo UTF-8 para el usuario (`PYTHONUTF8=1`) y lo **mide por efecto** (`sys.flags.utf8_mode`); sin eso, en Windows los scripts que leen la salida de otro Python revientan con `0x91`. Se deshace con `[Environment]::SetEnvironmentVariable('PYTHONUTF8', $null, 'User')` |
 | 1 | clona `perfil-global` (repo aparte, **privado**) |
 | 2 | lo instala en `~/.claude` y verifica **por hash**, no por "no dio error" |
 | 3 | corre `verificar-estructura.ps1`: las siete reglas contra el disco |
@@ -108,8 +109,8 @@ PC tenga acceso a GitHub (`gh auth login`, o Git Credential Manager).
 | `rclone.conf` | **no** | es un token OAuth de Google. Se rehace con `rclone config` |
 | `Black.iso`, volcados, `construido/` | **no** | 3,9 GB, ignorados a propósito |
 | auto-memoria de la sesión | **no** | vive en `~/.claude/projects/<ruta>/memory/`, por máquina y por ruta |
-| `caso-tio/`, `teoria-circuitos/` | **no** | repos propios **sin remote**: existen sólo donde se crearon |
-| `coaching/` | **sí**, aparte | repo propio con remote privado: se clona a mano dentro de `proyectos/seguimiento/` |
+| `caso-tio/` | **no** | repo propio **sin remote**: existe sólo donde se creó |
+| `coaching/`, `catedras/`, `teoria-circuitos/`, `clases-aed/`, `cohete-de-agua/`, `haberes-docentes/` | **sí**, aparte | repos propios con remote **privado** (desde 2026-10-02): se clonan a mano en su carpeta; la lista medida es `MAPA.md` §2 |
 
 Las dos últimas filas son la **regla 2** en acción: la sensibilidad decide el
 repo dueño, y eso es independiente de la naturaleza del proyecto.

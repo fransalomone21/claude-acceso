@@ -85,6 +85,31 @@ if ($faltaCritica) {
     Write-Host "  nombran la causa. Instalar y volver a correr." -ForegroundColor Red
     exit 1
 }
+
+# --- 0 bis. Python en modo UTF-8 para el usuario ---------------------------
+#
+# Sin esto, en Windows todo Python que lee la salida de otro proceso (o un
+# archivo sin encoding explicito) usa cp1252: "TODO BIEN en Linux,
+# UnicodeDecodeError 0x91 en Windows, en el mismo commit" (2026-10-02, 14
+# llamadas asi en el repo). Arreglarlo en el entorno arregla la CLASE, no el
+# caso. Hasta hoy solo lo fijaba cierre-desde-la-nube.ps1; el dueno es este.
+#
+# Unica excepcion al "mide y reporta" de arriba, porque se deshace con una
+# linea:  [Environment]::SetEnvironmentVariable('PYTHONUTF8', $null, 'User')
+# Se mide el EFECTO (sys.flags.utf8_mode), no que la variable este escrita.
+$modo = "$(& python -c 'import sys; print(sys.flags.utf8_mode)' 2>$null)".Trim()
+if ($modo -ne '1') {
+    [Environment]::SetEnvironmentVariable('PYTHONUTF8', '1', 'User')
+    $env:PYTHONUTF8 = '1'
+    $modo = "$(& python -c 'import sys; print(sys.flags.utf8_mode)' 2>$null)".Trim()
+    if ($modo -ne '1') {
+        Write-Host "  [FAIL] PYTHONUTF8=1 quedo escrito pero python NO entro en modo UTF-8." -ForegroundColor Red
+        exit 1
+    }
+    Write-Host "  [OK]   python en modo UTF-8: PYTHONUTF8=1 fijado para el usuario (consolas nuevas)" -ForegroundColor Green
+} else {
+    Write-Host "  [OK]   python en modo UTF-8 -- medido, no leido" -ForegroundColor Green
+}
 Write-Host ""
 
 # --- 1. perfil-global ------------------------------------------------------
