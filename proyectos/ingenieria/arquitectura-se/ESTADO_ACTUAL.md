@@ -2,6 +2,15 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
+**2026-10-02 — T12 (simplificar) en curso: paso 1 de 5 hecho, el costo ANTES
+medido** ([`docs/t12-simplificar.md`](docs/t12-simplificar.md) §6, con
+[`medir-costo.py`](medir-costo.py), que lee el transcript). Por sesión el
+método cobra **~125 K caracteres** (75 K antes de T1), y el **enrutador solo
+es el 43 %** (54,6 K); por turno, **5,5 K** de recordatorio; por entrada a
+proyecto, **138 K** (`metodo,diseno`). Sigue el paso 2: la matriz de todo el
+método. De paso, la puerta perdía lecturas hechas en paralelo (append de
+Windows no atómico): arreglado con candado, caso nuevo, autotest **23/23**.
+
 **2026-10-02 — T11 CONSTRUIDA: la cascada dejó de ser un consejo.** Medido
 antes: de 113 entradas sesión × proyecto desde el 1/9, **1** leyó ESTADO +
 HANDOFF + PDP + contrato antes de su primera acción, y BLACK corrió su

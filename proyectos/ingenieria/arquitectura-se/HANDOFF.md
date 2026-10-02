@@ -1,5 +1,22 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (tarde) — LO ÚLTIMO. T12, paso 1 de 5: el costo ANTES está
+> medido** (`docs/t12-simplificar.md` §6; instrumento `medir-costo.py`, semilla
+> de P10). Lo que cambia el orden de la poda: el **enrutador** (`CLAUDE.md`
+> raíz, 54,6 K) es el 43 % del costo fijo; la spec de los cuadros se paga en
+> cuatro lugares; leer en `perfil-global/` recarga su `CLAUDE.md` (18 K
+> duplicados); `al-paso` reinyecta lo que la puerta ya hizo leer. **Sigue el
+> paso 2: la matriz de cumplimiento de TODO el método** (pieza, impacto
+> original, costo medido, veredicto), después podar con saboteador. **De
+> paso:** la puerta perdía lecturas hechas en paralelo (append de Windows no
+> atómico entre procesos): candado del SO en `cascada_puerta.py`, caso nuevo
+> (1057/1200 sin candado, 1200/1200 con), autotest 23/23; lección registrada y
+> foldeada en `chequeo-de-trabajo.md` del perfil, **sin `install.ps1`
+> todavía** (se dejó para después de la renovación del plan, que estaba al
+> 88 %: un install cortado a la mitad es lo único que deja la máquina sucia).
+> Validación de T11: esta sesión es la 1 de 5 (declaró `metodo,diseno`, leyó
+> 17 rangos, la puerta frenó una vez de más por el defecto del append).
+
 > **2026-10-02 (01:05) — LO ÚLTIMO, y REORDENA lo de abajo. Fran aceptó las
 > críticas y pidió simplificar.** Le dije que el método crece por acumulación
 > (cada falla suma una capa y no se saca nada; hoy, para editar un párrafo,
