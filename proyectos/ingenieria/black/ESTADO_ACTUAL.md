@@ -39,7 +39,16 @@ decía.
 
 ## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); (111): la IA a los dos POR DEFECTO, un enemigo elige a J2 y lo mata, J2 junta y cambia armas, campaña 8/8 (LEER ESTO PRIMERO)
 
-> **(111), 2026-10-02 de madrugada, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (111), `sesiones/PREDICCIONES-111.md`).
+> **(112), 2026-10-02, NOTEBOOK (frío + una sonda en vivo) — LO ÚLTIMO** (bitácora (112), `sesiones/PREDICCIONES-112.md`).
+> - **El HUD de dos jugadores ya existe:** el arranque arma dos paneles en `0x0040F518`; la carga prende `cuenta` =
+>   jugadores (`FUN_001F2790` en `0x00128F5C`). Prendido a mano (`hud_doble.py`): **dos HUD, uno por mitad**, confirmado
+>   en pantalla con control; el izquierdo apretado, el derecho en `000` (lee `jugadores[1]`). `hud` **K4**. Diseño H1–H4
+>   (`docs/16`) y sus sitios en `coop-plan-b` (11 constantes `li rX, 2240` → 0 + el juego conmutado en el panel 2).
+> - **F11 en frío:** el spawner se traba con un títere inmortal (`+0x24`); los cuerpos, por la fábrica `FUN_00178408`
+>   sin spawner.
+> - **La PDR para Fran: `docs/18-pdr-coop.md`.** Sin su ok no se fabrica. **Sigue: `sesiones/RETOME-LOCAL.md`.**
+
+> **(111), 2026-10-02 de madrugada, NOTEBOOK CALIENTE, sin Fran** (bitácora (111), `sesiones/PREDICCIONES-111.md`).
 > - **La IA a los dos queda PRENDIDA POR DEFECTO** (`coop_mod.py`: `--sin-ia` es el control): el acceso COOP instala 938
 >   palabras. Sus filas pasaron a `coop-rangos`; la regla 7 de `coop_diseno.py` exige que esté prendida.
 > - **B4 HECHA:** un enemigo elige a J2 y le baja la vida sin que J2 dispare; sin la IA nunca (3 de 3). `ia` **K5**.

@@ -4,7 +4,14 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(111), 2026-10-02 madrugada, notebook caliente sin Fran — LO ÚLTIMO.** IA a los dos prendida por defecto (938
+> **(112), 2026-10-02, notebook (frío + una sonda en vivo) — LO ÚLTIMO.** El HUD de dos jugadores ya existe en el
+> juego (dos paneles construidos, la carga prende uno): prendido a mano se ven **dos HUD, uno por mitad** (confirmado;
+> el de la derecha lee `jugadores[1]` = ceros). Diseño H1–H4 en `docs/16` + 16 filas en `coop-plan-b`. F11: los
+> cuerpos por la fábrica de actores sin spawner (en frío). **La PDR para Fran: `docs/18-pdr-coop.md`** (seis
+> preguntas). H4a inválida por la captura (sin foco). Herramientas nuevas: `hud_doble.py`, `capturar-ventana.ps1`.
+> **Máquina:** pnach sin cambios (938 palabras), fork y PCSX2 de Fran cerrados. **Sigue: `sesiones/RETOME-LOCAL.md`.**
+>
+> **(111), 2026-10-02 madrugada, notebook caliente sin Fran.** IA a los dos prendida por defecto (938
 > palabras); B4 hecha (un enemigo elige a J2 y lo mata; control `--sin-ia` 3/3); sondas del concepto S1, S4, F2, F3 y F7
 > confirmadas con control; diseño del cambio de unidad (traer a J2 en `0x0012DDCC`) con su teletransporte probado; el
 > HUD es una lista 2D de `FUN_00278EA0`; campaña 8/8. Herramientas nuevas: `s1_juntar.py`, `teletransporte.py`,

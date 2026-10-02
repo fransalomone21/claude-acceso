@@ -625,6 +625,12 @@ en pausa; el pnach los repone en el cuadro siguiente, así que el control es con
   - **Sonda del concepto (en vivo, escrita antes):** H1 + H2 + H3 por PINE en una carga → **dos HUD, uno por mitad**,
     los dos con los valores de J (sin H4). Control: sin el stub, un HUD. Después H4: la mitad derecha muestra la vida y
     la munición de J2 (gastar balas de J2 cambia sólo la derecha).
+  - **(112) en vivo: H1 + H2 + H3 dan DOS HUD, uno por mitad (confirmado en pantalla con control,
+    `herramientas/hud_doble.py`, `volcados/hud/doble-20261002-040213/`).** El de la izquierda queda apretado (las
+    cajas de vida y munición se enciman) y el de la derecha muestra `000`: lee `jugadores[1]` (memoria en cero), que es
+    lo que H4 arregla. Para la C, además: la escala del marco raíz de cada panel (`*(panel+0x54)+8`, que
+    `FUN_001F1530` pone en ancho/640 y alto/480) como perilla para achicarlo (`hipótesis`). H4a (sólo los pasos en
+    0) quedó inválida por la captura: se repite.
 
 ### Cuerpos: los dos con skin de aliado
 

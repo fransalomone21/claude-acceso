@@ -21,6 +21,14 @@ La pregunta de frío que separa A de B es la misma: **cada lectura de «el jugad
 global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) o algo que el mundo **pregunta**
 (generalizar)? Ese censo es la tarea 1 de la nube.
 
+## Movido en (112), 2026-10-02 (bitácora (112), `sesiones/PREDICCIONES-112.md`)
+
+- **F5 (HUD) con diseño nuevo y sonda del concepto confirmada:** el juego trae el HUD de dos jugadores construido; con
+  el segundo panel prendido se ven dos HUD, uno por mitad (en pantalla, con control). Falta que el de la derecha lea a
+  J2 (H4) y que no quede apretado. `docs/16`, «HUD separado».
+- **F11 y F3 con mecanismo del riesgo y camino sin él (en frío):** el spawner se traba con un títere inmortal; los
+  cuerpos se dan de alta por la fábrica de actores sin spawner. Espera el ok de Fran (`docs/18`, pregunta 3).
+
 ## Cerrado o movido en (111), 2026-10-02 (detalle: bitácora (111), `sesiones/PREDICCIONES-111.md`)
 
 - **N1 y N2 CERRADAS (confirmado con control):** con la IA (prendida por defecto) un enemigo elige a J2 y le baja la
