@@ -130,7 +130,7 @@ truco del `sizeof` se rompe:
 #aviso("m07-parametro")
 
 En `main`, `sizeof` da 12: seis celdas de 2 bytes. En `mal`, da 8, el tamaño de un
-puntero en la PC (en la placa daría 4). El `[N_CELDAS]` de la declaración es
+puntero en la PC (en la placa da 4, medido con `arm-none-eabi-gcc`). El `[N_CELDAS]` de la declaración es
 decorativo: el compilador lo ignora, y gcc avisa que lo está ignorando. La forma
 correcta es la de `total_mv`: el vector y, aparte, cuántos elementos tiene.
 

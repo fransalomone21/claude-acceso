@@ -1,0 +1,3 @@
+desordenado: 12 bytes (modo@0 met_s@4 resets@8 bateria_mv@10)
+ordenado:     8 bytes (met_s@0 bateria_mv@4 modo@6 resets@7)
+1000 paquetes en la memoria: 12000 contra 8000 bytes

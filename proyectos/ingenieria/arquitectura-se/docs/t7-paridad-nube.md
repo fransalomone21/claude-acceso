@@ -19,6 +19,7 @@ crítico (`diagnostico-2026-09-28.md` §3), adelantada por necesidad real.
 | typst y pymupdf **no vienen** en el contenedor, en ninguna sesión | `typst: command not found` y `No module named 'fitz'` al arrancar; se bajan en ~10 s | confirmado (dos sesiones) |
 | Un `rm -f $S/*.png` lo **bloquea** un chequeo de seguridad de Claude Code en la nube (variable que podría quedar vacía) | el comando entero no corrió; la salida propone `"${S:?}"/*.png` | confirmado (2.ª sesión) |
 | El retome puede pedir algo que en la nube **no existe** | el de la 2.ª sesión pedía «buscar en el Práctico qué ejercicios toca el módulo»; el Práctico es material de la PC. Se resolvió dejándolo como `hipótesis` en el ESTADO | confirmado |
+| `apt-get install` **anda** en la nube: `gcc-arm-none-eabi` 13.2 en ~1 min | sirvió para medir en Cortex-M4 lo que antes era supuesto (módulos 6 a 10 del apunte de C) | confirmado (2.ª sesión) |
 | `git push origin HEAD:main` **anda** desde la nube | commits `83dea96`, `f1b58bf`, `5ed2d60` | confirmado |
 
 ## 2. Requisitos (verificables)

@@ -1,5 +1,32 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (nube, 8.ª) — apunte de C v0.9: módulo 10, tipos compuestos
+
+- **Módulo 10** (`apunte-c/modulos/m10-tipos-compuestos.typ`): `struct` con
+  `typedef`, inicializadores designados, `.` y `->`, pasar por puntero
+  `const`, asignar copia; relleno (*padding*) con `offsetof` (12 contra 8
+  bytes según el orden); el `enum` que ocupa 4 en la PC y 1 en la placa;
+  `union` para ver la *endianness* y corrimientos para armar la trama *big
+  endian*; campos de bits y por qué no para registros; mapear el GPIOC con un
+  `struct` `volatile` (offsets del manual: ODR +0x14, BSRR +0x18) y `BSRR`
+  contra el `|=`. MISRA 19.2 y 6.1. **4 programas nuevos** (`m10-housekeeping`,
+  `m10-padding`, `m10-endian`, `m10-registro`): en total **43**, verificador
+  en verde, `probar-verificar-ejemplos.py` TODO BIEN, `revisar-pdf.py` verde.
+  Render mirado **entero** (págs. 62 a 68; el PDF tiene 68). Carátula:
+  «v0.9 — módulos 1 a 10 de 12».
+- **Nuevo en la nube: `arm-none-eabi-gcc` 13.2** (se instala con
+  `apt-get install gcc-arm-none-eabi`, ~1 min). Lo que era supuesto ahora es
+  medido para el Cortex-M4 (`-mcpu=cortex-m4 -mthumb`, sin optimizar):
+  punteros de 4 bytes; `enum` de **1 byte** (`-fshort-enums` viene prendido);
+  `struct` de enteros, mismo tamaño y offsets que en la PC; campos de bits,
+  mismo orden (`0x2D`); `unos_recursivo` del módulo 6 usa **32 bytes** por
+  llamada (33 anidadas = 1056 bytes). Los módulos 6, 7 y 8 se corrigieron con
+  esos números. Los cuatro ejemplos del 10 compilan con cero warnings también
+  en ARM.
+- **Medido en gcc 13.3:** inicialización por posición incompleta avisa
+  `-Wmissing-field-initializers` (`-Wextra`); con `.campo =` no; `-Wpadded`
+  avisa cada relleno.
+
 ## 2026-10-02 (nube, 7.ª) — apunte de C v0.8: módulo 9, máquinas de estados
 
 - **Módulo 9** (`apunte-c/modulos/m09-maquinas-estados.typ`): la tabla de

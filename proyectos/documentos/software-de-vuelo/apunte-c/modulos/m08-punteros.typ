@@ -26,7 +26,8 @@ escribían en la variable de otro. La receta «`*` en el parámetro, `&` en la
 llamada» era exactamente esto.
 
 El puntero ocupa 8 bytes en la PC, porque las direcciones de un procesador de 64
-bits son de 64 bits. En la placa, un Cortex-M4 de 32 bits, ocupa 4. Y el tipo del
+bits son de 64 bits. En la placa, un Cortex-M4 de 32 bits, ocupa 4 (medido con
+`arm-none-eabi-gcc` 13.2). Y el tipo del
 puntero importa: `char *` dice que lo apuntado se lee como un `char`. Si apuntás un
 `uint16_t *` a un `uint32_t`, gcc avisa (_incompatible pointer type_), porque leer
 dos bytes donde hay cuatro es leer la mitad de otra cosa.

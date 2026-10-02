@@ -137,10 +137,13 @@ La memoria que usa depende del *dato*, no del código.
 
 Medido con `gcc -fstack-usage` (que anota cuánto stack usa cada función), en la PC
 cada llamada a `unos_recursivo` ocupa 64 bytes: treinta y tres anidadas son más de
-2 KB. En la placa los números son otros, pero la forma es la misma, y el stack es
-chico: en los proyectos que genera CubeIDE, el mínimo reservado está en el _linker
-script_ (el `.ld` del proyecto) como `_Min_Stack_Size`, y suele ser `0x400`, un
-kilobyte. Mirá el tuyo. Cuando el stack se acaba no hay mensaje de error: pisa la
+2 KB. Para el Cortex-M4, con `arm-none-eabi-gcc` 13.2 (el compilador de la misma
+familia que trae CubeIDE) y sin optimizar, como compila el modo _Debug_: 32 bytes
+por llamada, así que treinta y tres son 1056 bytes. El stack de la placa es chico:
+en los proyectos que genera CubeIDE, el mínimo reservado está en el _linker script_
+(el `.ld` del proyecto) como `_Min_Stack_Size`, y suele ser `0x400`, un kilobyte.
+Un solo registro de fallas con el bit 31 prendido se come más que eso. Mirá el
+tuyo. Cuando el stack se acaba no hay mensaje de error: pisa la
 memoria de al lado, y el satélite empieza a hacer cosas raras que nadie puede
 reproducir en tierra.
 

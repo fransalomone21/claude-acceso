@@ -1,5 +1,28 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube, 8.ª) — apunte de C v0.9: sigue el módulo 11
+
+**Lo primero, en la PC:** `git pull`, recompilar, verificador (43 en verde),
+`python apunte-c\revisar-pdf.py`, `.\publicar-apuntes.ps1` (v0.2 a v0.9 sin
+publicar). Pendientes de medir en la PC (acumulados): prácticos contra
+ejemplos; `_Min_Stack_Size` del `.ld`; `*NULL` en la placa; dónde van los
+tipos según `catedras`.
+
+**Después: el módulo 11, preprocesador y proyecto** (`#include`, guardas,
+compilación condicional, `.h` y `.c`, bibliotecas; clase 126-133, 144-146).
+**Problema de forma a resolver primero:** el verificador compila un `.c`
+suelto (`gcc ... nombre.c`). Un ejemplo de varios archivos necesita otra
+cosa: propuesta, una carpeta `ejemplos/m11-proyecto/` con `.h` y `.c`, y que
+`verificar-ejemplos.py` compile todos los `.c` de la carpeta juntos (con su
+saboteador nuevo en `probar-verificar-ejemplos.py`). Y `#codigo` muestra un
+solo archivo: hace falta un `#codigo("m11-proyecto/sensor.h")` o similar.
+Medir antes: las macros con parámetros (la promesa del módulo 3: «piden más
+todavía»), `#if`/`#ifdef` para el modo de prueba, `#error`, guardas
+`#ifndef X_H`.
+
+**En la nube conviene instalar** `gcc-arm-none-eabi` al arrancar (lo usa el
+módulo 12 para medir `.data`/`.bss` con `arm-none-eabi-size`).
+
 ## 2026-10-02 (nube, 7.ª) — apunte de C v0.8: sigue el módulo 10
 
 **Lo primero, en la PC:** `git pull`, recompilar, verificador (39 en verde),
