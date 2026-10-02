@@ -149,6 +149,8 @@ silenciar HUD (código)         | 0x0046EA00 | 0x0046EA80 | reserva | -         
 HUD de J2 (código)             | 0x0046EA80 | 0x0046ED00 | reserva | -                                   | (103)
 sub3 (código)                  | 0x0046ED00 | 0x0046EE00 | reserva | -                                   | (102)
 armar V2 (código)              | 0x0046EE00 | 0x0046EF00 | reserva | -                                   | (101)
+traer J2 en la descarga        | 0x0012DDCC | 0x0012DDD0 | gancho  | jal 0x0016E3C0                      | (111)
+traer J2 (código)              | 0x0046F100 | 0x0046F180 | reserva | -                                   | (111)
 ```
 
 ## 4. Interfaz con los otros mods

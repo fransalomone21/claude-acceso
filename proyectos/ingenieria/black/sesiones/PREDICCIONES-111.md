@@ -49,6 +49,20 @@ Wilderness no sirvió (pistola con silenciador y nadie gastó balas: inválida).
 **F4 confirmado con control** (el disparo de J2 no suena con el mod) y **la sonda S4 de `docs/16` confirmada**: sin el
 aislador suena como el de J. El sonido vive en la vista `V`: la opción 1 (una `V2` propia) es la que arregla F4.
 
+## T3a — la primitiva «traer a J2 junto a J» (escrita antes de probar)
+Pregunta de marco: el riesgo de T3 es J2 quedando en la unidad vieja; la política natural (docs/14 §B6, «traer a J2
+junto a J si queda lejos») necesita poder mover a J2. Mecanismo (82): el mover (`FUN_00132D98`) le entrega un
+DESPLAZAMIENTO al controlador de `J+0xB4`; el controlador no guarda copia de la posición (medido: 0 campos en 0x400 B).
+**Predicción:** escribir sólo `J2+0xA0` (en pausa) = J + (2, 0, 0) deja a J2 ahí (a < 0,5 m del destino a los 3 s) y
+después camina (`coop_mod.py manos 2` > 5 m). **Control:** `--control` (no escribe): J2 queda donde estaba.
+**Refuta:** J2 vuelve a su lugar (la posición tiene otra fuente: el cuerpo del motor de física) o cae/atraviesa el piso.
+
+**Resultado T3a (Town):** control: J2 no se mueve (0,00 m). Escrito: J2 queda a 0,13 m y a 0,02 m del destino en dos
+lugares distintos, y después camina 9,4 y 9,0 m (la primera caminata terminó en el lugar viejo por geometría: mismo
+rumbo y misma duración desde casi el mismo punto; la segunda, desde otro destino, terminó en otro lado). **Confirmado.**
+Con esto el diseño de T3 queda en `docs/16` (alternativa 1: gancho `0x0012DDCC` en la descarga, que corre ANTES de
+sacar la colisión) y en `coop-plan-b`. El síntoma sin arreglo sigue sin medir (pide un cambio de unidad jugando).
+
 ## T1b — J2 muere por daño REAL (escrita después de `t1-ia-1`, antes de esta corrida)
 Banco: el mismo, con la vida de J2 en 40 escrita a mano (la vida en 0 escrita no mata, (93f); acá el 0 lo pone el daño)
 y J en 1e6. **Predicción:** al llegar a 0 por los disparos, J2 pasa a su segundo controlador (`J2+0x32C` =

@@ -587,3 +587,35 @@ en pausa; el pnach los repone en el cuadro siguiente, así que el control es con
 
 `coop_mod.py listar|instalar|poner --con-ia` suma `coop_ia.py` (94 palabras, 5 ganchos). Sin la bandera, el bloque no
 cambia. La fila del plan pasa a `coop-rangos` cuando la sonda de la notebook la confirme.
+
+**(111) Confirmada y prendida por defecto**: un enemigo elige a J2 y lo mata, con control `--sin-ia` (bitácora (111)).
+Las filas están en `coop-rangos`; `--sin-ia` es el control. Límite medido: la amenaza actual es la **primera
+percibida** y no cambia al más cercano; el ajuste (reevaluar con HOST2 cada tanto) es de la C.
+
+## El cambio de unidad con J2 lejos (T3, (111)): traer a J2 junto a J al descargar la unidad vieja
+
+### Concepción — qué pasa en una descarga (`confirmado en frío`, leído en el C y en las instrucciones)
+
+El nivel se transmite por **unidades** con doble búfer (`juego + k·0x880 + 0x4990`, `k` = 0/1; nodo `unidades`).
+La **carga** de una unidad es el módulo de tipo `0x1C` (`FUN_0012DAB8`): da de alta los objetos, registra la colisión
+en el mundo de cuerpos de personaje (`FUN_0025C040(*(0x0040F4CC), m)`) y activa la unidad (`FUN_00179400` →
+`FUN_001795A0`: escuadrón, `FUN_00172FE0` rellena las ranuras vacías con aliados del guion). La **descarga** es
+`FUN_0012DD78`: marca el módulo como `0x1D`, llama **primero** a `FUN_0016E3C0` (la IA olvida la unidad:
+`FUN_001794B0` limpia el escuadrón y cada agente) y **después** saca los objetos (`FUN_0012A280`) y la colisión
+(`FUN_0025C180`). Quién decide descargar mira **a J** (los disparadores prueban sólo `J+0x190`/`J+0x2E8`, (98)): si J2
+quedó atrás, se queda parado sobre una colisión que se va. El síntoma esperado (J2 cayendo o colgado) **no se midió**:
+pide llegar a un cambio de unidad jugando.
+
+### Alternativas y elección
+
+| Alternativa | Qué | Costo | Problema |
+|---|---|---|---|
+| **1. traer a J2 junto a J en la descarga** | gancho en el `jal FUN_0016E3C0` de la descarga (`0x0012DDCC`): si FASE = 2 y J2 está a más de 15 m de J, `J2+0xA0` = J + 1 m a un costado; después, la llamada original | ~25 palabras, un sitio | J2 «salta»; con Parsec J2 lo ve como un corte. Se acepta (el juego ya corta al cargar) |
+| 2. frenar la descarga hasta que J2 llegue | no descargar mientras J2 esté en la unidad vieja | caro: la descarga la pide el streaming, que no espera | memoria: la unidad siguiente no entra |
+| 3. que los disparadores miren a los dos | conmutables limpios (98) | medio | no evita la descarga: sólo cambia quién la pide |
+
+**Elección: 1.** La sonda del concepto ya está hecha: **escribir sólo `J2+0xA0` en pausa lo deja donde se pone y
+camina normal desde ahí** (111, confirmado en RAM con control: a 0,02 m del destino; 9 m caminando a otro lugar). El
+controlador de colisión de `J2+0xB4` no guarda copia de la posición (0 campos en 0x400 B): recibe desplazamientos.
+El sitio y la memoria están en `coop-plan-b` (docs/14), verificados contra el ELF. Falta, para la C: escribirlo y
+medirlo en un cambio de unidad real (y, de paso, el síntoma sin el arreglo, que es su control).
