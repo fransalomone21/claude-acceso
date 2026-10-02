@@ -1,5 +1,27 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (nube, 4.ª) — apunte de C v0.5: módulo 6, funciones
+
+- **Módulo 6** (`apunte-c/modulos/m06-funciones.typ`): por qué funciones
+  (LEA-13), declarar arriba y definir abajo como `template.c`, `return`, el
+  *cast* a 32 bits en una conversión del ADC (y por qué en un micro de 16 bits
+  importa), `f()` contra `f(void)`, por valor (copia) y por referencia (la
+  receta `*`/`&`, remitida al 8), estado por `return` y dato por puntero (como
+  `HAL_StatusTypeDef`), `static` en funciones, recursión contra iteración con la
+  profundidad medida. MISRA 17.7, 15.5, 17.2. **4 programas nuevos**
+  (`m06-adc`, `m06-referencia`, `m06-estado`, `m06-recursion`): en total **27**,
+  verificador en verde, `probar-verificar-ejemplos.py` TODO BIEN. Render mirado
+  (págs. 35 a 41; el PDF tiene 41). Carátula: «v0.5 — módulos 1 a 6 de 12».
+- **No resuelve el Práctico 3 ej. 3**: no hay `mostrar_digito` ni display de 7
+  segmentos. Práctico 1 ej. 8 y 9: sin leer (nube), `hipótesis`.
+- **Medido a mano en gcc 13.3:** `static uint8_t f();` llamada con 3
+  argumentos **no avisa**; camino sin `return` avisa `-Wreturn-type`; función
+  sin declarar avisa `-Wimplicit-function-declaration` y termina en error de
+  tipos en conflicto. `gcc -fstack-usage`: `unos_recursivo` usa 64 bytes por
+  llamada en x86-64 sin optimizar (33 anidadas para `0x80000000`).
+- **`hipótesis` escrita en el módulo con «suele»**: `_Min_Stack_Size = 0x400`
+  en el `.ld` que genera CubeIDE. Confirmarlo en el `.ld` del `tp2` en la PC.
+
 ## 2026-10-02 (nube, 3.ª) — apunte de C v0.4: módulo 5, control de flujo
 
 - **Módulo 5** (`apunte-c/modulos/m05-control-flujo.typ`): `if`/`else if`

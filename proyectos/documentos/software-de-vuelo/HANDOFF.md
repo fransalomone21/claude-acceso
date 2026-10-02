@@ -1,5 +1,27 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube, 4.ª) — apunte de C v0.5: sigue el módulo 7
+
+**Lo primero, en la PC de Fran:** `git pull`, recompilar, `python
+apunte-c\verificar-ejemplos.py` (27 en verde), `.\publicar-apuntes.ps1` (la
+v0.2 a la v0.5 no están en el Drive). Dos cosas que la nube no pudo medir:
+**(1)** cotejar el Práctico 1 ej. 4 a 9 contra los ejemplos `m04-*`, `m05-*` y
+`m06-*`; **(2)** abrir el `.ld` del `tp2` y confirmar `_Min_Stack_Size`: el
+módulo 6 dice que «suele ser `0x400`». Si es otro, se corrige ese renglón.
+
+**Después: el módulo 7, vectores y cadenas** (arrays de una y dos
+dimensiones, recorrerlos, tablas de patrones, cadenas y el `'\0'`; clase
+73-82 y 101; Práctico 1 ej. 2; Práctico 3 ej. 3). **No** escribir la tabla de
+patrones de un display de 7 segmentos: es el Práctico 3 ej. 3. Otra tabla de
+patrones del mismo OBC (p. ej., la secuencia de un LED de estado o una tabla
+de calibración). Trampas a medir: índice fuera de rango (gcc avisa sólo si es
+constante: `-Warray-bounds` necesita optimización), `sizeof` de un vector
+pasado a una función (avisa `-Wsizeof-array-argument`), cadena sin lugar para
+el `'\0'`.
+
+**Usos adelantados que el 7 tiene que cerrar:** el `const char *` de
+`imprimir_bits` (m04) y el `%s`.
+
 ## 2026-10-02 (nube, 3.ª) — apunte de C v0.4: sigue el módulo 6
 
 **Lo primero, en la PC de Fran:** `git pull`, recompilar, `python
