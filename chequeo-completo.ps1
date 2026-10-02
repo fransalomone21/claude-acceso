@@ -1,4 +1,4 @@
-﻿# chequeo-completo.ps1 -- TODA la bateria de verificadores del sistema, en un comando.
+# chequeo-completo.ps1 -- TODA la bateria de verificadores del sistema, en un comando.
 #
 # POR QUE EXISTE
 #   Hasta el 2026-08-29 la bateria eran siete scripts sueltos, cada uno
@@ -84,6 +84,10 @@ $medidores = @(
     # emitido (corriendo los hooks) y lo que el harness hizo (transcripts).
     # ~3,5 s. No se mide a si mismo en bucle: ver MEDIR_INYECCION en el script.
     @{ nombre = 'presupuesto de inyeccion';  cmd = 'python perfil-global\herramientas\medir-inyeccion.py' }
+    # T11 de arquitectura-se: la puerta de la cascada. Mide que el catalogo resuelva contra el disco (rutas,
+    # secciones, que cada rango entre en una lectura, que cada proyecto tenga entrada) Y que la puerta este
+    # REGISTRADA en settings.json: un freno desinstalado es la forma de fallar que nadie mira.
+    @{ nombre = 'catalogo de la cascada';    cmd = 'python .claude\hooks\cascada_puerta.py --verificar' }
 )
 
 $saboteadores = @(
@@ -101,6 +105,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador de Drive';            cmd = '.\probar-verificar-drive.ps1' }
     @{ nombre = 'saboteador de la sincronia';     cmd = '.\probar-sincronia.ps1' }
     @{ nombre = 'saboteador de la cascada';       cmd = '.\probar-cascada.ps1' }
+    @{ nombre = 'saboteador de la puerta';        cmd = 'python .claude\hooks\cascada_puerta.py --autotest' }
 )
 
 function Correr($lista, $titulo) {

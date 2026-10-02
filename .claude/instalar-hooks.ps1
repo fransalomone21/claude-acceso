@@ -1,4 +1,4 @@
-# instalar-hooks.ps1 -- instala las tres capas de frenos de claude-acceso.
+﻿# instalar-hooks.ps1 -- instala las tres capas de frenos de claude-acceso.
 #
 # GENERA .claude/settings.json con la raiz MEDIDA de esta maquina, en vez de
 # depender de que la ruta absoluta commiteada sea la correcta. Mismo patron
@@ -49,6 +49,7 @@ $cmdArranque = "$ps `"$(Join-Path $claude 'hooks\arranque-proyecto.ps1')`""
 $cmdMedicion = "$ps `"$(Join-Path $claude 'hooks\arranque-medicion.ps1')`""
 $cmdGuardia  = "$ps `"$(Join-Path $claude 'hooks\guardia-iso.ps1')`""
 $cmdFase     = "python `"$(Join-Path $claude 'hooks\fase_activa.py')`""
+$cmdPuerta   = "python `"$(Join-Path $claude 'hooks\cascada_puerta.py')`""
 
 $settings = Join-Path $claude 'settings.json'
 $obj = $null
@@ -67,16 +68,26 @@ $hooks = [ordered]@{
         @{ hooks = @( [ordered]@{ type = 'command'; command = $cmdArranque; timeout = 15 } ) }
         @{ matcher = 'startup|resume|clear'
            hooks = @( [ordered]@{ type = 'command'; command = $cmdMedicion; timeout = 60 } ) }
+        # (2026-10-02, T11) al compactar, lo leido deja de contar para la puerta de la cascada
+        @{ matcher = 'compact'
+           hooks = @( [ordered]@{ type = 'command'; command = $cmdPuerta; timeout = 15 } ) }
     )
     PreToolUse = @(
         @{ matcher = 'Bash|PowerShell|Write|Edit|NotebookEdit'
            hooks = @( [ordered]@{ type = 'command'; command = $cmdGuardia; timeout = 15; statusMessage = 'guardia de archivos protegidos' } ) }
+        # (2026-10-02, T11) LA PUERTA DE LA CASCADA: no deja actuar sobre un proyecto hasta que la sesion declaro la
+        # necesidad y LEYO lo que .claude/cascada.json exige. Medido antes: 1 de 113 entradas leia las cuatro piezas.
+        @{ matcher = 'Bash|PowerShell|Write|Edit|NotebookEdit'
+           hooks = @( [ordered]@{ type = 'command'; command = $cmdPuerta; timeout = 15; statusMessage = 'puerta de la cascada' } ) }
     )
     # (2026-09-28) el disparador de la arquitectura: la primera vez que la sesion toca un proyecto, le pone
     # delante el TIPO de su fase abierta (leido del PDP) y lo que NO se hace en ella. Falla abierto.
     PostToolUse = @(
         @{ matcher = 'Read|Bash|PowerShell|Write|Edit|Glob|Grep'
            hooks = @( [ordered]@{ type = 'command'; command = $cmdFase; timeout = 15 } ) }
+        # (2026-10-02, T11) el registro de la puerta: que rango se leyo, que necesidad se declaro, que se corrio
+        @{ matcher = 'Read|Bash|PowerShell|Edit|Write'
+           hooks = @( [ordered]@{ type = 'command'; command = $cmdPuerta; timeout = 15 } ) }
     )
 }
 

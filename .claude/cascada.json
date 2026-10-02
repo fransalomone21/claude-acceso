@@ -1,0 +1,134 @@
+{
+  "_que_es": "T11 de arquitectura-se (docs/t11-cascada-obligatoria.md): QUE SE LEE, para QUE NECESIDAD, antes de actuar sobre un proyecto. Lo exige .claude/hooks/cascada_puerta.py (PreToolUse); cascada.ps1 -Necesidad lo imprime. Unico dueno del dato: nadie mas lista que se lee para que.",
+  "_rutas": "Relativas a la raiz del repo. '~' es el home. {proy} = la carpeta del proyecto, {nat} = su naturaleza, {handoff} = su HANDOFF (se busca en el disco), {memoria} = la auto-memoria de esta carpeta (~/.claude/projects/<raiz>/memory).",
+  "_rangos": "Sin rango = entero. vista_h2 N = desde la linea 1 hasta antes del N-esimo titulo '## ', con tope de lineas. desde/hasta = regex de la linea que abre la seccion y de la que la cierra (exclusiva). Todo rango tiene que entrar en UNA lectura: lo mide --verificar.",
+
+  "base": [
+    {"ruta": "plantillas/naturalezas/{nat}.md", "por": "nivel 3: la naturaleza"},
+    {"ruta": "{proy}/CLAUDE.md", "por": "nivel 4: el contrato"},
+    {"ruta": "{proy}/ESTADO_ACTUAL.md", "vista_h2": 2, "tope": 300, "por": "nivel 5: donde quedamos (la vista)"},
+    {"ruta": "{handoff}", "vista_h2": 2, "tope": 300, "por": "nivel 5: lo ultimo que dejo la sesion anterior"},
+    {"ruta": "{proy}/PDP.md", "desde": "^## 4\\b", "hasta": "^## ", "tope": 300, "por": "la fase en curso y que la cierra"}
+  ],
+
+  "necesidades": {
+    "materia": {
+      "que": "producir algo para una materia o una clase: apunte, guia, TP, informe, hoja de formulas, modelo de parcial, clase particular",
+      "leer": [
+        {"ruta": "proyectos/documentos/catedras/CLAUDE.md", "por": "lo que pide cada profesor: se lee ANTES de producir"},
+        {"ruta": "plantillas/naturalezas/documentos.md", "por": "como se produce un documento"},
+        {"ruta": "proyectos/documentos/fisica-espacial/CLAUDE.md", "desde": "^## Las reglas propias", "hasta": "^## ", "por": "el formato y la voz de la casa (deuda T2: viven en un proyecto ajeno)"},
+        {"ruta": "{memoria}/feedback_apuntes-materia.md", "por": "metodo del profe primero; criollo formal; publico separado de personal"},
+        {"ruta": "{memoria}/feedback_aprender-criterio-profe.md", "por": "leer entre lineas como evalua y registrarlo"},
+        {"ruta": "{memoria}/fran-cursada-2c-2026.md", "por": "materias, profes y placas de la cursada"},
+        {"ruta": "{memoria}/feedback_publico-se-sube-al-cambiar.md", "por": "lo publico se sube al cambiar"},
+        {"ruta": "{memoria}/feedback_pregunta-no-es-pedido.md", "por": "una pregunta se responde; cambios solo si los pide"},
+        {"ruta": "{memoria}/feedback_hoja-formulas-sin-texto.md", "por": "hoja de examen: solo formulas y titulos"}
+      ]
+    },
+    "ingenieria-inversa": {
+      "que": "entender o modificar un sistema tecnico que no se conoce del todo: juego, emulador, firmware, hardware, una maquina",
+      "leer": [
+        {"ruta": "plantillas/naturalezas/ingenieria.md", "por": "confirmado = intervine y vi el efecto; de arriba hacia abajo"},
+        {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^ANTES DE CREERLE A UN RESULTADO$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "las vinetas enteras del momento, no su primera oracion"},
+        {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^AL LEER UN NEGATIVO$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "un cero acusa al parametro, no al mundo"},
+        {"ruta": "perfil-global/pilares/working-effectively-with-legacy-code.md", "por": "seam y enabling point; sensing vs separation"}
+      ]
+    },
+    "diseno": {
+      "que": "decidir o disenar algo antes de construirlo: una arquitectura, un mod, un plan, elegir entre alternativas, escribir requisitos",
+      "leer": [
+        {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "desde": "^## Qu. leer", "hasta": "^## ", "por": "el indice de las fichas NASA / INCOSE / Rechtin segun la tarea"},
+        {"ruta": "perfil-global/pilares/nasa-seh/README.md", "por": "que tramo del handbook NASA contesta que"},
+        {"ruta": "perfil-global/pilares/rechtin-maier/README.md", "por": "las heuristicas de arquitectura y donde estan"},
+        {"ruta": "~/.claude/skills/spec-interview/SKILL.md", "por": "antes de construir algo no trivial: el spec"},
+        {"ruta": "~/.claude/skills/verify-before-build/SKILL.md", "por": "y despues el chequeo de tres capas"},
+        {"ruta": "{memoria}/feedback_preguntas-solo-de-necesidad.md", "por": "lo tecnico se decide; metas y pesos se preguntan"}
+      ]
+    },
+    "metodo": {
+      "que": "cambiar el metodo mismo: hooks, frenos, verificadores, perfil, cascada, plantillas, el enrutador",
+      "leer": [
+        {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "por": "el contrato de la reforma"},
+        {"ruta": "proyectos/ingenieria/arquitectura-se/docs/diagnostico-2026-09-28.md", "por": "que esta roto, medido, y en que orden"},
+        {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^ANTES DE PONER UN FRENO NUEVO$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "fijate si ya existe uno que mida el efecto"},
+        {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^CUANDO PONES UN FRENO, UNA ALARMA O UN GUARDIA$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "las dos mitades de toda suite"},
+        {"ruta": "perfil-global/pilares/leverage-points.md", "por": "ubicar la intervencion en la escala"},
+        {"ruta": "perfil-global/pilares/saltzer-schroeder.md", "por": "un freno se disena por permiso"},
+        {"ruta": "perfil-global/pilares/mutation-testing.md", "por": "un sabotaje que pasa por la razon equivocada"}
+      ]
+    },
+    "investigar": {
+      "que": "investigar o depurar algo que falla, o algo que anda y no se sabe por que",
+      "leer": [
+        {"ruta": "~/.claude/skills/lecciones-aprendidas/SKILL.md", "por": "regla del perfil: antes de investigar o debuggear"},
+        {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^AL LEER UN NEGATIVO$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "descarta primero la explicacion trivial"}
+      ]
+    },
+    "publicar": {
+      "que": "subir, compartir o mandar algo: Drive, un link, un mail, un PDF publico",
+      "leer": [
+        {"ruta": ".claude/apuntes-publicos.json", "por": "que se publica es una lista, no una regla implicita"},
+        {"ruta": "{memoria}/feedback_publico-se-sube-al-cambiar.md", "por": "se sube apenas existe o cambia"}
+      ]
+    },
+    "ninguna": {
+      "que": "nada mas que lo del proyecto (la base). Se declara igual: decir 'ninguna' es un acto, no un olvido",
+      "leer": []
+    }
+  },
+
+  "conceptos": {
+    "typst": {
+      "que": "compilar o editar un documento Typst",
+      "comando": "(?i)\\btypst\\b",
+      "archivo": "(?i)\\.typ$",
+      "leer": [
+        {"ruta": "~/.claude/skills/pdf-con-codigo/SKILL.md", "por": "el flujo extraer-escribir-compilar-verificar y las trampas ya pagadas"}
+      ]
+    },
+    "freno": {
+      "que": "escribir o tocar un freno: hook, guardia, verificador, saboteador, instalador",
+      "archivo": "(?i)([/\\\\]hooks[/\\\\][^/\\\\]+$|probar-[^/\\\\]*\\.ps1$|verificar-[^/\\\\]*\\.(ps1|py)$|guardia[^/\\\\]*$|install(ar-hooks)?\\.ps1$|chequeo-completo\\.ps1$)",
+      "leer": [
+        {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^CUANDO PONES UN FRENO, UNA ALARMA O UN GUARDIA$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "las vinetas enteras"},
+        {"ruta": "perfil-global/pilares/saltzer-schroeder.md", "por": "permiso, no exclusion; todo return temprano es un fail-open"},
+        {"ruta": "perfil-global/pilares/mutation-testing.md", "por": "llego / cambio / salio"}
+      ]
+    },
+    "pcsx2": {
+      "que": "lanzar o manejar el emulador: PCSX2, PINE, un pnach, un lanzador de BLACK",
+      "comando": "(?i)(pcsx2|\\bpine\\b|\\.pnach|lanzadores[/\\\\]|JUGAR-BLACK|campana_coop|sondas_coop|llamar_una_vez)",
+      "leer": [
+        {"ruta": "proyectos/ingenieria/black/CLAUDE.md", "por": "el contrato de BLACK: herramientas y lo que no se toca"},
+        {"ruta": "{memoria}/feedback_decime-que-hago.md", "por": "con Fran en el emulador: primero la instruccion concreta"}
+      ],
+      "comandos": ["ingenieria/black/abrir-sesion.ps1"]
+    }
+  },
+
+  "proyectos": {
+    "apunte-iise":           {"necesidades": ["materia"]},
+    "catedras":              {"necesidades": ["materia"]},
+    "clase-asincronica-3":   {"necesidades": ["materia"]},
+    "clases-aed":            {"necesidades": ["materia"]},
+    "cohete-de-agua":        {"necesidades": ["materia"]},
+    "electronica-analogica": {"necesidades": ["materia"]},
+    "fisica-espacial":       {"necesidades": ["materia", "publicar"]},
+    "repaso-iise":           {"necesidades": ["materia"]},
+    "software-de-vuelo":     {"necesidades": ["materia", "publicar"]},
+    "taller-de-fisica":      {"necesidades": ["materia"]},
+    "teoria-circuitos":      {"necesidades": ["materia"]},
+    "arquitectura-se":       {"necesidades": ["metodo"]},
+    "black":                 {"necesidades": ["ingenieria-inversa"],
+                              "comandos": ["ingenieria/black/abrir-sesion.ps1"],
+                              "vistas": {"ESTADO_ACTUAL.md": {"vista_h2": 3, "tope": 300}}},
+    "diagnostico-msi":       {"necesidades": ["ingenieria-inversa"]},
+    "lavarropas-drean":      {"necesidades": ["ingenieria-inversa"]},
+    "metodo-agustin":        {"necesidades": ["metodo"]},
+    "telefono-samsung":      {"necesidades": ["ingenieria-inversa"]},
+    "telescopio":            {"necesidades": ["diseno"]},
+    "coaching":              {"necesidades": []},
+    "haberes-docentes":      {"necesidades": []}
+  }
+}

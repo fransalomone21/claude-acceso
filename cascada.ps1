@@ -25,12 +25,20 @@
 # Uso:
 #   .\cascada.ps1                 lista los proyectos
 #   .\cascada.ps1 coaching        el flujo de lectura de ese proyecto
+#   .\cascada.ps1 black -Necesidad ingenieria-inversa,diseno
+#                                 declara la necesidad e imprime lo que la PUERTA exige leer (T11)
+#   .\cascada.ps1 black -Excepcion "motivo"   la salida explicita de la puerta, registrada
+#
+# Desde T11 (2026-10-02) la cascada no es un consejo: .claude/hooks/cascada_puerta.py NO DEJA ACTUAR sobre un
+# proyecto hasta que la sesion declaro la necesidad y LEYO con Read lo que el catalogo .claude/cascada.json exige.
 #
 # Sin acentos a proposito: la consola de Windows lo lee como cp1252.
 
 [CmdletBinding()]
 param(
     [Parameter(Position = 0)][string]$Proyecto,
+    [string[]]$Necesidad,       # T11: la necesidad de Fran que se va a resolver (la puerta la exige)
+    [string]$Excepcion,         # T11: salida explicita de la puerta, con motivo; queda registrada
     [string]$Raiz = $PSScriptRoot
 )
 
@@ -330,6 +338,24 @@ if (-not $top) {
             $atrasos++
         } else { Write-Host "    [x] la fila del enrutador se toco despues del ultimo ESTADO_ACTUAL" -ForegroundColor Green }
     }
+}
+
+# ------------------------------------------- T11: lo que la PUERTA exige
+# No hay segunda lista: lo calcula cascada_puerta.py desde .claude/cascada.json, igual que la puerta.
+$py = Join-Path $Raiz '.claude\hooks\cascada_puerta.py'
+Write-Host ""
+if ($Excepcion) {
+    Write-Host "  EXCEPCION a la puerta para $($pr.Nombre): '$Excepcion'. Pasa en esta sesion y queda registrada." -ForegroundColor Yellow
+} elseif (Test-Path -LiteralPath $py) {
+    $pyArgs = @($py, '--exige', $pr.Nombre)
+    if ($Necesidad) { $pyArgs += @('--necesidad', ($Necesidad -join ',')) }
+    $ErrorActionPreference = 'Continue'
+    & python @pyArgs 2>&1 | ForEach-Object { Write-Host $_ }
+    $ErrorActionPreference = 'Stop'
+} else {
+    # aviso y no faltante: en un repo sintetico (probar-cascada.ps1) no esta, y en el real lo mide --verificar
+    Write-Host "  [~] falta .claude\hooks\cascada_puerta.py: la puerta de T11 no esta en esta raiz" -ForegroundColor Yellow
+    $avisos++
 }
 
 # exit EXPLICITO en los dos caminos. Sin el, el script termina con el

@@ -2,6 +2,26 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
+**2026-10-02 — T11 CONSTRUIDA: la cascada dejó de ser un consejo.** Medido
+antes: de 113 entradas sesión × proyecto desde el 1/9, **1** leyó ESTADO +
+HANDOFF + PDP + contrato antes de su primera acción, y BLACK corrió su
+apertura 7 de 28 veces. Ahora `.claude/hooks/cascada_puerta.py` **no deja
+actuar** sobre un proyecto hasta que la sesión declara la necesidad
+(`.\cascada.ps1 <p> -Necesidad …`) y **lee con Read** lo que el catálogo
+`.claude/cascada.json` exige para esa necesidad y para el concepto que la
+resuelve (typst, freno, pcsx2). Diseño, medición y validación en
+[`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md).
+Autotest **21/21** (con un mutante que ciega la función que decide); el
+medidor del catálogo en la capa rápida dio rojo con la puerta sin registrar y
+verde instalada. **Primera sesión real (ésta): la puerta frenó el primer Edit
+sobre el proyecto; se declaró `metodo,diseno`, se leyeron los 16 rangos (~37 K
+tokens) y el Edit pasó.** En el camino encontró dos defectos que el autotest
+no podía ver (no cruzaba la frontera real): un `cascada.ps1` que sale con
+código 1 no dispara el hook de *después* (la declaración se perdía) y el
+parser de `-Necesidad` se cortaba ante una redirección. Arreglados, con caso.
+Falta validar en 3 sesiones reales más (`medir-cascada.py`); la primera es la
+que retoma BLACK.
+
 **T1 CERRADA el 2026-09-29: los seis pasos.** Construidos el 28/09 los pasos
 1 (medidor), 2 (arranque partido), 3 (pilares en dos hooks), 4 (núcleo de
 chequeo en cuatro) y 5 (hook al paso); **el 6 validó en 3 sesiones reales
