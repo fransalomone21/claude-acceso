@@ -12,6 +12,9 @@ El control son las fotos antes y despues. Todavia SIN H4: los dos paneles leen a
     python herramientas/hud_doble.py              # antes, doble, despues
     python herramientas/hud_doble.py --sin-deshacer
     python herramientas/hud_doble.py --pasos0     # ademas: las 11 constantes `li rX, 2240` en 0 (H4a), foto, y vuelta
+    python herramientas/hud_doble.py --escala 0.75  # (113) V2: escala del marco raiz sola, y con el rectangulo / s
+                                                    #   (la 2.a parte reactiva con cuenta 2: congela el mundo)
+    python herramientas/hud_doble.py --escala-una 0.75  # (113) V2b: rectangulos / s antes de la UNICA activacion
 Salida: volcados/hud/doble-<fecha-hora>/{antes,doble,despues}.png y resumen.json
 """
 import hashlib
@@ -104,9 +107,12 @@ def main():
         res["antes"] = estado(p, hud)
         tipo = res["antes"]["tipo0"]
         captura(dir_, "antes.png")
+        # (113) V2b: con --escala-una S los rectangulos van ya divididos por S (en x) y la escala se escribe despues de
+        # la UNICA activacion: la segunda activacion con cuenta 2 en la misma carga congela el mundo (2 de 2, probable)
+        s1 = float(sys.argv[sys.argv.index("--escala-una") + 1]) if "--escala-una" in sys.argv else 1.0
         with EnPausa():
-            rect(p, hud + 0x78, IZQ)
-            rect(p, hud + 0x120, DER)
+            rect(p, hud + 0x78, tuple(v / s1 if i % 2 == 0 else v for i, v in enumerate(IZQ)))
+            rect(p, hud + 0x120, tuple(v / s1 if i % 2 == 0 else v for i, v in enumerate(DER)))
             cuenta(p, hud, 2)
     res["activar"] = llamar(ACTIVAR, hud)
     res["tipo_p0"] = llamar(TIPO, hud, tipo)
@@ -133,6 +139,52 @@ def main():
                 res["pasos_devueltos"] = all(p.leer32(s) == w for s, w in orig.items())
                 time.sleep(1.0)
                 captura(dir_, "pasos-vuelta.png")
+    if s1 != 1.0:
+        with Pine() as p:
+            raices = [p.leer32(hud + 0x54), p.leer32(hud + 0xA8 + 0x54)]
+            orig_esc = [p.leer32(r + 8) for r in raices]
+            res["escala_una"] = {"s": s1, "raices": [hex(r) for r in raices], "originales": [hex(w) for w in orig_esc]}
+            with EnPausa():
+                for r in raices:
+                    rect(p, r + 8, (s1,))
+        time.sleep(1.0)
+        captura(dir_, "escala.png")
+        with Pine() as p:
+            with EnPausa():
+                for r, w in zip(raices, orig_esc):
+                    p.escribir32(r + 8, w)
+    if "--escala" in sys.argv:
+        # (113) V2, sesiones/PREDICCIONES-113.md: la escala x del marco raiz (*(panel+0x54)+8) se lee por cuadro y se
+        # compone en posiciones Y tamanos (FUN_00276290). V2a: solo la escala (control del modelo: todo se corre a x=0);
+        # V2b: escala + rectangulos / s, activar y tipos (que reponen +8) y la escala otra vez.
+        s = float(sys.argv[sys.argv.index("--escala") + 1])
+        with Pine() as p:
+            raices = [p.leer32(hud + 0x54), p.leer32(hud + 0xA8 + 0x54)]
+            orig_esc = [p.leer32(r + 8) for r in raices]
+            res["escala"] = {"s": s, "raices": [hex(r) for r in raices], "originales": [hex(w) for w in orig_esc]}
+            with EnPausa():
+                for r in raices:
+                    rect(p, r + 8, (s,))
+        time.sleep(1.0)
+        captura(dir_, "escala.png")
+        with Pine() as p:
+            with EnPausa():
+                rect(p, hud + 0x78, tuple(v / s if i % 2 == 0 else v for i, v in enumerate(IZQ)))
+                rect(p, hud + 0x120, tuple(v / s if i % 2 == 0 else v for i, v in enumerate(DER)))
+        res["escala"]["re_activar"] = llamar(ACTIVAR, hud)
+        res["escala"]["re_tipo0"] = llamar(TIPO, hud, tipo)
+        res["escala"]["re_tipo1"] = llamar(TIPO, hud + 0xA8, tipo)
+        with Pine() as p:
+            with EnPausa():
+                for r in raices:
+                    rect(p, r + 8, (s,))
+            res["escala"]["estado"] = estado(p, hud)
+        time.sleep(1.0)
+        captura(dir_, "escala-rect.png")
+        with Pine() as p:
+            with EnPausa():
+                for r, w in zip(raices, orig_esc):
+                    p.escribir32(r + 8, w)
     if deshacer:
         with Pine() as p:
             with EnPausa():

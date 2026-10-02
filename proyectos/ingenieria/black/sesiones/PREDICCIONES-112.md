@@ -38,3 +38,11 @@ idéntico y el EE corriendo (no en pausa). Las palabras se escribieron y se devo
 qué mostró la pantalla, no se sabe. `hud_doble.py` ahora intenta las dos capturas, guarda el md5 de cada foto y marca
 `FOTOS_INVALIDAS` si falta una o hay dos iguales (probado: rojo con repetidas o faltantes, verde con distintas).
 **Se repite con la pantalla libre** (o Fran presente).
+
+**Resultado H4a, repetida en (113) con la pantalla libre: CONFIRMADA, con control** (`volcados/hud/doble-20261002-101753/`,
+las cinco fotos con `capturar-pantalla.ps1` y md5 distintos; sin `FOTOS_INVALIDAS`). Con los 11 pasos en 0 la derecha
+pasa de `000` / `0/000` a `015` / `0/030` (los de J) y la izquierda no cambia; al devolver las 11 palabras
+(`pasos_devueltos` = true) la derecha vuelve a `000`. Lo que la predicción no decía: con los pasos en 0 aparece
+**también la retícula del panel 1, en el centro de la mitad derecha** (sin pasos, sólo la de la izquierda): la retícula
+es uno de los elementos que indexan por panel y con `jugadores[1]` en cero no se dibuja. El índice del jugador en el
+HUD son esas 11 constantes y nada más que se vea.

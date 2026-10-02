@@ -631,6 +631,21 @@ en pausa; el pnach los repone en el cuadro siguiente, así que el control es con
     lo que H4 arregla. Para la C, además: la escala del marco raíz de cada panel (`*(panel+0x54)+8`, que
     `FUN_001F1530` pone en ancho/640 y alto/480) como perilla para achicarlo (`hipótesis`). H4a (sólo los pasos en
     0) quedó inválida por la captura: se repite.
+  - **(113) en vivo, con la pantalla libre (`sesiones/PREDICCIONES-113.md`; H4a en `PREDICCIONES-112.md`):**
+    - **H4a confirmada con control** (`volcados/hud/doble-20261002-101753/`): con las 11 constantes en 0 la derecha
+      pasa de `000` a los valores de J (y aparece su retícula); al devolverlas, vuelve. El índice del jugador del HUD
+      son esas 11 constantes.
+    - **El tamaño, resuelto (confirmado con control, `…-102748/`):** por cuadro, `FUN_00276458` copia el marco raíz
+      (`*(panel+0x54)`: origen `+0/+4`, escala `+8/+0xC`) a su compuesto y `FUN_00276290` compone cada hijo
+      (`origen = pos · escala_padre + origen_padre`, `escala = propia · escala_padre`). La escala sola achica todo
+      hacia x = 0 (V2a, medido); **escala `+8` = 0,75 con el rectángulo del panel en x ÷ 0,75 deja cada HUD en su
+      mitad, a 3/4 y sin encimarse** (V2b). La activación (`FUN_001F1530`) repone `+8`, así que **H2 queda: rectángulos
+      (40, 22, 386,7, 458) y (466,7, 22, 813,3, 458) antes de activar, y `+8` = 0,75 en los dos marcos raíz después**,
+      todo en el stub de `0x00128F5C` (sin sitios nuevos).
+    - **Riesgo nuevo para la C (`probable`, 2 de 2):** una **segunda** activación con cuenta 2 en la misma carga
+      congela el mundo (el sitio por cuadro deja de correr, el contador del mod se frena, los tipos quedan en 0; el
+      EE sigue vivo con PC dispersos). Con cuenta 1 no. El mod activa una vez por carga; lo que hay que medir es que la
+      **descarga** apague el panel 2: dos cargas seguidas con H1 (lección de (86)).
 
 ### Cuerpos: los dos con skin de aliado
 
@@ -654,6 +669,12 @@ en pausa; el pnach los repone en el cuadro siguiente, así que el control es con
   - **Sonda del concepto (en vivo):** llamar la fábrica una vez por PINE (`llamar_una_vez.py`, en pausa) con el
     descriptor de un spawner de Wilderness → nace un soldado y el spawner queda igual (`+0x24`, `+0x28`, `+0x2C` antes
     = después). Control: el mismo spawner activado con su byte (83): `+0x24` pasa a apuntar al nacido y `+0x2C` baja.
+  - **(113) Sonda del concepto CONFIRMADA con control** (City Streets, spawner L12[17]; `herramientas/fabrica_cuerpo.py`,
+    `sesiones/PREDICCIONES-113.md` V3): `FUN_001746E0` llamada sobre una **copia** del descriptor (`0x0046F400`) hace
+    nacer un actor vivo (lista viva +1, un controlador de cuerpo +1) y el spawner queda igual; el mismo spawner por su
+    byte se gasta (`+0x2C` 1 → 0) y queda ocupado por su nacido. El stub de la C puede usar el mismo truco (la copia en
+    su `.bss`, la llamada a `FUN_001746E0` o directo a la fábrica). Falta, sobre este camino: bando 0, grupo de
+    colisión 4, invulnerable y seguir a su jugador (lo de (93i)).
 
 ### La IA, integrada y apagada
 

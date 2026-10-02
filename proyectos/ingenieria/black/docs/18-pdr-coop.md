@@ -43,7 +43,7 @@ fondo (no uno por síntoma):
 |---|---|---|
 | **El disparo de J2 no suena** | darle a J2 su propia «vista de arma» (donde vive el sonido), armada con las piezas del juego | medido: sin el silenciador actual, suena como el tuyo |
 | **El arma del último que cambió se dibuja en las dos mitades** | darle a J2 su propio modelo de arma | medido el problema; el arreglo, leído |
-| **Un solo HUD** (vida, munición, retícula), el tuyo | **novedad de hoy:** el juego ya trae el HUD de **dos** jugadores construido y prende uno solo. Se prende el segundo, se le da su mitad de pantalla y se le hace leer los datos de J2 | **medido hoy: prendido a mano, se ven dos HUD, uno por mitad.** Falta que el de la derecha muestre a J2 (hoy muestra ceros) y que el de la izquierda no quede apretado |
+| **Un solo HUD** (vida, munición, retícula), el tuyo | **novedad de hoy:** el juego ya trae el HUD de **dos** jugadores construido y prende uno solo. Se prende el segundo, se le da su mitad de pantalla y se le hace leer los datos de J2 | **medido: prendido a mano, se ven dos HUD, uno por mitad.** **(113) medido también:** el de la derecha ya puede leer a un jugador (con el cambio de 11 números muestra tus valores; falta que lea los de J2), y **ya no queda apretado**: achicado a 3/4, cada uno entra en su mitad sin encimarse (foto de la pregunta 1) |
 | El zoom de J2 cambiaría el tuyo | darle a J2 su propio campo visual | leído |
 | El efecto de vida baja de J2 se prende en tu pantalla | con el HUD por jugador, cada efecto en su mitad | leído |
 
@@ -67,16 +67,20 @@ fondo (no uno por síntoma):
 
 ## 3. Lo que NO quedó medido (los riesgos que se llevan a la Fase C)
 
-1. **El HUD doble con los datos de J2.** Los dos HUD ya se vieron; que el de la derecha lea a J2 está leído, no
-   visto. Y en media pantalla queda apretado (la vida y la munición se enciman): hay una perilla de escala por panel,
-   sin probar. Primera prueba de la C.
-2. **El cuerpo sin generador.** Leído, no probado. Dos cuerpos (vos y J2) ocupan 2 de los 16 lugares de actores:
-   supongo que sobran.
+1. **El HUD doble con los datos de J2.** Los dos HUD ya se vieron, el de la derecha ya muestra datos de un jugador
+   (los tuyos, con el cambio de 11 números) y el tamaño está resuelto (medido en (113)). Que muestre los de **J2**
+   está leído, no visto. Primera prueba de la C.
+2. **El cuerpo sin generador.** **(113) medido:** se hace nacer un soldado con la fábrica del juego y el generador del
+   guion queda intacto. Falta que ese soldado sea aliado, no reciba daño y siga a su jugador (eso se hizo antes por
+   el otro camino, no por éste). Dos cuerpos ocupan 2 de los 16 lugares de actores: supongo que sobran.
 3. **Continuar desde un punto de control** con el coop: no se pudo probar (hay que llegar a uno jugando).
 4. **Un cambio de zona real con J2 lejos**: no se vio nunca el problema, sólo el arreglo.
 5. **Parsec**: nunca se probó. Lo hacés vos con tu amigo, cuando el mod esté entero.
 6. Los avisos que el juego le da al HUD (daño recibido, mensajes) llevan el número de jugador: los de J2 hoy irían a
    tu mitad. Supuesto, sin contar.
+7. **(113) Nuevo:** prender el HUD doble **dos veces** en el mismo nivel congela el juego (pasó 2 de 2 en las
+   pruebas). El mod lo prende una sola vez por carga, así que no debería pasar; lo que hay que probar en la C es que
+   al cambiar de nivel se apague bien (dos cargas seguidas).
 
 ## 4. Lo que sigue si das el ok: la Fase C (fabricar)
 
@@ -100,6 +104,10 @@ Después viene la D: **jugarlo vos** (con dos mandos, y después con Parsec), qu
    segundo HUD prendido (el de la derecha todavía muestra ceros):
 
    ![HUD hoy](img/112-hud-antes.jpg) ![HUD doble](img/112-hud-doble.jpg)
+
+   **(113)** El mismo HUD doble achicado a 3/4: cada uno en su mitad, sin encimarse (el de la derecha todavía en ceros):
+
+   ![HUD doble achicado](img/113-hud-doble-achicado.jpg)
 2. **Mensajes de misión** (los carteles que pausan el juego): ¿sólo en tu mitad, o en las dos?
 3. **Cuerpos:** ¿está bien que cada jugador sea un soldado aliado genérico en los 8 niveles (aunque en algunos
    niveles no se parezca al personaje)?

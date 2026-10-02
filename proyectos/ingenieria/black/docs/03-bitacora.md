@@ -16,6 +16,18 @@ Formato de cada entrada:
 
 ---
 
+## 2026-10-02 (113, notebook, caliente, pantalla libre) — El HUD de J2 lee por 11 constantes y entra en media pantalla; los cuerpos nacen sin gastar un spawner
+**Máquina:** notebook, fork en City Streets · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (B9 HUD, B11 cuerpos, la PDR) · **Nodos:** `hud`, `spawn`, `personajes`
+**Objetivo:** `sesiones/RETOME-LOCAL.md` (validación 4 de 5 de T11/T12): Fran no contestó la PDR, así que V1–V3 en vivo.
+**Resultado** (predicciones antes de medir: `sesiones/PREDICCIONES-112.md` H4a, `sesiones/PREDICCIONES-113.md` V2–V3):
+- **V1, H4a CONFIRMADA con control** (`volcados/hud/doble-20261002-101753/`, fotos con foco y md5 distintos): las 11 constantes `li rX, 2240` en 0 → la derecha pasa de `000` a `015`/`0/030` (los de J) y aparece su retícula; devueltas, vuelve a `000`.
+- **V2, el tamaño del HUD, CONFIRMADO con control.** En frío: por cuadro `FUN_00276458` copia el marco raíz del panel (`*(panel+0x54)`, escala `+8/+0xC`) a su compuesto y `FUN_00276290` compone cada hijo (posición · escala del padre + origen; tamaño · escala). Medido: vigilante de lectura sobre `+8`, 1 vez por cuadro desde `0x00276470`. V2a (sólo `+8` = 0,75): todo se achica hacia x = 0 y el HUD de J2 cae en la mitad izquierda, como se predijo (`…-102451/`). V2b (rectángulos en x ÷ 0,75 antes de la única activación, `+8` = 0,75 después): **cada HUD en su mitad, a 3/4, sin encimarse** (`…-102748/`; control s = 1: estirados). H2 queda corregido en `docs/16` (sin sitios nuevos).
+- **Riesgo nuevo, `probable` (2 de 2):** una segunda activación con cuenta 2 en la misma carga congela el mundo (sitio por cuadro y contador del mod frenados, tipos en 0; EE vivo, PC dispersos, `juego+0x28` = 0). Con cuenta 1 no. Para la C: dos cargas seguidas con H1.
+- **V3, la fábrica de cuerpos sin spawner, CONFIRMADA con control** (`herramientas/fabrica_cuerpo.py`): `FUN_001746E0` sobre una copia del descriptor de L12[17] en `0x0046F400` hace nacer un actor (vida 100, lista viva +1, controlador +1) y el spawner queda igual; el control (su byte) lo gasta (`+0x2C` 1 → 0) y lo ocupa (`+0x24`). Medido en City Streets (la fábrica es la misma en todos los niveles).
+- `docs/18` (la PDR) al día: riesgos 1 y 2 achicados, riesgo 7 nuevo, foto del HUD achicado para la pregunta 1.
+**No funcionó:** la primera V2 (la reactivación congeló el mundo: fotos repetidas, `FOTOS_INVALIDAS` lo marcó bien); V4 no se hizo (pide llegar jugando a un punto de control).
+**Sigue:** las seis respuestas de Fran a `docs/18` → cerrar la B y abrir la C con su criterio escrito antes. El primer paso de la C ya tiene su receta: H1 + H2 (con la escala) + H3 + H4 en el stub, probado con dos cargas seguidas.
+
 ## 2026-10-02 (112, notebook, en frío) — El HUD de dos jugadores ya existe en el juego: dos paneles construidos, uno se dibuja
 **Máquina:** notebook, en frío (ELF + decompilado de `black-datos`) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (B9 HUD por jugador, B11 cuerpos, la PDR) · **Nodos:** `hud` K2 → K3 (frío, dos métodos)
 **Objetivo:** `sesiones/RETOME-LOCAL.md` P1–P3: quién arma la lista 2D del HUD y si acepta un corrimiento; la receta del cuerpo sin aliados; el documento de la PDR.

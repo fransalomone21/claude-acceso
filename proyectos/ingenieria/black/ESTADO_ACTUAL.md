@@ -39,7 +39,16 @@ decía.
 
 ## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); (111): la IA a los dos POR DEFECTO, un enemigo elige a J2 y lo mata, J2 junta y cambia armas, campaña 8/8 (LEER ESTO PRIMERO)
 
-> **(112), 2026-10-02, NOTEBOOK (frío + una sonda en vivo) — LO ÚLTIMO** (bitácora (112), `sesiones/PREDICCIONES-112.md`).
+> **(113), 2026-10-02, NOTEBOOK CALIENTE, pantalla libre — LO ÚLTIMO** (bitácora (113), `sesiones/PREDICCIONES-113.md`).
+> - **El HUD de J2, medido:** con las 11 constantes en 0 la mitad derecha muestra datos de jugador (H4a, confirmado
+>   con control); **el tamaño está resuelto**: escala del marco raíz `*(panel+0x54)+8` = 0,75 con el rectángulo en
+>   x ÷ 0,75 → cada HUD en su mitad sin encimarse (confirmado; el mecanismo, `FUN_00276290`, leído y medido).
+> - **Riesgo nuevo (`probable`, 2 de 2):** activar el HUD doble dos veces en la misma carga congela el mundo.
+> - **Cuerpos sin spawner, confirmado con control:** `FUN_001746E0` sobre una copia del descriptor hace nacer un
+>   actor y el spawner queda intacto (`herramientas/fabrica_cuerpo.py`).
+> - **La B espera las seis respuestas de Fran a `docs/18`.** Sigue: `sesiones/RETOME-LOCAL.md`.
+
+> **(112), 2026-10-02, NOTEBOOK (frío + una sonda en vivo)** (bitácora (112), `sesiones/PREDICCIONES-112.md`).
 > - **El HUD de dos jugadores ya existe:** el arranque arma dos paneles en `0x0040F518`; la carga prende `cuenta` =
 >   jugadores (`FUN_001F2790` en `0x00128F5C`). Prendido a mano (`hud_doble.py`): **dos HUD, uno por mitad**, confirmado
 >   en pantalla con control; el izquierdo apretado, el derecho en `000` (lee `jugadores[1]`). `hud` **K4**. Diseño H1–H4

@@ -4,7 +4,15 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(112), 2026-10-02, notebook (frío + una sonda en vivo) — LO ÚLTIMO.** El HUD de dos jugadores ya existe en el
+> **(113), 2026-10-02, notebook caliente, pantalla libre — LO ÚLTIMO.** V1 H4a confirmada (los 11 pasos en 0: la
+> derecha muestra datos de jugador); V2 el tamaño del HUD resuelto (escala del marco raíz 0,75 + rectángulo ÷ 0,75,
+> confirmado; H2 corregido en `docs/16`); riesgo nuevo: una segunda activación con cuenta 2 congela el mundo (2 de 2);
+> V3 cuerpos por la fábrica sin gastar el spawner (confirmado, `herramientas/fabrica_cuerpo.py`). V4 no se hizo (pide
+> jugar hasta un punto de control). `docs/18` al día. **Máquina:** pnach sin cambios (938 palabras), fork y PCSX2 de
+> Fran cerrados; `hud_doble.py` con `--escala` y `--escala-una`. **Sigue: `sesiones/RETOME-LOCAL.md`** (las respuestas
+> de Fran → cerrar la B, abrir la C).
+>
+> **(112), 2026-10-02, notebook (frío + una sonda en vivo).** El HUD de dos jugadores ya existe en el
 > juego (dos paneles construidos, la carga prende uno): prendido a mano se ven **dos HUD, uno por mitad** (confirmado;
 > el de la derecha lee `jugadores[1]` = ceros). Diseño H1–H4 en `docs/16` + 16 filas en `coop-plan-b`. F11: los
 > cuerpos por la fábrica de actores sin spawner (en frío). **La PDR para Fran: `docs/18-pdr-coop.md`** (seis
