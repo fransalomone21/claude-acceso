@@ -4,7 +4,14 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(109), 2026-09-28, notebook en frío — LO ÚLTIMO.** La revisión en frío de la tanda quedó en
+> **(110), 2026-10-01, notebook caliente — LO ÚLTIMO.** La IA ve a J2 (PERC2, `coop_ia.py` programa 2, confirmado en
+> RAM con control); la muerte de J2 ya da «MISSION FAILED» sola (no hay que construir «pierden los dos»); reiniciar misión
+> anda con el coop; recorrido macro con fotos (agachado independiente, J sin cuerpo en la mitad de J2, HUD único de J,
+> indicador de daño de J en la mitad de J2). Máquina: pnach con COOP + IA (938 palabras), PCSX2 cerrados, `FrameRateNTSC`
+> global 146,16 → 59,94. **Sigue: `sesiones/RETOME-LOCAL.md`** (T1 un enemigo eligiendo a J2, T2 audio callado, T3 cambio
+> de unidad, T4 HUD, T5 punto de control). Pendiente de Fran: el ok para `CON_IA` por defecto en el acceso COOP.
+>
+> **(109), 2026-09-28, notebook en frío.** La revisión en frío de la tanda quedó en
 > `sesiones/REVISAR-98-108.md` §C: **el diseño de la muerte no se sostiene** (`ctrl+0x100` = 0 en los 7 volcados, nada lo
 > sube; al morir, el juego pasa J a su segundo controlador `J+0x620`), dos herramientas arregladas (`censo_ab.py` 110
 > funciones, `lectores_global.py` con `lqc2`), B6/B7/B8 sin revisar (Fran pidió alto nivel). **Lo que sigue es CALIENTE:

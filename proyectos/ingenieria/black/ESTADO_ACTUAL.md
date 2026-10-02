@@ -37,7 +37,25 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); diseño del resto en frío (98)–(108) y la IA a los dos escrita (107); revisión en frío (109): el diseño de la muerte no se sostiene (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); (110): la IA ve a J2 (PERC2, confirmado), la muerte de J2 ya termina la misión sola, reiniciar misión anda (LEER ESTO PRIMERO)
+
+> **(110), 2026-10-01, NOTEBOOK CALIENTE — LO ÚLTIMO** (bitácora (110), `sesiones/PREDICCIONES-110.md`).
+> - **La IA no veía a J2 por dos causas medidas**: la percepción recorre las 4 ranuras del escuadrón (aliados 0–2, J en
+>   la 3) y «ver»/«visibles» son nodos de BUSCAR que no corren en combate. **PERC2** (`coop_ia.py`, `0x0046F000`;
+>   sitios `0x00184DB8` y `0x00185184`): J2 en la 5.ª ranura y anotado como amenaza por un enemigo en combate que lo
+>   percibe. **Confirmado en RAM con control**. `ia` K4. Falta ver a un enemigo elegir a J2 y dispararle.
+> - **La muerte**: la de J da «MISSION FAILED» con `ctrl+0x100` = 0; **la de J2 (`FUN_0013FFA0(J2+0x4F0, 5)`, la
+>   misma entrada) también, con J vivo**: «si muere uno pierden los dos» ya lo hace el juego. `flujo` K4.
+> - **Reiniciar misión**: el desarme corre y J2 se rearma en 2,3 s y camina (confirmado).
+> - **Macro (fotos)**: agachado independiente en RAM (F6 no se reproduce); J sin cuerpo en la mitad de J2; HUD único
+>   (el de J) con la munición de J en la mitad de J2; retícula en el corte; el indicador de daño de J en la mitad de J2.
+> - **El pnach quedó CON la IA** (`instalar --con-ia`, 938 palabras; ~1 h, varias cargas y un reinicio sin colgar),
+>   **pero el acceso «JUGAR BLACK COOP» lo reinstala SIN la IA** (`JUGAR-BLACK.ps1` llama `instalar` a secas):
+>   `CON_IA` por defecto espera el ok de Fran (lo pide el retome).
+>   `PCSX2.ini` global: `FrameRateNTSC` 146,16 → 59,94 (respaldo).
+> - Herramientas nuevas: `s0_ia.py`, `inspeccion_coop.py`, `seguir_carga.py`, `llamar_una_vez.py` (escribe en pausa:
+>   escribir código con el EE corriendo tiró el fork), `ciclo_mision.py`.
+> - **Sigue (caliente)**: `sesiones/RETOME-LOCAL.md`.
 
 > **(109), 2026-09-28, NOTEBOOK EN FRÍO — LO ÚLTIMO. Revisión de la tanda (98)–(108b)** (`sesiones/REVISAR-98-108.md`,
 > sección C). **La muerte hay que rediseñarla**: `ctrl+0x100` (= `J+0x5F0`) vale 0 en los 7 volcados y nada en el ELF lo

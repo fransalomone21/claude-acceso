@@ -13,7 +13,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 |---|---|---|---|---|---|---|---|---|
 | M1 | Coop local, pantalla compartida | segundo jugador en el mismo nivel y la misma pantalla | N1 | XL | pnach-codigo | K2 (hud) | camara sin ubicar; el array de jugadores no tiene lugar (bitacora 61) | candidato |
 | M2 | Coop con pantalla dividida | cada jugador con su vista | N1 | XL | pnach-codigo | K5 (camara) | dos vistas cuestan el doble de GS/EE; render K1 | candidato |
-| M3 | El segundo mando maneja a un companero de escuadra | el jugador 2 toma a Tom o a Matt, que ya existen como actores | N1 | L | pnach-codigo | K3 (ia) | los companeros no estan en todos los niveles; hay que desenchufar su IA (8a) | candidato |
+| M3 | El segundo mando maneja a un companero de escuadra | el jugador 2 toma a Tom o a Matt, que ya existen como actores | N1 | L | pnach-codigo | K4 (ia) | los companeros no estan en todos los niveles; hay que desenchufar su IA (8a) | candidato |
 | M4 | Coop asimetrico: el segundo como apoyo | marca objetivos, pide municion o controla una vista de apoyo | N1, N3 | L | pnach-codigo | K2 (comandos-ui) | diseno de juego nuevo, no solo tecnica | candidato |
 | M5 | Versus 1 contra 1 | dos jugadores enfrentados en un nivel o arena | N1, N4 | XL | pnach-codigo | K5 (camara) | necesita M1 o M2 mas dano entre jugadores y reaparicion | candidato |
 | M6 | Coop a distancia con Parsec o Remote Play | un amigo se conecta al coop local desde su casa | N1 | S | externo | K5 (entrada) | latencia; depende de que exista M1, M2 o M3 | candidato |
@@ -26,7 +26,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 |---|---|---|---|---|---|---|---|---|
 | D1 | Perfil 'Black Ops+' | dano de la IA, vida, regeneracion y botiquines ajustados como un preset | N2 | M | datos-iso | K2 (pickups) | vida maxima y regeneracion son hipotesis (K2) | candidato |
 | D2 | Punteria de la IA | Max Spread Angle y Accuracy Fall Off del bloque AIParams de cada arma | N2 | S | datos-iso | K6 (armas) | el offset de esos campos se deriva del esquema; falta el efecto | candidato |
-| D3 | Percepcion de la IA | ver antes y oir mas | N2 | L | datos-iso | K3 (ia) | depende de 8a: no se sabe que codigo piensa por el enemigo | candidato |
+| D3 | Percepcion de la IA | ver antes y oir mas | N2 | L | datos-iso | K4 (ia) | depende de 8a: no se sabe que codigo piensa por el enemigo | candidato |
 | D4 | Mas enemigos, y otros tipos, por nivel | editar las unidades de StLevel | N2, N3 | M | datos-iso | K4 (iso-niveles) | el pool tiene 32 lugares; E5 sin probar por efecto | candidato |
 | D5 | Enemigos mas duros | multiplicadores de dano por zona de impacto | N2 | S | pnach-datos | K6 (armas) | bajo: zona*100 confirmado (4b) | candidato |
 | D6 | Municion escasa | cargadores (Num Bullets In Clip) y cuanto dan los pickups | N2 | S | datos-iso | K2 (pickups) | los pickups estan en K2 | candidato |
@@ -45,9 +45,9 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | J5 | Camara lenta | escala de tiempo global, por ejemplo al matar | N3 | M | pnach-codigo | K2 (tiempo) | el reloj no esta ubicado (K0) | candidato |
 | J6 | Movimiento | velocidad, carrera, salto | N3 | M | pnach-datos | K5 (juego) | campos del jugador sin nombre para esto | candidato |
 | J7 | Randomizer | enemigos, armas y pickups distintos cada partida | N3 | L | datos-iso | K2 (pickups) | depende de que D4 ande por efecto | candidato |
-| J8 | Horda o supervivencia | oleadas en una zona de un nivel existente | N3, N4 | XL | pnach-codigo | K3 (flujo) | aparicion en runtime sin ubicar | candidato |
+| J8 | Horda o supervivencia | oleadas en una zona de un nivel existente | N3, N4 | XL | pnach-codigo | K4 (flujo) | aparicion en runtime sin ubicar | candidato |
 | J9 | Todo desbloqueado y nueva partida+ | armas plateadas, municion infinita, todos los niveles | N3 | S | pnach-datos | K2 (guardado) | banderas de desbloqueo sin ubicar | candidato |
-| J10 | Companeros distintos | mortales, o mas utiles en combate | N2, N3 | M | pnach-datos | K3 (ia) | hoy tienen vida FLT_MAX; su IA en K2 | candidato |
+| J10 | Companeros distintos | mortales, o mas utiles en combate | N2, N3 | M | pnach-datos | K4 (ia) | hoy tienen vida FLT_MAX; su IA en K2 | candidato |
 
 ## niveles
 
@@ -56,8 +56,8 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | L1 | Remezcla de niveles | mover apariciones, pickups y objetivos dentro de niveles existentes | N3, N4 | L | datos-iso | K2 (pickups) | colocacion y objetivos sin mapear | candidato |
 | L2 | Noche, niebla o clima | otra atmosfera sobre el mismo nivel | N3, N5 | L | datos-iso | K4 (iso-niveles) | luces y niebla sin ubicar (LevelDat es candidato) | candidato |
 | L3 | Nivel nuevo | geometria propia jugable de punta a punta | N4 | XL | datos-iso | K4 (fisica) | colocacion de submallas, colision y reconstruir el ISO | candidato |
-| L4 | Arenas recortadas | una zona chica de un nivel existente para horda o versus | N4 | L | datos-iso | K3 (flujo) | limites y puntos de aparicion | candidato |
-| L5 | Selector de mision y checkpoint | entrar directo a cualquier tramo: para jugar y para probar mods | N3, N7 | S | pnach-datos | K3 (flujo) | nivel y stage son dos bytes de una global (bitacora 30) | candidato |
+| L4 | Arenas recortadas | una zona chica de un nivel existente para horda o versus | N4 | L | datos-iso | K4 (flujo) | limites y puntos de aparicion | candidato |
+| L5 | Selector de mision y checkpoint | entrar directo a cualquier tramo: para jugar y para probar mods | N3, N7 | S | pnach-datos | K4 (flujo) | nivel y stage son dos bytes de una global (bitacora 30) | candidato |
 
 ## graficos
 
@@ -81,7 +81,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | A2 | Mezcla | duck de explosiones, balas que pasan (BaseMix) | N3 | S | pnach-datos | K3 (audio) | idem A1: BaseMix.cfg esta en ANDY.AKU (medido: BulletBy Ducker Dist = 1, Outer Dist = 5, Stereo Spread = 0.4) | candidato |
 | E1 | Estadisticas en vivo | ventana aparte con muertes, precision y tiempo, leidas por PINE | N3, N1 | S | pine | K2 (estadisticas) | no toca el juego | candidato |
 | E2 | RetroAchievements | logros de la comunidad si BLACK tiene set | N3 | S | emulador | — | puede no existir set; exige cuenta (la crea Fran) | candidato |
-| E3 | Cronometro de speedrun | tiempos por tramo leidos por PINE | N3 | S | pine | K3 (flujo) | bajo | candidato |
+| E3 | Cronometro de speedrun | tiempos por tramo leidos por PINE | N3 | S | pine | K4 (flujo) | bajo | candidato |
 
 ## plataforma
 

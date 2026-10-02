@@ -19,3 +19,15 @@ anotan (id 1 en `+0x150/+0x1B0/+0x210`, bit 0x2 en `+0x274`). Control: `con-ia-1
 **Resultado (`perc2-2`):** dos enemigos en combate con el aliado Tom tienen el id 1 desde t = 0 (vis `0xa`); su amenaza
 actual sigue siendo Tom. Confirmado en RAM, con control. (La versión «ya conoce a J», `perc2-1`, no anotó: el enemigo
 peleaba con el títere.)
+
+## P3 — la muerte de J2 por el camino del juego (antes de llamar)
+Herramienta: `llamar_una_vez.py` (gancho por cuadro libre `0x001295D0`). Control positivo del instrumento:
+`FUN_00173F80(0x0046F2E0, 3)` pone el bit 3 en esa palabra libre (0 -> 8).
+Llamada: `FUN_0013FFA0(J2+0x4F0 = 0x0046D2E0, 5)`, la misma entrada que usa la muerte de J.
+**Predicción:** J2 pasa a su segundo controlador (`J2+0x32C` = `0x0046D410`) y `J2+0x38C` = 2; la partida NO
+termina sola (J sigue vivo; el fin de misión mira a J). Si termina («MISSION FAILED» en 10 s), «si muere uno pierden
+los dos» ya lo hace el juego y no hay que construirlo.
+
+**Resultado P3:** control positivo 0 -> 8 (una llamada). Con `FUN_0013FFA0(0x0046D2E0, 5)`: J2 `+0x32C` = `0x0046D410`,
+`+0x38C` = 2 (como se predijo) y **«MISSION FAILED» con J vivo en 750**: la segunda mitad se refuta, a favor. La muerte
+de J2 ya termina la partida; no hay que construir nada para «pierden los dos».
