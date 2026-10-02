@@ -1,5 +1,14 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (madrugada del 3) — VALIDACIÓN 2 DE 5 de T11/T12: la sesión de BLACK (111)**, `a97df594`, de
+> noche y sin Fran. **T11** (`medir-cascada.py`): leyó las cuatro piezas antes de actuar y declaró la necesidad,
+> **2 de 2** sesiones del período → **100 %, cumple**; la puerta frenó una vez por concepto (`pcsx2`, una memoria) y se
+> leyó lo que pedía; 1 excepción usada, registrada, para anotar esto sin leer el proyecto. **T12**
+> (`medir-costo.py --ultimas 3`): esta sesión ses.met **77 901** (mediana de las 3: 124 829), cuadro/turno 1079,
+> entrada 110 868, al-paso 16 339, **nested 0** (se leyó y editó en `perfil-global/`: cumple). Observación: al-paso
+> es el más alto de las tres (16 339 contra 8795 de mediana) por una sesión larga con muchas herramientas distintas.
+> Falta: validaciones 3 a 5 (el retome de BLACK ya pide la 3).
+
 > **2026-10-02 (noche) — LO ÚLTIMO. T12 CONSTRUIDA y T11b cerrado en lo que
 > sobrevivió.** Medido con `medir-costo.py --simular`: sesión −41 %, turno
 > −68 %, entrada −64 % (`docs/t12-simplificar.md` §9). Fran pidió el cuadro con
