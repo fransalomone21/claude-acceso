@@ -4,9 +4,27 @@
 árbol: se abre esta carpeta, se dice con qué proyecto se sigue y la cascada
 hace el resto.
 
+> **EL LIBRO PRIMERO (regla 16 del perfil).** Ninguna sesión trabaja sin el
+> perfil de Fran cargado. En la PC lo carga el arranque; **en la nube o en
+> otra máquina no llega solo**, y sin él no hay reglas ni lecciones: el
+> arquitecto sin su libro deja de ser arquitecto. Si `~/.claude/CLAUDE.md` no
+> empieza con «# Perfil global», el **primer comando** de la sesión, antes de
+> leer cualquier otra cosa, es:
+>
+> ```bash
+> bash .claude/nube/traer-perfil.sh
+> ```
+>
+> Rojo: hacer lo que dice (`add_repo` de `fransalomone21/perfil-global` y
+> clonarlo) y volver a correrlo. Verde: leer **enteros** los archivos que
+> lista, y recién ahí la tarea. Un retome que diga «el perfil no está, no
+> pelear» se mide, no se obedece (2026-10-02: una sesión trabajó doce módulos
+> sin el libro, y seis de sus errores ya eran lecciones escritas).
+
 Este archivo es el **enrutador**: dice **a dónde ir**, nada más. Cómo se
-trabaja es el perfil global (se carga solo); qué pasa en cada proyecto y en
-qué fase está, su `ESTADO_ACTUAL.md` y su `PDP.md`. **El estado de un proyecto
+trabaja es el perfil global (en la PC se carga solo; en otro lado, el bloque
+de arriba); qué pasa en cada proyecto y en qué fase está, su `ESTADO_ACTUAL.md`
+y su `PDP.md`. **El estado de un proyecto
 no se copia acá**: un dato que vive en dos lados diverge (T12, 2026-10-02: este
 archivo había llegado a 55 K y era el 43 % de lo que paga cada sesión al
 abrir). La historia de cada decisión de estructura está en

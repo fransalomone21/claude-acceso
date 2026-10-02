@@ -159,7 +159,7 @@ comparaciones.
 de 2, no pasan de 92 columnas (más largas se parten en el PDF). Se mide con
 `expand -t2 ejemplos/X.c | awk 'length > 92'`.
 
-### LECCIONES PARA aprender.py (las registra la PC)
+### Lecciones (REGISTRADAS el 2026-10-02 desde la nube con aprender.py, perfil-global a03a500)
 
 - **Título:** el render se mira entero, o lo mide un script; nunca por
   muestreo. **Síntoma:** en el módulo 9 se miraron las páginas 56, 59, 61 y
@@ -250,7 +250,7 @@ numerada). Un mensaje de gcc largo va en cursiva (`_..._`), que sí se corta.
 Una tabla larga que queda partida entre páginas se envuelve en
 `#block(breakable: false)[...]`.
 
-### LECCIONES PARA aprender.py (las registra la PC)
+### Lecciones (REGISTRADAS el 2026-10-02 desde la nube con aprender.py, perfil-global a03a500)
 
 - **Título:** el esqueleto de `template.c` se copia, no se recuerda.
   **Síntoma:** `m04-banderas.c` salió con `/* Function declarations */` y

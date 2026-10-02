@@ -89,6 +89,17 @@ def sab_proyecto_warning(d):
     c.write_text(t + "\nstatic int sin_usar_nunca(void) { return 0; }\n", encoding="utf-8")
 
 
+def sab_encabezado_de_memoria(d):
+    # NO se toca m01-template.c: es la FUENTE de la regla. Romperla pone en rojo a todos los
+    # demas por el motivo equivocado (paso la primera vez, 2026-10-02).
+    for c in sorted((d / "ejemplos").glob("*.c")):
+        t = c.read_text(encoding="utf-8")
+        if c.name != "m01-template.c" and "/* Functions declaration */" in t:
+            c.write_text(t.replace("/* Functions declaration */", "/* Function declarations */", 1), encoding="utf-8")
+            return
+    raise SystemExit("REVENTO: ningun ejemplo tiene '/* Functions declaration */' para sabotear")
+
+
 CASOS = [
     ("un ejemplo con un warning nuevo", sab_warning_nuevo, "NO COMPILA"),
     ("una salida que el programa no imprime", sab_salida, "la salida NO coincide"),
@@ -98,6 +109,7 @@ CASOS = [
     ("un archivo del proyecto que el apunte no muestra", sab_proyecto_archivo_escondido, "que el apunte no muestra"),
     ("una carpeta de proyecto que nadie cita", sab_proyecto_huerfano, "proyecto huerfano"),
     ("un proyecto con un warning", sab_proyecto_warning, "NO COMPILA"),
+    ("un encabezado de seccion escrito de memoria", sab_encabezado_de_memoria, "'/* Function declarations */' no es un encabezado"),
 ]
 
 

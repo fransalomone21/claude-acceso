@@ -165,6 +165,20 @@ final, una lista para la PC ordenada y concreta.
 que ya no coincidía y el `if not in: print` lo dejaba pasar. Un reemplazo que
 no encuentra su texto tiene que fallar, no avisar.
 
+## 4 quater. El libro, resuelto por flujo (2026-10-02, regla 16)
+
+El hueco más caro no eran los hooks: era que **el perfil no llegaba**, y la
+sesión en la nube trabajó sin reglas ni lecciones. R1 se cubre ahora *sin la
+copia generada* del §3.1: `perfil-global` está en GitHub privado y se suma a
+la sesión con `add_repo`; `.claude/nube/traer-perfil.sh` lo clona o actualiza,
+lo instala en `~/.claude`, mide el efecto y lista qué leer, y sin perfil da
+rojo (falla cerrado). Como se lee del repo y no de una copia, no envejece: R4
+deja de hacer falta para el perfil. El aviso que dispara todo vive en el
+`CLAUDE.md` de `claude-acceso`, que es lo único que llega solo a cualquier
+clon. **Sigue abierto:** que la sesión lo corra por sí sola sin depender de
+leer el aviso (un hook, que en la nube no corre: §4 bis punto 1), y los hooks
+de la puerta y de la fase.
+
 ## 5. Orden de construcción
 
 R3 (la prueba de la frontera en Windows) → 3 → 4 → 1-2 → R5 → R6. Los rojos

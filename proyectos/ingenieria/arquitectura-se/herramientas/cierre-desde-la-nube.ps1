@@ -6,6 +6,7 @@
   Escrito el 2026-10-02 por la sesion en la nube que termino el apunte de C (v1.0). Es el
   embrion del "pasar-a-nube" de la T7, pero al reves: lo que vuelve de la nube a la PC.
 
+    0. Python en modo UTF-8 para tu usuario (PYTHONUTF8=1, medido por efecto)
     1. claude-acceso: pull y verificar-estructura (rojo = se frena, NO se publica nada)
     2. perfil-global: commit de lo pendiente, pull y push (la nube lo puede leer)
     3. repos propios (catedras, clases-aed, cohete-de-agua, teoria-circuitos, haberes-docentes,
@@ -43,6 +44,23 @@ function Correr($desc, [scriptblock]$bloque) {
 
 $raiz = (git -C $PSScriptRoot rev-parse --show-toplevel).Trim()
 Set-Location $raiz
+
+# ---------------------------------------------------------------- 0
+# La CLASE de error, no el caso (regla 15): en Windows un Python que escribe a un pipe usa cp1252,
+# y otro Python que lo lee en UTF-8 revienta (probar-verificar-ejemplos, 2026-10-02). El barrido
+# encontro 13 llamadas iguales mas (casi todas en black/herramientas). En vez de emparchar cada
+# una, el modo UTF-8 de Python para el usuario: arregla las que hay y las que vengan. Se mide el
+# EFECTO (sys.flags.utf8_mode), no que la variable este escrita. Se deshace con:
+#   [Environment]::SetEnvironmentVariable('PYTHONUTF8', $null, 'User')
+Paso '0. entorno: Python en modo UTF-8 para tu usuario'
+$modo = "$(python -c 'import sys; print(sys.flags.utf8_mode)')".Trim()
+if ($modo -ne '1') {
+    [Environment]::SetEnvironmentVariable('PYTHONUTF8', '1', 'User')
+    $env:PYTHONUTF8 = '1'
+    $modo = "$(python -c 'import sys; print(sys.flags.utf8_mode)')".Trim()
+    if ($modo -ne '1') { Frenar 'PYTHONUTF8=1 quedo escrito pero python no entro en modo UTF-8' }
+    Write-Host '[OK] PYTHONUTF8=1 fijado para tu usuario: todo Python lee y escribe UTF-8' -ForegroundColor Green
+} else { Write-Host '[OK] Python ya estaba en modo UTF-8' -ForegroundColor Green }
 
 # ---------------------------------------------------------------- 1
 Paso '1. claude-acceso: pull y estructura'
@@ -144,7 +162,6 @@ if (Test-Path $stm) {
 Paso 'Listo. Sigue siendo a mano (para la proxima sesion local)'
 @(
   '- en claude.ai/connect-github: si la GitHub App de Claude esta en "repositorios seleccionados", sumar los repos nuevos',
-  '- registrar con aprender.py las lecciones de los HANDOFF (software-de-vuelo: 3; arquitectura-se: 1)',
   '- cotejar Practico 1 (ej. 2 y 4 a 9), Practico 2 ej. 1 y Practico 3 (ej. 3 y 4) contra los ejemplos del apunte',
   '- en la placa: leer *(volatile uint32_t *)0 en el depurador (modulo 8)',
   '- comparar docs/CRITERIOS-LEANDRO.md contra catedras/software-de-vuelo/CRITERIOS.md',

@@ -18,6 +18,11 @@ Las ENTRADAS del mecanismo (y cada una tiene su sabotaje en probar-verificar-eje
                                y la lista tiene que ser EXACTAMENTE los .c y .h de la carpeta:
                                un archivo del proyecto que el apunte no muestra es rojo.
   - el entorno               : sin WSL o sin gcc, ROJO (falla cerrado, no verde mudo).
+  - los encabezados de seccion: todo `/* Xxx */` en la columna 0 (hasta tres palabras) tiene que
+                               ser uno de los de ejemplos/m01-template.c (se LEEN de ahi, no se
+                               copian), o `Types`, el agregado declarado del modulo 9. Nacio el
+                               2026-10-02: m04-banderas salio con "Function declarations" escrito
+                               de memoria y el verificador no lo veia.
 
 Sale con 0 si todo da, 1 si algo falla.
 """
@@ -54,6 +59,24 @@ def citados():
         for m in re.finditer(r'#codigo\(\s*"([^"]+)"', typ.read_text(encoding="utf-8")):
             usos.setdefault(m.group(1), []).append(typ.name)
     return usos
+
+
+ENCABEZADO = re.compile(r'^/\* ([A-Za-z]+(?: [A-Za-z]+){0,2}) \*/\s*$')
+AGREGADOS = {"Types"}   # template.c no tiene donde poner tipos; el modulo 9 lo declara
+
+
+def encabezados_ajenos(archivos):
+    """Los encabezados de seccion que no son de template.c (leido del disco, no copiado)."""
+    plantilla = {m.group(1) for l in (EJ / "m01-template.c").read_text(encoding="utf-8").splitlines()
+                 if (m := ENCABEZADO.match(l))}
+    malos = []
+    for f in archivos:
+        for n, l in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+            m = ENCABEZADO.match(l)
+            if m and m.group(1) not in plantilla | AGREGADOS:
+                malos.append(f"{f.relative_to(EJ)}:{n}: '/* {m.group(1)} */' no es un encabezado de "
+                             f"template.c ({', '.join(sorted(plantilla))})")
+    return malos
 
 
 def proyectos_citados():
@@ -153,6 +176,7 @@ def main():
     for n, donde in sorted(usos.items()):
         if not (EJ / (n + ".c")).exists():
             fallas.append(f'#codigo("{n}") en {", ".join(donde)} sin ejemplos/{n}.c')
+    fallas.extend(encabezados_ajenos(sorted(EJ.rglob("*.c")) + sorted(EJ.rglob("*.h"))))
     usos_p = proyectos_citados()
     for d in proyectos:
         if d.name not in usos_p:
