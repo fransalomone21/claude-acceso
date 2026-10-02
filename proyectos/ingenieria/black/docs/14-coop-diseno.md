@@ -120,6 +120,28 @@ gancho IA defecto           | 0x0018A8BC | 0x0018A8C0 | gancho | (107)
 gancho IA hostil            | 0x00184904 | 0x0018490C | gancho | (107)
 gancho IA percepcion        | 0x00184DB8 | 0x00184DBC | gancho | (110)
 gancho IA lazo hasta 5      | 0x00185184 | 0x00185188 | gancho | (110)
+# (115) COOP-C pieza 1, el HUD doble, PRENDIDO por defecto (coop_mod.CON_HUD; `--sin-hud` es el control). Salió de
+# coop-plan-b al pasar su prueba (sesiones/PREDICCIONES-115.md). Código y listado: coop_hud.py,
+# docs/listados/C1-coop-hud.txt; lo que pisa y en lo que se apoya lo mide la regla 8 contra el ELF
+HUD doble                   | 0x0046EA80 | 0x0046EC14 | codigo | (115)
+cabecera sombra +0x1C..+0x28 | 0x0046CDDC | 0x0046CDEC | datos | (115)
+cabecera sombra +0x8F0/+0x910 | 0x0046D6B0 | 0x0046D6D4 | datos | (112)
+cabecera sombra +0x5AAC/+0x5AB0 | 0x0047286C | 0x00472874 | datos | (112)
+cabecera sombra +0x5AEC     | 0x004728AC | 0x004728B0 | datos  | (100)
+cabecera sombra +0x5CA0     | 0x00472A60 | 0x00472A64 | datos  | (112)
+gancho HUD carga (H1/H2)    | 0x00128F5C | 0x00128F60 | gancho | (115)
+gancho HUD panel (H3/H4)    | 0x001F25DC | 0x001F25E0 | gancho | (115)
+HUD H4 paso 0 (1)          | 0x001F7C4C | 0x001F7C50 | gancho | (115)
+HUD H4 paso 0 (2)          | 0x001F936C | 0x001F9370 | gancho | (115)
+HUD H4 paso 0 (3)          | 0x001FB45C | 0x001FB460 | gancho | (115)
+HUD H4 paso 0 (4)          | 0x001FB620 | 0x001FB624 | gancho | (115)
+HUD H4 paso 0 (5)          | 0x001FBACC | 0x001FBAD0 | gancho | (115)
+HUD H4 paso 0 (6)          | 0x001FBDB4 | 0x001FBDB8 | gancho | (115)
+HUD H4 paso 0 (7)          | 0x001FBFD4 | 0x001FBFD8 | gancho | (115)
+HUD H4 paso 0 (8)          | 0x001FD2BC | 0x001FD2C0 | gancho | (115)
+HUD H4 paso 0 (9)          | 0x001FD444 | 0x001FD448 | gancho | (115)
+HUD H4 paso 0 (10)         | 0x001FD534 | 0x001FD538 | gancho | (115)
+HUD H4 paso 0 (11)         | 0x001FD64C | 0x001FD650 | gancho | (115)
 ```
 
 Los tres ganchos de la escena (`pd.SITIOS`) los compara el verificador contra `pantalla_dividida.py`
@@ -137,8 +159,6 @@ a `coop-rangos` con su rango exacto.
 # nombre                       | desde      | hasta      | tipo    | espera (ELF)                        | fuente
 silenciar vida baja de J2      | 0x001F2A60 | 0x001F2A68 | gancho  | addiu sp, sp, -144; lui v0, 0x44    | (103)
 silenciar icono de J2          | 0x001F2CD0 | 0x001F2CD8 | gancho  | addiu sp, sp, -16; lui v1, 0x41     | (103)
-cabecera sombra +0x1C/+0x20    | 0x0046CDDC | 0x0046CDE4 | reserva | -                                   | (100)
-cabecera sombra +0x5AEC        | 0x004728AC | 0x004728B0 | reserva | -                                   | (100)
 CAND2 (candidato de J2)        | 0x0046E580 | 0x0046E588 | reserva | -                                   | (100)
 V2 y su bandera                | 0x0046E588 | 0x0046E590 | reserva | -                                   | (101)
 FOV2 y bandera de silencio     | 0x0046E590 | 0x0046E598 | reserva | -                                   | (103)
@@ -146,28 +166,10 @@ sub3 (datos)                   | 0x0046E5A0 | 0x0046E5B0 | reserva | -          
 juntar J2 (código)             | 0x0046E780 | 0x0046E900 | reserva | -                                   | (100)
 ventana de J2 (código)         | 0x0046E900 | 0x0046EA00 | reserva | -                                   | (104)
 silenciar HUD (código)         | 0x0046EA00 | 0x0046EA80 | reserva | -                                   | (103)
-HUD de J2 (código)             | 0x0046EA80 | 0x0046ED00 | reserva | -                                   | (103)
 sub3 (código)                  | 0x0046ED00 | 0x0046EE00 | reserva | -                                   | (102)
 armar V2 (código)              | 0x0046EE00 | 0x0046EF00 | reserva | -                                   | (101)
 traer J2 en la descarga        | 0x0012DDCC | 0x0012DDD0 | gancho  | jal 0x0016E3C0                      | (111)
 traer J2 (código)              | 0x0046F100 | 0x0046F180 | reserva | -                                   | (111)
-# (112) el HUD de dos jugadores del juego (docs/16, «HUD separado», (112)); el código va en «HUD de J2 (código)»
-HUD H1/H2 dos paneles          | 0x00128F5C | 0x00128F64 | gancho  | jal 0x001F2790; lb a1, 520(v1)      | (112)
-HUD H4 ventana del panel 2     | 0x001F25DC | 0x001F25E0 | gancho  | jal 0x001F1608                      | (112)
-HUD H4 paso 0 (1)              | 0x001F7C4C | 0x001F7C50 | gancho  | li a1, 2240                         | (112)
-HUD H4 paso 0 (2)              | 0x001F936C | 0x001F9370 | gancho  | li v1, 2240                         | (112)
-HUD H4 paso 0 (3)              | 0x001FB45C | 0x001FB460 | gancho  | li v1, 2240                         | (112)
-HUD H4 paso 0 (4)              | 0x001FB620 | 0x001FB624 | gancho  | li v1, 2240                         | (112)
-HUD H4 paso 0 (5)              | 0x001FBACC | 0x001FBAD0 | gancho  | li v0, 2240                         | (112)
-HUD H4 paso 0 (6)              | 0x001FBDB4 | 0x001FBDB8 | gancho  | li s5, 2240                         | (112)
-HUD H4 paso 0 (7)              | 0x001FBFD4 | 0x001FBFD8 | gancho  | li a0, 2240                         | (112)
-HUD H4 paso 0 (8)              | 0x001FD2BC | 0x001FD2C0 | gancho  | li a1, 2240                         | (112)
-HUD H4 paso 0 (9)              | 0x001FD444 | 0x001FD448 | gancho  | li a1, 2240                         | (112)
-HUD H4 paso 0 (10)             | 0x001FD534 | 0x001FD538 | gancho  | li v1, 2240                         | (112)
-HUD H4 paso 0 (11)             | 0x001FD64C | 0x001FD650 | gancho  | li a1, 2240                         | (112)
-cabecera sombra +0x8F0/+0x910  | 0x0046D6B0 | 0x0046D6D4 | reserva | -                                   | (112)
-cabecera sombra +0x5AAC/+0x5AB0 | 0x0047286C | 0x00472874 | reserva | -                                  | (112)
-cabecera sombra +0x5CA0        | 0x00472A60 | 0x00472A64 | reserva | -                                   | (112)
 ```
 
 ## 4. Interfaz con los otros mods

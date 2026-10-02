@@ -652,6 +652,14 @@ en pausa; el pnach los repone en el cuadro siguiente, así que el control es con
       congela el mundo (el sitio por cuadro deja de correr, el contador del mod se frena, los tipos quedan en 0; el
       EE sigue vivo con PC dispersos). Con cuenta 1 no. El mod activa una vez por carga; lo que hay que medir es que la
       **descarga** apague el panel 2: dos cargas seguidas con H1 (lección de (86)).
+  - **(115) FABRICADO en el stub (COOP-C pieza 1, `herramientas/coop_hud.py`), confirmado con control y dos cargas
+    (`sesiones/PREDICCIONES-115.md`).** A nivel instrucción: `CARGAH` en `0x00128F5C` (cuenta de paneles 2 y los
+    rectángulos ÷ 0,75; la activación sigue siendo la del juego, en `0x00128F64`); `PANELH` en `0x001F25DC` (tras el
+    panel 0, H3 y la escala 0,75 **por cuadro** —no «después de activar» en el mismo stub: no había dónde sin un sitio
+    nuevo—; el panel 1 con el juego conmutado y la sombra, que suma `+0x28`: la pausa es sólo de J1); los 11 pasos en
+    0. **El congelamiento de (113), con mecanismo (`probable`, en frío):** la reactivación desactiva sólo el panel 0 y
+    re-enlista los elementos del panel 1 sobre sí mismos (lista en ciclo); el desarme (`FUN_001F26C0`) los desactiva a
+    los dos, por eso dos cargas andan. Riesgos (i)–(iii) de arriba siguen abiertos (no medidos).
 
 ### Cuerpos: los dos con skin de aliado
 

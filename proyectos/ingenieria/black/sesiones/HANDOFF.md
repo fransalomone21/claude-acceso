@@ -4,7 +4,13 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(114), 2026-10-02, notebook caliente, con Fran jugando — LO ÚLTIMO.** Fran contestó la PDR (sus seis respuestas
+> **(115), 2026-10-02, notebook (frío + caliente) — LO ÚLTIMO.** **Pieza 1 de la C hecha:** el HUD doble en el stub
+> (`herramientas/coop_hud.py`), confirmado con control y dos cargas (`sesiones/PREDICCIONES-115.md`): cada mitad con el
+> HUD de su jugador a 3/4. Filas en `coop-rangos`, regla 8 de `coop_diseno.py`, saboteador 20/20, `hud` K5.
+> **Máquina:** pnach con COOP + IA + HUD (1052 palabras, el default de `instalar`); COOP activo; parches de mira
+> prendidos; fork y PCSX2 de Fran cerrados. **Sigue: `sesiones/RETOME-LOCAL.md`** (pieza 2: `V2` y sub3, en frío primero).
+>
+> **(114), 2026-10-02, notebook caliente, con Fran jugando.** Fran contestó la PDR (sus seis respuestas
 > en `docs/18`): **la B cerrada (KDP-B) y la C abierta** con su criterio en `PDP.md` §4. V4b no medible con el
 > selector de depuración (CONTINUE apagado también sin el coop: control); N21 medido (las bombas del guion matan a J2
 > rezagado); N22–N24 vistos por Fran sin control; el RPG lento no es del coop. Herramientas: `v4_registro.py`,

@@ -17,6 +17,10 @@ Lee el bloque ```coop-rangos del documento y exige, en este orden:
   7. (111) la IA (coop_ia.py) esta PRENDIDA por defecto en coop_mod (decision del 2026-10-02) y cada sitio suyo
      tiene en el ELF la instruccion que reemplaza; su codigo y sus ganchos ya viven en coop-rangos (reglas 1-3).
      Hasta (110) era: el codigo cae en su reserva del plan.
+  8. (115, COOP-C pieza 1) el HUD doble (coop_hud.py): su codigo cae en la reserva «HUD de J2 (codigo)» del plan, o
+     (cuando la pieza pase su prueba y sus filas se muden) en una fila de codigo de coop-rangos con su rango exacto;
+     cada gancho suyo cae en una fila gancho del plan o de coop-rangos; y coop_hud.problemas() vacio (capstone,
+     saltos, floats del PDP, la sombra en sus reservas, lo que pisa y en lo que se apoya contra el ELF, el listado).
 Sale 0 si todo esta bien y 1 si algo falla (y dice que). Su saboteador: pruebas/probar-coop-diseno.py.
 """
 import argparse
@@ -53,6 +57,9 @@ def verificar(doc: Path, mods: Path) -> list[str]:
     con_ia_por_defecto = cm.CON_IA
     cm.CON_IA = True    # (111) y con la IA, que ademas tiene que estar prendida por defecto (regla 7)
     errores += verificar_ia(con_ia_por_defecto)
+    con_hud_por_defecto = cm.CON_HUD
+    cm.CON_HUD = True   # (115) y con el HUD doble, que desde que vive en coop-rangos va prendido por defecto (regla 8)
+    errores += verificar_hud(doc, filas, con_hud_por_defecto)
     progs = cm.programas()
     # 1. los programas contra el plano
     for nombre, prog in progs[:-1]:
@@ -151,6 +158,29 @@ def verificar_ia(con_ia_por_defecto) -> list[str]:
         if real.lower() != coop_ia.ORIGINAL[pc].lower():
             errores.append("gancho de la IA %#x (%s): el ELF tiene '%s', se esperaba '%s'"
                            % (pc, texto, real, coop_ia.ORIGINAL[pc]))
+    return errores
+
+
+def verificar_hud(doc: Path, filas_rangos, con_hud_por_defecto=True) -> list[str]:
+    """(115) regla 8: el HUD doble contra el plano, mientras vive en coop-plan-b y despues de mudarse a coop-rangos
+    (y ahi, prendido por defecto en coop_mod: si no, el acceso COOP instalaria sin la pieza)."""
+    import coop_hud
+    errores = ["HUD: " + e for e in coop_hud.problemas()]
+    plan = leer_plan(doc) or []
+    prog = coop_hud.programa()
+    desde, hasta = prog[0][0], prog[-1][0] + 4
+    en_plan = any(f["tipo"] == "reserva" and f["nombre"].startswith("HUD de J2") and f["desde"] <= desde
+                  and hasta <= f["hasta"] for f in plan)
+    en_rangos = any(f["tipo"] == "codigo" and (f["desde"], f["hasta"]) == (desde, hasta) for f in filas_rangos)
+    if not (en_plan or en_rangos):
+        errores.append("HUD: el codigo [%#x, %#x) no cae en su reserva del plan ni en una fila de coop-rangos"
+                       % (desde, hasta))
+    if en_rangos and not con_hud_por_defecto:
+        errores.append("HUD: coop_mod.CON_HUD apagado por defecto con sus filas en coop-rangos: el acceso COOP "
+                       "instalaria sin la pieza")
+    for pc, _, texto in coop_hud.ganchos():
+        if not any(f["tipo"] == "gancho" and f["desde"] <= pc < f["hasta"] for f in plan + filas_rangos):
+            errores.append("HUD: gancho %#x (%s) sin fila en el plan ni en coop-rangos" % (pc, texto))
     return errores
 
 

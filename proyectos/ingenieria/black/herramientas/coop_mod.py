@@ -815,7 +815,16 @@ def programas():
         progs.append(("IA los dos", coop_ia.programa()))
         progs.append(("IA percepcion de J2", coop_ia.programa2()))   # (110)
         ganchos += coop_ia.ganchos()
+    if CON_HUD:
+        # (115) COOP-C pieza 1, el HUD doble (coop_hud.py). PRENDIDO por defecto desde que paso su prueba (prediccion,
+        # control y dos cargas, sesiones/PREDICCIONES-115.md); `--sin-hud` es el control. Sus filas, en coop-rangos
+        import coop_hud
+        progs.append(("HUD doble", coop_hud.programa()))
+        ganchos += coop_hud.ganchos()
     return progs + [("ganchos", ganchos)]
+
+
+CON_HUD = True  # (115) PRENDIDO por defecto; `--sin-hud` es el control y `--con-hud` se acepta y no hace nada
 
 
 CON_IA = True  # (111) PRENDIDA por defecto; `--sin-ia` es el control y `--con-ia` se acepta y no hace nada (como SIN_R3 en (93y))
@@ -838,9 +847,10 @@ def depurador(accion):
 
 
 def cmd_listar(_a):
-    global SIN_R3, CON_IA
+    global SIN_R3, CON_IA, CON_HUD
     SIN_R3 = getattr(_a, "sin_r3", False)
     CON_IA = not getattr(_a, "sin_ia", False)
+    CON_HUD = not getattr(_a, "sin_hud", False)
     for nombre, prog in programas():
         print("== %s: %d palabras, %#010x..%#010x" % (nombre, len(prog), prog[0][0], prog[-1][0] + 4))
         for pc, w, t in prog:
@@ -1053,8 +1063,9 @@ def cmd_instalar(_a):
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
     SIN_R3 = getattr(_a, "sin_r3", False)
     SIN_OCULTAR_J = not getattr(_a, "con_ocultar_j", False)
-    global CON_IA
+    global CON_IA, CON_HUD
     CON_IA = not getattr(_a, "sin_ia", False)
+    CON_HUD = not getattr(_a, "sin_hud", False)
     viejo =PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -1065,7 +1076,7 @@ def cmd_instalar(_a):
     r = _respaldo(PARCHES)
     PARCHES.write_bytes(nuevo.encode("utf-8"))
     print(json.dumps({"pnach": str(PARCHES), "respaldo": r.name, "palabras": sum(len(x[1]) for x in programas()),
-                      "ranura3": not SIN_R3,
+                      "ranura3": not SIN_R3, "hud_doble": CON_HUD,
                       "ajuste_intacto": "Enable = %s" % NOMBRE_BLOQUE not in AJUSTES.read_text(encoding="utf-8")}))
     return 0
 
@@ -1094,7 +1105,9 @@ def main() -> int:
         sub.add_parser(c)
     li = sub.add_parser("listar"); li.add_argument("--con-r3", action="store_true"); li.add_argument("--sin-r3", action="store_true")
     li.add_argument("--con-ia", action="store_true"); li.add_argument("--sin-ia", action="store_true")
+    li.add_argument("--con-hud", action="store_true"); li.add_argument("--sin-hud", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
+    ins.add_argument("--con-hud", action="store_true"); ins.add_argument("--sin-hud", action="store_true")
     ins.add_argument("--con-ia", action="store_true"); ins.add_argument("--sin-ia", action="store_true")
     ins.add_argument("--con-r3", action="store_true"); ins.add_argument("--sin-r3", action="store_true")
     ins.add_argument("--con-ocultar-j", action="store_true"); ins.add_argument("--sin-ocultar-j", action="store_true")

@@ -16,6 +16,20 @@ Formato de cada entrada:
 
 ---
 
+## 2026-10-02 (115, notebook, frío + caliente) — COOP-C pieza 1 HECHA: el HUD doble en el stub, cada mitad con su jugador
+**Máquina:** notebook, fork en City Streets · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-C (pieza 1, el HUD doble) · **Nodos:** `hud` K4 → **K5**
+**Objetivo:** `sesiones/RETOME-LOCAL.md`: H1–H4 a nivel instrucción → `coop_diseno.py verificar` en 0 con su saboteador en rojo → el stub, con predicción, control y dos cargas.
+**Resultado (en vivo, predicciones antes: `sesiones/PREDICCIONES-115.md`):**
+- **La pieza 1 CUMPLE su criterio** (PDP §4): con el pnach solo (1052 palabras), **dos HUD, uno por mitad, a 3/4 y sin encimarse; J dispara → cambia sólo la izquierda (013 / 015); J2 dispara → sólo la derecha (013)**. Control (`--sin-hud`, 938 palabras): un HUD, y el disparo de J2 no mueve nada propio. **Dos cargas seguidas** sin colgar, con el mismo resultado. `hud` **K5**. Sus filas pasaron de `coop-plan-b` a `coop-rangos`; **prendida por defecto** (`coop_mod.CON_HUD`, regla 8 lo exige). Herramientas: `hud_pieza.py` (estado + tres fotos con md5), `hud_pieza_banco.py pieza|control`.
+- Saboteador del plano: 20 de 20 (seis casos nuevos del HUD, cada uno con la marca de su regla).
+**Resultado (en frío):**
+- **El diseño a nivel instrucción:** `herramientas/coop_hud.py` (101 palabras en la reserva `0x0046EA80`; listado `docs/listados/C1-coop-hud.txt`). Dos sitios del plan, ninguno nuevo: `CARGAH` en `0x00128F5C` (cuenta de paneles 2 y los rectángulos en x ÷ 0,75, **antes** de la única activación, que la hace el juego en `0x00128F64`) y `PANELH` en `0x001F25DC` (el lazo por cuadro de los paneles: tras el panel 0, H3 el tipo difundido y H2 la escala 0,75 en los dos marcos raíz, cada cuadro; el panel 1 con el juego conmutado a `J2 − 0x30` y la cabecera sombra). Más las 11 palabras `li rX, 2240` → 0. `coop_diseno.py` regla 8.
+- **Por qué una sola activación por carga (mecanismo del «mundo congelado» de (113), `probable`, C + instrucciones):** `FUN_001F2340` ya activado (`+0x238` = 0x1C) desactiva **sólo el panel 0** (el lazo de `0x001F23A8` corre una vez) y vuelve a enlistar los elementos del panel 1 a la cabeza de su lista (`FUN_001F2740`) sin sacarlos: la lista queda en ciclo y `FUN_001F1608` no vuelve. El desarme (`FUN_00129DE8` → `FUN_001F26C0`) desactiva los `cuenta` paneles y pone `+0x238` = 0x38: **predicción, dos cargas seguidas sin colgar**.
+- **La sombra suma `+0x28`:** el elemento 5 pausa con `FUN_0027F818(juego)`; conmutado escribiría `juego'+0x28`. Copiado adentro y descartado afuera: la pausa es sólo de J1 (Fran, `docs/18`). Las reservas de la sombra y del código, en cero en los 16 volcados (control: `*(0x0040F4D0)` no cero).
+- El `.bss` del ELF llega a `0x0049BFBC`: la memoria «libre» del mod es `.bss` que el juego no usa (medido en volcados, no garantizado por el ELF).
+**No funcionó:** la primera verificación de `coop_hud.py` dio 6 rojos que no eran del código: capstone en modo MIPS32 no decodifica `sd`/`ld` (se pasó a MIPS64, como `desensamblar.py`). El «todo en el stub de `0x00128F5C`» que decía `docs/16` no se podía cumplir literal (la activación la hace el juego **después**, en `0x00128F64`): la escala va por cuadro en `PANELH`, sin sitio nuevo.
+**Sigue:** la pieza 2 de la C (el sonido y el modelo de arma de J2: `V2` propia y sub3), que empieza en frío: sus recetas están «sin leer» en `docs/16`.
+
 ## 2026-10-02 (114, notebook, caliente, con Fran jugando) — La PDR aprobada: se cierra la B y se abre la C; V4 no se puede medir con el selector; las bombas del guion matan a J2 rezagado
 **Máquina:** notebook, fork en City Streets · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR, V4) → COOP-C · **Nodos:** `flujo`, `disparadores`, `proyectiles`
 **Objetivo:** `sesiones/RETOME-LOCAL.md` (validación 5 de 5 de T11/T12): las seis respuestas de Fran a `docs/18` → cerrar la B y abrir la C; con Fran presente, V4 (cambio de unidad real y «continuar misión»).

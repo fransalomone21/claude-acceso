@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Saboteador de coop_diseno.py: rompe el plano de a una cosa por vez (en copias temporales) y exige ROJO;
-el plano sin tocar tiene que dar VERDE. Sale 0 sólo si todas se cumplen (catorce desde (111): tres del plan de COOP-B y cuatro de la IA)."""
+el plano sin tocar tiene que dar VERDE. Sale 0 sólo si todas se cumplen (veinte desde (115): tres del plan de COOP-B, cuatro de la IA y seis del HUD doble)."""
 import re
 import shutil
 import subprocess
@@ -17,6 +17,16 @@ VERIF = RAIZ / "herramientas" / "coop_diseno.py"
 # (111) sabotajes que no tocan el plano sino el codigo: (codigo previo, marca que tiene que salir en el rojo)
 APAGAR_IA = ("import coop_mod; coop_mod.CON_IA = False", "CON_IA apagada")
 ORIGINAL_IA_MAL = ("import coop_ia; coop_ia.ORIGINAL[0x0018FC4C] = 'jal 0x0018FB90'", "gancho de la IA 0x18fc4c")
+# (115) regla 8, el HUD doble: el ELF no tiene lo que el gancho pisa; un float del rectangulo que no es el del PDP;
+# un j/jal del stub a una funcion que el diseno no nombra
+ORIGINAL_HUD_MAL = ("import coop_hud; coop_hud.ORIGINAL[0x001F25DC] = 'jal 0x001F1610'", "HUD: gancho 0x1f25dc")
+ESCALA_HUD_MAL = ("import coop_hud; coop_hud.ESCALA = 0.8", "HUD: rectangulo")
+SALTO_HUD_MAL = ("import coop_hud; f = coop_hud.fuente; coop_hud.fuente = lambda: f().replace('j 0x1f1608', 'j 0x1f1610')",
+                 "j/jal a 0x1f1610")
+# sabotajes del plano con marca propia (el rojo tiene que ser el de la regla 8, no otro)
+MARCA_PASO = ("pass", "HUD: gancho 0x1fbfd4")
+MARCA_RESERVA = ("pass", "HUD: el codigo")
+APAGAR_HUD = ("import coop_mod; coop_mod.CON_HUD = False", "CON_HUD apagado")
 
 
 def correr(doc: Path, mods: Path, previo=None) -> int:
@@ -55,6 +65,15 @@ def main() -> int:
          lambda t: re.sub(r"(?m)^gancho IA hostil.*\n", "", t), None, 1),
         ("IA: apagada por defecto en coop_mod (111)", lambda t: t, APAGAR_IA, 1),
         ("plan B: sin bloque del plan", lambda t: t.replace("```coop-plan-b", "```texto"), None, 1),
+        ("HUD: el ELF no tiene lo que el gancho pisa (115)", lambda t: t, ORIGINAL_HUD_MAL, 1),
+        ("HUD: escala que no da los rectángulos del PDP (115)", lambda t: t, ESCALA_HUD_MAL, 1),
+        ("HUD: salto a una función que el diseño no nombra (115)", lambda t: t, SALTO_HUD_MAL, 1),
+        ("HUD: paso sin fila (115)",
+         lambda t: re.sub(r"(?m)^HUD H4 paso 0 \(7\).*\n", "", t), MARCA_PASO, 1),
+        ("HUD: fila de código achicada (115)",
+         lambda t: t.replace("| 0x0046EA80 | 0x0046EC14 | codigo", "| 0x0046EA80 | 0x0046EB00 | codigo"),
+         MARCA_RESERVA, 1),
+        ("HUD: apagado por defecto en coop_mod (115)", lambda t: t, APAGAR_HUD, 1),
     ]
     fallas = 0
     with tempfile.TemporaryDirectory() as tmp:

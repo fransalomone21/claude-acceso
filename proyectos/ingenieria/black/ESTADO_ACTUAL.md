@@ -37,9 +37,18 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C ABIERTA el 2026-10-02 (114): la PDR aprobada por Fran cerró la B; se fabrica pieza por pieza, la primera el HUD doble (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA el 2026-10-02 (115); sigue la pieza 2, el sonido y el arma de J2 (LEER ESTO PRIMERO)
 
-> **(114), 2026-10-02, NOTEBOOK CALIENTE, con Fran jugando — LO ÚLTIMO** (bitácora (114), `sesiones/PREDICCIONES-114.md`).
+> **(115), 2026-10-02, NOTEBOOK (frío + caliente) — LO ÚLTIMO** (bitácora (115), `sesiones/PREDICCIONES-115.md`).
+> - **El HUD doble, fabricado en el stub y confirmado con control:** dos HUD, uno por mitad, a 3/4; J dispara → cambia
+>   sólo la izquierda, J2 dispara → sólo la derecha; sin la pieza, un HUD. Dos cargas seguidas sin colgar. `hud` **K5**.
+>   `herramientas/coop_hud.py` (101 palabras + 13 ganchos), filas en `coop-rangos`, **prendido por defecto** (el pnach
+>   del COOP pasa de 938 a 1052 palabras; `--sin-hud` es el control).
+> - **El congelamiento de (113), con mecanismo (`probable`, en frío):** una segunda activación en la misma carga deja la
+>   lista del panel 1 en ciclo; el desarme la vacía, por eso dos cargas andan.
+> - **Sigue: `sesiones/RETOME-LOCAL.md`** (pieza 2: `V2` y sub3, que empiezan en frío).
+
+> **(114), 2026-10-02, NOTEBOOK CALIENTE, con Fran jugando** (bitácora (114), `sesiones/PREDICCIONES-114.md`).
 > - **La B cerrada, la C abierta:** las seis respuestas de Fran en `docs/18` (HUD del juego a 3/4 en cada mitad,
 >   carteles en las dos, soldado aliado genérico, la IA alcanza, pausa de J1, orden de la C igual). Criterio de la C
 >   en `PDP.md` §4 («Fase C»), escrito antes de fabricar; KDP-B en §6.

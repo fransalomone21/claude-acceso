@@ -301,6 +301,10 @@ vida y la munición de J2 (distintas de las de J). **Control:** el bloque sin la
 pieza (un HUD). Una sola activación por carga: la segunda con cuenta 2 congela el
 mundo ((113), `probable`).
 
+**Avance de la C:** pieza 1 **HECHA** (115): predicción cumplida, control y dos cargas
+(`sesiones/PREDICCIONES-115.md`), filas en `coop-rangos`, prendida por defecto. Faltan las
+piezas 2–5, la regresión 8/8 y «continuar misión».
+
 **Después de la C viene la D:** Fran lo juega (dos mandos, después Parsec), que es
 lo único que valida que sirve.
 
