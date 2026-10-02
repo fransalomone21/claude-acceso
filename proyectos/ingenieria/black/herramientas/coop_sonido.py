@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""coop_sonido.py -- COOP-C pieza 2a: el disparo de J2 SUENA (F4 de docs/17; docs/16 «La pieza 2 a nivel instruccion»).
+"""coop_sonido.py -- COOP-C pieza 2a: el disparo de J2 SUENA (F4 de docs/17; docs/16 «El sonido audible, (117)»).
 
-REFUTADA EN VIVO (116, sesiones/PREDICCIONES-116.md): SONJ2 corre (90 de 90 disparos de J2 llegan), pero
-FUN_001D7020 NO es el sonido audible del disparo: con J disparando su azar (V+0x2A0) no avanza, V+0x1C44 = 0 y el
-volumen V+0x1C48 = 0 en 15 de 16 volcados. Queda APAGADA (coop_mod.CON_SONIDO = False). Se conserva el desvio del
-envoltorio 4 (y la regla 9) porque el proximo destino del sonido cuelga del mismo lugar; lo de abajo es el diseno probado.
+(117), EN FRIO, EL DESTINO NUEVO: SONJ2 toca el CUE del disparo, FUN_001F0678(*(V+0x1BE0)), que es lo que suena de
+verdad (en (116) se lo habia leido como «pista de animacion»; es un cue de sonido de 2 voces: FUN_001D60B8 ->
+FUN_00283E78). Leido en el C y en las instrucciones (0x001D6FC0 jal 0x001F0678 / delay lw a0, 0x1BE0(s0)) y su estado
+en los 16 volcados (herramientas/cue_disparo.py: cue en una sub-ranura de V, 2 voces vivas). SIN PROBAR EN VIVO:
+sigue APAGADA (coop_mod.CON_SONIDO = False) hasta medir la prediccion de docs/16 con la pantalla libre.
 
-Diseno a nivel instruccion (bitacora (116)). Arma el codigo en frio, lo lista desensamblado con capstone y verifica
+(116), REFUTADO EN VIVO, el destino viejo: FUN_001D7020 (la guarda V+0x1C44 = 0, volumen 0 en 15 de 16 volcados). Lo
+de abajo de ese diseno que sigue en pie es el desvio del envoltorio 4.
+
+Diseno a nivel instruccion. Arma el codigo en frio, lo lista desensamblado con capstone y verifica
 contra el ELF en lo que se apoya. Lo instala coop_mod.py (prendido por defecto cuando la pieza pase su prueba;
 `--sin-sonido` es el control: el aislador vuelve a callar el disparo de J2, la S4 de (111)).
 
@@ -22,14 +26,15 @@ cambios de las tres maquinas de estado: es la parte cara, y para el SONIDO no ha
 
 EL DISENO: el aislador de (93l) ya intercepta FUN_001D6F90(V) (el disparo sobre la vista) mientras se actualiza J2
 (envoltorio 4 de coop_mod.FP_ENTRADAS) y vuelve sin hacer nada. Con esta pieza, ese camino salteado salta a SONJ2,
-que hace SOLO la ultima parte de la original: si *(*(X+0x24)+0x1E54) == 0 (la misma guarda que 0x001D6FC8..E4),
-FUN_001D7020(V): alterna las dos muestras del disparo (V+0x1C0C/+0x1C10) y las crea en el emisor de V (V+0x40).
-No toca la pista de animacion (FUN_001F0678), ni el conjunto del arma (FUN_001D6E78), ni V+0x1C28: el estado de la
-vista sigue siendo de J. Limites aceptados: suena «en la cabeza» como el de J (N5) y con las muestras de J (las
-carga el nivel, no el arma); si el emisor tiene una sola voz, un disparo puede cortar al otro (a medir).
+que hace SOLO la parte del medio de la original: FUN_001F0678(*(V+0x1BE0)), el cue del disparo (si el puntero es 0,
+vuelve). No toca el conjunto del arma (FUN_001D6E78), ni FUN_001D7020, ni V+0x1C28 (el reloj del ultimo disparo, que
+anima la vista de J): el estado de la vista sigue siendo de J. Limites aceptados (v1): suena con el cue del arma de J
+(igual si tienen la misma arma), las 2 voces de V son de los dos (un disparo puede cortar la cola del otro) y
+«en la cabeza» como el de J (N5).
 
 Entrada: a0 = V (el envoltorio salta antes de tocar a0), ra = el que llamo a FUN_001D6F90. FUN_001D6F90 y
-FUN_001D7020 son void: el `move v0, zero` del envoltorio queda en el delay slot. Solo usa t8, t9 y a0 sin tocar.
+FUN_001F0678 son void: el `move v0, zero` del envoltorio queda en el delay slot. Usa t9; a0 se escribe UNA vez, en el
+delay slot del `j 0x001F0678` (a0 = el cue).
 """
 import argparse
 import struct
@@ -41,26 +46,21 @@ import jugador2 as j2  # noqa: E402
 from mips import desensamblar  # noqa: E402
 
 BASE, FIN = 0x0046EE00, 0x0046EE40     # reserva «sonido de J2 (codigo)» de coop-plan-b (docs/14)
-SONIDO = 0x001D7020                    # FUN_001D7020(V): el sonido del disparo del jugador
+SONIDO = 0x001F0678                    # (117) FUN_001F0678(cue): el cue del disparo, lo que se oye
+CUE = 0x1BE0                           # V+0x1BE0: el cue actual (una sub-ranura de V; cue_disparo.py)
 DISPARO_V = 0x001D6F90                 # FUN_001D6F90(V): el disparo sobre la vista (envoltorio 4 del aislador)
 
 FUENTE = """
 SONJ2:
-lui t9, 0x41
-ori t8, zero, 0x8000
-lw t9, -0xaf0(t9)
-addu t9, t9, t8
-lw t9, 0x4bd8(t9)
-lw t9, 0x24(t9)
-lbu t9, 0x1e54(t9)
-bne t9, zero, @NOSUENA
+lw t9, 0x%x(a0)
+beq t9, zero, @NOSUENA
 nop
 j 0x%x
-nop
+move a0, t9
 NOSUENA:
 jr ra
 nop
-""" % SONIDO
+""" % (CUE, SONIDO)
 
 
 def programa():
@@ -69,11 +69,9 @@ def programa():
 
 ENTRADA = BASE   # SONJ2 es la primera instruccion
 
-# lo que el diseno copia de la original sin pisarlo: la guarda y la llamada (0x001D6FC8..0x001D6FEC)
-APOYO = {0x001D6FC8: "lui v1, 0x41", 0x001D6FCC: "ori a0, zero, 0x8000", 0x001D6FD0: "lw v0, -2800(v1)",
-         0x001D6FD4: "addu v0, v0, a0", 0x001D6FD8: "lw v1, 19416(v0)", 0x001D6FDC: "lw a0, 36(v1)",
-         0x001D6FE0: "lbu v0, 7764(a0)", 0x001D6FEC: "jal 0x001D7020", 0x001D6FF0: "daddu a0, s0, zero",
-         0x001D6F9C: "daddu s0, a0, zero"}   # a0 = V en la entrada y en la llamada: SONJ2 llega con a0 = V
+# lo que el diseno copia de la original sin pisarlo: la llamada al cue (0x001D6FC0, argumento en el delay slot)
+APOYO = {0x001D6FC0: "jal 0x001F0678", 0x001D6FC4: "lw a0, 7136(s0)",
+         0x001D6F9C: "daddu s0, a0, zero"}   # s0 = V desde la entrada: SONJ2 llega con a0 = V y lee V+0x1BE0
 
 
 def capstone_des(pc, w):
@@ -112,12 +110,20 @@ def problemas(mostrar=False, escribir=False) -> list:
         if op in (2, 3):
             dest = (pc & 0xF0000000) | ((w & 0x03FFFFFF) << 2)
             if dest != SONIDO:
-                errores.append(f"{pc:#x} {t}: j/jal a {dest:#x}, no es FUN_001D7020")
+                errores.append(f"{pc:#x} {t}: j/jal a {dest:#x}, no es FUN_001F0678")
         if op == 3:
             errores.append(f"{pc:#x} {t}: jal (pisaria ra: SONJ2 vuelve al que llamo a FUN_001D6F90)")
-        # a0 es V: nada puede escribirlo
-        if op in (0x08, 0x09, 0x0D, 0x0F, 0x23, 0x24) and ((w >> 16) & 31) == 4:
-            errores.append(f"{pc:#x} {t}: escribe a0 (V)")
+        # a0 es V hasta el salto: solo el delay slot del `j FUN_001F0678` puede escribirlo, y con el cue (t9)
+        escribe_a0 = ((op in (0x08, 0x09, 0x0D, 0x0F, 0x23, 0x24) and ((w >> 16) & 31) == 4)
+                      or (op == 0 and ((w >> 11) & 31) == 4))
+        anterior = next((x for x in prog if x[0] == pc - 4), None)
+        en_delay = anterior is not None and anterior[1] >> 26 == 2
+        if escribe_a0 and not (en_delay and op == 0 and (w & 0x3F) in (0x21, 0x2D)
+                               and (w >> 21) & 31 == 25 and (w >> 16) & 31 == 0):
+            errores.append(f"{pc:#x} {t}: escribe a0 (V) fuera del delay slot del salto, o con otra cosa que el cue")
+    if not any(op_lw == 0x23 and rs == 4 and rt == 25 and imm == CUE
+               for op_lw, rs, rt, imm in ((w >> 26, (w >> 21) & 31, (w >> 16) & 31, w & 0xFFFF) for _, w, _ in prog)):
+        errores.append("SONJ2 no lee el cue de V+0x%X con `lw t9, 0x%X(a0)`" % (CUE, CUE))
     if mostrar:
         print("\napoyo (la original, sin pisar):")
     for pc, esp in APOYO.items():

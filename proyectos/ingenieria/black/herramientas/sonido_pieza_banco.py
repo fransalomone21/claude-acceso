@@ -38,6 +38,9 @@ def cuentas():
         return {"pasadas": p.leer32(PASADAS), "salteadas": p.leer32(SALTEADAS),
                 "salida_env4": hex(p.leer32(cm.AISLAR + 0x3C * K + 13 * 4)),
                 "V": hex(v), "azar": [hex(p.leer32(v + 0x2A0)), hex(p.leer32(v + 0x2A4))],
+                # (117) el seam del sonido que se oye: el sello de las 2 voces de V (V+0x284, paso 0xC, sello en +8),
+                # que escribe FUN_001D6178 cada vez que el cue *(V+0x1BE0) toca (cue_disparo.py)
+                "cue": hex(p.leer32(v + 0x1BE0)), "sellos": [p.leer32(v + 0x284 + 8), p.leer32(v + 0x290 + 8)],
                 "sonido_on_1C44": p.leer8(v + 0x1C44), "guarda_1E54": p.leer8(p.leer32(x + 0x24) + 0x1E54)}
 
 
@@ -52,6 +55,7 @@ def medir():
         despues = cuentas()
         lineas = [l for l in r.stdout.splitlines() if l.strip()]
         res[e] = {"antes": antes, "despues": despues, "azar_avanzo": antes["azar"] != despues["azar"],
+                  "voces_tocaron": antes["sellos"] != despues["sellos"],
                   "salteadas": despues["salteadas"] - antes["salteadas"], "inspeccion": lineas[-2:],
                   "rc": r.returncode, "err": r.stderr[-300:] if r.returncode else ""}
     return res

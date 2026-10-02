@@ -28,15 +28,25 @@ SALTO_HUD_MAL = ("import coop_hud; f = coop_hud.fuente; coop_hud.fuente = lambda
 MARCA_PASO = ("pass", "HUD: gancho 0x1fbfd4")
 MARCA_RESERVA = ("pass", "HUD: el codigo")
 APAGAR_HUD = ("import coop_mod; coop_mod.CON_HUD = False", "CON_HUD apagado")
-# (116) regla 9, el sonido de J2: la guarda de la original que no es la del ELF; un salto a otra funcion; SONJ2 que
-# pisa a0 (= V); el envoltorio de otra entrada (el 4 no sale por SONJ2); la reserva achicada
-APOYO_SON_MAL = ("import coop_sonido; coop_sonido.APOYO[0x001D6FE0] = 'lbu v0, 7765(a0)'", "sonido: apoyo 0x1d6fe0")
-SALTO_SON_MAL = ("import coop_sonido; coop_sonido.FUENTE = coop_sonido.FUENTE.replace('j 0x1d7020', 'j 0x1d7024')",
-                 "no es FUN_001D7020")
-A0_SON_MAL = ("import coop_sonido; coop_sonido.FUENTE = coop_sonido.FUENTE.replace('lw t9, 0x24(t9)', 'lw a0, 0x24(t9)')",
-              "escribe a0")
+# (116)/(117) regla 9, el sonido de J2: la llamada de la original que no es la del ELF; un salto a otra funcion; SONJ2
+# que pisa a0 (= V) antes del salto; SONJ2 que lee otro campo de V; el envoltorio de otra entrada; la reserva achicada
+APOYO_SON_MAL = ("import coop_sonido; coop_sonido.APOYO[0x001D6FC4] = 'lw a0, 7140(s0)'", "sonido: apoyo 0x1d6fc4")
+SALTO_SON_MAL = ("import coop_sonido; coop_sonido.FUENTE = coop_sonido.FUENTE.replace('j 0x1f0678', 'j 0x1f067c')",
+                 "no es FUN_001F0678")
+A0_SON_MAL = ("import coop_sonido; coop_sonido.FUENTE = coop_sonido.FUENTE.replace('lw t9, 0x1be0(a0)', "
+              "'lw a0, 0x1be0(a0)')", "escribe a0")
+CUE_SON_MAL = ("import coop_sonido; coop_sonido.FUENTE = coop_sonido.FUENTE.replace('lw t9, 0x1be0(a0)', "
+               "'lw t9, 0x1be4(a0)')", "no lee el cue")
 ENTRADA_SON_MAL = ("import coop_sonido; coop_sonido.DISPARO_V = 0x001D7360", "el envoltorio 1")
 MARCA_RESERVA_SON = ("pass", "sonido: el codigo")
+
+
+def fin_sonido_achicado() -> str:
+    """(117) la reserva del sonido achicada a UNA palabra menos que el codigo actual: derivado, no literal (la de
+    (116) achicaba a 0x0046EE20 fijo y quedo ciega cuando el codigo bajo de 13 a 7 palabras)."""
+    sys.path.insert(0, str(VERIF.parent))
+    import coop_sonido
+    return "0x%08X" % (coop_sonido.BASE + 4 * (len(coop_sonido.programa()) - 1))
 
 
 def correr(doc: Path, mods: Path, previo=None) -> int:
@@ -86,10 +96,12 @@ def main() -> int:
         ("HUD: apagado por defecto en coop_mod (115)", lambda t: t, APAGAR_HUD, 1),
         ("sonido: la guarda no es la del ELF (116)", lambda t: t, APOYO_SON_MAL, 1),
         ("sonido: salto a otra función (116)", lambda t: t, SALTO_SON_MAL, 1),
-        ("sonido: SONJ2 pisa a0 = V (116)", lambda t: t, A0_SON_MAL, 1),
+        ("sonido: SONJ2 pisa a0 = V antes del salto (116)", lambda t: t, A0_SON_MAL, 1),
+        ("sonido: SONJ2 no lee el cue de V+0x1BE0 (117)", lambda t: t, CUE_SON_MAL, 1),
         ("sonido: la pieza cuelga de otro envoltorio (116)", lambda t: t, ENTRADA_SON_MAL, 1),
         ("sonido: reserva achicada (116)",
-         lambda t: t.replace("| 0x0046EE00 | 0x0046EE40 | reserva", "| 0x0046EE00 | 0x0046EE20 | reserva"),
+         lambda t: t.replace("| 0x0046EE00 | 0x0046EE40 | reserva",
+                             "| 0x0046EE00 | %s | reserva" % fin_sonido_achicado()),
          MARCA_RESERVA_SON, 1),
     ]
     fallas = 0

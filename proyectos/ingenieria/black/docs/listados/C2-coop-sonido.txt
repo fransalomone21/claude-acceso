@@ -1,13 +1,7 @@
-0046EE00  3C190041  lui $t9, 0x41                      ; lui t9, 0x41
-0046EE04  34188000  ori $t8, $zero, 0x8000             ; ori t8, zero, 0x8000
-0046EE08  8F39F510  lw $t9, -0xaf0($t9)                ; lw t9, -0xaf0(t9)
-0046EE0C  0338C821  addu $t9, $t9, $t8                 ; addu t9, t9, t8
-0046EE10  8F394BD8  lw $t9, 0x4bd8($t9)                ; lw t9, 0x4bd8(t9)
-0046EE14  8F390024  lw $t9, 0x24($t9)                  ; lw t9, 0x24(t9)
-0046EE18  93391E54  lbu $t9, 0x1e54($t9)               ; lbu t9, 0x1e54(t9)
-0046EE1C  17200003  bnez $t9, 0x46ee2c                 ; bne t9, zero, 0x46ee2c
-0046EE20  00000000  nop                                ; nop
-0046EE24  08075C08  j 0x1d7020                         ; j 0x1d7020
-0046EE28  00000000  nop                                ; nop
-0046EE2C  03E00008  jr $ra                             ; jr ra
-0046EE30  00000000  nop                                ; nop
+0046EE00  8C991BE0  lw $t9, 0x1be0($a0)                ; lw t9, 0x1be0(a0)
+0046EE04  13200003  beqz $t9, 0x46ee14                 ; beq t9, zero, 0x46ee14
+0046EE08  00000000  nop                                ; nop
+0046EE0C  0807C19E  j 0x1f0678                         ; j 0x1f0678
+0046EE10  03202021  move $a0, $t9                      ; move a0, t9
+0046EE14  03E00008  jr $ra                             ; jr ra
+0046EE18  00000000  nop                                ; nop

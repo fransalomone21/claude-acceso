@@ -39,7 +39,14 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2 (sonido y arma de J2) con las recetas leídas y el primer intento de sonido refutado (116) (LEER ESTO PRIMERO)
 
-> **(116), 2026-10-02, NOTEBOOK (frío + caliente) — LO ÚLTIMO** (bitácora (116), `sesiones/PREDICCIONES-116.md`).
+> **(117), 2026-10-02, NOTEBOOK EN FRÍO (Fran en clase, sin emulador) — LO ÚLTIMO** (bitácora (117), `docs/16` «El sonido audible, (117)»).
+> - **El sonido que se oye del disparo es el cue `*(V+0x1BE0)`** (`FUN_001F0678` → una de las 2 voces de `V` →
+>   `FUN_00283E78`), `confirmado en frío` por dos métodos; lo de «pista de animación» de (116) estaba mal y está corregido.
+>   Estado leído antes en los 16 volcados (`herramientas/cue_disparo.py`, con control).
+> - **La pieza 2a rediseñada** (`coop_sonido.py`, 7 palabras, mismo desvío del aislador): J2 toca el cue sin tocar la
+>   animación de J. Regla 9 + saboteador en verde. **Apagada hasta probarla en vivo.** Sigue: `sesiones/RETOME-LOCAL.md`.
+
+> **(116), 2026-10-02, NOTEBOOK (frío + caliente)** (bitácora (116), `sesiones/PREDICCIONES-116.md`).
 > - **Recetas leídas en frío** (`docs/16` «La pieza 2 a nivel instrucción»): `V` se carga por nivel con una máquina
 >   asincrónica que manejan objetos con **su copia** del puntero (conmutar `X+0xC` no los redirige); el sub del arma
 >   (`0x6C` B, arena de 18 000 B) **comparte la plantilla** con cualquiera que tenga la misma arma, y la plantilla apunta

@@ -4,7 +4,14 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(116), 2026-10-02, notebook (frío + caliente) — LO ÚLTIMO.** Pieza 2 de la C: recetas de `V2` y del sub3 leídas
+> **(117), 2026-10-02, notebook en frío (Fran en clase: no se abrió nada en pantalla) — LO ÚLTIMO.** El sonido audible
+> del disparo es el cue `*(V+0x1BE0)` (`FUN_001F0678`), no `FUN_001D7020`; pieza 2a rediseñada (`coop_sonido.py`,
+> 7 palabras) con regla 9 y saboteador en verde, **apagada** hasta la prueba en vivo; `herramientas/cue_disparo.py` lee
+> el estado del cue en los volcados. **Máquina: igual que en (116)** (pnach 1052 palabras, nada abierto ni instalado).
+> `cue_disparo.py` entró al repo en el commit `acaa23f` de la sesión paralela de arquitectura-se (su `git add -A`).
+> **Sigue: `sesiones/RETOME-LOCAL.md`.**
+>
+> **(116), 2026-10-02, notebook (frío + caliente).** Pieza 2 de la C: recetas de `V2` y del sub3 leídas
 > (`docs/16` «La pieza 2 a nivel instrucción»); sub3 diseñado con la regla del dueño de plantilla (sin código); el
 > sonido por `FUN_001D7020` (`coop_sonido.py`, regla 9, saboteador 25/25) **refutado en vivo con control**: no es el
 > sonido audible (`sesiones/PREDICCIONES-116.md`). **Máquina:** pnach igual que en (115) (1052 palabras, `CON_SONIDO`

@@ -305,7 +305,9 @@ mundo ((113), `probable`).
 (`sesiones/PREDICCIONES-115.md`), filas en `coop-rangos`, prendida por defecto. Faltan las
 piezas 2–5, la regresión 8/8 y «continuar misión». **Pieza 2 (116):** las recetas de `V2` y del sub3 leídas
 (`docs/16` «La pieza 2 a nivel instrucción»); el sub3 diseñado con la regla del dueño de plantilla, sin código; el
-sonido por `FUN_001D7020` **refutado con control** (no es el sonido audible): falta encontrar de dónde sale.
+sonido por `FUN_001D7020` **refutado con control** (no es el sonido audible). **(117), en frío:** el audible es el cue
+`*(V+0x1BE0)` (`FUN_001F0678`); la pieza 2a rediseñada sobre él (`coop_sonido.py`, regla 9), apagada hasta la prueba en
+vivo con predicción, control y dos cargas (`docs/16` «El sonido audible, (117)»).
 
 **Después de la C viene la D:** Fran lo juega (dos mandos, después Parsec), que es
 lo único que valida que sirve.

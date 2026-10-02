@@ -764,6 +764,10 @@ medirlo en un cambio de unidad real (y, de paso, el síntoma sin el arreglo, que
 > pieza quedó apagada (`CON_SONIDO = False`). El sonido sale de otra parte de `FUN_001D6F90` — la pista
 > `FUN_001F0678` (sus eventos) o `FUN_001D6E78`, `hipótesis` —; si es la pista, sonido y animación vienen juntos y la
 > opción 1 (`V2`) vuelve a ser la candidata. Lo de abajo queda como registro de lo que se probó.
+>
+> **CORREGIDO en (117), en frío:** `FUN_001F0678` **no es una pista de animación**: es un **cue de sonido** (ver
+> «El sonido audible, (117)», antes del sub3). La opción 1 (`V2`) **no** vuelve: el sonido no viaja con la
+> animación.
 
 **Elección (cambia la de T4): opción 2, «aislador + sonido»**, a nivel instrucción en `herramientas/coop_sonido.py`
 (13 palabras en la reserva nueva «sonido de J2 (código)» `0x0046EE00`; en cero en los 16 volcados, control no cero):
@@ -774,6 +778,44 @@ muestras (las carga el nivel); si el emisor tiene una sola voz, el disparo de un
 **Lo que queda afuera:** el fogonazo y la pista de la vista para J2 (F8): `V2` queda como el camino para eso, con su
 receta escrita arriba; es estética (Fran (106): «lo estético y el balance, después»). El invariante 5 cambia de
 sujeto: el aislador **sigue prendido** y la pieza vive adentro de él; `--sin-sonido` es el control (S4 de (111)).
+
+### El sonido audible, (117): es el cue de `V+0x1BE0` (en frío, dos métodos)
+
+- **Qué es `FUN_001F0678(cue)`** (`confirmado en frío`: el C y las instrucciones coinciden; en `0x001D6FC0` el
+  `jal 0x001F0678` lleva en su delay slot `lw a0, 0x1BE0(s0)`): no es una pista de animación sino un **cue de sonido**.
+  Corre la historia de reproducciones (`cue+0x1EC[]`, hasta `cue+0x60` = 2, salvo `cue+0x41C` ≠ 0), prende
+  `DAT_0040DA30` (la mezcla por software, `FUN_001F0C98`) y llama `FUN_001D60B8(cue)`, que arma el pedido de
+  reproducción (volumen y tono de `cue+0x74/+0x78/+0x7C`, y posición si `*(0x0040F510)+0xCB9D` ≠ 0) y lo manda con
+  **`FUN_00283E78(voz, pedido)`** — la misma llamada que usa `FUN_001D7020` —; la voz la elige `FUN_001D6178`: la
+  primera libre de `cue+0x5C` (`cue+0x60` voces de `0xC` B) o roba la más vieja (sello en `+8`).
+- **De dónde sale el cue:** `V` tiene 6 sub-ranuras de `0x430` desde `V+0x2C0` (son los cues). El del arma lo pone
+  `FUN_001D6E78(V, cue, clave, ·)` desde los dos cambios de arma (`FUN_00156F18`, `FUN_0015BF50`): el cue es
+  `*(*(0x0040F540)+0x7C)+8` (o `+0xC` si `arma+0x108` ≠ 0) y la **muestra** sale de la ValueDB por la clave del arma
+  (`**(arma+0xE8)`, «Export/ValueDB/Sound/ps2/Base»); las voces son las de `V` (`V+0x284`, cuenta `V+0x29C`).
+- **El estado, leído ANTES de fabricar** (`herramientas/cue_disparo.py`, la lección de (116); autotest con control
+  positivo 16/16 y negativo 0 sobre `V+0x40`): en los **16 volcados** el cue actual es un puntero a una sub-ranura de
+  `V` (`V+0x2C0`, `+0x6F0` o `+0xB20`), con **2 voces** vivas en `V+0x284`, `+0x41C` = 0 y volumen/tono 1/0/1. El
+  alternativo `V+0x1BE8` = `V+0x1380` en todos; el guardado `V+0x1BE4` = 0. Contra `FUN_001D7020`: su guarda
+  `V+0x1C44` vale 0 en 7 de 16 y su volumen 0 en 15 de 16 — por eso no sonaba.
+- **Por qué el aislador lo callaba:** `FUN_001D6F90` hace tres cosas y el envoltorio 4 saltea las tres: (1)
+  `FUN_001D6E78` si el cue actual es el alternativo; (2) **el cue** (el sonido); (3) `FUN_001D7020` y `V+0x1C28` =
+  el reloj del último disparo (lo que anima la vista de J en las dos mitades, F8). Sólo (2) hace falta para F4.
+
+**Elección (cambia la de (116), mismo sitio y misma reserva): «aislador + cue».** El envoltorio 4, con la pieza, sale
+por `j SONJ2`; `SONJ2` = `lw t9, 0x1BE0(a0)`; si es 0, `jr ra`; si no, `j 0x001F0678` con `a0` = el cue en el delay
+slot (vuelve directo al que disparó). No toca `V+0x1C28`, ni el conjunto del arma, ni `FUN_001D7020`: la vista sigue
+siendo de J. `coop_sonido.py` (7 palabras en `0x0046EE00`) y la regla 9 de `coop_diseno.py` miden el nuevo destino.
+**Límites aceptados (v1), escritos antes de medir:** (a) J2 suena con **el cue del arma de J** (iguales cuando tienen
+la misma arma, el caso de arranque; distinto timbre si no — `hipótesis`, no medido); (b) las 2 voces de `V` son de los
+dos: en un tiroteo de los dos, un disparo puede cortar la cola del otro (`FUN_001D6178` roba la más vieja); (c) suena
+«en la cabeza» como el de J (N5). Si (a) molesta, el camino es un cue propio de J2 cargado con la clave de su arma (no
+`V2` entera: una sub-ranura libre de `V` y su `FUN_001D6E78`), y se mide antes.
+**Predicción (para la sesión con pantalla libre):** en Town, `fuego-J2` con la pieza sube como `fuego-J` (media
+≥ 6000 y **continua** desde el primer segundo, como (111) sin el aislador), contra el control `--sin-sonido` (~3900);
+y el seam en RAM: el **sello de la voz** (`V+0x284+8`, `V+0x290+8` ← `cue+0x80`) cambia con cada disparo de J2 con la
+pieza y no cambia sin ella (control positivo: J dispara y cambia). La cuenta `cue+0x1D0` **no** sirve muestreada: la
+mezcla (`FUN_001F0C98`, que la recorre como `t3[0]` con las posiciones en `t3[6+i]` = `cue+0x1E8+4i`) la baja a 0 al
+terminar cada muestra (`probable`, por el C) — vale 0 en los 16 volcados, también en los cuatro de J disparando. Dos cargas seguidas.
 
 ### sub3: la receta leída, y el peligro que no estaba en T5
 

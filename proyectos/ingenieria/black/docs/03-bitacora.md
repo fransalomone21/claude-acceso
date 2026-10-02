@@ -16,6 +16,16 @@ Formato de cada entrada:
 
 ---
 
+## 2026-10-02 (117, notebook, frío, con Fran en clase: la pantalla no se toca) — COOP-C pieza 2a: el sonido que se oye es el cue de `V+0x1BE0`, no `FUN_001D7020`
+**Máquina:** notebook, sin emulador · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-C (pieza 2a, F4) · **Nodos:** `audio`
+**Objetivo:** `sesiones/RETOME-LOCAL.md` (a): en frío, de dónde sale el sonido audible del disparo, leyendo primero el estado en los volcados (la lección de (116)).
+**Resultado (en frío; el detalle en `docs/16` «El sonido audible, (117)»):**
+- **`FUN_001F0678(*(V+0x1BE0))` es un CUE de sonido, no una pista de animación** (`confirmado en frío` por dos métodos: el C y las instrucciones de `0x001D6FC0`). Elige una de las 2 voces de `V` (`FUN_001D6178`) y la toca con `FUN_00283E78`, la misma llamada que `FUN_001D7020`. El cue es una sub-ranura de `V` (paso `0x430` desde `V+0x2C0`) cargada por los cambios de arma con la muestra de la ValueDB del arma (`FUN_001D6E78`). Corrige la etiqueta de (116), escrita en el mismo lugar.
+- **El estado, ANTES de fabricar** (`herramientas/cue_disparo.py`, autotest con control positivo 16/16 y negativo 0): en los 16 volcados el cue es un puntero válido con 2 voces vivas, volumen 1. Los sellos de las voces son recientes donde J disparó (`ee-03`, `ee-06`) y **0 en los cuatro `parpadeo-fuego`** (J2 disparando con el aislador, J sin disparar): con el aislador, los disparos de J2 no tocan las voces (`probable`; coincide con F4).
+- **Diseño nuevo, mismo sitio y reserva:** `SONJ2` = `lw t9, 0x1BE0(a0)` → `j 0x001F0678` con `a0` = cue (7 palabras, `coop_sonido.py`); no toca el reloj del último disparo (`V+0x1C28`, la animación de J). Límites v1 escritos antes: J2 suena con el cue del arma de J; 2 voces compartidas. Regla 9 y saboteador (26/26, uno nuevo: SONJ2 que no lee el cue). **Sigue apagada** (`CON_SONIDO = False`) hasta medirla en vivo.
+**No funcionó:** el sabotaje «reserva achicada» de (116) quedó ciego (achicaba a un tamaño fijo y el código nuevo entra): ahora deriva el tamaño del código. La cuenta `cue+0x1D0` no sirve de testigo (la mezcla la baja a 0; 0 en los 16 volcados): el seam es el sello de la voz.
+**Sigue:** con la pantalla libre, la prueba en vivo de la pieza 2a (predicción en `docs/16`); después el sub3.
+
 ## 2026-10-02 (116, notebook, frío) — COOP-C pieza 2: las dos recetas leídas; el sonido de J2 sin `V2`, y el sub3 tiene un peligro que T5 no veía
 **Máquina:** notebook · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-C (pieza 2: sonido y modelo de arma de J2) · **Nodos:** `audio`, `vista-fp`, `personajes`
 **Objetivo:** `sesiones/RETOME-LOCAL.md`: las recetas «sin leer» de `V2` y del sub3 → diseño a nivel instrucción → `coop_diseno.py` en 0 con saboteador en rojo → el stub.
