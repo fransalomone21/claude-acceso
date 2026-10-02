@@ -1,6 +1,15 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
-> **2026-10-02 (tarde) — LO ÚLTIMO. T12, paso 1 de 5: el costo ANTES está
+> **2026-10-02 (tarde, 2.ª) — LO ÚLTIMO. T12 paso 2 escrito: la matriz de
+> todo el método** (`docs/t12-simplificar.md` §7: 25 piezas, 5 recortadas con
+> su resta, 1 sale, T11b partido en entra/diferida). **Sigue el paso 3, la
+> poda, en el orden de §7.5**: (1) catálogo de la puerta, (2) enrutador corto
+> —las dos vivas al guardar, sin install—; después (3)-(5) en el perfil, con
+> `install.ps1` + `verify-install`. Falta escribir §8 (las dos preguntas a
+> Fran: si lee los dos cuadros en una pregunta suelta; si usa los plugins de
+> SEO y Adobe). Se cortó por el límite del plan, con todo commiteado.
+
+> **2026-10-02 (tarde) — T12, paso 1 de 5: el costo ANTES está
 > medido** (`docs/t12-simplificar.md` §6; instrumento `medir-costo.py`, semilla
 > de P10). Lo que cambia el orden de la poda: el **enrutador** (`CLAUDE.md`
 > raíz, 54,6 K) es el 43 % del costo fijo; la spec de los cuadros se paga en
