@@ -1,5 +1,28 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube) — apunte de C v0.2: sigue el módulo 4
+
+**Lo primero, en la PC de Fran:** `git pull`, recompilar
+(`typst compile --root .. apunte.typ apunte.pdf` en `apunte-c/`) y
+`.\publicar-apuntes.ps1`: la v0.2 (módulos 1 a 3) **no está en el Drive** (la
+nube no tiene rclone). Correr también `python apunte-c\verificar-ejemplos.py`
+para confirmar el verde en WSL.
+
+**Después: el módulo 4, operadores y los de bit** (aritméticos, compuestos,
+relacionales, lógicos, ternario; máscaras, `|=`, `&= ~`, `^`, `<<`, `>>`,
+imprimir en binario; clase 17-19 y 29-30; Práctico 1 ej. 4, Práctico 2 ej. 1).
+El módulo 3 ya adelantó que la comparación vale 0/1 y que el hexa es para
+máscaras: el 4 arranca desde ahí.
+
+**Trampa nueva de Typst:** un renglón del `.typ` que **empieza** con «número y
+punto» (`8. Por ahora...`, porque el corte cayó en «módulo 8.») abre una lista
+numerada. Al cortar, que el número quede pegado a su palabra.
+
+**En la nube (Linux):** `verificar-ejemplos.py` ya corre sin WSL; typst 0.15
+se baja de GitHub releases (`typst-x86_64-unknown-linux-musl.tar.xz`); para el
+render, `pip install pymupdf`. Las fuentes de *fallback* (Consolas, Georgia)
+avisan que faltan, pero las principales vienen embebidas en typst.
+
 ## 2026-10-02 — apunte de C v0.1: sigue el módulo 3
 
 **Arrancá por acá:** `cd apunte-c; python verificar-ejemplos.py` (tiene que dar

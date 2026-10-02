@@ -26,13 +26,16 @@ FLAGS = "-Wall -Wextra -std=c11"
 
 
 def ruta_wsl(p):
+    if sys.platform != "win32":  # Linux nativo (la sesion en la nube): la ruta ya es la de bash
+        return str(p)
     s = str(p).replace("\\", "/")
     return "/mnt/" + s[0].lower() + s[2:]
 
 
 def wsl(cmd, entrada=""):
+    prefijo = ["wsl", "-e"] if sys.platform == "win32" else []
     try:
-        r = subprocess.run(["wsl", "-e", "bash", "-c", cmd], input=entrada, capture_output=True,
+        r = subprocess.run(prefijo + ["bash", "-c", cmd], input=entrada, capture_output=True,
                            text=True, encoding="utf-8", timeout=60)
     except (OSError, subprocess.TimeoutExpired) as e:
         return 127, "", str(e)

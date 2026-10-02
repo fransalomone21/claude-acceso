@@ -16,7 +16,7 @@
   institucion: "UNSAM — Ingeniería en Sistemas Espaciales",
   materia: "Ingeniería de Software de Vuelo para Sistemas Espaciales Críticos",
   ciclo: "2.º cuatrimestre 2026",
-  version: "v0.1 — en construcción: módulos 1 y 2 de 12",
+  version: "v0.2 — módulos 1 a 3 de 12",
   presentacion: [
     *Para qué es esto.* Para aprender el C que usa la materia, en el orden en que lo
     da la cátedra, con cada programa *compilado de verdad* con los mismos flags que
@@ -34,3 +34,4 @@
 
 #include "modulos/m01-programa-minimo.typ"
 #include "modulos/m02-variables-tipos.typ"
+#include "modulos/m03-constantes-calificadores.typ"
