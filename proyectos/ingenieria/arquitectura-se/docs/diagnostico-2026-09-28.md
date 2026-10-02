@@ -237,7 +237,7 @@ sesiones cada una).
 | T7 | **Paridad nube/local**: los verificadores esenciales en Python (corren en los dos), lo que no, declarado | T4, T5 | 1-2 | A8 |
 | T8 | **Regularizar proyectos**: los 11 atrasos de A3, tipo de fase en los PDP, decidir la regla para los cerrados | T3 | 2-3 | A3 |
 | T9 | **Validar (P10)**: una sesión real con la arquitectura nueva, costo medido contra la anterior | T4, T7, T8 | 2-3 | fase 7 |
-| T10 | **Reglas de método que faltan**: premisa con grado en el diseño (A10), contraste por dos métodos (A9), protocolo de sesiones paralelas (A11) | T2 | 1-2 | A9-A11 |
+| T10 | **Reglas de método que faltan**: premisa con grado en el diseño (A10), contraste por dos métodos (A9), protocolo de sesiones paralelas (A11; caso del 2026-10-02: un `git add -A` commiteó el archivo en curso de otra sesión, lección 330) | T2 | 1-2 | A9-A11 |
 
 **Camino crítico:** T1 → T2 → T3 → T4 → T7 → T9, **~9 a 16 sesiones**
 (`hipótesis`). T5, T6, T8 y T10 tienen holgura: se hacen en paralelo al
