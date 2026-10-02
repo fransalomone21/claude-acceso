@@ -30,28 +30,40 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
 
-# (tipo, patron sobre la fila, que produce, que NO se hace, que la cierra)
+# (tipo, patron sobre la fila, que produce, que NO se hace, que la cierra, nombre NASA, que es en criollo)
+# El nombre NASA es el que imprime el handbook (SP-2016-6105 Rev2, p. 20; ficha nasa-seh/ciclo-vida.md): Fran
+# pidio la fase con su nombre oficial y la contrapartida en criollo (2026-10-02). Esta tabla es la UNICA fuente de
+# los dos: el cuadro los copia de la compuerta, no de memoria.
 TIPOS = [
     ("Pre-Fase A (estudio de conceptos)", r"pre-?fase a|estudio de concepto",
      "alternativas, factibilidad y la meta partida en fases",
-     "disenar en detalle o construir el producto", "MCR: concepto elegido con sus criterios"),
+     "disenar en detalle o construir el producto", "MCR: concepto elegido con sus criterios",
+     'Pre-Phase A, "Concept Studies"', "ver que se podria hacer y elegir el concepto"),
     ("Fase A (concepto y desarrollo de tecnologia)", r"\bfase a\b|desarrollo de tecnolog",
      "requisitos y los habilitadores criticos madurados con prototipos que retiran riesgo",
-     "fabricar el producto final", "SRR/SDR: requisitos y habilitadores en su madurez objetivo"),
+     "fabricar el producto final", "SRR/SDR: requisitos y habilitadores en su madurez objetivo",
+     'Phase A, "Concept and Technology Development"', "decidir que se quiere y probar que la tecnologia da"),
     ("Fase B (diseno preliminar)", r"dise.o preliminar|\bfase b\b",
      "el DISENO: arquitectura, interfaces, cada direccion/archivo que se toca, riesgos altos retirados por efecto",
      "construir o cambiar el producto a prueba y error; arreglar sintomas de a uno sin el modelo de como esta "
      "armado lo que se copia. Lo vivo solo confirma una PREDICCION del diseno, con control. Varios sintomas del "
      "mismo sistema = UNA pregunta de arquitectura, en frio",
-     "PDR: el diseno escrito, verificado contra el codigo y revisado por Fran ANTES de fabricar"),
+     "PDR: el diseno escrito, verificado contra el codigo y revisado por Fran ANTES de fabricar",
+     'Phase B, "Preliminary Design and Technology Completion"', "el diseno en grueso, con los riesgos grandes resueltos"),
     ("Fase C (diseno final)", r"dise.o (final|detallado)|\bfase c\b",
      "el diseno detallado completo y verificado",
-     "integrar o instalar sin el diseno detallado aprobado", "CDR"),
+     "integrar o instalar sin el diseno detallado aprobado", "CDR",
+     'Phase C, "Final Design and Fabrication"', "el diseno fino y fabricar las piezas"),
     ("Fase D (fabricacion, integracion y prueba)", r"fabricaci|integraci|construcci|\bfase d\b",
      "el producto construido segun el diseno aprobado, verificado contra sus requisitos",
-     "redisenar sobre la marcha: un cambio de diseno vuelve a la revision", "verificacion + validacion"),
+     "redisenar sobre la marcha: un cambio de diseno vuelve a la revision", "verificacion + validacion",
+     'Phase D, "System Assembly, Integration and Test, Launch"', "armar lo disenado, probar que anda y ponerlo en marcha"),
     ("Fase E (operacion)", r"operaci|\bfase e\b",
-     "uso y mantenimiento", "cambios sin control de configuracion", "cierre"),
+     "uso y mantenimiento", "cambios sin control de configuracion", "cierre",
+     'Phase E, "Operations and Sustainment"', "usarlo y mantenerlo andando"),
+    ("Fase F (cierre)", r"\bfase f\b|cierre del proyecto",
+     "el cierre: lo aprendido escrito y el material archivado", "abrir trabajo nuevo", "archivo y lecciones",
+     'Phase F, "Closeout"', "cerrarlo y guardar lo aprendido"),
 ]
 
 
@@ -104,9 +116,12 @@ def compuerta(proyecto: Path) -> str:
     if not t:
         return (cab + " El PDP NO declara su tipo en el ciclo de vida (Pre-A, A, B diseno preliminar, C, D, E): "
                 "sin tipo no se sabe que NO se hace en esta fase. Declararlo en la fila del PDP.")
-    return (cab + "\n  TIPO      : %s\n  PRODUCE   : %s\n  NO SE HACE: %s\n  LA CIERRA : %s\n"
+    return (cab + "\n  TIPO      : %s\n  NASA      : %s\n  EN CRIOLLO: %s\n  PRODUCE   : %s\n  NO SE HACE: %s\n"
+            "  LA CIERRA : %s\n"
             "  Antes de cada accion: ubicarla en ESTE tipo. Si es de una fase posterior, no se hace: se anota y "
-            "se vuelve al entregable de la fase." % (t[0], t[2], t[3], t[4]))
+            "se vuelve al entregable de la fase.\n"
+            "  PARA EL CUADRO (copiar): Fase : %s -- NASA %s\n                          = %s. La cierra: <el "
+            "resultado del PDP>" % (t[0], t[5], t[6], t[2], t[3], t[4], ident, t[5], t[6]))
 
 
 PATRON = re.compile(r"proyectos[/\\]+(ingenieria|documentos|seguimiento)[/\\]+([A-Za-z0-9_.-]+)")
@@ -156,9 +171,13 @@ def autotest() -> int:
         ok = got == esperado
         mal += not ok
         print("%s  %-60s -> %s" % ("ok " if ok else "MAL", fila[:60], got))
+    # cada tipo trae su nombre NASA y su criollo (el cuadro los copia de aca, no de memoria)
+    ok = all(len(t) == 7 and t[5].startswith(("Pre-Phase", "Phase")) and t[6] for t in TIPOS)
+    mal += not ok
+    print("%s  los %d tipos traen nombre NASA y criollo" % ("ok " if ok else "MAL", len(TIPOS)))
     # el de BLACK, medido sobre su PDP real
     txt = compuerta(RAIZ / "proyectos" / "ingenieria" / "black")
-    ok = "Fase B (diseno preliminar)" in txt and "NO SE HACE" in txt
+    ok = "Fase B (diseno preliminar)" in txt and "NO SE HACE" in txt and 'NASA Phase B, "Preliminary Design' in txt
     mal += not ok
     print("%s  BLACK real -> %s" % ("ok " if ok else "MAL", txt.splitlines()[0][:100]))
     # el hook: evento con una ruta de BLACK emite; sin proyecto, calla
