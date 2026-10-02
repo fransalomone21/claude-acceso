@@ -143,12 +143,21 @@ dato publicado.
 |---|---|---|
 | `claude-acceso/` (todo salvo lo de abajo) | `claude-acceso` | `github.com/fransalomone21/claude-acceso` |
 | `perfil-global/` | `perfil-global` | `github.com/fransalomone21/perfil-global` |
-| `proyectos/seguimiento/coaching/` | `coaching` (local) | GitHub **privado** — falta crear el remote |
-| `proyectos/seguimiento/haberes-docentes/` | `haberes-docentes` (local) | **a ningún lado** — CBU, CUIL y datos de haberes |
-| `proyectos/documentos/clases-aed/` | `clases-aed` (local) | **a ningún lado** — lleva nombre y mail de una alumna particular |
-| `proyectos/documentos/teoria-circuitos/` | `teoria-circuitos` (local) | **a ningún lado** — la carátula de los informes lleva nombre y correo de dos compañeros, que la guía de la materia exige ahí |
-| `proyectos/documentos/catedras/` | `catedras` (local) | **a ningún lado** — lo que pide cada profesor, textual; Fran decidió el 2026-09-28 que los criterios son locales y lo público es sólo lo pactado |
-| `proyectos/documentos/cohete-de-agua/` | `cohete-de-agua` (local) | **a ningún lado** — trabajo en grupo con los apellidos de los compañeros; lo compartido va por la carpeta de Drive del grupo |
+| `proyectos/seguimiento/coaching/` | `coaching` | `github.com/fransalomone21/coaching`, **privado** |
+| `proyectos/seguimiento/haberes-docentes/` | `haberes-docentes` | `github.com/fransalomone21/haberes-docentes`, **privado** — CBU, CUIL y datos de haberes |
+| `proyectos/documentos/clases-aed/` | `clases-aed` | `github.com/fransalomone21/clases-aed`, **privado** — lleva nombre y mail de una alumna particular |
+| `proyectos/documentos/teoria-circuitos/` | `teoria-circuitos` | `github.com/fransalomone21/teoria-circuitos`, **privado** — la carátula de los informes lleva nombre y correo de dos compañeros, que la guía de la materia exige ahí |
+| `proyectos/documentos/catedras/` | `catedras` | `github.com/fransalomone21/catedras`, **privado** — lo que pide cada profesor, textual, y material de cátedra; lo público sigue siendo sólo lo pactado (un resumen interpretado, en `software-de-vuelo/docs/`) |
+| `proyectos/documentos/cohete-de-agua/` | `cohete-de-agua` | `github.com/fransalomone21/cohete-de-agua`, **privado** — trabajo en grupo con los apellidos de los compañeros; lo compartido va por la carpeta de Drive del grupo |
+
+**Desde el 2026-10-02 todos los repos propios tienen remote privado en GitHub**
+(decisión de Fran: «poder seguir avanzando proyectos en nube cuando me quedo sin
+créditos; la única indicación es que lo mantengas todo privado para mí lo de
+GitHub, y lo público del Drive es lo que ya convenimos»). Antes, cinco iban «a
+ningún lado»; los motivos de privacidad de cada fila siguen valiendo: por eso
+son privados. Los creó `proyectos/ingenieria/arquitectura-se/herramientas/cierre-desde-la-nube.ps1`,
+que frena si un remote resulta público. `claude-acceso` **sigue público**
+(decidido el mismo día).
 
 **La regla que sostiene esta tabla: un archivo, un repo dueño.** Si una carpeta
 tiene su propio `.git`, `claude-acceso` la ignora en el mismo turno en que
@@ -328,7 +337,7 @@ el momento en que importa. Si no coinciden, **manda el proyecto** (regla 4).
    | Sensibilidad | Destino | Ejemplos |
    |---|---|---|
    | pública | `claude-acceso` | casi todo |
-   | personal, **y vale recordarla** | **repo propio**, ignorado acá, remote privado o ninguno | `coaching`, `teoria-circuitos`, `catedras` |
+   | personal, **y vale recordarla** | **repo propio**, ignorado acá, con remote **privado** en GitHub | `coaching`, `teoria-circuitos`, `catedras` |
    | personal, y **no** vale recordarla | carpeta ignorada acá | `telefono-samsung/informes/`, `diagnostico-msi/datos-crudos/` |
 
    La fila del medio es la que faltaba y la que se elude sola, porque cuesta

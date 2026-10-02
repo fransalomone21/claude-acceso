@@ -99,11 +99,12 @@ crítico (`diagnostico-2026-09-28.md` §3), adelantada por necesidad real.
   privado y GitHub privado es su destino. Drive: sin cambios. Lo hace el paso 3
   de `herramientas/cierre-desde-la-nube.ps1`, que frena si un remote resulta
   público o si hay un archivo de más de 95 MB.
-- **Pregunta abierta para Fran:** `claude-acceso` mismo es **público** (por
-  diseño desde el inicio, y la decisión 1 de arriba publica ahí el método). Si
-  «todo privado lo de GitHub» lo incluye, hay que pasarlo a privado desde la
-  web de GitHub (Settings → Danger zone → Change visibility); la integración de
-  Claude no puede cambiar la visibilidad.
+- **`claude-acceso` queda público** (Fran, 2026-10-02: «queda público acceso,
+  decidido»). Lo protege la regla 5 de `verificar-estructura.ps1`.
+- **Hecho (corrido en la PC el 2026-10-02):** `catedras`, `clases-aed`,
+  `cohete-de-agua`, `teoria-circuitos` y `haberes-docentes` creados privados y
+  subidos; `coaching` y `perfil-global` ya estaban. Tabla de dueños de
+  `MAPA.md` §2 al día.
 
 ## 4 bis. Lo que la 2.ª sesión en la nube cambia del diseño
 

@@ -5,6 +5,7 @@ Una sabotaje por entrada del mecanismo (ver el docstring del verificador), y cad
 ver en las lineas del bloque [ROJO] el motivo QUE LE TOCA, no un rojo cualquiera. Mas el
 control positivo: la copia sin tocar tiene que dar verde.
 """
+import os
 import pathlib
 import shutil
 import subprocess
@@ -15,8 +16,11 @@ AQUI = pathlib.Path(__file__).resolve().parent
 
 
 def correr(dir_):
+    # En Windows, un Python cuya salida va a un pipe escribe en cp1252: las comillas de gcc
+    # (‘ ’) salian como 0x91 y la lectura en UTF-8 reventaba (PC, 2026-10-02). Se le pide UTF-8.
+    env = dict(os.environ, PYTHONIOENCODING="utf-8")
     r = subprocess.run([sys.executable, str(dir_ / "verificar-ejemplos.py")], capture_output=True,
-                       text=True, encoding="utf-8")
+                       text=True, encoding="utf-8", errors="replace", env=env)
     rojo = r.stdout.split("[ROJO]", 1)[1] if "[ROJO]" in r.stdout else ""
     return r.returncode, rojo, r.stdout
 
