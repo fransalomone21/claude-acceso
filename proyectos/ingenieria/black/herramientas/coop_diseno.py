@@ -14,8 +14,9 @@ Lee el bloque ```coop-rangos del documento y exige, en este orden:
   6. (104) el bloque ```coop-plan-b (el DISENO de COOP-B, todavia sin codigo): sus filas no se pisan entre si
      ni con coop-rangos; cada `gancho` espera en el ELF la instruccion que declara (varias separadas por `;`
      para palabras seguidas), porque el diseno se apoya en ella; y cada fila tiene fuente como en 5;
-  7. (107) el codigo ya escrito del plan (coop_ia.py) cae entero en su reserva y cada gancho suyo en una fila
-     gancho del plan: si el codigo crece o toca otro sitio, rojo.
+  7. (111) la IA (coop_ia.py) esta PRENDIDA por defecto en coop_mod (decision del 2026-10-02) y cada sitio suyo
+     tiene en el ELF la instruccion que reemplaza; su codigo y sus ganchos ya viven en coop-rangos (reglas 1-3).
+     Hasta (110) era: el codigo cae en su reserva del plan.
 Sale 0 si todo esta bien y 1 si algo falla (y dice que). Su saboteador: pruebas/probar-coop-diseno.py.
 """
 import argparse
@@ -49,6 +50,9 @@ def verificar(doc: Path, mods: Path) -> list[str]:
     if not filas:
         return ["no hay bloque coop-rangos en %s" % doc]
     cm.SIN_R3 = False   # (93v) el plano describe el mod entero, con la ranura 3 (apagada por defecto al instalar)
+    con_ia_por_defecto = cm.CON_IA
+    cm.CON_IA = True    # (111) y con la IA, que ademas tiene que estar prendida por defecto (regla 7)
+    errores += verificar_ia(con_ia_por_defecto)
     progs = cm.programas()
     # 1. los programas contra el plano
     for nombre, prog in progs[:-1]:
@@ -131,15 +135,22 @@ def verificar_plan(doc: Path, rangos, bit) -> list[str]:
                 if " ".join(real.lower().split()) != " ".join(esp.lower().split()):
                     errores.append("plan '%s': en %#x el ELF tiene '%s', el diseno espera '%s'"
                                    % (a["nombre"], pc, real, esp))
+    return errores
+
+
+def verificar_ia(con_ia_por_defecto) -> list[str]:
+    """(111) regla 7: la IA es parte del mod POR DEFECTO (decision del 2026-10-02) y sus sitios tienen en el ELF
+    la instruccion que el codigo reemplaza. Sus rangos y ganchos los miden las reglas 1-3, porque viven en coop-rangos."""
+    from mips import desensamblar
+    from perfil_singleton import palabra_elf
     import coop_ia
-    prog = coop_ia.programa()
-    desde, hasta = prog[0][0], prog[-1][0] + 4
-    if not any(f["tipo"] == "reserva" and f["nombre"].startswith("IA: los dos") and f["desde"] <= desde
-               and hasta <= f["hasta"] for f in plan):
-        errores.append("coop_ia.py [%#x, %#x) fuera de su reserva del plan" % (desde, hasta))
+    errores = [] if con_ia_por_defecto else ["coop_mod.CON_IA apagada por defecto: el acceso COOP instalaria sin la IA"]
     for pc, _, texto in coop_ia.ganchos():
-        if not any(f["tipo"] == "gancho" and f["desde"] <= pc < f["hasta"] for f in plan):
-            errores.append("gancho de coop_ia %#x (%s) sin fila en el plan" % (pc, texto))
+        w = palabra_elf(pc)
+        real = " ".join((desensamblar(w, pc) if w is not None else "(sin ELF)").split())
+        if real.lower() != coop_ia.ORIGINAL[pc].lower():
+            errores.append("gancho de la IA %#x (%s): el ELF tiene '%s', se esperaba '%s'"
+                           % (pc, texto, real, coop_ia.ORIGINAL[pc]))
     return errores
 
 

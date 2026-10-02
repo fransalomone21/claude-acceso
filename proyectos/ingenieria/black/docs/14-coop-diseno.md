@@ -109,6 +109,17 @@ gancho vista FP 4           | 0x001D6F90 | 0x001D6F98 | gancho | (93l)
 gancho evento FP            | 0x001E80C0 | 0x001E80C8 | gancho | (93m)
 gancho ranura 3 por cuadro  | 0x001295A8 | 0x001295AC | gancho | (93s)
 gancho ranura 3 carga       | 0x001ACA84 | 0x001ACA88 | gancho | (93s)
+# (111) la IA a los dos, PRENDIDA por defecto (coop_mod.CON_IA; `--sin-ia` es el control). Salió de coop-plan-b:
+# los originales de sus seis sitios los mide contra el ELF la regla 7 (coop_ia.ORIGINAL)
+IA los dos                  | 0x0046E600 | 0x0046E778 | codigo | (107)
+IA percepcion de J2         | 0x0046F000 | 0x0046F0B4 | codigo | (110)
+escuadron+0x74 (J2, 5.a)    | 0x004ECFF4 | 0x004ECFF8 | datos  | (110)
+gancho IA ver               | 0x0018FC4C | 0x0018FC50 | gancho | (99)
+gancho IA visibles          | 0x0019098C | 0x00190990 | gancho | (99)
+gancho IA defecto           | 0x0018A8BC | 0x0018A8C0 | gancho | (107)
+gancho IA hostil            | 0x00184904 | 0x0018490C | gancho | (107)
+gancho IA percepcion        | 0x00184DB8 | 0x00184DBC | gancho | (110)
+gancho IA lazo hasta 5      | 0x00185184 | 0x00185188 | gancho | (110)
 ```
 
 Los tres ganchos de la escena (`pd.SITIOS`) los compara el verificador contra `pantalla_dividida.py`
@@ -124,13 +135,6 @@ a `coop-rangos` con su rango exacto.
 
 ```coop-plan-b
 # nombre                       | desde      | hasta      | tipo    | espera (ELF)                        | fuente
-IA ver: J y J2                 | 0x0018FC4C | 0x0018FC50 | gancho  | jal 0x0018FB88                      | (99)
-IA visibles: J y J2            | 0x0019098C | 0x00190990 | gancho  | jal 0x001908A0                      | (99)
-IA blanco por defecto: cercano | 0x0018A8BC | 0x0018A8C0 | gancho  | jal 0x00189740                      | (107)
-IA blanco hostil: cercano      | 0x00184904 | 0x0018490C | gancho  | lw v0, -2864(v1); addiu v0, v0, 48  | (107)
-IA percepción: PERC2           | 0x00184DB8 | 0x00184DBC | gancho  | jal 0x00184DE0                      | (110)
-IA percepción: lazo hasta 5    | 0x00185184 | 0x00185188 | gancho  | slti v0, s3, 4                      | (110)
-escuadrón+0x74 (J2, 5.a ranura) | 0x004ECFF4 | 0x004ECFF8 | reserva | -                                   | (110)
 silenciar vida baja de J2      | 0x001F2A60 | 0x001F2A68 | gancho  | addiu sp, sp, -144; lui v0, 0x44    | (103)
 silenciar icono de J2          | 0x001F2CD0 | 0x001F2CD8 | gancho  | addiu sp, sp, -16; lui v1, 0x41     | (103)
 cabecera sombra +0x1C/+0x20    | 0x0046CDDC | 0x0046CDE4 | reserva | -                                   | (100)
@@ -139,14 +143,12 @@ CAND2 (candidato de J2)        | 0x0046E580 | 0x0046E588 | reserva | -          
 V2 y su bandera                | 0x0046E588 | 0x0046E590 | reserva | -                                   | (101)
 FOV2 y bandera de silencio     | 0x0046E590 | 0x0046E598 | reserva | -                                   | (103)
 sub3 (datos)                   | 0x0046E5A0 | 0x0046E5B0 | reserva | -                                   | (102)
-IA: los dos (código, coop_ia.py) | 0x0046E600 | 0x0046E780 | reserva | -                                   | (107)
 juntar J2 (código)             | 0x0046E780 | 0x0046E900 | reserva | -                                   | (100)
 ventana de J2 (código)         | 0x0046E900 | 0x0046EA00 | reserva | -                                   | (104)
 silenciar HUD (código)         | 0x0046EA00 | 0x0046EA80 | reserva | -                                   | (103)
 HUD de J2 (código)             | 0x0046EA80 | 0x0046ED00 | reserva | -                                   | (103)
 sub3 (código)                  | 0x0046ED00 | 0x0046EE00 | reserva | -                                   | (102)
 armar V2 (código)              | 0x0046EE00 | 0x0046EF00 | reserva | -                                   | (101)
-IA percepción (código, coop_ia.py) | 0x0046F000 | 0x0046F100 | reserva | -                               | (110)
 ```
 
 ## 4. Interfaz con los otros mods

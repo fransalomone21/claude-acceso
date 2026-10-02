@@ -809,7 +809,8 @@ def programas():
     ganchos += gan
     if CON_IA:
         # (107) la IA a los dos (coop_ia.py): ver/visibles con J y J2, blancos por defecto y hostil al mas cercano.
-        # APAGADA por defecto hasta la sonda de la notebook; su memoria esta en coop-plan-b (docs/14)
+        # PRENDIDA por defecto desde 2026-10-02 (necesidad mayor de Fran: shooter con campana coop); `--sin-ia` es el
+        # control. Su memoria y sus ganchos estan en coop-rangos (docs/14)
         import coop_ia
         progs.append(("IA los dos", coop_ia.programa()))
         progs.append(("IA percepcion de J2", coop_ia.programa2()))   # (110)
@@ -817,7 +818,7 @@ def programas():
     return progs + [("ganchos", ganchos)]
 
 
-CON_IA = False  # (107) `--con-ia` en listar/instalar/poner
+CON_IA = True  # (111) PRENDIDA por defecto; `--sin-ia` es el control y `--con-ia` se acepta y no hace nada (como SIN_R3 en (93y))
 
 
 SIN_OCULTAR = False  # `poner --sin-ocultar`: el control de (93)
@@ -839,7 +840,7 @@ def depurador(accion):
 def cmd_listar(_a):
     global SIN_R3, CON_IA
     SIN_R3 = getattr(_a, "sin_r3", False)
-    CON_IA = getattr(_a, "con_ia", False)
+    CON_IA = not getattr(_a, "sin_ia", False)
     for nombre, prog in programas():
         print("== %s: %d palabras, %#010x..%#010x" % (nombre, len(prog), prog[0][0], prog[-1][0] + 4))
         for pc, w, t in prog:
@@ -856,7 +857,7 @@ def cmd_poner(a):
     SIN_RECARGA = a.sin_recarga
     SIN_PANTALLA = a.sin_pantalla
     global CON_IA
-    CON_IA = getattr(a, "con_ia", False)
+    CON_IA = not getattr(a, "sin_ia", False)
     progs = programas()
     with Pine() as p:
         if (p.leer32(g.SITIO) != g.ORIGINAL or p.leer32(j2.SITIO_CARGA) != j2.ORIGINAL_CARGA
@@ -1053,8 +1054,8 @@ def cmd_instalar(_a):
     SIN_R3 = getattr(_a, "sin_r3", False)
     SIN_OCULTAR_J = not getattr(_a, "con_ocultar_j", False)
     global CON_IA
-    CON_IA = getattr(_a, "con_ia", False)
-    viejo = PARCHES.read_bytes().decode("utf-8")
+    CON_IA = not getattr(_a, "sin_ia", False)
+    viejo =PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
     nuevo = base + nl + nl + bloque_pnach().replace("\n", nl)
@@ -1092,13 +1093,13 @@ def main() -> int:
     for c in ("quitar", "toml", "activar", "desactivar"):
         sub.add_parser(c)
     li = sub.add_parser("listar"); li.add_argument("--con-r3", action="store_true"); li.add_argument("--sin-r3", action="store_true")
-    li.add_argument("--con-ia", action="store_true")
+    li.add_argument("--con-ia", action="store_true"); li.add_argument("--sin-ia", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
-    ins.add_argument("--con-ia", action="store_true")
+    ins.add_argument("--con-ia", action="store_true"); ins.add_argument("--sin-ia", action="store_true")
     ins.add_argument("--con-r3", action="store_true"); ins.add_argument("--sin-r3", action="store_true")
     ins.add_argument("--con-ocultar-j", action="store_true"); ins.add_argument("--sin-ocultar-j", action="store_true")
     po = sub.add_parser("poner"); po.add_argument("--sin-baja", action="store_true")
-    po.add_argument("--con-ia", action="store_true")
+    po.add_argument("--con-ia", action="store_true"); po.add_argument("--sin-ia", action="store_true")
     po.add_argument("--sin-titere", action="store_true")
     po.add_argument("--sin-recarga", action="store_true")
     po.add_argument("--sin-ocultar", action="store_true")
