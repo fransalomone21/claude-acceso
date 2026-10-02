@@ -387,7 +387,13 @@ Síntesis de T2–T6. **P5 silenciar** es lo que el mod hace hoy (el aislador): 
 | **2. mini HUD de J2 hecho por el mod** | vida, cargador/munición y retícula de J2 en la mitad derecha, con la función de texto del juego (`FUN_00275DC0`) y leyendo a J2 directo; las salidas de J2 al HUD del juego, silenciadas (P5) | es nuestro: hay que diseñar qué muestra |
 | 3. un HUD compartido ampliado | el de J1 más un recuadro de J2 | tapa la mitad de J1 |
 
-**Elección: opción 2**, con N19 y el ícono de agachado de J2 silenciados. **Pregunta para Fran:** ¿qué tiene que ver
+> **Revisado (112)–(114): gana la opción 1, y la decide Fran.** (112) el juego ya arma **dos** paneles de HUD;
+> (113) achicados a 3/4 (escala del marco raíz + rectángulo ÷ 0,75) cada uno entra en su mitad sin encimarse. Fran,
+> en la PDR (`docs/18`, 2026-10-02): **el HUD del juego repetido en cada mitad, a 3/4**; carteles de misión en las
+> dos mitades; cuerpos = soldado aliado genérico; la IA «el primero que vio» alcanza; pausa sólo de J1; el orden de
+> la C sin cambios. La opción 2 queda descartada. Receta: H1–H4 (abajo, «HUD por dos paneles») y `PDP.md` §4, Fase C.
+
+**Elección (vieja, (103)): opción 2**, con N19 y el ícono de agachado de J2 silenciados. **Pregunta para Fran:** ¿qué tiene que ver
 J2 sí o sí (vida, cargador, munición total, arma, retícula)? ¿Y J1 conserva el HUD entero sobre la pantalla completa
 (hoy) o se reduce a su mitad?
 

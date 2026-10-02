@@ -154,6 +154,16 @@ def probar_nivel(n):
     return res
 
 
+def entregar_a_fran():
+    """(114) Despues de lanzar() + probar_nivel(), el control 1 de J queda en el mando FALSO (el selector lo usa):
+    Fran no puede mover a J con nada. Antes de pedirle que juegue, se devuelve al mando real y se MIDE."""
+    with Pine() as p:
+        sc.falso_quitar(p)
+        ok = p.leer32(sc.CTRL1 + 0xC) == sc.MANDO1_REAL
+    log("control 1 de J en el mando real:", ok)
+    return ok
+
+
 def probar_sin_mod(n):
     """El CONTROL: la misma carga con el bloque apagado. Juego = el eje del falso gira la vista (vivo)."""
     res = {"indice": n, "nombre": NOMBRES[n], "sin_mod": True}

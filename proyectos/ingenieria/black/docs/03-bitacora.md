@@ -16,6 +16,20 @@ Formato de cada entrada:
 
 ---
 
+## 2026-10-02 (114, notebook, caliente, con Fran jugando) — La PDR aprobada: se cierra la B y se abre la C; V4 no se puede medir con el selector; las bombas del guion matan a J2 rezagado
+**Máquina:** notebook, fork en City Streets · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (la PDR, V4) → COOP-C · **Nodos:** `flujo`, `disparadores`, `proyectiles`
+**Objetivo:** `sesiones/RETOME-LOCAL.md` (validación 5 de 5 de T11/T12): las seis respuestas de Fran a `docs/18` → cerrar la B y abrir la C; con Fran presente, V4 (cambio de unidad real y «continuar misión»).
+**Resultado** (predicciones antes de medir: `sesiones/PREDICCIONES-114.md`):
+- **Las seis respuestas de Fran** (en el chat, `docs/18`): HUD del juego a 3/4 en cada mitad; carteles en las dos mitades; soldado aliado genérico; la IA «el primero que vio» alcanza; pausa sólo de J1; el orden de la C sin cambios. **La B cerrada (KDP-B, `PDP.md` §6) y la C abierta** con su criterio escrito antes de fabricar (`PDP.md` §4, «Fase C»: por pieza predicción, control y dos cargas; regresión 8/8; continuar desde el menú). `docs/16` (HUD: gana la opción del juego) al día.
+- **V4b («continuar misión») NO medible con este banco:** con el nivel cargado por el selector de depuración, CONTINUE MISSION queda apagado aun en el final del nivel **y también sin el coop** (control: `coop_mod.py desactivar`, misma partida). Pasa a la C con otro banco (arrancar desde el menú). RESTART MISSION con el coop anduvo otra vez (desarme a los 630 s, rearme y controlador re-atado a los 639 s).
+- **V4a, parcial:** J2 rezagado en el arranque mientras J recorrió ~90 m y entró al museo: vivo, misma altura y controlador ~700 s (`volcados/v4/20261002-110959/`). Si la unidad del arranque se descargó, J2 la sobrevivió; el registro no mira la descarga.
+- **N21, medido:** J2 quieto junto a una ventana pasó de 750 a 0 en < 0,5 s, a 11 m de J y sin enemigos: según Fran, las bombas «de cine» que el guion hace explotar detrás de J al bajar la escalera. Riesgo de la C (`PDP.md` §5).
+- **Vistos por Fran, sin control:** N22 basura gráfica arriba a la izquierda al disparar el AK; N23 J disparando solo; N24 humo/fuego/nubes que se mueven con la mira. **El RPG lento que se borra antes de pegar NO es del coop** (sin el coop igual).
+- **El banco no era el juego, tres veces:** (1) `lanzar()` + `probar_nivel()` dejan el control 1 de J en el mando falso → Fran no podía mover a J (arreglo: `campana_coop.entregar_a_fran()`, probado en rojo y verde); (2) los tres parches de mira estaban apagados (los saca `JUGAR-BLACK.ps1 -Coop 2mandos`; prendidos a mano, respaldo `.bak-`); (3) el selector no da puntos de control. Riesgo nuevo en `PDP.md` §5.
+- Herramientas nuevas: `v4_registro.py` (registro de sólo lectura con eventos, `--autotest` verde y en rojo al sabotear), `guardado_auto.py` (savestates cada N s en los slots 5–7, nunca el 3; `volcados/guardados.txt`). Savestates sin coop de City Streets: slot 8 (después del del RPG) y 4 (final del nivel), cargados por el selector (sin puntos de control).
+**No funcionó:** V4b (sin punto de control con el selector, con y sin coop); dar por hecho que CONTINUE andaba sin coop por una foto (corregido en `PREDICCIONES-114`); el primer intento de Fran (J1 en el mando falso).
+**Sigue:** la C, pieza 1: el HUD doble en el stub (H1–H4, `PDP.md` §4). Y un banco para N12/N25: una partida desde el menú del juego en el fork (Fran ofreció hacer saves en el nivel 2, cuyos puntos de control conoce).
+
 ## 2026-10-02 (113, notebook, caliente, pantalla libre) — El HUD de J2 lee por 11 constantes y entra en media pantalla; los cuerpos nacen sin gastar un spawner
 **Máquina:** notebook, fork en City Streets · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-B (B9 HUD, B11 cuerpos, la PDR) · **Nodos:** `hud`, `spawn`, `personajes`
 **Objetivo:** `sesiones/RETOME-LOCAL.md` (validación 4 de 5 de T11/T12): Fran no contestó la PDR, así que V1–V3 en vivo.

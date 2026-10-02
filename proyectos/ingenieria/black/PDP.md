@@ -101,10 +101,12 @@ puertas. N1 (capacidades A leer RAM, B leer código, D escribir) está
 | 8 | Censo estructural por requisito | cada R2–R7 con su estructura | `superficies.py` (nunca se escribió) | **absorbida** en la Pre-Fase A el 2026-09-26; la **8c** (coop) quedó respondida (`kb/superficies.json#R5`) |
 | Pre-A | Estudio de conceptos del programa | la MCR (ver abajo) | `programa.py verificar` 0 rojos + `trade` 0 + `probar-programa.py` 9/9 | **cerrada 2026-09-27** (KDP-A en §6) |
 | **COOP-A** | **Proyecto coop, Fase A: concepto y desarrollo de tecnología** | ver «Proyecto COOP» abajo | los habilitadores en K5, cada uno por efecto | **cerrada 2026-09-27 (bitácora (83))**: los 7 habilitadores en su objetivo, prototipo hecho en (82), `verificar` 0 |
-| **COOP-B** | **Proyecto coop, Fase B: diseño preliminar** | ver «Proyecto COOP — Fase B» abajo | PDR recortada: los tres riesgos altos retirados por efecto + el diseño que nombra cada dirección, medido por `coop_diseno.py verificar` (desde (104)–(107) también el plan `coop-plan-b` contra el ELF) | **abierta 2026-09-27 (84)**; **alcance ampliado 2026-09-28 (106)** |
+| **COOP-B** | **Proyecto coop, Fase B: diseño preliminar** | ver «Proyecto COOP — Fase B» abajo | PDR recortada: los tres riesgos altos retirados por efecto + el diseño que nombra cada dirección, medido por `coop_diseno.py verificar` (desde (104)–(107) también el plan `coop-plan-b` contra el ELF) | abierta 2026-09-27 (84); alcance ampliado 2026-09-28 (106); **cerrada 2026-10-02 (114)**: PDR revisada por Fran (sus seis respuestas en `docs/18`), KDP-B en §6 |
+| **COOP-C** | **Proyecto coop, Fase C: diseño final y fabricación** | ver «Proyecto COOP — Fase C» abajo | por pieza: predicción escrita antes, control y dos cargas seguidas; al final la campaña 8/8 con todo prendido | **abierta 2026-10-02 (114)** |
 
-**Fase en curso: COOP-B**, abierta el 2026-09-27 (84) con su criterio escrito
-abajo **antes** de empezarla. Análisis en papel: [`docs/13-coop.md`](docs/13-coop.md).
+**Fase en curso: COOP-C**, abierta el 2026-10-02 (114) con su criterio escrito
+abajo **antes** de fabricar nada. La B (diseño preliminar) quedó cerrada por la
+PDR: [`docs/18-pdr-coop.md`](docs/18-pdr-coop.md).
 
 ### Proyecto COOP
 
@@ -252,6 +254,56 @@ dibujar la escena dos veces pide reescribir el cuadro, M2 pasa a costo alto y
 se vuelve a Fran con dos caminos: **la pantalla alternada** (un cuadro cada
 uno, 30 Hz por jugador) o M3.
 
+**Cierre (2026-10-02, (114)):** los riesgos altos B1, B2, B3, B4, B5 y B7 retirados
+por efecto; B6, B8–B11 con su diseño y su sonda del concepto (`docs/16`); el plano
+verificado por `coop_diseno.py` (reglas 6 y 7); y **la PDR revisada por Fran**: sus
+seis respuestas están en `docs/18` (HUD del juego a 3/4 en cada mitad, carteles en
+las dos mitades, soldado aliado genérico, la IA «el primero que vio» alcanza, pausa
+sólo de J1, el orden de la C sin cambios). V4 («continuar misión») **no se pudo
+medir**: con el nivel cargado por el selector de depuración, CONTINUE MISSION queda
+apagado **también sin el coop** (control de (114)), así que no es un riesgo del coop
+sino del banco de prueba; pasa a la C con su banco nuevo (arrancar desde el menú).
+
+### Proyecto COOP — Fase C (diseño final y fabricación)
+
+Escrito el 2026-10-02 (114), **antes** de fabricar. NASA Phase C, «Final Design and
+Fabrication»: el diseño de la B se baja a cada pieza y se construye **en el stub del
+pnach** (no por PINE), una por una. **No se hace:** rediseñar sobre la marcha (un
+cambio de diseño vuelve a `docs/16` y a `coop_diseno.py` antes de tocar el stub) ni
+arreglar síntomas de a uno.
+
+**Qué la cierra, exactamente:**
+
+1. **Cada pieza, construida y probada por separado**, en el orden que aprobó Fran:
+   (1) el HUD doble; (2) el sonido y el modelo de arma de J2; (3) juntar por J2;
+   (4) los cuerpos en los 8 niveles (J y J2, por la fábrica); (5) traer a J2 en el
+   cambio de zona **y en los eventos de guion** (riesgo nuevo de (114)), el zoom y los
+   carteles en las dos mitades. Cada una con: **predicción escrita antes** (en
+   `sesiones/PREDICCIONES-<n>.md`), **control** (la misma corrida con la pieza apagada
+   da distinto), y **dos cargas seguidas** sin colgar (lo que se da de alta en una
+   carga se da de baja en la descarga, lección de (86)). Sus filas pasan de
+   `coop-plan-b` a `coop-rangos` y `coop_diseno.py verificar` queda en 0.
+2. **La regresión:** la campaña 8 de 8 (`campana_coop.py`) con todas las piezas
+   prendidas, sin colgar, con el ritmo medido (hoy ~30 cuadros/s, ~24 en tres
+   niveles: no puede bajar).
+3. **«Continuar misión» con el coop**, medido desde una partida arrancada **desde el
+   menú** (no por el selector): CONTINUE elegible sin coop (control) y con coop J2
+   rearmado.
+4. `pruebas/controles.py` en verde.
+
+**Primera pieza, con su receta ya medida (H1–H4 de `docs/16`):** H1 cuenta 2 en el
+sitio de la carga `0x00128F5C`; H2 los rectángulos (40, 22, 386,7, 458) y
+(466,7, 22, 813,3, 458) **antes** de activar y `*(panel+0x54)+8` = 0,75 en los dos
+marcos raíz **después** ((113)); H3 el tipo del panel 2 difundido desde el del 1; H4
+los 11 pasos `li rX, 2240` en 0 y el panel 2 actualizado con el juego conmutado a
+J2. **Predicción:** dos HUD, uno por mitad, sin encimarse, el de la derecha con la
+vida y la munición de J2 (distintas de las de J). **Control:** el bloque sin la
+pieza (un HUD). Una sola activación por carga: la segunda con cuenta 2 congela el
+mundo ((113), `probable`).
+
+**Después de la C viene la D:** Fran lo juega (dos mandos, después Parsec), que es
+lo único que valida que sirve.
+
 ## 5. Riesgos
 
 | Riesgo | Prob. | Consec. | Estrategia | Disparador observable |
@@ -266,6 +318,8 @@ uno, 30 Hz por jugador) o M3.
 | El estado de la máquina **se lee en vez de medirse** | media — pasó (PCSX2-MCP; y el 2026-09-26 `D:` ya no montaba el ISO que `ubicaciones.json` declara) | media | mitigar: `inventario.py`, `ubicaciones.py`, leer por LBA | un «está en `D:`» que no venga de medirlo |
 | Se pierde lo que sólo vive en el emulador | alta | baja si está anotado | aceptar y anotar en el handoff | reiniciar el emulador |
 | **`Test-Path` con corchetes** da falso negativo | media | media | evitar: verificador en Python | un chequeo de existencia en PowerShell sobre `Black [NTSC]` |
+| **J2 rezagado muere por lo que el guion pone contra el recorrido de J** (bombas «de cine» detrás de J en City Streets, (114)) | alta en cada nivel con eventos así | alta: «pierden los dos» sin culpa de nadie | mitigar en la C: «traer a J2» también antes de esos eventos, o J2 inmune a lo del guion | J2 de 750 a 0 en un cuadro, lejos de J y sin enemigos cerca |
+| **El banco de prueba no es el juego**: el fork se arma para las sondas (mando falso en J1, parches de mira apagados, nivel por el selector sin puntos de control) | alta — pasó tres veces en (114) | media: una sesión de Fran perdida o un negativo falso | evitar: `campana_coop.entregar_a_fran()` antes de pedirle que juegue; lo que dependa del flujo real (puntos de control) se mide arrancando desde el menú | Fran no puede mover a J, o una función del juego falla también sin el mod |
 
 ## 6. Decisiones
 
@@ -295,6 +349,9 @@ uno, 30 Hz por jugador) o M3.
 | 2026-09-28 | **El diseño se verifica contra el ELF antes de escribir código** ((104): bloque `coop-plan-b` en `docs/14`, `coop_diseno.py` reglas 6 y 7) | escribir el MIPS y probarlo en vivo | si una lectura en frío estaba mal, el plano se pone rojo antes de la RAM; en (107) el listado atrapó dos errores reales antes de instalar |
 | 2026-09-28 | **Decisiones de Fran para el coop** ((106)): el juego como con uno pero con dos — IA a los dos, recogibles al primero, HUD separado con punto de mira propio, disparadores de J1, si muere uno pierden los dos, los dos con cuerpo de aliado; primero funcionalidad | las políticas v1 de `docs/14` (J2 no es blanco, reaparece junto a J, HUD fuera de la B) | las decide Fran: son lo que va a jugar |
 | 2026-09-28 | **La IA a los dos, por sitio y no por agente** ((107)): cuatro sitios (ver y visibles con J y J2; blancos por defecto y hostil al más cercano) | conmutar el juego alrededor de la actualización de cada agente (todo «el jugador» pasa a ser el más cercano) | el cierre de esa actualización llama métodos del juego que necesitan el juego verdadero (`FUN_0012A7C0`, `FUN_0012A280`) y virtuales que el grafo no ve: riesgo de cuelgue sin aviso en frío. Queda el movimiento táctico centrado en J1, a revisar en vivo |
+
+| 2026-10-02 | **KDP-B: la PDR del coop aprobada por Fran; se cierra la B y se abre la C** ((114)). Sus seis respuestas (`docs/18`): HUD del juego a 3/4 en cada mitad; carteles en las dos mitades; soldado aliado genérico en los 8 niveles; la IA «el primero que vio» alcanza para la v1; pausa sólo de J1; el orden de la C sin cambios | el HUD chico dibujado por el mod (opción (b) de `docs/16`); el blanco «más cercano» en la v1; pausa de cualquiera | las elige Fran: es lo que va a jugar. El HUD del juego ya está medido (dos paneles, tamaño a 3/4 en (113)); el del mod habría que construirlo de cero |
+| 2026-10-02 | **V4 («continuar misión») pasa a la C con otro banco** | medirla en la B con el selector | con el nivel cargado por el selector de depuración CONTINUE queda apagado **también sin el coop** (control de (114)): el banco no puede contestar la pregunta |
 
 ## 7. Verificación
 

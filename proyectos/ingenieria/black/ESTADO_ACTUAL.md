@@ -37,9 +37,22 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); (111): la IA a los dos POR DEFECTO, un enemigo elige a J2 y lo mata, J2 junta y cambia armas, campaña 8/8 (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C ABIERTA el 2026-10-02 (114): la PDR aprobada por Fran cerró la B; se fabrica pieza por pieza, la primera el HUD doble (LEER ESTO PRIMERO)
 
-> **(113), 2026-10-02, NOTEBOOK CALIENTE, pantalla libre — LO ÚLTIMO** (bitácora (113), `sesiones/PREDICCIONES-113.md`).
+> **(114), 2026-10-02, NOTEBOOK CALIENTE, con Fran jugando — LO ÚLTIMO** (bitácora (114), `sesiones/PREDICCIONES-114.md`).
+> - **La B cerrada, la C abierta:** las seis respuestas de Fran en `docs/18` (HUD del juego a 3/4 en cada mitad,
+>   carteles en las dos, soldado aliado genérico, la IA alcanza, pausa de J1, orden de la C igual). Criterio de la C
+>   en `PDP.md` §4 («Fase C»), escrito antes de fabricar; KDP-B en §6.
+> - **V4b no medible con el selector:** CONTINUE MISSION apagado también **sin el coop** (control). Va a la C con
+>   partida desde el menú. RESTART MISSION con el coop, de nuevo bien.
+> - **Riesgo nuevo (N21, medido):** las bombas «de cine» del guion matan a J2 si se quedó atrás (750 → 0 de golpe).
+>   Vistos sin control: N22 basura gráfica al disparar, N23 J disparando solo, N24 humo que sigue la mira. El RPG
+>   lento NO es del coop.
+> - **El fork se arma para las sondas, no para jugar:** `campana_coop.entregar_a_fran()` devuelve J1 al mando real;
+>   los parches de mira se prenden a mano. Herramientas nuevas: `v4_registro.py`, `guardado_auto.py`.
+> - **Sigue: `sesiones/RETOME-LOCAL.md`** (la C, pieza 1: el HUD doble en el stub).
+
+> **(113), 2026-10-02, NOTEBOOK CALIENTE, pantalla libre** (bitácora (113), `sesiones/PREDICCIONES-113.md`).
 > - **El HUD de J2, medido:** con las 11 constantes en 0 la mitad derecha muestra datos de jugador (H4a, confirmado
 >   con control); **el tamaño está resuelto**: escala del marco raíz `*(panel+0x54)+8` = 0,75 con el rectángulo en
 >   x ÷ 0,75 → cada HUD en su mitad sin encimarse (confirmado; el mecanismo, `FUN_00276290`, leído y medido).

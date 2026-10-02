@@ -115,3 +115,25 @@ Después viene la D: **jugarlo vos** (con dos mandos, y después con Parsec), qu
    versión, o es prioridad cambiarlo?
 5. **Pausa:** sólo J1 pausa. ¿Con Parsec te molesta que tu amigo no pueda pausar?
 6. **El orden de la Fase C** de arriba: ¿lo cambiarías?
+
+## Las respuestas de Fran (2026-10-02, sesión (114), en el chat)
+
+1. **HUD:** el del juego, repetido en cada mitad y achicado a 3/4 (la foto de (113)). La opción (b), el HUD chico
+   hecho por el mod, queda descartada.
+2. **Mensajes de misión:** en las **dos** mitades.
+3. **Cuerpos:** sí, un soldado aliado genérico para los dos en los 8 niveles; lo estético, después.
+4. **La IA:** alcanza «el primero que vio» para la primera versión; se afina después de jugarlo.
+5. **Pausa:** que pause sólo J1 no molesta (tampoco con Parsec). Sin pieza nueva.
+6. **El orden de la Fase C:** así está bien.
+
+**Con esto la Fase B quedó cerrada y la C abierta** (`PDP.md` §4 y §6, KDP-B).
+
+## Lo que apareció jugando en (114) — riesgos nuevos para la C
+
+- **Las bombas «de cine» del guion matan a J2 si se quedó atrás** (City Streets: al bajar la escalera explotan
+  detrás de vos; J2 estaba ahí y pasó de 750 a 0 de un golpe). Arreglo: traer a J2 también antes de esos eventos.
+- **Un bloque de basura arriba a la izquierda al disparar el AK**, y **una vez J siguió disparando solo**. Sin causa.
+- **El humo, el fuego y las nubes se mueven con la mira** con la pantalla partida. Sin causa.
+- **El RPG lento que se borra antes de pegar NO es del coop**: sin el coop pasa igual.
+- **«Continuar misión» no se pudo probar**: con el nivel cargado por el atajo de depuración no se guardan los puntos
+  de control, ni con el coop ni sin él. Se prueba en la C arrancando desde el menú.

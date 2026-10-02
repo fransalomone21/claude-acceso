@@ -4,7 +4,18 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(113), 2026-10-02, notebook caliente, pantalla libre — LO ÚLTIMO.** V1 H4a confirmada (los 11 pasos en 0: la
+> **(114), 2026-10-02, notebook caliente, con Fran jugando — LO ÚLTIMO.** Fran contestó la PDR (sus seis respuestas
+> en `docs/18`): **la B cerrada (KDP-B) y la C abierta** con su criterio en `PDP.md` §4. V4b no medible con el
+> selector de depuración (CONTINUE apagado también sin el coop: control); N21 medido (las bombas del guion matan a J2
+> rezagado); N22–N24 vistos por Fran sin control; el RPG lento no es del coop. Herramientas: `v4_registro.py`,
+> `guardado_auto.py`, `campana_coop.entregar_a_fran()`. **Máquina:** pnach con el bloque COOP + IA (938 palabras),
+> COOP **activo** en los ajustes; los tres parches de mira **prendidos** (antes apagados; `JUGAR-BLACK.ps1` los vuelve
+> a fijar según el modo en cada arranque; respaldo `gamesettings\SLUS-21376_5C891FF1.ini.bak-20261002-*`); fork
+> cerrado. Savestates del fork: slots 4–9 de City Streets **sin coop** cargados por el selector (sin puntos de
+> control; 8 = después del del RPG, 4 = final del nivel); el 3 sigue siendo el del lanzador. **Sigue:
+> `sesiones/RETOME-LOCAL.md`** (la C, pieza 1: el HUD doble).
+>
+> **(113), 2026-10-02, notebook caliente, pantalla libre.** V1 H4a confirmada (los 11 pasos en 0: la
 > derecha muestra datos de jugador); V2 el tamaño del HUD resuelto (escala del marco raíz 0,75 + rectángulo ÷ 0,75,
 > confirmado; H2 corregido en `docs/16`); riesgo nuevo: una segunda activación con cuenta 2 congela el mundo (2 de 2);
 > V3 cuerpos por la fábrica sin gastar el spawner (confirmado, `herramientas/fabrica_cuerpo.py`). V4 no se hizo (pide

@@ -91,6 +91,11 @@ global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) 
 | N17 | **sensibilidad / invertir Y por jugador** (el mod le invierte Y a J2 por la convención de la matriz, (88)) | — | prioridad baja |
 | N18 | **dificultad**: el juego está balanceado para uno | **(106) Fran: después**, cuando el coop esté perfecto | después |
 | N19 | **la vida baja de J2 prende el efecto de vida baja del HUD único** (el de J1) | (98) `confirmado en frío` que la actualización de cada jugador (`FUN_0013A300`) llama `FUN_001F2C98`/`FUN_001F2A60(comandos-ui, 0x14/0x18)` con **su** vida; el efecto en pantalla, `hipótesis` | vivo: J2 con poca vida y J con toda; clase A (se arregla con el HUD, F5) |
+| N21 | **(114) las bombas «de cine» del guion matan a J2 rezagado** (City Streets: explotan detrás de J al bajar la escalera) | **medido**: J2 750 → 0 en < 0,5 s, quieto, lejos de J; la causa, por Fran (conoce el nivel), `probable`. Misma clase que N3/N4 (el guion se ubica contra J) | C: «traer a J2» también antes de esos eventos, o J2 inmune a lo del guion |
+| N22 | **(114) bloque de basura gráfica arriba a la izquierda al disparar el AK** (con el coop) | visto por Fran (foto), una vez; sin control | vivo: el mismo disparo con y sin el coop |
+| N23 | **(114) J siguió disparando solo una vez** (con el coop) | visto por Fran; `hipótesis`: clic perdido o el mando falso | vivo, si se repite |
+| N24 | **(114) el humo, el fuego y las nubes se mueven con la mira** (con la pantalla partida) | visto por Fran; `hipótesis`: partículas orientadas con la cámara de un jugador y dibujadas en las dos mitades (pariente de N20) | vivo: con y sin el coop |
+| N25 | **(114) «continuar misión» no se puede probar con el selector**: CONTINUE apagado también sin el coop | **medido** (control) | banco nuevo en la C: arrancar desde el menú. N12 sigue abierta |
 | N20 | **los efectos del mundo se generan alrededor de J** (`FUN_001B1CB8` sobre `0x0040F4D8`) | (98) `confirmado en frío` que leen `J+0xA0`; lo que se nota, `hipótesis` | clase C, prioridad baja |
 
 ## Decisiones de Fran (106)
