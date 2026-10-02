@@ -576,6 +576,16 @@ def cli_verificar() -> int:
                     re.compile(cd[k])
                 except re.error as e:
                     rojos.append("concepto %s: regex %s rota (%s)" % (nombre, k, e))
+    # T11b (Fran, 2026-10-02: 'buscar las herramientas y el respaldo de cada tarea'): toda necesidad trae sus
+    # herramientas y al menos una de RESPALDO. 'ninguna' es la unica que no tiene nada que respaldar.
+    for nec, nd in cat.get("necesidades", {}).items():
+        if nec == "ninguna":
+            continue
+        hs = nd.get("herramientas") or []
+        if not hs:
+            rojos.append("la necesidad %s no trae herramientas" % nec)
+        elif not any(str(h).lower().startswith("respaldo") for h in hs):
+            rojos.append("la necesidad %s no trae una herramienta de RESPALDO ('respaldo: ...')" % nec)
     # cada proyecto x sus necesidades por defecto + cada necesidad sola + cada concepto: rutas, secciones, tamanos
     casos = [(p, ent.get(p, {}).get("necesidades", []), []) for p in sorted(disco)]
     casos += [(None, [], [c]) for c in cat.get("conceptos", {})]
@@ -728,6 +738,20 @@ def autotest() -> int:
     caso("catalogo corrupto -> deny (falla cerrado)", correr(pre_ev(*edit_black, s=s3), e_roto), True, "catalogo")
     caso("CONTROL: con el catalogo roto, editar el catalogo pasa", correr(pre_ev(
         "Edit", {"file_path": str(RAIZ / ".claude" / "cascada.json"), "old_string": "a", "new_string": "b"}, s3), e_roto), False)
+    # 12c. el catalogo sin RESPALDO en una necesidad -> --verificar en rojo (T11b), nombrandola
+    cat_mal = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
+    nec_mal = next(n for n in cat_mal["necesidades"] if n != "ninguna")
+    cat_mal["necesidades"][nec_mal]["herramientas"] = [h for h in cat_mal["necesidades"][nec_mal].get("herramientas", [])
+                                                       if not str(h).lower().startswith("respaldo")]
+    sin_resp = tmp / "sin-respaldo.json"
+    sin_resp.write_text(json.dumps(cat_mal, ensure_ascii=False), encoding="utf-8")
+    r = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                       env=dict(env, CASCADA_CATALOGO=str(sin_resp)))
+    sal = r.stdout.decode("utf-8", "replace")
+    ok = r.returncode == 1 and ("necesidad %s no trae una herramienta de RESPALDO" % nec_mal) in sal
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "necesidad sin respaldo -> --verificar en rojo y la nombra",
+                               "rojo" if ok else "NO"))
     # 12b. lecturas en PARALELO: el harness corre un hook por llamada, en procesos paralelos, y todos anotan en el
     # mismo archivo. Medido el 2026-10-02 (1.a sesion de T12): 6 Read en paralelo, 2 renglones pisados y una lectura
     # perdida -- la puerta pidio releer el ESTADO ya leido. Se exige que las N queden.

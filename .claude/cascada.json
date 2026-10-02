@@ -60,7 +60,7 @@
     },
     "investigar": {
       "que": "investigar o depurar algo que falla, o algo que anda y no se sabe por que",
-      "herramientas": ["aprender.py buscar \"<sintoma>\"", "~/.claude/aprendizaje/fichas/INDICE.md", "regla 15: si el error era evitable, se arregla la causa mas arriba antes de seguir"],
+      "herramientas": ["aprender.py buscar \"<sintoma>\"", "~/.claude/aprendizaje/fichas/INDICE.md", "regla 15: si el error era evitable, se arregla la causa mas arriba antes de seguir", "respaldo: lo que se va a tocar para probar se copia antes (copia fechada, rama, savestate); el sintoma se anota como se veia"],
       "leer": [
         {"ruta": "~/.claude/skills/lecciones-aprendidas/SKILL.md", "por": "regla del perfil: antes de investigar o debuggear"},
         {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^AL LEER UN NEGATIVO$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "descarta primero la explicacion trivial"}
