@@ -2,14 +2,22 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
-**2026-10-02 — T12 (simplificar) en curso: paso 1 de 5 hecho, el costo ANTES
-medido** ([`docs/t12-simplificar.md`](docs/t12-simplificar.md) §6, con
-[`medir-costo.py`](medir-costo.py), que lee el transcript). Por sesión el
-método cobra **~125 K caracteres** (75 K antes de T1), y el **enrutador solo
-es el 43 %** (54,6 K); por turno, **5,5 K** de recordatorio; por entrada a
-proyecto, **138 K** (`metodo,diseno`). Sigue el paso 2: la matriz de todo el
-método. De paso, la puerta perdía lecturas hechas en paralelo (append de
-Windows no atómico): arreglado con candado, caso nuevo, autotest **23/23**.
+**2026-10-02 — T12 CONSTRUIDA: el método pesa menos, medido**
+([`docs/t12-simplificar.md`](docs/t12-simplificar.md); instrumento
+[`medir-costo.py`](medir-costo.py), que lee el transcript o corre los hooks
+instalados). Por sesión **131 889 → 77 685** caracteres (−41 %), por turno
+**5 541 → 1 792** (−68 %), por entrada a un proyecto de método **137 884 →
+50 000** (−64 %). Cinco podas, cada una con su saboteador después: el
+catálogo de la puerta, el enrutador a vista corta (55 K → 12 K; la historia a
+`MAPA.md` §7), el cuadro (uno solo, con la fase por su **nombre NASA** y su
+criollo, a pedido de Fran), las reglas 10-12 sin historia y la fuente del
+perfil renombrada (`CLAUDE-global.md`) para que no se cargue dos veces.
+`chequeo-completo` entero en verde. **De T11b entró lo barato y con freno**:
+`--nivel` de la regla 15 en `aprender.py` y el respaldo obligatorio por
+necesidad en la puerta; y quedó **medido** que más de la mitad de las acciones
+caen fuera de las carpetas de proyecto (casi todas, trabajo de método). Falta
+**validar en 5 sesiones** (con T11: va 1 de 5). Fran tiene que apagar los
+plugins de SEO y Adobe de su cuenta (~29 K por sesión).
 
 **2026-10-02 — T11 CONSTRUIDA: la cascada dejó de ser un consejo.** Medido
 antes: de 113 entradas sesión × proyecto desde el 1/9, **1** leyó ESTADO +

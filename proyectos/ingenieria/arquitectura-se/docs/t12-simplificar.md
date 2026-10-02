@@ -189,10 +189,10 @@ Costo: **S** = por sesión, **T** = por turno, **E** = por entrada a proyecto,
 | Saboteadores (capa lenta) | un verificador que nunca falló está sin verificar | t ~14 min (A6) | cumple | partirlos es T6, no T12 |
 | `aprender.py` con `--triage` y `--opuesto` | que una lección llegue a una sesión y que no sea una preferencia | ~ 1 000 por lección | cumple | — |
 | Skills (7 propias) | procedimientos que se repiten | sólo su descripción en el listado | cumple | — |
-| T11b: `--nivel` de la regla 15 | que la lección diga a qué nivel se arregló | ~ 0 | **entra** | barato y con freno |
-| T11b: herramientas por clase en `--verificar` | que cada clase tenga respaldo | ~ 0 | **entra** | es un chequeo del catálogo, no una pieza |
+| T11b: `--nivel` de la regla 15 | que la lección diga a qué nivel se arregló | ~ 0 | **entra — hecho** | `aprender.py agregar --nivel`; `parche` exige `--por-que-no-mas-arriba`; 4 casos en `probar-chequeo-lecciones` (repo de prueba, control de punta a punta), mutante ciego |
+| T11b: herramientas por clase en `--verificar` | que cada clase tenga respaldo | ~ 0 | **entra — hecho** | `--verificar` rojo si una necesidad no trae `respaldo:`; caso 12c en el autotest; a `investigar` le faltaba y se le puso |
 | T11b: mensaje `nueva` en la puerta + contador en `medir-cascada` | necesidades abiertas | ~ 0 | **diferida** | sin un caso real de necesidad desconocida no hay impacto contra el cual diseñarla |
-| T11b: medir sesiones fuera de todo proyecto | ver si la albañilería necesita puerta | una medición | **entra como medición**, no como pieza | — |
+| T11b: medir sesiones fuera de todo proyecto | ver si la albañilería necesita puerta | una medición | **medido** (§10) | no se pone puerta: §10 |
 
 ### 7.5 El orden de la poda, por lo que ahorra y lo que arriesga
 
@@ -277,3 +277,24 @@ hoy). Una sesión de 30 mensajes que entra a un proyecto de método pasaba de
 - **La validación:** el criterio de §2 pide que en 5 sesiones reales no suba
   ninguna falla medida (cascada salteada, inyección cortada, correcciones de
   Fran por algo ya escrito). Corre junto con la de T11.
+
+## 10. Lo que pasa fuera de los proyectos — medido, y por qué no lleva puerta
+
+`medir-cascada.py` cuenta ahora las acciones permitidas (Edit, Write, comandos
+que no son de sólo lectura) que no nombran ningún proyecto. Desde el 1/9:
+**12 de 91** sesiones actuaron **sólo** fuera de todo proyecto, y en total hubo
+**4 171 acciones afuera contra 3 725 adentro**. En esta sesión: 89 contra 23.
+
+La lectura: lo de afuera **no es albañilería suelta**; es sobre todo trabajo de
+**método** (`perfil-global/`, `.claude/`, los scripts de la raíz) que hace una
+sesión de `arquitectura-se` sin tocar su carpeta. La puerta no lo ve, pero esa
+misma sesión ya declaró y leyó al entrar al proyecto. Ponerle una puerta
+propia sería una pieza nueva para un riesgo que no se midió (ninguna
+corrección de Fran salió de ahí): no entra. Lo que sí queda es el número, en
+el medidor, para que se vea si cambia.
+
+**T12 queda CONSTRUIDA el 2026-10-02**: costo medido antes y después y más
+bajo (§6, §9), la matriz de todo el método escrita (§7), `chequeo-completo`
+entero en verde (10 medidores + 15 saboteadores + limpieza) y los dos repos
+pusheados. Falta la **validación** del criterio de §2 en 5 sesiones reales,
+que corre junto con la de T11 (va 1 de 5: ésta, 100 % en `medir-cascada`).

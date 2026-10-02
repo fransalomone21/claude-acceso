@@ -1,5 +1,21 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (noche) — LO ÚLTIMO. T12 CONSTRUIDA y T11b cerrado en lo que
+> sobrevivió.** Medido con `medir-costo.py --simular`: sesión −41 %, turno
+> −68 %, entrada −64 % (`docs/t12-simplificar.md` §9). Fran pidió el cuadro con
+> la fase por su nombre NASA y los subtítulos fusionados: ahora es **un solo
+> bloque de 14 líneas** (molde y spec en `perfil-global/apertura-proyecto.md`;
+> los nombres NASA y su criollo los da `fase_activa`). El enrutador es vista
+> corta (la fila ya no copia el estado; `cascada.ps1` sólo vigila por fecha a
+> la fila que nombra una fase). La fuente del perfil es
+> `perfil-global/CLAUDE-global.md`. `chequeo-completo` entero en verde.
+> **Sigue:** BLACK en chat nuevo (`proyectos/ingenieria/black/sesiones/RETOME-LOCAL.md`),
+> que es además la sesión 2 de 5 de la validación de T11 y T12; en ella mirar
+> con `python proyectos\ingenieria\arquitectura-se\medir-costo.py` que la
+> columna *nested* dé 0 al leer en `perfil-global/`. Después de BLACK, T2 (un
+> dueño por dato) del camino crítico. **Fran:** apagar los plugins de SEO y
+> Adobe en su cuenta de claude.ai.
+
 > **2026-10-02 (tarde, 2.ª) — LO ÚLTIMO. T12 paso 2 escrito: la matriz de
 > todo el método** (`docs/t12-simplificar.md` §7: 25 piezas, 5 recortadas con
 > su resta, 1 sale, T11b partido en entra/diferida). **Sigue el paso 3, la
