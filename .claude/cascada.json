@@ -122,8 +122,9 @@
 
   "proyectos": {
     "apunte-iise":           {"necesidades": ["materia"]},
+    "carrera":               {"necesidades": ["materia"]},
     "catedras":              {"necesidades": ["materia"]},
-    "clase-asincronica-3":   {"necesidades": ["materia"]},
+    "clase-asincronica-3":  {"necesidades": ["materia"]},
     "clases-aed":            {"necesidades": ["materia"]},
     "cohete-de-agua":        {"necesidades": ["materia"]},
     "electronica-analogica": {"necesidades": ["materia"]},
