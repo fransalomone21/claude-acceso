@@ -33,7 +33,7 @@ Retomo BLACK en LOCAL (notebook). Proyecto: proyectos/ingenieria/black. COOP-B A
  T4 — en frío, el diseño del HUD por jugador (B9) y el indicador de daño de J que se dibuja en la mitad de J2 (nuevo en (110)).
  T5 — «continuar misión» (punto de control) con el coop, con seguir_carga.py: el reinicio anda; el punto de control no se probó.
 
-5. DECISIÓN PENDIENTE DE FRAN: el acceso «JUGAR BLACK COOP» (lanzadores/JUGAR-BLACK.ps1, línea ~69) instala el bloque SIN la IA; con su ok, CON_IA = True por defecto en coop_mod.py (y la fila «IA» de coop-plan-b pasa a coop-rangos).
+5. DECIDIDO (Fran, 2026-10-02, NECESIDAD MAYOR: «BLACK es un shooter con campaña coop en pantalla dividida»; de ahí se deduce que la IA no puede ignorar a J2, y no había que preguntarlo): CON_IA = True por defecto en coop_mod.py, para que el acceso «JUGAR BLACK COOP» (lanzadores/JUGAR-BLACK.ps1, línea ~69) instale el bloque CON la IA; la fila «IA» de coop-plan-b pasa a coop-rangos. Es lo primero que se hace en la próxima sesión de BLACK, con su control (un enemigo que elige a J2). Toda decisión que se deduzca de esa necesidad mayor se toma sin preguntar.
 
 ESTADO DE LA MÁQUINA (al cerrar (110)): pnach con el bloque COOP + IA (938 palabras, ranura 3 prendida), los PCSX2 cerrados. PCSX2.ini global: FrameRateNTSC vuelto a 59.94 (estaba en 146.16; respaldo .bak-...-fps146). Fork: C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe; campana_coop.lanzar() + probar_nivel(0) (City Streets, J2 queda en la ventana a ~10 m de J). Una sola conexión PINE a la vez (el depurador 21512 es aparte).
 
