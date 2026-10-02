@@ -1,0 +1,9 @@
+t= 1500 ms  LED conmuta  (tick=0xFFFFFE0B)
+t= 3000 ms  LED conmuta  (tick=0x000003E7)
+t= 4000 ms  telemetria
+t= 4500 ms  LED conmuta  (tick=0x000009C3)
+t= 6000 ms  LED conmuta  (tick=0x00000F9F)
+t= 7500 ms  LED conmuta  (tick=0x0000157B)
+t= 8000 ms  telemetria
+9000 vueltas del superloop, ninguna se quedo esperando
+LED: 5 conmutaciones; con la cuenta ingenua, 505

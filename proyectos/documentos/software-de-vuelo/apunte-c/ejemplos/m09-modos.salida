@@ -1,0 +1,8 @@
+ARRANQUE   + ninguno      -> ARRANQUE
+ARRANQUE   + separacion   -> DETUMBLING
+DETUMBLING + bateria baja -> DETUMBLING
+DETUMBLING + giro bajo    -> NOMINAL
+NOMINAL    + bateria baja -> SEGURO
+SEGURO     + ninguno      -> SEGURO
+SEGURO     + bateria ok   -> NOMINAL
+(corrupto) + ninguno      -> FALLA

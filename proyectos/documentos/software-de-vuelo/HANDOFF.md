@@ -1,5 +1,33 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube, 7.ª) — apunte de C v0.8: sigue el módulo 10
+
+**Lo primero, en la PC:** `git pull`, recompilar, verificador (39 en verde),
+`.\publicar-apuntes.ps1` (v0.2 a v0.8 sin publicar). Pendientes de medir en la
+PC, acumulados: Práctico 1 ej. 2 y 4 a 9, Práctico 3 ej. 3 y 4 contra los
+ejemplos; `_Min_Stack_Size` del `.ld`; `*NULL` en la placa; si `catedras` dice
+dónde van los tipos en `template.c` (el apunte usa `/* Types */`).
+
+**Después: el módulo 10, tipos compuestos** (`struct`, `->`, *padding*,
+`union`, *endianness*, campos de bits, mapear un registro; clase 112-125; sin
+práctico). Ideas del mismo OBC: un `struct` de telemetría de housekeeping;
+medir el *padding* con `sizeof` y `offsetof` (determinístico en la PC: x86-64
+y Cortex-M4 alinean igual los tipos de hasta 4 bytes, pero **medirlo**, no
+suponerlo); `union` para ver los bytes de un `uint32_t` y la *endianness*
+(los dos son *little endian*; la cabecera CCSDS del módulo 4 viaja *big
+endian*); campos de bits y por qué MISRA desconfía (el orden lo decide el
+compilador); mapear un registro con un `struct` como hace la HAL
+(`GPIOA->ODR`), sin poder correrlo en la PC: un `struct` apuntado a una
+variable que hace de periférico.
+
+**Reglas de forma nuevas:** un ejemplo no pasa de **55 líneas** (el bloque
+de código no se parte entre páginas: más largo, se pisa con el número de
+página); se mide con `wc -l`. Y el escáner de trampas de Typst que uso antes
+de compilar (renglón que empieza con «número y punto», `+`, `/ `; comilla
+invertida impar; `~ < > @ \` fuera de código) está en el HANDOFF de la 3.ª
+sesión como receta: conviene hacerlo script (`apunte-c/revisar-typ.py`) en la
+PC, con su saboteador, y sumarlo al verificador.
+
 ## 2026-10-02 (nube, 6.ª) — apunte de C v0.7: sigue el módulo 9
 
 **Lo primero, en la PC:** `git pull`, recompilar, verificador (37 en verde),

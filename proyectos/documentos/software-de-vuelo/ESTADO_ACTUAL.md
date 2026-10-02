@@ -1,5 +1,31 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (nube, 7.ª) — apunte de C v0.8: módulo 9, máquinas de estados
+
+- **Módulo 9** (`apunte-c/modulos/m09-maquinas-estados.typ`): la tabla de
+  transiciones antes que el código; `enum` y `typedef`; `transicion()` que
+  sólo decide (modos de la misión: arranque → detumbling → nominal ↔ seguro,
+  y falla); `default` a falla ante un modo corrupto; el costo escondido del
+  `default` (apaga `-Wswitch`) y la mejora `-Wswitch-enum`; por evento y no
+  por tiempo (el tiempo como un evento más); superloop no bloqueante con
+  `HAL_GetTick()` simulado y la vuelta de los 49,7 días: `(ahora - ultimo) >=
+  PERIODO` aguanta, `ahora >= ultimo + PERIODO` conmuta **505 veces en vez de
+  5** (medido por el propio ejemplo). LEA-14 y LEA-15 en cajas. **2 programas
+  nuevos** (`m09-modos`, `m09-superloop`): en total **39**, verificador en
+  verde, `probar-verificar-ejemplos.py` TODO BIEN. Render mirado (págs. 56 a
+  62; el PDF tiene 62). Carátula: «v0.8 — módulos 1 a 9 de 12».
+- **Sección `/* Types */`**: `template.c` no tiene dónde poner tipos; el
+  ejemplo la agrega entre macros y globales, y el módulo lo declara en la caja
+  «Mejora». Confirmar en la PC si la cátedra dice algo (`catedras`).
+- **No resuelve el Práctico 3 ej. 4 ni el Práctico 1 ej. 7** (la máquina es la
+  de los modos de la misión, sin LEDs ni botones); los dos sin leer (nube).
+- **Medido a mano en gcc 13.3:** `switch` sobre `enum` sin `default` y con un
+  valor sin `case` avisa `-Wswitch` (`-Wall`); con `default`, no;
+  `-Wswitch-enum` avisa igual; `modo_t x = 9` no avisa; `sizeof(enum)` = 4.
+- **El render agarró un bloque de código más alto que una página** (66
+  líneas, se pisaba con el número de página): compactado a 54. Regla nueva en
+  el HANDOFF.
+
 ## 2026-10-02 (nube, 6.ª) — apunte de C v0.7: módulo 8, punteros
 
 - **Módulo 8** (`apunte-c/modulos/m08-punteros.typ`): `&` y `*`, tamaño del
