@@ -97,6 +97,28 @@ dos mitades muestran pistola; con J2 en el AK **las dos mitades muestran el AK**
 El modelo del arma en primera persona es uno solo y lo pone el último que cambió (el «sub» compartido de (102)): la
 dirección J2 → J queda confirmada en pantalla, y con ella la elección del sub3 propio (B8).
 
+## N6 — Start y los menús desde el mando 2 (medido; predicción del registro: «hoy saltea videos»)
+**Resultado:** Start de J2 no pausa (contador por cuadro del mod 30 → 30/s); Start de J sí (0/s). En el menú de pausa,
+✕ de J2 sobre CONTINUE no hace nada y ✕ de J continúa. **Sólo J1 pausa y maneja menús** (confirmado con control).
+
+## CAMPAÑA con la IA por defecto (escrita antes de lanzar `campana_coop.py`, los 8 niveles en un fork)
+Antecedente: (93z) 8 de 8 con la ranura 3 (787 palabras). Lo nuevo de hoy son los 146 palabras de la IA (seis sitios
+en el código de la IA del juego), que corren en todos los niveles. **Predicción:** 8 de 8 niveles arman a J2 (FASE 2,
+ESTADO 3), J2 camina con `manos` (> 5 m, salvo pared), el fork sigue vivo después de cada nivel y ninguno cuelga; el
+ritmo de la pantalla partida (`pantalla_llamadas_2s`) queda como en (93z). **Refuta:** un nivel que cuelga o no arma
+con la IA y sí sin ella (el control es la corrida de (93z), mismo instrumento).
+
+## HUD — qué elemento vive en cada página (escrita antes de `hud_paginas.py`)
+Mecanismo (en frío, (111)): `FUN_001F1660` prende las páginas 1, 2 y 6 cada cuadro (delay slots `0x001F1984/94/A4`).
+**Predicción:** apagar una página saca de la pantalla un grupo propio de elementos (vida, munición/granadas, retícula,
+íconos), distinto en cada una, y nada más; las fotos de control antes y después muestran el HUD entero. **Refuta:**
+apagar una página no cambia nada (otro camino las prende, o el panel activo no es de tipo por defecto).
+
+## F3 — un cuerpo para J en la mitad de J2 (escrita antes de `f3_cuerpo_j.py`)
+**Predicción:** con Tom (aliado 0) copiando la matriz de J por PINE, J2 mirando a J ve un soldado donde está J;
+control sin copiar: no se ve nada en el lugar de J (como (110)). **Refuta:** con la copia no se ve el soldado en el
+lugar de J (el aliado tiene otra fuente de posición —como el controlador de T3b— y vuelve a la suya).
+
 ## T1b — J2 muere por daño REAL (escrita después de `t1-ia-1`, antes de esta corrida)
 Banco: el mismo, con la vida de J2 en 40 escrita a mano (la vida en 0 escrita no mata, (93f); acá el 0 lo pone el daño)
 y J en 1e6. **Predicción:** al llegar a 0 por los disparos, J2 pasa a su segundo controlador (`J2+0x32C` =

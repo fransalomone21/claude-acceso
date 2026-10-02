@@ -578,6 +578,12 @@ en pausa; el pnach los repone en el cuadro siguiente, así que el control es con
   coinciden con la puntería, porque cada pasada proyecta centrada en su mitad (84)–(89).
 - **Lo que falta en frío** (R5): qué página tiene qué elemento, cómo esconder sólo la vida, la munición y la retícula,
   y la función de primitivas 2D (`FUN_00266F50` dibuja rectángulos en el panel 5; `FUN_00275DC0` escribe texto).
+- **(111), leído en el C y en las instrucciones:** `FUN_001F1660` **no dibuja** el HUD: según el tipo del panel
+  (`+0x8C`) **prende o apaga** las páginas 1, 2 y 6 del front-end (`FUN_0020BA98(*(0x0040F544), k, visible)`) y el motor
+  de menús las dibuja. Tipo por defecto: las tres prendidas (el argumento está en los *delay slots* `0x001F1984`,
+  `0x001F1994`, `0x001F19A4`) y `FUN_00278EA0(panel+0x40)`; tipos 0/6: apagadas; **tipo 5: las franjas negras de cine**
+  (dos rectángulos de alto/6 con `FUN_00266F50`); tipo 3: un texto centrado (`FUN_00275DC0`). Esconder una página
+  entera cuesta una palabra; qué elemento vive en cada una lo mide `herramientas/hud_paginas.py`.
 
 ### Cuerpos: los dos con skin de aliado
 

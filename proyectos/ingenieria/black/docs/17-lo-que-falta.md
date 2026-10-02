@@ -34,6 +34,8 @@ global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) 
 - **F1 (y N9) con su sonda del concepto confirmada:** J2 junta el arma que está bajo J, no la suya (`s1_juntar.py`);
   el diseño de `docs/16` (preguntar también por J2, `CAND2`) queda apoyado en algo medido. Construirlo es de la C.
 - **F2 CERRADA:** J2 cambia de arma con su mando (confirmado con control).
+- **N6 medida:** sólo J1 pausa y maneja los menús (Start y ✕ del mando 2 no hacen nada, con control). Política v1:
+  se acepta; para la C, «difundir» Start de J2 al mando de J (una palabra en el falso) si con Parsec molesta.
 - **F7 confirmado en pantalla con control, dirección J2 → J:** el arma que J2 tiene en la mano se dibuja en las dos
   mitades (el último que cambia manda). El arreglo sigue siendo el sub3 propio (B8).
 
