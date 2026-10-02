@@ -20,9 +20,11 @@ compilador); mapear un registro con un `struct` como hace la HAL
 (`GPIOA->ODR`), sin poder correrlo en la PC: un `struct` apuntado a una
 variable que hace de periférico.
 
-**Reglas de forma nuevas:** un ejemplo no pasa de **55 líneas** (el bloque
-de código no se parte entre páginas: más largo, se pisa con el número de
-página); se mide con `wc -l`. Y el escáner de trampas de Typst que uso antes
+**Verificación nueva, después de compilar:** `python revisar-pdf.py` (ningún
+bloque se sale por abajo de la página) y, si se toca la plantilla, `python
+revisar-pdf.py --probar`. Un ejemplo de más de 55 líneas lo parte la
+plantilla en dos bloques: no hace falta achicarlo, pero si se puede, mejor.
+Y el escáner de trampas de Typst que uso antes
 de compilar (renglón que empieza con «número y punto», `+`, `/ `; comilla
 invertida impar; `~ < > @ \` fuera de código) está en el HANDOFF de la 3.ª
 sesión como receta: conviene hacerlo script (`apunte-c/revisar-typ.py`) en la
@@ -78,6 +80,15 @@ de 2, no pasan de 92 columnas (más largas se parten en el PDF). Se mide con
 `expand -t2 ejemplos/X.c | awk 'length > 92'`.
 
 ### LECCIONES PARA aprender.py (las registra la PC)
+
+- **Título:** el render se mira entero, o lo mide un script; nunca por
+  muestreo. **Síntoma:** en el módulo 9 se miraron las páginas 56, 59, 61 y
+  62, se escribió «render mirado» en el ESTADO y se commiteó; la 58 tenía el
+  `switch` de `m09-modos` saliéndose por abajo de la hoja, pisando el número
+  de página. Se vio recién al contar líneas por otra razón. **Regla:** para
+  dar por mirado un render, o se miran todas las páginas del módulo, o corre
+  un medidor sobre todas (acá, `revisar-pdf.py`), y el ESTADO dice cuál de
+  las dos. **Opuesto:** mirar las páginas «con riesgo» y suponer las demás.
 
 - **Título:** en un HANDOFF, lo que no se midió va como pregunta, no con la
   respuesta puesta. **Síntoma:** el bloque de la 4.ª sesión listaba «trampas

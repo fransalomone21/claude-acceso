@@ -27,13 +27,35 @@
   // La marca ESPERA-WARNING es para el verificador, no para el lector: va en la
   // ULTIMA línea del .c (así no corre la numeración que cita gcc) y no se imprime.
   let fuente = read("ejemplos/" + nombre + ".c").split("\n").filter(l => not l.contains("ESPERA-WARNING")).join("\n")
-  block(breakable: false, above: 10pt, below: 4pt, width: 100%)[
+  let rotulo = [
     #text(size: 8pt, fill: c-verde, weight: "bold", tracking: 0.4pt)[
       #upper[#if titulo != none [#titulo — ]] #raw(nombre + ".c")
     ]
     #v(-6pt)
-    #raw(fuente, lang: "c", block: true)
   ]
+  // La plantilla común (../guia-ides/plantilla.typ) no deja partir un bloque de
+  // código, para poder copiarlo entero. Uno de más de 55 líneas no entra en una
+  // página y se saldría por abajo, pisando el número de página sin ningún aviso:
+  // ése se muestra en DOS bloques, cortados en el renglón vacío más cercano a la
+  // mitad. El rótulo va pegado al primero, y la página puede cortar entre los dos.
+  let lineas = fuente.split("\n")
+  let largo = lineas.len()
+  if largo > 55 {
+    let mitad = int(largo / 2)
+    let vacios = range(largo).filter(k => lineas.at(k).trim() == "")
+    let corte = if vacios.len() > 0 { vacios.sorted(key: k => calc.abs(k - mitad)).first() } else { mitad }
+    block(breakable: false, above: 10pt, below: 4pt, width: 100%)[
+      #rotulo
+      #raw(lineas.slice(0, corte).join("\n"), lang: "c", block: true)
+    ]
+    block(breakable: false, above: 4pt, below: 4pt, width: 100%,
+      raw(lineas.slice(corte + 1).join("\n"), lang: "c", block: true))
+  } else {
+    block(breakable: false, above: 10pt, below: 4pt, width: 100%)[
+      #rotulo
+      #raw(fuente, lang: "c", block: true)
+    ]
+  }
   // Lo que se "tipeó": el .entrada que verificar-ejemplos.py le pasa como stdin.
   if entrada {
     block(breakable: false, above: 2pt, below: 2pt, width: 100%,

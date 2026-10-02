@@ -22,9 +22,20 @@
 - **Medido a mano en gcc 13.3:** `switch` sobre `enum` sin `default` y con un
   valor sin `case` avisa `-Wswitch` (`-Wall`); con `default`, no;
   `-Wswitch-enum` avisa igual; `modo_t x = 9` no avisa; `sizeof(enum)` = 4.
-- **El render agarró un bloque de código más alto que una página** (66
-  líneas, se pisaba con el número de página): compactado a 54. Regla nueva en
-  el HANDOFF.
+- **Desborde de página, dos veces, arreglado de raíz.** `m09-superloop` (66
+  líneas) y `m09-modos` (86) no entraban en una página: un bloque que no se
+  parte se sale por abajo, pisa el número de página y Typst no avisa. El
+  primero se compactó a 54; el segundo **se declaró «render mirado» sin haber
+  mirado su página** (lección en el HANDOFF). Arreglo en tres capas:
+  **(1)** `plantilla.typ`: un ejemplo de más de 55 líneas se muestra en dos
+  bloques, cortados en el renglón vacío más cercano a la mitad, con el rótulo
+  pegado al primero (la plantilla común de `guia-ides` sigue sin partir
+  bloques, a propósito); **(2)** `revisar-pdf.py`: mide en **todas** las
+  páginas si hay texto a la altura del número de página (verde sobre la v0.8;
+  **rojo en la página 58** con la plantilla anterior, control medido);
+  **(3)** `revisar-pdf.py --probar`: saboteador que compila 80 líneas sin
+  partir y exige rojo, y 20 y exige verde (TODO BIEN). El PDF quedó en 61
+  páginas.
 
 ## 2026-10-02 (nube, 6.ª) — apunte de C v0.7: módulo 8, punteros
 
