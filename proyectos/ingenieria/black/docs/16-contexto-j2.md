@@ -584,6 +584,16 @@ en pausa; el pnach los repone en el cuadro siguiente, así que el control es con
   `0x001F1994`, `0x001F19A4`) y `FUN_00278EA0(panel+0x40)`; tipos 0/6: apagadas; **tipo 5: las franjas negras de cine**
   (dos rectángulos de alto/6 con `FUN_00266F50`); tipo 3: un texto centrado (`FUN_00275DC0`). Esconder una página
   entera cuesta una palabra; qué elemento vive en cada una lo mide `herramientas/hud_paginas.py`.
+- **(111), medido en vivo con control — corrige lo de arriba:** apagar las páginas 1, 2 o 6 (los tres sitios, de a uno,
+  en pausa) **no cambia nada** en pantalla, y la rama corre en cada cuadro (vigilante de lectura sobre `0x0040F544`:
+  lecturas desde `0x001F197C/88/98`). En cambio, anular `jal FUN_00278EA0` (`0x001F19A8`) **borra el HUD entero**
+  (vida, munición, granadas) y al restaurarlo vuelve (`volcados/hud/278ea0-033233/`). `FUN_00278EA0(panel+0x40)` →
+  `FUN_00278B48` **reproduce una lista de dibujo 2D ya armada** (`+0x2C`: comandos de 16 B con banderas de mezcla y
+  textura, cuenta en `+0x30`), entre `FUN_00266088`/`FUN_002662A8` (abrir/cerrar el 2D). **Receta que sale de acá
+  (opción (a) renovada):** el contenido del HUD lo arma otro código con los valores de J (sin leer: quién llena
+  `panel+0x40`); para el HUD de J2 se arma una **segunda lista con el juego conmutado a J2** y se reproduce con un
+  corrimiento a su mitad. Falta, en frío: quién arma la lista y si el 2D acepta un corrimiento global
+  (`FUN_00266088`). La opción (b) sigue de respaldo.
 
 ### Cuerpos: los dos con skin de aliado
 

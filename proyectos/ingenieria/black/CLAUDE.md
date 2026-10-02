@@ -25,6 +25,7 @@ una herramienta.
 | saber qué cierra la fase abierta, o por qué se decidió algo | `PDP.md` |
 | **retomar una tanda: el mensaje exacto de la sesión que sigue** | `sesiones/RETOME-LOCAL.md` (caliente, con emulador), `sesiones/RETOME-LOCAL-FRIO.md` (notebook sin emulador), `sesiones/RETOME-NUBE.md` (nube) |
 | qué se equivocó la tanda (98)–(108b) y qué se revisó después | `sesiones/REVISAR-98-108.md` (§C: resultados de (109)) |
+| las predicciones escritas antes de medir, con su resultado, de una tanda en vivo | `sesiones/PREDICCIONES-110.md`, `sesiones/PREDICCIONES-111.md` |
 | **el proyecto COOP**: el análisis de la Fase A, el plano del mod, la tercera ranura | `docs/13-coop.md`, `docs/14-coop-diseno.md` (lo mide `coop_diseno.py`), `docs/15-tercera-ranura.md` |
 | **COOP-B: diseñar a J2 con contexto propio, y todo lo que le falta** | `docs/16-contexto-j2.md` (el diseño por pasos) y `docs/17-lo-que-falta.md` (el registro entero) |
 | el catálogo de conceptos del programa (generado, no se edita) | `docs/12-catalogo.md` (`programa.py catalogo`) |
@@ -99,7 +100,9 @@ Todas tienen `--help` y se corren desde `black/`.
 | `lanzadores/grabar-gameplay.ps1` | **grabar la partida para que Claude la mire** (93x): ffmpeg, `.mp4` + hojas de contacto (12 cuadros por imagen) + cuadros sueltos en `volcados/video/<fecha-hora>/`. Atajo Ctrl+Alt+G. Desde (93y), 60 s y con los botones de cada jugador estampados (`registro_mandos.py`: `hojas_mandos/`, `eventos.txt`) |
 | `mando_j2.py` · `prueba_acciones_j2.py` · `armas_j2.py` | **J2 sin manos** (93y/93z): mando falso de J2 (`boton melee 0.2`), la prueba de disparar/recargar/culatazo/cambio de arma con la ranura 3 o sin ella (`r3`/`control`), y qué armas tiene cada jugador |
 | `parpadeo_control.py` · `b5_vigilar.py` | el parpadeo medido con su control (94); la sonda de muerte de B5 con enemigo por la misma conexión PINE (95) |
-| `coop_mod.py` · `coop_diseno.py` | **el mod coop entero** (`listar`, `instalar [--sin-r3] [--con-ia]`, `poner`, `mirar`, `manos`) y **su plano**: `coop_diseno.py verificar` mide `docs/14` (`coop-rangos`, y desde (104) el plan `coop-plan-b` contra el ELF); saboteador `pruebas/probar-coop-diseno.py` |
+| `coop_mod.py` · `coop_diseno.py` | **el mod coop entero** (`listar`, `instalar [--sin-r3] [--sin-ia]`, `poner`, `mirar`, `manos`; la IA va por defecto desde (111)) y **su plano**: `coop_diseno.py verificar` mide `docs/14` (`coop-rangos`, y desde (104) el plan `coop-plan-b` contra el ELF); saboteador `pruebas/probar-coop-diseno.py` |
+| `pruebas/controles.py` | **los cinco controles en un comando** (programa, coop_diseno y su saboteador, coop_ia, prueba_herramientas), una línea cada uno; sale 1 si alguno falla. Usarlo antes de commitear en vez de encadenar con `\| tail` (111) |
+| `teletransporte.py` · `s1_juntar.py` · `f3_cuerpo_j.py` · `hud_paginas.py` | (111): mover a J, J2 o un actor escribiendo los **tres** lugares de la posición (en pausa); la sonda de juntar (S1); el cuerpo de J con un aliado (F3); apagar las páginas 1/2/6 del HUD (refutadas como el HUD) |
 | `censo_ab.py` · `coop_ia.py` | (98)–(107), en frío: **quién pregunta por «el jugador»** por el global (`--autotest`; `--conmutables <dir>` dice si una función se puede correr con el juego conmutado a J2) y **la IA a los dos** (`listado`/`verificar`: código armado, desensamblado con capstone y contrastado con el ELF) |
 | `saltear_videos.py` | **Start saltea los videos** (93w): el bloque «Saltear videos con Start» del pnach; `instalar` / `activar` / `desactivar`. Lo instala `JUGAR-BLACK.ps1` en todos los accesos |
 | `ritmo_vigilante.py` | **cuántas veces por cuadro** se toca una dirección y desde qué PC, con vigilante `break` puesto EN PAUSA (`log` no cuenta, y ponerlo en caliente tiró el emulador) |

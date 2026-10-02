@@ -37,7 +37,23 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); (110): la IA ve a J2 (PERC2, confirmado), la muerte de J2 ya termina la misión sola, reiniciar misión anda (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-B ABIERTA el 2026-09-27 (84), alcance ampliado el 2026-09-28 (106); B1, B2b (en el stub) y B3 HECHAS: el coop en pantalla dividida sale del pnach solo (88); (111): la IA a los dos POR DEFECTO, un enemigo elige a J2 y lo mata, J2 junta y cambia armas, campaña 8/8 (LEER ESTO PRIMERO)
+
+> **(111), 2026-10-02 de madrugada, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (111), `sesiones/PREDICCIONES-111.md`).
+> - **La IA a los dos queda PRENDIDA POR DEFECTO** (`coop_mod.py`: `--sin-ia` es el control): el acceso COOP instala 938
+>   palabras. Sus filas pasaron a `coop-rangos`; la regla 7 de `coop_diseno.py` exige que esté prendida.
+> - **B4 HECHA:** un enemigo elige a J2 y le baja la vida sin que J2 dispare; sin la IA nunca (3 de 3). `ia` **K5**.
+>   Límite: la amenaza actual es la primera percibida. **B5 por daño real:** un disparo mata a J2 → MISSION FAILED.
+> - **Sondas del concepto confirmadas con control:** S4 (sin el aislador J2 suena: el sonido vive en `V`, la `V2` es
+>   la opción), S1 (J2 levanta el arma que está bajo J), F3 (un aliado copiando la matriz de J es su cuerpo en la
+>   mitad de J2), F2 (J2 cambia de arma), F7 (el arma del último que cambió se dibuja en las dos mitades).
+> - **Cambio de unidad (N4):** diseño «traer a J2 junto a J» en la descarga (`0x0012DDCC`, en `coop-plan-b`); el
+>   teletransporte anda escribiendo los TRES lugares de la posición (`herramientas/teletransporte.py`).
+> - **HUD:** es una lista de dibujo 2D que reproduce `FUN_00278EA0` (anularla lo borra entero); las páginas 1/2/6 no.
+> - **Campaña 8 de 8** con la IA. Ritmo: ~30 cuadros/s, ~24 en Steelworks, Asylum y City Bridge.
+> - Sólo J1 pausa. «Continuar misión» no se pudo probar (sin punto de control). `pruebas/controles.py`: los cinco
+>   controles en un comando.
+> - **Sigue: `sesiones/RETOME-LOCAL.md`** (la PDR: lo que falta en frío y el documento para que Fran revise).
 
 > **(110), 2026-10-01, NOTEBOOK CALIENTE — LO ÚLTIMO** (bitácora (110), `sesiones/PREDICCIONES-110.md`).
 > - **La IA no veía a J2 por dos causas medidas**: la percepción recorre las 4 ranuras del escuadrón (aliados 0–2, J en

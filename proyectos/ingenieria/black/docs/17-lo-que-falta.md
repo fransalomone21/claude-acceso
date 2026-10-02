@@ -34,6 +34,10 @@ global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) 
 - **F1 (y N9) con su sonda del concepto confirmada:** J2 junta el arma que está bajo J, no la suya (`s1_juntar.py`);
   el diseño de `docs/16` (preguntar también por J2, `CAND2`) queda apoyado en algo medido. Construirlo es de la C.
 - **F2 CERRADA:** J2 cambia de arma con su mando (confirmado con control).
+- **F3 con su sonda del concepto confirmada:** un aliado copiando la matriz de J es el cuerpo de J en la mitad de J2.
+- **F5 (HUD) cambia de receta:** el HUD es una lista de dibujo 2D reproducida por `FUN_00278EA0`; las páginas 1/2/6 no
+  lo controlan (medido). Ver `docs/16`.
+- **N14 medida:** con la pantalla partida, ~30 cuadros/s en cinco niveles y ~24 en Steelworks, Asylum y City Bridge.
 - **N6 medida:** sólo J1 pausa y maneja los menús (Start y ✕ del mando 2 no hacen nada, con control). Política v1:
   se acepta; para la C, «difundir» Start de J2 al mando de J (una palabra en el falso) si con Parsec molesta.
 - **F7 confirmado en pantalla con control, dirección J2 → J:** el arma que J2 tiene en la mano se dibuja en las dos

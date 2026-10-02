@@ -108,16 +108,34 @@ ESTADO 3), J2 camina con `manos` (> 5 m, salvo pared), el fork sigue vivo despu�
 ritmo de la pantalla partida (`pantalla_llamadas_2s`) queda como en (93z). **Refuta:** un nivel que cuelga o no arma
 con la IA y sí sin ella (el control es la corrida de (93z), mismo instrumento).
 
+**Resultado (`volcados/campana/campana.json`, 2026-10-02 03:22–03:29, un solo fork, 8 cargas seguidas):** 8 de 8
+arman (15–16 s), 8 de 8 vivos después, ninguno cuelga; J2 camina 8,5/9,2/8,8/2,7/8,1/4,5/7,2/9,0 m (Steelworks 2,7 m,
+como en (93z): pared). **Confirmado.** El ritmo no se compara con (93z): aquella corrida tenía `FrameRateNTSC` en 146
+(juego acelerado ×2,4). Hoy, a velocidad normal: 60–61 llamadas cada 2 s en cinco niveles y **47–51 en Steelworks,
+Asylum y City Bridge** (N14: los niveles pesados bajan a ~24 cuadros/s con la pantalla partida). Títere: 0 en
+Wilderness, Steelworks y Gulag (sin aliados, F11, ya sabido).
+**De paso refuta una hipótesis de T3b:** Town **sí** tiene títere, así que «en Town el controlador estaba quieto porque
+no hay títere» cae; por qué allí alcanzó una escritura queda sin explicar (no cambia el diseño: se escriben los tres).
+
 ## HUD — qué elemento vive en cada página (escrita antes de `hud_paginas.py`)
 Mecanismo (en frío, (111)): `FUN_001F1660` prende las páginas 1, 2 y 6 cada cuadro (delay slots `0x001F1984/94/A4`).
 **Predicción:** apagar una página saca de la pantalla un grupo propio de elementos (vida, munición/granadas, retícula,
 íconos), distinto en cada una, y nada más; las fotos de control antes y después muestran el HUD entero. **Refuta:**
 apagar una página no cambia nada (otro camino las prende, o el panel activo no es de tipo por defecto).
+**Resultado: REFUTADA.** Ninguna de las tres cambia nada (`volcados/hud/20261002-033130/hoja.png`), y la rama sí corre
+(vigilante de lectura). **Segunda hipótesis, confirmada con control:** anular `jal FUN_00278EA0` en `0x001F19A8` borra
+el HUD entero y vuelve al restaurarlo (`volcados/hud/278ea0-033233/hoja.png`): el HUD es una lista de dibujo 2D
+ya armada que esa llamada reproduce (`FUN_00278B48`).
 
 ## F3 — un cuerpo para J en la mitad de J2 (escrita antes de `f3_cuerpo_j.py`)
 **Predicción:** con Tom (aliado 0) copiando la matriz de J por PINE, J2 mirando a J ve un soldado donde está J;
 control sin copiar: no se ve nada en el lugar de J (como (110)). **Refuta:** con la copia no se ve el soldado en el
 lugar de J (el aliado tiene otra fuente de posición —como el controlador de T3b— y vuelve a la suya).
+**Resultado (`volcados/f3/hoja3.png`):** el aliado 0 era el títere de J2 (la herramienta lo frena); con el aliado 1.
+Primer encuadre inválido (el lazo `girar_hacia` dejó a J2 mirando a otro lado; se pone el yaw = `atan2(dx, dz)`).
+Primer control contaminado (el aliado quedó parado en el lugar de J tras la corrida con copia); con el aliado devuelto
+lejos (`teletransporte`, que también mueve actores): **control: nada en el lugar de J; con copia: un soldado parado
+donde está J.** Confirmado. Para la C: la copia en el stub (como el títere de J2) y esconder ese cuerpo en la pasada 1.
 
 ## T1b — J2 muere por daño REAL (escrita después de `t1-ia-1`, antes de esta corrida)
 Banco: el mismo, con la vida de J2 en 40 escrita a mano (la vida en 0 escrita no mata, (93f); acá el 0 lo pone el daño)

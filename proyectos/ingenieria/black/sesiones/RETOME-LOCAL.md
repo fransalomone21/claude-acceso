@@ -1,43 +1,21 @@
-# Mensaje de retome — BLACK, notebook (después de (110): la IA ve a J2, la muerte de J2 ya termina la misión)
+# Mensaje de retome — BLACK, notebook (después de (111): IA a los dos por defecto, sondas del concepto confirmadas)
 
-Pegar tal cual como primer mensaje del chat siguiente.
-
-> **2026-10-02 — BLACK EN PAUSA hasta sellar la arquitectura (T11), por pedido de Fran.** Lo de abajo sigue
-> valiendo tal cual. Lo nuevo: desde ese día una **puerta** no deja tocar BLACK sin antes correr
-> `.\cascada.ps1 black -Necesidad ingenieria-inversa,diseno` (COOP-B es diseño), leer con Read lo que
-> imprime y correr `abrir-sesion.ps1`. La sesión que retome BLACK es además la **validación 1 de 5 de T11**:
-> al cerrar, `python perfil-global\herramientas\medir-cascada.py`. **Y regla 15 (Fran):** un error que se
-> podía evitar FRENA la tarea; no se emparcha para salir del paso: se arregla la causa uno o n niveles más
-> arriba (herramienta → regla/freno → catálogo/hook → meta), con su prueba en rojo, y recién ahí se sigue.
+Pegar tal cual como primer mensaje del chat siguiente. Es también la validación 3 de 5 de T11/T12 del método.
 
 ```
-Retomo BLACK en LOCAL (notebook). Proyecto: proyectos/ingenieria/black. COOP-B ABIERTA (Fase B, diseño preliminar; la cierra la PDR: el diseño escrito, verificado contra el ELF y revisado por Fran). DECISIONES DE FRAN (106): el juego como con uno pero con dos (IA a los dos, recogibles al primero, HUD separado con vida/munición/punto de mira propios, disparadores de J1, si muere uno pierden los dos, cuerpos de aliado para los dos). Opus, esfuerzo high, sin subagentes, nunca Fable. Castellano rioplatense. Cuadros PARA VOS (con «Cómo venimos» en criollo, contra la META: jugar el coop en pantalla dividida) y de fase en cada respuesta. Grado de evidencia en todo; «confirmado» = efecto visto en pantalla o RAM, con control. Fran pide (2026-10-01): fotos y audio ingeniosos para encontrar problemas MACRO de J2 y bajar de ahí; eficiencia de contexto (cortar al ~50 %).
+Retomo BLACK (proyectos/ingenieria/black). Validación 3 de 5 de T11 y T12.
 
-0. git pull en claude-acceso; el último commit de proyectos/ingenieria/black tiene que ser el de (110) o posterior. Desde la raíz: .\chequeo-completo.ps1 -SoloMedidores y .\proyectos\ingenieria\black\abrir-sesion.ps1 -Rapido (los dos, SIEMPRE: en (110) se olvidaron al abrir).
-0b. REGLA DE FRAN («Decime qué hago»): si Fran está frente al emulador, primero se le dice QUÉ HACER y se espera. Si no, el fork solo. Nunca el fork con el 2.8.0 de Fran abierto.
+1. LEER, en orden: primero `.\cascada.ps1 black -Necesidad ingenieria-inversa,diseno` y CON Read cada rango que imprima (la puerta no deja actuar sin eso); después la entrada (111) de docs/03-bitacora.md y sesiones/PREDICCIONES-111.md. NO leer nada de arquitectura-se.
+2. FASE: COOP-B -- NASA Phase B, "Preliminary Design and Technology Completion" = el diseño en grueso, con los riesgos grandes resueltos. No se hace: construir a prueba y error. La cierra la PDR: el diseño escrito, verificado contra el ELF y revisado por Fran ANTES de fabricar. Lo que queda para la PDR, en orden:
+   P1 (frío) HUD: quién arma la lista 2D que reproduce FUN_00278EA0(panel+0x40) (el panel es de 0x0040F518) y si el 2D acepta un corrimiento global (FUN_00266088 / FUN_002662A8). Sonda del concepto en vivo después: reproducir la lista corrida a la mitad derecha.
+   P2 (frío) F11: la receta del cuerpo en los niveles sin aliados (Wilderness, Steelworks, Gulag): soldado de spawner con bando 0 (93i).
+   P3 (escritorio) el DOCUMENTO DE LA PDR para Fran: un resumen de docs/14 + docs/16 + docs/17 en criollo (qué hace el mod, qué falta construir en la C, qué quedó medido y qué no), para que lo revise. Sin su ok no se fabrica.
+   P4 (vivo, si hay tiempo) un cambio de unidad real con J2 lejos (pide jugar o llegar con teletransporte al borde de una unidad) y «continuar misión» desde un punto de control.
+3. MOTOR: Opus, esfuerzo high, sin fan-out (desensamblado y diseño; un solo hilo). Nunca Fable.
+4. MÁQUINA (al cerrar (111)): pnach con el bloque COOP + IA (938 palabras: la IA ya es el default de coop_mod.py; --sin-ia es el control). Fork cerrado; PCSX2 de Fran cerrado. Fork: C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe; se lanza con campana_coop.lanzar() + probar_nivel(0) (City Streets). El emulador lo abre la sesión (autorización permanente): primero abrir-sesion.ps1. PCSX2.ini global con FrameRateNTSC 59.94 (verificarlo: ya volvió a 146 dos veces).
+5. YA RESUELTO, no rehacer: CON_IA por defecto; B4 (un enemigo elige a J2 y lo mata; control 3/3); B5 por daño real; sondas del concepto S1 (juntar), S4 (sonido), F2, F3 (cuerpo de J), F7; el teletransporte (herramientas/teletransporte.py: TRES lugares de la posición); el diseño de N4 (traer a J2 en 0x0012DDCC, coop-plan-b); campaña 8/8 con la IA. El HUD NO son las páginas 1/2/6 (medido).
+6. TRAMPAS MEDIDAS: escribir CÓDIGO por PINE sólo en pausa (depurador.py pausar/continuar). Encadenar un control con `| tail && git commit` tapa el rojo: usar `python pruebas/controles.py` (sale 1 si algo falla). El teletransporte de una sola escritura se pisa en City Streets. En City Streets el aliado 0 es el títere de J2 (usar el 1). girar_hacia puede dejar mal el encuadre: el yaw de la mira es atan2(dx, dz) en grados. Heredocs largos: los frena el hook; escribir el script con Write.
 
-1. LEÉ SOLO: la entrada (110) de docs/03-bitacora.md y sesiones/PREDICCIONES-110.md. Nada más salvo que una tarea lo pida.
-
-2. CONTROLES: python herramientas/programa.py verificar (0), python pruebas/prueba_herramientas.py (184), python herramientas/coop_diseno.py verificar (0), python pruebas/probar-coop-diseno.py (TODO BIEN), python herramientas/coop_ia.py verificar (0; 139 palabras en dos programas).
-
-3. LO QUE YA ESTÁ (no rehacer):
- - La IA ve a J2: PERC2 (coop_ia.py programa 2 en 0x0046F000; sitios 0x00184DB8 jal PERC2 y 0x00185184 slti 5; J2 en la 5.a ranura del escuadrón *(0x0040F4D4)+0x22874). Confirmado: enemigos en combate anotan a J2 (id 1).
- - La muerte de J2 ya termina la misión (FUN_0013FFA0(J2+0x4F0,5) → MISSION FAILED con J vivo). NO construir nada para «pierden los dos».
- - Reiniciar misión con el coop anda (desarme + rearmado en 2,3 s + camina).
- - Agachado independiente en RAM (F6 no se reproduce). Botones de menú con el mando falso: ✕ = 2, abajo = 5, arriba = 4 con pulsación de 0,45 s, pausa = 8.
-
-4. LO QUE SIGUE, en orden (cada uno: predicción escrita ANTES en sesiones/PREDICCIONES-111.md, control, bitácora, commit):
- T1 — que un enemigo ELIJA a J2 y le dispare (cierra B4 en vivo). Banco: City Streets, J2 a la vista de los enemigos que pelean con Tom (están en ~(-77,-3.6,33)); s0_ia.py --ir J2 se traba en la primera ventana: probar rutas o mover a J lejos y dejar a J2 cerca con un disparo suyo (puerta del daño). Medir: +0x270 del enemigo apuntando a la ranura con id 1 y la vida de J2 bajando sin que J2 dispare. De paso J2 muriendo por daño real → MISSION FAILED.
- T2 — el audio en una escena CALLADA: inspeccion_coop.py fuego-J2 fuego-J recién cargado el nivel (antes del tiroteo de Tom) o en otro nivel; ¿suena el disparo de J2? (F4). Si no suena, S4 de docs/16 (--sin-aislar).
- T3 — el cambio de UNIDAD con J2 lejos (riesgo macro sin medir: la unidad vieja se descarga y J2 queda sin piso o colgado). Primero en frío: FUN_00172FE0 / FUN_00173028 y los disparadores que cambian de unidad; después en vivo con seguir_carga.py.
- T4 — en frío, el diseño del HUD por jugador (B9) y el indicador de daño de J que se dibuja en la mitad de J2 (nuevo en (110)).
- T5 — «continuar misión» (punto de control) con el coop, con seguir_carga.py: el reinicio anda; el punto de control no se probó.
-
-5. DECIDIDO (Fran, 2026-10-02, NECESIDAD MAYOR: «BLACK es un shooter con campaña coop en pantalla dividida»; de ahí se deduce que la IA no puede ignorar a J2, y no había que preguntarlo): CON_IA = True por defecto en coop_mod.py, para que el acceso «JUGAR BLACK COOP» (lanzadores/JUGAR-BLACK.ps1, línea ~69) instale el bloque CON la IA; la fila «IA» de coop-plan-b pasa a coop-rangos. Es lo primero que se hace en la próxima sesión de BLACK, con su control (un enemigo que elige a J2). Toda decisión que se deduzca de esa necesidad mayor se toma sin preguntar.
-
-ESTADO DE LA MÁQUINA (al cerrar (110)): pnach con el bloque COOP + IA (938 palabras, ranura 3 prendida), los PCSX2 cerrados. PCSX2.ini global: FrameRateNTSC vuelto a 59.94 (estaba en 146.16; respaldo .bak-...-fps146). Fork: C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe; campana_coop.lanzar() + probar_nivel(0) (City Streets, J2 queda en la ventana a ~10 m de J). Una sola conexión PINE a la vez (el depurador 21512 es aparte).
-
-TRAMPAS MEDIDAS: escribir CÓDIGO por PINE con el EE corriendo tiró el fork («Impossible block clearing failure»): en pausa (llamar_una_vez.EnPausa). Los enemigos de spawner apuntan y casi nunca disparan; un spawner con el punto en el aire nace y muere de la caída. --help en un script propio sin argparse lo CORRE. El pnach es patch=1: reescribe sus palabras cada cuadro (una prueba por PINE sobre un sitio del pnach no dura). kb/*.json: editar con reemplazo exacto, sin json.dump. Commits con mensaje en archivo.
-
-PRIMER COMANDO: git log --oneline -3 -- proyectos/ingenieria/black
+PRIMER COMANDO: .\cascada.ps1 black -Necesidad ingenieria-inversa,diseno
+Al cerrar: python perfil-global\herramientas\medir-cascada.py y python proyectos\ingenieria\arquitectura-se\medir-costo.py --ultimas 3, y anotar en arquitectura-se/HANDOFF.md como validación 3 de 5.
 ```

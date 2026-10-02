@@ -4,7 +4,14 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(110), 2026-10-01, notebook caliente — LO ÚLTIMO.** La IA ve a J2 (PERC2, `coop_ia.py` programa 2, confirmado en
+> **(111), 2026-10-02 madrugada, notebook caliente sin Fran — LO ÚLTIMO.** IA a los dos prendida por defecto (938
+> palabras); B4 hecha (un enemigo elige a J2 y lo mata; control `--sin-ia` 3/3); sondas del concepto S1, S4, F2, F3 y F7
+> confirmadas con control; diseño del cambio de unidad (traer a J2 en `0x0012DDCC`) con su teletransporte probado; el
+> HUD es una lista 2D de `FUN_00278EA0`; campaña 8/8. Herramientas nuevas: `s1_juntar.py`, `teletransporte.py`,
+> `hud_paginas.py`, `f3_cuerpo_j.py`, `pruebas/controles.py`. **Máquina:** pnach de 938 palabras (default con IA), el
+> fork abierto en City Streets (se puede cerrar), PCSX2 de Fran cerrado. **Sigue: `sesiones/RETOME-LOCAL.md`.**
+>
+> **(110), 2026-10-01, notebook caliente.** La IA ve a J2 (PERC2, `coop_ia.py` programa 2, confirmado en
 > RAM con control); la muerte de J2 ya da «MISSION FAILED» sola (no hay que construir «pierden los dos»); reiniciar misión
 > anda con el coop; recorrido macro con fotos (agachado independiente, J sin cuerpo en la mitad de J2, HUD único de J,
 > indicador de daño de J en la mitad de J2). Máquina: pnach con COOP + IA (938 palabras), PCSX2 cerrados, `FrameRateNTSC`

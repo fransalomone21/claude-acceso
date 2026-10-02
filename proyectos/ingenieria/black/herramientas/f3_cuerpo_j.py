@@ -49,7 +49,13 @@ def main():
         if al == p.leer32(0x0046DEF0):
             print(json.dumps({"error": "ese aliado es el titere de J2", **res}))
             return 1
-        res["signo_giro"] = ic.girar_hacia(p, "J2", ic.pos(p, cj.J))
+        # (111) yaw (grados, mira+8) = atan2(dx, dz) del rumbo, medido con la caminata de J2 en City Streets;
+        # girar_hacia (lazo sobre la matriz) dejo a J2 mirando a otro lado
+        j, j2 = ic.pos(p, cj.J), ic.pos(p, cj.J2)
+        yaw = math.degrees(math.atan2(j[0] - j2[0], j[2] - j2[2]))
+        p.escribir_f32(ic.MIRA_YAW["J2"], yaw)
+        res["yaw_J2"] = round(yaw, 1)
+        time.sleep(0.5)
         t0, hilo, n = time.time(), None, 0
         while time.time() - t0 < a.segundos:
             if not a.control:
