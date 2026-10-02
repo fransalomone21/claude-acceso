@@ -13,7 +13,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 |---|---|---|---|---|---|---|---|---|
 | M1 | Coop local, pantalla compartida | segundo jugador en el mismo nivel y la misma pantalla | N1 | XL | pnach-codigo | K2 (hud) | camara sin ubicar; el array de jugadores no tiene lugar (bitacora 61) | candidato |
 | M2 | Coop con pantalla dividida | cada jugador con su vista | N1 | XL | pnach-codigo | K5 (camara) | dos vistas cuestan el doble de GS/EE; render K1 | candidato |
-| M3 | El segundo mando maneja a un companero de escuadra | el jugador 2 toma a Tom o a Matt, que ya existen como actores | N1 | L | pnach-codigo | K4 (ia) | los companeros no estan en todos los niveles; hay que desenchufar su IA (8a) | candidato |
+| M3 | El segundo mando maneja a un companero de escuadra | el jugador 2 toma a Tom o a Matt, que ya existen como actores | N1 | L | pnach-codigo | K5 (actores) | los companeros no estan en todos los niveles; hay que desenchufar su IA (8a) | candidato |
 | M4 | Coop asimetrico: el segundo como apoyo | marca objetivos, pide municion o controla una vista de apoyo | N1, N3 | L | pnach-codigo | K2 (comandos-ui) | diseno de juego nuevo, no solo tecnica | candidato |
 | M5 | Versus 1 contra 1 | dos jugadores enfrentados en un nivel o arena | N1, N4 | XL | pnach-codigo | K5 (camara) | necesita M1 o M2 mas dano entre jugadores y reaparicion | candidato |
 | M6 | Coop a distancia con Parsec o Remote Play | un amigo se conecta al coop local desde su casa | N1 | S | externo | K5 (entrada) | latencia; depende de que exista M1, M2 o M3 | candidato |
@@ -26,7 +26,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 |---|---|---|---|---|---|---|---|---|
 | D1 | Perfil 'Black Ops+' | dano de la IA, vida, regeneracion y botiquines ajustados como un preset | N2 | M | datos-iso | K2 (pickups) | vida maxima y regeneracion son hipotesis (K2) | candidato |
 | D2 | Punteria de la IA | Max Spread Angle y Accuracy Fall Off del bloque AIParams de cada arma | N2 | S | datos-iso | K6 (armas) | el offset de esos campos se deriva del esquema; falta el efecto | candidato |
-| D3 | Percepcion de la IA | ver antes y oir mas | N2 | L | datos-iso | K4 (ia) | depende de 8a: no se sabe que codigo piensa por el enemigo | candidato |
+| D3 | Percepcion de la IA | ver antes y oir mas | N2 | L | datos-iso | K5 (ia) | depende de 8a: no se sabe que codigo piensa por el enemigo | candidato |
 | D4 | Mas enemigos, y otros tipos, por nivel | editar las unidades de StLevel | N2, N3 | M | datos-iso | K4 (iso-niveles) | el pool tiene 32 lugares; E5 sin probar por efecto | candidato |
 | D5 | Enemigos mas duros | multiplicadores de dano por zona de impacto | N2 | S | pnach-datos | K6 (armas) | bajo: zona*100 confirmado (4b) | candidato |
 | D6 | Municion escasa | cargadores (Num Bullets In Clip) y cuanto dan los pickups | N2 | S | datos-iso | K2 (pickups) | los pickups estan en K2 | candidato |
@@ -47,7 +47,7 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 | J7 | Randomizer | enemigos, armas y pickups distintos cada partida | N3 | L | datos-iso | K2 (pickups) | depende de que D4 ande por efecto | candidato |
 | J8 | Horda o supervivencia | oleadas en una zona de un nivel existente | N3, N4 | XL | pnach-codigo | K4 (flujo) | aparicion en runtime sin ubicar | candidato |
 | J9 | Todo desbloqueado y nueva partida+ | armas plateadas, municion infinita, todos los niveles | N3 | S | pnach-datos | K2 (guardado) | banderas de desbloqueo sin ubicar | candidato |
-| J10 | Companeros distintos | mortales, o mas utiles en combate | N2, N3 | M | pnach-datos | K4 (ia) | hoy tienen vida FLT_MAX; su IA en K2 | candidato |
+| J10 | Companeros distintos | mortales, o mas utiles en combate | N2, N3 | M | pnach-datos | K5 (actores) | hoy tienen vida FLT_MAX; su IA en K2 | candidato |
 
 ## niveles
 
