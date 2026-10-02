@@ -11,7 +11,7 @@ actuar** sobre un proyecto hasta que la sesión declara la necesidad
 `.claude/cascada.json` exige para esa necesidad y para el concepto que la
 resuelve (typst, freno, pcsx2). Diseño, medición y validación en
 [`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md).
-Autotest **21/21** (con un mutante que ciega la función que decide); el
+Autotest **22/22** (con un mutante que ciega la función que decide); el
 medidor del catálogo en la capa rápida dio rojo con la puerta sin registrar y
 verde instalada. **Primera sesión real (ésta): la puerta frenó el primer Edit
 sobre el proyecto; se declaró `metodo,diseno`, se leyeron los 16 rangos (~37 K

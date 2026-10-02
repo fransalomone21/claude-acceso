@@ -9,7 +9,8 @@
 > proyectos), `.claude/hooks/cascada_puerta.py` (PreToolUse deny + registro +
 > CLI `--exige/--verificar/--autotest`), `cascada.ps1 -Necesidad/-Excepcion`,
 > instalado por `.claude\instalar-hooks.ps1`, medidor `--verificar` en la capa
-> rápida y `--autotest` (23 casos, con mutante) en los saboteadores. Diseño:
+> rápida y `--autotest` (22 casos, con mutante) en los saboteadores;
+> `probar-cascada` y `probar-hooks` en verde con la puerta instalada. Diseño:
 > [`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md); A12 en
 > el diagnóstico. **Validación 1 de 4, esta sesión** (es de transición: empezó
 > antes de la puerta, así que `medir-cascada` no la cuenta): frenó, se declaró
