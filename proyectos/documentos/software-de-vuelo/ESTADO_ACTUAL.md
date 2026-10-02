@@ -1,5 +1,28 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (nube, 10.ª) — apunte de C v1.0: los 12 módulos
+
+- **Módulo 12** (`apunte-c/modulos/m12-memoria-vuelo.typ`): las secciones
+  (`.text`, `.rodata`, `.data`, `.bss`, stack) medidas con `arm-none-eabi-size`
+  sobre el propio ejemplo (`.data` 512, `.bss` 512, `.rodata` 622 = 512 + los
+  textos); el `Reset_Handler` que copia `.data`; por qué no `malloc` (falla
+  tarde, se fragmenta, no es determinístico; MISRA 21.3); `volatile` en
+  profundidad con el ensamblador medido (`-O2` sin `volatile`: `b .L3`, un
+  salto a sí mismo; con `volatile`, el `ldrb` adentro del bucle; con `-O0`
+  anda igual, por eso el error aparece en *Release*); secciones críticas (la
+  cuenta perdida paso a paso; `__get_PRIMASK`/`__disable_irq`/`__set_PRIMASK`);
+  programación defensiva y TMR con voto bit a bit y *scrubbing*; MISRA como
+  mapa (cuadro con las 18 reglas citadas en el apunte y su módulo). **3
+  programas nuevos** (`m12-secciones`, `m12-carrera`, `m12-tmr`): en total
+  **49**, verificador en verde, saboteador TODO BIEN, `revisar-pdf.py` verde.
+  Render mirado entero (págs. 77 a 82). Carátula: «v1.0 — los 12 módulos».
+- **Fase 1 del PDP:** cumplido todo menos publicar en Drive y verificar MD5
+  (la PC). PDP §4 y §6 al día.
+- **No medido, dicho con cuidado en el texto:** que la *Build Analyzer* de
+  CubeIDE muestre RAM y flash (conocido, no visto en esta sesión); la
+  diferencia de tamaño de `malloc` no se usó porque la medición no fue clara
+  (60 bytes con newlib-nano).
+
 ## 2026-10-02 (nube, 9.ª) — apunte de C v0.10: módulo 11, preprocesador y proyecto
 
 - **Módulo 11** (`apunte-c/modulos/m11-preprocesador-proyecto.typ`): macros

@@ -16,7 +16,7 @@
   institucion: "UNSAM — Ingeniería en Sistemas Espaciales",
   materia: "Ingeniería de Software de Vuelo para Sistemas Espaciales Críticos",
   ciclo: "2.º cuatrimestre 2026",
-  version: "v0.10 — módulos 1 a 11 de 12",
+  version: "v1.0 — los 12 módulos",
   presentacion: [
     *Para qué es esto.* Para aprender el C que usa la materia, en el orden en que lo
     da la cátedra, con cada programa *compilado de verdad* con los mismos flags que
@@ -43,3 +43,4 @@
 #include "modulos/m09-maquinas-estados.typ"
 #include "modulos/m10-tipos-compuestos.typ"
 #include "modulos/m11-preprocesador-proyecto.typ"
+#include "modulos/m12-memoria-vuelo.typ"

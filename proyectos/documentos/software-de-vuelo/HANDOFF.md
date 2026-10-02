@@ -1,5 +1,40 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube, 10.ª) — apunte de C v1.0 terminado: lo que falta es de la PC
+
+**El apunte de C tiene los 12 módulos** (v1.0, 82 págs., 49 programas). En la
+nube no hay nada más para escribir sin material nuevo. **En la PC, en orden:**
+
+1. `git pull`; en `apunte-c/`: `typst compile --root .. apunte.typ apunte.pdf`,
+   `python verificar-ejemplos.py` (49 en verde), `python
+   probar-verificar-ejemplos.py` (TODO BIEN, 8 sabotajes), `python
+   revisar-pdf.py` y `python revisar-pdf.py --probar` (necesita `pip install
+   pymupdf`). Si el verificador da rojo en WSL y verde en la nube, es el gcc:
+   comparar `gcc --version` (la nube usó 13.3 de Ubuntu 24.04).
+2. `.\publicar-apuntes.ps1` y `.\publicar-apuntes.ps1 -Verificar`: **cierra la
+   fase 1** del PDP (lo único que falta).
+3. **Cotejar con el material de la cátedra** (no se pudo en la nube): que
+   ningún ejemplo resuelva el Práctico 1 (ej. 2 y 4 a 9), el Práctico 2 ej. 1
+   ni el Práctico 3 (ej. 3 y 4). Si alguno coincide, se cambia el ejemplo
+   (mismo OBC, otro caso).
+4. **Medir en la placa o en el proyecto `tp2`**: `_Min_Stack_Size` del `.ld`
+   (el módulo 6 dice «suele ser `0x400`»); que leer `*NULL` dé el principio de
+   la flash (módulo 8, sin número); la *Build Analyzer* (módulo 12).
+5. **Contra `catedras`:** el resumen `docs/CRITERIOS-LEANDRO.md` (que no
+   contradiga el registro textual) y si la cátedra dice dónde van los tipos en
+   `template.c` (el apunte usa `/* Types */`).
+6. Registrar con `aprender.py` las **3 lecciones** de los bloques «LECCIONES
+   PARA aprender.py» de este HANDOFF (2.ª, 5.ª y 7.ª sesión de hoy) y borrar
+   esos bloques.
+
+**Herramientas que sumó esta tanda:** `revisar-pdf.py` (+ `--probar`), el
+verificador con proyectos, `#proyecto` y `#codigo(..., entrada: true)` en la
+plantilla, y el corte en dos de los ejemplos largos.
+
+**Si se sigue en la nube:** la guía de IDEs (fase 2) necesita la placa; lo que
+queda posible sin placa es una revisión de lectura completa del apunte v1.0
+(coherencia entre módulos, remisiones «el módulo N» que apunten bien).
+
 ## 2026-10-02 (nube, 9.ª) — apunte de C v0.10: sigue el módulo 12, el último
 
 **Lo primero, en la PC:** `git pull`, recompilar, verificador (46 en verde) y

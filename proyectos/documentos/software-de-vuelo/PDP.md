@@ -46,7 +46,7 @@ PENDIENTE de medir: es posterior a la fase 2.
 | # | Fase | Criterio de salida (resultado verificable) | Cómo se certifica | Estado |
 |---|---|---|---|---|
 | 0 | **Alcance de las dos guías** (tipo: **Fase A**) | `docs/ALCANCE.md` lista cada tema de cada guía con la clase o el práctico de la materia que lo pide, y ningún práctico (1 a 3) queda sin tema | los criterios de Leandro registrados en `catedras` (su fase 0 cerrada) **y** un chequeo de que cada práctico aparezca en `docs/ALCANCE.md` | **cerrada 2026-10-02**: 12 módulos con su clase y su práctico; LEA-R1 a R4 y LEA-01 a 18 en `catedras` (`verificar-criterios.py` 97/15 en verde, saboteador 3 de 3) |
-| 1 | **Apunte de C** (tipo: **Fase D**) | los 12 módulos de `docs/ALCANCE.md` escritos en `apunte-c/`; **todo** programa del apunte es un `.c` de `apunte-c/ejemplos/` que compila con `gcc -Wall -Wextra -std=c11` sin warnings y cuya salida impresa es la de la corrida real; publicado en Drive y verificado por MD5 | `python apunte-c\verificar-ejemplos.py` en verde **y** `python apunte-c\probar-verificar-ejemplos.py` con sus 5 sabotajes en rojo por su motivo; el render de cada módulo nuevo **mirado**; `publicar-apuntes.ps1 -Verificar` | **abierta 2026-10-02**: módulos 1 y 2 escritos (v0.1, 10 pág., 7 programas) |
+| 1 | **Apunte de C** (tipo: **Fase D**) | los 12 módulos de `docs/ALCANCE.md` escritos en `apunte-c/`; **todo** programa del apunte es un `.c` de `apunte-c/ejemplos/` que compila con `gcc -Wall -Wextra -std=c11` sin warnings y cuya salida impresa es la de la corrida real; publicado en Drive y verificado por MD5 | `python apunte-c\verificar-ejemplos.py` en verde **y** `python apunte-c\probar-verificar-ejemplos.py` con sus 5 sabotajes en rojo por su motivo; el render de cada módulo nuevo **mirado**; `publicar-apuntes.ps1 -Verificar` | **abierta, falta sólo publicar** (2026-10-02, nube): los 12 módulos escritos (v1.0, 82 pág., 49 programas: 48 sueltos y 1 proyecto de 3 archivos); verificador en verde; saboteador TODO BIEN con **8** sabotajes; `revisar-pdf.py` verde y su saboteador TODO BIEN; render de cada módulo mirado (del 10 en adelante, entero). Falta: `publicar-apuntes.ps1` y `-Verificar` en la PC |
 | 2 | Guía de IDEs (tipo: **Fase D**) | PDF que contesta la pregunta de §1 con una recomendación y su porqué, con el flujo probado en la NUCLEO-F446RE (compilar y cargar un proyecto por el camino recomendado) | a escribir al abrir la fase | **adelantada**: v0.3 entregada el 2026-09-29 (flujo de simulación probado; F446RE sin probar; sin publicar) |
 
 > **Tipo Fase A:** se decide **qué** entra y por qué, no se escribe la guía.
@@ -64,6 +64,7 @@ render de cada módulo, mirado; y el PDF publicado y verificado por MD5.
 rojo se ve así: un programa con un warning, una salida que el programa no
 imprime, un `.c` que nadie cita o un `#codigo` sin su `.c`) y
 `python apunte-c\probar-verificar-ejemplos.py` diciendo `TODO BIEN`; más
+`python apunte-c\revisar-pdf.py` en verde (ningún bloque sale de la página) y
 `.\publicar-apuntes.ps1 -Verificar`. Lo que ningún comando hace: mirar el
 render. **No cubierto por el saboteador:** la entrada «entorno» (sin WSL o sin
 gcc, el verificador sale en rojo por código, pero ese camino no se provocó).
@@ -79,6 +80,9 @@ gcc, el verificador sale en rojo por código, pero ese camino no se provocó).
 
 | Fecha | Decisión | Alternativas descartadas | Por qué perdieron |
 |---|---|---|---|
+| 2026-10-02 | Los criterios de Leandro también van como **resumen público, interpretado y fechado** (`docs/CRITERIOS-LEANDRO.md`); el textual sigue en `catedras` y gana si discrepan | dejarlos sólo en el privado | decisión de Fran: «son interpretaciones nuestras»; la sesión en la nube no tiene `catedras` y escribía con criterios pegados en el pedido |
+| 2026-10-02 | El verificador acepta **proyectos** (`ejemplos/<nombre>/`, `#proyecto(...)` que muestra todos sus archivos) | un `.c` suelto que simula los otros archivos | el módulo 11 trata justamente de partir en `.h` y `.c`: simularlo enseñaría lo contrario |
+| 2026-10-02 | El render se mide además de mirarse: `revisar-pdf.py` (ningún bloque sale de la página), y la plantilla parte en dos los ejemplos de más de 55 líneas | sólo mirar el render | un bloque que se salía de la página se dio por mirado sin haberlo mirado (lección en el HANDOFF) |
 | 2026-09-29 | Proyecto **público**, con los criterios en el repo privado `catedras` | todo privado | las guías son públicas por pacto; lo privado es el criterio, y ya tiene casa |
 | 2026-09-29 | Dos guías en el mismo proyecto | un proyecto por guía | misma materia, mismo destinatario, mismo circuito de publicación |
 | 2026-09-29 | **La guía de IDEs se adelanta** (fase 2, tipo D) como **v0.3**, con la fase 0 todavía abierta, porque Fran la necesita para entregar el TP2 | esperar a cerrar las fases 0 y 1 | la prioridad la pone Fran: el TP2 se entrega hoy. La fase 2 **no cierra**: falta el flujo en la F446RE real y publicarla |

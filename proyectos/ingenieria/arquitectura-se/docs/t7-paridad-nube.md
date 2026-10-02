@@ -119,6 +119,35 @@ crítico (`diagnostico-2026-09-28.md` §3), adelantada por necesidad real.
 5. **En los scripts, `rm` con variable lleva `"${VAR:?}"`**: lo pide el chequeo
    de seguridad de la nube, y es más sano igual.
 
+## 4 ter. Una sesión larga en la nube, medida (2026-10-02, apunte de C módulos 4 a 12)
+
+Fran pidió seguir sin parar «para cuando haya límite local, mejoremos la
+arquitectura y el traspaso a nube». Lo que hizo falta, para que lo construya
+`pasar-a-nube` / el *setup script*:
+
+| Necesidad | Cómo se resolvió a mano | Qué debería hacerlo solo |
+|---|---|---|
+| typst 0.15 | `curl` del release de GitHub, cada sesión | setup script del entorno (o `nube.py arranque`) |
+| pymupdf (mirar el render, `revisar-pdf.py`) | `pip install pymupdf` | ídem |
+| `arm-none-eabi-gcc` (medir en Cortex-M4: tamaños, stack, secciones, ensamblador) | `apt-get install gcc-arm-none-eabi`, ~1 min | ídem; **cambió el contenido**: 6 supuestos pasaron a medidos, y uno era falso para la placa (`enum` de 1 byte, no 4) |
+| criterios de la cátedra | `docs/CRITERIOS-LEANDRO.md` (decisión de Fran) | generado desde `catedras` (R7) |
+| lecciones | bloques «LECCIONES PARA aprender.py» en el HANDOFF (3 en esta tanda) | la bandeja de R5 |
+| no perder trabajo por un corte | **un commit y push por módulo** (10 commits a `main`), con ESTADO, HANDOFF y MATERIAS en cada uno | regla del retome: «checkpoint por unidad de trabajo» |
+| trampas de Typst | un escáner ad hoc antes de compilar (número y punto al principio de renglón, comilla invertida impar, `~ < > @ \`, `//`) | `revisar-typ.py` con saboteador, propuesto en el HANDOFF de software-de-vuelo |
+| render | `revisar-pdf.py` (nuevo, con saboteador) + mirar todas las páginas | ya existe; sumarlo al chequeo del proyecto |
+| material de la PC (prácticos, `.ld`, la placa) | todo lo que dependía de eso quedó como `hipótesis` y en una **lista numerada para la PC** en el HANDOFF | el control del retome (§4 bis, punto 3) |
+
+**Lo que funcionó y conviene volver regla del retome:** (1) leer sólo
+HANDOFF + ALCANCE + el módulo anterior como modelo; (2) medir cada trampa en
+el compilador *antes* de escribirla; (3) un commit por módulo; (4) toda
+afirmación no medida, con «suele» o como `hipótesis` en el ESTADO; (5) al
+final, una lista para la PC ordenada y concreta.
+
+**Deriva de documentos vista:** una celda de `carrera/MATERIAS.md` quedó en
+«v0.4» durante seis versiones, porque cada sesión reemplazaba un texto exacto
+que ya no coincidía y el `if not in: print` lo dejaba pasar. Un reemplazo que
+no encuentra su texto tiene que fallar, no avisar.
+
 ## 5. Orden de construcción
 
 R3 (la prueba de la frontera en Windows) → 3 → 4 → 1-2 → R5 → R6. Los rojos
