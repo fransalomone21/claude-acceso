@@ -11,9 +11,10 @@ queda pendiente y lo que la próxima sesión necesita saber.
 El runbook completo es [`MAQUINA-NUEVA.md`](MAQUINA-NUEVA.md). Lo que cambió
 en la estructura, y que la próxima sesión tiene que saber:
 
-- **`.claude/settings.json` ya no se commitea.** Lleva la ruta absoluta de los
-  hooks, medida por `instalar-hooks.ps1` en cada máquina. Si aparece como
-  modificado en un `git status`, algo lo volvió a agregar a mano.
+- **`.claude/settings.json` se commitea de nuevo (desde 2026-10-02, T7)**, con
+  `$CLAUDE_PROJECT_DIR` en vez de la ruta de una máquina. Si aparece como
+  modificado en un `git status`, alguien corrió `desinstalar-hooks.ps1`: no se
+  commitea (`instalar-hooks.ps1` lo restaura).
 - **`probar-hooks.ps1` distingue `[SKIP]` de `[FAIL]`**: un freno cuyo objeto
   (`Black.iso`) no está en esta máquina queda sin verificar y lo dice; no es
   un fallo, y tampoco cuenta como verde.

@@ -69,7 +69,10 @@ if (Test-Path -LiteralPath $hookDst) {
 
 Write-Output ""
 Write-Output "Desinstalado. Los archivos .ps1 y .json siguen en .claude/ por si"
-Write-Output "se quiere volver: .claude\instalar-hooks.ps1"
+Write-Output "se quiere volver: .claude\instalar-hooks.ps1 (restaura settings.json del repo)."
+Write-Output "OJO: settings.json esta TRACKEADO desde 2026-10-02: este cambio sale en git"
+Write-Output "status y NO se commitea -- commiteado, desinstala los frenos en todas las maquinas"
+Write-Output "(el catalogo de la cascada lo canta en rojo en el arranque siguiente)."
 Write-Output ""
 Write-Output "OJO: la capa 3 (integridad medida en abrir-sesion.ps1) sigue viva y"
 Write-Output "no molesta -- solo mide. Esa no hay razon para sacarla."

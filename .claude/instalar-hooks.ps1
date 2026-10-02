@@ -1,8 +1,9 @@
-﻿# instalar-hooks.ps1 -- instala las tres capas de frenos de claude-acceso.
+# instalar-hooks.ps1 -- instala las tres capas de frenos de claude-acceso.
 #
-# GENERA .claude/settings.json con la raiz MEDIDA de esta maquina, en vez de
-# depender de que la ruta absoluta commiteada sea la correcta. Mismo patron
-# que perfil-global/install.ps1: la ruta se mide, no se copia a mano.
+# Hasta el 2026-10-02 GENERABA .claude/settings.json con la ruta absoluta de
+# esta maquina. Desde la T7 ese archivo va TRACKEADO con "$CLAUDE_PROJECT_DIR"
+# (una sola fuente, igual en la PC y en la nube) y aca solo se verifica que
+# este y parsee; si un desinstalar le saco los hooks, se restaura del repo.
 #
 # Idempotente: se puede correr las veces que haga falta.
 # Lo que instala se desinstala con .claude\desinstalar-hooks.ps1 (regla 6 del
@@ -42,59 +43,32 @@ foreach ($a in $prot) {
 
 # ------------------------------------------------ capa 2: los hooks
 Write-Output ""
-Write-Output "capa 2 -- hooks en .claude/settings.json (ruta medida, no copiada)"
+Write-Output "capa 2 -- hooks en .claude/settings.json (trackeado, con `$CLAUDE_PROJECT_DIR)"
 
-$ps = 'powershell -NoProfile -ExecutionPolicy Bypass -File'
-$cmdArranque = "$ps `"$(Join-Path $claude 'hooks\arranque-proyecto.ps1')`""
-$cmdMedicion = "$ps `"$(Join-Path $claude 'hooks\arranque-medicion.ps1')`""
-$cmdGuardia  = "$ps `"$(Join-Path $claude 'hooks\guardia-iso.ps1')`""
-$cmdFase     = "python `"$(Join-Path $claude 'hooks\fase_activa.py')`""
-$cmdPuerta   = "python `"$(Join-Path $claude 'hooks\cascada_puerta.py')`""
-
+# Que hay en settings.json y por que (JSON no lleva comentarios; el porque vive aca):
+#  - SessionStart: el texto (arranque-proyecto) y la medicion (arranque-medicion) en hooks
+#    separados (2026-09-28, T1): el harness no entrega nada de un hook cortado por timeout.
+#  - SessionStart 'compact': la puerta olvida lo leido al compactar (T11).
+#  - SessionStart, solo SIN PowerShell (la nube): traer-perfil.sh, el libro primero (regla 16);
+#    sale 0 siempre para que su ROJO llegue al contexto en vez de perderse como error.
+#  - PreToolUse: guardia-iso (el ISO de BLACK) y la PUERTA de la cascada (T11: 1 de 113
+#    entradas leia lo necesario antes de actuar).
+#  - PostToolUse: fase_activa (el tipo de la fase abierta) y el registro de la puerta.
+# 'command -v powershell || exit 0' es un gate por CAPACIDAD, no por etiqueta: en Windows
+# powershell existe siempre (no hay fail-open local); en la nube no hay cascada.ps1 con que
+# declarar, asi que la puerta frenaria todo sin salida. Cuando exista cascada.sh (T7 punto 4)
+# la puerta deja de llevar el gate. Todo esto lo prueba .claude\probar-settings.py.
 $settings = Join-Path $claude 'settings.json'
 $obj = $null
-if (Test-Path -LiteralPath $settings) {
+try { $obj = Get-Content -LiteralPath $settings -Raw -Encoding UTF8 | ConvertFrom-Json } catch { $obj = $null }
+if ($null -eq $obj -or $null -eq $obj.hooks) {
+    & git -C $raiz checkout -- .claude/settings.json 2>&1 | Out-Null
     try { $obj = Get-Content -LiteralPath $settings -Raw -Encoding UTF8 | ConvertFrom-Json } catch { $obj = $null }
+    if ($null -eq $obj -or $null -eq $obj.hooks) { throw "settings.json sin hooks y no se pudo restaurar del repo" }
+    Write-Output "  [OK]   settings.json restaurado del repo (git checkout)"
+} else {
+    Write-Output "  [OK]   settings.json presente y con hooks (lo trae el repo)"
 }
-if ($null -eq $obj) { $obj = New-Object psobject }
-
-$hooks = [ordered]@{
-    SessionStart = @(
-        # (2026-09-28, T1 de arquitectura-se) el texto y la medicion en hooks
-        # separados: el harness no entrega nada de un hook cortado por timeout,
-        # y la medicion en serie tardaba 58 s contra 60. El texto es
-        # instantaneo; la medicion tiene fecha limite interna de 40 s y no
-        # corre al compactar (el matcher de SessionStart es el origen).
-        @{ hooks = @( [ordered]@{ type = 'command'; command = $cmdArranque; timeout = 15 } ) }
-        @{ matcher = 'startup|resume|clear'
-           hooks = @( [ordered]@{ type = 'command'; command = $cmdMedicion; timeout = 60 } ) }
-        # (2026-10-02, T11) al compactar, lo leido deja de contar para la puerta de la cascada
-        @{ matcher = 'compact'
-           hooks = @( [ordered]@{ type = 'command'; command = $cmdPuerta; timeout = 15 } ) }
-    )
-    PreToolUse = @(
-        @{ matcher = 'Bash|PowerShell|Write|Edit|NotebookEdit'
-           hooks = @( [ordered]@{ type = 'command'; command = $cmdGuardia; timeout = 15; statusMessage = 'guardia de archivos protegidos' } ) }
-        # (2026-10-02, T11) LA PUERTA DE LA CASCADA: no deja actuar sobre un proyecto hasta que la sesion declaro la
-        # necesidad y LEYO lo que .claude/cascada.json exige. Medido antes: 1 de 113 entradas leia las cuatro piezas.
-        @{ matcher = 'Bash|PowerShell|Write|Edit|NotebookEdit'
-           hooks = @( [ordered]@{ type = 'command'; command = $cmdPuerta; timeout = 15; statusMessage = 'puerta de la cascada' } ) }
-    )
-    # (2026-09-28) el disparador de la arquitectura: la primera vez que la sesion toca un proyecto, le pone
-    # delante el TIPO de su fase abierta (leido del PDP) y lo que NO se hace en ella. Falla abierto.
-    PostToolUse = @(
-        @{ matcher = 'Read|Bash|PowerShell|Write|Edit|Glob|Grep'
-           hooks = @( [ordered]@{ type = 'command'; command = $cmdFase; timeout = 15 } ) }
-        # (2026-10-02, T11) el registro de la puerta: que rango se leyo, que necesidad se declaro, que se corrio
-        @{ matcher = 'Read|Bash|PowerShell|Edit|Write'
-           hooks = @( [ordered]@{ type = 'command'; command = $cmdPuerta; timeout = 15 } ) }
-    )
-}
-
-$obj | Add-Member -NotePropertyName hooks -NotePropertyValue $hooks -Force
-$json = $obj | ConvertTo-Json -Depth 12
-[System.IO.File]::WriteAllText($settings, $json + "`n", [System.Text.UTF8Encoding]::new($false))
-Write-Output "  [OK]   settings.json escrito con las rutas de ESTA maquina"
 
 # --------------------------------------------- capa 2b: el hook de git
 #

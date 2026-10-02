@@ -91,7 +91,7 @@ arranque en vez de descubrirse en la próxima máquina.
 | 1 | clona `perfil-global` (repo aparte, **privado**) |
 | 2 | lo instala en `~/.claude` y verifica **por hash**, no por "no dio error" |
 | 3 | corre `verificar-estructura.ps1`: las siete reglas contra el disco |
-| 4 | instala los frenos con la ruta **medida** de esta máquina, y los **sabotea** para verlos en rojo |
+| 4 | instala los frenos (los hooks ya vienen en el repo) y los **sabotea** para verlos en rojo, incluidas sus líneas de comando |
 
 Si el paso 1 pide credenciales: `perfil-global` es privado. Hace falta que la
 PC tenga acceso a GitHub (`gh auth login`, o Git Credential Manager).
@@ -105,7 +105,7 @@ PC tenga acceso a GitHub (`gh auth login`, o Git Credential Manager).
 | reglas, pilares, skills, hooks, lecciones | **sí**, por `perfil-global` | es el sistema |
 | enrutador, plantillas, verificadores, saboteadores | **sí**, por `claude-acceso` | es la estructura |
 | todos los proyectos | **sí** | texto; y partirlos partiría la memoria |
-| `.claude/settings.json` | **no**, se genera | lleva la ruta absoluta de los hooks de *esta* máquina |
+| `.claude/settings.json` | **sí** (desde 2026-10-02) | los hooks van con `$CLAUDE_PROJECT_DIR`, no con la ruta de una máquina; en la nube corren sólo los que tienen con qué (`.claude/probar-settings.py`) |
 | `rclone.conf` | **no** | es un token OAuth de Google. Se rehace con `rclone config` |
 | `Black.iso`, volcados, `construido/` | **no** | 3,9 GB, ignorados a propósito |
 | auto-memoria de la sesión | **no** | vive en `~/.claude/projects/<ruta>/memory/`, por máquina y por ruta |

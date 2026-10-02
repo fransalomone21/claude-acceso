@@ -208,9 +208,10 @@ foreach ($c in $sinRemote) {
 # --- 4. los frenos: se instalan Y se prueban ------------------------------
 #
 # Sin este bloque los hooks no existirian en ninguna maquina que no sea esta,
-# que es justamente el fallo de arquitectura que venian a arreglar. El
-# instalador GENERA .claude/settings.json con la ruta medida de la maquina en
-# la que corre, asi que no depende de que la ruta absoluta commiteada sirva.
+# que es justamente el fallo de arquitectura que venian a arreglar. Desde el
+# 2026-10-02 .claude/settings.json viene TRACKEADO con $CLAUDE_PROJECT_DIR (sirve
+# en cualquier maquina sin generarlo); el instalador pone el ReadOnly, el hook
+# de git, y restaura settings.json del repo si le faltan los hooks.
 #
 # Y se corre el saboteador, no solo el instalador: un freno recien instalado
 # que nunca se vio en rojo esta sin verificar. En su primer dia probar-hooks

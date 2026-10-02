@@ -443,6 +443,17 @@ if (-not $hayArchivoProtegido) {
 }
 
 Write-Output ""
+Write-Output "las LINEAS DE COMANDO de settings.json, como las corre el harness (Git Bash)"
+# Todo lo de arriba llama a los scripts DIRECTO: un comando roto en settings.json
+# (ruta, gate, variable) daba verde aca. Desde 2026-10-02 el archivo va trackeado
+# con $CLAUDE_PROJECT_DIR, y eso se prueba cruzando la misma frontera que el uso real.
+$ps = & python (Join-Path $raiz '.claude\probar-settings.py') 2>&1 | Out-String
+$fallasPs = @($ps -split "`r?`n" | Where-Object { $_ -match '^\s*\[FAIL\]|\[REVENTO\]' })
+Resultado ($LASTEXITCODE -eq 0 -and $ps -match 'TODO BIEN') `
+    "probar-settings.py: los comandos de settings.json frenan, callan y fallan cerrado donde deben" `
+    ("salida: " + (($fallasPs + ($ps.Trim() -split "`r?`n")[-1]) -join ' | '))
+
+Write-Output ""
 Write-Output "------------------------------------------------------------"
 
 # El unico saboteador que no depende de ningun archivo de ningun proyecto es

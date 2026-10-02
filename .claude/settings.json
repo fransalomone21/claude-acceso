@@ -1,0 +1,91 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v powershell >/dev/null 2>&1 || exit 0; powershell -NoProfile -ExecutionPolicy Bypass -File \"$CLAUDE_PROJECT_DIR/.claude/hooks/arranque-proyecto.ps1\"",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v powershell >/dev/null 2>&1 || exit 0; powershell -NoProfile -ExecutionPolicy Bypass -File \"$CLAUDE_PROJECT_DIR/.claude/hooks/arranque-medicion.ps1\"",
+            "timeout": 60
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v powershell >/dev/null 2>&1 && exit 0; bash \"$CLAUDE_PROJECT_DIR/.claude/nube/traer-perfil.sh\"; exit 0",
+            "timeout": 60
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v powershell >/dev/null 2>&1 || exit 0; python \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell|Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v powershell >/dev/null 2>&1 || exit 0; powershell -NoProfile -ExecutionPolicy Bypass -File \"$CLAUDE_PROJECT_DIR/.claude/hooks/guardia-iso.ps1\"",
+            "timeout": 15,
+            "statusMessage": "guardia de archivos protegidos"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|PowerShell|Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v powershell >/dev/null 2>&1 || exit 0; python \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
+            "timeout": 15,
+            "statusMessage": "puerta de la cascada"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Read|Bash|PowerShell|Write|Edit|Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/fase_activa.py\"",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Bash|PowerShell|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v powershell >/dev/null 2>&1 || exit 0; python \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
