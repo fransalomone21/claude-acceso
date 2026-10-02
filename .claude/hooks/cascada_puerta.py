@@ -240,8 +240,27 @@ def conceptos_de(cat: dict, tool: str, inp: dict):
     return out
 
 
-def proyecto_de(tool: str, inp: dict, cwd: str):
-    """De la RUTA del archivo (Edit/Write: nunca del contenido) o del COMANDO; si no, del cwd."""
+def locales_de(cat: dict):
+    """Las carpetas LOCALES de cada proyecto, fuera del arbol (el material de una materia en el Escritorio). La mas
+    larga primero: 'Software de Vuelo/TP Cohete de Agua' es de cohete-de-agua, no de software-de-vuelo.
+    2026-10-02 (leccion 331): la puerta solo veia proyectos/<nat>/<p>, y un ejercicio de Software de Vuelo se
+    escribio en Documentos sin que nada frenara: la ruta buena estaba en el contrato, que nadie leyo."""
+    out = []
+    for p, ent in cat.get("proyectos", {}).items():
+        for loc in ent.get("locales", []):
+            out.append((norm(loc), p))
+    return sorted(out, key=lambda x: -len(x[0]))
+
+
+def _cola_local(n: str) -> str:
+    """La ruta sin el HOME: un comando la nombra con ~, $HOME, $env:USERPROFILE o entera."""
+    h = norm(Path.home())
+    return n[len(h):].lstrip("\\/") if n.startswith(h) else n
+
+
+def proyecto_de(tool: str, inp: dict, cwd: str, cat: dict | None = None):
+    """De la RUTA del archivo (Edit/Write: nunca del contenido) o del COMANDO; si no, del cwd. Primero el arbol
+    (proyectos/<nat>/<p>), despues las carpetas locales que declara el catalogo."""
     if tool in ("Edit", "Write", "NotebookEdit"):
         textos = [str(inp.get("file_path", inp.get("notebook_path", "")))]
     else:
@@ -252,7 +271,34 @@ def proyecto_de(tool: str, inp: dict, cwd: str):
         m = PATRON_PROY.search(t.replace("\\\\", "\\"))
         if m and m.group(2) in disco:
             return m.group(2)
+    locs = locales_de(cat or {})
+    for i, t in enumerate(textos):
+        if not t:
+            continue
+        es_ruta = tool in ("Edit", "Write", "NotebookEdit") or i == len(textos) - 1
+        tn = norm(t) if es_ruta else t.lower().replace("/", "\\")
+        for loc, p in locs:
+            if p not in disco:
+                continue
+            if es_ruta and (tn == loc or tn.startswith(loc + os.sep)):
+                return p
+            if not es_ruta and _cola_local(loc) in tn:
+                return p
     return None
+
+
+def inferidos_de(cat: dict, texto: str):
+    """Que proyectos NOMBRA el pedido de Fran, por las 'senales' de cada uno en el catalogo. La necesidad se
+    reconoce en el PEDIDO, no en la primera ruta que se toca: una sesion que clasifica 'sin proyecto' nunca toca
+    una ruta del arbol y la puerta no se enteraba (2026-10-02, leccion 331)."""
+    out = []
+    for p, ent in cat.get("proyectos", {}).items():
+        for s in ent.get("senales", []):
+            m = re.search(s, texto or "", re.I)
+            if m:
+                out.append((p, m.group(0)))
+                break
+    return out
 
 
 # ------------------------------------------------------------------------------------------- estado de sesion
@@ -300,7 +346,7 @@ def anotar(sid: str, ev: dict):
 
 
 def estado(sid: str) -> dict:
-    st = {"lecturas": {}, "declaradas": {}, "excepciones": {}, "comandos": []}
+    st = {"lecturas": {}, "declaradas": {}, "excepciones": {}, "comandos": [], "inferidos": {}}
     f = archivo_estado(sid)
     if not f.exists():
         return st
@@ -324,6 +370,8 @@ def estado(sid: str) -> dict:
             st["excepciones"][ev["proy"]] = ev.get("motivo", "")
         elif t == "cmd":
             st["comandos"].append(ev["cmd"])
+        elif t == "infiere":
+            st["inferidos"].setdefault(ev["proy"], ev.get("por", ""))
     return st
 
 
@@ -384,21 +432,31 @@ def pre(ev: dict) -> int:
         return deny("PUERTA DE LA CASCADA (T11): el catalogo .claude/cascada.json no se puede leer (%s). Sin "
                     "catalogo no se sabe que exigir, y la puerta falla cerrado. Arreglarlo (editarlo no lo frena "
                     "nadie) o, si hay que salir ya: .claude\\desinstalar-hooks.ps1" % e)
-    proyecto = proyecto_de(tool, inp, ev.get("cwd", ""))
+    proyecto = proyecto_de(tool, inp, ev.get("cwd", ""), cat)
     conceptos = conceptos_de(cat, tool, inp)
-    if not proyecto and not conceptos:
-        return 0
     sid = ev.get("session_id", "")
     st = estado(sid)
+    if not proyecto:
+        # El pedido nombro un proyecto (UserPromptSubmit) y esta accion no cae en ninguno: manda el pedido. Sin
+        # esto, guardar "en mis documentos" un ejercicio de una materia pasaba sin cascada (leccion 331).
+        pend_inf = [p for p in st["inferidos"] if p not in st["excepciones"]]
+        sin_decl = [p for p in pend_inf if p not in st["declaradas"]]
+        if sin_decl or pend_inf:
+            proyecto = (sin_decl or pend_inf)[0]
+    if not proyecto and not conceptos:
+        return 0
     faltan, cmds_faltan, notas = [], [], []
     if proyecto and proyecto not in st["excepciones"]:
         if proyecto not in st["declaradas"]:
+            porque = ("\nEl PEDIDO de Fran lo nombra (senal '%s'): el contrato dice donde vive lo local y como se "
+                      "trabaja, aunque sea un ejercicio de diez minutos." % st["inferidos"][proyecto]
+                      if proyecto in st["inferidos"] else "")
             return deny(
-                "PUERTA DE LA CASCADA (T11): vas a actuar sobre '%s' sin haber declarado la NECESIDAD.\n"
+                "PUERTA DE LA CASCADA (T11): vas a actuar sobre '%s' sin haber declarado la NECESIDAD.%s\n"
                 "Clasifica el pedido de Fran (puede ser mas de una) y corre:\n"
                 "    %s %s -Necesidad <a,b>\n  Necesidades:\n%s\n"
                 "Despues lee con Read lo que imprima, con los rangos que diga. Solo si de verdad no corresponde: "
-                "%s %s -Excepcion \"motivo\" (queda registrada)." % (proyecto, entrada(), proyecto, menu(cat),
+                "%s %s -Excepcion \"motivo\" (queda registrada)." % (proyecto, porque, entrada(), proyecto, menu(cat),
                                                                      entrada(), proyecto))
         it, cm, nt = exigido(cat, proyecto, st["declaradas"][proyecto], [])
         faltan += it
@@ -517,6 +575,25 @@ def registrar_invocacion(sid: str, cmd: str):
         anotar(sid, {"t": "cmd", "cmd": cmd.replace("\\", "/")})
 
 
+def prompt(ev: dict) -> int:
+    """UserPromptSubmit: reconoce en el PEDIDO que proyecto toca, lo anota (la puerta lo exige desde ahi) y lo dice
+    en el contexto antes de que la sesion decida nada."""
+    cat = cargar_catalogo()
+    sid = ev.get("session_id", "")
+    st = estado(sid)
+    nuevos = []
+    for p, por in inferidos_de(cat, str(ev.get("prompt", ""))):
+        if p not in st["inferidos"]:
+            anotar(sid, {"t": "infiere", "proy": p, "por": por})
+        if p not in st["declaradas"] and p not in st["excepciones"]:
+            nuevos.append((p, por))
+    if nuevos:
+        print("CASCADA: el pedido toca %s. Antes de actuar (escribir, guardar, correr), aunque sea un ejercicio "
+              "chico: %s %s -Necesidad <a,b> y leer lo que imprima; donde se guarda lo local lo dice su contrato. "
+              "La puerta lo exige." % (", ".join("%s (senal '%s')" % x for x in nuevos), entrada(), nuevos[0][0]))
+    return 0
+
+
 def hook() -> int:
     try:
         ev = json.loads(sys.stdin.buffer.read().decode("utf-8-sig") or "{}")
@@ -531,6 +608,8 @@ def hook() -> int:
                         ".claude/hooks/cascada_puerta.py (editarlo no lo frena) o .claude\\desinstalar-hooks.ps1"
                         % (type(e).__name__, e))
     try:
+        if nombre == "UserPromptSubmit":
+            return prompt(ev)
         if nombre == "PostToolUse":
             return post(ev)
         if nombre == "SessionStart" and ev.get("source") == "compact":
@@ -597,6 +676,14 @@ def cli_verificar() -> int:
         for nec in ent[n].get("necesidades", []):
             if nec not in cat.get("necesidades", {}):
                 rojos.append("%s pide una necesidad que no existe: %s" % (n, nec))
+        for s in ent[n].get("senales", []):
+            try:
+                re.compile(s)
+            except re.error as e:
+                rojos.append("%s: senal con regex rota %r (%s)" % (n, s, e))
+        for loc in ent[n].get("locales", []):
+            if not (loc.startswith("~") or os.path.isabs(loc)):
+                rojos.append("%s: carpeta local que no es absoluta ni empieza con ~: %s" % (n, loc))
     for nombre, cd in cat.get("conceptos", {}).items():
         for k in ("comando", "archivo"):
             if cd.get(k):
@@ -638,7 +725,7 @@ def cli_verificar() -> int:
     # dejar de actuar (Leveson): la puerta desinstalada no avisa sola. Se mide el registro, en los tres eventos.
     try:
         hooks = json.loads((RAIZ / ".claude" / "settings.json").read_text(encoding="utf-8-sig")).get("hooks", {})
-        for evento in ("PreToolUse", "PostToolUse", "SessionStart"):
+        for evento in ("PreToolUse", "PostToolUse", "SessionStart", "UserPromptSubmit"):
             if "cascada_puerta.py" not in json.dumps(hooks.get(evento, [])):
                 rojos.append("la puerta NO esta registrada en %s de .claude/settings.json (.claude\\instalar-hooks.ps1)"
                              % evento)
@@ -869,6 +956,40 @@ def autotest() -> int:
     ok = "abrir-sesion" in r and "ESTADO_ACTUAL" not in r
     mal += not ok
     print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "MUTANTE (cubierto=True) deja de exigir lecturas", "si" if ok else "NO"))
+    # 14. leccion 331: la necesidad se reconoce en el PEDIDO y en las carpetas LOCALES. Catalogo sintetico (senal y
+    # carpeta inventadas): el caso no se rompe cuando cambien las senales reales.
+    cat_l = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
+    p_l = sorted(proyectos_del_disco())[0]
+    loc_l = tmp / "Escritorio" / "01 - MATERIA"
+    hijo_l = loc_l / "sub-de-otro"
+    p_hijo = sorted(proyectos_del_disco())[1]
+    cat_l["proyectos"].setdefault(p_l, {})["senales"] = [r"zz senal de prueba zz"]
+    cat_l["proyectos"][p_l]["locales"] = [str(loc_l)]
+    cat_l["proyectos"].setdefault(p_hijo, {})["locales"] = [str(hijo_l)]
+    f_l = tmp / "cat-locales.json"
+    f_l.write_text(json.dumps(cat_l, ensure_ascii=False), encoding="utf-8")
+    e_l = {"CASCADA_CATALOGO": str(f_l)}
+    afuera = ("Write", {"file_path": str(tmp / "Documentos" / "x.c"), "content": "int main(void){return 0;}"})
+    s9 = sid + "-pedido"
+    correr({"hook_event_name": "UserPromptSubmit", "session_id": s9, "prompt": "resolve la ZZ SENAL DE PRUEBA ZZ"}, e_l)
+    caso("pedido con senal + Write FUERA de todo proyecto -> deny", correr(pre_ev(*afuera, s=s9), e_l), True,
+         "El PEDIDO de Fran lo nombra")
+    s10 = sid + "-sin-senal"
+    correr({"hook_event_name": "UserPromptSubmit", "session_id": s10, "prompt": "un pedido cualquiera"}, e_l)
+    caso("CONTROL: pedido sin senal + Write fuera -> pasa", correr(pre_ev(*afuera, s=s10), e_l), False)
+    correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Excepcion \"prueba\"" % p_l}, s9), e_l)
+    caso("CONTROL: pedido con senal y -Excepcion -> pasa", correr(pre_ev(*afuera, s=s9), e_l), False)
+    s11 = sid + "-local"
+    w_loc = ("Write", {"file_path": str(loc_l / "clase" / "x.c"), "content": "x"})
+    caso("Write en la carpeta LOCAL sin pedido ni declarar -> deny", correr(pre_ev(*w_loc, s=s11), e_l), True,
+         "'%s'" % p_l)
+    caso("la subcarpeta local de OTRO proyecto -> gana la mas larga",
+         correr(pre_ev("Write", {"file_path": str(hijo_l / "x.c"), "content": "x"}, s=s11), e_l), True, "'%s'" % p_hijo)
+    caso("comando que nombra la carpeta local -> deny",
+         correr(pre_ev("PowerShell", {"command": "New-Item -ItemType File '%s'" % (loc_l / "y.c")}, s=s11), e_l), True,
+         "'%s'" % p_l)
+    caso("CONTROL: lectura pura de la carpeta local -> pasa",
+         correr(pre_ev("PowerShell", {"command": "Get-ChildItem '%s'" % loc_l}, s=s11), e_l), False)
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0

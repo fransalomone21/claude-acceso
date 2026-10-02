@@ -1,5 +1,18 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (clase) — punteros a función; entorno de VS Code listo
+
+- Ejercicio de clase (tabla de 5 comandos `void (*comandos[CANT_COMANDOS])(void)`)
+  en `Desktop\01 - UNSAM\Software de Vuelo\clase 02-10\comandos.c`. Lo de cada
+  clase va en `clase DD-MM\` de la materia, **no** en Documentos (lección 331).
+- `Software de Vuelo\.vscode\`: Ctrl+Shift+B compila y corre el `.c` abierto
+  con `gcc -Wall -Wextra -std=c11` (LEA-01) por el gcc 13.3 de **WSL**, no el
+  MinGW 6.3 de `C:\MinGW`. Probado con el ejercicio y con un warning provocado.
+- **Pendiente:** la semana 7 (`Downloads\Semana_7-20261002T233357Z-1-001.zip`,
+  punteros a función) sin abrir: pasarla a `Material de catedra\Semana_7`,
+  registrarla en `catedras` y ver qué entra al apunte de C (módulo nuevo =
+  vuelve a `docs/ALCANCE.md`).
+
 ## 2026-10-02 (cierre) — fase 1 cerrada; lo que queda no bloquea
 
 La fase 1 (apunte de C) **cerró**: v1.0 publicada y verificada por MD5. La
