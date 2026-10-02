@@ -1,5 +1,33 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (nube, 9.ª) — apunte de C v0.10: módulo 11, preprocesador y proyecto
+
+- **Módulo 11** (`apunte-c/modulos/m11-preprocesador-proyecto.typ`): macros
+  con parámetros (`CUADRADO_MAL(n + 1)` da 7; `MAYOR(i++, j)` incrementa dos
+  veces; los dos, **sin warning**), `static inline` como alternativa
+  (MISRA dir. 4.9); `#if`/`#elif`/`#error`, `#ifdef`, `LOG` con `__FILE__` y
+  `__LINE__` y `do { } while (0)`, `-D` y los defines de CubeIDE;
+  `_Static_assert`; un proyecto `.h` + `.c` (control térmico con histéresis):
+  interfaz y implementación, `static` que esconde, `#include "..."` en la
+  sección `User libraries` de `template.c`, la guarda, `extern` y por qué no
+  se define una variable en un `.h`; bibliotecas y la estructura `Core/Inc`,
+  `Core/Src`, `Drivers` de CubeIDE. **3 programas nuevos** (`m11-macros`,
+  `m11-config`, y el proyecto `m11-termico/` de tres archivos): en total
+  **46**, verificador en verde, `probar-verificar-ejemplos.py` TODO BIEN
+  (**8 sabotajes**, 3 nuevos), `revisar-pdf.py` verde. Render mirado entero
+  (págs. 70 a 76; el PDF tiene 76). Carátula: «v0.10 — módulos 1 a 11 de 12».
+- **El verificador ahora entiende proyectos**: `ejemplos/<nombre>/` con `.c` y
+  `.h` se compila junto (`-Werror`), se compara `ejemplos/<nombre>.salida`, y
+  se cita con `#proyecto("<nombre>", archivos: (...))`, que tiene que listar
+  **exactamente** los `.c` y `.h` de la carpeta. Sabotajes nuevos: archivo del
+  proyecto que el apunte no muestra, carpeta que nadie cita, proyecto con un
+  warning. La plantilla tiene `#proyecto` (cada archivo con su nombre y la
+  salida).
+- **Medido en gcc 13.3:** sin la guarda, el doble `#include` da *conflicting
+  types for 'termico_config_t'*; una variable definida en el `.h` da
+  *multiple definition* en el linker; una `static` de otro archivo da
+  *undeclared*; `_Static_assert` falso corta con *static assertion failed*.
+
 ## 2026-10-02 (nube, 8.ª) — apunte de C v0.9: módulo 10, tipos compuestos
 
 - **Módulo 10** (`apunte-c/modulos/m10-tipos-compuestos.typ`): `struct` con

@@ -1,5 +1,27 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube, 9.ª) — apunte de C v0.10: sigue el módulo 12, el último
+
+**Lo primero, en la PC:** `git pull`, recompilar, verificador (46 en verde) y
+`probar-verificar-ejemplos.py` (8 sabotajes), `revisar-pdf.py`,
+`.\publicar-apuntes.ps1` (v0.2 a v0.10 sin publicar). Pendientes acumulados de
+medir en la PC: sin cambios respecto del bloque de la 8.ª.
+
+**Después: el módulo 12, memoria y C de vuelo** (stack, `.data`/`.bss`, por
+qué no `malloc`, `volatile` en profundidad, registros mapeados, secciones
+críticas, MISRA-C, programación defensiva; clase 86-99, 134-140, 149-157).
+Herramienta para medir en la nube: `arm-none-eabi-gcc` + `arm-none-eabi-size`
+(`apt-get install gcc-arm-none-eabi`) para mostrar en qué sección cae cada
+variable (`const` global → `.rodata`/flash; inicializada → `.data`, que ocupa
+flash **y** RAM; en cero → `.bss`). Es medición con `-c` (sin linkear, no hace
+falta el `.ld`). El módulo 12 cierra las promesas: la sección crítica del
+`contador++` (módulos 3 y 10), `volatile` en profundidad (3), MISRA (3 y
+siguientes), el stack (6).
+
+**Cómo citar un proyecto:** `#proyecto("<nombre>", archivos: ("a.h", "a.c",
+"main.c"), salida: true, titulo: "...")`; los archivos del proyecto llevan las
+secciones de `template.c`.
+
 ## 2026-10-02 (nube, 8.ª) — apunte de C v0.9: sigue el módulo 11
 
 **Lo primero, en la PC:** `git pull`, recompilar, verificador (43 en verde),

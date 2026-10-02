@@ -78,6 +78,33 @@
   }
 }
 
+// Un PROYECTO de varios archivos: ejemplos/<nombre>/ con sus .h y .c. Se muestra cada
+// archivo con su nombre, en el orden de `archivos`, y después la salida de la corrida
+// (ejemplos/<nombre>.salida). verificar-ejemplos.py compila todos los .c juntos y exige
+// que `archivos` sea EXACTAMENTE lo que hay en la carpeta: ninguno escondido.
+#let proyecto(nombre, archivos: (), salida: false, titulo: none) = {
+  if titulo != none {
+    block(above: 10pt, below: 2pt, sticky: true,
+      text(size: 8pt, fill: c-verde, weight: "bold", tracking: 0.4pt)[#upper[#titulo] — PROYECTO #raw(nombre + "/")])
+  }
+  for archivo in archivos {
+    block(breakable: false, above: 6pt, below: 2pt, width: 100%)[
+      #text(size: 8pt, fill: c-verde, weight: "bold", tracking: 0.4pt)[#raw(nombre + "/" + archivo)]
+      #v(-6pt)
+      #raw(read("ejemplos/" + nombre + "/" + archivo), lang: "c", block: true)
+    ]
+  }
+  if salida {
+    block(breakable: false, above: 2pt, below: 10pt, width: 100%,
+      fill: luma(30), radius: 3pt, inset: 8pt)[
+      #text(size: 7.5pt, fill: luma(170), weight: "bold", tracking: 0.4pt)[SALIDA (copiada de la corrida real, con los #archivos.filter(a => a.ends-with(".c")).len() .c compilados juntos)]
+      #v(-4pt)
+      #show raw: it => text(font: ("DejaVu Sans Mono", "Consolas"), size: 8pt, fill: rgb("#B9F6CA"), it.text)
+      #raw(read("ejemplos/" + nombre + ".salida"))
+    ]
+  }
+}
+
 // El warning que imprimió gcc de verdad (lo guarda verificar-ejemplos.py).
 #let aviso(nombre) = block(breakable: false, width: 100%, fill: luma(30), radius: 3pt, inset: 8pt, above: 2pt, below: 10pt)[
   #text(size: 7.5pt, fill: luma(170), weight: "bold", tracking: 0.4pt)[LO QUE DICE GCC (copiado de la corrida real)]

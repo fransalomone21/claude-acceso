@@ -11,6 +11,12 @@ Las ENTRADAS del mecanismo (y cada una tiene su sabotaje en probar-verificar-eje
                                programa (con <nombre>.entrada como stdin, si existe) y stdout
                                tiene que ser IGUAL. --regenerar lo reescribe (solo a proposito).
   - los .typ                 : cada .c citado con #codigo("<nombre>") y cada #codigo con su .c.
+  - ejemplos/<nombre>/       : un PROYECTO de varios archivos (.c y .h). Se compilan juntos
+                               todos sus .c, con los mismos flags y -Werror, y se compara
+                               ejemplos/<nombre>.salida (y .entrada) como en un ejemplo suelto.
+                               Se cita con #proyecto("<nombre>", archivos: ("a.h", "a.c", ...))
+                               y la lista tiene que ser EXACTAMENTE los .c y .h de la carpeta:
+                               un archivo del proyecto que el apunte no muestra es rojo.
   - el entorno               : sin WSL o sin gcc, ROJO (falla cerrado, no verde mudo).
 
 Sale con 0 si todo da, 1 si algo falla.
@@ -50,6 +56,32 @@ def citados():
     return usos
 
 
+def proyectos_citados():
+    """{nombre: (lista de archivos que muestra el apunte, [archivos .typ que lo citan])}"""
+    usos = {}
+    for typ in AQUI.rglob("*.typ"):
+        texto = typ.read_text(encoding="utf-8")
+        for m in re.finditer(r'#proyecto\(\s*"([^"]+)"\s*,\s*archivos:\s*\(([^)]*)\)', texto):
+            archivos = re.findall(r'"([^"]+)"', m.group(2))
+            previo = usos.get(m.group(1), (archivos, []))
+            usos[m.group(1)] = (previo[0], previo[1] + [typ.name])
+    return usos
+
+
+def correr_y_comparar(exe, base, nombre, regenerar, fallas):
+    """Corre el ejecutable con base.entrada como stdin y compara contra base.salida."""
+    ent = base.with_suffix(".entrada")
+    rc, out, err = wsl(exe, ent.read_text(encoding="utf-8") if ent.exists() else "")
+    sal = base.with_suffix(".salida")
+    if regenerar:
+        sal.write_text(out, encoding="utf-8", newline="\n")
+    elif sal.exists() and out != sal.read_text(encoding="utf-8"):
+        fallas.append(f"{nombre}: la salida NO coincide con {nombre}.salida\n"
+                      f"      corrida: {out!r}\n      apunte : {sal.read_text(encoding='utf-8')!r}")
+        return False
+    return sal.exists()
+
+
 def main():
     regenerar = "--regenerar" in sys.argv
     fuentes = sorted(EJ.glob("*.c"))
@@ -87,17 +119,33 @@ def main():
         if not espera and err.strip():
             fallas.append(f"{nombre}: compilo pero gcc imprimio algo: {err.strip()}")
             continue
-        ent = c.with_suffix(".entrada")
-        rc, out, err = wsl(exe, ent.read_text(encoding="utf-8") if ent.exists() else "")
-        sal = c.with_suffix(".salida")
-        if regenerar:
-            sal.write_text(out, encoding="utf-8", newline="\n")
-        elif sal.exists() and out != sal.read_text(encoding="utf-8"):
-            fallas.append(f"{nombre}: la salida NO coincide con {nombre}.salida\n"
-                          f"      corrida: {out!r}\n      apunte : {sal.read_text(encoding='utf-8')!r}")
+        antes = len(fallas)
+        hay_salida = correr_y_comparar(exe, c, nombre, regenerar, fallas)
+        if len(fallas) > antes:
             continue
         print(f"  ok  {nombre}" + ("  (warning esperado)" if espera else "")
-              + ("  + salida" + (" REGENERADA" if regenerar else "") if sal.exists() else ""))
+              + ("  + salida" + (" REGENERADA" if regenerar else "") if hay_salida else ""))
+    proyectos = sorted(d for d in EJ.iterdir() if d.is_dir())
+    for d in proyectos:
+        nombre = d.name
+        fuentes_p = sorted(x.name for x in d.glob("*.c"))
+        if not fuentes_p:
+            fallas.append(f"{nombre}/: un proyecto sin ningun .c")
+            continue
+        exe = "/tmp/apunte_c_" + nombre
+        rc, _, err = wsl(f"cd '{ruta_wsl(d)}' && gcc {FLAGS} -Werror {' '.join(fuentes_p)} -o {exe}")
+        if rc != 0:
+            fallas.append(f"{nombre}/: NO COMPILA con {FLAGS} -Werror\n      " + err.strip().replace("\n", "\n      "))
+            continue
+        if err.strip():
+            fallas.append(f"{nombre}/: compilo pero gcc imprimio algo: {err.strip()}")
+            continue
+        antes = len(fallas)
+        hay_salida = correr_y_comparar(exe, EJ / nombre, nombre, regenerar, fallas)
+        if len(fallas) > antes:
+            continue
+        print(f"  ok  {nombre}/  (proyecto: {', '.join(fuentes_p)})"
+              + ("  + salida" + (" REGENERADA" if regenerar else "") if hay_salida else ""))
     usos = citados()
     for c in fuentes:
         if c.stem not in usos:
@@ -105,12 +153,26 @@ def main():
     for n, donde in sorted(usos.items()):
         if not (EJ / (n + ".c")).exists():
             fallas.append(f'#codigo("{n}") en {", ".join(donde)} sin ejemplos/{n}.c')
+    usos_p = proyectos_citados()
+    for d in proyectos:
+        if d.name not in usos_p:
+            fallas.append(f"{d.name}/ no lo cita ningun #proyecto: proyecto huerfano")
+            continue
+        en_disco = sorted(x.name for x in d.iterdir() if x.suffix in (".c", ".h"))
+        mostrados = sorted(usos_p[d.name][0])
+        for falta in sorted(set(en_disco) - set(mostrados)):
+            fallas.append(f"{d.name}/{falta}: archivo del proyecto que el apunte no muestra")
+        for sobra in sorted(set(mostrados) - set(en_disco)):
+            fallas.append(f'#proyecto("{d.name}") muestra {sobra}, que no existe en ejemplos/{d.name}/')
+    for n, (_, donde) in sorted(usos_p.items()):
+        if not (EJ / n).is_dir():
+            fallas.append(f'#proyecto("{n}") en {", ".join(donde)} sin la carpeta ejemplos/{n}/')
     if fallas:
         print("\n[ROJO]")
         for f in fallas:
             print("  -", f)
         return 1
-    print(f"\nTodo en verde: {len(fuentes)} programas compilan con cero warnings y dicen lo que el apunte muestra.")
+    print(f"\nTodo en verde: {len(fuentes) + len(proyectos)} programas compilan con cero warnings y dicen lo que el apunte muestra.")
     return 0
 
 

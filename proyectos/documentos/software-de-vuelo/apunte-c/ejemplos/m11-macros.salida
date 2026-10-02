@@ -1,0 +1,3 @@
+CUADRADO_MAL(n + 1) = 7, CUADRADO(n + 1) = 16
+macro:   tope=6, muestra=7 (se incremento dos veces)
+funcion: tope=5, muestra=6

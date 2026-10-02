@@ -62,12 +62,38 @@ def sab_warning_esperado_ausente(d):
     c.write_text(t.replace("printf(\"Reporte enviado\\n\");", "printf(\"Reporte enviado %d\\n\", temperatura);"), encoding="utf-8")
 
 
+def un_proyecto(ej):
+    for d in sorted(ej.iterdir()):
+        if d.is_dir() and list(d.glob("*.c")):
+            return d
+    raise SystemExit("REVENTO: no hay un proyecto (carpeta con .c) para sabotear")
+
+
+def sab_proyecto_archivo_escondido(d):
+    (un_proyecto(d / "ejemplos") / "zz-escondido.h").write_text("/* nadie lo muestra */\n", encoding="utf-8")
+
+
+def sab_proyecto_huerfano(d):
+    nuevo = d / "ejemplos" / "zz-proyecto"
+    nuevo.mkdir()
+    (nuevo / "main.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
+
+
+def sab_proyecto_warning(d):
+    c = sorted(un_proyecto(d / "ejemplos").glob("*.c"))[0]
+    t = c.read_text(encoding="utf-8")
+    c.write_text(t + "\nstatic int sin_usar_nunca(void) { return 0; }\n", encoding="utf-8")
+
+
 CASOS = [
     ("un ejemplo con un warning nuevo", sab_warning_nuevo, "NO COMPILA"),
     ("una salida que el programa no imprime", sab_salida, "la salida NO coincide"),
     ("un .c que ningun modulo cita", sab_huerfano, "ejemplo huerfano"),
     ("un #codigo sin su .c", sab_cita_sin_archivo, "sin ejemplos/zz-no-existe.c"),
     ("un ESPERA-WARNING cuyo warning ya no sale", sab_warning_esperado_ausente, "esperaba un warning"),
+    ("un archivo del proyecto que el apunte no muestra", sab_proyecto_archivo_escondido, "que el apunte no muestra"),
+    ("una carpeta de proyecto que nadie cita", sab_proyecto_huerfano, "proyecto huerfano"),
+    ("un proyecto con un warning", sab_proyecto_warning, "NO COMPILA"),
 ]
 
 
