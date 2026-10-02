@@ -1,5 +1,32 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (nube, 6.ª) — apunte de C v0.7: módulo 8, punteros
+
+- **Módulo 8** (`apunte-c/modulos/m08-punteros.typ`): `&` y `*`, tamaño del
+  puntero (8 en la PC, 4 en la placa), tipos incompatibles; nombre del vector
+  como dirección, `*(v + i)`, recorrer con `p++` hasta un `fin`, «sumar 1
+  avanza un elemento»; `NULL` como «no hay» (en la placa, `*NULL` no falla:
+  la dirección 0 es espejo de la flash); no devolver la dirección de una
+  local; `const` a cada lado del `*` (tabla); el `ADC1_SR` del módulo 3 leído
+  entero; puntero a puntero como cursor que se mueve desde una función;
+  tabla de despacho con punteros a función (reescribe el despachador del
+  módulo 5). MISRA 18.4. Cierra las recetas de los módulos 3, 4, 5, 6 y 7.
+  **5 programas nuevos** (`m08-direccion`, `m08-recorrer`, `m08-null`,
+  `m08-cursor`, `m08-despacho`): en total **37**, verificador en verde,
+  `probar-verificar-ejemplos.py` TODO BIEN. Render mirado (págs. 49 a 55; el
+  PDF tiene 55). Carátula: «v0.7 — módulos 1 a 8 de 12».
+- **Ningún ejemplo imprime direcciones** (`%p` cambia en cada corrida y el
+  verificador compara igual): se imprimen comparaciones y diferencias.
+- **Medido a mano en gcc 13.3:** puntero sin inicializar avisa
+  `-Wuninitialized`; devolver la dirección de una local avisa
+  `-Wreturn-local-addr`; `uint16_t *` apuntado a un `uint32_t` avisa
+  `-Wincompatible-pointer-types`; perder el `const` avisa
+  `-Wdiscarded-qualifiers`; `*NULL` **no avisa** y en la PC da *Segmentation
+  fault*.
+- **`hipótesis` sin medir, escrita con cuidado:** que en la F446RE leer `*NULL`
+  devuelva el principio de la flash (por el *remap* de arranque desde flash,
+  manual de referencia de ST). El texto no da un número.
+
 ## 2026-10-02 (nube, 5.ª) — apunte de C v0.6: módulo 7, vectores y cadenas
 
 - **Módulo 7** (`apunte-c/modulos/m07-vectores-cadenas.typ`): declarar e

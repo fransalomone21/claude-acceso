@@ -1,5 +1,26 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (nube, 6.ª) — apunte de C v0.7: sigue el módulo 9
+
+**Lo primero, en la PC:** `git pull`, recompilar, verificador (37 en verde),
+`.\publicar-apuntes.ps1` (v0.2 a v0.7 sin publicar). Lo pendiente de medir en
+la PC suma uno: con la NUCLEO enchufada, leer `*(volatile uint32_t *)0` en el
+depurador y ver que da el primer valor de la tabla de vectores (el módulo 8 lo
+afirma sin número).
+
+**Después: el módulo 9, máquinas de estados** (`enum` + `switch`, `default`
+defensivo, transición por evento y no por tiempo, el superloop no bloqueante
+con `HAL_GetTick()`; clase 100; Práctico 1 ej. 7; Práctico 3 ej. 4). En la PC
+no hay `HAL_GetTick()`: simularlo con un contador de milisegundos que el
+superloop avanza a mano (determinístico, para que la salida sea igual en cada
+corrida). **No** escribir la máquina del Práctico 3 ej. 4 (no se pudo leer en
+la nube: elegir una del OBC que no sea de LEDs ni de botones, por ejemplo los
+modos de la misión: arranque → detumbling → nominal → seguro). LEA-14 (enum +
+switch con `default` a falla) y LEA-15 (nada bloqueante) van en cajas
+`#catedra`. Lo que el módulo 5 prometió: «el `switch` vuelve como corazón de
+las máquinas de estados»; lo que prometió el 5 sobre la UART: «se lee si hay
+algo, y si no, el superloop sigue» (no hay UART en la PC: alcanza con decirlo).
+
 ## 2026-10-02 (nube, 5.ª) — apunte de C v0.6: sigue el módulo 8
 
 **Lo primero, en la PC de Fran:** `git pull`, recompilar, `python

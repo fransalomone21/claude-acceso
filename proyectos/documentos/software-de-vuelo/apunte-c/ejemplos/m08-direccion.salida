@@ -1,0 +1,3 @@
+modo=N, *p=N, p apunta a modo? 1
+modo=S (nadie escribio 'modo' directamente)
+sizeof(modo)=1, sizeof(p)=8

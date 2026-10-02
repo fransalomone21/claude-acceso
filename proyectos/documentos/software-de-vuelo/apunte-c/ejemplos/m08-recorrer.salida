@@ -1,0 +1,3 @@
+trama == &trama[0]? 1   *(trama + 2) == trama[2]? 1
+XOR calculado 0xD4, recibido 0xD4: trama sana
+un paso de uint8_t avanza 1 byte; uno de uint32_t, 4 bytes

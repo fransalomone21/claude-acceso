@@ -1,0 +1,2 @@
+sensor 0x21: umbral 800
+sensor 0x99: no existe, no se lee nada
