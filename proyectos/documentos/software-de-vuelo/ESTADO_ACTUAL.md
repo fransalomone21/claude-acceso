@@ -1,5 +1,22 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-02 (cierre) — FASE 1 CERRADA: el apunte de C v1.0, publicado
+
+- **Publicado y verificado**: `publicar-apuntes` subió la v1.0 (1,3 MB) y
+  `-Verificar` dio todo al día por MD5. Corrido en la PC con
+  `arquitectura-se/herramientas/cierre-desde-la-nube.ps1`.
+- **Medido en la PC (WSL, gcc 13.3)**: verificador 49 en verde; saboteador
+  TODO BIEN con **9** sabotajes (el nuevo: encabezados de `template.c` leídos
+  de la fuente); `revisar-pdf` y `--probar` TODO BIEN.
+- **`_Min_Stack_Size` = `0x400` medido** en los cuatro `.ld` del workspace
+  (`tp2` y `primer_proyecto_nucleo`, C031C6; `tata_22_09TP3`, F446RE, FLASH y
+  RAM). El módulo 6 dice «suele ser `0x400`»: es correcto, y no se tocó para
+  no desactualizar lo publicado; en la próxima versión puede decir «es».
+- **Sigue sin medir** (no bloquea): que ningún ejemplo resuelva el Práctico 1
+  (ej. 2 y 4 a 9), el 2 (ej. 1) o el 3 (ej. 3 y 4); `*NULL` en la placa
+  (módulo 8); `docs/CRITERIOS-LEANDRO.md` contra `catedras` (ahora en GitHub
+  privado, se puede hacer desde cualquier lado).
+
 ## 2026-10-02 (nube, 10.ª) — apunte de C v1.0: los 12 módulos
 
 - **Módulo 12** (`apunte-c/modulos/m12-memoria-vuelo.typ`): las secciones

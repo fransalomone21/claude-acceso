@@ -1,5 +1,19 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-02 (cierre) — fase 1 cerrada; lo que queda no bloquea
+
+La fase 1 (apunte de C) **cerró**: v1.0 publicada y verificada por MD5. La
+lista «para la PC» del bloque de la 10.ª quedó así: 1 y 2 hechos; 4, el
+`_Min_Stack_Size`, medido (`0x400`, igual que dice el módulo 6); 6, las
+lecciones, registradas en `perfil-global`. **Quedan** el 3 (cotejar los
+prácticos contra los ejemplos), el `*NULL` en la placa y el 5 (`CRITERIOS-LEANDRO`
+contra `catedras`). Si alguno obliga a cambiar el apunte: editar, recompilar,
+`python apunte-c\verificar-ejemplos.py`, `python apunte-c\revisar-pdf.py`, commit
+(el hook `post-commit` publica solo) y `.\publicar-apuntes.ps1 -Verificar`.
+
+**Lo que sigue en el proyecto:** fase 2, la guía de IDEs: le falta el flujo
+probado en la NUCLEO-F446RE real (necesita la placa: es de la PC).
+
 ## 2026-10-02 (nube, 10.ª) — apunte de C v1.0 terminado: lo que falta es de la PC
 
 **El apunte de C tiene los 12 módulos** (v1.0, 82 págs., 49 programas). En la
