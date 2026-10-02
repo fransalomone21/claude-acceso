@@ -196,18 +196,42 @@ de la puerta y de la fase.
 | **Hallazgo, sin arreglar a propósito (fase D: no se rediseña en la marcha):** si un archivo que el catálogo exige **no existe** (en la nube sin perfil: la skill `pdf-con-codigo`), la puerta **deja pasar en silencio** — sólo lo anota, y sin otra cosa pendiente sale 0. Es un `return` temprano que falla abierto (Saltzer). Con el perfil traído no pasa; sin perfil, la regla 16 ya frena por otro lado | autotest de la puerta en WSL: «concepto typst sin leer pdf-con-codigo» da **pasa** | confirmado; decisión de diseño pendiente (¿el «NO EXISTE» de un exigido niega, con la reparación del catálogo como salida?) |
 | El saboteador de las líneas de comando: `.claude/probar-settings.py` (16 casos, Git Bash, `bash -c`, payload por stdin), llamado por `probar-hooks.ps1` | rojo con el `settings.json` viejo; 3 rojos con un mutante (gate de la puerta invertido); el enganche en `probar-hooks` también se vio en rojo | confirmado |
 
-**Lo que falta para cerrar R2 (la puerta en la nube):** `cascada.sh` y la puerta sin
-gate ya están (arriba). Falta **una sesión real en la nube** que mida cuatro
-`hipótesis`: que `CLAUDE_PROJECT_DIR` está puesta, que `command -v powershell`
-falla, que hay `python` o `python3`, y que la salida de `traer-perfil.sh` llega al
-contexto. Y en esa misma sesión: que la puerta frena el primer Edit sobre un
-proyecto y que `bash .claude/cascada.sh <p> -Necesidad …` la destraba.
+**Medido en la nube real (2026-10-02, sesión de claude.ai/code, `claude-acceso`
+`14f4b73`, `perfil-global` `7a59473`, Linux 6.18, Python 3.11.15).** Las cinco
+mediciones del retome, en orden; **ninguna en rojo**:
+
+| # | Hipótesis | Lo que se vio | Grado |
+|---|---|---|---|
+| 1a | `CLAUDE_PROJECT_DIR` puesta | **En el shell del tool Bash, vacía** (`[]`). En el entorno de los **hooks**, puesta: los ocho comandos de `settings.json` usan `"$CLAUDE_PROJECT_DIR/..."` y tres scripts distintos emitieron **su propio texto** (el ROJO de `traer-perfil.sh`, el deny de la puerta, la compuerta de `fase_activa`); vacía, la ruta sería `/.claude/...` y lo que saldría es el error de Python, no ese texto. Son dos entornos: `echo` desde el tool Bash mide el actor equivocado (lección del núcleo «Identificá al ACTOR por efecto antes de medirlo») | confirmado por efecto, para los hooks |
+| 1b | `command -v powershell` falla | ausente, rc 1 (tampoco `pwsh`). Guardia y arranque callaron: el Edit pasó sin error de hook | confirmado |
+| 1c | hay `python` o `python3` | los dos: `/usr/bin/python` y `/usr/bin/python3`, 3.11.15 | confirmado |
+| 2 | la salida de `traer-perfil.sh` llega al contexto al abrir | llegó, como `SessionStart:startup hook success:` con el texto entero: «[ROJO] el perfil no esta en /home/user/perfil-global. NO se arranca ninguna tarea sin el.» y los tres pasos (`add_repo`, `git clone --depth 1`, volver a correr). Hechos los tres, el script dio `[OK] perfil instalado en /root/.claude (... commit 7a59473)` y listó los cuatro archivos | confirmado |
+| 3 | la puerta niega un Edit sin declarar y nombra `bash .claude/cascada.sh` | `PreToolUse:Edit hook error: PUERTA DE LA CASCADA (T11): vas a actuar sobre 'arquitectura-se' sin haber declarado la NECESIDAD ... bash .claude/cascada.sh arquitectura-se -Necesidad <a,b>`. Antes, lo mismo con un `grep` de sólo lectura por **Bash** sobre la carpeta del proyecto | confirmado |
+| 4 | `cascada.sh` declara, lista lo exigido, y el Edit pasa | rc 0; listó 6 rangos (46 254 caracteres, ~13 K tokens); leídos con Read; el **mismo** Edit pasó | confirmado |
+| 5 | `fase_activa` inyecta la compuerta al tocar el proyecto | `PostToolUse:Read hook additional context: FASE ACTIVA de arquitectura-se ... NASA : Phase D, "System Assembly, Integration and Test, Launch"` en el **primer** Read sobre el proyecto (el HANDOFF), una sola vez | confirmado |
+
+Observaciones que **no** son rojo, para quien decida:
+
+- **El retome pidió leer «nada más» que dos tramos, y la puerta exigió 46 K
+  caracteres** para poder anotar acá. Es la observación (2) de la validación de
+  T11 (el cierre cuesta más lectura que la tarea), ahora también en la nube.
+- **La puerta frena también el Bash de sólo lectura** sobre un proyecto (un
+  `grep` de encabezados). Read y Grep pasan. No costó nada (se usó Grep), pero
+  un retome que diga «ubicar con grep» choca.
+- **Un Read hecho antes de declarar cuenta**: el HANDOFF se leyó (1-90) antes
+  de correr `cascada.sh` y la puerta no lo volvió a pedir. `probable` que sea
+  a propósito (lo que importa es haber leído); no se midió con un caso aislado.
+- El hallazgo del exigido inexistente (fila de arriba) **no** se pudo ver acá:
+  con el perfil traído, los seis exigidos existían.
+
+**R2 (la puerta en la nube): cerrado**, medido en la frontera real.
 
 ## 5. Orden de construcción
 
 R3 (la prueba de la frontera en Windows) → 3 → 4 → 1-2 → R5 → R6. **Hechos el
 2026-10-02: R3, 3 y 4** (§4 quinquies), más el `traer-perfil` automático y la
-puerta sin gate. Sigue la sesión real en la nube; después 1-2 (lo que queda: el
+puerta sin gate. **La sesión real en la nube, hecha el mismo día: las cinco
+mediciones en verde (§4 quinquies, «Medido en la nube real»).** Sigue 1-2 (lo que queda: el
 perfil ya no necesita copia, §4 quater). El rojo de `carrera` sin entrada en `.claude/cascada.json`
 quedó cerrado, y `nuevo-proyecto.ps1` ahora escribe la fila
 (`probar-nuevo-proyecto.ps1`).

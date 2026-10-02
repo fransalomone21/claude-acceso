@@ -10,8 +10,10 @@ llega a cualquier clon; en la nube calla lo que no tiene con qué correr y
 catálogo de la puerta. **Y el punto 4:** `.claude/cascada.sh` declara donde no
 hay PowerShell, la puerta corre **sin gate** (en la nube frena y deja declarar;
 sin intérprete falla cerrado) y el autotest de `fase_activa` dejó de esperar una
-fase escrita a mano y entró a `chequeo-completo` (que dio entero en verde). Falta
-una sesión real en la nube que lo mida ([`docs/t7-paridad-nube.md`](docs/t7-paridad-nube.md) §4 quinquies).
+fase escrita a mano y entró a `chequeo-completo` (que dio entero en verde). **Medido
+en la nube real el mismo día: las cinco en verde, R2 cerrado** (el libro llega,
+la puerta frena y `cascada.sh` la destraba, `fase_activa` habla;
+[`docs/t7-paridad-nube.md`](docs/t7-paridad-nube.md) §4 quinquies).
 
 **2026-10-02 — T12 CONSTRUIDA: el método pesa menos, medido**
 ([`docs/t12-simplificar.md`](docs/t12-simplificar.md); instrumento
