@@ -106,6 +106,16 @@ Caso 'fila del enrutador mas vieja que el ESTADO' {
     G $f.Raiz @('push', '-q')
 } 1 'ENRUTADOR es mas vieja'
 
+Caso 'CONTROL: fila que no copia el estado no se atrasa aunque el ESTADO cambie' {
+    param($f)
+    Escribir (Join-Path $f.Raiz 'CLAUDE.md') "# enrutador`n`n| [``demo/``](proyectos/ingenieria/demo/CLAUDE.md) | demo | ACTIVO |`n"
+    G $f.Raiz @('add', '-A'); G $f.Raiz @('commit', '-q', '-m', 'fila sin estado') -Fecha '2026-01-02T10:00:00'
+    Escribir (Join-Path $f.Pr 'ESTADO_ACTUAL.md') "# Estado actual`n`n## Fase 2 -- ABIERTA el 2026-01-03`n"
+    Escribir (Join-Path $f.Pr 'HANDOFF.md') "# Handoff 3`n"
+    G $f.Raiz @('add', '-A'); G $f.Raiz @('commit', '-q', '-m', 'fase 2') -Fecha '2026-01-03T10:00:00'
+    G $f.Raiz @('push', '-q')
+} 0 'no copia el estado'
+
 Caso 'documento en el disco que el contrato no nombra (aviso, no corta)' {
     param($f)
     Escribir (Join-Path $f.Pr 'docs\b-nuevo.md') "# b`n"
@@ -132,6 +142,6 @@ if ($fallas -gt 0) {
     Write-Host ""
     exit 1
 }
-Write-Host "  probar-cascada: TODO BIEN (7 casos, el control en verde y 6 fallas en rojo o aviso)" -ForegroundColor Green
+Write-Host "  probar-cascada: TODO BIEN (8 casos, los 2 controles en verde y 6 fallas en rojo o aviso)" -ForegroundColor Green
 Write-Host ""
 exit 0

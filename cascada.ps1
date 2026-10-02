@@ -329,9 +329,15 @@ if (-not $top) {
     # La fila del enrutador vive en OTRO archivo (y a veces en otro repo): se
     # compara por fecha. Mas vieja que el ESTADO_ACTUAL = el enrutador no se
     # entero del ultimo estado (regla 4: gana el proyecto, se corrige la fila).
+    # T12 (2026-10-02): la fila que NO copia el estado (solo que es y si esta activo) no tiene nada que se
+    # atrase, y exigirle la fecha obligaba a tocarla por tramite en cada checkpoint. Se vigila la que copia
+    # una fase, que es la que ya se contradijo con el proyecto (decia fase 5 cuando iba por la 7e).
+    $copiaEstado = ($fila.Count -gt 0) -and ($fila[0] -match '(?i)\bfase\b')
     $tEstado = Git-P @('log', '-1', '--format=%ct', '--', 'ESTADO_ACTUAL.md')
     $tFila = Git-P @('log', '-1', '--format=%ct', '-G', ([regex]::Escape($pr.Nombre + '/')), '--', 'CLAUDE.md') -En $Raiz
-    if ($tEstado -and $tFila) {
+    if (-not $copiaEstado -and $fila.Count -gt 0) {
+        Write-Host "    [x] la fila del enrutador no copia el estado (no nombra una fase): nada que se atrase" -ForegroundColor Green
+    } elseif ($tEstado -and $tFila) {
         if ([long]$tFila -lt [long]$tEstado) {
             $dias = [math]::Round(([long]$tEstado - [long]$tFila) / 86400, 1)
             Write-Host ("    [ ] la fila del ENRUTADOR es mas vieja que el ESTADO_ACTUAL ({0} dias): corregirla" -f $dias) -ForegroundColor Red
