@@ -594,12 +594,60 @@ en pausa; el pnach los repone en el cuadro siguiente, así que el control es con
   `panel+0x40`); para el HUD de J2 se arma una **segunda lista con el juego conmutado a J2** y se reproduce con un
   corrimiento a su mitad. Falta, en frío: quién arma la lista y si el 2D acepta un corrimiento global
   (`FUN_00266088`). La opción (b) sigue de respaldo.
+- **(112), en frío con dos métodos — el HUD de dos jugadores YA EXISTE y está apagado:**
+  - **Concepción.** El arranque (`FUN_001F21E8`) construye **dos paneles** (`0x0040F518`, `0xA8` cada uno), cada uno
+    con sus 15 elementos y su lista 2D. La carga los prende con la cuenta de jugadores: `FUN_001F2790(hud,
+    juego+0x20208)` en `0x00128F5C` (argumento en el delay slot `0x00128F60`, `lb a1, 520(v1)`), y con cuenta 1 fija
+    el rectángulo del panel 0 en (30, 22)–(610, 458). La lista la arman los elementos (`FUN_00278EC0(lista, capa,
+    marco)`), con posiciones relativas al **rectángulo del panel** (`+0x78..+0x84`, anclas de `FUN_001F1AD8`): el
+    corrimiento es ese rectángulo. Los elementos eligen al jugador por su número de panel (`panel · 0x8C0 + juego`,
+    11 constantes `li rX, 2240` en 8 funciones, que sólo alimentan esa multiplicación) o leen a J fijo.
+  - **Alternativas:** (a') prender el panel 2 del juego y hacerle leer a J2; (b) el HUD dibujado por el mod (la de
+    (103)); (c) reproducir la lista del panel 1 corrida, que muestra los valores de J en las dos mitades.
+  - **Elección: (a')**, con cuatro piezas:
+    1. **H1 dos paneles:** `0x00128F5C` `jal` al stub del HUD, que llama `FUN_001F2790(hud, 2)` y
+    2. **H2 rectángulos:** escribe el del panel 0 en la mitad izquierda y el del panel 1 (`+0x120..+0x12C`) en la
+       derecha, **antes** de `FUN_001F2340` (que activa los elementos con su rectángulo).
+    3. **H3 tipo difundido (P4):** la carga sólo pone el tipo del panel 0 (`FUN_001F2838(fachada, 0, 1)`); por cuadro,
+       si cambió, el stub llama `FUN_001F2838(fachada, 1, tipo del 0)` (con tipo 0 un panel no dibuja su lista).
+    4. **H4 el panel 2 lee a J2:** las 11 constantes en 0 (todos los elementos leen `jugadores[0]`; el panel 1 no
+       cambia) y la actualización del panel 2 (`jal FUN_001F1608` de `0x001F25DC`, `a0` = panel) con el juego
+       conmutado (P2, `juego' = J2 − 0x30`) y la cabecera sombra ampliada: `+0x1C`, `+0x20`, `+0x5AEC` (ya
+       reservadas, (100)) más `+0x5AAC`, `+0x5AB0`, `+0x5CA0`, `+0x8F0`, `+0x910`.
+  - **Lo que esto no resuelve (riesgos para la C):** (i) la activación de los elementos (`FUN_001F2340`) corre sin
+    conmutar: `FUN_001F9EF8` lee el arma de J para el panel 2 una vez (se refresca por cuadro, `probable`); (ii) el
+    elemento 5 (`0x19B0`, vtable `0x003E0A68`) pausa el juego con `FUN_0027F818(juego)`: conmutado escribiría
+    `juego'+0x28`; política: sus mensajes sólo en el panel de J1 (no se registra en el panel 2) o sombra de `+0x28`;
+    (iii) los avisos que el juego le da al HUD por la fachada `0x0040F51C` llevan el número de panel (23 llamadores de
+    `FUN_001F2838`, 5 de `FUN_001F28D0` el indicador de daño): los de J2 llegarían con 0 hasta que se los dirija
+    (`hipótesis`, sin censar); (iv) el tamaño: los elementos se corren con el rectángulo, su escala sale de la
+    resolución (`FUN_001F1530`): en media pantalla pueden quedar apretados.
+  - **Sonda del concepto (en vivo, escrita antes):** H1 + H2 + H3 por PINE en una carga → **dos HUD, uno por mitad**,
+    los dos con los valores de J (sin H4). Control: sin el stub, un HUD. Después H4: la mitad derecha muestra la vida y
+    la munición de J2 (gastar balas de J2 cambia sólo la derecha).
 
 ### Cuerpos: los dos con skin de aliado
 
 - Aprobada la opción 2 de T8: un cuerpo por jugador. Falta en frío (R9) la receta del prototipo de (93i) (soldado por
   spawner, bando 0, grupo de colisión 4): qué spawner usó, si puede no gastar uno del guion, y el filtro por pasada
   (el cuerpo de J oculto en la pasada 1 y visible en la 2; el de J2, al revés).
+- **(112), en frío — el riesgo de (93i) tiene mecanismo, y hay un camino que no lo corre** (`probable`, C):
+  - **Por qué un spawner del guion se traba:** el temporizador `FUN_00174578` sólo hace nacer si el nacido anterior
+    (`spawner+0x24`) murió (`+0x38C` ∉ {0, 1}); descuenta `+0x2C` (los que le quedan; en 0 el spawner se da por
+    agotado) y guarda al nuevo en `+0x24`. Un títere invulnerable nacido de un spawner lo deja **ocupado para siempre**:
+    esa oleada no vuelve a hacer nacer y lo que espere su fin no llega.
+  - **El camino sin spawner:** la fábrica de actores `FUN_00178408(DAT_0040f4d4+0xFA4, tipo, …)` tiene **dos**
+    llamadores: el spawner (`FUN_001746E0`) y `FUN_00173028` (el armado de escuadras), que la llama con su propio
+    descriptor y sin spawner. Los tipos 0–2 van a `FUN_00178AE8` → `FUN_00178BC0` → `FUN_00138C80` (el alta de (83)),
+    que sólo cuenta un contador global (`*(+0xFA4)`, el que «sube solo» en (83)) y pide lugar en el pool de 16.
+  - **Elección:** el stub da de alta el cuerpo **llamando a la fábrica directo**, con los campos de un spawner enemigo
+    del nivel copiados (tipo `+0x18`, `+0x1C`, punto `+0x40`, `+0x08`, `+0x0C`, `+0x38`, `+0x29`, los que pasa
+    `FUN_001746E0`) y **sin tocar el spawner**; con el alta, bando 0 y grupo de colisión 4 (93i) y el corrimiento de
+    0,3 m. Sirve igual para el cuerpo de J (F3) en los 8 niveles: dos cuerpos = dos lugares del pool de 16 menos para
+    enemigos (`hipótesis`: alcanza).
+  - **Sonda del concepto (en vivo):** llamar la fábrica una vez por PINE (`llamar_una_vez.py`, en pausa) con el
+    descriptor de un spawner de Wilderness → nace un soldado y el spawner queda igual (`+0x24`, `+0x28`, `+0x2C` antes
+    = después). Control: el mismo spawner activado con su byte (83): `+0x24` pasa a apuntar al nacido y `+0x2C` baja.
 
 ### La IA, integrada y apagada
 

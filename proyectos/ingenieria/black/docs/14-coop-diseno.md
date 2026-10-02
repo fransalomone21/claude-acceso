@@ -151,6 +151,23 @@ sub3 (código)                  | 0x0046ED00 | 0x0046EE00 | reserva | -         
 armar V2 (código)              | 0x0046EE00 | 0x0046EF00 | reserva | -                                   | (101)
 traer J2 en la descarga        | 0x0012DDCC | 0x0012DDD0 | gancho  | jal 0x0016E3C0                      | (111)
 traer J2 (código)              | 0x0046F100 | 0x0046F180 | reserva | -                                   | (111)
+# (112) el HUD de dos jugadores del juego (docs/16, «HUD separado», (112)); el código va en «HUD de J2 (código)»
+HUD H1/H2 dos paneles          | 0x00128F5C | 0x00128F64 | gancho  | jal 0x001F2790; lb a1, 520(v1)      | (112)
+HUD H4 ventana del panel 2     | 0x001F25DC | 0x001F25E0 | gancho  | jal 0x001F1608                      | (112)
+HUD H4 paso 0 (1)              | 0x001F7C4C | 0x001F7C50 | gancho  | li a1, 2240                         | (112)
+HUD H4 paso 0 (2)              | 0x001F936C | 0x001F9370 | gancho  | li v1, 2240                         | (112)
+HUD H4 paso 0 (3)              | 0x001FB45C | 0x001FB460 | gancho  | li v1, 2240                         | (112)
+HUD H4 paso 0 (4)              | 0x001FB620 | 0x001FB624 | gancho  | li v1, 2240                         | (112)
+HUD H4 paso 0 (5)              | 0x001FBACC | 0x001FBAD0 | gancho  | li v0, 2240                         | (112)
+HUD H4 paso 0 (6)              | 0x001FBDB4 | 0x001FBDB8 | gancho  | li s5, 2240                         | (112)
+HUD H4 paso 0 (7)              | 0x001FBFD4 | 0x001FBFD8 | gancho  | li a0, 2240                         | (112)
+HUD H4 paso 0 (8)              | 0x001FD2BC | 0x001FD2C0 | gancho  | li a1, 2240                         | (112)
+HUD H4 paso 0 (9)              | 0x001FD444 | 0x001FD448 | gancho  | li a1, 2240                         | (112)
+HUD H4 paso 0 (10)             | 0x001FD534 | 0x001FD538 | gancho  | li v1, 2240                         | (112)
+HUD H4 paso 0 (11)             | 0x001FD64C | 0x001FD650 | gancho  | li a1, 2240                         | (112)
+cabecera sombra +0x8F0/+0x910  | 0x0046D6B0 | 0x0046D6D4 | reserva | -                                   | (112)
+cabecera sombra +0x5AAC/+0x5AB0 | 0x0047286C | 0x00472874 | reserva | -                                  | (112)
+cabecera sombra +0x5CA0        | 0x00472A60 | 0x00472A64 | reserva | -                                   | (112)
 ```
 
 ## 4. Interfaz con los otros mods
