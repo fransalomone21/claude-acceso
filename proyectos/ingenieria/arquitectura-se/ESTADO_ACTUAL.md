@@ -2,6 +2,19 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
+**2026-10-02 — T7 CERRADA (paridad nube/local).** Medida en la nube real (las
+cinco en verde) y, al traerla a la PC, el barrido de su último hallazgo destapó
+la clase entera: en la nube la puerta salteaba **en silencio** las skills y todo
+`perfil-global/` (vive al lado del árbol y `traer-perfil.sh` no copiaba las
+skills). Ahora la puerta **niega** ante un exigido inexistente, encuentra
+`perfil-global` en los dos lados y `traer-perfil.sh` instala y mide las skills;
+cada arreglo visto en rojo con la versión vieja. De paso: `cascada.ps1` sin
+`-Necesidad` reventaba, y `ninguna` decía «sin declarar» (los dos arreglados). El
+retome ahora no recorta lo que exige la puerta y encarga medir **efectos**, no
+comandos (lecciones 328-329). R4-R7 resueltos por flujo, reubicados en T5 o
+declarados ([`docs/t7-paridad-nube.md`](docs/t7-paridad-nube.md) §4 quinquies,
+«Cierre»). Lo que sigue abajo es cómo se llegó.
+
 **2026-10-02 — T7 (paridad nube/local), R3 y punto 3 construidos.** En Windows
 los hooks corren por Git Bash y `$CLAUDE_PROJECT_DIR` se expande (**confirmado**
 en la sesión viva); `.claude/settings.json` va **trackeado** con esa variable y

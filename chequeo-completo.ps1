@@ -108,6 +108,8 @@ $saboteadores = @(
     @{ nombre = 'saboteador de nuevo-proyecto';   cmd = '.\probar-nuevo-proyecto.ps1' }
     @{ nombre = 'saboteador de la puerta';        cmd = 'python .claude\hooks\cascada_puerta.py --autotest' }
     @{ nombre = 'saboteador de fase_activa';      cmd = 'python .claude\hooks\fase_activa.py --autotest' }
+    # El bash de Git, no 'bash' a secas: en PowerShell 'bash' es el alias de WSL de WindowsApps.
+    @{ nombre = 'saboteador de traer-perfil';     cmd = '& "$env:ProgramFiles\Git\bin\bash.exe" .claude/nube/traer-perfil.sh --probar' }
 )
 
 function Correr($lista, $titulo) {

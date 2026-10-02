@@ -193,7 +193,7 @@ de la puerta y de la fase.
 | ~~`fase_activa.py` en Linux corre (rc 0) pero **no dice nada** con rutas POSIX~~ **Refutada** (2.ª sesión de retome): con una sesión nueva y ruta POSIX **sí** emite la compuerta; el patrón ya aceptaba `/`. El silencio de la medición anterior era, `probable`, la marca de «una vez por sesión» | WSL, sesión nueva, ruta `/mnt/c/...` | confirmado que habla; la causa del silencio viejo, `probable` |
 | **§3 punto 4 — `.claude/cascada.sh`**: envuelve `cascada_puerta.py --exige` con la sintaxis de `cascada.ps1` (`-Necesidad`, `-Excepcion`); elige `python` o `python3`. La puerta reconoce `cascada\.(ps1\|sh)` (también con `bash ` delante) en `LECTURA`, `DECL` y el registro de invocaciones, y el deny nombra el comando que sirve en esa máquina (mismo gate por capacidad: con PowerShell, `cascada.ps1`) | autotest de la puerta: 3 casos nuevos (declarar por `.sh` cuenta, un `echo` que lo nombra no, excepción por `.sh` pasa); con el reconocimiento viejo, **2 MAL** por el motivo correcto (pedía declarar). WSL: `cascada.sh` corre con sólo `python3` y el deny nombra `bash .claude/cascada.sh` | confirmado (Windows y Linux) |
 | **Puerta sin gate** en `settings.json` (Pre, Post y `compact`): `$(command -v python \|\| command -v python3)`, y en `PreToolUse` sin ninguno de los dos sale **2** (falla cerrado). `fase_activa` con el mismo respaldo (WSL no tiene `python`) | `probar-settings.py` casos 6 (precondición: sin PowerShell y con python; la puerta frena y nombra `cascada.sh`; `cascada.sh` lista lo exigido; su declaración cuenta; sin intérprete rc 2): con el `settings.json` viejo **3 FAIL**, con el nuevo verde. En la sesión viva, un `Write` sobre un proyecto sin declarar salió negado con el comando nuevo | confirmado en Windows simulando la nube; en la nube real `hipótesis` |
-| **Hallazgo, sin arreglar a propósito (fase D: no se rediseña en la marcha):** si un archivo que el catálogo exige **no existe** (en la nube sin perfil: la skill `pdf-con-codigo`), la puerta **deja pasar en silencio** — sólo lo anota, y sin otra cosa pendiente sale 0. Es un `return` temprano que falla abierto (Saltzer). Con el perfil traído no pasa; sin perfil, la regla 16 ya frena por otro lado | autotest de la puerta en WSL: «concepto typst sin leer pdf-con-codigo» da **pasa** | confirmado; decisión de diseño pendiente (¿el «NO EXISTE» de un exigido niega, con la reparación del catálogo como salida?) |
+| **Hallazgo, sin arreglar a propósito (fase D: no se rediseña en la marcha):** si un archivo que el catálogo exige **no existe** (en la nube sin perfil: la skill `pdf-con-codigo`), la puerta **deja pasar en silencio** — sólo lo anota, y sin otra cosa pendiente sale 0. Es un `return` temprano que falla abierto (Saltzer). Con el perfil traído no pasa; sin perfil, la regla 16 ya frena por otro lado | autotest de la puerta en WSL: «concepto typst sin leer pdf-con-codigo» da **pasa** | confirmado. **Arreglado el 2026-10-02 (PC, cierre de la T7)**: no era rediseño sino un defecto, y la clase era más grande que el caso (ver abajo, «Cierre») |
 | El saboteador de las líneas de comando: `.claude/probar-settings.py` (16 casos, Git Bash, `bash -c`, payload por stdin), llamado por `probar-hooks.ps1` | rojo con el `settings.json` viejo; 3 rojos con un mutante (gate de la puerta invertido); el enganche en `probar-hooks` también se vio en rojo | confirmado |
 
 **Medido en la nube real (2026-10-02, sesión de claude.ai/code, `claude-acceso`
@@ -226,12 +226,46 @@ Observaciones que **no** son rojo, para quien decida:
 
 **R2 (la puerta en la nube): cerrado**, medido en la frontera real.
 
+**Cierre (2026-10-02, PC, la sesión que trajo la medición a `main`).** Lo que
+quedaba abierto, resuelto o decidido:
+
+| Qué | Qué se hizo | Cómo se midió |
+|---|---|---|
+| **El exigido inexistente dejaba pasar** — y el barrido de la clase mostró que no era un solo concepto: en la nube `perfil-global` vive **al lado** del árbol (`/home/user/perfil-global`), así que **todo** `perfil-global/...` del catálogo daba NO EXISTE, y `traer-perfil.sh` no copiaba las **skills**. Una sesión que declaraba `diseno`, `ingenieria-inversa` o `investigar` en la nube salteaba en silencio NASA, Rechtin, Feathers y `lecciones-aprendidas` | (1) la puerta **niega** ante un exigido que no existe y nombra la salida (`traer-perfil.sh`, o corregir el catálogo); (2) `perfil-global/...` resuelve también al lado del árbol (o en `$PERFIL_DIR`); (3) `traer-perfil.sh` instala las skills y mide que estén todas | autotest de la puerta +2 casos, **los dos MAL con un mutante sin los arreglos**; `traer-perfil.sh --probar` con la skill en el control positivo, **FALLA con el script viejo**; instalación real a una carpeta temporal: 7 skills de 7 |
+| `cascada.ps1 <p>` **sin** `-Necesidad` reventaba (`TypeError`: una variable local tapaba la función `entrada()` que nombra el comando de cada máquina) | renombrada la variable | la versión vieja revienta, la nueva imprime el menú |
+| `-Necesidad ninguna` imprimía «NECESIDAD SIN DECLARAR» (validaciones 4 y 5 de T11) | la CLI distingue «no se pasó» de «se pasó sólo `ninguna`»; la puerta ya la registraba bien | corrida a mano: ya no lo imprime |
+| Un Read hecho **antes** de declarar cuenta (`probable` en la nube) | nada: es a propósito (lo que importa es que el texto entró al contexto) | caso nuevo del autotest: pasa → **confirmado** |
+| La puerta frena el Bash de **sólo lectura** | queda así: `grep … \| head` y `grep … 2>/dev/null` **pasan** (casos nuevos); lo que frena es un `cd X && grep`, porque un `&&` puede llevar cualquier cosa atrás. Para ubicar sin declarar están Read y Grep | 3 casos nuevos del autotest |
+| El retome pedía «leer nada más» que dos tramos y la puerta exigió 46 K | **regla del retome** (`perfil-global/apertura-proyecto.md`, punto 1): lo que exige la puerta no se recorta, se nombra la necesidad. No se crea una necesidad «liviana»: la salida barata y registrada ya existe (`-Excepcion`) y ~13 K tokens por sesión no justifican abrir un atajo | — |
+| La medición 1 del retome estaba escrita como comando (`echo`) y medía la consola, no el hook | **regla del retome**, punto 7 nuevo: lo que se encarga medir se escribe como el EFECTO. Lecciones 328 y 329, foldeadas en el núcleo | `aprender.py sin-triage`: nada pendiente |
+
+**Lo que T7 no construye, y por qué** (el diseño del §3 era anterior al libro
+por flujo del §4 quater):
+
+- **R4** (copia generada del perfil): no hace falta; el perfil se lee del repo.
+- **R5** (bandeja de lecciones): resuelto por el mismo flujo — en la nube
+  `aprender.py` corre sobre el clon de `perfil-global` y se commitea y pushea
+  ahí (`traer-perfil.sh` lo dice al terminar). `probable`: ninguna sesión en
+  la nube registró una lección todavía.
+- **R6** (`pasar-a-nube.ps1`): lo que le quedaba —que el retome sólo mande a
+  leer lo que existe en el clon (§4 bis, 3)— es exactamente **T5, validador de
+  retomes**; va ahí.
+- **R7** (criterios de cátedra generados desde `catedras`): es de
+  `software-de-vuelo`, con su hueco ya declarado (§4).
+- Compilador de apuntes, pymupdf y gcc en la nube: se instalan a mano cuando
+  el proyecto los pide (§4 ter); un *setup script* sólo si una segunda sesión
+  lo vuelve a necesitar.
+
+**T7 CERRADA**: R1 (por flujo), R2 y R3 medidos en la frontera real; R4 a R7
+resueltos, reubicados o declarados arriba.
+
 ## 5. Orden de construcción
 
 R3 (la prueba de la frontera en Windows) → 3 → 4 → 1-2 → R5 → R6. **Hechos el
 2026-10-02: R3, 3 y 4** (§4 quinquies), más el `traer-perfil` automático y la
 puerta sin gate. **La sesión real en la nube, hecha el mismo día: las cinco
-mediciones en verde (§4 quinquies, «Medido en la nube real»).** Sigue 1-2 (lo que queda: el
-perfil ya no necesita copia, §4 quater). El rojo de `carrera` sin entrada en `.claude/cascada.json`
+mediciones en verde (§4 quinquies, «Medido en la nube real»).** 1-2, R5 y R6
+no se construyen: el perfil se lee del repo (§4 quater) y lo que quedaba de R6
+es T5 (§4 quinquies, «Cierre»). **T7 cerrada el 2026-10-02.** El rojo de `carrera` sin entrada en `.claude/cascada.json`
 quedó cerrado, y `nuevo-proyecto.ps1` ahora escribe la fila
 (`probar-nuevo-proyecto.ps1`).

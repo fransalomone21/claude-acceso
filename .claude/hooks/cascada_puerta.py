@@ -137,7 +137,16 @@ def expandir(ruta: str, proy: Path | None):
     if proy is not None:
         r = r.replace("{proy}", str(proy)).replace("{nat}", proy.parent.name)
     r = os.path.expanduser(r)
-    return Path(r) if os.path.isabs(r) else RAIZ / r
+    if os.path.isabs(r):
+        return Path(r)
+    # En la PC perfil-global vive ADENTRO del arbol (repo propio, ignorado); en la nube, al LADO (/home/user/
+    # perfil-global, lo clona traer-perfil.sh). Sin esto, todo lo de perfil-global/ daba NO EXISTE en la nube y la
+    # puerta lo salteaba en silencio: una sesion que declaraba 'diseno' no leia NASA ni Rechtin (T7, 2026-10-02).
+    if re.match(r"perfil-global[/\\]", r) and not (RAIZ / r).exists():
+        afuera = Path(os.environ.get("PERFIL_DIR") or RAIZ.parent / "perfil-global") / re.sub(r"^perfil-global[/\\]", "", r)
+        if afuera.exists():
+            return afuera
+    return RAIZ / r
 
 
 def rango(path: Path, spec: dict):
@@ -405,7 +414,12 @@ def pre(ev: dict) -> int:
     cpend = [c for c in cmds_faltan if c["sub"].lower() not in hechos]
     if any(n.startswith("NECESIDAD DESCONOCIDA") for n in notas):
         cpend.append({"sub": "%s %s -Necesidad <una del menu>" % (entrada(), proyecto), "por": "declarada una que no existe"})
-    if not pend and not cpend:
+    # Un exigido que NO EXISTE niega: antes solo se anotaba y, sin otra cosa pendiente, la puerta salia 0 -- un
+    # return temprano que fallaba abierto en silencio (Saltzer). En la nube sin perfil eso salteaba las skills y las
+    # fichas enteras. Lo legitimo no lo choca: en la PC --verificar ya da rojo en el arranque si el catalogo apunta
+    # a un archivo que no esta.
+    no_existe = [n for n in notas if n.startswith("NO EXISTE")]
+    if not pend and not cpend and not no_existe:
         return 0
     lin = ["PUERTA DE LA CASCADA (T11): antes de esta accion (%s%s) falta LEER con la herramienta Read:" % (
         "proyecto " + proyecto if proyecto else "", ("; conceptos " + ", ".join(conceptos)) if conceptos else "")]
@@ -415,6 +429,10 @@ def pre(ev: dict) -> int:
         lin.append("  - CORRER: %s   (%s)" % (c["sub"], c["por"]))
     for n in notas:
         lin.append("  ! " + n)
+    if no_existe:
+        lin.append("Un archivo EXIGIDO que no existe NIEGA (falla cerrado). Si es de ~/.claude o de perfil-global: "
+                   "falta el libro -> bash .claude/nube/traer-perfil.sh (regla 16). Si no: corregir .claude/cascada.json "
+                   "(editarlo no lo frena la puerta).")
     lin.append("Leer entero el rango (se puede en varias lecturas). La accion se reintenta despues.")
     return deny("\n".join(lin))
 
@@ -529,9 +547,9 @@ def cli_exige(proyecto: str, necs) -> int:
     if not p:
         print("  proyecto '%s' no resuelve a uno solo" % proyecto)
         return 1
-    entrada = cat.get("proyectos", {}).get(p)
+    ent = cat.get("proyectos", {}).get(p)
     print("  EXIGIDO POR LA PUERTA (T11) para %s -- leer con Read, con estos rangos, ANTES de actuar:" % p)
-    if entrada is None:
+    if ent is None:
         print("  ! %s no tiene entrada en .claude/cascada.json: solo la base" % p)
     items, cmds, notas = exigido(cat, p, necs, [])
     total = 0
@@ -547,11 +565,13 @@ def cli_exige(proyecto: str, necs) -> int:
     print("  total: %d caracteres (~%d K tokens), una vez por sesion" % (total, total // 3500))
     # Herramientas y RESPALDO de cada necesidad (Fran, 2026-10-02: saber ir a buscar las herramientas y el backup
     # de cada tarea). Se imprimen, no se exigen: son el flujo de informacion, no la puerta.
-    for n in dict.fromkeys(list((entrada or {}).get("necesidades", [])) + list(necs or [])):
+    for n in dict.fromkeys(list((ent or {}).get("necesidades", [])) + list(necs or [])):
         hs = cat.get("necesidades", {}).get(n, {}).get("herramientas", [])
         if hs:
             print("  HERRAMIENTAS Y RESPALDO (%s): %s" % (n, " | ".join(hs)))
-    if not necs:
+    # None = no se paso -Necesidad; [] = se paso solo 'ninguna' (que el __main__ filtra), y eso SI declara: la puerta
+    # la registra igual. Con 'if not necs' imprimia SIN DECLARAR a quien acababa de declarar (validaciones 4 y 5).
+    if necs is None:
         print("  NECESIDAD SIN DECLARAR. La puerta no deja actuar hasta: %s %s -Necesidad <a,b>" % (entrada(), p))
         print(menu(cat))
     print("  PREGUNTA DE MARCO, antes de actuar: que tendria que ser verdad para que esto sea el problema "
@@ -634,6 +654,7 @@ def cli_verificar() -> int:
 
 def autotest() -> int:
     """Corre el hook como lo corre Claude Code (subproceso, JSON por stdin) con estado y log aislados."""
+    global RAIZ  # el caso 10f lo cambia un momento (perfil-global al lado del arbol) y lo restaura
     import subprocess
     tmp = Path(tempfile.mkdtemp(prefix="cascada-autotest-"))
     env = dict(os.environ, CASCADA_ESTADO_DIR=str(tmp / "estado"), CASCADA_LOG_EXC=str(tmp / "exc.log"))
@@ -749,6 +770,45 @@ def autotest() -> int:
     s11 = sid + "-sh-exc"
     correr(pre_ev("Bash", {"command": ".claude/cascada.sh black -Excepcion \"autotest: la nube\""}, s11))
     caso("CONTROL: excepcion por cascada.sh -> pasa", correr(pre_ev(*edit_black, s=s11)), False)
+    # 10e. un exigido que NO EXISTE niega (antes: pasaba en silencio; medido en WSL y por estructura en la nube)
+    cat_f = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
+    cat_f.setdefault("conceptos", {})["fantasma"] = {"comando": r"\bfantasma-autotest\b",
+                                                     "leer": [{"ruta": "~/.claude/no-existe-autotest-%d.md" % os.getpid(),
+                                                               "por": "autotest"}]}
+    fantasma = tmp / "fantasma.json"
+    fantasma.write_text(json.dumps(cat_f, ensure_ascii=False), encoding="utf-8")
+    caso("exigido que NO EXISTE -> deny y dice traer-perfil",
+         correr(pre_ev("Bash", {"command": "fantasma-autotest x"}, sid + "-fan"), {"CASCADA_CATALOGO": str(fantasma)}),
+         True, "traer-perfil")
+    # 10f. perfil-global AL LADO del arbol (la nube: /home/user/perfil-global) resuelve igual que adentro (la PC)
+    raiz_vieja = RAIZ
+    (tmp / "arbol").mkdir()
+    (tmp / "perfil-global" / "pilares").mkdir(parents=True)
+    (tmp / "perfil-global" / "pilares" / "x.md").write_text("x\n", encoding="utf-8")
+    RAIZ = tmp / "arbol"
+    try:
+        p_al_lado = expandir("perfil-global/pilares/x.md", None)
+    finally:
+        RAIZ = raiz_vieja
+    ok = p_al_lado is not None and p_al_lado.exists()
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "perfil-global al lado del arbol (la nube) -> lo encuentra",
+                               "si" if ok else "NO (%s)" % p_al_lado))
+    # 10g. un Read hecho ANTES de declarar cuenta igual: lo que importa es que el texto entro al contexto
+    s12 = sid + "-antes"
+    for x in exigido(cat, "black", ["diseno"], [])[0]:
+        correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s12))
+    correr(pre_ev("PowerShell", {"command": ".\\cascada.ps1 black -Necesidad diseno"}, s12))
+    correr(pre_ev("PowerShell", {"command": ".\\proyectos\\ingenieria\\black\\abrir-sesion.ps1 -Rapido"}, s12))
+    caso("CONTROL: leido ANTES de declarar -> cuenta, pasa", correr(pre_ev(*edit_black, s=s12)), False)
+    # 10h. Bash de solo lectura, como lo escribe la nube: pasa. Encadenado a un cd, no (a proposito: un ';' o un '&&'
+    # puede llevar cualquier cosa atras; para ubicar sin declarar estan Read y Grep)
+    caso("CONTROL: grep | head por Bash sobre black -> pasa",
+         correr(pre_ev("Bash", {"command": "grep -n '^## ' proyectos/ingenieria/black/PDP.md | head -20"}, s2)), False)
+    caso("CONTROL: grep -rn con 2>/dev/null sobre black -> pasa",
+         correr(pre_ev("Bash", {"command": "grep -rn 'Fase' proyectos/ingenieria/black 2>/dev/null"}, s2)), False)
+    caso("cd X && grep (encadenado) sobre black -> deny",
+         correr(pre_ev("Bash", {"command": "cd proyectos/ingenieria/black && grep -n x PDP.md"}, s2)), True)
     # 11. otra sesion no hereda nada (A11: dos sesiones en el mismo arbol)
     caso("otra sesion no hereda lo leido por esta -> deny", correr(pre_ev(*edit_black, s=sid + "-d")), True)
     # 12. falla cerrado con catalogo roto; la salida de reparacion pasa igual

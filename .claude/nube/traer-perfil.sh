@@ -45,12 +45,26 @@ traer() {
     done
     [ -f "$perfil/herramientas/aprender.py" ] && cp "$perfil/herramientas/aprender.py" "$destino/herramientas/"
     [ -d "$perfil/aprendizaje/fichas" ] && cp -r "$perfil/aprendizaje/fichas" "$destino/aprendizaje/"
-    # Se mide el EFECTO: lo instalado tiene la marca y no esta vacio.
+    # Las skills (perfil-global/<s>/SKILL.md -> ~/.claude/skills/<s>/, como install.ps1). La puerta exige leer
+    # varias, y sin esto en la nube no estaban: la puerta las salteaba en silencio (T7, 2026-10-02).
+    local d s esperadas=0 puestas=0
+    for d in "$perfil"/*/; do
+        [ -f "$d/SKILL.md" ] || continue
+        s="$(basename "$d")"
+        esperadas=$((esperadas+1))
+        mkdir -p "$destino/skills/$s" && cp -r "$d". "$destino/skills/$s/"
+        [ -f "$destino/skills/$s/SKILL.md" ] && puestas=$((puestas+1))
+    done
+    # Se mide el EFECTO: lo instalado tiene la marca y no esta vacio, y estan todas las skills.
     if ! grep -q "$MARCA" "$destino/CLAUDE.md" 2>/dev/null; then
         echo "[ROJO] se copio pero $destino/CLAUDE.md no tiene el perfil."
         return 1
     fi
-    echo "[OK] perfil instalado en $destino (de $perfil, commit $(git -C "$perfil" rev-parse --short HEAD 2>/dev/null))"
+    if [ "$puestas" -ne "$esperadas" ]; then
+        echo "[ROJO] skills: $puestas de $esperadas instaladas en $destino/skills."
+        return 1
+    fi
+    echo "[OK] perfil instalado en $destino (de $perfil, commit $(git -C "$perfil" rev-parse --short HEAD 2>/dev/null)), $puestas skills"
     echo
     echo "LEER AHORA, con Read, ENTEROS y en este orden, ANTES de cualquier tarea:"
     echo "  1. $perfil/CLAUDE-global.md        las reglas (y la 16: el libro primero)"
@@ -73,9 +87,11 @@ probar() {
     mkdir -p "$tmp/p/herramientas" && git -C "$tmp/p" init -q
     printf '# %s -- Fran (prueba)\n' "$MARCA" > "$tmp/p/CLAUDE-global.md"
     echo nucleo > "$tmp/p/chequeo-nucleo.md"; echo 'print(1)' > "$tmp/p/herramientas/aprender.py"
+    mkdir -p "$tmp/p/una-skill" && echo '# skill' > "$tmp/p/una-skill/SKILL.md"
     out="$(traer "$tmp/p" "$tmp/d2")"; rc=$?
-    if [ $rc -eq 0 ] && grep -q "$MARCA" "$tmp/d2/CLAUDE.md" && [ -f "$tmp/d2/chequeo-nucleo.md" ]; then
-        echo "[OK] perfil valido -> verde, y ~/.claude/CLAUDE.md con el perfil adentro"
+    if [ $rc -eq 0 ] && grep -q "$MARCA" "$tmp/d2/CLAUDE.md" && [ -f "$tmp/d2/chequeo-nucleo.md" ] \
+       && [ -f "$tmp/d2/skills/una-skill/SKILL.md" ]; then
+        echo "[OK] perfil valido -> verde, ~/.claude/CLAUDE.md con el perfil y la skill en skills/"
     else echo "[FALLA] perfil valido tenia que instalar y dar verde (rc=$rc)"; malos=$((malos+1)); fi
     # 3. perfil sin la marca (repo equivocado o vacio): rojo
     printf 'otra cosa\n' > "$tmp/p/CLAUDE-global.md"
