@@ -7,7 +7,7 @@
     {"ruta": "plantillas/naturalezas/{nat}.md", "por": "nivel 3: la naturaleza"},
     {"ruta": "{proy}/CLAUDE.md", "por": "nivel 4: el contrato"},
     {"ruta": "{proy}/ESTADO_ACTUAL.md", "vista_h2": 2, "tope": 300, "por": "nivel 5: donde quedamos (la vista)"},
-    {"ruta": "{handoff}", "vista_h2": 2, "tope": 300, "por": "nivel 5: lo ultimo que dejo la sesion anterior"},
+    {"ruta": "{handoff}", "vista_h2": 2, "tope": 80, "por": "nivel 5: lo ultimo que dejo la sesion anterior (el bloque de arriba: T12 midio que el resto es historia apilada)"},
     {"ruta": "{proy}/PDP.md", "desde": "^## 4\\b", "hasta": "^## ", "tope": 300, "por": "la fase en curso y que la cierra"}
   ],
 
@@ -42,8 +42,8 @@
       "herramientas": ["/spec-interview y /verify-before-build", "verificar-requisito.py (GtWR)", "trade study con pesos de Fran (nunca de la sesion)", "respaldo: el diseno escrito en el repo antes de tocar nada vivo"],
       "leer": [
         {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "desde": "^## Qu. leer", "hasta": "^## ", "por": "el indice de las fichas NASA / INCOSE / Rechtin segun la tarea"},
-        {"ruta": "perfil-global/pilares/nasa-seh/README.md", "por": "que tramo del handbook NASA contesta que"},
-        {"ruta": "perfil-global/pilares/rechtin-maier/README.md", "por": "las heuristicas de arquitectura y donde estan"},
+        {"ruta": "perfil-global/pilares/nasa-seh/README.md", "desde": "^## Estado de la lectura", "hasta": "^## ", "por": "que tramo del handbook NASA contesta que"},
+        {"ruta": "perfil-global/pilares/rechtin-maier/README.md", "desde": "^## C.mo est. organizado", "hasta": "^## ", "por": "las heuristicas de arquitectura y donde estan"},
         {"ruta": "~/.claude/skills/spec-interview/SKILL.md", "por": "antes de construir algo no trivial: el spec"},
         {"ruta": "~/.claude/skills/verify-before-build/SKILL.md", "por": "y despues el chequeo de tres capas"},
         {"ruta": "{memoria}/feedback_preguntas-solo-de-necesidad.md", "por": "lo tecnico se decide; metas y pesos se preguntan"}
@@ -54,13 +54,9 @@
       "herramientas": ["chequeo-completo.ps1 (medidores y saboteadores)", "el primer uso real es parte de la suite", "respaldo: .claude\\desinstalar-hooks.ps1 y los .bak de settings/CLAUDE.md"],
       "leer": [
         {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "por": "el contrato de la reforma"},
-        {"ruta": "proyectos/ingenieria/arquitectura-se/docs/diagnostico-2026-09-28.md", "por": "que esta roto, medido, y en que orden"},
-        {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^ANTES DE PONER UN FRENO NUEVO$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "fijate si ya existe uno que mida el efecto"},
-        {"ruta": "~/.claude/chequeo-de-trabajo.md", "desde": "^CUANDO PONES UN FRENO, UNA ALARMA O UN GUARDIA$", "hasta": "^[A-Z][A-Z ,()\\-\"'/]{12,}$", "por": "las dos mitades de toda suite"},
-        {"ruta": "perfil-global/pilares/leverage-points.md", "por": "ubicar la intervencion en la escala"},
-        {"ruta": "perfil-global/pilares/saltzer-schroeder.md", "por": "un freno se disena por permiso"},
-        {"ruta": "perfil-global/pilares/mutation-testing.md", "por": "un sabotaje que pasa por la razon equivocada"}
-      ]
+        {"ruta": "proyectos/ingenieria/arquitectura-se/docs/diagnostico-2026-09-28.md", "desde": "^## 3\\.", "hasta": "^## ", "por": "que esta roto y en que orden: el camino critico (el detalle de cada problema, A1-A12, se abre si la tarea lo pide)"}
+      ],
+      "_recortado": "T12 (2026-10-02, docs/t12-simplificar.md §7.2): salieron las fichas de Meadows, Saltzer y mutation testing (su pilar ya entra inyectado al abrir sesion) y los dos tramos de chequeo-de-trabajo sobre frenos (los exige el concepto 'freno' en el momento de tocar uno, y al-paso los inyecta). Costo de metodo,diseno: 137 884 -> medido en el doc."
     },
     "investigar": {
       "que": "investigar o depurar algo que falla, o algo que anda y no se sabe por que",
