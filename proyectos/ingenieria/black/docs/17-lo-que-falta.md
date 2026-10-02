@@ -21,6 +21,19 @@ La pregunta de frío que separa A de B es la misma: **cada lectura de «el jugad
 global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) o algo que el mundo **pregunta**
 (generalizar)? Ese censo es la tarea 1 de la nube.
 
+## Cerrado o movido en (111), 2026-10-02 (detalle: bitácora (111), `sesiones/PREDICCIONES-111.md`)
+
+- **N1 y N2 CERRADAS (confirmado con control):** con la IA (prendida por defecto) un enemigo elige a J2 y le baja la
+  vida sin que J2 dispare; sin la IA, nunca. Límite: la amenaza actual es la primera percibida.
+- **F10 CERRADA por daño real:** un disparo enemigo mata a J2 y sale «MISSION FAILED» con J vivo.
+- **F4 confirmado con control y su sonda del concepto (S4) también:** con el aislador J2 no suena; sin él, como J.
+  El arreglo es la `V2` propia (`docs/16`, clase A).
+- **N4 con diseño y sonda del concepto:** traer a J2 junto a J en la descarga de la unidad vieja (`docs/16`, sección
+  nueva; sitio `0x0012DDCC` en `coop-plan-b`). El teletransporte anda (confirmado); el síntoma sin arreglo, sin medir.
+- **N12 a medias:** reiniciar misión anda (110); «continuar» no se pudo elegir sin punto de control alcanzado.
+- **F1 (y N9) con su sonda del concepto confirmada:** J2 junta el arma que está bajo J, no la suya (`s1_juntar.py`);
+  el diseño de `docs/16` (preguntar también por J2, `CAND2`) queda apoyado en algo medido. Construirlo es de la C.
+
 ## Lo que ya se vio (Fran o las sondas)
 
 | ID | Qué falta, en criollo | Evidencia | Pista | Frío / vivo |

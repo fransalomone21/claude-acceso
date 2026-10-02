@@ -63,6 +63,27 @@ rumbo y misma duración desde casi el mismo punto; la segunda, desde otro destin
 Con esto el diseño de T3 queda en `docs/16` (alternativa 1: gancho `0x0012DDCC` en la descarga, que corre ANTES de
 sacar la colisión) y en `coop-plan-b`. El síntoma sin arreglo sigue sin medir (pide un cambio de unidad jugando).
 
+## S1 — juntar: candidato compartido, consumidor por jugador
+La predicción y el control son los de `docs/16` («Sonda del concepto» de juntar, escrita en (100), antes de esta
+tanda). Herramienta: `herramientas/s1_juntar.py` (recogibles: `*(0x0040F4E4)` + i·0x160, posición `+0xA0`, tipo
+`+0x140`, banderas `+0x152`; candidato `pickups+0x5848`).
+**Resultado (City Streets):** J puesto sobre el arma 29 y J2 a 7,9 m mantiene «agarrar» → el candidato es esa arma
+(5 de 5 lecturas), **J2 la levanta** (arma nueva en su ranura 1, en la mano), el arma desaparece del piso (`+0x152`
+4 → 0) y J no cambia de arma (recibe 120 balas: la munición de al lado la toca J, como dice el diseño). **Control:**
+J2 encima del arma 25 (0,3 m) y J a 5,1 m → candidato 0, nada cambia, el arma sigue. **Confirmado.**
+Trampa medida en el camino: en City Streets el primer control salió inválido porque el teletransporte de una sola
+escritura se pisa (ver T3b); con `teletransporte.py` (tres lugares) quedó limpio.
+
+## T3b — el teletransporte en City Streets (corrige T3a)
+Medido: escribir sólo `J2+0xA0` en City Streets **vuelve al lugar viejo en el mismo cuadro**. Vigilante de escritura
+sobre `J2+0xA0`: `0x00126014` dentro de `FUN_00125F88` («poner la matriz»; ignora saltos de más de 50 m si
+`+0xC4` = 4), llamada por el mover (`0x133044`) y por el callback del controlador (`FUN_0025D110` → `FUN_00387FC0`,
+`ra` `0x388184`), más `0x0012603C` desde `0x1356EC`. El controlador **sí** guarda la posición, en el motor de física:
+`e0c+0x40` (`e0c = *(*(ctrl+0x34)+0xC)`) y el cuerpo `*(e0c+0x58)+0x10`. Escribiendo los tres: se sostiene (0,00 m) y
+camina 8,9 m. La lectura de T3a («el controlador no guarda copia») era de buscar en el lugar equivocado (0x400 B del
+controlador, que es chico y apunta afuera): queda corregida acá y en `docs/16`. En Town alcanzó una escritura porque
+el controlador estaba quieto (hipótesis: en City Streets lo mantiene activo el títere superpuesto a J2).
+
 ## T1b — J2 muere por daño REAL (escrita después de `t1-ia-1`, antes de esta corrida)
 Banco: el mismo, con la vida de J2 en 40 escrita a mano (la vida en 0 escrita no mata, (93f); acá el 0 lo pone el daño)
 y J en 1e6. **Predicción:** al llegar a 0 por los disparos, J2 pasa a su segundo controlador (`J2+0x32C` =

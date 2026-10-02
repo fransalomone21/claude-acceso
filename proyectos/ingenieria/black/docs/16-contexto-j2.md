@@ -227,9 +227,11 @@ la actualización de J2 (el gancho por cuadro que ya existe), `+0x5848/+0x584C` 
 salen solos con la opción 1 (se aplican al jugador conmutado). **El cartel «HOLD □» de J2** espera al HUD (F5).
 **Pregunta para Fran:** ¿un botiquín lo toma el que pasa (como hoy), o se reparte?
 
-### Sonda del concepto (vivo, sin instalar nada nuevo)
+### Sonda del concepto (vivo, sin instalar nada nuevo) — **HECHA (111), confirmada con control** (`s1_juntar.py`)
 
 Sirve para confirmar la concepción **antes** de construir: *candidato compartido, consumidor por jugador*.
+**Resultado:** J sobre un arma y J2 a 7,9 m con «agarrar» → J2 la levanta y J no cambia; J2 sobre otra arma y J a
+5 m → candidato 0 y nada (bitácora (111), `sesiones/PREDICCIONES-111.md`).
 - **Predicción:** J parado sobre un arma que J no tiene y J2 a más de 20 m; J2 mantiene □ (mando falso 2,
   `mando_j2.py boton agarrar 1.0`): **J2 levanta el arma que está bajo J** (el arma de J2 cambia, `armas_j2.py`, y el
   recogible desaparece del piso) y J no cambia.
@@ -614,8 +616,12 @@ pide llegar a un cambio de unidad jugando.
 | 2. frenar la descarga hasta que J2 llegue | no descargar mientras J2 esté en la unidad vieja | caro: la descarga la pide el streaming, que no espera | memoria: la unidad siguiente no entra |
 | 3. que los disparadores miren a los dos | conmutables limpios (98) | medio | no evita la descarga: sólo cambia quién la pide |
 
-**Elección: 1.** La sonda del concepto ya está hecha: **escribir sólo `J2+0xA0` en pausa lo deja donde se pone y
-camina normal desde ahí** (111, confirmado en RAM con control: a 0,02 m del destino; 9 m caminando a otro lugar). El
-controlador de colisión de `J2+0xB4` no guarda copia de la posición (0 campos en 0x400 B): recibe desplazamientos.
+**Elección: 1.** La sonda del concepto ya está hecha (111, confirmado en RAM con control, en Town y en City Streets):
+la posición vive en **tres** lugares — `J2+0xA0`, el objeto de física del controlador (`e0c+0x40`, con
+`e0c = *(*(J2+0xB4)+0x34)+0xC`) y su cuerpo (`*(e0c+0x58)+0x10`) — y escribiendo los tres en pausa J2 queda donde se
+pone y camina normal desde ahí (`herramientas/teletransporte.py`). Escribir sólo `+0xA0` alcanza con el controlador
+quieto (Town) y se pisa en el mismo cuadro si está activo (City Streets): el callback `FUN_0025D110` →
+`FUN_00387FC0` → `FUN_00125F88` rearma la matriz desde el cuerpo (y `FUN_00125F88` ignora saltos de más de 50 m).
+**Corrección:** la primera lectura de (111), «el controlador no guarda copia», buscó en el lugar equivocado.
 El sitio y la memoria están en `coop-plan-b` (docs/14), verificados contra el ELF. Falta, para la C: escribirlo y
 medirlo en un cambio de unidad real (y, de paso, el síntoma sin el arreglo, que es su control).
