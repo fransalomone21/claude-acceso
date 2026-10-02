@@ -1,5 +1,18 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (mediodía) — VALIDACIÓN 4 DE 5 de T11/T12: la sesión de BLACK (113)**, `f885a69f` (caliente, pantalla
+> libre; V1–V3 confirmadas con control). **T11** (`medir-cascada.py`): las **dos** filas de esta sesión cumplen —BLACK
+> y también arquitectura-se: esta vez el cierre declaró `metodo` y leyó los seis rangos (~35 K caracteres) antes de
+> anotar acá—; la puerta frenó una vez en cada proyecto (BLACK por `abrir-sesion.ps1` y por el concepto `pcsx2`;
+> arquitectura-se por la necesidad sin declarar). El período da **5 de 7, «NO cumple (2 sin leer)»**: las dos son las
+> filas de cierre de (111) y (112), que no se pueden arreglar después. **Observación para T11:** cumplir el ritual de
+> cierre cuesta ~10 K tokens para anotar un párrafo — el protocolo de validación pide más lectura que la tarea; si se
+> quiere que el cierre cuente, conviene una necesidad liviana (p. ej. `ninguna` que exija sólo HANDOFF), no saltearlo.
+> Y `-Necesidad ninguna` desde PowerShell imprimió «NECESIDAD SIN DECLARAR» (`hipótesis`: `ninguna` no registra como
+> declaración en este camino; con `metodo` sí). **T12** (`medir-costo.py --ultimas 3`): esta sesión todavía no sale en
+> el listado (salen `18728731`, `a97df594`, `ba7b0eec`; mediana ses.met 78 813, entrada 128 457, al-paso 8795,
+> nested 7204). Falta: la validación 5 (el retome de BLACK la pide).
+
 > **2026-10-02 (mañana) — VALIDACIÓN 3 DE 5 de T11/T12: la sesión de BLACK (112)**, `18728731` (frío + una sonda en
 > vivo; cortada una vez por el límite de uso y retomada en el mismo chat). **T11** (`medir-cascada.py`): la fila de
 > BLACK leyó las cuatro piezas antes de actuar y declaró la necesidad (sí); la puerta frenó una vez por concepto
