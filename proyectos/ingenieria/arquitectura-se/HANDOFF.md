@@ -1,5 +1,17 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-02 (mañana) — VALIDACIÓN 3 DE 5 de T11/T12: la sesión de BLACK (112)**, `18728731` (frío + una sonda en
+> vivo; cortada una vez por el límite de uso y retomada en el mismo chat). **T11** (`medir-cascada.py`): la fila de
+> BLACK leyó las cuatro piezas antes de actuar y declaró la necesidad (sí); la puerta frenó una vez por concepto
+> (`pcsx2`) y se leyó lo pedido. El total del período da **3 de 5, «NO cumple (2 sin leer)»**, y los dos «sin leer»
+> son las filas de **arquitectura-se** de (111) y (112): el ritual de cierre de la validación (anotar acá sin leer
+> el proyecto, como pide el retome). **Observación para T11:** el medidor cuenta ese cierre como incumplimiento — el
+> protocolo de validación choca con su propio medidor; y dio «excepciones usadas: 0» con una `-Excepcion` corrida
+> antes de medir (`hipótesis`: no la cuenta, o la cuenta por otra fuente). **T12** (`medir-costo.py --ultimas 3`):
+> esta sesión todavía no aparece en el listado (salen `a97df594` y `ba7b0eec`; mediana ses.met 78 813, entrada
+> 128 457, al-paso 8795); la entrada que exigió la puerta acá fue ~128 K caracteres. Falta: validaciones 4 y 5 (el
+> retome de BLACK pide la 4).
+
 > **2026-10-02 (madrugada del 3) — VALIDACIÓN 2 DE 5 de T11/T12: la sesión de BLACK (111)**, `a97df594`, de
 > noche y sin Fran. **T11** (`medir-cascada.py`): leyó las cuatro piezas antes de actuar y declaró la necesidad,
 > **2 de 2** sesiones del período → **100 %, cumple**; la puerta frenó una vez por concepto (`pcsx2`, una memoria) y se
