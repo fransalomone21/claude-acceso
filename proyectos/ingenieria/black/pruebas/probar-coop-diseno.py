@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Saboteador de coop_diseno.py: rompe el plano de a una cosa por vez (en copias temporales) y exige ROJO;
 el plano sin tocar tiene que dar VERDE. Sale 0 sólo si todas se cumplen (veinte desde (115): tres del plan de COOP-B, cuatro de la IA y seis del HUD doble; veinticinco desde (116), con cinco
-del sonido de J2)."""
+del sonido de J2; treinta y uno desde (119), con seis de la pieza 2b)."""
 import re
 import shutil
 import subprocess
@@ -41,6 +41,28 @@ ENTRADA_SON_MAL = ("import coop_sonido; coop_sonido.DISPARO_V = 0x001D7360", "el
 MARCA_RESERVA_SON = ("pass", "sonido: el codigo")
 # (119) la pieza 2a, ya en coop-rangos, tiene que ir PRENDIDA por defecto: si no, el acceso COOP instala sin ella
 APAGAR_SONIDO = ("import coop_mod; coop_mod.CON_SONIDO = False", "CON_SONIDO apagado")
+# (119)/(120) regla 10, la pieza 2b: la GUARDA de plantilla viva sacada (sin ella la regla del dueno escribe cuatro
+# palabras sobre un puntero colgado en el caso NORMAL del juego, (118)); el apoyo del que DERIVA los tamanos cambiado
+# a algo que el ELF no tiene; un salto a una funcion que el diseno no nombra. Los otros dos tocan el plano.
+GUARDA_SUB3_MAL = ("import coop_sub3; coop_sub3.FUENTE = coop_sub3.FUENTE.replace('lw t2, 0x1c(t5)', "
+                   "'lw t2, 0x20(t5)')", "falta la guarda de plantilla viva")
+APOYO_SUB3_MAL = ("import coop_sub3; coop_sub3.APOYO[0x001A8148] = 'li a0, 17000'", "sub3: apoyo 0x1a8148")
+SALTO_SUB3_MAL = ("import coop_sub3; coop_sub3.FUENTE = coop_sub3.FUENTE.replace('jal 0x1a8168', 'jal 0x1a816c')",
+                  "no es FUN_001A80F8 ni FUN_001A8168")
+MARCA_RESERVA_SUB3 = ("pass", "sub3: el codigo")
+APAGAR_SUB3 = ("import coop_mod; coop_mod.CON_SUB3 = False", "CON_SUB3 apagada")
+# el tope del envoltorio devuelto al valor de antes del corrimiento de (120): con la pieza prendida «por cuadro»
+# necesita 90 palabras y ahi solo hay 88. Es el caso que la regla 10 agrego, y sin el sabotaje no estaria probado
+TOPE_SUB3_MAL = ("import coop_mod; coop_mod.R3_ENVOLTORIO = 0x0046E4A0", "con la pieza prendida el mod no ensambla")
+
+
+def fila_sub3(n=0) -> str:
+    """La fila de coop-rangos de la pieza 2b, DERIVADA del codigo: `n` = palabras de menos (nunca un literal, que es
+    lo que dejo ciego al sabotaje del sonido en (119))."""
+    sys.path.insert(0, str(VERIF.parent))
+    import coop_sub3
+    return "sub3 de J2                  | 0x%08X | 0x%08X | codigo | (119)" % (
+        coop_sub3.BASE, coop_sub3.BASE + 4 * (len(coop_sub3.programa()) - n))
 
 
 def fin_sonido(n=0) -> str:
@@ -80,7 +102,7 @@ def main() -> int:
          lambda t: t.replace("| addiu sp, sp, -144; lui v0, 0x44", "| addiu sp, sp, -128; lui v0, 0x44"), None, 1),
         ("IA: el ELF no tiene lo que el gancho reemplaza (111)", lambda t: t, ORIGINAL_IA_MAL, 1),
         ("plan B: reserva que pisa un rango del mod",
-         lambda t: t.replace("| 0x0046E580 | 0x0046E588 | reserva", "| 0x0046E4F0 | 0x0046E588 | reserva"), None, 1),
+         lambda t: t.replace("| 0x0046E5C0 | 0x0046E5C8 | reserva", "| 0x0046E4F0 | 0x0046E5C8 | reserva"), None, 1),
         ("IA: rango de código viejo (los dos hasta 0x0046E700)",
          lambda t: t.replace("| 0x0046E600 | 0x0046E778 | codigo", "| 0x0046E600 | 0x0046E700 | codigo"), None, 1),
         ("IA: gancho sin fila",
@@ -110,6 +132,22 @@ def main() -> int:
          MARCA_RESERVA_SON, 1),
         # y el control de que la pieza quede PRENDIDA por defecto con sus filas en coop-rangos (regla 9)
         ("sonido: apagado por defecto con sus filas en coop-rangos (119)", lambda t: t, APAGAR_SONIDO, 1),
+        # (119)/(120) regla 10, la pieza 2b
+        ("sub3: la guarda de plantilla viva sacada (118)", lambda t: t, GUARDA_SUB3_MAL, 1),
+        ("sub3: el apoyo no es el del ELF (119)", lambda t: t, APOYO_SUB3_MAL, 1),
+        ("sub3: salto a una función que el diseño no nombra (119)", lambda t: t, SALTO_SUB3_MAL, 1),
+        ("sub3: reserva del plan achicada (119)",
+         lambda t: t.replace("sub3 (código)                  | 0x0046EC20 | 0x0046EE00 | reserva",
+                             "sub3 (código)                  | 0x0046EC20 | 0x0046EC80 | reserva"),
+         MARCA_RESERVA_SUB3, 1),
+        # el default apagado cuando la fila YA se mudo a coop-rangos: el sabotaje hace la mudanza (saca la reserva
+        # del plan y pone la fila de código con el rango exacto, derivado) y deja CON_SUB3 en False
+        ("sub3: apagada por defecto con su fila ya en coop-rangos (119)",
+         lambda t: t.replace("sub3 (código)                  | 0x0046EC20 | 0x0046EE00 | reserva | -                                   | (119)\n", "")
+                    .replace("sonido de J2               | 0x0046EE00",
+                             fila_sub3() + "\nsonido de J2               | 0x0046EE00"),
+         APAGAR_SUB3, 1),
+        ("sub3: los bloques no entran en la reserva de su programa (120)", lambda t: t, TOPE_SUB3_MAL, 1),
     ]
     fallas = 0
     with tempfile.TemporaryDirectory() as tmp:

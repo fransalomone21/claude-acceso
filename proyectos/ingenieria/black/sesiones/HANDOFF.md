@@ -4,6 +4,33 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(120), 2026-10-03, notebook en frío + un video de 60 s que grabó Fran — LO ÚLTIMO.**
+> **COOP-C pieza 2b (a) y (b) HECHAS, la pieza queda APAGADA hasta su prueba en vivo.**
+> (a) `coop_sub3.py` integrado en `coop_mod.py`: **un** gancho propio (`0x001ACA2C` → `jal SUBH`) y **tres bloques**
+> (`SUB3_POR_CUADRO_BLOQUE` en `R3_POR_CUADRO_MOD`, `SUB3_ENVOLTORIO_BLOQUE` en `R3_ENVOLTORIO_MOD`,
+> `SUB3_DESARME_BLOQUE` en `DESARME_MOD`), insertados como `R3_BAJA_BLOQUE`. Bandera `CON_SUB3 = False`;
+> `--con-sub3` la prende y `--sin-sub3` es el control; `con_sub3()` la apaga sola sin la ranura 3.
+> **Control medido: el pnach por defecto sigue en 1059 palabras**; con `--con-sub3`, **1181** (98 del código + 9 + 8 + 6
+> de los bloques + 1 del gancho = 122, explicadas una por una).
+> **CAMBIO DE MAPA, escrito en `docs/14` y `docs/16` antes del stub:** con los bloques «por cuadro» pasa de 81 a 90
+> palabras y el tope eran 88. `R3_ENVOLTORIO` **0x0046E4A0 → 0x0046E4C0** (tope 0x0046E5A0 → 0x0046E5C0) y las
+> reservas sin construir `CAND2`/`V2`/`FOV2` de 0x0046E580–0x0046E598 a **0x0046E5C0–0x0046E5D8**.
+> (b) **Regla 10** de `coop_diseno.py` (`verificar_sub3`) + **seis sabotajes** en `pruebas/probar-coop-diseno.py`
+> (33 casos, TODO BIEN). Fila nueva del gancho en `coop-plan-b`.
+> **Dos cosas que salieron mal y se arreglaron un nivel más arriba:** el chequeo de la **guarda de plantilla viva**
+> estaba **ciego** (un `lw t4, 0x1c(sp)` de la pila lo cumplía: sacar la guarda daba verde) — ahora exige la terna
+> `lw rX, 0x1C(rB)` + `addiu rY, rB, 0x4C` sobre el mismo `rB` comparada con `bne`/`beq`; y el saboteador del plan
+> traía `0x0046E580` **literal** y se rompió solo al correrse el mapa.
+> **Del video** (`volcados/video/20261003-160132/`, 60 s, los dos jugadores reales): **F7 visto con armas distintas**
+> (J con el AK 47 050\120, J2 con 015\012, y las dos mitades dibujan el mismo AK 47, `cuadros/c_209.png`) y **los
+> carteles ya salen en las dos mitades con el texto propio de cada jugador** (`hojas/hoja_09.png` a los 49 s,
+> `probable`, sin control): **achica la pieza 5**. HUD doble estable los 60 s, 60 fps en el overlay.
+> **Máquina:** igual que en (119) — pnach de **1059 palabras** (el default de `instalar`), COOP activo en
+> `gamesettings\SLUS-21376_5C891FF1.ini`, los tres parches de mira prendidos. `pruebas/controles.py` en verde (5 de 5).
+> **Sigue: `sesiones/RETOME-LOCAL.md`** — la 2b (c) **en vivo**: falta escribir el banco del arma (como
+> `sonido_pieza_banco.py`) y medir P3a–P3e de `sesiones/PREDICCIONES-118.md`, que **ya están escritas** (no se
+> reescriben: se anota el resultado al lado). Testigos en RAM: `SUB3_ESCRIB` 0x0046EF74 y `SUB3_SALTOS` 0x0046EF78.
+>
 > **(119), 2026-10-03, notebook CALIENTE con pantalla libre (Fran avisó y cerró su PCSX2) — LO ÚLTIMO.**
 > **COOP-C pieza 2a HECHA:** el disparo de J2 suena, con control y dos cargas. Las cinco predicciones de
 > `sesiones/PREDICCIONES-118.md` §P1 cumplidas y anotadas al lado de cada una. El testigo es el seam en RAM —el sello

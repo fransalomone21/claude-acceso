@@ -112,6 +112,7 @@ jal 0x12a280
 addiu a1, s1, -0x3210
 FIN:
 R3_BAJA_BLOQUE
+SUB3_DESARME_BLOQUE
 sw zero, -0x287c(s1)
 sw zero, -0x2870(s1)
 lw t1, -0x2838(s1)
@@ -561,7 +562,9 @@ R3_MOLDE = 0x0046E0C8          # dato: MOLDES (0x0046D7C0) cuando se cargo R3. R
                                # nivel: una recarga que no pase por el desarme deja R3 cargada con el MISMO sub
 R3 = 0x0046E100                # la ranura, 0x240 B (.bss en cero)
 R3_POR_CUADRO = 0x0046E340
-R3_ENVOLTORIO = 0x0046E4A0
+R3_ENVOLTORIO = 0x0046E4C0   # (120) +0x20: con los bloques del sub3 «por cuadro» pasa de 81 a 90 palabras y
+                             # no entraba en las 88 que habia hasta aca (el cambio se escribio en docs/14 y
+                             # docs/16 antes de tocar el stub, como manda la Fase C)
 SITIO_R3, ORIGINAL_R3 = 0x001295A8, ensamblar("jal 0x1ab428", 0x001295A8)
 SITIO_R3_CARGA, ORIGINAL_R3_CARGA = 0x001ACA84, ensamblar("jal 0x1a51c8", 0x001ACA84)
 # (93v) APAGADA POR DEFECTO hasta que la notebook la pruebe en vivo: el acceso «JUGAR BLACK COOP» corre
@@ -613,6 +616,7 @@ addiu t3, zero, 0x6c
 mult t4, t2, t3
 addu a2, s1, t4
 addiu a2, a2, 0x398
+SUB3_POR_CUADRO_BLOQUE
 lbu t5, 0xb8(s0)
 beq t5, zero, @CARGAR
 lw t5, 0x50(s0)
@@ -687,6 +691,7 @@ move s2, a2
 lw t6, -0x1f40(t0)
 addiu t6, t6, 1
 sw t6, -0x1f40(t0)
+SUB3_ENVOLTORIO_BLOQUE
 jal 0x1a51c8
 move a0, t5
 lui t0, 0x47
@@ -738,8 +743,12 @@ def ranura3():
     """(93s) [(nombre, prog)] y los ganchos de la ranura 3; vacios con SIN_R3."""
     if SIN_R3:
         return [], []
-    pc = j2.ensamblar_programa(R3_POR_CUADRO_MOD, R3_POR_CUADRO, R3_ENVOLTORIO)
-    env = j2.ensamblar_programa(R3_ENVOLTORIO_MOD, R3_ENVOLTORIO, 0x0046E5A0)
+    pc = j2.ensamblar_programa(
+        R3_POR_CUADRO_MOD.replace("SUB3_POR_CUADRO_BLOQUE", _sub3_bloque("por cuadro")),
+        R3_POR_CUADRO, R3_ENVOLTORIO)
+    env = j2.ensamblar_programa(
+        R3_ENVOLTORIO_MOD.replace("SUB3_ENVOLTORIO_BLOQUE", _sub3_bloque("envoltorio")),
+        R3_ENVOLTORIO, 0x0046E5C0)   # (120) +0x20: con el bloque del sub3 el envoltorio pasa de 54 a 62 palabras
     ganchos = [(SITIO_R3, ensamblar("jal 0x%x" % R3_POR_CUADRO, SITIO_R3),
                 "gancho ranura 3 por cuadro: jal r3 (era jal 0x1ab428) (93s)"),
                (SITIO_R3_CARGA, ensamblar("jal 0x%x" % R3_ENVOLTORIO, SITIO_R3_CARGA),
@@ -756,6 +765,21 @@ def aliado(p):
     return act + 0x90 + ALIADO * 0x3C0 if act else 0
 
 
+def con_sub3():
+    """(119) la pieza 2b solo tiene sentido CON la ranura 3: sin ella J2 no tiene aparejo propio que cargar, y los
+    tres bloques viven adentro de los programas de R3. Asi que SIN_R3 la apaga aunque CON_SUB3 este prendida."""
+    return CON_SUB3 and not SIN_R3
+
+
+def _sub3_bloque(nombre):
+    """El texto que coop_sub3.py exporta para insertar en un programa que el mod ya tiene, o nada si esta apagada."""
+    if not con_sub3():
+        return ""
+    import coop_sub3
+    return {"envoltorio": coop_sub3.ENVOLTORIO_BLOQUE, "por cuadro": coop_sub3.POR_CUADRO_BLOQUE,
+            "desarme": coop_sub3.DESARME_BLOQUE}[nombre]
+
+
 def programas():
     """[(nombre, [(pc, palabra, texto)])] -- lo unico que va en el pnach, junto con los ganchos."""
     env = j2.ensamblar_programa(ENVOLTORIO_MOD, j2.ENVOLTORIO, j2.ARMAS2)
@@ -766,8 +790,10 @@ def programas():
                             TITERE_MOD.replace("ELEGIR_N", "0x%x" % ELEGIR))
     fuente = fuente.replace("CABECEO_BLOQUE", "" if SIN_CABECEO else CABECEO_MOD)
     pc = j2.ensamblar_programa(fuente, j2.STUB, 0x0046D9F0)
-    des = j2.ensamblar_programa(DESARME_MOD.replace("R3_BAJA_BLOQUE", "" if SIN_R3 else R3_BAJA_MOD),
-                                DESARME, 0x0046DE00)
+    des = j2.ensamblar_programa(
+        DESARME_MOD.replace("R3_BAJA_BLOQUE", "" if SIN_R3 else R3_BAJA_MOD)
+                   .replace("SUB3_DESARME_BLOQUE", _sub3_bloque("desarme")),
+        DESARME, 0x0046DE00)
     # (88e) la pantalla dividida en el mismo bloque: el stub de pantalla_dividida.py (raster leido en vivo,
     # solo con J2 corriendo, la vista de J2 calculada por el stub) y sus constantes. El pnach las reescribe
     # cada cuadro, asi que son constantes de verdad: division prendida, mitad 320, entero 640, fuente = stub.
@@ -832,6 +858,14 @@ def programas():
         import coop_hud
         progs.append(("HUD doble", coop_hud.programa()))
         ganchos += coop_hud.ganchos()
+    if con_sub3():
+        # (119) COOP-C pieza 2b, el modelo de arma de J2 (coop_sub3.py): su sub propio del aparejo, con la regla del
+        # dueno de plantilla y la GUARDA de plantilla viva de (118). APAGADA hasta su prueba en vivo (P3 de
+        # sesiones/PREDICCIONES-118.md); `--con-sub3` la prende y `--sin-sub3` es el control. Es UN gancho propio: los
+        # otros tres sitios van como bloque adentro de los programas de R3 y del desarme, que el mod ya engancha
+        import coop_sub3
+        progs.append(("sub3 de J2", coop_sub3.programa()))
+        ganchos += coop_sub3.ganchos()
     return progs + [("ganchos", ganchos)]
 
 
@@ -839,6 +873,11 @@ CON_SONIDO = True   # (119) PRENDIDA por defecto: la pieza 2a paso su prueba en 
                     # sesiones/PREDICCIONES-118.md: el disparo de J2 toca las voces del cue con la pieza y no sin
                     # ella, 2 cargas, con control positivo). `--sin-sonido` es el control.
                     # (116) el destino VIEJO (FUN_001D7020) quedo refutado en vivo; el que anda es el cue (117)
+
+
+CON_SUB3 = False  # (119) COOP-C pieza 2b, APAGADA por defecto hasta que pase su prueba en vivo (P3a-P3e de
+                  # sesiones/PREDICCIONES-118.md), igual que hizo el HUD en (115) y el sonido en (117).
+                  # `--con-sub3` la prende, `--sin-sub3` es el control. Sin la ranura 3 no se prende (con_sub3())
 
 
 CON_HUD = True  # (115) PRENDIDO por defecto; `--sin-hud` es el control y `--con-hud` se acepta y no hace nada
@@ -870,12 +909,20 @@ def _sonido(a):
     return True if getattr(a, "con_sonido", False) else CON_SONIDO
 
 
+def _sub3(a):
+    """(119) la pieza 2b: el default de CON_SUB3, salvo que el comando diga --con-sub3 o --sin-sub3."""
+    if getattr(a, "sin_sub3", False):
+        return False
+    return True if getattr(a, "con_sub3", False) else CON_SUB3
+
+
 def cmd_listar(_a):
-    global SIN_R3, CON_IA, CON_HUD, CON_SONIDO
+    global SIN_R3, CON_IA, CON_HUD, CON_SONIDO, CON_SUB3
     SIN_R3 = getattr(_a, "sin_r3", False)
     CON_IA = not getattr(_a, "sin_ia", False)
     CON_HUD = not getattr(_a, "sin_hud", False)
     CON_SONIDO = _sonido(_a)
+    CON_SUB3 = _sub3(_a)
     for nombre, prog in programas():
         print("== %s: %d palabras, %#010x..%#010x" % (nombre, len(prog), prog[0][0], prog[-1][0] + 4))
         for pc, w, t in prog:
@@ -1088,10 +1135,11 @@ def cmd_instalar(_a):
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
     SIN_R3 = getattr(_a, "sin_r3", False)
     SIN_OCULTAR_J = not getattr(_a, "con_ocultar_j", False)
-    global CON_IA, CON_HUD, CON_SONIDO
+    global CON_IA, CON_HUD, CON_SONIDO, CON_SUB3
     CON_IA = not getattr(_a, "sin_ia", False)
     CON_HUD = not getattr(_a, "sin_hud", False)
     CON_SONIDO = _sonido(_a)
+    CON_SUB3 = _sub3(_a)
     viejo =PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -1103,7 +1151,7 @@ def cmd_instalar(_a):
     PARCHES.write_bytes(nuevo.encode("utf-8"))
     print(json.dumps({"pnach": str(PARCHES), "respaldo": r.name, "palabras": sum(len(x[1]) for x in programas()),
                       "ranura3": not SIN_R3, "hud_doble": CON_HUD,
-                      "sonido_j2": CON_SONIDO and not SIN_AISLAR,
+                      "sonido_j2": CON_SONIDO and not SIN_AISLAR, "sub3_j2": con_sub3(),
                       "ajuste_intacto": "Enable = %s" % NOMBRE_BLOQUE not in AJUSTES.read_text(encoding="utf-8")}))
     return 0
 
@@ -1134,9 +1182,11 @@ def main() -> int:
     li.add_argument("--con-ia", action="store_true"); li.add_argument("--sin-ia", action="store_true")
     li.add_argument("--con-hud", action="store_true"); li.add_argument("--sin-hud", action="store_true")
     li.add_argument("--con-sonido", action="store_true"); li.add_argument("--sin-sonido", action="store_true")
+    li.add_argument("--con-sub3", action="store_true"); li.add_argument("--sin-sub3", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
     ins.add_argument("--con-hud", action="store_true"); ins.add_argument("--sin-hud", action="store_true")
     ins.add_argument("--con-sonido", action="store_true"); ins.add_argument("--sin-sonido", action="store_true")
+    ins.add_argument("--con-sub3", action="store_true"); ins.add_argument("--sin-sub3", action="store_true")
     ins.add_argument("--con-ia", action="store_true"); ins.add_argument("--sin-ia", action="store_true")
     ins.add_argument("--con-r3", action="store_true"); ins.add_argument("--sin-r3", action="store_true")
     ins.add_argument("--con-ocultar-j", action="store_true"); ins.add_argument("--sin-ocultar-j", action="store_true")

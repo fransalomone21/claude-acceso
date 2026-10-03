@@ -21,6 +21,12 @@ Lee el bloque ```coop-rangos del documento y exige, en este orden:
      (cuando la pieza pase su prueba y sus filas se muden) en una fila de codigo de coop-rangos con su rango exacto;
      cada gancho suyo cae en una fila gancho del plan o de coop-rangos; y coop_hud.problemas() vacio (capstone,
      saltos, floats del PDP, la sombra en sus reservas, lo que pisa y en lo que se apoya contra el ELF, el listado).
+ 10. (119, COOP-C pieza 2b) el sub propio del aparejo de J2 (coop_sub3.py): coop_sub3.problemas() vacio -- lo que
+     incluye la GUARDA de plantilla viva, sin la cual la regla del dueno escribe cuatro palabras sobre memoria ajena
+     en el caso NORMAL del juego ((118), 14 de 16 volcados)--; su codigo en la reserva «sub3 (codigo)» del plan o en
+     una fila de coop-rangos CON EL RANGO EXACTO (y ahi, prendida por defecto); su gancho con fila; y que con la
+     pieza PRENDIDA los tres programas que reciben bloque sigan ensamblando y sin pisar ninguna otra fila (lo que
+     (120) midio que faltaba: los bloques hacian pasar «por cuadro» de 81 a 90 palabras sobre un tope de 88).
   9. (116, COOP-C pieza 2a) el sonido del disparo de J2 (coop_sonido.py): su codigo en la reserva «sonido de J2 (codigo)»
      del plan o en su fila de coop-rangos (y ahi prendido por defecto); coop_sonido.problemas() vacio; y el envoltorio
      4 del aislador sale por `j SONJ2` con la pieza prendida y por `jr ra` con la pieza apagada.
@@ -64,6 +70,7 @@ def verificar(doc: Path, mods: Path) -> list[str]:
     cm.CON_HUD = True   # (115) y con el HUD doble, que desde que vive en coop-rangos va prendido por defecto (regla 8)
     errores += verificar_hud(doc, filas, con_hud_por_defecto)
     errores += verificar_sonido(doc, filas, cm.CON_SONIDO)   # (116) regla 9; programas() la incluye segun su default
+    errores += verificar_sub3(doc, filas, cm.CON_SUB3)       # (119) regla 10; apagada hasta su prueba en vivo
     progs = cm.programas()
     # 1. los programas contra el plano
     for nombre, prog in progs[:-1]:
@@ -223,6 +230,61 @@ def verificar_sonido(doc: Path, filas_rangos, con_sonido_por_defecto=False) -> l
                                % ("prendida" if prendida else "apagada", k, salida, esperada))
     finally:
         cm.CON_SONIDO = viejo
+    return errores
+
+
+def verificar_sub3(doc: Path, filas_rangos, con_sub3_por_defecto=False) -> list[str]:
+    """(119) regla 10: la pieza 2b (coop_sub3.py), el sub propio del aparejo de J2.
+
+    Exige, en este orden: `coop_sub3.problemas()` vacio (capstone, la reserva, los saltos, lo que el gancho pisa y
+    el apoyo del que DERIVA los tamanos contra el ELF, el listado, y la GUARDA de plantilla viva); el codigo en su
+    reserva «sub3 (codigo)» del plan o en una fila de coop-rangos CON EL RANGO EXACTO -- la correccion que (119) le
+    hizo a la regla 9, porque con `startswith` a secas una fila mudada con el rango viejo pasaba y el rojo lo daba
+    otra regla--; que ahi vaya PRENDIDA por defecto; su gancho con fila; y que con la pieza PRENDIDA los tres
+    programas que reciben bloque (R3 por cuadro, R3 envoltorio y el desarme) sigan ENSAMBLANDO y sin pisar ninguna
+    otra fila. Esto ultimo no estaba y es lo que (120) midio que faltaba: los bloques hacen crecer «por cuadro» de
+    81 a 90 palabras sobre un tope de 88, y sin la regla el desborde solo lo veia la excepcion de ensamblar."""
+    import coop_mod as cm
+    import coop_sub3
+    errores = ["sub3: " + e for e in coop_sub3.problemas()]
+    plan = leer_plan(doc) or []
+    prog = coop_sub3.programa()
+    desde, hasta = prog[0][0], prog[-1][0] + 4
+    en_plan = any(f["tipo"] == "reserva" and f["nombre"].startswith("sub3 (c") and f["desde"] <= desde
+                  and hasta <= f["hasta"] for f in plan)
+    en_rangos = any(f["tipo"] == "codigo" and f["nombre"].startswith("sub3")
+                    and (f["desde"], f["hasta"]) == (desde, hasta) for f in filas_rangos)
+    if not (en_plan or en_rangos):
+        errores.append("sub3: el codigo [%#x, %#x) no cae en su reserva del plan ni en una fila de coop-rangos "
+                       "con el rango exacto" % (desde, hasta))
+    if en_rangos and not con_sub3_por_defecto:
+        errores.append("sub3: coop_mod.CON_SUB3 apagada por defecto con sus filas en coop-rangos: el acceso COOP "
+                       "instalaria sin la pieza")
+    for pc, _, texto in coop_sub3.ganchos():
+        if not any(f["tipo"] == "gancho" and f["desde"] <= pc < f["hasta"] for f in plan + filas_rangos):
+            errores.append("sub3: gancho %#x (%s) sin fila en el plan ni en coop-rangos" % (pc, texto))
+    # los tres bloques, con la pieza PRENDIDA: tienen que entrar donde el mod los pone y no pisar nada ajeno
+    viejo = cm.CON_SUB3
+    try:
+        cm.CON_SUB3 = True
+        progs = cm.programas()
+    except Exception as e:                                       # noqa: BLE001
+        progs = None
+        errores.append("sub3: con la pieza prendida el mod no ensambla (%s: %s) -- los bloques no entran en la "
+                       "reserva de su programa" % (type(e).__name__, e))
+    finally:
+        cm.CON_SUB3 = viejo
+    if progs is not None:
+        propios = {n for n, _ in progs[:-1]}
+        for nombre, p in progs[:-1]:
+            d, h = min(pc for pc, _, _ in p), max(pc for pc, _, _ in p) + 4
+            for f in list(filas_rangos) + plan:
+                if f["nombre"] in propios or f["tipo"] == "gancho":
+                    continue
+                if d < f["hasta"] and f["desde"] < h and not (f["desde"] <= d and h <= f["hasta"]):
+                    # el solape PARCIAL es el rojo; que un programa entre ENTERO en una fila es su casa (su reserva
+                    # del plan, o su propia fila de coop-rangos), no un choque
+                    errores.append("sub3: con la pieza prendida '%s' [%#x, %#x) pisa '%s'" % (nombre, d, h, f["nombre"]))
     return errores
 
 

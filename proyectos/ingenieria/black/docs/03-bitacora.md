@@ -16,6 +16,58 @@ Formato de cada entrada:
 
 ---
 
+## 2026-10-03 (120, notebook, frío + un video de Fran) — la pieza 2b integrada y apagada, con su regla 10; y el gameplay del nivel 1 mirado
+**Máquina:** notebook (MSI) · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-C (pieza 2b, F7) · **Nodos:** `personajes`, `armas`
+
+**Objetivo:** (a) integrar `coop_sub3.py` en `coop_mod.py`, (b) la regla 10 de `coop_diseno.py` con sus sabotajes.
+Y mirar el video de 60 s que grabó Fran del nivel 1 jugando en coop.
+
+**Resultado.**
+
+*El video* (`volcados/video/20261003-160132/`, 60 s, 2 jugadores reales, 1803 muestras de mando):
+- **F7 visto en el juego real, con las dos armas distintas.** A los 52 s J tiene el **AK 47** (050\120) y J2 otra
+  arma (015\012), y **las dos mitades dibujan el mismo AK 47** (`cuadros/c_209.png`). Es exactamente lo que la
+  pieza 2b arregla: hasta ahora F7 venía de (96), con armas que no se distinguían tan claro.
+- **Los carteles ya salen en las DOS mitades, y con el texto de cada jugador** (`hojas/hoja_09.png`, 00:49): la
+  izquierda dice «HOLD ○ TO SWAP AK 47 FOR THE SPAS 12» y la derecha «HOLD ○ TO PICK UP SPAS 12» — distinto, porque
+  J tiene las dos ranuras ocupadas y J2 no. Grado `probable` (visto, sin control). **Achica la pieza 5**, que los
+  tenía como trabajo pendiente (`PDP.md` §4).
+- El HUD doble de (115) aguantó los 60 s con vida, munición y reserva propias en cada mitad, y el overlay marcó
+  **60 fps**. J2 disparó 31 veces y recargó 6; J 24 y 9.
+- N25 (la mano de J2 rota al apuntar) **no se buscó**: la Fase C prohíbe perseguir síntomas de a uno.
+
+*(a) La integración, en frío.* `coop_mod.py` toma la pieza como tomó el HUD y el sonido: **un** gancho propio
+(`0x001ACA2C` → `jal SUBH`) y **tres bloques** de texto insertados en programas que el mod ya engancha
+(`SUB3_POR_CUADRO_BLOQUE`, `SUB3_ENVOLTORIO_BLOQUE`, `SUB3_DESARME_BLOQUE`), igual que `R3_BAJA_BLOQUE`. Bandera
+`CON_SUB3`, **apagada por defecto** (`--con-sub3` la prende, `--sin-sub3` es el control), y `con_sub3()` la apaga
+sola si no está la ranura 3, porque sin ella J2 no tiene aparejo propio que cargar. **Control: el pnach por defecto
+sigue dando 1059 palabras exactas**; con `--con-sub3` da **1181**, y las 122 de diferencia se explican una por una
+(98 del código, 9 + 8 + 6 de los bloques, 1 del gancho).
+
+*El mapa no entraba, y se corrigió antes del stub* (`docs/16`, «Lo que la integración del sub3 cambió del mapa»):
+«por cuadro» pasa de 81 a 90 palabras sobre un tope de 88. `R3_ENVOLTORIO` se corrió +0x20 y las tres reservas sin
+construir (`CAND2`, `V2`, `FOV2`) al hueco libre antes de «IA los dos». Ningún código construido se movió salvo el
+envoltorio.
+
+*(b) La regla 10* de `coop_diseno.py`: `coop_sub3.problemas()` vacío, el código en su reserva del plan o en una fila
+de `coop-rangos` **con el rango exacto**, el gancho con fila (nueva en `coop-plan-b`), prendida por defecto si sus
+filas ya se mudaron, y —lo que faltaba— que **con la pieza prendida** los tres programas sigan ensamblando sin pisar
+nada. Seis sabotajes nuevos en `pruebas/probar-coop-diseno.py` (33 casos, TODO BIEN).
+
+**No funcionó / lo que salió mal.**
+- **El chequeo de la guarda de plantilla viva estaba CIEGO**, y lo delató su propio sabotaje (`rc=99`, rojo por el
+  motivo equivocado). Miraba inmediatos sueltos y en el mismo programa hay un `lw t4, 0x1c(sp)` de la pila que los
+  cumplía: **sacar la guarda dejaba el verificador en verde**. Arreglado un nivel más arriba —en la herramienta, no
+  en el sabotaje—: ahora exige la terna `lw rX, 0x1C(rB)` + `addiu rY, rB, 0x4C` sobre el mismo `rB`, comparada con
+  `bne`/`beq`.
+- El saboteador del plan traía la dirección `0x0046E580` **literal** adentro y se rompió solo al correrse el mapa.
+  Es la lección que ya estaba escrita; se corrigió en el mismo turno y la fila del sub3 se deriva del código.
+
+**Sigue:** la pieza 2b **en vivo** (P3a–P3e de `sesiones/PREDICCIONES-118.md`, ya escritas): hace falta un banco como
+`sonido_pieza_banco.py` pero para el arma (J y J2 con la misma pistola, J2 cambia, mirar qué modelo muestra cada
+mitad; control `--sin-sub3`), con los testigos `SUB3_ESCRIB` (`0x0046EF74`) y `SUB3_SALTOS` (`0x0046EF78`) y dos
+cargas seguidas.
+
 ## 2026-10-03 (119, notebook, caliente con pantalla libre) — COOP-C pieza 2a HECHA: el disparo de J2 suena, con control y dos cargas; y el sub3 escrito con su guarda
 **Máquina:** notebook (MSI), fork de PCSX2 · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-C (pieza 2a F4, pieza 2b F7) · **Nodos:** `audio`, `personajes`
 **Objetivo:** con la pantalla libre que avisó Fran, medir en vivo la pieza 2a contra la predicción escrita en (117); después, en frío, escribir `coop_sub3.py` con la guarda de plantilla viva de (118).

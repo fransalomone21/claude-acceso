@@ -39,6 +39,27 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) escrita con su guarda, sin instalar (119) (LEER ESTO PRIMERO)
 
+> **(120), 2026-10-03, NOTEBOOK EN FRÍO + un video de Fran — LO ÚLTIMO** (bitácora (120), `docs/16` «Lo que la
+> integración del sub3 cambió del mapa, (120)»).
+> - **Pieza 2b INTEGRADA y APAGADA** (`CON_SUB3 = False`; `--con-sub3` la prende, `--sin-sub3` es el control): un
+>   gancho propio (`0x001ACA2C`) y tres bloques adentro de programas que el mod ya engancha. **Control: el pnach por
+>   defecto sigue en 1059 palabras exactas**; con la pieza, 1181, y las 122 se explican una por una.
+> - **El mapa no entraba y se corrigió ANTES del stub:** «por cuadro» pasa de 81 a 90 palabras sobre un tope de 88.
+>   `R3_ENVOLTORIO` corrido a `0x0046E4C0` (+0x20) y las reservas `CAND2`/`V2`/`FOV2` al hueco libre
+>   `0x0046E5C0`–`0x0046E5D8`. Ningún código construido se movió salvo el envoltorio.
+> - **Regla 10 de `coop_diseno.py`** con seis sabotajes nuevos (33 casos, TODO BIEN). Mide además lo que nadie medía:
+>   que **con la pieza prendida** los tres programas sigan ensamblando y sin pisar nada.
+> - **El chequeo de la guarda de plantilla viva estaba CIEGO** y lo delató su propio sabotaje (`rc=99`): un
+>   `lw t4, 0x1c(sp)` de la pila lo cumplía siempre, así que **sacar la guarda daba verde**. Arreglado en la
+>   herramienta: ahora exige la terna sobre el mismo registro base, comparada con `bne`/`beq`.
+> - **Video de Fran, 60 s del nivel 1 en coop** (`volcados/video/20261003-160132/`): **F7 visto con dos armas
+>   distintas** —J con el AK 47 (050\120) y J2 con otra (015\012), y las dos mitades dibujan el mismo AK 47
+>   (`cuadros/c_209.png`)—, que es justo lo que arregla la 2b; y **los carteles YA salen en las dos mitades con el
+>   texto de cada jugador** (`probable`, sin control), lo que **achica la pieza 5**. HUD doble estable 60 s, 60 fps.
+> - **Máquina:** sin cambios respecto de (119) — pnach de 1059 palabras, COOP activo, parches de mira prendidos.
+>   `pruebas/controles.py` en verde (5 de 5).
+> - **Sigue:** la 2b **en vivo** (P3a–P3e de `sesiones/PREDICCIONES-118.md`), con un banco del arma todavía sin escribir.
+
 > **(119), 2026-10-03, NOTEBOOK CALIENTE con pantalla libre — LO ÚLTIMO** (bitácora (119), `sesiones/PREDICCIONES-118.md` §P1).
 > - **COOP-C pieza 2a HECHA: el disparo de J2 SUENA**, con control y dos cargas. Las cinco predicciones de (117)
 >   cumplidas. El testigo es el seam en RAM (el sello de las 2 voces de `V`, `V+0x284+8`/`+0x290+8`), no el audio:

@@ -903,6 +903,36 @@ la **instancia de J2** (que es exactamente F7), porque la arena de J2 sí tiene 
 Eso hace la predicción más fuerte y más barata de refutar: con la regla, cada mitad su arma; sin
 ella, el arma del último que cambió en las dos.
 
+### Lo que la integración del sub3 cambió del mapa, (120) — escrito antes del stub
+
+Al integrar `coop_sub3.py` en `coop_mod.py` se midió, **antes** de tocar nada, cuánto crecen los tres programas que
+reciben bloque. El resultado no entraba:
+
+| programa | sin la pieza | con la pieza | tope que tenía |
+|---|---|---|---|
+| ranura 3 por cuadro | 81 palabras | **90** | 88 (hasta `0x0046E4A0`, donde arrancaba el envoltorio) |
+| ranura 3 envoltorio | 54 palabras | **62** | 64, pero terminaba dentro de las reservas `CAND2`/`V2`/`FOV2` |
+| desarme | 48 palabras | 54 | 64, entra |
+
+El corrimiento, que sólo mueve **un** programa construido y tres reservas **sin construir**:
+
+- `R3_ENVOLTORIO` pasa de `0x0046E4A0` a **`0x0046E4C0`** (+0x20) y su tope de `0x0046E5A0` a `0x0046E5C0`. Con eso
+  «por cuadro» tiene 96 palabras donde necesita 90, y el envoltorio 64 donde necesita 62.
+- `CAND2`, `V2 y su bandera` y `FOV2 y bandera de silencio` se mudan de `0x0046E580`–`0x0046E598` a
+  `0x0046E5C0`–`0x0046E5D8`, al hueco libre que ya había antes de «IA los dos» (`0x0046E600`). Son reservas de las
+  piezas 3–5: no hay código que mover.
+
+**La regla 10 de `coop_diseno.py` mide esto, y no lo medía nadie:** corre `programas()` con la pieza **prendida** y
+exige que los tres programas sigan ensamblando y que no pisen ninguna fila ajena. Sin ella, el desborde sólo lo veía
+la excepción de `ensamblar_programa`, que es un `AssertionError` pelado — y sólo si alguien prendía la pieza.
+
+**Y el chequeo de la guarda estaba ciego, lo delató su propio sabotaje.** `coop_sub3.problemas()` exigía «algún `lw`
+con inmediato `0x1C`» y «algún `addiu` con inmediato `0x4C`». En el mismo programa hay un `lw t4, 0x1c(sp)` —una
+lectura de la **pila**— que cumplía la primera para siempre: sacar la guarda de verdad dejaba el chequeo en **verde**.
+El sabotaje salió `rc=99` (rojo por el motivo equivocado: el listado), que es la única señal que lo delata. El
+chequeo nuevo exige la **terna**: `lw rX, 0x1C(rB)` y `addiu rY, rB, 0x4C` sobre el **mismo** `rB`, comparados con
+`bne`/`beq`. Un acceso a la pila no puede cumplirla de casualidad.
+
 ### Lo que la fabricación del sub3 cambió del diseño, (119) — escrito antes del stub
 
 > COOP-C pieza 2b, al escribir `herramientas/coop_sub3.py`. Tres precisiones; ninguna toca la regla

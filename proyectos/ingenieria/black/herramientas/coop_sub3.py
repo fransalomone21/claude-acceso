@@ -315,12 +315,25 @@ def problemas(mostrar=False, escribir=False) -> list:
                 errores.append(f"{pc:#x} {t}: j/jal a {dest:#x}, no es FUN_001A80F8 ni FUN_001A8168")
     # la guarda de plantilla viva TIENE que estar: es lo que (118) agrego y sin ella el mod corrompe memoria ajena
     pal = [w for _, w, _ in prog]
-    tiene_lw = any((w >> 26) == 0x23 and (w & 0xFFFF) == VIVA_OFF for w in pal)
-    tiene_rel = any((w >> 26) == 9 and (w & 0xFFFF) == VIVA_REL for w in pal)
-    if not (tiene_lw and tiene_rel):
-        errores.append("falta la guarda de plantilla viva (`lw t, %#x(Bo)` / `addiu u, Bo, %#x`): sin ella la regla "
-                       "escribe sobre un puntero colgado en el caso NORMAL del juego (118, 14 de 16 volcados)"
-                       % (VIVA_OFF, VIVA_REL))
+    # (120) la TERNA, no los inmediatos sueltos: el chequeo viejo miraba «algun lw con inmediato 0x1C» y en este
+    # mismo programa hay un `lw t4, 0x1c(sp)` de la PILA que lo cumplia siempre -- o sea que sacar la guarda dejaba
+    # el chequeo en VERDE, y lo delato su propio sabotaje. Ahora: `lw rX, 0x1C(rB)` y `addiu rY, rB, 0x4C` sobre el
+    # mismo rB, y un bne/beq que compare rX con rY.
+    def _rs(w):
+        return (w >> 21) & 0x1F
+
+    def _rt(w):
+        return (w >> 16) & 0x1F
+
+    cargas = {(_rs(w), _rt(w)) for w in pal if (w >> 26) == 0x23 and (w & 0xFFFF) == VIVA_OFF}
+    relat = {(_rs(w), _rt(w)) for w in pal if (w >> 26) == 9 and (w & 0xFFFF) == VIVA_REL}
+    ramas = {frozenset((_rs(w), _rt(w))) for w in pal if (w >> 26) in (4, 5)}
+    tiene_terna = any(frozenset((x, y)) in ramas
+                      for b1, x in cargas for b2, y in relat if b1 == b2)
+    if not tiene_terna:
+        errores.append("falta la guarda de plantilla viva (`lw rX, %#x(rB)` + `addiu rY, rB, %#x` sobre el mismo rB, "
+                       "comparados con bne/beq): sin ella la regla escribe sobre un puntero colgado en el caso "
+                       "NORMAL del juego (118, 14 de 16 volcados)" % (VIVA_OFF, VIVA_REL))
     # los tres bloques que coop_mod inserta
     for nombre, src in (("envoltorio", ENVOLTORIO_BLOQUE), ("por cuadro", POR_CUADRO_BLOQUE),
                         ("desarme", DESARME_BLOQUE)):
