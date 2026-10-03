@@ -16,6 +16,17 @@ Formato de cada entrada:
 
 ---
 
+## 2026-10-03 (118, notebook, frío) — COOP-C pieza 2b: la regla del dueño de plantilla iba a escribir sobre un puntero colgado; la guarda de plantilla viva
+**Máquina:** notebook (MSI), sin emulador · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-C (pieza 2b, F7) · **Nodos:** `personajes`, `vista-fp`
+**Objetivo:** `sesiones/RETOME-LOCAL.md` (b): antes de fabricar el sub3, leer en los volcados el estado de lo que toca (plantilla `+0x20..+0x2C`, `sub+8`), que es la lección de (116).
+**Resultado (en frío; el detalle en `docs/16` «La guarda de plantilla viva, (118)»):**
+- **Herramienta nueva `herramientas/sub_estado.py`** con su saboteador `pruebas/probar-sub-estado.py` (5 sabotajes en rojo + control positivo en verde). Confirma la receta de (116): la cuádrupla de la plantilla de `sub0` apunta **4/4 adentro de su arena** en los 16 volcados; control negativo (subs corridos `0x10`) 0/16. Dos subs **nunca** comparten plantilla hoy (0/16): el peligro es exclusivo del coop.
+- **El hallazgo que cambia el diseño:** `sub1+8` —el sub del arma que **no** está en la mano— está **COLGADO** en 14 de los 16 volcados: apunta a memoria que el nivel reusó (la cabecera es ruido, mientras la de `sub0` es `+0`=`0x1010`, `+4`=`0x15`, `+0x1C`=`p+0x4C`). Su *instancia* sí sobrevive en la arena (714 B). Es inocuo en el juego original porque `FUN_001AC960`→`FUN_001A8168` rearma `sub+8` y la cuádrupla (`FUN_00342A80`, sin condición) antes de que la ranura se use. Pero la regla del dueño de plantilla, como estaba escrita, le **habría escrito cuatro palabras encima**: una corrupción que el juego no tiene y que la metía el mod.
+- **La guarda, medida y falsable:** una plantilla viva cumple `*(p+0x1C) == p+0x4C` (puntero relativo a sí misma, invariante por construcción). Discrimina **16/16** contra **0/14**. Tres instrucciones. La regla corregida está en `docs/16`; sin la guarda no se escribe nada.
+- **La predicción de la pieza 2b se afina:** el síntoma sin la regla no es «basura» sino que la ranura de J lea la **instancia de J2** (= F7), porque la arena de J2 tiene una instancia válida. Más fuerte y más barato de refutar.
+**No funcionó:** el primer autotest pasó **ciego al paso entre subs** (`0x6C` → `0x70` seguía dando verde): el control positivo sólo miraba `sub0`, donde `i·paso` = 0. El saboteador lo destapó; se agregó el control que exige que `sub1` caiga en **otra** arena válida con su propia instancia. Dos heredocs frenados por el guardia (se pasó a Write/Edit, como avisaba el retome).
+**Sigue:** escribir `coop_sub3.py` **con la guarda** + regla 10 de `coop_diseno.py` y su saboteador; y, con la pantalla libre, la prueba en vivo de la pieza 2a (predicción en `sesiones/PREDICCIONES-118.md`).
+
 ## 2026-10-02 (117, notebook, frío, con Fran en clase: la pantalla no se toca) — COOP-C pieza 2a: el sonido que se oye es el cue de `V+0x1BE0`, no `FUN_001D7020`
 **Máquina:** notebook, sin emulador · **Modelo:** Opus, high, sin fan-out · **Sirve a:** COOP-C (pieza 2a, F4) · **Nodos:** `audio`
 **Objetivo:** `sesiones/RETOME-LOCAL.md` (a): en frío, de dónde sale el sonido audible del disparo, leyendo primero el estado en los volcados (la lección de (116)).

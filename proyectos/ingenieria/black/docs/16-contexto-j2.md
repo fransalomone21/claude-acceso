@@ -852,3 +852,53 @@ vieja «sub3 (datos)» (16 B). Va a `0x0046EF00`–`0x0046F000` (en cero en los 
 la reserva «sub3 (código)» `0x0046ED00`. **Predicción para la prueba:** J2 cambia de arma y la mitad de J sigue
 mostrando el arma de J (control `--sin-sub3`: la de J2 en las dos, F7); y J y J2 con la misma pistola, J2 cambia y J
 cambia de arma y vuelve: sin cuelgue (control: la misma secuencia sin la regla del dueño, `hipótesis` de basura).
+
+### La guarda de plantilla viva, (118): la regla del dueño iba a escribir sobre un puntero colgado
+
+> COOP-C pieza 2b. La lectura previa a fabricar que pedía el retome (`herramientas/sub_estado.py`,
+> con su saboteador `pruebas/probar-sub-estado.py`, 5 sabotajes en rojo). Cambia el diseño de la
+> regla del dueño de plantilla de arriba: se escribe acá **antes** del stub, como manda la Fase C.
+
+- **Lo que se midió, en los 16 volcados** (`pers` = `*(0x0040F50C)` = `0x004ED380`, subs en
+  `pers+0x398+i·0x6C`):
+  - `sub0` (el arma **en la mano**, rearmada en cada cambio) tiene su plantilla con la cuádrupla
+    `+0x20..+0x2C` apuntando **4 de 4 adentro de su arena** (`sub+4`, 18 000 B), en 16 de 16.
+    Control negativo (los subs corridos `0x10`): 0 de 16. Confirma la receta de (116).
+  - `sub1` **nunca**: su cuádrupla es ruido (`0xfed464b3…`, los mismos bytes en volcados donde la
+    dirección de la plantilla **difiere** — o sea, no son punteros viejos: son datos de otro objeto).
+  - La explicación trivial, y es la correcta: **`sub1+8` está COLGADO.** La cabecera del objeto al
+    que apunta no tiene la forma de una plantilla (`sub0`: `+0` = `0x1010`, `+4` = `0x15`,
+    `+0x1C` = `p+0x4C`; `sub1`: `0x1902cc0d`, `0x32079b03`, ruido). El nivel liberó el recurso y
+    reusó la memoria.
+  - La **instancia** de `sub1` sí sobrevive en su arena (714 B no cero, cabecera apuntando adentro
+    de la propia arena), en los 14 volcados donde `sub1+8` ≠ 0; en los 2 donde vale 0, la arena
+    está entera en cero.
+  - **Hoy nunca hay dos subs con la misma plantilla** (0 de 16): el peligro es exclusivo del coop,
+    como decía (116).
+- **Por qué es inocuo en el juego original** (`probable`, por el C): el único que arma estos subs es
+  `FUN_001AC960` → `FUN_001A8168` (`FUN_001ACAC8` arma **otra** familia, `pers+0xF8+k·0x60` con
+  `pers+0x944`, medido en el C de `0x001ACAC8`), y `FUN_001A8168` rearma `sub+8` **y** la cuádrupla
+  (`FUN_00342A80`, sin condición) antes de que la ranura del sub se use. El puntero colgado se
+  repara solo antes de leerse.
+- **El defecto que esto destapa en la regla del dueño:** el paso (2) decía «si otro sub `T` todavía
+  tiene `Bo` (`T+8` = `Bo`), se le vuelve a escribir a `Bo` la cuádrupla guardada de `T`». Con
+  `T+8` colgado —el estado **normal** del sub que no está en la mano, 14 de 16 volcados— eso
+  escribe cuatro palabras en memoria que ahora es de otro. Es una corrupción que el juego original
+  no tiene, y la habría metido el mod.
+- **La guarda, medida:** una plantilla viva cumple `*(p+0x1C) == p+0x4C` (un puntero **relativo a
+  sí misma**: invariante por construcción, que el ruido no puede cumplir de casualidad).
+  Discrimina **16/16** en `sub0` contra **0/14** en `sub1` colgado. En instrucciones son tres:
+  `lw t, 0x1C(Bo)` · `addiu u, Bo, 0x4C` · `bne t, u, saltear`.
+
+**La regla del dueño de plantilla, corregida.** Después de armar un sub `S` con la plantilla `Bn`
+(la vieja era `Bo`): (1) guardar la cuádrupla de `Bn` (`+0x20..+0x2C`) como la de `S`; (2) si otro
+sub `T` de los tres (`sub0`, `sub1`, `sub3`) tiene `T+8` = `Bo`, `Bo` ≠ `Bn` **y `Bo` pasa la
+guarda de plantilla viva**, reescribirle a `Bo` la cuádrupla guardada de `T`; si no pasa la guarda,
+**no se escribe nada** (el juego la va a rearmar antes de usarla, que es lo que hace hoy).
+
+**Lo que la medición NO dice** (sigue abierto, y es para la prueba en vivo): con J y J2 con la
+misma pistola la plantilla compartida está **viva** en los dos, así que la rama que escribe es la
+que va a correr; el síntoma sin la regla es `hipótesis` — no «basura» sino que la ranura de J lea
+la **instancia de J2** (que es exactamente F7), porque la arena de J2 sí tiene una instancia válida.
+Eso hace la predicción más fuerte y más barata de refutar: con la regla, cada mitad su arma; sin
+ella, el arma del último que cambió en las dos.

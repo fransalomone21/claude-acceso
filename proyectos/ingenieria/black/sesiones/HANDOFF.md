@@ -4,7 +4,17 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(117), 2026-10-02, notebook en frío (Fran en clase: no se abrió nada en pantalla) — LO ÚLTIMO.** El sonido audible
+> **(118), 2026-10-03, notebook en frío — LO ÚLTIMO.** Antes de fabricar el sub3 se leyó en los volcados el estado de
+> lo que toca, y **la regla del dueño de plantilla tenía un agujero**: el sub del arma que no está en la mano deja
+> `sub+8` **colgado** (14 de 16 volcados; inocuo en el juego porque se rearma antes de usarse), y la regla le habría
+> escrito cuatro palabras encima. Lleva ahora la **guarda de plantilla viva** `*(p+0x1C) == p+0x4C`, que discrimina
+> 16/16 contra 0/14 (tres instrucciones). Herramientas: `herramientas/sub_estado.py` + `pruebas/probar-sub-estado.py`
+> (5 sabotajes en rojo, control positivo en verde). Diseño corregido en `docs/16` «La guarda de plantilla viva, (118)»;
+> predicciones en `sesiones/PREDICCIONES-118.md`; `pruebas/controles.py` en verde.
+> **`coop_sub3.py` todavía NO existe.** **Máquina: igual que en (117)** (pnach 1052 palabras, nada abierto ni instalado).
+> **Sigue: `sesiones/RETOME-LOCAL.md`.**
+>
+> **(117), 2026-10-02, notebook en frío (Fran en clase: no se abrió nada en pantalla).** El sonido audible
 > del disparo es el cue `*(V+0x1BE0)` (`FUN_001F0678`), no `FUN_001D7020`; pieza 2a rediseñada (`coop_sonido.py`,
 > 7 palabras) con regla 9 y saboteador en verde, **apagada** hasta la prueba en vivo; `herramientas/cue_disparo.py` lee
 > el estado del cue en los volcados. **Máquina: igual que en (116)** (pnach 1052 palabras, nada abierto ni instalado).

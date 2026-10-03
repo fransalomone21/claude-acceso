@@ -37,9 +37,23 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2 (sonido y arma de J2) con las recetas leídas y el primer intento de sonido refutado (116) (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (sonido) rediseñada sobre el cue y esperando la prueba en vivo (117); pieza 2b (sub3) con su regla corregida por la guarda de plantilla viva (118) (LEER ESTO PRIMERO)
 
-> **(117), 2026-10-02, NOTEBOOK EN FRÍO (Fran en clase, sin emulador) — LO ÚLTIMO** (bitácora (117), `docs/16` «El sonido audible, (117)»).
+> **(118), 2026-10-03, NOTEBOOK EN FRÍO — LO ÚLTIMO** (bitácora (118), `docs/16` «La guarda de plantilla viva, (118)»).
+> - **La regla del dueño de plantilla tenía un agujero, medido antes de fabricar:** el sub del arma que **no** está en
+>   la mano deja `sub+8` **colgado** (apunta a memoria que el nivel reusó) en **14 de 16 volcados**. Es inocuo en el
+>   juego original porque `FUN_001AC960`→`FUN_001A8168` rearma `sub+8` y la cuádrupla antes de usar la ranura; pero la
+>   regla, como estaba escrita, le **habría escrito cuatro palabras encima**.
+> - **La guarda que lo arregla, medida:** una plantilla viva cumple `*(p+0x1C) == p+0x4C` (puntero relativo a sí misma).
+>   Discrimina **16/16** contra **0/14**; tres instrucciones. Sin la guarda, no se escribe nada.
+> - Confirmada la receta de (116): cuádrupla 4/4 adentro de la arena (16/16, negativo 0/16) y **0 subs comparten
+>   plantilla hoy** (el peligro es sólo del coop). Herramientas: `herramientas/sub_estado.py` +
+>   `pruebas/probar-sub-estado.py` (5 sabotajes en rojo). `pruebas/controles.py` en verde.
+> - **Máquina:** igual que en (117) (pnach 1052 palabras, `CON_SONIDO` apagado, nada abierto). Predicciones:
+>   `sesiones/PREDICCIONES-118.md`. **Sigue: `sesiones/RETOME-LOCAL.md`** (escribir `coop_sub3.py` con la guarda; y la
+>   pieza 2a en vivo cuando haya pantalla libre).
+
+> **(117), 2026-10-02, NOTEBOOK EN FRÍO (Fran en clase, sin emulador)** (bitácora (117), `docs/16` «El sonido audible, (117)»).
 > - **El sonido que se oye del disparo es el cue `*(V+0x1BE0)`** (`FUN_001F0678` → una de las 2 voces de `V` →
 >   `FUN_00283E78`), `confirmado en frío` por dos métodos; lo de «pista de animación» de (116) estaba mal y está corregido.
 >   Estado leído antes en los 16 volcados (`herramientas/cue_disparo.py`, con control).
