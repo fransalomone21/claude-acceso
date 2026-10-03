@@ -1,0 +1,23 @@
+LA JUNTADA - Minecraft 1.21.4 con mods (Fabric)
+===============================================
+
+Lo que necesitas antes:
+  - Prism Launcher con tu cuenta offline ya andando (como siempre).
+    Si no tenes Prism, el instalador lo instala solo.
+  - ZeroTier conectado a la red de franquiito (o estar en el mismo wifi que Fran).
+
+Pasos:
+  1. Descomprimi esta carpeta donde quieras (no la abras desde adentro del zip).
+  2. Doble clic en  instalar-juntada.bat
+     Mide tu PC y elige los graficos solo (ALTO / MEDIO / BAJO).
+  3. En Prism: elegi "Juntada 1.21.4" y Launch. Entra directo al server de Fran.
+
+Si va lento o va sobrado:
+  - Cambiar de perfil: abri una consola en esta carpeta y corre
+        instalar-juntada.bat medio      (o alto / bajo)
+    (tus mundos locales no se borran)
+  - Ajuste fino adentro del juego: Opciones > Video (Sodium).
+
+Si no entra al server:
+  - Fijate que ZeroTier diga "OK" y que tengas IP 10.147.20.x
+  - Direccion del server: 10.147.20.2

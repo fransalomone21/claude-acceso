@@ -76,6 +76,7 @@ siempre y con cuánto rigor. Qué fase y qué falta: `.\cascada.ps1 <proyecto>`.
 | [`black/`](proyectos/ingenieria/black/CLAUDE.md) | Ingeniería reversa de **BLACK** (PS2) sobre PCSX2: la campaña en coop con pantalla dividida. Es un **programa** (NASA §3); el retome está en `sesiones/RETOME-LOCAL.md` | **ACTIVO** |
 | [`lavarropas-drean/`](proyectos/ingenieria/lavarropas-drean/CLAUDE.md) | El ruido creciente del Drean Next 6.06 ECO de casa: la sesión escribe el procedimiento, Fran y su papá lo ejecutan | **ACTIVO** |
 | [`metodo-agustin/`](proyectos/ingenieria/metodo-agustin/CLAUDE.md) | Pasar el método a la notebook de Agustín sin los proyectos de Fran: núcleo generado y filtrado de lo personal, por GitHub | **ACTIVO** |
+| [`minecraft-amigos/`](proyectos/ingenieria/minecraft-amigos/CLAUDE.md) | Server Fabric 1.21.4 con mods vanilla+ en la notebook, por ZeroTier, y el instalador de un clic (gráficos según la PC) para los amigos | **ACTIVO** |
 | [`diagnostico-msi/`](proyectos/ingenieria/diagnostico-msi/) | Secure Boot y batería de la notebook MSI | cerrado con informe |
 | [`telescopio/`](proyectos/ingenieria/telescopio/) | Plataforma ecuatorial Dobson, CAD SolidWorks | dormido |
 | [`telefono-samsung/`](proyectos/ingenieria/telefono-samsung/) | Kit de diagnóstico y limpieza vía ADB | suspendido (2026-08-15) |

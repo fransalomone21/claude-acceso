@@ -1,0 +1,638 @@
+{
+ "mc": "1.21.4",
+ "mods": [
+  {
+   "slug": "alloy-forgery",
+   "titulo": "Alloy Forgery",
+   "archivo": "alloy-forgery-fabric-3.0.7+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "ambientsounds",
+   "titulo": "AmbientSounds",
+   "archivo": "AmbientSounds_FABRIC_v6.1.3_mc1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "appleskin",
+   "titulo": "AppleSkin",
+   "archivo": "appleskin-fabric-mc1.21.3-3.0.6.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "architectury-api",
+   "titulo": "Architectury API",
+   "archivo": "architectury-15.0.3-fabric.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "astrocraft",
+   "titulo": "Astrocraft",
+   "archivo": "astrocraft-1.5.1+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "base"
+  },
+  {
+   "slug": "balm",
+   "titulo": "Balm",
+   "archivo": "balm-fabric-1.21.4-21.4.41.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "cardinal-components-api",
+   "titulo": "Cardinal Components API",
+   "archivo": "cardinal-components-api-6.2.2.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "dependencia de travelersbackpack"
+  },
+  {
+   "slug": "carnivorous-plant",
+   "titulo": "Carnivorous Plant",
+   "archivo": "carnivorous-plant-1.2.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "chunky",
+   "titulo": "Chunky",
+   "archivo": "Chunky-Fabric-1.4.27.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "clifftree",
+   "titulo": "CliffTree",
+   "archivo": "clifftree-2.0.1.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "cloth-config",
+   "titulo": "Cloth Config API",
+   "archivo": "cloth-config-17.0.144-fabric.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "collective",
+   "titulo": "Collective",
+   "archivo": "collective-1.21.4-8.3.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "comforts",
+   "titulo": "Comforts",
+   "archivo": "comforts-fabric-10.0.1+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "continuity",
+   "titulo": "Continuity",
+   "archivo": "continuity-3.0.0+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "creativecore",
+   "titulo": "CreativeCore",
+   "archivo": "CreativeCore_FABRIC_v2.12.35_mc1.21.4.jar",
+   "cliente": "required",
+   "servidor": "optional",
+   "origen": "dependencia de ambientsounds"
+  },
+  {
+   "slug": "cristel-lib",
+   "titulo": "Cristel Lib",
+   "archivo": "cristellib-fabric-2.0.2.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "critter-armory",
+   "titulo": "Critter Armory",
+   "archivo": "critterarmory-1.21.4-0.6.3-fabric.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "deeper_dark",
+   "titulo": "Deeper Dark",
+   "archivo": "deeper_dark-4.1.0.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "dungeons-and-taverns",
+   "titulo": "Dungeons and Taverns",
+   "archivo": "dungeons-and-taverns-v4.6.3.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "dynamic-fps",
+   "titulo": "Dynamic FPS",
+   "archivo": "dynamic-fps-3.11.8+minecraft-1.21.2-fabric.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "entityculling",
+   "titulo": "Entity Culling",
+   "archivo": "entityculling-fabric-1.10.5-mc1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "base"
+  },
+  {
+   "slug": "explorers-compass",
+   "titulo": "Explorer's Compass",
+   "archivo": "ExplorersCompass-1.21.4-2.2.6-fabric.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "fabric-api",
+   "titulo": "Fabric API",
+   "archivo": "fabric-api-0.119.4+1.21.4.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "fallingleaves",
+   "titulo": "Falling Leaves",
+   "archivo": "fallingleaves-1.17.0+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "ferrite-core",
+   "titulo": "FerriteCore",
+   "archivo": "ferritecore-7.1.3-fabric.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "forge-config-api-port",
+   "titulo": "Forge Config API Port",
+   "archivo": "ForgeConfigAPIPort-v21.4.3-1.21.4-Fabric.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "friends-and-foes",
+   "titulo": "Friends&Foes (Fabric/Quilt)",
+   "archivo": "friendsandfoes-fabric-4.0.27+mc1.21.4.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "glitchcore",
+   "titulo": "GlitchCore",
+   "archivo": "GlitchCore-fabric-1.21.4-2.3.0.4.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "universal-graves",
+   "titulo": "Universal Graves",
+   "archivo": "graves-3.6.0+1.21.4.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "immediatelyfast",
+   "titulo": "ImmediatelyFast",
+   "archivo": "ImmediatelyFast-Fabric-1.8.7+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "base"
+  },
+  {
+   "slug": "incendium",
+   "titulo": "Incendium Legacy",
+   "archivo": "Incendium_1.21.x_v5.4.4.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "iris",
+   "titulo": "Iris Shaders",
+   "archivo": "iris-fabric-1.8.8+mc1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "base"
+  },
+  {
+   "slug": "jade",
+   "titulo": "Jade 🔍",
+   "archivo": "Jade-1.21.4-Fabric-17.2.2.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "lambdynamiclights",
+   "titulo": "LambDynamicLights - Dynamic Lights",
+   "archivo": "lambdynamiclights-4.1.3+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "lithium",
+   "titulo": "Lithium",
+   "archivo": "lithium-fabric-0.15.3+mc1.21.4.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "lootr",
+   "titulo": "Lootr",
+   "archivo": "lootr-fabric-1.21.4-1.13.36.89.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "modernfix",
+   "titulo": "ModernFix",
+   "archivo": "modernfix-fabric-5.20.3+mc1.21.4.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "modmenu",
+   "titulo": "Mod Menu",
+   "archivo": "modmenu-13.0.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "base"
+  },
+  {
+   "slug": "moogs-structure-lib",
+   "titulo": "Moog's Structure Lib (moogs_structures)",
+   "archivo": "moogs_structures-fabric-1.21.4-3.0.3.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "mns-moogs-nether-structures",
+   "titulo": "MNS - Moog's Nether Structures",
+   "archivo": "MoogsNetherStructures-1.21-3.0.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "moreculling",
+   "titulo": "More Culling",
+   "archivo": "moreculling-fabric-1.21.4-1.2.10.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "base"
+  },
+  {
+   "slug": "mouse-tweaks",
+   "titulo": "Mouse Tweaks",
+   "archivo": "MouseTweaks-fabric-mc1.21.3-2.27.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "mutant-monsters",
+   "titulo": "Mutant Monsters",
+   "archivo": "MutantMonsters-v21.4.2-1.21.4-Fabric.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "mythicmetals",
+   "titulo": "Mythic Metals",
+   "archivo": "mythicmetals-0.25.3+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "natures-compass",
+   "titulo": "Nature's Compass",
+   "archivo": "NaturesCompass-1.21.4-2.2.8-fabric.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "noisium",
+   "titulo": "Noisium",
+   "archivo": "noisium-fabric-2.5.0+mc1.21.4.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "nullscape",
+   "titulo": "Nullscape",
+   "archivo": "Nullscape_1.21.x_v1.2.14.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "owo-lib",
+   "titulo": "oωo (owo-lib)",
+   "archivo": "owo-lib-0.12.20+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "polymer",
+   "titulo": "Polymer",
+   "archivo": "polymer-bundled-0.11.8+1.21.4.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "dependencia de universal-graves"
+  },
+  {
+   "slug": "presence-footsteps",
+   "titulo": "Presence Footsteps",
+   "archivo": "PresenceFootsteps-1.11.2+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "promenade",
+   "titulo": "Promenade",
+   "archivo": "promenade-5.0.2.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "puzzles-lib",
+   "titulo": "Puzzles Lib",
+   "archivo": "PuzzlesLib-v21.4.14-1.21.4-Fabric.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "reeses-sodium-options",
+   "titulo": "Reese's Sodium Options",
+   "archivo": "reeses-sodium-options-fabric-1.8.3+mc1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "resourceful-lib",
+   "titulo": "Resourceful Lib",
+   "archivo": "ResourcefulLib-fabric-1.21.4-3.4.5.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "dependencia de friends-and-foes"
+  },
+  {
+   "slug": "rei",
+   "titulo": "Roughly Enough Items (REI)",
+   "archivo": "RoughlyEnoughItems-18.0.815-fabric.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "small-ships",
+   "titulo": "Small Ships",
+   "archivo": "smallships-fabric-1.21.4-2.0.0-b2.1.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "sodium-extra",
+   "titulo": "Sodium Extra",
+   "archivo": "sodium-extra-fabric-0.6.1+mc1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "sodium",
+   "titulo": "Sodium",
+   "archivo": "sodium-fabric-0.6.13+mc1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "base"
+  },
+  {
+   "slug": "spark",
+   "titulo": "spark",
+   "archivo": "spark-1.10.121-fabric.jar",
+   "cliente": "optional",
+   "servidor": "optional",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "stack-refill",
+   "titulo": "Stack Refill",
+   "archivo": "stackrefill-1.21.4-4.7.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "towns-and-towers",
+   "titulo": "Towns and Towers",
+   "archivo": "t_and_t-fabric-neoforge-1.13.5.jar",
+   "cliente": "optional",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "tough-as-nails",
+   "titulo": "Tough As Nails",
+   "archivo": "ToughAsNails-fabric-1.21.4-10.4.0.3.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "travelersbackpack",
+   "titulo": "Traveler's Backpack",
+   "archivo": "travelersbackpack-fabric-1.21.4-10.4.13.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "visuality",
+   "titulo": "Visuality",
+   "archivo": "visuality-0.7.9+1.21.4.jar",
+   "cliente": "required",
+   "servidor": "unsupported",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "waystones",
+   "titulo": "Waystones",
+   "archivo": "waystones-fabric-1.21.4-21.4.19.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "base"
+  },
+  {
+   "slug": "xaeros-minimap",
+   "titulo": "Xaero's Minimap",
+   "archivo": "xaerominimap-fabric-1.21.4-26.4.2.jar",
+   "cliente": "required",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "xaeros-world-map",
+   "titulo": "Xaero's World Map",
+   "archivo": "xaeroworldmap-fabric-1.21.4-1.44.2.jar",
+   "cliente": "required",
+   "servidor": "optional",
+   "origen": "base"
+  },
+  {
+   "slug": "yungs-api",
+   "titulo": "YUNG's API",
+   "archivo": "YungsApi-1.21.4-Fabric-5.4.0.jar",
+   "cliente": "required",
+   "servidor": "required",
+   "origen": "dependencia de yungs-better-dungeons"
+  },
+  {
+   "slug": "yungs-better-desert-temples",
+   "titulo": "YUNG's Better Desert Temples",
+   "archivo": "YungsBetterDesertTemples-1.21.4-Fabric-4.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-better-dungeons",
+   "titulo": "YUNG's Better Dungeons",
+   "archivo": "YungsBetterDungeons-1.21.4-Fabric-5.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-better-end-island",
+   "titulo": "YUNG's Better End Island",
+   "archivo": "YungsBetterEndIsland-1.21.4-Fabric-3.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-better-jungle-temples",
+   "titulo": "YUNG's Better Jungle Temples",
+   "archivo": "YungsBetterJungleTemples-1.21.4-Fabric-3.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-better-mineshafts",
+   "titulo": "YUNG's Better Mineshafts",
+   "archivo": "YungsBetterMineshafts-1.21.4-Fabric-5.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-better-nether-fortresses",
+   "titulo": "YUNG's Better Nether Fortresses",
+   "archivo": "YungsBetterNetherFortresses-1.21.4-Fabric-3.4.1.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-better-ocean-monuments",
+   "titulo": "YUNG's Better Ocean Monuments",
+   "archivo": "YungsBetterOceanMonuments-1.21.4-Fabric-4.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-better-strongholds",
+   "titulo": "YUNG's Better Strongholds",
+   "archivo": "YungsBetterStrongholds-1.21.4-Fabric-5.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-better-witch-huts",
+   "titulo": "YUNG's Better Witch Huts",
+   "archivo": "YungsBetterWitchHuts-1.21.4-Fabric-4.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-bridges",
+   "titulo": "YUNG's Bridges",
+   "archivo": "YungsBridges-1.21.4-Fabric-5.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  },
+  {
+   "slug": "yungs-extras",
+   "titulo": "YUNG's Extras",
+   "archivo": "YungsExtras-1.21.4-Fabric-5.4.0.jar",
+   "cliente": "unsupported",
+   "servidor": "required",
+   "origen": "nuevo"
+  }
+ ],
+ "sin_version": []
+}

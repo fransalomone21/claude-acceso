@@ -1,0 +1,53 @@
+# Mods que se suman a la base "Nuevo 1.21.4" (Fabric 1.21.4). Un slug de Modrinth por linea.
+# Criterio de Fran: renovar todo, pero vanilla+ (nada de armas de fuego ni maquinas complejas).
+
+# --- mobs ---
+friends-and-foes              # los mobs de las votaciones que Mojang nunca agrego
+
+# --- estructuras: YUNG reescribe las de vainilla para que valga explorarlas ---
+yungs-better-dungeons
+yungs-better-mineshafts
+yungs-better-strongholds
+yungs-better-ocean-monuments
+yungs-better-desert-temples
+yungs-better-jungle-temples
+yungs-better-witch-huts
+yungs-better-nether-fortresses
+yungs-better-end-island
+yungs-bridges
+yungs-extras
+
+# --- dimensiones renovadas ---
+nullscape                     # el End con terreno de verdad
+incendium                     # el Nether con biomas y estructuras nuevas
+
+# --- multijugador: que nadie se quede sin loot ni pierda todo ---
+lootr                         # cada jugador tiene su propio cofre en las estructuras
+universal-graves              # al morir queda una tumba con tus cosas
+
+# --- objetos y QoL ---
+comforts                      # bolsas de dormir y hamacas
+travelersbackpack             # mochilas
+natures-compass               # brujula a biomas
+explorers-compass             # brujula a estructuras
+jade                          # que bloque/mob estoy mirando
+appleskin                     # hambre y saturacion visibles
+mouse-tweaks
+
+# --- ambiente (barato en FPS) ---
+ambientsounds
+presence-footsteps
+fallingleaves
+visuality
+lambdynamiclights             # la antorcha en la mano ilumina
+continuity                    # vidrio y bloques conectados
+
+# --- rendimiento ---
+sodium-extra
+reeses-sodium-options
+dynamic-fps                   # baja FPS cuando la ventana no tiene foco
+lithium
+modernfix
+noisium
+spark                         # si hay lag, dice de donde viene
+chunky                        # pregenerar el mundo antes de que lleguen

@@ -167,6 +167,8 @@
     "coaching":              {"necesidades": [],
                               "senales": ["\\bdieta\\b", "entrenamiento", "\\bentreno\\b"]},
     "haberes-docentes":      {"necesidades": [],
-                              "senales": ["\\bhaberes\\b", "\\bcouli\\b", "sueldo docente"]}
+                              "senales": ["\\bhaberes\\b", "\\bcouli\\b", "sueldo docente"]},
+    "minecraft-amigos":      {"necesidades": [],
+                              "senales": ["\\bminecraft\\b", "\\bprism\\b", "modpack"]}
   }
 }
