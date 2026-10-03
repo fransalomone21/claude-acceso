@@ -39,14 +39,16 @@ CUE_SON_MAL = ("import coop_sonido; coop_sonido.FUENTE = coop_sonido.FUENTE.repl
                "'lw t9, 0x1be4(a0)')", "no lee el cue")
 ENTRADA_SON_MAL = ("import coop_sonido; coop_sonido.DISPARO_V = 0x001D7360", "el envoltorio 1")
 MARCA_RESERVA_SON = ("pass", "sonido: el codigo")
+# (119) la pieza 2a, ya en coop-rangos, tiene que ir PRENDIDA por defecto: si no, el acceso COOP instala sin ella
+APAGAR_SONIDO = ("import coop_mod; coop_mod.CON_SONIDO = False", "CON_SONIDO apagado")
 
 
-def fin_sonido_achicado() -> str:
-    """(117) la reserva del sonido achicada a UNA palabra menos que el codigo actual: derivado, no literal (la de
-    (116) achicaba a 0x0046EE20 fijo y quedo ciega cuando el codigo bajo de 13 a 7 palabras)."""
+def fin_sonido(n=0) -> str:
+    """El fin de la fila del sonido, DERIVADO del codigo (no literal): `n` = palabras de menos. La de (116) achicaba
+    a 0x0046EE20 fijo y quedo ciega cuando el codigo bajo de 13 a 7 palabras."""
     sys.path.insert(0, str(VERIF.parent))
     import coop_sonido
-    return "0x%08X" % (coop_sonido.BASE + 4 * (len(coop_sonido.programa()) - 1))
+    return "0x%08X" % (coop_sonido.BASE + 4 * (len(coop_sonido.programa()) - n))
 
 
 def correr(doc: Path, mods: Path, previo=None) -> int:
@@ -99,10 +101,15 @@ def main() -> int:
         ("sonido: SONJ2 pisa a0 = V antes del salto (116)", lambda t: t, A0_SON_MAL, 1),
         ("sonido: SONJ2 no lee el cue de V+0x1BE0 (117)", lambda t: t, CUE_SON_MAL, 1),
         ("sonido: la pieza cuelga de otro envoltorio (116)", lambda t: t, ENTRADA_SON_MAL, 1),
-        ("sonido: reserva achicada (116)",
-         lambda t: t.replace("| 0x0046EE00 | 0x0046EE40 | reserva",
-                             "| 0x0046EE00 | %s | reserva" % fin_sonido_achicado()),
+        # (119) la fila se mudo de coop-plan-b (reserva) a coop-rangos (codigo) al pasar la pieza su prueba: el
+        # sabotaje viejo reemplazaba el texto de la reserva, que ya no existe, y no saboteaba nada (rc=99, revento).
+        # Ahora achica la fila de CODIGO una palabra, derivada del codigo actual
+        ("sonido: fila de código achicada (119)",
+         lambda t: t.replace("| 0x0046EE00 | %s | codigo" % fin_sonido(),
+                             "| 0x0046EE00 | %s | codigo" % fin_sonido(1)),
          MARCA_RESERVA_SON, 1),
+        # y el control de que la pieza quede PRENDIDA por defecto con sus filas en coop-rangos (regla 9)
+        ("sonido: apagado por defecto con sus filas en coop-rangos (119)", lambda t: t, APAGAR_SONIDO, 1),
     ]
     fallas = 0
     with tempfile.TemporaryDirectory() as tmp:

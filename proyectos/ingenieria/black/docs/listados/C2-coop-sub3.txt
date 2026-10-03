@@ -1,0 +1,98 @@
+0046EC20  27BDFFC0  addiu $sp, $sp, -0x40              ; addiu sp, sp, -0x40
+0046EC24  FFBF0000  sd $ra, ($sp)                      ; sd ra, 0(sp)
+0046EC28  AFA50010  sw $a1, 0x10($sp)                  ; sw a1, 0x10(sp)
+0046EC2C  AFA60014  sw $a2, 0x14($sp)                  ; sw a2, 0x14(sp)
+0046EC30  AFA70018  sw $a3, 0x18($sp)                  ; sw a3, 0x18(sp)
+0046EC34  3C080047  lui $t0, 0x47                      ; lui t0, 0x47
+0046EC38  2509CDF0  addiu $t1, $t0, -0x3210            ; addiu t1, t0, -12816
+0046EC3C  16E9000C  bne $s7, $t1, 0x46ec70             ; bne s7, t1, 0x46ec70
+0046EC40  00806021  move $t4, $a0                      ; move t4, a0
+0046EC44  8D0AEF6C  lw $t2, -0x1094($t0)               ; lw t2, -4244(t0)
+0046EC48  15400007  bnez $t2, 0x46ec68                 ; bne t2, zero, 0x46ec68
+0046EC4C  250CEF00  addiu $t4, $t0, -0x1100            ; addiu t4, t0, -4352
+0046EC50  0C06A03E  jal 0x1a80f8                       ; jal 0x1a80f8
+0046EC54  01802021  move $a0, $t4                      ; move a0, t4
+0046EC58  3C080047  lui $t0, 0x47                      ; lui t0, 0x47
+0046EC5C  250CEF00  addiu $t4, $t0, -0x1100            ; addiu t4, t0, -4352
+0046EC60  240A0001  addiu $t2, $zero, 1                ; addiu t2, zero, 1
+0046EC64  AD0AEF6C  sw $t2, -0x1094($t0)               ; sw t2, -4244(t0)
+0046EC68  8D0AD7C0  lw $t2, -0x2840($t0)               ; lw t2, -10304(t0)
+0046EC6C  AD0AEF70  sw $t2, -0x1090($t0)               ; sw t2, -4240(t0)
+0046EC70  AFAC001C  sw $t4, 0x1c($sp)                  ; sw t4, 0x1c(sp)
+0046EC74  8D8D0008  lw $t5, 8($t4)                     ; lw t5, 8(t4)
+0046EC78  AFAD0020  sw $t5, 0x20($sp)                  ; sw t5, 0x20(sp)
+0046EC7C  8FA50010  lw $a1, 0x10($sp)                  ; lw a1, 0x10(sp)
+0046EC80  8FA60014  lw $a2, 0x14($sp)                  ; lw a2, 0x14(sp)
+0046EC84  8FA70018  lw $a3, 0x18($sp)                  ; lw a3, 0x18(sp)
+0046EC88  0C06A05A  jal 0x1a8168                       ; jal 0x1a8168
+0046EC8C  01802021  move $a0, $t4                      ; move a0, t4
+0046EC90  8FAC001C  lw $t4, 0x1c($sp)                  ; lw t4, 0x1c(sp)
+0046EC94  01808021  move $s0, $t4                      ; move s0, t4
+0046EC98  3C080047  lui $t0, 0x47                      ; lui t0, 0x47
+0046EC9C  8D8E0008  lw $t6, 8($t4)                     ; lw t6, 8(t4)
+0046ECA0  2509EF00  addiu $t1, $t0, -0x1100            ; addiu t1, t0, -4352
+0046ECA4  24190002  addiu $t9, $zero, 2                ; addiu t9, zero, 2
+0046ECA8  11890002  beq $t4, $t1, 0x46ecb4             ; beq t4, t1, 0x46ecb4
+0046ECAC  00000000  nop                                ; nop
+0046ECB0  02A0C821  move $t9, $s5                      ; move t9, s5
+0046ECB4  00195100  sll $t2, $t9, 4                    ; sll t2, t9, 4
+0046ECB8  250BEF80  addiu $t3, $t0, -0x1080            ; addiu t3, t0, -4224
+0046ECBC  016A5821  addu $t3, $t3, $t2                 ; addu t3, t3, t2
+0046ECC0  8DCA0020  lw $t2, 0x20($t6)                  ; lw t2, 0x20(t6)
+0046ECC4  AD6A0000  sw $t2, ($t3)                      ; sw t2, 0(t3)
+0046ECC8  8DCA0024  lw $t2, 0x24($t6)                  ; lw t2, 0x24(t6)
+0046ECCC  AD6A0004  sw $t2, 4($t3)                     ; sw t2, 4(t3)
+0046ECD0  8DCA0028  lw $t2, 0x28($t6)                  ; lw t2, 0x28(t6)
+0046ECD4  AD6A0008  sw $t2, 8($t3)                     ; sw t2, 8(t3)
+0046ECD8  8DCA002C  lw $t2, 0x2c($t6)                  ; lw t2, 0x2c(t6)
+0046ECDC  AD6A000C  sw $t2, 0xc($t3)                   ; sw t2, 0xc(t3)
+0046ECE0  8FAD0020  lw $t5, 0x20($sp)                  ; lw t5, 0x20(sp)
+0046ECE4  11A0002D  beqz $t5, 0x46ed9c                 ; beq t5, zero, 0x46ed9c
+0046ECE8  00000000  nop                                ; nop
+0046ECEC  11AE002B  beq $t5, $t6, 0x46ed9c             ; beq t5, t6, 0x46ed9c
+0046ECF0  00000000  nop                                ; nop
+0046ECF4  8DAA001C  lw $t2, 0x1c($t5)                  ; lw t2, 0x1c(t5)
+0046ECF8  25AB004C  addiu $t3, $t5, 0x4c               ; addiu t3, t5, 0x4c
+0046ECFC  154B0024  bne $t2, $t3, 0x46ed90             ; bne t2, t3, 0x46ed90
+0046ED00  00000000  nop                                ; nop
+0046ED04  264A0398  addiu $t2, $s2, 0x398              ; addiu t2, s2, 0x398
+0046ED08  AFAA0028  sw $t2, 0x28($sp)                  ; sw t2, 0x28(sp)
+0046ED0C  254A006C  addiu $t2, $t2, 0x6c               ; addiu t2, t2, 0x6c
+0046ED10  AFAA002C  sw $t2, 0x2c($sp)                  ; sw t2, 0x2c(sp)
+0046ED14  250AEF00  addiu $t2, $t0, -0x1100            ; addiu t2, t0, -4352
+0046ED18  AFAA0030  sw $t2, 0x30($sp)                  ; sw t2, 0x30(sp)
+0046ED1C  00007821  move $t7, $zero                    ; move t7, zero
+0046ED20  000F5080  sll $t2, $t7, 2                    ; sll t2, t7, 2
+0046ED24  015D5021  addu $t2, $t2, $sp                 ; addu t2, t2, sp
+0046ED28  8D580028  lw $t8, 0x28($t2)                  ; lw t8, 0x28(t2)
+0046ED2C  130C0012  beq $t8, $t4, 0x46ed78             ; beq t8, t4, 0x46ed78
+0046ED30  00000000  nop                                ; nop
+0046ED34  8F0A0008  lw $t2, 8($t8)                     ; lw t2, 8(t8)
+0046ED38  154D000F  bne $t2, $t5, 0x46ed78             ; bne t2, t5, 0x46ed78
+0046ED3C  00000000  nop                                ; nop
+0046ED40  000F5100  sll $t2, $t7, 4                    ; sll t2, t7, 4
+0046ED44  250BEF80  addiu $t3, $t0, -0x1080            ; addiu t3, t0, -4224
+0046ED48  016A5821  addu $t3, $t3, $t2                 ; addu t3, t3, t2
+0046ED4C  8D6A0000  lw $t2, ($t3)                      ; lw t2, 0(t3)
+0046ED50  ADAA0020  sw $t2, 0x20($t5)                  ; sw t2, 0x20(t5)
+0046ED54  8D6A0004  lw $t2, 4($t3)                     ; lw t2, 4(t3)
+0046ED58  ADAA0024  sw $t2, 0x24($t5)                  ; sw t2, 0x24(t5)
+0046ED5C  8D6A0008  lw $t2, 8($t3)                     ; lw t2, 8(t3)
+0046ED60  ADAA0028  sw $t2, 0x28($t5)                  ; sw t2, 0x28(t5)
+0046ED64  8D6A000C  lw $t2, 0xc($t3)                   ; lw t2, 0xc(t3)
+0046ED68  ADAA002C  sw $t2, 0x2c($t5)                  ; sw t2, 0x2c(t5)
+0046ED6C  8D0AEF74  lw $t2, -0x108c($t0)               ; lw t2, -4236(t0)
+0046ED70  254A0001  addiu $t2, $t2, 1                  ; addiu t2, t2, 1
+0046ED74  AD0AEF74  sw $t2, -0x108c($t0)               ; sw t2, -4236(t0)
+0046ED78  25EF0001  addiu $t7, $t7, 1                  ; addiu t7, t7, 1
+0046ED7C  240A0003  addiu $t2, $zero, 3                ; addiu t2, zero, 3
+0046ED80  15EAFFE7  bne $t7, $t2, 0x46ed20             ; bne t7, t2, 0x46ed20
+0046ED84  00000000  nop                                ; nop
+0046ED88  10000004  b 0x46ed9c                         ; beq zero, zero, 0x46ed9c
+0046ED8C  00000000  nop                                ; nop
+0046ED90  8D0AEF78  lw $t2, -0x1088($t0)               ; lw t2, -4232(t0)
+0046ED94  254A0001  addiu $t2, $t2, 1                  ; addiu t2, t2, 1
+0046ED98  AD0AEF78  sw $t2, -0x1088($t0)               ; sw t2, -4232(t0)
+0046ED9C  DFBF0000  ld $ra, ($sp)                      ; ld ra, 0(sp)
+0046EDA0  03E00008  jr $ra                             ; jr ra
+0046EDA4  27BD0040  addiu $sp, $sp, 0x40               ; addiu sp, sp, 0x40

@@ -201,7 +201,10 @@ def verificar_sonido(doc: Path, filas_rangos, con_sonido_por_defecto=False) -> l
     desde, hasta = prog[0][0], prog[-1][0] + 4
     en_plan = any(f["tipo"] == "reserva" and f["nombre"].startswith("sonido de J2") and f["desde"] <= desde
                   and hasta <= f["hasta"] for f in plan)
-    en_rangos = any(f["tipo"] == "codigo" and f["nombre"].startswith("sonido de J2") for f in filas_rangos)
+    # (119) el rango EXACTO, como el HUD: con `startswith` a secas, una fila mudada con el rango viejo pasaba la
+    # regla 9 y el rojo lo tenia que dar la regla 1, asi que el saboteador de la regla quedaba midiendo otra cosa
+    en_rangos = any(f["tipo"] == "codigo" and f["nombre"].startswith("sonido de J2")
+                    and (f["desde"], f["hasta"]) == (desde, hasta) for f in filas_rangos)
     if not (en_plan or en_rangos):
         errores.append("sonido: el codigo [%#x, %#x) no cae en su reserva del plan ni en una fila de coop-rangos"
                        % (desde, hasta))

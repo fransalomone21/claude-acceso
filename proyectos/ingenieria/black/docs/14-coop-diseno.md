@@ -142,6 +142,12 @@ HUD H4 paso 0 (8)          | 0x001FD2BC | 0x001FD2C0 | gancho | (115)
 HUD H4 paso 0 (9)          | 0x001FD444 | 0x001FD448 | gancho | (115)
 HUD H4 paso 0 (10)         | 0x001FD534 | 0x001FD538 | gancho | (115)
 HUD H4 paso 0 (11)         | 0x001FD64C | 0x001FD650 | gancho | (115)
+# (119) COOP-C pieza 2a, el disparo de J2 SUENA, PRENDIDA por defecto (coop_mod.CON_SONIDO; `--sin-sonido` es el
+# control). Salió de coop-plan-b al pasar su prueba en vivo (P1a-P1e de sesiones/PREDICCIONES-118.md: con la pieza
+# el disparo de J2 toca las voces del cue, sin ella no, con el mismo camino hasta el envoltorio). Código y listado:
+# coop_sonido.py, docs/listados/C2-coop-sonido.txt; la regla 9 mide el apoyo contra el ELF y la salida del
+# envoltorio 4. No agrega ganchos: usa el de «gancho vista FP 4», que ya está arriba
+sonido de J2               | 0x0046EE00 | 0x0046EE1C | codigo | (119)
 ```
 
 Los tres ganchos de la escena (`pd.SITIOS`) los compara el verificador contra `pantalla_dividida.py`
@@ -166,8 +172,7 @@ sub3 (datos)                   | 0x0046EF00 | 0x0046F000 | reserva | -          
 juntar J2 (código)             | 0x0046E780 | 0x0046E900 | reserva | -                                   | (100)
 ventana de J2 (código)         | 0x0046E900 | 0x0046EA00 | reserva | -                                   | (104)
 silenciar HUD (código)         | 0x0046EA00 | 0x0046EA80 | reserva | -                                   | (103)
-sub3 (código)                  | 0x0046ED00 | 0x0046EE00 | reserva | -                                   | (102)
-sonido de J2 (código)          | 0x0046EE00 | 0x0046EE40 | reserva | -                                   | (116)
+sub3 (código)                  | 0x0046EC20 | 0x0046EE00 | reserva | -                                   | (119)
 armar V2 (código)              | 0x0046EE40 | 0x0046EF00 | reserva | -                                   | (101)
 traer J2 en la descarga        | 0x0012DDCC | 0x0012DDD0 | gancho  | jal 0x0016E3C0                      | (111)
 traer J2 (código)              | 0x0046F100 | 0x0046F180 | reserva | -                                   | (111)

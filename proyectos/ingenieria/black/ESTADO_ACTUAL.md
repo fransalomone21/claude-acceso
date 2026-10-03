@@ -37,7 +37,27 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (sonido) rediseñada sobre el cue y esperando la prueba en vivo (117); pieza 2b (sub3) con su regla corregida por la guarda de plantilla viva (118) (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) escrita con su guarda, sin instalar (119) (LEER ESTO PRIMERO)
+
+> **(119), 2026-10-03, NOTEBOOK CALIENTE con pantalla libre — LO ÚLTIMO** (bitácora (119), `sesiones/PREDICCIONES-118.md` §P1).
+> - **COOP-C pieza 2a HECHA: el disparo de J2 SUENA**, con control y dos cargas. Las cinco predicciones de (117)
+>   cumplidas. El testigo es el seam en RAM (el sello de las 2 voces de `V`, `V+0x284+8`/`+0x290+8`), no el audio:
+>   **con** la pieza cambia en `fuego-J2` (2 de 2 cargas), **sin** ella no cambia — y con las **mismas 90 salteadas**
+>   del envoltorio 4, así que el disparo llega igual y lo único distinto es la pieza. Control positivo `fuego-J`: 3 de 3.
+>   Audio de refuerzo: media 8398/8566 con la pieza contra **3925** en el control (predicho ~3900).
+> - **`CON_SONIDO = True`** (el acceso COOP la instala; `--sin-sonido` es el control). Pnach **1052 → 1059 palabras**.
+>   Su fila pasó de `coop-plan-b` a `coop-rangos` (`sonido de J2`, `0x0046EE00`–`0x0046EE1C`). `audio` **K3 → K5**.
+> - **Pieza 2b: `herramientas/coop_sub3.py` escrito** con la guarda de plantilla viva obligatoria (98 palabras,
+>   ensambla y decodifica). **Sin instalar**: falta integrarlo en `coop_mod.py`, la regla 10 + saboteador y P3 en vivo.
+> - **Tres cambios de diseño escritos en `docs/16` ANTES del stub** (lo exige la Fase C): la regla del dueño corre
+>   para **los dos** jugadores (el peligro es simétrico); tres de los cuatro sitios van como **bloque** en código que
+>   el mod ya engancha, no como gancho nuevo; y la reserva «sub3 (código)» pasa a `0x0046EC20` (64 → 120 palabras).
+> - **Reportado por Fran jugando (2 fotos): la mano de J2 se ve rota al apuntar arriba o abajo.** **No se tocó** — la
+>   Fase C prohíbe arreglar síntomas de a uno. Queda **sin control**, con un sospechoso de (88c) en grado `hipótesis`
+>   (el mod guarda el cabeceo de J2 negado e invierte `mira+0xF1`). Entra como riesgo nuevo **N25**.
+> - **Máquina:** pnach con COOP + IA + HUD doble + **sonido de J2** (1059 palabras, el default de `instalar`); COOP
+>   activo en `gamesettings`; parches de mira prendidos; fork y PCSX2 de Fran cerrados. `pruebas/controles.py` en verde.
+> - **Sigue: `sesiones/RETOME-LOCAL.md`** (integrar el sub3 y probarlo; después piezas 3–5).
 
 > **(118), 2026-10-03, NOTEBOOK EN FRÍO — LO ÚLTIMO** (bitácora (118), `docs/16` «La guarda de plantilla viva, (118)»).
 > - **La regla del dueño de plantilla tenía un agujero, medido antes de fabricar:** el sub del arma que **no** está en

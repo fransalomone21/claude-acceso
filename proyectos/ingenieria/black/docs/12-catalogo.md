@@ -77,8 +77,8 @@ Costo: **S** 1-2 sesiones, **M** 3-6, **L** 7-15, **XL** mas de 15.
 
 | id | concepto | que | NGO | costo | vehiculo | K min (cuello) | riesgo | estado |
 |---|---|---|---|---|---|---|---|---|
-| A1 | Sordera y latido | Tinnitus, LowHealth, HeartbeatThreshold y Full Muff de la ValueDB DSP | N3 | S | pnach-datos | K3 (audio) | RESUELTO en frio 2026-09-27 (bitacora (73)): el valor sale de Data/Andy.aku, la ValueDB compilada (herramientas/valuedb_aku.py la lee y la nombra). Medido: Tinnitus/Trigger Threshold = 10, Low Health/HeartbeatThreshold = 0.4, Full Muff = 0.1. Falta el efecto de cambiarlo (notebook) y elegir vehiculo: parchear ANDY.AKU en el ISO o escribir la copia en RAM | candidato |
-| A2 | Mezcla | duck de explosiones, balas que pasan (BaseMix) | N3 | S | pnach-datos | K3 (audio) | idem A1: BaseMix.cfg esta en ANDY.AKU (medido: BulletBy Ducker Dist = 1, Outer Dist = 5, Stereo Spread = 0.4) | candidato |
+| A1 | Sordera y latido | Tinnitus, LowHealth, HeartbeatThreshold y Full Muff de la ValueDB DSP | N3 | S | pnach-datos | K3 (valuedb) | RESUELTO en frio 2026-09-27 (bitacora (73)): el valor sale de Data/Andy.aku, la ValueDB compilada (herramientas/valuedb_aku.py la lee y la nombra). Medido: Tinnitus/Trigger Threshold = 10, Low Health/HeartbeatThreshold = 0.4, Full Muff = 0.1. Falta el efecto de cambiarlo (notebook) y elegir vehiculo: parchear ANDY.AKU en el ISO o escribir la copia en RAM | candidato |
+| A2 | Mezcla | duck de explosiones, balas que pasan (BaseMix) | N3 | S | pnach-datos | K3 (valuedb) | idem A1: BaseMix.cfg esta en ANDY.AKU (medido: BulletBy Ducker Dist = 1, Outer Dist = 5, Stereo Spread = 0.4) | candidato |
 | E1 | Estadisticas en vivo | ventana aparte con muertes, precision y tiempo, leidas por PINE | N3, N1 | S | pine | K2 (estadisticas) | no toca el juego | candidato |
 | E2 | RetroAchievements | logros de la comunidad si BLACK tiene set | N3 | S | emulador | — | puede no existir set; exige cuenta (la crea Fran) | candidato |
 | E3 | Cronometro de speedrun | tiempos por tramo leidos por PINE | N3 | S | pine | K4 (flujo) | bajo | candidato |

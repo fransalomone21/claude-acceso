@@ -835,8 +835,10 @@ def programas():
     return progs + [("ganchos", ganchos)]
 
 
-CON_SONIDO = False  # (116) APAGADO: la pieza 2a quedo REFUTADA en vivo (FUN_001D7020 no es el sonido audible; ver
-                    # coop_sonido.py). `--con-sonido` la prende para volver a medir
+CON_SONIDO = True   # (119) PRENDIDA por defecto: la pieza 2a paso su prueba en vivo (P1a-P1e de
+                    # sesiones/PREDICCIONES-118.md: el disparo de J2 toca las voces del cue con la pieza y no sin
+                    # ella, 2 cargas, con control positivo). `--sin-sonido` es el control.
+                    # (116) el destino VIEJO (FUN_001D7020) quedo refutado en vivo; el que anda es el cue (117)
 
 
 CON_HUD = True  # (115) PRENDIDO por defecto; `--sin-hud` es el control y `--con-hud` se acepta y no hace nada

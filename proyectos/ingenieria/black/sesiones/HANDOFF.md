@@ -4,6 +4,30 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(119), 2026-10-03, notebook CALIENTE con pantalla libre (Fran avisó y cerró su PCSX2) — LO ÚLTIMO.**
+> **COOP-C pieza 2a HECHA:** el disparo de J2 suena, con control y dos cargas. Las cinco predicciones de
+> `sesiones/PREDICCIONES-118.md` §P1 cumplidas y anotadas al lado de cada una. El testigo es el seam en RAM —el sello
+> de las 2 voces de `V` (`V+0x284+8`, `V+0x290+8`)—, no el audio: **con** la pieza `fuego-J2` lo mueve (2 de 2
+> cargas), **sin** ella no, con las **mismas 90 salteadas** del envoltorio 4; control positivo `fuego-J` 3 de 3;
+> audio 8398/8566 contra 3925 del control. **`CON_SONIDO = True`** en `coop_mod.py` (`--sin-sonido` es el control),
+> fila mudada a `coop-rangos` (`sonido de J2`, `0x0046EE00`–`0x0046EE1C`), `audio` **K5**.
+> **Pieza 2b: `herramientas/coop_sub3.py` ESCRITO** (98 palabras, ensambla y decodifica) con la guarda de plantilla
+> viva como condición obligatoria de escritura. **NO está instalado ni integrado:** falta (a) insertarlo en
+> `coop_mod.py` —el gancho `0x001ACA2C` y los tres bloques `ENVOLTORIO_BLOQUE` / `POR_CUADRO_BLOQUE` /
+> `DESARME_BLOQUE`, que van adentro de `R3_ENVOLTORIO_MOD`, `R3_POR_CUADRO_MOD` y `DESARME_MOD` como ya se hace con
+> `R3_BAJA_BLOQUE`—, (b) la **regla 10** de `coop_diseno.py` con su saboteador, (c) la prueba en vivo (P3).
+> **Tres cambios de diseño, escritos en `docs/16` «Lo que la fabricación del sub3 cambió del diseño, (119)» antes del
+> stub:** la regla del dueño corre para los **dos** jugadores; tres de los cuatro sitios son **bloque**, no gancho
+> nuevo; la reserva «sub3 (código)» pasa a `0x0046EC20` (120 palabras) porque 98 no entraban en 64.
+> **Riesgo nuevo N25, reportado por Fran con dos fotos y SIN control:** la mano/arma de J2 se ve rota al apuntar
+> arriba o abajo. **No se tocó** (la Fase C prohíbe perseguir síntomas de a uno). Sospechoso `hipótesis` de (88c):
+> el mod guarda el cabeceo de J2 negado e invierte `mira+0xF1`.
+> **Máquina:** pnach con COOP + IA + HUD doble + **sonido de J2**, **1059 palabras** (el default de `instalar`, y lo
+> que pone `JUGAR-BLACK.ps1`); COOP **activo** en `gamesettings\SLUS-21376_5C891FF1.ini`; los tres parches de mira
+> prendidos; fork y PCSX2 de Fran **cerrados**. `pruebas/controles.py` en verde (5 de 5) y
+> `probar-coop-diseno.py` TODO BIEN (dos sabotajes nuevos de la pieza 2a).
+> **Sigue: `sesiones/RETOME-LOCAL.md`.**
+>
 > **(118), 2026-10-03, notebook en frío — LO ÚLTIMO.** Antes de fabricar el sub3 se leyó en los volcados el estado de
 > lo que toca, y **la regla del dueño de plantilla tenía un agujero**: el sub del arma que no está en la mano deja
 > `sub+8` **colgado** (14 de 16 volcados; inocuo en el juego porque se rearma antes de usarse), y la regla le habría

@@ -19,11 +19,17 @@ en `fuego-J`, el testigo `voces_tocaron` (el sello de las 2 voces de `V`: `V+0x2
 
 | # | Predicción | Resultado |
 |---|---|---|
-| P1a | control positivo `fuego-J`: `voces_tocaron` = **True** | *sin medir* |
-| P1b | `fuego-J2` **con** la pieza: `voces_tocaron` = **True** | *sin medir* |
-| P1c | `fuego-J2` **sin** la pieza (`--sin-sonido`, el control): **False** | *sin medir* |
-| P1d | audio de `fuego-J2` con la pieza: media **≥ 6000 y continua** desde el primer segundo (control ~3900) | *sin medir* |
-| P1e | dos cargas seguidas sin colgar | *sin medir* |
+| P1a | control positivo `fuego-J`: `voces_tocaron` = **True** | **CUMPLIDA**, 3 de 3 corridas (las 2 cargas con la pieza y la del control): sellos de `V+0x284+8`/`+0x290+8` cambian con cada disparo de J |
+| P1b | `fuego-J2` **con** la pieza: `voces_tocaron` = **True** | **CUMPLIDA**, 2 de 2 cargas: `[0,0]` → `[55517,55519]` (carga 1) y `[0,0]` → `[56721,56723]` (carga 2) |
+| P1c | `fuego-J2` **sin** la pieza (`--sin-sonido`, el control): **False** | **CUMPLIDA**: sellos `[0,0]` → `[0,0]`, con las **mismas 90 salteadas** del envoltorio 4 — el disparo de J2 llega igual al seam y lo único que cambia es la pieza |
+| P1d | audio de `fuego-J2` con la pieza: media **≥ 6000 y continua** desde el primer segundo (control ~3900) | **CUMPLIDA**: media 8398 (carga 1) y 8566 (carga 2), contra **3925** en el control. Para referencia, `fuego-J` da 8906/8757/8971 y `quieto` 1495–2381 |
+| P1e | dos cargas seguidas sin colgar | **CUMPLIDA**: carga 1 armado 14,3 s, carga 2 armado 13,2 s, `vivo_despues` en las dos, `cuelga_o_no_arma` nulo |
+
+**Medición (119), 2026-10-03, notebook caliente, pantalla libre.** Banco: `sonido_pieza_banco.py pieza` (dos cargas) y
+`... control` (una). Town (nivel 2), por el selector. Salidas:
+`volcados/inspeccion/banco-sonido-pieza-20261003-153506.json` y `banco-sonido-control-20261003-153539.json`.
+El testigo del seam es `voces_tocaron` (el sello de las 2 voces de `V`), no el audio: el audio solo no discrimina
+(los impactos de J2 ya llegaban a picos de ~9000 sin la pieza, y de hecho el control marca max 9035 con media 3925).
 
 **Trampa ya medida:** la cuenta `cue+0x1D0` **no** sirve de testigo (la mezcla la baja a 0 al
 terminar la muestra; 0 en los 16 volcados, también en los cuatro de J disparando). Y el audio solo

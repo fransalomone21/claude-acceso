@@ -902,3 +902,38 @@ que va a correr; el síntoma sin la regla es `hipótesis` — no «basura» sino
 la **instancia de J2** (que es exactamente F7), porque la arena de J2 sí tiene una instancia válida.
 Eso hace la predicción más fuerte y más barata de refutar: con la regla, cada mitad su arma; sin
 ella, el arma del último que cambió en las dos.
+
+### Lo que la fabricación del sub3 cambió del diseño, (119) — escrito antes del stub
+
+> COOP-C pieza 2b, al escribir `herramientas/coop_sub3.py`. Tres precisiones; ninguna toca la regla
+> ni la guarda. La Fase C exige que un cambio de diseño vuelva acá y a `coop-plan-b` **antes** del
+> stub, y eso es lo que son estas tres líneas.
+
+1. **La regla del dueño corre para los DOS jugadores, no sólo para J2.** El peligro es simétrico: si
+   J cambia de arma, la plantilla que compartía con J2 queda apuntando a la arena de `sub0`, que el
+   arma nueva ya pisó, y el que lee basura es J2. Por eso `SUBH` se ejecuta en **todas** las
+   llamadas de `FUN_001AC960`, y lo único que depende de `s7` es **qué sub se arma** (sub3 si es
+   J2). La regla (2) ya decía «otro sub `T` de los tres», así que esto es su lectura literal; lo que
+   cambia es el sitio, que antes sólo se activaba para J2.
+2. **Tres de los cuatro sitios no llevan gancho propio: llevan un bloque.** `0x001ACA84`,
+   `0x001295A8` y `0x00129E38` ya son ganchos del mod (el envoltorio y el por cuadro de la ranura 3,
+   y el desarme). El sub3 se inserta como texto en el código que ya está —igual que
+   `R3_BAJA_BLOQUE`—, así que **no hay ganchos nuevos** sobre sitios tomados y `coop-rangos` no
+   cambia por eso. El único gancho propio es `0x001ACA2C`.
+3. **La reserva «sub3 (código)» pasa de `0x0046ED00` a `0x0046EC20`** (de 64 a 120 palabras): el
+   código con la guarda mide **98** palabras y no entraba en las 64. El espacio nuevo es el hueco
+   libre entre el final del HUD doble (`0x0046EC14`) y la reserva vieja; no se pisa con nada. Los
+   datos siguen en `0x0046EF00`–`0x0046F000`, con el layout de arriba más dos contadores:
+   `SUB3_ESCRIB` (veces que la regla reescribió una cuádrupla) y `SUB3_SALTOS` (veces que la guarda
+   **saltó**), que es lo que hace medible P3d.
+
+**Registros en `0x001ACA2C`, leídos del desensamblado** (lo que `SUBH` da por cierto, y la regla 10
+mide contra el ELF): `s2` = `pers`, `s0` = `a0` = `sub_i`, `a1` = la plantilla nueva, `a2` = la
+tabla, `a3` = `*(pers+0x940)`, `s5` = `i`, `s7` = **el jugador** (`0x001ACA80` lo pasa como `a1` a
+`FUN_001A51C8`, que es de donde el envoltorio de R3 ya lo compara contra J2). `FUN_001A8168`
+preserva `s0`–`s7`, así que `SUBH` puede dejar `s0` = el sub elegido y el resto de `FUN_001AC960`
+(`0x001ACA34`–`0x001ACA68`) queda operando sobre sub3.
+
+**Los tamaños se derivan del ELF, no se escriben literales** (la lección de (117)): el paso del sub
+(`0x6C`, en `0x001ACA14`), la arena (`0x4650`, en `0x001A8148`) y el mapa de huesos (`0xB0`, en
+`0x001A8140`); si el ELF dice otra cosa, la regla 10 sale en rojo.

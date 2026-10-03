@@ -95,6 +95,7 @@ global, `jugadores[0]`, la cuenta = 1) — ¿es algo que J **tiene** (conmutar) 
 | N22 | **(114) bloque de basura gráfica arriba a la izquierda al disparar el AK** (con el coop) | visto por Fran (foto), una vez; sin control | vivo: el mismo disparo con y sin el coop |
 | N23 | **(114) J siguió disparando solo una vez** (con el coop) | visto por Fran; `hipótesis`: clic perdido o el mando falso | vivo, si se repite |
 | N24 | **(114) el humo, el fuego y las nubes se mueven con la mira** (con la pantalla partida) | visto por Fran; `hipótesis`: partículas orientadas con la cámara de un jugador y dibujadas en las dos mitades (pariente de N20) | vivo: con y sin el coop |
+| N25 | **(119) la mano y el arma de J2 se ven ROTAS al apuntar arriba o abajo** (con el coop) | visto por Fran jugando, con dos fotos; **sin control**. `hipótesis`: el mod guarda el cabeceo de J2 negado e invierte `mira+0xF1` ((88c)), y la vista en primera persona de J2 se arma con esa matriz | vivo, con control: la misma secuencia de apuntar con y sin el coop. **No se persigue suelto**: si sigue después de la pieza 2b, entra como pieza de la C con su predicción escrita antes |
 | N25 | **(114) «continuar misión» no se puede probar con el selector**: CONTINUE apagado también sin el coop | **medido** (control) | banco nuevo en la C: arrancar desde el menú. N12 sigue abierta |
 | N20 | **los efectos del mundo se generan alrededor de J** (`FUN_001B1CB8` sobre `0x0040F4D8`) | (98) `confirmado en frío` que leen `J+0xA0`; lo que se nota, `hipótesis` | clase C, prioridad baja |
 
