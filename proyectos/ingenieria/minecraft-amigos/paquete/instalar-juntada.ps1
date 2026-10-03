@@ -64,12 +64,25 @@ $tabla = @{
 $t = $tabla[$Preset]
 Ok "perfil: $($Preset.ToUpper())  (RAM $($t[0]) MB, distancia $($t[1]), shaders $($t[7]))"
 
-# 4. instance.cfg: RAM, Java automatico, entrar directo al server ---------
+# 4. Java 21: un Prism viejo no lo baja solo, asi que se asegura aca -----
+Paso 'Java 21'
+$java = Get-ChildItem (Join-Path $prismData 'java') -Recurse -Filter javaw.exe -EA SilentlyContinue |
+        ? { $_.FullName -match 'delta|21' } | select -First 1 -ExpandProperty FullName
+if (-not $java) { $java = Get-ChildItem "$env:ProgramFiles\Microsoft\jdk-21*\bin\javaw.exe" -EA SilentlyContinue | select -First 1 -ExpandProperty FullName }
+if (-not $java) {
+  Write-Host '   no hay Java 21: lo instalo con winget...'
+  winget install -e --id Microsoft.OpenJDK.21 --accept-package-agreements --accept-source-agreements | Out-Null
+  $java = Get-ChildItem "$env:ProgramFiles\Microsoft\jdk-21*\bin\javaw.exe" -EA SilentlyContinue | select -First 1 -ExpandProperty FullName
+}
+if ($java) { Ok "Java: $java" } else { Mal 'no pude conseguir Java 21: Prism lo va a pedir al lanzar' }
+
+# 5. instance.cfg: RAM, Java, entrar directo al server --------------------
 $cfgPath = Join-Path $inst 'instance.cfg'
 $cfg = Get-Content $cfgPath
 $poner = [ordered]@{
   name = $nombre; OverrideMemory = 'true'; MaxMemAlloc = "$($t[0])"; MinMemAlloc = '1024'
-  OverrideJavaLocation = 'false'; JavaPath = ''; AutomaticJava = 'true'
+  OverrideJavaLocation = $(if ($java) { 'true' } else { 'false' }); JavaPath = $(if ($java) { $java -replace '\\','/' } else { '' })
+  AutomaticJava = 'true'; IgnoreJavaCompatibility = 'false'
   JoinServerOnLaunch = 'true'; JoinServerOnLaunchAddress = $servidor
 }
 foreach ($k in $poner.Keys) {
@@ -103,6 +116,7 @@ if ($dedicada) {
   New-Item $reg -Force | Out-Null
   $javas = Get-ChildItem (Join-Path $prismData 'java') -Recurse -Filter javaw.exe -EA SilentlyContinue | % FullName
   $javas += Join-Path $prismData 'java\java-runtime-delta\bin\javaw.exe'
+  if ($java) { $javas += $java }
   foreach ($j in ($javas | select -Unique)) { New-ItemProperty $reg -Name $j -Value 'GpuPreference=2;' -PropertyType String -Force | Out-Null }
   Ok "Java va a usar la placa dedicada ($dedicada)"
 }
