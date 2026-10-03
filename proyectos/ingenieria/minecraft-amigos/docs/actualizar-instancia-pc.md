@@ -46,6 +46,26 @@ Compare-Object $ref $pc
 Abrir Prism → Nuevo 1.21.4 → Launch. Si el mundo es el de Fran por LAN o por
 su server, entrar ahí; el juego tiene que cargar sin pantalla de mods faltantes.
 
+## 6. El server donde juegan con Agus (el mundo de verdad vive en ESTA PC)
+
+Ubicarlo: la carpeta con `server.properties` cuyo `motd` dice "Nuevo 1.21.4"
+(en la notebook es `C:\Users\frans\MinecraftServer_Nuevo`, vacía; el mundo está acá).
+```powershell
+Get-ChildItem $env:USERPROFILE -Recurse -Filter server.properties -Depth 5 -EA SilentlyContinue | % FullName
+$s = "<carpeta del server>"
+```
+**Apagado** (escribir `stop` en su ventana). Respaldar el mundo y sincronizar:
+```powershell
+Compress-Archive "$s\world" "$env:USERPROFILE\Desktop\world-backup.zip" -Force
+python proyectos\ingenieria\minecraft-amigos\herramientas\sincronizar_server.py $i $s proyectos\ingenieria\minecraft-amigos\pack\manifiesto-nuevo.json
+```
+Tiene que decir `[ok] server con 62 mods (esperados 62)`. Lo que el server tenía y
+el pack no, queda en `mods_viejos\` (no se borra).
+
+Arrancarlo con su `start.bat` y verificar en el log `Done (` sin
+`Incompatible mods` ni `requires`. Los clientes entran con la instancia
+"Nuevo 1.21.4" ya actualizada (pasos 3-4).
+
 ## Avisos
 - No se toca `accounts.json`.
 - Las estructuras nuevas (YUNG, Nullscape, Incendium) aparecen sólo en chunks
