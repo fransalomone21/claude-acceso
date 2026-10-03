@@ -18,6 +18,7 @@ Prism lista con un doble clic y gráficos según su PC.
 | sumar o sacar mods | `pack/agregar.txt` → `herramientas/armar_pack.py` → copiar al server los que no son `servidor: unsupported` |
 | tocar el server | `servidor/` (plantillas) y `herramientas/rcon.py` |
 | tocar el instalador de los amigos | `paquete/instalar-juntada.ps1` |
+| poner la PC de Fran (instancia + su server, puerto 25566) al día con el pack | `docs/actualizar-instancia-pc.md` (pasos 1-6, mecánico) |
 
 ## Las reglas propias de este proyecto
 
