@@ -39,6 +39,35 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) escrita con su guarda, sin instalar (119) (LEER ESTO PRIMERO)
 
+> **(122), 2026-10-03, PC EN FRÍO — LO ÚLTIMO** (bitácora (122), `docs/16` «Lo que la lectura en frío de (122) dejó»).
+> - **El sospechoso de (121) queda DESCARTADO por lectura.** El tramo `0x001ACA34`–`0x001ACA68` da por vivos sólo
+>   `s0`, `s1` y `s6`, no lee ningún `t`/`a`/`v0`, y `s0` queda con el sub elegido (y se recalcula en
+>   `0x001ACA78`). SUBH no pisa ninguno de los tres.
+> - **El índice muere en otro lado, y con su instrucción:** `FUN_0015bbd8` lee `arreglo[1 - *(P+0x2C3)]` y
+>   **vuelve sin llamar a nadie si es nulo**; `FUN_0015be70` (el único que escribe `P+0x2C3`) nunca corre. Medido
+>   con `herramientas/armas_estado.py`: en los 5 volcados con el mod, J2 tiene **una sola** arma viva y
+>   `arreglo[1]` = 0 — y J también. **El negativo de (121) no sostiene nada sobre la pieza** (lección 336 otra vez).
+> - **Defecto real encontrado y ARREGLADO:** con la pieza, el `a2` contra el que compara el código por cuadro era
+>   la **constante** `SUB3`, así que una vez cargada R3 no podía volver a enterarse de un cambio de arma. El
+>   testigo pasa a ser el **índice**: `SUB3_IDX` `0x0046EF7C` (dentro de la reserva ya declarada), `sw s5` en SUBH,
+>   el término `SUB3_IDX == *(J2+0x2C3)` en el bloque por cuadro y a cero en el desarme. Diseño escrito en
+>   `docs/16` **antes** del stub. **Regla 11** de `coop_diseno.py` con **cuatro sabotajes** en rojo (17 casos).
+> - **N26 CORREGIDO: `ARMAS2` no sobrevive a la descarga** — `ENVOLTORIO_MOD` lo pone en cero en cada molde
+>   (`sq zero, 0(t2)` + `sq zero, 0x10(t2)`), y en los volcados hay 0 entradas colgadas. Baja a «sin evidencia»;
+>   para reabrirlo hace falta un volcado de la carga 2 de (121). `+0x2C2` = 2 en los 16 volcados, en J y en J2: es
+>   la capacidad, no la cantidad de armas.
+> - **Herramienta nueva `armas_estado.py`** (en `controles.py`). Su primer discriminador estaba ciego y lo delató
+>   su control negativo de **población**: 67 de 200 direcciones de RAM pasaban por arma viva. El que sirve mide la
+>   relación: `*(obj+0xF0)` = el dueño y `*(obj+0xFC)` = `P+0x280`. Con eso, 0 de 200.
+> - **DECISIÓN DE FRAN, hoy: «el arma de J2 tiene que sonar como el arma que es».** El límite (a) de (117) no va
+>   para la v1 → entra la **pieza 2c**: un **cue propio de J2** en una sub-ranura libre de `V+0x2C0` con
+>   `FUN_001D6E78` y la clave de **su** arma. Va después de la 2b. Sin fila en `coop-plan-b` hasta medirla.
+> - **Números:** `coop_sub3` 99 palabras; «por cuadro» 93 de 96 y «envoltorio» 62 de 64 con la pieza; pnach por
+>   defecto **1059** (sin cambios) y con `--con-sub3` **1186** (era 1181). `pruebas/controles.py` 6 de 6 en verde.
+> - **Máquina:** PC, en frío, nada abierto; el pnach de la notebook sin tocar.
+> - **Sigue:** la 2b **en vivo** con el banco que construye la precondición y el testigo nuevo (P3a–P3e), más una
+>   predicción nueva: con el testigo, R3 se recarga en el cambio de arma (`R3_CARGAS` sube).
+
 > **(121), 2026-10-03, NOTEBOOK CALIENTE con pantalla libre — LO ÚLTIMO** (bitácora (121),
 > `sesiones/PREDICCIONES-118.md` §P3, `docs/16` «Lo que la prueba en vivo del sub3 dejó, (121)»).
 > - **La pieza 2b NO pasa su prueba en vivo y queda APAGADA** (`CON_SUB3 = False`); su fila sigue en

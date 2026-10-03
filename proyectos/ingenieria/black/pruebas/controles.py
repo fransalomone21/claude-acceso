@@ -17,6 +17,10 @@ CONTROLES = [
     ("coop_diseno verificar", ["herramientas/coop_diseno.py", "verificar"]),
     ("probar-coop-diseno", ["pruebas/probar-coop-diseno.py"]),
     ("coop_ia verificar", ["herramientas/coop_ia.py", "verificar"]),
+    # (122) el autotest trae su control positivo (hay entradas de arma vivas en los volcados) y un control
+    # NEGATIVO de poblacion (200 direcciones de RAM: ninguna puede pasar por arma viva). Se engancha el dia
+    # que nace, que es lo que (120) aprendio con fase_activa: un autotest que no corre nadie no mide.
+    ("armas_estado autotest", ["herramientas/armas_estado.py", "--autotest"]),
     ("prueba_herramientas", ["pruebas/prueba_herramientas.py"]),
 ]
 

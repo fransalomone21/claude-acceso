@@ -71,6 +71,7 @@ def verificar(doc: Path, mods: Path) -> list[str]:
     errores += verificar_hud(doc, filas, con_hud_por_defecto)
     errores += verificar_sonido(doc, filas, cm.CON_SONIDO)   # (116) regla 9; programas() la incluye segun su default
     errores += verificar_sub3(doc, filas, cm.CON_SUB3)       # (119) regla 10; apagada hasta su prueba en vivo
+    errores += verificar_testigo_sub3(doc, filas)            # (122) regla 11; el testigo por cuadro es el INDICE
     progs = cm.programas()
     # 1. los programas contra el plano
     for nombre, prog in progs[:-1]:
@@ -285,6 +286,85 @@ def verificar_sub3(doc: Path, filas_rangos, con_sub3_por_defecto=False) -> list[
                     # el solape PARCIAL es el rojo; que un programa entre ENTERO en una fila es su casa (su reserva
                     # del plan, o su propia fila de coop-rangos), no un choque
                     errores.append("sub3: con la pieza prendida '%s' [%#x, %#x) pisa '%s'" % (nombre, d, h, f["nombre"]))
+    return errores
+
+
+def verificar_testigo_sub3(doc: Path, filas_rangos) -> list[str]:
+    """(122) regla 11: el TESTIGO del sub3 por cuadro es el INDICE DE ARMA, no el puntero del sub.
+
+    POR QUE existe (docs/16, «Lo que la lectura en frio de (122) dejo»): el camino rapido de
+    `R3_POR_CUADRO_MOD` es `bne t5, a2` con `t5` = `R3+0x50` y `a2` = `pers+0x398+i*0x6C`, que DEPENDE de `i`:
+    es la unica senal que el mod tiene de que J2 cambio de arma. `SUB3_POR_CUADRO_BLOQUE` reemplaza `a2` por
+    `SUB3`, que es el MISMO valor para todo `i`, asi que sin un tercer termino la comparacion se cumple para
+    siempre en cuanto R3 queda cargada y R3 nunca se vuelve a recargar. El tercer termino es
+    `SUB3_IDX == *(J2+0x2C3)`.
+
+    Lo que exige, y se exige por RELACION y no por inmediatos sueltos -- el agujero que (120) ya pago con la
+    guarda de plantilla (un `lw t4, 0x1c(sp)` de la pila cumplia «algun lw con 0x1C» y sacar la guarda daba
+    verde): (1) `SUBH` guarda el indice con un `sw rX, SUB3_IDX(rB)` donde `rB` es el mismo registro con el que
+    el programa escribe `SUB3_MOLDE` (o sea, la base `lui 0x47` del mod, no una base cualquiera); (2) el bloque
+    por cuadro LEE `SUB3_IDX` y lo COMPARA con `bne`/`beq` contra el registro en el que `R3_POR_CUADRO_MOD` dejo
+    `lb t2, 0x2c3(a1)`, y la rama sale del bloque; (3) el desarme pone `SUB3_IDX` en cero, por la misma razon
+    por la que pone `SUB3_MOLDE`; (4) `SUB3_IDX` tiene fila -- cae adentro de la reserva «sub3 (datos)».
+    """
+    import jugador2 as j2
+    import coop_mod as cm
+    import coop_sub3 as cs
+
+    errores = []
+    off_idx, off_molde = cs._o(cs.SUB3_IDX) & 0xFFFF, cs._o(cs.SUB3_MOLDE) & 0xFFFF
+
+    def pal(fuente, base, fin):
+        return [w for _, w, _ in j2.ensamblar_programa(fuente, base, fin)]
+
+    def rs(w):
+        return (w >> 21) & 0x1F
+
+    def rt(w):
+        return (w >> 16) & 0x1F
+
+    def imm(w):
+        return w & 0xFFFF
+
+    # (1) SUBH guarda el indice, con la MISMA base con la que guarda el molde
+    prog = [w for _, w, _ in cs.programa()]
+    bases_molde = {rs(w) for w in prog if (w >> 26) == 0x2B and imm(w) == off_molde}
+    bases_idx = {rs(w) for w in prog if (w >> 26) == 0x2B and imm(w) == off_idx}
+    if not bases_idx:
+        errores.append("testigo sub3: SUBH no guarda el indice de arma (`sw rX, %#x(rB)`): sin eso el bloque por "
+                       "cuadro no tiene con que comparar" % off_idx)
+    elif not (bases_idx & bases_molde):
+        errores.append("testigo sub3: el `sw` de SUB3_IDX usa la base %s y el de SUB3_MOLDE la base %s: no es la "
+                       "misma base del mod" % (sorted(bases_idx), sorted(bases_molde)))
+
+    # (2) el bloque por cuadro lo lee y lo COMPARA contra el registro del indice de J2
+    cuadro = pal(cs.POR_CUADRO_BLOQUE, cm.R3_POR_CUADRO, cm.R3_ENVOLTORIO)
+    destinos_idx = {rt(w) for w in cuadro if (w >> 26) == 0x23 and imm(w) == off_idx}
+    # el registro en el que R3_POR_CUADRO_MOD deja `lb rI, 0x2c3(a1)` (0x20 = lb)
+    base = cm.R3_POR_CUADRO_MOD.replace("SUB3_POR_CUADRO_BLOQUE", "")
+    regs_indice = {rt(w) for w in pal(base, cm.R3_POR_CUADRO, cm.R3_ENVOLTORIO)
+                   if (w >> 26) == 0x20 and imm(w) == 0x2C3}
+    if not regs_indice:
+        errores.append("testigo sub3: R3_POR_CUADRO_MOD ya no lee `lb rI, 0x2c3(a1)`: el testigo se quedo sin "
+                       "fuente y la regla estaria midiendo otra cosa")
+    pares = {frozenset((rs(w), rt(w))) for w in cuadro if (w >> 26) in (4, 5)}
+    if not any(frozenset((d, i)) in pares for d in destinos_idx for i in regs_indice):
+        errores.append("testigo sub3: el bloque por cuadro no COMPARA SUB3_IDX (%#x) contra el registro del "
+                       "indice de J2 %s con bne/beq: sin ese termino `a2` es constante para todo i y el codigo "
+                       "por cuadro no puede volver a enterarse de un cambio de arma"
+                       % (off_idx, sorted(regs_indice)))
+
+    # (3) el desarme lo pone en cero
+    desarme = pal(cs.DESARME_BLOQUE, cm.DESARME, cm.DESARME + 0x100)
+    if not any((w >> 26) == 0x2B and imm(w) == off_idx and rt(w) == 0 for w in desarme):
+        errores.append("testigo sub3: el bloque del desarme no pone SUB3_IDX (%#x) en cero: un indice de un nivel "
+                       "que ya no esta habilitaria el sub3 en la carga siguiente" % off_idx)
+
+    # (4) SUB3_IDX tiene fila: cae en la reserva «sub3 (datos)»
+    plan = leer_plan(doc) or []
+    if not any(f["tipo"] == "reserva" and f["nombre"].startswith("sub3 (d")
+               and f["desde"] <= cs.SUB3_IDX < f["hasta"] for f in list(plan) + list(filas_rangos)):
+        errores.append("testigo sub3: SUB3_IDX (%#x) no cae en la reserva «sub3 (datos)» del plan" % cs.SUB3_IDX)
     return errores
 
 

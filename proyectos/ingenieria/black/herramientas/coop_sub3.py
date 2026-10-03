@@ -30,7 +30,10 @@ LOS CUATRO SITIOS (docs/16, la tabla). Uno solo es gancho propio; los otros tres
               por arranque con `FUN_001A80F8`), llama la original y aplica la regla. Deja `s0` = el sub elegido, que
               es lo que usa el resto de `FUN_001AC960` (0x001ACA34..0x001ACA68).
   0x001ACA84  envoltorio de la carga de R3 (coop_mod.R3_ENVOLTORIO_MOD): `a2` = sub3 en vez de `sub_i`.
-  0x001295A8  por cuadro de R3 (coop_mod.R3_POR_CUADRO_MOD): el sub con el que se carga/compara es sub3.
+  0x001295A8  por cuadro de R3 (coop_mod.R3_POR_CUADRO_MOD): el sub con el que se carga/compara es sub3, PERO
+              solo si `SUB3_IDX` (que arma lo armo) coincide con `*(J2+0x2C3)` -- si no, el bloque no toca `a2`
+              (122: sin ese termino `a2` es constante y el codigo por cuadro no puede volver a enterarse de que
+              J2 cambio de arma; ver docs/16 «Lo que la lectura en frio de (122) dejo»).
   0x00129E38  desarme (coop_mod.DESARME_MOD): `SUB3_MOLDE` = 0 y la cuadrupla de sub3 invalidada.
 Los tres bloques se exportan como texto (`ENVOLTORIO_BLOQUE`, `POR_CUADRO_BLOQUE`, `DESARME_BLOQUE`) y los inserta
 coop_mod.py, como ya hace con `R3_BAJA_BLOQUE`: no hay ganchos nuevos sobre sitios que el mod ya toma.
@@ -71,6 +74,7 @@ SUB3_ARMADA = SUB3 + PASO_SUB           # 0x0046EF6C -- 1 = construido en este a
 SUB3_MOLDE = SUB3_ARMADA + 4            # 0x0046EF70 -- MOLDES cuando se armo en este nivel
 SUB3_ESCRIB = SUB3_ARMADA + 8           # 0x0046EF74 -- veces que la regla reescribio una cuadrupla
 SUB3_SALTOS = SUB3_ARMADA + 0xC         # 0x0046EF78 -- veces que la guarda SALTO (P3d de PREDICCIONES-118)
+SUB3_IDX = SUB3_ARMADA + 0x10           # 0x0046EF7C -- (122) QUE ARMA armo el sub3 (el indice +0x2C3 de J2)
 CUAD = 0x0046EF80                       # 3 cuadruplas de 0x10 B: sub0, sub1, sub3
 
 PERS_GLOBAL = 0x0040F50C        # *(esto) = pers
@@ -113,6 +117,7 @@ sw t2, %(ARMADA)d(t0)
 ARMA3:
 lw t2, %(MOLDES)d(t0)
 sw t2, %(MOLDE3)d(t0)
+sw s5, %(IDX)d(t0)
 DEST3:
 sw t4, 0x1c(sp)
 lw t5, 8(t4)
@@ -199,7 +204,8 @@ jr ra
 addiu sp, sp, 0x40
 """ % {"J2": _o(J2), "ARMADA": _o(SUB3_ARMADA), "SUB3": _o(SUB3), "ARMAR": ARMAR_SUB, "MOLDES": _o(MOLDES),
        "MOLDE3": _o(SUB3_MOLDE), "ARMA": ARMA_SUB, "CUAD": _o(CUAD), "VIVA": VIVA_OFF, "REL": VIVA_REL,
-       "SUBS": SUBS_OFF, "PASO": PASO_SUB, "ESCRIB": _o(SUB3_ESCRIB), "SALTOS": _o(SUB3_SALTOS), "N": N_SUBS}
+       "SUBS": SUBS_OFF, "PASO": PASO_SUB, "ESCRIB": _o(SUB3_ESCRIB), "SALTOS": _o(SUB3_SALTOS), "N": N_SUBS,
+       "IDX": _o(SUB3_IDX)}
 
 
 # --- los tres bloques que coop_mod.py inserta en el codigo que ya tiene (no son ganchos nuevos) ---
@@ -218,8 +224,15 @@ addiu a2, t0, %(SUB3)d
 SUB3NO1:
 """ % {"ARMADA": _o(SUB3_ARMADA), "MOLDE3": _o(SUB3_MOLDE), "MOLDES": _o(MOLDES), "SUB3": _o(SUB3)}
 
-# En R3_POR_CUADRO_MOD, despues de `addiu a2, a2, 0x398` (a2 = sub_i): si sub3 esta armado en este nivel, a2 = sub3.
-# La comparacion `+0x50 != a2` de mas abajo queda midiendo contra sub3, que es lo que la ranura tiene cargado.
+# En R3_POR_CUADRO_MOD, despues de `addiu a2, a2, 0x398` (a2 = sub_i): si sub3 esta armado en este nivel Y CON EL
+# ARMA QUE J2 TIENE EN LA MANO, a2 = sub3. La comparacion `+0x50 != a2` de mas abajo queda midiendo contra sub3.
+#
+# (122) EL TERCER TERMINO NO ES COSMETICO. Sin el, `a2` pasa a ser la CONSTANTE sub3 para todo `i`, y el camino
+# rapido (`bne t5, a2` con t5 = R3+0x50) se cumple siempre en cuanto R3 queda cargada con sub3: el codigo por
+# cuadro PIERDE la unica senal que tenia de que J2 cambio de arma (antes `a2` = pers+0x398+i*0x6C, que depende
+# de `i`) y R3 se queda con el modelo viejo para siempre. `t2` ya trae `lb t2, 0x2c3(a1)` = el indice de J2, asi
+# que la condicion no cuesta una lectura nueva. Si no coincide, el bloque NO toca `a2` y el camino por cuadro
+# queda exactamente como antes de la pieza -- el estado con el que la campana dio 8 de 8.
 POR_CUADRO_BLOQUE = """
 lui t9, 0x47
 lw t8, %(ARMADA)d(t9)
@@ -229,9 +242,13 @@ lw t8, %(MOLDE3)d(t9)
 lw t6, %(MOLDES)d(t9)
 bne t8, t6, @SUB3NO2
 nop
+lw t8, %(IDX)d(t9)
+bne t8, t2, @SUB3NO2
+nop
 addiu a2, t9, %(SUB3)d
 SUB3NO2:
-""" % {"ARMADA": _o(SUB3_ARMADA), "MOLDE3": _o(SUB3_MOLDE), "MOLDES": _o(MOLDES), "SUB3": _o(SUB3)}
+""" % {"ARMADA": _o(SUB3_ARMADA), "MOLDE3": _o(SUB3_MOLDE), "MOLDES": _o(MOLDES), "SUB3": _o(SUB3),
+       "IDX": _o(SUB3_IDX)}
 
 # En DESARME_MOD, junto a R3_BAJA_BLOQUE: la memoria del sub3 es por ARRANQUE (como R3), asi que no se desarma el
 # sub -- se invalida lo que es por NIVEL: el molde (para que la carga siguiente lo vuelva a armar) y su cuadrupla
@@ -239,11 +256,12 @@ SUB3NO2:
 DESARME_BLOQUE = """
 lui t2, 0x47
 sw zero, %(MOLDE3)d(t2)
+sw zero, %(IDX)d(t2)
 sw zero, %(CUAD3)d(t2)
 sw zero, %(CUAD3b)d(t2)
 sw zero, %(CUAD3c)d(t2)
 sw zero, %(CUAD3d)d(t2)
-""" % {"MOLDE3": _o(SUB3_MOLDE), "CUAD3": _o(CUAD + 0x20), "CUAD3b": _o(CUAD + 0x24),
+""" % {"MOLDE3": _o(SUB3_MOLDE), "IDX": _o(SUB3_IDX), "CUAD3": _o(CUAD + 0x20), "CUAD3b": _o(CUAD + 0x24),
        "CUAD3c": _o(CUAD + 0x28), "CUAD3d": _o(CUAD + 0x2C)}
 
 
@@ -295,9 +313,18 @@ def problemas(mostrar=False, escribir=False) -> list:
     if prog[-1][0] + 4 > FIN:
         errores.append("el codigo (%d palabras) pasa de la reserva [%#x, %#x)"
                        % (len(prog), BASE, FIN))
-    # los datos entran en su reserva
+    # los datos entran en su reserva y no se pisan entre si (SUB3_IDX cae en el hueco de (122))
     if not (DATOS <= SUB3 and CUAD + N_SUBS * 0x10 <= DATOS_FIN):
         errores.append("los datos no entran en [%#x, %#x)" % (DATOS, DATOS_FIN))
+    palabras_dato = [("SUB3_ARMADA", SUB3_ARMADA), ("SUB3_MOLDE", SUB3_MOLDE), ("SUB3_ESCRIB", SUB3_ESCRIB),
+                     ("SUB3_SALTOS", SUB3_SALTOS), ("SUB3_IDX", SUB3_IDX)]
+    for nombre, d in palabras_dato:
+        if not (SUB3 + PASO_SUB <= d < CUAD):
+            errores.append("%s (%#x) no cae entre el fin del sub (%#x) y CUAD (%#x)"
+                           % (nombre, d, SUB3 + PASO_SUB, CUAD))
+    if len({d for _, d in palabras_dato}) != len(palabras_dato):
+        errores.append("dos palabras de dato del sub3 comparten direccion: %s"
+                       % ", ".join("%s=%#x" % x for x in palabras_dato))
     for (pc, w, t), l in zip(prog, lineas):
         if mostrar:
             print(l)

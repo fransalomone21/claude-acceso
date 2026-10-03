@@ -54,6 +54,15 @@ APAGAR_SUB3 = ("import coop_mod; coop_mod.CON_SUB3 = False", "CON_SUB3 apagada")
 # el tope del envoltorio devuelto al valor de antes del corrimiento de (120): con la pieza prendida «por cuadro»
 # necesita 90 palabras y ahi solo hay 88. Es el caso que la regla 10 agrego, y sin el sabotaje no estaria probado
 TOPE_SUB3_MAL = ("import coop_mod; coop_mod.R3_ENVOLTORIO = 0x0046E4A0", "con la pieza prendida el mod no ensambla")
+# (122) regla 11, el TESTIGO del sub3 por cuadro. Los tres sabotajes apuntan al HALLAZGO CONCRETO, no a la regla
+# entera, y ninguno trae la direccion literal adentro: la sacan de coop_sub3, que es su dueno (si el mapa se corre,
+# el sabotaje se corre con el -- la leccion que (120) pago con `0x0046E580` escrito a mano).
+TESTIGO_SIN_COMPARAR = ("import coop_sub3 as c; c.POR_CUADRO_BLOQUE = c.POR_CUADRO_BLOQUE.replace("
+                        "'bne t8, t2, @SUB3NO2', 'nop')", "no COMPARA SUB3_IDX")
+TESTIGO_SIN_GUARDAR = ("import coop_sub3 as c; c.FUENTE = c.FUENTE.replace('sw s5, %d(t0)' % c._o(c.SUB3_IDX), "
+                       "'nop')", "no guarda el indice de arma")
+TESTIGO_SIN_LIMPIAR = ("import coop_sub3 as c; c.DESARME_BLOQUE = c.DESARME_BLOQUE.replace("
+                       "'sw zero, %d(t2)' % c._o(c.SUB3_IDX), 'nop')", "no pone SUB3_IDX")
 
 
 def fila_sub3(n=0) -> str:
@@ -148,6 +157,13 @@ def main() -> int:
                              fila_sub3() + "\nsonido de J2               | 0x0046EE00"),
          APAGAR_SUB3, 1),
         ("sub3: los bloques no entran en la reserva de su programa (120)", lambda t: t, TOPE_SUB3_MAL, 1),
+        ("testigo: el bloque por cuadro no compara el índice (122)", lambda t: t, TESTIGO_SIN_COMPARAR, 1),
+        ("testigo: SUBH no guarda qué arma armó el sub3 (122)", lambda t: t, TESTIGO_SIN_GUARDAR, 1),
+        ("testigo: el desarme no limpia SUB3_IDX (122)", lambda t: t, TESTIGO_SIN_LIMPIAR, 1),
+        ("testigo: SUB3_IDX fuera de la reserva «sub3 (datos)» (122)",
+         lambda t: t.replace("sub3 (datos)                   | 0x0046EF00 | 0x0046F000 | reserva",
+                             "sub3 (datos)                   | 0x0046EF00 | 0x0046EF7C | reserva"),
+         None, 1),
     ]
     fallas = 0
     with tempfile.TemporaryDirectory() as tmp:

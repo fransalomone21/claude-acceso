@@ -85,3 +85,9 @@ viva**: `*(p+0x1C) == p+0x4C`, que discrimina 16/16 contra 0/14. Tres instruccio
   armas para alternar. En City Streets por el selector **tienen una sola**, así que la primera corrida salió
   idéntica en los cuatro pasos. Ahora el banco **construye** la precondición con la receta de (111)
   (`s1_juntar.py`) y sale en **ROJO** si no la logra, en vez de fotografiar un experimento que no discrimina.
+
+**Lo que la lectura en frío de (122) le hizo a este P3** (no se reescribe ninguna fila; esto se agrega al lado). El sospechoso de P3a/P3b —el gancho `0x001ACA2C`— queda **descartado por lectura**: el tramo `0x001ACA34`–`0x001ACA68` da por vivos sólo `s0`, `s1` y `s6`, y SUBH no pisa ninguno de los tres. El «índice fijo» tiene una causa que no es la pieza: `FUN_0015bbd8` vuelve sin tocar el índice cuando `arreglo[1 - índice]` es nulo, y en los 5 volcados con el mod J2 (y J) tienen **una sola** arma (`herramientas/armas_estado.py`). **P3a y P3b hay que volver a medirlos** con el banco que construye la precondición. Aparte, (122) encontró y arregló un defecto distinto —el testigo por cuadro era el puntero del sub, que con la pieza es constante— así que al volver al banco se agrega una predicción:
+
+| # | Predicción | Resultado |
+|---|---|---|
+| P3f | con el testigo del índice (`SUB3_IDX`), **R3 se recarga** cuando J2 cambia de arma: `R3_CARGAS` (`0x0046E0B8`) sube en el cambio; sin el testigo se queda fijo después de la primera carga | sin medir |

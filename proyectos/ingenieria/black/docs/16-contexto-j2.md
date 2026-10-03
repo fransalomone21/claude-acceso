@@ -987,3 +987,93 @@ Primera medición en vivo de la pieza 2b (`sesiones/PREDICCIONES-118.md` §P3, b
    mod y **sobrevive a la descarga**. En la carga 2 J2 arrancó con dos armas que son instancias del nivel
    anterior, y esa carga terminó con el juego muerto. Si se confirma, el desarme tiene que limpiarlo
    (`DESARME_BLOQUE` ya invalida el molde y la cuádrupla; faltaría el arreglo de armas y su índice).
+
+### Lo que la lectura en frio de (122) dejo: la pieza 2b no es la causa del indice, y el testigo del cuadro esta mal elegido
+
+En frio, sin abrir el emulador, sobre el desensamblado de `FUN_001AC960` y los 16 volcados
+(`herramientas/armas_estado.py`, autotest en verde con control positivo y una **poblacion** de 200 direcciones
+como control negativo). Las dos preguntas que (121) dejo abiertas, contestadas.
+
+**(a) El gancho NO le rompe los registros al cambio de arma.** El tramo que corre despues del `jal`
+(`0x001ACA34`-`0x001ACA68`, leido instruccion por instruccion) da por vivos exactamente tres registros:
+`s0` (`0x001ACA40`, `0x001ACA50`, `0x001ACA60` -> `move a0, s0`), `s1` (`0x001ACA5C beqz s1` y
+`0x001ACA68 move a1, s1`) y `s6` (`0x001ACA34 sll a1, s6, 0x18`). No lee **ningun** registro `t`, ninguno
+`a` (los escribe) y **no usa `v0` ni `v1`**: el valor de retorno de `FUN_001A8168` se descarta. Y `s0` se
+**recalcula** nueve instrucciones mas abajo (`0x001ACA78 addiu s0, v0, 0x470`), asi que el `s0` que SUBH
+escribe a proposito solo vive en ese tramo, que es justo donde tiene que valer el sub elegido. SUBH pisa
+`t0`-`t9`, `a0`-`a3`, `ra`, HI/LO y `s0`: **ninguno de los tres que el tramo da por vivos**. El sospechoso
+de (121) queda **descartado por lectura**, y se marca asi en el riesgo.
+
+**Donde muere el indice, con su instruccion.** El unico que escribe `P+0x2C3` es `FUN_0015be70`
+(`*(char *)(mgr+0x43) = i`, barriendo `mgr+0x20` contra `mgr+0x28`), y al unico que lo llama en el cambio de
+arma es `FUN_0015bbd8`, que **antes** hace esto:
+
+    iVar6  = 1 - *(char *)(mgr+0x43)            el indice contrario
+    pcVar3 = *(char **)(iVar6*4 + *(mgr+0x20))  la entrada contraria del arreglo
+    if (pcVar3 == NULL) return;                 <- se va sin llamar a nadie
+
+Con la entrada contraria en nulo **no llama a `FUN_00143d90` ni a `FUN_0015be70`**: el indice se queda
+igual, y eso se ve identico a «la pieza rompio el cambio de arma». Medido en los volcados: en los **5**
+que estan tomados con el mod puesto, el arreglo de J2 tiene **una sola** entrada viva y `arreglo[1]` = 0
+(y J, en esos mismos 5, tambien) -> `cambia=False` por ese `return`. Es la leccion 336 otra vez, del lado
+de la interpretacion: la corrida con la pieza de (121) es exactamente la que todavia no construia la
+precondicion de dos armas. **El negativo de (121) no sostiene nada sobre la pieza** y hay que repetirlo con
+el banco arreglado antes de volver a acusarla.
+
+**El defecto real que si aparecio leyendo, y que hay que arreglar antes de la proxima prueba en vivo.**
+Con la pieza, el sub con el que se compara pasa a ser **constante**. En `R3_POR_CUADRO_MOD` el camino rapido
+es `bne t5, a2, @CARGAR` con `t5` = `R3+0x50` y `a2` = `sub_i` = `pers+0x398+i*0x6C`, que **depende de `i`**:
+cuando J2 cambiaba de arma, `i` cambiaba, la comparacion fallaba y R3 se recargaba con el arma nueva. El
+`SUB3_POR_CUADRO_BLOQUE` reemplaza `a2` por `SUB3` (`0x0046EF00`), que es **el mismo valor para todo `i`**:
+una vez que R3 quedo cargada con `SUB3`, la comparacion se cumple siempre y **el codigo por cuadro no puede
+volver a enterarse de que J2 cambio de arma**. Lo mismo pasa en el envoltorio (`0x001ACA88 addu a2, s2, s1`
+es la fuente original de ese `a2`). La pieza le saco al mod la unica senal que tenia.
+
+**El arreglo, escrito antes de tocar el stub (Fase C): el testigo deja de ser el puntero y pasa a ser el
+indice.** `SUB3_IDX` = `0x0046EF7C` (el hueco que queda entre `SUB3_SALTOS` `0x0046EF78` y `CUAD`
+`0x0046EF80`, adentro de la reserva «sub3 (datos)» que ya existe, asi que no se mueve nada del mapa):
+
+1. En `SUBH`, en el camino de J2 y al lado de `sw t2, MOLDE3(t0)`, se guarda **que arma armo el sub3**:
+   `sw s5, SUB3_IDX(t0)` (`s5` = `i`, que SUBH ya tiene vivo y ya usa para la cuadrupla).
+2. En `SUB3_POR_CUADRO_BLOQUE`, la condicion para usar `SUB3` suma un termino: ademas de
+   `SUB3_ARMADA != 0` y `SUB3_MOLDE == MOLDES`, tiene que valer `SUB3_IDX == *(J2+0x2C3)` -- y el codigo por
+   cuadro ya tiene ese byte en `t2` (`lb t2, 0x2c3(a1)`), asi que no hay lectura nueva. Si no coincide, el
+   bloque **no toca `a2`** y el camino por cuadro queda exactamente como antes de la pieza: `R3+0x50` != `sub_i`
+   -> `CARGAR` -> R3 se recarga. Es el estado con el que la campana dio 8 de 8.
+3. El desarme ya pone `SUB3_MOLDE` en 0; se le suma `SUB3_IDX` en 0 por la misma razon (un indice de un
+   nivel que ya no esta no tiene que habilitar nada).
+
+**Por que el arreglo es minimo y reversible:** tres `sw`/`lw` y un `bne`; con `--sin-sub3` nada de esto corre,
+y si `SUB3_IDX` queda en un valor imposible el efecto es el del mod **sin** la pieza, no un estado nuevo.
+Lo mide la **regla 11** de `coop_diseno.py`, con su sabotaje en rojo: se exige la relacion (el `lw` de
+`SUB3_IDX` y el `bne`/`beq` que lo compara contra el registro del indice), no un inmediato suelto -- que es
+el agujero que (120) ya pago una vez.
+
+**(b) N26 se corrige: `ARMAS2` NO sobrevive a la descarga.** `ENVOLTORIO_MOD`, cada vez que arma el molde
+(que es cada carga: el desarme deja `FASE` = 0), hace `addiu t2, s1, -0x2440` (= `ARMAS2` `0x0046DBC0`),
+`sw t2, 0x2a0(t1)` y **`sq zero, 0(t2)` + `sq zero, 0x10(t2)`**: los 0x20 B del arreglo quedan en cero antes
+de que el constructor de J2 corra. Medido ademas en los volcados: `ARMAS2` esta en cero en 11 de 16 (los que
+no tienen el mod) y en los 5 que si lo tienen hay **una** entrada viva y **cero colgadas**, con los dos
+retropunteros del objeto apuntando a J2 (`+0xF0` = `0x0046CDF0`, `+0xFC` = `0x0046D070`). La premisa de N26
+(«sobrevive a la descarga», `hipotesis` sin control) **esta refutada en frio para el arreglo**; lo que N26
+afirmaba sobre la carga 2 de (121) **no se puede medir aca** porque ninguno de los 16 volcados es de ese
+estado. N26 baja a «sin evidencia» y, para volver a abrirlo, lo que hace falta es un volcado de la carga 2,
+no una teoria. Dato lateral que conviene no malinterpretar: `+0x2C2` vale **2 en los 16 volcados, en J y en
+J2 por igual**, con uno o dos huecos llenos -- es la capacidad de ranuras, no cuantas armas tiene.
+
+**Lo que si queda sin limpiar y hay que mirar cuando haya emulador:** el molde copia los 0x8C0 B de J y
+despues arregla siete autopunteros, `+0xB0`, `+0x8A4` y `+0x2A0`, pero **no** `+0x2A4` (el arma en la mano)
+ni `+0x2C3` (el indice). En los volcados los dos terminan coherentes (la mano de J2 es un objeto cuyo
+retropuntero es J2), asi que no hay evidencia de dano; el estado intermedio, entre el molde y el constructor,
+no esta volcado. Sonda, de un cuadro: volcar `J2+0x2A0`..`J2+0x2C8` justo despues del molde.
+
+**Decision de Fran, 2026-10-03 (contesta la pregunta pendiente de (119)): el arma de J2 tiene que sonar
+como el arma que es.** El limite (a) aceptado en «El sonido audible, (117)» --«J2 suena con el cue del arma
+de J»-- **no va para la v1**, asi que la pieza 2 deja de cerrar con el modelo solo. El camino ya esta escrito
+en esa misma seccion y no cambia: **un cue propio de J2**, no `V2` entera -- una de las **6 sub-ranuras de
+`0x430` de `V+0x2C0`** (en los 16 volcados hay 3 en uso: `V+0x2C0`, `V+0x6F0`, `V+0xB20`, o sea quedan libres)
+cargada con `FUN_001D6E78(V, cue, clave, .)` usando la clave del arma de **J2** (`**(arma+0xE8)`, la que sale
+de la ValueDB), y el envoltorio del aislador tocando ese cue en vez de `*(V+0x1BE0)`. Entra como **pieza 2c**,
+despues de que la 2b pase: sin el sub propio, el arma de J2 ni se dibuja bien, y el cue se elige por el arma
+que el juego cree que tiene en la mano. Se mide antes de fabricar (la leccion de (116)): en los volcados, que
+las sub-ranuras libres de `V` esten realmente libres y con que las distingue `FUN_001D6178` al elegir voz.

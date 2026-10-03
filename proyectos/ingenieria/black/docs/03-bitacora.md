@@ -6,6 +6,66 @@ dos primeras entradas.
 Formato de cada entrada:
 
 ```
+## 2026-10-03 — (122) en frío: el gancho del sub3 NO rompe el cambio de arma, y el testigo por cuadro estaba mal elegido
+**Máquina:** PC (en frío, sin emulador) · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** COOP-C pieza 2b (F7, el modelo del arma de J2) · nodos `armas`, `vista-fp`, `codigo-nuevo`
+**Objetivo:** contestar las dos preguntas que (121) dejó abiertas, las dos en frío y con su respuesta escrita
+antes de tocar el stub: (a) por qué J2 deja de cambiar de arma con la pieza; (b) qué tiene que limpiar el desarme (N26).
+**Resultado:** el sospechoso de (121) queda **descartado por lectura**; aparece un defecto distinto, real y
+arreglado; N26 se corrige; y Fran contestó la pregunta pendiente, que agranda la pieza 2.
+
+- **(a) El gancho no le rompe los registros al cambio de arma.** El tramo `0x001ACA34`–`0x001ACA68` da por vivos
+  exactamente **tres** registros —`s0` (`move a0, s0` tres veces), `s1` (`beqz s1`, `move a1, s1`) y `s6`
+  (`sll a1, s6, 0x18`)— y **no lee ningún `t`, ningún `a` ni `v0`/`v1`**. `s0` queda con el sub elegido, que es
+  justo lo que el tramo espera, y nueve instrucciones más abajo se **recalcula**
+  (`0x001ACA78 addiu s0, v0, 0x470`). SUBH pisa `t0`–`t9`, `a0`–`a3`, `ra`, HI/LO y `s0`: ninguno de los tres.
+- **Dónde muere el índice, con su instrucción:** el único que escribe `P+0x2C3` es `FUN_0015be70`, y el único que
+  lo llama en el cambio de arma es `FUN_0015bbd8`, que **antes** lee `arreglo[1 - *(P+0x2C3)]` y **vuelve sin
+  llamar a nadie si es nulo**. Medido con `herramientas/armas_estado.py` sobre los 16 volcados: en los **5** que
+  están tomados con el mod, el arreglo de J2 tiene **una sola** entrada viva y `arreglo[1]` = 0 (y J, en esos
+  mismos 5, igual). Es la lección 336 del lado de la interpretación: la corrida con la pieza de (121) es
+  justamente la que todavía no construía la precondición de dos armas. **El negativo de (121) no sostiene nada
+  sobre la pieza** y hay que repetirlo con el banco arreglado antes de volver a acusarla.
+- **El defecto real, hallado leyendo, y arreglado (diseño escrito en `docs/16` ANTES del stub, Fase C):** con la
+  pieza, el sub con el que el código por cuadro compara pasa a ser **constante**. `R3_POR_CUADRO_MOD` decidía con
+  `bne t5, a2` (`t5` = `R3+0x50`, `a2` = `pers+0x398+i*0x6C`, que **depende de `i`**): era la única señal de que
+  J2 cambió de arma. El bloque del sub3 reemplazaba `a2` por `SUB3`, el mismo valor para todo `i`, así que una vez
+  cargada R3 **nunca más se recargaba**. Arreglo: el testigo deja de ser el puntero y pasa a ser el índice —
+  `SUB3_IDX` (`0x0046EF7C`, el hueco que ya quedaba dentro de la reserva «sub3 (datos)», sin mover nada del mapa),
+  `sw s5, SUB3_IDX` en SUBH, el tercer término `SUB3_IDX == *(J2+0x2C3)` en el bloque por cuadro (el byte ya está
+  en `t2`) y `SUB3_IDX` a cero en el desarme.
+- **Regla 11 de `coop_diseno.py`** (`verificar_testigo_sub3`) con **cuatro sabotajes nuevos** en
+  `pruebas/probar-coop-diseno.py`, los cuatro en rojo por su propio motivo (17 casos, TODO BIEN). Mide por
+  **relación**, no por inmediatos sueltos: el `sw` del índice con la **misma base** que el del molde, y el `lw` de
+  `SUB3_IDX` comparado con `bne`/`beq` contra el registro donde `R3_POR_CUADRO_MOD` dejó `lb t2, 0x2c3(a1)`.
+- **Números medidos:** `coop_sub3` 98 → **99 palabras**; «ranura 3 por cuadro» 81 → **93** (tope 96) y
+  «envoltorio» 54 → **62** (tope 64) con la pieza; el pnach **por defecto sigue en 1059** (el control) y con
+  `--con-sub3` pasa de 1181 a **1186**. Queda poco aire arriba: 3 palabras en el por cuadro.
+- **(b) N26 se corrige: `ARMAS2` NO sobrevive a la descarga.** `ENVOLTORIO_MOD`, cada vez que arma el molde (que
+  es cada carga: el desarme deja `FASE` = 0), hace `addiu t2, s1, -0x2440` (= `ARMAS2`), `sw t2, 0x2a0(t1)` y
+  **`sq zero, 0(t2)` + `sq zero, 0x10(t2)`**. Medido además: `ARMAS2` en cero en 11 de 16 volcados (los sin mod) y
+  en los 5 con mod, **una** entrada viva y **cero colgadas**. N26 baja a «sin evidencia»: para reabrirlo hace falta
+  un volcado de la carga 2 de (121), no una teoría. Dato que conviene no malinterpretar: `+0x2C2` vale **2 en los
+  16 volcados, en J y en J2 por igual**, con uno o dos huecos llenos — es la capacidad de ranuras, no cuántas armas.
+- **Herramienta nueva `herramientas/armas_estado.py`** (`--autotest`, enganchada en `pruebas/controles.py`). Su
+  primer discriminador estaba **ciego y lo delató su propio control negativo**: con «el primer byte en rango»
+  una dirección de RAM cualquiera pasaba por arma viva, y con la palabra entera pasaban **67 de 200** (la RAM está
+  llena de ceros y el id 0 existe). El que sirve mide la **relación entre dos estructuras**: el objeto de arma
+  tiene dos retropunteros, `*(obj+0xF0)` = el jugador dueño y `*(obj+0xFC)` = su manejador (`P+0x280`), medidos en
+  los dos jugadores (J: `0x005A8AB0`/`0x005A8D30`; J2: `0x0046CDF0`/`0x0046D070`). Con eso, **0 de 200**.
+- **Decisión de Fran, hoy (contesta la pregunta pendiente de (119)): «quiero que el arma de J2 suene como el arma
+  que es».** El límite (a) de «El sonido audible, (117)» —J2 suena con el cue del arma de J— **no va para la v1**.
+  Entra la **pieza 2c**, con el camino ya escrito en esa sección: un **cue propio de J2** (no `V2` entera) en una
+  de las 6 sub-ranuras de `0x430` de `V+0x2C0` (en los 16 volcados hay 3 en uso, quedan libres), cargado con
+  `FUN_001D6E78(V, cue, clave, ·)` con la clave del arma de J2. Va **después** de que la 2b pase: el cue se elige
+  por el arma que el juego cree que J2 tiene en la mano. Su sitio y su reserva **no** entran todavía a
+  `coop-plan-b`: una fila sin medir es justo lo que `coop_diseno.py` tiene que rechazar.
+- **Máquina:** PC, en frío, nada abierto. Pnach sin tocar (sigue el default de 1059 palabras en la notebook).
+  `pruebas/controles.py` en verde, 6 de 6.
+- **Sigue:** la 2b **en vivo otra vez**, con el banco que ya construye la precondición y el testigo arreglado:
+  P3a–P3e de `sesiones/PREDICCIONES-118.md` (no se reescriben, se anota el resultado al lado) **más** una
+  predicción nueva: con el testigo, R3 se recarga en el cambio de arma (medible por `R3_CARGAS`).
+
 ## 2026-10-03 — (121) la pieza 2b en vivo: el banco del arma, y por qué la pieza NO se prende
 **Máquina:** notebook (fork, pantalla libre) · **Modelo:** Sonnet
 **Concepto / nodo:** COOP-C pieza 2b (F7, el modelo del arma de J2) · nodos `vista-fp`, `personajes`, `armas`
