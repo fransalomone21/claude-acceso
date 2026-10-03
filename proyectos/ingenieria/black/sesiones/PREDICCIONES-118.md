@@ -61,8 +61,27 @@ viva**: `*(p+0x1C) == p+0x4C`, que discrimina 16/16 contra 0/14. Tres instruccio
 
 | # | Predicción | Resultado |
 |---|---|---|
-| P3a | J2 cambia de arma y la mitad de J **sigue mostrando el arma de J**; control `--sin-sub3`: la de J2 en las dos (F7) | *sin medir* |
-| P3b | la secuencia del peligro (J y J2 con la misma pistola, J2 cambia, J cambia y vuelve) **sin cuelgue** | *sin medir* |
-| P3c | el síntoma **sin** la regla del dueño no es basura: la ranura de J lee la **instancia de J2** (el arma del último que cambió, en las dos mitades) — `hipótesis` derivada de que la arena de J2 tiene instancia válida | *sin medir* |
-| P3d | la guarda salta (no escribe) cuando `Bo` está colgado: medible contando cuántas veces se toma cada rama en el stub | *sin medir* |
-| P3e | dos cargas seguidas sin colgar; `SUB3_MOLDE` = 0 después del desarme | *sin medir* |
+| P3a | J2 cambia de arma y la mitad de J **sigue mostrando el arma de J**; control `--sin-sub3`: la de J2 en las dos (F7) | **SIN MEDIR** (121): la corrida con la pieza **no ejerció el caso** — J2 no cambió de arma en 3 intentos (índice fijo en 1), así que las tres fotos salieron idénticas y el banco las marcó `FOTOS_INVALIDAS`. **El control sí quedó medido y fotografiado** (`volcados/arma/sonda-precondicion/`, pnach sin la pieza): con J2 en el fusil las **dos** mitades lo dibujan aunque el HUD de J marque su pistola (015\030), y con J2 de vuelta en la pistola las dos muestran pistola. F7 reproducido hoy |
+| P3b | la secuencia del peligro (J y J2 con la misma pistola, J2 cambia, J cambia y vuelve) **sin cuelgue** | **REFUTADA** (121): la **carga 2 terminó con el juego no vivo** (`vivo_despues: false`, confirmado después con `selector_depuracion.py vivo`: el yaw no se mueve). La carga 1 llegó a jugarse bien (armado 14,4 s). Dos cargas seguidas **no** se cumplen |
+| P3c | el síntoma **sin** la regla del dueño no es basura: la ranura de J lee la **instancia de J2** (el arma del último que cambió, en las dos mitades) — `hipótesis` derivada de que la arena de J2 tiene instancia válida | **SIN MEDIR** (121): depende de P3a, que no se ejerció |
+| P3d | la guarda salta (no escribe) cuando `Bo` está colgado: medible contando cuántas veces se toma cada rama en el stub | **SIN EJERCITAR** (121): `SUB3_ESCRIB` = 0 y `SUB3_SALTOS` = 0 en las dos cargas. SUBH **sí corrió** (la ranura de J2 pasó a `sub3` y la de J quedó en `sub_0`, contra `sub_0`/`sub_0` sin la pieza), pero con la plantilla vieja en 0 (sub3 recién armado) sale por `FIN3` sin tocar ninguna de las dos ramas: la guarda nunca llegó a decidir. El contador discrimina; lo que faltó fue el caso |
+| P3e | dos cargas seguidas sin colgar; `SUB3_MOLDE` = 0 después del desarme | **A MEDIAS** (121): `SUB3_MOLDE` = `MOLDES` en las **dos** cargas (`de_este_nivel: true`), así que el desarme corrió y la carga siguiente lo rearmó; pero la carga 2 no terminó viva, así que «dos cargas seguidas sin colgar» **no** se cumple |
+
+**Lo que la corrida de (121) dejó, y por qué la pieza NO se prende.** Banco nuevo:
+`herramientas/arma_pieza_banco.py` (`pieza` / `control`), calcado de `sonido_pieza_banco.py`. Pnach con la pieza:
+**1181 palabras** (control: 1059), gancho **1 de 1** en RAM.
+
+- **A favor de la pieza, medido:** con ella la ranura de J2 carga **su propio sub** (`R3+0x50` = `SUB3`
+  `0x0046EF00`) y la de J queda en el suyo (`sub_0`), en las dos cargas; sin ella las dos caen en `sub_0`. El
+  molde por nivel se invalida y se rearma bien (P3e, primera mitad).
+- **En contra, medido:** con la pieza **J2 dejó de cambiar de arma** (3 intentos, índice fijo; sin la pieza el
+  mismo helper lo cambió 1 → 0 veinte minutos antes). El gancho de la pieza vive justo en el camino del cambio
+  (`0x001ACA2C`, dentro de `FUN_001AC960`): el sospechoso obvio es la pieza, en grado `probable` — **una sola
+  corrida, sin control simétrico en la misma carga**. Y la **carga 2 terminó con el juego muerto**.
+- **Hallazgo nuevo que puede explicar las dos cosas (`hipótesis`, sin control):** el arreglo de armas de J2 vive
+  en memoria del mod (`ARMAS2` `0x0046DBC0`) y **sobrevive a la descarga**: en la carga 2 J2 arrancó ya con dos
+  armas, que son instancias del nivel anterior. El desarme no lo limpia. Entra como riesgo **N26**.
+- **El banco se equivocó primero, y el arreglo fue un nivel más arriba:** suponía que los jugadores tenían dos
+  armas para alternar. En City Streets por el selector **tienen una sola**, así que la primera corrida salió
+  idéntica en los cuatro pasos. Ahora el banco **construye** la precondición con la receta de (111)
+  (`s1_juntar.py`) y sale en **ROJO** si no la logra, en vez de fotografiar un experimento que no discrimina.

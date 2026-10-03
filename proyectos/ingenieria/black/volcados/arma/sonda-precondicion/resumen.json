@@ -1,0 +1,417 @@
+{
+ "1_j2_arma_nueva": {
+  "ganchos_sub3_en_ram": "0 de 1",
+  "pers": "0x4ed380",
+  "sub3": {
+   "armada": 0,
+   "molde": "0x0",
+   "moldes": "0x1",
+   "de_este_nivel": false,
+   "escrib": 0,
+   "saltos": 0,
+   "cuadruplas": [
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ],
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ],
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ]
+   ]
+  },
+  "subs": [
+   {
+    "sub": "0x4ed718",
+    "plantilla": "0x1b4f000",
+    "viva": true
+   },
+   {
+    "sub": "0x4ed784",
+    "plantilla": "0x1aab080",
+    "viva": true
+   },
+   {
+    "sub": "0x46ef00",
+    "plantilla": "0x0",
+    "viva": false
+   }
+  ],
+  "ranura_J": {
+   "ranura": "0x4ed7f0",
+   "sub": "0x4ed718",
+   "quien": "sub_0",
+   "plantilla": "0x1b4f000"
+  },
+  "ranura_J2": {
+   "ranura": "0x46e100",
+   "sub": "0x4ed784",
+   "quien": "sub_1",
+   "plantilla": "0x1aab080"
+  },
+  "arma_J": {
+   "mano": "0x6de690",
+   "indice": 0
+  },
+  "arma_J2": {
+   "mano": "0x6def10",
+   "indice": 1
+  },
+  "r3": {
+   "armada": 1,
+   "cargas": 1,
+   "reapuntes": 1,
+   "desvios": 1,
+   "molde": "0x1"
+  },
+  "vida": [
+   750.0,
+   750.0
+  ],
+  "cuadros_J2": 5869
+ },
+ "2_j2_vuelve_pistola": {
+  "ganchos_sub3_en_ram": "0 de 1",
+  "pers": "0x4ed380",
+  "sub3": {
+   "armada": 0,
+   "molde": "0x0",
+   "moldes": "0x1",
+   "de_este_nivel": false,
+   "escrib": 0,
+   "saltos": 0,
+   "cuadruplas": [
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ],
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ],
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ]
+   ]
+  },
+  "subs": [
+   {
+    "sub": "0x4ed718",
+    "plantilla": "0x1b4f000",
+    "viva": true
+   },
+   {
+    "sub": "0x4ed784",
+    "plantilla": "0x1aab080",
+    "viva": true
+   },
+   {
+    "sub": "0x46ef00",
+    "plantilla": "0x0",
+    "viva": false
+   }
+  ],
+  "ranura_J": {
+   "ranura": "0x4ed7f0",
+   "sub": "0x4ed718",
+   "quien": "sub_0",
+   "plantilla": "0x1b4f000"
+  },
+  "ranura_J2": {
+   "ranura": "0x46e100",
+   "sub": "0x4ed718",
+   "quien": "sub_0",
+   "plantilla": "0x1b4f000"
+  },
+  "arma_J": {
+   "mano": "0x6de690",
+   "indice": 0
+  },
+  "arma_J2": {
+   "mano": "0x6de7a0",
+   "indice": 0
+  },
+  "r3": {
+   "armada": 1,
+   "cargas": 1,
+   "reapuntes": 8,
+   "desvios": 8,
+   "molde": "0x1"
+  },
+  "vida": [
+   750.0,
+   750.0
+  ],
+  "cuadros_J2": 5969
+ },
+ "3_J_junta": {
+  "recogible": "0x5b5660",
+  "ban_antes": "0x4",
+  "ban_despues": "0x0",
+  "candidato": [
+   "0x5b5660",
+   "0x5b5660",
+   "0x5b5660"
+  ],
+  "armas_antes": {
+   "arreglo": "0x6ed780",
+   "armas": [
+    "0x6de690",
+    "0x0",
+    "0x0",
+    "0x0",
+    "0x0",
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "mano": "0x6de690",
+   "indice_2C3": 0,
+   "reserva_280": [
+    30,
+    0,
+    0,
+    120
+   ],
+   "estados": [
+    0,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "armas_despues": {
+   "arreglo": "0x6ed780",
+   "armas": [
+    "0x6de690",
+    "0x0",
+    "0x0",
+    "0x0",
+    "0x0",
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "mano": "0x6de690",
+   "indice_2C3": 0,
+   "reserva_280": [
+    30,
+    24,
+    0,
+    120
+   ],
+   "estados": [
+    11,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  }
+ },
+ "3_estado": {
+  "ganchos_sub3_en_ram": "0 de 1",
+  "pers": "0x4ed380",
+  "sub3": {
+   "armada": 0,
+   "molde": "0x0",
+   "moldes": "0x1",
+   "de_este_nivel": false,
+   "escrib": 0,
+   "saltos": 0,
+   "cuadruplas": [
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ],
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ],
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ]
+   ]
+  },
+  "subs": [
+   {
+    "sub": "0x4ed718",
+    "plantilla": "0x1b4f000",
+    "viva": true
+   },
+   {
+    "sub": "0x4ed784",
+    "plantilla": "0x1aab080",
+    "viva": false
+   },
+   {
+    "sub": "0x46ef00",
+    "plantilla": "0x0",
+    "viva": false
+   }
+  ],
+  "ranura_J": {
+   "ranura": "0x4ed7f0",
+   "sub": "0x4ed718",
+   "quien": "sub_0",
+   "plantilla": "0x1b4f000"
+  },
+  "ranura_J2": {
+   "ranura": "0x46e100",
+   "sub": "0x4ed718",
+   "quien": "sub_0",
+   "plantilla": "0x1b4f000"
+  },
+  "arma_J": {
+   "mano": "0x6de690",
+   "indice": 0
+  },
+  "arma_J2": {
+   "mano": "0x6de7a0",
+   "indice": 0
+  },
+  "r3": {
+   "armada": 1,
+   "cargas": 1,
+   "reapuntes": 8,
+   "desvios": 8,
+   "molde": "0x1"
+  },
+  "vida": [
+   750.0,
+   750.0
+  ],
+  "cuadros_J2": 6106
+ },
+ "4_J_cambio": {
+  "ganchos_sub3_en_ram": "0 de 1",
+  "pers": "0x4ed380",
+  "sub3": {
+   "armada": 0,
+   "molde": "0x0",
+   "moldes": "0x1",
+   "de_este_nivel": false,
+   "escrib": 0,
+   "saltos": 0,
+   "cuadruplas": [
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ],
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ],
+    [
+     "0x0",
+     "0x0",
+     "0x0",
+     "0x0"
+    ]
+   ]
+  },
+  "subs": [
+   {
+    "sub": "0x4ed718",
+    "plantilla": "0x1b4f000",
+    "viva": true
+   },
+   {
+    "sub": "0x4ed784",
+    "plantilla": "0x1aab080",
+    "viva": false
+   },
+   {
+    "sub": "0x46ef00",
+    "plantilla": "0x0",
+    "viva": false
+   }
+  ],
+  "ranura_J": {
+   "ranura": "0x4ed7f0",
+   "sub": "0x4ed718",
+   "quien": "sub_0",
+   "plantilla": "0x1b4f000"
+  },
+  "ranura_J2": {
+   "ranura": "0x46e100",
+   "sub": "0x4ed718",
+   "quien": "sub_0",
+   "plantilla": "0x1b4f000"
+  },
+  "arma_J": {
+   "mano": "0x6de690",
+   "indice": 0
+  },
+  "arma_J2": {
+   "mano": "0x6de7a0",
+   "indice": 0
+  },
+  "r3": {
+   "armada": 1,
+   "cargas": 1,
+   "reapuntes": 8,
+   "desvios": 8,
+   "molde": "0x1"
+  },
+  "vida": [
+   750.0,
+   750.0
+  ],
+  "cuadros_J2": 6204
+ },
+ "fotos": {
+  "1-j2-arma-nueva.png": {
+   "con": "capturar-pantalla.ps1",
+   "md5": "6f0187615e54"
+  },
+  "2-j2-pistola.png": {
+   "con": "capturar-pantalla.ps1",
+   "md5": "67d7729efd2b"
+  },
+  "3-J-dos-armas.png": {
+   "con": "capturar-pantalla.ps1",
+   "md5": "df93af88bd0c"
+  },
+  "4-J-cambio.png": {
+   "con": "capturar-pantalla.ps1",
+   "md5": "8fc87bab6263"
+  }
+ },
+ "FOTOS_INVALIDAS": false
+}

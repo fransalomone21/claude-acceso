@@ -6,6 +6,39 @@ dos primeras entradas.
 Formato de cada entrada:
 
 ```
+## 2026-10-03 — (121) la pieza 2b en vivo: el banco del arma, y por qué la pieza NO se prende
+**Máquina:** notebook (fork, pantalla libre) · **Modelo:** Sonnet
+**Concepto / nodo:** COOP-C pieza 2b (F7, el modelo del arma de J2) · nodos `vista-fp`, `personajes`, `armas`
+**Objetivo:** escribir el banco que faltaba y medir P3a–P3e de `sesiones/PREDICCIONES-118.md`.
+**Resultado:** la pieza **no pasa**: queda apagada (`CON_SUB3 = False`) y su fila sigue en `coop-plan-b`.
+
+- **Banco nuevo `herramientas/arma_pieza_banco.py`** (`pieza` / `control`), calcado de `sonido_pieza_banco.py`:
+  construye la precondición, corre el ciclo de cambio de arma, saca una foto y un estado por paso (más las dos
+  mitades recortadas) y vuelca el seam en RAM. Pnach con la pieza **1181 palabras**, control **1059**.
+- **El control quedó medido y fotografiado** (`volcados/arma/sonda-precondicion/`, sin la pieza): con J2 en el
+  fusil **las dos mitades lo dibujan** aunque el HUD de J marque su pistola (015\030); con J2 de vuelta en la
+  pistola, las dos muestran pistola. **F7 reproducido hoy, con las dos direcciones.**
+- **Lo que la pieza SÍ hace, medido:** con ella la ranura de J2 carga **su propio sub** (`R3+0x50` = `SUB3`
+  `0x0046EF00`) y la de J queda en `sub_0`; sin ella las dos caen en `sub_0`. Gancho **1 de 1** en RAM. El molde
+  por nivel se invalida y se rearma en las dos cargas (`de_este_nivel: true`).
+- **Lo que la hace fallar, medido:** con la pieza **J2 dejó de cambiar de arma** (3 intentos, índice fijo en 1;
+  sin la pieza el mismo helper lo cambió 1 → 0 veinte minutos antes) y **la carga 2 terminó con el juego muerto**
+  (`vivo_despues: false`, reconfirmado con `selector_depuracion.py vivo`). Grado `probable`: **una sola corrida,
+  sin control simétrico dentro de la misma carga**. El gancho vive justo en el camino del cambio de arma
+  (`0x001ACA2C`, dentro de `FUN_001AC960`), así que es el sospechoso número uno.
+- **P3d no se ejercitó:** `SUB3_ESCRIB` = 0 y `SUB3_SALTOS` = 0. SUBH corrió (la ranura cambió), pero con la
+  plantilla vieja en 0 sale por `FIN3` sin tocar ninguna rama: la guarda nunca llegó a decidir.
+- **Riesgo nuevo N26 (`hipótesis`, sin control):** el arreglo de armas de J2 vive en memoria del mod
+  (`ARMAS2` `0x0046DBC0`) y **sobrevive a la descarga**; en la carga 2 J2 arrancó ya con dos armas, instancias
+  del nivel anterior. El desarme no lo limpia. Candidato a explicar el cuelgue de la carga 2.
+- **El banco se equivocó primero**, y el arreglo fue un nivel más arriba: suponía que los jugadores tenían dos
+  armas entre las cuales alternar y en City Streets por el selector **tienen una sola**, así que la primera
+  corrida salió idéntica en los cuatro pasos. Ahora **construye** la precondición con la receta de (111)
+  (`s1_juntar.py`) y sale en **ROJO** si no la logra. Lección 336 del registro global, con su línea propia en
+  `chequeo-de-trabajo.md`.
+- **Máquina al cerrar:** fork muerto, pnach reinstalado al **default de 1059 palabras** (`sub3_j2: false`),
+  COOP activo, parches de mira prendidos. `pruebas/controles.py` en verde.
+
 ## AAAA-MM-DD — título corto
 **Máquina:** PC / notebook / nube · **Modelo:** Opus / Sonnet / Haiku
 **Objetivo:** qué se venía a hacer

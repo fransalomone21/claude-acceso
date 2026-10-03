@@ -1,21 +1,64 @@
-# Mensaje de retome — BLACK, notebook (después de (119): la pieza 2a HECHA y prendida; `coop_sub3.py` escrito, falta integrarlo y probarlo)
+# Mensaje de retome — BLACK (después de (121): la pieza 2b medida en vivo y RECHAZADA; sigue en FRÍO)
 
 Pegar tal cual como primer mensaje del chat siguiente.
 
 ```
-Retomo BLACK (proyectos/ingenieria/black). Fase C, pieza 2b: el modelo de arma de J2 (el sub3). La 2a (el sonido de J2) quedó HECHA y PRENDIDA en (119), con control y dos cargas: no se vuelve a tocar. (119) además ESCRIBIÓ herramientas/coop_sub3.py con la guarda de plantilla viva, pero NO está integrado ni instalado. Lo que sigue es en frío hasta la prueba, que pide pantalla.
+Retomo BLACK (proyectos/ingenieria/black). Fase C, pieza 2b. La prueba en vivo YA SE HIZO en (121) y la pieza NO
+pasó: queda APAGADA (CON_SUB3 = False) y su fila sigue en coop-plan-b. Este tramo es EN FRÍO: no se abre el
+emulador. NO se rehace el banco ni se vuelve a medir en vivo hasta tener la causa leída.
 
-1. LEER, en orden: primero `.\cascada.ps1 black -Necesidad ingenieria-inversa` y CON Read cada rango que imprima (la puerta no deja actuar sin eso). Después, en docs/16-contexto-j2.md, TRES subsecciones seguidas y enteras: «sub3: la receta leída…» (su tabla de sitios), «La guarda de plantilla viva, (118)» y «Lo que la fabricación del sub3 cambió del diseño, (119)». Y la entrada (119) de docs/03-bitacora.md. Código: herramientas/coop_sub3.py ENTERO (es lo que vas a integrar), y de coop_mod.py las partes R3_POR_CUADRO_MOD, R3_ENVOLTORIO_MOD, DESARME_MOD y `ranura3()`/`programas()` (ahí se ve cómo se inserta un bloque: R3_BAJA_BLOQUE es el ejemplo exacto). De coop_diseno.py, verificar_hud y verificar_sonido son el molde de la regla 10. NO releer (112)–(117) ni las PREDICCIONES viejas salvo un dato puntual.
-2. FASE: COOP-C -- NASA Phase C, "Final Design and Fabrication" = el diseño fino y fabricar las piezas. No se hace: rediseñar sobre la marcha (un cambio de diseño vuelve a docs/16 y a coop_diseno.py ANTES del stub) ni arreglar síntomas de a uno. La cierra (PDP §4): las cinco piezas en el stub, cada una con predicción escrita antes, control y DOS cargas seguidas; la regresión 8/8 con todo prendido sin bajar el ritmo (~30 cuadros/s, ~24 en Steelworks, Asylum y City Bridge); «continuar misión» desde una partida del menú; controles.py en verde. Piezas 1 y 2a HECHAS (115, 119).
-   Pieza 2b, en este orden:
-   (a) EN FRÍO: integrar coop_sub3.py en coop_mod.py. Es UN gancho propio (0x001ACA2C -> `jal SUBH`, el delay `move a0, s0` queda) y TRES bloques de texto que coop_sub3.py ya exporta: ENVOLTORIO_BLOQUE dentro de R3_ENVOLTORIO_MOD (a2 = sub3 antes del `jal 0x1a51c8 / move a0, t5`), POR_CUADRO_BLOQUE dentro de R3_POR_CUADRO_MOD (después de `addiu a2, a2, 0x398`) y DESARME_BLOQUE dentro de DESARME_MOD. Se insertan como R3_BAJA_BLOQUE: `.replace("SUB3_X_BLOQUE", "" if SIN_SUB3 else ...)`. Bandera CON_SUB3, APAGADA por defecto hasta que pase su prueba (`--con-sub3` la prende), igual que hizo el HUD en (115) y el sonido en (117). OJO con los nombres de etiqueta: ensamblar_programa reemplaza TEXTO, así que ninguna etiqueta puede ser substring de otra de su mismo programa (las de los bloques son SUB3NO1 y SUB3NO2, ya elegidas para no chocar con las de R3).
-   (b) EN FRÍO: regla 10 de coop_diseno.py (molde: verificar_sonido) + sus sabotajes en probar-coop-diseno.py. La regla tiene que exigir, como mínimo: coop_sub3.problemas() vacío; el código en su reserva «sub3 (código)» del plan (0x0046EC20–0x0046EE00) o en una fila de coop-rangos CON EL RANGO EXACTO (lo de la regla 9 corregido en (119)); el gancho 0x001ACA2C con una fila; y que la GUARDA esté en el código. Sabotajes: la guarda sacada, el apoyo que no es el del ELF, salto a otra función, fila achicada, y el default apagado cuando sus filas ya viven en coop-rangos.
-   (c) EN VIVO, con pantalla libre: P3a–P3e de sesiones/PREDICCIONES-118.md (ya escritas: NO reescribirlas, anotar el resultado al lado). Hace falta un banco como sonido_pieza_banco.py pero para el arma: J y J2 con la misma pistola, J2 cambia de arma, mirar qué modelo muestra cada mitad; control `--sin-sub3`. Los testigos en RAM son SUB3_ESCRIB (0x0046EF74) y SUB3_SALTOS (0x0046EF78), que es lo que hace medible P3d. Dos cargas seguidas. Si cumple: CON_SUB3 = True, filas de coop-plan-b a coop-rangos, `personajes`/`vista-fp` suben de K.
-3. MOTOR: (a) y (b) Opus high, sin fan-out (código MIPS nuevo con una guarda que no puede fallar, y una regla que la mide). (c) Sonnet medium alcanza si el banco ya está escrito; si la medición contradice la predicción, subir a Opus high ANTES de reinterpretar. Nunca Fable.
-4. MÁQUINA (al cerrar (119)): pnach con COOP + IA + HUD doble + SONIDO DE J2, **1059 palabras** — es el default de `coop_mod.py instalar` a secas, y lo que pone JUGAR-BLACK.ps1. COOP activo en gamesettings\SLUS-21376_5C891FF1.ini; los tres parches de mira PRENDIDOS. Fork y PCSX2 de Fran cerrados. Fork: C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe; se lanza con campana_coop.lanzar() + probar_nivel(n) y, SI FRAN VA A JUGAR, campana_coop.entregar_a_fran() (le devuelve J1 del mando falso al real). Savestates del fork: slots 4–9 City Streets SIN coop por el selector; el 3 es del lanzador, no se pisa. Primero abrir-sesion.ps1.
-5. YA RESUELTO, no rehacer: (119) la pieza 2a anda y está prendida (CON_SONIDO = True, fila `sonido de J2` en coop-rangos, `audio` K5) -- NO volver a medirla; el código del sub3 ya está escrito y ensambla en 98 palabras; los registros de 0x001ACA2C están leídos del desensamblado (s2 = pers, s0 = a0 = sub_i, a1 = plantilla nueva, a2 = tabla, a3 = *(pers+0x940), s5 = i, s7 = EL JUGADOR) y FUN_001A8168 preserva s0-s7, así que SUBH puede dejar s0 = el sub elegido; FUN_001A80F8(a0 = sub) es void y aloja 0xB0 (+0x30) y 0x4650 (+4). (118) pers = *(0x0040F50C) = 0x004ED380; subs en pers+0x398+i*0x6C armados SÓLO por FUN_001AC960 → FUN_001A8168; la cuádrupla la escribe FUN_00342A80 en plantilla+0x20/+0x24/+0x28/+0x2C sin condición; sub1+8 queda colgado y es inocuo; la guarda mide 16/16 contra 0/14. (117) el sonido audible = FUN_001F0678(*(V+0x1BE0)). (115) el HUD doble. (114) PDR aprobada. (111) IA por defecto, campaña 8/8.
-6. TRAMPAS MEDIDAS: cuando una fila se MUDA de coop-plan-b a coop-rangos, su sabotaje se muda en el MISMO turno y la regla del destino tiene que exigir el RANGO EXACTO -- si no, el rojo lo da otra regla y el sabotaje queda midiendo otra cosa (pasó en (119): el saboteador salió REVENTÓ, ni verde ni rojo, y eso fue lo único que lo delató). Un autotest cuyo control positivo mira sólo el elemento 0 es CIEGO al paso (118). El audio solo NO discrimina (los impactos de J2 llegan a ~9000 sin la pieza): manda el seam en RAM con control positivo. El fork se arma para las sondas, no para jugar (mando falso en J1; nivel por el selector, sin puntos de control). Con ventanas de Fran adelante las capturas mienten: FOTOS_INVALIDAS. Escribir CÓDIGO por PINE sólo en pausa. capstone en MIPS32 no decodifica sd/ld: MIPS64. desensamblar.py imprime `move` como `daddu x, y, zero` y los inmediatos en DECIMAL (las tablas de APOYO van así). Toda reserva nueva se mide en cero en los volcados. `python pruebas/controles.py` antes de commitear. Heredocs largos y con comillas mezcladas: Write + `python <ruta>` (el guardia los frena, y tiene razón). Los .md del proyecto están en CRLF: un Edit de varias líneas puede no matchear; insertar con un script Python que convierta a CRLF. Puede haber OTRA sesión commiteando en paralelo (arquitectura-se): `git add` sólo de los archivos propios, nunca -A; `git pull --rebase` antes del push.
-7. ABIERTO, no bloquea: N25, reportado por Fran jugando el 2026-10-03 con dos fotos -- la mano/arma de J2 se ve ROTA al apuntar arriba o abajo. SIN control todavía. Sospechoso en grado `hipótesis`: (88c), el mod guarda el cabeceo de J2 negado e invierte `mira+0xF1`. NO perseguirlo suelto (la Fase C lo prohíbe); si después de la 2b sigue, entra como pieza con su predicción. Y el banco de «continuar misión» (una partida arrancada DESDE EL MENÚ, con savestates en los puntos de control del nivel 2) lo tiene que jugar Fran. Pregunta pendiente para él: si J2 con otra arma que J suena con el arma de J, ¿molesta para la v1?
+1. LEER, en orden: primero `.\cascada.ps1 black -Necesidad ingenieria-inversa` y CON Read cada rango que imprima
+   (la puerta no deja actuar sin eso). Después: `sesiones/PREDICCIONES-118.md` SOLO la sección P3 (las cinco
+   predicciones YA tienen su resultado anotado al lado -- no se reescriben); `docs/16-contexto-j2.md` SOLO la
+   sección «Lo que la prueba en vivo del sub3 dejó, (121)»; y `herramientas/coop_sub3.py` entero (el FUENTE de
+   SUBH, que es lo que hay que auditar). NO releer la bitácora ni docs/14 salvo un dato puntual.
+2. FASE: COOP-C -- NASA Phase C, "Final Design and Fabrication" = el diseño fino y fabricar las piezas. No se
+   hace: rediseñar sobre la marcha ni arreglar síntomas de a uno. La cierra (PDP §4): las cinco piezas en el
+   stub, cada una con predicción escrita antes, control y DOS cargas seguidas; la regresión 8/8 con todo
+   prendido sin bajar el ritmo (~30 cuadros/s, ~24 en Steelworks, Asylum y City Bridge); «continuar misión»
+   desde una partida del menú; controles.py en verde. Piezas 1 y 2a HECHAS (115, 119); la 2b, rechazada en (121).
+   LAS DOS PREGUNTAS DE ESTE TRAMO, las dos en frío y las dos con su respuesta escrita antes de tocar el stub:
+   (a) POR QUÉ, con la pieza, J2 deja de cambiar de arma. El gancho 0x001ACA2C vive DENTRO de FUN_001AC960, que
+       es el camino del cambio de arma. Leer el tramo 0x001ACA34–0x001ACA68 (lo que corre DESPUÉS del jal) y
+       contestar: qué registros da por vivos, si `s0` queda con el sub que ese tramo espera, y qué pisa SUBH.
+       SUBH usa t0-t9, a0-a3, la pila y escribe s0 a propósito; FUN_001A8168 preserva s0-s7. El sospechoso se
+       nombra con la instrucción exacta, no con una teoría.
+   (b) QUÉ TIENE QUE LIMPIAR EL DESARME (riesgo N26, `hipótesis` SIN control): el arreglo de armas de J2
+       (ARMAS2 0x0046DBC0) sobrevive a la descarga, y en la carga 2 J2 arrancó con instancias del nivel
+       anterior; esa carga terminó con el juego muerto. Medir en los volcados qué queda vivo y qué colgado, como
+       hizo sub_estado.py en (118). DESARME_BLOQUE hoy sólo invalida el molde y la cuádrupla.
+   El arreglo que salga de (a) y (b) se escribe en docs/16 y en coop-plan-b ANTES de tocar el stub (lo exige la
+   Fase C), con su regla en coop_diseno.py y su sabotaje en rojo en el mismo turno.
+3. MOTOR: Opus high -- es leer desensamblado y formar la primera hipótesis en territorio que ya contradijo una
+   predicción escrita. Nunca Fable. Cuando se vuelva al banco en vivo, Sonnet medium alcanza.
+4. MÁQUINA (al cerrar (121)): fork MUERTO; pnach reinstalado al DEFAULT de **1059 palabras** (COOP + IA + HUD
+   doble + sonido de J2; `sub3_j2: false`), que es lo que pone JUGAR-BLACK.ps1; COOP activo en
+   gamesettings\SLUS-21376_5C891FF1.ini; los tres parches de mira prendidos. Con `--con-sub3` el pnach da 1181.
+   Fork: C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe; se lanza con
+   campana_coop.lanzar() + probar_nivel(n) y, SI FRAN VA A JUGAR, campana_coop.entregar_a_fran(). Primero
+   abrir-sesion.ps1. ESTE TRAMO NO NECESITA EL EMULADOR.
+5. YA RESUELTO, no rehacer: (121) el banco `herramientas/arma_pieza_banco.py` (`pieza`/`control`) existe, anda y
+   construye su propia precondición con s1_juntar.py; el CONTROL de P3a está medido y fotografiado
+   (volcados/arma/sonda-precondicion/: con J2 en el fusil las dos mitades lo dibujan aunque el HUD de J marque
+   015\030; con J2 en la pistola, las dos muestran pistola -- F7 en las dos direcciones); y está medido que CON
+   la pieza la ranura de J2 carga su propio sub (R3+0x50 = SUB3 0x0046EF00) y la de J queda en sub_0, con el
+   gancho 1 de 1 y el molde rearmado en las dos cargas. (120) la integración entera y la regla 10 con sus seis
+   sabotajes. (119) la pieza 2a prendida. (118) la guarda de plantilla viva, 16/16 contra 0/14. (115) el HUD doble.
+6. TRAMPAS MEDIDAS: un banco que no CONSTRUYE su precondición mide cuatro veces lo mismo (lección 336, pagada en
+   (121) con una corrida entera: en City Streets por el selector cada jugador arranca con UN ARMA SOLA). Un
+   chequeo sobre código que busca un inmediato SUELTO es ciego (lección 335): se exige la relación entre
+   registros. Un sabotaje con rc=99 no es rojo: es rojo por otro motivo. capstone en MIPS32 no decodifica sd/ld:
+   MIPS64. desensamblar.py imprime `move` como `daddu x, y, zero` y los inmediatos en DECIMAL. Escribir CÓDIGO
+   por PINE sólo en pausa. Toda reserva nueva se mide en cero en los volcados. `python pruebas/controles.py`
+   antes de commitear. Heredocs largos y con comillas mezcladas: Write + `python <ruta>` (el guardia los frena, y
+   tiene razón). Los .md del proyecto los lee git en LF: insertar con un script Python que lea con read_text y
+   escriba con newline="". Puede haber OTRA sesión commiteando en paralelo: `git add` sólo de los archivos
+   propios, nunca -A; `git pull --rebase` antes del push.
+7. ABIERTO, no bloquea: N25 (la mano/arma de J2 rota al apuntar arriba o abajo, reportado por Fran con dos fotos,
+   SIN control; sospechoso en grado `hipótesis`: (88c), el mod guarda el cabeceo de J2 negado). El banco de
+   «continuar misión» (partida arrancada DESDE EL MENÚ) lo tiene que jugar Fran. **PREGUNTA PENDIENTE PARA FRAN,
+   hecha el 2026-10-03 y todavía sin respuesta: si J2 con otra arma que J suena con el arma de J, ¿molesta para
+   la v1?** Lo que conteste decide si la 2b se queda sólo con el modelo o se le suma el sonido por arma.
 
 PRIMER COMANDO: .\cascada.ps1 black -Necesidad ingenieria-inversa
 ```

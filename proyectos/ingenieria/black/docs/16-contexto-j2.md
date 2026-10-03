@@ -967,3 +967,23 @@ preserva `s0`–`s7`, así que `SUBH` puede dejar `s0` = el sub elegido y el res
 **Los tamaños se derivan del ELF, no se escriben literales** (la lección de (117)): el paso del sub
 (`0x6C`, en `0x001ACA14`), la arena (`0x4650`, en `0x001A8148`) y el mapa de huesos (`0xB0`, en
 `0x001A8140`); si el ELF dice otra cosa, la regla 10 sale en rojo.
+
+## Lo que la prueba en vivo del sub3 dejó, (121)
+
+Primera medición en vivo de la pieza 2b (`sesiones/PREDICCIONES-118.md` §P3, banco
+`herramientas/arma_pieza_banco.py`). **La pieza queda apagada.** Lo que cambia del diseño:
+
+1. **La separación de subs funciona, y está medida.** Con la pieza, `R3+0x50` = `SUB3` (`0x0046EF00`) y la
+   ranura de J queda en `sub_0`; sin ella las dos caen en `sub_0`. Era lo que la pieza prometía y lo cumple.
+2. **Pero el cambio de arma de J2 dejó de ocurrir** (3 intentos, índice fijo; sin la pieza cambia). El gancho
+   `0x001ACA2C` está dentro de `FUN_001AC960`, que **es** el camino del cambio de arma: lo próximo es leer qué
+   le hace SUBH al estado que `FUN_001AC960` usa después del `jal` (de `0x001ACA34` a `0x001ACA68`), en
+   particular si `s0` queda con el sub que ese tramo espera y si algún registro `t`/`a` que el tramo da por vivo
+   se pisa. Es lectura en frío: no hace falta el emulador.
+3. **`SUB3_ESCRIB` y `SUB3_SALTOS` en 0:** la regla del dueño de plantilla corrió por `FIN3` (plantilla vieja en
+   0, sub3 recién armado) sin tocar ninguna rama. Para ejercitar la guarda hace falta **una segunda vuelta** del
+   mismo sub con una plantilla previa ya puesta — o sea, que el cambio de arma ande primero.
+4. **N26, nuevo (`hipótesis`, sin control):** el arreglo de armas de J2 (`ARMAS2` `0x0046DBC0`) es memoria del
+   mod y **sobrevive a la descarga**. En la carga 2 J2 arrancó con dos armas que son instancias del nivel
+   anterior, y esa carga terminó con el juego muerto. Si se confirma, el desarme tiene que limpiarlo
+   (`DESARME_BLOQUE` ya invalida el molde y la cuádrupla; faltaría el arreglo de armas y su índice).

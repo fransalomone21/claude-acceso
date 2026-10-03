@@ -4,6 +4,31 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(121), 2026-10-03, NOTEBOOK CALIENTE con pantalla libre — LO ÚLTIMO** (bitácora (121),
+> `sesiones/PREDICCIONES-118.md` §P3, `docs/16` «Lo que la prueba en vivo del sub3 dejó, (121)»).
+> - **La pieza 2b NO pasa su prueba en vivo y queda APAGADA** (`CON_SUB3 = False`); su fila sigue en
+>   `coop-plan-b`, no se muda a `coop-rangos`. Banco nuevo: `herramientas/arma_pieza_banco.py` (`pieza`/`control`).
+> - **A favor, medido:** con la pieza la ranura de J2 carga **su propio sub** (`R3+0x50` = `SUB3` `0x0046EF00`) y la
+>   de J queda en `sub_0` (sin la pieza, las dos en `sub_0`); gancho **1 de 1**; el molde por nivel se invalida y se
+>   rearma en las **dos** cargas. Pnach con la pieza **1181 palabras**.
+> - **En contra, medido:** con la pieza **J2 dejó de cambiar de arma** (3 intentos, índice fijo; sin ella cambia) y
+>   **la carga 2 terminó con el juego muerto**. Grado `probable`: una sola corrida, sin control simétrico en la misma
+>   carga. El gancho `0x001ACA2C` vive dentro de `FUN_001AC960`, que **es** el camino del cambio de arma.
+> - **El CONTROL quedó medido y fotografiado** (`volcados/arma/sonda-precondicion/`): con J2 en el fusil **las dos
+>   mitades lo dibujan** aunque el HUD de J marque su pistola (015\030); con J2 en la pistola, las dos muestran
+>   pistola. **F7 reproducido hoy, en las dos direcciones** — es la línea de base que le faltaba a P3a.
+> - **P3d sin ejercitar:** `SUB3_ESCRIB` = 0 y `SUB3_SALTOS` = 0 (SUBH corre, pero con la plantilla vieja en 0 sale
+>   por `FIN3` sin decidir). **Riesgo nuevo N26** (`hipótesis`, sin control): el arreglo de armas de J2
+>   (`ARMAS2` `0x0046DBC0`) **sobrevive a la descarga**; candidato a explicar el cuelgue de la carga 2.
+> - **Lección 336** (línea propia en `chequeo-de-trabajo.md`): un banco que no **construye** su precondición mide
+>   cuatro veces lo mismo. La primera corrida salió idéntica en los cuatro pasos porque en City Streets por el
+>   selector cada jugador arranca con **un arma sola**; ahora el banco se la consigue con `s1_juntar.py` (111) y sale
+>   en ROJO si no lo logra.
+> - **Máquina:** fork muerto; pnach reinstalado al **default de 1059 palabras** (`sub3_j2: false`), COOP activo en
+>   `gamesettings\SLUS-21376_5C891FF1.ini`, los tres parches de mira prendidos. `pruebas/controles.py` en verde.
+> - **Sigue:** en FRÍO, leer qué le hace SUBH al tramo `0x001ACA34`–`0x001ACA68` de `FUN_001AC960` (por qué el cambio
+>   de arma no ocurre) y qué tiene que limpiar el desarme (N26). Recién después, volver al banco.
+
 > **(120), 2026-10-03, notebook en frío + un video de 60 s que grabó Fran — LO ÚLTIMO.**
 > **COOP-C pieza 2b (a) y (b) HECHAS, la pieza queda APAGADA hasta su prueba en vivo.**
 > (a) `coop_sub3.py` integrado en `coop_mod.py`: **un** gancho propio (`0x001ACA2C` → `jal SUBH`) y **tres bloques**
