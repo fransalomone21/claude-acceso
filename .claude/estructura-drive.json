@@ -39,6 +39,11 @@
         "que-va": "trabajos hechos para otra persona (p. ej. un CV), una subcarpeta por persona y compartida SOLO con ella. Lleva datos personales de terceros: nada con 'anyone', y el nombre de la persona no se escribe en este repo publico. Nacio el 2026-09-27."
       },
       {
+        "nombre": "05 - PROYECTOS - taller y astronomia",
+        "sensibilidad": "solo Fran",
+        "que-va": "cuadernos de proyectos de taller y astronomia que Fran lee desde el celular, con el detalle tecnico en el repo. Nacio el 2026-10-04 con el cuaderno del telescopio 200/1200. Nada con 'anyone': no es material de catedra ni se comparte."
+      },
+      {
         "nombre": "Coaching",
         "sensibilidad": "solo Fran",
         "que-va": "espejo que escribe proyectos/seguimiento/coaching/publicar-drive.ps1. NO SE TOCA A MANO: el script compara por checksum contra esta ruta exacta y un rename lo rompe en silencio."

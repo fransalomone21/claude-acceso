@@ -64,3 +64,6 @@ proyectos/documentos/catedras/
 # que ultimo-chequeo.json.
 archivo/mudanza-*.csv
 proyectos/documentos/cohete-de-agua/
+
+# archivos de bloqueo de SolidWorks y Office (se crean al abrir, no son contenido)
+~$*

@@ -78,7 +78,7 @@ siempre y con cuánto rigor. Qué fase y qué falta: `.\cascada.ps1 <proyecto>`.
 | [`metodo-agustin/`](proyectos/ingenieria/metodo-agustin/CLAUDE.md) | Pasar el método a la notebook de Agustín sin los proyectos de Fran: núcleo generado y filtrado de lo personal, por GitHub | **ACTIVO** |
 | [`minecraft-amigos/`](proyectos/ingenieria/minecraft-amigos/CLAUDE.md) | Server Fabric 1.21.4 con mods vanilla+ en la notebook, por ZeroTier, y el instalador de un clic (gráficos según la PC) para los amigos | **ACTIVO** |
 | [`diagnostico-msi/`](proyectos/ingenieria/diagnostico-msi/) | Secure Boot y batería de la notebook MSI | cerrado con informe |
-| [`telescopio/`](proyectos/ingenieria/telescopio/) | Plataforma ecuatorial Dobson, CAD SolidWorks | dormido |
+| [`telescopio/`](proyectos/ingenieria/telescopio/CLAUDE.md) | Automatizar el newtoniano 200/1200: plataforma ecuatorial, reforma de la montura dobson y soporte de cámara, para llegar a la foto de una nebulosa | **ACTIVO** |
 | [`telefono-samsung/`](proyectos/ingenieria/telefono-samsung/) | Kit de diagnóstico y limpieza vía ADB | suspendido (2026-08-15) |
 
 ### `proyectos/documentos/` — producir un artefacto de contenido
