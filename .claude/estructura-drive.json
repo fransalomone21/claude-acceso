@@ -40,8 +40,8 @@
       },
       {
         "nombre": "05 - PROYECTOS - taller y astronomia",
-        "sensibilidad": "solo Fran",
-        "que-va": "cuadernos de proyectos de taller y astronomia que Fran lee desde el celular, con el detalle tecnico en el repo. Nacio el 2026-10-04 con el cuaderno del telescopio 200/1200. Nada con 'anyone': no es material de catedra ni se comparte."
+        "sensibilidad": "solo Fran, salvo la subcarpeta de cada proyecto que se arma con alguien (compartida con nombre, declarada abajo)",
+        "que-va": "cuadernos de proyectos de taller y astronomia que Fran lee desde el celular, con el detalle tecnico en el repo. Nacio el 2026-10-04 con el cuaderno del telescopio 200/1200, que el mismo dia paso a la subcarpeta compartida con el primo. Nada con 'anyone': no es material de catedra."
       },
       {
         "nombre": "Coaching",
@@ -109,6 +109,17 @@
         ],
         "quien-etiqueta": [
           "dueno del CV de 04 - TERCEROS"
+        ]
+      },
+      {
+        "sobre": "05 - PROYECTOS - taller y astronomia/Telescopio 200-1200 - Fran y Kevin",
+        "rol": "writer",
+        "por-que": "el primo de Fran, que arma el telescopio con el (dueno de la camara, imprime las piezas). Compartido 2026-10-04 a pedido de Fran, con el mail que dio el, como editor de todo lo del telescopio. Adentro: el cuaderno, la guia de armado y el protocolo de medicion.",
+        "quien-sha256": [
+          "76bd913e65d95140"
+        ],
+        "quien-etiqueta": [
+          "primo de Fran, coequiper del telescopio"
         ]
       },
       {

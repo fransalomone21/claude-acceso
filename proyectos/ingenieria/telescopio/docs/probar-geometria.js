@@ -12,6 +12,12 @@ const controles = [
   ['chapa de 3 cm minimo', (g) => g.rollers.every((r) => r.plateHmin > 0.0299), null],
   ['el pivote esta sobre el eje', (g) => { const v = [0, 1, 2].map((i) => g.pivot[i] - g.C[i]); const t = v[0] * g.d[0] + v[1] * g.d[1] + v[2] * g.d[2]; return Math.hypot(...v.map((x, i) => x - t * g.d[i])) < 1e-9; }, null],
   ['el pivote queda al NORTE (hemisferio sur)', (g) => g.pivot[1] > g.C[1], { phi: -34.5 }],
+  // Limites en orden, a los dos lados: programa < fin de carrera < talon, y
+  // la chapa sigue un radio de rodillo mas alla del talon (no se cae antes).
+  ['limites en orden: programa < fin de carrera < tope < punta de chapa', (g) => g.rollers.every((r) => [0, 1].every((i) => {
+    const L = r.lim, sg = Math.sign(L.run[i]);   // que lado de la chapa es cual lo dice la geometria, no el indice
+    return sg * L.run[i] < sg * L.sw[i] && sg * L.sw[i] < sg * L.stop[i] && sg * L.stop[i] + g.RROLL < (sg > 0 ? r.uMax : -r.uMin);
+  })), { stopMin: 2 }],
 ];
 
 let fallas = 0;

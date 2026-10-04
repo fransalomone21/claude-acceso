@@ -162,6 +162,8 @@ a{color:var(--accent)}
       <li><b>10</b><div><b>Polo sur celeste y σ Octantis.</b> Al final del eje. En el sur no hay estrella polar: la más cercana al polo es σ Octantis, magnitud 5,4, apenas visible a ojo desde un cielo oscuro y a 1° 8' del polo. Por eso la alineación se hace una vez con el método de deriva y después se repite con las marcas del piso.</div></li>
       <li><b>11</b><div><b>El dobson actual.</b> Base fija, base giratoria, paredes y caja sujetadora, con las medidas de agosto. Se sube entero a la mesa, sin desarmarlo.</div></li>
       <li><b>12</b><div><b>Suplemento.</b> Tablitas debajo del dobson para subir el centro de masa hasta el eje si sale más bajo de lo calculado. Es parte del changüí: se corrige apilando madera, no cortando aluminio.</div></li>
+      <li><b>13</b><div><b>Finales de carrera.</b> Dos microswitches con palanca larga, uno por punta, en un soporte impreso al costado del rodillo este. Un tornillo M5 en el medio de la chapa hace de leva: cuando la mesa se pasa <span id="swTxt">3 min</span> del final, la leva aprieta la palanca y la placa corta el motor. Es la segunda capa: la primera es el programa, que cuenta pasos y para solo a los ±45 min.</div></li>
+      <li><b>14</b><div><b>Talones: el tope que no depende de nada.</b> Cada chapa termina en un "diente" que cuelga 12 mm debajo del borde, con goma pegada. Si falla el programa <i>y</i> falla el switch, el talón choca el rodillo y la mesa se queda ahí, en vez de que la chapa se salga del rodillo y el telescopio se venga abajo. El motor patina contra el tope (el TMC2209 lo aguanta) hasta que alguien lo apague. No cuesta nada: sale de la misma plantilla.</div></li>
     </ol>
   </div>
 
@@ -199,13 +201,15 @@ a{color:var(--accent)}
       <tr><td>Rótula de amortiguador a gas (bocha 10 mm, rosca M8)</td><td class="num">1</td><td>Repuestos de auto o ferretería industrial (es la que usan los planos de AstralFields para el pivote)</td><td class="num">a cotizar</td></tr>
       <tr><td>Bulones M10 + tuercas de inserto, varilla M8</td><td class="num">3 patas</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
       <tr><td>Motor NEMA 17</td><td class="num">1 (si no sirve el que hay)</td><td>Todomicro, Mercado Libre</td><td class="num">≈ $49.900 el de 7 kg·cm</td></tr>
+      <tr><td>Microswitch con palanca de rodillo (tipo KW12 / V-156), los de las impresoras 3D</td><td class="num">2 + 1 de repuesto</td><td>Todomicro, casas de electrónica, Mercado Libre</td><td class="num">a cotizar</td></tr>
+      <tr><td>Tornillo M5 × 80 con dos tuercas (la leva) y goma de cámara de bici para los talones</td><td class="num">1</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
       <tr><td>Driver TMC2209</td><td class="num">1</td><td>TP3D, 3DInsumos, 3D Casa Bureu; un importador con local en Villa Martelli</td><td class="num">a cotizar</td></tr>
     </tbody>
   </table></div>
   <div class="cols" style="margin-top:16px">
     <div><h3>Se corta en casa</h3><p>Base y mesa de fenólico (todo recto, caladora y guía). Los segmentos de aluminio, si no se mandan a láser: plantilla pegada, caladora despacio con hoja de metal y aceite, y lima.</p></div>
     <div><h3>Se imprime en papel</h3><p>La plantilla 1:1 de los dos segmentos. Sale del cálculo con las medidas reales, en el diseño de detalle.</p></div>
-    <div><h3>Se imprime en 3D</h3><p>Los rodillos (con dos 608 adentro), el soporte del motor, las poleas, la caja de la electrónica y el soporte de cámara intercambiable.</p></div>
+    <div><h3>Se imprime en 3D</h3><p>Los rodillos (con dos 608 adentro), el soporte del motor, las poleas, los dos soportes de los finales de carrera, la caja de la electrónica y el soporte de cámara intercambiable.</p></div>
   </div>
 
   <h2>De dónde sale todo esto</h2>
@@ -249,7 +253,7 @@ sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-2.2,rig
 const fill=new THREE.DirectionalLight(0xffffff,0.3);fill.position.set(-3,2,-2);scene.add(fill);
 
 // Un color por FAMILIA de pieza; la leyenda del visor usa los mismos (COLORS).
-const COLORS={base:0x5b3a22,mesa:0xb5562e,alu:0xd6e2ef,impreso:0xf08a24,soporte:0x3d6fb6,acero:0x8a939d,motor:0x1f2328,dob:0xe6c79c,pared:0xcda26f,eje:0xd8443a,cdm:0xffc425,laton:0xc9a227};
+const COLORS={base:0x5b3a22,mesa:0xb5562e,alu:0xd6e2ef,impreso:0xf08a24,soporte:0x3d6fb6,acero:0x8a939d,motor:0x1f2328,dob:0xe6c79c,pared:0xcda26f,eje:0xd8443a,cdm:0xffc425,laton:0xc9a227,limite:0x2bb673};
 function convexHull(P){P=P.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[],up=[];
   for(const p of P){while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}
   for(const p of P.reverse()){while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);}
@@ -279,6 +283,7 @@ const MAT={
   axis:new THREE.MeshBasicMaterial({color:0xd8443a}),
   star:new THREE.MeshBasicMaterial({color:0xfff2c0}),
   shim:new THREE.MeshStandardMaterial({color:0x9c7a52,roughness:.9}),
+  sw:new THREE.MeshStandardMaterial({color:COLORS.limite,roughness:.5}),
 };
 
 function tag(text,num,cls){const el=document.createElement('div');el.className='tag '+(cls||'');el.innerHTML=(num!=null?'<b>'+num+'</b>':'')+text;const o=new THREE.CSS2DObject(el);o.userData.isTag=true;return o;}
@@ -364,10 +369,11 @@ function build(){
 
   // 5 segmentos de aluminio
   G.rollers.forEach((r,i)=>{
-    const sh=new THREE.Shape();
-    sh.moveTo(r.edge[0].u,r.edge[0].z);
+    // borde de rodadura + un talon de 8 mm en cada punta, que cuelga G.TALON: es el tope fisico
+    const sh=new THREE.Shape(), e0=r.edge[0], e1=r.edge[r.edge.length-1], TW=0.008;
+    sh.moveTo(e0.u-TW,zt);sh.lineTo(e0.u-TW,e0.z-G.TALON);sh.lineTo(e0.u,e0.z-G.TALON);
     r.edge.forEach(q=>sh.lineTo(q.u,q.z));
-    sh.lineTo(r.edge[r.edge.length-1].u,zt);sh.lineTo(r.edge[0].u,zt);sh.closePath();
+    sh.lineTo(e1.u,e1.z-G.TALON);sh.lineTo(e1.u+TW,e1.z-G.TALON);sh.lineTo(e1.u+TW,zt);sh.closePath();
     const geo=new THREE.ExtrudeGeometry(sh,{depth:0.005,bevelEnabled:false});
     const X=V(r.uh).normalize(),Y=new THREE.Vector3(0,1,0),Z=X.clone().cross(Y);
     const m=new THREE.Mesh(geo,MAT.alu);
@@ -375,6 +381,20 @@ function build(){
     m.matrixAutoUpdate=false;m.matrix.makeBasis(X,Y,Z).setPosition(o);inner.add(m);
     [-1,1].forEach(sg=>{const u=sg*r.chord/3, yp=r.Pt[1]+r.uh[1]*u;inner.add(boxENU([r.Pt[0]+r.uh[0]*u,(yp+G.ySouth)/2,zt-0.02],[0.03,G.ySouth-yp+0.002,0.03],MAT.mesa));});
     if(i===1){const t5=tag('Segmento de aluminio',5);t5.position.copy(V([r.Pt[0]+r.uh[0]*r.uMax*0.6,r.Pt[1]-0.02,zt-0.03]));inner.add(t5);}
+    if(i===0){ // 13 finales de carrera: una leva (tornillo M5) en el medio de la chapa y dos microswitches al costado del rodillo
+      const n=r.nh, mid=r.edge.reduce((a,q)=>Math.abs(q.u)<Math.abs(a.u)?q:a), zL=mid.z+0.02, a=Math.atan2(r.uh[1],r.uh[0]);
+      inner.add(cyl([r.Pt[0],r.Pt[1],zL],[r.Pt[0]+n[0]*0.078,r.Pt[1]+n[1]*0.078,zL],0.0025,MAT.steel,10));
+      const t14=tag('Talón: tope de la chapa',14);t14.position.copy(V([r.Pt[0]+r.uh[0]*r.uMin,r.Pt[1]+r.uh[1]*r.uMin,mid.z-0.03]));inner.add(t14);
+      r.lim.sw.forEach((us,k)=>{
+        const o=[r.Pt[0]-r.uh[0]*us+n[0]*0.068,r.Pt[1]-r.uh[1]*us+n[1]*0.068];
+        const zB=zL-0.024, gT=G.groundTop;
+        fixed.add(boxENU([o[0],o[1],(gT+zB)/2],[0.026,0.016,zB-gT],MAT.printed2,a));                 // soporte impreso
+        fixed.add(boxENU([o[0],o[1],zB+0.005],[0.020,0.010,0.010],MAT.sw,a));                         // microswitch
+        const s=Math.sign(us)||1, tip=[o[0]+r.uh[0]*s*0.012,o[1]+r.uh[1]*s*0.012,zL+0.004];
+        fixed.add(beam([o[0]-r.uh[0]*s*0.006,o[1]-r.uh[1]*s*0.006,zB+0.01],tip,0.004,0.0015,MAT.steel)); // palanca
+        if(k===0){const t13=tag('Fin de carrera (uno por punta)',13);t13.position.copy(V([o[0]+0.03,o[1]-0.06,zL+0.02]));fixed.add(t13);}
+      });
+    }
   });
 
   // 11 dobson + 12 suplemento
@@ -451,15 +471,21 @@ function drawPlate(){
   const edge=pts.slice().reverse().map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' L');
   const holes=[-1,1].map(s=>{const x=x0+s*L/3;return '<circle cx="'+x+'" cy="12" r="3" class="roll"/><text x="'+(x+5)+'" y="9" class="note">Ø6</text>';}).join('');
   const vdim=(x,h,lab)=>'<line x1="'+x+'" y1="0" x2="'+x+'" y2="'+h+'" class="dim"/><line x1="'+(x-3)+'" y1="0" x2="'+(x+3)+'" y2="0" class="dim"/><line x1="'+(x-3)+'" y1="'+h+'" x2="'+(x+3)+'" y2="'+h+'" class="dim"/><text x="'+(x+4)+'" y="'+(h/2+3)+'" class="dimtxt">'+lab+'</text>';
-  $('plateDraw').innerHTML='<svg viewBox="'+(-m-20)+' '+(-m)+' '+W+' '+H+'" role="img" aria-label="Plano de la chapa este con medidas en milímetros">'
-   +'<path d="M0,0 L'+L.toFixed(1)+',0 L'+edge+' Z" class="plate"/>'
-   +'<line x1="0" y1="-16" x2="'+L+'" y2="-16" class="dim"/><line x1="0" y1="-20" x2="0" y2="-4" class="dim"/><line x1="'+L+'" y1="-20" x2="'+L+'" y2="-4" class="dim"/>'
-   +'<text x="'+(L/2-20)+'" y="-20" class="dimtxt">'+f(L)+' mm de largo</text>'
+  const TW=8, TD=mm(G.TALON), Lt=L+2*TW;
+  // marcas sobre el borde: donde esta el rodillo al limite del programa, al fin de carrera y al tope
+  const tick=(u,cls,lab)=>{const x=mm(u-r.uMin), q=pts.reduce((a,b)=>Math.abs(b[0]-x)<Math.abs(a[0]-x)?b:a);return '<line x1="'+x+'" y1="'+(q[1]-7)+'" x2="'+x+'" y2="'+(q[1]+7)+'" class="'+cls+'"/>'+(lab?'<text x="'+(x-6)+'" y="'+(q[1]+16)+'" class="note">'+lab+'</text>':'');};
+  const ticks=r.lim.run.map(u=>tick(u,'dim','P')).join('')+r.lim.sw.map(u=>tick(u,'dim','F')).join('')+r.lim.stop.map(u=>tick(u,'dim','T')).join('');
+  $('plateDraw').innerHTML='<svg viewBox="'+(-m-20)+' '+(-m)+' '+W+' '+(H+20)+'" role="img" aria-label="Plano de la chapa este con medidas en milímetros">'
+   +'<path d="M'+(-TW)+',0 L'+(L+TW).toFixed(1)+',0 L'+(L+TW).toFixed(1)+','+(hR+TD).toFixed(1)+' L'+L.toFixed(1)+','+(hR+TD).toFixed(1)+' L'+edge+' L0,'+(hL+TD).toFixed(1)+' L'+(-TW)+','+(hL+TD).toFixed(1)+' Z" class="plate"/>'
+   +'<line x1="'+(-TW)+'" y1="-16" x2="'+(L+TW)+'" y2="-16" class="dim"/><line x1="'+(-TW)+'" y1="-20" x2="'+(-TW)+'" y2="-4" class="dim"/><line x1="'+(L+TW)+'" y1="-20" x2="'+(L+TW)+'" y2="-4" class="dim"/>'
+   +'<text x="'+(L/2-60)+'" y="-20" class="dimtxt">'+f(Lt)+' mm de largo, con los talones ('+f(L)+' de rodadura)</text>'
+   +'<circle cx="'+x0+'" cy="'+(h0-20)+'" r="2.5" class="roll"/><text x="'+(x0+5)+'" y="'+(h0-22)+'" class="note">Ø5 leva</text>'
+   +ticks
    +vdim(-12,hL,f(hL))+vdim(L+8,hR,f(hR)+' mm')
    +'<line x1="'+x0+'" y1="0" x2="'+x0+'" y2="'+h0+'" class="dim" stroke-dasharray="3 2"/><text x="'+(x0-30)+'" y="'+(h0-8)+'" class="dimtxt">'+f(h0)+' mm</text>'
    +'<circle cx="'+x0+'" cy="'+(h0+16)+'" r="16" class="roll"/><text x="'+(x0+20)+'" y="'+(h0+30)+'" class="note">rodillo Ø32 (en el centro de la carrera)</text>'
    +holes
-   +['Aluminio 5 mm. Canto de abajo redondeado con lima; arriba, al ras de la mesa.','Girada '+fmt(Math.abs(r.beta),1)+'° respecto del borde de la mesa. Agujeros Ø6 para los tacos.','Borde de abajo: un pedazo de elipse (el arco de radio '+fmt(r.R*1000,0)+' mm visto de costado).','Se calca de la plantilla 1:1 impresa; no se traza con piolín.']
+   +['Aluminio 5 mm. Canto de abajo redondeado con lima; arriba, al ras de la mesa.','Girada '+fmt(Math.abs(r.beta),1)+'° respecto del borde de la mesa. Agujeros Ø6 para los tacos.','Borde de abajo: un pedazo de elipse (el arco de radio '+fmt(r.R*1000,0)+' mm visto de costado).','Se calca de la plantilla 1:1 impresa; no se traza con piolín.','Marcas sobre el borde: P = límite del programa, F = salta el fin de carrera, T = el talón choca el rodillo.','Talones de '+TW+' × '+f(TD)+' mm en cada punta, con un pedazo de goma pegado del lado de adentro.']
      .map((t,i)=>'<text x="0" y="'+(Hmax+40+i*10)+'" class="note">'+t+'</text>').join('')
    +'</svg>';
 }
@@ -477,6 +503,9 @@ function readout(p){
     ['Alto de la chapa (mín–máx)',fmt(r.plateHmin*1000)+'–'+fmt(r.plateHmax*1000)+' mm'],
     ['Giro de cada chapa',fmt(Math.abs(r.beta),1)+'°'],
     ['Corrimiento sobre el rodillo','±'+fmt(r.latMax*1000,1)+' mm'],
+    ['Límite del programa','±'+fmt(p.runMin)+' min'],
+    ['Fin de carrera corta el motor','±'+fmt(p.runMin+G.swMin)+' min ('+fmt(Math.abs(r.lim.sw[0]-r.lim.run[0])*1000)+' mm después)'],
+    ['Talón choca el rodillo','±'+fmt(p.runMin+G.stopMin)+' min ('+fmt(Math.abs(r.lim.stop[0]-r.lim.sw[0])*1000)+' mm después)'],
     ['Variación de velocidad','±'+fmt(r.speedVar,2)+' %'],
     ['Inclinación de la mesa al final',fmt(G.tilt,1)+'°'],
     ['Rodillo: vueltas por hora',fmt(7.2921e-5*r.R*3600/(Math.PI*0.032),2)],
@@ -488,6 +517,7 @@ function readout(p){
   ];
   $('readout').innerHTML=rows.map(([k,v,c])=>'<dt>'+k+'</dt><dd class="'+(c||'')+'">'+v+'</dd>').join('');
   $('speedTxt').textContent='±'+fmt(r.speedVar,1)+' %';
+  $('swTxt').textContent=fmt(G.swMin)+' min';
   $('lenTxt').textContent=fmt(G.baseLength,2)+' m';
   const t=$('t');t.min=-p.runMin;t.max=p.runMin;if(Math.abs(+t.value)>p.runMin)t.value=0;
 }
@@ -523,7 +553,7 @@ $('defaults').addEventListener('click',()=>{playing=false;$('play').textContent=
   ['showDob','showTags'].forEach(k=>$(k).checked=true);$('ghost').checked=false;
   Object.keys(units).forEach(k=>{$(k).value=$(k).defaultValue;$(k).dispatchEvent(new Event('input'));});$('t').value=0;updatePose();});
 // leyenda de colores: la misma tabla que pinta los materiales
-(function(){const L=[['base','Base (fenólico)'],['mesa','Mesa móvil (fenólico)'],['alu','Aluminio: solo las 2 chapas'],['impreso','Rodillos impresos'],['soporte','Soportes impresos'],['acero','Rulemanes, bulones'],['laton','Pivote (bocha)'],['motor','Motor y correa'],['dob','Dobson actual'],['eje','Eje polar'],['cdm','Centro de masa']];
+(function(){const L=[['base','Base (fenólico)'],['mesa','Mesa móvil (fenólico)'],['alu','Aluminio: solo las 2 chapas'],['impreso','Rodillos impresos'],['soporte','Soportes impresos'],['acero','Rulemanes, bulones'],['laton','Pivote (bocha)'],['motor','Motor y correa'],['limite','Finales de carrera'],['dob','Dobson actual'],['eje','Eje polar'],['cdm','Centro de masa']];
   const d=document.createElement('div');d.className='legend';d.innerHTML=L.map(([k,t])=>'<span><i style="background:#'+COLORS[k].toString(16).padStart(6,'0')+'"></i>'+t+'</span>').join('');view.appendChild(d);})();
 
 const views={iso:[[3.3,-3.2,2.3],[0,0.2,0.75]],oeste:[[-3.8,0.35,0.9],[0,0.35,0.7]],sur:[[0,-3.0,0.7],[0,0.2,0.45]],arriba:[[0.01,0.35,3.6],[0,0.35,0]],cielo:[[0.25,1.6,0.25],[0,-1.2,1.6]]};

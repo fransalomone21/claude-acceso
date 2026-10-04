@@ -32,11 +32,18 @@ function solve3(A, b) { // Cramer, alcanza para 3x3
 // Hreal (m, centro de masa medido sobre el piso del dobson), dN, dE (m, CdM
 // corrido), shim (m, suplemento bajo el dobson), runMin (min a cada lado),
 // half (m, medio ancho entre rodillos), postH (m, pivote elevado).
+// Limites (min de MAS sobre runMin): swMin, el fin de carrera que corta el
+// motor; stopMin, el talon de la chapa que choca el rodillo (tope fisico).
+// La chapa se estira mas alla del tope un radio de rodillo + 2 mm, para que
+// el talon sea lo que frena y no la punta de la chapa cayendose del rodillo.
 function computeVNS(P) {
   const phi = P.phi * D2R, s = Math.sin(phi), c = Math.cos(phi);
   const d = [0, -c, s];                       // hacia el polo sur celeste
-  const thMax = (P.runMin / 60) * 15 * D2R;
-  const FEET = 0.020, BASE = 0.018, TAB = 0.018, RROLL = 0.016;
+  const swMin = P.swMin != null ? P.swMin : 3, stopMin = P.stopMin != null ? P.stopMin : 6;
+  const thRun = (P.runMin / 60) * 15 * D2R;
+  const thSw = ((P.runMin + swMin) / 60) * 15 * D2R, thStop = ((P.runMin + stopMin) / 60) * 15 * D2R;
+  const FEET = 0.020, BASE = 0.018, TAB = 0.018, RROLL = 0.016, TALON = 0.012;
+  let thMax = thStop;                         // lo cubre la chapa; se estira abajo
   const groundTop = FEET + BASE;
   const ySouth = -0.27, yNorthTab = 0.27, yPlate = ySouth - 0.012;
 
@@ -56,6 +63,7 @@ function computeVNS(P) {
   let zc = -(c * e * thMax + PLATE_MIN), yPl = yPlate;
   for (let it = 0; it < 6; it++) {
     const rs = buildRollers(zc, yPl);
+    thMax = thStop + (RROLL + 0.002) / Math.min(...rs.map((r) => r.R));
     zc += -PLATE_MIN - Math.max(...rs.map((r) => r.zEdgeMax));
     const yMax = Math.max(...rs.map((r) => r.Pt[1] + Math.max(r.uh[1] * r.uMin, r.uh[1] * r.uMax)));
     yPl -= yMax - (ySouth - 0.008);
@@ -86,7 +94,10 @@ function computeVNS(P) {
     edge.sort((a, b) => a.u - b.u);
     const us = edge.map((q) => q.u), zs = edge.map((q) => q.z);
     const angBeta = Math.atan2(uh[1], uh[0]) / D2R;
-    return { Pt, uh, nh, R, edge, latMax, speedVar, beta: angBeta,
+    // donde cae el rodillo sobre la chapa (coordenada u) a cada angulo de limite
+    const uAt = (th) => dot(sub(rotAbout(Pt, C, d, -th), Pt), uh);
+    const lim = { run: [uAt(-thRun), uAt(thRun)], sw: [uAt(-thSw), uAt(thSw)], stop: [uAt(-thStop), uAt(thStop)] };
+    return { Pt, uh, nh, R, edge, latMax, speedVar, beta: angBeta, lim,
       chord: Math.max(...us) - Math.min(...us), uMin: Math.min(...us), uMax: Math.max(...us),
       zEdgeMin: Math.min(...zs), zEdgeMax: Math.max(...zs) };
   }); }
@@ -96,6 +107,8 @@ function computeVNS(P) {
   const corners = [[W, ySouth, -TAB], [-W, ySouth, -TAB], [W, yNorthTab, -TAB], [-W, yNorthTab, -TAB]];
   const platePts = [];
   rollers.forEach((r) => r.edge.forEach((q) => platePts.push([r.Pt[0] + r.uh[0] * q.u, r.Pt[1] + r.uh[1] * q.u, q.z])));
+  // los talones cuelgan TALON debajo de cada punta: tambien tienen que pasar sobre la base
+  rollers.forEach((r) => [r.edge[0], r.edge[r.edge.length - 1]].forEach((q) => platePts.push([r.Pt[0] + r.uh[0] * q.u, r.Pt[1] + r.uh[1] * q.u, q.z - TALON])));
   let minRel = Infinity;
   for (let k = 0; k <= 16; k++) {
     const th = -thMax + (2 * thMax * k) / 16;
@@ -122,16 +135,16 @@ function computeVNS(P) {
   const offAxis = norm(sub(rr, mul(d, dot(rr, d))));
   let tauMax = 0;
   for (let k = 0; k <= 32; k++) {
-    const th = -thMax + (2 * thMax * k) / 32;
+    const th = -thRun + (2 * thRun * k) / 32;
     const tau = dot(cross(sub(rotAbout(Creal, Cabs, d, th), Cabs), [0, 0, -P.M * G]), d);
     tauMax = Math.max(tauMax, Math.abs(tau));
   }
-  const nrm = rotAbout([0, 0, 1], [0, 0, 0], d, thMax);
+  const nrm = rotAbout([0, 0, 1], [0, 0, 0], d, thRun);
   const tilt = Math.acos(nrm[2]) / D2R;
 
   const ySouthBase = Math.min(...rollers.map((r) => r.Pt[1])) - 0.07, yNorthBase = pivotAbs[1] + 0.08;
   return {
-    d, thMax, ztt, groundTop, ySouth, yNorthTab, yPlate, W, TAB, RROLL, FEET, BASE,
+    d, thMax, thRun, thSw, thStop, swMin, stopMin, TALON, ztt, groundTop, ySouth, yNorthTab, yPlate, W, TAB, RROLL, FEET, BASE,
     C: Cabs, pivot: pivotAbs, rollers, Creal,
     loads: { pivote: F[0], este: F[1], oeste: F[2] },
     offAxis, tauMax, tilt,

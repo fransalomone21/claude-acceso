@@ -39,14 +39,38 @@ restaura). Kevin (primo, dueño de la ZV-E10) imprimió un adaptador al
 portaocular y dice que «se ve sin aumento»: ver la fila de foco en
 `ESTADO_ACTUAL.md`. Inventario: B2, O2 y T3 actualizados.
 
+## Versión 3 y la carpeta con Kevin (tercera sesión del día)
+
+- **Límites de carrera en tres capas** en la geometría y el modelo (v3,
+  mismo link): programa ±45, fin de carrera ±48, talón ±51 min. Control
+  nuevo en `probar-geometria.js` (7 verdes, 5 sabotajes en rojo).
+- **Saturno y la Barlow:** lo de Kevin era mirando Saturno; ahora es
+  `probable` que sí llegue a foco. Falta su respuesta: ¿se veían los anillos?
+- **Drive:** carpeta `05 - PROYECTOS - taller y astronomia/Telescopio
+  200-1200 - Fran y Kevin`, Kevin **editor** (declarado por hash). Adentro:
+  cuaderno (mudado ahí), «Guia de armado y lista de materiales» y «Protocolo
+  de medicion», los dos generados con `docs/md-a-gdoc.py` desde el .md y
+  subidos con rclone (`--drive-import-formats html --drive-export-formats
+  html`; sin el segundo flag falla). **Ojo al regenerar:** rclone empareja por
+  nombre; verificar que el ID del Doc sea el mismo (guía:
+  `1wrzPpizxcblHVY3Zd1vyjZxawaTfdZc2wzDKFsbEwTw`).
+- **Pedido de Fran para el PDF de la guía:** formato de apunte (Typst),
+  criollo y didáctico, con la parte de fabricación y calibración en registro
+  formal (FAB-n / CAL-n). La §5 de `07-guia-armado.md` ya está así.
+- **El artifact NO se puede compartir desde la sesión**: lo comparte Fran
+  desde el botón Compartir de la página.
+
 ## Lo que quedó a medias
 
 - **Preguntas abiertas a Fran:** (1) ¿midió algo? (P0 primero); (2) ¿la base
   de ≈ 1,41 m le sirve o va el pivote en poste (1,12 m con 20 cm)?; (3) el
   puesto 3 de los pesos (capacidad de carga), que no cambia el ganador.
-- **El link al primo:** Fran dio un mail para mostrárselo. No se mandó nada:
-  mandar es su decisión y el artifact se comparte desde su menú. El mail **no**
-  va al repo (es público).
+- **El primo:** ya es editor de la carpeta de Drive (a pedido de Fran). El
+  artifact lo comparte Fran desde el menú Compartir de la página; la sesión
+  no puede. El mail **no** va al repo (es público): sólo su hash.
+- **Pendiente de Kevin:** ¿se veían los anillos de Saturno? (cierra P0).
+- **PDF de la guía** en formato apunte: cuando haya medidas (antes no vale la
+  pena maquetar números de agosto).
 - **Precios a cotizar:** corte láser, rulemanes, rótula, TMC2209.
 - **El modelo 3D de SolidWorks no se revisó pieza por pieza**; las medidas del
   modelo web son las del encabezado del macro (`cad/PlataformaEcuatorial.bas`,
@@ -71,9 +95,9 @@ modelo ya decidido; sube a high solo si una medida cambia la arquitectura.
    masa total y centro de masa 3D medidos (dos métodos), P0 (¿llega a foco?),
    y docs/03-inventario.md sin ninguna fila en "?".
 4. Estado de la máquina: nada montado ni corriendo. Modelo publicado en
-   https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (versión 2). Para verlo en
+   https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (versión 3). Para verlo en
    local: preview_start "telescopio-modelo" (.claude/launch.json, puerto 8765).
-   Controles de la geometría: node docs/probar-geometria.js (6 OK, 4 sabotajes rojos).
+   Controles de la geometría: node docs/probar-geometria.js (7 OK, 5 sabotajes rojos).
 5. Ya resuelto, no se rehace: VNS y su trade study, diseño adaptable, el espejo
    para el sur (pivote al NORTE, segmentos al SUR), compras de zona norte.
 6. PRIMER COMANDO: pedirle a Fran lo que traiga (medidas del portaocular y del
@@ -104,9 +128,9 @@ modelo ya decidido; sube a high solo si una medida cambia la arquitectura.
 - Pivote al norte a `H / tan φ` del centro de masa; ω = 7,2921e−5 rad/s.
 - Resultados con H = 64 cm, ±45 min, rodillos a ±19 cm (todo hipótesis):
   base 1,41 × 0,76 m (1,12 m con 20 cm de poste); mesa a 14,9 cm del piso;
-  segmento R ≈ 0,78 m, cuerda 298 mm, chapa 30-91 mm de alto, girada 8,1°;
-  velocidad ±0,31 %; corrimiento ±8,7 mm; cargas 11,8 kg pivote / 19,1 kg
-  cada rodillo.
+  segmento R ≈ 0,79 m, rodadura 378 mm (394 con talones de 8 × 12 mm),
+  chapa 30-106 mm de alto, girada 7,9°; velocidad ±0,48 %; corrimiento
+  ±13,7 mm; cargas 12,0 kg pivote / 19,0 kg cada rodillo (v3, con límites).
 - Aluminio 5 mm 500 × 500 Aluar 1050: **$66.193** (Alumina Argentina). Fenólico
   18 mm 1,22 × 2,44: **$50.121** (Easy). NEMA 17 7 kg·cm ≈ $49.900. Todo al
   2026-10-04.

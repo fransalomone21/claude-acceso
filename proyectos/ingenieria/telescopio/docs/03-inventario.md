@@ -45,7 +45,7 @@ Estado: `tengo` / `tengo pero no sé el modelo` / `no tengo` / `?` (sin revisar)
 | E5 | **fuente 12 V**: cuántos amper | `?` | |
 | E6 | **tester UT89X** | `tengo` | UT89X |
 | E7 | **protoboard y cables** | `tengo` | |
-| E8 | **finales de carrera** (microswitch o óptico) para el rebobinado | `?` | |
+| E8 | **finales de carrera**: hacen falta **2** microswitches con palanca de rodillo (tipo KW12), uno por punta (diseño del 2026-10-04: segunda capa de límite, ver guía §3) | `?` | ¿hay de alguna impresora vieja? |
 
 ## Óptica y cámara
 
