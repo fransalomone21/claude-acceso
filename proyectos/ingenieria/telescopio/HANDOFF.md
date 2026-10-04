@@ -28,6 +28,17 @@ arquitectura está cerrada (VNS) y faltan las mediciones y el inventario.
 - **Corregido:** en el sur el VNS va espejado (pivote al norte, segmentos al
   sur). `04-conceptos.md` decía «sectores norte».
 
+## Versión 2 del modelo (misma sesión, más tarde)
+
+Colores por familia de pieza con leyenda; rodillo impreso con sus dos 608ZZ;
+motor NEMA 17 con poleas GT2 20:80 y correa; tubo completo con araña,
+primario, portaocular y buscador (estos dos, ubicados a ojo); sombras; vistas
+de detalle; plano acotado de la chapa (las dos son espejo exacto, verificado);
+botón «Valores de agosto» (los valores nunca se guardan: recargar los
+restaura). Kevin (primo, dueño de la ZV-E10) imprimió un adaptador al
+portaocular y dice que «se ve sin aumento»: ver la fila de foco en
+`ESTADO_ACTUAL.md`. Inventario: B2, O2 y T3 actualizados.
+
 ## Lo que quedó a medias
 
 - **Preguntas abiertas a Fran:** (1) ¿midió algo? (P0 primero); (2) ¿la base
@@ -40,6 +51,41 @@ arquitectura está cerrada (VNS) y faltan las mediciones y el inventario.
 - **El modelo 3D de SolidWorks no se revisó pieza por pieza**; las medidas del
   modelo web son las del encabezado del macro (`cad/PlataformaEcuatorial.bas`,
   líneas 51-125), todas `hipótesis`.
+
+## Mensaje de retome (chat nuevo)
+
+Está completo en la respuesta de cierre del 2026-10-04 y es este, sin recortes:
+
+```
+Proyecto: telescopio (plataforma VNS del 200/1200), en claude-acceso.
+Modelo: Opus, esfuerzo medium, SIN fan-out: es cargar medidas y reajustar un
+modelo ya decidido; sube a high solo si una medida cambia la arquitectura.
+
+0. Si ~/.claude/CLAUDE.md no empieza con "# Perfil global":
+   bash .claude/nube/traer-perfil.sh  (desde claude-acceso) y leer lo que liste.
+1. .\cascada.ps1 telescopio -Necesidad diseno  y leer TODO lo que exija la puerta.
+2. Leer: ESTADO_ACTUAL.md entero, HANDOFF.md entero, docs/05-trade-study.md.
+   NO leer el CAD ni el macro VBA. docs/06-modelo-3d.html y geometria-vns.js
+   se leen SOLO si hay que cargar medidas o tocar el modelo.
+3. Fase 0 (Concebir, Pre-Fase A). Arquitectura CERRADA: VNS. Falta para cerrar:
+   masa total y centro de masa 3D medidos (dos métodos), P0 (¿llega a foco?),
+   y docs/03-inventario.md sin ninguna fila en "?".
+4. Estado de la máquina: nada montado ni corriendo. Modelo publicado en
+   https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (versión 2). Para verlo en
+   local: preview_start "telescopio-modelo" (.claude/launch.json, puerto 8765).
+   Controles de la geometría: node docs/probar-geometria.js (6 OK, 4 sabotajes rojos).
+5. Ya resuelto, no se rehace: VNS y su trade study, diseño adaptable, el espejo
+   para el sur (pivote al NORTE, segmentos al SUR), compras de zona norte.
+6. PRIMER COMANDO: pedirle a Fran lo que traiga (medidas del portaocular y del
+   buscador, imperfecciones de la base y la caja, fotos, peso) y las respuestas
+   pendientes: (a) Kevin, adaptador impreso: ¿la cámara iba SIN lente? ¿qué
+   miraban y a qué distancia? ¿se vio algo nítido moviendo todo el enfoque?
+   (b) ¿base de 1,41 m o pivote en poste (1,12 m)? (c) ¿capacidad de carga 3.ª?
+   Cada medida entra a los value= de los deslizadores de 06-modelo-3d.html y se
+   republica al MISMO link (Artifact con file_path y files {geometria-vns.js}).
+7. Si pide MEDIR la puerta: el efecto es que cascada.ps1 imprima el bloque
+   "EXIGIDO POR LA PUERTA (T11) para telescopio" con sus rangos de líneas.
+```
 
 ## Lo que NO hay que volver a intentar
 

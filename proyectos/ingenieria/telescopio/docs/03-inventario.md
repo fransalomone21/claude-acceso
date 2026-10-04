@@ -17,7 +17,7 @@ Estado: `tengo` / `tengo pero no sé el modelo` / `no tengo` / `?` (sin revisar)
 | # | Pieza, por nombre | Por qué bloquea | Estado | Modelo / dato |
 |---|---|---|---|---|
 | B1 | **balanza**, con su rango y su resolución | sin saber hasta cuánto pesa y de cuánto en cuánto, P1 a P4 del protocolo no se pueden planificar | `?` | |
-| B2 | **adaptador de la Sony al focuser**: anillo T2 de montura E + adaptador T2 a 1,25" o 2" | sin esto la medición P0 (¿llega a foco?) no se puede hacer | `?` | |
+| B2 | **adaptador de la Sony al focuser**: anillo T2 de montura E + adaptador T2 a 1,25" o 2" | sin esto la medición P0 (¿llega a foco?) no se puede hacer | `tengo pero no sé el modelo` | **impreso en 3D** por Kevin; entra en el portaocular y queda fijo (Fran, 2026-10-04). Falta: ¿qué diámetro (1,25" o 2")? ¿la cámara va sin su lente? |
 | B3 | **cinta métrica y calibre** | las tolerancias de ±1 mm los piden | `?` | |
 
 ## Mecánica
@@ -52,7 +52,7 @@ Estado: `tengo` / `tengo pero no sé el modelo` / `no tengo` / `?` (sin revisar)
 | # | Pieza, por nombre | Estado | Modelo / dato |
 |---|---|---|---|
 | O1 | oculares 5 / 10 / 25 mm: marca y si son de 1,25" o 2" | `?` | |
-| O2 | la **cámara Sony**: modelo exacto (en 2026-08 se anotó ZV-E10, confirmar) | `?` | |
+| O2 | la **cámara Sony**: modelo exacto (en 2026-08 se anotó ZV-E10, confirmar) | `tengo` (es de Kevin) | **ZV-E10 con el 16-50**, `probable`: foto de catálogo que mandó Kevin el 27/4 diciendo «esta compré». Se confirma con el cuerpo en la mano |
 | O3 | el **celular**: S21 o S24 Ultra, el que se vaya a usar | `?` | |
 | O4 | **buscador** integrado al tubo: aumento y si sale | `?` | |
 | O5 | cable de disparo o app para la Sony (el obturador se dispara por el Multi/Micro USB) | `?` | |
@@ -63,7 +63,7 @@ Estado: `tengo` / `tengo pero no sé el modelo` / `no tengo` / `?` (sin revisar)
 |---|---|---|---|
 | T1 | amoladora, caladora, agujereadora, atornilladora | `tengo` (lo dijo Fran) | |
 | T2 | **escuadra** grande y **nivel** | `?` | |
-| T3 | **impresora 3D**: ¿propia, prestada o tercerizada? material | `?` | |
+| T3 | **impresora 3D**: ¿propia, prestada o tercerizada? material | `tengo` (prestada) | un amigo de Kevin, con varias impresoras, algunas de calidad mejor que las comunes (Fran, 2026-10-04). Falta: material (PLA/PETG) y volumen de impresión |
 | T4 | **SolidWorks**: versión instalada, y si corre macros VBA | `?` | |
 
 ---

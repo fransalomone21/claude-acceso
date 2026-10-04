@@ -52,7 +52,7 @@ Faltan las mediciones y el inventario.
 | la placa **HW-130** es un driver de motores paso a paso | la foto de la serigrafía de los dos lados (P6, foto 7) | nunca se leyó la placa. `probable` que sea una **fuente para protoboard**, no un driver — en ese caso falta el driver y es una compra |
 | los rulemanes son 608ZZ | medir el diámetro exterior: 22 mm → 608 | lo dijo Fran de memoria («creo que M8») |
 | la cámara es una Sony ZV-E10 | confirmarlo con el cuerpo en la mano | lo anotó la sesión de 2026-08 y hoy Fran dijo «una cámara Sony» sin modelo |
-| el 200/1200 **llega a foco** con una cámara en foco primario | P0 del protocolo, diez minutos de día | falla clásica de los newtonianos, y nunca se probó. **Es el riesgo más barato de cerrar y el más caro de ignorar** |
+| el 200/1200 **llega a foco** con una cámara en foco primario | P0 del protocolo, diez minutos de día | falla clásica de los newtonianos. **Primer dato, 2026-10-04 (Kevin, vía Fran):** con un adaptador impreso en 3D dentro del portaocular, la cámara «se ve como sin aumento». En foco primario el tubo es un tele de 1200 mm (unas 24 veces el 50 mm del kit), así que eso **no** es lo esperado: `hipótesis` de mayor a menor, (a) no llega a foco y la imagen es un borrón, (b) la cámara tenía puesto su lente, (c) miraban algo cerca. Se cierra con P0 hecho a propósito: sin lente, a una antena a más de 500 m, recorriendo todo el portaocular |
 | las expectativas de resultado de 2026-08 (0,67 arcsec/píxel, subs de 20-30 s sin guiar, 2-4 min guiando) | el presupuesto de error de la fase 1, y después la medición de deriva de la fase 4 | se escribieron como predicción y conviene que no se citen como hecho |
 
 ## Callejones sin salida
