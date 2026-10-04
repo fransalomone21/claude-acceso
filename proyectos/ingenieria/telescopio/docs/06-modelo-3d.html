@@ -90,7 +90,7 @@ a{color:var(--accent)}
   <div class="eyebrow">Telescopio 200/1200 · plataforma ecuatorial · 34,5° S</div>
   <h1>Plataforma VNS del 200/1200</h1>
   <p class="lede">El modelo de abajo está calculado, no dibujado a ojo: cada pieza sale de la latitud, del centro de masa y de cuánto tiempo querés seguir una estrella. Movés un número y la plataforma se rehace sola. Girala con el mouse (o el dedo), y dale <b>▶</b> para ver cómo acompaña al cielo.</p>
-  <p class="note hypn"><span class="badge hyp">hipótesis</span> Las medidas del telescopio (masa 50 kg, centro de masa a 64 cm sobre la mesa, paredes, tubo) son las de agosto y nunca se midieron con método. Este modelo sirve para <b>entender y presupuestar</b>. Para cortar falta medir.</p>
+  <p class="note hypn"><span class="badge hyp">hipótesis</span> Las tablas del dobson y el tubo están medidos con cinta (4/10/2026), pero la <b>masa (27 kg) y el centro de masa (60 cm sobre el piso del dobson) son una estimación por volumen</b>, no una pesada: rango 22 a 32 kg y 58 a 61 cm. El eje se diseña 2 cm más arriba y la diferencia la cubre un suplemento. Este modelo sirve para <b>entender y presupuestar</b>. Para cortar falta medir.</p>
 
   <div class="stage">
     <div class="viewer" id="viewer">
@@ -110,20 +110,20 @@ a{color:var(--accent)}
       <div class="group">
         <h3>Reloj</h3>
         <div class="ctl"><label for="t">Minutos desde el centro de la carrera</label><output id="t_o"></output><input id="t" type="range" min="-45" max="45" step="0.5" value="0"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="play" type="button">▶ Seguir al cielo (×600)</button><button class="btn" id="reset" type="button">Volver al centro</button><button class="btn" id="defaults" type="button">Valores de agosto</button></div>
-        <p style="font-size:12px;color:var(--muted);margin:6px 0 0">Nada de lo que muevas se guarda: recargando la página vuelve todo a los valores de agosto.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="play" type="button">▶ Seguir al cielo (×600)</button><button class="btn" id="reset" type="button">Volver al centro</button><button class="btn" id="defaults" type="button">Valores estimados (4/10)</button></div>
+        <p style="font-size:12px;color:var(--muted);margin:6px 0 0">Nada de lo que muevas se guarda: recargando la página vuelve todo a los valores estimados del 4/10.</p>
       </div>
       <div class="group">
         <h3>El telescopio <span class="badge hyp">hipótesis</span></h3>
-        <div class="ctl"><label for="M">Masa total</label><output id="M_o"></output><input id="M" type="range" min="30" max="70" step="1" value="50"></div>
-        <div class="ctl"><label for="Hreal">Centro de masa sobre el piso del dobson</label><output id="Hreal_o"></output><input id="Hreal" type="range" min="45" max="80" step="0.5" value="64"></div>
+        <div class="ctl"><label for="M">Masa total</label><output id="M_o"></output><input id="M" type="range" min="15" max="60" step="1" value="27"></div>
+        <div class="ctl"><label for="Hreal">Centro de masa sobre el piso del dobson</label><output id="Hreal_o"></output><input id="Hreal" type="range" min="45" max="80" step="0.5" value="60"></div>
         <div class="ctl"><label for="dN">Centro de masa corrido al norte</label><output id="dN_o"></output><input id="dN" type="range" min="-5" max="5" step="0.5" value="0"></div>
         <div class="ctl"><label for="dE">Centro de masa corrido al este</label><output id="dE_o"></output><input id="dE" type="range" min="-5" max="5" step="0.5" value="0"></div>
       </div>
       <div class="group">
         <h3>La plataforma (lo que diseñamos)</h3>
-        <div class="ctl"><label for="Hdis">Altura del eje sobre la mesa</label><output id="Hdis_o"></output><input id="Hdis" type="range" min="45" max="80" step="0.5" value="64"></div>
-        <div class="ctl"><label for="shim">Suplemento bajo el dobson</label><output id="shim_o"></output><input id="shim" type="range" min="0" max="5" step="0.5" value="0"></div>
+        <div class="ctl"><label for="Hdis">Altura del eje sobre la mesa</label><output id="Hdis_o"></output><input id="Hdis" type="range" min="45" max="80" step="0.5" value="62"></div>
+        <div class="ctl"><label for="shim">Suplemento bajo el dobson</label><output id="shim_o"></output><input id="shim" type="range" min="0" max="5" step="0.5" value="2"></div>
         <div class="ctl"><label for="run">Carrera a cada lado</label><output id="run_o"></output><input id="run" type="range" min="20" max="60" step="5" value="45"></div>
         <div class="ctl"><label for="half">Separación entre rodillos</label><output id="half_o"></output><input id="half" type="range" min="28" max="50" step="1" value="38"></div>
         <div class="ctl"><label for="postH">Pivote levantado sobre un poste</label><output id="postH_o"></output><input id="postH" type="range" min="0" max="30" step="1" value="0"></div>
@@ -160,7 +160,7 @@ a{color:var(--accent)}
       <li class="axisitem"><b>8</b><div><b>El eje polar.</b> No es una pieza: es la línea imaginaria alrededor de la cual gira la mesa. Pasa por el pivote, sube hacia el sur inclinada <b>34,5°</b> (la latitud de Villa Adelina) y apunta al polo sur celeste. Toda la plataforma existe para que la mesa gire alrededor de esa línea a la misma velocidad que el cielo: una vuelta cada 23 h 56 min.</div></li>
       <li><b>9</b><div><b>Centro de masa.</b> La bolita amarilla. Tiene que quedar <b>sobre</b> el eje rojo: si queda afuera, el peso tironea para un lado y el motor pelea contra el telescopio. Con el reloj en marcha vas a ver que, si está bien puesta, es lo único que no se mueve.</div></li>
       <li><b>10</b><div><b>Polo sur celeste y σ Octantis.</b> Al final del eje. En el sur no hay estrella polar: la más cercana al polo es σ Octantis, magnitud 5,4, apenas visible a ojo desde un cielo oscuro y a 1° 8' del polo. Por eso la alineación se hace una vez con el método de deriva y después se repite con las marcas del piso.</div></li>
-      <li><b>11</b><div><b>El dobson actual.</b> Base fija, base giratoria, paredes y caja sujetadora, con las medidas de agosto. Se sube entero a la mesa, sin desarmarlo.</div></li>
+      <li><b>11</b><div><b>El dobson actual.</b> Base fija, base giratoria, paredes y caja sujetadora, con las medidas que tomó Fran el 4/10/2026. Se sube entero a la mesa, sin desarmarlo.</div></li>
       <li><b>12</b><div><b>Suplemento.</b> Tablitas debajo del dobson para subir el centro de masa hasta el eje si sale más bajo de lo calculado. Es parte del changüí: se corrige apilando madera, no cortando aluminio.</div></li>
       <li><b>13</b><div><b>Finales de carrera.</b> Dos microswitches con palanca larga, uno por punta, en un soporte impreso al costado del rodillo este. Un tornillo M5 en el medio de la chapa hace de leva: cuando la mesa se pasa <span id="swTxt">3 min</span> del final, la leva aprieta la palanca y la placa corta el motor. Es la segunda capa: la primera es el programa, que cuenta pasos y para solo a los ±45 min.</div></li>
       <li><b>14</b><div><b>Talones: el tope que no depende de nada.</b> Cada chapa termina en un "diente" que cuelga 12 mm debajo del borde, con goma pegada. Si falla el programa <i>y</i> falla el switch, el talón choca el rodillo y la mesa se queda ahí, en vez de que la chapa se salga del rodillo y el telescopio se venga abajo. El motor patina contra el tope (el TMC2209 lo aguanta) hasta que alguien lo apague. No cuesta nada: sale de la misma plantilla.</div></li>
@@ -168,7 +168,7 @@ a{color:var(--accent)}
   </div>
 
   <h2>Las dos chapas de aluminio, con medidas</h2>
-  <p>Vista de frente de la chapa <b>este</b>, a escala, mirando desde el sur. La del oeste es exactamente la misma dada vuelta (espejo). Las medidas cambian con los deslizadores: <span class="hyp">salen de las medidas de agosto, así que todavía no son para cortar</span>.</p>
+  <p>Vista de frente de la chapa <b>este</b>, a escala, mirando desde el sur. La del oeste es exactamente la misma dada vuelta (espejo). Las medidas cambian con los deslizadores: <span class="hyp">salen de un centro de masa estimado, no pesado: todavía no son para cortar</span>.</p>
   <div class="drawing" id="plateDraw"></div>
 
   <h2>Por qué VNS, en tres líneas</h2>
@@ -401,20 +401,22 @@ function build(){
   dobGroup=new THREE.Group();inner.add(dobGroup);
   let z0=zt;
   if(p.shim>0.0005){dobGroup.add(boxENU([0,0,z0+p.shim/2],[0.42,0.45,p.shim],MAT.shim));const t12=tag('Suplemento',12);t12.position.copy(V([0.21,-0.22,z0+p.shim/2]));dobGroup.add(t12);z0+=p.shim;}
-  dobGroup.add(boxENU([0,0,z0+0.009],[0.40,0.43,0.018],MAT.wood));
-  for(let k=0;k<3;k++){const a=k*2*Math.PI/3+Math.PI/2;dobGroup.add(cyl([0.15*Math.cos(a),0.15*Math.sin(a),z0+0.018],[0.15*Math.cos(a),0.15*Math.sin(a),z0+0.032],0.02,MAT.pvc,16));}
-  dobGroup.add(cyl([0,0,z0+0.018],[0,0,z0+0.032],0.06,MAT.vinyl,32));
+  // Medidas de Fran del 2026-10-04 (cinta), todas las tablas de 2 cm. El hueco de tacos (1,5 cm) y
+  // el eje de altura 2,6 cm debajo del borde de la pared salen de las fotos: hipotesis.
+  dobGroup.add(boxENU([0,0,z0+0.01],[0.40,0.43,0.02],MAT.wood));                        // base fija 43 x 40
+  for(let k=0;k<3;k++){const a=k*2*Math.PI/3+Math.PI/2;dobGroup.add(cyl([0.15*Math.cos(a),0.15*Math.sin(a),z0+0.02],[0.15*Math.cos(a),0.15*Math.sin(a),z0+0.035],0.02,MAT.pvc,16));}
+  dobGroup.add(cyl([0,0,z0+0.02],[0,0,z0+0.035],0.06,MAT.vinyl,32));
   rocker=new THREE.Group();rocker.position.copy(V([0,0,0]));dobGroup.add(rocker);
-  const zf=z0+0.05;
-  rocker.add(boxENU([0,0,z0+0.041],[0.405,0.375,0.018],MAT.wood));
-  [-1,1].forEach(sg=>{rocker.add(boxENU([sg*0.194,0,zf+0.41],[0.018,0.375,0.82],MAT.wood2));rocker.add(cyl([sg*0.185,0,zf+0.78],[sg*0.215,0,zf+0.78],0.04,MAT.dark,24));});
-  [-1,1].forEach(sg=>rocker.add(boxENU([0,sg*0.1785,zf+0.10],[0.37,0.018,0.20],MAT.wood2)));
-  tubeG=new THREE.Group();tubeG.position.copy(V([0,0,zf+0.78]));rocker.add(tubeG);
+  const zf=z0+0.055, zAlt=zf+0.77;
+  rocker.add(boxENU([0,0,z0+0.045],[0.40,0.40,0.02],MAT.wood));                         // base movil 40 x 40
+  [[1,0.796],[-1,0.788]].forEach(([sg,h])=>{rocker.add(boxENU([sg*0.19,0,zf+h/2],[0.02,0.40,h],MAT.wood2));rocker.add(cyl([sg*0.18,0,zAlt],[sg*0.205,0,zAlt],0.017,MAT.dark,24));}); // paredes 79,6 / 78,8
+  [[1,0.20],[-1,0.198]].forEach(([sg,h])=>rocker.add(boxENU([0,sg*0.21,zf+h/2],[0.40,0.02,h],MAT.wood2)));                                     // paredes chicas 20 / 19,8
+  tubeG=new THREE.Group();tubeG.position.copy(V([0,0,zAlt]));rocker.add(tubeG);
   // Tubo: el eje de altura a 0,48 m del fondo (hipotesis); la boca hacia -z
   const back=0.48, front=-(1.355-back), add=(m,x,y,z)=>{m.position.set(x,y,z);tubeG.add(m);return m;};
-  const tube=new THREE.Mesh(new THREE.CylinderGeometry(0.125,0.125,1.355,64,1,true),MAT.tube);tube.rotation.x=Math.PI/2;add(tube,0,0,(front+back)/2);
-  const tin=new THREE.Mesh(new THREE.CylinderGeometry(0.1235,0.1235,1.35,64,1,true),MAT.tubeIn);tin.rotation.x=Math.PI/2;add(tin,0,0,(front+back)/2);
-  [front,back].forEach(z=>add(new THREE.Mesh(new THREE.TorusGeometry(0.1255,0.006,12,64),MAT.dark),0,0,z));
+  const tube=new THREE.Mesh(new THREE.CylinderGeometry(0.1265,0.1265,1.355,64,1,true),MAT.tube);tube.rotation.x=Math.PI/2;add(tube,0,0,(front+back)/2);   // 25,3 cm afuera (medido)
+  const tin=new THREE.Mesh(new THREE.CylinderGeometry(0.125,0.125,1.35,64,1,true),MAT.tubeIn);tin.rotation.x=Math.PI/2;add(tin,0,0,(front+back)/2);
+  [front,back].forEach(z=>add(new THREE.Mesh(new THREE.TorusGeometry(0.1268,0.0067,12,64),MAT.alu2),0,0,z));                                            // aros de 26,7 cm (medido)
   const cap=new THREE.Mesh(new THREE.CylinderGeometry(0.126,0.126,0.02,64),MAT.dark);cap.rotation.x=Math.PI/2;add(cap,0,0,back+0.01);
   [0.07,-0.07].forEach(x=>[0.07,-0.07].forEach(y=>{if(x>0&&y<0)return;const s=new THREE.Mesh(new THREE.CylinderGeometry(0.006,0.006,0.03,10),MAT.steel);s.rotation.x=Math.PI/2;add(s,x*0.9,y*0.9,back+0.03);}));
   const prim=new THREE.Mesh(new THREE.CircleGeometry(0.1,48),MAT.mirror);prim.rotation.y=Math.PI;add(prim,0,0,back-0.03);
@@ -428,7 +430,7 @@ function build(){
   [-1,1].forEach(s=>{const k=new THREE.Mesh(new THREE.CylinderGeometry(0.009,0.009,0.012,16),MAT.dark);add(k,0.14,s*0.048,front+0.13);});
   const fnd=new THREE.Mesh(new THREE.CylinderGeometry(0.016,0.016,0.2,20),MAT.dark);fnd.rotation.x=Math.PI/2;add(fnd,0.095,0.115,front+0.24);
   [-0.06,0.06].forEach(dz=>add(new THREE.Mesh(new THREE.TorusGeometry(0.019,0.003,8,24),MAT.steel),0.095,0.115,front+0.24+dz));
-  const t11=tag('Dobson actual',11);t11.position.copy(V([0.2,0.19,zf+0.82]));rocker.add(t11);
+  const t11=tag('Dobson actual (medido 4/10)',11);t11.position.copy(V([0.2,0.19,zf+0.82]));rocker.add(t11);
 
   // 9 centro de masa (real)
   const com=new THREE.Mesh(new THREE.SphereGeometry(0.022,24,16),MAT.com);com.position.copy(V(G.Creal));inner.add(com);

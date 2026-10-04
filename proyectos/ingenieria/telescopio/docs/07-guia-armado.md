@@ -73,7 +73,7 @@ Los números son los del modelo 3D.
 
 1. **Base al piso.** Fenólico de 18 mm en forma de T: un travesaño al sur
    que lleva los rodillos, y una lengua larga hacia el norte que lleva el
-   pivote. No se mueve nunca. Mide unos **1,42 m de largo**: a nuestra
+   pivote. No se mueve nunca. Mide unos **1,39 m de largo**: a nuestra
    latitud el eje está muy acostado y el pivote queda lejos. Si es mucho, se
    acorta levantando el pivote sobre un poste (cada 10 cm de poste, unos
    14,5 cm menos de base).
@@ -90,11 +90,11 @@ Los números son los del modelo 3D.
    Su borde de abajo es un pedazo de elipse y cada una va girada unos 8°.
    Esa forma es lo único "difícil" del diseño, y se resuelve imprimiendo la
    **plantilla 1:1 en papel**, pegándola y calando alrededor. Miden unos
-   **394 × 106 mm** cada una (las dos salen de una chapa de 500 × 500).
+   **387 × 106 mm** cada una (las dos salen de una chapa de 500 × 500).
 6. **Rodillos.** Un cilindro impreso de 32 mm de diámetro y 26 de ancho, con
    un rulemán 608ZZ (los de skate) a presión en cada cara, girando sobre un
    bulón M8. El canto de cada chapa apoya y rueda sobre uno. Cada rodillo
-   carga unos 19 kg y el pivote unos 12.
+   carga unos 10 kg y el pivote unos 7 (con los 27 kg estimados).
 7. **Motor.** Un paso a paso NEMA 17 con polea GT2 de 20 dientes y correa
    hasta una polea de 80 en el eje del rodillo oeste (reduce 4 a 1). El
    rodillo da unas dos vueltas por hora y cada micropaso mueve la mesa unos
@@ -127,7 +127,7 @@ Los números son los del modelo 3D.
 
 ### Los límites de carrera, en tres capas
 
-Que la chapa se salga del rodillo es el peor accidente posible: 50 kg de
+Que la chapa se salga del rodillo es el peor accidente posible: unos 27 kg de
 telescopio cayéndose de costado. Por eso no hay un límite, hay tres, cada uno
 independiente del anterior:
 
@@ -153,8 +153,8 @@ Precios vistos el 4/10/2026 en zona norte. "Quién" es una propuesta.
 | Fenólico 18 mm | 1 placa 1,22 × 2,44 | Maderera Justo (Av. de Mayo 865, Villa Adelina, WhatsApp), Maderera Newton, Multiplacas, Easy | $50.121 (Easy) | compra |
 | Rulemanes 608ZZ | 4 + 1 de repuesto | casas de rulemanes, insumos de impresión 3D | a cotizar | compra |
 | Rótula de amortiguador a gas, bocha 10 mm, rosca M8 | 1 | repuestos de auto, ferretería industrial | a cotizar | compra |
-| Bulones M10 + tuercas de inserto (patas); varilla roscada M8 y tuercas (ejes) | 3 patas, 2 ejes | ferretería | a cotizar | compra |
-| Motor NEMA 17 (unos 4 kg·cm alcanzan; si hay uno de impresora, sirve) | 1 | Todomicro, Mercado Libre | ≈ $49.900 el de 7 kg·cm | ver si hay |
+| Bulones M10 + tuercas de inserto (patas); ejes de los rodillos: **la varilla guía de 8 mm de la impresora sirve** (es más derecha que un bulón) | 3 patas, 2 ejes | ferretería | a cotizar | compra |
+| Motor NEMA 17 (unos 4 kg·cm alcanzan). El de la impresora que hay (Mitsumi M28N-1) parece ser de continua con encoder, no paso a paso: no sirve tal cual | 1 | Todomicro, Mercado Libre | ≈ $49.900 el de 7 kg·cm | ver si hay |
 | Driver TMC2209 | 1 | TP3D, 3DInsumos, 3D Casa Bureu | a cotizar | compra |
 | Correa GT2 6 mm + polea de 20 y de 80 dientes | 1 juego | insumos de impresión 3D (la de 80 se puede imprimir) | a cotizar | compra / Kevin |
 | Microswitch con palanca de rodillo (tipo KW12, los de las impresoras) | 2 + 1 de repuesto | Todomicro, casas de electrónica | a cotizar | compra |
@@ -287,10 +287,11 @@ nebulosa.
 | Qué | Para qué | Quién |
 |---|---|---|
 | ¿Se veían los anillos de Saturno? | saber si llega a foco | Kevin |
-| Peso total del telescopio y balanza disponible | todo el cálculo | Fran |
+| ¿El tubo se queda quieto donde lo soltás (20°, 45°, 80°)? | saber si está balanceado: si no, el centro de masa se mueve | Fran |
+| Peso del tubo con su caja, y dónde se balancea sobre un caño | el centro de masa (estimado hoy por volumen: 27 kg, 60 cm) | Fran y Kevin |
 | Centro de masa, por dos métodos | la forma de las chapas | Fran y Kevin |
 | Medidas del portaocular y del buscador | el modelo y el soporte de cámara | Fran |
-| ¿Base de 1,42 m, o pivote en poste (1,12 m)? | dónde se va a usar | Fran |
+| ¿Base de 1,39 m, o pivote en poste (1,10 m con 20 cm de poste)? | dónde se va a usar | Fran |
 | Material y volumen de impresión de la impresora del amigo | qué piezas salen enteras | Kevin |
 | Etiquetas del motor y de la placa HW-130 que hay | si hay que comprar driver y motor | Fran |
 

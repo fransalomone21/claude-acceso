@@ -25,6 +25,8 @@ perfil global, que se carga solo) ni dónde estamos (eso es `ESTADO_ACTUAL.md`).
 | **Ver el conjunto en 3D**, mostrárselo a alguien, o probar qué cambia si cambia una medida | [`docs/06-modelo-3d.html`](docs/06-modelo-3d.html) (publicado: https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM). Los números salen de [`docs/geometria-vns.js`](docs/geometria-vns.js), única fuente; sus controles: `node docs/probar-geometria.js`. Verlo en local: `preview_start telescopio-modelo` |
 | Por qué VNS y no CS, con los pesos de Fran | [`docs/05-trade-study.md`](docs/05-trade-study.md) |
 | Saber qué piezas hay de verdad, o armar un BOM | [`docs/03-inventario.md`](docs/03-inventario.md) |
+| **Qué se midió, con qué, y qué falta pesar**; la estimación de masa y centro de masa | [`docs/08-medidas.md`](docs/08-medidas.md) y `python docs/estimar-cdm.py`. Las fotos: `fotos/2026-10-04/` (ignorada, el repo es público) y el Drive |
+| La guía para Fran y Kevin (criollo + fabricación y calibración formal), y cómo se pasa a Google Doc | [`docs/07-guia-armado.md`](docs/07-guia-armado.md) → `python docs/md-a-gdoc.py` + rclone (ver `HANDOFF.md`) |
 | Entender **cómo se usa** y qué requisitos salen de ahí | [`docs/01-conops.md`](docs/01-conops.md) |
 | Riesgos, rigor por aspecto, decisiones tomadas | `PDP.md` §3, §5, §6 |
 | El CAD previo y qué hacer con él | `cad/` + la tabla de abajo |

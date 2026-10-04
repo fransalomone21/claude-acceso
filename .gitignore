@@ -67,3 +67,6 @@ proyectos/documentos/cohete-de-agua/
 
 # archivos de bloqueo de SolidWorks y Office (se crean al abrir, no son contenido)
 ~$*
+
+# telescopio: fotos del equipo y de la casa (terraza, vecinos): no van al repo publico; viven en el Drive compartido con Kevin
+proyectos/ingenieria/telescopio/fotos/

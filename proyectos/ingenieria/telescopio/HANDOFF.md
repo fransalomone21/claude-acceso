@@ -60,6 +60,24 @@ portaocular y dice que «se ve sin aumento»: ver la fila de foco en
 - **El artifact NO se puede compartir desde la sesión**: lo comparte Fran
   desde el botón Compartir de la página.
 
+## Versión 4: el dobson medido (cuarta sesión del día)
+
+- Fran midió con cinta todas las tablas, la caja y el tubo, y mandó 71 fotos:
+  registro en `docs/08-medidas.md`; fotos en `fotos/2026-10-04/` (ignorada)
+  y en el Drive. Cargado en el modelo (v4, mismo link, que Fran ya compartió
+  «cualquiera con el link»).
+- **Masa estimada por volumen: 27 kg (22-32)**, no 45-50; centro de masa
+  ≈ 60 cm sobre el piso del dobson (58-61), suponiendo el tubo balanceado.
+  `python docs/estimar-cdm.py`. Valores por defecto del modelo: M 27,
+  CdM 60, eje 62, suplemento 2 → base 1,39 m, chapa 371 (+16) × 106 mm.
+- De las fotos (`hipótesis`): portaocular **helicoidal 1,25"** (poco
+  recorrido: candidato a explicar un «no llega a foco»); motor de la
+  impresora Mitsumi M28N-1, probablemente **de continua**, no sirve; su
+  varilla guía de 8 mm sí sirve de eje de rodillo.
+- **rclone `copyto` con el mismo nombre actualiza el Doc en el lugar** (ID de
+  la guía igual antes y después, medido). Doc nuevo: «Medidas y lo que falta
+  pesar» (`1qQ8hjG0Uh0pM2sKYlXE0ofKvwfIoPKN_eY18gjtar7A`).
+
 ## Lo que quedó a medias
 
 - **Preguntas abiertas a Fran:** (1) ¿midió algo? (P0 primero); (2) ¿la base
@@ -95,7 +113,7 @@ modelo ya decidido; sube a high solo si una medida cambia la arquitectura.
    masa total y centro de masa 3D medidos (dos métodos), P0 (¿llega a foco?),
    y docs/03-inventario.md sin ninguna fila en "?".
 4. Estado de la máquina: nada montado ni corriendo. Modelo publicado en
-   https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (versión 3). Para verlo en
+   https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (versión 4). Para verlo en
    local: preview_start "telescopio-modelo" (.claude/launch.json, puerto 8765).
    Controles de la geometría: node docs/probar-geometria.js (7 OK, 5 sabotajes rojos).
 5. Ya resuelto, no se rehace: VNS y su trade study, diseño adaptable, el espejo
