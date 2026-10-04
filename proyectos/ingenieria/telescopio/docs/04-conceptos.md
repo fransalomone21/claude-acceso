@@ -140,6 +140,21 @@ Criterios propuestos — **los pesos los pone Fran, no la sesión**:
 | altura que agrega | cuánto sube el ocular, y cuánto empeora la estabilidad |
 | precisión de seguimiento alcanzable | el techo de la arquitectura, no el del motor |
 
+**Pesos declarados por Fran (2026-10-04, fuente «Fran»):** el **changüí** —que
+se pueda calibrar y que no dependa de un piso perfecto— es el criterio número
+uno. Y dejó escrito el criterio de desempate: *«si es un poco de complejidad
+extra a beneficio de mejor performance, vamos a la más compleja»*. Falta
+cerrar si capacidad de carga, facilidad de construcción o costo queda segundo.
+
+> **Lo que eso ya decide, y conviene verlo antes de medir:** el apoyo en tres
+> puntos **es** el changüí. Tres puntos es la única cantidad de apoyos que
+> apoya plano sobre cualquier piso sin hamacarse; con cuatro, uno queda en el
+> aire y la plataforma oscila. El CS no admite tres puntos reales. O sea que
+> el criterio que Fran puso primero apunta al VNS **por una razón distinta**
+> de la capacidad de carga, y las dos razones empujan para el mismo lado.
+> Esto es `probable`, no `confirmado`: lo confirma el trade study escrito con
+> la masa medida.
+
 **Falta un dato duro para rankear capacidad de carga: la masa real.** Por eso
 el trade study va **después** de las mediciones, no antes. Ranquear ahora
 sería elegir con el mismo nivel de información con el que se eligió en agosto.

@@ -115,6 +115,8 @@ cuesta diez minutos averiguarlo — por eso la medición 0 va primera.
 | 2026-10-04 | **no GoTo** | GoTo con catálogo | lo pidió Fran, y multiplica la electrónica y el firmware sin acercar la meta (la foto) |
 | 2026-10-04 | la arquitectura CS decidida en 2026-08 **se reabre** y vuelve a competir | mantenerla por costo hundido | se eligió sin trade study y con la masa sin medir; y la fuente canónica dice que CS no da apoyo en tres puntos (R6) |
 | 2026-10-04 | los números de diseño de 2026-08 (radios, H, recorridos, el macro VBA) bajan a **`hipótesis`** | dejarlos como «parámetros cerrados» | se calcularon con H = 64 cm y 45 kg, y las dos cosas son estimaciones sin medición. Una predicción escrita como un hecho contamina cada documento que la copia |
+| 2026-10-04 | **la meta se parte en dos, en este orden:** primero la foto con subs de 20-30 s sin guiar (ésa es la fase 5 de este proyecto); el autoguiado para subs de 2-4 min es un **proyecto nuevo** después | una sola meta de 2-4 min desde el arranque; quedarse sólo en 20-30 s | **fuente: Fran, 2026-10-04.** Hace que la primera foto llegue antes. El riesgo asumido y escrito: que el diseño no escale al segundo objetivo — se mitiga dejando el gancho de autoguiado en el firmware desde el día uno, que es gratis |
+| 2026-10-04 | **soporte de cámara intercambiable**: la Sony en foco primario y el celular afocal, con dos adaptadores sobre la misma base | elegir una sola cámara ahora | **fuente: Fran, 2026-10-04.** No se cierra ninguna puerta antes de medir si el tubo llega a foco (R1). Precio aceptado: dos configuraciones de centro de masa que balancear, y más diseño 3D |
 
 ## 7. Verificación
 
