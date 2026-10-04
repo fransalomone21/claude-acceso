@@ -1,0 +1,444 @@
+<meta charset="utf-8">
+<title>Plataforma VNS del 200/1200</title>
+<meta name="description" content="Modelo 3D y configurador de la plataforma ecuatorial VNS para el newtoniano 200/1200, latitud 34,5 S">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: plano de taller -- visor 3D a la izquierda, tablero de parametros a la derecha, el texto para el primo abajo. */
+:root{
+  --bg:#eef1f5; --panel:#ffffff; --ink:#15202c; --muted:#5a6878; --line:#cfd7e1;
+  --accent:#b8650a; --axis:#c83a32; --hyp:#7a4fb5; --ok:#2f7d4f; --warn:#a8520b;
+  --scene:#dfe6ee; --tag-bg:rgba(255,255,255,.92); --grid:#b9c4d0;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c121a; --panel:#131c27; --ink:#e3eaf2; --muted:#93a2b3; --line:#263445;
+  --accent:#f0a64a; --axis:#ff6a5c; --hyp:#b493e6; --ok:#5fc48a; --warn:#f0a64a;
+  --scene:#0a1019; --tag-bg:rgba(19,28,39,.92); --grid:#223143; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c121a; --panel:#131c27; --ink:#e3eaf2; --muted:#93a2b3; --line:#263445;
+  --accent:#f0a64a; --axis:#ff6a5c; --hyp:#b493e6; --ok:#5fc48a; --warn:#f0a64a;
+  --scene:#0a1019; --tag-bg:rgba(19,28,39,.92); --grid:#223143; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body);margin:0}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(26px,4vw,38px);font-weight:700}
+h2{font-size:24px;font-weight:700;margin-top:40px;margin-bottom:10px}
+h3{font-size:17px;font-weight:700;margin:18px 0 6px}
+p{margin:8px 0;max-width:70ch}
+.lede{color:var(--muted);max-width:75ch}
+.eyebrow{font:600 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.hyp{color:var(--hyp);font-weight:600}
+.badge{display:inline-block;font:600 11px var(--f-mono);letter-spacing:.04em;padding:1px 7px;border-radius:999px;border:1px solid currentColor;vertical-align:1px}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;margin-top:18px}
+@media (max-width:900px){.stage{grid-template-columns:minmax(0,1fr)}}
+.viewer{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--scene);height:min(72vh,660px);min-height:380px}
+.viewer canvas{display:block}
+.views{position:absolute;left:10px;top:10px;display:flex;flex-wrap:wrap;gap:6px;z-index:3}
+.views button,.btn{font:600 12px var(--f-mono);background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 9px;cursor:pointer}
+.views button:hover,.btn:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.clock{position:absolute;right:10px;bottom:10px;z-index:3;font:600 13px var(--f-mono);background:var(--tag-bg);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.group h3{margin:0 0 6px;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.ctl{display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;margin:6px 0}
+.ctl label{font-size:13px}
+.ctl output{font:600 13px var(--f-mono);font-variant-numeric:tabular-nums}
+.ctl input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--accent)}
+.checks{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.readout{display:grid;grid-template-columns:1fr auto;gap:3px 10px;font-size:13px}
+.readout dt{color:var(--muted)}
+.readout dd{margin:0;font:600 13px var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+.readout dd.bad{color:var(--axis)} .readout dd.good{color:var(--ok)}
+.tag{font:600 11px var(--f-mono);color:var(--ink);background:var(--tag-bg);border:1px solid var(--line);border-radius:999px;padding:2px 8px 2px 3px;white-space:nowrap;pointer-events:none;display:flex;gap:6px;align-items:center}
+.tag b{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:999px;background:var(--accent);color:var(--panel);font-size:11px}
+.tag.axis b{background:var(--axis)} .tag.plain{padding:2px 8px}
+.compass{font:700 15px var(--f-display);color:var(--muted);pointer-events:none}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px}
+.parts{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.parts li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start}
+.parts li>b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:999px;background:var(--accent);color:var(--panel);font:600 12px var(--f-mono);margin-top:2px}
+.parts li.axisitem>b{background:var(--axis)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--f-mono);white-space:nowrap}
+.note{border-left:3px solid var(--warn);padding:6px 12px;background:var(--panel);border-radius:0 8px 8px 0;max-width:80ch}
+.note.hypn{border-left-color:var(--hyp)}
+a{color:var(--accent)}
+.foot{color:var(--muted);font-size:13px;margin-top:40px}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Telescopio 200/1200 · plataforma ecuatorial · 34,5° S</div>
+  <h1>Plataforma VNS del 200/1200</h1>
+  <p class="lede">El modelo de abajo está calculado, no dibujado a ojo: cada pieza sale de la latitud, del centro de masa y de cuánto tiempo querés seguir una estrella. Movés un número y la plataforma se rehace sola. Girala con el mouse (o el dedo), y dale <b>▶</b> para ver cómo acompaña al cielo.</p>
+  <p class="note hypn"><span class="badge hyp">hipótesis</span> Las medidas del telescopio (masa 50 kg, centro de masa a 64 cm sobre la mesa, paredes, tubo) son las de agosto y nunca se midieron con método. Este modelo sirve para <b>entender y presupuestar</b>. Para cortar falta medir.</p>
+
+  <div class="stage">
+    <div class="viewer" id="viewer">
+      <div class="views" role="group" aria-label="Vistas">
+        <button type="button" data-view="iso">3/4</button>
+        <button type="button" data-view="oeste">De costado (oeste)</button>
+        <button type="button" data-view="sur">Desde el sur</button>
+        <button type="button" data-view="arriba">Desde arriba</button>
+        <button type="button" data-view="cielo">Hacia el polo</button>
+      </div>
+      <div class="clock" id="clock">0 min · mesa a 0,0°</div>
+    </div>
+
+    <aside class="panel" aria-label="Parámetros">
+      <div class="group">
+        <h3>Reloj</h3>
+        <div class="ctl"><label for="t">Minutos desde el centro de la carrera</label><output id="t_o"></output><input id="t" type="range" min="-45" max="45" step="0.5" value="0"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="play" type="button">▶ Seguir al cielo (×600)</button><button class="btn" id="reset" type="button">Volver al centro</button></div>
+      </div>
+      <div class="group">
+        <h3>El telescopio <span class="badge hyp">hipótesis</span></h3>
+        <div class="ctl"><label for="M">Masa total</label><output id="M_o"></output><input id="M" type="range" min="30" max="70" step="1" value="50"></div>
+        <div class="ctl"><label for="Hreal">Centro de masa sobre el piso del dobson</label><output id="Hreal_o"></output><input id="Hreal" type="range" min="45" max="80" step="0.5" value="64"></div>
+        <div class="ctl"><label for="dN">Centro de masa corrido al norte</label><output id="dN_o"></output><input id="dN" type="range" min="-5" max="5" step="0.5" value="0"></div>
+        <div class="ctl"><label for="dE">Centro de masa corrido al este</label><output id="dE_o"></output><input id="dE" type="range" min="-5" max="5" step="0.5" value="0"></div>
+      </div>
+      <div class="group">
+        <h3>La plataforma (lo que diseñamos)</h3>
+        <div class="ctl"><label for="Hdis">Altura del eje sobre la mesa</label><output id="Hdis_o"></output><input id="Hdis" type="range" min="45" max="80" step="0.5" value="64"></div>
+        <div class="ctl"><label for="shim">Suplemento bajo el dobson</label><output id="shim_o"></output><input id="shim" type="range" min="0" max="5" step="0.5" value="0"></div>
+        <div class="ctl"><label for="run">Carrera a cada lado</label><output id="run_o"></output><input id="run" type="range" min="20" max="60" step="5" value="45"></div>
+        <div class="ctl"><label for="half">Separación entre rodillos</label><output id="half_o"></output><input id="half" type="range" min="28" max="50" step="1" value="38"></div>
+        <div class="ctl"><label for="postH">Pivote levantado sobre un poste</label><output id="postH_o"></output><input id="postH" type="range" min="0" max="30" step="1" value="0"></div>
+      </div>
+      <div class="group">
+        <h3>Apuntar el tubo</h3>
+        <div class="ctl"><label for="az">Azimut (0 = norte)</label><output id="az_o"></output><input id="az" type="range" min="0" max="359" step="1" value="200"></div>
+        <div class="ctl"><label for="alt">Altura</label><output id="alt_o"></output><input id="alt" type="range" min="5" max="90" step="1" value="50"></div>
+        <div class="checks">
+          <label><input type="checkbox" id="showDob" checked> telescopio</label>
+          <label><input type="checkbox" id="showTags" checked> etiquetas</label>
+          <label><input type="checkbox" id="ghost"> mesa transparente</label>
+        </div>
+      </div>
+      <div class="group">
+        <h3>Lo que sale del cálculo</h3>
+        <dl class="readout" id="readout"></dl>
+      </div>
+    </aside>
+  </div>
+
+  <h2>Qué estás mirando, pieza por pieza</h2>
+  <div class="cols">
+    <ol class="parts">
+      <li><b>1</b><div><b>Base al piso.</b> Fenólico de 18 mm en forma de T: un travesaño al sur que lleva los rodillos y una lengua larga que va hasta el pivote, al norte. No se mueve nunca.</div></li>
+      <li><b>2</b><div><b>Tres patas regulables.</b> Un bulón M10 con tuerca en cada punta. Tres patas apoyan firme en cualquier piso, como el banquito de ordeñe: cuatro siempre renguean. Con los tornillos se corrige la inclinación sin cortar nada, y una vez alineada se marcan las tres patas en el piso del patio.</div></li>
+      <li><b>3</b><div><b>Pivote norte.</b> Una bocha de acero (una rótula de amortiguador a gas, bocha de 10 mm) atornillada a la base, y arriba, en la mesa, un hueco cónico donde apoya. Es el único punto que no rueda: la mesa gira alrededor de él.</div></li>
+      <li><b>4</b><div><b>Mesa móvil.</b> Fenólico de 18 mm. Encima va el dobson tal cual está hoy. Es lo que gira, y lleva todo lo que gira.</div></li>
+      <li><b>5</b><div><b>Los dos segmentos de aluminio.</b> Chapas de 5 mm, paradas, atornilladas al borde sur de la mesa. Su borde de abajo no es un arco de círculo: es un pedazo de elipse, y cada una va girada unos 8° hacia afuera. Esa forma rara es lo único "difícil" del diseño, y se resuelve imprimiendo la plantilla 1:1 en papel y calando alrededor.</div></li>
+      <li><b>6</b><div><b>Rodillos.</b> Dos rodillos sobre rulemanes 608ZZ (los de skate). El borde de cada chapa apoya y rueda sobre uno.</div></li>
+      <li><b>7</b><div><b>Motor.</b> Un paso a paso NEMA 17 con correa, que hace girar uno de los rodillos muy despacito. Cómo se transmite (rodillo o brazo con varilla roscada) se decide en el diseño de detalle.</div></li>
+    </ol>
+    <ol class="parts" start="8">
+      <li class="axisitem"><b>8</b><div><b>El eje polar.</b> No es una pieza: es la línea imaginaria alrededor de la cual gira la mesa. Pasa por el pivote, sube hacia el sur inclinada <b>34,5°</b> (la latitud de Villa Adelina) y apunta al polo sur celeste. Toda la plataforma existe para que la mesa gire alrededor de esa línea a la misma velocidad que el cielo: una vuelta cada 23 h 56 min.</div></li>
+      <li><b>9</b><div><b>Centro de masa.</b> La bolita amarilla. Tiene que quedar <b>sobre</b> el eje rojo: si queda afuera, el peso tironea para un lado y el motor pelea contra el telescopio. Con el reloj en marcha vas a ver que, si está bien puesta, es lo único que no se mueve.</div></li>
+      <li><b>10</b><div><b>Polo sur celeste y σ Octantis.</b> Al final del eje. En el sur no hay estrella polar: la más cercana al polo es σ Octantis, magnitud 5,4, apenas visible a ojo desde un cielo oscuro y a 1° 8' del polo. Por eso la alineación se hace una vez con el método de deriva y después se repite con las marcas del piso.</div></li>
+      <li><b>11</b><div><b>El dobson actual.</b> Base fija, base giratoria, paredes y caja sujetadora, con las medidas de agosto. Se sube entero a la mesa, sin desarmarlo.</div></li>
+      <li><b>12</b><div><b>Suplemento.</b> Tablitas debajo del dobson para subir el centro de masa hasta el eje si sale más bajo de lo calculado. Es parte del changüí: se corrige apilando madera, no cortando aluminio.</div></li>
+    </ol>
+  </div>
+
+  <h2>Por qué VNS, en tres líneas</h2>
+  <p>El criterio número uno es poder ponerla en cualquier lado y que ande sin renegar. El VNS se apoya en <b>tres puntos</b> (pivote y dos rodillos), y tres puntos es la única cantidad que no renguea en un piso imperfecto. El diseño de segmentos circulares (CS) que se había elegido en agosto apoya en cuatro y es el que menos peso aguanta. El precio del VNS es una plantilla impresa y un término más en el programa del motor: la velocidad no es constante, varía <b id="speedTxt">±0,3 %</b> a lo largo de la carrera, y eso se corrige en el software.</p>
+
+  <h2>Hacerla adaptable: lo que se ajusta después de construirla</h2>
+  <div class="cols">
+    <div>
+      <h3>Lo que se calibra sin cortar nada</h3>
+      <p><b>Altura del centro de masa:</b> el eje se diseña un par de centímetros <i>arriba</i> del centro de masa esperado, y la diferencia se cubre con suplementos bajo el dobson. Si la medición real sale distinta, se agrega o se saca una tablita.</p>
+      <p><b>Centro de masa corrido:</b> el dobson va con agujeros chinos (ranuras) sobre la mesa, así se corre unos centímetros al norte, sur, este u oeste. Probalo con los deslizadores: 2 cm de corrimiento al este ya le piden al motor más de <b id="tauTxt">8 N·m</b> de más.</p>
+      <p><b>Latitud y nivel:</b> las tres patas regulables inclinan la base entera. Sirven para emparejar el piso y para retocar la alineación polar.</p>
+    </div>
+    <div>
+      <h3>Lo que queda fijo cuando se corta</h3>
+      <p><b>La forma de los segmentos.</b> Depende de la altura del eje y de la latitud. Por eso se corta <i>después</i> de medir el centro de masa, nunca antes.</p>
+      <p><b>El largo.</b> A 34,5° el eje está muy acostado, y el pivote termina lejos: con el centro de masa a 64 cm, la base mide <b id="lenTxt">1,40 m</b>. Levantar el pivote sobre un poste la acorta (cada 10 cm de poste, unos 14,5 cm menos de base), a cambio de un poste que hay que hacer rígido. Probalo con el deslizador.</p>
+    </div>
+  </div>
+
+  <h2>Qué se compra, dónde, y qué se hace en casa</h2>
+  <p class="note"><b>Aviso de plata, ahora y no en el diseño:</b> el aluminio que se consigue suelto en chapa chica es Aluar 1050, que es blando. Sirve, pero el rodillo tiene que ser de plástico duro (impreso o nylon), no de acero, o con el tiempo marca el canto. Si se consigue 6061 o 5052, mejor. Nada de esto se compra antes de medir: la lista definitiva sale del diseño de detalle.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Qué</th><th>Cuánto</th><th>Dónde</th><th>Precio visto (4/10/2026)</th></tr></thead>
+    <tbody>
+      <tr><td>Chapa de aluminio 5 mm</td><td class="num">500 × 500 mm<br>(alcanza para las dos)</td><td>Alumina Argentina (Aluar 1050, online). Cortes a medida: MECENALUM (Mercado Libre). Mayoristas: Pagani S.A.; J. L. Metales (Av. Mitre 3380, Caseros)</td><td class="num">$66.193</td></tr>
+      <tr><td>Corte de los segmentos</td><td class="num">2 piezas</td><td>En casa, con caladora y hoja para metal sobre la plantilla. O corte láser desde el DXF: Iruña Metalúrgica (Munro), Lasertec (zona norte)</td><td class="num">a cotizar</td></tr>
+      <tr><td>Fenólico 18 mm</td><td class="num">1 placa 1,22 × 2,44 (la base mide 1,4 m de largo)</td><td>Maderera Justo (Av. de Mayo 865, Villa Adelina, toma pedidos por WhatsApp), Maderera Newton (Villa Adelina), Multiplacas (cortes a medida), Easy</td><td class="num">$50.121 en Easy</td></tr>
+      <tr><td>Rulemanes 608ZZ</td><td class="num">4 (2 por rodillo) + repuesto</td><td>Casas de rulemanes de la zona, casas de insumos de impresión 3D</td><td class="num">a cotizar</td></tr>
+      <tr><td>Rótula de amortiguador a gas (bocha 10 mm, rosca M8)</td><td class="num">1</td><td>Repuestos de auto o ferretería industrial (es la que usan los planos de AstralFields para el pivote)</td><td class="num">a cotizar</td></tr>
+      <tr><td>Bulones M10 + tuercas de inserto, varilla M8</td><td class="num">3 patas</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
+      <tr><td>Motor NEMA 17</td><td class="num">1 (si no sirve el que hay)</td><td>Todomicro, Mercado Libre</td><td class="num">≈ $49.900 el de 7 kg·cm</td></tr>
+      <tr><td>Driver TMC2209</td><td class="num">1</td><td>TP3D, 3DInsumos, 3D Casa Bureu; un importador con local en Villa Martelli</td><td class="num">a cotizar</td></tr>
+    </tbody>
+  </table></div>
+  <div class="cols" style="margin-top:16px">
+    <div><h3>Se corta en casa</h3><p>Base y mesa de fenólico (todo recto, caladora y guía). Los segmentos de aluminio, si no se mandan a láser: plantilla pegada, caladora despacio con hoja de metal y aceite, y lima.</p></div>
+    <div><h3>Se imprime en papel</h3><p>La plantilla 1:1 de los dos segmentos. Sale del cálculo con las medidas reales, en el diseño de detalle.</p></div>
+    <div><h3>Se imprime en 3D</h3><p>Los rodillos (con dos 608 adentro), el soporte del motor, las poleas, la caja de la electrónica y el soporte de cámara intercambiable.</p></div>
+  </div>
+
+  <h2>De dónde sale todo esto</h2>
+  <ul>
+    <li><a href="http://www.reinervogel.net/Plattform/Planung_e.html">Reiner Vogel, Designing an Equatorial Platform</a>: el método del VNS (comprimir el círculo por el coseno de la latitud, partir en dos, girar y estirar).</li>
+    <li><a href="http://www.reinervogel.net/Plattform/plattform_VNS_e.html">Reiner Vogel, VNS platform</a>: una VNS construida para 45 kg, con aluminio AlMgSi0.5 de 5 mm.</li>
+    <li><a href="https://stargazerslounge.com/topic/422830-eq-platform-for-12-dobs-easy-includes-810-with-plans-video">AstralFields en Stargazers Lounge</a>: planos VNS para 8", 10" y 12" con segmentos de madera y la rótula de amortiguador como pivote (sus plantillas son para latitudes del norte de Europa, no sirven acá).</li>
+    <li><a href="https://britastro.org/section_information_/telescope-making/equatorial-platforms-pt-1">British Astronomical Association, Equatorial Platforms</a> y <a href="https://en.wikipedia.org/wiki/Equatorial_platform">Wikipedia</a>: la historia de Poncet, Gee y d'Autume, y por qué en el sur todo va espejado.</li>
+    <li><a href="https://www.jerryoltion.com/flexeq.htm">Jerry Oltion, Flex platform</a>: la misma idea de pivote más dos apoyos, con 50 minutos de seguimiento.</li>
+  </ul>
+  <p class="foot">Los números del panel salen de <code>geometria-vns.js</code>, un solo archivo con la geometría, que también corre en la compu para verificar. Latitud de diseño 34,5° S. Rotación terrestre ω = 7,2921 × 10⁻⁵ rad/s.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS2DRenderer.js"></script>
+<script src="geometria-vns.js"></script>
+<script>
+(function(){
+const D2R=Math.PI/180;
+const $=(id)=>document.getElementById(id);
+const V=(p)=>new THREE.Vector3(p[0],p[2],-p[1]);           // ENU -> three (y arriba)
+const css=(n)=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt=(x,k=0)=>x.toLocaleString('es-AR',{minimumFractionDigits:k,maximumFractionDigits:k});
+
+const view=$('viewer');
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+view.appendChild(renderer.domElement);
+const labels=new THREE.CSS2DRenderer();
+labels.domElement.style.position='absolute';labels.domElement.style.top='0';labels.domElement.style.pointerEvents='none';
+view.appendChild(labels.domElement);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(38,1,0.02,60);
+const controls=new THREE.OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true;
+scene.add(new THREE.HemisphereLight(0xffffff,0x445566,0.75));
+const sun=new THREE.DirectionalLight(0xffffff,0.75);sun.position.set(2,4,3);scene.add(sun);
+const fill=new THREE.DirectionalLight(0xffffff,0.3);fill.position.set(-3,2,-2);scene.add(fill);
+
+const MAT={
+  fenol:new THREE.MeshStandardMaterial({color:0x6e4a2e,roughness:.8}),
+  wood:new THREE.MeshStandardMaterial({color:0xd2ad80,roughness:.85}),
+  wood2:new THREE.MeshStandardMaterial({color:0xbf9467,roughness:.85}),
+  alu:new THREE.MeshStandardMaterial({color:0xc9d0d8,metalness:.75,roughness:.32,side:THREE.DoubleSide}),
+  steel:new THREE.MeshStandardMaterial({color:0x7d858e,metalness:.8,roughness:.35}),
+  dark:new THREE.MeshStandardMaterial({color:0x2a2f36,roughness:.6}),
+  roller:new THREE.MeshStandardMaterial({color:0xe8e4da,roughness:.5}),
+  tube:new THREE.MeshStandardMaterial({color:0xeef1f4,roughness:.45,metalness:.1}),
+  pvc:new THREE.MeshStandardMaterial({color:0xf2f2f2,roughness:.6}),
+  vinyl:new THREE.MeshStandardMaterial({color:0x111111,roughness:.3}),
+  com:new THREE.MeshStandardMaterial({color:0xffc425,emissive:0x664400,roughness:.4}),
+  axis:new THREE.MeshBasicMaterial({color:0xd8443a}),
+  star:new THREE.MeshBasicMaterial({color:0xfff2c0}),
+  shim:new THREE.MeshStandardMaterial({color:0x9c7a52,roughness:.9}),
+};
+
+function tag(text,num,cls){const el=document.createElement('div');el.className='tag '+(cls||'');el.innerHTML=(num!=null?'<b>'+num+'</b>':'')+text;const o=new THREE.CSS2DObject(el);o.userData.isTag=true;return o;}
+function boxENU(c,s,mat,rotZ){const m=new THREE.Mesh(new THREE.BoxGeometry(s[0],s[2],s[1]),mat);m.position.copy(V(c));if(rotZ)m.rotation.y=rotZ;return m;}
+function beam(a,b,w,h,mat){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,A.distanceTo(B)),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.lookAt(B);return m;}
+function cyl(a,b,r,mat,seg){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,A.distanceTo(B),seg||24),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return m;}
+
+let G=null, root=null, rot=null, inner=null, dobGroup=null, rocker=null, tubeG=null;
+const P=()=>({phi:34.5,M:+$('M').value,Hdis:$('Hdis').value/100,Hreal:$('Hreal').value/100,dN:$('dN').value/100,dE:$('dE').value/100,shim:$('shim').value/100,runMin:+$('run').value,half:$('half').value/200,postH:$('postH').value/100});
+
+function build(){
+  if(root){scene.remove(root);root.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.element&&o.element.parentNode)o.element.parentNode.removeChild(o.element);});}
+  const p=P(); G=computeVNS(p);
+  root=new THREE.Group();scene.add(root);
+  const fixed=new THREE.Group();root.add(fixed);
+  rot=new THREE.Group();root.add(rot);inner=new THREE.Group();rot.add(inner);
+  rot.position.copy(V(G.C));inner.position.copy(V(G.C)).negate();
+
+  // 1 base en T + 2 patas
+  const gT=G.groundTop, zb=G.FEET+G.BASE/2, wB=G.baseWidth/2;
+  const ys0=G.ySouthBase, ys1=G.ySouth+0.12;
+  fixed.add(boxENU([0,(ys0+ys1)/2,zb],[2*wB,ys1-ys0,G.BASE],MAT.fenol));
+  fixed.add(boxENU([0,(ys1+G.yNorthBase)/2,zb],[0.14,G.yNorthBase-ys1,G.BASE],MAT.fenol));
+  const feet=[[wB-0.04,ys0+0.04],[-(wB-0.04),ys0+0.04],[0,G.yNorthBase-0.04]];
+  feet.forEach(f=>{fixed.add(cyl([f[0],f[1],0],[f[0],f[1],G.FEET],0.02,MAT.steel));fixed.add(cyl([f[0],f[1],G.FEET],[f[0],f[1],gT+0.012],0.005,MAT.steel));});
+  const t1=tag('Base al piso',1);t1.position.copy(V([0.08,G.yNorthBase-0.30,gT+0.02]));fixed.add(t1);
+  const t2=tag('Pata regulable',2);t2.position.copy(V([feet[0][0],feet[0][1],0.0]));fixed.add(t2);
+
+  // 3 pivote: bloque + bulon + bocha
+  const pv=G.pivot, zTip=pv[2];
+  const blockTop=Math.max(gT+0.01,zTip-0.035);
+  fixed.add(boxENU([pv[0],pv[1],(gT+blockTop)/2],[0.07,0.07,blockTop-gT],MAT.wood2));
+  fixed.add(cyl([pv[0],pv[1],blockTop],[pv[0],pv[1],zTip-0.008],0.004,MAT.steel,12));
+  const ball=new THREE.Mesh(new THREE.SphereGeometry(0.008,20,14),MAT.steel);ball.position.copy(V([pv[0],pv[1],zTip-0.008]));fixed.add(ball);
+  const t3=tag('Pivote norte',3);t3.position.copy(V([pv[0],pv[1]+0.05,zTip]));fixed.add(t3);
+
+  // 6 rodillos + soportes, 7 motor
+  G.rollers.forEach((r,i)=>{
+    const c=[r.Pt[0],r.Pt[1],r.Pt[2]-G.RROLL], a=Math.atan2(r.uh[1],r.uh[0]);
+    const n=r.nh, w=0.026;
+    fixed.add(cyl([c[0]-n[0]*w/2,c[1]-n[1]*w/2,c[2]],[c[0]+n[0]*w/2,c[1]+n[1]*w/2,c[2]],G.RROLL,MAT.roller,28));
+    fixed.add(cyl([c[0]-n[0]*0.03,c[1]-n[1]*0.03,c[2]],[c[0]+n[0]*0.03,c[1]+n[1]*0.03,c[2]],0.004,MAT.steel,10));
+    [-1,1].forEach(sg=>{const q=[c[0]+n[0]*0.03*sg,c[1]+n[1]*0.03*sg,(gT+c[2]+0.012)/2];fixed.add(boxENU(q,[0.05,0.008,c[2]+0.012-gT],MAT.wood2,a));});
+    if(i===0){const t6=tag('Rodillo 608ZZ',6);t6.position.copy(V([c[0]+0.08,c[1]-0.10,c[2]-0.03]));fixed.add(t6);}
+    if(i===1){ // motor al lado del rodillo oeste
+      const m=[c[0]-r.uh[0]*0.075-n[0]*0.055,c[1]-r.uh[1]*0.075-n[1]*0.055,gT+0.03];
+      fixed.add(boxENU(m,[0.042,0.042,0.042],MAT.dark,a));
+      const b0=[c[0]-n[0]*0.036,c[1]-n[1]*0.036,c[2]], b1=[m[0]+n[0]*0.019,m[1]+n[1]*0.019,m[2]];
+      fixed.add(beam(b0,b1,0.006,0.03,MAT.dark));
+      const t7=tag('Motor NEMA 17 + correa',7);t7.position.copy(V([m[0]-0.03,m[1]-0.04,m[2]]));fixed.add(t7);
+    }
+  });
+
+  // 4 mesa + lengua
+  const zt=G.ztt, zm=zt-G.TAB/2;
+  const tabMat=$('ghost').checked?new THREE.MeshStandardMaterial({color:0x6e4a2e,transparent:true,opacity:.28,depthWrite:false}):MAT.fenol;
+  inner.add(boxENU([0,(G.ySouth+G.yNorthTab)/2,zm],[2*G.W,G.yNorthTab-G.ySouth,G.TAB],tabMat));
+  if(p.postH<0.005){inner.add(boxENU([0,(G.yNorthTab+pv[1]+0.06)/2,zm],[0.12,pv[1]+0.06-G.yNorthTab,G.TAB],tabMat));}
+  else{inner.add(beam([0,G.yNorthTab-0.03,zm],[0,pv[1],zTip+0.03],0.12,0.025,tabMat));}
+  const cup=new THREE.Mesh(new THREE.ConeGeometry(0.02,0.018,24,1,true),MAT.steel);cup.position.copy(V([pv[0],pv[1],zTip+0.006]));inner.add(cup);
+  inner.add(boxENU([pv[0],pv[1],zTip+0.024],[0.07,0.07,0.012],MAT.wood2));
+  const t4=tag('Mesa móvil',4);t4.position.copy(V([-G.W+0.04,G.yNorthTab-0.04,zt+0.01]));inner.add(t4);
+
+  // 5 segmentos de aluminio
+  G.rollers.forEach((r,i)=>{
+    const sh=new THREE.Shape();
+    sh.moveTo(r.edge[0].u,r.edge[0].z);
+    r.edge.forEach(q=>sh.lineTo(q.u,q.z));
+    sh.lineTo(r.edge[r.edge.length-1].u,zt);sh.lineTo(r.edge[0].u,zt);sh.closePath();
+    const geo=new THREE.ExtrudeGeometry(sh,{depth:0.005,bevelEnabled:false});
+    const X=V(r.uh).normalize(),Y=new THREE.Vector3(0,1,0),Z=X.clone().cross(Y);
+    const m=new THREE.Mesh(geo,MAT.alu);
+    const o=V([r.Pt[0],r.Pt[1],0]).add(Z.clone().multiplyScalar(-0.0025));
+    m.matrixAutoUpdate=false;m.matrix.makeBasis(X,Y,Z).setPosition(o);inner.add(m);
+    [-1,1].forEach(sg=>{const u=sg*r.chord/3, yp=r.Pt[1]+r.uh[1]*u;inner.add(boxENU([r.Pt[0]+r.uh[0]*u,(yp+G.ySouth)/2,zt-0.02],[0.03,G.ySouth-yp+0.002,0.03],MAT.wood2));});
+    if(i===1){const t5=tag('Segmento de aluminio',5);t5.position.copy(V([r.Pt[0]+r.uh[0]*r.uMax*0.6,r.Pt[1]-0.02,zt-0.03]));inner.add(t5);}
+  });
+
+  // 11 dobson + 12 suplemento
+  dobGroup=new THREE.Group();inner.add(dobGroup);
+  let z0=zt;
+  if(p.shim>0.0005){dobGroup.add(boxENU([0,0,z0+p.shim/2],[0.42,0.45,p.shim],MAT.shim));const t12=tag('Suplemento',12);t12.position.copy(V([0.21,-0.22,z0+p.shim/2]));dobGroup.add(t12);z0+=p.shim;}
+  dobGroup.add(boxENU([0,0,z0+0.009],[0.40,0.43,0.018],MAT.wood));
+  for(let k=0;k<3;k++){const a=k*2*Math.PI/3+Math.PI/2;dobGroup.add(cyl([0.15*Math.cos(a),0.15*Math.sin(a),z0+0.018],[0.15*Math.cos(a),0.15*Math.sin(a),z0+0.032],0.02,MAT.pvc,16));}
+  dobGroup.add(cyl([0,0,z0+0.018],[0,0,z0+0.032],0.06,MAT.vinyl,32));
+  rocker=new THREE.Group();rocker.position.copy(V([0,0,0]));dobGroup.add(rocker);
+  const zf=z0+0.05;
+  rocker.add(boxENU([0,0,z0+0.041],[0.405,0.375,0.018],MAT.wood));
+  [-1,1].forEach(sg=>{rocker.add(boxENU([sg*0.194,0,zf+0.41],[0.018,0.375,0.82],MAT.wood2));rocker.add(cyl([sg*0.185,0,zf+0.78],[sg*0.215,0,zf+0.78],0.04,MAT.dark,24));});
+  [-1,1].forEach(sg=>rocker.add(boxENU([0,sg*0.1785,zf+0.10],[0.37,0.018,0.20],MAT.wood2)));
+  tubeG=new THREE.Group();tubeG.position.copy(V([0,0,zf+0.78]));rocker.add(tubeG);
+  const tube=new THREE.Mesh(new THREE.CylinderGeometry(0.125,0.125,1.355,40,1,true),MAT.tube);tube.rotation.x=Math.PI/2;tube.position.z=-(1.355/2-0.48);tubeG.add(tube);
+  const cap=new THREE.Mesh(new THREE.CircleGeometry(0.125,40),MAT.dark);cap.position.z=0.48;cap.rotation.y=Math.PI;tubeG.add(cap);
+  const box=new THREE.Mesh(new THREE.BoxGeometry(0.31,0.31,0.40),MAT.wood);tubeG.add(box);
+  const foc=new THREE.Mesh(new THREE.CylinderGeometry(0.022,0.022,0.09,20),MAT.dark);foc.rotation.z=Math.PI/2;foc.position.set(0.16,0,-(1.355-0.48-0.12));tubeG.add(foc);
+  const fnd=new THREE.Mesh(new THREE.CylinderGeometry(0.018,0.018,0.2,16),MAT.dark);fnd.rotation.x=Math.PI/2;fnd.position.set(0.1,0.12,-(1.355-0.48-0.2));tubeG.add(fnd);
+  const t11=tag('Dobson actual',11);t11.position.copy(V([0.2,0.19,zf+0.82]));rocker.add(t11);
+
+  // 9 centro de masa (real)
+  const com=new THREE.Mesh(new THREE.SphereGeometry(0.022,24,16),MAT.com);com.position.copy(V(G.Creal));inner.add(com);
+  const t9=tag('Centro de masa',9);t9.position.copy(V([G.Creal[0]+0.04,G.Creal[1],G.Creal[2]+0.04]));inner.add(t9);
+
+  // 8 eje polar + 10 cielo
+  const d=G.d, far=3.3;
+  const end=[G.C[0]+d[0]*far,G.C[1]+d[1]*far,G.C[2]+d[2]*far];
+  fixed.add(cyl([pv[0]-d[0]*0.15,pv[1]-d[1]*0.15,pv[2]-d[2]*0.15],end,0.0045,MAT.axis,10));
+  const t8=tag('Eje polar · 34,5°',8,'axis');t8.position.copy(V([G.C[0]+d[0]*1.2,G.C[1]+d[1]*1.2,G.C[2]+d[2]*1.2]));fixed.add(t8);
+  const arcPts=[];const ar=0.32;for(let k=0;k<=24;k++){const a=k/24*34.5*D2R;arcPts.push(V([pv[0],pv[1]-ar*Math.cos(a),pv[2]+ar*Math.sin(a)]));}
+  fixed.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(arcPts),new THREE.LineBasicMaterial({color:0xd8443a})));
+  fixed.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([V(pv),V([pv[0],pv[1]-0.42,pv[2]])]),new THREE.LineDashedMaterial({color:0xd8443a,dashSize:.02,gapSize:.015})).computeLineDistances());
+  const ta=tag('34,5° = latitud',null,'plain');ta.position.copy(V([pv[0]+0.02,pv[1]-0.36,pv[2]+0.1]));fixed.add(ta);
+  const scp=new THREE.Mesh(new THREE.SphereGeometry(0.03,16,12),MAT.star);scp.position.copy(V(end));fixed.add(scp);
+  const sd=1.133*D2R, side=[1,0,0];
+  const sig=[G.C[0]+far*(d[0]*Math.cos(sd)+side[0]*Math.sin(sd)),G.C[1]+far*(d[1]*Math.cos(sd)+side[1]*Math.sin(sd)),G.C[2]+far*(d[2]*Math.cos(sd)+side[2]*Math.sin(sd))];
+  const sigM=new THREE.Mesh(new THREE.SphereGeometry(0.014,12,10),MAT.star);sigM.position.copy(V(sig));fixed.add(sigM);
+  const ring=[];const up=[0,d[2]>0?0:0,0];const b2=[d[1]*side[2]-d[2]*side[1],d[2]*side[0]-d[0]*side[2],d[0]*side[1]-d[1]*side[0]];
+  for(let k=0;k<=64;k++){const a=k/64*2*Math.PI;const q=[0,1,2].map(j=>G.C[j]+far*(d[j]*Math.cos(sd)+Math.sin(sd)*(side[j]*Math.cos(a)+b2[j]*Math.sin(a))));ring.push(V(q));}
+  fixed.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(ring),new THREE.LineBasicMaterial({color:0xbfae7a})));
+  const t10=tag('Polo sur celeste · σ Octantis a 1° 8\'',10);t10.position.copy(V([end[0]+0.08,end[1],end[2]+0.08]));fixed.add(t10);
+
+  // piso, grilla de 10 cm y brujula
+  const grid=new THREE.GridHelper(4,40,new THREE.Color(css('--grid')),new THREE.Color(css('--grid')));grid.position.copy(V([0,0.3,0]));grid.material.transparent=true;grid.material.opacity=.55;fixed.add(grid);
+  [['N',[0,2.1,0]],['S',[0,-1.5,0]],['E',[1.8,0.3,0]],['O',[-1.8,0.3,0]]].forEach(([s,q])=>{const el=document.createElement('div');el.className='compass';el.textContent=s;const o=new THREE.CSS2DObject(el);o.userData.isTag=true;o.position.copy(V(q));fixed.add(o);});
+
+  applyTags();updatePose();readout(p);
+}
+
+function readout(p){
+  const r=G.rollers[0], L=G.loads, mm=(x)=>fmt(x*1000)+' mm', cm=(x)=>fmt(x*100,1)+' cm';
+  const off=G.offAxis, tau=G.tauMax;
+  const rows=[
+    ['Largo de la base',cm(G.baseLength)],
+    ['Ancho de la base',cm(G.baseWidth)],
+    ['Cuánto sube el telescopio',cm(G.ztt)],
+    ['Pivote al norte del centro',cm(G.pivotDist)],
+    ['Radio de cada segmento',cm(r.R)],
+    ['Largo de cada chapa',mm(r.chord)],
+    ['Alto de la chapa (mín–máx)',fmt(r.plateHmin*1000)+'–'+fmt(r.plateHmax*1000)+' mm'],
+    ['Giro de cada chapa',fmt(Math.abs(r.beta),1)+'°'],
+    ['Corrimiento sobre el rodillo','±'+fmt(r.latMax*1000,1)+' mm'],
+    ['Variación de velocidad','±'+fmt(r.speedVar,2)+' %'],
+    ['Inclinación de la mesa al final',fmt(G.tilt,1)+'°'],
+    ['Carga en el pivote',fmt(L.pivote,1)+' kg'],
+    ['Carga en cada rodillo',fmt(L.este,1)+' / '+fmt(L.oeste,1)+' kg'],
+    ['Centro de masa fuera del eje',mm(off),off<0.005?'good':'bad'],
+    ['Torque de más para el motor',fmt(tau,2)+' N·m',tau<0.3?'good':'bad'],
+  ];
+  $('readout').innerHTML=rows.map(([k,v,c])=>'<dt>'+k+'</dt><dd class="'+(c||'')+'">'+v+'</dd>').join('');
+  $('speedTxt').textContent='±'+fmt(r.speedVar,1)+' %';
+  $('lenTxt').textContent=fmt(G.baseLength,2)+' m';
+  const t=$('t');t.min=-p.runMin;t.max=p.runMin;if(Math.abs(+t.value)>p.runMin)t.value=0;
+}
+
+let tMin=0;
+function updatePose(){
+  if(!G)return;
+  const th=-(tMin/60)*15*D2R;   // el cielo gira alrededor del eje que apunta al polo sur
+  rot.quaternion.setFromAxisAngle(V(G.d).normalize(),th);
+  const az=+$('az').value*D2R, alt=+$('alt').value*D2R;
+  rocker.rotation.y=-az;          // azimut medido desde el norte hacia el este
+  tubeG.rotation.x=alt;           // el tubo arranca apuntando al norte (-z)
+  const dv=$('showDob').checked;if(dobGroup.visible!==dv){dobGroup.visible=dv;applyTags();}
+  $('clock').textContent=(tMin>0?'+':'')+fmt(tMin,1)+' min · mesa girada '+fmt(Math.abs(th)/D2R,1)+'°';
+  $('t_o').textContent=(tMin>0?'+':'')+fmt(tMin,1)+' min';
+}
+function applyTags(){ // el renderer de etiquetas no mira la visibilidad de los padres: se calcula aca
+  const on=$('showTags').checked;
+  root&&root.traverse(o=>{if(!o.userData.isTag)return;let v=on,q=o.parent;while(q){if(!q.visible)v=false;q=q.parent;}o.visible=v;o.element.style.visibility=v?'visible':'hidden';});}
+
+const units={M:' kg',Hreal:' cm',dN:' cm',dE:' cm',Hdis:' cm',shim:' cm',run:' min',half:' cm',postH:' cm',az:'°',alt:'°'};
+Object.keys(units).forEach(k=>{const el=$(k);const show=()=>{$(k+'_o').textContent=fmt(+el.value,el.step.includes('.')?1:0)+units[k];};show();
+  el.addEventListener('input',()=>{show();if(k==='az'||k==='alt')updatePose();else build();});});
+$('t').addEventListener('input',()=>{tMin=+$('t').value;updatePose();});
+['showDob'].forEach(k=>$(k).addEventListener('change',updatePose));
+$('showTags').addEventListener('change',applyTags);
+$('ghost').addEventListener('change',build);
+
+let playing=false,last=0;
+$('play').addEventListener('click',()=>{playing=!playing;$('play').textContent=playing?'❚❚ Pausa':'▶ Seguir al cielo (×600)';last=performance.now();});
+$('reset').addEventListener('click',()=>{tMin=0;$('t').value=0;updatePose();});
+
+const views={iso:[[2.7,-2.6,1.8],[0,0.3,0.5]],oeste:[[-3.0,0.35,0.55],[0,0.35,0.45]],sur:[[0,-3.0,0.7],[0,0.2,0.45]],arriba:[[0.01,0.35,3.6],[0,0.35,0]],cielo:[[0.25,1.6,0.25],[0,-1.2,1.6]]};
+function setView(k){const v=views[k];camera.position.copy(V(v[0]));controls.target.copy(V(v[1]));controls.update();}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+
+function theme(){scene.background=new THREE.Color(css('--scene')||'#dfe6ee');}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{theme();build();});
+new MutationObserver(()=>{theme();build();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+function size(){const w=view.clientWidth,h=view.clientHeight;renderer.setSize(w,h);labels.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}
+new ResizeObserver(size).observe(view);
+
+function loop(now){
+  if(playing){const dt=(now-last)/1000;last=now;const run=+$('run').value;tMin+=dt*10;if(tMin>run)tMin=-run;$('t').value=tMin;updatePose();}
+  controls.update();renderer.render(scene,camera);labels.render(scene,camera);requestAnimationFrame(loop);
+}
+theme();build();setView('iso');size();requestAnimationFrame((n)=>{last=n;loop(n);});
+})();
+</script>

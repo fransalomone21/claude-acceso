@@ -48,6 +48,24 @@ radio del sector.
 Los dos últimos son los candidatos reales. Poncet y Gee quedan afuera por
 carga.
 
+> **En el hemisferio sur todo va espejado (corregido el 2026-10-04).** El
+> nombre dice «sectores *norte*» porque Vogel construye en Alemania, donde el
+> eje polar sube hacia el norte. Acá sube hacia el **sur**: el pivote va al
+> **norte** (el extremo bajo del eje) y los segmentos verticales al **sur**
+> (el extremo alto). Wikipedia lo dice para el Poncet: en el sur la superficie
+> mira al sur y el rodillo motriz gira al revés. Las coordenadas del macro de
+> 2026-08 ya usaban `+y` al sur; este catálogo lo tenía mal en las palabras.
+>
+> **El precio de la latitud baja:** el pivote queda a `H / tan φ` del centro
+> de masa. A 34,5° y con H = 64 cm son **0,96 m**, y la base mide ≈ 1,40 m
+> (a 50° de Vogel serían 0,54 m). Se acorta con un pivote sobre un poste.
+> Calculado en `geometria-vns.js`; se ve en `06-modelo-3d.html`.
+>
+> **Otra referencia construida:** AstralFields (Stargazers Lounge, 2024) hizo
+> VNS para 8", 10" y 12" con segmentos **de madera** y una rótula de
+> amortiguador a gas como pivote, por 90-120 USD. Sus plantillas son para
+> 49-53° N y no sirven acá; la idea del pivote sí.
+
 ### La geometría del VNS, para que no suene a magia
 
 El sector elíptico sale de un sector circular **comprimido por `cos α`**, con

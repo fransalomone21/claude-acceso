@@ -1,0 +1,29 @@
+// node docs/probar-geometria.js -- controles de geometria-vns.js.
+// Cada control corre dos veces: con la entrada buena (tiene que dar verde) y
+// con una entrada saboteada (tiene que dar rojo). Si el saboteado da verde,
+// el control no mide nada y el script sale con error.
+const { computeVNS } = require('./geometria-vns.js');
+const base = { phi: 34.5, M: 50, Hdis: 0.64, Hreal: 0.64, dN: 0, dE: 0, shim: 0, runMin: 45, half: 0.19, postH: 0 };
+
+const controles = [
+  ['CdM sobre el eje => torque nulo', (g) => g.tauMax < 1e-9, { Hreal: 0.60 }],
+  ['las cargas suman la masa', (g) => Math.abs(g.loads.pivote + g.loads.este + g.loads.oeste - 50) < 1e-9, { M: 51 }],
+  ['velocidad dentro de +-1 % (Vogel)', (g) => g.rollers.every((r) => r.speedVar < 1), { runMin: 600 }],
+  ['chapa de 3 cm minimo', (g) => g.rollers.every((r) => r.plateHmin > 0.0299), null],
+  ['el pivote esta sobre el eje', (g) => { const v = [0, 1, 2].map((i) => g.pivot[i] - g.C[i]); const t = v[0] * g.d[0] + v[1] * g.d[1] + v[2] * g.d[2]; return Math.hypot(...v.map((x, i) => x - t * g.d[i])) < 1e-9; }, null],
+  ['el pivote queda al NORTE (hemisferio sur)', (g) => g.pivot[1] > g.C[1], { phi: -34.5 }],
+];
+
+let fallas = 0;
+for (const [nombre, ok, sabotaje] of controles) {
+  const bueno = ok(computeVNS(base));
+  let malo = '(sin sabotaje: es una cota del diseno)';
+  if (sabotaje) {
+    const rojo = !ok(computeVNS({ ...base, ...sabotaje }));
+    malo = rojo ? 'saboteado da ROJO, bien' : 'SABOTEADO DA VERDE: el control no mide';
+    if (!rojo) fallas++;
+  }
+  if (!bueno) fallas++;
+  console.log((bueno ? '[OK  ] ' : '[FAIL] ') + nombre + ' -- ' + malo);
+}
+process.exit(fallas ? 1 : 0);

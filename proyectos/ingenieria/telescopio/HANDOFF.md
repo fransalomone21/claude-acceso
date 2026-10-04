@@ -1,88 +1,66 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-04 · **Fase al cerrar:** 0 (Concebir, Pre-Fase A) —
-**abierta**, recién arrancada.
+**Escrito el:** 2026-10-04 (segunda sesión del día) · **Fase al cerrar:** 0
+(Concebir, Pre-Fase A) — **abierta**; de sus tres criterios de salida, la
+arquitectura está cerrada (VNS) y faltan las mediciones y el inventario.
 
 ## Arrancá por acá
 
 1. `.\cascada.ps1 telescopio -Necesidad diseno` y leer lo que imprima.
 2. `ESTADO_ACTUAL.md` entero.
-3. **Preguntarle a Fran si ya midió.** La fase 0 no avanza sin
-   `docs/02-protocolo-medicion.md` ejecutado: todo lo demás depende de la masa
-   y del centro de masa. Si no midió, no hay nada que diseñar — lo que hay que
-   hacer es ayudarlo a medir, no adelantar geometría.
+3. **Preguntarle a Fran qué midió.** Lo que traiga entra a los valores por
+   defecto de `docs/06-modelo-3d.html` (los `value=` de los deslizadores) y se
+   republica al mismo link con la herramienta Artifact (mismo `file_path`, o
+   `url` desde otro chat).
+
+## Lo que se hizo y no se rehace
+
+- **VNS elegido** (Fran) y trade study escrito: `docs/05-trade-study.md`.
+- **Modelo 3D calculado**: `docs/06-modelo-3d.html`, publicado en
+  https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (privado: Fran lo comparte
+  desde el menú Compartir). Explica cada pieza en criollo, trae la lista de
+  compras con proveedores de zona norte y precios vistos el 2026-10-04.
+- **La geometría es una sola fuente**: `docs/geometria-vns.js` (función pura
+  `computeVNS`). La página la carga como archivo aparte. Controles:
+  `node docs/probar-geometria.js` (6 verdes, 4 sabotajes que tienen que dar
+  rojo). Verlo en local: `preview_start` con `telescopio-modelo`
+  (`.claude/launch.json`, sirve `docs/` en el puerto 8765).
+- **Corregido:** en el sur el VNS va espejado (pivote al norte, segmentos al
+  sur). `04-conceptos.md` decía «sectores norte».
 
 ## Lo que quedó a medias
 
-- **Las tres preguntas de valor** que se le hicieron el 2026-10-04 (qué cuenta
-  como ganar, los pesos del trade study, Sony o celular). Si contestó, van a
-  `PDP.md` §6 y al trade study, y **con fuente «Fran»**.
-- **El trade study CS vs VNS no está escrito.** El catálogo de conceptos sí
-  (`docs/04-conceptos.md`). Falta `docs/05-trade-study.md`, y no se puede
-  escribir sin la masa medida ni sin los pesos de Fran.
-- **El modelo 3D no se revisó pieza por pieza** contra las medidas. Se contó
-  qué hay en `cad/` y se leyó el encabezado del macro VBA; las 22 piezas no se
-  abrieron.
-- **El Google Doc** quedó creado con el índice y el contenido de hoy. Cuando
-  entren las mediciones, se actualiza ahí también.
+- **Preguntas abiertas a Fran:** (1) ¿midió algo? (P0 primero); (2) ¿la base
+  de ≈ 1,41 m le sirve o va el pivote en poste (1,12 m con 20 cm)?; (3) el
+  puesto 3 de los pesos (capacidad de carga), que no cambia el ganador.
+- **El link al primo:** Fran dio un mail para mostrárselo. No se mandó nada:
+  mandar es su decisión y el artifact se comparte desde su menú. El mail **no**
+  va al repo (es público).
+- **Precios a cotizar:** corte láser, rulemanes, rótula, TMC2209.
+- **El modelo 3D de SolidWorks no se revisó pieza por pieza**; las medidas del
+  modelo web son las del encabezado del macro (`cad/PlataformaEcuatorial.bas`,
+  líneas 51-125), todas `hipótesis`.
 
 ## Lo que NO hay que volver a intentar
 
-- **No volver a elegir CS por el argumento de 2026-08.** Decía que era la
-  única arquitectura que deja poner el eje polar en el centro de masa, y es
-  falso: el VNS cumple lo mismo, con apoyo real en tres puntos y más carga.
-  Está medido por lectura en `docs/04-conceptos.md`.
-- **No usar los DXF de `cad/DXF/` para cortar nada.** Salen de `H = 64 cm`,
-  que es una estimación, y de una arquitectura que todavía compite.
-- **No manipular sketches de SolidWorks por nombre con `SelectByID2`** ni
-  cerrar un sketch 3D con `InsertSketch`: las seis trampas ya están escritas
-  en el encabezado de `cad/PlataformaEcuatorial.bas`. Leerlo antes de tocar el
-  macro ahorra la sesión entera.
-- **No calcular geometría de la plataforma antes de la medición.** Ya se hizo
-  una vez y hay que rehacerlo.
+- No elegir CS por el argumento de agosto (falso como exclusividad).
+- No usar los DXF de `cad/DXF/` para cortar.
+- No cortar los segmentos antes de medir el centro de masa: su forma es lo
+  único del diseño que no se ajusta después.
+- No copiar orientaciones («norte», «sur») de una fuente del hemisferio norte
+  sin espejarlas.
+- No buscar con Google desde el navegador del panel: da captcha. DuckDuckGo
+  html (`html.duckduckgo.com/html/?q=...`) anda; Mercado Libre pide login.
 
 ## Datos que no se pueden aproximar
 
-- Latitud de diseño: **34,5° S** (Don Torcuato, Buenos Aires).
-- Telescopio: newtoniano **200 mm de apertura, 1200 mm de focal**, f/6.
-- Fórmulas paramétricas del CS, tal como quedaron en 2026-08:
-  `R = (H − z_r)·cos(phi) + y_r·sin(phi)` y
-  `t = y_r·cos(phi) + (z_r − H)·sin(phi)`, con `t` negativo hacia el norte.
-- Corrección de tangente: `x(t) = L·tan(ω·t)` con **ω = 7,2921e−5 rad/s**.
-- Geometría del VNS: el sector elíptico es un sector circular **comprimido por
-  `cos α`**; después se parte en dos, cada uno girado `β = 90° − α` alrededor
-  de un eje vertical y **estirado por `1/cos β`**. La velocidad deja de ser
-  constante pero la desviación es **menor que ±1 %**.
-- VNS construido y medido por Reiner Vogel: **45 kg** de telescopio, base de
-  12 mm, mesa de 18 mm con vigas de 20 mm, sectores de aluminio AlMgSi0.5 de
-  5 mm.
-- σ Octantis: **magnitud 5,4**, a **1° 8'** del polo sur celeste.
-- Rulemanes `608ZZ`: 8 mm de agujero, **22 mm de exterior**, 7 de ancho.
-- Macro VBA: `cad/PlataformaEcuatorial.bas`, **1571 líneas**.
-- Fuentes de la investigación: `docs/04-conceptos.md` §0 (los cuatro links).
-
-## Si hay que abrir un chat nuevo
-
-```
-Proyecto: telescopio (automatización del 200/1200), en claude-acceso.
-
-0. Si ~/.claude/CLAUDE.md no empieza con "# Perfil global":
-   bash .claude/nube/traer-perfil.sh   (desde claude-acceso) y leer lo que liste.
-1. .\cascada.ps1 telescopio -Necesidad diseno   y leer todo lo que exija la puerta.
-2. Leer proyectos/ingenieria/telescopio/ESTADO_ACTUAL.md entero, y
-   docs/02-protocolo-medicion.md.
-   NO leer el CAD ni el macro VBA salvo que la tarea sea CAD.
-3. Fase 0 (Concebir, Pre-Fase A). La cierran TRES cosas: los tres números
-   medidos (masa, centro de masa 3D, ¿llega a foco?), el inventario sin
-   ninguna fila en "?", y UNA arquitectura elegida en trade study con pesos
-   de Fran y sin empate.
-4. Modelo: Opus, esfuerzo high, sin fan-out. Es diseño y decisión, un solo hilo.
-5. Estado de la máquina: nada montado, nada corriendo, ningún parche vivo.
-   SolidWorks instalado (versión sin confirmar). El macro VBA no se ejecutó
-   nunca en esta máquina.
-6. Primer comando: preguntarle a Fran si ya ejecutó el protocolo de medición.
-   Si no, la tarea es ayudarlo a medir, no diseñar.
-7. Lo que ya está resuelto y no se rehace: el PDP con sus 6 fases, el ConOps,
-   el catálogo de conceptos con sus fuentes, el protocolo de medición y el
-   inventario (la plantilla, no los datos).
-```
+- Latitud de diseño **34,5° S**. Newtoniano **200/1200**, f/6.
+- Pivote al norte a `H / tan φ` del centro de masa; ω = 7,2921e−5 rad/s.
+- Resultados con H = 64 cm, ±45 min, rodillos a ±19 cm (todo hipótesis):
+  base 1,41 × 0,76 m (1,12 m con 20 cm de poste); mesa a 14,9 cm del piso;
+  segmento R ≈ 0,78 m, cuerda 298 mm, chapa 30-91 mm de alto, girada 8,1°;
+  velocidad ±0,31 %; corrimiento ±8,7 mm; cargas 11,8 kg pivote / 19,1 kg
+  cada rodillo.
+- Aluminio 5 mm 500 × 500 Aluar 1050: **$66.193** (Alumina Argentina). Fenólico
+  18 mm 1,22 × 2,44: **$50.121** (Easy). NEMA 17 7 kg·cm ≈ $49.900. Todo al
+  2026-10-04.

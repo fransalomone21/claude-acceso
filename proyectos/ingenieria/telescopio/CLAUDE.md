@@ -22,6 +22,8 @@ perfil global, que se carga solo) ni dónde estamos (eso es `ESTADO_ACTUAL.md`).
 | Saber en qué fase estamos y qué la cierra | `PDP.md` §4 |
 | **Medir, pesar o fotografiar** el telescopio | [`docs/02-protocolo-medicion.md`](docs/02-protocolo-medicion.md) — qué, en qué orden, con qué tolerancia |
 | **Elegir la arquitectura de la plataforma** (CS vs VNS), o entender la geometría | [`docs/04-conceptos.md`](docs/04-conceptos.md) — el catálogo, con fuentes |
+| **Ver el conjunto en 3D**, mostrárselo a alguien, o probar qué cambia si cambia una medida | [`docs/06-modelo-3d.html`](docs/06-modelo-3d.html) (publicado: https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM). Los números salen de [`docs/geometria-vns.js`](docs/geometria-vns.js), única fuente; sus controles: `node docs/probar-geometria.js`. Verlo en local: `preview_start telescopio-modelo` |
+| Por qué VNS y no CS, con los pesos de Fran | [`docs/05-trade-study.md`](docs/05-trade-study.md) |
 | Saber qué piezas hay de verdad, o armar un BOM | [`docs/03-inventario.md`](docs/03-inventario.md) |
 | Entender **cómo se usa** y qué requisitos salen de ahí | [`docs/01-conops.md`](docs/01-conops.md) |
 | Riesgos, rigor por aspecto, decisiones tomadas | `PDP.md` §3, §5, §6 |

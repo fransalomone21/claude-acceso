@@ -18,6 +18,10 @@ total, centro de masa 3D, ¿llega a foco la cámara?), el inventario sin
 ninguna fila en `?`, y **una** arquitectura de plataforma elegida en un trade
 study con los pesos puestos por Fran y un ganador que no empata.
 
+**De las tres, va una:** la arquitectura está elegida — **VNS**, por Fran y
+por `docs/05-trade-study.md` (4,5 contra 2,7, sin empate en ningún orden).
+Faltan las mediciones y el inventario.
+
 ## Lo confirmado
 
 | Qué | Evidencia | Fecha |
@@ -28,6 +32,9 @@ study con los pesos puestos por Fran y un ganador que no empata.
 | **El CS (segmentos circulares) no admite apoyo real en tres puntos y es el de menor capacidad de carga de los diseños utilizables**; el VNS da tres puntos, transmisión de peso más directa y más carga — y hay un VNS construido que lleva **45 kg** | lectura de la referencia canónica (Reiner Vogel y BAA), ver `docs/04-conceptos.md` | 2026-10-04 |
 | Un brazo tangencial **sin** corrección de tangente anda bien sólo 5 a 10 minutos | misma fuente | 2026-10-04 |
 | En el hemisferio sur no hay estrella polar útil: σ Octantis es magnitud 5,4 y está a 1° 8' del polo | misma fuente | 2026-10-04 |
+| **La arquitectura es VNS**, con diseño adaptable (suplementos, ranuras, tres patas regulables) | decisión de Fran + trade study con sus pesos (`docs/05-trade-study.md`) | 2026-10-04 |
+| En el hemisferio sur el VNS va **espejado**: pivote al **norte**, segmentos verticales al **sur** | geometría (el eje sube hacia el polo sur) + Wikipedia; `probar-geometria.js` lo controla con sabotaje | 2026-10-04 |
+| A 34,5° el pivote queda a `H / tan φ` del centro de masa: con H = 64 cm, base de ≈ 1,41 m (1,12 m con 20 cm de poste). Velocidad no constante ±0,31 % a ±45 min; corrimiento en el rodillo ±8,7 mm; cada chapa girada 8,1° | **por cálculo** (`docs/geometria-vns.js`, 6 controles en verde y 4 sabotajes en rojo). Los números dependen de H, que sigue siendo hipótesis | 2026-10-04 |
 | Existe trabajo de CAD previo: 22 piezas SolidWorks, 2 DXF de plantilla y un macro VBA de 1571 líneas que genera la geometría CS y emite los DXF él mismo | los archivos están en `cad/`, contados | 2026-10-04 |
 
 ## Lo que es hipótesis
@@ -59,5 +66,7 @@ study con los pesos puestos por Fran y un ganador que no empata.
 
 Fran mide, pesa y fotografía según `docs/02-protocolo-medicion.md`, arrancando
 por **P0 (¿llega a foco?)**, que es go/no-go de diez minutos. En paralelo
-llena `docs/03-inventario.md`. Con eso la sesión arma el modelo 3D y recién
-después se corre el trade study CS vs VNS con los pesos de Fran.
+llena `docs/03-inventario.md`. Cada medida que llegue entra a los
+deslizadores de `docs/06-modelo-3d.html` (los valores por defecto viven en el
+HTML) y el modelo se republica. Pendiente de Fran: si la base de 1,41 m le
+sirve o va el poste, y el puesto 3 de los pesos (capacidad de carga).
