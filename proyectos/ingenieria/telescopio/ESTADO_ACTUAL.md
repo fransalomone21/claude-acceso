@@ -48,7 +48,7 @@ Faltan las mediciones y el inventario.
 
 | Hipótesis | Qué la confirmaría | Por qué todavía no se probó |
 |---|---|---|
-| masa total del conjunto: **≈ 27 kg (22 a 32)** estimada por volumen el 2026-10-04 (`docs/estimar-cdm.py`); antes se decía 45-50 kg | P1 + P3, controlado con P4.1 | nunca hubo balanza. La mitad de lo creído: no cambia la geometría, baja las cargas (≈ 10 kg por rodillo) |
+| masa total: **40 kg pesada** (2026-10-05, Fran, con ocular; balanza sin anotar) contra **27 kg (22-32) estimada** por volumen: contradicción abierta, ver `docs/08-medidas.md` §3.1 | P1 + P3, controlado con P4.1 | nunca hubo balanza. La mitad de lo creído: no cambia la geometría, baja las cargas (≈ 10 kg por rodillo) |
 | centro de masa a **≈ 60 cm (58 a 61)** sobre el piso del dobson, estimado por volumen **suponiendo el tubo balanceado** en el eje de altura | P1 (dónde se balancea el tubo) + P3 + P4 | si el tubo no está balanceado, se corre y cambia con la altura: primero, ¿se queda quieto donde se lo suelta? |
 | largo del tubo (135,5 cm, de 2026-08), hueco de los tacos (≈ 1,5 cm, foto) y eje de altura ≈ 2,6 cm debajo del borde de la pared (fotos) → a ≈ 82,5 cm del piso del dobson | cinta | lo demás de la geometría ya está medido (ver *Lo confirmado*); estas tres salen de fotos o de agosto |
 | el portaocular es **helicoidal 1,25"** con ≈ 1 cm de recorrido | mirarlo y medir cuánto sube la rosca | fotos 59-63; si es así, explica de sobra un «no llega a foco» con la cámara, y la Barlow lo arregla |

@@ -62,6 +62,31 @@ altura. Si no lo está, el centro de masa total se corre hacia donde cuelga y
 además **cambia con la altura a la que apunta el tubo**. Eso lo dice la
 pesada, no las fotos.
 
+### 3.1 Primera pesada (2026-10-05): **40 kg** — y contradice la estimación
+
+Fran: «telescopio + montura dobson más lente en el ocular y todo, 40 kg».
+Método: balanza (cuál y cómo, sin anotar todavía). Grado: `medido`, una vez.
+
+**Cae afuera del rango estimado (22 a 32 kg).** Hay dos hipótesis y valen lo
+mismo: la estimación está mal (la madera es más densa que pino de 500, o el
+tubo pesa bastante más de 14 kg) o la pesada está mal (balanza, método). Lo
+separa la pesada por partes, que Fran está haciendo:
+
+| Si el exceso está en… | Montura / tubo | Centro de masa del total |
+|---|---|---|
+| la madera (≈ 750 kg/m³) | ≈ 24 / 16 kg | ≈ **60 cm** (no cambia) |
+| el tubo (≈ 24 kg) | ≈ 16 / 24 kg | ≈ **67 cm** (sube 7 cm) |
+
+Por eso la pesada separada importa: la masa sola no mueve la geometría, pero
+**dónde está** la masa sí. Hasta saberlo, el modelo usa 40 kg y 60 cm.
+
+**Balance del tubo (Fran, 2026-10-05):** al volver a montarlo, lo va a correr
+dentro de la caja para que su centro de masa quede en el eje de altura. La
+referencia exacta es el **centro del CD / rulemán** (el eje), no el centro
+del cajón: se marca en el tubo el punto donde se balancea sobre el caño y se
+lo deja alineado con el eje. Es la regla 4 del proyecto (correr el tubo antes
+que cortar madera).
+
 ## 4. Lo que falta, en orden
 
 1. **¿El tubo se queda donde lo dejás?** Apuntado a 20°, a 45° y a 80°, soltado:

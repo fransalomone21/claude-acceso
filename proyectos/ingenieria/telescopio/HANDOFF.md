@@ -1,8 +1,9 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-04 (segunda sesión del día) · **Fase al cerrar:** 0
-(Concebir, Pre-Fase A) — **abierta**; de sus tres criterios de salida, la
-arquitectura está cerrada (VNS) y faltan las mediciones y el inventario.
+**Escrito el:** 2026-10-05 · **Fase al cerrar:** 0 (Concebir, Pre-Fase A) —
+**abierta**; arquitectura cerrada (VNS), geometría del dobson medida, masa
+total pesada (40 kg) en contradicción con la estimación; faltan las pesadas
+por partes, P0 y el inventario.
 
 ## Arrancá por acá
 
@@ -96,37 +97,56 @@ portaocular y dice que «se ve sin aumento»: ver la fila de foco en
 
 ## Mensaje de retome (chat nuevo)
 
-Está completo en la respuesta de cierre del 2026-10-04 y es este, sin recortes:
+Escrito el 2026-10-05, sin recortes:
 
 ```
 Proyecto: telescopio (plataforma VNS del 200/1200), en claude-acceso.
-Modelo: Opus, esfuerzo medium, SIN fan-out: es cargar medidas y reajustar un
-modelo ya decidido; sube a high solo si una medida cambia la arquitectura.
+Modelo: Opus, esfuerzo medium, SIN fan-out: es cargar pesadas y reajustar un
+modelo ya decidido; sube a high solo si una pesada cambia la arquitectura.
 
 0. Si ~/.claude/CLAUDE.md no empieza con "# Perfil global":
    bash .claude/nube/traer-perfil.sh  (desde claude-acceso) y leer lo que liste.
-1. .\cascada.ps1 telescopio -Necesidad diseno  y leer TODO lo que exija la puerta.
-2. Leer: ESTADO_ACTUAL.md entero, HANDOFF.md entero, docs/05-trade-study.md.
-   NO leer el CAD ni el macro VBA. docs/06-modelo-3d.html y geometria-vns.js
-   se leen SOLO si hay que cargar medidas o tocar el modelo.
+1. .\cascada.ps1 telescopio -Necesidad diseno,publicar  y leer TODO lo que
+   exija la puerta.
+2. Leer: ESTADO_ACTUAL.md entero, HANDOFF.md entero, docs/08-medidas.md entero.
+   NO leer el CAD, el macro VBA ni las 71 fotos (ya estan transcriptas en
+   08-medidas.md; si hace falta una, fotos/2026-10-04/indice.txt da el numero).
+   06-modelo-3d.html y geometria-vns.js: solo si hay que tocar el modelo.
 3. Fase 0 (Concebir, Pre-Fase A). Arquitectura CERRADA: VNS. Falta para cerrar:
-   masa total y centro de masa 3D medidos (dos métodos), P0 (¿llega a foco?),
-   y docs/03-inventario.md sin ninguna fila en "?".
-4. Estado de la máquina: nada montado ni corriendo. Modelo publicado en
-   https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (versión 4). Para verlo en
-   local: preview_start "telescopio-modelo" (.claude/launch.json, puerto 8765).
-   Controles de la geometría: node docs/probar-geometria.js (7 OK, 5 sabotajes rojos).
-5. Ya resuelto, no se rehace: VNS y su trade study, diseño adaptable, el espejo
-   para el sur (pivote al NORTE, segmentos al SUR), compras de zona norte.
-6. PRIMER COMANDO: pedirle a Fran lo que traiga (medidas del portaocular y del
-   buscador, imperfecciones de la base y la caja, fotos, peso) y las respuestas
-   pendientes: (a) Kevin, adaptador impreso: ¿la cámara iba SIN lente? ¿qué
-   miraban y a qué distancia? ¿se vio algo nítido moviendo todo el enfoque?
-   (b) ¿base de 1,41 m o pivote en poste (1,12 m)? (c) ¿capacidad de carga 3.ª?
-   Cada medida entra a los value= de los deslizadores de 06-modelo-3d.html y se
-   republica al MISMO link (Artifact con file_path y files {geometria-vns.js}).
+   masa y centro de masa por DOS metodos que coincidan, P0 (llega a foco?), y
+   docs/03-inventario.md sin filas en "?".
+4. Estado de la maquina y del mundo:
+   - Fran SEPARO el tubo de la montura y los esta pesando por separado.
+   - Pesada total del 2026-10-05: 40 kg (con ocular), balanza sin anotar.
+     CONTRADICE la estimacion por volumen (27 kg, rango 22-32; docs/estimar-cdm.py):
+     o la madera es mas densa (~750) -> CdM ~60 cm, o el tubo pesa ~24 kg ->
+     CdM ~67 cm. La pesada por partes lo decide (08-medidas.md, 3.1).
+   - Al rearmar, Fran va a correr el tubo en la caja para balancearlo: la
+     referencia es el CENTRO DEL CD/RULEMAN (eje de altura), no el centro del
+     cajon. Pedirle que marque el punto de balance sobre el cano.
+   - Modelo publicado v4 (M 40, CdM 60, eje 62, suplemento 2):
+     https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (compartido con link).
+     Local: preview_start "telescopio-modelo" (puerto 8765).
+     Controles: node docs/probar-geometria.js (7 OK, 5 sabotajes en rojo).
+   - Drive: "05 - PROYECTOS - taller y astronomia/Telescopio 200-1200 - Fran y
+     Kevin", Kevin editor. Docs generados del repo con docs/md-a-gdoc.py y
+     rclone copyto --drive-import-formats html --drive-export-formats html
+     (mismo nombre = actualiza en el lugar, ID verificado). Config de rclone:
+     ~/.config/rclone/rclone.conf, pasarlo con --config.
+5. Ya resuelto, no se rehace: VNS y su trade study; espejo para el sur
+   (pivote al NORTE); limites en tres capas (programa 45, switch 48, talon 51
+   min); geometria del dobson medida con cinta (08-medidas.md 1); guia de
+   armado en criollo con parte formal FAB/CAL (docs/07-guia-armado.md).
+6. PRIMER COMANDO: pedirle a Fran las pesadas por separado, con que balanza
+   (rango y resolucion) y como: (a) tubo con su caja: kg y punto de balance
+   sobre el cano medido al centro del CD; (b) montura sin tubo: pesada en dos
+   puntos + inclinacion de 12 cm (protocolo P3); (c) si el tubo se quedo
+   quieto al rearmar. Con eso: estimar-cdm.py pasa de estimar a componer lo
+   medido, se comparan los dos metodos, y el modelo se republica al MISMO link.
+   Pendientes de Fran: Kevin y los anillos de Saturno (P0); base 1,39 m o
+   poste (1,10 m); puesto 3 de los pesos.
 7. Si pide MEDIR la puerta: el efecto es que cascada.ps1 imprima el bloque
-   "EXIGIDO POR LA PUERTA (T11) para telescopio" con sus rangos de líneas.
+   "EXIGIDO POR LA PUERTA (T11) para telescopio" con sus rangos de lineas.
 ```
 
 ## Lo que NO hay que volver a intentar
