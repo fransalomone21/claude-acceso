@@ -23,9 +23,10 @@ Fran.
 
 **Sesión 2026-10-05: llegaron las clases 8 y 9 y se registró el plan** (nada
 redactado). Siguiente paso: abrir [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) y
-correr su §0 (copiar el PDF de la clase 8, exportar el de la 9, extraer) antes
-de escribir la unidad 8. Ojo con los números: en el `.pptx` de la clase 8 la
-diapositiva 44 está vacía y el PDF queda corrido −1 desde ahí.
+correr su §0 (exportar a PDF los `.pptx` nuevos de las clases 8 y 9, extraer)
+antes de escribir la unidad 8. Ojo: el PDF de la clase 8 que hay en Descargas es
+de una versión vieja (97 páginas; el `.pptx` nuevo tiene 98, con una imagen
+agregada en la diapositiva 44), así que no sirve.
 
 **Fuera de eso no hay trabajo pendiente.** Lo que sigue abajo es referencia para
 el día que haya que TOCAR algo: cómo se escribe un módulo y las trampas ya pagadas.

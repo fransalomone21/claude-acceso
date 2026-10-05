@@ -10,15 +10,23 @@ grep sobre `apunte/modulos/*.typ` y `fuentes/glosario.md` el 2026-10-05.
 
 ## 0. Antes de escribir una sola línea (paso mecánico, una vez)
 
-1. **Los números de diapositiva de abajo son del `.pptx`.** El PDF de la clase 8
-   tiene **97 páginas** y el `.pptx` 98: la diapositiva 44 del `.pptx` es una
-   lámina vacía y, de ahí en adelante, **página del PDF = diapositiva − 1**
-   (medido en dos puntos: PDF p.49 = «ConOp LDCM» = pptx 50; PDF p.81 =
-   «Sumergible ROV, Ejemplo Diagrama Funcional» = pptx 82). El extractor numera
-   por PDF. Regla propia 2: **ningún número se cita sin haber mirado el PNG.**
-2. Clase 8: copiar `IISE Clase 8 - 2026.pdf` a `fuentes/pdf/` (hoy está en
-   Descargas). Clase 9: **no hay PDF**, sólo `.pptx`; exportarlo desde
-   PowerPoint (Archivo → Exportar → PDF) a `fuentes/pdf/IISE clase 9 - 2026.pdf`.
+1. **Los números de diapositiva de abajo son del `.pptx` del 05/10**
+   (`IISE Clase 8 - 2026 (1).pptx`, 98 diapositivas). El PDF de Descargas
+   (`IISE Clase 8 - 2026.pdf`, 97 páginas) y el `.pptx` del 30/09 son de una
+   versión **anterior**: la cátedra agregó **una imagen en la diapositiva 44**
+   (entre el título del LDCM y «3.2 Objetivos de la Misión»; medido comparando
+   los dos `.pptx`, y es la única diferencia). De la 44 en adelante,
+   **página del PDF viejo = diapositiva − 1**. Hay que **re-exportar el PDF desde
+   el `.pptx` nuevo** (§0.2) para que el extractor numere bien. Regla propia 2:
+   **ningún número se cita sin haber mirado el PNG.** *(Corrección del
+   2026-10-05: este plan había dicho que la 44 era una lámina vacía; no lo es,
+   es una imagen nueva, y el desfase venía de la versión, no de la lámina.)*
+2. **Las dos clases: exportar el `.pptx` más nuevo a PDF** desde PowerPoint
+   (Archivo → Exportar → PDF) a `fuentes/pdf/IISE Clase 8 - 2026.pdf` y
+   `fuentes/pdf/IISE clase 9 - 2026.pdf`. **No** usar el PDF de la clase 8 que
+   hay en Descargas (es de la versión vieja). Descargas también tiene
+   `IISE_Clase_8_2026_transcripcion.md` (80 KB, la clase hablada): **sin leer**,
+   es la mejor fuente de lo que la profesora dijo y las láminas no.
 3. `python extraer-clases.py --figuras` → `clase-8.txt`, `clase-9.txt`,
    `titulos.md` y los PNG de las láminas-figura.
 4. **Las notas de orador no están en el PDF** y tienen contenido que las láminas

@@ -11,6 +11,8 @@ Destinatario: **el alumno que cursa la materia y rinde sus parciales**.
 
 | Si la tarea es… | Leer |
 |---|---|
+| **producir o tocar algo para IISE** (apunte, diagrama, actividad) | `../catedras/iise/CRITERIOS.md` **entero**, antes de la primera línea: lo que pide la cátedra manda sobre este contrato (repo privado, ver `../catedras/CLAUDE.md`) |
+| las clases 8 y 9 (plan, qué es nuevo, en qué módulo entra) | [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) |
 | retomar, saber qué módulos están cerrados | [`ESTADO_ACTUAL.md`](ESTADO_ACTUAL.md) |
 | qué cierra la fase en curso, o por qué se decidió algo | [`PDP.md`](PDP.md) — §4 y §6 |
 | lo que quedó a medias y las trampas ya pagadas | [`HANDOFF.md`](HANDOFF.md) |
