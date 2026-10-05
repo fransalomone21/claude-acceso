@@ -83,6 +83,18 @@ Los números son los del modelo 3D.
 3. **Pivote norte.** Una rótula de amortiguador a gas (bocha de 10 mm, rosca
    M8) atornillada a la base, y arriba, en la mesa, un hueco cónico donde
    apoya. Es el único apoyo que no rueda: todo gira alrededor de él.
+   **Ojo: la del amortiguador a gas (la del portón del baúl), no la de
+   suspensión** (la de parrilla, con brida de tres agujeros y espárrago
+   cónico). La de suspensión viene precargada contra una cazoleta de
+   plástico para no tener juego en un auto de una tonelada: roza más, tiene
+   el espárrago cónico (pide un agujero cónico a medida) y le sobra todo. Una
+   bocha de 10 mm suelta en un cono engrasado roza ≈ 0,08 N·m con los ≈ 10 kg
+   que carga el pivote; aun una de suspensión (≈ 1 a 3 N·m, `hipótesis`) le
+   pediría al motor menos de 0,3 kg·cm de 7, así que el rozamiento no es el
+   problema: lo que importa en el pivote es **cero juego y que gire parejo**
+   (sin enganches a velocidad lenta). Alternativa si no aparece: un
+   **terminal de rótula M8** (cabeza de rótula, la de los cilindros
+   neumáticos), que se atornilla derecho y no tiene juego.
 4. **Mesa móvil.** Fenólico de 18 mm. Encima va el dobson tal cual está, sin
    desarmarlo.
 5. **Las dos chapas de aluminio (los segmentos).** Las únicas piezas de
@@ -94,7 +106,8 @@ Los números son los del modelo 3D.
 6. **Rodillos.** Un cilindro impreso de 32 mm de diámetro y 26 de ancho, con
    un rulemán 608ZZ (los de skate) a presión en cada cara, girando sobre un
    bulón M8. El canto de cada chapa apoya y rueda sobre uno. Cada rodillo
-   carga unos 10 kg y el pivote unos 7 (con los 27 kg estimados).
+   carga unos 15 kg y el pivote unos 10 (con los 40 kg pesados; eran 10 y
+   7 con los 27 estimados).
 7. **Motor.** Un paso a paso NEMA 17 con polea GT2 de 20 dientes y correa
    hasta una polea de 80 en el eje del rodillo oeste (reduce 4 a 1). El
    rodillo da unas dos vueltas por hora y cada micropaso mueve la mesa unos

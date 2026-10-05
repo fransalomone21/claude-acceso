@@ -2,8 +2,8 @@
 
 **Escrito el:** 2026-10-05 · **Fase al cerrar:** 0 (Concebir, Pre-Fase A) —
 **abierta**; arquitectura cerrada (VNS), geometría del dobson medida, masa
-total pesada (40 kg) en contradicción con la estimación; faltan las pesadas
-por partes, P0 y el inventario.
+≈ 40 kg cerrada por dos caminos y tubo balanceado; falta el CdM (depende de
+dónde se pesó la caja), P0 y el inventario.
 
 ## Arrancá por acá
 
@@ -79,6 +79,20 @@ portaocular y dice que «se ve sin aumento»: ver la fila de foco en
   la guía igual antes y después, medido). Doc nuevo: «Medidas y lo que falta
   pesar» (`1qQ8hjG0Uh0pM2sKYlXE0ofKvwfIoPKN_eY18gjtar7A`).
 
+## Pesadas por partes (quinta sesión, 2026-10-05)
+
+- Tubo 19,2 kg (19,7 con cámara y soporte), montura 19,7: suman 38,9 contra
+  40 del total con ocular → masa ≈ 40 kg, `probable` (`08-medidas.md` §3.2).
+- Tubo **balanceado** en el eje de altura (Fran corrió el tubo en la caja).
+- **CdM 55 o 63 cm según dónde se pesó la caja**: pregunta abierta a Fran.
+  El modelo queda en v5 (40 / 60) hasta tenerla: republicar sin dato nuevo
+  no aporta.
+- Pivote: Fran propuso una rótula de suspensión de auto y le preocupa el
+  rozamiento. La guía ya pedía la de **amortiguador a gas** en un cono;
+  quedó escrito por qué la de suspensión no va y que el rozamiento no es el
+  problema (`07-guia-armado.md` §3, ítem 3). Alternativa: terminal de
+  rótula M8.
+
 ## Lo que quedó a medias
 
 - **Preguntas abiertas a Fran:** (1) ¿midió algo? (P0 primero); (2) ¿la base
@@ -116,14 +130,8 @@ modelo ya decidido; sube a high solo si una pesada cambia la arquitectura.
    masa y centro de masa por DOS metodos que coincidan, P0 (llega a foco?), y
    docs/03-inventario.md sin filas en "?".
 4. Estado de la maquina y del mundo:
-   - Fran SEPARO el tubo de la montura y los esta pesando por separado.
-   - Pesada total del 2026-10-05: 40 kg (con ocular), balanza sin anotar.
-     CONTRADICE la estimacion por volumen (27 kg, rango 22-32; docs/estimar-cdm.py):
-     o la madera es mas densa (~750) -> CdM ~60 cm, o el tubo pesa ~24 kg ->
-     CdM ~67 cm. La pesada por partes lo decide (08-medidas.md, 3.1).
-   - Al rearmar, Fran va a correr el tubo en la caja para balancearlo: la
-     referencia es el CENTRO DEL CD/RULEMAN (eje de altura), no el centro del
-     cajon. Pedirle que marque el punto de balance sobre el cano.
+   - Dobson rearmado, tubo balanceado en el eje de altura (2026-10-05).
+   - Masa ~40 kg por dos caminos; CdM 55 o 63 cm segun donde estaba la caja.
    - Modelo publicado v4 (M 40, CdM 60, eje 62, suplemento 2):
      https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (compartido con link).
      Local: preview_start "telescopio-modelo" (puerto 8765).
@@ -131,18 +139,19 @@ modelo ya decidido; sube a high solo si una pesada cambia la arquitectura.
    - Drive: "05 - PROYECTOS - taller y astronomia/Telescopio 200-1200 - Fran y
      Kevin", Kevin editor. Docs generados del repo con docs/md-a-gdoc.py y
      rclone copyto --drive-import-formats html --drive-export-formats html
-     (mismo nombre = actualiza en el lugar, ID verificado). Config de rclone:
+     (mismo nombre = actualiza en el lugar, ID verificado). Remote:
+     "drive-personal:05 - PROYECTOS - taller y astronomia/Telescopio
+     200-1200 - Fran y Kevin/<Nombre del Doc>.html". Config de rclone:
      ~/.config/rclone/rclone.conf, pasarlo con --config.
 5. Ya resuelto, no se rehace: VNS y su trade study; espejo para el sur
    (pivote al NORTE); limites en tres capas (programa 45, switch 48, talon 51
    min); geometria del dobson medida con cinta (08-medidas.md 1); guia de
    armado en criollo con parte formal FAB/CAL (docs/07-guia-armado.md).
-6. PRIMER COMANDO: pedirle a Fran las pesadas por separado, con que balanza
-   (rango y resolucion) y como: (a) tubo con su caja: kg y punto de balance
-   sobre el cano medido al centro del CD; (b) montura sin tubo: pesada en dos
-   puntos + inclinacion de 12 cm (protocolo P3); (c) si el tubo se quedo
-   quieto al rearmar. Con eso: estimar-cdm.py pasa de estimar a componer lo
-   medido, se comparan los dos metodos, y el modelo se republica al MISMO link.
+6. PRIMER COMANDO: pesadas por partes YA HECHAS (08-medidas.md 3.2: tubo
+   19,2, montura 19,7, total 40; tubo balanceado). Preguntar a Fran: (a) la
+   caja, se peso con el tubo o con la montura? (CdM 55 vs 63 cm); (b) de que
+   madera es la montura; (c) que balanza. Despues P3 o P4 como segundo metodo
+   del CdM, y recien ahi el modelo se republica al MISMO link.
    Pendientes de Fran: Kevin y los anillos de Saturno (P0); base 1,39 m o
    poste (1,10 m); puesto 3 de los pesos.
 7. Si pide MEDIR la puerta: el efecto es que cascada.ps1 imprima el bloque

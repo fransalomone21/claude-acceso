@@ -87,9 +87,44 @@ del cajón: se marca en el tubo el punto donde se balancea sobre el caño y se
 lo deja alineado con el eje. Es la regla 4 del proyecto (correr el tubo antes
 que cortar madera).
 
+### 3.2 Pesadas por partes (2026-10-05)
+
+Fran, misma balanza (modelo, rango y resolución **sin anotar todavía**):
+
+| Qué | kg |
+|---|---|
+| Tubo, sin ocular ni Barlow | **19,2** |
+| Tubo con la cámara y su soporte montados | **19,7** (cámara + soporte ≈ 0,5) |
+| Montura sola («la base») | **19,7** |
+
+**La masa cierra por dos caminos:** partes 19,2 + 19,7 = **38,9 kg** sin
+ocular, contra **40 kg** del total con ocular (§3.1). Diferencia 1,1 kg
+(3 %): el ocular y la resolución de la balanza. Grado: `probable` (dos
+caminos, una sola balanza sin calibrar). **Masa de diseño: 40 kg.**
+
+**Balance (Fran):** el tubo se corrió en la caja hasta que «no se mueve en
+altura al ponerlo a distintos ángulos». El paso 1 de §4 está hecho: el CdM
+del tubo está sobre el eje de altura, **dentro de lo que deja ver el
+rozamiento** del eje (un desbalance chico lo frena el rozamiento y no se
+ve). Falta saber si se balanceó con la cámara puesta o sin.
+
+**El centro de masa todavía no cierra, y lo decide una pregunta: ¿la caja
+se pesó con el tubo o con la montura?** La caja son ≈ 9,3 litros de madera a
+la altura del eje (82,5 cm), así que de qué lado cae mueve el total 8 cm
+(compuesto con la geometría de §1, madera de densidad uniforme):
+
+| Si la caja estaba… | Densidad que da la madera | Tubo solo | CdM total |
+|---|---|---|---|
+| con el tubo (19,2 = tubo + caja) | 876 kg/m³ (alta para pino: ¿MDF, herrajes?) | ≈ 11 kg (normal en un 200 mm) | **≈ 55 cm** |
+| con la montura (19,7 = bases + paredes + caja) | 620 kg/m³ (fenólico, eucalipto) | 19,2 kg (pesado para un 200 mm) | **≈ 63 cm** |
+
+Las dos tienen un número raro, así que no se elige por plausibilidad: se
+pregunta. El modelo sigue con 60 cm, que cae en el medio. El segundo método
+para el CdM sigue siendo P3 (montura inclinada) o P4 (todo junto, plano).
+
 ## 4. Lo que falta, en orden
 
-1. **¿El tubo se queda donde lo dejás?** Apuntado a 20°, a 45° y a 80°, soltado:
+1. **Hecho (2026-10-05, §3.2).** ¿El tubo se queda donde lo dejás? Apuntado a 20°, a 45° y a 80°, soltado:
    ¿se queda quieto o se va solo hacia la cola o hacia la boca? (30 segundos,
    sin herramientas). Si se queda en las tres, está balanceado.
 2. **Pesar el tubo con su caja** con la balanza de baño: subirse con el tubo
