@@ -21,8 +21,14 @@ dejaba afuera las que tienen diagrama *y* rótulos). Detalle completo en
 `IISE/Material de Estudio nuestro/Apunte GENERAL`, la subcarpeta que armó
 Fran.
 
-**No hay trabajo pendiente.** Lo que sigue abajo es referencia para el día que
-haya que TOCAR algo: cómo se escribe un módulo y las trampas ya pagadas.
+**Sesión 2026-10-05: llegaron las clases 8 y 9 y se registró el plan** (nada
+redactado). Siguiente paso: abrir [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) y
+correr su §0 (copiar el PDF de la clase 8, exportar el de la 9, extraer) antes
+de escribir la unidad 8. Ojo con los números: en el `.pptx` de la clase 8 la
+diapositiva 44 está vacía y el PDF queda corrido −1 desde ahí.
+
+**Fuera de eso no hay trabajo pendiente.** Lo que sigue abajo es referencia para
+el día que haya que TOCAR algo: cómo se escribe un módulo y las trampas ya pagadas.
 
 Última sesión: **2026-09-20 (fases 3 y 4)**. Mapeó las 16 preguntas de los
 parcialitos 1-3 contra los módulos escritos, **encontró el mapeo anterior mal

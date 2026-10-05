@@ -47,6 +47,8 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 ## 4. Las fases
 
+**Fase en curso:** 7 — Las clases 8 y 9 al apunte (tipo: **Fase B**: el plan y la estructura están hechos; no se redacta hasta abrir la sesión de la unidad 8).
+
 ### Fase 0 — Material asegurado en el repo ✅ CERRADA (2026-09-20)
 
 **Criterio de salida:** los 7 PDF extraídos a `.txt` con el número de
@@ -240,6 +242,8 @@ escribe uno, usa `#M("clave")` y el número sale del orden de los `#include` de
 | 5 — Ciclo de vida, requerimientos, márgenes, alcance | 71 | M15–M18 | **escrita** (2026-09-20) |
 | 6 — Familia de requerimientos, interfaces, modelos de ciclo | 155 | M19–M23 | **escrita** (2026-09-20) — 5 módulos, no los 4 previstos: ver nota abajo |
 | 7 — Creación de arquitecturas, Fase A, N² | 54 | M24–M27 | **escrita** (2026-09-20) |
+| 8 — Plan de trabajo, estimaciones, LDCM, lanzadores, ROV | 98 | M28–M32 (+ M15) | **plan registrado** (2026-10-05), sin redactar: ver `PLAN-CLASES-8-9.md` |
+| 9 — Fase B, TRL/IRL/SRL, Fase C, CDR y SIR | 54 | M33–M36 (+ M15, M19, M21) | **plan registrado** (2026-10-05), sin redactar |
 | 0 — Glosario controlado | transversal | M00 | **escrito** (2026-09-20), 71 terminos |
 
 **Nota sobre la unidad 6 (2026-09-20):** el plan original preveía M19–M22
@@ -281,3 +285,17 @@ predecía la forma de los parcialitos que faltaran: un parcialito por clase,
 cinco o seis preguntas, todas de definición. Llegaron 12 preguntas más y
 **ninguna se salió de la forma** — una predicción escrita antes, confirmada
 después, que es la única clase de validación que este proyecto puede producir.
+
+### Fase 7 — Las clases 8 y 9 (plan registrado 2026-10-05; redacción SIN EMPEZAR)
+
+**Abierta porque llegó material nuevo**: la clase 8 (98 diapositivas: plan de
+trabajo, estimaciones, LDCM, lanzadores, ROV) y la clase 9 (54: Fase B, TRL/IRL,
+Fase C). Fran pidió **sólo el plan y los contenidos clasificados**, no el apunte:
+está en [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) (qué es nuevo, qué ya está,
+destino por módulo, orden de sesiones y lo que hay que desconfiar de las notas
+de orador).
+
+**Criterio de salida:** los 9 módulos nuevos (M28 a M36) y las 4 extensiones
+(M15 dos secciones, M19 y M21) compilan con **cada página mirada**; `verificar-lexico.py` y
+`verificar-cobertura.py` en verde; los términos nuevos en el glosario con su
+diapositiva mirada; el PDF republicado y verificado por MD5.

@@ -10,7 +10,14 @@ en el Drive de los compañeros**, verificado por MD5, en la subcarpeta
 
 **Mantenimiento 2026-09-22:** entró la sección «Los niveles de los requerimientos: L0, L1, L2…» en el módulo de la familia de requerimientos (`m17`, impreso como 18.6): escalera L0–L6 de la cátedra, asignados/derivados y tres ejemplos del _NASA SE Handbook_ (fig. 4.2-2 y 4.2-3), y el TP del cohete de agua como ejemplo (necesidades, L0 y L1). 123 → 126 páginas; léxico y cobertura en verde. **Publicado en el Drive** por el hook post-commit (verificado por MD5).
 
-Lo único que queda vivo es el mantenimiento: si se toca un módulo, se
+**2026-10-05 — Fase 7 abierta: llegaron las clases 8 y 9.** Está **registrado el
+plan, no redactado nada**: [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) clasifica
+las 152 diapositivas contra los 28 módulos (WBS, PBS, Gantt, camino crítico,
+SIR, LDCM, TESS y SRL: 0 apariciones), propone **9 módulos nuevos (M28–M36) y 4
+extensiones** (~+40 a +55 páginas), y deja el orden de las sesiones. El apunte
+publicado sigue siendo el de 126 páginas.
+
+Lo único que queda vivo, además de eso, es el mantenimiento: si se toca un módulo, se
 recompila, se corren `verificar-lexico.py` y `verificar-cobertura.py`, y se
 vuelve a subir con `publicar-apuntes.ps1` — el medidor de cada arranque avisa
 si el Drive quedó atrasado.
