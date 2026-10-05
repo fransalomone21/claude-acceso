@@ -49,7 +49,7 @@ Faltan las mediciones y el inventario.
 | Hipótesis | Qué la confirmaría | Por qué todavía no se probó |
 |---|---|---|
 | masa total **≈ 40 kg, `probable`**: por partes 19,2 (tubo) + 19,7 (montura) = 38,9 sin ocular, contra 40 con ocular pesado entero; cierran a 1,1 kg (`docs/08-medidas.md` §3.2). La estimación por volumen (27) estaba mal | anotar la balanza (rango y resolución) | dos caminos con la misma balanza sin calibrar |
-| centro de masa **entre 55 y 63 cm** sobre el piso del dobson, compuesto con las pesadas y la geometría; el tubo ya está **balanceado** en el eje de altura (Fran, 2026-10-05: no se mueve solo a distintos ángulos) | **¿la caja se pesó con el tubo (→ 55) o con la montura (→ 63)?**, y después P3 o P4 como segundo método | esa pregunta mueve el resultado 8 cm (`08-medidas.md` §3.2) |
+| centro de masa **≈ 63 cm** (58 a 69) sobre el piso del dobson, `probable`: compuesto con las pesadas (tubo sin caja 19,7 con cámara; montura de pino con la caja 19,7) y la geometría; el tubo está **balanceado sin la cámara** | P3 o P4 como segundo método, y pesar la caja sola | el rango sale de no saber dónde están los ≈ 2-5 kg de herrajes de la montura (`08-medidas.md` §3.2) |
 | largo del tubo (135,5 cm, de 2026-08), hueco de los tacos (≈ 1,5 cm, foto) y eje de altura ≈ 2,6 cm debajo del borde de la pared (fotos) → a ≈ 82,5 cm del piso del dobson | cinta | lo demás de la geometría ya está medido (ver *Lo confirmado*); estas tres salen de fotos o de agosto |
 | el portaocular es **helicoidal 1,25"** con ≈ 1 cm de recorrido | mirarlo y medir cuánto sube la rosca | fotos 59-63; si es así, explica de sobra un «no llega a foco» con la cámara, y la Barlow lo arregla |
 | el motor de la impresora (Mitsumi M28N-1, repuesto HP C6409-60004) es **de continua con encoder**, no paso a paso | contar sus cables (2 = continua) | fotos 46-53 |
@@ -70,10 +70,12 @@ Faltan las mediciones y el inventario.
 ## Lo próximo
 
 Pesado por partes y balanceado (2026-10-05): masa ≈ 40 kg cerrada por dos
-caminos; el modelo (v5: 40 kg, CdM 60) no cambia hasta saber el CdM. Falta,
-en orden: (1) **¿la caja se pesó con el tubo o con la montura?** y de qué
-madera es la montura; (2) P3 o P4 como segundo método del CdM; (3) la
-balanza usada (rango y resolución). Y P0: Kevin y los anillos de Saturno.
-Pendiente de Fran: base de 1,39 m o poste (1,10 m), y el puesto 3 de los
-pesos. El pivote es la rótula de **amortiguador a gas** en un cono, no la de
-suspensión (`07-guia-armado.md` §3.3).
+caminos, CdM ≈ 63 cm compuesto. Modelo v6 (40 kg, CdM 63, eje 65,
+suplemento 2): base **1,43 m** (1,14 con 20 cm de poste), chapas 398 × 106,
+≈ 15 kg por rodillo y 10 en el pivote. Falta, en orden: (1) P3 o P4 como
+segundo método del CdM, y pesar la caja sola; (2) rebalancear con la cámara
+puesta; (3) anotar la balanza. Y P0: Kevin y los anillos de Saturno.
+Pendiente de Fran: base de 1,43 m o poste, y el puesto 3 de los pesos. El
+pivote es la rótula de **amortiguador a gas** en un cono, no la de
+suspensión; el motor es un **NEMA 17 a comprar**: los de la casetera y la
+impresora son de continua y no sirven para seguir (`03-inventario.md` E4).

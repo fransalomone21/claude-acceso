@@ -14,7 +14,8 @@ z = altura sobre el PISO del dobson (cara de abajo de la base fija).
 Supone el tubo balanceado sobre el eje de altura (su CdM en el eje): si no
 lo esta, el CdM total se corre y ademas cambia con la altura del tubo.
 
-Uso: python docs/estimar-cdm.py
+Uso: python docs/estimar-cdm.py   (primero lo compuesto con las pesadas del
+2026-10-05; despues la estimacion vieja por volumen, que dio 27 kg y fallo)
 """
 T = 0.02                      # espesor de todas las tablas (m)
 GAP = 0.015                   # tacos de PVC + vinilo entre base fija y movil (foto 19)
@@ -41,7 +42,32 @@ def total(rho, m_tubo):
     return piezas, M, sum(m * z for _, m, z in piezas) / M
 
 
+def componer(m_tubo, m_montura, rho_pino=(450, 550)):
+    """Compone el CdM con lo PESADO (2026-10-05): el tubo sin caja, balanceado
+    en el eje; la montura con la caja. La madera de pino da menos de lo
+    pesado: el resto son herrajes (rulemanes, bulones, tacos, vinilo, gomas)
+    de ubicacion desconocida, asi que se acota: todo abajo o todo en el eje."""
+    V = sum(v for _, v, _ in madera)
+    zV = sum(v * z for _, v, z in madera) / V
+    M = m_tubo + m_montura
+    out = []
+    for rho in rho_pino:
+        m_mad = rho * V
+        resto = m_montura - m_mad
+        for nom, z_resto in (("abajo", T), ("en el eje", Z_EJE)):
+            z = (m_mad * zV + resto * z_resto + m_tubo * Z_EJE) / M
+            out.append((rho, resto, nom, z))
+    uniforme = (m_montura * zV + m_tubo * Z_EJE) / M
+    return M, uniforme, out
+
+
 if __name__ == "__main__":
+    M, zu, casos = componer(19.7, 19.7)
+    print("COMPUESTO CON LO PESADO (tubo 19,7 con camara, montura 19,7 con caja):")
+    print("  masa %.1f kg; CdM con la montura de densidad uniforme: %.1f cm" % (M, zu * 100))
+    for rho, resto, nom, z in casos:
+        print("  pino %d: herrajes %.1f kg %-9s -> CdM %.1f cm" % (rho, resto, nom, z * 100))
+    print()
     piezas, M, z = total(500, 11.0)
     print("Caso central (pino 500 kg/m3, tubo 11 kg):")
     for n, m, zz in piezas:

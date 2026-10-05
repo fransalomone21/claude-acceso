@@ -90,7 +90,7 @@ a{color:var(--accent)}
   <div class="eyebrow">Telescopio 200/1200 · plataforma ecuatorial · 34,5° S</div>
   <h1>Plataforma VNS del 200/1200</h1>
   <p class="lede">El modelo de abajo está calculado, no dibujado a ojo: cada pieza sale de la latitud, del centro de masa y de cuánto tiempo querés seguir una estrella. Movés un número y la plataforma se rehace sola. Girala con el mouse (o el dedo), y dale <b>▶</b> para ver cómo acompaña al cielo.</p>
-  <p class="note hypn"><span class="badge hyp">hipótesis</span> Las tablas del dobson y el tubo están medidos con cinta (4/10/2026), pero la <b>masa total pesada: 40 kg</b> (5/10, con ocular). El centro de masa (60 cm sobre el piso del dobson) sigue siendo una estimación: puede llegar a 67 cm si el peso de más está en el tubo. El eje se diseña 2 cm más arriba y la diferencia la cubre un suplemento. Este modelo sirve para <b>entender y presupuestar</b>. Para cortar falta medir.</p>
+  <p class="note hypn"><span class="badge hyp">hipótesis</span> Las tablas del dobson y el tubo están medidos con cinta (4/10/2026) y <b>pesados por partes</b> (5/10): tubo con cámara 19,7 kg, montura con la caja 19,7 kg, total ≈ 40 kg. El centro de masa (<b>63 cm</b> sobre el piso del dobson) sale de componer esas pesadas con la geometría: puede estar entre 58 y 69 cm según dónde estén los herrajes, y lo cierra una segunda medición (montura inclinada o todo junto). El eje se diseña 2 cm más arriba y la diferencia la cubre un suplemento. Este modelo sirve para <b>entender y presupuestar</b>. Para cortar falta medir.</p>
 
   <div class="stage">
     <div class="viewer" id="viewer">
@@ -110,19 +110,19 @@ a{color:var(--accent)}
       <div class="group">
         <h3>Reloj</h3>
         <div class="ctl"><label for="t">Minutos desde el centro de la carrera</label><output id="t_o"></output><input id="t" type="range" min="-45" max="45" step="0.5" value="0"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="play" type="button">▶ Seguir al cielo (×600)</button><button class="btn" id="reset" type="button">Volver al centro</button><button class="btn" id="defaults" type="button">Valores estimados (4/10)</button></div>
-        <p style="font-size:12px;color:var(--muted);margin:6px 0 0">Nada de lo que muevas se guarda: recargando la página vuelve todo a los valores estimados del 4/10.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="play" type="button">▶ Seguir al cielo (×600)</button><button class="btn" id="reset" type="button">Volver al centro</button><button class="btn" id="defaults" type="button">Valores pesados (5/10)</button></div>
+        <p style="font-size:12px;color:var(--muted);margin:6px 0 0">Nada de lo que muevas se guarda: recargando la página vuelve todo a los valores de las pesadas del 5/10.</p>
       </div>
       <div class="group">
         <h3>El telescopio <span class="badge hyp">hipótesis</span></h3>
         <div class="ctl"><label for="M">Masa total</label><output id="M_o"></output><input id="M" type="range" min="15" max="60" step="1" value="40"></div>
-        <div class="ctl"><label for="Hreal">Centro de masa sobre el piso del dobson</label><output id="Hreal_o"></output><input id="Hreal" type="range" min="45" max="80" step="0.5" value="60"></div>
+        <div class="ctl"><label for="Hreal">Centro de masa sobre el piso del dobson</label><output id="Hreal_o"></output><input id="Hreal" type="range" min="45" max="80" step="0.5" value="63"></div>
         <div class="ctl"><label for="dN">Centro de masa corrido al norte</label><output id="dN_o"></output><input id="dN" type="range" min="-5" max="5" step="0.5" value="0"></div>
         <div class="ctl"><label for="dE">Centro de masa corrido al este</label><output id="dE_o"></output><input id="dE" type="range" min="-5" max="5" step="0.5" value="0"></div>
       </div>
       <div class="group">
         <h3>La plataforma (lo que diseñamos)</h3>
-        <div class="ctl"><label for="Hdis">Altura del eje sobre la mesa</label><output id="Hdis_o"></output><input id="Hdis" type="range" min="45" max="80" step="0.5" value="62"></div>
+        <div class="ctl"><label for="Hdis">Altura del eje sobre la mesa</label><output id="Hdis_o"></output><input id="Hdis" type="range" min="45" max="80" step="0.5" value="65"></div>
         <div class="ctl"><label for="shim">Suplemento bajo el dobson</label><output id="shim_o"></output><input id="shim" type="range" min="0" max="5" step="0.5" value="2"></div>
         <div class="ctl"><label for="run">Carrera a cada lado</label><output id="run_o"></output><input id="run" type="range" min="20" max="60" step="5" value="45"></div>
         <div class="ctl"><label for="half">Separación entre rodillos</label><output id="half_o"></output><input id="half" type="range" min="28" max="50" step="1" value="38"></div>
@@ -150,7 +150,7 @@ a{color:var(--accent)}
     <ol class="parts">
       <li><b>1</b><div><b>Base al piso.</b> Fenólico de 18 mm en forma de T: un travesaño al sur que lleva los rodillos y una lengua larga que va hasta el pivote, al norte. No se mueve nunca.</div></li>
       <li><b>2</b><div><b>Tres patas regulables.</b> Un bulón M10 con tuerca en cada punta. Tres patas apoyan firme en cualquier piso, como el banquito de ordeñe: cuatro siempre renguean. Con los tornillos se corrige la inclinación sin cortar nada, y una vez alineada se marcan las tres patas en el piso del patio.</div></li>
-      <li><b>3</b><div><b>Pivote norte.</b> Una bocha de acero (una rótula de amortiguador a gas, bocha de 10 mm) atornillada a la base, y arriba, en la mesa, un hueco cónico donde apoya. Es el único punto que no rueda: la mesa gira alrededor de él.</div></li>
+      <li><b>3</b><div><b>Pivote norte.</b> Una bocha de acero (una rótula de amortiguador a gas, bocha de 10 mm) atornillada a la base, y arriba, en la mesa, un hueco cónico donde apoya. Es el único punto que no rueda: la mesa gira alrededor de él. Es la del portón del baúl, no la de suspensión: esa viene precargada y con espárrago cónico, y le sobra todo.</div></li>
       <li><b>4</b><div><b>Mesa móvil.</b> Fenólico de 18 mm. Encima va el dobson tal cual está hoy. Es lo que gira, y lleva todo lo que gira.</div></li>
       <li><b>5</b><div><b>Los dos segmentos de aluminio.</b> Son <b>las únicas dos piezas de aluminio</b> de toda la plataforma: base, mesa y tacos son de fenólico, y los rodillos y soportes salen de la impresora 3D. Chapas de 5 mm, paradas, atornilladas al borde sur de la mesa con tacos de madera de separación. Las medidas, en el plano de abajo. Su borde de abajo no es un arco de círculo: es un pedazo de elipse, y cada una va girada unos 8° hacia afuera. Esa forma rara es lo único "difícil" del diseño, y se resuelve imprimiendo la plantilla 1:1 en papel y calando alrededor.</div></li>
       <li><b>6</b><div><b>Rodillos.</b> Un cilindro impreso de 32 mm de diámetro y 26 mm de ancho, con un rulemán 608ZZ (los de skate: 22 mm afuera, 8 mm de agujero) metido a presión en cada cara, girando sobre un bulón M8 entre dos soportes. El borde de cada chapa apoya y rueda sobre uno. Ancho de sobra porque la chapa se corre unos milímetros de costado a lo largo de la carrera.</div></li>
@@ -168,7 +168,7 @@ a{color:var(--accent)}
   </div>
 
   <h2>Las dos chapas de aluminio, con medidas</h2>
-  <p>Vista de frente de la chapa <b>este</b>, a escala, mirando desde el sur. La del oeste es exactamente la misma dada vuelta (espejo). Las medidas cambian con los deslizadores: <span class="hyp">salen de un centro de masa estimado, no pesado: todavía no son para cortar</span>.</p>
+  <p>Vista de frente de la chapa <b>este</b>, a escala, mirando desde el sur. La del oeste es exactamente la misma dada vuelta (espejo). Las medidas cambian con los deslizadores: <span class="hyp">salen de un centro de masa compuesto de las pesadas, que todavía no se confirmó por un segundo método: no son para cortar</span>.</p>
   <div class="drawing" id="plateDraw"></div>
 
   <h2>Por qué VNS, en tres líneas</h2>
@@ -185,7 +185,7 @@ a{color:var(--accent)}
     <div>
       <h3>Lo que queda fijo cuando se corta</h3>
       <p><b>La forma de los segmentos.</b> Depende de la altura del eje y de la latitud. Por eso se corta <i>después</i> de medir el centro de masa, nunca antes.</p>
-      <p><b>El largo.</b> A 34,5° el eje está muy acostado, y el pivote termina lejos: con el centro de masa a 64 cm, la base mide <b id="lenTxt">1,40 m</b>. Levantar el pivote sobre un poste la acorta (cada 10 cm de poste, unos 14,5 cm menos de base), a cambio de un poste que hay que hacer rígido. Probalo con el deslizador.</p>
+      <p><b>El largo.</b> A 34,5° el eje está muy acostado, y el pivote termina lejos: con el centro de masa a 63 cm, la base mide <b id="lenTxt">1,40 m</b>. Levantar el pivote sobre un poste la acorta (cada 10 cm de poste, unos 14,5 cm menos de base), a cambio de un poste que hay que hacer rígido. Probalo con el deslizador.</p>
     </div>
   </div>
 
@@ -200,7 +200,7 @@ a{color:var(--accent)}
       <tr><td>Rulemanes 608ZZ</td><td class="num">4 (2 por rodillo) + repuesto</td><td>Casas de rulemanes de la zona, casas de insumos de impresión 3D</td><td class="num">a cotizar</td></tr>
       <tr><td>Rótula de amortiguador a gas (bocha 10 mm, rosca M8)</td><td class="num">1</td><td>Repuestos de auto o ferretería industrial (es la que usan los planos de AstralFields para el pivote)</td><td class="num">a cotizar</td></tr>
       <tr><td>Bulones M10 + tuercas de inserto, varilla M8</td><td class="num">3 patas</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
-      <tr><td>Motor NEMA 17</td><td class="num">1 (si no sirve el que hay)</td><td>Todomicro, Mercado Libre</td><td class="num">≈ $49.900 el de 7 kg·cm</td></tr>
+      <tr><td>Motor NEMA 17</td><td class="num">1 (los de la casetera y la impresora son de continua: no sirven para seguir)</td><td>Todomicro, Mercado Libre</td><td class="num">≈ $49.900 el de 7 kg·cm</td></tr>
       <tr><td>Microswitch con palanca de rodillo (tipo KW12 / V-156), los de las impresoras 3D</td><td class="num">2 + 1 de repuesto</td><td>Todomicro, casas de electrónica, Mercado Libre</td><td class="num">a cotizar</td></tr>
       <tr><td>Tornillo M5 × 80 con dos tuercas (la leva) y goma de cámara de bici para los talones</td><td class="num">1</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
       <tr><td>Driver TMC2209</td><td class="num">1</td><td>TP3D, 3DInsumos, 3D Casa Bureu; un importador con local en Villa Martelli</td><td class="num">a cotizar</td></tr>

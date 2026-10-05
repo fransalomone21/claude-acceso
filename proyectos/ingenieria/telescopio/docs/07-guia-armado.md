@@ -73,7 +73,7 @@ Los números son los del modelo 3D.
 
 1. **Base al piso.** Fenólico de 18 mm en forma de T: un travesaño al sur
    que lleva los rodillos, y una lengua larga hacia el norte que lleva el
-   pivote. No se mueve nunca. Mide unos **1,39 m de largo**: a nuestra
+   pivote. No se mueve nunca. Mide unos **1,43 m de largo**: a nuestra
    latitud el eje está muy acostado y el pivote queda lejos. Si es mucho, se
    acorta levantando el pivote sobre un poste (cada 10 cm de poste, unos
    14,5 cm menos de base).
@@ -102,17 +102,22 @@ Los números son los del modelo 3D.
    Su borde de abajo es un pedazo de elipse y cada una va girada unos 8°.
    Esa forma es lo único "difícil" del diseño, y se resuelve imprimiendo la
    **plantilla 1:1 en papel**, pegándola y calando alrededor. Miden unos
-   **387 × 106 mm** cada una (las dos salen de una chapa de 500 × 500).
+   **398 × 106 mm** cada una (las dos salen de una chapa de 500 × 500).
 6. **Rodillos.** Un cilindro impreso de 32 mm de diámetro y 26 de ancho, con
    un rulemán 608ZZ (los de skate) a presión en cada cara, girando sobre un
    bulón M8. El canto de cada chapa apoya y rueda sobre uno. Cada rodillo
-   carga unos 15 kg y el pivote unos 10 (con los 40 kg pesados; eran 10 y
-   7 con los 27 estimados).
+   carga unos 15 kg y el pivote unos 10 (con los 40 kg pesados y el
+   centro de masa a 63 cm; eran 10 y 7 con los 27 estimados).
 7. **Motor.** Un paso a paso NEMA 17 con polea GT2 de 20 dientes y correa
    hasta una polea de 80 en el eje del rodillo oeste (reduce 4 a 1). El
    rodillo da unas dos vueltas por hora y cada micropaso mueve la mesa unos
    2 segundos de arco. Lo maneja un Arduino Nano con un driver TMC2209
-   (silencioso y suave, justo para movimientos lentos).
+   (silencioso y suave, justo para movimientos lentos). **Tiene que ser
+   paso a paso:** los motores de casetera y de impresora que aparecieron son
+   de continua, y un motor de continua sin encoder no sabe cuánto giró —
+   anda «más o menos a tantas vueltas», y para las estrellas «más o menos»
+   son estrellas con cola. El paso a paso cuenta pasos: gira exactamente lo
+   que se le manda.
 8. **El eje polar.** No es una pieza: es la línea imaginaria alrededor de la
    que gira la mesa. Pasa por el pivote, sube hacia el sur a **34,5°** (la
    latitud de Villa Adelina) y apunta al polo sur celeste.
@@ -140,7 +145,7 @@ Los números son los del modelo 3D.
 
 ### Los límites de carrera, en tres capas
 
-Que la chapa se salga del rodillo es el peor accidente posible: unos 27 kg de
+Que la chapa se salga del rodillo es el peor accidente posible: unos 40 kg de
 telescopio cayéndose de costado. Por eso no hay un límite, hay tres, cada uno
 independiente del anterior:
 
@@ -301,10 +306,11 @@ nebulosa.
 |---|---|---|
 | ¿Se veían los anillos de Saturno? | saber si llega a foco | Kevin |
 | ¿El tubo se queda quieto donde lo soltás (20°, 45°, 80°)? | saber si está balanceado: si no, el centro de masa se mueve | Fran |
-| Peso del tubo con su caja, y dónde se balancea sobre un caño | el centro de masa (estimado hoy por volumen: 27 kg, 60 cm) | Fran y Kevin |
+| Pesar la caja sola, y el segundo método del centro de masa: montura inclinada (P3) o todo junto plano (P4) | cierra el centro de masa (hoy 63 cm compuesto, entre 58 y 69) | Fran y Kevin |
+| Rebalancear el tubo **con la cámara puesta** (correrlo ≈ 1 a 2 cm hacia la cola) | que el centro de masa no cambie al subir o bajar el tubo | Fran |
 | Centro de masa, por dos métodos | la forma de las chapas | Fran y Kevin |
 | Medidas del portaocular y del buscador | el modelo y el soporte de cámara | Fran |
-| ¿Base de 1,39 m, o pivote en poste (1,10 m con 20 cm de poste)? | dónde se va a usar | Fran |
+| ¿Base de 1,43 m, o pivote en poste (1,14 m con 20 cm de poste)? | dónde se va a usar | Fran |
 | Material y volumen de impresión de la impresora del amigo | qué piezas salen enteras | Kevin |
 | Etiquetas del motor y de la placa HW-130 que hay | si hay que comprar driver y motor | Fran |
 

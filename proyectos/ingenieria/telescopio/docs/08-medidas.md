@@ -93,9 +93,9 @@ Fran, misma balanza (modelo, rango y resolución **sin anotar todavía**):
 
 | Qué | kg |
 |---|---|
-| Tubo, sin ocular ni Barlow | **19,2** |
-| Tubo con la cámara y su soporte montados | **19,7** (cámara + soporte ≈ 0,5) |
-| Montura sola («la base») | **19,7** |
+| Tubo **sin la caja**, con el buscador, sin ocular ni Barlow | **19,2** |
+| El mismo, con la cámara y su soporte montados | **19,7** (cámara + soporte ≈ 0,5) |
+| Montura sola («la base»), **con la caja** (la caja no se pesó aparte) | **19,7** |
 
 **La masa cierra por dos caminos:** partes 19,2 + 19,7 = **38,9 kg** sin
 ocular, contra **40 kg** del total con ocular (§3.1). Diferencia 1,1 kg
@@ -106,25 +106,37 @@ caminos, una sola balanza sin calibrar). **Masa de diseño: 40 kg.**
 altura al ponerlo a distintos ángulos». El paso 1 de §4 está hecho: el CdM
 del tubo está sobre el eje de altura, **dentro de lo que deja ver el
 rozamiento** del eje (un desbalance chico lo frena el rozamiento y no se
-ve). Falta saber si se balanceó con la cámara puesta o sin.
+ve). Se balanceó **sin la cámara**: con ella (≈ 0,5 kg en el portaocular)
+el CdM del tubo se corre ≈ 1 a 2 cm hacia la boca, y se corrige corriendo el
+tubo lo mismo hacia la cola. Fran lo va a refinar.
 
-**El centro de masa todavía no cierra, y lo decide una pregunta: ¿la caja
-se pesó con el tubo o con la montura?** La caja son ≈ 9,3 litros de madera a
-la altura del eje (82,5 cm), así que de qué lado cae mueve el total 8 cm
-(compuesto con la geometría de §1, madera de densidad uniforme):
+**La montura es de pino** (Fran). Su madera, con la caja, son **31,8 litros**
+(§1): a 450-550 kg/m³ dan **14,3 a 17,5 kg**, y la pesada dio 19,7. La
+densidad aparente es **620 kg/m³**: lo que sobra (**2,2 a 5,4 kg**) son
+herrajes — rulemanes y bulones del eje, tacos, vinilo, gomas, tornillos —, o
+pino más pesado que el de tabla (húmedo o con nudos). **La caja sola** (9,3
+litros) sale **≈ 4,6 kg** de pino de 500 (4,2 a 5,1), ≈ 5,8 kg con la
+densidad aparente. Pesarla sola la próxima vez cierra este número.
 
-| Si la caja estaba… | Densidad que da la madera | Tubo solo | CdM total |
-|---|---|---|---|
-| con el tubo (19,2 = tubo + caja) | 876 kg/m³ (alta para pino: ¿MDF, herrajes?) | ≈ 11 kg (normal en un 200 mm) | **≈ 55 cm** |
-| con la montura (19,7 = bases + paredes + caja) | 620 kg/m³ (fenólico, eucalipto) | 19,2 kg (pesado para un 200 mm) | **≈ 63 cm** |
+El tubo, en cambio, pesa **19,2 kg sin caja**: casi el doble de un 200/1200
+comercial de chapa (≈ 10-11 kg). Es medido, así que manda; el exceso es
+`hipótesis` (tubo de chapa gruesa, celda de fundición pesada).
 
-Las dos tienen un número raro, así que no se elige por plausibilidad: se
-pregunta. El modelo sigue con 60 cm, que cae en el medio. El segundo método
-para el CdM sigue siendo P3 (montura inclinada) o P4 (todo junto, plano).
+**Centro de masa compuesto** (`python docs/estimar-cdm.py`): tubo con cámara
+19,7 kg balanceado en el eje (82,5 cm) + montura 19,7 kg repartida según su
+geometría → **63 cm** sobre el piso del dobson. Lo que no se sabe es dónde
+están los herrajes: todos abajo lo bajan a **58**, todos a la altura del eje
+lo suben a **69**. El rango real es más angosto (están repartidos), pero el
+número exacto lo da el **segundo método**: P3 (montura inclinada) o P4 (todo
+junto, plano). Grado: `probable`. **Valores de diseño: 40 kg, CdM 63 cm,
+eje a 65 sobre la mesa con 2 cm de suplemento.**
 
 ## 4. Lo que falta, en orden
 
-1. **Hecho (2026-10-05, §3.2).** ¿El tubo se queda donde lo dejás? Apuntado a 20°, a 45° y a 80°, soltado:
+0. **Hechos (2026-10-05, §3.2):** el balance (sin cámara) y las pesadas
+   del tubo y de la montura. Quedan los pasos 3 a 5, más **pesar la caja
+   sola** y **rebalancear con la cámara puesta**.
+1. **Hecho, sin cámara.** ¿El tubo se queda donde lo dejás? Apuntado a 20°, a 45° y a 80°, soltado:
    ¿se queda quieto o se va solo hacia la cola o hacia la boca? (30 segundos,
    sin herramientas). Si se queda en las tres, está balanceado.
 2. **Pesar el tubo con su caja** con la balanza de baño: subirse con el tubo

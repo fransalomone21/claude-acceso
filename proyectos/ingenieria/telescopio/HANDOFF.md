@@ -84,9 +84,14 @@ portaocular y dice que «se ve sin aumento»: ver la fila de foco en
 - Tubo 19,2 kg (19,7 con cámara y soporte), montura 19,7: suman 38,9 contra
   40 del total con ocular → masa ≈ 40 kg, `probable` (`08-medidas.md` §3.2).
 - Tubo **balanceado** en el eje de altura (Fran corrió el tubo en la caja).
-- **CdM 55 o 63 cm según dónde se pesó la caja**: pregunta abierta a Fran.
-  El modelo queda en v5 (40 / 60) hasta tenerla: republicar sin dato nuevo
-  no aporta.
+- La caja quedó con la montura (no se pesó aparte); montura de **pino** →
+  densidad aparente 620 (2-5 kg de herrajes), caja ≈ 4,6 kg estimada.
+  **CdM ≈ 63 cm** (58-69) compuesto: `python docs/estimar-cdm.py`.
+- **Modelo v6** (CdM 63, eje 65): base 1,43 m, chapas 398 × 106. Guía,
+  medidas e inventario actualizados; Docs del Drive regenerados.
+- **Motor de casetera** (Sankyo de cabrestante «− + H L» y SHU2L-00-2X24A):
+  de continua, no sirven para seguir. El NEMA 17 se compra (inventario E4).
+- El tubo se balanceó **sin** la cámara: rebalancear con ella (1-2 cm).
 - Pivote: Fran propuso una rótula de suspensión de auto y le preocupa el
   rozamiento. La guía ya pedía la de **amortiguador a gas** en un cono;
   quedó escrito por qué la de suspensión no va y que el rozamiento no es el
@@ -131,8 +136,8 @@ modelo ya decidido; sube a high solo si una pesada cambia la arquitectura.
    docs/03-inventario.md sin filas en "?".
 4. Estado de la maquina y del mundo:
    - Dobson rearmado, tubo balanceado en el eje de altura (2026-10-05).
-   - Masa ~40 kg por dos caminos; CdM 55 o 63 cm segun donde estaba la caja.
-   - Modelo publicado v4 (M 40, CdM 60, eje 62, suplemento 2):
+   - Masa ~40 kg por dos caminos; CdM ~63 cm compuesto (58-69).
+   - Modelo publicado v6 (M 40, CdM 63, eje 65, suplemento 2):
      https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (compartido con link).
      Local: preview_start "telescopio-modelo" (puerto 8765).
      Controles: node docs/probar-geometria.js (7 OK, 5 sabotajes en rojo).
@@ -148,10 +153,11 @@ modelo ya decidido; sube a high solo si una pesada cambia la arquitectura.
    min); geometria del dobson medida con cinta (08-medidas.md 1); guia de
    armado en criollo con parte formal FAB/CAL (docs/07-guia-armado.md).
 6. PRIMER COMANDO: pesadas por partes YA HECHAS (08-medidas.md 3.2: tubo
-   19,2, montura 19,7, total 40; tubo balanceado). Preguntar a Fran: (a) la
-   caja, se peso con el tubo o con la montura? (CdM 55 vs 63 cm); (b) de que
-   madera es la montura; (c) que balanza. Despues P3 o P4 como segundo metodo
-   del CdM, y recien ahi el modelo se republica al MISMO link.
+   sin caja 19,7 con camara, montura de pino con caja 19,7; CdM compuesto
+   63 cm, modelo v6). Preguntarle a Fran por el SEGUNDO METODO del CdM (P3
+   montura inclinada, o P4 todo junto plano), la caja pesada sola, el
+   rebalanceo con camara y la balanza. Si el CdM medido difiere de 63, se
+   cambian Hreal/Hdis en 06-modelo-3d.html y se republica al MISMO link.
    Pendientes de Fran: Kevin y los anillos de Saturno (P0); base 1,39 m o
    poste (1,10 m); puesto 3 de los pesos.
 7. Si pide MEDIR la puerta: el efecto es que cascada.ps1 imprima el bloque
