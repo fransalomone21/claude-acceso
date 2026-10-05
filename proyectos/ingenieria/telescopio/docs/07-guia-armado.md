@@ -71,43 +71,47 @@ punta.
 
 Los números son los del modelo 3D.
 
-1. **Base al piso.** Fenólico de 18 mm en forma de T: un travesaño al sur
-   que lleva los rodillos, y una lengua larga hacia el norte que lleva el
-   pivote. No se mueve nunca. Mide unos **1,43 m de largo**: a nuestra
-   latitud el eje está muy acostado y el pivote queda lejos. Si es mucho, se
-   acorta levantando el pivote sobre un poste (cada 10 cm de poste, unos
-   14,5 cm menos de base).
+1. **Base al piso.** Un **triángulo de planchuela de hierro de 50 mm, de
+   canto**, de pata a pata (idea de Kevin), con un travesaño bajo los
+   rodillos y cartelas en las esquinas. No se mueve nunca. Mide unos
+   **1,16 m de largo** con el pivote sobre un poste de 10 cm (sin poste,
+   1,30). Todo el porqué, con números: `docs/09-estructura-hierro.md`.
 2. **Tres patas regulables.** Un bulón M10 con tuerca en cada punta. Tres
    patas nunca renguean (el banquito de ordeñe); cuatro, siempre. Con las
    tuercas se nivela y se retoca la alineación, sin cortar nada.
 3. **Pivote norte.** Una rótula de amortiguador a gas (bocha de 10 mm, rosca
-   M8) atornillada a la base, y arriba, en la mesa, un hueco cónico donde
-   apoya. Es el único apoyo que no rueda: todo gira alrededor de él.
+   M8) atornillada arriba de un **poste de 10 cm** (caño 40 × 40 o
+   planchuelas soldadas, con tres riendas), y arriba, en la punta del brazo
+   de la mesa, un hueco cónico donde apoya. Es el único apoyo que no rueda: todo gira alrededor de él.
    **Ojo: la del amortiguador a gas (la del portón del baúl), no la de
    suspensión** (la de parrilla, con brida de tres agujeros y espárrago
    cónico). La de suspensión viene precargada contra una cazoleta de
    plástico para no tener juego en un auto de una tonelada: roza más, tiene
    el espárrago cónico (pide un agujero cónico a medida) y le sobra todo. Una
-   bocha de 10 mm suelta en un cono engrasado roza ≈ 0,08 N·m con los ≈ 10 kg
+   bocha de 10 mm suelta en un cono engrasado roza ≈ 0,1 N·m con los ≈ 15 kg
    que carga el pivote; aun una de suspensión (≈ 1 a 3 N·m, `hipótesis`) le
    pediría al motor menos de 0,3 kg·cm de 7, así que el rozamiento no es el
    problema: lo que importa en el pivote es **cero juego y que gire parejo**
    (sin enganches a velocidad lenta). Alternativa si no aparece: un
    **terminal de rótula M8** (cabeza de rótula, la de los cilindros
    neumáticos), que se atornilla derecho y no tiene juego.
-4. **Mesa móvil.** Fenólico de 18 mm. Encima va el dobson tal cual está, sin
-   desarmarlo.
+4. **Mesa móvil.** Un marco de planchuela de 40 de canto con dos largueros
+   (ranurados) donde apoya el dobson tal cual está, y el **brazo al pivote
+   en A**: dos planchuelas de 50 de canto. En madera ese brazo se doblaba
+   ≈ 8 mm; en hierro, ≈ 0,3. **La mesa gira con el telescopio**: sus ≈ 8 kg
+   entran en el centro de masa de lo que gira, y por eso el eje va a
+   **≈ 54 cm** sobre la mesa, no a 65.
 5. **Las dos chapas de aluminio (los segmentos).** Las únicas piezas de
-   aluminio: 5 mm de espesor, paradas, atornilladas al borde sur de la mesa.
-   Su borde de abajo es un pedazo de elipse y cada una va girada unos 8°.
+   aluminio: 5 mm de espesor, paradas, atornilladas al marco sur de la mesa.
+   Su borde de abajo es un pedazo de elipse y cada una va girada unos 9°.
    Esa forma es lo único "difícil" del diseño, y se resuelve imprimiendo la
    **plantilla 1:1 en papel**, pegándola y calando alrededor. Miden unos
-   **398 × 106 mm** cada una (las dos salen de una chapa de 500 × 500).
+   **357 × 107 mm** cada una (las dos salen de una chapa de 500 × 500).
 6. **Rodillos.** Un cilindro impreso de 32 mm de diámetro y 26 de ancho, con
    un rulemán 608ZZ (los de skate) a presión en cada cara, girando sobre un
    bulón M8. El canto de cada chapa apoya y rueda sobre uno. Cada rodillo
-   carga unos 15 kg y el pivote unos 10 (con los 40 kg pesados y el
-   centro de masa a 63 cm; eran 10 y 7 con los 27 estimados).
+   carga unos 17 kg y el pivote unos 15 (40 kg de telescopio más 8 de
+   mesa de hierro, poste de 10 cm).
 7. **Motor.** Un paso a paso NEMA 17 con polea GT2 de 20 dientes y correa
    hasta una polea de 80 en el eje del rodillo oeste (reduce 4 a 1). El
    rodillo da unas dos vueltas por hora y cada micropaso mueve la mesa unos
@@ -168,7 +172,7 @@ Precios vistos el 4/10/2026 en zona norte. "Quién" es una propuesta.
 |---|---|---|---|---|
 | Chapa de aluminio 5 mm (Aluar 1050, blanda: el rodillo tiene que ser de plástico) | 500 × 500 mm, alcanza para las dos | Alumina Argentina (online); MECENALUM (cortes, Mercado Libre); J. L. Metales (Av. Mitre 3380, Caseros) | $66.193 | compra |
 | Corte de los segmentos | 2 piezas | en casa con caladora y hoja de metal, o láser desde el DXF: Iruña Metalúrgica (Munro), Lasertec | a cotizar | Fran |
-| Fenólico 18 mm | 1 placa 1,22 × 2,44 | Maderera Justo (Av. de Mayo 865, Villa Adelina, WhatsApp), Maderera Newton, Multiplacas, Easy | $50.121 (Easy) | compra |
+| Planchuela de hierro de 30 a 60 mm, menos de 1 cm de espesor | ≈ 6 m en total | ya la tienen | — | hay |
 | Rulemanes 608ZZ | 4 + 1 de repuesto | casas de rulemanes, insumos de impresión 3D | a cotizar | compra |
 | Rótula de amortiguador a gas, bocha 10 mm, rosca M8 | 1 | repuestos de auto, ferretería industrial | a cotizar | compra |
 | Bulones M10 + tuercas de inserto (patas); ejes de los rodillos: **la varilla guía de 8 mm de la impresora sirve** (es más derecha que un bulón) | 3 patas, 2 ejes | ferretería | a cotizar | compra |
@@ -213,11 +217,15 @@ página"). *Aceptación:* la regla de control impresa en la plantilla mide lo
 que dice, **±0,5 mm en 300 mm**. Si no, se corrige la escala de la
 impresora y se reimprime.
 
-**FAB-2 — Base y mesa de fenólico.**
-*Requiere:* placa de 18 mm, caladora o circular con guía, escuadra.
-*Procedimiento:* cortar según la lista de corte; agujerear patas, pivote y
-soportes con la plantilla de agujeros. *Aceptación:* diagonales de cada
-rectángulo iguales **±2 mm** (eso garantiza escuadra).
+**FAB-2 — Base, mesa y brazo de planchuela de hierro.**
+*Requiere:* planchuelas de 30 a 60 mm (ya las tienen), amoladora, agujereadora
+o soldadora, escuadra, antióxido.
+*Procedimiento:* cortar según la lista de corte (fase 3); armar el triángulo
+de la base y el marco de la mesa **sobre una superficie plana**, presentar
+con prensas antes de soldar o abulonar; cartelas en las esquinas; antióxido y
+pintura. *Aceptación:* diagonales del marco de la mesa iguales **±2 mm**
+(escuadra), y la base apoyada en sus tres patas sin ninguna esquina en el
+aire. Detalle: `docs/09-estructura-hierro.md`.
 
 **FAB-3 — Patas y pivote.**
 *Procedimiento:* insertar las tres tuercas de inserto, roscar los bulones
@@ -310,7 +318,7 @@ nebulosa.
 | Rebalancear el tubo **con la cámara puesta** (correrlo ≈ 1 a 2 cm hacia la cola) | que el centro de masa no cambie al subir o bajar el tubo | Fran |
 | Centro de masa, por dos métodos | la forma de las chapas | Fran y Kevin |
 | Medidas del portaocular y del buscador | el modelo y el soporte de cámara | Fran |
-| ¿Base de 1,43 m, o pivote en poste (1,14 m con 20 cm de poste)? | dónde se va a usar | Fran |
+| Espesor de las planchuelas, y si se sueldan o se abulonan (base 1,16 m con poste de 10 cm: ya decidido) | dónde se va a usar | Fran |
 | Material y volumen de impresión de la impresora del amigo | qué piezas salen enteras | Kevin |
 | Etiquetas del motor y de la placa HW-130 que hay | si hay que comprar driver y motor | Fran |
 

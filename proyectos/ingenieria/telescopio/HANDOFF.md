@@ -2,8 +2,9 @@
 
 **Escrito el:** 2026-10-05 · **Fase al cerrar:** 0 (Concebir, Pre-Fase A) —
 **abierta**; arquitectura cerrada (VNS), geometría del dobson medida, masa
-≈ 40 kg cerrada por dos caminos y tubo balanceado; falta el CdM (depende de
-dónde se pesó la caja), P0 y el inventario.
+≈ 40 kg cerrada por dos caminos y tubo balanceado; CdM ≈ 63 cm compuesto
+(falta el segundo método); plataforma de planchuela de hierro con poste de
+10 cm (modelo v7); faltan P0 y el inventario.
 
 ## Arrancá por acá
 
@@ -98,11 +99,30 @@ portaocular y dice que «se ve sin aumento»: ver la fila de foco en
   problema (`07-guia-armado.md` §3, ítem 3). Alternativa: terminal de
   rótula M8.
 
+## Plataforma de hierro (sexta sesión, 2026-10-05)
+
+- Fran: la plataforma de **planchuela de hierro** (tienen de 30, 40, 50 y
+  60 mm, menos de 1 cm de espesor), no de madera. Kevin: base **triangular**
+  con refuerzos. Escrito en `docs/09-estructura-hierro.md`.
+- **Hallazgo:** la mesa de hierro (≈ 8 kg, estimado) gira con el telescopio:
+  el eje va al CdM de TODO lo que gira → **≈ 54 cm** sobre la mesa (no 65).
+  Ignorarlo deja 9 cm fuera del eje y ≈ 7 N·m que cambian de signo en el
+  medio de la carrera. `geometria-vns.js` tiene ahora `mTab`, `zTab` y
+  devuelve `Cg`, `Mtot`, `Hbal`; control nuevo con sabotaje (8 OK). La base
+  y la mesa ahora tienen el canto de la planchuela (BASE 50, TAB 40 mm).
+- **Poste del pivote: 10 cm** (barrido 0-30 en la doc 09): base 1,16 m,
+  vuelco 17,8°, ≈ 15 kg en el pivote.
+- **Modelo v7** publicado (mismo link): triángulo, cartelas, poste con
+  riendas, mesa en marco, brazo en A, slider de masa de mesa.
+- **Trampa pagada:** el navegador usaba la copia vieja de `geometria-vns.js`
+  y la página se rompía. El `<script>` lleva `?v=7`: subirlo cada vez que
+  cambia la geometría (está en el contrato).
+
 ## Lo que quedó a medias
 
-- **Preguntas abiertas a Fran:** (1) ¿midió algo? (P0 primero); (2) ¿la base
-  de ≈ 1,41 m le sirve o va el pivote en poste (1,12 m con 20 cm)?; (3) el
-  puesto 3 de los pesos (capacidad de carga), que no cambia el ganador.
+- **Preguntas abiertas a Fran:** (1) espesor de las planchuelas, y si se
+  sueldan o se abulonan; (2) el segundo método del CdM; (3) el puesto 3 de
+  los pesos (capacidad de carga), que no cambia el ganador.
 - **El primo:** ya es editor de la carpeta de Drive (a pedido de Fran). El
   artifact lo comparte Fran desde el menú Compartir de la página; la sesión
   no puede. El mail **no** va al repo (es público): sólo su hash.
@@ -130,17 +150,22 @@ modelo ya decidido; sube a high solo si una pesada cambia la arquitectura.
 2. Leer: ESTADO_ACTUAL.md entero, HANDOFF.md entero, docs/08-medidas.md entero.
    NO leer el CAD, el macro VBA ni las 71 fotos (ya estan transcriptas en
    08-medidas.md; si hace falta una, fotos/2026-10-04/indice.txt da el numero).
-   06-modelo-3d.html y geometria-vns.js: solo si hay que tocar el modelo.
+   docs/09-estructura-hierro.md entero (la plataforma de hierro, el poste).
+   06-modelo-3d.html y geometria-vns.js: solo si hay que tocar el modelo;
+   si se toca geometria-vns.js, subir el ?v= del <script> del modelo.
 3. Fase 0 (Concebir, Pre-Fase A). Arquitectura CERRADA: VNS. Falta para cerrar:
    masa y centro de masa por DOS metodos que coincidan, P0 (llega a foco?), y
    docs/03-inventario.md sin filas en "?".
 4. Estado de la maquina y del mundo:
    - Dobson rearmado, tubo balanceado en el eje de altura (2026-10-05).
    - Masa ~40 kg por dos caminos; CdM ~63 cm compuesto (58-69).
-   - Modelo publicado v6 (M 40, CdM 63, eje 65, suplemento 2):
-     https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (compartido con link).
+   - Plataforma de PLANCHUELA DE HIERRO (30-60 mm, <1 cm), base triangular,
+     poste de 10 cm, mesa de ~8 kg que gira -> eje a ~54 cm sobre la mesa.
+   - Modelo publicado v7 (M 40, CdM 63, mesa 8 kg, eje 54, suplemento 2,
+     poste 10): https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (con link).
+     Se publica con files {"geometria-vns.js": docs/geometria-vns.js}.
      Local: preview_start "telescopio-modelo" (puerto 8765).
-     Controles: node docs/probar-geometria.js (7 OK, 5 sabotajes en rojo).
+     Controles: node docs/probar-geometria.js (8 OK, 6 sabotajes en rojo).
    - Drive: "05 - PROYECTOS - taller y astronomia/Telescopio 200-1200 - Fran y
      Kevin", Kevin editor. Docs generados del repo con docs/md-a-gdoc.py y
      rclone copyto --drive-import-formats html --drive-export-formats html
@@ -151,15 +176,15 @@ modelo ya decidido; sube a high solo si una pesada cambia la arquitectura.
 5. Ya resuelto, no se rehace: VNS y su trade study; espejo para el sur
    (pivote al NORTE); limites en tres capas (programa 45, switch 48, talon 51
    min); geometria del dobson medida con cinta (08-medidas.md 1); guia de
-   armado en criollo con parte formal FAB/CAL (docs/07-guia-armado.md).
-6. PRIMER COMANDO: pesadas por partes YA HECHAS (08-medidas.md 3.2: tubo
-   sin caja 19,7 con camara, montura de pino con caja 19,7; CdM compuesto
-   63 cm, modelo v6). Preguntarle a Fran por el SEGUNDO METODO del CdM (P3
-   montura inclinada, o P4 todo junto plano), la caja pesada sola, el
-   rebalanceo con camara y la balanza. Si el CdM medido difiere de 63, se
-   cambian Hreal/Hdis en 06-modelo-3d.html y se republica al MISMO link.
-   Pendientes de Fran: Kevin y los anillos de Saturno (P0); base 1,39 m o
-   poste (1,10 m); puesto 3 de los pesos.
+   armado en criollo con parte formal FAB/CAL (docs/07-guia-armado.md);
+   pesadas por partes (08-medidas.md 3.2); plataforma de hierro y poste de
+   10 cm (09); pivote = rotula de amortiguador a gas, no de suspension;
+   motores de casetera descartados (de continua), NEMA 17 a comprar.
+6. PRIMER COMANDO: preguntarle a Fran (a) el espesor de las planchuelas y si
+   sueldan o abulonan; (b) el SEGUNDO METODO del CdM (P3 montura inclinada o
+   P4 todo junto plano) y la caja pesada sola; (c) Kevin y los anillos de
+   Saturno (P0). Con (b): si el CdM difiere de 63, cambiar Hreal y recalcular
+   Hdis = Hbal en 06-modelo-3d.html, y republicar al MISMO link.
 7. Si pide MEDIR la puerta: el efecto es que cascada.ps1 imprima el bloque
    "EXIGIDO POR LA PUERTA (T11) para telescopio" con sus rangos de lineas.
 ```

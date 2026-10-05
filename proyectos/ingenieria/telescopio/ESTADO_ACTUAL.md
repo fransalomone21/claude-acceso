@@ -70,12 +70,15 @@ Faltan las mediciones y el inventario.
 ## Lo próximo
 
 Pesado por partes y balanceado (2026-10-05): masa ≈ 40 kg cerrada por dos
-caminos, CdM ≈ 63 cm compuesto. Modelo v6 (40 kg, CdM 63, eje 65,
-suplemento 2): base **1,43 m** (1,14 con 20 cm de poste), chapas 398 × 106,
-≈ 15 kg por rodillo y 10 en el pivote. Falta, en orden: (1) P3 o P4 como
+caminos, CdM ≈ 63 cm compuesto. **Plataforma de planchuela de hierro**
+(pedido de Fran; base triangular de Kevin; `docs/09-estructura-hierro.md`):
+la mesa (≈ 8 kg) gira con el telescopio y baja el eje a **≈ 54 cm** sobre la
+mesa. Modelo v7: poste de 10 cm, base **1,16 m**, chapas 357 × 107, ≈ 17 kg
+por rodillo y 15 en el pivote. Falta, en orden: (1) P3 o P4 como
 segundo método del CdM, y pesar la caja sola; (2) rebalancear con la cámara
 puesta; (3) anotar la balanza. Y P0: Kevin y los anillos de Saturno.
-Pendiente de Fran: base de 1,43 m o poste, y el puesto 3 de los pesos. El
+Pendiente de Fran: espesor de las planchuelas y si se sueldan o se
+abulonan, y el puesto 3 de los pesos. El
 pivote es la rótula de **amortiguador a gas** en un cono, no la de
 suspensión; el motor es un **NEMA 17 a comprar**: los de la casetera y la
 impresora son de continua y no sirven para seguir (`03-inventario.md` E4).

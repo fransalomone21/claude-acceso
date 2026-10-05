@@ -42,13 +42,14 @@ function computeVNS(P) {
   const swMin = P.swMin != null ? P.swMin : 3, stopMin = P.stopMin != null ? P.stopMin : 6;
   const thRun = (P.runMin / 60) * 15 * D2R;
   const thSw = ((P.runMin + swMin) / 60) * 15 * D2R, thStop = ((P.runMin + stopMin) / 60) * 15 * D2R;
-  const FEET = 0.020, BASE = 0.018, TAB = 0.018, RROLL = 0.016, TALON = 0.012;
+  const FEET = 0.020, BASE = 0.050, TAB = 0.040, RROLL = 0.016, TALON = 0.012;
   let thMax = thStop;                         // lo cubre la chapa; se estira abajo
   const groundTop = FEET + BASE;
   const ySouth = -0.27, yNorthTab = 0.27, yPlate = ySouth - 0.012;
 
   // Todo se calcula con la cara de arriba de la mesa en z = 0 y despues se
   // sube: el conjunto movil + eje es invariante a una traslacion vertical.
+  // BASE y TAB: planchuela de hierro DE CANTO (base 50 mm, marco de la mesa 40 mm).
   const C = [0, 0, P.Hdis];
   const zPiv = -TAB - 0.004 + P.postH;
   const tP = (C[2] - zPiv) / s;
@@ -127,16 +128,24 @@ function computeVNS(P) {
     r.plateHmax = ztt - r.zEdgeMin;
   });
 
-  // Centro de masa real, cargas en los tres apoyos y desbalance
+  // Centro de masa real, cargas en los tres apoyos y desbalance.
+  // Lo que gira es el telescopio MAS la mesa: con una mesa de hierro (mTab, kg,
+  // centro a zTab de la cara de arriba de la mesa) el centro de masa de todo lo
+  // que gira baja, y es ESE el que tiene que caer sobre el eje (Hbal).
   const Creal = [P.dE, P.dN, ztt + P.shim + P.Hreal];
+  const mT = P.mTab || 0, zT = P.zTab != null ? P.zTab : -TAB / 2;
+  const Ctab = [0, (ySouth + yNorthTab) / 2, ztt + zT];
+  const Mtot = P.M + mT;
+  const Cg = mul(add(mul(Creal, P.M), mul(Ctab, mT)), 1 / Mtot);
+  const Hbal = Cg[2] - ztt;
   const sup = [pivotAbs, rollers[0].Pt, rollers[1].Pt];
-  const F = solve3([[1, 1, 1], sup.map((q) => q[0]), sup.map((q) => q[1])], [P.M, P.M * Creal[0], P.M * Creal[1]]);
-  const rr = sub(Creal, Cabs);
+  const F = solve3([[1, 1, 1], sup.map((q) => q[0]), sup.map((q) => q[1])], [Mtot, Mtot * Cg[0], Mtot * Cg[1]]);
+  const rr = sub(Cg, Cabs);
   const offAxis = norm(sub(rr, mul(d, dot(rr, d))));
   let tauMax = 0;
   for (let k = 0; k <= 32; k++) {
     const th = -thRun + (2 * thRun * k) / 32;
-    const tau = dot(cross(sub(rotAbout(Creal, Cabs, d, th), Cabs), [0, 0, -P.M * G]), d);
+    const tau = dot(cross(sub(rotAbout(Cg, Cabs, d, th), Cabs), [0, 0, -Mtot * G]), d);
     tauMax = Math.max(tauMax, Math.abs(tau));
   }
   const nrm = rotAbout([0, 0, 1], [0, 0, 0], d, thRun);
@@ -145,7 +154,7 @@ function computeVNS(P) {
   const ySouthBase = Math.min(...rollers.map((r) => r.Pt[1])) - 0.07, yNorthBase = pivotAbs[1] + 0.08;
   return {
     d, thMax, thRun, thSw, thStop, swMin, stopMin, TALON, ztt, groundTop, ySouth, yNorthTab, yPlate, W, TAB, RROLL, FEET, BASE,
-    C: Cabs, pivot: pivotAbs, rollers, Creal,
+    C: Cabs, pivot: pivotAbs, rollers, Creal, Cg, Ctab, Mtot, Hbal,
     loads: { pivote: F[0], este: F[1], oeste: F[2] },
     offAxis, tauMax, tilt,
     baseLength: yNorthBase - ySouthBase, baseWidth: 2 * (e + chord / 2 + 0.04),

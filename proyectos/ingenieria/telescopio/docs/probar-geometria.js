@@ -21,6 +21,17 @@ const controles = [
 ];
 
 let fallas = 0;
+// La mesa de hierro gira con el telescopio: con el eje puesto en el CdM de
+// TODO lo que gira (Hbal), el torque es nulo; si se la ignora (mTab 0 con el
+// mismo eje), queda el telescopio solo fuera del eje y el torque aparece.
+{
+  const mesa = { ...base, mTab: 6 };
+  const ok = (g) => g.tauMax < 1e-6;
+  const conEje = { ...mesa, Hdis: computeVNS(mesa).Hbal };
+  const bueno = ok(computeVNS(conEje)), rojo = !ok(computeVNS({ ...conEje, mTab: 0 }));
+  if (!bueno || !rojo) fallas++;
+  console.log((bueno ? '[OK  ] ' : '[FAIL] ') + 'mesa de hierro: eje en el CdM de todo lo que gira => torque nulo -- ' + (rojo ? 'saboteado da ROJO, bien' : 'SABOTEADO DA VERDE: el control no mide'));
+}
 for (const [nombre, ok, sabotaje] of controles) {
   const bueno = ok(computeVNS(base));
   let malo = '(sin sabotaje: es una cota del diseno)';

@@ -90,7 +90,7 @@ a{color:var(--accent)}
   <div class="eyebrow">Telescopio 200/1200 · plataforma ecuatorial · 34,5° S</div>
   <h1>Plataforma VNS del 200/1200</h1>
   <p class="lede">El modelo de abajo está calculado, no dibujado a ojo: cada pieza sale de la latitud, del centro de masa y de cuánto tiempo querés seguir una estrella. Movés un número y la plataforma se rehace sola. Girala con el mouse (o el dedo), y dale <b>▶</b> para ver cómo acompaña al cielo.</p>
-  <p class="note hypn"><span class="badge hyp">hipótesis</span> Las tablas del dobson y el tubo están medidos con cinta (4/10/2026) y <b>pesados por partes</b> (5/10): tubo con cámara 19,7 kg, montura con la caja 19,7 kg, total ≈ 40 kg. El centro de masa (<b>63 cm</b> sobre el piso del dobson) sale de componer esas pesadas con la geometría: puede estar entre 58 y 69 cm según dónde estén los herrajes, y lo cierra una segunda medición (montura inclinada o todo junto). El eje se diseña 2 cm más arriba y la diferencia la cubre un suplemento. Este modelo sirve para <b>entender y presupuestar</b>. Para cortar falta medir.</p>
+  <p class="note hypn"><span class="badge hyp">hipótesis</span> Las tablas del dobson y el tubo están medidos con cinta (4/10/2026) y <b>pesados por partes</b> (5/10): tubo con cámara 19,7 kg, montura con la caja 19,7 kg, total ≈ 40 kg. El centro de masa (<b>63 cm</b> sobre el piso del dobson) sale de componer esas pesadas con la geometría: puede estar entre 58 y 69 cm según dónde estén los herrajes, y lo cierra una segunda medición (montura inclinada o todo junto). La plataforma es de <b>planchuela de hierro</b> (5/10), y la mesa gira con el telescopio: con ≈ 8 kg de mesa, el centro de masa de <i>todo lo que gira</i> queda a ≈ 54 cm sobre la mesa, y ahí va el eje. Las diferencias las cubre un suplemento. Este modelo sirve para <b>entender y presupuestar</b>. Para cortar falta medir.</p>
 
   <div class="stage">
     <div class="viewer" id="viewer">
@@ -122,11 +122,12 @@ a{color:var(--accent)}
       </div>
       <div class="group">
         <h3>La plataforma (lo que diseñamos)</h3>
-        <div class="ctl"><label for="Hdis">Altura del eje sobre la mesa</label><output id="Hdis_o"></output><input id="Hdis" type="range" min="45" max="80" step="0.5" value="65"></div>
+        <div class="ctl"><label for="mTab">Masa de la mesa y el brazo de hierro (gira con el telescopio)</label><output id="mTab_o"></output><input id="mTab" type="range" min="0" max="15" step="0.5" value="8"></div>
+        <div class="ctl"><label for="Hdis">Altura del eje sobre la mesa</label><output id="Hdis_o"></output><input id="Hdis" type="range" min="40" max="80" step="0.5" value="54"></div>
         <div class="ctl"><label for="shim">Suplemento bajo el dobson</label><output id="shim_o"></output><input id="shim" type="range" min="0" max="5" step="0.5" value="2"></div>
         <div class="ctl"><label for="run">Carrera a cada lado</label><output id="run_o"></output><input id="run" type="range" min="20" max="60" step="5" value="45"></div>
         <div class="ctl"><label for="half">Separación entre rodillos</label><output id="half_o"></output><input id="half" type="range" min="28" max="50" step="1" value="38"></div>
-        <div class="ctl"><label for="postH">Pivote levantado sobre un poste</label><output id="postH_o"></output><input id="postH" type="range" min="0" max="30" step="1" value="0"></div>
+        <div class="ctl"><label for="postH">Pivote levantado sobre un poste</label><output id="postH_o"></output><input id="postH" type="range" min="0" max="30" step="1" value="10"></div>
       </div>
       <div class="group">
         <h3>Apuntar el tubo</h3>
@@ -148,11 +149,11 @@ a{color:var(--accent)}
   <h2>Qué estás mirando, pieza por pieza</h2>
   <div class="cols">
     <ol class="parts">
-      <li><b>1</b><div><b>Base al piso.</b> Fenólico de 18 mm en forma de T: un travesaño al sur que lleva los rodillos y una lengua larga que va hasta el pivote, al norte. No se mueve nunca.</div></li>
+      <li><b>1</b><div><b>Base al piso.</b> Un <b>triángulo de planchuela de hierro de 50 mm, de canto</b>, que va de pata a pata (idea de Kevin): el peso baja derecho a las patas, y un triángulo no se deforma. Un travesaño debajo de los rodillos y cartelas (triángulos recortados de planchuela de 60) en las tres esquinas. No se mueve nunca.</div></li>
       <li><b>2</b><div><b>Tres patas regulables.</b> Un bulón M10 con tuerca en cada punta. Tres patas apoyan firme en cualquier piso, como el banquito de ordeñe: cuatro siempre renguean. Con los tornillos se corrige la inclinación sin cortar nada, y una vez alineada se marcan las tres patas en el piso del patio.</div></li>
-      <li><b>3</b><div><b>Pivote norte.</b> Una bocha de acero (una rótula de amortiguador a gas, bocha de 10 mm) atornillada a la base, y arriba, en la mesa, un hueco cónico donde apoya. Es el único punto que no rueda: la mesa gira alrededor de él. Es la del portón del baúl, no la de suspensión: esa viene precargada y con espárrago cónico, y le sobra todo.</div></li>
-      <li><b>4</b><div><b>Mesa móvil.</b> Fenólico de 18 mm. Encima va el dobson tal cual está hoy. Es lo que gira, y lleva todo lo que gira.</div></li>
-      <li><b>5</b><div><b>Los dos segmentos de aluminio.</b> Son <b>las únicas dos piezas de aluminio</b> de toda la plataforma: base, mesa y tacos son de fenólico, y los rodillos y soportes salen de la impresora 3D. Chapas de 5 mm, paradas, atornilladas al borde sur de la mesa con tacos de madera de separación. Las medidas, en el plano de abajo. Su borde de abajo no es un arco de círculo: es un pedazo de elipse, y cada una va girada unos 8° hacia afuera. Esa forma rara es lo único "difícil" del diseño, y se resuelve imprimiendo la plantilla 1:1 en papel y calando alrededor.</div></li>
+      <li><b>3</b><div><b>Pivote norte.</b> Una bocha de acero (una rótula de amortiguador a gas, bocha de 10 mm) arriba de un <b>poste de 10 cm</b> (caño o planchuelas soldadas, con tres riendas de planchuela de 30), y arriba, en el brazo, un hueco cónico donde apoya. El poste acorta la base de 1,30 a 1,16 m y casi no le quita estabilidad. Es el único punto que no rueda: la mesa gira alrededor de él. Es la del portón del baúl, no la de suspensión: esa viene precargada y con espárrago cónico, y le sobra todo.</div></li>
+      <li><b>4</b><div><b>Mesa móvil.</b> Un marco de planchuela de 40 de canto, con dos largueros donde apoya el dobson (con ranuras para correrlo), y el <b>brazo al pivote en A</b>: dos planchuelas de 50 de canto que se juntan en la cazoleta. En madera, ese brazo era el punto débil: una lengua de fenólico se doblaba unos 8 mm en la punta; en hierro, menos de 0,3 mm. <b>Ojo:</b> la mesa gira con el telescopio, así que su peso (≈ 8 kg) entra en el centro de masa, y baja el eje unos 11 cm.</div></li>
+      <li><b>5</b><div><b>Los dos segmentos de aluminio.</b> Son <b>las únicas dos piezas de aluminio</b> de toda la plataforma: base, mesa y brazo son de planchuela de hierro, y los rodillos y soportes salen de la impresora 3D. Chapas de 5 mm, paradas, atornilladas al marco sur de la mesa con separadores de planchuela. Las medidas, en el plano de abajo. Su borde de abajo no es un arco de círculo: es un pedazo de elipse, y cada una va girada unos 8° hacia afuera. Esa forma rara es lo único "difícil" del diseño, y se resuelve imprimiendo la plantilla 1:1 en papel y calando alrededor.</div></li>
       <li><b>6</b><div><b>Rodillos.</b> Un cilindro impreso de 32 mm de diámetro y 26 mm de ancho, con un rulemán 608ZZ (los de skate: 22 mm afuera, 8 mm de agujero) metido a presión en cada cara, girando sobre un bulón M8 entre dos soportes. El borde de cada chapa apoya y rueda sobre uno. Ancho de sobra porque la chapa se corre unos milímetros de costado a lo largo de la carrera.</div></li>
       <li><b>7</b><div><b>Motor.</b> Un paso a paso NEMA 17 (cubo de 42 mm) con una polea GT2 de 20 dientes, y una correa GT2 de 6 mm hasta una polea de 80 dientes en el eje del rodillo oeste: reduce 4 a 1. El rodillo da unas dos vueltas por hora, y cada micropaso del motor corre la mesa unos 2 segundos de arco. Es la propuesta para visualizar; la transmisión definitiva (rodillo o brazo con varilla roscada) se decide en el diseño de detalle.</div></li>
     </ol>
@@ -196,7 +197,7 @@ a{color:var(--accent)}
     <tbody>
       <tr><td>Chapa de aluminio 5 mm</td><td class="num">500 × 500 mm<br>(alcanza para las dos)</td><td>Alumina Argentina (Aluar 1050, online). Cortes a medida: MECENALUM (Mercado Libre). Mayoristas: Pagani S.A.; J. L. Metales (Av. Mitre 3380, Caseros)</td><td class="num">$66.193</td></tr>
       <tr><td>Corte de los segmentos</td><td class="num">2 piezas</td><td>En casa, con caladora y hoja para metal sobre la plantilla. O corte láser desde el DXF: Iruña Metalúrgica (Munro), Lasertec (zona norte)</td><td class="num">a cotizar</td></tr>
-      <tr><td>Fenólico 18 mm</td><td class="num">1 placa 1,22 × 2,44 (la base mide 1,4 m de largo)</td><td>Maderera Justo (Av. de Mayo 865, Villa Adelina, toma pedidos por WhatsApp), Maderera Newton (Villa Adelina), Multiplacas (cortes a medida), Easy</td><td class="num">$50.121 en Easy</td></tr>
+      <tr><td>Planchuela de hierro de 30 a 60 mm, menos de 1 cm de espesor</td><td class="num">≈ 6 m en total (la base mide 1,16 m)</td><td>Ya la tienen. Soldadura o bulones M8; antióxido y pintura</td><td class="num">—</td></tr>
       <tr><td>Rulemanes 608ZZ</td><td class="num">4 (2 por rodillo) + repuesto</td><td>Casas de rulemanes de la zona, casas de insumos de impresión 3D</td><td class="num">a cotizar</td></tr>
       <tr><td>Rótula de amortiguador a gas (bocha 10 mm, rosca M8)</td><td class="num">1</td><td>Repuestos de auto o ferretería industrial (es la que usan los planos de AstralFields para el pivote)</td><td class="num">a cotizar</td></tr>
       <tr><td>Bulones M10 + tuercas de inserto, varilla M8</td><td class="num">3 patas</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
@@ -207,7 +208,7 @@ a{color:var(--accent)}
     </tbody>
   </table></div>
   <div class="cols" style="margin-top:16px">
-    <div><h3>Se corta en casa</h3><p>Base y mesa de fenólico (todo recto, caladora y guía). Los segmentos de aluminio, si no se mandan a láser: plantilla pegada, caladora despacio con hoja de metal y aceite, y lima.</p></div>
+    <div><h3>Se corta en casa</h3><p>Base, mesa y brazo de planchuela: todo recto, amoladora y agujereadora (o soldadora). Los segmentos de aluminio, si no se mandan a láser: plantilla pegada, caladora despacio con hoja de metal y aceite, y lima.</p></div>
     <div><h3>Se imprime en papel</h3><p>La plantilla 1:1 de los dos segmentos. Sale del cálculo con las medidas reales, en el diseño de detalle.</p></div>
     <div><h3>Se imprime en 3D</h3><p>Los rodillos (con dos 608 adentro), el soporte del motor, las poleas, los dos soportes de los finales de carrera, la caja de la electrónica y el soporte de cámara intercambiable.</p></div>
   </div>
@@ -226,7 +227,7 @@ a{color:var(--accent)}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS2DRenderer.js"></script>
-<script src="geometria-vns.js"></script>
+<script src="geometria-vns.js?v=7"></script><!-- subir v= cada vez que cambia geometria-vns.js: si no, el navegador usa la copia vieja y la pagina se rompe -->
 <script>
 (function(){
 const D2R=Math.PI/180;
@@ -253,14 +254,14 @@ sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-2.2,rig
 const fill=new THREE.DirectionalLight(0xffffff,0.3);fill.position.set(-3,2,-2);scene.add(fill);
 
 // Un color por FAMILIA de pieza; la leyenda del visor usa los mismos (COLORS).
-const COLORS={base:0x5b3a22,mesa:0xb5562e,alu:0xd6e2ef,impreso:0xf08a24,soporte:0x3d6fb6,acero:0x8a939d,motor:0x1f2328,dob:0xe6c79c,pared:0xcda26f,eje:0xd8443a,cdm:0xffc425,laton:0xc9a227,limite:0x2bb673};
+const COLORS={base:0x3f4752,mesa:0xa33a24,alu:0xd6e2ef,impreso:0xf08a24,soporte:0x3d6fb6,acero:0x8a939d,motor:0x1f2328,dob:0xe6c79c,pared:0xcda26f,eje:0xd8443a,cdm:0xffc425,laton:0xc9a227,limite:0x2bb673};
 function convexHull(P){P=P.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[],up=[];
   for(const p of P){while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}
   for(const p of P.reverse()){while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);}
   return lo.slice(0,-1).concat(up.slice(0,-1));}
 const MAT={
-  fenol:new THREE.MeshStandardMaterial({color:COLORS.base,roughness:.8}),
-  mesa:new THREE.MeshStandardMaterial({color:COLORS.mesa,roughness:.75}),
+  fenol:new THREE.MeshStandardMaterial({color:COLORS.base,metalness:.5,roughness:.5}),
+  mesa:new THREE.MeshStandardMaterial({color:COLORS.mesa,metalness:.3,roughness:.6}),
   brass:new THREE.MeshStandardMaterial({color:COLORS.laton,metalness:.8,roughness:.3}),
   wood:new THREE.MeshStandardMaterial({color:COLORS.dob,roughness:.85}),
   wood2:new THREE.MeshStandardMaterial({color:COLORS.pared,roughness:.85}),
@@ -292,7 +293,7 @@ function beam(a,b,w,h,mat){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.
 function cyl(a,b,r,mat,seg){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,A.distanceTo(B),seg||24),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return m;}
 
 let G=null, root=null, rot=null, inner=null, dobGroup=null, rocker=null, tubeG=null;
-const P=()=>({phi:34.5,M:+$('M').value,Hdis:$('Hdis').value/100,Hreal:$('Hreal').value/100,dN:$('dN').value/100,dE:$('dE').value/100,shim:$('shim').value/100,runMin:+$('run').value,half:$('half').value/200,postH:$('postH').value/100});
+const P=()=>({phi:34.5,M:+$('M').value,Hdis:$('Hdis').value/100,Hreal:$('Hreal').value/100,dN:$('dN').value/100,dE:$('dE').value/100,shim:$('shim').value/100,runMin:+$('run').value,half:$("half").value/200,postH:$("postH").value/100,mTab:+$("mTab").value,zTab:-0.02});
 
 function build(){
   if(root){scene.remove(root);root.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.element&&o.element.parentNode)o.element.parentNode.removeChild(o.element);});}
@@ -302,12 +303,17 @@ function build(){
   rot=new THREE.Group();root.add(rot);inner=new THREE.Group();rot.add(inner);
   rot.position.copy(V(G.C));inner.position.copy(V(G.C)).negate();
 
-  // 1 base en T + 2 patas
-  const gT=G.groundTop, zb=G.FEET+G.BASE/2, wB=G.baseWidth/2;
-  const ys0=G.ySouthBase, ys1=G.ySouth+0.12;
-  fixed.add(boxENU([0,(ys0+ys1)/2,zb],[2*wB,ys1-ys0,G.BASE],MAT.fenol));
-  fixed.add(boxENU([0,(ys1+G.yNorthBase)/2,zb],[0.14,G.yNorthBase-ys1,G.BASE],MAT.fenol));
+  // 1 base: triangulo de planchuela de hierro de canto (1 1/4" x 3/16") de pata a pata,
+  // un travesano bajo los rodillos y cartelas en las tres esquinas (idea de Kevin)
+  const gT=G.groundTop, wB=G.baseWidth/2, PB=G.BASE, zb=gT-PB/2;
+  const ys0=G.ySouthBase;
   const feet=[[wB-0.04,ys0+0.04],[-(wB-0.04),ys0+0.04],[0,G.yNorthBase-0.04]];
+  [[0,1],[1,2],[2,0]].forEach(([a,b])=>fixed.add(beam([feet[a][0],feet[a][1],zb],[feet[b][0],feet[b][1],zb],0.005,PB,MAT.fenol)));
+  const yR=G.rollers[0].Pt[1], xAt=(y)=>(wB-0.04)*(feet[2][1]-y)/(feet[2][1]-feet[0][1]);
+  fixed.add(beam([xAt(yR),yR,zb],[-xAt(yR),yR,zb],0.005,PB,MAT.fenol));                     // travesano bajo los rodillos
+  feet.forEach((f,i)=>{const o=feet[(i+1)%3],q=feet[(i+2)%3],k=0.16,pts=[f,[f[0]+(o[0]-f[0])*k/Math.hypot(o[0]-f[0],o[1]-f[1]),f[1]+(o[1]-f[1])*k/Math.hypot(o[0]-f[0],o[1]-f[1])],[f[0]+(q[0]-f[0])*k/Math.hypot(q[0]-f[0],q[1]-f[1]),f[1]+(q[1]-f[1])*k/Math.hypot(q[0]-f[0],q[1]-f[1])]];
+    const sh=new THREE.Shape();sh.moveTo(pts[0][0],pts[0][1]);sh.lineTo(pts[1][0],pts[1][1]);sh.lineTo(pts[2][0],pts[2][1]);sh.closePath();
+    const m=new THREE.Mesh(new THREE.ExtrudeGeometry(sh,{depth:0.004,bevelEnabled:false}),MAT.fenol);m.rotation.x=-Math.PI/2;m.position.y=gT-0.004;fixed.add(m);});   // cartelas de 4 mm
   feet.forEach(f=>{fixed.add(cyl([f[0],f[1],0],[f[0],f[1],G.FEET],0.02,MAT.steel));fixed.add(cyl([f[0],f[1],G.FEET],[f[0],f[1],gT+0.012],0.005,MAT.steel));});
   const t1=tag('Base al piso',1);t1.position.copy(V([0.08,G.yNorthBase-0.30,gT+0.02]));fixed.add(t1);
   const t2=tag('Pata regulable',2);t2.position.copy(V([feet[0][0],feet[0][1],0.0]));fixed.add(t2);
@@ -315,7 +321,9 @@ function build(){
   // 3 pivote: bloque + bulon + bocha
   const pv=G.pivot, zTip=pv[2];
   const blockTop=Math.max(gT+0.01,zTip-0.035);
-  fixed.add(boxENU([pv[0],pv[1],(gT+blockTop)/2],[0.07,0.07,blockTop-gT],MAT.printed2));
+  fixed.add(boxENU([pv[0],pv[1],(gT+blockTop)/2],[0.04,0.04,blockTop-gT],MAT.fenol));          // poste: caño cuadrado 40 x 40
+  fixed.add(boxENU([pv[0],pv[1],blockTop-0.003],[0.07,0.07,0.006],MAT.fenol));                  // planchuela de tapa
+  if(blockTop-gT>0.05)[[1,0],[-1,0],[0,1]].forEach(([sx,sy])=>fixed.add(beam([pv[0]+sx*0.02,pv[1]+sy*0.02,blockTop-0.01],[pv[0]+sx*0.11,pv[1]+sy*0.11,gT],0.005,0.025,MAT.fenol))); // tres riendas
   fixed.add(cyl([pv[0],pv[1],blockTop],[pv[0],pv[1],zTip-0.008],0.004,MAT.brass,12));
   const ball=new THREE.Mesh(new THREE.SphereGeometry(0.008,24,16),MAT.brass);ball.position.copy(V([pv[0],pv[1],zTip-0.008]));fixed.add(ball);
   const t3=tag('Pivote norte',3);t3.position.copy(V([pv[0],pv[1]+0.05,zTip]));fixed.add(t3);
@@ -360,9 +368,12 @@ function build(){
   // 4 mesa + lengua
   const zt=G.ztt, zm=zt-G.TAB/2;
   const tabMat=$('ghost').checked?new THREE.MeshStandardMaterial({color:COLORS.mesa,transparent:true,opacity:.28,depthWrite:false}):MAT.mesa;
-  inner.add(boxENU([0,(G.ySouth+G.yNorthTab)/2,zm],[2*G.W,G.yNorthTab-G.ySouth,G.TAB],tabMat));
-  if(p.postH<0.005){inner.add(boxENU([0,(G.yNorthTab+pv[1]+0.06)/2,zm],[0.12,pv[1]+0.06-G.yNorthTab,G.TAB],tabMat));}
-  else{inner.add(beam([0,G.yNorthTab-0.03,zm],[0,pv[1],zTip+0.03],0.12,0.025,tabMat));}
+  // mesa: marco de angulo de hierro con dos largueros donde apoya el dobson (ranurados),
+  // y el brazo al pivote en A: dos planchuelas de canto que se juntan en la cazoleta
+  const yS=G.ySouth, yN=G.yNorthTab, Wm=G.W, A=G.TAB;
+  [[[Wm,yS],[-Wm,yS]],[[Wm,yN],[-Wm,yN]],[[Wm,yS],[Wm,yN]],[[-Wm,yS],[-Wm,yN]],[[0.17,yS],[0.17,yN]],[[-0.17,yS],[-0.17,yN]]]
+    .forEach(([a,b])=>inner.add(beam([a[0],a[1],zt-A/2],[b[0],b[1],zt-A/2],0.005,A,tabMat)));
+  [Wm-0.02,-(Wm-0.02)].forEach(x=>inner.add(beam([x,yN,zt-A/2],[pv[0],pv[1],zTip+0.03],0.005,0.05,tabMat)));
   const cup=new THREE.Mesh(new THREE.ConeGeometry(0.02,0.018,24,1,true),MAT.steel);cup.position.copy(V([pv[0],pv[1],zTip+0.006]));inner.add(cup);
   inner.add(boxENU([pv[0],pv[1],zTip+0.024],[0.07,0.07,0.012],MAT.mesa));
   const t4=tag('Mesa móvil',4);t4.position.copy(V([-G.W+0.04,G.yNorthTab-0.04,zt+0.01]));inner.add(t4);
@@ -433,8 +444,8 @@ function build(){
   const t11=tag('Dobson actual (medido 4/10)',11);t11.position.copy(V([0.2,0.19,zf+0.82]));rocker.add(t11);
 
   // 9 centro de masa (real)
-  const com=new THREE.Mesh(new THREE.SphereGeometry(0.022,24,16),MAT.com);com.position.copy(V(G.Creal));inner.add(com);
-  const t9=tag('Centro de masa',9);t9.position.copy(V([G.Creal[0]+0.04,G.Creal[1],G.Creal[2]+0.04]));inner.add(t9);
+  const com=new THREE.Mesh(new THREE.SphereGeometry(0.022,24,16),MAT.com);com.position.copy(V(G.Cg));inner.add(com);
+  const t9=tag('Centro de masa (todo lo que gira)',9);t9.position.copy(V([G.Cg[0]+0.04,G.Cg[1],G.Cg[2]+0.04]));inner.add(t9);
 
   // 8 eje polar + 10 cielo
   const d=G.d, far=3.3;
@@ -514,6 +525,8 @@ function readout(p){
     ['Cada micropaso mueve (1/16, 20:80)',fmt(Math.PI*0.032/(200*16*4)/r.R*206265,1)+'″'],
     ['Carga en el pivote',fmt(L.pivote,1)+' kg'],
     ['Carga en cada rodillo',fmt(L.este,1)+' / '+fmt(L.oeste,1)+' kg'],
+    ['Masa que gira (telescopio + mesa)',fmt(G.Mtot,1)+' kg'],
+    ['Eje que equilibra todo (sobre la mesa)',cm(G.Hbal)],
     ['Centro de masa fuera del eje',mm(off),off<0.005?'good':'bad'],
     ['Torque de más para el motor',fmt(tau,2)+' N·m',tau<0.3?'good':'bad'],
   ];
@@ -540,7 +553,7 @@ function applyTags(){ // el renderer de etiquetas no mira la visibilidad de los 
   const on=$('showTags').checked;
   root&&root.traverse(o=>{if(!o.userData.isTag)return;let v=on,q=o.parent;while(q){if(!q.visible)v=false;q=q.parent;}o.visible=v;o.element.style.visibility=v?'visible':'hidden';});}
 
-const units={M:' kg',Hreal:' cm',dN:' cm',dE:' cm',Hdis:' cm',shim:' cm',run:' min',half:' cm',postH:' cm',az:'°',alt:'°'};
+const units={mTab:" kg",M:" kg",Hreal:' cm',dN:' cm',dE:' cm',Hdis:' cm',shim:' cm',run:' min',half:' cm',postH:' cm',az:'°',alt:'°'};
 Object.keys(units).forEach(k=>{const el=$(k);const show=()=>{$(k+'_o').textContent=fmt(+el.value,el.step.includes('.')?1:0)+units[k];};show();
   el.addEventListener('input',()=>{show();if(k==='az'||k==='alt')updatePose();else build();});});
 $('t').addEventListener('input',()=>{tMin=+$('t').value;updatePose();});
@@ -555,7 +568,7 @@ $('defaults').addEventListener('click',()=>{playing=false;$('play').textContent=
   ['showDob','showTags'].forEach(k=>$(k).checked=true);$('ghost').checked=false;
   Object.keys(units).forEach(k=>{$(k).value=$(k).defaultValue;$(k).dispatchEvent(new Event('input'));});$('t').value=0;updatePose();});
 // leyenda de colores: la misma tabla que pinta los materiales
-(function(){const L=[['base','Base (fenólico)'],['mesa','Mesa móvil (fenólico)'],['alu','Aluminio: solo las 2 chapas'],['impreso','Rodillos impresos'],['soporte','Soportes impresos'],['acero','Rulemanes, bulones'],['laton','Pivote (bocha)'],['motor','Motor y correa'],['limite','Finales de carrera'],['dob','Dobson actual'],['eje','Eje polar'],['cdm','Centro de masa']];
+(function(){const L=[['base','Base y poste (hierro)'],['mesa','Mesa y brazo (hierro, antióxido)'],['alu','Aluminio: solo las 2 chapas'],['impreso','Rodillos impresos'],['soporte','Soportes impresos'],['acero','Rulemanes, bulones'],['laton','Pivote (bocha)'],['motor','Motor y correa'],['limite','Finales de carrera'],['dob','Dobson actual'],['eje','Eje polar'],['cdm','Centro de masa']];
   const d=document.createElement('div');d.className='legend';d.innerHTML=L.map(([k,t])=>'<span><i style="background:#'+COLORS[k].toString(16).padStart(6,'0')+'"></i>'+t+'</span>').join('');view.appendChild(d);})();
 
 const views={iso:[[3.3,-3.2,2.3],[0,0.2,0.75]],oeste:[[-3.8,0.35,0.9],[0,0.35,0.7]],sur:[[0,-3.0,0.7],[0,0.2,0.45]],arriba:[[0.01,0.35,3.6],[0,0.35,0]],cielo:[[0.25,1.6,0.25],[0,-1.2,1.6]]};
