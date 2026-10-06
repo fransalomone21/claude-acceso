@@ -2,6 +2,13 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
+**2026-10-06 — T7 bis: la nube, medida por proyecto.** `.claude/nube/estado-nube.py`
+(arranque: repos subidos y memoria espejada; `--simular`: la puerta contra un
+clon armado desde GitHub, para los 22 proyectos × las 8 necesidades). Nació con
+cinco rojos, el peor la memoria de la PC fuera de todo repo (la nube no podía
+entrar a ningún trabajo de materia). Espejo en `perfil-global/memoria`.
+Detalle en `HANDOFF.md`.
+
 **2026-10-02 — T7 CERRADA (paridad nube/local).** Medida en la nube real (las
 cinco en verde) y, al traerla a la PC, el barrido de su último hallazgo destapó
 la clase entera: en la nube la puerta salteaba **en silencio** las skills y todo

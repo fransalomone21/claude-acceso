@@ -88,6 +88,10 @@ $medidores = @(
     # secciones, que cada rango entre en una lectura, que cada proyecto tenga entrada) Y que la puerta este
     # REGISTRADA en settings.json: un freno desinstalado es la forma de fallar que nadie mira.
     @{ nombre = 'catalogo de la cascada';    cmd = 'python .claude\hooks\cascada_puerta.py --verificar' }
+    # Lo que una sesion NUEVA de la nube recibe: cada repo (claude-acceso, perfil-global y los propios de MAPA.md
+    # seccion 2) commiteado y pusheado, y la memoria de la PC espejada en perfil-global/memoria. Nacio el
+    # 2026-10-06 con cinco rojos que nadie veia (dos repos sin pushear, el nucleo sin commitear, 43 memorias).
+    @{ nombre = 'listo para la nube';        cmd = 'python .claude\nube\estado-nube.py' }
 )
 
 $saboteadores = @(
@@ -110,6 +114,10 @@ $saboteadores = @(
     @{ nombre = 'saboteador de fase_activa';      cmd = 'python .claude\hooks\fase_activa.py --autotest' }
     # El bash de Git, no 'bash' a secas: en PowerShell 'bash' es el alias de WSL de WindowsApps.
     @{ nombre = 'saboteador de traer-perfil';     cmd = '& "$env:ProgramFiles\Git\bin\bash.exe" .claude/nube/traer-perfil.sh --probar' }
+    # El simulacro (lo que la puerta exige, contra un clon armado desde GitHub) y el saboteador de estado-nube.
+    # Lentos (~10 y ~20 s): van aca y no en el arranque.
+    @{ nombre = 'simulacro de la nube';           cmd = 'python .claude\nube\estado-nube.py --simular' }
+    @{ nombre = 'saboteador de estado-nube';      cmd = 'python .claude\nube\estado-nube.py --probar' }
 )
 
 function Correr($lista, $titulo) {

@@ -55,6 +55,21 @@ traer() {
         mkdir -p "$destino/skills/$s" && cp -r "$d". "$destino/skills/$s/"
         [ -f "$destino/skills/$s/SKILL.md" ] && puestas=$((puestas+1))
     done
+    # La auto-memoria (preferencias de Fran, cursada, criterios). En la PC vive solo en ~/.claude/projects/<raiz>/
+    # memory y la puerta exige leer seis de ellas para 'materia': en la nube daban NO EXISTE y la puerta negaba toda
+    # sesion de materia (2026-10-06). El espejo es perfil-global/memoria (privado), lo escribe
+    # '.claude/nube/estado-nube.py --sincronizar-memoria' en la PC, y estado-nube.py da rojo si quedo viejo.
+    local raiz slug mem=""
+    raiz="$(git rev-parse --show-toplevel 2>/dev/null)"
+    if [ -d "$perfil/memoria" ] && [ -n "$raiz" ]; then
+        slug="$(printf '%s' "$raiz" | sed 's#[:\\/]#-#g')"
+        mem="$destino/projects/$slug/memory"
+        mkdir -p "$mem" && cp "$perfil/memoria/"*.md "$mem/" 2>/dev/null
+        if [ "$(ls "$perfil/memoria/"*.md 2>/dev/null | wc -l)" -ne "$(ls "$mem/"*.md 2>/dev/null | wc -l)" ]; then
+            echo "[ROJO] memoria: no se copio entera a $mem."
+            return 1
+        fi
+    fi
     # Se mide el EFECTO: lo instalado tiene la marca y no esta vacio, y estan todas las skills.
     if ! grep -q "$MARCA" "$destino/CLAUDE.md" 2>/dev/null; then
         echo "[ROJO] se copio pero $destino/CLAUDE.md no tiene el perfil."
@@ -71,6 +86,8 @@ traer() {
     echo "  2. $perfil/apertura-proyecto.md    el cuadro de cada respuesta y el retome"
     echo "  3. $perfil/chequeo-nucleo.md       las lecciones, por momento de aplicacion"
     echo "  4. $perfil/recordatorio-transversal.md"
+    [ -n "$mem" ] && echo "  5. $mem/MEMORY.md   la memoria de Fran (en la nube llega despues de que el harness la buscara)"
+    echo "Proyecto con repo propio (catedras, coaching...): python3 .claude/nube/estado-nube.py --traer <proyecto>"
     echo "Lecciones nuevas: python3 $perfil/herramientas/aprender.py agregar ... (y commit + push de perfil-global)"
     echo "Buscar antes de pelear: python3 $perfil/herramientas/aprender.py buscar \"<sintoma>\""
     return 0
@@ -88,10 +105,11 @@ probar() {
     printf '# %s -- Fran (prueba)\n' "$MARCA" > "$tmp/p/CLAUDE-global.md"
     echo nucleo > "$tmp/p/chequeo-nucleo.md"; echo 'print(1)' > "$tmp/p/herramientas/aprender.py"
     mkdir -p "$tmp/p/una-skill" && echo '# skill' > "$tmp/p/una-skill/SKILL.md"
+    mkdir -p "$tmp/p/memoria" && echo '- [x](x.md)' > "$tmp/p/memoria/MEMORY.md"
     out="$(traer "$tmp/p" "$tmp/d2")"; rc=$?
     if [ $rc -eq 0 ] && grep -q "$MARCA" "$tmp/d2/CLAUDE.md" && [ -f "$tmp/d2/chequeo-nucleo.md" ] \
-       && [ -f "$tmp/d2/skills/una-skill/SKILL.md" ]; then
-        echo "[OK] perfil valido -> verde, ~/.claude/CLAUDE.md con el perfil y la skill en skills/"
+       && [ -f "$tmp/d2/skills/una-skill/SKILL.md" ] && ls "$tmp/d2/projects/"*/memory/MEMORY.md >/dev/null 2>&1; then
+        echo "[OK] perfil valido -> verde, ~/.claude/CLAUDE.md con el perfil, la skill y la memoria"
     else echo "[FALLA] perfil valido tenia que instalar y dar verde (rc=$rc)"; malos=$((malos+1)); fi
     # 3. perfil sin la marca (repo equivocado o vacio): rojo
     printf 'otra cosa\n' > "$tmp/p/CLAUDE-global.md"

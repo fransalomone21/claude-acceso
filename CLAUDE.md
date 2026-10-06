@@ -212,6 +212,7 @@ una carpeta por materia. Dos remotes de `rclone`, el mismo token, distinto
 - **El inventario del sistema y la historia de cada decisión**: [`MAPA.md`](MAPA.md).
 - **Máquina nueva**: [`MAQUINA-NUEVA.md`](MAQUINA-NUEVA.md) y `.\bootstrap.ps1`.
 - **¿Este árbol quedó atrás de la otra máquina?**: `.\verificar-sincronia.ps1` (y `.\probar-sincronia.ps1`).
+- **¿Una sesión en la nube puede seguir cualquier proyecto?**: `python .claude\nube\estado-nube.py` (lo subido y la memoria; corre en el arranque) y `--simular` (arma lo que la nube ve desde GitHub y le pregunta a la puerta). En la nube, un proyecto con repo propio se trae con `python3 .claude/nube/estado-nube.py --traer <proyecto>`. La memoria de la PC viaja espejada en `perfil-global/memoria` (`--sincronizar-memoria`).
 - **¿El fan-out no se decide solo?**: el guardia `perfil-global/hooks/guardia-fanout.ps1` pregunta (`perfil-global\probar-guardia-fanout.ps1`).
 - **¿Las lecciones llegan?**: `python perfil-global\herramientas\aprender.py sin-triage` (`perfil-global\probar-chequeo-lecciones.ps1`).
 - **Las ramas viejas**: [`archivo/RAMAS.md`](archivo/RAMAS.md).
