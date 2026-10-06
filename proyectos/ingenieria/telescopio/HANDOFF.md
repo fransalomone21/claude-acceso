@@ -32,7 +32,7 @@ antes de comprar el aluminio) e inventario con filas en `?`.
 - **Soldar** lo fijo, **abulonar** lo que se desarma/ajusta (`09`).
 - **Motor** (pasó 4 publicaciones): se recomienda el de ≈ 4 kg·cm (Usongshine
   tipo 17HS4401, $24.640 ML FULL); el 17HS2408S de $18.200 (1,6 kg·cm) deja 2,6×
-  de margen contra viento y se descartó (`07` §5.4). Precios y datos son los de
+  de margen contra viento y se descartó (`09`, sección Motor). Precios y datos son los de
   las publicaciones: verificar al comprar.
 - **Segundo método del CdM = P3 con la caja puesta** (da la altura, que es la
   duda); P4 plano queda de control; ya no se pesa la caja sola.
@@ -45,6 +45,13 @@ antes de comprar el aluminio) e inventario con filas en `?`.
   antes (medido). El permiso de Kevin se hereda de la carpeta.
 - Inventario: M3, M6, M8, M9 pasan a `no aplica` (con su motivo); cámara y óptica
   marcadas como aparcadas, **no cerradas**.
+
+- **Simplificado a pedido de Fran («son 6 docs, no dan ganas de leer»):** la
+  carpeta del Drive queda con **2 Docs a la vista** («1 - El proyecto», ~2
+  páginas; «2 - Paso a paso», ~3) y el Cuaderno; Medidas, Plataforma de hierro y
+  Protocolo se mudaron (mismos IDs) a la subcarpeta «Archivo (referencia, no hace
+  falta leer)». `07` y `11` se acortaron: las cuentas finas viven en `09`.
+  Los .md del repo siguen completos; no se tocó nada más.
 
 ## Lo que se hizo y no se rehace
 
@@ -208,7 +215,7 @@ elegido; sube a high solo si una medicion cambia la arquitectura.
 5. Ya resuelto, no se rehace: VNS y trade study; espejo sur (pivote al NORTE);
    limites 45/48/51 min; geometria del dobson; pesadas por partes; pivote =
    rotula de amortiguador a gas; motores de casetera/impresora descartados, NEMA
-   17 de ~4 kg.cm se compra (Usongshine 17HS4401, 07 sec 5.4); hierro y poste de
+   17 de ~4 kg.cm se compra (Usongshine 17HS4401, 09, sección Motor); hierro y poste de
    10 cm; base triangular ancha (no cuadrada); soldar/abulonar; fijacion del
    dobson con ranuras, bujes y mariposas; concepto y pasos en documentos
    separados.

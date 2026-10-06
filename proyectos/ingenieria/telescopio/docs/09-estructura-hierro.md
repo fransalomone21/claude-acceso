@@ -62,10 +62,16 @@ decide, fase 4 la prueba, después de CAL-5. ESP32 en lugar del Nano, pantalla
 roja o atenuada (la luz blanca arruina la visión nocturna), página web servida
 por la placa. No toca la mecánica.
 
-**Motor:** NEMA 17 de ≈ 4 kg·cm. Pide 0,16 kg·cm por el rozamiento del pivote y
-0,62 kg·cm por una ráfaga de 40 km/h (≈ 12 N·m en el eje; estimado). El de
+**Motor** (sección Motor): NEMA 17 de ≈ 4 kg·cm. Cuenta: `T_eje × 0,016 m
+(radio del rodillo) ÷ 0,79 m (rodillo al eje) ÷ 4 (reducción)`. Pide 0,16 kg·cm por el
+rozamiento del pivote (3 N·m, peor caso) y
+0,62 kg·cm por una ráfaga de 40 km/h (≈ 25 N sobre el tubo ≈ 12 N·m en el eje; estimado).
+Opciones vistas el 5/10: ELabshop 17HS2408S 1,6 kg·cm $18.200 (descartado);
+Usongshine tipo 17HS4401 ≈ 4 kg·cm $24.640 ML FULL (**elegido**; confirmar el
+modelo en la ficha); ACT Motor 17HS4417P1 ≈ 4 kg·cm $22.000 Marketplace (sin
+garantía); La Costa 3D 4,4 kg·cm $30.200. El de
 1,6 kg·cm (17HS2408S, $18.200) deja 2,6× de margen; el de ≈ 4 kg·cm (Usongshine
-tipo 17HS4401, $24.640) deja 6,5×. Detalle y opciones: `07-guia-armado.md` §5.4.
+tipo 17HS4401, $24.640) deja 6,5×. Detalle y opciones: `09-estructura-hierro.md` (sección Motor).
 
 ## El brazo, en números
 
