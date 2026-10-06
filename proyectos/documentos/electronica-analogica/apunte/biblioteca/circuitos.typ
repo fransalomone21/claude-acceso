@@ -351,6 +351,70 @@
   cetz.draw.content((2.8, -1.5), text(size: letra-figura, fill: luma(90))[retorno por el punto medio], anchor: "north")
 })
 
+// El mismo rectificador de punto medio, congelado en el PICO del semiciclo en
+// que A es positivo, con los potenciales medidos contra el punto medio M y la
+// tensión que soporta el diodo que NO conduce. Es la figura que contesta
+// «¿por qué D2 aguanta todo el secundario si hay punto medio?»: la cota de
+// v_D2 va de B a K, y el camino de B a K pasa por la bobina entera y por D1,
+// que conduce (cortocircuito). El punto medio no está en ese camino.
+// Diodos ideales: con caída de 0,7 V los números bajan 0,7 V y la forma es la
+// misma. Más alta que fig-rectificador-punto-medio (retorno en y = -1,9) para
+// que entre la cota de v_D2 entre los diodos y el retorno.
+#let fig-piv-punto-medio() = esquema({
+  import zap: *
+  let (yb, ym, ya) = (0, 1.3, 2.6)
+  let y-ret = -1.9
+  let y-cota = -1.0
+  inductor("L1", (0, ya), (0, yb))
+  _nucleo(0.52, -0.3, ya + 0.3)
+  inductor("L2a", (1.25, ym + 0.08), (1.25, ya))
+  inductor("L2b", (1.25, yb), (1.25, ym - 0.08))
+  wire((1.25, ym - 0.08), (1.25, ym + 0.08))
+  node("m", (1.25, ym))
+  wire((0, ya), (-0.8, ya))
+  wire((0, yb), (-0.8, yb))
+  node("p1", (-0.8, ya), fill: false)
+  node("p2", (-0.8, yb), fill: false)
+  cetz.draw.content((-0.95, ym), text(size: letra-figura)[220 V], anchor: "east")
+  // diodos: D1 conduce, D2 está cortado
+  wire((1.25, ya), (1.9, ya))
+  diode("D1", (1.9, ya), (3.3, ya), label: (content: [$D_1$ conduce], anchor: "south"))
+  wire((1.25, yb), (1.9, yb))
+  diode("D2", (1.9, yb), (3.3, yb), label: (content: [$D_2$ cortado], anchor: "south"))
+  wire((3.3, ya), (4.1, ya))
+  wire((4.1, ya), (4.1, yb))
+  wire((3.3, yb), (4.1, yb))
+  node("sal", (4.1, ym))
+  wire((4.1, ym), (5.0, ym))
+  resistor("RL", (5.0, ym), (5.0, y-ret), label: $R_L$)
+  wire((5.0, y-ret), (0.55, y-ret))
+  wire((0.55, y-ret), (0.55, ym))
+  wire((0.55, ym), (1.25, ym))
+  cetz.draw.content((2.8, y-ret - 0.1), text(size: letra-figura, fill: luma(90))[retorno por el punto medio], anchor: "north")
+  // potenciales de cada punto, medidos contra M
+  cetz.draw.content((1.3, ya + 0.28), text(size: letra-figura)[A: $+V_p$], anchor: "south-west")
+  cetz.draw.content((1.4, ym + 0.12), text(size: letra-figura)[M: $0$], anchor: "south-west")
+  cetz.draw.content((1.3, yb + 0.28), text(size: letra-figura)[B: $-V_p$], anchor: "south-west")
+  cetz.draw.content((4.2, ym + 0.12), text(size: letra-figura)[K: $+V_p$], anchor: "south-west")
+  // corriente: sale de A, pasa por D1 y R_L y vuelve por M
+  corriente((2.3, ya + 0.38), (3.2, ya + 0.38), $i$, ancla: "south")
+  corriente((4.65, 0.95), (4.65, 0.15), $i$, ancla: "east")
+  // la cota: lo que soporta D2, de B (ánodo) a K (cátodo)
+  cetz.draw.line((1.25, yb), (1.25, y-cota), stroke: punteado)
+  cetz.draw.line((4.1, yb), (4.1, y-cota), stroke: punteado)
+  cetz.draw.line(
+    (1.25, y-cota),
+    (4.1, y-cota),
+    stroke: 0.7pt + c-rojo,
+    mark: (start: "straight", end: "straight", scale: 0.45),
+  )
+  cetz.draw.content(
+    (2.675, y-cota - 0.14),
+    text(size: letra-figura, fill: c-rojo)[$v_(D 2) = -2 V_p$],
+    anchor: "north",
+  )
+})
+
 // Salto de cable: dos conductores que se cruzan SIN conectarse. El
 // arquito es la convención inequívoca; el cruce a secas también vale
 // (sin punto = sin conexión), pero acá conviene que no quede duda.

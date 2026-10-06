@@ -1,5 +1,13 @@
 # Handoff — próxima sesión
 
+## 2026-10-06 — sección nueva en el Módulo 4 (PIV)
+
+Entró la sección «Caídas y corrientes en el esquemático: de dónde sale cada PIV»
+(figura `fig-piv-punto-medio`). Es sólo de EA (módulo 4 no está en el TDC). Si Fran
+la lee y sigue sin cerrarle: la clave es que el cátodo de D2 *no* está libre, lo
+sostiene D1; si hace falta, el mismo diagrama para el puente (hoy sólo texto).
+Pendiente heredado: la pasada de humor y voz sobre los módulos viejos.
+
 ## 2026-10-02 — dos apuntes del mismo fuente
 
 **Todo lo que se escriba en los módulos 7 a 15 sale en los dos PDF.** Lo que

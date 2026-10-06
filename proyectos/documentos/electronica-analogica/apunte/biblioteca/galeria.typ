@@ -64,6 +64,7 @@
 #muestra("fig-proteccion-polaridad()", fig-proteccion-polaridad())
 #muestra("fig-rectificador-media-onda()", fig-rectificador-media-onda())
 #muestra("fig-rectificador-punto-medio()", fig-rectificador-punto-medio())
+#muestra("fig-piv-punto-medio()", fig-piv-punto-medio())
 #muestra("fig-puente-graetz()", fig-puente-graetz())
 #muestra("graf-media-onda()", graf-media-onda())
 #muestra("graf-onda-completa()", graf-onda-completa())

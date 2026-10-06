@@ -307,7 +307,7 @@ $ V_"cc" = (2 V_p) / pi = 0,637 dot V_p $
     [$V_"cc"$ (sin filtro)],  [$V_p\/pi$],[$2V_p\/pi$],[$2V_p\/pi$],
     [Frecuencia del ripple],  [50 Hz],    [100 Hz],   [100 Hz],
     [Caída total de diodos],  [0,7 V],    [0,7 V],    [1,4 V],
-    [PIV por diodo],          [$V_p$],    [$2V_p$],   [$V_p$],
+    [PIV por diodo (sin filtro)], [$V_p$], [$2V_p$],  [$V_p$],
     [Transformador especial], [no],       [sí, con punto medio], [no],
   ),
   caption: [Las tres topologías de rectificación, comparadas],
@@ -319,6 +319,124 @@ $ V_"cc" = (2 V_p) / pi = 0,637 dot V_p $
   para el mismo rizado (se demuestra en el Módulo 5); no necesita un transformador
   especial; y cada diodo soporta la mitad de tensión inversa que en la topología de punto
   medio. El precio son dos diodos más y 0,7 V extra de caída, que es barato.
+]
+
+=== Caídas y corrientes en el esquemático: de dónde sale cada PIV
+
+La tabla de arriba da la PIV como un dato, y un dato se olvida. Conviene saber
+*deducirla*, y sobre todo contestar la objeción que la tabla no contesta: *si el
+transformador tiene punto medio, ¿por qué cada diodo aguanta la bobina entera?* Eso se
+resuelve leyendo el esquemático con método, que es lo que sigue.
+
+*Cómo se lee un diodo.* La flecha del símbolo va del ánodo al cátodo y marca el único
+sentido en que puede circular la corriente. La tensión del diodo, $v_D$, se mide *siempre
+de ánodo a cátodo*: positiva y de unos $0,7$ V cuando conduce, negativa cuando está
+cortado. La PIV es el valor más negativo que alcanza $v_D$ en todo el ciclo, dicho sin el
+signo. Un diodo cortado no cae cero volts ni cae un valor fijo de fábrica: *cae lo que el
+resto del circuito le deje*, y eso hay que calcularlo.
+
+*El método, que vale para cualquier rectificador:*
+
++ Se decide quién conduce: el diodo cuyo ánodo está más positivo que su cátodo, por lo
+  menos $0,7$ V.
++ Cada diodo que conduce se reemplaza por una caída de $0,7$ V (modelo de caída fija).
++ Con eso quedan determinados los potenciales de todos los nodos, medidos contra una
+  referencia: en el punto medio, contra $M$.
++ La tensión de un diodo cortado es la diferencia de potencial entre sus dos extremos. Se
+  la calcula recorriendo *cualquier* camino que los una y sumando las caídas (malla de
+  Kirchhoff). Si dos caminos dan distinto, hay un error en algún potencial.
+
+*Media onda.* En el pico positivo el diodo conduce, $v_D approx +0,7$ V, y el resto de la
+fuente cae en $R_L$. En el pico negativo el diodo está cortado, así que *no circula
+corriente*; sin corriente, la resistencia no cae nada ($v_R = i R_L = 0$), y la malla
+$v_e = v_D + v_R$ da $v_D = v_e = -V_p$. La fuente entera queda sobre el diodo porque la
+resistencia, sin corriente, no se queda con nada. De ahí sale $"PIV" = V_p$.
+
+*Punto medio.* Acá viene la objeción: «el punto medio parte la bobina en dos, entonces
+cada diodo debería ver sólo una mitad». Se lo resuelve con el método, en el pico en que
+$A$ es positivo (la figura de abajo lo dibuja).
+
+Con $V_p$ el pico de *media* bobina, los potenciales contra $M$ son $v_A = +V_p$ y
+$v_B = -V_p$; la bobina entera, de $A$ a $B$, vale $2 V_p$. $D_1$ conduce, así que el
+cátodo común queda en $v_K = v_A - 0,7 = V_p - 0,7$. $D_2$ tiene el ánodo en $B$ y el
+cátodo en $K$:
+
+$ v_(D 2) = v_B - v_K = -V_p - (V_p - 0,7) = -(2 V_p - 0,7) approx -2 V_p $
+
+#circuito([Punto medio en el pico del semiciclo en que A es positivo: la tensión que
+  soporta el diodo cortado])[
+#fig-piv-punto-medio()
+#pie-figura[Potenciales medidos contra $M$, con diodos ideales para no ensuciar los
+  números (con $0,7$ V de caída en $D_1$, $K$ queda $0,7$ V más abajo y la cota, $0,7$ V
+  más chica). La corriente $i$ sale de $A$, pasa por $D_1$ y por $R_L$, y vuelve al
+  bobinado por $M$ sin tocar $D_2$. La cota roja es lo que soporta $D_2$.]
+]
+
+El mismo número sale por el otro camino, el que va de $K$ a $B$ pasando por $D_1$ y la
+bobina entera: $D_1$ conduce y se comporta como un cable (menos sus $0,7$ V), así que el
+cátodo de $D_2$ está *colgado del extremo $A$*, y entre $A$ y $B$ está la bobina completa,
+$2 V_p$. Los dos recorridos coinciden, que es la prueba de que los potenciales están bien.
+
+#clave[
+  *El punto medio es un nodo, no un escudo.* Es el retorno de la carga, y la carga no
+  está en el lazo de $D_2$: ese lazo es $B arrow.r D_2 arrow.r K arrow.r D_1 arrow.r A
+  arrow.r$ bobina entera $arrow.r B$, y $M$ no figura en él. Lo que lo distingue de la
+  media onda es el cátodo: allí el diodo cortado tiene el cátodo en $0$ (la resistencia
+  sin corriente lo deja en masa), y acá el cátodo de $D_2$ lo *sostiene en $+V_p$ el
+  otro diodo*, mientras el ánodo baja a $-V_p$. Las dos tensiones se suman sobre $D_2$.
+]
+
+*Con números.* Un transformador de $12 V_"ef"$ en cada media bobina tiene
+$V_p = 12 dot sqrt(2) approx 17$ V. Contra $M$: $v_A = +17$ V, $v_B = -17$ V,
+$v_K = 17 - 0,7 = 16,3$ V. Entonces $v_(D 2) = -17 - 16,3 = -33,3$ V. Por la bobina
+entera, que son $24 V_"ef"$ y tiene un pico de $34$ V: $-34 + 0,7 = -33,3$ V. Coinciden.
+Un 1N4007, que aguanta $1000$ V, ni se entera.
+
+*Puente.* Mismo método, misma conclusión. En el pico en que $A$ es positivo conducen $D_1$
+y $D_4$, en serie con la carga, y los otros dos quedan cortados. Cada diodo cortado tiene
+un extremo pegado a un extremo de la bobina, y el otro atado al otro extremo de la bobina
+a través de un diodo que conduce: cae *la bobina entera menos los $0,7$ V de un diodo que
+conduce*, $v_D = -(V_p - 0,7) approx -V_p$. La regla es la
+misma en las tres topologías: *el diodo cortado ve toda la fuente que tiene en serie*. En
+el punto medio esa fuente es la bobina entera, de $2 V_p$; en el puente, también la bobina
+entera, pero para entregar el mismo pico $V_p$ a la carga alcanza con una bobina de
+$V_p$. Por eso el puente le pide la mitad al diodo: no es magia del puente, es que el punto
+medio necesita el doble de bobina y la mitad de ella queda sin trabajar en cada semiciclo.
+
+*Corrientes.* La carga recibe un valor medio $I_"cc" = V_"cc"\/R_L$. En la media onda lo
+lleva un solo diodo, y lo lleva *todo*: $I_(D"medio") = I_"cc"$. En el punto medio y en el
+puente la carga recibe corriente en los dos semiciclos, pero cada diodo conduce sólo en
+uno de ellos, y las dos ramas se turnan: $I_(D"medio") = I_"cc"\/2$. El *pico* no se
+reparte: en el máximo, el diodo que conduce lleva la corriente de la carga entera,
+$I_(D"pico") = V_p'\/R_L$ (sin filtro). En el esquemático, la corriente siempre cierra
+una malla completa: sale de la fuente, atraviesa el diodo que conduce y la carga, y vuelve
+a la fuente —por $M$ en el punto medio, por el otro diodo de la diagonal en el puente—.
+Si alguna flecha no vuelve a donde salió, el dibujo está mal.
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto),
+    align: (left, center, center, center),
+    table.header([], [*Media onda*], [*Punto medio*], [*Puente*]),
+    [Diodos que conducen a la vez],     [1],          [1],                       [2, en serie],
+    [Tensión del que conduce],          [$+0,7$ V],   [$+0,7$ V],                [$+0,7$ V cada uno],
+    [Tensión del cortado (PIV)],        [$-V_p$],     [$-(2 V_p - 0,7)$ V],      [$-(V_p - 0,7)$ V],
+    [Corriente media por diodo],        [$I_"cc"$],   [$I_"cc"\/2$],             [$I_"cc"\/2$],
+    [Corriente de pico por diodo],      [$V_p'\/R_L$],[$V_p'\/R_L$],             [$V_p'\/R_L$],
+  ),
+  caption: [Qué le pasa a cada diodo, sin capacitor de filtro. $V_p$ es el pico que cada
+    topología entrega a la carga (media bobina en el punto medio)],
+)
+
+#atencion[
+  *Con capacitor de filtro, la PIV de la media onda se duplica.* El capacitor queda cargado
+  cerca de $V_p$ y mantiene el cátodo alto; cuando la fuente llega a $-V_p$, el diodo ya no
+  tiene el cátodo en masa sino en $V_p - 0,7$, y $v_D = -V_p - (V_p - 0,7) approx -2 V_p$.
+  Es la misma situación del punto medio, por la misma razón: *el cátodo no está libre*. Y una
+  fuente de media onda sin filtro no sirve para nada fuera del libro, así que la PIV que hay
+  que comparar con el $V_"RRM"$ del datasheet es la del circuito real, con su capacitor y con
+  margen. El punto medio queda igual ($2 V_p$) y el puente también ($V_p$), porque el diodo
+  que conduce lo ata a la bobina con o sin capacitor.
 ]
 
 #ejercicio("Rectificador de media onda con 12 V eficaces")[
@@ -344,7 +462,8 @@ $ V_"cc" = (2 V_p) / pi = 0,637 dot V_p $
   $ P = V_"ef"^2/R_L = (8,15)^2/1000 = 66 "mW" $
 
   *6. Verificación de la PIV.* En el semiciclo negativo el diodo soporta $V_p = 17$ V. El
-  1N4007 aguanta 1000 V: correctísimo.
+  1N4007 aguanta 1000 V: correctísimo. (Así, sin capacitor; con uno de filtro serían
+  $approx 33$ V, y el 1N4007 sigue sobrado.)
 
   *Conclusión*: de 12 V eficaces de entrada salen apenas *5,2 V de continua*, y con un
   rizado enorme. Sin capacitor de filtro, una fuente de media onda no sirve para nada.

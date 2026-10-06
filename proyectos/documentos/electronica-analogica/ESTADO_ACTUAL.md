@@ -2,9 +2,30 @@
 
 **Fecha:** 2026-09-22
 **Rama:** `main` — hay una sola rama; el proyecto es una carpeta, no una rama.
-**Estado: APUNTE COMPLETO EN DOS PARTES.** **156 páginas**, 15 módulos más anexos.
+**Estado: APUNTE COMPLETO EN DOS PARTES.** **157 páginas**, 15 módulos más anexos.
 **Fase 3b cerrada el 2026-09-22**: la cobertura de la guía del II cuatrimestre
 está medida, no supuesta.
+
+## 2026-10-06 — Módulo 4: de dónde sale cada PIV (sólo el apunte de EA)
+
+A pedido de Fran («no veo por qué en el de punto medio cada diodo aguanta todo el
+secundario»): sección nueva **«Caídas y corrientes en el esquemático: de dónde
+sale cada PIV»** en `m4-diodos.typ`, después de la comparación de las tres
+topologías. Lleva el método de lectura (quién conduce → 0,7 V → potenciales →
+Kirchhoff sobre el diodo cortado), el caso de punto medio con **figura nueva**
+`fig-piv-punto-medio` (potenciales contra M, corriente y la cota de `v_D2`), la
+comprobación con números por dos caminos (−33,3 V por los potenciales y por la
+bobina entera), el puente, las corrientes media y de pico por diodo, y la
+advertencia de que **con capacitor la PIV de la media onda es 2Vp**.
+
+- La respuesta corta: el cátodo de D2 está colgado de A a través de D1, que
+  conduce; entre A y B está la bobina entera. M no está en ese lazo.
+- La fila «PIV por diodo» de la comparación y del anexo dice ahora «(sin filtro)»,
+  y el paso 6 del Ejercicio 4.2 aclara el valor con capacitor (≈ 33 V).
+- No cambia la numeración de ejercicios (no se agregó ninguno). El módulo 4 y
+  los anexos tocados son sólo de EA: el apunte de TDC no cambia.
+- `verificar.py` en verde (74 figuras, 58 ejercicios) y `verificar-cobertura.py`
+  en verde. Páginas 31 a 33 del PDF miradas en render.
 
 ## 2026-10-02 — el apunte de TDC, separado (mismo fuente, dos PDF)
 

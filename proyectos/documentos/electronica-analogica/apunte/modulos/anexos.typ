@@ -107,7 +107,7 @@ $ R_"LED" = (V_"cc" - V_F)/I_F $
     [$V_"cc"$ sin filtro], [$V_p\/pi$], [$2V_p\/pi$], [$2V_p\/pi$],
     [$f_r$],               [50 Hz],     [100 Hz],     [100 Hz],
     [Caída de diodos],     [0,7 V],     [0,7 V],      [1,4 V],
-    [PIV por diodo],       [$V_p$],     [$2V_p$],     [$V_p$],
+    [PIV por diodo (sin filtro)], [$V_p$], [$2V_p$],    [$V_p$],
   ),
   caption: [Topologías de rectificación],
 )
