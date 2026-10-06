@@ -20,8 +20,52 @@ la fase 3, después del centro de masa por dos métodos.
 | Brazo al pivote | **50, de canto** | dos planchuelas en A desde las esquinas norte de la mesa hasta la cazoleta | era el punto débil |
 | Separadores de las chapas de aluminio | recortes de 30 | atornillados al marco sur de la mesa | |
 
-Uniones: soldadura, o bulones M8 con cartela. Todo con antióxido y pintura:
-va a estar afuera, de noche, con rocío.
+Uniones: **decidido el 2026-10-05** (Fran: «se sueldan, o abulonan si vos lo
+recomendás»). Se **suelda** lo que no se desarma: marco de la mesa, brazo en A,
+cartelas, triángulo de la base, poste. Se **abulona** (M8, arandela, tuerca
+autofrenante) lo que se desarma o se ajusta: el travesaño del sur de la base
+(para que entre en el baúl), los soportes de los rodillos (con ranuras, para
+alinear en el patio) y todo lo de aluminio. La planchuela de menos de 1 cm se
+alabea con el calor: punteo, prensas, tramos cortos alternando lados, y se
+mide después (diagonales de la mesa iguales ±2 mm). Todo con antióxido y
+pintura: va a estar afuera, de noche, con rocío.
+
+## Decisiones del 2026-10-05 (observaciones de Kevin)
+
+**Base: triángulo ancho de 1,2 m, no cuadrada.** `node docs/estabilidad-base.js`
+(40 kg + mesa de 8 kg, CdM de todo a 74 cm del piso, mesa en el medio de la
+carrera): triángulo de 0,80 m → vuelco 17,8° de costado y 24,4° al sur; de
+1,00 m → 21,6° / 24,4°; **de 1,20 m → 25,0° / 24,4°**; de 1,40 m → 27,8° / 24,4°.
+Pasado 1,2 m manda el sur, que no depende del ancho; una cuadrada tiene el
+mismo borde sur (24,4°), cuatro patas que renguean y casi 1 m más de
+planchuela. Empujón de costado que vuelca a 1,3 m de altura: ≈ 9 kg con 0,80 m
+contra ≈ 12 kg con 1,20 m. Lastre de 10 kg bajo: el vuelco al sur sube de 24,4° a
+28,3°. El modelo (v8) trae el slider «Ancho de la base» y el vuelco en el
+panel, con control y sabotaje en `probar-geometria.js` (9 verdes, 7 sabotajes en
+rojo). Grado: `probable` (cálculo; no suma la inclinación de la mesa, que da
+1-2° menos).
+
+**Fijación del dobson (Kevin):** ranuras N-S de ≈ 9 mm en los dos largueros,
+cuatro bulones M8 de cabeza fresada al ras del pino (el hueco entre bases es de
+≈ 1,5 cm, estimado de foto), buje de caño en el agujero, arandela ancha y
+mariposa abajo. Las ranuras sirven también para centrar el CdM sin cortar madera.
+
+**Topes del motor (Kevin):** ya estaban, son las tres capas de la guía (programa
+±45, fin de carrera ±48, talón ±51 min). Hallazgo propio: las capas 1 y 2 corren
+en el **mismo Arduino**: causa común. Fase 3: switch **normalmente cerrado** en
+serie con la habilitación del driver (corta por hardware, y un cable roto
+también corta). Falta decidir cómo se sale del tope (reversa con el switch
+puenteado por software, o botón).
+
+**Pantalla con el tiempo y Bluetooth (Kevin, «extra de goloso»):** fase 3 la
+decide, fase 4 la prueba, después de CAL-5. ESP32 en lugar del Nano, pantalla
+roja o atenuada (la luz blanca arruina la visión nocturna), página web servida
+por la placa. No toca la mecánica.
+
+**Motor:** NEMA 17 de ≈ 4 kg·cm. Pide 0,16 kg·cm por el rozamiento del pivote y
+0,62 kg·cm por una ráfaga de 40 km/h (≈ 12 N·m en el eje; estimado). El de
+1,6 kg·cm (17HS2408S, $18.200) deja 2,6× de margen; el de ≈ 4 kg·cm (Usongshine
+tipo 17HS4401, $24.640) deja 6,5×. Detalle y opciones: `07-guia-armado.md` §5.4.
 
 ## El brazo, en números
 
@@ -72,8 +116,9 @@ dobla, la carga del pivote crece y lo que se gana en largo es poco.
 
 ## Lo que queda abierto
 
-- El **espesor** de las planchuelas (se pesa la mesa terminada y se corrige
-  `mTab` en el modelo: el eje se ajusta con suplementos).
-- Soldadas o abulonadas: depende de qué herramienta tengan.
+- El **espesor** de las planchuelas (paso 4 del paso a paso: calibre, y pesar 1 m
+  de cada ancho; se corrige `mTab` en el modelo y el eje se ajusta con
+  suplementos).
+- Soldadas o abulonadas: **resuelto** (arriba).
 - El centro de masa del telescopio por un segundo método (P3/P4): sigue
   mandando sobre todo lo de arriba.

@@ -128,6 +128,7 @@ a{color:var(--accent)}
         <div class="ctl"><label for="run">Carrera a cada lado</label><output id="run_o"></output><input id="run" type="range" min="20" max="60" step="5" value="45"></div>
         <div class="ctl"><label for="half">Separación entre rodillos</label><output id="half_o"></output><input id="half" type="range" min="28" max="50" step="1" value="38"></div>
         <div class="ctl"><label for="postH">Pivote levantado sobre un poste</label><output id="postH_o"></output><input id="postH" type="range" min="0" max="30" step="1" value="10"></div>
+        <div class="ctl"><label for="baseW">Ancho de la base al piso (las dos patas del sur)</label><output id="baseW_o"></output><input id="baseW" type="range" min="80" max="160" step="5" value="120"></div>
       </div>
       <div class="group">
         <h3>Apuntar el tubo</h3>
@@ -149,7 +150,7 @@ a{color:var(--accent)}
   <h2>Qué estás mirando, pieza por pieza</h2>
   <div class="cols">
     <ol class="parts">
-      <li><b>1</b><div><b>Base al piso.</b> Un <b>triángulo de planchuela de hierro de 50 mm, de canto</b>, que va de pata a pata (idea de Kevin): el peso baja derecho a las patas, y un triángulo no se deforma. Un travesaño debajo de los rodillos y cartelas (triángulos recortados de planchuela de 60) en las tres esquinas. No se mueve nunca.</div></li>
+      <li><b>1</b><div><b>Base al piso.</b> Un <b>triángulo de planchuela de hierro de 50 mm, de canto</b>, que va de pata a pata (idea de Kevin): el peso baja derecho a las patas, y un triángulo no se deforma. Un travesaño debajo de los rodillos y cartelas (triángulos recortados de planchuela de 60) en las tres esquinas. No se mueve nunca. <b>Ancho de 1,2 m en el sur</b> (deslizador «Ancho de la base»): con eso el vuelco de costado pasa de 18° a 25°, igual que al sur; más ancho no suma. El travesaño de ese lado va abulonado, para que la base desarmada entre en el baúl.</div></li>
       <li><b>2</b><div><b>Tres patas regulables.</b> Un bulón M10 con tuerca en cada punta. Tres patas apoyan firme en cualquier piso, como el banquito de ordeñe: cuatro siempre renguean. Con los tornillos se corrige la inclinación sin cortar nada, y una vez alineada se marcan las tres patas en el piso del patio.</div></li>
       <li><b>3</b><div><b>Pivote norte.</b> Una bocha de acero (una rótula de amortiguador a gas, bocha de 10 mm) arriba de un <b>poste de 10 cm</b> (caño o planchuelas soldadas, con tres riendas de planchuela de 30), y arriba, en el brazo, un hueco cónico donde apoya. El poste acorta la base de 1,30 a 1,16 m y casi no le quita estabilidad. Es el único punto que no rueda: la mesa gira alrededor de él. Es la del portón del baúl, no la de suspensión: esa viene precargada y con espárrago cónico, y le sobra todo.</div></li>
       <li><b>4</b><div><b>Mesa móvil.</b> Un marco de planchuela de 40 de canto, con dos largueros donde apoya el dobson (con ranuras para correrlo), y el <b>brazo al pivote en A</b>: dos planchuelas de 50 de canto que se juntan en la cazoleta. En madera, ese brazo era el punto débil: una lengua de fenólico se doblaba unos 8 mm en la punta; en hierro, menos de 0,3 mm. <b>Ojo:</b> la mesa gira con el telescopio, así que su peso (≈ 8 kg) entra en el centro de masa, y baja el eje unos 11 cm.</div></li>
@@ -227,7 +228,7 @@ a{color:var(--accent)}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS2DRenderer.js"></script>
-<script src="geometria-vns.js?v=7"></script><!-- subir v= cada vez que cambia geometria-vns.js: si no, el navegador usa la copia vieja y la pagina se rompe -->
+<script src="geometria-vns.js?v=8"></script><!-- subir v= cada vez que cambia geometria-vns.js: si no, el navegador usa la copia vieja y la pagina se rompe -->
 <script>
 (function(){
 const D2R=Math.PI/180;
@@ -293,7 +294,7 @@ function beam(a,b,w,h,mat){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.
 function cyl(a,b,r,mat,seg){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,A.distanceTo(B),seg||24),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return m;}
 
 let G=null, root=null, rot=null, inner=null, dobGroup=null, rocker=null, tubeG=null;
-const P=()=>({phi:34.5,M:+$('M').value,Hdis:$('Hdis').value/100,Hreal:$('Hreal').value/100,dN:$('dN').value/100,dE:$('dE').value/100,shim:$('shim').value/100,runMin:+$('run').value,half:$("half").value/200,postH:$("postH").value/100,mTab:+$("mTab").value,zTab:-0.02});
+const P=()=>({phi:34.5,M:+$('M').value,Hdis:$('Hdis').value/100,Hreal:$('Hreal').value/100,dN:$('dN').value/100,dE:$('dE').value/100,shim:$('shim').value/100,runMin:+$('run').value,half:$("half").value/200,postH:$("postH").value/100,baseW:$("baseW").value/100,mTab:+$("mTab").value,zTab:-0.02});
 
 function build(){
   if(root){scene.remove(root);root.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.element&&o.element.parentNode)o.element.parentNode.removeChild(o.element);});}
@@ -509,6 +510,7 @@ function readout(p){
   const rows=[
     ['Largo de la base',cm(G.baseLength)],
     ['Ancho de la base',cm(G.baseWidth)],
+    ['Vuelco de costado / al sur',fmt(G.vuelcoLado,1)+'° / '+fmt(G.vuelcoSur,1)+'°',G.vuelco>=22?'good':'bad'],
     ['Cuánto sube el telescopio',cm(G.ztt)],
     ['Pivote al norte del centro',cm(G.pivotDist)],
     ['Radio de cada segmento',cm(r.R)],
@@ -553,7 +555,7 @@ function applyTags(){ // el renderer de etiquetas no mira la visibilidad de los 
   const on=$('showTags').checked;
   root&&root.traverse(o=>{if(!o.userData.isTag)return;let v=on,q=o.parent;while(q){if(!q.visible)v=false;q=q.parent;}o.visible=v;o.element.style.visibility=v?'visible':'hidden';});}
 
-const units={mTab:" kg",M:" kg",Hreal:' cm',dN:' cm',dE:' cm',Hdis:' cm',shim:' cm',run:' min',half:' cm',postH:' cm',az:'°',alt:'°'};
+const units={mTab:" kg",M:" kg",Hreal:' cm',dN:' cm',dE:' cm',Hdis:' cm',shim:' cm',run:' min',half:' cm',postH:' cm',baseW:' cm',az:'°',alt:'°'};
 Object.keys(units).forEach(k=>{const el=$(k);const show=()=>{$(k+'_o').textContent=fmt(+el.value,el.step.includes('.')?1:0)+units[k];};show();
   el.addEventListener('input',()=>{show();if(k==='az'||k==='alt')updatePose();else build();});});
 $('t').addEventListener('input',()=>{tMin=+$('t').value;updatePose();});

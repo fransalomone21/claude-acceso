@@ -31,7 +31,8 @@ function solve3(A, b) { // Cramer, alcanza para 3x3
 // P: phi (grados), M (kg), Hdis (m, altura de diseno del eje sobre la mesa),
 // Hreal (m, centro de masa medido sobre el piso del dobson), dN, dE (m, CdM
 // corrido), shim (m, suplemento bajo el dobson), runMin (min a cada lado),
-// half (m, medio ancho entre rodillos), postH (m, pivote elevado).
+// half (m, medio ancho entre rodillos), postH (m, pivote elevado), baseW (m,
+// ancho pedido de la base al piso; nunca menos de lo que piden las chapas).
 // Limites (min de MAS sobre runMin): swMin, el fin de carrera que corta el
 // motor; stopMin, el talon de la chapa que choca el rodillo (tope fisico).
 // La chapa se estira mas alla del tope un radio de rodillo + 2 mm, para que
@@ -152,12 +153,22 @@ function computeVNS(P) {
   const tilt = Math.acos(nrm[2]) / D2R;
 
   const ySouthBase = Math.min(...rollers.map((r) => r.Pt[1])) - 0.07, yNorthBase = pivotAbs[1] + 0.08;
+  // Ancho de la base: lo que piden las chapas es el MINIMO; baseW (m) lo agranda
+  // (las patas del sur se abren). Vuelco = cuanto hay que inclinar el conjunto
+  // para que se caiga, con la mesa en el medio de la carrera (no suma la
+  // inclinacion de la mesa: da 1 a 2 grados mas optimista que el calculo fino).
+  const baseWidth = Math.max(2 * (e + chord / 2 + 0.04), P.baseW || 0);
+  const wB = baseWidth / 2;
+  const feet = [[wB - 0.04, ySouthBase + 0.04], [-(wB - 0.04), ySouthBase + 0.04], [0, yNorthBase - 0.04]];
+  const distEdge = (a, b) => Math.abs((b[1] - a[1]) * (Cg[0] - a[0]) - (b[0] - a[0]) * (Cg[1] - a[1])) / Math.hypot(b[0] - a[0], b[1] - a[1]);
+  const mSur = distEdge(feet[0], feet[1]), mLado = Math.min(distEdge(feet[0], feet[2]), distEdge(feet[1], feet[2]));
+  const vuelcoSur = Math.atan(mSur / Cg[2]) / D2R, vuelcoLado = Math.atan(mLado / Cg[2]) / D2R;
   return {
     d, thMax, thRun, thSw, thStop, swMin, stopMin, TALON, ztt, groundTop, ySouth, yNorthTab, yPlate, W, TAB, RROLL, FEET, BASE,
     C: Cabs, pivot: pivotAbs, rollers, Creal, Cg, Ctab, Mtot, Hbal,
     loads: { pivote: F[0], este: F[1], oeste: F[2] },
     offAxis, tauMax, tilt,
-    baseLength: yNorthBase - ySouthBase, baseWidth: 2 * (e + chord / 2 + 0.04),
+    baseLength: yNorthBase - ySouthBase, baseWidth, feet, vuelcoSur, vuelcoLado, vuelco: Math.min(vuelcoSur, vuelcoLado),
     ySouthBase, yNorthBase, pivotDist: pivotAbs[1] - Cabs[1],
   };
 }

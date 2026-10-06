@@ -7,6 +7,13 @@ están.**
 Regla de oro: **se mide una vez y se anota con el método al lado.** Un número
 sin método es una hipótesis con cara de dato.
 
+> **Actualización 2026-10-05.** El orden vigente de lo que se hace, con quién y
+> cómo se sabe que salió bien, está en el documento **«2 - Paso a paso»**
+> (`docs/11-paso-a-paso.md`). Este protocolo es la referencia de *cómo* se
+> mide cada cosa. Dos cambios: (1) **P0 (foco) está aparcada** a pedido de
+> Fran: sigue abierta y es compuerta antes de comprar la chapa de aluminio;
+> (2) **P2 (caja sola) ya no hace falta**: P3 se hace con la caja puesta.
+
 ---
 
 ## Configuración de referencia — se fija antes de medir nada

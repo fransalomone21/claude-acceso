@@ -133,9 +133,17 @@ eje a 65 sobre la mesa con 2 cm de suplemento.**
 
 ## 4. Lo que falta, en orden
 
+> **Vigente desde 2026-10-05:** el orden con quién, cuándo y cómo se sabe que
+> salió bien está en `docs/11-paso-a-paso.md` (Doc «2 - Paso a paso»). Esta
+> lista queda como historia del protocolo. Cambios: el **segundo método** es
+> P3 (montura **con la caja puesta**, inclinada), porque es el único que da la
+> **altura** del CdM, que es la duda de 58 a 69 cm (P4, plano, sólo da la
+> planta); P4 queda como **control**. Ya **no hace falta pesar la caja sola**.
+> La cámara y el rebalanceo con ella quedan **aparcados** a pedido de Fran.
+
 0. **Hechos (2026-10-05, §3.2):** el balance (sin cámara) y las pesadas
-   del tubo y de la montura. Quedan los pasos 3 a 5, más **pesar la caja
-   sola** y **rebalancear con la cámara puesta**.
+   del tubo y de la montura. Quedan los pasos 3 a 5 (P3 y P4), ~~pesar la caja
+   sola~~ y ~~rebalancear con la cámara puesta~~ (aparcado).
 1. **Hecho, sin cámara.** ¿El tubo se queda donde lo dejás? Apuntado a 20°, a 45° y a 80°, soltado:
    ¿se queda quieto o se va solo hacia la cola o hacia la boca? (30 segundos,
    sin herramientas). Si se queda en las tres, está balanceado.

@@ -27,7 +27,9 @@ perfil global, que se carga solo) ni dónde estamos (eso es `ESTADO_ACTUAL.md`).
 | Por qué VNS y no CS, con los pesos de Fran | [`docs/05-trade-study.md`](docs/05-trade-study.md) |
 | Saber qué piezas hay de verdad, o armar un BOM | [`docs/03-inventario.md`](docs/03-inventario.md) |
 | **Qué se midió, con qué, y qué falta pesar**; la estimación de masa y centro de masa | [`docs/08-medidas.md`](docs/08-medidas.md) y `python docs/estimar-cdm.py`. Las fotos: `fotos/2026-10-04/` (ignorada, el repo es público) y el Drive |
-| La guía para Fran y Kevin (criollo + fabricación y calibración formal), y cómo se pasa a Google Doc | [`docs/07-guia-armado.md`](docs/07-guia-armado.md) → `python docs/md-a-gdoc.py` + rclone (ver `HANDOFF.md`) |
+| **Qué hacer ahora, en qué orden** (los pasos, quién, cómo se sabe que salió bien, y la fabricación y calibración formal FAB/CAL) | [`docs/11-paso-a-paso.md`](docs/11-paso-a-paso.md) — Doc «2 - Paso a paso» del Drive |
+| **El concepto del proyecto**: qué es, las piezas, por qué cada decisión, los motores, la lista de materiales; lo que dijo Kevin | [`docs/07-guia-armado.md`](docs/07-guia-armado.md) — Doc «1 - El proyecto» del Drive. **Concepto y pasos están en documentos separados a pedido de Fran (2026-10-05): no se mezclan.** Cómo se pasan a Google Doc: `python docs/md-a-gdoc.py` + rclone (ver `HANDOFF.md`) |
+| ¿Qué base al piso aguanta más? | `node docs/estabilidad-base.js` (cuenta reproducible; el modelo trae el slider y el vuelco) |
 | Entender **cómo se usa** y qué requisitos salen de ahí | [`docs/01-conops.md`](docs/01-conops.md) |
 | Riesgos, rigor por aspecto, decisiones tomadas | `PDP.md` §3, §5, §6 |
 | El CAD previo y qué hacer con él | `cad/` + la tabla de abajo |

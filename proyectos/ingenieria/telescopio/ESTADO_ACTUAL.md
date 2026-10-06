@@ -40,6 +40,11 @@ Faltan las mediciones y el inventario.
 | **Geometría del dobson medida**: base fija 43 × 40; base móvil 40 × 40; paredes grandes 40 × 79,6 (buscador) y 40 × 78,8; paredes chicas 20 × 40 (ocular) y 19,8 × 40 (cola); caja 40 × 31 (techo y piso) y 40 × 27 (costados); todo de 2 cm; tubo 25,3 cm de diámetro, aro 26,7; escalón pared-base móvil 1,7 → 1,3 cm | cinta, Fran, ±1 mm de lectura, una vez; registro en `docs/08-medidas.md`, 71 fotos en `fotos/2026-10-04/` (ignorada) y en el Drive | 2026-10-04 |
 | Existe trabajo de CAD previo: 22 piezas SolidWorks, 2 DXF de plantilla y un macro VBA de 1571 líneas que genera la geometría CS y emite los DXF él mismo | los archivos están en `cad/`, contados | 2026-10-04 |
 
+| **Base al piso: triángulo de 1,2 m de ancho** (no cuadrada): vuelco de costado 17,8° → 25,0°, al sur 24,4° (manda el sur desde 1,2 m); una cuadrada tiene el mismo borde sur, cuatro patas que renguean y ≈ 1 m más de planchuela. **Soldar** marco, brazo, cartelas, triángulo y poste; **abulonar** travesaño del sur (baúl), soportes de rodillos (ranurados), aluminio y dobson (mariposas) | pregunta de Kevin + decisión de Fran («se sueldan, o abulonan si vos lo recomendás»), `node docs/estabilidad-base.js`, control con sabotaje en `probar-geometria.js` (9 verdes, 7 rojos), modelo v8 | 2026-10-05 |
+| **Motor: NEMA 17 de ≈ 4 kg·cm** (el de 1,6 kg·cm deja 2,6× contra una ráfaga de 40 km/h, el de 4 deja 6,5×) | cálculo (`07-guia-armado.md` §5.4); las cifras de viento y rozamiento son estimaciones propias | 2026-10-05 |
+| **Documentos separados por pedido de Fran:** `07-guia-armado.md` = el concepto del proyecto; `11-paso-a-paso.md` = los pasos en orden, en criollo, con la parte formal FAB/CAL al final. Mismos nombres en el Drive («1 - El proyecto…», «2 - Paso a paso…») | Fran, 2026-10-05; IDs del Drive verificados | 2026-10-05 |
+| **La cámara y el foco se aparcan** (Fran, 2026-10-05). P0 sigue abierta en el PDP y es **compuerta antes de comprar la chapa de aluminio** | decisión de Fran; la compuerta es mía | 2026-10-05 |
+
 ## Lo que es hipótesis
 
 > Todo lo de abajo viene de la sesión de 2026-08, que trabajó **sin
@@ -69,16 +74,16 @@ Faltan las mediciones y el inventario.
 
 ## Lo próximo
 
-Pesado por partes y balanceado (2026-10-05): masa ≈ 40 kg cerrada por dos
-caminos, CdM ≈ 63 cm compuesto. **Plataforma de planchuela de hierro**
-(pedido de Fran; base triangular de Kevin; `docs/09-estructura-hierro.md`):
-la mesa (≈ 8 kg) gira con el telescopio y baja el eje a **≈ 54 cm** sobre la
-mesa. Modelo v7: poste de 10 cm, base **1,16 m**, chapas 357 × 107, ≈ 17 kg
-por rodillo y 15 en el pivote. Falta, en orden: (1) P3 o P4 como
-segundo método del CdM, y pesar la caja sola; (2) rebalancear con la cámara
-puesta; (3) anotar la balanza. Y P0: Kevin y los anillos de Saturno.
-Pendiente de Fran: espesor de las planchuelas y si se sueldan o se
-abulonan, y el puesto 3 de los pesos. El
-pivote es la rótula de **amortiguador a gas** en un cono, no la de
-suspensión; el motor es un **NEMA 17 a comprar**: los de la casetera y la
-impresora son de continua y no sirven para seguir (`03-inventario.md` E4).
+Masa ≈ 40 kg por dos caminos, CdM ≈ 63 cm compuesto (58 a 69), plataforma de
+planchuela de hierro, poste de 10 cm, base triangular **ancha (1,2 m)**,
+modelo v8. **El orden vigente de lo que sigue, con quién y cómo se sabe que
+salió bien, está en `docs/11-paso-a-paso.md`** (nueve pasos): 1) anotar la
+balanza; 2) P3, la montura con caja inclinada, que da la **altura** del CdM (es
+el segundo método; P4 plano no la da); 3) P4 como control; 4) medidas chicas y
+pesar 1 m de cada planchuela; 5) inventario; 6) rodillo de prueba (Kevin);
+7) motor y TMC2209 andando en el banco; 8) la sesión cierra el CdM y rehace el
+modelo; 9) revisión juntos y luz verde a la fase 1 (Fran elige el tiempo de
+exposición). **Cámara y foco aparcados**; P0 es compuerta antes de comprar el
+aluminio. Ya no hace falta pesar la caja sola. Pendiente de Fran: el
+puesto 3 de los pesos. Pivote: rótula de amortiguador a gas en un cono.
+Extra de Kevin (pantalla y Bluetooth con ESP32): fase 3.

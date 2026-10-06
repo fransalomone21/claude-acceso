@@ -1,19 +1,50 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-05 · **Fase al cerrar:** 0 (Concebir, Pre-Fase A) —
-**abierta**; arquitectura cerrada (VNS), geometría del dobson medida, masa
-≈ 40 kg cerrada por dos caminos y tubo balanceado; CdM ≈ 63 cm compuesto
-(falta el segundo método); plataforma de planchuela de hierro con poste de
-10 cm (modelo v7); faltan P0 y el inventario.
+**Escrito el:** 2026-10-05 (séptima sesión) · **Fase al cerrar:** 0 (Concebir,
+Pre-Fase A) — **abierta**; arquitectura cerrada (VNS), masa ≈ 40 kg por dos
+caminos, CdM ≈ 63 cm (58 a 69, falta el segundo método), plataforma de hierro
+con base triangular ancha de 1,2 m (modelo v8); **P0 aparcada** (compuerta
+antes de comprar el aluminio) e inventario con filas en `?`.
 
 ## Arrancá por acá
 
-1. `.\cascada.ps1 telescopio -Necesidad diseno` y leer lo que imprima.
-2. `ESTADO_ACTUAL.md` entero.
-3. **Preguntarle a Fran qué midió.** Lo que traiga entra a los valores por
-   defecto de `docs/06-modelo-3d.html` (los `value=` de los deslizadores) y se
-   republica al mismo link con la herramienta Artifact (mismo `file_path`, o
-   `url` desde otro chat).
+1. `.\cascada.ps1 telescopio -Necesidad diseno,publicar` y leer lo que exija.
+2. `ESTADO_ACTUAL.md` entero y `docs/11-paso-a-paso.md` (el orden vigente).
+3. **Preguntarle a Fran qué hizo de los nueve pasos** (balanza, P3, P4, medidas
+   chicas, inventario, rodillo de Kevin, motor en banco). Lo que traiga del P3
+   y el P4 entra al modelo (`Hreal`, `Hdis = Hbal` en `docs/06-modelo-3d.html`)
+   y se republica al mismo link (mismo `file_path` + `files` con
+   `geometria-vns.js`; si el live difiere de lo local, leerlo primero con
+   `read` y `path`).
+
+## Séptima sesión (2026-10-05, noche): observaciones de Kevin y documentos
+
+- Fran: «las planchuelas se sueldan, o abulonan si vos lo recomendás»; **cámara
+  y enfocador aparcados**; quiere los documentos del Drive con **concepto
+  separado de pasos**, y los pasos claros, en orden y en criollo.
+- Kevin (4 observaciones): base cuadrada más grande → **se evaluó con números**
+  (`node docs/estabilidad-base.js`): queda el **triángulo, de 1,2 m de ancho**
+  (costado 17,8° → 25,0°, sur 24,4°); fijación del dobson con bujes y mariposas
+  → adoptada (ranuras en los largueros, FAB-8); topes del motor → ya estaban
+  (tres capas), con la trampa hallada: capas 1 y 2 en el mismo Arduino
+  (mejorar en fase 3 con switch NC en el EN del driver); pantalla + Bluetooth →
+  fase 3 (ESP32).
+- **Soldar** lo fijo, **abulonar** lo que se desarma/ajusta (`09`).
+- **Motor** (pasó 4 publicaciones): se recomienda el de ≈ 4 kg·cm (Usongshine
+  tipo 17HS4401, $24.640 ML FULL); el 17HS2408S de $18.200 (1,6 kg·cm) deja 2,6×
+  de margen contra viento y se descartó (`07` §5.4). Precios y datos son los de
+  las publicaciones: verificar al comprar.
+- **Segundo método del CdM = P3 con la caja puesta** (da la altura, que es la
+  duda); P4 plano queda de control; ya no se pesa la caja sola.
+- **Modelo v8** (mismo link): slider «Ancho de la base» (default 120) y fila
+  de vuelco; `?v=8`; controles: 9 verdes, 7 sabotajes en rojo.
+- **Drive:** la guía vieja (ID `1wrzP…`) se **renombró** a «1 - El proyecto -
+  concepto y diseno» (mismo ID, mismo link de Kevin) y se creó «2 - Paso a paso -
+  que hacer y en que orden» (ID `1rpFTUuDcQvkzbma_9PBBHFBuVl9N3Tce_U9WsTQoUs0`).
+  Regenerados: Medidas, Plataforma de hierro, Protocolo. Todos con los IDs de
+  antes (medido). El permiso de Kevin se hereda de la carpeta.
+- Inventario: M3, M6, M8, M9 pasan a `no aplica` (con su motivo); cámara y óptica
+  marcadas como aparcadas, **no cerradas**.
 
 ## Lo que se hizo y no se rehace
 
@@ -120,19 +151,17 @@ portaocular y dice que «se ve sin aumento»: ver la fila de foco en
 
 ## Lo que quedó a medias
 
-- **Preguntas abiertas a Fran:** (1) espesor de las planchuelas, y si se
-  sueldan o se abulonan; (2) el segundo método del CdM; (3) el puesto 3 de
-  los pesos (capacidad de carga), que no cambia el ganador.
-- **El primo:** ya es editor de la carpeta de Drive (a pedido de Fran). El
-  artifact lo comparte Fran desde el menú Compartir de la página; la sesión
-  no puede. El mail **no** va al repo (es público): sólo su hash.
-- **Pendiente de Kevin:** ¿se veían los anillos de Saturno? (cierra P0).
-- **PDF de la guía** en formato apunte: cuando haya medidas (antes no vale la
-  pena maquetar números de agosto).
-- **Precios a cotizar:** corte láser, rulemanes, rótula, TMC2209.
-- **El modelo 3D de SolidWorks no se revisó pieza por pieza**; las medidas del
-  modelo web son las del encabezado del macro (`cad/PlataformaEcuatorial.bas`,
-  líneas 51-125), todas `hipótesis`.
+- **Pendiente de Fran:** los pasos 1 a 7 de `11-paso-a-paso.md`; el puesto 3 de
+  los pesos; y, **sólo cuando él quiera**, la cámara (P0, que es compuerta antes
+  de comprar el aluminio).
+- **El primo:** editor de la carpeta de Drive. El artifact lo comparte Fran desde
+  su menú; la sesión no puede. El mail **no** va al repo (público): sólo su hash.
+  Kevin: ¿se veían los anillos de Saturno? (P0, aparcada) y el rodillo de prueba.
+- **PDF de la guía** en formato apunte (Typst): cuando haya medidas cerradas.
+- **Precios a cotizar:** corte láser, rulemanes, rótula, TMC2209, ESP32.
+- **Mejora de la fase 3:** el switch de fin de carrera por hardware (NC en el
+  habilitar del driver) y cómo se sale del tope.
+- **El modelo SolidWorks no se revisó pieza por pieza.**
 
 ## Mensaje de retome (chat nuevo)
 
@@ -140,51 +169,54 @@ Escrito el 2026-10-05, sin recortes:
 
 ```
 Proyecto: telescopio (plataforma VNS del 200/1200), en claude-acceso.
-Modelo: Opus, esfuerzo medium, SIN fan-out: es cargar pesadas y reajustar un
-modelo ya decidido; sube a high solo si una pesada cambia la arquitectura.
+Modelo: Opus, esfuerzo medium, SIN fan-out: cargar medidas en un diseno ya
+elegido; sube a high solo si una medicion cambia la arquitectura.
 
 0. Si ~/.claude/CLAUDE.md no empieza con "# Perfil global":
    bash .claude/nube/traer-perfil.sh  (desde claude-acceso) y leer lo que liste.
 1. .\cascada.ps1 telescopio -Necesidad diseno,publicar  y leer TODO lo que
    exija la puerta.
-2. Leer: ESTADO_ACTUAL.md entero, HANDOFF.md entero, docs/08-medidas.md entero.
-   NO leer el CAD, el macro VBA ni las 71 fotos (ya estan transcriptas en
-   08-medidas.md; si hace falta una, fotos/2026-10-04/indice.txt da el numero).
-   docs/09-estructura-hierro.md entero (la plataforma de hierro, el poste).
-   06-modelo-3d.html y geometria-vns.js: solo si hay que tocar el modelo;
-   si se toca geometria-vns.js, subir el ?v= del <script> del modelo.
+2. Leer: ESTADO_ACTUAL.md entero, HANDOFF.md entero, docs/11-paso-a-paso.md
+   entero (el orden vigente), docs/08-medidas.md entero. NO leer el CAD, el
+   macro VBA ni las fotos. 07-guia-armado.md (concepto), 09-estructura-hierro.md,
+   06-modelo-3d.html y geometria-vns.js: solo si hay que tocarlos; si se toca
+   geometria-vns.js, subir el ?v= del <script> (hoy 8).
 3. Fase 0 (Concebir, Pre-Fase A). Arquitectura CERRADA: VNS. Falta para cerrar:
-   masa y centro de masa por DOS metodos que coincidan, P0 (llega a foco?), y
-   docs/03-inventario.md sin filas en "?".
+   el CdM por dos metodos que coincidan (P3 con la caja puesta + P4 de
+   control), P0 (llega a foco? APARCADA por Fran; es compuerta antes de comprar
+   la chapa de aluminio) e inventario sin filas en "?".
 4. Estado de la maquina y del mundo:
-   - Dobson rearmado, tubo balanceado en el eje de altura (2026-10-05).
-   - Masa ~40 kg por dos caminos; CdM ~63 cm compuesto (58-69).
-   - Plataforma de PLANCHUELA DE HIERRO (30-60 mm, <1 cm), base triangular,
-     poste de 10 cm, mesa de ~8 kg que gira -> eje a ~54 cm sobre la mesa.
-   - Modelo publicado v7 (M 40, CdM 63, mesa 8 kg, eje 54, suplemento 2,
-     poste 10): https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM (con link).
-     Se publica con files {"geometria-vns.js": docs/geometria-vns.js}.
-     Local: preview_start "telescopio-modelo" (puerto 8765).
-     Controles: node docs/probar-geometria.js (8 OK, 6 sabotajes en rojo).
-   - Drive: "05 - PROYECTOS - taller y astronomia/Telescopio 200-1200 - Fran y
-     Kevin", Kevin editor. Docs generados del repo con docs/md-a-gdoc.py y
-     rclone copyto --drive-import-formats html --drive-export-formats html
-     (mismo nombre = actualiza en el lugar, ID verificado). Remote:
-     "drive-personal:05 - PROYECTOS - taller y astronomia/Telescopio
-     200-1200 - Fran y Kevin/<Nombre del Doc>.html". Config de rclone:
-     ~/.config/rclone/rclone.conf, pasarlo con --config.
-5. Ya resuelto, no se rehace: VNS y su trade study; espejo para el sur
-   (pivote al NORTE); limites en tres capas (programa 45, switch 48, talon 51
-   min); geometria del dobson medida con cinta (08-medidas.md 1); guia de
-   armado en criollo con parte formal FAB/CAL (docs/07-guia-armado.md);
-   pesadas por partes (08-medidas.md 3.2); plataforma de hierro y poste de
-   10 cm (09); pivote = rotula de amortiguador a gas, no de suspension;
-   motores de casetera descartados (de continua), NEMA 17 a comprar.
-6. PRIMER COMANDO: preguntarle a Fran (a) el espesor de las planchuelas y si
-   sueldan o abulonan; (b) el SEGUNDO METODO del CdM (P3 montura inclinada o
-   P4 todo junto plano) y la caja pesada sola; (c) Kevin y los anillos de
-   Saturno (P0). Con (b): si el CdM difiere de 63, cambiar Hreal y recalcular
-   Hdis = Hbal en 06-modelo-3d.html, y republicar al MISMO link.
+   - Masa ~40 kg por dos caminos; CdM ~63 cm (58-69). Tubo balanceado SIN
+     camara (camara aparcada).
+   - Plataforma de planchuela de hierro, base TRIANGULAR de 1,2 m de ancho
+     (travesano del sur abulonado), poste 10 cm, mesa ~8 kg que gira -> eje a
+     ~54 cm. Soldar lo fijo, abulonar lo que se desarma.
+   - Modelo publicado v8: https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM
+     (con link). Se publica con files {"geometria-vns.js": docs/geometria-vns.js};
+     la herramienta pide leer antes lo publicado (action read, y con path para
+     el .js). Local: preview_start "telescopio-modelo" (8765). Controles:
+     node docs/probar-geometria.js (9 OK, 7 sabotajes en rojo);
+     node docs/estabilidad-base.js (la comparacion de bases).
+   - Drive: "drive-personal:05 - PROYECTOS - taller y astronomia/Telescopio
+     200-1200 - Fran y Kevin/<Nombre>.html", Kevin editor. Docs: "1 - El proyecto
+     - concepto y diseno" (07), "2 - Paso a paso - que hacer y en que orden" (11),
+     "Medidas y lo que falta pesar" (08), "Plataforma de hierro y altura del
+     pivote" (09), "Protocolo de medicion" (02). Se generan con docs/md-a-gdoc.py
+     y rclone copyto --drive-import-formats html --drive-export-formats html
+     --config ~/.config/rclone/rclone.conf (mismo nombre = actualiza en el lugar;
+     verificar el ID con lsf --format pi).
+5. Ya resuelto, no se rehace: VNS y trade study; espejo sur (pivote al NORTE);
+   limites 45/48/51 min; geometria del dobson; pesadas por partes; pivote =
+   rotula de amortiguador a gas; motores de casetera/impresora descartados, NEMA
+   17 de ~4 kg.cm se compra (Usongshine 17HS4401, 07 sec 5.4); hierro y poste de
+   10 cm; base triangular ancha (no cuadrada); soldar/abulonar; fijacion del
+   dobson con ranuras, bujes y mariposas; concepto y pasos en documentos
+   separados.
+6. PRIMER COMANDO: preguntarle a Fran cuales de los 9 pasos de 11-paso-a-paso.md
+   hizo y que midio (balanza; P3 y P4 con sus lecturas; espesores y peso de 1 m
+   de planchuela; fotos del inventario; si compro el motor). Con P3 y P4: cerrar
+   el CdM (estimar-cdm.py), cambiar Hreal y poner Hdis = Hbal en
+   06-modelo-3d.html, republicar al MISMO link y regenerar los Docs.
 7. Si pide MEDIR la puerta: el efecto es que cascada.ps1 imprima el bloque
    "EXIGIDO POR LA PUERTA (T11) para telescopio" con sus rangos de lineas.
 ```
