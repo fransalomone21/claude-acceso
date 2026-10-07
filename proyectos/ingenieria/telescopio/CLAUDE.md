@@ -29,6 +29,7 @@ perfil global, que se carga solo) ni dónde estamos (eso es `ESTADO_ACTUAL.md`).
 | **Qué se midió, con qué, y qué falta pesar**; la estimación de masa y centro de masa | [`docs/08-medidas.md`](docs/08-medidas.md) y `python docs/estimar-cdm.py`. Las fotos: `fotos/2026-10-04/` (ignorada, el repo es público) y el Drive |
 | **Qué hacer ahora, en qué orden** (los pasos, quién, cómo se sabe que salió bien, y la fabricación y calibración formal FAB/CAL) | [`docs/11-paso-a-paso.md`](docs/11-paso-a-paso.md) — Doc «2 - Paso a paso» del Drive |
 | **El concepto del proyecto**: qué es, las piezas, por qué cada decisión, los motores, la lista de materiales; lo que dijo Kevin | [`docs/07-guia-armado.md`](docs/07-guia-armado.md) — Doc «1 - El proyecto» del Drive. **Concepto y pasos están en documentos separados a pedido de Fran (2026-10-05): no se mezclan.** Cómo se pasan a Google Doc: `python docs/md-a-gdoc.py` + rclone (ver `HANDOFF.md`) |
+| **La crítica de la arquitectura** (materiales de chapa y rodillo, transmisión, tubos vs planchuela, bulones) y **el método de vuelco** para el CdM | [`docs/12-critica-y-medicion.md`](docs/12-critica-y-medicion.md) (2026-10-07) |
 | ¿Qué base al piso aguanta más? | `node docs/estabilidad-base.js` (cuenta reproducible; el modelo trae el slider y el vuelco) |
 | Entender **cómo se usa** y qué requisitos salen de ahí | [`docs/01-conops.md`](docs/01-conops.md) |
 | Riesgos, rigor por aspecto, decisiones tomadas | `PDP.md` §3, §5, §6 |

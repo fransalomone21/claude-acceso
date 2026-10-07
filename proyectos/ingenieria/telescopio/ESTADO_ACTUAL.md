@@ -74,6 +74,13 @@ Faltan las mediciones y el inventario.
 
 ## Lo próximo
 
+> **2026-10-07 — manda esto sobre el párrafo de abajo:** la crítica de la
+> arquitectura (acero en chapas y rodillos, fricción y no varilla, tubos,
+> ESP32) y el método de vuelco para el CdM están en
+> `docs/12-critica-y-medicion.md`, todo `probable` por cálculo. El paso 2 y el
+> 3 de `11-paso-a-paso.md` quedan reemplazados por el vuelco + h_eje (falta
+> reescribir el 11). Falta que Fran diga el dobson futuro máximo.
+
 Masa ≈ 40 kg por dos caminos, CdM ≈ 63 cm compuesto (58 a 69), plataforma de
 planchuela de hierro, poste de 10 cm, base triangular **ancha (1,2 m)**,
 modelo v8. **El orden vigente de lo que sigue, con quién y cómo se sabe que

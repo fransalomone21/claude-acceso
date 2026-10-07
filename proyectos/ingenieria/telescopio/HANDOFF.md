@@ -6,6 +6,20 @@ caminos, CdM ≈ 63 cm (58 a 69, falta el segundo método), plataforma de hierro
 con base triangular ancha de 1,2 m (modelo v8); **P0 aparcada** (compuerta
 antes de comprar el aluminio) e inventario con filas en `?`.
 
+## Octava sesión (2026-10-07, nube): crítica de la arquitectura y método de vuelco
+
+**Lo vigente está en `docs/12-critica-y-medicion.md`; leerlo ENTERO antes que
+lo de abajo.** Cambia: chapas de **acero** de 6–8 mm y rodillos de **acero
+torneado** (el PETG fluye a 42 MPa, el acero marca el aluminio); tracción por
+**fricción**, no varilla (error periódico de ≈ 1 min, 40 veces peor);
+**tubos** en lugar de planchuela de canto; ESP32 desde el arranque; rodillo
+de ≥ 40 mm (`latMax` ±13,7, a confirmar). Medición: **vuelco sobre dos
+cantos** + h_eje con cinta reemplazan la tabla y el «todo plano».
+**Pendiente de Fran:** qué dobson futuro como máximo (fija H y la carga).
+**Falta hacer (la sesión):** dibujos en perspectiva de la medición, modelo v9,
+planos por capa y reescribir `11-paso-a-paso.md`. Ninguno se hizo: el plan de
+Fran estaba agotado.
+
 ## Arrancá por acá
 
 1. `.\cascada.ps1 telescopio -Necesidad diseno,publicar` y leer lo que exija.
