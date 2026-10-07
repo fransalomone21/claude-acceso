@@ -214,7 +214,9 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
                 agregar({"ruta": str(pr)}, "base: los requisitos del proyecto (se disena contra esto)")
             else:
                 notas.append("SIN REQUISITOS: %s -- el proyecto declara su documento de requisitos y no existe. Lo "
-                             "primero es escribirlo (la puerta deja escribir ese archivo)" % norm(pr))
+                             "primero es escribirlo (la puerta deja escribir ese archivo y el registro; hasta "
+                             "entonces NIEGA todo Bash y PowerShell sobre el proyecto: mirar con Read, Glob y Grep)"
+                             % norm(pr))
         for c in entrada.get("comandos", []):
             comandos.append({"sub": c, "por": "apertura de " + proyecto})
         necs = list(dict.fromkeys(list(entrada.get("necesidades", [])) + list(declaradas or [])))
@@ -628,7 +630,9 @@ def prompt(ev: dict) -> int:
     if nuevos:
         print("CASCADA: el pedido toca %s. Antes de actuar (escribir, guardar, correr), aunque sea un ejercicio "
               "chico: %s %s -Necesidad <a,b> y leer lo que imprima; donde se guarda lo local lo dice su contrato. "
-              "La puerta lo exige." % (", ".join("%s (senal '%s')" % x for x in nuevos), entrada(), nuevos[0][0]))
+              "La puerta lo exige. Hasta declararla NIEGA todo Bash, PowerShell, Write y Edit, AUNQUE NO TOQUEN el "
+              "proyecto (la senal es el pedido, no la ruta): esa es la PRIMERA llamada, SOLA, sin nada en paralelo; "
+              "mirar con Read, Glob y Grep si pasa (2026-10-07: cuatro llamadas negadas por no saberlo)." % (", ".join("%s (senal '%s')" % x for x in nuevos), entrada(), nuevos[0][0]))
     return 0
 
 
