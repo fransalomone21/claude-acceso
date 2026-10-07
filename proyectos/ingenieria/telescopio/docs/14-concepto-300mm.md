@@ -248,6 +248,14 @@ de construcción, costo.
 
 ## 9. Lo que sólo Fran puede decidir
 
+> **Contestado el 2026-10-07:** 1 → **U1, «correr y apretar»**; 2 →
+> **«cualquiera, GoTo incluido»** (envolvente de 50 kg); 3 → **«debe servir
+> para ambos, aunque aumente la complejidad, no perdamos precisión»**: la
+> precisión no se cambia por sencillez. 4 y el 30/60 s, abiertos: Fran pidió
+> la explicación para Kevin. Aplicado en `10-requisitos.md` v0.2 (§8 de acá,
+> con los IDs finales: L0-15, L1-27 a L1-30, L2-PLT-05, L2-PLT-14 a 16). La
+> chapa pasa a **5/16"** por L2-PLT-16.
+
 1. **¿Cuánto se puede tocar para pasar del 200 al 300?** (fija U0 / U1 / U2).
 2. **¿Qué 300?** ¿Puede ser un GoTo (≈ 45-50 kg) o sólo manual (≈ 38-40 kg)?
    (fija la carga y el espesor de las chapas).
