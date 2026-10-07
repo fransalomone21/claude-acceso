@@ -92,6 +92,9 @@ $medidores = @(
     # seccion 2) commiteado y pusheado, y la memoria de la PC espejada en perfil-global/memoria. Nacio el
     # 2026-10-06 con cinco rojos que nadie veia (dos repos sin pushear, el nucleo sin commitear, 43 memorias).
     @{ nombre = 'listo para la nube';        cmd = 'python .claude\nube\estado-nube.py' }
+    # El papel que define el telescopio (2026-10-07): la traza cierra y el GtWR da 0 VIOLA. Un requisito que
+    # alguien edita mal se ve al abrir la sesion siguiente, no en la SRR.
+    @{ nombre = 'requisitos del telescopio';  cmd = 'python proyectos\ingenieria\telescopio\docs\verificar-requisitos.py' }
 )
 
 $saboteadores = @(
@@ -112,6 +115,9 @@ $saboteadores = @(
     @{ nombre = 'saboteador de nuevo-proyecto';   cmd = '.\probar-nuevo-proyecto.ps1' }
     @{ nombre = 'saboteador de la puerta';        cmd = 'python .claude\hooks\cascada_puerta.py --autotest' }
     @{ nombre = 'saboteador de fase_activa';      cmd = 'python .claude\hooks\fase_activa.py --autotest' }
+    # El chequeo del GtWR tenia saboteador y nadie lo corria solo; el 2026-10-07 aparecio ciego a las tildes.
+    @{ nombre = 'saboteador del GtWR';            cmd = '.\perfil-global\pilares\incose-gtwr\probar-verificar-requisito.ps1' }
+    @{ nombre = 'saboteador de los requisitos';   cmd = 'python proyectos\ingenieria\telescopio\docs\verificar-requisitos.py --autotest' }
     # El bash de Git, no 'bash' a secas: en PowerShell 'bash' es el alias de WSL de WindowsApps.
     @{ nombre = 'saboteador de traer-perfil';     cmd = '& "$env:ProgramFiles\Git\bin\bash.exe" .claude/nube/traer-perfil.sh --probar' }
     # El simulacro (lo que la puerta exige, contra un clon armado desde GitHub) y el saboteador de estado-nube.

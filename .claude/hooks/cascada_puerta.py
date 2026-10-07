@@ -215,7 +215,8 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
             else:
                 notas.append("SIN REQUISITOS: %s -- el proyecto declara su documento de requisitos y no existe. Lo "
                              "primero es escribirlo (la puerta deja escribir ese archivo y el registro; hasta "
-                             "entonces NIEGA todo Bash y PowerShell sobre el proyecto: mirar con Read, Glob y Grep)"
+                             "entonces NIEGA todo Bash y PowerShell sobre el proyecto: mirar con Read, Glob y Grep; "
+                             "apenas exista pasa a ser base, y se lee ENTERO con Read antes de la accion siguiente)"
                              % norm(pr))
         for c in entrada.get("comandos", []):
             comandos.append({"sub": c, "por": "apertura de " + proyecto})
