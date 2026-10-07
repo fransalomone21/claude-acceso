@@ -87,7 +87,7 @@ Modelo: Opus, esfuerzo medio, SIN fan-out: es diseno contra requisitos ya escrit
 7. Al cerrar: ESTADO + HANDOFF + commit + push, y despues
    python auditar-sesion.py --de-fran "que | evidencia" --escribir  (en claude-acceso).
    EFECTO a ver: P7 en VERDE para cada commit de diseno, ningun ROJO, y las llamadas
-   negadas por la puerta en 0 (hoy fueron 5). El informe va en su commit.
+   negadas por la puerta en 0 (hoy fueron 7: 4 por actuar antes de declarar o de leer, y 3 por releer un rango que la reinstalacion del perfil corrio). El informe va en su commit.
 ```
 
 ## Décima sesión (2026-10-07, PC): la arquitectura del método, no el telescopio
