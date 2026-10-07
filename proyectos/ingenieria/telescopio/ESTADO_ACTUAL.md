@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-07 (novena sesión)
+**Última actualización:** 2026-10-07 (décima sesión: la arquitectura del método, no el telescopio)
 
 ## Dónde estamos
 
@@ -15,12 +15,15 @@
 
 **Qué cierra la fase en curso:** los tres números que mandan medidos (masa
 total, centro de masa 3D, ¿llega a foco la cámara?), el inventario sin
-ninguna fila en `?`, y **una** arquitectura de plataforma elegida en un trade
-study con los pesos puestos por Fran y un ganador que no empata.
+ninguna fila en `?`, **una** arquitectura de plataforma elegida en un trade
+study con los pesos puestos por Fran y un ganador que no empata, y **el
+borrador de requisitos** (`docs/10-requisitos.md`, agregado el 2026-10-07: ver
+`PDP.md` §4, punto 4).
 
-**De las tres, va una:** la arquitectura está elegida — **VNS**, por Fran y
+**De las cuatro, va una:** la arquitectura está elegida — **VNS**, por Fran y
 por `docs/05-trade-study.md` (4,5 contra 2,7, sin empate en ningún orden).
-Faltan las mediciones y el inventario.
+Faltan las mediciones, el inventario y **los requisitos, que no existen: la
+puerta no deja diseñar nada del telescopio hasta escribirlos**.
 
 ## Lo confirmado
 
@@ -77,7 +80,21 @@ Faltan las mediciones y el inventario.
 
 ## Lo próximo
 
-> **2026-10-07 (novena sesión) — manda esto sobre el párrafo de abajo.** El
+> **2026-10-07 (décima sesión) — manda sobre todo lo de abajo.** El orden:
+> **1) escribir `docs/10-requisitos.md`** con los criterios de la cátedra (IISE
+> m17, m21), el GtWR y NASA — necesidades `N-xx` → `L0` → `L1` → `L2` con
+> trazabilidad, tipo, rationale, método de verificación, `TBD`/`TBR`, qué falta
+> definir y qué ya representa el modelo 3D; la puerta no deja diseñar antes.
+> **2) Los pedidos de Fran de esta sesión, trazados a esos requisitos:** los
+> dibujos para medir el centro de masa en los Docs del Drive (si el formato Doc
+> no aguanta imágenes, otro, pero en el Drive), leer el Drive entero y
+> simplificarlo (el Cuaderno del 4/10 quedó viejo: dice "CS o VNS abierta" y
+> "50 kg"), y el modelo sin piezas volando, con sus soportes y los **3 bulones
+> con mariposa** de Kevin (hoy son 4 en el modelo). **3) Pendiente de Fran,
+> URGENTE:** el vuelco (hA, hB, A, B, W) y la altura del eje — sin medidas
+> nuevas al 7/10; con eso se cierra el CdM por dos métodos.
+>
+> **2026-10-07 (novena sesión).** El
 > orden vigente es `docs/11-paso-a-paso.md` **versión 3** (siete pasos): 1) el
 > vuelco de la montura sin tubo; 2) la altura del eje con cinta; 3) inventario
 > de hierros y rescatados con calibre (pared de los tubos, ¿varillas de 8,00?,

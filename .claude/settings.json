@@ -69,7 +69,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "P=$(command -v python || command -v python3) || { echo 'PUERTA DE LA CASCADA: no hay python ni python3 con que correr la puerta; falla cerrado' >&2; exit 2; }; \"$P\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/cascada_puerta.py\"",
+            "command": "P=$(command -v python || command -v python3) || { echo 'PUERTA DE LA CASCADA: no hay python ni python3 con que correr la puerta; falla cerrado' >&2; exit 2; }; \"$P\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/puerta-lanzador.py\"",
             "timeout": 15,
             "statusMessage": "puerta de la cascada"
           }

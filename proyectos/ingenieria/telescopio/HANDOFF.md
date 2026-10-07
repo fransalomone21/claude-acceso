@@ -1,9 +1,112 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-07 (novena sesión, PC, cuenta de Agus y Fran) ·
+**Escrito el:** 2026-10-07 (décima sesión, PC, abierta en `OneDrive\Desktop\claude`) ·
 **Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**; arquitectura
-cerrada (VNS), concepto de materiales y mecanismo propuesto (`docs/13`), CdM
-≈ 63 cm (58 a 69) **sin medir**, P0 aparcada, inventario con filas en `?`.
+cerrada (VNS), CdM ≈ 63 cm (58 a 69) **sin medir**, P0 aparcada, inventario
+con filas en `?`, y **sin documento de requisitos** (la puerta lo exige).
+
+## Décima sesión (2026-10-07, PC): la arquitectura del método, no el telescopio
+
+Fran pidió dibujos del CdM en los Docs, ordenar el Drive y soportes y bulones en
+el modelo. Al ir a mirar el modelo antes que el papel que define el proyecto,
+cortó: **«te pasé libros de cómo escribir buenos requerimientos y no los usás:
+es una falla arquitectónica»**. Nueve sesiones diseñaron sin requisitos. La
+sesión se dedicó a arreglar eso en el método (regla 15) y **no tocó el diseño
+del telescopio**. Lo que quedó, todo probado con sabotajes y controles:
+
+- **El libro primero:** `perfil-global/pilares/nucleo-ise.md` (fases NASA,
+  requisitos con cátedra + GtWR + NASA, arquitectura, V&V, índice del resto)
+  encabeza la cascada de todo proyecto.
+- **Sin requisitos no se diseña:** el telescopio declara `docs/10-requisitos.md`;
+  mientras no exista, la puerta niega todo menos escribirlo y el registro
+  (ESTADO, HANDOFF, PDP). Escribirlo exige el GtWR, la cátedra (m17, m21) y
+  NASA. Formato de ID: `N-01`, `L0-01`, `L1-01`, `L2-PLT-01`.
+- **La puerta corre desde cualquier carpeta** (`puerta-afuera.py`, del perfil)
+  y **por su lanzador** (`.claude/hooks/puerta-lanzador.py`): si revienta,
+  niega todo salvo repararla. Pasó de verdad: una edición a medias rompió la
+  puerta y encerró a la sesión; Fran pegó el comando que la destrabó (captura:
+  `quitadas 1 quedan 0`).
+- **La auditoría de sesión** (lo que Fran pidió: preguntas con respuestas
+  trazables «como un capacitor de la Voyager»): `python auditar-sesion.py`
+  contesta P1-P11 desde la caja negra de la puerta, git, los requisitos y las
+  lecciones. Se corre al cerrar, con `--escribir`.
+- **PDP §4:** la fase 0 cierra también con el **borrador de requisitos**
+  (NASA Pre-A: *draft system-level requirements*).
+- **Regla nueva (Fran):** lo que Fran ejecuta se confirma con evidencia; si la
+  sesión no puede medir el efecto, frena y le pide captura.
+
+**Lo que Fran pidió y quedó para la próxima, en este orden** (cada commit de
+diseño cita los IDs que cumple):
+
+1. `docs/10-requisitos.md`: necesidades → L0 → L1 → L2 por elemento (PLT
+   plataforma, MON montura, CAM tren de imagen, OPE operación), con tipo, padre,
+   rationale, método de verificación, `TBD`/`TBR`, qué falta especificar y qué
+   ya representa el modelo 3D (demostrativo para Fran).
+2. Los dibujos del CdM en los Docs del Drive (probar antes si un Doc acepta
+   imágenes con un borrador de tres líneas); leer el Drive entero y
+   simplificarlo: el **Cuaderno** (ID `1Gqf00K3lqZJJkfu8lIKZxhDSEzKbtj2tO4Do6BFz-R4`)
+   es del 4/10, no tiene fuente en el repo y está viejo («CS o VNS abierta»,
+   «50 kg»); en *Archivo*, el Doc de la plataforma de hierro (`09`) quedó atrás
+   del repo.
+3. El modelo sin piezas volando (la captura de Fran: el eje y la barra del
+   motor sin soporte), con sus soportes y los **3 bulones con mariposa** de
+   Kevin (el modelo y los docs dicen 4).
+
+**Pendiente de Fran, URGENTE:** el vuelco (hA, hB, A, B, W) y la altura del eje.
+Al 7/10 no hay medidas nuevas.
+
+### Mensaje de retome (chat nuevo)
+
+```
+Proyecto: telescopio (plataforma VNS del 200/1200), en claude-acceso, en la PC.
+ABRIR LA SESION EN C:\Users\frans\Desktop\claude-acceso (si se abre en otra carpeta
+corre la puerta, pero no el arranque).
+Modelo: Opus, esfuerzo alto, SIN fan-out: escribir los requisitos es arquitectura y
+decide todo lo que viene; un solo hilo, profundidad.
+
+0. EL LIBRO: si ~/.claude/CLAUDE.md no empieza con "# Perfil global":
+   bash .claude/nube/traer-perfil.sh y leer lo que liste. Despues: git fetch origin; si
+   una rama claude/* tiene commits del telescopio fuera de main, traerla.
+1. .\cascada.ps1 telescopio -Necesidad diseno  y leer TODO lo que exija, empezando por
+   perfil-global/pilares/nucleo-ise.md. Va a decir "SIN REQUISITOS": es correcto.
+2. Leer ENTERO: ESTADO_ACTUAL.md, el bloque "Decima sesion" de HANDOFF.md,
+   docs/01-conops.md, docs/13-revision-externa.md, PDP.md secciones 1 a 4.
+   Al crear docs/10-requisitos.md la puerta exige (concepto requisitos): GtWR reglas.md
+   sec. 1-3, la catedra m21 entero y m17 (niveles), NASA requisitos.md sec. 5-14.
+   NO leer CAD, macro VBA ni fotos. 06-modelo-3d.html y geometria-vns.js solo al
+   tocarlos (si cambia geometria-vns.js, subir el ?v= del <script>, hoy 9).
+3. Fase 0 (Pre-Phase A). La cierra (PDP sec. 4): CdM por 2 metodos, inventario sin "?",
+   la arquitectura (ya: VNS) y el BORRADOR DE REQUISITOS docs/10-requisitos.md:
+   N-xx -> L0 -> L1 -> L2 por elemento (PLT, MON, CAM, OPE); cada uno con tipo
+   (funcional, desempeno, restriccion, interfaz, ambiental, otros), padre, rationale,
+   metodo de verificacion (ensayo, analisis, inspeccion, demostracion), estado
+   (TBD/TBR/definido) y si el modelo 3D lo representa. Se certifica con
+   python perfil-global/pilares/incose-gtwr/verificar-requisito.py <archivo> --idioma es
+   sin VIOLA (un requisito por linea: extraer la columna de enunciados a un .txt).
+4. Estado: concepto v9 (docs/13). Masa ~40 kg, CdM ~63 cm (58-69) SIN medir. NO HAY PLANOS.
+   Artifact v9 (cuenta de Agus y Fran): https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd
+   -> pasar url, leerlo antes, publicar con files {"geometria-vns.js": docs/geometria-vns.js}.
+   Local: preview_start "telescopio-modelo" (8765). Controles: node docs/probar-geometria.js.
+   Drive: "1 - El proyecto" (07, ID 1wrzPpizxcblHVY3Zd1vyjZxawaTfdZc2wzDKFsbEwTw),
+   "2 - Paso a paso" (11, ID 1rpFTUuDcQvkzbma_9PBBHFBuVl9N3Tce_U9WsTQoUs0), Cuaderno viejo
+   (ID 1Gqf00K3lqZJJkfu8lIKZxhDSEzKbtj2tO4Do6BFz-R4). python docs/md-a-gdoc.py <md> <html>
+   + rclone copyto --config ~/.config/rclone/rclone.conf --drive-import-formats html
+   --drive-export-formats html al mismo nombre; verificar el ID con rclone lsf --format pi.
+5. Resuelto, no se rehace: VNS, espejo sur, limites 45/48/51, geometria del dobson,
+   pesadas, docs/12 corregido por 13, sin deslizamiento lateral, el contacto camina para
+   un lado, sin engranajes de casetera, el 12" no se disena. Y el metodo (decima sesion):
+   el libro primero, sin requisitos no se disena, la puerta corre afuera y por su
+   lanzador, y la sesion se audita al cerrar.
+6. PRIMER PASO: escribir docs/10-requisitos.md. Despues, cada commit citando los IDs que
+   cumple: (a) dibujos del CdM en los Docs + leer y simplificar el Drive; (b) el modelo
+   sin piezas volando, con soportes y los 3 bulones con mariposa de Kevin.
+   Pendiente de Fran, URGENTE: vuelco (hA, hB, A, B, W) y altura del eje. Si dice que lo
+   hizo y la sesion no puede medir el efecto, pedirle captura.
+7. Al cerrar: ESTADO + HANDOFF + commit + push, y despues
+   python auditar-sesion.py --de-fran "que | evidencia" --escribir  (en claude-acceso).
+   EFECTO a ver: P7 en VERDE para cada commit de diseno y ningun ROJO; el informe va
+   en su commit.
+```
 
 ## Novena sesión (2026-10-07, PC): revisión de afuera y modelo v9
 
@@ -219,7 +322,7 @@ portaocular y dice que «se ve sin aumento»: ver la fila de foco en
   habilitar del driver) y cómo se sale del tope.
 - **El modelo SolidWorks no se revisó pieza por pieza.**
 
-## Mensaje de retome (chat nuevo)
+## Mensaje de retome de la novena sesión (SUPERADO por el de la décima, arriba)
 
 Escrito el 2026-10-07 (novena sesión), sin recortes:
 

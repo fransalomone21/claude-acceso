@@ -27,6 +27,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
 import sys
 import tempfile
 import time
@@ -202,6 +203,18 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
     if proy is not None:
         for spec in cat.get("base", []):
             agregar(spec, "base: " + spec.get("por", ""))
+        # Los REQUISITOS del proyecto son base: es el papel que define el proyecto (Fran, 2026-10-07). Nueve sesiones
+        # del telescopio disenaron sin un documento de requisitos y nada lo pedia: 'diseno' exigia indices y skills,
+        # y un {proy}/... ausente se salteaba en silencio (agregar, arriba). Declarado y ausente NIEGA -- falla
+        # cerrado --, salvo la accion que lo escribe (pre). Que un proyecto que disena lo declare: --verificar.
+        req = entrada.get("requisitos")
+        if req:
+            pr = Path(req) if os.path.isabs(req) else proy / req
+            if pr.exists():
+                agregar({"ruta": str(pr)}, "base: los requisitos del proyecto (se disena contra esto)")
+            else:
+                notas.append("SIN REQUISITOS: %s -- el proyecto declara su documento de requisitos y no existe. Lo "
+                             "primero es escribirlo (la puerta deja escribir ese archivo)" % norm(pr))
         for c in entrada.get("comandos", []):
             comandos.append({"sub": c, "por": "apertura de " + proyecto})
         necs = list(dict.fromkeys(list(entrada.get("necesidades", [])) + list(declaradas or [])))
@@ -271,6 +284,20 @@ def proyecto_de(tool: str, inp: dict, cwd: str, cat: dict | None = None):
         m = PATRON_PROY.search(t.replace("\\\\", "\\"))
         if m and m.group(2) in disco:
             return m.group(2)
+    # Un COMANDO puede llegar al proyecto sin nombrar 'proyectos/<nat>/<p>' de corrido (medido el 2026-10-07, tres
+    # agujeros): 'cd .../proyectos/ingenieria && echo > telescopio/x', la ruta partida con comillas, y un comodin
+    # 'proyectos/ing*/telescopio'. Sin comillas se reintenta el patron; y si el comando nombra 'proyectos', basta el
+    # nombre de un proyecto como SEGMENTO de ruta ('telescopio/'). Lo construido con variables sigue sin verse: la
+    # capa que lo mide es el efecto (git status del proyecto: 'AL DIA' de cascada.ps1), no esta.
+    if tool in ("Bash", "PowerShell"):
+        t = textos[0].replace("'", "").replace('"', "").replace("\\\\", "\\")
+        m = PATRON_PROY.search(t)
+        if m and m.group(2) in disco:
+            return m.group(2)
+        if re.search(r"(?i)\bproyectos\b", t):
+            for n in sorted(disco, key=len, reverse=True):
+                if re.search(r"(?<![\w.-])" + re.escape(n) + r"[/\\]", t):
+                    return n
     locs = locales_de(cat or {})
     for i, t in enumerate(textos):
         if not t:
@@ -433,6 +460,7 @@ def pre(ev: dict) -> int:
                     "catalogo no se sabe que exigir, y la puerta falla cerrado. Arreglarlo (editarlo no lo frena "
                     "nadie) o, si hay que salir ya: .claude\\desinstalar-hooks.ps1" % e)
     proyecto = proyecto_de(tool, inp, ev.get("cwd", ""), cat)
+    directo = bool(proyecto)   # la accion TOCA el proyecto (ruta, comando o cwd), no solo lo nombra el pedido
     conceptos = conceptos_de(cat, tool, inp)
     sid = ev.get("session_id", "")
     st = estado(sid)
@@ -477,6 +505,16 @@ def pre(ev: dict) -> int:
     # fichas enteras. Lo legitimo no lo choca: en la PC --verificar ya da rojo en el arranque si el catalogo apunta
     # a un archivo que no esta.
     no_existe = [n for n in notas if n.startswith("NO EXISTE")]
+    # SIN REQUISITOS niega todo menos ESCRIBIR ese archivo -- la unica salida, y tiene que estar abierta -- y el
+    # registro del proyecto (ESTADO, HANDOFF, PDP): ahi se anota que faltan, y frenar el checkpoint empujaria a
+    # saltearlo (un freno con falsos positivos es menos seguro, Saltzer). Lo que se frena es DISENAR sin requisitos.
+    destino = norm(arch) if arch else ""
+    # Y solo frena lo que TOCA el proyecto: si el proyecto sale del PEDIDO (leccion 331), la accion es de otra cosa
+    # -- el metodo, otra carpeta -- y frenarla por los requisitos de un proyecto ajeno es un falso positivo (medido
+    # en la sesion que lo construyo: no dejaba correr el autotest de esta misma puerta).
+    registro = bool(arch) and os.path.basename(destino) in ("estado_actual.md", "handoff.md", "pdp.md")
+    no_existe += [n for n in notas if n.startswith("SIN REQUISITOS: ") and directo and not registro
+                  and n.split(": ", 1)[1].split(" -- ")[0] != destino]
     if not pend and not cpend and not no_existe:
         return 0
     lin = ["PUERTA DE LA CASCADA (T11): antes de esta accion (%s%s) falta LEER con la herramienta Read:" % (
@@ -594,6 +632,29 @@ def prompt(ev: dict) -> int:
     return 0
 
 
+def registrar_decision(ev: dict, salida: str):
+    """La CAJA NEGRA de la puerta (Fran, 2026-10-07: 'que la respuesta sea tan trazable a los hechos como un capacitor
+    de la Voyager 1'). Cada accion que la puerta media queda anotada con su veredicto y su motivo, con hora: es lo que
+    auditar-sesion.py lee para contestar si la arquitectura se cumplio, en vez de creerle a lo que la sesion dice de
+    si misma. Falla abierto a proposito: perder un renglon de auditoria no puede frenar el trabajo."""
+    try:
+        tool, inp = ev.get("tool_name", ""), ev.get("tool_input", {}) or {}
+        if tool not in ACCIONES:
+            return
+        obj = str(inp.get("file_path", inp.get("notebook_path", ""))) or str(inp.get("command", ""))
+        niega = '"deny"' in salida
+        motivo = ""
+        if niega:
+            try:
+                motivo = json.loads(salida)["hookSpecificOutput"]["permissionDecisionReason"].splitlines()[0]
+            except Exception:
+                motivo = "deny (motivo ilegible)"
+        anotar(ev.get("session_id", ""), {"t": "decide", "tool": tool, "obj": obj[:200], "cwd": ev.get("cwd", ""),
+                                          "v": "niega" if niega else "pasa", "motivo": motivo[:200]})
+    except Exception:
+        pass
+
+
 def hook() -> int:
     try:
         ev = json.loads(sys.stdin.buffer.read().decode("utf-8-sig") or "{}")
@@ -601,12 +662,23 @@ def hook() -> int:
         return 0
     nombre = ev.get("hook_event_name", "")
     if nombre == "PreToolUse":
+        import contextlib
+        import io
+        buf = io.StringIO()
         try:
-            return pre(ev)
+            with contextlib.redirect_stdout(buf):
+                rc = pre(ev)
         except Exception as e:  # falla cerrado tambien ante un error propio, con el motivo a la vista
-            return deny("PUERTA DE LA CASCADA (T11): error interno (%s: %s). Falla cerrado. Arreglar "
-                        ".claude/hooks/cascada_puerta.py (editarlo no lo frena) o .claude\\desinstalar-hooks.ps1"
-                        % (type(e).__name__, e))
+            with contextlib.redirect_stdout(buf):
+                rc = deny("PUERTA DE LA CASCADA (T11): error interno (%s: %s). Falla cerrado. Arreglar "
+                          ".claude/hooks/cascada_puerta.py (editarlo no lo frena) o .claude\\desinstalar-hooks.ps1"
+                          % (type(e).__name__, e))
+        sys.stdout.write(buf.getvalue())
+        try:
+            registrar_decision(ev, buf.getvalue())
+        except Exception:
+            pass  # la caja negra nunca frena (y si su nombre faltara, tampoco: medido el 2026-10-07)
+        return rc
     try:
         if nombre == "UserPromptSubmit":
             return prompt(ev)
@@ -641,6 +713,11 @@ def cli_exige(proyecto: str, necs) -> int:
         print("    CORRER: %s  (%s)" % (c["sub"], c["por"]))
     for n in notas:
         print("  ! " + n)
+    todas = list((ent or {}).get("necesidades", [])) + list(necs or [])
+    if "diseno" in todas and not (ent or {}).get("requisitos"):
+        print("  ! DISENO SIN REQUISITOS: %s no declara su documento de requisitos ('requisitos' en .claude/cascada.json)."
+              " Se disena contra los requisitos: lo primero es escribirlos (al tocarlos, el concepto 'requisitos' "
+              "exige el GtWR, la catedra y NASA)." % p)
     print("  total: %d caracteres (~%d K tokens), una vez por sesion" % (total, total // 3500))
     # Herramientas y RESPALDO de cada necesidad (Fran, 2026-10-02: saber ir a buscar las herramientas y el backup
     # de cada tarea). Se imprimen, no se exigen: son el flujo de informacion, no la puerta.
@@ -648,6 +725,22 @@ def cli_exige(proyecto: str, necs) -> int:
         hs = cat.get("necesidades", {}).get(n, {}).get("herramientas", [])
         if hs:
             print("  HERRAMIENTAS Y RESPALDO (%s): %s" % (n, " | ".join(hs)))
+    # Las LECCIONES del proyecto (Fran, 2026-10-07: la apertura dispara lo pertinente 'con las lecciones aprendidas
+    # relacionadas'). Se imprimen los titulos: la regla de cada una sale con 'aprender.py listar --proyecto'.
+    apr = expandir("perfil-global/herramientas/aprender.py", None)
+    if apr is not None and apr.exists():
+        try:
+            out = subprocess.run([sys.executable, str(apr), "listar", "--proyecto", p], capture_output=True,
+                                 timeout=20).stdout.decode("utf-8", "replace").splitlines()
+            tit = [l.strip() for l in out if l.lstrip().startswith("[")]
+            tit = [re.sub(r"^\[[^\]]*\]\s+\S+\s+", "", t) for t in tit]   # sin la fecha ni el proyecto
+            print("  LECCIONES DE %s (%d): %s" % (p, len(tit), " | ".join(tit[:12]) or "ninguna"))
+            if tit:
+                print("    la regla de cada una: python perfil-global/herramientas/aprender.py listar --proyecto %s" % p)
+        except Exception as e:
+            print("  ! LECCIONES: aprender.py no respondio (%s)" % e)
+    else:
+        print("  ! LECCIONES: no esta perfil-global/herramientas/aprender.py (falta el libro: traer-perfil.sh)")
     # None = no se paso -Necesidad; [] = se paso solo 'ninguna' (que el __main__ filtra), y eso SI declara: la puerta
     # la registra igual. Con 'if not necs' imprimia SIN DECLARAR a quien acababa de declarar (validaciones 4 y 5).
     if necs is None:
@@ -676,6 +769,9 @@ def cli_verificar() -> int:
         for nec in ent[n].get("necesidades", []):
             if nec not in cat.get("necesidades", {}):
                 rojos.append("%s pide una necesidad que no existe: %s" % (n, nec))
+        if "diseno" in ent[n].get("necesidades", []) and not ent[n].get("requisitos"):
+            rojos.append("%s disena por defecto y no declara su documento de requisitos ('requisitos' en el catalogo): "
+                         "se disenaria sin contra que verificar (Fran, 2026-10-07)" % n)
         for s in ent[n].get("senales", []):
             try:
                 re.compile(s)
@@ -726,11 +822,21 @@ def cli_verificar() -> int:
     try:
         hooks = json.loads((RAIZ / ".claude" / "settings.json").read_text(encoding="utf-8-sig")).get("hooks", {})
         for evento in ("PreToolUse", "PostToolUse", "SessionStart", "UserPromptSubmit"):
-            if "cascada_puerta.py" not in json.dumps(hooks.get(evento, [])):
-                rojos.append("la puerta NO esta registrada en %s de .claude/settings.json (.claude\\instalar-hooks.ps1)"
-                             % evento)
+            # en PreToolUse la puerta corre por su LANZADOR (la politica de falla: 2026-10-07)
+            esperado = "puerta-lanzador.py" if evento == "PreToolUse" else "cascada_puerta.py"
+            if esperado not in json.dumps(hooks.get(evento, [])):
+                rojos.append("%s NO esta registrado en %s de .claude/settings.json (.claude\\instalar-hooks.ps1)"
+                             % (esperado, evento))
     except Exception as e:
         rojos.append(".claude/settings.json ilegible: %s" % e)
+    # Las piezas de la puerta COMPILAN: un error de sintaxis en el lanzador lo dejaria fallar abierto sin que nadie lo
+    # note (es la pieza que no tiene quien la repare). compile() no escribe nada en el disco.
+    for pieza in ("cascada_puerta.py", "puerta-lanzador.py", "fase_activa.py"):
+        f = Path(__file__).with_name(pieza)
+        try:
+            compile(f.read_text(encoding="utf-8"), str(f), "exec")
+        except Exception as e:
+            rojos.append("%s NO compila (%s): la puerta corre rota" % (pieza, e))
     for r in rojos:
         print("[FAIL] " + r)
     print("cascada.json: %s (%d proyectos, %d necesidades, %d conceptos)" % (
@@ -896,6 +1002,70 @@ def autotest() -> int:
          correr(pre_ev("Bash", {"command": "grep -rn 'Fase' proyectos/ingenieria/black 2>/dev/null"}, s2)), False)
     caso("cd X && grep (encadenado) sobre black -> deny",
          correr(pre_ev("Bash", {"command": "cd proyectos/ingenieria/black && grep -n x PDP.md"}, s2)), True)
+    # 10i. REQUISITOS (2026-10-07: nueve sesiones del telescopio disenaron sin requisitos). Catalogo sintetico: black
+    # declara un documento de requisitos que NO existe. Todo lo demas leido y corrido, asi el unico motivo posible
+    # del deny es la falta del documento. cwd en black: si no, la escritura pasaria por no tener proyecto (motivo
+    # equivocado).
+    req_f = tmp / ("requisitos-autotest-%d.md" % os.getpid())
+    cat_r = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
+    cat_r["proyectos"].setdefault("black", {})["requisitos"] = str(req_f)
+    cr = tmp / "con-requisitos.json"
+    cr.write_text(json.dumps(cat_r, ensure_ascii=False), encoding="utf-8")
+    e_r = {"CASCADA_CATALOGO": str(cr)}
+    sr = sid + "-req"
+    for x in exigido(cat_r, "black", ["diseno"], [])[0]:
+        correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, sr))
+    correr(pre_ev("PowerShell", {"command": ".\\cascada.ps1 black -Necesidad diseno"}, sr))
+    correr(pre_ev("PowerShell", {"command": ".\\proyectos\\ingenieria\\black\\abrir-sesion.ps1 -Rapido"}, sr))
+    caso("requisitos declarados y AUSENTES -> deny 'SIN REQUISITOS'",
+         correr(pre_ev(*edit_black, s=sr, cwd=str(black)), e_r), True, "SIN REQUISITOS")
+    caso("CONTROL: sin requisitos, el checkpoint (HANDOFF) -> pasa",
+         correr(pre_ev("Edit", {"file_path": str(black / "HANDOFF.md"), "old_string": "a", "new_string": "b"}, sr,
+                       cwd=str(black)), e_r), False)
+    caso("sin requisitos, un archivo que SOLO se llama parecido -> deny",
+         correr(pre_ev("Edit", {"file_path": str(black / "docs" / "handoff-viejo.md"), "old_string": "a",
+                                "new_string": "b"}, sr, cwd=str(black)), e_r), True, "SIN REQUISITOS")
+    correr({"hook_event_name": "UserPromptSubmit", "session_id": sr, "prompt": "seguimos con BLACK y el metodo"}, e_r)
+    caso("CONTROL: proyecto solo NOMBRADO en el pedido, accion fuera -> pasa",
+         correr(pre_ev("Edit", {"file_path": str(RAIZ / "MAPA.md"), "old_string": "a", "new_string": "b"}, sr), e_r),
+         False)
+    w_req = ("Write", {"file_path": str(req_f), "content": "# Requisitos\n"})
+    caso("escribir requisitos SIN los libros -> deny que exige el GtWR",
+         correr(pre_ev(*w_req, s=sr, cwd=str(black)), e_r), True, "incose-gtwr")
+    for x in exigido(cat_r, None, [], ["requisitos"])[0]:
+        correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, sr))
+    caso("CONTROL: con los libros leidos, ESCRIBIR los requisitos -> pasa",
+         correr(pre_ev(*w_req, s=sr, cwd=str(black)), e_r), False)
+    req_f.write_text("# Requisitos\n\n| ID | Requisito |\n|---|---|\n| L0-01 | x |\n", encoding="utf-8")
+    caso("requisitos que EXISTEN y no se leyeron -> deny que los nombra",
+         correr(pre_ev(*edit_black, s=sr, cwd=str(black)), e_r), True, req_f.name)
+    correr(post_ev("Read", {"file_path": str(req_f)}, sr))
+    caso("CONTROL: requisitos leidos -> pasa", correr(pre_ev(*edit_black, s=sr, cwd=str(black)), e_r), False)
+    cat_s = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
+    p_dis = next((n for n, en in cat_s["proyectos"].items() if "diseno" in en.get("necesidades", [])), None)
+    if p_dis:
+        cat_s["proyectos"][p_dis].pop("requisitos", None)
+        sq = tmp / "sin-requisitos.json"
+        sq.write_text(json.dumps(cat_s, ensure_ascii=False), encoding="utf-8")
+        r = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                           env=dict(env, CASCADA_CATALOGO=str(sq)))
+        sal = r.stdout.decode("utf-8", "replace")
+        linea = next((l for l in sal.splitlines() if l.startswith("[FAIL]") and "no declara su documento de requisitos" in l), "")
+        ok = r.returncode == 1 and p_dis in linea
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "proyecto que disena SIN requisitos -> --verificar en rojo",
+                                   linea[:70] if ok else "NO"))
+    else:
+        print("SKIP  ningun proyecto disena por defecto: el caso de --verificar no tiene objeto")
+    # 10j. comandos que llegan al proyecto sin nombrarlo de corrido (los tres agujeros del 2026-10-07)
+    for k, (nombre, cmd) in enumerate([
+            ("cd al padre y ruta relativa al hijo", "cd proyectos/ingenieria && echo x > black/docs/z.txt"),
+            ("ruta partida con comillas", "echo x > proyectos/'ingenieria'/black/docs/z.txt"),
+            ("comodin en la naturaleza", "echo x > proyectos/ing*/black/docs/z.txt")]):
+        caso("%s -> deny (sin declarar)" % nombre, correr(pre_ev("Bash", {"command": cmd}, sid + "-hueco%d" % k)), True,
+             "-Necesidad")
+    caso("CONTROL: un comando que solo dice 'proyectos' -> pasa",
+         correr(pre_ev("Bash", {"command": "echo proyectos > notas-autotest.txt"}, sid + "-hueco-ok")), False)
     # 11. otra sesion no hereda nada (A11: dos sesiones en el mismo arbol)
     caso("otra sesion no hereda lo leido por esta -> deny", correr(pre_ev(*edit_black, s=sid + "-d")), True)
     # 12. falla cerrado con catalogo roto; la salida de reparacion pasa igual
@@ -919,6 +1089,22 @@ def autotest() -> int:
     ok = r.returncode == 1 and ("necesidad %s no trae una herramienta de RESPALDO" % nec_mal) in sal
     mal += not ok
     print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "necesidad sin respaldo -> --verificar en rojo y la nombra",
+                               "rojo" if ok else "NO"))
+    # 12d. el LANZADOR con un error de sintaxis (la pieza que no tiene quien la repare) -> --verificar en rojo, nombrado.
+    # Sobre una COPIA de las tres piezas: la puerta copiada mira sus vecinas (Path(__file__).with_name).
+    hk = tmp / "hooks-roto"
+    hk.mkdir()
+    for pieza in ("cascada_puerta.py", "fase_activa.py"):
+        shutil_copy = (Path(__file__).with_name(pieza)).read_bytes()
+        (hk / pieza).write_bytes(shutil_copy)
+    (hk / "puerta-lanzador.py").write_text("def roto(:\n", encoding="utf-8")
+    r = subprocess.run([sys.executable, str(hk / "cascada_puerta.py"), "--verificar"], capture_output=True,
+                       env=dict(env, CASCADA_RAIZ=str(RAIZ)))
+    linea = next((l for l in r.stdout.decode("utf-8", "replace").splitlines()
+                  if l.startswith("[FAIL]") and "puerta-lanzador.py NO compila" in l), "")
+    ok = r.returncode == 1 and bool(linea)
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "lanzador que NO compila -> --verificar en rojo, nombrado",
                                "rojo" if ok else "NO"))
     # 12b. lecturas en PARALELO: el harness corre un hook por llamada, en procesos paralelos, y todos anotan en el
     # mismo archivo. Medido el 2026-10-02 (1.a sesion de T12): 6 Read en paralelo, 2 renglones pisados y una lectura

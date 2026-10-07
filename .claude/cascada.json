@@ -3,7 +3,9 @@
   "_rutas": "Relativas a la raiz del repo. '~' es el home. {proy} = la carpeta del proyecto, {nat} = su naturaleza, {handoff} = su HANDOFF (se busca en el disco), {memoria} = la auto-memoria de esta carpeta (~/.claude/projects/<raiz>/memory).",
   "_rangos": "Sin rango = entero. vista_h2 N = desde la linea 1 hasta antes del N-esimo titulo '## ', con tope de lineas. desde/hasta = regex de la linea que abre la seccion y de la que la cierra (exclusiva). Todo rango tiene que entrar en UNA lectura: lo mide --verificar.",
 
+  "_base_orden": "La base va en este orden y se exige entera: PRIMERO el libro de bolsillo de arquitectura e ingenieria de sistemas (Fran, 2026-10-07: 'antes, si o si, siempre, los archivos de arquitectura e ingenieria en sistemas'), despues la naturaleza, el contrato, el estado, el handoff y el PDP. Los REQUISITOS del proyecto entran a la base si el proyecto los declara ('requisitos' en su entrada); declarados y ausentes, la puerta niega todo menos escribirlos.",
   "base": [
+    {"ruta": "perfil-global/pilares/nucleo-ise.md", "por": "nivel 0b: el libro de bolsillo de arquitectura e ingenieria de sistemas, SIEMPRE primero"},
     {"ruta": "plantillas/naturalezas/{nat}.md", "por": "nivel 3: la naturaleza"},
     {"ruta": "{proy}/CLAUDE.md", "por": "nivel 4: el contrato"},
     {"ruta": "{proy}/ESTADO_ACTUAL.md", "vista_h2": 2, "tope": 300, "por": "nivel 5: donde quedamos (la vista)"},
@@ -40,7 +42,7 @@
     },
     "diseno": {
       "que": "decidir o disenar algo antes de construirlo: una arquitectura, un mod, un plan, elegir entre alternativas, escribir requisitos",
-      "herramientas": ["/spec-interview y /verify-before-build", "verificar-requisito.py (GtWR)", "trade study con pesos de Fran (nunca de la sesion)", "respaldo: el diseno escrito en el repo antes de tocar nada vivo"],
+      "herramientas": ["/spec-interview y /verify-before-build", "verificar-requisito.py --idioma es (GtWR)", "cada commit de diseno cita los IDs de requisito que cumple (N-01, L1-01, L2-PLT-01)", "al cerrar: python auditar-sesion.py --de-fran 'que | evidencia' --escribir", "trade study con pesos de Fran (nunca de la sesion)", "respaldo: el diseno escrito en el repo antes de tocar nada vivo"],
       "leer": [
         {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "desde": "^## Qu. leer", "hasta": "^## ", "por": "el indice de las fichas NASA / INCOSE / Rechtin segun la tarea"},
         {"ruta": "perfil-global/pilares/nasa-seh/README.md", "desde": "^## Estado de la lectura", "hasta": "^## ", "por": "que tramo del handbook NASA contesta que"},
@@ -91,6 +93,16 @@
   },
 
   "conceptos": {
+    "requisitos": {
+      "que": "escribir o tocar un documento de requisitos: se escribe con los libros abiertos, no de memoria (2026-10-07: nueve sesiones de diseno sin requisitos, con los libros en el repo)",
+      "archivo": "(?i)requisitos[^/\\\\]*\\.(md|txt)$",
+      "leer": [
+        {"ruta": "perfil-global/pilares/incose-gtwr/reglas.md", "desde": "^# 1\\. Las definiciones", "hasta": "^# 4\\. ", "por": "INCOSE GtWR: definiciones, las 14 caracteristicas y las 41 reglas"},
+        {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m21-escribir-buenos-requerimientos.typ", "por": "la catedra (IISE): SMART, QUIEN debera QUE, checklist, TBD/TBR, rationale, metodo de verificacion"},
+        {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m17-familia-de-requerimientos-y-trazabilidad.typ", "desde": "^== La sem", "hasta": "^== Interfaces", "por": "la catedra: shall/will/should, los seis tipos, niveles L0-L6, padres e hijos, asignados y derivados"},
+        {"ruta": "perfil-global/pilares/nasa-seh/requisitos.md", "desde": "^## 5\\. Actividad", "hasta": "^## 15\\.", "por": "NASA: tipos, flowdown, metadata, rationale, validacion en seis pasos, MOP/TPM, linea base"}
+      ]
+    },
     "typst": {
       "que": "compilar o editar un documento Typst",
       "comando": "(?i)\\btypst\\b",
@@ -163,6 +175,7 @@
                               "senales": ["\\bagust[ií]n\\b"]},
     "telefono-samsung":      {"necesidades": ["ingenieria-inversa"]},
     "telescopio":            {"necesidades": ["diseno"],
+                              "requisitos": "docs/10-requisitos.md",
                               "senales": ["telescopio", "\\bdobson\\b"]},
     "coaching":              {"necesidades": [],
                               "senales": ["\\bdieta\\b", "entrenamiento", "\\bentreno\\b"]},

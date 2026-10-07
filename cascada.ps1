@@ -128,6 +128,16 @@ foreach ($f in @('pilares.md', 'CLAUDE.md', 'apertura-proyecto.md', 'chequeo-de-
 }
 [void](Hay (Join-Path $Raiz 'CLAUDE.md') 'nivel 2: el enrutador. Se carga solo al abrir esta carpeta.')
 
+# ----------------------------------------------------------------- nivel 0b
+# El libro de bolsillo de arquitectura e ingenieria de sistemas: NO llega por hook, se LEE, y es lo primero que
+# exige la puerta para cualquier proyecto (2026-10-07: nueve sesiones de diseno sin requisitos, con el libro en casa).
+Nivel "0b" "el libro de bolsillo: arquitectura e ingenieria de sistemas -- SIEMPRE primero, antes del proyecto"
+# Adentro del arbol en la PC; AL LADO en la nube (traer-perfil.sh), igual que expandir() de la puerta.
+$nucleo = Join-Path $Raiz 'perfil-global\pilares\nucleo-ise.md'
+$nucleoAlLado = Join-Path (Split-Path $Raiz -Parent) 'perfil-global\pilares\nucleo-ise.md'
+if (-not (Test-Path -LiteralPath $nucleo) -and (Test-Path -LiteralPath $nucleoAlLado)) { $nucleo = $nucleoAlLado }
+[void](Hay $nucleo 'fases, requisitos, arquitectura, V&V y donde esta el resto del libro (si NO EXISTE: falta el libro -> perfil-global\install.ps1, o en la nube bash .claude/nube/traer-perfil.sh)')
+
 # ------------------------------------------------------------------ nivel 3
 Nivel 3 "la naturaleza -- que se lee SIEMPRE en esta clase de proyecto"
 [void](Hay (Join-Path $Raiz "plantillas\naturalezas\$($pr.Naturaleza).md") `

@@ -39,6 +39,7 @@ abrir). La historia de cada decisión de estructura está en
 | 0 | fundamentos (Meadows, Hunt & Thomas, Saltzer…) | `pilares.md` | solo, por hook |
 | 1 | las reglas del método | `~/.claude/CLAUDE.md` + skills | solo |
 | 2 | **este archivo**: qué proyectos hay y dónde | acá | solo |
+| **0b** | **el libro de bolsillo de arquitectura e ingeniería de sistemas** (fases, requisitos, arquitectura, V&V, dónde está el resto del libro) | `perfil-global/pilares/nucleo-ise.md` | **siempre primero**, antes del proyecto: lo exige la puerta |
 | 3 | qué se lee siempre en esa clase de proyecto | `plantillas/naturalezas/<nat>.md` | al entrar |
 | 4 | el contrato: qué leer según la tarea | `<proyecto>/CLAUDE.md` | al entrar |
 | 5 | dónde quedamos | `ESTADO_ACTUAL.md` + `HANDOFF.md` | al retomar |
@@ -59,7 +60,25 @@ proyecto hasta declarar la necesidad y leer con Read lo que pide el catálogo
 Necesidades: `materia`, `ingenieria-inversa`, `diseno`, `metodo`,
 `investigar`, `publicar`, `nueva` (no encaja: se escribe como requisitos),
 `ninguna`. `cascada.ps1` imprime juntas la fila de acá y el encabezado del
-`ESTADO_ACTUAL`: si no coinciden, **manda el proyecto**.
+`ESTADO_ACTUAL`: si no coinciden, **manda el proyecto**. Imprime también las
+**lecciones** del proyecto.
+
+**Desde el 2026-10-07** (nueve sesiones del telescopio diseñaron sin requisitos):
+
+- **Sin requisitos no se diseña.** Un proyecto que diseña declara su
+  documento de requisitos (`"requisitos"` en su entrada de `cascada.json`): la
+  puerta lo exige leído y, si no existe, niega todo menos escribirlo y el
+  registro (ESTADO, HANDOFF, PDP). Escribir requisitos exige el GtWR, la
+  cátedra y NASA abiertos (concepto `requisitos`). Cada commit de diseño cita
+  los IDs que cumple (`L2-PLT-01`).
+- **La puerta corre desde cualquier carpeta**: `perfil-global/hooks/puerta-afuera.py`
+  la corre si la sesión se abre fuera de este árbol (avisa que el arranque no
+  corre). Igual conviene abrir acá.
+- **La puerta corre por su lanzador** (`.claude/hooks/puerta-lanzador.py`): si
+  revienta, niega todo salvo repararla. Nunca encierra ni falla abierto.
+- **La auditoría cierra la sesión**: `python auditar-sesion.py --de-fran "que | evidencia" --escribir`
+  contesta once preguntas desde los registros (la caja negra de la puerta,
+  git, los requisitos, las lecciones) e informa en `.claude/auditorias/`.
 
 ---
 

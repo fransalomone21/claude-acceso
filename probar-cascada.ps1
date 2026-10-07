@@ -37,6 +37,8 @@ function Armar {
     & git init -q --bare $remoto *> $null
     G $raiz @('init', '-q', '-b', 'main')
     Escribir (Join-Path $raiz 'plantillas\naturalezas\ingenieria.md') "# ingenieria`n"
+    # el libro de bolsillo (nivel 0b): el arbol real siempre lo tiene; un fixture sin el no se parece al real
+    Escribir (Join-Path $raiz 'perfil-global\pilares\nucleo-ise.md') "# El libro de bolsillo`n"
     $pr = Join-Path $raiz 'proyectos\ingenieria\demo'
     Escribir (Join-Path $pr 'CLAUDE.md') "# demo`n`nLeer [el doc](docs/a.md) y ``PDP.md``.`n"
     Escribir (Join-Path $pr 'PDP.md') "# PDP`n"
@@ -136,12 +138,16 @@ Caso 'enlace markdown roto en el contrato' {
     G $f.Raiz @('push', '-q')
 } 1 'ROTO: la cascada se corta'
 
+Caso 'sin el libro de bolsillo (nivel 0b) la cascada se corta' {
+    param($f); Remove-Item -Force (Join-Path $f.Raiz 'perfil-global\pilares\nucleo-ise.md')
+} 1 'nucleo-ise\.md  -- NO EXISTE'
+
 Write-Host ""
 if ($fallas -gt 0) {
     Write-Host "  $fallas caso(s) no dieron lo esperado: la cascada esta ciega en algo." -ForegroundColor Red
     Write-Host ""
     exit 1
 }
-Write-Host "  probar-cascada: TODO BIEN (8 casos, los 2 controles en verde y 6 fallas en rojo o aviso)" -ForegroundColor Green
+Write-Host "  probar-cascada: TODO BIEN (9 casos, los 2 controles en verde y 7 fallas en rojo o aviso)" -ForegroundColor Green
 Write-Host ""
 exit 0

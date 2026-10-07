@@ -115,7 +115,7 @@ for evento, _, c in comandos():
     caso(not abs_ and scripts and not faltan, "1. %s: sin ruta de maquina, y su script existe" % evento,
          "%s -> %s" % (c, faltan or abs_ and abs_.group(0) or scripts))
 
-puerta = cmd_de("cascada_puerta.py", "PreToolUse")
+puerta = cmd_de("puerta-lanzador.py", "PreToolUse")   # la puerta corre por su lanzador (2026-10-07)
 guardia = cmd_de("guardia-iso.ps1", "PreToolUse")
 perfil = cmd_de("traer-perfil.sh", "SessionStart")
 pdp = str(RAIZ / "proyectos" / "ingenieria" / "arquitectura-se" / "PDP.md")
@@ -132,6 +132,23 @@ caso(rc == 0 and not out.strip(), "3. CONTROL: puerta con un Write fuera de todo
 rc, out = correr(puerta, ev("PreToolUse", "Edit", file_path=pdp), CLAUDE_PROJECT_DIR="/no/existe")
 caso(rc == 2, "4. SABOTAJE: CLAUDE_PROJECT_DIR roto -> rc 2 (bloquea), nunca 0 en silencio",
      "rc=%d %s" % (rc, out))
+
+# 4b. la puerta REVIENTA (2026-10-07: una edicion a medias la rompio). Por la frontera real, sobre una COPIA del arbol
+# con el lanzador de verdad y una puerta rota: lo comun se niega, la reparacion pasa. Antes del lanzador, adentro una
+# puerta rota salia 1 (no bloquea: fallaba ABIERTO, en silencio).
+rota = Path(tempfile.mkdtemp(prefix="probar-settings-rota-"))
+(rota / ".claude" / "hooks").mkdir(parents=True)
+shutil.copy(RAIZ / ".claude" / "hooks" / "puerta-lanzador.py", rota / ".claude" / "hooks" / "puerta-lanzador.py")
+(rota / ".claude" / "hooks" / "cascada_puerta.py").write_text("import sys\nsys.stdin.read()\nno_existe()\n", encoding="utf-8")
+rc, out = correr(puerta, ev("PreToolUse", "Edit", file_path=pdp, old_string="a", new_string="b"),
+                 CLAUDE_PROJECT_DIR=str(rota).replace("\\", "/"))
+caso(rc == 0 and '"deny"' in out and "REVENTO" in out, "4b. SABOTAJE: la puerta revienta -> el lanzador NIEGA (no falla abierto)",
+     "rc=%d %s" % (rc, out))
+rc, out = correr(puerta, ev("PreToolUse", "Edit", file_path=str(rota / ".claude" / "hooks" / "cascada_puerta.py"),
+                            old_string="a", new_string="b"), CLAUDE_PROJECT_DIR=str(rota).replace("\\", "/"))
+caso(rc == 0 and not out.strip(), "4b. CONTROL: con la puerta rota, EDITARLA pasa (la salida de reparacion)",
+     "rc=%d salida=%r" % (rc, out))
+shutil.rmtree(rota, ignore_errors=True)
 
 prot = json.loads((RAIZ / ".claude" / "protegidos.json").read_text(encoding="utf-8-sig"))["archivos"]
 ruta = next(a["ruta"] for a in prot if a.get("se_puede_escribir") is not True)

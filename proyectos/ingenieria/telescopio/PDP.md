@@ -62,8 +62,8 @@ Mapeo a CDIO: **Concebir** = fases 0 y 1. **Diseñar** = 2 y 3.
 
 | # | Fase | NASA | Criterio de salida (resultado verificable) | Cómo se certifica | Estado |
 |---|---|---|---|---|---|
-| 0 | Concebir | Pre-Fase A, *Concept Studies* | los tres números que mandan medidos, el inventario real con modelos, y **una** arquitectura elegida con trade study pesado por Fran | ver abajo | **abierta** |
-| 1 | Requisitos y presupuesto de error | Fase A, *Concept & Technology Development* | el presupuesto de error cierra numéricamente para el tiempo de sub pedido, y los requisitos pasan el verificador GtWR | `verificar-requisito.py docs/10-requisitos.md` en verde + la cuenta de arcsec cierra | sin empezar |
+| 0 | Concebir | Pre-Fase A, *Concept Studies* | los tres números que mandan medidos, el inventario real con modelos, **una** arquitectura elegida con trade study pesado por Fran, y el **borrador de requisitos** (necesidades → L0 → L1 → L2, trazados, con TBD/TBR declarados) | ver abajo | **abierta** |
+| 1 | Requisitos y presupuesto de error | Fase A, *Concept & Technology Development* | el presupuesto de error cierra numéricamente para el tiempo de sub pedido, y los requisitos quedan en **línea base** (sin TBD, validados con Fran: SRR) | `verificar-requisito.py docs/10-requisitos.md --idioma es` sin VIOLA + la cuenta de arcsec cierra + SRR con fecha | sin empezar |
 | 2 | Reforma de la montura | Fase B | el CoM medido cae dentro de la tolerancia pedida respecto del eje, **con la montura ya reformada** | se re-mide el CoM con el mismo método de la fase 0 y se compara | sin empezar |
 | 3 | Diseño detallado de la plataforma | Fase C, CDR | plantillas 1:1 en DXF + lista de corte + BOM contrastado contra el inventario | el CAD se regenera desde los números medidos; un chequeo compara el DXF contra las fórmulas | sin empezar |
 | 4 | Construir, integrar y probar | Fase D | deriva medida en una estrella ≤ requisito, durante el tiempo de sub pedido, y 60 min de carrera sin intervenir | prueba de deriva fotografiada | sin empezar |
@@ -80,11 +80,25 @@ Mapeo a CDIO: **Concebir** = fases 0 y 1. **Diseñar** = 2 y 3.
    (no enumerado de memoria), en `docs/03-inventario.md`.
 3. **Una arquitectura elegida** en `docs/05-trade-study.md`, con los pesos
    puestos por Fran y declarados con fuente, y un ganador que **no empata**.
+4. **El borrador de requisitos** en `docs/10-requisitos.md` (agregado el
+   2026-10-07: NASA pone en Pre-Fase A el *draft system-level requirements*,
+   las necesidades, metas y objetivos, y las medidas de efectividad, y este
+   PDP lo había dejado para la fase 1 — nueve sesiones diseñaron sin él).
+   Con los criterios de la cátedra (IISE m17, m21), el GtWR y NASA:
+   necesidades (`N-xx`) → `L0` misión → `L1` sistema → `L2` elementos
+   (plataforma, montura, tren de imagen, operación), cada uno con tipo,
+   padre, rationale, método de verificación y estado (`TBD`/`TBR`/definido);
+   lo que falta definir, marcado; lo que el modelo 3D ya representa, marcado.
+   Se certifica con `verificar-requisito.py --idioma es` sin VIOLA y con cada
+   hijo trazado a un padre que existe.
 
 **Cómo se certifica:** `ESTADO_ACTUAL.md` § *Lo confirmado* tiene las tres
 mediciones con su método y su fecha, `docs/03-inventario.md` no tiene ninguna
-fila en `?`, y `docs/05-trade-study.md` tiene la columna de pesos con fuente
-«Fran» y una diferencia distinta de cero entre el primero y el segundo.
+fila en `?`, `docs/05-trade-study.md` tiene la columna de pesos con fuente
+«Fran» y una diferencia distinta de cero entre el primero y el segundo, y
+`docs/10-requisitos.md` existe, pasa el verificador sin VIOLA y
+`auditar-sesion.py` no encuentra un commit de diseño que no trace a uno de sus
+IDs.
 
 **En rojo se ve así:** una fila del inventario que diga «una placa que creo que
 es un driver», o un trade study cuyos pesos los puso la sesión. Las dos cosas
