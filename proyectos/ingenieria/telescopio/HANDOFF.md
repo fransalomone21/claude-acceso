@@ -43,11 +43,42 @@ y el Drive simplificado (cita L1-15).
 prueba de foco; y §11.1 de los requisitos: 30 o 60 s, ¿viaja en auto?,
 ¿cuánto armado?
 
+### El artifact y el pase de cuenta (medido el 2026-10-07, 12:00)
+
+**La fuente es el repo** (`docs/06-modelo-3d.html` + `docs/geometria-vns.js`,
+último cambio `406799d`). Las copias publicadas, por cuenta:
+
+| Cuenta | Link | Versión | Medido |
+|---|---|---|---|
+| Agus y Fran (la de esta sesión) | https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd | **v9 = repo** | `geometria-vns.js` con el mismo sha256 (`7e0c9270…`); la página publicada contiene la del repo y suma 552 B del envoltorio de la publicación |
+| Fran personal | https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM | **v8, atrasada** | desde esta cuenta no se puede publicar ahí |
+
+**Pase para cuando vuelvas a tu cuenta de Fran** (lo hace la sesión, no vos).
+Antes de la tarea, en la sesión de la cuenta personal:
+
+1. `Artifact read` de `https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM`
+   (exigido antes de publicar encima).
+2. Publicar con `url` = ese link, `file_path` = `docs/06-modelo-3d.html` y
+   `files` = `{"geometria-vns.js": "docs/geometria-vns.js"}`.
+3. Medir el efecto: `Artifact read` con `paths` `["geometria-vns.js"]` y
+   comparar el sha256 contra el del repo. Iguales = sincronizado.
+4. Desde ahí, **el link vigente es el de la cuenta en la que se trabaja**; el
+   de la otra cuenta queda atrasado hasta el próximo pase. Actualizar la línea
+   de `CLAUDE.md` del proyecto y el link de los Docs «1 - El proyecto» y «2 -
+   Paso a paso» si cambia el link vigente.
+
+Lo que **no** cambia con la cuenta: el repo, la memoria de la PC
+(`~/.claude/projects/...`), el perfil y el Drive (rclone usa su propio token,
+no el conector de claude.ai). Lo que **sí** cambia: los artifacts, los
+conectores de claude.ai y el límite del plan.
+
 ### Mensaje de retome (chat nuevo)
 
 ```
 Proyecto: telescopio (plataforma VNS del 200/1200), en claude-acceso, en la PC.
 ABRIR LA SESION EN C:\Users\frans\Desktop\claude-acceso.
+SI LA SESION ES DE LA CUENTA PERSONAL DE FRAN: primero el "pase de cuenta" de
+HANDOFF.md (publicar el v9 en K4hfyQRik4xsJYYXv5sFeM y medir el sha256).
 Modelo: Opus, esfuerzo medio, SIN fan-out: es diseno contra requisitos ya escritos
 (un hilo); el esfuerzo alto era para escribirlos.
 
