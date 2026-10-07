@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-07 (undécima sesión: el borrador de requisitos)
+**Última actualización:** 2026-10-07 (duodécima sesión: el 300 mm y la revisión de necesidades)
 
 ## Dónde estamos
 
@@ -53,6 +53,8 @@ y el inventario sin `?`.
 | **Revisión de afuera** (`docs/13-revision-externa.md`): la arquitectura está bien; tres errores corregidos (rodillo de 40, ángulo de vuelco 34° → 24°, polea en un rodillo loco en v8); mecanismo con lo rescatado; estructura de tubo 20 × 20 con vigas compuestas; rodillos a 50 cm (la mesa aguanta 6,9 kg de empujón, más que el dobson solo); sin planos en fase 0 (Fran) | cálculo, `probable`; controles nuevos en `probar-geometria.js` | 2026-10-07 |
 | **Modelo v9** publicado desde la cuenta de Agus y Fran: https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd (el link viejo de la cuenta personal quedó en v8). Docs «1 - El proyecto» y «2 - Paso a paso» regenerados, mismos IDs | publicado; IDs medidos con `rclone lsf` | 2026-10-07 |
 | **Borrador de requisitos** `docs/10-requisitos.md` v0.1: N → L0 → L1 → L2 (PLT, MON, CAM, OPE), cada uno con tipo, padre, método de verificación, estado y si lo muestra el modelo; rationale por ID; KDR L1-01, L1-02, L1-15, L1-22; trazabilidad inversa del diseño v9. **El v9 incumple L2-PLT-12** (4 bulones del dobson, el requisito pide 3). Del modelo: mesa a 22,6 cm del piso, inclinación de 10,5° en el talón, vuelco 24,1°, empujón 6,9 kg | `python docs/verificar-requisitos.py` VERDE (autotest: 9 sabotajes con su motivo + 2 del GtWR); en `chequeo-completo.ps1`. **No está en línea base**: falta Fran (SRR, fase 1) y 3 preguntas suyas (§11.1) | 2026-10-07 |
+| **El dobson de 300 mm es necesidad** (N-12): la misma plataforma lleva el 200 y cualquier 12" comercial, GoTo incluido (≤ 50 kg), por **mesa universal**: corredera norte-sur con posiciones marcadas; chapas, rodillos, motor y base únicos; chapa de 5/16". La corredera va **bajo el dobson**, no en el pivote: el eje sube 6,9 cm cada 10 cm al sur. Requisitos **v0.2** (L0-15, L1-27 a L1-30, L2-PLT-05, L2-PLT-14 a 16). El v9 no lo muestra todavía | Fran: «correr y apretar», «cualquiera, GoTo incluido», «debe servir para ambos, aunque aumente la complejidad, no perdamos precisión»; cálculo `node docs/escenarios-300.js` (los datos del 12" son de catálogo, `hipótesis`); `verificar-requisitos.py` VERDE; `docs/14-concepto-300mm.md` | 2026-10-07 |
+| Los Docs «1 - El proyecto» y «2 - Paso a paso» del Drive **coinciden palabra por palabra con el repo** (salvo el encabezado y la numeración de listas): nadie los editó a mano | export txt + comparación por palabras | 2026-10-07 |
 | **La cámara y el foco se aparcan** (Fran, 2026-10-05). P0 sigue abierta en el PDP y es **compuerta antes de comprar la chapa de aluminio** | decisión de Fran; la compuerta es mía | 2026-10-05 |
 
 ## Lo que es hipótesis
@@ -84,7 +86,19 @@ y el inventario sin `?`.
 
 ## Lo próximo
 
-> **2026-10-07 (undécima sesión) — manda sobre todo lo de abajo.** Los
+> **2026-10-07 (duodécima sesión) — manda sobre todo lo de abajo.** El 300 mm
+> subió a necesidad y los requisitos van por la **v0.2**. Sigue, en este orden:
+> **(1)** el modelo 3D con la mesa universal (corredera, ancho de 70 cm, un
+> fantasma de 12" con su posición), sin piezas volando y con **3** fijaciones
+> (L1-28, L2-PLT-05, L2-PLT-12, L2-PLT-14), publicado en el artifact; **(2)**
+> los Docs del Drive con el 300 y los dibujos del CdM (L1-15); **(3)** el trade
+> de la transmisión (fricción, correa dentada de Kevin, varilla) cuando Fran y
+> Kevin elijan 30 o 60 s. **Fran:** el vuelco y la altura del eje (siguen
+> mandando: además definen si el 200 en el borde alto vuelca, 18,4°), la prueba
+> de foco, y §11.1 de `10`: ¿agujerear la base del 300 o tomarla con topes?,
+> ¿cuánto para cambiar de telescopio?, ¿viaja en auto?, ¿cuánto armado?
+>
+> **2026-10-07 (undécima sesión).** Los
 > requisitos están escritos. Sigue, cada commit citando los IDs que cumple:
 > **(a)** el modelo sin piezas volando, con soportes y los **3 bulones** del
 > dobson (**L2-PLT-12**, hoy incumplido); **(b)** los dibujos del centro de masa

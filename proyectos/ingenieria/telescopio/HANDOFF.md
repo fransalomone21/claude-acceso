@@ -1,10 +1,43 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-07 (undécima sesión, PC, abierta en `Desktop\claude-acceso`) ·
+**Escrito el:** 2026-10-07 (duodécima sesión, PC, abierta en `Desktop\claude-acceso`) ·
 **Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**, 2 de 4: arquitectura
 cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
+
+## Duodécima sesión (2026-10-07, PC): el 300 mm, concepto y necesidades
+
+**Pedido de Fran:** fase de concepto para que la plataforma sirva al 200 y a un
+dobson de 300 mm de modelo desconocido, con los comentarios de Kevin (4
+capturas de WhatsApp, transcriptas en `docs/14` §2; las imágenes no se
+guardaron: estaban en Descargas).
+
+**Hecho:**
+- `docs/14-concepto-300mm.md`: los 12" del mercado (Flextube 300P SynScan 45
+  kg, AD12/GSO 39 kg, XT12 38 kg, base 63-66 cm), la cinemática (la corredera
+  va bajo el dobson, no en el pivote), alternativas U0-U3 y de transmisión
+  F/B/T con números, material de las chapas (acero dulce vs inoxidable).
+  Escenarios: `node docs/escenarios-300.js`.
+- Respuestas de Fran: **U1** «correr y apretar»; **cualquiera, GoTo
+  incluido**; «debe servir para ambos, aunque aumente la complejidad, no
+  perdamos precisión» (memoria `telescopio-300mm-decision`).
+- `docs/10-requisitos.md` **v0.2**: N-12, L0-15, L1-27 a L1-30, L2-PLT-05
+  (rango de CdM 50-69), L2-PLT-14 a 16 (mesa 70 cm, posiciones marcadas ±2 mm,
+  contacto ≤ 350 MPa → chapa 5/16"). VERDE. PDP §6: decisión nueva.
+- Los Docs del Drive = repo (comparados palabra por palabra). El artifact
+  `Sn7F7NGPrNdsJnwwnXTZfd` = repo (sha256 `7e0c9270…`). **Fran dice que lo hizo
+  público: sin medir** (pedirle a Kevin que lo abra o una captura).
+- Arreglos de método (regla 15): la cascada imprime lo que la puerta exige
+  AL EDITAR los requisitos (lección 351: cinco Edit negados en paralelo); la
+  puerta reconoce lo leído por contenido (la reinstalación corría las líneas,
+  dos sesiones seguidas). Tercera reincidencia del `git checkout` que se lleva
+  lo sin commitear (lección 352): chip de tarea para el guardia.
+
+**No se hizo:** el modelo con la mesa universal y las 3 fijaciones, los Docs
+con el 300 y los dibujos del CdM. **Abierto para Fran y Kevin:** 30 o 60 s
+(decide la transmisión); §11.1 de `10` (fijación del 300, tiempo de cambio,
+auto, armado); el vuelco y la altura del eje.
 
 ## Undécima sesión (2026-10-07, PC): el borrador de requisitos
 
