@@ -46,7 +46,11 @@ function computeVNS(P) {
   const FEET = 0.020, BASE = 0.050, TAB = 0.040, RROLL = 0.016, TALON = 0.012;
   let thMax = thStop;                         // lo cubre la chapa; se estira abajo
   const groundTop = FEET + BASE;
-  const ySouth = -0.27, yNorthTab = 0.27, yPlate = ySouth - 0.012;
+  // v10 (mesa universal): la mesa se alarga al norte (tabN) para la corredera, y
+  // el dobson apoya sobre rieles de railH montados ARRIBA del marco. Sin esos
+  // dos parametros la geometria es la del v9.
+  const ySouth = -0.27, yNorthTab = P.tabN != null ? P.tabN : 0.27, yPlate = ySouth - 0.012;
+  const railH = P.railH || 0;
 
   // Todo se calcula con la cara de arriba de la mesa en z = 0 y despues se
   // sube: el conjunto movil + eje es invariante a una traslacion vertical.
@@ -143,7 +147,7 @@ function computeVNS(P) {
   // Lo que gira es el telescopio MAS la mesa: con una mesa de hierro (mTab, kg,
   // centro a zTab de la cara de arriba de la mesa) el centro de masa de todo lo
   // que gira baja, y es ESE el que tiene que caer sobre el eje (Hbal).
-  const Creal = [P.dE, P.dN, ztt + P.shim + P.Hreal];
+  const Creal = [P.dE, P.dN, ztt + railH + P.shim + P.Hreal];
   const mT = P.mTab || 0, zT = P.zTab != null ? P.zTab : -TAB / 2;
   const Ctab = [0, (ySouth + yNorthTab) / 2, ztt + zT];
   const Mtot = P.M + mT;
@@ -187,7 +191,7 @@ function computeVNS(P) {
   const rollNeed = Math.max(...rollers.map((r) => r.latSwing)) + plateT + 0.006;
   return {
     mesaMargen, empujeMesa, rollW, plateT, rollNeed, rollOK: rollNeed <= rollW + 1e-12,
-    d, thMax, thRun, thSw, thStop, swMin, stopMin, TALON, ztt, groundTop, ySouth, yNorthTab, yPlate, W, TAB, RROLL, FEET, BASE,
+    d, thMax, thRun, thSw, thStop, swMin, stopMin, TALON, ztt, railH, groundTop, ySouth, yNorthTab, yPlate, W, TAB, RROLL, FEET, BASE,
     C: Cabs, pivot: pivotAbs, rollers, Creal, Cg, Ctab, Mtot, Hbal,
     loads: { pivote: F[0], este: F[1], oeste: F[2] },
     offAxis, tauMax, tilt,
@@ -196,4 +200,17 @@ function computeVNS(P) {
   };
 }
 
-if (typeof module !== 'undefined') module.exports = { computeVNS, rotAbout };
+// La corredera (v10): cuanto hay que correr el dobson al norte (dN, m) para que
+// el centro de masa de TODO lo que gira caiga sobre el eje. Forma cerrada: la
+// altura del CdM no depende de dN, y el eje sube hacia el sur con pendiente
+// 1/tan(phi) por metro, asi que basta pedir rr paralelo a d en el plano y-z.
+// Las chapas no dependen de dN: una sola corrida de computeVNS alcanza.
+function dNEquilibrio(P) {
+  const g = computeVNS({ ...P, dN: 0 });
+  const c = -g.d[1], s = g.d[2];
+  const yCg = g.C[1] - (c / s) * (g.Cg[2] - g.C[2]);
+  const mT = P.mTab || 0;
+  return (g.Mtot * yCg - mT * g.Ctab[1]) / P.M;
+}
+
+if (typeof module !== 'undefined') module.exports = { computeVNS, rotAbout, dNEquilibrio };

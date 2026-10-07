@@ -53,6 +53,14 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .readout dt{color:var(--muted)}
 .readout dd{margin:0;font:600 13px var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
 .readout dd.bad{color:var(--axis)} .readout dd.good{color:var(--ok)}
+.seg{display:grid;gap:6px;font-size:14px}
+.seg label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:6px 8px;cursor:pointer}
+.seg label:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.grados{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font:600 11px var(--f-mono)}
+.grados span,.gb{display:inline-block;padding:1px 7px;border-radius:999px;color:#fff;font:600 11px var(--f-mono);vertical-align:1px;white-space:nowrap}
+.g-conf{background:#2f8f55} .g-prob{background:#c07a12} .g-rev{background:#7a4fb5}
+.mini table{min-width:0;font-size:12px} .mini th,.mini td{padding:4px 5px} .mini td{font-family:var(--f-mono);white-space:nowrap}
+.mini td.bad{color:var(--axis);font-weight:600} .mini td.good{color:var(--ok)} .mini tr.act td:first-child{font-weight:700;color:var(--accent)}
 .tag{font:600 10px/1.2 var(--f-mono);color:var(--ink);background:var(--tag-bg);border:1px solid var(--line);border-radius:999px;padding:1px 6px 1px 2px;white-space:nowrap;pointer-events:none;display:flex;gap:4px;align-items:center;opacity:.9}
 .tag b{display:inline-grid;place-items:center;min-width:14px;height:14px;border-radius:999px;background:var(--accent);color:var(--panel);font-size:9px}
 .tag.axis b{background:var(--axis)} .tag.plain{padding:1px 6px}
@@ -97,7 +105,7 @@ a{color:var(--accent)}
   <div class="eyebrow">Telescopio 200/1200 · plataforma ecuatorial · 34,5° S</div>
   <h1>Plataforma VNS del 200/1200</h1>
   <p class="lede">El modelo de abajo está calculado, no dibujado a ojo: cada pieza sale de la latitud, del centro de masa y de cuánto tiempo querés seguir una estrella. Movés un número y la plataforma se rehace sola. Girala con el mouse (o el dedo), y dale <b>▶</b> para ver cómo acompaña al cielo.</p>
-  <p class="note hypn"><span class="badge hyp">hipótesis</span> <b>Versión 9 (7/10/2026): es el concepto, no un plano.</b> Estructura de <b>tubo 20 × 20</b> (lo que hay), chapas de <b>acero de 1/4"</b> cortadas a láser, un rodillo motriz de <b>acero torneado</b> y un rodillo loco hecho con <b>cuatro rulemanes de roller</b> sobre una <b>varilla de impresora</b>. El dobson está medido con cinta (4/10) y pesado por partes (5/10): ≈ 40 kg. El centro de masa (<b>63 cm</b> sobre el piso del dobson, entre 58 y 69) todavía es una cuenta: lo cierra la medición del vuelco de acá abajo, y hasta entonces <b>nada de esto es para cortar</b>. La mesa gira con el telescopio (≈ 8 kg de tubo y chapas), así que el eje va a ≈ 54 cm sobre la mesa.</p>
+  <p class="note hypn"><span class="badge hyp">diseño preliminar</span> <b>Versión 10 (7/10/2026): la plataforma «terminada», con lo que hoy está confirmado, lo probable y lo que está en revisión.</b> Es una iteración de diseño para convencernos de que el concepto cierra; <b>no es un plano y nada de esto es para cortar</b>. Lo nuevo: la <b>mesa universal</b> (lleva el 200 de Fran y cualquier dobson de 300 mm comercial, GoTo incluido), con <b>tres rieles</b>, una <b>corredera</b> norte-sur con una muesca por telescopio y <b>tres mordazas de borde</b> que no agujerean la base. Arriba de todo elegís qué telescopio va arriba y el dobson se corre solo a su muesca. Tildá <b>«pintar por certeza»</b> para ver de qué estamos seguros y de qué no. Lo que manda no es el dibujo: es la física de la sección <a href="#fisica">«Lo que importa»</a>.</p>
 
   <div class="stage">
     <div class="viewer" id="viewer">
@@ -117,21 +125,28 @@ a{color:var(--accent)}
       <div class="group">
         <h3>Reloj</h3>
         <div class="ctl"><label for="t">Minutos desde el centro de la carrera</label><output id="t_o"></output><input id="t" type="range" min="-45" max="45" step="0.5" value="0"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="play" type="button">▶ Seguir al cielo (×600)</button><button class="btn" id="reset" type="button">Volver al centro</button><button class="btn" id="defaults" type="button">Valores pesados (5/10)</button></div>
-        <p style="font-size:12px;color:var(--muted);margin:6px 0 0">Nada de lo que muevas se guarda: recargando la página vuelve todo a los valores de las pesadas del 5/10.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="play" type="button">▶ Seguir al cielo (×600)</button><button class="btn" id="reset" type="button">Volver al centro</button><button class="btn" id="defaults" type="button">Valores de partida</button></div>
+        <p style="font-size:12px;color:var(--muted);margin:6px 0 0">Nada de lo que muevas se guarda: recargando la página vuelve todo a los valores de partida (las pesadas del 5/10 y el 200 arriba).</p>
+      </div>
+      <div class="group">
+        <h3>¿Qué telescopio va arriba?</h3>
+        <div class="seg" role="radiogroup" aria-label="Telescopio">
+          <label><input type="radio" name="tel" value="200" checked> El 200 de Fran</label>
+          <label><input type="radio" name="tel" value="300"> Un 12" (300 mm) cualquiera</label>
+        </div>
+        <label class="checks" style="margin-top:6px"><input type="checkbox" id="auto" checked> a su muesca (centro de masa sobre el eje)</label>
       </div>
       <div class="group">
         <h3>El telescopio <span class="badge hyp">hipótesis</span></h3>
         <div class="ctl"><label for="M">Masa total</label><output id="M_o"></output><input id="M" type="range" min="15" max="60" step="1" value="40"></div>
         <div class="ctl"><label for="Hreal">Centro de masa sobre el piso del dobson</label><output id="Hreal_o"></output><input id="Hreal" type="range" min="45" max="80" step="0.5" value="63"></div>
-        <div class="ctl"><label for="dN">Centro de masa corrido al norte</label><output id="dN_o"></output><input id="dN" type="range" min="-5" max="5" step="0.5" value="0"></div>
-        <div class="ctl"><label for="dE">Centro de masa corrido al este</label><output id="dE_o"></output><input id="dE" type="range" min="-5" max="5" step="0.5" value="0"></div>
+        <div class="ctl"><label for="dN">Corredera: dobson corrido al norte</label><output id="dN_o"></output><input id="dN" type="range" min="-15" max="25" step="0.1" value="2.8"></div>
+        <div class="ctl"><label for="dE">Centro de masa corrido al este (un telescopio torcido)</label><output id="dE_o"></output><input id="dE" type="range" min="-5" max="5" step="0.5" value="0"></div>
       </div>
       <div class="group">
         <h3>La plataforma (lo que diseñamos)</h3>
-        <div class="ctl"><label for="mTab">Masa de la mesa y el brazo de hierro (gira con el telescopio)</label><output id="mTab_o"></output><input id="mTab" type="range" min="0" max="15" step="0.5" value="8"></div>
+        <div class="ctl"><label for="mTab">Masa de la mesa, rieles y chapas (gira con el telescopio)</label><output id="mTab_o"></output><input id="mTab" type="range" min="0" max="20" step="0.5" value="11"></div>
         <div class="ctl"><label for="Hdis">Altura del eje sobre la mesa</label><output id="Hdis_o"></output><input id="Hdis" type="range" min="40" max="80" step="0.5" value="54"></div>
-        <div class="ctl"><label for="shim">Suplemento bajo el dobson</label><output id="shim_o"></output><input id="shim" type="range" min="0" max="5" step="0.5" value="2"></div>
         <div class="ctl"><label for="run">Carrera a cada lado</label><output id="run_o"></output><input id="run" type="range" min="20" max="60" step="5" value="45"></div>
         <div class="ctl"><label for="half">Separación entre rodillos</label><output id="half_o"></output><input id="half" type="range" min="28" max="70" step="1" value="50"></div>
         <div class="ctl"><label for="postH">Pivote levantado sobre un poste</label><output id="postH_o"></output><input id="postH" type="range" min="0" max="30" step="1" value="10"></div>
@@ -145,7 +160,9 @@ a{color:var(--accent)}
           <label><input type="checkbox" id="showDob" checked> telescopio</label>
           <label><input type="checkbox" id="showTags" checked> etiquetas</label>
           <label><input type="checkbox" id="ghost"> mesa transparente</label>
+          <label><input type="checkbox" id="certeza"> pintar por certeza</label>
         </div>
+        <div class="grados" id="gradosLeyenda" hidden><span class="g-conf">confirmado</span><span class="g-prob">probable</span><span class="g-rev">en revisión</span></div>
         <div class="checks" style="margin-top:6px" aria-label="Capas">
           <label><input type="checkbox" id="capaBase" checked> base</label>
           <label><input type="checkbox" id="capaMesa" checked> mesa</label>
@@ -156,6 +173,11 @@ a{color:var(--accent)}
       <div class="group">
         <h3>Lo que sale del cálculo</h3>
         <dl class="readout" id="readout"></dl>
+      </div>
+      <div class="group">
+        <h3>Los dos telescopios, cada uno en su muesca</h3>
+        <div class="mini" id="porTel"></div>
+        <p style="font-size:12px;color:var(--muted);margin:6px 0 0">Vuelco: cuánto hay que inclinar todo para que se caiga (pide 22° o más, L1-14). Empujón: los kg en la boca del tubo que levantan la mesa de un rodillo (pide 6 o más, como el dobson solo, L1-13). Los 12" son de catálogo: <span class="hyp">hipótesis</span>.</p>
       </div>
     </aside>
   </div>
@@ -223,26 +245,50 @@ a{color:var(--accent)}
   </script>
 
   <h2>Qué estás mirando, pieza por pieza</h2>
+  <p>Cada pieza con su grado: <span class="gb g-conf">confirmado</span> medido o decidido por Fran y cerrado por cálculo; <span class="gb g-prob">probable</span> cuenta con datos reales a la que le falta un segundo método; <span class="gb g-rev">en revisión</span> concepto o propuesta abierta. De las 17: <b>6 confirmadas, 5 probables y 6 en revisión</b>. Ninguna queda en el aire: el panel lo mide en cada cambio («Piezas sueltas»).</p>
   <div class="cols">
     <ol class="parts">
-      <li><b>1</b><div><b>Base al piso.</b> Un <b>triángulo de tubo 20 × 20</b> de pata a pata (idea de Kevin), con cartelas de planchuela en las esquinas. El lado sur es la <b>viga de los rodillos</b> y es la única que trabaja de verdad: lleva los dos rodillos a lo largo de 1,1 m. Un tubo 20 × 20 solo ahí se hunde ≈ 5 mm; con una <b>planchuela de 30 de canto soldada abajo</b> (o un T de 50, si hay) baja a ≈ 0,6 mm. Va <b>abulonada</b> a los otros dos lados con dos M8 por punta: desarmada, la base entra en el baúl. <b>Ancho de 1,2 m</b> (deslizador «Ancho de la base»).</div></li>
-      <li><b>2</b><div><b>Tres patas regulables.</b> Un bulón M10 con tuerca en cada punta. Tres patas apoyan firme en cualquier piso, como el banquito de ordeñe: cuatro siempre renguean. Con los tornillos se corrige la inclinación sin cortar nada, y una vez alineada se marcan las tres patas en el piso del patio.</div></li>
-      <li><b>3</b><div><b>Pivote norte.</b> Una bocha de acero (una rótula de amortiguador a gas, bocha de 10 mm) arriba de un <b>poste de 10 cm</b> (caño o planchuelas soldadas, con tres riendas de planchuela de 30), y arriba, en el brazo, un hueco cónico donde apoya. El poste acorta la base de 1,30 a 1,16 m y casi no le quita estabilidad. Es el único punto que no rueda: la mesa gira alrededor de él. Es la del portón del baúl, no la de suspensión: esa viene precargada y con espárrago cónico, y le sobra todo.</div></li>
-      <li><b>4</b><div><b>Mesa móvil, en H + A.</b> Seis tubos 20 × 20: el travesaño sur (de ahí cuelgan las chapas), dos largueros donde apoya el dobson (con ranuras y cuatro bulones M8 con mariposa), un travesaño norte y el <b>brazo en A</b> hasta la cazoleta del pivote. Se sacaron los lados del marco: las chapas cuelgan justo donde llegan los largueros, y esos lados no llevaban nada. El brazo trabaja en voladizo (≈ 15 kg en la punta): tubo + <b>planchuela de 40 de canto</b> abajo, y se dobla ≈ 0,1 mm. La mesa gira con el telescopio: su peso (≈ 8 kg) baja el eje.</div></li>
-      <li><b>5</b><div><b>Las dos chapas (segmentos).</b> Acero de <b>1/4" (6,35 mm)</b>, cortadas a <b>láser</b> desde el DXF, paradas y colgadas del travesaño sur con <b>tres M8</b> cada una sobre orejas soldadas (agujero ovalado: se emparejan las alturas ±3 mm). El canto de abajo es la pista por donde ruedan los rodillos: es una de las <b>dos piezas de precisión</b> del proyecto. Cada una va girada unos 8° y su borde es un pedazo de elipse. Son lo único que depende del centro de masa: si un día viene otro telescopio, se cortan dos chapas nuevas y el resto se reusa.</div></li>
-      <li><b>6</b><div><b>Rodillo loco (este).</b> <b>Cuatro rulemanes 608</b> de roller, uno al lado del otro (28 mm de ancho), sobre una <b>varilla lisa de impresora de 8 mm</b> entre dos ángulos. El aro de afuera de un rulemán es más redondo que cualquier cosa torneada en casa. Va centrado en el medio del camino del contacto: la chapa está girada respecto del rodillo y el punto de apoyo <b>camina 0 a 13 mm para un lado</b> a lo largo de la carrera (rueda, no patina). Cada rodillo es una unidad que se abulona a la viga sur en una ranura: se corre para cambiar la separación.</div></li>
-      <li><b>7</b><div><b>Motor y rodillo motriz (oeste).</b> Un rodillo de <b>acero torneado de 32 × 30 mm</b>, fijo con prisionero a un <b>eje de 8 mm</b> que gira en dos 608; la <b>polea GT2 de 80</b> va en ese mismo eje, y una correa la une con la de 20 del NEMA 17: reduce 4 a 1. Tracción por fricción, acero sobre acero, con ≈ 17 kg encima. El rodillo es la otra <b>pieza de precisión</b>: su redondez es el error que se repite cada media hora. Si la mesa se traba o llega al tope, el rodillo patina antes de que se rompa algo. Engranajes y correas de goma de las caseteras no van acá: suman juego y estiramiento justo donde se mide la estrella.</div></li>
+      <li><b>1</b><div><span class="gb g-prob">probable</span> <b>Base al piso.</b> Un <b>triángulo de tubo 20 × 20</b> de pata a pata (idea de Kevin), con cartelas de planchuela en las esquinas. El lado sur es la <b>viga de los rodillos</b>: lleva los dos rodillos, la electrónica y la batería. Un 20 × 20 solo ahí se hunde ≈ 5 mm; con una <b>planchuela de 30 de canto soldada abajo</b> baja a ≈ 0,6 mm. Va <b>abulonada</b> a los otros dos lados: desarmada, entra en el baúl. <b>Ancho de 1,2 m.</b> Falta medir la pared de los tubos que hay.</div></li>
+      <li><b>2</b><div><span class="gb g-conf">confirmado</span> <b>Tres patas regulables y sus marcas en el piso.</b> Un bulón M10 con tuerca en cada punta. Tres patas apoyan firme en cualquier piso, como el banquito de ordeñe. Una vez alineada, cada pata tiene su <b>marca en el piso del patio</b> (los discos claros): la noche siguiente se apoya en las marcas y la alineación se repite en dos minutos.</div></li>
+      <li><b>3</b><div><span class="gb g-prob">probable</span> <b>Pivote norte.</b> Una rótula de amortiguador a gas (bocha de 10 mm) arriba de un <b>poste de 10 cm</b> con tres riendas, y arriba, en el brazo de la mesa, un hueco cónico donde apoya. Es el único punto que no rueda. El poste acorta la base a 1,17 m.</div></li>
+      <li><b>4</b><div><span class="gb g-rev">en revisión</span> <b>Mesa universal.</b> Marco de tubo 20 × 20: travesaño sur (de ahí cuelgan las chapas), travesaño norte, <b>tres largueros</b> y el brazo en A hasta el pivote. Arriba de cada larguero va soldado un <b>riel</b> de tubo 20 × 20 (larguero + riel = una viga de 20 × 40, que no se dobla con 50 kg). Mide ≈ 87 cm de norte a sur porque el dobson se corre por ahí; pesa ≈ 11 kg con las chapas y gira con el telescopio. Lleva al 200 de Fran y a cualquier 12" de hasta 50 kg con base de hasta 70 cm.</div></li>
+      <li><b>5</b><div><span class="gb g-rev">en revisión</span> <b>Las dos chapas (segmentos).</b> Acero de <b>5/16" (7,94 mm)</b>, cortadas a <b>láser</b>, colgadas del travesaño sur con tres M8 cada una. El canto de abajo es la pista: una de las <b>dos piezas de precisión</b>. El espesor lo pide el 12": con 25 kg por rodillo, la de 1/4" se marca y la de 5/16" no. <b>Su forma sale del centro de masa medido</b>: hasta entonces, no se cortan. Son las mismas para los dos telescopios.</div></li>
+      <li><b>6</b><div><span class="gb g-prob">probable</span> <b>Rodillo loco (este).</b> <b>Cuatro rulemanes 608</b> de roller sobre una <b>varilla lisa de impresora de 8 mm</b> entre dos ángulos. El aro de afuera de un rulemán es más redondo que cualquier cosa torneada en casa. El punto de apoyo camina 0 a 13 mm para un lado a lo largo de la carrera (rueda, no patina).</div></li>
+      <li><b>7</b><div><span class="gb g-rev">en revisión</span> <b>Transmisión F: motor y rodillo motriz (oeste).</b> Un rodillo de <b>acero torneado de 32 × 30 mm</b> en un eje de 8 mm sobre dos 608; en ese eje, la <b>polea GT2 de 80</b>, y una correa a la de 20 del <b>NEMA 17</b>: reduce 4 a 1. Tracción por fricción, acero sobre acero. Es la propuesta de la sesión porque no mete ningún error que se repita <i>adentro</i> de una foto; el respaldo es un tornillo de bolas comprado (T2). Se cierra cuando se elija 30 o 60 s y con el rodillo en el banco.</div></li>
+      <li><b>13</b><div><span class="gb g-conf">confirmado</span> <b>Finales de carrera.</b> Dos microswitches con palanca, sobre soportes impresos que se atornillan a una escuadra de planchuela abulonada a la viga sur. Un tornillo M5 en el medio de la chapa hace de leva: cuando la mesa se pasa <span id="swTxt">3 min</span> del final, aprieta la palanca y la placa corta el motor. Es la segunda capa: la primera es el programa, que para solo a los ±45 min.</div></li>
+      <li><b>14</b><div><span class="gb g-conf">confirmado</span> <b>Talones: el tope que no depende de nada.</b> Cada chapa termina en un diente que cuelga 12 mm, con goma. Si falla el programa <i>y</i> el switch, el talón choca el rodillo y la mesa se queda ahí. Sale de la misma plantilla.</div></li>
     </ol>
     <ol class="parts" start="8">
-      <li class="axisitem"><b>8</b><div><b>El eje polar.</b> No es una pieza: es la línea imaginaria alrededor de la cual gira la mesa. Pasa por el pivote, sube hacia el sur inclinada <b>34,5°</b> (la latitud de Villa Adelina) y apunta al polo sur celeste. Toda la plataforma existe para que la mesa gire alrededor de esa línea a la misma velocidad que el cielo: una vuelta cada 23 h 56 min.</div></li>
-      <li><b>9</b><div><b>Centro de masa.</b> La bolita amarilla. Tiene que quedar <b>sobre</b> el eje rojo: si queda afuera, el peso tironea para un lado y el motor pelea contra el telescopio. Con el reloj en marcha vas a ver que, si está bien puesta, es lo único que no se mueve.</div></li>
-      <li><b>10</b><div><b>Polo sur celeste y σ Octantis.</b> Al final del eje. En el sur no hay estrella polar: la más cercana al polo es σ Octantis, magnitud 5,4, apenas visible a ojo desde un cielo oscuro y a 1° 8' del polo. Por eso la alineación se hace una vez con el método de deriva y después se repite con las marcas del piso.</div></li>
-      <li><b>11</b><div><b>El dobson actual.</b> Base fija, base giratoria, paredes y caja sujetadora, con las medidas que tomó Fran el 4/10/2026. Se sube entero a la mesa, sin desarmarlo.</div></li>
-      <li><b>12</b><div><b>Suplemento.</b> Tablitas debajo del dobson para subir el centro de masa hasta el eje si sale más bajo de lo calculado. Es parte del changüí: se corrige apilando madera, no cortando aluminio.</div></li>
-      <li><b>13</b><div><b>Finales de carrera.</b> Dos microswitches con palanca larga, uno por punta, en un soporte impreso al costado del rodillo este. Un tornillo M5 en el medio de la chapa hace de leva: cuando la mesa se pasa <span id="swTxt">3 min</span> del final, la leva aprieta la palanca y la placa corta el motor. Es la segunda capa: la primera es el programa, que cuenta pasos y para solo a los ±45 min.</div></li>
-      <li><b>14</b><div><b>Talones: el tope que no depende de nada.</b> Cada chapa termina en un "diente" que cuelga 12 mm debajo del borde, con goma pegada. Si falla el programa <i>y</i> falla el switch, el talón choca el rodillo y la mesa se queda ahí, en vez de que la chapa se salga del rodillo y el telescopio se venga abajo. El motor patina contra el tope (el TMC2209 lo aguanta) hasta que alguien lo apague. No cuesta nada: sale de la misma plantilla.</div></li>
+      <li class="axisitem"><b>8</b><div><span class="gb g-conf">confirmado</span> <b>El eje polar.</b> La línea imaginaria alrededor de la cual gira la mesa: pasa por el pivote, sube hacia el sur inclinada <b>34,5°</b> (la latitud de Villa Adelina) y apunta al polo sur celeste. Una vuelta cada 23 h 56 min.</div></li>
+      <li><b>9</b><div><span class="gb g-prob">probable</span> <b>Centro de masa.</b> La bolita amarilla: el de <b>todo lo que gira</b> (telescopio + mesa). Tiene que quedar <b>sobre</b> el eje rojo. Hoy sale de las pesadas (63 cm, entre 58 y 69): lo cierra el vuelco.</div></li>
+      <li><b>10</b><div><span class="gb g-conf">confirmado</span> <b>Polo sur celeste y σ Octantis.</b> Al final del eje. En el sur no hay estrella polar útil: σ Octantis es de magnitud 5,4 y está a 1° 8' del polo. Por eso la alineación se hace una vez por deriva y después se repite con las marcas del piso.</div></li>
+      <li><b>11</b><div><span class="gb g-conf">confirmado</span> <b>El dobson del 200</b> (medido con cinta el 4/10), o <span class="gb g-rev">en revisión</span> <b>un 12" de la envolvente</b>, en violeta transparente: no hay modelo elegido, así que se dibuja uno típico (base de 63 cm, caja de 50, tubo cerrado de 36 × 145 cm) con los números de catálogo. Dónde caen sus patitas sobre los rieles se cierra con el que se compre.</div></li>
+      <li><b>12</b><div><b>(Salió) El suplemento.</b> Las tablitas bajo el dobson del v9 ya no hacen falta: la corredera hace su trabajo, y mejor, porque se repite con la muesca.</div></li>
+      <li><b>15</b><div><span class="gb g-rev">en revisión</span> <b>Las tres mordazas de borde.</b> Cada una es un carro que corre por su riel, con un poste, una <b>pestaña</b> que pisa el borde de la base (no se levanta) y un <b>tornillo de mano con almohadilla de goma</b> que aprieta de costado (acá la goma sí va: no está en la transmisión). Tres puntos, como las patas: no renguean. Para el 200, una al medio del lado norte y dos en las esquinas del sur; para un 12" redondo, la del norte y dos que lo toman a ±57°. <b>No se agujerea ninguna base.</b></div></li>
+      <li><b>16</b><div><span class="gb g-rev">en revisión</span> <b>Corredera y muescas (la «chaveta» de Kevin).</b> Cada mordaza tiene un bulón que entra en una muesca del riel: la fuerza la lleva el riel, no el rozamiento. Hay una muesca por mordaza <b>y por telescopio</b> (oscuras las del que está arriba, claras las del otro). Cambiar de telescopio: aflojar tres mariposas, bajar uno, subir el otro, correr las mordazas a sus muescas, apretar.</div></li>
+      <li><b>17</b><div><span class="gb g-prob">probable</span> <b>Electrónica.</b> Una caja con la <b>ESP32</b> y el <b>TMC2209</b> sobre la viga sur, del lado del motor, con el <b>botón de rebobinado</b> arriba y la <b>ficha ST-4</b> del autoguiador al costado; la <b>batería</b> en el medio de la viga. Cables por arriba de la viga. Cuánta batería hace falta sale del motor en el banco.</div></li>
     </ol>
   </div>
+
+  <h2 id="fisica">Lo que importa: la física de lo que elegimos</h2>
+  <p>El dibujo nos convence a nosotros; la estrella no ve el dibujo. Lo que decide si la foto sale son estos números. Cada uno con su grado y de dónde sale.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Qué manda</th><th>El número</th><th>Grado</th><th>De dónde</th></tr></thead>
+    <tbody>
+      <tr><td><b>El centro de masa sobre el eje</b> (si no, el motor pelea y la velocidad cambia)</td><td class="num">≤ 1 cm del eje</td><td><span class="gb g-prob">probable</span></td><td>L1-15. Lo cierra el vuelco: hoy 63 cm, sin medir</td></tr>
+      <tr><td><b>La corredera</b>: el eje sube hacia el sur con la latitud, así que correr el dobson al sur equivale a subir el eje</td><td class="num">10 cm de corredera = 6,9 cm de eje</td><td><span class="gb g-conf">confirmado</span></td><td>tan 34,5° = 0,687 (geometría)</td></tr>
+      <tr><td>Dónde va cada telescopio</td><td class="num">200: 2,8 cm al N<br>12": de 0,5 a 18,8 al N</td><td><span class="gb g-rev">en revisión</span></td><td>cálculo; el 12" es de catálogo</td></tr>
+      <tr><td>Cuánto erra una muesca (±2 mm, L2-PLT-15)</td><td class="num">≈ 1,1 mm fuera del eje</td><td><span class="gb g-conf">confirmado</span></td><td>2 mm × sen 34,5° (y algo menos: la mesa no se corre): muy adentro del centímetro</td></tr>
+      <tr><td><b>La transmisión F</b>: velocidad del canto de la chapa</td><td class="num">54 µm/s = 19,6 cm por hora</td><td><span class="gb g-conf">confirmado</span></td><td>radio 74,5 cm × la rotación de la Tierra</td></tr>
+      <tr><td>Cada cuánto se repite el error de la F (polea de 20 y rodillo)</td><td class="num">≈ 8 min y ≈ 31 min</td><td><span class="gb g-prob">probable</span></td><td>los dos <b>más lentos que una foto</b>: se ven como deriva suave y se calibran. La correa pegada al canto (B) repite cada 37 s, adentro de cada foto</td></tr>
+      <tr><td>¿Patina el rodillo motriz?</td><td class="num">agarra ≈ 25 N, hace falta empujar 2-4 N</td><td><span class="gb g-prob">probable</span></td><td>acero sobre acero, ≈ 17 kg encima (revisión externa). Lo prueba el banco del paso 6</td></tr>
+      <tr><td><b>El contacto chapa-rodillo</b> con 25 kg (el peor 12")</td><td class="num">5/16": 333 MPa (pide ≤ 350)<br>1/4": 372 MPa, se marca</td><td><span class="gb g-prob">probable</span></td><td>Hertz, L2-PLT-16</td></tr>
+      <tr><td>La velocidad del VNS no es pareja a lo largo de la carrera</td><td class="num">±0,5 %</td><td><span class="gb g-conf">confirmado</span></td><td>geometría; se corrige con una tabla en el programa</td></tr>
+      <tr><td>Cada micropaso del motor (1/16, 20:80)</td><td class="num">2,2″ en el cielo</td><td><span class="gb g-prob">probable</span></td><td>el TMC2209 interpola a 1/256 por dentro: ≈ 0,14″ (dato del fabricante, se mide en el banco)</td></tr>
+      <tr><td><b>La precisión total</b> en una foto de 30 s</td><td class="num">≤ 2″ (plataforma 1,5 + montura 0,5 + alineación 1, en cuadratura: 1,9)</td><td><span class="gb g-rev">en revisión</span></td><td>L1-01: falta que Fran elija 30 o 60 s</td></tr>
+      <tr><td>Vuelco y empujón, telescopio por telescopio</td><td class="num">la tabla del panel</td><td><span class="gb g-prob">probable</span></td><td>con base de 1,2 m todo da ≥ 22°; el único rojo es el 12" liviano en el empujón (5,5 kg contra 6). Se arregla con rodillos a 58 cm y base de 1,3 m: se decide con el 12" que se compre</td></tr>
+    </tbody>
+  </table></div>
 
   <h2>Las dos chapas, con medidas</h2>
   <p>Vista de frente de la chapa <b>este</b>, a escala, mirando desde el sur. La del oeste es exactamente la misma dada vuelta (espejo). Las medidas cambian con los deslizadores: <span class="hyp">salen de un centro de masa compuesto de las pesadas, que todavía no se confirmó por un segundo método: no son para cortar</span>.</p>
@@ -255,14 +301,14 @@ a{color:var(--accent)}
   <div class="cols">
     <div>
       <h3>Lo que se calibra sin cortar nada</h3>
-      <p><b>Altura del centro de masa:</b> el eje se diseña un par de centímetros <i>arriba</i> del centro de masa esperado, y la diferencia se cubre con suplementos bajo el dobson. Si la medición real sale distinta, se agrega o se saca una tablita.</p>
-      <p><b>Centro de masa corrido:</b> el dobson va con agujeros chinos (ranuras) sobre la mesa, así se corre unos centímetros al norte, sur, este u oeste. Probalo con los deslizadores: 2 cm de corrimiento al este ya le piden al motor más de <b id="tauTxt">8 N·m</b> de más.</p>
-      <p><b>Latitud y nivel:</b> las tres patas regulables inclinan la base entera. Sirven para emparejar el piso y para retocar la alineación polar.</p>
+      <p><b>Altura del centro de masa (y de qué telescopio):</b> la <b>corredera</b>. Cada telescopio va en su muesca, y la muesca se marca una vez, con el centro de masa medido. Si el telescopio cambia (una cámara más pesada, un buscador nuevo), se corre la muesca, no se corta nada. Probalo con el selector de arriba y con «Centro de masa sobre el piso del dobson».</p>
+      <p><b>Centro de masa corrido al este:</b> un telescopio torcido. La corredera no lo arregla (corre norte-sur): 2 cm al este ya le piden al motor <b id="tauTxt">8 N·m</b> de más. Se corrige con un contrapeso en la mesa.</p>
+      <p><b>Latitud y nivel:</b> las tres patas regulables inclinan la base entera. <b>Pivote:</b> la corredera de Kevin en el pivote queda como ajuste fino de armado (±1 cm), para que el pivote caiga justo en el eje de las chapas.</p>
     </div>
     <div>
       <h3>Lo que queda fijo cuando se corta</h3>
-      <p><b>La forma de los segmentos.</b> Depende de la altura del eje y de la latitud. Por eso se corta <i>después</i> de medir el centro de masa, nunca antes.</p>
-      <p><b>El largo.</b> A 34,5° el eje está muy acostado, y el pivote termina lejos: con el centro de masa a 63 cm, la base mide <b id="lenTxt">1,40 m</b>. Levantar el pivote sobre un poste la acorta (cada 10 cm de poste, unos 14,5 cm menos de base), a cambio de un poste que hay que hacer rígido. Probalo con el deslizador.</p>
+      <p><b>La forma de los segmentos.</b> Depende de la altura del eje y de la latitud. Por eso se corta <i>después</i> de medir el centro de masa, nunca antes. Las mismas chapas sirven para el 200 y para el 12".</p>
+      <p><b>El largo.</b> A 34,5° el eje está muy acostado, y el pivote termina lejos: la base mide <b id="lenTxt">1,17 m</b> con el poste de 10 cm. Cada 10 cm de poste, unos 14,5 cm menos de base.</p>
     </div>
   </div>
 
@@ -271,15 +317,16 @@ a{color:var(--accent)}
   <div class="tablewrap"><table>
     <thead><tr><th>Qué</th><th>Cuánto</th><th>De dónde</th><th>Precio</th></tr></thead>
     <tbody>
-      <tr><td>Tubo 20 × 20, planchuela de 30 y 40, ángulo, algún T</td><td class="num">≈ 6 m de tubo</td><td><b>Ya hay</b> (falta medir la pared de cada uno con calibre)</td><td class="num">—</td></tr>
+      <tr><td>Tubo 20 × 20, planchuela de 30 y 40, ángulo, algún T (con los tres rieles y el larguero del medio)</td><td class="num">≈ 9 m de tubo</td><td><b>Ya hay</b> (falta medir la pared de cada uno con calibre)</td><td class="num">—</td></tr>
       <tr><td>Rulemanes 608 (de roller)</td><td class="num">6: 4 del loco y 2 del eje motriz</td><td><b>Ya hay</b> (rescatados)</td><td class="num">—</td></tr>
       <tr><td>Varilla lisa de 8 mm (de impresora)</td><td class="num">2 tramos de ≈ 10 cm</td><td><b>Ya hay</b> (medir con calibre que sea 8,00)</td><td class="num">—</td></tr>
-      <tr><td>Chapa de acero 1/4" cortada a láser, 2 segmentos</td><td class="num">≈ 400 × 110 mm cada uno</td><td>Corte láser desde el DXF: Iruña Metalúrgica (Munro), Lasertec (zona norte); o el que conozca el amigo metalúrgico</td><td class="num">a cotizar, con el DXF de la fase 3</td></tr>
+      <tr><td>Chapa de acero 5/16" cortada a láser, 2 segmentos (las mismas para los dos telescopios)</td><td class="num">≈ 370 × 135 mm cada uno</td><td>Corte láser desde el DXF: Iruña Metalúrgica (Munro), Lasertec (zona norte); o el que conozca el amigo metalúrgico</td><td class="num">a cotizar, con el DXF de la fase 3</td></tr>
       <tr><td>Rodillo motriz de acero torneado 32 × 30, agujero 8, prisionero M4</td><td class="num">1</td><td>El torno del amigo, o una tornería</td><td class="num">a cotizar</td></tr>
       <tr><td>Poleas GT2 de 20 (agujero 5) y de 80 (agujero 8) + correa GT2 cerrada de 6 mm</td><td class="num">1 juego</td><td>Casas de impresión 3D (TP3D, 3DInsumos), Mercado Libre</td><td class="num">a cotizar</td></tr>
       <tr><td>Motor NEMA 17 de ≈ 4 kg·cm + driver TMC2209 + ESP32</td><td class="num">1 de cada uno</td><td>Usongshine 17HS4401 (Mercado Libre); TMC2209 y ESP32 en casas de electrónica</td><td class="num">motor ≈ $24.640 (5/10)</td></tr>
       <tr><td>Rótula de amortiguador a gas (bocha 10 mm, rosca M8)</td><td class="num">1</td><td>Repuestos de auto</td><td class="num">a cotizar</td></tr>
-      <tr><td>Bulones M8 × 25 clase 8.8 con arandela y tuerca autofrenante; M10 × 60 para las patas; M3 del motor; 4 mariposas M8</td><td class="num">≈ 20 M8, 3 M10</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
+      <tr><td>Bulones M8 × 25 clase 8.8 con arandela y tuerca autofrenante; M10 × 60 para las patas; M3 del motor; para las 3 mordazas: 3 M8 de chaveta y 3 tornillos de mano M8, con 6 mariposas, y 3 almohadillas de goma</td><td class="num">≈ 26 M8, 3 M10</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
+      <tr><td>Caja estanca chica, botón de rebobinado, ficha ST-4 (RJ12) y batería (la capacidad sale del motor en el banco)</td><td class="num">1 de cada uno</td><td>Casas de electrónica</td><td class="num">a cotizar</td></tr>
       <tr><td>Microswitches con palanca (de alguna impresora vieja, o KW12)</td><td class="num">2 + 1 de repuesto</td><td>Rescatados, o Mercado Libre</td><td class="num">—</td></tr>
     </tbody>
   </table></div>
@@ -303,7 +350,7 @@ a{color:var(--accent)}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS2DRenderer.js"></script>
-<script src="geometria-vns.js?v=9"></script><!-- subir v= cada vez que cambia geometria-vns.js: si no, el navegador usa la copia vieja y la pagina se rompe -->
+<script src="geometria-vns.js?v=10"></script><!-- subir v= cada vez que cambia geometria-vns.js: si no, el navegador usa la copia vieja y la pagina se rompe -->
 <script>
 (function(){
 const D2R=Math.PI/180;
@@ -330,7 +377,12 @@ sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-2.2,rig
 const fill=new THREE.DirectionalLight(0xffffff,0.3);fill.position.set(-3,2,-2);scene.add(fill);
 
 // Un color por FAMILIA de pieza; la leyenda del visor usa los mismos (COLORS).
-const COLORS={base:0x3f4752,mesa:0xa33a24,alu:0x5f7d95,impreso:0xf08a24,soporte:0x3d6fb6,acero:0x8a939d,motor:0x1f2328,dob:0xe6c79c,pared:0xcda26f,eje:0xd8443a,cdm:0xffc425,laton:0xc9a227,limite:0x2bb673};
+const COLORS={base:0x3f4752,mesa:0xa33a24,riel:0x6e2416,mordaza:0x1f9a9a,alu:0x5f7d95,impreso:0xf08a24,soporte:0x3d6fb6,acero:0x8a939d,motor:0x1f2328,elec:0x2a6f3a,dob:0xe6c79c,pared:0xcda26f,eje:0xd8443a,cdm:0xffc425,laton:0xc9a227,limite:0x2bb673,doce:0x9f86d6};
+// Grado de certeza de cada familia de pieza (v10, 2026-10-07). confirmado = medido o decidido por Fran y
+// cerrado por calculo; probable = cuenta con datos reales sin segundo metodo; revision = concepto o
+// propuesta abierta. Lo usa el tilde «pintar por certeza», que recolorea los mismos materiales.
+const GRADO={fenol:'prob',mesa:'prob',rail:'rev',mordaza:'rev',alu:'rev',steel:'prob',brass:'prob',printed:'prob',printed2:'prob',alu2:'rev',belt:'rev',motorBody:'prob',motorCap:'prob',elec:'prob',wood:'conf',wood2:'conf',pvc:'conf',vinyl:'conf',tube:'prob',tubeIn:'prob',mirror:'prob',dark:'prob',sw:'conf',com:'prob',doce:'rev',piso:'prob'};
+const GCOL={conf:0x2f8f55,prob:0xc07a12,rev:0x7a4fb5};
 function convexHull(P){P=P.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[],up=[];
   for(const p of P){while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}
   for(const p of P.reverse()){while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);}
@@ -361,7 +413,38 @@ const MAT={
   star:new THREE.MeshBasicMaterial({color:0xfff2c0}),
   shim:new THREE.MeshStandardMaterial({color:0x9c7a52,roughness:.9}),
   sw:new THREE.MeshStandardMaterial({color:COLORS.limite,roughness:.5}),
+  rail:new THREE.MeshStandardMaterial({color:COLORS.riel,metalness:.3,roughness:.55}),
+  mordaza:new THREE.MeshStandardMaterial({color:COLORS.mordaza,metalness:.35,roughness:.45}),
+  elec:new THREE.MeshStandardMaterial({color:COLORS.elec,roughness:.6}),
+  doce:new THREE.MeshStandardMaterial({color:COLORS.doce,transparent:true,opacity:.38,depthWrite:false,roughness:.6,side:THREE.DoubleSide}),
+  piso:new THREE.MeshStandardMaterial({color:0xd9d2c0,roughness:.9}),
+  boton:new THREE.MeshStandardMaterial({color:0xd8443a,roughness:.5}),
 };
+// «Nada flota» medido, no mirado (pedido de Fran, 2026-10-07): dos piezas se tocan si sus cajas
+// envolventes se solapan con 1,5 mm de tolerancia; desde las que tocan el piso se recorre el grafo, y
+// la que no se alcanza esta suelta. Lo virtual (eje, cielo, centro de masa, sombra) no cuenta. Es
+// optimista con las vigas inclinadas (su caja es mas grande que la viga): puede no ver una pieza
+// suelta al lado de una viga en diagonal, nunca inventa una. Por eso se mide en la POSE ALINEADA (mesa
+// al centro, dobson a azimut 0 y tubo vertical): girado, la caja del tubo se infla y toca las paredes,
+// y el sabotaje del buje de altura (v9) pasaba en verde.
+function sueltas(){
+  const q0=rot.quaternion.clone(), a0=rocker.rotation.y, h0=tubeG.rotation.x;
+  rot.quaternion.identity();rocker.rotation.y=0;tubeG.rotation.x=Math.PI/2;
+  try{return sueltasAca();}finally{rot.quaternion.copy(q0);rocker.rotation.y=a0;tubeG.rotation.x=h0;root.updateMatrixWorld(true);}
+}
+function sueltasAca(){
+  root.updateMatrixWorld(true);const B=[];
+  root.traverse(o=>{if(!o.isMesh||!o.visible||o.material===MAT.axis||o.material===MAT.star||o.material===MAT.com||o.material.isShadowMaterial)return;
+    let v=true,q=o.parent;while(q){if(!q.visible)v=false;q=q.parent;}if(!v)return;
+    B.push({o,b:new THREE.Box3().setFromObject(o).expandByScalar(0.0015)});});
+  const vis=new Array(B.length).fill(false),cola=[];
+  B.forEach((x,i)=>{if(x.b.min.y<=0.003){vis[i]=true;cola.push(i);}});
+  while(cola.length){const i=cola.pop();for(let j=0;j<B.length;j++)if(!vis[j]&&B[i].b.intersectsBox(B[j].b)){vis[j]=true;cola.push(j);}}
+  return B.filter((x,i)=>!vis[i]).map(x=>x.o);
+}
+Object.keys(MAT).forEach(k=>{MAT[k].userData.base=MAT[k].color?MAT[k].color.getHex():null;});
+function applyCerteza(){const on=$('certeza').checked;$('gradosLeyenda').hidden=!on;if(window.leyendaVisor)window.leyendaVisor(on);
+  Object.keys(MAT).forEach(k=>{const m=MAT[k];if(!m.color||m.userData.base==null||k==='axis'||k==='star')return;m.color.setHex(on&&GRADO[k]?GCOL[GRADO[k]]:m.userData.base);});}
 
 function tag(text,num,cls){const el=document.createElement('div');el.className='tag '+(cls||'');el.innerHTML=(num!=null?'<b>'+num+'</b>':'')+text;const o=new THREE.CSS2DObject(el);o.userData.isTag=true;return o;}
 function boxENU(c,s,mat,rotZ){const m=new THREE.Mesh(new THREE.BoxGeometry(s[0],s[2],s[1]),mat);m.position.copy(V(c));if(rotZ)m.rotation.y=rotZ;return m;}
@@ -369,7 +452,20 @@ function beam(a,b,w,h,mat){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.
 function cyl(a,b,r,mat,seg){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,A.distanceTo(B),seg||24),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return m;}
 
 let G=null, root=null, rot=null, inner=null, dobGroup=null, rocker=null, tubeG=null;
-const P=()=>({phi:34.5,M:+$('M').value,Hdis:$('Hdis').value/100,Hreal:$('Hreal').value/100,dN:$('dN').value/100,dE:$('dE').value/100,shim:$('shim').value/100,runMin:+$('run').value,half:$("half").value/200,postH:$("postH").value/100,baseW:$("baseW").value/100,mTab:+$("mTab").value,zTab:-0.02});
+// v10: mesa universal. La mesa llega a 53 cm al norte del centro (corredera) y el dobson apoya en
+// rieles de 2 cm montados arriba del marco. El suplemento salio: la corredera hace su trabajo.
+const MESA={tabN:0.53,railH:0.02,shim:0,plateT:0.00794};   // chapa de 5/16" (L2-PLT-16)
+// Los dos telescopios. El 12" es la envolvente de docs/14 §3 (catalogo, hipotesis): base redonda
+// de hasta 70 cm (se dibuja de 63), 38 a 50 kg con GoTo, centro de masa de 50 a 62 cm.
+// Las mordazas: [x, borde en y respecto del centro del dobson, hacia donde empuja (+1 = al norte)].
+const TEL={
+  '200':{nombre:'el 200 de Fran',M:40,H:63,tabla:0.02,mord:[[0,0.215,-1],[0.17,-0.215,1],[-0.17,-0.215,1]]},
+  '300':{nombre:'un 12" (300 mm)',M:45,H:57,tabla:0.025,mord:[[0,0.315,-1],[0.17,-Math.sqrt(0.315*0.315-0.17*0.17),1],[-0.17,-Math.sqrt(0.315*0.315-0.17*0.17),1]]},
+};
+const telAct=()=>document.querySelector('input[name=tel]:checked').value;
+const P=()=>({phi:34.5,M:+$('M').value,Hdis:$('Hdis').value/100,Hreal:$('Hreal').value/100,dN:$('dN').value/100,dE:$('dE').value/100,runMin:+$('run').value,half:$("half").value/200,postH:$("postH").value/100,baseW:$("baseW").value/100,mTab:+$("mTab").value,zTab:-0.02,...MESA});
+const RIEL={y0:-0.34,y1:0.53,y1c:0.60};   // los rieles de afuera terminan en el travesano norte; el del medio sigue 7 cm (mordaza norte del 12")
+const chaveta=(dN,m)=>dN+m[1]-m[2]*0.037;   // donde cae la muesca de cada mordaza
 
 function build(){
   if(root){scene.remove(root);root.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.element&&o.element.parentNode)o.element.parentNode.removeChild(o.element);});}
@@ -469,24 +565,70 @@ function build(){
     }
   });
 
+  // 17 electronica (v10): caja con la ESP32 y el TMC2209 sobre una planchuela abulonada a la viga
+  // sur, del lado oeste (el del motor), con el boton de rebobinado arriba y la ficha ST-4 del
+  // autoguiador al costado; la bateria en el medio de la viga (al este estan los fines de carrera).
+  // Cables por arriba de la viga.
+  {const yb=ys0+0.04, gT2=gT+0.0048, xe=-(wB-0.04)+0.13, xb=-0.10;
+   fixed.add(boxENU([xe,yb,gT+0.0024],[0.14,0.10,0.0048],MAT.printed2));fixed.add(boxENU([xe,yb,gT2+0.0225],[0.12,0.08,0.045],MAT.elec));
+   fixed.add(cyl([xe+0.03,yb,gT2+0.045],[xe+0.03,yb,gT2+0.053],0.008,MAT.boton,20));                    // boton de rebobinado
+   fixed.add(cyl([xe-0.03,yb-0.04,gT2+0.02],[xe-0.03,yb-0.052,gT2+0.02],0.005,MAT.steel,12));            // ficha ST-4
+   fixed.add(boxENU([xb,yb,gT+0.0024],[0.13,0.09,0.0048],MAT.printed2));fixed.add(boxENU([xb,yb,gT2+0.0175],[0.11,0.07,0.035],MAT.motorBody));   // bateria
+   const r=G.rollers[1], c=[r.Pt[0]+r.nh[0]*r.latCenter,r.Pt[1]+r.nh[1]*r.latCenter,r.Pt[2]-G.RROLL], mc=[c[0]-r.uh[0]*0.075,c[1]-r.uh[1]*0.075,c[2]], kq=0.062+0.034;
+   const mb=[mc[0]+r.nh[0]*kq,mc[1]+r.nh[1]*kq,mc[2]-0.021];
+   const cab=(a,b)=>fixed.add(cyl(a,b,0.0022,MAT.motorBody,8));
+   cab([xe+0.06,yb,gT2+0.01],[mb[0],yb,gT2+0.003]);cab([mb[0],yb,gT2+0.003],mb);                       // al motor
+   cab([xe+0.06,yb+0.02,gT2+0.006],[xb-0.055,yb+0.02,gT2+0.003]);                                      // a la bateria
+   cab([xb+0.055,yb+0.02,gT2+0.003],[(wB-0.04)-0.06,yb+0.02,gT2+0.003]);                               // a los fines de carrera (este)
+   const t17=tag('Electrónica: ESP32 + TMC2209, botón, ST-4',17);t17.position.copy(V([xe,yb-0.08,gT2+0.06]));fixed.add(t17);}
+  // marcas en el piso del patio (L2-OPE-04): la estacion se repite poniendo las patas en su marca
+  feet.forEach(f=>fixed.add(cyl([f[0],f[1],0],[f[0],f[1],0.0012],0.045,MAT.piso,32)));
+
   // 4 mesa + lengua
   const zt=G.ztt, zm=zt-G.TAB/2;
   const tabMat=$('ghost').checked?new THREE.MeshStandardMaterial({color:COLORS.mesa,transparent:true,opacity:.28,depthWrite:false}):MAT.mesa;
   tabMat.visible=$('capaMesa').checked;
-  // mesa (v9): en H + A, de tubo 20 x 20. Un travesano sur del que cuelgan las dos chapas, dos
-  // largueros donde apoya el dobson, un travesano norte, y el brazo en A hasta la cazoleta.
-  // El brazo trabaja en voladizo (~15 kg en la punta): tubo + planchuela de 40 de canto abajo.
-  const yS=G.ySouth, yN=G.yNorthTab, Wm=G.W, XL=0.17, zb2=zt-TU/2;
-  [[[Wm,yS],[-Wm,yS]],[[XL,yN],[-XL,yN]],[[XL,yS],[XL,yN]],[[-XL,yS],[-XL,yN]]]
+  // mesa (v10, universal): marco de tubo 20 x 20 -- travesano sur (de ahi cuelgan las chapas),
+  // travesano norte, TRES largueros (x = 0 y +-XL) y el brazo en A hasta la cazoleta. Arriba de cada
+  // larguero va soldado un RIEL de tubo 20 x 20 (larguero + riel = viga de 20 x 40): ahi apoya el
+  // dobson y corren las mordazas. Los rieles salen 7 cm al sur del travesano (las mordazas del sur
+  // del 200) y el del medio 7 cm al norte (la mordaza norte del 12" liviano). El brazo trabaja en
+  // voladizo (~20 kg en la punta con el 12"): tubo + planchuela de 40 de canto abajo.
+  const yS=G.ySouth, yN=G.yNorthTab, Wm=G.W, XL=0.17, zb2=zt-TU/2, RH=G.railH, zR=zt+RH;
+  [[[Wm,yS],[-Wm,yS]],[[XL,yN],[-XL,yN]],[[XL,yS],[XL,yN]],[[-XL,yS],[-XL,yN]],[[0,yS],[0,yN]]]
     .forEach(([a,b])=>inner.add(beam([a[0],a[1],zb2],[b[0],b[1],zb2],TU,TU,tabMat)));
+  [[XL,RIEL.y1],[-XL,RIEL.y1],[0,RIEL.y1c]].forEach(([x,y1])=>inner.add(beam([x,RIEL.y0,zt+RH/2],[x,y1,zt+RH/2],TU,RH,MAT.rail)));
+  inner.add(boxENU([0,RIEL.y1c-0.01,zt-0.004],[0.03,0.02,0.008],MAT.rail));                         // taco bajo la punta norte del riel del medio
   const apex=[pv[0],pv[1],zTip+0.036];
   [XL,-XL].forEach(x=>{inner.add(beam([x,yN,zb2],apex,TU,TU,tabMat));inner.add(beam([x,yN,zb2-0.03],[apex[0],apex[1],apex[2]-0.022],0.0048,0.04,tabMat));});
   const cup=new THREE.Mesh(new THREE.ConeGeometry(0.02,0.018,24,1,true),MAT.steel);cup.position.copy(V([pv[0],pv[1],zTip+0.006]));inner.add(cup);
   inner.add(boxENU([pv[0],pv[1],zTip+0.019],[0.07,0.07,0.006],MAT.mesa));                         // planchuela de la cazoleta
-  // fijacion del dobson (FAB-8): 4 bulones M8 fresados, buje y mariposa abajo del larguero
-  [[XL,0.17],[-XL,0.17],[XL,-0.17],[-XL,-0.17]].forEach(([x,y])=>{inner.add(cyl([x,y,zt-TU-0.012],[x,y,zt+p.shim+0.022],0.004,MAT.steel,10));
-    inner.add(boxENU([x,y,zt-TU-0.006],[0.03,0.008,0.012],MAT.steel));});
-  const t4=tag('Mesa: tubo 20 × 20 en H + brazo en A',4);t4.position.copy(V([-XL-0.05,G.yNorthTab+0.05,zt+0.01]));inner.add(t4);
+  // muescas de la corredera (la «chaveta» de Kevin, L2-PLT-15): una por mordaza y por telescopio.
+  // Las del telescopio de arriba, oscuras; las del otro, claras.
+  const tA=telAct(), tO=tA==='200'?'300':'200';
+  const dO=dNEquilibrio({...p,M:TEL[tO].M,Hreal:TEL[tO].H/100,dE:0});
+  [[tA,p.dN,MAT.motorBody],[tO,dO,MAT.pvc]].forEach(([t,dn,mt])=>TEL[t].mord.forEach(m=>inner.add(boxENU([m[0],chaveta(dn,m),zR+0.0006],[TU+0.002,0.005,0.0012],mt))));
+  // las tres mordazas de borde (L2-PLT-12, L2-PLT-17): carro sobre el riel con su bulon de chaveta y
+  // mariposa, un poste, una PESTANA que pisa el borde (la base no se levanta) y un tornillo de mano
+  // con almohadilla de goma que aprieta de costado (la goma aca si va: no esta en la transmision)
+  const tb=TEL[tA].tabla;
+  TEL[tA].mord.forEach(([x,yb,dir],k)=>{
+    const ye=p.dN+yb, yc=ye-dir*0.03, ych=chaveta(p.dN,[x,yb,dir]);
+    inner.add(boxENU([x,(yc+ych)/2,zR+0.004],[0.034,Math.abs(yc-ych)+0.03,0.008],MAT.mordaza));          // carro
+    [-1,1].forEach(s=>inner.add(boxENU([x+s*0.012,(yc+ych)/2,zR-0.006],[0.004,Math.abs(yc-ych)+0.03,0.012],MAT.mordaza)));  // mejillas a los costados del riel
+    inner.add(cyl([x,ych,zR-0.012],[x,ych,zR+0.02],0.004,MAT.steel,10));                                  // bulon de la chaveta
+    inner.add(boxENU([x,ych,zR+0.017],[0.03,0.004,0.008],MAT.steel));                                     // mariposa
+    const zTop=zR+tb+0.008;
+    inner.add(boxENU([x,yc,(zR+0.008+zTop)/2],[0.03,0.012,zTop-zR-0.008],MAT.mordaza));                  // poste
+    inner.add(boxENU([x,(yc+ye+dir*0.015)/2,zR+tb+0.003],[0.03,Math.abs(ye+dir*0.015-yc)+0.006,0.004],MAT.mordaza));   // pestana sobre el borde
+    const zs=zR+tb/2;
+    inner.add(cyl([x,yc-dir*0.03,zs],[x,ye-dir*0.004,zs],0.003,MAT.steel,10));                           // tornillo de mano
+    inner.add(boxENU([x,ye-dir*0.002,zs],[0.024,0.004,tb*0.8],MAT.vinyl));                               // almohadilla de goma
+    inner.add(boxENU([x,yc-dir*0.03,zs],[0.03,0.004,0.008],MAT.steel));                                   // mariposa del tornillo
+    if(k===1){const tm=tag('Mordaza de borde (3): no agujerea',15);tm.position.copy(V([x+0.05,yc-0.03,zTop+0.02]));inner.add(tm);}
+  });
+  const t4=tag('Mesa universal: marco 20 × 20 + 3 rieles',4);t4.position.copy(V([-XL-0.05,G.yNorthTab+0.05,zt+0.01]));inner.add(t4);
+  const t16=tag('Muescas: una por telescopio',16);t16.position.copy(V([XL+0.04,RIEL.y0+0.02,zR+0.01]));inner.add(t16);
 
   // 5 segmentos de aluminio
   G.rollers.forEach((r,i)=>{
@@ -504,14 +646,18 @@ function build(){
     [-1,0,1].forEach(sg=>{const u=sg*r.chord/3, xp=r.Pt[0]+r.uh[0]*u, yp=r.Pt[1]+r.uh[1]*u;
       inner.add(boxENU([xp,(yp+G.ySouth)/2,zt-0.014],[0.03,Math.abs(G.ySouth-yp)+0.004,0.024],MAT.mesa));   // 24 mm: no baja mas que la chapa mas angosta (30)
       inner.add(cyl([xp-r.nh[0]*0.008,yp-r.nh[1]*0.008,zt-0.014],[xp+r.nh[0]*0.006,yp+r.nh[1]*0.006,zt-0.014],0.0065,MAT.steel,6));});
-    if(i===1){const t5=tag('Chapa de acero 1/4" (segmento)',5);t5.position.copy(V([r.Pt[0]+r.uh[0]*r.uMax*0.6,r.Pt[1]-0.02,zt-0.03]));inner.add(t5);}
+    if(i===1){const t5=tag('Chapa de acero 5/16" (segmento)',5);t5.position.copy(V([r.Pt[0]+r.uh[0]*r.uMax*0.6,r.Pt[1]-0.02,zt-0.03]));inner.add(t5);}
     if(i===0){ // 13 finales de carrera: una leva (tornillo M5) en el medio de la chapa y dos microswitches al costado del rodillo
       const n=r.nh, mid=r.edge.reduce((a,q)=>Math.abs(q.u)<Math.abs(a.u)?q:a), zL=mid.z+0.02, a=Math.atan2(r.uh[1],r.uh[0]);
       inner.add(cyl([r.Pt[0],r.Pt[1],zL],[r.Pt[0]+n[0]*0.078,r.Pt[1]+n[1]*0.078,zL],0.0025,MAT.steel,10));
       const t14=tag('Talón: tope de la chapa',14);t14.position.copy(V([r.Pt[0]+r.uh[0]*r.uMin,r.Pt[1]+r.uh[1]*r.uMin,mid.z-0.03]));inner.add(t14);
       r.lim.sw.forEach((us,k)=>{
         const o=[r.Pt[0]-r.uh[0]*us+n[0]*0.068,r.Pt[1]-r.uh[1]*us+n[1]*0.068];
-        const zB=zL-0.024, gT=G.groundTop;
+        const zB=zL-0.024, gT=G.groundTop, yb=ys0+0.04;
+        // v10: el soporte ya no flota -- una escuadra de planchuela abulonada arriba de la viga sur
+        // llega hasta el pie del soporte (en v9 el soporte estaba parado en el aire, al norte de la viga)
+        fixed.add(boxENU([o[0],(yb+o[1])/2,gT+0.0024],[0.026,Math.abs(o[1]-yb)+0.024,0.0048],MAT.printed2));
+        fixed.add(cyl([o[0],yb,gT+0.0048],[o[0],yb,gT+0.0108],0.0065,MAT.steel,6));                   // M8 a la viga
         fixed.add(boxENU([o[0],o[1],(gT+zB)/2],[0.026,0.016,zB-gT],MAT.printed2,a));                 // soporte impreso
         fixed.add(boxENU([o[0],o[1],zB+0.005],[0.020,0.010,0.010],MAT.sw,a));                         // microswitch
         const s=Math.sign(us)||1, tip=[o[0]+r.uh[0]*s*0.012,o[1]+r.uh[1]*s*0.012,zL+0.004];
@@ -522,9 +668,9 @@ function build(){
   });
 
   // 11 dobson + 12 suplemento
-  dobGroup=new THREE.Group();inner.add(dobGroup);
-  let z0=zt;
-  if(p.shim>0.0005){dobGroup.add(boxENU([0,0,z0+p.shim/2],[0.42,0.45,p.shim],MAT.shim));const t12=tag('Suplemento',12);t12.position.copy(V([0.21,-0.22,z0+p.shim/2]));dobGroup.add(t12);z0+=p.shim;}
+  dobGroup=new THREE.Group();inner.add(dobGroup);dobGroup.position.copy(V([0,p.dN,0]));   // la corredera: el dobson entero va corrido dN al norte
+  let z0=zt+RH;   // apoya sobre los rieles
+  if(tA==='300'){build12(z0);}else{
   // Medidas de Fran del 2026-10-04 (cinta), todas las tablas de 2 cm. El hueco de tacos (1,5 cm) y
   // el eje de altura 2,6 cm debajo del borde de la pared salen de las fotos: hipotesis.
   dobGroup.add(boxENU([0,0,z0+0.01],[0.40,0.43,0.02],MAT.wood));                        // base fija 43 x 40
@@ -547,7 +693,7 @@ function build(){
   [0,Math.PI/2].forEach(a=>{const v=new THREE.Mesh(new THREE.BoxGeometry(0.246,0.0015,0.025),MAT.dark);v.rotation.z=a;add(v,0,0,front+0.13);});
   const sec=new THREE.Mesh(new THREE.CylinderGeometry(0.024,0.024,0.045,24),MAT.dark);sec.rotation.x=Math.PI/2;add(sec,0,0,front+0.13);
   const box=new THREE.Mesh(new THREE.BoxGeometry(0.31,0.31,0.40),MAT.wood);tubeG.add(box);
-  [-1,1].forEach(s=>{const h=new THREE.Mesh(new THREE.CylinderGeometry(0.035,0.035,0.012,32),MAT.dark);h.rotation.z=Math.PI/2;add(h,s*0.161,0,0);});
+  [-1,1].forEach(s=>{const h=new THREE.Mesh(new THREE.CylinderGeometry(0.035,0.035,0.025,32),MAT.dark);h.rotation.z=Math.PI/2;add(h,s*0.1675,0,0);});   // bujes de altura: de la caja (15,5) a la pared (18); en v9 quedaban 13 mm en el aire
   // portaocular (al este de la boca) y buscador: medidas a confirmar con Fran
   add(new THREE.Mesh(new THREE.BoxGeometry(0.03,0.08,0.08),MAT.dark),0.138,0,front+0.13);
   const dt=new THREE.Mesh(new THREE.CylinderGeometry(0.0159,0.0159,0.075,24),MAT.steel);dt.rotation.z=Math.PI/2;add(dt,0.185,0,front+0.13);
@@ -555,6 +701,25 @@ function build(){
   const fnd=new THREE.Mesh(new THREE.CylinderGeometry(0.016,0.016,0.2,20),MAT.dark);fnd.rotation.x=Math.PI/2;add(fnd,0.095,0.115,front+0.24);
   [-0.06,0.06].forEach(dz=>add(new THREE.Mesh(new THREE.TorusGeometry(0.019,0.003,8,24),MAT.steel),0.095,0.115,front+0.24+dz));
   const t11=tag('Dobson actual (medido 4/10)',11);t11.position.copy(V([0.2,0.19,zf+0.82]));rocker.add(t11);
+  }
+  // el 12" de la envolvente, como fantasma: no hay modelo elegido (docs/14 §3). Base redonda de 63 cm
+  // y 2,5 cm, caja de 50 cm, eje de altura a ~72 cm del piso de la base, tubo cerrado de 36 x 145 cm.
+  // Apoya el plato sobre los rieles; donde caen sus patitas es una interfaz que se cierra con el modelo.
+  function build12(z0){
+    const M=MAT.doce;
+    dobGroup.add(cyl([0,0,z0],[0,0,z0+0.025],0.315,M,48));                                     // plato de la base
+    for(let k=0;k<3;k++){const a=k*2*Math.PI/3+Math.PI/2;dobGroup.add(cyl([0.24*Math.cos(a),0.24*Math.sin(a),z0+0.025],[0.24*Math.cos(a),0.24*Math.sin(a),z0+0.03],0.025,M,16));}   // patines de azimut
+    rocker=new THREE.Group();dobGroup.add(rocker);
+    rocker.add(cyl([0,0,z0+0.03],[0,0,z0+0.05],0.29,M,40));                                      // fondo de la caja
+    const zA=z0+0.72;
+    [-1,1].forEach(s=>{rocker.add(boxENU([s*0.25,0,(z0+0.05+zA+0.06)/2],[0.02,0.46,zA+0.06-z0-0.05],M));rocker.add(cyl([s*0.24,0,zA],[s*0.27,0,zA],0.06,M,24));});
+    rocker.add(boxENU([0,0.22,z0+0.18],[0.48,0.02,0.26],M));
+    tubeG=new THREE.Group();tubeG.position.copy(V([0,0,zA]));rocker.add(tubeG);
+    const back=0.55, front=-(1.45-back);
+    const tb=new THREE.Mesh(new THREE.CylinderGeometry(0.18,0.18,1.45,48,1,true),M);tb.rotation.x=Math.PI/2;tb.position.set(0,0,(front+back)/2);tubeG.add(tb);
+    [-1,1].forEach(s=>{const h=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,0.07,24),M);h.rotation.z=Math.PI/2;h.position.set(s*0.205,0,0);tubeG.add(h);});   // munones: del tubo (0,17) a la caja (0,24)
+    const t=tag('12" de la envolvente (fantasma: hasta 50 kg, base hasta 70 cm)',11);t.position.copy(V([0.33,0,z0+0.4]));dobGroup.add(t);
+  }
 
   // 9 centro de masa (real)
   const com=new THREE.Mesh(new THREE.SphereGeometry(0.022,24,16),MAT.com);com.position.copy(V(G.Cg));inner.add(com);
@@ -611,19 +776,24 @@ function drawPlate(){
    +'<line x1="'+x0+'" y1="0" x2="'+x0+'" y2="'+h0+'" class="dim" stroke-dasharray="3 2"/><text x="'+(x0-30)+'" y="'+(h0-8)+'" class="dimtxt">'+f(h0)+' mm</text>'
    +'<circle cx="'+x0+'" cy="'+(h0+16)+'" r="16" class="roll"/><text x="'+(x0+20)+'" y="'+(h0+30)+'" class="note">rodillo Ø32 (en el centro de la carrera)</text>'
    +holes
-   +['Acero SAE 1010 de 1/4" (6,35 mm), cortado a láser desde el DXF. Arriba, al ras de la mesa.','El canto de abajo es la pista: se lija con un taco largo, nunca con lima a mano (una lima deja ondas que se ven en la foto).','Girada '+fmt(Math.abs(r.beta),1)+'° respecto del borde de la mesa. Tres agujeros ovalados para M8.','Borde de abajo: un pedazo de elipse (el arco de radio '+fmt(r.R*1000,0)+' mm visto de costado). NO ES PARA CORTAR hasta medir el centro de masa.','Marcas sobre el borde: P = límite del programa, F = salta el fin de carrera, T = el talón choca el rodillo.','Talones de '+TW+' × '+f(TD)+' mm en cada punta, con un pedazo de goma pegado del lado de adentro.']
+   +['Acero SAE 1010 de 5/16" (7,94 mm), cortado a láser desde el DXF. Arriba, al ras de la mesa.','El canto de abajo es la pista: se lija con un taco largo, nunca con lima a mano (una lima deja ondas que se ven en la foto).','Girada '+fmt(Math.abs(r.beta),1)+'° respecto del borde de la mesa. Tres agujeros ovalados para M8.','Borde de abajo: un pedazo de elipse (el arco de radio '+fmt(r.R*1000,0)+' mm visto de costado). NO ES PARA CORTAR hasta medir el centro de masa.','Marcas sobre el borde: P = límite del programa, F = salta el fin de carrera, T = el talón choca el rodillo.','Talones de '+TW+' × '+f(TD)+' mm en cada punta, con un pedazo de goma pegado del lado de adentro.']
      .map((t,i)=>'<text x="0" y="'+(Hmax+40+i*10)+'" class="note">'+t+'</text>').join('')
    +'</svg>';
 }
 
 function readout(p){
   const r=G.rollers[0], L=G.loads, mm=(x)=>fmt(x*1000)+' mm', cm=(x)=>fmt(x*100,1)+' cm';
-  const off=G.offAxis, tau=G.tauMax;
+  const off=G.offAxis, tau=G.tauMax, tA=telAct();
+  const chs=TEL[tA].mord.map(m=>chaveta(p.dN,m)), enRiel=chs.every((y,i)=>y>=RIEL.y0+0.015&&y<=(TEL[tA].mord[i][0]===0?RIEL.y1c:RIEL.y1)-0.015);
   const rows=[
+    ['Arriba va',TEL[tA].nombre],
+    (()=>{const s=sueltas();window.__sueltas=s;return ['Piezas sueltas (sin apoyo, medido)',s.length?s.length+' sueltas':'ninguna',s.length?'bad':'good'];})(),
+    ['Corredera: muesca de este telescopio',(p.dN>=0?fmt(p.dN*100,1)+' cm al norte':fmt(-p.dN*100,1)+' cm al sur')],
+    ['Las tres mordazas caen sobre los rieles',enRiel?'sí':'no: se salen',enRiel?'good':'bad'],
     ['Largo de la base',cm(G.baseLength)],
     ['Ancho de la base',cm(G.baseWidth)],
     ['Vuelco de costado / al sur',fmt(G.vuelcoLado,1)+'° / '+fmt(G.vuelcoSur,1)+'°',G.vuelco>=22?'good':'bad'],
-    ['Cuánto sube el telescopio',cm(G.ztt)],
+    ['Cuánto sube el telescopio (arriba de los rieles)',cm(G.ztt+G.railH),G.ztt+G.railH<=0.30?'good':'bad'],
     ['Pivote al norte del centro',cm(G.pivotDist)],
     ['Radio de cada segmento',cm(r.R)],
     ['Largo de cada chapa',mm(r.chord)],
@@ -647,6 +817,12 @@ function readout(p){
     ['Torque de más para el motor',fmt(tau,2)+' N·m',tau<0.3?'good':'bad'],
   ];
   $('readout').innerHTML=rows.map(([k,v,c])=>'<dt>'+k+'</dt><dd class="'+(c||'')+'">'+v+'</dd>').join('');
+  // la misma plataforma con cada telescopio de la envolvente, cada uno en su muesca (L1-13, L1-14, L2-PLT-05)
+  const casos=[['Este (los deslizadores)',p.M,p.Hreal,true],['200, CdM 63 (cuenta)',40,0.63],['200 si da 58',40,0.58],['200 si da 69',40,0.69],['12" liviano, 40 kg, CdM 52',40,0.52],['12" GoTo, 50 kg, CdM 52',50,0.52],['12" GoTo, 50 kg, CdM 62',50,0.62]];
+  const tr=casos.map(([n,M,H,act])=>{const q={...p,M,Hreal:H};if(!act)q.dN=dNEquilibrio({...q,dE:0});const g=act?G:computeVNS(q);
+    const rod=Math.max(g.loads.este,g.loads.oeste);
+    return '<tr'+(act?' class="act"':'')+'><td>'+n+'</td><td>'+fmt(q.dN*100,1)+'</td><td class="'+(g.vuelco>=22?'good':'bad')+'">'+fmt(g.vuelco,1)+'°</td><td class="'+(g.empujeMesa>=6?'good':'bad')+'">'+fmt(g.empujeMesa,1)+'</td><td class="'+(rod<=25?'good':'bad')+'">'+fmt(rod,1)+'</td></tr>';}).join('');
+  $('porTel').innerHTML='<div class="tablewrap"><table><thead><tr><th>Telescopio</th><th>Muesca, cm al N</th><th>Vuelco</th><th>Empujón, kg</th><th>Kg por rodillo</th></tr></thead><tbody>'+tr+'</tbody></table></div>';
   $('speedTxt').textContent='±'+fmt(r.speedVar,1)+' %';
   $('swTxt').textContent=fmt(G.swMin)+' min';
   $('lenTxt').textContent=fmt(G.baseLength,2)+' m';
@@ -669,9 +845,15 @@ function applyTags(){ // el renderer de etiquetas no mira la visibilidad de los 
   const on=$('showTags').checked;
   root&&root.traverse(o=>{if(!o.userData.isTag)return;let v=on,q=o.parent;while(q){if(!q.visible)v=false;q=q.parent;}o.visible=v;o.element.style.visibility=v?'visible':'hidden';});}
 
-const units={mTab:" kg",M:" kg",Hreal:' cm',dN:' cm',dE:' cm',Hdis:' cm',shim:' cm',run:' min',half:' cm',postH:' cm',baseW:' cm',az:'°',alt:'°'};
-Object.keys(units).forEach(k=>{const el=$(k);const show=()=>{$(k+'_o').textContent=fmt(+el.value,el.step.includes('.')?1:0)+units[k];};show();
-  el.addEventListener('input',()=>{show();if(k==='az'||k==='alt')updatePose();else build();});});
+const units={mTab:" kg",M:" kg",Hreal:' cm',dN:' cm',dE:' cm',Hdis:' cm',run:' min',half:' cm',postH:' cm',baseW:' cm',az:'°',alt:'°'};
+const shows={};
+// la corredera: con el tilde puesto, el dobson va a la muesca que pone su centro de masa sobre el eje
+function syncDN(){if(!$('auto').checked)return;const q=P();$('dN').value=(Math.round(dNEquilibrio({...q,dE:0})*1000)/10).toFixed(1);shows.dN();}
+Object.keys(units).forEach(k=>{const el=$(k);const show=shows[k]=()=>{$(k+'_o').textContent=fmt(+el.value,el.step.includes('.')?1:0)+units[k];};show();
+  el.addEventListener('input',()=>{show();if(k==='az'||k==='alt'){updatePose();return;}if(k==='dN')$('auto').checked=false;else syncDN();build();});});
+document.querySelectorAll('input[name=tel]').forEach(r=>r.addEventListener('change',()=>{const t=TEL[telAct()];$('M').value=t.M;$('Hreal').value=t.H;shows.M();shows.Hreal();$('auto').checked=true;syncDN();build();}));
+$('auto').addEventListener('change',()=>{syncDN();build();});
+$('certeza').addEventListener('change',applyCerteza);
 $('t').addEventListener('input',()=>{tMin=+$('t').value;updatePose();});
 ['showDob'].forEach(k=>$(k).addEventListener('change',updatePose));
 $('showTags').addEventListener('change',applyTags);
@@ -686,11 +868,16 @@ let playing=false,last=0;
 $('play').addEventListener('click',()=>{playing=!playing;$('play').textContent=playing?'❚❚ Pausa':'▶ Seguir al cielo (×600)';last=performance.now();});
 $('reset').addEventListener('click',()=>{tMin=0;$('t').value=0;updatePose();});
 $('defaults').addEventListener('click',()=>{playing=false;$('play').textContent='▶ Seguir al cielo (×600)';tMin=0;
-  ['showDob','showTags'].forEach(k=>$(k).checked=true);$('ghost').checked=false;
-  Object.keys(units).forEach(k=>{$(k).value=$(k).defaultValue;$(k).dispatchEvent(new Event('input'));});$('t').value=0;updatePose();});
+  ['showDob','showTags'].forEach(k=>$(k).checked=true);$('ghost').checked=false;$('certeza').checked=false;applyCerteza();
+  document.querySelector('input[name=tel][value="200"]').checked=true;$('auto').checked=true;
+  Object.keys(units).forEach(k=>{$(k).value=$(k).defaultValue;shows[k]();});syncDN();build();$('t').value=0;updatePose();});
 // leyenda de colores: la misma tabla que pinta los materiales
-(function(){const L=[['base','Base y poste: tubo 20 × 20'],['mesa','Mesa y brazo: tubo 20 × 20'],['alu','Chapas de acero 1/4"'],['impreso','Rodillos: torneado y 608'],['soporte','Ángulos y planchuelas'],['acero','Bulones, ejes, rulemanes'],['laton','Pivote (bocha)'],['motor','Motor y correa'],['limite','Finales de carrera'],['dob','Dobson actual'],['eje','Eje polar'],['cdm','Centro de masa']];
-  const d=document.createElement('div');d.className='legend';d.innerHTML=L.map(([k,t])=>'<span><i style="background:#'+COLORS[k].toString(16).padStart(6,'0')+'"></i>'+t+'</span>').join('');view.appendChild(d);})();
+(function(){const L=[['base','Base y poste: tubo 20 × 20'],['mesa','Mesa y brazo: tubo 20 × 20'],['riel','Rieles de la corredera'],['mordaza','Mordazas de borde'],['alu','Chapas de acero 5/16"'],['impreso','Rodillos: torneado y 608'],['soporte','Ángulos y planchuelas'],['acero','Bulones, ejes, rulemanes'],['laton','Pivote (bocha)'],['motor','Motor, correa, batería'],['elec','Electrónica'],['limite','Finales de carrera'],['dob','Dobson actual'],['doce','12" (fantasma)'],['eje','Eje polar'],['cdm','Centro de masa']];
+  const d=document.createElement('div');d.className='legend';view.appendChild(d);
+  const fam=L.map(([k,t])=>'<span><i style="background:#'+COLORS[k].toString(16).padStart(6,'0')+'"></i>'+t+'</span>').join('');
+  const gra=[['conf','Confirmado'],['prob','Probable'],['rev','En revisión'],['eje','Eje polar (virtual)']].map(([k,t])=>'<span><i style="background:#'+(GCOL[k]||COLORS[k]).toString(16).padStart(6,'0')+'"></i>'+t+'</span>').join('');
+  // con «pintar por certeza» la leyenda del visor cambia a los tres grados: si no, mostraria colores que ya no estan
+  window.leyendaVisor=(on)=>{d.innerHTML=on?gra:fam;};window.leyendaVisor(false);})();
 
 const views={iso:[[3.3,-3.2,2.3],[0,0.2,0.75]],oeste:[[-3.8,0.35,0.9],[0,0.35,0.7]],sur:[[0,-3.0,0.7],[0,0.2,0.45]],arriba:[[0.01,0.35,3.6],[0,0.35,0]],cielo:[[0.25,1.6,0.25],[0,-1.2,1.6]]};
 function setView(k){let v=views[k];
@@ -709,6 +896,7 @@ function loop(now){
   if(playing){const dt=(now-last)/1000;last=now;const run=+$('run').value;tMin+=dt*10;if(tMin>run)tMin=-run;$('t').value=tMin;updatePose();}
   controls.update();renderer.render(scene,camera);labels.render(scene,camera);requestAnimationFrame(loop);
 }
-theme();build();setView('iso');size();requestAnimationFrame((n)=>{last=n;loop(n);});
+window.__vns={sueltas,root:()=>root,THREE,MAT,build,camera,controls,V};   // para depurar y sabotear el detector desde la consola
+theme();syncDN();build();setView('iso');size();requestAnimationFrame((n)=>{last=n;loop(n);});
 })();
 </script>

@@ -40,6 +40,22 @@ let fallas = 0;
   if (!bueno || !rojo) fallas++;
   console.log((bueno ? '[OK  ] ' : '[FAIL] ') + 'mesa de hierro: eje en el CdM de todo lo que gira => torque nulo -- ' + (rojo ? 'saboteado da ROJO, bien' : 'SABOTEADO DA VERDE: el control no mide'));
 }
+// v10, la corredera: dNEquilibrio pone el CdM de todo lo que gira sobre el eje, para el 200 y para
+// un 12" de la envolvente, con la mesa universal (rieles arriba, mesa larga). Sabotaje: la muesca
+// corrida 2 cm tiene que sacar el CdM del eje (si da verde igual, el control no mide).
+{
+  const { dNEquilibrio } = require('./geometria-vns.js');
+  const v10 = { ...base, Hdis: 0.54, half: 0.25, postH: 0.10, mTab: 11, zTab: -0.02, tabN: 0.53, railH: 0.02 };
+  const ok = (g) => g.offAxis < 1e-6;
+  let bueno = true, rojo = true;
+  for (const [M, H] of [[40, 0.63], [50, 0.52], [40, 0.69]]) {
+    const q = { ...v10, M, Hreal: H }; q.dN = dNEquilibrio(q);
+    bueno = bueno && ok(computeVNS(q));
+    rojo = rojo && !ok(computeVNS({ ...q, dN: q.dN + 0.02 }));
+  }
+  if (!bueno || !rojo) fallas++;
+  console.log((bueno ? '[OK  ] ' : '[FAIL] ') + 'corredera: la muesca de cada telescopio pone el CdM sobre el eje -- ' + (rojo ? 'saboteado da ROJO, bien' : 'SABOTEADO DA VERDE: el control no mide'));
+}
 for (const [nombre, ok, sabotaje] of controles) {
   const bueno = ok(computeVNS(base));
   let malo = '(sin sabotaje: es una cota del diseno)';

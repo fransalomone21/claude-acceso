@@ -30,6 +30,16 @@ for (const H of [0.58, 0.69]) {
   }
   show(`200 H ${f(H*100,0)} corrido`, { ...base, Hreal: H, dN: best.dN });
 }
+// v10 (el modelo 3D desde el 2026-10-07): mesa universal -- rieles de 2 cm arriba del marco, mesa
+// hasta 53 cm al norte, 11 kg, chapa de 5/16", sin suplemento. La muesca sale de dNEquilibrio.
+{
+  const { dNEquilibrio } = require('./geometria-vns.js');
+  const v10 = { ...base, shim: 0, mTab: 11, tabN: 0.53, railH: 0.02, plateT: 0.00794 };
+  console.log('--- v10, mesa universal ---');
+  for (const [tag, M, H] of [['200 H 63', 40, 0.63], ['200 H 58', 40, 0.58], ['200 H 69', 40, 0.69], ['12" 40 kg H 52', 40, 0.52], ['12" 50 kg H 52', 50, 0.52], ['12" 50 kg H 62', 50, 0.62]]) {
+    const q = { ...v10, M, Hreal: H }; q.dN = dNEquilibrio(q); show('v10 ' + tag, q);
+  }
+}
 // Correa dentada pegada al canto (Kevin): periodo del diente y paso angular
 const R = r0.rollers[0].R, w = 2 * Math.PI / 86164;   // rad/s sidereo
 const v = R * w;                                        // m/s en el canto
