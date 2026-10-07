@@ -11,6 +11,27 @@
 > modelo 3D**, en la sección «Lo que destraba todo»:
 > https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd
 
+## Para Fran: los deberes antes de la próxima sesión (7 de octubre)
+
+Con esto hecho, la próxima sesión cierra el centro de masa y arranca sin
+esperar nada. **Mandá una foto de cada anotación** (o una captura de la nota
+del celular): lo que no tiene foto, la sesión no lo puede dar por hecho.
+
+| # | Qué | Cómo | Cuánto lleva |
+|---|---|---|---|
+| A | **El vuelco** de la montura sin tubo | paso 1 de abajo. Anotá **hA, A** (tres veces), **hB, B** (tres veces) y **W**, en cm y grados | una tarde, con Kevin |
+| B | **La altura del eje** | paso 2 de abajo. Dos lecturas, en cm | 5 min |
+| C | **La prueba de foco** con la Sony | de día, cámara sin lente con el adaptador en el portaocular, apuntá a algo lejano (una antena, un edificio a más de 200 m) y girá el portaocular de punta a punta. Anotá: **¿se ve nítido? sí o no**. Si no, ¿mejora yendo para adentro o para afuera, y se acaba el recorrido antes? Una foto de la pantalla en el mejor punto | 10 min |
+| D | **Tres respuestas** | 1) **¿30 o 60 segundos por foto?** 2) **¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?** Si viaja: qué auto, o el largo y el ancho del baúl. 3) **¿Cuánto armado te parece bien**, del depósito al primer sub? (hoy el papel dice 20 min) | una decisión cada una |
+| E | El inventario con calibre | paso 3 de abajo | 1 hora |
+| F | El amigo metalúrgico | paso 5 de abajo: ¿torno? ¿electrodo o MIG? | un mensaje |
+
+**Lo que más destraba: A y B** (sin el centro de masa medido no se puede
+dibujar la forma de las chapas). **C** es la compuerta antes de comprar el
+corte láser. **D** fija la precisión, el tamaño de las piezas y el tiempo de
+armado. Los números que cada respuesta cambia están en «Requisitos»
+(`docs/10-requisitos.md`, sección 11).
+
 ## Los pasos
 
 | # | Qué hacer | Quién | Lleva |
