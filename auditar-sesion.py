@@ -263,7 +263,10 @@ def lecciones_nuevas(raiz: Path, desde: str) -> tuple:
 
 
 def repo_al_dia(repo: Path) -> tuple:
-    sucio = [l[3:] for l in git(repo, "status", "--porcelain").splitlines() if l.strip()]
+    # el informe de la auditoria es su SALIDA, no trabajo de la sesion: va en un commit propio despues (si contara,
+    # ninguna auditoria con --escribir podria salir verde)
+    sucio = [l[3:] for l in git(repo, "status", "--porcelain", "--untracked-files=all").splitlines()
+             if l.strip() and not l[3:].strip('"').startswith(".claude/auditorias/")]   # -uall: sin colapsar carpetas
     adelante = git(repo, "rev-list", "--count", "@{u}..HEAD").strip()
     falta = []
     if sucio:
@@ -369,6 +372,10 @@ def escribir(a: dict, raiz: Path = RAIZ) -> Path:
     for r in a["respuestas"]:
         L.append("| %s | %s | %s | %s | %s |" % (r["id"], r["veredicto"], r["grado"], r["pregunta"],
                                                   "<br>".join(e.replace("|", "/") for e in r["evidencia"])))
+    if a.get("notas"):
+        # lo que los registros NO pueden mostrar (p. ej. algo que paso antes de que existiera el registro): se dice,
+        # con su referencia, y con grado 'declarado' -- nunca se agrega a la caja negra a mano
+        L += ["", "## Notas de la sesion (declarado: no salen de un registro)", ""] + ["- " + n for n in a["notas"]]
     f.write_text("\n".join(L) + "\n", encoding="utf-8")
     return f
 
@@ -486,6 +493,10 @@ def autotest() -> int:
     caso("CONTROL: ESTADO + HANDOFF + commit + push -> P8 VERDE", v == "VERDE", e)
     v, e = repo_al_dia(repo)
     caso("CONTROL: repo limpio y pusheado -> P11 VERDE", v == "VERDE", e)
+    (repo / ".claude" / "auditorias").mkdir(parents=True)
+    (repo / ".claude" / "auditorias" / "informe.md").write_text("# informe\n", encoding="utf-8")
+    v, e = repo_al_dia(repo)
+    caso("CONTROL: solo el informe de la auditoria sin commitear -> P11 VERDE", v == "VERDE", e)
     (pr / "docs" / "x.md").write_text("sin commitear\n", encoding="utf-8")
     v, e = p8_checkpoint(repo, rel, rel + "/HANDOFF.md", desde)
     caso("un cambio sin commitear -> P8 ROJO", v == "ROJO" and "sin commitear" in e, e)
@@ -517,12 +528,16 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Audita una sesion contra la arquitectura, desde los registros.")
     ap.add_argument("--sesion")
     ap.add_argument("--de-fran", action="append", default=[])
+    ap.add_argument("--nota", action="append", default=[], help="lo que los registros no muestran (declarado)")
     ap.add_argument("--escribir", action="store_true")
     ap.add_argument("--autotest", action="store_true")
     a = ap.parse_args()
     if a.autotest:
         sys.exit(autotest())
     au = auditar(a.sesion, a.de_fran)
+    au["notas"] = a.nota
+    for n in a.nota:
+        print("  NOTA (declarado): %s" % n)
     rc = imprimir(au)
     if a.escribir:
         print("  informe: %s" % escribir(au))
