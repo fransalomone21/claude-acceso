@@ -34,8 +34,18 @@ guardaron: estaban en Descargas).
   dos sesiones seguidas). Tercera reincidencia del `git checkout` que se lleva
   lo sin commitear (lección 352): chip de tarea para el guardia.
 
-**No se hizo:** el modelo con la mesa universal y las 3 fijaciones, los Docs
-con el 300 y los dibujos del CdM. **Abierto para Fran y Kevin:** 30 o 60 s
+**Después, en la misma sesión:** Kevin mandó dos preguntas más (transcriptas
+en `docs/14` §2): rodillo o canto de goma (no: K8) y una rosca hecha por un
+tornero como la plataforma de una foto (no conviene: K9; si va tornillo,
+uno de bolas comprado, T2). **Fran decidió: el dobson no se agujerea**, algo
+adaptable → L2-PLT-17 y tres mordazas de borde (`docs/14` §5b). La sesión
+propone **F** como transmisión (respaldo T2). Fran pidió seguir en una sesión
+nueva con: el dibujo del CdM primero, el modelo con la propuesta y los Docs.
+El rojo del arranque al reanudar era la memoria nueva sin espejo para la nube
+(`estado-nube.py --sincronizar-memoria`): arreglado.
+
+**No se hizo:** el dibujo del CdM, el modelo con la mesa universal y las 3
+mordazas, los Docs con el 300. **Abierto para Fran y Kevin:** 30 o 60 s
 (decide la transmisión); §11.1 de `10` (fijación del 300, tiempo de cambio,
 auto, armado); el vuelco y la altura del eje.
 

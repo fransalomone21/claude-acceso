@@ -8,7 +8,7 @@ con los TBR resueltos.
 > **Qué cambió de la 0.1 a la 0.2 (duodécima sesión):** el dobson de 300 mm
 > pasó de meta a **necesidad** (N-12, Fran: «debe servir para ambos, aunque
 > aumente la complejidad, no perdamos precisión»). Entran L0-15, L1-27 a
-> L1-30 y L2-PLT-14 a L2-PLT-16; cambia L2-PLT-05 (de 12 cm de ajuste al
+> L1-30 y L2-PLT-14 a L2-PLT-17 (el 17: el dobson no se agujerea); cambia L2-PLT-05 (de 12 cm de ajuste al
 > rango de centro de masa de los dos telescopios); M-03 sale de las metas. El
 > estudio que lo sostiene: `docs/14-concepto-300mm.md`.
 
@@ -178,6 +178,7 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 | L2-PLT-14 | La mesa deberá recibir una base de dobson de no más de 70 cm de diámetro. | interfaz | L1-28 | inspección | TBR | no |
 | L2-PLT-15 | La corredera de la mesa deberá repetir cada posición marcada con un error de no más de 2 mm. | desempeño | L1-29 | ensayo | TBR | no |
 | L2-PLT-16 | Cada chapa deberá soportar una carga de 25 kg en el contacto con el rodillo con una presión de contacto de no más de 350 MPa. | desempeño | L1-30 | análisis | TBR | no |
+| L2-PLT-17 | Cada fijación del dobson deberá tomar el borde de la base del dobson sin perforar la base. | interfaz | L1-28 | inspección | definido | no |
 
 ### 6.2 Montura (MON)
 
@@ -390,6 +391,11 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   debajo de los ≈ 390 en que el acero dulce empieza a marcarse (`docs/13`
   §4). Con 25 kg, la chapa de 1/4" sobre los 608 da ≈ 372 MPa: **no cumple**;
   la de 5/16" da ≈ 333 [cálculo, Hertz escalado por el espesor]. TBR.
+- **L2-PLT-17** — Fran, 2026-10-07: «el dobson no se agujerea de ser posible;
+  quizás sea mejor algo adaptable». Vale para los dos: la montura del 200 es
+  la única que hay (L0-05) y la del 300 es comercial. Lo cumplen tres mordazas
+  de borde con pisador sobre los rieles de la corredera (`docs/14` §5b). Es
+  restricción de solución con razón escrita (NASA, *Rationale*, ítem 4).
 
 **Montura**
 
@@ -477,7 +483,7 @@ huérfano**: o falta el requisito, o sobra la decisión.
 | poste de 10 cm en el pivote | L2-PLT-13 | acorta la base; sin el baúl medido, es un huérfano a medias |
 | rótula de amortiguador en el pivote | L2-PLT-02 | cero juego |
 | suplementos bajo el dobson y ranuras en los largueros | L2-PLT-05 | |
-| bulones con buje y mariposa para el dobson | L2-PLT-12 | **el v9 tiene 4; el requisito pide 3** |
+| ~~bulones con buje y mariposa para el dobson~~ → **tres mordazas de borde con pisador sobre los rieles** (2026-10-07) | L2-PLT-12, L2-PLT-17 | **el v9 tiene 4 bulones que agujerean: no cumple ninguno de los dos** |
 | eje a unos 54 cm sobre la mesa | L1-15 | sale de 63 cm sin medir |
 | soporte de cámara intercambiable | L2-CAM-01, L2-CAM-02 | |
 
@@ -530,8 +536,8 @@ seguimiento, la electrónica más allá del motor, la operación.
 3. **¿Cuánto tiempo de armado te parece bien, del depósito al primer sub?**
    Hoy dice 20 min (L1-17).
 4. **¿Cuánto tiempo para pasar del 200 al 300?** Hoy dice 15 min (L1-29).
-5. **¿El 300 se puede agujerear en su base** para los tres bulones, o se toma
-   del borde con topes? (L2-PLT-12).
+5. ~~¿El 300 se puede agujerear?~~ **Contestada**: no se agujerea ninguno de
+   los dos; algo adaptable (L2-PLT-17).
 
 **Contestadas el 2026-10-07:** cambio de telescopio «correr y apretar»; el 300
 «cualquiera, GoTo incluido»; si chocan, «debe servir para ambos, aunque

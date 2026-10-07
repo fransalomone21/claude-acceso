@@ -87,13 +87,17 @@ y el inventario sin `?`.
 ## Lo próximo
 
 > **2026-10-07 (duodécima sesión) — manda sobre todo lo de abajo.** El 300 mm
-> subió a necesidad y los requisitos van por la **v0.2**. Sigue, en este orden:
-> **(1)** el modelo 3D con la mesa universal (corredera, ancho de 70 cm, un
-> fantasma de 12" con su posición), sin piezas volando y con **3** fijaciones
-> (L1-28, L2-PLT-05, L2-PLT-12, L2-PLT-14), publicado en el artifact; **(2)**
-> los Docs del Drive con el 300 y los dibujos del CdM (L1-15); **(3)** el trade
-> de la transmisión (fricción, correa dentada de Kevin, varilla) cuando Fran y
-> Kevin elijan 30 o 60 s. **Fran:** el vuelco y la altura del eje (siguen
+> subió a necesidad y los requisitos van por la **v0.2** (con L2-PLT-17: **el
+> dobson no se agujerea**, tres mordazas de borde). Sigue, en este orden, pedido
+> por Fran para una sesión nueva: **(1) el dibujo de cómo medir el centro de
+> masa** (el vuelco, paso 1 de `11`, y la altura del eje, paso 2), que pidió
+> hace rato y no estaba; **(2)** el modelo 3D con la propuesta de la sesión:
+> mesa universal (corredera, ~70 cm, selector 200 / 12" de la envolvente),
+> **tres mordazas de borde**, transmisión F, sin piezas volando (L1-28,
+> L2-PLT-05, L2-PLT-12, L2-PLT-14, L2-PLT-15, L2-PLT-17), publicado en el
+> artifact; **(3)** los Docs del Drive con el 300 y el dibujo (L1-15); **(4)**
+> el trade de la transmisión cuando Fran y Kevin elijan 30 o 60 s (propuesta:
+> F, respaldo T2; `docs/14` §6). **Fran:** el vuelco y la altura del eje (siguen
 > mandando: además definen si el 200 en el borde alto vuelca, 18,4°), la prueba
 > de foco, y §11.1 de `10`: ¿agujerear la base del 300 o tomarla con topes?,
 > ¿cuánto para cambiar de telescopio?, ¿viaja en auto?, ¿cuánto armado?

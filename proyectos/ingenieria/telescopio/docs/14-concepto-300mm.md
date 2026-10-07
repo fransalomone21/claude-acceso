@@ -88,6 +88,24 @@ que existen (§3), y escribirla como requisito con su rango.
   dentada creo que no tendríamos ese problema. Y también no tendría vibración:
   sería súper preciso.»
 
+**Segunda tanda, 2026-10-07 a la noche** (transcripta de dos capturas que
+pasó Fran; las imágenes no se guardan):
+
+- **Kevin**, sobre una foto de un rodillo apoyado en el canto: «Esto igual lo
+  cambiaría por el rodillo de goma, o forramos el canto con una goma para que
+  apoye mejor y no resbale». **Fran:** «La goma olvidala. La elasticidad nos
+  caga». **Kevin:** «Que sea más dura». **Fran:** «Yo trataría de hacer un
+  sistema adaptable, 4x4».
+- **Kevin**, sobre la foto de una plataforma hecha por otro (fotograma de un
+  video, origen sin identificar, rótulo «compass, spirit level and levelling
+  feet»): «Mirá, este tiene 2 ejes: ¿y si mandamos a un tornero que nos haga
+  la rosca, o vueltas, para tener más precisión y menos margen?». Lo que se ve
+  en la foto: un paso a paso grande con su driver, acople de mordazas, un
+  **tornillo con su guía lisa al lado** (los «2 ejes») sobre dos soportes, un
+  carro que empuja una bielita con rótulas, y la bielita empuja un brazo
+  atornillado a la mesa. Es la transmisión **T** de §6 (brazo tangente), con
+  una guía lineal.
+
 **Lo que se toma de Kevin, punto por punto:**
 
 | # | Propuesta | Qué se hace con ella |
@@ -99,6 +117,8 @@ que existen (§3), y escribirla como requisito con su rango.
 | K5 | varilla roscada que cubre el recorrido en 40-45 min | **alternativa de transmisión** a puntuar (§6) |
 | K6 | patas con tuercas regulables para nivelar | ya está (L2-PLT-04) |
 | K7 | ¿qué espesor corta el láser y cuánto sale? | §7: se cotiza con el DXF; espesor y material |
+| K8 | rodillo de goma, o el canto forrado con goma, «para que no resbale»; «que sea más dura» | **no** (Fran tiene razón: «la elasticidad nos caga»). Una goma dura igual se aplasta con 20-25 kg encima: el radio efectivo cambia con la carga y queda una panza si se guarda apoyada, y eso es error de velocidad. Resbalar no es el problema: acero sobre acero agarra ≈ 25 N y hace falta empujar 2-4 N. Si preocupa perder la posición, la respuesta es la referencia (leva del medio + conteo de pasos + fin de carrera), no la goma |
+| K9 | que un tornero haga la rosca del tornillo (la plataforma de la foto, «2 ejes») para más precisión y menos juego | **no conviene la rosca torneada**: una rosca hecha en un torno copia el error del tornillo patrón del torno y no le gana a un tornillo de bolas comprado (§6, T2). El **juego** no se ve en las fotos: al seguir el cielo empuja siempre para el mismo lado; aparece sólo al rebobinar. Lo que sí se ve es el error que se repite **cada vuelta** del tornillo (§6). Donde el tornero **sí** da precisión es en el **rodillo motriz** de la F (redondez ≤ 0,01 mm) |
 
 ## 3. Los dobson de 300 mm que hay
 
@@ -201,6 +221,7 @@ Velocidad del canto a 74,5 cm del eje (el v9): **54 µm/s, 19,6 cm por hora**
 | **F** | rodillo motriz de acero por **fricción** sobre el canto + GT2 20:80 (lo de `13`) | sin dientes: el error más rápido es la polea de 20 (≈ 8 min) y el rodillo da una vuelta cada ≈ 31 min, los dos lentos y calibrables; si se traba, **patina antes de romper** | puede patinar si el centro de masa queda mal (agarre ≈ 25 N contra 2-4 N de empuje, `13` §4) |
 | **B** | **correa dentada pegada al canto** y un piñón (Kevin) | no patina: se sabe en qué diente está | un diente de 2 mm pasa **cada 37 s**: su ondulación cae **dentro** de cada foto, y 5 µm de ondulación son 1,4″ en el cielo, todo el presupuesto de la plataforma (1,5″, L2-PLT-02) [`hipótesis` sobre los 5 µm]. Piñón directo: 3,5″ por micropaso, así que **igual necesita reducción**. La correa pegada sobre un canto elíptico cambia el radio de paso a lo largo de la carrera (se corrige con la tabla, como la F) |
 | **T** | **varilla roscada** con brazo tangente (Kevin) | empuje positivo, piezas comunes | error de tangente (5-10 min sin corregir; se corrige en el programa); la varilla roscada común tiene alabeo, que se repite cada vuelta (≈ 2-4 min con una varilla de paso 8) |
+| **T2** | **tornillo de bolas comprado** (SFU1204 o 1605, tuerca precargada) con guía lineal y bielita, como la plataforma de la foto de Kevin | empuje positivo, juego casi nulo, paso parejo; se compra hecho y barato | empujando a 50 cm del eje el carro recorre **19,7 cm** en 90 min (a 75 cm, 29,5); el error de cada vuelta se repite cada **55 s con paso 2**, **2,3 min con paso 5**, **3,7 min con paso 8**: con paso 2 cae adentro de la foto. 5 µm de alabeo a 50 cm son 2,1″ (más que todo el presupuesto de la plataforma). Las rótulas de la bielita agregan juego que hay que precargar con un resorte |
 
 **El rebobinado no separa a ninguna**: la plataforma tiene una carrera de
 90 min y **cualquier** transmisión rebobina al final (L1-03). Con un paso a
@@ -211,6 +232,38 @@ sostiene; lo que sí es cierto es que la B **no patina**.
 **Criterios para la transmisión** (sin pesos: los pone Fran): precisión en la
 foto (error dentro de un sub), que no patine ni pierda la posición, facilidad
 de construcción, costo.
+
+**La propuesta de la sesión (2026-10-07), con «no perdamos precisión» de Fran
+como criterio dominante:** **F** (rodillo de acero torneado por fricción), con
+la posición asegurada por la leva del medio, el conteo de pasos y los fines de
+carrera. **Respaldo: T2** con paso de 5 u 8 mm, si el banco del rodillo (paso 6
+de `11`) muestra que patina. B y T quedan atrás por el error que se repite
+dentro de cada foto. **No es una decisión cerrada**: se cierra con el 30/60 s y
+los pesos de Fran.
+
+## 5b. Cómo se toma el dobson sin agujerearlo (Fran, 2026-10-07)
+
+Fran: «el dobson no se agujerea de ser posible; quizás sea mejor algo
+adaptable que ofrezca mayor adaptabilidad». La propuesta de concepto:
+
+- **Tres mordazas de borde sobre tres rieles norte-sur** de la mesa. Cada
+  mordaza es un taco que corre por su riel (la corredera, con la muesca tipo
+  chaveta de Kevin para las posiciones marcadas) y lleva un **tope con
+  pisador**: un tornillo de mano empuja una almohadilla contra el costado de
+  la base, y una pestaña por encima del borde impide que la base se levante.
+- **Tres puntos, como los apoyos**: no renguean (L2-PLT-12). Para la base
+  cuadrada del 200 (43 × 40), una mordaza al centro del lado norte y dos en
+  las esquinas del sur; para la base redonda de un 12" (≤ 70 cm), a 120°.
+  Cada mordaza tiene además un ajuste corto de costado (ranura) para que el
+  mismo juego tome las dos formas.
+- La almohadilla **sí** puede ser de goma: no está en la transmisión, sólo
+  aprieta de costado.
+- Cambiar de telescopio: aflojar tres mariposas, correr las mordazas a las
+  muescas del otro telescopio, apretar (L1-29).
+
+Grado: concepto, `hipótesis` de que tres pisadores aguantan la base con la
+mesa inclinada 10,5° (L2-MON-02); se verifica con la mesa inclinada a mano
+antes de construir.
 
 ## 7. Las chapas: material, espesor y quién las corta (la pregunta de Kevin)
 
