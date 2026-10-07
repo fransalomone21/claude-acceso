@@ -24,6 +24,7 @@ Se desinstala con .claude\\desinstalar-hooks.ps1. Sin acentos en la salida: la c
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -376,7 +377,7 @@ def anotar(sid: str, ev: dict):
 
 
 def estado(sid: str) -> dict:
-    st = {"lecturas": {}, "declaradas": {}, "excepciones": {}, "comandos": [], "inferidos": {}}
+    st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "comandos": [], "inferidos": {}}
     f = archivo_estado(sid)
     if not f.exists():
         return st
@@ -388,8 +389,10 @@ def estado(sid: str) -> dict:
         t = ev.get("t")
         if t == "reset":
             st["lecturas"] = {}
+            st["huellas"] = {}
         elif t == "lee":
             st["lecturas"].setdefault(ev["ruta"], []).append((ev["a"], ev["b"]))
+            st["huellas"].setdefault(ev["ruta"], set()).update(ev.get("h", []))
         elif t == "corre":
             d, k = ev["delta"], ev["desde"]
             st["lecturas"][ev["ruta"]] = [(x if x < k else x + d, y if y < k else y + d)
@@ -403,6 +406,28 @@ def estado(sid: str) -> dict:
         elif t == "infiere":
             st["inferidos"].setdefault(ev["proy"], ev.get("por", ""))
     return st
+
+
+def huellas(path, a: int, b: int):
+    """Huella corta de cada linea de un rango: lo leido se reconoce por CONTENIDO, no solo por numero de linea.
+    Medido dos sesiones seguidas (2026-10-07): install.ps1 copia chequeo-de-trabajo.md con una vineta nueva, el
+    rango de 'investigar' se corre 8 lineas y la puerta pide releer el MISMO texto que la sesion ya tenia."""
+    try:
+        lin = Path(path).read_text(encoding="utf-8", errors="replace").splitlines()[a - 1:b]
+    except Exception:
+        return []
+    return [hashlib.md5(l.strip().encode("utf-8")).hexdigest()[:10] for l in lin]
+
+
+def leido_por_contenido(st: dict, x: dict) -> bool:
+    """El rango exigido cuenta como leido si CADA una de sus lineas (con texto) ya se vio en alguna lectura de ese
+    archivo. Las lineas en blanco no cuentan: estan en todos lados y no prueban nada."""
+    vistas = st.get("huellas", {}).get(x["ruta"])
+    if not vistas:
+        return False
+    hs = [h for h, l in zip(huellas(x["ver"], x["a"], x["b"]), Path(x["ver"]).read_text(
+        encoding="utf-8", errors="replace").splitlines()[x["a"] - 1:x["b"]]) if l.strip()]
+    return bool(hs) and all(h in vistas for h in hs)
 
 
 def cubierto(intervalos, a: int, b: int) -> bool:
@@ -498,7 +523,8 @@ def pre(ev: dict) -> int:
         faltan += it
         cmds_faltan += cm
         notas += nt
-    pend = [x for x in faltan if not cubierto(st["lecturas"].get(x["ruta"], []), x["a"], x["b"])]
+    pend = [x for x in faltan if not cubierto(st["lecturas"].get(x["ruta"], []), x["a"], x["b"])
+            and not leido_por_contenido(st, x)]
     hechos = " || ".join(c.replace("\\", "/").lower() for c in st["comandos"])
     cpend = [c for c in cmds_faltan if c["sub"].lower() not in hechos]
     if any(n.startswith("NECESIDAD DESCONOCIDA") for n in notas):
@@ -547,7 +573,7 @@ def post(ev: dict) -> int:
             return 0
         a = max(1, int(inp.get("offset") or 1))
         b = a + int(inp.get("limit") or MAX_LINEAS_LECTURA) - 1
-        anotar(sid, {"t": "lee", "ruta": norm(fp), "a": a, "b": b})
+        anotar(sid, {"t": "lee", "ruta": norm(fp), "a": a, "b": b, "h": huellas(fp, a, b)})
         return 0
     if tool in ("Edit", "Write"):
         # Lo que la sesion ESCRIBE ya esta en su contexto: cuenta como leido. Y una edicion corre las lineas de
@@ -724,6 +750,18 @@ def cli_exige(proyecto: str, necs) -> int:
               " Se disena contra los requisitos: lo primero es escribirlos (al tocarlos, el concepto 'requisitos' "
               "exige el GtWR, la catedra y NASA)." % p)
     print("  total: %d caracteres (~%d K tokens), una vez por sesion" % (total, total // 3500))
+    # Lo que la puerta va a exigir AL TOCAR los archivos que el proyecto declara: hoy, su documento de requisitos y
+    # el concepto que dispara. Medido el 2026-10-07 (telescopio, duodecima sesion): cinco Edit a 10-requisitos.md
+    # negados en paralelo, porque el concepto 'requisitos' (GtWR, catedra, NASA) no aparecia al declarar la necesidad
+    # y recien lo nombraba la primera negacion. Se imprime con rangos, como la base, para leerlo ANTES de editar.
+    req = (ent or {}).get("requisitos")
+    cs = conceptos_de(cat, "Edit", {"file_path": req}) if req else []
+    if cs:
+        citems, _, _ = exigido(cat, None, [], cs)
+        print("  AL EDITAR %s la puerta exige ADEMAS (concepto %s) -- leer antes de la primera edicion, y la primera "
+              "edicion SOLA (una negada en paralelo son N negadas):" % (req, ", ".join(cs)))
+        for x in citems:
+            print("    %-62s %5d-%-5d %s" % (rel(x["ver"])[-62:], x["a"], x["b"], x["por"][:60]))
     # Herramientas y RESPALDO de cada necesidad (Fran, 2026-10-02: saber ir a buscar las herramientas y el backup
     # de cada tarea). Se imprimen, no se exigen: son el flujo de informacion, no la puerta.
     for n in dict.fromkeys(list((ent or {}).get("necesidades", [])) + list(necs or [])):
@@ -935,6 +973,26 @@ def autotest() -> int:
     ok = cubierto([tuple(x) for x in json.loads(est)["lecturas"].get(norm(fx), [])], 1, 43)
     mal += not ok
     print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "CONTROL: editar +3 lineas no deja huecos en lo leido", "si" if ok else "NO"))
+    # 10c2. lo leido se reconoce por CONTENIDO: otro proceso (install.ps1) corre las lineas del archivo exigido y el
+    # mismo texto no se pide de nuevo; si el texto CAMBIA, si (medido dos sesiones seguidas, 2026-10-07)
+    fc = tmp / "corrido.md"
+    sec = ["## SECCION AUTOTEST"] + ["regla %d de la seccion" % k for k in range(1, 7)] + ["## OTRA"]
+    fc.write_text("\n".join(["cabecera"] + sec + ["cola"]) + "\n", encoding="utf-8")
+    cat_c = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
+    cat_c.setdefault("conceptos", {})["corrido"] = {"comando": r"\bcorrido-autotest\b", "leer": [
+        {"ruta": str(fc), "desde": "^## SECCION AUTOTEST", "hasta": "^## OTRA", "por": "autotest"}]}
+    fcat = tmp / "corrido.json"
+    fcat.write_text(json.dumps(cat_c, ensure_ascii=False), encoding="utf-8")
+    s12, ecat = sid + "-hu", {"CASCADA_CATALOGO": str(fcat)}
+    correr(post_ev("Read", {"file_path": str(fc), "offset": 2, "limit": 7}, s12), ecat)
+    caso("CONTROL: leido el rango -> pasa", correr(pre_ev("Bash", {"command": "corrido-autotest"}, s12), ecat), False)
+    fc.write_text("\n".join(["cabecera", "nueva 1", "nueva 2", "nueva 3"] + sec + ["cola"]) + "\n", encoding="utf-8")
+    caso("CONTROL: el mismo texto corrido 3 lineas -> pasa (contenido)",
+         correr(pre_ev("Bash", {"command": "corrido-autotest"}, s12), ecat), False)
+    fc.write_text("\n".join(["cabecera", "nueva 1", "nueva 2", "nueva 3"] + sec[:3] + ["regla CAMBIADA"] + sec[4:]
+                            + ["cola"]) + "\n", encoding="utf-8")
+    caso("una linea del rango CAMBIO -> deny (no basta haberlo visto antes)",
+         correr(pre_ev("Bash", {"command": "corrido-autotest"}, s12), ecat), True, "falta LEER")
     s6 = sid + "-g"
     correr(pre_ev("PowerShell", {"command": "Write-Output 'proyectos/ingenieria/black/abrir-sesion.ps1'"}, s6))
     caso("un texto que NOMBRA abrir-sesion no cuenta como correrlo",
