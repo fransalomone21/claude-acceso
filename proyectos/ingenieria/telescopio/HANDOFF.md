@@ -53,6 +53,14 @@ prueba de foco; y §11.1 de los requisitos: 30 o 60 s, ¿viaja en auto?,
 | Agus y Fran (la de esta sesión) | https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd | **v9 = repo** | `geometria-vns.js` con el mismo sha256 (`7e0c9270…`); la página publicada contiene la del repo y suma 552 B del envoltorio de la publicación |
 | Fran personal | https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM | **v8, atrasada** | desde esta cuenta no se puede publicar ahí |
 
+**Medido por Fran el 2026-10-07 12:10 (captura): el link del Doc da «Página no
+encontrada» desde su cuenta personal.** Un artifact es privado de la cuenta
+que lo publica: el link de los Docs (que lee Kevin) no lo ve nadie más hasta
+que el dueño lo comparta desde claude.ai (botón Compartir del artifact). Lección
+a registrar en la próxima sesión: un link a un artifact privado en un Doc
+compartido es un link roto para cada lector; se comparte ANTES de pegarlo, y
+se prueba desde otra cuenta.
+
 **Pase para cuando vuelvas a tu cuenta de Fran** (lo hace la sesión, no vos).
 Antes de la tarea, en la sesión de la cuenta personal:
 
