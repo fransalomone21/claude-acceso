@@ -147,7 +147,7 @@ cuesta diez minutos averiguarlo — por eso la medición 0 va primera.
 | Entregable | Se verifica contra | Con qué |
 |---|---|---|
 | masa y centro de masa | **dos métodos independientes** que tienen que coincidir dentro de la tolerancia | pesada en dos puntos, y composición de las masas de las piezas |
-| requisitos (fase 1) | INCOSE GtWR | `python perfil-global/pilares/incose-gtwr/verificar-requisito.py` |
+| requisitos (borrador en la fase 0, línea base en la 1) | INCOSE GtWR + la traza (cada hijo con un padre del nivel de arriba, cada necesidad baja) + los atributos de NASA | `python docs/verificar-requisitos.py`, que llama a `verificar-requisito.py --idioma es`; corre en `chequeo-completo.ps1` |
 | geometría de los sectores | las fórmulas paramétricas, recalculadas con los números medidos | chequeo que compara el DXF emitido contra la fórmula |
 | la plataforma armada | el requisito de deriva | foto de una estrella en un sub del largo pedido: redonda o rayada |
 | la montura reformada | el CoM pedido | se re-mide, no se supone |
@@ -157,9 +157,13 @@ la tolerancia del instrumento, en qué difiere de la condición real (de día vs
 de noche, con cámara vs sin cámara), y **la lista de lo que quedó fuera de
 tolerancia** — esa última parte es la que siempre se omite.
 
-**El verificador, ¿alguna vez falló?** Todavía no existe ninguno propio de
-este proyecto. El primero que se escriba se rompe a propósito antes de
-creerle.
+**El verificador, ¿alguna vez falló?** Sí, a propósito: `probar-geometria.js`
+tiene sus sabotajes, y `verificar-requisitos.py --autotest` rompe nueve
+veces el documento (padre inexistente, nivel salteado, huérfano, método,
+estado, tipo, necesidad que no baja, ID repetido, enunciado inverificable) y
+exige ver cada rojo **por su motivo** (2026-10-07). Escribirlo destapó además
+que el chequeo del GtWR era ciego a las tildes del español: se arregló en la
+herramienta, con su prueba en rojo antes.
 
 ## 8. Matriz de cumplimiento
 

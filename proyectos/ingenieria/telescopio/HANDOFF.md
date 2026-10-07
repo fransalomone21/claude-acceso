@@ -1,9 +1,94 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-07 (décima sesión, PC, abierta en `OneDrive\Desktop\claude`) ·
-**Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**; arquitectura
-cerrada (VNS), CdM ≈ 63 cm (58 a 69) **sin medir**, P0 aparcada, inventario
-con filas en `?`, y **sin documento de requisitos** (la puerta lo exige).
+**Escrito el:** 2026-10-07 (undécima sesión, PC, abierta en `Desktop\claude-acceso`) ·
+**Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**, 2 de 4: arquitectura
+cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
+falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
+foco y el inventario sin `?`.
+
+## Undécima sesión (2026-10-07, PC): el borrador de requisitos
+
+**Hecho, y certificado:** `docs/10-requisitos.md` v0.1 — 11 necesidades, 14 de
+misión, 26 de sistema, 27 de elementos (PLT 13, MON 6, CAM 4, OPE 4), cada uno
+con tipo, padre, método de verificación, estado y columna 3D; rationale por
+ID; KDR L1-01, L1-02, L1-15, L1-22; metas «debería» de Kevin y del 12"; la
+traza inversa del diseño v9 (§9). `python docs/verificar-requisitos.py`:
+VERDE; `--autotest`: BIEN. Engancho los dos en `chequeo-completo.ps1`.
+
+**Lo que destapó y se arregló más arriba (regla 15):**
+
+- El chequeo del GtWR era **ciego a las tildes**: «deberá» daba R1 VIOLA y
+  «rápido» pasaba sin marcar. Lo vio el borrador de tres líneas antes del
+  documento. Arreglado en `verificar-requisito.py` con su prueba en rojo antes
+  (perfil-global `63b324b`). R16 deja pasar la cota con número («no más de 50
+  kg»), angosta.
+- **Cuatro llamadas negadas por la puerta al abrir** (Fran las vio como
+  «Fallido»): la puerta niega por el PEDIDO, no por la ruta. El aviso CASCADA
+  ahora lo dice antes de actuar (claude-acceso `a85a14e`). Y tres de los siete
+  «Fallido» eran rojos buscados: regla nueva, se imprime el código y la
+  llamada cierra en 0. Lecciones 348-350, con sus líneas en el chequeo.
+- El rojo del perfil en el arranque (`verify-install` exit 1) **no se
+  reprodujo** en tres corridas: `hipótesis`, algo concurrente del arranque.
+  Si vuelve, se mira la salida del arranque, no se re-corre a ciegas.
+
+**Del modelo v9 (cálculo, `geometria-vns.js`):** mesa a 22,6 cm del piso,
+inclinación 9,3° a los 45 min y 10,5° en el talón, vuelco 24,1° al sur y de
+costado, empujón 6,9 kg. **El v9 incumple L2-PLT-12** (4 bulones del dobson).
+
+**No se hizo** (queda para la próxima, en este orden): (a) el modelo sin piezas
+volando y con 3 bulones (cita L2-PLT-12); (b) los dibujos del CdM en los Docs
+y el Drive simplificado (cita L1-15).
+
+**Pendiente de Fran:** el vuelco (hA, hB, A, B, W) y la altura del eje; la
+prueba de foco; y §11.1 de los requisitos: 30 o 60 s, ¿viaja en auto?,
+¿cuánto armado?
+
+### Mensaje de retome (chat nuevo)
+
+```
+Proyecto: telescopio (plataforma VNS del 200/1200), en claude-acceso, en la PC.
+ABRIR LA SESION EN C:\Users\frans\Desktop\claude-acceso.
+Modelo: Opus, esfuerzo medio, SIN fan-out: es diseno contra requisitos ya escritos
+(un hilo); el esfuerzo alto era para escribirlos.
+
+0. EL LIBRO: si ~/.claude/CLAUDE.md no empieza con "# Perfil global":
+   bash .claude/nube/traer-perfil.sh y leer lo que liste.
+1. PRIMERA LLAMADA, SOLA, SIN NADA EN PARALELO:
+   .\cascada.ps1 telescopio -Necesidad diseno
+   y leer con Read TODO lo que exija (incluye docs/10-requisitos.md entero, que ahora
+   es base). Hasta declararla la puerta niega todo Bash/PowerShell/Write/Edit.
+   Un verificador corrido ESPERANDO su rojo imprime el codigo y cierra en 0.
+2. Leer: ESTADO_ACTUAL.md, el bloque "Undecima sesion" de HANDOFF.md. NO leer CAD,
+   macro VBA ni fotos. 06-modelo-3d.html y geometria-vns.js solo al tocarlos (si
+   cambia geometria-vns.js, subir el ?v= del <script>, hoy 9).
+3. Fase 0 (Pre-Phase A). Van 2 de 4 (arquitectura VNS; borrador de requisitos en
+   verde). La cierran: el CdM por 2 metodos, la prueba de foco y el inventario sin "?".
+4. Estado: concepto v9. Masa ~40 kg, CdM ~63 cm (58-69) SIN medir. NO HAY PLANOS.
+   Artifact v9: https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd -> pasar url,
+   leerlo antes, publicar con files {"geometria-vns.js": docs/geometria-vns.js}.
+   Local: preview_start "telescopio-modelo" (8765). Controles:
+   node docs/probar-geometria.js ; python docs/verificar-requisitos.py (--autotest).
+   Drive: "1 - El proyecto" (07, ID 1wrzPpizxcblHVY3Zd1vyjZxawaTfdZc2wzDKFsbEwTw),
+   "2 - Paso a paso" (11, ID 1rpFTUuDcQvkzbma_9PBBHFBuVl9N3Tce_U9WsTQoUs0), Cuaderno viejo
+   (ID 1Gqf00K3lqZJJkfu8lIKZxhDSEzKbtj2tO4Do6BFz-R4). python docs/md-a-gdoc.py <md> <html>
+   + rclone copyto --config ~/.config/rclone/rclone.conf --drive-import-formats html
+   --drive-export-formats html al mismo nombre; verificar el ID con rclone lsf --format pi.
+5. Resuelto, no se rehace: VNS, espejo sur, limites 45/48/51, geometria del dobson,
+   pesadas, docs/12 corregido por 13, el contacto camina para un lado, sin engranajes
+   de casetera, el 12" no se disena, LOS REQUISITOS v0.1 (se editan, no se reescriben).
+6. PRIMER PASO: (a) el modelo sin piezas volando (eje y barra del motor con soporte) y
+   con 3 bulones con mariposa en el dobson -> commit citando L2-PLT-12 (y la columna 3D
+   de 10-requisitos.md pasa a "si"). (b) dibujos del CdM en los Docs (probar antes con un
+   borrador de tres lineas si un Doc acepta imagenes) y el Drive simplificado (el
+   Cuaderno del 4/10 dice "CS o VNS abierta" y "50 kg") -> commit citando L1-15.
+   Pendiente de Fran, URGENTE: vuelco (hA, hB, A, B, W), altura del eje, prueba de foco,
+   y las 3 preguntas de 10-requisitos.md sec. 11.1. Si dice que lo hizo y la sesion no
+   puede medir el efecto, pedirle captura.
+7. Al cerrar: ESTADO + HANDOFF + commit + push, y despues
+   python auditar-sesion.py --de-fran "que | evidencia" --escribir  (en claude-acceso).
+   EFECTO a ver: P7 en VERDE para cada commit de diseno, ningun ROJO, y las llamadas
+   negadas por la puerta en 0 (hoy fueron 5). El informe va en su commit.
+```
 
 ## Décima sesión (2026-10-07, PC): la arquitectura del método, no el telescopio
 
@@ -55,7 +140,7 @@ diseño cita los IDs que cumple):
 **Pendiente de Fran, URGENTE:** el vuelco (hA, hB, A, B, W) y la altura del eje.
 Al 7/10 no hay medidas nuevas.
 
-### Mensaje de retome (chat nuevo)
+### Mensaje de retome de la décima (YA EJECUTADO por la undécima: no usar)
 
 ```
 Proyecto: telescopio (plataforma VNS del 200/1200), en claude-acceso, en la PC.

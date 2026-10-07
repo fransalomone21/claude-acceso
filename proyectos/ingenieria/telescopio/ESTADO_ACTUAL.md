@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-07 (décima sesión: la arquitectura del método, no el telescopio)
+**Última actualización:** 2026-10-07 (undécima sesión: el borrador de requisitos)
 
 ## Dónde estamos
 
@@ -20,10 +20,13 @@ study con los pesos puestos por Fran y un ganador que no empata, y **el
 borrador de requisitos** (`docs/10-requisitos.md`, agregado el 2026-10-07: ver
 `PDP.md` §4, punto 4).
 
-**De las cuatro, va una:** la arquitectura está elegida — **VNS**, por Fran y
-por `docs/05-trade-study.md` (4,5 contra 2,7, sin empate en ningún orden).
-Faltan las mediciones, el inventario y **los requisitos, que no existen: la
-puerta no deja diseñar nada del telescopio hasta escribirlos**.
+**De las cuatro, van dos:** la arquitectura está elegida — **VNS**, por Fran y
+por `docs/05-trade-study.md` (4,5 contra 2,7, sin empate en ningún orden) — y
+**el borrador de requisitos existe y certifica**: `docs/10-requisitos.md`, 11
+necesidades, 14 de misión, 26 de sistema y 27 de elementos, con
+`python docs/verificar-requisitos.py` en verde (traza completa, GtWR 0 VIOLA).
+Faltan las mediciones (el centro de masa por dos métodos y la prueba de foco)
+y el inventario sin `?`.
 
 ## Lo confirmado
 
@@ -49,6 +52,7 @@ puerta no deja diseñar nada del telescopio hasta escribirlos**.
 | **El contacto camina por el rodillo para UN solo lado**: 0 en el centro de la carrera, 12,6 mm en las puntas (7,6 dentro de ±45 min); es geometría, no deslizamiento. Centrado, alcanza un rodillo de 25 mm. El «±13,7 → rodillo de 40» de la nube estaba mal leído | `geometria-vns.js` (recorrido con signo) + control en `probar-geometria.js`, con sabotaje en rojo (12 verdes) | 2026-10-07 |
 | **Revisión de afuera** (`docs/13-revision-externa.md`): la arquitectura está bien; tres errores corregidos (rodillo de 40, ángulo de vuelco 34° → 24°, polea en un rodillo loco en v8); mecanismo con lo rescatado; estructura de tubo 20 × 20 con vigas compuestas; rodillos a 50 cm (la mesa aguanta 6,9 kg de empujón, más que el dobson solo); sin planos en fase 0 (Fran) | cálculo, `probable`; controles nuevos en `probar-geometria.js` | 2026-10-07 |
 | **Modelo v9** publicado desde la cuenta de Agus y Fran: https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd (el link viejo de la cuenta personal quedó en v8). Docs «1 - El proyecto» y «2 - Paso a paso» regenerados, mismos IDs | publicado; IDs medidos con `rclone lsf` | 2026-10-07 |
+| **Borrador de requisitos** `docs/10-requisitos.md` v0.1: N → L0 → L1 → L2 (PLT, MON, CAM, OPE), cada uno con tipo, padre, método de verificación, estado y si lo muestra el modelo; rationale por ID; KDR L1-01, L1-02, L1-15, L1-22; trazabilidad inversa del diseño v9. **El v9 incumple L2-PLT-12** (4 bulones del dobson, el requisito pide 3). Del modelo: mesa a 22,6 cm del piso, inclinación de 10,5° en el talón, vuelco 24,1°, empujón 6,9 kg | `python docs/verificar-requisitos.py` VERDE (autotest: 9 sabotajes con su motivo + 2 del GtWR); en `chequeo-completo.ps1`. **No está en línea base**: falta Fran (SRR, fase 1) y 3 preguntas suyas (§11.1) | 2026-10-07 |
 | **La cámara y el foco se aparcan** (Fran, 2026-10-05). P0 sigue abierta en el PDP y es **compuerta antes de comprar la chapa de aluminio** | decisión de Fran; la compuerta es mía | 2026-10-05 |
 
 ## Lo que es hipótesis
@@ -80,7 +84,15 @@ puerta no deja diseñar nada del telescopio hasta escribirlos**.
 
 ## Lo próximo
 
-> **2026-10-07 (décima sesión) — manda sobre todo lo de abajo.** El orden:
+> **2026-10-07 (undécima sesión) — manda sobre todo lo de abajo.** Los
+> requisitos están escritos. Sigue, cada commit citando los IDs que cumple:
+> **(a)** el modelo sin piezas volando, con soportes y los **3 bulones** del
+> dobson (**L2-PLT-12**, hoy incumplido); **(b)** los dibujos del centro de masa
+> en los Docs del Drive y el Drive simplificado (**L1-15**). **Fran:** el vuelco
+> y la altura del eje (cierran L1-15), la prueba de foco (L1-22), y tres
+> preguntas: 30 o 60 s por foto, ¿viaja en auto?, ¿cuánto armado? (§11.1).
+>
+> **2026-10-07 (décima sesión).** El orden:
 > **1) escribir `docs/10-requisitos.md`** con los criterios de la cátedra (IISE
 > m17, m21), el GtWR y NASA — necesidades `N-xx` → `L0` → `L1` → `L2` con
 > trazabilidad, tipo, rationale, método de verificación, `TBD`/`TBR`, qué falta
