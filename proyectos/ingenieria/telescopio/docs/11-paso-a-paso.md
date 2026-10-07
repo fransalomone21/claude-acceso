@@ -1,15 +1,17 @@
 # Paso a paso — qué hacer y en qué orden
 
-**Para Fran y Kevin.** Versión 3, 7 de octubre de 2026. Fuente en el repo:
+**Para Fran y Kevin.** Versión 4, 7 de octubre de 2026. Fuente en el repo:
 `proyectos/ingenieria/telescopio/docs/11-paso-a-paso.md`.
 
 > **Esto es sólo lo que hay que hacer.** El porqué está en «1 - El proyecto».
 > **Hoy no se corta, no se suelda y no se compra nada grande.** Primero hay que
 > cerrar un número: la **altura del centro de masa** (hoy «63 cm, pero puede ser
 > entre 58 y 69»). De ese número depende la forma de las dos chapas, que es lo
-> único que no se arregla después. **Los dibujos de cómo medirlo están en el
-> modelo 3D**, en la sección «Lo que destraba todo»:
-> https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd
+> único que no se arregla después, y la muesca de cada telescopio en la
+> corredera. **Los dibujos de cómo medirlo están acá abajo** (pasos 1 y 2) y,
+> para imprimir o tener en el celular, en el PDF **«Medir el centro de masa»**
+> de esta misma carpeta, con la tabla para llenar. El modelo 3D (versión 10,
+> con el 200 y un 12"): https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd
 
 ## Para Fran: los deberes antes de la próxima sesión (7 de octubre)
 
@@ -22,7 +24,7 @@ del celular): lo que no tiene foto, la sesión no lo puede dar por hecho.
 | A | **El vuelco** de la montura sin tubo | paso 1 de abajo. Anotá **hA, A** (tres veces), **hB, B** (tres veces) y **W**, en cm y grados | una tarde, con Kevin |
 | B | **La altura del eje** | paso 2 de abajo. Dos lecturas, en cm | 5 min |
 | C | **La prueba de foco** con la Sony | de día, cámara sin lente con el adaptador en el portaocular, apuntá a algo lejano (una antena, un edificio a más de 200 m) y girá el portaocular de punta a punta. Anotá: **¿se ve nítido? sí o no**. Si no, ¿mejora yendo para adentro o para afuera, y se acaba el recorrido antes? Una foto de la pantalla en el mejor punto | 10 min |
-| D | **Tres respuestas** | 1) **¿30 o 60 segundos por foto?** 2) **¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?** Si viaja: qué auto, o el largo y el ancho del baúl. 3) **¿Cuánto armado te parece bien**, del depósito al primer sub? (hoy el papel dice 20 min) | una decisión cada una |
+| D | **Cuatro respuestas** | 1) **¿30 o 60 segundos por foto?** (con Kevin: cierra también la transmisión, F o T2) 2) **¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?** Si viaja: qué auto, o el largo y el ancho del baúl. 3) **¿Cuánto armado te parece bien**, del depósito al primer sub? (hoy el papel dice 20 min) 4) **¿Cuánto para pasar del 200 al 12"?** (hoy el papel dice 15 min) | una decisión cada una |
 | E | El inventario con calibre | paso 3 de abajo | 1 hora |
 | F | El amigo metalúrgico | paso 5 de abajo: ¿torno? ¿electrodo o MIG? | un mensaje |
 
@@ -49,6 +51,8 @@ armado. Los números que cada respuesta cambia están en «Requisitos»
 ### 1. El vuelco (el paso importante)
 Da la altura del centro de masa de la montura. Sin levantar 40 kg.
 
+![El vuelco: la montura sin el tubo, en equilibrio sobre un canto](img/cdm-vuelco.png)
+
 - **Qué:** la montura **con la caja puesta y sin el tubo**.
 - **Qué necesitás:** un listón de tope, un almohadón, una soga, cinta métrica y
   el celular con una app de nivel.
@@ -63,8 +67,14 @@ Da la altura del centro de masa de la montura. Sin levantar 40 kg.
      veces.
   5. Lo mismo sobre el canto opuesto: **hB** y **B**.
   6. Medí **W**: la distancia entre los dos cantos sobre los que volcó.
+
+![Los cantos A y B y la distancia W, vistos desde arriba](img/cdm-cantos.png)
+
 - **Antes, el control del celular:** en el piso marca 0, dado vuelta también
   0, contra el marco de una puerta 90. Si no, no se le cree.
+
+![El control del celular: 0, 0 y 90](img/cdm-celular.png)
+
 - **Seguridad:** uno sostiene la soga, el otro lee. Nunca con el tubo puesto.
 - **Salió bien si:** A ≈ 24° y hA ≈ 16 a 17 cm (con W = 40), y las tres
   lecturas de cada lado dan lo mismo ±0,5 cm.
@@ -72,6 +82,8 @@ Da la altura del centro de masa de la montura. Sin levantar 40 kg.
 ### 2. La altura del eje
 Con el tubo puesto, horizontal y sin cámara: cinta del piso al **centro del
 eje de altura** (el buje de la caja). Dos veces. Se espera ≈ 82,5 cm.
+
+![La altura del eje: del piso al centro del buje](img/cdm-eje.png)
 
 ### 3. Inventario, con calibre
 Foto de cada cosa **donde se lea el texto** y la medida al lado:

@@ -6,6 +6,8 @@ El HTML se sube a Drive con conversion a Google Doc. La fuente sigue siendo
 el .md: el Doc se regenera, no se edita a mano lo que viene del repo.
 Paleta: la del modelo 3D (06-modelo-3d.html), para que se reconozcan.
 """
+import base64
+import os
 import re
 import sys
 
@@ -35,14 +37,26 @@ def estilos(html):
     return s
 
 
+def incrustar(html, base):
+    """Las imagenes locales (![...](img/x.png)) van adentro del HTML en base64: Google Docs las
+    guarda al importar (probado el 2026-10-07 con un borrador: la imagen volvio en el export)."""
+    def una(m):
+        ruta = os.path.join(base, m.group(2))
+        if not os.path.exists(ruta):
+            sys.exit("ROJO: la imagen %s no existe" % ruta)
+        b64 = base64.b64encode(open(ruta, "rb").read()).decode()
+        return '<img alt="%s" src="data:image/png;base64,%s" width="600">' % (m.group(1), b64)
+    return re.sub(r'<img alt="([^"]*)" src="([^"]+\.png)" ?/?>', una, html)
+
+
 def main(src, dst):
     md = open(src, encoding="utf-8").read()
-    html = markdown.markdown(md, extensions=["tables"])
+    html = incrustar(markdown.markdown(md, extensions=["tables"]), os.path.dirname(os.path.abspath(src)))
     if "<h1>" not in html:
         sys.exit("ROJO: el .md no tiene titulo '# ...' y el encabezado no se puede poner")
     out = '<html><head><meta charset="utf-8"></head><body style="%s">%s</body></html>' % (BODY, estilos(html))
     open(dst, "w", encoding="utf-8").write(out)
-    print("OK %s -> %s (%d caracteres, %d tablas)" % (src, dst, len(out), out.count("<table")))
+    print("OK %s -> %s (%d caracteres, %d tablas, %d imagenes)" % (src, dst, len(out), out.count("<table"), out.count("<img")))
 
 
 if __name__ == "__main__":

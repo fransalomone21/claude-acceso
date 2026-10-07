@@ -202,8 +202,8 @@ function computeVNS(P) {
 
 // La corredera (v10): cuanto hay que correr el dobson al norte (dN, m) para que
 // el centro de masa de TODO lo que gira caiga sobre el eje. Forma cerrada: la
-// altura del CdM no depende de dN, y el eje sube hacia el sur con pendiente
-// 1/tan(phi) por metro, asi que basta pedir rr paralelo a d en el plano y-z.
+// altura del CdM no depende de dN, y el eje sube hacia el sur tan(phi) por
+// metro (0,687 a 34,5 grados), asi que basta pedir rr paralelo a d en el plano y-z.
 // Las chapas no dependen de dN: una sola corrida de computeVNS alcanza.
 function dNEquilibrio(P) {
   const g = computeVNS({ ...P, dN: 0 });

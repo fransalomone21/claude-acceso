@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medir el centro de masa</title>
+<!-- Hoja para el celular y para imprimir: los pasos 1 y 2 de docs/11-paso-a-paso.md dibujados.
+     Fuente unica de los dibujos (L1-15). PDF: msedge --headless --print-to-pdf. Una figura sola
+     (para pegar en un Doc): ?fig=vuelco | cantos | celular | eje. -->
+<style>
+@page{size:A4;margin:12mm}
+:root{--ink:#15202c;--muted:#5a6878;--accent:#b8650a;--line:#cfd7e1;--soft:#eef1f5;--ok:#2f7d4f;--bad:#c83a32}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font:15px/1.45 Arial,Helvetica,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:16px}
+h1{font-size:26px;margin:0 0 4px} h2{font-size:20px;margin:22px 0 6px;color:var(--accent)} h3{font-size:16px;margin:14px 0 4px}
+.sub{color:var(--muted);margin:0 0 10px}
+figure{margin:10px 0;break-inside:avoid} figcaption{font-size:13px;color:var(--muted);margin-top:4px}
+svg{display:block;width:100%;height:auto}
+.dim{stroke:#5a6878;stroke-width:1.2;fill:none} .dimF{stroke:#15202c;stroke-width:2;fill:none}
+.t{font:15px Arial,sans-serif;fill:#5a6878} .tb{font:bold 17px Arial,sans-serif;fill:#15202c} .tr{font:bold 17px Arial,sans-serif;fill:#b8650a}
+.wall{fill:#f4efe6;stroke:#15202c;stroke-width:1.4} .plate{fill:#e2d3b8;stroke:#15202c;stroke-width:1.4}
+.tubo{fill:#dfe6ee;stroke:#15202c;stroke-width:1.4} .floor{stroke:#15202c;stroke-width:2.4}
+.cg{fill:#b8650a} .phone{fill:#15202c} .roll{fill:none;stroke:#b8650a;stroke-width:2}
+ol{padding-left:22px;margin:6px 0} li{margin:3px 0}
+.box{border-left:4px solid var(--accent);background:#fdf3e6;padding:8px 12px;margin:10px 0;break-inside:avoid}
+.box.bad{border-left-color:var(--bad);background:#fbeceb}
+table{border-collapse:collapse;width:100%;margin:8px 0;break-inside:avoid}
+th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;font-size:14px}
+th{background:var(--soft);color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+td.v{height:26px}
+@media print{#f-eje svg{max-width:500px;margin:0 auto}}
+.page{break-before:page}
+.solo .wrap>*{display:none} .solo .wrap>figure.on{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Medir el centro de masa del dobson</h1>
+  <p class="sub">Dos mediciones, una tarde, entre dos (Fran y Kevin), sin levantar los 40 kg. Es lo que destraba la forma de las chapas: la plataforma entera depende de este número. Pasos 1 y 2 de «2 - Paso a paso».</p>
+
+  <h2>1. El vuelco: la montura sin el tubo</h2>
+  <figure id="f-vuelco"><div id="vuelco"></div><figcaption>De costado. La montura, con la caja trabada y <b>sin el tubo</b>, apoyada sobre un canto largo e inclinada hasta que queda en equilibrio: ni vuelve ni se cae. En ese punto el centro de masa está justo arriba del canto.</figcaption></figure>
+  <h3>Qué necesitás</h3>
+  <p>Un listón de tope, un almohadón, una soga, cinta métrica y el celular con una app de nivel (la brújula del iPhone tiene «Nivel»; en Android, cualquier «Bubble level»).</p>
+  <h3>Cómo</h3>
+  <ol>
+    <li><b>Sacá el tubo.</b> Trabá la caja (cinta o una cuña) y la base giratoria: si no, se mueven al inclinar.</li>
+    <li>El <b>listón en el piso</b> contra uno de los cantos largos, para que no resbale. El <b>almohadón</b> del lado de la caída.</li>
+    <li>Inclinala <b>despacio</b> sobre ese canto, con la <b>soga floja</b> del otro lado, hasta el equilibrio.</li>
+    <li>Ahí el otro mide <b>hA</b>: del piso al canto levantado de la base fija, con cinta. Y apoya el celular <b>de plano contra la pared grande</b>: marca el ángulo <b>A</b>. <b>Tres veces</b> (soltás, volvés a inclinar, medís).</li>
+    <li>Lo mismo sobre el <b>canto opuesto</b>: <b>hB</b> y <b>B</b>, tres veces.</li>
+    <li>Medí <b>W</b>: la distancia entre los dos cantos sobre los que volcó (dibujo de abajo).</li>
+  </ol>
+  <figure id="f-cantos"><div id="cantos"></div><figcaption>La base fija vista desde arriba: los dos cantos largos son A y B, y W es la distancia entre ellos (se espera 40 cm).</figcaption></figure>
+  <figure id="f-celular"><div id="celular"></div><figcaption>Antes de medir, el control del celular: si no da 0, 0 y 90, no se le cree (se usa sólo la cinta).</figcaption></figure>
+  <div class="box bad"><b>Seguridad.</b> Uno sostiene la soga, el otro lee. <b>Nunca con el tubo puesto.</b> Si empieza a irse, se suelta hacia el almohadón: la montura se repara, una persona no.</div>
+  <div class="box"><b>Salió bien si:</b> A ≈ 24° y hA ≈ 16 a 17 cm (con W = 40), y las tres lecturas de cada lado dan lo mismo ±0,5 cm. Si da muy distinto, se repite.</div>
+
+  <h2 class="page">2. La altura del eje</h2>
+  <figure id="f-eje"><div id="eje"></div><figcaption>Con el tubo puesto, horizontal y sin cámara: cinta del piso al <b>centro del eje de altura</b> (el buje de la caja). Dos veces. Se espera ≈ 82,5 cm.</figcaption></figure>
+
+  <h2>3. La tabla (mandá foto: lo que no tiene foto no se da por hecho)</h2>
+  <table>
+    <tr><th></th><th>1.ª</th><th>2.ª</th><th>3.ª</th></tr>
+    <tr><td><b>hA</b> (cm)</td><td class="v"></td><td></td><td></td></tr>
+    <tr><td><b>A</b> (grados)</td><td class="v"></td><td></td><td></td></tr>
+    <tr><td><b>hB</b> (cm)</td><td class="v"></td><td></td><td></td></tr>
+    <tr><td><b>B</b> (grados)</td><td class="v"></td><td></td><td></td></tr>
+    <tr><td><b>W</b> (cm)</td><td class="v"></td><td colspan="2" style="color:var(--muted)">una vez</td></tr>
+    <tr><td><b>Altura del eje</b> (cm)</td><td class="v"></td><td></td><td style="color:var(--muted)">dos veces</td></tr>
+    <tr><td><b>Control del celular</b></td><td class="v">piso:</td><td>dado vuelta:</td><td>puerta:</td></tr>
+  </table>
+  <h3>La cuenta (la hace la sesión)</h3>
+  <p style="font-family:Consolas,monospace;background:var(--soft);padding:8px 10px">h_montura = W / (tan A + tan B), A = asen(hA / W)<br>H = (19,2 × h_eje + 19,7 × h_montura) / 38,9</p>
+  <p>Con lo esperado: h_montura ≈ 44 cm y <b>H ≈ 63 cm</b>. Cada medio grado de error mueve H unos 3 mm, mejor que el centímetro que pide la chapa (requisito L1-15).</p>
+</div>
+<script>
+(function(){
+  const k=4, D2R=Math.PI/180, A=24.4*D2R;
+  const rot=(u,v,ox,oy,a)=>[ox+k*(u*Math.cos(a)-v*Math.sin(a)),oy-k*(u*Math.sin(a)+v*Math.cos(a))];
+  const P=(p)=>p.map((x)=>x.toFixed(1)).join(',');
+  const poly=(pts,cls,ox,oy,a)=>'<polygon class="'+cls+'" points="'+pts.map((p)=>P(rot(p[0],p[1],ox,oy,a))).join(' ')+'"/>';
+  const R=(u0,v0,u1,v1)=>[[u0,v0],[u1,v0],[u1,v1],[u0,v1]];
+  // la montura de costado, medida el 4/10: base fija 2 cm, tacos, base movil, pared grande 79,6, caja 31 x 27
+  const montura=(ox,oy,a)=>poly(R(0,5.5,40,85.1),'wall',ox,oy,a)+poly(R(0,0,40,2),'plate',ox,oy,a)+poly(R(0,3.5,40,5.5),'plate',ox,oy,a)
+    +poly(R(3,2,6,3.5),'plate',ox,oy,a)+poly(R(34,2,37,3.5),'plate',ox,oy,a)+poly(R(0,5.5,2,25.5),'plate',ox,oy,a)+poly(R(38,5.5,40,25.5),'plate',ox,oy,a);
+  const T=(x,y,t,c,anc)=>'<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" class="'+(c||'t')+'"'+(anc?' text-anchor="'+anc+'"':'')+'>'+t+'</text>';
+  const arrow='<defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5a6878"/></marker></defs>';
+  // 1. el vuelco
+  let ox=250, oy=470, s='<svg viewBox="0 0 640 510" role="img" aria-label="La montura sin el tubo inclinada sobre un canto, con el centro de masa justo encima del canto">'+arrow;
+  s+='<line x1="10" y1="'+oy+'" x2="630" y2="'+oy+'" class="floor"/>'+T(16,oy+22,'piso');
+  s+='<rect x="'+(ox-16)+'" y="'+(oy-12)+'" width="14" height="12" class="plate"/>'+T(ox-30,oy+22,'listón de tope','t','end');
+  s+='<ellipse cx="'+(ox-150)+'" cy="'+(oy-11)+'" rx="56" ry="11" class="plate"/>'+T(ox-150,oy-30,'almohadón','t','middle');
+  s+=montura(ox,oy,A)+poly(R(4.5,69,35.5,96),'plate',ox,oy,A);
+  const bc=rot(20,82.5,ox,oy,A);s+='<circle cx="'+bc[0].toFixed(1)+'" cy="'+bc[1].toFixed(1)+'" r="16" class="roll"/>'+T(10,84,'caja trabada,','tb')+T(10,104,'sin el tubo','tb')+'<line x1="110" y1="100" x2="'+(bc[0]-14).toFixed(1)+'" y2="'+(bc[1]-4).toFixed(1)+'" class="dim"/>';
+  s+=poly(R(24,30,32,46),'phone',ox,oy,A);const ph=rot(33,40,ox,oy,A);s+='<line x1="'+(ph[0]-2).toFixed(1)+'" y1="'+ph[1].toFixed(1)+'" x2="366" y2="'+(ph[1]-6).toFixed(1)+'" class="dim"/>'+T(370,ph[1]-4,'celular de plano','tb')+T(370,ph[1]+16,'contra la pared grande → A','t');
+  s+='<line x1="'+ox+'" y1="'+oy+'" x2="'+ox+'" y2="30" class="dim" stroke-dasharray="7 5"/>'+T(ox-8,40,'vertical del canto','t','end');
+  const cg=rot(20,44,ox,oy,A);s+='<circle cx="'+cg[0].toFixed(1)+'" cy="'+cg[1].toFixed(1)+'" r="8" class="cg"/>';
+  s+='<line x1="'+(cg[0]-10).toFixed(1)+'" y1="'+(cg[1]+4).toFixed(1)+'" x2="150" y2="'+(cg[1]+52).toFixed(1)+'" class="dim"/>'+T(10,cg[1]+62,'centro de masa:','tr')+T(10,cg[1]+82,'justo arriba','tr')+T(10,cg[1]+102,'del canto','tr');
+  const ra=56;s+='<path d="M'+(ox+ra)+','+oy+' A'+ra+','+ra+' 0 0 0 '+(ox+ra*Math.cos(A)).toFixed(1)+','+(oy-ra*Math.sin(A)).toFixed(1)+'" class="dimF"/>'+T(ox+ra+6,oy-6,'A ≈ 24°','tb');
+  const cr=rot(40,0,ox,oy,A);s+='<line x1="'+cr[0].toFixed(1)+'" y1="'+oy+'" x2="'+cr[0].toFixed(1)+'" y2="'+cr[1].toFixed(1)+'" class="dimF" marker-start="url(#fl)" marker-end="url(#fl)"/>'+T(cr[0]+8,(oy+cr[1])/2+6,'hA ≈ 16-17 cm','tb')+T(cr[0]+8,(oy+cr[1])/2+26,'(cinta, del piso al canto levantado)','t');
+  const rp=rot(40,80,ox,oy,A);s+='<path d="M'+rp[0].toFixed(1)+','+rp[1].toFixed(1)+' Q'+(rp[0]+60).toFixed(1)+','+(rp[1]+10).toFixed(1)+' 610,'+(rp[1]-40).toFixed(1)+'" class="dim" stroke-dasharray="5 4"/>'+T(612,rp[1]-78,'soga floja','tb','end')+T(612,rp[1]-58,'(el otro la sostiene)','t','end');
+  s+=T(ox+4,oy+22,'canto de apoyo','t');
+  document.getElementById('vuelco').innerHTML=s+'</svg>';
+  // 1b. los cantos, desde arriba
+  ox=170;oy=40;s='<svg viewBox="0 0 640 250" role="img" aria-label="La base fija vista desde arriba con los cantos A y B y la distancia W">'+arrow;
+  s+='<rect x="'+ox+'" y="'+oy+'" width="'+(4*43)+'" height="'+(4*40)+'" class="plate"/>'+T(ox+86,oy+86,'base fija','tb','middle')+T(ox+86,oy+106,'43 × 40 cm','t','middle');
+  s+='<line x1="'+ox+'" y1="'+oy+'" x2="'+(ox+172)+'" y2="'+oy+'" style="stroke:#b8650a;stroke-width:6"/>'+T(ox+86,oy-10,'canto A (largo)','tr','middle');
+  s+='<line x1="'+ox+'" y1="'+(oy+160)+'" x2="'+(ox+172)+'" y2="'+(oy+160)+'" style="stroke:#b8650a;stroke-width:6"/>'+T(ox+86,oy+186,'canto B (el opuesto)','tr','middle');
+  s+='<line x1="'+(ox+200)+'" y1="'+oy+'" x2="'+(ox+200)+'" y2="'+(oy+160)+'" class="dimF" marker-start="url(#fl)" marker-end="url(#fl)"/>'+T(ox+210,oy+86,'W ≈ 40 cm','tb')+T(ox+210,oy+106,'entre los dos cantos','t');
+  s+=T(20,oy+40,'Primero vuelca','t')+T(20,oy+60,'sobre A (hA, A),','t')+T(20,oy+90,'después sobre B','t')+T(20,oy+110,'(hB, B).','t');
+  document.getElementById('cantos').innerHTML=s+'</svg>';
+  // 1c. el control del celular: 0, 0 y 90
+  s='<svg viewBox="0 0 640 210" role="img" aria-label="Control del celular: en el piso 0, dado vuelta 0, contra el marco de una puerta 90">';
+  const cel=(x,y,w,h,txt)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="6" class="phone"/>'+T(x+w/2,y+h/2+6,txt,'t','middle').replace('class="t"','class="t" style="fill:#fff;font-weight:bold"');
+  s+='<line x1="20" y1="150" x2="200" y2="150" class="floor"/>'+cel(50,138,120,12,'')+T(110,125,'0°','tb','middle')+T(110,180,'en el piso','t','middle');
+  s+='<line x1="230" y1="150" x2="410" y2="150" class="floor"/>'+cel(260,138,120,12,'')+T(320,125,'0°','tb','middle')+T(320,180,'girado media vuelta','t','middle');
+  s+='<rect x="500" y="20" width="18" height="135" class="plate"/>'+cel(518,50,12,100,'')+T(560,105,'90°','tb')+T(560,180,'contra el marco','t','middle')+T(560,198,'de una puerta','t','middle');
+  document.getElementById('celular').innerHTML=s+'</svg>';
+  // 2. la altura del eje
+  ox=330;oy=440;s='<svg viewBox="0 0 640 470" role="img" aria-label="El dobson con el tubo puesto y la cinta del piso al centro del eje de altura">'+arrow;
+  s+='<line x1="10" y1="'+oy+'" x2="630" y2="'+oy+'" class="floor"/>'+montura(ox,oy,0);
+  s+=poly(R(-67.5,69.85,68,95.15),'tubo',ox,oy,0)+poly(R(4.5,69,35.5,96),'plate',ox,oy,0)+T(30,210,'tubo puesto,','tb')+T(30,230,'horizontal y sin cámara','tb');
+  const e=rot(20,82.5,ox,oy,0);s+='<circle cx="'+e[0]+'" cy="'+e[1]+'" r="16" class="roll"/><circle cx="'+e[0]+'" cy="'+e[1]+'" r="4" class="cg"/>'+T(e[0]-20,30,'centro del eje (el buje)','tr')+'<line x1="'+(e[0]+8)+'" y1="'+(e[1]-14)+'" x2="'+(e[0]+60)+'" y2="36" class="dim"/>';
+  const xd=ox-40;s+='<line x1="'+xd+'" y1="'+oy+'" x2="'+xd+'" y2="'+e[1]+'" class="dimF" marker-start="url(#fl)" marker-end="url(#fl)"/><line x1="'+e[0]+'" y1="'+e[1]+'" x2="'+(xd-6)+'" y2="'+e[1]+'" class="dim" stroke-dasharray="5 4"/>'+T(xd-10,oy-150,'altura del eje','tb','end')+T(xd-10,oy-130,'≈ 82,5 cm','tb','end')+T(xd-10,oy-110,'(cinta, dos veces)','t','end');
+  document.getElementById('eje').innerHTML=s+'</svg>';
+  // una figura sola, para pegar en un Doc
+  const f=new URLSearchParams(location.search).get('fig');
+  if(f){document.body.classList.add('solo');const el=document.getElementById('f-'+f);if(el)el.classList.add('on');}
+})();
+</script>
+</body>
+</html>
