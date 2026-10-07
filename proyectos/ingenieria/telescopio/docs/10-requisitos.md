@@ -11,6 +11,12 @@ con los TBR resueltos.
 > L1-30 y L2-PLT-14 a L2-PLT-17 (el 17: el dobson no se agujerea); cambia L2-PLT-05 (de 12 cm de ajuste al
 > rango de centro de masa de los dos telescopios); M-03 sale de las metas. El
 > estudio que lo sostiene: `docs/14-concepto-300mm.md`.
+>
+> **El mismo día, a la noche: el modelo pasa al v10** (la plataforma
+> «terminada» con la mesa universal). Ningún enunciado cambia: cambian la
+> columna **3D**, §9 y §10 (qué cumple y qué muestra el modelo) y cinco
+> rationales con números del v10 (L1-14, L1-21, L2-PLT-05, L2-PLT-12,
+> L2-PLT-15).
 
 Escrito con los libros abiertos: `perfil-global/pilares/nucleo-ise.md` §4, el
 INCOSE GtWR (`incose-gtwr/reglas.md`), la cátedra de IISE (m17 y m21) y NASA
@@ -30,7 +36,7 @@ hacer y cuán bien (L1), y lo que le toca a cada **parte** (L2): la plataforma
 
 Cada requisito dice cómo se va a comprobar y si su número ya está firme
 (**definido**), es una estimación con su porqué (**TBR**) o falta del todo
-(**TBD**). La columna **3D** dice si el modelo v9 ya lo muestra.
+(**TBD**). La columna **3D** dice si el modelo v10 ya lo muestra.
 
 Lo que falta para que esta lista sea la definitiva está en §11, y lo que sólo
 Fran puede decidir, en §11.1.
@@ -117,7 +123,7 @@ niveles de abajo.
 | L0-12 | La misión deberá tomar los subs con la cámara Sony en foco primario. | interfaz | N-10 | demostración | TBR | no |
 | L0-13 | La misión deberá tomar subs con el celular en modo afocal. | interfaz | N-10 | demostración | definido | no |
 | L0-14 | La misión deberá dejar en la plataforma una entrada para el autoguiador de una etapa posterior. | interfaz | N-11 | inspección | definido | no |
-| L0-15 | La misión deberá seguir el cielo con el dobson de 300 mm sobre la plataforma del dobson de 200 mm. | funcional | N-12 | demostración | TBR | no |
+| L0-15 | La misión deberá seguir el cielo con el dobson de 300 mm sobre la plataforma del dobson de 200 mm. | funcional | N-12 | demostración | TBR | sí |
 
 ## 5. Sistema (L1) — qué tiene que hacer y cuán bien
 
@@ -127,10 +133,10 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 |---|---|---|---|---|---|---|---|
 | L1-01 | Mientras la plataforma sigue el cielo, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 30 s. | desempeño | L0-02 | PLT, MON, OPE | ensayo | TBR | no |
 | L1-02 | El sistema deberá seguir el cielo durante no menos de 60 min por carrera sin intervención del operador. | desempeño | L0-01 | PLT | ensayo | definido | sí |
-| L1-03 | Cuando el operador pulsa el botón de rebobinado, el sistema deberá volver la mesa al comienzo de la carrera en no más de 5 minutos. | funcional | L0-01 | PLT | demostración | TBR | no |
+| L1-03 | Cuando el operador pulsa el botón de rebobinado, el sistema deberá volver la mesa al comienzo de la carrera en no más de 5 minutos. | funcional | L0-01 | PLT | demostración | TBR | parcial |
 | L1-04 | Cuando la mesa llega al final de la carrera, el sistema deberá detener el giro de la mesa. | otros: seguridad | L0-09 | PLT | ensayo | definido | sí |
-| L1-05 | El sistema deberá seguir el cielo con la electrónica de la plataforma como único control. | restricción | L0-08 | PLT | inspección | definido | parcial |
-| L1-06 | El sistema deberá operar no menos de 4 horas por noche con la energía de una batería portátil. | desempeño | L0-08 | PLT | ensayo | TBR | no |
+| L1-05 | El sistema deberá seguir el cielo con la electrónica de la plataforma como único control. | restricción | L0-08 | PLT | inspección | definido | sí |
+| L1-06 | El sistema deberá operar no menos de 4 horas por noche con la energía de una batería portátil. | desempeño | L0-08 | PLT | ensayo | TBR | parcial |
 | L1-07 | El sistema deberá llevar el tubo en la montura dobson existente. | restricción | L0-05 | MON | inspección | definido | sí |
 | L1-08 | Mientras la plataforma sigue el cielo, el sistema deberá permitir el apuntado manual del tubo en altura y en azimut. | funcional | L0-04 | MON | demostración | definido | sí |
 | L1-09 | El sistema deberá seguir el cielo a una latitud de 34,5 grados sur con una tolerancia de 1 grado. | ambiental | L0-01 | PLT, OPE | análisis | TBR | sí |
@@ -144,17 +150,17 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 | L1-17 | El sistema deberá quedar listo para el primer sub en no más de 20 min desde la salida del depósito. | otros: factor humano | L0-10 | OPE | demostración | TBR | no |
 | L1-18 | El sistema deberá quedar en estación sobre un piso con un desnivel de no más de 3 cm entre apoyos. | desempeño | L0-10 | PLT | demostración | TBR | sí |
 | L1-19 | El sistema deberá acumular no menos de 30 min de exposición por objeto en una noche. | desempeño | L0-01 | PLT, OPE | demostración | TBR | no |
-| L1-20 | El sistema deberá mantener la base del dobson fija a la mesa en cada posición de la carrera. | otros: seguridad | L0-09 | PLT | ensayo | definido | parcial |
+| L1-20 | El sistema deberá mantener la base del dobson fija a la mesa en cada posición de la carrera. | otros: seguridad | L0-09 | PLT | ensayo | definido | sí |
 | L1-21 | El sistema deberá recibir la montura del dobson con una elevación de no más de 30 cm desde el piso. | otros: factor humano | L0-07 | PLT | inspección | TBR | sí |
 | L1-22 | El sistema deberá formar la imagen del telescopio en foco sobre el sensor de la cámara Sony en foco primario. | funcional | L0-12 | CAM | ensayo | TBD | no |
 | L1-23 | El sistema deberá formar la imagen en foco sobre el celular detrás del ocular de 25 mm. | funcional | L0-13 | CAM | ensayo | definido | no |
 | L1-24 | Cuando el operador cambia el ocular por el tren de imagen, el sistema deberá mantener el apuntado del tubo. | funcional | L0-02 | MON, CAM | demostración | definido | no |
-| L1-25 | El sistema deberá aceptar correcciones de seguimiento de un autoguiador externo. | interfaz | L0-14 | PLT | demostración | definido | no |
+| L1-25 | El sistema deberá aceptar correcciones de seguimiento de un autoguiador externo. | interfaz | L0-14 | PLT | demostración | definido | parcial |
 | L1-26 | Con un error de alineación polar de no más de 30 minutos de arco, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 10 s. | desempeño | L0-11 | PLT, OPE | análisis | TBR | no |
 | L1-27 | Con el dobson de 300 mm sobre la mesa, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 30 s. | desempeño | L0-15 | PLT, OPE | análisis | TBR | no |
-| L1-28 | El sistema deberá llevar el dobson de 300 mm con las chapas, los rodillos y el motor del dobson de 200 mm. | restricción | L0-15 | PLT | inspección | definido | no |
-| L1-29 | Cuando el operador cambia de telescopio, el sistema deberá quedar listo para seguir el cielo en no más de 15 minutos con herramientas de mano. | otros: factor humano | L0-15 | PLT, OPE | demostración | TBR | no |
-| L1-30 | El sistema deberá seguir el cielo con una carga giratoria de no más de 62 kg. | desempeño | L0-15 | PLT | análisis | TBR | no |
+| L1-28 | El sistema deberá llevar el dobson de 300 mm con las chapas, los rodillos y el motor del dobson de 200 mm. | restricción | L0-15 | PLT | inspección | definido | sí |
+| L1-29 | Cuando el operador cambia de telescopio, el sistema deberá quedar listo para seguir el cielo en no más de 15 minutos con herramientas de mano. | otros: factor humano | L0-15 | PLT, OPE | demostración | TBR | parcial |
+| L1-30 | El sistema deberá seguir el cielo con una carga giratoria de no más de 62 kg. | desempeño | L0-15 | PLT | análisis | TBR | sí |
 
 ## 6. Elementos (L2)
 
@@ -166,19 +172,19 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 | L2-PLT-02 | La plataforma deberá mantener el corrimiento de la imagen causado por la plataforma en no más de 1,5 segundos de arco en cada intervalo de 30 s. | desempeño | L1-01 | ensayo | TBR | no |
 | L2-PLT-03 | La plataforma deberá girar la mesa a la velocidad sidérea con un error medio de no más de 0,2 % medido sobre 10 minutos. | desempeño | L1-01 | ensayo | TBR | parcial |
 | L2-PLT-04 | La plataforma deberá apoyar en el piso en tres puntos regulables en altura con un recorrido de no menos de 3 cm. | restricción | L1-18 | inspección | definido | sí |
-| L2-PLT-05 | La plataforma deberá poner sobre el eje polar el centro de masa de un dobson ubicado entre 50 y 69 cm sobre el piso de la base del dobson, sin cortar piezas. | desempeño | L1-15 | demostración | TBR | parcial |
+| L2-PLT-05 | La plataforma deberá poner sobre el eje polar el centro de masa de un dobson ubicado entre 50 y 69 cm sobre el piso de la base del dobson, sin cortar piezas. | desempeño | L1-15 | demostración | TBR | sí |
 | L2-PLT-06 | Cuando la mesa alcanza 45 min de giro desde el centro de la carrera, el programa de la plataforma deberá detener el motor. | otros: seguridad | L1-04 | ensayo | definido | sí |
 | L2-PLT-07 | Cuando la mesa alcanza 48 min de giro desde el centro de la carrera, el fin de carrera deberá cortar el movimiento del motor con independencia del programa. | otros: seguridad | L1-04 | ensayo | definido | sí |
 | L2-PLT-08 | La plataforma deberá detener la mesa con un tope mecánico a 51 min de giro desde el centro de la carrera. | otros: seguridad | L1-04 | ensayo | definido | sí |
 | L2-PLT-09 | Cuando se corta el cable de un fin de carrera, la plataforma deberá detener el motor. | otros: seguridad | L1-04 | ensayo | definido | no |
 | L2-PLT-10 | La plataforma deberá entregar en la mesa un par de giro de no menos de 2 veces el par de una ráfaga de 40 km/h sobre el tubo. | desempeño | L1-12 | análisis | TBR | no |
-| L2-PLT-11 | La plataforma deberá aceptar órdenes de corrección de velocidad por una entrada de autoguiado ST-4. | interfaz | L1-25 | demostración | TBR | no |
-| L2-PLT-12 | La plataforma deberá fijar la base del dobson a la mesa en 3 puntos con uniones de ajuste a mano. | interfaz | L1-20 | inspección | definido | no |
+| L2-PLT-11 | La plataforma deberá aceptar órdenes de corrección de velocidad por una entrada de autoguiado ST-4. | interfaz | L1-25 | demostración | TBR | parcial |
+| L2-PLT-12 | La plataforma deberá fijar la base del dobson a la mesa en 3 puntos con uniones de ajuste a mano. | interfaz | L1-20 | inspección | definido | sí |
 | L2-PLT-13 | La plataforma desarmada deberá dar piezas de no más de 125 cm de largo. | otros: factor humano | L1-16 | inspección | TBD | parcial |
-| L2-PLT-14 | La mesa deberá recibir una base de dobson de no más de 70 cm de diámetro. | interfaz | L1-28 | inspección | TBR | no |
-| L2-PLT-15 | La corredera de la mesa deberá repetir cada posición marcada con un error de no más de 2 mm. | desempeño | L1-29 | ensayo | TBR | no |
+| L2-PLT-14 | La mesa deberá recibir una base de dobson de no más de 70 cm de diámetro. | interfaz | L1-28 | inspección | TBR | parcial |
+| L2-PLT-15 | La corredera de la mesa deberá repetir cada posición marcada con un error de no más de 2 mm. | desempeño | L1-29 | ensayo | TBR | parcial |
 | L2-PLT-16 | Cada chapa deberá soportar una carga de 25 kg en el contacto con el rodillo con una presión de contacto de no más de 350 MPa. | desempeño | L1-30 | análisis | TBR | no |
-| L2-PLT-17 | Cada fijación del dobson deberá tomar el borde de la base del dobson sin perforar la base. | interfaz | L1-28 | inspección | definido | no |
+| L2-PLT-17 | Cada fijación del dobson deberá tomar el borde de la base del dobson sin perforar la base. | interfaz | L1-28 | inspección | definido | sí |
 
 ### 6.2 Montura (MON)
 
@@ -207,7 +213,7 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 | L2-OPE-01 | El procedimiento de puesta en estación deberá alinear el eje polar a no más de 7 minutos de arco del polo celeste sur. | desempeño | L1-01 | ensayo | TBR | no |
 | L2-OPE-02 | El procedimiento de puesta en estación deberá alinear el eje polar sin ver el polo celeste sur. | funcional | L1-01 | demostración | definido | no |
 | L2-OPE-03 | Con las marcas del piso, el procedimiento de puesta en estación deberá repetir la alineación polar en no más de 2 minutos. | desempeño | L1-17 | demostración | TBR | no |
-| L2-OPE-04 | Las marcas del piso deberán conservar la posición de cada apoyo con un error de no más de 1 mm después de la lluvia. | ambiental | L1-17 | inspección | TBR | no |
+| L2-OPE-04 | Las marcas del piso deberán conservar la posición de cada apoyo con un error de no más de 1 mm después de la lluvia. | ambiental | L1-17 | inspección | TBR | parcial |
 
 ## 7. Rationale
 
@@ -290,8 +296,10 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   dobson solo» (`docs/13` §8): el dobson solo aguanta unos 6 kg de empujón en
   la boca, 59 N [cálculo, `probable`]. TBR hasta medir el dobson solo.
 - **L1-14** — El umbral con que ya juzga el modelo v9 (verde desde 22 grados).
-  Su origen no estaba escrito: queda TBR hasta la fase 1. El v9 da 24,1 grados
-  al sur y de costado [cálculo, `geometria-vns.js` con los valores del modelo].
+  Su origen no estaba escrito: queda TBR hasta la fase 1. El v9 daba 24,1
+  grados; el v10, con la mesa universal, da 23,5 con el 200 y entre 22,0 y 23,7
+  con los 12" de la envolvente: todos cumplen [cálculo, `geometria-vns.js`;
+  `node docs/escenarios-300.js`, sección v10].
 - **L1-15** (**KDR**) — Si el centro de masa no cae en el eje, el motor tiene
   que sostener el desbalance y la velocidad cambia con la posición de la mesa.
   La altura del centro de masa es lo que fija la forma de las chapas, y hoy
@@ -310,8 +318,9 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   se desliza. Lo baja L2-PLT-12.
 - **L1-21** — ConOps paso 1: el dobson se sube a la mesa sin levantarlo
   entero. La montura sin el tubo pesa unos 20 kg y se levanta poco; el tubo se
-  pone después. El v9 deja la cara de arriba de la mesa a 22,6 cm del piso
-  [cálculo]: cumple con margen. 30 cm es estimación de la sesión. TBR.
+  pone después. El v9 dejaba la cara de arriba de la mesa a 22,6 cm del piso;
+  en el v10 el dobson apoya sobre rieles de 2 cm: 24,6 cm [cálculo]. Cumple con
+  margen. 30 cm es estimación de la sesión. TBR.
 - **L1-22** (**KDR**) — Riesgo R1: la falla clásica del newtoniano es que el
   portaocular no tiene recorrido hacia adentro y la cámara no llega a foco.
   **TBD** hasta la prueba P0 (diez minutos de día). Es compuerta antes de
@@ -356,7 +365,9 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   ampliada el 2026-10-07 por N-12: el rango junta el del 200 (58 a 69 cm, sin
   medir) con el de la envolvente del 300 (50 a 62 cm, `hipótesis`). Con la
   plataforma v9 eso pide ≈ 28 cm de corredera norte-sur (`node
-  docs/escenarios-300.js`), o menos con suplemento. Cambió de «12 cm de ajuste
+  docs/escenarios-300.js`), o menos con suplemento. Con la mesa del v10 (rieles
+  arriba, ≈ 11 kg, más larga al norte) pide ≈ 25 cm, de 5,9 al sur a 18,8 al
+  norte, sin suplemento; la muesca la calcula `dNEquilibrio` en forma cerrada. Cambió de «12 cm de ajuste
   de altura» a «el rango de centro de masa», que es lo que se verifica. TBR
   hasta medir el 200.
 - **L2-PLT-06** a **L2-PLT-08** — Pedido de Fran del 2026-10-04: tres capas
@@ -373,18 +384,18 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   autoguiador.
 - **L2-PLT-12** — Pedido de Kevin (bujes, bulones y mariposas) con la cantidad
   que propuso: **tres** puntos, que no renguean, como los apoyos. A mano,
-  porque de noche no se busca una llave. **El modelo v9 tiene cuatro: no
-  cumple.** Con N-12 vale para los dos dobson: en el 300 comercial, cómo se
-  toma la base (agujerearla o tomarla del borde con tres topes) es una
-  pregunta para Fran (§11.1).
+  porque de noche no se busca una llave. El v9 tenía cuatro bulones y no
+  cumplía; **el v10 cumple con tres mordazas de borde** (L2-PLT-17). Con N-12
+  vale para los dos dobson; cómo se toma la base del 300 lo contestó Fran: sin
+  agujerear (§11.1).
 - **L2-PLT-13** — Kevin: «desarmada entra en el baúl». **TBD**: falta saber si
   la plataforma viaja en auto, y el tamaño del baúl (§11.1).
 - **L2-PLT-14** — La base de los 12" del mercado mide 63 a 66 cm (`docs/14`
   §3); 70 cm deja margen. Hoy la mesa mide 54 × 60 cm: crece. TBR.
 - **L2-PLT-15** — Es la «chaveta» de Kevin (2026-10-07): el tornillo entra en
   una muesca y la fuerza la lleva la planchuela, no el rozamiento. 2 mm de
-  corredera mueven el centro de masa 1,4 mm respecto del eje, muy dentro del
-  centímetro de L1-15 [cálculo]. Sin posiciones marcadas, cada cambio de
+  corredera mueven el centro de masa ≈ 1,1 mm respecto del eje (2 mm × sen
+  34,5°; la v0.2 decía 1,4), muy dentro del centímetro de L1-15 [cálculo]. Sin posiciones marcadas, cada cambio de
   telescopio sería recalibrar (CAL-1). TBR.
 - **L2-PLT-16** — Asignado de L1-30: 25 kg por rodillo es el peor caso de la
   envolvente con margen (la cuenta da 19,7, `docs/14` §4). 350 MPa deja ≈ 10 %
@@ -460,58 +471,68 @@ Una meta se persigue pero no se exige: fallarla no es fallar el proyecto
 
 ## 9. Del diseño al requisito — qué decisión cumple qué
 
-La traza para el otro lado: cada decisión del concepto v9 (PDP §6, `docs/13`)
-tiene que apuntar a un requisito. **Una decisión que no apunta a ninguno es un
-huérfano**: o falta el requisito, o sobra la decisión.
+La traza para el otro lado: cada decisión del concepto (PDP §6, `docs/13`,
+`docs/14`) tiene que apuntar a un requisito. **Una decisión que no apunta a
+ninguno es un huérfano**: o falta el requisito, o sobra la decisión. Desde el
+2026-10-07 a la noche, contra el modelo **v10**.
 
 | Decisión de diseño | Cumple | Comentario |
 |---|---|---|
 | VNS con pivote al norte y chapas al sur | L2-PLT-01, L2-PLT-04, L1-09 | arquitectura elegida |
-| chapas de acero cortadas a láser; **5/16"** desde la 0.2 (era 1/4") | L2-PLT-02, L2-PLT-03, L2-PLT-16 | el canto es una de las dos piezas de precisión; el espesor lo pide el 300 |
-| mesa universal: corredera norte-sur con posiciones marcadas | L1-28, L2-PLT-05, L2-PLT-15 | U1 de `docs/14`, elegido por Fran el 2026-10-07; **el v9 no la tiene** |
-| mesa de ≈ 70 cm de ancho | L2-PLT-14 | **el v9 mide 60** |
+| chapas de acero cortadas a láser, **5/16"** | L2-PLT-02, L2-PLT-03, L2-PLT-16 | el canto es una de las dos piezas de precisión; el espesor lo pide el 300 |
+| mesa universal: tres rieles sobre tres largueros, corredera norte-sur con una muesca por telescopio | L1-28, L2-PLT-05, L2-PLT-15 | U1 de `docs/14`; **el v10 la tiene**: ≈ 25 cm de corredera cubren la envolvente |
+| rieles a ±17 cm que reciben bases de hasta 70 cm (la base del 12" sobresale de los rieles) | L2-PLT-14 | dónde apoyan las patitas del 12" se cierra con el modelo que se compre (interfaz con un sistema existente) |
+| tres mordazas de borde con pestaña y tornillo de mano | L2-PLT-12, L2-PLT-17, L1-20 | **el v10 las tiene**; falta probar que aguantan la mesa inclinada 10,5° |
 | rodillo motriz torneado; rodillo loco de cuatro 608 | L2-PLT-02, L2-PLT-03 | la otra pieza de precisión |
-| correa GT2 20:80 | L2-PLT-02 | sin juego; el término más grande del error periódico |
+| transmisión F: fricción + correa GT2 20:80 (respaldo T2) | L2-PLT-02 | ningún error que se repita adentro de un sub (`docs/14` §6) |
 | NEMA 17 de 4 kg·cm + TMC2209 | L2-PLT-10, L1-03 | |
-| ESP32 | L1-05, L2-PLT-06, M-01, M-02 | la elección de placa la empujan las metas de Kevin |
+| ESP32 con botón de rebobinado y ficha ST-4, en caja sobre la viga sur | L1-05, L1-03, L2-PLT-11, M-01, M-02 | la elección de placa la empujan las metas de Kevin |
+| batería en la viga sur | L1-06 | su capacidad sale del banco |
 | tres capas de tope (45, 48, 51 min) | L2-PLT-06 a 08 | |
-| fines de carrera normalmente cerrados | L2-PLT-09 | |
-| rodillos a 50 cm | L1-13 | 6,9 kg contra 6 del dobson solo |
+| fines de carrera normalmente cerrados, en escuadra a la viga sur | L2-PLT-09 | en v9 el soporte flotaba |
+| marcas del piso bajo cada pata | L2-OPE-03, L2-OPE-04 | |
+| rodillos a 50 cm | L1-13 | 6,8 kg con el 200; **5,5 con el 12" liviano: no cumple** (rodillos a 58 cm y base de 1,3 m lo arreglan) |
 | base triangular de 1,2 m | L1-14, L2-PLT-04 | |
 | tubo 20 × 20 con planchuela de canto en la viga sur y el brazo | L2-PLT-02, L1-16 | la flexión entra en el error de la plataforma |
 | viga sur abulonada | L2-PLT-13 | TBD: el baúl |
 | poste de 10 cm en el pivote | L2-PLT-13 | acorta la base; sin el baúl medido, es un huérfano a medias |
 | rótula de amortiguador en el pivote | L2-PLT-02 | cero juego |
-| suplementos bajo el dobson y ranuras en los largueros | L2-PLT-05 | |
-| ~~bulones con buje y mariposa para el dobson~~ → **tres mordazas de borde con pisador sobre los rieles** (2026-10-07) | L2-PLT-12, L2-PLT-17 | **el v9 tiene 4 bulones que agujerean: no cumple ninguno de los dos** |
-| eje a unos 54 cm sobre la mesa | L1-15 | sale de 63 cm sin medir |
-| soporte de cámara intercambiable | L2-CAM-01, L2-CAM-02 | |
+| ~~suplementos bajo el dobson~~ → **salieron en el v10**: los reemplaza la corredera | L2-PLT-05 | |
+| ~~bulones con buje y mariposa~~ → mordazas (arriba) | L2-PLT-12, L2-PLT-17 | |
+| eje a 54 cm sobre la mesa | L1-15 | con la muesca del 200 a 2,8 cm al norte, sale de 63 cm sin medir |
+| soporte de cámara intercambiable | L2-CAM-01, L2-CAM-02 | no está en el modelo |
 
-**Lo que el v9 no cumple de la 0.2:** la corredera (L1-28, L2-PLT-15), el
-ancho de la mesa (L2-PLT-14) y el espesor de las chapas (L2-PLT-16).
+**Lo que el v10 todavía no cumple de la 0.2:** el empujón del 12" liviano
+(L1-13, depende de la envolvente). **Lo que no se puede ver en el modelo:** la
+presión de contacto (L2-PLT-16, cálculo en «Lo que importa»), el error de
+seguimiento (L1-01, L1-27) y el tiempo de cambio (L1-29).
 
 **Huérfanos de hoy:** ninguno entero. El poste del pivote queda a medias
-(acorta la base, pero el requisito del baúl es TBD), y la **cantidad de
-bulones del dobson del modelo contradice a L2-PLT-12**.
+(acorta la base, pero el requisito del baúl es TBD).
 
-## 10. Qué representa el modelo 3D v9
+## 10. Qué representa el modelo 3D v10
 
-La columna **3D** de las tablas, explicada. El modelo es demostrativo: muestra
-la forma; **ningún número del modelo es para cortar** (PDP §6, 2026-10-07).
+La columna **3D** de las tablas, explicada. El modelo es un **diseño
+preliminar**: muestra la plataforma «terminada» con lo confirmado, lo probable
+y lo en revisión (el tilde «pintar por certeza» los separa); **ningún número
+del modelo es para cortar** (PDP §6, 2026-10-07). Y mide «Piezas sueltas»: un
+grafo de contacto que tiene que dar «ninguna».
 
 | Lo muestra | Requisitos |
 |---|---|
 | el eje polar a 34,5 grados y la mesa girando con el reloj de la carrera | L2-PLT-01, L1-02, L1-09 |
 | las tres capas de tope (leva y microswitches, talones) | L1-04, L2-PLT-06 a 08 |
-| las tres patas regulables | L2-PLT-04, L1-18 |
-| el suplemento bajo el dobson y el centro de masa | L1-15; L2-PLT-05 a medias (el control llega a 5 cm) |
-| el panel: vuelco, empujón de costado, altura de la mesa | L1-13, L1-14, L1-21 |
+| las tres patas regulables y sus marcas en el piso | L2-PLT-04, L1-18, L2-OPE-04 a medias |
+| el centro de masa de todo lo que gira, sobre el eje, con la muesca de cada telescopio | L1-15, L2-PLT-05 |
+| el selector 200 / 12" de la envolvente, con las mismas chapas, rodillos y motor | L0-15, L1-28, L1-30 |
+| los rieles, las muescas de los dos telescopios y las tres mordazas | L2-PLT-12, L2-PLT-17, L1-20; L2-PLT-14 y L2-PLT-15 a medias |
+| el panel: vuelco, empujón y kg por rodillo, telescopio por telescopio; altura del dobson | L1-13, L1-14, L1-21 |
+| la caja de la electrónica con el botón y la ficha ST-4, y la batería | L1-05; L1-03, L1-06, L1-25, L2-PLT-11 a medias |
 | la viga sur abulonada | L2-PLT-13 a medias |
 | el dobson y la montura actuales | L0-05, L1-07, L1-08 |
-| la fijación del dobson | L1-20 a medias: **4 bulones, el requisito pide 3** |
 
 No lo muestra: el tren de imagen, los frenos de la montura, el error de
-seguimiento, la electrónica más allá del motor, la operación.
+seguimiento, la presión de contacto, la operación.
 
 ## 11. Lo que falta definir, y quién lo cierra
 
@@ -522,10 +543,10 @@ seguimiento, la electrónica más allá del motor, la operación.
 | 30 o 60 s por sub | L1-01 y todo lo asignado | **Fran**: una decisión |
 | ¿viaja en auto? ¿qué baúl? | L2-PLT-13, L1-09 | **Fran** (§11.1) |
 | los números estimados por la sesión (rebobinado, autonomía, desnivel, tiempo de armado, marcas, frenos) | los TBR | la sesión, en la fase 1, con las mediciones del banco y del vuelco |
-| la altura de la mesa (22,6 cm) y su inclinación al final (10,5 grados) | L1-21, L2-MON-02, L2-MON-03 | **hecho**, del modelo, el 2026-10-07 |
+| la altura de la mesa (22,6 cm; 24,6 sobre los rieles del v10) y su inclinación al final (10,5 grados) | L1-21, L2-MON-02, L2-MON-03 | **hecho**, del modelo, el 2026-10-07 |
 | la envolvente del 300 (masa, centro de masa, base) | L0-15, L1-30, L2-PLT-05, L2-PLT-14 | datos de catálogo hoy; se confirma con el modelo que se compre |
 | cómo se toma la base del 300 a la mesa | L2-PLT-12 | **Fran** (§11.1) |
-| el vuelco y el empujón con el 200 en el borde alto de su rango (18,4°) y el 300 liviano (5,3 kg) | L1-13, L1-14 | el vuelco medido del 200; si no alcanza, la base se ensancha |
+| el empujón con el 12" liviano (5,5 kg en el v10; el vuelco del 200 en el borde alto ya cumple: 22,6°) | L1-13, L1-14 | el 12" que se compre; si es liviano, rodillos a 58 cm y base de 1,3 m |
 
 ### 11.1 Preguntas para Fran (de valor, no técnicas)
 
