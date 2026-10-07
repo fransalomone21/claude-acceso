@@ -1,5 +1,11 @@
 # La plataforma en planchuela de hierro (2026-10-05)
 
+> **2026-10-07: la sección de cada pieza cambió.** Lo que hay es tubo 20 × 20
+> (más planchuela, T y ángulo), y la mesa pasó a H + A: manda
+> `13-revision-externa.md` §5. De acá sigue valiendo: por qué la mesa entra en
+> el centro de masa, la altura del poste, la base de 1,2 m, el motor y soldar /
+> abulonar.
+
 Pedido de Fran: la plataforma de **hierro**, no de madera, para que no haya
 puntos débiles al torque (el brazo de la mesa al pivote). Kevin propuso la
 base **triangular** o con ángulos de refuerzo. El material es el que hay:

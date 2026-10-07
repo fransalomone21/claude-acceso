@@ -1,10 +1,56 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-05 (séptima sesión) · **Fase al cerrar:** 0 (Concebir,
-Pre-Fase A) — **abierta**; arquitectura cerrada (VNS), masa ≈ 40 kg por dos
-caminos, CdM ≈ 63 cm (58 a 69, falta el segundo método), plataforma de hierro
-con base triangular ancha de 1,2 m (modelo v8); **P0 aparcada** (compuerta
-antes de comprar el aluminio) e inventario con filas en `?`.
+**Escrito el:** 2026-10-07 (novena sesión, PC, cuenta de Agus y Fran) ·
+**Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**; arquitectura
+cerrada (VNS), concepto de materiales y mecanismo propuesto (`docs/13`), CdM
+≈ 63 cm (58 a 69) **sin medir**, P0 aparcada, inventario con filas en `?`.
+
+## Novena sesión (2026-10-07, PC): revisión de afuera y modelo v9
+
+- **Nube traída**: la rama `claude/eloquent-meitner-7ubqo3` (sesión 8,
+  `docs/12`) entró a `main` por fast-forward. Ninguna otra rama remota tiene
+  commits del telescopio fuera de `main` (medido).
+- **Revisión de afuera**: `docs/13-revision-externa.md`. Arquitectura bien;
+  proceso flojo (8 sesiones de diseño, 0 mediciones del CdM). Corregidos: el
+  rodillo de 40 (el contacto camina para UN lado: 0 a 12,6 mm), el ángulo de
+  vuelco esperado (≈ 24°, no 34°) y la polea de v8 montada en un rodillo loco.
+  Verificado que **no hay deslizamiento lateral** en el rodillo (la chapa avanza
+  en la dirección en que gira) y que el radio del rodillo sólo corre la mesa
+  0,4 mm constantes.
+- **Mecanismo**: rodillo motriz de acero torneado fijo a un eje de 8 mm
+  (varilla de impresora) en dos 608; rodillo loco de cuatro 608 de roller en
+  varilla de impresora; GT2 20:80 comprada; engranajes y correas de casetera
+  NO van en la transmisión. Dos piezas de precisión: el canto de las chapas
+  (láser, sin lima) y el rodillo motriz (torno).
+- **Estructura** con lo que hay (tubo 20 × 20): tubo solo donde la luz es
+  corta; tubo + planchuela de canto en la viga sur de la base y en el brazo.
+  Mesa en H + A. Rodillos a **50 cm** (la mesa aguanta 6,9 kg de empujón).
+- **Fran (2026-10-07)**: «planos sólo si hay partes aprobadas; si no, sigamos
+  las fases NASA» → **no se hicieron planos**. Un 12" «quizás algún día» → no
+  se diseña; tres puertas abiertas (PDP §6).
+- **Geometría**: `geometria-vns.js` devuelve el recorrido del contacto con
+  signo (`latLo/latHi/latSwing/latCenter`), el ancho de rodillo que hace falta
+  (`rollNeed`, `rollOK`) y el empujón que levanta la mesa (`empujeMesa`).
+  Controles: 12 verdes, sabotajes en rojo. `?v=9`.
+- **Modelo v9** publicado **desde esta cuenta**:
+  https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd. El de la cuenta personal
+  (`K4hfyQRik4xsJYYXv5sFeM`) quedó en v8: se actualiza sólo desde esa cuenta,
+  con `url` y leyéndolo antes. Trae capas, bulones, unidades de rodillo y los
+  dibujos del vuelco y de h_eje.
+- **Docs**: `07` v4 y `11` v3 reescritos y subidos al Drive (mismos IDs,
+  medidos). `03`, `09`, `12` y el contrato, alineados. PDP: R5 reescrito, R9 y
+  R10 nuevos, tres decisiones nuevas.
+
+## Arrancá por acá
+
+1. `.\cascada.ps1 telescopio -Necesidad diseno` y leer lo que exija.
+2. `ESTADO_ACTUAL.md` entero, `docs/13-revision-externa.md` entero y
+   `docs/11-paso-a-paso.md` (v3).
+3. **Preguntarle a Fran qué trajo de los pasos 1 a 6** (hA, hB, A, B, W,
+   h_eje; el inventario; 30 o 60 s; si el amigo tiene torno). Con hA/hB/W/h_eje:
+   `h_montura = W / (tan A + tan B)`, `A = asen(hA/W)`,
+   `H = (19,2 h_eje + 19,7 h_montura) / 38,9`; si cae en 58-69, cierra el CdM
+   por dos métodos. **No diseñar antes de eso.**
 
 ## Octava sesión (2026-10-07, nube): crítica de la arquitectura y método de vuelco
 
@@ -18,18 +64,7 @@ cantos** + h_eje con cinta reemplazan la tabla y el «todo plano».
 **Pendiente de Fran:** qué dobson futuro como máximo (fija H y la carga).
 **Falta hacer (la sesión):** dibujos en perspectiva de la medición, modelo v9,
 planos por capa y reescribir `11-paso-a-paso.md`. Ninguno se hizo: el plan de
-Fran estaba agotado.
-
-## Arrancá por acá
-
-1. `.\cascada.ps1 telescopio -Necesidad diseno,publicar` y leer lo que exija.
-2. `ESTADO_ACTUAL.md` entero y `docs/11-paso-a-paso.md` (el orden vigente).
-3. **Preguntarle a Fran qué hizo de los nueve pasos** (balanza, P3, P4, medidas
-   chicas, inventario, rodillo de Kevin, motor en banco). Lo que traiga del P3
-   y el P4 entra al modelo (`Hreal`, `Hdis = Hbal` en `docs/06-modelo-3d.html`)
-   y se republica al mismo link (mismo `file_path` + `files` con
-   `geometria-vns.js`; si el live difiere de lo local, leerlo primero con
-   `read` y `path`).
+Fran estaba agotado. (La novena sesión los hizo, salvo los planos: ver arriba.)
 
 ## Séptima sesión (2026-10-05, noche): observaciones de Kevin y documentos
 
@@ -185,6 +220,56 @@ portaocular y dice que «se ve sin aumento»: ver la fila de foco en
 - **El modelo SolidWorks no se revisó pieza por pieza.**
 
 ## Mensaje de retome (chat nuevo)
+
+Escrito el 2026-10-07 (novena sesión), sin recortes:
+
+```
+Proyecto: telescopio (plataforma VNS del 200/1200), en claude-acceso, en la PC.
+Modelo: Opus, esfuerzo medium, SIN fan-out: cerrar el CdM con datos y la revision
+de fase; sube a high solo si una medicion cambia la arquitectura.
+
+0. EL LIBRO: si ~/.claude/CLAUDE.md no empieza con "# Perfil global":
+   bash .claude/nube/traer-perfil.sh (desde claude-acceso) y leer lo que liste.
+   Despues: git fetch origin; si alguna rama claude/* tiene commits del telescopio
+   fuera de main (git log main..<rama> -- proyectos/ingenieria/telescopio), traerla.
+1. .\cascada.ps1 telescopio -Necesidad diseno  y leer TODO lo que exija.
+2. Leer ENTERO: ESTADO_ACTUAL.md, docs/13-revision-externa.md (manda sobre 12),
+   el bloque "Novena sesion" de HANDOFF.md, docs/11-paso-a-paso.md (v3).
+   NO leer CAD, macro VBA ni fotos. 06-modelo-3d.html y geometria-vns.js solo al
+   tocarlos (si cambia geometria-vns.js, subir el ?v= del <script>, hoy 9).
+3. Fase 0 (Pre-Fase A). La cierra: CdM por 2 metodos que coinciden (vuelco + h_eje
+   contra la composicion de pesadas 58-69; la tabla de canos solo de desempate),
+   P0 foco (aparcada; compuerta antes de mandar a cortar las chapas), inventario
+   sin "?", y la revision de cierre con Fran y Kevin.
+4. Estado: concepto v9 (docs/13): chapas acero 1/4" laser, rodillo motriz torneado
+   fijo a eje de 8 mm en dos 608, rodillo loco 4x608 en varilla de impresora,
+   GT2 20:80, ESP32, tubo 20x20 con vigas compuestas (viga sur y brazo), mesa H+A,
+   rodillos a 50 cm, poste 10 cm. Masa ~40 kg, CdM ~63 cm (58-69). NO HAY PLANOS
+   (Fran: solo con partes aprobadas). Artifact v9 en la cuenta de Agus y Fran:
+   https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd -> desde otra conversacion
+   pasar url, leerlo antes, publicar con files {"geometria-vns.js": docs/geometria-vns.js}.
+   El de la cuenta personal (K4hfyQRik4xsJYYXv5sFeM) quedo en v8.
+   Local: preview_start "telescopio-modelo" (8765).
+   Controles: node docs/probar-geometria.js (12 OK, sabotajes en rojo).
+   Drive: "1 - El proyecto" (07, ID 1wrzPpizxcblHVY3Zd1vyjZxawaTfdZc2wzDKFsbEwTw) y
+   "2 - Paso a paso" (11, ID 1rpFTUuDcQvkzbma_9PBBHFBuVl9N3Tce_U9WsTQoUs0):
+   python docs/md-a-gdoc.py <md> <html> + rclone copyto --config ~/.config/rclone/rclone.conf
+   --drive-import-formats html --drive-export-formats html al mismo nombre;
+   verificar el ID con rclone lsf --format pi.
+5. Resuelto, no se rehace: VNS, espejo sur, limites 45/48/51, geometria del dobson,
+   pesadas, docs/12 corregido por 13, no hay deslizamiento lateral, el contacto
+   camina para un lado (rodillo de 28-30 centrado alcanza), sin engranajes ni
+   correas de casetera en la transmision, el 12" no se disena (3 puertas abiertas).
+6. PRIMER PASO: preguntarle a Fran que trajo: hA, hB, A, B, W, h_eje; inventario
+   (pared de los tubos, varillas de 8,00?, cuantos 608, balanza); 30 o 60 s por
+   foto; si el amigo tiene torno. Con eso: h_montura = W/(tan A + tan B),
+   A = asen(hA/W), H = (19,2 h_eje + 19,7 h_montura)/38,9. Si cae en 58-69: CdM
+   cerrado por dos metodos; Hreal al modelo, Hdis = Hbal, republicar, regenerar Docs.
+7. Si pide MEDIR la puerta: el efecto es que cascada.ps1 imprima "EXIGIDO POR LA
+   PUERTA (T11) para telescopio" con sus rangos.
+```
+
+### El de la séptima sesión (superado, queda de historia)
 
 Escrito el 2026-10-05, sin recortes:
 

@@ -81,12 +81,21 @@ function computeVNS(P) {
     const r = sub(Pt, C);
     const R = norm(sub(r, mul(d, dot(r, d))));
     const edge = [];
-    let latMax = 0;
+    // Donde cae el contacto a lo ancho del rodillo (a lo largo de su eje), con
+    // signo. Es CUADRATICO en el angulo: 0 en el centro de la carrera y hacia el
+    // MISMO lado en las dos puntas. No es deslizamiento: la chapa va girada
+    // respecto del rodillo y el punto de contacto camina por el rodillo, como el
+    // cruce de las hojas de una tijera (2026-10-07). El rodillo se centra en el
+    // medio de ese recorrido (latCenter) y su ancho tiene que cubrir latSwing.
+    let latMax = 0, latLo = 0, latHi = 0, latRunLo = 0, latRunHi = 0;
     for (let k = 0; k <= N; k++) {
       const th = -thMax + (2 * thMax * k) / N;
       const Q = rotAbout(Pt, C, d, -th);
       const w = sub(Q, Pt);
-      latMax = Math.max(latMax, Math.abs(dot(w, nh)));
+      const lat = dot(w, nh);
+      latMax = Math.max(latMax, Math.abs(lat));
+      latLo = Math.min(latLo, lat); latHi = Math.max(latHi, lat);
+      if (Math.abs(th) <= thRun + 1e-12) { latRunLo = Math.min(latRunLo, lat); latRunHi = Math.max(latRunHi, lat); }
       edge.push({ th, u: dot(w, uh), z: Q[2] });
     }
     const sp = [];
@@ -99,7 +108,8 @@ function computeVNS(P) {
     // donde cae el rodillo sobre la chapa (coordenada u) a cada angulo de limite
     const uAt = (th) => dot(sub(rotAbout(Pt, C, d, -th), Pt), uh);
     const lim = { run: [uAt(-thRun), uAt(thRun)], sw: [uAt(-thSw), uAt(thSw)], stop: [uAt(-thStop), uAt(thStop)] };
-    return { Pt, uh, nh, R, edge, latMax, speedVar, beta: angBeta, lim,
+    const latSwing = latHi - latLo, latCenter = (latHi + latLo) / 2;
+    return { Pt, uh, nh, R, edge, latMax, latLo, latHi, latSwing, latCenter, latRunSwing: latRunHi - latRunLo, speedVar, beta: angBeta, lim,
       chord: Math.max(...us) - Math.min(...us), uMin: Math.min(...us), uMax: Math.max(...us),
       zEdgeMin: Math.min(...zs), zEdgeMax: Math.max(...zs) };
   }); }
@@ -163,7 +173,20 @@ function computeVNS(P) {
   const distEdge = (a, b) => Math.abs((b[1] - a[1]) * (Cg[0] - a[0]) - (b[0] - a[0]) * (Cg[1] - a[1])) / Math.hypot(b[0] - a[0], b[1] - a[1]);
   const mSur = distEdge(feet[0], feet[1]), mLado = Math.min(distEdge(feet[0], feet[2]), distEdge(feet[1], feet[2]));
   const vuelcoSur = Math.atan(mSur / Cg[2]) / D2R, vuelcoLado = Math.atan(mLado / Cg[2]) / D2R;
+
+  // La mesa APOYA en sus tres puntos (pivote y dos rodillos), no esta abulonada:
+  // un empujon de costado en la boca del tubo la levanta de un rodillo. Margen =
+  // distancia del CdM de lo que gira a la linea pivote-rodillo; empuje = los kg
+  // que la levantan, aplicados a 1,3 m del piso (la convencion de estabilidad-base.js).
+  const lineDist = (a, b) => Math.abs((b[1] - a[1]) * (Cg[0] - a[0]) - (b[0] - a[0]) * (Cg[1] - a[1])) / Math.hypot(b[0] - a[0], b[1] - a[1]);
+  const mesaMargen = Math.min(...rollers.map((r) => lineDist(pivotAbs, r.Pt)));
+  const empujeMesa = Mtot * mesaMargen / Math.max(0.1, 1.3 - rollers[0].Pt[2]);
+  // Rodillo (ancho rollW) y chapa (espesor plateT): el contacto tiene que quedar
+  // sobre el rodillo en todo el recorrido, con 3 mm de changui a cada lado.
+  const rollW = P.rollW != null ? P.rollW : 0.030, plateT = P.plateT != null ? P.plateT : 0.00635;
+  const rollNeed = Math.max(...rollers.map((r) => r.latSwing)) + plateT + 0.006;
   return {
+    mesaMargen, empujeMesa, rollW, plateT, rollNeed, rollOK: rollNeed <= rollW + 1e-12,
     d, thMax, thRun, thSw, thStop, swMin, stopMin, TALON, ztt, groundTop, ySouth, yNorthTab, yPlate, W, TAB, RROLL, FEET, BASE,
     C: Cabs, pivot: pivotAbs, rollers, Creal, Cg, Ctab, Mtot, Hbal,
     loads: { pivote: F[0], este: F[1], oeste: F[2] },

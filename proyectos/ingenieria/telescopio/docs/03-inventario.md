@@ -24,12 +24,13 @@ Estado: `tengo` / `tengo pero no sé el modelo` / `no tengo` / `?` (sin revisar)
 
 | # | Pieza, por nombre | Estado | Modelo / dato |
 |---|---|---|---|
-| M1 | **rulemanes**: cuántos y qué número grabado (¿`608ZZ`? exterior 22 mm) | `?` | |
-| M2 | **varilla roscada M8** y su largo útil; tuercas M8 | `?` | hay una **varilla guía lisa de ≈ 8 mm** en la impresora desarmada (fotos 45, 54): sirve de eje de rodillo |
+| M1 | **rulemanes**: cuántos y qué número grabado (¿`608ZZ`? exterior 22 mm) | `tengo pero no sé el modelo` | **de roller** (Fran, 2026-10-07). Hacen falta **6**: 4 para el rodillo loco y 2 para el eje motriz. Falta: contarlos y leer el número |
+| M2 | **varillas lisas de impresora** (ejes de los dos rodillos) | `tengo pero no sé el modelo` | Fran, 2026-10-07: «las varillas de la impresora». Falta: **diámetro con calibre (tiene que ser 8,00)** y largo; hacen falta 2 tramos de ≈ 10 cm. La varilla roscada ya no va (sin transmisión por tornillo) |
+| M10 | **hierros**: tubo ≈ 20 × 20, planchuelas de 30 a 60, algún T, ángulos | `tengo pero no sé el modelo` | Fran, 2026-10-07. Falta de cada uno: sección exacta, **espesor de pared** y metros (paso 3 del Paso a paso) |
 | M3 | **resorte** de precarga, cualquiera que estire | `no aplica` | el VNS apoya por gravedad: no lleva precarga (diseño de 2026-10-04, `05-trade-study.md`) |
 | M4 | **multilaminado**: espesores que hay y medida de los retazos | `no aplica` como estructura (la mesa y la base son de hierro, `09-estructura-hierro.md`); sirve de **suplemento** bajo el dobson | los retazos que haya alcanzan |
 | M5 | **correa GT2** y poleas (para 4:1 hacen falta dos, tipo 20 y 80 dientes) | `?` | |
-| M6 | **engranajes** recuperados de las videograbadoras: cuántos, de qué paso | `no aplica` | la reducción es una correa GT2 20:80, no engranajes |
+| M6 | **engranajes y correas** recuperados de impresoras y caseteras | `no aplica` | la reducción es una correa GT2 20:80 comprada. Los rescatados no van en la transmisión: plástico con juego, paso desconocido y correas de goma que se estiran (`13-revision-externa.md` §4) |
 | M7 | **tornillería**: bulones largos, arandelas, tuercas mariposa | `?` | hacen falta 4 **mariposas M8** y 4 bulones M8 fresados para fijar el dobson (paso 5 del Paso a paso) |
 | M8 | **caño** del que salieron los tacos de PVC: ¿sobra? diámetro | `no aplica` | los bujes de la fijación del dobson salen de cualquier tramo de caño |
 | M9 | **teflón o PTFE** en plancha, o el disco de vinilo de repuesto | `no aplica` | el pivote es una rótula en un cono engrasado, sin teflón |

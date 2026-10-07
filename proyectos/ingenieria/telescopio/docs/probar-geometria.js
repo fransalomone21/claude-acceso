@@ -20,6 +20,12 @@ const controles = [
     const L = r.lim, sg = Math.sign(L.run[i]);   // que lado de la chapa es cual lo dice la geometria, no el indice
     return sg * L.run[i] < sg * L.sw[i] && sg * L.sw[i] < sg * L.stop[i] && sg * L.stop[i] + g.RROLL < (sg > 0 ? r.uMax : -r.uMin);
   })), { stopMin: 2 }],
+  // 2026-10-07: el contacto camina por el rodillo para UN solo lado (0 en el centro).
+  // La nube lo leyo como +-13,7 y pidio un rodillo de 40 mm; centrado alcanza con 30.
+  ['el contacto camina para un solo lado (cuadratico, 0 en el centro)', (g) => g.rollers.every((r) => Math.min(-r.latLo, r.latHi) < 0.0005 && r.latSwing > 0.005), null],
+  ['rodillo de 30 mm centrado: el contacto no se sale en todo el recorrido', (g) => g.rollOK, { rollW: 0.012 }],
+  // La mesa apoya, no esta atada: un empujon de costado en la boca la levanta de un rodillo.
+  ['la mesa aguanta un empujon de costado de 4 kg o mas en la boca del tubo', (g) => g.empujeMesa >= 4, { half: 0.04 }],
 ];
 
 let fallas = 0;

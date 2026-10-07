@@ -1,5 +1,12 @@
 # Crítica de la arquitectura preliminar y un método de medición más fácil
 
+> **Corregido el 2026-10-07 por `13-revision-externa.md`, que manda.** Dos
+> errores: el «±13,7 mm» de §2 es un recorrido **para un solo lado** (0 a 12,6
+> mm; centrado alcanza un rodillo de 25 mm, no hace falta uno de 40), y el
+> ángulo esperado de §6 es **≈ 24°**, no 34°. Y §4 recomendaba tubo de 40 × 20
+> o 30 × 30: lo que hay es 20 × 20, y se resuelve con tubo + planchuela de canto
+> donde hay luz larga.
+
 **Escrito el 2026-10-07**, a pedido de Fran: «evaluá el diseño como un
 espectador que sabe mucho de ingeniería y va a criticarlo», más las
 propuestas de Kevin (rodillo de poliuretano, varilla roscada con tuerca).

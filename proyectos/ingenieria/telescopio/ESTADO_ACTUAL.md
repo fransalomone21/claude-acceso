@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-05
+**Última actualización:** 2026-10-07 (novena sesión)
 
 ## Dónde estamos
 
@@ -43,6 +43,9 @@ Faltan las mediciones y el inventario.
 | **Base al piso: triángulo de 1,2 m de ancho** (no cuadrada): vuelco de costado 17,8° → 25,0°, al sur 24,4° (manda el sur desde 1,2 m); una cuadrada tiene el mismo borde sur, cuatro patas que renguean y ≈ 1 m más de planchuela. **Soldar** marco, brazo, cartelas, triángulo y poste; **abulonar** travesaño del sur (baúl), soportes de rodillos (ranurados), aluminio y dobson (mariposas) | pregunta de Kevin + decisión de Fran («se sueldan, o abulonan si vos lo recomendás»), `node docs/estabilidad-base.js`, control con sabotaje en `probar-geometria.js` (9 verdes, 7 rojos), modelo v8 | 2026-10-05 |
 | **Motor: NEMA 17 de ≈ 4 kg·cm** (el de 1,6 kg·cm deja 2,6× contra una ráfaga de 40 km/h, el de 4 deja 6,5×) | cálculo (`09-estructura-hierro.md` (sección Motor)); las cifras de viento y rozamiento son estimaciones propias | 2026-10-05 |
 | **Documentos separados por pedido de Fran:** `07-guia-armado.md` = el concepto del proyecto; `11-paso-a-paso.md` = los pasos en orden, en criollo, con la parte formal FAB/CAL al final. Mismos nombres en el Drive («1 - El proyecto…», «2 - Paso a paso…») | Fran, 2026-10-05; IDs del Drive verificados | 2026-10-05 |
+| **El contacto camina por el rodillo para UN solo lado**: 0 en el centro de la carrera, 12,6 mm en las puntas (7,6 dentro de ±45 min); es geometría, no deslizamiento. Centrado, alcanza un rodillo de 25 mm. El «±13,7 → rodillo de 40» de la nube estaba mal leído | `geometria-vns.js` (recorrido con signo) + control en `probar-geometria.js`, con sabotaje en rojo (12 verdes) | 2026-10-07 |
+| **Revisión de afuera** (`docs/13-revision-externa.md`): la arquitectura está bien; tres errores corregidos (rodillo de 40, ángulo de vuelco 34° → 24°, polea en un rodillo loco en v8); mecanismo con lo rescatado; estructura de tubo 20 × 20 con vigas compuestas; rodillos a 50 cm (la mesa aguanta 6,9 kg de empujón, más que el dobson solo); sin planos en fase 0 (Fran) | cálculo, `probable`; controles nuevos en `probar-geometria.js` | 2026-10-07 |
+| **Modelo v9** publicado desde la cuenta de Agus y Fran: https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd (el link viejo de la cuenta personal quedó en v8). Docs «1 - El proyecto» y «2 - Paso a paso» regenerados, mismos IDs | publicado; IDs medidos con `rclone lsf` | 2026-10-07 |
 | **La cámara y el foco se aparcan** (Fran, 2026-10-05). P0 sigue abierta en el PDP y es **compuerta antes de comprar la chapa de aluminio** | decisión de Fran; la compuerta es mía | 2026-10-05 |
 
 ## Lo que es hipótesis
@@ -74,12 +77,15 @@ Faltan las mediciones y el inventario.
 
 ## Lo próximo
 
-> **2026-10-07 — manda esto sobre el párrafo de abajo:** la crítica de la
-> arquitectura (acero en chapas y rodillos, fricción y no varilla, tubos,
-> ESP32) y el método de vuelco para el CdM están en
-> `docs/12-critica-y-medicion.md`, todo `probable` por cálculo. El paso 2 y el
-> 3 de `11-paso-a-paso.md` quedan reemplazados por el vuelco + h_eje (falta
-> reescribir el 11). Falta que Fran diga el dobson futuro máximo.
+> **2026-10-07 (novena sesión) — manda esto sobre el párrafo de abajo.** El
+> orden vigente es `docs/11-paso-a-paso.md` **versión 3** (siete pasos): 1) el
+> vuelco de la montura sin tubo; 2) la altura del eje con cinta; 3) inventario
+> de hierros y rescatados con calibre (pared de los tubos, ¿varillas de 8,00?,
+> cuántos 608, la balanza); 4) **Fran elige 30 s o 60 s por foto**; 5) ¿el amigo
+> metalúrgico tiene torno?; 6) motor en el banco; 7) la sesión cierra el CdM y
+> la revisión de fase. **La sesión no diseña más hasta tener el 1 y el 2.** El
+> porqué de todo: `docs/13-revision-externa.md`. Un 12" futuro: no se diseña,
+> tres puertas abiertas (PDP §6).
 
 Masa ≈ 40 kg por dos caminos, CdM ≈ 63 cm compuesto (58 a 69), plataforma de
 planchuela de hierro, poste de 10 cm, base triangular **ancha (1,2 m)**,
