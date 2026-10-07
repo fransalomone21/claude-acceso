@@ -1,10 +1,57 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-07 (duodécima sesión, PC, abierta en `Desktop\claude-acceso`) ·
+**Escrito el:** 2026-10-07 (decimotercera sesión, PC, abierta en `Desktop\claude-acceso`) ·
 **Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**, 2 de 4: arquitectura
 cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
+
+## Decimotercera sesión (2026-10-07, PC): la plataforma «terminada» v10
+
+**Pedido de Fran:** que lo charlado se vea como **diseño preliminar** en el
+artifact («método agile: iteraciones de diseño preliminar para definir el
+concepto; lo visual nos convence, lo que importa es la física»), **nada
+flotando**, con lo confirmado, probable y en revisión; y los Docs al día.
+Memoria nueva: `feedback_diseno-preliminar-iterado`.
+
+**Hecho (commits `7a23959`, `35bd41f`, `157bf72`):**
+- **Modelo v10** publicado (https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd,
+  versión 3; mismo tamaño que el repo + 552 B; **público con el link**, lo dice
+  el publish). Mesa universal (tres largueros + tres rieles arriba, ≈ 87 cm N-S,
+  11 kg), corredera con muescas (`dNEquilibrio` en `geometria-vns.js`, forma
+  cerrada; `tabN` y `railH` nuevos, sin ellos es el v9), selector 200 / 12"
+  fantasma, tres mordazas, chapa 5/16", electrónica + batería + botón + ST-4,
+  marcas del piso, fines de carrera con escuadra a la viga, bujes de altura
+  que llegan a la pared. Salen los 4 bulones y el suplemento. Panel: «Piezas
+  sueltas» medido (grafo de contacto en pose alineada; 0, y 22 con el buje del
+  v9 saboteado), «pintar por certeza», tabla de vuelco/empujón/kg por rodillo
+  telescopio por telescopio, sección «Lo que importa: la física». Debug:
+  `window.__vns` en la consola.
+- **v10 en números** (`node docs/escenarios-300.js`, sección v10): muesca del
+  200 a 2,8 cm al N (H 63); 200 H 58 → 10,1 N, H 69 → 5,9 S; 12" de 0,5 a
+  18,8 N. Vuelco ≥ 22,0° en todos con base 1,2 m. **Único rojo: 12" liviano
+  (40 kg, CdM 52), empujón 5,5 kg** contra 6 (L1-13): rodillos a 58 cm (6,3) y
+  base 1,3 m lo arreglan; se decide con el 12" que se compre.
+- **El dibujo del CdM**: `docs/dibujo-cdm.html` (fuente única) →
+  `docs/dibujos-cdm.ps1` saca el PDF «Medir el centro de masa» (3 páginas,
+  mirado; en el Drive, ID `1kPx-OkcUkqWhbzXTBoetQbI1jF6vZJop`, y enviado a
+  Fran) y las 4 imágenes de `docs/img/`. `md-a-gdoc.py` las incrusta en base64
+  (un Doc las guarda: probado con un borrador; imagen faltante = ROJO).
+- **Docs**: «1 - El proyecto» v5 (07: el 300, mordazas, F con respaldo T2,
+  Kevin K1-K9, grados, «dibujar para decidir») y «2 - Paso a paso» v4 (11: los
+  dibujos, cuarta pregunta) regenerados con los mismos IDs. Cuaderno del 4/10
+  → `Archivo/VIEJO (4-10, reemplazado por 1 y 2) - Cuaderno del proyecto`
+  (mismo ID). La carpeta queda: 1, 2, el PDF, Archivo, Fotos.
+- **Requisitos 0.2 contra el v10**: columna 3D, §9, §10 y cinco rationales;
+  ningún enunciado cambió. VERDE.
+- Lecciones 353-354 (perfil-global `a03fd13`): el detector por cajas
+  envolventes se mide en pose alineada (el sabotaje lo destapó); un link a un
+  artifact privado en un Doc compartido es un link roto.
+
+**No se hizo:** el trade de la transmisión (espera 30/60 s y pesos de Fran).
+**Pendiente de Fran:** medir con la hoja y mandar foto de la tabla; 30 o 60 s;
+¿cuánto para pasar del 200 al 12"?; ¿viaja en auto?; ¿cuánto armado?; prueba
+de foco.
 
 ## Duodécima sesión (2026-10-07, PC): el 300 mm, concepto y necesidades
 

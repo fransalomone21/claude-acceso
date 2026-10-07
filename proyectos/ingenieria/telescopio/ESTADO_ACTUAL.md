@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-07 (duodécima sesión: el 300 mm y la revisión de necesidades)
+**Última actualización:** 2026-10-07 (decimotercera sesión: el modelo v10, «la plataforma terminada», el dibujo del centro de masa y los Docs con el 300)
 
 ## Dónde estamos
 
@@ -55,6 +55,9 @@ y el inventario sin `?`.
 | **Borrador de requisitos** `docs/10-requisitos.md` v0.1: N → L0 → L1 → L2 (PLT, MON, CAM, OPE), cada uno con tipo, padre, método de verificación, estado y si lo muestra el modelo; rationale por ID; KDR L1-01, L1-02, L1-15, L1-22; trazabilidad inversa del diseño v9. **El v9 incumple L2-PLT-12** (4 bulones del dobson, el requisito pide 3). Del modelo: mesa a 22,6 cm del piso, inclinación de 10,5° en el talón, vuelco 24,1°, empujón 6,9 kg | `python docs/verificar-requisitos.py` VERDE (autotest: 9 sabotajes con su motivo + 2 del GtWR); en `chequeo-completo.ps1`. **No está en línea base**: falta Fran (SRR, fase 1) y 3 preguntas suyas (§11.1) | 2026-10-07 |
 | **El dobson de 300 mm es necesidad** (N-12): la misma plataforma lleva el 200 y cualquier 12" comercial, GoTo incluido (≤ 50 kg), por **mesa universal**: corredera norte-sur con posiciones marcadas; chapas, rodillos, motor y base únicos; chapa de 5/16". La corredera va **bajo el dobson**, no en el pivote: el eje sube 6,9 cm cada 10 cm al sur. Requisitos **v0.2** (L0-15, L1-27 a L1-30, L2-PLT-05, L2-PLT-14 a 16). El v9 no lo muestra todavía | Fran: «correr y apretar», «cualquiera, GoTo incluido», «debe servir para ambos, aunque aumente la complejidad, no perdamos precisión»; cálculo `node docs/escenarios-300.js` (los datos del 12" son de catálogo, `hipótesis`); `verificar-requisitos.py` VERDE; `docs/14-concepto-300mm.md` | 2026-10-07 |
 | Los Docs «1 - El proyecto» y «2 - Paso a paso» del Drive **coinciden palabra por palabra con el repo** (salvo el encabezado y la numeración de listas): nadie los editó a mano | export txt + comparación por palabras | 2026-10-07 |
+| **Modelo v10: la plataforma «terminada»** (diseño preliminar, pedido de Fran: «nada flotando», con grados confirmado/probable/en revisión). Mesa universal: marco con tres largueros y **tres rieles** arriba, corredera con una muesca por telescopio (`dNEquilibrio`, forma cerrada), selector 200 / 12" fantasma, **tres mordazas de borde** (salen los 4 bulones y el suplemento), chapa 5/16", electrónica con botón y ST-4, batería, marcas del piso. Muescas: 200 a 2,8 cm al norte; 12" de 0,5 a 18,8. Vuelco ≥ 22° con todos; **único rojo: el 12" liviano, empujón 5,5 kg** (rodillos a 58 cm y base 1,3 m lo arreglan) | `probar-geometria.js` (13 OK, control nuevo de la corredera con sabotaje en rojo); «Piezas sueltas» medido en el panel: 0, y 22 con el buje del v9 saboteado; publicado, mismo tamaño que el repo + 552 B | 2026-10-07 |
+| **El artifact es público con el link**: lo dice la respuesta de la herramienta al publicar («shared as Anyone with the link»). Cierra el «Fran dice que es público: sin medir» | respuesta del publish, 2026-10-07 | 2026-10-07 |
+| **El dibujo para medir el centro de masa existe**: `docs/dibujo-cdm.html` (fuente única) → PDF «Medir el centro de masa» (3 páginas, mirado) en el Drive y enviado a Fran, y 4 imágenes adentro del Doc «2 - Paso a paso». Docs «1 - El proyecto» v5 (el 300, mordazas, transmisión F con respaldo T2, Kevin K1-K9) y «2» v4 regenerados con los mismos IDs; el Cuaderno del 4/10 al Archivo como VIEJO | IDs con `rclone lsf`; el Doc 2 bajado tiene las 4 imágenes; un Doc acepta imágenes: probado antes con un borrador | 2026-10-07 |
 | **La cámara y el foco se aparcan** (Fran, 2026-10-05). P0 sigue abierta en el PDP y es **compuerta antes de comprar la chapa de aluminio** | decisión de Fran; la compuerta es mía | 2026-10-05 |
 
 ## Lo que es hipótesis
@@ -86,7 +89,16 @@ y el inventario sin `?`.
 
 ## Lo próximo
 
-> **2026-10-07 (duodécima sesión) — manda sobre todo lo de abajo.** El 300 mm
+> **2026-10-07 (decimotercera sesión) — manda sobre todo lo de abajo.** Hechos
+> el dibujo del CdM, el modelo v10 y los Docs. Sigue: **(1) Fran y Kevin
+> miden** con la hoja «Medir el centro de masa» (vuelco hA, A, hB, B, W y la
+> altura del eje) y mandan **foto de la tabla**; con eso la sesión cierra el
+> CdM por dos métodos, fija la muesca del 200 y el eje (L1-15, L2-PLT-05).
+> **(2)** El trade de la transmisión (F, B, T, T2) cuando elijan **30 o 60 s**,
+> con pesos de Fran. **(3)** La prueba de foco. **Fran:** además, ¿cuánto para
+> pasar del 200 al 12"?, ¿viaja en auto?, ¿cuánto armado?
+>
+> **2026-10-07 (duodécima sesión).** El 300 mm
 > subió a necesidad y los requisitos van por la **v0.2** (con L2-PLT-17: **el
 > dobson no se agujerea**, tres mordazas de borde). Sigue, en este orden, pedido
 > por Fran para una sesión nueva: **(1) el dibujo de cómo medir el centro de
