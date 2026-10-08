@@ -1,22 +1,27 @@
 # El proyecto — qué es y por qué así
 
-**Para Fran y Kevin.** Versión 6, 8 de octubre de 2026. Fuente en el repo:
-`proyectos/ingenieria/telescopio/docs/07-guia-armado.md`.
+**Para Fran y Kevin.** Versión 7, 8 de octubre de 2026 (a la noche). Fuente
+en el repo: `proyectos/ingenieria/telescopio/docs/07-guia-armado.md`.
 
 > **Este documento es el concepto. Los pasos, en orden, están en «2 - Paso a
-> paso».** Los números finos (cuentas, medidas, protocolo) están en la
-> subcarpeta **Archivo**: no hace falta leerlos para avanzar.
+> paso».** Los mecanismos con sus dibujos, los talleres de la zona y el cielo
+> están en **«3 - Mecanismos, proveedores y cielo»**. Los números finos están
+> en la subcarpeta **Archivo**: no hace falta leerlos para avanzar.
 >
-> **Nuevo en la versión 6:** «Los conceptos en competencia, con puntaje», con
-> lo que juega a favor y en contra de cada alternativa y quién va ganando.
-> Está para discutirlo entre los dos.
+> **Nuevo en la versión 7:** (1) el **error de micropaso** del motor, que
+> faltaba en la cuenta: con **una** correa la F estira la estrella, y con tu
+> orden de criterios **la transmisión ya no empata: va ganando T2**, la varilla
+> de la foto con un tornillo de bolas (sección 3 de los conceptos); (2) los
+> **rodillos pasan a 58 cm y la base a 1,3 m**: se cerró el único rojo; (3)
+> **las chapas ya no dependen del vuelco**.
 
-**Modelo 3D, versión 10.4: la plataforma «terminada», con el 200 o con un 12"
-arriba, y con las dos transmisiones para elegir** (rodillo y correa, o varilla
-y biela; se mueve y se rehace si cambiás un número; tildá «pintar por
-certeza» para ver de qué estamos seguros):
+**Modelo 3D, versión 10.5: la plataforma «terminada», con el 200 o con un 12"
+arriba, y con las dos transmisiones para elegir.** Nuevo: botón
+**«Recorrido»** (la plataforma explicada en siete paradas), **vista
+explotada** y la sección **«Cuatro maneras de mover la mesa»**, con la
+estrella simulada según la transmisión:
 https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd — se abre con el link,
-sin cuenta (medido el 7/10).
+sin cuenta (medido el 8/10).
 
 ## Qué vamos a hacer
 
@@ -51,14 +56,14 @@ Cada pieza lleva su grado:
 
 | Parte | Cómo es | Grado |
 |---|---|---|
-| **Base al piso** | triángulo de **tubo 20 × 20**, ≈ 1,2 m de largo y 1,2 m de ancho, tres patas M10 regulables con su marca en el piso. El lado sur lleva los rodillos, la electrónica y la batería | probable |
+| **Base al piso** | triángulo de **tubo 20 × 20**, ≈ 1,2 m de largo y **1,3 m de ancho** (era 1,2), tres patas M10 regulables con su marca en el piso. El lado sur lleva los rodillos (a **58 cm** uno del otro; eran 50) y el motor; la electrónica y la batería van en los lados | probable |
 | **Mesa universal** | marco de tubo 20 × 20 (travesaño sur, travesaño norte, **tres largueros**, brazo en A hasta el pivote) con **tres rieles** soldados arriba: ahí apoya el dobson y corren las mordazas. ≈ 87 cm de norte a sur, ≈ 11 kg con las chapas | en revisión |
 | **Corredera** | el dobson se corre norte-sur sobre los rieles hasta **su muesca**: una por telescopio | en revisión |
 | **Tres mordazas de borde** | toman la base del dobson del borde: **no se agujerea nada** | en revisión |
 | **Pivote** | rótula de amortiguador a gas sobre un poste de 10 cm | probable |
-| **Dos chapas** | **acero de 5/16"**, cortadas a **láser**, colgadas del travesaño sur. Las mismas para los dos telescopios. **Su forma depende del centro de masa** | en revisión |
+| **Dos chapas** | **acero de 5/16"**, cortadas a **láser**, colgadas del travesaño sur. Las mismas para los dos telescopios. Su forma sale de la altura del eje, la latitud y los rodillos; **no del centro de masa**: la corredera absorbe cualquier 200 entre 55 y 69 cm | en revisión |
 | **Rodillo loco (este)** | cuatro rulemanes 608 de roller sobre una varilla de impresora | probable |
-| **Transmisión** | **dos opciones, sin elegir**: **F** (rodillo de acero torneado por fricción + correa GT2 4:1 + NEMA 17 de ≈ 4 kg·cm, en el rodillo oeste) o **V** (varilla y tuerca al sur de la viga, con una biela que empuja un brazo de la mesa, como la foto de Fran). Va ganando F por poco; lo define el banco del rodillo (ver el puntaje abajo) | en revisión |
+| **Transmisión** | **dos opciones, sin elegir**: **F** (rodillo de acero torneado por fricción + correa GT2 4:1 + NEMA 17 de ≈ 4 kg·cm, en el rodillo oeste) o **V** (varilla y tuerca al sur de la viga, con una biela que empuja un brazo de la mesa, como la foto de Fran). **Va ganando la V con tornillo de bolas (T2)**: la F con una correa no pasa la precisión por el error de micropaso, y con dos correas pierde por facilidad y porque puede patinar (ver el puntaje abajo) | en revisión |
 | **Electrónica** | ESP32 + TMC2209 en una caja sobre el tubo de costado del oeste (fuera del barrido de las chapas), botón de rebobinado, ficha ST-4 para el autoguiado de más adelante; la batería en el tubo del este | probable |
 | **Topes** | tres capas: programa (±45 min), fin de carrera (±48) y talón de la chapa (±51) | confirmado |
 | **Eje** | a 54 cm sobre la mesa, inclinado 34,5° hacia el sur | confirmado |
@@ -82,10 +87,16 @@ precisión». Cómo se logra sin cortar otras chapas:
 - **Cambiar de telescopio**: aflojar tres mariposas, bajar uno, subir el otro,
   correr las mordazas a sus muescas, apretar. El tiempo no importa (Fran,
   7/10): importa que se haga con herramientas de mano y que la muesca repita.
-- **El único rojo** de la cuenta: un 12" liviano con el centro de masa bajo
-  aguanta 5,5 kg de empujón en la boca del tubo, contra los 6 del dobson solo.
-  Se arregla separando los rodillos a 58 cm y abriendo la base a 1,3 m; se
-  decide con el 12" que se compre.
+- **El que era el único rojo, cerrado (versión 7):** un 12" liviano con el
+  centro de masa bajo aguantaba 5,5 kg de empujón en la boca del tubo, contra
+  los 6 del dobson solo. Con los rodillos a **58 cm** y la base a **1,3 m**
+  aguanta 6,1 a 6,3, y ningún telescopio de la envolvente vuelca antes de
+  22°. Un lastre no lo arreglaba (corre la muesca al norte y el margen se
+  achica igual). El dibujo está en el Doc 3.
+- **Las chapas ya no esperan al vuelco:** la corredera pone sobre el eje
+  cualquier 200 con el centro de masa entre 55 y 69 cm, así que el vuelco
+  confirma las chapas, no las cambia. Igual no se cortan antes de la prueba de
+  foco.
 
 ## El dobson no se agujerea: tres mordazas de borde
 
@@ -152,7 +163,7 @@ y **sin perder precisión**, y eso es un piso.
 |---|---|---|---|---|
 | **Qué es** | para el 12" se cortan otras chapas y otra mesa | chapas, rodillos y motor únicos; el dobson se corre norte-sur sobre rieles hasta **su muesca** y lo toman tres mordazas | U1 pero cada telescopio trae su placa, que se abulona en un lugar fijo | el ajuste se hace corriendo el pivote |
 | **A favor** | el 200 queda óptimo; cada una aguanta justo lo suyo | **un solo juego de chapas**; la muesca repite la posición (2 mm de error = 1 mm del eje); no se agujerea nada | la posición queda fija «de fábrica» | se ajusta en un solo lugar |
-| **En contra** | **dos cortes láser** de la pieza cara; cambiar es desarmar y volver a alinear | mesa más grande (≈ 87 cm, ≈ 11 kg); el 12" liviano queda justo en el empujón (5,5 kg contra 6) | para no agujerear el dobson la placa necesita sus propias mordazas (es U1 con una pieza más); la del 12" se hace cuando exista | **no cumple:** correr el pivote desalinea el eje polar. Queda sólo como ajuste fino de armado (±1 cm) |
+| **En contra** | **dos cortes láser** de la pieza cara; cambiar es desarmar y volver a alinear | mesa más grande (≈ 87 cm, ≈ 11 kg); para que el 12" liviano no levante la mesa, rodillos a 58 cm y base de 1,3 m (versión 7) | para no agujerear el dobson la placa necesita sus propias mordazas (es U1 con una pieza más); la del 12" se hace cuando exista | **no cumple:** correr el pivote desalinea el eje polar. Queda sólo como ajuste fino de armado (±1 cm) |
 | Que ande sin renegar (0,4) | 3 | 4 | 4 | — |
 | Facilidad (0,3) | 2 | 4 | 3 | — |
 | Peso (0,2) | 5 | 4 | 4 | — |
@@ -166,7 +177,21 @@ esa condición, la placa de U2 no ahorra nada y suma una pieza por telescopio.
 **Para discutir con Kevin:** si en el taller los rieles con muesca le parecen
 más difíciles que lo que puse (4), U1 y U2 se acercan.
 
-### 3. Cómo se mueve la mesa: la transmisión — va ganando F por la mínima; lo decide el banco
+### 3. Cómo se mueve la mesa: la transmisión — va ganando T2 (versión 7)
+
+> **Lo que cambió el 8/10 a la noche.** Faltaba un error en la cuenta: el
+> **micropaso**. Un motor paso a paso cae en cada paso entero con hasta ±5 %
+> de error (hoja de datos), y el micropaso no lo arregla. Ese error se repite
+> cada pocos segundos: adentro de una foto **estira la estrella**. Con la F de
+> una correa, cada paso entero mueve ≈ 34″ el cielo y la estrella sale con
+> redondez 0,66 (la foto pide 0,8): **la F de una correa no pasa el piso**.
+> Pasan la F con **dos** correas (F2: 8,4″ por paso) y la V con tornillo de
+> bolas (T2: 5 a 7″, como una montura comercial). Puntuando F2 contra T2 con
+> los mismos criterios y tu orden, **gana T2 por 15 a 21 % con los tres
+> métodos**, y sigue ganando aunque el banco diga que el rodillo no patina.
+> Las cuentas, los dibujos y cómo medir el error del motor en una tarde con un
+> puntero láser están en el **Doc 3**. Lo de abajo es la cuenta de la versión
+> 6, que queda para ver de dónde venía.
 
 El canto de la chapa avanza **54 milésimas de milímetro por segundo**. Lo que
 cuenta es el error que se repite **adentro de una foto de 60 s** (Fran,
@@ -222,7 +247,7 @@ Con 60 s por foto, la corrección periódica va en cualquiera de las dos.
 |---|---|---|---|
 | Cómo se apoya | **VNS** | 4,5 contra 2,7 | nada: decidida |
 | Cómo lleva dos telescopios | **U1, mesa universal** con corredera, muescas y tres mordazas | 4,0 contra 3,6 | que Kevin revise la facilidad de los rieles; probar que las mordazas aguantan la mesa inclinada 10,5° |
-| Cómo se mueve | **F** (rodillo y correa) por la mínima, con **T2 / V** (varilla de bolas y biela) pegada | 3,58 contra 3,54: empate | **el banco del rodillo**: si patina o no |
+| Cómo se mueve | **T2**: la V de la foto con tornillo de bolas (SFU1605 o SFU1204), carro, biela y PEC | ≈ 4,0 contra ≈ 3,4 de la F con dos correas (la de una correa no pasa el piso) | decidirlo en su nivel (la V de NASA), con Fran; medir el error del motor con la palanca óptica (Doc 3) |
 
 **Para charlar con Kevin:**
 
@@ -234,7 +259,11 @@ Con 60 s por foto, la corrección periódica va en cualquiera de las dos.
 3. ¿La varilla de la foto es de **bolas**, **trapezoidal** o **común**? Con
    bolas o trapezoidal buena es T2; común no pasa el piso.
 4. Para el **banco del rodillo**: ¿se puede armar con la chapa de prueba y el
-   motor, antes de cortar las chapas definitivas?
+   motor, antes de cortar las chapas definitivas? (Versión 7: con T2 al frente
+   pierde peso; el que suma es el **banco de la palanca óptica**: el motor, un
+   espejito y un puntero láser contra una pared a 2 m. Está en el Doc 3.)
+5. (Versión 7) ¿Conocés algún láser que corte **acero de 8 mm**? No todos:
+   en la zona hay que llegan a 4,7. La lista está en el Doc 3.
 
 Esto es el **concepto**. Cuando se cierre (el centro de masa medido y la
 prueba de foco), la elección final de la transmisión se hace en el **diseño**,
@@ -246,12 +275,12 @@ construye).
 
 | Kevin dijo | Qué se decidió |
 |---|---|
-| Base cuadrada y más grande | **Triángulo, pero de 1,2 m de ancho.** De costado aguanta lo mismo que al sur; una cuadrada renguea con cuatro patas |
+| Base cuadrada y más grande | **Triángulo, pero ancho: 1,3 m** desde la versión 7 (era 1,2). De costado aguanta lo mismo que al sur; una cuadrada renguea con cuatro patas |
 | Fijar el dobson con bujes, tornillos y mariposas | **La idea de apretar a mano queda; los agujeros no** (7/10, Fran): tres mordazas de borde con mariposa |
 | Corredera con mariposa en el pivote → plataforma universal | **La idea sí, el lugar no.** En el pivote desalinea el eje; donde ajusta el centro de masa es **debajo del dobson**. En el pivote queda como ajuste fino de armado (±1 cm) |
 | La muesca tipo chaveta: que la fuerza la lleve la planchuela | **Sí**: son las muescas de la corredera, una por telescopio |
 | Que sea de acero | **Sí**: chapas de acero dulce SAE 1010/1020 (el inoxidable no aguanta más y cuesta varias veces más; su ventaja es que no se oxida) |
-| ¿Qué espesor corta el láser y cuánto sale? | **5/16"** lo corta cualquier láser de fibra; se cotiza con el DXF, que sale del centro de masa medido |
+| ¿Qué espesor corta el láser y cuánto sale? | **5/16" (8 mm), y no lo corta cualquiera** (versión 7): en la zona hay talleres que dicen 9 mm o 1/2" y otros que llegan a 4,7. Lista y qué preguntar en el Doc 3. Se cotiza con el DXF de la fase 3 |
 | Topes para el motor | **Ya estaban** (las tres capas) |
 | Patas con tuercas para nivelar | **Ya estaban** |
 | Pantalla con el tiempo y Bluetooth | **Se puede** con el ESP32. Se decide cuando la plataforma siga una estrella |

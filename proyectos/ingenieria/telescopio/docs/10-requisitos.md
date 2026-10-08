@@ -28,6 +28,14 @@ con los TBR resueltos.
 > L1-27, L2-PLT-02 (60 s), L2-PLT-03 (0,1 %), L2-MON-01 (60 s), L2-OPE-01
 > (3,5′) y L2-OPE-04 (0,5 mm); la corrección periódica pasa a ser obligatoria
 > (§9). El modelo pasa al **v10.3**: nada choca en toda la carrera.
+>
+> **2026-10-08 a la noche (decimosexta sesión): ningún enunciado cambia.**
+> Cambian rationales y la traza del diseño (§7, §9, §11) con lo que encontró
+> `15-mecanismos-y-proveedores.md`: el **error de micropaso** entra en el
+> presupuesto de L2-PLT-02 (la F de una correa no lo cumple); los rodillos
+> pasan a **58 cm** y la base a **1,3 m**, y con eso L1-13 y L1-14 se cumplen
+> con toda la envolvente (modelo **v10.5**); la forma de las chapas deja de
+> depender del centro de masa del 200 entre 55 y 69 cm (L2-PLT-05).
 
 Escrito con los libros abiertos: `perfil-global/pilares/nucleo-ise.md` §4, el
 INCOSE GtWR (`incose-gtwr/reglas.md`), la cátedra de IISE (m17 y m21) y NASA
@@ -306,12 +314,18 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   es que la mesa no pierda el paso y siga en hora cuando para.
 - **L1-13** — «La plataforma no tiene que ser más fácil de volcar que el
   dobson solo» (`docs/13` §8): el dobson solo aguanta unos 6 kg de empujón en
-  la boca, 59 N [cálculo, `probable`]. TBR hasta medir el dobson solo.
+  la boca, 59 N [cálculo, `probable`]. TBR hasta medir el dobson solo. Con los
+  rodillos a 50 cm el 12" liviano daba 5,5 kg (no cumplía); con los rodillos a
+  **58 cm** (v10.5) da 6,1 a 6,3 y toda la envolvente cumple. Un lastre bajo
+  no lo arregla: corre la muesca al norte y el margen se achica casi lo mismo
+  que suma la masa [cálculo, `docs/15` §3].
 - **L1-14** — El umbral con que ya juzga el modelo v9 (verde desde 22 grados).
   Su origen no estaba escrito: queda TBR hasta la fase 1. El v9 daba 24,1
   grados; el v10, con la mesa universal, da 23,5 con el 200 y entre 22,0 y 23,7
   con los 12" de la envolvente: todos cumplen [cálculo, `geometria-vns.js`;
-  `node docs/escenarios-300.js`, sección v10].
+  `node docs/escenarios-300.js`, sección v10]. El v10.5 (rodillos a 58 cm)
+  necesita la base de **1,3 m** para seguir cumpliendo: da 22,3° en el peor
+  caso (12" liviano con el centro de masa a 50 cm); con 1,2 m daba 21,0.
 - **L1-15** (**KDR**) — Si el centro de masa no cae en el eje, el motor tiene
   que sostener el desbalance y la velocidad cambia con la posición de la mesa.
   La altura del centro de masa es lo que fija la forma de las chapas, y hoy
@@ -371,6 +385,14 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
 - **L2-PLT-02** — Asignado de L1-01: 1,5 segundos de arco para la plataforma
   entera (velocidad, error periódico de polea y rodillo, micropasos, flexión
   de la estructura). El presupuesto fino es el entregable de la fase 1.
+  **El micropaso (2026-10-08):** un paso a paso cae en cada paso entero con
+  hasta ±5 % de error, que el micropaso no achica, y se repite cada pocos
+  segundos: adentro de un sub es un borrón de ±5 % de lo que mueve un paso
+  entero en el cielo. Con la F de una correa 20:80 un paso entero mueve ≈ 34″
+  y el borrón es ≈ 3,4″ de punta a punta: **no cumple**; con dos correas
+  (8,4″), con la V de paso 8 (10,5″) o con un tornillo de bolas (5-7″) cumple
+  [`probable`: dato de hoja de datos y cálculo, `docs/transmisiones.js`; el
+  error del motor real se mide con la palanca óptica, `docs/15` §1.4].
 - **L2-PLT-03** — Derivado de L2-PLT-02: 0,1 % de error medio corre la estrella
   0,9 segundos de arco en 60 s, y deja lugar al error periódico (era 0,2 % con
   subs de 30 s). CAL-2 (`docs/11`) se ajusta a 0,1 %. La variación propia del VNS (±0,48 %) se
@@ -385,7 +407,12 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   arriba, ≈ 11 kg, más larga al norte) pide ≈ 25 cm, de 5,9 al sur a 18,8 al
   norte, sin suplemento; la muesca la calcula `dNEquilibrio` en forma cerrada. Cambió de «12 cm de ajuste
   de altura» a «el rango de centro de masa», que es lo que se verifica. TBR
-  hasta medir el 200.
+  hasta medir el 200. **v10.5 (rodillos a 58 cm):** los rieles toman al 200
+  con cualquier centro de masa entre 55 y 69 cm (de 14,5 cm al norte a 5,9 al
+  sur; con 70 las mordazas se salen 1 cm) y a la envolvente del 300 entera
+  (el peor, 40 kg con 50 cm, pide 21,7 al norte y entra), medido con el chequeo
+  de rieles del modelo: **la forma de las chapas ya no depende del vuelco**,
+  que pasa a confirmarla [cálculo, `docs/15` §4].
 - **L2-PLT-06** a **L2-PLT-08** — Pedido de Fran del 2026-10-04: tres capas
   independientes (programa, fin de carrera, talón). Los minutos salen de
   `geometria-vns.js` (`runMin` 45, `swMin` 3, `stopMin` 6).
@@ -500,9 +527,9 @@ ninguno es un huérfano**: o falta el requisito, o sobra la decisión. Desde el
 | rieles a ±17 cm que reciben bases de hasta 70 cm (la base del 12" sobresale de los rieles) | L2-PLT-14 | dónde apoyan las patitas del 12" se cierra con el modelo que se compre (interfaz con un sistema existente) |
 | tres mordazas de borde con pestaña y tornillo de mano | L2-PLT-12, L2-PLT-17, L1-20 | **el v10 las tiene**; falta probar que aguantan la mesa inclinada 10,5° |
 | rodillo motriz torneado; rodillo loco de cuatro 608 | L2-PLT-02, L2-PLT-03 | la otra pieza de precisión |
-| transmisión F: fricción + correa GT2 20:80 (respaldo T2) | L2-PLT-02 | ningún error que se repita adentro de un sub (`docs/14` §6) |
+| transmisión F: fricción + correa GT2 20:80 (respaldo T2) | L2-PLT-02 | ningún error que se repita adentro de un sub (`docs/14` §6). **2026-10-08: con una sola correa no cumple** por el error de micropaso (borrón ≈ 3,4″); pasan F2 (dos correas), V con tornillo de bolas (T2) y el cable (C) (`docs/15` §1-2) |
 | corrección periódica (PEC) en el programa, calibrada con la cámara en una noche | L2-PLT-02, L2-PLT-03 | con 60 s es obligatoria: la polea de 20 y el rodillo meten 2,7″ y 1,1″ por sub sin ella (`docs/14` §6b) |
-| la transmisión, F o T2: la decide el banco del rodillo | L2-PLT-02 | trade con el orden de Fran (precisión > no patina > facilidad > costo): empata (F 3,58, T2 3,54); si F no patina en el banco, F; si patina, T2 (`docs/14` §6d) |
+| la transmisión: va ganando T2 (la V de la foto con tornillo de bolas) | L2-PLT-02 | trade con el orden de Fran (precisión > no patina > facilidad > costo): el empate F 3,58 / T2 3,54 de `docs/14` §6d acusaba a los criterios (faltaba el micropaso). Con la F de una correa afuera por el piso, F2 contra T2 da T2 por 15 a 21 % con los tres métodos, y 10 % aunque F2 no patine (`docs/15` §2.3). Se decide en su nivel, con Fran |
 | electrónica y batería en los tubos de costado, fuera del barrido de las chapas | L1-05, L1-06, L0-09 | v10.3: en el v10.1-10.2 estaban en la viga sur y las chapas las atravesaban; el modelo mide «Choques» en toda la carrera |
 | motor en escuadra NEMA 17 sobre la misma planchuela del rodillo motriz (una pieza en L, cuatro M8 a la viga) | L2-PLT-02, L2-PLT-10 | v10.1: la distancia entre poleas no se mueve, así que la tensión de la correa tampoco; en el v10 el motor colgaba en el aire |
 | NEMA 17 de 4 kg·cm + TMC2209 | L2-PLT-10, L1-03 | |
@@ -510,11 +537,11 @@ ninguno es un huérfano**: o falta el requisito, o sobra la decisión. Desde el
 | batería en la viga sur | L1-06 | su capacidad sale del banco |
 | tres capas de tope (45, 48, 51 min) | L2-PLT-06 a 08 | |
 | fines de carrera normalmente cerrados, en escuadra a la viga sur | L2-PLT-09 | en v9 el soporte flotaba |
-| fines de carrera del lado sur de la chapa, cada uno en un pie que cruza la viga con dos M6 en fila; la leva sale al sur | L2-PLT-07, L2-PLT-09 | v10.2: del lado norte quedaban en voladizo de 7 y 13 cm con un solo bulón (giraban); ahora a ≤ 3,5 cm de la viga |
+| fines de carrera del lado sur de la chapa, cada uno en un pie que cruza la viga con dos M6 en fila; la leva sale al sur | L2-PLT-07, L2-PLT-09 | v10.2: del lado norte quedaban en voladizo de 7 y 13 cm con un solo bulón (giraban); ahora a ≤ 3,5 cm de la viga. v10.5: a 4,5 cm de la chapa (con los rodillos a 58 cm la punta del travesaño de la mesa barría 6 mm de un soporte; `choques()` lo vio) |
 | todo lo que va sobre la viga sur, con dos M6 en fila sobre el eje del tubo y tuerca remache | L2-PLT-02, L2-PLT-13 | v10.2: los dos M8 de cada rodillo caían afuera del tubo de 20 mm; en ranura, la unidad corre para cambiar la separación |
 | marcas del piso bajo cada pata | L2-OPE-03, L2-OPE-04 | |
-| rodillos a 50 cm | L1-13 | 6,8 kg con el 200; **5,5 con el 12" liviano: no cumple** (rodillos a 58 cm y base de 1,3 m lo arreglan) |
-| base triangular de 1,2 m | L1-14, L2-PLT-04 | |
+| rodillos a **58 cm** (v10.5; eran 50) | L1-13 | 7,9 kg con el 200; 6,1 a 6,3 con el 12" liviano: **toda la envolvente cumple** (con 50 cm el 12" liviano daba 5,5 y no cumplía) |
+| base triangular de **1,3 m** (v10.5; era 1,2) | L1-14, L2-PLT-04 | con los rodillos a 58 cm, 1,2 m dejaba el peor caso en 21,0°; 1,3 m lo lleva a 22,3° |
 | tubo 20 × 20 con planchuela de canto en la viga sur y el brazo | L2-PLT-02, L1-16 | la flexión entra en el error de la plataforma |
 | viga sur abulonada | L2-PLT-13 | TBD: el baúl |
 | poste de 10 cm en el pivote | L2-PLT-13 | acorta la base; sin el baúl medido, es un huérfano a medias |
@@ -525,7 +552,9 @@ ninguno es un huérfano**: o falta el requisito, o sobra la decisión. Desde el
 | soporte de cámara intercambiable | L2-CAM-01, L2-CAM-02 | no está en el modelo |
 
 **Lo que el v10 todavía no cumple de la 0.2:** el empujón del 12" liviano
-(L1-13, depende de la envolvente). **Lo que no se puede ver en el modelo:** la
+(L1-13, depende de la envolvente) — **cerrado en el v10.5** con los rodillos a
+58 cm y la base de 1,3 m. Y la F de una correa no cumple L2-PLT-02 por el
+micropaso (arriba). **Lo que no se puede ver en el modelo:** la
 presión de contacto (L2-PLT-16, cálculo en «Lo que importa»), el error de
 seguimiento (L1-01, L1-27) y el cambio de telescopio con herramientas de mano
 (L1-29).
@@ -569,7 +598,8 @@ seguimiento, la presión de contacto, la operación.
 | la altura de la mesa (22,6 cm; 24,6 sobre los rieles del v10) y su inclinación al final (10,5 grados) | L1-21, L2-MON-02, L2-MON-03 | **hecho**, del modelo, el 2026-10-07 |
 | la envolvente del 300 (masa, centro de masa, base) | L0-15, L1-30, L2-PLT-05, L2-PLT-14 | datos de catálogo hoy; se confirma con el modelo que se compre |
 | cómo se toma la base del 300 a la mesa | L2-PLT-12 | **Fran** (§11.1) |
-| el empujón con el 12" liviano (5,5 kg en el v10; el vuelco del 200 en el borde alto ya cumple: 22,6°) | L1-13, L1-14 | el 12" que se compre; si es liviano, rodillos a 58 cm y base de 1,3 m |
+| el empujón con el 12" liviano (5,5 kg en el v10; el vuelco del 200 en el borde alto ya cumple: 22,6°) | L1-13, L1-14 | **hecho** (2026-10-08): rodillos a 58 cm y base de 1,3 m, modelo v10.5 |
+| el error de micropaso del motor real (hoy ±5 % de catálogo) | L2-PLT-02 | **Fran y Kevin**: la palanca óptica, una tarde (`docs/15` §1.4) |
 
 ### 11.1 Preguntas para Fran (de valor, no técnicas)
 
