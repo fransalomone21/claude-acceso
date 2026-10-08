@@ -52,6 +52,20 @@ todo. Mañana te paso las medidas y el CM».
   su error cada minuto». Con la cuenta de la V da cada ≈ 2,4 min (paso 8,
   biela en x = 0): **no está descartada**, pero ese argumento entra al trade.
 
+- **Doc «1 - El proyecto» v6** (`docs/07-guia-armado.md`, mismo ID en el
+  Drive `1wrzPpiz…`, releído desde el Drive): sección **«Los conceptos en
+  competencia, con puntaje»** para discutir con Kevin — CS/VNS (2,7/4,5,
+  decidido), U0-U3 (3,0 / **U1 4,0** / U2 3,6 / U3 afuera por el piso; el
+  criterio «cambiar de telescopio» con peso 0 de Fran), transmisión con el
+  piso de precisión (B y T afuera; la V de la foto es T2 si el tornillo es de
+  bolas o trapezoidal bueno) y F 3,58 / T2 3,54 (empate: lo decide el banco),
+  «el mejor postor hasta ahora» y cuatro preguntas para Kevin (facilidad de
+  taller, torno a 0,02 mm, tipo de varilla de la foto, banco con chapa de
+  prueba). Los puntajes de U0-U2 son **nuevos de esta sesión** (antes no
+  había puntaje, sólo a favor/en contra en `docs/14` §5). También corregí en
+  el doc dos datos viejos: la electrónica ya no va en la viga sur y el cambio
+  de telescopio no tiene tope de 15 min.
+
 **Pendiente de Fran (mañana):** las **medidas de la V** (largo y paso de la
 varilla, motor, largo de la biela, alto del carro) y **la foto de la tabla del
 vuelco** (el CdM). Siguen: ¿viaja en auto?; ¿cuánto armado?; prueba de foco.

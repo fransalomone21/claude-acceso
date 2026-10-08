@@ -1,14 +1,19 @@
 # El proyecto — qué es y por qué así
 
-**Para Fran y Kevin.** Versión 5, 7 de octubre de 2026. Fuente en el repo:
+**Para Fran y Kevin.** Versión 6, 8 de octubre de 2026. Fuente en el repo:
 `proyectos/ingenieria/telescopio/docs/07-guia-armado.md`.
 
 > **Este documento es el concepto. Los pasos, en orden, están en «2 - Paso a
 > paso».** Los números finos (cuentas, medidas, protocolo) están en la
 > subcarpeta **Archivo**: no hace falta leerlos para avanzar.
+>
+> **Nuevo en la versión 6:** «Los conceptos en competencia, con puntaje», con
+> lo que juega a favor y en contra de cada alternativa y quién va ganando.
+> Está para discutirlo entre los dos.
 
-**Modelo 3D, versión 10: la plataforma «terminada», con el 200 o con un 12"
-arriba** (se mueve y se rehace si cambiás un número; tildá «pintar por
+**Modelo 3D, versión 10.4: la plataforma «terminada», con el 200 o con un 12"
+arriba, y con las dos transmisiones para elegir** (rodillo y correa, o varilla
+y biela; se mueve y se rehace si cambiás un número; tildá «pintar por
 certeza» para ver de qué estamos seguros):
 https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd — se abre con el link,
 sin cuenta (medido el 7/10).
@@ -53,8 +58,8 @@ Cada pieza lleva su grado:
 | **Pivote** | rótula de amortiguador a gas sobre un poste de 10 cm | probable |
 | **Dos chapas** | **acero de 5/16"**, cortadas a **láser**, colgadas del travesaño sur. Las mismas para los dos telescopios. **Su forma depende del centro de masa** | en revisión |
 | **Rodillo loco (este)** | cuatro rulemanes 608 de roller sobre una varilla de impresora | probable |
-| **Transmisión (oeste)** | **F**: rodillo de acero torneado por fricción + correa GT2 4:1 + NEMA 17 de ≈ 4 kg·cm | en revisión |
-| **Electrónica** | ESP32 + TMC2209 en una caja sobre la viga sur, botón de rebobinado, ficha ST-4 para el autoguiado de más adelante, batería | probable |
+| **Transmisión** | **dos opciones, sin elegir**: **F** (rodillo de acero torneado por fricción + correa GT2 4:1 + NEMA 17 de ≈ 4 kg·cm, en el rodillo oeste) o **V** (varilla y tuerca al sur de la viga, con una biela que empuja un brazo de la mesa, como la foto de Fran). Va ganando F por poco; lo define el banco del rodillo (ver el puntaje abajo) | en revisión |
+| **Electrónica** | ESP32 + TMC2209 en una caja sobre el tubo de costado del oeste (fuera del barrido de las chapas), botón de rebobinado, ficha ST-4 para el autoguiado de más adelante; la batería en el tubo del este | probable |
 | **Topes** | tres capas: programa (±45 min), fin de carrera (±48) y talón de la chapa (±51) | confirmado |
 | **Eje** | a 54 cm sobre la mesa, inclinado 34,5° hacia el sur | confirmado |
 
@@ -75,8 +80,8 @@ precisión». Cómo se logra sin cortar otras chapas:
   hasta **70 cm**. Con 25 kg por rodillo, la chapa de 1/4" se marcaría: por eso
   pasa a **5/16"**.
 - **Cambiar de telescopio**: aflojar tres mariposas, bajar uno, subir el otro,
-  correr las mordazas a sus muescas, apretar. Hoy el papel dice 15 minutos: lo
-  confirma Fran.
+  correr las mordazas a sus muescas, apretar. El tiempo no importa (Fran,
+  7/10): importa que se haga con herramientas de mano y que la muesca repita.
 - **El único rojo** de la cuenta: un 12" liviano con el centro de masa bajo
   aguanta 5,5 kg de empujón en la boca del tubo, contra los 6 del dobson solo.
   Se arregla separando los rodillos a 58 cm y abriendo la base a 1,3 m; se
@@ -95,21 +100,147 @@ norte y dos en las esquinas del sur. En un 12" redondo, la del norte y dos que
 lo toman a los costados del sur. Falta probar con la mesa inclinada a mano
 (10,5°, el final de la carrera) que aguantan.
 
-## La transmisión: la propuesta y su respaldo
+## Los conceptos en competencia, con puntaje
+
+Para discutir entre Fran y Kevin. Hay **tres decisiones** con alternativas
+reales: cómo se apoya la plataforma, cómo lleva dos telescopios y cómo se
+mueve. En cada una van las alternativas, lo que juega a favor y en contra, el
+puntaje y **quién va ganando hasta ahora**.
+
+**Cómo se puntúa** (es el método de NASA para un *trade study*, y se puede
+discutir punto por punto):
+
+- **Los criterios se escriben antes de puntuar**, y **los pesos los pone
+  Fran**, con su frase como fuente. La sesión no elige qué importa más.
+- **Los puntajes van de 1 (malo) a 5 (muy bueno)** y los pone la sesión, cada
+  uno con su porqué. **Es lo que más se presta a discutir:** si Kevin ve un 3
+  donde va un 5, se cambia y se recalcula.
+- **Lo que es requisito no se pesa: es un piso.** Una alternativa que no llega
+  a la precisión pedida queda afuera antes de puntuar, aunque sea barata.
+- **Si dos alternativas empatan, el problema está en los criterios**, no en
+  las alternativas: hay que buscar el dato que las separa.
+
+### 1. Cómo se apoya la plataforma: CS o VNS — decidido: VNS
+
+**Pesos de Fran (4/10):** que ande en cualquier piso sin renegar con
+calibraciones **0,4**; que no sea extremadamente complejo de construir
+**0,3**; que aguante el peso **0,2** (deducido del orden: Fran no lo nombró);
+costo **0,1** («si puedo gastar más plata en algo, no importa»).
+
+| | CS (segmentos circulares, el diseño de agosto) | **VNS** (pivote al norte y dos rodillos) |
+|---|---|---|
+| **A favor** | el perfil se traza con un piolín; base corta (≈ 0,7 m) | apoya en **tres puntos**: no renguea en ningún piso; rodillos **horizontales** y motor simple; Vogel lleva 45 kg medidos en una |
+| **En contra** | apoya en **cuatro** (renguea); los rodillos van inclinados a la latitud y esa inclinación hay que clavarla; es la que menos peso aguanta | la chapa necesita plantilla impresa; base larga (1,17 m con el poste); la velocidad varía ±0,5 % y la corrige el programa |
+| Que ande sin renegar (0,4) | 2 | 5 |
+| Facilidad (0,3) | 3 | 4 |
+| Peso (0,2) | 3 | 5 |
+| Costo (0,1) | 4 | 3 |
+| **Total** | **2,7** | **4,5** |
+
+**Gana VNS por 1,8.** No depende del orden de los criterios: aun poniendo el
+costo en segundo lugar, VNS saca 4,2 contra 2,9. Fran lo eligió directamente
+el 4/10, antes de la cuenta, y la cuenta coincide.
+
+### 2. Cómo lleva el 200 y un 12": cuatro maneras — va ganando: la mesa universal (U1)
+
+Los mismos pesos de Fran. Hay un quinto criterio, **cuánto cuesta cambiar de
+telescopio**, y Fran le puso **peso cero**: «no importa el tiempo de pasar del
+200 al otro» (7/10). Lo que sí importa es que se haga con herramientas de mano
+y **sin perder precisión**, y eso es un piso.
+
+| | U0: otra plataforma para el 12" | **U1: mesa universal con corredera** | U2: una placa por telescopio | U3: corredera en el pivote (idea de Kevin) |
+|---|---|---|---|---|
+| **Qué es** | para el 12" se cortan otras chapas y otra mesa | chapas, rodillos y motor únicos; el dobson se corre norte-sur sobre rieles hasta **su muesca** y lo toman tres mordazas | U1 pero cada telescopio trae su placa, que se abulona en un lugar fijo | el ajuste se hace corriendo el pivote |
+| **A favor** | el 200 queda óptimo; cada una aguanta justo lo suyo | **un solo juego de chapas**; la muesca repite la posición (2 mm de error = 1 mm del eje); no se agujerea nada | la posición queda fija «de fábrica» | se ajusta en un solo lugar |
+| **En contra** | **dos cortes láser** de la pieza cara; cambiar es desarmar y volver a alinear | mesa más grande (≈ 87 cm, ≈ 11 kg); el 12" liviano queda justo en el empujón (5,5 kg contra 6) | para no agujerear el dobson la placa necesita sus propias mordazas (es U1 con una pieza más); la del 12" se hace cuando exista | **no cumple:** correr el pivote desalinea el eje polar. Queda sólo como ajuste fino de armado (±1 cm) |
+| Que ande sin renegar (0,4) | 3 | 4 | 4 | — |
+| Facilidad (0,3) | 2 | 4 | 3 | — |
+| Peso (0,2) | 5 | 4 | 4 | — |
+| Costo (0,1) | 2 | 4 | 3 | — |
+| **Total** | **3,0** | **4,0** | **3,6** | **afuera por el piso** |
+| Cambiar de telescopio (peso 0) | 1 | 4 | 4 | — |
+
+**Va ganando U1 por 0,4 sobre U2.** Fran la eligió el 7/10 («correr y
+apretar») y la cuenta coincide. La diferencia con U2 sale de no agujerear: con
+esa condición, la placa de U2 no ahorra nada y suma una pieza por telescopio.
+**Para discutir con Kevin:** si en el taller los rieles con muesca le parecen
+más difíciles que lo que puse (4), U1 y U2 se acercan.
+
+### 3. Cómo se mueve la mesa: la transmisión — va ganando F por la mínima; lo decide el banco
 
 El canto de la chapa avanza **54 milésimas de milímetro por segundo**. Lo que
-importa es el error que se repite **adentro de una foto**, porque ese no se
-corrige y deja la estrella ovalada.
+cuenta es el error que se repite **adentro de una foto de 60 s** (Fran,
+8/10): si dura menos que la foto, la estrella sale ovalada y no hay programa
+que lo arregle. Si tarda más, el programa lo corrige con una tabla medida una
+noche con la cámara (la corrección periódica, PEC).
 
-| | Qué es | Cada cuánto repite su error | Qué pasa |
+**Primer filtro, el piso de precisión** (≤ 1,5″ por foto para la
+plataforma, requisito L2-PLT-02):
+
+| | Qué es | Cada cuánto repite su error | ¿Pasa el piso? |
 |---|---|---|---|
-| **F** (propuesta) | rodillo de acero torneado por fricción + correa GT2 4:1 | ≈ 8 min y ≈ 31 min | **más lento que la foto**: se ve como deriva suave y se calibra. Si algo se traba, patina antes de romper |
-| B | correa dentada pegada al canto (Kevin) | 37 s | un diente por foto: 5 milésimas de ondulación ya se comen todo el margen |
-| T | varilla roscada con brazo (Kevin) | 2-4 min | la varilla común tiene alabeo |
-| **T2** (respaldo) | tornillo de bolas comprado, paso 5 u 8 mm | 2,3 a 3,7 min | parejo y sin juego; con paso 2 caería adentro de la foto |
+| **B** | correa dentada pegada al canto (Kevin) | cada diente, **37 s**: adentro de cada foto | **no**: 5 milésimas de ondulación son 1,4″, todo el margen, y no se corrigen |
+| **T** | varilla roscada común con brazo (Kevin) | cada vuelta, 2 a 4 min | **no**: la varilla de ferretería tiene el paso desparejo y alabeada, y eso no se repite igual: no se corrige |
+| **T2** | tornillo de bolas comprado (paso 8 mm) con guía lineal y biela | cada vuelta, ≈ 2,4 a 3,7 min | **sí, con PEC** |
+| **F** | rodillo de acero torneado por fricción + correa GT2 4:1 | polea de 20 cada ≈ 8 min; rodillo cada ≈ 31 min | **sí, con PEC** |
 
-**Propuesta: F, con T2 de respaldo** si el rodillo patina en el banco. Se
-cierra cuando Fran (con Kevin) elija **30 o 60 segundos por foto**.
+**La opción 2 del modelo (V, la de la foto de Fran) es la familia T:** con
+varilla común es T y no pasa; con tornillo de bolas o un tornillo trapezoidal
+bueno es T2 y pasa. Cuál es la de la foto se sabe con las medidas (el paso y
+la tuerca). En la geometría del modelo el brazo empuja a 77 cm del eje: cada
+error de la varilla pesa un tercio menos que a 50 cm, pero se repite más
+seguido (cada ≈ 2,4 min con paso 8), siempre más lento que una foto.
+
+**Segundo paso, entre las que pasan. Pesos de Fran** (8/10: «precisión > que
+no patine > facilidad > costo»; el orden se pasa a pesos con el método ROC):
+
+| | **F** (rodillo y correa) | **T2 / V con tornillo bueno** (varilla y biela) |
+|---|---|---|
+| **A favor** | ningún diente; su error es lento y atado a la posición del motor, así que la PEC lo saca casi entero; si algo se traba, **patina antes de romper**; piezas baratas | empuja con rosca: **no patina**, la posición se sabe siempre; se compra hecho (tornillo, guía, soportes) |
+| **En contra** | **puede patinar** si el centro de masa queda mal (agarra ≈ 25 N y hace falta empujar 2 a 4 N); pide un rodillo torneado de ≤ 0,02 mm de descentrado y alinearlo con el canto | la biela con dos rótulas mete juego que hay que precargar con un resorte; el brazo va en arco y la tuerca derecho (±2,8 % de velocidad, que corrige el programa); más piezas que alinear; ocupa 34 cm al sur de la viga |
+| Precisión (0,52) | 4 | 3 |
+| Que no patine (0,27) | 3 | 5 |
+| Facilidad (0,15) | 3 | 3 |
+| Costo (0,06) | 4 | 3 |
+| **Total** | **3,58** | **3,54** |
+
+**Empatan:** F gana por 1 % con este método, y con otros dos métodos
+estándar gana una o la otra por 1 a 3 %. Como dice el método, el empate no se
+discute: **se mide**. Lo único que separa a las dos es si F patina, y eso lo
+contesta el **banco del rodillo**:
+
+- si F **no patina** con el doble del empuje del peor caso, su «no patina»
+  sube a 4 y **gana F** con cualquier método (por 0,2 a 0,36);
+- si **patina**, baja a 2 y **gana T2**: la varilla de la foto, con tornillo
+  de bolas de paso 8.
+
+Con 60 s por foto, la corrección periódica va en cualquiera de las dos.
+
+### El mejor postor hasta ahora
+
+| Decisión | Va ganando | Puntaje | Qué falta para cerrarla |
+|---|---|---|---|
+| Cómo se apoya | **VNS** | 4,5 contra 2,7 | nada: decidida |
+| Cómo lleva dos telescopios | **U1, mesa universal** con corredera, muescas y tres mordazas | 4,0 contra 3,6 | que Kevin revise la facilidad de los rieles; probar que las mordazas aguantan la mesa inclinada 10,5° |
+| Cómo se mueve | **F** (rodillo y correa) por la mínima, con **T2 / V** (varilla de bolas y biela) pegada | 3,58 contra 3,54: empate | **el banco del rodillo**: si patina o no |
+
+**Para charlar con Kevin:**
+
+1. ¿Algún puntaje le parece mal? Sobre todo los de **facilidad**, que son de
+   taller: rieles con muesca (U1), rodillo torneado y alineado (F), guía
+   lineal y biela (T2).
+2. ¿Su torno da un rodillo de 32 mm con **≤ 0,02 mm** de descentrado? Si no
+   da, F pierde un punto de precisión y gana T2.
+3. ¿La varilla de la foto es de **bolas**, **trapezoidal** o **común**? Con
+   bolas o trapezoidal buena es T2; común no pasa el piso.
+4. Para el **banco del rodillo**: ¿se puede armar con la chapa de prueba y el
+   motor, antes de cortar las chapas definitivas?
+
+Esto es el **concepto**. Cuando se cierre (el centro de masa medido y la
+prueba de foco), la elección final de la transmisión se hace en el **diseño**,
+bajando desde los requisitos como pide la V de NASA, con su plan de
+verificación (cómo se prueba cada cosa) y su plan de implementación (cómo se
+construye).
 
 ## Lo que dijo Kevin
 
