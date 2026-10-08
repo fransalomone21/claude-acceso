@@ -1,10 +1,60 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-07 (decimocuarta sesión, PC, abierta en `Desktop\claude-acceso`) ·
+**Escrito el:** 2026-10-08 (decimoquinta sesión, PC, abierta en `Desktop\claude-acceso`) ·
 **Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**, 2 de 4: arquitectura
 cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
+
+## Decimoquinta sesión, cierre (2026-10-08): la segunda transmisión (v10.4) y la V de NASA
+
+**Fran** (con una foto de una plataforma con varilla roscada): «añadí al
+artifact la versión con varilla roscada como en la foto, sólo eso, y esperá a
+mis medidas». Y después: «dejalo obvio como una segunda opción de transmisión.
+Una vez que terminemos el concepto, haremos el diseño con la lista de
+requisitos de alto nivel y de ahí para abajo hasta definir el mejor mecanismo,
+mejor performance en relación a simplicidad. Seguiremos el diagrama V de NASA
+[…] y obvio que debemos tener los planes de verificación, de implementación y
+todo. Mañana te paso las medidas y el CM».
+
+**Hecho (artifact versión 9, `?v=10` sin cambio: `geometria-vns.js` no se tocó):**
+- **Selector «Transmisión: dos opciones»** en el panel: **opción 1 · F**
+  (rodillo motriz y correa, la de siempre) y **opción 2 · V** (la de la foto).
+  Botón «Detalle: varilla (V)». La F queda idéntica.
+- **La V:** perfil con varilla al **sur de la viga sur** (y = −44 cm, fuera
+  del barrido de las chapas, que llegan a −35), sobre **dos planchuelas que
+  cruzan la viga** con dos M6 en fila; motor (a ojo NEMA 23) + acople flexible
+  + varilla + tuerca en un carro con rótula; **biela de 15 cm** con dos rótulas
+  hasta un **brazo** que cuelga del travesaño sur de la mesa en x = 0 (entre
+  las chapas) y pasa por **arriba** de los fines de carrera y de la varilla.
+  Los dos rodillos quedan **locos** (608). Medidas a ojo en `VARI` (una sola
+  constante en `06-modelo-3d.html`): paso 8 mm, biela 15 cm, motor 57 mm.
+- **Lo que da (con medidas a ojo, `probable`):** carrera de la tuerca 339 mm
+  tope a tope; luz al rulemán 16 mm; la velocidad de la varilla varía ±2,8 %
+  (es un tangente: la corrige la tabla del programa, como la del VNS); 25
+  vueltas por hora → **el error de la varilla se repite cada ≈ 2,4 min**, más
+  lento que un sub de 60 s pero adentro de ~2,4 subs: entra en el PEC como el
+  de la polea; 0,67″ por micropaso a 1/16.
+- **Medido en el panel, con el 200 y con el 12":** Choques **ninguno** y
+  Piezas sueltas **ninguna** con las dos opciones; `choques()` ahora pone el
+  carro y la biela en cada paso de la carrera (`poseDrive`). Sabotajes: motor
+  7/7 (F) y **4/4 (V)**, finales 6/6, choque 1, todos restaurado 0; **sabotaje
+  propio de la V**: una caja fija en el camino del brazo da 1 choque
+  (`motorBody<-printed2`) y restaura 0. La punta de la biela cae en la rótula
+  del brazo con **0,00 mm** de error a −45, −20, 0, 20 y 45 min.
+- **PDP §4: «Después de la fase 0: la V de NASA»** (SEH Fig. 2.1-1,
+  `nasa-seh/fundamentos.md` §3): brazo que baja L0 → L1 → L2 → L3 → pieza;
+  brazo que sube implementación → integración → verificación → validación; en
+  cada nivel, **antes de bajar**, su plan de verificación y su plan de
+  implementación; la transmisión (F o V) se elige **en su nivel** con un trade
+  de pesos de Fran, nunca por el modelo 3D.
+- Ojo: el PDP §8 (2026-10-07) había descartado «varilla roscada» porque «repite
+  su error cada minuto». Con la cuenta de la V da cada ≈ 2,4 min (paso 8,
+  biela en x = 0): **no está descartada**, pero ese argumento entra al trade.
+
+**Pendiente de Fran (mañana):** las **medidas de la V** (largo y paso de la
+varilla, motor, largo de la biela, alto del carro) y **la foto de la tabla del
+vuelco** (el CdM). Siguen: ¿viaja en auto?; ¿cuánto armado?; prueba de foco.
 
 ## Decimocuarta sesión, cierre (2026-10-08): 60 s, el trade y nada choca (v10.3)
 

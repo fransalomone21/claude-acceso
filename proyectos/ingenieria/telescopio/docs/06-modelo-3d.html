@@ -105,7 +105,7 @@ a{color:var(--accent)}
   <div class="eyebrow">Telescopio 200/1200 · plataforma ecuatorial · 34,5° S</div>
   <h1>Plataforma VNS del 200/1200</h1>
   <p class="lede">El modelo de abajo está calculado, no dibujado a ojo: cada pieza sale de la latitud, del centro de masa y de cuánto tiempo querés seguir una estrella. Movés un número y la plataforma se rehace sola. Girala con el mouse (o el dedo), y dale <b>▶</b> para ver cómo acompaña al cielo.</p>
-  <p class="note hypn"><span class="badge hyp">diseño preliminar</span> <b>Versión 10.3 (8/10/2026): la plataforma «terminada», con lo que hoy está confirmado, lo probable y lo que está en revisión.</b> <b>En la 10.3, nada choca:</b> el panel gira las chapas y la mesa de tope a tope y mide que no toquen nada fijo («Choques»). La 10.1 y la 10.2 habían puesto la electrónica, la batería y los fines de carrera adentro del barrido de las chapas; ahora la electrónica y la batería van en los tubos de costado, cada fin de carrera va a la altura por donde de verdad pasa la leva, y los ángulos de los rodillos se abrieron 8 mm. En la 10.1 el motor quedó apoyado en su escuadra sobre la planchuela del rodillo (en la 10 colgaba en el aire) y el 12" teórico tiene color. En la 10.2, <b>los bulones</b>: todo lo que va sobre la viga sur se abulona con dos M6 en fila sobre el eje del tubo, los fines de carrera pasaron al lado sur de la chapa (pegados a la viga) y los cables van en un mazo por la cara del tubo. Mirá <b>«Detalle: viga y bulones»</b>. Es una iteración de diseño para convencernos de que el concepto cierra; <b>no es un plano y nada de esto es para cortar</b>. Lo nuevo: la <b>mesa universal</b> (lleva el 200 de Fran y cualquier dobson de 300 mm comercial, GoTo incluido), con <b>tres rieles</b>, una <b>corredera</b> norte-sur con una muesca por telescopio y <b>tres mordazas de borde</b> que no agujerean la base. Arriba de todo elegís qué telescopio va arriba y el dobson se corre solo a su muesca. Tildá <b>«pintar por certeza»</b> para ver de qué estamos seguros y de qué no. Lo que manda no es el dibujo: es la física de la sección <a href="#fisica">«Lo que importa»</a>.</p>
+  <p class="note hypn"><span class="badge hyp">diseño preliminar</span> <b>Versión 10.4 (8/10/2026): la plataforma «terminada», con lo que hoy está confirmado, lo probable y lo que está en revisión.</b> <b>En la 10.4, dos transmisiones:</b> en el panel elegís la <b>opción 1</b> (rodillo motriz y correa) o la <b>opción 2</b> (varilla roscada y biela, como la de la foto: el motor gira la varilla, la tuerca empuja una biela y la biela un brazo que cuelga de la mesa). Cuál gana no se decide acá: sale del diseño, bajando desde los requisitos. Las medidas de la opción 2 son a ojo hasta que lleguen las tuyas.<b>En la 10.3, nada choca:</b> el panel gira las chapas y la mesa de tope a tope y mide que no toquen nada fijo («Choques»). La 10.1 y la 10.2 habían puesto la electrónica, la batería y los fines de carrera adentro del barrido de las chapas; ahora la electrónica y la batería van en los tubos de costado, cada fin de carrera va a la altura por donde de verdad pasa la leva, y los ángulos de los rodillos se abrieron 8 mm. En la 10.1 el motor quedó apoyado en su escuadra sobre la planchuela del rodillo (en la 10 colgaba en el aire) y el 12" teórico tiene color. En la 10.2, <b>los bulones</b>: todo lo que va sobre la viga sur se abulona con dos M6 en fila sobre el eje del tubo, los fines de carrera pasaron al lado sur de la chapa (pegados a la viga) y los cables van en un mazo por la cara del tubo. Mirá <b>«Detalle: viga y bulones»</b>. Es una iteración de diseño para convencernos de que el concepto cierra; <b>no es un plano y nada de esto es para cortar</b>. Lo nuevo: la <b>mesa universal</b> (lleva el 200 de Fran y cualquier dobson de 300 mm comercial, GoTo incluido), con <b>tres rieles</b>, una <b>corredera</b> norte-sur con una muesca por telescopio y <b>tres mordazas de borde</b> que no agujerean la base. Arriba de todo elegís qué telescopio va arriba y el dobson se corre solo a su muesca. Tildá <b>«pintar por certeza»</b> para ver de qué estamos seguros y de qué no. Lo que manda no es el dibujo: es la física de la sección <a href="#fisica">«Lo que importa»</a>.</p>
 
   <div class="stage">
     <div class="viewer" id="viewer">
@@ -118,6 +118,7 @@ a{color:var(--accent)}
         <button type="button" data-view="motor">Detalle: rodillo y motor</button>
         <button type="button" data-view="chapa">Detalle: chapa</button>
         <button type="button" data-view="viga">Detalle: viga y bulones</button>
+        <button type="button" data-view="varilla">Detalle: varilla (V)</button>
       </div>
       <div class="clock" id="clock">0 min · mesa a 0,0°</div>
     </div>
@@ -152,6 +153,14 @@ a{color:var(--accent)}
         <div class="ctl"><label for="half">Separación entre rodillos</label><output id="half_o"></output><input id="half" type="range" min="28" max="70" step="1" value="50"></div>
         <div class="ctl"><label for="postH">Pivote levantado sobre un poste</label><output id="postH_o"></output><input id="postH" type="range" min="0" max="30" step="1" value="10"></div>
         <div class="ctl"><label for="baseW">Ancho de la base al piso (las dos patas del sur)</label><output id="baseW_o"></output><input id="baseW" type="range" min="80" max="160" step="5" value="120"></div>
+      </div>
+      <div class="group">
+        <h3>Transmisión: dos opciones <span class="badge hyp">sin elegir</span></h3>
+        <div class="seg" role="radiogroup" aria-label="Transmisión">
+          <label><input type="radio" name="trans" value="F" checked> Opción 1 · F: rodillo motriz y correa</label>
+          <label><input type="radio" name="trans" value="V"> Opción 2 · V: varilla roscada y biela (la foto)</label>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin:6px 0 0"><span class="badge hyp">esperando medidas</span> La V es la de la foto: un motor con acople a una varilla, la tuerca en un carro y una biela con dos rótulas hasta un brazo de la mesa. Los dos rodillos quedan locos. Sus medidas (varilla, paso, motor, biela) son a ojo de la foto hasta que lleguen las de Fran.</p>
       </div>
       <div class="group">
         <h3>Apuntar el tubo</h3>
@@ -435,8 +444,8 @@ const MAT={
 // y el sabotaje del buje de altura (v9) pasaba en verde.
 function sueltas(){
   const q0=rot.quaternion.clone(), a0=rocker.rotation.y, h0=tubeG.rotation.x;
-  rot.quaternion.identity();rocker.rotation.y=0;tubeG.rotation.x=Math.PI/2;
-  try{return sueltasAca();}finally{rot.quaternion.copy(q0);rocker.rotation.y=a0;tubeG.rotation.x=h0;root.updateMatrixWorld(true);}
+  rot.quaternion.identity();rocker.rotation.y=0;tubeG.rotation.x=Math.PI/2;poseDrive(0);
+  try{return sueltasAca();}finally{rot.quaternion.copy(q0);rocker.rotation.y=a0;tubeG.rotation.x=h0;poseDrive(thAct);root.updateMatrixWorld(true);}
 }
 // v10.1: el apoyo va del piso a lo fijo y de lo fijo a lo que gira, NUNCA de lo que gira a lo fijo:
 // la caja de una chapa (girada 11 grados) tapaba al motor, y sin la escuadra el motor seguia
@@ -461,7 +470,22 @@ function boxENU(c,s,mat,rotZ){const m=new THREE.Mesh(new THREE.BoxGeometry(s[0],
 function beam(a,b,w,h,mat){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,A.distanceTo(B)),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.lookAt(B);return m;}
 function cyl(a,b,r,mat,seg){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,A.distanceTo(B),seg||24),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return m;}
 
-let G=null, root=null, rot=null, inner=null, dobGroup=null, rocker=null, tubeG=null, SAB=null, FIX=null;
+let G=null, root=null, rot=null, inner=null, dobGroup=null, rocker=null, tubeG=null, SAB=null, FIX=null, DRV=null, thAct=0;
+// Transmision V (2026-10-08, pedido de Fran con una foto): varilla roscada al sur de la viga sur, en un
+// perfil apoyado en dos planchuelas que cruzan la viga (dos M6 en fila, como todo lo de la viga). El motor
+// gira la varilla por un acople flexible; la tuerca va en un carro con una rotula arriba; una BIELA con
+// rotula en cada punta empuja un BRAZO que cuelga del travesano sur de la mesa, en x = 0 (entre las dos
+// chapas: gira con ellas y nunca las cruza). El brazo pasa ARRIBA de los fines de carrera y de la varilla.
+// Es un tangente: la tuerca va derecha y el brazo en arco, asi que la velocidad de la varilla no es
+// constante (la tabla del programa la corrige, igual que la del VNS). MEDIDAS A OJO de la foto (hipotesis)
+// hasta que lleguen las de Fran: se cambian aca y en ningun otro lado.
+const VARI={paso:0.008, L:0.15, yJ:-0.44, zN:0.135, motor:0.057, motorL:0.056, perfil:[0.05,0.02], tuerca:0.04, margen:0.016};
+const transAct=()=>document.querySelector('input[name=trans]:checked').value;
+// pone el carro y la biela donde los lleva la mesa girada th (lo llaman updatePose, choques y sueltas)
+function poseDrive(th){if(!DRV)return;const A=rotAbout(DRV.A0,G.C,G.d,th), dy=A[1]-DRV.N0[1], dz=A[2]-DRV.N0[2], xN=A[0]-Math.sqrt(VARI.L*VARI.L-dy*dy-dz*dz);
+  DRV.carro.forEach(m=>{m.position.x=m.userData.x0+(xN-DRV.N0[0]);});
+  const a=V([xN,DRV.N0[1],DRV.N0[2]]), b=V(A);DRV.biela.position.copy(a).add(b).multiplyScalar(.5);DRV.biela.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),b.clone().sub(a).normalize());
+  DRV.xN=xN;}
 // v10.3: «nada choca», medido en TODA la carrera (Fran, 2026-10-07: «se choca el segmento con medio mundo»;
 // el v10.1 y el v10.2 pusieron la electronica, la bateria y los fines de carrera adentro del barrido de las
 // chapas, y «Piezas sueltas» no mira eso). Cada chapa se gira de tope a tope y cada punto suyo se prueba
@@ -475,14 +499,16 @@ function choques(pasos){
     for(let i=0;i<=4;i++)for(let j=0;j<=4;j++)for(let k=0;k<=4;k++)if(i%4===0||j%4===0||k%4===0)P.push(new THREE.Vector3(b.min.x+(b.max.x-b.min.x)*i/4,b.min.y+(b.max.y-b.min.y)*j/4,b.min.z+(b.max.z-b.min.z)*k/4));o.userData.pts=P;}});
   const fx=[];FIX.traverse(o=>{if(!o.isMesh||!o.visible||o.material===MAT.printed||o.material===MAT.brass||o.material.isShadowMaterial||o.material===MAT.axis||o.material===MAT.star)return;
     let v=true,q=o.parent;while(q){if(!q.visible)v=false;q=q.parent;}if(!v)return;o.geometry.computeBoundingBox();o.updateMatrixWorld(true);
-    fx.push({o,b:o.geometry.boundingBox,w:new THREE.Box3().setFromObject(o),inv:o.matrixWorld.clone().invert()});});
+    fx.push({o,din:!!(o.userData.carro||o===(DRV&&DRV.biela)),b:o.geometry.boundingBox,w:new THREE.Box3().setFromObject(o),inv:o.matrixWorld.clone().invert()});});
   const w=new THREE.Vector3(),l=new THREE.Vector3(),cb=new THREE.Box3(),e=5e-4;
-  try{for(let s=-pasos;s<=pasos;s++){rot.quaternion.setFromAxisAngle(ax,G.thStop*s/pasos);root.updateMatrixWorld(true);
+  // v10.4: el carro de la varilla y la biela se mueven con la mesa: se ponen en cada paso y se re-miden sus cajas
+  try{for(let s=-pasos;s<=pasos;s++){rot.quaternion.setFromAxisAngle(ax,G.thStop*s/pasos);poseDrive(G.thStop*s/pasos);root.updateMatrixWorld(true);
+    fx.forEach(f=>{if(f.din){f.w.setFromObject(f.o);f.inv.copy(f.o.matrixWorld).invert();}});
     mov.forEach(m=>{cb.setFromObject(m);const cand=fx.filter(f=>f.w.intersectsBox(cb));if(!cand.length)return;
       for(const p of (m.userData.chapa||m.userData.pts)){w.copy(p).applyMatrix4(m.matrixWorld);
-        for(const f of cand){if(!f.w.containsPoint(w)||(m.userData.leva&&f.o.userData.palanca))continue;l.copy(w).applyMatrix4(f.inv);const b=f.b;   /* la leva pisa la palanca: a eso va */
+        for(const f of cand){if(!f.w.containsPoint(w)||(m.userData.leva&&f.o.userData.palanca)||(m.userData.brazo&&f.o.userData.biela))continue;l.copy(w).applyMatrix4(f.inv);const b=f.b;   /* la leva pisa la palanca y el brazo agarra la biela: a eso van */
           if(l.x>b.min.x+e&&l.x<b.max.x-e&&l.y>b.min.y+e&&l.y<b.max.y-e&&l.z>b.min.z+e&&l.z<b.max.z-e){const h=hit.get(f.o)||{con:new Set(),min:[]};h.con.add(m);h.min.push(s/pasos*(G.thStop/G.thRun)*(+$('run').value));hit.set(f.o,h);}}}});}}
-  finally{rot.quaternion.copy(q0);root.updateMatrixWorld(true);}
+  finally{rot.quaternion.copy(q0);poseDrive(thAct);root.updateMatrixWorld(true);}
   return [...hit.entries()].map(([o,h])=>({o,mat:Object.keys(MAT).find(k=>MAT[k]===o.material),con:[...h.con].map(m=>Object.keys(MAT).find(k=>MAT[k]===m.material)),mins:h.min,desde:Math.min(...h.min),hasta:Math.max(...h.min)}));
 }
 const KSW=0.035;   // v10.2: los fines de carrera, a 3,5 cm de la chapa del lado sur (y la leva sale hacia alla)
@@ -513,7 +539,8 @@ const chaveta=(dN,m)=>dN+m[1]-m[2]*0.037;   // donde cae la muesca de cada morda
 
 function build(){
   if(root){scene.remove(root);root.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.element&&o.element.parentNode)o.element.parentNode.removeChild(o.element);});}
-  const p=P(); G=computeVNS(p); SAB={motor:{cuerpo:[],apoyo:[]},finales:{cuerpo:[],apoyo:[]}};
+  const p=P(); G=computeVNS(p); SAB={motor:{cuerpo:[],apoyo:[]},finales:{cuerpo:[],apoyo:[]}}; DRV=null;
+  const conV=transAct()==='V';
   root=new THREE.Group();scene.add(root);
   const fixed=new THREE.Group();root.add(fixed);FIX=fixed;
   rot=new THREE.Group();root.add(rot);inner=new THREE.Group();rot.add(inner);
@@ -561,11 +588,11 @@ function build(){
   // la polea de 80 va en ESE eje (en v8 iba en el bulon de un rodillo loco y no podia transmitir).
   let MOT=null, MAZO=null;
   G.rollers.forEach((r,i)=>{
-    const rr=i===0?0.011:G.RROLL, n=r.nh, a=Math.atan2(r.uh[1],r.uh[0]);
+    const motriz=i===1&&!conV, rr=motriz?G.RROLL:0.011, n=r.nh, a=Math.atan2(r.uh[1],r.uh[0]);
     const c=[r.Pt[0]+n[0]*r.latCenter,r.Pt[1]+n[1]*r.latCenter,r.Pt[2]-rr];
     const at=(k)=>[c[0]+n[0]*k,c[1]+n[1]*k,c[2]], atz=(k,z)=>[c[0]+n[0]*k,c[1]+n[1]*k,z];
     const kb=0.032, kf=-(c[1]-(ys0+0.04))/(n[1]||1);                        // angulos a +-kb (v10.3: eran 24 mm y la chapa los rozaba en el tope, 49-51 min); la viga sur cae en kf
-    const k0=Math.min(kf,-kb)-0.03, k1=Math.max(kf,kb)+0.024, zTopA=c[2]+(i===1?0.037:0.014);
+    const k0=Math.min(kf,-kb)-0.03, k1=Math.max(kf,kb)+0.024, zTopA=c[2]+(motriz?0.037:0.014);
     const auk=(u,k,z)=>[c[0]+r.uh[0]*u+n[0]*k,c[1]+r.uh[1]*u+n[1]*k,z];               // (a lo largo de la chapa, a lo largo del eje, altura)
     const kbm=(u)=>((ys0+0.04)-c[1]-r.uh[1]*u)/n[1];                                   // donde cae el eje del tubo de la viga
     fixed.add(boxENU(atz((k0+k1)/2,gT+0.0024),[0.06,k1-k0,0.0048],MAT.printed2,a));                  // planchuela de base de la unidad
@@ -581,15 +608,15 @@ function build(){
       fixed.add(cyl(atz(kfl,gT+0.008),atz(kfl,gT+0.014),0.0065,MAT.steel,6));     // M8 del angulo a la planchuela
       fixed.add(cyl(atz(kfl,gT-0.007),atz(kfl,gT),0.0065,MAT.steel,6));          // y su tuerca, abajo
     });
-    if(i===0){
+    if(i===0||conV){   // con la V los dos rodillos son locos: el que empuja es la varilla
       [-0.0105,-0.0035,0.0035,0.0105].forEach(k=>{
         fixed.add(cyl(at(k-0.0034),at(k+0.0034),0.011,MAT.printed,28));                 // aro exterior del 608 (22 mm): la superficie que rueda
         [-1,1].forEach(s=>fixed.add(cyl(at(k+s*0.0034),at(k+s*0.0036),0.0085,MAT.vinyl,24)));});   // tapas ZZ
       fixed.add(cyl(at(-kb-0.008),at(kb+0.008),0.004,MAT.steel,12));                    // varilla lisa de impresora, 8 mm
       [-1,1].forEach(s=>fixed.add(cyl(at(s*(kb+0.004)),at(s*(kb+0.008)),0.0075,MAT.steel,16)));   // anillos con prisionero
-      const t6=tag('<span>Rodillo loco: 4 rulemanes 608 de roller en varilla de impresora</span>',6);t6.position.copy(V([c[0]+0.09,c[1]-0.08,c[2]-0.02]));fixed.add(t6);
+      if(i===0){const t6=tag('<span>Rodillo loco: 4 rulemanes 608 de roller en varilla de impresora</span>',6);t6.position.copy(V([c[0]+0.09,c[1]-0.08,c[2]-0.02]));fixed.add(t6);}
     }
-    if(i===1){ // v10.1: rodillo motriz + eje + polea de 80 AFUERA del angulo sur; el motor va en una
+    if(i===1&&!conV){ // v10.1: rodillo motriz + eje + polea de 80 AFUERA del angulo sur; el motor va en una
       // escuadra NEMA 17 sobre la MISMA planchuela del rodillo, que sigue al oeste (una sola pieza en
       // L, abulonada a la viga con cuatro M8): la distancia entre poleas no se mueve. En el v10 el motor
       // colgaba de una planchuela apoyada en el canto del angulo, en el aire.
@@ -633,6 +660,51 @@ function build(){
         cable:[auk(-0.030,kr,gT-0.012),auk(-0.030,kr,gP+0.0025),auk(-0.038,-0.096,gP+0.0025),auk(-D+0.0215,-0.094,zm-0.012)]};
     }
   });
+
+  // 19 transmision V (v10.4, la de la foto de Fran): ver VARI arriba. Todo en ENU; la tuerca y la biela las
+  // mueve poseDrive(). El perfil va al sur de la viga (las chapas llegan hasta y = -0,35 y la leva un poco
+  // mas): nada de la V queda en el barrido de las chapas. El brazo baja de la mesa en x = 0.
+  if(conV){
+    const yb=ys0+0.04, gT2=gT+0.0048, yJ=VARI.yJ, zN=VARI.zN, L=VARI.L, [pw,ph]=VARI.perfil, tl=VARI.tuerca/2, zs=gT2+ph+0.011;
+    const A0=[0,yJ,zN], xs=[];for(let s=-24;s<=24;s++){const A=rotAbout(A0,G.C,G.d,G.thStop*s/24);xs.push(A[0]-Math.sqrt(L*L-(A[1]-yJ)**2-(A[2]-zN)**2));}
+    const xMin=Math.min(...xs), xMax=Math.max(...xs), vel=xs.slice(1).map((x,j)=>Math.abs(x-xs[j]));
+    const xw1=xMin-tl-VARI.margen, xw0=xw1-0.02, xe0=xMax+tl+VARI.margen, xe1=xe0+0.02;            // rulemanes de las puntas
+    const xc0=xw0-0.025, xp0=xc0-0.006, xm1=xp0, xm0=xm1-VARI.motorL, xm=(xm0+xm1)/2;               // acople, chapa del motor, motor
+    const ap=(m)=>{fixed.add(m);SAB.motor.apoyo.push(m);return m;}, cu=(m)=>{fixed.add(m);SAB.motor.cuerpo.push(m);return m;};
+    // dos planchuelas que cruzan la viga (dos M6 en fila sobre su eje) y salen al sur hasta pasar el perfil
+    [xc0+0.03,xMax-0.02].forEach(x=>{const y0=yJ-pw/2-0.01,y1=yb+0.012;fixed.add(boxENU([x,(y0+y1)/2,gT+0.0024],[0.05,y1-y0,0.0048],MAT.printed2));
+      [-1,1].forEach(s=>perno([x+s*0.018,yb,gT2]));});
+    fixed.add(boxENU([(xc0+xe1+0.005)/2,yJ,gT2+ph/2],[xe1+0.005-xc0,pw,ph],MAT.motorBody));                       // perfil
+    [[xw0,xw1],[xe0,xe1]].forEach(([a,b])=>fixed.add(boxENU([(a+b)/2,yJ,(gT2+ph+zs+0.014)/2],[b-a,pw*0.8,zs+0.014-gT2-ph],MAT.motorBody)));   // soportes con ruleman
+    fixed.add(cyl([(xw0+xw1)/2,yJ,zs],[(xe0+xe1)/2,yJ,zs],0.004,MAT.steel,12));                                 // varilla roscada
+    {const m=cyl([xc0,yJ,zs],[xw0,yJ,zs],0.0125,MAT.alu2,20);m.userData.noSostiene=true;fixed.add(m);}         // acople flexible: no sostiene el motor
+    ap(boxENU([xp0+0.003,yJ,(gT2+zs+0.032)/2],[0.006,VARI.motor+0.006,zs+0.032-gT2],MAT.printed2));             // chapa del motor, abulonada a la punta del perfil
+    [[1,1],[-1,1],[1,-1],[-1,-1]].forEach(([a,b])=>ap(cyl([xc0,yJ+a*0.0235,zs+b*0.0235],[xc0+0.004,yJ+a*0.0235,zs+b*0.0235],0.0035,MAT.steel,6)));   // 4 bulones del motor
+    const body=(a,b,mt)=>cu(boxENU([(a+b)/2,yJ,zs],[b-a,VARI.motor,VARI.motor],mt));
+    body(xm1-0.008,xm1,MAT.motorCap);body(xm0+0.008,xm1-0.008,MAT.motorBody);body(xm0,xm0+0.008,MAT.motorCap);
+    cu(cyl([xm1,yJ,zs],[xc0+0.012,yJ,zs],0.004,MAT.steel,10));                                                  // eje del motor, adentro del acople
+    // el carro: tuerca en su bloque, esparrago y rotula; la biela (varilla de 6 con dos rotulas)
+    const N0=[-L,yJ,zN], carro=[];
+    const cr=(m,bi)=>{m.userData.carro=true;if(bi)m.userData.biela=true;m.userData.x0=m.position.x;fixed.add(m);carro.push(m);return m;};
+    cr(boxENU([N0[0],yJ,(gT2+ph+zs+0.016)/2],[VARI.tuerca,pw*0.8,zs+0.016-gT2-ph],MAT.motorBody));
+    cr(cyl([N0[0],yJ,zs+0.016],[N0[0],yJ,zN-0.006],0.004,MAT.steel,10),true);
+    {const b=new THREE.Mesh(new THREE.SphereGeometry(0.008,16,12),MAT.steel);b.position.copy(V(N0));cr(b,true);}
+    const biela=cyl(N0,A0,0.003,MAT.steel,10);biela.userData.noSostiene=true;biela.userData.biela=true;fixed.add(biela);
+    // el brazo: planchuela bajo el travesano sur de la mesa (dos M6 en fila sobre su eje), sale al sur por
+    // ARRIBA de los fines de carrera y baja hasta la rotula. Gira con la mesa.
+    const zt0=G.ztt-TU, yS0=G.ySouth, br=(m)=>{m.userData.brazo=true;inner.add(m);return m;};
+    br(boxENU([0,(yJ-0.0024+yS0+0.008)/2,zt0-0.0024],[0.03,yS0+0.008-yJ+0.0024,0.0048],MAT.printed2));
+    [-0.009,0.009].forEach(x=>br(cyl([x,yS0,zt0-0.0048],[x,yS0,zt0-0.0088],0.0045,MAT.steel,6)));
+    br(boxENU([0,yJ,(zN+0.015+zt0-0.0048)/2],[0.03,0.0048,zt0-0.0048-zN-0.015],MAT.printed2));
+    br(cyl([0,yJ,zN+0.006],[0,yJ,zN+0.015],0.004,MAT.steel,10));
+    {const b=new THREE.Mesh(new THREE.SphereGeometry(0.008,16,12),MAT.steel);b.position.copy(V(A0));br(b);}
+    DRV={A0,N0,carro,biela,xMin,xMax,carreraTuerca:xMax-xMin,vel:(Math.max(...vel)/Math.min(...vel)-1)*100,
+      dxdth:(xs[25]-xs[23])/(2*G.thStop/24),luz:Math.min(xMin-tl-xw1,xe0-xMax-tl)};
+    const yh=yb+0.0124;
+    MOT={cable:[[xm,yh,gT-0.012],[xm,yh,gT+0.0025],[xm,yb-0.0145,gT+0.0025],[xm,yJ+VARI.motor/2+0.0025,gT+0.0025],[xm,yJ+VARI.motor/2+0.0025,zs-0.015]]};
+    const t19=tag('<span>V: motor, acople, varilla y tuerca en su carro, biela con dos rótulas (medidas a ojo de la foto)</span>',19);t19.position.copy(V([xm,yJ-0.06,zs+0.06]));fixed.add(t19);
+    const t20=tag('Brazo de la mesa con rótula',20);t20.position.copy(V([0.05,yJ,zt0-0.02]));inner.add(t20);
+  }
 
   // 17 electronica (v10.3): la electronica y la bateria NO van en la viga sur: las chapas barren la viga
   // de punta a punta (medido con choques(); el v10.1 y el v10.2 las pusieron adentro del barrido y la
@@ -914,8 +986,18 @@ function readout(p){
     ['Talón choca el rodillo','±'+fmt(p.runMin+G.stopMin)+' min ('+fmt(Math.abs(r.lim.stop[0]-r.lim.sw[0])*1000)+' mm después)'],
     ['Variación de velocidad','±'+fmt(r.speedVar,2)+' %'],
     ['Inclinación de la mesa al final',fmt(G.tilt,1)+'°'],
+    ...(DRV?[
+    ['Transmisión','opción 2: V, varilla y biela (medidas a ojo)'],
+    ['V: carrera de la tuerca (tope a tope)',mm(DRV.carreraTuerca)],
+    ['V: luz de la tuerca a cada ruleman, en el tope',mm(DRV.luz),DRV.luz>0.005?'good':'bad'],
+    ['V: variación de velocidad de la varilla (la corrige el programa)','±'+fmt(DRV.vel/2,1)+' %'],
+    ['V: vueltas de la varilla por hora (paso '+fmt(VARI.paso*1000)+' mm)',fmt(DRV.dxdth*7.2921e-5*3600/VARI.paso,1)],
+    ['V: cada micropaso mueve (1/16)',fmt(VARI.paso/3200/DRV.dxdth*206265,2)+'″'],
+    ]:[
+    ['Transmisión','opción 1: F, rodillo motriz y correa'],
     ['Rodillo: vueltas por hora',fmt(7.2921e-5*r.R*3600/(Math.PI*0.032),2)],
     ['Cada micropaso mueve (1/16, 20:80)',fmt(Math.PI*0.032/(200*16*4)/r.R*206265,1)+'″'],
+    ]),
     ['Carga en el pivote',fmt(L.pivote,1)+' kg'],
     ['Carga en cada rodillo',fmt(L.este,1)+' / '+fmt(L.oeste,1)+' kg'],
     ['Masa que gira (telescopio + mesa)',fmt(G.Mtot,1)+' kg'],
@@ -940,7 +1022,7 @@ let tMin=0;
 function updatePose(){
   if(!G)return;
   const th=-(tMin/60)*15*D2R;   // el cielo gira alrededor del eje que apunta al polo sur
-  rot.quaternion.setFromAxisAngle(V(G.d).normalize(),th);
+  rot.quaternion.setFromAxisAngle(V(G.d).normalize(),th);thAct=th;poseDrive(th);
   const az=+$('az').value*D2R, alt=+$('alt').value*D2R;
   rocker.rotation.y=-az;          // azimut medido desde el norte hacia el este
   tubeG.rotation.x=alt;           // el tubo arranca apuntando al norte (-z)
@@ -960,6 +1042,7 @@ Object.keys(units).forEach(k=>{const el=$(k);const show=shows[k]=()=>{$(k+'_o').
   el.addEventListener('input',()=>{show();if(k==='az'||k==='alt'){updatePose();return;}if(k==='dN')$('auto').checked=false;else syncDN();build();});});
 document.querySelectorAll('input[name=tel]').forEach(r=>r.addEventListener('change',()=>{const t=TEL[telAct()];$('M').value=t.M;$('Hreal').value=t.H;shows.M();shows.Hreal();$('auto').checked=true;syncDN();build();}));
 $('auto').addEventListener('change',()=>{syncDN();build();});
+document.querySelectorAll('input[name=trans]').forEach(r=>r.addEventListener('change',build));
 $('certeza').addEventListener('change',applyCerteza);
 $('t').addEventListener('input',()=>{tMin=+$('t').value;updatePose();});
 ['showDob'].forEach(k=>$(k).addEventListener('change',updatePose));
@@ -976,7 +1059,7 @@ $('play').addEventListener('click',()=>{playing=!playing;$('play').textContent=p
 $('reset').addEventListener('click',()=>{tMin=0;$('t').value=0;updatePose();});
 $('defaults').addEventListener('click',()=>{playing=false;$('play').textContent='▶ Seguir al cielo (×600)';tMin=0;
   ['showDob','showTags'].forEach(k=>$(k).checked=true);$('ghost').checked=false;$('certeza').checked=false;applyCerteza();
-  document.querySelector('input[name=tel][value="200"]').checked=true;$('auto').checked=true;
+  document.querySelector('input[name=tel][value="200"]').checked=true;$('auto').checked=true;document.querySelector('input[name=trans][value="F"]').checked=true;
   Object.keys(units).forEach(k=>{$(k).value=$(k).defaultValue;shows[k]();});syncDN();build();$('t').value=0;updatePose();});
 // leyenda de colores: la misma tabla que pinta los materiales
 (function(){const L=[['base','Base y poste: tubo 20 × 20'],['mesa','Mesa y brazo: tubo 20 × 20'],['riel','Rieles de la corredera'],['mordaza','Mordazas de borde'],['alu','Chapas de acero 5/16"'],['impreso','Rodillos: torneado y 608'],['soporte','Ángulos y planchuelas'],['acero','Bulones, ejes, rulemanes'],['laton','Pivote (bocha)'],['motor','Motor, correa, batería'],['elec','Electrónica'],['limite','Finales de carrera'],['dob','Dobson actual'],['doce','12" teórico (no existe todavía)'],['eje','Eje polar'],['cdm','Centro de masa']];
@@ -990,6 +1073,8 @@ const views={iso:[[3.3,-3.2,2.3],[0,0.2,0.75]],oeste:[[-3.8,0.35,0.9],[0,0.35,0.
 function setView(k){let v=views[k];
   if(k==='motor'){const c=G.rollers[1].Pt;v=[[c[0]-0.30,c[1]-0.30,c[2]+0.16],[c[0]-0.05,c[1]-0.06,c[2]-0.03]];}   // v10.1: el motor va al sur del rodillo, sobre la viga
   if(k==='viga'){const c=G.rollers[0].Pt, yb=G.ySouthBase+0.04, g=G.groundTop;v=[[c[0]-0.10,yb-0.45,g+0.32],[c[0],yb+0.01,g+0.03]];}   // v10.2: los fines de carrera y sus pies
+  if(k==='varilla'){if(transAct()!=='V'){document.querySelector('input[name=trans][value="V"]').checked=true;build();}
+    const y=VARI.yJ, g=G.groundTop;v=[[-0.42,y-0.75,g+0.42],[-0.12,y+0.03,g+0.06]];}   // v10.4: la opcion 2 (V)
   if(k==='chapa'){const c=G.rollers[0].Pt;v=[[c[0]+0.08,c[1]-0.8,c[2]+0.12],[c[0],c[1],c[2]+0.03]];}camera.position.copy(V(v[0]));controls.target.copy(V(v[1]));controls.update();}
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
 

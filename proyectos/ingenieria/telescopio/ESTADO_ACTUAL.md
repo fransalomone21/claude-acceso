@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-07 (decimocuarta sesión: modelo v10.1 —el motor apoyado, el 12" teórico en color—, L1-29 sin tope y la cuenta de 30 contra 60 s con la guía del trade)
+**Última actualización:** 2026-10-08 (decimoquinta sesión: modelo v10.4 con dos transmisiones —opción 1 F, rodillo y correa; opción 2 V, varilla roscada y biela, la de la foto de Fran, con medidas a ojo hasta las suyas—, nada choca con ninguna; y el PDP §4 deja escrita la V de NASA para después de la fase 0)
 
 ## Dónde estamos
 

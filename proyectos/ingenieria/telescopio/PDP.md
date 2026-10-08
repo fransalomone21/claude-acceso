@@ -109,6 +109,25 @@ foco con la cámara y tampoco con el celular, la meta de cielo profundo cae y
 el proyecto se reescribe entero. Eso es información valiosa, no un fracaso, y
 cuesta diez minutos averiguarlo — por eso la medición 0 va primera.
 
+**Después de la fase 0: la V de NASA** (Fran, 2026-10-08: «una vez que
+terminemos el concepto, haremos el diseño con la lista de requisitos de alto
+nivel y de ahí para abajo hasta definir el mejor mecanismo, mejor performance
+en relación a simplicidad»). Es el motor de NASA (SEH Fig. 2.1-1,
+`perfil-global/pilares/nasa-seh/fundamentos.md` §3; también en los apuntes de
+IISE del Drive): **el brazo que baja** — requisitos de alto nivel (L0, L1) →
+L2 por elemento → L3 por subsistema (transmisión, rodillos, estructura,
+electrónica, programa) → cada pieza hasta que se puede comprar, fabricar o
+reusar —, y **el brazo que sube** — implementación → integración →
+verificación contra cada nivel de requisitos → validación contra el ConOps (la
+foto). Cada nivel del brazo que baja deja escrito, **antes** de bajar al
+siguiente, su **plan de verificación** (con qué ensayo, análisis, inspección o
+demostración se va a comprobar cada «deberá» al subir) y su **plan de
+implementación** (cómo se fabrica, compra o integra). Los mecanismos en
+competencia (la transmisión: opción 1 F, rodillo y correa; opción 2 V, varilla
+roscada y biela, la de la foto del 2026-10-08) se eligen **en su nivel**, con
+un trade study de pesos puestos por Fran, nunca antes por el modelo 3D: el
+modelo muestra opciones, no decide.
+
 ## 5. Riesgos
 
 | # | Riesgo | Prob. | Consec. | Estrategia | Disparador observable |
