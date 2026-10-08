@@ -305,6 +305,34 @@ antes, se decide con la regla y el banco confirma.
 Un empate (F − T2 = 0) acusa a los criterios, no a las alternativas: se
 rehacen las definiciones (lección «un trade study que empata»).
 
+## 6d. El trade, con lo que eligió Fran (2026-10-08)
+
+**Fran: 60 s por foto, y el orden precisión > que no patine > facilidad >
+costo.** Un orden no son pesos: para pasarlo a números hay métodos estándar, y
+se corren los tres para ver si el resultado depende del método (puntajes de
+60 s de §6c: F 4·3·3·4, T2 3·5·3·3).
+
+| Cómo se pasa el orden a pesos | Pesos (prec · no patina · fac · costo) | F | T2 | Gana |
+|---|---|---|---|---|
+| ROC (*rank order centroid*, Barron y Barrett) | 0,52 · 0,27 · 0,15 · 0,06 | 3,58 | 3,54 | F por 1 % |
+| Suma de rangos (4-3-2-1) | 0,40 · 0,30 · 0,20 · 0,10 | 3,50 | 3,60 | T2 por 3 % |
+| Recíproco del rango (1, ½, ⅓, ¼) | 0,48 · 0,24 · 0,16 · 0,12 | 3,60 | 3,48 | F por 3 % |
+
+**Empata**: el ganador cambia con el método y la diferencia es de 1 a 3 %. No
+es que el orden de Fran esté mal: lo que separa a F de T2 no es un peso, es
+una **incógnita que se mide**, si F patina (criterio 2). Con el resultado del
+banco el empate se rompe con **cualquiera** de los tres métodos:
+
+| Si el banco del rodillo (paso 6 de `11`) da… | Criterio 2 de F | F − T2 (ROC · suma · recíproco) | Gana |
+|---|---|---|---|
+| no patina con el doble del empuje del peor caso | 4 | +0,31 · +0,20 · +0,36 | **F** |
+| patina | 2 | −0,23 · −0,40 · −0,12 | **T2** |
+
+**Decisión (regla, no pálpito):** se arma el banco del rodillo con F; si no
+patina, **F con corrección periódica (PEC)**; si patina, **T2** con paso de
+8 mm y PEC. Con 60 s la PEC va en cualquiera de las dos (§6b). Mientras
+tanto, el modelo sigue mostrando F.
+
 ## 5b. Cómo se toma el dobson sin agujerearlo (Fran, 2026-10-07)
 
 Fran: «el dobson no se agujerea de ser posible; quizás sea mejor algo

@@ -6,6 +6,42 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+## Decimocuarta sesión, cierre (2026-10-08): 60 s, el trade y nada choca (v10.3)
+
+**Fran:** «vamos a por 60 segundos y mi ranking es precisión > que no patine >
+facilidad > costo. wtf hiciste, se choca el segmento con medio mundo, ambos».
+
+**Lo que pasó:** el v10.1 y el v10.2 movieron la electrónica, la batería y los
+fines de carrera **sin medir el barrido** de las chapas, que recorren la viga
+sur de punta a punta. «Piezas sueltas» no mira choques. Lección 357.
+
+**Hecho (artifact versión 8):**
+- **`choques()`** en el panel («Choques… toda la carrera, medido»): gira chapas
+  y mesa de −51 a +51 min y prueba cada punto contra la caja de cada pieza fija
+  **en su sistema**; excluye la pista (rodillos), la rótula y leva-palanca.
+  Sabotaje `window.__vns.sabotearChoque()` (una caja donde estaba la batería):
+  1 y restaura 0. **Dio 7 choques** (electrónica, batería y su cable, botón,
+  leva contra el soporte de un switch, y los dos ángulos sur en el tope 49-51).
+  Ojo: la primera versión del chequeo daba 0 porque un comentario `//` en el
+  medio de la línea se comió el código; se sospechó del 0 antes de creerle.
+- Electrónica y batería a los **tubos de costado** (30 cm de cada pata del sur,
+  2 M6 en fila); mazo en la cara **norte** de la viga sur, ramales por la
+  cartela. Fines de carrera a la altura **real** de la leva (`rotAbout` de la
+  leva a los 48 min y su camino hasta el tope; el del este queda alto). Ángulos
+  de los rodillos a ±32 mm (eran 24). `sabotear()` sube 10 mm (con 5 un bulón
+  vecino «sostenía» el motor). Resultado: **choques ninguno, sueltas ninguna**,
+  con el 200 y el 12"; motor 7/7, finales 6/6.
+- **60 s** en los requisitos (L1-01, L1-27, L2-PLT-02, L2-PLT-03 0,1 %,
+  L2-MON-01, L2-OPE-01 3,5′, L2-OPE-04 0,5 mm), §9 con PEC, el trade y la
+  ubicación de la electrónica. VERDE.
+- **Trade** (`docs/14` §6d): el orden de Fran pasado a pesos con ROC, suma de
+  rangos y recíproco: **empata** (gana uno u otro por 1-3 %). Decide el banco:
+  F no patina → **F + PEC**; patina → **T2 paso 8 + PEC**.
+
+**Pendiente de Fran:** foto de la tabla del vuelco; ¿viaja en auto?; ¿cuánto
+armado?; prueba de foco. **De la sesión:** el banco del rodillo (diseñarlo) y
+ajustar CAL-2 y CAL-4 de `docs/11` a 60 s.
+
 ## Decimocuarta sesión, segunda parte: v10.2, los bulones
 
 **Pedido de Fran** (captura del fin de carrera del este): «propone estructura

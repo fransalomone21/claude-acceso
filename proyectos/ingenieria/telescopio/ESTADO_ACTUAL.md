@@ -59,6 +59,7 @@ y el inventario sin `?`.
 | **El artifact es público con el link**: lo dice la respuesta de la herramienta al publicar («shared as Anyone with the link»). Cierra el «Fran dice que es público: sin medir» | respuesta del publish, 2026-10-07 | 2026-10-07 |
 | **El dibujo para medir el centro de masa existe**: `docs/dibujo-cdm.html` (fuente única) → PDF «Medir el centro de masa» (3 páginas, mirado) en el Drive y enviado a Fran, y 4 imágenes adentro del Doc «2 - Paso a paso». Docs «1 - El proyecto» v5 (el 300, mordazas, transmisión F con respaldo T2, Kevin K1-K9) y «2» v4 regenerados con los mismos IDs; el Cuaderno del 4/10 al Archivo como VIEJO | IDs con `rclone lsf`; el Doc 2 bajado tiene las 4 imágenes; un Doc acepta imágenes: probado antes con un borrador | 2026-10-07 |
 | **Modelo v10.1** publicado (versión 6 del artifact, público con el link): el motor va en una **escuadra NEMA 17 sobre la misma planchuela del rodillo motriz** (una pieza en L, cuatro M8 a la viga; correa del lado sur); en el v10 colgaba de una planchuela apoyada en el canto del ángulo. Cables acostados sobre la viga; electrónica al lado del rodillo motriz. **El 12" teórico, sólido y en color** (pedido de Fran) | «Piezas sueltas» = ninguna con el 200 y con el 12"; consola sin errores; vistas miradas; publicado = repo | 2026-10-07 |
+| **Modelo v10.3** (versión 8): **nada choca** — el panel gira chapas y mesa de tope a tope y prueba cada punto contra cada pieza fija («Choques»). El v10.1-10.2 tenía la electrónica, la batería y un fin de carrera adentro del barrido de las chapas, y los ángulos de los rodillos rozados en el tope: electrónica y batería a los tubos de costado, cada fin de carrera a la altura real de la leva, ángulos a ±32 mm. **60 s** (Fran): requisitos actualizados; trade F/T2 empatado, lo decide el banco | `choques()` = ninguno con el 200 y el 12"; `sabotearChoque()` lo ve (1) y restaura 0; `sabotear('motor')` 7/7, `('finales')` 6/6; requisitos VERDE; 13 OK | 2026-10-08 |
 | **Modelo v10.2** (versión 7): fines de carrera del lado sur de la chapa, cada uno en un pie que cruza la viga con **dos M6 en fila** (antes: voladizo de 6,7 y 12,6 cm con un bulón); todo lo de la viga sur con dos M6 en fila sobre el eje del tubo en tuerca remache (los M8 de los rodillos caían afuera del tubo); cables en un mazo por la cara del tubo. **No hace falta una planchuela paralela** | «Piezas sueltas» = ninguna con los dos telescopios; `sabotear('motor')` 7 de 7 y `sabotear('finales')` 6 de 6, restaurado 0 | 2026-10-07 |
 | **El tiempo de cambiar de telescopio no importa** (Fran): L1-29 sin tope, definido; requisitos VERDE | `verificar-requisitos.py` VERDE (12 N, 15 L0, 30 L1, 31 L2) | 2026-10-07 |
 | **30 contra 60 s, en números** (`docs/14` §6b): un error de velocidad δ corre la estrella δ·15″/s·t en un sub de t s, así que 60 s parte a la mitad todo el presupuesto (alineación 7′ → 3,8′, velocidad media 0,2 → 0,1 %, la PEC pasa de recomendable a obligatoria); plata casi igual; en el patio gana ≈ 1 % de señal/ruido, en cielo oscuro ≈ 15-20 %. **Guía del trade** (§6c): la precisión es piso, no peso (quedan F y T2); F gana si precisión + costo > 2 × «no patina»; el banco del rodillo mueve la decisión más que los pesos | cálculo; el descentrado de 0,02 mm, el cielo del patio y el ruido de lectura son `hipótesis` | 2026-10-07 |
@@ -93,7 +94,16 @@ y el inventario sin `?`.
 
 ## Lo próximo
 
-> **2026-10-07 (decimocuarta sesión) — manda sobre todo lo de abajo.** Hechos
+> **2026-10-08 (decimocuarta sesión, cierre) — manda sobre todo lo de abajo.**
+> Fran eligió **60 s** y el orden **precisión > no patina > facilidad > costo**:
+> el trade F/T2 **empata** con cualquier método de pesos; lo decide **el banco
+> del rodillo** (si F no patina, F + PEC; si patina, T2 + PEC). Requisitos con
+> 60 s (VERDE). Modelo **v10.3** (artifact versión 8): **nada choca** en toda la
+> carrera, medido en el panel. Sigue: **(1)** la foto de la tabla del vuelco
+> (L1-15); **(2)** el banco del rodillo, que decide la transmisión; **(3)** la
+> prueba de foco. **Fran:** ¿viaja en auto?, ¿cuánto armado?
+>
+> **2026-10-07 (decimocuarta sesión).** Hechos
 > el v10.1 (motor apoyado, 12" en color), L1-29 sin tope y la cuenta de 30/60 s
 > con la guía del trade (`docs/14` §6b-6c). Sigue: **(1) Fran elige 30 o 60 s**
 > (la sesión recomienda 30 si la plataforma no viaja a un cielo oscuro) y
