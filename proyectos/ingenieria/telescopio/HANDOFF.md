@@ -6,6 +6,35 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+## Decimocuarta sesión, segunda parte: v10.2, los bulones
+
+**Pedido de Fran** (captura del fin de carrera del este): «propone estructura
+que no deje eso volando, y si no hace falta planchuela ahí, dejá más clara la
+estructura con detalle en los bulones para que me dé cuenta que no hace falta
+la planchuela paralela». Era relevante: cada fin de carrera estaba en una
+planchuela en voladizo de **6,7 y 12,6 cm** al norte de la viga con **un solo
+bulón** (gira como bisagra), y los dos M8 de cada unidad de rodillo caían a
+12 mm del eje del tubo de 20 mm: **afuera del tubo**.
+
+**Hecho (artifact versión 7):**
+- Fines de carrera al **lado sur** de la chapa, a 3,5 cm (`KSW`): como la
+  chapa va girada, quedan a −3,3 y +2,6 cm del eje de la viga. Cada uno en un
+  **pie de planchuela de 50 mm** que cruza la viga con **dos M6 en fila**. La
+  leva (M5) sale hacia el sur. El contacto camina 0 a 13 mm hacia el **norte**:
+  la chapa se aleja de los switches (2,3 cm de luz).
+- **Todo lo que va sobre la viga** (rodillos en ranura, motor, electrónica,
+  batería, fines de carrera): dos M6 en fila sobre el eje del tubo, en
+  **tuerca remache** (abajo está la planchuela de canto: no hay pasante).
+  Bulones dibujados con arandela y cabeza. Ala apoyada del ángulo sur de cada
+  rodillo hacia adentro (su M8 lleva tuerca abajo, sobre aire).
+- Cables en **un mazo** en la cara sur del tubo, con un ramal por cosa.
+- Detector: **un cable o una correa no sostienen** (además de «lo fijo no se
+  apoya en lo que gira»). `window.__vns.sabotear('motor')` 7 de 7 y
+  `sabotear('finales')` 6 de 6, y «restaurado: 0», con el 200 y el 12".
+- Vista nueva **«Detalle: viga y bulones»**; texto de la pieza 13 contesta lo
+  de la planchuela paralela: no hace falta. Requisitos §9, dos filas
+  (L2-PLT-07, L2-PLT-09, L2-PLT-02, L2-PLT-13). VERDE; 13 OK.
+
 ## Decimocuarta sesión (2026-10-07, PC): v10.1, L1-29 y 30 contra 60 s
 
 **Pedido de Fran:** «no importa el tiempo de pasar de 200 a otro»; «decime en

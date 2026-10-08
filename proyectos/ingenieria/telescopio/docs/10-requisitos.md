@@ -501,6 +501,8 @@ ninguno es un huérfano**: o falta el requisito, o sobra la decisión. Desde el
 | batería en la viga sur | L1-06 | su capacidad sale del banco |
 | tres capas de tope (45, 48, 51 min) | L2-PLT-06 a 08 | |
 | fines de carrera normalmente cerrados, en escuadra a la viga sur | L2-PLT-09 | en v9 el soporte flotaba |
+| fines de carrera del lado sur de la chapa, cada uno en un pie que cruza la viga con dos M6 en fila; la leva sale al sur | L2-PLT-07, L2-PLT-09 | v10.2: del lado norte quedaban en voladizo de 7 y 13 cm con un solo bulón (giraban); ahora a ≤ 3,5 cm de la viga |
+| todo lo que va sobre la viga sur, con dos M6 en fila sobre el eje del tubo y tuerca remache | L2-PLT-02, L2-PLT-13 | v10.2: los dos M8 de cada rodillo caían afuera del tubo de 20 mm; en ranura, la unidad corre para cambiar la separación |
 | marcas del piso bajo cada pata | L2-OPE-03, L2-OPE-04 | |
 | rodillos a 50 cm | L1-13 | 6,8 kg con el 200; **5,5 con el 12" liviano: no cumple** (rodillos a 58 cm y base de 1,3 m lo arreglan) |
 | base triangular de 1,2 m | L1-14, L2-PLT-04 | |

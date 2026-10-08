@@ -105,7 +105,7 @@ a{color:var(--accent)}
   <div class="eyebrow">Telescopio 200/1200 · plataforma ecuatorial · 34,5° S</div>
   <h1>Plataforma VNS del 200/1200</h1>
   <p class="lede">El modelo de abajo está calculado, no dibujado a ojo: cada pieza sale de la latitud, del centro de masa y de cuánto tiempo querés seguir una estrella. Movés un número y la plataforma se rehace sola. Girala con el mouse (o el dedo), y dale <b>▶</b> para ver cómo acompaña al cielo.</p>
-  <p class="note hypn"><span class="badge hyp">diseño preliminar</span> <b>Versión 10.1 (7/10/2026): la plataforma «terminada», con lo que hoy está confirmado, lo probable y lo que está en revisión.</b> En la 10.1 el motor quedó apoyado en su escuadra sobre la planchuela del rodillo (en la 10 colgaba en el aire), los cables van por la viga y el 12" teórico tiene color. Es una iteración de diseño para convencernos de que el concepto cierra; <b>no es un plano y nada de esto es para cortar</b>. Lo nuevo: la <b>mesa universal</b> (lleva el 200 de Fran y cualquier dobson de 300 mm comercial, GoTo incluido), con <b>tres rieles</b>, una <b>corredera</b> norte-sur con una muesca por telescopio y <b>tres mordazas de borde</b> que no agujerean la base. Arriba de todo elegís qué telescopio va arriba y el dobson se corre solo a su muesca. Tildá <b>«pintar por certeza»</b> para ver de qué estamos seguros y de qué no. Lo que manda no es el dibujo: es la física de la sección <a href="#fisica">«Lo que importa»</a>.</p>
+  <p class="note hypn"><span class="badge hyp">diseño preliminar</span> <b>Versión 10.2 (7/10/2026): la plataforma «terminada», con lo que hoy está confirmado, lo probable y lo que está en revisión.</b> En la 10.1 el motor quedó apoyado en su escuadra sobre la planchuela del rodillo (en la 10 colgaba en el aire) y el 12" teórico tiene color. En la 10.2, <b>los bulones</b>: todo lo que va sobre la viga sur se abulona con dos M6 en fila sobre el eje del tubo, los fines de carrera pasaron al lado sur de la chapa (pegados a la viga) y los cables van en un mazo por la cara del tubo. Mirá <b>«Detalle: viga y bulones»</b>. Es una iteración de diseño para convencernos de que el concepto cierra; <b>no es un plano y nada de esto es para cortar</b>. Lo nuevo: la <b>mesa universal</b> (lleva el 200 de Fran y cualquier dobson de 300 mm comercial, GoTo incluido), con <b>tres rieles</b>, una <b>corredera</b> norte-sur con una muesca por telescopio y <b>tres mordazas de borde</b> que no agujerean la base. Arriba de todo elegís qué telescopio va arriba y el dobson se corre solo a su muesca. Tildá <b>«pintar por certeza»</b> para ver de qué estamos seguros y de qué no. Lo que manda no es el dibujo: es la física de la sección <a href="#fisica">«Lo que importa»</a>.</p>
 
   <div class="stage">
     <div class="viewer" id="viewer">
@@ -117,6 +117,7 @@ a{color:var(--accent)}
         <button type="button" data-view="cielo">Hacia el polo</button>
         <button type="button" data-view="motor">Detalle: rodillo y motor</button>
         <button type="button" data-view="chapa">Detalle: chapa</button>
+        <button type="button" data-view="viga">Detalle: viga y bulones</button>
       </div>
       <div class="clock" id="clock">0 min · mesa a 0,0°</div>
     </div>
@@ -248,14 +249,14 @@ a{color:var(--accent)}
   <p>Cada pieza con su grado: <span class="gb g-conf">confirmado</span> medido o decidido por Fran y cerrado por cálculo; <span class="gb g-prob">probable</span> cuenta con datos reales a la que le falta un segundo método; <span class="gb g-rev">en revisión</span> concepto o propuesta abierta. De las 17: <b>6 confirmadas, 5 probables y 6 en revisión</b>. Ninguna queda en el aire: el panel lo mide en cada cambio («Piezas sueltas»).</p>
   <div class="cols">
     <ol class="parts">
-      <li><b>1</b><div><span class="gb g-prob">probable</span> <b>Base al piso.</b> Un <b>triángulo de tubo 20 × 20</b> de pata a pata (idea de Kevin), con cartelas de planchuela en las esquinas. El lado sur es la <b>viga de los rodillos</b>: lleva los dos rodillos, la electrónica y la batería. Un 20 × 20 solo ahí se hunde ≈ 5 mm; con una <b>planchuela de 30 de canto soldada abajo</b> baja a ≈ 0,6 mm. Va <b>abulonada</b> a los otros dos lados: desarmada, entra en el baúl. <b>Ancho de 1,2 m.</b> Falta medir la pared de los tubos que hay.</div></li>
+      <li><b>1</b><div><span class="gb g-prob">probable</span> <b>Base al piso.</b> Un <b>triángulo de tubo 20 × 20</b> de pata a pata (idea de Kevin), con cartelas de planchuela en las esquinas. El lado sur es la <b>viga de los rodillos</b>: lleva los dos rodillos, la electrónica y la batería. Un 20 × 20 solo ahí se hunde ≈ 5 mm; con una <b>planchuela de 30 de canto soldada abajo</b> baja a ≈ 0,6 mm. Va <b>abulonada</b> a los otros dos lados: desarmada, entra en el baúl. <b>Ancho de 1,2 m.</b> Falta medir la pared de los tubos que hay. <b>Cómo se abulona algo arriba de la viga:</b> con <b>dos M6 en fila sobre el eje del tubo</b>, en <b>tuercas remache</b> puestas en la cara de arriba (abajo del tubo está la planchuela de canto soldada: un bulón pasante no tiene por dónde salir). Dos y en fila, porque con uno la pieza gira; en fila a lo largo de la viga, porque el tubo mide 20 mm de ancho y no entran dos de costado. Así van los dos rodillos (en ranura: corren para cambiar la separación), el motor, la electrónica, la batería y los fines de carrera.</div></li>
       <li><b>2</b><div><span class="gb g-conf">confirmado</span> <b>Tres patas regulables y sus marcas en el piso.</b> Un bulón M10 con tuerca en cada punta. Tres patas apoyan firme en cualquier piso, como el banquito de ordeñe. Una vez alineada, cada pata tiene su <b>marca en el piso del patio</b> (los discos claros): la noche siguiente se apoya en las marcas y la alineación se repite en dos minutos.</div></li>
       <li><b>3</b><div><span class="gb g-prob">probable</span> <b>Pivote norte.</b> Una rótula de amortiguador a gas (bocha de 10 mm) arriba de un <b>poste de 10 cm</b> con tres riendas, y arriba, en el brazo de la mesa, un hueco cónico donde apoya. Es el único punto que no rueda. El poste acorta la base a 1,17 m.</div></li>
       <li><b>4</b><div><span class="gb g-rev">en revisión</span> <b>Mesa universal.</b> Marco de tubo 20 × 20: travesaño sur (de ahí cuelgan las chapas), travesaño norte, <b>tres largueros</b> y el brazo en A hasta el pivote. Arriba de cada larguero va soldado un <b>riel</b> de tubo 20 × 20 (larguero + riel = una viga de 20 × 40, que no se dobla con 50 kg). Mide ≈ 87 cm de norte a sur porque el dobson se corre por ahí; pesa ≈ 11 kg con las chapas y gira con el telescopio. Lleva al 200 de Fran y a cualquier 12" de hasta 50 kg con base de hasta 70 cm.</div></li>
       <li><b>5</b><div><span class="gb g-rev">en revisión</span> <b>Las dos chapas (segmentos).</b> Acero de <b>5/16" (7,94 mm)</b>, cortadas a <b>láser</b>, colgadas del travesaño sur con tres M8 cada una. El canto de abajo es la pista: una de las <b>dos piezas de precisión</b>. El espesor lo pide el 12": con 25 kg por rodillo, la de 1/4" se marca y la de 5/16" no. <b>Su forma sale del centro de masa medido</b>: hasta entonces, no se cortan. Son las mismas para los dos telescopios.</div></li>
       <li><b>6</b><div><span class="gb g-prob">probable</span> <b>Rodillo loco (este).</b> <b>Cuatro rulemanes 608</b> de roller sobre una <b>varilla lisa de impresora de 8 mm</b> entre dos ángulos. El aro de afuera de un rulemán es más redondo que cualquier cosa torneada en casa. El punto de apoyo camina 0 a 13 mm para un lado a lo largo de la carrera (rueda, no patina).</div></li>
       <li><b>7</b><div><span class="gb g-rev">en revisión</span> <b>Transmisión F: motor y rodillo motriz (oeste).</b> Un rodillo de <b>acero torneado de 32 × 30 mm</b> en un eje de 8 mm sobre dos 608; en ese eje, la <b>polea GT2 de 80</b>, y una correa a la de 20 del <b>NEMA 17</b>: reduce 4 a 1. El motor va en una <b>escuadra NEMA 17</b> sobre la <b>misma planchuela del rodillo</b>, que sigue al oeste y se abulona a la viga sur con cuatro M8: una sola pieza en L, así la distancia entre poleas no se mueve y la correa se tensa corriendo la escuadra en sus ranuras. Tracción por fricción, acero sobre acero. Es la propuesta de la sesión porque no mete ningún error que se repita <i>adentro</i> de una foto; el respaldo es un tornillo de bolas comprado (T2). Se cierra cuando se elija 30 o 60 s y con el rodillo en el banco.</div></li>
-      <li><b>13</b><div><span class="gb g-conf">confirmado</span> <b>Finales de carrera.</b> Dos microswitches con palanca, sobre soportes impresos que se atornillan a una escuadra de planchuela abulonada a la viga sur. Un tornillo M5 en el medio de la chapa hace de leva: cuando la mesa se pasa <span id="swTxt">3 min</span> del final, aprieta la palanca y la placa corta el motor. Es la segunda capa: la primera es el programa, que para solo a los ±45 min.</div></li>
+      <li><b>13</b><div><span class="gb g-conf">confirmado</span> <b>Finales de carrera.</b> Dos microswitches con palanca, sobre soportes impresos, del <b>lado sur</b> de la chapa, a 3,5 cm de ella. Un tornillo M5 en el medio de la chapa sale hacia el sur y hace de leva: cuando la mesa se pasa <span id="swTxt">3 min</span> del final, aprieta la palanca y la placa corta el motor. Es la segunda capa: la primera es el programa, que para solo a los ±45 min. <b>Cada uno va en un pie de planchuela de 50 mm que cruza la viga con dos M6 en fila.</b> ¿Hace falta una planchuela paralela a la viga para que no vuelen? <b>No.</b> Lo que los hacía ver volando era <b>un solo bulón</b> (con uno, la planchuela gira como una bisagra) y 7 a 13 cm de voladizo del lado norte. Como la chapa va girada, del lado sur sus dos puntas quedan pegadas a la viga: el voladizo baja a ≤ 3,5 cm, y lo único que carga es la palanca de un switch (≈ 1 N). Una planchuela paralela sería hierro de más y otra pieza que alinear.</div></li>
       <li><b>14</b><div><span class="gb g-conf">confirmado</span> <b>Talones: el tope que no depende de nada.</b> Cada chapa termina en un diente que cuelga 12 mm, con goma. Si falla el programa <i>y</i> el switch, el talón choca el rodillo y la mesa se queda ahí. Sale de la misma plantilla.</div></li>
     </ol>
     <ol class="parts" start="8">
@@ -325,7 +326,7 @@ a{color:var(--accent)}
       <tr><td>Poleas GT2 de 20 (agujero 5) y de 80 (agujero 8) + correa GT2 cerrada de 6 mm</td><td class="num">1 juego</td><td>Casas de impresión 3D (TP3D, 3DInsumos), Mercado Libre</td><td class="num">a cotizar</td></tr>
       <tr><td>Motor NEMA 17 de ≈ 4 kg·cm + driver TMC2209 + ESP32</td><td class="num">1 de cada uno</td><td>Usongshine 17HS4401 (Mercado Libre); TMC2209 y ESP32 en casas de electrónica</td><td class="num">motor ≈ $24.640 (5/10)</td></tr>
       <tr><td>Rótula de amortiguador a gas (bocha 10 mm, rosca M8)</td><td class="num">1</td><td>Repuestos de auto</td><td class="num">a cotizar</td></tr>
-      <tr><td>Bulones M8 × 25 clase 8.8 con arandela y tuerca autofrenante; M10 × 60 para las patas; M3 del motor; para las 3 mordazas: 3 M8 de chaveta y 3 tornillos de mano M8, con 6 mariposas, y 3 almohadillas de goma</td><td class="num">≈ 26 M8, 3 M10</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
+      <tr><td>Bulones M8 × 25 clase 8.8 con arandela y tuerca autofrenante (ángulos de los rodillos, chapas, mordazas); <b>M6 × 16 con arandela y tuerca remache M6</b> para todo lo que va sobre la viga sur (rodillos, motor, electrónica, batería y fines de carrera: dos cada uno); M10 × 60 para las patas; M3 y M5 de la escuadra del motor; para las 3 mordazas: 3 M8 de chaveta y 3 tornillos de mano M8, con 6 mariposas, y 3 almohadillas de goma</td><td class="num">≈ 20 M8, 14 M6, 3 M10</td><td>Ferretería del barrio</td><td class="num">a cotizar</td></tr>
       <tr><td>Caja estanca chica, botón de rebobinado, ficha ST-4 (RJ12) y batería (la capacidad sale del motor en el banco)</td><td class="num">1 de cada uno</td><td>Casas de electrónica</td><td class="num">a cotizar</td></tr>
       <tr><td>Microswitches con palanca (de alguna impresora vieja, o KW12)</td><td class="num">2 + 1 de repuesto</td><td>Rescatados, o Mercado Libre</td><td class="num">—</td></tr>
     </tbody>
@@ -444,10 +445,11 @@ function sueltasAca(){
   root.updateMatrixWorld(true);const B=[];
   root.traverse(o=>{if(!o.isMesh||!o.visible||o.material===MAT.axis||o.material===MAT.star||o.material===MAT.com||o.material.isShadowMaterial)return;
     let v=true,gira=false,q=o.parent;while(q){if(!q.visible)v=false;if(q===rot)gira=true;q=q.parent;}if(!v)return;
-    B.push({o,gira,b:new THREE.Box3().setFromObject(o).expandByScalar(0.0015)});});
+    B.push({o,gira,flojo:!!o.userData.noSostiene,b:new THREE.Box3().setFromObject(o).expandByScalar(0.0015)});});
   const vis=new Array(B.length).fill(false),cola=[];
   B.forEach((x,i)=>{if(x.b.min.y<=0.003){vis[i]=true;cola.push(i);}});
-  while(cola.length){const i=cola.pop();for(let j=0;j<B.length;j++)if(!vis[j]&&!(B[i].gira&&!B[j].gira)&&B[i].b.intersectsBox(B[j].b)){vis[j]=true;cola.push(j);}}
+  // v10.2: un cable o una correa se apoyan en algo, pero no sostienen nada (flojo)
+  while(cola.length){const i=cola.pop();if(B[i].flojo)continue;for(let j=0;j<B.length;j++)if(!vis[j]&&!(B[i].gira&&!B[j].gira)&&B[i].b.intersectsBox(B[j].b)){vis[j]=true;cola.push(j);}}
   return B.filter((x,i)=>!vis[i]).map(x=>x.o);
 }
 Object.keys(MAT).forEach(k=>{MAT[k].userData.base=MAT[k].color?MAT[k].color.getHex():null;});
@@ -459,14 +461,15 @@ function boxENU(c,s,mat,rotZ){const m=new THREE.Mesh(new THREE.BoxGeometry(s[0],
 function beam(a,b,w,h,mat){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,A.distanceTo(B)),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.lookAt(B);return m;}
 function cyl(a,b,r,mat,seg){const A=V(a),B=V(b);const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,A.distanceTo(B),seg||24),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());return m;}
 
-let G=null, root=null, rot=null, inner=null, dobGroup=null, rocker=null, tubeG=null, SAB={cuerpo:[],apoyo:[]};
-// el sabotaje del motor (v10.1): sin escuadra, bulones, correa ni cable, y 5 mm arriba, el motor
-// TIENE que salir suelto; si no sale, el detector esta ciego ahi. Se corre desde la consola:
-// window.__vns.sabotearMotor()
-function sabotearMotor(){
-  SAB.apoyo.forEach(o=>o.visible=false);SAB.cuerpo.forEach(o=>o.position.y+=0.005);let s;
-  try{s=sueltas();}finally{SAB.apoyo.forEach(o=>o.visible=true);SAB.cuerpo.forEach(o=>o.position.y-=0.005);root.updateMatrixWorld(true);}
-  return {saboteado:s.length,motorSuelto:SAB.cuerpo.filter(o=>s.includes(o)).length+' de '+SAB.cuerpo.length,restaurado:sueltas().length};
+let G=null, root=null, rot=null, inner=null, dobGroup=null, rocker=null, tubeG=null, SAB=null;
+const KSW=0.035;   // v10.2: los fines de carrera, a 3,5 cm de la chapa del lado sur (y la leva sale hacia alla)
+// Los sabotajes (v10.1 el motor, v10.2 los fines de carrera): sin lo que los sostiene (escuadra o pie y sus
+// bulones, correa, cable) y 5 mm arriba, la pieza TIENE que salir suelta; si no sale, el detector esta
+// ciego ahi. Desde la consola: window.__vns.sabotear('motor') y window.__vns.sabotear('finales').
+function sabotear(k){
+  const S=SAB[k];S.apoyo.forEach(o=>o.visible=false);S.cuerpo.forEach(o=>o.position.y+=0.005);let s;
+  try{s=sueltas();}finally{S.apoyo.forEach(o=>o.visible=true);S.cuerpo.forEach(o=>o.position.y-=0.005);root.updateMatrixWorld(true);}
+  return {saboteado:s.length,sueltas:S.cuerpo.filter(o=>s.includes(o)).length+' de '+S.cuerpo.length,restaurado:sueltas().length};
 }
 // v10: mesa universal. La mesa llega a 53 cm al norte del centro (corredera) y el dobson apoya en
 // rieles de 2 cm montados arriba del marco. El suplemento salio: la corredera hace su trabajo.
@@ -485,7 +488,7 @@ const chaveta=(dN,m)=>dN+m[1]-m[2]*0.037;   // donde cae la muesca de cada morda
 
 function build(){
   if(root){scene.remove(root);root.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.element&&o.element.parentNode)o.element.parentNode.removeChild(o.element);});}
-  const p=P(); G=computeVNS(p); SAB={cuerpo:[],apoyo:[]};
+  const p=P(); G=computeVNS(p); SAB={motor:{cuerpo:[],apoyo:[]},finales:{cuerpo:[],apoyo:[]}};
   root=new THREE.Group();scene.add(root);
   const fixed=new THREE.Group();root.add(fixed);
   rot=new THREE.Group();root.add(rot);inner=new THREE.Group();rot.add(inner);
@@ -496,6 +499,10 @@ function build(){
   // de alto). Solo, un 20 x 20 de 1,1 m se hunde ~5 mm con los dos rodillos; asi, ~0,6 mm.
   const gT=G.groundTop, wB=G.baseWidth/2, PB=G.BASE, TU=0.02;
   const ys0=G.ySouthBase;
+  // un bulon a la vista (v10.2): arandela + cabeza hexagonal, apoyado en p. Todo lo que va sobre la viga sur
+  // lleva DOS, en fila sobre el eje del tubo, en tuerca remache: abajo del tubo esta la planchuela de canto
+  // soldada y un bulon pasante no tiene por donde salir. Devuelve las dos piezas (para los sabotajes).
+  const perno=(q,rr=0.0058)=>{const w=cyl(q,[q[0],q[1],q[2]+0.0012],rr*1.3,MAT.steel,16),h=cyl([q[0],q[1],q[2]+0.0012],[q[0],q[1],q[2]+0.0052],rr,MAT.steel,6);fixed.add(w);fixed.add(h);return [w,h];};
   const feet=[[wB-0.04,ys0+0.04],[-(wB-0.04),ys0+0.04],[0,G.yNorthBase-0.04]];
   [[1,2],[2,0]].forEach(([a,b])=>fixed.add(beam([feet[a][0],feet[a][1],G.FEET+TU/2],[feet[b][0],feet[b][1],G.FEET+TU/2],TU,TU,MAT.fenol)));   // lados: tubo 20 x 20
   fixed.add(beam([feet[0][0],feet[0][1],gT-TU/2],[feet[1][0],feet[1][1],gT-TU/2],TU,TU,MAT.fenol));                                       // viga sur: tubo arriba
@@ -534,12 +541,20 @@ function build(){
     const at=(k)=>[c[0]+n[0]*k,c[1]+n[1]*k,c[2]], atz=(k,z)=>[c[0]+n[0]*k,c[1]+n[1]*k,z];
     const kb=0.024, kf=-(c[1]-(ys0+0.04))/(n[1]||1);                        // angulos a +-kb; la viga sur cae en kf
     const k0=Math.min(kf,-kb)-0.03, k1=Math.max(kf,kb)+0.024, zTopA=c[2]+(i===1?0.037:0.014);
+    const auk=(u,k,z)=>[c[0]+r.uh[0]*u+n[0]*k,c[1]+r.uh[1]*u+n[1]*k,z];               // (a lo largo de la chapa, a lo largo del eje, altura)
+    const kbm=(u)=>((ys0+0.04)-c[1]-r.uh[1]*u)/n[1];                                   // donde cae el eje del tubo de la viga
     fixed.add(boxENU(atz((k0+k1)/2,gT+0.0024),[0.06,k1-k0,0.0048],MAT.printed2,a));                  // planchuela de base de la unidad
-    [kf-0.012,kf+0.012].forEach(k=>fixed.add(cyl(atz(k,gT+0.0048),atz(k,gT+0.0108),0.0065,MAT.steel,6)));   // 2 bulones M8 a la viga, en ranura
+    // v10.2: dos M6 EN FILA sobre el eje del tubo (en ranura: la unidad corre a lo largo de la viga y
+    // cambia la separacion), en tuerca remache. En el v10 eran dos M8 a 12 mm del eje: caian afuera del tubo.
+    [-0.02,0.02].forEach(u=>perno(auk(u,kbm(u),gT+0.0048)));
     [-1,1].forEach(sg=>{
       fixed.add(boxENU(atz(sg*kb,(gT+zTopA)/2),[0.04,0.0032,zTopA-gT],MAT.printed2,a));                 // angulo: ala vertical
-      fixed.add(boxENU(atz(sg*(kb+0.011),gT+0.0064),[0.04,0.022,0.0032],MAT.printed2,a));             // angulo: ala apoyada
-      fixed.add(cyl(atz(sg*(kb+0.011),gT+0.008),atz(sg*(kb+0.011),gT+0.014),0.0065,MAT.steel,6));     // M8 del angulo a la planchuela
+      // ala apoyada: la del norte hacia afuera, la del sur hacia ADENTRO (afuera esta el tubo: su M8 no tendria
+      // donde llevar la tuerca); las dos caen sobre aire y llevan tuerca abajo
+      const kfl=sg>0?kb+0.011:-(kb-0.011);
+      fixed.add(boxENU(atz(kfl,gT+0.0064),[0.04,0.022,0.0032],MAT.printed2,a));
+      fixed.add(cyl(atz(kfl,gT+0.008),atz(kfl,gT+0.014),0.0065,MAT.steel,6));     // M8 del angulo a la planchuela
+      fixed.add(cyl(atz(kfl,gT-0.007),atz(kfl,gT),0.0065,MAT.steel,6));          // y su tuerca, abajo
     });
     if(i===0){
       [-0.0105,-0.0035,0.0035,0.0105].forEach(k=>{
@@ -556,7 +571,6 @@ function build(){
       fixed.add(cyl(at(-0.015),at(0.015),rr,MAT.printed,40));                           // rodillo de acero torneado 32 x 30
       fixed.add(cyl(at(-0.0155),at(-0.0145),rr-0.004,MAT.steel,6));                     // prisionero (marca)
       const kq=-0.050, R1=0.0255, R2=0.0064, D=0.075;                                    // plano de la correa: al sur del angulo sur
-      const auk=(u,k,z)=>[c[0]+r.uh[0]*u+n[0]*k,c[1]+r.uh[1]*u+n[1]*k,z];               // (a lo largo de la chapa, a lo largo del eje, altura)
       fixed.add(cyl(at(kq-0.0055),at(kb+0.008),0.004,MAT.steel,12));                     // eje de 8 mm (varilla de impresora)
       [-1,1].forEach(s=>{fixed.add(cyl(at(s*kb-0.0035),at(s*kb+0.0035),0.011,MAT.steel,28));fixed.add(cyl(at(s*kb-0.0037),at(s*kb+0.0037),0.0085,MAT.vinyl,24));});   // dos 608 en los angulos
       fixed.add(cyl(at(kb+0.004),at(kb+0.008),0.0075,MAT.steel,16));                     // anillo con prisionero: el eje no camina
@@ -565,10 +579,10 @@ function build(){
       // la planchuela sigue al oeste bajo el motor, con dos M8 mas a la viga
       const gP=gT+0.0048, kF=kq-0.0105, zm=gP+0.003+0.021, mc=auk(-D,0,zm), atm=(k)=>auk(-D,k,zm);   // kF: la cara del motor
       fixed.add(boxENU(auk(-0.08,-0.071,gT+0.0024),[0.10,0.082,0.0048],MAT.printed2,a));
-      [-0.12,-0.04].forEach(u=>{const k=((ys0+0.04)-c[1]-r.uh[1]*u)/n[1];fixed.add(cyl(auk(u,k,gP),auk(u,k,gT+0.0108),0.0065,MAT.steel,6));});
+      [-0.12,-0.04].forEach(u=>perno(auk(u,kbm(u),gP)));                                // 2 M6 mas, en fila sobre el eje del tubo
       // escuadra NEMA 17 (chapa de 3 mm): ala vertical entre la polea de 20 y la cara del motor
       // (4 M3), ala apoyada bajo el motor con dos M5 en ranura (corriendola se tensa la correa)
-      const ap=(m)=>{fixed.add(m);SAB.apoyo.push(m);}, cu=(m)=>{fixed.add(m);SAB.cuerpo.push(m);};   // lo que sostiene al motor / el motor (para sabotearMotor)
+      const ap=(m)=>{fixed.add(m);SAB.motor.apoyo.push(m);}, cu=(m)=>{fixed.add(m);SAB.motor.cuerpo.push(m);};   // lo que sostiene al motor / el motor (para sabotear)
       ap(boxENU(auk(-D,kF+0.0015,(gP+zm+0.026)/2),[0.056,0.003,zm+0.026-gP],MAT.printed2,a));
       ap(boxENU(auk(-D,kF-0.0185,gP+0.0015),[0.068,0.043,0.003],MAT.printed2,a));
       [-1,1].forEach(s=>ap(cyl(auk(-D+s*0.0275,kF-0.020,gP+0.003),auk(-D+s*0.0275,kF-0.020,gP+0.007),0.004,MAT.steel,6)));   // 2 M5
@@ -584,31 +598,38 @@ function build(){
       hull.forEach(h=>{const b=[c[0]+r.uh[0]*h[0],c[1]+r.uh[1]*h[0],c[2]+h[1]];[-0.003,0.003].forEach(o=>{const v=V([b[0]+n[0]*(kq+o),b[1]+n[1]*(kq+o),b[2]]);pos.push(v.x,v.y,v.z);});});
       for(let j=0;j<hull.length;j++){const j2=(j+1)%hull.length;idx.push(2*j,2*j+1,2*j2,2*j+1,2*j2+1,2*j2);}
       const bg=new THREE.BufferGeometry();bg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));bg.setIndex(idx);bg.computeVertexNormals();
-      ap(new THREE.Mesh(bg,MAT.belt));                                                   // la correa no sostiene: en el sabotaje sale
+      const correa=new THREE.Mesh(bg,MAT.belt);correa.userData.noSostiene=true;ap(correa);   // una correa no sostiene nada
       const t7=tag('<span>Motor NEMA 17 en su escuadra · correa GT2 20:80 · rodillo motriz torneado</span>',7);t7.position.copy(V([mc[0]-0.05,mc[1]-0.07,mc[2]+0.04]));fixed.add(t7);
       // lo que necesitan la electronica y su cable: el borde este de la planchuela y el camino al motor
+      // el ramal del motor sale del mazo (cara sur del tubo), sube por un agujero de la planchuela y
+      // llega a la cara del motor por atras de la escuadra
+      const kr=((ys0+0.04-0.0124)-c[1]-r.uh[1]*(-0.035))/n[1];
       MOT={xEste:Math.max(...[k0,k1].map(k=>auk(0.03,k,0)[0])),
-        cable:[[-0.035,null,gP+0.0025],[-0.043,-0.096,gP+0.0052],[-D+0.0215,-0.094,zm-0.012]].map(([u,k,z])=>{
-          if(k===null)k=((ys0+0.04-0.022)-c[1]-r.uh[1]*u)/n[1];return auk(u,k,z);})};
+        cable:[auk(-0.035,kr,gT-0.008),auk(-0.035,kr,gP+0.0025),auk(-0.043,-0.096,gP+0.0052),auk(-D+0.0215,-0.094,zm-0.012)]};
     }
   });
 
   // 17 electronica (v10.1): caja con la ESP32 y el TMC2209 sobre una planchuela abulonada a la viga
   // sur, al lado del rodillo motriz (al oeste ya no entra: ahi va el motor), con el boton de
-  // rebobinado arriba y la ficha ST-4 del autoguiador al costado; la bateria al lado. Los cables van
-  // ACOSTADOS sobre la viga y las planchuelas, corridos de los bulones: ninguno cruza por el aire.
-  {const yb=ys0+0.04, gT2=gT+0.0048, xe=MOT.xEste+0.012+0.07, xb=xe+0.07+0.012+0.06;
+  // rebobinado arriba y la ficha ST-4 del autoguiador al costado; la bateria al lado. Cada planchuela
+  // con dos M6 en fila sobre el eje del tubo. v10.2: los cables van en UN MAZO atado a la cara sur del
+  // tubo (por debajo de las planchuelas), y a cada cosa le sube un ramal por un agujero de su planchuela.
+  {const yb=ys0+0.04, gT2=gT+0.0048, xe=MOT.xEste+0.008+0.07, xb=xe+0.07+0.006+0.065, yh=yb-0.0124, zh=gT-0.008;
    fixed.add(boxENU([xe,yb,gT+0.0024],[0.14,0.10,0.0048],MAT.printed2));fixed.add(boxENU([xe,yb,gT2+0.0225],[0.12,0.08,0.045],MAT.elec));
+   [-1,1].forEach(s=>perno([xe+s*0.065,yb,gT2],0.0045));
    fixed.add(cyl([xe+0.03,yb,gT2+0.045],[xe+0.03,yb,gT2+0.053],0.008,MAT.boton,20));                    // boton de rebobinado
    fixed.add(cyl([xe-0.03,yb-0.04,gT2+0.02],[xe-0.03,yb-0.052,gT2+0.02],0.005,MAT.steel,12));            // ficha ST-4
-   fixed.add(boxENU([xb,yb,gT+0.0024],[0.12,0.08,0.0048],MAT.printed2));fixed.add(boxENU([xb,yb,gT2+0.0175],[0.11,0.07,0.035],MAT.motorBody));   // bateria
-   const cab=(a,b)=>fixed.add(cyl(a,b,0.0022,MAT.motorBody,8));
-   const vias=(P)=>P.slice(1).forEach((q,j)=>{cab(P[j],q);SAB.apoyo.push(fixed.children[fixed.children.length-1]);});   // un cable tampoco sostiene
-   vias([[xe-0.06,yb-0.022,gT2+0.006]].concat(MOT.cable));                                            // al motor, por el lado sur de la viga
-   cab([xe+0.06,yb+0.022,gT2+0.006],[xb-0.055,yb+0.022,gT2+0.003]);                                    // a la bateria
-   const r0=G.rollers[0], sw=r0.lim.sw.map(us=>[r0.Pt[0]-r0.uh[0]*us+r0.nh[0]*0.068,r0.Pt[1]-r0.uh[1]*us+r0.nh[1]*0.068]);
-   cab([xb+0.055,yb+0.022,gT2+0.003],[Math.max(...sw.map(o=>o[0]))+0.008,yb+0.022,gT2+0.003]);         // a los fines de carrera (este)
-   sw.forEach(o=>cab([o[0]+0.008,yb+0.022,gT2+0.003],[o[0]+0.006,o[1]-0.006,gT2+0.003]));              // y por su escuadra, a cada uno
+   fixed.add(boxENU([xb,yb,gT+0.0024],[0.13,0.08,0.0048],MAT.printed2));fixed.add(boxENU([xb,yb,gT2+0.0175],[0.11,0.07,0.035],MAT.motorBody));   // bateria
+   [-1,1].forEach(s=>perno([xb+s*0.06,yb,gT2],0.0045));
+   const cab=(a,b)=>{const m=cyl(a,b,0.0022,MAT.motorBody,8);m.userData.noSostiene=true;fixed.add(m);return m;};   // un cable no sostiene nada
+   const vias=(P,sab)=>P.slice(1).forEach((q,j)=>{const m=cab(P[j],q);if(sab)sab.push(m);});
+   const r0=G.rollers[0], sw=r0.lim.sw.map(us=>[r0.Pt[0]-r0.uh[0]*us-r0.nh[0]*KSW,r0.Pt[1]-r0.uh[1]*us-r0.nh[1]*KSW]);
+   const xs=[MOT.cable[0][0],xe+0.03,xb].concat(sw.map(o=>o[0]));
+   cab([Math.min(...xs)-0.01,yh,zh],[Math.max(...xs)+0.01,yh,zh]);                                      // el mazo, en la cara sur del tubo
+   vias(MOT.cable,SAB.motor.apoyo);                                                                     // ramal al motor
+   cab([xe+0.03,yh,zh],[xe+0.03,yh,gT2+0.01]);                                                          // a la electronica (entra por abajo)
+   cab([xb,yh,zh],[xb,yh,gT2+0.008]);                                                                   // a la bateria
+   sw.forEach(o=>vias([[o[0],yh,zh],[o[0],yh,gT2+0.003],[o[0],o[1]+Math.sign(yb-o[1])*0.008,gT2+0.003]]));   // a cada fin de carrera, por su pie
    const t17=tag('Electrónica: ESP32 + TMC2209, botón, ST-4',17);t17.position.copy(V([xe,yb-0.08,gT2+0.06]));fixed.add(t17);}
   // marcas en el piso del patio (L2-OPE-04): la estacion se repite poniendo las patas en su marca
   feet.forEach(f=>fixed.add(cyl([f[0],f[1],0],[f[0],f[1],0.0012],0.045,MAT.piso,32)));
@@ -678,20 +699,25 @@ function build(){
     if(i===1){const t5=tag('Chapa de acero 5/16" (segmento)',5);t5.position.copy(V([r.Pt[0]+r.uh[0]*r.uMax*0.6,r.Pt[1]-0.02,zt-0.03]));inner.add(t5);}
     if(i===0){ // 13 finales de carrera: una leva (tornillo M5) en el medio de la chapa y dos microswitches al costado del rodillo
       const n=r.nh, mid=r.edge.reduce((a,q)=>Math.abs(q.u)<Math.abs(a.u)?q:a), zL=mid.z+0.02, a=Math.atan2(r.uh[1],r.uh[0]);
-      inner.add(cyl([r.Pt[0],r.Pt[1],zL],[r.Pt[0]+n[0]*0.078,r.Pt[1]+n[1]*0.078,zL],0.0025,MAT.steel,10));
+      // la leva (tornillo M5) sale hacia el SUR (v10.2; en el v10 salia 78 mm al norte)
+      inner.add(cyl([r.Pt[0],r.Pt[1],zL],[r.Pt[0]-n[0]*(KSW+0.012),r.Pt[1]-n[1]*(KSW+0.012),zL],0.0025,MAT.steel,10));
       const t14=tag('Talón: tope de la chapa',14);t14.position.copy(V([r.Pt[0]+r.uh[0]*r.uMin,r.Pt[1]+r.uh[1]*r.uMin,mid.z-0.03]));inner.add(t14);
       r.lim.sw.forEach((us,k)=>{
-        const o=[r.Pt[0]-r.uh[0]*us+n[0]*0.068,r.Pt[1]-r.uh[1]*us+n[1]*0.068];
-        const zB=zL-0.024, gT=G.groundTop, yb=ys0+0.04;
-        // v10: el soporte ya no flota -- una escuadra de planchuela abulonada arriba de la viga sur
-        // llega hasta el pie del soporte (en v9 el soporte estaba parado en el aire, al norte de la viga)
-        fixed.add(boxENU([o[0],(yb+o[1])/2,gT+0.0024],[0.026,Math.abs(o[1]-yb)+0.024,0.0048],MAT.printed2));
-        fixed.add(cyl([o[0],yb,gT+0.0048],[o[0],yb,gT+0.0108],0.0065,MAT.steel,6));                   // M8 a la viga
-        fixed.add(boxENU([o[0],o[1],(gT+zB)/2],[0.026,0.016,zB-gT],MAT.printed2,a));                 // soporte impreso
-        fixed.add(boxENU([o[0],o[1],zB+0.005],[0.020,0.010,0.010],MAT.sw,a));                         // microswitch
+        // v10.2: el switch va del lado SUR de la chapa, a KSW de ella: como la chapa va girada, sus dos
+        // puntas quedan a <= 3,5 cm del eje de la viga (del lado norte quedaban a 6,7 y 12,6 cm, en una
+        // planchuela en voladizo con UN bulon: una bisagra). Cada uno va en un pie de planchuela de 50 mm
+        // que cruza la viga con DOS M6 en fila: no gira, y el voladizo lleva la palanca de un switch (~1 N)
+        const o=[r.Pt[0]-r.uh[0]*us-n[0]*KSW,r.Pt[1]-r.uh[1]*us-n[1]*KSW];
+        const zB=zL-0.024, gT=G.groundTop, yb=ys0+0.04, gT2=gT+0.0048;
+        const y0=Math.min(yb-0.012,o[1]-0.012), y1=Math.max(yb+0.012,o[1]+0.012);
+        const pie=boxENU([o[0],(y0+y1)/2,gT+0.0024],[0.05,y1-y0,0.0048],MAT.printed2);fixed.add(pie);SAB.finales.apoyo.push(pie);
+        [-1,1].forEach(s=>SAB.finales.apoyo.push(...perno([o[0]+s*0.018,yb,gT2])));
         const s=Math.sign(us)||1, tip=[o[0]+r.uh[0]*s*0.012,o[1]+r.uh[1]*s*0.012,zL+0.004];
-        fixed.add(beam([o[0]-r.uh[0]*s*0.006,o[1]-r.uh[1]*s*0.006,zB+0.01],tip,0.004,0.0015,MAT.steel)); // palanca
-        if(k===0){const t13=tag('Fin de carrera (uno por punta)',13);t13.position.copy(V([o[0]+0.03,o[1]-0.06,zL+0.02]));fixed.add(t13);}
+        [boxENU([o[0],o[1],(gT2+zB)/2],[0.026,0.016,zB-gT2],MAT.printed2,a),                          // soporte impreso
+         boxENU([o[0],o[1],zB+0.005],[0.020,0.010,0.010],MAT.sw,a),                                   // microswitch
+         beam([o[0]-r.uh[0]*s*0.006,o[1]-r.uh[1]*s*0.006,zB+0.01],tip,0.004,0.0015,MAT.steel)]        // palanca
+          .forEach(m=>{fixed.add(m);SAB.finales.cuerpo.push(m);});
+        if(k===0){const t13=tag('Fin de carrera (uno por punta) en su pie con 2 M6',13);t13.position.copy(V([o[0]+0.03,o[1]-0.06,zL+0.02]));fixed.add(t13);}
       });
     }
   });
@@ -921,6 +947,7 @@ $('defaults').addEventListener('click',()=>{playing=false;$('play').textContent=
 const views={iso:[[3.3,-3.2,2.3],[0,0.2,0.75]],oeste:[[-3.8,0.35,0.9],[0,0.35,0.7]],sur:[[0,-3.0,0.7],[0,0.2,0.45]],arriba:[[0.01,0.35,3.6],[0,0.35,0]],cielo:[[0.25,1.6,0.25],[0,-1.2,1.6]]};
 function setView(k){let v=views[k];
   if(k==='motor'){const c=G.rollers[1].Pt;v=[[c[0]-0.30,c[1]-0.30,c[2]+0.16],[c[0]-0.05,c[1]-0.06,c[2]-0.03]];}   // v10.1: el motor va al sur del rodillo, sobre la viga
+  if(k==='viga'){const c=G.rollers[0].Pt, yb=G.ySouthBase+0.04, g=G.groundTop;v=[[c[0]-0.10,yb-0.45,g+0.32],[c[0],yb+0.01,g+0.03]];}   // v10.2: los fines de carrera y sus pies
   if(k==='chapa'){const c=G.rollers[0].Pt;v=[[c[0]+0.08,c[1]-0.8,c[2]+0.12],[c[0],c[1],c[2]+0.03]];}camera.position.copy(V(v[0]));controls.target.copy(V(v[1]));controls.update();}
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
 
@@ -935,7 +962,7 @@ function loop(now){
   if(playing){const dt=(now-last)/1000;last=now;const run=+$('run').value;tMin+=dt*10;if(tMin>run)tMin=-run;$('t').value=tMin;updatePose();}
   controls.update();renderer.render(scene,camera);labels.render(scene,camera);requestAnimationFrame(loop);
 }
-window.__vns={sueltas,sabotearMotor,root:()=>root,THREE,MAT,build,camera,controls,V};   // para depurar y sabotear el detector desde la consola
+window.__vns={sueltas,sabotear,sabotearMotor:()=>sabotear('motor'),root:()=>root,THREE,MAT,build,camera,controls,V};   // para depurar y sabotear el detector desde la consola
 theme();syncDN();build();setView('iso');size();requestAnimationFrame((n)=>{last=n;loop(n);});
 })();
 </script>
