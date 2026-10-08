@@ -1,17 +1,22 @@
 # Paso a paso — qué hacer y en qué orden
 
-**Para Fran y Kevin.** Versión 4, 7 de octubre de 2026. Fuente en el repo:
+**Para Fran y Kevin.** Versión 5, 8 de octubre de 2026. Fuente en el repo:
 `proyectos/ingenieria/telescopio/docs/11-paso-a-paso.md`.
 
-> **Esto es sólo lo que hay que hacer.** El porqué está en «1 - El proyecto».
+> **Esto es sólo lo que hay que hacer.** El porqué está en «1 - El proyecto»;
+> los mecanismos, los talleres de la zona y el cielo, en «3 - Mecanismos,
+> proveedores y cielo».
 > **Hoy no se corta, no se suelda y no se compra nada grande.** Primero hay que
 > cerrar un número: la **altura del centro de masa** (hoy «63 cm, pero puede ser
-> entre 58 y 69»). De ese número depende la forma de las dos chapas, que es lo
-> único que no se arregla después, y la muesca de cada telescopio en la
-> corredera. **Los dibujos de cómo medirlo están acá abajo** (pasos 1 y 2) y,
-> para imprimir o tener en el celular, en el PDF **«Medir el centro de masa»**
-> de esta misma carpeta, con la tabla para llenar. El modelo 3D (versión 10,
-> con el 200 y un 12"): https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd
+> entre 58 y 69»). Da la muesca de cada telescopio en la corredera y cierra la
+> fase 0. **Nuevo en la versión 5:** con la corredera, la forma de las chapas
+> ya no depende de ese número si cae entre 55 y 69 cm: el vuelco la
+> **confirma**. Y el paso 6 suma la **palanca óptica**, que mide el error del
+> motor con un puntero láser. **Los dibujos de cómo medir el centro de masa
+> están acá abajo** (pasos 1 y 2) y, para imprimir o tener en el celular, en el
+> PDF **«Medir el centro de masa»** de esta misma carpeta, con la tabla para
+> llenar. El modelo 3D (versión 10.5, con el 200 y un 12"):
+> https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd
 
 ## Para Fran: los deberes antes de la próxima sesión (7 de octubre)
 
@@ -24,14 +29,14 @@ del celular): lo que no tiene foto, la sesión no lo puede dar por hecho.
 | A | **El vuelco** de la montura sin tubo | paso 1 de abajo. Anotá **hA, A** (tres veces), **hB, B** (tres veces) y **W**, en cm y grados | una tarde, con Kevin |
 | B | **La altura del eje** | paso 2 de abajo. Dos lecturas, en cm | 5 min |
 | C | **La prueba de foco** con la Sony | de día, cámara sin lente con el adaptador en el portaocular, apuntá a algo lejano (una antena, un edificio a más de 200 m) y girá el portaocular de punta a punta. Anotá: **¿se ve nítido? sí o no**. Si no, ¿mejora yendo para adentro o para afuera, y se acaba el recorrido antes? Una foto de la pantalla en el mejor punto | 10 min |
-| D | **Cuatro respuestas** | 1) **¿30 o 60 segundos por foto?** (con Kevin: cierra también la transmisión, F o T2) 2) **¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?** Si viaja: qué auto, o el largo y el ancho del baúl. 3) **¿Cuánto armado te parece bien**, del depósito al primer sub? (hoy el papel dice 20 min) 4) **¿Cuánto para pasar del 200 al 12"?** (hoy el papel dice 15 min) | una decisión cada una |
+| D | **Dos respuestas** (las otras dos ya están: 60 s por foto, y el cambio de telescopio sin tope) | 1) **¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?** Si viaja: qué auto, o el largo y el ancho del baúl. Dato nuevo: Punta Indio (150 km, cielo oscuro) queda a 0,8° de latitud, y la plataforma sirve allá sin cambiar nada. 2) **¿Cuánto armado te parece bien**, del depósito al primer sub? (hoy el papel dice 20 min) | una decisión cada una |
 | E | El inventario con calibre | paso 3 de abajo | 1 hora |
 | F | El amigo metalúrgico | paso 5 de abajo: ¿torno? ¿electrodo o MIG? | un mensaje |
 
-**Lo que más destraba: A y B** (sin el centro de masa medido no se puede
-dibujar la forma de las chapas). **C** es la compuerta antes de comprar el
-corte láser. **D** fija la precisión, el tamaño de las piezas y el tiempo de
-armado. Los números que cada respuesta cambia están en «Requisitos»
+**Lo que más destraba: A y B** (cierran la fase 0 y dan la muesca del 200;
+desde la versión 5 las chapas ya no esperan este número si cae entre 55 y 69
+cm). **C** es la compuerta antes de comprar el corte láser. **D** fija el
+tamaño de las piezas y el tiempo de armado. Los números que cada respuesta cambia están en «Requisitos»
 (`docs/10-requisitos.md`, sección 11).
 
 ## Los pasos
@@ -43,7 +48,7 @@ armado. Los números que cada respuesta cambia están en «Requisitos»
 | 3 | Inventario de hierros y de lo rescatado, con calibre y foto | Fran | 1 hora |
 | 4 | Elegir cuánto dura cada foto: **30 s o 60 s** | Fran | una decisión |
 | 5 | Preguntarle al amigo metalúrgico: ¿tiene torno?, ¿suelda con electrodo o MIG? | Fran | un mensaje |
-| 6 | El motor en el banco, moviendo un rodillo contra un retazo de hierro | Fran y Kevin | una tarde |
+| 6 | El motor en el banco, moviendo un rodillo contra un retazo de hierro; y la **palanca óptica** (6b) | Fran y Kevin | una tarde |
 | 7 | Cerrar el centro de masa, rehacer el modelo y revisar juntos | yo, y después los tres | una sesión |
 
 **En paralelo:** del 1 al 6 arrancan todos juntos. El 7 espera al 1 y al 2.
@@ -118,6 +123,28 @@ la del motor (empezá en 1 A).
 **Salió bien si:** gira parejo y silencioso 10 minutos, y a los 10 minutos dio
 **≈ 260 pasos enteros** (1,3 vueltas; marcalo con fibrón). Y que el retazo
 avance sin saltos.
+
+**6b. La palanca óptica (nuevo, versión 5): cuánto erra el motor entre paso y
+paso.** Es lo que decide si alcanza con una correa o hacen falta dos (o el
+tornillo de bolas). Con el mismo banco, sin la correa:
+
+![El banco de la palanca óptica](img/mec-palanca.png)
+
+1. Pegá un **espejito** (de maquillaje, o un pedazo de CD) al eje del motor,
+   con cinta doble faz, más o menos derecho.
+2. Un **puntero láser** que le pegue al espejito, y el reflejo a una **pared a
+   2 m**, sobre una **hoja milimetrada** pegada con cinta.
+3. Que el programa dé **un micropaso a la vez** (1/16), con una pausa de un
+   segundo, y marcá con lápiz dónde cae el punto cada vez: **64 marcas**
+   (cuatro pasos enteros; cada paso entero corre el punto ≈ 126 mm).
+4. **Foto de la hoja entera**, con la regla al lado.
+
+**Salió bien si:** las marcas avanzan siempre para el mismo lado, sin
+retroceder, y los saltos grandes se repiten cada 16 marcas. Lo que se lee de
+la hoja (cuánto se aparta cada marca de donde debería) lo calcula la sesión:
+si es ±2 % del paso o menos, alcanza con una correa.
+**Cuidado:** el láser nunca a los ojos ni al de al lado; la pared, sin
+ventanas ni espejos atrás.
 
 ### 7. Cerrar la fase (yo, y después juntos)
 Con el 1 y el 2 calculo el centro de masa, rehago el modelo y actualizo estos

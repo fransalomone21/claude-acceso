@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-08 (decimoquinta sesión: modelo v10.4 con dos transmisiones —opción 1 F, rodillo y correa; opción 2 V, varilla roscada y biela, la de la foto de Fran, con medidas a ojo hasta las suyas—, nada choca con ninguna; y el PDP §4 deja escrita la V de NASA para después de la fase 0)
+**Última actualización:** 2026-10-08 a la noche (decimosexta sesión: sin medidas nuevas; investigación de mecanismos, proveedores y cielo —`docs/15`, Doc 3 del Drive—; **el error de micropaso** saca a la F de una correa del piso de precisión y el trade de la transmisión deja de empatar: va ganando T2; modelo **v10.5** con rodillos a 58 cm y base de 1,3 m, todo en verde; las chapas ya no dependen del vuelco)
 
 ## Dónde estamos
 
@@ -63,6 +63,11 @@ y el inventario sin `?`.
 | **Modelo v10.2** (versión 7): fines de carrera del lado sur de la chapa, cada uno en un pie que cruza la viga con **dos M6 en fila** (antes: voladizo de 6,7 y 12,6 cm con un bulón); todo lo de la viga sur con dos M6 en fila sobre el eje del tubo en tuerca remache (los M8 de los rodillos caían afuera del tubo); cables en un mazo por la cara del tubo. **No hace falta una planchuela paralela** | «Piezas sueltas» = ninguna con los dos telescopios; `sabotear('motor')` 7 de 7 y `sabotear('finales')` 6 de 6, restaurado 0 | 2026-10-07 |
 | **El tiempo de cambiar de telescopio no importa** (Fran): L1-29 sin tope, definido; requisitos VERDE | `verificar-requisitos.py` VERDE (12 N, 15 L0, 30 L1, 31 L2) | 2026-10-07 |
 | **30 contra 60 s, en números** (`docs/14` §6b): un error de velocidad δ corre la estrella δ·15″/s·t en un sub de t s, así que 60 s parte a la mitad todo el presupuesto (alineación 7′ → 3,8′, velocidad media 0,2 → 0,1 %, la PEC pasa de recomendable a obligatoria); plata casi igual; en el patio gana ≈ 1 % de señal/ruido, en cielo oscuro ≈ 15-20 %. **Guía del trade** (§6c): la precisión es piso, no peso (quedan F y T2); F gana si precisión + costo > 2 × «no patina»; el banco del rodillo mueve la decisión más que los pesos | cálculo; el descentrado de 0,02 mm, el cielo del patio y el ruido de lectura son `hipótesis` | 2026-10-07 |
+| **El error de micropaso cuenta, y saca a la F de una correa** (`probable`): un paso a paso cae en cada paso entero con hasta ±5 % de error (hoja de datos) y el micropaso no lo achica (Analog Devices). Con la F de una correa 20:80 cada paso entero mueve ≈ 34″ el cielo: borrón ≈ 3,4″ y redondez 0,66 en cada foto (L2-PLT-02 y L0-02 no cumplen). Pasan F2 (dos correas, 8,4″), la V de paso 8 (10,5″), T2 con tornillo de bolas (5-7″) y el cable (C, 9″); las monturas EQ6/HEQ5-R dan 9-14″. Con el orden de Fran el trade **ya no empata: T2 gana** a F2 por 15-21 % con los tres métodos (10 % aunque F2 no patine). `docs/13` §4 lo había dado en ±1″ «que se confunde con el aire» | `node docs/transmisiones.js` + `probar-transmisiones.js` (6 controles, 6 sabotajes en rojo); la estrella simulada sobre píxeles da 0,66 contra 0,65 de la fórmula; fuentes en `docs/15` §9. Lo confirma la **palanca óptica** (paso 6b de `11`) | 2026-10-08 |
+| **Rodillos a 58 cm y base de 1,3 m (modelo v10.5): todo verde.** Vuelco ≥ 22,3° y empujón ≥ 6,1 kg con los siete casos de la envolvente (el 12" liviano daba 5,5 con 50 cm). Un lastre de 5 kg no servía (5,5 → 5,5). Los fines de carrera pasan a 4,5 cm de la chapa (la punta del travesaño barría 6 mm de un soporte) | `geometria-vns.js` (cálculo); en el panel, con F y V, 200 y 12": «Choques: ninguno», «Piezas sueltas: ninguna»; sabotajes motor 7/7 (F) y 4/4 (V), finales 6/6, choque 1, restaurado 0; con la vista explotada, choques y sueltas siguen en 0; publicado (versión 10 del artifact, público con el link, visto sin sesión) | 2026-10-08 |
+| **Las chapas ya no dependen del vuelco**: los rieles toman al 200 con el centro de masa entre 55 y 69 cm (con 70 las mordazas se salen 1 cm) y a toda la envolvente del 300 (el peor, 40 kg y 50 cm, pide 21,7 cm al norte y entra). El vuelco sigue cerrando la fase 0, pero confirma las chapas en vez de definirlas | chequeo «Las tres mordazas caen sobre los rieles» del modelo, barrido a mano con el deslizador (55, 63, 69, 70, 71, 72) | 2026-10-08 |
+| **Proveedores de la zona** (directorios, sin llamar: `hipótesis`): láser que dice cortar 8 mm (Rapimetal hasta 9, Martino hasta 1/2"); Prymax (Garín) llega a 4,7: no; tornería con rectificadora en Munro (Acosta); rulemanes en Munro (Av. Mitre 2996) con rodamientos lineales; tornillo de bolas SFU1605/1204 no aparece en el país (USD 12-35 afuera) | `docs/15` §5 | 2026-10-08 |
+| **Docs del Drive**: «1 - El proyecto» v7 y «2 - Paso a paso» v5 regenerados con el **mismo ID**; **«3 - Mecanismos, proveedores y cielo»** nuevo (`1xMPDUoihZAX2ZthJrEnyKVfAUAyWl-JattlAG8yAOV8`), con 4 imágenes y 11 tablas | `rclone lsf --format pit` antes y después; el Doc 3 exportado de vuelta trae las 4 imágenes | 2026-10-08 |
 | **La cámara y el foco se aparcan** (Fran, 2026-10-05). P0 sigue abierta en el PDP y es **compuerta antes de comprar la chapa de aluminio** | decisión de Fran; la compuerta es mía | 2026-10-05 |
 
 ## Lo que es hipótesis
@@ -94,7 +99,19 @@ y el inventario sin `?`.
 
 ## Lo próximo
 
-> **2026-10-08 (decimocuarta sesión, cierre) — manda sobre todo lo de abajo.**
+> **2026-10-08 a la noche (decimosexta sesión) — manda sobre todo lo de abajo.**
+> Sin medidas nuevas. Hecho: `docs/15` y el Doc 3 (mecanismos, proveedores,
+> cielo), el modelo **v10.5** y los Docs 1 (v7) y 2 (v5). Sigue, en este
+> orden: **(1)** la foto de la tabla del vuelco (L1-15: ahora confirma las
+> chapas, no las define); **(2)** las medidas de la varilla de la foto (si es
+> de bolas o trapezoidal, es T2); **(3)** la **palanca óptica** con el motor
+> del banco (paso 6b de `11`): da el error real del micropaso; **(4)** la
+> prueba de foco. **Fran:** ¿viaja en auto (Punta Indio entra en la
+> tolerancia de latitud)?, ¿cuánto armado?, ¿un filtro de dos bandas para la
+> primera foto en el patio? La transmisión se elige en su nivel (la V de
+> NASA): con su orden, va ganando T2.
+>
+> **2026-10-08 (decimocuarta sesión, cierre).**
 > Fran eligió **60 s** y el orden **precisión > no patina > facilidad > costo**:
 > el trade F/T2 **empata** con cualquier método de pesos; lo decide **el banco
 > del rodillo** (si F no patina, F + PEC; si patina, T2 + PEC). Requisitos con

@@ -1,10 +1,76 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-08 (decimoquinta sesión, PC, abierta en `Desktop\claude-acceso`) ·
+**Escrito el:** 2026-10-08 a la noche (decimosexta sesión, PC, abierta en `Desktop\claude-acceso`) ·
 **Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**, 2 de 4: arquitectura
 cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
+
+## Decimosexta sesión (2026-10-08, noche): investigación, el micropaso y el v10.5
+
+**Fran** (sin medidas nuevas): «investigá bien los diseños y arquitecturas y
+avanzá el proyecto con soluciones inteligentes […] analizá en Villa Adelina
+qué opciones hay en los alrededores, mecanismos, soluciones, dibujos, imágenes
+y docs más útiles y visuales». Vía libre de tokens.
+
+**Hecho (todo commiteado y pusheado):**
+- **`docs/15-mecanismos-y-proveedores.md`** = Doc «3 - Mecanismos, proveedores
+  y cielo» del Drive (ID `1xMPDUoihZAX2ZthJrEnyKVfAUAyWl-JattlAG8yAOV8`, nuevo,
+  4 imágenes). Lo central:
+  - **El error de micropaso** (±5 % de un paso entero, hoja de datos; el
+    micropaso da resolución, no exactitud: Analog Devices). Con la F de una
+    correa, ≈ 34″ por paso entero → borrón ≈ 3,4″ y redondez 0,66: **no pasa
+    L2-PLT-02**. Pasan F2 (dos correas, 8,4″), V de paso 8 (10,5″), T2 con
+    tornillo de bolas (5-7″) y C (cable de acero sobre el eje de 8, idea
+    nueva, sin antecedentes en plataformas). `docs/13` §4 lo había dado por
+    chico. Cuentas en **`docs/transmisiones.js`** (función pura;
+    `probar-transmisiones.js` con 6 controles y sabotajes).
+  - **El trade ya no empata**: con el orden de Fran, T2 le gana a F2 por
+    15-21 % con ROC, suma de rangos y recíproco, y 10 % aunque F2 no patine
+    (`docs/15` §2.3). Se elige en su nivel, con Fran.
+  - **La palanca óptica**: espejito en el eje del motor + puntero láser +
+    pared a 2 m; un paso entero = 126 mm en la pared, ±5 % = ±6 mm. Está como
+    **paso 6b de `11`** (Doc 2 v5).
+  - **El empujón**: un lastre no sirve (5,5 → 5,5); rodillos a 58 cm + base
+    1,3 m ponen todo en verde.
+  - **Proveedores** (directorios, sin llamar): quién corta 8 mm (Rapimetal,
+    Martino; Prymax no), tornería con rectificadora (Acosta, Munro),
+    rulemanes (Munro), hierros; el tornillo de bolas no aparece en el país.
+  - **Cielo**: patio ≈ Bortle 7-8 (`hipótesis`); Punta Indio (150 km, Bortle
+    3) a 0,8° de latitud, adentro de L1-09; filtro de dos bandas para la
+    primera nebulosa desde el patio. **Cámara**: la APS-C en un portaocular de
+    1,25" va a viñetear (`hipótesis`, se ve en P0).
+- **Modelo v10.5** (artifact versión 10, mismo link, público, visto sin
+  sesión): rodillos **58 cm**, base **1,3 m**, fines de carrera a **4,5 cm**
+  (`KSW`), sección «Cuatro maneras de mover la mesa» (esquemas, estrella
+  simulada con deslizadores de error y aire, tabla viva, palanca, empujón),
+  **recorrido guiado** (7 paradas, botón «Recorrido»), **vista explotada**
+  (deslizador; `sueltas()` y `choques()` la ponen en 0 mientras miden).
+  Medido: Choques **ninguno** y Sueltas **ninguna** con F y V, 200 y 12";
+  sabotajes motor 7/7 (F) y 4/4 (V), finales 6/6, choque 1, restaurado 0.
+  Scripts nuevos: `transmisiones.js?v=3`, `dibujos-mecanismos.js?v=4`
+  (`geometria-vns.js?v=10` no cambió). Republicar: `files` con los **tres**
+  `.js` (rutas absolutas).
+- **Dibujos**: `docs/dibujos-mecanismos.js` es la fuente única (la usan el
+  modelo y `docs/dibujo-mecanismos.html`); PNG con
+  `docs/dibujos-mecanismos.ps1` → `docs/img/mec-*.png`.
+- **Docs del Drive**: 1 v7 (el trade nuevo), 2 v5 (6b, deberes al día), 3
+  nuevo; 1 y 2 con el mismo ID.
+- **Requisitos**: ningún enunciado cambia; rationale de L2-PLT-02 (micropaso),
+  L1-13, L1-14, L2-PLT-05 y §9/§11 al día. VERDE.
+- **PDP**: riesgo **R11** (micropaso) y dos decisiones técnicas (58 cm/1,3 m;
+  la F de una correa sale).
+- Cerrado el rojo del arranque «listo para la nube»: `clases-aed` (4) y
+  `catedras` (1) tenían commits sin pushear; pusheados con excepción
+  registrada en la puerta.
+
+**OJO al commitear desde PowerShell:** un mensaje con comillas dobles adentro
+se corta en `-m @'...'@` (PS 5.1 re-parsea el string al pasarlo a git). Usar
+**`git commit -F <archivo>`** con el mensaje escrito con la herramienta Write.
+
+**Pendiente de Fran:** la foto de la tabla del vuelco; las medidas de la
+varilla de la foto; la palanca óptica (con Kevin); la prueba de foco;
+¿viaja en auto?; ¿cuánto armado?; ¿filtro de dos bandas?
 
 ## Decimoquinta sesión, cierre (2026-10-08): la segunda transmisión (v10.4) y la V de NASA
 
