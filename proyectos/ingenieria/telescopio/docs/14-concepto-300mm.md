@@ -241,6 +241,70 @@ de `11`) muestra que patina. B y T quedan atrás por el error que se repite
 dentro de cada foto. **No es una decisión cerrada**: se cierra con el 30/60 s y
 los pesos de Fran.
 
+## 6b. ¿30 o 60 s por foto? Lo que cuesta cada uno (decimocuarta sesión, 2026-10-07)
+
+Fran pidió «en criollo qué costo tenemos para 60 y cuál para 30». La cuenta de
+fondo es una sola: **un error de velocidad δ corre la estrella δ × 15″/s × t
+dentro de un sub de t segundos** [cálculo]. No importa si el error es lento o
+rápido: lo que entra en la foto crece **lineal con el tiempo del sub**. Pasar
+de 30 a 60 s parte a la mitad cada número del presupuesto de L1-01 (2″ por sub:
+plataforma 1,5, montura 0,5, alineación polar 1).
+
+| Qué | Con 30 s | Con 60 s | Grado |
+|---|---|---|---|
+| Alineación polar (L2-OPE-01) | ≤ 7′ | ≤ 3,8′: más vueltas de deriva la primera noche y marcas del piso que repitan 0,5 mm en vez de 1 | cálculo |
+| Velocidad media de la plataforma (L2-PLT-03) | ≤ 0,2 % | ≤ 0,1 %: la tabla de velocidad (CAL-2) se calibra el doble de fino | cálculo |
+| Errores que se repiten (polea de 20 cada 7,75 min, rodillo cada 31 min) con 0,02 mm de descentrado | polea 1,4″ + rodillo 0,6″ en cada sub: justo; la corrección periódica por programa (PEC) es **recomendable** | 2,7″ + 1,1″: no entra; **PEC obligatoria** (una noche midiendo con la cámara y la tabla en el programa) | cálculo; el 0,02 mm es `hipótesis` (se mide con comparador en el banco) |
+| Piezas | polea de 20 y rodillo con descentrado ≤ 0,02 mm: tornero bueno, polea de calidad | lo mismo **más** la PEC; si el torneado no da 0,02, rodillo rectificado | `probable` |
+| Transmisiones que quedan | F; T2 con paso 5 u 8 y PEC | F con PEC; T2 sólo con paso 8 y PEC. B y T, afuera en los dos | cálculo, §6 |
+| Plata | la de hoy | casi la misma: el motor, el driver y las chapas no cambian; suma a lo sumo un rodillo rectificado | `probable` |
+| Lo que se gana en la foto, a igual tiempo total (30 min) | — | en el **patio** ≈ 1 % más de señal/ruido (a f/6 el cielo de ciudad tapa el ruido de lectura de la cámara desde ≈ 15 s); en un **cielo oscuro** ≈ 15-20 % | `hipótesis`: cielo del patio sin medir (≈ 18 mag/″²), ruido de lectura de tabla (≈ 2 e⁻ a ISO 800), la cámara sin confirmar |
+| Riesgo | un sub arruinado (viento, golpe, avión) tira 30 s | tira 60 s; las estrellas brillantes y el centro de M42 se queman antes | criterio |
+
+**En criollo:** 60 s no cuesta plata, cuesta precisión y paciencia —alinear
+más fino y una noche de calibración— y **en el patio no devuelve casi nada**;
+recién paga en un cielo oscuro. Por eso la pregunta de 30 o 60 está atada a
+«¿viaja en auto?» (§11.1 de `10`). **Lo que mantiene abiertas las dos puertas**
+(Rechtin & Maier: no cerrar antes de tiempo): diseñar para 30 s **con piezas
+de descentrado ≤ 0,02 mm**; así 60 s queda como mejora de programa (PEC) y de
+procedimiento, sin tocar fierros. Lo decide Fran (L1-01).
+
+## 6c. Cómo se decide la transmisión (guía para el trade, con los pesos de Fran)
+
+**Paso 1: la precisión es un piso, no un peso.** L2-PLT-02 (≤ 1,5″ por sub) es
+un requisito: la alternativa que no llega, ni con PEC, se cae **antes** de
+votar. Si se la pesara, una transmisión imprecisa podría ganar por barata y la
+foto saldría movida igual. Con el §6b: pasan **F y T2**; B y T se caen (el
+diente de B repite cada 37 s, adentro de cada foto, y no se corrige; la
+varilla común de T tiene el paso desparejo).
+
+**Paso 2: entre las que pasan, cuatro criterios** (escritos antes de puntuar;
+1 = malo, 5 = muy bueno; los puntajes son técnicos y los pone la sesión, con su
+base):
+
+| Criterio | Qué mide | F | T2 | Base |
+|---|---|---|---|---|
+| 1. Margen de precisión | cuánto sobra del piso, con PEC | 5 (30 s) · 4 (60 s) | 4 · 3 | F repite cada 7,75 y 31 min, suave y atado a la posición del motor: la PEC lo saca casi entero; T2 repite cada 2,3-3,7 min y la bielita suma juego |
+| 2. Que no patine ni pierda la posición | si puede escaparse del cielo sin avisar | 3 | 5 | F agarra ≈ 25 N contra 2-4 N de empuje (`13` §4): patina sólo con el centro de masa muy mal; T2 empuja con rosca: no patina |
+| 3. Facilidad de construcción | con lo de casa más torno y láser contratados | 3 | 3 | F pide el rodillo torneado y alinearlo con el canto; T2 pide guía lineal, bielita con dos rótulas y alinear todo |
+| 4. Costo | lo que se compra | 4 | 3 | F: rodillo, poleas y correa; T2: tornillo de bolas, guía y soportes |
+
+**Paso 3: los pesos los pone Fran** (repartir 10 puntos entre los cuatro). Con
+estos puntajes la cuenta se reduce a **una regla**: F le gana a T2 si
+`precisión + costo > 2 × no patina` (la diferencia F − T2 es
+`w1 − 2·w2 + w4`; el criterio 3 empata y no decide).
+
+**Paso 4: el dato que más mueve la decisión se mide, no se discute.** El único
+punto flaco de F es el criterio 2, y es una **incógnita medible**: el banco
+del rodillo (paso 6 de `11`) dice si patina. Si no patina con el doble de
+empuje del peor caso, F sube a 4 en el criterio 2 y la regla pasa a
+`precisión + costo > no patina`: gana con casi cualquier reparto. Orden
+propuesto: **el banco primero, los pesos después**; si Fran quiere decidir
+antes, se decide con la regla y el banco confirma.
+
+Un empate (F − T2 = 0) acusa a los criterios, no a las alternativas: se
+rehacen las definiciones (lección «un trade study que empata»).
+
 ## 5b. Cómo se toma el dobson sin agujerearlo (Fran, 2026-10-07)
 
 Fran: «el dobson no se agujerea de ser posible; quizás sea mejor algo
@@ -305,7 +369,9 @@ antes de construir.
 > **«cualquiera, GoTo incluido»** (envolvente de 50 kg); 3 → **«debe servir
 > para ambos, aunque aumente la complejidad, no perdamos precisión»**: la
 > precisión no se cambia por sencillez. 4 y el 30/60 s, abiertos: Fran pidió
-> la explicación para Kevin. Aplicado en `10-requisitos.md` v0.2 (§8 de acá,
+> la explicación para Kevin (está en §6b y §6c). **El tiempo de cambiar de
+> telescopio no importa** (Fran, decimocuarta sesión): L1-29 sin tope.
+> Aplicado en `10-requisitos.md` v0.2 (§8 de acá,
 > con los IDs finales: L0-15, L1-27 a L1-30, L2-PLT-05, L2-PLT-14 a 16). La
 > chapa pasa a **5/16"** por L2-PLT-16.
 

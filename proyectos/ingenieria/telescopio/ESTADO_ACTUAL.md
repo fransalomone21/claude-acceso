@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-07 (decimotercera sesión: el modelo v10, «la plataforma terminada», el dibujo del centro de masa y los Docs con el 300)
+**Última actualización:** 2026-10-07 (decimocuarta sesión: modelo v10.1 —el motor apoyado, el 12" teórico en color—, L1-29 sin tope y la cuenta de 30 contra 60 s con la guía del trade)
 
 ## Dónde estamos
 
@@ -58,6 +58,9 @@ y el inventario sin `?`.
 | **Modelo v10: la plataforma «terminada»** (diseño preliminar, pedido de Fran: «nada flotando», con grados confirmado/probable/en revisión). Mesa universal: marco con tres largueros y **tres rieles** arriba, corredera con una muesca por telescopio (`dNEquilibrio`, forma cerrada), selector 200 / 12" fantasma, **tres mordazas de borde** (salen los 4 bulones y el suplemento), chapa 5/16", electrónica con botón y ST-4, batería, marcas del piso. Muescas: 200 a 2,8 cm al norte; 12" de 0,5 a 18,8. Vuelco ≥ 22° con todos; **único rojo: el 12" liviano, empujón 5,5 kg** (rodillos a 58 cm y base 1,3 m lo arreglan) | `probar-geometria.js` (13 OK, control nuevo de la corredera con sabotaje en rojo); «Piezas sueltas» medido en el panel: 0, y 22 con el buje del v9 saboteado; publicado, mismo tamaño que el repo + 552 B | 2026-10-07 |
 | **El artifact es público con el link**: lo dice la respuesta de la herramienta al publicar («shared as Anyone with the link»). Cierra el «Fran dice que es público: sin medir» | respuesta del publish, 2026-10-07 | 2026-10-07 |
 | **El dibujo para medir el centro de masa existe**: `docs/dibujo-cdm.html` (fuente única) → PDF «Medir el centro de masa» (3 páginas, mirado) en el Drive y enviado a Fran, y 4 imágenes adentro del Doc «2 - Paso a paso». Docs «1 - El proyecto» v5 (el 300, mordazas, transmisión F con respaldo T2, Kevin K1-K9) y «2» v4 regenerados con los mismos IDs; el Cuaderno del 4/10 al Archivo como VIEJO | IDs con `rclone lsf`; el Doc 2 bajado tiene las 4 imágenes; un Doc acepta imágenes: probado antes con un borrador | 2026-10-07 |
+| **Modelo v10.1** publicado (versión 6 del artifact, público con el link): el motor va en una **escuadra NEMA 17 sobre la misma planchuela del rodillo motriz** (una pieza en L, cuatro M8 a la viga; correa del lado sur); en el v10 colgaba de una planchuela apoyada en el canto del ángulo. Cables acostados sobre la viga; electrónica al lado del rodillo motriz. **El 12" teórico, sólido y en color** (pedido de Fran) | «Piezas sueltas» = ninguna con el 200 y con el 12"; consola sin errores; vistas miradas; publicado = repo | 2026-10-07 |
+| **El tiempo de cambiar de telescopio no importa** (Fran): L1-29 sin tope, definido; requisitos VERDE | `verificar-requisitos.py` VERDE (12 N, 15 L0, 30 L1, 31 L2) | 2026-10-07 |
+| **30 contra 60 s, en números** (`docs/14` §6b): un error de velocidad δ corre la estrella δ·15″/s·t en un sub de t s, así que 60 s parte a la mitad todo el presupuesto (alineación 7′ → 3,8′, velocidad media 0,2 → 0,1 %, la PEC pasa de recomendable a obligatoria); plata casi igual; en el patio gana ≈ 1 % de señal/ruido, en cielo oscuro ≈ 15-20 %. **Guía del trade** (§6c): la precisión es piso, no peso (quedan F y T2); F gana si precisión + costo > 2 × «no patina»; el banco del rodillo mueve la decisión más que los pesos | cálculo; el descentrado de 0,02 mm, el cielo del patio y el ruido de lectura son `hipótesis` | 2026-10-07 |
 | **La cámara y el foco se aparcan** (Fran, 2026-10-05). P0 sigue abierta en el PDP y es **compuerta antes de comprar la chapa de aluminio** | decisión de Fran; la compuerta es mía | 2026-10-05 |
 
 ## Lo que es hipótesis
@@ -89,7 +92,16 @@ y el inventario sin `?`.
 
 ## Lo próximo
 
-> **2026-10-07 (decimotercera sesión) — manda sobre todo lo de abajo.** Hechos
+> **2026-10-07 (decimocuarta sesión) — manda sobre todo lo de abajo.** Hechos
+> el v10.1 (motor apoyado, 12" en color), L1-29 sin tope y la cuenta de 30/60 s
+> con la guía del trade (`docs/14` §6b-6c). Sigue: **(1) Fran elige 30 o 60 s**
+> (la sesión recomienda 30 si la plataforma no viaja a un cielo oscuro) y
+> **reparte 10 puntos** entre margen de precisión, que no patine, facilidad y
+> costo; con eso la sesión cierra el trade F/T2. **(2)** La foto de la tabla
+> del vuelco (cierra L1-15). **(3)** La prueba de foco. **Fran:** ¿viaja en auto?,
+> ¿cuánto armado?
+>
+> **2026-10-07 (decimotercera sesión).** Hechos
 > el dibujo del CdM, el modelo v10 y los Docs. Sigue: **(1) Fran y Kevin
 > miden** con la hoja «Medir el centro de masa» (vuelco hA, A, hB, B, W y la
 > altura del eje) y mandan **foto de la tabla**; con eso la sesión cierra el

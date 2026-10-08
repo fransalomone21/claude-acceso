@@ -1,10 +1,65 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-07 (decimotercera sesión, PC, abierta en `Desktop\claude-acceso`) ·
+**Escrito el:** 2026-10-07 (decimocuarta sesión, PC, abierta en `Desktop\claude-acceso`) ·
 **Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**, 2 de 4: arquitectura
 cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
+
+## Decimocuarta sesión (2026-10-07, PC): v10.1, L1-29 y 30 contra 60 s
+
+**Pedido de Fran:** «no importa el tiempo de pasar de 200 a otro»; «decime en
+criollo qué costo tenemos para 60 segundos y cuál para el de 30 y orientame
+para hacer el trade off»; «soluciona el artifact para que sea más coherente la
+estructura» (captura del detalle rodillo y motor); «dale color al 300 mm
+propuesto teórico, por más que no exista».
+
+**Hecho:**
+- **Modelo v10.1** (artifact `Sn7F7NGPrNdsJnwwnXTZfd`, **versión 6**, público
+  con el link; se leyó la versión viva entera antes: era el v10 del repo, sin
+  cambios de nadie). El motor colgaba de una planchuela apoyada en el **canto**
+  del ángulo norte, en el aire, y su cable cruzaba en diagonal. Ahora: la
+  planchuela del rodillo motriz **sigue al oeste** (una pieza en L, cuatro M8 a
+  la viga), polea de 80 **al sur** del ángulo sur, **escuadra NEMA 17** (ala
+  vertical con 4 M3, ala apoyada con 2 M5 en ranura que tensan la correa),
+  motor apoyado en el ala. Electrónica al lado del rodillo motriz (`MOT.xEste`)
+  y batería al lado; cables acostados sobre la viga y las planchuelas, con un
+  ramal por escuadra a cada fin de carrera. **12" teórico sólido**: tubo
+  violeta, caja oscura, aros, celda, araña, portaocular de 2", buscador
+  (materiales `doce`, `doceIn`, `doceCaja`, `doceMet`, grado «en revisión»).
+  Vista «Detalle: rodillo y motor» desde el sudoeste. «Piezas sueltas» =
+  ninguna con el 200 y con el 12"; `geometria-vns.js` sin cambios (`?v=10`).
+- **Requisitos**: L1-29 sin tope de 15 min, **definido** (Fran); §9 con la
+  escuadra del motor (L2-PLT-02, L2-PLT-10); §11.1 pregunta 4 contestada.
+  VERDE. Antes se leyeron GtWR, m21, m17 y NASA (lo exige la puerta).
+- **`docs/14` §6b**: qué cuesta 30 y qué 60 s (la cuenta δ·15″/s·t; tabla con
+  alineación, velocidad media, PEC, piezas, plata, ganancia en la foto,
+  riesgo). **§6c**: la guía del trade F/T2 (precisión como piso; cuatro
+  criterios con puntajes de la sesión; la regla `w1 − 2·w2 + w4`; el banco
+  primero).
+- Memoria `telescopio-300mm-decision` con las dos respuestas.
+
+**Descubierto:** el error de la polea de 20 **no es chico por ser lento**: lo
+que entra en un sub es δ·15″/s·t sin importar el período. Con 0,02 mm de
+descentrado da 1,4″ en 30 s: la PEC deja de ser opcional en cuanto se pide
+precisión fina. Lo lento sólo la hace **corregible**. Corrige la frase «los dos
+más lentos que una foto: se calibran» del modelo y de `docs/14` §6, que leída
+sola sugería que no molestaban.
+
+**El detector de piezas sueltas estaba ciego en el motor** (regla 3, sabotaje):
+sin la escuadra, el motor seguía «apoyado» en la caja envolvente de la chapa,
+que gira. Arreglado en el detector (no en el caso): el apoyo tiene dirección,
+de lo fijo a lo que gira y nunca al revés. `window.__vns.sabotearMotor()` saca
+escuadra, bulones, correa y cable y sube el motor 5 mm: da **7 de 7 sueltas**
+con los dos telescopios, y «ninguna» al restaurar. Lección 355 (nivel
+herramienta), sumada a `chequeo-de-trabajo.md`. Ojo con lo que el detector
+**no** mide: que la carga baje por algo que la aguante (el v10 daba «ninguna»
+con el motor colgado del canto de un ángulo); eso se mira en las vistas de
+detalle.
+
+**No se hizo:** el trade (faltan 30/60 y los 10 puntos de Fran).
+**Pendiente de Fran:** 30 o 60 s y los 10 puntos (`docs/14` §6c); la foto de
+la tabla del vuelco; ¿viaja en auto?; ¿cuánto armado?; prueba de foco.
 
 ## Decimotercera sesión (2026-10-07, PC): la plataforma «terminada» v10
 

@@ -17,6 +17,12 @@ con los TBR resueltos.
 > columna **3D**, §9 y §10 (qué cumple y qué muestra el modelo) y cinco
 > rationales con números del v10 (L1-14, L1-21, L2-PLT-05, L2-PLT-12,
 > L2-PLT-15).
+>
+> **Más tarde, el mismo día (decimocuarta sesión):** Fran contestó que no
+> importa el tiempo de cambiar de telescopio: **L1-29 pierde el tope de 15 min**
+> y pasa a definido. El modelo pasa al **v10.1** (el motor apoyado en su
+> escuadra, los cables por la viga, el 12" teórico en color); ningún otro
+> enunciado cambia.
 
 Escrito con los libros abiertos: `perfil-global/pilares/nucleo-ise.md` §4, el
 INCOSE GtWR (`incose-gtwr/reglas.md`), la cátedra de IISE (m17 y m21) y NASA
@@ -159,7 +165,7 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 | L1-26 | Con un error de alineación polar de no más de 30 minutos de arco, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 10 s. | desempeño | L0-11 | PLT, OPE | análisis | TBR | no |
 | L1-27 | Con el dobson de 300 mm sobre la mesa, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 30 s. | desempeño | L0-15 | PLT, OPE | análisis | TBR | no |
 | L1-28 | El sistema deberá llevar el dobson de 300 mm con las chapas, los rodillos y el motor del dobson de 200 mm. | restricción | L0-15 | PLT | inspección | definido | sí |
-| L1-29 | Cuando el operador cambia de telescopio, el sistema deberá quedar listo para seguir el cielo en no más de 15 minutos con herramientas de mano. | otros: factor humano | L0-15 | PLT, OPE | demostración | TBR | parcial |
+| L1-29 | Cuando el operador cambia de telescopio, el sistema deberá quedar listo para seguir el cielo con herramientas de mano. | otros: factor humano | L0-15 | PLT, OPE | demostración | definido | parcial |
 | L1-30 | El sistema deberá seguir el cielo con una carga giratoria de no más de 62 kg. | desempeño | L0-15 | PLT | análisis | TBR | sí |
 
 ## 6. Elementos (L2)
@@ -341,9 +347,13 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   otras chapas o abulonar una placa por telescopio. La cinemática lo permite:
   el eje sube hacia el sur, y correr el dobson norte-sur pone cualquier centro
   de masa de la envolvente sobre el mismo eje (`docs/14` §4).
-- **L1-29** — «Corriendo y apretando» (N-12) traducido a un número: 15 min es
-  estimación de la sesión. Incluye la puesta en estación de nuevo, porque
-  cambia el peso sobre las patas. TBR (pregunta para Fran, §11.1).
+- **L1-29** — «Corriendo y apretando» (N-12). Hasta la v0.2 pedía 15 min
+  (estimación de la sesión, TBR); **Fran, 2026-10-07: «no importa el tiempo de
+  pasar del 200 al otro»**, así que el tope sale y queda lo que sí le importa:
+  que se cambie con herramientas de mano, sin cortar ni soldar. Incluye la
+  puesta en estación de nuevo, porque cambia el peso sobre las patas. Que el
+  cambio no cueste precisión lo cuida L2-PLT-15 (las muescas repiten la
+  posición), no un reloj.
 - **L1-30** — 50 kg del dobson de 300 mm más pesado de la envolvente (un GoTo
   de 45 kg con accesorios) más ≈ 12 kg de mesa agrandada [estimación]. Era la
   meta M-03 (60 kg); sube a requisito con N-12. TBR.
@@ -485,6 +495,7 @@ ninguno es un huérfano**: o falta el requisito, o sobra la decisión. Desde el
 | tres mordazas de borde con pestaña y tornillo de mano | L2-PLT-12, L2-PLT-17, L1-20 | **el v10 las tiene**; falta probar que aguantan la mesa inclinada 10,5° |
 | rodillo motriz torneado; rodillo loco de cuatro 608 | L2-PLT-02, L2-PLT-03 | la otra pieza de precisión |
 | transmisión F: fricción + correa GT2 20:80 (respaldo T2) | L2-PLT-02 | ningún error que se repita adentro de un sub (`docs/14` §6) |
+| motor en escuadra NEMA 17 sobre la misma planchuela del rodillo motriz (una pieza en L, cuatro M8 a la viga) | L2-PLT-02, L2-PLT-10 | v10.1: la distancia entre poleas no se mueve, así que la tensión de la correa tampoco; en el v10 el motor colgaba en el aire |
 | NEMA 17 de 4 kg·cm + TMC2209 | L2-PLT-10, L1-03 | |
 | ESP32 con botón de rebobinado y ficha ST-4, en caja sobre la viga sur | L1-05, L1-03, L2-PLT-11, M-01, M-02 | la elección de placa la empujan las metas de Kevin |
 | batería en la viga sur | L1-06 | su capacidad sale del banco |
@@ -505,7 +516,8 @@ ninguno es un huérfano**: o falta el requisito, o sobra la decisión. Desde el
 **Lo que el v10 todavía no cumple de la 0.2:** el empujón del 12" liviano
 (L1-13, depende de la envolvente). **Lo que no se puede ver en el modelo:** la
 presión de contacto (L2-PLT-16, cálculo en «Lo que importa»), el error de
-seguimiento (L1-01, L1-27) y el tiempo de cambio (L1-29).
+seguimiento (L1-01, L1-27) y el cambio de telescopio con herramientas de mano
+(L1-29).
 
 **Huérfanos de hoy:** ninguno entero. El poste del pivote queda a medias
 (acorta la base, pero el requisito del baúl es TBD).
@@ -556,7 +568,8 @@ seguimiento, la presión de contacto, la operación.
    de latitud (L1-09).
 3. **¿Cuánto tiempo de armado te parece bien, del depósito al primer sub?**
    Hoy dice 20 min (L1-17).
-4. **¿Cuánto tiempo para pasar del 200 al 300?** Hoy dice 15 min (L1-29).
+4. ~~¿Cuánto tiempo para pasar del 200 al 300?~~ **Contestada** (2026-10-07):
+   no importa el tiempo; L1-29 queda sin tope.
 5. ~~¿El 300 se puede agujerear?~~ **Contestada**: no se agujerea ninguno de
    los dos; algo adaptable (L2-PLT-17).
 
