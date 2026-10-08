@@ -21,6 +21,16 @@ dejaba afuera las que tienen diagrama *y* rótulos). Detalle completo en
 `IISE/Material de Estudio nuestro/Apunte GENERAL`, la subcarpeta que armó
 Fran.
 
+**Sesión 2026-10-08 (mantenimiento, fuera de la fase 7):** M25 completado contra
+la clase 7 (matriz de funciones por fase, interfaces internas/externas, 3
+figuras) y el índice con una franja por unidad (`#parte()` emite un heading
+`<unidad>` oculto en el cuerpo; el show-rule del índice lo dibuja). Detalle en
+`ESTADO_ACTUAL.md`. **Para la sesión de la unidad 9:** la matriz de funciones
+por fase YA está en M25 §«El mapa» (clase 7, diap. 4); las diap. 32 y 50 de la
+clase 9 se citan ahí, no se repiten en M15 (`PLAN-CLASES-8-9.md` corregido).
+Ojo al escribir unidades 8 y 9: cada `#parte(N, …)` sale sola en el índice,
+no hay que tocar nada más.
+
 **Sesión 2026-10-05: llegaron las clases 8 y 9 y se registró el plan** (nada
 redactado). Siguiente paso: abrir [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) y
 correr su §0 (exportar a PDF los `.pptx` nuevos de las clases 8 y 9, extraer)

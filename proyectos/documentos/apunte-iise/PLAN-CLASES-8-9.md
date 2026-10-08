@@ -64,7 +64,7 @@ y *clean room* en el ConOps (M20), TRL con una mención suelta (M13).
 | 20–27, 52–54 | **TRL** (9 niveles, uno por uno), **IRL** (5 niveles de la cátedra), **SRL**; qué es «integrar» (la pendiente ascendente de la V); TRL sobre el modelo en V (material de estudio Yasseri y Bahai) | **parcial** (TRL: una mención en M13) | **M34** |
 | 3 | Plantilla de requerimientos: ID, origen, enunciado, fuente/fecha, verificación, satisfacción/costo/riesgo 1–5, relacionados/conflictivos, rationale, aprobaciones | **parcial** (la rationale está en M21; faltan los demás campos) | sección en **M21** |
 | 4–8 | Interfaces externas S/C–lanzador: adaptador/estructura de empuje, cargas secundarias (ESPA), cofia, Ariane IV, rideshare del Falcon 9 | **nuevo** (M19 trata interfaces en abstracto) | sección en **M19** |
-| 32–33, 50–51 | Matriz «funciones clave de la IS por fase» (Pre-A a E) y sus notas, **repetida dos veces** en la clase | **nuevo** | sección en **M15**, junto a la de baselines |
+| 32–33, 50–51 | Matriz «funciones clave de la IS por fase» (Pre-A a E) y sus notas, **repetida dos veces** en la clase | **ya está** (2026-10-08: es la diap. 4 de la clase 7, desarrollada en M25 §«El mapa») | sólo cita cruzada a M25; mirar el PNG por si la versión de la clase 9 difiere |
 | 35–43, 49 | **Fase C**: diseño final y fabricación, compatibilidad con el lanzador (firma ambiental, interfaces mecánica/eléctrica/datos), verificación de componentes (el thruster), baseline detallado y planes AIT/AIV, curva de costos, componentes de larga fabricación, integración del tanque del SDO y ensayos | **nuevo** | **M35** |
 | 44–48 | **CDR** (siete criterios) y **SIR** (cinco criterios), acciones del PDR/CDR cerradas | **parcial** (M15 los nombra; no los desarrolla) | **M36** |
 
@@ -73,7 +73,7 @@ y *clean room* en el ConOps (M20), TRL con una mención suelta (M13).
 | Unidad | Módulos nuevos | Extensiones |
 |---|---|---|
 | **8** (clase 8) | M28 plan de trabajo · M29 estimaciones · M30 el LDCM · M31 lanzadores · M32 el diagrama funcional y el ROV | M15 (baselines y progresión de requerimientos) |
-| **9** (clase 9) | M33 Fase B a fondo · M34 TRL, IRL y SRL · M35 Fase C a fondo · M36 CDR, SIR y el caso NOAA-N′ | M15 (matriz por fase), M19 (interfaces S/C–lanzador), M21 (plantilla) |
+| **9** (clase 9) | M33 Fase B a fondo · M34 TRL, IRL y SRL · M35 Fase C a fondo · M36 CDR, SIR y el caso NOAA-N′ | M19 (interfaces S/C–lanzador: cruzar con M25 §«Interfaces internas y externas», que ya tiene el adaptador y la plataforma), M21 (plantilla) |
 
 Tamaño, **a ojo**: la clase 8 pesa lo que la 6 (155 láminas → 5 módulos) y la 9
 lo que la 7 (54 → 4); el apunte rinde ~4,5 páginas por módulo. **9 módulos

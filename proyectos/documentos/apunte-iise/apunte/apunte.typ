@@ -64,6 +64,10 @@ empieza diciendo qué clase y qué diapositivas cubre, y la caja gris de arriba
 de todo dice qué vas a poder contestar al terminarlo. El significado de cada
 color de caja está en la portada.
 
+*Dónde está cada unidad.* En el índice, cada franja azul es una unidad de
+la materia, y la unidad N es la clase N: la franja dice dónde empieza y los
+módulos de abajo, hasta la franja siguiente, son los que la tratan.
+
 #posta[
   Si tenés poco tiempo, leé el módulo 0 entero y después las cajas rojas de
   todos los demás. El módulo 0 es el vocabulario y las rojas son los errores

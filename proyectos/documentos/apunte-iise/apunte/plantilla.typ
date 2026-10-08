@@ -191,12 +191,24 @@
 // ---------- Figura ----------
 #let fig(cap, body) = figure(align(center, body), caption: cap, kind: "fig", supplement: [Figura])
 
-// ---------- Divisor de parte ----------
+// ---------- Divisor de parte = una unidad de la materia ----------
+//
+// Cada parte N es la unidad N de la materia, y la unidad N es la clase N
+// (una clase, una unidad: así está escrito el apunte entero). La parte 0
+// es el vocabulario, que no es una clase.
+//
+// Para que la unidad aparezca en el ÍNDICE, la página divisoria emite un
+// heading de nivel 1 marcado `<unidad>`: el show-rule de headings lo
+// esconde en el cuerpo (la página ya dibuja su propio título) y el del
+// índice lo dibuja como franja. Va con `numbering: none` para no correr el
+// contador que numera los módulos (ver #seccion()).
 #let parte(numero, titulo, bajada) = {
   pagebreak(weak: true)
+  let rotulo = if numero == 0 [Antes de las clases] else [Unidad #numero · clase #numero]
   page(numbering: none, header: none, footer: none, margin: (x: 2.6cm, y: 3.4cm))[
+    #heading(level: 1, numbering: none, outlined: true, bookmarked: true)[#if numero == 0 [#titulo] else [Unidad #numero — #titulo]] <unidad>
     #align(center + horizon)[
-      #text(size: 10.5pt, tracking: 2pt, fill: luma(110))[#upper[Parte #numero]]
+      #text(size: 10.5pt, tracking: 2pt, fill: luma(110))[#upper(rotulo)]
       #v(0.25cm)
       #line(length: 32%, stroke: 0.6pt + luma(160))
       #v(0.9cm)
@@ -369,6 +381,8 @@
 
   // Títulos
   show heading.where(level: 1): it => {
+    // El heading de una unidad sólo existe para el índice: ver #parte().
+    if it.has("label") and it.label == <unidad> { return none }
     let rotulo = if it.numbering != none {
       [MÓDULO #counter(heading).display()]
     } else {
@@ -506,8 +520,21 @@
     #line(length: 100%, stroke: 1pt + c-azul)
     #v(0.4cm)
     #show outline.entry.where(level: 1): it => {
-      v(9pt, weak: true)
-      strong(it)
+      if it.element.has("label") and it.element.label == <unidad> {
+        // La unidad de la materia: franja de color, para que se vea dónde
+        // empieza cada una a lo largo del índice.
+        v(16pt, weak: true)
+        link(it.element.location(), block(
+          width: 100%, fill: c-azul, inset: (x: 7pt, y: 5pt), radius: 2pt, sticky: true,
+        )[
+          #set text(fill: white, weight: "bold")
+          #it.element.body #box(width: 1fr) #it.page()
+        ])
+        v(4pt)
+      } else {
+        v(9pt, weak: true)
+        strong(it)
+      }
     }
     #outline(title: none, depth: 2, indent: 1.1em)
   ]

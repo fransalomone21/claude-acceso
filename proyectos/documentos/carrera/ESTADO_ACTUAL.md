@@ -1,6 +1,6 @@
 # Estado actual — Carrera
 
-**Última actualización:** 2026-10-02
+**Última actualización:** 2026-10-08 (fila de IISE: 128 pág., unidades en el índice)
 
 ## Dónde estamos
 
