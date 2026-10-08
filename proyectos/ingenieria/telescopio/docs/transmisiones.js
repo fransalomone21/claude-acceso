@@ -11,7 +11,9 @@
 // cada paso entero mueva poco el cielo: reduccion.
 //
 // Convencion: metros, segundos, segundos de arco (″). El cielo gira 15,04″ por segundo.
-
+// En el navegador queda como window.TRANS (todo adentro de una funcion: no choca con los nombres de
+// geometria-vns.js, que se carga en la misma pagina).
+(function () {
 const SID = 7.2921e-5;           // rad/s, rotacion sidérea
 const AS = 206264.806;           // ″ por radian
 const CIELO = SID * AS;          // 15,04″ por segundo
@@ -85,11 +87,15 @@ function tabla(R, dxdth, opt) {
   });
 }
 
+const API = { CONCEPTOS, MONTURAS, evaluar, redondez, corrimiento, tabla, CIELO };
+if (typeof window !== 'undefined') window.TRANS = API;
 if (typeof module !== 'undefined') {
-  module.exports = { CONCEPTOS, MONTURAS, evaluar, redondez, corrimiento, tabla, CIELO };
+  module.exports = API;
   if (require.main === module) {
-    // R y dxdth del modelo v10.4 con los valores de partida (geometria-vns.js + VARI de 06-modelo-3d.html)
-    const R = 0.7453, dxdth = 0.7689;
+    // R y dxdth del modelo v10.5 con los valores de partida: rodillos a 58 cm, base de 1,3 m
+    // (geometria-vns.js + VARI de 06-modelo-3d.html). Con los rodillos a 50 (v10.4) eran 0,7453 y 0,7689,
+    // que son los que usa probar-transmisiones.js como caso fijo con su cuenta a mano.
+    const R = 0.7685, dxdth = 0.7848;
     const f = (x, k = 1) => x.toFixed(k).replace('.', ',');
     console.log('Monturas comerciales: EQ6 ' + f(MONTURAS.EQ6) + '″ y HEQ5-R ' + f(MONTURAS.HEQ5R) + '″ por paso entero');
     for (const eps of [0.03, 0.05, 0.10]) {
@@ -101,3 +107,4 @@ if (typeof module !== 'undefined') {
     }
   }
 }
+})();
