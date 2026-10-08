@@ -31,6 +31,12 @@ clase 9 se citan ahí, no se repiten en M15 (`PLAN-CLASES-8-9.md` corregido).
 Ojo al escribir unidades 8 y 9: cada `#parte(N, …)` sale sola en el índice,
 no hay que tocar nada más.
 
+**Sesión 2026-10-08 (nube): resumen de una página de la clase 7** en
+`resumenes/` (Typst; se compila con `--root` en `apunte-iise/` porque importa
+`apunte/biblioteca/paleta.typ`). No publicado: si Fran lo quiere en el Drive, se
+declara antes en `.claude/apuntes-publicos.json`. Si piden más clases, mismo
+molde: flujo qué/para qué + conceptos + ojo del parcial, sacado de los módulos.
+
 **Sesión 2026-10-05: llegaron las clases 8 y 9 y se registró el plan** (nada
 redactado). Siguiente paso: abrir [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) y
 correr su §0 (exportar a PDF los `.pptx` nuevos de las clases 8 y 9, extraer)
