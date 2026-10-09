@@ -1,6 +1,6 @@
 # Handoff — Carrera
 
-**Escrito el:** 2026-10-02 · **Tocado:** 2026-10-08 (fila de IISE) · **Fase al cerrar:** 1, mantenimiento (abierta)
+**Escrito el:** 2026-10-02 · **Tocado:** 2026-10-09 (fila de Teoría de Circuitos) · **Fase al cerrar:** 1, mantenimiento (abierta)
 
 ## Arrancá por acá
 
