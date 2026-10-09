@@ -30,6 +30,12 @@ Lee el bloque ```coop-rangos del documento y exige, en este orden:
   9. (116, COOP-C pieza 2a) el sonido del disparo de J2 (coop_sonido.py): su codigo en la reserva «sonido de J2 (codigo)»
      del plan o en su fila de coop-rangos (y ahi prendido por defecto); coop_sonido.problemas() vacio; y el envoltorio
      4 del aislador sale por `j SONJ2` con la pieza prendida y por `jr ra` con la pieza apagada.
+ 12. (125, COOP-C pieza 2d) J2 con su soporte de modelo, sus buffers y sus accesorios (coop_soporte2.py, la que arregla
+     F7): coop_soporte2.problemas() vacio -- las RELACIONES (copia antes de reapuntar, cada campo a su memoria, los
+     accesorios con J2 de duenio, el cambio de arma del juego al final) y los TAMANIOS derivados del ELF--; el codigo
+     y cada rango de datos en sus reservas «soporte2» del plan (o en filas de coop-rangos, y ahi prendida por defecto);
+     y en el envoltorio la llamada va DESPUES del constructor de J2 y de su `beq v0, zero` y ANTES del registro, una
+     sola vez, y sin la pieza no esta.
 Sale 0 si todo esta bien y 1 si algo falla (y dice que). Su saboteador: pruebas/probar-coop-diseno.py.
 """
 import argparse
@@ -72,6 +78,7 @@ def verificar(doc: Path, mods: Path) -> list[str]:
     errores += verificar_sonido(doc, filas, cm.CON_SONIDO)   # (116) regla 9; programas() la incluye segun su default
     errores += verificar_sub3(doc, filas, cm.CON_SUB3)       # (119) regla 10; apagada hasta su prueba en vivo
     errores += verificar_testigo_sub3(doc, filas)            # (122) regla 11; el testigo por cuadro es el INDICE
+    errores += verificar_soporte2(doc, filas, cm.CON_SOPORTE2)  # (125) regla 12; apagada hasta su prueba en vivo
     progs = cm.programas()
     # 1. los programas contra el plano
     for nombre, prog in progs[:-1]:
@@ -365,6 +372,87 @@ def verificar_testigo_sub3(doc: Path, filas_rangos) -> list[str]:
     if not any(f["tipo"] == "reserva" and f["nombre"].startswith("sub3 (d")
                and f["desde"] <= cs.SUB3_IDX < f["hasta"] for f in list(plan) + list(filas_rangos)):
         errores.append("testigo sub3: SUB3_IDX (%#x) no cae en la reserva «sub3 (datos)» del plan" % cs.SUB3_IDX)
+    return errores
+
+
+def verificar_soporte2(doc: Path, filas_rangos, con_por_defecto=False) -> list[str]:
+    """(125) regla 12: la pieza 2d (coop_soporte2.py), J2 con su soporte de modelo, buffers y accesorios (F7).
+
+    Exige: `coop_soporte2.problemas()` vacio (relaciones, tamanios del ELF, apoyo, listado); el codigo en la reserva
+    «soporte2 (codigo)» del plan o en una fila de coop-rangos con el RANGO EXACTO (y ahi, prendida por defecto); cada
+    rango de datos adentro de la reserva «soporte2 (datos)» o de una fila de datos «soporte2»; y, con la pieza
+    PRENDIDA, que el envoltorio ensamble, que llame a SOP2 UNA vez y en su lugar: despues del `jal` al constructor de
+    J2 y del `beq v0, zero` que sale si fallo (el constructor le vuelve a dar el soporte 0 y le copia registros: antes
+    de el, la pieza se pierde) y antes del registro (FUN_0016E660); y con la pieza APAGADA, que no la llame."""
+    import coop_mod as cm
+    import coop_soporte2 as cs
+    errores = ["soporte2: " + e for e in cs.problemas()]
+    plan = leer_plan(doc) or []
+    prog = cs.programa()
+    desde, hasta = prog[0][0], prog[-1][0] + 4
+    en_plan = any(f["tipo"] == "reserva" and f["nombre"].startswith("soporte2 (c") and f["desde"] <= desde
+                  and hasta <= f["hasta"] for f in plan)
+    en_rangos = any(f["tipo"] == "codigo" and f["nombre"].startswith("soporte")
+                    and (f["desde"], f["hasta"]) == (desde, hasta) for f in filas_rangos)
+    if not (en_plan or en_rangos):
+        errores.append("soporte2: el codigo [%#x, %#x) no cae en su reserva del plan ni en una fila de coop-rangos "
+                       "con el rango exacto" % (desde, hasta))
+    if en_rangos and not con_por_defecto:
+        errores.append("soporte2: coop_mod.CON_SOPORTE2 apagada por defecto con su fila en coop-rangos: el acceso COOP "
+                       "instalaria sin la pieza")
+    datos = [("registros A", cs.BUF_A, cs.TAM_A), ("registros B", cs.BUF_B, cs.TAM_B), ("soporte", cs.SOP, cs.TAM_SOP),
+             ("accesorios", cs.ACC, cs.N_ACC * cs.PASO_ACC)]
+    for nombre, d, tam in datos:
+        if not any(f["tipo"] in ("reserva", "datos") and f["nombre"].startswith("soporte2 (d" if f["tipo"] == "reserva"
+                                                                               else "soporte")
+                   and f["desde"] <= d and d + tam <= f["hasta"] for f in plan + list(filas_rangos)):
+            errores.append("soporte2: %s [%#x, %#x) fuera de la reserva «soporte2 (datos)»" % (nombre, d, d + tam))
+
+    def llamadas(progs):
+        env = dict(progs)["envoltorio"]
+        jal = lambda w, pc: (pc & 0xF0000000) | ((w & 0x03FFFFFF) << 2) if w >> 26 == 3 else None   # noqa: E731
+        return ([i for i, (pc, w, _) in enumerate(env) if jal(w, pc) == destino] for destino in
+                (cs.BASE, cs.CONSTRUCTOR, cs.REGISTRAR)), env
+
+    viejo = cm.CON_SOPORTE2
+    try:
+        cm.CON_SOPORTE2 = False
+        (sop, _, _), _ = llamadas(cm.programas())
+        if sop:
+            errores.append("soporte2: con la pieza APAGADA el envoltorio igual llama a SOP2 (%#x)" % cs.BASE)
+        cm.CON_SOPORTE2 = True
+        try:
+            progs = cm.programas()
+        except Exception as e:                                   # noqa: BLE001
+            progs = None
+            errores.append("soporte2: con la pieza prendida el mod no ensambla (%s: %s) -- la llamada no entra en el "
+                           "envoltorio" % (type(e).__name__, e))
+    finally:
+        cm.CON_SOPORTE2 = viejo
+    if progs is not None:
+        (sop, cons, reg), env = llamadas(progs)
+        salida = [i for i, (_, w, _) in enumerate(env) if w >> 26 == 4 and (w >> 21) & 31 == 2 and (w >> 16) & 31 == 0]
+        if len(sop) != 1:
+            errores.append("soporte2: con la pieza prendida el envoltorio llama a SOP2 %d veces (tiene que ser 1)"
+                           % len(sop))
+        elif not cons or not reg:
+            errores.append("soporte2: el envoltorio ya no llama al constructor de J2 o al registro: la regla mide otra "
+                           "cosa")
+        else:
+            beq = [i for i in salida if cons[-1] < i < sop[0]]
+            if not (cons[-1] < sop[0] < reg[0]) or not beq:
+                errores.append("soporte2: la llamada a SOP2 (palabra %d) no queda despues del constructor de J2 (%d) y "
+                               "de su `beq v0, zero`, y antes del registro (%d): el constructor le volveria a dar el "
+                               "soporte 0" % (sop[0], cons[-1], reg[0]))
+        propios = {n for n, _ in progs[:-1]}
+        for nombre, p in progs[:-1]:
+            d, h = min(pc for pc, _, _ in p), max(pc for pc, _, _ in p) + 4
+            for f in list(filas_rangos) + plan:
+                if f["nombre"] in propios or f["tipo"] == "gancho":
+                    continue
+                if d < f["hasta"] and f["desde"] < h and not (f["desde"] <= d and h <= f["hasta"]):
+                    errores.append("soporte2: con la pieza prendida '%s' [%#x, %#x) pisa '%s'"
+                                   % (nombre, d, h, f["nombre"]))
     return errores
 
 

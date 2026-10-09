@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Saboteador de coop_diseno.py: rompe el plano de a una cosa por vez (en copias temporales) y exige ROJO;
 el plano sin tocar tiene que dar VERDE. Sale 0 sólo si todas se cumplen (veinte desde (115): tres del plan de COOP-B, cuatro de la IA y seis del HUD doble; veinticinco desde (116), con cinco
-del sonido de J2; treinta y uno desde (119), con seis de la pieza 2b)."""
+del sonido de J2; treinta y uno desde (119), con seis de la pieza 2b; y nueve mas desde (125), de la pieza 2d)."""
 import re
 import shutil
 import subprocess
@@ -71,6 +71,23 @@ VPTR_OTRA_BASE = ("import coop_sub3 as c; c.FUENTE = c.FUENTE.replace('sw t2, 0x
                   "'sw t2, 0x%x(t0)' % c.VPTR_OFF)", "puntero de tabla virtual")
 VPTR_NO_ES_DEL_ELF = ("import coop_sub3 as c; c.APOYO[0x00382DB0] = 'addiu v0, v0, %d' % ((c.VPTR_SUB & 0xFFFF) + 0x70)",
                       "sub3: apoyo 0x382db0")
+# (125) regla 12, la pieza 2d (J2 con su soporte, coop_soporte2.py). Cada sabotaje apunta a un HALLAZGO de la lectura
+# en frio y saca sus valores de coop_soporte2 (su duenio), nunca literales.
+SOP2_REAPUNTA_ANTES = ("import coop_soporte2 as c; f = c.fuente; c.fuente = lambda: f().replace('lw t0, 0x328(s0)', "
+                       "'sw t1, 0x328(s0)\\nlw t0, 0x328(s0)', 1)", "reapunta J2+0x328 antes")
+SOP2_BUF_DE_124 = ("import coop_soporte2 as c; c.TAM_B = 0x60", "soporte2: registros B")   # el 0x60 de (124): desborda
+SOP2_ACC_DE_J = ("import coop_soporte2 as c; f = c.fuente; c.fuente = lambda: f().replace('move a1, s0', "
+                 "'move a1, s1', 1)", "FUN_00142E90(acc, J2)")
+SOP2_CAMBIO_PRIMERO = ("import coop_soporte2 as c; f = c.fuente; X = 'addiu a0, s1, %d\\nsw a0, 0x270(s0)' % c._o(c.ACC); "
+                       "c.fuente = lambda: f().replace('jal 0x13c868\\nmove a0, s0', 'nop\\nnop').replace("
+                       "X, 'jal 0x13c868\\nmove a0, s0\\n' + X)", "FUN_0013C868 corre antes")
+SOP2_ANTES_DEL_CONSTRUCTOR = ("import coop_mod as m; m.ENVOLTORIO_MOD = m.ENVOLTORIO_MOD.replace('SOPORTE2_BLOQUE\\n', "
+                              "'').replace('jal 0x139c68', 'SOPORTE2_BLOQUE\\njal 0x139c68')",
+                              "no queda despues del constructor")
+SOP2_APAGADA_LLAMA = ("import coop_mod as m, coop_soporte2 as c; m._soporte2_bloque = lambda: c.BLOQUE_ENVOLTORIO",
+                      "con la pieza APAGADA el envoltorio igual llama")
+SOP2_APOYO_MAL = ("import coop_soporte2 as c; c.APOYO[0x0013C8CC] = 'lw a0, 812(s2)'", "soporte2: apoyo 0x13c8cc")
+MARCA_RESERVA_SOP2 = ("pass", "soporte2: el codigo")
 
 
 def fila_sub3(n=0) -> str:
@@ -80,6 +97,20 @@ def fila_sub3(n=0) -> str:
     import coop_sub3
     return "sub3 de J2                  | 0x%08X | 0x%08X | codigo | (119)" % (
         coop_sub3.BASE, coop_sub3.BASE + 4 * (len(coop_sub3.programa()) - n))
+
+
+def reserva_sop2(cual, cortar=False) -> str:
+    """(125) el pedazo de la fila de reserva de la pieza 2d, DERIVADO de coop_soporte2 (nunca literal): `cual` = "c"
+    (codigo) o "d" (datos); `cortar` = la reserva termina UNA PALABRA antes de lo que ocupa la pieza (el final del
+    codigo, o el del ultimo accesorio). Achicarla un monto fijo no sirve: con 0x40 de menos la reserva de codigo
+    todavia contenia las 45 palabras y el caso salio rc=99 (medido en (125)). Si la fila del documento no coincide,
+    el reemplazo no aplica y el caso sale SABOTAJE SIN EFECTO, que es lo que tiene que pasar."""
+    sys.path.insert(0, str(VERIF.parent))
+    import coop_soporte2 as c
+    d, h = (c.BASE, c.FIN) if cual == "c" else (c.DATOS, c.DATOS_FIN)
+    if cortar:
+        h = (c.BASE + 4 * len(c.programa()) if cual == "c" else c.ACC + c.N_ACC * c.PASO_ACC) - 4
+    return "| 0x%08X | 0x%08X | reserva" % (d, h)
 
 
 def fin_sonido(n=0) -> str:
@@ -175,6 +206,19 @@ def main() -> int:
          lambda t: t.replace("sub3 (datos)                   | 0x0046EF00 | 0x0046F000 | reserva",
                              "sub3 (datos)                   | 0x0046EF00 | 0x0046EF7C | reserva"),
          None, 1),
+        # (125) regla 12, la pieza 2d
+        ("soporte2: reapunta J2+0x328 antes de copiar el soporte (125)", lambda t: t, SOP2_REAPUNTA_ANTES, 1),
+        ("soporte2: buffer B del tamaño de (124), no del juego (125)", lambda t: t, SOP2_BUF_DE_124, 1),
+        ("soporte2: accesorio iniciado con otro dueño (125)", lambda t: t, SOP2_ACC_DE_J, 1),
+        ("soporte2: el cambio de arma antes de reapuntar (125)", lambda t: t, SOP2_CAMBIO_PRIMERO, 1),
+        ("soporte2: la llamada antes del constructor de J2 (125)", lambda t: t, SOP2_ANTES_DEL_CONSTRUCTOR, 1),
+        ("soporte2: apagada y el envoltorio igual la llama (125)", lambda t: t, SOP2_APAGADA_LLAMA, 1),
+        ("soporte2: el apoyo no es el del ELF (125)", lambda t: t, SOP2_APOYO_MAL, 1),
+        ("soporte2: reserva de código achicada (125)",
+         lambda t: t.replace(reserva_sop2("c"), reserva_sop2("c", True)), MARCA_RESERVA_SOP2, 1),
+        ("soporte2: datos fuera de su reserva (125)",
+         lambda t: t.replace(reserva_sop2("d"), reserva_sop2("d", True)),
+         ("pass", "fuera de la reserva «soporte2 (datos)»"), 1),
     ]
     fallas = 0
     with tempfile.TemporaryDirectory() as tmp:

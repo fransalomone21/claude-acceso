@@ -16,6 +16,47 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-09 — (125) en frío: la pieza que arregla F7 diseñada a nivel instrucción, con su regla 12, y en el stub APAGADA
+**Máquina:** notebook MSI (en frío, sin emulador, sin Fran) · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** COOP-C pieza 2d (F7, el modelo del arma de J2) · nodos `vista-fp`, `armas`, `personajes`
+**Objetivo:** lo que (124) dejó pendiente antes del stub — dónde reapuntar el soporte en el armado de J2, el modelo
+inicial, los accesorios `+0x25C..` y `+0x360` — y la regla en `coop_diseno.py` con sabotaje; después, el stub.
+**Resultado:** la pieza 2d diseñada (`docs/16` sección (125)), escrita (`herramientas/coop_soporte2.py`, 45 palabras),
+integrada en el envoltorio y **apagada** (`CON_SOPORTE2 = False`; `--con-soporte2` la prende). Regla 12 con nueve
+sabotajes en rojo. Banco de la prueba en vivo escrito (`herramientas/soporte2_banco.py`) y predicciones antes de
+medir (`sesiones/PREDICCIONES-125.md`). Control: el pnach por defecto sigue en **1059** palabras; con la pieza, 1106.
+
+- **Dónde va:** una llamada (`jal SOP2` + `nop`) en el envoltorio, después del `jal 0x139c68` (el constructor de J2)
+  y de su `beq v0, zero`, antes del registro (`FUN_0016E660`). El envoltorio pasa de 109 a 111 palabras sobre un tope
+  de 112 (`ARMAS2` en `0x0046DBC0`). La subrutina va en `0x00470080`, sus datos en `0x0046FD00`–`0x00470060`, en cero
+  en los 5 volcados con el mod.
+- **Qué hace:** copia el soporte que le dio el constructor (0x40 B) a uno propio, reapunta `J2+0x328/+0x354/+0x358`,
+  le da a J2 **tres accesorios propios** (`+0x270..+0x278`, iniciados con `FUN_00142E90(acc, J2)`) y corre **el cambio
+  de arma del juego** sobre J2 con su índice (`FUN_0013C868(J2, *(J2+0x2C3))`): modelo, agregados, enganches y
+  registros, todo a lo de J2, por el mismo camino que un cambio real.
+- **Corregido del diseño de (124), en frío y medido:** (1) los buffers miden lo que el juego **reserva**, 0x70 y
+  0x240 B (`FUN_00131EF0` escribe `P+0x384`/`+0x386` y aloja eso), no 0x38/0x60, que es lo que copian la pistola y la
+  SPAS: con un arma de más registros, el diseño viejo desbordaba sobre la memoria del mod. (2) Los **accesorios**
+  también se comparten (objetos de 0x1C B con dueño J, medido) y el cambio de arma los reata a la ranura del que
+  cambia: sin los propios la pieza arreglaba la malla y dejaba el «fragmento suelto» de (124).
+- **Descartado en frío:** `+0x360` no es estado compartido, es un recurso por hash (`FUN_00108120(...,
+  0x5FAD315AE9985EBE)`), igual por construcción; y nadie convierte `P+0x328` en un índice del arreglo de soportes
+  (decompilado + barrido crudo del ELF de los inmediatos `0x7A10..0x7A4F`, con `FUN_00138C40` de control positivo:
+  los demás aciertos son direcciones globales, `0x003C7A20`, `0x00407A10`).
+- **Regla 12 de `coop_diseno.py`**, por relación y no por inmediatos sueltos: un emulador simbólico mínimo del código
+  propio exige que la copia lea el soporte **antes** de reapuntarlo, que cada campo quede en **su** memoria, que cada
+  accesorio se inicie con **J2** de dueño y que el cambio de arma vaya **al final**; los tamaños se **derivan del ELF**
+  (el `li` cuyo registro guarda el `sh` en `900/902(s1)`); y en el envoltorio la llamada va después del constructor y
+  de su salida, y apagada no está. Nueve sabotajes nuevos en `pruebas/probar-coop-diseno.py`, incluido «buffer del
+  tamaño de (124)».
+
+**No funcionó:** el chequeo de «quién carga `0x0040F514`» en una ventana de instrucciones salió ciego (sus propios
+controles positivos daban «no»: el administrador llega como argumento); se descartó y el barrido se leyó por
+función. `bltz` no lo arma `mips.py`: la guarda del índice va con `sltiu` + `beq`.
+**Sigue:** la prueba en vivo (`python herramientas/soporte2_banco.py control`, después `pieza`: dos cargas), contra
+`sesiones/PREDICCIONES-125.md`. Si pasa: `CON_SOPORTE2 = True`, sus filas a `coop-rangos`, y la 2c (el cue de J2).
+**Máquina al cerrar:** sin tocar — fork cerrado; pnach al default de 1059 palabras; COOP activo.
+
 ## 2026-10-09 — (124) F7 confirmado: J y J2 dibujan el arma desde UN solo soporte de modelo, y el último que cambia le pone el suyo
 **Máquina:** notebook MSI (frío + una sonda en vivo, sin Fran) · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** COOP-C pieza 2 (F7, el modelo del arma de J2) · nodos `vista-fp`, `armas`, `personajes`

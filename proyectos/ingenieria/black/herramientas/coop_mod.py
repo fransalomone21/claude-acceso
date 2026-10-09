@@ -202,6 +202,7 @@ sw t1, -0x2868(s1)
 sw v0, -0x285c(s1)
 beq v0, zero, @SALIR
 nop
+SOPORTE2_BLOQUE
 lui a1, 0x47
 addiu a1, a1, -0x3210
 addiu t1, zero, 1
@@ -780,9 +781,18 @@ def _sub3_bloque(nombre):
             "desarme": coop_sub3.DESARME_BLOQUE}[nombre]
 
 
+def _soporte2_bloque():
+    """(125) la pieza 2d: la llamada a SOP2 despues del constructor de J2, o nada si esta apagada."""
+    if not CON_SOPORTE2:
+        return ""
+    import coop_soporte2
+    return coop_soporte2.BLOQUE_ENVOLTORIO
+
+
 def programas():
     """[(nombre, [(pc, palabra, texto)])] -- lo unico que va en el pnach, junto con los ganchos."""
-    env = j2.ensamblar_programa(ENVOLTORIO_MOD, j2.ENVOLTORIO, j2.ARMAS2)
+    env = j2.ensamblar_programa(ENVOLTORIO_MOD.replace("SOPORTE2_BLOQUE", _soporte2_bloque()), j2.ENVOLTORIO,
+                                j2.ARMAS2)
     fuente = POR_CUADRO_MOD.replace("ESPERA_N", str(CUADROS_ESPERA))
     fuente = fuente.replace("RECARGA_BLOQUE", "" if SIN_RECARGA else
                             RECARGA_MOD.replace("RECARGA_N", str(RECARGA_N)))
@@ -866,6 +876,13 @@ def programas():
         import coop_sub3
         progs.append(("sub3 de J2", coop_sub3.programa()))
         ganchos += coop_sub3.ganchos()
+    if CON_SOPORTE2:
+        # (125) COOP-C pieza 2d, J2 con SU soporte de modelo, sus buffers de registros y sus accesorios
+        # (coop_soporte2.py; la causa de F7, confirmada en (124)). APAGADA hasta su prueba en vivo
+        # (sesiones/PREDICCIONES-125.md); `--con-soporte2` la prende y `--sin-soporte2` es el control. Sin gancho
+        # propio: una llamada adentro del envoltorio, despues del constructor de J2
+        import coop_soporte2
+        progs.append(("soporte de J2", coop_soporte2.programa()))
     return progs + [("ganchos", ganchos)]
 
 
@@ -878,6 +895,10 @@ CON_SONIDO = True   # (119) PRENDIDA por defecto: la pieza 2a paso su prueba en 
 CON_SUB3 = False  # (119) COOP-C pieza 2b, APAGADA por defecto hasta que pase su prueba en vivo (P3a-P3e de
                   # sesiones/PREDICCIONES-118.md), igual que hizo el HUD en (115) y el sonido en (117).
                   # `--con-sub3` la prende, `--sin-sub3` es el control. Sin la ranura 3 no se prende (con_sub3())
+
+
+CON_SOPORTE2 = False  # (125) COOP-C pieza 2d (la que arregla F7), APAGADA por defecto hasta que pase su prueba en
+                      # vivo (sesiones/PREDICCIONES-125.md). `--con-soporte2` la prende, `--sin-soporte2` es el control
 
 
 CON_HUD = True  # (115) PRENDIDO por defecto; `--sin-hud` es el control y `--con-hud` se acepta y no hace nada
@@ -916,13 +937,21 @@ def _sub3(a):
     return True if getattr(a, "con_sub3", False) else CON_SUB3
 
 
+def _soporte2(a):
+    """(125) la pieza 2d: el default de CON_SOPORTE2, salvo que el comando diga --con-soporte2 o --sin-soporte2."""
+    if getattr(a, "sin_soporte2", False):
+        return False
+    return True if getattr(a, "con_soporte2", False) else CON_SOPORTE2
+
+
 def cmd_listar(_a):
-    global SIN_R3, CON_IA, CON_HUD, CON_SONIDO, CON_SUB3
+    global SIN_R3, CON_IA, CON_HUD, CON_SONIDO, CON_SUB3, CON_SOPORTE2
     SIN_R3 = getattr(_a, "sin_r3", False)
     CON_IA = not getattr(_a, "sin_ia", False)
     CON_HUD = not getattr(_a, "sin_hud", False)
     CON_SONIDO = _sonido(_a)
     CON_SUB3 = _sub3(_a)
+    CON_SOPORTE2 = _soporte2(_a)
     for nombre, prog in programas():
         print("== %s: %d palabras, %#010x..%#010x" % (nombre, len(prog), prog[0][0], prog[-1][0] + 4))
         for pc, w, t in prog:
@@ -1135,11 +1164,12 @@ def cmd_instalar(_a):
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
     SIN_R3 = getattr(_a, "sin_r3", False)
     SIN_OCULTAR_J = not getattr(_a, "con_ocultar_j", False)
-    global CON_IA, CON_HUD, CON_SONIDO, CON_SUB3
+    global CON_IA, CON_HUD, CON_SONIDO, CON_SUB3, CON_SOPORTE2
     CON_IA = not getattr(_a, "sin_ia", False)
     CON_HUD = not getattr(_a, "sin_hud", False)
     CON_SONIDO = _sonido(_a)
     CON_SUB3 = _sub3(_a)
+    CON_SOPORTE2 = _soporte2(_a)
     viejo =PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -1151,7 +1181,7 @@ def cmd_instalar(_a):
     PARCHES.write_bytes(nuevo.encode("utf-8"))
     print(json.dumps({"pnach": str(PARCHES), "respaldo": r.name, "palabras": sum(len(x[1]) for x in programas()),
                       "ranura3": not SIN_R3, "hud_doble": CON_HUD,
-                      "sonido_j2": CON_SONIDO and not SIN_AISLAR, "sub3_j2": con_sub3(),
+                      "sonido_j2": CON_SONIDO and not SIN_AISLAR, "sub3_j2": con_sub3(), "soporte2_j2": CON_SOPORTE2,
                       "ajuste_intacto": "Enable = %s" % NOMBRE_BLOQUE not in AJUSTES.read_text(encoding="utf-8")}))
     return 0
 
@@ -1183,7 +1213,9 @@ def main() -> int:
     li.add_argument("--con-hud", action="store_true"); li.add_argument("--sin-hud", action="store_true")
     li.add_argument("--con-sonido", action="store_true"); li.add_argument("--sin-sonido", action="store_true")
     li.add_argument("--con-sub3", action="store_true"); li.add_argument("--sin-sub3", action="store_true")
+    li.add_argument("--con-soporte2", action="store_true"); li.add_argument("--sin-soporte2", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
+    ins.add_argument("--con-soporte2", action="store_true"); ins.add_argument("--sin-soporte2", action="store_true")
     ins.add_argument("--con-hud", action="store_true"); ins.add_argument("--sin-hud", action="store_true")
     ins.add_argument("--con-sonido", action="store_true"); ins.add_argument("--sin-sonido", action="store_true")
     ins.add_argument("--con-sub3", action="store_true"); ins.add_argument("--sin-sub3", action="store_true")

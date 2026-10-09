@@ -37,9 +37,23 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124): el soporte de modelo compartido (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2, la que arregla F7) ESCRITA y APAGADA en (125) (LEER ESTO PRIMERO)
 
-> **(124), 2026-10-09, NOTEBOOK (frío + una sonda en vivo), sin Fran — LO ÚLTIMO** (bitácora (124),
+> **(125), 2026-10-09, NOTEBOOK EN FRÍO, sin Fran — LO ÚLTIMO** (bitácora (125), `docs/16` sección (125),
+> `sesiones/PREDICCIONES-125.md`).
+> - **Pieza 2d diseñada a nivel instrucción, escrita e integrada APAGADA** (`herramientas/coop_soporte2.py`, 45
+>   palabras en `0x00470080`; `CON_SOPORTE2 = False`, `--con-soporte2` la prende): una llamada en el envoltorio
+>   después del constructor de J2 que le copia el soporte, le reapunta `+0x328/+0x354/+0x358`, le da 3 accesorios
+>   propios y corre el cambio de arma del juego sobre J2. Pnach por defecto **1059** (sin cambios); con la pieza 1106.
+> - **Corregido del diseño de (124):** los buffers miden la capacidad del juego (**0x70 y 0x240**, `FUN_00131EF0`), no
+>   0x38/0x60; los **accesorios** también eran compartidos y entran en la pieza. `+0x360` no es compartido (recurso por
+>   hash). Nadie indexa el arreglo de soportes desde `P+0x328` (dos métodos, con control).
+> - **Regla 12 de `coop_diseno.py`** (por relación, con un emulador simbólico del código propio y tamaños derivados del
+>   ELF) + **9 sabotajes** en rojo; saboteador 49/49; `pruebas/controles.py` 8 de 8 en verde.
+> - **Banco escrito, sin correr:** `herramientas/soporte2_banco.py control|pieza`. **Sigue:** la prueba en vivo,
+>   `sesiones/RETOME-LOCAL.md`. **Máquina:** sin tocar (fork cerrado, pnach 1059, COOP activo).
+
+> **(124), 2026-10-09, NOTEBOOK (frío + una sonda en vivo), sin Fran** (bitácora (124),
 > `sesiones/PREDICCIONES-124.md`, `docs/16` sección (124)).
 > - **F7 `confirmado`:** J y J2 dibujan el arma de primera persona desde **un solo soporte de modelo**
 >   (`P+0x328` → `0x00597810`) y **los mismos** buffers de registros (`P+0x354`/`+0x358` → `0x006EC700`/`0x006EC780`):

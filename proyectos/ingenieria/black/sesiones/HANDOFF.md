@@ -4,7 +4,18 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(124), 2026-10-09, NOTEBOOK (frío + sonda en vivo), sin Fran — LO ÚLTIMO** (bitácora (124),
+> **(125), 2026-10-09, NOTEBOOK EN FRÍO, sin Fran — LO ÚLTIMO** (bitácora (125), `docs/16` sección (125),
+> `sesiones/PREDICCIONES-125.md`).
+> - **Pieza 2d (J2 con su soporte de modelo) escrita e integrada APAGADA:** `herramientas/coop_soporte2.py` (SOP2, 45
+>   palabras en `0x00470080`, datos `0x0046FD00..0x00470060`), llamada desde el envoltorio después del constructor
+>   de J2 (109 → 111 palabras de 112). `--con-soporte2` / `--sin-soporte2`. Default sin cambios: **1059** palabras.
+> - **Corregido en frío:** buffers de 0x70/0x240 (la capacidad que reserva `FUN_00131EF0`), no 0x38/0x60; 3
+>   accesorios propios (`+0x270..+0x278`, compartidos hasta hoy); `+0x360` fuera (recurso por hash).
+> - **Regla 12** + 9 sabotajes; `controles.py` 8/8 verde. **Banco:** `herramientas/soporte2_banco.py control|pieza`
+>   (sin correr). **Abierto:** H-acc (los enganches de los accesorios de J2 van a la ranura compartida, no a R3).
+> - **Sigue:** la prueba en vivo con `sesiones/RETOME-LOCAL.md`. **Máquina:** sin tocar.
+
+> **(124), 2026-10-09, NOTEBOOK (frío + sonda en vivo), sin Fran** (bitácora (124),
 > `sesiones/PREDICCIONES-124.md`, `docs/16` sección (124)).
 > - **F7 `confirmado` con control ON → OFF → ON:** un solo soporte de modelo (`P+0x328` = `0x00597810`) y los mismos
 >   buffers de registros (`P+0x354`/`+0x358`) para J y J2; el último que cambia de arma le pone su modelo. Devolverle

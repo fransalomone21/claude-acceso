@@ -310,8 +310,10 @@ sonido por `FUN_001D7020` **refutado con control** (no es el sonido audible). **
 vivo con predicción, control y dos cargas (`docs/16` «El sonido audible, (117)»). **(119)** 2a HECHA y prendida.
 **(120)–(123)** 2b (sub3) integrada, su cuelgue arreglado, y **no arregla F7**: apagada. **(124)** F7 `confirmado`
 con control: J y J2 dibujan el arma desde un solo soporte de modelo (`P+0x328`) y los mismos registros
-(`P+0x354`/`+0x358`); la pieza que lo arregla es **el soporte propio de J2** (duplicar, `docs/16` (124)), sin código
-todavía.
+(`P+0x354`/`+0x358`); la pieza que lo arregla es **el soporte propio de J2** (duplicar, `docs/16` (124)). **(125)**
+la pieza 2d diseñada a nivel instrucción (`docs/16` (125): buffers de 0x70/0x240, tres accesorios propios), escrita
+(`coop_soporte2.py`), con su regla 12 y nueve sabotajes, e integrada **apagada** hasta su prueba en vivo
+(`sesiones/PREDICCIONES-125.md`).
 
 **Después de la C viene la D:** Fran lo juega (dos mandos, después Parsec), que es
 lo único que valida que sirve.

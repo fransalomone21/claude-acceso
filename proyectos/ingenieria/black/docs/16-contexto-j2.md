@@ -1273,3 +1273,79 @@ En los 5 volcados con el mod, 21 campos de J2 apuntan a **lo mismo** que los de 
 `+0x030`, `+0x0B8`/`+0x0BC`, `+0x0FC`, los accesorios `+0x270..+0x278`, `+0x294`, **`+0x328`, `+0x354`, `+0x358`** (F7),
 `+0x35C`, `+0x360`, `+0x3A8`, `+0x410`. Cada uno es un candidato a «lo de uno se ve en el otro»; cualquier defecto
 compartido del coop se empieza por esta lista.
+
+## (125) La pieza 2d a nivel instruccion: J2 con su soporte, sus buffers y sus accesorios
+
+> En frio, notebook, 2026-10-09. Fuentes: el decompilado de `black-datos` (paginas `0x0013`, `0x0014`), el ELF por
+> `mips.py` y los 5 volcados con el mod (`ee-parpadeo-*`). Codigo: `herramientas/coop_soporte2.py` (listado en
+> `docs/listados/C2-coop-soporte2.txt`); regla 12 de `coop_diseno.py`. Escrito antes de prender la pieza: queda
+> **apagada** hasta su prueba en vivo (`sesiones/PREDICCIONES-125.md`).
+
+**(a) Donde.** El constructor `FUN_00139C68(J2, ...)` le da a J2 el soporte 0 (`0x00139E1C`, `FUN_00138C40(mgr, 0)`,
+y `FUN_001327F0` lo escribe en `P+0x328`), le pone el modelo de la ultima arma cargada (`FUN_00138338`) y le copia los
+registros en los buffers que hereda de J (`FUN_00136B50` en `0x0013A22C`). Asi que la pieza va **despues** de que el
+constructor vuelve, y solo si devolvio distinto de 0: en `ENVOLTORIO_MOD`, despues de `jal 0x139c68` y de su
+`beq v0, zero, @SALIR`, antes del registro (`jal 0x16e660`). Va como **una llamada** (`jal SOP2` + `nop`, el bloque
+`SOPORTE2_BLOQUE`): el envoltorio pasa de 109 a 111 palabras y su tope es 112 (`ARMAS2` en `0x0046DBC0`). La subrutina
+no cabe adentro.
+
+**(b) El modelo inicial y el resto del soporte.** El soporte mide 0x40 B (el paso de `FUN_00138C40`, `sll v0, a1, 6`).
+Medido en los 5 volcados (soporte 0): `+0` modelo (`0x01AE7E00`, la pistola), `+4` = `0x2B` (el tipo; lo lee
+`FUN_00138320` y `FUN_00138390` lo trata aparte), `+8` = 1, `+0x0C..+0x34` en 0 (los indices de huesos que
+`FUN_001381E0` calcula para los soportes del nivel), `+0x38` los agregados del arma, `+0x3C` un objeto de
+configuracion que solo se LEE (`FUN_00142B90`, `**(+0x3C) + i*0xC`): compartir ese puntero es inocuo. Se copia el
+soporte **entero** y despues el juego reescribe lo que depende del arma: `FUN_0013C868(J2, *(J2+0x2C3))` pone en
+`*(J2+0x328)` el modelo y en `+0x38` los agregados de la ultima arma cargada -- la de J2, que el constructor acaba de
+cargar --, el mismo camino que un cambio de arma real. La guarda del indice va con `sltiu` + `beq` (fuera de 0..1 no
+lo llama: son las dos ranuras del jugador, `pers+0x470` y `pers+0x6B0`).
+
+**(c) Los buffers: la capacidad del juego, no lo que copia la pistola.** `FUN_00131EF0(P, 1)` (el constructor base del
+jugador, lo llama `FUN_00139BB0`) escribe `P+0x384` = 0x70 y `P+0x386` = 0x240 (`0x0013206C..0x00132080`) y aloja
+eso en `P+0x354` y `P+0x358` (`0x0013208C`, `0x00132090`). Medido: 0x70 / 0x240 en J y en J2, en los 5 volcados.
+Nadie mas lee esas capacidades ni realoja los buffers (decompilado), y nadie los libera. **El 0x38 / 0x60 de (124)
+era el largo de los registros de la pistola y de la SPAS**: con un arma de mas registros `FUN_00136B50` (un `memcpy`
+sin tope) desbordaria sobre la memoria del mod. J2 lleva 0x70 y 0x240, alineados a 16 como los del juego.
+
+**(d) Los accesorios: tambien compartidos, y tambien hacen falta.** `P+0x25C..+0x278` son 8 punteros a objetos de
+0x1C B (`FUN_00107CF8(0x1C)`; `FUN_00142E90(acc, P)`: duenio en `+0`, manija en `+4`, enganche en `+8`, tres agregados
+en `+0x0C..+0x14`). El jugador nace con los 0-4 en cero y los 5-7 alojados. Medido: los de J2 son **los de J**
+(`0x006ED6F0/710/730`, duenio J, manija 0, enganches `0x01304150/1F0/290`, solo el 5 con agregado). El cambio de
+arma (`FUN_0013C868`) los **reata** a los huesos de la ranura del que cambia (`FUN_00142ED8(acc, *(ranura+0x30+k*4))`)
+y `FUN_00137320` les cuelga los agregados del arma nueva; el dibujo (`FUN_00133E60` -> `FUN_00142F80`) los pinta con
+la matriz de su enganche. Es el «fragmento suelto» de `b-pistola.png`: sin accesorios propios la pieza arreglaria la
+malla y dejaria eso. J2 lleva tres propios (`0x00470000/20/40`), iniciados con `FUN_00142E90(acc, J2)` **antes** de
+correr el cambio de arma (que, con una manija vieja de la carga anterior, la soltaria con `FUN_00129240`).
+
+**(e) `P+0x360` no es estado compartido.** Es un recurso por hash: `FUN_001327F0` hace `P+0x360 =
+FUN_00108120(..., 0x5FAD315AE9985EBE)` (el `puVar19 + 0x6c` del decompilado). Igual en J y J2 por construccion, y de
+solo lectura. Sale de la lista de candidatos de F7 (y de F8 como «compartido»).
+
+**(f) Un soporte fuera del arreglo lo lee igual todo el juego.** Quien toca el arreglo por indice es solo el modulo
+de soportes (`FUN_001384C8` lo inicia, `FUN_00138C40` da el i, `FUN_00139190` lo llena por nivel, `FUN_00139698`
+recorre los `+0x3C`). Nadie convierte `P+0x328` en un indice: dos metodos (el decompilado, y un barrido crudo del ELF
+de todo inmediato `0x7A10..0x7A4F` con `FUN_00138C40` de control positivo; los otros aciertos son direcciones
+globales, `0x003C7A20`, `0x00407A10`). Grado `probable`.
+
+**El codigo (SOP2, 45 palabras en `0x00470080`; datos en `0x0046FD00..0x00470060`, en cero en los 5 volcados):**
+copia el soporte que dejo el constructor -> reapunta `J2+0x328` (SOP2 `0x0046FFC0`), `+0x354` (`0x0046FD00`, 0x70 B) y
+`+0x358` (`0x0046FD80`, 0x240 B) -> aloja y inicia los accesorios 5-7 con J2 de duenio -> `FUN_0013C868(J2, idx)`.
+Desde ahi cada cambio de arma de J2 toca solo lo suyo, sin codigo por cuadro. El desarme no tiene nada que deshacer:
+la memoria es del mod, el juego no la libera, y la carga siguiente vuelve a copiar el molde y a separar.
+
+**Lo que la regla 12 exige, por relacion** (un emulador simbolico minimo sobre el codigo propio, no inmediatos
+sueltos): la copia lee `*(J2+0x328)` **antes** de reapuntarlo; cada campo de F7 termina en **su** memoria; cada
+accesorio apunta al propio y se inicia con **J2** de duenio; `FUN_0013C868` se llama una vez, con `(J2, *(J2+0x2C3))`,
+**despues** de todo lo anterior; los tamanos salen **del ELF** (el `li` cuyo registro guarda el `sh` en `900/902(s1)`,
+el `sll` del paso, el `li a0, 28` del alojamiento); y en el envoltorio la llamada va despues del constructor y de su
+salida, y antes del registro, una vez, y apagada no esta. Nueve sabotajes en `pruebas/probar-coop-diseno.py`.
+
+**Lo que sigue abierto (`hipotesis`, lo contesta la prueba en vivo):**
+- **H-acc, los enganches con R3.** `FUN_0013C868` engancha los accesorios a los huesos de la ranura **compartida**
+  `pers+0x470+i*0x240`, no a los de R3 (la ranura propia de J2, `0x0046E100`). Si con la pieza aparece un agregado
+  fuera de lugar en la mitad de J2 (con la pistola solo el accesorio 5 tiene uno), la causa es esta, y el arreglo va
+  en el bloque por cuadro de R3 (que ya detecta el cambio de arma de J2): reenganchar los accesorios de J2 a R3. No
+  invalida la pieza: la malla y los registros son lo que arregla F7.
+- **Lo que J2 sigue heredando** (de la lista de `clon_comparte.py`): `+0x294` -- un arreglo por indice de arma que el
+  constructor **escribe** (`*(*(P+0x294) + i) = P+0x40E`), asi que el armado de J2 toca el de J --, `+0x35C` (un objeto
+  de fisica de `FUN_00132188`), `+0x0B8/+0x0BC`, `+0x0FC`, `+0x3A8`, `+0x410`. Ninguno es el modelo del arma; quedan
+  como candidatos para el defecto que se vea despues.

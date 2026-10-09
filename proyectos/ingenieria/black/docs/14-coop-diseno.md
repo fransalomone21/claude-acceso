@@ -177,6 +177,11 @@ sub3 de J2 (gancho)            | 0x001ACA2C | 0x001ACA30 | gancho  | jal 0x001A8
 armar V2 (código)              | 0x0046EE40 | 0x0046EF00 | reserva | -                                   | (101)
 traer J2 en la descarga        | 0x0012DDCC | 0x0012DDD0 | gancho  | jal 0x0016E3C0                      | (111)
 traer J2 (código)              | 0x0046F100 | 0x0046F180 | reserva | -                                   | (111)
+# (125) COOP-C pieza 2d, J2 con SU soporte de modelo (F7, coop_soporte2.py): sin gancho propio (una llamada adentro
+# del envoltorio, después del constructor de J2). Datos: registros A 0x70 B, registros B 0x240 B (las capacidades que
+# el juego reserva en FUN_00131EF0), el soporte 0x40 B y tres accesorios de 0x1C B; en cero en los 5 volcados con el mod
+soporte2 (datos)               | 0x0046FD00 | 0x00470060 | reserva | -                                   | (125)
+soporte2 (código)              | 0x00470080 | 0x00470180 | reserva | -                                   | (125)
 ```
 
 ## 4. Interfaz con los otros mods
