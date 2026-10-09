@@ -6,6 +6,24 @@ Este handoff es del **trabajo de infraestructura**, no de un proyecto. El
 estado permanente del sistema está en [`MAPA.md`](MAPA.md); esto es lo que
 queda pendiente y lo que la próxima sesión necesita saber.
 
+## 2026-10-09 — la auditoría ve los repos propios
+
+- **P8 mide en el repo donde vive el proyecto** (`repo_de` en
+  `auditar-sesion.py`): si la carpeta tiene `.git` propio, ese. Antes daba
+  NO APLICA a teoria-circuitos con el commit `43a4417` hecho y pusheado ahí;
+  re-auditada la sesión `dd781a07`, da VERDE con ese commit.
+- **«Pusheado» tiene una sola definición**: `problema_push` en
+  `.claude/nube/estado-nube.py`, que la auditoría importa. Distingue «sin
+  remote» de «sin upstream»; antes la auditoría leía el vacío de un git que
+  fallaba como «0 sin pushear» (verde para un repo sin remote).
+- `chequeo-completo.ps1` corre ahora `auditar-sesion.py --autotest` entre los
+  saboteadores, y su filtro de detalle reconoce las líneas `MAL`.
+- **Rojo de la auditoría de esta sesión (`0d692df8`), dicho y no arreglado**:
+  P3 — el libro de bolsillo no se leyó; la primera «acción» sobre un proyecto
+  fue un `git -C teoria-circuitos log/show` de solo lectura, que la puerta no
+  clasifica como lectura (`es_lectura_pura` sólo acepta una lista). Cambiar
+  esa lista es tocar un freno: queda para decidirlo con Fran.
+
 ## 2026-09-13 — el sistema ahora corre en dos máquinas
 
 El runbook completo es [`MAQUINA-NUEVA.md`](MAQUINA-NUEVA.md). Lo que cambió
