@@ -1,10 +1,72 @@
 # Handoff — Automatización del telescopio 200/1200
 
-**Escrito el:** 2026-10-08 a la noche (decimosexta sesión, PC, abierta en `Desktop\claude-acceso`) ·
+**Escrito el:** 2026-10-09 de madrugada (decimoséptima sesión, PC, abierta en `Desktop\claude-acceso`) ·
 **Fase al cerrar:** 0 (Concebir, Pre-Fase A) — **abierta**, 2 de 4: arquitectura
 cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
+
+## Decimoséptima sesión (2026-10-08/09): revisión de punta a punta, la pista y los planos
+
+**Fran** (sin medidas nuevas): «revisá el proyecto y el concepto y determiná
+posibles inconvenientes en concepto, diseño, implementación y operación;
+avanzá lo que puedas sin mis mediciones, refiná lo que sabés que sirve, mejorá
+los dibujos y creá planos o layouts para cuando tengamos medidas».
+
+**Hecho (todo commiteado y pusheado):**
+- **`docs/16-revision-concepto-a-operacion.md`** = Doc «4 - Revisión: qué
+  puede salir mal» (ID `1nlXkMXiffayMMLz8TbeIxN6xhdgzKxUkgcBWtgUigDE`, nuevo).
+  Manda sobre `13` §3, §4 y §6. Lo central:
+  - **La pista manda** (K1): 1 µm de canto ≈ 0,27″; tolerancias de micrones
+    para 60 s; ≈ 70 % es bamboleo (ni tabla ni guiado). Salidas: fotos de 30 s,
+    terminar cantos (fresado/rectificado) y rodillos de precisión. **Decide la
+    muestra del canto** (paso 6c de `11`, nuevo).
+  - **Método de trazado** (K2): el canto es la envolvente del rodillo (hoy el
+    generador traza el punto de arriba: 1,2″); la chapa queda atada al
+    diámetro del rodillo (±0,3 mm). **No se cambió `geometria-vns.js`**: el
+    modelo sigue igual; la envolvente la calcula `contacto-vns.js`, y el DXF de
+    la fase 3 tiene que salir de ahí.
+  - Arista (D1), cuatro 608 afuera (D2), salto de rodillos (D3), tolerancias de
+    armado (D4), homing y salida del fin de carrera (D5), pivote todo de acero
+    (D6), docs atrasados corregidos (D7). Latitud: las patas (K3). T2 sabe
+    dónde está la mesa (K5).
+  - Operación: rocío, enfriamiento del espejo (choca con L1-17), foco con el
+    frío (Bahtinov), colimación, óxido y polvo en la pista; la noche en orden.
+  - §7: **candidatos a requisito** (no se editó `10`): canto, salto, homing,
+    salida del fin de carrera, rocío, conservación del canto, patas si viaja,
+    L1-17.
+- **`docs/contacto-vns.js`** (función pura sobre `geometria-vns.js`; corre en
+  node y en el navegador, `window.CONTACTO`) y **`probar-contacto.js`** (6
+  controles y 4 sabotajes, verde). Newton sobre la pose de la mesa con pivote,
+  dos contactos cilindro-prisma y la transmisión (V, F o eje ideal).
+- **`docs/planos.html`** + **`planos.ps1`** → PDF «Planos de disposicion
+  (preliminar).pdf» en el Drive (ID `1uJ853WGlh8TeLUAmO_HtWFC4L5afre8J`), 5
+  hojas A3: planta 1:10, alzado 1:10, vista sur 1:5, chapa este 1:1, tolerancias
+  y profundidades cada 10 mm. Arriba se cargan CdM, masa, rodillo, separación y
+  base. Verlo: `preview_start telescopio-modelo` → `/planos.html`.
+- **Dibujos**: `dibujos-mecanismos.js` **v5** (la chapa de los esquemas con su
+  forma de verdad: sube de una punta a la otra; antes, un arco parejo);
+  `?v=5` en `06-modelo-3d.html` y `dibujo-mecanismos.html`; PNG regenerados y
+  Doc 3 subido con el mismo ID. **El artifact del modelo NO se republicó**
+  (sigue con los esquemas v4); el modelo local da Sueltas 0 y Choques 0, sin
+  errores de consola. Republicar con el próximo cambio del modelo (files con
+  `dibujos-mecanismos.js` en `?v=5`).
+- **Docs 1 v8 y 2 v6** con el mismo ID (2: paso 6c y la tabla FAB/CAL al día).
+- **PDP**: riesgos **R12** (la pista), **R13** (el trazado), **R14** (la noche),
+  **R15** (óxido y polvo); decisiones: planos de disposición sí (Fran) y
+  canto-envolvente + rodillos de una pieza (técnica).
+- **Lección** nueva (nivel herramienta): un presupuesto de error se arma
+  recorriendo la cadena física, no listando los errores conocidos; línea
+  propia en `chequeo-de-trabajo.md`, perfil reinstalado.
+- **No hecho, a propósito:** las cuentas del telescopio (`probar-geometria`,
+  `probar-transmisiones`, `probar-contacto`) **no corren en
+  `chequeo-completo.ps1`**: engancharlas pide las lecturas del concepto
+  «freno»; quedó como tarea aparte.
+
+**Pendiente de Fran:** la foto de la tabla del vuelco; **la muestra del canto**
+(6c); las medidas de la varilla; la palanca óptica; la prueba de foco; ¿60 o
+30 s con la pista sobre la mesa?; ¿se paga la terminación de cantos y
+rodillos?; ¿viaja en auto?; ¿cuánto armado?; ¿filtro de dos bandas?
 
 ## Decimosexta sesión (2026-10-08, noche): investigación, el micropaso y el v10.5
 

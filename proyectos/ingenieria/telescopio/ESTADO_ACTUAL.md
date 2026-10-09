@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-08 a la noche (decimosexta sesión: sin medidas nuevas; investigación de mecanismos, proveedores y cielo —`docs/15`, Doc 3 del Drive—; **el error de micropaso** saca a la F de una correa del piso de precisión y el trade de la transmisión deja de empatar: va ganando T2; modelo **v10.5** con rodillos a 58 cm y base de 1,3 m, todo en verde; las chapas ya no dependen del vuelco)
+**Última actualización:** 2026-10-09 de madrugada (decimoséptima sesión: sin medidas nuevas; **revisión de punta a punta** —`docs/16`, Doc 4 del Drive—: **la pista** (canto y rodillos) pide micrones y pesa más que la transmisión; el canto se traza como envolvente del rodillo; fuera los cuatro 608; tolerancias de armado; **planos de disposición** en PDF A3)
 
 ## Dónde estamos
 
@@ -68,6 +68,13 @@ y el inventario sin `?`.
 | **Las chapas ya no dependen del vuelco**: los rieles toman al 200 con el centro de masa entre 55 y 69 cm (con 70 las mordazas se salen 1 cm) y a toda la envolvente del 300 (el peor, 40 kg y 50 cm, pide 21,7 cm al norte y entra). El vuelco sigue cerrando la fase 0, pero confirma las chapas en vez de definirlas | chequeo «Las tres mordazas caen sobre los rieles» del modelo, barrido a mano con el deslizador (55, 63, 69, 70, 71, 72) | 2026-10-08 |
 | **Proveedores de la zona** (directorios, sin llamar: `hipótesis`): láser que dice cortar 8 mm (Rapimetal hasta 9, Martino hasta 1/2"); Prymax (Garín) llega a 4,7: no; tornería con rectificadora en Munro (Acosta); rulemanes en Munro (Av. Mitre 2996) con rodamientos lineales; tornillo de bolas SFU1605/1204 no aparece en el país (USD 12-35 afuera) | `docs/15` §5 | 2026-10-08 |
 | **Docs del Drive**: «1 - El proyecto» v7 y «2 - Paso a paso» v5 regenerados con el **mismo ID**; **«3 - Mecanismos, proveedores y cielo»** nuevo (`1xMPDUoihZAX2ZthJrEnyKVfAUAyWl-JattlAG8yAOV8`), con 4 imágenes y 11 tablas | `rclone lsf --format pit` antes y después; el Doc 3 exportado de vuelta trae las 4 imágenes | 2026-10-08 |
+| **La pista manda** (`probable`): 1 µm de error en el canto mueve la estrella ≈ 0,27″; para ≤ 0,2″ por error en 60 s: ondulación del canto ≤ 1-2 µm (ondas de 5-50 mm), escalón ≤ 0,5 µm, salto de cada rodillo ≤ 2 µm. ≈ 70 % es bamboleo del eje, que ni la tabla del programa ni el guiado corrigen. Un canto láser crudo y un 608 común (15 µm) no llegan (`hipótesis` hasta medir una muestra: paso 6c de `11`) | `node docs/contacto-vns.js` + `probar-contacto.js` (6 controles —dos de ellos cuentas de una línea independientes— y 4 sabotajes, verde); `docs/16` §2 | 2026-10-08 |
+| **El canto se traza como envolvente del rodillo**: el método de hoy (el punto de arriba) deja 1,2″ por foto en las puntas (con Ø32, 1,28″); la envolvente, 0. La chapa queda atada al diámetro del rodillo (±0,3 mm): se elige antes de cortar. `13` §3 lo había dado por «0,4 mm, constante»: es 0,57 mm y varía 0,1 mm | ídem; C1 (subida en el centro contra r(1/cos b − 1): 0,567 contra 0,574 mm) | 2026-10-08 |
+| **Cuatro 608 lado a lado no sirven**: el contacto camina 8,2 mm a lo largo del rodillo y cruza costuras: 2,4-4,2″. Va un rodillo de una pieza (camisa rectificada sobre dos 608) | ídem, `contacto-vns.js` §4 | 2026-10-08 |
+| **La chapa apoya en una arista** desde el minuto ≈ 10: el rodillo se tuerce hasta 32′ a ±45 min (74 µm de luz en los 7,94 mm). Salidas: rodaje y rebaba del otro lado, o rodillo basculante (fase B) | ídem, §1 | 2026-10-08 |
+| **Tolerancias de armado** (cada una sola, 0,2″ por foto, V/T2): rodillo a nivel y chapa a plomo ±0,078°, chapa en planta ±0,15°, rodillo en planta ±0,24°, pivote en altura ±0,76 mm, chapa en altura ±0,41 mm, rodillo E-O ±1 mm, en altura ±1,4, N-S ±3, pivote N-S libre | `tolerancias()` de `contacto-vns.js`, la misma tabla en node y en el navegador (hoja 5) | 2026-10-08 |
+| **Planos de disposición** (preliminares, NO para fabricar, Fran 2026-10-08): `docs/planos.html` → PDF A3 de 5 hojas (planta, alzado, vista sur, chapa 1:1, tolerancias y profundidades) en el Drive; se rehacen con el centro de masa medido | PDF de 5 páginas de 420 × 297 mm, la hoja 5 calculada (no «calculando»); ID `1uJ853WGlh8TeLUAmO_HtWFC4L5afre8J` con `rclone lsf` | 2026-10-08 |
+| **Docs del Drive**: 1 v8, 2 v6 (paso 6c, tabla FAB/CAL al día: 5/16", rodillos de una pieza, mordazas, 0,1 %, 1,5 px, rodaje) y 3 (los esquemas con la chapa de verdad) con el **mismo ID**; **«4 - Revisión: qué puede salir mal»** nuevo (`1nlXkMXiffayMMLz8TbeIxN6xhdgzKxUkgcBWtgUigDE`) | `rclone lsf --format pit` antes y después | 2026-10-08 |
 | **La cámara y el foco se aparcan** (Fran, 2026-10-05). P0 sigue abierta en el PDP y es **compuerta antes de comprar la chapa de aluminio** | decisión de Fran; la compuerta es mía | 2026-10-05 |
 
 ## Lo que es hipótesis
@@ -99,7 +106,22 @@ y el inventario sin `?`.
 
 ## Lo próximo
 
-> **2026-10-08 a la noche (decimosexta sesión) — manda sobre todo lo de abajo.**
+> **2026-10-09 de madrugada (decimoséptima sesión) — manda sobre todo lo de abajo.**
+> Sin medidas nuevas. Hecho: la revisión de punta a punta (`docs/16`, Doc 4),
+> la cuenta del contacto y las tolerancias (`contacto-vns.js`), los planos de
+> disposición (PDF A3 en el Drive) y los Docs 1, 2 y 3 al día. **Lo que cambió
+> el orden: la pista pesa más que la transmisión.** Sigue: **(1)** la foto de
+> la tabla del vuelco (L1-15); **(2)** la **muestra del canto** (paso 6c de
+> `11`): una tira de láser medida con comparador milesimal, que decide si la
+> foto puede ser de 60 s y si hay que terminar los cantos; **(3)** las medidas
+> de la varilla; **(4)** la palanca óptica; **(5)** la prueba de foco.
+> **Fran:** ¿60 s o 30 s, con la pista sobre la mesa? (se recomienda decidirlo
+> con la muestra); ¿se paga la terminación de cantos y rodillos?; ¿viaja en
+> auto (fija el recorrido de las patas)?; ¿cuánto armado (choca con el
+> enfriamiento del espejo)? **El modelo publicado (artifact) quedó con los
+> esquemas viejos de la chapa**: se republica con el próximo cambio del modelo.
+>
+> **2026-10-08 a la noche (decimosexta sesión).**
 > Sin medidas nuevas. Hecho: `docs/15` y el Doc 3 (mecanismos, proveedores,
 > cielo), el modelo **v10.5** y los Docs 1 (v7) y 2 (v5). Sigue, en este
 > orden: **(1)** la foto de la tabla del vuelco (L1-15: ahora confirma las

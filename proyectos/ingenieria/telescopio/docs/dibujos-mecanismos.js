@@ -26,12 +26,20 @@
     const P1 = p(x1, y1, r1, a1), P2 = p(x2, y2, r2, a1), Q1 = p(x1, y1, r1, a2), Q2 = p(x2, y2, r2, a2);
     return li(P1[0], P1[1], P2[0], P2[1], c) + li(Q1[0], Q1[1], Q2[0], Q2[1], c);
   }
-  // la chapa vista de frente: el canto de abajo es un arco con el punto mas bajo en el medio (ahi
-  // apoya el rodillo en el centro de la carrera) y las puntas mas altas; arriba, la cara de la mesa
-  // (recta). Como en el plano de la chapa del modelo: mas alta en el medio que en las puntas.
+  // la chapa vista de frente. v5 (2026-10-08, decimoseptima sesion): con la FORMA DE VERDAD. El canto
+  // SUBE de una punta a la otra (es el corte de un cono por un plano vertical) y la chapa es honda en una
+  // punta y baja en la otra; hasta la v4 se dibujaba como un arco parejo mas bajo en el medio, y no es
+  // asi (docs/16 §6). Sale de geometria-vns.js (la chapa oeste del modelo v10.5) si esta cargado; el
+  // alto se achica para que entre en el esquema (no es a escala), la forma no. Sin geometria, el arco viejo.
+  const GEOV = global.computeVNS || (typeof require !== 'undefined' ? require('./geometria-vns.js').computeVNS : null);
+  const PERFIL = (() => { if (!GEOV) return null;
+    const G = GEOV({ phi: 34.5, M: 40, Hdis: 0.54, Hreal: 0.63, dN: 0.028, dE: 0, shim: 0, runMin: 45, half: 0.29, postH: 0.10, baseW: 1.3, mTab: 11, zTab: -0.02, tabN: 0.53, railH: 0.02, plateT: 0.00794 });
+    const r = G.rollers[1];
+    return { pts: r.edge.map((q) => [q.u, q.z - r.Pt[2]]), uMax: Math.max(-r.uMin, r.uMax), hc: G.ztt - r.Pt[2] }; })();
   const arcoU = (cx, yB, R, half) => { const cy = yB - R, a = half / R, p = []; for (let k = 0; k <= 30; k++) { const t = Math.PI / 2 + a - 2 * a * k / 30; p.push([cx + R * Math.cos(t), cy + R * Math.sin(t)]); } return p; };
   function chapa(cx, yB, R, half, h) {
-    const pts = arcoU(cx, yB, R, half), e = pts[pts.length - 1], s = pts[0], top = Math.min(s[1], e[1]) - h;
+    const pts = PERFIL ? PERFIL.pts.map(([u, z]) => [cx + u * half / PERFIL.uMax, yB - z * h / PERFIL.hc]) : arcoU(cx, yB, R, half);
+    const e = pts[pts.length - 1], s = pts[0], top = PERFIL ? yB - h : Math.min(s[1], e[1]) - h;
     return '<path d="M' + pts.map((q) => q[0].toFixed(1) + ',' + q[1].toFixed(1)).join(' L') + ' L' + e[0].toFixed(1) + ',' + top.toFixed(1) + ' L' + s[0].toFixed(1) + ',' + top.toFixed(1) + ' Z" class="fs"/>';
   }
   const motor = (x, y, s) => re(x - s / 2, y - s / 2, s, s, 'fk', 3) + ci(x, y, s * 0.18, 'km');

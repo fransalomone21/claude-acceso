@@ -1,7 +1,15 @@
 # Paso a paso — qué hacer y en qué orden
 
-**Para Fran y Kevin.** Versión 5, 8 de octubre de 2026. Fuente en el repo:
-`proyectos/ingenieria/telescopio/docs/11-paso-a-paso.md`.
+**Para Fran y Kevin.** Versión 6, 8 de octubre de 2026 (noche). Fuente en el
+repo: `proyectos/ingenieria/telescopio/docs/11-paso-a-paso.md`.
+
+> **Nuevo en la versión 6:** la revisión de punta a punta («4 - Revisión: qué
+> puede salir mal») encontró que **la pista** (el canto de las chapas y los
+> rodillos) pide precisión de **micrones**, y eso pesa más que el motor. Por eso
+> hay un paso nuevo, el **6c: la muestra del canto**, y la tabla de fabricación
+> del final cambió (chapa de 5/16", rodillos de una pieza, mordazas). Los
+> **planos de disposición** (cinco hojas A3, preliminares) están en el PDF de
+> esta carpeta.
 
 > **Esto es sólo lo que hay que hacer.** El porqué está en «1 - El proyecto»;
 > los mecanismos, los talleres de la zona y el cielo, en «3 - Mecanismos,
@@ -32,6 +40,7 @@ del celular): lo que no tiene foto, la sesión no lo puede dar por hecho.
 | D | **Dos respuestas** (las otras dos ya están: 60 s por foto, y el cambio de telescopio sin tope) | 1) **¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?** Si viaja: qué auto, o el largo y el ancho del baúl. Dato nuevo: Punta Indio (150 km, cielo oscuro) queda a 0,8° de latitud, y la plataforma sirve allá sin cambiar nada. 2) **¿Cuánto armado te parece bien**, del depósito al primer sub? (hoy el papel dice 20 min) | una decisión cada una |
 | E | El inventario con calibre | paso 3 de abajo | 1 hora |
 | F | El amigo metalúrgico | paso 5 de abajo: ¿torno? ¿electrodo o MIG? | un mensaje |
+| G | **La muestra del canto** (nuevo) | paso 6c de abajo: una tira cortada a láser, medida con comparador milesimal cada 1 mm. Decide si la foto puede ser de 60 s y si hay que terminar los cantos | una muestra y una visita |
 
 **Lo que más destraba: A y B** (cierran la fase 0 y dan la muesca del 200;
 desde la versión 5 las chapas ya no esperan este número si cae entre 55 y 69
@@ -46,12 +55,13 @@ tamaño de las piezas y el tiempo de armado. Los números que cada respuesta cam
 | 1 | **El vuelco**: la montura sin el tubo, inclinada hasta el equilibrio | Fran y Kevin | una tarde |
 | 2 | La altura del eje, con cinta (mismo día) | Fran | 5 min |
 | 3 | Inventario de hierros y de lo rescatado, con calibre y foto | Fran | 1 hora |
-| 4 | Elegir cuánto dura cada foto: **30 s o 60 s** | Fran | una decisión |
+| 4 | ~~Elegir cuánto dura cada foto~~: **hecho, 60 s** (7/10). Se revisa con el 6c: si el canto no da, 30 s duplica las tolerancias | Fran | una decisión |
 | 5 | Preguntarle al amigo metalúrgico: ¿tiene torno?, ¿suelda con electrodo o MIG? | Fran | un mensaje |
 | 6 | El motor en el banco, moviendo un rodillo contra un retazo de hierro; y la **palanca óptica** (6b) | Fran y Kevin | una tarde |
+| 6c | **La muestra del canto**: un pedacito de chapa de 5/16" cortado a láser, medido con un comparador milesimal | Fran, con el láser y una tornería | una muestra y una visita |
 | 7 | Cerrar el centro de masa, rehacer el modelo y revisar juntos | yo, y después los tres | una sesión |
 
-**En paralelo:** del 1 al 6 arrancan todos juntos. El 7 espera al 1 y al 2.
+**En paralelo:** del 1 al 6c arrancan todos juntos. El 7 espera al 1 y al 2.
 
 ### 1. El vuelco (el paso importante)
 Da la altura del centro de masa de la montura. Sin levantar 40 kg.
@@ -146,6 +156,24 @@ si es ±2 % del paso o menos, alcanza con una correa.
 **Cuidado:** el láser nunca a los ojos ni al de al lado; la pared, sin
 ventanas ni espejos atrás.
 
+**6c. La muestra del canto (nuevo, versión 6): ¿el láser deja una pista?**
+Cada micrón de error en el canto mueve la estrella ≈ 0,27″, y para fotos de
+60 s el canto tiene que ser parejo a 1-2 micrones. Un corte láser en 8 mm deja
+estrías que casi seguro son más grandes; esto lo mide antes de gastar.
+
+1. Al pedir presupuesto de corte (Rapimetal o Martino, Doc 3), pedir **una
+   muestra**: una tira de 100 × 40 mm de la misma chapa de 5/16", y preguntar de
+   qué lado queda la rebaba.
+2. Llevarla a una tornería que tenga **mármol y comparador milesimal**
+   (0,001 mm; Tornería Acosta, Munro, anuncia rectificadora): apoyada de canto,
+   un rulemán 608 en un brazo que rueda por el canto y el comparador arriba;
+   anotar la altura **cada 1 mm a lo largo de 100 mm**.
+3. Foto de la tabla. La sesión la pasa por la cuenta y dice cuánto corre la
+   estrella con ESE canto, y si hace falta terminarlo (fresado o rectificado).
+
+**Salió bien si:** hay 100 lecturas con su foto. Cualquier resultado sirve:
+decide si la foto es de 60 s o de 30 s, y cuánto cuesta.
+
 ### 7. Cerrar la fase (yo, y después juntos)
 Con el 1 y el 2 calculo el centro de masa, rehago el modelo y actualizo estos
 documentos. Después lo revisamos los tres con el modelo abierto: ¿el dobson
@@ -174,15 +202,16 @@ Cada paso pasa su criterio de aceptación o no está hecho.
 
 | Paso | Qué se hace | Aceptación |
 |---|---|---|
-| FAB-1 | cortar a láser las dos chapas de acero de 1/4" desde el DXF | **sin escalones en el canto**: no se siente nada con la uña, y la plantilla impresa 1:1 calza ±0,3 mm |
+| FAB-1 | cortar a láser las dos chapas de acero de **5/16"** desde el DXF, trazado como **envolvente del rodillo elegido**; terminar el canto si el 6c lo pide | el canto medido con comparador **milesimal** sobre un 608 (como el 6c): ondas de no más de 0,002 mm (0,004 con fotos de 30 s); la plantilla 1:1 calza ±0,3 mm; la rebaba, del lado que no apoya |
 | FAB-2 | base y mesa de tubo (soldar lo fijo, abulonar lo que se desarma; punteo, prensas y tramos cortos) | diagonales de la mesa iguales ±2 mm y la mesa apoya plana |
-| FAB-3 | patas y pivote | la base no se mueve al apretar cada esquina |
-| FAB-4 | rodillo motriz torneado y rodillo loco de cuatro 608 | el motriz gira con menos de 0,02 mm de salto (reloj comparador o la uña sobre un filo); el loco gira libre, sin puntos duros |
-| FAB-5 | colgar las chapas con sus tres M8 y emparejar las alturas | la mesa rueda sin saltos y frena en los dos talones |
-| FAB-6 | electrónica y dos switches **normalmente cerrados** | cada switch apretado lo detiene, y un cable cortado también |
-| FAB-7 | fijar el dobson a los largueros (bulón fresado, buje, mariposa) | un empujón fuerte no lo mueve |
-| CAL-1 | balancear: mesa en 5 posiciones, correa sacada | en las cinco se queda quieta |
-| CAL-2 | velocidad: 10 minutos con cronómetro, con la tabla de corrección cargada | el giro difiere del cielo en menos de 0,2 % |
+| FAB-3 | patas y pivote (rótula **toda de acero**, con calces bajo la tapa del poste) | la base no se mueve al apretar cada esquina; altura del pivote ±0,8 mm |
+| FAB-4 | los rodillos: **de una pieza** (camisa de acero sobre dos 608, rectificada montada), no cuatro 608; con la T2 los dos son locos | salto de no más de **0,002 mm** con comparador milesimal (el de 0,01 no lo ve); giran libres, sin puntos duros |
+| FAB-5 | colgar las chapas con sus tres M8 y emparejar las alturas; poner a nivel el eje de cada rodillo y a plomo cada chapa | la mesa rueda sin saltos y frena en los dos talones; eje del rodillo a nivel y chapa a plomo ±0,08° con **nivel de mecánico** (hoja 5 de los planos) |
+| FAB-6 | electrónica y dos switches **normalmente cerrados**; sensor de origen y botón para salir de un fin de carrera | cada switch apretado lo detiene, y un cable cortado también; al prender, la mesa sabe dónde está |
+| FAB-7 | las **tres mordazas de borde** y las muescas de la corredera | un empujón fuerte no mueve el dobson; la muesca repite ±2 mm |
+| CAL-0 | **rodaje**: veinte carreras con el dobson arriba, antes de calibrar | la mesa rueda igual en la vuelta 19 que en la 20 |
+| CAL-1 | balancear: mesa en 5 posiciones, sin transmisión | en las cinco se queda quieta |
+| CAL-2 | velocidad: 10 minutos con cronómetro, con la tabla de corrección cargada | el giro difiere del cielo en menos de **0,1 %** (L2-PLT-03) |
 | CAL-3 | probar cada tope por separado | las tres capas frenan solas |
-| CAL-4 | alineación polar por deriva | la estrella no se corre más de 3 píxeles en 60 s |
+| CAL-4 | alineación polar por deriva | la estrella no se corre más de **1,5 píxeles** en 60 s (3,5′, L2-OPE-01) |
 | CAL-5 | fotos de 30 s, 60 s y 2 min | estrellas redondas en la del tiempo elegido |

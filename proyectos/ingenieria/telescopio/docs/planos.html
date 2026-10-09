@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Planos de disposición</title>
+<!-- Planos de DISPOSICION (layout) de la plataforma VNS, 2026-10-08 (decimoseptima sesion), a pedido de
+     Fran: «planos o layouts que sirvan para cuando tengamos medidas definidas». NO son planos de
+     fabricacion (PDP §6: esos son de la fase 3): cada numero sale de geometria-vns.js (la misma fuente
+     que el modelo 3D v10.5) y de contacto-vns.js (el canto bien trazado y las tolerancias), y se
+     regeneran solos al cambiar el centro de masa, el rodillo o la separacion. El PDF para el Drive lo
+     saca planos.ps1 (Chrome sin ventana, A3 apaisado). -->
+<style>
+:root{--bg:#eef1f4;--ink:#15202c;--muted:#5a6878;--card:#fff;--line:#cfd7e1;--accent:#b8650a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#11161c;--ink:#e6ebf0;--muted:#9aa8b6;--card:#1b222b;--line:#2f3a46;--accent:#e08a2e}}
+:root[data-theme="dark"]{--bg:#11161c;--ink:#e6ebf0;--muted:#9aa8b6;--card:#1b222b;--line:#2f3a46;--accent:#e08a2e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Arial,Helvetica,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:0 0 4px} .sub{color:var(--muted);margin:0 0 12px;font-size:14px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:end;margin-bottom:14px}
+.panel label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}
+.panel input,.panel select{font:15px Arial;padding:4px 6px;width:120px;border:1px solid var(--line);border-radius:5px;background:var(--card);color:var(--ink)}
+.panel button{font:15px Arial;padding:6px 12px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.hoja{background:#fff;margin:0 0 16px;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.hoja svg{display:block;width:100%;height:auto}
+@media print{
+  @page{size:420mm 297mm;margin:0}
+  body{background:#fff} .wrap{max-width:none;padding:0} .panel,h1,.sub{display:none}
+  .hoja{margin:0;box-shadow:none;page-break-after:always;break-after:page;width:420mm;height:297mm}
+  .hoja svg{width:420mm;height:297mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Planos de disposición — plataforma VNS</h1>
+  <p class="sub">Preliminares: <b>no son para fabricar</b>. Salen del modelo 3D v10.5 y se rehacen solos con las medidas: poné el centro de masa medido y se mueven la muesca, el dobson y las cotas. Para imprimir: A3 apaisado, al 100 %.</p>
+  <div class="panel">
+    <label>Centro de masa del 200 sobre su piso (cm)<input id="H" type="number" step="0.5" min="55" max="69" value="63"></label>
+    <label>Masa del 200 (kg)<input id="M" type="number" step="0.5" value="40"></label>
+    <label>Rodillo<select id="rod"><option value="0.011">Ø22 (rulemán 608)</option><option value="0.016">Ø32 (torneado)</option></select></label>
+    <label>Separación de rodillos (cm)<input id="half" type="number" step="1" value="58"></label>
+    <label>Ancho de la base (cm)<input id="baseW" type="number" step="5" value="130"></label>
+    <button id="go">Rehacer los planos</button>
+  </div>
+  <div id="hojas"></div>
+</div>
+<script src="geometria-vns.js?v=10"></script>
+<script src="contacto-vns.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+const C = window.CONTACTO;
+const FECHA = '2026-10-08', VERSION = 'disposición v1 (modelo v10.5)';
+const nf = (x, k) => x.toLocaleString('es-AR', { minimumFractionDigits: k == null ? 1 : k, maximumFractionDigits: k == null ? 1 : k });
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+// ---- primitivas SVG, en mm de papel -------------------------------------------------------------
+const L = (x1, y1, x2, y2, c) => `<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" class="${c || 'k'}"/>`;
+const R = (x, y, w, h, c) => `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}" class="${c || 'k'}"/>`;
+const Ci = (x, y, r, c) => `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${r.toFixed(2)}" class="${c || 'k'}"/>`;
+const Pl = (pts, c, cerrar) => `<${cerrar ? 'polygon' : 'polyline'} points="${pts.map((p) => p[0].toFixed(2) + ',' + p[1].toFixed(2)).join(' ')}" class="${c || 'k'}"/>`;
+const T = (x, y, s, c, a, rot) => `<text x="${x.toFixed(2)}" y="${y.toFixed(2)}" class="${c || 't'}"${a ? ` text-anchor="${a}"` : ''}${rot ? ` transform="rotate(${rot} ${x.toFixed(2)} ${y.toFixed(2)})"` : ''}>${s}</text>`;
+// cota entre dos puntos, corrida 'off' mm hacia la izquierda del segmento (mirando de 1 a 2)
+function cota(x1, y1, x2, y2, off, txt) {
+  const dx = x2 - x1, dy = y2 - y1, l = Math.hypot(dx, dy) || 1, nx = -dy / l, ny = dx / l, ux = dx / l, uy = dy / l;
+  const a1 = [x1 + nx * off, y1 + ny * off], a2 = [x2 + nx * off, y2 + ny * off], s = Math.sign(off) || 1;
+  const fl = (p, d) => Pl([[p[0] + ux * 2.2 * d + nx * 0.8, p[1] + uy * 2.2 * d + ny * 0.8], p, [p[0] + ux * 2.2 * d - nx * 0.8, p[1] + uy * 2.2 * d - ny * 0.8]], 'kc');
+  let ang = Math.atan2(dy, dx) * 180 / Math.PI; if (ang > 90) ang -= 180; if (ang < -90) ang += 180;
+  const m = [(a1[0] + a2[0]) / 2 + nx * 1.6 * s, (a1[1] + a2[1]) / 2 + ny * 1.6 * s];
+  return L(x1 + nx * s * 1, y1 + ny * s * 1, a1[0] + nx * s * 1.5, a1[1] + ny * s * 1.5, 'kc') + L(x2 + nx * s * 1, y2 + ny * s * 1, a2[0] + nx * s * 1.5, a2[1] + ny * s * 1.5, 'kc')
+    + L(a1[0], a1[1], a2[0], a2[1], 'kc') + fl(a1, 1) + fl(a2, -1) + T(m[0], m[1] + (s > 0 ? 1.2 : 0), txt, 'tc', 'middle', ang);
+}
+const ESTILO = `<style>
+ .k{stroke:#15202c;stroke-width:.35;fill:none}.kf{stroke:#15202c;stroke-width:.35;fill:#dfe5ec}.kg{stroke:#15202c;stroke-width:.5;fill:#b9c4d0}
+ .km{stroke:#5a6878;stroke-width:.25;fill:none;stroke-dasharray:2 1.2}.kd{stroke:#5a6878;stroke-width:.25;fill:none;stroke-dasharray:6 1.5 1 1.5}
+ .ka{stroke:#b8650a;stroke-width:.5;fill:none}.kaf{stroke:#b8650a;stroke-width:.35;fill:#f5dcc0}.kr{stroke:#c83a32;stroke-width:.4;fill:none}
+ .kc{stroke:#2a4d7a;stroke-width:.2;fill:none}.kw{stroke:#15202c;stroke-width:.6;fill:none}.kp{fill:#15202c}
+ .t{font:3px Arial,Helvetica,sans-serif;fill:#3a4756}.tc{font:2.8px Arial,Helvetica,sans-serif;fill:#2a4d7a}.tb{font:bold 3.4px Arial,Helvetica,sans-serif;fill:#15202c}
+ .th{font:bold 5.5px Arial,Helvetica,sans-serif;fill:#15202c}.ta{font:bold 3.2px Arial,Helvetica,sans-serif;fill:#b8650a}.tr{font:bold 3.2px Arial,Helvetica,sans-serif;fill:#c83a32}
+ .tm{font:2.6px Arial,Helvetica,sans-serif;fill:#5a6878}.wm{font:bold 22px Arial,Helvetica,sans-serif;fill:#c83a32;opacity:.08}
+</style>`;
+// el rotulo (abajo a la derecha) y el marco de cada hoja A3
+function hoja(n, total, titulo, escala, cuerpo, notas) {
+  let s = ESTILO + R(5, 5, 410, 287, 'kw');
+  s += T(210, 160, 'PRELIMINAR · NO PARA FABRICAR', 'wm', 'middle', -18);
+  s += cuerpo;
+  const x0 = 250, y0 = 252;
+  s += R(x0, y0, 165, 40, 'k') + L(x0, y0 + 10, x0 + 165, y0 + 10) + L(x0, y0 + 20, x0 + 165, y0 + 20) + L(x0 + 110, y0 + 10, x0 + 110, y0 + 40) + L(x0, y0 + 30, x0 + 110, y0 + 30);
+  s += T(x0 + 3, y0 + 7, 'Plataforma ecuatorial VNS · 200/1200 y un 12"', 'tb') + T(x0 + 162, y0 + 7, `Hoja ${n} de ${total}`, 'tb', 'end');
+  s += T(x0 + 3, y0 + 17, esc(titulo), 'tb') + T(x0 + 113, y0 + 17, 'Escala ' + escala, 't');
+  s += T(x0 + 3, y0 + 26.5, 'Estado: PRELIMINAR (fase 0, Pre-Fase A). No es para cortar.', 'tr');
+  s += T(x0 + 3, y0 + 36.5, `${VERSION} · ${FECHA}`, 't') + T(x0 + 113, y0 + 26.5, 'Fuente: geometria-vns.js', 'tm') + T(x0 + 113, y0 + 30.5, 'y contacto-vns.js', 'tm') + T(x0 + 113, y0 + 36.5, 'Medidas en mm', 'tm');
+  if (notas) notas.forEach((q, k) => { s += T(12, 256 + k * 4.6, q, 't'); });
+  return `<div class="hoja"><svg viewBox="0 0 420 297" xmlns="http://www.w3.org/2000/svg">${s}</svg></div>`;
+}
+const flechaN = (x, y) => Pl([[x, y - 8], [x - 2.5, y], [x + 2.5, y]], 'kp', true) + T(x, y - 9.5, 'N', 'tb', 'middle');
+const mm = (m) => nf(m * 1000, 0);
+
+// ---- los datos ---------------------------------------------------------------------------------
+const RIEL = { y0: -0.34, y1: 0.53, y1c: 0.60 }, XL = 0.17, TU = 0.02, TW = 0.008;   // como el modelo v10.5
+function datos() {
+  const H = +document.getElementById('H').value / 100, M = +document.getElementById('M').value;
+  const rr = +document.getElementById('rod').value, half = +document.getElementById('half').value / 200, baseW = +document.getElementById('baseW').value / 100;
+  const P = { ...C.P_V105, Hreal: H, M, half, baseW };
+  P.dN = dNEquilibrio({ ...P, dE: 0 });
+  const G = computeVNS(P);
+  const d12 = [[50, 0.57, 'pesado'], [40, 0.50, 'liviano'], [45, 0.57, 'medio']].map(([m, h, n]) => ({ n, m, h, dN: dNEquilibrio({ ...P, M: m, Hreal: h, dE: 0 }) }));
+  const f = C.cantoEnvolvente(G, 0, rr, G.plateT, false, 12), fp = C.cantoProyeccion(G, 0);
+  return { P, G, rr, f, fp, d12 };
+}
+
+// ---- Hoja 1: planta ----------------------------------------------------------------------------
+function planta(D) {
+  const { G, P } = D, k = 100, X = (x) => 150 + x * k, Y = (y) => 128 - (y - 0.2) * k;
+  let s = T(12, 16, 'Planta (vista desde arriba)', 'th') + T(12, 22, 'El sur abajo, el este a la derecha. Mesa en el centro de la carrera.', 't');
+  const ft = G.feet;
+  // base: triangulo de tubo 20 x 20 (viga sur con planchuela de canto) y las patas
+  s += Pl([[X(ft[0][0]), Y(ft[0][1])], [X(ft[1][0]), Y(ft[1][1])], [X(ft[2][0]), Y(ft[2][1])]], 'kf', true);
+  ft.forEach((p) => { s += Ci(X(p[0]), Y(p[1]), 3, 'kg') + Ci(X(p[0]), Y(p[1]), 5, 'km'); });
+  s += T(X(ft[0][0]) + 6, Y(ft[0][1]) + 6, 'pata regulable (marca en el piso)', 'tm');
+  // pivote y poste
+  s += Ci(X(0), Y(G.pivot[1]), 2.2, 'kaf') + T(X(0) + 4, Y(G.pivot[1]) + 1, 'pivote (rótula en un cono, sobre un poste)', 'ta');
+  // eje polar en planta
+  s += L(X(0), Y(G.pivot[1] + 0.06), X(0), Y(G.ySouthBase - 0.04), 'kd') + T(X(0) + 1.5, Y(G.ySouthBase - 0.035), 'eje polar (sube hacia el sur)', 'tm');
+  // mesa: travesano sur, largueros, travesano norte, brazo en A
+  const yS = G.ySouth, yN = G.yNorthTab, W = G.W;
+  [[[W, yS], [-W, yS]], [[XL, yN], [-XL, yN]], [[XL, yS], [XL, yN]], [[-XL, yS], [-XL, yN]], [[0, yS], [0, yN]], [[XL, yN], [0, G.pivot[1]]], [[-XL, yN], [0, G.pivot[1]]]]
+    .forEach(([a, b]) => { const ang = Math.atan2(Y(b[1]) - Y(a[1]), X(b[0]) - X(a[0])), nx = -Math.sin(ang) * 1, ny = Math.cos(ang) * 1;
+      s += Pl([[X(a[0]) + nx, Y(a[1]) + ny], [X(b[0]) + nx, Y(b[1]) + ny], [X(b[0]) - nx, Y(b[1]) - ny], [X(a[0]) - nx, Y(a[1]) - ny]], 'kf', true); });
+  // rieles (encima de los largueros)
+  [[XL, RIEL.y1], [-XL, RIEL.y1], [0, RIEL.y1c]].forEach(([x, y1]) => { s += R(X(x) - 1, Y(y1), 2, Y(RIEL.y0) - Y(y1), 'ka'); });
+  // chapas (en planta, una franja de 8 mm a lo largo de uh) y rodillos (eje a lo largo de nh)
+  G.rollers.forEach((r, i) => {
+    const a = [r.Pt[0] + r.uh[0] * r.uMin, r.Pt[1] + r.uh[1] * r.uMin], b = [r.Pt[0] + r.uh[0] * r.uMax, r.Pt[1] + r.uh[1] * r.uMax], t = G.plateT / 2;
+    s += Pl([[X(a[0] + r.nh[0] * t), Y(a[1] + r.nh[1] * t)], [X(b[0] + r.nh[0] * t), Y(b[1] + r.nh[1] * t)], [X(b[0] - r.nh[0] * t), Y(b[1] - r.nh[1] * t)], [X(a[0] - r.nh[0] * t), Y(a[1] - r.nh[1] * t)]], 'kg', true);
+    const c = [r.Pt[0] + r.nh[0] * r.latCenter, r.Pt[1] + r.nh[1] * r.latCenter], w = 0.015, l = 0.011;
+    s += Pl([[X(c[0] + r.nh[0] * w + r.uh[0] * l), Y(c[1] + r.nh[1] * w + r.uh[1] * l)], [X(c[0] + r.nh[0] * w - r.uh[0] * l), Y(c[1] + r.nh[1] * w - r.uh[1] * l)],
+      [X(c[0] - r.nh[0] * w - r.uh[0] * l), Y(c[1] - r.nh[1] * w - r.uh[1] * l)], [X(c[0] - r.nh[0] * w + r.uh[0] * l), Y(c[1] - r.nh[1] * w + r.uh[1] * l)]], 'kaf', true);
+    s += T(X(b[0]) + (i ? -2 : 2), Y(b[1]) - 3, i ? 'chapa oeste' : 'chapa este', 'tm', i ? 'end' : 'start');
+  });
+  s += T(X(G.rollers[0].Pt[0]) + 2, Y(G.rollers[0].Pt[1]) + 9, `rodillo (eje girado ${nf(Math.abs(G.rollers[0].beta), 1)}°)`, 'ta');
+  // el 200 en su muesca y el 12" (envolvente)
+  const dN = P.dN;
+  s += R(X(-0.20), Y(dN + 0.215), 0.40 * k, 0.43 * k, 'km') + T(X(-0.20) + 1, Y(dN + 0.215) + 4, 'base fija del 200 (40 × 43)', 'tm');
+  s += Ci(X(0), Y(dN), 1.4, 'kr') + T(X(0) + 2.5, Y(dN) - 1.5, 'CdM del 200', 'tr');
+  D.d12.forEach((q, j) => { if (j === 0) s += Ci(X(0), Y(q.dN), 0.315 * k, 'kd'); });
+  s += T(X(0.30), Y(D.d12[0].dN + 0.25), 'base de un 12" (Ø63-70)', 'tm');
+  // cotas
+  s += cota(X(ft[1][0]), Y(ft[1][1]), X(ft[0][0]), Y(ft[0][1]), 12, `${mm(ft[0][0] - ft[1][0])} patas del sur`);
+  s += cota(X(ft[0][0]) , Y(ft[0][1]), X(ft[0][0]), Y(ft[2][1]), 16, `${mm(ft[2][1] - ft[0][1])} patas sur a pata norte`);
+  s += cota(X(-P.half), Y(G.rollers[0].Pt[1]), X(P.half), Y(G.rollers[0].Pt[1]), 21, `${mm(2 * P.half)} entre rodillos`);
+  s += cota(X(-0.62), Y(G.rollers[0].Pt[1]), X(-0.62), Y(G.pivot[1]), -4, `${mm(G.pivot[1] - G.rollers[0].Pt[1])} rodillos a pivote`);
+  s += cota(X(-W), Y(yS), X(W), Y(yS), 38, `${mm(2 * W)} travesaño sur`);
+  s += cota(X(-0.52), Y(yS), X(-0.52), Y(yN), -4, `${mm(yN - yS)} mesa (norte-sur)`);
+  s += flechaN(395, 40);
+  // la corredera: muescas
+  s += T(300, 60, 'La corredera (muesca = dónde va el', 'tb') + T(300, 64.5, 'centro del dobson, al norte del eje):', 'tb');
+  let yy = 72; s += T(300, yy, `200 con CdM a ${nf(P.Hreal * 100, 1)} cm: ${nf(dN * 100, 1)} cm`, 'tr');
+  D.d12.forEach((q) => { yy += 5; s += T(300, yy, `12" ${q.n} (${q.m} kg, ${nf(q.h * 100, 0)} cm): ${nf(q.dN * 100, 1)} cm`, 't'); });
+  yy += 7; s += T(300, yy, 'Rieles: de ' + nf(RIEL.y0 * 100, 0) + ' a ' + nf(RIEL.y1 * 100, 0) + ' cm (el del medio a ' + nf(RIEL.y1c * 100, 0) + ')', 't');
+  yy += 5; s += T(300, yy, 'Lo absorbe la corredera: 200 entre 55 y 69 cm', 't');
+  yy += 4.5; s += T(300, yy, 'sin tocar chapas (L2-PLT-05).', 't');
+  return hoja(1, 5, 'Planta general', '1:10', s, [
+    'Medidas a ejes de tubo y de patas. Base y mesa de tubo 20 × 20; la viga sur con planchuela de canto abajo.',
+    'Las tres medidas que mandan la precisión NO son estas: ver la hoja 5 (tolerancias de rodillos, chapas y pivote).',
+    'La muesca del 200 se mueve con el centro de masa medido (arriba, en la página): el resto de la hoja no.']);
+}
+
+// ---- Hoja 2: alzado lateral (desde el este, el norte a la derecha) -------------------------------
+function alzado(D) {
+  const { G, P } = D, k = 100, X = (y) => 70 + (y + 0.6) * k, Y = (z) => 243 - z * k;
+  let s = T(12, 16, 'Alzado lateral (visto desde el este)', 'th') + T(12, 22, 'El norte a la derecha. Mesa en el centro de la carrera; el dobson con el tubo a 45°.', 't');
+  s += L(X(-0.6), Y(0), X(1.0), Y(0), 'kw') + T(X(0.95), Y(0) + 4, 'piso', 'tm', 'end');
+  // base: patas, viga sur (en corte), lado hacia la pata norte, poste
+  const ysS = G.feet[0][1], yNf = G.feet[2][1], gT = G.groundTop;
+  [ysS, yNf].forEach((y) => { s += R(X(y) - 2, Y(G.FEET), 4, G.FEET * k, 'kg'); });
+  s += R(X(ysS) - 1, Y(gT), 2, (gT - G.FEET) * k, 'kf') + L(X(ysS), Y(G.FEET + 0.01), X(yNf), Y(G.FEET + 0.01), 'k');
+  s += R(X(G.pivot[1]) - 1.2, Y(G.pivot[1] ? G.pivot[2] : 0), 2.4, (G.pivot[2] - G.FEET - 0.01) * k, 'kf');
+  s += Ci(X(G.pivot[1]), Y(G.pivot[2]), 1.6, 'kaf') + T(X(G.pivot[1]) + 3, Y(G.pivot[2]) + 1, 'pivote', 'ta');
+  // eje polar
+  const e = (t) => [G.pivot[1] + G.d[1] * t, G.pivot[2] + G.d[2] * t];
+  const p1 = e(-0.15), p2 = e(1.9);
+  s += L(X(p1[0]), Y(p1[1]), X(p2[0]), Y(p2[1]), 'kd') + T(X(p2[0]) + 1, Y(p2[1]) - 1.5, 'eje polar, apunta al polo sur celeste', 'tm');
+  // mesa (marco de tubo 20 x 20, la cara de arriba en ztt) y rieles
+  s += R(X(G.ySouth), Y(G.ztt), (G.yNorthTab - G.ySouth) * k, TU * k, 'kf') + L(X(G.yNorthTab), Y(G.ztt - 0.01), X(G.pivot[1]), Y(G.pivot[2] + 0.03), 'k');
+  s += R(X(RIEL.y0), Y(G.ztt + G.railH), (RIEL.y1c - RIEL.y0) * k, G.railH * k, 'kaf');
+  // chapa (se ve casi de canto: esta girada 13°; llega hasta la cara de la mesa) y rodillo
+  const r0 = G.rollers[0];
+  const pc = []; for (let u = r0.uMin; u <= r0.uMax + 1e-9; u += (r0.uMax - r0.uMin) / 40) pc.push([X(r0.Pt[1] + r0.uh[1] * u), Y(r0.Pt[2] + D.f(u))]);
+  s += Pl([...pc, [X(r0.Pt[1] + r0.uh[1] * r0.uMax), Y(G.ztt)], [X(r0.Pt[1] + r0.uh[1] * r0.uMin), Y(G.ztt)]], 'kg', true);
+  s += Ci(X(r0.Pt[1]), Y(r0.Pt[2] - D.rr), D.rr * k, 'kaf');
+  // el dobson: base fija (40 x 43), paredes, eje de altura y tubo a 45°
+  const z0 = G.ztt + G.railH, yd = P.dN, zAlt = z0 + 0.825;
+  s += R(X(yd - 0.215), Y(z0 + 0.02), 0.43 * k, 0.02 * k, 'k') + R(X(yd - 0.20), Y(z0 + 0.04), 0.40 * k, 0.02 * k, 'k');
+  s += Pl([[X(yd - 0.20), Y(z0 + 0.06)], [X(yd - 0.20), Y(z0 + 0.86)], [X(yd + 0.20), Y(z0 + 0.86)], [X(yd + 0.20), Y(z0 + 0.06)]], 'km');
+  const tu = [-Math.cos(Math.PI / 4), Math.sin(Math.PI / 4)], tn = [tu[1], -tu[0]], a0 = -0.55, a1 = 0.80, rT = 0.1265;
+  const tp = (a, b) => [X(yd + tu[0] * a + tn[0] * b), Y(zAlt + tu[1] * a + tn[1] * b)];
+  s += Pl([tp(a0, rT), tp(a1, rT), tp(a1, -rT), tp(a0, -rT)], 'k', true) + T(tp(a1, 0)[0] - 2, tp(a1, 0)[1] - 3, 'tubo 200/1200 (a 45°)', 'tm', 'end');
+  s += Ci(X(yd), Y(zAlt), 1.2, 'k') + T(X(yd) + 2.5, Y(zAlt) - 1, 'eje de altura', 'tm');
+  const zC = z0 + P.Hreal;
+  s += Ci(X(yd), Y(zC), 1.8, 'kr') + L(X(yd) - 3, Y(zC), X(yd) + 3, Y(zC), 'kr') + T(X(yd) + 4, Y(zC) + 4, 'centro de masa de lo que gira (cae sobre el eje)', 'tr');
+  // cotas
+  s += cota(X(-0.5), Y(0), X(-0.5), Y(G.ztt), 6, `${mm(G.ztt)} cara de la mesa`);
+  s += cota(X(-0.5), Y(z0), X(-0.5), Y(G.C[2]), -6, `${mm(G.C[2] - G.ztt)} eje sobre la mesa`);
+  s += cota(X(yd + 0.32), Y(z0), X(yd + 0.32), Y(zC), -6, `${nf(P.Hreal * 1000, 0)} CdM sobre el piso del dobson (SIN MEDIR)`);
+  s += cota(X(G.pivot[1] + 0.08), Y(0), X(G.pivot[1] + 0.08), Y(G.pivot[2]), -5, `${mm(G.pivot[2])} pivote`);
+  s += cota(X(ysS), Y(-0.04), X(yNf), Y(-0.04), 5, `${mm(yNf - ysS)} patas`);
+  s += T(X(G.pivot[1]) - 16, Y(G.pivot[2]) + 9, `${nf(P.phi, 1)}°`, 'tb');
+  return hoja(2, 5, 'Alzado lateral', '1:10', s, [
+    'El eje polar pasa por la rótula del pivote y por el centro de masa de todo lo que gira (dobson + mesa).',
+    'Si el centro de masa medido cambia, cambia la muesca (hoja 1), no la altura del eje ni las chapas, entre 55 y 69 cm.',
+    'Altura del eje de altura (82,5 cm sobre el piso del dobson) y largo del tubo: de fotos y de 2026-08 (hipótesis).']);
+}
+
+// ---- Hoja 3: vista desde el sur (las dos chapas se ven de frente) ---------------------------------
+function vistaSur(D) {
+  const { G, P } = D, k = 200, X = (x) => 210 + x * k, Y = (z) => 232 - z * k;
+  let s = T(12, 16, 'Vista desde el sur', 'th') + T(12, 22, 'El este a la derecha. Las chapas se ven casi de frente (están giradas 13°): la forma del canto es la de verdad, achicada un 3 %.', 't');
+  s += L(X(-0.7), Y(0), X(0.7), Y(0), 'kw');
+  const ft = G.feet, gT = G.groundTop;
+  [ft[0], ft[1]].forEach((p) => { s += R(X(p[0]) - 4, Y(G.FEET), 8, G.FEET * k, 'kg'); });
+  s += R(X(ft[1][0]), Y(gT), (ft[0][0] - ft[1][0]) * k, (gT - G.FEET) * k, 'kf') + T(X(ft[1][0]) + 2, Y(gT) + 4, 'viga sur: tubo 20 × 20 + planchuela de canto', 'tm');
+  // la mesa (travesano sur, tubo 20 x 20 con la cara de arriba en ztt) y los rieles
+  s += R(X(-G.W), Y(G.ztt), 2 * G.W * k, TU * k, 'kf');
+  [XL, -XL, 0].forEach((x) => { s += R(X(x) - TU / 2 * k, Y(G.ztt + G.railH), TU * k, G.railH * k, 'kaf'); });
+  // chapas (llegan hasta la cara de la mesa; las orejas las toman del travesano) y rodillos en su unidad
+  G.rollers.forEach((r, i) => {
+    const pts = [], f = (u) => (i === 0 ? D.f(u) : D.f(-u));   // la oeste es la este espejada
+    for (let j = 0; j <= 60; j++) { const u = r.uMin + (r.uMax - r.uMin) * j / 60; pts.push([X(r.Pt[0] + r.uh[0] * u), Y(r.Pt[2] + f(u))]); }
+    const e0 = pts[0], e1 = pts[pts.length - 1], tz = G.TALON * k, tw = TW * Math.abs(r.uh[0]) * k, sg = Math.sign(e1[0] - e0[0]);
+    s += Pl([[e0[0] - sg * tw, Y(G.ztt)], [e0[0] - sg * tw, e0[1] + tz], [e0[0], e0[1] + tz], ...pts, [e1[0], e1[1] + tz], [e1[0] + sg * tw, e1[1] + tz], [e1[0] + sg * tw, Y(G.ztt)]], 'kg', true);
+    const zc = r.Pt[2] - D.rr;
+    s += R(X(r.Pt[0]) - 0.02 * k, Y(G.groundTop + 0.005), 0.04 * k, 0.005 * k, 'kf') + R(X(r.Pt[0]) - 0.002 * k, Y(zc), 0.004 * k, (zc - G.groundTop - 0.005) * k, 'kf');
+    s += Ci(X(r.Pt[0]), Y(zc), D.rr * k, 'kaf') + Ci(X(r.Pt[0]), Y(zc), 1, 'k');
+    s += cota(e0[0], Y(G.ztt + G.railH), e1[0], Y(G.ztt + G.railH), -9, `${mm(r.chord * Math.abs(r.uh[0]))} (${mm(r.chord)} en su plano)`);
+  });
+  s += T(X(G.rollers[1].Pt[0]) - 12, Y(G.groundTop + 0.03), 'unidad del rodillo (ángulos sobre una planchuela)', 'tm', 'end');
+  s += T(X(G.rollers[0].Pt[0]) + 7, Y(G.rollers[0].Pt[2] - D.rr) + 1, `rodillo Ø${nf(D.rr * 2000, 0)}`, 'ta');
+  // el dobson apoyado en los rieles (sólo la base)
+  const z0 = G.ztt + G.railH;
+  s += R(X(-0.20), Y(z0 + 0.04), 0.40 * k, 0.04 * k, 'km') + T(X(0), Y(z0 + 0.04) - 2, 'base del dobson sobre los rieles (sigue hacia arriba)', 'tm', 'middle');
+  // cotas
+  s += cota(X(-P.half), Y(G.rollers[0].Pt[2] - 2 * D.rr) , X(P.half), Y(G.rollers[0].Pt[2] - 2 * D.rr), -10, `${mm(2 * P.half)} entre rodillos (a ejes)`);
+  s += cota(X(ft[1][0]), Y(-0.03), X(ft[0][0]), Y(-0.03), 4, `${mm(ft[0][0] - ft[1][0])} patas del sur`);
+  s += cota(X(-0.64), Y(0), X(-0.64), Y(G.ztt), 6, `${mm(G.ztt)}`);
+  s += cota(X(0.64), Y(G.rollers[0].zEdgeMin - G.TALON), X(0.64), Y(G.ztt), -6, `${mm(G.ztt - G.rollers[0].zEdgeMin + G.TALON)} chapa con talón`);
+  return hoja(3, 5, 'Vista desde el sur', '1:5', s, [
+    'Cada chapa cuelga del travesaño sur con tres M8 en agujero ovalado (±3 mm de altura) y toca su rodillo por el canto de abajo.',
+    'El canto NO es un arco simétrico: sube de una punta a la otra (es el corte de un cono por un plano vertical). Ver hoja 4.',
+    'Los rodillos se dibujan con el diámetro elegido arriba: las chapas se trazan para ESE diámetro (±0,3 mm), así que se elige antes de cortar.']);
+}
+
+// ---- Hoja 4: la chapa este en su plano, 1:1 -------------------------------------------------------
+function chapa(D) {
+  const { G } = D, r = G.rollers[0], k = 1000;
+  const u0 = r.uMin, u1 = r.uMax, zTop = G.ztt, z0 = r.Pt[2];   // la chapa llega hasta la cara de la mesa (como en el modelo)
+  const X = (u) => 210 + (u - (u0 + u1) / 2) * k, Y = (z) => 40 + (zTop - z) * k;
+  let s = T(12, 16, 'Chapa este, en su plano — ESCALA 1:1 en A3', 'th') + T(12, 22, 'Acero SAE 1010 de 5/16" (7,94 mm). La oeste es la misma, espejada. Imprimir al 100 % y medir la barra de control.', 't');
+  const pts = []; for (let j = 0; j <= 200; j++) { const u = u0 + (u1 - u0) * j / 200; pts.push([X(u), Y(z0 + D.f(u))]); }
+  const e0 = pts[0], e1 = pts[pts.length - 1], tz = G.TALON * k, tw = TW * k;
+  s += Pl([[X(u0) - tw, Y(zTop)], [X(u0) - tw, e0[1] + tz], [e0[0], e0[1] + tz], ...pts, [e1[0], e1[1] + tz], [e1[0] + tw, e1[1] + tz], [e1[0] + tw, Y(zTop)]], 'kf', true);
+  // la pista (canto que rueda) resaltada
+  s += Pl(pts, 'ka');
+  // agujeros ovalados M8 (3), +-3 mm de altura
+  [-1, 0, 1].forEach((g) => { const u = g * r.chord / 3, zc = zTop - 0.014; s += `<rect x="${(X(u) - 4.25).toFixed(2)}" y="${(Y(zc) - 7.25).toFixed(2)}" width="8.5" height="14.5" rx="4.25" class="k"/>` + L(X(u) - 6, Y(zc), X(u) + 6, Y(zc), 'kc') + L(X(u), Y(zc) - 9, X(u), Y(zc) + 9, 'kc'); });
+  s += T(X(r.chord / 3) + 6, Y(zTop - 0.014) - 4, '3 × M8 en ovalado (8,5 × 14,5)', 'tm');
+  // marcas: donde esta el rodillo a cada minuto de la carrera
+  const uMn = (mn) => C.uTop(G, 0, mn / 60 * 15 * Math.PI / 180);
+  [[0, 'centro'], [15, '15'], [30, '30']].forEach(([mn, lab]) => [1, -1].forEach((sg) => {
+    if (mn === 0 && sg < 0) return;
+    const u = uMn(sg * mn), y = Y(z0 + D.f(u));
+    s += L(X(u), y + 1, X(u), y + 5, 'kc') + T(X(u), y + 8.5, (mn ? (sg > 0 ? '+' : '−') : '') + lab, 'tc', 'middle');
+  }));
+  // las tres capas de tope, juntas en cada punta: rótulos escalonados debajo del mas bajo, con su guia
+  [1, -1].forEach((sg) => {
+    const ms = [[45, 'programa'], [48, 'fin de carrera'], [51, 'talón']].map(([mn, lab]) => ({ mn, lab, u: uMn(sg * mn) })).filter((q) => q.u >= u0 && q.u <= u1);
+    const yb = Math.max(...ms.map((q) => Y(z0 + D.f(q.u)))) + 9;
+    ms.forEach((q, j) => { const y = Y(z0 + D.f(q.u)), yl = yb + j * 4.6, xl = X(q.u) + sg * 4;
+      s += Pl([[X(q.u), y + 1], [X(q.u), yl - 3], [xl, yl - 1.2]], 'kr') + T(xl + sg * 0.8, yl, `${sg > 0 ? '+' : '−'}${q.mn} ${q.lab}`, 'tr', sg > 0 ? 'start' : 'end'); });
+  });
+  // cotas generales
+  s += cota(X(u0) - tw, Y(zTop), X(u1) + tw, Y(zTop), 8, `${nf((u1 - u0 + 2 * TW) * 1000, 1)} largo total`);
+  s += cota(X(u1) + tw, Y(zTop), X(u1) + tw, Y(z0 + D.f(u1)) + tz, -8, `${nf((zTop - z0 - D.f(u1) + G.TALON) * 1000, 1)}`);
+  s += cota(X(u0) - tw, Y(z0 + D.f(u0)) + tz, X(u0) - tw, Y(zTop), -8, `${nf((zTop - z0 - D.f(u0) + G.TALON) * 1000, 1)}`);
+  // barra de control de 100 mm
+  s += L(20, 232, 120, 232, 'kw'); for (let i = 0; i <= 10; i++) s += L(20 + i * 10, 230, 20 + i * 10, i % 5 ? 232 : 228.5, 'k');
+  s += T(70, 238, 'barra de control: 100 mm (si no mide 100, la impresora escaló)', 't', 'middle');
+  const dif = []; for (let u = u0; u <= u1; u += 0.005) dif.push(D.f(u) - D.fp(u));
+  s += T(140, 228, `Este canto es la ENVOLVENTE del rodillo de Ø${nf(D.rr * 2000, 0)}. El trazado del modelo 3D (el punto de arriba del rodillo) queda`, 't');
+  s += T(140, 232.5, `${nf(Math.min(...dif) * 1000, 2)} a ${nf(Math.max(...dif) * 1000, 2)} mm más abajo, y esa diferencia (que cambia a lo largo de la chapa) corre la estrella ≈ 1,2″`, 't');
+  s += T(140, 237, 'por foto en las puntas de la carrera (contacto-vns.js). El DXF de corte se saca de ESTA curva, en la fase 3.', 't');
+  return hoja(4, 5, 'Chapa este (desarrollo)', '1:1', s, [
+    'Profundidades del canto cada 10 mm: hoja 5. Las marcas dicen dónde toca el rodillo a cada minuto de la carrera.',
+    'El canto es la pista: sin escalones ni ondas de más de unos micrones (hoja 5). El láser solo no alcanza: ver docs/16.',
+    'Depende del diámetro del rodillo y de la altura del eje (54 cm), NO del centro de masa del 200 entre 55 y 69 cm.']);
+}
+
+// ---- Hoja 5: tolerancias y profundidades ------------------------------------------------------------
+const AJUSTE = {
+  'rod-z': 'calce bajo la unidad', 'rod-x': 'ranura en la viga sur', 'rod-y': 'ranura en la viga sur', 'rod-yaw': 'ranura + escuadra a la chapa',
+  'rod-roll': 'calce en un ángulo; nivel de mecánico', 'chapa-z': 'ovalado + tornillo de empuje', 'chapa-yaw': 'plantilla al soldar las orejas',
+  'chapa-lean': 'calce en las orejas; nivel de mecánico', 'piv-y': 'libre', 'piv-z': 'tapa del poste con calces', 'rod-dr': 'se compra o tornea antes de cortar',
+  'rod-exc': 'rulemán P4/ABEC-7 o camisa rectificada', 'canto-50': 'terminación del canto (fresado o rectificado)', 'canto-5': 'terminación del canto',
+  'canto-esc': 'terminación del canto; sacar la rebaba' };
+function tolerancias(D, tl) {
+  const { G } = D, r = G.rollers[0];
+  let s = T(12, 16, 'Tolerancias y profundidades del canto', 'th');
+  s += T(12, 22, 'Cuánto corre la estrella en una foto de 60 s cada error de taller, solo, con las chapas bien trazadas (contacto-vns.js; cálculo, «probable»).', 't');
+  s += T(12, 26.5, 'Tolerancia = el error que deja 0,2″ por foto (propuesta de la sesión: 0,5″ de los 1,5″ de L2-PLT-02 para la geometría, en cuadratura). «Con tabla»: el programa corrige por posición lo que va a lo largo del eje (sólo T2).', 't');
+  const xs = [12, 92, 120, 142, 162, 182];
+  let y = 36;
+  s += T(xs[0], y, 'Medida del plano', 'tb') + T(xs[1], y, 'Error típico', 'tb') + T(xs[2], y, 'Corre', 'tb') + T(xs[3], y, 'Tolerancia', 'tb') + T(xs[4], y, 'Con tabla', 'tb') + T(xs[5], y, 'Cómo se cumple', 'tb');
+  s += L(12, y + 1.5, 250, y + 1.5);
+  if (!tl) s += T(12, y + 8, 'calculando… (unos segundos)', 'ta');
+  else tl.forEach((q) => {
+    y += 6.2;
+    const u = q.unidad === 'grados' ? '°' : ' mm', d = q.unidad === 'grados' ? 2 : (q.mag < 0.05 ? 3 : 1);
+    const tol = (v) => (v == null ? 'libre' : (v > 20 ? 'libre' : '± ' + nf(v, v < 0.01 ? 4 : v < 0.1 ? 3 : 2) + u));
+    const fina = q.tol != null && ((q.unidad === 'grados' && q.tol < 0.2) || (q.unidad === 'mm' && q.tol < 0.05));
+    s += T(xs[0], y, esc(q.cota[0].toUpperCase() + q.cota.slice(1)), fina ? 'tr' : 't') + T(xs[1], y, nf(q.mag, d) + u, 't') + T(xs[2], y, nf(q.corrido60, 2) + '″', 't');
+    s += T(xs[3], y, tol(q.tol), fina ? 'tr' : 'tb') + T(xs[4], y, tol(q.tolB), 't') + T(xs[5], y, AJUSTE[q.id] || '', 'tm');
+  });
+  y += 9;
+  s += T(12, y, 'En rojo, lo fino: el eje de cada rodillo a nivel (±0,08° = 0,09 mm entre sus dos ángulos), la chapa a plomo, y sobre todo el CANTO y el rodillo (micrones).', 'tr');
+  s += T(12, y + 4.5, 'Un nivel de celular (±0,1-0,2°) no alcanza para lo fino: hace falta un nivel de mecánico (0,02-0,05 mm/m) y un comparador milesimal.', 't');
+  s += T(12, y + 9, 'Con un rodillo basculante (se acuesta solo sobre el canto) el nivel del rodillo y el plomo de la chapa dejan de importar: ver docs/16.', 't');
+  // profundidades del canto, cada 10 mm
+  const x0 = 262; let yy = 36;
+  s += T(x0, yy, 'Canto de la chapa este: profundidad', 'tb') + T(x0, yy + 4, 'desde el borde de arriba, cada 10 mm', 'tb');
+  s += T(x0, yy + 8.5, 'u = 0 donde toca el rodillo en el centro de la carrera;', 'tm') + T(x0, yy + 12, `u > 0 hacia el este. Rodillo Ø${nf(D.rr * 2000, 0)}.`, 'tm');
+  yy += 22;
+  const zTop = G.ztt, filas = [];
+  for (let u = Math.ceil(r.uMin * 100) / 100; u <= r.uMax + 1e-9; u += 0.01) filas.push([u, (zTop - r.Pt[2] - D.f(u)) * 1000]);
+  const porCol = Math.ceil(filas.length / 3);
+  filas.forEach(([u, p], j) => { const c = Math.floor(j / porCol), rr = j % porCol, x = x0 + c * 50, yr = yy + rr * 4.1;
+    if (rr === 0) s += T(x, yr - 4, 'u (mm)', 'tm') + T(x + 34, yr - 4, 'prof. (mm)', 'tm', 'end');
+    s += T(x, yr, nf(u * 1000, 0), 't') + T(x + 34, yr, nf(p, 2), 't', 'end'); });
+  return hoja(5, 5, 'Tolerancias y profundidades', '—', s, [
+    'Las tolerancias valen para la geometría v10.5 y la transmisión V/T2; con la F2 el «con tabla» no aplica (patina y la posición se pierde).',
+    'Las profundidades son de la envolvente del rodillo elegido arriba: si cambia el rodillo, cambia esta tabla.',
+    'Nada de esto se corta en la fase 0: el DXF es de la fase 3, con el rodillo, la transmisión y el centro de masa cerrados.']);
+}
+
+// ---- armar ----------------------------------------------------------------------------------------
+function rehacer() {
+  const D = datos();
+  const el = document.getElementById('hojas');
+  el.innerHTML = planta(D) + alzado(D) + vistaSur(D) + chapa(D) + tolerancias(D, null);
+  window.__planos = { D, listo: false };
+  setTimeout(() => {
+    const tl = C.tolerancias(D.G, D.rr, D.G.plateT, 'V');
+    const hojas = el.querySelectorAll('.hoja'); hojas[4].outerHTML = tolerancias(D, tl);
+    window.__planos = { D, tl, listo: true };
+  }, 30);
+}
+document.getElementById('go').addEventListener('click', rehacer);
+rehacer();
+})();
+</script>
+</body>
+</html>

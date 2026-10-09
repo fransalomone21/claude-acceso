@@ -1,7 +1,15 @@
 # El proyecto — qué es y por qué así
 
-**Para Fran y Kevin.** Versión 7, 8 de octubre de 2026 (a la noche). Fuente
+**Para Fran y Kevin.** Versión 8, 8 de octubre de 2026 (a la noche). Fuente
 en el repo: `proyectos/ingenieria/telescopio/docs/07-guia-armado.md`.
+
+> **Nuevo en la versión 8:** la revisión de punta a punta («4 - Revisión: qué
+> puede salir mal», en esta carpeta) encontró que **la pista** (el canto de las
+> chapas y los rodillos) pide precisión de micrones: cada micrón de error mueve
+> la estrella ≈ 0,27″. Cambian el rodillo loco (ya no son cuatro 608: uno de una
+> pieza), la forma de trazar el canto (la envolvente del rodillo) y aparecen
+> cuatro medidas finas de armado. Y hay **planos de disposición** (PDF,
+> preliminares, no para cortar).
 
 > **Este documento es el concepto. Los pasos, en orden, están en «2 - Paso a
 > paso».** Los mecanismos con sus dibujos, los talleres de la zona y el cielo
@@ -60,9 +68,9 @@ Cada pieza lleva su grado:
 | **Mesa universal** | marco de tubo 20 × 20 (travesaño sur, travesaño norte, **tres largueros**, brazo en A hasta el pivote) con **tres rieles** soldados arriba: ahí apoya el dobson y corren las mordazas. ≈ 87 cm de norte a sur, ≈ 11 kg con las chapas | en revisión |
 | **Corredera** | el dobson se corre norte-sur sobre los rieles hasta **su muesca**: una por telescopio | en revisión |
 | **Tres mordazas de borde** | toman la base del dobson del borde: **no se agujerea nada** | en revisión |
-| **Pivote** | rótula de amortiguador a gas sobre un poste de 10 cm | probable |
-| **Dos chapas** | **acero de 5/16"**, cortadas a **láser**, colgadas del travesaño sur. Las mismas para los dos telescopios. Su forma sale de la altura del eje, la latitud y los rodillos; **no del centro de masa**: la corredera absorbe cualquier 200 entre 55 y 69 cm | en revisión |
-| **Rodillo loco (este)** | cuatro rulemanes 608 de roller sobre una varilla de impresora | probable |
+| **Pivote** | rótula de amortiguador a gas sobre un poste de 10 cm; **toda de acero** (las de cazoleta plástica se hunden) y con calces para su altura (±0,8 mm) | probable |
+| **Dos chapas** | **acero de 5/16"**, cortadas a **láser**, colgadas del travesaño sur. Las mismas para los dos telescopios. Su forma sale de la altura del eje, la latitud y **el diámetro del rodillo** (se traza la envolvente del rodillo: el rodillo se elige antes de cortar); **no del centro de masa**: la corredera absorbe cualquier 200 entre 55 y 69 cm. **El canto es la pista**: parejo a 1-2 micrones para fotos de 60 s; si el láser no llega, se termina en una tornería (lo dice la muestra del canto, paso 6c) | en revisión |
+| **Rodillos** | **de una pieza**: una camisa de acero sobre dos 608, rectificada montada, con salto de 2 micrones o menos. Los cuatro 608 lado a lado no sirven: el apoyo cruza las costuras y la estrella salta 2 a 4″. Con la T2 los dos rodillos son locos. A evaluar en la fase B: **rodillo basculante**, que se acuesta solo sobre el canto | en revisión |
 | **Transmisión** | **dos opciones, sin elegir**: **F** (rodillo de acero torneado por fricción + correa GT2 4:1 + NEMA 17 de ≈ 4 kg·cm, en el rodillo oeste) o **V** (varilla y tuerca al sur de la viga, con una biela que empuja un brazo de la mesa, como la foto de Fran). **Va ganando la V con tornillo de bolas (T2)**: la F con una correa no pasa la precisión por el error de micropaso, y con dos correas pierde por facilidad y porque puede patinar (ver el puntaje abajo) | en revisión |
 | **Electrónica** | ESP32 + TMC2209 en una caja sobre el tubo de costado del oeste (fuera del barrido de las chapas), botón de rebobinado, ficha ST-4 para el autoguiado de más adelante; la batería en el tubo del este | probable |
 | **Topes** | tres capas: programa (±45 min), fin de carrera (±48) y talón de la chapa (±51) | confirmado |
