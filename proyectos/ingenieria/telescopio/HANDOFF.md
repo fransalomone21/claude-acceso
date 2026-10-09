@@ -6,6 +6,19 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-09, cierre:** seis agentes (workflow `wf_dcd46a28-0af`) →
+> **`docs/17-investigacion-pista.md`** (y el crudo, `17-...-agentes.json`).
+> **Manda sobre `16`**: el revisor adversario corrigió el «70 % bamboleo»
+> (50/50 en potencia; el guiado en AR rescata parte a declinación austral), la
+> causa del 1,2″ del trazado (no es el radio; falta identificar el término con
+> rr → 0) y la métrica (submuestrea ondas cortas: muestrear cada ≤ 5 s antes de
+> fijar tolerancias). Canto láser no sirve de pista (electroerosión por hilo
+> sí); 608 P4 = 4 µm (camisa rectificada); pivote = bolilla templada en cono
+> templado; 60 s sin guiar no tiene respaldo externo. **Primer trabajo de la
+> próxima sesión de cuentas:** arreglar esas tres cosas en `contacto-vns.js` y
+> `16`. **Decisión de Fran:** 20-30 s, guiado en AR desde el diseño, o pista
+> mecanizada.
+
 ## Decimoséptima sesión (2026-10-08/09): revisión de punta a punta, la pista y los planos
 
 **Fran** (sin medidas nuevas): «revisá el proyecto y el concepto y determiná

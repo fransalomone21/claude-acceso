@@ -1,5 +1,11 @@
 # Revisión de punta a punta: qué puede salir mal, del concepto a la noche de fotos
 
+> **Corregido por `17-investigacion-pista.md` (2026-10-09), que manda donde se
+> contradicen:** «70 % bamboleo» es 50/50 en potencia y el guiado en AR rescata
+> parte a declinación austral; la causa del 1,2″ del trazado no es el radio (el
+> número y la salida siguen); la métrica submuestrea las ondas cortas; «arista»
+> no tiene umbral; el pivote va como bolilla templada en cono templado.
+
 **Escrito el 2026-10-08 a la noche (decimoséptima sesión)**, a pedido de Fran,
 sin medidas nuevas: «revisá el proyecto y el concepto y determiná posibles
 inconvenientes en concepto, diseño, implementación y operación; avanzá lo que

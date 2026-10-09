@@ -1,0 +1,535 @@
+{
+  "summary": "Seis agentes en paralelo: verificar la cuenta de la pista y averiguar canto laser, rodillos, pivote, plataformas comerciales y rocio",
+  "agentCount": 6,
+  "logs": [],
+  "result": [
+    {
+      "frente": "refutar la cuenta",
+      "resumen": "Las cuentas cierran en el modelo: corrí probar-contacto.js y dio 10 de 10 en verde, y contacto-vns.js reproduce 1,22\" contra 0,00\". Pero hay tres cosas mal contadas. Primera, el 0\" de la envolvente es tautológico: el mismo cilindro rueda sobre su propia envolvente. Segunda, la causa que el doc le da al 1,2\" no se sostiene: con chapa casi sin espesor da 1,55\", y con rodillo de 16 mm 1,60\"; no escala con r como pediría r(1/cos b - 1). Tercera, el \"~70 % bamboleo\" es un 50/50 en potencia, y un guiado de un solo eje (AR) sí corrige parte del bamboleo cuando la declinación no es cero. La sensibilidad de 0,27-0,38\" por micrón se sostiene. La métrica por diferencias de minuto submuestrea las ondas cortas del canto.",
+      "hallazgos": [
+        {
+          "afirmacion": "(a) Se sostiene el número, no la explicación. Con proyección da 1,22\" y con envolvente 0,00\". Pero el 0 de la envolvente sale por construcción: cantoEnvolvente usa el mismo techo() que después resuelve subida(), así que solo prueba coherencia interna (control C2). No prueba que una chapa real cortada así dé 0.",
+          "grado": "confirmado",
+          "fuente": "C:/Users/frans/Desktop/claude-acceso/proyectos/ingenieria/telescopio/docs/contacto-vns.js:134-147 y :116-130 (salida de node contacto-vns.js, sección 2)"
+        },
+        {
+          "afirmacion": "(a) La causa r(1/cos b - 1) que declara el encabezado NO domina el 1,2\". Con proyección y t = 0,1 mm da 1,55\" con r 11 mm y 1,60\" con r 16 mm; con t = 7,94 mm da 1,22\" con r 11 mm y 1,28\" con r 16 mm. Si el término fuera ∝ r, de 11 a 16 mm tendría que subir ~45 %, y sube 3-5 %. El error de cantoProyeccion es casi independiente del radio: viene de cómo uTop/thDeU mapean el punto alto en el marco de la mesa (cinemático), no del radio. Antes de culpar al radio, hay que identificar el término (por ejemplo, rr → 0).",
+          "grado": "probable",
+          "fuente": "node -e barrer(G,{metodo:'proyeccion',rr,t}) sobre contacto-vns.js:71-80 y :6-8; resultados 1,22/1,55/1,60/1,55"
+        },
+        {
+          "afirmacion": "(b) Se sostiene. Un escalón de 10 µm da 3,81\", o sea 0,38\" por µm, que coincide con la palanca 1 µm / 0,56 m = 0,37\". El 0,27\" es solo la componente de bamboleo (2,68/10). El rango 0,27-0,37\" del doc es correcto si se aclara que 0,27 es el bamboleo y 0,37 el total.",
+          "grado": "probable",
+          "fuente": "salida de contacto-vns.js, sección 3 (escalón en el canto); 16-revision-concepto-a-operacion.md:21 y :65"
+        },
+        {
+          "afirmacion": "(c) El '~70 %' está mal expresado. En todos los escenarios el cociente bamboleo/corrido da ≈ 0,70 en norma, es decir que las componentes perpendicular y a lo largo del eje son iguales: en potencia (cuadratura) es 50/50, no 70/30. Además, en el caso de la proyección el cociente de componentes es 1,20/0,23, casi todo bamboleo, y no el 70 %.",
+          "grado": "confirmado",
+          "fuente": "contacto-vns.js:207-213 (resPerp y v60); salida de la sección 3 (por ejemplo 3,806 y 2,683); 16-revision-concepto-a-operacion.md:80"
+        },
+        {
+          "afirmacion": "(c) 'No lo corrige un autoguiado de un solo eje' es demasiado fuerte. Una rotación ω perpendicular al eje polar mueve la estrella en AR con un factor -sin δ·cos(h-a): solo es puramente en declinación con δ = 0. Para blancos australes de δ -50 a -70 (Carina, Nubes) el guiado en AR absorbe buena parte del bamboleo. La tabla de velocidad, en cambio, solo corrige la componente a lo largo del eje: eso sí se sostiene.",
+          "grado": "probable",
+          "fuente": "cálculo: e×s·RA = -sinδ cos(h-a), con s = (cosδ cos h, cosδ sin h, sinδ); contacto-vns.js:154-155"
+        },
+        {
+          "afirmacion": "(c y e) La métrica toma |ω| como movimiento de la estrella. Es una cota superior: la componente de ω paralela a la línea de visión es rotación de campo y no corre el centro. La norma sobreestima el corrido; es conservador y no es un error, pero el valor real depende del blanco.",
+          "grado": "probable",
+          "fuente": "contacto-vns.js:210 (d1 = norm(dr)*AS)"
+        },
+        {
+          "afirmacion": "(d) Se sostiene como cálculo. El desalineo γ da 31,8' a 45 min, con 74 µm de luz en 7,94 mm, y la envolvente sobre el espesor marca arista en 91 de 91 minutos. Pero el código declara arista con |w| = t/2 ± 1e-6, y como W incluye exactamente ±t/2, cualquier γ distinto de 0 la marca, aunque la luz sea de 1 µm y la deformación elástica (Hertz) la cubra. Desde ~10 min, con micras de luz, el contacto real es de línea parcial. 'Arista' sin umbral de luz frente a aplastamiento exagera.",
+          "grado": "probable",
+          "fuente": "contacto-vns.js:118, :126, :223-229; salida de la sección 1 (5 min: 1 µm de luz)"
+        },
+        {
+          "afirmacion": "(d) El Hertz de arista viva, 4850 MPa, usa ρ = 0,5 mm y E* = 115 GPa con la fórmula de esfera equivalente √(rρ). Es una hipótesis de geometría: un canto láser real tiene un radio y una rebaba no medidos.",
+          "grado": "hipotesis",
+          "fuente": "contacto-vns.js:233-236 y :304"
+        },
+        {
+          "afirmacion": "(e) La métrica 'corrido en 60 s' = max|res(k) - res(k-1)| con paso de 1 min mira solo los extremos de cada foto, no la excursión dentro de la foto (el emborronado). Con ~2-3 mm de canto por minuto, la ondulación de 5 mm queda en Nyquist: el resultado depende de la fase del muestreo, y una ondulación más corta que el paso de la grilla (o que la tabla de 0,25 mm) se pierde o sale con alias. Para ondas cortas hay que muestrear cada ~5 s y medir max-min dentro de la ventana.",
+          "grado": "probable",
+          "fuente": "contacto-vns.js:184-185 (paso de 1 min), :209-214, :138 (du = 0,25 mm), :272 (canto-5)"
+        },
+        {
+          "afirmacion": "(e) Restar la recta en θ está bien justificado. El término lineal perpendicular equivale a un eje polar corrido, y el término lineal a lo largo del eje es un error de velocidad constante. Pero presupone una puesta en estación sobre el eje virtual (por ejemplo, alineación por deriva), no la de un buscador polar.",
+          "grado": "probable",
+          "fuente": "contacto-vns.js:201-207"
+        },
+        {
+          "afirmacion": "Las pruebas de probar-contacto.js pasan 10 de 10, con sabotajes S1-S4 que se ponen en rojo. Pero ninguna prueba que el término atribuido al radio escale con r, que es justamente lo que falla en (a).",
+          "grado": "confirmado",
+          "fuente": "node C:/Users/frans/Desktop/claude-acceso/proyectos/ingenieria/telescopio/docs/probar-contacto.js (salida 'Todo en verde')"
+        }
+      ],
+      "implicancia": "Las tolerancias de micrones (canto de 1-2 µm, salto de 2 µm) siguen en pie, porque la palanca se sostiene. Lo que cambia es todo lo demás. (1) La causa de los 1,2\" de la proyección hay que reidentificarla antes de presentarla como \"el método de trazado por el radio\": no escala con r. (2) Hay que corregir el \"70 % bamboleo\": es 50/50 en potencia, y para blancos australes el guiado en AR rescata una parte. Eso puede bajar el peso de la conclusión \"el guiado no lo cura\" en el doc 16 §2-3. (3) La métrica necesita un muestreo dentro de la foto (cada ≤ 5 s, excursión max-min) antes de usarla para fijar la tolerancia de las ondas de 5 mm. (4) \"Arista\" necesita un umbral de luz frente a la deformación elástica antes de exigir canto sin rebaba o rodillo basculante por ese motivo."
+    },
+    {
+      "frente": "canto laser 8 mm",
+      "resumen": "Con 6 minutos no pude conseguir las tablas de la ISO 9013, que es paga. Lo que sí está claro: un canto cortado a láser en acero de 8 mm queda uno o dos órdenes de magnitud por encima de los 1-2 um de ondulación que pide la pista. Tiene estrías de decenas de um, la escuadra falla en décimas de mm y la tolerancia de contorno es de unas décimas de mm. El láser sirve para recortar la chapa, no para hacer de pista. Lo que se acerca a los micrones es la electroerosión por hilo con varias pasadas de acabado: Ra de 0,1-0,3 um y entre ±2,5 y ±10 um de contorno según la fuente, a unos USD 75-125 la hora en un taller comercial. El fresado con pasada de acabado o el rectificado de perfil quedan sin cotizar ni medir en esta pasada. Hay una pregunta abierta que puede cambiar todo: a ritmo sideral el rodillo recorre muy poco canto en 60 s, así que importa la ondulación en esa longitud de onda (y el rodillo filtra las más cortas), no el error de contorno total.",
+      "hallazgos": [
+        {
+          "afirmacion": "La ISO 9013:2017 (con la enmienda A1:2024) clasifica el corte térmico con dos medidas: la tolerancia de perpendicularidad o inclinación u y la altura media del perfil Rz5. La clase final la da el peor de los dos valores. Para láser cubre de 0,5 a 32 mm. La norma misma aclara que no trata la planitud como tal, y no tiene ninguna medida de ondulación a lo largo del contorno, que es justo lo que necesita la pista.",
+          "grado": "confirmado",
+          "fuente": "https://www.evs.ee/en/iso-9013-2017 ; https://knowledge.bsigroup.com/products/thermal-cutting-classification-of-thermal-cuts-geometrical-product-specification-and-quality-tolerances ; https://fabcon.com/articles/?p=544"
+        },
+        {
+          "afirmacion": "Fórmulas de la ISO 9013 que recuerdo de memoria. No las pude verificar: la norma es paga y ninguna página pública las muestra. Perpendicularidad u en mm, con a = espesor: clase 1 = 0,05+0,003a; clase 2 = 0,15+0,007a; clase 3 = 0,4+0,01a; clase 4 = 0,8+0,02a; clase 5 = 1,2+0,035a. Rz5 en um: clase 1 = 10+0,6a; clase 2 = 40+0,8a; clase 3 = 70+1,2a; clase 4 = 110+1,8a. Con a = 7,94 mm da u entre 0,074 mm (clase 1) y 0,23 mm (clase 3), y Rz5 entre 15 um (clase 1) y 80 um (clase 3).",
+          "grado": "hipotesis",
+          "fuente": "memoria propia, sin verificar; tabla en ISO 9013:2017 §7, la vista previa de https://webstore.ansi.org/preview-pages/ISO/preview_ISO+9013-2017.pdf muestra la estructura pero no los valores"
+        },
+        {
+          "afirmacion": "Un láser de fibra moderno bien ajustado suele llegar a la clase 1 o 2 de la ISO 9013 en acero al carbono hasta unos 12 mm. Aun en clase 1, el Rz5 de una chapa de 8 mm queda en unos 15 um, y la escuadra en unas 70 um.",
+          "grado": "hipotesis",
+          "fuente": "https://fabcon.com/articles/?p=544 (un proveedor, nota de divulgación); los números en um salen de las fórmulas no verificadas de arriba"
+        },
+        {
+          "afirmacion": "En corte con láser de fibra, el canto cortado con oxígeno deja estrías más lisas que el cortado con nitrógeno, pero queda cubierto por una capa de óxido frágil. El canto con nitrógeno sale brillante. Para una pista de rodadura, esa capa de óxido es un problema aparte de la rugosidad.",
+          "grado": "probable",
+          "fuente": "https://eprints.nottingham.ac.uk/14057/ (tesis de doctorado de Nottingham, 2014, láser de fibra IPG de 2 kW) ; https://info.lagunatools.com/choosing-the-right-gases-for-fiber-laser-cutters"
+        },
+        {
+          "afirmacion": "El tamaño y la densidad de las estrías crecen con el espesor de la chapa, y con oxígeno la rugosidad mínima depende de los parámetros. Hay un trabajo que mide de 3 a 10 mm, pero no pude sacar el valor para 8 mm.",
+          "grado": "probable",
+          "fuente": "https://quantum-electronics.ru/wp-content/uploads/2014/en/15412.pdf ; https://www.mas.bg.ac.rs/_media/istrazivanje/fme/vol50/4/16_m._duspara_et_al.pdf"
+        },
+        {
+          "afirmacion": "Electroerosión por hilo: la pasada de desbaste deja Ra de 1,5-3 um. Con tres pasadas de acabado baja a unos 0,3 um, y con más pasadas se acerca a 0,1 um. El fabricante Mitsubishi da 6-7 pasadas para Ra de 0,1 um.",
+          "grado": "probable",
+          "fuente": "https://fathommfg.com/?p=9317 ; https://mmsonline.com/articles/buying-a-wire-edm-speed-accuracy-and-finish"
+        },
+        {
+          "afirmacion": "Tolerancia de contorno en electroerosión por hilo: ±2,5 um medido en una pieza gruesa de carburo, no de acero. Las guías generales dicen ±5-10 um como típico, y otra fuente da ±2 um en acero de herramientas; se contradicen entre sí. Cada pasada extra que ajusta la tolerancia suma horas de máquina.",
+          "grado": "probable",
+          "fuente": "https://mmsonline.com/articles/buying-a-wire-edm-speed-accuracy-and-finish ; https://seller.alibaba.com/blogs/2026/southeast-asia/machinery/wire-edm-precision-cutting-guide-alibaba-b2b"
+        },
+        {
+          "afirmacion": "Costo de la electroerosión por hilo: en talleres comerciales de EE. UU., unos USD 75-125 la hora. En un taller universitario de Canadá, USD 40-45 la hora externa (subsidiado). Hay un rango no documentado de USD 4-75 la hora para China. El alambre es una parte chica del costo: USD 2,5-6 por hora.",
+          "grado": "hipotesis",
+          "fuente": "https://industrialmonitordirect.com/blogs/knowledgebase/wire-edm-job-pricing-estimating-costs-per-square-inch ; https://eng.uwo.ca/departments-units/university-machine-services/rates.html ; https://www.mmsonline.com/articles/the-hidden-cost-of-edm-wire-consumption"
+        },
+        {
+          "afirmacion": "No encontré datos medidos ni de fabricante para fresado CNC de contorno con pasada de acabado, rectificado de perfil ni lapeado de un canto curvo en chapa de 8 mm: ni ondulación ni costo. Quedan sin cubrir.",
+          "grado": "hipotesis",
+          "fuente": "búsquedas de esta sesión sin resultado (WebSearch, 2026-10-09)"
+        }
+      ],
+      "implicancia": "Requisitos de pista de L2-PLT-02/03 y riesgo R12-R15 (docs/16). Un canto cortado a láser no puede ser la pista, aunque la chapa salga de láser. Su rugosidad y su error de forma son decenas a cientos de veces más grandes que los 1-2 um que pide la pista. Con un error de canto de ~0,27 arcsec por um, solo las estrías ya rompen el presupuesto de 1,5 arcsec. El orden de magnitud no depende de las fórmulas sin verificar: con el láser no llega. Hay dos caminos para decidir mañana. (a) Mandar a hacer la pista con una terminación de micrones: electroerosión por hilo con 3 o más pasadas de acabado, que es el único proceso con números cerca del requisito, cotizado por hora en un taller local; o rectificado o fresado con medición. (b) Revisar el requisito. A ritmo sideral, el rodillo recorre poco canto en 60 s, así que lo que se ve por foto es la ondulación en esa longitud de onda, y el rodillo filtra las más cortas (hipótesis que se puede calcular con contacto-vns.js). Si eso alcanza, el requisito pasaría de error de contorno absoluto a ondulación por banda de frecuencia. Antes de pedir presupuestos conviene conseguir la tabla real de la ISO 9013:2017 y una cotización local de electroerosión por hilo."
+    },
+    {
+      "frente": "rodillos de precision",
+      "resumen": "Comprar precisión no alcanza: un 608 P4 deja hasta 4 µm de salto en el aro exterior y un P5, 6. Para bajar de 2 µm hace falta un P2 (2,5 µm), que es caro y difícil de conseguir. Los rodillos de leva de catálogo (INA LR/KR/NATR) vienen abombados de fábrica y no encontré que publiquen una clase de precisión. Lo más simple que cumple es lo que ya dice docs/16 D3: una camisa de acero cilíndrica, sin abombar, de ≥20 mm de ancho, sobre dos 608 de marca comunes, rectificada en su propio eje y verificada con comparador milesimal. Así el salto de los rulemanes se corrige al rectificar en vez de sumarse. No encontré precios en Argentina: hay que pedirlos a un distribuidor.",
+      "hallazgos": [
+        {
+          "afirmacion": "Salto radial del aro exterior (Kea máx) para diámetro exterior de 18-30 mm, que incluye el 608 de 22 mm: clase 0 (P0) 15 µm, clase 6 (P6) 9 µm, clase 5 (P5) 6 µm, clase 4 (P4) 4 µm, clase 2 (P2) 2,5 µm. Para 6-18 mm: 15/8/5/3/1,5. Los valores vienen de la tabla JIS B 1514-1 publicada por MinebeaMitsumi, que sigue a ISO 492.",
+          "grado": "confirmado",
+          "fuente": "https://product.minebeamitsumi.com/en/technology/bearing/ballbearings_cat-3_004-07.html"
+        },
+        {
+          "afirmacion": "Las tablas de GMN (fabricante, ISO 492/ABMA 20) dan los mismos Kea para la banda de 18-30 mm: P6 9,0 µm y P5 6,0 µm. P0 y P4 salen de una sola fuente.",
+          "grado": "confirmado",
+          "fuente": "https://gmnbt.com/assets/pdf/resources/gmn-precision-tolerance-p5-n2.pdf"
+        },
+        {
+          "afirmacion": "Salto radial del aro interior (Kia máx) para agujeros de 2,5-10 mm, que incluye el 608: P0 10 µm, P6 6, P5 4, P4 2,5, P2 1,5. Importa si gira el eje y el aro exterior queda fijo.",
+          "grado": "confirmado",
+          "fuente": "https://product.minebeamitsumi.com/en/technology/bearing/ballbearings_cat-3_004-07.html"
+        },
+        {
+          "afirmacion": "Con 2 µm de requisito no alcanza ni un 608 P4 (4 µm). Hace falta un P2 (2,5 µm), y ni así cumple estricto. Con 4 µm alcanza un P4 justo. Eso sale de cruzar las tablas de arriba con L2-PLT-02 / docs/16 D3.",
+          "grado": "probable",
+          "fuente": "C:/Users/frans/Desktop/claude-acceso/proyectos/ingenieria/telescopio/docs/16-revision-concepto-a-operacion.md:177"
+        },
+        {
+          "afirmacion": "El INA LR 608 2RSR es un rodillo de pista de 24 mm de diámetro exterior y 7 mm de ancho, con el aro exterior abombado de serie (perfil R500, esférico de 500 mm de radio). Los listados no publican su salto radial ni su clase de tolerancia.",
+          "grado": "confirmado",
+          "fuente": "https://csapagy-bolt.hu/catalog-item/INA_MED/track-rollers/31730"
+        },
+        {
+          "afirmacion": "En la familia NATR de Schaeffler/SKF el R500 es el perfil estándar. El KR versión PPA viene abombado, y el sufijo X indica superficie cilíndrica. No encontré en esta búsqueda la clase de tolerancia ni el salto de KR/NATR. Mi hipótesis es que son clase normal (PN), no de precisión: hay que confirmarlo en la ficha de medias.schaeffler.com.",
+          "grado": "hipotesis",
+          "fuente": "https://www.abf.store/s/en/bearings/KR22-PP-A-NMT-INA/547243"
+        },
+        {
+          "afirmacion": "Un rodillo abombado R500 es malo para esta pista porque el contacto camina 8,2 mm a lo largo del rodillo en ±45 min (docs/16 D2). Si el contacto arranca en la cresta, el radio efectivo baja x²/(2R) = 4,1²/1000 ≈ 17 µm al llegar a 4,1 mm. Eso suma unos 4,5 arcsec en toda la carrera, aunque es una deriva suave de ~0,75 µm por foto en la punta (~0,2 arcsec). Además, el ancho de 7 mm no llega a los ≥20 mm pedidos. Conviene que lo valide contacto-vns.js.",
+          "grado": "probable",
+          "fuente": "C:/Users/frans/Desktop/claude-acceso/proyectos/ingenieria/telescopio/docs/16-revision-concepto-a-operacion.md:168"
+        },
+        {
+          "afirmacion": "En rectificadoras cilíndricas buenas, el rectificado entre puntas logra redondez de 0,2-0,6 µm. Son datos de fabricante e históricos sin condiciones de ensayo: Kellenberger declara menos de 0,2 µm y una Jones & Shipman de 1959, 0,25 µm entre puntas muertas. Un taller común probablemente quede en 1-2,5 µm; también es una sola fuente, informal.",
+          "grado": "hipotesis",
+          "fuente": "https://emerald.com/insight/content/doi/10.1108/eb033137/full/html"
+        },
+        {
+          "afirmacion": "Rectificar la camisa montada en sus propios 608 corrige casi todo el salto repetible: la excentricidad del aro, el espesor de pared del aro (Kea) y la concentricidad agujero-exterior de la camisa. Lo que queda es el salto no repetible del rulemán, porque la jaula gira a ~0,4 de la velocidad del aro y el dibujo de las bolas no se repite con la camisa. Ese resto suele estar debajo de 1 µm. No lo medí ni encontré la fuente en esta corrida.",
+          "grado": "hipotesis",
+          "fuente": "C:/Users/frans/Desktop/claude-acceso/proyectos/ingenieria/telescopio/docs/16-revision-concepto-a-operacion.md:178"
+        },
+        {
+          "afirmacion": "No encontré precios en Argentina de 608 P4 de SKF, NSK o FAG. Afuera: 8 Uxcell 608 «P4/ABEC-7» a USD 11,49 en Walmart EE.UU., y un 608-2RS RS PRO común a 2,02 EUR en RS España. ABEC-7 en rulemanes de skate suele ser marketing sin fabricante que lo respalde, así que no sirve como dato de salto.",
+          "grado": "hipotesis",
+          "fuente": "https://www.walmart.com/ip/650926451"
+        },
+        {
+          "afirmacion": "Un comparador de 0,01 mm no ve 2 µm: la verificación del salto pide uno milesimal (0,001 mm). Ya está escrito en docs/16 D3.",
+          "grado": "probable",
+          "fuente": "C:/Users/frans/Desktop/claude-acceso/proyectos/ingenieria/telescopio/docs/16-revision-concepto-a-operacion.md:179"
+        }
+      ],
+      "implicancia": "Confirma y endurece la decisión D2/D3 de docs/16 y el requisito de salto ≤0,002 mm por rodillo de L2-PLT-02 (docs/16:340): (1) Se descartan los rodillos de pista de catálogo (LR/KR/NATR), porque vienen abombados R500, son angostos y su clase de precisión no está publicada. Si se quiere uno de catálogo, tiene que ser cilíndrico (sufijo X) y con ficha de tolerancias pedida a Schaeffler. (2) Comprar 608 P4 no hace falta y tampoco alcanza para 2 µm (dan 4 µm). Va una camisa de acero cilíndrica de ≥20 mm sobre dos 608 de marca P0 o P6 y eje fijo, rectificada montada en sus propios rulemanes, sin abombar. Esto pasa del FAB a la especificación del taller. (3) Se suma a la lista de herramientas un comparador milesimal (0,001 mm), y el criterio de aceptación es medir el salto de la camisa ya montada, no el del rulemán. (4) Queda abierto el precio local: hay que cotizar con un distribuidor de rodamientos y con un taller de rectificado cerca de Villa Adelina (docs/15). También falta que contacto-vns.js recalcule el efecto del abombado si alguien insiste con un rodillo de catálogo."
+    },
+    {
+      "frente": "plataformas comerciales",
+      "resumen": "Con el tiempo que había, no encontré ningún fabricante que publique un número de seguimiento sin guiar en arcsec: ni Osypowski (Equatorial Platforms) ni Round Table ni Sumerian. Vogel tampoco: su página de plataforma es un frameset y no la pude leer. Tampoco hay una medición de usuario a 1200 mm y 60 s. Lo que aparece son anécdotas visuales (Saturno centrado unos 5 min a 266x) y un vendedor que dice que para foto hay que calzarla. Las platinas de la BAA llevan una tira de bronce en el sector contra un rodillo de acero inoxidable, sin ninguna cifra de precisión. Por eso los 60 s sin guiar con 1,5 arcsec de plataforma no quedan validados ni refutados: la referencia comercial no los respalda, y nadie publica que los logre con un canto cortado a láser.",
+      "hallazgos": [
+        {
+          "afirmacion": "Equatorial Platforms (Osypowski) no publica ninguna cifra de precisión en arcsec. En su sitio dice que sigue con suavidad y precisión, lista 'Astrophotography and CCD Imaging' como uso y menciona una plataforma de aluminio y una herramienta de alineación polar. No dice nada de guiado ni de puerto ST-4.",
+          "grado": "confirmado",
+          "fuente": "https://www.equatorialplatforms.com/"
+        },
+        {
+          "afirmacion": "Un vendedor de una Osypowski usada (construida para 40 N) dice que anda bien a +-5-6 grados de latitud, pero que para seguimiento apto para astrofoto hay que calzarla (shim). La tolerancia que alcanza para visual no alcanza para foto.",
+          "grado": "hipotesis",
+          "fuente": "https://astromart.com/classifieds/astromart-classifieds/mounts-equatorial/show/tom-osypowski-equatorial-platform-for-dobsonian-telescope"
+        },
+        {
+          "afirmacion": "Un usuario con una Osypowski hecha para 43 N, usándola a 45 N, mantuvo Saturno centrado unos 5 min a 266x. Es una prueba visual: no mide arcsec ni da una cifra útil para fotos de 60 s a 0,67 arcsec/px.",
+          "grado": "hipotesis",
+          "fuente": "https://rochesterskies.org/?p=10711"
+        },
+        {
+          "afirmacion": "Astronomy Hacks (O'Reilly) dice que la única plataforma comercial lo bastante precisa para foto de larga exposición es la de Osypowski. Es una afirmación cualitativa, sin número.",
+          "grado": "probable",
+          "fuente": "https://oreilly.com/library/view/astronomy-hacks/0596100604/ch04s21.html"
+        },
+        {
+          "afirmacion": "BAA (Martin Lewis, parte 3): el sector lleva una tira de bronce que apoya sobre un rodillo motriz de acero inoxidable de 30 mm, con diámetro efectivo de 1056 mm. La plataforma sigue 60-80 min. El artículo no da precisión en arcsec ni largo de exposición, y no menciona rodillo abombado ni basculante.",
+          "grado": "confirmado",
+          "fuente": "https://britastro.org/section_information_/telescope-making/equatorial-platforms-part-three"
+        },
+        {
+          "afirmacion": "BAA (parte 2): en el VNS, los cantos de los sectores tienen que ser cónicos porque los rodillos son horizontales. Lo presenta como la variante d'Autume mecánicamente más robusta, y la carga vertical sobre el rodillo maximiza la fricción.",
+          "grado": "confirmado",
+          "fuente": "https://britastro.org/section_information_/equatorial-platforms-part-2"
+        },
+        {
+          "afirmacion": "Un usuario de una plataforma con paso a paso vio que la velocidad varía a lo largo del ciclo de 1 h y sospechó de la curvatura de los sectores. Otro constructor encontró que el brazo tangente adelanta el sector al principio y al final del recorrido, y pasó a mando por cinta (tape drive). Los dos casos coinciden en que el error de geometría del sector o del mando es el que domina.",
+          "grado": "probable",
+          "fuente": "https://faculty.washington.edu/quarn/stpmtr.html ; https://www.iceinspace.com.au/forum/showthread.php?p=1115513"
+        },
+        {
+          "afirmacion": "Wikipedia afirma que con buena alineación polar es posible hacer CCD con precisión sub-arcsec. No da fuente primaria ni medición.",
+          "grado": "hipotesis",
+          "fuente": "https://en.wikipedia.org/wiki/Equatorial_platform"
+        },
+        {
+          "afirmacion": "Un simulador de patente (USPTO 7982951, 'Digital tracking platform') estima unos 10 arcsec de error medio por actuador y calibración, reducibles a unos pocos arcsec calibrando con estrellas, y sin contar la flexión. Ni el mejor caso del modelo llega a 1,5 arcsec.",
+          "grado": "probable",
+          "fuente": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/7982951"
+        },
+        {
+          "afirmacion": "La página de plataforma de Reiner Vogel es un frameset y no pude extraer el contenido de los frames. Que yo sepa, Vogel publica plantillas de los segmentos VNS que los usuarios cortan (IceInSpace), pero no encontré una cifra de precisión suya.",
+          "grado": "hipotesis",
+          "fuente": "http://www.reinervogel.net/index_e.html?/Plattform/Plattform_e.html ; https://www.iceinspace.com.au/forum/showthread.php?p=1307800"
+        },
+        {
+          "afirmacion": "No encontré ningún dato sobre Round Table Platforms, Sumerian Optics ni 'Ostahowski' (la búsqueda devuelve solo Osypowski): ni precisión, ni material de los sectores, ni guiado.",
+          "grado": "confirmado",
+          "fuente": "búsquedas web 2026-10-09 (sin resultados del fabricante)"
+        }
+      ],
+      "implicancia": "El requisito de 60 s sin guiar a 1200 mm con 1,5 arcsec de plataforma (L2-PLT-02 y su presupuesto) no tiene respaldo externo: ningún fabricante ni usuario documenta algo así, y el dato que más se le acerca (el modelo de patente) da varios arcsec. Esto refuerza lo que ya mostró docs/16: el canto cortado a láser, con 1-2 µm de ondulación, no es realista sin mecanizado. Propongo cambiar la dirección: (a) bajar el requisito a subs cortas sin guiar (10-20 s, a decidir con el presupuesto medido), o (b) prever guiado en AR desde el diseño (corrección del motor por ST-4 o por pulsos), de modo que la pista solo tenga que ser suave a escala de minutos y no de micrones. Antes de mecanizar nada conviene medir la pista real con un comparador. Queda pendiente, si se quiere cerrar el tema: leer los frames de Vogel (start_e.html), Cloudy Nights y BAA parte 1 buscando mediciones con PHD2."
+    },
+    {
+      "frente": "pivote y rotula",
+      "resumen": "Para el pivote conviene una bolilla de rodamiento templada (1/2\" a 5/8\", grado G10-G25) apoyada en un asiento cónico templado. Las rótulas comerciales no van, por dos motivos. Las de cazoleta plástica (POM, amortiguador a gas) fluyen bajo carga sostenida y con el tiempo abren juego axial. Las de acero (DIN 71802, rod ends PHS) vienen con juego de fábrica y el catálogo no da cuánto. La bolilla en el cono no tiene juego porque la carga es siempre de compresión y la gravedad la precarga. En acero templado la fluencia lenta a esta tensión es despreciable. La trampa es el material del cono: SAE 1010 blando se marca (abolla) con 3 puntos de contacto. El asiento va templado (≥58 HRC) o con la bolilla asentada para que el contacto sea un anillo. No encontré precios en pesos, así que en Argentina hay que preguntar en una casa de rodamientos.",
+      "hallazgos": [
+        {
+          "afirmacion": "Las cazoletas de plástico de las rótulas fluyen axialmente bajo carga sostenida (creep), y eso abre juego axial con el tiempo. Los aros de cierre son elásticos y no sostienen bien la bola cuando la carga sube.",
+          "grado": "probable",
+          "fuente": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/8282305 (patente US 8282305, ball sleeve joint)"
+        },
+        {
+          "afirmacion": "En las rótulas de resorte a gas, el contacto de la cazoleta se gasta con el uso y aparece juego (ruido). Los fabricantes de resortes a gas no recomiendan terminales plásticos para cargas altas y prefieren los de acero.",
+          "grado": "probable",
+          "fuente": "https://patents.justia.com/patent/20060140712 ; https://www.tygasspring.com/gas-spring-end-fittings-bracket-product/ ; https://www.mcmaster.com/products/hinges/snap-on-ball-socket-end-fittings-for-gas-springs/"
+        },
+        {
+          "afirmacion": "El POM (acetal) fluye a tensión constante y puede llegar a romperse por creep. Hay un caso de piezas de POM copolímero que fallaron por creep a los 4-5 años con una tensión que parecía tolerable.",
+          "grado": "confirmado",
+          "fuente": "https://madisongroup.com/wp-content/uploads/2023/01/Jansen_ANTEC_-2021_creep.pdf ; https://publicacoes.softaliza.com.br/cilamce-2025/article/view/14246"
+        },
+        {
+          "afirmacion": "DIN 71802 es una cazoleta de acero clase 5 (5.8), cincada, con bola templada. La bola entra a presión y la retiene un circlip, con fuerza de arranque de 30 a 100 N según el tamaño (M5 a M14x1,5). El catálogo ofrece una versión 'con juego en el asiento' y no da el valor del juego de ninguna variante. Fue pensada para varillajes, no como asiento de precisión.",
+          "grado": "confirmado",
+          "fuente": "https://ganternorm.com/en/products/3.6-Moving-transferring-connecting-with-shafts-and-joints/Angled-ball-joints/DIN-71802-Angled-ball-joints ; https://www.boteco.com/es/scheda-tecnica/y718-rotula-angular-de-acero-din-71802-forma-c"
+        },
+        {
+          "afirmacion": "Los rod ends con forro de PTFE (SKF SAKB..F, PFE..U) declaran carga estática de 50 kN (SAKB 20 F), sobradísima para 26 kg. En las fichas encontradas no figura el juego radial interno ni un dato de creep del forro. El PTFE fluye en frío bajo carga sostenida.",
+          "grado": "probable",
+          "fuente": "https://acorn-ind.co.uk/p/sakb20f-skf"
+        },
+        {
+          "afirmacion": "Un rod end PHS10 (M10, 10 mm de agujero) cuesta en el exterior unos US$12,64 en bronce (Dunlop) y £43 en acero/PTFE (Simply Bearings). No encontré precio en pesos argentinos de PHS ni de DIN 71802: en Mercado Libre 'rótula' trae rótulas de suspensión de auto.",
+          "grado": "confirmado",
+          "fuente": "https://www.123bearing.com/bearing-housing/rod-end/phs/phs10-bronze-dunlop ; https://www.simplybearings.co.uk/products/phs10ec"
+        },
+        {
+          "afirmacion": "En las plataformas ecuatoriales caseras el pivote sur suele ser desde 'un perno en un hueco' hasta un perno a presión en un par de rodamientos. El Poncet original usaba un clavo. No apareció ninguna especificación formal de bola en cono para plataformas.",
+          "grado": "hipotesis",
+          "fuente": "https://archive.model-engineer.co.uk/forums/postings.asp?th=162957 ; https://britastro.org/section_information_/telescope-making/equatorial-platforms-pt-1"
+        },
+        {
+          "afirmacion": "Hertz bola-cono, cuenta propia: bolilla de 12,7 mm, cono de 90° de acero, 200 N axiales repartidos en 3 puntos (94 N normales cada uno). Da a ≈ 0,16 mm, presión pico ≈ 1,8 GPa, aplastamiento ≈ 3,9 µm por contacto (≈5,5 µm axial) y rigidez axial ≈ 50 N/µm. Una variación de carga de unos pocos N en el recorrido mueve el pivote décimas de micrón. 1,8 GPa supera de lejos la fluencia del SAE 1010 (≈0,3 GPa; la plasticidad arranca con presión pico ≈ 1,6 veces la fluencia), así que el cono blando se marca. En acero de rodamiento templado el límite estático es ≈4 GPa (ISO 76) y queda holgado. Con contacto en anillo (cono verdadero o asiento acuñado con la misma bolilla) la presión baja mucho.",
+          "grado": "probable",
+          "fuente": "cálculo de Hertz propio de esta sesión, a partir de la teoría estándar de contacto y de los datos del pedido (18-26 kg, eje a 34,5°); ISO 76 citado de memoria, sin verificar"
+        },
+        {
+          "afirmacion": "Con la carga siempre de compresión (gravedad sobre el pivote, la mesa se inclina ±7,5° en una hora), el juego de cualquier rótula queda tomado mientras la componente lateral no supere el rozamiento. La bolilla en el cono no tiene holgura que tomar: se centra sola. En las rótulas, en cambio, cuenta el juego del asiento y el creep del forro o la cazoleta.",
+          "grado": "probable",
+          "fuente": "razonamiento propio de esta sesión sobre la geometría del pedido; C:/Users/frans/Desktop/claude-acceso/proyectos/ingenieria/telescopio/docs/16-revision-concepto-a-operacion.md (no leído en esta tarea)"
+        }
+      ],
+      "implicancia": "Cambia la decisión del pivote: no usar una rótula comercial y especificar una bolilla de rodamiento templada (G10-G25, 12,7-15,9 mm) en un asiento cónico. El asiento puede ser un avellanado de 90-120° en acero templado, una arandela de acero de rodamiento o un asiento acuñado con la misma bolilla, que la bolilla quede capturada por una tapa y no lleve la carga, que la carga quede siempre en compresión, y nada de SAE 1010 blando en el contacto. Entran dos requisitos verificables. Primero, la variación del aplastamiento en el recorrido (≈0,1 µm según el cálculo, verificable con un comparador de 1 µm bajo carga). Segundo, que no haya marca en el asiento después de una carga estática de 30 kg sostenida 24 h. El POM queda descartado por creep. El rod end con PTFE queda como alternativa sólo si se mide su juego y su asentamiento. Pendiente: cotizar en una casa de rodamientos de Buenos Aires una bolilla suelta y una PHS10, porque no se encontraron precios en pesos."
+    },
+    {
+      "frente": "rocio y operacion",
+      "resumen": "Para la operación nocturna en Villa Adelina, lo que pesa en el diseño son tres cosas. La primera es que el foco se corre con el frío. Un tubo de acero corre el foco unos 12 µm por °C (8 µm netos con espejo de pyrex). Eso agrega unos 0,34 arcsec de desenfoque por grado, a cargar contra el presupuesto de 1,5 arcsec. La segunda es el rocío. En invierno la humedad relativa media es de 78-79 %, así que de noche la temperatura queda a 1-3 °C del punto de rocío. El secundario y el buscador necesitan calefactor: unos 2-3 W cada uno, alrededor de 1,5-3,5 Ah por noche a 12 V. La tercera es que el primario de 200 mm pide alrededor de 1 h de aclimatación (hipótesis; con ventilador, menos). En invierno, cerca del 50 % del tiempo el cielo tiene menos del 60 % cubierto. Faltan las normales oficiales del SMN de días despejados.",
+      "hallazgos": [
+        {
+          "afirmacion": "Calefactor para secundario pegado de newtoniano (TS/Altair): 2 W, 12 V, 0,17 A, con diámetro exterior de unos 100 mm. El Omegon es una tira de 0,2 W/cm: 12-14 cm dan 2,4-2,8 W. Para el secundario de un 200 mm, 2-3 W.",
+          "grado": "confirmado",
+          "fuente": "https://ww2.astroshop.eu/heater-bands/ts-optics-heater-for-glued-newtonian-secondary-mirrors/p,53087 ; https://www.astroshop.eu/heater-bands/omegon-heater-strap-ssecondary-mirror-heating-band-large/p,56530"
+        },
+        {
+          "afirmacion": "Banda para un buscador de 50 mm u ocular de 1,25\" (Thousand Oaks HB-4/HB-2): 3,0 W a 12 V, 0,25 A. La misma marca recomienda unos 22,4 W para la boca de un tubo de 8\", que en un newtoniano abierto no se usa porque el primario está al fondo.",
+          "grado": "confirmado",
+          "fuente": "https://agenaastro.com/thousand-oaks-dew-heater-band-hb-6.html ; https://astronomics.com/collections/thousand-oaks-optical/products/digital-dew-heater-strip-for-7-to-8-telescopes"
+        },
+        {
+          "afirmacion": "Consumo por noche con secundario (2-3 W) más buscador (3 W): 5-6 W × 8 h = 40-48 Wh, o sea 3,3-4 Ah a 12 V al 100 % de ciclo. Con controlador PWM al 40-50 %, unos 1,5-2 Ah. Hay que sumarlo al presupuesto de batería de la plataforma.",
+          "grado": "probable",
+          "fuente": "cálculo propio con los datos de fabricante citados arriba"
+        },
+        {
+          "afirmacion": "El calor del calefactor del secundario genera corrientes en el tubo. En foros recomiendan pulsarlo bajo (PWM) en vez de dejarlo fijo.",
+          "grado": "hipotesis",
+          "fuente": "https://app.astrobin.com/forum/topic/114481/are-secondary-mirror-heaters-not-good"
+        },
+        {
+          "afirmacion": "Cada cuánto se empaña: no encontré ninguna medición. Estimación: con la humedad media de invierno de 78 % y unos 11 °C, la diferencia entre temperatura y punto de rocío ronda los 3-4 °C de día y baja a 1-2 °C de noche. Un vidrio que mira al cielo se enfría por radiación unos 2-4 °C por debajo del aire. Con eso, en otoño e invierno el secundario y el buscador se empañarían en la primera hora sin calefactor.",
+          "grado": "hipotesis",
+          "fuente": "cálculo con la fórmula de Magnus sobre la humedad de https://es.climate-data.org/location/1207/ ; no medido"
+        },
+        {
+          "afirmacion": "Greer (Sky & Telescope, septiembre de 2000) midió que un espejo de 6\" tardó casi 2,5 h en equilibrarse desde 25 °C de diferencia. Además encontró ondas de calor visibles con apenas ~1 °C (2 °F) entre el espejo y el aire. El ventilador apuntado al dorso es su recomendación para reflectores portátiles.",
+          "grado": "probable",
+          "fuente": "https://www.skyandtelescope.com/wp-content/uploads/Adler-NewtThermal.pdf ; https://deepskywatch.com/Articles/rear-fan-newtonian.html"
+        },
+        {
+          "afirmacion": "El modelo de Cruxis, para un espejo de pyrex de 50 mm de espesor, da unas 3 h sin ventilador para bajar de 10 °C a 1 °C de diferencia, y unos 90 min con ventiladores al dorso.",
+          "grado": "probable",
+          "fuente": "https://cruxis.com/scope/mirrorcooling.htm"
+        },
+        {
+          "afirmacion": "Para un primario de 200 mm × 25 mm, a la escala del modelo de 50 mm por espesor: unos 60-90 min sin ventilador y unos 30-45 min con ventilador al dorso, desde ~10 °C de diferencia. Como la noche de AMBA se sigue enfriando, el espejo nunca llega del todo: el ventilador encendido toda la noche es lo que lo mantiene a ~1 °C del aire.",
+          "grado": "hipotesis",
+          "fuente": "extrapolación propia desde https://cruxis.com/scope/mirrorcooling.htm ; no medido"
+        },
+        {
+          "afirmacion": "Coeficiente de dilatación del acero al carbono: 11,7 µm/m/°C (A36/1020), con un rango de 11-13 para aceros al carbono.",
+          "grado": "confirmado",
+          "fuente": "https://amesweb.info/Materials/Linear-Thermal-Expansion-Coefficient-Metals.aspx"
+        },
+        {
+          "afirmacion": "Corrimiento de foco del tubo de acero: unos 12 µm/°C para ~1,05 m entre primario y portaocular. El espejo también se dilata y alarga su focal: pyrex (3,3 ppm/K) ≈ 4 µm/°C, BK7 (7,1 ppm/K) ≈ 8,5 µm/°C. Neto: unos 8 µm/°C con pyrex y unos 4 µm/°C con BK7, si espejo y tubo van a la misma temperatura. El espejo atrasa, así que en la primera hora manda el tubo.",
+          "grado": "probable",
+          "fuente": "cálculo propio con α del acero de https://amesweb.info/Materials/Linear-Thermal-Expansion-Coefficient-Metals.aspx ; mecanismo en https://astropix.com/wp/?p=1663"
+        },
+        {
+          "afirmacion": "Zona crítica de foco a f/6: CFZ = 2,2·N² µm ≈ 79 µm (λ≈0,45 µm), o 4,88·λ·N² ≈ 97 µm a 550 nm. La NCFZ con seeing de 1,5\", tolerancia de 10 % y 200 mm da ~77 µm, o sea unos ±40 µm. Con 12 µm/°C hay que reenfocar cada ~3-6 °C de caída.",
+          "grado": "probable",
+          "fuente": "https://astronomynow.com/2022/05/23/the-sky-imaging-edition-part-2/ ; https://www.astropix.com/html/astrophotography/astrophotography-formulae.html"
+        },
+        {
+          "afirmacion": "Impacto en el presupuesto de imagen: el desenfoque geométrico mide Δz/N. Con 12 µm de corrimiento por °C a f/6 da 2 µm de diámetro, unos 0,34 arcsec por °C a 1200 mm (≈0,5 píxel de 0,67\"). Un desvío de 3 °C sin reenfocar se come ~1\", del orden del presupuesto de 1,5\" de la plataforma.",
+          "grado": "probable",
+          "fuente": "cálculo propio sobre los dos hallazgos anteriores"
+        },
+        {
+          "afirmacion": "La máscara de Bahtinov genera tres espigas. El foco está cuando la espiga central queda centrada entre las otras dos. Hay máscaras comerciales para 8\" (Farpoint, Kendrick) y se puede cortar una casera.",
+          "grado": "confirmado",
+          "fuente": "https://en.wikipedia.org/wiki/Bahtinov_mask ; https://www.highpointscientific.com/telescope-accessories/astro-photography/misc-astrophotography-accessories/focus-aids"
+        },
+        {
+          "afirmacion": "Dimensionado de la máscara: la regla habitual de los generadores es paso de estructura = focal / factor de Bahtinov (150-200). Para 1200 mm da un paso de ~6-8 mm y ranuras de ~3-4 mm, para un diámetro de 200 mm. Falta verificar la regla en el generador.",
+          "grado": "hipotesis",
+          "fuente": "https://astrojargon.net/MaskGenerator.aspx (no abierto en esta sesión)"
+        },
+        {
+          "afirmacion": "Temperaturas medias 1991-2020 de Buenos Aires: abril 18,2 °C; mayo 14,8; junio 12,0; julio 11,0; agosto 13,0; septiembre 14,9.",
+          "grado": "probable",
+          "fuente": "https://es.hispanopedia.com/wiki/Clima_de_la_ciudad_de_Buenos_Aires (dato del SMN reproducido)"
+        },
+        {
+          "afirmacion": "Humedad relativa media mensual en Buenos Aires: abril 74 %, mayo 78 %, junio 79 %, julio 78 %, agosto 76 %, septiembre 73 %. Con esos valores, el punto de rocío medio de invierno queda unos 3-4 °C debajo de la temperatura media (en julio, ~7 °C contra 11 °C). Las mínimas nocturnas de invierno rondan los 7-9 °C, prácticamente sobre el punto de rocío.",
+          "grado": "probable",
+          "fuente": "https://es.climate-data.org/location/1207/ ; https://weatherspark.com/compare/y/147513~1705/Comparison-of-the-Average-Weather-at-Jorge-Newbery-Airport-and-Los-Angeles"
+        },
+        {
+          "afirmacion": "Fracción del tiempo con menos de 60 % de cielo cubierto en Aeroparque (reanálisis de Weatherspark, no son días despejados): abril 62 %, mayo 52 %, junio 50 %, julio 52 %, agosto 55 %, septiembre 59 %; verano 69-71 %. Estimo unas 8-12 noches útiles por mes en invierno.",
+          "grado": "probable",
+          "fuente": "https://weatherspark.com/compare/y/147513~1705/Comparison-of-the-Average-Weather-at-Jorge-Newbery-Airport-and-Los-Angeles"
+        },
+        {
+          "afirmacion": "Días con cielo claro: sólo apareció febrero, con 11 claros y 5 cubiertos, sin período ni estación declarados. Las normales oficiales 1991-2020 de la OMM para 105 estaciones argentinas, incluida Aeroparque, están en un Excel de NOAA que no se abrió.",
+          "grado": "hipotesis",
+          "fuente": "https://es.hispanopedia.com/wiki/Clima_de_la_ciudad_de_Buenos_Aires ; https://www.nodc.noaa.gov/archive/arc0216/0253808/2.2/data/0-data/documents/Explanatory_Information_Region3.pdf"
+        }
+      ],
+      "implicancia": "Cambian cuatro cosas en los requisitos de operación:\n(1) El desenfoque por temperatura entra al presupuesto de error de 1,5\\\". Con tubo de acero son unos 0,34\\\" por °C. Hace falta un requisito de reenfoque con máscara de Bahtinov (cada ~2-3 °C de caída o cada hora). Si no, ese término hay que asignarlo explícitamente y achicar el margen de la plataforma.\n(2) El presupuesto de energía de 12 V suma los calefactores del secundario y del buscador: 5-6 W, unos 2-4 Ah por noche. La batería se dimensiona con eso más el motor.\n(3) El procedimiento nocturno suma una aclimatación de ≥1 h (hipótesis), o un ventilador al dorso del primario funcionando toda la noche. Ojo: el ventilador mete vibración en la mesa VNS, que es sensible al micrón, y eso hay que verificarlo.\n(4) La campaña de fotos en otoño e invierno cuenta con ~50 % de cielo usable y con rocío casi seguro. El calefactor es requisito, no opción.\nLo pendiente que más pesa es bajar el Excel de normales 1991-2020 (NOAA/OMM) de Aeroparque para tener días despejados y punto de rocío oficiales."
+    }
+  ],
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Investigar"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "refutar la cuenta",
+      "phaseIndex": 1,
+      "phaseTitle": "Investigar",
+      "agentId": "abb1e0289ae19d3c0",
+      "model": "claude-opus-5-5",
+      "state": "done",
+      "startedAt": 1791518047720,
+      "queuedAt": 1791518047674,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Las cuentas cierran en el modelo: corrí probar-contacto.js …",
+      "promptPreview": "Contexto: plataforma ecuatorial VNS casera para un dobson newtoniano 200/1200 (0,67 arcsec/pixel, fotos de 60 s sin guiar, presupuesto de la plataforma 1,5 arcsec por foto) en Villa Adelina, Buenos Aires (34,5 S). La mesa apoya en un pivote y dos chapas de acero SAE 1010 de 5/16\" (7,94 mm) cortadas a laser cuyo canto rueda sobre dos rodillos. La sesion calculo (docs/contacto-vns.js, docs/16-revisi…",
+      "promptFramed": true,
+      "lastProgressAt": 1791518148588,
+      "tokens": 96749,
+      "toolCalls": 5,
+      "durationMs": 100866,
+      "resultPreview": "{\"resumen\":\"Las cuentas cierran en el modelo: corrí probar-contacto.js y dio 10 de 10 en verde, y contacto-vns.js reproduce 1,22\\\" contra 0,00\\\". Pero hay tres cosas mal contadas. Primera, el 0\\\" de la envolvente es tautológico: el mismo cilindro rueda sobre su propia envolvente. Segunda, la causa que el doc le da al 1,2\\\" no se sostiene: con chapa casi sin espesor da 1,55\\\", y con rodillo de 16 m…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "canto laser 8 mm",
+      "phaseIndex": 1,
+      "phaseTitle": "Investigar",
+      "agentId": "a3209413cdffbcd4d",
+      "model": "claude-opus-5-5",
+      "state": "done",
+      "startedAt": 1791518047721,
+      "queuedAt": 1791518047674,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Con 6 minutos no pude conseguir las tablas de la ISO 9013, …",
+      "promptPreview": "Contexto: plataforma ecuatorial VNS casera para un dobson newtoniano 200/1200 (0,67 arcsec/pixel, fotos de 60 s sin guiar, presupuesto de la plataforma 1,5 arcsec por foto) en Villa Adelina, Buenos Aires (34,5 S). La mesa apoya en un pivote y dos chapas de acero SAE 1010 de 5/16\" (7,94 mm) cortadas a laser cuyo canto rueda sobre dos rodillos. La sesion calculo (docs/contacto-vns.js, docs/16-revisi…",
+      "promptFramed": true,
+      "lastProgressAt": 1791518146431,
+      "tokens": 82704,
+      "toolCalls": 7,
+      "durationMs": 98708,
+      "resultPreview": "{\"resumen\":\"Con 6 minutos no pude conseguir las tablas de la ISO 9013, que es paga. Lo que sí está claro: un canto cortado a láser en acero de 8 mm queda uno o dos órdenes de magnitud por encima de los 1-2 um de ondulación que pide la pista. Tiene estrías de decenas de um, la escuadra falla en décimas de mm y la tolerancia de contorno es de unas décimas de mm. El láser sirve para recortar la chapa…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "rodillos de precision",
+      "phaseIndex": 1,
+      "phaseTitle": "Investigar",
+      "agentId": "a7aadd85c0906c0c0",
+      "model": "claude-opus-5-5",
+      "state": "done",
+      "startedAt": 1791518047721,
+      "queuedAt": 1791518047674,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Comprar precisión no alcanza: un 608 P4 deja hasta 4 µm de …",
+      "promptPreview": "Contexto: plataforma ecuatorial VNS casera para un dobson newtoniano 200/1200 (0,67 arcsec/pixel, fotos de 60 s sin guiar, presupuesto de la plataforma 1,5 arcsec por foto) en Villa Adelina, Buenos Aires (34,5 S). La mesa apoya en un pivote y dos chapas de acero SAE 1010 de 5/16\" (7,94 mm) cortadas a laser cuyo canto rueda sobre dos rodillos. La sesion calculo (docs/contacto-vns.js, docs/16-revisi…",
+      "promptFramed": true,
+      "lastProgressAt": 1791518248822,
+      "tokens": 92919,
+      "toolCalls": 10,
+      "durationMs": 199883,
+      "resultPreview": "{\"resumen\":\"Comprar precisión no alcanza: un 608 P4 deja hasta 4 µm de salto en el aro exterior y un P5, 6. Para bajar de 2 µm hace falta un P2 (2,5 µm), que es caro y difícil de conseguir. Los rodillos de leva de catálogo (INA LR/KR/NATR) vienen abombados de fábrica y no encontré que publiquen una clase de precisión. Lo más simple que cumple es lo que ya dice docs/16 D3: una camisa de acero cilín…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "plataformas comerciales",
+      "phaseIndex": 1,
+      "phaseTitle": "Investigar",
+      "agentId": "a74d447848a0796f9",
+      "model": "claude-opus-5-5",
+      "state": "done",
+      "startedAt": 1791518047721,
+      "queuedAt": 1791518047674,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Con el tiempo que había, no encontré ningún fabricante que …",
+      "promptPreview": "Contexto: plataforma ecuatorial VNS casera para un dobson newtoniano 200/1200 (0,67 arcsec/pixel, fotos de 60 s sin guiar, presupuesto de la plataforma 1,5 arcsec por foto) en Villa Adelina, Buenos Aires (34,5 S). La mesa apoya en un pivote y dos chapas de acero SAE 1010 de 5/16\" (7,94 mm) cortadas a laser cuyo canto rueda sobre dos rodillos. La sesion calculo (docs/contacto-vns.js, docs/16-revisi…",
+      "promptFramed": true,
+      "lastProgressAt": 1791518163998,
+      "tokens": 83476,
+      "toolCalls": 10,
+      "durationMs": 115056,
+      "resultPreview": "{\"resumen\":\"Con el tiempo que había, no encontré ningún fabricante que publique un número de seguimiento sin guiar en arcsec: ni Osypowski (Equatorial Platforms) ni Round Table ni Sumerian. Vogel tampoco: su página de plataforma es un frameset y no la pude leer. Tampoco hay una medición de usuario a 1200 mm y 60 s. Lo que aparece son anécdotas visuales (Saturno centrado unos 5 min a 266x) y un ven…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "pivote y rotula",
+      "phaseIndex": 1,
+      "phaseTitle": "Investigar",
+      "agentId": "a83f6cea5f148e705",
+      "model": "claude-opus-5-5",
+      "state": "done",
+      "startedAt": 1791518047721,
+      "queuedAt": 1791518047674,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Para el pivote conviene una bolilla de rodamiento templada …",
+      "promptPreview": "Contexto: plataforma ecuatorial VNS casera para un dobson newtoniano 200/1200 (0,67 arcsec/pixel, fotos de 60 s sin guiar, presupuesto de la plataforma 1,5 arcsec por foto) en Villa Adelina, Buenos Aires (34,5 S). La mesa apoya en un pivote y dos chapas de acero SAE 1010 de 5/16\" (7,94 mm) cortadas a laser cuyo canto rueda sobre dos rodillos. La sesion calculo (docs/contacto-vns.js, docs/16-revisi…",
+      "promptFramed": true,
+      "lastProgressAt": 1791518183148,
+      "tokens": 85606,
+      "toolCalls": 8,
+      "durationMs": 134204,
+      "resultPreview": "{\"resumen\":\"Para el pivote conviene una bolilla de rodamiento templada (1/2\\\" a 5/8\\\", grado G10-G25) apoyada en un asiento cónico templado. Las rótulas comerciales no van, por dos motivos. Las de cazoleta plástica (POM, amortiguador a gas) fluyen bajo carga sostenida y con el tiempo abren juego axial. Las de acero (DIN 71802, rod ends PHS) vienen con juego de fábrica y el catálogo no da cuánto. L…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "rocio y operacion",
+      "phaseIndex": 1,
+      "phaseTitle": "Investigar",
+      "agentId": "ac29ec58c781f6982",
+      "model": "claude-opus-5-5",
+      "state": "done",
+      "startedAt": 1791518047721,
+      "queuedAt": 1791518047674,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Para la operación nocturna en Villa Adelina, lo que pesa en…",
+      "promptPreview": "Contexto: plataforma ecuatorial VNS casera para un dobson newtoniano 200/1200 (0,67 arcsec/pixel, fotos de 60 s sin guiar, presupuesto de la plataforma 1,5 arcsec por foto) en Villa Adelina, Buenos Aires (34,5 S). La mesa apoya en un pivote y dos chapas de acero SAE 1010 de 5/16\" (7,94 mm) cortadas a laser cuyo canto rueda sobre dos rodillos. La sesion calculo (docs/contacto-vns.js, docs/16-revisi…",
+      "promptFramed": true,
+      "lastProgressAt": 1791518240383,
+      "tokens": 94646,
+      "toolCalls": 9,
+      "durationMs": 191437,
+      "resultPreview": "{\"resumen\":\"Para la operación nocturna en Villa Adelina, lo que pesa en el diseño son tres cosas. La primera es que el foco se corre con el frío. Un tubo de acero corre el foco unos 12 µm por °C (8 µm netos con espejo de pyrex). Eso agrega unos 0,34 arcsec de desenfoque por grado, a cargar contra el presupuesto de 1,5 arcsec. La segunda es el rocío. En invierno la humedad relativa media es de 78-7…"
+    }
+  ],
+  "totalTokens": 536100,
+  "totalToolCalls": 49
+}
