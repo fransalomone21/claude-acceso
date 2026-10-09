@@ -6,6 +6,50 @@ dos primeras entradas.
 Formato de cada entrada:
 
 ```
+## 2026-10-09 — (123) en vivo, sin Fran: la pieza 2b colgaba el juego (sub3 sin tabla virtual) — arreglado; y F7 no es del sub
+**Máquina:** notebook MSI (caliente, fork, Fran durmiendo) · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** COOP-C pieza 2b (F7, el modelo del arma de J2) · nodos `armas`, `vista-fp`, `codigo-nuevo`
+**Objetivo:** la 2b en vivo con el banco que construye la precondición (P3a–P3f de `PREDICCIONES-118`), y las
+predicciones nuevas en `sesiones/PREDICCIONES-123.md`.
+**Resultado:** el «J2 no cambia de arma» de (121) era un **cuelgue**, con causa leída, arreglada y confirmada por
+efecto con control; y la pieza **no arregla F7** (refutado con la pieza puesta): sigue apagada y F7 vuelve a la
+concepción con un sospechoso nuevo.
+
+- **El banco, arreglado tres veces antes de creerle (instrumento, no pieza):** los dos intentos fallidos de darle
+  una 2.ª arma a J lo dejaban **sin arma dibujada** desde la base (`--solo-j2`, C1 cumplida); el cambio de arma
+  por mando falso **se pierde a veces** (ahora `cambiar()` aprieta y **mide** el índice, con reintentos); y se agregó
+  el **chequeo de vida entre pasos** (el contador de J2 tiene que subir; si no, `ROJO_MUERTO`).
+- **El control (sin la pieza), medido:** junta, cambio y vuelta; la mitad de J dibuja la SPAS de J2 (F7) con un
+  bloque de basura; `R3_CARGAS` fijo en 1.
+- **Con la pieza, el juego se cuelga al juntar J2 la SPAS:** contador clavado en 672 en todos los pasos de las dos
+  cargas, seis fotos con el mismo md5, EE en el manejador **«# Syscall: undefined»** del kernel (`0x80001564`,
+  `jr ra` sobre sí mismo). **Los datos de (121) dicen lo mismo (671)**: «J2 no cambia de arma» y «carga 2 muerta»
+  eran el mismo cuelgue, y la conclusión (a) de (122) sobre el índice partió de un juego colgado (corregida en
+  `docs/16`).
+- **La causa:** los subs del juego reciben su **puntero de tabla virtual** (`+0x5C` = `0x003E0180`) del constructor
+  de `pers` (`FUN_00382D60`); `FUN_001A80F8` no lo pone, así que el sub3 lo tenía en 0. `FUN_001A51C8` llama
+  `(*(sub+0x5C))[+0x14]` (= `0x001AD510`) cuando el sub tiene plantilla: con 0 lee la palabra de `0x14` (0) y
+  **salta a la dirección 0**. Registros del cuelgue = los argumentos de `FUN_001A51C8(R3, J2, SUB3)`.
+- **El arreglo** (escrito en `docs/16` antes del stub): SUBH escribe el puntero de tabla después de construir el sub3
+  (3 palabras, 99 → 102). Constante verificada contra el ELF (`APOYO`), chequeo **por relación** en
+  `coop_sub3.problemas` (regla 10) y **tres sabotajes** nuevos en rojo. **Confirmado por efecto:** con el arreglo,
+  junta, cambio y vuelta en las dos cargas, contador siempre subiendo; sin él, 2 de 2 colgadas. Los campos
+  `+0x34..+0x4C` del sub3 aparecen como en los del juego: los pone el método virtual.
+- **P3a REFUTADA:** con la pieza, J en la pistola (`sub_0`) y J2 en la SPAS (`sub3`), **la mitad de J dibuja la SPAS**,
+  igual que el control. Es el «Refuta» que T5 (102) escribió para el sub. Y el cuerpo de J2 ya está oculto en la
+  pasada de J (`ocultar_pasada`, por defecto desde (93)). **F7 no es del sub ni del cuerpo.** Sospechoso nuevo
+  (`hipótesis`): el estado del sistema de aparejos en `pers`, que cada armado reescribe con la arena del último
+  (`FUN_001AD030(pers, arena, arena+18000)` y otras tres). Sonda en tres pasos en `docs/16` sección (123).
+- **P3f mal predicha:** con SUBH el cambio recarga R3 por el envoltorio de `FUN_001AC960`, que no cuenta en
+  `R3_CARGAS`. El testigo del índice (regla 11) sigue sin ejercitarse.
+- **Máquina al cerrar:** fork cerrado; pnach al **default de 1059 palabras** (`sub3_j2: false`); COOP activo en
+  `gamesettings`. `pruebas/controles.py` en verde.
+- **Novedades de la web para el programa (sin acción):** salió un pack de texturas + ReShade de la comunidad,
+  «BLACK HD Reimagined», anunciado para el 29-08-2026 y hecho para PCSX2 (le sirve a R2/T4, el remaster, que está
+  en pausa: medir si existe y si convive con el coop, que no toca texturas); el «PCSX2 MCP» de snowyegret23 usa los
+  servidores GDB del EE/IOP (es la familia del fork que ya usamos); `ghidra-emotionengine-reloaded` apunta a Ghidra
+  12.1.2, la que ya está instalada.
+
 ## 2026-10-03 — (122) en frío: el gancho del sub3 NO rompe el cambio de arma, y el testigo por cuadro estaba mal elegido
 **Máquina:** PC (en frío, sin emulador) · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** COOP-C pieza 2b (F7, el modelo del arma de J2) · nodos `armas`, `vista-fp`, `codigo-nuevo`

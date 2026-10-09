@@ -1131,3 +1131,32 @@ el cuelgue (`+0x34`..`+0x44` = `ffffffff` y `+0x48`/`+0x4C` = 1/2 en los del jue
 el constructor de `pers`; `hipotesis`: los pone el metodo virtual mismo o la carga de la ranura, que en el sub3
 nunca termino. Se miden en la proxima corrida, con el arreglo puesto: si despues de la junta el sub3 los tiene
 como los del juego, eran del metodo.
+
+**La prueba en vivo con el arreglo (02:18, `sesiones/PREDICCIONES-123.md` P'):**
+
+- **El cuelgue, arreglado por efecto y con control.** Con el puntero de tabla, J2 junta la SPAS, cambia y vuelve en
+  las dos cargas, con el contador de cuadros subiendo entre todos los pasos; sin el, la misma corrida colgo 2 de 2.
+  La causa pasa a `confirmado`. Y los campos que faltaban (`+0x34..+0x4C`) aparecen como en los subs del juego: eran
+  del metodo, no del constructor.
+- **F7 NO es del sub: refutado con la pieza puesta.** Con J en la pistola (`sub_0`, plantilla de la pistola) y J2
+  en la SPAS (`sub3`), **la mitad de J dibuja la SPAS** -- igual que el control. Es exactamente el «Refuta» que la
+  sonda de T5 (102) dejo escrito para el sub, y ya se veia en el control de (121) (subs distintos, mismo modelo).
+  La eleccion «opcion 1, un sub propio» de T5 se cae como arreglo de F7.
+- **Tampoco es el cuerpo de J2:** el mod ya oculta a J2 en la pasada de J (`ocultar_pasada`, `oc.A` = J2, por
+  defecto desde (93)).
+
+**Decision (Fase C, sin rediseñar sobre la marcha):** la pieza 2b **sigue APAGADA** (`CON_SUB3 = False`). Con el
+puntero de tabla ya no hace dano, pero no entrega lo que prometia, y prenderla agrega 102 palabras y un gancho sin
+beneficio medido. Su codigo queda (no se tira: si el arreglo verdadero de F7 necesita que J2 tenga su sub, ya esta
+probado que corre sin colgar en dos cargas).
+
+**F7 vuelve a la concepcion (lo que sigue, en frio primero).** Sospechoso con nombre, `hipotesis`: el **estado del
+sistema de aparejos en `pers`** (`*(0x0040F50C)`), que cada armado y cada carga de ranura reescriben con lo del
+ULTIMO que armo -- `FUN_001A8168` llama `FUN_001AC940(pers, 2)` y `FUN_001AD030(pers, arena, arena+18000)`, y
+`FUN_001A51C8` llama `FUN_001AD050(pers, r[0x2b])`, `FUN_001AC020(pers, r[0x2b])` y `FUN_001AC940(pers, 0)`. «El
+arma del ultimo que cambio se dibuja en las dos mitades» es justo lo que haria un puntero global a «la arena
+vigente». Sonda que lo discrimina: (1) en frio, leer esas cuatro funciones y nombrar los campos de `pers` que
+escriben; (2) en vivo, con J2 en la SPAS y J en la pistola, volcar esos campos y compararlos con los de una carga
+donde el ultimo que armo fue J; (3) intervencion: devolverles a mano (PINE, en pausa) los valores de J y mirar si
+la mitad de J vuelve a la pistola -- y la de J2 se rompe, que seria la prueba de que hay que **conmutarlos por
+pasada** (la primitiva «conmutar el contexto» de T7), no duplicarlos.

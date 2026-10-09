@@ -47,8 +47,17 @@ y `FUN_001A51C8` hace una llamada virtual sobre él → salto a la dirección 0.
 
 | # | Predicción | Resultado |
 |---|---|---|
-| P3h | J2 junta la SPAS y el juego **sigue vivo**: el contador de J2 sube entre todos los pasos, en las dos cargas | |
-| P3a | en `j2_cambio`, la mitad de J dibuja **la pistola de J** y la de J2 la SPAS (el control dibuja la SPAS en las dos) | |
-| P3f | `R3_CARGAS` **sube** en el cambio de J2 | |
-| P3b/e | la carga 2 termina viva; `SUB3_MOLDE` = `MOLDES` en las dos | |
-| P3i | después de armarse con la SPAS, el sub3 tiene `+0x34..+0x44` = `ffffffff` como los subs del juego (`hipótesis`: los escribe el método virtual) | |
+| P3h | J2 junta la SPAS y el juego **sigue vivo**: el contador de J2 sube entre todos los pasos, en las dos cargas | **CUMPLIDA** (02:18, `volcados/arma/banco-pieza-20261009-022004.json`): 788 → 1166 → 1295 en la carga 1 y 2166 → 2294 → 2423 en la 2. Junta, cambio (0→1) y vuelta (1→0) en las dos cargas. **El cuelgue de (121) y de las 02:00 queda arreglado por efecto, con control** (la misma corrida sin el puntero colgó 2 de 2) → la causa pasa a `confirmado` |
+| P3a | en `j2_cambio`, la mitad de J dibuja **la pistola de J** y la de J2 la SPAS (el control dibuja la SPAS en las dos) | **REFUTADA** (`pieza-pieza-carga1-20261009-021839/j2-cambio.png`): la mitad de J dibuja **la SPAS de J2**, con el mismo bloque de basura que el control, aunque su ranura (`0x4ED7F0`) siga en `sub_0` con la plantilla de la pistola y la de J2 en `sub3`. Es el «Refuta» que (102) escribió para el sub: con índices distintos y subs distintos, el arma de J2 igual aparece en la mitad de J. **El sub propio no es lo que decide qué arma se dibuja en cada mitad** |
+| P3f | `R3_CARGAS` **sube** en el cambio de J2 | **NO** (1 → 1 → 1 en la carga 1; 2 en la 2 por la carga). Mal predicha: con SUBH el cambio recarga R3 por el envoltorio de `FUN_001AC960` (`0x001ACA84`), que no cuenta en `R3_CARGAS`; el camino por cuadro no hace falta. El testigo del índice sigue sin ejercitarse |
+| P3b/e | la carga 2 termina viva; `SUB3_MOLDE` = `MOLDES` en las dos | **CUMPLIDA** (`vivo_despues` True en las dos cargas) |
+| P3i | después de armarse con la SPAS, el sub3 tiene `+0x34..+0x44` = `ffffffff` como los subs del juego (`hipótesis`: los escribe el método virtual) | **CUMPLIDA**: `ffffffff`×5 y `+0x48/+0x4C` = 1/2 con la pistola y 2/1 con la SPAS, igual que `sub_0`/`sub_1` |
+
+**Lectura.** Dos cosas distintas, y no hay que mezclarlas: (1) el **cuelgue** era de la pieza y queda arreglado
+(sub3 con su puntero de tabla); (2) **F7 no es del sub**. La pieza 2b arregla un cuelgue que ella misma introducía y no
+entrega lo que prometía, así que **sigue APAGADA**. El mod **ya oculta a J2 en la pasada de J** (`ocultar por pasada`,
+`oc.A` = J2, por defecto desde (93)), así que el arma de J2 en la mitad de J **tampoco viene del cuerpo de J2**. Queda un
+sospechoso con nombre, en grado `hipótesis`: el estado del sistema de aparejos en `pers` (`*(0x0040F50C)`), que
+`FUN_001A8168` y `FUN_001A51C8` reescriben con la arena del **último** que armó (`FUN_001AD030(pers, arena,
+arena+18000)`, `FUN_001AC940`, `FUN_001AD050`, `FUN_001AC020`). Es «el arma del último que cambió», que es lo que F7
+describe desde (96).

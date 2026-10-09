@@ -37,9 +37,27 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) escrita con su guarda, sin instalar (119) (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) sin cuelgue desde (123) pero NO arregla F7: APAGADA (LEER ESTO PRIMERO)
 
-> **(122), 2026-10-03, PC EN FRÍO — LO ÚLTIMO** (bitácora (122), `docs/16` «Lo que la lectura en frío de (122) dejó»).
+> **(123), 2026-10-09, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (123), `sesiones/PREDICCIONES-123.md`,
+> `docs/16` sección «(123) El sub3 sin su tabla virtual»).
+> - **El «J2 no cambia de arma» de (121) era un CUELGUE:** con la pieza, al juntar J2 un arma el juego cae en
+>   «Syscall: undefined» (contador de J2 clavado: 672 hoy, 671 en los datos de (121)). La conclusión (a) de (122)
+>   sobre el índice partió de un juego colgado — corregida en `docs/16`.
+> - **Causa y arreglo, `confirmado` con control:** el sub3 no tenía su **puntero de tabla virtual** (`+0x5C` =
+>   `0x003E0180`, lo pone el constructor de `pers` `FUN_00382D60`, no `FUN_001A80F8`), y `FUN_001A51C8` hace una
+>   llamada virtual sobre él → salto a la dirección 0. SUBH ahora lo escribe (102 palabras); regla 10 por relación +
+>   tres sabotajes en rojo. Con el arreglo: junta, cambio y vuelta en **dos cargas** sin colgar; sin él, 2 de 2 colgadas.
+> - **P3a REFUTADA: F7 no es del sub.** Con la pieza, la mitad de J dibuja igual la escopeta de J2 (y el cuerpo de J2
+>   ya está oculto en la pasada de J). **La 2b sigue APAGADA.** Sospechoso nuevo (`hipótesis`): el estado de `pers`
+>   que cada armado reescribe con la arena del último (`FUN_001AD030` y otras tres). Sonda en tres pasos en `docs/16`.
+> - **Banco del arma arreglado** (`arma_pieza_banco.py`): `--solo-j2`, cambio de arma apretado **y medido**, chequeo
+>   de **vida entre pasos** (`ROJO_MUERTO`), sub3 crudo en cada estado.
+> - **Máquina:** fork cerrado; pnach **default de 1059 palabras** (`sub3_j2: false`), COOP activo. `controles.py` verde.
+> - **Sigue:** F7 en frío (leer `FUN_001AD030`/`FUN_001AC940`/`FUN_001AD050`/`FUN_001AC020` y nombrar los campos de
+>   `pers`), después la sonda en vivo. Retome: `sesiones/RETOME-LOCAL.md`.
+
+> **(122), 2026-10-03, PC EN FRÍO** (bitácora (122), `docs/16` «Lo que la lectura en frío de (122) dejó»).
 > - **El sospechoso de (121) queda DESCARTADO por lectura.** El tramo `0x001ACA34`–`0x001ACA68` da por vivos sólo
 >   `s0`, `s1` y `s6`, no lee ningún `t`/`a`/`v0`, y `s0` queda con el sub elegido (y se recalcula en
 >   `0x001ACA78`). SUBH no pisa ninguno de los tres.

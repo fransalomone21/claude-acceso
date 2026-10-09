@@ -4,7 +4,22 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(122), 2026-10-03, PC EN FRÍO — LO ÚLTIMO** (bitácora (122), `docs/16` «Lo que la lectura en frío de (122) dejó»).
+> **(123), 2026-10-09, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (123), `sesiones/PREDICCIONES-123.md`,
+> `docs/16` sección (123)).
+> - **Lo que (121) llamó «J2 no cambia de arma» era el juego COLGADO** al juntar J2 un arma con la pieza puesta
+>   (EE en «Syscall: undefined», contador de J2 clavado). Causa: el sub3 sin su **puntero de tabla virtual**
+>   (`+0x5C` = `0x003E0180`, `FUN_00382D60`); `FUN_001A51C8` lo llama y salta a 0. **Arreglado en SUBH y
+>   confirmado con control** (dos cargas vivas con el arreglo; 2 de 2 colgadas sin él). Regla 10 + 3 sabotajes.
+> - **P3a REFUTADA:** con la pieza la mitad de J dibuja igual el arma de J2. F7 no es del sub ni del cuerpo de J2
+>   (ya oculto en la pasada de J). **La 2b sigue APAGADA.** Sospechoso: el estado de `pers` que reescribe el último
+>   armado (`FUN_001AD030(pers, arena, arena+18000)`, `FUN_001AC940`, `FUN_001AD050`, `FUN_001AC020`).
+> - **Banco:** `arma_pieza_banco.py pieza|control --solo-j2` (cambio medido con reintentos, vida entre pasos).
+> - **Máquina:** notebook; fork cerrado; pnach default **1059** palabras; COOP activo; `controles.py` verde.
+> - **Sigue (FRÍO primero):** las cuatro funciones de `pers` y qué campos escriben; después, en vivo: volcar esos
+>   campos con J2 en la SPAS y J en la pistola, y devolverles a mano (en pausa) los de J — si la mitad de J vuelve a
+>   la pistola y la de J2 se rompe, F7 se arregla **conmutándolos por pasada**.
+
+> **(122), 2026-10-03, PC EN FRÍO** (bitácora (122), `docs/16` «Lo que la lectura en frío de (122) dejó»).
 > - **El sospechoso de (121) queda DESCARTADO por lectura.** El tramo `0x001ACA34`–`0x001ACA68` da por vivos sólo
 >   `s0`, `s1` y `s6`, no lee ningún `t`/`a`/`v0`, y `s0` queda con el sub elegido (y se recalcula en
 >   `0x001ACA78`). SUBH no pisa ninguno de los tres.
