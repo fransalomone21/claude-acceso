@@ -1,55 +1,57 @@
-# Mensaje de retome — BLACK (después de (123): el cuelgue de la 2b arreglado; F7 NO es del sub; sigue en FRÍO)
+# Mensaje de retome — BLACK (después de (124): F7 confirmado — el soporte de modelo compartido; sigue el diseño en FRÍO)
 
 Pegar tal cual como primer mensaje del chat siguiente.
 
 ```
 Retomo BLACK (proyectos/ingenieria/black). Fase C, pieza 2 (F7: el arma de J2 se dibuja en la mitad de J).
-Este tramo empieza EN FRÍO y termina, si alcanza, con UNA sonda en vivo con predicción escrita antes.
+F7 ya tiene causa CONFIRMADA en (124). Este tramo es EN FRÍO: el diseño a nivel instrucción de la pieza
+«soporte propio de J2», su regla en coop_diseno.py con sabotaje, y el stub; la prueba en vivo, si alcanza.
 
 0. EL LIBRO PRIMERO: si ~/.claude/CLAUDE.md no empieza con «# Perfil global», correr
    `bash .claude/nube/traer-perfil.sh` en claude-acceso y leer lo que liste (en la PC llega solo).
 1. LEER, en orden: `.\cascada.ps1 black -Necesidad ingenieria-inversa` y CON Read cada rango que imprima (la
-   puerta no deja actuar sin eso). Después: `docs/16-contexto-j2.md` SOLO la sección «(123) El sub3 sin su tabla
-   virtual» (está al final); `sesiones/PREDICCIONES-123.md` entero (es corto). NO releer la bitácora, docs/14 ni
-   las secciones viejas de docs/16 salvo un dato puntual.
+   puerta no deja actuar sin eso). Después: `docs/16-contexto-j2.md` SOLO la sección «(124) F7 en frio» (al final);
+   `sesiones/PREDICCIONES-124.md` (corto). NO releer la bitácora, docs/14 ni las secciones viejas de docs/16 salvo un
+   dato puntual (para el armado de J2: `herramientas/coop_mod.py`, el bloque que copia J en 0x0046CDF0 y llama
+   `jal 0x139c68`).
 2. FASE: COOP-C -- NASA Phase C, "Final Design and Fabrication" = el diseño fino y fabricar las piezas. No se
    hace: rediseñar sobre la marcha ni arreglar síntomas de a uno (un cambio de diseño va a docs/16 y a
    coop_diseno.py ANTES del stub). La cierra (PDP §4): las cinco piezas en el stub con predicción, control y DOS
    cargas; la regresión 8/8 sin bajar el ritmo; «continuar misión» desde el menú; controles.py en verde.
-   Piezas 1 y 2a HECHAS. La 2b (sub3): sin cuelgue desde (123) pero NO arregla F7 → APAGADA.
-   LA PREGUNTA DE ESTE TRAMO: ¿qué estado de `pers` (`*(0x0040F50C)`) decide qué arma se dibuja en cada mitad?
-   (a) EN FRÍO: la mitad YA está hecha al cierre de (123) (tabla al final de la sección (123) de docs/16): las
-       cuatro delegan en el asignador M = pers+0x8F0, y la carga de ranura deja M en modo 0 con el BLOQUE de la
-       última ranura (M+0x08 = ranura+0xAC). Falta: leer FUN_001A6EB8 (único que llama FUN_001AC798) y quién llama
-       FUN_001ADFC0 en el camino del dibujo FP (FUN_001A54E0 / FUN_001A7D48 desde 0x00132D98). Nombrar el lector.
-   (b) EN VIVO (si (a) da un candidato): con el banco `python herramientas/arma_pieza_banco.py control --solo-j2`
-       (deja el fork abierto con J en la pistola y J2 en la SPAS tras `j2_cambio`... ojo: el banco termina con
-       J2 de vuelta en la pistola; para la sonda, cortar después de `j2_cambio` o volver a cambiar a mano), volcar
-       esos campos, y en PAUSA escribirles los valores de cuando el último que armó fue J. PREDICCIÓN a escribir
-       antes en PREDICCIONES-124.md: la mitad de J vuelve a la pistola y la de J2 pierde la SPAS → F7 se arregla
-       CONMUTANDO esos campos por pasada (primitiva «conmutar el contexto» de T7), no duplicándolos.
-3. MOTOR: Opus high, un solo hilo -- es leer desensamblado y la primera hipótesis en un mecanismo que ya refutó
-   dos diseños (el puerto en (96), el sub en (123)). Nunca Fable.
-4. MÁQUINA (al cerrar (123)): notebook; fork CERRADO; pnach al DEFAULT de 1059 palabras (COOP + IA + HUD doble +
+   Piezas 1 y 2a HECHAS. 2b (sub3) APAGADA (no arregla F7). La pieza nueva: J2 con SU soporte de modelo.
+   LO CONFIRMADO (124): el dibujo (FUN_00133BA0) toma el modelo de *(*(P+0x328)) y los registros de submallas de
+   *(P+0x354) / *(P+0x358); el cambio de arma (FUN_0013C868(P,i)) pone en *(P+0x328) el modelo de la última arma
+   cargada (*(*(0x0040F540)+0x7C)+0x14) y copia los registros (FUN_00136B50: 56 B y 96 B). J y J2 comparten
+   soporte 0x00597810 y buffers 0x006EC700 / 0x006EC780 (J2 es copia del molde). Devolverle la pistola a mano
+   arregla la mitad de J y rompe la de J2 (ON->OFF->ON, 7 de 7).
+   LA DECISIÓN (docs/16 (124)): DUPLICAR. J2 con su soporte (0x40 B, copia del de J) y sus dos buffers (0x38 y 0x60 B)
+   en memoria del mod; J2+0x328/+0x354/+0x358 apuntan ahí.
+   (a) EN FRÍO, lo que falta antes del stub: dónde reapuntar los tres campos en el armado de J2 -- el constructor
+       FUN_00139C68 le vuelve a dar el soporte 0 (0x00139E1C, FUN_00138C40(mgr,0)) y copia registros
+       (FUN_00136B50 en 0x0013A22C) -- así que va DESPUÉS de la llamada a 0x139c68 del mod; qué modelo inicial lleva
+       (el arma con que arranca J2) y soporte+4 / +0x38 (FUN_00138328; el conjunto de agregados de FUN_00137320);
+       los accesorios P+0x25C.. (compartidos desde (93s); en b-pistola.png queda un fragmento suelto en la mitad de
+       J2) y P+0x360 (igual en J y J2, el fogonazo: candidato a F8). Memoria libre: medir en docs/14 / coop-plan-b.
+   (b) La regla en coop_diseno.py (relación, no inmediato suelto) + sabotaje en rojo; después el stub.
+   (c) EN VIVO, si alcanza: predicción escrita antes en PREDICCIONES-125.md; banco: `f7_soporte.py` sirve de
+       plantilla (pieza vs control, dos cargas). Predicción base: con la pieza, J2 cambia a la SPAS y la mitad de J
+       sigue con su pistola bien; el control (sin la pieza) da F7.
+3. MOTOR: Opus high, un solo hilo -- diseño a nivel instrucción sobre código del juego. Nunca Fable.
+4. MÁQUINA (al cerrar (124)): notebook; fork CERRADO; pnach al DEFAULT de 1059 palabras (COOP + IA + HUD doble +
    sonido de J2; `sub3_j2: false`), que es lo que pone JUGAR-BLACK.ps1; COOP activo en
-   gamesettings\SLUS-21376_5C891FF1.ini. Con `--con-sub3` el pnach ahora da 1189 (la 2b con el puntero de tabla).
-   Fork: C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe; lo lanza el banco
-   (campana_coop.lanzar() + probar_nivel(0)). Primero `abrir-sesion.ps1 -Rapido`.
-5. YA RESUELTO, no rehacer: el cuelgue de la 2b (sub3 sin vtable en +0x5C; SUBH la escribe; confirmado con
-   control, dos cargas); el banco del arma (precondición construida, cambio medido con reintentos, vida entre
-   pasos); F7 reproducido en el control con la SPAS (con un bloque de basura en la mitad de J); los campos
-   +0x34..+0x4C del sub los pone el método virtual. El cuerpo de J2 YA está oculto en la pasada de J
-   (`ocultar_pasada`, `oc.A` = J2, por defecto): no es el cuerpo.
-6. TRAMPAS MEDIDAS: un juego COLGADO se lee como conducta si el banco no mide que sigue vivo entre pasos (el
-   contador de J2 tiene que subir; (121) lo pagó con dos sesiones). Los intentos FALLIDOS de juntar con J lo dejan
-   sin arma dibujada (`--solo-j2`). El botón de cambio de arma por mando falso se pierde a veces: apretar y medir.
-   Un mensaje de commit con `*` lo frena el guardia: `git commit -F <archivo>`. Escribir CÓDIGO por PINE sólo en
-   pausa. `python pruebas/controles.py` antes de commitear. Puede haber OTRA sesión commiteando en paralelo:
-   `git add` sólo de lo propio, nunca -A; `git pull --rebase` antes del push.
+   gamesettings\SLUS-21376_5C891FF1.ini. Fork: C:\Users\frans\Downloads\PCSX2-MCP-v1.0.0-win64\PCSX2-MCP-v1.0.0-win64\pcsx2-qt.exe;
+   lo lanzan los bancos (campana_coop.lanzar() + probar_nivel(0)). Primero `abrir-sesion.ps1 -Rapido`.
+5. YA RESUELTO, no rehacer: la causa de F7 (soporte compartido, confirmado con control); el asignador M =
+   pers+0x8F0 DESCARTADO (nadie le pide memoria por cuadro; M+0x08 no sigue al que cambia); el sub propio no
+   arregla F7 (123); el cuelgue de la 2b (vtable del sub3, arreglado); el banco con la precondición construida.
+6. TRAMPAS MEDIDAS: Ghidra NO ve las llamadas por tabla virtual: «quién llama» se contesta también con el barrido
+   crudo del ELF (jal, j, palabras, lui/addiu) y con un control positivo conocido. Un juego COLGADO se lee como
+   conducta si el banco no mide que sigue vivo entre pasos. El cambio de arma por mando falso se pierde a veces:
+   apretar y medir. Un mensaje de commit con `*` lo frena el guardia: `git commit -F <archivo>`. Escribir CÓDIGO
+   por PINE sólo en pausa. `python pruebas/controles.py` antes de commitear. Puede haber OTRA sesión commiteando en
+   paralelo: `git add` sólo de lo propio, nunca -A; `git pull --rebase` antes del push.
 7. ABIERTO, no bloquea: N25 (la mano de J2 rota al apuntar arriba/abajo, sin control); la pieza 2c (el cue propio
-   de J2, decisión de Fran del 2026-10-03) espera a que el arma de J2 se dibuje bien; el testigo del índice
-   (regla 11) sigue sin ejercitarse; «BLACK HD Reimagined» (pack de texturas + ReShade de la comunidad, anunciado
-   para el 29-08-2026) para cuando se retome el remaster R2/T4.
+   de J2) espera a que el arma de J2 se dibuje bien; el testigo del índice (regla 11) sigue sin ejercitarse.
 
 PRIMER COMANDO: .\cascada.ps1 black -Necesidad ingenieria-inversa
 ```

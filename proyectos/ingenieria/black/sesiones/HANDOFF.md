@@ -4,7 +4,18 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(123), 2026-10-09, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (123), `sesiones/PREDICCIONES-123.md`,
+> **(124), 2026-10-09, NOTEBOOK (frío + sonda en vivo), sin Fran — LO ÚLTIMO** (bitácora (124),
+> `sesiones/PREDICCIONES-124.md`, `docs/16` sección (124)).
+> - **F7 `confirmado` con control ON → OFF → ON:** un solo soporte de modelo (`P+0x328` = `0x00597810`) y los mismos
+>   buffers de registros (`P+0x354`/`+0x358`) para J y J2; el último que cambia de arma le pone su modelo. Devolverle
+>   a mano la pistola (modelo + registros de 56/96 B, en pausa) arregla la mitad de J y rompe la de J2.
+> - **`M` = `pers+0x8F0` descartado** (nadie le pide memoria por cuadro; `M+0x08` no sigue al que cambia).
+> - **Decisión:** duplicar el soporte y los buffers para J2 (en `docs/16` (124), antes del stub). Pendiente en frío:
+>   dónde reapuntar `J2+0x328/+0x354/+0x358` después del constructor, los accesorios `+0x25C..`, `+0x360`.
+> - **Herramienta:** `herramientas/f7_soporte.py` (lanza el fork, construye la precondición, interviene y fotografía).
+> - **Máquina:** fork cerrado; pnach default **1059**; COOP activo; `controles.py` verde.
+
+> **(123), 2026-10-09, NOTEBOOK CALIENTE, sin Fran** (bitácora (123), `sesiones/PREDICCIONES-123.md`,
 > `docs/16` sección (123)).
 > - **Lo que (121) llamó «J2 no cambia de arma» era el juego COLGADO** al juntar J2 un arma con la pieza puesta
 >   (EE en «Syscall: undefined», contador de J2 clavado). Causa: el sub3 sin su **puntero de tabla virtual**

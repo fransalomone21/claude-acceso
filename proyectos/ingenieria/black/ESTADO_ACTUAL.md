@@ -37,9 +37,23 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) sin cuelgue desde (123) pero NO arregla F7: APAGADA (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124): el soporte de modelo compartido (LEER ESTO PRIMERO)
 
-> **(123), 2026-10-09, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (123), `sesiones/PREDICCIONES-123.md`,
+> **(124), 2026-10-09, NOTEBOOK (frío + una sonda en vivo), sin Fran — LO ÚLTIMO** (bitácora (124),
+> `sesiones/PREDICCIONES-124.md`, `docs/16` sección (124)).
+> - **F7 `confirmado`:** J y J2 dibujan el arma de primera persona desde **un solo soporte de modelo**
+>   (`P+0x328` → `0x00597810`) y **los mismos** buffers de registros (`P+0x354`/`+0x358` → `0x006EC700`/`0x006EC780`):
+>   J2 es copia del molde y los hereda. El cambio de arma (`FUN_0013C868`) le pone al soporte el modelo de la última
+>   arma cargada y copia sus registros (`FUN_00136B50`). Intervención en vivo (`herramientas/f7_soporte.py`): con el
+>   soporte devuelto a la pistola, la mitad de J vuelve a su pistola y la de J2 pierde la SPAS; ON → OFF → ON, 7 de 7.
+> - **El sospechoso de (123), el asignador `M` = `pers+0x8F0`, DESCARTADO** (frío por dos métodos + `M+0x08` medido:
+>   no sigue al que cambia). La 2b (sub3) sigue apagada: el sub sólo aporta el mapa de huesos.
+> - **Diseño elegido, escrito antes del stub:** duplicar — J2 con su propio soporte (0x40 B) y sus dos buffers (0x38 y
+>   0x60 B). Falta en frío: dónde reapuntarlos en el armado de J2 (el constructor le da el soporte 0), los accesorios
+>   `+0x25C..` y `+0x360` (también compartidos).
+> - **Máquina:** fork cerrado; pnach default **1059** palabras; COOP activo. **Sigue:** `sesiones/RETOME-LOCAL.md`.
+
+> **(123), 2026-10-09, NOTEBOOK CALIENTE, sin Fran** (bitácora (123), `sesiones/PREDICCIONES-123.md`,
 > `docs/16` sección «(123) El sub3 sin su tabla virtual»).
 > - **El «J2 no cambia de arma» de (121) era un CUELGUE:** con la pieza, al juntar J2 un arma el juego cae en
 >   «Syscall: undefined» (contador de J2 clavado: 672 hoy, 671 en los datos de (121)). La conclusión (a) de (122)

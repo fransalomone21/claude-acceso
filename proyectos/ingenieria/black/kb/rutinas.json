@@ -882,6 +882,61 @@
       "confianza": "probable",
       "evidencia": "en frio (93s); vtable medida en J y J2 en los volcados de (93r)",
       "descubierto": "2026-09-28"
+    },
+    {
+      "id": "cambio_arma_aparejo",
+      "area": "armas",
+      "nombre": "Cambio de arma: soporte de modelo, accesorios y ranura",
+      "direccion": "0x0013C868",
+      "version": "ntsc_u",
+      "descripcion": "FUN_0013C868(P, i), unico llamador FUN_0015BE70. *(P+0x328) (el soporte) = *(*(0x0040F540)+0x7C)+0x14, el modelo de la ULTIMA arma cargada; *(soporte+0x38) = +0x18; reata los 8 accesorios P+0x25C.. a ranura+0x30..; FUN_00137320 (agregados) y FUN_00136B50 (copia los registros de submallas); al final P+0x330 = pers+0x470+i*0x240.",
+      "confianza": "confirmado",
+      "evidencia": "en frio (124): Ghidra + barrido crudo del ELF con control positivo; en vivo con f7_soporte.py (PREDICCIONES-124)",
+      "descubierto": "2026-10-09"
+    },
+    {
+      "id": "soporte_modelo",
+      "area": "personajes",
+      "nombre": "Soporte de modelo de un personaje (arreglo de 0x40 B)",
+      "direccion": "0x00138C40",
+      "version": "ntsc_u",
+      "descripcion": "FUN_00138C40(mgr, i) = mgr + 0x7A10 + i*0x40, mgr = *(0x0040F514). +0 el modelo (FUN_00138338), +4 (FUN_00138328), +0x38 el conjunto de agregados. El constructor del jugador pide SIEMPRE el 0 (0x00139E1C); J2 (copia del molde) hereda el de J: 0x00597810 en J y J2. Es la causa de F7.",
+      "confianza": "confirmado",
+      "evidencia": "en frio (124): Ghidra + barrido crudo del ELF con control positivo; en vivo con f7_soporte.py (PREDICCIONES-124)",
+      "descubierto": "2026-10-09"
+    },
+    {
+      "id": "registros_submallas",
+      "area": "personajes",
+      "nombre": "Copia los registros de submallas del modelo al personaje",
+      "direccion": "0x00136B50",
+      "version": "ntsc_u",
+      "descripcion": "FUN_00136B50(P): mod = *(*(P+0x328)); memcpy(*(P+0x354), *(mod+0x38), *(mod+0x3C)) y memcpy(*(P+0x358), *(mod+0x40), *(mod+0x44)) (FUN_0035C544 = memcpy); P+0x370 = 0. Largos medidos: 56 y 96 B (pistola y SPAS). Llamadores: constructor, FUN_001327F0, cambio de arma.",
+      "confianza": "confirmado",
+      "evidencia": "en frio (124): Ghidra + barrido crudo del ELF con control positivo; en vivo con f7_soporte.py (PREDICCIONES-124)",
+      "descubierto": "2026-10-09"
+    },
+    {
+      "id": "dibujo_personaje",
+      "area": "render",
+      "nombre": "Metodo de dibujo del personaje (vtable +0x30)",
+      "direccion": "0x00133BA0",
+      "version": "ntsc_u",
+      "descripcion": "FUN_00133BA0(P): modelo = *(*(P+0x328)); a las submallas de tipo 5-7 (primera persona) les escribe en el registro la pose *((P+0x330)+0x54)+0x50 y el mapa de huesos *((P+0x330)+0x50)+0x30; FUN_00136BD0 dibuja cada submalla con los registros de *(P+0x354)/*(P+0x358); despues accesorios (+0x25C), +0x360 y el arma en la mano (+0x2A4, FUN_00137B88).",
+      "confianza": "probable",
+      "evidencia": "en frio (124); el efecto del soporte, confirmado en vivo (PREDICCIONES-124)",
+      "descubierto": "2026-10-09"
+    },
+    {
+      "id": "asignador_aparejos_M",
+      "area": "personajes",
+      "nombre": "Asignador M = pers+0x8F0 (pedir memoria, metodo +0x34)",
+      "direccion": "0x001ADFC0",
+      "version": "ntsc_u",
+      "descripcion": "Entrada +0x34 de la tabla 0x003E0140 (en 0x003E0174; Ghidra no la ve). Modo 2 reparte en la arena del sub, 1 malloc, 0 del bloque M+0x08. La biblioteca de animacion lo usa por el global 0x003D1B7C (FUN_00343F48) SOLO al armar una instancia (FUN_00345510). NO es la causa de F7: M+0x08 no sigue al que cambia de arma (medido).",
+      "confianza": "probable",
+      "evidencia": "en frio (124): Ghidra + barrido crudo del ELF con control positivo; en vivo con f7_soporte.py (PREDICCIONES-124)",
+      "descubierto": "2026-10-09"
     }
   ]
 }

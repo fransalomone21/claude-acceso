@@ -307,7 +307,11 @@ piezas 2–5, la regresión 8/8 y «continuar misión». **Pieza 2 (116):** las 
 (`docs/16` «La pieza 2 a nivel instrucción»); el sub3 diseñado con la regla del dueño de plantilla, sin código; el
 sonido por `FUN_001D7020` **refutado con control** (no es el sonido audible). **(117), en frío:** el audible es el cue
 `*(V+0x1BE0)` (`FUN_001F0678`); la pieza 2a rediseñada sobre él (`coop_sonido.py`, regla 9), apagada hasta la prueba en
-vivo con predicción, control y dos cargas (`docs/16` «El sonido audible, (117)»).
+vivo con predicción, control y dos cargas (`docs/16` «El sonido audible, (117)»). **(119)** 2a HECHA y prendida.
+**(120)–(123)** 2b (sub3) integrada, su cuelgue arreglado, y **no arregla F7**: apagada. **(124)** F7 `confirmado`
+con control: J y J2 dibujan el arma desde un solo soporte de modelo (`P+0x328`) y los mismos registros
+(`P+0x354`/`+0x358`); la pieza que lo arregla es **el soporte propio de J2** (duplicar, `docs/16` (124)), sin código
+todavía.
 
 **Después de la C viene la D:** Fran lo juega (dos mandos, después Parsec), que es
 lo único que valida que sirve.

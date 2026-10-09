@@ -1179,3 +1179,97 @@ en las dos mitades» (`hipotesis`: falta ver QUIEN pide memoria en modo 0 al dib
 (`FUN_001A54E0` / `FUN_001A7D48`); en vivo, con J2 en la SPAS, leer `M+0x08` (`pers` = `0x004ED380`, asi que `M+0x08`
 = `0x004EDC78`) y compararlo con `R3+0xAC` y `r0+0xAC`; la intervencion es ponerle a mano el bloque de J (en pausa) y
 mirar la mitad de J.
+
+## (124) F7 en frio: el asignador `M` no es, y el soporte del modelo de primera persona es UNO para los dos
+
+> En frio, notebook, 2026-10-09. Decompilados en `volcados/arma/diag-20261009/124/`. Dos metodos para cada «quien
+> llama»: las referencias de Ghidra y un barrido crudo del ELF (`jal`, `j`, palabras y pares `lui`/`addiu`), este
+> ultimo con tres controles positivos que tenia que encontrar y encontro (`0x001ABFA8` en `0x001AB9B0`, `0x001297A0`
+> en `0x00129900`, `0x003E0140` en `0x00382E54`).
+
+**1. El asignador `M` = `pers+0x8F0` queda casi descartado (`probable`, en frio).**
+
+- `FUN_001ADFC0` (reparte memoria) tiene **un** `jal`, desde `FUN_001AC798`, que fija modo 0 y **su propio** bloque
+  (`obj+0xB0`) justo antes. Ghidra no ve el otro camino y el barrido crudo si: `FUN_001ADFC0` es la entrada `+0x34`
+  de la tabla de `M` (`0x003E0174`; tabla `0x003E0140`: `+0x0C` `FUN_001ADF98` = «pedir», que salta a `+0x34`;
+  `+0x14` `0x001AE050` = «soltar», un `jr ra`).
+- Por esa tabla pide la **biblioteca de animacion**: `FUN_001AB780` (el armado de `pers`) hace
+  `FUN_0034B460(M, 0x001ABFA8)` → `FUN_00343ED0(M)` deja `M` en el global **`0x003D1B7C`**, que leen solo
+  `FUN_00343F38` (devolverlo), `FUN_00343F48` (pedir) y `FUN_00343F90` (soltar). `FUN_00343F48` se llama solo desde
+  `FUN_00345510` (armar una instancia) y desde `FUN_00345BC8`, que **nadie llama** (sus «referencias» son el
+  `.eh_frame`, y no hay `lui`/`addiu` que la arme).
+- `FUN_00345510` tiene **tres** llamadores: `FUN_001A51C8` (carga de ranura: fija su bloque antes), `FUN_001A6EB8`
+  (la segunda instancia de la ranura, `ranura+0x58`, perezosa, desde `FUN_001A59D8`: `FUN_001AC798` fija su bloque
+  antes) y `FUN_0014C6B0` (otro objeto, no el jugador).
+- **Nadie pide memoria a `M` por cuadro.** Y por cuadro `FUN_001A54E0` (el animar de cada ranura) **reescribe**
+  `M+0x08` con su propio bloque antes de animar, asi que `M+0x08` en una pausa dice que ranura animo **ultima en el
+  cuadro**, no quien cambio de arma ultimo. La sonda del retome (ponerle a mano el bloque de J) la pisaria el
+  cuadro siguiente: no es una intervencion. Lo que sigue valiendo de (123): la carga de ranura deja `M` en modo 0
+  con su bloque.
+
+**2. El sospechoso que lo explica todo, con mecanismo (`probable`: leido en frio y medido en volcados):**
+
+- **Que dibuja el personaje** (`FUN_00133BA0`): el modelo es `*(*(P+0x328))` (`FUN_00135B60`); recorre sus
+  submallas y a las de tipo 5-7 (las de primera persona) les escribe en el registro la **pose** de su ranura
+  (`*((P+0x330)+0x54)+0x50`) y el **mapa de huesos** de su sub (`*((P+0x330)+0x50)+0x30`); despues
+  `FUN_00136BD0` dibuja cada submalla con los registros de **dos buffers del personaje**, `*(P+0x354)` y
+  `*(P+0x358)`.
+- **Que cambia al cambiar de arma** (`FUN_0013C868(P, i)`, el unico llamador es `FUN_0015BE70`):
+  `*(*(P+0x328))` = `*(*(0x0040F540)+0x7C)+0x14` (`FUN_00138338`: el modelo de **la ultima arma cargada**, un global
+  del cargador), reata los accesorios `P+0x25C..` y `FUN_00136B50(P)` copia los registros del modelo nuevo
+  (`*(mod+0x38)`, largo `*(mod+0x3C)` → `*(P+0x354)`; `*(mod+0x40)`, largo `*(mod+0x44)` → `*(P+0x358)`;
+  `FUN_0035C544` es `memcpy`). Nadie mas escribe el modelo del soporte (barrido crudo: `FUN_00138338` desde el
+  constructor `FUN_00139C68`, desde `FUN_00139190` y desde el cambio de arma; `FUN_00136B50` desde el constructor,
+  `FUN_001327F0` y el cambio de arma).
+- **El soporte es un arreglo** de 0x40 B: `FUN_00138C40(mgr, i)` = `mgr + 0x7A10 + i*0x40`, `mgr` = `*(0x0040F514)`.
+  El constructor del jugador pide **siempre el 0** (`0x00139E1C`); los otros dos llamadores (`0x0015F090`,
+  `0x00178C40`) son de otros personajes.
+- **Medido en los 5 volcados con el mod** (`ee-parpadeo-*.bin`, del (93); el script quedo en el scratchpad de la
+  sesion y se reescribe en la herramienta de la sonda): `J+0x328` = `J2+0x328` = `0x00597810`, `J+0x354` = `J2+0x354`
+  = `0x006EC700`, `J+0x358` = `J2+0x358` = `0x006EC780`, `+0x360` tambien igual; **distinto** solo `+0x2A4` (el arma en
+  la mano, `0x006DE690` / `0x006DE7A0`). J2 es una copia del molde de J y hereda los punteros.
+
+**La explicacion de F7 que sale de ahi:** hay **un** modelo de primera persona y **un** juego de registros para los
+dos. El que cambia de arma ultimo le pone a ese soporte el modelo de **su** arma; despues cada uno lo dibuja con
+**su** pose y **su** mapa de huesos. En la mitad de J2 (SPAS con la pose y los huesos de la SPAS) sale bien; en la de
+J sale **la malla de la SPAS con el esqueleto de la pistola**: torcida, corrida, y con un «bloque de basura» (las
+submallas atadas a huesos que la pistola no tiene). Es exactamente la foto del control de (123)
+(`pieza-control-carga1-20261009-015716/j2-cambio.png`: la SPAS de la mitad de J **no tiene la pose** de la de J2) y
+es «el arma del ultimo que cambio» de (111). Explica tambien por que el sub propio no lo arreglo (P3a, (123)): el
+sub solo aporta el mapa de huesos; la malla viene del soporte.
+
+**Lo que esto cambia del diseno (para despues de la sonda, no antes):** el arreglo de F7 no es el sub3 sino darle a
+J2 **su propio soporte y sus propios buffers de registros** (duplicar; el soporte es un bloque de 0x40 B y el
+juego ya tiene un arreglo de ellos) o conmutarlos por pasada (T7). Se decide con la sonda en vivo y se escribe aca
+antes de tocar el stub.
+
+**La sonda en vivo (19:45, `herramientas/f7_soporte.py`, `sesiones/PREDICCIONES-124.md`): F7 `confirmado`.** Con J en
+la pistola y J2 en la SPAS, en pausa, se le devolvio al soporte compartido el modelo de la pistola y sus registros
+(lo que hace el juego al cambiar de arma): la mitad de J **volvio a dibujar su pistola** y la de J2 **perdio la SPAS**
+(manos vacias). Con la SPAS otra vez, F7 volvio; con la pistola otra vez, se arreglo de nuevo. Medido ademas: el
+soporte (`0x00597810`) y los buffers (`0x006EC700`, `0x006EC780`) son los mismos para J y J2 en los cinco estados; el
+modelo cambia `0x01AE7E00` → `0x01A33100` con el cambio de J2; los registros miden 56 B y 96 B para las dos armas; y
+`M+0x08` varia dentro de cada estado sin seguir al que cambio (el asignador queda descartado).
+
+**Eleccion para la pieza (se escribe antes del stub, Fase C): DUPLICAR, no conmutar.** J2 lleva su propio soporte
+(0x40 B, copia del de J) y sus propios dos buffers (0x38 y 0x60 B), en memoria del mod, y `J2+0x328`, `J2+0x354`,
+`J2+0x358` apuntan ahi. Por que: (1) el juego ya escribe el soporte **del duenio** al cambiar de arma
+(`FUN_0013C868(P, i)` → `*(P+0x328)`), asi que con soportes separados cada cambio toca solo el suyo, sin codigo por
+cuadro; (2) conmutar por pasada pide saber el modelo de cada uno en cada cuadro y dos `memcpy` por pasada; (3) el juego
+ya tiene un arreglo de soportes por indice (`FUN_00138C40`, con otros dos llamadores: `hipotesis`, uno por
+personaje). **Lo que falta leer en frio antes del
+stub:** (a) en que punto del armado de J2 (`ENVOLTORIO_MOD` / la llamada a `FUN_00139C68` con J2) reapuntar los tres
+campos, porque el constructor le vuelve a dar el soporte 0 (`0x00139E1C`) y le copia los registros
+(`FUN_00136B50` en `0x0013A22C`); (b) el modelo inicial del soporte de J2 (el del arma con que arranca: hoy la misma
+pistola) y `soporte+4`/`+0x38` (`FUN_00138328`, el conjunto de agregados de `FUN_00137320`); (c) los **accesorios**
+`P+0x25C..` (tambien compartidos, (93s)): `FUN_0013C868` los reata a la ranura del indice nuevo y `FUN_00137320`
+les cuelga los agregados del arma -- en `b-pistola.png` queda un fragmento suelto en la mitad de J2 que puede ser
+eso; (d) `P+0x360`, tambien igual en J y J2 (lo usa `FUN_00133BA0` para el fogonazo, candidato a F8). Y la sub3
+(2b) sigue apagada: con soportes separados el mapa de huesos de cada uno ya sale de su propia ranura.
+
+**El inventario de lo que J2 hereda (`herramientas/clon_comparte.py`, en `pruebas/controles.py` con su saboteador).**
+En los 5 volcados con el mod, 21 campos de J2 apuntan a **lo mismo** que los de J. Ademas de las tablas virtuales
+(`+0x10`, `+0x574`, `+0x6A4`, `+0x7B4`, `+0x854`, estaticas) y de `+0x330` (la ranura, separada despues con R3):
+`+0x030`, `+0x0B8`/`+0x0BC`, `+0x0FC`, los accesorios `+0x270..+0x278`, `+0x294`, **`+0x328`, `+0x354`, `+0x358`** (F7),
+`+0x35C`, `+0x360`, `+0x3A8`, `+0x410`. Cada uno es un candidato a «lo de uno se ve en el otro»; cualquier defecto
+compartido del coop se empieza por esta lista.

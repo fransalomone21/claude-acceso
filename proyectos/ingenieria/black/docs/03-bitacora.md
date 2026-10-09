@@ -4,8 +4,58 @@ Registro del proyecto. **Lo nuevo va arriba.** Al retomar, alcanza con leer las
 dos primeras entradas.
 
 Formato de cada entrada:
+(sangrada a proposito: si empezara con `## ` en la columna 0, «arriba de todo» caeria ADENTRO del bloque, como
+les paso a (121)-(123) hasta (124)).
 
-```
+    ## AAAA-MM-DD — título corto
+    **Máquina:** PC / notebook / nube · **Modelo:** Opus / Sonnet / Haiku
+    **Objetivo:** qué se venía a hacer
+    **Resultado:** qué se logró
+    **No funcionó:** los callejones sin salida. Esta parte no es opcional.
+    **Sigue:** el próximo paso concreto
+
+---
+
+## 2026-10-09 — (124) F7 confirmado: J y J2 dibujan el arma desde UN solo soporte de modelo, y el último que cambia le pone el suyo
+**Máquina:** notebook MSI (frío + una sonda en vivo, sin Fran) · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** COOP-C pieza 2 (F7, el modelo del arma de J2) · nodos `vista-fp`, `armas`, `personajes`
+**Objetivo:** en frío, nombrar quién pide memoria al asignador `M` = `pers+0x8F0` en modo 0 (el sospechoso de (123));
+después, una sonda en vivo con predicción escrita antes (`sesiones/PREDICCIONES-124.md`).
+**Resultado:** el sospechoso de (123) **no es**; la causa de F7 es otra, se leyó en frío, se midió en volcados y
+quedó **`confirmado`** por intervención en vivo, ON → OFF → ON. `docs/16` sección (124).
+
+- **`M` descartado, por dos métodos.** `FUN_001ADFC0` tiene un solo `jal` (desde `FUN_001AC798`, que fija su propio
+  bloque antes) y es además la entrada `+0x34` de la tabla de `M` (`0x003E0174`), que Ghidra no ve y el barrido
+  crudo sí. Por esa tabla pide la biblioteca de animación (`M` en el global `0x003D1B7C`, puesto por
+  `FUN_0034B460` desde `FUN_001AB780`), y sólo al **armar** una instancia (`FUN_00345510`, tres llamadores, todos con
+  su bloque fijado antes). Nadie pide memoria por cuadro. En vivo, `M+0x08` varía dentro de cada estado sin seguir
+  al que cambió de arma.
+- **La causa, en frío:** el dibujo del personaje (`FUN_00133BA0`) toma el modelo de `*(*(P+0x328))` y los registros
+  de submallas de `*(P+0x354)`/`*(P+0x358)`; a las submallas de primera persona les pone **su** pose y **su** mapa de
+  huesos. El cambio de arma (`FUN_0013C868`) le pone al soporte el modelo de **la última arma cargada** y le copia
+  los registros (`FUN_00136B50`). El soporte sale de un arreglo (`FUN_00138C40`: `*(0x0040F514)+0x7A10+i·0x40`) y el
+  constructor del jugador pide **siempre el 0**; J2, copia del molde, hereda los tres punteros (medido en los 5
+  volcados de (93)).
+- **La sonda (`herramientas/f7_soporte.py`), siete predicciones cumplidas:** soporte `0x00597810` y buffers
+  `0x006EC700`/`0x006EC780` iguales en J y J2 en los cinco estados; el modelo pasa de `0x01AE7E00` (pistola) a
+  `0x01A33100` (SPAS) con el cambio de J2; con el soporte devuelto a la pistola (en pausa, modelo + registros de 56 y
+  96 B) **la mitad de J vuelve a su pistola y la de J2 pierde la SPAS**; con la SPAS, F7 vuelve; con la pistola, se
+  arregla otra vez. Vivo entre pasos (816 → 1272), cinco fotos distintas.
+- **Lo que explica:** «el arma del último que cambió» de (111); la SPAS **torcida y con un bloque de basura** de la
+  mitad de J (malla de la SPAS con el esqueleto de la pistola); y por qué el sub propio no arregló nada en (123) (el
+  sub sólo aporta el mapa de huesos).
+- **Decisión de diseño (escrita en `docs/16` antes del stub):** duplicar — J2 con su propio soporte (0x40 B) y sus dos
+  buffers (0x38 y 0x60 B). Falta leer en frío dónde reapuntarlos en el armado de J2 (el constructor le vuelve a dar
+  el soporte 0), los accesorios `+0x25C..` y `+0x360`, también compartidos.
+- **Bitácora arreglada:** las entradas (121)–(123) estaban adentro del bloque de formato (se veían como código). La
+  plantilla ahora va sangrada, así su encabezado no es un `## ` y «arriba de todo» no puede volver a caer adentro.
+
+**No funcionó:** la sonda que traía el retome (ponerle a mano a `M+0x08` el bloque de J) no era una intervención: el
+cuadro siguiente la pisa (`FUN_001A54E0` lo reescribe en cada animado). Se reemplazó por la medición de R3.
+**Sigue:** en frío, el diseño a nivel instrucción del soporte propio de J2 (`docs/16` (124), puntos a–d) y su regla en
+`coop_diseno.py`; después el stub con predicción, control y dos cargas. Retome: `sesiones/RETOME-LOCAL.md`.
+**Máquina al cerrar:** fork cerrado; pnach al default de 1059 palabras (`sub3_j2: false`); COOP activo.
+
 ## 2026-10-09 — (123) en vivo, sin Fran: la pieza 2b colgaba el juego (sub3 sin tabla virtual) — arreglado; y F7 no es del sub
 **Máquina:** notebook MSI (caliente, fork, Fran durmiendo) · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** COOP-C pieza 2b (F7, el modelo del arma de J2) · nodos `armas`, `vista-fp`, `codigo-nuevo`
@@ -143,13 +193,6 @@ arreglado; N26 se corrige; y Fran contestó la pregunta pendiente, que agranda l
 - **Máquina al cerrar:** fork muerto, pnach reinstalado al **default de 1059 palabras** (`sub3_j2: false`),
   COOP activo, parches de mira prendidos. `pruebas/controles.py` en verde.
 
-## AAAA-MM-DD — título corto
-**Máquina:** PC / notebook / nube · **Modelo:** Opus / Sonnet / Haiku
-**Objetivo:** qué se venía a hacer
-**Resultado:** qué se logró
-**No funcionó:** los callejones sin salida. Esta parte no es opcional.
-**Sigue:** el próximo paso concreto
-```
 
 ---
 

@@ -21,6 +21,9 @@ CONTROLES = [
     # NEGATIVO de poblacion (200 direcciones de RAM: ninguna puede pasar por arma viva). Se engancha el dia
     # que nace, que es lo que (120) aprendio con fase_activa: un autotest que no corre nadie no mide.
     ("armas_estado autotest", ["herramientas/armas_estado.py", "--autotest"]),
+    # (124) lo que J2 hereda de J por ser copia del molde: el soporte de modelo (F7) tiene que salir, el arma no
+    ("clon_comparte autotest", ["herramientas/clon_comparte.py", "--autotest"]),
+    ("probar-clon-comparte", ["pruebas/probar-clon-comparte.py"]),
     ("prueba_herramientas", ["pruebas/prueba_herramientas.py"]),
 ]
 
