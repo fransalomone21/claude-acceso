@@ -63,6 +63,14 @@ TESTIGO_SIN_GUARDAR = ("import coop_sub3 as c; c.FUENTE = c.FUENTE.replace('sw s
                        "'nop')", "no guarda el indice de arma")
 TESTIGO_SIN_LIMPIAR = ("import coop_sub3 as c; c.DESARME_BLOQUE = c.DESARME_BLOQUE.replace("
                        "'sw zero, %d(t2)' % c._o(c.SUB3_IDX), 'nop')", "no pone SUB3_IDX")
+# (123) el PUNTERO DE TABLA del sub3 (sin el, la junta de J2 cuelga el juego). Tres al hallazgo: el `sw` sacado, el
+# `sw` sobre OTRA base (la relacion, no el inmediato suelto), y la constante que ya no es la del constructor del ELF.
+VPTR_SIN_SW = ("import coop_sub3 as c; c.FUENTE = c.FUENTE.replace('sw t2, 0x%x(t4)' % c.VPTR_OFF, 'nop')",
+               "puntero de tabla virtual")
+VPTR_OTRA_BASE = ("import coop_sub3 as c; c.FUENTE = c.FUENTE.replace('sw t2, 0x%x(t4)' % c.VPTR_OFF, "
+                  "'sw t2, 0x%x(t0)' % c.VPTR_OFF)", "puntero de tabla virtual")
+VPTR_NO_ES_DEL_ELF = ("import coop_sub3 as c; c.APOYO[0x00382DB0] = 'addiu v0, v0, %d' % ((c.VPTR_SUB & 0xFFFF) + 0x70)",
+                      "sub3: apoyo 0x382db0")
 
 
 def fila_sub3(n=0) -> str:
@@ -160,6 +168,9 @@ def main() -> int:
         ("testigo: el bloque por cuadro no compara el índice (122)", lambda t: t, TESTIGO_SIN_COMPARAR, 1),
         ("testigo: SUBH no guarda qué arma armó el sub3 (122)", lambda t: t, TESTIGO_SIN_GUARDAR, 1),
         ("testigo: el desarme no limpia SUB3_IDX (122)", lambda t: t, TESTIGO_SIN_LIMPIAR, 1),
+        ("sub3: sin su puntero de tabla virtual (123)", lambda t: t, VPTR_SIN_SW, 1),
+        ("sub3: el puntero de tabla escrito en otra base (123)", lambda t: t, VPTR_OTRA_BASE, 1),
+        ("sub3: el puntero de tabla no es el del constructor del ELF (123)", lambda t: t, VPTR_NO_ES_DEL_ELF, 1),
         ("testigo: SUB3_IDX fuera de la reserva «sub3 (datos)» (122)",
          lambda t: t.replace("sub3 (datos)                   | 0x0046EF00 | 0x0046F000 | reserva",
                              "sub3 (datos)                   | 0x0046EF00 | 0x0046EF7C | reserva"),

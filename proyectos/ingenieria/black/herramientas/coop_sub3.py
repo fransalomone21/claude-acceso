@@ -82,6 +82,10 @@ ARMAR_SUB = 0x001A80F8          # FUN_001A80F8(sub): aloja el mapa de huesos (+0
 ARMA_SUB = 0x001A8168           # FUN_001A8168(sub, plantilla, tabla, a3): instancia la plantilla en la arena
 SITIO = 0x001ACA2C              # el unico gancho propio de la pieza
 VIVA_OFF, VIVA_REL = 0x1C, 0x4C  # la guarda de plantilla viva: *(p+0x1C) == p+0x4C
+# (123) EL PUNTERO DE TABLA VIRTUAL del sub. Lo pone el constructor de `pers` (FUN_00382D60, `sw v0, 0x5C(v1)` en
+# 0x00382DC0) y NO FUN_001A80F8; sin el, FUN_001A51C8 hace la llamada virtual `(*(sub+0x5C))[+0x14]` con +0x5C = 0,
+# salta a la direccion 0 y el juego cae en «Syscall: undefined» al juntar J2 un arma (docs/16, seccion (123)).
+VPTR_SUB, VPTR_OFF = 0x003E0180, 0x5C   # verificados contra el ELF en APOYO (las cuatro del constructor)
 
 J2 = 0x0046CDF0                 # coop_mod.J2
 MOLDES = 0x0046D7C0             # coop_mod.MOLDES
@@ -112,6 +116,9 @@ jal 0x%(ARMAR)x
 move a0, t4
 lui t0, 0x47
 addiu t4, t0, %(SUB3)d
+lui t2, 0x%(VPTR_HI)x
+addiu t2, t2, 0x%(VPTR_LO)x
+sw t2, 0x%(VPTR_OFF)x(t4)
 addiu t2, zero, 1
 sw t2, %(ARMADA)d(t0)
 ARMA3:
@@ -205,7 +212,8 @@ addiu sp, sp, 0x40
 """ % {"J2": _o(J2), "ARMADA": _o(SUB3_ARMADA), "SUB3": _o(SUB3), "ARMAR": ARMAR_SUB, "MOLDES": _o(MOLDES),
        "MOLDE3": _o(SUB3_MOLDE), "ARMA": ARMA_SUB, "CUAD": _o(CUAD), "VIVA": VIVA_OFF, "REL": VIVA_REL,
        "SUBS": SUBS_OFF, "PASO": PASO_SUB, "ESCRIB": _o(SUB3_ESCRIB), "SALTOS": _o(SUB3_SALTOS), "N": N_SUBS,
-       "IDX": _o(SUB3_IDX)}
+       "IDX": _o(SUB3_IDX), "VPTR_HI": VPTR_SUB >> 16, "VPTR_LO": VPTR_SUB & 0xFFFF, "VPTR_OFF": VPTR_OFF}
+assert VPTR_SUB & 0x8000 == 0, "la mitad baja de VPTR_SUB tiene signo: el par lui/addiu daria otra direccion"
 
 
 # --- los tres bloques que coop_mod.py inserta en el codigo que ya tiene (no son ganchos nuevos) ---
@@ -281,7 +289,12 @@ APOYO = {0x001ACA14: "li v0, 108",               # el paso del sub: PASO_SUB
          0x001A8148: "li a0, 18000",             # la arena que aloja FUN_001A80F8
          0x001A8140: "li a0, 176",               # el mapa de huesos
          0x001A81B0: "sw a1, 8(s5)",             # FUN_001A8168 escribe sub+8 = la plantilla
-         0x001A81DC: "jal 0x00342A80"}           # ... y de ahi sale la cuadrupla de la plantilla
+         0x001A81DC: "jal 0x00342A80",           # ... y de ahi sale la cuadrupla de la plantilla
+         # (123) el constructor de `pers` le pone a cada sub su puntero de tabla: VPTR_SUB en +VPTR_OFF
+         0x00382DA8: "lui v0, 0x%X" % (VPTR_SUB >> 16),
+         0x00382DAC: "addiu v1, s3, %d" % SUBS_OFF,
+         0x00382DB0: "addiu v0, v0, %d" % (VPTR_SUB & 0xFFFF),
+         0x00382DC0: "sw v0, %d(v1)" % VPTR_OFF}
 
 
 def ganchos():
@@ -361,6 +374,19 @@ def problemas(mostrar=False, escribir=False) -> list:
         errores.append("falta la guarda de plantilla viva (`lw rX, %#x(rB)` + `addiu rY, rB, %#x` sobre el mismo rB, "
                        "comparados con bne/beq): sin ella la regla escribe sobre un puntero colgado en el caso "
                        "NORMAL del juego (118, 14 de 16 volcados)" % (VIVA_OFF, VIVA_REL))
+    # (123) el puntero de tabla virtual del sub3, por RELACION (la leccion de (120)): un `sw rX, VPTR_OFF(rB)` con rX
+    # armado por `lui rX, hi` + `addiu rX, rX, lo` y rB el registro que tiene SUB3 (`addiu rB, rT, _o(SUB3)`), DESPUES
+    # del `jal FUN_001A80F8`. Un `sw ... 0x5c(...)` suelto, o la constante armada en otro registro, no alcanza.
+    jal_armar = [i for i, w in enumerate(pal) if (w >> 26) == 3 and ((w & 0x03FFFFFF) << 2) == ARMAR_SUB]
+    luis = {_rt(w) for w in pal if (w >> 26) == 0x0F and (w & 0xFFFF) == VPTR_SUB >> 16}
+    addius = {_rt(w) for w in pal if (w >> 26) == 9 and _rs(w) == _rt(w) and (w & 0xFFFF) == VPTR_SUB & 0xFFFF}
+    regs_sub3 = {_rt(w) for w in pal if (w >> 26) == 9 and (w & 0xFFFF) == _o(SUB3) & 0xFFFF}
+    sw_vptr = [i for i, w in enumerate(pal) if (w >> 26) == 0x2B and (w & 0xFFFF) == VPTR_OFF
+               and _rt(w) in (luis & addius) and _rs(w) in regs_sub3]
+    if not (jal_armar and any(i > jal_armar[0] for i in sw_vptr)):
+        errores.append("SUBH no le pone al sub3 su puntero de tabla virtual (`sw rX, %#x(rSUB3)` con rX = %#x, despues "
+                       "de `jal FUN_001A80F8`): sin el, FUN_001A51C8 salta a la direccion 0 al cargar R3 con una "
+                       "plantilla y el juego cae en «Syscall: undefined» (123)" % (VPTR_OFF, VPTR_SUB))
     # los tres bloques que coop_mod inserta
     for nombre, src in (("envoltorio", ENVOLTORIO_BLOQUE), ("por cuadro", POR_CUADRO_BLOQUE),
                         ("desarme", DESARME_BLOQUE)):

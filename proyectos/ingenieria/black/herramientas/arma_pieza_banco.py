@@ -113,6 +113,8 @@ def estado(p):
                      "cuadruplas": [[hex(p.leer32(cs.CUAD + 0x10 * i + 4 * j)) for j in range(4)]
                                     for i in range(cs.N_SUBS)]},
             "subs": subs,
+            # (123) el sub3 crudo: +0x5C es el puntero de tabla virtual y +0x34..+0x4C lo que el juego tiene y el no
+            "sub3_crudo": ["%08x" % p.leer32(cs.SUB3 + 4 * i) for i in range(cs.PASO_SUB // 4)],
             "ranura_J": _ranura(p, cj.J, pers), "ranura_J2": _ranura(p, cj.J2, pers),
             "arma_J": _arma(p, cj.J), "arma_J2": _arma(p, cj.J2),
             "r3": {"armada": p.leer32(cm.R3_ARMADA), "cargas": p.leer32(cm.R3_CARGAS),
@@ -177,9 +179,12 @@ def _juntar(p, i, quien):
             "sumo_arma": despues["n_armas"] > antes["n_armas"]}
 
 
-def preparar(p):
+def preparar(p, intentar_j=True):
     """Construye la precondicion de P3: J2 con DOS armas (y, si se puede, J tambien). Sin esto el experimento no
-    discrimina nada -- medido en (121). Devuelve `listo` False si J2 no llego a dos, y el banco sale en ROJO."""
+    discrimina nada -- medido en (121). Devuelve `listo` False si J2 no llego a dos, y el banco sale en ROJO.
+    `intentar_j=False` (--solo-j2, (123)): no intenta darle una 2.a arma a J. Medido en (123): con los dos intentos de
+    J FALLIDOS (recogibles 29 y 20) la mitad de J quedo SIN ARMA DIBUJADA desde la base, asi que la foto de P3a no
+    podia discriminar nada."""
     _, libres = _armas_del_piso(p)
     res = {"armas_en_el_piso": [r["i"] for r in libres[:6]], "intentos": []}
     for r in libres[:3]:
@@ -187,7 +192,7 @@ def preparar(p):
         if res["intentos"][-1]["sumo_arma"]:
             break
     res["J2_listo"] = _arma(p, cj.J2)["n_armas"] >= 2
-    if res["J2_listo"]:                                  # y un intento para J, que permite la mitad J del ciclo
+    if res["J2_listo"] and intentar_j:                   # y un intento para J, que permite la mitad J del ciclo
         _, libres = _armas_del_piso(p)
         for r in libres[:2]:
             res["intentos"].append(_juntar(p, r["i"], "J"))
@@ -198,21 +203,38 @@ def preparar(p):
     return res
 
 
-def igualar_indices(p):
+def igualar_indices():
     """P3 arranca con los dos en la MISMA arma. Se compara el INDICE (+0x2C3), no el puntero: cada jugador tiene su
     propia INSTANCIA del arma de arranque, asi que dos punteros distintos pueden ser la misma arma (medido (121))."""
-    pasos = []
-    for _ in range(4):
+    with Pine() as p:
         a, b = _arma(p, cj.J), _arma(p, cj.J2)
+    pasos = [{"J": a, "J2": b}]
+    if a["indice"] != b["indice"]:
+        pasos.append(cambiar(m2.boton, cj.J2, ARMA_A))   # (123): medido, con reintentos
+        with Pine() as p:
+            a, b = _arma(p, cj.J), _arma(p, cj.J2)
         pasos.append({"J": a, "J2": b})
-        if a["indice"] == b["indice"]:
-            return {"iguales": True, "pasos": pasos}
-        _apretar(m2.boton, p, ARMA_A)
-        time.sleep(1.2)
-    return {"iguales": False, "pasos": pasos}
+    return {"iguales": a["indice"] == b["indice"], "pasos": pasos}
 
 
-def medir(etiqueta):
+def cambiar(poner, P, boton, intentos=4, espera=2.5):
+    """Aprieta el cambio de arma de P y MIDE que el indice (+0x2C3) cambio; si no, reintenta. Medido en (123): una
+    pulsacion de 0,25 s se pierde a veces (la primera de «igualar» no entro; en otra corrida ni el cambio ni la vuelta
+    entraron), y un paso que no ocurrio saca una foto igual a la anterior que se lee como resultado."""
+    with Pine() as p:
+        antes = _arma(p, P)["indice"]
+    for n in range(1, intentos + 1):
+        with Pine() as p:
+            _apretar(poner, p, boton)
+        time.sleep(espera)
+        with Pine() as p:
+            ahora = _arma(p, P)["indice"]
+        if ahora != antes:
+            return {"antes": antes, "despues": ahora, "pulsaciones": n, "ocurrio": True}
+    return {"antes": antes, "despues": ahora, "pulsaciones": intentos, "ocurrio": False}
+
+
+def medir(etiqueta, intentar_j=True):
     """Una carga: la secuencia del peligro paso a paso, con estado y foto en cada uno."""
     dir_ = SAL / time.strftime("pieza-%s-%%Y%%m%%d-%%H%%M%%S" % etiqueta)
     dir_.mkdir(parents=True, exist_ok=True)
@@ -222,26 +244,36 @@ def medir(etiqueta):
         if p.leer32(sc.CTRL1 + 0xC) == sc.MANDO1_REAL:    # el mando falso de J (el selector ya suele dejarlo puesto)
             sc.falso_poner(p)
         m2.poner(p)
-        res["preparar"] = preparar(p)
-        res["igualar"] = igualar_indices(p)
+        res["preparar"] = preparar(p, intentar_j)
+    res["igualar"] = igualar_indices()                   # abre sus propias conexiones (cambiar), sin anidar
+    with Pine() as p:
         res["base"] = estado(p)
     hd.captura(dir_, "base.png")
     if not res["preparar"]["listo"]:
         res["ROJO"] = ("J2 no llego a dos armas: el cambio de arma no puede ocurrir y la corrida NO discrimina. "
                        "No se concluye nada de las fotos ni de los testigos.")
     # el ciclo: J2 cambia y vuelve; y si J tambien consiguio una 2.a arma, J cambia y vuelve (el peligro es simetrico)
-    pasos = [("j2_cambio", m2.boton, ARMA_B), ("j2_vuelve", m2.boton, ARMA_A)]
+    # (123): los dos sentidos con `arma_a`, como en (111), y cada paso MEDIDO (`cambiar`): si no ocurrio, ROJO
+    pasos = [("j2_cambio", m2.boton, cj.J2, ARMA_A), ("j2_vuelve", m2.boton, cj.J2, ARMA_A)]
     if res["preparar"]["J_listo"]:
-        pasos += [("j_cambio", sc.poner_boton, ARMA_B), ("j_vuelve", sc.poner_boton, ARMA_A)]
-    for nombre, poner, boton in pasos:
-        with Pine() as p:
-            _apretar(poner, p, boton)
-        time.sleep(1.5)
+        pasos += [("j_cambio", sc.poner_boton, cj.J, ARMA_A), ("j_vuelve", sc.poner_boton, cj.J, ARMA_A)]
+    for nombre, poner, P, boton in pasos:
+        res[nombre + "_pulso"] = cambiar(poner, P, boton)
+        if not res[nombre + "_pulso"]["ocurrio"]:
+            res.setdefault("ROJO_PASOS", []).append(nombre)
         with Pine() as p:
             res[nombre] = estado(p)
         hd.captura(dir_, nombre.replace("_", "-") + ".png")
     with Pine() as p:
         m2.quitar(p)
+    # (123) EL JUEGO TIENE QUE ESTAR VIVO ENTRE PASOS: el contador de cuadros de J2 sube. En (121) quedo clavado en
+    # 671 en los tres pasos de las dos cargas y se leyo como «J2 no cambia de arma»: era el juego COLGADO al juntar.
+    vistos = [(n, res[n]["cuadros_J2"]) for n in ("base", "j2_cambio", "j2_vuelve", "j_cambio", "j_vuelve") if n in res]
+    res["vida_entre_pasos"] = vistos
+    clavados = [b for (a, x), (b, y) in zip(vistos, vistos[1:]) if y == x]
+    if clavados:
+        res["ROJO_MUERTO"] = ("el contador de cuadros de J2 no subio hasta %s: el juego estaba colgado y los pasos "
+                              "no miden nada" % clavados[0])
     res["fotos"] = dict(hd.FOTOS)
     res["mitades"] = {n: _mitades(dir_, n) for n in res["fotos"]}
     if hd.fotos_invalidas(hd.FOTOS):
@@ -253,6 +285,8 @@ def medir(etiqueta):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("modo", choices=["pieza", "control"])
+    ap.add_argument("--solo-j2", action="store_true",
+                    help="no intenta darle una 2.a arma a J (123: los intentos fallidos lo dejaron sin arma dibujada)")
     a = ap.parse_args()
     modo = a.modo
     if cc.pcsx2_de_fran_abierto():
@@ -272,7 +306,7 @@ def main():
         res["carga%d" % n] = {k: c.get(k) for k in ("armado_s", "juego_s", "cuelga_o_no_arma", "vivo_despues", "r3")}
         if c.get("cuelga_o_no_arma"):
             break
-        res["medida%d" % n] = medir("%s-carga%d" % (modo, n))
+        res["medida%d" % n] = medir("%s-carga%d" % (modo, n), not a.solo_j2)
         print(json.dumps({"carga": n, "medida": res["medida%d" % n]}, ensure_ascii=False), flush=True)
     sal = SAL / time.strftime("banco-%s-%%Y%%m%%d-%%H%%M%%S.json" % modo)
     sal.write_text(json.dumps(res, indent=1, ensure_ascii=False), encoding="utf-8")

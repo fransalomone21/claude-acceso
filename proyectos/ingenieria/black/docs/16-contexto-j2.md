@@ -990,6 +990,11 @@ Primera medición en vivo de la pieza 2b (`sesiones/PREDICCIONES-118.md` §P3, b
 
 ### Lo que la lectura en frio de (122) dejo: la pieza 2b no es la causa del indice, y el testigo del cuadro esta mal elegido
 
+> **CORREGIDO por (123)** (seccion «El sub3 sin su tabla virtual», abajo): la conclusion (a) sobre el indice
+> partio de un juego **colgado**. En (121) J2 si tenia dos armas; el juego murio al juntar la segunda, por una
+> llamada virtual sobre el sub3 sin su puntero de tabla. Lo leido del tramo `0x001ACA34`-`0x001ACA68` y el
+> testigo del indice siguen valiendo.
+
 En frio, sin abrir el emulador, sobre el desensamblado de `FUN_001AC960` y los 16 volcados
 (`herramientas/armas_estado.py`, autotest en verde con control positivo y una **poblacion** de 200 direcciones
 como control negativo). Las dos preguntas que (121) dejo abiertas, contestadas.
@@ -1077,3 +1082,52 @@ de la ValueDB), y el envoltorio del aislador tocando ese cue en vez de `*(V+0x1B
 despues de que la 2b pase: sin el sub propio, el arma de J2 ni se dibuja bien, y el cue se elige por el arma
 que el juego cree que tiene en la mano. Se mide antes de fabricar (la leccion de (116)): en los volcados, que
 las sub-ranuras libres de `V` esten realmente libres y con que las distingue `FUN_001D6178` al elegir voz.
+
+## (123) El sub3 sin su tabla virtual: lo que de verdad pasaba en (121), y el arreglo
+
+> En vivo, en la notebook, con el banco que **construye** la precondicion (`arma_pieza_banco.py --solo-j2`,
+> `sesiones/PREDICCIONES-123.md`). **Corrige a (121) y a la seccion de (122) de arriba**: las dos leyeron como
+> conducta del juego el estado de un juego **colgado**.
+
+**Lo medido.** Con la pieza, en el instante en que J2 junta su 2.a arma (recogible 25, la SPAS 12) el juego se
+**cuelga**: el contador de cuadros de J2 queda clavado (672) en todos los pasos de las dos cargas, las seis fotos
+tienen el mismo md5 (el cartel «SPAS 12 PICKED UP» congelado) y el EE queda en el kernel, en el manejador de
+**«# Syscall: undefined (%d)»** (`0x80001564`, un `jr ra` sobre si mismo en `0x80001578`). El control (sin la
+pieza, mismo banco) junta, cambia y vuelve sin colgar. **Los datos de (121) dicen lo mismo**: contador clavado en
+671 en los tres pasos de las dos cargas. O sea: «J2 dejo de cambiar de arma» y «la carga 2 termino muerta» de
+(121) eran **un solo evento** -- el cuelgue de la carga 1 al juntar --, y la lectura en frio de (122) («la pieza no
+es la causa del indice; `arreglo[1]` = 0») partio de una premisa falsa: en (121) J2 **si** tenia dos armas
+(indice 1), y el juego ya estaba muerto. Lo que (122) leyo del tramo `0x001ACA34`-`0x001ACA68` sigue valiendo
+(SUBH no pisa `s0`/`s1`/`s6`); lo que se cae es la conclusion sobre el indice. El testigo del indice (regla 11)
+sigue siendo correcto, pero **todavia no se ejercito**.
+
+**El mecanismo, en frio y en RAM (grado `probable`: falta la prueba por efecto con el arreglo puesto):**
+
+1. Los dos subs del juego reciben su **puntero de tabla virtual** en `+0x5C` del constructor de `pers`,
+   `FUN_00382D60`: `lui v0, 0x3E` / `addiu v0, v0, 0x180` / `addiu v1, s3, 0x398` / `sw v0, 0x5C(v1)` en un lazo de
+   dos (`0x00382DA8`-`0x00382DD4`). Los otros siete subs (`pers+0xF8+k*0x60`) reciben `0x003E0250`.
+2. `FUN_001A80F8`, que es lo **unico** que SUBH llama para construir el sub3, aloja el mapa de huesos y la arena
+   pero **no** pone el puntero: en el cuelgue, `SUB3+0x5C` = **0** (en `sub_0` y `sub_1`, `0x003E0180`).
+3. `FUN_001A51C8` (la carga de la ranura, la del `do ... while (r == 0)` del final de `FUN_001AC960`) hace una
+   **llamada virtual** sobre el sub cuando el sub tiene plantilla (`*(ranura[0x15]+4)` != 0):
+   `(*(sub+0x5C))[+0x14](sub + (short)(*(sub+0x5C))[+0x10], ...)`. La entrada de la tabla es `+0x10` delta 0 y
+   `+0x14` = `0x001AD510`. Con `+0x5C` = 0 lee la palabra de la direccion `0x14`, que vale 0, y **salta a la
+   direccion 0**: corre memoria del kernel hasta un `syscall` con basura -> «Syscall: undefined».
+4. Por que la carga del nivel no colgaba y la junta si: en la carga R3 se carga con el sub3 recien construido, sin
+   plantilla, y la rama de la llamada virtual no corre; la junta arma el sub3 con la plantilla de la SPAS y la
+   recarga de la ranura entra a la rama. Los registros del cuelgue lo confirman: `s2` = R3, `s3` = SUB3,
+   `s7` = J2 (los argumentos de `FUN_001A51C8`).
+
+**El arreglo, escrito antes del stub (Fase C).** SUBH, en el mismo camino en que construye el sub3 una vez por
+arranque (despues de `jal FUN_001A80F8` y antes de `SUB3_ARMADA` = 1), le escribe el puntero de tabla que le
+pondria el constructor del juego: `lui t2, 0x3E` / `addiu t2, t2, 0x180` / `sw t2, 0x5C(t4)` (`t4` = SUB3).
+Tres palabras (el codigo pasa de 99 a 102, la reserva es de 120). La constante **no se copia a mano**: sale del ELF
+(`APOYO` de `coop_sub3.py` exige las cuatro instrucciones del constructor) y la regla 10 de `coop_diseno.py`
+(via `coop_sub3.problemas()`) exige la **relacion** -- un `sw rX, 0x5C(rB)` con `rX` armado por `lui 0x3E` +
+`addiu 0x180` y `rB` el registro del SUB3 --, con su sabotaje en rojo.
+
+**Lo que esto NO arregla y queda anotado:** el resto de los campos en que el sub3 difiere de los del juego en
+el cuelgue (`+0x34`..`+0x44` = `ffffffff` y `+0x48`/`+0x4C` = 1/2 en los del juego, 0 en el sub3) no los escribe
+el constructor de `pers`; `hipotesis`: los pone el metodo virtual mismo o la carga de la ranura, que en el sub3
+nunca termino. Se miden en la proxima corrida, con el arreglo puesto: si despues de la junta el sub3 los tiene
+como los del juego, eran del metodo.

@@ -25,7 +25,7 @@ una herramienta.
 | saber qué cierra la fase abierta, o por qué se decidió algo | `PDP.md` |
 | **retomar una tanda: el mensaje exacto de la sesión que sigue** | `sesiones/RETOME-LOCAL.md` (caliente, con emulador), `sesiones/RETOME-LOCAL-FRIO.md` (notebook sin emulador), `sesiones/RETOME-NUBE.md` (nube) |
 | qué se equivocó la tanda (98)–(108b) y qué se revisó después | `sesiones/REVISAR-98-108.md` (§C: resultados de (109)) |
-| las predicciones escritas antes de medir, con su resultado, de una tanda en vivo | `sesiones/PREDICCIONES-110.md`, `sesiones/PREDICCIONES-111.md`, `sesiones/PREDICCIONES-112.md`, `sesiones/PREDICCIONES-113.md`, `sesiones/PREDICCIONES-114.md`, `sesiones/PREDICCIONES-115.md`, `sesiones/PREDICCIONES-116.md` |
+| las predicciones escritas antes de medir, con su resultado, de una tanda en vivo | `sesiones/PREDICCIONES-110.md`, `sesiones/PREDICCIONES-111.md`, `sesiones/PREDICCIONES-112.md`, `sesiones/PREDICCIONES-113.md`, `sesiones/PREDICCIONES-114.md`, `sesiones/PREDICCIONES-115.md`, `sesiones/PREDICCIONES-116.md`, `sesiones/PREDICCIONES-118.md`, `sesiones/PREDICCIONES-123.md` |
 | **COOP-C: qué cierra la fabricación y la receta de cada pieza** | `PDP.md` §4 («Proyecto COOP — Fase C») y `docs/16` (H1–H4 para el HUD doble) |
 | **el proyecto COOP**: el análisis de la Fase A, el plano del mod, la tercera ranura | `docs/13-coop.md`, `docs/14-coop-diseno.md` (lo mide `coop_diseno.py`), `docs/15-tercera-ranura.md` |
 | **COOP-B: diseñar a J2 con contexto propio, y todo lo que le falta** | `docs/16-contexto-j2.md` (el diseño por pasos) y `docs/17-lo-que-falta.md` (el registro entero) |
