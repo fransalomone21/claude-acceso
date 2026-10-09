@@ -80,12 +80,21 @@ def problemas_repo(path: Path):
     if sucio:
         n = len(sucio.splitlines())
         p.append("%d archivo(s) sin commitear (%s)" % (n, ", ".join(l[3:] for l in sucio.splitlines()[:3])))
+    return p + problema_push(path)
+
+
+def problema_push(path: Path):
+    """Lo que hace que HEAD no este en el remoto. Lista vacia = pusheado. Es la UNICA definicion de 'pusheado':
+    auditar-sesion.py (P8, P11) la importa. Antes alla se leia solo la salida de rev-list, y sin upstream git
+    falla con salida vacia -- que se leia como '0 sin pushear': verde silencioso (2026-10-09)."""
     rc, adelante = git(path, "rev-list", "--count", "@{u}..HEAD")
     if rc != 0:
-        p.append("la rama no sigue a ninguna de GitHub (sin upstream): nada de esto se pushea")
-    elif adelante != "0":
-        p.append("%s commit(s) sin pushear" % adelante)
-    return p
+        if not git(path, "remote")[1]:
+            return ["el repo no tiene remote (sin upstream): sus commits no salen de esta maquina"]
+        return ["la rama no sigue a ninguna de GitHub (sin upstream): nada de esto se pushea"]
+    if adelante != "0":
+        return ["%s commit(s) sin pushear" % adelante]
+    return []
 
 
 # ------------------------------------------------------------------------------------------- 2. la memoria
@@ -318,6 +327,9 @@ def probar():
         caso(any("sin pushear" in x for x in problemas_repo(w)), "commit sin pushear -> rojo 'sin pushear'")
         git(w, "checkout", "-q", "-b", "suelta")
         caso(any("sin upstream" in x for x in problemas_repo(w)), "rama sin upstream -> rojo")
+        git(w, "remote", "remove", "origin")
+        p = problemas_repo(w)
+        caso(any("no tiene remote" in x for x in p), "repo sin remote -> rojo que lo dice (llego: %s)" % p)
         loc, esp = tmp / "loc", tmp / "esp"
         loc.mkdir(); (loc / "x.md").write_text("x", encoding="utf-8")
         caso(any("sin espejo" in x for x in problemas_memoria(loc, esp)), "memoria sin espejo -> rojo")

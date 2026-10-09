@@ -124,6 +124,8 @@ $saboteadores = @(
     # Lentos (~10 y ~20 s): van aca y no en el arranque.
     @{ nombre = 'simulacro de la nube';           cmd = 'python .claude\nube\estado-nube.py --simular' }
     @{ nombre = 'saboteador de estado-nube';      cmd = 'python .claude\nube\estado-nube.py --probar' }
+    # La auditoria tenia --autotest y no estaba aca: su ceguera a los repos propios duro dos dias (2026-10-09).
+    @{ nombre = 'saboteador de la auditoria';     cmd = 'python auditar-sesion.py --autotest' }
 )
 
 function Correr($lista, $titulo) {
@@ -145,7 +147,7 @@ function Correr($lista, $titulo) {
             Write-Host ("  [FAIL] {0,-32} {1,5:N1} s   exit={2}" -f $c.nombre, $sw.Elapsed.TotalSeconds, $code) -ForegroundColor Red
             Write-Host ("         {0}" -f $c.cmd) -ForegroundColor Red
             if (-not $Compacto) {
-                foreach ($l in ($salida -split "`r?`n" | Where-Object { $_ -match '\[FAIL\]|FALLIDA|FALLA|FALLO|CIEGO|RUIDO|ALARMA|no discrimin' })) {
+                foreach ($l in ($salida -split "`r?`n" | Where-Object { $_ -match '\[FAIL\]|FALLIDA|FALLA|FALLO|CIEGO|RUIDO|ALARMA|no discrimin|^MAL\s' })) {
                     Write-Host ("         {0}" -f $l.Trim()) -ForegroundColor Red
                 }
             }
@@ -220,7 +222,7 @@ function CorrerConFecha($lista, $titulo, [int]$segundos) {
                 Write-Host ("  [FAIL] {0,-32} {1,5:N1} s   exit={2}" -f $c.nombre, $r.seg, $r.code) -ForegroundColor Red
                 Write-Host ("         {0}" -f $c.cmd) -ForegroundColor Red
                 if (-not $Compacto -and (Test-Path -LiteralPath $r.out)) {
-                    foreach ($l in (Get-Content -LiteralPath $r.out | Where-Object { $_ -match '\[FAIL\]|FALLIDA|FALLA|FALLO|CIEGO|RUIDO|ALARMA|no discrimin' })) {
+                    foreach ($l in (Get-Content -LiteralPath $r.out | Where-Object { $_ -match '\[FAIL\]|FALLIDA|FALLA|FALLO|CIEGO|RUIDO|ALARMA|no discrimin|^MAL\s' })) {
                         Write-Host ("         {0}" -f $l.Trim()) -ForegroundColor Red
                     }
                 }

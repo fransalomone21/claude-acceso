@@ -14,7 +14,8 @@ LAS PREGUNTAS (y de que registro sale cada respuesta)
   P5  Hubo excepciones a la puerta?                             'excepcion', con su motivo
   P6  Cuantas veces freno la puerta, por que, y revento alguna vez?           'decide' con 'niega'
   P7  Cada commit de DISENO cita requisitos que EXISTEN?        git + el documento de requisitos del proyecto
-  P8  Quedo el checkpoint (ESTADO + HANDOFF + commit + push)?   git
+  P8  Quedo el checkpoint (ESTADO + HANDOFF + commit + push)?   git del repo DONDE VIVE el proyecto (el propio, si
+                                                                tiene .git: claude-acceso no ve adentro de esos)
   P9  Lo que dependia de Fran quedo confirmado con evidencia?   --de-fran (declarado: no hay registro que lo mida)
   P10 Si algo fallo (revento, excepcion), quedo su leccion?     perfil-global/aprendizaje/lecciones.jsonl
 
@@ -51,6 +52,23 @@ def cargar_puerta(raiz: Path = RAIZ):
     g = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(g)
     return g
+
+
+def cargar_nube(raiz: Path = RAIZ):
+    """Que es 'pusheado' lo define estado-nube.py (problema_push): se importa, no se copia."""
+    spec = importlib.util.spec_from_file_location("estado_nube_aud", raiz / ".claude" / "nube" / "estado-nube.py")
+    n = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(n)
+    return n
+
+
+def repo_de(raiz: Path, pr: Path) -> tuple:
+    """(repo, ruta del proyecto adentro de ese repo). Un proyecto con .git propio (el mismo criterio que
+    estado-nube.py) vive en SU repo, ignorado por claude-acceso: medirlo desde arriba es ceguera por construccion
+    (2026-10-09: P8 dio NO APLICA a teoria-circuitos con el commit 43a4417 hecho y pusheado en su repo)."""
+    if (pr / ".git").exists():
+        return pr, "."
+    return raiz, pr.relative_to(raiz).as_posix()
 
 
 def hora(ts) -> str:
@@ -223,11 +241,18 @@ def p7_commit(repo: Path, h: str, rel: str, doc: Path | None) -> tuple:
     return "VERDE", "%s traza a %s" % (h[:8], ", ".join("%s (%s:%d)" % (i, doc.name, existen[i]) for i in validos))
 
 
-def p8_checkpoint(repo: Path, rel: str, handoff_rel: str, desde: str) -> tuple:
+def p8_checkpoint(repo: Path, rel: str, handoff_rel: str, desde: str, nube=None) -> tuple:
+    """rel '.' = el proyecto ES el repo (repo propio): ahi todo el repo cuenta, tambien lo atrasado de antes."""
+    nube = nube or cargar_nube()
+    donde = "el repo propio %s" % repo.name if rel == "." else rel
     sucio = [l for l in git(repo, "status", "--porcelain", "--", rel).splitlines() if l.strip()]
     commits = [h for h in git(repo, "log", "--since=" + desde, "--format=%H", "--", rel).splitlines() if h.strip()]
+    push = nube.problema_push(repo)
     if not commits and not sucio:
-        return "NO APLICA", "sin commits ni cambios en %s desde %s" % (rel, desde)
+        if rel == "." and push:
+            return "AMARILLO", "%s: sin commits de la sesion desde %s, pero el repo no esta en su remoto: %s" % (
+                donde, desde, "; ".join(push))
+        return "NO APLICA", "sin commits ni cambios en %s desde %s" % (donde, desde)
     falta = []
     if sucio:
         falta.append("sin commitear: " + ", ".join(l[3:] for l in sucio[:4]))
@@ -235,13 +260,19 @@ def p8_checkpoint(repo: Path, rel: str, handoff_rel: str, desde: str) -> tuple:
         falta.append("ningun commit de la sesion toco ESTADO_ACTUAL.md")
     if commits and not git(repo, "log", "--since=" + desde, "--format=%H", "--", handoff_rel).strip():
         falta.append("ningun commit de la sesion toco %s" % handoff_rel)
-    adelante = git(repo, "rev-list", "--count", "@{u}..HEAD").strip()
-    if adelante not in ("", "0"):
-        falta.append("%s commit(s) sin pushear" % adelante)
+    falta += push
     if falta:
-        return "ROJO", "; ".join(falta)
-    return "VERDE", "%d commit(s) en %s desde %s (el ultimo %s), con ESTADO y HANDOFF, y pusheado" % (
-        len(commits), rel, desde, commits[0][:8])
+        return "ROJO", "%s: %s" % (donde, "; ".join(falta))
+    return "VERDE", "%d commit(s) en %s desde %s (el ultimo %s), con ESTADO y HANDOFF, y pusheado a %s" % (
+        len(commits), donde, desde, commits[0][:8], git(repo, "rev-parse", "--abbrev-ref", "@{u}").strip())
+
+
+def p8_de(g, nube, raiz: Path, pr: Path, desde: str) -> tuple:
+    """P8 de un proyecto, medido en el repo donde vive (repo_de)."""
+    repo, rel = repo_de(raiz, pr)
+    ho = g.handoff_de(pr)
+    ho_rel = ho.relative_to(repo).as_posix() if ho else rel + "/HANDOFF.md"
+    return p8_checkpoint(repo, rel, ho_rel, desde, nube)
 
 
 def lecciones_nuevas(raiz: Path, desde: str) -> tuple:
@@ -262,17 +293,15 @@ def lecciones_nuevas(raiz: Path, desde: str) -> tuple:
     return out, base
 
 
-def repo_al_dia(repo: Path) -> tuple:
+def repo_al_dia(repo: Path, nube=None) -> tuple:
     # el informe de la auditoria es su SALIDA, no trabajo de la sesion: va en un commit propio despues (si contara,
     # ninguna auditoria con --escribir podria salir verde)
     sucio = [l[3:] for l in git(repo, "status", "--porcelain", "--untracked-files=all").splitlines()
              if l.strip() and not l[3:].strip('"').startswith(".claude/auditorias/")]   # -uall: sin colapsar carpetas
-    adelante = git(repo, "rev-list", "--count", "@{u}..HEAD").strip()
     falta = []
     if sucio:
         falta.append("%d sin commitear: %s" % (len(sucio), ", ".join(sucio[:5])))
-    if adelante not in ("", "0"):
-        falta.append("%s commit(s) sin pushear" % adelante)
+    falta += (nube or cargar_nube()).problema_push(repo)
     if falta:
         return "ROJO", "; ".join(falta)
     return "VERDE", "limpio y pusheado (HEAD %s)" % git(repo, "rev-parse", "--short", "HEAD").strip()
@@ -292,30 +321,29 @@ def auditar(sesion: str | None, de_fran: list, raiz: Path = RAIZ) -> dict:
     t0 = evs[0].get("ts") if evs else time.time()
     desde = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t0))
     disco = g.proyectos_del_disco()
+    nube = cargar_nube(raiz)
     tocados = sorted(set(toc) | set(decl))
     for p in tocados:
         ent = cat.get("proyectos", {}).get(p, {})
         pr = disco.get(p)
         if pr is None:
             continue
-        rel = pr.relative_to(raiz).as_posix()
+        repo, rel = repo_de(raiz, pr)   # P7 y P8 miran el repo donde VIVE el proyecto
         # P7
         if not ent.get("requisitos"):
             res.append(R("P7", "Los commits de diseno de %s trazan a requisitos que existen?" % p, "NO APLICA", "medido",
                          "%s no declara su documento de requisitos ('requisitos' en .claude/cascada.json)" % p))
         else:
             doc = pr / ent["requisitos"]
-            commits = [h for h in git(raiz, "log", "--since=" + desde, "--format=%H", "--", rel).splitlines() if h]
+            commits = [h for h in git(repo, "log", "--since=" + desde, "--format=%H", "--", rel).splitlines() if h]
             if not commits:
                 res.append(R("P7", "Los commits de diseno de %s trazan a requisitos que existen?" % p, "NO APLICA",
-                             "medido", "sin commits sobre %s desde %s" % (rel, desde)))
+                             "medido", "sin commits sobre %s desde %s" % (rel if repo == raiz else repo.name, desde)))
             for h in commits:
-                v, e = p7_commit(raiz, h, rel, doc)
+                v, e = p7_commit(repo, h, rel, doc)
                 res.append(R("P7", "El commit %s de %s traza a requisitos que existen?" % (h[:8], p), v, "medido", e))
         # P8
-        ho = g.handoff_de(pr)
-        ho_rel = ho.relative_to(raiz).as_posix() if ho else rel + "/HANDOFF.md"
-        v, e = p8_checkpoint(raiz, rel, ho_rel, desde)
+        v, e = p8_de(g, nube, raiz, pr, desde)
         res.append(R("P8", "Quedo el checkpoint de %s (ESTADO + HANDOFF + commit + push)?" % p, v, "medido", e))
     # P9
     if not de_fran:
@@ -342,7 +370,7 @@ def auditar(sesion: str | None, de_fran: list, raiz: Path = RAIZ) -> dict:
     for nombre, repo in (("claude-acceso", raiz), ("perfil-global", raiz / "perfil-global")):
         if not (repo / ".git").exists():
             continue
-        v, e = repo_al_dia(repo)
+        v, e = repo_al_dia(repo, nube)
         res.append(R("P11", "Quedo %s commiteado y pusheado?" % nombre, v, "medido", e))
     return {"sesion": f.stem, "estado": str(f), "desde": desde, "proyectos": tocados, "respuestas": res,
             "sha": hashlib.sha256(f.read_bytes()).hexdigest() if f.exists() else ""}
@@ -392,10 +420,12 @@ def autotest() -> int:
     nuc = g.expandir(NUCLEO, None)
     n_nuc = len(nuc.read_text(encoding="utf-8").splitlines())
 
-    def caso(nombre, ok, detalle=""):
+    def caso(nombre, ok, detalle="", ver=False):
         nonlocal mal
         mal += not ok
         print("%s  %-70s %s" % ("ok " if ok else "MAL", nombre, "" if ok else "-> " + str(detalle)[:160]))
+        if ver and ok:   # lo que LLEGO, no solo el veredicto: un rojo por el motivo equivocado se ve igual
+            print("       llego: %s" % str(detalle)[:200])
 
     def sesion(nombre, evs):
         f = tmp / ("%s.jsonl" % nombre)
@@ -502,6 +532,61 @@ def autotest() -> int:
     caso("un cambio sin commitear -> P8 ROJO", v == "ROJO" and "sin commitear" in e, e)
     v, e = repo_al_dia(repo)
     caso("un cambio sin commitear -> P11 ROJO", v == "ROJO" and "sin commitear" in e, e)
+    # P8 en un repo PROPIO: el proyecto vive en su .git, ignorado por el repo de arriba (como teoria-circuitos en
+    # claude-acceso). Antes P8 miraba el de arriba y daba NO APLICA con el commit hecho adentro (sesion dd781a07).
+    nube = cargar_nube()
+
+    def Gr(r, *a):
+        env = dict(os.environ, GIT_AUTHOR_DATE=fecha["v"], GIT_COMMITTER_DATE=fecha["v"])
+        return subprocess.run(["git", "-C", str(r), "-c", "user.name=prueba", "-c", "user.email=prueba-sin-arroba",
+                               "-c", "core.autocrlf=false"] + list(a), capture_output=True, env=env)
+
+    def registro(d, texto):
+        for nombre in ("ESTADO_ACTUAL.md", "HANDOFF.md"):
+            (d / nombre).write_text(texto, encoding="utf-8")
+    arriba, rem2 = tmp / "arriba", tmp / "aparte.git"
+    pa, sr = arriba / "proyectos" / "documentos" / "aparte", arriba / "proyectos" / "documentos" / "sin-remote"
+    pa.mkdir(parents=True); sr.mkdir(parents=True)
+    subprocess.run(["git", "init", "-q", "--bare", str(rem2)], capture_output=True)
+    for r in (arriba, pa, sr):
+        subprocess.run(["git", "init", "-q", "-b", "main", str(r)], capture_output=True)
+    (arriba / ".gitignore").write_text("proyectos/documentos/aparte/\nproyectos/documentos/sin-remote/\n", encoding="utf-8")
+    fecha["v"] = "2026-01-01T10:00:00"
+    Gr(arriba, "add", "-A"); Gr(arriba, "commit", "-q", "-m", "base de arriba")
+    registro(pa, "# base\n")
+    Gr(pa, "add", "-A"); Gr(pa, "commit", "-q", "-m", "base"); Gr(pa, "remote", "add", "origin", str(rem2))
+    Gr(pa, "push", "-q", "-u", "origin", "main")
+    fecha["v"] = "2026-02-01T10:00:00"
+    registro(pa, "# cierre\n")
+    Gr(pa, "add", "-A"); Gr(pa, "commit", "-q", "-m", "checkpoint, sin push")
+    v, e = p8_de(g, nube, arriba, pa, desde)
+    caso("repo PROPIO: ESTADO + HANDOFF commiteados SIN push -> P8 ROJO", v == "ROJO" and "sin pushear" in e
+         and "aparte" in e, e, ver=True)
+    Gr(pa, "push", "-q")
+    h = git(pa, "rev-parse", "HEAD").strip()
+    v, e = p8_de(g, nube, arriba, pa, desde)
+    caso("CONTROL: repo PROPIO con commit + push -> P8 VERDE con SU commit", v == "VERDE" and h[:8] in e, e, ver=True)
+    fecha["v"] = "2026-02-05T10:00:00"
+    (pa / "nota.md").write_text("x\n", encoding="utf-8")
+    Gr(pa, "add", "-A"); Gr(pa, "commit", "-q", "-m", "sin registro"); Gr(pa, "push", "-q")
+    v, e = p8_de(g, nube, arriba, pa, desde)
+    caso("CONTROL: con ESTADO+HANDOFF en ALGUN commit de la sesion -> P8 VERDE", v == "VERDE", e)
+    v, e = p8_de(g, nube, arriba, pa, "2026-02-03 00:00:00")   # la sesion solo ve el ultimo commit
+    caso("repo PROPIO: commit pusheado sin ESTADO ni HANDOFF -> P8 ROJO", v == "ROJO" and "ESTADO_ACTUAL" in e
+         and "HANDOFF" in e, e, ver=True)
+    registro(sr, "# x\n")
+    Gr(sr, "add", "-A"); Gr(sr, "commit", "-q", "-m", "commit sin remote")
+    v, e = p8_de(g, nube, arriba, sr, desde)
+    caso("repo PROPIO sin remote -> P8 ROJO que lo dice", v == "ROJO" and "no tiene remote" in e, e, ver=True)
+    v, e = p8_de(g, nube, arriba, sr, "2026-03-01 00:00:00")
+    caso("repo PROPIO sin remote y sin commits de la sesion -> AMARILLO, no NO APLICA", v == "AMARILLO"
+         and "no tiene remote" in e, e, ver=True)
+    v, e = repo_al_dia(sr, nube)
+    caso("repo sin remote -> P11 ROJO (antes: '' se leia como 0 sin pushear)", v == "ROJO" and "no tiene remote" in e,
+         e, ver=True)
+    (pa / "borrador.md").write_text("a medio hacer\n", encoding="utf-8")
+    v, e = p8_de(g, nube, arriba, pa, "2026-03-01 00:00:00")
+    caso("repo PROPIO con un archivo sin commitear -> P8 ROJO", v == "ROJO" and "borrador.md" in e, e, ver=True)
     # P10: solo cuentan las lecciones NUEVAS desde el ultimo commit anterior a la sesion
     pg = tmp / "arbol-lec"
     lr = pg / "perfil-global" / "aprendizaje"
