@@ -18,9 +18,10 @@ Este tramo empieza EN FRÍO y termina, si alcanza, con UNA sonda en vivo con pre
    cargas; la regresión 8/8 sin bajar el ritmo; «continuar misión» desde el menú; controles.py en verde.
    Piezas 1 y 2a HECHAS. La 2b (sub3): sin cuelgue desde (123) pero NO arregla F7 → APAGADA.
    LA PREGUNTA DE ESTE TRAMO: ¿qué estado de `pers` (`*(0x0040F50C)`) decide qué arma se dibuja en cada mitad?
-   (a) EN FRÍO: decompilar FUN_001AD030, FUN_001AC940, FUN_001AD050 y FUN_001AC020 (las cuatro que FUN_001A8168
-       y FUN_001A51C8 llaman con `pers`) y escribir QUÉ CAMPOS de pers escriben y quién los LEE en el dibujo del
-       aparejo FP (FUN_001A54E0 / FUN_001A7D48 desde 0x00132D98). Nombrar el sospechoso con su campo y su lector.
+   (a) EN FRÍO: la mitad YA está hecha al cierre de (123) (tabla al final de la sección (123) de docs/16): las
+       cuatro delegan en el asignador M = pers+0x8F0, y la carga de ranura deja M en modo 0 con el BLOQUE de la
+       última ranura (M+0x08 = ranura+0xAC). Falta: leer FUN_001A6EB8 (único que llama FUN_001AC798) y quién llama
+       FUN_001ADFC0 en el camino del dibujo FP (FUN_001A54E0 / FUN_001A7D48 desde 0x00132D98). Nombrar el lector.
    (b) EN VIVO (si (a) da un candidato): con el banco `python herramientas/arma_pieza_banco.py control --solo-j2`
        (deja el fork abierto con J en la pistola y J2 en la SPAS tras `j2_cambio`... ojo: el banco termina con
        J2 de vuelta en la pistola; para la sonda, cortar después de `j2_cambio` o volver a cambiar a mano), volcar

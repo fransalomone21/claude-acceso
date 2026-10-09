@@ -1160,3 +1160,22 @@ escriben; (2) en vivo, con J2 en la SPAS y J en la pistola, volcar esos campos y
 donde el ultimo que armo fue J; (3) intervencion: devolverles a mano (PINE, en pausa) los valores de J y mirar si
 la mitad de J vuelve a la pistola -- y la de J2 se rompe, que seria la prueba de que hay que **conmutarlos por
 pasada** (la primitiva «conmutar el contexto» de T7), no duplicarlos.
+
+**Paso (1) hecho en frio, (123) al cierre (`volcados/arma/diag-20261009/fun_*.c`).** Las cuatro funciones delegan
+en **un solo objeto embebido, `M` = `pers+0x8F0`** (el constructor de `pers` le pone la tabla `0x003E0140`), y `M` es
+un **asignador con contexto**:
+
+| Campo de `M` | Lo escribe | Que es |
+|---|---|---|
+| `+0x20` modo | `FUN_001AE088` (via `FUN_001AC940`): 2 al armar un sub (`FUN_001A8168`), 0 despues de cargar una ranura (`FUN_001A51C8`), 0 en `FUN_001AC798`; 1 en el reinicio `FUN_001ADF58` | como reparte memoria `FUN_001ADFC0` |
+| `+0x24`/`+0x28`/`+0x2C` | `FUN_001AE078` (via `FUN_001AD030`), al armar | la arena del sub que se arma: modo 2 reparte ahi, en bloques de 16 |
+| `+0x08` bloque vigente | `FUN_001AE090` (via `FUN_001AC020`): `ranura[0x2B]` (= `ranura+0xAC`) en **cada carga de ranura**; y `FUN_001AC798` lo pone con `obj+0xB0` | modo 0: `FUN_001ADFC0` reparte de la lista `+0x0C` **con ese bloque** (`FUN_001ADE50(M+0xC, *(M+8))`) |
+| `+0x0C` lista | `FUN_001AE0F0` (via `FUN_001AD050`): se vacia y se le agrega `ranura[0x2B]` | los bloques del modo 0 |
+
+O sea: despues de cargar la ranura de J2, `M` queda en **modo 0 con el bloque de R3**, y lo que el aparejo de J pida
+en modo 0 sale de la memoria de J2. Es una explicacion con mecanismo para «el arma del ultimo que cambio se dibuja
+en las dos mitades» (`hipotesis`: falta ver QUIEN pide memoria en modo 0 al dibujar). Lo que sigue: leer
+`FUN_001A6EB8` (el unico que llama `FUN_001AC798`) y los llamadores de `FUN_001ADFC0` en el camino del dibujo FP
+(`FUN_001A54E0` / `FUN_001A7D48`); en vivo, con J2 en la SPAS, leer `M+0x08` (`pers` = `0x004ED380`, asi que `M+0x08`
+= `0x004EDC78`) y compararlo con `R3+0xAC` y `r0+0xAC`; la intervencion es ponerle a mano el bloque de J (en pausa) y
+mirar la mitad de J.
