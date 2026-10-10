@@ -88,6 +88,7 @@ SOP2_APAGADA_LLAMA = ("import coop_mod as m, coop_soporte2 as c; m._soporte2_blo
                       "con la pieza APAGADA el envoltorio igual llama")
 SOP2_APOYO_MAL = ("import coop_soporte2 as c; c.APOYO[0x0013C8CC] = 'lw a0, 812(s2)'", "soporte2: apoyo 0x13c8cc")
 MARCA_RESERVA_SOP2 = ("pass", "soporte2: el codigo")
+APAGAR_SOP2 = ("import coop_mod; coop_mod.CON_SOPORTE2 = False", "CON_SOPORTE2 apagada")   # (126) ya en coop-rangos
 
 
 def fila_sub3(n=0) -> str:
@@ -99,18 +100,29 @@ def fila_sub3(n=0) -> str:
         coop_sub3.BASE, coop_sub3.BASE + 4 * (len(coop_sub3.programa()) - n))
 
 
-def reserva_sop2(cual, cortar=False) -> str:
-    """(125) el pedazo de la fila de reserva de la pieza 2d, DERIVADO de coop_soporte2 (nunca literal): `cual` = "c"
-    (codigo) o "d" (datos); `cortar` = la reserva termina UNA PALABRA antes de lo que ocupa la pieza (el final del
-    codigo, o el del ultimo accesorio). Achicarla un monto fijo no sirve: con 0x40 de menos la reserva de codigo
-    todavia contenia las 45 palabras y el caso salio rc=99 (medido en (125)). Si la fila del documento no coincide,
-    el reemplazo no aplica y el caso sale SABOTAJE SIN EFECTO, que es lo que tiene que pasar."""
+def fila_sop2(cual, cortar=False) -> str:
+    """(125)/(126) el pedazo de la fila de coop-rangos de la pieza 2d, DERIVADO de coop_soporte2 (nunca literal):
+    `cual` = "c" (codigo, con el rango EXACTO del programa) o "d" (datos); `cortar` = la fila termina UNA PALABRA antes
+    de lo que ocupa la pieza (el final del codigo, o el del ultimo accesorio). Achicarla un monto fijo no sirve: con
+    0x40 de menos la reserva de codigo de (125) todavia contenia las 45 palabras y el caso salio rc=99. (126): las
+    filas se mudaron del plan (reserva) a coop-rangos (codigo / datos) al pasar la pieza su prueba en vivo. Si la fila
+    del documento no coincide, el reemplazo no aplica y el caso sale SABOTAJE SIN EFECTO, que es lo que tiene que pasar."""
     sys.path.insert(0, str(VERIF.parent))
     import coop_soporte2 as c
-    d, h = (c.BASE, c.FIN) if cual == "c" else (c.DATOS, c.DATOS_FIN)
+    fin_codigo = c.BASE + 4 * len(c.programa())
+    d, h, tipo = (c.BASE, fin_codigo, "codigo") if cual == "c" else (c.DATOS, c.DATOS_FIN, "datos")
     if cortar:
-        h = (c.BASE + 4 * len(c.programa()) if cual == "c" else c.ACC + c.N_ACC * c.PASO_ACC) - 4
-    return "| 0x%08X | 0x%08X | reserva" % (d, h)
+        h = (fin_codigo if cual == "c" else c.ACC + c.N_ACC * c.PASO_ACC) - 4
+    return "| 0x%08X | 0x%08X | %s" % (d, h, tipo)
+
+
+def fila_envoltorio() -> str:
+    """(126) el rango del envoltorio, DERIVADO de coop_mod con sus defaults (la pieza 2d le agrega dos palabras): el
+    sabotaje de «rango de codigo viejo» tenia `0x0046DBB4` escrito a mano y habria quedado SIN EFECTO al mudarse."""
+    sys.path.insert(0, str(VERIF.parent))
+    import coop_mod
+    env = dict(coop_mod.programas())["envoltorio"]
+    return "| 0x%08X | 0x%08X |" % (min(pc for pc, _, _ in env), max(pc for pc, _, _ in env) + 4)
 
 
 def fin_sonido(n=0) -> str:
@@ -137,7 +149,7 @@ def main() -> int:
     casos = [
         ("plano sin tocar", lambda t: t, None, 0),
         ("rango de código viejo (envoltorio hasta 0x0046DB7C)",
-         lambda t: t.replace("| 0x0046DA00 | 0x0046DBB4 |", "| 0x0046DA00 | 0x0046DB7C |"), None, 1),
+         lambda t: t.replace(fila_envoltorio(), "| 0x0046DA00 | 0x0046DB7C |"), None, 1),
         ("fila nueva que pisa el por cuadro",
          lambda t: t.replace("J2 (el jugador 2)", "intruso | 0x0046D900 | 0x0046D910 | datos | (86)\nJ2 (el jugador 2)"),
          None, 1),
@@ -214,11 +226,15 @@ def main() -> int:
         ("soporte2: la llamada antes del constructor de J2 (125)", lambda t: t, SOP2_ANTES_DEL_CONSTRUCTOR, 1),
         ("soporte2: apagada y el envoltorio igual la llama (125)", lambda t: t, SOP2_APAGADA_LLAMA, 1),
         ("soporte2: el apoyo no es el del ELF (125)", lambda t: t, SOP2_APOYO_MAL, 1),
-        ("soporte2: reserva de código achicada (125)",
-         lambda t: t.replace(reserva_sop2("c"), reserva_sop2("c", True)), MARCA_RESERVA_SOP2, 1),
-        ("soporte2: datos fuera de su reserva (125)",
-         lambda t: t.replace(reserva_sop2("d"), reserva_sop2("d", True)),
+        # (126) las dos filas se mudaron de coop-plan-b (reserva) a coop-rangos (codigo / datos): los sabotajes
+        # achican la fila NUEVA, derivada; el de la reserva vieja ya no tendria texto que reemplazar
+        ("soporte2: fila de código achicada (126)",
+         lambda t: t.replace(fila_sop2("c"), fila_sop2("c", True)), MARCA_RESERVA_SOP2, 1),
+        ("soporte2: datos fuera de su fila (126)",
+         lambda t: t.replace(fila_sop2("d"), fila_sop2("d", True)),
          ("pass", "fuera de la reserva «soporte2 (datos)»"), 1),
+        # y el control de que quede PRENDIDA por defecto con sus filas en coop-rangos (regla 12)
+        ("soporte2: apagada por defecto con su fila en coop-rangos (126)", lambda t: t, APAGAR_SOP2, 1),
     ]
     fallas = 0
     with tempfile.TemporaryDirectory() as tmp:

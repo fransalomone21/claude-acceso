@@ -35,6 +35,7 @@ import coop_soporte2 as cs2  # noqa: E402
 import f7_soporte as f7  # noqa: E402
 
 ESTADO_BANCO = ab.estado   # el estado del banco del arma (cuadros de J2, armas, ranuras, vida), sin tocar
+REG_A = 0x1C               # (126) el largo de un registro del buffer de +0x354 (56 B = 2 registros, pistola y SPAS)
 
 
 def soporte(p):
@@ -46,9 +47,16 @@ def soporte(p):
         regs = []
         for dst_off, src_off, len_off in f7.COPIAS:
             dst, src, n = p.leer32(P + dst_off), p.leer32(mod + src_off) if mod else 0, p.leer32(mod + len_off) if mod else 0
-            regs.append({"dst": hex(dst), "n": n,
-                         "igual_al_modelo": (0 < n <= f7.LARGO_MAX and bool(src) and bool(dst)
-                                             and p.leer_bloque(dst, n) == p.leer_bloque(src, n))})
+            ok = 0 < n <= f7.LARGO_MAX and bool(src) and bool(dst)
+            a, b = (p.leer_bloque(dst, n), p.leer_bloque(src, n)) if ok else (b"", b"")
+            dist = [i for i in range(0, len(a), 4) if a[i:i + 4] != b[i:i + 4]]
+            # (126) medido en el control: el DIBUJO reescribe el buffer de +0x354 en cada pasada (FUN_00136BD0 le pasa
+            # a FUN_001AF738 un puntero adentro de cada registro de 0x1C B): de la copia de FUN_00136B50 sobreviven
+            # solo las dos primeras palabras de cada registro. El de +0x358 queda como copia exacta.
+            intactas = [i for i in dist if dst_off == f7.BUF_B or i % REG_A < 8]
+            regs.append({"dst": hex(dst), "n": n, "distintas": [hex(i) for i in dist],
+                         "igual_al_modelo": ok and not dist,
+                         "copia_ok": ok and not intactas})
         accs = []
         for k in range(cs2.ACC_PRIMERO, cs2.ACC_PRIMERO + cs2.N_ACC):
             a = p.leer32(P + 0x25C + 4 * k)
@@ -79,7 +87,8 @@ def veredicto(m, modo):
     v = {"R1_base": b["J2_propio"] if modo == "pieza" else b["comparten"],
          "R2_J_no_cambia": b["J"]["modelo"] == c["J"]["modelo"],
          "R2_J2_cambia": b["J2"]["modelo"] != c["J2"]["modelo"],
-         "R3_registros": all(r["igual_al_modelo"] for s in (b, c) for P in ("J", "J2") for r in s[P]["registros"])}
+         # (126) R3 se lee con `copia_ok` (lo que el dibujo no reescribe); `igual_al_modelo` da falso aun sin el mod
+         "R3_registros": all(r["copia_ok"] for s in (b, c) for P in ("J", "J2") for r in s[P]["registros"])}
     if "j2_vuelve" in m:
         v["R2_vuelve"] = m["j2_vuelve"]["soporte2"]["J2"]["modelo"] == b["J2"]["modelo"]
     return v

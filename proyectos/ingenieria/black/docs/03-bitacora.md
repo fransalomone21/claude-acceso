@@ -16,6 +16,42 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-09 — (126) en vivo: F7 ARREGLADO — la pieza 2d pasa con control y dos cargas, y queda prendida por defecto
+**Máquina:** notebook MSI (caliente, fork por los bancos, sin Fran) · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** COOP-C pieza 2d (F7, el modelo del arma de J2) · nodos `vista-fp`, `armas`, `personajes`
+**Objetivo:** correr el banco de la pieza 2d contra `sesiones/PREDICCIONES-125.md` (control, después pieza con dos
+cargas) y, si pasaba, prenderla por defecto y mudar sus filas de `coop-plan-b` a `coop-rangos`.
+**Resultado:** **la pieza 2d PASA y F7 queda arreglado**: con la pieza, el cambio de arma de J2 mueve sólo el modelo
+de **su** soporte (`0x0046FFC0`), la mitad de J sigue dibujando su pistola y la de J2 la SPAS, bien formadas, en
+**dos cargas** sin colgar; sin la pieza (control, mismo banco, mismo nivel, mismos pasos), F7 tal como en (124). Las
+13 predicciones R0–R4 / I0–I4 cumplidas (R3 con el instrumento corregido, abajo). `CON_SOPORTE2 = True`; el pnach por
+defecto pasa de 1059 a **1106** palabras; filas «soporte de J2» (`0x00470080`–`0x00470134`, código) y «soporte2
+(datos)» en `coop-rangos`, el envoltorio hasta `0x0046DBBC`; los sabotajes de la regla 12 mudados en el mismo turno.
+
+- **RAM, carga 1 / carga 2:** J2 en `0x0046FFC0` / `0x0046FD00` / `0x0046FD80` con sus accesorios `0x00470000/20/40`
+  (dueño J2 `0x0046CDF0`); J en `0x00597810` / `0x006EC700` / `0x006EC780` con los suyos (dueño `0x005A8AB0`). Modelo
+  de J2: pistola → SPAS → pistola; el de J, fijo. Contador de J2 sube entre todos los pasos (784 → 912 → 1123;
+  1994 → 2205 → 2333). En la carga 2 el nivel aloja los modelos en otras direcciones (pistola `0x01A35E00`, SPAS
+  `0x01AE5100`): el banco compara relaciones, no direcciones, y por eso sirvió igual.
+- **Imagen:** control `j2-cambio` = la mitad de J (HUD de su pistola) con la SPAS torcida y el bloque de basura; pieza
+  `j2-cambio` = la mitad de J con su pistola, la de J2 con la SPAS. Carpetas
+  `volcados/arma/pieza-soporte2-{control-carga1-20261009-214238,pieza-carga1-20261009-214721,pieza-carga2-20261009-214823}/`.
+- **El instrumento de R3 estaba mal, y lo delató el control:** el buffer de registros de `+0x354` difería de su
+  modelo en 10 de 14 palabras **sin la pieza**, en J y en J2, estable en el tiempo. No es una copia muerta: el dibujo
+  lo reescribe en cada pasada (`FUN_00136BD0` le pasa a `FUN_001AF738` un puntero adentro de cada registro de 0x1C B;
+  quedan punteros como `modelo+0x70`). De la copia de `FUN_00136B50` sobreviven las dos primeras palabras de cada
+  registro; `+0x358` sí queda exacto. `soporte2_banco.py` mide ahora `copia_ok` (eso) y guarda las palabras distintas;
+  probado en el fork: positivo verde en J y J2, negativo (los mismos buffers contra el modelo de la SPAS) rojo en los
+  dos buffers. Corrección escrita al lado de R3, no en su lugar.
+- **H-acc, en RAM pero sin síntoma:** con la SPAS los accesorios de J2 se enganchan a los huesos de la ranura
+  compartida 1 (`0x013094D0..`), los de J quedan en la 0 (`0x01304150..`). Con índices distintos no se pisan; ningún
+  fragmento en las 6 fotos. Queda `hipótesis` para el caso «mismo índice, armas distintas», que este banco no arma.
+
+**No funcionó:** R3 escrita como «el buffer es igual al registro del modelo» no discriminaba nada para `+0x354` (daba
+falso también sin el mod). Se corrigió el instrumento antes de correr la pieza, no después de ver su resultado.
+**Sigue:** la pieza 2c (el cue propio de J2: «el arma de J2 tiene que sonar como el arma que es»), en frío primero.
+**Máquina al cerrar:** ver `ESTADO_ACTUAL.md` (126).
+
 ## 2026-10-09 — (125) en frío: la pieza que arregla F7 diseñada a nivel instrucción, con su regla 12, y en el stub APAGADA
 **Máquina:** notebook MSI (en frío, sin emulador, sin Fran) · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** COOP-C pieza 2d (F7, el modelo del arma de J2) · nodos `vista-fp`, `armas`, `personajes`

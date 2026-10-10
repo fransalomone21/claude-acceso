@@ -878,9 +878,9 @@ def programas():
         ganchos += coop_sub3.ganchos()
     if CON_SOPORTE2:
         # (125) COOP-C pieza 2d, J2 con SU soporte de modelo, sus buffers de registros y sus accesorios
-        # (coop_soporte2.py; la causa de F7, confirmada en (124)). APAGADA hasta su prueba en vivo
-        # (sesiones/PREDICCIONES-125.md); `--con-soporte2` la prende y `--sin-soporte2` es el control. Sin gancho
-        # propio: una llamada adentro del envoltorio, despues del constructor de J2
+        # (coop_soporte2.py; la causa de F7, confirmada en (124)). PRENDIDA por defecto desde (126), al pasar su
+        # prueba en vivo (sesiones/PREDICCIONES-125.md); `--sin-soporte2` es el control. Sin gancho propio: una
+        # llamada adentro del envoltorio, despues del constructor de J2
         import coop_soporte2
         progs.append(("soporte de J2", coop_soporte2.programa()))
     return progs + [("ganchos", ganchos)]
@@ -897,8 +897,9 @@ CON_SUB3 = False  # (119) COOP-C pieza 2b, APAGADA por defecto hasta que pase su
                   # `--con-sub3` la prende, `--sin-sub3` es el control. Sin la ranura 3 no se prende (con_sub3())
 
 
-CON_SOPORTE2 = False  # (125) COOP-C pieza 2d (la que arregla F7), APAGADA por defecto hasta que pase su prueba en
-                      # vivo (sesiones/PREDICCIONES-125.md). `--con-soporte2` la prende, `--sin-soporte2` es el control
+CON_SOPORTE2 = True   # (126) PRENDIDA por defecto: la pieza 2d (la que arregla F7) paso su prueba en vivo
+                      # (sesiones/PREDICCIONES-125.md: con la pieza la mitad de J dibuja su pistola y la de J2 la SPAS,
+                      # dos cargas; sin ella, F7). `--sin-soporte2` es el control
 
 
 CON_HUD = True  # (115) PRENDIDO por defecto; `--sin-hud` es el control y `--con-hud` se acepta y no hace nada
