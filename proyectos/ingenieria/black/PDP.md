@@ -283,6 +283,11 @@ arreglar síntomas de a uno.
    da distinto), y **dos cargas seguidas** sin colgar (lo que se da de alta en una
    carga se da de baja en la descarga, lección de (86)). Sus filas pasan de
    `coop-plan-b` a `coop-rangos` y `coop_diseno.py verificar` queda en 0.
+   **(126) Y antes de prenderla por defecto:** si la pieza duplica o reapunta algo que el juego comparte, se listan
+   **los otros caminos que cargan, sueltan o dibujan ese recurso** (el mapa de lectores del global, no sólo el
+   camino que la pieza arregla) y el banco cubre cada uno con **datos distintos entre los jugadores** (armas
+   distintas, no la misma). Medido en (126): la 2d pasó predicción, control y dos cargas con J2 volviendo a la
+   misma arma que J, se prendió, y trababa la pausa (otro camino del mismo doble búfer).
 2. **La regresión:** la campaña 8 de 8 (`campana_coop.py`) con todas las piezas
    prendidas, sin colgar, con el ritmo medido (hoy ~30 cuadros/s, ~24 en tres
    niveles: no puede bajar).
@@ -313,7 +318,10 @@ con control: J y J2 dibujan el arma desde un solo soporte de modelo (`P+0x328`) 
 (`P+0x354`/`+0x358`); la pieza que lo arregla es **el soporte propio de J2** (duplicar, `docs/16` (124)). **(125)**
 la pieza 2d diseñada a nivel instrucción (`docs/16` (125): buffers de 0x70/0x240, tres accesorios propios), escrita
 (`coop_soporte2.py`), con su regla 12 y nueve sabotajes, e integrada **apagada** hasta su prueba en vivo
-(`sesiones/PREDICCIONES-125.md`).
+(`sesiones/PREDICCIONES-125.md`). **(126)** la 2d **pasa su banco** (control y dos cargas) pero **traba la pausa**
+cuando J2 cambió a otra arma (`confirmado`, `sesiones/PREDICCIONES-126.md`): **sigue apagada**. Causa de fondo:
+el doble búfer de recursos del arma en la mano (`*(0x0040F540)`) es de un jugador (F7b); su arreglo (A / D / E en
+`docs/16` (126)) va antes de prender la 2d, y de él sale también la 2c (el sonido de cada arma vive en su búfer).
 
 **Después de la C viene la D:** Fran lo juega (dos mandos, después Parsec), que es
 lo único que valida que sirve.

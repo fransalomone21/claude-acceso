@@ -4,7 +4,16 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(125), 2026-10-09, NOTEBOOK EN FRÍO, sin Fran — LO ÚLTIMO** (bitácora (125), `docs/16` sección (125),
+> **(126), 2026-10-09/10, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (126), `docs/16` sección (126),
+> `sesiones/PREDICCIONES-125.md` y `-126.md`).
+> - **2d: pasa su banco y traba la pausa → APAGADA** (`CON_SOPORTE2 = False`, pnach 1059). La traba: J2 en otra
+>   arma + J1 pausa = el menú a medio cargar, búfer «otro» en estado 9 con la pistola de J adentro y
+>   `*(0x0040F4C4)+0x8B8` = 1 clavado. No la frena el puntero de modelo del soporte de J (intervenido).
+> - **F7b:** el doble búfer `*(0x0040F540)` = `0x005BFC00` (modelo + cues + área por búfer) es de un jugador.
+>   Pendiente en frío: qué espera el cargador, si hay un id de recurso libre, qué dibuja el que cambia en vuelo.
+> - **Sigue:** `sesiones/RETOME-LOCAL.md`. **Máquina:** fork cerrado, pnach 1059, COOP activo.
+
+> **(125), 2026-10-09, NOTEBOOK EN FRÍO, sin Fran** (bitácora (125), `docs/16` sección (125),
 > `sesiones/PREDICCIONES-125.md`).
 > - **Pieza 2d (J2 con su soporte de modelo) escrita e integrada APAGADA:** `herramientas/coop_soporte2.py` (SOP2, 45
 >   palabras en `0x00470080`, datos `0x0046FD00..0x00470060`), llamada desde el envoltorio después del constructor

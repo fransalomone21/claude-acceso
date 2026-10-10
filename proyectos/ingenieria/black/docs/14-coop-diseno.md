@@ -74,7 +74,7 @@ con los de `coop_mod.py`**: si el código crece y este plano no, el verificador 
 J2 (el jugador 2)           | 0x0046CDF0 | 0x0046D6B0 | datos  | (79)
 datos del mod               | 0x0046D780 | 0x0046D7D4 | datos  | (86)
 por cuadro                  | 0x0046D800 | 0x0046D9E0 | codigo | (86)
-envoltorio                  | 0x0046DA00 | 0x0046DBBC | codigo | (93c)
+envoltorio                  | 0x0046DA00 | 0x0046DBB4 | codigo | (93c)
 armas de J2                 | 0x0046DBC0 | 0x0046DBE0 | datos  | (86)
 desarme                     | 0x0046DD00 | 0x0046DDC0 | codigo | (87)
 elegir titere               | 0x0046DE00 | 0x0046DE64 | codigo | (93h)
@@ -148,14 +148,6 @@ HUD H4 paso 0 (11)         | 0x001FD64C | 0x001FD650 | gancho | (115)
 # coop_sonido.py, docs/listados/C2-coop-sonido.txt; la regla 9 mide el apoyo contra el ELF y la salida del
 # envoltorio 4. No agrega ganchos: usa el de «gancho vista FP 4», que ya está arriba
 sonido de J2               | 0x0046EE00 | 0x0046EE1C | codigo | (119)
-# (126) COOP-C pieza 2d, J2 con SU soporte de modelo (arregla F7), PRENDIDA por defecto (coop_mod.CON_SOPORTE2;
-# `--sin-soporte2` es el control). Salió de coop-plan-b al pasar su prueba en vivo (sesiones/PREDICCIONES-125.md:
-# con la pieza la mitad de J dibuja su pistola y la de J2 la SPAS, dos cargas; sin ella, F7). Sin gancho propio: una
-# llamada adentro del envoltorio (de ahí que el envoltorio termine en 0x0046DBBC). Código y listado: coop_soporte2.py,
-# docs/listados/C2-coop-soporte2.txt; la regla 12 mide las relaciones, los tamaños del ELF y el lugar de la llamada.
-# Datos: registros A 0x70 B, registros B 0x240 B, el soporte 0x40 B y tres accesorios de 0x1C B
-soporte de J2              | 0x00470080 | 0x00470134 | codigo | (126)
-soporte2 (datos)           | 0x0046FD00 | 0x00470060 | datos  | (125)
 ```
 
 Los tres ganchos de la escena (`pd.SITIOS`) los compara el verificador contra `pantalla_dividida.py`
@@ -185,8 +177,13 @@ sub3 de J2 (gancho)            | 0x001ACA2C | 0x001ACA30 | gancho  | jal 0x001A8
 armar V2 (código)              | 0x0046EE40 | 0x0046EF00 | reserva | -                                   | (101)
 traer J2 en la descarga        | 0x0012DDCC | 0x0012DDD0 | gancho  | jal 0x0016E3C0                      | (111)
 traer J2 (código)              | 0x0046F100 | 0x0046F180 | reserva | -                                   | (111)
-# (125) las reservas de la pieza 2d («soporte2 (datos)» 0x0046FD00-0x00470060, «soporte2 (código)» 0x00470080-
-# 0x00470180) se mudaron a coop-rangos en (126), al pasar la pieza su prueba en vivo
+# (125) COOP-C pieza 2d, J2 con SU soporte de modelo (F7, coop_soporte2.py): sin gancho propio (una llamada adentro
+# del envoltorio, después del constructor de J2). Datos: registros A 0x70 B, registros B 0x240 B (las capacidades que
+# el juego reserva en FUN_00131EF0), el soporte 0x40 B y tres accesorios de 0x1C B; en cero en los 5 volcados con el mod.
+# (126) pasó su banco y se mudó a coop-rangos, pero TRABA LA PAUSA (J2 en otra arma + J1 pausa: el menú no termina de
+# cargar; sesiones/PREDICCIONES-126.md P4/P5): volvió acá, apagada, hasta resolver el doble búfer de armas (F7b, docs/16)
+soporte2 (datos)               | 0x0046FD00 | 0x00470060 | reserva | -                                   | (125)
+soporte2 (código)              | 0x00470080 | 0x00470180 | reserva | -                                   | (125)
 ```
 
 ## 4. Interfaz con los otros mods

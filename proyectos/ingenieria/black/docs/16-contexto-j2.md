@@ -1083,6 +1083,12 @@ despues de que la 2b pase: sin el sub propio, el arma de J2 ni se dibuja bien, y
 que el juego cree que tiene en la mano. Se mide antes de fabricar (la leccion de (116)): en los volcados, que
 las sub-ranuras libres de `V` esten realmente libres y con que las distingue `FUN_001D6178` al elegir voz.
 
+> **CORREGIDO en (126), medido en vivo:** **no hay sub-ranuras libres.** Las 6 tienen su bandera de ocupada
+> (`+0x90`, la que mira el repartidor `FUN_001D7278`): 4 son los cues de los dos búferes del doble búfer de armas
+> (`*(0x0040F540)`, ver la sección (126)) y 2 son de `V` (`V+0x1BE8`, `V+0x1BF0`). Los «3 en uso» de arriba contaban
+> el puntero del cue actual, no la bandera. Y el cue propio de cada arma **ya existe**: es el del búfer que la tiene
+> cargada (`FUN_00143908` le carga el sonido del arma con `FUN_001F03D0`). La 2c se rediseña en la sección (126).
+
 ## (123) El sub3 sin su tabla virtual: lo que de verdad pasaba en (121), y el arreglo
 
 > En vivo, en la notebook, con el banco que **construye** la precondicion (`arma_pieza_banco.py --solo-j2`,
@@ -1349,3 +1355,72 @@ salida, y antes del registro, una vez, y apagada no esta. Nueve sabotajes en `pr
   constructor **escribe** (`*(*(P+0x294) + i) = P+0x40E`), asi que el armado de J2 toca el de J --, `+0x35C` (un objeto
   de fisica de `FUN_00132188`), `+0x0B8/+0x0BC`, `+0x0FC`, `+0x3A8`, `+0x410`. Ninguno es el modelo del arma; quedan
   como candidatos para el defecto que se vea despues.
+
+## (126) La 2d pasa, y lo que destapó: el doble búfer de recursos de arma es de UN jugador (F7b)
+
+> En vivo (fork, notebook, sin Fran) y en frío (`black-datos/decompilado/0x0014.c`), 2026-10-09. Evidencia:
+> `sesiones/PREDICCIONES-125.md` (la 2d) y `sesiones/PREDICCIONES-126.md` (F7b), `herramientas/f7b_buffer.py`.
+
+**La 2d pasó su banco** (control + dos cargas, R0–R4 e I0–I4) y se prendió por defecto; **la misma sesión la volvió a
+apagar** al medir que traba la pausa (abajo). Y pasó su banco por una coincidencia: el segundo cambio de J2 volvía a
+la pistola, **la misma arma que tenía J**.
+
+**El mecanismo (`probable`: decompilado + dos sondas en vivo).** `*(0x0040F540)` (= `0x005BFC00`, 0xD0 B alojados una
+vez en el arranque, `FUN_001020C0`) es un **doble búfer** de los recursos del arma en la mano:
+- `+0` índice del actual; `+0x08` y `+0x40` los dos búferes de 0x38 B; `+0x7C` el actual y `+0x80` el otro
+  (`FUN_00144078` los alterna; el escritor medido con vigilante es `0x001440A0`). Cada búfer: `+0x04` el recurso
+  cargado, `+0x08` su **cue** y `+0x0C` el cue alterno (dos de las 6 sub-ranuras de `V`), `+0x10` un **área de sonido**
+  (una de las 2 de `V`, `FUN_001D74C8`), `+0x14` el **modelo**, `+0x18` los agregados, `+0x1C` el estado de la carga,
+  `+0x20/+0x28` las claves.
+- Arranque: `FUN_00143688` (estado `+0xC8` = 1, ruta «chars/guns/»). Primera carga de nivel: `FUN_00143700` les
+  pide a `V` los dos cues y el área de cada búfer (una sola vez, `+0xC4`). Descarga: `FUN_001437D8` suelta los dos.
+- **Cambio de arma, por cuadro** (`FUN_0015BBD8(P)`, desde `FUN_00133470`): `FUN_00143908` lleva **el otro** búfer
+  por estados: pide el arma («chars/guns/<nombre>», `FUN_00143C80`, asincrónico), al llegar `FUN_00143FD8` **suelta el
+  recurso que ese búfer tenía**, y después le carga el **sonido del arma** en sus cues (`FUN_001F05D0`/`FUN_001F03D0`).
+  Listo (estado 8): `FUN_00143D90` alterna (el nuevo pasa a ser el actual), llena `+0x14/+0x18` y arma
+  (`FUN_001AC960`); `FUN_0013C868` le pone al soporte el `+0x14` del actual.
+
+**F7b, lo que predice con dos jugadores:** después de un cambio de X, el actual es el búfer de X y el otro es el de Y.
+Cualquier carga siguiente que no sea de Y (un 2.º cambio de X, o una juntada de X) cae en **el búfer del arma que Y
+tiene en la mano** y la suelta: el soporte de Y (propio desde la 2d) queda apuntando a un modelo liberado.
+**Medido (`probable`, una corrida, sin control simétrico):** J2 juntó un rifle con mira (J2 {rifle, SPAS}, J con la
+pistola) y la pistola de J dejó de estar en los dos búferes (`[0x0, 0x01AEA800]`); la mitad de J quedó **con las
+manos sin arma** con su HUD en la pistola (`volcados/arma/f7b-porj2-20261009-220157/base.png`). El intento de juntada
+de J sobre el recogible 29 (que falla, como en (123)) ya había dejado el búfer 1 en modelo 0. Probablemente es lo
+mismo que (123) vio como «la mitad de J sin arma dibujada» después de los intentos de J.
+
+**Recursos, medidos en vivo:** las **6** sub-ranuras de cue de `V` están ocupadas (4 de los búferes, 2 de `V`) y las
+**2** áreas de sonido también. Un segundo doble búfer para J2 necesitaría 4 cues y 2 áreas que el juego no tiene.
+
+**Alternativas (concepción; ninguna elegida todavía):**
+
+| | Qué | Arregla | Cuesta | Riesgo |
+|---|---|---|---|---|
+| A | J2 con **su** doble búfer (0xD0 B), conmutando `*(0x0040F540)` alrededor de su constructor, de la 2d y de su actualización (el paréntesis `CORRER` ya existe) | F7b y la 2c | 4 cues de 0x430 B construidos por el mod + 2 áreas de sonido (memoria de SPU sin medir) + carga/descarga propias | alto: recursos que el juego no reservó |
+| D | **Política de reemplazo:** la carga va al búfer que **el otro jugador no usa** (siempre hay uno: son 2 y el otro usa a lo sumo 1). Un gancho a la entrada de la carga (`FUN_00143908`) compara el `+0x14` del «otro» contra el modelo del soporte del otro jugador (quién carga lo dice la bandera del aislador `0x0046DEF4`) y, si coinciden, alterna `+0x7C/+0x80/+0` antes | F7b; y con eso la **2c sale casi gratis**: J2 toca el cue del búfer que tiene su arma | ~20 palabras + 1 gancho; ningún recurso nuevo | medio: cuando el que cambia reusa SU búfer, su arma vieja se suelta mientras la animación de bajar todavía la dibuja (un instante; a medir) |
+| E | Un **tercer** búfer para la carga en tránsito | F7b sin el instante de D | 2 cues + 1 área más | alto, como A |
+
+**La pausa también carga en el búfer «otro», y con la 2d TRABA LA PARTIDA (`confirmado`, ON → OFF → ON,
+`sesiones/PREDICCIONES-126.md` P0–P5).** El menú de pausa (`FUN_0020AEA0`) pide el «otro» con clave 0
+(`FUN_001438C8` → `FUN_00143908(inst, 0)`: `FUN_00143B00` lo vacía y queda en estado 9) y carga ahí
+`Export/FrontEnd/PseMenu.bin` (`FUN_00143F90`); al salir, `FUN_001438E8` lo deja en 0. En un jugador el «otro» es el
+arma anterior y nadie la dibuja. Con dos jugadores y la 2d, si J2 cambió a otra arma, el «otro» es **el arma que J
+tiene en la mano**: el búfer queda en estado 9 con el recurso de la pistola adentro, el cargador ocupado
+(`*(0x0040F4C4)+0x8B8` = 1) y **el menú no termina de cargar nunca** (2 de 2; sin la 2d, 0 de 1: carga y vuelve). Lo
+que espera el cargador no está medido: apuntar el modelo del soporte de J a la SPAS **no** destraba. Por eso la 2d
+volvió a **apagada por defecto** (pnach 1059): una traba es peor que F7.
+**Consecuencia para la elección:** D sola no alcanza — la pausa necesita un búfer que **ningún** jugador esté
+dibujando, y con armas distintas los dos están en uso. Hace falta un tercer lugar para lo que se carga de paso (la
+pausa, y la carga en vuelo del que cambia): **E**, o **D + un búfer sólo para la pausa** (el menú no carga sonido:
+no pide cues ni área, sólo un id de recurso del cargador libre — sin medir si hay uno).
+
+**Lo que se lee primero (frío) para elegir:** (1) qué espera el cargador en la traba (el estado de
+`*(0x0040F4C4)` y quién baja `+0x8B8`; si cuenta referencias de un recurso que se dibuja); (2) si hay un id de
+recurso libre en el cargador para un tercer búfer (los dos del doble búfer son 13 y 14); (3) qué dibuja el que
+cambia mientras su carga está en vuelo (desde cuándo la animación deja de dibujar el arma vieja, en
+`FUN_0015BBD8`/`FUN_0015C3C8`).
+**La 2c, rediseñada sobre D:** `SONJ2` toca el `+0x08` (o `+0x0C` si `arma+0x108`) del búfer cuyo `+0x14` es el
+modelo del soporte de J2, en vez de `*(V+0x1BE0)`. Sin D, ese búfer puede no existir (F7b).
+**Dato lateral:** `FUN_00143908` mapea la clave del arma con `FUN_001440B8` (una tabla de pares de claves) si
+`*(*(0x0040F4D0)+0x5CA0)` ≠ 0. Puede ser un juego de modelos de arma alternativos (¿para dos jugadores, o de poca
+memoria?) que el original dejó a medio hacer: `hipótesis`, sin medir quién prende ese byte ni qué claves salen.

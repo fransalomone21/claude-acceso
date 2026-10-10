@@ -37,9 +37,24 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2, la que arregla F7) ESCRITA y APAGADA en (125) (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b (el doble búfer de armas es de un jugador) abierto (LEER ESTO PRIMERO)
 
-> **(125), 2026-10-09, NOTEBOOK EN FRÍO, sin Fran — LO ÚLTIMO** (bitácora (125), `docs/16` sección (125),
+> **(126), 2026-10-09/10, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (126), `docs/16` sección (126),
+> `sesiones/PREDICCIONES-125.md` y `-126.md`).
+> - **La 2d pasa su banco** (control + dos cargas: la mitad de J con su pistola y la de J2 con la SPAS). R3 tenía el
+>   instrumento mal (el dibujo reescribe el buffer de `+0x354`): corregido antes de correr la pieza (`copia_ok`).
+> - **Pero traba la pausa (`confirmado`, ON → OFF → ON):** con la 2d, si J2 cambió a otra arma y J1 pausa, el menú
+>   no termina de cargar (2 de 2; sin la 2d, 0 de 1). **`CON_SOPORTE2` volvió a `False`; pnach por defecto 1059.**
+> - **F7b (`probable`):** `*(0x0040F540)` es un **doble búfer de recursos del arma en la mano** (modelo + sonido),
+>   de un jugador: cada carga (cambio, juntada, pausa) va al búfer «otro» y suelta lo que tenía; con dos jugadores
+>   puede ser el arma del compañero (J2 junta un rifle → la mitad de J sin arma). Las 6 sub-ranuras de cue de `V` y
+>   sus 2 áreas están ocupadas: la 2c «en una sub-ranura libre» era imposible; el sonido de cada arma ya vive en su
+>   búfer. Alternativas A / D / E en `docs/16` (126).
+> - **Herramientas:** `f7b_buffer.py` (`--por-j2`), `f7b_pausa.py` (`--sin-soporte2`, `--espera`); en el menú de
+>   pausa confirma el botón 0. `controles.py` 8/8 verde.
+> - **Máquina:** fork cerrado; pnach 1059 (sin la 2d); COOP activo. **Sigue (frío):** `sesiones/RETOME-LOCAL.md`.
+
+> **(125), 2026-10-09, NOTEBOOK EN FRÍO, sin Fran** (bitácora (125), `docs/16` sección (125),
 > `sesiones/PREDICCIONES-125.md`).
 > - **Pieza 2d diseñada a nivel instrucción, escrita e integrada APAGADA** (`herramientas/coop_soporte2.py`, 45
 >   palabras en `0x00470080`; `CON_SOPORTE2 = False`, `--con-soporte2` la prende): una llamada en el envoltorio

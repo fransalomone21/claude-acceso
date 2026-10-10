@@ -878,9 +878,9 @@ def programas():
         ganchos += coop_sub3.ganchos()
     if CON_SOPORTE2:
         # (125) COOP-C pieza 2d, J2 con SU soporte de modelo, sus buffers de registros y sus accesorios
-        # (coop_soporte2.py; la causa de F7, confirmada en (124)). PRENDIDA por defecto desde (126), al pasar su
-        # prueba en vivo (sesiones/PREDICCIONES-125.md); `--sin-soporte2` es el control. Sin gancho propio: una
-        # llamada adentro del envoltorio, despues del constructor de J2
+        # (coop_soporte2.py; la causa de F7, confirmada en (124)). APAGADA por defecto: paso su banco pero traba
+        # la pausa (126); `--con-soporte2` la prende. Sin gancho propio: una llamada adentro del envoltorio,
+        # despues del constructor de J2
         import coop_soporte2
         progs.append(("soporte de J2", coop_soporte2.programa()))
     return progs + [("ganchos", ganchos)]
@@ -897,9 +897,11 @@ CON_SUB3 = False  # (119) COOP-C pieza 2b, APAGADA por defecto hasta que pase su
                   # `--con-sub3` la prende, `--sin-sub3` es el control. Sin la ranura 3 no se prende (con_sub3())
 
 
-CON_SOPORTE2 = True   # (126) PRENDIDA por defecto: la pieza 2d (la que arregla F7) paso su prueba en vivo
-                      # (sesiones/PREDICCIONES-125.md: con la pieza la mitad de J dibuja su pistola y la de J2 la SPAS,
-                      # dos cargas; sin ella, F7). `--sin-soporte2` es el control
+CON_SOPORTE2 = False  # (126) APAGADA por defecto OTRA VEZ. Paso su banco (sesiones/PREDICCIONES-125.md: la mitad de J
+                      # con su pistola y la de J2 con la SPAS, dos cargas) pero TRABA LA PAUSA: si J2 cambio a otra
+                      # arma y J1 pausa, el menu queda a medio cargar (2 de 2 con la pieza, 0 de 1 sin ella;
+                      # sesiones/PREDICCIONES-126.md P4/P5). Causa de fondo: el doble bufer de recursos de arma es de
+                      # UN jugador (docs/16 (126), F7b). `--con-soporte2` la prende para las pruebas
 
 
 CON_HUD = True  # (115) PRENDIDO por defecto; `--sin-hud` es el control y `--con-hud` se acepta y no hace nada

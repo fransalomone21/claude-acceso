@@ -16,7 +16,11 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
-## 2026-10-09 — (126) en vivo: F7 ARREGLADO — la pieza 2d pasa con control y dos cargas, y queda prendida por defecto
+## 2026-10-09 — (126) en vivo: la pieza 2d pasa su banco pero TRABA LA PAUSA (vuelve a apagada); F7b, el doble búfer de armas es de un jugador
+
+> **CORREGIDO en la misma sesión** (el título decía «F7 ARREGLADO … y queda prendida por defecto», y así se commiteó
+> en `a0f5e0b`): lo de abajo hasta «Después» es la primera mitad, verdadera para su banco; la segunda mitad la
+> deshace — la 2d traba la pausa y volvió a apagada. Ver «Después, en la misma sesión».
 **Máquina:** notebook MSI (caliente, fork por los bancos, sin Fran) · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** COOP-C pieza 2d (F7, el modelo del arma de J2) · nodos `vista-fp`, `armas`, `personajes`
 **Objetivo:** correr el banco de la pieza 2d contra `sesiones/PREDICCIONES-125.md` (control, después pieza con dos
@@ -47,10 +51,33 @@ defecto pasa de 1059 a **1106** palabras; filas «soporte de J2» (`0x00470080`�
   compartida 1 (`0x013094D0..`), los de J quedan en la 0 (`0x01304150..`). Con índices distintos no se pisan; ningún
   fragmento en las 6 fotos. Queda `hipótesis` para el caso «mismo índice, armas distintas», que este banco no arma.
 
+**Después, en la misma sesión (lo que cambia todo; `sesiones/PREDICCIONES-126.md`, `docs/16` sección (126)):**
+- **La 2c, antes de diseñarla:** la hipótesis «el cambio de J2 le pone su arma al sonido de J» quedó **refutada** (el
+  aislador del mod engancha `FUN_001D6E78`; `V` queda con la clave de J). Pero apareció el dueño real de modelo y
+  cue: `*(0x0040F540)` = `0x005BFC00` es un **doble búfer de recursos del arma en la mano** (escritor de `+0x7C`
+  medido con vigilante: `0x001440A0`). Cada cambio carga el arma nueva en el búfer «otro» y **suelta lo que tenía**;
+  cada búfer trae su modelo y **su sonido** (dos cues de `V` y un área).
+- **F7b (`probable`, una corrida):** J2 juntó un rifle y la pistola de J salió de los dos búferes: la mitad de J con
+  las manos sin arma (`volcados/arma/f7b-porj2-20261009-220157/`). La 2d había pasado su banco porque J2 volvía a la
+  pistola, la misma arma de J: éxito por coincidencia del banco.
+- **La pausa (`confirmado`, ON → OFF → ON):** el menú de pausa carga `PseMenu.bin` en el búfer «otro». Con la 2d, si
+  J2 cambió a otra arma y J1 pausa, ese búfer tiene **el arma que J dibuja**, el menú no termina de cargar y **la
+  partida queda trabada** (2 de 2 con la 2d, con la pausa a 1 s y a 6 s del cambio; 0 de 1 sin ella).
+  `herramientas/f7b_pausa.py`. El puntero de modelo del soporte de J no es lo que frena (intervenido: no destraba).
+- **Decisión: `CON_SOPORTE2 = False` otra vez** (pnach por defecto **1059**); las filas vuelven a `coop-plan-b`
+  como reserva (docs/14 y el saboteador restaurados a (125), con el rango del envoltorio ahora derivado en el
+  sabotaje). Una traba es peor que F7.
+- **Medido para el diseño:** las 6 sub-ranuras de cue de `V` y sus 2 áreas de sonido están **ocupadas** (corrige
+  (122)/(125): la 2c «en una sub-ranura libre» era imposible). Alternativas A / D / E en `docs/16` (126).
+- **Herramientas nuevas:** `f7b_buffer.py` (el doble búfer y quién está residente, `--por-j2`), `f7b_pausa.py`
+  (`--sin-soporte2`, `--espera`). En el menú de pausa confirma el botón **0** (un 2.º Start no lo cierra).
+
 **No funcionó:** R3 escrita como «el buffer es igual al registro del modelo» no discriminaba nada para `+0x354` (daba
-falso también sin el mod). Se corrigió el instrumento antes de correr la pieza, no después de ver su resultado.
-**Sigue:** la pieza 2c (el cue propio de J2: «el arma de J2 tiene que sonar como el arma que es»), en frío primero.
-**Máquina al cerrar:** ver `ESTADO_ACTUAL.md` (126).
+falso también sin el mod); se corrigió el instrumento antes de correr la pieza. Prender la 2d por defecto con un
+banco que no cubría ni armas distintas ni la pausa: se deshizo en la misma sesión. J no junta armas (3 de 3).
+**Sigue:** en frío, qué espera el cargador en la traba, si hay un id de recurso libre para un tercer búfer, y qué
+dibuja el que cambia con la carga en vuelo; con eso, elegir entre D+pausa y E (`docs/16` (126)).
+**Máquina al cerrar:** fork cerrado; pnach default **1059** (sin la 2d); COOP activo.
 
 ## 2026-10-09 — (125) en frío: la pieza que arregla F7 diseñada a nivel instrucción, con su regla 12, y en el stub APAGADA
 **Máquina:** notebook MSI (en frío, sin emulador, sin Fran) · **Modelo:** Opus, esfuerzo alto, sin fan-out
