@@ -159,6 +159,38 @@ se agrega): dos sesiones en el mismo árbol (A11) no se pisan.
 `.claude/cascada.json` nunca lo frena la propia puerta; si todo falla,
 `.claude\desinstalar-hooks.ps1` la saca entera (regla 6).
 
+### 4.6 El pedido también nombra el proyecto: señales fuertes y débiles
+
+**Por qué hay señales** (lección 331, 2026-10-02): un ejercicio de punteros a
+función de Software de Vuelo, pedido sin nombrar la materia («guardalo en mis
+documentos»), terminó en `Documentos` y no en la carpeta de la clase. Desde
+entonces `UserPromptSubmit` reconoce el proyecto en el **pedido** (`senales`
+del catálogo) y la puerta lo exige aunque la acción caiga fuera del árbol.
+
+**El falso positivo** (lección 372, 2026-10-09): la señal `punteros` frenó un
+retome de BLACK —«los punteros del jugador»— hasta declarar una excepción
+para software-de-vuelo, y iba a volver en cada sesión de ingeniería reversa.
+La pregunta de la regla 6 («¿contra qué impacto fue diseñado?») separó dos
+clases de señal:
+
+- **fuerte** (`senales`): nombra el proyecto —«software de vuelo», «stm32»,
+  «BLACK»—. Frena siempre, como antes.
+- **débil** (`senales_debiles`): es vocabulario del tema —`punteros`,
+  `programación`—. Frena **sola** (el caso 331 sigue cubierto) y **cede** si
+  el mismo pedido nombra otro proyecto con una fuerte, o si la sesión ya está
+  en otro (declarado, o inferido por una fuerte; un proyecto con excepción no
+  cuenta). Cuando cede, deja un aviso de una línea sin freno.
+
+Aprobado por Fran el 2026-10-09 en esa forma (cede también por la sesión, y
+`programación` entra junto con `punteros`).
+
+**Lo que queda descubierto, declarado:** un pedido que mezcla BLACK con un
+ejercicio de la materia no frena por la materia. Lo atajan el aviso y la
+carpeta local (`~/Desktop/01 - UNSAM/Software de Vuelo`), que sigue frenando
+por ruta. **Verificación:** caso 15 del autotest (el 331 en rojo, el 372 y el
+turno siguiente pasan, la excepción no es contexto) y dos mutantes, uno por
+mitad; probado también con el catálogo real y los pedidos reales.
+
 ## 5. Qué NO resuelve, declarado
 
 - **Leer no es entender.** La puerta mide que el texto entró al contexto, no

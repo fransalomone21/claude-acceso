@@ -318,18 +318,31 @@ def proyecto_de(tool: str, inp: dict, cwd: str, cat: dict | None = None):
     return None
 
 
-def inferidos_de(cat: dict, texto: str):
+def inferidos_de(cat: dict, texto: str, contexto=()):
     """Que proyectos NOMBRA el pedido de Fran, por las 'senales' de cada uno en el catalogo. La necesidad se
     reconoce en el PEDIDO, no en la primera ruta que se toca: una sesion que clasifica 'sin proyecto' nunca toca
-    una ruta del arbol y la puerta no se enteraba (2026-10-02, leccion 331)."""
-    out = []
+    una ruta del arbol y la puerta no se enteraba (2026-10-02, leccion 331).
+    Devuelve (inferidos, cedidos). Una senal FUERTE nombra el proyecto; una DEBIL ('senales_debiles') es vocabulario
+    del tema ('punteros') y cede si el mismo pedido nombra OTRO proyecto con una fuerte o la sesion ya trabaja en
+    otro ('contexto': declarados e inferidos por fuerte). Sin esto un retome de BLACK que hablaba de los punteros
+    del jugador quedaba frenado por software-de-vuelo (2026-10-09, leccion 372).
+    Inferidos: (p, senal, es_debil). Cedidos: (p, senal, otro)."""
+    fuertes, debiles = [], []
     for p, ent in cat.get("proyectos", {}).items():
-        for s in ent.get("senales", []):
-            m = re.search(s, texto or "", re.I)
+        for lista, out in (("senales", fuertes), ("senales_debiles", debiles)):
+            m = next((m for m in (re.search(s, texto or "", re.I) for s in ent.get(lista, [])) if m), None)
             if m:
                 out.append((p, m.group(0)))
                 break
-    return out
+    nombrados = [p for p, _ in fuertes] + [p for p in contexto if p not in dict(fuertes)]
+    inferidos, cedidos = [(p, por, False) for p, por in fuertes], []
+    for p, por in debiles:
+        otros = [q for q in nombrados if q != p]
+        if otros:
+            cedidos.append((p, por, otros[0]))
+        else:
+            inferidos.append((p, por, True))
+    return inferidos, cedidos
 
 
 # ------------------------------------------------------------------------------------------- estado de sesion
@@ -377,7 +390,8 @@ def anotar(sid: str, ev: dict):
 
 
 def estado(sid: str) -> dict:
-    st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "comandos": [], "inferidos": {}}
+    st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "comandos": [], "inferidos": {},
+          "por_debil": set()}
     f = archivo_estado(sid)
     if not f.exists():
         return st
@@ -404,6 +418,10 @@ def estado(sid: str) -> dict:
         elif t == "cmd":
             st["comandos"].append(ev["cmd"])
         elif t == "infiere":
+            if ev.get("debil") and ev["proy"] not in st["inferidos"]:
+                st["por_debil"].add(ev["proy"])
+            elif not ev.get("debil"):
+                st["por_debil"].discard(ev["proy"])
             st["inferidos"].setdefault(ev["proy"], ev.get("por", ""))
     return st
 
@@ -649,9 +667,14 @@ def prompt(ev: dict) -> int:
     sid = ev.get("session_id", "")
     st = estado(sid)
     nuevos = []
-    for p, por in inferidos_de(cat, str(ev.get("prompt", ""))):
+    # Contexto de la sesion: lo que ya se declaro y lo inferido por una senal FUERTE. Un proyecto con excepcion no
+    # cuenta: la excepcion dice justamente que la sesion no es de ese proyecto.
+    ctx = [p for p in list(st["declaradas"]) + [q for q in st["inferidos"] if q not in st["por_debil"]]
+           if p not in st["excepciones"]]
+    inferidos, cedidos = inferidos_de(cat, str(ev.get("prompt", "")), ctx)
+    for p, por, debil in inferidos:
         if p not in st["inferidos"]:
-            anotar(sid, {"t": "infiere", "proy": p, "por": por})
+            anotar(sid, {"t": "infiere", "proy": p, "por": por, "debil": debil})
         if p not in st["declaradas"] and p not in st["excepciones"]:
             nuevos.append((p, por))
     if nuevos:
@@ -660,6 +683,10 @@ def prompt(ev: dict) -> int:
               "La puerta lo exige. Hasta declararla NIEGA todo Bash, PowerShell, Write y Edit, AUNQUE NO TOQUEN el "
               "proyecto (la senal es el pedido, no la ruta): esa es la PRIMERA llamada, SOLA, sin nada en paralelo; "
               "mirar con Read, Glob y Grep si pasa (2026-10-07: cuatro llamadas negadas por no saberlo)." % (", ".join("%s (senal '%s')" % x for x in nuevos), entrada(), nuevos[0][0]))
+    for p, por, otro in cedidos:
+        if p not in st["declaradas"] and p not in st["excepciones"] and p not in st["inferidos"]:
+            print("CASCADA (aviso, sin freno): '%s' es vocabulario de %s, pero la sesion ya es de %s. Si el pedido "
+                  "TAMBIEN es de %s: %s %s -Necesidad <a,b> (leccion 372)." % (por, p, otro, p, entrada(), p))
     return 0
 
 
@@ -815,7 +842,7 @@ def cli_verificar() -> int:
         if "diseno" in ent[n].get("necesidades", []) and not ent[n].get("requisitos"):
             rojos.append("%s disena por defecto y no declara su documento de requisitos ('requisitos' en el catalogo): "
                          "se disenaria sin contra que verificar (Fran, 2026-10-07)" % n)
-        for s in ent[n].get("senales", []):
+        for s in ent[n].get("senales", []) + ent[n].get("senales_debiles", []):
             try:
                 re.compile(s)
             except re.error as e:
@@ -898,11 +925,11 @@ def autotest() -> int:
     sid = "autotest-%d" % os.getpid()
     mal = 0
 
-    def correr(ev, cat_env=None):
+    def correr(ev, cat_env=None, script=__file__):
         e = dict(env)
         if cat_env:
             e.update(cat_env)
-        r = subprocess.run([sys.executable, __file__], input=json.dumps(ev).encode("utf-8"), capture_output=True,
+        r = subprocess.run([sys.executable, str(script)], input=json.dumps(ev).encode("utf-8"), capture_output=True,
                            env=e)
         return r.stdout.decode("utf-8", "replace")
 
@@ -912,10 +939,11 @@ def autotest() -> int:
     def post_ev(tool, inp, s=sid):
         return {"hook_event_name": "PostToolUse", "session_id": s, "tool_name": tool, "tool_input": inp}
 
-    def caso(nombre, salida, espera_deny, debe_contener=None):
+    def caso(nombre, salida, espera_deny, debe_contener=None, no_debe_contener=None):
         nonlocal mal
         es = '"deny"' in salida
-        ok = es == espera_deny and (debe_contener is None or debe_contener in salida)
+        ok = (es == espera_deny and (debe_contener is None or debe_contener in salida)
+              and (no_debe_contener is None or no_debe_contener not in salida))
         mal += not ok
         print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "DENY" if es else "pasa"))
         if not ok:
@@ -1239,6 +1267,73 @@ def autotest() -> int:
          "'%s'" % p_l)
     caso("CONTROL: lectura pura de la carpeta local -> pasa",
          correr(pre_ev("PowerShell", {"command": "Get-ChildItem '%s'" % loc_l}, s=s11), e_l), False)
+    # 15. leccion 372: una senal DEBIL (vocabulario del tema, como 'punteros') sigue frenando sola -- el caso 331 --
+    # y cede si el pedido nombra OTRO proyecto con una FUERTE o la sesion ya esta en otro -- el retome de BLACK que
+    # hablaba de los punteros del jugador. Catalogo sintetico, como el 14; los pedidos imitan los reales.
+    cat_d = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
+    p_a, p_b = sorted(proyectos_del_disco())[:2]
+    cat_d["proyectos"].setdefault(p_a, {}).update({"senales": [r"zz materia a zz"], "senales_debiles": [r"\bzzvocab\b"]})
+    cat_d["proyectos"].setdefault(p_b, {}).update({"senales": [r"(?-i:ZZJUEGO)"], "senales_debiles": []})
+    f_d = tmp / "cat-debiles.json"
+    f_d.write_text(json.dumps(cat_d, ensure_ascii=False), encoding="utf-8")
+    e_d = {"CASCADA_CATALOGO": str(f_d), "CASCADA_RAIZ": str(RAIZ)}
+
+    def pedido(s, texto, script=__file__):
+        return correr({"hook_event_name": "UserPromptSubmit", "session_id": s, "prompt": texto}, e_d, script)
+
+    def caso_331(s, script=__file__):   # la debil SOLA: 'hace el ejercicio de punteros y guardalo en mis documentos'
+        pedido(s, "hace el ejercicio de zzvocab a funcion y guardalo en mis documentos", script)
+        return correr(pre_ev(*afuera, s=s), e_d, script)
+
+    def caso_372(s, script=__file__):   # la debil con la FUERTE de otro, y ese otro ya resuelto (aca, por excepcion)
+        out = pedido(s, "retome de ZZJUEGO (125): los zzvocab del jugador y su soporte de modelo", script)
+        correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Excepcion \"prueba\"" % p_b}, s), e_d, script)
+        return out, correr(pre_ev(*afuera, s=s), e_d, script)
+
+    caso("SABOTAJE 331: senal DEBIL sola + Write fuera -> deny", caso_331(sid + "-d331"), True, "'%s'" % p_a)
+    out, w = caso_372(sid + "-d372")
+    caso("CONTROL 372: debil + FUERTE de otro -> aviso sin freno", out, False, "sin freno", "toca %s" % p_a)
+    caso("CONTROL 372: ... y el Write fuera pasa", w, False)
+    s14 = sid + "-dturno"
+    pedido(s14, "retome de ZZJUEGO")
+    correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % p_b}, s14), e_d)
+    caso("CONTROL: turno siguiente sin nombrarlo, sesion ya declarada -> cede",
+         pedido(s14, "mira los zzvocab del jugador"), False, "sin freno", "toca %s" % p_a)
+    s15 = sid + "-dexc"
+    pedido(s15, "retome de ZZJUEGO")
+    correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Excepcion \"prueba\"" % p_b}, s15), e_d)
+    pedido(s15, "ahora hace el ejercicio de zzvocab")
+    caso("SABOTAJE: un proyecto con EXCEPCION no es contexto -> deny",
+         correr(pre_ev(*afuera, s=s15), e_d), True, "'%s'" % p_a)
+    # Los dos mutantes, uno por mitad: cada uno tiene que caer en SU caso, no en uno cualquiera.
+    fuente = Path(__file__).read_text(encoding="utf-8")
+    for n, (nombre, viejo, nuevo) in enumerate((
+            ("MUTANTE (la debil nunca cede) frena el retome 372", "        if otros:\n", "        if False:\n"),
+            ("MUTANTE (no lee senales_debiles) deja pasar el 331", '("senales_debiles", debiles)',
+             '("senales_nada", debiles)'))):
+        m = tmp / ("mutante-debil-%d.py" % n)
+        txt = fuente.replace(viejo, nuevo, 1)
+        m.write_text(txt, encoding="utf-8")
+        if txt == fuente:
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        elif n == 0:
+            r = caso_372(sid + "-m0", m)[1]
+            ok = '"deny"' in r and "'%s'" % p_a in r
+        else:
+            r = caso_331(sid + "-m1", m)
+            ok = '"deny"' not in r
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+    # Una regex DEBIL rota tambien la ve --verificar (si no, inferidos_de revienta en UserPromptSubmit, que falla
+    # abierto: la senal desapareceria en silencio).
+    cat_d["proyectos"][p_a]["senales_debiles"] = [r"(zz rota"]
+    f_d.write_text(json.dumps(cat_d, ensure_ascii=False), encoding="utf-8")
+    r = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                       env=dict(env, CASCADA_CATALOGO=str(f_d)))
+    ok = r.returncode == 1 and "senal con regex rota" in r.stdout.decode("utf-8", "replace")
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "senal DEBIL con regex rota -> --verificar en rojo",
+                               "rojo" if ok else "NO"))
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0

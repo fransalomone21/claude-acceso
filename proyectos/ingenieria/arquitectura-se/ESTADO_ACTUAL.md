@@ -2,6 +2,15 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
+**2026-10-09 — la puerta ya no frena BLACK por «punteros».** Las señales del
+catálogo se partieron en **fuertes** (nombran el proyecto) y **débiles**
+(vocabulario: `punteros`, `programación`). La débil frena sola —el caso 331, el
+ejercicio de C sin nombrar la materia, sigue cubierto— y cede, con un aviso de
+una línea, si el pedido nombra otro proyecto con una fuerte o la sesión ya está
+en otro. Aprobado por Fran (regla 6). Autotest de la puerta en verde con el
+caso 15 y dos mutantes vistos en rojo; diseño en
+[`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md) §4.6.
+
 **2026-10-06 — T7 bis: la nube, medida por proyecto.** `.claude/nube/estado-nube.py`
 (arranque: repos subidos y memoria espejada; `--simular`: la puerta contra un
 clon armado desde GitHub, para los 22 proyectos × las 8 necesidades). Nació con

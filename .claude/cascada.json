@@ -132,7 +132,7 @@
     }
   },
 
-  "_senales_y_locales": "senales: regex (sin mayusculas) que reconocen el proyecto en el PEDIDO de Fran; locales: carpetas fuera del arbol que son del proyecto (la mas larga gana). La puerta exige la cascada con cualquiera de las dos (leccion 331, 2026-10-02).",
+  "_senales_y_locales": "senales: regex (sin mayusculas) que reconocen el proyecto en el PEDIDO de Fran; locales: carpetas fuera del arbol que son del proyecto (la mas larga gana). La puerta exige la cascada con cualquiera de las dos (leccion 331, 2026-10-02). senales_debiles: vocabulario del tema ('punteros'), no el nombre del proyecto; frenan igual SALVO que el mismo pedido nombre otro proyecto con una senal fuerte o la sesion ya este en otro, y ahi solo avisan (leccion 372, 2026-10-09; Fran lo aprobo para 'punteros' y 'programacion').",
 
   "proyectos": {
     "apunte-iise":           {"necesidades": ["materia"],
@@ -155,7 +155,8 @@
                               "locales": ["~/Desktop/01 - UNSAM/Fisica Espacial"]},
     "repaso-iise":           {"necesidades": ["materia"]},
     "software-de-vuelo":     {"necesidades": ["materia", "publicar"],
-                              "senales": ["software de vuelo", "\\bpunteros?\\b", "\\bp(ro|or)gramaci[oó]n\\b", "stm32", "cubeide", "\\bleandro\\b"],
+                              "senales": ["software de vuelo", "stm32", "cubeide", "\\bleandro\\b"],
+                              "senales_debiles": ["\\bpunteros?\\b", "\\bp(ro|or)gramaci[oó]n\\b"],
                               "locales": ["~/Desktop/01 - UNSAM/Software de Vuelo"]},
     "taller-de-fisica":      {"necesidades": ["materia"],
                               "senales": ["taller de f[ií]sica"],
