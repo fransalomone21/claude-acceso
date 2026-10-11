@@ -16,6 +16,31 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-11 — (127) en frío + dos sondas de lectura: qué traba la pausa, qué montón queda libre, y la elección para F7b (D' + montón de pausa)
+**Máquina:** notebook MSI (frío; el fork sólo para dos sondas de sólo lectura, sin Fran) · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** COOP-C pieza 2d / F7b (el doble búfer del arma) · nodos `recursos`, `armas`, `vista-fp`, `render`
+**Objetivo:** leer en frío lo que faltaba para elegir el arreglo de F7b (retome de (126): qué espera el cargador en la
+traba, si hay un id de recurso libre, qué dibuja el que cambia) y escribir la elección en `docs/16` antes del stub.
+**Resultado:** (`docs/16` sección (127), `sesiones/PREDICCIONES-127.md`)
+- **El cargador no espera nada:** 10 ranuras de 0x140; `+0x8B8` es la bandera «pendiente» de la ranura 6 (arma y
+  pausa). Un hilo de menor prioridad la atiende: vacía el montón de un saque y lee encima, sin contar referencias.
+- **Medido en vivo (sólo lectura):** en la traba, el hilo principal da vueltas en `FUN_002B32D8` esperando que el DMA
+  termine el cuadro anterior; el cargador está listo y nunca le toca (8 de 8 muestras, lista de hilos, pila). Lo que
+  rompe el DMA, `probable`: el arma de J dibujada desde el montón 14 pisado por `PseMenu.bin`.
+- **Los 26 montones** (`0x40F0F0`) mapeados con su lector: ninguno libre que alcance para el menú (0x35000, medido en
+  el ISO y en un volcado post-pausa como control); 22 y 23 sin inicializar → el id libre existe, la memoria no. La
+  región «en cero en 17 volcados» de arriba de la RAM **no** es libre (hoy tenía datos de `malloc`).
+- **Los caminos del recurso**, completos: alta en el nivel, **precarga de la alterna en cada cuadro**, cambio, juntar,
+  pausa. En un jugador el arma dibujada nunca está en un búfer que se carga; con dos y armas distintas, siempre.
+- **Elección:** A descartada (1,4 MB que no hay), E descartada (sonido que no hay); **D' + montón de pausa propio**
+  (R1 dueño por búfer, R2 no se vacía lo que se dibuja, R3 precarga sólo en búfer libre, R4 la pausa en el montón 22
+  sobre memoria de `malloc`). Orden: R4 primero.
+- `+0x5CA0` / `FUN_001440B8` = **armas plateadas** (`Guns_s.bin`), no modelos para dos jugadores.
+**No funcionó:** el control (`--sin-soporte2`) no armó su precondición (J2 quedó en la SPAS) y el banco siguió:
+arreglado (`ROJO_PRECONDICION`). Y en ese control **el juego se cayó** al cambiar J2 de arma con el pnach por
+defecto (N27, una vez, sin control): se reproduce antes de fabricar.
+**Sigue:** R4 a nivel instrucción en `docs/16` + regla en `coop_diseno.py` con sabotajes; reproducir N27.
+
 ## 2026-10-09 — (126) en vivo: la pieza 2d pasa su banco pero TRABA LA PAUSA (vuelve a apagada); F7b, el doble búfer de armas es de un jugador
 
 > **CORREGIDO en la misma sesión** (el título decía «F7 ARREGLADO … y queda prendida por defecto», y así se commiteó

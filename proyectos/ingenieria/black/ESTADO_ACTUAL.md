@@ -37,9 +37,24 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b (el doble búfer de armas es de un jugador) abierto (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio (R4 primero); N27 (caída con el pnach por defecto) a reproducir (LEER ESTO PRIMERO)
 
-> **(126), 2026-10-09/10, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (126), `docs/16` sección (126),
+> **(127), 2026-10-11, NOTEBOOK EN FRÍO + dos sondas de sólo lectura, sin Fran — LO ÚLTIMO** (bitácora (127),
+> `docs/16` sección (127), `sesiones/PREDICCIONES-127.md`).
+> - **Qué traba la pausa, medido:** el cargador no espera nada (vacía el montón y lee encima); en la traba, el hilo
+>   principal espera para siempre que el DMA termine el cuadro anterior (`FUN_002B32D8`) y el cargador (menor
+>   prioridad) no vuelve a correr. Lo que rompe el DMA, `probable`: J dibujando su arma del montón que se pisó.
+> - **No hay montón libre** para el menú (0x35000): ids 22/23 sin usar, pero la memoria hay que pedirla a `malloc`
+>   (la región «en cero» de arriba de la RAM tenía datos hoy).
+> - **F7b, elegido:** D' (cada búfer es del jugador que lo dibuja; no se vacía un búfer que alguien dibuja; la precarga
+>   de la alterna, sólo en un búfer libre) + **R4: la pausa en su propio montón**. A y E descartadas. Falta bajarlo a
+>   instrucción y su regla en `coop_diseno.py` (R4 primero).
+> - **Riesgo nuevo N27:** con el pnach por defecto, una caída al cambiar J2 de arma después de una pausa (una vez, sin
+>   control). Se reproduce antes de fabricar.
+> - **Máquina:** fork cerrado; pnach por defecto **1059**; COOP activo. `f7b_pausa.py --con-soporte2` y
+>   `f7b_hilos.py` nuevos. **Sigue:** `sesiones/RETOME-LOCAL.md`.
+
+> **(126), 2026-10-09/10, NOTEBOOK CALIENTE, sin Fran** (bitácora (126), `docs/16` sección (126),
 > `sesiones/PREDICCIONES-125.md` y `-126.md`).
 > - **La 2d pasa su banco** (control + dos cargas: la mitad de J con su pistola y la de J2 con la SPAS). R3 tenía el
 >   instrumento mal (el dibujo reescribe el buffer de `+0x354`): corregido antes de correr la pieza (`copia_ok`).

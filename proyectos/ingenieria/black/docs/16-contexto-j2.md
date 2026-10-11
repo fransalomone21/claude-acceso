@@ -1424,3 +1424,138 @@ modelo del soporte de J2, en vez de `*(V+0x1BE0)`. Sin D, ese búfer puede no ex
 **Dato lateral:** `FUN_00143908` mapea la clave del arma con `FUN_001440B8` (una tabla de pares de claves) si
 `*(*(0x0040F4D0)+0x5CA0)` ≠ 0. Puede ser un juego de modelos de arma alternativos (¿para dos jugadores, o de poca
 memoria?) que el original dejó a medio hacer: `hipótesis`, sin medir quién prende ese byte ni qué claves salen.
+**(127) Corregido:** son las **armas plateadas** (`probable`, en frío): el armado de la carga (`0x0012.c`, estado
+`0xE`) prende `+0x5CA0` si la partida tiene el desbloqueo (`FUN_00123BF0(0x48EFA8, dificultad..3)`) o es la dificultad
+3, y con él pide `Levels\Level_NN\Stg_NNNN\Guns_s.bin` (`0x3F43B8` + el sufijo `_s` de `0x3F43B0`) en vez de `Guns.bin`.
+No es un juego de modelos para dos jugadores.
+
+## (127) En frío: qué espera el cargador, qué montón queda libre, y los cinco caminos del doble búfer
+
+> En frío (notebook, sin Fran, 2026-10-11), del decompilado de `black-datos` (`0x0010.c`, `0x0012.c`, `0x0013.c`,
+> `0x0014.c`, `0x0015.c`, `0x0020.c`, `0x0027.c`), el ISO (sólo lectura) y los 17 volcados de 32 MB de `volcados/`.
+
+**(a) Qué espera el cargador: nada.** `*(0x0040F4C4)` (= `0x00598380`) tiene **10 ranuras de pedido de 0x140 B**
+(`FUN_00109308`: `+0x08` el montón, `+0x0C` el tipo, `+0x14` la ruta, `+0x114/+0x118` el callback, `+0x138`
+**pendiente**, `+0x13D` soltar antes). `+0x8B8` = `6 × 0x140 + 0x138`: la bandera «pendiente» de la **ranura 6**, la
+que comparten el arma (`FUN_00143C80`) y el menú de pausa (`FUN_00143F90`); `+0xB38` es la de la ranura 8 (el resto
+de las cargas). Un hilo propio (`FUN_00108050`, creado en `FUN_00107E30`, con prioridad **menor** que el principal:
+`FUN_00107FB8`) despierta en cada vblank (`FUN_00271480`), atiende **la primera** ranura pendiente
+(`FUN_00108E78`) y la hace entera (`FUN_00108F28`): si pide soltar, borra los registros de ese montón
+(`FUN_00108668`) y **lo vacía de un saque** (`FUN_00107B18` → `FUN_00274FC8`: cursor = inicio); reserva
+(`FUN_00274F80`, de cursor: devuelve 0 si no entra, no bloquea), lee el archivo entero, llama al callback, cierra y
+recién ahí baja `+0x138`. **No cuenta referencias ni espera a nadie** (la cuenta `+0xD46` de la tabla de tipo 7 la
+sube `FUN_00108458` y la baja `FUN_001084A8`; el cargador no la lee).
+- Consecuencia: «`+0x8B8` = 1 clavado» es la ranura 6 **a medio hacer**, no un cargador esperando que se suelte un
+  recurso. Con la 2d, el único lazo leído entre la pieza y la pausa es que **J sigue dibujando la pistola del montón
+  14** (modelo en `soporte+0` vía `FUN_00138338`, agregados `soporte+0x38`, los dos leídos del actual por
+  `FUN_00138C50`/`FUN_00138C68`, accesorios por la ranura
+  `*(0x0040F50C)+idx×0x240+0x470`, todo armado por `FUN_0013C868`) mientras el cargador lo vacía y le escribe
+  `PseMenu.bin`. Dato a favor: en la traba `copia_ok` da falso (la memoria del modelo **cambió**: el cargador llegó a
+  leer) y las dos fotos de la traba tienen el **mismo md5** (`f7b-pausa-20261010-003742/resumen.json`).
+- **Mecanismo, `probable`:** el hilo principal se cuelga dibujando basura y el cargador, de menor prioridad, no vuelve
+  a correr. Alternativa viva: el hilo del cargador trabado adentro de la lectura por otra causa de la 2d. Discriminador
+  barato (en vivo, sólo lectura): `depurador.py hilos` y `pila` en la traba. **Corrido el mismo día: gana la
+  primera** (el principal en un lazo de espera del DMA, el cargador listo sin correr; detalle al final de la sección).
+- **Control positivo de la lectura:** `ee-11.bin` (un volcado tomado después de una pausa) tiene la ranura 6 con el
+  callback del menú (`0x0020AAC8`) y el montón 14 con **0x35000** usados: exactamente `PSEMENU.BIN` (215 400 B,
+  medido en el ISO) redondeado a 0x800.
+
+**(b) ¿Hay un montón libre para un tercer búfer?** El gestor `0x40F0F0` tiene 26 montones de 0x24 B (`+4 + i×0x24`:
+`+8` inicio, `+0xC` fin, `+0x10` cursor), armados en `FUN_00125208` sobre un bloque de 0x1A883FF pedido a `malloc`.
+Medidos en `ee-parpadeo-fuego-3.bin` y `ee-11.bin`:
+
+| id | tamaño | qué lleva (lector) |
+|---|---|---|
+| 0 | 0x283000 | general (los singletons: el doble búfer `0x005BFC00` vive acá) |
+| 1 | 0x16B000 | fuentes, `GlobData.bin`, textos |
+| 2 | 0x934000 | el front-end (`FEMain`, `Common`) y la geometría del nivel |
+| 3–5, 11, 12 | — | de nivel (se eligen en `0x0012`/`0x0013`/`0x0025`) |
+| 6 | 0x110000 | `chars\trans_fp.bin` / `trans_ch.bin` |
+| 7 · 8 | 0xD6400 · 0x2E1800 | `LevelDat.bin` · `StLevel.bin` |
+| 9 | 0x28800 | sonido (`GrdPin.dav`, `.ssh`) |
+| 10 · 16 · 21 | 0x800 · 0x800 · 0x400 | chicos |
+| **13 · 14** | **0xB2000 c/u** | **el doble búfer del arma** (`fpguns\<arma>.db`) |
+| 15 | 0x113400 | front-end en juego (`InGameOn`, `Core`, `Loading`, `WpnScope`, `Ring`, `cntrDisc`) |
+| 17 | 0 | vacío por construcción |
+| 18 | 0x200000 | **paquetes de render** (lo toma crudo `FUN_001C59F8`; su cursor en 0 no dice «libre») |
+| 19 · 20 | 0x9000 · 0x10000 | crudo (`0x001D`); la **pila del hilo del cargador** |
+| **22 · 23** | — | **entradas sin inicializar** (activo = 0 en los dos volcados) |
+| 24 | 0x25800 | cursor en 0 en los dos volcados, lector sin encontrar; **no alcanza** (el menú pide 0x35000) |
+| 25 | 0x4B000 | `Stg_NNNN\Guns.bin` (armas del escenario), vivo toda la partida |
+
+**El id libre existe (22); la memoria no.** Fuera de todo montón, una sola región: **`0x01F28800`–`0x01FF0000`
+(798 KB) en cero en los 17 volcados** (niveles distintos, con y sin el mod), entre el último `malloc` (el bloque
+termina en ~`0x01F24400`) y lo que parece la pila del hilo principal (`0x01FF0000`–`0x02000000`). Que esté **libre**
+es `hipótesis`: cero en los volcados no prueba que nadie la use (falta un vigilante de escritura en vivo a lo largo de
+una carga, una pausa y un rato de juego).
+**(127) en vivo: REFUTADA en su pie.** En las dos corridas de hoy con el coop, `0x01F28800`–`0x01F29400` ya tiene
+datos (floats y punteros a los montones 6 y 13 y a `0x0046E100`): es la cima del arena de `malloc`, que crece. La
+memoria de un montón del mod **se pide a `malloc`** (permiso, no exclusión), no se toma de una dirección fija.
+
+**(c) Qué dibuja el que cambia, y por qué en un jugador nunca pasa nada.** `FUN_0015BBD8(W)` (por jugador, `W` = su
+controlador de armas) tiene tres estados en `W+0x38`:
+- **0, en reposo: PRECARGA el arma que no tiene en la mano** (`FUN_001438A8(dbuf, clave de arreglo[1 − W+0x43])`)
+  **en cada cuadro**. En un jugador el «otro» búfer guarda siempre el arma alterna.
+- **2, cambio** (`FUN_0015BE08`): espera que el «otro» tenga el arma (casi siempre ya está, por la precarga), alterna
+  (`FUN_00143D90`: el nuevo pasa a actual) y difiere el cambio del soporte hasta que termine la animación de bajar
+  (`W+0x45`/`+0x46`, `FUN_0015BE70` → `FUN_0013C868`). **Mientras baja, dibuja el arma vieja desde el búfer que
+  acaba de quedar «otro»** — que no se recarga, porque la alterna del arma nueva **es** la vieja (misma clave: el
+  estado 8 se queda).
+- **1, juntar** (`FUN_0015C1A8`, clave en `W+0x30`, demora 0,5): carga el arma del piso en el «otro» y la arma
+  (`FUN_0015C3C8`).
+- En un jugador, entonces, **el arma que se dibuja nunca está en un búfer que se carga.** El juego no tiene ningún
+  cuidado para ese caso porque no le hace falta.
+
+**Los caminos del recurso** (la lista que pide el criterio de la C desde (126)): (1) el **alta del jugador en el
+nivel** (`0x0013.c`, `P+0x8A4`: arma inicial `+0x3C0`, después precarga `+0x3C8`); (2) la **precarga en reposo**,
+por cuadro y por jugador; (3) el **cambio**; (4) **juntar**; (5) la **pausa**; más la carga y descarga del nivel
+(`FUN_00143700` / `FUN_001437D8`). Con dos jugadores con armas distintas en la mano, los dos búferes están tomados
+por armas que se dibujan: **cualquier** carga (2–5) cae sobre la de alguien, y la precarga de los dos se pelea el
+«otro» en cada cuadro si cada uno tiene dos armas.
+- **(127) Corrección a (126):** la juntada de C0 desalojó la pistola de J **por la precarga** de la alterna de J2 (o la
+  juntada misma: las dos cargan en el «otro»), no por algo especial de juntar.
+- **El «instante» de D no es cosmético:** si D le hace cargar al que cambia **en su propio búfer**, la animación de
+  bajar dibuja el arma vieja mientras su montón se vacía y se pisa — lo mismo que traba la pausa. D sólo vale si el
+  que cambia **deja de dibujar** su arma antes de que se vacíe su montón.
+
+**(d) La elección (por qué cada una):**
+- **A (doble búfer propio de J2): DESCARTADA por memoria.** Dos montones de 0xB2000 = 0x164000 (1,4 MB) contra los
+  798 KB de la única región fuera de los montones; además 4 cues y 2 áreas que `V` no tiene.
+- **E (tercer búfer de arma): DESCARTADA.** Entra justo en memoria (0xB2000 en 798 KB) pero pide 2 cues y 1 área de
+  sonido más, y las 6 + 2 están ocupadas (126).
+- **ELEGIDA: D' + montón de pausa propio** (`probable` como diseño; falta bajarla a instrucción):
+  - **R1, dueño por búfer:** con armas distintas en la mano, cada búfer es del jugador que lo dibuja. Una carga de P
+    va a: el búfer que ya tiene esa clave (no carga nada); si no, el búfer que **el otro** no dibuja (comparando el
+    modelo de su soporte contra `+0x14` de cada búfer — con la 2d cada uno tiene el suyo).
+  - **R2, no se vacía lo que se dibuja:** si el búfer elegido es el que **P** dibuja (cambia y el compañero tiene otra
+    arma), P deja de dibujar su arma **antes** de que el cargador vacíe el montón, y la vuelve a dibujar el armado
+    normal (`FUN_00143D90` → `FUN_0013C868`). Cómo se esconde (modelo 0 en el soporte, o una bandera de visibilidad)
+    está **sin leer**: `FUN_00138338` y el dibujo del soporte, antes del stub.
+  - **R3, la precarga sólo en un búfer que nadie dibuja** (cuando los dos tienen la misma arma, o uno no tiene
+    alterna); si no hay, se saltea. El costo: cambiar de arma carga del disco (el arma nueva tarda lo que tarda la
+    lectura, con la mano vacía en el medio).
+  - **R4, la pausa en su montón:** el menú se carga en el **montón 22**, armado por el mod (`FUN_00107A08`) sobre
+    0x35000 B (+0x80 de alineación) **pedidos una sola vez a `malloc`** (`FUN_0035E7D8`; corregido en vivo, abajo), y
+    la pausa **no toca el doble búfer** (ni el vaciado de `FUN_001438C8`, ni `FUN_00143F90`, ni el reseteo de
+    `FUN_001438E8`): en `FUN_0020AEA0` se pide `FUN_001093C0(cargador, PseMenu, 6, 22, 0x0020AAC8, 0xC, 1,
+    0x2000000)` directo. Arregla la traba aunque R1–R3 no estén. Sin leer todavía: los otros que llaman a
+    `FUN_0020AFF8`/`FUN_001438E8` y si algo más del menú de pausa cuenta con el estado 9 del «otro».
+  - **La 2c sale de R1:** `SONJ2` toca el cue (`+0x08`, o `+0x0C` si `arma+0x108`) del búfer cuyo `+0x14` es el
+    modelo del soporte de J2.
+- **Orden de fabricación:** R4 primero (es chica, sin sonido, y destraba la pausa con la 2d prendida); después R1–R3;
+  la 2d se prende por defecto recién con las cuatro y el banco de los cinco caminos con armas distintas.
+
+**(127) En vivo, sólo lectura (`sesiones/PREDICCIONES-127.md` T0–T5, `herramientas/f7b_hilos.py`):**
+- **El mecanismo de la traba, medido** (observación, sin intervenir): con la 2d, en la traba, el hilo **principal**
+  (id 1) corre sin parar en el lazo de `FUN_002B32D8` — el cambio de cuadro del búfer de paquetes, que **espera a que
+  el DMA termine de mandar el cuadro anterior** (`DAT_0040E668 != DAT_0040E66C`) y llama a `FUN_001C4D00` mientras
+  espera — y el del **cargador** (id 3) está listo y nunca le toca. 8 de 8 muestras del PC en ese lazo; el menú no
+  aparece en la pila. Lo que rompe el DMA es, `probable`, el arma de J dibujada desde el montón 14 pisado (lo único
+  que la 2d agrega a ese montón). Esto vuelve **R2 obligatoria**: dibujar un arma cuyo montón se vació no deja la
+  mano vacía, **cuelga el cuadro**.
+- **La región de arriba no es libre** (T5): corregido en (b) y en R4.
+- **Riesgo nuevo N27 (una vez, sin control):** en el control (`--sin-soporte2`, pnach por defecto de 1059 palabras),
+  después de una pausa y con J2 cambiando de la SPAS a la pistola (dos pulsaciones), **el juego se cayó**: EE en
+  `0x80001578` (núcleo), todos los hilos en espera, `Cause` = 0x20 (syscall), `EPC` = `0x0027DBFC` (un `nop`, no
+  cierra), `v1` = 0x01010101 (`volcados/arma/f7b-pausa-20261011-200815/hilos.json`). Mismo cuadro que el «Syscall:
+  undefined» de (123). Es la configuración con la que juega Fran: se reproduce antes de seguir fabricando sobre ella.

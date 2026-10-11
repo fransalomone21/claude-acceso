@@ -4,6 +4,7 @@
 sesiones/PREDICCIONES-126.md, escritas antes de correrlo.
 
     python herramientas/f7b_pausa.py          # lanza el fork con el pnach instalado (no lo toca), City Streets
+    python herramientas/f7b_pausa.py --con-soporte2   # (127) con la 2d (apagada por defecto): la traba
 
 En frio (probable): el menu de pausa (FUN_0020AEA0) vacia el bufer «otro» (FUN_00143908 con clave 0 -> estado 9) y
 carga ahi PseMenu.bin; con dos jugadores, el «otro» puede ser el arma en la mano del companero.
@@ -60,17 +61,22 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--sin-soporte2", action="store_true",
                     help="(126) instala el pnach SIN la pieza 2d antes de lanzar (el control de la traba de la pausa)")
+    ap.add_argument("--con-soporte2", action="store_true",
+                    help="(127) instala el pnach CON la pieza 2d (apagada por defecto desde (126)): la traba")
     ap.add_argument("--espera", type=float, default=1.0, help="segundos entre el cambio de J2 y la pausa")
     a = ap.parse_args()
+    if a.sin_soporte2 and a.con_soporte2:
+        ap.error("--sin-soporte2 y --con-soporte2 se excluyen")
     if cc.pcsx2_de_fran_abierto():
         print(json.dumps({"error": "el PCSX2 de Fran esta abierto: comparte PINE con el fork"}))
         return 1
     dir_ = ab.SAL / time.strftime("f7b-pausa-%Y%m%d-%H%M%S")
     dir_.mkdir(parents=True, exist_ok=True)
     hd.FOTOS.clear()
-    res = {"dir": str(dir_), "sin_soporte2": a.sin_soporte2, "espera": a.espera}
+    res = {"dir": str(dir_), "sin_soporte2": a.sin_soporte2, "con_soporte2": a.con_soporte2, "espera": a.espera}
     r = subprocess.run([sys.executable, str(H / "coop_mod.py"), "instalar"]
-                       + (["--sin-soporte2"] if a.sin_soporte2 else []), capture_output=True, text=True)
+                       + (["--sin-soporte2"] if a.sin_soporte2 else [])
+                       + (["--con-soporte2"] if a.con_soporte2 else []), capture_output=True, text=True)
     res["instalar"] = r.stdout.strip()[-300:]
     res["vivo"] = cc.lanzar()
     if not res["vivo"]:
@@ -95,6 +101,9 @@ def main():
     res["P2_J_no_residente"] = not res["prueba_despues"]["J"]["residente"]
     if not res["preparar"]["listo"] or not res["j2_spas_pulso"]["ocurrio"]:
         res["ROJO"] = "no se construyo la precondicion (J2 con la SPAS en la mano): no se concluye nada"
+    if not res["igualar"].get("iguales"):
+        # (127) el control de (2026-10-11 20:08) siguio con J2 en la SPAS y el «control» no fue control
+        res["ROJO_PRECONDICION"] = "los dos no quedaron en la misma arma antes del control: P0 no se lee"
     return fb.cerrar(res, dir_, pasos)
 
 

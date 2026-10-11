@@ -4,7 +4,18 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(126), 2026-10-09/10, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (126), `docs/16` sección (126),
+> **(127), 2026-10-11, NOTEBOOK EN FRÍO + dos sondas de sólo lectura, sin Fran — LO ÚLTIMO** (bitácora (127),
+> `docs/16` sección (127), `sesiones/PREDICCIONES-127.md`).
+> - **La traba de la pausa, medida:** el principal en el lazo de `FUN_002B32D8` (espera el DMA del cuadro anterior),
+>   el cargador (hilo 3, menor prioridad) listo sin correr, ranura 6 a medio hacer. El cargador no cuenta referencias.
+> - **F7b elegido:** D' (R1 dueño por búfer, R2 no vaciar lo que se dibuja — obligatoria: dibujar un montón vaciado
+>   cuelga el cuadro —, R3 precarga sólo en búfer libre) + R4 (la pausa en el montón 22 sobre `malloc`). A y E
+>   descartadas por memoria y sonido. Falta: R4 a instrucción + regla + sabotajes.
+> - **N27 (riesgo nuevo):** caída con el pnach por defecto al cambiar J2 de arma después de una pausa (una vez).
+> - **Herramientas:** `f7b_hilos.py` (PC, hilos, pila, ranura 6); `f7b_pausa.py --con-soporte2` y
+>   `ROJO_PRECONDICION`. **Sigue:** `sesiones/RETOME-LOCAL.md`. **Máquina:** fork cerrado, pnach 1059, COOP activo.
+
+> **(126), 2026-10-09/10, NOTEBOOK CALIENTE, sin Fran** (bitácora (126), `docs/16` sección (126),
 > `sesiones/PREDICCIONES-125.md` y `-126.md`).
 > - **2d: pasa su banco y traba la pausa → APAGADA** (`CON_SOPORTE2 = False`, pnach 1059). La traba: J2 en otra
 >   arma + J1 pausa = el menú a medio cargar, búfer «otro» en estado 9 con la pistola de J adentro y

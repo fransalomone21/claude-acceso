@@ -141,8 +141,8 @@ def cerrar(res, dir_, pasos):
     if hd.fotos_invalidas(hd.FOTOS):
         res["FOTOS_INVALIDAS"] = "falta una foto o hay dos identicas"
     (dir_ / "resumen.json").write_text(json.dumps(res, indent=1, ensure_ascii=False), encoding="utf-8")
-    print(json.dumps({k: res.get(k) for k in ("dir", "B0", "C0", "ROJO", "ROJO_PASOS", "ROJO_MUERTO",
-                                              "FOTOS_INVALIDAS")}, ensure_ascii=False))
+    print(json.dumps({k: res.get(k) for k in ("dir", "B0", "C0", "ROJO", "ROJO_PRECONDICION", "ROJO_PASOS",
+                                              "ROJO_MUERTO", "FOTOS_INVALIDAS")}, ensure_ascii=False))
     for n in pasos:
         if n in res:
             x = res[n]
