@@ -35,8 +35,14 @@ frío → KDP (A con memoria o D'). Tres decisiones de Fran pendientes. Método:
 **No funcionó:** la página de TCRF del prototipo de Dominator no se pudo leer directo (traía texto dirigido a agentes:
 ignorado); el dato de los 34 MiB queda como *fuente externa*. No hay documentación técnica pública de cómo los mods de
 Sunshine/Galaxy arman al segundo jugador.
-**Sigue:** las tres respuestas de Fran a `docs/19` §7 (al PDP §6); después `sesiones/RETOME-LOCAL.md` ((a) la
-regresión de R4).
+**Decisión de Fran (KDP-C1, PDP §6):** «coop funcional de todo BLACK, sin perder jugabilidad»; puede depender de
+PCSX2; bajar cualquier herramienta. La C se reordenó en tramos 0–6 (PDP §4). Herramientas investigadas en `docs/19`
+§8; la bajada del prototipo de Burnout 3 de archive.org dio 500/502 y quedó reintentando.
+**Y al final, Fran:** «seguir NASA con ágil es seguirlo»: el coop cruzó A, B y C sin requisitos, alcance ni plan de
+V&V. Medido en el método (`arquitectura-se/medir-fases.py`): 6 de 22 proyectos en fases A–D sin requisitos, porque la
+exigencia era opt-in. El tramo 0 pasa a ser la re-línea base NASA con ágil; el método se corrige en T13 (insumo
+2026-10-12 de arquitectura-se). Burnout 3 con `.map` bajado y verificado por SHA-1 (la segunda bajada anduvo).
+**Sigue:** T13 del método primero; después `sesiones/RETOME-LOCAL.md` (tramo 0 + la regresión de R4 en paralelo).
 
 ## 2026-10-11 — (128) N27 reproducida con control (es de la pausa) y R4 bajada a instrucción
 **Máquina:** notebook MSI (fork para el banco de N27, sin Fran; R4 en frío) · **Modelo:** Opus, esfuerzo alto, sin fan-out

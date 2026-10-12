@@ -326,6 +326,24 @@ el doble búfer de recursos del arma en la mano (`*(0x0040F540)`) es de un jugad
 reproducida con control: es de la pausa. **R4 fabricada y probada** (`coop_pausa.py`, regla 13; `sesiones/PREDICCIONES-128.md`
 R4a–R4d: 0 de 2 caídas, dos cargas, y la 2d sin la traba), **apagada** hasta la regresión con una pausa por nivel.
 
+**Orden desde (129), KDP-C1 (§6): de lo fundamental a lo específico.** El criterio de cierre de arriba no cambia;
+cambia el orden en que se ataca, y cada tramo lleva la condición «sin perder jugabilidad» (el ritmo no baja de ~30 c/s,
+~24 en los tres niveles pesados, y nada se cae):
+
+| Tramo | Qué | Cierra cuando | Estado |
+|---|---|---|---|
+| 0 | **Re-línea base NASA del coop (delta SRR/PDR), con ágil** (Fran, 2026-10-12: las fases A–C se cruzaron sin sus productos). De la ambigüedad a lo bajo: interesados, necesidades y medidas de efectividad; **alcance** (qué entra y qué no en el coop v1, ejercicio de la cátedra); **requisitos** L0–L2 con su verificación (`docs/20-requisitos-coop.md`, declarado en la cascada); **plan de V&V** (cada requisito → su banco; la validación = jugarlo); **riesgos** con el triángulo de hierro (desempeño = jugabilidad y ritmo, costo = sesiones y plan, plazo); la **traza** de lo ya fabricado (HUD, sonido, IA, R4…) contra los requisitos; y el **backlog ágil**: cada tramo como sprint con su spike en vivo | los documentos existen, `verificar-requisito.py` en verde, la cascada exige los requisitos y cada pieza fabricada traza a un ID (o se declara huérfana) | — |
+| 1 | **Estable**: R4 (la pausa en su montón) por defecto | la regresión con una pausa por nivel da 8 de 8 sin bajar el ritmo | R4 hecha, apagada |
+| 2 | **Trazador jugado** (validación temprana, NASA): Fran juega City Streets desde el menú, grabado | la lista de lo que frenó el juego, ordenada | — |
+| 3 | **Avanzar**: la pieza 5 (traer a J2 en el cambio de zona y antes de los eventos de guion: N21) y «continuar misión» desde el menú | dos personas pasan el nivel entero y continúan desde un punto de control | — |
+| 4 | **Sostener**: la pieza 3 (J2 junta munición, botiquín y armas) | J2 junta lo que está bajo él, con control | — |
+| 5 | **Ver al otro**: la pieza 4 (cuerpo para los dos en los 8 niveles, por la fábrica) | los dos cuerpos en los 8 niveles, dos cargas | — |
+| 6 | **Fidelidad**: el arma de cada uno en su mitad (F7/F7b: la alternativa A con 128 MB si P4 da, si no D'), carteles en las dos mitades, zoom propio, N25 | cada pieza con predicción, control y dos cargas | 2a hecha; 2b, 2d apagadas |
+
+**En paralelo, en frío (desarrollo de tecnología que la fidelidad y el resto piden):** P4 (¿el mod puede usar los
+128 MB de PCSX2?), P5 (el censo del jugador de arriba hacia abajo), P6 (los nombres del motor desde Burnout:
+`docs/19` §2). Al final, la regresión 8/8 con todo prendido y «continuar misión», como dice el criterio.
+
 **Después de la C viene la D:** Fran lo juega (dos mandos, después Parsec), que es
 lo único que valida que sirve.
 
@@ -377,6 +395,7 @@ lo único que valida que sirve.
 
 | 2026-10-02 | **KDP-B: la PDR del coop aprobada por Fran; se cierra la B y se abre la C** ((114)). Sus seis respuestas (`docs/18`): HUD del juego a 3/4 en cada mitad; carteles en las dos mitades; soldado aliado genérico en los 8 niveles; la IA «el primero que vio» alcanza para la v1; pausa sólo de J1; el orden de la C sin cambios | el HUD chico dibujado por el mod (opción (b) de `docs/16`); el blanco «más cercano» en la v1; pausa de cualquiera | las elige Fran: es lo que va a jugar. El HUD del juego ya está medido (dos paneles, tamaño a 3/4 en (113)); el del mod habría que construirlo de cero |
 | 2026-10-02 | **V4 («continuar misión») pasa a la C con otro banco** | medirla en la B con el selector | con el nivel cargado por el selector de depuración CONTINUE queda apagado **también sin el coop** (control de (114)): el banco no puede contestar la pregunta |
+| 2026-10-12 | **KDP-C1, después del primer momento lluvia de ideas** ((129), `docs/19` §7). Fran: «haz todo lo que apunte a conseguir el coop de todo BLACK, sin perder jugabilidad, coop funcional bueno quiero. Bajá cualquier herramienta oficial o no. Que corra en PCSX2 o en un osciloscopio si es necesario». Se lee como: (1) **el orden de la C pasa a ser de lo fundamental a lo específico** —estable, avanzar, sostener, ver al otro, y recién después fidelidad—, con «sin perder jugabilidad» como condición de cada tramo (el ritmo no baja, nada se cae); (2) **el coop puede depender de PCSX2** (la opción de 128 MB incluida); (3) **se bajan las herramientas y referencias que sirvan** (los builds de Burnout con símbolos, el SDK de RenderWare) | el orden de la PDR (114) («lo más visible primero»); un coop que corra en una PS2 real; trabajar sin referencias externas | la pieza 2 llevó 13 sesiones de fidelidad con lo que decide si se puede jugar sin medir; la meta la pone Fran y es jugar la campaña entera de a dos. La plataforma real nunca fue requisito (la D es PCSX2 y Parsec) |
 
 ## 7. Verificación
 

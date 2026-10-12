@@ -10,7 +10,11 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 >   cada uno, 13 sesiones) con lo que decide si se puede jugar sin medir (N27, N21, munición de J2, continuar misión).
 > - **Medido:** ELF sin símbolos; la opción de 128 MB está en los dos PCSX2. **Fuera:** símbolos del motor en Burnout
 >   Dominator (debug) y Burnout 3 (`.map`).
-> - **Esperan 3 decisiones de Fran** (`docs/19` §7). R1–R3 en espera; (a) la regresión de R4 no depende de ellas.
+> - **KDP-C1 (Fran, PDP §6):** coop funcional de toda la campaña sin perder jugabilidad; puede depender de PCSX2;
+>   bajar lo que sirva. La C en **tramos 0–6** (PDP §4). R1–R3 esperan al tramo 6. Herramientas: `docs/19` §8.
+> - **Tramo 0 = re-línea base NASA** (alcance, requisitos, V&V, riesgos y triángulo, traza, backlog ágil): Fran marcó
+>   que A, B y C se cruzaron sin esos productos. **Orden:** primero T13 del método (arquitectura-se), después la sesión
+>   de BLACK de `sesiones/RETOME-LOCAL.md`. Burnout 3 con `.map`: bajado y verificado.
 > - **Método:** necesidad `lluvia-de-ideas` en la cascada, skill y disparador (BLACK cada 10 sesiones).
 >   **Sigue:** `sesiones/RETOME-LOCAL.md`. **Máquina:** sin tocar desde (128).
 

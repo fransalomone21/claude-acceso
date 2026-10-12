@@ -192,6 +192,26 @@ y rompe savestates y parches: el pnach sigue siendo lo correcto).
 3. **Los símbolos:** ¿se bajan el build de depuración de Burnout Dominator y el prototipo de Burnout 3 (material no
    publicado, de grupos de preservación) para sacar los nombres del motor?
 
+**Las respuestas de Fran (2026-10-12, en el chat; KDP-C1 en el `PDP` §6):** «haz todo lo que apunte a conseguir el
+coop de todo BLACK, sin perder jugabilidad, coop funcional bueno quiero. Bajá cualquier herramienta oficial o no,
+para eso es la investigación también. Que corra en PCSX2 o en un osciloscopio si es necesario». **1 sí** (el orden
+nuevo, con «sin perder jugabilidad» como condición de cada tramo: `PDP` §4, tramos 0–6), **2 sí** (puede depender de
+PCSX2), **3 sí** (se baja lo que sirva). Y pidió seguir investigando herramientas: §8.
+
+## 8. Herramientas para darle a BLACK en el blanco
+
+| Herramienta | Para qué | Estado (2026-10-12) |
+|---|---|---|
+| PCSX2, «Enable 128MB RAM (Dev Console)» (`ExtraMemory`) | memoria de sobra para el mod (P4) | en los dos `pcsx2-qt.exe` (medido). El código de PCSX2 (`pcsx2/Memory.cpp`, master, *leído*): con la opción, la RAM expuesta pasa de 32 MB al total y se mapea desde `0x00000000`; los espejos `0x80000000` y `0xA0000000` cubren 512 MB del físico 0. Sin verificar: el acceso por `kuseg` (depende de la TLB del BIOS) y el DMA desde más de 32 MB |
+| ghidra-emotionengine-reloaded, *STABS Analyzer* | recupera tipos, funciones y globales de un ELF con `.mdebug` (el de Dominator, si los trae así) | instalado (`ubicaciones.py`: `ghidra_ext_ee`) |
+| Ghidra *Version Tracking* y *BSim* | portar nombres y tipos de un build con símbolos a BLACK por coincidencia de funciones (BSim tolera código que cambió entre juegos) | vienen con Ghidra 12.1.2 (instalado). Guía: el flujo de CHDK |
+| Burnout 3, prototipo del 8/6/2004 (con el `.map` de su ELF) | nombres del motor | archive.org `Burnout3TakedownJun82004prototype`, 158 007 378 B, SHA-1 `13c8ca88be00cf810d5f4c9f28685a3049886f2f`; la primera bajada dio 500/502 (archive.org), reintento en `C:\Users\frans\herramientas\referencias-burnout\b3-jun8-2004\` |
+| Burnout Dominator PS2, debug «PRODUCTION 10 Preview» (31/01/2007, ELF de 34 MiB con símbolos) | nombres **y tipos** del motor | sin fuente de descarga encontrada (TCRF lo documenta; Hidden Palace y archive.org, sin resultado por buscador) |
+| SDK de RenderWare 3.10 PS2 (archive.org, `docs/06`) | los headers con las estructuras de RenderWare | por bajar: sólo headers, nada se instala ni se ejecuta |
+| GhydraMCP | manejar Ghidra desde la sesión (decompilar, renombrar, referencias) | opcional: hoy `decompilar.py` (pyghidra) alcanza |
+| mcp-pine | PINE por MCP | no hace falta: `pine.py` |
+| Sunshine + Moonlight | alternativa abierta a Parsec para jugar a distancia | para la D |
+
 ## Fuentes
 
 - TCRF, Burnout Dominator (PS2) prototipo: https://tcrf.net/Proto:Burnout_Dominator_(PlayStation_2)

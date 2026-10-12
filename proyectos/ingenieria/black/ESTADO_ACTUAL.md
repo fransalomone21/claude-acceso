@@ -53,8 +53,14 @@ decía.
 >   Burnout (y sus restos de pantalla dividida de dos).
 > - **Propuesta, en orden:** (1) la regresión de R4 y prenderla; (2) un trazador jugado por Fran desde el menú; (3)
 >   en frío, la memoria de 128 MB (P4) y el censo del jugador (P5); (4) KDP: alternativa A con memoria o D'. R1–R3 en
->   espera. **Esperan tres decisiones de Fran** (`docs/19` §7): el orden de la C, depender de los 128 MB, bajar los
->   símbolos.
+>   espera.
+> - **KDP-C1, Fran (PDP §6):** «coop funcional de todo BLACK, sin perder jugabilidad»; puede depender de PCSX2; bajar
+>   cualquier herramienta. **La C se reordenó en tramos 0–6** (PDP §4): re-línea base NASA, estable, trazador jugado,
+>   avanzar, sostener, ver al otro, fidelidad. Herramientas investigadas: `docs/19` §8; el prototipo de Burnout 3
+>   (con `.map`) ya está bajado y verificado por SHA-1 en `C:\Users\frans\herramientas\referencias-burnout\`.
+> - **Fran, al final:** «seguir NASA con ágil es seguirlo»: el coop pasó A, B y C **sin requisitos, alcance ni plan de
+>   V&V**. El tramo 0 pasa a ser la **re-línea base** (delta SRR/PDR) con ágil para descubrir. Y el método se revisa
+>   para que NASA se dispare por la fase y no por una palabra: **T13 de arquitectura-se va primero**.
 > - **Método:** la necesidad transversal **`lluvia-de-ideas`** quedó en la arquitectura (catálogo de la cascada,
 >   `/lluvia-de-ideas`, `lluvia-de-ideas.py` con autotest y sabotaje); BLACK la pide cada 10 sesiones auditadas.
 > - **Máquina:** sin tocar (fork cerrado; pnach 1059; COOP activo). **Sigue:** `sesiones/RETOME-LOCAL.md`.
