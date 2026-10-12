@@ -12,6 +12,11 @@
 > **Para Fran (regla 6, un freno):** ¿se le da a arquitectura-se una señal fuerte (p. ej. `arquitectura-se`) en
 > `.claude/cascada.json`? Sin eso, cada retome de método que use ese vocabulario entra frenado. El retome nuevo lo esquiva
 > sin la palabra (medido: no dispara nada; el viejo sí). `chequeo-completo`: un solo rojo, el legítimo de lo sin commitear.
+> **La auditoría dio 1 ROJO, dicho y no maquillado:** P7 de `92520da` — el diseño de T20 escribe los L2-DIV-01..05 con
+> su ID en `docs/t20-cero-divergencias.md` §5, fuera del dueño (`docs/10-requisitos.md`), y la auditoría los lee como
+> citas a requisitos que no existen. Es la falla de T13 cometida por el método sobre sí mismo (y una copia de
+> requisitos en dos lugares, que es T20). Se arregla con el paso (a) del retome: pasarlos al dueño leyendo el concepto
+> «requisitos», y dejar en t20 §5 sólo la referencia. No se renombraron para callar al auditor.
 
 > **2026-10-12 17:00 (sesión `de44da9d`, CERRADA) — SIGUE: T14 en sesión nueva** (el retome está al final de la
 > respuesta de cierre y en [`RETOME.md`](RETOME.md)). Hecho: requisitos del método ([`docs/10-requisitos.md`](docs/10-requisitos.md)),
