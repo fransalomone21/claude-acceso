@@ -10,8 +10,9 @@ la exigencia es opt-in (`"requisitos"` en el catálogo, 1 de 22), el aviso sale 
 auditoría da P7 «NO APLICA» por exclusión y la compuerta de fase informa sin verificar. Diseño de la corrección
 (M-01 a M-06) en [`docs/insumo-2026-10-12-nasa-por-etiqueta.md`](docs/insumo-2026-10-12-nasa-por-etiqueta.md); M-06
 («leer en frío, descubrir con spikes») y «NASA con ágil» en el libro de bolsillo ya quedaron. También nació la
-necesidad transversal **`lluvia-de-ideas`** (disparada por cadencia medida, `lluvia-de-ideas.py`). **Siguiente: T13**
-antes que T2.
+necesidad transversal **`lluvia-de-ideas`** (disparada por cadencia medida, `lluvia-de-ideas.py`) y el **registro de
+defectos de arquitectura** (`perfil-global/DEFECTOS-ARQUITECTURA.md`, 38, cierre exigente). **Siguiente: la sesión de
+arquitectura creativa en ultracode** ([`RETOME.md`](RETOME.md)); T13 es su primera implementación, antes que T2.
 
 **2026-10-09 — la puerta ya no frena BLACK por «punteros».** Las señales del
 catálogo se partieron en **fuertes** (nombran el proyecto) y **débiles**

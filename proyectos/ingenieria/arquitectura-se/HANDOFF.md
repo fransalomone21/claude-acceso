@@ -1,5 +1,13 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-12 (cierre de (129)) — SIGUE: la sesión de arquitectura creativa en ultracode** ([`RETOME.md`](RETOME.md)).
+> Fran: sesiones dedicadas sólo a encontrar y arreglar los errores conceptuales del método, no mecánicas sino creativas,
+> para optimizar su desempeño al máximo (modificar, eliminar, agregar o evolucionar), en ultracode. El retome define la
+> línea de base del triángulo (efectividad, costo, plazo), los workflows por fase (mapa → encontrar con lentes y
+> escépticos → priorizar → diseñar) y la guarda de presupuesto. **T13 pasa a ser la primera implementación** que salga de
+> esa sesión (su retome sigue en el insumo §5). Medido al cerrar: ventana de 5 h al 58 %, semanal al 33 %; este chat al
+> 74 % de contexto, por eso el fan-out quedó para la sesión dedicada.
+
 > **2026-10-12 (notebook, desde la sesión 129 de BLACK) — T13 diseñada, sin construir: «la fase manda».** Fran: «no
 > quisiera que no se ejecute una arquitectura de NASA por un bobo error de no leer un hook o de esperar la palabra
 > mágica». **Medido** con [`medir-fases.py`](medir-fases.py) (sale 1; control positivo telescopio OK; 0 reventados —
