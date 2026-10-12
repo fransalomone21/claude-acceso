@@ -39,7 +39,27 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(128), 2026-10-11, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (128), `docs/16` sección (128),
+> **(129), 2026-10-12, NOTEBOOK EN FRÍO, con Fran en el chat — LO ÚLTIMO: el primer MOMENTO LLUVIA DE IDEAS**
+> (`docs/19-lluvia-de-ideas-2026-10-12.md`, bitácora (129)).
+> - **Fran frenó la ejecución** del retome para mirar el coop desde arriba, de lo fundamental a lo específico. Lo
+>   que anda, contra la meta (dos personas juegan la campaña): J2, dos vistas, IA a los dos, HUD, disparo con sonido.
+>   **Lo que decide si se PUEDE jugar sigue sin medir o roto**: estable (N27), avanzar por zonas y eventos de guion
+>   (N21), munición y botiquín para J2, continuar misión. La C venía trabajando la fidelidad (el arma de cada uno):
+>   la pieza 2 lleva 13 sesiones. Venimos: 25–35 % de la C.
+> - **Medido:** el ELF NO trae símbolos (105 secciones; `.debug_str` de 1 byte; control positivo con `.text`/`.bss`).
+>   Los dos `pcsx2-qt.exe` traen la opción de **128 MB** (cadena `ExtraMemory`).
+> - **Fuera, para el motor:** Burnout Dominator PS2 tiene un build de depuración con símbolos (34 MiB, TCRF, *fuente
+>   externa*) y el prototipo de Burnout 3 del 8/6/2004 trae `.map` (Hidden Palace, leído); BLACK comparte motor con
+>   Burnout (y sus restos de pantalla dividida de dos).
+> - **Propuesta, en orden:** (1) la regresión de R4 y prenderla; (2) un trazador jugado por Fran desde el menú; (3)
+>   en frío, la memoria de 128 MB (P4) y el censo del jugador (P5); (4) KDP: alternativa A con memoria o D'. R1–R3 en
+>   espera. **Esperan tres decisiones de Fran** (`docs/19` §7): el orden de la C, depender de los 128 MB, bajar los
+>   símbolos.
+> - **Método:** la necesidad transversal **`lluvia-de-ideas`** quedó en la arquitectura (catálogo de la cascada,
+>   `/lluvia-de-ideas`, `lluvia-de-ideas.py` con autotest y sabotaje); BLACK la pide cada 10 sesiones auditadas.
+> - **Máquina:** sin tocar (fork cerrado; pnach 1059; COOP activo). **Sigue:** `sesiones/RETOME-LOCAL.md`.
+
+> **(128), 2026-10-11, NOTEBOOK CALIENTE, sin Fran** (bitácora (128), `docs/16` sección (128),
 > `sesiones/PREDICCIONES-128.md`).
 > - **N27 es de la pausa** (con control): pnach por defecto, J2 con la 2.ª arma y J con la pistola sola; con la pausa
 >   antes del cambio de J2, **2 de 2 caídas**; sin la pausa, **0 de 2**. La pausa vacía el búfer de la pistola en la

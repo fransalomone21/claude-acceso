@@ -4,7 +4,17 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(128), 2026-10-11, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (128), `docs/16` sección (128),
+> **(129), 2026-10-12, NOTEBOOK EN FRÍO, con Fran en el chat — LO ÚLTIMO** (bitácora (129),
+> `docs/19-lluvia-de-ideas-2026-10-12.md`).
+> - **Primer MOMENTO LLUVIA DE IDEAS:** de lo fundamental a lo específico, la C venía haciendo fidelidad (el arma de
+>   cada uno, 13 sesiones) con lo que decide si se puede jugar sin medir (N27, N21, munición de J2, continuar misión).
+> - **Medido:** ELF sin símbolos; la opción de 128 MB está en los dos PCSX2. **Fuera:** símbolos del motor en Burnout
+>   Dominator (debug) y Burnout 3 (`.map`).
+> - **Esperan 3 decisiones de Fran** (`docs/19` §7). R1–R3 en espera; (a) la regresión de R4 no depende de ellas.
+> - **Método:** necesidad `lluvia-de-ideas` en la cascada, skill y disparador (BLACK cada 10 sesiones).
+>   **Sigue:** `sesiones/RETOME-LOCAL.md`. **Máquina:** sin tocar desde (128).
+
+> **(128), 2026-10-11, NOTEBOOK CALIENTE, sin Fran** (bitácora (128), `docs/16` sección (128),
 > `sesiones/PREDICCIONES-128.md`).
 > - **N27 reproducida con control:** con la pausa 2 de 2 caídas, sin la pausa 0 de 2 (`herramientas/n27_banco.py`).
 > - **R4 fabricada y probada** (`herramientas/coop_pausa.py`, regla 13 + 10 sabotajes): con R4 0 de 2, dos cargas,

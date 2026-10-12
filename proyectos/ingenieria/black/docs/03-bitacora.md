@@ -16,6 +16,28 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-12 — (129) El primer momento lluvia de ideas: el coop mirado desde arriba
+**Máquina:** notebook, en frío (sin emulador), con Fran en el chat · **Modelo:** Opus, esfuerzo máximo, sin fan-out
+**Concepto / nodo:** COOP-C entero (la meta R5 contra lo que anda); nodos `codigo-nuevo` (memoria), `recursos`,
+`armas`, `juego`.
+**Objetivo:** antes de ejecutar el retome de (128), lo que pidió Fran: revisar en alto nivel, pensar otras formas de
+encarar el coop y de dónde sacar más jugo, ver si hay un archivo con las estructuras, de lo fundamental a lo
+específico. Fran lo convirtió en necesidad transversal: el **momento lluvia de ideas**.
+**Resultado:** `docs/19-lluvia-de-ideas-2026-10-12.md`. La tabla de capacidades contra la meta muestra que la C venía
+haciendo fidelidad (el arma de cada uno; la pieza 2 lleva 13 sesiones) con lo que decide si se puede jugar sin medir:
+N27 (caída), N21 (el guion mata a J2), la munición de J2, continuar misión. **Medido:** el ELF no trae símbolos (105
+secciones; `.debug_str` de 1 byte; control con `.text`/`.bss`); la opción de 128 MB está en los dos `pcsx2-qt.exe`.
+**Fuera:** el motor es el de Burnout, y hay builds con símbolos (Burnout Dominator debug, *fuente externa*; Burnout 3
+con `.map`, leído); análogos que resolvieron coop en juegos de uno (sm64coopdx, Synergy/Lambda, OpenCoop, Sunshine
+Multiplayer). Ocho palancas ordenadas por Meadows; propuesta: R4 → trazador jugado → memoria y censo del jugador en
+frío → KDP (A con memoria o D'). Tres decisiones de Fran pendientes. Método: necesidad `lluvia-de-ideas` en
+`.claude/cascada.json`, skill `/lluvia-de-ideas`, disparador `lluvia-de-ideas.py` (autotest 5/5, sabotaje en rojo).
+**No funcionó:** la página de TCRF del prototipo de Dominator no se pudo leer directo (traía texto dirigido a agentes:
+ignorado); el dato de los 34 MiB queda como *fuente externa*. No hay documentación técnica pública de cómo los mods de
+Sunshine/Galaxy arman al segundo jugador.
+**Sigue:** las tres respuestas de Fran a `docs/19` §7 (al PDP §6); después `sesiones/RETOME-LOCAL.md` ((a) la
+regresión de R4).
+
 ## 2026-10-11 — (128) N27 reproducida con control (es de la pausa) y R4 bajada a instrucción
 **Máquina:** notebook MSI (fork para el banco de N27, sin Fran; R4 en frío) · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** COOP-C, F7b (el doble búfer de armas de un jugador); nodos `armas`, `recursos`, `front-end`.
