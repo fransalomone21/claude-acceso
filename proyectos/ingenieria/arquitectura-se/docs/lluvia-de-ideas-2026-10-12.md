@@ -30,8 +30,10 @@ límite, dejar programado con `CronCreate` (una vez) el retome para `resetsAt + 
       enunciados, 0 VIOLA del GtWR) y declarado en `.claude/cascada.json` (commit `01ac1e9`). Sin él, T13 frenaba a este
       mismo proyecto.
 - [x] Retome automático: `CronCreate` 8f018444 a las 11:47 (-03); la ventana se restablece 11:40.
-- [~] T13 implementado inline (L2-VER/AUD/CMP/PTA), antes de la búsqueda, para lanzar (b) con la ventana entera.
-      Hecho y probado, SIN COMMITEAR todavía: `cascada_puerta.py` (`fase_de`, `escribe_requisitos`, exigencia por fase
+- [x] T13 COMMITEADO (`70871b2`, pusheado): chequeo-completo con los 23 saboteadores OK y la limpieza en verde salvo
+      «nube» (lo sin commitear, ya resuelto); `probar-t13.py`: 4 de 4 mutantes vistos en su caso. `defectos.py arreglar`
+      de DA-027, DA-028, DA-029 y DA-033 corriendo (la herramienta corre prueba y saboteador). DA-031 queda abierto: la
+      compuerta muestra alcance y V&V, pero nada los EXIGE. Lo de antes: `cascada_puerta.py` (`fase_de`, `escribe_requisitos`, exigencia por fase
       en `exigido`, salida en `pre`, lista de expuestos y sin tipo en `--verificar`; autotest con 9 casos T13 y 3
       mutantes, BIEN), `auditar-sesion.py` (`p7_de`: ROJO en fase A–D sin requisitos; caso, mutante y control, BIEN),
       `fase_activa.py` (PRODUCTOS: requisitos y PDP §2/§5/§7; 4 casos con mutante, BIEN) y el saboteador
@@ -39,8 +41,11 @@ límite, dejar programado con `CronCreate` (una vez) el retome para `resetsAt + 
       A, minecraft-amigos D, software-de-vuelo D) y 8 sin tipo. Falta: `chequeo-completo` entero (corriendo; dos rojos
       de medidores: «nube», legítimo, y «perfil instalado» por el autotest de `puerta-afuera`, que corrido solo da
       verde: intermitente), `probar-t13.py`, commit, `defectos.py arreglar` de DA-027/028/029/033.
-- [ ] (b) ENCONTRAR: script listo en el scratchpad de la sesión (`encontrar.js`; 8 lentes, dedup, 3 escépticos por
-      lote de 5, hasta dos rondas secas, tope 5) → `defectos.py agregar`.
+- [ ] (b) ENCONTRAR: lanzar después del restablecimiento de las 11:40 (con la ventana entera)
+      `Workflow({scriptPath: "<raiz>/proyectos/ingenieria/arquitectura-se/workflows/encontrar-defectos.js", args:
+      {defectos: <la lista de defectos.py listar, una línea por id>, extra: <el JSON de
+      workflows/candidatos-de-la-sesion-2026-10-12.json>}})`: 8 lentes, dedup, 3 escépticos por lote de 5, hasta dos
+      rondas secas (tope 5), y un registrador que escribe `docs/hallazgos-2026-10-12.md` y corre `defectos.py agregar`.
 - [ ] (c) PRIORIZAR: palanca, costo de esperar, riesgo; la pregunta de valor a Fran (qué pesa más).
 - [ ] (d) DISEÑAR: panel de alternativas por defecto (primero ELIMINAR) → diseños T-n con requisitos.
 - [ ] (e) CERRAR: `defectos.py vista/verificar/vista --check`, ESTADO, HANDOFF, commit + push de los dos repos,

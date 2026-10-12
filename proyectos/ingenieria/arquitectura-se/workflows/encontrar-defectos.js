@@ -5,6 +5,7 @@ export const meta = {
     { title: 'Buscar', detail: '8 buscadores, uno por lente' },
     { title: 'Deduplicar', detail: 'un agente contra todo lo visto y los DA' },
     { title: 'Refutar', detail: '3 escepticos por lote de candidatos, una lente cada uno' },
+    { title: 'Registrar', detail: 'documento de hallazgos y defectos.py agregar por sobreviviente' },
   ],
 }
 
@@ -143,4 +144,21 @@ while (secas < 2 && ronda < TOPE_RONDAS) {
 }
 if (ronda >= TOPE_RONDAS && secas < 2) log(`TOPE de ${TOPE_RONDAS} rondas alcanzado SIN dos rondas secas: la busqueda no se agoto`)
 
-return { rondas: ronda, secas, sobrevivientes, refutados, vistos }
+// Registrar: es mecanico (los escepticos ya juzgaron), y el resultado vive en el repo, no en el chat de la sesion.
+phase('Registrar')
+const registro = await agent(`Sos el REGISTRADOR de la busqueda de defectos del metodo (sesion de arquitectura del 2026-10-12). Raiz ${RAIZ}.
+1. Escribi con Write ${AS}\\docs\\hallazgos-2026-10-12.md, en espanol rioplatense formal: un parrafo de como se busco (8 lentes, deduplicacion contra los DA registrados, 3 escepticos por candidato con lentes evidencia / duplicado-alcance / consecuencia, sobrevive con 2 de 3; ${ronda} ronda(s), ${secas} seca(s) al final); despues una seccion por SOBREVIVIENTE (titulo, clase, sintoma, mecanismo, evidencia, donde, fuente, impacto, relacion, propuesta, grado, y los tres votos con su razon); al final una tabla de los REFUTADOS con el motivo (la razon del escepticos que lo tumbo). No inventes ni resumas evidencias: se copian.
+2. Por cada SOBREVIVIENTE, registralo con la herramienta (nunca a mano), un comando por defecto, desde ${RAIZ}:
+   python perfil-global/herramientas/defectos.py agregar --titulo "..." --clase "..." --sintoma "..." --evidencia "..." --donde "..." --fuente "..." --grado <confirmado|probable|hipotesis>
+   (evidencia = la evidencia + ' | mecanismo: ' + el mecanismo + ' | impacto: ' + el impacto; fuente = la fuente + ' | ' + la relacion + ' | hallazgos-2026-10-12.md'). Si un comando falla, corregi el texto (comillas, longitud) y reintenta; anota el id DA-xxx que imprime.
+3. Corre python perfil-global/herramientas/defectos.py vista y python perfil-global/herramientas/defectos.py verificar.
+Devolve SOLO: la ruta del documento, y una linea por defecto registrado: "DA-xxx | grado | titulo | relacion".
+
+SOBREVIVIENTES:
+${JSON.stringify(sobrevivientes)}
+
+REFUTADOS:
+${JSON.stringify(refutados.map(r => ({ titulo: r.titulo, lente: r.lente, votos: r.votos })))}`,
+  { label: 'registrar', phase: 'Registrar', effort: 'low' })
+
+return { rondas: ronda, secas, n_sobrevivientes: sobrevivientes.length, n_refutados: refutados.length, registro }
