@@ -2,6 +2,16 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
+**2026-10-12 (sesión `814911bc`) — T14 CONSTRUIDO; T20 DISEÑADO.** La puerta infiere el proyecto sólo de lo que tipea
+Fran: saca los bloques pegados, las notificaciones y los recordatorios antes de buscar señales (`e6d58bb`, L2-PTA-04);
+`fase_activa.py <ruta>` es lectura pura. Probado: autotest con el caso 17 (controles, sabotajes y 2 mutantes en su
+caso), [`probar-t14.py`](probar-t14.py) (3 mutantes), `chequeo-completo` con un solo rojo legítimo (lo sin commitear),
+y el **efecto real** en esta sesión: una notificación que nombraba al telescopio no lo dejó inferido. DA-045
+**arreglado** (falta validar). Detalle y lo que T14 no cubre (arquitectura-se sin señal fuerte en el catálogo) en
+[`docs/t14-lo-que-pide-fran.md`](docs/t14-lo-que-pide-fran.md) §5. **T20, cero divergencias**, diseñado en
+[`docs/t20-cero-divergencias.md`](docs/t20-cero-divergencias.md): dato vigente / medición fechada / cita de un ID, qué
+se saca primero, el medidor con su saboteador y L2-DIV-01..05 (0 VIOLA del GtWR). Siguiente: construir T20.
+
 **2026-10-12 (sesión de arquitectura `de44da9d`) — T13 CONSTRUIDO, 15 defectos nuevos, el orden de lo que sigue.**
 El método tiene **requisitos propios** ([`docs/10-requisitos.md`](docs/10-requisitos.md) v0.1: N-01..N-05, L0, L1 y
 los L2 de T13 y T14; 0 VIOLA del GtWR) y **T13 «la fase manda» está construido** (`70871b2`): la puerta exige el
@@ -11,8 +21,8 @@ minecraft-amigos, software-de-vuelo) y 8 fases sin tipo. Probado: autotests de l
 mutantes), `chequeo-completo` con 23 saboteadores OK; DA-027/028/029/033 **arreglados** (falta validarlos). La
 búsqueda de defectos (8 lentes, 3 escépticos por candidato) registró **DA-039 a DA-053**
 ([`docs/hallazgos-2026-10-12.md`](docs/hallazgos-2026-10-12.md)); no se agotó (el límite cortó dos rondas). **El orden,
-con las decisiones de Fran**, en [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6:
-T14 → T17 → T15 → T16 → T18, uno por sesión nueva. Costo de la sesión: dos ventanas de 5 h y del 34 % al 63 % del
+con las decisiones de Fran**, vive en [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6
+(dueño; acá decía una versión vieja que divergía, medido el 2026-10-12 por T20). Costo de la sesión: dos ventanas de 5 h y del 34 % al 63 % del
 semanal, casi todo en dos fan-outs (la lección quedó, con su viñeta primera en «ANTES DE ABRIR FAN-OUT»).
 
 **2026-10-12 — insumo de validación: NASA por etiqueta (T13, va PRIMERO).** En la sesión 129 de BLACK, Fran vio que

@@ -1,5 +1,18 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-12 (sesión `814911bc`, CERRADA) — SIGUE: construir T20 en sesión nueva** (retome en [`RETOME.md`](RETOME.md)).
+> Hecho: **T14 construido** (`e6d58bb`, L2-PTA-04): la puerta saca los bloques pegados, las notificaciones y los
+> recordatorios antes de inferir; `fase_activa.py <ruta>` es lectura pura. Verificado por autotest (caso 17),
+> [`probar-t14.py`](probar-t14.py) y el **efecto real** (una notificación con «telescopio» no lo dejó inferido; el mismo
+> texto sin recortar sí). DA-045 arreglado sin validar (`f684f73`). **T20 diseñado**
+> ([`docs/t20-cero-divergencias.md`](docs/t20-cero-divergencias.md), L2-DIV-01..05 con 0 VIOLA). **Divergencia viva
+> encontrada y corregida:** el ESTADO copiaba el orden viejo de la lluvia §6; ahora la refiere. **Registrado:** DA-054
+> (arquitectura-se no tiene señal fuerte en el catálogo, así que una débil de otro proyecto no cede: esta sesión entró
+> frenada por la palabra de la materia de C en el retome) y la lección 382 (foldeada; perfil `4090cc3`).
+> **Para Fran (regla 6, un freno):** ¿se le da a arquitectura-se una señal fuerte (p. ej. `arquitectura-se`) en
+> `.claude/cascada.json`? Sin eso, cada retome de método que use ese vocabulario entra frenado. El retome nuevo lo esquiva
+> sin la palabra (medido: no dispara nada; el viejo sí). `chequeo-completo`: un solo rojo, el legítimo de lo sin commitear.
+
 > **2026-10-12 17:00 (sesión `de44da9d`, CERRADA) — SIGUE: T14 en sesión nueva** (el retome está al final de la
 > respuesta de cierre y en [`RETOME.md`](RETOME.md)). Hecho: requisitos del método ([`docs/10-requisitos.md`](docs/10-requisitos.md)),
 > **T13 construido** (`70871b2`; DA-027/028/029/033 arreglados), el mapa ([`docs/mapa-metodo-2026-10-12.md`](docs/mapa-metodo-2026-10-12.md)),
