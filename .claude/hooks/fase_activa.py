@@ -98,7 +98,61 @@ def tipo_de(fila: str):
     return None
 
 
-def compuerta(proyecto: Path) -> str:
+FASES_DESARROLLO = ("Fase A", "Fase B", "Fase C", "Fase D")
+# T13 (L2-CMP-01..03 de proyectos/ingenieria/arquitectura-se/docs/10-requisitos.md): en una fase A-D la compuerta
+# muestra los productos de las fases anteriores. Alcance, riesgos y plan de V&V NO son artefactos nuevos: son las
+# secciones 2, 5 y 7 que la plantilla del PDP ya trae; lo que se mira es que no sigan siendo la plantilla.
+SECCIONES_PRODUCTO = (("2", "alcance (PDP 2, Que NO es)"), ("5", "riesgos (PDP 5)"), ("7", "plan de V&V (PDP 7)"))
+MIN_PROPIO = 60   # caracteres propios (fuera de la plantilla, comentarios, separadores) para contar como contenido
+
+
+def seccion(texto: str, num: str) -> list:
+    lineas, dentro, out = texto.splitlines(), False, []
+    for l in lineas:
+        if l.startswith("## "):
+            dentro = bool(re.match(r"## %s\b" % re.escape(num), l))
+            continue
+        if dentro:
+            out.append(l)
+    return out
+
+
+def seccion_propia(pdp_texto: str, num: str, plantilla_texto: str) -> bool:
+    """True si la seccion num del PDP tiene al menos MIN_PROPIO caracteres que no son de la plantilla."""
+    de_plantilla = {l.strip() for l in seccion(plantilla_texto, num)}
+    texto = re.sub(r"<!--.*?-->", "", "\n".join(seccion(pdp_texto, num)), flags=re.S)
+    propio = [l.strip() for l in texto.splitlines()
+              if l.strip() and l.strip() not in de_plantilla and not re.fullmatch(r"[|\-: ]+", l.strip())]
+    return sum(len(l) for l in propio) >= MIN_PROPIO
+
+
+def productos(proyecto: Path, catalogo: Path | None = None) -> list:
+    """Las lineas de PRODUCTOS: el documento de requisitos (del catalogo de la puerta, su unico dueno) y las tres
+    secciones del PDP. Informa, no frena: frena la puerta (cascada_puerta.py, T13)."""
+    out = []
+    try:
+        cat = json.loads((catalogo or RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
+        req = cat.get("proyectos", {}).get(proyecto.name, {}).get("requisitos")
+        if req:
+            p = Path(req) if os.path.isabs(req) else proyecto / req
+            out.append("requisitos : %s -- %s" % (p, "existe" if p.exists() else
+                                                    "FALTA: la puerta niega todo menos escribirlo"))
+        else:
+            out.append("requisitos : NO DECLARADO -- la puerta niega el diseno y la fabricacion hasta escribirlo (T13)")
+    except Exception as e:  # noqa: BLE001 -- la compuerta informa: dice que no pudo, no calla
+        out.append("requisitos : no se pudo leer el catalogo (%s)" % e)
+    try:
+        txt = (proyecto / "PDP.md").read_text(encoding="utf-8", errors="replace")
+        pl = (RAIZ / "plantillas" / "PDP.md").read_text(encoding="utf-8", errors="replace")
+        for num, nombre in SECCIONES_PRODUCTO:
+            out.append("%-10s : %s" % (nombre.split(" (")[0], "con contenido propio" if seccion_propia(txt, num, pl)
+                                       else "VACIA o igual a la plantilla -- %s" % nombre))
+    except Exception as e:  # noqa: BLE001
+        out.append("secciones  : no se pudieron leer (%s)" % e)
+    return out
+
+
+def compuerta(proyecto: Path, catalogo: Path | None = None) -> str:
     pdp = proyecto / "PDP.md"
     nombre = proyecto.name
     if not pdp.exists():
@@ -116,12 +170,16 @@ def compuerta(proyecto: Path) -> str:
     if not t:
         return (cab + " El PDP NO declara su tipo en el ciclo de vida (Pre-A, A, B diseno preliminar, C, D, E): "
                 "sin tipo no se sabe que NO se hace en esta fase. Declararlo en la fila del PDP.")
+    prod = ""
+    if t[0].split(" (")[0] in FASES_DESARROLLO:
+        prod = "  PRODUCTOS (de las fases anteriores, T13):\n" + "".join(
+            "    %s\n" % l for l in productos(proyecto, catalogo))
     return (cab + "\n  TIPO      : %s\n  NASA      : %s\n  EN CRIOLLO: %s\n  PRODUCE   : %s\n  NO SE HACE: %s\n"
-            "  LA CIERRA : %s\n"
+            "  LA CIERRA : %s\n%s"
             "  Antes de cada accion: ubicarla en ESTE tipo. Si es de una fase posterior, no se hace: se anota y "
             "se vuelve al entregable de la fase.\n"
             "  PARA EL CUADRO (copiar): Fase : %s -- NASA %s\n                          = %s. La cierra: <el "
-            "resultado del PDP>" % (t[0], t[5], t[6], t[2], t[3], t[4], ident, t[5], t[6]))
+            "resultado del PDP>" % (t[0], t[5], t[6], t[2], t[3], t[4], prod, ident, t[5], t[6]))
 
 
 PATRON = re.compile(r"proyectos[/\\]+(ingenieria|documentos|seguimiento)[/\\]+([A-Za-z0-9_.-]+)")
@@ -186,6 +244,48 @@ def autotest() -> int:
     ok = "Fase B (diseno preliminar)" in txt and "NO SE HACE" in txt and 'NASA Phase B, "Preliminary Design' in txt
     mal += not ok
     print("%s  PDP sintetico en Fase B -> %s" % ("ok " if ok else "MAL", txt.splitlines()[0][:100]))
+    # T13 (L2-CMP-01..03): en una fase A-D, los PRODUCTOS. PDP sintetico con alcance y riesgos propios y la seccion 7
+    # vacia (solo un comentario); catalogo sintetico: primero sin el proyecto, despues con requisitos que existen.
+    s2 = Path(tempfile.mkdtemp(prefix="fase-activa-t13-"))
+    (s2 / "PDP.md").write_text(
+        "## 2. Que NO es\n\nNo es el programa entero: es una sola pieza, la del motor, con su banco de prueba.\n\n"
+        "## 4. Las fases\n\n| # | Fase | Cierra | Estado |\n|---|---|---|---|\n"
+        "| 3 | Fase C: diseño final | CDR | **abierta** |\n\n**Fase en curso:** 3\n\n"
+        "## 5. Riesgos\n\n| R1 | el motor no entra en la caja: se mide la caja antes de pedir el motor |\n\n"
+        "## 7. Verificación\n\n<!-- llenar: metodo por requisito -->\n", encoding="utf-8")
+    cat2 = s2 / "cat.json"
+    cat2.write_text('{"proyectos": {}}', encoding="utf-8")
+
+    def mira_productos(txt):
+        return ("PRODUCTOS" in txt and "requisitos : NO DECLARADO" in txt
+                and bool(re.search(r"alcance\s+: con contenido propio", txt))
+                and bool(re.search(r"riesgos\s+: con contenido propio", txt))
+                and bool(re.search(r"plan de V&V\s+: VACIA", txt)))
+    txt = compuerta(s2, cat2)
+    ok = mira_productos(txt)
+    mal += not ok
+    print("%s  T13: Fase C lista requisitos NO DECLARADO, alcance y riesgos propios, V&V vacia" % ("ok " if ok else "MAL"))
+    if not ok:
+        print("       salida: %s" % txt[-400:])
+    global seccion_propia
+    real = seccion_propia
+    seccion_propia = lambda *a: True  # noqa: E731 -- MUTANTE: toda seccion 'propia'
+    ok = not mira_productos(compuerta(s2, cat2))
+    seccion_propia = real
+    mal += not ok
+    print("%s  MUTANTE T13 (toda seccion es propia): el caso lo ve" % ("ok " if ok else "MAL"))
+    (s2 / "docs").mkdir()
+    (s2 / "docs" / "10-requisitos.md").write_text("| L1-01 | x |\n", encoding="utf-8")
+    cat2.write_text(json.dumps({"proyectos": {s2.name: {"requisitos": "docs/10-requisitos.md"}}}), encoding="utf-8")
+    ok = "10-requisitos.md -- existe" in compuerta(s2, cat2)
+    mal += not ok
+    print("%s  CONTROL T13: requisitos declarados y presentes -> 'existe'" % ("ok " if ok else "MAL"))
+    (s2 / "PDP.md").write_text("| 0 | Pre-Fase A: estudio de conceptos | MCR | abierta |\n\n**Fase en curso:** 0\n",
+                               encoding="utf-8")
+    ok = "PRODUCTOS" not in compuerta(s2, cat2)
+    mal += not ok
+    print("%s  CONTROL T13: Pre-Fase A no lista productos" % ("ok " if ok else "MAL"))
+    __import__("shutil").rmtree(s2, ignore_errors=True)
     # el de BLACK real: la ESTRUCTURA, no la fase (la fase cambia; que se tipe y traiga el nombre NASA, no)
     txt = compuerta(RAIZ / "proyectos" / "ingenieria" / "black")
     ok = "TIPO      :" in txt and "NO SE HACE" in txt and "NASA Phase" in txt

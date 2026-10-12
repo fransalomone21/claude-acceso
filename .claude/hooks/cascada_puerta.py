@@ -179,6 +179,39 @@ def rango(path: Path, spec: dict):
     return a, b
 
 
+# T13, «la fase manda» (2026-10-12; requisitos L2-PTA-01..03 y L2-VER-01/02 de
+# proyectos/ingenieria/arquitectura-se/docs/10-requisitos.md): en una fase NASA A-D el documento de requisitos se
+# exige por la FASE del PDP, no porque el proyecto lo haya declarado (era opt-in: 1 de 22 lo declaraba y 6 estaban
+# en A-D sin requisitos). La fase se tipa con las funciones de la compuerta (fase_activa.py): una sola tabla de tipos.
+FASES_DESARROLLO = ("Fase A", "Fase B", "Fase C", "Fase D")
+SIN_REQ_FASE = "SIN REQUISITOS EN FASE"
+PAT_REQ_ARCHIVO = re.compile(r"(?i)(^|[-_])requisitos[^/\\]*\.(md|txt)$")
+
+
+def escribe_requisitos(nota: str, destino: str) -> bool:
+    """La accion escribe un archivo de requisitos ADENTRO del proyecto de la nota (la ruta normalizada que la nota
+    lleva antes de ' -- ')."""
+    proy = nota.split(": ", 1)[1].split(" -- ")[0]
+    return bool(destino) and destino.startswith(proy + os.sep) and bool(PAT_REQ_ARCHIVO.search(os.path.basename(destino)))
+
+
+def fase_de(proy: Path):
+    """(id, tipo corto) de la fase abierta del PDP: tipo 'Fase C', 'Pre-Fase A'... o None si no se tipa. None si no
+    hay PDP o ninguna fase abierta. Revienta si el PDP o la compuerta no se pueden leer: quien llama falla cerrado."""
+    aqui = str(Path(__file__).resolve().parent)
+    if aqui not in sys.path:
+        sys.path.insert(0, aqui)
+    import fase_activa
+    pdp = proy / "PDP.md"
+    if not pdp.exists():
+        return None
+    f = fase_activa.fase_abierta(pdp)
+    if not f or f[0] == "ninguna":
+        return None
+    t = fase_activa.tipo_de(f[2])
+    return f[0], (t[0].split(" (")[0] if t else None)
+
+
 # ------------------------------------------------------------------------------------------- lo que se exige
 def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
     """Lista de items {ruta, a, b, por} y lista de comandos {sub, por}. Une rangos del mismo archivo."""
@@ -219,6 +252,23 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
                              "entonces NIEGA todo Bash y PowerShell sobre el proyecto: mirar con Read, Glob y Grep; "
                              "apenas exista pasa a ser base, y se lee ENTERO con Read antes de la accion siguiente)"
                              % norm(pr))
+        else:
+            # T13: sin documento declarado, lo exige la FASE. Si la fase no se puede leer, se niega igual (falla
+            # cerrado: un PDP ilegible no es un proyecto sin fase).
+            try:
+                fase = fase_de(proy)
+            except Exception as e:  # noqa: BLE001
+                notas.append("FASE ILEGIBLE: %s -- la fase del PDP no se pudo tipar (%s): la puerta niega como si "
+                             "faltaran los requisitos. Arreglar el PDP o .claude/hooks/fase_activa.py" % (norm(proy), e))
+            else:
+                if fase and fase[1] in FASES_DESARROLLO:
+                    notas.append("%s: %s -- el PDP dice %s (%s) y el proyecto no tiene documento de requisitos. Lo "
+                                 "primero es escribirlo: la puerta deja escribir un archivo del proyecto llamado "
+                                 "requisitos*.md o *-requisitos.md (el concepto 'requisitos' exige el GtWR, la catedra y "
+                                 "NASA) y el registro (ESTADO, HANDOFF, PDP); despues se declara en .claude/cascada.json "
+                                 "(\"requisitos\": \"docs/10-requisitos.md\"). Hasta entonces niega todo Bash y "
+                                 "PowerShell sobre el proyecto: mirar con Read, Glob y Grep (T13, decision de Fran del "
+                                 "2026-10-12: frena al entrar)" % (SIN_REQ_FASE, norm(proy), fase[1], fase[0]))
         for c in entrada.get("comandos", []):
             comandos.append({"sub": c, "por": "apertura de " + proyecto})
         necs = list(dict.fromkeys(list(entrada.get("necesidades", [])) + list(declaradas or [])))
@@ -562,6 +612,10 @@ def pre(ev: dict) -> int:
     registro = bool(arch) and os.path.basename(destino) in ("estado_actual.md", "handoff.md", "pdp.md")
     no_existe += [n for n in notas if n.startswith("SIN REQUISITOS: ") and directo and not registro
                   and n.split(": ", 1)[1].split(" -- ")[0] != destino]
+    # T13 (L2-PTA-01..03): sin documento declarado y en fase A-D, la salida es escribir un archivo de requisitos DEL
+    # proyecto (el nombre dispara el concepto 'requisitos', que exige los libros) o el registro.
+    no_existe += [n for n in notas if n.startswith((SIN_REQ_FASE + ": ", "FASE ILEGIBLE: ")) and directo
+                  and not registro and not escribe_requisitos(n, destino)]
     if not pend and not cpend and not no_existe:
         return 0
     lin = ["PUERTA DE LA CASCADA (T11): antes de esta accion (%s%s) falta LEER con la herramienta Read:" % (
@@ -877,7 +931,8 @@ def cli_verificar() -> int:
     vistos = set()
     for p, necs, cons in casos:
         items, _, notas = exigido(cat, p, list(cat.get("necesidades", {})) if p == "black" else necs, cons)
-        rojos += [n for n in notas if n not in vistos]
+        # T13: la exposicion por fase se LISTA abajo (L2-VER-01), no es un rojo: frena la puerta al entrar.
+        rojos += [n for n in notas if n not in vistos and not n.startswith((SIN_REQ_FASE + ": ", "FASE ILEGIBLE: "))]
         vistos.update(notas)
         for x in items:
             k = (x["ruta"], x["a"], x["b"])
@@ -907,8 +962,27 @@ def cli_verificar() -> int:
             compile(f.read_text(encoding="utf-8"), str(f), "exec")
         except Exception as e:
             rojos.append("%s NO compila (%s): la puerta corre rota" % (pieza, e))
+    # T13 (L2-VER-01 y L2-VER-02): la fase de cada proyecto, tipada con la compuerta. Un PDP cuya fase no se puede
+    # tipar es un rojo (el instrumento); un proyecto expuesto o sin tipo se lista, con su umbral escrito.
+    expuestos, sin_tipo = [], []
+    for n in sorted(disco):
+        try:
+            f = fase_de(disco[n])
+        except Exception as e:  # noqa: BLE001
+            rojos.append("FASE ILEGIBLE en %s: %s (la puerta niega sobre ese proyecto)" % (n, e))
+            continue
+        if not f:
+            continue
+        if f[1] is None:
+            sin_tipo.append("%s (%s)" % (n, f[0]))
+        elif f[1] in FASES_DESARROLLO and not ent.get(n, {}).get("requisitos"):
+            expuestos.append("%s (%s)" % (n, f[1]))
     for r in rojos:
         print("[FAIL] " + r)
+    print("EXPUESTOS -- fase A-D sin documento de requisitos; la puerta los frena AL ENTRAR (T13, Fran 2026-10-12): "
+          "%d -> %s" % (len(expuestos), ", ".join(expuestos) or "ninguno"))
+    print("FASE SIN TIPO NASA -- la compuerta no sabe que NO se hace en ellas: %d -> %s"
+          % (len(sin_tipo), ", ".join(sin_tipo) or "ninguno"))
     print("cascada.json: %s (%d proyectos, %d necesidades, %d conceptos)" % (
         "OK" if not rojos else "%d ROJO(S)" % len(rojos), len(ent), len(cat.get("necesidades", {})),
         len(cat.get("conceptos", {}))))
@@ -920,8 +994,18 @@ def autotest() -> int:
     global RAIZ  # el caso 10f lo cambia un momento (perfil-global al lado del arbol) y lo restaura
     import subprocess
     tmp = Path(tempfile.mkdtemp(prefix="cascada-autotest-"))
-    env = dict(os.environ, CASCADA_ESTADO_DIR=str(tmp / "estado"), CASCADA_LOG_EXC=str(tmp / "exc.log"))
     black = RAIZ / "proyectos" / "ingenieria" / "black"
+    # T13: black real esta en fase A-D sin requisitos y la puerta lo frena por eso. Los casos de la cascada (1-13) miden
+    # OTRA cosa, asi que corren con un catalogo donde black declara un documento de requisitos que existe: si no, todo
+    # control positivo daria deny por el motivo equivocado. T13 se prueba aparte, sobre un arbol sintetico (caso 16).
+    req_base = tmp / "requisitos-base.md"
+    req_base.write_text("# Requisitos (autotest)\n\n| ID | Requisito |\n|---|---|\n| L0-01 | x |\n", encoding="utf-8")
+    cat_base = cargar_catalogo()
+    cat_base["proyectos"].setdefault("black", {})["requisitos"] = str(req_base)
+    f_base = tmp / "cat-base.json"
+    f_base.write_text(json.dumps(cat_base, ensure_ascii=False), encoding="utf-8")
+    env = dict(os.environ, CASCADA_ESTADO_DIR=str(tmp / "estado"), CASCADA_LOG_EXC=str(tmp / "exc.log"),
+               CASCADA_CATALOGO=str(f_base))
     sid = "autotest-%d" % os.getpid()
     mal = 0
 
@@ -956,7 +1040,7 @@ def autotest() -> int:
     correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 black -Necesidad diseno"}))
     caso("declarado y sin leer -> deny con la lista", correr(pre_ev(*edit_black)), True, "ESTADO_ACTUAL.md")
     # 3. leer todo lo exigido salvo un rango a medias
-    cat = cargar_catalogo()
+    cat = cat_base
     items, cmds, _ = exigido(cat, "black", ["diseno"], [])
     for x in items[:-1]:
         correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}))
@@ -1334,6 +1418,92 @@ def autotest() -> int:
     mal += not ok
     print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "senal DEBIL con regex rota -> --verificar en rojo",
                                "rojo" if ok else "NO"))
+    # 16. T13, «la fase manda» (L2-PTA-01..03, L2-VER-01/02). Arbol SINTETICO: el caso exacto no depende de la fase
+    # de un proyecto vivo. Base y conceptos vacios: el unico motivo posible de un deny es la fase sin requisitos.
+    r13 = tmp / "raiz13"
+    pdp_t = ("# PDP\n\n## 2. Que NO es\n\nNo es un programa: es una pieza sola, con su alcance escrito aca.\n\n"
+             "## 4. Las fases\n\n| # | Fase | Cierra | Estado |\n|---|---|---|---|\n"
+             "| 3 | %s | CDR | **abierta** |\n\n**Fase en curso:** 3\n\n## 5. Riesgos\n\n| R1 | x |\n")
+
+    def proyecto13(nombre, fila):
+        d = r13 / "proyectos" / "ingenieria" / nombre
+        (d / "docs").mkdir(parents=True, exist_ok=True)
+        (d / "PDP.md").write_text(pdp_t % fila, encoding="utf-8")
+        for f in ("CLAUDE.md", "ESTADO_ACTUAL.md", "HANDOFF.md"):
+            (d / f).write_text("# %s\n" % f, encoding="utf-8")
+        return d
+
+    d_c = proyecto13("demo-c", "Fase C: diseño final")
+    d_a = proyecto13("demo-prea", "Pre-Fase A: estudio de conceptos")
+    d_r = proyecto13("demo-req", "Fase D: integración y prueba")
+    (d_r / "docs" / "10-requisitos.md").write_text("| L1-01 | x |\n", encoding="utf-8")
+    c13 = {"base": [], "conceptos": {}, "necesidades": {"ninguna": {"que": "x", "leer": []}},
+           "proyectos": {"demo-c": {}, "demo-prea": {}, "demo-req": {"requisitos": "docs/10-requisitos.md"}}}
+    f13 = tmp / "cat-t13.json"
+    f13.write_text(json.dumps(c13, ensure_ascii=False), encoding="utf-8")
+    e13 = {"CASCADA_CATALOGO": str(f13), "CASCADA_RAIZ": str(r13)}
+    s16 = sid + "-t13"
+
+    def t13(tool, inp, script=__file__, s=s16):
+        return correr(pre_ev(tool, inp, s, cwd=str(r13)), e13, script)
+
+    for n in ("demo-c", "demo-prea", "demo-req"):
+        correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % n}, s16), e13)
+    correr(post_ev("Read", {"file_path": str(d_r / "docs" / "10-requisitos.md")}, s16), e13)
+    ed = lambda d, f: ("Edit", {"file_path": str(d / f), "old_string": "a", "new_string": "b"})  # noqa: E731
+    caso("T13 SABOTAJE: Fase C sin requisitos, editar diseno -> deny",
+         t13(*ed(d_c, "docs/x.md")), True, SIN_REQ_FASE)
+    caso("T13 SABOTAJE: Fase C sin requisitos, comando sobre el proyecto -> deny",
+         t13("PowerShell", {"command": "New-Item -ItemType File '%s'" % (d_c / "docs" / "y.md")}), True, SIN_REQ_FASE)
+    caso("T13 SABOTAJE: un archivo que SOLO se llama parecido -> deny",
+         t13(*ed(d_c, "docs/handoff-viejo.md")), True, SIN_REQ_FASE)
+    caso("T13 CONTROL: escribir docs/10-requisitos.md del proyecto -> pasa",
+         t13("Write", {"file_path": str(d_c / "docs" / "10-requisitos.md"), "content": "# Requisitos\n"}), False)
+    caso("T13 CONTROL: el registro (HANDOFF) -> pasa", t13(*ed(d_c, "HANDOFF.md")), False)
+    caso("T13 CONTROL: lectura pura sobre el proyecto -> pasa",
+         t13("PowerShell", {"command": "Get-Content '%s'" % (d_c / "PDP.md")}), False)
+    caso("T13 CONTROL: Pre-Fase A sin requisitos -> pasa", t13(*ed(d_a, "docs/x.md")), False)
+    caso("T13 CONTROL: Fase D CON requisitos leidos -> pasa", t13(*ed(d_r, "docs/x.md")), False)
+    # el verificador LISTA (no frena) a los expuestos y a las fases sin tipo
+    d_st = proyecto13("demo-sin-tipo", "una fase del apunte")
+    c13["proyectos"]["demo-sin-tipo"] = {}
+    f13.write_text(json.dumps(c13, ensure_ascii=False), encoding="utf-8")
+    sal = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                         env=dict(env, **e13)).stdout.decode("utf-8", "replace")
+    lin_e = next((l for l in sal.splitlines() if l.startswith("EXPUESTOS")), "")
+    lin_t = next((l for l in sal.splitlines() if l.startswith("FASE SIN TIPO")), "")
+    fail_t13 = [l for l in sal.splitlines() if l.startswith("[FAIL]") and ("demo-c" in l or "demo-sin-tipo" in l)]
+    ok = "demo-c (Fase C)" in lin_e and "demo-prea" not in lin_e and "demo-req" not in lin_e \
+        and "demo-sin-tipo" in lin_t and not fail_t13
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "T13 --verificar LISTA expuestos y sin tipo, sin [FAIL]",
+                               lin_e[:60] if ok else "NO: %s | %s | %s" % (lin_e, lin_t, fail_t13)))
+    # mutantes, uno por mecanismo, cada uno visto en SU caso (llego / cambio / salio). El mutante vive en tmp y
+    # fase_de importa la compuerta de SU carpeta: sin la copia, todos reventarian por la razon equivocada (lo vio el
+    # primer mutante: deny por FASE ILEGIBLE cuando esperaba que pasara).
+    shutil.copy(Path(__file__).with_name("fase_activa.py"), tmp / "fase_activa.py")
+    for n, (nombre, viejo, nuevo, espera_deny, d, f, s_m, motivo) in enumerate((
+            ("MUTANTE (ninguna fase es de desarrollo) deja pasar la Fase C",
+             'FASES_DESARROLLO = ("Fase A", "Fase B", "Fase C", "Fase D")', "FASES_DESARROLLO = ()",
+             False, d_c, "docs/x.md", s16 + "-m0", None),
+            ("MUTANTE (la fase revienta) NIEGA hasta la Pre-Fase A",
+             "    import fase_activa\n", "    raise RuntimeError('fase rota')\n",
+             True, d_a, "docs/x.md", s16 + "-m1", "fase rota"),
+            ("MUTANTE (sin salida de requisitos) niega escribirlos",
+             "and not escribe_requisitos(n, destino)]", "and not False]",
+             True, d_c, "docs/10-requisitos.md", s16 + "-m2", SIN_REQ_FASE))):
+        m = tmp / ("mutante-t13-%d.py" % n)
+        txt = Path(__file__).read_text(encoding="utf-8").replace(viejo, nuevo, 1)
+        if txt == Path(__file__).read_text(encoding="utf-8"):
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        else:
+            m.write_text(txt, encoding="utf-8")
+            correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % d.name}, s_m), e13, m)
+            tool_inp = ("Write", {"file_path": str(d / f), "content": "x"}) if f.endswith("requisitos.md") else ed(d, f)
+            r = t13(*tool_inp, script=m, s=s_m)
+            ok = ('"deny"' in r) == espera_deny and (motivo is None or motivo in r)
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0

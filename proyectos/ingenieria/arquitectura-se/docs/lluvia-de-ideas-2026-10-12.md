@@ -23,10 +23,24 @@ límite, dejar programado con `CronCreate` (una vez) el retome para `resetsAt + 
 - [x] Decisiones de valor de Fran (03:22), en el §7 de abajo y en la memoria `feedback_arquitectura-en-ultracode`.
 - [x] Retome automático programado: `CronCreate` 36132309, una vez, 06:47 (-03) del 12/10 (la ventana de 5 h se
       restablece 06:40). Si se corta de nuevo, el que retome programa el siguiente.
-- [ ] (a) MAPA del método: workflow `wf_3f865b1e-437` (7 lectores + redactor), script
-      `~/.claude/projects/C--Users-frans-Desktop-claude-acceso/de44da9d-3fd2-4a85-823c-815089bbd00a/workflows/scripts/mapa-metodo-wf_3f865b1e-437.js`;
-      producto declarado: `docs/mapa-metodo-2026-10-12.md` (si no existe al retomar, el workflow no terminó).
-- [ ] (b) ENCONTRAR: lentes + 3 escépticos por candidato, hasta dos rondas secas → `defectos.py agregar`.
+- [x] (a) MAPA del método: `wf_c98c1f22-d79` (v2), 7 de 7 subsistemas + redactor, 884 K tokens, 6,5 min →
+      [`docs/mapa-metodo-2026-10-12.md`](mapa-metodo-2026-10-12.md) (46 KB). Lo más fuerte: 0 de 78 componentes se
+      disparan por la fase (40 por evento, 25 manuales, 13 por cadencia).
+- [x] Requisitos del método: [`docs/10-requisitos.md`](10-requisitos.md) v0.1 (N-01..N-05, L0, L1, L2 de T13; 18
+      enunciados, 0 VIOLA del GtWR) y declarado en `.claude/cascada.json` (commit `01ac1e9`). Sin él, T13 frenaba a este
+      mismo proyecto.
+- [x] Retome automático: `CronCreate` 8f018444 a las 11:47 (-03); la ventana se restablece 11:40.
+- [~] T13 implementado inline (L2-VER/AUD/CMP/PTA), antes de la búsqueda, para lanzar (b) con la ventana entera.
+      Hecho y probado, SIN COMMITEAR todavía: `cascada_puerta.py` (`fase_de`, `escribe_requisitos`, exigencia por fase
+      en `exigido`, salida en `pre`, lista de expuestos y sin tipo en `--verificar`; autotest con 9 casos T13 y 3
+      mutantes, BIEN), `auditar-sesion.py` (`p7_de`: ROJO en fase A–D sin requisitos; caso, mutante y control, BIEN),
+      `fase_activa.py` (PRODUCTOS: requisitos y PDP §2/§5/§7; 4 casos con mutante, BIEN) y el saboteador
+      `probar-t13.py` (4 mutantes en copias). `--verificar` real: 5 expuestos (apunte-iise B, black C, cohete-de-agua
+      A, minecraft-amigos D, software-de-vuelo D) y 8 sin tipo. Falta: `chequeo-completo` entero (corriendo; dos rojos
+      de medidores: «nube», legítimo, y «perfil instalado» por el autotest de `puerta-afuera`, que corrido solo da
+      verde: intermitente), `probar-t13.py`, commit, `defectos.py arreglar` de DA-027/028/029/033.
+- [ ] (b) ENCONTRAR: script listo en el scratchpad de la sesión (`encontrar.js`; 8 lentes, dedup, 3 escépticos por
+      lote de 5, hasta dos rondas secas, tope 5) → `defectos.py agregar`.
 - [ ] (c) PRIORIZAR: palanca, costo de esperar, riesgo; la pregunta de valor a Fran (qué pesa más).
 - [ ] (d) DISEÑAR: panel de alternativas por defecto (primero ELIMINAR) → diseños T-n con requisitos.
 - [ ] (e) CERRAR: `defectos.py vista/verificar/vista --check`, ESTADO, HANDOFF, commit + push de los dos repos,

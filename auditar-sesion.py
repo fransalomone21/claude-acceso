@@ -241,6 +241,33 @@ def p7_commit(repo: Path, h: str, rel: str, doc: Path | None) -> tuple:
     return "VERDE", "%s traza a %s" % (h[:8], ", ".join("%s (%s:%d)" % (i, doc.name, existen[i]) for i in validos))
 
 
+def p7_de(g, p: str, ent: dict, pr: Path, repo: Path, rel: str, desde: str, raiz: Path) -> list:
+    """P7 de UN proyecto tocado. Sin documento de requisitos declarado, decide la FASE del PDP (T13, L2-AUD-01 de
+    proyectos/ingenieria/arquitectura-se/docs/10-requisitos.md): en A-D es ROJO. Antes daba NO APLICA por exclusion
+    -- la ausencia del dato apagaba el chequeo (DA-028) -- y BLACK (128) y (129) pasaron asi en Fase C."""
+    q = "Los commits de diseno de %s trazan a requisitos que existen?" % p
+    if not ent.get("requisitos"):
+        try:
+            fase = g.fase_de(pr)
+        except Exception as e:  # noqa: BLE001 -- un PDP ilegible no es un proyecto sin fase
+            return [R("P7", q, "ROJO", "medido", "la fase del PDP de %s no se pudo tipar (%s)" % (p, e))]
+        if fase and fase[1] in g.FASES_DESARROLLO:
+            return [R("P7", q, "ROJO", "medido", "%s esta en %s (fase %s) sin documento de requisitos: se trabajo sin "
+                      "contra que verificar (T13, L2-AUD-01)" % (p, fase[1], fase[0]))]
+        return [R("P7", q, "NO APLICA", "medido", "%s no declara documento de requisitos y su fase no lo exige (%s)"
+                  % (p, ("%s, fase %s" % (fase[1] or "sin tipo NASA", fase[0])) if fase else "ninguna abierta"))]
+    doc = pr / ent["requisitos"]
+    commits = [h for h in git(repo, "log", "--since=" + desde, "--format=%H", "--", rel).splitlines() if h]
+    if not commits:
+        return [R("P7", q, "NO APLICA", "medido",
+                  "sin commits sobre %s desde %s" % (rel if repo == raiz else repo.name, desde))]
+    out = []
+    for h in commits:
+        v, e = p7_commit(repo, h, rel, doc)
+        out.append(R("P7", "El commit %s de %s traza a requisitos que existen?" % (h[:8], p), v, "medido", e))
+    return out
+
+
 def p8_checkpoint(repo: Path, rel: str, handoff_rel: str, desde: str, nube=None) -> tuple:
     """rel '.' = el proyecto ES el repo (repo propio): ahi todo el repo cuenta, tambien lo atrasado de antes."""
     nube = nube or cargar_nube()
@@ -329,19 +356,7 @@ def auditar(sesion: str | None, de_fran: list, raiz: Path = RAIZ) -> dict:
         if pr is None:
             continue
         repo, rel = repo_de(raiz, pr)   # P7 y P8 miran el repo donde VIVE el proyecto
-        # P7
-        if not ent.get("requisitos"):
-            res.append(R("P7", "Los commits de diseno de %s trazan a requisitos que existen?" % p, "NO APLICA", "medido",
-                         "%s no declara su documento de requisitos ('requisitos' en .claude/cascada.json)" % p))
-        else:
-            doc = pr / ent["requisitos"]
-            commits = [h for h in git(repo, "log", "--since=" + desde, "--format=%H", "--", rel).splitlines() if h]
-            if not commits:
-                res.append(R("P7", "Los commits de diseno de %s trazan a requisitos que existen?" % p, "NO APLICA",
-                             "medido", "sin commits sobre %s desde %s" % (rel if repo == raiz else repo.name, desde)))
-            for h in commits:
-                v, e = p7_commit(repo, h, rel, doc)
-                res.append(R("P7", "El commit %s de %s traza a requisitos que existen?" % (h[:8], p), v, "medido", e))
+        res += p7_de(g, p, ent, pr, repo, rel, desde, raiz)
         # P8
         v, e = p8_de(g, nube, raiz, pr, desde)
         res.append(R("P8", "Quedo el checkpoint de %s (ESTADO + HANDOFF + commit + push)?" % p, v, "medido", e))
@@ -514,6 +529,24 @@ def autotest() -> int:
     G("add", "-A"); G("commit", "-q", "-m", "solo estado")
     v, e = p7_commit(repo, git(repo, "rev-parse", "HEAD").strip(), rel, doc)
     caso("CONTROL: un commit que toca solo el registro -> P7 NO APLICA", v == "NO APLICA", e)
+    # T13 (L2-AUD-01): sin documento declarado decide la FASE del PDP. PDP sintetico: el caso no depende de la fase de
+    # un proyecto vivo. El NO APLICA de antes es justo lo que el mutante reproduce.
+    pt = tmp / "t13" / "proyectos" / "ingenieria" / "demo-c"
+    pt.mkdir(parents=True)
+    fila = "| 3 | %s | x | **abierta** |\n\n**Fase en curso:** 3\n"
+    (pt / "PDP.md").write_text(fila % "Fase C: diseño final", encoding="utf-8")
+    r7 = p7_de(g, "demo-c", {}, pt, repo, rel, "2026-01-15 00:00:00", RAIZ)
+    caso("T13: Fase C SIN requisitos -> P7 ROJO (antes NO APLICA)",
+         [x["veredicto"] for x in r7] == ["ROJO"] and "Fase C" in str(r7), r7, ver=True)
+    viejo = g.FASES_DESARROLLO
+    g.FASES_DESARROLLO = ()
+    r7m = p7_de(g, "demo-c", {}, pt, repo, rel, "2026-01-15 00:00:00", RAIZ)
+    g.FASES_DESARROLLO = viejo
+    caso("MUTANTE T13 (ninguna fase exige) vuelve al NO APLICA: el caso lo ve",
+         [x["veredicto"] for x in r7m] == ["NO APLICA"], r7m)
+    (pt / "PDP.md").write_text(fila % "Pre-Fase A: estudio de conceptos", encoding="utf-8")
+    r7 = p7_de(g, "demo-c", {}, pt, repo, rel, "2026-01-15 00:00:00", RAIZ)
+    caso("CONTROL T13: Pre-Fase A sin requisitos -> P7 NO APLICA", [x["veredicto"] for x in r7] == ["NO APLICA"], r7)
     desde = "2026-01-15 00:00:00"
     v, e = p8_checkpoint(repo, rel, rel + "/HANDOFF.md", desde)
     caso("commits sin pushear y sin HANDOFF -> P8 ROJO", v == "ROJO" and "sin pushear" in e and "HANDOFF" in e, e)

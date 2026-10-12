@@ -68,6 +68,25 @@ y aviso con fecha para A y B (apunte-iise, cohete-de-agua). Es un freno nuevo: e
 - **No hecho:** M-01 a M-05 (tocan la puerta, el verificador y la auditoría: freno vivo, con saboteadores). Es la
   sesión T13, la próxima del método. BLACK escribe sus requisitos en su propia sesión.
 
+## 4 bis. Construido (2026-10-12, sesión de arquitectura `de44da9d`)
+
+Las decisiones de Fran (03:22) cambiaron el despliegue de §3: el freno actúa **al entrar** a cada proyecto expuesto
+(no hay rojo de arranque por seis proyectos) y el verificador **lista**, no frena. Con eso, M-01 a M-05 se
+reescribieron como requisitos del método (los del elemento VER, AUD, CMP y PTA en
+[`10-requisitos.md`](10-requisitos.md) §4, 0 VIOLA del GtWR) y se construyeron así:
+
+| Requisito | Dónde | Cómo se prueba |
+|---|---|---|
+| L2-PTA-01..03 (era M-04) | `cascada_puerta.py`: `fase_de()` tipa la fase con las funciones de la compuerta (una sola tabla); en `exigido()`, un proyecto sin documento declarado y en fase A–D recibe la nota `SIN REQUISITOS EN FASE`; `pre()` niega salvo escribir un `requisitos*.md` del proyecto o el registro; un PDP ilegible niega igual (`FASE ILEGIBLE`, falla cerrado) | autotest caso 16: 9 casos sobre un árbol sintético y 3 mutantes, cada uno visto en su caso |
+| L2-VER-01/02 (eran M-01 y M-05) | `cascada_puerta.py --verificar`: líneas `EXPUESTOS` y `FASE SIN TIPO NASA`, sin `[FAIL]` | autotest caso 16 |
+| L2-AUD-01 (era M-02) | `auditar-sesion.py`: `p7_de()` da ROJO en fase A–D sin documento | autotest: caso, mutante en proceso y control |
+| L2-CMP-01..03 (era M-03) | `fase_activa.py`: `PRODUCTOS` con el documento de requisitos y las secciones 2, 5 y 7 del PDP (alcance, riesgos y plan de V&V **ya existían** en la plantilla: no hizo falta un artefacto nuevo, sólo mirar que no sean la plantilla) | autotest: 4 casos con mutante |
+| todos | `probar-t13.py`: muta cada pieza en una copia y exige el rojo en SU caso | es el `--saboteador` de `defectos.py` |
+
+Primer efecto, medido con el `--verificar` real: **5 expuestos** (apunte-iise B, black C, cohete-de-agua A,
+minecraft-amigos D, software-de-vuelo D; arquitectura-se salió de la lista al escribir sus requisitos) y **8 fases sin
+tipo**. Coincide con `medir-fases.py`, que mide lo mismo por otro camino.
+
 ## 5. El retome de T13 (pegar tal cual)
 
 ```
