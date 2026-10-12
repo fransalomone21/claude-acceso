@@ -51,7 +51,13 @@ LECTURA = re.compile(
     r"""Get-Content|gc|cat|type|head|tail|less|more|sed\s+-n|Select-String|sls|grep|rg|ls|dir|Get-ChildItem|gci|"""
     r"""Get-Item|Test-Path|wc|git\s+(log|status|diff|show|rev-parse|ls-files|blame|branch)\b|"""
     r"""python\s+\S*cascada_puerta\.py\s+--(exige|estado|verificar)|"""
+    # la compuerta con una ruta solo IMPRIME la fase (sin marca ni estado); sin argumento lee stdin y con --autotest
+    # escribe temporales: esos no. La auditoria de de44da9d la conto como accion sobre black (T14).
+    r"""python\s+\S*fase_activa\.py\s+(?!-)\S|"""
     r"""((ba)?sh\s+)?([\w.:\-]+[\\/])*cascada\.(ps1|sh)|([\w.:\-]+[\\/])*abrir-sesion\.ps1)""", re.I)
+# Lo que NO escribio Fran (T14, L2-PTA-04): un retome pegado, una notificacion automatica, un recordatorio del harness.
+# Sin cierre no se recorta: un bloque truncado queda adentro y la puerta frena de mas (falla cerrado), nunca de menos.
+AJENO = re.compile(r"<(pasted_content|task-notification|system-reminder)\b[^>]*>.*?</\1\s*>", re.I | re.S)
 FILTRO = re.compile(r"^\s*(Select-Object|select|Select-String|sls|Where-Object|where|Measure-Object|measure|"
                     r"Sort-Object|sort|Format-\w+|ft|fl|Out-String|head|tail|grep|wc|uniq|findstr|more|less)\b", re.I)
 REDIRS_INOCUAS = re.compile(r"\s[12]?>\s*(\$null|/dev/null|&1)", re.I)
@@ -77,6 +83,12 @@ def sin_comillas(s: str) -> str:
                 q = ch
             out.append(ch)
     return "".join(out)
+
+
+def sin_ajeno(texto: str) -> str:
+    """El pedido sin lo que no tipeo Fran (T14): lo pegado actua sobre rutas, y la puerta ya ve las rutas; lo
+    automatico no es un pedido. Medido el 2026-10-12: 3 falsos frenos por un retome pegado y por notificaciones."""
+    return AJENO.sub(" ", texto or "")
 
 
 def es_lectura_pura(cmd: str) -> bool:
@@ -725,7 +737,7 @@ def prompt(ev: dict) -> int:
     # cuenta: la excepcion dice justamente que la sesion no es de ese proyecto.
     ctx = [p for p in list(st["declaradas"]) + [q for q in st["inferidos"] if q not in st["por_debil"]]
            if p not in st["excepciones"]]
-    inferidos, cedidos = inferidos_de(cat, str(ev.get("prompt", "")), ctx)
+    inferidos, cedidos = inferidos_de(cat, sin_ajeno(str(ev.get("prompt", ""))), ctx)
     for p, por, debil in inferidos:
         if p not in st["inferidos"]:
             anotar(sid, {"t": "infiere", "proy": p, "por": por, "debil": debil})
@@ -1504,6 +1516,62 @@ def autotest() -> int:
             ok = ('"deny"' in r) == espera_deny and (motivo is None or motivo in r)
         mal += not ok
         print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+    # 17. T14 (L2-PTA-04): la puerta infiere SOLO de lo que tipea Fran. La misma senal FUERTE adentro de un retome
+    # pegado, de una notificacion o de un recordatorio no frena; tipeada, si (el 331 sigue); afuera Y adentro manda lo
+    # tipeado; un bloque sin cierre no se recorta (falla cerrado). Catalogo sintetico, como el 14 y el 15.
+    cat_k = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
+    p_k = sorted(proyectos_del_disco())[0]
+    cat_k["proyectos"].setdefault(p_k, {}).update({"senales": [r"zz proyecto pegado zz"], "senales_debiles": []})
+    f_k = tmp / "cat-t14.json"
+    f_k.write_text(json.dumps(cat_k, ensure_ascii=False), encoding="utf-8")
+    e_k = {"CASCADA_CATALOGO": str(f_k), "CASCADA_RAIZ": str(RAIZ)}
+    sen_k = "ZZ PROYECTO PEGADO ZZ"
+
+    def bloque(etq, cuerpo, attrs=""):
+        return "<%s%s>\n%s\n</%s>" % (etq, attrs, cuerpo, etq)
+
+    pedidos_k = (   # (nombre, pedido, niega); los pedidos imitan los reales del 2026-10-12
+        ("T14 CONTROL: senal en pasted_content + Write fuera -> pasa",
+         "retomo el metodo:\n" + bloque("pasted_content", "1. LEER el retome de " + sen_k, ' id="a1b2c3"'), False),
+        ("T14 CONTROL: senal en task-notification -> pasa",
+         bloque("task-notification", "<summary>el mapa termino: " + sen_k + "</summary>"), False),
+        ("T14 CONTROL: senal en system-reminder -> pasa", "segui\n" + bloque("system-reminder", sen_k), False),
+        ("T14 SABOTAJE 331: la senal TIPEADA fuera -> deny", "hace el ejercicio de " + sen_k, True),
+        ("T14 SABOTAJE: tipeada fuera Y pegada adentro -> deny",
+         "y " + sen_k + " tambien\n" + bloque("pasted_content", sen_k), True),
+        ("T14 SABOTAJE: bloque SIN cierre no se recorta -> deny", "<pasted_content>\n" + sen_k, True))
+
+    def caso_k(n, script=__file__):   # sesion propia por script: lo inferido persiste y contaminaria al mutante
+        s = "%s-t14-%d-%s" % (sid, n, Path(script).stem)
+        correr({"hook_event_name": "UserPromptSubmit", "session_id": s, "prompt": pedidos_k[n][1]}, e_k, script)
+        return correr(pre_ev(*afuera, s=s), e_k, script)
+
+    for n, (nombre, _, niega) in enumerate(pedidos_k):
+        caso(nombre, caso_k(n), niega, "'%s'" % p_k if niega else None)
+    # mutantes, cada uno visto en SU caso: sin el recorte vuelve el falso freno del retome pegado; recortando un
+    # bloque sin cierre, el truncado deja de frenar (fallaria abierto)
+    for nombre, viejo, nuevo, n in (
+            ("MUTANTE (sin el recorte) frena el retome pegado",
+             'sin_ajeno(str(ev.get("prompt", "")))', 'str(ev.get("prompt", ""))', 0),
+            ("MUTANTE (recorta sin cierre) deja pasar el truncado", r".*?</\1\s*>", r".*?(</\1\s*>|$)", 5)):
+        m = tmp / ("mutante-t14-%d.py" % n)
+        fuente = Path(__file__).read_text(encoding="utf-8")
+        txt = fuente.replace(viejo, nuevo, 1)
+        if txt == fuente:
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        else:
+            m.write_text(txt, encoding="utf-8")
+            r = caso_k(n, m)
+            ok = ('"deny"' in r) != pedidos_k[n][2] and ('"deny"' not in r or "'%s'" % p_k in r)
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+    # la compuerta con una ruta es LECTURA pura (la auditoria de de44da9d la conto como accion sobre black)
+    caso("T14 CONTROL: fase_activa.py <ruta de black> sin declarar -> pasa",
+         correr(pre_ev("PowerShell", {"command": 'python .claude/hooks/fase_activa.py "%s"' % black}, sid + "-t14-fa")),
+         False)
+    caso("T14 SABOTAJE: fase_activa.py <ruta> encadenado a una accion -> deny",
+         correr(pre_ev("PowerShell", {"command": 'python .claude/hooks/fase_activa.py "%s"; Remove-Item "%s"'
+                                      % (black, black / "x")}, sid + "-t14-fa")), True)
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0
