@@ -14,7 +14,9 @@
 > fácilmente»): `perfil-global/DEFECTOS-ARQUITECTURA.md`, vista de `perfil-global/arquitectura/defectos.jsonl`, que
 > sólo escribe `perfil-global/herramientas/defectos.py` (cerrar exige commit + prueba + saboteador que la herramienta
 > corre, y 3 sesiones auditadas después; autotest de 12 casos y sabotaje del verificador en rojo). Cargados **37**:
-> D1-D14 de `docs/arquitectura.md`, A1-A12 del diagnóstico y los 11 de (129); **36 abiertos**, DA-034 arreglado. **Sigue
+> D1-D14 de `docs/arquitectura.md`, A1-A12 del diagnóstico y los 11 de (129); DA-034 arreglado. **La auditoría de la
+> sesión dio 1 ROJO (P3) y es del auditor, no de la sesión:** comparó el libro leído al empezar (185 líneas) con el de
+> ahora (199, por la §2b agregada) — registrado como **DA-038** (38 en total, 37 abiertos); no se «arregló» releyendo. **Sigue
 > (T13, próxima sesión de método):** M-01 a M-05 en `cascada_puerta.py --verificar`, `auditar-sesion.py` (P7),
 > `fase_activa.py` y la puerta, cada uno con su saboteador y su control positivo parecido al real; el despliegue (qué
 > proyectos quedan en rojo y desde cuándo) lo aprueba Fran. El retome está al final de la respuesta de esa sesión y en
