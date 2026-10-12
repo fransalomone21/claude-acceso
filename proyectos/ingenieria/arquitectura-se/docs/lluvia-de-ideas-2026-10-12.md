@@ -32,7 +32,25 @@ límite, dejar programado con `CronCreate` (una vez) el retome para `resetsAt + 
 - [ ] (e) CERRAR: `defectos.py vista/verificar/vista --check`, ESTADO, HANDOFF, commit + push de los dos repos,
       auditoría, retome de la sesión siguiente.
 
-Workflows lanzados (para `resumeFromRunId`): ninguno todavía.
+Workflows lanzados (para `resumeFromRunId`): `wf_3f865b1e-437` (mapa), cortado por el límite de 5 h a las ~03:45.
+
+**Notas para seguir (escritas antes del corte):**
+- Código de T13 ya leído: `cascada_puerta.py` (`exigido` l.183-245, `pre` l.487-580, `cli_exige` l.753, `cli_verificar`
+  l.824), `fase_activa.py` entero, `auditar-sesion.py` P7 (l.333-344), `medir-fases.py`. `defectos.py agregar` pide
+  `--titulo --clase --sintoma --evidencia --donde --fuente [--grado]`.
+- **Hallazgo para el diseño de T13 (simplifica M-03/M-04):** la plantilla del PDP YA tiene §2 «Qué NO es» (alcance),
+  §5 Riesgos y §7 Verificación (plan de V&V), y los PDP reales también. No hacen falta artefactos nuevos: el único
+  producto NASA que no existe es el documento de **requisitos**; lo demás se verifica como «sección del PDP llena, no
+  la plantilla». Un dueño por dato (T2).
+- (b) planeado: 8 buscadores por lente (NASA, INCOSE, Meadows, Saltzer, Leveson, Rechtin/Hunt-Thomas, costo y
+  desempeño, y **afuera**: lo que otros ya resolvieron en ingeniería de contexto para agentes, con WebSearch) sobre
+  `docs/mapa-metodo-2026-10-12.md`; dedup por un agente contra todo lo visto + los DA; 3 escépticos por candidato con
+  lentes distintas (evidencia, duplicado/alcance, consecuencia), refutado ante la duda, sobrevive con 2 de 3; ronda
+  hasta dos secas (tope 5, avisado).
+- Candidatos ya vistos al pasar (para (b)): la puerta niega por la palabra «BLACK» dentro de un retome que escribió el
+  propio método; leer el m24 (necesidad `lluvia-de-ideas`) carga el contrato de `apunte-iise` y su compuerta de fase
+  (costo anidado 5 774); `ses.met` subió 12 % en 10 días sin medidor con umbral; la regla 9 no distingue la orden del
+  harness de la del dueño; P10 de la auditoría dará ROJO por la excepción si no queda lección.
 
 ---
 
