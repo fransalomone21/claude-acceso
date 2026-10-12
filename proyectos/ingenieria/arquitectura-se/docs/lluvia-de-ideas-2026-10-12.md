@@ -32,7 +32,12 @@ límite, dejar programado con `CronCreate` (una vez) el retome para `resetsAt + 
 - [ ] (e) CERRAR: `defectos.py vista/verificar/vista --check`, ESTADO, HANDOFF, commit + push de los dos repos,
       auditoría, retome de la sesión siguiente.
 
-Workflows lanzados (para `resumeFromRunId`): `wf_3f865b1e-437` (mapa), cortado por el límite de 5 h a las ~03:45.
+Workflows lanzados (para `resumeFromRunId`): `wf_3f865b1e-437` (mapa v1), cortado por el límite de 5 h a las ~03:45:
+**8 de 8 agentes cortados, 1,32 M tokens de subagentes, cero resultados** (la ventana pasó de 65 % a 100 % en 3,6 min y
+la semanal de 34 % a 40 %). Se reanudó solo a las 06:41; el cron 36132309 se borró (ya no hacía falta). Relanzado
+acotado como `wf_c98c1f22-d79` (mapa v2: esfuerzo bajo, ~15 llamadas por lector, documentos de diseño antes que código).
+**Es la MISMA lección que ya estaba registrada** («17 lectores en paralelo se comieron un límite de 5 horas en 6,6
+minutos», impresa por la cascada al entrar): la regla existía y no llegó al momento de lanzar. Candidato fuerte para (b).
 
 **Notas para seguir (escritas antes del corte):**
 - Código de T13 ya leído: `cascada_puerta.py` (`exigido` l.183-245, `pre` l.487-580, `cli_exige` l.753, `cli_verificar`
