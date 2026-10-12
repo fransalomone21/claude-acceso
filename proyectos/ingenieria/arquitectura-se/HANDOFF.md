@@ -1,5 +1,18 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-12 (sesión `26479d81`, CERRADA) — SIGUE: lo que diga la lluvia §6** (retome en [`RETOME.md`](RETOME.md)).
+> Hecho: **T20 construido** (`ec080cc`, `c01ba9e`, `2d0d296`; perfil `f07cf05`): requisitos a su dueño (cierra el ROJO
+> P7 de `92520da`), copias sacadas, `divergencias.py` + `.claude/datos.json` + `probar-divergencias.py` (14 casos, 5
+> mutantes) en `chequeo-completo`, efecto real medido (copia sembrada: ROJO con dato, dueño y copia; verde al sacarla).
+> **Para el que siga:** (1) **un dato nuevo se registra en `.claude/datos.json`**, no se copia; un ROJO de
+> `cero divergencias` se arregla volviendo la copia puntero o fechándola si es historia, nunca tocando el medidor;
+> (2) DA-017/012/036 **abiertos a propósito**: el medidor cubre 3 datos de este proyecto; catedras, software de vuelo y
+> coaching tienen la fase del ESTADO distinta de la del PDP (t20 §3, sin mirar fechas: puede ser historia);
+> (3) **DA-055**: `verificar-requisito.py` sobre `docs/10-requisitos.md` entero da 186 VIOLA; el 0 VIOLA sale de
+> extraer la columna Requisito (hasta que se arregle, decir cómo se midió); (4) la auditoría puede dar un ROJO P3
+> falso por DA-038: esta sesión editó `chequeo-de-trabajo.md` (la lección del mutante). **Sigue esperando a Fran
+> (regla 6):** la señal fuerte de arquitectura-se en el catálogo (DA-054).
+
 > **2026-10-12 (sesión `814911bc`, CERRADA) — SIGUE: construir T20 en sesión nueva** (retome en [`RETOME.md`](RETOME.md)).
 > Hecho: **T14 construido** (`e6d58bb`, L2-PTA-04): la puerta saca los bloques pegados, las notificaciones y los
 > recordatorios antes de inferir; `fase_activa.py <ruta>` es lectura pura. Verificado por autotest (caso 17),

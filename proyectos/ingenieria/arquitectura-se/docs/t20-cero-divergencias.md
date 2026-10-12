@@ -65,6 +65,13 @@ freno con falsos positivos es menos seguro: se apaga.
   1). Dueño propuesto: `"locales"` del catálogo; los otros, punteros. **No se migra en esta sesión**: toca contratos
   de otros proyectos (cada uno con su puerta) y lo que falta primero es un medidor que **ejecute** las rutas
   (existen en el disco), que hoy no existe. Queda TBR, con el inventario hecho.
+- **La fase en los otros proyectos (para extender el registro; DA-017 sigue abierto por esto):** medido el 2026-10-12,
+  PDP por `fase_activa` contra la forma «Fase N … abierta» en cada ESTADO, sin mirar fechas: 19 proyectos con PDP, 3
+  con esa copia; coincide en apunte-iise y física espacial, **difiere** en catedras (PDP 1, ESTADO 0), software de
+  vuelo (2 contra 0, línea 359) y coaching (su PDP no tiene `**Fase en curso:**`). Puede ser historia sin fecha;
+  se mira al entrar a cada uno. Extenderlo pide un dato «por proyecto» en el registro (hoy un dato = un dueño fijo).
+- **DA-036** (el prefijo `A` de `arquitectura.md`) no se renombró: no lo pidió el retome y toca referencias en varios
+  documentos; queda en este §3.
 
 ## 4. El medidor
 

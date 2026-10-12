@@ -3,6 +3,20 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-12 (sesión `26479d81`) — T20 CONSTRUIDO.** Los L2-DIV-01..05 viven en su dueño
+([`docs/10-requisitos.md`](docs/10-requisitos.md) §5; 0 VIOLA extrayendo los enunciados) y t20 §5 los refiere: cerró
+el ROJO P7 de la sesión anterior. Se sacaron copias: la fase del ESTADO (la cascada ahora la lee del PDP por
+`fase_activa.py`, caso nuevo en `probar-cascada.ps1` visto en rojo con la versión vieja), la nota de reemplazo en el
+diagnóstico §3 y el contrato, que mandaba el orden al diagnóstico viejo. El medidor: `divergencias.py` +
+`.claude/datos.json` (fase, orden y conteo de defectos de este proyecto), falla cerrado, en la capa rápida de
+`chequeo-completo`; su saboteador `probar-divergencias.py` da 14 casos y 5 mutantes vistos. **Efecto real:** su primera
+corrida encontró dos copias vigentes viejas acá («Siguiente: T2», «Lo que FALTA»), hoy fechadas como historia; y una
+copia sembrada a propósito dio ROJO en el tablero con el dato, el dueño y la copia, y verde al sacarla.
+`chequeo-completo`: todo verde salvo «listo para la nube» antes del push (verde después). **No se cerró ningún DA**
+(DA-017/012/036): el medidor cubre los datos registrados de este proyecto, no la clase; lo que falta (los otros
+proyectos, las rutas locales, el prefijo de `arquitectura.md`) en [`docs/t20-cero-divergencias.md`](docs/t20-cero-divergencias.md)
+§3. Nuevo: **DA-055** (el chequeo GtWR, corrido como lo documenta el libro, da 186 VIOLA sobre este documento).
+
 **2026-10-12 (sesión `814911bc`) — T14 CONSTRUIDO; T20 DISEÑADO.** La puerta infiere el proyecto sólo de lo que tipea
 Fran: saca los bloques pegados, las notificaciones y los recordatorios antes de buscar señales (`e6d58bb`, L2-PTA-04);
 `fase_activa.py <ruta>` es lectura pura. Probado: autotest con el caso 17 (controles, sabotajes y 2 mutantes en su
