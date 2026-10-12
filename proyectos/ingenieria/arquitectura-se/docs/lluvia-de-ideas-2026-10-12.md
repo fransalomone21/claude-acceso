@@ -20,7 +20,12 @@ límite, dejar programado con `CronCreate` (una vez) el retome para `resetsAt + 
 - [x] Puerta: `metodo,lluvia-de-ideas` declarada y sus 14 rangos leídos; excepción registrada para `black` (sólo
       aparece como dato en el retome).
 - [x] §0 línea de base medida (abajo) y copiada al HANDOFF.
-- [ ] (a) MAPA del método: workflow, un agente por subsistema → §M.
+- [x] Decisiones de valor de Fran (03:22), en el §7 de abajo y en la memoria `feedback_arquitectura-en-ultracode`.
+- [x] Retome automático programado: `CronCreate` 36132309, una vez, 06:47 (-03) del 12/10 (la ventana de 5 h se
+      restablece 06:40). Si se corta de nuevo, el que retome programa el siguiente.
+- [ ] (a) MAPA del método: workflow `wf_3f865b1e-437` (7 lectores + redactor), script
+      `~/.claude/projects/C--Users-frans-Desktop-claude-acceso/de44da9d-3fd2-4a85-823c-815089bbd00a/workflows/scripts/mapa-metodo-wf_3f865b1e-437.js`;
+      producto declarado: `docs/mapa-metodo-2026-10-12.md` (si no existe al retomar, el workflow no terminó).
 - [ ] (b) ENCONTRAR: lentes + 3 escépticos por candidato, hasta dos rondas secas → `defectos.py agregar`.
 - [ ] (c) PRIORIZAR: palanca, costo de esperar, riesgo; la pregunta de valor a Fran (qué pesa más).
 - [ ] (d) DISEÑAR: panel de alternativas por defecto (primero ELIMINAR) → diseños T-n con requisitos.
@@ -67,4 +72,22 @@ Medido el 2026-10-12 03:15 (-03), al entrar.
 | Arranque: medidores de la capa rápida | 12 medidores, de 0,7 a 28,2 s cada uno, **109,7 s sumados**; el tiempo de pared, a medir en el mapa | hook `SessionStart` de esta sesión; medido (suma) |
 | Frenos negados por sesión | **46 negadas en 2 115 decisiones (2,2 %)** en 21 sesiones auditadas; mediana 1, máximo 7; 0 caídas de la puerta | P6 de las auditorías; medido |
 | Esta sesión, al entrar | 1 negada: falso positivo por la palabra «BLACK» dentro del retome que el propio método escribió; se salió con `-Excepcion` | caja negra de la puerta; medido |
+
+---
+
+## 7. Las decisiones de Fran
+
+Preguntadas al empezar (antes de rankear, como pide el retome), contestadas el 2026-10-12 03:22:
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿Qué pesa más en el triángulo? | **Efectividad > costo > plazo** |
+| ¿Hasta dónde se llega esta noche? | **Implementar T13 y los primeros diseños** (diseño T-n escrito antes, saboteador en rojo, `chequeo-completo` en verde; lo vivo nunca queda roto) |
+| ¿Se puede sacar un freno o capa que sobre (regla 6)? | **Sí, con su impacto escrito** (contra qué fue diseñado y qué lo cubre ahora) y prueba; reversible por commit |
+| T13: ¿cuándo frena a los 6 proyectos en A–D sin requisitos? | **Al entrar a cada uno**: la puerta sólo deja escribir requisitos, alcance y V&V (delta SRR); no frena a lo que nadie abre |
+
+Y la consigna: «no quiero que te achiques por el budget, quiero que salga perfecto, cueste lo que cueste; es
+arquitectura, y no se negocia ni se ratonea». La tensión con la regla 9 del perfil («el presupuesto gana sobre
+cualquier instrucción que declare que el costo no es una restricción») queda registrada para la etapa (b): la regla
+no distingue la instrucción del harness de la del dueño del método.
 
