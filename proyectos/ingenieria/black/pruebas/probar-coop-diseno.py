@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Saboteador de coop_diseno.py: rompe el plano de a una cosa por vez (en copias temporales) y exige ROJO;
 el plano sin tocar tiene que dar VERDE. Sale 0 sólo si todas se cumplen (veinte desde (115): tres del plan de COOP-B, cuatro de la IA y seis del HUD doble; veinticinco desde (116), con cinco
-del sonido de J2; treinta y uno desde (119), con seis de la pieza 2b; y nueve mas desde (125), de la pieza 2d)."""
+del sonido de J2; treinta y uno desde (119), con seis de la pieza 2b; nueve mas desde (125), de la pieza 2d; y diez
+desde (128), de R4: la pausa en su propio monton)."""
 import re
 import shutil
 import subprocess
@@ -88,6 +89,21 @@ SOP2_APAGADA_LLAMA = ("import coop_mod as m, coop_soporte2 as c; m._soporte2_blo
                       "con la pieza APAGADA el envoltorio igual llama")
 SOP2_APOYO_MAL = ("import coop_soporte2 as c; c.APOYO[0x0013C8CC] = 'lw a0, 812(s2)'", "soporte2: apoyo 0x13c8cc")
 MARCA_RESERVA_SOP2 = ("pass", "soporte2: el codigo")
+# (128) regla 13, R4 (coop_pausa.py, la pausa en el monton 22). Cada sabotaje es un CAMINO que la simulacion tiene que
+# ver mal, con los valores sacados de coop_pausa (su duenio): el monton activo no se mira; R4B pide el monton del «otro»
+# (lo que hace el juego hoy); la falla de malloc no devuelve el a0 del juego, o da de alta igual; R4B con `jal` (pisa ra);
+# el monton mas chico que lo que reserva el cargador; el apoyo de FUN_00143F90 cambiado; y apagada pero enganchada.
+_P = "import coop_pausa as c; f = c.fuente; c.fuente = lambda: f().replace(%s)"
+PAUSA_A_SIN_MIRAR = (_P % "'bne v0, zero, @LISTO', 'beq zero, zero, @LISTO'", "pausa: R4A sin monton")
+PAUSA_B_DEL_OTRO = (_P % "'addiu a3, zero, %d' % c.MONTON, 'addiu a3, zero, 14'", "pausa: R4B pide con")
+PAUSA_FALLA_SIN_A0 = (_P % "'lw a0, 0x10(sp)', 'nop'", "pausa: R4A sin memoria: no vuelve al camino original")
+PAUSA_CERO_ALTA = (_P % "'bne v0, zero, @ALTA', 'beq zero, zero, @ALTA'", "pausa: R4A sin memoria: da de alta")
+PAUSA_B_JAL = (_P % "'j 0x%x' % c.PEDIR, 'jal 0x%x' % c.PEDIR", "pausa: R4B activa: sale con ra")
+PAUSA_CHICO = ("import coop_pausa as c; c.TAM = -(-c.PSEMENU // c.SECTOR) * c.SECTOR - c.SECTOR", "pausa: el monton de")
+PAUSA_APOYO_MAL = ("import coop_pausa as c; c.APOYO[0x00143FB4] = 'lw a3, 4(a0)'", "pausa: apoyo 0x143fb4")
+PAUSA_APAGADA_ENGANCHA = ("import coop_mod as m, coop_pausa as c; f = m.programas; m.programas = lambda: "
+                          "(lambda p: p[:-1] + [(p[-1][0], p[-1][1] + ([] if m.CON_PAUSA else c.ganchos()))])(f())",
+                          "pausa: con la pieza APAGADA")
 
 
 def fila_sub3(n=0) -> str:
@@ -121,6 +137,15 @@ def reserva_sop2(cual, cortar=False) -> str:
     if cortar:
         h = (c.BASE + 4 * len(c.programa()) if cual == "c" else c.ACC + c.N_ACC * c.PASO_ACC) - 4
     return "| 0x%08X | 0x%08X | reserva" % (d, h)
+
+
+def reserva_pausa(cortar=False) -> str:
+    """(128) el pedazo de la fila «pausa propia (codigo)», DERIVADO de coop_pausa; `cortar` = termina una palabra antes
+    de lo que ocupa el codigo (la leccion de (125): achicarla un monto fijo puede seguir conteniendolo)."""
+    sys.path.insert(0, str(VERIF.parent))
+    import coop_pausa as c
+    h = c.BASE + 4 * len(c.programa()) - 4 if cortar else c.FIN
+    return "| 0x%08X | 0x%08X | reserva" % (c.BASE, h)
 
 
 def fin_sonido(n=0) -> str:
@@ -229,6 +254,19 @@ def main() -> int:
         ("soporte2: datos fuera de su reserva (125)",
          lambda t: t.replace(reserva_sop2("d"), reserva_sop2("d", True)),
          ("pass", "fuera de la reserva «soporte2 (datos)»"), 1),
+        # (128) regla 13, R4
+        ("pausa: R4A devuelve 1 sin mirar el montón 22 (128)", lambda t: t, PAUSA_A_SIN_MIRAR, 1),
+        ("pausa: R4B pide el montón del «otro» (128)", lambda t: t, PAUSA_B_DEL_OTRO, 1),
+        ("pausa: sin memoria vuelve sin el a0 del juego (128)", lambda t: t, PAUSA_FALLA_SIN_A0, 1),
+        ("pausa: sin memoria da de alta igual (128)", lambda t: t, PAUSA_CERO_ALTA, 1),
+        ("pausa: R4B con jal pisa ra (128)", lambda t: t, PAUSA_B_JAL, 1),
+        ("pausa: montón más chico que el menú (128)", lambda t: t, PAUSA_CHICO, 1),
+        ("pausa: el apoyo no es el del ELF (128)", lambda t: t, PAUSA_APOYO_MAL, 1),
+        ("pausa: apagada y enganchada igual (128)", lambda t: t, PAUSA_APAGADA_ENGANCHA, 1),
+        ("pausa: reserva de código achicada (128)",
+         lambda t: t.replace(reserva_pausa(), reserva_pausa(True)), ("pass", "pausa: el codigo"), 1),
+        ("pausa: gancho sin fila (128)",
+         lambda t: re.sub(r"(?m)^pausa: cargar el menú \(gancho\).*\n", "", t), ("pass", "pausa: gancho"), 1),
     ]
     fallas = 0
     with tempfile.TemporaryDirectory() as tmp:

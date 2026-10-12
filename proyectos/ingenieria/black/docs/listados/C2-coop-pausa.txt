@@ -1,0 +1,58 @@
+0046F200  3C190041  lui $t9, 0x41                      ; lui t9, 0x41
+0046F204  9322F40C  lbu $v0, -0xbf4($t9)               ; lbu v0, -3060(t9)
+0046F208  14400021  bnez $v0, 0x46f290                 ; bne v0, zero, 0x46f290
+0046F20C  3C180047  lui $t8, 0x47                      ; lui t8, 0x47
+0046F210  8F03F1C4  lw $v1, -0xe3c($t8)                ; lw v1, -3644(t8)
+0046F214  14600020  bnez $v1, 0x46f298                 ; bne v1, zero, 0x46f298
+0046F218  00000000  nop                                ; nop
+0046F21C  27BDFFE0  addiu $sp, $sp, -0x20              ; addiu sp, sp, -0x20
+0046F220  FFBF0000  sd $ra, ($sp)                      ; sd ra, 0(sp)
+0046F224  AFA40010  sw $a0, 0x10($sp)                  ; sw a0, 0x10(sp)
+0046F228  3C040003  lui $a0, 3                         ; lui a0, 0x3
+0046F22C  0C0D79F6  jal 0x35e7d8                       ; jal 0x35e7d8
+0046F230  34845FFF  ori $a0, $a0, 0x5fff               ; ori a0, a0, 0x5fff
+0046F234  3C180047  lui $t8, 0x47                      ; lui t8, 0x47
+0046F238  14400007  bnez $v0, 0x46f258                 ; bne v0, zero, 0x46f258
+0046F23C  AF02F1C0  sw $v0, -0xe40($t8)                ; sw v0, -3648(t8)
+0046F240  24030001  addiu $v1, $zero, 1                ; addiu v1, zero, 1
+0046F244  AF03F1C4  sw $v1, -0xe3c($t8)                ; sw v1, -3644(t8)
+0046F248  8FA40010  lw $a0, 0x10($sp)                  ; lw a0, 0x10(sp)
+0046F24C  DFBF0000  ld $ra, ($sp)                      ; ld ra, 0(sp)
+0046F250  08050E32  j 0x1438c8                         ; j 0x1438c8
+0046F254  27BD0020  addiu $sp, $sp, 0x20               ; addiu sp, sp, 0x20
+0046F258  8F03F1C8  lw $v1, -0xe38($t8)                ; lw v1, -3640(t8)
+0046F25C  24630001  addiu $v1, $v1, 1                  ; addiu v1, v1, 1
+0046F260  AF03F1C8  sw $v1, -0xe38($t8)                ; sw v1, -3640(t8)
+0046F264  244507FF  addiu $a1, $v0, 0x7ff              ; addiu a1, v0, 0x7ff
+0046F268  2401F800  addiu $at, $zero, -0x800           ; addiu at, zero, -0x800
+0046F26C  00A12824  and $a1, $a1, $at                  ; and a1, a1, at
+0046F270  3C040041  lui $a0, 0x41                      ; lui a0, 0x41
+0046F274  2484F40C  addiu $a0, $a0, -0xbf4             ; addiu a0, a0, -3060
+0046F278  2406FFFF  addiu $a2, $zero, -1               ; addiu a2, zero, -1
+0046F27C  3C070003  lui $a3, 3                         ; lui a3, 0x3
+0046F280  0C041E82  jal 0x107a08                       ; jal 0x107a08
+0046F284  34E75800  ori $a3, $a3, 0x5800               ; ori a3, a3, 0x5800
+0046F288  DFBF0000  ld $ra, ($sp)                      ; ld ra, 0(sp)
+0046F28C  27BD0020  addiu $sp, $sp, 0x20               ; addiu sp, sp, 0x20
+0046F290  03E00008  jr $ra                             ; jr ra
+0046F294  24020001  addiu $v0, $zero, 1                ; addiu v0, zero, 1
+0046F298  08050E32  j 0x1438c8                         ; j 0x1438c8
+0046F29C  00000000  nop                                ; nop
+0046F2A0  3C190041  lui $t9, 0x41                      ; lui t9, 0x41
+0046F2A4  9322F40C  lbu $v0, -0xbf4($t9)               ; lbu v0, -3060(t9)
+0046F2A8  1040000D  beqz $v0, 0x46f2e0                 ; beq v0, zero, 0x46f2e0
+0046F2AC  3C180047  lui $t8, 0x47                      ; lui t8, 0x47
+0046F2B0  8F03F1CC  lw $v1, -0xe34($t8)                ; lw v1, -3636(t8)
+0046F2B4  24630001  addiu $v1, $v1, 1                  ; addiu v1, v1, 1
+0046F2B8  AF03F1CC  sw $v1, -0xe34($t8)                ; sw v1, -3636(t8)
+0046F2BC  00E04821  move $t1, $a3                      ; move t1, a3
+0046F2C0  01005021  move $t2, $t0                      ; move t2, t0
+0046F2C4  00C04021  move $t0, $a2                      ; move t0, a2
+0046F2C8  24070016  addiu $a3, $zero, 0x16             ; addiu a3, zero, 22
+0046F2CC  24060006  addiu $a2, $zero, 6                ; addiu a2, zero, 6
+0046F2D0  3C190041  lui $t9, 0x41                      ; lui t9, 0x41
+0046F2D4  8F24F4C4  lw $a0, -0xb3c($t9)                ; lw a0, -2876(t9)
+0046F2D8  080424F0  j 0x1093c0                         ; j 0x1093c0
+0046F2DC  3C0B0200  lui $t3, 0x200                     ; lui t3, 0x200
+0046F2E0  08050FE4  j 0x143f90                         ; j 0x143f90
+0046F2E4  00000000  nop                                ; nop

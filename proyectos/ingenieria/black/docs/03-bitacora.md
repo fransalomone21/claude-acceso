@@ -16,6 +16,25 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-11 — (128) N27 reproducida con control (es de la pausa) y R4 bajada a instrucción
+**Máquina:** notebook MSI (fork para el banco de N27, sin Fran; R4 en frío) · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** COOP-C, F7b (el doble búfer de armas de un jugador); nodos `armas`, `recursos`, `front-end`.
+**Objetivo:** reproducir N27 antes de fabricar (es lo que juega Fran) y bajar R4 a instrucción con su regla.
+**Resultado:** `herramientas/n27_banco.py` (nuevo) arma la precondición que `f7b_pausa.py` no podía (J2 con la 2.ª
+arma en la mano, J con la pistola sola) y la mide. Pnach por defecto: **con la pausa 2 de 2 caídas, sin la pausa 0
+de 2** (`sesiones/PREDICCIONES-128.md`, N0–N4 cumplidas). La pausa vacía el búfer de la pistola en la mano de J, la
+precarga de J2 la recarga, el cambio alterna encima y el EE cae en el lazo de «syscall indefinida» del núcleo; las
+dos caídas con registros idénticos. N27 es de la familia F7b y R4 la tapa. R4 leída a instrucción (`docs/16` (128)):
+los dos ganchos (`0x0020AEF4`, `0x0020AF84`), el montón 22 sobre `malloc` una vez con vuelta al camino original si
+falla, y su reserva en `coop-plan-b`.
+**No funcionó:** el primer intento del banco salió en ROJO por el instalador (`instalar` sin cambios no informa las
+palabras; ahora acepta «cambio: false» = el por defecto). En (127) se había leído `v1` = 0x01010101: es la mitad alta
+del registro de 128 bits; los 32 bits bajos son 0.
+**Sigue:** el código de R4 (`coop_pausa.py`), la regla 13 de `coop_diseno.py` con sabotajes, y la prueba en vivo
+(con R4: `n27_banco.py --rama pausa` 0 de 2; `f7b_pausa.py --con-soporte2` sin la traba).
+
+---
+
 ## 2026-10-11 — (127) en frío + dos sondas de lectura: qué traba la pausa, qué montón queda libre, y la elección para F7b (D' + montón de pausa)
 **Máquina:** notebook MSI (frío; el fork sólo para dos sondas de sólo lectura, sin Fran) · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** COOP-C pieza 2d / F7b (el doble búfer del arma) · nodos `recursos`, `armas`, `vista-fp`, `render`

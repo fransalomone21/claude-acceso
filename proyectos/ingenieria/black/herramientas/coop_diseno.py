@@ -36,6 +36,11 @@ Lee el bloque ```coop-rangos del documento y exige, en este orden:
      y cada rango de datos en sus reservas «soporte2» del plan (o en filas de coop-rangos, y ahi prendida por defecto);
      y en el envoltorio la llamada va DESPUES del constructor de J2 y de su `beq v0, zero` y ANTES del registro, una
      sola vez, y sin la pieza no esta.
+ 13. (128, COOP-C, R4 de F7b) la pausa en su propio monton (coop_pausa.py): coop_pausa.problemas() vacio -- cada CAMINO
+     simulado (monton 22 activo, alta con malloc, malloc sin memoria, falla previa; R4B con y sin monton) sale a donde
+     tiene que salir con los registros que pide el ELF--; codigo y datos en sus reservas «pausa propia» del plan (o en
+     filas de coop-rangos, y ahi prendida por defecto); cada gancho con fila gancho; y con la pieza APAGADA ningun
+     gancho suyo en el mod, con la pieza PRENDIDA los dos, y el mod ensamblando sin pisar otra fila.
 Sale 0 si todo esta bien y 1 si algo falla (y dice que). Su saboteador: pruebas/probar-coop-diseno.py.
 """
 import argparse
@@ -79,6 +84,7 @@ def verificar(doc: Path, mods: Path) -> list[str]:
     errores += verificar_sub3(doc, filas, cm.CON_SUB3)       # (119) regla 10; apagada hasta su prueba en vivo
     errores += verificar_testigo_sub3(doc, filas)            # (122) regla 11; el testigo por cuadro es el INDICE
     errores += verificar_soporte2(doc, filas, cm.CON_SOPORTE2)  # (125) regla 12; apagada hasta su prueba en vivo
+    errores += verificar_pausa(doc, filas, cm.CON_PAUSA)        # (128) regla 13; apagada hasta su prueba en vivo
     progs = cm.programas()
     # 1. los programas contra el plano
     for nombre, prog in progs[:-1]:
@@ -453,6 +459,68 @@ def verificar_soporte2(doc: Path, filas_rangos, con_por_defecto=False) -> list[s
                 if d < f["hasta"] and f["desde"] < h and not (f["desde"] <= d and h <= f["hasta"]):
                     errores.append("soporte2: con la pieza prendida '%s' [%#x, %#x) pisa '%s'"
                                    % (nombre, d, h, f["nombre"]))
+    return errores
+
+
+def verificar_pausa(doc: Path, filas_rangos, con_por_defecto=False) -> list[str]:
+    """(128) regla 13: R4 de F7b (coop_pausa.py), la pausa carga su menu en el monton 22 y no vacia el bufer «otro».
+
+    Exige: `coop_pausa.problemas()` vacio (los caminos simulados, lo derivado del ELF, el apoyo, el listado); el codigo
+    en la reserva «pausa propia (codigo)» del plan o en una fila de coop-rangos con el RANGO EXACTO (y ahi, prendida por
+    defecto); los datos adentro de «pausa propia (datos)» (o de una fila de datos «pausa»); cada gancho en una fila
+    gancho; con la pieza APAGADA, que el mod no escriba sus ganchos ni su codigo; PRENDIDA, que escriba los dos ganchos
+    con el `jal` a R4A y R4B, y que el mod ensamble sin pisar otra fila."""
+    import coop_mod as cm
+    import coop_pausa as cp
+    errores = ["pausa: " + e for e in cp.problemas()]
+    plan = leer_plan(doc) or []
+    prog = cp.programa()
+    desde, hasta = prog[0][0], prog[-1][0] + 4
+    en_plan = any(f["tipo"] == "reserva" and f["nombre"].startswith("pausa propia (c") and f["desde"] <= desde
+                  and hasta <= f["hasta"] for f in plan)
+    en_rangos = any(f["tipo"] == "codigo" and f["nombre"].startswith("pausa")
+                    and (f["desde"], f["hasta"]) == (desde, hasta) for f in filas_rangos)
+    if not (en_plan or en_rangos):
+        errores.append("pausa: el codigo [%#x, %#x) no cae en su reserva del plan ni en una fila de coop-rangos con el "
+                       "rango exacto" % (desde, hasta))
+    if en_rangos and not con_por_defecto:
+        errores.append("pausa: coop_mod.CON_PAUSA apagada por defecto con su fila en coop-rangos: el acceso COOP "
+                       "instalaria sin la pieza")
+    if not any(f["tipo"] in ("reserva", "datos") and f["nombre"].startswith("pausa propia (d" if f["tipo"] == "reserva"
+                                                                              else "pausa")
+               and f["desde"] <= cp.DATOS and cp.DATOS_FIN <= f["hasta"] for f in plan + list(filas_rangos)):
+        errores.append("pausa: los datos [%#x, %#x) fuera de la reserva «pausa propia (datos)»" % (cp.DATOS, cp.DATOS_FIN))
+    for pc, _, texto in cp.ganchos():
+        if not any(f["tipo"] == "gancho" and f["desde"] <= pc < f["hasta"] for f in plan + list(filas_rangos)):
+            errores.append("pausa: gancho %#x (%s) sin fila gancho" % (pc, texto[:40]))
+    esperados = {pc: w for pc, w, _ in cp.ganchos()}
+    viejo = cm.CON_PAUSA
+    try:
+        cm.CON_PAUSA = False
+        g = {pc: w for pc, w, _ in cm.programas()[-1][1]}
+        if any(pc in g for pc in esperados) or any(n == "pausa propia" for n, _ in cm.programas()[:-1]):
+            errores.append("pausa: con la pieza APAGADA el mod igual escribe sus ganchos o su codigo")
+        cm.CON_PAUSA = True
+        try:
+            progs = cm.programas()
+        except Exception as e:                                   # noqa: BLE001
+            progs = None
+            errores.append("pausa: con la pieza prendida el mod no ensambla (%s: %s)" % (type(e).__name__, e))
+    finally:
+        cm.CON_PAUSA = viejo
+    if progs is not None:
+        g = {pc: w for pc, w, _ in progs[-1][1]}
+        for pc, w in esperados.items():
+            if g.get(pc) != w:
+                errores.append("pausa: con la pieza prendida el gancho %#x no es el `jal` a su rutina" % pc)
+        propios = {n for n, _ in progs[:-1]}
+        for nombre, p in progs[:-1]:
+            d, h = min(pc for pc, _, _ in p), max(pc for pc, _, _ in p) + 4
+            for f in list(filas_rangos) + plan:
+                if f["nombre"] in propios or f["tipo"] == "gancho":
+                    continue
+                if d < f["hasta"] and f["desde"] < h and not (f["desde"] <= d and h <= f["hasta"]):
+                    errores.append("pausa: con la pieza prendida '%s' [%#x, %#x) pisa '%s'" % (nombre, d, h, f["nombre"]))
     return errores
 
 

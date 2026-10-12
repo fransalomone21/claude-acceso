@@ -184,6 +184,13 @@ traer J2 (código)              | 0x0046F100 | 0x0046F180 | reserva | -         
 # cargar; sesiones/PREDICCIONES-126.md P4/P5): volvió acá, apagada, hasta resolver el doble búfer de armas (F7b, docs/16)
 soporte2 (datos)               | 0x0046FD00 | 0x00470060 | reserva | -                                   | (125)
 soporte2 (código)              | 0x00470080 | 0x00470180 | reserva | -                                   | (125)
+# (128) R4 de F7b, la pausa en su propio montón (coop_pausa.py, docs/16 (128)): dos ganchos en FUN_0020AEA0 y el
+# montón 22 sobre memoria pedida a malloc una vez. Los datos NO van en el pnach (lo reescribe cada cuadro); en cero en
+# los 16 volcados. APAGADA hasta su prueba (n27_banco.py --rama pausa y f7b_pausa.py --con-soporte2)
+pausa propia (datos)           | 0x0046F1C0 | 0x0046F1D0 | reserva | -                                   | (128)
+pausa propia (código)          | 0x0046F200 | 0x0046F300 | reserva | -                                   | (128)
+pausa: vaciar el otro (gancho) | 0x0020AEF4 | 0x0020AEF8 | gancho  | jal 0x001438C8                      | (128)
+pausa: cargar el menú (gancho) | 0x0020AF84 | 0x0020AF88 | gancho  | jal 0x00143F90                      | (128)
 ```
 
 ## 4. Interfaz con los otros mods

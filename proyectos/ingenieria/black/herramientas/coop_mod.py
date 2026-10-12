@@ -883,6 +883,13 @@ def programas():
         # despues del constructor de J2
         import coop_soporte2
         progs.append(("soporte de J2", coop_soporte2.programa()))
+    if CON_PAUSA:
+        # (128) R4 de F7b, la pausa en su propio monton (coop_pausa.py, docs/16 (128)): el menu se carga en el monton 22
+        # (memoria pedida a malloc una vez) y la pausa no vacia el bufer «otro» del doble bufer de armas. APAGADA hasta
+        # su prueba en vivo (n27_banco.py --rama pausa, f7b_pausa.py --con-soporte2); `--con-pausa` la prende
+        import coop_pausa
+        progs.append(("pausa propia", coop_pausa.programa()))
+        ganchos += coop_pausa.ganchos()
     return progs + [("ganchos", ganchos)]
 
 
@@ -902,6 +909,9 @@ CON_SOPORTE2 = False  # (126) APAGADA por defecto OTRA VEZ. Paso su banco (sesio
                       # arma y J1 pausa, el menu queda a medio cargar (2 de 2 con la pieza, 0 de 1 sin ella;
                       # sesiones/PREDICCIONES-126.md P4/P5). Causa de fondo: el doble bufer de recursos de arma es de
                       # UN jugador (docs/16 (126), F7b). `--con-soporte2` la prende para las pruebas
+
+
+CON_PAUSA = False  # (128) R4 de F7b (coop_pausa.py), APAGADA hasta su prueba en vivo; `--con-pausa` la prende
 
 
 CON_HUD = True  # (115) PRENDIDO por defecto; `--sin-hud` es el control y `--con-hud` se acepta y no hace nada
@@ -947,14 +957,22 @@ def _soporte2(a):
     return True if getattr(a, "con_soporte2", False) else CON_SOPORTE2
 
 
+def _pausa(a):
+    """(128) R4: el default de CON_PAUSA, salvo que el comando diga --con-pausa o --sin-pausa."""
+    if getattr(a, "sin_pausa", False):
+        return False
+    return True if getattr(a, "con_pausa", False) else CON_PAUSA
+
+
 def cmd_listar(_a):
-    global SIN_R3, CON_IA, CON_HUD, CON_SONIDO, CON_SUB3, CON_SOPORTE2
+    global SIN_R3, CON_IA, CON_HUD, CON_SONIDO, CON_SUB3, CON_SOPORTE2, CON_PAUSA
     SIN_R3 = getattr(_a, "sin_r3", False)
     CON_IA = not getattr(_a, "sin_ia", False)
     CON_HUD = not getattr(_a, "sin_hud", False)
     CON_SONIDO = _sonido(_a)
     CON_SUB3 = _sub3(_a)
     CON_SOPORTE2 = _soporte2(_a)
+    CON_PAUSA = _pausa(_a)
     for nombre, prog in programas():
         print("== %s: %d palabras, %#010x..%#010x" % (nombre, len(prog), prog[0][0], prog[-1][0] + 4))
         for pc, w, t in prog:
@@ -1167,12 +1185,13 @@ def cmd_instalar(_a):
     SIN_AISLAR = getattr(_a, "sin_aislar", False)
     SIN_R3 = getattr(_a, "sin_r3", False)
     SIN_OCULTAR_J = not getattr(_a, "con_ocultar_j", False)
-    global CON_IA, CON_HUD, CON_SONIDO, CON_SUB3, CON_SOPORTE2
+    global CON_IA, CON_HUD, CON_SONIDO, CON_SUB3, CON_SOPORTE2, CON_PAUSA
     CON_IA = not getattr(_a, "sin_ia", False)
     CON_HUD = not getattr(_a, "sin_hud", False)
     CON_SONIDO = _sonido(_a)
     CON_SUB3 = _sub3(_a)
     CON_SOPORTE2 = _soporte2(_a)
+    CON_PAUSA = _pausa(_a)
     viejo =PARCHES.read_bytes().decode("utf-8")
     base = _sin_bloque(viejo).rstrip("\r\n")
     nl = "\r\n" if "\r\n" in viejo else "\n"
@@ -1185,6 +1204,7 @@ def cmd_instalar(_a):
     print(json.dumps({"pnach": str(PARCHES), "respaldo": r.name, "palabras": sum(len(x[1]) for x in programas()),
                       "ranura3": not SIN_R3, "hud_doble": CON_HUD,
                       "sonido_j2": CON_SONIDO and not SIN_AISLAR, "sub3_j2": con_sub3(), "soporte2_j2": CON_SOPORTE2,
+                      "pausa_propia": CON_PAUSA,
                       "ajuste_intacto": "Enable = %s" % NOMBRE_BLOQUE not in AJUSTES.read_text(encoding="utf-8")}))
     return 0
 
@@ -1217,8 +1237,10 @@ def main() -> int:
     li.add_argument("--con-sonido", action="store_true"); li.add_argument("--sin-sonido", action="store_true")
     li.add_argument("--con-sub3", action="store_true"); li.add_argument("--sin-sub3", action="store_true")
     li.add_argument("--con-soporte2", action="store_true"); li.add_argument("--sin-soporte2", action="store_true")
+    li.add_argument("--con-pausa", action="store_true"); li.add_argument("--sin-pausa", action="store_true")
     ins = sub.add_parser("instalar"); ins.add_argument("--sin-aislar", action="store_true")
     ins.add_argument("--con-soporte2", action="store_true"); ins.add_argument("--sin-soporte2", action="store_true")
+    ins.add_argument("--con-pausa", action="store_true"); ins.add_argument("--sin-pausa", action="store_true")
     ins.add_argument("--con-hud", action="store_true"); ins.add_argument("--sin-hud", action="store_true")
     ins.add_argument("--con-sonido", action="store_true"); ins.add_argument("--sin-sonido", action="store_true")
     ins.add_argument("--con-sub3", action="store_true"); ins.add_argument("--sin-sub3", action="store_true")

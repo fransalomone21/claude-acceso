@@ -1559,3 +1559,66 @@ por armas que se dibujan: **cualquier** carga (2–5) cae sobre la de alguien, y
   `0x80001578` (núcleo), todos los hilos en espera, `Cause` = 0x20 (syscall), `EPC` = `0x0027DBFC` (un `nop`, no
   cierra), `v1` = 0x01010101 (`volcados/arma/f7b-pausa-20261011-200815/hilos.json`). Mismo cuadro que el «Syscall:
   undefined» de (123). Es la configuración con la que juega Fran: se reproduce antes de seguir fabricando sobre ella.
+
+## (128) N27 reproducida, y R4 a nivel instrucción
+
+> Notebook, sin Fran, 2026-10-11. En vivo: `herramientas/n27_banco.py` (`sesiones/PREDICCIONES-128.md`). En frío:
+> `black-datos/decompilado/0x0010.c`, `0x0014.c`, `0x0020.c`, `0x0026.c` y las instrucciones del ELF
+> (`desensamblar.py`).
+
+**N27 es de la pausa (`confirmado` como condición, con control):** pnach por defecto, J2 con la 2.ª arma en la mano y
+J con la pistola sola; con la pausa antes del cambio de J2 a la pistola, **2 de 2 caídas** (3 de 3 con la de (127));
+sin la pausa, misma espera, **0 de 2**. Lo que la pausa cambia, medido paso a paso: vacía el «otro» (estado 9, clave
+0), que con estas armas es **el búfer de la pistola en la mano de J**; al volver, la precarga de J2 lo recarga
+(estado 8, clave de la pistola, `+0x14` = 0); el cambio alterna sobre esa recarga y el EE queda en el lazo de
+«syscall indefinida» del núcleo (`0x80001564`: `printf` y un `jr ra` sobre sí mismo). Las dos caídas con los mismos
+registros: `EPC` `0x0026ECF0` es el punto de vuelta de un hilo (un `sw`), no la instrucción que falló; `t3` = el cue
+del búfer recargado, `t7` = J2. El mecanismo (qué escribe dónde) sigue `hipótesis`. **R4 lo tapa:** sin la pausa
+tocando el doble búfer, la secuencia queda igual a la del control.
+
+**La pausa, leída a nivel instrucción** (`FUN_0020AEA0`, máquina en `menu+0x3924`):
+- Estado 1: `0x0020AEF4 jal 0x001438C8` (delay `lw a0, -0xAC0(v0)` = el doble búfer) pide el «otro» con clave 0 y
+  devuelve verdadero recién cuando quedó en estado 9 (vaciado). Después `FUN_00108458(cargador, 7, 0xC)`: si el menú ya
+  está registrado (tipo 7, id 0xC) salta al estado 3 sin cargar nada. Si no, espera la ranura 6 libre (`+0x8B8`,
+  `+0x8B9`) y en `0x0020AF84 jal 0x00143F90` (delay `addiu t0, zero, 1`; `a1` = la ruta de `PseMenu.bin`, `a2` =
+  `0x0020AAC8`, `a3` = 0xC) pide la carga; estado 2.
+- `FUN_00143F90` sólo pide si el «otro» está en 9, con `FUN_001093C0(*(0x0040F4C4), a1, 6, *(otro+0), a2, a3, t0,
+  0x2000000)`: `t1` = `a3`, `t2` = `t0`, `t0` = `a2`, `a3` = **el id de montón del «otro»** (13 o 14), `t3` =
+  0x2000000. Es el único lugar donde la pausa elige montón.
+- El callback `0x0020AAC8` no toca el doble búfer: registra los datos como tipo 7, id 0xC (`FUN_00108540`). La salida
+  (`FUN_0020AFF8`, desde `FUN_0020B0C0` y los tres de `0x0021.c`) baja la cuenta y llama a `FUN_001438E8`, que **sólo**
+  pone en 0 un «otro» que esté en 9. `FUN_001438C8` y `FUN_00143F90` no tienen otro que los llame; nada más del menú
+  lee el estado 9.
+- El cargador usa el id de montón de forma genérica (`FUN_00107AB8`, `FUN_00107D20`, `FUN_00107B18`:
+  `0x40F0F0 + 4 + id × 0x24`; `FUN_00107BC0` recorre los **26**: `slti v0, s1, 0x1a` en `0x00107BF8`), y con «soltar
+  antes» vacía el montón y borra sus registros (`FUN_00108668`). **Nadie pide el montón 22** (control: en los 20
+  pedidos con id literal a `FUN_001093C0` aparecen 1, 2, 6, 7, 8, 9 y 0x19, nunca 0x16), y su entrada `0x0040F40C`
+  está en cero en los 16 volcados.
+- `malloc` es `FUN_0035E7D8` (con candado); el juego mismo prevé que devuelva 0 (`0x0012.c`: si no le dan 0x1A883FF
+  pide 0x19883FF). El bloque de los montones se pide **una vez**, en el arranque (`FUN_00264018` → `FUN_00125208`), y
+  se alinea a 0x800. `FUN_00107A08(entrada, inicio, -1, tamaño)` arma una entrada: `+0x1C` = −1, `+0x20` = inicio, y
+  `FUN_00274E68` pone inicio/fin/cursor y **`activo` (byte en +0) = 1** (`sb v0, (s0)` en `0x00274E98`).
+
+**R4, el diseño (dos ganchos y dos rutinas; `coop_pausa.py`, apagada hasta su prueba):**
+- **`R4A`** reemplaza `jal 0x001438C8` en `0x0020AEF4`. Si el byte `activo` de la entrada 22 (`0x0040F40C`) es ≠ 0:
+  devuelve 1 sin tocar el doble búfer. Si no, y no falló antes: `p = malloc(0x35800 + 0x7FF)`; si `p` ≠ 0,
+  `FUN_00107A08(0x0040F40C, (p + 0x7FF) & ~0x7FF, −1, 0x35800)` y devuelve 1; si `p` = 0, marca la falla y salta a
+  `FUN_001438C8` con su `a0` (el camino original, desde ahí hasta que se cierre el emulador). La fuente de verdad es el
+  `activo` del juego, no una bandera del mod: si el juego se reinicia sin cerrar el emulador, la entrada vuelve a cero
+  y R4A pide memoria de nuevo (la del arena viejo ya no vale).
+- **`R4B`** reemplaza `jal 0x00143F90` en `0x0020AF84`. Si la entrada 22 está activa: `FUN_001093C0(*(0x0040F4C4),
+  a1, 6, 22, a2, a3, t0, 0x2000000)` — exactamente los registros de `FUN_00143F90`, con 22 en vez de `*(otro+0)`. Si
+  no: salta a `FUN_00143F90` sin tocar nada.
+- **Tamaño:** `PseMenu.bin` = 215 400 B → el cargador reserva el tamaño redondeado a 0x800 = **0x35000** (medido en
+  `ee-11.bin`: el montón 14 con 0x35000 usados). Montón de **0x35800** (un sector de margen, 2 KB); `malloc` de
+  0x35FFF para alinear a 0x800 como el bloque del juego.
+- **Datos** (reserva `pausa propia (datos)` `0x0046F1C0`–`0x0046F1D0`, en cero en los 16 volcados; **no** van en el
+  pnach, que reescribe cada cuadro): `+0` el `p` crudo, `+4` la falla, `+8` cuántas veces se pidió memoria (testigo:
+  1 por arranque), `+0xC` cuántas cargas fueron al montón 22 (testigo de R4B). **Código** en `0x0046F200`–`0x0046F300`.
+- **Lo que no se toca:** la salida (`FUN_0020AFF8` → `FUN_001438E8`) queda igual: con R4 el «otro» nunca llega a 9 por
+  la pausa, así que el reseteo no hace nada. El menú queda registrado en el montón 22 entre pausas (nadie más lo
+  vacía), y la segunda pausa lo encuentra y no lo vuelve a leer — lo mismo que ya pasa hoy con un jugador de una sola
+  arma. Riesgo que sólo se mide en vivo: que algo desactive la entrada 22 en un cambio de nivel (el testigo `+8`
+  subiría más de 1 por arranque).
+- **Predicción para su prueba:** con R4, `n27_banco.py --rama pausa` 0 caídas de 2 y el «otro» nunca en 9;
+  `f7b_pausa.py --con-soporte2` sin la traba; el testigo de cargas ≥ 1 y el de memoria = 1 en dos cargas seguidas.
