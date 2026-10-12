@@ -86,6 +86,19 @@
         {"ruta": "{memoria}/feedback_necesidades-abiertas.md", "por": "clase nueva o requisitos; herramientas y respaldo"}
       ]
     },
+    "lluvia-de-ideas": {
+      "que": "MOMENTO LLUVIA DE IDEAS (Fran, 2026-10-12): frenar la ejecucion de un proyecto grande, mirarlo desde arriba y redireccionarlo hacia las decisiones creativas ganadoras, de lo fundamental a lo especifico, buscando afuera lo que otros ya resolvieron. Lo dispara cascada.ps1 (lluvia-de-ideas.py: sesiones auditadas desde la ultima, contra el 'lluvia' del proyecto), un cambio de fase, algo que cuesta mucho mas de lo que deberia, o Fran",
+      "herramientas": ["/lluvia-de-ideas (el procedimiento y el molde del documento)", "WebSearch con amplitud (extended para lo nicho): sistemas heredados y analogos, otros proyectos que ya resolvieron lo mismo, cada uno con su fuente y su grado", "Grep del repo entero: lo que ya resolvio otro proyecto de la casa", "python lluvia-de-ideas.py aviso <proyecto> | --autotest | --sabotaje", "las decisiones de valor a Fran (2 o 3 preguntas); su respuesta al PDP (KDP) y a memoria", "respaldo: en la lluvia no se toca el producto; se escribe <proy>/docs/<n>-lluvia-de-ideas-AAAA-MM-DD.md y nada mas"],
+      "leer": [
+        {"ruta": "~/.claude/skills/lluvia-de-ideas/SKILL.md", "por": "el procedimiento, de lo fundamental a lo especifico, y el molde del documento"},
+        {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m24-crear-arquitecturas.typ", "por": "la catedra: sintesis y descubrimiento, los cuatro metodos, los factores de balance; el proceso vuelve a las necesidades"},
+        {"ruta": "perfil-global/pilares/nasa-seh/diseno.md", "desde": "^## 3\\. Define Alternative", "hasta": "^## 5\\. ", "por": "NASA 4.4: refinamiento sucesivo, amplitud, el sesgo del autor, la trampa del heritage"},
+        {"ruta": "perfil-global/pilares/nasa-seh/datos-decision.md", "desde": "^### 3\\.7 ", "hasta": "^### 3\\.12 ", "por": "NASA 6.8: cuando un analisis formal, quien decide, criterios, alternativas por brainstorming y por busqueda de sistemas relacionados"},
+        {"ruta": "perfil-global/pilares/incose-seh/mapeo-15288.md", "desde": "^#### \\(c\\) Agile", "hasta": "^#### \\(d\\)", "por": "INCOSE agil: conciencia situacional continua; una etapa puede cerrar con conocimiento que cancela la siguiente"},
+        {"ruta": "{memoria}/feedback_lluvia-de-ideas.md", "por": "lo que pidio Fran, con sus palabras"},
+        {"ruta": "{memoria}/feedback_opinion-constructiva.md", "por": "ante una mejora, primero que se saca; franqueza, con alternativa"}
+      ]
+    },
     "ninguna": {
       "que": "nada mas que lo del proyecto (la base). Se declara igual: decir 'ninguna' es un acto, no un olvido",
       "leer": []
@@ -134,6 +147,8 @@
 
   "_senales_y_locales": "senales: regex (sin mayusculas) que reconocen el proyecto en el PEDIDO de Fran; locales: carpetas fuera del arbol que son del proyecto (la mas larga gana). La puerta exige la cascada con cualquiera de las dos (leccion 331, 2026-10-02). senales_debiles: vocabulario del tema ('punteros'), no el nombre del proyecto; frenan igual SALVO que el mismo pedido nombre otro proyecto con una senal fuerte o la sesion ya este en otro, y ahi solo avisan (leccion 372, 2026-10-09; Fran lo aprobo para 'punteros' y 'programacion').",
 
+  "_lluvia": "Los proyectos de esta magnitud (programas, diseno largo, el metodo) declaran 'lluvia': {'cada': N}: cada cuantas sesiones auditadas toca un MOMENTO LLUVIA DE IDEAS. Lo mide lluvia-de-ideas.py (lo corre cascada.ps1) contra la fecha del ultimo <proy>/docs/*lluvia-de-ideas-AAAA-MM-DD.md. Fran, 2026-10-12.",
+
   "proyectos": {
     "apunte-iise":           {"necesidades": ["materia"],
                               "senales": ["\\biise\\b", "introducci[oó]n a la ingenier[ií]a de sistemas espaciales"],
@@ -164,8 +179,10 @@
     "teoria-circuitos":      {"necesidades": ["materia"],
                               "senales": ["teor[ií]a de circuitos", "\\btdc\\b", "\\bsanca\\b", "ltspice"],
                               "locales": ["~/Desktop/01 - UNSAM/Teoria de Circuitos"]},
-    "arquitectura-se":       {"necesidades": ["metodo"]},
+    "arquitectura-se":       {"necesidades": ["metodo"],
+                              "lluvia": {"cada": 10}},
     "black":                 {"necesidades": ["ingenieria-inversa"],
+                              "lluvia": {"cada": 10},
                               "comandos": ["ingenieria/black/abrir-sesion.ps1"],
                               "vistas": {"ESTADO_ACTUAL.md": {"vista_h2": 3, "tope": 300}},
                               "senales": ["(?-i:BLACK)", "pcsx2"]},
@@ -176,6 +193,7 @@
                               "senales": ["\\bagust[ií]n\\b"]},
     "telefono-samsung":      {"necesidades": ["ingenieria-inversa"]},
     "telescopio":            {"necesidades": ["diseno"],
+                              "lluvia": {"cada": 10},
                               "requisitos": "docs/10-requisitos.md",
                               "senales": ["telescopio", "\\bdobson\\b"]},
     "coaching":              {"necesidades": [],

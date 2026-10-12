@@ -367,6 +367,10 @@ if ($Excepcion) {
     if ($Necesidad) { $pyArgs += @('--necesidad', ($Necesidad -join ',')) }
     $ErrorActionPreference = 'Continue'
     & python @pyArgs 2>&1 | ForEach-Object { Write-Host $_ }
+    # El MOMENTO LLUVIA DE IDEAS (Fran, 2026-10-12): el medidor a la vista, con su umbral, en cada entrada a un
+    # proyecto que declara 'lluvia' en .claude/cascada.json. Sin cadencia no imprime nada.
+    $ll = Join-Path $Raiz 'lluvia-de-ideas.py'
+    if (Test-Path -LiteralPath $ll) { & python $ll aviso $pr.Nombre 2>&1 | ForEach-Object { Write-Host $_ } }
     $ErrorActionPreference = 'Stop'
 } else {
     # aviso y no faltante: en un repo sintetico (probar-cascada.ps1) no esta, y en el real lo mide --verificar

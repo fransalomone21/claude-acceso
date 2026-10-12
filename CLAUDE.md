@@ -59,9 +59,11 @@ proyecto hasta declarar la necesidad y leer con Read lo que pide el catálogo
 
 Necesidades: `materia`, `ingenieria-inversa`, `diseno`, `metodo`,
 `investigar`, `publicar`, `nueva` (no encaja: se escribe como requisitos),
-`ninguna`. `cascada.ps1` imprime juntas la fila de acá y el encabezado del
-`ESTADO_ACTUAL`: si no coinciden, **manda el proyecto**. Imprime también las
-**lecciones** del proyecto.
+`lluvia-de-ideas` (frenar y redireccionar un proyecto grande, de lo
+fundamental a lo específico), `ninguna`. `cascada.ps1` imprime juntas la fila
+de acá y el encabezado del `ESTADO_ACTUAL`: si no coinciden, **manda el
+proyecto**. Imprime también las **lecciones** del proyecto y, en los grandes,
+el medidor del **momento lluvia de ideas** («N de M sesiones desde la última»).
 
 **Desde el 2026-10-07** (nueve sesiones del telescopio diseñaron sin requisitos):
 
@@ -234,4 +236,5 @@ una carpeta por materia. Dos remotes de `rclone`, el mismo token, distinto
 - **¿Una sesión en la nube puede seguir cualquier proyecto?**: `python .claude\nube\estado-nube.py` (lo subido y la memoria; corre en el arranque) y `--simular` (arma lo que la nube ve desde GitHub y le pregunta a la puerta). En la nube, un proyecto con repo propio se trae con `python3 .claude/nube/estado-nube.py --traer <proyecto>`. La memoria de la PC viaja espejada en `perfil-global/memoria` (`--sincronizar-memoria`).
 - **¿El fan-out no se decide solo?**: el guardia `perfil-global/hooks/guardia-fanout.ps1` pregunta (`perfil-global\probar-guardia-fanout.ps1`).
 - **¿Las lecciones llegan?**: `python perfil-global\herramientas\aprender.py sin-triage` (`perfil-global\probar-chequeo-lecciones.ps1`).
+- **¿Le toca a un proyecto grande el momento lluvia de ideas?**: `python lluvia-de-ideas.py aviso <proyecto>` (lo corre `cascada.ps1`; la cadencia es `"lluvia"` en `.claude/cascada.json`), `--autotest` y `--sabotaje`; el procedimiento, `/lluvia-de-ideas`.
 - **Las ramas viejas**: [`archivo/RAMAS.md`](archivo/RAMAS.md).
