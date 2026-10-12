@@ -26,6 +26,9 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | N-03 | Que nada demore el arranque ni frene sin motivo. | ídem; T1, T11 |
 | N-04 | Que el ciclo de vida NASA se ejecute por la FASE del proyecto, sin depender de una palabra o de leer un aviso. | Fran, 2026-10-12 (insumo NASA por etiqueta) |
 | N-05 | Que todo error de la arquitectura del método quede registrado y no se dé por cerrado sin prueba. | Fran, 2026-10-12 (registro de defectos) |
+| N-06 | **Cero divergencias, como ley transversal**: que ningún dato del método ni de un proyecto viva en dos lugares que puedan contradecirse; «debe ser lo más cuidado». | Fran, 2026-10-12 17:00 |
+| N-08 | **NASA y ágil en la proporción que pide cada proyecto**: «saber usar NASA y ágiles en proporciones adecuadas a la complejidad del proyecto o necesidades». | Fran, 2026-10-12 17:05 |
+| N-07 | **Que el costo escale con la necesidad**: una pregunta que no es de un proyecto se contesta en un párrafo sin leer «1000 párrafos»; la cascada escala conocimiento, memorias, hooks y complejidad según el proyecto, la necesidad y su naturaleza. | Fran, 2026-10-12 17:00 |
 
 ## 2. Nivel 0 — el método
 
@@ -35,6 +38,9 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | L0-02 | N-02 | El método deberá mantener el contexto que impone por sesión por debajo del costo medido como línea base. | ensayo: `medir-costo.py --ultimas 3` |
 | L0-03 | N-04 | El método deberá exigir los productos NASA de la Fase_De_Desarrollo de cada proyecto. | ensayo: autotest de la puerta y `medir-fases.py` |
 | L0-04 | N-05 | El método deberá registrar cada defecto de arquitectura con la evidencia del defecto. | inspección: `defectos.py verificar` |
+| L0-05 | N-06 | El método deberá asignar a cada dato un único archivo dueño. | ensayo: medidor de divergencias (a diseñar, T20) |
+| L0-06 | N-07 | El método deberá imponer a cada sesión un costo de contexto proporcional a la necesidad declarada. | ensayo: `medir-costo.py` por tipo de sesión (a extender, T19) |
+| L0-07 | N-08 | El método deberá graduar el rigor NASA y el ritmo ágil de cada proyecto según la complejidad y la incertidumbre del proyecto. | inspección: la matriz de cumplimiento y el selector de rigor del PDP (P2, P3; DA-004, DA-005) |
 
 ## 3. Nivel 1 — el método como sistema
 
@@ -45,6 +51,11 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | L1-03 | L0-01 | La puerta deberá negar entre el 0 % y el 5 % de las decisiones de una sesión. | TBR: 46 negadas en 2 115 decisiones (2,2 %) en 21 sesiones auditadas; más negadas por sesión empujan a sacar el freno (Saltzer, aceptabilidad psicológica). | análisis: P6 de las auditorías |
 | L1-04 | L0-03 | La puerta deberá exigir el Documento_De_Requisitos a cada proyecto en Fase_De_Desarrollo. | Es T13: hasta el 2026-10-12 la exigencia era opt-in y 6 de 22 proyectos en A–D no tenían requisitos. | ensayo: autotest de la puerta |
 | L1-05 | L0-04 | El registro de defectos deberá cerrar cada defecto con commit, prueba, saboteador y tres sesiones auditadas posteriores. | Fran: «que no se validen fácilmente». | ensayo: `defectos.py --autotest` |
+| L1-06 | L0-05 | Cuando un dato aparece en más de un archivo, el verificador de divergencias deberá dar ROJO si la copia difiere del archivo dueño del dato. | Fran, ley de cero divergencias. Antecedentes: DA-012, DA-017, DA-036 y T2 (un dueño por dato, diseñado en el diagnóstico del 2026-09-28 y nunca construido). Una copia sólo es aceptable como vista GENERADA del dueño o como puntero. | ensayo: copia sintética divergente en rojo; saboteador |
+| L1-07 | L0-06 | Cuando la sesión responde una pregunta sin proyecto, el método deberá inyectar entre 0 y 30 000 caracteres. | TBR: hoy entran unos 88 000 fijos en TODA sesión (perfil, enrutador, memoria, pilares, núcleo del chequeo, apertura), sea cual sea la pregunta (mapa, subsistema de inyección). El valor lo fija el diseño T19 contra lo que la regla 16 exige que llegue siempre. | ensayo: `medir-costo.py` sobre una sesión sin proyecto |
+| L1-09 | L0-07 | Cuando un proyecto escribe el Documento_De_Requisitos, el PDP del proyecto deberá declarar el rigor elegido para los requisitos con la complejidad y la incertidumbre que lo justifican. | Fran: NASA y ágil en proporción. T13 exige que el documento EXISTA; su tamaño escala con el proyecto (cinco requisitos con su verificación valen para un proyecto chico). Lo que no se sabe se descubre con spikes (nucleo-ise §2b). | inspección: `medir-matriz.py` sobre el PDP |
+| L1-10 | L0-07 | Cuando la sesión abre una fase de un proyecto, la sesión deberá estimar la complejidad del proyecto con preguntas a Fran Y con referencias a proyectos anteriores o vigentes de la casa. | Fran, 2026-10-12 17:08: «tomar la complejidad preguntándome y de referencias de proyectos anteriores o vigentes». Es estimación por analogía (NASA 6.8: búsqueda de sistemas relacionados) más el juicio del interesado; la complejidad elegida alimenta L1-09. | inspección: el PDP §3 nombra las preguntas hechas y los proyectos de referencia |
+| L1-08 | L0-06 | Cuando la sesión declara una necesidad de un proyecto, la puerta deberá exigir la lectura que corresponde a esa necesidad y a la naturaleza del proyecto. | La escalera de Fran: conocimiento, memorias, hooks y complejidad crecen con el proyecto y la necesidad, no con la palabra suelta (T14) ni con un piso fijo. | ensayo: autotest de la puerta |
 
 ## 4. Nivel 2 — los elementos de T13 («la fase manda»)
 

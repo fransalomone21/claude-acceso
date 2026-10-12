@@ -2,6 +2,19 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
+**2026-10-12 (sesión de arquitectura `de44da9d`) — T13 CONSTRUIDO, 15 defectos nuevos, el orden de lo que sigue.**
+El método tiene **requisitos propios** ([`docs/10-requisitos.md`](docs/10-requisitos.md) v0.1: N-01..N-05, L0, L1 y
+los L2 de T13 y T14; 0 VIOLA del GtWR) y **T13 «la fase manda» está construido** (`70871b2`): la puerta exige el
+documento de requisitos por la FASE A–D del PDP y niega al entrar salvo escribirlo y el registro; la auditoría da
+ROJO en P7; la compuerta lista los productos; el verificador lista 5 expuestos (apunte-iise, black, cohete-de-agua,
+minecraft-amigos, software-de-vuelo) y 8 fases sin tipo. Probado: autotests de las tres piezas, `probar-t13.py` (4
+mutantes), `chequeo-completo` con 23 saboteadores OK; DA-027/028/029/033 **arreglados** (falta validarlos). La
+búsqueda de defectos (8 lentes, 3 escépticos por candidato) registró **DA-039 a DA-053**
+([`docs/hallazgos-2026-10-12.md`](docs/hallazgos-2026-10-12.md)); no se agotó (el límite cortó dos rondas). **El orden,
+con las decisiones de Fran**, en [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6:
+T14 → T17 → T15 → T16 → T18, uno por sesión nueva. Costo de la sesión: dos ventanas de 5 h y del 34 % al 63 % del
+semanal, casi todo en dos fan-outs (la lección quedó, con su viñeta primera en «ANTES DE ABRIR FAN-OUT»).
+
 **2026-10-12 — insumo de validación: NASA por etiqueta (T13, va PRIMERO).** En la sesión 129 de BLACK, Fran vio que
 el coop había pasado por las fases A, B y C sin requisitos, alcance ni plan de V&V, y pidió revisar la arquitectura
 «para que NASA no dependa de leer un hook o de una palabra mágica». **Medido** (`medir-fases.py`, control positivo con

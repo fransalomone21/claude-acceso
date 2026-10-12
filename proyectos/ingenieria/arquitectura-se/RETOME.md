@@ -1,75 +1,74 @@
-# Retome — sesiones de arquitectura del método (creativas, en ultracode)
+# Retome — sesiones de arquitectura del método
 
-Pegar tal cual como primer mensaje del chat siguiente. Pedido de Fran (2026-10-12): «así podemos ver todos los errores
-conceptuales y registrarlos; le dedicamos sesiones específicas sólo para eso, no mecánicas sino creativas; haremos lo
-necesario para optimizar el desempeño al máximo: modificar, eliminar, agregar o evolucionar. Dedicaremos a
-arquitectura en ultracode». T13 (insumo 2026-10-12, §5) queda como **la primera implementación** que salga de acá.
+Pegar tal cual como primer mensaje del chat siguiente. Escrito al cerrar la sesión `de44da9d` (2026-10-12), que
+construyó T13, registró DA-039..DA-053 y dejó el orden de lo que sigue (`docs/lluvia-de-ideas-2026-10-12.md` §6).
+**No nombra otros proyectos a propósito:** la puerta todavía infiere proyectos del texto pegado (es justo T14), y un
+nombre acá frenaría la sesión por un proyecto que no se toca.
 
 ```
-Retomo el MÉTODO (proyectos/ingenieria/arquitectura-se) en una SESIÓN DE ARQUITECTURA, CREATIVA, EN ULTRACODE: encontrar,
-registrar y arreglar los problemas CONCEPTUALES de la arquitectura del método —modificar, eliminar, agregar o evolucionar
-lo que haga falta— para llevar su desempeño al máximo. No es una sesión mecánica: es descubrimiento y diseño. El registro
-es perfil-global/DEFECTOS-ARQUITECTURA.md (al 2026-10-12: 38 defectos, 37 abiertos, DA-034 arreglado sin validar), que
-sólo escribe perfil-global/herramientas/defectos.py y que no deja cerrar nada sin commit + prueba + saboteador + 3
-sesiones auditadas después.
+Retomo el MÉTODO (proyectos/ingenieria/arquitectura-se): T14, «la puerta infiere el proyecto sólo de lo que escribe
+Fran». Es el primero del orden de docs/lluvia-de-ideas-2026-10-12.md §6 (T14 -> T20 -> T19 -> T17 -> T15 -> T16 ->
+T18, uno por sesión). Criterio de Fran para estas sesiones: desempeño > costo > plazo (tardar más está bien, gastar
+de más no); sin fan-out salvo diseño escrito y costo estimado por ronda. Y dos LEYES transversales (Fran, 2026-10-12,
+N-06 y N-07 de docs/10-requisitos.md): CERO DIVERGENCIAS (cada dato con un archivo dueño; «lo más cuidado») y COSTO
+PROPORCIONAL (una pregunta suelta no carga la cascada; todo escala con proyecto, necesidad y naturaleza).
 
 0. EL LIBRO PRIMERO: si ~/.claude/CLAUDE.md no empieza con «# Perfil global», correr
    `bash .claude/nube/traer-perfil.sh` en claude-acceso y leer lo que liste (en la PC llega solo).
-1. LEER: `.\cascada.ps1 arquitectura-se -Necesidad metodo,lluvia-de-ideas` y CON Read cada rango que imprima (la puerta;
-   lluvia-de-ideas trae el método creativo: el m24 de la cátedra, NASA 4.4 y 6.8, INCOSE ágil y /lluvia-de-ideas).
-   Después: `python perfil-global/herramientas/defectos.py listar` (la lista que NO se duplica),
-   docs/insumo-2026-10-12-nasa-por-etiqueta.md (T13, ya diseñada), docs/diagnostico-2026-09-28.md §2 (el N² de
-   interfaces) y §3 (el camino crítico), y docs/t12-simplificar.md (el costo medido y su instrumento).
+1. LEER: `.\cascada.ps1 arquitectura-se -Necesidad metodo` y CON Read cada rango que imprima (incluye
+   docs/10-requisitos.md, los requisitos del método, que ahora son base). Después: docs/t14-lo-que-pide-fran.md (el
+   diseño, entero) y el §6 de docs/lluvia-de-ideas-2026-10-12.md. El código: .claude/hooks/cascada_puerta.py,
+   prompt() (busca «def prompt») e inferidos_de() (busca «def inferidos_de»), y los casos 14 y 15 de su autotest
+   (busca «# 14.» y «# 15.»). Al editar un archivo de hooks la puerta exige el concepto «freno» (la sección CUANDO
+   PONES UN FRENO de chequeo-de-trabajo.md, saltzer-schroeder.md, mutation-testing.md): leerlo antes, y esa primera
+   edición SOLA.
 2. FASE: 7 -- NASA Phase D, "System Assembly, Integration and Test, Launch" = armar lo diseñado, probar que anda y
-   ponerlo en marcha. No se hace: rediseñar sobre la marcha (un cambio de diseño queda escrito como diseño T-n antes de
-   tocar nada vivo). La cierra (PDP §4): una sesión real bajo la arquitectura nueva con su costo medido (P10). Estas
-   sesiones son su insumo: cada defecto que se cierre tiene que bajar un costo o subir una efectividad, MEDIDO.
-3. LA META Y SUS MEDIDAS, antes de buscar nada (el triángulo de hierro del método):
-   - EFECTIVIDAD: ¿las sesiones de proyecto llegan a resultados? (retrabajo, sesiones por pieza, defectos por sesión,
-     validaciones hechas; BLACK pieza 2 = 13 sesiones es un dato de base).
-   - COSTO: caracteres inyectados por sesión y por turno, lectura que exige la puerta por entrada (BLACK con
-     ingenieria-inversa ~57 K tokens), % del plan por sesión
-     (`python proyectos/ingenieria/arquitectura-se/medir-costo.py --ultimas 3`, mcp__ccd_session_mgmt__get_usage).
-   - PLAZO: segundos del arranque (hoy hay medidores cortados a los 40 s), frenos negados por sesión (auditorías, P6).
-   Escribir esa LÍNEA DE BASE en el HANDOFF antes de proponer nada: sin ella no se puede decir que algo mejoró.
-4. QUÉ HACER — workflows de ultracode, uno por fase, leyendo cada resultado antes del siguiente:
-   GUARDA DE PRESUPUESTO antes de CADA workflow (regla 9): mcp__ccd_session_mgmt__get_usage; si la ventana de 5 h pasa
-   el 80 % o la semanal el 85 %, nada de fan-out: se sigue inline y se asegura el repo. Respetar el tamaño de workflow
-   configurado (hoy «small», menos de 5 agentes por workflow: se encadenan varios chicos en vez de uno grande).
-   (a) MAPA: un agente por subsistema del método —inyección y arranque; la puerta, la cascada y la fase; PDP,
-       plantillas, naturalezas y cuadro; lecciones, chequeo, defectos y auditoría; verificadores y saboteadores;
-       estado, HANDOFF, bitácora y retomes; nube y paridad—: componentes, interfaces, QUÉ LO DISPARA (fase, palabra,
-       archivo, cadencia, nada), costo medido (bytes, segundos) y modos de falla.
-   (b) ENCONTRAR, multi-lente y con verificación adversarial: un buscador por lente —NASA SEH (productos por fase,
-       revisiones), INCOSE (ágil, System 1/2/3, 15288), Meadows (flujos de información, lazos, retardos, metas),
-       Saltzer y Schroeder (fail-safe, economía de mecanismo, mediación completa), Leveson (no actuar, actuar mal,
-       tarde, dejar de actuar), Rechtin y Maier (simplificar), costo y desempeño— sobre el mapa; dedup contra
-       `defectos.py listar`; cada candidato pasa por 3 escépticos que intentan refutarlo (ante la duda, refutado); los
-       que sobreviven se registran con `defectos.py agregar` (grado según la verificación; evidencia con archivo:línea
-       o una medición). Repetir hasta dos rondas seguidas sin nada nuevo.
-   (c) PRIORIZAR: los abiertos por palanca (Meadows), costo de esperar y riesgo. QUÉ PESA MÁS —costo, efectividad o
-       plazo— es pregunta de valor para Fran, antes de rankear.
-   (d) DISEÑAR, creativo: para los primeros, un panel de alternativas por defecto —modificar, ELIMINAR (primero qué se
-       saca), agregar, evolucionar—, juzgadas con el triángulo y los factores de balance del m24; la ganadora queda como
-       diseño T-n con requisitos (verificar-requisito.py --idioma es), su prueba y su saboteador planeados, igual que T13.
-   (e) AL CERRAR: el registro con lo nuevo (`defectos.py vista`, `verificar`, `vista --check`), los diseños T-n, la
-       línea de base del punto 3 en el HANDOFF, y el retome de la sesión siguiente (implementar el primero de la lista;
-       si no cambió el orden, T13 con su retome del insumo §5).
-5. MOTOR: Opus 5.5 en el hilo principal, esfuerzo alto. Los agentes heredan el modelo; esfuerzo bajo para el mapa,
-   alto para refutar y para juzgar. Nunca Fable.
-6. MÁQUINA: claude-acceso y perfil-global al día en origin al cerrar (129); nada vivo a medio tocar. Respaldo de los
-   frenos: .claude\desinstalar-hooks.ps1.
-7. YA RESUELTO, no rehacer: el registro de defectos (38) y su herramienta (autotest de 12 casos, sabotaje del
-   verificador en rojo); la necesidad lluvia-de-ideas con su disparador medido (lluvia-de-ideas.py); T13 diseñada
-   (M-01 a M-06; M-06 hecho en .claude/arranque.md); «NASA con ágil» en perfil-global/pilares/nucleo-ise.md §2b;
-   medir-fases.py (6 de 22 proyectos en fases A–D sin requisitos).
-8. TRAMPAS: la auditoría mide lo leído contra la versión de HOY (DA-038): editar el libro o el chequeo en la sesión da
-   un rojo falso que se dice, no se maquilla. Lo que trae un agente es una hipótesis hasta que sobrevive a los
-   escépticos. Un defecto se registra con la herramienta, nunca a mano, y no se valida en la sesión que lo arregla. Un
-   freno vivo se edita en un orden que nunca lo deja roto.
-9. MEDIR AL ENTRAR: `python perfil-global/herramientas/defectos.py resumen` (hoy «37 abiertos, 1 arreglados sin
-   validar, 0 validados (de 38)»); `python proyectos/ingenieria/arquitectura-se/medir-fases.py` (sale 1, 6 expuestos);
-   la cascada de arquitectura-se imprime «lluvia de ideas: N de 10».
+   ponerlo en marcha. No se hace: rediseñar sobre la marcha (un cambio de diseño vuelve al documento T-n antes de
+   tocar nada vivo). La cierra (PDP §4): una sesión real bajo la arquitectura nueva con su costo medido (P10).
+3. QUÉ HACER, en orden:
+   (a) T14 según su diseño: prompt() saca del texto los bloques entre las etiquetas pasted_content,
+       task-notification y system-reminder ANTES de inferir; nada más cambia.
+   (b) Autotest de la puerta, caso 17: señal FUERTE adentro de <pasted_content> + Write fuera de todo proyecto ->
+       pasa; adentro de <task-notification> -> pasa; TIPEADA fuera -> deny (el caso 331 sigue frenando); afuera Y
+       adentro -> deny. Un mutante sin el recorte tiene que verse en SU caso. Catálogo sintético, como los casos 14 y
+       15 (no depende de las señales reales).
+   (c) Saboteador para defectos.py: `probar-t14.py` al lado de probar-t13.py (mismo molde: copia mutada al lado del
+       original, exige el MAL en su caso, borra la copia).
+   (d) chequeo-completo.ps1 en verde (el rojo «listo para la nube» mientras haya algo sin commitear es legítimo).
+       Commit citando L2-PTA-04 (padre L1-03) y push.
+   (e) `python perfil-global/herramientas/defectos.py arreglar DA-045 --nivel herramienta --repo claude-acceso
+       --commit <hash> --prueba "python .claude/hooks/cascada_puerta.py --autotest" --saboteador "python
+       proyectos/ingenieria/arquitectura-se/probar-t14.py"`, después `defectos.py vista` y commit de perfil-global.
+   (f) EFECTO REAL (no la precondición): lanzar en segundo plano un comando trivial cuya DESCRIPCIÓN nombre un
+       proyecto (la notificación de fin la trae); cuando llegue, `python .claude/hooks/cascada_puerta.py --estado
+       <session_id>` no tiene que mostrar ese proyecto en «inferidos». Antes de T14 lo mostraba (medido 3 veces el
+       2026-10-12).
+   (g) Si queda ventana y contexto (<50 %): el DISEÑO de T20, la ley de cero divergencias (L0-05, L1-06): inventario
+       de los datos con más de un lugar (empezar por los que ya se midieron: fase, estado, conteos, rutas locales;
+       DA-012, DA-017, DA-036 y el T2 del diagnóstico del 2026-09-28 §3), cuál es el dueño de cada uno, qué copias se
+       vuelven vista generada o puntero, y el medidor que da ROJO ante una copia que difiere, con su saboteador. Como
+       docs/t20-*.md con sus requisitos L2 (verificar-requisito.py --idioma es). Primero qué se SACA. Se construye en la
+       sesión siguiente; después T19 (cascada proporcional) y T17 (conectores).
+   (h) Cierre: ESTADO, HANDOFF, lluvia §6 al día; auditar-sesion.py --de-fran "ninguno" --escribir; retome del
+       siguiente.
+4. MOTOR: Opus 5.5, esfuerzo alto, un solo hilo: es un freno vivo. Sin fan-out.
+5. MÁQUINA: claude-acceso y perfil-global al día en origin (main). origin/HEAD local apunta a main (corregido el
+   2026-10-12; la rama vieja de la nube se borró de GitHub con el sí de Fran). Respaldo de los frenos:
+   .claude\desinstalar-hooks.ps1.
+6. YA RESUELTO, no rehacer: requisitos del método v0.1 (docs/10-requisitos.md); T13 construido y probado (70871b2,
+   probar-t13.py, DA-027/028/029/033 arreglados); el mapa (docs/mapa-metodo-2026-10-12.md); la búsqueda y su
+   registro (docs/hallazgos-2026-10-12.md, DA-039..DA-053); T14 diseñado; el orden con las cuatro decisiones de
+   Fran (lluvia §6-§7: pasa/falla al escribir requisitos; retirar solo con aviso lo que no se disparó en 20
+   sesiones; frenar compartir/publicar por conectores; rama vieja borrada); las dos leyes como requisitos
+   (N-06, N-07, L0-05, L0-06, L1-06 a L1-08; 0 VIOLA) y en memoria (feedback_leyes-divergencia-y-proporcion).
+7. TRAMPAS: la puerta todavía infiere proyectos de texto pegado y de notificaciones (hasta T14: -Excepcion con
+   motivo, una vez, sola). Un proyecto en fase A–D sin requisitos queda frenado al entrar: es T13 andando. La
+   auditoría mide lo leído contra la versión de HOY (DA-038): editar el libro o el chequeo en la sesión da un rojo
+   falso que se dice. encontrar-defectos.js ya no cuenta un agente fallado como ronda seca; la búsqueda NO se agotó
+   (rondas 2 y 3 cortadas). Un freno vivo se edita en un orden que nunca lo deja roto.
+8. MEDIR AL ENTRAR: `python perfil-global/herramientas/defectos.py resumen` (al cerrar de44da9d: 48 abiertos, 5
+   arreglados sin validar, 0 validados, de 53); `python proyectos/ingenieria/arquitectura-se/medir-fases.py` (sale 1,
+   5 expuestos); `python .claude/hooks/cascada_puerta.py --verificar` (EXPUESTOS 5, FASE SIN TIPO 8, OK).
 
-PRIMER COMANDO: .\cascada.ps1 arquitectura-se -Necesidad metodo,lluvia-de-ideas
+PRIMER COMANDO: .\cascada.ps1 arquitectura-se -Necesidad metodo
 ```

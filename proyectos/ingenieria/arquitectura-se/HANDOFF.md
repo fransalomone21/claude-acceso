@@ -1,9 +1,19 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
-> **2026-10-12 03:15 (sesión `de44da9d`, EN CURSO) — sesión de arquitectura creativa en ultracode.** Producto y
-> checkpoint: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) (su «Progreso» dice por dónde
-> seguir si el límite de 5 h la corta; Fran pidió que se reanude sola al restablecerse y que no se achique por
-> presupuesto). **LÍNEA DE BASE**, medida al entrar (detalle y fuentes en el §0 del documento):
+> **2026-10-12 17:00 (sesión `de44da9d`, CERRADA) — SIGUE: T14 en sesión nueva** (el retome está al final de la
+> respuesta de cierre y en [`RETOME.md`](RETOME.md)). Hecho: requisitos del método ([`docs/10-requisitos.md`](docs/10-requisitos.md)),
+> **T13 construido** (`70871b2`; DA-027/028/029/033 arreglados), el mapa ([`docs/mapa-metodo-2026-10-12.md`](docs/mapa-metodo-2026-10-12.md)),
+> la búsqueda (DA-039..DA-053, [`docs/hallazgos-2026-10-12.md`](docs/hallazgos-2026-10-12.md)), T14 diseñado
+> ([`docs/t14-lo-que-pide-fran.md`](docs/t14-lo-que-pide-fran.md)) y el orden con las decisiones de Fran (lluvia §6).
+> **Trampas que dejó:** (1) un proyecto en fase A–D sin requisitos queda frenado al entrar: es T13 andando, no un
+> bug; (2) la puerta todavía infiere proyectos de texto pegado y de notificaciones (3 falsos frenos hoy): hasta T14,
+> `-Excepcion` con motivo; (3) `encontrar-defectos.js` ya no cuenta un agente fallado como ronda seca; (4) el rojo de
+> `puerta-afuera --autotest` dentro de `chequeo-completo` apareció una vez y no se reprodujo (corrido solo y en la
+> limpieza, verde): intermitente, sin causa todavía (DA-020). **Criterio de Fran para estas sesiones** (memoria
+> `feedback_arquitectura-en-ultracode`): desempeño > costo > plazo; workflows diseñados y estimados por ronda.
+>
+> **2026-10-12 03:15 (sesión `de44da9d`) — sesión de arquitectura creativa en ultracode.** Producto y
+> checkpoint: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md). **LÍNEA DE BASE**, medida al entrar (detalle y fuentes en el §0 del documento):
 > efectividad — BLACK pieza 2 = 13 sesiones; 0 de 38 defectos validados; 6 de 22 proyectos en A–D sin requisitos;
 > 2 de 21 sesiones auditadas con ROJO. Costo — `ses.met` mediana **87 712** (con T12 validada, 78 070: +12 % en 10
 > días); entrada exigida por la puerta 105 697 (esta) a 448 352 (d7be1e49); recordatorio + cuadro ~2,3–2,9 K por turno;

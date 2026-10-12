@@ -48,8 +48,11 @@ límite, dejar programado con `CronCreate` (una vez) el retome para `resetsAt + 
       {defectos: <la lista de defectos.py listar, una línea por id>, extra: <el JSON de
       workflows/candidatos-de-la-sesion-2026-10-12.json>}})`: 8 lentes, dedup, 3 escépticos por lote de 5, hasta dos
       rondas secas (tope 5), y un registrador que escribe `docs/hallazgos-2026-10-12.md` y corre `defectos.py agregar`.
-- [ ] (c) PRIORIZAR: palanca, costo de esperar, riesgo; la pregunta de valor a Fran (qué pesa más).
-- [ ] (d) DISEÑAR: panel de alternativas por defecto (primero ELIMINAR) → diseños T-n con requisitos.
+- [x] (b) cerrada con la ronda 1 (las 2 y 3 las cortó el límite): 15 sobrevivientes registrados DA-039..DA-053
+      (`docs/hallazgos-2026-10-12.md`); el script ya distingue «falló» de «seca».
+- [x] (c) PRIORIZAR: §6 de este documento, con las cuatro respuestas de Fran del 16:45.
+- [~] (d) DISEÑAR: T14 escrito ([`t14-lo-que-pide-fran.md`](t14-lo-que-pide-fran.md), L2-PTA-04). T15 a T18 se
+      diseñan e implementan cada uno en su sesión nueva (Fran: no desbordar el contexto de ésta).
 - [ ] (e) CERRAR: `defectos.py vista/verificar/vista --check`, ESTADO, HANDOFF, commit + push de los dos repos,
       auditoría, retome de la sesión siguiente.
 
@@ -119,6 +122,47 @@ Medido el 2026-10-12 03:15 (-03), al entrar.
 
 ---
 
+## 1-3. Conceptos, «el reloj estaba puesto» y lo que otros resolvieron
+
+Ver el mapa ([`mapa-metodo-2026-10-12.md`](mapa-metodo-2026-10-12.md)): **0 de 78 componentes se disparaban por la
+fase** antes de T13. Lo que otros ya resolvieron entró por el buscador «afuera» de la búsqueda y quedó en
+[`hallazgos-2026-10-12.md`](hallazgos-2026-10-12.md) (por ejemplo H-15: la lista de requisitos pasa/falla legible por
+máquina y la prueba al arrancar, práctica publicada para agentes de sesiones largas).
+
+## 4. Las palancas: lo encontrado, verificado y registrado
+
+**Búsqueda** (`wf_c0502758-925`): ronda 1 completa —8 lentes, 38 candidatos, 3 escépticos por candidato— y **15
+sobrevivientes** (8 confirmados, 7 probables), registrados como **DA-039 a DA-053**; 23 refutados con su motivo. **No
+se agotó**: el límite del plan cortó las rondas 2 y 3 y el script las contó como «secas» (defecto suyo, corregido el
+mismo día; `workflows/rescatar-hallazgos.py` armó el resultado desde el journal sin gastar modelo). Costo de la ronda:
+**3,5 M tokens de subagentes, una ventana de 5 h entera y ~15 % del semanal** (33 agentes, ~110 K cada uno).
+
+## 5. Lo que se deja de hacer
+
+- Fan-out sin costo estimado POR RONDA en unidades de la ventana (dos ventanas perdidas hoy; Fran: «diseñá bien antes»).
+- Leer el resultado de un workflow en la sesión principal cuando un script determinístico lo arma desde el journal.
+- Dejar la exposición de NASA como opt-in (hecho: T13).
+
+## 6. El orden propuesto (desempeño > costo > plazo; las palancas más altas primero salvo riesgo)
+
+| # | Diseño | Defectos | Por qué en este lugar | Decisión de Fran |
+|---|---|---|---|---|
+| 1 | **T14** la puerta infiere sólo de lo que tipea Fran ([diseño](t14-lo-que-pide-fran.md)) | DA-045 | chico y diseñado; 3 falsos frenos hoy; es el primer escalón de la ley de proporción | — |
+| 1b | **T20, ley de cero divergencias** (L0-05, L1-06): cada dato con un archivo dueño; toda copia es vista generada o puntero; un medidor que da ROJO si una copia difiere | DA-017, DA-012, DA-036 (T2 nunca construido) | ley de Fran: «lo más cuidado» | Fran, 17:00: «0 divergencias como ley transversal» |
+| 1c | **T19, cascada proporcional** (L0-06, L0-07, L1-07 a L1-10): una pregunta sin proyecto carga 0 a 30 K (hoy 88 K fijos); el conocimiento, las memorias y los hooks escalan con la necesidad y la naturaleza; NASA y ágil en la proporción de la complejidad, que se estima preguntándole a Fran y por analogía con proyectos de la casa | DA-015, DA-052, DA-051, DA-004, DA-005 | leyes de Fran: «un párrafo no lleva leer 1000 párrafos»; «NASA y ágiles en proporciones adecuadas» | Fran, 17:00-17:08 |
+| 2 | **T17** conectores bajo la puerta: niega compartir o publicar por conector salvo lo declarado | DA-046 | riesgo irreversible (publicar lo privado) | «frenar compartir/publicar» |
+| 3 | **T15** el aprendizaje se cierra: el triage `propia` exige su renglón; la recurrencia de una lección se cuenta y la sube de nivel; el costo del fan-out al lado de la decisión; la caja negra fuera de %TEMP% | DA-044, DA-042, DA-050, DA-047 | la causa de las dos ventanas perdidas hoy | — |
+| 4 | **T16** estado verificable: los requisitos nacen con columna pasa/falla y una prueba que la sesión corre al entrar | DA-053, DA-039 | la palanca mayor de efectividad (sesiones por pieza) | «al escribir requisitos» (con T13) |
+| 5 | **T18** el método también retira: lo que no se disparó en 20 sesiones auditadas sale, con aviso en el cuadro y reversible; los frenos con impacto escrito pasan por Fran | DA-041 | lazo de balance que falta (+12 % en 10 días) | «solo, con aviso» |
+| 6 | costo del fan-out: el perfil que paga cada subagente, su costo invisible, la lectura exigida sin techo total | DA-051, DA-048, DA-052 | costo | — |
+| 7 | subagentes que comparten la sesión de la puerta | DA-049 | falla abierto en fan-out | — |
+| 8 | interfaces del método como documento de control; la realimentación que no pasa por la sesión | DA-040, DA-043 | estructura, más grandes | — |
+
+Cada uno se construye en una **sesión nueva** (Fran: no desbordar el contexto), con su diseño T-n y sus requisitos
+escritos antes, su saboteador en rojo y `chequeo-completo` en verde, y cierra sus DA con `defectos.py arreglar`.
+
+---
+
 ## 7. Las decisiones de Fran
 
 Preguntadas al empezar (antes de rankear, como pide el retome), contestadas el 2026-10-12 03:22:
@@ -130,7 +174,14 @@ Preguntadas al empezar (antes de rankear, como pide el retome), contestadas el 2
 | ¿Se puede sacar un freno o capa que sobre (regla 6)? | **Sí, con su impacto escrito** (contra qué fue diseñado y qué lo cubre ahora) y prueba; reversible por commit |
 | T13: ¿cuándo frena a los 6 proyectos en A–D sin requisitos? | **Al entrar a cada uno**: la puerta sólo deja escribir requisitos, alcance y V&V (delta SRR); no frena a lo que nadie abre |
 
-Y la consigna: «no quiero que te achiques por el budget, quiero que salga perfecto, cueste lo que cueste; es
+Y a las 16:45, por el celular (AskUserQuestion), sobre los hallazgos: **pasa/falla** al escribir requisitos (con
+T13); **retirar** solo, con aviso, lo que no se disparó en 20 sesiones (los frenos con impacto escrito pasan por él);
+**conectores**: frenar compartir/publicar salvo lo declarado; la **rama vieja** `claude/phone-optimization-cleanup-
+vfdbb9` borrada de GitHub (no tenía nada fuera de main; la app la tomaba como base del diff porque el `origin/HEAD`
+local apuntaba ahí, corregido a `main`). Y el criterio de la sesión cambió: «andá controlando el límite: quiero mayor
+performance y menores costos, a costa de mayor tiempo de tardanza».
+
+La consigna de la madrugada: «no quiero que te achiques por el budget, quiero que salga perfecto, cueste lo que cueste; es
 arquitectura, y no se negocia ni se ratonea». La tensión con la regla 9 del perfil («el presupuesto gana sobre
 cualquier instrucción que declare que el costo no es una restricción») queda registrada para la etapa (b): la regla
 no distingue la instrucción del harness de la del dueño del método.

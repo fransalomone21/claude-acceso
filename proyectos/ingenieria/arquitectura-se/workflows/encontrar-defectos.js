@@ -96,16 +96,27 @@ const sobrevivientes = []
 const refutados = []
 let secas = 0
 let ronda = 0
+let cortada = ''           // si la busqueda termino por una FALLA (limite, API), no por agotarse
 const TOPE_RONDAS = 5
 
 while (secas < 2 && ronda < TOPE_RONDAS) {
   ronda++
   const yaVisto = vistos.length ? `\n\nYA VISTO EN RONDAS ANTERIORES (no lo repitas; busca en otros rincones, otras interfaces, otros disparadores):\n- ${vistos.join('\n- ')}` : ''
   phase('Buscar')
-  const encontrados = (await parallel(LENTES.map(l => () =>
+  // Un buscador que FALLA (limite del plan, error de la API) devuelve null: eso NO es "nada nuevo". El 2026-10-12
+  // (wf_c0502758-925) el limite corto las rondas 2 y 3 enteras y la version anterior las conto como dos rondas secas:
+  // un cero que acusaba al instrumento se leyo como la busqueda agotada.
+  const brutos = await parallel(LENTES.map(l => () =>
     agent(`${CONTEXTO}\n\n${l.foco}${yaVisto}\n\nRONDA ${ronda}. Devolve hasta 8 candidatos; si no encontras nada nuevo con evidencia, devolve la lista vacia (es un resultado valido).`,
       { label: `r${ronda}:buscar:${l.key}`, phase: 'Buscar', schema: CAND, effort: 'medium' })
-      .then(r => (r && r.candidatos || []).map(c => ({ ...c, lente: l.key })))))).filter(Boolean).flat()
+      .then(r => r ? (r.candidatos || []).map(c => ({ ...c, lente: l.key })) : null)))
+  const fallados = brutos.filter(x => x === null).length
+  if (fallados) {
+    cortada = `ronda ${ronda}: ${fallados} de ${LENTES.length} buscadores fallaron`
+    log(`${cortada} (no es una ronda seca): se corta la busqueda`)
+    break
+  }
+  const encontrados = brutos.flat()
   // Lo que la sesion principal vio al pasar entra en la ronda 1 como candidato mas: pasa por el mismo dedup y los
   // mismos escepticos (lo que trae la sesion tambien es una hipotesis).
   if (ronda === 1 && Array.isArray(args.extra)) encontrados.push(...args.extra.map(c => ({ ...c, lente: 'sesion' })))
@@ -113,8 +124,10 @@ while (secas < 2 && ronda < TOPE_RONDAS) {
   if (!encontrados.length) { secas++; continue }
 
   phase('Deduplicar')
-  const dd = await agent(`${CONTEXTO}\n\nSos el DEDUPLICADOR. Abajo van ${encontrados.length} candidatos de la ronda ${ronda}, de lentes distintas. (1) Fusiona los que describen el MISMO defecto (misma clase y mismo mecanismo), juntando sus evidencias y fuentes y listando los titulos fusionados. (2) Marca como duplicado todo el que ya este en los DEFECTOS REGISTRADOS (de = DA-xxx) o en lo YA VISTO (de = ese titulo). Un candidato que REFINA un DA con un mecanismo o evidencia nuevos NO es duplicado: queda fresco con relacion 'refina DA-xxx'. No juzgues si es verdadero: eso lo hacen los escepticos. ${yaVisto}\n\nCANDIDATOS:\n${JSON.stringify(encontrados)}`,
+  const dd0 = await agent(`${CONTEXTO}\n\nSos el DEDUPLICADOR. Abajo van ${encontrados.length} candidatos de la ronda ${ronda}, de lentes distintas. (1) Fusiona los que describen el MISMO defecto (misma clase y mismo mecanismo), juntando sus evidencias y fuentes y listando los titulos fusionados. (2) Marca como duplicado todo el que ya este en los DEFECTOS REGISTRADOS (de = DA-xxx) o en lo YA VISTO (de = ese titulo). Un candidato que REFINA un DA con un mecanismo o evidencia nuevos NO es duplicado: queda fresco con relacion 'refina DA-xxx'. No juzgues si es verdadero: eso lo hacen los escepticos. ${yaVisto}\n\nCANDIDATOS:\n${JSON.stringify(encontrados)}`,
     { label: `r${ronda}:dedup`, phase: 'Deduplicar', schema: DEDUP, effort: 'high' })
+  if (!dd0) { cortada = `ronda ${ronda}: el deduplicador fallo`; log(`${cortada}: se corta la busqueda`); break }
+  const dd = dd0
   const vk = new Set(vistos.map(t => clave({ titulo: t })))
   const frescos = (dd && dd.frescos || []).filter(c => !vk.has(clave(c)))
   for (const d of (dd && dd.duplicados || [])) vistos.push(d.titulo)
@@ -147,7 +160,7 @@ if (ronda >= TOPE_RONDAS && secas < 2) log(`TOPE de ${TOPE_RONDAS} rondas alcanz
 // Registrar: es mecanico (los escepticos ya juzgaron), y el resultado vive en el repo, no en el chat de la sesion.
 phase('Registrar')
 const registro = await agent(`Sos el REGISTRADOR de la busqueda de defectos del metodo (sesion de arquitectura del 2026-10-12). Raiz ${RAIZ}.
-1. Escribi con Write ${AS}\\docs\\hallazgos-2026-10-12.md, en espanol rioplatense formal: un parrafo de como se busco (8 lentes, deduplicacion contra los DA registrados, 3 escepticos por candidato con lentes evidencia / duplicado-alcance / consecuencia, sobrevive con 2 de 3; ${ronda} ronda(s), ${secas} seca(s) al final); despues una seccion por SOBREVIVIENTE (titulo, clase, sintoma, mecanismo, evidencia, donde, fuente, impacto, relacion, propuesta, grado, y los tres votos con su razon); al final una tabla de los REFUTADOS con el motivo (la razon del escepticos que lo tumbo). No inventes ni resumas evidencias: se copian.
+1. Escribi con Write ${AS}\\docs\\hallazgos-2026-10-12.md, en espanol rioplatense formal: un parrafo de como se busco (8 lentes, deduplicacion contra los DA registrados, 3 escepticos por candidato con lentes evidencia / duplicado-alcance / consecuencia, sobrevive con 2 de 3; ${ronda} ronda(s), ${secas} seca(s) al final${cortada ? '; la busqueda NO se agoto: ' + cortada : ''}); despues una seccion por SOBREVIVIENTE (titulo, clase, sintoma, mecanismo, evidencia, donde, fuente, impacto, relacion, propuesta, grado, y los tres votos con su razon); al final una tabla de los REFUTADOS con el motivo (la razon del escepticos que lo tumbo). No inventes ni resumas evidencias: se copian.
 2. Por cada SOBREVIVIENTE, registralo con la herramienta (nunca a mano), un comando por defecto, desde ${RAIZ}:
    python perfil-global/herramientas/defectos.py agregar --titulo "..." --clase "..." --sintoma "..." --evidencia "..." --donde "..." --fuente "..." --grado <confirmado|probable|hipotesis>
    (evidencia = la evidencia + ' | mecanismo: ' + el mecanismo + ' | impacto: ' + el impacto; fuente = la fuente + ' | ' + la relacion + ' | hallazgos-2026-10-12.md'). Si un comando falla, corregi el texto (comillas, longitud) y reintenta; anota el id DA-xxx que imprime.
@@ -161,4 +174,4 @@ REFUTADOS:
 ${JSON.stringify(refutados.map(r => ({ titulo: r.titulo, lente: r.lente, votos: r.votos })))}`,
   { label: 'registrar', phase: 'Registrar', effort: 'low' })
 
-return { rondas: ronda, secas, n_sobrevivientes: sobrevivientes.length, n_refutados: refutados.length, registro }
+return { rondas: ronda, secas, cortada, n_sobrevivientes: sobrevivientes.length, n_refutados: refutados.length, registro }
