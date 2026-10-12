@@ -23,7 +23,7 @@ dato»), diseñado y nunca construido. Defectos: **DA-017** (un dato en N lugare
 
 No toda repetición es una divergencia. Tres clases, y la ley se aplica distinto a cada una:
 
-1. **Dato vigente**: dice cómo está el mundo AHORA («Fase 7 abierta», «sigue T20», «48 abiertos»). Tiene **un dueño**;
+1. **Dato vigente**: dice cómo está el mundo AHORA («Fase N abierta», «sigue T-n», «N abiertos»). Tiene **un dueño**;
    cualquier otra aparición es **vista generada** del dueño o **puntero** al dueño (nombra el lugar, no el valor).
 2. **Medición fechada**: dice cómo estaba en un momento («al cerrar de44da9d: 48 abiertos»). Es historia, no
    diverge con el tiempo: va con su fecha o su sesión pegada, y vive en bitácora, HANDOFF o el insumo.
@@ -57,6 +57,14 @@ freno con falsos positivos es menos seguro: se apaga.
   tabla que el diagnóstico de A3 veía ya no existe: la puerta (T13) y `medir-fases.py` importan `fase_activa`. Lo que
   queda es su criterio de «esto es un PDP» (`Las fases` o `**Fase en curso`), que mide otra cosa (P4, migración del
   molde) y no se toca: cambiarlo cambia qué PDP cuenta, no saca una copia.
+- **Rutas locales, inventario (el TBR):** medido el 2026-10-12 con Grep sobre `*.md` y `*.json` de claude-acceso: 150
+  rutas absolutas del usuario en 53 archivos y 28 con `~/Desktop` en 18. La mayoría son fechadas (auditorías,
+  bitácoras, predicciones, HANDOFF) o propias de otro proyecto (`black/kb/ubicaciones.json` es dueño de las suyas).
+  Las vigentes con más de una copia son las carpetas de materia: `"locales"` del catálogo (6 entradas), los
+  `fuentes/RUTAS.md` (física espacial 16, taller 1) y los contratos (apunte-iise 7, minecraft 3, software de vuelo
+  1). Dueño propuesto: `"locales"` del catálogo; los otros, punteros. **No se migra en esta sesión**: toca contratos
+  de otros proyectos (cada uno con su puerta) y lo que falta primero es un medidor que **ejecute** las rutas
+  (existen en el disco), que hoy no existe. Queda TBR, con el inventario hecho.
 
 ## 4. El medidor
 
@@ -71,6 +79,24 @@ freno con falsos positivos es menos seguro: se apaga.
   vigente** fuera de su dueño (p. ej. «Fase \d+ ABIERTA»), salvo que la línea lleve fecha o sesión (medición
   fechada). Esto es una heurística: **informa, no frena**, igual que L2-CMP-03.
 - Corre en la capa rápida de `chequeo-completo` y en el arranque; el ROJO sale con el dato, el dueño y la copia.
+
+**Precisiones de la construcción (2026-10-12), escritas antes del código:**
+
+- **Dónde:** `divergencias.py` en la raíz de claude-acceso (al lado de `auditar-sesion.py`) y el registro en
+  `.claude/datos.json` (al lado del catálogo de la puerta). Los datos que mide viven en este repo, no en el perfil.
+- **Qué es «fechado», medible:** el markdown se escribe en párrafos envueltos a ancho fijo, así que la fecha va en la
+  primera línea del párrafo y no en cada línea. Un **bloque** (líneas seguidas sin renglón vacío) es Medición_Fechada
+  si su primera línea lleva una fecha (`2026-10-12`, `12/10`) o una sesión o commit (7-8 hexadecimales con al menos
+  un dígito y una letra, con o sin comillas invertidas). Un título con fecha (`## 2026-09-28 — …`) fecha su sección
+  hasta el próximo título de su nivel o más alto. Un archivo con fecha en el nombre (`diagnostico-2026-09-28.md`) es
+  fechado entero. (Primera corrida sobre el ESTADO real: tres rojos; uno estaba bajo un título fechado —de ahí esta
+  regla— y los otros dos eran copias vigentes viejas de verdad: «Siguiente: T2» y la sección «Lo que FALTA».)
+- **El puntero tiene que nombrar al dueño:** una Copia_Puntero que ya no nombra el Archivo_Dueño es ROJO (el registro
+  quedó viejo: falla cerrado), igual que una copia declarada cuyo archivo no existe.
+- **El extractor de la fase no es un regex nuevo:** es `fase_activa.fase_abierta` importado (la misma definición que la
+  compuerta, la puerta y `medir-fases.py`).
+- **ROJO** sale como línea `[FAIL]`, que es lo que `chequeo-completo` copia al tablero; la heurística de L2-DIV-04 sale
+  como `[aviso]` y no cambia el código de salida. Tres resultados: 0 verde, 1 rojo, 2 reventó.
 
 **Saboteador** (`probar-divergencias.py`): árbol sintético con (a) copia vista divergente → ROJO en su caso; (b) puntero
 que copia el valor → ROJO; (c) extractor que no encuentra al dueño → ROJO; (d) control positivo parecido al real: un

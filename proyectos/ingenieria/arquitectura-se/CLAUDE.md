@@ -19,7 +19,7 @@ impacto original escrito, o no sale.
 |---|---|
 | **Cualquier cosa** | `ESTADO_ACTUAL.md` entero, primero |
 | Saber en qué fase estamos y qué la cierra | `PDP.md` § 4 |
-| **Reformar la arquitectura: qué está roto hoy, medido, y en qué orden atacarlo** | [`docs/diagnostico-2026-09-28.md`](docs/diagnostico-2026-09-28.md) — A1–A11, el N² de interfaces y el camino crítico |
+| **Reformar la arquitectura: qué estaba roto el 2026-09-28, medido** | [`docs/diagnostico-2026-09-28.md`](docs/diagnostico-2026-09-28.md) — A1–A11 y el N² de interfaces; su camino crítico quedó reemplazado (el orden vigente: la fila de la lluvia, abajo) |
 | **T1: qué ve de verdad la sesión de lo inyectado, el umbral del harness y el diseño elegido (núcleo + al paso, medidor)** | [`docs/t1-presupuesto-inyeccion.md`](docs/t1-presupuesto-inyeccion.md) — §7 es el orden de construcción |
 | **T11: la puerta de la cascada** — qué se exige leer según la necesidad, cómo frena, cómo se valida | [`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md); el catálogo es `.claude/cascada.json` |
 | **T12: simplificar el método** — el costo medido (por turno, sesión y entrada), la matriz de todo el método y qué se poda | [`docs/t12-simplificar.md`](docs/t12-simplificar.md); el instrumento es [`medir-costo.py`](medir-costo.py) |

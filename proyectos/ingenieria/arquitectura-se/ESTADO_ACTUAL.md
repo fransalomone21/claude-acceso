@@ -143,7 +143,7 @@ copia de `settings.json` fechada a esa hora (`--settings`), sin tocar la real.
 con «configuración cambiada» — ya pasó con los saboteadores y ahora con la
 app (lección 298, `fuera`; `perfil-global/PENDIENTES.md` §11).
 
-**Siguiente: T2, «un dueño por dato»** (camino crítico T1 → T2 → T3 → T4 →
+**Siguiente, al 2026-09-29 (reemplazado: el orden vigente es la lluvia §6, y T2 es T20): T2, «un dueño por dato»** (camino crítico T1 → T2 → T3 → T4 →
 T7 → T9, `docs/diagnostico-2026-09-28.md` §3). Alcance, con el insumo del
 29/09 (`docs/insumo-2026-09-29-cambio-externo.md`):
 - **entra**: las **rutas locales escritas a mano** (insumo 4) — un dato con N
@@ -336,7 +336,7 @@ inyecta.
   recargó en caliente y el primer `rclone` de la sesión trajo las 7 viñetas
   como `PreToolUse:Bash hook additional context`; el segundo, nada.
 
-## Lo que FALTA, para la fase 7
+## Lo que FALTABA al 2026-09-28, para la fase 7 (historia: lo que sigue hoy es la lluvia §6)
 
 - **T1, validar (paso 6)** según `docs/t1-presupuesto-inyeccion.md` §7:
   **pasos 1 a 5 hechos** (pilares 7 940 + 4 791; núcleo 6 831 / 3 732 / 7 790

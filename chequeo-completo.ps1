@@ -95,6 +95,10 @@ $medidores = @(
     # El papel que define el telescopio (2026-10-07): la traza cierra y el GtWR da 0 VIOLA. Un requisito que
     # alguien edita mal se ve al abrir la sesion siguiente, no en la SRR.
     @{ nombre = 'requisitos del telescopio';  cmd = 'python proyectos\ingenieria\telescopio\docs\verificar-requisitos.py' }
+    # T20 de arquitectura-se (L1-06, L2-DIV-01..05; ley de Fran: cero divergencias): cada dato vigente de
+    # .claude\datos.json con UN dueno; una copia vista que difiere, o un puntero que copia el valor, es ROJO con el
+    # dato, el dueno y la copia. Falla cerrado. ~0,3 s.
+    @{ nombre = 'cero divergencias';          cmd = 'python divergencias.py' }
 )
 
 $saboteadores = @(
@@ -126,6 +130,7 @@ $saboteadores = @(
     @{ nombre = 'saboteador de estado-nube';      cmd = 'python .claude\nube\estado-nube.py --probar' }
     # La auditoria tenia --autotest y no estaba aca: su ceguera a los repos propios duro dos dias (2026-10-09).
     @{ nombre = 'saboteador de la auditoria';     cmd = 'python auditar-sesion.py --autotest' }
+    @{ nombre = 'saboteador de divergencias';     cmd = 'python probar-divergencias.py' }
 )
 
 function Correr($lista, $titulo) {

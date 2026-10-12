@@ -1,0 +1,39 @@
+{
+  "_que_es": "Registro de datos vigentes (T20, L2-DIV-05): cada dato con UN dueno (archivo + extractor) y sus copias declaradas (vista = repite el valor y se compara; puntero = nombra al dueno y no puede tener la forma del valor fuera de un bloque fechado). Lo lee divergencias.py; si no parsea o queda vacio, ROJO. 'ambito' + 'forma' alimentan la heuristica de copias no declaradas (L2-DIV-04, solo avisa). Diseno: proyectos/ingenieria/arquitectura-se/docs/t20-cero-divergencias.md.",
+  "datos": [
+    {
+      "id": "arquitectura-se/fase-en-curso",
+      "dueno": {"archivo": "proyectos/ingenieria/arquitectura-se/PDP.md", "extractor": "fase_activa"},
+      "copias": [
+        {"archivo": "proyectos/ingenieria/arquitectura-se/PDP.md", "clase": "vista",
+         "que": "la fila de la tabla de fases que dice abierta",
+         "extractor": {"regex": "(?m)^\\|\\s*\\**([0-9]+[a-z]?)\\**\\s*\\|.*\\|\\s*`?\\**abierta\\**`?\\s*\\|\\s*$"}},
+        {"archivo": "proyectos/ingenieria/arquitectura-se/ESTADO_ACTUAL.md", "clase": "puntero", "nombra": "PDP.md"}
+      ],
+      "forma": "(?i)\\bfase\\s+\\d+\\**\\s*(?:[-—–:]+\\s*)?\\**abierta",
+      "ambito": "proyectos/ingenieria/arquitectura-se"
+    },
+    {
+      "id": "arquitectura-se/orden-de-lo-que-sigue",
+      "dueno": {"archivo": "proyectos/ingenieria/arquitectura-se/docs/lluvia-de-ideas-2026-10-12.md",
+                "extractor": {"seccion": "## 6.", "regex": "(?m)^\\|\\s*\\w+\\s*\\|\\s*\\*\\*(T\\d+)\\b"}},
+      "copias": [
+        {"archivo": "proyectos/ingenieria/arquitectura-se/ESTADO_ACTUAL.md", "clase": "puntero",
+         "nombra": "lluvia-de-ideas-2026-10-12.md"},
+        {"archivo": "proyectos/ingenieria/arquitectura-se/RETOME.md", "clase": "puntero",
+         "nombra": "lluvia-de-ideas-2026-10-12.md"},
+        {"archivo": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "clase": "puntero",
+         "nombra": "lluvia-de-ideas-2026-10-12.md"}
+      ],
+      "forma": "\\bT\\d+[a-z]?\\s*(?:→|->)\\s*T\\d+",
+      "ambito": "proyectos/ingenieria/arquitectura-se"
+    },
+    {
+      "id": "defectos-de-arquitectura/abiertos",
+      "dueno": {"archivo": "perfil-global/DEFECTOS-ARQUITECTURA.md", "extractor": {"regex": "\\*\\*(\\d+) abiertos"}},
+      "copias": [],
+      "forma": "\\b\\d+ abiertos\\b",
+      "ambito": "proyectos/ingenieria/arquitectura-se"
+    }
+  ]
+}
