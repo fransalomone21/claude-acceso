@@ -63,18 +63,10 @@ freno con falsos positivos es menos seguro: se apaga.
 que copia el valor → ROJO; (c) extractor que no encuentra al dueño → ROJO; (d) control positivo parecido al real: un
 retome lleno de mediciones fechadas y punteros → verde; (e) mutante sin la comparación → (a) da verde y se ve.
 
-## 5. Requisitos L2 propuestos (elemento DIV)
+## 5. Requisitos L2 (elemento DIV)
 
-Borrador: entran a `docs/10-requisitos.md` en la sesión de construcción, que lee el concepto `requisitos` de la
-puerta; desde ahí esta sección queda como puntero.
-
-| ID | Padre | Requisito | Verificación |
-|---|---|---|---|
-| L2-DIV-01 | L1-06 | Cuando cada copia vista declarada difiere del valor del dueño, el verificador de divergencias deberá dar ROJO con el dato, el dueño y la copia. | ensayo: caso (a) del saboteador |
-| L2-DIV-02 | L1-06 | Cuando cada copia puntero declarada contiene el valor del dueño, el verificador de divergencias deberá dar ROJO. | ensayo: caso (b) |
-| L2-DIV-03 | L1-06 | Cuando el extractor del dueño devuelve un resultado vacío, el verificador de divergencias deberá dar ROJO. | ensayo: caso (c) |
-| L2-DIV-04 | L1-06 | Cuando cada línea fuera del dueño coincide con el patrón de cada dato vigente sin fecha ni sesión, el verificador de divergencias deberá listar la línea como copia ausente del registro. | ensayo: caso del saboteador con control positivo (d) |
-| L2-DIV-05 | L0-05 | El registro de datos deberá asignar a cada dato vigente un único archivo dueño. | inspección: el verificador da ROJO ante dos dueños |
+Viven en su dueño: [`10-requisitos.md`](10-requisitos.md) §5, L2-DIV-01 a L2-DIV-05, con sus términos definidos y su
+rationale (pasados en la sesión de construcción, que leyó el concepto `requisitos`). Acá no se copian.
 
 ## 6. Riesgo y lo que no se hace
 

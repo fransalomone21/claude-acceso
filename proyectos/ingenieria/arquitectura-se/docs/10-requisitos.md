@@ -76,3 +76,23 @@ abre); el verificador lista y no frena.
 | L2-PTA-02 | L1-04 | Cuando la acción escribe el Documento_De_Requisitos del proyecto expuesto, la puerta deberá permitir la acción. | La única salida tiene que quedar abierta (un freno que falla cerrado deja abierta su reparación). Sin documento declarado, vale un archivo del proyecto que dispare el concepto `requisitos` (nombre `requisitos*.md` o `.txt`), que exige los libros. | ensayo: control positivo del autotest |
 | L2-PTA-03 | L1-04 | Cuando la acción escribe el Registro_Del_Proyecto del proyecto expuesto, la puerta deberá permitir la acción. | Frenar el checkpoint empujaría a saltearlo. | ensayo: control positivo del autotest |
 | L2-PTA-04 | L1-03 | Cuando la puerta infiere los proyectos del pedido, la puerta deberá excluir el texto encerrado en las etiquetas pasted_content, task-notification Y system-reminder. | T14 (`docs/t14-lo-que-pide-fran.md`): el 2026-10-12 la puerta negó dos acciones por proyectos nombrados en un retome pegado y en una notificación automática. Lo pegado actúa sobre rutas, que la puerta ve por la ruta. | ensayo: caso 17 del autotest de la puerta, con mutante |
+
+## 5. Nivel 2 — el elemento de T20 («cero divergencias»)
+
+Elementos: **DIV** el verificador de divergencias y su Registro_De_Datos. Diseño: `docs/t20-cero-divergencias.md`
+(§2 la distinción de las tres clases, §4 el medidor). Términos definidos (R4):
+
+- **Dato_Vigente**: un dato que dice cómo está el mundo ahora (la fase en curso, el orden de lo que sigue).
+- **Archivo_Dueño**: el único archivo donde se escribe un Dato_Vigente.
+- **Registro_De_Datos**: el archivo que declara cada Dato_Vigente con su Archivo_Dueño, su extractor y sus copias.
+- **Copia_Vista**: una aparición declarada de un Dato_Vigente fuera del Archivo_Dueño que repite el valor.
+- **Copia_Puntero**: una aparición declarada que nombra el Archivo_Dueño en lugar del valor.
+- **Medición_Fechada**: una línea que lleva la fecha o la sesión en que se midió el valor; es historia y no diverge.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L2-DIV-01 | L1-06 | Cuando cada Copia_Vista difiere del valor del Archivo_Dueño, el verificador de divergencias deberá dar ROJO con el dato, el Archivo_Dueño y la copia. | La forma de la ley de Fran (N-06). El ROJO trae los tres nombres porque un rojo sin explicación cuesta un viaje entero (chequeo-de-trabajo, «CUANDO PONES UN FRENO»). | ensayo: caso (a) del saboteador, con mutante sin la comparación (caso e) |
+| L2-DIV-02 | L1-06 | Cuando cada Copia_Puntero contiene el valor del Archivo_Dueño, el verificador de divergencias deberá dar ROJO. | Un puntero que copia el valor es una Copia_Vista sin declarar: la próxima vez que el dueño cambie, diverge. | ensayo: caso (b) del saboteador |
+| L2-DIV-03 | L1-06 | Cuando el extractor del Archivo_Dueño devuelve un resultado vacío, el verificador de divergencias deberá dar ROJO. | Falla cerrado (Saltzer): un dato que se mudó o un extractor viejo darían verde comparando vacío contra vacío. El Registro_De_Datos que no parsea es el mismo caso. | ensayo: caso (c) del saboteador |
+| L2-DIV-04 | L1-06 | Cuando cada línea fuera del Archivo_Dueño coincide con el patrón de cada Dato_Vigente sin fecha ni sesión, el verificador de divergencias deberá listar la línea como copia ausente del Registro_De_Datos. | Las copias no declaradas no se pueden enumerar (universo abierto). El patrón es una heurística: lista y no frena, como L2-CMP-03, porque un freno con falsos positivos se apaga. La Medición_Fechada queda afuera por construcción. | ensayo: control positivo (d) del saboteador, un retome real lleno de Medición_Fechada |
+| L2-DIV-05 | L0-05 | El Registro_De_Datos deberá asignar a cada Dato_Vigente un único Archivo_Dueño. | Dos dueños es la divergencia misma, escrita en el registro. El registro es un mecanismo compartido: se chequea antes de que el verificador lo use (t20 §6). | inspección: el verificador da ROJO ante dos dueños |
