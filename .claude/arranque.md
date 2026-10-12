@@ -31,11 +31,12 @@ AUTORIZACIONES PERMANENTES -- no se piden de nuevo cada sesion
   - Instalar lo que haga falta (winget, pip) sin preguntar. Vigente desde
     2026-08-17.
 
-EL DEFAULT ES EN FRIO
-  El trabajo se hace sobre el ELF, sobre el ISO y sobre los volcados ya
-  tomados. El emulador se abre SOLO cuando hay que contrastar o confirmar
-  algo por efecto, y en ese caso se escribe la prediccion ANTES de abrirlo.
-  Abrir el emulador "para ver" cuesta una sesion y no produce evidencia.
+LEER EN FRIO, DESCUBRIR CON SPIKES (agil; Fran, 2026-10-12)
+  Lo que se puede LEER (el ELF, el ISO, los volcados ya tomados) se lee en
+  frio. Lo que hay que DESCUBRIR del comportamiento se averigua con un spike
+  corto en vivo -- prediccion escrita antes, control, y el banco lanza el
+  emulador solo --, no con sesiones de diseno en el aire. Abrir el emulador
+  "para ver", sin prediccion, sigue sin producir evidencia.
 
 BLACK -- lo primero, y es UN comando
     .\proyectos\ingenieria\black\abrir-sesion.ps1

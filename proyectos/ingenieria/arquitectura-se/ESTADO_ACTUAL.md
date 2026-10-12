@@ -2,6 +2,17 @@
 
 **Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
 
+**2026-10-12 — insumo de validación: NASA por etiqueta (T13, va PRIMERO).** En la sesión 129 de BLACK, Fran vio que
+el coop había pasado por las fases A, B y C sin requisitos, alcance ni plan de V&V, y pidió revisar la arquitectura
+«para que NASA no dependa de leer un hook o de una palabra mágica». **Medido** (`medir-fases.py`, control positivo con
+el telescopio): **6 de 22 proyectos en fases A–D sin requisitos** (incluido éste). Causa leída en la implementación:
+la exigencia es opt-in (`"requisitos"` en el catálogo, 1 de 22), el aviso sale sólo con la palabra `diseno`, la
+auditoría da P7 «NO APLICA» por exclusión y la compuerta de fase informa sin verificar. Diseño de la corrección
+(M-01 a M-06) en [`docs/insumo-2026-10-12-nasa-por-etiqueta.md`](docs/insumo-2026-10-12-nasa-por-etiqueta.md); M-06
+(«leer en frío, descubrir con spikes») y «NASA con ágil» en el libro de bolsillo ya quedaron. También nació la
+necesidad transversal **`lluvia-de-ideas`** (disparada por cadencia medida, `lluvia-de-ideas.py`). **Siguiente: T13**
+antes que T2.
+
 **2026-10-09 — la puerta ya no frena BLACK por «punteros».** Las señales del
 catálogo se partieron en **fuertes** (nombran el proyecto) y **débiles**
 (vocabulario: `punteros`, `programación`). La débil frena sola —el caso 331, el
