@@ -9,7 +9,13 @@
 > bug; (2) la puerta todavía infiere proyectos de texto pegado y de notificaciones (3 falsos frenos hoy): hasta T14,
 > `-Excepcion` con motivo; (3) `encontrar-defectos.js` ya no cuenta un agente fallado como ronda seca; (4) el rojo de
 > `puerta-afuera --autotest` dentro de `chequeo-completo` apareció una vez y no se reprodujo (corrido solo y en la
-> limpieza, verde): intermitente, sin causa todavía (DA-020). **Criterio de Fran para estas sesiones** (memoria
+> limpieza, verde): intermitente, sin causa todavía (DA-020). **La auditoría de esta sesión dio 4 ROJOS, dichos y no
+> maquillados:** P7 de tres commits de arquitectura-se hechos ANTES de que existieran sus requisitos (`f72a161`,
+> `9377523`, `cb2aa5d`: no podían citar IDs; es la falla que T13 ataca, cometida por el método sobre sí mismo), y P7 de
+> black, porque correr la compuerta de fase sobre su carpeta (`python .claude/hooks/fase_activa.py <ruta>`, sólo
+> lectura) cuenta como acción —la puerta no la reconoce como lectura pura— y black está de verdad en Fase C sin
+> requisitos. Sumar `fase_activa.py <ruta>` a las lecturas puras de la puerta entra en la sesión de T14.
+> **Criterio de Fran para estas sesiones** (memoria
 > `feedback_arquitectura-en-ultracode`): desempeño > costo > plazo; workflows diseñados y estimados por ronda.
 >
 > **2026-10-12 03:15 (sesión `de44da9d`) — sesión de arquitectura creativa en ultracode.** Producto y
