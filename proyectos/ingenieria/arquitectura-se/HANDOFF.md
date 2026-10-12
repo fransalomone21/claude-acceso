@@ -1,5 +1,15 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-12 03:15 (sesión `de44da9d`, EN CURSO) — sesión de arquitectura creativa en ultracode.** Producto y
+> checkpoint: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) (su «Progreso» dice por dónde
+> seguir si el límite de 5 h la corta; Fran pidió que se reanude sola al restablecerse y que no se achique por
+> presupuesto). **LÍNEA DE BASE**, medida al entrar (detalle y fuentes en el §0 del documento):
+> efectividad — BLACK pieza 2 = 13 sesiones; 0 de 38 defectos validados; 6 de 22 proyectos en A–D sin requisitos;
+> 2 de 21 sesiones auditadas con ROJO. Costo — `ses.met` mediana **87 712** (con T12 validada, 78 070: +12 % en 10
+> días); entrada exigida por la puerta 105 697 (esta) a 448 352 (d7be1e49); recordatorio + cuadro ~2,3–2,9 K por turno;
+> plan 65 % de la ventana de 5 h, 34 % semanal. Plazo — arranque con 12 medidores que suman 109,7 s; frenos 46 negadas
+> en 2 115 decisiones (2,2 %), mediana 1 por sesión; esta sesión entró con 1 negada falsa (la palabra «BLACK» del retome).
+
 > **2026-10-12 (cierre de (129)) — SIGUE: la sesión de arquitectura creativa en ultracode** ([`RETOME.md`](RETOME.md)).
 > Fran: sesiones dedicadas sólo a encontrar y arreglar los errores conceptuales del método, no mecánicas sino creativas,
 > para optimizar su desempeño al máximo (modificar, eliminar, agregar o evolucionar), en ultracode. El retome define la
