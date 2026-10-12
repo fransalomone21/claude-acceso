@@ -9,7 +9,8 @@
 > materia (11 K por entrada) quedó para el resto de T19: toca la regla 16, el enrutador y P3 de la auditoría;
 > (4) **sigue esperando a Fran (regla 6):** la señal fuerte de arquitectura-se en el catálogo (DA-054). Esta sesión
 > entró con tres excepciones por menciones (software-de-vuelo por «puntero» del retome pegado; física espacial y
-> telescopio nombrados como contexto).
+> telescopio nombrados como contexto). Pendiente de diseño (T14b): que la puerta distinga un proyecto **pedido** de
+> uno **mencionado** en lo que tipea Fran; la señal fuerte hoy no lo distingue (lección registrada, nivel parche).
 
 > **2026-10-12 (sesión `26479d81`, CERRADA) — SIGUE: lo que diga la lluvia §6** (retome en [`RETOME.md`](RETOME.md)).
 > Hecho: **T20 construido** (`ec080cc`, `c01ba9e`, `2d0d296`; perfil `f07cf05`): requisitos a su dueño (cierra el ROJO
