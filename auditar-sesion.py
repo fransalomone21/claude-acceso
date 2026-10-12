@@ -251,7 +251,7 @@ def p7_de(g, p: str, ent: dict, pr: Path, repo: Path, rel: str, desde: str, raiz
             fase = g.fase_de(pr)
         except Exception as e:  # noqa: BLE001 -- un PDP ilegible no es un proyecto sin fase
             return [R("P7", q, "ROJO", "medido", "la fase del PDP de %s no se pudo tipar (%s)" % (p, e))]
-        if fase and fase[1] in g.FASES_DESARROLLO:
+        if g.exige_requisitos(pr, fase):
             return [R("P7", q, "ROJO", "medido", "%s esta en %s (fase %s) sin documento de requisitos: se trabajo sin "
                       "contra que verificar (T13, L2-AUD-01)" % (p, fase[1], fase[0]))]
         return [R("P7", q, "NO APLICA", "medido", "%s no declara documento de requisitos y su fase no lo exige (%s)"
@@ -547,6 +547,20 @@ def autotest() -> int:
     (pt / "PDP.md").write_text(fila % "Pre-Fase A: estudio de conceptos", encoding="utf-8")
     r7 = p7_de(g, "demo-c", {}, pt, repo, rel, "2026-01-15 00:00:00", RAIZ)
     caso("CONTROL T13: Pre-Fase A sin requisitos -> P7 NO APLICA", [x["veredicto"] for x in r7] == ["NO APLICA"], r7)
+    # T19a (L1-04 acotado por N-09): un proyecto de materia en Fase C sin requisitos no da ROJO; con la naturaleza
+    # documentos agregada a las del ciclo NASA (mutante), vuelve el ROJO: el caso lo ve.
+    pd = tmp / "t13" / "proyectos" / "documentos" / "demo-apunte"
+    pd.mkdir(parents=True)
+    (pd / "PDP.md").write_text(fila % "Fase C: diseño final", encoding="utf-8")
+    r7 = p7_de(g, "demo-apunte", {}, pd, repo, rel, "2026-01-15 00:00:00", RAIZ)
+    caso("CONTROL T19a: apunte (documentos) en Fase C sin requisitos -> P7 NO APLICA",
+         [x["veredicto"] for x in r7] == ["NO APLICA"], r7)
+    viejo_n = g.NATURALEZAS_NASA
+    g.NATURALEZAS_NASA = viejo_n + ("documentos",)
+    r7m = p7_de(g, "demo-apunte", {}, pd, repo, rel, "2026-01-15 00:00:00", RAIZ)
+    g.NATURALEZAS_NASA = viejo_n
+    caso("MUTANTE T19a (documentos con ciclo NASA) vuelve el ROJO: el caso lo ve",
+         [x["veredicto"] for x in r7m] == ["ROJO"], r7m)
     desde = "2026-01-15 00:00:00"
     v, e = p8_checkpoint(repo, rel, rel + "/HANDOFF.md", desde)
     caso("commits sin pushear y sin HANDOFF -> P8 ROJO", v == "ROJO" and "sin pushear" in e and "HANDOFF" in e, e)

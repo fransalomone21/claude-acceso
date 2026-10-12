@@ -15,7 +15,9 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 - **Documento_De_Requisitos**: el archivo que el proyecto declara en `"requisitos"` de `.claude/cascada.json` y que
   existe en el disco.
 - **Registro_Del_Proyecto**: el `ESTADO_ACTUAL.md`, el `HANDOFF.md` y el `PDP.md` del proyecto.
-- **Proyecto expuesto**: un proyecto en Fase_De_Desarrollo sin Documento_De_Requisitos.
+- **Proyecto_Con_Ciclo_NASA**: un proyecto que vive bajo `proyectos/ingenieria/` (lo lee `NATURALEZAS_NASA` de
+  `.claude/hooks/cascada_puerta.py`). Los de `documentos/` y `seguimiento/` quedan afuera por N-09.
+- **Proyecto expuesto**: un Proyecto_Con_Ciclo_NASA en Fase_De_Desarrollo sin Documento_De_Requisitos.
 
 ## 1. Necesidades (en el idioma de Fran; todavía no verificables)
 
@@ -28,6 +30,7 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | N-05 | Que todo error de la arquitectura del método quede registrado y no se dé por cerrado sin prueba. | Fran, 2026-10-12 (registro de defectos) |
 | N-06 | **Cero divergencias, como ley transversal**: que ningún dato del método ni de un proyecto viva en dos lugares que puedan contradecirse; «debe ser lo más cuidado». | Fran, 2026-10-12 17:00 |
 | N-08 | **NASA y ágil en la proporción que pide cada proyecto**: «saber usar NASA y ágiles en proporciones adecuadas a la complejidad del proyecto o necesidades». | Fran, 2026-10-12 17:05 |
+| N-09 | **El rigor completo, para los proyectos grandes**: la arquitectura se pule para los proyectos de ingeniería donde su falta afecta la necesidad (BLACK, el telescopio); los de materia —apuntes, actividades, parcialitos— siguen con el método que ya tienen y no se frenan por la arquitectura. | Fran, 2026-10-12 noche: «no me interesa si el apunte de física no está bien hecho con la arquitectura, porque es funcional y alcanza» |
 | N-07 | **Que el costo escale con la necesidad**: una pregunta que no es de un proyecto se contesta en un párrafo sin leer «1000 párrafos»; la cascada escala conocimiento, memorias, hooks y complejidad según el proyecto, la necesidad y su naturaleza. | Fran, 2026-10-12 17:00 |
 
 ## 2. Nivel 0 — el método
@@ -36,7 +39,7 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 |---|---|---|---|
 | L0-01 | N-01 | El método deberá llevar la fase abierta de cada proyecto activo hacia el criterio de salida de la fase, con evidencia registrada en cada sesión. | análisis: auditorías (`.claude/auditorias/`) |
 | L0-02 | N-02 | El método deberá mantener el contexto que impone por sesión por debajo del costo medido como línea base. | ensayo: `medir-costo.py --ultimas 3` |
-| L0-03 | N-04 | El método deberá exigir los productos NASA de la Fase_De_Desarrollo de cada proyecto. | ensayo: autotest de la puerta y `medir-fases.py` |
+| L0-03 | N-04, N-09 | El método deberá exigir los productos NASA de la Fase_De_Desarrollo de cada Proyecto_Con_Ciclo_NASA. | ensayo: autotest de la puerta y `medir-fases.py` |
 | L0-04 | N-05 | El método deberá registrar cada defecto de arquitectura con la evidencia del defecto. | inspección: `defectos.py verificar` |
 | L0-05 | N-06 | El método deberá asignar a cada dato un único archivo dueño. | ensayo: medidor de divergencias (a diseñar, T20) |
 | L0-06 | N-07 | El método deberá imponer a cada sesión un costo de contexto proporcional a la necesidad declarada. | ensayo: `medir-costo.py` por tipo de sesión (a extender, T19) |
@@ -49,7 +52,7 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | L1-01 | L0-02 | El arranque del método deberá inyectar entre 0 y 90 000 caracteres por sesión. | TBR: la mediana de las tres últimas sesiones es 87 712 (2026-10-12); con T12 validada era 78 070. El objetivo de T12 vuelve a ser la meta una vez medida la deriva. | ensayo: `medir-costo.py --ultimas 3`, columna `ses.met` |
 | L1-02 | L0-02 | Los recordatorios del método deberán inyectar entre 0 y 3 000 caracteres por turno. | TBR: recordatorio 1 154–1 683 + cuadro 1 144–1 187 por turno (2026-10-12). | ensayo: `medir-costo.py`, columnas `recor/t` y `cuadr/t` |
 | L1-03 | L0-01 | La puerta deberá negar entre el 0 % y el 5 % de las decisiones de una sesión. | TBR: 46 negadas en 2 115 decisiones (2,2 %) en 21 sesiones auditadas; más negadas por sesión empujan a sacar el freno (Saltzer, aceptabilidad psicológica). | análisis: P6 de las auditorías |
-| L1-04 | L0-03 | La puerta deberá exigir el Documento_De_Requisitos a cada proyecto en Fase_De_Desarrollo. | Es T13: hasta el 2026-10-12 la exigencia era opt-in y 6 de 22 proyectos en A–D no tenían requisitos. | ensayo: autotest de la puerta |
+| L1-04 | L0-03 | La puerta deberá exigir el Documento_De_Requisitos a cada Proyecto_Con_Ciclo_NASA en Fase_De_Desarrollo. | Es T13: hasta el 2026-10-12 la exigencia era opt-in y 6 de 22 proyectos en A–D no tenían requisitos. Acotado por N-09 (T19a, 2026-10-12 noche): frenaba la entrada a tres proyectos de materia (apunte-iise, software-de-vuelo, cohete-de-agua), donde el papel que manda es el criterio de la cátedra. | ensayo: autotest de la puerta |
 | L1-05 | L0-04 | El registro de defectos deberá cerrar cada defecto con commit, prueba, saboteador y tres sesiones auditadas posteriores. | Fran: «que no se validen fácilmente». | ensayo: `defectos.py --autotest` |
 | L1-06 | L0-05 | Cuando un dato aparece en más de un archivo, el verificador de divergencias deberá dar ROJO si la copia difiere del archivo dueño del dato. | Fran, ley de cero divergencias. Antecedentes: DA-012, DA-017, DA-036 y T2 (un dueño por dato, diseñado en el diagnóstico del 2026-09-28 y nunca construido). Una copia sólo es aceptable como vista GENERADA del dueño o como puntero. | ensayo: copia sintética divergente en rojo; saboteador |
 | L1-07 | L0-06 | Cuando la sesión responde una pregunta sin proyecto, el método deberá inyectar entre 0 y 30 000 caracteres. | TBR: hoy entran unos 88 000 fijos en TODA sesión (perfil, enrutador, memoria, pilares, núcleo del chequeo, apertura), sea cual sea la pregunta (mapa, subsistema de inyección). El valor lo fija el diseño T19 contra lo que la regla 16 exige que llegue siempre. | ensayo: `medir-costo.py` sobre una sesión sin proyecto |
@@ -66,13 +69,13 @@ abre); el verificador lista y no frena.
 
 | ID | Padre | Requisito | Rationale | Verificación |
 |---|---|---|---|---|
-| L2-VER-01 | L1-04 | Cuando el PDP de cada proyecto declara abierta una Fase_De_Desarrollo Y el proyecto carece del Documento_De_Requisitos, el verificador del catálogo deberá listar el proyecto como expuesto. | Lista y no frena: la decisión de Fran es frenar al entrar. Un rojo permanente del arranque por seis proyectos dejaría de discriminar. | ensayo: catálogo sintético con un proyecto en Fase C sin requisitos |
+| L2-VER-01 | L1-04 | Cuando el PDP de cada Proyecto_Con_Ciclo_NASA declara abierta una Fase_De_Desarrollo Y el proyecto carece del Documento_De_Requisitos, el verificador del catálogo deberá listar el proyecto como expuesto. | Lista y no frena: la decisión de Fran es frenar al entrar. Un rojo permanente del arranque por seis proyectos dejaría de discriminar. | ensayo: catálogo sintético con un proyecto en Fase C sin requisitos |
 | L2-VER-02 | L1-04 | Cuando el PDP de cada proyecto declara la fase abierta sin tipo NASA, el verificador del catálogo deberá listar el proyecto como fase sin tipo. | 8 proyectos al 2026-10-12. | ensayo: PDP sintético sin tipo |
-| L2-AUD-01 | L1-04 | Cuando la sesión toca cada proyecto en Fase_De_Desarrollo Y el proyecto carece del Documento_De_Requisitos, la auditoría de la sesión deberá dar ROJO en la pregunta P7. | Antes daba NO APLICA por exclusión (DA-028). | ensayo: caso del autotest de `auditar-sesion.py` |
+| L2-AUD-01 | L1-04 | Cuando la sesión toca cada Proyecto_Con_Ciclo_NASA en Fase_De_Desarrollo Y el proyecto carece del Documento_De_Requisitos, la auditoría de la sesión deberá dar ROJO en la pregunta P7. | Antes daba NO APLICA por exclusión (DA-028). | ensayo: caso del autotest de `auditar-sesion.py` |
 | L2-CMP-01 | L1-04 | Cuando la sesión entra a cada proyecto en Fase_De_Desarrollo, la compuerta de fase deberá listar la ruta del Documento_De_Requisitos del proyecto. | DA-029: la compuerta informaba la fase sin mirar sus productos. | demostración |
 | L2-CMP-02 | L1-04 | Cuando la sesión entra a cada proyecto en Fase_De_Desarrollo, la compuerta de fase deberá indicar si el Documento_De_Requisitos del proyecto existe. | ídem. | ensayo: autotest de `fase_activa.py` |
 | L2-CMP-03 | L1-04 | Cuando la sesión entra a cada proyecto en Fase_De_Desarrollo, la compuerta de fase deberá indicar si las secciones de alcance, riesgos Y plan de verificación del PDP del proyecto tienen contenido propio. | La plantilla del PDP ya trae §2 «Qué NO es» (alcance), §5 Riesgos y §7 Verificación: no hacen falta artefactos nuevos (DA-031), hace falta mirar que no sean la plantilla. Informa: no frena, porque «tiene contenido propio» es una heurística y un freno con falsos positivos es menos seguro. | ensayo: autotest de `fase_activa.py` |
-| L2-PTA-01 | L1-04 | Cuando la acción toca cada proyecto en Fase_De_Desarrollo Y el proyecto carece del Documento_De_Requisitos, la puerta deberá negar la acción. | DA-027: la exigencia era opt-in. | ensayo: autotest de la puerta, con saboteador |
+| L2-PTA-01 | L1-04 | Cuando la acción toca cada Proyecto_Con_Ciclo_NASA en Fase_De_Desarrollo Y el proyecto carece del Documento_De_Requisitos, la puerta deberá negar la acción. | DA-027: la exigencia era opt-in. | ensayo: autotest de la puerta, con saboteador |
 | L2-PTA-02 | L1-04 | Cuando la acción escribe el Documento_De_Requisitos del proyecto expuesto, la puerta deberá permitir la acción. | La única salida tiene que quedar abierta (un freno que falla cerrado deja abierta su reparación). Sin documento declarado, vale un archivo del proyecto que dispare el concepto `requisitos` (nombre `requisitos*.md` o `.txt`), que exige los libros. | ensayo: control positivo del autotest |
 | L2-PTA-03 | L1-04 | Cuando la acción escribe el Registro_Del_Proyecto del proyecto expuesto, la puerta deberá permitir la acción. | Frenar el checkpoint empujaría a saltearlo. | ensayo: control positivo del autotest |
 | L2-PTA-04 | L1-03 | Cuando la puerta infiere los proyectos del pedido, la puerta deberá excluir el texto encerrado en las etiquetas pasted_content, task-notification Y system-reminder. | T14 (`docs/t14-lo-que-pide-fran.md`): el 2026-10-12 la puerta negó dos acciones por proyectos nombrados en un retome pegado y en una notificación automática. Lo pegado actúa sobre rutas, que la puerta ve por la ruta. | ensayo: caso 17 del autotest de la puerta, con mutante |

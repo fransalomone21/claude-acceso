@@ -150,6 +150,7 @@ mismo día; `workflows/rescatar-hallazgos.py` armó el resultado desde el journa
 | 1 | **T14** la puerta infiere sólo de lo que tipea Fran ([diseño](t14-lo-que-pide-fran.md)) | DA-045 | chico y diseñado; 3 falsos frenos hoy; es el primer escalón de la ley de proporción | — · **CONSTRUIDO** `e6d58bb` (2026-10-12, sesión `814911bc`), DA-045 arreglado sin validar |
 | 1b | **T20, ley de cero divergencias** (L0-05, L1-06): cada dato con un archivo dueño; toda copia es vista generada o puntero; un medidor que da ROJO si una copia difiere | DA-017, DA-012, DA-036 (T2 nunca construido) | ley de Fran: «lo más cuidado» | Fran, 17:00: «0 divergencias como ley transversal» · **CONSTRUIDO** `2d0d296` (2026-10-12, sesión `26479d81`): `divergencias.py` + `.claude/datos.json` + saboteador, en `chequeo-completo`; cubre 3 datos de arquitectura-se, así que DA-017/012/036 siguen abiertos (lo que falta: [t20](t20-cero-divergencias.md) §3) |
 | 1c | **T19, cascada proporcional** (L0-06, L0-07, L1-07 a L1-10): una pregunta sin proyecto carga 0 a 30 K (hoy 88 K fijos); el conocimiento, las memorias y los hooks escalan con la necesidad y la naturaleza; NASA y ágil en la proporción de la complejidad, que se estima preguntándole a Fran y por analogía con proyectos de la casa | DA-015, DA-052, DA-051, DA-004, DA-005 | leyes de Fran: «un párrafo no lleva leer 1000 párrafos»; «NASA y ágiles en proporciones adecuadas» | Fran, 17:00-17:08 |
+| 1c-a | **T19a** los proyectos de materia no se frenan por la fase NASA ([diseño](t19a-materia-sin-freno-nasa.md)): T13 se exige sólo a la naturaleza `ingenieria` | — (frenaba la entrada a apunte-iise, software-de-vuelo y cohete-de-agua) | lo urgente para que Fran estudie: N-09 | Fran, 2026-10-12 noche (§7) · **CONSTRUIDO** (sesión `1622e692`): expuestos 5 → 2 (black, minecraft-amigos) |
 | 2 | **T17** conectores bajo la puerta: niega compartir o publicar por conector salvo lo declarado | DA-046 | riesgo irreversible (publicar lo privado) | «frenar compartir/publicar» |
 | 3 | **T15** el aprendizaje se cierra: el triage `propia` exige su renglón; la recurrencia de una lección se cuenta y la sube de nivel; el costo del fan-out al lado de la decisión; la caja negra fuera de %TEMP% | DA-044, DA-042, DA-050, DA-047 | la causa de las dos ventanas perdidas hoy | — |
 | 4 | **T16** estado verificable: los requisitos nacen con columna pasa/falla y una prueba que la sesión corre al entrar | DA-053, DA-039 | la palanca mayor de efectividad (sesiones por pieza) | «al escribir requisitos» (con T13) |
@@ -180,6 +181,14 @@ T13); **retirar** solo, con aviso, lo que no se disparó en 20 sesiones (los fre
 vfdbb9` borrada de GitHub (no tenía nada fuera de main; la app la tomaba como base del diff porque el `origin/HEAD`
 local apuntaba ahí, corregido a `main`). Y el criterio de la sesión cambió: «andá controlando el límite: quiero mayor
 performance y menores costos, a costa de mayor tiempo de tardanza».
+
+**2026-10-12 a la noche (sesión `1622e692`) — la meta se parte en dos (N-09).** Fran: la arquitectura se pule para los
+proyectos grandes (BLACK y el telescopio), donde su falta afecta la necesidad; los apuntes, actividades y parcialitos
+siguen con el método que ya tienen («no me interesa si el apunte de física no está bien hecho con la arquitectura,
+porque es funcional y alcanza»). Prefiere todo resuelto antes de seguir con BLACK o el telescopio, pero primero lo
+urgente, y **sin que se muera el plan**: tiene que quedarle presupuesto para los parcialitos de Física Espacial y de
+IISE. Consecuencia en el orden: T19a primero (construido esa noche); lo que sigue se elige por lo que destraba a BLACK
+y al telescopio (BLACK está frenado por T13: Fase C sin requisitos, y eso es correcto).
 
 La consigna de la madrugada: «no quiero que te achiques por el budget, quiero que salga perfecto, cueste lo que cueste; es
 arquitectura, y no se negocia ni se ratonea». La tensión con la regla 9 del perfil («el presupuesto gana sobre

@@ -207,6 +207,18 @@ def escribe_requisitos(nota: str, destino: str) -> bool:
     return bool(destino) and destino.startswith(proy + os.sep) and bool(PAT_REQ_ARCHIVO.search(os.path.basename(destino)))
 
 
+# T19a (2026-10-12 noche; L1-04 acotado por N-09 de proyectos/ingenieria/arquitectura-se/docs/10-requisitos.md): el
+# ciclo NASA completo se exige a los proyectos de ingenieria (BLACK, el telescopio...). Los de materia no se frenan por
+# la fase: ahi el papel que manda es el criterio de la catedra. Fran: «es funcional y alcanza».
+NATURALEZAS_NASA = ("ingenieria",)
+
+
+def exige_requisitos(proy: Path, fase) -> bool:
+    """La fase del proyecto exige documento de requisitos (T13 acotado por T19a): fase A-D Y naturaleza con ciclo
+    NASA. La naturaleza es la carpeta madre del proyecto (proyectos/<nat>/<p>)."""
+    return bool(fase) and fase[1] in FASES_DESARROLLO and proy.parent.name in NATURALEZAS_NASA
+
+
 def fase_de(proy: Path):
     """(id, tipo corto) de la fase abierta del PDP: tipo 'Fase C', 'Pre-Fase A'... o None si no se tipa. None si no
     hay PDP o ninguna fase abierta. Revienta si el PDP o la compuerta no se pueden leer: quien llama falla cerrado."""
@@ -273,7 +285,7 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
                 notas.append("FASE ILEGIBLE: %s -- la fase del PDP no se pudo tipar (%s): la puerta niega como si "
                              "faltaran los requisitos. Arreglar el PDP o .claude/hooks/fase_activa.py" % (norm(proy), e))
             else:
-                if fase and fase[1] in FASES_DESARROLLO:
+                if exige_requisitos(proy, fase):
                     notas.append("%s: %s -- el PDP dice %s (%s) y el proyecto no tiene documento de requisitos. Lo "
                                  "primero es escribirlo: la puerta deja escribir un archivo del proyecto llamado "
                                  "requisitos*.md o *-requisitos.md (el concepto 'requisitos' exige el GtWR, la catedra y "
@@ -987,7 +999,7 @@ def cli_verificar() -> int:
             continue
         if f[1] is None:
             sin_tipo.append("%s (%s)" % (n, f[0]))
-        elif f[1] in FASES_DESARROLLO and not ent.get(n, {}).get("requisitos"):
+        elif exige_requisitos(disco[n], f) and not ent.get(n, {}).get("requisitos"):
             expuestos.append("%s (%s)" % (n, f[1]))
     for r in rojos:
         print("[FAIL] " + r)
@@ -1437,8 +1449,8 @@ def autotest() -> int:
              "## 4. Las fases\n\n| # | Fase | Cierra | Estado |\n|---|---|---|---|\n"
              "| 3 | %s | CDR | **abierta** |\n\n**Fase en curso:** 3\n\n## 5. Riesgos\n\n| R1 | x |\n")
 
-    def proyecto13(nombre, fila):
-        d = r13 / "proyectos" / "ingenieria" / nombre
+    def proyecto13(nombre, fila, nat="ingenieria"):
+        d = r13 / "proyectos" / nat / nombre
         (d / "docs").mkdir(parents=True, exist_ok=True)
         (d / "PDP.md").write_text(pdp_t % fila, encoding="utf-8")
         for f in ("CLAUDE.md", "ESTADO_ACTUAL.md", "HANDOFF.md"):
@@ -1449,8 +1461,11 @@ def autotest() -> int:
     d_a = proyecto13("demo-prea", "Pre-Fase A: estudio de conceptos")
     d_r = proyecto13("demo-req", "Fase D: integración y prueba")
     (d_r / "docs" / "10-requisitos.md").write_text("| L1-01 | x |\n", encoding="utf-8")
+    # T19a (L1-04 acotado por N-09): el mismo PDP en Fase C, pero de un proyecto de materia
+    d_ap = proyecto13("demo-apunte", "Fase C: diseño final", nat="documentos")
     c13 = {"base": [], "conceptos": {}, "necesidades": {"ninguna": {"que": "x", "leer": []}},
-           "proyectos": {"demo-c": {}, "demo-prea": {}, "demo-req": {"requisitos": "docs/10-requisitos.md"}}}
+           "proyectos": {"demo-c": {}, "demo-prea": {}, "demo-req": {"requisitos": "docs/10-requisitos.md"},
+                         "demo-apunte": {}}}
     f13 = tmp / "cat-t13.json"
     f13.write_text(json.dumps(c13, ensure_ascii=False), encoding="utf-8")
     e13 = {"CASCADA_CATALOGO": str(f13), "CASCADA_RAIZ": str(r13)}
@@ -1459,7 +1474,7 @@ def autotest() -> int:
     def t13(tool, inp, script=__file__, s=s16):
         return correr(pre_ev(tool, inp, s, cwd=str(r13)), e13, script)
 
-    for n in ("demo-c", "demo-prea", "demo-req"):
+    for n in ("demo-c", "demo-prea", "demo-req", "demo-apunte"):
         correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % n}, s16), e13)
     correr(post_ev("Read", {"file_path": str(d_r / "docs" / "10-requisitos.md")}, s16), e13)
     ed = lambda d, f: ("Edit", {"file_path": str(d / f), "old_string": "a", "new_string": "b"})  # noqa: E731
@@ -1476,6 +1491,7 @@ def autotest() -> int:
          t13("PowerShell", {"command": "Get-Content '%s'" % (d_c / "PDP.md")}), False)
     caso("T13 CONTROL: Pre-Fase A sin requisitos -> pasa", t13(*ed(d_a, "docs/x.md")), False)
     caso("T13 CONTROL: Fase D CON requisitos leidos -> pasa", t13(*ed(d_r, "docs/x.md")), False)
+    caso("T19a CONTROL: apunte (documentos) en Fase C sin requisitos -> pasa", t13(*ed(d_ap, "docs/x.md")), False)
     # el verificador LISTA (no frena) a los expuestos y a las fases sin tipo
     d_st = proyecto13("demo-sin-tipo", "una fase del apunte")
     c13["proyectos"]["demo-sin-tipo"] = {}
@@ -1486,7 +1502,7 @@ def autotest() -> int:
     lin_t = next((l for l in sal.splitlines() if l.startswith("FASE SIN TIPO")), "")
     fail_t13 = [l for l in sal.splitlines() if l.startswith("[FAIL]") and ("demo-c" in l or "demo-sin-tipo" in l)]
     ok = "demo-c (Fase C)" in lin_e and "demo-prea" not in lin_e and "demo-req" not in lin_e \
-        and "demo-sin-tipo" in lin_t and not fail_t13
+        and "demo-apunte" not in lin_e and "demo-sin-tipo" in lin_t and not fail_t13
     mal += not ok
     print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "T13 --verificar LISTA expuestos y sin tipo, sin [FAIL]",
                                lin_e[:60] if ok else "NO: %s | %s | %s" % (lin_e, lin_t, fail_t13)))
@@ -1503,7 +1519,10 @@ def autotest() -> int:
              True, d_a, "docs/x.md", s16 + "-m1", "fase rota"),
             ("MUTANTE (sin salida de requisitos) niega escribirlos",
              "and not escribe_requisitos(n, destino)]", "and not False]",
-             True, d_c, "docs/10-requisitos.md", s16 + "-m2", SIN_REQ_FASE))):
+             True, d_c, "docs/10-requisitos.md", s16 + "-m2", SIN_REQ_FASE),
+            ("MUTANTE T19a (documentos con ciclo NASA) frena el apunte",
+             'NATURALEZAS_NASA = ("ingenieria",)', 'NATURALEZAS_NASA = ("ingenieria", "documentos")',
+             True, d_ap, "docs/x.md", s16 + "-m3", SIN_REQ_FASE))):
         m = tmp / ("mutante-t13-%d.py" % n)
         txt = Path(__file__).read_text(encoding="utf-8").replace(viejo, nuevo, 1)
         if txt == Path(__file__).read_text(encoding="utf-8"):

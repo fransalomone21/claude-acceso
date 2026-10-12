@@ -23,9 +23,10 @@ MUTANTES = [
     # (pieza, texto original, texto mutado, el caso de su autotest que tiene que dar MAL)
     (HOOKS / "cascada_puerta.py", 'FASES_DESARROLLO = ("Fase A", "Fase B", "Fase C", "Fase D")',
      "FASES_DESARROLLO = ()", "T13 SABOTAJE: Fase C sin requisitos, editar diseno"),
-    (HOOKS / "cascada_puerta.py", 'elif f[1] in FASES_DESARROLLO and not ent.get(n, {}).get("requisitos"):',
+    # T19a (2026-10-12 noche): la condicion paso a exige_requisitos() (fase A-D Y naturaleza con ciclo NASA)
+    (HOOKS / "cascada_puerta.py", 'elif exige_requisitos(disco[n], f) and not ent.get(n, {}).get("requisitos"):',
      "elif False:", "T13 --verificar LISTA expuestos"),
-    (RAIZ / "auditar-sesion.py", "if fase and fase[1] in g.FASES_DESARROLLO:", "if False:",
+    (RAIZ / "auditar-sesion.py", "if g.exige_requisitos(pr, fase):", "if False:",
      "T13: Fase C SIN requisitos -> P7 ROJO"),
     (HOOKS / "fase_activa.py", 'if t[0].split(" (")[0] in FASES_DESARROLLO:', "if False:",
      "T13: Fase C lista requisitos NO DECLARADO"),

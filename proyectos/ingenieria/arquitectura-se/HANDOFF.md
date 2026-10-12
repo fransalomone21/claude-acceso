@@ -1,5 +1,16 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-12 noche (sesión `1622e692`, CERRADA) — SIGUE: lo que diga la lluvia §6, elegido por lo que destraba a
+> BLACK y al telescopio (§7, N-09).** Hecho: **T19a** (los proyectos de materia no se frenan por la fase NASA;
+> [`docs/t19a-materia-sin-freno-nasa.md`](docs/t19a-materia-sin-freno-nasa.md)). **Para el que siga:** (1) el
+> presupuesto manda: Fran necesita plan para los parcialitos de Física Espacial e IISE; una sesión de método por vez y
+> sin fan-out; (2) BLACK sigue frenado al entrar por T13 (Fase C sin requisitos): es correcto, y su delta SRR
+> (escribir sus requisitos) es lo primero que lo destraba; (3) sacar `nucleo-ise.md` de la base de los proyectos de
+> materia (11 K por entrada) quedó para el resto de T19: toca la regla 16, el enrutador y P3 de la auditoría;
+> (4) **sigue esperando a Fran (regla 6):** la señal fuerte de arquitectura-se en el catálogo (DA-054). Esta sesión
+> entró con tres excepciones por menciones (software-de-vuelo por «puntero» del retome pegado; física espacial y
+> telescopio nombrados como contexto).
+
 > **2026-10-12 (sesión `26479d81`, CERRADA) — SIGUE: lo que diga la lluvia §6** (retome en [`RETOME.md`](RETOME.md)).
 > Hecho: **T20 construido** (`ec080cc`, `c01ba9e`, `2d0d296`; perfil `f07cf05`): requisitos a su dueño (cierra el ROJO
 > P7 de `92520da`), copias sacadas, `divergencias.py` + `.claude/datos.json` + `probar-divergencias.py` (14 casos, 5

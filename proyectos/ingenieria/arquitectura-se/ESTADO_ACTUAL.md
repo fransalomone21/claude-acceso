@@ -3,6 +3,16 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-12 noche (sesión `1622e692`) — T19a CONSTRUIDO: los apuntes ya no se frenan por la fase NASA.** Fran partió
+la meta (N-09): rigor completo para los proyectos grandes, el método actual alcanza para los de materia. T13 se exige
+ahora sólo a la naturaleza `ingenieria` (`exige_requisitos()` en la puerta, su verificador y la auditoría; L1-04
+acotado, L2-VER-01/AUD-01/PTA-01 sobre Proyecto_Con_Ciclo_NASA, 0 VIOLA extrayendo los enunciados). **Efecto real:**
+expuestos 5 → 2 (black, minecraft-amigos); apunte-iise, software-de-vuelo y cohete-de-agua dejaron de estar frenados.
+Probado: autotests de la puerta y de la auditoría con control y mutante T19a, `probar-t13.py` (4 mutantes, mudados a
+la línea nueva), `chequeo-completo` con 24 saboteadores OK y un solo rojo legítimo (lo sin commitear). Diseño en
+[`docs/t19a-materia-sin-freno-nasa.md`](docs/t19a-materia-sin-freno-nasa.md). Plan al cerrar: 5 h al 78 %, semanal al
+72 % con 3 días por delante.
+
 **2026-10-12 (sesión `26479d81`) — T20 CONSTRUIDO.** Los L2-DIV-01..05 viven en su dueño
 ([`docs/10-requisitos.md`](docs/10-requisitos.md) §5; 0 VIOLA extrayendo los enunciados) y t20 §5 los refiere: cerró
 el ROJO P7 de la sesión anterior. Se sacaron copias: la fase del ESTADO (la cascada ahora la lee del PDP por
