@@ -41,7 +41,9 @@ límite, dejar programado con `CronCreate` (una vez) el retome para `resetsAt + 
       A, minecraft-amigos D, software-de-vuelo D) y 8 sin tipo. Falta: `chequeo-completo` entero (corriendo; dos rojos
       de medidores: «nube», legítimo, y «perfil instalado» por el autotest de `puerta-afuera`, que corrido solo da
       verde: intermitente), `probar-t13.py`, commit, `defectos.py arreglar` de DA-027/028/029/033.
-- [ ] (b) ENCONTRAR: lanzar después del restablecimiento de las 11:40 (con la ventana entera)
+- [~] (b) ENCONTRAR: LANZADO 11:50 (-03) como `wf_c0502758-925`, scriptPath el de abajo; si se corta, reanudar con
+      `Workflow({scriptPath: <el de abajo>, resumeFromRunId: "wf_c0502758-925", args: <los mismos>})` (los args están en
+      `workflows/candidatos-de-la-sesion-2026-10-12.json` y en la lista de `defectos.py listar`). Era: lanzar después del restablecimiento de las 11:40 (con la ventana entera)
       `Workflow({scriptPath: "<raiz>/proyectos/ingenieria/arquitectura-se/workflows/encontrar-defectos.js", args:
       {defectos: <la lista de defectos.py listar, una línea por id>, extra: <el JSON de
       workflows/candidatos-de-la-sesion-2026-10-12.json>}})`: 8 lentes, dedup, 3 escépticos por lote de 5, hasta dos
