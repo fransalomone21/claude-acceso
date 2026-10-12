@@ -240,6 +240,11 @@ sesiones cada una).
 | T10 | **Reglas de método que faltan**: premisa con grado en el diseño (A10), contraste por dos métodos (A9), protocolo de sesiones paralelas (A11; caso del 2026-10-02: un `git add -A` commiteó el archivo en curso de otra sesión, lección 330) | T2 | 1-2 | A9-A11 |
 | **T13** | **La fase manda** (agregada el 2026-10-12, va **primero**): que los productos NASA de cada fase (requisitos, alcance, V&V, riesgos) se exijan por la FASE del PDP y fallen cerrado — M-01 a M-05 de [`insumo-2026-10-12-nasa-por-etiqueta.md`](insumo-2026-10-12-nasa-por-etiqueta.md); medido: 6 de 22 proyectos en fases A–D sin requisitos | — | 1-2 | el insumo del 2026-10-12 |
 
+> **Reemplazado (T20, 2026-10-12).** El orden vigente vive en
+> [`lluvia-de-ideas-2026-10-12.md`](lluvia-de-ideas-2026-10-12.md) §6 (dueño). **T2 es T20**
+> ([`t20-cero-divergencias.md`](t20-cero-divergencias.md)). Lo que sigue en esta sección es el plan del 2026-09-28,
+> fechado: historia, no estado.
+
 **Camino crítico:** T1 → T2 → T3 → T4 → T7 → T9, **~9 a 16 sesiones**
 (`hipótesis`). T5, T6, T8 y T10 tienen holgura: se hacen en paralelo al
 camino o en los huecos, sin moverlo. **T1 va primero** porque todo lo demás

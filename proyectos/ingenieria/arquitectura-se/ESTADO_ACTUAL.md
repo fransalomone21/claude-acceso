@@ -1,6 +1,7 @@
 # ESTADO ACTUAL — arquitectura-se
 
-**Fase 7 ABIERTA** (validar ≠ verificar, tipo D). La cierra P10.
+La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
+sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
 **2026-10-12 (sesión `814911bc`) — T14 CONSTRUIDO; T20 DISEÑADO.** La puerta infiere el proyecto sólo de lo que tipea
 Fran: saca los bloques pegados, las notificaciones y los recordatorios antes de buscar señales (`e6d58bb`, L2-PTA-04);

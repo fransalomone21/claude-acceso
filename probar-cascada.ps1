@@ -13,6 +13,7 @@
 
 $ErrorActionPreference = 'Stop'
 $cascada = Join-Path $PSScriptRoot 'cascada.ps1'
+$faseActivaReal = Join-Path $PSScriptRoot '.claude\hooks\fase_activa.py'
 $fallas = 0
 $utf8 = New-Object System.Text.UTF8Encoding $false
 
@@ -142,12 +143,27 @@ Caso 'sin el libro de bolsillo (nivel 0b) la cascada se corta' {
     param($f); Remove-Item -Force (Join-Path $f.Raiz 'perfil-global\pilares\nucleo-ise.md')
 } 1 'nucleo-ise\.md  -- NO EXISTE'
 
+# T20 (L1-06): la fase tiene UN dueno, el PDP, y la lee fase_activa.py (la misma pieza que la compuerta). El ESTADO
+# dice otra fase a proposito: si la cascada imprime la del ESTADO, el contraste muestra la copia y no el dueno.
+Caso 'el PDP (dueno, T20) manda sobre la fase copiada en el ESTADO' {
+    param($f)
+    $h = Join-Path $f.Raiz '.claude\hooks'
+    New-Item -ItemType Directory -Force $h | Out-Null
+    Copy-Item -LiteralPath $faseActivaReal -Destination $h
+    Escribir (Join-Path $f.Pr 'PDP.md') "# PDP`n`n| 2 | Diseno preliminar | x | abierta |`n`n**Fase en curso:** 2`n"
+    Escribir (Join-Path $f.Pr 'ESTADO_ACTUAL.md') "# Estado actual`n`n## Fase 1 -- ABIERTA el 2026-01-02`n"
+    Escribir (Join-Path $f.Pr 'HANDOFF.md') "# Handoff 2`n"
+    Escribir (Join-Path $f.Raiz 'CLAUDE.md') "# enrutador`n`n| [``demo/``](proyectos/ingenieria/demo/CLAUDE.md) | demo | ACTIVO |`n"
+    G $f.Raiz @('add', '-A'); G $f.Raiz @('commit', '-q', '-m', 'fase 2 en el PDP') -Fecha '2026-01-02T10:00:00'
+    G $f.Raiz @('push', '-q')
+} 0 'proyecto  : FASE ACTIVA de demo \(leida del PDP\): 2 '
+
 Write-Host ""
 if ($fallas -gt 0) {
     Write-Host "  $fallas caso(s) no dieron lo esperado: la cascada esta ciega en algo." -ForegroundColor Red
     Write-Host ""
     exit 1
 }
-Write-Host "  probar-cascada: TODO BIEN (9 casos, los 2 controles en verde y 7 fallas en rojo o aviso)" -ForegroundColor Green
+Write-Host "  probar-cascada: TODO BIEN (10 casos: los 2 controles y el dueno de la fase en verde, 7 fallas en rojo o aviso)" -ForegroundColor Green
 Write-Host ""
 exit 0

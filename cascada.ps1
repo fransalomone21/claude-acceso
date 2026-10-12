@@ -240,7 +240,18 @@ if ($fila.Count -gt 0) {
 }
 
 $ea = Join-Path $pr.Ruta 'ESTADO_ACTUAL.md'
-if (Test-Path -LiteralPath $ea) {
+# T20 (L1-06, arquitectura-se/docs/t20-cero-divergencias.md §3): la fase tiene UN dueno, el PDP, y la lee
+# fase_activa.py, la misma pieza que la compuerta (un parser aca seria otra copia de la definicion). El ESTADO es el
+# respaldo de los proyectos cuyo PDP no declara '**Fase en curso:**'; si los dos dicen otra cosa, manda el PDP.
+$faDelPdp = $null
+$fa = Join-Path $Raiz '.claude\hooks\fase_activa.py'
+if ((Test-Path -LiteralPath $fa) -and (Test-Path -LiteralPath (Join-Path $pr.Ruta 'PDP.md'))) {
+    $primera = @(& python $fa $pr.Ruta 2>$null | Select-Object -First 1)
+    if ($primera.Count -gt 0 -and "$($primera[0])" -match '\(leida del PDP\)') { $faDelPdp = "$($primera[0])".Trim() }
+}
+if ($faDelPdp) {
+    Write-Host ("    proyecto  : {0}" -f $faDelPdp)
+} elseif (Test-Path -LiteralPath $ea) {
     # Se descartan los titulos: '# Estado actual' matchea 'Estado' y no dice
     # NADA, que es peor que no imprimir nada -- da la sensacion de haber
     # contrastado. Se busca una linea que ademas afirme algo.

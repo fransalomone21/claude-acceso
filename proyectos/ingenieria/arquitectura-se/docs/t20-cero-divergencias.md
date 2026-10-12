@@ -45,6 +45,19 @@ freno con falsos positivos es menos seguro: se apaga.
 | Rutas locales escritas en N documentos | TBR: inventario en la sesión de construcción; candidato a dueño, `"locales"` del catálogo, que la puerta ya lee | — |
 | Prefijo `A` de `arquitectura.md` | renombrar con prefijo propio (DA-036) | — |
 
+**Lo que la construcción encontró (2026-10-12, sesión de construcción), antes de tocar nada vivo:**
+
+- **La línea de fase del ESTADO tiene un lector:** `cascada.ps1` (bloque «ESTADO — las dos fuentes») la busca para
+  imprimir `proyecto :`. Sacarla sola deja ese contraste ciego (imprimiría la primera línea que diga «fase»). Cambio:
+  `cascada.ps1` toma la fase del **dueño** llamando a `fase_activa.py <ruta>` (la misma pieza que la compuerta; un
+  tercer parser de `**Fase en curso:**` sería otra copia de la definición) y cae a la heurística del ESTADO sólo si
+  el PDP no declara la fase. Si las dos dicen cosas distintas, manda el PDP. Caso nuevo en `probar-cascada.ps1`,
+  visto en rojo con el `cascada.ps1` viejo.
+- **`medir-fase.py` no tiene tabla de tipos** (medido: sólo mide el campo «Cómo se certifica» de P4). La copia de la
+  tabla que el diagnóstico de A3 veía ya no existe: la puerta (T13) y `medir-fases.py` importan `fase_activa`. Lo que
+  queda es su criterio de «esto es un PDP» (`Las fases` o `**Fase en curso`), que mide otra cosa (P4, migración del
+  molde) y no se toca: cambiarlo cambia qué PDP cuenta, no saca una copia.
+
 ## 4. El medidor
 
 `herramientas/divergencias.py` (nombre TBR) sobre un registro `datos.json`: cada dato vigente con su **dueño**
