@@ -291,6 +291,18 @@ class Depurador:
         return self._pedir("list_memchecks")["memchecks"]
 
 
+def _bajo(r: dict) -> str:
+    """(128) Un GPR del EE es de 128 bits y el servidor lo da como 32 cifras hex, la mitad ALTA primero: en (127) se
+    leyo `v1 = 0x01010101` de las primeras 8 cifras y los 32 bits bajos (los que usa el codigo) eran 0. Se muestra
+    primero lo bajo, y lo alto sólo si no es cero, rotulado."""
+    v = str(r.get("value", r.get("display", "")))
+    if len(v) == 32 and all(c in "0123456789abcdefABCDEF" for c in v):
+        alto = v[:16].lstrip("0")
+        return "0x%s%s" % (v[-8:], ("   (alto de 128 bits: 0x%s, bits 32-63: 0x%s)" % (v[:16], v[16:24]))
+                           if alto or v[16:24].strip("0") else "")
+    return str(r.get("display", v))
+
+
 def _hex(v: int) -> str:
     return f"0x{v:08X}"
 
@@ -461,7 +473,7 @@ def _despachar(d: Depurador, args) -> int:
                 continue
             print(f"--- {nombre} ({cat.get('size','?')} bits x {cat.get('count','?')}) ---")
             for r in cat["regs"]:
-                print(f"  {r.get('name',''):<10} = {r.get('display','')}")
+                print(f"  {r.get('name',''):<10} = {_bajo(r)}")
             print()
         for k in ("pc", "hi", "lo"):
             if k in datos:

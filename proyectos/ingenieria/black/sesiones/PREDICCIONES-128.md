@@ -41,6 +41,28 @@ lo recarga; el cambio de J2 alterna sobre esa recarga y el juego cae en el lazo 
 (`0x80001564`: `printf` y `jr ra` sobre sí mismo). El mecanismo de la caída (qué escribe dónde) sigue `hipótesis`.
 **N27 es de la familia F7b** y **R4 lo tapa** si la pausa deja de tocar el doble búfer: la secuencia queda igual a
 la del control. Este banco es la prueba de R4 (con R4: `--rama pausa` tiene que dar 0 de 2).
+## La prueba de R4 (la pausa en el montón 22), escrita antes de prenderla
+
+Pieza: `coop_pausa.py` (`docs/16` (128)), instalada con `coop_mod.py instalar --con-pausa` (el resto por defecto).
+Bancos: `n27_banco.py --rama pausa --con-pausa` (dos corridas = dos cargas, cada una en un arranque) y
+`f7b_pausa.py --con-soporte2 --con-pausa` (la traba de (126)). El control ya está medido: las dos corridas de N2 sin
+R4 (2 de 2 caídas) y la traba de (126)/(127) T0 (3 de 3).
+
+| # | Predicción | Resultado |
+|---|---|---|
+| R4a | con R4, la misma secuencia de N2 **no se cae**: 0 de 2, y el contador sube los 6 s después del cambio | **(128) cumplida 0 de 2** (`n27-pausa-r4-20261011-210707`, `-210956`): el cambio entra a la 1.ª pulsación y el contador sube ~31/s los 6 s. Contra el control de N2 (sin R4, 2 de 2 caídas): lo único distinto es la pieza |
+| R4b | en la pausa el «otro» **no pasa por 9** (estado 8 con la pistola en `en_pausa` y `vuelta`), la entrada 22 queda activa y el testigo de cargas sube a ≥ 1; el de memoria queda en **1** por arranque | **(128) cumplida 2 de 2:** el «otro» en estado 8 con la pistola y su modelo en todos los pasos; entrada 22 activa desde la 1.ª pausa; `malloc` dio `0x01F29390` (la cima del arena, donde (127) vio que crece); memoria 1, cargas 1. **Dos cargas:** recargado el nivel en el mismo arranque, la pausa abre con memoria 1 y cargas 1 (el menú quedó registrado y no se vuelve a leer, como se predijo en `docs/16`), y el juego sigue vivo |
+| R4c | el menú de pausa abre y vuelve (las fotos de `en_pausa` muestran el menú: el registro tipo 7/0xC se llenó desde el montón 22) | **(128) cumplida:** PAUSE MENU entero (objetivo, CONTINUE…QUIT) en la 1.ª pausa y en la de la 2.ª carga; CONTINUE vuelve al juego |
+| R4d | con la 2d y R4, `f7b_pausa.py --con-soporte2` **no se traba**: el contador de J2 sube después de la pausa con J2 en la SPAS, y `+0x8B8` vuelve a 0 | **(128) cumplida** (`f7b-pausa-20261011-211304`, pnach de 1166 palabras): con J2 en la SPAS el menú abre y vuelve, el contador sube (1238 → 1284 → 1364) y en la foto de la vuelta **la mitad de J tiene su pistola y la de J2 la SPAS** (F7 arreglado por la 2d, sin la traba de (126)). Una corrida |
+
+**Lectura de R4:** **la pausa en su propio montón tapa N27 y la traba de la 2d** (`confirmado` contra el control de N2:
+sin R4 2 de 2 caídas, con R4 0 de 2, misma secuencia). Queda **apagada por defecto** hasta la regresión con una
+pausa en cada uno de los 8 niveles: los 0x36000 B que pide salen de la cima del arena de `malloc`, y si un nivel más
+pesado los necesita, el costo de prenderla sería una caída nueva (no medido). Sus filas siguen en `coop-plan-b`.
+
+**Refuta R4:** una caída con R4 (entonces la pausa no es todo N27: lo que queda es otra carga sobre el búfer de J), o
+el menú sin abrir (el montón 22 no le sirve al cargador: algo del montón que no se leyó), o la traba de la 2d igual.
+
 **Riesgo que queda abierto:** cualquier otra carga que vacíe el búfer del arma en la mano de J (juntar, la precarga de
 dos alternas) puede llevar a la misma caída; eso es R1–R3 (D'), y el banco de los cinco caminos lo tiene que cubrir.
 

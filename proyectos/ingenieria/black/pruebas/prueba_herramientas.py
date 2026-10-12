@@ -1017,6 +1017,19 @@ ok("lui a1, 0x47" in _atar_txt and "addiu a1, a1, -0x3210" in _atar_txt and 0x00
 ok(_atar_txt[-4:] == [t for _, _, t in _j2.ensamblar_programa()][-4:],
    "programa_atar: el SALIR del stub queda igual")
 
+# (128) ensamblar_programa reemplaza la etiqueta ENTERA: una etiqueta que es prefijo de otra (FIN / FINB) no se come
+# el principio de la otra (con `replace` quedaba `0x46f208B`, otra direccion valida: un salto equivocado sin error), y
+# una etiqueta que no existe es un error, no un texto que el ensamblador interpreta como pueda.
+_et = _j2.ensamblar_programa("beq zero, zero, @FIN\nnop\nFIN:\nnop\nFINB:\nnop\nbeq zero, zero, @FINB\nnop",
+                             0x0046F200, 0x0046F300)
+_et_dest = [pc + 4 + 4 * ((w & 0xFFFF) - (0x10000 if w & 0x8000 else 0)) for pc, w, _ in _et if w >> 26 == 4]
+ok(_et_dest == [0x0046F208, 0x0046F20C], "ensamblar_programa: FIN y FINB saltan cada una a la suya", str(_et_dest))
+try:
+    _j2.ensamblar_programa("beq zero, zero, @NOEXISTE\nnop", 0x0046F200, 0x0046F300)
+    ok(False, "ensamblar_programa: una etiqueta inexistente deberia fallar")
+except KeyError:
+    ok(True, "ensamblar_programa: una etiqueta inexistente falla")
+
 
 shutil.rmtree(tmp, ignore_errors=True)
 

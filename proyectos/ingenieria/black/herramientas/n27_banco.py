@@ -65,6 +65,10 @@ def estado(p):
     d["W"] = {"J": _w(p, cj.J), "J2": _w(p, cj.J2)}
     d["bufs"] = _bufs(p)
     d["ranura6"] = p.leer8(p.leer32(CARGADOR) + RANURA6_PEND)
+    # (128) los testigos de R4 (coop_pausa.py): la entrada 22 activa, cuantas veces pidio memoria y cuantas cargas
+    import coop_pausa as cp
+    d["r4"] = {"activo22": p.leer8(cp.entrada()), "p": hex(p.leer32(cp.P_CRUDO)), "falla": p.leer32(cp.FALLO),
+               "altas": p.leer32(cp.ALTAS), "cargas": p.leer32(cp.CARGAS)}
     return d
 
 
@@ -133,22 +137,30 @@ def capturar_caida(dir_):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--rama", choices=("pausa", "sin-pausa"), required=True)
+    ap.add_argument("--con-pausa", action="store_true",
+                    help="(128) instala con R4 (coop_pausa.py: la pausa en su propio monton): la prueba de R4")
+    ap.add_argument("--segunda-carga", action="store_true",
+                    help="(128) despues, recarga el nivel en el mismo arranque y vuelve a pausar (R4 en dos cargas)")
     a = ap.parse_args()
     if cc.pcsx2_de_fran_abierto():
         print(json.dumps({"error": "el PCSX2 de Fran esta abierto: comparte PINE con el fork"}))
         return 1
-    dir_ = ab.SAL / time.strftime("n27-%s-%%Y%%m%%d-%%H%%M%%S" % a.rama)
+    dir_ = ab.SAL / time.strftime("n27-%s%s-%%Y%%m%%d-%%H%%M%%S" % (a.rama, "-r4" if a.con_pausa else ""))
     dir_.mkdir(parents=True, exist_ok=True)
     hd.FOTOS.clear()
-    res = {"dir": str(dir_), "rama": a.rama}
-    r = subprocess.run([sys.executable, str(H / "coop_mod.py"), "instalar"], capture_output=True, text=True)
+    res = {"dir": str(dir_), "rama": a.rama, "con_pausa": a.con_pausa}
+    r = subprocess.run([sys.executable, str(H / "coop_mod.py"), "instalar"] + (["--con-pausa"] if a.con_pausa else []),
+                       capture_output=True, text=True)
     try:
         inst = json.loads(r.stdout.strip().splitlines()[-1])
     except Exception:  # noqa: BLE001
         inst = {"crudo": r.stdout.strip()[-300:]}
     res["instalar"] = inst
-    # «cambio» False = el pnach en disco es identico al que genera `instalar` sin opciones: es el por defecto
-    defecto = inst.get("cambio") is False or (inst.get("palabras") == PALABRAS_DEFECTO and not inst.get("soporte2_j2"))
+    # «cambio» False = el pnach en disco es identico al que genera `instalar` con ESTAS opciones (el por defecto, o con
+    # R4 si se pidio); si escribio, las palabras y las banderas tienen que ser las pedidas
+    defecto = inst.get("cambio") is False or (
+        not inst.get("soporte2_j2") and bool(inst.get("pausa_propia")) == a.con_pausa
+        and (a.con_pausa or inst.get("palabras") == PALABRAS_DEFECTO))
     if not defecto:
         res["ROJO"] = "el pnach no es el por defecto (%s palabras): N27 es del pnach por defecto" % inst.get("palabras")
         return _cerrar(res, dir_)
@@ -193,6 +205,24 @@ def main():
     if res["cayo"]:
         res["caida"] = capturar_caida(dir_)
     paso(res, dir_, "despues")
+    if a.segunda_carga and not res["cayo"]:
+        # (128) R4 en DOS cargas: el nivel se vuelve a cargar en el mismo arranque y la pausa tiene que seguir yendo al
+        # monton 22 sin pedir memoria otra vez (altas = 1) y sin colgar
+        c2 = cc.probar_nivel(ab.NIVEL)
+        res["carga2"] = {k: c2.get(k) for k in ("armado_s", "juego_s", "cuelga_o_no_arma", "vivo_despues")}
+        with Pine() as p:
+            if p.leer32(sc.CTRL1 + 0xC) == sc.MANDO1_REAL:
+                sc.falso_poner(p)
+            m2.poner(p)
+        paso(res, dir_, "c2_base")
+        fp._pulsar(fp.START)
+        time.sleep(2.5)
+        paso(res, dir_, "c2_en_pausa")
+        fp._pulsar(fp.CONFIRMAR)
+        time.sleep(2.5)
+        paso(res, dir_, "c2_vuelta")
+        res["serie2"] = serie()
+        res["cayo2"] = res["serie2"][-1] == res["serie2"][len(res["serie2"]) // 2]
     return _cerrar(res, dir_)
 
 
@@ -205,14 +235,14 @@ def _cerrar(res, dir_):
     res["fotos"] = dict(hd.FOTOS)
     (dir_ / "resumen.json").write_text(json.dumps(res, indent=1, ensure_ascii=False), encoding="utf-8")
     print(json.dumps({k: res.get(k) for k in ("dir", "rama", "ROJO", "ROJO_PRECONDICION", "N0", "cambio", "serie",
-                                              "cayo", "caida")}, ensure_ascii=False))
-    for n in ("base", "en_pausa", "vuelta", "pre_cambio", "despues"):
+                                              "cayo", "caida", "carga2", "serie2", "cayo2")}, ensure_ascii=False))
+    for n in ("base", "en_pausa", "vuelta", "pre_cambio", "despues", "c2_base", "c2_en_pausa", "c2_vuelta"):
         if n in res:
             x = res[n]
             print(n, "| J2", x["J2"]["clave"], "W", x["W"]["J2"]["estado"], x["W"]["J2"]["indice"],
                   "| J W", x["W"]["J"]["estado"],
                   "| bufs", [(y["otro"], y["estado"], y["clave"][-8:], y["modelo"]) for y in x["bufs"]],
-                  "| r6", x["ranura6"], "| c", x["cuadros_J2"])
+                  "| r6", x["ranura6"], "| r4", x["r4"], "| c", x["cuadros_J2"])
     return 0
 
 

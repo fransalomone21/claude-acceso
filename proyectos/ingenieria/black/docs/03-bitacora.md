@@ -26,12 +26,18 @@ de 2** (`sesiones/PREDICCIONES-128.md`, N0–N4 cumplidas). La pausa vacía el b
 precarga de J2 la recarga, el cambio alterna encima y el EE cae en el lazo de «syscall indefinida» del núcleo; las
 dos caídas con registros idénticos. N27 es de la familia F7b y R4 la tapa. R4 leída a instrucción (`docs/16` (128)):
 los dos ganchos (`0x0020AEF4`, `0x0020AF84`), el montón 22 sobre `malloc` una vez con vuelta al camino original si
-falla, y su reserva en `coop-plan-b`.
+falla, y su reserva en `coop-plan-b`. **R4 fabricada y probada:** `coop_pausa.py` (58 palabras, simulación por
+caminos, apoyo contra el ELF), regla 13 + 10 sabotajes (59/59), integrada **apagada** (`--con-pausa`). En vivo
+(R4a–R4d): con R4, **0 caídas de 2** en la secuencia de N27; el «otro» nunca en 9; `malloc` una vez (`0x01F29390`),
+la entrada 22 sobrevive a recargar el nivel; el menú abre entero; y **con la 2d prendida la pausa ya no se traba**
+(al volver, cada mitad con su arma). Herramientas arregladas: `jugador2.ensamblar_programa` resolvía las etiquetas por
+subcadena (`@ORIG` dentro de `@ORIGB` = otra dirección válida, sin error; las 1296 palabras del mod salen idénticas con
+el arreglo, prueba en `prueba_herramientas.py`); `depurador.py registros` muestra primero los 32 bits bajos.
 **No funcionó:** el primer intento del banco salió en ROJO por el instalador (`instalar` sin cambios no informa las
 palabras; ahora acepta «cambio: false» = el por defecto). En (127) se había leído `v1` = 0x01010101: es la mitad alta
 del registro de 128 bits; los 32 bits bajos son 0.
-**Sigue:** el código de R4 (`coop_pausa.py`), la regla 13 de `coop_diseno.py` con sabotajes, y la prueba en vivo
-(con R4: `n27_banco.py --rama pausa` 0 de 2; `f7b_pausa.py --con-soporte2` sin la traba).
+**Sigue:** la regresión con R4 (una pausa en cada uno de los 8 niveles, memoria 1 por arranque) para prenderla por
+defecto; después R1–R3 (D') a nivel instrucción.
 
 ---
 

@@ -322,6 +322,9 @@ la pieza 2d diseñada a nivel instrucción (`docs/16` (125): buffers de 0x70/0x2
 cuando J2 cambió a otra arma (`confirmado`, `sesiones/PREDICCIONES-126.md`): **sigue apagada**. Causa de fondo:
 el doble búfer de recursos del arma en la mano (`*(0x0040F540)`) es de un jugador (F7b); su arreglo (A / D / E en
 `docs/16` (126)) va antes de prender la 2d, y de él sale también la 2c (el sonido de cada arma vive en su búfer).
+**(127)** elegido D' (R1–R3) + R4 (la pausa en su propio montón). **(128)** N27 (caída con el pnach por defecto)
+reproducida con control: es de la pausa. **R4 fabricada y probada** (`coop_pausa.py`, regla 13; `sesiones/PREDICCIONES-128.md`
+R4a–R4d: 0 de 2 caídas, dos cargas, y la 2d sin la traba), **apagada** hasta la regresión con una pausa por nivel.
 
 **Después de la C viene la D:** Fran lo juega (dos mandos, después Parsec), que es
 lo único que valida que sirve.

@@ -63,6 +63,8 @@ def main():
                     help="(126) instala el pnach SIN la pieza 2d antes de lanzar (el control de la traba de la pausa)")
     ap.add_argument("--con-soporte2", action="store_true",
                     help="(127) instala el pnach CON la pieza 2d (apagada por defecto desde (126)): la traba")
+    ap.add_argument("--con-pausa", action="store_true",
+                    help="(128) instala tambien R4 (coop_pausa.py, la pausa en su propio monton): la prueba de R4")
     ap.add_argument("--espera", type=float, default=1.0, help="segundos entre el cambio de J2 y la pausa")
     a = ap.parse_args()
     if a.sin_soporte2 and a.con_soporte2:
@@ -76,7 +78,8 @@ def main():
     res = {"dir": str(dir_), "sin_soporte2": a.sin_soporte2, "con_soporte2": a.con_soporte2, "espera": a.espera}
     r = subprocess.run([sys.executable, str(H / "coop_mod.py"), "instalar"]
                        + (["--sin-soporte2"] if a.sin_soporte2 else [])
-                       + (["--con-soporte2"] if a.con_soporte2 else []), capture_output=True, text=True)
+                       + (["--con-soporte2"] if a.con_soporte2 else [])
+                       + (["--con-pausa"] if a.con_pausa else []), capture_output=True, text=True)
     res["instalar"] = r.stdout.strip()[-300:]
     res["vivo"] = cc.lanzar()
     if not res["vivo"]:

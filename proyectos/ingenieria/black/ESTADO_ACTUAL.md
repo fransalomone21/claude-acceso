@@ -37,9 +37,23 @@ decía.
 
 ---
 
-## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio (R4 primero); N27 (caída con el pnach por defecto) a reproducir (LEER ESTO PRIMERO)
+## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(127), 2026-10-11, NOTEBOOK EN FRÍO + dos sondas de sólo lectura, sin Fran — LO ÚLTIMO** (bitácora (127),
+> **(128), 2026-10-11, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (128), `docs/16` sección (128),
+> `sesiones/PREDICCIONES-128.md`).
+> - **N27 es de la pausa** (con control): pnach por defecto, J2 con la 2.ª arma y J con la pistola sola; con la pausa
+>   antes del cambio de J2, **2 de 2 caídas**; sin la pausa, **0 de 2**. La pausa vacía el búfer de la pistola en la
+>   mano de J y la recarga cae encima. Banco nuevo: `herramientas/n27_banco.py`.
+> - **R4 hecha y probada** (`herramientas/coop_pausa.py`, 58 palabras; regla 13 de `coop_diseno.py` + 10 sabotajes):
+>   la pausa carga el menú en el montón 22 (memoria de `malloc`, una vez) y no toca el doble búfer. Con R4: **0 caídas
+>   de 2**, dos cargas sin pedir memoria otra vez, el menú entero, y **con la 2d la pausa ya no se traba**.
+> - **Queda APAGADA por defecto** (`--con-pausa`) hasta la regresión con una pausa en los 8 niveles: la memoria sale de
+>   la cima del arena. **Con el pnach por defecto N27 sigue abierta.**
+> - **Herramientas arregladas:** `jugador2.ensamblar_programa` (etiquetas por token, no por subcadena) y
+>   `depurador.py registros` (los 32 bits bajos primero). `controles.py` 8/8.
+> - **Máquina:** fork cerrado; pnach por defecto **1059**; COOP activo. **Sigue:** `sesiones/RETOME-LOCAL.md`.
+
+> **(127), 2026-10-11, NOTEBOOK EN FRÍO + dos sondas de sólo lectura, sin Fran** (bitácora (127),
 > `docs/16` sección (127), `sesiones/PREDICCIONES-127.md`).
 > - **Qué traba la pausa, medido:** el cargador no espera nada (vacía el montón y lee encima); en la traba, el hilo
 >   principal espera para siempre que el DMA termine el cuadro anterior (`FUN_002B32D8`) y el cargador (menor

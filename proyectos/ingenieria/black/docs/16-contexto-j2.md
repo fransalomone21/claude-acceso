@@ -1622,3 +1622,11 @@ tocando el doble búfer, la secuencia queda igual a la del control.
   subiría más de 1 por arranque).
 - **Predicción para su prueba:** con R4, `n27_banco.py --rama pausa` 0 caídas de 2 y el «otro» nunca en 9;
   `f7b_pausa.py --con-soporte2` sin la traba; el testigo de cargas ≥ 1 y el de memoria = 1 en dos cargas seguidas.
+
+**(128) R4 en vivo, cumplida** (`sesiones/PREDICCIONES-128.md` R4a–R4d): `coop_pausa.py`, 58 palabras, regla 13 de
+`coop_diseno.py` con 10 sabotajes en rojo. Con R4 la secuencia de N27 da **0 caídas de 2** (sin R4, 2 de 2); el «otro»
+no pasa por 9; `malloc` da `0x01F29390` una sola vez y la entrada 22 sobrevive a recargar el nivel (memoria 1, cargas
+1: la 2.ª pausa encuentra el menú registrado); el menú abre entero las dos veces. **Con la 2d prendida, la pausa ya no
+se traba** y al volver cada mitad tiene su arma. **Queda apagada por defecto** hasta la regresión con una pausa por
+nivel en los 8 (la memoria sale de la cima del arena: un nivel más pesado podría necesitarla). R4 no arregla F7b en
+los otros caminos (juntar, la precarga de dos alternas): eso es R1–R3, y la 2d sigue apagada hasta tenerlas.

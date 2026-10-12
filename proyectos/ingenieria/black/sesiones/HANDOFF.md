@@ -4,7 +4,16 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(127), 2026-10-11, NOTEBOOK EN FRÍO + dos sondas de sólo lectura, sin Fran — LO ÚLTIMO** (bitácora (127),
+> **(128), 2026-10-11, NOTEBOOK CALIENTE, sin Fran — LO ÚLTIMO** (bitácora (128), `docs/16` sección (128),
+> `sesiones/PREDICCIONES-128.md`).
+> - **N27 reproducida con control:** con la pausa 2 de 2 caídas, sin la pausa 0 de 2 (`herramientas/n27_banco.py`).
+> - **R4 fabricada y probada** (`herramientas/coop_pausa.py`, regla 13 + 10 sabotajes): con R4 0 de 2, dos cargas,
+>   menú entero, y la 2d ya no traba la pausa. **Apagada por defecto** (`coop_mod.py instalar --con-pausa`) hasta la
+>   regresión con una pausa por nivel.
+> - **Arreglos de herramienta:** etiquetas por token en `jugador2.ensamblar_programa`; registros de 128 bits en
+>   `depurador.py`. **Sigue:** `sesiones/RETOME-LOCAL.md`. **Máquina:** fork cerrado, pnach 1059, COOP activo.
+
+> **(127), 2026-10-11, NOTEBOOK EN FRÍO + dos sondas de sólo lectura, sin Fran** (bitácora (127),
 > `docs/16` sección (127), `sesiones/PREDICCIONES-127.md`).
 > - **La traba de la pausa, medida:** el principal en el lazo de `FUN_002B32D8` (espera el DMA del cuadro anterior),
 >   el cargador (hilo 3, menor prioridad) listo sin correr, ranura 6 a medio hacer. El cargador no cuenta referencias.

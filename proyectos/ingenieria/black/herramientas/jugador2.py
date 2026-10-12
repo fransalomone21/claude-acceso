@@ -22,6 +22,7 @@ corre una sola vez, para N = 1.
 
 import argparse
 import json
+import re
 import struct
 import sys
 import time
@@ -383,8 +384,10 @@ def ensamblar_programa(fuente=PROGRAMA, base=STUB, fin=0x0046D9F0):
         if t.startswith(".word"):
             out.append((pc, SWC1_F12 if "SWC1" in t else LWC1_F12, t))
             continue
-        for k, v in etiquetas.items():
-            t = t.replace("@" + k, "0x%x" % v)
+        # (128) la etiqueta ENTERA, no por subcadena: con `replace` en orden, `@ORIG` se comia el principio de `@ORIGB` y
+        # dejaba `0x46f2e0B`, que es OTRA direccion hexadecimal valida (un salto equivocado, sin error). Una etiqueta que
+        # no existe es un KeyError, no un texto que el ensamblador interpreta como pueda
+        t = re.sub(r"@([A-Za-z_]\w*)", lambda m: "0x%x" % etiquetas[m.group(1)], t)
         out.append((pc, ensamblar(t, pc), t))
     assert 0x0046D7A0 <= base and base + 4 * len(out) <= fin
     return out
