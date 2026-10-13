@@ -69,6 +69,71 @@ Readiness Review).
   compuerta de control *de NASA*, entre dos fases específicas.
 ]
 
+== Qué congela cada revisión, y qué se produce en cada fase
+
+La clase 8 vuelve sobre el ciclo de vida con dos láminas de repaso que
+ordenan lo que esta unidad presentó suelto. La primera #diapo(8, 41) pone,
+debajo de cada revisión, *el baseline que deja congelado*:
+
+#figure(
+  table(
+    columns: (2.2fr, 2fr),
+    align: (left, left),
+    stroke: 0.4pt + luma(180),
+    [*Revisión*], [*Baseline que establece*],
+    [Revisión de Requerimientos de Sistema (SRR)], [de Requerimientos de Sistema],
+    [Revisión de Definición de Sistema (SDR)], [de Diseño del Sistema],
+    [Revisión Preliminar del Diseño (PDR)], [Alojado],
+    [Revisión Crítica del Diseño (CDR)], [de Desarrollo],
+    [Revisión de alistamiento de los ensayos de aceptación], [de Producto],
+    [Revisión de evaluación posterior al lanzamiento], [Operacional],
+  ),
+  caption: [Las revisiones y sus baselines, según la clase 8 (diapositiva 41).],
+)
+
+#cuidado[
+  Los nombres no coinciden del todo con los de otras clases. Acá el
+  baseline que sale de la SDR se llama «de Diseño del Sistema», y la clase
+  7 dice que la MDR (que la cátedra trata como la misma revisión) deja el
+  baseline *Funcional* (módulo #M("revisiones-de-la-fase-a")). Y el
+  baseline *de Producto* aparece acá en la Fase D, en los ensayos de
+  aceptación, mientras que el diagrama de la clase 6 citado arriba lo pone
+  al cerrar la Fase C. La secuencia es la misma —requerimientos, diseño,
+  alojado, producto, operacional—; lo que se corre es el nombre y la
+  revisión exacta. Si el parcial pregunta, lo seguro es nombrar la
+  revisión y lo que congela con la palabra de la lámina por la que
+  pregunta.
+]
+
+La segunda lámina #diapo(8, 42) es la *progresión de los requerimientos*
+fase por fase, con los artefactos que produce cada una:
+
+#figure(
+  table(
+    columns: (1.3fr, 3fr),
+    align: (left, left),
+    stroke: 0.4pt + luma(180),
+    [*Fase*], [*Artefactos*],
+    [Pre-Fase A], [problemas, conceptos, expectativas],
+    [A], [ConOps, requerimientos de sistema, plan de validación],
+    [B], [diseño preliminar, requerimientos de subsistemas, plan de verificación],
+    [C], [especificaciones de diseño (_design-to_), construir de acuerdo a las especificaciones, procedimientos de verificación],
+    [D], [construir, verificado],
+    [E], [desplegado, operado, anomalías],
+  ),
+  caption: [La progresión de los requerimientos en el ciclo de vida (diapositiva 42).],
+)
+
+#deduccion("el plan de validación llega antes que el de verificación")[
+  En la lámina, el *plan de validación* aparece en la Fase A y el *de
+  verificación* en la B. Tiene lógica con lo que distingue a las dos
+  (módulo #M("verificacion-validacion-y-alcance")): validar es comparar
+  contra lo que el interesado necesita, y eso ya se sabe con el ConOps;
+  verificar es comparar contra cada requerimiento, y los requerimientos
+  de subsistema recién existen en la Fase B. No se puede planificar cómo se
+  verifica algo que todavía no está escrito.
+]
+
 == El ciclo de vida en clave CDIO
 
 La misma secuencia de siete fases se puede leer con el #t[CDIO] de la unidad

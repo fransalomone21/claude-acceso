@@ -613,3 +613,234 @@ Sirve para ubicar UNA diapositiva sin abrir el .txt entero.
 - [p52] Matriz NxN de Diseño de un Vehículo Lanzador
 - [p53] Resumen de N
 - [p54] Ing. de Sistemas
+
+## Clase 8 (97 diapositivas)
+
+- [p1] Espaciales  [FIGURA]
+- [p2] Temario 8va Clase
+- [p3] Videos
+- [p4] Plan de trabajo
+- [p5] Proyecto
+- [p6] Proyecto
+- [p7] Estructura de desglose de trabajo -  [FIGURA]
+- [p8] Work Breakdown Structure (WBS)
+- [p9] Consta de tres elementos
+- [p10] Herramientas y Técnicas
+- [p11] Actividades en el diagrama de red
+- [p12] Actividades en el Diagrama de Red
+- [p13] Actividades en el diagrama de red
+- [p14] Actividades en el diagrama de red
+- [p15] Diagrama de Gantt
+- [p16] “Haciendo el Té”
+- [p17] Estimación en un Proyecto
+- [p18] ¿Por qué es importante la Estimación en
+- [p19] Directrices en la Estimación de Tiempo
+- [p20] Organización de las Tareas del Proyecto
+- [p21] Pasos para definir las tareas del proyecto
+- [p22] Definiciones de WBS de NASA & MIL
+- [p23] ¿Por qué usamos un WBS?
+- [p24] Estructura  WBS
+- [p25] Subunidades de WBS
+- [p26] Subunidades de WBS
+- [p27] Estimación
+- [p28] Pasos
+- [p29] Estimación en el  Ciclo de Vida del Proyecto
+- [p30] Tipos de Costos
+- [p31] Razones para ajustar las Estimaciones
+- [p32] Órdenes de Estimación
+- [p33] Recursos Estimados
+- [p34] Ejecución de  WBS con Estimaciones  [FIGURA]
+- [p35] Relationship Between PBS and WBS  [FIGURA]
+- [p36] NASA Standard WBS at Level 2  [FIGURA]
+- [p37] Standard WBS for a JPL Mission  [FIGURA]
+- [p38]   [FIGURA]
+- [p39]   [FIGURA]
+- [p40]   [FIGURA]
+- [p41] Fases de Desarrollo Incremental
+- [p42] Progresión de los Requerimientos
+- [p43] Ejemplo  [FIGURA]
+- [p44] LANDSAT DATA CONTINUITY MISSION
+- [p45] Órbita LEO LDCM  [FIGURA]
+- [p46] Requerimientos de alto nivel S/C LDCM
+- [p47] Evolución del Concepto de S/C LDCM durante  [FIGURA]
+- [p48] Observatorio LDCM interfaceando con  [FIGURA]
+- [p49] ConOp LDCM  [FIGURA]
+- [p50] Jerarquía de Requerimientos LDCM  [FIGURA]
+- [p51] Jerarquía de Requerimientos LDCM  [FIGURA]
+- [p52] ConOp LDCM  [FIGURA]
+- [p53] Arquitectura de Operación  [FIGURA]
+- [p54] Spacecraft LDCM  [FIGURA]
+- [p55] Fase B del LDCM  [FIGURA]
+- [p56] S/C -
+- [p57] S/C LDCM Sistema y SS del LDCM con Carga Útil  [FIGURA]
+- [p58] S/C Sistema y SS del LDCM
+- [p59] Bus o Plataforma del S/C LDCM  [FIGURA]
+- [p60] Observatorio del S/C LDCM -  [FIGURA]
+- [p61] Integración de la Carga Útil  [FIGURA]
+- [p62] LDCM Spacecraft  [FIGURA]
+- [p63] LDCM Spacecraft  [FIGURA]
+- [p64] LDCM Spacecraft en la Cofia  [FIGURA]
+- [p65] Vehículos Lanzadores Espaciales  [FIGURA]
+- [p66] Requerimientos de alto nivel
+- [p67] Cofia  [FIGURA]
+- [p68] Vehículo Lanzador Espacial SZ  [FIGURA]
+- [p69] Vehículo Lanzador Espacial SZ  [FIGURA]
+- [p70] Vehículo Lanzador Espacial SZ
+- [p71] Vehículo Lanzador Espacial SZS  [FIGURA]
+- [p72] Vehículo Lanzador Espacial SZZS  [FIGURA]
+- [p73] Concepto de Operación Falcon 9  [FIGURA]
+- [p74] Concepto de Operación Falcon 9  [FIGURA]
+- [p75] Concepto de Operación de Tierra del  [FIGURA]
+- [p76] Concepto de Operación de Tierra del Falcon 9  [FIGURA]
+- [p77] Remotely Operated Vehicle  [FIGURA]
+- [p78]   [FIGURA]
+- [p79] Ejemplos de Diagramas Funcionales  [FIGURA]
+- [p80] Sumergible ROV ZS  [FIGURA]
+- [p81] Sumergible ROV ЊЖ  [FIGURA]
+- [p82] Ejemplo  [FIGURA]
+- [p83] Ejemplo Diagrama Funcional  [FIGURA]
+- [p84] Ejemplo Diagrama Funcional  [FIGURA]
+- [p85] Ejemplo Diagrama Funcional  [FIGURA]
+- [p86] Ejemplo Diagrama Funcional del SW  [FIGURA]
+- [p87] Especificaciones de un ROV Sumergible  [FIGURA]
+- [p88] Ejemplo Diagrama Funcional  [FIGURA]
+- [p89] Sumergible ROV  [FIGURA]
+- [p90] Ejemplo Comercial
+- [p91] Gantt de un Proyecto Sumergible ROV  [FIGURA]
+- [p92] Luz y Profundidad en el Agua  [FIGURA]
+- [p93] in Preparation for Test  [FIGURA]
+- [p94] The NOAA-N’ Spacecraft is Dropped  [FIGURA]
+- [p95] The NOAA-N’ Spacecraft is Dropped  [FIGURA]
+- [p96] The NOAA-N’ Spacecraft is Dropped  [FIGURA]
+- [p97] errors
+
+## Clase 9 (54 diapositivas)
+
+- [p1] Espaciales  [FIGURA]
+- [p2] Temario Clase 9na  [FIGURA]
+- [p3] 1- Plantilla de Requerimientos  [FIGURA]
+- [p4] 2 – Ejemplos de Interfaces Externas S/C
+- [p5] 2- Ejemplos de Interfaces Externas de S/C
+- [p6] 2 –Ejemplos de Interfaces Externas
+- [p7] 2 –Ejemplos de Interfaces Externas
+- [p8] 2 –Ejemplos de Interfaces Externas
+- [p9] Fase B  [FIGURA]
+- [p10] Fases del Ciclo de vida de NASA
+- [p11] Fase B
+- [p12] Fase B
+- [p13] Fase B  [FIGURA]
+- [p14] Fase B  [FIGURA]
+- [p15] Fase B  [FIGURA]
+- [p16] Fase B  [FIGURA]
+- [p17] Fase B
+- [p18] Fase B  [FIGURA]
+- [p19] Fase B  [FIGURA]
+- [p20] Niveles de Maduración Tecnológica
+- [p21] formulaciones o algoritmos matemáticos.
+- [p22] TRL 7: Demostración del prototipo del sistema en un entorno operativo (terrestre o espacial)
+- [p23] NASA Technology Readiness Levels  - TRL
+- [p24] NASA Technology Readiness Levels  -  [FIGURA]
+- [p25]   [FIGURA]
+- [p26] Nivel de preparación para la integración
+- [p27] IRL 4
+- [p28] Fase B
+- [p29] Fase B
+- [p30] Fase B
+- [p31] Ciclo de Vida del Proyecto
+- [p32] Ingeniería de Sistemas
+- [p33] Requirements) must be complete by the end of Phase B.
+- [p34] Síntesis de la Información para Entregar
+- [p35] Fase C  [FIGURA]
+- [p36] Fases del Ciclo de vida de NASA
+- [p37] Fase C
+- [p38] Fase C
+- [p39] Fase C
+- [p40] Fase C
+- [p41] Fase C
+- [p42] Fase C
+- [p43] Fase C
+- [p44] Fase C
+- [p45] Fase C
+- [p46] Fase C
+- [p47] Fase C
+- [p48] Fase C
+- [p49] Ingeniería de Sistemas
+- [p50] Ciclo de Vida del Proyecto
+- [p51] early before project is identified, draft ICD’s must be written during Phase A.
+- [p52] Sirous F. Yasseri1*, Hamid Bahai2  [FIGURA]
+- [p53] System Readiness Level Estimation of Oil and Gas Production Systems  [FIGURA]
+- [p54] System Readiness Level Estimation of Oil and Gas Production Systems  [FIGURA]
+
+## Clase 10 (71 diapositivas)
+
+- [p1] UNSAM - Ing Sistemas Espaciales  [FIGURA]
+- [p2] Temario 9na Clase
+- [p3] CDIO y Aprendizaje Basado en Proyectos
+- [p4] Modelos de Organización del Curriculum  [FIGURA]
+- [p5] Revisión
+- [p6] Forma
+- [p7] Definición de Forma.
+- [p8] Forma
+- [p9] Arquitectura Civil (Relectura)  [FIGURA]
+- [p10] Forma
+- [p11] (Relectura)
+- [p12] Ingeniería
+- [p13] Secuencia en el Diseño y
+- [p14]   [FIGURA]
+- [p15] The Akutan Zero is inspected by US Navy personnel on  [FIGURA]
+- [p16] September 20 and October 15. According to Sanders’ report:
+- [p17]   [FIGURA]
+- [p18] Repaso: El Concepto
+- [p19] Diseño vs. Arquitectura
+- [p20] Interrelaciones entre los procesos de diseño  [FIGURA]
+- [p21] Interrelaciones entre los procesos de diseño de
+- [p22] Nautilus  [FIGURA]
+- [p23] Ejemplo de Especificaciones de un  [FIGURA]
+- [p24] Revisión Preliminar de Diseño  [FIGURA]
+- [p25] Revisión del Diseño Preliminar -
+- [p26] ¿Qué deberíamos cubrir?
+- [p27] Consejos sobre la presentación PDR
+- [p28] Ingeniería de Sistemas
+- [p29] Ingeniería de Sistemas
+- [p30] y sus Niveles
+- [p31] Análisis, Identificación y Gestión de los
+- [p32] Ejemplo de Requerimientos Funcionales de Alto
+- [p33] Ejemplo de Requerimientos Tecnológicos de Alto
+- [p34] Ejemplo de Requerimientos Perfor. de Alto Nivel del
+- [p35] y Diseño del Concepto de Sistema  [FIGURA]
+- [p36] Ejemplo de Desarrollo de la Arquitectura y
+- [p37] Ejemplo de Sistemas Considerados  [FIGURA]
+- [p38] diferentes  Diseños del Sistema
+- [p39] Ejemplos: Diagrama de Bloques del sistema  [FIGURA]
+- [p40] Ejemplos: Diagrama de Bloques del sistema  [FIGURA]
+- [p41] Ejemplo de Presupuesto de Potencia  [FIGURA]
+- [p42] los revisores  [FIGURA]
+- [p43] ¿Cuántos grados de libertad vamos a tener?  [FIGURA]
+- [p44] Arquitectura del S/W de abordo?
+- [p45] My ROV  [FIGURA]
+- [p46] Plan de V&V
+- [p47] Niveles
+- [p48]   [FIGURA]
+- [p49] Plan de Mitigación de la Misión  [FIGURA]
+- [p50]   [FIGURA]
+- [p51] Ejemplo de Especificaciones de un  [FIGURA]
+- [p52] Documentos a
+- [p53] Ejemplo de Undersea AUV Universitarios en la India  [FIGURA]
+- [p54] helicoptero-la-sorpresa-de-la-nasa-para-su-  [FIGURA]
+- [p55] Ejemplo Programación Gruesa ROV a Marte  [FIGURA]
+- [p56] Tecnológica  TRL  [FIGURA]
+- [p57] mecanismo para capturar muestras  [FIGURA]
+- [p58] Ejemplos de Niveles TRL para PDR  [FIGURA]
+- [p59] Ejemplo de Niveles TRL para PDR
+- [p60] Gestión del Riesgo Técnico  [FIGURA]
+- [p61] La Importancia de la Gestión del
+- [p62] ¿Que es el riesgo?
+- [p63] (e.g. Misión a Marte)  [FIGURA]
+- [p64] Categorías del Riesgo  [FIGURA]
+- [p65] Analizar  [FIGURA]
+- [p66] Marco de la Gestión de Riesgo
+- [p67] ID del Riesgo -
+- [p68] Diagrama de Riesgo (NASA)
+- [p69] Visión teórica de la seguridad del
+- [p70] What
+- [p71] Actividades de riesgo durante  [FIGURA]

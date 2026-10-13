@@ -1,0 +1,1379 @@
+# IISE clase 8 -- 97 diapositivas
+# fuente: IISE Clase 8 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Espaciales  [FIGURA]
+Introducción 
+a la Ingeniería de Sistemas 
+Espaciales
+Clase # 8
+Virtual Campus UNSAM
+UNSAM - Ing Sistemas Espaciales
+
+[p2] Temario 8va Clase
+Temario 8va Clase 
+El Plan de Trabajo
+- Plan de Trabajo  - WBS - Gantt - Estimaciones
+- Revisión: Baseline, Requerimientos y el Ciclo 
+de vida, Ingeniería de Sistemas
+- Ejemplos 
+Satélite - Spacecraft  Lansat Data Continuity 
+Mission -
+LDCM-Vehículos Lanzadores LV SZ, 
+LV SZS, LV SZZS, Falcon 9
+- Sumergibles ROV
+Varios Ejemplos de Diagramas Funcionales
+
+[p3] Videos
+https://svs.gsfc.nasa.gov/11852
+Video
+Ejemplo de 19 años de operaciones de un satélite muy importante 
+respecto de las lluvias:
+TRMM's Mission Ends
+https://svs.gsfc.nasa.gov/3284
+Video
+NASA's TRMM Satellite Captures Hurricane Wilma Data on October 
+20, 2005
+Videos
+
+[p4] Plan de trabajo
+Los planes de trabajo, sus detalles y cómo hacerlo. Algunas 
+herramientas y técnicas.
+• Desglose del trabajo (WBS) 
+De abajo hacia arriba o de arriba hacia abajo 
+bottom up or top down
+• Diagramas de redes
+Recorrer hacia adelante y hacia atrás
+forward and backward pass
+• Diagrama de GANTT
+• Camino Crítico 
+Plan de trabajo
+
+[p5] Proyecto
+Proyecto
+¿Es un Triángulo de Hierro?
+Proyecto
+Planificación
+Schedule 
+Performance
+Desempeño
+Costos
+Cost
+Riesgo
+Es un Triángulo de 
+Hierro 
+si los tres están 
+restringidos
+ESD.36 System Project Management, MIT
+
+[p6] Proyecto
+Principalmente la autoridad máxima del proyecto, 
+el Jefe de Proyecto debe balancear el proyecto con 
+estas tres variables; 
+Performance Técnica , Costos, y Planificación
+Dirigiendo y Controlando el Riesgo
+Proyecto
+
+[p7] Estructura de desglose de trabajo -  [FIGURA]
+Herramienta y Técnicas  
+Estructura de desglose de trabajo - WBS 
+Work Breakdown Structure (WBS)
+Modelo Jigsaw model - jigsaw puzzles model
+
+[p8] Work Breakdown Structure (WBS)
+• De abajo hacia arriba
+Bottom-up approach (usando Brainstorming)
+• Este es el método más apropiado
+para proyectos
+que
+involucran métodos nuevos no ensayados y aproximaciones o
+donde los miembros del equipo no han realizado un proyecto
+similar anteriormente.
+• Generar todas las actividades que ustedes pueden pensar
+que deben ser hechas y agruparlas en categorías
+Herramientas y técnicas
+Método para el desarrollo de 
+Work Breakdown Structure (WBS)
+
+[p9] Consta de tres elementos
+• Es un diagrama de flujo que ilustra ;
+– El orden en el cual las tareas serán realizadas
+– Dependencias entre tareas
+• Consta de tres elementos
+– Eventos – algunas veces llamados un milestone e.g. 
+“comienzo del diseño”,  “draft report approved” 
+– Actividades – trabajo requerido para moverse de un 
+evento a otro 
+– Duración – el calendario real que se requiere para 
+completar una actividad 
+Herramientas y Técnicas 
+Diagramas de Redes - Network
+
+[p10] Herramientas y Técnicas
+Comienz
+o
+Actividad 1
+t1 = 5
+Activividad  
+2
+t2 = 1
+Actividad 5
+t5 = 2
+Fin
+Actividad 3
+t3 = 1
+Actividad 4
+t4 = 3
+Todas las inputs entradas a una actividad  deben haber sido completadas antes de 
+empezar la siguiente.
+E.g. La Actividad 1 y 4 deben ser completadas antes de que la  5 pueda comenzar.
+Camino Crítico
+Herramientas y Técnicas 
+Actividades en un Diagrama de red de cajas
+
+[p11] Actividades en el diagrama de red
+Llenar Pava Eléctrica
+Encender Pava Eléctrica
+Calentar el agua
+Calentar la Tetera
+Poner saquito/s té en la  Tetera
+Recalentar 
+Verter el Agua
+Poner la leche en Jarrito
+Poner azúcar en tazón
+Buscar la bandeja
+Colocar  esto elementos en la bandeja
+Poner la tetera en la Bandeja
+Servir 
+El Té se ha  servido
+Actividades en el diagrama de red 
+Network Diagram
+Ejemplo de “Haciendo el Té”
+
+[p12] Actividades en el Diagrama de Red
+Comen
+zar
+Llenar 
+La Pava 
+Eléctric
+a
+Encend
+er
+la Pava 
+Eléctric
+a
+Calenta
+r 
+el agua
+Calenta
+r 
+la tetera
+Poner 
+saquito
+s 
+de Té 
+en 
+la tetera
+Re 
+calentar
+Vertir 
+el agua 
+en
+la 
+tetera 
+Colocar 
+la tetera 
+sobre 
+la 
+bandeja
+Servir
+Fin de 
+Servir 
+el Té
+Poner la 
+leche 
+en 
+la jarra
+Poner el
+azúcar 
+en 
+el tazón
+Buscar 
+la 
+bandeja
+Poner la Leche, 
+Azucar,
+Taza y Plato 
+sobre  la bandeja
+10s
+3s
+180s
+10s
+5s
+10s
+15s
+5s
+15s
+15s
+10s
+10s
+20s
+Actividades en el Diagrama de Red 
+Network Diagram
+“Haciendo el Té”
+
+[p13] Actividades en el diagrama de red
+Comen
+zar
+Llenar 
+La Pava 
+Eléctric
+a
+Encend
+er
+la Pava 
+Eléctric
+a
+Calenta
+r 
+el agua
+Calenta
+r 
+la tetera
+Poner 
+saquito
+s 
+de Té 
+en 
+la tetera
+Re 
+calentar
+Vertir 
+el agua 
+en
+la 
+tetera 
+Colocar 
+la tetera 
+sobre 
+la 
+bandeja
+Servir
+Fin de 
+Servir 
+el Té
+Poner la 
+leche 
+en 
+la jarra
+Poner el
+azúcar 
+en 
+el tazón
+Buscar 
+la 
+bandeja
+Poner la Leche, 
+Azucar,
+Taza y Plato 
+sobre  la bandeja
+10s
+3s
+180s
+10s
+5s
+10s
+15s
+5s
+15s
+15s
+10s
+10s
+20s
+Tiempo TOTAL  = Tiempo del camino crítico = 253 
+segundos
+Actividades en el diagrama de red 
+Network Diagram
+“Haciendo el Té”
+
+[p14] Actividades en el diagrama de red
+Actividades en el diagrama de red 
+Network Diagram
+“Haciendo el Té”   con Nueva Tecnología
+Comen
+zar
+Llenar 
+La Pava 
+Eléctric
+a
+Encend
+er
+la Pava 
+Eléctric
+a
+Calenta
+r 
+el agua
+Calenta
+r 
+la tetera
+Poner 
+saquito
+s 
+de Té 
+en 
+la tetera
+Re 
+calentar
+Vertir 
+el agua 
+en
+la 
+tetera 
+Colocar 
+la tetera 
+sobre 
+la 
+bandeja
+Servir
+Fin de 
+Servir 
+el Té
+Poner la 
+leche 
+en 
+la jarra
+Poner el
+azúcar 
+en 
+el tazón
+Buscar 
+la 
+bandeja
+Poner la Leche, 
+Azucar,
+Taza y Plato 
+sobre  la bandeja
+10s
+3s
+10s
+10s
+5s
+1s
+15s
+5s
+15s
+15s
+10s
+10s
+20s
+Tiempo TOTAL  = Tiempo en el Camino Crítico - CRITICAL PATH = 83 segundos
+Nueva 
+tecnología
+
+[p15] Diagrama de Gantt
+•
+Originado por Henry Gantt.
+• El Diagrama de Gantt es una herramienta para planificar
+y programar tareas a lo largo de un período determinado.
+Gracias a una fácil y cómoda visualización de las acciones
+previstas, permite realizar el seguimiento y control del progreso
+de cada una de las etapas de un proyecto y, además, reproduce
+gráficamente las tareas, su duración y secuencia, además del
+calendario general del proyecto
+Diagrama de Gantt
+
+[p16] “Haciendo el Té”
+Llenar Pava Eléc
+Encender Pava El.
+Calentar el agua
+Calentar la TT
+Poner saq. té en TT
+Re calentar
+Vertir el Agua
+Poner la leche en 
+Jarrito
+Poner azúcar en 
+tazón
+Buscar la bandeja Bd
+Colocar Ele en la Bd
+Poner TT en Bd
+Servir 
+El Té se ha  servido
+“Haciendo el Té”
+
+[p17] Estimación en un Proyecto
+•
+Estimación
+– Es el proceso de pronosticar o aproximar los tiempos y costos de 
+los entregables de un proyecto.
+– Esta  tarea nos permite balancear las expectativas de los interesados 
+y las necesidades de control mientras el proyecto se está 
+implementando.
+•
+Tipos de Estimaciones
+–
+Estimación de Arriba hacia Abajo (Top-down) – macro 
+estimación: analogía, consenso grupal, o relaciones matemáticas. 
+Estadística.
+– Estimación de Abajo hacia Arriba (Bottom-up) - micro estimación: 
+estimación de los elementos de la estructura de desglose de trabajo 
+(WBS - Work Breakdown Structure).
+Estimación en un Proyecto
+
+[p18] ¿Por qué es importante la Estimación en
+• Para hacer y sostener buenas decisiones.
+• Para planificar el trabajo.
+• Para determinar cuánto tiempo debería costar y el tiempo.
+• Para determinar si el proyecto vale la pena.
+• Para desarrollar las necesidades de la caja - cash flow.
+• Para determinar cuán bien está progresando el proyecto.
+• Para desarrollar el presupuesto en el tiempo (fases) y 
+establecer el baseline del proyecto.
+¿Por qué es importante la Estimación en 
+un Proyecto ?
+
+[p19] Directrices en la Estimación de Tiempo
+1. Tener gente familiarizada con tareas de estimación.
+2. Usar varias personas independientes para hacer la estimaciones, y 
+luego obtener la varianza de evaluación de riesgo.
+3. Base de estimación en condiciones normales, métodos eficientes y un 
+nivel normal de recursos.
+4. Usar unidades de tiempo consistentes al estimar los tiempos de las 
+tareas.
+5. Tratar cada tarea como independiente 
+6. No hacer concesiones a las contingencias.
+7. Agregar una evaluación de riesgo para estimar la afectación de 
+condiciones y contingencias para ayudar a evitar sorpresas a los 
+stakeholders.
+Directrices en la Estimación de Tiempo 
+Costos y Recursos
+
+[p20] Organización de las Tareas del Proyecto
+•
+¿Son tareas focalizadas en la producción de un resultado tangible?
+– El Proyecto y las tareas están estructuradas por productos concretos
+o entregables (e.g. construcción de una represa hidroeléctrica)
+– La definición de tareas se desglosa en entregables, posteriormente
+en sub entregables y paquetes de trabajo.
+– Estas pueden ser realizadas de manera altamente paralela.
+•
+¿Son tareas focalizadas en procesos o Fases?
+– Los Proyectos evolucionan con el tiempo donde los resultados de una
+fase afectan las tareas en la subsecuente fase.
+– Las tareas y entregables definidos son salidas necesarias para
+comenzar la próxima fase
+•
+Muchos proyectos aeroespaciales son realmente una combinación de
+estas dos estructuras
+– Fases que permiten nuevas innovaciones para ser definidas y
+desarrolladas.
+– Resultados Tangibles (e.g. spacecraft) ocurren durante el proyecto
+Organización de las Tareas del Proyecto
+
+[p21] Pasos para definir las tareas del proyecto
+• Determinar las características  primarias del proyecto
+– Establecer el alcance del proyecto
+– Establecer las prioridades del proyecto
+• Determinar cuál es la mejor manera de organizar las tareas 
+del proyecto:
+– Organización  por entregables. 
+– Organización por procesos.
+– O combinación de los dos anteriores.
+• Crear la Estructura de Desglose de trabajo WBS - Work 
+Breakdown Structure
+– Establecer los niveles más altos, son la mayoría de la tareas generales.
+– Establecer la ¨estructura de árbol¨ de las tareas de  niveles  más bajos.
+– El nivel más bajo identifica los ¨paquetes de trabajo¨.
+Pasos para definir las tareas del proyecto
+
+[p22] Definiciones de WBS de NASA & MIL
+• Definición de NASA de WBS
+– Una subdivisión del árbol familiar de esfuerzos para alcanzar un 
+objetivo final
+– Desarrollar comenzando con el objetivo final requerido y 
+sucesivamente subdividir en componentes manejables en 
+términos de tamaño y complejidad
+– Producto o tarea orientada que debería incluir todos los 
+esfuerzos necesarios para alcanzar el objetivo final.
+• MIL-HDBK-881 definición de  WBS
+– Árbol familiar orientado al producto compuesto de  H/W, S/W, 
+servicios, datos y facilidades.  Un WBS muestra y define el 
+producto, o productos, para ser desarrollados y o producidos.
+– Relaciona los elementos de trabajo para ser realizados cada 
+uno y el producto final.
+Definiciones de WBS de NASA & MIL
+
+[p23] ¿Por qué usamos un WBS?
+•Identificamos las tareas, subtareas y unidades de trabajo 
+necesarias para completar el proyecto.
+•
+Identificamos las relaciones entre tareas.
+•
+Incrementamos las probabilidades de que cada requerimiento 
+sea tenido en cuenta.
+•
+Esta herramienta organiza áreas de responsabilidad y autoridad.
+•
+Nos permite estimar los costos y planificación del proyecto.
+•
+Puede ser usado para seguir los costos de cada elemento.
+•
+Puede ser usado para monitorear el progreso del proyecto 
+mostrando la completitud de las tareas.
+¿Por qué usamos un WBS?
+
+[p24] Estructura  WBS
+• El WBS tiene una estructura jerárquica
+– Las unidades generales en el nivel más alto
+– Las unidades específicas en el más bajo 
+nivel
+• Usa una ¨estructura de árbol¨ para 
+suministrar detalles de la tareas
+1.0
+Major Task A
+1.1
+Sub
+Task A
+1.2
+Sub
+Task B
+1.2.1
+Sub Unit A
+1.2.2
+Sub Unit B
+2.0
+Major Task B
+3.0
+Major Task C
+– Particionar cada nivel general superior en sub-unidades (nivel 2)
+– Particionar cada subunidad en posteriores sub-unidades (nivel 3)
+• Para la mayoría de los proyectos es poco probable 
+particionar más del 4to nivel.
+• Cada unidad debería tener un código identificador 
+representando la jerarquía, estructura de árbol (e.g. ver  
+figura)
+Estructura  WBS
+
+[p25] Subunidades de WBS
+•
+Cada subunidad de WBS es un entregable de alguna clase
+– Entidades necesarias para salir de la fase actual, como requerimientos
+de sistema, doc. de ICD, resultados de ensayos etc.
+– Los productos concretos tales como el sistema de potencia, el módulo de
+S/W de reloj de tiempo real, sensor de salida del sistema, etc.
+•
+Los niveles bajos de WBS están definidos por paquetes de trabajo
+•
+Los contenidos de los paquetes de trabajo incluyen:
+– Descripción del trabajo para ser hecho incluyendo el tiempo de
+planificación, los elementos de entrada y salida de la tarea.
+– Los recursos necesarios y el costo del trabajo
+– La persona responsable para asegurar que el trabajo se complete.
+•
+Múltiples paquetes de trabajo pueden ser necesarios por cada
+unidad de nivel bajo de WBS.
+•
+La suma hacia arriba de los paquetes de trabajo
+da como
+resultado el costo y tiempo estimado por unidad.
+Subunidades de WBS
+
+[p26] Subunidades de WBS
+Subunidades de WBS
+• Ejemplo de una subunidad  
+del nivel 4
+• Muchas veces el nivel 3 es 
+suficiente y el nivel 4 define 
+los paquetes de trabajo
+• Cada unidad mayor tiene un 
+similar a nivel 2
+• Cada nivel  2  subunidad 
+tiene una lista de nivel 3 de 
+subunidades
+1.0 Power System
+1.1 Power Source
+1.2 FCU Supply
+1.3 DAU HD Supply
+1.4 DAU Supply
+1.5 CubeSat Supply
+1.5.1 Interface to power source
+1.5.2 FCU Control Interface
+1.5.2.1 Establish 
+control requirements
+1.5.2.2 Design 
+control interface
+1.5.2.3 Prototype & 
+test design
+1.5.2.4 Complete 
+design
+1.5.2.5 Implement 
+& test design
+1.5.3 DC/DC Converters
+1.5.4 FCU Monitoring Interface
+1.6 Integrate & test power system
+2.0 Flight Control Unit
+3.0 Data Archive Unit
+4.0 Data Archive Disk
+5.0 Auxiliary Transmitter
+6.0 Mechanical Structure
+7.0 Thermal Control
+
+[p27] Estimación
+Estimación
+Arriba hacia abajo vs abajo hacia arriba
+• Estimación de Arriba hacia Abajo (Macro)
+– Es usualmente derivada de alguien que tiene experiencia y o
+información estadística para determinar la duración del
+proyecto y el costo.
+– Es realizada por gerentes que tienen algo de conocimiento de
+los procesos para completar un proyecto.
+• Enfoque de estimación de Abajo hacia Arriba (Micro)
+– Puede servir como una comprobación sobre los costos de los
+elementos en el WBS sumando los paquetes de trabajo y el
+costo asociado de sus entregables en el nivel de paquete de
+trabajo.
+
+[p28] Pasos
+• Hacer  una estimación gruesa de arriba hacia 
+abajo.
+• Desarrollar el WBS / OBS.
+• Hacer la estimación de abajo hacia arriba.
+• Desarrollar la planificación y el presupuesto.
+• Reconciliar la diferencia entre los dos 
+estimaciones anteriores
+Pasos
+
+[p29] Estimación en el  Ciclo de Vida del Proyecto
+Formulación
+Implementación
+Aprobacion
+Pre 
+Fase A
+Estudio
+Concept.
+Fase A
+Desarrollo de 
+Concepto y 
+Tecnología
+Fase B
+Diseño 
+Preliminar y 
+Completar 
+Tecnología
+Fase C
+Diseño Final y 
+Fabricación
+Fase D
+AIT & 
+Lanzamiento
+Fase E
+Operaciones & 
+Sostenimiento
+Fase F
+Cierre
+Fases del 
+Ciclo de vida 
+de NASA
+Ciclo de vida 
+del Proyecto
+Macro Estimaciones
+Estimación
+Detallada
+Estimación en el  Ciclo de Vida del Proyecto 
+Macro Estimaciones
+Macro Estimaciones
+Macro Estimaciones
+Macro Estimaciones
+M Estim
+Estimación
+Detallada
+Estimación
+Detallada
+Estimación
+Detallada
+Estimación
+Detallada
+Estimación
+Detallada
+
+[p30] Tipos de Costos
+Tipos de Costos
+• Costos Directos
+– Costos que son claramente cargables a un paquete de 
+trabajo específico.
+• Trabajo, materiales, equipamiento y otros.
+• Costos Directos (Project) Generales
+– Costos incurridos que son directamente  identificables 
+con un entregable del proyecto o paquetes de trabajo.
+• Salarios, rentas, suministros, maquinaria especial.
+• Costos generales y administrativos
+– Los costos de la organización indirectamente  
+relacionados con un paquete específico  que está 
+asignado al proyecto
+
+[p31] Razones para ajustar las Estimaciones
+Refinando las Estimaciones
+• Razones para ajustar las Estimaciones
+– Los costos de interacción están escondidos en la 
+estimaciones.
+– Condiciones normales no se aplican.
+– Las cosas van mal en el proyecto.
+– Cambios en el alcance y planes en el proyecto.
+• Ajustes de las Estimaciones
+– La estimación del tiempo y los costos de las 
+actividades específicas son ajustadas como son los 
+riesgos, recursos y las situaciones particulares 
+definidas más claramente durante el transcurso del 
+proyecto.
+
+[p32] Órdenes de Estimación
+Órdenes de Estimación
+Pre-Lanzamiento 
+del Proyecto
+Carta 
+de 
+intención
+Estimación Gruesa
+(Macro) 
+ROM price
++/- 35% rango
+Lanzar el 
+Proyecto
+Plan
+Aprobado 
+Estimación basada 
+en Tareas (Micro)
++/- 15% rango
+Ejecutando
+Planificación 
+del 
+Proyecto
++/- 10% rango
+Rough order of magnitude (ROM)
+
+[p33] Recursos Estimados
+Recursos Estimados
+• Cuatro  categorías de 
+recursos
+– Dinero
+– Materiales
+– Máquinas
+– Gente
+• Preguntas para hacer
+– ¿Quién y qué se necesita?
+– ¿Quién y qué puede hacer el 
+trabajo?
+– ¿Quién y qué está disponible?
+– ¿Qué nivel y competencias se 
+requieren?
+
+[p34] Ejecución de  WBS con Estimaciones  [FIGURA]
+Ejecución de  WBS con Estimaciones
+
+[p35] Relationship Between PBS and WBS  [FIGURA]
+Relationship Between PBS and WBS
+PBS
+WBS
+
+[p36] NASA Standard WBS at Level 2  [FIGURA]
+NASA Standard WBS at Level 2
+
+[p37] Standard WBS for a JPL Mission  [FIGURA]
+37
+Standard WBS for a JPL Mission
+WBS Levels
+1
+2
+3
+
+[p38]   [FIGURA]
+(sin texto)
+
+[p39]   [FIGURA]
+(sin texto)
+
+[p40]   [FIGURA]
+(sin texto)
+
+[p41] Fases de Desarrollo Incremental
+Ciclo de Vida del Proyecto 
+Fases de Desarrollo Incremental 
+Via Baselines y Revisiones Técnicas
+Necesidades  Especificar Descomponer  Diseño  Integración Verificación Operarc. Disponer
+Fase A
+Fase B
+Fase C
+Fase D
+Fase E
+Baseline
+Desarrollo
+Revisión
+De Evaluación 
+Post Launch
+Definición de 
+Requerimientos
+Sistema 
+Diseño
+Preliminar 
+Integración 
+del Sistema
+y 
+Ensayos 
+Implementación del Sistema
+Revisiones
+Baselines
+Baseline
+Producto
+PDR
+Revisión 
+Preliminar
+del
+Diseño
+Acceptance
+Test 
+Readiness
+Review
+Diseño
+Del 
+Sistema 
+Diseño 
+Detallado
+Instalación
+Del Sistema 
+y 
+Aceptación
+Operación del 
+Sistema 
+y
+Mantenimiento
+Baseline 
+Requerimientos 
+De Sistema
+Baseline 
+Diseño del 
+Sistema
+Baseline
+Alojado
+Baseline
+Operacional
+Revisión
+de 
+Requer.
+Sistema
+Revisión 
+de 
+Definición
+de 
+Sistema
+CDR
+Revisión 
+Critica 
+Diseño
+Revisión
+de Ensayos 
+de 
+Alistamiento
+del 
+Sistema
+Acceptance
+Test 
+Readiness
+Review
+Auditoria de 
+Configuración 
+del Systema
+
+[p42] Progresión de los Requerimientos
+Arte-
+factos
+Organizations 
+& 
+People
+Progresión de los Requerimientos
+en relación al Ciclo de Vida del Proyecto
+Estudio de 
+Concepto(s)
+Desarrollo del 
+Concepto & 
+Tecnologías
+Diseño Preliminar 
+& Completar Tec.
+Diseño Final & 
+Fabricación
+AIT del Sistema y 
+Lanzamiento
+Operaciones & 
+Sostenimiento
+Problema
+s
+Concepto
+s
+Expectati
+vas
+CONOPS
+Reqmts.
+Sistema
+Plan
+Validació
+n
+Diseño 
+Prelim.
+Reqmts. 
+Subsiste
+mas
+Plan
+Verificaci
+ón
+Design-to
+Specs
+Construir 
+de 
+acuerdo 
+a 
+Specs
+Procedim
+.
+Verificaci
+ón
+Desplega
+do
+Operado
+Construir
+Verificad
+o
+Anomalia
+s
+Fase A
+Fase B
+Fase C
+Fase D
+Fase E
+Pre-Fase A
+
+[p43] Ejemplo  [FIGURA]
+Ejemplo
+S/C LANDSAT DATA CONTINUITY MISSION
+LDCM
+
+[p44] LANDSAT DATA CONTINUITY MISSION
+3.2 Objetivos de la Misión
+La meta del LDCM, consistente con la política y las leyes de EE.UU. es continuar
+con la adquisición, archivo, distribución de la imágenes globales multiespectrales
+que se ofrezcan, sinóptico, y cobertura repetitiva de la superficie de la Tierra a
+escala donde los cambios naturales e inducidos por el hombre pueden ser
+detectados, diferenciados, caracterizados, monitoreados todo el tiempo.
+Los siguientes objetivos de misión mayores se siguen desde estas metas:
+❖Colectar
+y archivar datos
+de imágenes
+multiespectrales de resolución
+moderada (circa 30 m distancia de muestra de Tierra) que ofrezca cobertura de
+temporada de la masa terrestre global por un período continuo de no menos de
+5 años.
+❖Asegurar que los datos de LDCM son suficientemente consistentes con los
+datos
+de
+las
+misiones
+anteriores
+Landsat
+en
+términos
+de
+adquisición,
+geometría,
+calibración,
+características
+de
+cobertura,
+características
+del
+espectro, calidad del producto final (de salida), y disponibilidad de los datos
+para permitir estudios de la Tierra y cambios por uso de la Tierra sobre períodos
+multidecadales.
+❖Distribuir los productos datos LDCN al público en general sobre la base de no
+discriminación y al precio no superior que el costo incremental de completar los
+requisitos del usuario.
+SMRD Rev E1_20130731 no cr.pdf
+LANDSAT DATA CONTINUITY MISSION
+LDCM Science and Mission Requirements Doc.
+
+[p45] Órbita LEO LDCM  [FIGURA]
+Órbita LEO LDCM
+
+[p46] Requerimientos de alto nivel S/C LDCM
+❖ID - El observatorio LDCM volará en órbita - 705 km, cerca del polo, sun-
+synchronous 
+❖ID - Seguimiento de Tierra mantendrá heritage WRS-2 paths with 10:00 a.m. 
+equatorial crossing time. 
+❖ID - Colectará datos de imágenes de banda multiespectral (Vis/NIR/SWIR/TIR) a 
+través de una pisada de X km en cada trayectoria 
+❖ID - Proveerá cobertura global de la masas terrestre en cada temporada 
+planificada 
+con la colección de 400 WRS-2 escenas por día
+❖ID - Mantendrá rigurosa calibración. (TBD) 
+❖ID - Archivará los datos y distribuirá los productos datos.
+❖ID - Proveerá no discriminatoriamente acceso al público general, generará 
+productos de datos de nivel 1, distribuirá los productos datos con costos no 
+por arriba de los requerido. 
+❖ID - Emisión directa de dato a la network de las estaciones de Tierra 
+internacionales teniendo memorándum de entendimiento con la USGS 
+Requerimientos de alto nivel S/C LDCM
+
+[p47] Evolución del Concepto de S/C LDCM durante  [FIGURA]
+Evolución del Concepto de S/C LDCM durante 
+la fase A
+
+[p48] Observatorio LDCM interfaceando con  [FIGURA]
+Observatorio LDCM interfaceando con 
+el BUS o Plataforma del S/C
+
+[p49] ConOp LDCM  [FIGURA]
+ConOp LDCM
+
+[p50] Jerarquía de Requerimientos LDCM  [FIGURA]
+Jerarquía de Requerimientos LDCM
+
+[p51] Jerarquía de Requerimientos LDCM  [FIGURA]
+Jerarquía de Requerimientos LDCM
+
+[p52] ConOp LDCM  [FIGURA]
+ConOp LDCM
+Segmento 
+de Vuelo
+Segmento 
+de Tierra
+Segmento de 
+Lanzamiento
+
+[p53] Arquitectura de Operación  [FIGURA]
+Arquitectura de Operación 
+del Sistema de Tierra
+
+[p54] Spacecraft LDCM  [FIGURA]
+Spacecraft LDCM
+
+[p55] Fase B del LDCM  [FIGURA]
+Fase B del LDCM
+
+[p56] S/C -
+COMMAND & DATA 
+HANDLING
+•cPCI architecture; RAD750 CPU
+•3.1 Tbit (BOL) solid state recorder
+•265 Mbps peak OLI data transfer
+•26.2 Mbps peak TIRS data transfer
+•High rate PB at 384 Mbps
+ELECTRICAL POWER
+•Single wing single axis articulated 
+GaAs solar array provides 4300 W 
+at EOL
+•125 amp-hour NiH2 battery
+•Unregulated 22 V - 36 V power bus
+•Two power distribution boxes
+GUIDANCE, 
+NAVIGATION 
+& CONTROL
+•2 of 3 star trackers active
+•High precision IRU
+•Honeywell reaction wheels
+•SADA with damper
+•3-axis stabilized
+•Zero momentum biased
+STRUCTURE
+•Aluminum primary structure
+•Externally mounted components
+•Clear instrument FOVs
+•Clear instrument radiactive paths
+THERMAL CONTROL 
+•Passive with heaters
+•Constant conductance 
+heat pipes (if needed)
+PROPULSION
+•Hydrazine blow-down propulsion module
+•Eight 22N Redundant Thrusters
+COMMUNICATIONS
+•S-band to GN/LGN: 1, 32kbps 
+uplink: and 2k,16k, 32k, or 1 Mbps 
+downlink
+•Omni antennas
+•TDRSS - SA: 1 kbps return and 2 or 
+32 Kbps forward
+•X-band: 384 Mbps science data
+Landsat Data Continuity Mission and Beyond, Mike Wulder
+S/C - Sistema y SS del LDCM
+
+[p57] S/C LDCM Sistema y SS del LDCM con Carga Útil  [FIGURA]
+https://www.fsa.usda.gov/Internet/FSA_File/pm2011_bethellandsat_8_5.pdf
+S/C LDCM Sistema y SS del LDCM con Carga Útil
+Carga Útil 
+Bus o 
+Plataforma
+
+[p58] S/C Sistema y SS del LDCM
+❖Mechanical Subsystem 
+Primary structure and deployable mechanisms
+❖Command and data handling Subsystem (C&DH)
+Includes a 3.14-terabit solid-state data recorder
+❖Attitude Control Subsystem (ACS)
+❖Electrical power Subsystem  (EPS)
+❖Radio frequency (RF) communications Subsystem (RFS)
+Includes an omni X-band antenna will transmit OLI and TIRS data
+❖Hydrazine Propulsion Subsystem  (PS)
+❖Thermal Control Subsystem (TCS)
+S/C Sistema y SS del LDCM
+
+[p59] Bus o Plataforma del S/C LDCM  [FIGURA]
+https://www.fsa.usda.gov/Internet/FSA_File/pm2011_bethellandsat_8_5.pdf
+Bus o Plataforma del S/C LDCM
+
+[p60] Observatorio del S/C LDCM -  [FIGURA]
+https://www.fsa.usda.gov/Internet/FSA_File/pm2011_bethellandsat_8_5.pdf
+Observatorio del S/C LDCM - Carga Útil
+
+[p61] Integración de la Carga Útil  [FIGURA]
+https://www.fsa.usda.gov/Internet/FSA_File/pm2011_bethellandsat_8_5.pdf
+Integración de la Carga Útil 
+al S/C LDCM
+
+[p62] LDCM Spacecraft  [FIGURA]
+https://www.fsa.usda.gov/Internet/FSA_File/pm2011_bethellandsat_8_5.pdf
+LDCM Spacecraft
+
+[p63] LDCM Spacecraft  [FIGURA]
+LDCM Spacecraft 
+Carga Útil del
+LDCM Spacecraft
+
+[p64] LDCM Spacecraft en la Cofia  [FIGURA]
+401
+LDCM Spacecraft en la Cofia
+
+[p65] Vehículos Lanzadores Espaciales  [FIGURA]
+Ejemplos 
+Vehículos Lanzadores Espaciales   
+- LV SZ 
+- SZS 
+- SZZS 
+- Falcon 9
+
+[p66] Requerimientos de alto nivel
+•
+Órbita LEO - Low Earth 
+Orbit
+•
+Órbita Polar
+•
+Altitud 600 km
+•
+Carga Útil 250 kg
+•
+Desarrollado en la 
+Argentina
+•
+Sitio de Lanzamiento 
+Argentina
+Requerimientos de alto nivel
+Vehículo Lanzador Espacial SZ
+
+[p67] Cofia  [FIGURA]
+Vehículo Lanzador Espacial SZ
+Cofia
+
+[p68] Vehículo Lanzador Espacial SZ  [FIGURA]
+Vehículo Lanzador Espacial SZ
+Diagrama Funcional Etapas Superiores
+
+[p69] Vehículo Lanzador Espacial SZ  [FIGURA]
+Vehículo Lanzador Espacial SZ
+Diagrama Funcional 1ra y 2da Etapas
+
+[p70] Vehículo Lanzador Espacial SZ
+Fase A:
+Concept Development
+Fase B:
+Preliminary
+Design
+Fase C:
+Critical 
+Design
+Fase D:
+Manufacturing 
+Assembly, Integration & Verific.
+Deployment & Operations
+• LV OPERATION CONCEPT
+• ARCHITECTURE
+• ASSESS OF ALTERNATIVES 
+• SIMULATON & EVALUATION
+• CRITICAL ELEMENT DEVELOPMENT
+• PROPELLANT DEVELOPMENT
+• THRUSTERS DEVELOPMENT
+LV 
+SRR
+LV
+SDR
+LV
+PDR
+July 2000
+1ST
+LAUNCH
+July 2003
+LV
+CDR
+POSTFLIGHT
+MISSION
+CDR
+SRR- SYSTEM REQUIREMENTS REVIEW
+SDR – SYSTEM DESIGN REVIEW
+PDR – PRELIMINARY DESIGN REVIEW
+CDR – CRITICAL DESIGN REVIEW
+FRR – FLIGHT READINESS REVIEW
+Status
+Dec 15th 98
+Dec 2001
+SZ  MISSION MANAGEMENT
+FRR
+• MANUFACTURING DEVELOPMENT
+• LV DETALIED SYSTEMS DESIGN
+• RISK REDUCTION DEMOSTRATION 
+• LAUNCH PAD
+• SPACECRAFT INTERFACES
+• SUPPORT INFRASTRUCTURE
+• MANUFACTURING DEVELOPMENT
+• LV PRELIMINARY SYSTEMS DESIGN
+• RISK REDUCTION PLAN
+• LV ASSEMBLY, INTERGRATION & 
+VERIFICATION PLAN
+Vehículo Lanzador Espacial SZ
+
+[p71] Vehículo Lanzador Espacial SZS  [FIGURA]
+http://www.sei.aero/archive/AIAA-2006-8057.pdf
+Vehículo Lanzador Espacial SZS
+
+[p72] Vehículo Lanzador Espacial SZZS  [FIGURA]
+Vehículo Lanzador Espacial SZZS
+
+[p73] Concepto de Operación Falcon 9  [FIGURA]
+Concepto de Operación Falcon 9
+
+[p74] Concepto de Operación Falcon 9  [FIGURA]
+Concepto de Operación Falcon 9 
+Reusable 1ra Etapa
+
+[p75] Concepto de Operación de Tierra del  [FIGURA]
+http://www.nasahunch.com/wp-content/uploads/2014/09/Falcon9UsersGuide_2009.pdf
+Concepto de Operación de Tierra del 
+Falcon 9
+
+[p76] Concepto de Operación de Tierra del Falcon 9  [FIGURA]
+Concepto de Operación de Tierra del Falcon 9
+
+[p77] Remotely Operated Vehicle  [FIGURA]
+Sumergible ROV
+Remotely Operated Vehicle
+
+[p78]   [FIGURA]
+(sin texto)
+
+[p79] Ejemplos de Diagramas Funcionales  [FIGURA]
+Ejemplos de Diagramas Funcionales
+Sumergible ROV
+
+[p80] Sumergible ROV ZS  [FIGURA]
+Sumergible ROV ZS
+Ejemplo de Diagrama Funcional
+Dato
+Potencia
+Bi nivel - Tri
+Dato
+RO
+V
+
+[p81] Sumergible ROV ЊЖ  [FIGURA]
+Sumergible ROV ЊЖ
+Ejemplo Diagrama Funcional
+
+[p82] Ejemplo  [FIGURA]
+Microsoft Word - UNH ROV Technical Documentation.docx
+Ejemplo 
+Diagrama 
+Funcional
+
+[p83] Ejemplo Diagrama Funcional  [FIGURA]
+Ejemplo Diagrama Funcional
+
+[p84] Ejemplo Diagrama Funcional  [FIGURA]
+MSURobotics_Team_TechReport_2014.pd
+Ejemplo Diagrama Funcional
+
+[p85] Ejemplo Diagrama Funcional  [FIGURA]
+MSURobotics_Team_TechReport_2014.pd
+f
+Ejemplo Diagrama Funcional
+
+[p86] Ejemplo Diagrama Funcional del SW  [FIGURA]
+Ejemplo Diagrama Funcional del SW
+
+[p87] Especificaciones de un ROV Sumergible  [FIGURA]
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.17.2136&rep=rep1&type=pdf
+Especificaciones de un ROV Sumergible
+
+[p88] Ejemplo Diagrama Funcional  [FIGURA]
+https://daim.idi.ntnu.no/masteroppgaver/015/15165/masteroppgave.pdf
+Ejemplo Diagrama Funcional
+
+[p89] Sumergible ROV  [FIGURA]
+Sumergible ROV
+DATOS - Velocidad de comunicación
+
+[p90] Ejemplo Comercial
+Ejemplo Comercial
+Datos del componentes y Ensamble de los 
+BlueROVs 
+http://docs.bluerobotics.com/brov2/assembly/#whats-included
+Archived Assembly Instructions
+https://www.bluerobotics.com/store/retired/bluerov-r1/
+
+[p91] Gantt de un Proyecto Sumergible ROV  [FIGURA]
+Gantt de un Proyecto Sumergible ROV
+No están aclaradas las Fases
+
+[p92] Luz y Profundidad en el Agua  [FIGURA]
+Luz y Profundidad en el Agua
+
+[p93] in Preparation for Test  [FIGURA]
+Example: NOAA-N’ on Turn Over Cart
+in Preparation for Test
+
+[p94] The NOAA-N’ Spacecraft is Dropped  [FIGURA]
+The NOAA-N’ Spacecraft is Dropped
+
+[p95] The NOAA-N’ Spacecraft is Dropped  [FIGURA]
+The NOAA-N’ Spacecraft is Dropped
+
+[p96] The NOAA-N’ Spacecraft is Dropped  [FIGURA]
+96
+The NOAA-N’ Spacecraft is Dropped
+
+[p97] errors
+As the spacecraft was being repositioned from vertical to horizontal on the "turn over
+cart", it slipped off the fixture, causing severe damage. The 18' long spacecraft was
+about 3' off the ground when it fell. The mishap was caused because 24 bolts were
+missing from a fixture in the “turn over cart”.
+Two errors occurred.
+First, technicians from another satellite program that uses the same type of “turn
+over cart” removed the 24 bolts from the NOAA cart on September 4 without
+proper documentation.
+Second, the NOAA team working today failed to follow the procedure to verify
+the configuration of the NOAA “turn over cart” since they had used it a few days
+earlier.
+IMPACT ON PROGRAM/PROJECT AND SCHEDULE: The shock and
+vibration of the fall undoubtedly caused tremendous damage. Significant rework
+and retest will be required. NOAA-N’ was planned for launch in 2008.
+CORRECTIVE ACTION: Lockheed Martin formed an Accident Review Team with
+GSFC participating. The immediate actions concerned safety (preventing the
+spacecraft from rolling, discharging the batteries, and depressurizing the propulsion
+system). NOAA-N’ was under guard, all records were impounded, and the personnel
+interviewed. After the safety issues were addressed, attention was focused on
+assessing the damage to the spacecraft.

@@ -1,0 +1,1471 @@
+# IISE clase 10 -- 71 diapositivas
+# fuente: IISE Clase 10 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] UNSAM - Ing Sistemas Espaciales  [FIGURA]
+Introducción 
+a la Ingeniería de Sistemas 
+Espaciales
+Unidad # 10
+Virtual Campus UNSAM
+UNSAM - Ing Sistemas Espaciales
+
+[p2] Temario 9na Clase
+- Recordando la pedagogía CDIO y el aprendizaje basado 
+en Proyectos.
+-
+Revisión para repensar la Arquitectura de Sistemas, 
+Forma, Función.
+-
+Arquitectura de Sistemas e Ingeniería Inversa.
+-
+Revisión de algunos temas y elementos de un PDR de un 
+ROV subacuático.
+-
+Gestión de Riesgo Técnico.
+Temario 9na Clase
+
+[p3] CDIO y Aprendizaje Basado en Proyectos
+CDIO y Aprendizaje Basado en Proyectos
+La meta principal de la metodología CDIO es suministrar a los estudiantes
+oportunidades para aplicar los conocimientos y en especial los de la ciencias de la
+ingeniería en contexto. EL Aprendizaje Basado en Proyectos (PjBL) es
+complementario a CDIO.
+Esta manera de aprendizaje está focalizada en la formulación y encare del
+problema más que en la solución del problema.
+Las principales características son:
+• Aprendizaje centrado en el estudiante, es decir, los estudiantes hacen sus
+elecciones (dentro de un entorno) de cómo y qué quieren ellos aprender durante
+los proyectos integradores (4).
+• El aprendizaje ocurre en pequeños grupos y promueven el aprendizaje
+colaborativo.
+•
+Los profesores son facilitadores, guías o coaches.
+•
+Los problemas, proyectos o procesos forman los focos de la organización y
+estímulos para el aprendizaje.
+•
+Los proyectos son vehículos para el desarrollo de las habilidades ingenieriles
+auténticas
+•
+La nueva información es adquirida a través del aprendizaje auto dirigido.
+cdio-in-aerospace-engineering-the-north-america-aerospace-project-progress-report.pdf
+
+[p4] Modelos de Organización del Curriculum  [FIGURA]
+Modelos de Organización del Curriculum
+Puro Qué
+Puro Cómo
+“Aprendiz”
+Mezcla entre 
+Qué y Cómo
+Exagerando un poco
+
+[p5] Revisión
+Revisión 
+• Materializa el concepto, es la asignación de la función
+física/informativa (proceso+operando) a los elementos de la
+forma (objetos concretos - HW/SW etc), y la definición de
+las relaciones, interfaces estructurales entre los objetos y
+con el contexto circundante (Crawley).
+• Consiste en
+– Función
+– Relacionado por el Concepto a la
+– Forma
+-
+Fuente - Strategy and Product Development  for Complex Systems Edward Crawley   Bruce Cameron   Daniel Selva Foreword by  Norman R. Augustine
+Arquitectura de Sistema - Definición
+
+[p6] Forma
+Forma (Relectura)
+Es sorprendentemente difícil separar la forma de la función. En el habla común,
+nos referimos a la forma con palabras funcionales. Intente describir una taza de
+café de papel, un lápiz o un cuaderno de espiral sin ninguna referencia a la
+función. Si usaba las palabras "manejar", "borrador" y "encuadernación", estaba
+usando palabras enraizadas en una función. Para permanecer completamente en
+el dominio de la forma, podríamos usar "semicírculo de cartón plano", "cilindro de
+goma" y "espiral de metal". Un objetivo es distinguir claramente la forma de la
+función. La forma es lo que se ha implementado o se implementa eventualmente.
+La forma finalmente se construye, se escribe, se compone, se fabrica o se
+ensambla. La forma se trata de la existencia. Como lo indica la definición en el
+Cuadro 4.1, la primera prueba para el formulario es que existe. La forma es lo que
+es el sistema. Es la manifestación concreta y a menudo visible del sistema. La
+cláusula "por algún período de tiempo" se incluye en la definición para permitirnos
+discutir la forma de las cosas que han existido en el pasado (análisis de sistemas
+históricos) o que existirán en el futuro (análisis de diseños de sistemas). La
+segunda prueba para la forma es que es instrumental en la ejecución de la
+función. Para que se produzca esta función, generalmente debe haber algún
+instrumento que facilite la función o que "lleve" la función. La forma es lo que
+eventualmente se opera para entregar función y valor.
+Fuente - Strategy and Product Development  for Complex Systems Edward Crawley   Bruce Cameron   Daniel Selva Foreword by  Norman R. Augustine
+
+[p7] Definición de Forma.
+Definición de Forma.
+La forma es la realización física o informativa de un sistema que existe o tiene 
+potencial para una existencia estable e incondicional, por algún período de 
+tiempo, y es instrumental en la ejecución de la función. La forma incluye las 
+entidades de forma y las relaciones formales entre las entidades. La forma existe 
+antes de la ejecución de la función. La forma es un atributo de producto / sistema.
+Pregunta
+Produce 
+¿Qué es el sistema? 
+Un objeto que define la abstracción de la forma para el sistema 
+Cuáles son los principales elementos 
+de la forma? 
+Un conjunto de objetos que representan las abstracciones 
+descendentes del primer y potencialmente segundo nivel del 
+sistema descompuesto 
+¿Cuál es la estructura formal? 
+Un conjunto de relaciones espaciales y de conectividad entre 
+los objetos en cualquier nivel de descomposición 
+¿Cuáles son los sistemas que lo 
+acompañan? ¿Qué es todo el sistema 
+del producto? 
+Un conjunto de objetos en todo el sistema de productos que 
+son esenciales para la entrega de valor, y las relaciones con 
+los sistemas que lo acompañan 
+¿Cuáles son los límites del sistema? 
+¿Qué son las interfaces?
+.Una definición clara de la frontera entre el sistema y el 
+contexto y una definición de las interfaces 
+¿Cuál es el contexto de uso? 
+Un conjunto de objetos que no son esenciales para la entrega 
+de valor, pero que establecen el lugar, informan la función e 
+influyen en el diseño
+Fuente - Strategy and Product Development  for Complex Systems Edward Crawley   Bruce Cameron   Daniel Selva Foreword by  Norman R. Augustine
+Forma (Relectura)
+
+[p8] Forma
+Considere la casa de playa que se muestra en la Figura 4.1. ¿Cuál es la forma? El
+forma se puede interpretar como los espacios de la casa: la gran sala, la cocina, etc.
+El espacio de la cocina existe y facilita la preparación de alimentos y la conversación
+(función). En las instrucciones de emergencia que se muestran en la Figura 4.2, la
+estructura es que algunas
+de las imágenes individuales están en secuencia
+(reforzadas por la numeración), y luego, en un nivel superior, algunas de las imágenes
+secuenciadas están precedidas por otras imágenes o letras más pequeñas .
+La forma incluye la suma de las entidades, que son los elementos o fragmentos de la
+forma. Estos son elementos del todo, y esta es la relación de parte completa para la
+forma. La forma también incluye la relación entre las entidades de la forma, que a
+menudo se denomina estructura. La forma son las entidades de la forma más la
+estructura.
+En el caso de la casa de playa, las relaciones formales se representan fácilmente por
+el plano de planta, que muestra las relaciones espaciales entre los espacios. En las
+instrucciones de emergencia,
+la estructura
+es que algunas de
+las imágenes
+individuales están en secuencia (reforzadas por la numeración), y luego, en un nivel
+superior, algunas de las imágenes secuenciadas están precedidas por otras imágenes
+más pequeñas y están en bloques indicados por reglas horizontales
+La forma es un atributo del sistema; Es una forma independiente de ver o caracterizar
+el sistema. La forma también es parte de la solución que propone el arquitecto.
+Fuente - Strategy and Product Development  for Complex Systems Edward Crawley   Bruce Cameron   Daniel Selva Foreword by  Norman R. Augustine
+Forma (Relectura)
+
+[p9] Arquitectura Civil (Relectura)  [FIGURA]
+Arquitectura Civil (Relectura)
+Figura 4.1
+
+[p10] Forma
+Cada disciplina ha desarrollado su propia taquigrafía para representar la forma.
+La forma se representó primero con palabras, como la forma en que las
+constituciones nacionales describen la forma de gobierno.
+A
+continuación,
+se
+desarrollaron
+mapas
+y
+dibujos
+representativos:
+ilustraciones, esquemas, dibujos, vistas tridimensionales y diagramas de
+perspectiva. Intentan representar una imagen del sistema a escala real pero a
+la vez realista. Más tarde, se desarrollaron representaciones simbólicas:
+ecuaciones, pseudocódigo, diagramas de circuito y similares. Los símbolos
+utilizados en estos diagramas sólo tienen un significado abstracto .
+Figura 4.2 una tarjeta de 
+instrucciones de emergencia 
+como un ejemplo de 
+arquitectura informativa.
+Fuente - Strategy and Product Development  for Complex Systems Edward Crawley   Bruce Cameron   Daniel Selva Foreword by  Norman R. Augustine
+Forma (Relectura)
+
+[p11] (Relectura)
+¿Concepto? ¿Función?¿Forma?
+Interfaces? ¿Contexto?
+¿Cómo
+describirías
+las
+diferencias
+arquitectónicas entre los dos puentes que
+se
+muestran.
+Ambos
+tienen
+la
+misma
+función externa (transporte de vehículos), y
+se
+ven
+sorprendentemente
+similares
+en
+forma (ambos tienen dos torres centrales,
+una cama de carretera y cables).
+Sin embargo, la arquitectura del sistema de estos
+dos puentes es diferente porque sus asignaciones
+de forma y función son diferentes. La plataforma
+(forma)
+del
+puente
+atirantado
+(fig.
+izquierda)
+transporta carga en compresión (función), mientras
+que el puente colgante no (fig. de arriba). Los
+anclajes (forma) para los cables principales del
+puente colgante están reaccionando a las cargas
+de los cables principales (función). Dado que el
+puente atirantado transporta tensión en el lecho de
+la carretera, no puede abarcar una distancia tan
+larga como un puente colgante
+Un ejemplo
+Mapeo de forma y función
+(Relectura)
+Fuente - Strategy and Product Development  for Complex Systems Edward Crawley   Bruce Cameron   Daniel Selva Foreword by  Norman R. Augustine
+
+[p12] Ingeniería
+Arquitectura de Sistemas e Ingeniería Inversa
+En el  diseñar, conocemos 
+las funciones entonces  
+queremos crear la forma que 
+nos entrega esas funciones
+(concepto)
+La ingeniería inversa, 
+conocemos la forma,  tratamos 
+de inferir las funciones
+(presumiblemente y 
+eventualmente, los objetivos) 
+Definición 
+de 
+Funciones
+Definición 
+de Forma
+Materializamos
+Inferimos
+Diseño 
+Conceptual
+Ingeniería 
+Inversa
+
+[p13] Secuencia en el Diseño y
+Secuencia en el Diseño y
+la Ingeniería Inversa
+❑Haciendo Arquitectura y Diseño
+Define externamente las funciones entregadas, crea concepto, hace un 
+desglose de funciones (descomposición funcional), define los 
+subsistemas
+❑Ingeniería inversa
+❖Se Define subsistemas, inter funciones, se infiere conceptos, se 
+infiere externalidades de las funciones entregadas (o la falta de ella)
+❖Las dos últimas etapa son difíciles, debido a la emergencia de 
+funciones. 
+Famoso caso de la Ing inversa del Zero
+Acutan Zero 
+http://en.wikipedia.org/wiki/Akutan_Zero 
+Mitsubishi Zero Fighter (WWII)
+http://www.ww2wrecks.com/portfolio/the-akutan-zero-the-first-
+intact-to-be-captured-by-the-us-in-1942-and-the-last-flight-of-
+tadayoshi-koga/
+
+[p14]   [FIGURA]
+(sin texto)
+
+[p15] The Akutan Zero is inspected by US Navy personnel on  [FIGURA]
+The Akutan Zero is inspected by US Navy personnel on Akutan Island on July 11, 1942.
+
+[p16] September 20 and October 15. According to Sanders’ report:
+On September 20, 1942 (2 months after the Zero’s capture), 
+Lieutenant Commander Eddie R. Sanders took the Akutan Zero up 
+for its first test flight. He would make 24 test flights between 
+September 20 and October 15. According to Sanders’ report:
+Giró hacia la izquierda mucho más fácilmente que hacia la derecha.
+Además, su motor se apagó bajo aceleración negativa debido a su
+carburador tipo flotador. Ahora teníamos la respuesta para nuestros
+pilotos que estaban siendo superados en maniobras e incapaces de
+escapar de un Zero que los perseguía: entrar en un picado de potencia
+vertical, usando aceleración negativa si es posible para abrir el rango
+mientras el motor del Zero estaba parado por la aceleración. A unos 200
+nudos, rueda con fuerza justo antes de que el piloto de Zero pueda
+alinear la mira ".
+“Estos vuelos cubrieron pruebas de rendimiento como las que hacemos
+en aviones que se someten a pruebas de la Marina. El primer vuelo
+expuso las debilidades del Zero que nuestros pilotos podrían explotar
+con las tácticas adecuadas ... inmediatamente evidente fue el hecho de
+que los alerones se congelaron a velocidades superiores a 200 nudos,
+por lo que las maniobras de rodadura a esas velocidades eran lentas y
+requerían mucha fuerza en la palanca de control.
+
+[p17]   [FIGURA]
+(sin texto)
+
+[p18] Repaso: El Concepto
+Repaso: El Concepto
+• Es creado por el Arquitecto
+• Debe permitir  la materialización de todas las funciones
+• Establece el glosario o vocabulario de las soluciones
+• Implícitamente representa una tecnología
+
+[p19] Diseño vs. Arquitectura
+Diseño vs. Arquitectura 
+• La Arquitectura selecciona el concepto, la descomposición y el 
+mapeo de la forma para la  función 
+• La Arquitectura establece el vector de las variables de diseño 
+y los parámetros de operación 
+• El diseño selecciona los valores de los parámetros del vector.
+• Esto es el camino hacia la optimización 
+• El trabajo en “arquitectura” es justamente una exhaustiva 
+búsqueda sobre el diseño de una arquitectura.
+
+[p20] Interrelaciones entre los procesos de diseño  [FIGURA]
+Interrelaciones entre los procesos de diseño 
+de sistemas
+Fuente Handbook de Ing de Sistemas NASA
+
+[p21] Interrelaciones entre los procesos de diseño de
+Autori
+dades 
+de la 
+Misión
+Objetivos y 
+Restricción 
+de la Misión
+Objetivos 
+Operacional.
+Criterios de 
+Éxito de  la 
+Misión
+Expectativas 
+Stakeholder
+Requerim
+ientos de 
+Alto Nivel
+Descompo
+sición
+Lógica y 
+Funcional
+Requerim. 
+Derivados y 
+Alojados
+Funcionales
+Performance
+Interfaces
+Operacional.
+‘.bilidades’
+Estruc. De 
+Desglose de 
+Producto y 
+Diseño
+ConOps
+Análisis 
+Funcional &
+Perform.
+Trabajo?
+Seguro y 
+Confiable?
+Lograble?
+Sufic.
+Profund
+Baseline
+Elegido
+Rebaseline 
+Requireme
+nts
+Lazo Diseño Iterativo
+Trade Studies
+Si
+Si
+Si
+No
+No
+Next level
+No
+Interrelaciones entre los procesos de diseño de 
+sistemas
+Definición de los Requer. técnicos
+Definición Solución de Diseño
+Análisis de decisión
+Descomposición Lógica
+
+[p22] Nautilus  [FIGURA]
+Nautilus
+Revisión de algunos temas y elementos de un 
+PDR de un ROV subacuático
+
+[p23] Ejemplo de Especificaciones de un  [FIGURA]
+Ejemplo de Especificaciones de un 
+ROV Subacuático
+
+[p24] Revisión Preliminar de Diseño  [FIGURA]
+Revisión Preliminar de Diseño 
+Proyecto ROV subacuático
+
+[p25] Revisión del Diseño Preliminar -
+Esta revisión es donde se presenta el “progreso del diseño” para
+los clientes/customer y otros interesados para que puedan hacer
+su evaluación. La meta de esta revisión es para
+(a) validar la definición del problema
+(b) el diálogo acerca de la tres o más diseños viables, y
+(c) acordar sobre el diseño elegido.
+La revisión de diseño es también una oportunidad para
+impresionar
+al
+cliente
+con
+sus
+competencias
+y
+profesionalidad, construir confianza y credibilidad
+en el equipo.
+¿Cuál es el propósito de la 
+Revisión del Diseño Preliminar - PDR?
+
+[p26] ¿Qué deberíamos cubrir?
+Presentar las necesidades, requerimientos, restricciones y 
+entregables (documentos y productos).
+∙
+Listar los resultados del aprendizaje del proyecto
+∙
+Presentar varios diseños viables, dando los pros y los contras de     
+cada uno y cómo se eligió finalmente
+∙
+Proveer la estimación de los fondos y costos del proyecto
+∙
+Delinear una planificación del proyecto que produce 
+entregables necesitados con un abundante tiempo para 
+validación del producto.
+∙
+Identificar honestamente los problemas potenciales y riesgos, y 
+describir como el plan lidiará con ellos.
+¿Qué deberíamos cubrir?
+
+[p27] Consejos sobre la presentación PDR
+•  Estén preparados para recibir evaluación de los revisores y los participantes de la revisión 
+de diseño.
+•  Se Pide a los participantes que vayan a fondo con las preguntas. 
+•  Planeen hablar 15-25 minutos, permitiendo después 40 minutos  para el  diálogo. 
+•  Haga un Powerpoint elegante o una web page  para la presentación. 
+•  Trate de hacer la presentación como un flujo lógico de diferentes elementos. 
+•  Evite largas listas de ítems. Los slides debería enfatizar los aspecto no textuales de la 
+presentación; por ejemplo: 
+o Dibujos 
+o Esquemas  
+o Diagramas en Bloque 
+o Diagrama de flujo, Ecuaciones 
+o Tablas 
+•  Ponga suficiente texto para listar los puntos importantes y hacer que los slides se 
+autoexpliquen.   (Descripción detallada textual del proyecto iré en el reporte del semestre)
+•Imprimir la  presentación para la audiencia para referir y hacer notas. Dos o tres páginas es 
+un buen número. 
+•  Asignar números a las slides para poder referirse fácilmente, específicamente si alguien  de 
+la audiencia está conectado por teléfono. 
+Consejos sobre la presentación PDR
+
+[p28] Ingeniería de Sistemas
+Ingeniería de Sistemas
+Funciones Claves
+Est. de Concep
+Pre Fase A
+Anál. Prelim. 
+Fase A
+Definición 
+Fase B
+Diseño
+Fase C
+Desarrollo 
+Fase  D
+Operaciones 
+Fase E
+Entender los objetivos
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Desarrollo del ConOp
+Concepto
+Baseline
+Refinar
+Completo
+Plan de 
+Operaciones
+Seguimiento de 
+los cambios
+Desarrollo de 
+Arquitectura y Diseño
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Análisis, Identif. y 
+Gest. de los Requer.
+Concepto
+Baseline 
+de alto nivel
+Completo
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+V&V
+Concepto
+Inicial
+Asignar 
+Métodos
+Desarrollo de 
+Planes
+Completo
+Interfaces & ICDs
+Concepto
+Initial
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Ambiente de Misión
+Inicial 
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Segui. de Presupuesto 
+y Recursos Técnicos
+Concepto
+Inicial
+Baseline
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Análisis, Reducción y 
+Gestión de Riesgo
+Estimado
+FTA , RBD
+FMEA, FTA, 
+RBD
+FTA, FMEA, 
+RBD, PRA
+Actualizar 
+CAmbios
+Actualizar 
+Cambios
+Revisión Candidatos 
+Hitos Sistema
+MCR
+MDR
+SRR, SCR, 
+PDR, CR
+CDR
+MOR, PER, FOR, 
+PSR, FRR, ORR
+DR
+Gestión y Doc de 
+Configuración
+Informal Gestión 
+Configuración
+Control de Requer 
+Nivel 1
+Gestión de 
+Configuración
+Seguimiento de 
+cambios
+Seguimiento de 
+cambios
+Seguimiento de 
+cambios
+Plan de Gestión de la 
+Ing de Sistemas
+Concepto
+Baseline
+Completo
+Seguimiento de 
+cambios
+Seguimiento de 
+cambios
+Documento de GSFC NASA -
+GPG7120 5 pdf
+Sumergible ROV
+
+[p29] Ingeniería de Sistemas
+Ingeniería de Sistemas
+Funciones Claves
+Est. de Concep
+Pre Fase A
+Anál. Prelim. 
+Fase A
+Definición 
+Fase B
+Diseño
+Fase C
+Desarrollo 
+Fase  D
+Operaciones 
+Fase E
+Entender los objetivos
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Desarrollo del ConOp
+Concepto
+Baseline
+Refinar
+Completo
+Plan de 
+Operaciones
+Seguimiento de 
+los cambios
+Desarrollo de 
+Arquitectura y Diseño
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Análisis, Identif. y 
+Gest. de los Requer.
+Concepto
+Baseline 
+de alto nivel
+Completo
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+V&V
+Concepto
+Inicial
+Asignar 
+Métodos
+Desarrollo de 
+Planes
+Completo
+Interfaces & ICDs
+Concepto
+Initial
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Ambiente de Misión
+Inicial 
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Segui. de Presupuesto 
+y Recursos Técnicos
+Concepto
+Inicial
+Baseline
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+los cambios
+Análisis, Reducción y 
+Gestión de Riesgo
+Estimado
+FTA , RBD
+FMEA, FTA, 
+RBD
+FTA, FMEA, 
+RBD, PRA
+Actualizar 
+CAmbios
+Actualizar 
+Cambios
+Revisión Candidatos 
+Hitos Sistema
+MCR
+MDR
+SRR, SCR, 
+PDR, CR
+CDR
+MOR, PER, FOR, 
+PSR, FRR, ORR
+DR
+Gestión y Doc de 
+Configuración
+Informal Gestión 
+Configuración
+Control de Requer 
+Nivel 1
+Gestión de 
+Configuración
+Seguimiento de 
+cambios
+Seguimiento de 
+cambios
+Seguimiento de 
+cambios
+Plan de Gestión de la 
+Ing de Sistemas
+Concepto
+Baseline
+Completo
+Seguimiento de 
+cambios
+Seguimiento de 
+cambios
+Documento de GSFC NASA -
+GPG7120 5 pdf
+PDR Sumergible ROV
+
+[p30] y sus Niveles
+Concepto
+Baseline
+Completo
+Recorramos las Funciones Claves 
+y sus Niveles  
+Necesidades
+Metas
+Objetivos
+Misión
+Hipótesis
+Restricciones
+Autoridades y 
+Responsabilidades
+Conceptos 
+Operacionales
+Alcance
+Niveles
+Entender los Objetivos
+
+[p31] Análisis, Identificación y Gestión de los
+El Concepto de Operaciones incluirá al menos:
+∙
+Descripción de la fases mayores; una línea de tiempos de las operaciones.
+∙
+Escenarios Operacionales.
+∙
+Estrategia de Comunicación End-to-End y arquitectura de los datos.
+∙
+Enfoque de Comando y Control.
+∙
+Facilidades Operacionales.
+∙
+Eventos
+Críticos
+(tal
+como
+despliegue/activación,
+inserción
+en
+órbita
+lunar,
+maniobras para mantener la órbita de la estación, maniobras para
+corrección de trayectoria, maniobras para terminar la misión).
+ConOp - Concepto de Operaciones
+Concepto
+Baseline
+Refinar
+Niveles
+Análisis, Identificación y Gestión de los 
+Requerimientos
+Concepto
+Baseline de alto nivel
+Completo
+Nivel
+
+[p32] Ejemplo de Requerimientos Funcionales de Alto
+ID
+Tipo
+Descripción
+Fuente
+Ap
+Prior
+.
+Fecha
+RF 001
+Funcional
+El sistema será un vehículo 
+sumergible
+Cliente
+Si
+RF 002
+Funcional
+El sistema realizará tareas 
+programadas (autónomo)
+Cliente
+Si
+RF 002
+Funcional
+El sistema realizará tareas 
+controladas remotamente
+Cliente
+Si
+RF 003
+Funcional
+El sistema sensará el 
+ambiente
+Cliente
+Si
+RF 004
+Funcional
+El sistema será operado por 
+un humano desde tierra
+Cliente
+Si
+Ejemplo de Requerimientos Funcionales de Alto 
+Nivel del Sistema Undersea ROV
+A partir de docs. se extraen y se sintetizan los requerimientos de alto nivel 
+que manejan las decisiones del diseño para ser presentados en el PDR
+Debemos demostrar  por qué se elige tal diseño
+
+[p33] Ejemplo de Requerimientos Tecnológicos de Alto
+ID
+Tipo
+Descripción
+Fuente
+Ap
+Prior.
+Fecha
+RT 101
+Tecnológico
+El sistema tendrá hidrófonos para 
+seguimiento, sensor de ultrasonido
+Cliente
+Si
+RT 102
+Tecnológico
+El sistema utilizará cámaras para 
+reconocimiento de objetos (y 
+posible navegación)
+Cliente
+Si
+RT 103
+Tecnológico
+El sistema usará una CPU para 
+propósitos generales y 
+motherboard
+Cliente
+Si
+RT 104
+Tecnológico
+Motores y propulsores  serán 
+usados para la propulsión
+Cliente
+Si
+RT 105
+El sistema usará una IMU para la 
+info de la navegación 
+Cliente
+Si
+Ejemplo de Requerimientos Tecnológicos de Alto 
+Nivel del Sistema Undersea ROV
+A partir de docs. se extraen y se sintetizan los requerimientos de alto nivel que 
+manejan las decisiones del diseño para ser presentados en el PDR
+Debemos demostrar por qué se elige tal diseño
+
+[p34] Ejemplo de Requerimientos Perfor. de Alto Nivel del
+ID
+Tipo
+Descripción
+Fuente
+Apr
+Prior
+.
+Fecha
+RP 001
+Perfor
+El sistema será a prueba de agua hasta 40m
+Cliente
+Si
+RP 002
+Perfor
+El sistema realizará tareas programadas (autónomo)
+Cliente
+Si
+RP 003
+Perfor
+El sistema tendrá una autonomía de 1 hora
+Cliente
+Si
+RP 004
+Perfor
+El sistema realizará tareas de una manera exacta y 
+repetible.
+Cliente
+Si
+RP 005
+Perfor
+El sistema tendrá una velocidad máxima de 1m/seg
+Cliente
+Si
+RP 006
+Perfor
+El sistema pesará menos de 30 kg
+Cliente
+Si
+RP 007
+Perfor
+El sistema tendrá  un volumen de no más de 
+50x50x50 cm
+Cliente
+Si
+RP 008
+Restric
+Cada unidad del sistema costará menos de $10000, 
+el costo del desarrollo será menos de $ XXXX
+Cliente
+Si
+RP 009
+Restric
+El proyecto debe ser terminado en un lapso de 1 año
+Cliente
+Si
+RP 010
+Restric
+EL sistema estará de acuerdo a la normativa  
+M16FF324 
+Cliente
+Si
+Ejemplo de Requerimientos Perfor. de Alto Nivel del 
+Sistema Undersea ROV
+A partir de docs. se extraen y se sintetizan los requerimientos de alto nivel que 
+manejan las decisiones del diseño para ser presentados en el PDR
+Debemos demostrar por qué se elige tal diseño
+
+[p35] y Diseño del Concepto de Sistema  [FIGURA]
+Concepto
+Baseline
+Completo
+Ejemplo de Desarrollo de la Arquitectura 
+y Diseño del Concepto de Sistema
+
+[p36] Ejemplo de Desarrollo de la Arquitectura y
+Análisis Funcional: Nuestro ROV es desglosado en los 
+siguientes  subsistemas (son requerimientos)
+o Flotación 
+o Estructura 
+o A prueba de agua - Estanco 
+o Procesamiento 
+o Comunicación 
+o Propulsión 
+o Potencia 
+o Cámaras & iluminación – (Sensores)
+o Carga Útil - Sensores
+Concepto
+Baseline
+Completo
+Ejemplo de Desarrollo de la Arquitectura y 
+Diseño del Concepto de Sistema
+
+[p37] Ejemplo de Sistemas Considerados  [FIGURA]
+Ejemplo de Sistemas Considerados
+
+[p38] diferentes  Diseños del Sistema
+Ejemplo de Criterios de Evaluación de 
+diferentes  Diseños del Sistema
+Criterio
+Peso
+Diseño 1
+Diseño 2
+Diseño 3
+Costo Mínimo
+30%
+8
+5
+2
+Robustez 
+20%
+5
+6
+8
+Exactitud
+15%
+3
+8
+9
+Funcionalidad
+15%
+3
+7
+8
+Trabajo
+10%
+7
+4
+2
+Flexibilidad 
+10%
+3
+7
+7
+Total
+100%
+5,3
+6,05
+5,65
+
+[p39] Ejemplos: Diagrama de Bloques del sistema  [FIGURA]
+http://www.robonation.org/sites/default/files/University_of_arizona_2014_RoboSub_Journal.pdf
+Ejemplos: Diagrama de Bloques del sistema
+
+[p40] Ejemplos: Diagrama de Bloques del sistema  [FIGURA]
+https://www.niot.res.in/SAVe/SAVe%20Report01022016.pdf
+Ejemplos: Diagrama de Bloques del sistema
+
+[p41] Ejemplo de Presupuesto de Potencia  [FIGURA]
+Ejemplo de Presupuesto de Potencia
+Ejemplo Presupuesto de Peso
+
+[p42] los revisores  [FIGURA]
+Algunas Preguntas durante el PDR de 
+los revisores 
+Sobre la Física del ROV
+Física 1
+Flotación
+Estabilidad
+Empuje
+
+[p43] ¿Cuántos grados de libertad vamos a tener?  [FIGURA]
+¿Cuántos grados de libertad vamos a tener?
+¿Cuántos motores?
+¿8 Thrusters for active Yaw, Pitch, Heave, Surge and Roll Control?
+
+[p44] Arquitectura del S/W de abordo?
+Arquitectura del S/W de abordo?
+• Planear la misión 
+• Control de motores 
+• Server de Visión
+• Server de Actuación 
+• Usuario del Front End 
+• Telemetría
+
+[p45] My ROV  [FIGURA]
+My ROV
+
+[p46] Plan de V&V
+Concepto
+Inicial
+Asignar Métodos
+Plan de V&V
+Resumen de Construcción e Integración del ROV.
+Los Ensayos se realizarán durante todo el proceso de integración.
+Después de ser integrada la estructura primaria con su carga debe ser verificada
+su flotabilidad. Otro factor importante
+a través del proceso de ensayos es
+verificar que todos los compartimentos estancos lo sean. Debemos simular las
+presiones de trabajo más un factor de seguridad. Los ensayos de movimiento del
+ROV debe verificar los requeridos para todos los motores.
+La configuración de ellos y los ensayos de sus límites usando el joystick.
+Finalmente poner el ROV en su ambiente. Correr todos los ensayos para verificar
+todos los movimientos, adelante, hacia atrás, derecha izquierda, inmersión y
+emersión. Acompañada de las operaciones de los sensores.
+Para
+cada
+ensayo
+describir
+su
+método
+y
+luego
+convertirlo
+en
+procedimiento, paso a paso y certificado.
+También se verificará la cámara y los sensores con sus correspondientes ensayos
+y volcados finalmente en sus procedimientos.
+Nivel
+
+[p47] Niveles
+Concepto
+Inicial
+Baseline
+Inicial 
+Baseline
+Completo
+Concepto
+Inicial
+Baseline
+Interfaces & ICD
+Ambiente de la Misión
+Seguimiento de Presupuesto 
+y Recursos Técnicos
+Niveles
+Informal
+Cont. de Req.  N.1
+G de Config.
+Concepto
+Baseline
+Completo
+Gestión y Doc de 
+Configuración
+Plan de Gestión de la 
+Ing de Sistemas
+Documento de GSFC NASA - GPG7120.5.pdf
+Hay traducción
+
+[p48]   [FIGURA]
+(sin texto)
+
+[p49] Plan de Mitigación de la Misión  [FIGURA]
+Ejemplo de Análisis de Riesgo y 
+Plan de Mitigación de la Misión
+
+[p50]   [FIGURA]
+(sin texto)
+
+[p51] Ejemplo de Especificaciones de un  [FIGURA]
+Ejemplo de Especificaciones de un 
+ROV Subacuático
+
+[p52] Documentos a
+Documentos a entregar durante el proyecto
+Documento
+Propósito
+Especificación de 
+Requerimientos
+Especificar los requerimientos para el proyecto y el producto
+Cliente & Grupo de Proyecto
+Síntesis del Sistema
+Breve descripción técnica del sistema
+Cliente & Grupo de Proyecto
+Planificación  del 
+Proyecto
+Tiempo y tareas actividades del proyecto.  También 
+especifica los miembros  involucrados en cada actividad
+Cliente & Grupo de Proyecto
+Especificación de Diseño 
+En profesional
+Una descripción detallada de sistema e Interfaces
+Cliente & Grupo de Proyecto
+Plan de AIV &
+Plan de Ensayos
+Describir cómo realizarán cada una de las comprobaciones 
+de los requerimientos  testeados y verificados
+Cliente & Grupo de Proyecto
+Protocolo de Ensayos
+Procedimientos de los Ensayos y sus resultados
+Cliente & Grupo de Proyecto
+Manual del usuario
+Describir cómo operar el ROV
+Cliente & Grupo de Proyecto
+Reporte Técnico
+Describir el proyecto desde lo técnico, describir todo el 
+sistema integrado y su simulador.
+Cliente & Grupo de Proyecto
+Pos Estudios y 
+reflexiones
+Doc reflexión sobre  el proyecto y el producto
+Cliente & Grupo de Proyecto
+Web Page
+Página presentado el proyecto y algunos doc. ¿Accesible?
+Público en general
+Video Presentación
+Presentación elegante del proyecto y el ROV en la UNSAM
+Cliente & Grupo de Proyecto
+Minutas de las Reuniones
+Protocolo - Reuniones semanales sostenidas por el proyecto
+Cliente y Proyecto
+Contrato del grupo
+Estableciendo los términos de ejecución del proyecto
+G. Proyecto
+
+[p53] Ejemplo de Undersea AUV Universitarios en la India  [FIGURA]
+Ejemplo de Undersea AUV Universitarios en la India
+https://www.niot.res.in/SAVe/pdf/PID3654845_%20Abstract%20no.%20141219-015.pdf
+
+[p54] helicoptero-la-sorpresa-de-la-nasa-para-su-  [FIGURA]
+• https://www.xataka.com/espacio/un-
+helicoptero-la-sorpresa-de-la-nasa-para-su-
+mision-a-marte
+
+[p55] Ejemplo Programación Gruesa ROV a Marte  [FIGURA]
+Ejemplo Programación Gruesa ROV a Marte
+https://oig.nasa.gov/docs/IG-17-
+009 df
+
+[p56] Tecnológica  TRL  [FIGURA]
+Repaso de Niveles de Maduración 
+Tecnológica  TRL
+
+[p57] mecanismo para capturar muestras  [FIGURA]
+Ejemplo - Niveles TRL para PDR de un 
+mecanismo para capturar muestras
+
+[p58] Ejemplos de Niveles TRL para PDR  [FIGURA]
+Ejemplos de Niveles TRL para PDR
+
+[p59] Ejemplo de Niveles TRL para PDR
+La demostración del helicóptero pesaría aproximadamente 1,4 kg y medía 1,2
+metros entre las puntas de las palas. El helicóptero podría potencialmente
+aumentar la distancia que el rover podría recorrer en un día marciano. El
+helicóptero podría volar por delante de los puntos de interés de los
+exploradores móviles y ayudar a los operadores móviles a planificar rutas de
+conducción óptimas. .
+Ejemplo de Niveles TRL para PDR
+Helicóptero para el Rover MARS 2020
+También
+podría
+proporcionar
+información visual para ayudar al
+equipo científico a elegir las regiones
+de
+interés
+para
+el
+rover
+para
+explorar.
+La
+NASA
+aprobó
+el
+desarrollo y las pruebas del año fiscal
+2016 después de que se tomará una
+decisión sobre si proceder o no.
+El helicóptero y los componentes asociados suman un total de 10 kg a la masa del
+vehículo
+https://www.jpl.nasa.gov/news/6-things-to-know-about-nasas-mars-helicopter-on-its-way-to-mars
+
+[p60] Gestión del Riesgo Técnico  [FIGURA]
+Gestión del Riesgo Técnico
+Manual de NASA de Ing. de Sistemas
+
+[p61] La Importancia de la Gestión del
+La Importancia de la Gestión del 
+Riesgo Técnico
+• El Riesgo está definido como una combinación de:
+– La probabilidad que un programa o proyecto experimente un
+evento no deseado y
+– Las consecuencias, impacto, o severidad del evento no
+deseado y dónde ocurrirá
+•
+EL evento no deseado podría ser de lo técnico o programático (e.g.
+sobre costos, deslizamiento de la planificación, accidentes de seguridad,
+problemas de salud, actividades maliciosas, impacto ambiental, o fallas
+para alcanzar los objetivos técnicos o científicos o criterios de suceso)
+•
+La Gestión de Riesgo Técnico es en una organización, una disciplina
+sistemática
+de
+toma
+de
+decisiones
+del
+riesgo
+informado
+que
+proactivamente identifica, analiza, planifica, sigue, controla, comunica,
+documenta, y gestiona el riesgo para incrementar la probabilidad
+(likelihood) de alcanzar las metas del proyecto.
+
+[p62] ¿Que es el riesgo?
+¿Que es el riesgo?
+• El Riesgo es una medida de las incertidumbres del futuro en
+lograr las metas de performance o desempeño técnicas del
+programa o proyecto dentro de las restricciones
+del costo y
+planificación
+• Los Riesgos pueden estar asociados con todos los aspectos
+de
+un
+esfuerzo
+técnico,
+e.g.
+amenazas,
+maduración
+tecnológica (TRL), capacidad de los proveedores, maduración
+del diseño, planificación con la performance o desempeño
+etc, como estos aspectos relacionan entre las estructura del
+sistema y los productos interfaceando
+• El riesgo tiene tres componentes
+– Causa raíz futura
+– Probabilidad de que la causa raíz futura ocurra
+– Consecuencia (efecto) de esa ocurrencia futura
+NPR 7123.1A, Chapter 3. & Appendix C.3.4 SP-2007-6105, Section 6.4
+
+[p63] (e.g. Misión a Marte)  [FIGURA]
+Capas del Modelo de Riesgo 
+(e.g. Misión a Marte)
+
+[p64] Categorías del Riesgo  [FIGURA]
+Categorías del Riesgo
+
+[p65] Analizar  [FIGURA]
+Identificar
+Analizar
+Planificar
+Seguir
+Controlar
+
+[p66] Marco de la Gestión de Riesgo
+Marco de la Gestión de Riesgo
+Comunicación
+& Documentos
+Anticipar que 
+puede andar 
+mal
+Decidir qué es 
+importante
+Corregir 
+desviaciones
+Seguir 
+acciones 
+Planif para 
+tomar 
+acciones
+
+[p67] ID del Riesgo -
+ID del Riesgo - Evaluaciones
+•
+Brainstorm de Riesgos
+– Probabilidad que un evento particular ocurrirá
+– Impacto o Consecuencia si el evento en verdad ocurre
+• Aggregate Into Categories 
+– Regla  del pulgar Limit @ N20 
+• Calificación - Score (Basado en opinión & Data)
+• Involucra a todos los stakeholders
+
+[p68] Diagrama de Riesgo (NASA)
+Diagrama de Riesgo (NASA)
+Atributo : Probabilidad
+Nivel
+Valor 
+Criterio
+1
+Casi certeza
+Todo apunta a que esto se convierte en un problema
+2
+Muy probable
+Alta posibilidad de que esto se convierta en un problema
+3
+Probable 50/50
+Hay una posibilidad de que esto se convierta en un problema
+4
+Poco probable
+Riesgo como este puede convertirse en un problema de vez 
+en cuando
+5
+Improbable
+Not much chance this will become problem
+Atributo: Impacto
+Nivel
+Valor 
+Criterio Técnico
+Criterio Costo
+Criterio Planificación
+1
+Catastrófico
+No puede controlar el Vehículo  o No 
+puede realizar la misión
+> $10 Million 
+Desplazamiento en los eventos de 
+nivel I
+2
+Crítico
+Pérdida de la misión, pero activo 
+recuperable en el tiempo
+$ 10 M X < $ 5 Million
+Desplazamiento en los eventos de 
+nivel II
+3
+Moderado
+Misión degradada por debajo del 
+valor nominal especificado
+$ 5 M X < $ 1 Million 
+Desplazamiento en los eventos de 
+nivel III
+4
+Marginal
+Márgenes de desempeño de la 
+misión reducidos
+$ 1 M X < $ 100 K
+Pérdida de más de un mes en la 
+planificación
+5
+Despreciable
+Mínimo o sin impacto
+Mínimo o sin impacto
+
+[p69] Visión teórica de la seguridad del
+Visión teórica de la seguridad del 
+sistema 
+oLa seguridad es una propiedad emergente del sistema 
+⮚Los accidentes surgen de interacciones entre los componentes del sistema 
+(humanos, físicos, sociales)  
+⮚Que violan las restricciones sobre el comportamiento e interacciones seguros 
+de los componentes 
+oLas pérdidas son el resultado de procesos complejos, no
+simplemente cadenas de eventos de falla.
+o La mayoría de los accidentes mayores surgen de una 
+migración lenta de todo el sistema hacia un estado de alto 
+riesgo
+oBasado en la teoría de sistemas más que en la teoría de la 
+confiabilidad
+
+[p70] What
+What is STAMP/STPA?
+•
+Traditional system safety approaches are being challenged by the introduction of new
+technology and the increasing complexity of the systems we are attempting to build.
+STAMP is a new systems thinking approach to engineering safer systems described in
+Nancy Leveson's book “Engineering a Safer World” (MIT Press, January 2012). While
+relatively new, it is already being used in space, aviation, medical, defense, nuclear,
+automotive, and other sectors.
+•
+STAMP (Systems-Theoretic Accident Model and Processes) is an accident causality
+model based on systems theory and systems thinking and was originally developed by
+Prof. Dr. Nancy Leveson at MIT. STAMP integrates into engineering analysis causal
+factors such as software, human decision-making and human factors, new technology,
+social and organizational design, and safety culture, which are becoming ever more
+threatening in our increasingly complex systems.
+•
+STPA (Systems-Theoretic Process Analysis) is a powerful hazard analysis technique
+based on STAMP, while CAST (Causal Analysis based on STAMP) is the equivalent for
+accident and incident analysis. These tools are increasingly used across diverse
+industry sectors. Application areas have included aviation, air traffic control, space,
+defense, the automotive industry, railways, chemicals, oil and gas, medical devices,
+health-care, and workplace safety, with a growing interest coming from new areas
+such as the pharmaceutical industry and the finance and insurance sectors. Ongoing
+developments aim at extending the application field of STPA to include security.
+
+[p71] Actividades de riesgo durante  [FIGURA]
+Actividades de riesgo durante 
+el ciclo de vida del proyecto
+http://www-users.cs.york.ac.uk/~djp/publications/Thesis16.pdf

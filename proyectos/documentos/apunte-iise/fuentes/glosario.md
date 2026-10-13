@@ -790,10 +790,120 @@ planes de maduración tecnológica están en curso para terminar en la Fase B.
 Definition Review* (SDR/MDR) — la cátedra usa las dos siglas para la misma
 revisión, sin distinguirlas.
 
+## Unidad 8 — el plan de trabajo, las estimaciones y ejemplos de sistemas
+
+### WBS — estructura de desglose de trabajo
+**Definición.** La subdivisión jerárquica, en forma de árbol, de **todo el
+trabajo** necesario para alcanzar el objetivo final del proyecto: se empieza
+por el objetivo y se lo parte sucesivamente en componentes manejables en
+tamaño y complejidad. Cada unidad lleva un **código** que dice su lugar en el
+árbol (1.0, 1.2, 1.2.1); rara vez hace falta bajar más allá del cuarto nivel, y
+el **nivel más bajo son los paquetes de trabajo**. Se arma **de abajo hacia
+arriba** (lluvia de ideas de actividades que después se agrupan: lo
+apropiado cuando el método es nuevo o el equipo nunca hizo algo parecido) o
+**de arriba hacia abajo**.
+**Fuente:** clase 8, diapositivas 7, 8, 21, 22 y 24. **Grado:** confirmado.
+**No confundir con:** la **PBS**. La WBS dice *qué trabajo hay que hacer*; la
+PBS, *de qué está hecho* el sistema.
+
+### PBS — estructura de desglose de producto
+**Definición.** El árbol de los **componentes** con los que se forma el
+sistema. Refleja el trabajo de *producir* cada componente, mientras que la
+WBS agrega el trabajo de **integrarlos** en un sistema —y la gestión, la
+ingeniería de sistemas, la integración, ensayo y verificación, y el soporte
+logístico, que no son partes del producto—.
+**Fuente:** clase 8, diapositiva 35 (figura). **Grado:** confirmado (leído de
+la figura, en inglés en el original).
+**No confundir con:** la **WBS**, ver arriba.
+
+### paquete de trabajo
+**Definición.** La unidad del nivel más bajo de la WBS. Contiene la
+**descripción del trabajo** (con su tiempo planificado y sus entradas y
+salidas), los **recursos y el costo** que necesita, y **la persona
+responsable** de que se complete. Sumando hacia arriba los paquetes se obtiene
+el costo y el tiempo estimados de cada unidad.
+**Fuente:** clase 8, diapositiva 25. **Grado:** confirmado.
+
+### diagrama de red (red de actividades)
+**Definición.** Un diagrama de flujo que muestra **el orden** en que se hacen
+las tareas y **las dependencias** entre ellas. Tiene tres elementos:
+**eventos** (a veces llamados hitos o *milestones*: «comienzo del diseño»),
+**actividades** (el trabajo necesario para pasar de un evento a otro) y
+**duración** (el tiempo calendario que lleva cada actividad). Regla de
+lectura: **todas las entradas de una actividad tienen que estar completas
+antes de que empiece**.
+**Fuente:** clase 8, diapositivas 9 y 10. **Grado:** confirmado.
+
+### camino crítico (y holgura)
+**Definición.** La secuencia de actividades de la red que **determina la
+duración total del proyecto**: el camino más largo de punta a punta. El
+tiempo total del proyecto **es** el tiempo del camino crítico. Una actividad
+fuera de él tiene **holgura** (*slack*): puede atrasarse ese tanto sin atrasar
+el proyecto; una del camino crítico no tiene ninguna. Se calcula
+**recorriendo la red hacia adelante** (*forward pass*: lo más temprano que
+puede empezar y terminar cada actividad) **y hacia atrás** (*backward pass*:
+lo más tarde).
+**Fuente:** clase 8, diapositivas 4, 10, 13, 14 y 16 (la palabra *slack*
+aparece en el Gantt de la 16). **Grado:** confirmado el concepto y los
+números; la mecánica del recorrido hacia adelante y hacia atrás la desarrolla
+el apunte, la lámina la nombra.
+
+### diagrama de Gantt
+**Definición.** Herramienta, originada por Henry Gantt, para **planificar y
+programar tareas a lo largo de un período**: dibuja cada tarea como una barra
+con su duración y su secuencia sobre el calendario del proyecto, y permite el
+seguimiento y control del avance de cada etapa.
+**Fuente:** clase 8, diapositivas 15 y 16. **Grado:** confirmado.
+
+### estimación (de arriba hacia abajo y de abajo hacia arriba)
+**Definición.** El proceso de **pronosticar o aproximar los tiempos y costos
+de los entregables** de un proyecto. **De arriba hacia abajo** (*top-down*,
+macro): por analogía, consenso de grupo, relaciones matemáticas o
+estadística, la hace alguien con experiencia o datos históricos. **De abajo
+hacia arriba** (*bottom-up*, micro): estimando cada elemento de la WBS y
+sumando. El procedimiento usa las dos y **reconcilia la diferencia**.
+**Fuente:** clase 8, diapositivas 17, 27 y 28. **Grado:** confirmado.
+
+### ROM — estimación gruesa (orden de magnitud)
+**Definición.** *Rough Order of Magnitude*: la estimación macro previa al
+lanzamiento del proyecto, con un rango de **±35 %**. Con el plan aprobado, la
+estimación basada en tareas baja a **±15 %**; ejecutando, la planificación del
+proyecto queda en **±10 %**.
+**Fuente:** clase 8, diapositiva 32. **Grado:** confirmado.
+
+### tipos de costos (directos, directos generales, generales y administrativos)
+**Definición.** **Directos:** claramente cargables a un paquete de trabajo
+específico (trabajo, materiales, equipamiento). **Directos generales del
+proyecto:** identificables con un entregable o paquete del proyecto
+(salarios, rentas, suministros, maquinaria especial). **Generales y
+administrativos:** costos de la organización relacionados sólo
+*indirectamente* con el paquete asignado al proyecto.
+**Fuente:** clase 8, diapositiva 30. **Grado:** confirmado.
+
+### plataforma (bus) y carga útil
+**Definición.** Las dos grandes partes de un satélite. La **carga útil** es lo
+que cumple la misión (en el LDCM, los instrumentos OLI y TIRS); la
+**plataforma** o **bus** es todo lo que la sostiene y la sirve: estructura,
+potencia, control de actitud, comando y manejo de datos, comunicaciones,
+propulsión y control térmico. El conjunto integrado se llama *observatorio* en
+el LDCM.
+**Fuente:** clase 8, diapositivas 48, 56 a 60. **Grado:** confirmado.
+
+### diagrama funcional (diagrama de bloques funcional)
+**Definición.** El diagrama que muestra las **funciones o bloques principales
+del sistema y las conexiones entre ellos, distinguiendo el tipo de conexión**
+(dato, potencia, señal), con los subsistemas o entornos separados por cajas.
+La cátedra lo enseña con ejemplos de vehículos sumergibles (ROV), de
+lanzadores y de *software*. Es una de las vistas de la arquitectura de la
+unidad 7 («diagramas de flujo funcionales»).
+**Fuente:** clase 8, diapositivas 68, 69 y 79 a 88. **Grado:** probable (la
+cátedra lo muestra con ejemplos y no da una definición escrita: esta se arma
+con lo que los ejemplos tienen en común y con lo que dijo en clase, ver
+`catedras/iise`).
+
 ---
 
 ## Pendiente
 
-No queda ninguna unidad pendiente: las 7 unidades y el glosario (M00-M27)
-están escritas. Lo que sigue es la fase 3 (cobertura contra los
-parcialitos) y la fase 4 (publicación) — ver PDP.md.
+Fase 7 del PDP (2026-10-13): la unidad 8 está escrita (M28-M32). Faltan
+los términos de las unidades 9 y 10, que se agregan con sus módulos.

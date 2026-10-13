@@ -300,3 +300,32 @@ módulos de abajo, hasta la franja siguiente, son los que la tratan.
 #include "modulos/m25-fase-a-a-fondo.typ"
 #include "modulos/m26-revisiones-de-la-fase-a.typ"
 #include "modulos/m27-el-diagrama-n2-aplicado.typ"
+
+// ---------------------------------------------------------------------
+// Fase 7 del PDP (2026-10-13): las clases 8, 9 y 10. Clase 8 en la version
+// del 12/10 (97 diapositivas, la 39 y la 40 ocultas; el PDF se exporto con
+// las ocultas visibles para que el numero de pagina sea el de la lamina).
+#parte(8, "El plan de trabajo, las estimaciones y sistemas reales", [
+  Cinco módulos sobre la clase 8, que cambia de pregunta: ya no *qué* hay
+  que construir, sino *cómo se organiza el trabajo* de construirlo, y cómo
+  se ve todo lo anterior en sistemas que existen.
+
+  El primero arma el plan de trabajo: la WBS, la red de actividades, el
+  camino crítico —con la cuenta hacia adelante y hacia atrás hecha— y el
+  diagrama de Gantt. El segundo, las estimaciones de tiempo, costo y
+  recursos, y por qué una estimación de Pre-Fase A tiene ±35 % y está bien.
+
+  El tercero recorre una misión real de punta a punta, el Landsat Data
+  Continuity Mission: objetivos, requerimientos, la evolución del concepto
+  en la Fase A, plataforma y carga útil, y el ConOps de tres segmentos.
+  El cuarto mira el otro lado del contrato: los vehículos lanzadores. El
+  quinto enseña el diagrama funcional con los vehículos sumergibles (ROV)
+  de la cátedra, y cierra con un satélite que se cayó al piso por 24
+  tornillos.
+])
+
+#include "modulos/m28-el-plan-de-trabajo.typ"
+#include "modulos/m29-estimaciones.typ"
+#include "modulos/m30-el-ldcm.typ"
+#include "modulos/m31-lanzadores.typ"
+#include "modulos/m32-el-diagrama-funcional.typ"

@@ -1,0 +1,1335 @@
+# IISE clase 9 -- 54 diapositivas
+# fuente: IISE clase 9 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Espaciales  [FIGURA]
+Introducción 
+a la Ingeniería de Sistemas 
+Espaciales
+Clase  9 
+Octubre 2026
+Virtual Campus UNSAM
+UNSAM - Ing. Sistemas Espaciales
+
+[p2] Temario Clase 9na  [FIGURA]
+Temario Clase 9na
+Núcleo de la 9na clase
+–
+Desarrollo de la Fase B 
+–
+TRL / IRL
+–
+Desarrollo de la Fase C
+
+[p3] 1- Plantilla de Requerimientos  [FIGURA]
+Plantilla que ayuda a Capturar las técnicas de Verificación, Rationale, Significado y la 
+Trazabilidad
+1- Plantilla de Requerimientos
+
+[p4] 2 – Ejemplos de Interfaces Externas S/C
+2 – Ejemplos de Interfaces Externas S/C
+Satélite y Carga Util Secundaria
+http://www.moog.com/literature/Space_Defense/Vibration_Control/MCSA_ESPA.pdf
+Última 
+Etapa del 
+Lanzador
+Estructuras de 
+empuje 
+(Interfaces -
+adaptador) del 
+Lanzador
+Estructura de 
+empuje  del 
+Lanzador
+Cofia del 
+lanzador  y 
+satélites
+
+[p5] 2- Ejemplos de Interfaces Externas de S/C
+RideShare Conference - April 15-16, 1999
+2- Ejemplos de Interfaces Externas de S/C
+Nanosat 
+Programa de Cargas Útiles Secundarias adosadas a la 
+estructura de empuje entre satélite primario y lanzador
+
+[p6] 2 –Ejemplos de Interfaces Externas
+6
+2 –Ejemplos de Interfaces Externas
+Ejemplo : Varias Cargas Útiles Secundarias (interfaceadas) adosadas a 
+la estructura de empuje del satélite primario y el lanzador
+
+[p7] 2 –Ejemplos de Interfaces Externas
+2 –Ejemplos de Interfaces Externas
+Cofia & Lanzamiento en el Ariane IV
+7
+Some Slides by Dr. J. Cutler – Univ. of MI
+Introduction to Space Systems and Spacecraft Design
+Space Systems Design
+
+[p8] 2 –Ejemplos de Interfaces Externas
+We're proud to be part of the SpaceX Transporter-
+11 mission and honored to support our customers 
+and their 42 satellites on our historic 30th 
+mission!
+2 –Ejemplos de Interfaces Externas
+Cofia en el Falcon 9 v1.2 block5
+SpaceX se prepara para el despegue de un cohete
+Falcon 9 v1.2 Block 5 que lleve adelante la misión
+Transporter-11. Se prevé que éste provenga
+desde el Complejo de Lanzamiento Espacial 4 Este
+(SLC-4E)
+en
+la
+Base
+de
+la
+Fuerza
+Espacial
+Vandenberg,
+en
+California,
+EEUU.
+Se
+ha
+programado para el 16 de agosto de 2024 a las
+18:56 UTC.
+Específicamente,
+las
+misiones
+«Transporter»
+conglomeran una gran cantidad de satélites
+pequeños,
+de
+variadas
+nacionalidades,
+fabricantes, agencias y utilizaciones. En este vuelo
+hay una cantidad aún desconocida de naves
+espaciales,
+que
+incluyen
+cubesats,
+microsats,
+picosats, cargas útiles alojadas y vehículos de
+transferencia
+orbital.
+Se
+desplegarán
+presumiblemente durante ~30 minutos después
+de alcanzar la órbita.
+
+[p9] Fase B  [FIGURA]
+Fase B
+Completar el Diseño Preliminar 
+& 
+las Tecnologías
+
+[p10] Fases del Ciclo de vida de NASA
+Formulación
+Implementación
+Aprobación
+Pre 
+Fase A
+Estudio
+Concept.
+Fase A
+Desarrollo de 
+Concepto y 
+Tecnología
+Fase B
+Diseño 
+Preliminar y 
+Completar 
+Tecnología
+Fase C
+Diseño Final y 
+Fabricación
+Fase D
+AIT & 
+Lanzamiento
+Fase E
+Operaciones & 
+Sostenimiento
+Fase F
+Cierre
+Fases del 
+Ciclo de vida 
+de NASA
+Ciclo de vida 
+del Proyecto
+Puntos de 
+Decisión 
+Claves
+Revisiones
+Técnicas
+KDPA
+MCR
+Revisión de Pares, Revisión de SS, Revisión de Sistema
+SRR
+MDR
+PDR
+CDR - PRR
+SIR TRR
+ORR
+FRR
+PLAR
+CER2
+Revisiones 
+de Soporte
+LANZAMIENTO
+KDPC
+KDPB
+KDPD
+KDPE
+KDPF
+DR
+Fases del Ciclo de vida de NASA
+PDR Preliminary Design Review
+CDR Critical Design Review
+SRR Systems Requirements Review
+MCR Mission Concept Review
+SIR   Systems Integration Review
+TRR  Tech. Readiness Review
+ORR  Operational Readiness Review
+FRR   Flight Readiness Review
+MDR Mission Design Review
+DR  Decommissioning Review
+CER2 Critical Events Readiness Review
+PLAR  Operational Readiness Review
+ORR  Operational Readiness Review
+
+[p11] Fase B
+La última fase del período de FORMULACIÓN, es la fase B que está focalizada en
+el desarrollo de los requerimientos detalladamente, desde los requerimientos de
+alto nivel definidos ya en el SRR y establecidos en un diseño de sistema baseline
+básico consistente con todos estos requerimientos. También tenemos que terminar
+con el desarrollo de las tecnologías requeridas y que estén listas para el período
+de IMPLEMENTACIÓN del ciclo de vida.
+También incluye propagar y generar requerimientos más detallados y que sean
+consistentes con los de alto nivel que fueron definidos tempranamente en la fase A
+y aprobados en el SRR. Un árbol de requerimientos que sea trazable.
+Completar el Diseño Preliminar y terminar de madurar las tecnologías requeridas:
+desde los requerimientos al diseño, la fase B establece un diseño inicial baseline,
+un diseño base, capaz de satisfacer con los requerimientos de sistema.
+• Completamos los planes de verificación y validación del sistema.
+• Establecemos un diseño preliminar que es consistente con los requer.
+definidos.
+• Completamos las actividades de maduración de las tecnologías
+para
+asegurar que todas la tecnologías están listas para ser usadas en el período
+de implementación.
+• Desarrollar
+planes
+detallados
+para
+la
+implementación
+que
+incluye
+actualización de costos estimados y su planificación.
+Fase B
+
+[p12] Fase B
+Nuevamente, al final de la Fase B estamos tratando de hacer un buen
+plan para la fase C y D. Vamos a revisar estas instancias.
+Veamos un ejemplo - El jefe de proyecto de los satélites de exploración
+de los exoplanetas
+(TESS) transita los ensayos tecnológicos y es
+consciente de esta fase B de su misión. Son satélites de tamaño
+medianos con un tiempo de desarrollo de 4 años, en total 10 a 15 años
+ciclo de vida.
+Proyecto
+TESS
+necesita
+desarrollar
+cuatro
+cámaras:
+tecnologías
+ópticas y los CCD.
+(Charged Coupled Device)
+Fase B
+
+[p13] Fase B  [FIGURA]
+TESS_observatory_guide_v1.1.pdf
+Fase B
+
+[p14] Fase B  [FIGURA]
+TESS_observatory_guide_v1.1.pdf
+Fase B
+
+[p15] Fase B  [FIGURA]
+TESS_observatory_guide_v1.1.pdf
+Fase B
+
+[p16] Fase B  [FIGURA]
+Fase B
+
+[p17] Fase B
+https://tess.gsfc.nasa.gov/documents/TESS-Litho-LineDrawing_09-2015-web.pdf
+Debemos gastar dinero antes
+de
+construir
+el
+satélite
+para
+hacer madurar las tecnologías,
+para
+implementar
+y madurar
+estas
+cámaras
+antes
+de
+terminar la fase B.
+Debemos ver si las tecnologías
+aplicadas
+a
+estas
+cámaras
+soportan
+las
+vibraciones
+del
+lanzador
+y
+las
+temperaturas
+que
+estará
+sometido
+en
+el
+ambiente espacial final.
+Debemos
+bajar
+los
+riesgos
+antes de comenzar el siguiente
+período de implementación.
+Es clave en esta fase terminar
+con
+la
+maduración
+de
+las
+tecnologías.
+Fase B
+
+[p18] Fase B  [FIGURA]
+Fase B
+
+[p19] Fase B  [FIGURA]
+Fase B
+
+[p20] Niveles de Maduración Tecnológica
+La escala TRL  (Technological Readiness Level) es un medio para cuantificar 
+la posición de madurez de las tecnologías, desde el conocimiento científico 
+básico hasta su uso por parte de los clientes integrados en las aplicaciones 
+de los productos. La escala TRL se compone de 9 niveles que se definen a 
+continuación. 
+La integración de sistemas de vehículos no es una actividad trivial, incluso 
+con tecnologías de alto TRL. La escala Nivel de preparación para la 
+integración (IRL) se introdujo para medir la preparación para la integración 
+del sistema de una tecnología para una aplicación determinada de manera 
+muy similar a como la evaluación TRL mide la preparación de los 
+componentes tecnológicos individuales. 
+Niveles de Maduración Tecnológica 
+TRL / IRL
+
+[p21] formulaciones o algoritmos matemáticos.
+TRL 1: Principios básicos observados y reportados 
+Transición de la investigación científica a la investigación aplicada. Características y 
+comportamientos esenciales de sistemas y arquitecturas. Las herramientas descriptivas son 
+formulaciones o algoritmos matemáticos. 
+TRL 2: Concepto y/o aplicación de tecnología formulada Investigación aplicada. 
+La teoría y los principios científicos se centran en un área de aplicación específica para definir el 
+concepto. Se describen las características de la aplicación. Se desarrollan herramientas analíticas 
+para la simulación o análisis de la aplicación. 
+TRL 3: Función crítica analítica y experimental y/o característica prueba de concepto 
+Validación de prueba de concepto. Se inicia la I+D activa con estudios analíticos y de laboratorio. 
+Demostración de viabilidad técnica mediante implementaciones de protoboard o brass board 
+que se ejercitan con datos representativos.
+TRL 4: Validación de componentes/subsistemas en entorno de laboratorio
+Implementación y prueba de prototipos independientes. Integración de elementos tecnológicos. 
+Experimentos con problemas o conjuntos de datos a gran escala. 
+TRL 5: Validación de sistema/subsistema/componente en un entorno relevante 
+Prueba exhaustiva del prototipo en un entorno representativo. Elementos tecnológicos básicos 
+integrados con elementos de apoyo razonablemente realistas. Las implementaciones de 
+prototipos se ajustan al entorno y las interfaces de destino. 
+TRL
+
+[p22] TRL 7: Demostración del prototipo del sistema en un entorno operativo (terrestre o espacial)
+TRL 6: Demostración de modelo o prototipo de sistema/subsistema en un entorno relevante de 
+extremo a extremo (terrestre o espacial)
+Implementaciones de prototipos en problemas realistas a gran escala. Parcialmente integrado 
+con los sistemas existentes. Documentación limitada disponible. Viabilidad de ingeniería 
+plenamente demostrada en la aplicación real del sistema. 
+TRL 7: Demostración del prototipo del sistema en un entorno operativo (terrestre o espacial) 
+Demostración del prototipo del sistema en un entorno operativo. El sistema está a la escala del 
+sistema operativo o cerca de ella, con la mayoría de las funciones disponibles para demostración 
+y prueba. Bien integrado con sistemas colaterales y auxiliares. Documentación limitada 
+disponible. 
+TRL 8: Sistema real completado y "calificado para la misión" mediante prueba y demostración 
+en un entorno operativo (terrestre o espacial) 
+Fin del desarrollo del sistema. Totalmente integrado con sistemas operativos de hardware y 
+software. Se completó la mayor parte de la documentación de usuario, documentación de 
+capacitación y documentación de mantenimiento. Toda la funcionalidad probada en escenarios 
+simulados y operativos. V&V completado.
+TRL 9: Sistema real "probado en misión" a través de operaciones exitosas de misión (terrestre 
+o espacial) 
+Totalmente integrado con sistemas operativos de hardware/software. El sistema real ha sido 
+demostrado y probado exhaustivamente en su entorno operativo. Toda la documentación 
+completa. Experiencia operativa exitosa. Mantener el soporte de ingeniería implementado.
+TRL
+
+[p23] NASA Technology Readiness Levels  - TRL
+NASA Technology Readiness Levels  - TRL
+9  Sistema ¨calificado en vuelo¨ a través de operaciones 
+de misiones exitosas
+8  Sistema  completo ¨calificado para vuelo¨ a través de 
+ensayos y demostraciones (tierra o vuelo)
+7
+Prototipo  o modelo de sistema en un ambiente 
+operacional espacial
+Métrica NASA para la  innovación en el Área Espacial
+3  Estudios analíticos y de laboratorio para validar 
+predicciones analíticas
+2  Concepto tecnológico en aplicación formulada
+1  Principios básicos observadas y reportadas  
+6  Modelo de Sistema/subsistema o prototipo demo en 
+ambiente relevante. (Terra o Vuelo)
+5  Modelo del componente o breadboard validado en 
+ambiente relevante
+4
+Componente o subsistema básico validado en 
+ambiente de laboratorio 
+9  Sistema ¨calificado en vuelo¨ a través de operaciones 
+de misiones exitosas
+8  Sistema  completo ¨calificado para vuelo¨ a través de 
+ensayos y demostraciones (tierra o vuelo)
+7  Prototipo  o modelo de sistema en un ambiente 
+operacional espacial
+9  Sistema ¨calificado en vuelo¨ a través de operaciones 
+de misiones exitosas
+8  Sistema  completo ¨calificado para vuelo¨ a través de 
+ensayos y demostraciones (tierra o vuelo)
+7  Prototipo  o modelo de sistema en un ambiente 
+operacional espacial
+6  Modelo de Sistema/subsistema o prototipo demo en 
+ambiente relevante. (Tierra o Vuelo)
+5  Modelo del componente o breadboard validado en 
+ambiente relevante
+4  Componente o subsistema básico validado en ambiente 
+de laboratorio 
+3  Estudios analíticos y de laboratorio para validar 
+predicciones analíticas
+2  Concepto tecnológico en aplicación formulada
+1  Principios básicos observados y reportados  
+Madurez  Creciente
+Creciente Disminución del Riesgo
+
+[p24] NASA Technology Readiness Levels  -  [FIGURA]
+NASA Technology Readiness Levels  -
+TRL
+
+[p25]   [FIGURA]
+(sin texto)
+
+[p26] Nivel de preparación para la integración
+Nivel de preparación para la integración 
+La integración es el proceso de ensamblar el sistema a partir de sus componentes, los 
+cuales deben ser ensamblados a partir de sus requerimientos especificados (Buede, 
+2000). Parece ser un simplista proceso de "armar" un sistema a partir de sus 
+componentes, que a su vez se construyen a partir de requerimientos que sean 
+fácilmente identificables para cualquier ingeniero de sistemas. La integración puede 
+ser un proceso complejo que contiene múltiples tareas superpuestas e iterativas 
+destinadas no sólo a "armar" el sistema, sino crear un sistema exitoso construido 
+según los requerimientos del usuario que puede funcionar en el entorno para el que 
+fue diseñado. Esta definición de integración implica una estructura para la integración 
+del sistema. esta estructura a menudo se describe en el ciclo de vida de la ingeniería 
+de sistemas como la "pendiente ascendente" del modelo V tradicional (Forsberg et al., 
+2005). Comienza con la implementación y termina con verificación y validación del 
+sistema completo en el entorno operativo. Pasar de la simple integración de 
+componentes a la integración del sistema en sus funciones en su medio ambiente 
+relevantes, es un esfuerzo considerable que requiere no sólo ingeniería disciplinada, 
+sino también también una buena gestión de todo el ciclo de vida de la ingeniería de 
+sistemas.
+
+[p27] IRL 4
+La siguiente escala IRL se compone de 5 niveles que se definen a 
+continuación. 
+IRL 1: Análisis de sistemas conceptuales completados 
+IRL 2: Análisis detallados del diseño del sistema completados
+IRL 3: Maqueta física o prototipo del sistema sometido a un 
+entorno de prueba en tierra 
+IRL 4: Prototipo/demostración sometido a entornos de vuelo 
+representativos 
+IRL 5: Fabricación del sistema operativo, lanzamiento 
+completado & operaciones comenzaron 
+IRL
+
+[p28] Fase B
+En la escala de madurez, TRL6 nos dice que está lista la tecnología para
+soportar y sobrevivir al ambiente que será expuesto finalmente el
+producto. Ensayos en Tierra nos asegurará su comportamiento futuro o
+usaremos equipos que tiene su historia en el espacio. Todos estos deben
+tener la capacidad de soportar el ambiente y trabajar correctamente para
+cumplir con los requerimientos de alto nivel del sistema, el lanzamiento y
+posteriormente el ambiente que encontrará en órbita nominal.
+Aquí el punto es definir aquello que probablemente vamos a comprar y
+que aquello que probablemente vamos a hacer. Algunos componentes
+los hacemos en casa y otros los compramos. Vamos a diferentes
+fabricantes que manufacturan estos equipos y compramos partes del
+Spacecraft. Tenemos que decidir de nuevo.
+(TESS) Hay una sombrilla reflectora de oro que mantiene a las cámaras
+alejadas de la incidencia del sol, en luz y calor. Debemos decidir si el
+diseño debe ser más alto u otra forma de blindaje. Ventajas y
+desventajas. La Fase B es para resolver todos estos problemas, tenemos
+que optimizar. Es tiempo para hacer grandes estudios de análisis, de
+maduración tecnológica. Debemos estar seguros que podemos ir a la
+implementación del sistema sin grandes dificultades tecnológicas.
+Fase B
+
+[p29] Fase B
+La revisión primaria de esta fase B es el PDR - Revisión Preliminar de Diseño.
+En este momento el diseño está muy detallado. Antes de esta revisión tenemos
+una serie de revisiones preliminares de diseño de los SS entre pares o partes de
+los SS. Estas pequeñas revisiones antes del PDR nos ayudan y nos permiten
+visualizar cómo están llegando las partes del sistema a esta revisión del sistema.
+De esta manera aseguramos la maduración de las partes del sistema.
+•
+Detallados requerimientos de sistema, restricciones y medición de
+desempeño son consistentes con el diseño preliminar.
+Tenemos que medir si los thrusters o la potencia de las baterías están dentro de
+lo
+que
+necesitamos
+en
+el
+desempeño.
+Todos
+los
+elementos
+deben
+ser
+consistentes con el sistema. Debemos revisar si en el diseño preliminar todos los
+componentes cumplen con los requerimientos, si estamos comprando o hemos
+desarrollado todos los componentes del spacecraft adecuadamente.
+• Bajaron los requerimientos de alto nivel a los niveles detallados y están
+completos y son trazables hasta los objetivos de sistema.
+Los thrusters que empujan con cierto niveles de desempeño deberían ser al final
+trazables hasta los objetivos de sistema y poder verificar que estos son los
+adecuados. Todos deben ser trazables hasta los requerimientos definidos en la
+Fase Pre A.
+Fase B
+
+[p30] Fase B
+Las
+interfaces
+externas e
+internas tienen
+que estar claramente
+definidas a todo nivel entre componentes.
+En el diseño preliminar es esperable encontrar los requerimientos en
+un nivel aceptable de riesgo.
+Los revisores evaluarán si las tecnologías y el diseño están realmente
+maduras/o para ir a la implementación del sistema con un nivel
+aceptable de riesgo dentro de la cantidad de dinero y la planificación
+para obtener esa performance, ese desempeño requerido.
+• Todas las actividades de maduración tecnológica han sido
+terminadas exitosamente.
+• Los resultados de las actividades realizadas basadas en las
+acciones asignadas a los equipos de proyecto en la MDR son
+evaluadas por los revisores de esta fase. Si se resolvieron en ese
+caso están cerradas de lo contrario están abiertas.
+Fase B
+
+[p31] Ciclo de Vida del Proyecto
+•
+Formulación
+– Fase  B Completar el Diseño Preliminar & las Tecnologías 
+– Propósito: Definir el proyecto con el suficiente detalle para establecer 
+un baseline inicial capaz de encontrar las necesidades de la misión.
+•
+Refinar el concepto de operaciones.
+•
+Alojar las funciones y recursos (e.g., márgenes de masa).
+•
+Requerimientos: continuar refinando; definir el flujo a nivel de caja; desarrollar la matriz de 
+verificación.
+•
+Establecer solución de diseño que encuentra la necesidades de la misión.
+•
+Demostrar que se han completado los desarrollo tecnológicos.
+❖Revisión Preliminar de Diseño (PDR) Preliminary Design Review; Revisión 
+de los requerimientos, del diseño y operaciones como baseline para el diseño de 
+detalle. Establecer el Baseline Alojado.
+❖Revisiones independientes (NAR) / Confirmation Review: Non-Advocate 
+Review:
+–
+¿Los diseños de la misión, spacecraft e instrumentos encuentran los requerimientos de 
+ciencia / misión?
+–
+¿Son los procesos de gestión suficientes para desarrollar y operar la misión?
+–
+¿El costo estimado, el proceso de control y la planificación indica que la misión estará lista 
+para el lanzamiento a tiempo y dentro del presupuesto?
+Ciclo de Vida del Proyecto
+Fases de Formulación  - Fase B 
+Puertas 
+de 
+control
+
+[p32] Ingeniería de Sistemas
+Ingeniería de Sistemas
+Funciones 
+Claves
+Estudio de 
+Conceptos 
+Pre Fase A
+Análisis 
+Preliminar 
+Fase A
+Definición 
+Fase B
+Diseño
+Fase C
+Desarrollo 
+Fase  D
+Operaciones 
+Fase E
+Entender los objetivos
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+Desarrollo del ConOp
+Concepto
+Baseline
+Refinar
+Completo
+Plan de 
+Operaciones
+Seguimiento de 
+los cambios
+Desarrollo de 
+Arquitectura y Diseño
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+Análisis, Identif. y 
+Gestión de los Requer.
+Concepto
+Baseline 
+de alto nivel
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+V&V
+Concepto
+Inicial
+Asignar 
+Métodos
+Desarrollo de 
+Planes
+Completo
+Interfaces  & ICDs
+Concepto
+Inicial
+Baseline
+Completo
+Seguimiento 
+de los cambios
+Ambiente de Misión
+Inicial 
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+Presupuesto y 
+Recursos Técnicos
+Concepto
+Inicial
+Baseline
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+Análisis, Reducción  y 
+Gestión de Riesgo
+Estimado
+FTA , RBD
+FMEA, FTA, 
+RBD
+FTA, FMEA, 
+RBD, PRA
+Actualizar 
+Cambios
+Actualizar 
+Cambios
+Revisión Candidatos 
+Hitos Sistema
+MCR
+MDR, SRR
+SCR, PDR, 
+CR
+CDR
+MOR, PER, 
+FOR, PSR, 
+FRR, ORR
+DR
+Gestión y Doc de 
+Configuración
+Informal Gestión 
+Configuración
+Control de 
+Requer Nivel 1
+Gestión de 
+Configuración
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+Seguimiento de 
+cambios
+Plan de Gestión de la 
+Ing. de Sistemas
+Concepto
+Baseline
+Completo
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+
+[p33] Requirements) must be complete by the end of Phase B.
+•
+Note 1: The Level 1 Requirements and Mission Success Criteria (Level I 
+Requirements) must be complete by the end of Phase B.
+•
+Note 2: In the case of long-lead items and when instruments are developed 
+early before project is identified, draft ICD’s must be written during Phase A.
+•
+Note 3: 
+MCR – Mission Concept Review, 
+MDR – Mission Definition Review, 
+SRR – System Requirements Review, 
+SCR – System Concept Review, 
+PDR – Preliminary Design Review, 
+CR – Confirmation Review, 
+CDR – Critical Design Review, 
+MOR – Mission Operations Review, 
+PER – Pre-Environmental Review, 
+FOR – Flight Operations Review,
+FRR – Flight Readiness Review, 
+ORR – Operations Readiness Review, 
+DR – Disposal Review.
+
+[p34] Síntesis de la Información para Entregar
+PDR es una revisión técnica “multidisciplinaria para asegurar que el 
+sistema en revisión puede comenzar el diseño de detalle y puede cumplir 
+los requerimientos de desempeño establecidos dentro del costo 
+(presupuesto del proyecto), la programación, riesgos y otras restricciones 
+del sistema. 
+❖ROV teams deberá demostrar: 
+• Entendimiento de lo que son los requerimientos de misión del ROV
+• Alojar y derivar los requerimientos de Sistemas a Subsistemas.
+• Definición del Concepto de Operaciones del ROV (CONOPS)
+• Tener una visión de conjunto del diseño preliminar que cumple los 
+requerimientos.
+• Resultados de la identificación necesaria de los estudios del diseño 
+preliminar.
+• Resultados de, o identificación de, prototipado necesario o ensayos 
+necesarios para sostener la finalización del diseño preliminar
+• Presupuesto Preliminar de las fases que siguen
+• Planificación del desarrollo detallada 
+Síntesis de la Información para Entregar 
+en el PDR del ROV a los Revisores
+
+[p35] Fase C  [FIGURA]
+Fase C
+Diseño Final y Fabricación
+
+[p36] Fases del Ciclo de vida de NASA
+Formulación
+Implementación
+Aprobación
+Pre 
+Fase A
+Estudio
+Concept.
+Fase A
+Desarrollo de 
+Concepto y 
+Tecnología
+Fase B
+Diseño 
+Preliminar y 
+Completar 
+Tecnología
+Fase C
+Diseño Final y 
+Fabricación
+Fase D
+AIT & 
+Lanzamiento
+Fase E
+Operaciones & 
+Sostenimiento
+Fase F
+Cierre
+Fases del 
+Ciclo de vida 
+de NASA
+Ciclo de vida 
+del Proyecto
+Puntos de 
+Decisión 
+Claves
+Revisiones
+Técnicas
+KDPA
+MCR
+Revisión de Pares, Revisión de SS, Revisión de Sistema
+SRR
+MDR
+PDR
+CDR - PRR
+SIR TRR
+ORR
+FRR
+PLAR
+CER2
+Revisiones 
+de Soporte
+LANZAMIENTO
+KDPC
+KDPB
+KDPD
+KDPE
+KDPF
+DR
+Fases del Ciclo de vida de NASA
+PDR Preliminary Design Review
+CDR Critical Design Review
+SRR Systems Requirements. Review
+MCR Mission Concept Review
+SIR   Systems Integration Review
+TRR  Tech. Readiness Review
+ORR  Operational Readiness Review
+FRR   Flight Readiness Review
+MDR Mission Design Review
+DR  Decommissioning Review
+CER2 Critical Events Readiness Review
+PLAR  Operational Readiness Review
+ORR  Operational Readiness Review
+
+[p37] Fase C
+Durante las fases de IMPLEMENTACIÓN el diseño del sistema será
+completado, los componentes del sistema son construidos o comprados, el
+sistema es integrado y ensayado, y luego operado a través de todo su
+alcance para su implementación.
+Al entrar en la IMPLEMENTACIÓN, la primer fase es la fase C, hay dos
+tareas primarias para realizar, están son:
+el Diseño Final y la Fabricación: El foco está en completar el diseño del
+Sistema, construir o comprar el H/W y S/W de los componentes, y verificar
+que estos componentes requeridos encuentran los requerimientos detallados.
+Fase C
+Completar el diseño de sistema, un ejemplo para las consideraciones de
+diseño adicionales para el sistema de vuelo son las interfaces con LV.
+Fuimos a través del PDR en fase B pero ahora tenemos que completar el
+diseño, Durante esta actividad NASA no asigna un lanzador en mucho casos
+hasta que se comience a implementar. Esta consideración muchos no la
+tienen en cuenta en las primeras fases entonces van a la implementación,
+tenemos un sobre costo o caemos debajo de la planificación, algunas
+evaluaciones no pueden ser completadas técnicamente. Entonces hay
+indecisiones para concretar la firma del contrato con la compañía del LV
+
+[p38] Fase C
+Una vez establecido el lanzador hay que rever el diseño completo S/C y
+revisar el diseño estructural (el ambiente del LV, vibraciones, acústica etc) y
+las interfaces. Hay que ver si compatibiliza con el vehículo lanzador.
+Cada lanzador tiene y genera su ambiente particular (su firma) y cada uno
+tiene también interfaces particulares, aquellas entre el S/C y el LV
+Hay que compatibilizar el S/C con LV.
+Esta primer parte de la fase C está enfocada en comprar y/o construir todos
+los sistemas requeridos H/W & S/W, todos los componentes del sistema. Una
+vez entregado hay que evaluar y verificar para asegurar que sus capacidades
+y desempeños son las requeridas y satisfacen los requerimientos, y sus
+interfaces satisfacen correctamente los requerimientos de las interfaces
+solicitados. Tenemos que asegurar que cada componente comprado satisface
+los requerimientos. El ejemplo de los Thrusters
+Fase C
+
+[p39] Fase C
+Fase C
+La compra debe asegurar que cumple los requerimientos de desempeño como
+nosotros hemos requerido. Monopropelente o Bipropelente, cuan pesado puede
+ser, hay que pesarlos, hay que medir el empuje etc.
+Debemos verificar que la unidad comprada cumple con los requerimientos de
+funcionalidad y desempeño definidos tempranamente en el proceso de desarrollo
+de requerimientos. También los thrusters tienen una interface eléctrica, mecánica
+y
+térmica
+que
+debe
+interactuar
+correctamente
+con
+el
+sistema;
+Potencia,
+Estructura, Térmico, y conectado al resto del subsistema de propulsión. El
+thruster que compramos debe cumplir con los requer. de interface.
+En esta fase no estamos integrando
+el S/C todavía estamos con los
+componentes individuales y asegurando que cumplen con los requerimientos.
+El satélite propiamente dicho vendrá un poco después. Tenemos que verificar
+que todos los componentes cumplen con los requerimientos. Todavía no
+estamos
+construyendo
+el
+S/C
+solamente
+obteniendo
+los
+componentes
+individuales y asegurando, ¨verificando¨ que son los requeridos en todo el
+espectro de los requerimientos detallados que son de varios tipos.
+Estamos apuntando a un Desarrollo de un Diseño Detallado – Baseline -
+que es compatible con la serie de requerimientos anteriormente definidos.
+
+[p40] Fase C
+Fase C
+En la fase C se desarrolla un diseño base detallado que obviamente debe
+ser compatible con todos los requerimientos los cuales descienden por el
+árbol hasta el nivel más bajo que se han definido en las períodos
+tempranos, los cuales son congruentes con los planes completos de
+integración y ensayos AIV
+- AIT.
+Con esta documentación, datos de
+Ingeniería, el sistema se puede integrar completamente y además se puede
+comprobar que realiza las operaciones adecuadas correctamente con el
+desempeño definido a partir de los requerimientos de sistema iniciales.
+• Desarrollar los planes de Ensamble, Integración y Ensayos (AIT ó AIV).
+• Compra y/o construcción de los componentes del Sistema (todos los SS)
+• Verificar las capacidades
+y desempeño de los componentes
+vs los
+requerimientos.
+• Verificar la interfaces de los componentes versus interfaces definidas.
+• Preparar Planes de Operaciones y el Checkout del lugar de lanzamiento.
+• Preparar los planes de las actividades de operaciones pos lanzamiento
+
+[p41] Fase C
+Fase C
+Debemos prepararnos para la revisión de las operaciones planificadas y de
+los planes de las actividades y operaciones post lanzamiento.
+Debemos demostrar la madurez del sistema y que el camino del proyecto
+está claramente definido, cómo podemos lanzar y operar el sistema que ha
+sido definida tempranamente antes de la fase C.
+Vamos a la implementación, todos los trabajos han sido hechos y los
+requerimientos y los diseños han sido definidos o están terminándose para
+empezar a construir el satélite.
+Cuando se revisa la curva de costos se puede ver el over time en el costo
+de ciclo de vida, que ha ido creciendo. Se ha gastado un mínimo de dinero
+en la Fase A, pero en la fase B se ha incrementado por la necesidad de
+tener más expertos en el análisis de ciertos campos, se necesita obtener
+un mayor nivel de fidelidad.
+Ahora han sido aprobados, la confirmación,
+estamos
+en
+el
+punto
+crítico
+de
+decisión
+para
+el
+comienzo
+de
+la
+implementación. Se ponen las compras, hay un aumento del gasto del
+presupuesto. A veces la compras y la manufactura fuera del proyecto
+llevan tiempos que la estrategia del proyecto debe considerar lo más
+temprano posible en la planificación (Schedule). Verificar si hay suficiente
+dinero (recursos) para comenzar la implementación.
+
+[p42] Fase C
+Fase C
+Cuando se comienza la implementación todos los componentes deben
+confluir a la Integración en el orden que establezca el plan de AIV-
+AIT.
+Esto sucede en la fase C, el tanque de propelente del satélite Solar
+Dynamic Observatory el cual estará en órbita geoestacionaria, lo están
+recibiendo, son los componentes del SS de Propulsión, ya se están
+juntando las partes del SS Prop y el SS Estructura y SS Térmico. Se
+ven las cintas plateadas que son los heaters. Lo están ensamblando
+en la posición con sus tornillos, interface mecánica y con los heaters, y
+las interfaces eléctricas. Esta unidad será sometida a ensayos de
+vibraciones (lanzamiento - atmósfera), después en un medio de
+enfriamiento y calentamiento, a niveles que se estima que estará en el
+espacio, para verificar que sobrevive. Esto permite verificar que el
+componente y su ensamble pueden soportar los niveles de las
+condiciones ambientales, y así los requerimientos son verificados y los
+deben satisfacer como fueron definidos tempranamente en las fases
+A&B.
+
+[p43] Fase C
+Fase C
+La fase C está enfocada a verificar que todos los componentes cumplen con las 
+especificaciones que fueron pedidas por medio de los requerimientos.
+
+[p44] Fase C
+La revisión técnica primaria de la fase C es el CDR - Revisión crítica 
+del diseño  y revisión de la integración del sistema
+Fase C
+Se revisan las acciones asignadas (Action ítems) de la última revisión, el PDR. 
+Deben estar resueltas.
+• Se espera que el diseño detallado cumpla los requerimientos con un adecuado 
+margen y un aceptable nivel de riesgo.
+• Interfaces están suficientemente maduras con la fabricación, ensamble, 
+integración  y ensayos.
+• La documentación del Sistema es lo suficientemente madura para permitir 
+proceder con la fabricación, ensamble, integración y ensayos.
+• Los planes de verificación y validación del sistema están completos.
+• Tenemos una adecuada técnica y los recursos programáticos existen para 
+completar el desarrollo dentro de las restricciones del presupuesto, de la 
+planificación y el riesgo asumido.
+• Los riesgos para el éxito de la misión han sido identificados, evaluados, y planes 
+y recursos han sido designados para efectivamente gestionarlos.
+• Están los resultados de la actividades realizadas basadas en las acciones 
+asignadas (Action Item) por el equipo del PDR.
+Hay revisiones internas de pares (Peer review) y revisiones de SS  conducidas por 
+los IS
+
+[p45] Fase C
+El CDR es un revisión crítica externa de todo el sistema desde los más bajos niveles
+hasta el más alto, se evalúa si el diseño final verifica los requerimientos si los
+recursos y sus márgenes son los adecuados, bien definidos y niveles de riesgo
+aceptables. El presupuesto de masas, momentos de inercia, etc, son aceptables para
+el lanzador, que las interfaces han madurado lo suficiente, que los procedimientos
+para la fabricación y la AIT-AIV son los adecuados. La documentación del sistema
+está lo suficientemente madura para permitir la fabricación y AIT. Se han hecho
+todos los planes de ensayos y los procedimientos de ensayos identificados y los
+procesos de integración bien definidos y que se puede afirmar que están maduros.
+Los planes de V&V están completos. Podemos ir hacia abajo y podemos ver ambos,
+la V&V de los componentes a través de ellos y hacia arriba, hacia el SS y siguiendo
+al sistema completo. podemos asegurar y comenzar la próxima fase.
+Márgenes técnicos y programáticos adecuados, asegurar que estamos dentro de los
+costos en la planificación hemos completado el desarrollo y estamos dentro de las
+restricciones, no necesitamos correr por más dinero y dentro de la fecha de
+lanzamiento. También estamos mirando los riesgos, para el éxito de la misión. Han
+sido identificados y evaluados y se ha planeado cómo abordarlos. Los recursos están
+en su lugar para dirigir adecuadamente estos riesgos. También se mira el tema
+seguridad confiabilidad, calidad y otras restricciones que podría impactar en el éxito
+de la misión. Todas deben ser identificadas y evaluadas y consideradas. Todas
+deben ser bien entendidas para comenzar con la Construcción del S/C y AIV.
+Fase C
+
+[p46] Fase C
+Fase C
+El CDR es una revisión clave en el proyecto. Nos permite decir que podemos
+tomar todos los componentes que están bien definidos y comenzar a construir
+el S/C e integrar.
+Es realmente un evento mayor en el desarrollo de un nuevo sistema.
+En este punto estamos seguros de mandar a comprar los componentes que
+son importantes y tienen largos períodos de manufactura (años). Una
+estrategia del proyecto podría ser comprar a priori del CDR. Esto debería ser
+aprobado por todos los Stakeholders. Después de la aprobación de esta
+revisión se asume que tenemos un diseño listo para obtener, la compra o
+fabricación del resto de los componentes para que finalmente podamos
+integrarlos.
+En el CDR se verifica que todas las acciones del PDR han sido cerradas
+satisfactoriamente.
+También estamos mirando los riesgos para el éxito de la misión. Han sido
+identificados y evaluados y se ha planeado cómo abordarlos. Los recursos
+están en su lugar para dirigir adecuadamente estos riesgos. También se
+mira el tema seguridad, confiabilidad, calidad y otras restricciones que
+podría impactar en el éxito del a misión. Todas deben ser identificadas y
+evaluadas y consideradas. Todas deben ser bien entendidas para comenzar
+con la Construcción del S/C y AIV.
+
+[p47] Fase C
+Los procedimientos y el flujo de trabajo han sido definidos y 
+documentados. El personal de integración ha sido entrenado.
+Algunos videos de integración de Satélites
+• Assembly, Integration and Test (AIT) for Communication Satellite in 
+Airbus Defence and Space
+https://www.youtube.com/watch?v=CCh3b2al7Dg
+• How to build a Satellite
+https://www.youtube.com/watch?v=8J0iA7EH9CM
+Ejemplo de  Adelaida S/C  Integración , se hace un una clean room es un 
+ambiente muy limpio en un espacio reducido cerrado a veces con equipos 
+muy pesados. 
+• Satellite Microscope - intégration (timelapse)
+https://www.youtube.com/watch?v=B2s9L9CWdwA
+Fase C
+
+[p48] Fase C
+• Planes y procedimientos han sido completados y aprobados.
+• Los resultados de la Verificación de componentes son satisfactorios
+para proceder con la integración.
+• Los procedimientos de integración y el flujo de trabajo han sido
+definidos y documentados.
+• El personal ha recibido entrenamiento requerido.
+• Se presentan en el SIR los resultados de la actividades realizadas por
+el equipo basadas en las acciones asignadas (Action Items) en el CDR
+anterior.
+Fase C
+La segunda revisión en esta fase C es la Revisión de la integración del 
+Sistema  - SIR.
+Todos los componentes han sido puesto juntos y el sistema está 
+integrado y ha sido ensayado.
+Se evalúa si las acciones del CDR han sido satisfactoriamente cerradas.
+SIR
+prueba
+que
+todos
+los
+procedimientos
+han
+sido
+corridos
+y
+completados satisfactoriamente y aprobado internamente por los equipos
+internos y firmados por los managers. La verificación de los componentes
+ha
+sido
+realizada
+y
+los
+resultados
+de
+la
+verificación
+han
+sido
+satisfactorios. Después de esto se comienza el ensamble la integración y
+ensayos del SISTEMA.
+
+[p49] Ingeniería de Sistemas
+Ingeniería de Sistemas
+Funciones 
+Claves
+Estudio de 
+Conceptos 
+Pre Fase A
+Análisis 
+Preliminar 
+Fase A
+Definición 
+Fase B
+Diseño
+Fase C
+Desarrollo 
+Fase  D
+Operaciones 
+Fase E
+Entender los objetivos
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+Desarrollo del ConOp
+Concepto
+Baseline
+Refinar
+Completo
+Plan de 
+Operaciones
+Seguimiento de 
+los cambios
+Desarrollo de 
+Arquitectura y Diseño
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+Análisis, Identif. y 
+Gestión de los Requer.
+Concepto
+Baseline 
+de alto nivel
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+V&V
+Concepto
+Inicial
+Asignar 
+Métodos
+Completo
+Seguimiento 
+de los cambios
+Interfaces  & ICDs
+Concepto
+Inicial
+Baseline
+Completo
+Seguimiento 
+de los cambios
+Ambiente de Misión
+Inicial 
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+Seguimiento de 
+Presupuesto y 
+Recursos Técnicos
+Concepto
+Inicial
+Baseline
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+los cambios
+Análisis, Reducción  y 
+Gestión de Riesgo
+Estimado
+FTA , RBD
+FMEA, FTA, 
+RBD
+FTA, FMEA, 
+RBD, PRA
+Actualizar 
+Cambios
+Actualizar 
+Cambios
+Revisión Candidatos 
+Hitos Sistema
+MCR
+MDR
+SRR, SCR, 
+PDR, CR
+CDR
+MOR, PER, 
+FOR, PSR, 
+FRR, ORR
+DR
+Gestión y Doc de 
+Configuración
+Informal Gestión 
+Configuración
+Control de 
+Requer Nivel 1
+Gestión de 
+Configuración
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+Seguimiento de 
+cambios
+Plan de Gestión de la 
+Ing. de Sistemas
+Concepto
+Baseline
+Completo
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+
+[p50] Ciclo de Vida del Proyecto
+50
+Implementación
+– Fase C (Diseño Final y Fabricación)
+– Propósito: Diseñar un sistema ( y sus SS asociados, incluyendo las 
+operaciones de sistemas) de  tal manera que  cumpla sus 
+requerimientos.
+• Demostrar que el diseño de detalle del sistema cumple los 
+requerimientos.
+• Demostrar que los planos de diseño están completos.
+• Establecer el Baseline del producto.
+• Comenzar la fabricación, los ensayos de los componentes de 
+vuelo, ensamblar, y SS.
+❖Revisión Crítica del Diseño - (CDR) Critical Design 
+Review: Planos de diseño y planes de AIT.
+❖Revisión de Integración del Sistemas (SIR) System 
+Integration Review
+Ciclo de Vida del Proyecto
+Fases de Implementación - Fase C 
+Puertas 
+de 
+control
+
+[p51] early before project is identified, draft ICD’s must be written during Phase A.
+•
+Note 1: The Level 1 Requirements and Mission Success Criteria (Level I 
+Requirements) must be complete by the end of Phase B.
+•
+Note 2: In the case of long-lead items and when instruments are developed 
+early before project is identified, draft ICD’s must be written during Phase A.
+•
+Note 3: 
+MCR – Mission Concept Review, 
+MDR – Mission Definition Review, 
+SRR – System Requirements Review, 
+SCR – System Concept Review, 
+PDR – Preliminary Design Review, 
+CR – Confirmation Review, 
+CDR – Critical Design Review, 
+MOR – Mission Operations Review, 
+PER – Pre-Environmental Review, 
+FOR – Flight Operations Review,
+FRR – Flight Readiness Review, 
+ORR – Operations Readiness Review, 
+DR – Disposal Review.
+
+[p52] Sirous F. Yasseri1*, Hamid Bahai2  [FIGURA]
+Material de Estudio
+System Readiness Level Estimation of Oil and Gas Production Systems
+Sirous F. Yasseri1*, Hamid Bahai2
+
+[p53] System Readiness Level Estimation of Oil and Gas Production Systems  [FIGURA]
+Material de Estudio
+System Readiness Level Estimation of Oil and Gas Production Systems
+Sirous F. Yasseri1*, Hamid Bahai2
+
+[p54] System Readiness Level Estimation of Oil and Gas Production Systems  [FIGURA]
+Material de Estudio
+System Readiness Level Estimation of Oil and Gas Production Systems
+Sirous F. Yasseri1*, Hamid Bahai2
