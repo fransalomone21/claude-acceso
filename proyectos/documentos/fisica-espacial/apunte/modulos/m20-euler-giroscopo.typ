@@ -254,6 +254,35 @@ no es elemental. *Se citan porque son las que hay que resolver en el caso
 general* —el módulo no las resuelve enteras: la sección siguiente resuelve el
 caso particular que sí tiene solución simple.
 
+#notacion[
+  *Tres ángulos alcanzan, pero tienen un agujero; por eso a bordo se usan
+  cuaterniones.* La primera clase escrita de cuerpo rígido de la cátedra deja
+  la pregunta: ¿cuántos números hacen falta para la actitud de un CubeSat, y
+  por qué las computadoras de a bordo prefieren cuatro con un vínculo en vez
+  de tres ángulos? Hacen falta *tres*, porque la orientación tiene tres
+  grados de libertad (módulo #M("cinematica-cr")). El problema de los ángulos
+  de Euler es que en una orientación se rompen: con $theta = 0$ el eje $z$
+  coincide con $Z$, la línea de nodos deja de estar definida, y $phi$ y $psi$
+  pasan a medir *el mismo* giro. Se perdió un grado de libertad en la
+  descripción, aunque el cuerpo no perdió ninguno. En un giróscopo montado
+  en cardanes ese agujero es mecánico: cuando dos ejes de cardán se alinean,
+  el conjunto ya no puede acompañar un giro en cierta dirección —el
+  *bloqueo de cardán*, que Wrigley y Hollister (1965, el paper de la
+  cátedra) describen y resuelven agregando cardanes—. Cualquier juego de tres
+  ángulos tiene al menos una orientación así; se puede correr, no evitar.
+
+  El *cuaternión* le da la vuelta usando el resultado de Euler del módulo
+  #M("cinematica-cr"): toda orientación es un giro de un ángulo $beta$
+  alrededor de un eje $hat(bold(e))$. Se guardan cuatro números, $q_0 = cos
+  (beta\/2)$ y $(q_1, q_2, q_3) = hat(bold(e)) sin(beta\/2)$, con el vínculo
+  $q_0^2 + q_1^2 + q_2^2 + q_3^2 = 1$ que deja tres libres. No tiene ninguna
+  orientación singular, componer dos giros es multiplicar dos cuaterniones
+  —sumas y productos, sin senos ni cosenos— y el error numérico se arregla
+  renormalizando a $1$. Por eso los usa todo sistema de control de actitud.
+  (Esto no está en los libros de la lista: contesta una pregunta de la clase,
+  y la parte de los cardanes es de Wrigley y Hollister.)
+]
+
 == Precesión estable: el caso que sí se resuelve a mano
 
 #deduccion("de dónde sale la cupla que sostiene una precesión constante")[
@@ -299,6 +328,90 @@ ella.
   velocidad, que ya apareció dos veces en este módulo: $bold(alpha) =
   omega_1 omega_2 hat(i)$ en el módulo #M("cinematica-cr") y $dot(bold(H))_G = 1/2 m r^2
   omega_1 omega_2 hat(i)$ en el primer ejemplo de hoy.
+]
+
+== ¿Alrededor de qué eje conviene girar? El ladrillo, la raqueta y el Explorer 1
+
+Dos de las tres «preguntas orientadoras» de la primera clase escrita de
+cuerpo rígido se contestan acá, con las ecuaciones de Euler y nada más:
+qué pasa con un ladrillo que se tira girando, y por qué el primer satélite
+norteamericano terminó dando tumbos.
+
+La idea, antes de la cuenta. Un cuerpo libre —sin cuplas— que gira
+exactamente sobre un eje principal sigue girando así para siempre: con
+$bold(omega)$ sobre un eje principal, $bold(H)_G$ es paralelo a
+$bold(omega)$ (módulo #M("inercia")) y no hay nada que lo saque. La pregunta
+de ingeniería es otra: si se lo desvía *un poquito*, ¿vuelve, o se desarma?
+Un lápiz parado sobre la punta también está en equilibrio.
+
+#deduccion("cuál de los tres ejes principales es inestable")[
+  Sin cuplas, las ecuaciones de Euler (@euler-euler-clasicas) quedan
+  $I_x dot(omega)_x = (I_y - I_z) omega_y omega_z$ y cíclicas. El cuerpo gira
+  casi sobre $x$: $omega_x approx omega_0$, grande, y $omega_y$, $omega_z$
+  chiquitas. En la primera ecuación el lado derecho es un producto de dos
+  chiquitas, así que $omega_x$ casi no cambia. Las otras dos:
+  $ I_y dot(omega)_y = (I_z - I_x) omega_0 omega_z, quad quad I_z dot(omega)_z = (I_x - I_y) omega_0 omega_y $
+  Derivando la primera y reemplazando $dot(omega)_z$ con la segunda:
+  $ dot.double(omega)_y = ((I_z - I_x)(I_x - I_y))/(I_y I_z) thin omega_0^2 thin omega_y $
+  Si el coeficiente es *negativo*, es la ecuación de un resorte: $omega_y$
+  oscila y queda chiquita, y el giro es *estable*. Si es *positivo*,
+  $omega_y$ crece como una exponencial y el giro se desarma. El signo lo
+  deciden los dos paréntesis: si $I_x$ es el *mayor* de los tres, o el
+  *menor*, tienen signos opuestos y el producto es negativo; si $I_x$ es el
+  *del medio*, los dos son positivos.
+]
+
+*Girar alrededor del eje de momento máximo o mínimo es estable; alrededor
+del intermedio, no.* La pregunta del ladrillo de $20 times 10 times 5$ cm de
+la cátedra sale con la tabla del módulo #M("inercia"), sin integrar: el eje
+paralelo a la arista de $20$ tiene $I = M (10^2 + 5^2)\/12 = 125 M\/12$ (el
+menor), el paralelo a la de $5$ tiene $(20^2 + 10^2) M\/12 = 500 M\/12$ (el
+mayor), y el paralelo a la de $10$ queda en el medio, con $425 M\/12$. Tirado
+girando alrededor de ése, el ladrillo da media vuelta de costado cada tanto
+por más cuidado que uno ponga. Con una raqueta de tenis pasa lo mismo, y en
+1985 un cosmonauta lo filmó en una estación espacial con una tuerca de
+mariposa que se daba vuelta sola, con una regularidad que parecía brujería
+y era esta cuenta.
+
+Hasta acá, el cuerpo rígido *perfecto*. El Explorer 1 (1958) no lo era. Era
+un cilindro largo —alargado, $I_1 = I_2 > I_3$ en la clasificación del
+módulo #M("inercia")— y lo pusieron a girar alrededor de su eje largo, el de
+momento *mínimo*: según la deducción de arriba, estable. Pero llevaba cuatro
+antenas de alambre flexibles, que se doblaban y vibraban, y eso disipa
+energía. A las pocas horas daba tumbos, girando de punta a punta.
+
+#deduccion("por qué un cuerpo que pierde energía termina girando sobre su eje mayor")[
+  Sin cuplas externas, $bold(H)_G$ se conserva: lo que se pierde por
+  rozamiento interno es *energía*, no momento angular. Girando sobre un eje
+  principal de momento $I$, $H = I omega$ y $T = frac(1, 2) I omega^2$, así
+  que
+  $ T = H^2 / (2 I) $
+  Con $H$ fijo, la energía más baja posible corresponde al $I$ más
+  *grande*. Un cuerpo que disipa va bajando su energía sin poder tocar su
+  momento angular, y la única manera es pasar a girar alrededor de un eje de
+  más inercia. Termina en el de momento máximo, que es el único estable
+  *con* disipación.
+]
+
+Para el Explorer 1, alargado, el eje de momento máximo es cualquiera
+perpendicular al largo: el giro de punta a punta. Para un CubeSat 3U del
+módulo #M("inercia") puesto a girar sobre su eje largo, la energía final
+sería $T_f\/T_i = I_"mín"\/I_"máx" = 0,0067\/0,042 = 0,16$ de la inicial, y
+el resto se lo comieron los paneles. Por eso los satélites estabilizados por
+giro de la clasificación son *achatados*: el tambor de un Intelsat VI o de
+un GOES gira sobre su eje de momento máximo, y ahí puede disipar lo que
+quiera sin moverse. La lección del Explorer 1 —el primer satélite de los
+Estados Unidos, y el primer ejemplo de cómo un detalle «no rígido» le gana a
+una cuenta bien hecha— es la que la cátedra dejaba anunciada al definir el
+cuerpo rígido como una idealización.
+
+#posta[
+  Un cuerpo libre gira tranquilo sobre su eje de más inercia o sobre el de
+  menos; sobre el del medio, se da vuelta solo. Y si además tiene algo
+  flojo adentro —una antena que flamea, combustible que chapotea—, ni el de
+  menos le sirve: va a terminar sobre el de más, porque con el momento
+  angular clavado, perder energía obliga a buscar más inercia. Si diseñás un
+  satélite que gira, hacelo achatado. Si lo hacés largo, que no gire.
 ]
 
 == Lo que se usa después

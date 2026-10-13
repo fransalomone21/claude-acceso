@@ -267,6 +267,66 @@ $v_"esc"$, ya no vuelve.], fig-canon-newton)
   cualquier libro de la bibliografía: volar es tirarse al piso y errarle.
 ]
 
+=== La pseudo-ingravidez: por qué flota la astronauta
+
+Aníbal pidió que esto estuviera en el apunte, y tiene sentido: es la pregunta
+que sigue, en el mismo asado, después de «¿por qué no se cae?». La respuesta
+corta, antes de cualquier ecuación: *la astronauta no flota porque no haya
+gravedad; flota porque ella, la estación y la taza de café caen juntas, con
+la misma aceleración, y entonces nada la aprieta contra nada.*
+
+Primero el dato que desarma el mito. A $400$ km de altura la gravedad vale
+$g(r) = g_0 (R_T \/ r)^2 = 9,81 (6378 \/ 6778)^2 = 8,69$ m/s²: el $89 %$ de la
+de la superficie. Si la gravedad se apagara, la estación no orbitaría: se
+iría por la tangente. La gravedad es justamente lo que la tiene dando
+vueltas.
+
+Segundo, qué es lo que *sí* desaparece. Lo que una balanza mide no es la
+fuerza de gravedad: es la fuerza que el piso hace para frenarte. El Sears lo
+llama *peso aparente* y lo cuenta con un ascensor (S&Z §5.2, «Peso e
+ingravidez aparentes», pág. 139): si el ascensor acelera hacia arriba la
+balanza marca más, si acelera hacia abajo marca menos, y si se corta el cable
+—aceleración $g$ hacia abajo— marca *cero*. Con la segunda ley, para alguien
+parado sobre una balanza que acelera con $bold(a)$:
+$ m bold(a) = m bold(g)(r) + bold(n) quad arrow.r.double quad bold(n) = m (bold(a) - bold(g)(r)) $
+y en órbita $bold(a) = bold(g)(r)$ exactamente —es la condición de órbita de
+la sección anterior—, así que la normal es cero. Lo mismo vale para cada
+pedazo del cuerpo: el estómago no aprieta a los intestinos ni la cabeza a los
+hombros, que es lo que uno *siente* como peso (S&Z §13.4, pág. 408, con la
+astronauta de la Fig. 13.16). Y no hace falta que la órbita sea circular:
+cualquier caída libre sirve, incluido el avión que vuela una parábola para
+entrenar astronautas, que es un ascensor sin cable con alas y bolsitas de
+mareo.
+
+Por qué *pseudo* y no ingravidez a secas. Por dos razones, y conviene
+tenerlas a mano porque son la pregunta de examen:
+
+- La ingravidez *verdadera* sólo se tendría infinitamente lejos de toda
+  masa, donde la fuerza gravitatoria es cero (S&Z pág. 408). En órbita la
+  fuerza está, entera; lo que falta es el piso que la acuse.
+- Dos cosas a distinta altura dentro de la estación no caen *exactamente*
+  igual: la de abajo está más cerca de la Tierra y acelera un poco más. Para
+  un metro de diferencia, derivando $g(r) = mu\/r^2$:
+  $ Delta g approx (2 g(r))/r Delta r = (2 (8,69))/(6,778 times 10^6) (1) "m/s"^2 = 2,6 times 10^(-6) "m/s"^2 $
+  unas tres diezmillonésimas de $g_0$. A eso —más el rozamiento con lo poco
+  de atmósfera que queda a esa altura— se le dice *microgravedad*: no es
+  cero, es chiquito.
+
+#cuidado[
+  La explicación «la fuerza centrífuga equilibra a la gravedad» no está mal:
+  está hecha *desde el marco de la estación*, que gira y no es inercial (el
+  módulo #M("marcos")). Ahí sí aparece una fuerza de inercia hacia afuera que
+  compensa a la gravedad. Lo que está *mal* es «en el espacio no hay
+  gravedad» y «a esa altura la gravedad es despreciable». Si en un multiple
+  choice aparecen las tres, la que está pensada desde el marco inercial —caen
+  juntas, con la misma aceleración— es la que no admite discusión.
+]
+
+La idea de fondo —una fuerza perpendicular a la velocidad que *dobla* la
+trayectoria sin frenarla— es la misma que hace precesar a un giróscopo en
+vez de dejarlo caer. Aníbal pidió que esa analogía quedara a la vista, y
+vuelve, con todas las letras, en el módulo #M("rotacion").
+
 De la @grav-vcirc salen las otras dos cantidades de una órbita circular. El
 período es la vuelta dividida por la rapidez, $T = 2 pi r \/ v$ (S&Z ec. 13.11,
 pág. 408), y sustituyendo (S&Z ec. 13.12, pág. 409):

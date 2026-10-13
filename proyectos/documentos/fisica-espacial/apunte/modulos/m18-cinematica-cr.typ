@@ -41,6 +41,22 @@ la frase no dice es que para llegar al resumen hay que atravesar el capítulo.
   seis números en la pág. 165.)
 ]
 
+En ingeniería espacial esa partición tiene nombre propio, y conviene usarlo
+desde ya: los tres números del centro de masa son la *órbita* y los tres de
+la orientación son la *actitud*. Son dos subsistemas distintos de un
+satélite, con sus propios sensores, actuadores y gente que se pelea por la
+masa disponible. Lo dice así la primera clase escrita de cuerpo rígido de la
+cátedra, que en la lista de temas dejó el renglón «Definición CR» con un
+signo de pregunta en la columna del libro; el Beer no la escribe en ningún
+lado con todas las letras, y la definición de arriba es la que corresponde.
+
+Y la palabra que más importa de esa definición es *idealización*. La misma
+clase lo advierte: un satélite con paneles solares flexibles, combustible que
+chapotea en el tanque (el *sloshing*) o antenas que vibran no es del todo
+rígido, y «esa diferencia será clave». Lo es: la energía que se pierde en
+esos movimientos internos fue lo que hizo dar tumbos al primer satélite
+norteamericano, y la historia está al final del módulo #M("euler-giroscopo").
+
 #lectura[
   *Roederer, capítulo 5* («Dinámica del cuerpo rígido»), §5.b («Cinemática del
   cuerpo rígido», pág. 161) y §5.h («Sistemas no-inerciales en rotación», pág.

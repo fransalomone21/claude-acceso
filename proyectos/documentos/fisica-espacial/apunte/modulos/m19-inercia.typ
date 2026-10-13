@@ -164,6 +164,125 @@ y devuelve otro.
   del satélite que bambolea sale de esa diferencia de dirección.
 ]
 
+=== La mancuerna inclinada: verlo con dos masas
+
+La primera clase escrita de cuerpo rígido de la cátedra muestra todo lo
+anterior con el cuerpo más pobre posible, y conviene tenerlo como imagen
+antes que como integral. Dos masas $m$ en los extremos de una barra sin masa
+de largo $2 a$, soldada por su centro a un eje vertical que gira con
+$bold(omega) = omega hat(k)$; la barra forma un ángulo $alpha$ con el eje. El
+eje está sostenido por dos cojinetes, uno arriba y otro abajo, separados una
+distancia $D$.
+
+Cada masa da vueltas en una circunferencia de radio $a sin alpha$, con
+velocidad $omega a sin alpha$. Pero su momento angular respecto del centro,
+$bold(r) times m bold(v)$, es perpendicular a $bold(r)$ —o sea a la *barra*—
+y no a la circunferencia. Sumando las dos:
+
+- $|bold(H)| = 2 m a^2 omega sin alpha$, perpendicular a la barra, en el
+  plano que forman la barra y el eje;
+- la componente vertical es $H_z = 2 m (a sin alpha)^2 omega$: la de
+  siempre, $I_z omega$ con $I_z = sum m d^2$ y $d$ la distancia al eje. Es
+  la *proyección* de $bold(H)$ sobre el eje, y es lo único que da la
+  fórmula escalar $L = I omega$ —por eso la cátedra marca la ec. 10.28 del
+  Sears con un «ojo, no es la más general»—;
+- la componente horizontal, $2 m a^2 omega sin alpha cos alpha$, *gira con la
+  barra*. Un vector que gira cambia aunque su módulo no cambie, así que
+  $d bold(H)\/d t != 0$ con $omega$ constante, y eso pide un torque.
+
+Ese torque lo hacen los cojinetes: una cupla, una fuerza $F$ hacia un lado
+arriba y otra igual hacia el otro lado abajo, que *gira junto con la barra*.
+Es el *desbalance dinámico*, el que hace temblar el volante de un auto con
+una rueda mal balanceada; el gomero lo corrige pegando plomitos hasta que
+el eje de la rueda vuelva a ser principal. Con $alpha = 90°$ (barra
+perpendicular al eje) la componente horizontal desaparece, $bold(H) parallel
+bold(omega)$ y no hace falta cupla: el eje es principal.
+
+#ejemplo("La cupla de los cojinetes de la mancuerna")[
+  Dos masas de $0,50$ kg en los extremos de una barra de $0,40$ m ($a = 0,20$
+  m), inclinada $alpha = 30°$ respecto del eje, que gira a $omega = 20$ rad/s;
+  los cojinetes están separados $D = 0,30$ m.
+
+  $|bold(H)| = 2 (0,50)(0,20)^2 (20) sin 30° = 0,400$ kg·m²/s. Su componente
+  vertical es $|bold(H)| sin alpha = 0,200$ kg·m²/s y la horizontal,
+  $|bold(H)| cos alpha = 0,346$ kg·m²/s. La horizontal gira a $omega$, así que
+  $ |d bold(H) \/ d t| = omega H_"horiz" = (20)(0,346) "N·m" = 6,93 "N·m" $
+  y cada cojinete tiene que hacer $F = 6,93 \/ 0,30 = 23,1$ N, girando con la
+  barra a unas tres vueltas por segundo. Por una mancuerna de un kilo. A un
+  rotor de turbina mal balanceado no hace falta explicarle el resto.
+]
+
+== Los ejes principales sin calcular nada: la simetría
+
+El Beer afirma que los ejes principales existen y manda a buscarlos al
+Apéndice B. La clase escrita de la cátedra dice algo más útil: que casi
+nunca hace falta *buscarlos*, porque la simetría del cuerpo los delata. Es
+el «la simetría simplifica las ideas» de Aníbal, aplicado al tensor. Cinco
+reglas, cada una con su porqué en una línea:
+
++ *Un plano de simetría especular* —por ejemplo, el cuerpo queda igual al
+  cambiar $z$ por $-z$—: los productos que tienen un factor $z$ se anulan,
+  $I_(x z) = I_(y z) = 0$, porque cada $d m$ en $z$ tiene su gemelo en $-z$.
+  El eje perpendicular a ese plano es principal.
++ *Dos planos de simetría perpendiculares*: los tres ejes que definen son
+  principales.
++ *Un eje de simetría de orden $n >= 3$* (el cuerpo queda igual al girarlo
+  $360° \/ n$): ese eje es principal y los dos momentos perpendiculares son
+  *iguales*. Un hexágono, un prisma triangular equilátero o un satélite con
+  cuatro paneles a $90°$ tienen $I_1 = I_2$ aunque no sean de revolución.
++ *Un eje de orden 2 solamente* (queda igual al girarlo $180°$): es
+  principal, pero los momentos perpendiculares, en general, son distintos.
+  Es el caso de un ladrillo.
++ *Simetría cúbica* (cubo, tetraedro y octaedro regulares): $I_1 = I_2 =
+  I_3$. Un cubo homogéneo gira, para todo efecto, como una esfera.
+
+Dos relaciones más que salen sin integrar. La *desigualdad triangular*:
+para los tres momentos principales, $I_1 + I_2 >= I_3$ (y sus
+permutaciones), porque $I_1 + I_2 - I_3 = 2 integral z^2 d m >= 0$ con $z$
+sobre el eje 3. Y su caso límite, el *teorema de los ejes perpendiculares*:
+en una lámina plana ($z = 0$ para toda la masa) la igualdad es exacta,
+$ I_z = I_x + I_y $
+que da, por ejemplo, el momento de un disco respecto de un diámetro sin
+hacer ninguna integral: $I_"diám" = frac(1, 2) I_"eje" = frac(1, 4) M R^2$.
+
+#notacion[
+  *Steiner, en versión completa.* El teorema de los ejes paralelos del módulo
+  #M("rotacion") (@rot-steiner) es la mitad de una fórmula. Con $G$ en
+  $(macron(x), macron(y), macron(z))$ respecto de un origen $O$, los momentos
+  se trasladan como siempre, $I_x^O = I_x^G + m (macron(y)^2 + macron(z)^2)$,
+  y los *productos* también: con la definición de este módulo,
+  $I_(x y)^O = I_(x y)^G + m macron(x) macron(y)$ (Beer, Apéndice B, §B.6,
+  pág. 1319). Consecuencia que la clase de la cátedra subraya: *mover el
+  origen fabrica productos de inercia* aunque en $G$ fueran todos cero. Los
+  ejes principales de un cuerpo respecto de $G$ dejan de serlo, en general,
+  respecto de un punto corrido.
+]
+
+=== Una clasificación para hablar de satélites
+
+Con los tres momentos principales ordenados, todo cuerpo cae en una de cuatro
+familias. La nomenclatura viene de los trompos y la usa cualquier hoja de
+datos de un satélite (la tabla es de la clase de la cátedra):
+
+#align(center, table(columns: 3, inset: (x: 7pt, y: 4pt), align: left,
+  [*Tipo*], [*Momentos principales*], [*Ejemplos*],
+  [trompo esférico], [$I_1 = I_2 = I_3$], [esfera, cubo, un CubeSat 1U ideal],
+  [simétrico *achatado* (_oblate_)], [$I_1 = I_2 < I_3$], [disco, moneda, satélites «tambor» estabilizados por giro (Intelsat VI, los primeros GOES)],
+  [simétrico *alargado* (_prolate_)], [$I_1 = I_2 > I_3$], [cilindro largo, CubeSat 3U, el Explorer 1],
+  [asimétrico], [$I_1 < I_2 < I_3$], [ladrillo, raqueta de tenis, casi todos los satélites reales],
+))
+
+Para el paralelepípedo homogéneo de masa $M$ y lados $a$, $b$, $c$, con
+ejes por el centro paralelos a las aristas, la tabla da $I_x = M (b^2 +
+c^2)\/12$ y cíclicos, con productos nulos (regla 2: tres planos de simetría).
+Un *CubeSat 3U* —$10 times 10 times 34$ cm, unos $4$ kg— queda con
+$I_z = 4 (0,10^2 + 0,10^2)\/12 = 0,0067$ kg·m² sobre el eje largo e $I_x =
+I_y = 4 (0,10^2 + 0,34^2)\/12 = 0,042$ kg·m² sobre los otros dos: alargado,
+seis veces más fácil de hacer girar alrededor de su eje largo que de
+costado. Son los valores típicos de las hojas de datos, y son los que deciden
+alrededor de qué eje *conviene* hacerlo girar, que es la pregunta del final
+del módulo #M("euler-giroscopo").
+
 == De $G$ a un punto cualquiera: $bold(H)_O$
 
 La misma descomposición del módulo #M("dos-cuerpos") —movimiento del centro de masa más

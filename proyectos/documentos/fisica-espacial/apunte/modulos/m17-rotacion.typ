@@ -64,6 +64,13 @@ los cuatro módulos que siguen.
   §4.e («La conservación del impulso angular», pág. 120), para una segunda
   lectura.
 
+  Para el giróscopo, la cátedra pasó dos recortes más (octubre de 2026):
+  *Kleppner & Kolenkow, An Introduction to Mechanics*, §8.3 «The Gyroscope» y
+  §8.4 hasta el Ejemplo 8.10 (págs. 300–305), y *Meriam & Kraige, Dinámica*,
+  art. 7/11 «Gyroscopic Motion: Steady Precession» (págs. 250–256). El
+  Kleppner es el que mejor explica *por qué* precesa; el Meriam, el que mejor
+  da la regla para no equivocarse el sentido.
+
   Sí: el famoso Sears que tanto le gusta a Aníbal. Que en la misma lista de
   temas lo califica de «un poco elemental» y manda a apoyarse en el Roederer
   — o sea, te da el libro y en el mismo renglón te avisa que no alcanza.
@@ -620,6 +627,210 @@ Los dos resultados juntos dicen algo que el enunciado no dice: $2,6 times
 de mano gira a eso. Por eso un giróscopo de juguete zumba: no es un detalle
 de fábrica, es la condición para que la precesión sea lenta y la
 aproximación, buena.
+
+== El giróscopo, otra vez: la pregunta correcta, tres explicaciones y para qué sirve
+
+La cátedra volvió sobre el giróscopo con material nuevo —una hoja con la
+analogía entre la precesión y el movimiento circular uniforme, otra
+manuscrita con el giróscopo «como actuador y como sensor», un video de
+Aníbal peleándose con un ventilador, y dos recortes de libro, el Kleppner y
+el Meriam—. Todo apunta a lo mismo: que el giróscopo deje de ser magia
+*antes* de que llegue la cuenta. Así que acá van, en orden, la pregunta que
+hay que hacerse, tres maneras de contestarla y lo que se hace con eso en un
+satélite.
+
+=== La pregunta correcta no es «por qué no se cae»
+
+El Kleppner arranca con una observación que ahorra media clase (§8.3, págs.
+300–301): «por qué no se cae» tiene una respuesta aburrida y completa. El
+pivote empuja hacia arriba con una normal igual al peso, la fuerza vertical
+neta es cero y el centro de masa no baja. Si se saca el pivote, cae como una
+piedra. Fin. La pregunta interesante es otra: *¿por qué no oscila como un
+péndulo?* El peso hace torque respecto del pivote, y un cuerpo quieto con
+ese torque *gira hacia abajo*. De hecho, si se suelta el giróscopo con el
+rotor parado, eso es lo que hace: péndulo. Con el rotor girando rápido, el
+eje tiembla un instante (la *nutación*, que vuelve en el módulo
+#M("euler-giroscopo")) y se acomoda a precesar parejo.
+
+Y un detalle que el Sears no dice y el Kleppner sí (Ejemplo 8.7, pág. 302):
+la velocidad de precesión *no depende de la inclinación del eje*.
+
+#deduccion("por qué Omega no depende del ángulo del eje")[
+  Con el eje formando un ángulo $phi$ con la vertical, la componente vertical
+  de $bold(L)$ queda quieta y sólo la horizontal, $L sin phi$, da vueltas;
+  su punta recorre un círculo, así que $|d bold(L)\/d t| = Omega L sin phi$.
+  El peso, aplicado a distancia $r$ del pivote sobre el eje, tiene brazo
+  horizontal $r sin phi$: $tau = M g r sin phi$. Igualando, el $sin phi$ se
+  va de los dos lados:
+  $ Omega L sin phi = M g r sin phi quad arrow.r.double quad Omega = (M g r)/L $
+  la misma @rot-precesion. Horizontal, inclinado o casi parado: precesa igual.
+]
+
+=== Primera explicación: el movimiento circular uniforme, con $bold(L)$ en lugar de $bold(p)$
+
+Es la que ya está en la caja rosa de arriba, y es la que la cátedra eligió
+para su hoja: el párrafo del Sears (§10.7, pág. 324) de la pelota atada a una
+cuerda, con un dibujo a mano encima. Si la pelota está quieta y se tira de la
+cuerda, viene hacia la mano: $d bold(p) = bold(F) thin d t$ apunta hacia la
+mano y $bold(p)$, que era cero, crece en esa dirección. Si la pelota ya se
+mueve y se tira *perpendicular* a su movimiento, $d bold(p)$ es perpendicular
+a $bold(p)$: le cambia la dirección y no el módulo, y la pelota da vueltas sin
+acercarse. Cambiando $bold(p) arrow.r bold(L)$ y $bold(F) arrow.r bold(tau)$
+sale el giróscopo, palabra por palabra.
+
+Y es, también, el satélite del módulo #M("gravitacion"). Es la analogía que
+Aníbal pidió explícitamente, y conviene tenerla en una tabla:
+
+#align(center, table(columns: 3, inset: (x: 8pt, y: 4pt), align: left,
+  [], [*Satélite en órbita circular*], [*Giróscopo que precesa*],
+  [lo que se conserva en módulo], [la rapidez, $|bold(p)|$], [el giro propio, $|bold(L)|$],
+  [lo que lo empuja], [la gravedad $bold(F)$, hacia el centro], [el torque del peso $bold(tau)$, horizontal],
+  [la geometría], [$bold(F) perp bold(p)$], [$bold(tau) perp bold(L)$],
+  [lo que pasa], [$bold(p)$ gira: la órbita], [$bold(L)$ gira: la precesión],
+  [la velocidad angular], [$omega = F\/p = v\/r$], [$Omega = tau\/L$],
+  [por qué no «cae»], [la fuerza dobla, no frena], [el torque dobla, no inclina],
+))
+
+Por grande que sea la fuerza, si es perpendicular a la velocidad *sólo le
+cambia la dirección*; por grande que sea el torque, si es perpendicular a
+$bold(L)$, sólo le cambia la dirección al eje. Lo antiintuitivo de las dos
+cosas es el mismo prejuicio: creer que una fuerza hace que las cosas vayan
+*hacia donde empuja*, cuando lo que hace es cambiar su cantidad de
+movimiento *en la dirección en que empuja* — que no es lo mismo, y la
+diferencia es toda la mecánica orbital y todo el giróscopo.
+
+=== Segunda explicación: desde Newton, con dos masas en una barra
+
+La primera explicación es una analogía, y una analogía convence pero no
+demuestra. El Kleppner hace la demostración con lo mínimo (Ejemplo 8.8,
+págs. 303–304), y vale la pena porque usa *sólo* $bold(F) = m bold(a)$:
+
+#deduccion("por qué un torque hace inclinar el plano de giro")[
+  Un rígido mínimo: dos masas $m$ en los extremos de una barra sin masa de
+  largo $2 l$, girando en el plano horizontal alrededor de su centro, cada
+  una con rapidez $v_0$. Su momento angular es vertical y vale $L = 2 m v_0
+  l$. Durante un tiempo corto $Delta t$, justo cuando la barra está sobre el
+  eje $x$, se le aplican dos fuerzas iguales y opuestas $F$, *verticales*:
+  hacia arriba en una masa y hacia abajo en la otra. La fuerza neta es cero
+  (el centro de masa no se mueve) y el torque es $tau = 2 F l$, horizontal.
+
+  Cada masa recibe $Delta bold(v) = bold(F) Delta t \/ m$, vertical, es decir
+  *perpendicular* a su velocidad $bold(v)_0$, que es horizontal. Entonces la
+  velocidad de cada una no cambia de tamaño: se *inclina* un ángulo
+  $ Delta phi approx (Delta v)/v_0 = (F Delta t)/(m v_0) = (2 l F Delta t)/(2 l m v_0) = (tau Delta t)/L $
+  Las dos velocidades se inclinan en sentidos opuestos, así que la barra
+  sigue girando, pero alrededor de un eje inclinado $Delta phi$: el plano de
+  giro rotó, y con él $bold(L)$, hacia el lado del torque. La velocidad de
+  ese giro es $Omega = Delta phi \/ Delta t = tau \/ L$, la misma
+  @rot-precesion.
+]
+
+O sea: el giróscopo precesa porque *cada pedacito del rotor* recibe una
+fuerza perpendicular a su velocidad, y una fuerza perpendicular a la
+velocidad dobla, no frena. Es la primera explicación, ahora sí demostrada,
+partícula por partícula. Para un volante entero el argumento se generaliza
+y da lo mismo que $bold(tau) = d bold(L)\/d t$ (Kleppner, pág. 304).
+
+=== Tercera explicación: la regla para no equivocarse el sentido
+
+El Meriam (art. 7/11, págs. 250–251) escribe la analogía en forma vectorial,
+y de ahí saca una regla. Una partícula con velocidad $bold(v)$ a la que se le
+aplica una fuerza normal $bold(F)$ dobla con velocidad angular $bold(omega)$,
+y la segunda ley queda $bold(F) = m bold(omega) times bold(v)$ (la fuerza
+centrípeta, escrita como vector). Un rotor de momento angular $I bold(p)$ —el
+Meriam le dice $bold(p)$ al giro propio— al que se le aplica un torque
+$bold(M)$ perpendicular precesa con $bold(Omega)$, y queda
+$ bold(M) = I bold(Omega) times bold(p) $
+que es la @rot-precesion en forma vectorial, $bold(tau) = bold(Omega) times
+bold(L)$, con otras letras. La regla que sale (Meriam, Fig. 7/16):
+*el vector de giro propio tiende a girar hacia el vector torque*. Si se
+dibujan $bold(L)$ y $bold(tau)$ y se pone la punta de $bold(L)$ a perseguir a
+$bold(tau)$, el sentido de la precesión sale solo. El Meriam avisa lo que
+pasa si no se hace: «es probable llegar a una conclusión exactamente opuesta
+a la correcta». Con el sentido, en el examen, no hay mitades.
+
+#posta[
+  El giróscopo te contesta a $90°$. Lo empujás hacia abajo y se va de
+  costado; lo girás de costado y se te levanta o se te baja. Con una sola
+  regla alcanza: la punta de $bold(L)$ corre detrás del torque, nunca al
+  revés. Dibujá $bold(L)$, dibujá $bold(tau)$, y mové la punta de la primera
+  hacia la segunda: ése es el giro del eje. El resto es la @rot-precesion
+  para saber cuánto.
+]
+
+=== Actuador y sensor: la misma ecuación leída para los dos lados
+
+La hoja manuscrita que dejó la cátedra tiene dos renglones subrayados en
+rojo, y son todo el resumen:
+
+- *Torque de entrada, giro de salida* ($bold(M) arrow.r bold(Omega)$): es lo
+  que se hizo hasta acá. El peso pone un torque y el giróscopo responde
+  precesando. Así usado, el giróscopo es un *actuador*: convierte un torque
+  en un giro.
+- *Giro de entrada, torque de salida* ($bold(Omega) arrow.r bold(M)$): si a
+  un rotor que gira se lo *obliga* a precesar —se le gira el eje a la
+  fuerza—, aparece un torque, $bold(M) = bold(Omega) times bold(L)$, que hay
+  que hacer para lograrlo; y el rotor devuelve el opuesto sobre quien lo
+  sostiene. Así usado, es un *sensor*: el torque que hace falta mide el giro.
+
+El video del ventilador es el segundo renglón en vivo: Aníbal sostiene un
+ventilador encendido y lo gira hacia los costados, y el aparato le contesta
+levantando o bajando la trompa, a $90°$ de lo que él hace. La niña con la
+rueda del parcialito 3 es lo mismo: intenta *subir* el eje y la rueda se le
+tuerce *de costado*. En los dos casos la cuenta es una sola: la punta de
+$bold(L)$ tiene que ir hacia donde uno la lleva, y para eso hace falta un
+torque en esa dirección; lo que se siente en las manos es la reacción.
+
+Y con eso se entiende para qué se usan en un satélite:
+
+- *Giróscopos de control de momento* (CMG). Un rotor que gira siempre igual,
+  montado en un cardán que un motor puede girar. Girar el cardán a una
+  velocidad $dot(delta)$ le cambia la dirección a $bold(h) = I bold(omega)$ a
+  razón de $dot(bold(delta)) times bold(h)$, y ese cambio de momento angular
+  sale del satélite: el satélite recibe un torque de módulo $h dot(delta)$.
+  Lo que lo hace atractivo es que el rotor *no se frena*: con poca potencia
+  en el motor del cardán se obtiene mucho torque, la «amplificación de
+  torque» del paper de Lappas, Steyn y Underwood (2002) que pasó la cátedra.
+  Su CMG para un microsatélite tiene $h = 0,35$ N·m·s; girado a $0,12$ rad/s
+  da $0,042$ N·m, y cuatro juntos sacan $52,5$ mN·m. Una rueda de reacción
+  del mismo tamaño, que da torque *frenándose*, se quedaría quieta en ocho
+  segundos.
+- *Referencias de dirección y guiado inercial.* Montado en cardanes que no
+  le transmiten torque, el giróscopo conserva la dirección de $bold(L)$ en el
+  espacio aunque la nave gire alrededor (Meriam, pág. 250; Wrigley y
+  Hollister, 1965, el otro paper de la cátedra). Midiendo el torque que hace
+  falta para que lo siga, mide cuánto gira la nave. Agregándole un peso al
+  cardán interior, la rotación de la Tierra lo hace precesar hasta apuntar
+  al norte verdadero: el *girocompás* (Kleppner, Ejemplo 8.10), que sigue
+  sirviendo donde no llega el GPS, como en un submarino.
+
+=== La Tierra también es un giróscopo
+
+El ejemplo más grande disponible (Kleppner, Ejemplo 8.9, págs. 304–305). La
+Tierra gira con su eje inclinado $23,5°$ respecto de la perpendicular a la
+eclíptica. Si fuera una esfera perfecta, el Sol la atraería como si toda la
+masa estuviera en el centro: sin brazo, sin torque, y el eje apuntaría
+siempre al mismo lugar. Pero no lo es: el radio ecuatorial le gana al polar
+por unos $21$ km, y con el eje inclinado la mitad del abultamiento que mira
+al Sol es atraída más fuerte que la otra. Eso es un par de fuerzas, un
+torque *perpendicular a $bold(L)$*, y el eje hace lo que acaba de verse:
+precesa. Una vuelta cada unos $26 thin 000$ años.
+
+Con números de orden de magnitud: $I_T approx 8,0 times 10^37$ kg·m² y un día
+sideral dan $L = I_T omega = 5,83 times 10^33$ kg·m²/s; la precesión es $Omega
+= 2 pi \/ (26 thin 000 "años") = 7,66 times 10^(-12)$ rad/s; y el torque medio
+que la sostiene, con la forma del Ejemplo 8.7, $tau = Omega L sin 23,5° =
+1,78 times 10^22$ N·m. Un número enorme que, frente a un $L$ todavía más
+enorme, mueve el eje un grado y medio por siglo (los $50$ segundos de arco
+por año del Kleppner).
+
+Es la misma precesión que en el módulo #M("perifocal-lagrange") corría el
+punto vernal, y es lo que hace que dentro de $13 thin 000$ años el polo no
+apunte a la Polar sino a unos $47°$ de ella. El Kleppner cierra el ejemplo
+contando que con eso Orión pasa a ser una constelación de verano; el apunte
+se limita a observar que si la Tierra girara el doble de rápido, con la
+misma forma, $L$ se duplicaría y la precesión tardaría el doble. Es la
+@rot-precesion, a escala planetaria, y sin ninguna cuenta.
 
 #guia("qué ejercicios cubre este módulo")[
   Los tres problemas de *Conservación de impulso angular* que la cátedra tomó

@@ -151,6 +151,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **El pozo de potencial, y la velocidad de escape**
 - **La órbita circular: por qué no cae**
   - *(de donde sale)* la velocidad de una órbita circular
+  - **La pseudo-ingravidez: por qué flota la astronauta**
   - *(ejemplo)* Estimar la masa del Sol
   - *(ejemplo)* Cuánto cuesta subir un satélite a la órbita geosíncrona
   - *(guia de la catedra)* qué ejercicios cubre este módulo
@@ -351,6 +352,16 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(de donde sale)* la velocidad de precesión
   - *(ejemplo)* El giróscopo del Sears: cuánto gira la rueda (S&Z Ejemplo 10.13)
   - *(ejemplo)* El giróscopo de juguete de la guía (S&Z 10.51)
+- **El giróscopo, otra vez: la pregunta correcta, tres explicaciones y para qué sirve**
+  - **La pregunta correcta no es «por qué no se cae»**
+  - *(de donde sale)* por qué Omega no depende del ángulo del eje
+  - **Primera explicación: el movimiento circular uniforme, con $bold(L)$ en lugar de $bold(p)$**
+  - **Segunda explicación: desde Newton, con dos masas en una barra**
+  - *(de donde sale)* por qué un torque hace inclinar el plano de giro
+  - **Tercera explicación: la regla para no equivocarse el sentido**
+  - **Actuador y sensor: la misma ecuación leída para los dos lados**
+  - **La Tierra también es un giróscopo**
+- **2 pi / (26 thin 000 "años") = 7,66 times 10^(-12)$ rad/s; y el torque medio**
   - *(guia de la catedra)* qué ejercicios cubre este módulo
 - **Lo que se usa después**
 
@@ -384,6 +395,10 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(de donde sale)* de dónde salen los seis números que hacen falta
 - **El tensor de inercia**
 - **Por qué $bold(H)_G$ y $bold(omega)$ casi nunca son paralelos**
+  - **La mancuerna inclinada: verlo con dos masas**
+  - *(ejemplo)* La cupla de los cojinetes de la mancuerna
+- **Los ejes principales sin calcular nada: la simetría**
+  - **Una clasificación para hablar de satélites**
 - **De $G$ a un punto cualquiera: $bold(H)_O$**
 - **Energía cinética**
   - *(de donde sale)* por qué la energía cinética de rotación es media vez omega por H_G
@@ -407,6 +422,9 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **Los ángulos de Euler: cómo describir la orientación de un giróscopo**
 - **Precesión estable: el caso que sí se resuelve a mano**
   - *(de donde sale)* de dónde sale la cupla que sostiene una precesión constante
+- **¿Alrededor de qué eje conviene girar? El ladrillo, la raqueta y el Explorer 1**
+  - *(de donde sale)* cuál de los tres ejes principales es inestable
+  - *(de donde sale)* por qué un cuerpo que pierde energía termina girando sobre su eje mayor
 - **Lo que se usa después**
 
   Ecuaciones: `<euler-derivada-h>`, `<euler-euler-clasicas>`, `<euler-precesion-estable>`, `<euler-precesion-90>`

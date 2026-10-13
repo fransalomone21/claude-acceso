@@ -362,8 +362,11 @@ queda fuera de lo que la cátedra pide de este capítulo.
   bambolea. Esa *precesión de los equinoccios* corre la recta de intersección
   entre el ecuador y la eclíptica, o sea corre el punto vernal, unos $50$
   segundos de arco por año — una vuelta entera en unos $26 thin 000$ años.
-  Es la peonza del módulo #M("peonza"), con la Tierra haciendo de peonza y
-  una paciencia que ningún alumno tiene. Y por eso el símbolo de Aries ya no
+  Es el giróscopo con torque del módulo #M("rotacion") —el Sol y la Luna
+  tiran del abultamiento ecuatorial y el eje precesa en vez de enderezarse—,
+  con la Tierra haciendo de trompo y una paciencia que ningún alumno tiene.
+  (No es la peonza *sin* torque del módulo #M("peonza"): hasta el
+  2026-10-13 este párrafo decía eso, y estaba mal.) Y por eso el símbolo de Aries ya no
   apunta a Aries: el punto vernal se mudó de constelación y nadie le cambió
   el nombre.
 
