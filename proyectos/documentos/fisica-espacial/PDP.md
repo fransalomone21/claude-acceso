@@ -394,7 +394,13 @@ cuenta nueva daba 90,4, **no era un error**: el módulo usa $mu = 3,986 times
 10^14$ y la cuenta nueva el $g R^2$ del Beer; se alineó la guía al apunte y
 se imprimen los dos.
 
-### Fase 15 — el material del 28/09 y lo que pidió Aníbal ese día  ·  ABIERTA (2026-09-29)
+### Fase 15 — el material del 28/09 y lo que pidió Aníbal ese día  ·  CERRADA (2026-10-13)
+
+**Cerrada con su criterio medido:** `docs/PLAN-FASE-15.md` existe y el
+`Select-String` de los catorce patrones (nueve archivos y ANI-20, 21, 23, 24,
+25) los encuentra a los catorce (2026-10-13). C1 queda marcado abierto. El
+plan nació ejecutado: Fran pidió en la misma sesión escribirlo todo, así que
+cada fila dice dónde quedó y no dónde iría (eso es la fase 16).
 
 **Tipo: Fase C** (diseño detallado): se decide **qué** entra y **dónde**,
 con el material leído; la escritura en el apunte es la fase siguiente. **No
@@ -429,7 +435,43 @@ fase. Que el plan diga la verdad sobre el contenido no lo mide un grep: se
 comprueba leyendo, y por eso cada fila lleva la página o el minuto del
 material de donde sale.
 
-**Fase en curso:** 15 — el material del 28/09 y lo que pidió Aníbal ese día.
+### Fase 16 — escribir el material del 28/09 y del 13/10  ·  CERRADA (2026-10-13)
+
+**Tipo: Fase D** (construir: escribir los módulos contra el plan de la fase
+15 y verificar). **No se hace** en esta fase: cambiar lo que el plan no
+pide, ni la pasada de terminología (C1).
+
+La abrió Fran el 2026-10-13: *«actualizar el apunte y ponerlo en forma con
+todo lo que queda pendiente, y lo que agregue esto»*, con el 1er parcial, la
+lista de temas de impulso angular (2), los temas de CR, la primera clase de
+CR, y recortes del Kleppner y del Meriam.
+
+**Cierra con:** cada fila de `docs/PLAN-FASE-15.md` con su sección escrita;
+el apunte compilado y las páginas nuevas **miradas en el render**;
+`verificar-apunte.py`, `indice-temas.py` y `verificar-anexos.py` en verde; y
+el PDF en Drive verificado por MD5. **Cerró así** el 2026-10-13: 210 páginas
+(eran 202), 13 páginas nuevas miradas, los tres verificadores en verde (136
+ecuaciones etiquetadas, ninguna nueva) y `publicar-apuntes.ps1 -Verificar`
+con Física Espacial al día. Lo escrito: pseudo-ingravidez (`gravitacion`);
+el giróscopo ampliado (`rotacion`); órbita y actitud (`cinematica-cr`);
+mancuerna, simetrías, autovalores, Steiner completo y clasificación
+(`inercia`); cuaterniones, eje intermedio y Explorer 1 (`euler-giroscopo`).
+De paso se corrigió un error de física en `perifocal-lagrange`: la
+precesión de los equinoccios es forzada por torque, no la peonza libre.
+
+### Fase 17 — mantenimiento durante la cursada  ·  ABIERTA (2026-10-13)
+
+**Tipo: Fase E** (operación: el apunte se usa y se mantiene al día con lo
+que la cátedra va dando). **No se hace:** cambios que no salgan de material
+nuevo de la cátedra, de un error medido o de un pedido de Fran, ni la pasada
+de terminología (C1) sin su decisión. Cada material nuevo entra con el ciclo
+corto de las fases 15–16 (registrar en `catedras`, decidir dónde, escribir,
+mirar el render, verificadores, Drive).
+
+**Cierra con:** el fin de la cursada del 2C 2026, con cada lista de temas de
+la cátedra cruzada fila por fila contra el apunte en `fuentes/TEMARIO.md`.
+
+**Fase en curso:** 17 — mantenimiento durante la cursada.
 
 ### Lo que queda fuera de fase, a propósito
 

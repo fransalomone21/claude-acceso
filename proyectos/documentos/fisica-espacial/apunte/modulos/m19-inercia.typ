@@ -215,8 +215,16 @@ bold(omega)$ y no hace falta cupla: el eje es principal.
 == Los ejes principales sin calcular nada: la simetría
 
 El Beer afirma que los ejes principales existen y manda a buscarlos al
-Apéndice B. La clase escrita de la cátedra dice algo más útil: que casi
-nunca hace falta *buscarlos*, porque la simetría del cuerpo los delata. Es
+Apéndice B. La clase escrita de la cátedra dice de dónde sale que existan:
+un eje principal es una dirección $hat(bold(n))$ en la que el tensor
+devuelve un vector paralelo, $bold(I) hat(bold(n)) = lambda hat(bold(n))$,
+o sea un *autovector*; los momentos principales son las tres raíces de
+$det(bold(I) - lambda bold(1)) = 0$, y como el tensor es real y simétrico,
+las tres son reales y sus direcciones, perpendiculares entre sí (el teorema
+espectral del álgebra lineal). Y como la energía cinética de rotación es
+positiva para cualquier giro, las tres raíces son positivas. Pero la misma
+clase dice algo más útil todavía: que casi nunca hace falta *buscarlos*,
+porque la simetría del cuerpo los delata. Es
 el «la simetría simplifica las ideas» de Aníbal, aplicado al tensor. Cinco
 reglas, cada una con su porqué en una línea:
 

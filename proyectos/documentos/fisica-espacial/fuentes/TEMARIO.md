@@ -148,6 +148,13 @@ cada fila (medido contra el texto, no supuesto).
 **17 filas, 17 con sección.** Offset medido en el PDF del S&Z vol. 1:
 **pág. impresa = pág. del PDF − 27** (el PDF de 764 páginas, índice 0).
 
+**Versión (2), recibida el 2026-10-13:** comparada fila por fila contra la
+(1), es **idéntica**. Lo que cambió desde la tabla de arriba es el apunte: la
+fila del giróscopo ahora también cubre `rotacion` §«El giróscopo, otra vez»
+(la pregunta correcta, tres explicaciones, actuador y sensor, CMG,
+equinoccios), con el material del 28/09 y los recortes de Kleppner §8.3–8.4
+y Meriam art. 7/11 que pasó la cátedra.
+
 ## Cuerpo rígido
 
 > «Son muy útiles los resúmenes que hace el Beer al final (o a la mitad) de
@@ -164,6 +171,7 @@ cada fila (medido contra el texto, no supuesto).
 | Principio del impulso y la cantidad de movimiento | 14.9 | «Ecs. 14.32 y 14.33 son muy importantes» |
 | — | 14.10 y 14.11 | «**no va**» |
 | Masa variable | 14.12 | «Ver Roederer, ecuación del cohete» |
+| Definición CR | «¿?» (sin libro) | fila que trae la versión `Temas de CR_2` (2026-10-13); la contesta `cinematica-cr`, la definición y el párrafo de órbita/actitud |
 | Traslación y rotación | 15.1 y 15.2 | |
 | Eje de rotación, velocidad angular | 15.3 | |
 | Eje instantáneo de rotación | 15.7 | |

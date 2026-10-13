@@ -6,6 +6,37 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-10-13 — fases 15 y 16 cerradas; fase 17 (mantenimiento)
+
+**Arrancá por acá:** `ESTADO_ACTUAL.md` (bloque de arriba) y, si llega
+material nuevo, el ciclo corto de la fase 17 en `PDP.md`. No hay nada a
+medias en el apunte.
+
+**Lo que queda, en orden:**
+1. **C1** (impulso o momento angular): decide Fran. Si decide «momento»,
+   no se toca nada; si decide «impulso», la pasada de las ~30 apariciones
+   más los números viejos de los problemas de impulso angular («Ej. 4, 5,
+   7» de la guía (3); la (4) los renumeró).
+2. El **1er parcial resuelto** (privado, en `catedras/fisica-espacial/`),
+   si no quedó hecho en esta sesión: mirar `ESTADO_ACTUAL` de `catedras`.
+3. Fran dijo hace tiempo que iba a pasar ejercicios adicionales de cohete;
+   no llegaron.
+
+**Trampas pagadas hoy:**
+- El `.pptx` del 28/09 es todo imagen: el texto sale vacío. Las imágenes se
+  sacan del zip (`ppt/slides/_rels/slideN.xml.rels` → `ppt/media/`).
+- Un `.docx` con ecuaciones de Word: la extracción por XML (`w:t`) **pierde
+  las ecuaciones sin avisar**; `pandoc -t markdown` las trae como LaTeX.
+- `Bash` con heredoc largo y barras: el guardia lo frena; las figuras nuevas
+  se agregan con `Edit` al final de `figuras-parcial.typ`.
+- Con otra sesión trabajando en el mismo árbol: `git add` por ruta, nunca
+  `-A`; `git pull --rebase` falla por los cambios sin commitear de la otra
+  sesión, así que se pushea directo (y si el remoto se adelantó, `git pull
+  --no-rebase`).
+- `validar.py` (chequeo 4) frena «impulso angular» en un párrafo que no
+  nombre el momento angular, aunque sea el título de una presentación de la
+  cátedra.
+
 ## Sesión del 2026-09-29 — fase 15 abierta, nada escrito todavía
 
 **Arrancá por acá:** `PDP.md`, fase 15, y **antes de cualquier cosa**

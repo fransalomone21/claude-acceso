@@ -1,6 +1,40 @@
 # Estado actual — Apunte de Física Espacial
 
-## Fase 15 ABIERTA, 2026-09-29: el material del 28/09 y lo que pidió Aníbal
+## 2026-10-13: fases 15 y 16 CERRADAS, fase 17 (mantenimiento) abierta
+
+**El apunte tiene todo lo que la cátedra dio hasta hoy**: 21 módulos, 210
+páginas, publicado en Drive (MD5 al día). En una sesión entraron el
+material del 28/09 (leído por fin: plan en `docs/PLAN-FASE-15.md`) y lo que
+Fran trajo el 13/10 (1er parcial, listas de impulso angular (2) y CR, la
+primera clase escrita de CR, Kleppner §8.3–8.4 y Meriam 7/11):
+
+- `gravitacion`: **pseudo-ingravidez** (ANI-21).
+- `rotacion`: el giróscopo, otra vez — la pregunta correcta (por qué no
+  oscila como un péndulo), $Omega$ independiente del ángulo, la
+  **analogía con la órbita** en tabla (ANI-20), la demostración con dos
+  masas (Kleppner Ej. 8.8), la regla del Meriam, **actuador y sensor** (la
+  hoja de la cátedra, el video del ventilador), CMG, guiado inercial,
+  girocompás y la **precesión de los equinoccios**.
+- `cinematica-cr`: órbita y actitud; el rígido como idealización.
+- `inercia`: mancuerna inclinada (desbalance dinámico), autovalores, las
+  cinco reglas de simetría, ejes perpendiculares, Steiner completo,
+  clasificación de trompos con satélites, CubeSat 3U.
+- `euler-giroscopo`: cuaterniones y bloqueo de cardán; eje intermedio
+  inestable (el ladrillo) y el **Explorer 1**.
+- Corregido en `perifocal-lagrange`: la precesión de los equinoccios es
+  forzada por torque (antes decía «la peonza libre»).
+
+**Práctica:** `practica/parcialito-4-momento-angular.typ`, modelo del
+próximo parcialito (la lista de temas al frente, 7 conceptuales y 3
+numéricos), publicado; `compilar.ps1` ahora con fecha fija (dos corridas,
+0 PDF distintos). 555 números en verde.
+
+**Criterios:** el 1er parcial quedó registrado en `catedras` (ANI-R4) con
+siete criterios nuevos de cómo evalúa en el parcial (ANI-41 a 47) y cinco
+de CR (ANI-48 a 52). **C1 sigue abierto** y ahora con más evidencia: el
+parcial dice «impulso angular del satélite».
+
+## Fase 15 abierta el 2026-09-29 (historia): el material del 28/09 y lo que pidió Aníbal
 
 **Se sigue con esto.** Fran bajó material nuevo de la cátedra (PPT, PDF,
 papers, un video) y pidió incorporarlo al apunte. Está guardado e indexado,
