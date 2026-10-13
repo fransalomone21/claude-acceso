@@ -180,6 +180,7 @@
                               "senales": ["teor[ií]a de circuitos", "\\btdc\\b", "\\bsanca\\b", "ltspice"],
                               "locales": ["~/Desktop/01 - UNSAM/Teoria de Circuitos"]},
     "arquitectura-se":       {"necesidades": ["metodo"],
+                              "senales": ["arquitectura-se", "retomo el m[eé]todo", "arquitectura del m[eé]todo", "defectos de (la )?arquitectura"],
                               "requisitos": "docs/10-requisitos.md",
                               "lluvia": {"cada": 10}},
     "black":                 {"necesidades": ["ingenieria-inversa"],

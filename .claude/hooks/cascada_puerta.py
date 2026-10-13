@@ -1540,6 +1540,12 @@ def autotest() -> int:
     # tipeado; un bloque sin cierre no se recorta (falla cerrado). Catalogo sintetico, como el 14 y el 15.
     cat_k = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
     p_k = sorted(proyectos_del_disco())[0]
+    # sinteticas de verdad: sin las senales reales de los otros proyectos, un pedido que imita uno real ('retomo el
+    # metodo') no infiere a otro proyecto (paso el 2026-10-12 al darle senal propia a arquitectura-se, DA-054)
+    for q, ent_q in cat_k["proyectos"].items():
+        if q != p_k:
+            ent_q.pop("senales", None)
+            ent_q.pop("senales_debiles", None)
     cat_k["proyectos"].setdefault(p_k, {}).update({"senales": [r"zz proyecto pegado zz"], "senales_debiles": []})
     f_k = tmp / "cat-t14.json"
     f_k.write_text(json.dumps(cat_k, ensure_ascii=False), encoding="utf-8")
