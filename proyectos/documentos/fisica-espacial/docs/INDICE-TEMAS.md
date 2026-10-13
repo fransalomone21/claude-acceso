@@ -308,7 +308,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **Lo que falta: el tiempo**
 - **Lo que se usa después**
 
-  Ecuaciones: `<perif-r>`, `<perif-r-orbita>`, `<perif-v>`, `<perif-tres>`, `<perif-elementos>`, `<perif-fg>`, `<perif-h-inicial>`, `<perif-coefs-xy>`, `<perif-wronskiano>`, `<perif-fg-dnu>`, `<perif-fgpunto-dnu>`, `<perif-r-dnu>`, `<perif-serie>`
+  Ecuaciones: `<perif-r>`, `<perif-r-orbita>`, `<perif-v>`, `<fig-elementos>`, `<perif-tres>`, `<perif-elementos>`, `<perif-fg>`, `<perif-h-inicial>`, `<perif-coefs-xy>`, `<perif-wronskiano>`, `<perif-fg-dnu>`, `<perif-fgpunto-dnu>`, `<perif-r-dnu>`, `<perif-serie>`
 
 ### 16. El problema restringido de tres cuerpos y los puntos de Lagrange  ·  `tres-cuerpos`
 

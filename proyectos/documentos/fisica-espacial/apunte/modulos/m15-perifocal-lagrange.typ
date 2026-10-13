@@ -429,6 +429,44 @@ los *elementos orbitales clásicos*.
 - $nu_0$ — la *anomalía verdadera en la época* $t_0$: dónde está la nave. (Se
   lo puede reemplazar por $T$, el instante de paso por el perigeo.)
 
+#fig([Los elementos orbitales en el marco geocéntrico ecuatorial. El plano
+del ecuador contiene a $hat(bold(I))$ (hacia el punto vernal) y a
+$hat(bold(J))$; la órbita, inclinada un ángulo $i$, lo corta en la *línea de
+nodos*. $bold(n)$ apunta al nodo ascendente, $bold(h)$ es perpendicular al
+plano de la órbita y $bold(e)$ apunta al perigeo. $Omega$ se mide *en el
+ecuador*, desde $hat(bold(I))$ hasta $bold(n)$; $omega$ y $nu_0$, *en el plano
+de la órbita*, desde $bold(n)$ y desde $bold(e)$. La mitad punteada de la
+órbita está debajo del ecuador. Dibujo propio, con los mismos elementos que
+la Fig. 2.3-1 del Bate, pág. 59.], fig-elementos-orbitales) <fig-elementos>
+
+La @fig-elementos es exactamente lo que el 1er parcial de 2026 pidió
+dibujar a mano (su Problema 2), así que conviene tener el orden en que se
+dibuja, porque si se arranca por la elipse no hay dónde apoyarla:
+
++ El marco: $hat(bold(K))$ hacia el polo norte, $hat(bold(I))$ y
+  $hat(bold(J))$ en el ecuador, con $hat(bold(I))$ hacia el punto vernal. Está
+  *fijo en el espacio*, no en la Tierra: el origen viaja con ella, pero los
+  ejes no giran con su rotación (si giraran, no sería inercial).
++ El plano de la órbita, inclinado $i$, y la recta donde corta al ecuador:
+  la línea de nodos. Sobre ella, $bold(n) = hat(bold(K)) times bold(h)$ hacia
+  el nodo donde la órbita *sube*.
++ $bold(h)$ perpendicular al plano de la órbita, inclinado $i$ respecto de
+  $hat(bold(K))$, y la elipse con la Tierra en un foco.
++ $bold(e)$, del foco hacia el perigeo.
++ Los ángulos: $Omega$ en el ecuador ($hat(bold(I)) arrow.r bold(n)$),
+  $omega$ en el plano de la órbita ($bold(n) arrow.r bold(e)$). *No están en
+  el mismo plano*, salvo que la órbita sea ecuatorial —y ahí, como dice la
+  caja de más abajo, $Omega$ deja de existir—.
+
+#cuidado[
+  *El vector excentricidad no mide una distancia.* Apunta del foco al
+  perigeo, pero su módulo es $e$, un número sin unidades. La distancia del
+  foco al perigeo es $r_p = a (1 - e) = p \/ (1 + e)$: kilómetros, no
+  excentricidad. El parcial lo preguntó con esas palabras («¿tiene magnitud
+  igual a la distancia entre el foco y el periapsis?»), y la respuesta es
+  que no.
+]
+
 #clave[
   *Los primeros cinco son constantes; sólo el sexto corre.* Ésa es toda la
   diferencia entre las dos monedas, y es la razón por la que existen las dos.

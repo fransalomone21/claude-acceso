@@ -2573,8 +2573,78 @@
   )
 })
 
+// --- Los elementos orbitales en el marco geocéntrico ecuatorial ----------
+// Como la Fig. 2.3-1 del Bate (pág. 59): plano del ecuador, órbita inclinada,
+// línea de nodos, h, n, e, y los ángulos Omega, i, omega y nu_0. Es lo que
+// pidió dibujar el Problema 2 del 1er parcial 2026. Los nombres de las
+// variables NO son letras griegas (trampa 10 del HANDOFF).
+#let fig-elementos-orbitales = esquema(escala: 1.3cm, {
+  let v = vista3d(az: 32, el: 22, dist: 30)
+  let Om = 55
+  let inc = 45
+  let argp = 50
+  let anom = 75
+  let exc = 0.3
+  let semi = 2.0
+  let O = (0, 0, 0)
+  let I = (1, 0, 0)
+  let J = (0, 1, 0)
+  let K = (0, 0, 1)
+  let nh = (calc.cos(Om * 1deg), calc.sin(Om * 1deg), 0)
+  let hh = (calc.sin(Om * 1deg) * calc.sin(inc * 1deg), -calc.cos(Om * 1deg) * calc.sin(inc * 1deg), calc.cos(inc * 1deg))
+  let mh = cruz3(hh, nh)
+  let pos(th) = {
+    let r = semi / (1 + exc * calc.cos((th - argp) * 1deg))
+    suma3(esc3(r * calc.cos(th * 1deg), nh), esc3(r * calc.sin(th * 1deg), mh))
+  }
+  // la mitad de abajo de la órbita, antes que el plano del ecuador
+  linea3(v, range(180, 361, step: 3).map(pos), color: c-aux, grosor: 0.9pt, punteada: true)
+  // el plano del ecuador
+  let esq = ((-2.6, -2.9, 0), (3.2, -2.9, 0), (3.2, 3.4, 0), (-2.6, 3.4, 0))
+  cetz.draw.line(..esq.map(q => p3(v, q)), close: true, fill: luma(225).transparentize(35%), stroke: 0.5pt + luma(150))
+  rotulo3(v, (3.2, 3.4, 0), text(fill: luma(90))[plano del ecuador], ancla: "south-east")
+  // la Tierra en el foco
+  cuerpo-central(p3(v, O), radio: 0.3)
+  // la línea de nodos
+  linea3(v, (esc3(-2.7, nh), esc3(3.0, nh)), color: luma(120), grosor: 0.5pt, punteada: true)
+  rotulo3(v, esc3(3.0, nh), text(fill: luma(90))[línea de nodos], ancla: "north-west")
+  // la mitad de arriba de la órbita
+  linea3(v, range(0, 181, step: 3).map(pos), color: c-aux, grosor: 1.1pt)
+  // los ejes del marco IJK
+  flecha3(v, O, (3.6, 0, 0), color: c-trazo)
+  rotulo3(v, (3.6, 0, 0), [$hat(bold(I))$ #text(size: 7.5pt)[(hacia el punto vernal ♈)]], ancla: "north-east")
+  flecha3(v, O, (0, 3.7, 0), color: c-trazo, etiqueta: $hat(bold(J))$, lado: "south", pos: 100%)
+  flecha3(v, O, (0, 0, 3.0), color: c-trazo, etiqueta: $hat(bold(K))$, lado: "east", pos: 100%)
+  // h, n y e
+  flecha3(v, O, esc3(2.5, hh), color: c-viole, etiqueta: $bold(h)$, lado: "east", pos: 100%)
+  flecha3(v, O, esc3(1.9, nh), color: c-verde, etiqueta: $bold(n)$, lado: "north-west", pos: 100%)
+  let peri = pos(argp)
+  flecha3(v, O, peri, color: c-rojo, etiqueta: $bold(e)$, lado: "north", pos: 100%)
+  linea3(v, (peri, esc3(2.3, unit3(peri))), color: c-rojo, grosor: 0.5pt, punteada: true)
+  rotulo3(v, esc3(2.35, unit3(peri)), text(fill: c-rojo, size: 7.5pt)[dirección del perigeo], ancla: "south-west")
+  // el satélite
+  let sat = pos(argp + anom)
+  flecha3(v, O, sat, color: luma(70), grosor: 0.6pt)
+  masa3(v, sat, radio: 0.08)
+  rotulo3(v, sat, [satélite en $t_0$], ancla: "south-west")
+  // los ángulos
+  let arco(pts, color, nombre, donde, ancla) = {
+    cetz.draw.line(..pts.map(q => p3(v, q)), stroke: 0.7pt + color, mark: (end: "stealth", scale: 0.35, fill: color))
+    rotulo3(v, donde, text(fill: color)[#nombre], ancla: ancla)
+  }
+  let aOm = arco3-pts(O, K, I, 1.25, Om)
+  arco(aOm, c-verde, $Omega$, aOm.at(20), "north")
+  let ai = arco3-pts(O, nh, K, 1.75, inc)
+  arco(ai, c-viole, $i$, ai.at(24), "south-west")
+  let aw = arco3-pts(O, hh, nh, 0.95, argp)
+  arco(aw, c-rojo, $omega$, aw.at(30), "west")
+  let anu = arco3-pts(O, hh, unit3(peri), 1.3, anom)
+  arco(anu, luma(70), $nu_0$, anu.at(30), "west")
+})
+
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
 #let catalogo = (
+  ("fig-elementos-orbitales", fig-elementos-orbitales),
   ("fig-proyeccion", fig-proyeccion),
   ("fig-galileo", fig-galileo),
   ("fig-producto-vectorial", fig-producto-vectorial),
