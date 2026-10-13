@@ -151,9 +151,11 @@ mismo día; `workflows/rescatar-hallazgos.py` armó el resultado desde el journa
 | 1b | **T20, ley de cero divergencias** (L0-05, L1-06): cada dato con un archivo dueño; toda copia es vista generada o puntero; un medidor que da ROJO si una copia difiere | DA-017, DA-012, DA-036 (T2 nunca construido) | ley de Fran: «lo más cuidado» | Fran, 17:00: «0 divergencias como ley transversal» · **CONSTRUIDO** `2d0d296` (2026-10-12, sesión `26479d81`): `divergencias.py` + `.claude/datos.json` + saboteador, en `chequeo-completo`; cubre 3 datos de arquitectura-se, así que DA-017/012/036 siguen abiertos (lo que falta: [t20](t20-cero-divergencias.md) §3) |
 | 1c | **T19, cascada proporcional** (L0-06, L0-07, L1-07 a L1-10): una pregunta sin proyecto carga 0 a 30 K (hoy 88 K fijos); el conocimiento, las memorias y los hooks escalan con la necesidad y la naturaleza; NASA y ágil en la proporción de la complejidad, que se estima preguntándole a Fran y por analogía con proyectos de la casa | DA-015, DA-052, DA-051, DA-004, DA-005 | leyes de Fran: «un párrafo no lleva leer 1000 párrafos»; «NASA y ágiles en proporciones adecuadas» | Fran, 17:00-17:08 |
 | 1c-a | **T19a** los proyectos de materia no se frenan por la fase NASA ([diseño](t19a-materia-sin-freno-nasa.md)): T13 se exige sólo a la naturaleza `ingenieria` | — (frenaba la entrada a apunte-iise, software-de-vuelo y cohete-de-agua) | lo urgente para que Fran estudie: N-09 | Fran, 2026-10-12 noche (§7) · **CONSTRUIDO** (sesión `1622e692`): expuestos 5 → 2 (black, minecraft-amigos) |
+| 1c-b | **T14b** mencionar no es pedir: lo que Fran nombra como contexto, necesidad secundaria o pendiente se REGISTRA (sin frenar); la puerta exige la cascada sólo para lo que pide explícitamente | — (lección de `1622e692`, nivel parche) | toca toda sesión, apuntes incluidos; requisito de Fran (§7) | Fran, encuesta 2026-10-12 noche |
+| 1c-c | **T16** antes que el resto de T19: requisitos con columna pasa/falla y la prueba que la sesión corre al entrar, **pensado para el telescopio** (la V de NASA por nivel) | DA-053, DA-039 | el telescopio es lo más urgente de los grandes (§7) | Fran, encuesta 2026-10-12 noche |
 | 2 | **T17** conectores bajo la puerta: niega compartir o publicar por conector salvo lo declarado | DA-046 | riesgo irreversible (publicar lo privado) | «frenar compartir/publicar» |
 | 3 | **T15** el aprendizaje se cierra: el triage `propia` exige su renglón; la recurrencia de una lección se cuenta y la sube de nivel; el costo del fan-out al lado de la decisión; la caja negra fuera de %TEMP% | DA-044, DA-042, DA-050, DA-047 | la causa de las dos ventanas perdidas hoy | — |
-| 4 | **T16** estado verificable: los requisitos nacen con columna pasa/falla y una prueba que la sesión corre al entrar | DA-053, DA-039 | la palanca mayor de efectividad (sesiones por pieza) | «al escribir requisitos» (con T13) |
+| 4 | ~~**T16**~~ (subió a la fila 1c-c el 2026-10-12 noche) estado verificable: los requisitos nacen con columna pasa/falla y una prueba que la sesión corre al entrar | DA-053, DA-039 | la palanca mayor de efectividad (sesiones por pieza) | «al escribir requisitos» (con T13) |
 | 5 | **T18** el método también retira: lo que no se disparó en 20 sesiones auditadas sale, con aviso en el cuadro y reversible; los frenos con impacto escrito pasan por Fran | DA-041 | lazo de balance que falta (+12 % en 10 días) | «solo, con aviso» |
 | 6 | costo del fan-out: el perfil que paga cada subagente, su costo invisible, la lectura exigida sin techo total | DA-051, DA-048, DA-052 | costo | — |
 | 7 | subagentes que comparten la sesión de la puerta | DA-049 | falla abierto en fan-out | — |
@@ -189,6 +191,19 @@ porque es funcional y alcanza»). Prefiere todo resuelto antes de seguir con BLA
 urgente, y **sin que se muera el plan**: tiene que quedarle presupuesto para los parcialitos de Física Espacial y de
 IISE. Consecuencia en el orden: T19a primero (construido esa noche); lo que sigue se elige por lo que destraba a BLACK
 y al telescopio (BLACK está frenado por T13: Fase C sin requisitos, y eso es correcto).
+
+Y por encuesta, la misma noche (después de T19a y DA-054):
+
+| Pregunta | Respuesta de Fran |
+|---|---|
+| ¿Para qué proyecto grande se pule primero? | **El telescopio es lo más urgente**: si avanza un proyecto grande, es ése (aunque BLACK sea más ingeniería). Cuándo pulir para cada uno lo administra la sesión, **preguntándole cuando haga falta** |
+| ¿Cuánto plan para el método frente a los apuntes? | «Vamos viendo»: lo antes posible, **siempre lo fundamental, pero una urgencia se resuelve primero** |
+| ¿Cuándo son los parcialitos de Física Espacial e IISE? | **Esta semana** (al 2026-10-12): hasta que pasen, el plan va a los apuntes |
+| La puerta frena cuando nombra un proyecto de pasada | **Lo nombrado como contexto, necesidad secundaria o pendiente de confirmar se REGISTRA; se trabaja sólo en lo que pide, y cuando lo pide explícitamente.** Es el requisito de T14b |
+
+Consecuencia en el orden (§6): **T14b** primero (toca todas las sesiones, apuntes incluidos, y ya tiene su requisito
+de Fran); después **T16** pensado para el **telescopio** (requisitos con pasa/falla y la V de NASA por nivel); BLACK
+cuando la sesión lo juzgue, preguntándole.
 
 La consigna de la madrugada: «no quiero que te achiques por el budget, quiero que salga perfecto, cueste lo que cueste; es
 arquitectura, y no se negocia ni se ratonea». La tensión con la regla 9 del perfil («el presupuesto gana sobre

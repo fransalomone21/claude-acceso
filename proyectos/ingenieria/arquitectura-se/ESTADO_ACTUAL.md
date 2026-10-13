@@ -11,7 +11,11 @@ expuestos 5 → 2 (black, minecraft-amigos); apunte-iise, software-de-vuelo y co
 Probado: autotests de la puerta y de la auditoría con control y mutante T19a, `probar-t13.py` (4 mutantes, mudados a
 la línea nueva), `chequeo-completo` con 24 saboteadores OK y un solo rojo legítimo (lo sin commitear). Diseño en
 [`docs/t19a-materia-sin-freno-nasa.md`](docs/t19a-materia-sin-freno-nasa.md). Plan al cerrar: 5 h al 78 %, semanal al
-72 % con 3 días por delante.
+72 % con 3 días por delante. **Y DA-054 arreglado** (`3714573`, falta validar): arquitectura-se tiene señal fuerte en
+la puerta (`arquitectura-se`, «retomo el método», «arquitectura del método», «defectos de arquitectura»; «el método»
+suelto no, porque frenaría un apunte); efecto medido: el retome con «puntero» ya no frena por software-de-vuelo;
+saboteador [`probar-da054.py`](probar-da054.py). Las decisiones de Fran por encuesta (telescopio primero, mencionar
+no es pedir) están en la lluvia §7.
 
 **2026-10-12 (sesión `26479d81`) — T20 CONSTRUIDO.** Los L2-DIV-01..05 viven en su dueño
 ([`docs/10-requisitos.md`](docs/10-requisitos.md) §5; 0 VIOLA extrayendo los enunciados) y t20 §5 los refiere: cerró

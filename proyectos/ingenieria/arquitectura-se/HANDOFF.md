@@ -7,7 +7,9 @@
 > sin fan-out; (2) BLACK sigue frenado al entrar por T13 (Fase C sin requisitos): es correcto, y su delta SRR
 > (escribir sus requisitos) es lo primero que lo destraba; (3) sacar `nucleo-ise.md` de la base de los proyectos de
 > materia (11 K por entrada) quedó para el resto de T19: toca la regla 16, el enrutador y P3 de la auditoría;
-> (4) **sigue esperando a Fran (regla 6):** la señal fuerte de arquitectura-se en el catálogo (DA-054). Esta sesión
+> (4) **DA-054 arreglado** a pedido de Fran (`3714573`; saboteador `probar-da054.py`): falta validarlo con 3
+> sesiones auditadas. **Lo que sigue lo dice la lluvia §6** (filas 1c-b T14b y 1c-c T16 pensado para el telescopio,
+> por la encuesta de Fran en §7); **los parcialitos son esta semana**: hasta que pasen, el plan va a los apuntes. Esta sesión
 > entró con tres excepciones por menciones (software-de-vuelo por «puntero» del retome pegado; física espacial y
 > telescopio nombrados como contexto). Pendiente de diseño (T14b): que la puerta distinga un proyecto **pedido** de
 > uno **mencionado** en lo que tipea Fran; la señal fuerte hoy no lo distingue (lección registrada, nivel parche).
