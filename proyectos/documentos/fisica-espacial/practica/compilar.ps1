@@ -35,9 +35,13 @@ try {
         @('hoja-formulas.typ', 'salida\hoja-formulas.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas-parcial.pdf', 'version=parcial')
     )
+    # Fecha de creacion FIJA: sin esto Typst estampa la hora de compilacion,
+    # todos los PDF salen "modificados" con el texto identico y el hook los
+    # vuelve a subir a Drive (pendiente del HANDOFF, cerrado el 2026-10-13).
+    $fecha = '--creation-timestamp=1767225600'   # 2026-01-01 00:00 UTC
     foreach ($t in $trabajos) {
-        if ($t[2]) { typst compile --root .. $t[0] $t[1] --input $t[2] }
-        else { typst compile --root .. $t[0] $t[1] }
+        if ($t[2]) { typst compile $fecha --root .. $t[0] $t[1] --input $t[2] }
+        else { typst compile $fecha --root .. $t[0] $t[1] }
         if ($LASTEXITCODE -ne 0) { throw "typst fallo en $($t[0])" }
         Write-Host "  listo: $($t[1])" -ForegroundColor Green
     }
