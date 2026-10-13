@@ -6,6 +6,26 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-10-13 (tarde) — C1 cerrado, parcial resuelto público
+
+**Hecho:** los puntos 1 y 2 de la lista de abajo. C1 = «momento angular»
+(Fran); la pasada está hecha y el chequeo 4 de `verificar-apunte.py` la
+cuida. El parcial resuelto está en el Drive con el enunciado textual (Fran
+dijo «subí el resuelto»; el Drive ya tiene la guía de la cátedra, así que no
+se le sacó el enunciado): fuente en `catedras`, PDF declarado en
+`apuntes-publicos.json`.
+
+**Queda:** C2 (el nivel), los ejercicios de cohete que Fran iba a pasar, y
+el material nuevo cuando llegue (ciclo corto de la fase 17).
+
+**Trampas pagadas:**
+- El retome pegado nombra IISE (por la otra sesión) y la puerta lo toma
+  como señal de `apunte-iise`: se sale con `-Excepcion` diciendo que es
+  señal falsa.
+- Editar un `.typ` del apunte pide leer `/pdf-con-codigo` antes; editar un
+  verificador pide las fichas de frenos. La primera edición de cada clase
+  va sola.
+
 ## Sesión del 2026-10-13 — fases 15 y 16 cerradas; fase 17 (mantenimiento)
 
 **Arrancá por acá:** `ESTADO_ACTUAL.md` (bloque de arriba) y, si llega

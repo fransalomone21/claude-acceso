@@ -221,7 +221,7 @@ El 2 y el 3 son demostraciones, no cuentas, y una demostración que dice
 
 #disparador(
   [Problema 2 — $bold(L)$ constante para una partícula libre],
-  [Demostrar que el impulso angular de una partícula con velocidad
+  [Demostrar que el momento angular («impulso angular» en la guía) de una partícula con velocidad
   constante es el mismo respecto de cualquier punto.],
   resuelve: [derivar $bold(L)=bold(r) times bold(p)$ en el tiempo: $dot(bold(L))=dot(bold(r)) times bold(p) + bold(r) times dot(bold(p))$, y con $bold(v)$ constante los dos términos se anulan (el primero porque $bold(v) parallel bold(p)$, el segundo porque no hay fuerza) (#M("momento-angular")). Ya resuelto como ejemplo.],
   [demostrado: $dot(bold(L)) = dot(bold(r)) times bold(p) = bold(v) times m bold(v) = bold(0)$, porque $bold(v) parallel bold(p)$.],
@@ -253,7 +253,7 @@ El 2 y el 3 son demostraciones, no cuentas, y una demostración que dice
 #disparador(
   [Ejercicio 4 — el satélite de la figura],
   [Con los datos de la elipse (radios y velocidades en apogeo, perigeo y
-  dos puntos intermedios): A) impulso angular específico en apogeo y
+  dos puntos intermedios): A) momento angular específico $h$ en apogeo y
   perigeo. B) distancias a los dos puntos intermedios.],
   resuelve: [A) en los ábsides la velocidad es perpendicular al radio, así que $h=r v$ sin senos ni cosenos. B) en los otros dos puntos, $h=r v cos gamma$ con $gamma$ el ángulo dado respecto de la perpendicular al radio: despejar $r=h\/(v cos gamma)$ con el mismo $h$ de A) (#M("momento-angular")).],
   [A) $h = 57 thin 172$ km²/s en los dos ábsides (coinciden — control ya hecho en la guía). B) $r approx 8387$ km (altura $approx 2009$ km) y $r approx 8578$ km (altura $approx 2200$ km). _(punto B verificado: recalculado por separado con $h$ y, por otro camino, con la energía $v^2\/2 - mu\/r$ del perigeo — los dos dan lo mismo, así que los datos de la figura son coherentes también ahí)_],
@@ -512,8 +512,8 @@ anexo ya la dio vuelta una vez.
   libre de torques. Los thrusters $A$, $B$, $C$, $D$ —en posiciones
   $bold(R)_A=(x_A,y_A,z_A)$, $bold(R)_B=(x_B,y_B,z_B)$, en dos vértices
   de la tapa de arriba— expulsan gas hacia $+y$ con un empuje $J=20$ N. Se activan $A$ y $B$
-  durante $T=2$ s. *1)* Tipo de precesión si se lo perturba. *2)* Impulso
-  angular tras el disparo, en función de los parámetros. *3)* Velocidad
+  durante $T=2$ s. *1)* Tipo de precesión si se lo perturba. *2)* Momento
+  angular («impulso angular» en la guía) tras el disparo, en función de los parámetros. *3)* Velocidad
   angular, ídem. *4)* y *5)* Ángulos de $bold(H)$ y de $bold(omega)$ con
   el eje de simetría. *6)* y *7)* Dibujo y descripción cualitativa.
   *8)* Calcular explícitamente 2 a 5.],

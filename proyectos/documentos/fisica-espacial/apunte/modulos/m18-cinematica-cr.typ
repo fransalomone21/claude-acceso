@@ -184,7 +184,7 @@ fig-suma-omegas)
 
 #ejemplo("El disco en la horquilla: velocidad y aceleración angulares")[
   _(Problema 2 de la sección de cuerpo rígido, en su mitad cinemática; el
-  impulso angular queda para el módulo #M("inercia") y su derivada para el #M("euler-giroscopo").)_ Un disco
+  momento angular queda para el módulo #M("inercia") y su derivada para el #M("euler-giroscopo").)_ Un disco
   homogéneo de radio $r$ gira con $omega_1$ constante alrededor de su eje de
   simetría, sostenido por una horquilla que a su vez gira con $omega_2$
   constante alrededor de la vertical.

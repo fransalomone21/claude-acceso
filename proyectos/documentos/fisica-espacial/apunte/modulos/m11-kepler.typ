@@ -68,7 +68,7 @@ cambia acá es que no se enuncian: se reconocen.
   recomienda como «muy útil» leer «el Roederer pg. 120 y suc.», y tiene
   razón: es de lo mejor que hay para esto. Pero en la pág. 128, al final del
   apartado f), dice que la *tercera* ley es «mera consecuencia» de conservar
-  el impulso angular y vale para cualquier interacción, y que la *segunda* es
+  el momento angular y vale para cualquier interacción, y que la *segunda* es
   «propia de las interacciones gravitatorias». Es exactamente al revés, y lo
   contradice el propio párrafo de arriba, donde saca la segunda de la
   velocidad areolar constante sin usar ni una vez que la fuerza vaya como

@@ -25,7 +25,7 @@ Advertencia de notación antes de arrancar, porque la cátedra la pone con tres
 signos de admiración: «*ojo!!! Notación L es H y P es L*». En el Beer el
 momento angular se llama $bold(H)$ y la cantidad de movimiento $bold(L)$, al
 revés que en el Sears y en el resto de este apunte. Este módulo sigue al Beer
-y escribe $bold(H)_G$; es el mismo impulso angular del módulo
+y escribe $bold(H)_G$; es el mismo momento angular del módulo
 #M("rotacion") con otro nombre, y no hay que buscarle una física nueva a una
 letra cambiada.
 
@@ -344,7 +344,7 @@ módulo #M("rotacion"), sólo que ahora hay tres y cada una con su eje.
 
 #guia("qué ejercicios cubre este módulo")[
   El Problema 1 completo (el satélite cúbico) y el punto 1 del Problema 2 (el
-  impulso angular del disco en la horquilla). El punto 2 del Problema 2
+  momento angular del disco en la horquilla). El punto 2 del Problema 2
   —$d bold(H)_G \/ d t$— necesita la @cin-derivada aplicada al resultado de
   hoy, y queda para el módulo #M("euler-giroscopo").
 ]

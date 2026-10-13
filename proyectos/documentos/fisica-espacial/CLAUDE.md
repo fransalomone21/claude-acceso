@@ -16,7 +16,7 @@ módulo se escriben `#M("clave")` y una clave mala **rompe la compilación**
 
 | Si la tarea es… | Leer |
 |---|---|
-| **producir CUALQUIER cosa para la materia** (módulo, guía, parcial, resumen, presentación) | **primero** [`../catedras/fisica-espacial/CRITERIOS.md`](../catedras/fisica-espacial/CRITERIOS.md): lo que pide Aníbal, textual y graduado. Repo **privado**, sólo en esta máquina; si no está, decirlo. Tiene **dos choques abiertos con este apunte** (C1: «impulso» o «momento» angular; C2: el nivel) que decide Fran |
+| **producir CUALQUIER cosa para la materia** (módulo, guía, parcial, resumen, presentación) | **primero** [`../catedras/fisica-espacial/CRITERIOS.md`](../catedras/fisica-espacial/CRITERIOS.md): lo que pide Aníbal, textual y graduado. Repo **privado**, sólo en esta máquina; si no está, decirlo. Tiene **un choque abierto con este apunte** (C2: el nivel) que decide Fran; C1 («impulso» o «momento» angular) lo cerró el 2026-10-13 |
 | retomar, saber qué módulos están cerrados | [`ESTADO_ACTUAL.md`](ESTADO_ACTUAL.md) (entero) |
 | saber qué cierra la fase en curso, o por qué se decidió algo | [`PDP.md`](PDP.md) — sobre todo §3 y §4 |
 | lo que quedó a medias y las trampas de Typst ya pagadas | [`HANDOFF.md`](HANDOFF.md) |
@@ -238,13 +238,14 @@ bold(L)$, lo que un torque le cambia al momento angular, igual que el impulso
 lineal es $Delta bold(p)$. La guía de la cátedra usa «impulso angular» por
 $bold(L)$: si hace falta nombrarlo así (para citar el enunciado), se aclara
 en el mismo párrafo que es el momento angular. En `practica/` lo mide
-`validar.py` (chequeo 4, con su sabotaje). **En el apunte todavía no**: hay
-unas 30 apariciones del uso viejo, pendientes de una pasada propia.
-**En disputa desde el 2026-09-29** (choque C1 de
-`../catedras/fisica-espacial/CRITERIOS.md`): la cátedra llama a $bold(L)$
-«impulso angular», y lo que Aníbal dijo el 28/09 sobre la palabra «momento»
-puede ser su razón. **No hacer la pasada de las ~30 apariciones hasta que
-Fran decida**; lo que ya está no se toca.
+`validar.py` (chequeo 4) y en el apunte `verificar-apunte.py` (chequeo 4);
+los dos con sabotaje. **Confirmado por Fran el 2026-10-13** (cierra el choque
+C1 de `../catedras/fisica-espacial/CRITERIOS.md`): «decile momento angular, e
+impulso a la integral de éste respecto del tiempo». La pasada se hizo ese día;
+lo que queda con «impulso angular» son nombres de la cátedra (las secciones
+de la guía, las listas, citas) o el impulso de verdad ($Delta bold(H) =
+bold(tau) t$). La explicación para el lector está en el módulo
+`momento-angular`, al lado de la tabla de notación.
 
 ## Dónde está cada cosa
 
@@ -294,8 +295,9 @@ sesión no encuentra, por más que esté commiteado.
    regenera `docs/INDICE-TEMAS.md`: si se tocó un módulo y no se regenera, el
    índice miente en silencio, que es la única forma en que un índice falla.
    Para probar que ninguno de los dos chequeos está ciego:
-   `python probar-verificar-apunte.py`, que rompe los cuatro a propósito
-   —incluido dejar el índice viejo— y exige verlos en rojo.
+   `python probar-verificar-apunte.py`, que rompe los cinco a propósito
+   —incluido dejar el índice viejo y usar «impulso angular» por $L$— y
+   exige verlos en rojo.
    Y **`python verificar-anexos.py`**: toda ecuación etiquetada de un módulo
    tiene que estar en el formulario (Anexo B, `#ec(<clave>)`) o excluida
    con motivo, y toda constante del Anexo C con su página. Una etiqueta

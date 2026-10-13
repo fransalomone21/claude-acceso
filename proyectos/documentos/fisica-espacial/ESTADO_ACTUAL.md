@@ -1,5 +1,20 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-10-13 (tarde): C1 cerrado y el 1er parcial resuelto, públicos
+
+- **C1 decidido por Fran:** $bold(L)$ es el *momento angular*; el *impulso
+  angular* es $integral bold(tau) dif t$. Pasada hecha en el apunte (12
+  lugares en m08, m11, m17, m18, m19 y el Anexo A); lo que sigue diciendo
+  «impulso angular» son nombres de la cátedra o el impulso de verdad. La
+  explicación para el lector, en `momento-angular`, junto a la tabla de
+  notación. **Medido:** `verificar-apunte.py` tiene un chequeo 4 que lo
+  frena, con su sabotaje en `probar-verificar-apunte.py` (cinco en rojo).
+- **El 1er parcial resuelto, público** en `Modelos de Parcial` del Drive
+  («1er Parcial 2026 - resuelto.pdf», 5 págs.). El fuente sigue en el repo
+  privado `catedras` (lleva el examen); el PDF se declaró en
+  `.claude/apuntes-publicos.json` con su receta de compilación.
+- Apunte: 212 páginas, en el Drive por MD5; verificar-anexos en verde (136).
+
 ## 2026-10-13: fases 15 y 16 CERRADAS, fase 17 (mantenimiento) abierta
 
 **El apunte tiene todo lo que la cátedra dio hasta hoy**: 21 módulos, 210

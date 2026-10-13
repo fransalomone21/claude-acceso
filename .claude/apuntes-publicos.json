@@ -8,7 +8,14 @@
       "materia": "Fisica Espacial",
       "local": "proyectos/documentos/fisica-espacial/apunte/apunte.pdf",
       "nombre-en-drive": "Apunte de Fisica Espacial.pdf",
-      "estado": "2026-10-13 -- 21 modulos, 210 pag., con todo lo que dio la catedra hasta el 13/10 (pseudo-ingravidez, giroscopo ampliado, CR: simetrias, trompos, eje intermedio, Explorer 1); en mantenimiento (fase 17)"
+      "estado": "2026-10-13 -- 21 modulos, 212 pag., con todo lo que dio la catedra hasta el 13/10; L es el momento angular y el impulso angular la integral del torque (C1, decidido por Fran el 13/10); en mantenimiento (fase 17)"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial",
+      "local": "proyectos/documentos/catedras/fisica-espacial/parcial-1-2026-resuelto.pdf",
+      "nombre-en-drive": "1er Parcial 2026 - resuelto.pdf",
+      "regenerable": "desde proyectos/documentos: typst compile --creation-timestamp=1767225600 --root . catedras/fisica-espacial/parcial-1-2026-resuelto.typ catedras/fisica-espacial/parcial-1-2026-resuelto.pdf (necesita el repo privado catedras)",
+      "estado": "2026-10-13 -- el 1er parcial que tomo Anibal, con el enunciado textual y resuelto (5 pag.). Publico por decision de Fran del 13/10; el FUENTE vive en el repo privado catedras (lleva el examen de la catedra), asi que no va a claude-acceso"
     },
     {
       "materia": "Fisica Espacial",

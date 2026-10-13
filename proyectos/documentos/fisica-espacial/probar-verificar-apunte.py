@@ -110,6 +110,19 @@ def main():
     ok.append(sabotear('3. clave declarada dos veces', m03, clave_repetida,
                        'esta declarada dos veces'))
 
+    # 5. "impulso angular" por L, en un parrafo que no nombra la diferencia.
+    #    El ancla se deriva del archivo (el primer parrafo que empieza con
+    #    texto), no se copia literal.
+    m17 = os.path.join(MODULOS, 'm17-rotacion.typ')
+
+    def impulso_por_l(t):
+        i = t.index('\n== ')
+        frase = 'El impulso ' + 'angular del rotor vale $L = I omega$.'
+        return t[:i] + '\n\n' + frase + '\n' + t[i:]
+
+    ok.append(sabotear('5. "impulso angular" por L', m17, impulso_por_l,
+                       'por L sin aclarar'))
+
     # 4. el indice de temas queda viejo: se agrega una seccion a un modulo y
     #    nadie regenera docs/INDICE-TEMAS.md. Es la falla silenciosa propia de
     #    un indice -- sigue existiendo, sigue leyendose, y miente.
@@ -130,7 +143,7 @@ def main():
 
     print('')
     if all(ok):
-        print('Los cuatro chequeos se pusieron en rojo cuando correspondia, y '
+        print('Los cinco chequeos se pusieron en rojo cuando correspondia, y '
               'los dos verificadores quedaron limpios.')
         return 0
     print('Algo no se puso en rojo. El verificador esta ciego en esa mitad.')

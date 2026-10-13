@@ -345,7 +345,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **$tau = I alpha$: la segunda ley de Newton, versión rotación**
   - *(de donde sale)* de dónde sale que el torque sea I por alfa
 - **El momento angular de un cuerpo que gira: $L = I omega$**
-- **Conservación del impulso angular**
+- **Conservación del momento angular**
   - *(ejemplo)* Cualquiera puede bailar ballet (S&Z Ejemplo 10.10)
 - **El giróscopo que no se cae (y que Fran decía que levitaba)**
 - **M bold(g)$, en el centro de masa. El torque del peso es horizontal y**

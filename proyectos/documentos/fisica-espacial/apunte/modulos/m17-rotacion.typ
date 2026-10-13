@@ -7,7 +7,7 @@
   eso solo aparecen el momento de inercia, el torque como producto
   vectorial, $tau = I alpha$, $L = I omega$ —y por qué esa ecuación «no es
   la más general», como avisa la cátedra con la ceja levantada—, la
-  conservación del impulso angular y, al final, el giróscopo que no se cae.
+  conservación del momento angular y, al final, el giróscopo que no se cae.
   Es la lista de temas «Impulso angular», fila por fila.
 ]
 
@@ -347,7 +347,9 @@ $ L = I omega $ <rot-l-iw>
 
 #notacion[
   El Sears lo llama *momento angular*; la cátedra, *impulso angular*; el Beer,
-  $bold(H)$. Es el mismo vector con tres nombres. La física tiene muchas cosas
+  $bold(H)$. Es el mismo vector con tres nombres. Este apunte se queda con
+  el del Sears y guarda *impulso angular* para $integral bold(tau) dif t$, lo
+  que el torque le cambia a $bold(L)$ (módulo #M("momento-angular")). La física tiene muchas cosas
   difíciles; ponerse de acuerdo en cómo se llaman no debería ser una de
   ellas, y sin embargo acá estamos. Y cuando el Sears dice «razón de cambio»
   quiere decir *derivada respecto del tiempo* — aclaración de la cátedra en
@@ -384,7 +386,7 @@ $sum bold(F)_"ext" = d bold(P)\/d t$. Y a diferencia de la @rot-l-iw, ésta
 ocurra. La $tau = I alpha$ es un caso particular de ella —eje fijo, $I$
 constante—, y es la que conviene recordar cuando las otras fallan.
 
-== Conservación del impulso angular
+== Conservación del momento angular
 
 Si el torque externo es cero, la @rot-tau-dl dice que $bold(L)$ no cambia.
 Para un cuerpo que puede cambiar de forma —y con ella su $I$— sin que nada de
@@ -418,7 +420,7 @@ escala.], fig-mesa-giratoria) <fig-mesa>
   *¿Y la energía?* Con $L$ fijo, $K = L^2 \/(2 I)$, y el $I$ bajó cinco
   veces: $K$ se *quintuplica*, de $64$ J a $321$ J. No se violó nada: la
   energía extra la puso el profesor, con los brazos, tirando de las
-  mancuernas hacia adentro. El impulso angular se conserva; la energía
+  mancuernas hacia adentro. El momento angular se conserva; la energía
   cinética, no — y confundir las dos es la manera más rápida de ver al
   profesor bajarse de la mesa para corregirte.
 ]

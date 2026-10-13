@@ -84,7 +84,7 @@ fig-momento-angular)
     align: (left, center, center),
     table.header([*Cantidad*], [*Cátedra, S&Z y este apunte*], [*Beer*]),
     [cantidad de movimiento lineal], [$bold(P)$, $m bold(v)$], [$bold(L)$],
-    [momento angular (impulso angular)], [$bold(L)$], [$bold(H)_O$],
+    [momento angular (la cátedra: impulso angular)], [$bold(L)$], [$bold(H)_O$],
     [momento de una fuerza (torque)], [$bold(tau)$], [$bold(M)_O$],
   )
 
@@ -92,6 +92,14 @@ fig-momento-angular)
   cambiada da una ecuación que parece correcta y es otra cosa. Cuando este
   apunte cita una ecuación del Beer, la traduce; los números de ecuación son
   los del libro, pero las letras son las de la cátedra.
+
+  *Y los nombres, que tampoco coinciden.* La cátedra le dice *impulso
+  angular* a $bold(L)$. Este apunte le dice *momento angular*, y reserva
+  *impulso angular* para lo que un torque le cambia en un rato,
+  $integral bold(tau) dif t = Delta bold(L)$ — igual que el impulso lineal
+  $integral bold(F) dif t$ es $Delta bold(P)$. Así cada palabra nombra una
+  sola cosa. En el examen la cátedra va a escribir «impulso angular del
+  satélite», y ahí hay que leer $bold(L)$ (o su versión específica, $bold(h)$).
 
   Y una segunda advertencia textual de la cátedra, sobre el mismo libro: donde
   el Beer dice *«razón de cambio»*, hay que leer *derivada respecto del
@@ -287,7 +295,7 @@ fig-velocidad-areolar)
 
 #ejemplo("El satélite de la figura: h en los cuatro puntos", nivel: "a fondo")[
   _(Ejercicio 4 de la sección «Conservación impulso angular».)_ *(A)* Calcular
-  el impulso angular específico en el apogeo $A$ y el perigeo $P$ del satélite
+  el momento angular específico $h$ (la guía dice «impulso angular») en el apogeo $A$ y el perigeo $P$ del satélite
   de la figura. *(B)* Con eso, calcular las distancias al centro terrestre en
   las otras dos posiciones marcadas.
 
