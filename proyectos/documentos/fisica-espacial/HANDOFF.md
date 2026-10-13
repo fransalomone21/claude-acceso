@@ -17,8 +17,10 @@ medias en el apunte.
    no se toca nada; si decide «impulso», la pasada de las ~30 apariciones
    más los números viejos de los problemas de impulso angular («Ej. 4, 5,
    7» de la guía (3); la (4) los renumeró).
-2. El **1er parcial resuelto** (privado, en `catedras/fisica-espacial/`),
-   si no quedó hecho en esta sesión: mirar `ESTADO_ACTUAL` de `catedras`.
+2. **Hecho:** el 1er parcial resuelto, privado, en
+   `catedras/fisica-espacial/parcial-1-2026-resuelto.typ` (5 págs.). De ahí
+   salió la figura de los elementos orbitales que ahora tiene `perifocal-lagrange`.
+   Si Fran quiere que sea público, hay que sacarle el enunciado textual.
 3. Fran dijo hace tiempo que iba a pasar ejercicios adicionales de cohete;
    no llegaron.
 
