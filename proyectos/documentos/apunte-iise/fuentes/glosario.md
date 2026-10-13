@@ -901,6 +901,113 @@ cátedra lo muestra con ejemplos y no da una definición escrita: esta se arma
 con lo que los ejemplos tienen en común y con lo que dijo en clase, ver
 `catedras/iise`).
 
+## Unidad 9 — Fase B, madurez tecnológica y Fase C
+
+### carga útil secundaria (y su interfaz con el lanzador)
+**Definición.** Un satélite que viaja en un lanzamiento cuyo cliente
+principal es otro, montado en la **estructura de empuje** (el adaptador)
+entre el satélite primario y el lanzador —por ejemplo, en un anillo ESPA—, o
+en un lanzamiento compartido (*rideshare*). Su interfaz externa principal es
+mecánica: el adaptador estándar, dentro de la cofia.
+**Fuente:** clase 9, diapositivas 4 a 8. **Grado:** confirmado.
+
+### PDR — Revisión Preliminar del Diseño
+**Definición.** La revisión técnica primaria de la **Fase B**. Revisión
+multidisciplinaria que asegura que el sistema puede comenzar el **diseño de
+detalle** y cumplir los requerimientos de desempeño dentro del costo, la
+planificación, el riesgo y las demás restricciones. Revisa requerimientos,
+diseño y operaciones como baseline para el diseño de detalle y **establece el
+Baseline Alojado**. Antes de ella hay revisiones de pares y de subsistemas.
+**Fuente:** clase 9, diapositivas 29 a 31 y 34. **Grado:** confirmado.
+
+### revisión de confirmación (NAR)
+**Definición.** La revisión **independiente** (*Non-Advocate Review*, o
+*Confirmation Review*) que cierra la Fase B junto con la PDR: pregunta si los
+diseños de la misión, del *spacecraft* y de los instrumentos cumplen los
+requerimientos de ciencia y misión, si los procesos de gestión alcanzan para
+desarrollar y operar la misión, y si el costo, el control y la planificación
+indican que estará lista para lanzar **a tiempo y dentro del presupuesto**.
+**Fuente:** clase 9, diapositiva 31. **Grado:** confirmado.
+**No confundir con:** la **PDR**, que revisa el diseño; la de confirmación
+revisa si el proyecto, como empresa, está en condiciones de seguir.
+
+### TRL — nivel de madurez tecnológica
+**Definición.** Escala de **9 niveles** que cuantifica la madurez de una
+tecnología, desde los principios básicos observados (TRL 1) hasta el sistema
+real probado en operaciones de misión exitosas (TRL 9). Al subir de nivel
+crece la madurez y **disminuye el riesgo**. Los hitos que más se toman: TRL 3,
+prueba de concepto; TRL 4, validado en laboratorio; TRL 5, validado en un
+ambiente relevante; **TRL 6, modelo o prototipo demostrado en un ambiente
+relevante**; TRL 7, prototipo en el ambiente operacional espacial; TRL 8,
+calificado para vuelo; TRL 9, probado en vuelo.
+**Fuente:** clase 9, diapositivas 20 a 23. **Grado:** confirmado.
+
+### IRL — nivel de preparación para la integración
+**Definición.** Escala que mide la preparación de una tecnología **para
+integrarse en un sistema** determinado, de la misma manera que el TRL mide la
+madurez de cada componente. La de la cátedra tiene **5 niveles**: IRL 1,
+análisis conceptual del sistema completado; IRL 2, análisis detallado del
+diseño completado; IRL 3, maqueta o prototipo sometido a ensayos en tierra;
+IRL 4, prototipo sometido a ambientes de vuelo representativos; IRL 5,
+sistema operativo fabricado, lanzado y en operación.
+**Fuente:** clase 9, diapositivas 20, 25 y 27. **Grado:** confirmado.
+**No confundir con:** el **TRL**, que mide la tecnología sola; un componente
+de TRL alto puede tener un IRL bajo en un sistema nuevo.
+
+### SRL — nivel de preparación del sistema
+**Definición.** Escala que combina la madurez de las tecnologías y de su
+integración para medir la del **sistema** entero. La cátedra la da como
+material de estudio (Yasseri y Bahai, sobre sistemas de producción de
+petróleo y gas), con niveles de **0 a 7** y **sus propios TRL e IRL también de
+0 a 7**.
+**Fuente:** clase 9, diapositivas 52 a 54. **Grado:** confirmado.
+**Cuidado:** esa escala de 0 a 7 **no es** la TRL de NASA (1 a 9) ni la IRL
+de la cátedra (1 a 5). Tres escalas con nombres parecidos: no se mezclan.
+
+### integración (del sistema)
+**Definición.** El proceso de ensamblar el sistema a partir de sus
+componentes, construidos según sus requerimientos especificados; no sólo
+«armarlo», sino lograr un sistema que funcione en el entorno para el que fue
+diseñado. Es la **pendiente ascendente** del modelo en V: empieza con la
+implementación y termina con la verificación y validación del sistema
+completo en su entorno operativo.
+**Fuente:** clase 9, diapositiva 26. **Grado:** confirmado.
+
+### CDR — Revisión Crítica del Diseño
+**Definición.** La revisión técnica primaria de la **Fase C**. Revisión
+externa de todo el sistema, de los niveles más bajos al más alto: evalúa si el
+diseño detallado cumple los requerimientos **con margen adecuado y riesgo
+aceptable**, si las interfaces y la documentación están lo bastante maduras
+para fabricar, ensamblar, integrar y ensayar, si los planes de V&V están
+completos y si los recursos alcanzan; revisa que las acciones del PDR estén
+cerradas. Establece el **baseline del producto** junto con los planos de
+diseño y los planes de AIT.
+**Fuente:** clase 9, diapositivas 44 a 46 y 50. **Grado:** confirmado.
+
+### SIR — Revisión de Integración del Sistema
+**Definición.** La segunda revisión de la Fase C: confirma que los planes y
+procedimientos de integración están completos y aprobados, que la
+**verificación de los componentes** dio resultados satisfactorios para
+proceder con la integración, que el flujo de trabajo está documentado, que el
+personal está entrenado y que las acciones del CDR se cerraron. Después de la
+SIR empieza el ensamble, integración y ensayo **del sistema**.
+**Fuente:** clase 9, diapositiva 48. **Grado:** confirmado.
+
+### AIT / AIV — ensamble, integración y ensayos (o verificación)
+**Definición.** *Assembly, Integration and Test* / *Assembly, Integration
+and Verification*: el conjunto de planes y actividades con que los
+componentes se ensamblan, se integran y se ensayan hasta formar el sistema.
+Los planes se desarrollan en la **Fase C**; la ejecución sobre el sistema
+completo es de la Fase D.
+**Fuente:** clase 9, diapositivas 40, 42 y 50. **Grado:** confirmado.
+
+### hacer o comprar (y elementos de largo plazo de fabricación)
+**Definición.** La decisión, que se cierra en la Fase B, de qué componentes
+se **fabrican en casa** y cuáles se **compran** a fabricantes. Los componentes
+con plazos de fabricación largos (años) se pueden comprar **antes del CDR**
+como estrategia del proyecto, con la aprobación de los interesados.
+**Fuente:** clase 9, diapositivas 28 y 46. **Grado:** confirmado.
+
 ---
 
 ## Pendiente

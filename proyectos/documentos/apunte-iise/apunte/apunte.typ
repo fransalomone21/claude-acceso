@@ -329,3 +329,30 @@ módulos de abajo, hasta la franja siguiente, son los que la tratan.
 #include "modulos/m30-el-ldcm.typ"
 #include "modulos/m31-lanzadores.typ"
 #include "modulos/m32-el-diagrama-funcional.typ"
+
+// Clase 9 en la version del 12/10 (54 diapositivas; la matriz de funciones
+// de la IS esta en la 32 con la Fase B marcada y en la 49 con la C).
+#parte(9, "Fase B, madurez tecnológica y Fase C", [
+  Cuatro módulos sobre la clase 9, que cruza la frontera entre la
+  Formulación y la Implementación.
+
+  El primero repasa dos herramientas que la Fase B usa todo el tiempo: la
+  plantilla de requerimientos de la cátedra, campo por campo, y las
+  interfaces del satélite con su lanzador, incluido el viaje como carga
+  secundaria.
+
+  El segundo es la Fase B a fondo: bajar los requerimientos, el diseño
+  preliminar, el caso del TESS —madurar la tecnología cuesta plata, y
+  antes—, la PDR y la revisión de confirmación. El tercero mide esa
+  madurez: los nueve TRL de NASA, los cinco IRL de la cátedra y la escala
+  SRL del material de estudio, que numera distinto.
+
+  El cuarto entra a la Implementación: la Fase C, el lanzador que llega
+  tarde, la verificación de componentes antes de integrar nada, la curva
+  del gasto, el CDR y la SIR.
+])
+
+#include "modulos/m33-plantilla-e-interfaces-externas.typ"
+#include "modulos/m34-fase-b-a-fondo.typ"
+#include "modulos/m35-trl-irl-srl.typ"
+#include "modulos/m36-fase-c-a-fondo.typ"
