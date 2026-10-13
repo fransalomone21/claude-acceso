@@ -113,14 +113,15 @@ estar expuesta, asegurado con ensayos en tierra o con equipos que ya tienen
 historia en el espacio #diapo(9, 28).
 
 #cuidado[
-  Las notas de la presentación dicen que «TRL menor a 6 no pasa a la Fase
-  C». La lámina dice algo más preciso y menos tajante: que en la Fase B hay
-  que *completar* la maduración, y que TRL 6 es el nivel en el que la
-  tecnología demostró que soporta su ambiente. La regla práctica es la
-  misma —llegar a la Implementación con todo en TRL 6 o más—, pero lo que
-  se rinde es el porqué: es el primer nivel en el que el prototipo se
-  probó *en un ambiente relevante*, que es lo que la Fase C necesita
-  suponer para diseñar el detalle.
+  Las notas de esta presentación dicen, tajantes, que «TRL menor a 6 no
+  pasa a la Fase C». La lámina de la clase 9 dice algo menos tajante: que
+  en la Fase B hay que *completar* la maduración, y que TRL 6 es el nivel
+  en el que la tecnología demostró que soporta su ambiente. La clase 10 le
+  pone fuente a la regla —las guías de NASA y de la GAO piden *TRL 6 para
+  las tecnologías críticas al completar la PDR*— y un caso en el que no se
+  cumplió y se siguió igual, con un plan de mitigación aprobado: el Mars
+  2020 (módulo #M("el-pdr-de-un-rov")). Es una guía fuerte, no una ley:
+  romperla se paga con un riesgo declarado.
 ]
 
 En la misma fase se decide *qué se hace y qué se compra* #diapo(9, 28):

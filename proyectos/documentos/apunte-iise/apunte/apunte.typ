@@ -356,3 +356,29 @@ módulos de abajo, hasta la franja siguiente, son los que la tratan.
 #include "modulos/m34-fase-b-a-fondo.typ"
 #include "modulos/m35-trl-irl-srl.typ"
 #include "modulos/m36-fase-c-a-fondo.typ"
+
+// Clase 10 (71 diapositivas; la portada dice «Unidad # 10» y el temario,
+// «9na Clase»: se numera por la portada).
+#parte(10, "Forma y función otra vez, una PDR completa y el riesgo técnico", [
+  Tres módulos sobre la clase 10, la que más se parece al trabajo
+  práctico.
+
+  El primero vuelve a la forma y la función —las dos pruebas de la forma,
+  dos puentes que se parecen y no son el mismo— y recorre la arquitectura
+  al revés con la ingeniería inversa del Akutan Zero; cierra con el lazo de
+  los procesos de diseño de NASA.
+
+  El segundo es una PDR de punta a punta, la de un ROV subacuático: para
+  qué es, qué se cubre, cómo se presenta, los requerimientos por tipo, un
+  _trade study_ con la cuenta hecha, los presupuestos de potencia y de
+  masa, el plan de V&V, y el umbral de TRL 6 con el caso del Mars 2020.
+
+  El tercero define el riesgo y su gestión: los tres componentes, las
+  categorías y las capas, el ciclo de cinco pasos, la matriz de NASA y la
+  tabla del ROV —con escalas que van al revés— y la seguridad como
+  propiedad emergente.
+])
+
+#include "modulos/m37-forma-funcion-e-ingenieria-inversa.typ"
+#include "modulos/m38-el-pdr-de-un-rov.typ"
+#include "modulos/m39-gestion-del-riesgo.typ"

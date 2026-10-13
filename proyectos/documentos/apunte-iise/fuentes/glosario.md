@@ -1008,9 +1008,73 @@ con plazos de fabricación largos (años) se pueden comprar **antes del CDR**
 como estrategia del proyecto, con la aprobación de los interesados.
 **Fuente:** clase 9, diapositivas 28 y 46. **Grado:** confirmado.
 
+## Unidad 10 — forma y función otra vez, el PDR del ROV y el riesgo técnico
+
+### aprendizaje basado en proyectos (PjBL)
+**Definición.** Forma de aprendizaje complementaria al CDIO, focalizada en la
+**formulación y el encare del problema** más que en su solución: centrada en
+el estudiante, en grupos chicos y colaborativa, con los profesores como
+facilitadores o *coaches*, con los proyectos como foco y vehículo de las
+habilidades de ingeniería, y con la información nueva adquirida por
+aprendizaje autodirigido.
+**Fuente:** clase 10, diapositivas 3 y 4. **Grado:** confirmado.
+
+### ingeniería inversa
+**Definición.** El camino inverso al diseño conceptual. Al **diseñar** se
+conocen las funciones y se crea la forma que las entrega (el concepto); en la
+**ingeniería inversa** se conoce la forma y se **infieren las funciones** y,
+eventualmente, los objetivos. Se definen los subsistemas y las funciones
+internas, se infiere el concepto y se infieren las funciones externas
+entregadas (o su falta); las dos últimas etapas son las difíciles, por la
+emergencia de funciones.
+**Fuente:** clase 10, diapositivas 12 y 13. **Grado:** confirmado.
+**Ejemplo de la cátedra:** el Akutan Zero, el caza japonés capturado casi
+intacto en 1942 (diapositivas 13 a 17).
+
+### trade study (estudio de alternativas con criterios ponderados)
+**Definición.** La comparación de varios diseños viables contra **criterios
+escritos de antemano, cada uno con su peso**: cada diseño recibe una nota por
+criterio, la nota se multiplica por el peso y la suma da el puntaje total con
+que se elige. En una PDR se presentan varios diseños viables con sus pros y
+contras y **cómo se eligió** uno.
+**Fuente:** clase 10, diapositivas 26, 37 y 38. **Grado:** confirmado.
+
+### riesgo
+**Definición.** La combinación de la **probabilidad** de que un programa o
+proyecto experimente un evento no deseado y de la **consecuencia** (impacto o
+severidad) de ese evento. Es una medida de la incertidumbre de lograr las
+metas de desempeño técnico dentro de las restricciones de costo y
+planificación. Tiene **tres componentes**: la causa raíz futura, la
+probabilidad de que ocurra y la consecuencia de que ocurra. El evento puede ser
+técnico o programático (sobrecostos, atrasos, accidentes, impacto ambiental,
+no alcanzar los objetivos).
+**Fuente:** clase 10, diapositivas 61 y 62. **Grado:** confirmado.
+
+### gestión del riesgo técnico
+**Definición.** La disciplina sistemática de toma de decisiones informada por
+el riesgo que, de manera **proactiva**, identifica, analiza, planifica, sigue,
+controla, comunica, documenta y gestiona el riesgo para aumentar la
+probabilidad de alcanzar las metas del proyecto. Su ciclo: **identificar**
+(anticipar qué puede andar mal) → **analizar** (decidir qué es importante) →
+**planificar** (para tomar acciones) → **seguir** (las acciones) →
+**controlar** (corregir desviaciones), con la **comunicación y los
+documentos** en el centro.
+**Fuente:** clase 10, diapositivas 60, 61, 65 y 66. **Grado:** confirmado.
+
+### diagrama de riesgo (matriz de probabilidad e impacto)
+**Definición.** La tabla con que se califica cada riesgo por su
+**probabilidad** y su **impacto**, cada uno en cinco niveles. En la versión
+NASA de la cátedra el **nivel 1 es el peor**: probabilidad 1 = casi certeza …
+5 = improbable; impacto 1 = catastrófico … 5 = despreciable, con criterios
+técnicos, de costo y de planificación para cada nivel de impacto.
+**Fuente:** clase 10, diapositiva 68. **Grado:** confirmado.
+**Cuidado:** la numeración está **invertida** respecto de la del ejemplo de
+riesgos del ROV de la misma clase (diapositiva 49), donde un número más alto
+es peor y el riesgo total es severidad × frecuencia.
+
 ---
 
 ## Pendiente
 
-Fase 7 del PDP (2026-10-13): la unidad 8 está escrita (M28-M32). Faltan
-los términos de las unidades 9 y 10, que se agregan con sus módulos.
+Fase 7 del PDP (2026-10-13): las unidades 8, 9 y 10 están escritas
+(M28-M39) y sus términos, acá. Lo que sigue llega con la clase 11.
