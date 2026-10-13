@@ -247,6 +247,21 @@ de la guía, las listas, citas) o el impulso de verdad ($Delta bold(H) =
 bold(tau) t$). La explicación para el lector está en el módulo
 `momento-angular`, al lado de la tabla de notación.
 
+**10. REGLA FUERTE: una consigna nunca se parte entre dos páginas.** Pedido
+de Fran, 2026-10-13, sobre el parcialito 4: el enunciado quedaba al pie de
+una página y la figura o los incisos en la siguiente. En todo parcialito,
+modelo de parcial o guía **nuevo**, cada ejercicio va envuelto entero
+—título, origen, enunciado, figura e incisos— en `#consigna[ ... ]` de
+`practica/estilo.typ` (un bloque que no se parte), y el archivo entra a
+`OBLIGADOS` de `practica/verificar-consignas.py` el día que nace. Ese
+verificador mide en el PDF compilado que cada consigna empiece y termine en
+la misma página, y que ningún `#ejercicio(` quede afuera de su `#consigna`;
+corre solo en `.\practica\compilar.ps1` y su sabotaje es
+`python practica\verificar-consignas.py --sabotaje`. Si una consigna no
+entra en una página, se acorta o se parte en dos ejercicios: no se acepta
+partida. Los modelos viejos se pasan cuando se vuelvan a tocar (al
+2026-10-13 cumple sólo el parcialito 4).
+
 ## Dónde está cada cosa
 
 ```

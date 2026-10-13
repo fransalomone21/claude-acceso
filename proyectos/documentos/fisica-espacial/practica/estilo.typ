@@ -82,6 +82,14 @@
 // ---------------------------------------------------------------------
 // El encabezado de un ejercicio del enunciado, con su puntaje a la derecha.
 #let ejercicio(n, titulo, puntos) = heading(level: 2)[Ejercicio #n — #titulo #h(1fr) #text(size: 10pt, weight: "regular")[(#puntos #if puntos == [1] [punto] else [puntos])]]
+// Una consigna entera (título, enunciado, figura e incisos) en UNA página:
+// nunca el enunciado en una y la figura en la otra (Fran, 2026-10-13, regla
+// propia 10). Las dos marcas <consigna-borde> anotan la página del principio y
+// del final; verificar-consignas.py las compara en el PDF compilado.
+#let consigna(cuerpo) = {
+  let borde(que) = context [#metadata((que: que, pagina: here().page())) <consigna-borde>]
+  block(breakable: false, width: 100%)[#borde("ini")#cuerpo#borde("fin")]
+}
 // De qué temas sale y en qué ejercicio de la guía se apoya.
 #let origen(cuerpo) = block(above: 2pt, below: 6pt, text(size: 9pt, fill: luma(90), style: "italic", cuerpo))
 // La notación del tema: la de este apunte y cómo aparece en la guía y los libros.

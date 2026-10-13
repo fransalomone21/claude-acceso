@@ -67,6 +67,7 @@
 
 = Parte A — conceptual
 
+#consigna[
 #ejercicio(1, [la rueda de bicicleta: un número y un vector], [1])
 #origen[Velocidad angular escalar y vectorial (S&Z §9.1, ecs. 9.13 y 9.15); todos los puntos de un rígido tienen la misma $omega$.]
 
@@ -85,7 +86,9 @@ está en la llanta y $B$ a mitad de un rayo.
   (d) $omega_A = 2 omega_B$ y $v_A = 2 v_B$.
 + Escriba la velocidad de un punto en forma vectorial y dibuje $bold(v)_A$ y
   $bold(v)_B$.
+]
 
+#consigna[
 #ejercicio(2, [el momento de inercia aparece solo], [1])
 #origen[Energía de rotación, momento de inercia, Tabla 9.2 y Steiner (S&Z §9.4 y §9.5).]
 
@@ -98,7 +101,9 @@ está en la llanta y $B$ a mitad de un rayo.
   (sin calcularlo). ¿Depende de la masa o del radio?
 + ¿Qué dice el teorema de Steiner? De todos los ejes paralelos entre sí,
   ¿respecto de cuál el momento de inercia es mínimo, y por qué?
+]
 
+#consigna[
 #ejercicio(3, [torque, mano derecha y la ecuación que no es la más general], [1])
 #origen[Torque (S&Z §10.1, ec. 10.3), analogías lineal–rotacional (ecs. 10.12–10.13), momento angular (§10.5, ecs. 10.28–10.29).]
 
@@ -118,7 +123,9 @@ está en la llanta y $B$ a mitad de un rayo.
   general». Dé un ejemplo de un cuerpo que gira alrededor de un eje fijo y
   cuyo $bold(L)$ *no* es paralelo a $bold(omega)$. ¿Qué tienen que hacer los
   cojinetes en ese caso?
+]
 
+#consigna[
 #ejercicio(4, [la banqueta y la rueda], [1])
 #origen[Conservación del momento angular (S&Z §10.6).]
 
@@ -135,7 +142,9 @@ $180°$.
 + ¿Qué componente del momento angular se conserva, y de qué sistema? ¿Por
   qué no importa que la estudiante haga fuerza sobre la rueda?
 + ¿Se conserva la energía cinética? Si no, ¿de dónde sale la que aparece?
+]
 
+#consigna[
 #ejercicio(5, [el giróscopo: por qué no oscila como un péndulo], [1,5])
 #origen[Giróscopos y precesión (S&Z §10.7; Kleppner §8.3; Meriam 7/11); la analogía precesión ↔ movimiento circular uniforme que dejó la cátedra.]
 
@@ -160,7 +169,9 @@ rotor está a una distancia $d$ del pivote, con el eje horizontal.
   giróscopo cae enseguida.
 + Si el eje estuviera inclinado $30°$ sobre la horizontal, ¿cambiaría la
   velocidad de precesión?
+]
 
+#consigna[
 #ejercicio(6, [el ventilador de Aníbal], [0,5])
 #origen[El giróscopo como *sensor*: entra un giro, sale un torque (la hoja «Giróscopos como actuador/sensor» y el video del ventilador).]
 
@@ -173,7 +184,9 @@ izquierda alrededor de la vertical.
   $bold(Omega)$ y el torque que tienen que hacer sus manos.
 + En el ejercicio 5 entraba un torque y salía una precesión. ¿Qué entra y
   qué sale acá? ¿Es la misma ecuación?
+]
 
+#consigna[
 #ejercicio(7, [la Tierra como giróscopo: una predicción], [0,5])
 #origen[Kleppner, Ejemplo 8.9: la precesión de los equinoccios.]
 
@@ -183,9 +196,11 @@ torque que el Sol y la Luna hacen sobre su abultamiento ecuatorial.
 + ¿Por qué una Tierra perfectamente esférica no precesaría?
 + Si la Tierra girara sobre sí misma el doble de rápido, con la misma forma,
   ¿cuánto duraría la precesión? Conteste sin hacer ninguna cuenta con datos.
+]
 
 = Parte B — numérica
 
+#consigna[
 #ejercicio(8, [la rueda que se frena], [1])
 #origen[Tabla 9.2, Steiner, energía de rotación, $tau = I alpha$.]
 
@@ -198,7 +213,9 @@ $0,33$ m de radio (se desprecian rayos y eje).
   cinética y su momento angular.
 + El rozamiento del eje hace un torque constante de $0,020$ N·m. Calcule la
   aceleración angular, cuánto tarda en detenerse y cuántas vueltas da.
+]
 
+#consigna[
 #ejercicio(9, [la misma rueda, colgada de un extremo del eje], [1,5])
 #origen[Precesión estable (S&Z §10.7, Kleppner ec. 8.2, Meriam ec. 7/24).]
 
@@ -214,7 +231,9 @@ rueda; el eje queda horizontal y la rueda gira a $6$ vueltas por segundo.
   centro de la rueda?
 + ¿Cuál sería el período de precesión si la rueda girara a la mitad? ¿Y si
   el eje estuviera inclinado $20°$ sobre la horizontal?
+]
 
+#consigna[
 #ejercicio(10, [el giróscopo de control de momento de un microsatélite], [1])
 #origen[El giróscopo como actuador en un satélite: Lappas, Steyn y Underwood (2002), el paper que dejó la cátedra.]
 
@@ -232,6 +251,7 @@ lo gira a $0,12$ rad/s.
 + El satélite tiene $I = 2,5$ kg·m² respecto del eje de la maniobra y arranca
   quieto. Con el torque constante, ¿cuánto tarda en girar $30°$, y con qué
   velocidad angular termina?
+]
 
 #pagebreak()
 

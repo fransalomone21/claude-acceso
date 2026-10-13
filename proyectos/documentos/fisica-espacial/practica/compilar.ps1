@@ -49,6 +49,9 @@ try {
     # parcial en UNA carilla (la definitiva en dos)
     python verificar-hoja.py salida\hoja-formulas-parcial.pdf:1 salida\hoja-formulas.pdf:2
     if ($LASTEXITCODE -ne 0) { throw 'verificar-hoja.py en rojo: un renglon fuera de su columna o una carilla de mas' }
+    # Regla propia 10: ninguna consigna partida entre dos paginas
+    python verificar-consignas.py
+    if ($LASTEXITCODE -ne 0) { throw 'verificar-consignas.py en rojo: una consigna partida, o un ejercicio sin #consigna' }
 }
 finally { Pop-Location }
 if ($Publicar) {

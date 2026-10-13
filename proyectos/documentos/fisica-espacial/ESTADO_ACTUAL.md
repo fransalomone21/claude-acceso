@@ -23,6 +23,13 @@
   **Un modelo nuevo va a la carpeta de la evaluación a la que apunta**: se
   pone esa ruta en su `materia` de `.claude/apuntes-publicos.json`. Las
   fechas «estimado» se corrigen cuando la cátedra confirme.
+- **Regla propia 10 (fuerte): ninguna consigna partida entre páginas.** El
+  parcialito 4 tenía partidos los ejercicios 1, 4 y 7; ahora sus 10
+  consignas van en `#consigna[...]` y cada una entra en una página (mirado
+  en el render, republicado). Lo mide `practica/verificar-consignas.py`
+  (corre en `compilar.ps1`; su `--sabotaje` reproduce exactamente las tres
+  consignas partidas de antes). Los otros modelos todavía no están en
+  `OBLIGADOS`: se pasan cuando se vuelvan a tocar.
 
 ## 2026-10-13: fases 15 y 16 CERRADAS, fase 17 (mantenimiento) abierta
 

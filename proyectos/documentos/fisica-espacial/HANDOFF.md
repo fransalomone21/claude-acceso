@@ -20,6 +20,11 @@ evaluación (ver ESTADO). Cuando se sepa la fecha real del parcialito 4, se
 renombra su carpeta con `rclone moveto` y se cambia su `materia` en
 `apuntes-publicos.json`, las dos cosas juntas, y se corre `-Verificar`.
 
+**Regla fuerte nueva (10):** todo parcialito/modelo/guía nuevo va con cada
+ejercicio en `#consigna[...]` y entra a `OBLIGADOS` de
+`practica/verificar-consignas.py`. Pendiente si Fran lo pide: pasar los
+modelos 1-5, el integrador y el parcialito viejo.
+
 **Queda:** C2 (el nivel), los ejercicios de cohete que Fran iba a pasar, y
 el material nuevo cuando llegue (ciclo corto de la fase 17).
 
