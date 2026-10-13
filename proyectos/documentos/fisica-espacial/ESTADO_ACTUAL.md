@@ -14,6 +14,15 @@
   privado `catedras` (lleva el examen); el PDF se declaró en
   `.claude/apuntes-publicos.json` con su receta de compilación.
 - Apunte: 212 páginas, en el Drive por MD5; verificar-anexos en verde (136).
+- **`Modelos de Parcial/` ordenada por evaluación** (pedido de Fran), con
+  las fechas del plan de 17 semanas de `fuentes/TEMARIO.md`:
+  `1 - Parcialito 3 (28-09, tomado)`, `2 - 1er Parcial (01-10, tomado)`
+  (modelos 1 a 5 y el parcial real resuelto), `3 - Parcialito 4 (fines de
+  octubre, estimado)` y `4 - 2do Parcial (19-11) y recuperatorio (26-11)`
+  (el integrador). Movidos con `rclone moveto` (los links siguen andando).
+  **Un modelo nuevo va a la carpeta de la evaluación a la que apunta**: se
+  pone esa ruta en su `materia` de `.claude/apuntes-publicos.json`. Las
+  fechas «estimado» se corrigen cuando la cátedra confirme.
 
 ## 2026-10-13: fases 15 y 16 CERRADAS, fase 17 (mantenimiento) abierta
 

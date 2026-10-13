@@ -11,7 +11,7 @@
       "estado": "2026-10-13 -- 21 modulos, 212 pag., con todo lo que dio la catedra hasta el 13/10; L es el momento angular y el impulso angular la integral del torque (C1, decidido por Fran el 13/10); en mantenimiento (fase 17)"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial",
+      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/catedras/fisica-espacial/parcial-1-2026-resuelto.pdf",
       "nombre-en-drive": "1er Parcial 2026 - resuelto.pdf",
       "regenerable": "desde proyectos/documentos: typst compile --creation-timestamp=1767225600 --root . catedras/fisica-espacial/parcial-1-2026-resuelto.typ catedras/fisica-espacial/parcial-1-2026-resuelto.pdf (necesita el repo privado catedras)",
@@ -30,49 +30,49 @@
       "estado": "2026-10-01 -- 1 carilla A4 para el parcial: solo formulas y titulos de tema, sin tres cuerpos, Lagrange ni rigido 3D; con elementos orbitales (clase de Valenti y Bate) y producto vectorial (fuente: practica/hoja-formulas.typ --input version=parcial)"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial",
+      "materia": "Fisica Espacial/Modelos de Parcial/1 - Parcialito 3 (28-09, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-momento-angular.pdf",
       "nombre-en-drive": "Parcialito - Momento angular (con resolucion).pdf",
       "estado": "2026-09-27 -- 3 ejercicios sobre la seccion de impulso angular de la guia; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial",
+      "materia": "Fisica Espacial/Modelos de Parcial/3 - Parcialito 4 (fines de octubre, estimado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-4-momento-angular.pdf",
       "nombre-en-drive": "Parcialito 4 - Momento angular y giroscopos (con resolucion).pdf",
       "estado": "2026-10-13 -- la lista de temas de impulso angular renglon por renglon con donde esta en el apunte; parte A conceptual (rueda, I desde la energia, Steiner, torque, banqueta, giroscopo y analogia con la orbita, el ventilador de Anibal, precesion de los equinoccios) y parte B numerica (rueda que se frena, rueda colgada, CMG de un microsatelite); numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial",
+      "materia": "Fisica Espacial/Modelos de Parcial/4 - 2do Parcial (19-11) y recuperatorio (26-11)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-integrador.pdf",
       "nombre-en-drive": "Modelo de parcial integrador (con resolucion).pdf",
       "estado": "2026-09-29 -- 4 ejercicios integradores sobre el apunte, ahora con figuras, notacion por tema y camino alternativo en cada resolucion; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial",
+      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-1.pdf",
       "nombre-en-drive": "Modelo de parcial 1 (con resolucion).pdf",
       "estado": "2026-09-29 -- 7 ejercicios para la 1.a evaluacion: separacion de etapas, cohete con mas peso que empuje, energia, orbita desde un estado, Hohmann + Tsiolkovsky, rueda de reaccion, particula libre; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial",
+      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-2.pdf",
       "nombre-en-drive": "Modelo de parcial 2 (con resolucion).pdf",
       "estado": "2026-09-29 -- 7 ejercicios: acople oblicuo, cohete de dos etapas integrado (a, v, y por partes, desacople), Luna y escape, orbita desde apsides, escape perigeo/apogeo, banqueta y rueda, particulas antiparalelas; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial",
+      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-3.pdf",
       "nombre-en-drive": "Modelo de parcial 3 (con resolucion).pdf",
       "estado": "2026-09-29 -- 7 ejercicios: explosion en tres, descenso con retrocohete (condiciones iniciales no nulas) y masa que entra, Kepler y geoestacionaria, orbita desde dos mediciones, encuentro con estacion, giroscopo, segunda ley de Kepler; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial",
+      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-4.pdf",
       "nombre-en-drive": "Modelo de parcial 4 - conceptual (con resolucion).pdf",
       "estado": "2026-09-30 -- conceptual, al estilo de los parcialitos: astronauta y llave, cohete mas pesado que su empuje, pseudo-ingravidez, la elipse dibujada, Newton a Kepler, la rueda; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial",
+      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-5.pdf",
       "nombre-en-drive": "Modelo de parcial 5 - conceptual (con resolucion).pdf",
       "estado": "2026-09-30 -- conceptual, al estilo de los parcialitos: satelite que sale de la bodega, cohete en el vacio, subir o acelerar, areas iguales, alcanzar al de adelante, antenas que se despliegan; numeros validados por practica/validar.py"

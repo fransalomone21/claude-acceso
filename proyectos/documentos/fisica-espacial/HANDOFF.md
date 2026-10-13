@@ -15,6 +15,11 @@ dijo «subí el resuelto»; el Drive ya tiene la guía de la cátedra, así que 
 se le sacó el enunciado): fuente en `catedras`, PDF declarado en
 `apuntes-publicos.json`.
 
+**Después:** `Modelos de Parcial/` del Drive quedó en cuatro carpetas por
+evaluación (ver ESTADO). Cuando se sepa la fecha real del parcialito 4, se
+renombra su carpeta con `rclone moveto` y se cambia su `materia` en
+`apuntes-publicos.json`, las dos cosas juntas, y se corre `-Verificar`.
+
 **Queda:** C2 (el nivel), los ejercicios de cohete que Fran iba a pasar, y
 el material nuevo cuando llegue (ciclo corto de la fase 17).
 
