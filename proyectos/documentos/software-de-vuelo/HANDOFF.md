@@ -1,5 +1,26 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-13 — TP4 (host y payload, SPI): trabajo de grupo, NO va en este repo
+
+- Es de grupo (regla 2 del contrato): vive en
+  `Desktop\01 - UNSAM\Software de Vuelo\TP4 - Host y Payload\` (código, guía
+  Typst y `_drive\`, el espejo de lo subido) y en la carpeta compartida de
+  GRUPOS en Drive (declarada en `.claude/estructura-drive.json`; 38 archivos,
+  `rclone check` 0 diferencias; permiso medido sobre la guía: 5 `writer`, 0
+  `anyone`). Fran es del grupo payload (esclavo).
+- Hecho y medido: los dos proyectos compilan y enlazan con el gcc de CubeIDE
+  y la HAL F4 1.28.3 (`codigo/<p>/compilar.sh`, cero warnings; `--sabotaje`
+  corta); `codigo/prueba_pc/probar.sh` (WSL): 30/30 en verde y 6 sabotajes en
+  rojo; guía de 22 pág., render mirado entero. **Sin probar en placa.**
+- Hallazgos que entran a la guía: un patrón constante (MOSI suelto) PASA el
+  checksum XOR, lo frena el SOF; dos bits en la misma columna hacen de un
+  TEMP un ID válido; pegar 20 comandos desbordaba una cola de 64 (va 256).
+- `protocolo.h` es reconstruido del enunciado: si la cátedra reparte el
+  suyo, manda ése.
+- El conector de Drive sólo puede compartir lo que **él** creó: la carpeta
+  se crea con el conector, no con rclone (con rclone dio «The caller does
+  not have permission»).
+
 ## 2026-10-02 (clase) — punteros a función; entorno de VS Code listo
 
 - Ejercicio de clase (tabla de 5 comandos `void (*comandos[CANT_COMANDOS])(void)`)

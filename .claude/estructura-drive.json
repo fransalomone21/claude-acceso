@@ -90,16 +90,22 @@
         ]
       },
       {
-        "sobre": "01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/Software de Vuelo - TP4 Payload (esclavo SPI) - Favazza, Ojeda, Salomone",
+        "sobre": "01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/Software de Vuelo - TP4 Host y Payload - Favazza, Ojeda, Salomone + Scafati, Diaz Segui, Groppa",
         "rol": "writer",
-        "por-que": "grupo Payload del TP4 de Software de Vuelo (placa B, esclavo SPI). Creada 2026-10-13 a pedido de Fran; los mismos dos companeros del Cohete.",
+        "por-que": "TP4 de Software de Vuelo: grupo payload (esclavo SPI, el de Fran) y grupo host (maestro), en una sola carpeta para los seis. Creada 2026-10-13 por el conector de Drive y compartida a pedido de Fran, con los mails que dio el (el de la companera de TdC, sacado de ese proyecto por pedido suyo).",
         "quien-sha256": [
           "cd50ccf11c007904",
-          "7a2939b38dfb6cb9"
+          "7a2939b38dfb6cb9",
+          "296907559da7a531",
+          "f7766ab34a1082dc",
+          "82c18f4c7e093cb4"
         ],
         "quien-etiqueta": [
-          "companero del grupo del TP4 (el mismo del Cohete, 1 de 2)",
-          "companero del grupo del TP4 (el mismo del Cohete, 2 de 2)"
+          "grupo payload del TP4 (el mismo del Cohete, 1 de 2)",
+          "grupo payload del TP4 (el mismo del Cohete, 2 de 2)",
+          "grupo host del TP4 (1 de 3)",
+          "grupo host del TP4 (2 de 3; la companera de TdC)",
+          "grupo host del TP4 (3 de 3)"
         ]
       },
       {
