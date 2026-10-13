@@ -31,6 +31,7 @@ try {
         @('modelo-parcial-3.typ', 'salida\modelo-parcial-3.pdf', $null),
         @('modelo-parcial-4.typ', 'salida\modelo-parcial-4.pdf', $null),
         @('modelo-parcial-5.typ', 'salida\modelo-parcial-5.pdf', $null),
+        @('parcialito-4-momento-angular.typ', 'salida\parcialito-4-momento-angular.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas-parcial.pdf', 'version=parcial')
     )

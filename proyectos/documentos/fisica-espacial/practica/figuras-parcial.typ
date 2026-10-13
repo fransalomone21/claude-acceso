@@ -596,3 +596,61 @@
     rotulo((8 * 110 / 175, 2.2), text(fill: c-aux)[etapa 2], ancla: "north-west")
   })
 }
+
+// ---------------------------------------------------------------------
+// Parcialito 4 (momento angular y giroscopos), 2026-10-13.
+// La rueda de bicicleta de frente, con el eje saliendo de la hoja: A en la
+// llanta, B a mitad del rayo. Con `respuesta`: omega (sale) y las dos
+// velocidades, la de A el doble que la de B.
+// ---------------------------------------------------------------------
+#let fig-rueda-puntos(respuesta: false) = esquema(escala: 0.85cm, {
+  let O = (0, 0)
+  let R = 1.8
+  cetz.draw.circle(O, radius: R, stroke: 2.2pt + luma(90))
+  cetz.draw.circle(O, radius: R - 0.12, stroke: 0.5pt + luma(150))
+  for k in range(12) {
+    cetz.draw.line(O, _pt(R - 0.12, k * 30 + 15), stroke: 0.35pt + luma(140))
+  }
+  cetz.draw.circle(O, radius: 0.16, fill: luma(200), stroke: 0.6pt + c-trazo)
+  let A = (0, R)
+  let B = (R / 2, 0)
+  masa(A, radio: 0.08)
+  masa(B, radio: 0.08)
+  rotulo((0.15, R + 0.12), [$A$], ancla: "south-west")
+  rotulo((R / 2, -0.12), [$B$], ancla: "north")
+  if respuesta {
+    cetz.draw.circle(O, radius: 0.16, stroke: 0.9pt + c-dato)
+    cetz.draw.circle(O, radius: 0.04, fill: c-dato, stroke: none)
+    flecha-nota((-2.3, -1.3), (-0.2, -0.12), text(fill: c-dato)[$bold(omega)$ sale \ de la hoja], ancla: "east", color: c-dato)
+    flecha(A, (-1.5, R), etiqueta: $bold(v)_A$, lado: "south", pos: 100%)
+    flecha(B, (R / 2, 0.75), etiqueta: $bold(v)_B$, lado: "west", pos: 100%)
+  } else {
+    cetz.draw.arc(O, start: 20deg, stop: 70deg, radius: R + 0.45, anchor: "origin",
+      stroke: 0.9pt + c-aux, mark: (end: "stealth", scale: 0.5, fill: c-aux))
+    rotulo(_pt(R + 0.55, 45), text(fill: c-aux)[gira antihorario \ visto de frente], ancla: "south-west")
+  }
+})
+
+// ---------------------------------------------------------------------
+// El ventilador de Anibal, visto desde arriba (resolucion del parcialito
+// 4). x hacia adelante (arriba en la hoja), y hacia la izquierda de el,
+// z saliendo de la hoja. L adelante, Omega sale (gira a su izquierda), el
+// torque que hacen las manos M = Omega x L hacia su izquierda.
+// ---------------------------------------------------------------------
+#let fig-ventilador = esquema(escala: 0.9cm, {
+  let O = (0, 0)
+  cetz.draw.rect((-1.3, -0.25), (1.3, 0.25), fill: luma(235), stroke: 0.8pt + c-trazo)
+  rotulo((1.4, 0), [ventilador \ (de canto)], ancla: "west")
+  cetz.draw.circle((0, -1.9), radius: 0.32, stroke: 0.9pt + c-trazo)
+  rotulo((0, -2.3), [Aníbal], ancla: "north")
+  cetz.draw.line((-0.9, -1.3), (-1.0, -0.3), stroke: 0.8pt + c-trazo)
+  cetz.draw.line((0.9, -1.3), (1.0, -0.3), stroke: 0.8pt + c-trazo)
+  flecha((0, 0.25), (0, 2.6), color: c-aux, etiqueta: $bold(L)$, lado: "west", pos: 100%)
+  cetz.draw.circle((2.6, 1.6), radius: 0.18, stroke: 0.9pt + c-dato)
+  cetz.draw.circle((2.6, 1.6), radius: 0.045, fill: c-dato, stroke: none)
+  rotulo((2.85, 1.6), text(fill: c-dato)[$bold(Omega)$: sale de la hoja \ (gira hacia su izquierda)], ancla: "west")
+  cetz.draw.arc(O, start: 65deg, stop: 115deg, radius: 3.6, anchor: "origin",
+    stroke: 0.8pt + c-dato, mark: (end: "stealth", scale: 0.45, fill: c-dato))
+  flecha((0, 2.6), (-1.4, 2.6), color: c-rojo, etiqueta: $d bold(L) = bold(M) thin d t$, lado: "south", pos: 50%)
+  flecha((-1.6, 0), (-3.0, 0), color: c-rojo, etiqueta: $bold(M)_"manos"$, lado: "south", pos: 100%)
+})

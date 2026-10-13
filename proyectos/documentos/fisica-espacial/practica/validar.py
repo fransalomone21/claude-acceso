@@ -400,7 +400,7 @@ def c_parciales():
 
 
 PARCIALES_NUEVOS = ('modelo-parcial-1.typ', 'modelo-parcial-2.typ', 'modelo-parcial-3.typ',
-                    'modelo-parcial-4.typ', 'modelo-parcial-5.typ')
+                    'modelo-parcial-4.typ', 'modelo-parcial-5.typ', 'parcialito-4-momento-angular.typ')
 
 
 def c_modelos():
@@ -480,7 +480,27 @@ def c_modelos():
         ('2,81$ MJ/kg', dU), ('29,8$ MJ/kg', K300), ('32,6', dU + K300), ('10,6$ veces', K300 / dU),
         ('0,825', a_fas), ('0,651', 2 * a_fas - 1),
     ]
+    # ------------------------------------- parcialito 4 (2026-10-13): rotacion y giroscopos
+    Ia = 1.8 * 0.33 ** 2; wa = 150 * 2 * m.pi / 60; ala = 0.020 / Ia; ta = wa / ala; tha = wa * ta / 2
+    wsg = 6 * 2 * m.pi; Lg4 = Ia * wsg; tg4 = 2.0 * G0 * 0.25; Og4 = tg4 / Lg4
+    wcmg = 20000 * 2 * m.pi / 60; tcmg = 0.35 * 0.12; acmg = tcmg / 2.5; t30 = m.sqrt(2 * rad(30) / acmg)
+    Lv = 0.010 * 1200 * 2 * m.pi / 60; Mv = Lv * (m.pi / 2)
+    LT = 8.0e37 * 2 * m.pi / 86164; OpT = 2 * m.pi / (26000 * 3.156e7)
+    parcialito4 = [
+        ('0,196$ kg·m². Steiner', Ia), ('0,392$ kg·m²', 2 * Ia), ('15,71$ rad/s', wa),
+        ('24,18$ J y', 0.5 * Ia * wa ** 2), ('3,079$ kg·m²/s', Ia * wa), ('0,1020$ rad/s²', ala),
+        ('154,0$ s', ta), ('1209$ rad', tha), ('192,4$', tha / (2 * m.pi)), ('24,18$\n  J', 0.020 * tha),
+        ('37,70$ rad/s', wsg), ('7,390$', Lg4), ('4,905$ N·m', tg4), ('0,6638$ rad/s', Og4),
+        ('9,47$ s.', 2 * m.pi / Og4), ('0,0176$', Og4 / wsg), ('19,62$ N', 2.0 * G0),
+        ('0,166$ m/s', Og4 * 0.25), ('4,73$ s', m.pi / Og4),
+        ('0,042$ N·m. Ese', tcmg), ('2094$ rad/s', wcmg), ('1,67 times 10^(-4)', 0.35 / wcmg),
+        ('8,3$ s', 0.35 / tcmg), ('0,0168$ rad/s²', acmg), ('7,90$ s', t30), ('0,133$ rad/s', acmg * t30),
+        ('1,257$', Lv), ('1,571$ rad/s', m.pi / 2), ('1,974$ N·m', Mv), ('6,6$ N', Mv / 0.30),
+        ('5,83 times 10^33', LT), ('7,66 times 10^(-12)', OpT),
+        ('1,78 times 10^22', OpT * LT * m.sin(rad(23.5))), ('52 thin 000', 2 * 26000),
+    ]
     return {
+        'parcialito-4-momento-angular.typ': parcialito4,
         'modelo-parcial-4.typ': modelo4,
         'modelo-parcial-5.typ': modelo5,
         'modelo-parcial-1.typ': [

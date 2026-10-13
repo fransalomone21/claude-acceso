@@ -81,7 +81,7 @@
 //  Lo que usan las resoluciones de los modelos de parcial
 // ---------------------------------------------------------------------
 // El encabezado de un ejercicio del enunciado, con su puntaje a la derecha.
-#let ejercicio(n, titulo, puntos) = heading(level: 2)[Ejercicio #n — #titulo #h(1fr) #text(size: 10pt, weight: "regular")[(#puntos puntos)]]
+#let ejercicio(n, titulo, puntos) = heading(level: 2)[Ejercicio #n — #titulo #h(1fr) #text(size: 10pt, weight: "regular")[(#puntos #if puntos == [1] [punto] else [puntos])]]
 // De qué temas sale y en qué ejercicio de la guía se apoya.
 #let origen(cuerpo) = block(above: 2pt, below: 6pt, text(size: 9pt, fill: luma(90), style: "italic", cuerpo))
 // La notación del tema: la de este apunte y cómo aparece en la guía y los libros.

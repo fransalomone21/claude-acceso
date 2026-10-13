@@ -30,6 +30,12 @@
     },
     {
       "materia": "Fisica Espacial/Modelos de Parcial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-4-momento-angular.pdf",
+      "nombre-en-drive": "Parcialito 4 - Momento angular y giroscopos (con resolucion).pdf",
+      "estado": "2026-10-13 -- la lista de temas de impulso angular renglon por renglon con donde esta en el apunte; parte A conceptual (rueda, I desde la energia, Steiner, torque, banqueta, giroscopo y analogia con la orbita, el ventilador de Anibal, precesion de los equinoccios) y parte B numerica (rueda que se frena, rueda colgada, CMG de un microsatelite); numeros validados por practica/validar.py"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-integrador.pdf",
       "nombre-en-drive": "Modelo de parcial integrador (con resolucion).pdf",
       "estado": "2026-09-29 -- 4 ejercicios integradores sobre el apunte, ahora con figuras, notacion por tema y camino alternativo en cada resolucion; numeros validados por practica/validar.py"
