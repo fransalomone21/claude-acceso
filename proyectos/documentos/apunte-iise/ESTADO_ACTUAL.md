@@ -1,5 +1,20 @@
 # ESTADO ACTUAL — Apunte de IISE
 
+**2026-10-13 — Fase 7 CERRADA: las clases 8, 9 y 10 están en el apunte.**
+**10 unidades, 40 módulos (M00–M39) + anexo A, 191 páginas, 99 términos de
+glosario**, publicado en el Drive y verificado por MD5. Unidad 8 (M28–M32:
+plan de trabajo, estimaciones, LDCM, lanzadores, diagrama funcional y el
+NOAA-N′) + una sección nueva en M15 (qué congela cada revisión); unidad 9
+(M33–M36: plantilla de requerimientos e interfaces con el lanzador, Fase B,
+TRL/IRL/SRL, Fase C con CDR y SIR); unidad 10 (M37–M39: forma, función e
+ingeniería inversa, la PDR del ROV con _trade study_ y presupuestos, gestión
+del riesgo técnico). El **anexo A** mapea cada sección de la consigna del
+trabajo final (un MCR) a los módulos que la explican. Léxico, cobertura y sus
+saboteadores en verde. Detalle y desvíos: `PDP.md`, fase 7.
+
+**Lo de abajo es la historia previa**; donde dice «7 unidades, 28 módulos,
+128 páginas», eso era antes del 2026-10-13.
+
 **PROYECTO CERRADO — las siete fases (0 a 6) cerradas.** Las fases 0 a 4
 cerraron el 2026-09-20; la **fase 5 (figuras) y la 6 (parcialitos 4 y 5), el
 2026-09-21**. El
@@ -275,6 +290,16 @@ los `#include` de `apunte.typ`.
 
 ## Qué sigue
 
-**Nada.** El proyecto está cerrado. Si la cátedra cambia algo o aparece un
-defecto en una página, se toca el módulo, se recompila, se corren los dos
-verificadores y se vuelve a publicar.
+Mantenimiento. Cuando llegue la **clase 11** (o un parcialito de las clases
+7 a 10), se abre la fase 8 con el mismo circuito: exportar el `.pptx` con
+`exportar-pptx.ps1` (que des-oculta las láminas ocultas) y extraer con
+`extraer-clases.py --figuras`, glosario primero, un módulo por tema, mirar cada página,
+léxico y cobertura, commit (publica solo).
+
+**Defecto viejo encontrado y no tocado (2026-10-13):** hay **5 tags `#t[]`
+partidos en el salto de línea** en módulos cerrados —M06 (línea 6), M08 (25),
+M09 (7), M10 (7) y M14 (150)—, así que `verificar-lexico.py` no los mide. El
+`grep -n '#t\[[^]]*$'` del paso 4 del HANDOFF los encuentra. Algunos
+(«resolver la ambigüedad, enfocar la creatividad…», «dominio principal del
+arquitecto») probablemente no tengan entrada en el glosario: al unirlos, el
+léxico puede ponerse en rojo. Es una pasada aparte.

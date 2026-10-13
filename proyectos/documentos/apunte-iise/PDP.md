@@ -47,7 +47,7 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 ## 4. Las fases
 
-**Fase en curso:** 7 — Las clases 8 y 9 al apunte (tipo: **Fase B**: el plan y la estructura están hechos; no se redacta hasta abrir la sesión de la unidad 8).
+**Fase en curso:** ninguna — la 7 (clases 8, 9 y 10) cerró el 2026-10-13. Mantenimiento (tipo: **Fase E**): si llega la clase 11 o un parcialito nuevo, se abre la fase 8 con su criterio escrito antes de empezar.
 
 ### Fase 0 — Material asegurado en el repo ✅ CERRADA (2026-09-20)
 
@@ -286,7 +286,7 @@ cinco o seis preguntas, todas de definición. Llegaron 12 preguntas más y
 **ninguna se salió de la forma** — una predicción escrita antes, confirmada
 después, que es la única clase de validación que este proyecto puede producir.
 
-### Fase 7 — Las clases 8 y 9 (plan registrado 2026-10-05; redacción SIN EMPEZAR)
+### Fase 7 — Las clases 8, 9 y 10 ✅ CERRADA (2026-10-13)
 
 **Abierta porque llegó material nuevo**: la clase 8 (98 diapositivas: plan de
 trabajo, estimaciones, LDCM, lanzadores, ROV) y la clase 9 (54: Fase B, TRL/IRL,
@@ -295,7 +295,45 @@ está en [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) (qué es nuevo, qué ya est�
 destino por módulo, orden de sesiones y lo que hay que desconfiar de las notas
 de orador).
 
-**Criterio de salida:** los 9 módulos nuevos (M28 a M36) y las 4 extensiones
+**Criterio de salida (original):** los 9 módulos nuevos (M28 a M36) y las 4 extensiones
 (M15 dos secciones, M19 y M21) compilan con **cada página mirada**; `verificar-lexico.py` y
 `verificar-cobertura.py` en verde; los términos nuevos en el glosario con su
 diapositiva mirada; el PDF republicado y verificado por MD5.
+
+**Alcance ampliado el 2026-10-13, a pedido de Fran:** llegó la **clase 10**
+(71 diapositivas: forma y función, ingeniería inversa, la PDR del ROV, gestión
+del riesgo técnico) y la **consigna del trabajo final** (un MCR). La fase pasó
+a cubrir las tres clases en la misma sesión. El criterio se mantuvo —módulos
+compilando con cada página mirada, léxico y cobertura en verde, glosario con
+diapositiva mirada, PDF publicado por MD5— sobre la estructura nueva.
+
+**Resultado:** 12 módulos nuevos y una extensión, 128 → **191 páginas**:
+
+| Unidad | Módulos | Fuente |
+|---|---|---|
+| 8 | M28 plan de trabajo (WBS, red, camino crítico con la cuenta hacia adelante y hacia atrás, Gantt) · M29 estimaciones · M30 el LDCM · M31 lanzadores · M32 diagrama funcional y el NOAA-N′ | clase 8 (97 diap.) |
+| 8 | extensión de M15: qué congela cada revisión y la progresión de los requerimientos | clase 8, diap. 41-42 |
+| 9 | M33 plantilla de requerimientos e interfaces con el lanzador · M34 Fase B · M35 TRL, IRL y SRL · M36 Fase C, CDR y SIR | clase 9 (54) |
+| 10 | M37 forma, función e ingeniería inversa · M38 la PDR del ROV · M39 gestión del riesgo técnico | clase 10 (71) |
+| — | Anexo A: cada sección del trabajo final con los módulos que la explican | consigna del TP |
+
+28 términos nuevos en el glosario (71 → 99). `verificar-lexico.py`,
+`verificar-cobertura.py` y sus dos saboteadores en verde; PDF publicado en el
+Drive y verificado por MD5 (el hook `post-commit`, unidad por unidad).
+
+**Desvíos respecto del plan del 2026-10-05, y por qué:**
+
+- **Las extensiones de M19 y M21 no se hicieron**: la plantilla de
+  requerimientos y las interfaces con el lanzador de la clase 9 son un módulo
+  propio (M33), porque la clase las presenta juntas como repaso y cortarlas en
+  dos módulos viejos las separaba de su contexto. Cambio mínimo: los módulos
+  cerrados no se tocaron.
+- **La clase 8 vigente es la del 12/10**: 97 diapositivas (la cátedra sacó la
+  44 que había agregado el 05/10), con **la 39 y la 40 ocultas**. Un PDF
+  exportado «normal» las saltea y corre todos los números; se exportó con las
+  ocultas visibles, así que el número de página es el de la lámina.
+- **La «transcripción» de la clase 8 no es la clase hablada**: igual que la de
+  la clase 7, es el `.pptx` con notas de orador. No se usó como fuente.
+- **El umbral de TRL 6** que el plan marcaba como «sólo de las notas» tiene
+  fuente en la clase 10 (diap. 57: guías de NASA y de la GAO, TRL 6 al
+  completar la PDR) y un contraejemplo (Mars 2020).

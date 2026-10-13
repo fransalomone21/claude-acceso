@@ -270,10 +270,10 @@ módulos de abajo, hasta la franja siguiente, son los que la tratan.
 
 // ---------------------------------------------------------------------
 // La unidad 7 corre en M24-M27, no en M23-M26: la unidad 6 salio con un
-// modulo mas de los previstos (ver la nota arriba de m19). Este es el
-// UTIMO bloque del apunte -- cierra las 7 unidades del PDP.
+// modulo mas de los previstos (ver la nota arriba de m19). Cerraba las 7
+// unidades del PDP original; la fase 7 (2026-10-13) agrego las 8, 9 y 10.
 #parte(7, "Creación de arquitecturas, Fase A y el diagrama N²", [
-  Cuatro módulos que cierran el apunte: cómo se crea una arquitectura, qué
+  Cuatro módulos que cierran la Fase A: cómo se crea una arquitectura, qué
   produce en concreto la Fase A, y cómo se aplica el diagrama N² a
   interfaces reales.
 
@@ -382,3 +382,6 @@ módulos de abajo, hasta la franja siguiente, son los que la tratan.
 #include "modulos/m37-forma-funcion-e-ingenieria-inversa.typ"
 #include "modulos/m38-el-pdr-de-un-rov.typ"
 #include "modulos/m39-gestion-del-riesgo.typ"
+
+// Anexos: no son modulos (no emiten <mod-id>), apuntan a los que ya estan.
+#include "anexos/a1-trabajo-final.typ"

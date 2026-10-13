@@ -1,7 +1,8 @@
 # Apunte de IISE — contrato de contexto
 
 Apunte general de **Introducción a la Ingeniería de Sistemas Espaciales**
-(UNSAM, 2026), unidades 1 a 7. Fuente única en **Typst**, un solo PDF.
+(UNSAM, 2026), unidades 1 a 10 (una por clase) y un anexo del trabajo
+final. Fuente única en **Typst**, un solo PDF.
 Destinatario: **el alumno que cursa la materia y rinde sus parciales**.
 
 **Naturaleza:** `documentos`. Antes de trabajar acá se lee
@@ -12,7 +13,8 @@ Destinatario: **el alumno que cursa la materia y rinde sus parciales**.
 | Si la tarea es… | Leer |
 |---|---|
 | **producir o tocar algo para IISE** (apunte, diagrama, actividad) | `../catedras/iise/CRITERIOS.md` **entero**, antes de la primera línea: lo que pide la cátedra manda sobre este contrato (repo privado, ver `../catedras/CLAUDE.md`) |
-| las clases 8 y 9 (plan, qué es nuevo, en qué módulo entra) | [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) |
+| las clases 8 y 9 (el plan del 05/10, ya ejecutado; sus números de la clase 8 están corridos) | [`PLAN-CLASES-8-9.md`](PLAN-CLASES-8-9.md) |
+| **llegó una clase nueva** (`.pptx`) | `exportar-pptx.ps1` (exporta con las láminas ocultas visibles) y después `extraer-clases.py --figuras` |
 | retomar, saber qué módulos están cerrados | [`ESTADO_ACTUAL.md`](ESTADO_ACTUAL.md) |
 | qué cierra la fase en curso, o por qué se decidió algo | [`PDP.md`](PDP.md) — §4 y §6 |
 | lo que quedó a medias y las trampas ya pagadas | [`HANDOFF.md`](HANDOFF.md) |

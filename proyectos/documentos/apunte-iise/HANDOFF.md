@@ -1,5 +1,36 @@
 # HANDOFF — Apunte de IISE
 
+## Sesión 2026-10-13 — fase 7 cerrada: clases 8, 9 y 10 al apunte
+
+**Hecho:** unidades 8, 9 y 10 (M28–M39), la sección de baselines en M15 y el
+anexo A (el trabajo final, sección por sección). 191 páginas, publicado por
+MD5. Ver `ESTADO_ACTUAL.md` arriba y `PDP.md` fase 7 (con los desvíos).
+
+**Lo que la próxima sesión no tiene que rehacer:** extraer las clases 8, 9 y
+10 (`fuentes/clases/clase-8.txt`, `-9`, `-10`, ya en el repo); el glosario de
+esas unidades; los criterios del TP final (están en `catedras/iise/`, §E).
+
+**Trampas nuevas, pagadas en esta sesión:**
+
+- **Un `.pptx` con diapositivas ocultas exportado a PDF corre la numeración.**
+  La clase 8 del 12/10 tiene la 39 y la 40 ocultas: «Guardar como PDF» dio 95
+  páginas para 97 láminas. **Ahora se exporta con `exportar-pptx.ps1`** (en
+  esta carpeta): copia, des-oculta todas las láminas, guarda el PDF e imprime
+  cuántas había ocultas. Medido: con el script, 97 páginas para 97 láminas.
+- **La cátedra re-sube los `.pptx` con cambios chicos** (la 44 de la clase 8
+  apareció el 05/10 y desapareció el 12/10; en la 9, una lámina cambió de
+  lugar). Antes de usar un número de diapositiva de un plan viejo, comparar
+  las versiones lámina por lámina (texto + hash de imágenes).
+- **`placement: auto` en las figuras grandes** evita las medias páginas en
+  blanco, pero si dos figuras flotantes caen en la misma página que una caja
+  partida, la caja queda con una tira vacía: esa figura va sin flotar.
+- **Escala de riesgo:** la de NASA (diap. 68 de la clase 10) tiene el 1 como
+  peor; la del ROV (diap. 49), el número alto como peor. M39 lo dice; no
+  unificar sin avisar.
+
+**Defecto viejo, anotado y sin tocar:** 5 tags `#t[]` partidos en M06, M08,
+M09, M10 y M14 (ver `ESTADO_ACTUAL.md`, «Qué sigue»).
+
 **PROYECTO CERRADO.** Las **siete** fases del PDP están cerradas: el apunte
 está escrito (7 unidades, 28 módulos, 71 términos, **126 páginas, 18
 figuras**), mapeado contra los parcialitos (16 preguntas, ninguna huérfana, con

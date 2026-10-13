@@ -1,5 +1,12 @@
 # Plan: incorporar las clases 8 y 9 al apunte
 
+> **EJECUTADO el 2026-10-13, con la clase 10 sumada** (ver `PDP.md`, fase 7,
+> y sus desvíos). Este archivo queda como registro del plan. **Sus números
+> de diapositiva de la clase 8 son de la versión del 05/10 (98 láminas)**: en
+> la vigente del 12/10 (97) la cátedra sacó la 44, así que **desde la 45 de
+> este plan hay que restar 1** (y la 39 y la 40 están ocultas). Los números
+> que valen son los del apunte, que se miraron sobre la versión del 12/10.
+
 **Registrado el 2026-10-05, a pedido de Fran: solo el plan y los contenidos
 clasificados, sin redactar ningún módulo.** Redactar es la fase 7 del
 [`PDP.md`](PDP.md) y cuesta una sesión por unidad (regla propia 6).

@@ -1,6 +1,6 @@
 # Estado actual — Carrera
 
-**Última actualización:** 2026-10-09 (fila de Teoría de Circuitos: la guía de $H(s)$ para la exposición del Grupo 1)
+**Última actualización:** 2026-10-13 (fila de IISE: clases 8 a 10 en el apunte, consigna del TP final)
 
 ## Dónde estamos
 
