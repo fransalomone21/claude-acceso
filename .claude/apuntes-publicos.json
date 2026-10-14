@@ -36,10 +36,16 @@
       "estado": "2026-09-27 -- 3 ejercicios sobre la seccion de impulso angular de la guia; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/3 - Parcialito 4 (fines de octubre, estimado)",
+      "materia": "Fisica Espacial/Modelos de Parcial/3 - Parcialito 4 (14-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-4-momento-angular.pdf",
       "nombre-en-drive": "Parcialito 4 - Momento angular y giroscopos (con resolucion).pdf",
-      "estado": "2026-10-13 -- la lista de temas de impulso angular renglon por renglon con donde esta en el apunte; parte A conceptual (rueda, I desde la energia, Steiner, torque, banqueta, giroscopo y analogia con la orbita, el ventilador de Anibal, precesion de los equinoccios) y parte B numerica (rueda que se frena, rueda colgada, CMG de un microsatelite); numeros validados por practica/validar.py"
+      "estado": "2026-10-13 -- la lista de temas de impulso angular renglon por renglon con donde esta en el apunte; parte A conceptual (rueda, I desde la energia, Steiner, torque, banqueta, giroscopo y analogia con la orbita, el ventilador de Anibal, precesion de los equinoccios) y parte B numerica (rueda que se frena, rueda colgada, CMG de un microsatelite); numeros validados por practica/validar.py. Carpeta renombrada el 14/10 con la fecha real (Fran: el parcialito 4 fue ese dia)"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial/3 - Parcialito 4 (14-10, tomado)",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/resumen-momento-angular.pdf",
+      "nombre-en-drive": "Resumen - Momento angular.pdf",
+      "estado": "2026-10-14 -- 5 pag. para estudiar el parcialito 4: la lista de temas de impulso angular renglon por renglon (idea, formula y trampa), la analogia giroscopo-orbita, como pregunta Anibal y las formulas juntas. Publico por decision de Fran del 14/10 (fuente: practica/resumen-momento-angular.typ)"
     },
     {
       "materia": "Fisica Espacial/Modelos de Parcial/4 - 2do Parcial (19-11) y recuperatorio (26-11)",

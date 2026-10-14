@@ -9,11 +9,12 @@ repite, porque un dato que vive en dos lados diverge.
 ## Sesión del 2026-10-14 — resumen para el parcialito
 
 **Hecho:** `practica/resumen-momento-angular.typ` (5 págs., en `compilar.ps1`),
-entregado a Fran por archivo. **Queda, si Fran dice que sí:** (1) publicarlo
-—declararlo en `apuntes-publicos.json`, en `Fisica Espacial/Modelos de
-Parcial/3 - Parcialito 4 ...`—; (2) si el parcialito de hoy era el 4,
-renombrar esa carpeta con la fecha real (14-10, tomado) con `rclone moveto` y
-cambiar su `materia` en `apuntes-publicos.json`, juntas, y `-Verificar`.
+entregado a Fran por archivo y **publicado** (Fran dijo «subilo»), en
+`Modelos de Parcial/3 - Parcialito 4 (14-10, tomado)`: la carpeta se renombró
+con la fecha real (el 4 fue el 14/10), mismo id, y `-Verificar` en verde.
+**Queda:** el rojo «listo para la nube» del arranque, sin tocar (se priorizó
+el parcialito); y correr `perfil-global\install.ps1` para que la trampa nueva
+de `pdf-con-codigo` llegue a `~/.claude`.
 
 **Trampa pagada:** en markup de Typst, un renglón que empieza con `/ ` es un
 *term list*: «torca⏎ / torque / cupla» salió partido y en negrita. Compila sin

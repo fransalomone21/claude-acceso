@@ -8,12 +8,12 @@
   giróscopo ↔ órbita, «cómo pregunta Aníbal» (ANI-30 a 40) y las fórmulas
   juntas. Sale del módulo `rotacion` y de `momento-angular`; sin números
   nuevos (nada que validar). Mirado en el render. Entró a `compilar.ps1`.
-  **No es público todavía**: no está en `apuntes-publicos.json` (lo decide
-  Fran).
-- **Dato nuevo, `probable`:** el parcialito de momento angular fue **hoy,
-  14/10** (Fran), no «fines de octubre». Si es el parcialito 4, la carpeta
-  `3 - Parcialito 4 (fines de octubre, estimado)` del Drive tiene la fecha
-  mal; el renombre está en el HANDOFF, sin hacer.
+  **Público** (Fran, 14/10) como «Resumen - Momento angular.pdf», declarado
+  en `apuntes-publicos.json`; `-Verificar` en verde por MD5.
+- **El parcialito 4 fue el 14/10** (Fran, `confirmado`). La carpeta del Drive
+  se renombró a `3 - Parcialito 4 (14-10, tomado)` con `rclone moveto`: mismo
+  id antes y después, así que los links viejos siguen andando. Su `materia`
+  en `apuntes-publicos.json` cambió en el mismo turno.
 
 ## 2026-10-13 (tarde): C1 cerrado y el 1er parcial resuelto, públicos
 
