@@ -47,7 +47,7 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 ## 4. Las fases
 
-**Fase en curso:** ninguna — la 7 (clases 8, 9 y 10) cerró el 2026-10-13. Mantenimiento (tipo: **Fase E**): si llega la clase 11 o un parcialito nuevo, se abre la fase 8 con su criterio escrito antes de empezar.
+**Fase en curso:** ninguna — la 8 (resumen para el parcialito del 14/10) cerró el 2026-10-14. Mantenimiento (tipo: **Fase E**): si llega la clase 11, un parcialito nuevo u otro pedido de resumen, se abre la fase 9 con su criterio escrito antes de empezar.
 
 ### Fase 0 — Material asegurado en el repo ✅ CERRADA (2026-09-20)
 
@@ -337,3 +337,31 @@ Drive y verificado por MD5 (el hook `post-commit`, unidad por unidad).
 - **El umbral de TRL 6** que el plan marcaba como «sólo de las notas» tiene
   fuente en la clase 10 (diap. 57: guías de NASA y de la GAO, TRL 6 al
   completar la PDR) y un contraejemplo (Mars 2020).
+
+### Fase 8 — Resumen para el parcialito del 14/10 ✅ CERRADA (2026-10-14)
+
+**Pedido de Fran (14/10):** un resumen para estudiar el parcialito de hoy:
+la clase 8 hasta el LDCM (plan de trabajo, WBS, red, camino crítico, Gantt,
+estimaciones y costos, baselines, LDCM) y la Fase B de la clase 9; en criollo
+sin perder formalismo, con los ejemplos de la clase mejor contados, con humor,
+y publicado clasificado en el Drive de los compañeros.
+
+**Criterio de salida:** `resumenes/resumen-clases-8-9.pdf` compilado con
+**cada página mirada**; cada número de un ejemplo de la clase verificado
+contra la lámina (PNG o `clase-N.txt`) o contra el módulo que ya lo verificó;
+léxico de la cátedra (requerimiento, interesado); declarado en
+`.claude/apuntes-publicos.json` y `publicar-apuntes.ps1 -Verificar` en verde
+por MD5.
+
+Resultado: **12 páginas, las 12 miradas** (`resumenes/`, con un `estilo.typ`
+propio que importa la paleta del apunte). Los números de los ejemplos se
+verificaron contra la lámina: la WBS de LaACES (diap. 34: 14 d y 970 USD en la
+1.5.2, total 710 d y 27 010 USD, y la rama 5.0 que falta en la lámina) y el té
+(diap. 14: las dos ramas; 253 → 83 s, y en la bifurcación de la tetera el
+crítico también cambia: recalentar 10 → saquitos 5). El resto sale de los
+módulos que ya los verificaron. Dos cuentas son **del resumen y lo dicen**
+(la reconciliación macro/micro y el grabador del LDCM: 291 Mbps × 600 s ≈ 175
+Gbit, ~17 pasadas en 3,1 Tbit). El medidor dio **rojo antes de subir**
+(«SIN PUBLICAR», 1 cosa sin resolver) y verde después, por MD5. Destino:
+`IISE/Material de Estudio nuestro/Resumenes para parcialitos/Clases 8 y 9
+(14-10)`, la clasificación nueva que pidió Fran («clasificadamente»).

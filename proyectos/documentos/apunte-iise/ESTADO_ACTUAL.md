@@ -1,5 +1,13 @@
 # ESTADO ACTUAL — Apunte de IISE
 
+**2026-10-14 — Fase 8 CERRADA: resumen para el parcialito del 14/10.**
+`resumenes/resumen-clases-8-9.pdf` (12 pág.): la clase 8 hasta el LDCM (WBS,
+red y camino crítico con el té, Gantt, estimaciones y costos, _baselines_,
+LDCM) y la Fase B de la clase 9 (TESS, TRL 6, PDR, confirmación), con
+«lo que puede caer» y siglas. Publicado en
+`IISE/Material de Estudio nuestro/Resumenes para parcialitos/Clases 8 y 9 (14-10)`,
+verificado por MD5. Detalle: `PDP.md`, fase 8. El apunte general no se tocó.
+
 **2026-10-13 — Fase 7 CERRADA: las clases 8, 9 y 10 están en el apunte.**
 **10 unidades, 40 módulos (M00–M39) + anexo A, 191 páginas, 99 términos de
 glosario**, publicado en el Drive y verificado por MD5. Unidad 8 (M28–M32:

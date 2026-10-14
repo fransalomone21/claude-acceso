@@ -1,5 +1,25 @@
 # HANDOFF — Apunte de IISE
 
+## Sesión 2026-10-14 — fase 8: resumen para el parcialito de hoy
+
+**Hecho:** `resumenes/resumen-clases-8-9.typ` → PDF de 12 páginas, publicado
+y verificado por MD5 en una carpeta nueva del Drive,
+`Material de Estudio nuestro/Resumenes para parcialitos/Clases 8 y 9 (14-10)`.
+
+**Cómo se hace el próximo resumen:** copiar la estructura de éste (cada tema:
+definición con la palabra de la cátedra → idea → el ejemplo de la clase
+contado de nuevo → trampa; al final «lo que puede caer» y siglas). El estilo
+vive en `resumenes/estilo.typ` (importa la paleta del apunte). Se compila
+**desde `apunte-iise`** con `typst compile --creation-timestamp=1767225600
+--root . resumenes/<archivo>.typ resumenes/<archivo>.pdf` (sin `--root .` no
+llega a la paleta; sin el timestamp el MD5 cambia en cada compilación). Se
+declara en `.claude/apuntes-publicos.json` con su carpeta de clase.
+
+**Trampa pagada:** los números de un ejemplo de la clase se sacan de la
+**lámina**, no del texto extraído: en `clase-8.txt` las duraciones del té
+salen en fila, sin decir a qué caja van, y la estructura de la red (qué rama
+arranca dónde) sólo está en el PNG (`apunte/figuras/c08-p014.png`).
+
 ## Sesión 2026-10-13 — fase 7 cerrada: clases 8, 9 y 10 al apunte
 
 **Hecho:** unidades 8, 9 y 10 (M28–M39), la sección de baselines en M15 y el

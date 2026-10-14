@@ -1,6 +1,6 @@
 # Estado actual — Carrera
 
-**Última actualización:** 2026-10-13 (fila de Física Espacial: 1er parcial resuelto público, C1 cerrado; antes, la de IISE: clases 8 a 10 y consigna del TP final)
+**Última actualización:** 2026-10-14 (fila de IISE: resumen para el parcialito del 14/10; antes, la de Física Espacial: 1er parcial resuelto público, C1 cerrado)
 
 ## Dónde estamos
 
