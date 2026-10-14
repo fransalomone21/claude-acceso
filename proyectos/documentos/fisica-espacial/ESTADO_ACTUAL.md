@@ -1,5 +1,20 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-10-14: resumen de momento angular para el parcialito
+
+- **`practica/resumen-momento-angular.typ`** → `salida/resumen-momento-angular.pdf`
+  (5 págs.): la *Lista de temas Impulso angular (3)* —idéntica a la (1) y la
+  (2)— renglón por renglón con la idea, la fórmula y la trampa, la analogía
+  giróscopo ↔ órbita, «cómo pregunta Aníbal» (ANI-30 a 40) y las fórmulas
+  juntas. Sale del módulo `rotacion` y de `momento-angular`; sin números
+  nuevos (nada que validar). Mirado en el render. Entró a `compilar.ps1`.
+  **No es público todavía**: no está en `apuntes-publicos.json` (lo decide
+  Fran).
+- **Dato nuevo, `probable`:** el parcialito de momento angular fue **hoy,
+  14/10** (Fran), no «fines de octubre». Si es el parcialito 4, la carpeta
+  `3 - Parcialito 4 (fines de octubre, estimado)` del Drive tiene la fecha
+  mal; el renombre está en el HANDOFF, sin hacer.
+
 ## 2026-10-13 (tarde): C1 cerrado y el 1er parcial resuelto, públicos
 
 - **C1 decidido por Fran:** $bold(L)$ es el *momento angular*; el *impulso

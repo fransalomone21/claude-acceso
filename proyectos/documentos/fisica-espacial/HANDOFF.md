@@ -6,6 +6,19 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-10-14 — resumen para el parcialito
+
+**Hecho:** `practica/resumen-momento-angular.typ` (5 págs., en `compilar.ps1`),
+entregado a Fran por archivo. **Queda, si Fran dice que sí:** (1) publicarlo
+—declararlo en `apuntes-publicos.json`, en `Fisica Espacial/Modelos de
+Parcial/3 - Parcialito 4 ...`—; (2) si el parcialito de hoy era el 4,
+renombrar esa carpeta con la fecha real (14-10, tomado) con `rclone moveto` y
+cambiar su `materia` en `apuntes-publicos.json`, juntas, y `-Verificar`.
+
+**Trampa pagada:** en markup de Typst, un renglón que empieza con `/ ` es un
+*term list*: «torca⏎ / torque / cupla» salió partido y en negrita. Compila sin
+error; lo agarró mirar el render.
+
 ## Sesión del 2026-10-13 (tarde) — C1 cerrado, parcial resuelto público
 
 **Hecho:** los puntos 1 y 2 de la lista de abajo. C1 = «momento angular»
