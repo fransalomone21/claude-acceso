@@ -99,3 +99,18 @@ Elementos: **DIV** el verificador de divergencias y su Registro_De_Datos. Diseñ
 | L2-DIV-03 | L1-06 | Cuando el extractor del Archivo_Dueño devuelve un resultado vacío, el verificador de divergencias deberá dar ROJO. | Falla cerrado (Saltzer): un dato que se mudó o un extractor viejo darían verde comparando vacío contra vacío. El Registro_De_Datos que no parsea es el mismo caso. | ensayo: caso (c) del saboteador |
 | L2-DIV-04 | L1-06 | Cuando cada línea fuera del Archivo_Dueño coincide con el patrón de cada Dato_Vigente sin fecha ni sesión, el verificador de divergencias deberá listar la línea como copia ausente del Registro_De_Datos. | Las copias no declaradas no se pueden enumerar (universo abierto). El patrón es una heurística: lista y no frena, como L2-CMP-03, porque un freno con falsos positivos se apaga. La Medición_Fechada queda afuera por construcción. | ensayo: control positivo (d) del saboteador, un retome real lleno de Medición_Fechada |
 | L2-DIV-05 | L0-05 | El Registro_De_Datos deberá asignar a cada Dato_Vigente un único Archivo_Dueño. | Dos dueños es la divergencia misma, escrita en el registro. El registro es un mecanismo compartido: se chequea antes de que el verificador lo use (t20 §6). | inspección: el verificador da ROJO ante dos dueños |
+
+## 6. Nivel 2 — los elementos de T14b («mencionar no es pedir»)
+
+Elementos: **PTA** la puerta (`cascada_puerta.py`, hook) y **AUD** la auditoría (`auditar-sesion.py`). Diseño:
+`docs/t14b-mencionar-no-es-pedir.md`. Términos definidos (R4):
+
+- **Proyecto_Inferido**: un proyecto que la puerta reconoce por una señal del catálogo en lo que tipea Fran.
+- **Mención**: el registro, hecho por la sesión con su motivo, de que el pedido nombra un Proyecto_Inferido como
+  contexto y pide trabajo de otro proyecto o del método.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L2-PTA-05 | L1-03 | Cuando la sesión registra la Mención de cada Proyecto_Inferido, la puerta deberá permitir cada acción fuera de la ruta del Proyecto_Inferido. | Fran, 2026-10-12 noche: lo nombrado como contexto se registra y se trabaja sólo en lo pedido (lluvia §7). Medido el 2026-10-16: de 10 excepciones desde el 2026-10-12 20:00, 8 eran un proyecto nombrado sin pedirlo (5 como contexto u otra sesión, 3 por una palabra suelta); la salida era la Excepción, que pinta P2 y P5 de AMARILLO. | ensayo: caso 18 del autotest de la puerta, con mutante |
+| L2-PTA-06 | L1-08 | Cuando la acción toca la ruta de cada Proyecto_Inferido con Mención Y sin necesidad declarada, la puerta deberá negar la acción. | La Mención tapa el caso de la lección 331 sólo para lo que cae afuera del proyecto; trabajar en el proyecto mencionado sigue exigiendo su cascada. Es lo que la separa de la Excepción. | ensayo: sabotaje del caso 18 del autotest |
+| L2-AUD-02 | L1-03 | Cuando la sesión registra cada Mención, la auditoría de la sesión deberá excluir la Mención del conteo de excepciones de la pregunta P5. | Un canal de excepciones con 8 de 10 menciones dejó de discriminar las salidas de verdad (chequeo-de-trabajo: un aviso que salta siempre). La Mención se informa en P5 como dato, sin color. | ensayo: caso del autotest de `auditar-sesion.py` |
