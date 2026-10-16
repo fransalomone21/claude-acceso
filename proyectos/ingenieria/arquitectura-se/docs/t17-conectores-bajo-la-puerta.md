@@ -89,7 +89,21 @@ Y los caminos de salida temprana (Saltzer): catálogo ilegible → niega (L2-PTA
 
 - **El navegador y la terminal** (`mcp__terminal__run_in_terminal` corre comandos en la terminal de Fran y no pasa por
   el matcher de Bash: tampoco lo ve la puerta de la cascada). Universo abierto: la lista blanca no aplica, y lo que
-  queda es medir el objeto. Registrado como defecto aparte.
+  queda es medir el objeto. La terminal quedó registrada como **DA-059**.
+
+## 7. Lo medido al construir (2026-10-16)
+
+- Autotest de la puerta: caso 19 con 17 casos (8 controles, 9 sabotajes), la caja negra y **4 mutantes vistos en su
+  caso** (conector desconocido, destinatario sin comparar, rol ignorado, carpeta pública), cada uno juzgado sólo si su
+  caso pasó sano en la misma corrida. `probar-t17.py`: 4 de 4 (dos rojos buscados, dos controles).
+- `--verificar` dio **ROJO con el registro real antes de enganchar el matcher** y verde después (el defecto, visto).
+- **Efecto en la sesión real** (`f475a5d5`): crear en una carpeta sin declarar → NEGADA; crear un archivo de prueba en
+  `_REVISAR` (declarada) → pasó; compartirlo con un destinatario sin declarar → NEGADA; mandarlo a la papelera → pasó.
+  `--estado` muestra las cuatro, con el destinatario como hash y ningún mail en claro.
+- Medido de paso: 01 UNSAM y GRUPOS tienen sólo al dueño (`get_file_permissions`), por eso son destinos privados.
+- `chequeo-completo`: un rojo de verdad en la primera corrida — los mails inventados del autotest los marcó la regla 5
+  del repo público (la lección existía); se arman por partes. En la segunda, todo verde salvo «listo para la nube»
+  antes del push, verde al re-medir.
 - **Las sesiones abiertas fuera del árbol** (`puerta-afuera.py` no engancha conectores). Fran abre siempre en
   `claude-acceso`; queda anotado.
 - **La declaración la escribe la sesión.** Igual que `apuntes-publicos.json`: declarar es un acto con commit, y la

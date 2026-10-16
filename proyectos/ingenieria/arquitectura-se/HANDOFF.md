@@ -1,5 +1,19 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-16 (sesión `f475a5d5`, CERRADA) — SIGUE: lo que diga la lluvia §6** (T17 era la fila 2; lo próximo por la
+> tabla es T15, el aprendizaje que se cierra). Hecho: **T17** (`5856671` requisitos, `180821c` construcción;
+> [`docs/t17-conectores-bajo-la-puerta.md`](docs/t17-conectores-bajo-la-puerta.md)). **Para el que siga:** (1) **si Fran
+> pide compartir algo por el conector de Drive**, la puerta lo niega hasta declararlo: agregar en `compartido-con-nombre`
+> de `.claude/estructura-drive.json` el `id` del objeto, el hash del mail (sha256 en minúsculas, 16 cifras, nunca el
+> mail) y el rol, y reintentar; (2) **crear o mudar en una carpeta nueva** pide su id en `destinos-del-conector`, después
+> de medir su permiso (`get_file_permissions`); la carpeta pública nunca: lo público sale por `publicar-apuntes.ps1`;
+> (3) **un conector nuevo** (Gmail, Notion) entra frenado: se clasifica cada herramienta en `.claude/conectores.json`
+> mirando su esquema; (4) las subcarpetas de GRUPOS (TP4, Cohete, TdC) no tienen `id` declarado todavía: el primer pedido
+> de Fran sobre ellas lo pide; (5) **DA-059** (nuevo): la terminal del app corre comandos sin puerta; (6) DA-046
+> arreglado, falta validarlo con 3 sesiones auditadas; (7) DA-058 se repitió acá (editar `chequeo-completo.ps1` pidió el
+> concepto freno, que la cascada no imprime al declarar); (8) el PDP sigue sin §7 (plan de V&V): no entró por plan (5 h
+> al 74 % con otra sesión en paralelo). Archivo de prueba de Drive en la papelera: «prueba T17 - borrar».
+
 > **2026-10-16 (sesión de T16, CERRADA) — SIGUE: lo que diga la lluvia §6** (T16 era la fila 1c-c; lo próximo por la
 > tabla es T17, conectores bajo la puerta, salvo que Fran priorice el telescopio o BLACK). Hecho: **T16** (`66eb66b`
 > requisitos, `4b3f88d` construcción; [`docs/t16-estado-verificable.md`](docs/t16-estado-verificable.md)).

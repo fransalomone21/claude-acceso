@@ -3,6 +3,17 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-16 (sesión `f475a5d5`) — T17 CONSTRUIDO: los conectores bajo la puerta.** La puerta decide cada llamada a
+un conector de claude.ai por lista blanca (`.claude/conectores.json`): leer pasa; compartir pasa sólo con el par
+objeto-destinatario declarado en `.claude/estructura-drive.json` (hash del mail, rol); crear, copiar o mudar a la
+carpeta pública o a una carpeta sin declarar niega; un conector o una herramienta nuevos entran frenados hasta
+clasificarlos (N-10, L0-08, L1-12, L2-PTA-07..17, L2-VER-03 en [`docs/10-requisitos.md`](docs/10-requisitos.md) §8, 0
+VIOLA). Probado: autotest caso 19 (4 mutantes vistos), [`probar-t17.py`](probar-t17.py), `--verificar` rojo antes del
+matcher y verde después, y el **efecto real** en esta sesión (dos negadas y dos que pasaron en la caja negra, sin mails
+en claro). `chequeo-completo` en verde (el rojo de la nube era lo sin pushear). DA-046 arreglado sin validar; nuevo
+**DA-059**: la terminal del app corre comandos sin pasar por ninguna puerta. Diseño en
+[`docs/t17-conectores-bajo-la-puerta.md`](docs/t17-conectores-bajo-la-puerta.md).
+
 **2026-10-16 (sesión de T16) — T16 CONSTRUIDO: el estado se prueba.** Los requisitos tienen ahora resultado, y la
 cascada lo muestra al entrar: por nivel, cuántos están **verificados** (por su propio método), **predichos** (una cuenta
 del diseño para un ensayo, que no lo verifica) y **sin resultado**, cada FALLA y lo que cambió contra la matriz escrita
