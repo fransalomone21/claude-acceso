@@ -464,8 +464,8 @@ def anotar(sid: str, ev: dict):
 
 
 def estado(sid: str) -> dict:
-    st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "comandos": [], "inferidos": {},
-          "por_debil": set()}
+    st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "menciones": {}, "comandos": [],
+          "inferidos": {}, "por_debil": set()}
     f = archivo_estado(sid)
     if not f.exists():
         return st
@@ -489,6 +489,8 @@ def estado(sid: str) -> dict:
             st["declaradas"].setdefault(ev["proy"], set()).update(ev.get("nec", []))
         elif t == "excepcion":
             st["excepciones"][ev["proy"]] = ev.get("motivo", "")
+        elif t == "mencion":
+            st["menciones"][ev["proy"]] = ev.get("motivo", "")
         elif t == "cmd":
             st["comandos"].append(ev["cmd"])
         elif t == "infiere":
@@ -587,7 +589,7 @@ def pre(ev: dict) -> int:
     if not proyecto:
         # El pedido nombro un proyecto (UserPromptSubmit) y esta accion no cae en ninguno: manda el pedido. Sin
         # esto, guardar "en mis documentos" un ejercicio de una materia pasaba sin cascada (leccion 331).
-        pend_inf = [p for p in st["inferidos"] if p not in st["excepciones"]]
+        pend_inf = [p for p in st["inferidos"] if p not in st["excepciones"] and p not in st["menciones"]]
         sin_decl = [p for p in pend_inf if p not in st["declaradas"]]
         if sin_decl or pend_inf:
             proyecto = (sin_decl or pend_inf)[0]
@@ -603,9 +605,12 @@ def pre(ev: dict) -> int:
                 "PUERTA DE LA CASCADA (T11): vas a actuar sobre '%s' sin haber declarado la NECESIDAD.%s\n"
                 "Clasifica el pedido de Fran (puede ser mas de una) y corre:\n"
                 "    %s %s -Necesidad <a,b>\n  Necesidades:\n%s\n"
-                "Despues lee con Read lo que imprima, con los rangos que diga. Solo si de verdad no corresponde: "
-                "%s %s -Excepcion \"motivo\" (queda registrada)." % (proyecto, porque, entrada(), proyecto, menu(cat),
-                                                                     entrada(), proyecto))
+                "Despues lee con Read lo que imprima, con los rangos que diga.%s Solo si de verdad no corresponde: "
+                "%s %s -Excepcion \"motivo\" (queda registrada)." % (
+                    proyecto, porque, entrada(), proyecto, menu(cat),
+                    (" Si el pedido lo NOMBRA sin pedirlo (contexto, otra sesion, una palabra suelta): %s %s -Mencion "
+                     "\"motivo\" -- libera lo de afuera, nunca su carpeta (T14b)." % (entrada(), proyecto))
+                    if proyecto in st["inferidos"] and not directo else "", entrada(), proyecto))
         it, cm, nt = exigido(cat, proyecto, st["declaradas"][proyecto], [])
         faltan += it
         cmds_faltan += cm
@@ -728,6 +733,11 @@ def registrar_invocacion(sid: str, cmd: str):
             if n:
                 necs = [x.strip().lower() for x in n.group(1).split(",") if x.strip()]
                 anotar(sid, {"t": "declara", "proy": proy, "nec": necs})
+            # T14b (L2-PTA-05): la sesion registra que el pedido NOMBRA el proyecto sin pedirlo. No es una excepcion:
+            # libera lo de afuera (el caso 331) y nunca la ruta del proyecto, que sigue pidiendo la necesidad.
+            mn = re.search(r"-Mencion\s+[\"']([^\"']+)[\"']", resto)
+            if mn:
+                anotar(sid, {"t": "mencion", "proy": proy, "motivo": mn.group(1)})
             e = re.search(r"-Excepcion\s+[\"']([^\"']+)[\"']", resto)
             if e:
                 anotar(sid, {"t": "excepcion", "proy": proy, "motivo": e.group(1)})
@@ -745,24 +755,28 @@ def prompt(ev: dict) -> int:
     sid = ev.get("session_id", "")
     st = estado(sid)
     nuevos = []
-    # Contexto de la sesion: lo que ya se declaro y lo inferido por una senal FUERTE. Un proyecto con excepcion no
-    # cuenta: la excepcion dice justamente que la sesion no es de ese proyecto.
+    # Contexto de la sesion: lo que ya se declaro y lo inferido por una senal FUERTE. Un proyecto con excepcion o
+    # mencion no cuenta: las dos dicen justamente que la sesion no es de ese proyecto.
     ctx = [p for p in list(st["declaradas"]) + [q for q in st["inferidos"] if q not in st["por_debil"]]
-           if p not in st["excepciones"]]
+           if p not in st["excepciones"] and p not in st["menciones"]]
     inferidos, cedidos = inferidos_de(cat, sin_ajeno(str(ev.get("prompt", ""))), ctx)
     for p, por, debil in inferidos:
         if p not in st["inferidos"]:
             anotar(sid, {"t": "infiere", "proy": p, "por": por, "debil": debil})
-        if p not in st["declaradas"] and p not in st["excepciones"]:
+        if p not in st["declaradas"] and p not in st["excepciones"] and p not in st["menciones"]:
             nuevos.append((p, por))
     if nuevos:
         print("CASCADA: el pedido toca %s. Antes de actuar (escribir, guardar, correr), aunque sea un ejercicio "
               "chico: %s %s -Necesidad <a,b> y leer lo que imprima; donde se guarda lo local lo dice su contrato. "
               "La puerta lo exige. Hasta declararla NIEGA todo Bash, PowerShell, Write y Edit, AUNQUE NO TOQUEN el "
               "proyecto (la senal es el pedido, no la ruta): esa es la PRIMERA llamada, SOLA, sin nada en paralelo; "
-              "mirar con Read, Glob y Grep si pasa (2026-10-07: cuatro llamadas negadas por no saberlo)." % (", ".join("%s (senal '%s')" % x for x in nuevos), entrada(), nuevos[0][0]))
+              "mirar con Read, Glob y Grep si pasa (2026-10-07: cuatro llamadas negadas por no saberlo). Si Fran lo "
+              "NOMBRA sin pedirlo (contexto, otra sesion, una palabra suelta), la primera llamada es %s %s -Mencion "
+              "\"motivo\": queda registrado y libera lo de afuera, nunca su carpeta (T14b)."
+              % (", ".join("%s (senal '%s')" % x for x in nuevos), entrada(), nuevos[0][0], entrada(), nuevos[0][0]))
     for p, por, otro in cedidos:
-        if p not in st["declaradas"] and p not in st["excepciones"] and p not in st["inferidos"]:
+        if p not in st["declaradas"] and p not in st["excepciones"] and p not in st["menciones"] \
+                and p not in st["inferidos"]:
             print("CASCADA (aviso, sin freno): '%s' es vocabulario de %s, pero la sesion ya es de %s. Si el pedido "
                   "TAMBIEN es de %s: %s %s -Necesidad <a,b> (leccion 372)." % (por, p, otro, p, entrada(), p))
     return 0
@@ -1597,6 +1611,43 @@ def autotest() -> int:
     caso("T14 SABOTAJE: fase_activa.py <ruta> encadenado a una accion -> deny",
          correr(pre_ev("PowerShell", {"command": 'python .claude/hooks/fase_activa.py "%s"; Remove-Item "%s"'
                                       % (black, black / "x")}, sid + "-t14-fa")), True)
+    # 18. T14b (L2-PTA-05, L2-PTA-06): mencionar no es pedir. La senal TIPEADA infiere el proyecto (el 331 sigue
+    # frenando); con la Mencion registrada lo de afuera pasa, y la carpeta del proyecto mencionado sigue pidiendo la
+    # necesidad -- lo que separa la Mencion de la Excepcion. Mismo catalogo sintetico que el 17.
+    dentro_k = ("Write", {"file_path": str(proyectos_del_disco()[p_k] / "zz-t14b.md"), "content": "x"})
+    casos_m = (   # (nombre, registra la mencion, accion, niega, motivo esperado)
+        ("T14b CONTROL: Mencion + Write FUERA -> pasa", True, afuera, False, None),
+        ("T14b SABOTAJE 331: sin Mencion + Write FUERA -> deny", False, afuera, True, "-Mencion"),
+        ("T14b SABOTAJE: Mencion + Write DENTRO del mencionado -> deny", True, dentro_k, True, "sin haber declarado"))
+
+    def caso_m(n, script=__file__):
+        s = "%s-t14b-%d-%s" % (sid, n, Path(script).stem)
+        correr({"hook_event_name": "UserPromptSubmit", "session_id": s,
+                "prompt": "ojo que otra sesion esta con " + sen_k}, e_k, script)
+        if casos_m[n][1]:
+            correr(post_ev("PowerShell", {"command": '.\\cascada.ps1 %s -Mencion "otra sesion en paralelo"' % p_k},
+                           s=s), e_k, script)
+        return correr(pre_ev(*casos_m[n][2], s=s), e_k, script)
+
+    for n, (nombre, _, _, niega, motivo) in enumerate(casos_m):
+        caso(nombre, caso_m(n), niega, motivo)
+    # mutantes, cada uno visto en SU caso: la Mencion tratada como Excepcion abre la carpeta del proyecto; sin leer
+    # -Mencion del comando, lo de afuera vuelve a frenar
+    for nombre, viejo, nuevo, n in (
+            ("MUTANTE (Mencion = Excepcion) deja tocar la carpeta mencionada",
+             'st["menciones"][ev["proy"]] = ev.get("motivo", "")', 'st["excepciones"][ev["proy"]] = ""', 2),
+            ("MUTANTE (no lee -Mencion) frena lo de afuera", r'r"-Mencion\s+', r'r"-NoMencion\s+', 0)):
+        m = tmp / ("mutante-t14b-%d.py" % n)
+        fuente = Path(__file__).read_text(encoding="utf-8")
+        txt = fuente.replace(viejo, nuevo, 1)
+        if txt == fuente:
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        else:
+            m.write_text(txt, encoding="utf-8")
+            r = caso_m(n, m)
+            ok = ('"deny"' in r) != casos_m[n][3]
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0

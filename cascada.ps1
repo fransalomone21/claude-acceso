@@ -28,6 +28,7 @@
 #   .\cascada.ps1 black -Necesidad ingenieria-inversa,diseno
 #                                 declara la necesidad e imprime lo que la PUERTA exige leer (T11)
 #   .\cascada.ps1 black -Excepcion "motivo"   la salida explicita de la puerta, registrada
+#   .\cascada.ps1 black -Mencion "motivo"     el pedido NOMBRA el proyecto sin pedirlo (T14b): libera lo de afuera
 #
 # Desde T11 (2026-10-02) la cascada no es un consejo: .claude/hooks/cascada_puerta.py NO DEJA ACTUAR sobre un
 # proyecto hasta que la sesion declaro la necesidad y LEYO con Read lo que el catalogo .claude/cascada.json exige.
@@ -39,6 +40,7 @@ param(
     [Parameter(Position = 0)][string]$Proyecto,
     [string[]]$Necesidad,       # T11: la necesidad de Fran que se va a resolver (la puerta la exige)
     [string]$Excepcion,         # T11: salida explicita de la puerta, con motivo; queda registrada
+    [string]$Mencion,           # T14b: el pedido NOMBRA el proyecto sin pedirlo; libera lo de afuera, nunca su carpeta
     [string]$Raiz = $PSScriptRoot
 )
 
@@ -107,6 +109,15 @@ if ($elegido.Count -gt 1) {
     exit 1
 }
 $pr = $elegido[0]
+
+# T14b: registrar una mencion no cuesta leer el proyecto (N-07). La registra el HOOK leyendo esta linea de comando.
+if ($Mencion) {
+    Write-Host ""
+    Write-Host "  MENCION de $($pr.Nombre) registrada: '$Mencion'." -ForegroundColor Cyan
+    Write-Host "  Libera lo que cae FUERA de sus carpetas. Para trabajar EN el proyecto, igual: -Necesidad <a,b>."
+    Write-Host ""
+    exit 0
+}
 
 Write-Host ""
 Write-Host "=== cascada de lectura: $($pr.Rel) ===" -ForegroundColor Cyan

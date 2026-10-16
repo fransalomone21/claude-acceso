@@ -198,9 +198,14 @@ def preguntas_de_estado(g, cat, f: Path, evs: list) -> tuple:
         res.append(R("P4", q, v, "medido", ev4))
     # P5
     excs = [e for e in evs if e.get("t") == "excepcion"]
+    # T14b (L2-AUD-02): la Mencion (el pedido NOMBRA un proyecto sin pedirlo) va como dato, sin color: 8 de 10
+    # excepciones eran eso, y el canal dejo de discriminar las salidas de verdad
+    mencs = [e for e in evs if e.get("t") == "mencion"]
     res.append(R("P5", "Hubo excepciones a la puerta?", "AMARILLO" if excs else "VERDE", "medido",
-                 ["#L%d %s (%s): %s" % (e["_n"], e.get("proy"), hora(e.get("ts")), e.get("motivo")) for e in excs]
-                 or "ninguna"))
+                 (["#L%d %s (%s): %s" % (e["_n"], e.get("proy"), hora(e.get("ts")), e.get("motivo")) for e in excs]
+                  or ["ninguna"]) +
+                 ["mencion (no es excepcion) #L%d %s (%s): %s" % (e["_n"], e.get("proy"), hora(e.get("ts")),
+                                                                 e.get("motivo")) for e in mencs]))
     # P6
     nieg = [e for e in dec if e.get("v") == "niega"]
     # la caida la anota el lanzador (o la puerta de afuera): la caja negra no puede anotar la suya
@@ -482,6 +487,13 @@ def autotest() -> int:
                       "motivo": "PUERTA DE LA CASCADA: la puerta REVENTO (salio 1)", "ts": 2}])
     res, _, _, excs, rev = preguntas_de_estado(g, cat, f, eventos(f))
     caso("una excepcion -> P5 AMARILLO", vered(res, "P5") == ["AMARILLO"], res)
+    # T14b (L2-AUD-02): una Mencion sola no pinta P5, y queda nombrada en la evidencia
+    f_m = sesion("F3", [declara, {"t": "mencion", "proy": "black", "motivo": "otra sesion en paralelo", "ts": 1.5},
+                        lee_nuc, edit])
+    res_m = preguntas_de_estado(g, cat, f_m, eventos(f_m))[0]   # nombres propios: el caso de abajo usa res y rev de F
+    p5 = [r for r in res_m if r["id"] == "P5"]
+    caso("T14b: una MENCION sola -> P5 VERDE y nombrada", vered(res_m, "P5") == ["VERDE"]
+         and "otra sesion en paralelo" in str(p5), res_m)
     caso("un reventon de la puerta -> P6 AMARILLO", vered(res, "P6") == ["AMARILLO"] and len(rev) == 1, res)
     f = sesion("F2", [declara, {"t": "revento", "error": "salio 1: NameError", "ts": 2},
                       {"t": "decide", "tool": "Edit", "obj": "x", "cwd": "", "v": "niega",
