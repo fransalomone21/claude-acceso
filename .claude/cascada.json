@@ -42,7 +42,7 @@
     },
     "diseno": {
       "que": "decidir o disenar algo antes de construirlo: una arquitectura, un mod, un plan, elegir entre alternativas, escribir requisitos",
-      "herramientas": ["/spec-interview y /verify-before-build", "verificar-requisito.py --idioma es (GtWR)", "cada commit de diseno cita los IDs de requisito que cumple (N-01, L1-01, L2-PLT-01)", "al cerrar: python auditar-sesion.py --de-fran 'que | evidencia' --escribir", "trade study con pesos de Fran (nunca de la sesion)", "respaldo: el diseno escrito en el repo antes de tocar nada vivo"],
+      "herramientas": ["/spec-interview y /verify-before-build", "verificar-requisito.py --idioma es (GtWR)", "cada commit de diseno cita los IDs de requisito que cumple (N-01, L1-01, L2-PLT-01) y toca UN solo proyecto: cada proyecto tiene su espacio de IDs y la auditoria da ROJO si el commit cita los del otro", "al cerrar: python auditar-sesion.py --de-fran 'que | evidencia' --escribir", "trade study con pesos de Fran (nunca de la sesion)", "respaldo: el diseno escrito en el repo antes de tocar nada vivo"],
       "leer": [
         {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "desde": "^## Qu. leer", "hasta": "^## ", "por": "el indice de las fichas NASA / INCOSE / Rechtin segun la tarea"},
         {"ruta": "perfil-global/pilares/nasa-seh/README.md", "desde": "^## Estado de la lectura", "hasta": "^## ", "por": "que tramo del handbook NASA contesta que"},
