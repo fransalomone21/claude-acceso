@@ -99,6 +99,10 @@ $medidores = @(
     # .claude\datos.json con UN dueno; una copia vista que difiere, o un puntero que copia el valor, es ROJO con el
     # dato, el dueno y la copia. Falla cerrado. ~0,3 s.
     @{ nombre = 'cero divergencias';          cmd = 'python divergencias.py' }
+    # T16 de arquitectura-se (L1-11, L2-MVR-01..10): cada proyecto con prueba de requisitos corre su prueba; ROJO si la
+    # cadena se rompe (ID que no existe, evidencia sin puntero, prueba que revienta o calla) o si la matriz escrita
+    # quedo vieja contra el resultado de hoy. Una FALLA de diseno NO es rojo: se ve al entrar. ~1 s.
+    @{ nombre = 'matriz de verificacion';     cmd = 'python matriz-verificacion.py --verificar' }
 )
 
 $saboteadores = @(
@@ -131,6 +135,11 @@ $saboteadores = @(
     # La auditoria tenia --autotest y no estaba aca: su ceguera a los repos propios duro dos dias (2026-10-09).
     @{ nombre = 'saboteador de la auditoria';     cmd = 'python auditar-sesion.py --autotest' }
     @{ nombre = 'saboteador de divergencias';     cmd = 'python probar-divergencias.py' }
+    # T16: el autotest del medidor (14 casos), sus tres mutantes, y el sabotaje de la prueba del telescopio (una prueba
+    # que siempre dice PASA no prueba: con la base angosta L1-13 y L1-14 tienen que caer).
+    @{ nombre = 'saboteador de la matriz';        cmd = 'python matriz-verificacion.py --autotest' }
+    @{ nombre = 'mutantes de la matriz (T16)';    cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t16.py' }
+    @{ nombre = 'sabotaje de la prueba del telescopio'; cmd = 'node proyectos\ingenieria\telescopio\docs\probar-requisitos.js --sabotaje' }
 )
 
 function Correr($lista, $titulo) {

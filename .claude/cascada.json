@@ -197,6 +197,7 @@
     "telescopio":            {"necesidades": ["diseno"],
                               "lluvia": {"cada": 10},
                               "requisitos": "docs/10-requisitos.md",
+                              "pruebas": ["node docs/probar-requisitos.js"],
                               "senales": ["telescopio", "\\bdobson\\b"]},
     "coaching":              {"necesidades": [],
                               "senales": ["\\bdieta\\b", "entrenamiento", "\\bentreno\\b"]},

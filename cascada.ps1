@@ -393,6 +393,11 @@ if ($Excepcion) {
     # proyecto que declara 'lluvia' en .claude/cascada.json. Sin cadencia no imprime nada.
     $ll = Join-Path $Raiz 'lluvia-de-ideas.py'
     if (Test-Path -LiteralPath $ll) { & python $ll aviso $pr.Nombre 2>&1 | ForEach-Object { Write-Host $_ } }
+    # T16 (L2-CAS-01, -02): la prueba del PRODUCTO al entrar, no solo la del metodo. El conteo de requisitos
+    # verificados, predichos y sin resultado por nivel, cada FALLA y lo que cambio contra la matriz escrita. Solo para
+    # un proyecto de ingenieria con documento de requisitos; un rojo de la cadena se imprime, no corta la cascada.
+    $mv = Join-Path $Raiz 'matriz-verificacion.py'
+    if (Test-Path -LiteralPath $mv) { & python $mv aviso $pr.Nombre 2>&1 | ForEach-Object { Write-Host $_ } }
     $ErrorActionPreference = 'Stop'
 } else {
     # aviso y no faltante: en un repo sintetico (probar-cascada.ps1) no esta, y en el real lo mide --verificar
