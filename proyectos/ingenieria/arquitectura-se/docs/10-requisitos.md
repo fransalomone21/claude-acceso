@@ -189,3 +189,56 @@ entraba sin pasar por ningún freno (DA-046). Términos definidos (R4):
 | L2-PTA-16 | L1-12 | Cuando la lectura del Catálogo_De_Conectores falla, la puerta deberá negar la llamada. | Falla cerrado (Saltzer), como el catálogo de la cascada. | ensayo: caso 19 del autotest |
 | L2-PTA-17 | L1-12 | Cuando la puerta decide cada llamada a un Conector, la puerta deberá registrar la herramienta, el veredicto Y el motivo en el estado de la sesión. | La caja negra que lee la auditoría; el destinatario entra como hash, nunca en claro. | ensayo: caso 19 del autotest; inspección de `--estado` en la sesión real |
 | L2-VER-03 | L1-12 | Cuando el Registro_De_Hooks carece del matcher de los Conectores en el evento PreToolUse, el verificador del catálogo deberá dar ROJO. | Dejar de actuar (Leveson): una puerta desenganchada no avisa sola. El verificador corre en cada arranque. | ensayo: saboteador `probar-t17.py` |
+
+## 9. Nivel 2 — los elementos de T15 («el aprendizaje se cierra»)
+
+Elementos: **APR** el registro de lecciones (`perfil-global/herramientas/aprender.py`, con su medidor `sin-triage`),
+**GFO** el guardia de fan-out (`perfil-global/hooks/guardia-fanout.ps1`), **PTA** la puerta, **LAN** su lanzador
+(`.claude/hooks/puerta-lanzador.py`) y **AUD** la auditoría. Diseño: `docs/t15-el-aprendizaje-se-cierra.md`. Los padres
+son cuatro L1 nuevos, uno por defecto: DA-044 (la lección `propia` que no llega), DA-042 (la recurrencia invisible),
+DA-050 (el fan-out sin su costo) y DA-047 (la caja negra en %TEMP%). Términos definidos (R4):
+
+- **Lección_Registrada**: cada línea de `perfil-global/aprendizaje/lecciones.jsonl` sin tipo `exito`.
+- **Chequeo_De_Trabajo**: el archivo `perfil-global/chequeo-de-trabajo.md`, cuyo núcleo se inyecta al abrir sesión.
+- **Renglón_De_Chequeo**: el comienzo de una viñeta del Chequeo_De_Trabajo, de 25 caracteres o más, guardado en el
+  campo `renglon` de la Lección_Registrada; se compara en minúsculas y con los espacios colapsados.
+- **Lección_Heredada**: una Lección_Registrada con triage `propia` o `foldeada`, sin Renglón_De_Chequeo y con fecha
+  anterior al 2026-10-16.
+- **Tope_De_Heredadas**: la cuenta de Lección_Heredada medida al construir T15, escrita en el registro de lecciones;
+  sólo baja.
+- **Recurrencia**: la entrada de una Lección_Registrada que registra que la clase de error de la lección volvió a
+  ocurrir, con fecha, proyecto, evidencia y costo.
+- **Nivel_Exigido**: el nivel de arreglo que sigue al nivel de la Lección_Registrada en el orden parche, herramienta,
+  regla, flujo, meta; una lección sin nivel cuenta como parche.
+- **Herramienta_De_Fan_Out**: cada una de las herramientas Workflow, Agent y Task.
+- **Costo_Por_Agente**: entre 4 % y 6 % de la ventana de 5 horas del plan Pro por agente (TBR).
+- **Caja_Negra**: cada archivo `<sesión>.jsonl` donde la puerta registra lo que la sesión declaró, leyó y decidió.
+- **Directorio_De_Caja_Negra**: la carpeta `~/.claude/caja-negra/` del usuario.
+- **Directorio_Legado**: la carpeta `claude-cascada` del directorio temporal del sistema operativo.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L1-13 | L0-01 | Cuando la sesión registra una Lección_Registrada con triage `propia` O `foldeada`, el registro de lecciones deberá exigir el Renglón_De_Chequeo de la lección. | DA-044: `sin-triage` medía el rótulo del destino, no la llegada. Medido el 2026-10-16 por 4-gramas de la regla contra las 222 viñetas: 16 de 162 `propia` y 43 de 199 `foldeada` comparten menos de 3 con cualquier viñeta. El chequeo es síntesis reescrita: el solapamiento textual no prueba la llegada, el ancla escrita sí. | ensayo: autotest de `aprender.py` |
+| L1-14 | L0-01 | Cuando una Lección_Registrada vuelve a ocurrir, el registro de lecciones deberá exigir un arreglo de nivel mayor que el nivel de la lección. | DA-042 y la regla 15: una lección que se repite con su regla impresa probó que su nivel no alcanzaba. Caso: «17 lectores en paralelo» (2026-09-16) y el workflow de 8 agentes cortados (2026-10-12), sin vínculo entre sí. | ensayo: autotest de `aprender.py`; demostración: una Recurrencia real en esta sesión |
+| L1-15 | L0-02 | Cuando la sesión llama a cada Herramienta_De_Fan_Out, el guardia de fan-out deberá mostrar el costo estimado de la llamada en porcentaje de la ventana de 5 horas. | DA-050: el guardia preguntaba con texto fijo y Fran aprobó un workflow que llevó la ventana del 65 % al 100 % en 3,6 minutos. El medidor va en el punto de decisión (Meadows). El hook no ve el uso del plan: muestra el costo, no lo que queda. | ensayo: saboteador del guardia |
+| L1-16 | L0-01 | La caja negra de la puerta deberá conservar la Caja_Negra de cada sesión después de un reinicio de la máquina. | DA-047: la evidencia que lee la auditoría vivía en %TEMP%, purgable. En la nube la carpeta del usuario muere con el contenedor: ahí lo que persiste es el informe de la auditoría, commiteado (límite declarado). | ensayo: autotest de la puerta; demostración: la auditoría de esta sesión con el Directorio_Legado vacío |
+| L2-APR-01 | L1-13 | Cuando la sesión agrega una Lección_Registrada con triage `propia` O `foldeada` sin Renglón_De_Chequeo, el registro de lecciones deberá rechazar la lección. | Invierte el orden: la viñeta se escribe primero y la lección la cita. Antes, el script avisaba «falta el paso» y el paso dependía de acordarse. | ensayo: autotest, con mutante sin el chequeo |
+| L2-APR-02 | L1-13 | Cuando el Renglón_De_Chequeo de la lección agregada difiere del comienzo de cada viñeta del Chequeo_De_Trabajo, el registro de lecciones deberá rechazar la lección. | Un renglón inventado da la llegada por cumplida sin la viñeta. | ensayo: autotest |
+| L2-APR-03 | L1-13 | Cuando el Renglón_De_Chequeo de cada Lección_Registrada difiere del comienzo de cada viñeta del Chequeo_De_Trabajo, el medidor de lecciones deberá dar ROJO con la lección Y el renglón. | La viñeta puede borrarse o reescribirse después: el medidor mide la llegada hoy, no la de cuando se registró. Corre en la capa rápida de `chequeo-completo`. | ensayo: autotest, con mutante sin la comparación |
+| L2-APR-04 | L1-13 | Cuando la cuenta de Lección_Heredada supera el Tope_De_Heredadas, el medidor de lecciones deberá dar ROJO. | Las heredadas no se pueden anclar por script sin inventar llegadas: quedan como deuda declarada con umbral. Un medidor sin umbral da OK sobre el defecto. | ensayo: autotest |
+| L2-APR-05 | L1-13 | Cuando la sesión cambia el triage de una Lección_Registrada a `propia` O `foldeada` sin Renglón_De_Chequeo, el registro de lecciones deberá rechazar el cambio. | El comando `triage` es la segunda entrada al mismo campo. | ensayo: autotest |
+| L2-APR-06 | L1-14 | Cuando la sesión registra una Recurrencia de cada Lección_Registrada, el registro de lecciones deberá guardar la Recurrencia con fecha, proyecto, evidencia Y costo. | Contar las repeticiones es el sensor que le faltaba al lazo (DA-042). La evidencia es un puntero, como en el Registro_De_Evidencias de T16. | ensayo: autotest |
+| L2-APR-07 | L1-14 | Cuando la sesión registra una Recurrencia de cada Lección_Registrada, el registro de lecciones deberá fijar el Nivel_Exigido de la lección. | La subida es automática: la sesión no decide si sube, decide cómo. Una lección en `meta` que se repite exige `meta` otra vez, y la meta es de Fran. | ensayo: autotest, con mutante que no sube |
+| L2-APR-08 | L1-14 | Cuando el nivel de cada Lección_Registrada es menor que el Nivel_Exigido de la lección, el medidor de lecciones deberá dar ROJO con la lección Y el Nivel_Exigido. | Sin el rojo, la subida es una anotación más. | ensayo: autotest |
+| L2-APR-09 | L1-14 | Cuando la sesión sube el nivel de cada Lección_Registrada a un nivel menor que el Nivel_Exigido de la lección, el registro de lecciones deberá rechazar la subida. | El arreglo se registra con su evidencia: un commit o una ruta. | ensayo: autotest |
+| L2-APR-10 | L1-14 | Cuando la sesión agrega una lección con el título de una Lección_Registrada, el registro de lecciones deberá mostrar el comando que registra la Recurrencia de la Lección_Registrada del título. | Antes decía «no se duplica» y salía: la repetición moría en el rechazo (DA-042). | ensayo: autotest |
+| L2-APR-11 | L1-14 | Cuando el síntoma de la lección agregada comparte 5 o más secuencias de 4 palabras con el síntoma de una Lección_Registrada, el registro de lecciones deberá listar la Lección_Registrada como posible Recurrencia. | TBR: el umbral sale de los casos conocidos. Informa y no frena: «es la misma clase» es un juicio, y un freno con falsos positivos se apaga. | ensayo: autotest con un par conocido |
+| L2-GFO-01 | L1-15 | Cuando la sesión llama a Workflow con un script legible, el guardia de fan-out deberá mostrar la cuenta de llamadas a agentes del script. | Es un piso: un `agent()` adentro de un `map` corre N veces. El guardia lo dice como «al menos». | ensayo: saboteador del guardia |
+| L2-GFO-02 | L1-15 | Cuando el guardia de fan-out muestra la cuenta de agentes, el guardia de fan-out deberá mostrar el producto de la cuenta por el Costo_Por_Agente. | Las unidades de la ventana, que es lo que Fran mira en la app (la lección del fan-out por ronda). | ensayo: saboteador del guardia |
+| L2-GFO-03 | L1-15 | Cuando el guardia de fan-out muestra el costo estimado, el guardia de fan-out deberá mostrar las mediciones de las que sale el Costo_Por_Agente. | Un número sin su base no se puede auditar ni recalibrar. | ensayo: saboteador del guardia |
+| L2-GFO-04 | L1-15 | Cuando el guardia de fan-out carece de un script legible, el guardia de fan-out deberá mostrar la cuenta de agentes como desconocida. | Un workflow guardado por nombre no trae el script en la llamada: el costo desconocido se dice, no se calla. | ensayo: saboteador del guardia |
+| L2-GFO-05 | L1-15 | Cuando la sesión llama a cada Herramienta_De_Fan_Out, el guardia de fan-out deberá devolver la decisión `ask`. | T15 agrega información al freno y no cambia su decisión (regla 6): este requisito lo fija. | ensayo: saboteador del guardia |
+| L2-PTA-18 | L1-16 | La puerta deberá escribir cada Caja_Negra en el Directorio_De_Caja_Negra. | Fuera de %TEMP% y fuera del repo: la Caja_Negra guarda comandos completos y el repo es público. | ensayo: autotest de la puerta, con mutante en el directorio temporal |
+| L2-PTA-19 | L1-16 | Cuando la Caja_Negra de la sesión falta en el Directorio_De_Caja_Negra Y existe en el Directorio_Legado, la puerta deberá copiar la Caja_Negra del Directorio_Legado antes de leerla. | Un freno vivo se edita en un orden que nunca lo deja roto: la sesión que instala T15 declaró y leyó en el Directorio_Legado, y sin la copia la puerta negaría todo. | ensayo: autotest de la puerta |
+| L2-LAN-01 | L1-16 | El lanzador de la puerta deberá anotar cada reventón de la puerta en el Directorio_De_Caja_Negra. | El lanzador no puede importar la puerta, que puede estar rota: repite la ruta y su autotest la compara con la de la puerta. | ensayo: autotest del lanzador |
+| L2-AUD-03 | L1-16 | La auditoría de la sesión deberá leer la Caja_Negra de la sesión auditada con la regla de ubicación de la puerta. | Una sola regla de ubicación: la auditoría ya carga la puerta, y antes armaba la ruta por su cuenta. | ensayo: autotest de `auditar-sesion.py` |
