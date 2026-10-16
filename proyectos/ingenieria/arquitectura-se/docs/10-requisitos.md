@@ -203,7 +203,7 @@ DA-050 (el fan-out sin su costo) y DA-047 (la caja negra en %TEMP%). Términos d
 - **Renglón_De_Chequeo**: el comienzo de una viñeta del Chequeo_De_Trabajo, de 25 caracteres o más, guardado en el
   campo `renglon` de la Lección_Registrada; se compara en minúsculas y con los espacios colapsados.
 - **Lección_Heredada**: una Lección_Registrada con triage `propia` o `foldeada`, sin Renglón_De_Chequeo y con fecha
-  anterior al 2026-10-16.
+  anterior al 2026-10-17 (T15 entró el 2026-10-16: las de ese día son anteriores al freno).
 - **Tope_De_Heredadas**: la cuenta de Lección_Heredada medida al construir T15, escrita en el registro de lecciones;
   sólo baja.
 - **Recurrencia**: la entrada de una Lección_Registrada que registra que la clase de error de la lección volvió a

@@ -55,6 +55,7 @@
     "metodo": {
       "que": "cambiar el metodo mismo: hooks, frenos, verificadores, perfil, cascada, plantillas, el enrutador",
       "herramientas": ["chequeo-completo.ps1 (medidores y saboteadores)", "el primer uso real es parte de la suite", "respaldo: .claude\\desinstalar-hooks.ps1 y los .bak de settings/CLAUDE.md"],
+      "al_tocar": ["freno"],
       "leer": [
         {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "por": "el contrato de la reforma"},
         {"ruta": "proyectos/ingenieria/arquitectura-se/docs/diagnostico-2026-09-28.md", "desde": "^## 3\\.", "hasta": "^## ", "por": "que esta roto y en que orden: el camino critico (el detalle de cada problema, A1-A12, se abre si la tarea lo pide)"}

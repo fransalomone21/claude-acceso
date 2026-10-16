@@ -28,6 +28,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -36,7 +37,13 @@ from pathlib import Path
 
 RAIZ = Path(os.environ.get("CASCADA_RAIZ") or Path(__file__).resolve().parents[2])
 CATALOGO = Path(os.environ.get("CASCADA_CATALOGO") or RAIZ / ".claude" / "cascada.json")
-ESTADO_DIR = Path(os.environ.get("CASCADA_ESTADO_DIR", Path(tempfile.gettempdir()) / "claude-cascada"))
+# T15 (L2-PTA-18, DA-047): la Caja_Negra vivia en %TEMP%, purgable, y es la evidencia que lee la auditoria. Va a la
+# carpeta del usuario: sobrevive al reinicio y queda fuera del repo, que es publico (guarda comandos enteros).
+ESTADO_DIR = Path(os.environ.get("CASCADA_ESTADO_DIR") or Path.home() / ".claude" / "caja-negra")
+# T15 (L2-PTA-19): donde vivia la caja negra antes. Una sesion que arranco antes del cambio declaro y leyo ahi; sin
+# copiarla, la puerta viva negaria todo apenas se instala. Con CASCADA_ESTADO_DIR (las pruebas) no hay legado.
+LEGADO_DIR = (Path(os.environ["CASCADA_ESTADO_LEGADO"]) if os.environ.get("CASCADA_ESTADO_LEGADO")
+              else None if os.environ.get("CASCADA_ESTADO_DIR") else Path(tempfile.gettempdir()) / "claude-cascada")
 LOG_EXC = Path(os.environ.get("CASCADA_LOG_EXC", Path.home() / ".claude" / "hooks" / "cascada-excepciones.log"))
 PATRON_PROY = re.compile(r"proyectos[/\\]+(ingenieria|documentos|seguimiento)[/\\]+([A-Za-z0-9_.-]+)")
 ACCIONES = {"Edit", "Write", "NotebookEdit", "Bash", "PowerShell"}
@@ -434,7 +441,38 @@ def inferidos_de(cat: dict, texto: str, contexto=()):
 
 # ------------------------------------------------------------------------------------------- estado de sesion
 def archivo_estado(sid: str) -> Path:
-    return ESTADO_DIR / ("%s.jsonl" % re.sub(r"[^A-Za-z0-9_.-]", "_", sid or "sin-sesion"))
+    """La Caja_Negra de la sesion (L2-PTA-18). Si falta y esta en el Directorio_Legado, se copia primero (L2-PTA-19),
+    con el mismo candado que anotar(): dos hooks en paralelo no pueden pisar la copia con un renglon ya escrito."""
+    nombre = "%s.jsonl" % re.sub(r"[^A-Za-z0-9_.-]", "_", sid or "sin-sesion")
+    f = ESTADO_DIR / nombre
+    if LEGADO_DIR is not None and not f.exists() and Path(LEGADO_DIR).resolve() != ESTADO_DIR.resolve():
+        viejo = Path(LEGADO_DIR) / nombre
+        if viejo.exists():
+            try:
+                ESTADO_DIR.mkdir(parents=True, exist_ok=True)
+                with open(str(f) + ".lock", "a+b") as lk:
+                    _candado(lk, True)
+                    try:
+                        if not f.exists():
+                            shutil.copyfile(viejo, f)
+                    finally:
+                        _candado(lk, False)
+            except OSError:
+                pass   # sin copia la puerta frena de mas (falla cerrado), nunca de menos
+    return f
+
+
+def migrar_legado() -> int:
+    """Copia al Directorio_De_Caja_Negra cada caja del Directorio_Legado que falte. Lo corre --verificar (cada
+    arranque) y la auditoria. Devuelve cuantas copio."""
+    if LEGADO_DIR is None or not Path(LEGADO_DIR).is_dir():
+        return 0
+    n = 0
+    for viejo in Path(LEGADO_DIR).glob("*.jsonl"):
+        if not (ESTADO_DIR / viejo.name).exists():
+            archivo_estado(viejo.stem)
+            n += (ESTADO_DIR / viejo.name).exists()
+    return n
 
 
 def _candado(fh, tomar: bool):
@@ -971,6 +1009,20 @@ def cli_exige(proyecto: str, necs) -> int:
               "edicion SOLA (una negada en paralelo son N negadas):" % (req, ", ".join(cs)))
         for x in citems:
             print("    %-62s %5d-%-5d %s" % (rel(x["ver"])[-62:], x["a"], x["b"], x["por"][:60]))
+    # DA-058 (T15, recurrencia de la leccion 351 registrada con 'aprender.py repite'): lo mismo para los conceptos que
+    # la NECESIDAD declarada va a tocar ('al_tocar' en el catalogo). Medido: 'metodo' edita frenos (hooks, guardias,
+    # chequeo-completo) y el concepto freno lo nombraba recien la primera negacion -- tres en paralelo el 2026-10-16.
+    for n in dict.fromkeys(list((ent or {}).get("necesidades", [])) + list(necs or [])):
+        for c in cat.get("necesidades", {}).get(n, {}).get("al_tocar", []):
+            cd = cat.get("conceptos", {}).get(c)
+            if cd is None:
+                print("  ! la necesidad %s declara al_tocar '%s', que no es un concepto del catalogo" % (n, c))
+                continue
+            citems, _, _ = exigido(cat, None, [], [c])
+            print("  AL TOCAR %s (necesidad %s) la puerta exige ADEMAS (concepto %s) -- leer antes de la primera "
+                  "accion, y la primera accion SOLA:" % (cd.get("que", c)[:70], n, c))
+            for x in citems:
+                print("    %-62s %5d-%-5d %s" % (rel(x["ver"])[-62:], x["a"], x["b"], x["por"][:60]))
     # Herramientas y RESPALDO de cada necesidad (Fran, 2026-10-02: saber ir a buscar las herramientas y el backup
     # de cada tarea). Se imprimen, no se exigen: son el flujo de informacion, no la puerta.
     for n in dict.fromkeys(list((ent or {}).get("necesidades", [])) + list(necs or [])):
@@ -1006,10 +1058,22 @@ def cli_exige(proyecto: str, necs) -> int:
 def cli_verificar() -> int:
     rojos = []
     try:
+        n = migrar_legado()   # T15: lo que quede en %TEMP% pasa a la caja negra persistente (L2-PTA-19)
+        if n:
+            print("[ok  ] caja negra: %d sesion(es) copiadas de %s a %s" % (n, LEGADO_DIR, ESTADO_DIR))
+    except Exception as e:
+        rojos.append("caja negra: la migracion del legado revento (%s)" % e)
+    if Path(tempfile.gettempdir()).resolve() in ESTADO_DIR.resolve().parents and not os.environ.get("CASCADA_ESTADO_DIR"):
+        rojos.append("caja negra en el directorio temporal: %s (L2-PTA-18)" % ESTADO_DIR)
+    try:
         cat = cargar_catalogo()
     except Exception as e:
         print("[FAIL] catalogo ilegible: %s" % e)
         return 1
+    for n, nd in cat.get("necesidades", {}).items():   # DA-058: un al_tocar que no resuelve no avisa nada
+        for c in nd.get("al_tocar", []):
+            if c not in cat.get("conceptos", {}):
+                rojos.append("la necesidad %s declara al_tocar '%s', que no es un concepto" % (n, c))
     disco = proyectos_del_disco()
     ent = cat.get("proyectos", {})
     for n in sorted(disco):

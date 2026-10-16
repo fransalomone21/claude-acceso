@@ -342,9 +342,13 @@ def repo_al_dia(repo: Path, nube=None) -> tuple:
 def auditar(sesion: str | None, de_fran: list, raiz: Path = RAIZ) -> dict:
     g = cargar_puerta(raiz)
     cat = g.cargar_catalogo()
-    d = Path(os.environ.get("CASCADA_ESTADO_DIR") or g.ESTADO_DIR)
+    # L2-AUD-03 (T15): la ubicacion la decide la puerta (archivo_estado copia del legado si hace falta); antes se armaba
+    # la ruta aca y era una segunda regla que podia divergir.
+    if hasattr(g, "migrar_legado"):
+        g.migrar_legado()
+    d = Path(g.ESTADO_DIR)
     if sesion:
-        f = d / ("%s.jsonl" % re.sub(r"[^A-Za-z0-9_.-]", "_", sesion))
+        f = g.archivo_estado(sesion)
     else:
         cand = sorted(d.glob("*.jsonl"), key=lambda p: p.stat().st_mtime)
         f = cand[-1] if cand else d / "sin-sesion.jsonl"

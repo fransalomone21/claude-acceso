@@ -61,6 +61,12 @@ def es_reparacion(tool: str, inp: dict) -> bool:
     return False
 
 
+def caja_negra_dir() -> Path:
+    """L2-LAN-01: la MISMA regla que ESTADO_DIR de la puerta (T15: fuera de %TEMP%). No se importa la puerta porque
+    puede estar rota, que es justo cuando esto escribe: es una copia, y el autotest la compara con la de la puerta."""
+    return Path(os.environ.get("CASCADA_ESTADO_DIR") or Path.home() / ".claude" / "caja-negra")
+
+
 def deny(texto: str):
     print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "deny",
                                              "permissionDecisionReason": texto}}))
@@ -71,9 +77,8 @@ def anotar_revento(ev: dict, error: str, v: str, motivo: str):
     estado de la sesion (misma regla de nombre que archivo_estado() de la puerta), para que auditar-sesion.py la vea.
     Medido el 2026-10-07: el primer audit de la sesion que revento dijo '0 negadas' -- ciego por construccion."""
     try:
-        import tempfile
         import time
-        d = Path(os.environ.get("CASCADA_ESTADO_DIR", Path(tempfile.gettempdir()) / "claude-cascada"))
+        d = caja_negra_dir()
         d.mkdir(parents=True, exist_ok=True)
         sid = re.sub(r"[^A-Za-z0-9_.-]", "_", ev.get("session_id") or "sin-sesion")
         inp = ev.get("tool_input", {}) or {}
@@ -197,6 +202,19 @@ def autotest() -> int:
     caso("la caida queda ANOTADA en el estado: revento + niega + la reparacion que paso",
          [e.get("t") for e in evs].count("revento") == 2 and any(e.get("v") == "niega" and "REVENTO" in e.get("motivo", "") for e in evs)
          and any(e.get("v") == "pasa" and "reparacion" in e.get("motivo", "") for e in evs), str(evs)[:200])
+    # L2-LAN-01: la copia de la regla de ubicacion coincide con la de la puerta (sin CASCADA_ESTADO_DIR, la de verdad)
+    env_sin = {k: v for k, v in os.environ.items() if k != "CASCADA_ESTADO_DIR"}
+    r = subprocess.run([sys.executable, "-c", "import sys; sys.path.insert(0, r'%s'); import cascada_puerta as g; "
+                        "print(g.ESTADO_DIR)" % AQUI], capture_output=True, text=True, env=env_sin)
+    viejo = os.environ.pop("CASCADA_ESTADO_DIR", None)
+    try:
+        mio = caja_negra_dir()
+    finally:
+        if viejo is not None:
+            os.environ["CASCADA_ESTADO_DIR"] = viejo
+    de_puerta = r.stdout.strip()
+    caso("la caja negra del lanzador es la de la puerta (%s)" % mio, bool(de_puerta) and Path(de_puerta) == mio,
+         "puerta=%r lanzador=%s" % (de_puerta, mio))
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0
 
