@@ -143,6 +143,9 @@ $saboteadores = @(
     # T17: la puerta desenganchada de los conectores (o con un matcher que no atrapa un id real) da ROJO en --verificar.
     # Los casos de la puerta y sus 4 mutantes estan en su autotest (caso 19).
     @{ nombre = 'conectores bajo la puerta (T17)'; cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t17.py' }
+    # T15: el renglon y la recurrencia de las lecciones, el costo del fan-out, la caja negra fuera de %TEMP% y el aviso
+    # del concepto freno; cada pieza sana y 11 mutantes vistos en su caso.
+    @{ nombre = 'el aprendizaje se cierra (T15)'; cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t15.py' }
 )
 
 function Correr($lista, $titulo) {
