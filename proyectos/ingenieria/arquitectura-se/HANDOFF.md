@@ -1,5 +1,20 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-16 (sesión de T16, CERRADA) — SIGUE: lo que diga la lluvia §6** (T16 era la fila 1c-c; lo próximo por la
+> tabla es T17, conectores bajo la puerta, salvo que Fran priorice el telescopio o BLACK). Hecho: **T16** (`66eb66b`
+> requisitos, `4b3f88d` construcción; [`docs/t16-estado-verificable.md`](docs/t16-estado-verificable.md)).
+> **Para el que siga:** (1) **cambiar el modelo o un requisito del telescopio pide regenerar su matriz**
+> (`python matriz-verificacion.py escribir telescopio` y commitear): si no, `chequeo-completo` da rojo «matriz escrita
+> desactualizada»; es a propósito (la copia que difiere de su fuente, T20); (2) una **FALLA de diseño no es rojo**, se
+> imprime al entrar; (3) lo que mide Fran entra con `matriz-verificacion.py registrar telescopio <ID> pasa|falla
+> --evidencia "<puntero>"`, sólo con la evidencia en la mano; (4) arquitectura-se y black no tienen prueba de
+> requisitos: la cascada lo dice en una línea; para arquitectura-se es un follow-up chico (sus autotests ya prueban
+> cada L2: que emitan líneas REQ); (5) el rationale de L1-21 del telescopio quedó viejo (24,6 cm contra 26,5 del
+> v10.5): lo arregla la próxima sesión del telescopio; (6) DA-039 y DA-053 **arreglados** (falta validarlos con 3
+> sesiones auditadas); (7) **DA-058** (nuevo): la cascada imprime lo que la puerta exige al tocar los archivos del proyecto
+> (concepto requisitos) pero no los del método con freno (`chequeo-completo.ps1`): dos ediciones en paralelo se negaron
+> en esta sesión, recurrencia de la lección «una acción sobre un archivo con freno, con UNA llamada».
+
 > **2026-10-16 (sesión `4aab65ae`, CERRADA) — SIGUE: T16 pensado para el telescopio** (lluvia §6, fila 1c-c:
 > requisitos con columna pasa/falla y la prueba que la sesión corre al entrar; la V de NASA por nivel). Hecho: **T14b**
 > (`429e2c6` requisitos, `dade03b` construcción; [`docs/t14b-mencionar-no-es-pedir.md`](docs/t14b-mencionar-no-es-pedir.md)).

@@ -3,6 +3,20 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-16 (sesión de T16) — T16 CONSTRUIDO: el estado se prueba.** Los requisitos tienen ahora resultado, y la
+cascada lo muestra al entrar: por nivel, cuántos están **verificados** (por su propio método), **predichos** (una cuenta
+del diseño para un ensayo, que no lo verifica) y **sin resultado**, cada FALLA y lo que cambió contra la matriz escrita
+(L1-11, L2-MVR-01..10, L2-CAS-01/02 en [`docs/10-requisitos.md`](docs/10-requisitos.md) §7; 0 VIOLA sobre los 48
+enunciados). La columna pasa/falla vive en una vista generada (`matriz-verificacion.md`), nunca a mano (T20). Primer
+cliente, el telescopio: su prueba lee el diseño del modelo y el criterio de cada enunciado; **L1-13, L1-14 y L1-30
+verificados, L1-21 y L1-02 predichos, 71 sin resultado** (lo que falta medir es de Fran o de la fase B). Probado:
+autotest (14 casos), [`probar-t16.py`](probar-t16.py) (3 mutantes vistos), el sabotaje del telescopio (L1-13 59,5 →
+29,4 N; L1-14 22,33° → 16,49°), falla cerrado ante un modelo o un enunciado cambiados, y el **efecto real** (la cascada
+del telescopio imprime la V por nivel; una matriz envejecida a mano da CAMBIO y rojo en `--verificar`, y verde al
+regenerarla). `chequeo-completo`: 27 saboteadores OK y un solo rojo, lo sin pushear. Diseño en
+[`docs/t16-estado-verificable.md`](docs/t16-estado-verificable.md). Encontrado al diseñar: el rationale de L1-21 del
+telescopio dice 24,6 cm y el modelo v10.5 da 26,5 (`probable`; el requisito se cumple igual).
+
 **2026-10-16 (sesión `4aab65ae`) — T14b CONSTRUIDO: mencionar no es pedir.** Medido antes: de 10 excepciones a la
 puerta desde el 2026-10-12 20:00, 8 eran un proyecto nombrado sin pedirlo, y cada una pintaba P2 y P5 de AMARILLO. Ahora
 `.\cascada.ps1 <p> -Mencion "motivo"` lo registra: libera lo que cae fuera de todo proyecto, nunca la carpeta del
