@@ -1,5 +1,18 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-16 (sesión `fc3d285a`, CERRADA) — SIGUE: lo que diga la lluvia §6** (T15 era la fila 3). Hecho: **T15**
+> (`7f502d4` requisitos, `cb61cd1` diseño, `c23b545` + perfil `20a0697` construcción;
+> [`docs/t15-el-aprendizaje-se-cierra.md`](docs/t15-el-aprendizaje-se-cierra.md)). **Para el que siga:** (1) **registrar
+> una lección `propia` o `foldeada` pide `--renglon`**: primero se escribe la viñeta en `chequeo-de-trabajo.md`, después
+> la lección cita su comienzo (25+ caracteres); (2) **si un error ya tenía lección, no se registra otra**: `aprender.py
+> repite N --evidencia ... --costo ...`; el medidor queda en ROJO hasta `subir N --nivel <exigido o más> --arreglo
+> <commit>`; `agregar` avisa las parecidas; (3) la caja negra está en `~/.claude/caja-negra/` (la vieja de %TEMP% se
+> copia sola); en la **nube** muere con el contenedor: persiste el informe de la auditoría (pregunta abierta a Fran);
+> (4) 125 lecciones heredadas sin renglón (`TOPE_HEREDADAS` en `aprender.py`): bajarlo cada vez que se anclen más;
+> (5) `install.ps1` tiene su propia copia del chequeo de triage (sólo mira el triage, no el renglón): divergencia
+> menor, registrada como **DA-060**; (6) DA-042/044/047/050/058 arreglados, falta validarlos con 3 sesiones auditadas; (7) el PDP sigue
+> sin §7 (plan de V&V).
+
 > **2026-10-16 (sesión `f475a5d5`, CERRADA) — SIGUE: lo que diga la lluvia §6** (T17 era la fila 2; lo próximo por la
 > tabla es T15, el aprendizaje que se cierra). Hecho: **T17** (`5856671` requisitos, `180821c` construcción;
 > [`docs/t17-conectores-bajo-la-puerta.md`](docs/t17-conectores-bajo-la-puerta.md)). **Para el que siga:** (1) **si Fran

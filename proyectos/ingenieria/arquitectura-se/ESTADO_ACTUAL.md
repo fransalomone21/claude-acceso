@@ -3,6 +3,20 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-16 (sesión `fc3d285a`) — T15 CONSTRUIDO: el aprendizaje se cierra.** Cuatro defectos, cuatro piezas
+(L1-13..16 y 22 L2 en [`docs/10-requisitos.md`](docs/10-requisitos.md) §9, 0 VIOLA): **(1)** una lección `propia` o
+`foldeada` guarda su **renglón** (el comienzo de su viñeta) y `sin-triage` mide que la viñeta siga ahí; 236 heredadas
+ancladas por 4-gramas como `inferido`, 125 quedan como deuda con tope que sólo baja (DA-044); **(2)** `aprender.py
+repite N` cuenta la recurrencia y le sube el nivel exigido **sola**; el medidor da ROJO hasta `subir` con el arreglo, y
+`agregar` lista las parecidas por tf-idf (los 4-gramas daban 0 en los pares conocidos) (DA-042); **(3)** el guardia de
+fan-out muestra el costo estimado en % de la ventana de 5 h y sigue preguntando (DA-050); **(4)** la caja negra vive en
+`~/.claude/caja-negra/`, con copia del legado de %TEMP% sin cortar la sesión viva (77 migradas) (DA-047). **Efecto real:**
+la recurrencia de la #351 en esta misma sesión (3 ediciones en paralelo negadas por concepto freno) quedó contada,
+exigió `regla` y dio ROJO; se arregló a nivel **flujo** (`c23b545`: al declarar `metodo` la cascada imprime el concepto
+freno, que era DA-058) y volvió a verde. Probado: autotest de `aprender.py` (21 casos),
+[`probar-t15.py`](probar-t15.py) (5 piezas, 11 mutantes vistos en su caso), autotests de la puerta, el lanzador y la
+auditoría, `probar-chequeo-lecciones.ps1` (14). Diseño en [`docs/t15-el-aprendizaje-se-cierra.md`](docs/t15-el-aprendizaje-se-cierra.md).
+
 **2026-10-16 (sesión `f475a5d5`) — T17 CONSTRUIDO: los conectores bajo la puerta.** La puerta decide cada llamada a
 un conector de claude.ai por lista blanca (`.claude/conectores.json`): leer pasa; compartir pasa sólo con el par
 objeto-destinatario declarado en `.claude/estructura-drive.json` (hash del mail, rol); crear, copiar o mudar a la

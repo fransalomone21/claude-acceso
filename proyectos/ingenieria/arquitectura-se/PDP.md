@@ -129,6 +129,23 @@ escribió esta sección, ya están —aunque todavía **sin leer**: la mitad *ag
 de la arquitectura se apoya, por ahora, sólo en el capítulo de INCOSE 5.ª ed.,
 y eso está declarado.
 
+## 7. Verificación y validación
+
+Escrito el 2026-10-16 (sesión `fc3d285a`): faltaba desde la fase 6 y la compuerta lo marcaba vacío (nucleo-ise §2b:
+el producto de una fase anterior se hace antes de seguir). **Verificar** = cada requisito de
+[`docs/10-requisitos.md`](docs/10-requisitos.md) contra su propio método; **validar** = que el método sirva a las
+necesidades N-01..N-10 en sesiones reales (la fase 7).
+
+| Nivel | Contra qué | Método | Instrumento | Quién y cuándo |
+|---|---|---|---|---|
+| L2 (elementos: puerta, auditoría, compuerta, medidores, `aprender.py`, guardias) | cada L2 | ensayo: autotest + saboteador con mutantes vistos en su caso | los `--autotest` y los `probar-t*.py`, enganchados en la capa de saboteadores de `chequeo-completo.ps1` | la sesión que construye la pieza; después, cada corrida de saboteadores (el arranque avisa a los 7 días) |
+| L1 (el método como sistema) | cada L1 | demostración en una sesión real (el efecto, no la precondición) | la caja negra (`cascada_puerta.py --estado`) y la auditoría de esa sesión | la sesión que construye, y las 3 auditorías que validan cada DA |
+| L0 (el método) | L0-01..08 | análisis sobre lo acumulado | `.claude/auditorias/` (L0-01, L1-03), `medir-costo.py --ultimas 3` (L0-02, L1-01/02), `medir-fases.py` (L0-03), `defectos.py verificar` (L0-04), `divergencias.py` (L0-05) | al cerrar la fase 7 |
+| Validación (N-01..N-10) | las necesidades de Fran | sesiones reales de BLACK y del telescopio bajo el método nuevo, con su costo medido (P10: *timely, affordable, predictable, comprehensive*) | auditorías + `medir-costo.py` contra la línea base de `ESTADO_ACTUAL.md` | Fran valida; la sesión mide |
+
+**Lo que falta, declarado:** arquitectura-se no tiene Prueba_De_Requisitos (T16): sus autotests ya prueban cada L2 pero
+no emiten líneas `REQ <ID> PASA|FALLA`, así que la cascada dice «sin resultado» en los 86 (62 más los 24 de T15). Es el
+paso que conecta esta tabla con la V por nivel que la cascada imprime al entrar.
 
 ## 8. Matriz de cumplimiento
 
