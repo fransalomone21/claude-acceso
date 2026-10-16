@@ -31,6 +31,7 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | N-06 | **Cero divergencias, como ley transversal**: que ningún dato del método ni de un proyecto viva en dos lugares que puedan contradecirse; «debe ser lo más cuidado». | Fran, 2026-10-12 17:00 |
 | N-08 | **NASA y ágil en la proporción que pide cada proyecto**: «saber usar NASA y ágiles en proporciones adecuadas a la complejidad del proyecto o necesidades». | Fran, 2026-10-12 17:05 |
 | N-09 | **El rigor completo, para los proyectos grandes**: la arquitectura se pule para los proyectos de ingeniería donde su falta afecta la necesidad (BLACK, el telescopio); los de materia —apuntes, actividades, parcialitos— siguen con el método que ya tienen y no se frenan por la arquitectura. | Fran, 2026-10-12 noche: «no me interesa si el apunte de física no está bien hecho con la arquitectura, porque es funcional y alcanza» |
+| N-10 | **Que nada salga a quien Fran no eligió**: compartir o publicar por un conector sólo lo declarado. | Fran, 2026-10-12 16:45 (lluvia §7: «frenar compartir/publicar salvo lo declarado»); `CLAUDE.md` raíz: el repo es público y lo personal vive aparte |
 | N-07 | **Que el costo escale con la necesidad**: una pregunta que no es de un proyecto se contesta en un párrafo sin leer «1000 párrafos»; la cascada escala conocimiento, memorias, hooks y complejidad según el proyecto, la necesidad y su naturaleza. | Fran, 2026-10-12 17:00 |
 
 ## 2. Nivel 0 — el método
@@ -43,6 +44,7 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | L0-04 | N-05 | El método deberá registrar cada defecto de arquitectura con la evidencia del defecto. | inspección: `defectos.py verificar` |
 | L0-05 | N-06 | El método deberá asignar a cada dato un único archivo dueño. | ensayo: medidor de divergencias (a diseñar, T20) |
 | L0-06 | N-07 | El método deberá imponer a cada sesión un costo de contexto proporcional a la necesidad declarada. | ensayo: `medir-costo.py` por tipo de sesión (a extender, T19) |
+| L0-08 | N-10 | El método deberá limitar la audiencia de cada objeto que la sesión comparte o publica a la audiencia declarada del objeto. | ensayo: autotest de la puerta (caso 19) y demostración en una sesión real |
 | L0-07 | N-08 | El método deberá graduar el rigor NASA y el ritmo ágil de cada proyecto según la complejidad y la incertidumbre del proyecto. | inspección: la matriz de cumplimiento y el selector de rigor del PDP (P2, P3; DA-004, DA-005) |
 
 ## 3. Nivel 1 — el método como sistema
@@ -150,3 +152,40 @@ definidos (R4):
 | L2-MVR-10 | L1-11 | Cuando el resultado de cada Requisito_Del_Proyecto difiere del resultado escrito en la Matriz_De_Verificación, el medidor de verificación deberá listar el requisito con los dos resultados. | Lo que cambió desde la última vez que se escribió la matriz: un cambio de diseño que rompe un requisito se ve al entrar, no en la revisión. La matriz es una vista generada (T20): nunca se edita a mano. | ensayo: caso del autotest |
 | L2-CAS-01 | L1-11 | Cuando la sesión declara la necesidad de cada Proyecto_Con_Ciclo_NASA con Documento_De_Requisitos, la cascada deberá imprimir el conteo por nivel del medidor de verificación. | El flujo de información que faltaba (DA-053): el arranque medía el método, nunca el producto. | demostración: la cascada sobre el telescopio |
 | L2-CAS-02 | L1-11 | Cuando la sesión declara la necesidad de cada Proyecto_Con_Ciclo_NASA con Documento_De_Requisitos, la cascada deberá imprimir cada Requisito_Del_Proyecto con resultado FALLA. | Lo que falla es lo que decide la sesión; el resto entra en el conteo. | demostración: la cascada sobre el telescopio |
+
+## 8. Nivel 2 — los elementos de T17 («los conectores bajo la puerta»)
+
+Elementos: **PTA** la puerta (`cascada_puerta.py`, hook) y **VER** su verificador (`cascada_puerta.py --verificar`).
+Diseño: `docs/t17-conectores-bajo-la-puerta.md`. El padre es un L1 nuevo, hijo de un L0 nuevo (L0-08, de N-10): hasta
+acá la estructura de control cubría una lista cerrada de actuadores (Bash, PowerShell, Write, Edit) y todo conector
+entraba sin pasar por ningún freno (DA-046). Términos definidos (R4):
+
+- **Conector**: un servidor MCP de claude.ai; el harness nombra cada herramienta del Conector
+  `mcp__<id>__<herramienta>`, con un id de cinco grupos hexadecimales de 8, 4, 4, 4 y 12 cifras (medido el 2026-10-16:
+  Google Drive, Claude Docs y visualize).
+- **Catálogo_De_Conectores**: el archivo `.claude/conectores.json`, que declara cada Conector por su id y la clase de
+  cada herramienta: lectura, privado, comparte, ubica o papelera.
+- **Declaración_De_Audiencia**: el archivo `.claude/estructura-drive.json`: cada par objeto-destinatario de
+  `compartido-con-nombre` con el id del objeto, el hash del destinatario y su rol, y cada carpeta de
+  `destinos-del-conector` con su id.
+- **Llamada_Que_Comparte**: la llamada a una herramienta de clase comparte; agrega un destinatario a un objeto.
+- **Llamada_Que_Ubica**: la llamada a una herramienta de clase ubica con carpeta destino; el objeto hereda la audiencia
+  de la carpeta.
+- **Carpeta_Pública**: la carpeta que la Declaración_De_Audiencia declara en `carpeta-publica`.
+- **Registro_De_Hooks**: el archivo `.claude/settings.json`, que engancha cada hook a sus herramientas por matcher.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L1-12 | L0-08 | Cuando la sesión llama a cada herramienta de un Conector, la puerta deberá decidir la llamada en el evento PreToolUse. | DA-046 (Leveson: camino de control no modelado): el conector de Drive tiene `share_file`, `create_file`, `copy_file` y `update_file`, y ningún hook se enteraba. Uso real medido: el 2026-10-13 una sesión creó y compartió por el conector la carpeta del TP4 de Software de Vuelo, a pedido de Fran. La decisión va antes de la ejecución porque compartir es irreversible en la práctica: el destinatario ya vio el objeto, y mudarlo no lo despublica (`CLAUDE.md` raíz, Drive). | demostración: una sesión real, con la caja negra (`cascada_puerta.py --estado`) |
+| L2-PTA-07 | L1-12 | Cuando la herramienta llamada pertenece a un Conector ausente del Catálogo_De_Conectores, la puerta deberá negar la llamada. | Por permiso, no por exclusión (Saltzer): un conector nuevo (Gmail, Notion) entra frenado hasta clasificar sus herramientas. El falso positivo es visible y se arregla en un archivo; el agujero de la lista negra no se ve. | ensayo: caso 19 del autotest de la puerta, con mutante |
+| L2-PTA-08 | L1-12 | Cuando la herramienta llamada carece de clase en la entrada del Conector de la herramienta, la puerta deberá negar la llamada. | Ídem para una herramienta nueva de un conector conocido. | ensayo: caso 19 del autotest |
+| L2-PTA-09 | L1-12 | Cuando la herramienta llamada tiene la clase lectura O la clase privado, la puerta deberá permitir la llamada. | Control positivo: leer no cambia quién ve nada, y lo privado (Claude Docs, visualize) no tiene herramienta que comparta (medido el 2026-10-16 en la guía de Claude Docs: compartir es un botón de Fran en claude.ai). Un freno con falsos positivos es menos seguro. | ensayo: caso 19 del autotest |
+| L2-PTA-10 | L1-12 | Cuando la Llamada_Que_Comparte nombra un par objeto-destinatario ausente de la Declaración_De_Audiencia, la puerta deberá negar la llamada. | La lista blanca de Fran. El destinatario se compara por hash (sha256 del mail en minúsculas, 16 cifras: la regla de `verificar-drive.ps1`), porque el repo es público y los mails son de terceros. Una Declaración_De_Audiencia ilegible deja la lista vacía: niega. | ensayo: caso 19 del autotest, con mutante |
+| L2-PTA-11 | L1-12 | Cuando la Llamada_Que_Comparte pide un rol mayor que el rol declarado del par objeto-destinatario, la puerta deberá negar la llamada. | `share_file` sube el rol de quien ya tiene acceso: declarado lector, pedido editor, es otra audiencia de escritura. Orden: lector < comentarista < editor. | ensayo: caso 19 del autotest |
+| L2-PTA-12 | L1-12 | Cuando la Llamada_Que_Comparte nombra un par objeto-destinatario declarado con un rol igual o mayor que el pedido, la puerta deberá permitir la llamada. | Control positivo: lo declarado pasa (el TP4 del 2026-10-13 hubiera pasado con su entrada). | ensayo: caso 19 del autotest; demostración en la sesión real |
+| L2-PTA-13 | L1-12 | Cuando la Llamada_Que_Ubica nombra la Carpeta_Pública, la puerta deberá negar la llamada. | El único camino a lo público es `publicar-apuntes.ps1`, con su lista (`apuntes-publicos.json`) y su comparación por MD5; un segundo camino por conector es el camino paralelo de DA-046. Un archivo creado ahí hereda «cualquiera con el link». | ensayo: caso 19 del autotest, con mutante |
+| L2-PTA-14 | L1-12 | Cuando la Llamada_Que_Ubica nombra una carpeta ausente de la Declaración_De_Audiencia, la puerta deberá negar la llamada. | La puerta ve el id de la carpeta, no su audiencia, y no puede preguntarle a Drive sin demorar cada llamada (lo que tiene que llegar siempre no comparte proceso con lo que puede tardar). Las subcarpetas de la pública tienen otro id: sin la lista blanca, pasarían. | ensayo: caso 19 del autotest |
+| L2-PTA-15 | L1-12 | Cuando la Llamada_Que_Ubica nombra una carpeta declarada en la Declaración_De_Audiencia distinta de la Carpeta_Pública, la puerta deberá permitir la llamada. | Control positivo: un destino privado declarado o una carpeta compartida con nombre declarada (su audiencia ya fue elegida). | ensayo: caso 19 del autotest; demostración en la sesión real |
+| L2-PTA-16 | L1-12 | Cuando la lectura del Catálogo_De_Conectores falla, la puerta deberá negar la llamada. | Falla cerrado (Saltzer), como el catálogo de la cascada. | ensayo: caso 19 del autotest |
+| L2-PTA-17 | L1-12 | Cuando la puerta decide cada llamada a un Conector, la puerta deberá registrar la herramienta, el veredicto Y el motivo en el estado de la sesión. | La caja negra que lee la auditoría; el destinatario entra como hash, nunca en claro. | ensayo: caso 19 del autotest; inspección de `--estado` en la sesión real |
+| L2-VER-03 | L1-12 | Cuando el Registro_De_Hooks carece del matcher de los Conectores en el evento PreToolUse, el verificador del catálogo deberá dar ROJO. | Dejar de actuar (Leveson): una puerta desenganchada no avisa sola. El verificador corre en cada arranque. | ensayo: saboteador `probar-t17.py` |
