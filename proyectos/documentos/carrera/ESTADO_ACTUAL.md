@@ -1,6 +1,6 @@
 # Estado actual — Carrera
 
-**Última actualización:** 2026-10-14 (fila de IISE: resumen para el parcialito del 14/10; antes, la de Física Espacial: 1er parcial resuelto público, C1 cerrado)
+**Última actualización:** 2026-10-16 (fila de Programación: el TP Cohete entregó el código); 2026-10-14 (fila de IISE: resumen para el parcialito del 14/10; antes, la de Física Espacial: 1er parcial resuelto público, C1 cerrado)
 
 ## Dónde estamos
 
