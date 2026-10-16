@@ -14,6 +14,10 @@
 > sesiones auditadas); (7) **DA-058** (nuevo): la cascada imprime lo que la puerta exige al tocar los archivos del proyecto
 > (concepto requisitos) pero no los del método con freno (`chequeo-completo.ps1`): dos ediciones en paralelo se negaron
 > en esta sesión, recurrencia de la lección «una acción sobre un archivo con freno, con UNA llamada».
+> **La auditoría dio 2 ROJOS P7, dichos y no maquillados:** el commit `4b3f88d` tocó dos proyectos (método y
+> telescopio) y cada uno lee los IDs del otro como inexistentes (L1-13 sólo existe en el telescopio; L2-MVR-01, sólo
+> acá). No se reescribe historia pusheada. Arreglado a nivel flujo: la línea de herramientas de diseño de la cascada
+> exige ahora un proyecto por commit (`.claude/cascada.json`; lección registrada).
 
 > **2026-10-16 (sesión `4aab65ae`, CERRADA) — SIGUE: T16 pensado para el telescopio** (lluvia §6, fila 1c-c:
 > requisitos con columna pasa/falla y la prueba que la sesión corre al entrar; la V de NASA por nivel). Hecho: **T14b**
