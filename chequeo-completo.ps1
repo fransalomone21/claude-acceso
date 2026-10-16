@@ -140,6 +140,9 @@ $saboteadores = @(
     @{ nombre = 'saboteador de la matriz';        cmd = 'python matriz-verificacion.py --autotest' }
     @{ nombre = 'mutantes de la matriz (T16)';    cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t16.py' }
     @{ nombre = 'sabotaje de la prueba del telescopio'; cmd = 'node proyectos\ingenieria\telescopio\docs\probar-requisitos.js --sabotaje' }
+    # T17: la puerta desenganchada de los conectores (o con un matcher que no atrapa un id real) da ROJO en --verificar.
+    # Los casos de la puerta y sus 4 mutantes estan en su autotest (caso 19).
+    @{ nombre = 'conectores bajo la puerta (T17)'; cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t17.py' }
 )
 
 function Correr($lista, $titulo) {

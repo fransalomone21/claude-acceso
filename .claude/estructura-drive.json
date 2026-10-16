@@ -8,6 +8,18 @@
     "id": "1Uz_4Lu4i1LX7xbeS-dDVEF-TXi6EA1mL",
     "_regla": "Es la UNICA rama de Mi unidad donde se admite el permiso 'anyone'. Cualquier objeto con 'anyone' fuera de aca es un ROJO, sin excepciones ni lista de perdon: si algo tiene que ser publico, se mueve adentro, no se declara afuera."
   },
+  "destinos-del-conector": {
+    "_regla": "T17 (L2-PTA-14, L2-PTA-15): las UNICAS carpetas donde una sesion puede crear, copiar o mudar algo POR CONECTOR (create_file, copy_file, update_file con parentId). Todas privadas: un archivo ahi hereda 'solo Fran'. La puerta ve el id, no la ruta ni la audiencia, asi que declarar es un acto: una carpeta nueva se agrega aca con su id despues de medir su permiso. La carpeta publica NUNCA va aca (lo publico sale por publicar-apuntes.ps1), y las compartidas con nombre se declaran con su 'id' en 'compartido-con-nombre'. Sin parentId (raiz de Mi unidad) pasa sin declarar.",
+    "privados": [
+      {"id": "1X8Ko7FAT98YuQhrl6vDgocSMLI_4Xcry", "carpeta": "00 - PERSONAL - no se comparte con nadie"},
+      {"id": "18L9qSDN9AWOdzf-lxu_T2k5vEUGBMA1J", "carpeta": "01 - UNSAM - Ing. en Sistemas Espaciales", "medido": "2026-10-16: solo el dueno"},
+      {"id": "1Iy9D974V4fuxn4uASFKQkqQxOMoJiAFz", "carpeta": "01 - UNSAM - Ing. en Sistemas Espaciales/SOLO FRAN - no se comparte con nadie"},
+      {"id": "12-lZ5rtkx-H0rSyvUpDQBnBYQFsdc2x7", "carpeta": "01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia", "medido": "2026-10-16: solo el dueno; cada subcarpeta de grupo se comparte aparte y se declara con su id"},
+      {"id": "1yIlNtk3M77oI6WLecwOh6l2OJE-vUeWd", "carpeta": "02 - ARCHIVO - cursadas anteriores"},
+      {"id": "1PayWECQm0Q19I_ZcyYgyEVTbHoOKtcTP", "carpeta": "05 - PROYECTOS - taller y astronomia"},
+      {"id": "1DXHm1-V-bss75J9UUPorFH3HYKm901GB", "carpeta": "_REVISAR - roto o vacio"}
+    ]
+  },
   "raiz": {
     "_regla": "Cero archivos sueltos. La raiz son carpetas y nada mas. Un archivo en la raiz es un archivo que todavia no se decidio donde va, y esa decision es justo la que se posterga para siempre.",
     "archivo-permitido": "LEEME - como esta ordenado este Drive.txt",
@@ -110,6 +122,7 @@
       },
       {
         "sobre": "03 - CLASES PARTICULARES - compartido con alumnos/AED 6to EEST1 - examen 10-10-2026",
+        "id": "1_D6IlH-niSCz7JMGVUcIi9Yyv-JZdzlx",
         "rol": "reader",
         "por-que": "alumna particular de AED III (EEST N1), examen del 10/10/2026. Compartido 2026-09-23 a pedido de Fran. Revocar despues del examen si ya no se usa.",
         "quien-sha256": [
@@ -121,6 +134,7 @@
       },
       {
         "sobre": "04 - TERCEROS - compartido con nombre/(la subcarpeta del CV)",
+        "id": "1ZFUOnkjwPnGhkOx4A2bH_SDV9HWA_X2y",
         "rol": "writer",
         "por-que": "el dueno del CV que armamos el 2026-09-27; lo edita el. Compartido a pedido de Fran. La subcarpeta lleva su nombre y por eso no se escribe en este repo publico.",
         "quien-sha256": [
@@ -132,6 +146,7 @@
       },
       {
         "sobre": "05 - PROYECTOS - taller y astronomia/Telescopio 200-1200 - Fran y Kevin",
+        "id": "1TP6jeozagvWqd2Jbm32cyJgL7oyPcWZ2",
         "rol": "writer",
         "por-que": "el primo de Fran, que arma el telescopio con el (dueno de la camara, imprime las piezas). Compartido 2026-10-04 a pedido de Fran, con el mail que dio el, como editor de todo lo del telescopio. Adentro: el cuaderno, la guia de armado y el protocolo de medicion.",
         "quien-sha256": [

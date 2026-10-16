@@ -1,0 +1,49 @@
+{
+  "_por-que-existe": "T17 (DA-046): la puerta de la cascada decide cada llamada a un conector de claude.ai por LISTA BLANCA. Un conector o una herramienta que no esta aca NIEGA hasta que se la clasifica. Diseno: proyectos/ingenieria/arquitectura-se/docs/t17-conectores-bajo-la-puerta.md. Requisitos: L1-12, L2-PTA-07..17.",
+  "_clases": {
+    "lectura": "pasa: no cambia quien ve nada",
+    "privado": "pasa: crea o cambia algo que solo ve Fran (Claude Docs: compartir es un boton suyo en claude.ai, medido en su guia el 2026-10-16)",
+    "papelera": "pasa: reversible y no cambia la audiencia",
+    "comparte": "pasa solo si el par objeto-destinatario esta declarado en .claude/estructura-drive.json con un rol igual o mayor",
+    "ubica": "pasa sin carpeta destino; con carpeta destino, solo si la carpeta esta declarada y no es la publica"
+  },
+  "_como-se-mide": "los ids y las herramientas se midieron con session_connectors_status y los esquemas de ToolSearch el 2026-10-16; un conector nuevo se clasifica igual, mirando el esquema de cada herramienta, no su nombre",
+  "servidores": {
+    "094616df-b7ca-4cd7-8b66-355577c1f5f5": {
+      "nombre": "Google Drive",
+      "herramientas": {
+        "read_file_content": "lectura",
+        "download_file_content": "lectura",
+        "get_file_metadata": "lectura",
+        "get_file_permissions": "lectura",
+        "list_recent_files": "lectura",
+        "search_files": "lectura",
+        "share_file": "comparte",
+        "create_file": "ubica",
+        "copy_file": "ubica",
+        "update_file": "ubica",
+        "trash_file": "papelera"
+      }
+    },
+    "1a59c906-04da-521d-bda7-7f71b9f9e01c": {
+      "nombre": "Claude Docs",
+      "herramientas": {
+        "guide": "lectura",
+        "read": "lectura",
+        "query": "lectura",
+        "export": "lectura",
+        "batch": "privado",
+        "create": "privado",
+        "update": "privado",
+        "delete": "privado"
+      }
+    },
+    "6f616b42-0ed8-571e-823f-ee4aca6b7ce9": {
+      "nombre": "visualize",
+      "herramientas": {
+        "read_me": "lectura",
+        "show_widget": "privado"
+      }
+    }
+  }
+}

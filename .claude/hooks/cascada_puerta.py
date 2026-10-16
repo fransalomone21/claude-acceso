@@ -63,6 +63,19 @@ FILTRO = re.compile(r"^\s*(Select-Object|select|Select-String|sls|Where-Object|w
 REDIRS_INOCUAS = re.compile(r"\s[12]?>\s*(\$null|/dev/null|&1)", re.I)
 # Los archivos de la propia puerta nunca los frena ella: es la salida de reparacion.
 REPARACION = re.compile(r"[/\\]\.claude[/\\](hooks[/\\]cascada_puerta\.py|cascada\.json)$", re.I)
+# T17 (L1-12, L2-PTA-07..17): los conectores de claude.ai (Drive, Docs...) bajo la puerta, por LISTA BLANCA (Saltzer).
+# Antes, la estructura de control cubria Bash/PowerShell/Write/Edit y todo conector entraba sin freno (DA-046).
+# Diseno: proyectos/ingenieria/arquitectura-se/docs/t17-conectores-bajo-la-puerta.md
+CONECTORES = Path(os.environ.get("CASCADA_CONECTORES") or RAIZ / ".claude" / "conectores.json")
+AUDIENCIA = Path(os.environ.get("CASCADA_AUDIENCIA") or RAIZ / ".claude" / "estructura-drive.json")
+_ID_CONECTOR = r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+PATRON_CONECTOR = re.compile(r"^mcp__(" + _ID_CONECTOR + r")__(.+)$")
+MATCHER_CONECTORES = "mcp__" + _ID_CONECTOR + "__.*"   # el que va en .claude/settings.json (L2-VER-03)
+MUESTRA_CONECTOR = "mcp__094616df-b7ca-4cd7-8b66-355577c1f5f5__share_file"   # Drive, medido el 2026-10-16
+ROLES = {"reader": 1, "commenter": 2, "writer": 3}
+CLASES_PASAN = ("lectura", "privado", "papelera")
+CLASES = CLASES_PASAN + ("comparte", "ubica")
+_ULTIMA_CONECTOR = {}   # la decision de esta llamada, para la caja negra (un proceso por llamada)
 
 
 # --------------------------------------------------------------------------------------------------- utilidades
@@ -465,7 +478,7 @@ def anotar(sid: str, ev: dict):
 
 def estado(sid: str) -> dict:
     st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "menciones": {}, "comandos": [],
-          "inferidos": {}, "por_debil": set()}
+          "inferidos": {}, "por_debil": set(), "conectores": []}
     f = archivo_estado(sid)
     if not f.exists():
         return st
@@ -499,6 +512,8 @@ def estado(sid: str) -> dict:
             elif not ev.get("debil"):
                 st["por_debil"].discard(ev["proy"])
             st["inferidos"].setdefault(ev["proy"], ev.get("por", ""))
+        elif t == "decide" and PATRON_CONECTOR.match(ev.get("tool", "")):   # T17: la caja negra a la vista (--estado)
+            st["conectores"].append({k: ev.get(k) for k in ("tool", "obj", "v", "motivo")})
     return st
 
 
@@ -560,8 +575,78 @@ def deny(texto: str):
     return 0
 
 
+def hash_destinatario(quien: str) -> str:
+    """La regla de verificar-drive.ps1: sha256 del mail recortado y en minusculas, 16 cifras. El repo es publico y los
+    mails son de terceros: ni la declaracion ni la caja negra los llevan en claro."""
+    return hashlib.sha256(quien.strip().lower().encode("utf-8")).hexdigest()[:16]
+
+
+def audiencia() -> dict:
+    """La Declaracion_De_Audiencia (.claude/estructura-drive.json). Ilegible = vacia: 'comparte' y 'ubica' niegan
+    (falla cerrado). Solo cuentan los pares con 'id': la puerta ve el id del objeto, no su ruta."""
+    try:
+        d = json.loads(AUDIENCIA.read_text(encoding="utf-8-sig"))
+    except Exception as e:  # noqa: BLE001
+        return {"pares": [], "publica": None, "destinos": {}, "error": " (la declaracion no se puede leer: %s)" % e}
+    pares = [x for x in d.get("compartido-con-nombre", {}).get("declarado", []) if x.get("id")]
+    destinos = {x["id"]: x.get("carpeta", "") for x in d.get("destinos-del-conector", {}).get("privados", []) if x.get("id")}
+    destinos.update({x["id"]: "compartida con nombre, declarada" for x in pares})
+    return {"pares": pares, "publica": d.get("carpeta-publica", {}).get("id"), "destinos": destinos, "error": ""}
+
+
+def decidir_conector(tool: str, inp: dict):
+    """(veredicto, motivo) de una llamada a un conector. Por PERMISO: lo que no esta en la lista, niega."""
+    m = PATRON_CONECTOR.match(tool)
+    cid, herr = m.group(1).lower(), m.group(2)
+    try:
+        cat = json.loads(CONECTORES.read_text(encoding="utf-8-sig"))
+    except Exception as e:  # noqa: BLE001
+        return "niega", ("el Catalogo_De_Conectores (.claude/conectores.json) no se puede leer (%s): falla cerrado "
+                         "(L2-PTA-16). Arreglarlo; editarlo no lo frena nadie" % e)
+    srv = cat.get("servidores", {}).get(cid)
+    if srv is None:
+        return "niega", ("conector %s SIN CLASIFICAR en .claude/conectores.json (L2-PTA-07): un conector nuevo entra "
+                         "frenado hasta clasificar cada herramienta (lectura, privado, comparte, ubica, papelera)" % cid)
+    clase = srv.get("herramientas", {}).get(herr)
+    if clase not in CLASES:
+        return "niega", ("herramienta '%s' de %s SIN CLASE valida en .claude/conectores.json (L2-PTA-08): clasificarla"
+                         % (herr, srv.get("nombre", cid)))
+    if clase in CLASES_PASAN:
+        return "pasa", "%s: clase %s" % (herr, clase)
+    aud = audiencia()
+    if clase == "comparte":
+        quien = str(inp.get("emailAddress") or inp.get("chatSpaceId") or "")
+        h = hash_destinatario(quien) if quien else "(sin destinatario)"
+        fid, rol = str(inp.get("fileId", "")), str(inp.get("role", "")).lower()
+        par = [x for x in aud["pares"] if x["id"] == fid and h in x.get("quien-sha256", [])]
+        if not par:
+            return "niega", ("COMPARTIR SIN DECLARAR (L2-PTA-10): el par objeto %s / destinatario sha %s no esta en "
+                             "'compartido-con-nombre' de .claude/estructura-drive.json%s. Si Fran lo pidio: declararlo "
+                             "ahi (id del objeto, hash del destinatario, rol) y reintentar" % (fid, h, aud["error"]))
+        decl = max(ROLES.get(str(x.get("rol", "")).lower(), 0) for x in par)
+        if ROLES.get(rol, 99) > decl:
+            return "niega", ("ROL MAYOR QUE EL DECLARADO (L2-PTA-11): pide '%s' sobre el objeto %s para sha %s, y lo "
+                             "declarado es menos" % (rol, fid, h))
+        return "pasa", "compartir declarado (L2-PTA-12): objeto %s, sha %s, rol %s" % (fid, h, rol)
+    destino = str(inp.get("parentId") or "")
+    if not destino:
+        return "pasa", "%s sin carpeta destino: la raiz privada, la carpeta del original o un renombre" % herr
+    if destino == aud["publica"]:
+        return "niega", ("CARPETA PUBLICA por conector (L2-PTA-13): lo publico sale solo por publicar-apuntes.ps1, con "
+                         "su lista (.claude/apuntes-publicos.json); un archivo ahi hereda 'cualquiera con el link'")
+    if destino in aud["destinos"]:
+        return "pasa", "%s en destino declarado (L2-PTA-15): %s %s" % (herr, destino, aud["destinos"][destino][:60])
+    return "niega", ("CARPETA SIN DECLARAR %s (L2-PTA-14): el objeto heredaria una audiencia que nadie eligio%s. Si "
+                     "Fran lo pidio: declararla en 'destinos-del-conector' de .claude/estructura-drive.json (o con "
+                     "su 'id' en 'compartido-con-nombre') y reintentar" % (destino, aud["error"]))
+
+
 def pre(ev: dict) -> int:
     tool, inp = ev.get("tool_name", ""), ev.get("tool_input", {}) or {}
+    if PATRON_CONECTOR.match(tool):   # T17: los conectores, por lista blanca
+        v, motivo = decidir_conector(tool, inp)
+        _ULTIMA_CONECTOR.update(v=v, motivo=motivo)
+        return deny("PUERTA DE LOS CONECTORES (T17): " + motivo) if v == "niega" else 0
     if tool not in ACCIONES:
         return 0
     arch = str(inp.get("file_path", inp.get("notebook_path", "")))
@@ -789,11 +874,16 @@ def registrar_decision(ev: dict, salida: str):
     si misma. Falla abierto a proposito: perder un renglon de auditoria no puede frenar el trabajo."""
     try:
         tool, inp = ev.get("tool_name", ""), ev.get("tool_input", {}) or {}
-        if tool not in ACCIONES:
+        conector = bool(PATRON_CONECTOR.match(tool))
+        if tool not in ACCIONES and not conector:
             return
         obj = str(inp.get("file_path", inp.get("notebook_path", ""))) or str(inp.get("command", ""))
+        if conector:   # T17 (L2-PTA-17): que objeto y a donde; el destinatario como hash, nunca en claro
+            quien = str(inp.get("emailAddress") or inp.get("chatSpaceId") or "")
+            obj = " ".join("%s=%s" % (k, inp[k]) for k in ("fileId", "parentId", "role") if inp.get(k))   # sin titulo: la auditoria se commitea
+            obj += (" a=sha:" + hash_destinatario(quien)) if quien else ""
         niega = '"deny"' in salida
-        motivo = ""
+        motivo = _ULTIMA_CONECTOR.get("motivo", "") if conector else ""
         if niega:
             try:
                 motivo = json.loads(salida)["hookSpecificOutput"]["permissionDecisionReason"].splitlines()[0]
@@ -983,15 +1073,33 @@ def cli_verificar() -> int:
                 rojos.append("rango que NO entra en una lectura: %s %d-%d (%d ch)" % (rel(x["ver"]), x["a"], x["b"], ch))
     # dejar de actuar (Leveson): la puerta desinstalada no avisa sola. Se mide el registro, en los tres eventos.
     try:
-        hooks = json.loads((RAIZ / ".claude" / "settings.json").read_text(encoding="utf-8-sig")).get("hooks", {})
+        reg = Path(os.environ.get("CASCADA_SETTINGS") or RAIZ / ".claude" / "settings.json")   # el saboteador lo cambia
+        hooks = json.loads(reg.read_text(encoding="utf-8-sig")).get("hooks", {})
         for evento in ("PreToolUse", "PostToolUse", "SessionStart", "UserPromptSubmit"):
             # en PreToolUse la puerta corre por su LANZADOR (la politica de falla: 2026-10-07)
             esperado = "puerta-lanzador.py" if evento == "PreToolUse" else "cascada_puerta.py"
             if esperado not in json.dumps(hooks.get(evento, [])):
                 rojos.append("%s NO esta registrado en %s de .claude/settings.json (.claude\\instalar-hooks.ps1)"
                              % (esperado, evento))
+        # T17 (L2-VER-03): los CONECTORES pasan por la puerta. Se mide el matcher contra un nombre real de conector,
+        # no que el texto del matcher este: un matcher que no atrapa es lo mismo que ninguno.
+        lanz = [x.get("matcher", "") for x in hooks.get("PreToolUse", []) if "puerta-lanzador.py" in json.dumps(x)]
+        if not any(re.search(mt, MUESTRA_CONECTOR) for mt in lanz if mt):
+            rojos.append("los CONECTORES no pasan por la puerta: ningun matcher de PreToolUse con puerta-lanzador.py "
+                         "atrapa %s (T17, L2-VER-03); agregar '%s'" % (MUESTRA_CONECTOR, MATCHER_CONECTORES))
     except Exception as e:
         rojos.append(".claude/settings.json ilegible: %s" % e)
+    # T17: el Catalogo_De_Conectores parsea y cada clase es una que la puerta conoce (si no, esa herramienta niega
+    # siempre: un falso positivo es combustible para que saquen el freno).
+    try:
+        for cid, srv in json.loads(CONECTORES.read_text(encoding="utf-8-sig")).get("servidores", {}).items():
+            if not re.fullmatch(_ID_CONECTOR, cid):
+                rojos.append("conectores.json: id de conector con otra forma: %s" % cid)
+            for h, c in srv.get("herramientas", {}).items():
+                if c not in CLASES:
+                    rojos.append("conectores.json: %s/%s con clase desconocida '%s'" % (srv.get("nombre", cid), h, c))
+    except Exception as e:  # noqa: BLE001
+        rojos.append("conectores.json ilegible (%s): la puerta niega toda llamada de conector" % e)
     # Las piezas de la puerta COMPILAN: un error de sintaxis en el lanzador lo dejaria fallar abierto sin que nadie lo
     # note (es la pieza que no tiene quien la repare). compile() no escribe nada en el disco.
     for pieza in ("cascada_puerta.py", "puerta-lanzador.py", "fase_activa.py"):
@@ -1646,6 +1754,108 @@ def autotest() -> int:
             m.write_text(txt, encoding="utf-8")
             r = caso_m(n, m)
             ok = ('"deny"' in r) != casos_m[n][3]
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+    # 19. T17 (L2-PTA-07..17): los conectores, por lista blanca. Catalogo y declaracion sinteticos: el caso mide la
+    # REGLA, no los ids de hoy. La carpeta publica figura TAMBIEN como destino privado (una declaracion mal hecha): asi
+    # su chequeo propio es el que frena, y su mutante se ve (si no, la lista blanca lo taparia y el sabotaje no
+    # probaria nada).
+    cid_d, cid_p = "094616df-b7ca-4cd7-8b66-355577c1f5f5", "1a59c906-04da-521d-bda7-7f71b9f9e01c"
+    f_c, f_a, f_roto = tmp / "conectores.json", tmp / "audiencia.json", tmp / "roto.json"
+    f_c.write_text(json.dumps({"servidores": {
+        cid_d: {"nombre": "Drive", "herramientas": {"read_file_content": "lectura", "share_file": "comparte",
+                                                     "create_file": "ubica", "copy_file": "ubica", "update_file": "ubica"}},
+        cid_p: {"nombre": "Docs", "herramientas": {"update": "privado"}}}}), encoding="utf-8")
+    arroba = chr(64)   # por partes: un mail literal en el repo publico lo marca la regla 5 (verificar-estructura)
+    ana, otro = "ana" + arroba + "x.test", "otro" + arroba + "x.test"
+    f_a.write_text(json.dumps({"carpeta-publica": {"id": "PUB"},
+                               "destinos-del-conector": {"privados": [{"id": "PRIV"}, {"id": "PUB"}]},
+                               "compartido-con-nombre": {"declarado": [
+                                   {"id": "COMP", "rol": "writer", "quien-sha256": [hash_destinatario(ana)]},
+                                   {"id": "LECT", "rol": "reader", "quien-sha256": [hash_destinatario(ana)]}]}}),
+                   encoding="utf-8")
+    f_roto.write_text("{ roto", encoding="utf-8")
+    e_c = {"CASCADA_CONECTORES": str(f_c), "CASCADA_AUDIENCIA": str(f_a)}
+    D = "mcp__%s__" % cid_d
+    casos_c = (   # (nombre, tool, input, niega, motivo esperado, env extra)
+        ("T17 CONTROL: lectura de Drive -> pasa", D + "read_file_content", {"fileId": "X"}, False, None, {}),
+        ("T17 CONTROL: privado de Docs -> pasa", "mcp__%s__update" % cid_p, {"x": 1}, False, None, {}),
+        ("T17 CONTROL: herramienta del harness (no conector) -> pasa", "mcp__ccd_turn__update_plan", {}, False, None, {}),
+        ("T17 SABOTAJE: conector SIN CLASIFICAR -> deny",
+         "mcp__aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee__send_email", {"to": "x"}, True, "SIN CLASIFICAR", {}),
+        ("T17 SABOTAJE: herramienta SIN CLASE -> deny", D + "empty_trash", {}, True, "SIN CLASE", {}),
+        ("T17 SABOTAJE: objeto declarado, destinatario NO -> deny", D + "share_file",
+         {"fileId": "COMP", "emailAddress": otro, "role": "reader"}, True, "COMPARTIR SIN DECLARAR", {}),
+        ("T17 SABOTAJE: objeto NO declarado -> deny", D + "share_file",
+         {"fileId": "OTRO", "emailAddress": ana, "role": "reader"}, True, "COMPARTIR SIN DECLARAR", {}),
+        ("T17 SABOTAJE: rol mayor que el declarado -> deny", D + "share_file",
+         {"fileId": "LECT", "emailAddress": ana, "role": "writer"}, True, "ROL MAYOR", {}),
+        ("T17 CONTROL: compartir lo declarado (mail con mayusculas) -> pasa", D + "share_file",
+         {"fileId": "COMP", "emailAddress": " " + ana.upper() + " ", "role": "reader"}, False, None, {}),
+        ("T17 SABOTAJE: crear en la carpeta PUBLICA -> deny", D + "create_file",
+         {"title": "t", "parentId": "PUB"}, True, "CARPETA PUBLICA", {}),
+        ("T17 SABOTAJE: copiar a una carpeta SIN DECLARAR -> deny", D + "copy_file",
+         {"fileId": "X", "parentId": "NADA"}, True, "CARPETA SIN DECLARAR", {}),
+        ("T17 CONTROL: crear en destino privado declarado -> pasa", D + "create_file",
+         {"title": "t", "parentId": "PRIV"}, False, None, {}),
+        ("T17 CONTROL: crear en carpeta compartida declarada -> pasa", D + "create_file",
+         {"title": "t", "parentId": "COMP"}, False, None, {}),
+        ("T17 CONTROL: crear sin carpeta destino (raiz privada) -> pasa", D + "create_file", {"title": "t"}, False,
+         None, {}),
+        ("T17 CONTROL: renombrar (update sin parentId) -> pasa", D + "update_file", {"fileId": "X", "title": "n"},
+         False, None, {}),
+        ("T17 SABOTAJE: catalogo de conectores ROTO -> deny", D + "read_file_content", {"fileId": "X"}, True,
+         "falla cerrado", {"CASCADA_CONECTORES": str(f_roto)}),
+        ("T17 SABOTAJE: declaracion ROTA + compartir lo declarado -> deny", D + "share_file",
+         {"fileId": "COMP", "emailAddress": ana, "role": "reader"}, True, "no se puede leer",
+         {"CASCADA_AUDIENCIA": str(f_roto)}))
+    s19 = sid + "-t17"
+
+    def caso_c(n, script=__file__, s=s19):
+        _, tool, inp, _, _, extra = casos_c[n]
+        return correr(pre_ev(tool, inp, s=s), dict(e_c, **extra), script)
+
+    sanos = {}   # un mutante solo se juzga si SU caso paso sano en esta corrida (si no, 'visto' seria falso)
+    for n, (nombre, _, _, niega, motivo, _) in enumerate(casos_c):
+        r = caso_c(n)
+        sanos[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+    # la caja negra (L2-PTA-17): --estado muestra las decisiones de conector, con veredicto y motivo, y el estado no
+    # lleva el mail en claro
+    est = json.loads(subprocess.run([sys.executable, __file__, "--estado", s19], capture_output=True,
+                                    env=env).stdout.decode("utf-8", "replace") or "{}")
+    cs = est.get("conectores", [])
+    crudo = ""
+    try:
+        crudo = (Path(env["CASCADA_ESTADO_DIR"]) / archivo_estado(s19).name).read_text(encoding="utf-8")
+    except OSError:
+        pass
+    ok = (sum(c.get("v") == "niega" for c in cs) == sum(x[3] for x in casos_c[3:])
+          and any(c.get("v") == "pasa" and "declarado" in c.get("motivo", "") for c in cs)
+          and "@" not in crudo and hash_destinatario(ana) in crudo)
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "T17 caja negra: --estado con las decisiones, sin el mail",
+                               "si" if ok else "NO: %d decisiones, @ en claro=%s" % (len(cs), "@" in crudo)))
+    # mutantes, cada uno visto en SU caso
+    for nombre, viejo, nuevo, n in (
+            ("MUTANTE (conector desconocido pasa) -> lo ve el caso 4",
+             'if srv is None:\n        return "niega"', 'if srv is None:\n        return "pasa"', 3),
+            ("MUTANTE (no compara el destinatario) -> lo ve el caso 6",
+             'x["id"] == fid and h in x.get("quien-sha256", [])', 'x["id"] == fid', 5),
+            ("MUTANTE (rol ignorado) -> lo ve el caso 8", "if ROLES.get(rol, 99) > decl:", "if False:", 7),
+            ("MUTANTE (sin chequeo de la publica) -> lo ve el caso 10",
+             'if destino == aud["publica"]:', "if False:", 9)):
+        m = tmp / ("mutante-t17-%d.py" % n)
+        fuente = Path(__file__).read_text(encoding="utf-8")
+        txt = fuente.replace(viejo, nuevo, 1)
+        if not sanos.get(n):
+            ok, r = False, "NO JUZGABLE: su caso no paso sano en esta corrida"
+        elif txt == fuente:
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        else:
+            m.write_text(txt, encoding="utf-8")
+            r = caso_c(n, m, s19 + "-m%d" % n)
+            ok = '"deny"' not in r   # el caso que niega con la puerta sana, con el mutante PASA: el mutante se ve
         mal += not ok
         print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
     shutil.rmtree(tmp, ignore_errors=True)
