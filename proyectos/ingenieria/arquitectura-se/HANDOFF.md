@@ -10,7 +10,8 @@
 > copia sola); en la **nube** muere con el contenedor: persiste el informe de la auditoría (pregunta abierta a Fran);
 > (4) 125 lecciones heredadas sin renglón (`TOPE_HEREDADAS` en `aprender.py`): bajarlo cada vez que se anclen más;
 > (5) `install.ps1` tiene su propia copia del chequeo de triage (sólo mira el triage, no el renglón): divergencia
-> menor, registrada como **DA-060**; (6) DA-042/044/047/050/058 arreglados, falta validarlos con 3 sesiones auditadas; (7) el PDP sigue
+> menor, registrada como **DA-060**; y **DA-061**: `defectos.py arreglar/agregar` no
+> regeneran la vista (correr `defectos.py vista` después) y `verificar` no la compara con la fuente; (6) DA-042/044/047/050/058 arreglados, falta validarlos con 3 sesiones auditadas; (7) el PDP sigue
 > sin §7 (plan de V&V).
 
 > **2026-10-16 (sesión `f475a5d5`, CERRADA) — SIGUE: lo que diga la lluvia §6** (T17 era la fila 2; lo próximo por la
