@@ -76,5 +76,12 @@ cuando la acción cae afuera; en la auditoría, P5 informa la Mención sin color
 - **`chequeo-completo`:** 13 medidores y 24 saboteadores en verde; un solo rojo, «listo para la nube», por los dos
   commits sin pushear (verde después del push).
 
-Falta: el efecto en una sesión real donde Fran nombre otro proyecto de pasada (que la sesión registre la Mención en
-vez de la Excepción), y que la auditoría la muestre sin color.
+- **La auditoría de esa sesión** (`.claude/auditorias/2026-10-16-4aab65ae.md`): P5 VERDE con las menciones nombradas
+  (L2-AUD-02 visto sobre una sesión real). Y mostró algo del registro: una Mención («prueba») salió de un comando que
+  **otro** freno negó (el guardia del heredoc). La puerta registra la invocación en PreToolUse, antes de que corra, a
+  propósito (un `cascada.ps1` que sale con error no dispara PostToolUse); el costo es que una invocación negada por otro
+  hook cuenta igual. Para una Mención es inocuo (sólo libera lo de afuera); se anota como límite conocido, sin
+  arreglo. Las menciones salen dobles en P5 por el mismo motivo (Pre y Post): cosmético.
+
+Falta: el efecto en una sesión real donde Fran nombre otro proyecto de pasada (que la sesión elija la Mención en vez
+de la Excepción).
