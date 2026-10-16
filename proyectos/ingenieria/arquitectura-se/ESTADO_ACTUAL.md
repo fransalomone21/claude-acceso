@@ -3,6 +3,16 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-16 (sesión `4aab65ae`) — T14b CONSTRUIDO: mencionar no es pedir.** Medido antes: de 10 excepciones a la
+puerta desde el 2026-10-12 20:00, 8 eran un proyecto nombrado sin pedirlo, y cada una pintaba P2 y P5 de AMARILLO. Ahora
+`.\cascada.ps1 <p> -Mencion "motivo"` lo registra: libera lo que cae fuera de todo proyecto, nunca la carpeta del
+mencionado, y la auditoría lo informa sin color (L2-PTA-05, L2-PTA-06, L2-AUD-02 en
+[`docs/10-requisitos.md`](docs/10-requisitos.md) §6, 0 VIOLA). Probado: autotest de la puerta (caso 18, 2 mutantes),
+de la auditoría y [`probar-t14b.py`](probar-t14b.py) (2 mutantes); **efecto real** en esta sesión (la mención en el
+estado de la puerta; un Write en `telescopio/` negado igual, `confirmado`); `chequeo-completo` con 24 saboteadores OK
+y un solo rojo, lo sin pushear. Diseño y medición en [`docs/t14b-mencionar-no-es-pedir.md`](docs/t14b-mencionar-no-es-pedir.md).
+Falta el efecto en una sesión real donde Fran nombre otro proyecto de pasada.
+
 **2026-10-12 noche (sesión `1622e692`) — T19a CONSTRUIDO: los apuntes ya no se frenan por la fase NASA.** Fran partió
 la meta (N-09): rigor completo para los proyectos grandes, el método actual alcanza para los de materia. T13 se exige
 ahora sólo a la naturaleza `ingenieria` (`exige_requisitos()` en la puerta, su verificador y la auditoría; L1-04

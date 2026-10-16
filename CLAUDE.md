@@ -55,6 +55,7 @@ proyecto hasta declarar la necesidad y leer con Read lo que pide el catálogo
 .\cascada.ps1                                     # los proyectos que hay en el disco
 .\cascada.ps1 <proyecto> -Necesidad metodo,diseno # declara y dice qué leer, con rangos
 .\cascada.ps1 <proyecto> -Excepcion "motivo"      # la salida explícita, queda registrada
+.\cascada.ps1 <proyecto> -Mencion "motivo"        # Fran lo NOMBRA sin pedirlo: libera lo de afuera, nunca su carpeta
 ```
 
 Necesidades: `materia`, `ingenieria-inversa`, `diseno`, `metodo`,

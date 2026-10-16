@@ -57,3 +57,24 @@ informe de la auditoría, donde se ve; no lo cubre la puerta, porque eso pide le
   el Write adentro, y se tiene que ver en su caso.
 - **Autotest de la auditoría:** una sesión con Mención y sin excepciones da P5 VERDE, y la evidencia nombra la Mención.
 - **`chequeo-completo`** en verde, y el efecto real en la próxima sesión que nombre otro proyecto de pasada.
+
+## 4. Construido y medido (2026-10-16)
+
+Commits `429e2c6` (requisitos) y `dade03b` (construcción): `-Mencion` en `cascada.ps1` (sale antes de imprimir la
+cascada) y en `.claude/cascada.sh`; en la puerta, el evento `mencion` en el estado, la exclusión en la inferencia
+pendiente, en el contexto de las débiles y en el aviso de UserPromptSubmit, y la salida ofrecida en la negación sólo
+cuando la acción cae afuera; en la auditoría, P5 informa la Mención sin color.
+
+- **Autotest de la puerta, caso 18:** BIEN (control, dos sabotajes y dos mutantes vistos en su caso: la Mención
+  tratada como Excepción, y sin leer `-Mencion`). Autotest entero BIEN.
+- **Autotest de la auditoría:** caso T14b BIEN; [`probar-t14b.py`](../probar-t14b.py) ve los dos mutantes (la Mención
+  contada como excepción; la Mención sin nombrar). Un primer MAL fue del autotest, no de la auditoría: el caso nuevo
+  se insertó entre dos que comparten `res` y pisó al de abajo; ahora usa nombres propios.
+- **Efecto real, en la sesión que lo construyó:** `.\cascada.ps1 telescopio -Mencion "…"` dejó
+  `menciones: {telescopio}` en `--estado` (por el hook, la frontera real) sin tocar `excepciones`; y un Write en
+  `proyectos/ingenieria/telescopio/` se negó pidiendo la necesidad, sin ofrecer la Mención (L2-PTA-06, `confirmado`).
+- **`chequeo-completo`:** 13 medidores y 24 saboteadores en verde; un solo rojo, «listo para la nube», por los dos
+  commits sin pushear (verde después del push).
+
+Falta: el efecto en una sesión real donde Fran nombre otro proyecto de pasada (que la sesión registre la Mención en
+vez de la Excepción), y que la auditoría la muestre sin color.

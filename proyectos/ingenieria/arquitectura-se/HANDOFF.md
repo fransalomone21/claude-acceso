@@ -1,5 +1,17 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-16 (sesión `4aab65ae`, CERRADA) — SIGUE: T16 pensado para el telescopio** (lluvia §6, fila 1c-c:
+> requisitos con columna pasa/falla y la prueba que la sesión corre al entrar; la V de NASA por nivel). Hecho: **T14b**
+> (`429e2c6` requisitos, `dade03b` construcción; [`docs/t14b-mencionar-no-es-pedir.md`](docs/t14b-mencionar-no-es-pedir.md)).
+> **Para el que siga:** (1) si Fran nombra un proyecto **sin pedirlo**, la salida es `-Mencion "motivo"`, no
+> `-Excepcion`: la Excepción queda para lo que de verdad saltea la cascada, y es la única que pinta la auditoría;
+> (2) la Mención **no abre la carpeta** del mencionado: tocarla pide la necesidad (es a propósito, L2-PTA-06);
+> (3) falta medir el efecto en una sesión real (que la sesión elija la Mención y P5 salga verde con la Mención
+> nombrada): mirar las próximas auditorías; (4) la lección de `1622e692` sobre esto quedó registrada con nivel
+> `parche` y ahora está resuelta a nivel herramienta; (5) el PDP de este proyecto no tiene §7 (plan de V&V) y la
+> compuerta lo marca vacío: es un producto que falta de una fase anterior (nucleo-ise §2b), barato de escribir.
+> Plan al cerrar: 5 h y semanal bajos (al abrir, 3 % y 4 %).
+
 > **2026-10-12 noche (sesión `1622e692`, CERRADA) — SIGUE: lo que diga la lluvia §6, elegido por lo que destraba a
 > BLACK y al telescopio (§7, N-09).** Hecho: **T19a** (los proyectos de materia no se frenan por la fase NASA;
 > [`docs/t19a-materia-sin-freno-nasa.md`](docs/t19a-materia-sin-freno-nasa.md)). **Para el que siga:** (1) el

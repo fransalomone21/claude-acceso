@@ -31,6 +31,7 @@ impacto original escrito, o no sale.
 | **El orden de lo que sigue** y las decisiones de Fran | [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6-§7 — dueño del orden; el resto apunta acá |
 | El mapa del método y los hallazgos de la búsqueda de defectos (DA-039..DA-053) | [`docs/mapa-metodo-2026-10-12.md`](docs/mapa-metodo-2026-10-12.md), [`docs/hallazgos-2026-10-12.md`](docs/hallazgos-2026-10-12.md) |
 | **T14: la puerta infiere sólo de lo que tipea Fran** (construido, `e6d58bb`) | [`docs/t14-lo-que-pide-fran.md`](docs/t14-lo-que-pide-fran.md); el saboteador es [`probar-t14.py`](probar-t14.py) |
+| **T14b: mencionar no es pedir** — `cascada -Mencion`, qué libera y qué no (construido, `dade03b`) | [`docs/t14b-mencionar-no-es-pedir.md`](docs/t14b-mencionar-no-es-pedir.md); el saboteador de la auditoría es [`probar-t14b.py`](probar-t14b.py) |
 | **T19a: los proyectos de materia no se frenan por la fase NASA** (N-09, construido) | [`docs/t19a-materia-sin-freno-nasa.md`](docs/t19a-materia-sin-freno-nasa.md) |
 | **T20: cero divergencias** — cada dato con un dueño, las copias como vista o puntero, el medidor | [`docs/t20-cero-divergencias.md`](docs/t20-cero-divergencias.md) |
 | **Migrar (fase 6): qué pieza se instala y qué defecto cierra** | [`docs/arquitectura.md`](docs/arquitectura.md) — el diseño, las 10 piezas P1-P10 y los 14 defectos medidos |
