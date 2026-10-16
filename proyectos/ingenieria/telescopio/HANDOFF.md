@@ -6,6 +6,14 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-16 (sesión de método, T16 de arquitectura-se):** el telescopio tiene **prueba de requisitos**
+> (`docs/probar-requisitos.js`) y **matriz de verificación** generada (`docs/matriz-verificacion.md`); la cascada
+> imprime al entrar cuántos requisitos están verificados, predichos y sin resultado por nivel. Hoy: L1-13 (59,5 N),
+> L1-14 (22,33°) y L1-30 (62 kg) **verificados por análisis** en el peor caso de la envolvente; L1-21 y L1-02
+> **predichos**; 71 sin resultado. **Si se cambia el modelo o un requisito**: `python matriz-verificacion.py escribir
+> telescopio` (desde la raíz) y commitear, o `chequeo-completo` da rojo. Lo que mida Fran entra con `registrar` y su
+> evidencia. **Corregir en la próxima sesión del telescopio:** el rationale de L1-21 dice 24,6 cm y el v10.5 da 26,5.
+>
 > **2026-10-09, cierre:** seis agentes (workflow `wf_dcd46a28-0af`) →
 > **`docs/17-investigacion-pista.md`** (y el crudo, `17-...-agentes.json`).
 > **Manda sobre `16`**: el revisor adversario corrigió el «70 % bamboleo»

@@ -28,6 +28,9 @@ necesidades, 14 de misión, 26 de sistema y 27 de elementos, con
 Faltan las mediciones (el centro de masa por dos métodos y la prueba de foco)
 y el inventario sin `?`.
 
+**Qué requisitos se cumplen hoy** (2026-10-16, T16): lo dice `docs/matriz-verificacion.md` (generada; la cascada la
+imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resultado de 76.
+
 ## Lo confirmado
 
 | Qué | Evidencia | Fecha |
