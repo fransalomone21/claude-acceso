@@ -33,6 +33,12 @@ Sobre 130 Transcript de la PC (713 MB, desde el 2026-08-14) y los 36 informes de
 | Prefijo único más corto | 30 caracteres (se usa 40 como clave) |
 | Primera línea de viñeta más corta | 59 caracteres (la huella de detección es 58) |
 
+**Lo que el spike no vio, y se midió construyendo:** el spike contó los 36 informes por fecha; el medidor, que exige
+el Transcript de cada sesión auditada, encontró **18**. La app de escritorio **borra** el Transcript de cada sesión
+eliminada (153 archivos `*.desktop-released.json` con `"reason": "delete"` en la carpeta del proyecto). Las 18 que
+faltan tienen caja negra pero no Transcript. De ahí L2-RET-11: lo leído se conserva en el Registro_De_Usos. Y es un
+defecto más ancho que T18 (DA nuevo): `medir-costo.py` y `medir-inyeccion.py` también leen Transcripts que desaparecen.
+
 Contaminación vista en el spike: su propia salida imprimía 80-90 caracteres de cada viñeta, y eso es un «uso». De ahí
 la separación clave (40) / huella (58): lo que la herramienta escribe es siempre más corto que lo que detecta.
 
@@ -52,7 +58,7 @@ No cuentan: la inyección de SessionStart (no se lee: es el núcleo) ni los reco
 ## 4. La ventana
 
 Una **Sesión_Auditada** es una sesión con informe en `.claude/auditorias/` (nombre `AAAA-MM-DD-<sid8>.md`) **y** su
-Transcript en la máquina; su fecha es la del primer renglón del Transcript. Una viñeta está **vencida** si tiene 20
+Transcript leído, en el disco o en el Registro_De_Usos; su fecha es la del primer renglón del Transcript. Una viñeta está **vencida** si tiene 20
 Sesión_Auditada o más con fecha posterior a su Referencia_De_Viñeta = máx(último uso, alta por `git blame`, última
 vuelta). Contar sólo las auditadas con Transcript es el denominador honesto: en la nube (un Transcript) nunca se llega
 a 20 y no se retira nada (L2-RET-06), en vez de verlo todo sin uso.
@@ -65,7 +71,7 @@ a 20 y no se retira nada (L2-RET-06), en vez de verlo todo sin uso.
 | `perfil-global/aprendizaje/retiradas.jsonl` | registro de eventos (`retira`, `vuelve`, `pasada`), sólo se agrega; el estado sale de releerlo | RET-01, RET-05, RET-10 |
 | `nucleo-chequeo.py` | omite las retiradas y lo dice en el pie del núcleo; registro ilegible = error | NUC-01..03 |
 | `chequeo-completo.ps1` | `retiro.py --verificar` en la capa rápida; `probar-t18.py` en los saboteadores | RET-07..09 |
-| caché `~/.claude/aprendizaje/uso-cache.json` | por Transcript (ruta, tamaño, mtime) los usos ya contados; se invalida entera si cambia el juego de huellas | — (costo del arranque, N-03) |
+| Registro_De_Usos `~/.claude/aprendizaje/usos.json` | por Transcript (ruta, tamaño, mtime) el inicio y los usos ya contados; **no se poda** cuando la app borra el archivo; si cambia el juego de huellas se re-escanea lo que sigue en disco. Medido: 8 s la primera vez, 0,4 s después | RET-11 (y el costo del arranque, N-03) |
 
 **El medidor** da ROJO si: una retirada tiene un uso posterior al retiro (vuelta pendiente, RET-08); hay vencidas y la
 última pasada es anterior a la última Sesión_Auditada (RET-07); o con 20 auditadas leídas no encontró un solo uso
@@ -91,14 +97,20 @@ sin registro, el generador incluye todo). La fuente nunca se tocó.
 | Tope | 15 vencidas → retira 10, las de más sesiones sin uso (RET-02/03) | — |
 | Salida propia | la clave impresa (40) no es uso: la pasada siguiente no la devuelve | — |
 
-Mutantes, cada uno juzgado sólo si su caso pasó sano en la misma corrida (lección T20): sin el tope; sin el piso de
-sesiones auditadas; sin excluir el núcleo; sin la recurrencia; generador que ignora el registro.
+Mutantes (`probar-t18.py`, 12, todos vistos en su caso el 2026-10-17), cada uno juzgado sólo si su caso pasó sano en
+la misma corrida (lección T20): sin el tope; orden invertido; sin vueltas; sin el rojo de la pasada; sin el rojo de la
+vuelta; sin la recurrencia; sin el sensor ciego; sin excluir el núcleo; clave tan larga como la huella; el generador
+que ignora el registro; el registro ilegible ignorado; la poda de los Transcript borrados. **Equivalente, declarado:**
+sacar el piso de sesiones de la pasada no cambia nada (con menos de 20 leídas ninguna viñeta llega a 20 sin uso).
 
 ## 7. Lo que no cubre (declarado)
 
 - **La prevención silenciosa** (§1.2): se acota con la vuelta automática y el tope, no se mide.
 - **La memoria, el perfil, los hooks y los medidores** no entran en esta versión. Los frenos con impacto escrito
   nunca salen solos (regla 6): T18 no los toca.
+- **Las 18 sesiones auditadas cuyo Transcript la app ya borró** no cuentan para la ventana (su caja negra trae las
+  lecturas pero no los Grep ni el hook al paso: contarlas subcontaría usos y retiraría de más). La ventana arranca en
+  18 de 20 y se llena con las sesiones que vienen.
 - **En la nube** no se retira (falta la historia de Transcript); el registro viaja en perfil-global, así que lo
   retirado en la PC sí llega.
 - Un `grep` en Bash que muestra sólo una línea de continuación de la viñeta no la cuenta (falta la huella): subcuenta,

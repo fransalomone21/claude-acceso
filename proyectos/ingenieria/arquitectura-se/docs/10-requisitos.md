@@ -264,7 +264,10 @@ el cuadro; un freno con impacto escrito nunca sale solo. Términos definidos (R4
 - **Uso_De_Viñeta**: la aparición de la Huella_De_Viñeta en el resultado de una herramienta o en el contexto que
   agrega un hook PreToolUse en un Transcript, salvo una lectura del Núcleo; o la fecha de cada Recurrencia de la
   Lección_Registrada cuyo Renglón_De_Chequeo abre la Viñeta.
-- **Sesión_Auditada**: cada sesión con informe en `.claude/auditorias/` y Transcript legible en la máquina.
+- **Registro_De_Usos**: el archivo `~/.claude/aprendizaje/usos.json`, con la fecha de inicio y los Uso_De_Viñeta de
+  cada Transcript que la herramienta de retiro leyó.
+- **Sesión_Auditada**: cada sesión con informe en `.claude/auditorias/` y Transcript leído, en el disco o en el
+  Registro_De_Usos.
 - **Referencia_De_Viñeta**: la fecha más reciente entre el último Uso_De_Viñeta, la fecha de alta de la Viñeta (la
   fecha de autor de su primera línea según `git blame`) y la última vuelta de la Viñeta.
 - **Ventana_De_Retiro**: 20 Sesión_Auditada (Fran, 2026-10-12 y 2026-10-17).
@@ -290,6 +293,7 @@ el cuadro; un freno con impacto escrito nunca sale solo. Términos definidos (R4
 | L2-RET-08 | L1-18 | Cuando una Viñeta_Retirada tiene un Uso_De_Viñeta posterior al retiro de la Viñeta, el medidor de retiro deberá dar ROJO. | La vuelta pendiente no espera a la próxima sesión auditada: la regla que volvió a hacer falta tiene que estar en el próximo arranque. | ensayo: autotest |
 | L2-RET-09 | L1-17 | Cuando la herramienta de retiro lee la Ventana_De_Retiro de Sesión_Auditada Y 0 Uso_De_Viñeta, el medidor de retiro deberá dar ROJO. | El sensor ciego en la PC (un cambio de formato del Transcript) se dice, no se calla: un medidor clavado en «nada vencido» se ve igual que uno sano. | ensayo: autotest, con mutante |
 | L2-RET-10 | L1-18 | Cuando la sesión pide la vuelta de una Viñeta_Retirada, la herramienta de retiro deberá registrar la vuelta de la Viñeta en el Registro_De_Retiro. | Lo que se instala solo se desinstala solo (regla 6): el retiro se deshace con un comando. La vuelta cuenta como Referencia_De_Viñeta, así que no vuelve a salir en la pasada siguiente. | ensayo: autotest |
+| L2-RET-11 | L1-17 | Cuando un Transcript leído desaparece del disco, la herramienta de retiro deberá conservar la fecha de inicio y los Uso_De_Viñeta del Transcript en el Registro_De_Usos. | Medido al construir T18 (2026-10-17): la app de escritorio borra el Transcript de cada sesión eliminada (153 marcados `desktop-released`, motivo `delete`) y 18 de las 36 sesiones auditadas ya no lo tenían. Sin conservarlo, la ventana se llena con la mitad de la historia o no se llena nunca. El medidor corre en cada arranque, así que la sesión siguiente lee la anterior antes de que se borre; lo que se borró antes del 2026-10-17 se perdió (límite declarado). | ensayo: autotest, con mutante |
 | L2-NUC-01 | L1-17 | El generador del Núcleo deberá omitir cada Viñeta_Retirada. | El Núcleo es una vista del Chequeo_De_Trabajo (T20): el retiro cambia la vista, nunca la fuente. | ensayo: autotest de `retiro.py` sobre el generador real |
 | L2-NUC-02 | L1-17 | Cuando el Núcleo omite una Viñeta_Retirada, el generador del Núcleo deberá imprimir en el Núcleo la cuenta de Viñeta_Retirada Y el comando de la lista de Viñeta_Retirada. | La sesión sabe que hay reglas fuera del núcleo y cómo llegar: el retiro no las borra de la vista de nadie. | ensayo: autotest |
 | L2-NUC-03 | L1-17 | Cuando el Registro_De_Retiro es ilegible, el generador del Núcleo deberá terminar con un código distinto de 0. | Falla ruidoso: ignorar el registro roto devolvería en silencio todo lo retirado, y descartarlo entero ocultaría el defecto. `install.ps1` y `nucleo-chequeo.py --verificar` lo muestran en rojo. | ensayo: autotest |

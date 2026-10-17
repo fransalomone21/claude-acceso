@@ -103,6 +103,10 @@ $medidores = @(
     # cadena se rompe (ID que no existe, evidencia sin puntero, prueba que revienta o calla) o si la matriz escrita
     # quedo vieja contra el resultado de hoy. Una FALLA de diseno NO es rojo: se ve al entrar. ~1 s.
     @{ nombre = 'matriz de verificacion';     cmd = 'python matriz-verificacion.py --verificar' }
+    # T18 de arquitectura-se (L1-17/18, L2-RET-07..09): ROJO si hay vinetas vencidas (20 sesiones auditadas sin uso) y
+    # nadie paso desde la ultima auditada, si una retirada se volvio a usar, o si el sensor quedo ciego. Lee los
+    # transcripts por el registro de usos (que conserva lo que la app borra). ~8 s la primera vez, ~0,4 s despues.
+    @{ nombre = 'el metodo retira (T18)';     cmd = 'python perfil-global\herramientas\retiro.py verificar' }
 )
 
 $saboteadores = @(
@@ -146,6 +150,9 @@ $saboteadores = @(
     # T15: el renglon y la recurrencia de las lecciones, el costo del fan-out, la caja negra fuera de %TEMP% y el aviso
     # del concepto freno; cada pieza sana y 11 mutantes vistos en su caso.
     @{ nombre = 'el aprendizaje se cierra (T15)'; cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t15.py' }
+    # T18: el autotest de retiro.py (25+ casos sobre el chequeo real, git y transcripts sinteticos) y 12 mutantes de
+    # retiro.py y nucleo-chequeo.py, cada uno visto en su caso. ~90 s.
+    @{ nombre = 'el metodo retira (T18)';         cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t18.py' }
 )
 
 function Correr($lista, $titulo) {
