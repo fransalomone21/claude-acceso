@@ -242,3 +242,49 @@ DA-050 (el fan-out sin su costo) y DA-047 (la caja negra en %TEMP%). Términos d
 | L2-PTA-19 | L1-16 | Cuando la Caja_Negra de la sesión falta en el Directorio_De_Caja_Negra Y existe en el Directorio_Legado, la puerta deberá copiar la Caja_Negra del Directorio_Legado antes de leerla. | Un freno vivo se edita en un orden que nunca lo deja roto: la sesión que instala T15 declaró y leyó en el Directorio_Legado, y sin la copia la puerta negaría todo. | ensayo: autotest de la puerta |
 | L2-LAN-01 | L1-16 | El lanzador de la puerta deberá anotar cada reventón de la puerta en el Directorio_De_Caja_Negra. | El lanzador no puede importar la puerta, que puede estar rota: repite la ruta y su autotest la compara con la de la puerta. | ensayo: autotest del lanzador |
 | L2-AUD-03 | L1-16 | La auditoría de la sesión deberá leer la Caja_Negra de la sesión auditada con la regla de ubicación de la puerta. | Una sola regla de ubicación: la auditoría ya carga la puerta, y antes armaba la ruta por su cuenta. | ensayo: autotest de `auditar-sesion.py` |
+
+## 10. Nivel 2 — los elementos de T18 («el método también retira»)
+
+Elementos: **RET** la herramienta de retiro (`perfil-global/herramientas/retiro.py`: el sensor de uso, la pasada y el
+medidor de retiro) y **NUC** el generador del Núcleo (`perfil-global/herramientas/nucleo-chequeo.py`). Diseño:
+`docs/t18-el-metodo-retira.md`. Los padres son dos L1 nuevos, hijos de L0-02: hasta acá todo lo que el método agrega se
+queda (DA-041) y el núcleo inyectado crece con cada lección. Decisión de Fran del 2026-10-17 (encuesta): la primera
+versión pone sensor de uso a las viñetas y retira del núcleo lo que pasa 20 sesiones auditadas sin uso; el aviso va en
+el cuadro; un freno con impacto escrito nunca sale solo. Términos definidos (R4):
+
+- **Viñeta**: cada viñeta del Chequeo_De_Trabajo según el parser de `nucleo-chequeo.py`.
+- **Huella_De_Viñeta**: los primeros 60 caracteres de la Viñeta, en minúsculas y con los espacios colapsados.
+- **Núcleo**: el archivo `chequeo-nucleo.md`, generado del Chequeo_De_Trabajo, que se inyecta al abrir cada sesión.
+- **Transcript**: cada archivo `.jsonl` de `~/.claude/projects/`, donde el harness guarda lo que recibió una sesión.
+- **Uso_De_Viñeta**: la aparición de la Huella_De_Viñeta en el resultado de una herramienta o en el contexto que
+  agrega un hook PreToolUse en un Transcript, salvo una lectura del Núcleo; o la fecha de cada Recurrencia de la
+  Lección_Registrada cuyo Renglón_De_Chequeo abre la Viñeta.
+- **Sesión_Auditada**: cada sesión con informe en `.claude/auditorias/` y Transcript legible en la máquina.
+- **Referencia_De_Viñeta**: la fecha más reciente entre el último Uso_De_Viñeta, la fecha de alta de la Viñeta (la
+  fecha de autor de su primera línea según `git blame`) y la última vuelta de la Viñeta.
+- **Ventana_De_Retiro**: 20 Sesión_Auditada (Fran, 2026-10-12 y 2026-10-17).
+- **Viñeta_Vencida**: una Viñeta sin retirar con la Ventana_De_Retiro o más de Sesión_Auditada posteriores a su
+  Referencia_De_Viñeta.
+- **Registro_De_Retiro**: el archivo `perfil-global/aprendizaje/retiradas.jsonl`, un evento por línea: retiro,
+  vuelta o pasada.
+- **Viñeta_Retirada**: una Viñeta cuyo último evento en el Registro_De_Retiro es un retiro.
+- **Pasada_De_Retiro**: cada corrida de `retiro.py pasar`.
+- **Tope_Por_Pasada**: 10 Viñeta por Pasada_De_Retiro (TBR).
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L1-17 | L0-02 | Cuando cada Viñeta pasa a Viñeta_Vencida, el método deberá sacar la Viñeta del Núcleo. | DA-041: lecciones, capas y medidores sólo entran. Medido el 2026-10-17 sobre 130 Transcript y 36 informes de auditoría: de las 222 viñetas del núcleo (28 505 caracteres por sesión), 37 nunca le llegaron enteras a ninguna sesión y 95 llevan 20 sesiones auditadas o más sin llegar. El costo es de contexto (N-02) y de efectividad (N-01): cada renglón diluye a los demás (la lección del fan-out estaba impresa y no se vio). | demostración: la Pasada_De_Retiro de la sesión que construye T18 |
+| L1-18 | L0-02 | Cuando una Viñeta_Retirada registra un Uso_De_Viñeta posterior al retiro de la Viñeta, el método deberá devolver la Viñeta al Núcleo. | El sensor no ve la prevención silenciosa: un renglón que evita el error sin que nadie lea la viñeta entera parece sin uso (Meadows: el freno que nunca salta). La vuelta automática hace del retiro un experimento reversible (Hunt y Thomas: el costo de deshacer), y la Recurrencia de T15 es su detector. La viñeta retirada sigue en el Chequeo_De_Trabajo: se encuentra con Grep y la sigue trayendo el hook al paso. | ensayo: autotest de `retiro.py` |
+| L2-RET-01 | L1-17 | Cuando la Pasada_De_Retiro encuentra cada Viñeta_Vencida, la herramienta de retiro deberá registrar el retiro de la Viñeta en el Registro_De_Retiro con la fecha, el último Uso_De_Viñeta Y la cuenta de Sesión_Auditada sin uso. | Un retiro sin su base no se puede auditar ni deshacer con criterio. El registro es de eventos y sólo se agrega: el estado sale de releerlo, y el diff de cada commit muestra qué salió. | ensayo: autotest, con mutante |
+| L2-RET-02 | L1-17 | La herramienta de retiro deberá retirar entre 0 y 10 Viñeta_Vencida en cada Pasada_De_Retiro. | TBR. En un sistema con retardo se aplica una fracción de la corrección (Meadows): sacar las 95 de una vez haría imposible atribuir una recurrencia a un retiro. Con una pasada por sesión, la deuda baja en unas 10 sesiones. | ensayo: autotest |
+| L2-RET-03 | L1-17 | Cuando las Viñeta_Vencida de la Pasada_De_Retiro superan el Tope_Por_Pasada, la herramienta de retiro deberá elegir las Viñeta_Vencida con más Sesión_Auditada sin uso. | Lo más viejo sin uso es lo de menor riesgo de retirar. | ensayo: autotest |
+| L2-RET-04 | L1-17 | Cuando la Pasada_De_Retiro registra cada retiro, la herramienta de retiro deberá imprimir la Huella_De_Viñeta con el comando de vuelta de la Viñeta. | El aviso de Fran: la sesión lo copia en la línea «Hice» del cuadro. | ensayo: autotest |
+| L2-RET-05 | L1-18 | Cuando cada Viñeta_Retirada tiene un Uso_De_Viñeta posterior al retiro de la Viñeta, la herramienta de retiro deberá registrar la vuelta de la Viñeta en el Registro_De_Retiro. | La vuelta no tiene tope: devolver es siempre seguro. | ensayo: autotest, con mutante, sobre una Recurrencia |
+| L2-RET-06 | L1-17 | Cuando la herramienta de retiro lee menos Sesión_Auditada que la Ventana_De_Retiro O 0 Uso_De_Viñeta, la herramienta de retiro deberá retirar 0 Viñeta en la Pasada_De_Retiro. | Falla cerrado (Saltzer): un sensor ciego ve todo sin uso y retiraría el núcleo entero. En la nube sólo está el Transcript de la sesión viva: ahí no se retira nada (límite declarado, como L1-16). | ensayo: autotest, con mutante |
+| L2-RET-07 | L1-17 | Cuando existe una Viñeta_Vencida Y la última Pasada_De_Retiro es anterior a la última Sesión_Auditada, el medidor de retiro deberá dar ROJO. | El retiro no depende de acordarse: el arranque lo pide, una vez por sesión auditada. Sin Viñeta_Vencida, nada que pedir. | ensayo: autotest |
+| L2-RET-08 | L1-18 | Cuando una Viñeta_Retirada tiene un Uso_De_Viñeta posterior al retiro de la Viñeta, el medidor de retiro deberá dar ROJO. | La vuelta pendiente no espera a la próxima sesión auditada: la regla que volvió a hacer falta tiene que estar en el próximo arranque. | ensayo: autotest |
+| L2-RET-09 | L1-17 | Cuando la herramienta de retiro lee la Ventana_De_Retiro de Sesión_Auditada Y 0 Uso_De_Viñeta, el medidor de retiro deberá dar ROJO. | El sensor ciego en la PC (un cambio de formato del Transcript) se dice, no se calla: un medidor clavado en «nada vencido» se ve igual que uno sano. | ensayo: autotest, con mutante |
+| L2-RET-10 | L1-18 | Cuando la sesión pide la vuelta de una Viñeta_Retirada, la herramienta de retiro deberá registrar la vuelta de la Viñeta en el Registro_De_Retiro. | Lo que se instala solo se desinstala solo (regla 6): el retiro se deshace con un comando. La vuelta cuenta como Referencia_De_Viñeta, así que no vuelve a salir en la pasada siguiente. | ensayo: autotest |
+| L2-NUC-01 | L1-17 | El generador del Núcleo deberá omitir cada Viñeta_Retirada. | El Núcleo es una vista del Chequeo_De_Trabajo (T20): el retiro cambia la vista, nunca la fuente. | ensayo: autotest de `retiro.py` sobre el generador real |
+| L2-NUC-02 | L1-17 | Cuando el Núcleo omite una Viñeta_Retirada, el generador del Núcleo deberá imprimir en el Núcleo la cuenta de Viñeta_Retirada Y el comando de la lista de Viñeta_Retirada. | La sesión sabe que hay reglas fuera del núcleo y cómo llegar: el retiro no las borra de la vista de nadie. | ensayo: autotest |
+| L2-NUC-03 | L1-17 | Cuando el Registro_De_Retiro es ilegible, el generador del Núcleo deberá terminar con un código distinto de 0. | Falla ruidoso: ignorar el registro roto devolvería en silencio todo lo retirado, y descartarlo entero ocultaría el defecto. `install.ps1` y `nucleo-chequeo.py --verificar` lo muestran en rojo. | ensayo: autotest |

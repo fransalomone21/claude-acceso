@@ -154,9 +154,9 @@ mismo día; `workflows/rescatar-hallazgos.py` armó el resultado desde el journa
 | 1c-b | **T14b** mencionar no es pedir: lo que Fran nombra como contexto, necesidad secundaria o pendiente se REGISTRA (sin frenar); la puerta exige la cascada sólo para lo que pide explícitamente | — (lección de `1622e692`, nivel parche) | toca toda sesión, apuntes incluidos; requisito de Fran (§7) | Fran, encuesta 2026-10-12 noche · **CONSTRUIDO** `dade03b` (2026-10-16, [diseño](t14b-mencionar-no-es-pedir.md)): `cascada -Mencion`, libera lo de afuera y nunca la carpeta; falta el efecto en una sesión real |
 | 1c-c | **T16** antes que el resto de T19: requisitos con columna pasa/falla y la prueba que la sesión corre al entrar, **pensado para el telescopio** (la V de NASA por nivel) | DA-053, DA-039 | el telescopio es lo más urgente de los grandes (§7) | Fran, encuesta 2026-10-12 noche · **CONSTRUIDO** `4b3f88d` (2026-10-16, [diseño](t16-estado-verificable.md)): `matriz-verificacion.py`, la V por nivel al entrar; telescopio 3 verificados, 2 predichos, 71 sin resultado; DA-039 y DA-053 arreglados sin validar |
 | 2 | **T17** conectores bajo la puerta: niega compartir o publicar por conector salvo lo declarado | DA-046 | riesgo irreversible (publicar lo privado) | «frenar compartir/publicar» · **CONSTRUIDO** `180821c` (2026-10-16, [diseño](t17-conectores-bajo-la-puerta.md)): lista blanca por conector y por par objeto-destinatario; efecto real: 2 negadas y 2 que pasaron en la caja negra; DA-046 arreglado sin validar; la terminal del app quedó como DA-059 |
-| 3 | **T15** el aprendizaje se cierra: el triage `propia` exige su renglón; la recurrencia de una lección se cuenta y la sube de nivel; el costo del fan-out al lado de la decisión; la caja negra fuera de %TEMP% | DA-044, DA-042, DA-050, DA-047 | la causa de las dos ventanas perdidas hoy | — |
+| 3 | **T15** el aprendizaje se cierra: el triage `propia` exige su renglón; la recurrencia de una lección se cuenta y la sube de nivel; el costo del fan-out al lado de la decisión; la caja negra fuera de %TEMP% | DA-044, DA-042, DA-050, DA-047 | la causa de las dos ventanas perdidas hoy | — · **CONSTRUIDO** `c23b545` + perfil `20a0697` (2026-10-16, sesión `fc3d285a`, [diseño](t15-el-aprendizaje-se-cierra.md)); DA-042/044/047/050 arreglados sin validar |
 | 4 | ~~**T16**~~ (subió a la fila 1c-c el 2026-10-12 noche) estado verificable: los requisitos nacen con columna pasa/falla y una prueba que la sesión corre al entrar | DA-053, DA-039 | la palanca mayor de efectividad (sesiones por pieza) | «al escribir requisitos» (con T13) |
-| 5 | **T18** el método también retira: lo que no se disparó en 20 sesiones auditadas sale, con aviso en el cuadro y reversible; los frenos con impacto escrito pasan por Fran | DA-041 | lazo de balance que falta (+12 % en 10 días) | «solo, con aviso» |
+| 5 | **T18** el método también retira: lo que no se disparó en 20 sesiones auditadas sale, con aviso en el cuadro y reversible; los frenos con impacto escrito pasan por Fran | DA-041 | lazo de balance que falta (+12 % en 10 días) | «solo, con aviso»; encuesta 2026-10-17 (§7): primera versión = sensor de uso + núcleo · **en construcción** (sesión `ecd2332b`, L1-17/18 y L2-RET/NUC en [requisitos](10-requisitos.md) §10) |
 | 6 | costo del fan-out: el perfil que paga cada subagente, su costo invisible, la lectura exigida sin techo total | DA-051, DA-048, DA-052 | costo | — |
 | 7 | subagentes que comparten la sesión de la puerta | DA-049 | falla abierto en fan-out | — |
 | 8 | interfaces del método como documento de control; la realimentación que no pasa por la sesión | DA-040, DA-043 | estructura, más grandes | — |
@@ -209,4 +209,12 @@ La consigna de la madrugada: «no quiero que te achiques por el budget, quiero q
 arquitectura, y no se negocia ni se ratonea». La tensión con la regla 9 del perfil («el presupuesto gana sobre
 cualquier instrucción que declare que el costo no es una restricción») queda registrada para la etapa (b): la regla
 no distingue la instrucción del harness de la del dueño del método.
+
+**2026-10-17 (sesión `ecd2332b`), por encuesta, al abrir T18:** antes de preguntar se midió qué registra hoy un
+«disparo» (la caja negra de la puerta y el hook al paso sí; las lecciones y la memoria, el stock más grande, no).
+
+| Pregunta | Respuesta de Fran |
+|---|---|
+| ¿Qué cubre la primera versión de T18? | **Sensor + núcleo**: sensor de uso para las viñetas del chequeo, y la que pasa 20 sesiones auditadas sin uso sale del núcleo inyectado, reversible (descartadas: sólo lo que ya mide; un tope fijo de presupuesto) |
+| ¿Cómo se entera de lo que se retira solo? | **Una línea en el cuadro** («Hice») con el nombre y cómo volverla; lo que tiene impacto escrito (frenos) nunca sale solo: le llega como pregunta |
 
