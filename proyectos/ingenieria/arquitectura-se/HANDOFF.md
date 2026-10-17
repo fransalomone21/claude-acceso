@@ -7,7 +7,8 @@
 > la lección cita su comienzo (25+ caracteres); (2) **si un error ya tenía lección, no se registra otra**: `aprender.py
 > repite N --evidencia ... --costo ...`; el medidor queda en ROJO hasta `subir N --nivel <exigido o más> --arreglo
 > <commit>`; `agregar` avisa las parecidas; (3) la caja negra está en `~/.claude/caja-negra/` (la vieja de %TEMP% se
-> copia sola); en la **nube** muere con el contenedor: persiste el informe de la auditoría (pregunta abierta a Fran);
+> copia sola); en la **nube** muere con el contenedor: persiste el informe de la auditoría, y **Fran decidió el 2026-10-17 que
+> alcanza** (límite declarado, no se construye nada para guardarla);
 > (4) 125 lecciones heredadas sin renglón (`TOPE_HEREDADAS` en `aprender.py`): bajarlo cada vez que se anclen más;
 > (5) `install.ps1` tiene su propia copia del chequeo de triage (sólo mira el triage, no el renglón): divergencia
 > menor, registrada como **DA-060**; y **DA-061**: `defectos.py arreglar/agregar` no

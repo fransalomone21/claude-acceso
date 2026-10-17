@@ -19,9 +19,10 @@ Requisito). Sesión `fc3d285a`, 2026-10-16.
 3. **Que el costo del fan-out ya no decida nada**, porque desde el 2026-10-12 la regla es «inline, sin fan-out». Pero
    el guardia sigue siendo el único punto donde se decide, y el día que Fran pida un workflow la decisión se toma ahí.
 
-Nada de esto depende de lo que Fran quiere salvo una cosa, que queda como pregunta al cerrar: **si la caja negra de
-una sesión en la nube tiene que sobrevivir** (hoy muere con el contenedor; para guardarla habría que commitearla en un
-repo privado).
+Nada de esto depende de lo que Fran quiere salvo una cosa, que se le preguntó al cerrar: **si la caja negra de una
+sesión en la nube tiene que sobrevivir** (muere con el contenedor; para guardarla habría que commitearla en un repo
+privado). **Decidido por Fran el 2026-10-17: no.** Alcanza con el informe de la auditoría commiteado; queda como
+límite declarado (L1-16, rationale).
 
 ## 2. Lo medido antes de diseñar
 
