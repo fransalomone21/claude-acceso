@@ -1,5 +1,20 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-17 (sesión `ecd2332b`, CERRADA) — SIGUE: lo que diga la lluvia §6** (T18 era la fila 5; quedan la 6 costo
+> del fan-out, la 7 subagentes y la puerta, la 8 interfaces, y **P10, que cierra la fase 7**). Hecho: **T18**
+> (`594583b` requisitos, `c4c8246` diseño, `881feab` + perfil `1c104c4`/`7fed3ed` construcción;
+> [`docs/t18-el-metodo-retira.md`](docs/t18-el-metodo-retira.md)) y **DA-060** (perfil `1d51a2d`). **Para el que siga:**
+> (1) **si el arranque da ROJO «el método retira (T18)»**, correr `python perfil-global/herramientas/retiro.py pasar`,
+> copiar el aviso (las claves retiradas y su comando de vuelta) en la línea «Hice» del cuadro, correr
+> `perfil-global\install.ps1` y commitear `perfil-global/aprendizaje/retiradas.jsonl`; devolver una a mano:
+> `retiro.py volver "<clave>"`; (2) la ventana está en 18 de 20 sesiones medibles: el primer retiro real cae en la
+> sesión auditada 20 (ese es el efecto que falta ver); (3) **la app borra los transcripts de las sesiones eliminadas**
+> (DA-063): `retiro.py` lo resuelve con `~/.claude/aprendizaje/usos.json`, que corre en cada arranque; `medir-costo.py` y
+> `medir-inyeccion.py` siguen midiendo sobre lo que la app dejó; (4) DA-062 y DA-060 arreglados, DA-042/044/047/050/058
+> de antes: falta validarlos con 3 sesiones auditadas; DA-041 sigue abierto (la clase: memoria, hooks, medidores); (5) el
+> spike contó contaminación propia: sus impresiones de 80-90 caracteres cuentan como uso de unas 20 viñetas el
+> 2026-10-17 (lo conservador: tardan 20 sesiones más en vencer).
+
 > **2026-10-16 (sesión `fc3d285a`, CERRADA) — SIGUE: lo que diga la lluvia §6** (T15 era la fila 3). Hecho: **T15**
 > (`7f502d4` requisitos, `cb61cd1` diseño, `c23b545` + perfil `20a0697` construcción;
 > [`docs/t15-el-aprendizaje-se-cierra.md`](docs/t15-el-aprendizaje-se-cierra.md)). **Para el que siga:** (1) **registrar

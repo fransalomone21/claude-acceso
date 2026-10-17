@@ -3,6 +3,24 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-17 (sesión `ecd2332b`) — T18 CONSTRUIDO: el método también retira.** Fila 5 de la lluvia; decisión de Fran
+por encuesta: **sensor de uso + núcleo**, aviso en el cuadro, un freno nunca sale solo (lluvia §7). El sensor son los
+**transcripts** (lo que le llegó a cada sesión: Read, Grep, Bash y el hook al paso; leer el núcleo no cuenta), sin hook
+nuevo. Una viñeta con 20 sesiones auditadas sin uso sale del núcleo, de a 10 por pasada, y vuelve sola si se usa o si su
+lección se repite; la fuente nunca se toca (L1-17/18, L2-RET-01..11, L2-NUC-01..03 en
+[`docs/10-requisitos.md`](docs/10-requisitos.md) §10, 0 VIOLA). Piezas: `perfil-global/herramientas/retiro.py`, el
+generador del núcleo que omite lo retirado, el medidor en la capa rápida de `chequeo-completo` y
+[`probar-t18.py`](probar-t18.py) (25 casos sanos, **12 mutantes vistos en su caso**). **Medido construyendo:** la app de
+escritorio **borra el transcript de cada sesión eliminada** (153 `desktop-released`), así que 18 de 36 sesiones
+auditadas ya no lo tienen; T18 conserva lo leído en un registro de usos (L2-RET-11) y el defecto general quedó como
+**DA-063**. **Efecto real:** 1 236 usos medidos en 130 transcripts; el medidor da «18 sesiones medibles de 36 informes,
+ventana 20: no se retira nada» (falla cerrado, como se diseñó): **retira desde la sesión auditada número 20, a dos de
+ésta**. El «95 vencidas» del spike contaba informes y no sesiones medibles: recurrencia de la lección 193, arreglada a
+nivel herramienta (el medidor imprime los dos denominadores). De paso: **DA-060** arreglado (`install.ps1` corre el
+medidor único de lecciones; caso 3c del saboteador), **DA-062** (el núcleo que sólo crecía) arreglado; DA-041 sigue
+abierto (memoria, hooks y medidores todavía sólo suman). `chequeo-completo`: 30 saboteadores OK; el único rojo era la
+memoria nueva sin espejar (arreglado). Diseño en [`docs/t18-el-metodo-retira.md`](docs/t18-el-metodo-retira.md).
+
 **2026-10-16 (sesión `fc3d285a`) — T15 CONSTRUIDO: el aprendizaje se cierra.** Cuatro defectos, cuatro piezas
 (L1-13..16 y 22 L2 en [`docs/10-requisitos.md`](docs/10-requisitos.md) §9, 0 VIOLA): **(1)** una lección `propia` o
 `foldeada` guarda su **renglón** (el comienzo de su viñeta) y `sin-triage` mide que la viñeta siga ahí; 236 heredadas
