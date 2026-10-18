@@ -131,6 +131,53 @@ número exacto lo da el **segundo método**: P3 (montura inclinada) o P4 (todo
 junto, plano). Grado: `probable`. **Valores de diseño: 40 kg, CdM 63 cm,
 eje a 65 sobre la mesa con 2 cm de suplemento.**
 
+### 3.3 El vuelco (2026-10-17) — el primer método, medido
+
+Fran, solo, en la terraza. Fotos y video en `fotos/2026-10-17-vuelco/`
+(ignorada). Método: paso 1 de `11-paso-a-paso.md`. La montura **con la caja y
+sin el tubo**, la caja puesta horizontal con nivel de burbuja (con el tubo,
+quedaría paralelo al piso). Se sacaron las dos tablas de 1 cm que sobresalen
+abajo como esquíes: apoya la **arista inferior de la base fija**, contra un
+taco de madera largo en el piso. Los cantos de la base fija están numerados en
+la madera: **1 opuesto a 4, 2 opuesto a 3**. Para el canto opuesto se dio
+vuelta la montura entera. Altura con cinta, del piso a la arista inferior del
+canto levantado; ángulo con transportador; una lectura por canto.
+
+| Apoya en | Se levanta | h (cm) | Ángulo leído (°) |
+|---|---|---|---|
+| 3 | 2 | 19,0 (18,9 a mitad del canto) | 25 |
+| 2 | 3 | 18,7 | 26 |
+| 1 | 4 | 19,0 | 25 |
+| 4 | 1 | 18,6 | 27 |
+
+**Altura del eje de altura**, cinta del piso al centro del buje, sin tubo:
+**82,5** de un lado y **83,0** del otro (media 82,75; el papel decía 82,5
+estimado de foto). **Hueco entre base fija y móvil:** ≈ 1 cm, la altura de
+los tacos de PVC (corrige el ≈ 1,5 de §2).
+
+**La cuenta** (`h_montura = W / (tan A + tan B)`, con el ángulo sacado de la
+altura, `sen A = h / W`, que es más fino que el transportador):
+
+| W supuesto | par 2-3 | par 4-1 | transportador (2-3 / 4-1) |
+|---|---|---|---|
+| 43 cm | **44,1** | **44,2** | 45,1 / 44,1 |
+| 40 cm | 37,4 | 37,6 | 41,9 / 41,0 |
+
+**Falta un dato, y manda:** W, la distancia entre los cantos de apoyo de cada
+par. §1 dice que la base fija mide 43 × 40, así que un par tendría que estar a
+43 y el otro a 40. Pero **los dos pares** dan alturas casi iguales, y alturas
+y transportador sólo coinciden con **W ≈ 43 en los dos** (el W que sale de
+cada lectura, `h / sen A`: 45,0; 42,7; 45,0; 41,0). O la base no es 43 × 40
+abajo, o algo de la lectura difiere entre pares. Lo cierra medir W abajo, en
+las dos direcciones. El CdM queda centrado en planta: ≈ 0,2-0,3 cm del medio
+en las dos direcciones.
+
+**Centro de masa del total** (tubo 19,2 kg balanceado en el eje a 82,75 cm,
+montura 19,7 kg): con W = 43, **63,2 cm**; con W = 40, **59,8 cm**. Los dos
+caen en el rango de 58 a 69, y el de 43 coincide con la composición por
+partes (63 cm, §3.2). Cada cm de h_montura mueve el total 0,5 cm. Grado:
+`probable` hasta medir W.
+
 ## 4. Lo que falta, en orden
 
 > **Vigente desde 2026-10-05:** el orden con quién, cuándo y cómo se sabe que
