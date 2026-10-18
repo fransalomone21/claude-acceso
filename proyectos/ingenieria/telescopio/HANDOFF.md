@@ -6,6 +6,29 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-18 (decimoctava sesión, segunda parte): dos Docs y nada más arriba.** Fran: «hay más de 3
+> documentos para leer, se vuelve engorroso; uno central que explique todo, como guía general, y otro súper
+> en criollo de cómo venimos y cómo seguimos; visuales; no gastes tanto». Hecho: `docs/18-guia-general.md`
+> → Doc 1 (ID `1wrzPpizxcblHVY3Zd1vyjZxawaTfdZc2wzDKFsbEwTw`, renombrado «1 - El proyecto, todo en un
+> lugar»), `docs/19-como-venimos.md` → Doc 2 (ID `1rpFTUuDcQvkzbma_9PBBHFBuVl9N3Tce_U9WsTQoUs0`,
+> renombrado «2 - Como venimos y como seguimos»), mismos IDs (medido con `rclone lsf --format pit`); el PDF
+> exportado del Doc trae 11 páginas y 7 imágenes, y el 2, 5 y 2. Docs 3 y 4, «Medir el centro de masa» y
+> «Planos de disposición» se mudaron a «Archivo (referencia, no hace falta leer)». Imágenes nuevas
+> `docs/img/modelo-*.png`, sacadas del modelo con `docs/capturas-modelo.py` (Playwright, instalado hoy).
+> `07` y `11` siguen en el repo como detalle; **los Docs salen de 18 y 19** (contrato actualizado).
+> **Lo urgente**, arriba del Doc 2: la prueba de foco y el inventario.
+>
+> **ROJO QUE QUEDA (no es del telescopio):** la lección 293 (reescribir un archivo con encoding forzado)
+> **se repitió** hoy: un `Get-Content -Raw` sin `-Encoding` + `Set-Content utf8` dejó 51 líneas con
+> acentos dobles en el contrato; se restauró con checkout y se rehizo con Edit. `aprender.py repite 293` la
+> subió a nivel **herramienta**, así que `sin-triage` y `chequeo-completo` dan **ROJO** hasta arreglarla. No
+> se arregló hoy por costo (la puerta pide leer ~800 líneas del concepto «freno»; Fran pidió no gastar). El
+> arreglo propuesto, para una sesión de `arquitectura-se`: **medir el efecto**, no adivinar el comando —
+> un chequeo en `verificar-estructura.ps1` que busque UTF-8 doblemente codificado (`Ã` seguido de un byte
+> de continuación, `Â°`, `Â·`) en lo trackeado, con su saboteador; después `aprender.py subir 293 --nivel
+> herramienta --arreglo <commit>`. Ojo: `black/herramientas/salida.py` lo nombra a propósito en un
+> comentario (declararlo como legítimo).
+>
 > **2026-10-17 a la noche (decimoctava sesión, PC): el centro de masa, medido.** Fran hizo el vuelco
 > solo, sobre los cuatro cantos, con la caja a nivel con burbuja; mandó 20 fotos y un video
 > (`fotos/2026-10-17-vuelco/`, ignorada) y los números por chat. Resultado en `docs/08-medidas.md` §3.3:

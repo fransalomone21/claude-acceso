@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-17 a la noche (decimoctava sesión: **el centro de masa, medido por el vuelco: 63,2 ± 0,5 cm**; la base fija es 43 × 43, no 43 × 40; el modelo no cambia). Antes: 2026-10-09 de madrugada (decimoséptima sesión: sin medidas nuevas; **revisión de punta a punta** —`docs/16`, Doc 4 del Drive—: **la pista** (canto y rodillos) pide micrones y pesa más que la transmisión; el canto se traza como envolvente del rodillo; fuera los cuatro 608; tolerancias de armado; **planos de disposición** en PDF A3)
+**Última actualización:** 2026-10-18 (la misma sesión, segunda parte: **el Drive queda con DOS Docs** — «1 - El proyecto, todo en un lugar» (`docs/18-guia-general.md`) y «2 - Como venimos y como seguimos» (`docs/19-como-venimos.md`), con imágenes del modelo; lo demás, a «Archivo»; lo urgente: **la prueba de foco y el inventario**). Antes: 2026-10-17 a la noche (decimoctava sesión: **el centro de masa, medido por el vuelco: 63,2 ± 0,5 cm**; la base fija es 43 × 43, no 43 × 40; el modelo no cambia). Antes: 2026-10-09 de madrugada (decimoséptima sesión: sin medidas nuevas; **revisión de punta a punta** —`docs/16`, Doc 4 del Drive—: **la pista** (canto y rodillos) pide micrones y pesa más que la transmisión; el canto se traza como envolvente del rodillo; fuera los cuatro 608; tolerancias de armado; **planos de disposición** en PDF A3)
 
 ## Dónde estamos
 
