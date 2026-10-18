@@ -14,7 +14,7 @@ repetición. Todas las tablas tienen **2 cm** de espesor.
 
 | Pieza | Medida | Nota |
 |---|---|---|
-| Base fija | 43 × 40 cm | |
+| Base fija | **43 × 43 cm** | corregido el 2026-10-17: Fran midió por abajo, entre las aristas de apoyo del vuelco, 43 en las dos direcciones (el 2026-10-04 decía 43 × 40) |
 | Base móvil | 40 × 40 cm | |
 | Pared chica 1 (lado del **ocular**) | 20 × 40 cm | une las paredes grandes |
 | Pared chica 2 (lado de la **cola**) | 19,8 × 40 cm | |
@@ -163,20 +163,31 @@ altura, `sen A = h / W`, que es más fino que el transportador):
 | 43 cm | **44,1** | **44,2** | 45,1 / 44,1 |
 | 40 cm | 37,4 | 37,6 | 41,9 / 41,0 |
 
-**Falta un dato, y manda:** W, la distancia entre los cantos de apoyo de cada
-par. §1 dice que la base fija mide 43 × 40, así que un par tendría que estar a
-43 y el otro a 40. Pero **los dos pares** dan alturas casi iguales, y alturas
-y transportador sólo coinciden con **W ≈ 43 en los dos** (el W que sale de
-cada lectura, `h / sen A`: 45,0; 42,7; 45,0; 41,0). O la base no es 43 × 40
-abajo, o algo de la lectura difiere entre pares. Lo cierra medir W abajo, en
-las dos direcciones. El CdM queda centrado en planta: ≈ 0,2-0,3 cm del medio
-en las dos direcciones.
+**W, medido después** (Fran, mismo día, cinta por abajo entre las aristas de
+apoyo): **43 cm en los dos pares**. La fila de W = 40 queda descartada, y el
+dato viejo de §1 (43 × 40) estaba mal. Lo había anticipado la cuenta: con
+W = 40, alturas y transportador no coincidían por 4 cm; con 43, sí (el W que
+sale de cada lectura, `h / sen A`: 45,0; 42,7; 45,0; 41,0, media 43,4).
 
-**Centro de masa del total** (tubo 19,2 kg balanceado en el eje a 82,75 cm,
-montura 19,7 kg): con W = 43, **63,2 cm**; con W = 40, **59,8 cm**. Los dos
-caen en el rango de 58 a 69, y el de 43 coincide con la composición por
-partes (63 cm, §3.2). Cada cm de h_montura mueve el total 0,5 cm. Grado:
-`probable` hasta medir W.
+**Centro de masa de la montura, con la caja y sin el tubo: 44,1 cm** sobre el
+piso del dobson (par 2-3: 44,08; par 4-1: 44,22; el transportador: 45,1 y
+44,1). Centrado en planta: a 0,2-0,3 cm del medio en las dos direcciones.
+
+**Centro de masa del total: 63,2 ± 0,5 cm** sobre el piso del dobson (tubo
+19,2 kg balanceado en el eje a 82,75 cm; montura 19,7 kg; con la cámara y el
+tubo rebalanceado, 63,4). El ± suma la lectura de las alturas (±0,2 cm →
+±0,4 en la montura → ±0,2 en el total), la balanza (±0,5 kg → ±0,25) y el
+balance del tubo. Grado: **medido** para la montura (dos ejes y dos
+instrumentos coinciden a 0,15 cm); el total es `probable` alto, porque
+depende de las pesadas de una balanza sin calibrar y de que el tubo esté
+balanceado. **Coincide con la composición por partes** (63, §3.2): por la
+regla de `12-critica-y-medicion.md` (método B), el segundo método de la
+tabla con caños **no hace falta**.
+
+**Qué cambia:** nada del modelo. Usa 63 para el 200; 0,2 cm más alto corre la
+muesca ≈ 3 mm al sur (0,2 / tan 34,5°; más alto, más al sur: con 69 cm la
+muesca está a 5,9 al sur), menos que lo que repite la
+corredera (L2-PLT-05: entre 55 y 69 cm, las chapas no cambian).
 
 ## 4. Lo que falta, en orden
 

@@ -6,6 +6,18 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-17 a la noche (decimoctava sesión, PC): el centro de masa, medido.** Fran hizo el vuelco
+> solo, sobre los cuatro cantos, con la caja a nivel con burbuja; mandó 20 fotos y un video
+> (`fotos/2026-10-17-vuelco/`, ignorada) y los números por chat. Resultado en `docs/08-medidas.md` §3.3:
+> montura 44,1 cm (los dos ejes, 44,08 y 44,22), **total 63,2 ± 0,5 cm** (63,4 con la cámara);
+> coincide con la composición por partes (63), así que el segundo método no hace falta. **La base fija
+> es 43 × 43** (el registro decía 43 × 40: corregido). Eje a 82,5 y 83,0 cm; hueco entre bases ≈ 1 cm.
+> **El modelo no cambia** (usa 63; la muesca se corre ≈ 3 mm al sur). **De la fase 0 faltan:** la prueba
+> de foco (P0) y el inventario sin `?`. **Quedan atrasados, a corregir en la próxima sesión del
+> telescopio** (no se tocaron hoy para no abrir la edición de requisitos por un rationale): el rationale
+> de L1-15 y de L2-PLT-05 en `docs/10-requisitos.md` («63 sin medir» → 63,2 medido) y el de L1-21 (24,6
+> → 26,5); los deberes A y B de `docs/11-paso-a-paso.md` (hechos) y su Doc «2 - Paso a paso» del Drive.
+>
 > **2026-10-16 (sesión de método, T16 de arquitectura-se):** el telescopio tiene **prueba de requisitos**
 > (`docs/probar-requisitos.js`) y **matriz de verificación** generada (`docs/matriz-verificacion.md`); la cascada
 > imprime al entrar cuántos requisitos están verificados, predichos y sin resultado por nivel. Hoy: L1-13 (59,5 N),

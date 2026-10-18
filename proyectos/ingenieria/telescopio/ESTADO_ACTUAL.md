@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-09 de madrugada (decimoséptima sesión: sin medidas nuevas; **revisión de punta a punta** —`docs/16`, Doc 4 del Drive—: **la pista** (canto y rodillos) pide micrones y pesa más que la transmisión; el canto se traza como envolvente del rodillo; fuera los cuatro 608; tolerancias de armado; **planos de disposición** en PDF A3)
+**Última actualización:** 2026-10-17 a la noche (decimoctava sesión: **el centro de masa, medido por el vuelco: 63,2 ± 0,5 cm**; la base fija es 43 × 43, no 43 × 40; el modelo no cambia). Antes: 2026-10-09 de madrugada (decimoséptima sesión: sin medidas nuevas; **revisión de punta a punta** —`docs/16`, Doc 4 del Drive—: **la pista** (canto y rodillos) pide micrones y pesa más que la transmisión; el canto se traza como envolvente del rodillo; fuera los cuatro 608; tolerancias de armado; **planos de disposición** en PDF A3)
 
 ## Dónde estamos
 
@@ -25,7 +25,9 @@ por `docs/05-trade-study.md` (4,5 contra 2,7, sin empate en ningún orden) — y
 **el borrador de requisitos existe y certifica**: `docs/10-requisitos.md`, 11
 necesidades, 14 de misión, 26 de sistema y 27 de elementos, con
 `python docs/verificar-requisitos.py` en verde (traza completa, GtWR 0 VIOLA).
-Faltan las mediciones (el centro de masa por dos métodos y la prueba de foco)
+De la primera, el **centro de masa quedó medido el 2026-10-17** (vuelco,
+63,2 ± 0,5 cm; coincide con la composición por partes, así que el segundo
+método no hace falta: `docs/08-medidas.md` §3.3). Faltan **la prueba de foco**
 y el inventario sin `?`.
 
 **Qué requisitos se cumplen hoy** (2026-10-16, T16): lo dice `docs/matriz-verificacion.md` (generada; la cascada la
@@ -46,7 +48,7 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 | A 34,5° el pivote queda a `H / tan φ` del centro de masa: con H = 64 cm, base de ≈ 1,41 m (1,12 m con 20 cm de poste). Velocidad no constante ±0,48 % y corrimiento en el rodillo ±13,7 mm sobre toda la chapa (hasta el talón; eran ±0,31 % y ±8,7 mm antes de los límites); cada chapa girada 7,9° | **por cálculo** (`docs/geometria-vns.js`, 6 controles en verde y 4 sabotajes en rojo). Los números dependen de H, que sigue siendo hipótesis | 2026-10-04 |
 | **Límites de carrera en tres capas** (pedido de Fran): programa a ±45 min, fin de carrera (2 microswitches + una leva M5 en el medio de la chapa) a ±48 min, y **talón** en cada punta de la chapa que choca el rodillo a ±51 min. La chapa se estira un radio de rodillo más allá del talón: pasa de 298 a **378 mm de rodadura (394 con talones)** y de 91 a 106 mm de alto; sigue saliendo de una chapa de 500 × 500 | **por cálculo** (`docs/geometria-vns.js`; control nuevo «límites en orden», con sabotaje `stopMin: 2` en rojo). Modelo v3 publicado | 2026-10-04 |
 | Carpeta de Drive compartida con Kevin como **editor**: `05 - PROYECTOS…/Telescopio 200-1200 - Fran y Kevin`, con el cuaderno, la guía de armado (`docs/07-guia-armado.md` → Doc con `docs/md-a-gdoc.py`) y el protocolo de medición | permiso leído del objeto (el cuaderno hereda `writer` de Kevin); declarado por hash en `.claude/estructura-drive.json` | 2026-10-04 |
-| **Geometría del dobson medida**: base fija 43 × 40; base móvil 40 × 40; paredes grandes 40 × 79,6 (buscador) y 40 × 78,8; paredes chicas 20 × 40 (ocular) y 19,8 × 40 (cola); caja 40 × 31 (techo y piso) y 40 × 27 (costados); todo de 2 cm; tubo 25,3 cm de diámetro, aro 26,7; escalón pared-base móvil 1,7 → 1,3 cm | cinta, Fran, ±1 mm de lectura, una vez; registro en `docs/08-medidas.md`, 71 fotos en `fotos/2026-10-04/` (ignorada) y en el Drive | 2026-10-04 |
+| **Geometría del dobson medida**: base fija 43 × 40 (**corregido el 2026-10-17: 43 × 43**, medida por abajo); base móvil 40 × 40; paredes grandes 40 × 79,6 (buscador) y 40 × 78,8; paredes chicas 20 × 40 (ocular) y 19,8 × 40 (cola); caja 40 × 31 (techo y piso) y 40 × 27 (costados); todo de 2 cm; tubo 25,3 cm de diámetro, aro 26,7; escalón pared-base móvil 1,7 → 1,3 cm | cinta, Fran, ±1 mm de lectura, una vez; registro en `docs/08-medidas.md`, 71 fotos en `fotos/2026-10-04/` (ignorada) y en el Drive | 2026-10-04 |
 | Existe trabajo de CAD previo: 22 piezas SolidWorks, 2 DXF de plantilla y un macro VBA de 1571 líneas que genera la geometría CS y emite los DXF él mismo | los archivos están en `cad/`, contados | 2026-10-04 |
 
 | **Base al piso: triángulo de 1,2 m de ancho** (no cuadrada): vuelco de costado 17,8° → 25,0°, al sur 24,4° (manda el sur desde 1,2 m); una cuadrada tiene el mismo borde sur, cuatro patas que renguean y ≈ 1 m más de planchuela. **Soldar** marco, brazo, cartelas, triángulo y poste; **abulonar** travesaño del sur (baúl), soportes de rodillos (ranurados), aluminio y dobson (mariposas) | pregunta de Kevin + decisión de Fran («se sueldan, o abulonan si vos lo recomendás»), `node docs/estabilidad-base.js`, control con sabotaje en `probar-geometria.js` (9 verdes, 7 rojos), modelo v8 | 2026-10-05 |
@@ -78,6 +80,7 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 | **Tolerancias de armado** (cada una sola, 0,2″ por foto, V/T2): rodillo a nivel y chapa a plomo ±0,078°, chapa en planta ±0,15°, rodillo en planta ±0,24°, pivote en altura ±0,76 mm, chapa en altura ±0,41 mm, rodillo E-O ±1 mm, en altura ±1,4, N-S ±3, pivote N-S libre | `tolerancias()` de `contacto-vns.js`, la misma tabla en node y en el navegador (hoja 5) | 2026-10-08 |
 | **Planos de disposición** (preliminares, NO para fabricar, Fran 2026-10-08): `docs/planos.html` → PDF A3 de 5 hojas (planta, alzado, vista sur, chapa 1:1, tolerancias y profundidades) en el Drive; se rehacen con el centro de masa medido | PDF de 5 páginas de 420 × 297 mm, la hoja 5 calculada (no «calculando»); ID `1uJ853WGlh8TeLUAmO_HtWFC4L5afre8J` con `rclone lsf` | 2026-10-08 |
 | **Docs del Drive**: 1 v8, 2 v6 (paso 6c, tabla FAB/CAL al día: 5/16", rodillos de una pieza, mordazas, 0,1 %, 1,5 px, rodaje) y 3 (los esquemas con la chapa de verdad) con el **mismo ID**; **«4 - Revisión: qué puede salir mal»** nuevo (`1nlXkMXiffayMMLz8TbeIxN6xhdgzKxUkgcBWtgUigDE`) | `rclone lsf --format pit` antes y después | 2026-10-08 |
+| **Centro de masa: 63,2 ± 0,5 cm sobre el piso del dobson** (con la cámara, 63,4). La montura con la caja y sin el tubo, 44,1 cm, centrada en planta a 0,2-0,3 cm; el eje de altura a 82,5 y 83,0 cm del piso; hueco entre bases ≈ 1 cm; **la base fija es 43 × 43** (no 43 × 40). Coincide con la composición por partes (63): el segundo método no hace falta (`12` método B). El modelo no cambia (usa 63; la muesca se corre ≈ 3 mm) | vuelco de Fran sobre los cuatro cantos (h 18,6 a 19,0 cm con cinta, 25° a 27° con transportador), caja a nivel con burbuja; los dos ejes dan 44,08 y 44,22, y el transportador 45,1 y 44,1; `docs/08-medidas.md` §3.3; fotos en `fotos/2026-10-17-vuelco/`. Montura **medida**; el total, `probable` alto (balanza sin calibrar, tubo balanceado a ojo) | 2026-10-17 |
 | **La cámara y el foco se aparcan** (Fran, 2026-10-05). P0 sigue abierta en el PDP y es **compuerta antes de comprar la chapa de aluminio** | decisión de Fran; la compuerta es mía | 2026-10-05 |
 
 ## Lo que es hipótesis
@@ -89,8 +92,8 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 | Hipótesis | Qué la confirmaría | Por qué todavía no se probó |
 |---|---|---|
 | masa total **≈ 40 kg, `probable`**: por partes 19,2 (tubo) + 19,7 (montura) = 38,9 sin ocular, contra 40 con ocular pesado entero; cierran a 1,1 kg (`docs/08-medidas.md` §3.2). La estimación por volumen (27) estaba mal | anotar la balanza (rango y resolución) | dos caminos con la misma balanza sin calibrar |
-| centro de masa **≈ 63 cm** (58 a 69) sobre el piso del dobson, `probable`: compuesto con las pesadas (tubo sin caja 19,7 con cámara; montura de pino con la caja 19,7) y la geometría; el tubo está **balanceado sin la cámara** | P3 o P4 como segundo método, y pesar la caja sola | el rango sale de no saber dónde están los ≈ 2-5 kg de herrajes de la montura (`08-medidas.md` §3.2) |
-| largo del tubo (135,5 cm, de 2026-08), hueco de los tacos (≈ 1,5 cm, foto) y eje de altura ≈ 2,6 cm debajo del borde de la pared (fotos) → a ≈ 82,5 cm del piso del dobson | cinta | lo demás de la geometría ya está medido (ver *Lo confirmado*); estas tres salen de fotos o de agosto |
+| ~~centro de masa ≈ 63 cm (58 a 69)~~ → **medido el 2026-10-17: 63,2 ± 0,5** (ver *Lo confirmado*) | — | — |
+| largo del tubo (135,5 cm, de 2026-08) | cinta | el hueco de los tacos (≈ 1 cm) y el eje (82,5 y 83,0 del piso) se midieron el 2026-10-17 |
 | el portaocular es **helicoidal 1,25"** con ≈ 1 cm de recorrido | mirarlo y medir cuánto sube la rosca | fotos 59-63; si es así, explica de sobra un «no llega a foco» con la cámara, y la Barlow lo arregla |
 | el motor de la impresora (Mitsumi M28N-1, repuesto HP C6409-60004) es **de continua con encoder**, no paso a paso | contar sus cables (2 = continua) | fotos 46-53 |
 | todos los parámetros de diseño de 2026-08 (radios 48,3 y 72,0 cm; recorridos ±6,3 y ±9,5 cm; tabla móvil 50 × 50; base fija 70 × 50; carrera ±7,52°) | recalcularlos con la masa y el CoM medidos, **y sólo si gana CS en el trade study** | se derivaron de `H = 64 cm`, que es una estimación |

@@ -34,8 +34,8 @@ del celular): lo que no tiene foto, la sesión no lo puede dar por hecho.
 
 | # | Qué | Cómo | Cuánto lleva |
 |---|---|---|---|
-| A | **El vuelco** de la montura sin tubo | paso 1 de abajo. Anotá **hA, A** (tres veces), **hB, B** (tres veces) y **W**, en cm y grados | una tarde, con Kevin |
-| B | **La altura del eje** | paso 2 de abajo. Dos lecturas, en cm | 5 min |
+| A | ~~**El vuelco** de la montura sin tubo~~ **Hecho (2026-10-17)**: centro de masa 63,2 ± 0,5 cm (`08-medidas.md` §3.3) | paso 1 de abajo | — |
+| B | ~~**La altura del eje**~~ **Hecho (2026-10-17)**: 82,5 y 83,0 cm | paso 2 de abajo | — |
 | C | **La prueba de foco** con la Sony | de día, cámara sin lente con el adaptador en el portaocular, apuntá a algo lejano (una antena, un edificio a más de 200 m) y girá el portaocular de punta a punta. Anotá: **¿se ve nítido? sí o no**. Si no, ¿mejora yendo para adentro o para afuera, y se acaba el recorrido antes? Una foto de la pantalla en el mejor punto | 10 min |
 | D | **Dos respuestas** (las otras dos ya están: 60 s por foto, y el cambio de telescopio sin tope) | 1) **¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?** Si viaja: qué auto, o el largo y el ancho del baúl. Dato nuevo: Punta Indio (150 km, cielo oscuro) queda a 0,8° de latitud, y la plataforma sirve allá sin cambiar nada. 2) **¿Cuánto armado te parece bien**, del depósito al primer sub? (hoy el papel dice 20 min) | una decisión cada una |
 | E | El inventario con calibre | paso 3 de abajo | 1 hora |
