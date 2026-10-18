@@ -54,6 +54,7 @@ C:\Users\frans\Desktop\
 │   │   │   ├── teoria-circuitos\     ← REPO PROPIO · ignorado acá · NO se pushea
 │   │   │   ├── catedras\             ← REPO PROPIO · ignorado acá · lo que pide cada profesor
 │   │   │   ├── cohete-de-agua\       ← REPO PROPIO · ignorado acá · TP Cohete de Agua (grupo)
+│   │   │   ├── trabajo-final-iise\   ← REPO PROPIO · ignorado acá · TP final de IISE, el MCR (grupo)
 │   │   │   └── software-de-vuelo\    guías de C y de IDEs (STM32) — ACTIVO
 │   │   └── seguimiento\
 │   │       └── coaching\             ← REPO PROPIO PRIVADO · ignorado acá
@@ -149,6 +150,7 @@ dato publicado.
 | `proyectos/documentos/teoria-circuitos/` | `teoria-circuitos` | `github.com/fransalomone21/teoria-circuitos`, **privado** — la carátula de los informes lleva nombre y correo de dos compañeros, que la guía de la materia exige ahí |
 | `proyectos/documentos/catedras/` | `catedras` | `github.com/fransalomone21/catedras`, **privado** — lo que pide cada profesor, textual, y material de cátedra; lo público sigue siendo sólo lo pactado (un resumen interpretado, en `software-de-vuelo/docs/`) |
 | `proyectos/documentos/malena/` | `malena` | `github.com/fransalomone21/malena`, **privado** — material de estudio para una amiga de Fran: lleva el informe de su grupo con nombres y mails de compañeros, y sus notas |
+| `proyectos/documentos/trabajo-final-iise/` | `trabajo-final-iise` | `github.com/fransalomone21/trabajo-final-iise`, **privado** — TP en grupo con los nombres de los compañeros; lo compartido va por la carpeta de Drive del grupo |
 | `proyectos/documentos/cohete-de-agua/` | `cohete-de-agua` | `github.com/fransalomone21/cohete-de-agua`, **privado** — trabajo en grupo con los apellidos de los compañeros; lo compartido va por la carpeta de Drive del grupo |
 
 **Desde el 2026-10-02 todos los repos propios tienen remote privado en GitHub**

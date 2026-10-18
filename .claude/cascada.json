@@ -206,6 +206,7 @@
                               "senales": ["\\bhaberes\\b", "\\bcouli\\b", "sueldo docente"]},
     "minecraft-amigos":      {"necesidades": [],
                               "senales": ["\\bminecraft\\b", "\\bprism\\b", "modpack"]},
-    "malena":                {"necesidades": ["materia"]}
+    "malena":                {"necesidades": ["materia"]},
+    "trabajo-final-iise":    {"necesidades": ["materia"]}
   }
 }
