@@ -119,6 +119,7 @@ siempre y con cuánto rigor. Qué fase y qué falta: `.\cascada.ps1 <proyecto>`.
 | [`cohete-de-agua/`](proyectos/documentos/cohete-de-agua/CLAUDE.md) | TP Cohete de Agua de Petrilli (Software de Vuelo), en grupo. **Repo aparte** | **ACTIVO** |
 | [`carrera/`](proyectos/documentos/carrera/CLAUDE.md) | Los **contenidos mínimos** de la carrera (textuales, por código ISE) y el **tablero** de qué tiene y qué le falta a cada materia. Toda sesión de materia lo lee | **ACTIVO** |
 | [`catedras/`](proyectos/documentos/catedras/CLAUDE.md) | Lo que pide cada profesor, textual y con fecha, y los criterios que salen de ahí. Todo proyecto de una materia lo lee **antes** de producir. **Repo aparte, privado** | **ACTIVO** |
+| [`malena/`](proyectos/documentos/malena/CLAUDE.md) | Guías y apuntes para Male, amiga de Fran (UNSAM: Química Inorgánica, Cálculo 2, Probabilidad y Estadística), con los criterios de **sus** cátedras adentro, no en `catedras`. **Repo aparte, privado**; lo entregado, en su carpeta de `04 - TERCEROS` | **ACTIVO** |
 
 ### `proyectos/seguimiento/` — datos longitudinales de la vida real
 

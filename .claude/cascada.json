@@ -205,6 +205,7 @@
     "haberes-docentes":      {"necesidades": [],
                               "senales": ["\\bhaberes\\b", "\\bcouli\\b", "sueldo docente"]},
     "minecraft-amigos":      {"necesidades": [],
-                              "senales": ["\\bminecraft\\b", "\\bprism\\b", "modpack"]}
+                              "senales": ["\\bminecraft\\b", "\\bprism\\b", "modpack"]},
+    "malena":                {"necesidades": ["materia"]}
   }
 }

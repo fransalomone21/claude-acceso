@@ -73,7 +73,7 @@
     ]
   },
   "compartido-con-nombre": {
-    "_regla": "Todo lo compartido con personas concretas se declara aca. Lo que aparezca compartido y no este declarado se reporta como 'sin declarar' -- no es un rojo, es un PENDIENTE amarillo, porque compartir con una persona no es publicar. Pero tiene que verse. Se declara por HASH del mail, nunca por el mail: ver _por-que-hash.",
+    "_regla": "Todo lo compartido con personas concretas se declara aca. Lo que aparezca compartido y no este declarado se reporta como 'sin declarar' -- no es un rojo, es un PENDIENTE amarillo, porque compartir con una persona no es publicar. Pero tiene que verse. Se declara por HASH del mail, nunca por el mail: ver _por-que-hash. COMO SE COMPARTE (leccion 389, pagada dos veces: 2026-10-13 y 2026-10-17): el conector de Drive solo comparte lo que EL creo ('The caller does not have permission' sobre algo hecho con rclone, aunque sea de Fran). La carpeta a compartir se crea con create_file (mimeType de carpeta, sin parentId), se declara aca con ESE id, se comparte con share_file, se llena con rclone y se lleva a su lugar con rclone moveto (el id se conserva).",
     "declarado": [
       {
         "sobre": "01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/Teoria de Circuitos - Favazza, Salomone, Diaz Segui",
@@ -142,6 +142,18 @@
         ],
         "quien-etiqueta": [
           "dueno del CV de 04 - TERCEROS"
+        ]
+      },
+      {
+        "sobre": "04 - TERCEROS - compartido con nombre/(la subcarpeta de material de estudio de una amiga)",
+        "id": "1rEcsC05eJYhBIZoDGWr-M-2siZJ34kIe",
+        "rol": "reader",
+        "por-que": "amiga de Fran a la que le arma guias y apuntes de sus materias (proyecto privado proyectos/documentos/malena). Compartido 2026-10-17 a pedido de Fran, con el mail que dio el. Adentro: una carpeta por materia; solo los entregables, las fuentes quedan en el repo privado. La subcarpeta lleva su nombre y por eso no se escribe en este repo publico.",
+        "quien-sha256": [
+          "f24875f0e36b33b5"
+        ],
+        "quien-etiqueta": [
+          "amiga de Fran, destinataria del material de estudio"
         ]
       },
       {

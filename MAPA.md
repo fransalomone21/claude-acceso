@@ -148,6 +148,7 @@ dato publicado.
 | `proyectos/documentos/clases-aed/` | `clases-aed` | `github.com/fransalomone21/clases-aed`, **privado** — lleva nombre y mail de una alumna particular |
 | `proyectos/documentos/teoria-circuitos/` | `teoria-circuitos` | `github.com/fransalomone21/teoria-circuitos`, **privado** — la carátula de los informes lleva nombre y correo de dos compañeros, que la guía de la materia exige ahí |
 | `proyectos/documentos/catedras/` | `catedras` | `github.com/fransalomone21/catedras`, **privado** — lo que pide cada profesor, textual, y material de cátedra; lo público sigue siendo sólo lo pactado (un resumen interpretado, en `software-de-vuelo/docs/`) |
+| `proyectos/documentos/malena/` | `malena` | `github.com/fransalomone21/malena`, **privado** — material de estudio para una amiga de Fran: lleva el informe de su grupo con nombres y mails de compañeros, y sus notas |
 | `proyectos/documentos/cohete-de-agua/` | `cohete-de-agua` | `github.com/fransalomone21/cohete-de-agua`, **privado** — trabajo en grupo con los apellidos de los compañeros; lo compartido va por la carpeta de Drive del grupo |
 
 **Desde el 2026-10-02 todos los repos propios tienen remote privado en GitHub**
