@@ -3,9 +3,9 @@
 **PENDIENTE, SUMAMENTE IMPORTANTE (Fran, 2026-10-19) — fase 9 propuesta, sin
 abrir: «cómo se escribe el alcance», con evidencia de la práctica.** Fran le
 va a dedicar una sesión. Qué entra, por qué, y con qué fuentes está en
-`HANDOFF.md` (primera entrada) y en `PDP.md` §4 (fase 9). Resumen: cada
-elemento del alcance es **un enunciado corto y, aparte, su justificación**
-(el contexto no es la necesidad); objetivos medibles con criterios de éxito
+`HANDOFF.md` (primera entrada) y en `PDP.md` §4 (fase 9). Resumen: la
+**necesidad es una sola frase y nada más**, el contexto va antes como
+antecedentes, cada elemento en una frase; objetivos medibles con criterios de éxito
 (misión completa y mínima, como NASA); hipótesis = supuesto. Con documentos
 reales de NASA (SEH p. 48-49; requerimientos de nivel 1 de TESS y Psyche;
 Leisner), **marcado aparte como evidencia de la práctica**, no como lo que

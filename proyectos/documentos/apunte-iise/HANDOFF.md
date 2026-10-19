@@ -9,12 +9,16 @@ abrir la **fase 9** del PDP con su criterio escrito antes de tocar un módulo.
 
 **Lo que hay que agregar** (todo ya investigado y con fuente, ver abajo):
 
-1. **La regla de forma:** un enunciado corto por elemento y, aparte, su
-   justificación; el contexto no es la necesidad. Respaldo de la cátedra: los
-   ejemplos de Apollo (M17), CEV (M18) y Marte (M20) son una línea por
-   elemento. Respaldo de la práctica: NASA SEH rev. 2, p. 48-49 (*need = a
-   single statement… related to the problem, not the solution*; *rationale*
-   aparte).
+1. **La regla de forma (corregida el 2026-10-19):** la necesidad es una sola
+   frase y nada más, sin justificación debajo; el contexto va antes, como
+   antecedentes; metas y objetivos en una frase, con prosa sin rótulo si hace
+   falta; el rationale, sólo en los requerimientos. Respaldo de la cátedra:
+   Apollo (M17), CEV (M18) y Marte (M20), una línea por elemento. Respaldo de
+   la práctica: NASA SEH rev. 2 (glosario y p. 49), JWST (Gardner et al.
+   2006: el fondo científico va en su propia sección, antes de los
+   objetivos), TESS. **Ojo:** una versión anterior de este pendiente decía
+   «enunciado + justificación aparte»; estaba mal, ver
+   `perfil-global/pilares/alcance-como-se-escribe.md`.
 2. **Una sola necesidad**, sin nombrar la solución (SEH p. 49: dos necesidades
    obligan a un trade-off).
 3. **Metas vs. objetivos:** metas con verbos de progreso; objetivos
