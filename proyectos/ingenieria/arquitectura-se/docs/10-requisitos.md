@@ -369,7 +369,7 @@ empieza con requerimiento, requisito o requirement / con misión, mission, restr
 
 Diseño, medición y decisiones de Fran: `docs/t19-arbol-de-conocimiento.md` (§3 el giro, §4 las decisiones, §5 las
 piezas A-E). Acá van el L1 de las cinco piezas, el L2 de **A** (la clasificación) y **B** (el tronco), que se
-construyeron primero, y el de **C** (la rama, abajo); el L2 de D y E se escribe cuando se diseñen. Elementos: **PTA** la puerta, **CAS** la cascada
+construyeron primero, y el de **C** (la rama), **E** (el procedimiento) y **D** (el lazo de uso), abajo. Elementos: **PTA** la puerta, **CAS** la cascada
 (`cascada.ps1` y `.claude/cascada.sh`), **VER** el verificador del catálogo. Términos (R4):
 
 - **Catálogo_De_La_Cascada**: el archivo `.claude/cascada.json`.
@@ -391,9 +391,10 @@ construyeron primero, y el de **C** (la rama, abajo); el L2 de D y E se escribe 
 | L1-24 | L0-11 | Cuando la sesión carece de Clasificación_Del_Pedido, la puerta deberá negar cada Acción_Que_Actúa de la sesión. | Pieza A. Fran: nada se activa por una palabra, la sesión interpreta (t19 §3). Hasta acá la puerta frenaba sólo si una señal del pedido o la ruta nombraba un proyecto: el pedido dicho de otra forma pasaba sin cascada. Un freno por permiso (Saltzer): sin clasificar, nada actúa. | ensayo: caso 24 del autotest de la puerta, con mutante |
 | L1-25 | L0-11 | Cuando la Clasificación_Del_Pedido es Ingeniería O Proyecto de un Proyecto_Con_Tronco, la puerta deberá exigir las Lecturas_Del_Tronco antes de cada Acción_Que_Actúa. | Pieza B. Decisión de Fran del 2026-10-19: el tronco es el libro más las fuentes de requisitos completas, aunque la sesión no escriba requisitos; en la duda, se carga. El L0 del TP de IISE se escribió con los libros en el repo. | ensayo: caso 25 del autotest de la puerta, con mutante |
 | L1-26 | L0-11 | Cuando la Clasificación_Del_Pedido es Proyecto, la puerta deberá exigir las lecturas de la naturaleza del proyecto Y del tema del pedido. | Pieza C. En una materia, el Drive, los criterios de la cátedra y las lecciones de PDF sin que Fran diga «publicar»; en un módulo de BLACK, sus lecciones y el documento del tema, no todo BLACK. TBR: el mapa de temas de cada proyecto grande. | ensayo: caso 26 del autotest de la puerta, con mutantes |
-| L1-27 | L0-11 | Cuando una lectura exigida a una Clase_Del_Pedido queda sin uso en 5 sesiones de la Clase_Del_Pedido, el método deberá proponer a Fran el retiro de la lectura. | Pieza D. TBR el 5: lo va a fijar la primera vuelta del lazo. El sensor es lo que la sesión declara de sí misma (DA-043, límite declarado). | ensayo: a escribir con el L2 de D |
+| L1-27 | L0-11 | Cuando una lectura exigida a una Clase_Del_Pedido queda sin uso en 5 sesiones de la Clase_Del_Pedido, el método deberá proponer a Fran el retiro de la lectura. | Pieza D. TBR el 5: lo va a fijar la primera vuelta del lazo. El sensor es lo que la sesión declara de sí misma (DA-043, límite declarado). | ensayo: L2-AUD-09..12 y L2-USO-01..07 (pieza D, abajo) |
 | L1-28 | L0-11 | El método deberá registrar la aprobación de Fran de cada retiro de una lectura exigida. | Pieza D. Decisión de Fran del 2026-10-19: lo que sobra sale sólo con su sí. | inspección: el registro del retiro |
-| L1-29 | L0-12 | Cuando la auditoría cierra la sesión, la auditoría deberá preguntar si la sesión contrastó cada procedimiento ejecutado con la necesidad del procedimiento. | Pieza E. Va con la quinta pregunta del libro de bolsillo (§7). Decisión de Fran del 2026-10-19: un procedimiento mal planteado se corrige y se avisa. | ensayo: a escribir con el L2 de E |
+| L1-29 | L0-12 | Cuando la auditoría cierra la sesión, la auditoría deberá preguntar si la sesión contrastó cada procedimiento ejecutado con la necesidad del procedimiento. | Pieza E. Va con la quinta pregunta del libro de bolsillo (§7). Decisión de Fran del 2026-10-19: un procedimiento mal planteado se corrige y se avisa. | ensayo: L2-AUD-04..08 (pieza E, abajo) |
+| L1-30 | L0-12 | El Libro_De_Bolsillo deberá exigir el contraste de cada Procedimiento con la necesidad del Procedimiento antes de la ejecución del Procedimiento. | Pieza E, la otra mitad de L1-29: la pregunta llega antes de correr, no sólo al cerrar. El libro es tronco: llega entero a toda sesión de ingeniería antes de su primera acción (L1-25). Casos de Fran (t19 §3): el ensayo del coop de BLACK repetido moviendo a un jugador por vez; el L0 del TP de IISE. | inspección: `nucleo-ise.md` §7 |
 | L2-PTA-30 | L1-24 | Cuando la sesión carece de Clasificación_Del_Pedido, la puerta deberá negar cada Acción_Que_Actúa fuera de cada proyecto. | La acción sobre un proyecto ya la niega la puerta pidiendo su necesidad (T11), que también clasifica. | ensayo: caso 24, con mutante |
 | L2-PTA-31 | L1-24 | Cuando la puerta niega por falta de Clasificación_Del_Pedido, la puerta deberá nombrar el comando de cada Clase_Del_Pedido con la ruta absoluta de la cascada. | La sesión puede estar abierta fuera de claude-acceso (la puerta de afuera): un `.\cascada.ps1` relativo no corre ahí. | ensayo: caso 24 |
 | L2-PTA-32 | L1-24 | Cuando la sesión invoca la cascada con la Clase_Del_Pedido Suelta O Ingeniería, la puerta deberá registrar la Clasificación_Del_Pedido antes de que el comando corra. | Lo que una puerta necesita saber de un comando se registra antes de que corra (`chequeo-de-trabajo`, CUANDO PONES UN FRENO): un comando que sale con error no dispara el registro de después. | ensayo: caso 24 |
@@ -442,3 +443,67 @@ Diseño: `docs/t19-arbol-de-conocimiento.md` §7. Elementos: **PTA**, **VER**, *
 | L2-VER-12 | L1-26 | Cuando cada proyecto con cadencia de lluvia de ideas carece de Mapa_De_Temas, el verificador del catálogo deberá listar el proyecto. | El TBR de L1-26: el mapa de cada proyecto grande lo arma la sesión desde sus documentos y se lo muestra a Fran. Lista y no frena, como L2-VER-01. | inspección: la salida de `--verificar` |
 | L2-CAS-08 | L1-26 | Cuando la sesión declara la necesidad de un proyecto, la cascada deberá imprimir el archivo Y el rango de cada lectura de la Rama_De_Naturaleza Y de cada Tema_Declarado. | Lo que la puerta va a exigir se dice al declarar (DA-058). | demostración: `cascada.ps1 arquitectura-se -Necesidad metodo -Tema t19` |
 | L2-CAS-09 | L1-26 | Cuando el proyecto declarado tiene Mapa_De_Temas, la cascada deberá imprimir cada tema del Mapa_De_Temas con la descripción del tema. | La sesión elige el tema viendo el mapa. | demostración: ídem |
+
+### Pieza E — el procedimiento se contrasta con su necesidad (L1-29, L1-30)
+
+Diseño: `docs/t19-arbol-de-conocimiento.md` §8. Elementos: **LDB** el Libro_De_Bolsillo (`perfil-global/pilares/nucleo-ise.md`)
+y **AUD** la auditoría (`auditar-sesion.py`). Términos (R4):
+
+- **Procedimiento**: una secuencia de pasos que la sesión ejecuta para obtener un resultado: un ensayo, un banco de
+  prueba, un runbook, un saboteador, una compilación o una publicación.
+- **Clave_De_Procedimiento**: el nombre del script (`.py`, `.ps1`, `.sh`, `.bat` o `.cmd`) de un tramo de un comando,
+  más el primer argumento del tramo cuando es un subcomando o una opción.
+- **Procedimiento_Repetido**: una Clave_De_Procedimiento con 3 o más Acción_Que_Actúa que la puerta deja pasar en la
+  sesión, distinta de la cascada y de la auditoría.
+- **Declaración_De_Contraste**: cada valor de la opción `--procedimiento` de la auditoría: el Procedimiento, lo que la
+  necesidad le pide producir y el resultado del contraste, que empieza con `produce`, `corregido` o `preguntado`; o el
+  Contraste_Vacío.
+- **Contraste_Vacío**: la Declaración_De_Contraste `ninguno`: la sesión dice que no ejecutó Procedimiento.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L2-LDB-01 | L1-30 | La sección 7 del Libro_De_Bolsillo deberá preguntar si cada Procedimiento produce lo que pide la necesidad del Procedimiento. | La quinta pregunta. Su fuente es la casa (Fran, 2026-10-19), no un libro: va en la tabla de `docs/da013-libro-contra-fuente.md` con grado `casa`. | inspección: §7, con `verificar-libro.py` en verde |
+| L2-LDB-02 | L1-30 | Cuando un Procedimiento difiere de lo que pide la necesidad del Procedimiento, la sección 7 del Libro_De_Bolsillo deberá indicar la corrección del Procedimiento con aviso a Fran. | Decisión de Fran (t19 §4): la sesión lo corrige y avisa. | inspección |
+| L2-LDB-03 | L1-30 | Cuando la corrección de un Procedimiento cambia lo que Fran ejecuta O lo que se busca, la sección 7 del Libro_De_Bolsillo deberá indicar la pregunta a Fran antes de la corrección. | Ídem: se pregunta en esos dos casos; el resto es técnico y se decide (memoria «preguntas: técnica no, valor sí»). | inspección |
+| L2-AUD-04 | L1-29 | Cuando la sesión carece de Declaración_De_Contraste, la auditoría de la sesión deberá dar ROJO en la pregunta P12. | L0-12 dice exigir: sin respuesta, la quinta pregunta no se hizo o no se dijo. P9 da AMARILLO sin declaración; P12 es el único sensor de N-12, y un amarillo no exige. Contestarla cuesta una opción en la llamada que cierra la sesión. | ensayo: autotest de `auditar-sesion.py`, con mutante |
+| L2-AUD-05 | L1-29 | Cuando una Declaración_De_Contraste distinta del Contraste_Vacío carece del Procedimiento, de la necesidad O del resultado, la auditoría deberá dar ROJO en P12 con la declaración. | Una declaración sin la necesidad no contrastó nada: es contestar sin preguntarse. Los tres resultados son los de la decisión de Fran (t19 §4). | ensayo: autotest, con mutante |
+| L2-AUD-06 | L1-29 | Cuando cada Procedimiento_Repetido falta en cada Declaración_De_Contraste, la auditoría deberá dar AMARILLO en P12 con la Clave_De_Procedimiento Y la cuenta de ejecuciones. | Control cruzado de lo declarado contra lo medido en la Caja_Negra, como las señales de la pieza A. TBR el 3: medido el 2026-10-19 sobre las 60 Caja_Negra con scripts, 32 tienen al menos un Procedimiento_Repetido y la mediana es 1 por sesión. Adentro caen también los registros (`aprender.py agregar`), así que lista y no frena: un freno con falsos positivos se apaga (Saltzer). Un Procedimiento_Repetido figura en una Declaración_De_Contraste cuando el Procedimiento declarado nombra el script de la clave. | ensayo: autotest, con mutante |
+| L2-AUD-07 | L1-29 | Cuando cada Declaración_De_Contraste está completa Y cada Procedimiento_Repetido figura en una Declaración_De_Contraste, la auditoría deberá dar VERDE en P12. | Control positivo: un freno que sólo sabe decir que no se apaga. Vale también `ninguno` sin Procedimiento_Repetido. | ensayo: autotest |
+| L2-AUD-08 | L1-29 | Cuando la auditoría da ROJO en P12 por falta de Declaración_De_Contraste, la auditoría deberá mostrar la forma de la opción `--procedimiento`. | Un rojo sin explicación cuesta un viaje entero (chequeo-de-trabajo, CUANDO PONES UN FRENO). El cierre del protocolo (`apertura-proyecto.md`) y el enrutador nombran la opción. | ensayo: autotest |
+
+### Pieza D — el lazo de uso (L1-27, L1-28)
+
+Diseño: `docs/t19-arbol-de-conocimiento.md` §9. Elementos: **AUD** la auditoría, **USO** la herramienta del lazo
+(`uso-lecturas.py`, con su medidor `verificar`) y **CAS** la cascada. Términos (R4):
+
+- **Lectura_Exigida**: cada archivo que la puerta exige leer a la sesión por su Clasificación_Del_Pedido: la base, las
+  necesidades, la rama y los temas de un proyecto declarado, o el tronco de la clase Ingeniería. Los conceptos que
+  dispara una acción (freno, typst) no son Lectura_Exigida: ya se activan por el rol de la acción.
+- **Clase_De_Uso**: `ingenieria` para la Clase_Del_Pedido Ingeniería; `proyecto:<naturaleza>` para la Clase_Del_Pedido
+  Proyecto.
+- **Declaración_De_Uso**: cada valor de la opción `--uso` de la auditoría: los archivos que la sesión usó para decidir
+  y la decisión; o el Uso_Vacío.
+- **Uso_Vacío**: la Declaración_De_Uso `ninguna`: la sesión dice que decidió sin usar Lectura_Exigida.
+- **Registro_De_Uso**: el archivo `.claude/auditorias/uso-lecturas.jsonl`.
+- **Muestra_De_Uso**: el renglón del Registro_De_Uso de una sesión y una Clase_De_Uso: la fecha, cada Lectura_Exigida
+  con su motivo de exigencia, y las usadas.
+- **Ventana_De_Uso**: 5 Muestra_De_Uso de una Clase_De_Uso (TBR, L1-27).
+- **Registro_De_Decisiones**: el archivo `.claude/retiro-lecturas.jsonl`: cada decisión de Fran sobre el retiro de
+  una Lectura_Exigida, con la fecha, la Clase_De_Uso, la lectura, el Veredicto_De_Fran y las palabras de Fran.
+- **Veredicto_De_Fran**: la aprobación o el rechazo del retiro de una Lectura_Exigida.
+- **Propuesta_De_Retiro**: el aviso con la Lectura_Exigida, la Clase_De_Uso, la cuenta de Muestra_De_Uso sin uso
+  posteriores al último uso y a la última decisión sobre la lectura, el motivo de exigencia y el comando de la decisión.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L2-AUD-09 | L1-27 | Cuando la sesión tiene Lectura_Exigida Y carece de Declaración_De_Uso, la auditoría deberá dar ROJO en la pregunta P13 con la forma de la opción `--uso`. | El sensor del lazo es lo que la sesión dice de sí misma (DA-043, límite declarado): sin la declaración, el lazo no tiene datos. ROJO por la misma razón que P12. | ensayo: autotest de `auditar-sesion.py`, con mutante |
+| L2-AUD-10 | L1-27 | Cuando una Declaración_De_Uso distinta del Uso_Vacío carece de la decisión, la auditoría deberá dar ROJO en P13 con la declaración. | Nombrar la decisión obliga a nombrar el uso: «usé todo» no es una respuesta. | ensayo: autotest |
+| L2-AUD-11 | L1-27 | Cuando un archivo de una Declaración_De_Uso coincide con 0 Lectura_Exigida, la auditoría deberá dar AMARILLO en P13 con el archivo. | Un nombre mal escrito no marca nada como usado y empujaría a una propuesta falsa; y un archivo útil fuera de lo exigido es la señal contraria (falta en la rama). Coincide = la ruta de la Lectura_Exigida termina con el nombre declarado; un nombre ambiguo marca todas las que coinciden, que es la dirección segura. | ensayo: autotest |
+| L2-AUD-12 | L1-27 | Cuando la auditoría escribe el informe, la auditoría deberá escribir en el Registro_De_Uso una Muestra_De_Uso por cada Clase_De_Uso de la sesión con Declaración_De_Uso. | Va al lado del informe y en su mismo commit; una auditoría corrida dos veces reemplaza la muestra de la sesión, no la duplica. Sin Declaración_De_Uso no hay muestra: un sensor ciego vería todo sin uso (como L2-RET-06). | ensayo: autotest, con mutante |
+| L2-USO-01 | L1-27 | Cuando una Lectura_Exigida acumula la Ventana_De_Uso de Muestra_De_Uso sin uso en una Clase_De_Uso, la herramienta del lazo deberá emitir la Propuesta_De_Retiro de la lectura. | La propuesta, no el retiro: lo que sobra sale con el sí de Fran (t19 §4). | ensayo: autotest de `uso-lecturas.py`, con mutante |
+| L2-USO-02 | L1-27 | Cuando la sesión declara la necesidad de un proyecto O la Clase_Del_Pedido Ingeniería, la cascada deberá imprimir cada Propuesta_De_Retiro de la Clase_De_Uso. | La propuesta llega donde se decide: la sesión la lleva al cuadro («Lo tuyo»), como el aviso de T18. No va al arranque como ROJO: depende de Fran, y un rojo que la sesión no puede arreglar frena todo lo demás. | demostración: la cascada con una propuesta sembrada |
+| L2-USO-03 | L1-28 | Cuando la sesión registra la decisión de Fran sobre una Propuesta_De_Retiro, la herramienta del lazo deberá escribir en el Registro_De_Decisiones la fecha, la Clase_De_Uso, la lectura, el Veredicto_De_Fran Y las palabras de Fran. | L1-28. Las palabras van textuales: un «sí» sin su texto es lo que la sesión dice que dijo Fran. | ensayo: autotest |
+| L2-USO-04 | L1-28 | Cuando la decisión carece de las palabras de Fran O nombra una lectura ausente de cada Muestra_De_Uso de la Clase_De_Uso, la herramienta del lazo deberá rechazar la decisión. | Falla cerrado: un nombre mal escrito registraría una decisión que no reinicia ninguna cuenta. | ensayo: autotest |
+| L2-USO-05 | L1-27 | Cuando Fran decide sobre una Propuesta_De_Retiro, la herramienta del lazo deberá contar la Ventana_De_Uso de la lectura desde la decisión. | Un «no» calla la propuesta hasta juntar otra ventana sin uso: sin esto, el aviso saltaría en cada sesión y dejaría de discriminar. | ensayo: autotest |
+| L2-USO-06 | L1-28 | Cuando una Muestra_De_Uso posterior a una decisión de retiro aprobada trae la lectura retirada como Lectura_Exigida de la Clase_De_Uso, el medidor del lazo deberá dar ROJO. | El sí que no se aplicó en el catálogo es una divergencia (N-06), y se mide en las muestras, sin recalcular lo exigido. | ensayo: autotest |
+| L2-USO-07 | L1-27 | Cuando el Registro_De_Uso O el Registro_De_Decisiones trae un renglón ilegible, el medidor del lazo deberá dar ROJO con el archivo Y el renglón. | Falla cerrado: un renglón roto e ignorado haría ver una lectura sin uso o una decisión inexistente. Corre en la capa rápida de `chequeo-completo`. | ensayo: autotest |
