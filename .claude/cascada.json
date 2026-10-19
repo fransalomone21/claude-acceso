@@ -117,7 +117,8 @@
         {"ruta": "perfil-global/pilares/incose-gtwr/reglas.md", "desde": "^# 1\\. Las definiciones", "hasta": "^# 4\\. ", "por": "INCOSE GtWR: definiciones, las 14 caracteristicas y las 41 reglas"},
         {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m21-escribir-buenos-requerimientos.typ", "por": "la catedra (IISE): SMART, QUIEN debera QUE, checklist, TBD/TBR, rationale, metodo de verificacion"},
         {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m17-familia-de-requerimientos-y-trazabilidad.typ", "desde": "^== La sem", "hasta": "^== Interfaces", "por": "la catedra: shall/will/should, los seis tipos, niveles L0-L6, padres e hijos, asignados y derivados"},
-        {"ruta": "perfil-global/pilares/nasa-seh/requisitos.md", "desde": "^## 5\\. Actividad", "hasta": "^## 15\\.", "por": "NASA: tipos, flowdown, metadata, rationale, validacion en seis pasos, MOP/TPM, linea base"}
+        {"ruta": "perfil-global/pilares/nasa-seh/requisitos.md", "desde": "^## 5\\. Actividad", "hasta": "^## 15\\.", "por": "NASA: tipos, flowdown, metadata, rationale, validacion en seis pasos, MOP/TPM, linea base"},
+        {"ruta": "perfil-global/pilares/nasa-seh/glosario.md", "desde": "^## 3\\. Apendice C", "hasta": "^## 4\\. ", "por": "NASA SEH App. C entero: free of implementation (WHAT, not HOW), shall/will/should, checklists de redaccion y de validacion (DA-065: estaba en el glosario y no llegaba)"}
       ]
     },
     "alcance": {
@@ -131,7 +132,9 @@
         {"ruta": "perfil-global/pilares/alcance-como-se-escribe.md", "por": "la forma, medida en ejemplares (catedra, SEH, JWST, TESS): la necesidad es UNA frase y nada mas"},
         {"ruta": "perfil-global/pilares/nasa-seh/stakeholders.md", "desde": "^### 3\\.11 ", "hasta": "^### 3\\.14 ", "por": "NASA SEH p. 48-49: NGO, need = a single statement, los cuatro criterios de un objetivo"},
         {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m18-verificacion-validacion-y-alcance.typ", "desde": "^== Los elementos del alcance", "hasta": "(?!)", "por": "la catedra: los elementos del alcance en cadena, el ConOps y el CEV entero"},
-        {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m20-el-alcance-en-la-practica.typ", "desde": "^== El Ejercicio de Alcance", "hasta": "^== Seis Conceptos", "por": "la catedra: el Ejercicio de Alcance de Marte, de la necesidad a la mision"}
+        {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m20-el-alcance-en-la-practica.typ", "desde": "^== El Ejercicio de Alcance", "hasta": "^== Seis Conceptos", "por": "la catedra: el Ejercicio de Alcance de Marte, de la necesidad a la mision"},
+        {"ruta": "perfil-global/pilares/nasa-seh/requisitos.md", "desde": "^## 4\\. Actividad", "hasta": "^## 5\\. Actividad", "por": "NASA SEH p. 55-56: la restriccion no cambia por trade (test: quien la impone)"},
+        {"ruta": "perfil-global/pilares/nasa-seh/glosario.md", "desde": "^## 3\\. Apendice C", "hasta": "^## 4\\. ", "por": "NASA SEH App. C: los L0 del alcance son requerimientos: free of implementation, WHAT not HOW (DA-065)"}
       ]
     },
     "typst": {
