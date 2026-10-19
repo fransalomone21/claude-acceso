@@ -401,6 +401,8 @@ def escribe_seccion(secciones, arch: str, titulos) -> bool:
     for s in secciones:
         if s.get("archivo") and not re.search(s["archivo"], arch):
             continue
+        if s.get("excepto") and re.search(s["excepto"], arch):   # DA-067: el registro (ESTADO, HANDOFF) anota, no escribe
+            continue
         if any(re.search(s["titulo"], t) for t in titulos):
             return True
     return False
@@ -439,6 +441,32 @@ def _cola_local(n: str) -> str:
     """La ruta sin el HOME: un comando la nombra con ~, $HOME, $env:USERPROFILE o entera."""
     h = norm(Path.home())
     return n[len(h):].lstrip("\\/") if n.startswith(h) else n
+
+
+def proyectos_de(tool: str, inp: dict, cwd: str, cat: dict | None = None):
+    """TODOS los proyectos que la accion toca, en orden de aparicion (DA-070, 2026-10-19: un Bash que hacia grep en
+    cohete-de-agua y sed en catedras paso sin pedir cohete-de-agua, porque la puerta veia UN proyecto por comando y
+    el primero ya estaba liberado; fail-open por salida temprana). Las mismas reglas que proyecto_de, sin cortar en
+    la primera: el arbol en el texto de la accion, y si el texto no nombra ninguno, el cwd."""
+    if tool in ("Edit", "Write", "NotebookEdit"):
+        texto = str(inp.get("file_path", inp.get("notebook_path", "")))
+    else:
+        texto = str(inp.get("command", ""))
+    disco, out = proyectos_del_disco(), []
+    for t in dict.fromkeys((texto.replace("\\\\", "\\"), texto.replace("'", "").replace('"', "").replace("\\\\", "\\"))):
+        out += [m.group(2) for m in PATRON_PROY.finditer(t) if m.group(2) in disco]
+        if tool in ("Bash", "PowerShell") and re.search(r"(?i)\bproyectos\b", t):
+            out += [n for n in disco if re.search(r"(?<![\w.-])" + re.escape(n) + r"[/\\]", t)]
+    locs = locales_de(cat or {})
+    if tool in ("Bash", "PowerShell"):
+        tn = texto.lower().replace("/", "\\")
+        out += [p for loc, p in locs if p in disco and _cola_local(loc) in tn]
+    elif texto:
+        tn = norm(texto)
+        out += [p for loc, p in locs if p in disco and (tn == loc or tn.startswith(loc + os.sep))]
+    # El de siempre va primero (los mensajes y lo que se exige al primero no cambian); los demas, detras.
+    primero = proyecto_de(tool, inp, cwd, cat)
+    return list(dict.fromkeys(([primero] if primero else []) + out))
 
 
 def proyecto_de(tool: str, inp: dict, cwd: str, cat: dict | None = None):
@@ -776,11 +804,15 @@ def pre(ev: dict) -> int:
         return deny("PUERTA DE LA CASCADA (T11): el catalogo .claude/cascada.json no se puede leer (%s). Sin "
                     "catalogo no se sabe que exigir, y la puerta falla cerrado. Arreglarlo (editarlo no lo frena "
                     "nadie) o, si hay que salir ya: .claude\\desinstalar-hooks.ps1" % e)
-    proyecto = proyecto_de(tool, inp, ev.get("cwd", ""), cat)
-    directo = bool(proyecto)   # la accion TOCA el proyecto (ruta, comando o cwd), no solo lo nombra el pedido
-    conceptos = conceptos_de(cat, tool, inp)
+    tocados = proyectos_de(tool, inp, ev.get("cwd", ""), cat)
     sid = ev.get("session_id", "")
     st = estado(sid)
+    # DA-070: si la accion toca varios proyectos, manda el primero que falte declarar (el que nadie libero); si estan
+    # todos liberados, se exige lo de cada uno (abajo). Antes se miraba solo el primero y el resto pasaba.
+    proyecto = next((p for p in tocados if p not in st["declaradas"] and p not in st["excepciones"]),
+                    tocados[0] if tocados else None)
+    directo = bool(proyecto)   # la accion TOCA el proyecto (ruta, comando o cwd), no solo lo nombra el pedido
+    conceptos = conceptos_de(cat, tool, inp)
     if not proyecto:
         # El pedido nombro un proyecto (UserPromptSubmit) y esta accion no cae en ninguno: manda el pedido. Sin
         # esto, guardar "en mis documentos" un ejercicio de una materia pasaba sin cascada (leccion 331).
@@ -807,6 +839,11 @@ def pre(ev: dict) -> int:
                      "\"motivo\" -- libera lo de afuera, nunca su carpeta (T14b)." % (entrada(), proyecto))
                     if proyecto in st["inferidos"] and not directo else "", entrada(), proyecto))
         it, cm, nt = exigido(cat, proyecto, st["declaradas"][proyecto], [])
+        faltan += it
+        cmds_faltan += cm
+        notas += nt
+    for q in [x for x in tocados if x != proyecto and x in st["declaradas"] and x not in st["excepciones"]]:
+        it, cm, nt = exigido(cat, q, st["declaradas"][q], [])   # DA-070: lo de cada proyecto que la accion toca
         faltan += it
         cmds_faltan += cm
         notas += nt
@@ -1192,7 +1229,7 @@ def cli_verificar() -> int:
             if not isinstance(s, dict) or not s.get("titulo"):
                 rojos.append("concepto %s: la seccion %d no trae 'titulo'" % (nombre, j))
                 continue
-            pats += [("secciones[%d].%s" % (j, k), s[k]) for k in ("titulo", "archivo") if s.get(k)]
+            pats += [("secciones[%d].%s" % (j, k), s[k]) for k in ("titulo", "archivo", "excepto") if s.get(k)]
         for k, pat in pats:
             try:
                 re.compile(pat)
@@ -2101,6 +2138,111 @@ def autotest() -> int:
             m.write_text(txt, encoding="utf-8")
             r = caso20(n, m)
             ok = ('"deny"' in r) != casos20[n][2]
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+    # 21. DA-067: el concepto 'requisitos' dispara tambien por el ROL (un titulo de requerimientos en CUALQUIER
+    # documento, no solo en requisitos*.md), y 'alcance' por la mision, las restricciones y la autoridad. Archivos en
+    # tmp, fuera de todo proyecto: el unico motivo posible de un deny es el concepto. La forma es la del informe real
+    # del TP (titulos numerados '1.9.', la tabla de L0 debajo, prosa que nombra 'los requerimientos').
+    d21 = tmp / "rol"
+    d21.mkdir()
+    inf21, hand21 = d21 / "seccion-1.md", d21 / "HANDOFF.md"
+    inf21.write_text("# Informe MCR\n\n## 1.8. Restricciones\n\nUna restriccion vieja.\n\n## 1.9. Requerimientos\n\n"
+                     "| ID | Requerimiento |\n|---|---|\n| L0-01 | La mision debera usar un CubeSat. |\n\n"
+                     "## 2. Bibliografia\n\nLos requerimientos se citan aparte.\n", encoding="utf-8")
+    hand21.write_text("# HANDOFF\n\n## Requisitos que faltan\n\nAnotar lo que falta.\n", encoding="utf-8")
+    req_m, alc_m = "reglas.md", "alcance-como-se-escribe"   # cada motivo es de UN concepto: reglas.md solo lo pide requisitos
+    casos21 = (
+        ("DA-067 SABOTAJE: Write con '## 1.9. Requerimientos' en un informe -> deny",
+         ("Write", {"file_path": str(d21 / "nuevo.md"), "content": "# Informe\n\n## 1.9. Requerimientos\n\nL0-01.\n"}),
+         True, req_m),
+        ("DA-067 SABOTAJE: Edit de la tabla BAJO '1.9. Requerimientos' -> deny",
+         ed20(inf21, "La mision debera usar un CubeSat.", "La mision debera determinar X."), True, req_m),
+        ("DA-067 SABOTAJE: Edit bajo '1.8. Restricciones' -> deny (alcance)",
+         ed20(inf21, "Una restriccion vieja.", "Otra."), True, alc_m),
+        ("DA-067 CONTROL: Edit de prosa que NOMBRA los requerimientos -> pasa",
+         ed20(inf21, "Los requerimientos se citan aparte.", "Los requerimientos, citados."), False, None),
+        ("DA-067 CONTROL: Edit bajo 'Requisitos que faltan' de un HANDOFF -> pasa",
+         ed20(hand21, "Anotar lo que falta.", "Anotado."), False, None))
+
+    def caso21(n, script=__file__):
+        s = "%s-da067-%d-%s" % (sid, n, Path(script).stem)
+        return correr(pre_ev(*casos21[n][1], s=s), None, script)
+
+    sanos21 = {}
+    for n, (nombre, _, niega, motivo) in enumerate(casos21):
+        r = caso21(n)
+        sanos21[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+    s21 = sid + "-da067-leido"
+    for x in exigido(cat_base, None, [], ["requisitos"])[0]:
+        correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s21))
+    caso("DA-067 CONTROL: leido el concepto requisitos, el Write -> pasa", correr(pre_ev(*casos21[0][1], s=s21)), False)
+    for nombre, cambios, n in (
+            ("MUTANTE (requisitos sin disparo por seccion) -> lo ve el caso 1",
+             [('elif arch and cd.get("secciones"):', "elif False:")], 0),
+            ("MUTANTE (sin la excepcion del registro) -> lo ve el caso 5",
+             [('if s.get("excepto") and re.search(s["excepto"], arch):', "if False:")], 4)):
+        fuente = Path(__file__).read_text(encoding="utf-8")
+        txt = fuente
+        for viejo, nuevo in cambios:
+            txt = txt.replace(viejo, nuevo, 1)
+        if not sanos21.get(n):
+            ok, r = False, "NO JUZGABLE: su caso no paso sano en esta corrida"
+        elif any(viejo not in fuente for viejo, _ in cambios):
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        else:
+            m = tmp / ("mutante-da067-%d.py" % n)
+            m.write_text(txt, encoding="utf-8")
+            r = caso21(n, m)
+            ok = ('"deny"' in r) != casos21[n][2]
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+    # 22. DA-070: un comando que toca DOS proyectos exige declarar los dos. Antes la puerta veia uno por comando (el
+    # primero) y, si ese estaba liberado, el resto pasaba: el 2026-10-19 un grep sobre cohete-de-agua junto a un sed
+    # sobre catedras paso sin declarar cohete-de-agua. Proyectos reales del disco, rutas que no existen: el deny solo
+    # puede venir de la declaracion.
+    p_a, p_b = "black", "telescopio"
+    r_a, r_b = "proyectos/ingenieria/%s/x-autotest.md" % p_a, "proyectos/ingenieria/%s/y-autotest.md" % p_b
+    dos = ("Bash", {"command": "sed -i s/a/b/ %s %s" % (r_a, r_b)})
+    uno = ("Bash", {"command": "sed -i s/a/b/ %s" % r_a})
+
+    def caso22(n, script=__file__):
+        s = "%s-da070-%d-%s" % (sid, n, Path(script).stem)
+        correr(pre_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Excepcion \"autotest DA-070\"" % p_a}, s), None, script)
+        if n == 2:   # el segundo, declarado y sin leer su base: tiene que pedir la lectura del SEGUNDO
+            correr(pre_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % p_b}, s), None, script)
+        return correr(pre_ev(*(uno if n == 1 else dos), s=s), None, script)
+
+    casos22 = (("DA-070 SABOTAJE: un comando con dos proyectos, uno liberado -> deny por el OTRO", True,
+                "vas a actuar sobre '%s'" % p_b),
+               ("DA-070 CONTROL: el mismo comando con solo el liberado -> pasa", False, None),
+               ("DA-070 SABOTAJE: el segundo declarado y sin leer -> deny por SU base", True, "falta LEER"))
+    sanos22 = {}
+    for n, (nombre, niega, motivo) in enumerate(casos22):
+        r = caso22(n)
+        sanos22[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+    for nombre, cambios, n in (
+            ("MUTANTE (un proyecto por comando, el primero) -> lo ve el caso 1",
+             [('proyecto = next((p for p in tocados if p not in st["declaradas"] and p not in st["excepciones"]),\n'
+               '                    tocados[0] if tocados else None)', "proyecto = tocados[0] if tocados else None")], 0),
+            ("MUTANTE (sin exigir lo del segundo) -> lo ve el caso 3",
+             [('for q in [x for x in tocados if x != proyecto and x in st["declaradas"] and x not in st["excepciones"]]:',
+               "for q in []:")], 2)):
+        fuente = Path(__file__).read_text(encoding="utf-8")
+        txt = fuente
+        for viejo, nuevo in cambios:
+            txt = txt.replace(viejo, nuevo, 1)
+        if not sanos22.get(n):
+            ok, r = False, "NO JUZGABLE: su caso no paso sano en esta corrida"
+        elif any(viejo not in fuente for viejo, _ in cambios):
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        else:
+            m = tmp / ("mutante-da070-%d.py" % n)
+            m.write_text(txt, encoding="utf-8")
+            r = caso22(n, m)
+            ok = ('"deny"' in r) != casos22[n][1]
         mal += not ok
         print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
     shutil.rmtree(tmp, ignore_errors=True)

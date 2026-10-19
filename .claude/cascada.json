@@ -16,7 +16,7 @@
   "necesidades": {
     "materia": {
       "que": "producir algo para una materia o una clase: apunte, guia, TP, informe, hoja de formulas, modelo de parcial, clase particular",
-      "al_tocar": ["alcance"],
+      "al_tocar": ["alcance", "requisitos"],
       "herramientas": ["/pdf-con-codigo (Typst; el render se MIRA)", "catedras/verificar-criterios.py", "publicar-apuntes.ps1 -Verificar (MD5)", "respaldo: el PDF anterior en Drive; nada se pisa sin la version previa"],
       "leer": [
         {"ruta": "proyectos/documentos/catedras/CLAUDE.md", "por": "lo que pide cada profesor: se lee ANTES de producir"},
@@ -43,7 +43,7 @@
     },
     "diseno": {
       "que": "decidir o disenar algo antes de construirlo: una arquitectura, un mod, un plan, elegir entre alternativas, escribir requisitos",
-      "al_tocar": ["alcance"],
+      "al_tocar": ["alcance", "requisitos"],
       "herramientas": ["/spec-interview y /verify-before-build", "verificar-requisito.py --idioma es (GtWR)", "cada commit de diseno cita los IDs de requisito que cumple (N-01, L1-01, L2-PLT-01) y toca UN solo proyecto: cada proyecto tiene su espacio de IDs y la auditoria da ROJO si el commit cita los del otro", "al cerrar: python auditar-sesion.py --de-fran 'que | evidencia' --escribir", "trade study con pesos de Fran (nunca de la sesion)", "respaldo: el diseno escrito en el repo antes de tocar nada vivo"],
       "leer": [
         {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "desde": "^## Qu. leer", "hasta": "^## ", "por": "el indice de las fichas NASA / INCOSE / Rechtin segun la tarea"},
@@ -113,12 +113,31 @@
     "requisitos": {
       "que": "escribir o tocar un documento de requisitos: se escribe con los libros abiertos, no de memoria (2026-10-07: nueve sesiones de diseno sin requisitos, con los libros en el repo)",
       "archivo": "(?i)requisitos[^/\\\\]*\\.(md|txt)$",
+      "_disparo": "por el NOMBRE del documento de requisitos, o por el ROL del texto en cualquier documento (DA-067, 2026-10-19: la tabla de L0 del TP se escribio en informe/seccion-1.md bajo '1.9 Requerimientos' sin abrir los libros): un titulo de seccion de requerimientos que el Write trae, que el Edit trae o que encierra lo editado. El registro (ESTADO_ACTUAL, HANDOFF) anota y no escribe requerimientos: no dispara. Medido el 2026-10-19 sobre lo trackeado: 20 titulos caen, ~15 son requerimientos de verdad; los falsos (un README de prerrequisitos, entradas del glosario del apunte, un destilado) cuestan una lectura por sesion.",
+      "secciones": [
+        {"titulo": "(?i)^((los|las|el|la|the)\\s+)?(requerimientos?|requisitos?|requirements?)\\b", "excepto": "(?i)(^|[/\\\\])(ESTADO_ACTUAL|HANDOFF)\\.md$"}
+      ],
+      "temas": "(?i)(requirement|requisito|requerimiento|\\bshall\\b|\\bTB[DR]\\b|rationale|\\bKDR|key driving|metadata|flowdown|derived|allocated|ap[eé]ndice c|good requirement|enunciado|level 1)",
+      "temas_fuera": [
+        {"archivo": "incose-seh/mapeo-15288\\.md", "titulo": "^5\\.1 Requirements Management", "por": "gestion de requisitos (cambios y linea base en el tiempo), no su redaccion"},
+        {"archivo": "nasa-seh/implementacion\\.md", "titulo": "^El par verificacion", "por": "verificacion del producto implementado"},
+        {"archivo": "nasa-seh/matrices\\.md", "titulo": "^Apendice D", "por": "la matriz de verificacion: se lee al planear la V&V (tema sin concepto todavia: da013-libro-contra-fuente.md 3)"},
+        {"archivo": "nasa-seh/planes\\.md", "titulo": "(Interface Requirements Document|antes de cualquier requisito|familias de requisitos de interfaz)", "por": "el IRD: interfaces (tema sin concepto todavia)"},
+        {"archivo": "nasa-seh/planificacion\\.md", "titulo": "(Stakeholder Involvement in Defining Requirements|Arranque de 6\\.2 Requirements Management)", "por": "planificacion y gestion de requisitos, no su redaccion"},
+        {"archivo": "nasa-seh/req-interfaz\\.md", "titulo": "^(2\\. Alcance del 6\\.2|3\\. FIGURE 6\\.2-1|5\\.[1-6] )", "por": "gestion de requisitos (6.2): cambios, creep, trazabilidad en el tiempo"},
+        {"archivo": "nasa-seh/requisitos\\.md", "titulo": "^4\\.2\\.2 Technical Requirements Definition Guidance", "por": "un puntero a la Expanded Guidance, sin contenido"},
+        {"archivo": "nasa-seh/requisitos\\.md", "titulo": "^20\\. Actividad 4\\.3\\.1\\.2\\.2", "por": "descomposicion logica (diseno): asignar requisitos a funciones"},
+        {"archivo": "nasa-seh/stakeholders\\.md", "titulo": "^3\\.18 Actividad 5", "lo_lee": "alcance"},
+        {"archivo": "nasa-seh/tailoring\\.md", "titulo": "^(1\\. El alcance de la palabra|3\\.11\\.4\\.1 )", "por": "'requirements' del NPR 7123.1 (los procesos que se adaptan), no los del producto"}
+      ],
       "leer": [
         {"ruta": "perfil-global/pilares/incose-gtwr/reglas.md", "desde": "^# 1\\. Las definiciones", "hasta": "^# 4\\. ", "por": "INCOSE GtWR: definiciones, las 14 caracteristicas y las 41 reglas"},
         {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m21-escribir-buenos-requerimientos.typ", "por": "la catedra (IISE): SMART, QUIEN debera QUE, checklist, TBD/TBR, rationale, metodo de verificacion"},
         {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m17-familia-de-requerimientos-y-trazabilidad.typ", "desde": "^== La sem", "hasta": "^== Interfaces", "por": "la catedra: shall/will/should, los seis tipos, niveles L0-L6, padres e hijos, asignados y derivados"},
-        {"ruta": "perfil-global/pilares/nasa-seh/requisitos.md", "desde": "^## 5\\. Actividad", "hasta": "^## 15\\.", "por": "NASA: tipos, flowdown, metadata, rationale, validacion en seis pasos, MOP/TPM, linea base"},
-        {"ruta": "perfil-global/pilares/nasa-seh/glosario.md", "desde": "^## 3\\. Apendice C", "hasta": "^## 4\\. ", "por": "NASA SEH App. C entero: free of implementation (WHAT, not HOW), shall/will/should, checklists de redaccion y de validacion (DA-065: estaba en el glosario y no llegaba)"}
+        {"ruta": "perfil-global/pilares/nasa-seh/requisitos.md", "desde": "^## 4\\. Actividad", "hasta": "^## 15\\.", "por": "NASA: restricciones (p. 55-56), tipos, flowdown, metadata, rationale (p. 60: por que se fijo una implementacion), validacion en seis pasos, MOP/TPM, linea base"},
+        {"ruta": "perfil-global/pilares/nasa-seh/glosario.md", "desde": "^### 2\\.2 La escalera", "hasta": "^### 2\\.3 ", "por": "need -> goal -> objective -> requirement, y 'requirements are always stated in quantitative terms' (p. 192) (DA-065)"},
+        {"ruta": "perfil-global/pilares/nasa-seh/glosario.md", "desde": "^## 3\\. Apendice C", "hasta": "^## 4\\. ", "por": "NASA SEH App. C entero: free of implementation (WHAT, not HOW), shall/will/should, checklists de redaccion y de validacion (DA-065: estaba en el glosario y no llegaba)"},
+        {"ruta": "perfil-global/pilares/nasa-level1/README.md", "por": "NASA Level 1 (Leisner, TESS, Psyche, JWST): el tope es el resultado, agnostico de la implementacion, con verbos de resultado (DA-013)"}
       ]
     },
     "alcance": {
@@ -126,11 +145,27 @@
       "_disparo": "por el ROL del texto, no por una palabra (L2-PTA-20..23): un titulo de seccion del alcance que el Write trae, que el Edit trae, o que ENCIERRA el texto viejo del Edit. Solo en documentos (.md con '#', .typ con '='); la prosa que nombra 'la necesidad' no dispara. En un PDP.md, tambien sus secciones 1 (el problema) y 2 (que NO es).",
       "secciones": [
         {"titulo": "(?i)^((la|el|las|los|the)\\s+)?(necesidad(es)?|metas?|objetivos?|alcance|needs?|goals?|objectives?|ngos?)\\b"},
-        {"titulo": "(?i)^(el problema|qu[eé] no es)\\b", "archivo": "(?i)(^|[/\\\\])PDP\\.md$"}
+        {"titulo": "(?i)^(el problema|qu[eé] no es)\\b", "archivo": "(?i)(^|[/\\\\])PDP\\.md$"},
+        {"titulo": "(?i)^((la|el|las|los|the)\\s+)?(misi[oó]n|mission|restricci[oó]n(es)?|constraints?|autoridad)\\b"}
+      ],
+      "_disparo_2": "DA-067 (2026-10-19): la mision, las restricciones y la autoridad son elementos del alcance (catedra, M18) y no disparaban; la seccion 1 del TP salio con restricciones que eran consecuencias de elecciones propias. 'Hipotesis' NO entra: medido sobre lo trackeado, 6 de sus 8 titulos son hipotesis de depuracion (BLACK, el diagnostico de la MSI).",
+      "temas": "(?i)(\\bneeds?\\b|\\bgoals?\\b|objective|\\bNGO|necesidad|\\bmetas?\\b|objetivo|alcance|\\bscope\\b|constraint|restricci|mission authority)",
+      "temas_fuera": [
+        {"archivo": "incose-gtwr/reglas\\.md", "titulo": "^Necesidad y requisito", "lo_lee": "requisitos"},
+        {"archivo": "incose-seh/mapeo-15288\\.md", "titulo": "^3\\.5 Las dos diferencias de alcance", "por": "alcance de las normas, no el de un proyecto"},
+        {"archivo": "nasa-seh/diseno\\.md", "titulo": "^La objective function", "por": "funcion objetivo de una optimizacion de diseno"},
+        {"archivo": "nasa-seh/fundamentos\\.md", "titulo": "^(1\\.2 Alcance y profundidad|7\\.1 El objetivo)", "por": "el alcance del handbook y el objetivo de una seccion suya"},
+        {"archivo": "nasa-seh/matrices\\.md", "titulo": "^G\\.1 ", "por": "el alcance de un apendice"},
+        {"archivo": "nasa-seh/req-interfaz\\.md", "titulo": "^2\\. Alcance del 6\\.2", "por": "a que se aplica la gestion de requisitos"},
+        {"archivo": "nasa-seh/tailoring\\.md", "titulo": "^(1\\. El alcance de la palabra|3\\.11\\.4\\.2 )", "por": "el tailoring de procesos, no el alcance del producto"},
+        {"archivo": "nasa-seh/validacion\\.md", "titulo": "^Objetivos del proceso", "por": "los objetivos del proceso de validacion"},
+        {"archivo": "rechtin-maier/heuristicas\\.md", "titulo": "Build in and maintain options", "por": "heuristica de diseno (opciones abiertas)"}
       ],
       "leer": [
         {"ruta": "perfil-global/pilares/alcance-como-se-escribe.md", "por": "la forma, medida en ejemplares (catedra, SEH, JWST, TESS): la necesidad es UNA frase y nada mas"},
-        {"ruta": "perfil-global/pilares/nasa-seh/stakeholders.md", "desde": "^### 3\\.11 ", "hasta": "^### 3\\.14 ", "por": "NASA SEH p. 48-49: NGO, need = a single statement, los cuatro criterios de un objetivo"},
+        {"ruta": "perfil-global/pilares/nasa-seh/stakeholders.md", "desde": "^### 3\\.8 ", "hasta": "^### 3\\.14 ", "por": "NASA SEH p. 47-49: mission authority y constraints (que es una restriccion y de donde viene), NGO, need = a single statement, los cuatro criterios de un objetivo (DA-065: la 3.8 no llegaba)"},
+        {"ruta": "perfil-global/pilares/nasa-seh/stakeholders.md", "desde": "^### 3\\.18 ", "hasta": "^### 3\\.19 ", "por": "NASA SEH p. 52: NGO, criterios de exito y design drivers; una orbita alternativa = un concepto propio (DA-065)"},
+        {"ruta": "perfil-global/pilares/nasa-seh/glosario.md", "desde": "^### 2\\.2 La escalera", "hasta": "^### 2\\.3 ", "por": "need -> goal -> objective -> requirement (DA-065)"},
         {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m18-verificacion-validacion-y-alcance.typ", "desde": "^== Los elementos del alcance", "hasta": "(?!)", "por": "la catedra: los elementos del alcance en cadena, el ConOps y el CEV entero"},
         {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m20-el-alcance-en-la-practica.typ", "desde": "^== El Ejercicio de Alcance", "hasta": "^== Seis Conceptos", "por": "la catedra: el Ejercicio de Alcance de Marte, de la necesidad a la mision"},
         {"ruta": "perfil-global/pilares/nasa-seh/requisitos.md", "desde": "^## 4\\. Actividad", "hasta": "^## 5\\. Actividad", "por": "NASA SEH p. 55-56: la restriccion no cambia por trade (test: quien la impone)"},
