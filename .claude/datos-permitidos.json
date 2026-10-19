@@ -278,6 +278,12 @@
       "donde": "proyectos/ingenieria/black/sesiones/HANDOFF.md",
       "porque": "Ver la entrada de Rendering@renodx-dlss5.addon: misma linea del mismo HANDOFF, mismo falso positivo.",
       "fecha": "2026-09-02"
+    },
+    {
+      "patron": "autotest@x.test",
+      "donde": ".claude/hooks/medir-reescritura.py",
+      "porque": "No es de una persona: es el user.email de un repo git descartable que arma el autotest del hook (git config en un tmp). El dominio .test esta reservado por RFC 2606 y no existe.",
+      "fecha": "2026-10-19"
     }
   ]
 }
