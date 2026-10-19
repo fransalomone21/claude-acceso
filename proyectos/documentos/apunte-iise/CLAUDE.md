@@ -74,6 +74,7 @@ python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\pr
 python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\verificar-cobertura.py"
 python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\probar-verificar-cobertura.py"
 python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\verificar-anclas.py"
+python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\verificar-ejemplo-cohete.py"             # M17: L0 sin números, padres que existen (DA-068); --sabotaje
 python "C:\Users\frans\Desktop\claude-acceso\proyectos\documentos\apunte-iise\extraer-clases.py" --figuras
 ```
 
