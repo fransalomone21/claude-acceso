@@ -1,7 +1,7 @@
 # T19 — el árbol de conocimiento: tronco fijo, ramas por proyecto
 
-**2026-10-19, sesión de diseño (abierta).** Estado: **medido; propuesta v2 (§5) escrita con el giro de Fran (§3) y sus decisiones (§4); falta su OK final**. Nada
-construido.
+**2026-10-19.** Estado: **v2 aprobada por Fran; construidas las piezas A y B (§6) y C (§7)**; faltan D (el lazo de
+uso) y E (el procedimiento), y la validación en sesiones reales de cada clase (P10).
 
 ## 0. De dónde sale
 
@@ -195,3 +195,83 @@ mecanismo. Tres casos viejos se adaptaron porque el tronco cambió su premisa (e
 contenido en otro; el disparo del concepto `requisitos` se mide con ingeniería sin tronco; el segundo proyecto de DA-070
 lee el tronco antes, para que lo único pendiente sea su base). Los casos anteriores a T19 clasifican su sesión como
 `suelta`, como lo haría una sesión real.
+
+## 7. Construida: la pieza C, la rama (2026-10-19, sesión `125f02e6`)
+
+Requisitos: L1-26 y su L2 (L2-PTA-40..45, L2-APR-12, L2-VER-08..12, L2-CAS-08/09) en
+[`10-requisitos.md`](10-requisitos.md) §13, 14 enunciados, 0 VIOLA del GtWR (con el glosario sin acentos: DA-076).
+
+**Lo que había y por qué no alcanzaba.** La puerta ya sumaba, a la necesidad declarada, las necesidades «por defecto»
+de cada proyecto: `fisica-espacial` y `software-de-vuelo` traían `publicar`; `apunte-iise` y el TP de IISE, no. Lo que le
+compete a un proyecto dependía de cómo estaba escrita su fila, no de qué clase de proyecto es; las lecciones llegaban
+como doce títulos y un comando; los criterios de cátedra, como una línea del contrato («primero CRITERIOS.md») que había
+que acordarse de seguir; y en un proyecto grande se leía el estado entero y ningún documento del tema.
+
+**Dónde.** El catálogo (`.claude/cascada.json`: `ramas`, `catedras` en cada proyecto de `documentos`, `temas` en
+arquitectura-se, cada uno con su `_porqué`), la puerta (`exigido()` arma la rama; `pre()` la exige; `--verificar`,
+`--exige`), `perfil-global/herramientas/aprender.py` (la ficha de cada proyecto) y `cascada.ps1` / `.claude/cascada.sh`
+(`-Tema`). La puerta se editó en una copia al lado, con su autotest en verde, y se instaló moviendo la copia (lección 346).
+
+**Decisiones técnicas, y por qué.**
+
+- **La rama sale de la NATURALEZA**, no de la necesidad ni de una palabra: `documentos` = las necesidades `materia` y
+  `publicar`, el concepto `typst`, las lecciones del proyecto y los criterios de cada cátedra que el proyecto declara;
+  `ingenieria` y `seguimiento` = las lecciones del proyecto. Es dato del catálogo, no código: el lazo D lo ajusta.
+- **Se exige antes de cualquier acción** de la sesión que declaró el proyecto, como el tronco (L2-PTA-40): el Drive se
+  toca desde la raíz, fuera de la carpeta del proyecto. La Excepción y la Mención no la cargan (dicen que la sesión no es
+  de ese proyecto).
+- **Las lecciones del proyecto son una vista generada**: `aprender.py` escribe `perfil-global/aprendizaje/fichas/
+  proyectos/<proyecto>.md` para cada proyecto del catálogo cada vez que escribe las fichas de grupo (L2-APR-12), una
+  lección por título `##`. Un proyecto sin lecciones tiene la suya, que lo dice: la ficha ausente sólo puede ser el
+  generador roto, y la puerta niega.
+- **La cátedra se declara siempre** en los proyectos de `documentos` (`[]` si ninguna): la puerta niega sin la clave, y
+  `--verificar` da rojo (L2-VER-11). Hoy: iise (apunte-iise, repaso-iise, trabajo-final-iise), fisica-espacial,
+  software-de-vuelo (también cohete-de-agua, que es de Petrilli), taller-de-fisica (más los generales de Aníbal, en
+  fisica-espacial).
+- **El tema**: `-Tema <t>[,<t>]` en la misma línea de la cascada; se registra en PreToolUse y la última declaración
+  reemplaza a la anterior (así se corrige un tema mal escrito). Sin tema válido la puerta niega mostrando el mapa
+  (L2-PTA-43/44); `todos` exige cada documento del mapa. El primer mapa es el de arquitectura-se, armado desde el índice de
+  su contrato: 17 temas (t1, t7, t11-t20, libro, defectos, orden, diseño, validación). **BLACK y el telescopio todavía no
+  tienen mapa**: `--verificar` los lista (L2-VER-12); lo arma la sesión que entre a cada uno, desde sus documentos, y se
+  le muestra a Fran.
+- **Lo largo se parte**: una lectura de la rama sin rango se exige entera y partida en lecturas que entran. Dos cosas
+  medidas al construir: `DEFECTOS-ARQUITECTURA.md` tiene una sección de 62 K que no se parte por títulos (ahora el
+  partidor corta también por líneas), y el tope de 60 000 caracteres ya estaba medido por encima de lo que entrega el Read
+  (DA-071: 56 702 dieron 25 949 tokens): bajó a 50 000. Efecto: el documento de requisitos ahora se exige en dos rangos
+  que entran de a uno (1-249 y 250-444).
+
+**Lo que pesa** (lo que la puerta exige al entrar, una vez por sesión, medido con `--exige` el 2026-10-19): telescopio
+253 K caracteres, BLACK 372 K (su ficha de lecciones son 94 K), apunte-iise 259 K, TP de IISE 242 K, fisica-espacial
+284 K, arquitectura-se con un tema 355 K, coaching 45 K. Es lo que Fran eligió (que sobre); el lazo D dirá qué no se usó.
+
+**La V: cada requisito contra su resultado** (autotest de la puerta, caso 26, sobre un árbol sintético sin base ni
+tronco, para que lo único exigido sea la rama; 9 mutantes vistos).
+
+| Requisito | Resultado | Evidencia |
+|---|---|---|
+| L2-PTA-40 | verificado | caso 26: materia declarada, acción fuera, sin la rama → niega; leída → pasa; mutante «la rama sólo al tocar el proyecto» visto; la Excepción no la carga |
+| L2-PTA-41 | verificado | caso 26: sin leer las lecciones → niega; la ficha ausente → niega (falla cerrado); mutantes «sin las lecturas propias» y «falla abierto ante un archivo que falta» vistos |
+| L2-PTA-42 | verificado | caso 26: sin los criterios de la cátedra → niega; sin la clave `catedras` → niega; mutante «sin la clave pasa» visto |
+| L2-PTA-43 | verificado | caso 26: sin tema → niega con el mapa; mutante «no pide el tema» visto |
+| L2-PTA-44 | verificado | caso 26: tema fuera del mapa → niega; corregido declarando de nuevo → pasa; mutante «el tema que no está vale» visto |
+| L2-PTA-45 | verificado | caso 26: t1 sin su documento → niega; t1 leído → pasa sin t2; `todos` exige los dos; mutantes «el tema no exige su documento» y «el tema no se registra» vistos |
+| L2-APR-12 | verificado | autotest de `aprender.py`: la ficha de cada proyecto del catálogo, una lección por `##`, la del proyecto vacío y la sobrante borrada; sin catálogo no toca nada; mutante «generador apagado» visto |
+| L2-VER-08..11 | verificado | caso 26: cada uno en rojo con su marca; el catálogo sano sin ninguna; mutante «una naturaleza sin rama pasa» visto en la puerta |
+| L2-VER-12 | verificado | caso 26: un proyecto grande sin mapa se lista; el arranque real lista black y telescopio |
+| L2-CAS-08, 09 | verificado y demostrado | caso 26 (`--exige` imprime el mapa, el tema y la rama); `cascada.ps1 arquitectura-se -Necesidad metodo,diseno -Tema t19` en esta sesión |
+
+**Efecto real**, en esta misma sesión, con la puerta instalada: arquitectura-se estaba declarado sin tema y la primera
+edición se negó con «TEMA SIN DECLARAR» y el mapa; declarado `-Tema t19`, la puerta pidió la ficha de lecciones del
+proyecto (la del tema ya estaba leída); leída, la edición pasó.
+
+**De paso: DA-075 arreglado** (el recorte de lo pegado, T14, estaba ciego: la app cierra el bloque con atributos y la
+puerta infería proyectos del retome pegado; así frenó esta sesión por «BLACK»). El patrón acepta el cierre con
+atributos, el fixture lo arma como la app, un mutante con el cierre viejo se ve, y un caso nuevo prueba el recorte
+contra los pedidos pegados REALES de los transcripts de la máquina: 17 de 17 recortados, y con el patrón viejo 17
+ciegos (sin transcripts, sale SALTEADO, nunca verde).
+
+**Límites declarados.** (1) La ficha de lecciones trae las reglas y no los renglones del núcleo, pero una regla que
+copie el comienzo de una viñeta contaría como uso de la viñeta para T18; a medir en la primera pasada de retiro con la
+rama activa. (2) En la nube el repo privado de cátedras no está: la puerta niega en las materias hasta traerlo
+(`estado-nube.py --traer catedras`), como cualquier exigido ausente. (3) El tema lo elige la sesión: uno equivocado lee
+el documento equivocado; lo ve la auditoría, cuando E le agregue la pregunta.

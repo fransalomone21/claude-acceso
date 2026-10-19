@@ -48,7 +48,9 @@ LOG_EXC = Path(os.environ.get("CASCADA_LOG_EXC", Path.home() / ".claude" / "hook
 PATRON_PROY = re.compile(r"proyectos[/\\]+(ingenieria|documentos|seguimiento)[/\\]+([A-Za-z0-9_.-]+)")
 ACCIONES = {"Edit", "Write", "NotebookEdit", "Bash", "PowerShell"}
 MAX_LINEAS_LECTURA = 2000      # lo que Read entrega sin limit
-MAX_CHARS_RANGO = 60000        # un rango exigido tiene que entrar en UNA lectura
+# Un rango exigido tiene que entrar en UNA lectura. Era 60 000 y no entraba (DA-071, medido el 2026-10-19: 56 702 ch del
+# documento de requisitos dieron 25 949 tokens contra los 25 000 del Read, ~2,2 ch por token): 50 000 deja ~10 % de margen.
+MAX_CHARS_RANGO = 50000
 TOPE_SALIDA = 8500             # el harness corta a 10 000 por hook (T1)
 
 # Lectura pura: empieza con una lectura conocida Y no encadena nada fuera de comillas. Todo camino de salida temprana
@@ -64,7 +66,9 @@ LECTURA = re.compile(
     r"""((ba)?sh\s+)?([\w.:\-]+[\\/])*cascada\.(ps1|sh)|([\w.:\-]+[\\/])*abrir-sesion\.ps1)""", re.I)
 # Lo que NO escribio Fran (T14, L2-PTA-04): un retome pegado, una notificacion automatica, un recordatorio del harness.
 # Sin cierre no se recorta: un bloque truncado queda adentro y la puerta frena de mas (falla cerrado), nunca de menos.
-AJENO = re.compile(r"<(pasted_content|task-notification|system-reminder)\b[^>]*>.*?</\1\s*>", re.I | re.S)
+# El cierre puede traer atributos: la app escribe </pasted_content id="..."> (DA-075, medido el 2026-10-19 en 14 de los
+# ultimos 40 transcripts). Con el cierre literal el bloque no se recortaba y la puerta inferia proyectos de lo pegado.
+AJENO = re.compile(r"<(pasted_content|task-notification|system-reminder)\b[^>]*>.*?</\1\b[^>]*>", re.I | re.S)
 FILTRO = re.compile(r"^\s*(Select-Object|select|Select-String|sls|Where-Object|where|Measure-Object|measure|"
                     r"Sort-Object|sort|Format-\w+|ft|fl|Out-String|head|tail|grep|wc|uniq|findstr|more|less)\b", re.I)
 REDIRS_INOCUAS = re.compile(r"\s[12]?>\s*(\$null|/dev/null|&1)", re.I)
@@ -165,11 +169,11 @@ def handoff_de(p: Path):
 def expandir(ruta: str, proy: Path | None):
     if "{handoff}" in ruta:
         return handoff_de(proy) if proy else None
-    if ("{proy}" in ruta or "{nat}" in ruta) and proy is None:
+    if ("{proy}" in ruta or "{nat}" in ruta or "{nombre}" in ruta) and proy is None:
         return None
     r = ruta.replace("{memoria}", str(memoria_dir()))
     if proy is not None:
-        r = r.replace("{proy}", str(proy)).replace("{nat}", proy.parent.name)
+        r = r.replace("{proy}", str(proy)).replace("{nat}", proy.parent.name).replace("{nombre}", proy.name)
     r = os.path.expanduser(r)
     if os.path.isabs(r):
         return Path(r)
@@ -230,7 +234,19 @@ def partes_de_lectura(path: Path, tope: int | None = None):
             a = s
         ch += cs
     out.append((a, len(lineas)))
-    return out
+    # Una seccion sola que no entra (un '## ' de 62 000 caracteres en DEFECTOS-ARQUITECTURA.md, T19 pieza C) se parte por
+    # lineas: si no, el rango exigido no se puede leer de una vez y la puerta pide algo imposible.
+    fin = []
+    for a, b in out:
+        x, ch = a, 0
+        for i in range(a, b + 1):
+            c = len(lineas[i - 1]) + 1
+            if i > x and (ch + c > tope or i - x + 1 > MAX_LINEAS_LECTURA):
+                fin.append((x, i - 1))
+                x, ch = i, 0
+            ch += c
+        fin.append((x, b))
+    return fin
 
 
 # T13, «la fase manda» (2026-10-12; requisitos L2-PTA-01..03 y L2-VER-01/02 de
@@ -268,6 +284,15 @@ def exige_requisitos(proy: Path, fase) -> bool:
 # proyectos/ingenieria/arquitectura-se/docs/t19-arbol-de-conocimiento.md (piezas A y B).
 CLASES_PEDIDO = ("suelta", "ingenieria")
 CLASE_INVOCADA = re.compile(r"-(Suelta|Ingenieria)\s+[\"']([^\"']+)[\"']", re.I)
+# T19, pieza C (L2-PTA-43/44): el tema del pedido en un proyecto con mapa de temas. Se registra con la cascada, antes de
+# que el comando corra; la ultima declaracion reemplaza a la anterior (asi se corrige un tema mal escrito).
+TEMA_FALTA = "TEMA SIN DECLARAR"
+TEMA_INVOCADO = re.compile(r"-Tema\s+[\"']?([A-Za-z0-9_-]+(?:\s*,\s*[A-Za-z0-9_-]+)*)", re.I)
+
+
+def entrada_cmd() -> str:
+    """entrada() con otro nombre: adentro de exigido(), 'entrada' es la entrada del proyecto en el catalogo."""
+    return entrada()
 
 
 def exige_clasificacion(cat: dict) -> bool:
@@ -336,18 +361,26 @@ def fase_de(proy: Path):
 
 
 # ------------------------------------------------------------------------------------------- lo que se exige
-def exigido(cat: dict, proyecto: str | None, declaradas, conceptos, tronco: bool = False):
+def exigido(cat: dict, proyecto: str | None, declaradas, conceptos, tronco: bool = False, temas=None,
+            solo_rama: bool = False):
     """Lista de items {ruta, a, b, por} y lista de comandos {sub, por}. Une rangos del mismo archivo. tronco=True pide
-    el tronco sin proyecto (la clase Ingenieria, T19); con un proyecto de una naturaleza con tronco va solo."""
+    el tronco sin proyecto (la clase Ingenieria, T19); con un proyecto de una naturaleza con tronco va solo. Con un
+    proyecto va tambien su RAMA (T19, pieza C), con los temas declarados; solo_rama=True pide nada mas que la rama."""
     items, comandos, notas = [], [], []
     proy = proyectos_del_disco().get(proyecto) if proyecto else None
     entrada = cat.get("proyectos", {}).get(proyecto, {}) if proyecto else {}
 
-    def agregar(spec, por):
+    def agregar(spec, por, rama=False):
         p = expandir(spec["ruta"], proy)
         if p is None or not p.exists():
-            if p is not None and "{proy}" not in spec["ruta"] and "{handoff}" not in spec["ruta"]:
+            # La rama falla cerrado tambien con {proy}: un documento de tema que falta no se saltea en silencio.
+            if p is not None and (rama or ("{proy}" not in spec["ruta"] and "{handoff}" not in spec["ruta"])):
                 notas.append("NO EXISTE: %s (%s) -- el catalogo esta desactualizado" % (p, por))
+            return
+        if rama and not any(k in spec for k in ("desde", "vista_h2", "_a")):
+            # Entero, y partido en lecturas que entran (la ficha de lecciones de BLACK pasa los 90 000 caracteres).
+            for a, b in partes_de_lectura(p):
+                items.append({"ruta": norm(p), "ver": str(p), "a": a, "b": b, "por": por})
             return
         s = dict(spec)
         if proy is not None and spec["ruta"].startswith("{proy}/"):
@@ -358,7 +391,7 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos, tronco: bool
             r = (1, min(len(p.read_text(encoding="utf-8", errors="replace").splitlines()) or 1, 300))
         items.append({"ruta": norm(p), "ver": str(p), "a": r[0], "b": r[1], "por": por})
 
-    if proy is not None:
+    if proy is not None and not solo_rama:
         for spec in cat.get("base", []):
             agregar(spec, "base: " + spec.get("por", ""))
         # Los REQUISITOS del proyecto son base: es el papel que define el proyecto (Fran, 2026-10-07). Nueve sesiones
@@ -408,6 +441,51 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos, tronco: bool
                 continue
             for spec in nd.get("leer", []):
                 agregar(spec, "necesidad %s: %s" % (n, spec.get("por", "")))
+    # T19, pieza C (L2-PTA-40..45; proyectos/ingenieria/arquitectura-se/docs/10-requisitos.md §13): la RAMA -- lo que
+    # compete al pedido en alto nivel -- por la NATURALEZA del proyecto, no por la necesidad declarada ni por una palabra
+    # (Fran, 2026-10-19: «si no digo publicar, no sabes nada del Drive»; en un modulo de BLACK, todas sus lecciones), y el
+    # documento del TEMA si el proyecto tiene mapa. Falla cerrado: una naturaleza sin rama, un nombre que no resuelve, un
+    # proyecto de documentos sin 'catedras' o un archivo que falta niegan (NO EXISTE).
+    if proy is not None:
+        nat = proy.parent.name
+        rama = (cat.get("ramas") or {}).get(nat)
+        if rama is None:
+            notas.append("NO EXISTE: la rama de la naturaleza '%s' en 'ramas' de .claude/cascada.json (T19, L2-VER-08)"
+                         % nat)
+            rama = {}
+        for clave, tabla in (("necesidades", "necesidades"), ("conceptos", "conceptos")):
+            for n in rama.get(clave, []):
+                nd = cat.get(tabla, {}).get(n)
+                if nd is None:
+                    notas.append("NO EXISTE: '%s', que nombra la rama de %s en %s (T19, L2-VER-09)" % (n, nat, clave))
+                    continue
+                for spec in nd.get("leer", []):
+                    agregar(spec, "rama %s, %s: %s" % (nat, n, spec.get("por", "")), rama=True)
+        for spec in rama.get("leer", []):
+            if "{catedra}" not in spec["ruta"]:
+                agregar(spec, "rama %s: %s" % (nat, spec.get("por", "")), rama=True)
+            elif "catedras" not in entrada:
+                notas.append("NO EXISTE: la clave 'catedras' de %s en .claude/cascada.json ([] si ninguna catedra "
+                             "manda; T19, L2-VER-11)" % proyecto)
+            else:
+                for k in entrada.get("catedras") or []:
+                    agregar(dict(spec, ruta=spec["ruta"].replace("{catedra}", k)),
+                            "rama %s, catedra %s: %s" % (nat, k, spec.get("por", "")), rama=True)
+        mapa = entrada.get("temas") or {}
+        if mapa:
+            decl = [t.lower() for t in (temas or [])]
+            malos = [t for t in decl if t != "todos" and t not in mapa]
+            if not decl or malos:
+                notas.append("%s: %s tiene mapa de temas y la sesion %s. El tema lo elige la sesion interpretando el "
+                             "pedido de Fran (en la duda, todos), y la puerta exige su documento, no todos:\n"
+                             "    %s %s -Tema <tema>[,<tema>]\n%s" % (
+                                 TEMA_FALTA, proyecto, "no declaro ninguno" if not decl else
+                                 "declaro uno que no esta en el mapa (%s)" % ", ".join(malos), entrada_cmd(), proyecto,
+                                 "\n".join("      %-10s %s" % (k, v.get("que", "")) for k, v in mapa.items())))
+            else:
+                for t in (list(mapa) if "todos" in decl else list(dict.fromkeys(decl))):
+                    for spec in mapa[t].get("leer", []):
+                        agregar(spec, "tema %s: %s" % (t, spec.get("por") or mapa[t].get("que", "")), rama=True)
     # T19, pieza B (L2-PTA-37/38): el TRONCO. Con un proyecto de una naturaleza con tronco, o pedido aparte (la clase
     # Ingenieria, sin proyecto): la base que no depende del proyecto (el libro de bolsillo) y los conceptos del tronco.
     nats_t, conc_t = tronco_de(cat)
@@ -712,7 +790,7 @@ def anotar(sid: str, ev: dict):
 
 def estado(sid: str) -> dict:
     st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "menciones": {}, "comandos": [],
-          "inferidos": {}, "por_debil": set(), "conectores": [], "clases": set()}
+          "inferidos": {}, "por_debil": set(), "conectores": [], "clases": set(), "temas": {}}
     f = archivo_estado(sid)
     if not f.exists():
         return st
@@ -740,6 +818,8 @@ def estado(sid: str) -> dict:
             st["menciones"][ev["proy"]] = ev.get("motivo", "")
         elif t == "clase" and ev.get("clase") in CLASES_PEDIDO:   # T19: la clase del pedido, sin proyecto
             st["clases"].add(ev["clase"])
+        elif t == "tema":   # T19, pieza C: la ultima declaracion de temas de un proyecto reemplaza a la anterior
+            st["temas"][ev["proy"]] = set(ev.get("temas", []))
         elif t == "cmd":
             st["comandos"].append(ev["cmd"])
         elif t == "infiere":
@@ -924,7 +1004,10 @@ def pre(ev: dict) -> int:
             proyecto and proyecto not in st["declaradas"] and proyecto not in st["excepciones"]):
         return deny(sin_clase_texto())
     tronco_pend = con_tronco(cat, st)   # T19, pieza B: con ingenieria de sistemas, el tronco antes de cualquier accion
-    if not proyecto and not conceptos and not tronco_pend:
+    # T19, pieza C (L2-PTA-40..45): la RAMA de cada proyecto declarado (sin excepcion), antes de CUALQUIER accion, como
+    # el tronco: el Drive se toca desde la raiz, fuera de la carpeta del proyecto.
+    rama_decl = [q for q in st["declaradas"] if q not in st["excepciones"]]
+    if not proyecto and not conceptos and not tronco_pend and not rama_decl:
         return 0
     faltan, cmds_faltan, notas = [], [], []
     if proyecto and proyecto not in st["excepciones"]:
@@ -942,12 +1025,12 @@ def pre(ev: dict) -> int:
                     (" Si el pedido lo NOMBRA sin pedirlo (contexto, otra sesion, una palabra suelta): %s %s -Mencion "
                      "\"motivo\" -- libera lo de afuera, nunca su carpeta (T14b)." % (entrada(), proyecto))
                     if proyecto in st["inferidos"] and not directo else "", entrada(), proyecto))
-        it, cm, nt = exigido(cat, proyecto, st["declaradas"][proyecto], [])
+        it, cm, nt = exigido(cat, proyecto, st["declaradas"][proyecto], [], temas=st["temas"].get(proyecto))
         faltan += it
         cmds_faltan += cm
         notas += nt
     for q in [x for x in tocados if x != proyecto and x in st["declaradas"] and x not in st["excepciones"]]:
-        it, cm, nt = exigido(cat, q, st["declaradas"][q], [])   # DA-070: lo de cada proyecto que la accion toca
+        it, cm, nt = exigido(cat, q, st["declaradas"][q], [], temas=st["temas"].get(q))   # DA-070: cada proyecto tocado
         faltan += it
         cmds_faltan += cm
         notas += nt
@@ -960,6 +1043,14 @@ def pre(ev: dict) -> int:
         it, cm, nt = exigido(cat, None, [], [], tronco=True)
         faltan += it
         notas += nt
+    for q in rama_decl:   # L2-PTA-40..45: aunque la accion no toque el proyecto
+        it, cm, nt = exigido(cat, q, [], [], temas=st["temas"].get(q), solo_rama=True)
+        faltan += it
+        notas += nt
+    notas = list(dict.fromkeys(notas))   # la rama ya puede venir con el proyecto tocado
+    tema = next((n for n in notas if n.startswith(TEMA_FALTA)), None)
+    if tema:   # L2-PTA-43/44: sin un tema valido no hay que leer: primero se declara
+        return deny("PUERTA DE LA CASCADA (T19, pieza C): " + tema)
     faltan = list({(x["ruta"], x["a"], x["b"]): x for x in faltan}.values())   # el tronco ya puede venir con el proyecto
     pend = [x for x in faltan if not cubierto(st["lecturas"].get(x["ruta"], []), x["a"], x["b"])
             and not leido_por_contenido(st, x)]
@@ -988,9 +1079,11 @@ def pre(ev: dict) -> int:
                   and not registro and not escribe_requisitos(n, destino)]
     if not pend and not cpend and not no_existe:
         return 0
-    lin = ["PUERTA DE LA CASCADA (T11): antes de esta accion (%s%s%s) falta LEER con la herramienta Read:" % (
-        "proyecto " + proyecto if proyecto else "", ("; conceptos " + ", ".join(conceptos)) if conceptos else "",
-        "; el TRONCO de ingenieria de sistemas (T19)" if tronco_pend else "")]
+    lin = ["PUERTA DE LA CASCADA (T11): antes de esta accion (%s) falta LEER con la herramienta Read:" % "; ".join(
+        x for x in ("proyecto " + proyecto if proyecto else "",
+                    ("conceptos " + ", ".join(conceptos)) if conceptos else "",
+                    "el TRONCO de ingenieria de sistemas (T19)" if tronco_pend else "",
+                    ("la RAMA de %s (T19, pieza C)" % ", ".join(rama_decl)) if rama_decl else "") if x)]
     for x in pend:
         lin.append("  - %s  offset=%d limit=%d   (%s)" % (rel(x["ver"]), x["a"], x["b"] - x["a"] + 1, x["por"][:90]))
     for c in cpend:
@@ -1080,6 +1173,10 @@ def registrar_invocacion(sid: str, cmd: str):
             if n:
                 necs = [x.strip().lower() for x in n.group(1).split(",") if x.strip()]
                 anotar(sid, {"t": "declara", "proy": proy, "nec": necs})
+            tm = TEMA_INVOCADO.search(resto)   # T19, pieza C (L2-PTA-43..45): el tema, antes de que el comando corra
+            if tm:
+                anotar(sid, {"t": "tema", "proy": proy,
+                             "temas": [x.strip().lower() for x in tm.group(1).split(",") if x.strip()]})
             # T14b (L2-PTA-05): la sesion registra que el pedido NOMBRA el proyecto sin pedirlo. No es una excepcion:
             # libera lo de afuera (el caso 331) y nunca la ruta del proyecto, que sigue pidiendo la necesidad.
             mn = re.search(r"-Mencion\s+[\"']([^\"']+)[\"']", resto)
@@ -1201,17 +1298,24 @@ def hook() -> int:
 
 
 # ------------------------------------------------------------------------------------------------------ CLI
-def cli_exige(proyecto: str, necs) -> int:
+def cli_exige(proyecto: str, necs, temas=None) -> int:
     cat = cargar_catalogo()
     p = resolver_proyecto(proyecto)
     if not p:
         print("  proyecto '%s' no resuelve a uno solo" % proyecto)
         return 1
     ent = cat.get("proyectos", {}).get(p)
+    # T19, pieza C (L2-CAS-09): el mapa de temas ARRIBA de lo exigido, para elegir el tema viendolo
+    mapa = (ent or {}).get("temas") or {}
+    if mapa:
+        print("  MAPA DE TEMAS de %s (T19, pieza C) -- declarado: %s. La puerta exige el documento del tema, no todos:"
+              % (p, ", ".join(temas) if temas else "NINGUNO"))
+        for k, v in mapa.items():
+            print("    %-10s %s" % (k, v.get("que", "")))
     print("  EXIGIDO POR LA PUERTA (T11) para %s -- leer con Read, con estos rangos, ANTES de actuar:" % p)
     if ent is None:
         print("  ! %s no tiene entrada en .claude/cascada.json: solo la base" % p)
-    items, cmds, notas = exigido(cat, p, necs, [])
+    items, cmds, notas = exigido(cat, p, necs, [], temas=temas)
     total = 0
     for x in items:
         txt = Path(x["ruta"]).read_text(encoding="utf-8", errors="replace").splitlines()[x["a"] - 1:x["b"]]
@@ -1361,6 +1465,32 @@ def cli_verificar() -> int:
             rojos.append("el TRONCO nombra el concepto '%s', que no existe en el catalogo (T19, L2-VER-06)" % c)
     disco = proyectos_del_disco()
     ent = cat.get("proyectos", {})
+    # T19, pieza C (L2-VER-08..12): cada naturaleza con proyectos tiene su rama decidida, la rama resuelve y trae las
+    # lecciones del proyecto, cada materia dice que catedra manda, y un proyecto grande sin mapa de temas se lista.
+    ramas = cat.get("ramas") or {}
+    for nat in sorted({disco[n].parent.name for n in disco}):
+        if nat not in ramas:
+            rojos.append("la naturaleza '%s' no tiene RAMA ('ramas' en el catalogo): sus proyectos no sabrian que les "
+                         "compete (T19, L2-VER-08)" % nat)
+    for nat, rd in ramas.items():
+        for clave in ("necesidades", "conceptos"):
+            for n in rd.get(clave, []):
+                if n not in cat.get(clave, {}):
+                    rojos.append("la RAMA de %s nombra en %s '%s', que no existe en el catalogo (T19, L2-VER-09)"
+                                 % (nat, clave, n))
+        if not any("fichas/proyectos/{nombre}" in s.get("ruta", "").replace("\\", "/") for s in rd.get("leer", [])):
+            rojos.append("la RAMA de %s no trae las lecciones del proyecto (perfil-global/aprendizaje/fichas/proyectos/"
+                         "{nombre}.md; T19, L2-VER-10)" % nat)
+    sin_mapa = []
+    for n in sorted(disco):
+        e = ent.get(n, {})
+        if disco[n].parent.name == "documentos" and "catedras" not in e:
+            rojos.append("%s es de documentos y no declara 'catedras' ([] si ninguna manda; T19, L2-VER-11)" % n)
+        for t, td in (e.get("temas") or {}).items():
+            if not td.get("leer"):
+                rojos.append("%s: el tema '%s' no trae lecturas: declararlo no exigiria nada (T19)" % (n, t))
+        if e.get("lluvia") and not e.get("temas"):
+            sin_mapa.append(n)
     for n in sorted(disco):
         if n not in ent:
             rojos.append("proyecto del disco SIN entrada en el catalogo: %s" % n)
@@ -1413,7 +1543,8 @@ def cli_verificar() -> int:
                 rojos.append("la necesidad %s usa una ruta de proyecto: %s" % (nec, spec["ruta"]))
     vistos = set()
     for p, necs, cons in casos:
-        items, _, notas = exigido(cat, p, list(cat.get("necesidades", {})) if p == "black" else necs, cons)
+        items, _, notas = exigido(cat, p, list(cat.get("necesidades", {})) if p == "black" else necs, cons,
+                                  temas=["todos"])   # T19, pieza C: cada documento de cada tema tiene que existir
         # T13: la exposicion por fase se LISTA abajo (L2-VER-01), no es un rojo: frena la puerta al entrar.
         rojos += [n for n in notas if n not in vistos and not n.startswith((SIN_REQ_FASE + ": ", "FASE ILEGIBLE: "))]
         vistos.update(notas)
@@ -1484,6 +1615,9 @@ def cli_verificar() -> int:
           "%d -> %s" % (len(expuestos), ", ".join(expuestos) or "ninguno"))
     print("FASE SIN TIPO NASA -- la compuerta no sabe que NO se hace en ellas: %d -> %s"
           % (len(sin_tipo), ", ".join(sin_tipo) or "ninguno"))
+    print("PROYECTO GRANDE SIN MAPA DE TEMAS -- la rama exige sus lecciones pero no el documento del tema (T19, "
+          "L2-VER-12; lo arma la sesion que entra, y se le muestra a Fran): %d -> %s"
+          % (len(sin_mapa), ", ".join(sin_mapa) or "ninguno"))
     print("cascada.json: %s (%d proyectos, %d necesidades, %d conceptos)" % (
         "OK" if not rojos else "%d ROJO(S)" % len(rojos), len(ent), len(cat.get("necesidades", {})),
         len(cat.get("conceptos", {}))))
@@ -1959,7 +2093,9 @@ def autotest() -> int:
     (d_r / "docs" / "10-requisitos.md").write_text("| L1-01 | x |\n", encoding="utf-8")
     # T19a (L1-04 acotado por N-09): el mismo PDP en Fase C, pero de un proyecto de materia
     d_ap = proyecto13("demo-apunte", "Fase C: diseño final", nat="documentos")
+    # T19, pieza C: ramas vacias a proposito -- este caso mide la fase, no la rama (caso 26)
     c13 = {"base": [], "conceptos": {}, "necesidades": {"ninguna": {"que": "x", "leer": []}},
+           "ramas": {"ingenieria": {}, "documentos": {}},
            "proyectos": {"demo-c": {}, "demo-prea": {}, "demo-req": {"requisitos": "docs/10-requisitos.md"},
                          "demo-apunte": {}}}
     f13 = tmp / "cat-t13.json"
@@ -2049,7 +2185,9 @@ def autotest() -> int:
     sen_k = "ZZ PROYECTO PEGADO ZZ"
 
     def bloque(etq, cuerpo, attrs=""):
-        return "<%s%s>\n%s\n</%s>" % (etq, attrs, cuerpo, etq)
+        # El cierre lleva los mismos atributos que la apertura, como lo escribe la app (DA-075: el fixture cerraba sin
+        # ellos y el recorte quedo ciego sin que nada lo viera); sin atributos, el cierre sale plano.
+        return "<%s%s>\n%s\n</%s%s>" % (etq, attrs, cuerpo, etq, attrs)
 
     pedidos_k = (   # (nombre, pedido, niega); los pedidos imitan los reales del 2026-10-12
         ("T14 CONTROL: senal en pasted_content + Write fuera -> pasa",
@@ -2074,7 +2212,9 @@ def autotest() -> int:
     for nombre, viejo, nuevo, n in (
             ("MUTANTE (sin el recorte) frena el retome pegado",
              'sin_ajeno(str(ev.get("prompt", "")))', 'str(ev.get("prompt", ""))', 0),
-            ("MUTANTE (recorta sin cierre) deja pasar el truncado", r".*?</\1\s*>", r".*?(</\1\s*>|$)", 5)):
+            ("MUTANTE (recorta sin cierre) deja pasar el truncado", r".*?</\1\b[^>]*>", r".*?(</\1\b[^>]*>|$)", 5),
+            ("MUTANTE DA-075 (el cierre literal, sin atributos) frena el retome pegado",
+             r".*?</\1\b[^>]*>", r".*?</\1\s*>", 0)):
         m = tmp / ("mutante-t14-%d.py" % n)
         fuente = Path(__file__).read_text(encoding="utf-8")
         txt = fuente.replace(viejo, nuevo, 1)
@@ -2086,6 +2226,43 @@ def autotest() -> int:
             ok = ('"deny"' in r) != pedidos_k[n][2] and ('"deny"' not in r or "'%s'" % p_k in r)
         mal += not ok
         print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+    # DA-075: el recorte contra los bloques REALES -- los pedidos con texto pegado que la app guardo en los transcripts
+    # de esta maquina --, no contra un fixture: si la app vuelve a cambiar el formato, este caso se pone en rojo. Sin
+    # transcripts con texto pegado (la nube, una maquina nueva) queda SALTEADO con el motivo, nunca verde.
+    reales = []
+    tdir = Path.home() / ".claude" / "projects"
+    trans = sorted(tdir.glob("*/*.jsonl"), key=lambda x: x.stat().st_mtime, reverse=True)[:60] if tdir.is_dir() else []
+    for f in trans:
+        try:
+            with f.open(encoding="utf-8", errors="replace") as fh:
+                for linea in fh:
+                    if "<pasted_content" not in linea:
+                        continue
+                    ev_t = json.loads(linea)
+                    c_t = (ev_t.get("message") or {}).get("content") if isinstance(ev_t.get("message"), dict) else None
+                    # un bloque pegado de verdad trae su CIERRE; un pedido que solo nombra la etiqueta, no (medido: el
+                    # retome de T14 la nombraba en su texto)
+                    if ev_t.get("type") == "user" and isinstance(c_t, str) and "</pasted_content" in c_t:
+                        reales.append(c_t)
+        except Exception:  # noqa: BLE001 -- un transcript ilegible no es este caso
+            continue
+        if len(reales) >= 20:
+            break
+    if not reales:
+        print("SALT  %-62s -> %s" % ("DA-075: el recorte contra los pedidos pegados reales",
+                                     "no hay transcripts con texto pegado en esta maquina"))
+    else:
+        quedan = [c for c in reales if "</pasted_content" in sin_ajeno(c)]   # todo cierre, consumido con su bloque
+        # el mismo dato con el recorte de antes de DA-075: cuantos quedaban ciegos (si da 0, este caso no discrimina
+        # DA-075 en esta maquina, y se dice)
+        viejo_re = re.compile(r"<(pasted_content|task-notification|system-reminder)\b[^>]*>.*?</\1\s*>", re.I | re.S)
+        ciegos = sum("</pasted_content" in viejo_re.sub("", c) for c in reales)
+        ok = not quedan
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "DA-075: el recorte contra los pedidos pegados reales",
+                                   "%d de %d recortados enteros (con el recorte viejo: %d ciegos)" % (
+                                       len(reales) - len(quedan), len(reales), ciegos) if ok else
+                                   "%d de %d quedan con el bloque: %r" % (len(quedan), len(reales), quedan[0][-160:])))
     # la compuerta con una ruta es LECTURA pura (la auditoria de de44da9d la conto como accion sobre black)
     caso("T14 CONTROL: fase_activa.py <ruta de black> sin declarar -> pasa",
          correr(pre_ev("PowerShell", {"command": 'python .claude/hooks/fase_activa.py "%s"' % black}, sid + "-t14-fa")),
@@ -2392,7 +2569,9 @@ def autotest() -> int:
             correr(pre_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % p_b}, s), None, script)
             # T19: el tronco leido, para que lo unico pendiente sea la base del segundo (si no, el mutante que deja de
             # exigirla seguiria negado por el tronco y no se veria)
-            for x in exigido(cat_base, None, [], [], tronco=True)[0]:
+            # (y la rama del segundo, T19 pieza C: se exige en toda accion, toque o no el proyecto)
+            for x in exigido(cat_base, None, [], [], tronco=True)[0] + exigido(cat_base, p_b, [], [],
+                                                                                solo_rama=True)[0]:
                 correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s),
                        None, script)
         return correr(pre_ev(*(uno if n == 1 else dos), s=s), None, script)
@@ -2493,11 +2672,20 @@ def autotest() -> int:
          [("Edit", {"file_path": str(black / "docs" / "x.md"), "old_string": "a", "new_string": "b"})], None, True,
          "-Necesidad"))
 
+    def leer_rama(p, s, script, cat_env=None):
+        """T19, pieza C: la rama del proyecto declarado se exige en toda accion. Los casos que miden OTRA cosa la leen
+        antes, para que lo unico pendiente sea lo suyo (si no, su mutante seguiria negado por la rama y no se veria)."""
+        for x in exigido(cat_base, p, [], [], solo_rama=True)[0]:
+            correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s),
+                   cat_env, script)
+
     def caso24(n, script=__file__):
         s = "sin-clase-24-%d-%s" % (n, Path(script).stem)
         acciones, fcat = casos24[n][1], casos24[n][2]
         r = ""
-        for tool, inp in acciones:
+        for k, (tool, inp) in enumerate(acciones):
+            if k == len(acciones) - 1 and "cascada.ps1 coaching" in str(acciones[0][1].get("command", "")):
+                leer_rama("coaching", s, script)
             r = correr(pre_ev(tool, inp, s), {"CASCADA_CATALOGO": fcat} if fcat else None, script)
         return r
 
@@ -2552,6 +2740,9 @@ def autotest() -> int:
         s = "sin-clase-25-%d-%s" % (n, Path(script).stem)
         for tool, inp in casos25[n][1]:
             correr(pre_ev(tool, inp, s), None, script)
+            for p in ("telescopio", "coaching"):   # la rama del declarado, leida: este caso mide el tronco
+                if "cascada.ps1 %s " % p in str(inp.get("command", "")):
+                    leer_rama(p, s, script)
         if casos25[n][2]:
             for x in tronco25:
                 correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s),
@@ -2591,6 +2782,157 @@ def autotest() -> int:
             ("MUTANTE T19 (el tronco solo al tocar el proyecto) -> lo ve el caso 3",
              [("if tronco_pend:   # L2-PTA-37/38: aunque la accion no toque el proyecto", "if False:")], 2)):
         mutar(nombre, cambios, sanos25, n, caso25, casos25[n][3], "t19b")
+
+    # 26. T19, pieza C (L1-26, L2-PTA-40..45, L2-VER-08..12, L2-CAS-08/09): la RAMA de cada proyecto declarado -- por la
+    # NATURALEZA: las necesidades y los conceptos de la rama, las lecciones del proyecto, la catedra -- y el documento
+    # del TEMA si el proyecto tiene mapa, antes de CUALQUIER accion. Arbol sintetico, sin base ni tronco: lo unico que
+    # se exige es la rama. La accion cae FUERA de todo proyecto, a proposito.
+    r26 = tmp / "raiz26"
+
+    def esc(rel_, txt="# x\n\nuna linea\n"):
+        f = r26 / rel_
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(txt, encoding="utf-8")
+        return f
+
+    fich = "perfil-global/aprendizaje/fichas/proyectos/"
+    f_nec, f_con = esc("docs-c26/necesidad.md"), esc("docs-c26/concepto.md")
+    f_fm, f_fi = esc(fich + "demo-mat.md"), esc(fich + "demo-ing.md")
+    f_cat = esc("proyectos/documentos/catedras/demo/CRITERIOS.md")
+    f_t1, f_t2 = esc("proyectos/ingenieria/demo-ing/docs/tema1.md"), esc("proyectos/ingenieria/demo-ing/docs/tema2.md")
+    (r26 / "proyectos" / "documentos" / "demo-mat").mkdir(parents=True, exist_ok=True)
+    (r26 / "proyectos" / "ingenieria" / "demo-sin").mkdir(parents=True, exist_ok=True)   # sin ficha: falla cerrado
+    ficha26 = {"ruta": fich + "{nombre}.md", "por": "las lecciones del proyecto"}
+    c26 = {"base": [], "necesidades": {"ninguna": {"que": "x", "leer": []},
+                                       "nz": {"que": "x", "leer": [{"ruta": "docs-c26/necesidad.md"}],
+                                              "herramientas": ["respaldo: x"]}},
+           "conceptos": {"cz": {"que": "x", "leer": [{"ruta": "docs-c26/concepto.md"}]}},
+           "ramas": {"documentos": {"necesidades": ["nz"], "conceptos": ["cz"],
+                                    "leer": [ficha26, {"ruta": "proyectos/documentos/catedras/{catedra}/CRITERIOS.md",
+                                                       "por": "la catedra"}]},
+                     "ingenieria": {"leer": [ficha26]}},
+           "proyectos": {"demo-mat": {"catedras": ["demo"]}, "demo-sin": {}, "catedras": {"catedras": []},
+                         "demo-ing": {"temas": {"t1": {"que": "el tema uno", "leer": [{"ruta": "{proy}/docs/tema1.md"}]},
+                                                "t2": {"que": "el tema dos", "leer": [{"ruta": "{proy}/docs/tema2.md"}]}}}}}
+
+    def cat26(nombre, cambio=None):
+        c = json.loads(json.dumps(c26))
+        if cambio:
+            cambio(c)
+        f = tmp / ("cat26-%s.json" % nombre)
+        f.write_text(json.dumps(c, ensure_ascii=False), encoding="utf-8")
+        return str(f)
+
+    f26 = cat26("sano")
+    f26r = cat26("sin-rama", lambda c: c["ramas"].pop("documentos"))
+    f26c = cat26("sin-catedras", lambda c: c["proyectos"]["demo-mat"].pop("catedras"))
+    mapa26 = ("Edit", {"file_path": str(r26 / "MAPA-c26.md"), "old_string": "a", "new_string": "b"})
+    dm = ".\\cascada.ps1 demo-mat -Necesidad ninguna"
+    di = lambda t=None: ".\\cascada.ps1 demo-ing -Necesidad ninguna" + (" -Tema %s" % t if t else "")  # noqa: E731
+    todo_mat = [f_nec, f_con, f_fm, f_cat]
+    casos26 = (   # (nombre, comandos, lecturas, catalogo, niega, motivo)
+        ("T19c SABOTAJE: materia declarada, accion FUERA sin la rama -> deny", [dm], [], None, True,
+         "la RAMA de demo-mat"),
+        ("T19c CONTROL: materia con la rama leida (necesidad, concepto, lecciones, catedra) -> pasa", [dm], todo_mat,
+         None, False, None),
+        ("T19c SABOTAJE: materia sin leer los criterios de su catedra -> deny", [dm], [f_nec, f_con, f_fm], None, True,
+         "CRITERIOS.md"),
+        ("T19c SABOTAJE: materia sin leer sus lecciones -> deny", [dm], [f_nec, f_con, f_cat], None, True,
+         "demo-mat.md"),
+        ("T19c SABOTAJE: proyecto con mapa de temas, sin tema -> deny con el mapa", [di()], [f_fi], None, True,
+         TEMA_FALTA),
+        ("T19c SABOTAJE: un tema que no esta en el mapa -> deny", [di("zz")], [f_fi], None, True, "(zz)"),
+        ("T19c SABOTAJE: tema t1 sin leer su documento -> deny", [di("t1")], [f_fi], None, True, "tema1.md"),
+        ("T19c CONTROL: tema t1 leido; el t2 no se exige -> pasa", [di("t1")], [f_fi, f_t1], None, False, None),
+        ("T19c SABOTAJE: tema todos con un solo documento leido -> deny", [di("todos")], [f_fi, f_t1], None, True,
+         "tema2.md"),
+        ("T19c CONTROL: tema todos con los dos leidos -> pasa", [di("todos")], [f_fi, f_t1, f_t2], None, False, None),
+        ("T19c CONTROL: el tema mal escrito se corrige declarando de nuevo -> pasa", [di("zz"), di("t1")],
+         [f_fi, f_t1], None, False, None),
+        ("T19c SABOTAJE: las lecciones del proyecto no existen -> deny (falla cerrado)",
+         [".\\cascada.ps1 demo-sin -Necesidad ninguna"], [], None, True, "NO EXISTE"),
+        ("T19c SABOTAJE: el catalogo sin la rama de la naturaleza -> deny", [dm], todo_mat, f26r, True,
+         "rama de la naturaleza"),
+        ("T19c SABOTAJE: la materia sin la clave catedras -> deny", [dm], todo_mat, f26c, True, "'catedras'"),
+        ("T19c CONTROL: la Excepcion no carga la rama -> pasa",
+         [".\\cascada.ps1 -Suelta \"autotest T19c\"", ".\\cascada.ps1 demo-mat -Excepcion \"autotest T19c\""], [],
+         None, False, None))
+
+    def caso26(n, script=__file__):
+        s = "sin-clase-26-%d-%s" % (n, Path(script).stem)
+        _, coms, lect, fcat, _, _ = casos26[n]
+        e = {"CASCADA_CATALOGO": fcat or f26, "CASCADA_RAIZ": str(r26)}
+        for c in coms:
+            correr(pre_ev("PowerShell", {"command": c}, s, cwd=str(r26)), e, script)
+        for f in lect:
+            correr(post_ev("Read", {"file_path": str(f)}, s=s), e, script)
+        return correr(pre_ev(*mapa26, s=s, cwd=str(r26)), e, script)
+
+    sanos26 = {}
+    for n, (nombre, _, _, _, niega, motivo) in enumerate(casos26):
+        r = caso26(n)
+        sanos26[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+
+    def verif26(nombre, cambio, marca, en_linea="[FAIL]"):
+        nonlocal mal
+        rv = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                            env=dict(env, CASCADA_CATALOGO=cat26("v", cambio), CASCADA_RAIZ=str(r26)))
+        lineas = [l for l in rv.stdout.decode("utf-8", "replace").splitlines() if l.startswith(en_linea)]
+        hit = next((l for l in lineas if any(m in l for m in (marca if isinstance(marca, tuple) else (marca,)))), None)
+        ok = hit is not None if cambio else hit is None
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, (hit or "sin la marca")[:90]))
+
+    verif26("T19c --verificar: catalogo sano -> sin rojos de la rama", None,
+            ("L2-VER-08", "L2-VER-09", "L2-VER-10", "L2-VER-11"))   # el sintetico no tiene tronco: L2-VER-07 sale a proposito
+    verif26("T19c --verificar: una naturaleza sin rama -> rojo (L2-VER-08)",
+            lambda c: c["ramas"].pop("ingenieria"), "L2-VER-08")
+    verif26("T19c --verificar: la rama nombra una necesidad que no existe -> rojo",
+            lambda c: c["ramas"]["documentos"].update(necesidades=["no-existe-t19c"]), "L2-VER-09")
+    verif26("T19c --verificar: la rama sin las lecciones -> rojo (L2-VER-10)",
+            lambda c: c["ramas"]["ingenieria"].update(leer=[]), "L2-VER-10")
+    verif26("T19c --verificar: una materia sin 'catedras' -> rojo (L2-VER-11)",
+            lambda c: c["proyectos"]["demo-mat"].pop("catedras"), "L2-VER-11")
+    verif26("T19c --verificar: proyecto grande sin mapa -> se lista (L2-VER-12)",
+            lambda c: c["proyectos"]["demo-sin"].update(lluvia={"cada": 10}), "demo-sin", "PROYECTO GRANDE SIN MAPA")
+    e26 = dict(env, CASCADA_CATALOGO=f26, CASCADA_RAIZ=str(r26))
+    s_i = subprocess.run([sys.executable, __file__, "--exige", "demo-ing", "--necesidad", "ninguna", "--tema", "t1"],
+                         capture_output=True, env=e26).stdout.decode("utf-8", "replace")
+    s_m = subprocess.run([sys.executable, __file__, "--exige", "demo-mat", "--necesidad", "ninguna"],
+                         capture_output=True, env=e26).stdout.decode("utf-8", "replace")
+    ok = ("MAPA DE TEMAS de demo-ing" in s_i and "el tema dos" in s_i and "tema1.md" in s_i and "tema2.md" not in s_i
+          and all(x in s_m for x in ("necesidad.md", "concepto.md", "demo-mat.md", "CRITERIOS.md")))
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "T19c: --exige imprime el mapa, el tema y la rama (L2-CAS-08/09)",
+                               "si" if ok else "NO: %r | %r" % (s_i[-200:], s_m[-200:])))
+    for nombre, cambios, n in (
+            ("MUTANTE T19c (la rama solo al tocar el proyecto) -> lo ve el caso 1",
+             [("    for q in rama_decl:   # L2-PTA-40..45: aunque la accion no toque el proyecto", "    for q in []:")], 0),
+            ("MUTANTE T19c (sin las lecturas propias de la rama) -> lo ve el caso 4",
+             [('        for spec in rama.get("leer", []):\n', "        for spec in []:\n")], 3),
+            ("MUTANTE T19c (no pide el tema) -> lo ve el caso 5",
+             [("            if not decl or malos:", "            if False:")], 4),
+            ("MUTANTE T19c (el tema que no esta en el mapa vale) -> lo ve el caso 6",
+             [('            malos = [t for t in decl if t != "todos" and t not in mapa]', "            malos = []"),
+              ('                    for spec in mapa[t].get("leer", []):',
+               '                    for spec in mapa.get(t, {}).get("leer", []):')], 5),
+            ("MUTANTE T19c (el tema no exige su documento) -> lo ve el caso 7",
+             [('                        agregar(spec, "tema %s: %s" % (t, spec.get("por") or mapa[t].get("que", "")), '
+               'rama=True)', "                        pass")], 6),
+            ("MUTANTE T19c (el tema no se registra) -> lo ve el caso 8",
+             [("            if tm:\n", "            if False:\n")], 7),
+            ("MUTANTE T19c (la rama falla abierto ante un archivo que falta) -> lo ve el caso 12",
+             [('            if p is not None and (rama or ("{proy}" not in spec["ruta"] and "{handoff}" not in '
+               'spec["ruta"])):',
+               '            if p is not None and not rama and ("{proy}" not in spec["ruta"] and "{handoff}" not in '
+               'spec["ruta"]):')], 11),
+            ("MUTANTE T19c (una naturaleza sin rama pasa) -> lo ve el caso 13",
+             [('            notas.append("NO EXISTE: la rama de la naturaleza',
+               '            notas.append("FALTA: la rama de la naturaleza')], 12),
+            ("MUTANTE T19c (sin la clave catedras pasa) -> lo ve el caso 14",
+             [('            elif "catedras" not in entrada:', "            elif False:")], 13)):
+        mutar(nombre, cambios, sanos26, n, caso26, casos26[n][4], "t19c")
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0
@@ -2609,7 +2951,11 @@ if __name__ == "__main__":
         if "--necesidad" in a:
             v = a[a.index("--necesidad") + 1] if a.index("--necesidad") + 1 < len(a) else ""
             necs = [x.strip().lower() for x in v.split(",") if x.strip() and x.strip().lower() != "ninguna"]
-        sys.exit(cli_exige(a[1], necs if "--necesidad" in a else None))
+        temas = None
+        if "--tema" in a:   # T19, pieza C
+            v = a[a.index("--tema") + 1] if a.index("--tema") + 1 < len(a) else ""
+            temas = [x.strip().lower() for x in v.split(",") if x.strip()]
+        sys.exit(cli_exige(a[1], necs if "--necesidad" in a else None, temas))
     if a[:1] == ["--estado"] and len(a) >= 2:
         st = estado(a[1])
         print(json.dumps({k: (sorted(v) if isinstance(v, set) else v) for k, v in st.items()}, default=list, indent=1))

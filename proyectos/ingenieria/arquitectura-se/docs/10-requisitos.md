@@ -368,8 +368,8 @@ empieza con requerimiento, requisito o requirement / con misión, mission, restr
 ## 13. T19 — el árbol de conocimiento (N-11, N-12)
 
 Diseño, medición y decisiones de Fran: `docs/t19-arbol-de-conocimiento.md` (§3 el giro, §4 las decisiones, §5 las
-piezas A-E). Acá van el L1 de las cinco piezas y el L2 de **A** (la clasificación) y **B** (el tronco), que son las que
-se construyen primero; el L2 de C, D y E se escribe cuando se diseñen. Elementos: **PTA** la puerta, **CAS** la cascada
+piezas A-E). Acá van el L1 de las cinco piezas, el L2 de **A** (la clasificación) y **B** (el tronco), que se
+construyeron primero, y el de **C** (la rama, abajo); el L2 de D y E se escribe cuando se diseñen. Elementos: **PTA** la puerta, **CAS** la cascada
 (`cascada.ps1` y `.claude/cascada.sh`), **VER** el verificador del catálogo. Términos (R4):
 
 - **Catálogo_De_La_Cascada**: el archivo `.claude/cascada.json`.
@@ -390,7 +390,7 @@ se construyen primero; el L2 de C, D y E se escribe cuando se diseñen. Elemento
 |---|---|---|---|---|
 | L1-24 | L0-11 | Cuando la sesión carece de Clasificación_Del_Pedido, la puerta deberá negar cada Acción_Que_Actúa de la sesión. | Pieza A. Fran: nada se activa por una palabra, la sesión interpreta (t19 §3). Hasta acá la puerta frenaba sólo si una señal del pedido o la ruta nombraba un proyecto: el pedido dicho de otra forma pasaba sin cascada. Un freno por permiso (Saltzer): sin clasificar, nada actúa. | ensayo: caso 24 del autotest de la puerta, con mutante |
 | L1-25 | L0-11 | Cuando la Clasificación_Del_Pedido es Ingeniería O Proyecto de un Proyecto_Con_Tronco, la puerta deberá exigir las Lecturas_Del_Tronco antes de cada Acción_Que_Actúa. | Pieza B. Decisión de Fran del 2026-10-19: el tronco es el libro más las fuentes de requisitos completas, aunque la sesión no escriba requisitos; en la duda, se carga. El L0 del TP de IISE se escribió con los libros en el repo. | ensayo: caso 25 del autotest de la puerta, con mutante |
-| L1-26 | L0-11 | Cuando la Clasificación_Del_Pedido es Proyecto, la puerta deberá exigir las lecturas de la naturaleza del proyecto Y del tema del pedido. | Pieza C. En una materia, el Drive, los criterios de la cátedra y las lecciones de PDF sin que Fran diga «publicar»; en un módulo de BLACK, sus lecciones y el documento del tema, no todo BLACK. TBR: el mapa de temas de cada proyecto grande. | ensayo: a escribir con el L2 de C |
+| L1-26 | L0-11 | Cuando la Clasificación_Del_Pedido es Proyecto, la puerta deberá exigir las lecturas de la naturaleza del proyecto Y del tema del pedido. | Pieza C. En una materia, el Drive, los criterios de la cátedra y las lecciones de PDF sin que Fran diga «publicar»; en un módulo de BLACK, sus lecciones y el documento del tema, no todo BLACK. TBR: el mapa de temas de cada proyecto grande. | ensayo: caso 26 del autotest de la puerta, con mutantes |
 | L1-27 | L0-11 | Cuando una lectura exigida a una Clase_Del_Pedido queda sin uso en 5 sesiones de la Clase_Del_Pedido, el método deberá proponer a Fran el retiro de la lectura. | Pieza D. TBR el 5: lo va a fijar la primera vuelta del lazo. El sensor es lo que la sesión declara de sí misma (DA-043, límite declarado). | ensayo: a escribir con el L2 de D |
 | L1-28 | L0-11 | El método deberá registrar la aprobación de Fran de cada retiro de una lectura exigida. | Pieza D. Decisión de Fran del 2026-10-19: lo que sobra sale sólo con su sí. | inspección: el registro del retiro |
 | L1-29 | L0-12 | Cuando la auditoría cierra la sesión, la auditoría deberá preguntar si la sesión contrastó cada procedimiento ejecutado con la necesidad del procedimiento. | Pieza E. Va con la quinta pregunta del libro de bolsillo (§7). Decisión de Fran del 2026-10-19: un procedimiento mal planteado se corrige y se avisa. | ensayo: a escribir con el L2 de E |
@@ -409,3 +409,36 @@ se construyen primero; el L2 de C, D y E se escribe cuando se diseñen. Elemento
 | L2-CAS-07 | L1-25 | Cuando la sesión declara la necesidad de un Proyecto_Con_Tronco O la Clase_Del_Pedido Ingeniería, la cascada deberá imprimir el archivo Y el rango de cada lectura de las Lecturas_Del_Tronco. | Lo que la puerta va a exigir se dice al declarar (DA-058). | demostración: `cascada.ps1 -Ingenieria` y `cascada.ps1 telescopio -Necesidad diseno` |
 | L2-VER-06 | L1-25 | Cuando el tronco del Catálogo_De_La_Cascada nombra un concepto ausente del Catálogo_De_La_Cascada, el verificador del catálogo deberá dar ROJO. | Un concepto que no resuelve se saltearía en silencio. | ensayo: caso 25 |
 | L2-VER-07 | L1-25 | Cuando el tronco del Catálogo_De_La_Cascada nombra 0 conceptos, el verificador del catálogo deberá dar ROJO. | Falla cerrado: un tronco vacío exigiría sólo el libro y daría verde. | ensayo: caso 25 |
+
+### Pieza C — la rama: la naturaleza y el tema del pedido (L1-26)
+
+Diseño: `docs/t19-arbol-de-conocimiento.md` §7. Elementos: **PTA**, **VER**, **CAS** y **APR** el registro de lecciones
+(`perfil-global/herramientas/aprender.py`). Términos (R4):
+
+- **Rama_De_Naturaleza**: la entrada de la naturaleza del proyecto en `ramas` del Catálogo_De_La_Cascada: las lecturas
+  de cada necesidad Y de cada concepto que la entrada nombra, más las lecturas propias de la entrada.
+- **Ficha_Del_Proyecto**: el archivo `perfil-global/aprendizaje/fichas/proyectos/<proyecto>.md`, que el registro de
+  lecciones genera con cada Lección_Registrada del proyecto.
+- **Criterios_De_Catedra**: el archivo `proyectos/documentos/catedras/<cátedra>/CRITERIOS.md` de cada cátedra que la
+  entrada del proyecto nombra en `catedras`.
+- **Mapa_De_Temas**: la clave `temas` de la entrada de un proyecto en el Catálogo_De_La_Cascada: cada tema con su
+  descripción y sus lecturas.
+- **Tema_Declarado**: un tema de un proyecto que la sesión registra con la cascada (`-Tema`); el tema `todos` nombra
+  cada tema del Mapa_De_Temas.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L2-PTA-40 | L1-26 | Cuando la sesión declara la necesidad de cada proyecto, la puerta deberá exigir la Rama_De_Naturaleza del proyecto antes de cada Acción_Que_Actúa. | Fran: «si no digo publicar, no sabés nada del Drive». Antes, lo de la naturaleza llegaba sólo por la necesidad declarada o por la lista del proyecto: fisica-espacial y software-de-vuelo traían `publicar`; apunte-iise y el TP de IISE, no. Va antes de cualquier acción, como el tronco: el Drive se toca desde la raíz, fuera de la carpeta del proyecto. | ensayo: caso 26 del autotest de la puerta, con mutante |
+| L2-PTA-41 | L1-26 | Cuando la sesión declara la necesidad de cada proyecto, la puerta deberá exigir la Ficha_Del_Proyecto antes de cada Acción_Que_Actúa. | Fran: en un módulo de BLACK, todas sus lecciones. Antes la cascada imprimía doce títulos y el comando que trae la regla de cada una: leerlas dependía de acordarse. | ensayo: caso 26, con mutante |
+| L2-PTA-42 | L1-26 | Cuando la entrada del proyecto declarado nombra cada cátedra, la puerta deberá exigir los Criterios_De_Catedra de la cátedra antes de cada Acción_Que_Actúa. | Fran: en una materia, los criterios de la cátedra. Los contratos de apunte-iise, fisica-espacial, software-de-vuelo y taller-de-fisica decían «primero CRITERIOS.md»: una instrucción para recordar, no un freno. En la nube el repo privado falta y la puerta niega hasta traerlo (`estado-nube.py --traer catedras`), como cualquier exigido ausente (T7). | ensayo: caso 26 |
+| L2-PTA-43 | L1-26 | Cuando el proyecto declarado tiene Mapa_De_Temas Y la sesión carece de Tema_Declarado del proyecto, la puerta deberá negar cada Acción_Que_Actúa con cada tema del Mapa_De_Temas. | Fran: en un módulo de BLACK no se lee todo BLACK, sí el documento del tema. El tema lo elige la sesión interpretando el pedido (pieza A); en la duda, `todos`. | ensayo: caso 26, con mutante |
+| L2-PTA-44 | L1-26 | Cuando cada Tema_Declarado falta en el Mapa_De_Temas del proyecto, la puerta deberá negar cada Acción_Que_Actúa con cada tema del Mapa_De_Temas. | Falla cerrado: un tema mal escrito vale por ninguno. El registro va antes de que el comando corra (L2-PTA-32), así que el tema inválido también queda registrado. | ensayo: caso 26 |
+| L2-PTA-45 | L1-26 | Cuando la sesión registra cada Tema_Declarado del Mapa_De_Temas, la puerta deberá exigir las lecturas del tema antes de cada Acción_Que_Actúa. | El documento del tema, no todos: lo que pidió Fran. | ensayo: caso 26, con mutante |
+| L2-APR-12 | L1-26 | El registro de lecciones deberá escribir la Ficha_Del_Proyecto de cada proyecto del Catálogo_De_La_Cascada. | Vista generada (T20): se reescribe con las fichas de grupo, nunca a mano. Un proyecto sin lecciones también tiene su ficha, que lo dice: así una ficha ausente sólo puede ser el generador roto, y la puerta niega. Cada lección va bajo un título `##` para que la puerta parta la ficha larga en lecturas que entran (BLACK, unos 82 000 caracteres; DA-071). | ensayo: autotest de `aprender.py` |
+| L2-VER-08 | L1-26 | Cuando la naturaleza de cada proyecto del Catálogo_De_La_Cascada carece de entrada en `ramas`, el verificador del catálogo deberá dar ROJO. | Falla cerrado: una naturaleza nueva entra con su rama decidida. `seguimiento` tiene la suya (las lecciones del proyecto). | ensayo: caso 26 |
+| L2-VER-09 | L1-26 | Cuando una Rama_De_Naturaleza nombra una necesidad O un concepto ausente del Catálogo_De_La_Cascada, el verificador del catálogo deberá dar ROJO. | Un nombre que no resuelve se saltearía en silencio, como el concepto del tronco (L2-VER-06). | ensayo: caso 26 |
+| L2-VER-10 | L1-26 | Cuando una Rama_De_Naturaleza carece de la Ficha_Del_Proyecto, el verificador del catálogo deberá dar ROJO. | Sostiene L2-PTA-41 aunque la rama se edite. | ensayo: caso 26 |
+| L2-VER-11 | L1-26 | Cuando la entrada de cada proyecto de la naturaleza `documentos` carece de la clave `catedras`, el verificador del catálogo deberá dar ROJO. | La cátedra que manda se escribe, aunque sea ninguna (`[]`): una materia sin la clave se ve igual que una sin cátedra. | ensayo: caso 26 |
+| L2-VER-12 | L1-26 | Cuando cada proyecto con cadencia de lluvia de ideas carece de Mapa_De_Temas, el verificador del catálogo deberá listar el proyecto. | El TBR de L1-26: el mapa de cada proyecto grande lo arma la sesión desde sus documentos y se lo muestra a Fran. Lista y no frena, como L2-VER-01. | inspección: la salida de `--verificar` |
+| L2-CAS-08 | L1-26 | Cuando la sesión declara la necesidad de un proyecto, la cascada deberá imprimir el archivo Y el rango de cada lectura de la Rama_De_Naturaleza Y de cada Tema_Declarado. | Lo que la puerta va a exigir se dice al declarar (DA-058). | demostración: `cascada.ps1 arquitectura-se -Necesidad metodo -Tema t19` |
+| L2-CAS-09 | L1-26 | Cuando el proyecto declarado tiene Mapa_De_Temas, la cascada deberá imprimir cada tema del Mapa_De_Temas con la descripción del tema. | La sesión elige el tema viendo el mapa. | demostración: ídem |

@@ -8,6 +8,7 @@
 #   bash .claude/cascada.sh <proyecto> -Mencion "motivo"    el pedido NOMBRA el proyecto sin pedirlo (T14b)
 #   bash .claude/cascada.sh -Ingenieria "que es"            T19: ingenieria de sistemas sin proyecto; imprime el tronco
 #   bash .claude/cascada.sh -Suelta "que es"                T19: pregunta suelta y especifica, sin tronco
+#   bash .claude/cascada.sh <proyecto> -Necesidad a,b -Tema t   T19, pieza C: el tema, si el proyecto tiene mapa
 #
 # Solo envuelve 'cascada_puerta.py --exige': los niveles, el ESTADO junto al enrutador y el AL DIA de git los sigue
 # dando cascada.ps1 en la PC (declarado: en la nube se lee lo que la puerta exige, que es lo que la puerta mide).
@@ -23,10 +24,11 @@ case "$proy" in
   "") echo "$USO"; exit 1 ;;
   *) shift ;;
 esac
-nec="" ; exc="" ; men="" ; ing="" ; sue=""
+nec="" ; exc="" ; men="" ; ing="" ; sue="" ; tem=""
 while [ $# -gt 0 ]; do
   case "$1" in
     -Necesidad|--necesidad) nec="${2:-}"; shift 2 || shift ;;
+    -Tema|--tema) tem="${2:-}"; shift 2 || shift ;;
     -Excepcion|--excepcion) exc="${2:-}"; shift 2 || shift ;;
     -Mencion|--mencion) men="${2:-}"; shift 2 || shift ;;
     -Ingenieria|--ingenieria) ing="${2:-}"; shift 2 || shift ;;
@@ -53,7 +55,7 @@ if [ -n "$exc" ]; then
   echo "  EXCEPCION a la puerta para $proy: '$exc'. Pasa en esta sesion y queda registrada."
   exit 0
 fi
-if [ -n "$nec" ]; then
-  exec "$PY" "$RAIZ/.claude/hooks/cascada_puerta.py" --exige "$proy" --necesidad "$nec"
-fi
-exec "$PY" "$RAIZ/.claude/hooks/cascada_puerta.py" --exige "$proy"
+set -- --exige "$proy"
+[ -n "$nec" ] && set -- "$@" --necesidad "$nec"
+[ -n "$tem" ] && set -- "$@" --tema "$tem"
+exec "$PY" "$RAIZ/.claude/hooks/cascada_puerta.py" "$@"

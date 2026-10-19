@@ -31,6 +31,8 @@
 #   .\cascada.ps1 black -Mencion "motivo"     el pedido NOMBRA el proyecto sin pedirlo (T14b): libera lo de afuera
 #   .\cascada.ps1 -Ingenieria "que es"        T19: ingenieria de sistemas sin proyecto; imprime el TRONCO que se exige
 #   .\cascada.ps1 -Suelta "que es"            T19: pregunta suelta y especifica, sin ingenieria de sistemas ni tronco
+#   .\cascada.ps1 arquitectura-se -Necesidad metodo -Tema t19
+#                                 T19, pieza C: el TEMA del pedido en un proyecto con mapa de temas (en la duda, todos)
 #
 # Desde T19 (2026-10-19) toda sesion CLASIFICA el pedido antes de actuar, interpretandolo y no por una palabra: un
 # proyecto (-Necesidad), -Ingenieria o -Suelta. La puerta niega Bash, PowerShell, Write y Edit hasta entonces.
@@ -48,6 +50,7 @@ param(
     [string]$Mencion,           # T14b: el pedido NOMBRA el proyecto sin pedirlo; libera lo de afuera, nunca su carpeta
     [string]$Ingenieria,        # T19: la clase del pedido, ingenieria de sistemas sin proyecto (carga el tronco)
     [string]$Suelta,            # T19: la clase del pedido, pregunta suelta y especifica (sin tronco)
+    [string[]]$Tema,            # T19, pieza C: el tema del pedido en un proyecto con mapa de temas (la puerta lo exige)
     [string]$Raiz = $PSScriptRoot
 )
 
@@ -417,6 +420,7 @@ if ($Excepcion) {
 } elseif (Test-Path -LiteralPath $py) {
     $pyArgs = @($py, '--exige', $pr.Nombre)
     if ($Necesidad) { $pyArgs += @('--necesidad', ($Necesidad -join ',')) }
+    if ($Tema) { $pyArgs += @('--tema', ($Tema -join ',')) }
     $ErrorActionPreference = 'Continue'
     & python @pyArgs 2>&1 | ForEach-Object { Write-Host $_ }
     # El MOMENTO LLUVIA DE IDEAS (Fran, 2026-10-12): el medidor a la vista, con su umbral, en cada entrada a un
