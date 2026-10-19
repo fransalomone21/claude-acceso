@@ -13,6 +13,10 @@
 > documento de requisitos ya no entra en una lectura: la puerta lo exige en dos rangos (DA-071); (5) rojos del arranque
 > que NO son de esta sesión: el mail de prueba en `.claude/hooks/medir-reescritura.py` (estructura), las lecciones 70 y
 > 230, T18 (`retiro.py pasar`); y de esta: la lección **346** (exige nivel regla; se repitió con la viñeta leída).
+> **La auditoría dio 1 ROJO P7, dicho y no maquillado:** `4659a58` «cita» `L2-PLT-01`, que es el ID de EJEMPLO del
+> libro (el formato de IDs, del telescopio) copiado en la tabla de `docs/da013-libro-contra-fuente.md`; la auditoría
+> lee IDs del diff, no sólo del mensaje. No se reescribe historia pusheada; P2 y P5 amarillos por la mención y la
+> excepción de apunte-iise (leer los PDF de NASA copiados en la carpeta del TP).
 
 > **2026-10-19 (sesión `8cb387c7`, CERRADA) — SIGUE: las lecciones 70 y 230 a nivel herramienta** (sin-triage da 2
 > rojos), después lo que diga la lluvia §6. Hecho: **DA-064** arreglado (`faff47a`, perfil `8fa435d`; falta validarlo
