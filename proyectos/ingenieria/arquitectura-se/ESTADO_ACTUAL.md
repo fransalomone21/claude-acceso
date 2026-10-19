@@ -3,6 +3,21 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-19 (sesión `8cb387c7`) — DA-064 ARREGLADO: el libro llega al momento de escribir un alcance.** Concepto
+`alcance` de la puerta (`faff47a`): al escribir una sección de necesidad, metas u objetivos —en cualquier proyecto,
+materia incluida— exige la ficha `alcance-como-se-escribe.md`, el SEH §3.11-3.13 y la cátedra (m18, m20), 18 711
+caracteres una vez por sesión. Dispara por el **rol** del texto (el título de la sección que el Write o el Edit trae,
+o que encierra lo editado; en un PDP, §1-2), no por la palabra: la prosa que nombra «la necesidad» no dispara. Medido:
+37 títulos del repo caen en la definición, 25 son PDP §1-2 y 7 de los otros 12 son alcances (L0-09, L1-19,
+L2-PTA-20..23, L2-VER-04, L2-CAS-03/04 en [`docs/10-requisitos.md`](docs/10-requisitos.md) §11, 0 VIOLA). Probado:
+autotest de la puerta caso 20 (6 sabotajes, 6 controles, 5 mutantes vistos) y
+[`probar-da064.py`](probar-da064.py) sobre el informe real del TP, el PDP y los requisitos. Diseño y por qué la puerta
+y no la fase, el núcleo o un verificador: [`docs/da064-concepto-alcance.md`](docs/da064-concepto-alcance.md). **Lección
+293 subida a herramienta** (`b22560e`): `.claude/hooks/medir-reescritura.py` mide contra HEAD, después de cada comando
+de consola, los bytes cambiados fuera del cambio (mojibake, '?', BOM); efecto real visto en la sesión. **Quedan en rojo
+las lecciones 70 y 230** (sin-triage): no entraron por plan (5 h al 71 % al empezarlas, compartida con la sesión del TP);
+su diseño candidato está en el HANDOFF.
+
 **2026-10-17 (sesión `ecd2332b`) — T18 CONSTRUIDO: el método también retira.** Fila 5 de la lluvia; decisión de Fran
 por encuesta: **sensor de uso + núcleo**, aviso en el cuadro, un freno nunca sale solo (lluvia §7). El sensor son los
 **transcripts** (lo que le llegó a cada sesión: Read, Grep, Bash y el hook al paso; leer el núcleo no cuenta), sin hook

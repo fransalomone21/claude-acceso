@@ -1,5 +1,22 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-19 (sesión `8cb387c7`, CERRADA) — SIGUE: las lecciones 70 y 230 a nivel herramienta** (sin-triage da 2
+> rojos), después lo que diga la lluvia §6. Hecho: **DA-064** arreglado (`faff47a`, perfil `8fa435d`; falta validarlo
+> con 3 sesiones auditadas) y la **lección 293** subida (`b22560e`). **Para el que siga:** (1) escribir un título de
+> alcance (`## Necesidad`, `== Objetivos`, PDP §1-2) pide el concepto `alcance`: la cascada lo imprime al declarar
+> `diseno`, `materia` o `lluvia-de-ideas`; la primera edición, sola; (2) **un comando de consola que reescribe un archivo
+> trackeado con otro encoding** recibe el aviso de `medir-reescritura.py`: restaurar con `git checkout` y rehacer con
+> Edit; (3) **diseño candidato de la 70** (el freno probado sólo por su rojo; recurrencia: `actualizar-informe.ps1` del TP
+> falló en su primer uso legítimo): que `chequeo-completo` exija en la salida de cada saboteador registrado al menos una
+> línea de control positivo, y medir antes cuántos hoy no la tienen; el caso del TP pide además su camino legítimo contra
+> un destino de prueba (es del repo del TP); (4) **diseño candidato de la 230** (una regla sin cotejar escrita como hecho
+> en cuatro lugares): detector de copias de una afirmación nueva en dos o más capas (libro, memoria, apunte) en la misma
+> sesión, por solapamiento de frases, en la auditoría; medir primero si habría visto el caso del 2026-10-19 (perfil
+> `0460293` contra la memoria `alcance-como-se-escribe.md`); (5) Fran mandó a esta sesión tres pedidos del TP (la meta,
+> Santi, la carpeta de versiones): se reenviaron textuales a la sesión del TP y no se tocó el TP; (6) `catedras` tiene 1
+> commit sin pushear que no es de esta sesión; (7) T18 retiró 10 viñetas del núcleo (quedan 57 vencidas;
+> `retiro.py listar`).
+
 > **2026-10-17 (sesión `ecd2332b`, CERRADA) — SIGUE: lo que diga la lluvia §6** (T18 era la fila 5; quedan la 6 costo
 > del fan-out, la 7 subagentes y la puerta, la 8 interfaces, y **P10, que cierra la fase 7**). Hecho: **T18**
 > (`594583b` requisitos, `c4c8246` diseño, `881feab` + perfil `1c104c4`/`7fed3ed` construcción;
