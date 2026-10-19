@@ -157,6 +157,9 @@ $saboteadores = @(
     # requisitos), el verificador con un patron roto y el mutante sin 'secciones'. Los sinteticos y sus 5 mutantes,
     # en el autotest de la puerta (caso 20).
     @{ nombre = 'el libro al escribir el alcance (DA-064)'; cmd = 'python proyectos\ingenieria\arquitectura-se\probar-da064.py' }
+    # Leccion 293 (herramienta): la reescritura que cambia bytes fuera del cambio, medida contra HEAD despues de cada
+    # comando. Tres sabotajes (acentos dobles, '?', BOM), cuatro controles y cuatro mutantes, en un repo sintetico.
+    @{ nombre = 'reescritura con encoding (293)';  cmd = 'python .claude\hooks\medir-reescritura.py --autotest' }
 )
 
 function Correr($lista, $titulo) {

@@ -96,6 +96,16 @@
             "timeout": 15
           }
         ]
+      },
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$(command -v python || command -v python3)\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/medir-reescritura.py\"",
+            "timeout": 15
+          }
+        ]
       }
     ]
   }
