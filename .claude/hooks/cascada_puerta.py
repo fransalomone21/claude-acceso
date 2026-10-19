@@ -188,6 +188,8 @@ def rango(path: Path, spec: dict):
     lineas = path.read_text(encoding="utf-8", errors="replace").splitlines()
     n = max(1, len(lineas))
     tope = spec.get("tope")
+    if "_a" in spec:   # un rango ya calculado (partes_de_lectura)
+        return spec["_a"], spec["_b"]
     if "vista_h2" in spec:
         k, vistos, fin = spec["vista_h2"], 0, n
         for i, l in enumerate(lineas):
@@ -209,6 +211,26 @@ def rango(path: Path, spec: dict):
     if tope and b - a + 1 > tope:
         b = a + tope - 1
     return a, b
+
+
+def partes_de_lectura(path: Path, tope: int | None = None):
+    """[(a, b)] 1-based que cubren el archivo ENTERO, cortados en titulos '## ' para que cada rango entre en una
+    lectura (MAX_CHARS_RANGO, MAX_LINEAS_LECTURA). Un archivo que entra sale en un solo rango."""
+    tope = tope or MAX_CHARS_RANGO
+    lineas = path.read_text(encoding="utf-8", errors="replace").splitlines() or [""]
+    cortes = [1] + [i for i, l in enumerate(lineas, 1) if l.startswith("## ") and i > 1] + [len(lineas) + 1]
+    secciones = [(cortes[k], cortes[k + 1] - 1) for k in range(len(cortes) - 1)]
+    out, a, ch = [], None, 0
+    for s, e in secciones:   # se juntan secciones enteras mientras el rango siga entrando en una lectura
+        cs = sum(len(l) + 1 for l in lineas[s - 1:e])
+        if a is not None and (ch + cs > tope or e - a + 1 > MAX_LINEAS_LECTURA):
+            out.append((a, s - 1))
+            a, ch = None, 0
+        if a is None:
+            a = s
+        ch += cs
+    out.append((a, len(lineas)))
+    return out
 
 
 # T13, «la fase manda» (2026-10-12; requisitos L2-PTA-01..03 y L2-VER-01/02 de
@@ -289,7 +311,12 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
         if req:
             pr = Path(req) if os.path.isabs(req) else proy / req
             if pr.exists():
-                agregar({"ruta": str(pr)}, "base: los requisitos del proyecto (se disena contra esto)")
+                # ENTERO, y partido por secciones si no entra en una lectura (2026-10-19: el de arquitectura-se llego a
+                # 62 534 ch; a 56 701 ya eran 25 949 tokens contra los 25 000 del Read). Se exige lo mismo; cambia
+                # que cada rango entra en una lectura. Que el documento crezca sin techo es otro defecto (DA-071).
+                for a, b in partes_de_lectura(pr):
+                    agregar({"ruta": str(pr), "desde": "(?!)", "_a": a, "_b": b},
+                            "base: los requisitos del proyecto (se disena contra esto)")
             else:
                 notas.append("SIN REQUISITOS: %s -- el proyecto declara su documento de requisitos y no existe. Lo "
                              "primero es escribirlo (la puerta deja escribir ese archivo y el registro; hasta "
@@ -2245,6 +2272,20 @@ def autotest() -> int:
             ok = ('"deny"' in r) != casos22[n][1]
         mal += not ok
         print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+    # 23. El documento de requisitos que no entra en una lectura se exige ENTERO, partido en secciones que entran
+    # (2026-10-19: el de arquitectura-se paso los 60 000 ch y --verificar daba rojo). Sintetico: 12 secciones de ~8 000.
+    d23 = tmp / "req-largo.md"
+    d23.write_text("# Requisitos\n\n" + "".join("## %d. Seccion\n\n%s\n\n" % (k, ("x" * 79 + "\n") * 100)
+                                                  for k in range(12)), encoding="utf-8")
+    pz = partes_de_lectura(d23)
+    lin23 = d23.read_text(encoding="utf-8").splitlines()
+    cubre23 = pz[0][0] == 1 and pz[-1][1] == len(lin23) and all(pz[k][1] + 1 == pz[k + 1][0] for k in range(len(pz) - 1))
+    entran23 = all(sum(len(l) + 1 for l in lin23[a - 1:b]) <= MAX_CHARS_RANGO for a, b in pz)
+    secc23 = all(lin23[a - 1].startswith("## ") for a, _ in pz[1:])
+    ok = len(pz) >= 2 and cubre23 and entran23 and secc23 and len(partes_de_lectura(req_base)) == 1
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "requisitos largos: entero, en secciones que entran en una lectura",
+                               "%d rangos %s; el corto, %d" % (len(pz), pz, len(partes_de_lectura(req_base)))))
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0

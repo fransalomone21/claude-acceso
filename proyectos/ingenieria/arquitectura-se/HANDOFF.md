@@ -1,5 +1,19 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-19 (sesión lateral `94d0be8b`, CERRADA; plan al 97 % de la ventana) — SIGUE: el diseño del «árbol de
+> conocimiento» que pidió Fran** (tronco fijo: requisitos y handbook siempre; ramas por proyecto, necesidad y
+> complejidad; nada de lecciones de BLACK en un TP de IISE), y por el orden de ataque **DA-073** (conceptos por rol para
+> ConOps, trade, riesgos, V&V y revisión: medir los títulos antes, como DA-064). Hecho: DA-013/065/066/067/070
+> ([`docs/da013-libro-contra-fuente.md`](docs/da013-libro-contra-fuente.md)). **Para el que siga:** (1) escribir bajo
+> un título «Requerimientos» en CUALQUIER documento pide el concepto `requisitos` (~90 K caracteres: candidato a partir
+> por nivel); bajo «Misión», «Restricciones» o «Autoridad», el `alcance`; (2) **un comando que nombra dos proyectos
+> pide declarar los dos**; (3) una cita en cursiva del libro sin destilado, o una cláusula de escape sin quién, da rojo
+> en el arranque (`verificar-libro.py`); una sección nueva de un destilado sobre requisitos o alcance que ningún
+> concepto lee, también (`mapa-lecturas.py`: se engancha en `cascada.json` o se declara en `temas_fuera`); (4) este
+> documento de requisitos ya no entra en una lectura: la puerta lo exige en dos rangos (DA-071); (5) rojos del arranque
+> que NO son de esta sesión: el mail de prueba en `.claude/hooks/medir-reescritura.py` (estructura), las lecciones 70 y
+> 230, T18 (`retiro.py pasar`); y de esta: la lección **346** (exige nivel regla; se repitió con la viñeta leída).
+
 > **2026-10-19 (sesión `8cb387c7`, CERRADA) — SIGUE: las lecciones 70 y 230 a nivel herramienta** (sin-triage da 2
 > rojos), después lo que diga la lluvia §6. Hecho: **DA-064** arreglado (`faff47a`, perfil `8fa435d`; falta validarlo
 > con 3 sesiones auditadas) y la **lección 293** subida (`b22560e`). **Para el que siga:** (1) escribir un título de

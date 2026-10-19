@@ -3,6 +3,21 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-19 (sesión lateral `94d0be8b`) — EL LIBRO CONTRA SUS FUENTES: DA-013, 065, 066, 067 y 070 ARREGLADOS** (falta
+validarlos con 3 sesiones auditadas). Las 70 reglas de `nucleo-ise.md` y `alcance-como-se-escribe.md` graduadas contra
+el PDF: **7 cambiaban el sentido** y se corrigieron (los niveles L0-L6, la excepción de la solución con su quién, los
+números del tope según quién manda, IRD/ICD, el lazo de los procesos, el orden del alcance, la necesidad «sin
+justificación»). Tabla y medición: [`docs/da013-libro-contra-fuente.md`](docs/da013-libro-contra-fuente.md);
+requisitos L0-10, L1-20..23 y sus L2 en [`docs/10-requisitos.md`](docs/10-requisitos.md) §12 (0 VIOLA). Piezas:
+`verificar-libro.py` (citas del libro en un destilado, cláusulas de escape sin quién; autotest 10), la ficha nueva
+`pilares/nasa-level1/` (Leisner, TESS, Psyche, JWST, UNOOSA: 17/17), `mapa-lecturas.py` (5 huérfanas encontradas y
+enganchadas; autotest 7) y la puerta: `requisitos` por título en cualquier documento, `alcance` por misión,
+restricciones y autoridad, cada proyecto tocado exigido, el documento de requisitos largo exigido entero en secciones
+(autotest 148 ok). **Efecto real** de DA-067 y DA-070 en la sesión. Commits: perfil `27b8964`, `2c11663`; acá
+`4659a58` y el del checkpoint. Nuevos: **DA-071** (este documento de requisitos crece sin techo), **DA-072** (disparo
+por palabra del concepto de PDF), **DA-073** (ConOps, trade, riesgos, V&V y la revisión sin concepto). Lección 346
+repetida: exige nivel regla.
+
 **2026-10-19 (sesión `8cb387c7`) — DA-064 ARREGLADO: el libro llega al momento de escribir un alcance.** Concepto
 `alcance` de la puerta (`faff47a`): al escribir una sección de necesidad, metas u objetivos —en cualquier proyecto,
 materia incluida— exige la ficha `alcance-como-se-escribe.md`, el SEH §3.11-3.13 y la cátedra (m18, m20), 18 711

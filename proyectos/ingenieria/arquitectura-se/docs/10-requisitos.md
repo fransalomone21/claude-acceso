@@ -329,43 +329,34 @@ el alcance, que es el producto anterior de la cadena (`nucleo-ise.md` §3b). Té
 
 ## 12. Nivel 2 — el libro contra sus fuentes, el mapa de lecturas y la puerta por rol (DA-013, 065, 066, 067, 070)
 
-Elementos: **LIB** el medidor del libro (`perfil-global/herramientas/verificar-libro.py`), **MAP** el mapa de lecturas
-(`mapa-lecturas.py`), **PTA** la puerta y **CAS** la cascada. Diseño y medición: `docs/da013-libro-contra-fuente.md`.
-Los padres son un L0 nuevo (de N-01) y cuatro L1: hasta el 2026-10-19 los destilados se medían contra el PDF y el
-libro que la puerta hace leer siempre no (DA-013); una lectura destilada en la ficha equivocada no llegaba al escribir
-(DA-065); el concepto `requisitos` disparaba por el nombre del archivo (DA-067); y la puerta veía un proyecto por
-comando (DA-070). Términos definidos (R4):
-
-- **Libro_De_Bolsillo**: los archivos `perfil-global/pilares/nucleo-ise.md` y `perfil-global/pilares/alcance-como-se-escribe.md`.
-- **Cita_Del_Libro**: un texto del Libro_De_Bolsillo entre comillas angulares y en cursiva.
-- **Carpeta_De_Pilares**: la carpeta `perfil-global/pilares`.
-- **Destilado**: cada archivo `.md` bajo la Carpeta_De_Pilares fuera del Libro_De_Bolsillo.
-- **Cláusula_De_Escape**: una frase de la prosa del Libro_De_Bolsillo, fuera de comillas y de código, que abre una
-  excepción («salvo que», «excepto», «a menos que», «si hace falta», «si es posible», «unless»).
-- **Sección_Del_Tema**: una sección de un Destilado cuyo título coincide con los `temas` de un concepto de `.claude/cascada.json`.
-- **Título_De_Requerimientos**: un título de Markdown (`#`) o de Typst (`=`) cuyo texto, sin la numeración ni el
-  artículo, empieza con requerimiento, requisito o requirement.
-- **Título_De_Elemento_Del_Alcance**: un título cuyo texto, sin la numeración ni el artículo, empieza con misión,
-  mission, restricción, constraint o autoridad.
-- **Proyecto_Tocado**: cada proyecto que la ruta o el comando de una acción nombra.
+Elementos: **LIB** `perfil-global/herramientas/verificar-libro.py`, **MAP** `mapa-lecturas.py`, **PTA** la puerta,
+**CAS** la cascada. Diseño, medición y el porqué de cada uno: `docs/da013-libro-contra-fuente.md` (§N de abajo).
+Términos (R4): **Libro_De_Bolsillo** = `nucleo-ise.md` y `alcance-como-se-escribe.md` de la **Carpeta_De_Pilares**
+(`perfil-global/pilares`); **Cita_Del_Libro** = su texto entre comillas angulares y en cursiva; **Destilado** = cada
+`.md` de la Carpeta_De_Pilares fuera del Libro_De_Bolsillo; **Cláusula_De_Escape** = una frase de su prosa, fuera de
+comillas y de código, que abre una excepción («salvo que», «a menos que», «si hace falta»…);
+**Sección_Del_Tema** = una sección de un Destilado cuyo título coincide con los `temas` de un concepto;
+**Título_De_Requerimientos** / **Título_De_Elemento_Del_Alcance** = un título que, sin numeración ni artículo,
+empieza con requerimiento, requisito o requirement / con misión, mission, restricción, constraint o autoridad;
+**Proyecto_Tocado** = cada proyecto que la ruta o el comando de una acción nombra.
 
 | ID | Padre | Requisito | Rationale | Verificación |
 |---|---|---|---|---|
-| L0-10 | N-01 | El método deberá mantener el Libro_De_Bolsillo fiel a las fuentes que el Libro_De_Bolsillo cita. | DA-013 (2026-10-19): de 70 reglas del libro y la ficha, 7 cambiaban el sentido de su fuente (los niveles, la excepción de la solución, los números del tope, IRD/ICD, el orden del alcance) y ningún medidor lo veía. | inspección: la tabla de `docs/da013-libro-contra-fuente.md` |
-| L1-20 | L0-10 | Cuando una Cita_Del_Libro falta en cada Destilado, el medidor del libro deberá dar ROJO con el archivo, la línea Y la cita. | Los Destilados ya se miden contra el PDF (`verificar-citas.py`, 99,1 %): con la Cita_Del_Libro en un Destilado, la cadena hasta el libro queda medida. Una cita sin Destilado es una fuente sin ficha, y se arregla con la ficha (así nació `pilares/nasa-level1/`). | ensayo: autotest de `verificar-libro.py`, casos 2 y 7 |
-| L1-21 | L0-10 | Cuando la prosa del Libro_De_Bolsillo trae una Cláusula_De_Escape en una línea sin quién impone la excepción, el medidor del libro deberá dar ROJO. | DA-066: «salvo que haya una razón escrita» la usó el mismo que la escribía. La excepción de los libros nombra quién la impone (GtWR R31, SEH p. 60). Mira sólo el Libro_De_Bolsillo y frena en el arranque: un patrón por palabra sobre todo el repo frenaría la prosa que habla de excepciones. | ensayo: autotest de `verificar-libro.py`, casos 8 y 9 |
+| L0-10 | N-01 | El método deberá mantener el Libro_De_Bolsillo fiel a las fuentes que el Libro_De_Bolsillo cita. | DA-013: 7 de 70 reglas cambiaban el sentido de su fuente (§1). | inspección: la tabla (§2) |
+| L1-20 | L0-10 | Cuando una Cita_Del_Libro falta en cada Destilado, el medidor del libro deberá dar ROJO con el archivo, la línea Y la cita. | El Destilado ya se mide contra el PDF: la cadena queda medida. | ensayo: autotest de LIB, casos 2 y 7 |
+| L1-21 | L0-10 | Cuando la prosa del Libro_De_Bolsillo trae una Cláusula_De_Escape en una línea sin quién impone la excepción, el medidor del libro deberá dar ROJO. | DA-066 (§3): la excepción legítima nombra quién la impone. | ensayo: casos 8 y 9 |
 | L2-LIB-01 | L1-20 | Cuando un archivo del Libro_De_Bolsillo trae menos Cita_Del_Libro que el piso del archivo, el medidor del libro deberá dar ROJO. | Falla cerrado: con otra convención de comillas el extractor vería cero citas y daría verde. | ensayo: caso 4 |
 | L2-LIB-02 | L1-20 | Cuando la carpeta de Destilados está vacía, el medidor del libro deberá dar ROJO. | Falla cerrado: cero comparaciones no son un verde. | ensayo: caso 6 |
-| L1-22 | L0-09 | Cuando una Sección_Del_Tema de un concepto cae fuera de cada rango de lectura del concepto Y de cada exclusión declarada del concepto, el mapa de lecturas deberá dar ROJO con la sección. | DA-065: el App. C estaba entero en `glosario.md` y el concepto `requisitos` leía `requisitos.md`. Medido el 2026-10-19: cinco huérfanas de la misma clase (glosario §2.2, stakeholders §3.8 y §3.18, requisitos.md §4, la ficha nueva de Level 1), hoy enganchadas. | ensayo: autotest de `mapa-lecturas.py`, caso 1 |
+| L1-22 | L0-09 | Cuando una Sección_Del_Tema de un concepto cae fuera de cada rango de lectura del concepto Y de cada exclusión declarada del concepto, el mapa de lecturas deberá dar ROJO con la sección. | DA-065 (§4): cinco huérfanas, hoy enganchadas. | ensayo: autotest de MAP, caso 1 |
 | L2-MAP-01 | L1-22 | Cuando una exclusión declarada de un concepto coincide con 0 Sección_Del_Tema, el mapa de lecturas deberá dar ROJO. | Una excepción que sobrevive a su caso tapa el próximo. | ensayo: caso 3 |
 | L2-MAP-02 | L1-22 | Cuando una exclusión declarada nombra un segundo concepto como lector Y el segundo concepto deja la sección fuera de cada rango, el mapa de lecturas deberá dar ROJO. | El `lo_lee` es una afirmación sobre otro concepto: se mide, no se cree. | ensayo: caso 4 |
 | L2-MAP-03 | L1-22 | Cuando los `temas` de un concepto coinciden con 0 Sección_Del_Tema, el mapa de lecturas deberá dar ROJO. | Una regex ciega da verde de cero secciones. | ensayo: caso 5 |
 | L2-MAP-04 | L1-22 | El mapa de lecturas deberá leer cada subcarpeta de la Carpeta_De_Pilares distinta de la subcarpeta fuentes. | Un verificador sólo ve donde vive: una carpeta de Destilados nueva entra sola al censo. | inspección: `destilados()` |
-| L1-23 | L0-09 | Cuando la sesión escribe bajo un Título_De_Requerimientos de cada documento, la puerta deberá exigir las lecturas del concepto requisitos. | DA-067: la tabla de L0 del TP se escribió en `informe/seccion-1.md` bajo «1.9 Requerimientos» y el concepto sólo miraba archivos `requisitos*.md`. Medido el 2026-10-19 sobre lo trackeado: 20 títulos, unos 15 son requerimientos; los falsos cuestan una lectura por sesión. | ensayo: caso 21 del autotest de la puerta |
+| L1-23 | L0-09 | Cuando la sesión escribe bajo un Título_De_Requerimientos de cada documento, la puerta deberá exigir las lecturas del concepto requisitos. | DA-067 (§5): el L0 del TP vivía en un informe. | ensayo: caso 21 de PTA |
 | L2-PTA-24 | L1-23 | Cuando el contenido de un Write O el texto de un Edit trae un Título_De_Requerimientos, la puerta deberá exigir las lecturas del concepto requisitos. | Escribir la sección entera o agregar el título. | ensayo: caso 21, con mutante |
 | L2-PTA-25 | L1-23 | Cuando el texto viejo de un Edit cae bajo un Título_De_Requerimientos del archivo editado, la puerta deberá exigir las lecturas del concepto requisitos. | El caso del TP: corregir una fila de la tabla sin tocar el título. | ensayo: caso 21 |
 | L2-PTA-26 | L1-23 | Cuando el archivo de la acción es el `ESTADO_ACTUAL.md` O el `HANDOFF.md` de un proyecto, la puerta deberá permitir la acción bajo un Título_De_Requerimientos sin las lecturas del concepto requisitos. | El registro anota qué falta; frenarlo empujaría a saltear el checkpoint (L2-PTA-03). | ensayo: caso 21, con mutante |
-| L2-PTA-27 | L1-19 | Cuando la acción escribe bajo un Título_De_Elemento_Del_Alcance, la puerta deberá exigir las Lecturas_De_Alcance. | La misión, las restricciones y la autoridad son elementos del alcance (cátedra, M18). La hipótesis no entra: medido, 6 de sus 8 títulos del repo son hipótesis de depuración. | ensayo: caso 21 |
+| L2-PTA-27 | L1-19 | Cuando la acción escribe bajo un Título_De_Elemento_Del_Alcance, la puerta deberá exigir las Lecturas_De_Alcance. | Elementos del alcance (M18); la hipótesis no (§5). | ensayo: caso 21 |
 | L2-CAS-05 | L1-23 | Cuando la sesión declara la necesidad diseno O materia, la cascada deberá imprimir las lecturas del concepto requisitos. | DA-058: lo que la puerta va a exigir se dice al declarar, no en la primera negación. | demostración: `cascada.ps1 telescopio -Necesidad diseno` |
 | L2-PTA-28 | L1-08 | Cuando un Proyecto_Tocado de la acción carece de necesidad declarada Y de Excepción, la puerta deberá negar la acción nombrando ese Proyecto_Tocado. | DA-070: un comando con un proyecto liberado y otro no pasaba; `proyecto_de()` cortaba en el primero. | ensayo: caso 22 del autotest de la puerta, con mutante |
 | L2-PTA-29 | L1-08 | Cuando cada Proyecto_Tocado de la acción tiene necesidad declarada, la puerta deberá exigir la lectura de la necesidad de cada Proyecto_Tocado. | El segundo proyecto declarado y sin leer pasaba igual. | ensayo: caso 22, con mutante |
