@@ -8,10 +8,12 @@ propuesta.** Medido ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-con
 [`medir-arbol.py`](medir-arbol.py)): el arranque pesa **93 273** por sesión y **L1-01 (≤ 90 000) FALLA**, sin medidor que
 lo diga; el **libro de bolsillo no está en el arranque** (llega sólo al entrar a un proyecto, por la puerta); al entrar
 pesa más el propio proyecto que el método (arquitectura-se 119 K, BLACK 90 K); 55 de las 193 viñetas del núcleo nacieron
-en BLACK. Fran decidió (§5): **a la sesión suelta se le pregunta, en cada una, si carga el tronco**, y se anota para
-automatizar la dosis; cómo hacerle lugar lo propone la sesión (§6: enrutador corto, índice de la memoria como vista
-generada, el núcleo a T18, el techo medido en el arranque; ~93 K → ~77 K, `hipótesis`) y lo decide él después de
-comentar. L1-07 (≤ 30 K sin proyecto) es inalcanzable hoy: pasa a TBR. Rojos del arranque arreglados de paso: el mail
+en BLACK. **Fran dio vuelta el planteo** (§3): desempeño y riesgo antes que costo; nada se activa por una palabra, la
+sesión interpreta el pedido; tronco = libro + fuentes de requisitos completas en toda sesión con ingeniería de sistemas
+(en la duda también); la rama, lo del pedido en alto nivel; lo que sobra sale con su sí; un procedimiento mal planteado
+se corrige y se avisa (§4). La v1 (bajar el arranque a ~77 K) quedó descartada; la **v2** (§5: clasificación
+obligatoria por interpretación, tronco, rama por naturaleza y tema, lazo de uso, revisión del procedimiento) espera su
+OK final. L1-01 y L1-07 pasan a TBR. Rojos del arranque arreglados de paso: el mail
 de prueba del autotest declarado, la memoria espejada, la pasada de T18 (10 retiradas). Nuevo **DA-074** (la lista de lo
 que exige la puerta, cortada en la salida de la cascada) y evidencia nueva de **DA-071** (el tramo 1-329 todavía no
 entra en una lectura).

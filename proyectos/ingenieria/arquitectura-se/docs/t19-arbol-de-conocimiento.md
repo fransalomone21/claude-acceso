@@ -1,7 +1,7 @@
 # T19 — el árbol de conocimiento: tronco fijo, ramas por proyecto
 
-**2026-10-19, sesión de diseño (abierta).** Estado: **medido y con propuesta (§6); falta el comentario final de Fran**
-para decidir. Nada construido.
+**2026-10-19, sesión de diseño (abierta).** Estado: **medido; propuesta v2 (§5) escrita con el giro de Fran (§3) y sus decisiones (§4); falta su OK final**. Nada
+construido.
 
 ## 0. De dónde sale
 
@@ -75,64 +75,63 @@ sin discusión son las secciones enteras de un oficio (la GUI nativa, el emulado
    ya trae su resumen (§4): con el tronco siempre presente, la rama puede bajar por nivel (lo que se escribe: L0, L1 o
    L2) sin perder lo fundamental.
 
-## 3. Lo que decide Fran (valor, no técnica)
+## 3. El giro de Fran (2026-10-19, después de la v1)
 
-- **¿Una pregunta suelta, sin proyecto, lleva el tronco?** Si sí, L1-07 se reescribe (el techo sube a lo que pese el
-  tronco); si no, el tronco va desde que hay trabajo de proyecto.
-- **¿Cómo se le hace lugar al tronco?** Sacar del arranque lo que es de un proyecto (y que vuelva al entrar), subir el
-  techo de L1-01, o las dos.
+La v1 de la propuesta (bajar el arranque de 93 K a ~77 K moviendo ramas) **quedó descartada el mismo día**: optimizaba
+el costo, y Fran puso el costo al final. Sus palabras, resumidas sin cambiarles el sentido:
 
-Respuestas: §5, cuando lleguen.
+- **Que la arquitectura ande bien; el costo es lo que se deja holgado** y se optimiza con el uso, no de entrada («ya nos
+  pasó múltiples veces» que un diseño no anduvo de una). Se sacrifica costo a cambio de mejor planificación, desempeño y
+  menos riesgo.
+- **Nada se activa por nombrar una palabra.** «Si yo no le digo la palabra publicar, no sepas nada sobre lo que tengo en
+  el Drive»: así quedan huecos cada vez que Fran dice algo de una forma que no está registrada. **La sesión interpreta el
+  pedido** y lo clasifica (proyecto, materia, necesidad); y siempre sale con el tronco.
+- **El tronco aparece donde hay ingeniería de sistemas**; una pregunta suelta y específica que no la necesita va sin él.
+- **La rama es lo que compete al pedido, en alto nivel**: en un módulo de BLACK no se lee todo BLACK, pero sí todas sus
+  lecciones y lo que toque el tema; en la punta de Física Espacial, el Drive (seguramente haya que actualizarlo), los
+  criterios de la materia y las lecciones de cómo armar el PDF. **Leer de más** hasta que el uso diga qué sobra, y que
+  la sesión se lo diga a Fran.
+- **No pasar por arriba de un procedimiento sin preguntarse si está bien planteado.** Casos: el L0 del TP de IISE (error
+  conceptual que «no puede pasar nunca más») y el ensayo del coop de BLACK repetido cientos de veces moviendo al jugador
+  1 y recién después al 2, cuando hacía falta probar a los dos. Así se generó la arquitectura con errores: diseñando lo
+  específico mientras lo importante quedaba sin reconocer.
 
-## 4. Cómo sigue
+## 4. Las decisiones de Fran
 
-1. Con las respuestas, los requisitos de T19 (L1 y L2 del árbol), con el concepto `requisitos` leído. Dónde: el
-   documento del método ya no entra en una lectura (DA-071); el árbol se aplica a sí mismo y es candidato a partirse
-   por T-n.
-2. El trade de qué sale del arranque, con los pesos de Fran (efectividad > costo > plazo, lluvia §7).
-3. Construir de a una pieza, cada una con su saboteador: el libro al arranque; el núcleo partido por oficio (lo de un
-   oficio llega al entrar o al paso, como ya hace `al-paso.py`); el índice de la memoria partido igual.
-4. Validar con `medir-costo.py` antes y después (L1-01, L1-07) y en una sesión real de cada clase (P10).
+| Fecha | Pregunta | Respuesta |
+|---|---|---|
+| 2026-10-19 | ¿Una pregunta suelta, sin proyecto, lleva el tronco? | «Preguntámelo por cada sesión que no sea de proyecto o materia» — **reemplazada** por el giro (§3) y la fila de abajo |
+| 2026-10-19 | ¿Cómo se le hace lugar al tronco en el arranque? | «Haceme la propuesta y, después de mi comentario, lo decidimos» → v1, descartada por el giro |
+| 2026-10-19 | En la duda sobre si el pedido lleva ingeniería de sistemas | **Se carga el tronco** (que sobre) |
+| 2026-10-19 | Qué es el tronco en una sesión con ingeniería de sistemas | **El libro de bolsillo más las fuentes de requisitos completas** (GtWR, NASA apéndice C, cátedra), aunque esa sesión no escriba requisitos |
+| 2026-10-19 | Quién saca una lectura que el uso muestra que no sirvió | **Fran, con la propuesta de la sesión** (qué no se usó y por qué conviene sacarlo o activarlo distinto) |
+| 2026-10-19 | Un procedimiento heredado mal planteado para la necesidad | **La sesión lo corrige y avisa**; pregunta sólo si cambia lo que Fran ejecuta o lo que se busca |
 
-## 5. Las decisiones de Fran
+## 5. La propuesta v2 (para el OK final de Fran; nada construido)
 
-Preguntadas el 2026-10-19 (AskUserQuestion), con la medición de §1 a la vista:
+Cinco piezas, en el orden en que dependen (lo fundamental primero). Ninguna optimiza costo: el costo lo va a ir
+proponiendo el lazo de la pieza D.
 
-| Pregunta | Respuesta de Fran |
-|---|---|
-| ¿Una pregunta suelta, sin proyecto, lleva el tronco? | «Preguntámelo por cada sesión que no sea de proyecto o materia. Así vamos aprendiendo a gestionarlo y quizás automatizar la dosis de conocimientos necesaria.» |
-| ¿Cómo se le hace lugar al tronco en el arranque? | «Dedicale pensamiento a cómo gestionar esto, haceme la propuesta que se te ocurra, y después de eso y mi comentario final lo decidimos.» → §6 |
+| # | Pieza | Qué hace | Qué error evita |
+|---|---|---|---|
+| A | **La clasificación, obligatoria y por interpretación** | Al empezar, toda sesión que vaya a actuar declara qué es el pedido: `suelta`, o trabajo con ingeniería de sistemas, con proyecto o materia, naturaleza, tema y necesidad. La puerta niega actuar hasta que esté declarada, **en toda sesión**, no sólo cuando una palabra infiere un proyecto. Las señales por palabra pasan a ser un **control cruzado**: si la sesión dijo `suelta` y el pedido nombra un proyecto, o la acción toca su carpeta, o se escribe un requisito, la puerta pide reclasificar. En la duda, la clase más pesada | los huecos por cómo se dijo algo; el disparo por palabra (DA-056, DA-072) |
+| B | **El tronco, en toda sesión con ingeniería de sistemas** | El libro de bolsillo **más** las fuentes de requisitos y del alcance completas (las reglas del GtWR, el apéndice C de NASA, los ejemplares de NASA Level 1, la cátedra M17-M21, la ficha del alcance), exigidas al declarar la clase, antes de la primera acción. Los disparos por título de sección de hoy quedan como red de abajo para la sesión que se clasificó `suelta` y termina escribiendo un requisito | el L0 del TP (un error conceptual con los libros en el repo) |
+| C | **La rama: la naturaleza y el tema del pedido, en alto nivel** | Cada naturaleza trae lo que le compete siempre, sin palabra: una **materia**, sus criterios de cátedra, el estado de su Drive (lo publicado y lo que falta subir), sus contenidos mínimos y las lecciones de PDF y Typst; un **proyecto de ingeniería**, todas sus lecciones, su programa o PDP y el documento del **tema** que se toca (no todos). Cada proyecto grande tiene un mapa de temas con sus lecturas, que arma la sesión desde sus documentos y se muestra a Fran | «no sabías lo del Drive porque no dije publicar»; leer todo BLACK para un módulo |
+| D | **El lazo de uso** | Al cerrar, la sesión dice qué lecturas usó para decidir y cuáles no; una herramienta lo acumula por clase de sesión. Lo que no se usó en varias sesiones de la misma clase le llega a Fran como propuesta (sacarlo o activarlo distinto); sale sólo con su sí. Límite declarado: es lo que la sesión dice de sí misma, el sensor más débil (DA-043); se mejora con el uso | leer de más para siempre, sin que nadie lo revise |
+| E | **El procedimiento se revisa antes de correrlo** | Quinta pregunta del libro (§7), en el tronco: «¿este procedimiento produce lo que la necesidad pide?» (el ensayo del coop prueba a los dos jugadores a la vez, no a uno y después al otro). Mal planteado: se corrige y se avisa; se pregunta sólo si cambia lo que Fran ejecuta o lo que se busca. Y la auditoría lo pregunta al cerrar | los ensayos repetidos sobre un planteo equivocado |
 
-## 6. La propuesta (para el comentario de Fran; nada construido)
+**Lo que cambia en los requisitos:** una necesidad nueva de Fran (interpretar el pedido y llegar con el conocimiento de
+su naturaleza, sin depender de una palabra; el tronco siempre que haya ingeniería de sistemas); L1-01 y L1-07 dejan de
+ser techos y pasan a TBR, como metas que el lazo D va a ir fijando; L1-08 se reescribe (la lectura sale de la
+clasificación de la sesión, no de la palabra).
 
-**Lo que cambia el planteo.** Con la respuesta 1, el tronco **no necesita lugar en el arranque**: a toda sesión de
-proyecto o de materia ya le llega primero, por la puerta, antes de la primera acción (§1); a las demás se le pregunta a
-Fran. Lo que sí está mal es el arranque mismo: **93 K contra un techo de 90 K, sin nadie que lo mida**, y cargado de ramas
-que paga toda sesión. La propuesta mueve cada rama al momento en que se usa, sin sacar nada del tronco y sin reglas nuevas
-(cada movimiento aplica una que ya existe).
+**Lo que queda igual:** la puerta como freno (falla cerrado), la Mención, el retiro del núcleo por uso (T18) y lo que ya
+llega al paso (`al-paso.py`).
 
-| # | Qué | Cómo | Ahorro por sesión | Regla que ya lo pedía |
-|---|---|---|---|---|
-| 1 | **La sesión suelta pregunta el tronco** | El recordatorio de la puerta, cuando el pedido no infiere proyecto, le dice a la sesión que le pregunte a Fran si carga el libro. Se anota la **clase** de pregunta (nunca el texto: el repo es público), si se cargó y, al cerrar, si hizo falta. Con ~10 sesiones hay datos para automatizar la dosis por clase | 0 (agrega una pregunta) | la respuesta 1; Meadows: la regla sale del dato medido |
-| 2 | **El enrutador se queda con lo que enruta** | Drive, los frenos, las cuatro reglas de la estructura y «dónde está el resto» (~6,5 K) pasan a un archivo que la cascada exige al declarar `publicar` o `metodo`; quedan la cascada, las tablas de proyectos y el aviso de repo público | ~6 K | T12 (el enrutador como vista corta), que creció de 12 K a 17 K |
-| 3 | **El índice de la memoria pasa a vista generada** | Cada memoria declara su proyecto en el encabezado; el índice se genera: las generales enteras, las de un proyecto (BLACK, telescopio, la MSI, Male, juegos: ~17 de 61) en una línea por proyecto, y la cascada las exige al entrar a ese proyecto | ~4 K | la tabla de memorias del perfil (los hechos de un proyecto van a su proyecto) y T20 (una copia es vista generada) |
-| 4 | **El núcleo no se toca a mano** | T18 ya lo poda solo por uso real: quedan 50 viñetas vencidas, de a 10 por sesión auditada. Las secciones de un oficio (freno, fan-out, GUI) ya llegan al paso con el caso entero (`al-paso.py`) | ~6 K en ~5 sesiones | T18 (L1-17) |
-| 5 | **El techo, a la vista** | El total del arranque contra L1-01 en el tablero de cada arranque, con su saboteador: si pasa de 90 K, rojo, y se decide qué rama se mueve. Hoy nadie lo mide: por eso pasó de 78 K a 93 K sin aviso | 0 (es el lazo que faltaba) | regla 3 y la viñeta «un medidor que informa el valor sin el umbral da OK sobre el defecto»; DA-041 |
+**Costo, dicho una vez:** una sesión de ingeniería va a leer bastante más que hoy (el tronco con sus fuentes es varias
+veces el libro solo). Es lo que Fran eligió: que sobre, y que el uso diga qué se saca.
 
-**Resultado esperado** (`hipótesis`, por suma de lo medido): el arranque de **93 K a ~77 K**, con el tronco entero en
-toda sesión de proyecto o materia y preguntado en las demás.
-
-**Lo que no propongo, y por qué:**
-- **Subir el techo de L1-01**: no hace falta, porque el tronco no ocupa el arranque.
-- **Sacar a mano las 55 viñetas nacidas en BLACK**: la mayoría son reglas generales de medición nacidas ahí;
-  clasificarlas a ojo es inventar el criterio. T18 las saca por uso medido.
-- **Poner el libro en el arranque de toda sesión**: duplicaría lo que la puerta ya exige al entrar (17,6 K dos veces) y
-  contradice la respuesta 1.
-
-**Un requisito que hay que reescribir:** L1-07 (pregunta sin proyecto ≤ 30 000) es inalcanzable hoy: lo que el harness
-carga solo (perfil, enrutador, índice de la memoria) ya son ~42 K, ~32 K después de 2 y 3. Pasa a TBR con el valor que
-salga del registro de la pieza 1.
-
-**Costo estimado:** requisitos de T19 y diseño fino, 1 sesión; construcción (2, 3, 5 y 1), 1-2 sesiones; validar con
-`medir-costo.py` antes y después y una sesión real de cada clase. **Total: 2-3 sesiones** (`hipótesis`, por lo que
-costaron T15-T18).
+**Orden y estimación** (`hipótesis`, por lo que costaron T15-T18): A y B, 1-2 sesiones; E, en la misma (es una regla
+del libro y una pregunta de la auditoría); C, 1-2 sesiones, más el mapa de temas de cada proyecto grande la primera
+vez que se entra; D, 1 sesión. Validación (P10): una sesión real de cada clase (una materia, un módulo de BLACK, el
+telescopio, una suelta) con la auditoría diciendo si la clasificación, el tronco y la rama fueron los correctos.

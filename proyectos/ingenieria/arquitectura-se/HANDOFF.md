@@ -1,11 +1,11 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
-> **2026-10-19 (sesión `cfe21436`, abierta esperando a Fran) — SIGUE: el comentario final de Fran sobre la propuesta del
-> árbol** ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §6), y con eso los requisitos de T19
-> (L1/L2, con el concepto `requisitos` leído; L1-07 pasa a TBR) y la construcción de a una pieza. **Para el que siga:**
-> (1) la medición se repite con `python medir-arbol.py` y `python medir-costo.py --ultimas 3` (antes y después de cada
-> pieza); (2) la decisión de Fran ya tomada: **sesión suelta → preguntarle si carga el tronco**, anotando la clase de
-> pregunta (nunca el texto) y si hizo falta; (3) **DA-071 sigue mordiendo**: el tramo 1-329 de `10-requisitos.md` es el
+> **2026-10-19 (sesión `cfe21436`, abierta esperando a Fran) — SIGUE: el OK final de Fran sobre la propuesta v2 del
+> árbol** ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §5), y con eso los requisitos de T19
+> (una necesidad nueva, L1-01/L1-07 a TBR, L1-08 reescrito; con el concepto `requisitos` leído) y la construcción en el
+> orden A, B, E, C, D. **Para el que siga:** (1) la medición se repite con `python medir-arbol.py` y `python
+> medir-costo.py --ultimas 3`, pero el costo ya no decide (§3: desempeño y riesgo primero); (2) las decisiones de Fran
+> están en §4 (la de «preguntar en cada sesión suelta» quedó reemplazada); (3) **DA-071 sigue mordiendo**: el tramo 1-329 de `10-requisitos.md` es el
 > mismo caso de 25 949 tokens y el Read lo rechaza; se lee en dos mitades (1-165, 166-329) y la puerta lo acepta; (4)
 > **DA-074** nuevo: si la salida de la cascada sale cortada, la lista entera llega en la negación de la puerta, no se
 > vuelve a correr la cascada; (5) rojos que quedan del arranque, ninguno de esta sesión: las lecciones **70 y 230**
