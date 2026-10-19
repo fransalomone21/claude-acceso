@@ -47,6 +47,8 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 ## 4. Las fases
 
+**Fase 9 — PROPUESTA, sin abrir (Fran, 2026-10-19, SUMAMENTE IMPORTANTE):** «cómo se escribe el alcance», con evidencia de la práctica (NASA) marcada aparte de lo de la cátedra. Qué entra y las fuentes: `HANDOFF.md`, primera entrada. Criterio de salida a escribir al abrirla.
+
 **Fase en curso:** ninguna — la 8 (resumen para el parcialito del 14/10) cerró el 2026-10-14. Mantenimiento (tipo: **Fase E**): si llega la clase 11, un parcialito nuevo u otro pedido de resumen, se abre la fase 9 con su criterio escrito antes de empezar.
 
 ### Fase 0 — Material asegurado en el repo ✅ CERRADA (2026-09-20)

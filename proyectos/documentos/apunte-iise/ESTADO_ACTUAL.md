@@ -1,5 +1,16 @@
 # ESTADO ACTUAL — Apunte de IISE
 
+**PENDIENTE, SUMAMENTE IMPORTANTE (Fran, 2026-10-19) — fase 9 propuesta, sin
+abrir: «cómo se escribe el alcance», con evidencia de la práctica.** Fran le
+va a dedicar una sesión. Qué entra, por qué, y con qué fuentes está en
+`HANDOFF.md` (primera entrada) y en `PDP.md` §4 (fase 9). Resumen: cada
+elemento del alcance es **un enunciado corto y, aparte, su justificación**
+(el contexto no es la necesidad); objetivos medibles con criterios de éxito
+(misión completa y mínima, como NASA); hipótesis = supuesto. Con documentos
+reales de NASA (SEH p. 48-49; requerimientos de nivel 1 de TESS y Psyche;
+Leisner), **marcado aparte como evidencia de la práctica**, no como lo que
+dijo la cátedra.
+
 **2026-10-14 — Fase 8 CERRADA: resumen para el parcialito del 14/10.**
 `resumenes/resumen-clases-8-9.pdf` (12 pág.): la clase 8 hasta el LDCM (WBS,
 red y camino crítico con el té, Gantt, estimaciones y costos, _baselines_,

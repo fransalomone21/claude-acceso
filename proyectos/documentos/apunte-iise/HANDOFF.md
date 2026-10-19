@@ -1,5 +1,50 @@
 # HANDOFF — Apunte de IISE
 
+## PENDIENTE (2026-10-19, SUMAMENTE IMPORTANTE) — cómo se escribe el alcance, con evidencia de la práctica
+
+**Pedido de Fran:** registrar en el apunte, «con más evidencia que la de la
+cátedra (de la práctica)», cómo se escriben la necesidad, las metas, los
+objetivos y el resto del Ejercicio de Alcance. Lo va a hacer en otra sesión;
+abrir la **fase 9** del PDP con su criterio escrito antes de tocar un módulo.
+
+**Lo que hay que agregar** (todo ya investigado y con fuente, ver abajo):
+
+1. **La regla de forma:** un enunciado corto por elemento y, aparte, su
+   justificación; el contexto no es la necesidad. Respaldo de la cátedra: los
+   ejemplos de Apollo (M17), CEV (M18) y Marte (M20) son una línea por
+   elemento. Respaldo de la práctica: NASA SEH rev. 2, p. 48-49 (*need = a
+   single statement… related to the problem, not the solution*; *rationale*
+   aparte).
+2. **Una sola necesidad**, sin nombrar la solución (SEH p. 49: dos necesidades
+   obligan a un trade-off).
+3. **Metas vs. objetivos:** metas con verbos de progreso; objetivos
+   específicos, medibles, alcanzables y orientados al resultado, con verbos de
+   completitud («determinar»); TBD permitido (SEH p. 49; Leisner); los tres
+   tipos de objetivo (caracterización, prueba de hipótesis, analítico).
+4. **Criterios de éxito:** misión completa (*baseline*) y mínima
+   (*threshold*), como en los requerimientos de nivel 1 de TESS (2014).
+5. **Hipótesis = supuesto** (ya está en M18; reforzarlo: catedras IIS-52).
+6. **La autoridad en la práctica:** quién responde por la ciencia y quién
+   tiene la autoridad técnica (TESS: el PI y Goddard).
+7. **Un ejemplo completo nuevo**, si sirve: el alcance del TP final (CubeSat
+   de radiación para la AMAS), que ya está escrito con este molde.
+8. **El orden de la cadena:** la consigna del TP pone *hipótesis → misión* y
+   el apunte (M18) *misión → hipótesis*; decir cuál y por qué.
+
+**Cómo marcarlo:** lo de NASA va como evidencia de la práctica, separado de lo
+que dijo la cátedra (memoria `feedback_apuntes-materia`: la mejora se marca
+aparte). Dónde: probablemente una sección nueva al final de M18 o de M20;
+decidirlo al abrir la fase.
+
+**Fuentes, ya bajadas** en `C:\Users\frans\Desktop\01 - UNSAM\IISE\Trabajo Final\Fuentes\`:
+`NASA - Systems Engineering Handbook rev 2 (2016).pdf`,
+`NASA - TESS requerimientos de nivel 1 (2014).pdf`,
+`NASA - Psyche requerimientos de nivel 1 (2020).pdf`,
+`NASA - Writing Level 1 Requirements (Leisner).pdf`. Biblioteca pública:
+<https://soma.larc.nasa.gov/stp/dynamic/programlibrary.html>. El destilado
+ya hecho: `perfil-global/pilares/alcance-como-se-escribe.md` y
+`perfil-global/pilares/nasa-seh/stakeholders.md` §3.11-3.13.
+
 ## Sesión 2026-10-14 — fase 8: resumen para el parcialito de hoy
 
 **Hecho:** `resumenes/resumen-clases-8-9.typ` → PDF de 12 páginas, publicado
