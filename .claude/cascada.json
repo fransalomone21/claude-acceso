@@ -16,6 +16,7 @@
   "necesidades": {
     "materia": {
       "que": "producir algo para una materia o una clase: apunte, guia, TP, informe, hoja de formulas, modelo de parcial, clase particular",
+      "al_tocar": ["alcance"],
       "herramientas": ["/pdf-con-codigo (Typst; el render se MIRA)", "catedras/verificar-criterios.py", "publicar-apuntes.ps1 -Verificar (MD5)", "respaldo: el PDF anterior en Drive; nada se pisa sin la version previa"],
       "leer": [
         {"ruta": "proyectos/documentos/catedras/CLAUDE.md", "por": "lo que pide cada profesor: se lee ANTES de producir"},
@@ -42,6 +43,7 @@
     },
     "diseno": {
       "que": "decidir o disenar algo antes de construirlo: una arquitectura, un mod, un plan, elegir entre alternativas, escribir requisitos",
+      "al_tocar": ["alcance"],
       "herramientas": ["/spec-interview y /verify-before-build", "verificar-requisito.py --idioma es (GtWR)", "cada commit de diseno cita los IDs de requisito que cumple (N-01, L1-01, L2-PLT-01) y toca UN solo proyecto: cada proyecto tiene su espacio de IDs y la auditoria da ROJO si el commit cita los del otro", "al cerrar: python auditar-sesion.py --de-fran 'que | evidencia' --escribir", "trade study con pesos de Fran (nunca de la sesion)", "respaldo: el diseno escrito en el repo antes de tocar nada vivo"],
       "leer": [
         {"ruta": "proyectos/ingenieria/arquitectura-se/CLAUDE.md", "desde": "^## Qu. leer", "hasta": "^## ", "por": "el indice de las fichas NASA / INCOSE / Rechtin segun la tarea"},
@@ -89,6 +91,7 @@
     },
     "lluvia-de-ideas": {
       "que": "MOMENTO LLUVIA DE IDEAS (Fran, 2026-10-12): frenar la ejecucion de un proyecto grande, mirarlo desde arriba y redireccionarlo hacia las decisiones creativas ganadoras, de lo fundamental a lo especifico, buscando afuera lo que otros ya resolvieron. Lo dispara cascada.ps1 (lluvia-de-ideas.py: sesiones auditadas desde la ultima, contra el 'lluvia' del proyecto), un cambio de fase, algo que cuesta mucho mas de lo que deberia, o Fran",
+      "al_tocar": ["alcance"],
       "herramientas": ["/lluvia-de-ideas (el procedimiento y el molde del documento)", "WebSearch con amplitud (extended para lo nicho): sistemas heredados y analogos, otros proyectos que ya resolvieron lo mismo, cada uno con su fuente y su grado", "Grep del repo entero: lo que ya resolvio otro proyecto de la casa", "python lluvia-de-ideas.py aviso <proyecto> | --autotest | --sabotaje", "las decisiones de valor a Fran (2 o 3 preguntas); su respuesta al PDP (KDP) y a memoria", "respaldo: en la lluvia no se toca el producto; se escribe <proy>/docs/<n>-lluvia-de-ideas-AAAA-MM-DD.md y nada mas"],
       "leer": [
         {"ruta": "~/.claude/skills/lluvia-de-ideas/SKILL.md", "por": "el procedimiento, de lo fundamental a lo especifico, y el molde del documento"},
@@ -115,6 +118,20 @@
         {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m21-escribir-buenos-requerimientos.typ", "por": "la catedra (IISE): SMART, QUIEN debera QUE, checklist, TBD/TBR, rationale, metodo de verificacion"},
         {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m17-familia-de-requerimientos-y-trazabilidad.typ", "desde": "^== La sem", "hasta": "^== Interfaces", "por": "la catedra: shall/will/should, los seis tipos, niveles L0-L6, padres e hijos, asignados y derivados"},
         {"ruta": "perfil-global/pilares/nasa-seh/requisitos.md", "desde": "^## 5\\. Actividad", "hasta": "^## 15\\.", "por": "NASA: tipos, flowdown, metadata, rationale, validacion en seis pasos, MOP/TPM, linea base"}
+      ]
+    },
+    "alcance": {
+      "que": "escribir el alcance (necesidad, metas, objetivos) en cualquier proyecto, materia incluida: la forma se copia de ejemplares reales (DA-064, 2026-10-19: la necesidad del TP de IISE salio dos veces mal con el SEH destilado en el repo)",
+      "_disparo": "por el ROL del texto, no por una palabra (L2-PTA-20..23): un titulo de seccion del alcance que el Write trae, que el Edit trae, o que ENCIERRA el texto viejo del Edit. Solo en documentos (.md con '#', .typ con '='); la prosa que nombra 'la necesidad' no dispara. En un PDP.md, tambien sus secciones 1 (el problema) y 2 (que NO es).",
+      "secciones": [
+        {"titulo": "(?i)^((la|el|las|los|the)\\s+)?(necesidad(es)?|metas?|objetivos?|alcance|needs?|goals?|objectives?|ngos?)\\b"},
+        {"titulo": "(?i)^(el problema|qu[eé] no es)\\b", "archivo": "(?i)(^|[/\\\\])PDP\\.md$"}
+      ],
+      "leer": [
+        {"ruta": "perfil-global/pilares/alcance-como-se-escribe.md", "por": "la forma, medida en ejemplares (catedra, SEH, JWST, TESS): la necesidad es UNA frase y nada mas"},
+        {"ruta": "perfil-global/pilares/nasa-seh/stakeholders.md", "desde": "^### 3\\.11 ", "hasta": "^### 3\\.14 ", "por": "NASA SEH p. 48-49: NGO, need = a single statement, los cuatro criterios de un objetivo"},
+        {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m18-verificacion-validacion-y-alcance.typ", "desde": "^== Los elementos del alcance", "hasta": "(?!)", "por": "la catedra: los elementos del alcance en cadena, el ConOps y el CEV entero"},
+        {"ruta": "proyectos/documentos/apunte-iise/apunte/modulos/m20-el-alcance-en-la-practica.typ", "desde": "^== El Ejercicio de Alcance", "hasta": "^== Seis Conceptos", "por": "la catedra: el Ejercicio de Alcance de Marte, de la necesidad a la mision"}
       ]
     },
     "typst": {

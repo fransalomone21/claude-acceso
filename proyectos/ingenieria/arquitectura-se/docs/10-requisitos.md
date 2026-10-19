@@ -297,3 +297,32 @@ el cuadro; un freno con impacto escrito nunca sale solo. Términos definidos (R4
 | L2-NUC-01 | L1-17 | El generador del Núcleo deberá omitir cada Viñeta_Retirada. | El Núcleo es una vista del Chequeo_De_Trabajo (T20): el retiro cambia la vista, nunca la fuente. | ensayo: autotest de `retiro.py` sobre el generador real |
 | L2-NUC-02 | L1-17 | Cuando el Núcleo omite una Viñeta_Retirada, el generador del Núcleo deberá imprimir en el Núcleo la cuenta de Viñeta_Retirada Y el comando de la lista de Viñeta_Retirada. | La sesión sabe que hay reglas fuera del núcleo y cómo llegar: el retiro no las borra de la vista de nadie. | ensayo: autotest |
 | L2-NUC-03 | L1-17 | Cuando el Registro_De_Retiro es ilegible, el generador del Núcleo deberá terminar con un código distinto de 0. | Falla ruidoso: ignorar el registro roto devolvería en silencio todo lo retirado, y descartarlo entero ocultaría el defecto. `install.ps1` y `nucleo-chequeo.py --verificar` lo muestran en rojo. | ensayo: autotest |
+
+## 11. Nivel 2 — el concepto `alcance` de la puerta (DA-064)
+
+Elementos: **PTA** la puerta (`cascada_puerta.py`, hook), **VER** su verificador (`--verificar`) y **CAS** la cascada
+(`cascada.ps1`). Diseño: `docs/da064-concepto-alcance.md`. Los padres son un L0 y un L1 nuevos: hasta el 2026-10-19 la
+puerta llevaba los libros al momento de escribir un requisito (concepto `requisitos`, 2026-10-07) y no al de escribir
+el alcance, que es el producto anterior de la cadena (`nucleo-ise.md` §3b). Términos definidos (R4):
+
+- **Título_De_Alcance**: una línea de título de Markdown (`#`) o de Typst (`=`) cuyo texto, sin la numeración ni el
+  artículo, empieza con necesidad, meta, objetivo, alcance, need, goal, objective o NGO; en un archivo `PDP.md`,
+  también el título «El problema» y el título «Qué NO es».
+- **Sección_De_Alcance**: las líneas de un archivo entre un Título_De_Alcance y el título siguiente.
+- **Escritura_De_Alcance**: un Write cuyo contenido trae un Título_De_Alcance, un Edit cuyo texto viejo o nuevo trae
+  un Título_De_Alcance, o un Edit cuyo texto viejo cae en una Sección_De_Alcance del archivo editado.
+- **Lecturas_De_Alcance**: la ficha `perfil-global/pilares/alcance-como-se-escribe.md`, las secciones 3.11 a 3.13 de
+  `perfil-global/pilares/nasa-seh/stakeholders.md` (SEH p. 48-49) y, del apunte de IISE, los elementos del alcance
+  con el CEV (m18) y el Ejercicio de Alcance de Marte (m20).
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L0-09 | N-01 | El método deberá exigir la lectura de los ejemplares de la forma del alcance Y de los requisitos antes de que la sesión escriba cada uno. | La forma de un tipo de documento se copia de ejemplares reales, no se deduce de su definición (`chequeo-de-trabajo.md`, viñeta del 2026-10-19). Para los requisitos ya lo hacía el concepto `requisitos`. | inspección: los conceptos de `.claude/cascada.json` |
+| L1-19 | L0-09 | Cuando la sesión hace una Escritura_De_Alcance, la puerta deberá exigir las Lecturas_De_Alcance. | DA-064 (2026-10-18/19, TP final de IISE): con el SEH destilado desde hace meses, la necesidad salió como tres párrafos de contexto y después con un rótulo «Justificación» inventado; ningún concepto exigía `stakeholders.md`. El disparador es el ROL del texto (el título de una sección del alcance), no una palabra del pedido ni una necesidad declarada (insumo NASA por etiqueta): un proyecto de materia escribe un alcance igual que uno de ingeniería, y N-09 lo deja fuera del freno por fase. | ensayo: caso 20 del autotest de la puerta |
+| L2-PTA-20 | L1-19 | Cuando el contenido de un Write trae un Título_De_Alcance, la puerta deberá exigir las Lecturas_De_Alcance. | Escribir el documento entero: la sección 1 de un informe, un PDP nuevo, un documento de requisitos con sus necesidades. | ensayo: caso 20 del autotest, con mutante |
+| L2-PTA-21 | L1-19 | Cuando el texto viejo de un Edit cae en una Sección_De_Alcance del archivo editado, la puerta deberá exigir las Lecturas_De_Alcance. | El caso de DA-064: reescribir la frase de la necesidad sin tocar su título (de la v02 a la v03). El título que encierra el texto se busca en el archivo, porque el Edit no lo trae. | ensayo: caso 20 del autotest, con mutante |
+| L2-PTA-22 | L1-19 | Cuando el texto viejo O el texto nuevo de un Edit trae un Título_De_Alcance, la puerta deberá exigir las Lecturas_De_Alcance. | Agregar, renombrar o borrar una sección del alcance. | ensayo: caso 20 del autotest |
+| L2-PTA-23 | L1-19 | Cuando una acción sobre un archivo difiere de cada Escritura_De_Alcance, la puerta deberá permitir la acción sin las Lecturas_De_Alcance. | El control positivo contra el disparo por palabra: la prosa que nombra «la necesidad» o «los objetivos» no escribe un alcance. Un guardia por patrón de texto frena también el texto que sólo habla de lo protegido, y un freno con falsos positivos se termina sacando (Saltzer, aceptabilidad psicológica). Medido el 2026-10-19 sobre lo trackeado (fuera de los `PDP.md`): 12 títulos caen en la definición y 7 son alcances de verdad; los otros 5 son tres definiciones del glosario de IISE, el objetivo de una sesión en un HANDOFF y el alcance temático de una guía, y cuestan una lectura por sesión, no un freno permanente. | ensayo: caso 20 del autotest |
+| L2-VER-04 | L1-19 | Cuando el patrón de cada título de un concepto del catálogo falla al compilar, el verificador del catálogo deberá dar ROJO. | Un patrón roto hace reventar la puerta en cada Edit y el lanzador niega todo menos la reparación: se tiene que ver en el arranque, no a mitad de sesión. | ensayo: saboteador `probar-da064.py` |
+| L2-CAS-03 | L1-19 | Cuando la sesión declara la necesidad diseno, materia O lluvia-de-ideas, la cascada deberá imprimir las Lecturas_De_Alcance. | DA-058: lo que la puerta va a exigir se imprime al declarar; si lo nombra recién la primera negación, las ediciones en paralelo se niegan todas. Son las tres necesidades que escriben un alcance (el PDP y los requisitos, el informe de una materia, la meta de una lluvia de ideas). | demostración: `cascada.ps1 telescopio -Necesidad diseno` |
+| L2-CAS-04 | L1-19 | Cuando el Documento_De_Requisitos del proyecto declarado trae un Título_De_Alcance, la cascada deberá imprimir las Lecturas_De_Alcance junto al concepto del Documento_De_Requisitos. | Las necesidades (N-xx) viven en el documento de requisitos de arquitectura-se y del telescopio: editar esa sección es escribir un alcance. | demostración: `cascada.ps1 arquitectura-se -Necesidad metodo` |

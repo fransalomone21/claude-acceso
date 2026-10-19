@@ -153,6 +153,10 @@ $saboteadores = @(
     # T18: el autotest de retiro.py (25+ casos sobre el chequeo real, git y transcripts sinteticos) y 12 mutantes de
     # retiro.py y nucleo-chequeo.py, cada uno visto en su caso. ~90 s.
     @{ nombre = 'el metodo retira (T18)';         cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t18.py' }
+    # DA-064: el concepto alcance sobre el catalogo y los artefactos REALES (el informe del TP, el PDP, los
+    # requisitos), el verificador con un patron roto y el mutante sin 'secciones'. Los sinteticos y sus 5 mutantes,
+    # en el autotest de la puerta (caso 20).
+    @{ nombre = 'el libro al escribir el alcance (DA-064)'; cmd = 'python proyectos\ingenieria\arquitectura-se\probar-da064.py' }
 )
 
 function Correr($lista, $titulo) {

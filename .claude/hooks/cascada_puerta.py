@@ -339,15 +339,87 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
     return unicos, comandos, notas
 
 
+# DA-064 (L2-PTA-20..23): un concepto dispara tambien por el ROL del texto que se escribe -- el titulo de la seccion --,
+# no por una palabra. 'secciones' es una lista de {titulo: regex sobre el texto del titulo sin la numeracion; archivo:
+# regex opcional de la ruta}. Write: los titulos del contenido. Edit: los del texto viejo y del nuevo, y el titulo que
+# ENCIERRA el texto viejo en el archivo (reescribir la frase de la necesidad sin tocar su titulo es el caso que lo
+# origino, 2026-10-19). La prosa que nombra 'la necesidad' no es un titulo y no dispara. Los titulos se leen solo en
+# documentos (Markdown '#', Typst '='): en un .py, '# objetivo: ...' es un comentario, y adentro de un bloque de
+# codigo de un .md tambien.
+TITULO_DE = {".md": re.compile(r"^ {0,3}#{1,6}\s+(.+?)[\s#]*$"), ".markdown": re.compile(r"^ {0,3}#{1,6}\s+(.+?)[\s#]*$"),
+             ".typ": re.compile(r"^\s*=+\s+(.+?)\s*$")}
+NUMERACION = re.compile(r"^\d+[a-z]?(\.\d+[a-z]?)*\.?\s+")   # '1.1.', '3.', '3b.' (el libro de bolsillo numera asi)
+VALLA = re.compile(r"^ {0,3}(```|~~~)")
+
+
+def titulos_de(texto: str, ext: str):
+    """[(indice de linea, texto del titulo sin numeracion)], salteando los bloques de codigo."""
+    pat, out, en_valla = TITULO_DE.get(ext), [], False
+    if pat is None:
+        return out
+    for i, l in enumerate(texto.splitlines()):
+        if VALLA.match(l):
+            en_valla = not en_valla
+            continue
+        m = None if en_valla else pat.match(l)
+        if m:
+            out.append((i, NUMERACION.sub("", m.group(1).strip())))
+    return out
+
+
+def titulos_tocados(tool: str, inp: dict, arch: str):
+    """Los titulos que la accion escribe o dentro de los que escribe (DA-064)."""
+    ext = os.path.splitext(arch)[1].lower()
+    if ext not in TITULO_DE:
+        return []
+    if tool == "Write":
+        return [t for _, t in titulos_de(str(inp.get("content", "")), ext)]
+    if tool != "Edit":
+        return []
+    viejo = str(inp.get("old_string", ""))
+    out = [t for _, t in titulos_de(viejo, ext) + titulos_de(str(inp.get("new_string", "")), ext)]
+    try:
+        p = Path(arch)
+        texto = p.read_text(encoding="utf-8", errors="replace") if viejo and p.stat().st_size < 5_000_000 else ""
+    except OSError:
+        texto = ""   # un Edit sobre un archivo que no se lee falla solo: no hay seccion que mirar
+    if texto:
+        tits = titulos_de(texto, ext)
+        poss = ([m.start() for m in re.finditer(re.escape(viejo), texto)] if inp.get("replace_all")
+                else [texto.find(viejo)])
+        for pos in poss:
+            if pos < 0:
+                continue
+            linea = texto.count("\n", 0, pos)
+            encierra = [t for i, t in tits if i <= linea]
+            if encierra:
+                out.append(encierra[-1])
+    return out
+
+
+def escribe_seccion(secciones, arch: str, titulos) -> bool:
+    for s in secciones:
+        if s.get("archivo") and not re.search(s["archivo"], arch):
+            continue
+        if any(re.search(s["titulo"], t) for t in titulos):
+            return True
+    return False
+
+
 def conceptos_de(cat: dict, tool: str, inp: dict):
     cmd = str(inp.get("command", "")) if tool in ("Bash", "PowerShell") else ""
     arch = str(inp.get("file_path", inp.get("notebook_path", ""))) if tool in ("Edit", "Write", "NotebookEdit") else ""
-    out = []
+    out, tits = [], None
     for nombre, cd in cat.get("conceptos", {}).items():
         if cmd and cd.get("comando") and re.search(cd["comando"], cmd):
             out.append(nombre)
         elif arch and cd.get("archivo") and re.search(cd["archivo"], arch):
             out.append(nombre)
+        elif arch and cd.get("secciones"):
+            if tits is None:
+                tits = titulos_tocados(tool, inp, arch)
+            if escribe_seccion(cd["secciones"], arch, tits):
+                out.append(nombre)
     return out
 
 
@@ -1003,12 +1075,26 @@ def cli_exige(proyecto: str, necs) -> int:
     # y recien lo nombraba la primera negacion. Se imprime con rangos, como la base, para leerlo ANTES de editar.
     req = (ent or {}).get("requisitos")
     cs = conceptos_de(cat, "Edit", {"file_path": req}) if req else []
+    impresos = set(cs)
     if cs:
         citems, _, _ = exigido(cat, None, [], cs)
         print("  AL EDITAR %s la puerta exige ADEMAS (concepto %s) -- leer antes de la primera edicion, y la primera "
               "edicion SOLA (una negada en paralelo son N negadas):" % (req, ", ".join(cs)))
         for x in citems:
             print("    %-62s %5d-%-5d %s" % (rel(x["ver"])[-62:], x["a"], x["b"], x["por"][:60]))
+    # DA-064 (L2-CAS-04): las necesidades (N-xx) viven en el documento de requisitos; editar esa seccion es escribir un
+    # alcance, y el concepto que dispara por la SECCION se imprime aparte, porque no vale para todo el documento.
+    pr = (proyectos_del_disco().get(p) or Path(".")) / req if req else None
+    if pr is not None and pr.exists():
+        cs2 = [c for c in conceptos_de(cat, "Write", {"file_path": str(pr), "content": pr.read_text(
+            encoding="utf-8", errors="replace")}) if c not in impresos]
+        if cs2:
+            impresos.update(cs2)
+            citems, _, _ = exigido(cat, None, [], cs2)
+            print("  AL EDITAR las secciones de alcance de %s (necesidades, metas, objetivos) la puerta exige ADEMAS "
+                  "(concepto %s):" % (req, ", ".join(cs2)))
+            for x in citems:
+                print("    %-62s %5d-%-5d %s" % (rel(x["ver"])[-62:], x["a"], x["b"], x["por"][:60]))
     # DA-058 (T15, recurrencia de la leccion 351 registrada con 'aprender.py repite'): lo mismo para los conceptos que
     # la NECESIDAD declarada va a tocar ('al_tocar' en el catalogo). Medido: 'metodo' edita frenos (hooks, guardias,
     # chequeo-completo) y el concepto freno lo nombraba recien la primera negacion -- tres en paralelo el 2026-10-16.
@@ -1018,6 +1104,9 @@ def cli_exige(proyecto: str, necs) -> int:
             if cd is None:
                 print("  ! la necesidad %s declara al_tocar '%s', que no es un concepto del catalogo" % (n, c))
                 continue
+            if c in impresos:   # dos necesidades con el mismo al_tocar, o ya impreso con los requisitos
+                continue
+            impresos.add(c)
             citems, _, _ = exigido(cat, None, [], [c])
             print("  AL TOCAR %s (necesidad %s) la puerta exige ADEMAS (concepto %s) -- leer antes de la primera "
                   "accion, y la primera accion SOLA:" % (cd.get("que", c)[:70], n, c))
@@ -1097,12 +1186,18 @@ def cli_verificar() -> int:
             if not (loc.startswith("~") or os.path.isabs(loc)):
                 rojos.append("%s: carpeta local que no es absoluta ni empieza con ~: %s" % (n, loc))
     for nombre, cd in cat.get("conceptos", {}).items():
-        for k in ("comando", "archivo"):
-            if cd.get(k):
-                try:
-                    re.compile(cd[k])
-                except re.error as e:
-                    rojos.append("concepto %s: regex %s rota (%s)" % (nombre, k, e))
+        pats = [(k, cd[k]) for k in ("comando", "archivo") if cd.get(k)]
+        # DA-064 (L2-VER-04): un patron de titulo roto hace reventar la puerta en cada Edit: se ve aca, en el arranque
+        for j, s in enumerate(cd.get("secciones", [])):
+            if not isinstance(s, dict) or not s.get("titulo"):
+                rojos.append("concepto %s: la seccion %d no trae 'titulo'" % (nombre, j))
+                continue
+            pats += [("secciones[%d].%s" % (j, k), s[k]) for k in ("titulo", "archivo") if s.get(k)]
+        for k, pat in pats:
+            try:
+                re.compile(pat)
+            except re.error as e:
+                rojos.append("concepto %s: regex %s rota (%s)" % (nombre, k, e))
     # T11b (Fran, 2026-10-02: 'buscar las herramientas y el respaldo de cada tarea'): toda necesidad trae sus
     # herramientas y al menos una de RESPALDO. 'ninguna' es la unica que no tiene nada que respaldar.
     for nec, nd in cat.get("necesidades", {}).items():
@@ -1920,6 +2015,92 @@ def autotest() -> int:
             m.write_text(txt, encoding="utf-8")
             r = caso_c(n, m, s19 + "-m%d" % n)
             ok = '"deny"' not in r   # el caso que niega con la puerta sana, con el mutante PASA: el mutante se ve
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+    # 20. DA-064 (L2-PTA-20..23): el concepto 'alcance' dispara por el ROL del texto (un titulo de seccion del alcance
+    # que se escribe o que encierra lo que se edita), no por la palabra. Archivos en tmp, fuera de todo proyecto: el
+    # unico motivo posible de un deny es el concepto. Las formas son las del informe real (titulos numerados '1.1.',
+    # un bloque de codigo, prosa que nombra 'la necesidad').
+    d20 = tmp / "alcance"
+    d20.mkdir()
+    inf20, pdp20, notas20 = d20 / "seccion-1.md", d20 / "PDP.md", d20 / "notas.md"
+    py20, typ20 = d20 / "herramienta.py", d20 / "m.typ"
+    inf20.write_text("# Informe MCR\n\n## 1. Planteamiento de la mision\n\nAntecedentes de la catedra.\n\n"
+                     "## 1.1. Necesidad\n\nFrase vieja de la necesidad.\n\n## 1.2. Metas\n\nUna meta.\n\n"
+                     "## 2. Bibliografia\n\nAca se nombra la necesidad de citar bien.\n\n## 3. Anexo\n\n```bash\n"
+                     "# Necesidad del script: limpiar\necho hola\n```\n\nLinea despues del bloque.\n", encoding="utf-8")
+    pdp20.write_text("# PDP\n\n## 1. El problema\n\nUna frase.\n\n## 4. Las fases\n\nFase 1 abierta.\n", encoding="utf-8")
+    notas20.write_text("# Notas\n\n## 1. El problema\n\nUna frase de un ejercicio.\n", encoding="utf-8")
+    py20.write_text("# objetivo: limpiar la carpeta\nx = 1\n", encoding="utf-8")
+    typ20.write_text("= Modulo\n\n== Objetivos\n\nTexto del objetivo.\n", encoding="utf-8")
+    nuevo20 = "# Informe\n\n## 1.1. Necesidad\n\nUna frase.\n"
+
+    def ed20(f, viejo, nuevo):
+        return ("Edit", {"file_path": str(f), "old_string": viejo, "new_string": nuevo})
+    alc = "alcance-como-se-escribe"
+    casos20 = (   # (nombre, (tool, input), niega, motivo esperado)
+        ("DA-064 SABOTAJE: Write con '## 1.1. Necesidad' -> deny",
+         ("Write", {"file_path": str(d20 / "nuevo.md"), "content": nuevo20}), True, alc),
+        ("DA-064 SABOTAJE: Edit de la frase BAJO 'Necesidad' (sin titulo) -> deny",
+         ed20(inf20, "Frase vieja de la necesidad.", "Frase nueva."), True, alc),
+        ("DA-064 SABOTAJE: Edit que AGREGA '## Objetivos' -> deny",
+         ed20(inf20, "Linea despues del bloque.", "## Objetivos\n\nUno."), True, alc),
+        ("DA-064 SABOTAJE: Edit bajo '1. El problema' de un PDP.md -> deny", ed20(pdp20, "Una frase.", "Otra."), True, alc),
+        ("DA-064 SABOTAJE: Edit bajo '== Objetivos' de un .typ -> deny",
+         ed20(typ20, "Texto del objetivo.", "Otro."), True, alc),
+        ("DA-064 CONTROL: Edit de prosa que NOMBRA la necesidad -> pasa",
+         ed20(inf20, "Aca se nombra la necesidad de citar bien.", "La necesidad y los objetivos, citados."), False, None),
+        ("DA-064 CONTROL: Write con prosa sobre necesidad y metas -> pasa",
+         ("Write", {"file_path": str(d20 / "prosa.md"), "content": "# Notas\n\nLa necesidad y las metas del TP.\n"}),
+         False, None),
+        ("DA-064 CONTROL: Edit de un .py bajo '# objetivo:' -> pasa", ed20(py20, "x = 1", "x = 2"), False, None),
+        ("DA-064 CONTROL: Edit bajo un bloque de codigo con '# Necesidad' -> pasa",
+         ed20(inf20, "Linea despues del bloque.", "Otra linea."), False, None),
+        ("DA-064 CONTROL: '1. El problema' fuera de un PDP.md -> pasa",
+         ed20(notas20, "Una frase de un ejercicio.", "Otra."), False, None),
+        ("DA-064 CONTROL: Edit de la seccion 4 del PDP.md -> pasa", ed20(pdp20, "Fase 1 abierta.", "Fase 1 cerrada."),
+         False, None),
+        ("DA-064 SABOTAJE: Write con '## 3b. El alcance' (numeracion con letra) -> deny",
+         ("Write", {"file_path": str(d20 / "libro.md"), "content": "# Libro\n\n## 3b. El alcance: necesidad\n\nx\n"}),
+         True, alc))
+
+    def caso20(n, script=__file__):
+        s = "%s-da064-%d-%s" % (sid, n, Path(script).stem)
+        return correr(pre_ev(*casos20[n][1], s=s), None, script)
+
+    sanos20 = {}
+    for n, (nombre, _, niega, motivo) in enumerate(casos20):
+        r = caso20(n)
+        sanos20[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+    s20 = sid + "-da064-leido"
+    for x in exigido(cat_base, None, [], ["alcance"])[0]:
+        correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s20))
+    caso("DA-064 CONTROL: leidas las Lecturas_De_Alcance, el Write -> pasa", correr(pre_ev(*casos20[0][1], s=s20)), False)
+    # mutantes, cada uno visto en SU caso y juzgado solo si ese caso paso sano en esta corrida
+    for nombre, cambios, n in (
+            ("MUTANTE (Write sin titulos) -> lo ve el caso 1",
+             [('return [t for _, t in titulos_de(str(inp.get("content", "")), ext)]', "return []")], 0),
+            ("MUTANTE (sin el titulo que ENCIERRA) -> lo ve el caso 2", [("out.append(encierra[-1])", "pass")], 1),
+            ("MUTANTE (sin saltear los bloques de codigo) -> lo ve el caso 9", [("if VALLA.match(l):", "if False:")], 8),
+            ("MUTANTE (titulos en cualquier extension) -> lo ve el caso 8",
+             [("pat, out, en_valla = TITULO_DE.get(ext), [], False", 'pat, out, en_valla = TITULO_DE[".md"], [], False'),
+              ("if ext not in TITULO_DE:\n        return []", "if False:\n        return []")], 7),
+            ("MUTANTE (ignora el archivo de la seccion) -> lo ve el caso 10",
+             [('if s.get("archivo") and not re.search(s["archivo"], arch):', "if False:")], 9)):
+        fuente = Path(__file__).read_text(encoding="utf-8")
+        txt = fuente
+        for viejo, nuevo in cambios:
+            txt = txt.replace(viejo, nuevo, 1)
+        if not sanos20.get(n):
+            ok, r = False, "NO JUZGABLE: su caso no paso sano en esta corrida"
+        elif any(viejo not in fuente for viejo, _ in cambios):
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        else:
+            m = tmp / ("mutante-da064-%d.py" % n)
+            m.write_text(txt, encoding="utf-8")
+            r = caso20(n, m)
+            ok = ('"deny"' in r) != casos20[n][2]
         mal += not ok
         print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
     shutil.rmtree(tmp, ignore_errors=True)
