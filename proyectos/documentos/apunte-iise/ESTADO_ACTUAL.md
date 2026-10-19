@@ -11,6 +11,14 @@ reales de NASA (SEH p. 48-49; requerimientos de nivel 1 de TESS y Psyche;
 Leisner), **marcado aparte como evidencia de la práctica**, no como lo que
 dijo la cátedra.
 
+**2026-10-19 — Fase 10 CERRADA: el ejemplo del cohete de agua de M17,
+corregido (DA-068).** Era la versión del TP anterior a la corrección de
+Petrilli, con números de desempeño en el L0. Ahora: L0 sin números, los
+números en L1 con TBD/TBR, padres que existen y la restricción del cliente
+como R-01; lo mide `verificar-ejemplo-cohete.py` (con sabotaje). Publicado y
+verificado por MD5; 191 páginas. Detalle: `PDP.md`, fase 10. La fase 9
+(alcance) sigue propuesta.
+
 **2026-10-14 — Fase 8 CERRADA: resumen para el parcialito del 14/10.**
 `resumenes/resumen-clases-8-9.pdf` (12 pág.): la clase 8 hasta el LDCM (WBS,
 red y camino crítico con el té, Gantt, estimaciones y costos, _baselines_,

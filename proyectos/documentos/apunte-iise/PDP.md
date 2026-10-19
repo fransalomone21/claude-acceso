@@ -49,7 +49,7 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 **Fase 9 — PROPUESTA, sin abrir (Fran, 2026-10-19, SUMAMENTE IMPORTANTE):** «cómo se escribe el alcance», con evidencia de la práctica (NASA) marcada aparte de lo de la cátedra. Qué entra y las fuentes: `HANDOFF.md`, primera entrada. Criterio de salida a escribir al abrirla.
 
-**Fase en curso:** 10 — el ejemplo del cohete de agua de M17 con la forma que corrigió Petrilli (DA-068); mantenimiento, tipo: **Fase E**. Se numeró 10 para no pisarle el número a la 9, que sigue propuesta. Criterio de salida: abajo, «Fase 10».
+**Fase en curso:** ninguna — la 10 (el ejemplo del cohete de M17, DA-068) cerró el 2026-10-19. Mantenimiento (tipo: **Fase E**): si llega la clase 11, un parcialito nuevo u otro pedido, se abre una fase con su criterio escrito antes de empezar (la 9 sigue propuesta, con su número reservado).
 
 ### Fase 0 — Material asegurado en el repo ✅ CERRADA (2026-09-20)
 
@@ -368,7 +368,7 @@ Gbit, ~17 pasadas en 3,1 Tbit). El medidor dio **rojo antes de subir**
 `IISE/Material de Estudio nuestro/Resumenes para parcialitos/Clases 8 y 9
 (14-10)`, la clasificación nueva que pidió Fran («clasificadamente»).
 
-### Fase 10 — El ejemplo del cohete de agua en M17, corregido (DA-068) — ABIERTA (2026-10-19)
+### Fase 10 — El ejemplo del cohete de agua en M17, corregido (DA-068) ✅ CERRADA (2026-10-19)
 
 **Por qué:** el ejemplo «el cohete de agua: necesidades, L0 y L1» de M17 es
 la versión del TP **anterior** a la corrección de Petrilli: pone números de
@@ -391,3 +391,34 @@ que se escriben requerimientos: el ejemplo malo se copiaba
 4. Publicado: `publicar-apuntes.ps1 -Verificar` en verde por MD5.
 5. Fuera del apunte: el «Ojo» de `nucleo-ise.md` §4 que advertía sobre este
    ejemplo, sacado, y DA-068 cerrado con `defectos.py arreglar`.
+
+Resultado (los cinco, medidos):
+1. Cuatro L0 (REQ-L0-1 a 4) con verbo de resultado y **sin un número**, y
+   diez L1 con los números a la vista como \[TBD\]/\[TBR\] (volumen, masa,
+   tiempo al frenado, 250 m ± TBD, recuperabilidad), tomados de la versión
+   del 16/10. Lo que se arregló de esa versión, y se dice en el ejemplo: los
+   padres (la tabla del grupo trazaba a N-05 y N-07, que ya no existían) —
+   REQ-L0-1 pasa a trazar a la **restricción** del cliente (R-01, IIS-54 y
+   PET-44: va al lado de la necesidad, no debajo)—, y las necesidades en el
+   idioma del cliente, sin «deberá». El «Cuidado» suma el error de los
+   números en el L0 a los dos que ya tenía.
+2. `verificar-ejemplo-cohete.py` (nuevo, en el contrato) mide (a) L0 sin
+   número, (b)/(c) padres que existen, (d) la prosa nombra sólo IDs que
+   existen, (e) que haya filas que medir: **verde**; con `--sabotaje`, 5 de 5
+   sabotajes dan el rojo de su propia marca y el control da verde. Sobre la
+   versión vieja da rojo por (e): no la ve como ejemplo medible, que es lo
+   que tiene que pasar con IDs que no dicen el nivel.
+3. 191 páginas (igual que antes); las dos del ejemplo (80-81 impresas)
+   **miradas**: un ID partido al final de renglón y un «250 / m» partido, los
+   dos arreglados (`#box`, espacio duro) y vueltos a mirar. Léxico y
+   cobertura en verde.
+4. Publicado por el hook al commitear (claude-acceso `bb1f565`): el medidor
+   dio «DESACTUALIZADO» antes de subir y `-Verificar` en verde por MD5
+   después.
+5. perfil-global `2fa6920` (sólo las tres líneas del «Ojo»: el resto de
+   `nucleo-ise.md` en el árbol es trabajo en curso de otra sesión y no se
+   commiteó) y `bfcc22f`: DA-068 **arreglado**, nivel herramienta (prueba y
+   saboteador corridos por `defectos.py`); se valida con 3 sesiones
+   auditadas. Queda la **clase** —que todo ejemplar que la puerta inyecta
+   tenga fecha de vigencia contra su fuente—, anotada en su fila del orden de
+   ataque.

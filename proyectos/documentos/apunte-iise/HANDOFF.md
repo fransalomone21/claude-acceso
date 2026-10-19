@@ -1,5 +1,17 @@
 # HANDOFF — Apunte de IISE
 
+## 2026-10-19 — fase 10 cerrada (el cohete de M17), nada a medias
+
+El ejemplo «el cohete de agua: necesidades, L0 y L1» de M17 quedó con la
+forma corregida por Petrilli y tiene medidor:
+`verificar-ejemplo-cohete.py` (y `--sabotaje`). Si se vuelve a tocar el
+ejemplo, correrlo: un L0 con número o un padre que no existe da rojo. Trampa
+pagada al mirar el render: en la prosa, los IDs largos (`REQ-L0-3`) se parten
+en el guion al final de renglón; van en `#box[...]`, y «250~m» con espacio
+duro. Lo que queda es del método, no del apunte: DA-068 está **arreglado**
+(falta validarlo con 3 sesiones auditadas) y su clase —fecha de vigencia de
+todo ejemplar inyectado— sigue en `perfil-global/arquitectura/ORDEN-DE-ATAQUE.md`.
+
 ## PENDIENTE (2026-10-19, SUMAMENTE IMPORTANTE) — cómo se escribe el alcance, con evidencia de la práctica
 
 **Pedido de Fran:** registrar en el apunte, «con más evidencia que la de la
