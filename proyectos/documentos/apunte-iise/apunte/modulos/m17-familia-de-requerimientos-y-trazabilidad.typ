@@ -252,75 +252,93 @@ porque explica *por qué* un hijo puede decir cosas que su padre no dice.
   que reconoce sola las fases del vuelo de un cohete de agua y dispara dos
   paracaídas — el de frenado en el apogeo y el principal a 250 m en el
   descenso. *Misión:* crear un demostrador tecnológico que opere como
-  computadora de vuelo del cohete.
+  computadora de vuelo del cohete. Lo que sigue es la versión del TP
+  *después* de la corrección del docente (los errores de las anteriores van
+  justo abajo), con los padres ordenados contra esta tabla de necesidades.
 
-  *Necesidades* — en el idioma del cliente, todavía sin números verificables:
+  *Necesidades* — en el idioma del cliente, todavía sin números verificables —
+  y la *restricción* que pone el cliente, que no sale de ningún _trade_ y no
+  se discute:
 
   #table(
     columns: (1fr, 7fr),
     inset: 4pt,
-    [N-01], [Medir la presión atmosférica y la temperatura durante todo el vuelo.],
-    [N-02], [Detectar las fases del vuelo: tierra, ascenso, apogeo, 250 m en descenso y aterrizaje.],
-    [N-03], [Activar en el apogeo un paracaídas de frenado.],
-    [N-04], [Activar el paracaídas principal a los 250 m durante el descenso.],
-    [N-05], [Poder instalarse dentro del cohete provisto por el cliente y operar de forma autónoma.],
+    [N-01], [Detectar las fases del vuelo: tierra, ascenso, apogeo, descenso y aterrizaje.],
+    [N-02], [Activar en el apogeo un paracaídas de frenado.],
+    [N-03], [Activar el paracaídas principal a los 250 m durante el descenso.],
+    [N-04], [Recuperar el cohete, para que pueda volver a volar después del aterrizaje.],
+    [R-01], [_Restricción:_ el sistema va dentro de la estructura del cohete que el cliente ya tiene.],
   )
 
-  *Nivel 0* — qué debe lograr el sistema; cada uno traza a una necesidad:
+  *Nivel 0* — qué tiene que lograr el sistema, *sin un solo número*: el «cuán
+  bien» es trabajo del L1. Cada uno traza a una necesidad o a la restricción:
 
   #table(
-    columns: (1.2fr, 0.9fr, 6fr),
+    columns: (1.4fr, 1.3fr, 6fr),
     inset: 4pt,
     table.header([*ID*], [*Padre*], [*Requerimiento*]),
-    [REQ-00], [N-01], [El sistema deberá determinar la altitud sobre la plataforma a partir de la presión, a no menos de 10 Hz, desde el armado hasta el fin del vuelo.],
-    [REQ-01], [N-02], [El sistema deberá identificar de forma autónoma las cinco fases (TIERRA, ASCENSO, APOGEO, DESCENSO, ATERRIZAJE) y pasar de una a otra sin intervención externa.],
-    [REQ-02], [N-03], [El sistema deberá emitir la señal del paracaídas de frenado dentro de los 200 ms de confirmado el APOGEO.],
-    [REQ-03], [N-04], [El sistema deberá emitir la señal del paracaídas principal al cruzar 250 ± 10 m en descenso, repetirla siempre a 100 ± 10 m, y emitirla al confirmarse el DESCENSO si el apogeo fue menor a 260 m.],
-    [REQ-04], [N-02], [El sistema deberá registrar presión, temperatura y altitud a no menos de 10 Hz, del ASCENSO al ATERRIZAJE, en memoria no volátil.],
-    [REQ-05], [N-05], [La electrónica deberá caber en el volumen útil del cohete y operar sola no menos de 30 minutos desde el armado.],
+    [REQ-L0-1], [R-01], [El sistema deberá alojarse dentro de la estructura del cohete provista por el cliente.],
+    [REQ-L0-2], [N-01], [El sistema deberá detectar las fases del vuelo.],
+    [REQ-L0-3], [N-02, N-03], [El sistema deberá comandar el despliegue de los paracaídas.],
+    [REQ-L0-4], [N-04], [El sistema deberá ser recuperable \[TBR: qué cuenta como recuperable\].],
   )
 
-  *Nivel 1* — cómo se cumple y se verifica cada logro; cada uno traza a un L0
-  (se muestran los hijos de REQ-00 y REQ-01):
+  *Nivel 1* — qué tiene que hacer el sistema para cada logro y cuán bien, en
+  números verificables. Lo que todavía no se sabe no se inventa: va como
+  \[TBD\] o \[TBR\], a la vista. Cada uno traza a un L0:
 
   #table(
-    columns: (1.5fr, 1.2fr, 6fr),
+    columns: (1.5fr, 1.4fr, 6fr),
     inset: 4pt,
     table.header([*ID*], [*Padre*], [*Requerimiento*]),
-    [REQ-00-01], [REQ-00], [Muestrear el BMP280 a no menos de 150 muestras por segundo.],
-    [REQ-00-02], [REQ-00], [Promediar las muestras en bloques de 15:1, entregando no menos de 10 altitudes filtradas por segundo.],
-    [REQ-00-03], [REQ-00], [Fijar la presión de referencia P₀ en TIERRA como promedio de 300 muestras filtradas (30 s).],
-    [REQ-01-01], [REQ-01], [Pasar a ASCENSO cuando la altitud filtrada supere 15 m en 5 muestras consecutivas (0,5 s).],
-    [REQ-01-02], [REQ-01], [Pasar a APOGEO cuando |ΔP| < 1 hPa en 5 muestras consecutivas, estando en ASCENSO.],
-    [REQ-01-03], [REQ-01], [Pasar a DESCENSO cuando ΔP > 0 en 10 muestras consecutivas, o al completarse el despliegue del frenado.],
-    [REQ-01-04], [REQ-01], [Pasar a ATERRIZAJE con altitud < 15 m y |ΔP| < 1 hPa durante 100 muestras (10 s), estando en DESCENSO.],
-    [REQ-01-05], [REQ-01], [Encender la telemetría al entrar en ASCENSO y apagarla dentro de los 2 s de confirmado el ATERRIZAJE.],
+    [REQ-L1-1.1], [REQ-L0-1], [El sistema deberá ocupar un volumen máximo de \[TBD\] mm × \[TBD\] mm × \[TBD\] mm.],
+    [REQ-L1-1.2], [REQ-L0-1], [El sistema deberá tener una masa máxima de \[TBD\] g.],
+    [REQ-L1-2.1], [REQ-L0-2], [El sistema deberá identificar el inicio del vuelo.],
+    [REQ-L1-2.2], [REQ-L0-2], [El sistema deberá identificar la fase de ascenso.],
+    [REQ-L1-2.3], [REQ-L0-2], [El sistema deberá identificar el apogeo.],
+    [REQ-L1-2.4], [REQ-L0-2], [El sistema deberá identificar la fase de descenso.],
+    [REQ-L1-2.5], [REQ-L0-2], [El sistema deberá identificar el aterrizaje.],
+    [REQ-L1-3.1], [REQ-L0-3], [El sistema deberá generar la orden de despliegue del paracaídas de frenado dentro de los \[TBD\] s posteriores a la detección del apogeo.],
+    [REQ-L1-3.2], [REQ-L0-3], [El sistema deberá generar la orden de despliegue del paracaídas principal al descender a 250 m ± \[TBD\] m de altitud sobre la referencia de lanzamiento.],
+    [REQ-L1-4.1], [REQ-L0-4], [\[TBR\] — falta definir el criterio de recuperabilidad.],
   )
 
-  *Una cadena completa, leída de abajo hacia arriba:* REQ-01-02 (|ΔP| < 1 hPa
-  en 5 muestras) existe porque REQ-01 pide reconocer el APOGEO sin ayuda, y
-  REQ-01 existe porque N-02 pide detectar las fases del vuelo. Si alguien
-  pregunta «¿por qué 5 muestras y no 1?», la respuesta está un nivel más
-  arriba: con una sola muestra, el ruido del sensor o una ráfaga cambian de
-  fase por su cuenta.
+  *Una cadena completa, leída de abajo hacia arriba:* #box[REQ-L1-3.2] (250~m ±
+  \[TBD\]~m) existe porque #box[REQ-L0-3] pide comandar los paracaídas, y #box[REQ-L0-3]
+  existe porque N-03 pide abrir el principal a los 250~m. Fijate por dónde
+  viaja el número: lo dice el cliente en la necesidad, *salta* el L0 —que
+  sólo dice qué se logra— y reaparece en el L1, ya con su tolerancia y
+  verificable. Si alguien pregunta «¿por qué 250~m?», la respuesta está
+  arriba de todo: lo pidió el cliente. Y #box[REQ-L1-4.1] muestra el otro lado: si
+  el padre todavía no se puede verificar, el hijo lo dice con un TBR en vez
+  de inventar un número.
 
-  *Asignados y derivados, en el mismo TP:* los 10 Hz de REQ-00-02 son
-  *asignados* — REQ-00 los fija y el hijo los hereda. El promedio 15:1 y los
-  150 Hz de REQ-00-01 son *derivados*: ninguna necesidad habla de filtrar;
-  aparecen por haber elegido un BMP280, que es ruidoso muestra a muestra.
-  REQ-05 también nació derivado: la arquitectura física metió una fuente de
-  alimentación a bordo y ningún requerimiento la cubría.
+  *Asignados y derivados, en el mismo TP:* los cinco hijos de #box[REQ-L0-2] son
+  *asignados*: «detectar las fases del vuelo» se reparte en cinco pedazos
+  —del inicio del vuelo al aterrizaje—, uno por hijo, y ninguno agrega nada
+  que el padre no contuviera. Lo mismo #box[REQ-L1-3.1]
+  y #box[REQ-L1-3.2], que se reparten los dos paracaídas de #box[REQ-L0-3]. La masa
+  máxima de #box[REQ-L1-1.2], en cambio, es *derivada*: #box[REQ-L0-1] sólo pide que el
+  sistema quepa en el cohete y no dice nada del peso; aparece porque un
+  sistema pesado le cambia el vuelo al cohete, que es justo lo implícito que
+  el nivel de arriba no dijo.
 ]
 
 #cuidado[
-  Dos errores que el TP tuvo en su primera versión, y que son los típicos de
-  armar niveles:
+  Tres errores que el TP tuvo en sus primeras versiones, y que son los
+  típicos de armar niveles:
 
+  - *Números de desempeño en el L0.* El tope pedía «a no menos de 10 Hz»,
+    «dentro de los 200 ms de confirmado el apogeo» y «250 ± 10 m». Eso es el
+    *cuán bien*, y el cuán bien es L1. El docente lo corrigió: el L0 quedó en
+    lo que se logra —«deberá detectar las fases del vuelo»— y los números
+    bajaron a L1, aunque sea como \[TBD\].
   - *Un mismo nombre para un requerimiento y para un nivel.* Los padres se
     llamaban REQ-L1 a REQ-L5 bajo el título «Requerimientos L0», y los hijos
     REQ-L1-01: «REQ-L1» nombraba a la vez un requerimiento suelto y una
-    familia entera. El identificador tiene que decir el nivel sin ambigüedad
-    (REQ-xx para L0, REQ-xx-yy para L1).
+    familia entera. El identificador tiene que decir el nivel sin ambigüedad:
+    la versión corregida usa REQ-L0-n para el tope y REQ-L1-n.m para sus
+    hijos, donde el n dice quién es el padre.
   - *Un hijo que contradice a su hermano.* Un L1 pedía 150 muestras/s, otro
     promediaba 15:1 y un tercero exigía 15 altitudes/s: 150 / 15 = 10, que es
     menos que 15. Cada uno parecía razonable solo; la contradicción se ve

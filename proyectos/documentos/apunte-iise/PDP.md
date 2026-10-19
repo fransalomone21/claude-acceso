@@ -49,7 +49,7 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 **Fase 9 — PROPUESTA, sin abrir (Fran, 2026-10-19, SUMAMENTE IMPORTANTE):** «cómo se escribe el alcance», con evidencia de la práctica (NASA) marcada aparte de lo de la cátedra. Qué entra y las fuentes: `HANDOFF.md`, primera entrada. Criterio de salida a escribir al abrirla.
 
-**Fase en curso:** ninguna — la 8 (resumen para el parcialito del 14/10) cerró el 2026-10-14. Mantenimiento (tipo: **Fase E**): si llega la clase 11, un parcialito nuevo u otro pedido de resumen, se abre la fase 9 con su criterio escrito antes de empezar.
+**Fase en curso:** 10 — el ejemplo del cohete de agua de M17 con la forma que corrigió Petrilli (DA-068); mantenimiento, tipo: **Fase E**. Se numeró 10 para no pisarle el número a la 9, que sigue propuesta. Criterio de salida: abajo, «Fase 10».
 
 ### Fase 0 — Material asegurado en el repo ✅ CERRADA (2026-09-20)
 
@@ -367,3 +367,27 @@ Gbit, ~17 pasadas en 3,1 Tbit). El medidor dio **rojo antes de subir**
 («SIN PUBLICAR», 1 cosa sin resolver) y verde después, por MD5. Destino:
 `IISE/Material de Estudio nuestro/Resumenes para parcialitos/Clases 8 y 9
 (14-10)`, la clasificación nueva que pidió Fran («clasificadamente»).
+
+### Fase 10 — El ejemplo del cohete de agua en M17, corregido (DA-068) — ABIERTA (2026-10-19)
+
+**Por qué:** el ejemplo «el cohete de agua: necesidades, L0 y L1» de M17 es
+la versión del TP **anterior** a la corrección de Petrilli: pone números de
+desempeño en el L0 (10 Hz, 200 ms, 250 ± 10 m) y contradice la tabla de
+niveles del mismo módulo (L1 = «cuán bien, en números verificables»). Fran lo
+marcó el 2026-10-19 en el TP final, y la puerta hace leer este módulo cada vez
+que se escriben requerimientos: el ejemplo malo se copiaba
+(`perfil-global/arquitectura/ORDEN-DE-ATAQUE.md`, DA-068).
+
+**Criterio de salida:**
+1. En el ejemplo, **ningún L0 lleva un número de desempeño**: cada uno con
+   verbo de resultado, tomados de la versión que vio Petrilli
+   (`cohete-de-agua/referencia/Sistema cohete de agua - version vigente
+   (OneDrive, 16-10).md`, REQ-L0-1 a 4); los números, en L1, con TBD/TBR.
+2. Cada L1 traza a un L0 que está en la tabla, y cada L0 a una necesidad o a
+   la restricción que está en la tabla; el párrafo de asignados y derivados y
+   la cadena «leída de abajo hacia arriba» hablan de IDs que existen.
+3. Compilado, con **la página del ejemplo mirada**; `verificar-lexico.py` y
+   `verificar-cobertura.py` en verde.
+4. Publicado: `publicar-apuntes.ps1 -Verificar` en verde por MD5.
+5. Fuera del apunte: el «Ojo» de `nucleo-ise.md` §4 que advertía sobre este
+   ejemplo, sacado, y DA-068 cerrado con `defectos.py arreglar`.
