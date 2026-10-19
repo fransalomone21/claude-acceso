@@ -135,6 +135,20 @@
         ]
       },
       {
+        "sobre": "01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/IISE - TP Final MCR - Favazza, Groppa, Salomone/Versiones anteriores",
+        "id": "1rx97ZorIzWUT6BlzCeYIUA7JyeslQb4c",
+        "rol": "writer",
+        "por-que": "subcarpeta de versiones del TP final de IISE; hereda el permiso de la carpeta del grupo. Declarada 2026-10-19 para copiar ahi la v07 como Google Doc, a pedido de Fran (para rebobinar cambios).",
+        "quien-sha256": [
+          "cd50ccf11c007904",
+          "82c18f4c7e093cb4"
+        ],
+        "quien-etiqueta": [
+          "companero del TP final de IISE (el mismo de TdC y del Cohete)",
+          "companero del TP final de IISE (el mismo del grupo host del TP4)"
+        ]
+      },
+      {
         "sobre": "03 - CLASES PARTICULARES - compartido con alumnos/AED 6to EEST1 - examen 10-10-2026",
         "id": "1_D6IlH-niSCz7JMGVUcIi9Yyv-JZdzlx",
         "rol": "reader",
