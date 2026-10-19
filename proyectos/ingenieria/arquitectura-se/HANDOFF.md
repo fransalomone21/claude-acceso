@@ -1,5 +1,17 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-19 (sesión `125f02e6`, noche; plan: semanal al 87 % con 3 días por delante) — SIGUE: la pieza D del árbol
+> (el lazo de uso, L1-27/28) y la E (la quinta pregunta del libro y la de la auditoría, L1-29), cada una con su L2
+> escrito antes** ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §5). Hecho: **C** (§7,
+> `062a263`, perfil `92998c4`). **Para el que siga:** (1) **toda sesión que declara un proyecto lee su RAMA antes de
+> cualquier acción** (lo imprime la cascada; en arquitectura-se además **el tema: `-Tema t19`**, o el que toque; sin él
+> la puerta niega con el mapa); (2) el documento de requisitos ahora sale en dos rangos que entran de a uno (1-249,
+> 250-444); (3) BLACK y el telescopio **no tienen mapa de temas**: la primera sesión que entre a cada uno lo arma desde
+> sus documentos (`"temas"` en su entrada de `.claude/cascada.json`, como arquitectura-se) y se lo muestra a Fran; (4)
+> la ficha de lecciones de cada proyecto la regenera `aprender.py` (no se edita a mano); (5) rojos del arranque que NO
+> son de esta sesión: lecciones **70, 230** (herramienta) y **346** (regla); la 235 se repitió acá (DA-075) y quedó subida
+> a herramienta; (6) límite a medir: si leer la ficha de lecciones cuenta como uso de viñetas para T18 (§7, límites).
+
 > **2026-10-19 (sesión `cfe21436`, tarde) — SIGUE: la pieza C del árbol (la rama: lo que compete al pedido en alto
 > nivel, por naturaleza y tema)**, después D (el lazo de uso) y E (la quinta pregunta del libro y la de la auditoría),
 > con el L2 de cada una escrito antes ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §5;

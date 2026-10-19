@@ -56,7 +56,15 @@ proyecto hasta declarar la necesidad y leer con Read lo que pide el catálogo
 .\cascada.ps1 <proyecto> -Necesidad metodo,diseno # declara y dice qué leer, con rangos
 .\cascada.ps1 <proyecto> -Excepcion "motivo"      # la salida explícita, queda registrada
 .\cascada.ps1 <proyecto> -Mencion "motivo"        # Fran lo NOMBRA sin pedirlo: libera lo de afuera, nunca su carpeta
+.\cascada.ps1 -Ingenieria "que es"                 # T19: ingenieria de sistemas sin proyecto (carga el tronco)
+.\cascada.ps1 -Suelta "que es"                     # T19: pregunta suelta y especifica (sin tronco)
+.\cascada.ps1 <proyecto> -Necesidad a -Tema t      # T19: el tema, en un proyecto con mapa de temas (en la duda, todos)
 ```
+
+**Desde T19 (2026-10-19)** toda sesión **clasifica el pedido** antes de actuar (proyecto, `-Ingenieria` o
+`-Suelta`, interpretándolo y no por una palabra); una de ingeniería o de materia lee el **tronco** (el libro y las
+fuentes de requisitos y del alcance), y la que declara un proyecto lee su **rama**: lo que le compete por naturaleza
+(en una materia, el Drive, la cátedra y las lecciones de PDF; en todo proyecto, sus lecciones) y el documento del tema.
 
 Necesidades: `materia`, `ingenieria-inversa`, `diseno`, `metodo`,
 `investigar`, `publicar`, `nueva` (no encaja: se escribe como requisitos),

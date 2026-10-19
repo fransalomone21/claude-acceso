@@ -274,4 +274,4 @@ ciegos (sin transcripts, sale SALTEADO, nunca verde).
 copie el comienzo de una viñeta contaría como uso de la viñeta para T18; a medir en la primera pasada de retiro con la
 rama activa. (2) En la nube el repo privado de cátedras no está: la puerta niega en las materias hasta traerlo
 (`estado-nube.py --traer catedras`), como cualquier exigido ausente. (3) El tema lo elige la sesión: uno equivocado lee
-el documento equivocado; lo ve la auditoría, cuando E le agregue la pregunta.
+el documento equivocado, y nada lo ve todavía; el lazo D (las lecturas sin uso por clase de sesión) es el primer sensor.

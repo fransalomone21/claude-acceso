@@ -3,6 +3,20 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-19 (sesión `125f02e6`, noche) — T19, PIEZA C CONSTRUIDA: la rama por naturaleza y el tema del pedido.**
+L2 de C escrito antes ([`docs/10-requisitos.md`](docs/10-requisitos.md) §13: L2-PTA-40..45, L2-APR-12, L2-VER-08..12,
+L2-CAS-08/09; 14 enunciados, 0 VIOLA). La sesión que declara un proyecto lee, antes de **cualquier** acción, lo que le
+compete por su **naturaleza** y no por cómo se dijo el pedido: en una materia, `materia` + `publicar` (el Drive) +
+`typst` + los criterios de su cátedra + sus lecciones; en ingeniería y seguimiento, sus lecciones (una ficha generada
+por proyecto, `perfil-global/aprendizaje/fichas/proyectos/`). Un proyecto con **mapa de temas** (hoy arquitectura-se, 17
+temas) niega hasta declarar el tema (`-Tema`) y exige su documento, no todos; BLACK y el telescopio sin mapa todavía
+(`--verificar` los lista). Probado: autotest de la puerta BIEN (caso 26, 9 mutantes vistos), autotest de `aprender.py`
+con su mutante, y el **efecto real** en esta sesión (TEMA SIN DECLARAR con el mapa → ficha de lecciones → pasa). De
+paso: **DA-075 arreglado** (el recorte de lo pegado estaba ciego al cierre con atributos: 17 de 17 pedidos reales ahora
+recortados), el tope de una lectura bajó a 50 000 (DA-071) y el partidor corta también por líneas; **DA-076** registrado
+(el glosario del GtWR con acentos). Lo que pesa al entrar: [`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md)
+§7. Falta: D (el lazo de uso), E (el procedimiento) y validar en sesiones reales de cada clase (P10).
+
 **2026-10-19 (sesión `cfe21436`, tarde) — T19, PIEZAS A Y B CONSTRUIDAS: la sesión clasifica el pedido y sale con el
 tronco.** Con el OK de Fran a la v2: requisitos N-11, N-12, L0-11, L0-12, L1-24..29 y el L2 de A y B
 ([`docs/10-requisitos.md`](docs/10-requisitos.md) §13, 23 enunciados, 0 VIOLA). **A**: hasta clasificar el pedido
