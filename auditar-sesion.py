@@ -18,12 +18,21 @@ LAS PREGUNTAS (y de que registro sale cada respuesta)
                                                                 tiene .git: claude-acceso no ve adentro de esos)
   P9  Lo que dependia de Fran quedo confirmado con evidencia?   --de-fran (declarado: no hay registro que lo mida)
   P10 Si algo fallo (revento, excepcion), quedo su leccion?     perfil-global/aprendizaje/lecciones.jsonl
+  P11 Quedaron claude-acceso y perfil-global commiteados y pusheados?        git de cada repo
+  P12 Se contrasto cada procedimiento con lo que pide su necesidad?          --procedimiento (declarado), cruzado con
+                                                                los scripts que la caja negra vio repetirse (T19, E)
+  P13 Que lecturas exigidas uso la sesion para decidir?          --uso (declarado) contra lo exigido; la muestra va a
+                                                                .claude/auditorias/uso-lecturas.jsonl (T19, pieza D)
 
 Uso:
   python auditar-sesion.py                        la sesion mas reciente (el estado modificado ultimo)
   python auditar-sesion.py --sesion <id>          una sesion dada
   python auditar-sesion.py --de-fran "que | evidencia"   (repetible; 'ninguno' si no hubo nada del lado de Fran)
-  python auditar-sesion.py --escribir             deja el informe en .claude/auditorias/ (va al commit)
+  python auditar-sesion.py --procedimiento "que | que tiene que producir | produce / corregido: que / preguntado: que"
+                                                  (repetible; 'ninguno' si no se corrio ninguno)
+  python auditar-sesion.py --uso "archivo[, archivo] | para que decision"   (repetible; 'ninguna' si no se uso ninguna)
+  python auditar-sesion.py --escribir             deja el informe en .claude/auditorias/ (va al commit) y la muestra
+                                                  de uso en .claude/auditorias/uso-lecturas.jsonl
   python auditar-sesion.py --autotest
 Sale 1 si alguna respuesta es ROJO. El formato de ID de requisito lo fija el libro de bolsillo (nucleo-ise.md, sec. 4).
 """
@@ -188,7 +197,9 @@ def preguntas_de_estado(g, cat, f: Path, evs: list) -> tuple:
         if p in exc:
             res.append(R("P4", q, "NO APLICA", "medido", "por excepcion: %s" % exc[p].get("motivo")))
             continue
-        items, _, notas = g.exigido(cat, p, sorted(st["declaradas"].get(p, [])), [])
+        # con los temas declarados (T19, pieza C): sin ellos, un proyecto con mapa daba AMARILLO «TEMA SIN DECLARAR»
+        # con el tema declarado (medido en la auditoria de 125f02e6, 2026-10-19)
+        items, _, notas = g.exigido(cat, p, sorted(st["declaradas"].get(p, [])), [], temas=st["temas"].get(p))
         huecos = [x for x in items if not g.cubierto(st["lecturas"].get(x["ruta"], []), x["a"], x["b"])]
         ev4 = ["%d de %d tramos exigidos, cubiertos (medido con el catalogo de HOY: si cambio durante la sesion, lo "
                "exigido entonces pudo ser otro)" % (len(items) - len(huecos), len(items))]
@@ -339,7 +350,183 @@ def repo_al_dia(repo: Path, nube=None) -> tuple:
     return "VERDE", "limpio y pusheado (HEAD %s)" % git(repo, "rev-parse", "--short", "HEAD").strip()
 
 
-def auditar(sesion: str | None, de_fran: list, raiz: Path = RAIZ) -> dict:
+# ------------------------------------------------------------------- T19, piezas E y D: las preguntas P12 y P13
+# Requisitos: L2-AUD-04..12 de proyectos/ingenieria/arquitectura-se/docs/10-requisitos.md sec. 13; diseno en
+# docs/t19-arbol-de-conocimiento.md sec. 8-9. P12 es la quinta pregunta del libro de bolsillo (sec. 7): ¿cada
+# procedimiento produce lo que la necesidad pide? La contesta la sesion (declarado), y la caja negra cruza lo declarado
+# con los scripts que se repitieron (medido). P13 es el sensor del lazo de uso: que lecturas exigidas uso la sesion.
+INVOCA = re.compile(r"""^\s*(?:&\s*)?(?:(?:python3?|py|pwsh|powershell(?:\.exe)?|bash|sh)\s+(?:-{1,2}[\w-]+\s+)*)?"""
+                    r"""(?:["'][^"']*[\\/]|["']|[^\s"';|&]*[\\/])?([\w.\-]+\.(?:py|ps1|sh|bat|cmd))(?![\w.\-])""",
+                    re.I)   # la ruta entre comillas puede tener espacios ("01 - UNSAM"): medido con el control positivo
+NO_PROCEDIMIENTO = re.compile(r"^(cascada|auditar-sesion)\.", re.I)   # declarar y cerrar no son procedimientos
+REPETIDO = 3   # TBR (L2-AUD-06): medido el 2026-10-19, 32 de 60 cajas negras con scripts tienen uno; mediana 1
+RESULTADOS = ("produce", "corregido", "preguntado")   # la decision de Fran (t19 sec. 4)
+FORMA_P12 = ('--procedimiento "<que se corrio> | <que tiene que producir para la necesidad> | produce / corregido: '
+             '<que> / preguntado: <que>"  (uno por procedimiento; --procedimiento ninguno si no se corrio ninguno)')
+FORMA_P13 = ('--uso "<archivo>[, <archivo>] | <para que decision>"  (uno por decision; --uso ninguna si no se uso '
+             'ninguna lectura exigida)')
+REG_USO = Path(".claude") / "auditorias" / "uso-lecturas.jsonl"
+
+
+def tramos(g, cmd: str) -> list:
+    """Los tramos de un comando, partido por ; && || | y salto FUERA de comillas (la regla de registrar_comando)."""
+    blanco, cortes = g.sin_comillas(cmd), [0]
+    for m in re.finditer(r";|&&|\|\||\||\n", blanco):
+        cortes += [m.start(), m.end()]
+    cortes.append(len(cmd))
+    return [cmd[cortes[i]:cortes[i + 1]] for i in range(0, len(cortes) - 1, 2)]
+
+
+def procedimientos_corridos(g, evs: list) -> dict:
+    """{Clave_De_Procedimiento: veces que la puerta la dejo pasar}. Cuenta el script INVOCADO al principio de un tramo
+    (no el que nombra un echo o un mensaje), mas su primer argumento si es un subcomando o una opcion."""
+    c = {}
+    for e in evs:
+        if e.get("t") != "decide" or e.get("tool") not in ("Bash", "PowerShell") or e.get("v") != "pasa":
+            continue
+        cmd = e.get("obj", "")
+        if g.es_lectura_pura(cmd):
+            continue
+        for t in tramos(g, cmd):
+            m = INVOCA.match(t)
+            if not m or NO_PROCEDIMIENTO.match(m.group(1)):
+                continue
+            resto = re.sub(r"^[\"']", "", t[m.end():].strip()).split()
+            sub = resto[0] if resto and re.match(r"^(--?)?[a-z][a-z\-]+$", resto[0], re.I) else ""
+            k = (m.group(1) + (" " + sub if sub else "")).lower()
+            c[k] = c.get(k, 0) + 1
+    return c
+
+
+def p12(g, evs: list, declaradas) -> dict:
+    """L2-AUD-04..08. Grado 'declarado': el contraste lo dice la sesion; lo repetido sale de la caja negra."""
+    q = "Se contrasto cada procedimiento con lo que pide su necesidad? (libro de bolsillo, sec. 7, quinta pregunta)"
+    rep = {k: n for k, n in procedimientos_corridos(g, evs).items() if n >= REPETIDO}
+    ev_rep = ["repetido en la caja negra: %s x%d" % kv for kv in sorted(rep.items(), key=lambda kv: (-kv[1], kv[0]))]
+    if not declaradas:
+        return R("P12", q, "ROJO", "declarado", ["sin declaracion de contraste (L2-AUD-04). Forma: " + FORMA_P12] + ev_rep)
+    llenas = [d for d in declaradas if d.strip().lower() != "ninguno"]
+    malas = [d for d in llenas if len(d.split("|")) < 3 or not all(x.strip() for x in d.split("|")[:3])
+             or not d.split("|")[2].strip().lower().startswith(RESULTADOS)]
+    if malas:
+        return R("P12", q, "ROJO", "declarado", ["incompleta (L2-AUD-05: que, necesidad y un resultado que empieza con "
+                                                  "produce, corregido o preguntado): %s" % d for d in malas]
+                 + ["forma: " + FORMA_P12])
+    nombres = [d.split("|")[0].lower() for d in llenas]
+    sin = [k for k in rep if not any(k.split()[0] in n for n in nombres)]
+    ev = llenas or ["la sesion declara que no corrio ningun procedimiento"]
+    if sin:
+        return R("P12", q, "AMARILLO", "declarado", ev + ev_rep + ["SIN contraste declarado (L2-AUD-06): %s x%d"
+                                                                    % (k, rep[k]) for k in sin])
+    return R("P12", q, "VERDE", "declarado", ev + ev_rep)
+
+
+def clave_ruta(ver, raiz: Path) -> str:
+    """Una lectura como la guarda el Registro_De_Uso, la misma en la PC y en la nube: perfil-global vive adentro del
+    arbol en la PC y al lado en la nube (se ancla en su nombre); lo de la carpeta del usuario va con ~/."""
+    bajo = str(ver).replace("\\", "/").lower()
+    r = str(raiz).replace("\\", "/").lower().rstrip("/") + "/"
+    h = str(Path.home()).replace("\\", "/").lower().rstrip("/") + "/"
+    i = bajo.find("/perfil-global/")
+    if i >= 0:
+        return bajo[i + 1:]
+    if bajo.startswith(r):
+        return bajo[len(r):]
+    if bajo.startswith(h):
+        return "~/" + bajo[len(h):]
+    return bajo
+
+
+def lecturas_por_clase(g, cat, st: dict, raiz: Path) -> dict:
+    """{Clase_De_Uso: [{ruta, por}]}: las Lectura_Exigida de la sesion, por archivo (los rangos de un archivo son una
+    lectura). Los conceptos que dispara una accion (freno, typst) no entran: ya se activan por el rol de la accion."""
+    out = {}
+
+    def sumar(clase, items):
+        ls = out.setdefault(clase, {})
+        for x in items:
+            ls.setdefault(clave_ruta(x["ver"], raiz), x["por"][:120])
+    disco = g.proyectos_del_disco()
+    for p in sorted(st["declaradas"]):
+        pr = disco.get(p)
+        if pr is None or p in st["excepciones"]:
+            continue
+        sumar("proyecto:" + pr.parent.name,
+              g.exigido(cat, p, sorted(st["declaradas"][p]), [], temas=st["temas"].get(p))[0])
+    if "ingenieria" in st["clases"]:
+        sumar("ingenieria", g.exigido(cat, None, [], [], tronco=True)[0])
+    return {c: [{"ruta": r, "por": por} for r, por in sorted(ls.items())] for c, ls in out.items() if ls}
+
+
+def coincide(ruta: str, nombre: str) -> bool:
+    """El nombre declarado coincide con la lectura si la ruta termina con el: 'readme.md' marca todos los README
+    exigidos (la direccion segura: de mas usado, nunca de mas propuesto)."""
+    n = nombre.strip().strip("`\"'").lower().replace("\\", "/")
+    n = n[2:] if n.startswith("./") else n
+    return bool(n) and (ruta == n or ruta.endswith("/" + n))
+
+
+def p13(lecturas: dict, usos) -> tuple:
+    """L2-AUD-09..11. (respuesta, {clase: usadas}); None si no hay muestra que escribir (sin declaracion valida)."""
+    q = "Que lecturas exigidas uso la sesion para decidir? (T19, pieza D: el lazo de uso)"
+    if not lecturas:
+        return R("P13", q, "NO APLICA", "medido", "la sesion no tuvo lecturas exigidas (suelta, o ningun proyecto "
+                 "declarado)"), None
+    n = sum(len(v) for v in lecturas.values())
+    if not usos:
+        return R("P13", q, "ROJO", "declarado", "sin declaracion de uso sobre %d lecturas exigidas (L2-AUD-09). "
+                 "Forma: %s" % (n, FORMA_P13)), None
+    llenas = [u for u in usos if u.strip().lower() != "ninguna"]
+    malas = [u for u in llenas if "|" not in u or not u.split("|", 1)[0].strip() or not u.split("|", 1)[1].strip()]
+    if malas:
+        return R("P13", q, "ROJO", "declarado", ["sin el archivo o la decision (L2-AUD-10): %s" % u for u in malas]
+                 + ["forma: " + FORMA_P13]), None
+    usadas, fuera = {c: set() for c in lecturas}, []
+    for u in llenas:
+        for nombre in [x for x in u.split("|", 1)[0].split(",") if x.strip()]:
+            hits = [(c, x["ruta"]) for c, ls in lecturas.items() for x in ls if coincide(x["ruta"], nombre)]
+            for c, r in hits:
+                usadas[c].add(r)
+            if not hits:
+                fuera.append(nombre.strip())
+    ev = ["%s: %d de %d lecturas exigidas usadas" % (c, len(usadas[c]), len(lecturas[c])) for c in sorted(lecturas)]
+    ev += llenas or ["la sesion declara que no uso ninguna lectura exigida"]
+    if fuera:
+        return R("P13", q, "AMARILLO", "declarado", ev + ["no es lectura exigida de la sesion (L2-AUD-11: mal escrito, o "
+                                                          "si sirvio, falta en la rama): %s" % f for f in fuera]), usadas
+    return R("P13", q, "VERDE", "declarado", ev), usadas
+
+
+def escribir_muestras(a: dict, raiz: Path = RAIZ):
+    """L2-AUD-12: una Muestra_De_Uso por Clase_De_Uso de la sesion, al lado del informe. La misma sesion auditada dos
+    veces reemplaza su muestra; un renglon ilegible se conserva (lo ve el medidor del lazo, no se borra en silencio)."""
+    uso = a.get("uso")
+    if not uso:
+        return None
+    f = raiz / REG_USO
+    f.parent.mkdir(parents=True, exist_ok=True)
+    quedan = []
+    if f.exists():
+        for l in f.read_text(encoding="utf-8").splitlines():
+            if not l.strip():
+                continue
+            try:
+                if json.loads(l).get("sesion") == a["sesion"]:
+                    continue
+            except (ValueError, AttributeError):
+                pass
+            quedan.append(l)
+    for c in sorted(uso["lecturas"]):
+        quedan.append(json.dumps({"sesion": a["sesion"], "fecha": a["desde"], "clase": c,
+                                  "exigidas": uso["lecturas"][c], "usadas": sorted(uso["usadas"][c])},
+                                 ensure_ascii=False))
+    salida = ("\n".join(quedan) + "\n").encode("utf-8")   # preparado entero ANTES de abrir: open(wb) trunca
+    with open(f, "wb") as fh:
+        fh.write(salida)
+    return f
+
+
+def auditar(sesion: str | None, de_fran: list, raiz: Path = RAIZ, procedimientos=None, usos=None) -> dict:
     g = cargar_puerta(raiz)
     cat = g.cargar_catalogo()
     # L2-AUD-03 (T15): la ubicacion la decide la puerta (archivo_estado copia del legado si hace falta); antes se armaba
@@ -396,8 +583,15 @@ def auditar(sesion: str | None, de_fran: list, raiz: Path = RAIZ) -> dict:
             continue
         v, e = repo_al_dia(repo, nube)
         res.append(R("P11", "Quedo %s commiteado y pusheado?" % nombre, v, "medido", e))
+    # P12 y P13 (T19, piezas E y D): sin la opcion, ROJO; los llamadores viejos (probar-t15) no la pasan y no la miran
+    res.append(p12(g, evs, procedimientos or []))
+    g.ESTADO_DIR = f.parent
+    lect = lecturas_por_clase(g, cat, g.estado(f.stem), raiz)
+    r13, usadas = p13(lect, usos or [])
+    res.append(r13)
     return {"sesion": f.stem, "estado": str(f), "desde": desde, "proyectos": tocados, "respuestas": res,
-            "sha": hashlib.sha256(f.read_bytes()).hexdigest() if f.exists() else ""}
+            "sha": hashlib.sha256(f.read_bytes()).hexdigest() if f.exists() else "",
+            "uso": {"lecturas": lect, "usadas": usadas} if usadas is not None else None}
 
 
 def imprimir(a: dict) -> int:
@@ -429,6 +623,7 @@ def escribir(a: dict, raiz: Path = RAIZ) -> Path:
         # con su referencia, y con grado 'declarado' -- nunca se agrega a la caja negra a mano
         L += ["", "## Notas de la sesion (declarado: no salen de un registro)", ""] + ["- " + n for n in a["notas"]]
     f.write_text("\n".join(L) + "\n", encoding="utf-8")
+    escribir_muestras(a, raiz)   # L2-AUD-12: la muestra del lazo de uso, al lado del informe y en su mismo commit
     return f
 
 
@@ -667,6 +862,93 @@ def autotest() -> int:
         fh.write(json.dumps({"titulo": "la de esta sesion", "fecha": "2026-02-01", "nivel": "herramienta"}) + "\n")
     nuevas, _ = lecciones_nuevas(pg, "2026-01-15 00:00:00")
     caso("la leccion agregada en la sesion (aun sin commitear) -> cuenta", [x["titulo"] for _, x in nuevas] == ["la de esta sesion"], nuevas)
+    # P4 con el tema declarado (T19, pieza C): sin el tema la puerta deja la nota; con el tema, no (antes la auditoria
+    # no pasaba los temas y daba AMARILLO a la sesion que si lo habia declarado)
+    dec_a = {"t": "declara", "proy": "arquitectura-se", "nec": ["metodo"], "ts": 1}
+    f = sesion("P4sin", [dec_a])
+    p4 = [r for r in preguntas_de_estado(g, cat, f, eventos(f))[0] if r["id"] == "P4"]
+    caso("CONTROL P4: arquitectura-se SIN tema -> la nota TEMA SIN DECLARAR llega", "TEMA SIN DECLARAR" in str(p4), p4)
+    f = sesion("P4con", [dec_a, {"t": "tema", "proy": "arquitectura-se", "temas": ["t19"], "ts": 1.1}])
+    p4 = [r for r in preguntas_de_estado(g, cat, f, eventos(f))[0] if r["id"] == "P4"]
+    caso("P4 con el tema declarado -> sin la nota TEMA SIN DECLARAR", p4 and "TEMA SIN DECLARAR" not in str(p4), p4)
+    # T19, pieza E (L2-AUD-04..08): P12, la quinta pregunta. Caja negra sintetica: un autotest corrido 3 veces, un
+    # script 1 vez, un echo que NOMBRA un script (no lo corre) y dos negadas (no corrieron).
+    def corre(cmd, v="pasa"):
+        return {"t": "decide", "tool": "PowerShell", "obj": cmd, "cwd": "", "v": v, "motivo": "", "ts": 5}
+    pz = "python .claude/hooks/cascada_puerta.py --autotest"
+    evs12 = [corre(pz)] * 3 + [corre("python medir.py"), corre('echo "corre x.py"'), corre('echo "corre x.py"'),
+                                corre('echo "corre x.py"'), corre(pz, "niega"), corre(pz, "niega")]
+    pc = procedimientos_corridos(g, evs12)
+    caso("E: cuenta lo que CORRIO (no el echo que lo nombra, no lo negado)",
+         pc == {"cascada_puerta.py --autotest": 3, "medir.py": 1}, pc, ver=True)
+    pc = procedimientos_corridos(g, [corre('& "C:\\una carpeta\\banco.ps1" -Rapido; python -I ./x/arma.py armar')])
+    caso("E: CONTROL: un script por ruta entre comillas y otro tras un ';' cuentan con su subcomando",
+         pc == {"banco.ps1 -rapido": 1, "arma.py armar": 1}, pc, ver=True)
+    r = p12(g, evs12, [])
+    caso("E: sin declaracion de contraste -> P12 ROJO con la forma de --procedimiento",
+         r["veredicto"] == "ROJO" and "--procedimiento" in str(r["evidencia"]), r, ver=True)
+    bien = "cascada_puerta.py --autotest | que la puerta niegue y deje pasar lo que dice su L2 | produce"
+    r = p12(g, evs12, [bien])
+    caso("E: CONTROL: el repetido declarado con necesidad y resultado -> P12 VERDE", r["veredicto"] == "VERDE", r)
+    r = p12(g, evs12, ["medir.py | contar los scripts | corregido: cuenta por tramo"])
+    caso("E: un procedimiento repetido sin contraste -> P12 AMARILLO con su cuenta",
+         r["veredicto"] == "AMARILLO" and "cascada_puerta.py --autotest x3" in str(r["evidencia"]), r, ver=True)
+    r = p12(g, evs12, ["cascada_puerta.py | probar la puerta"])
+    caso("E: declaracion sin resultado -> P12 ROJO", r["veredicto"] == "ROJO" and "incompleta" in str(r), r)
+    r = p12(g, evs12, ["cascada_puerta.py | probar la puerta | ok"])
+    caso("E: un resultado que no es produce, corregido ni preguntado -> P12 ROJO", r["veredicto"] == "ROJO", r)
+    r = p12(g, evs12, ["ninguno"])
+    caso("E: 'ninguno' con un procedimiento repetido -> P12 AMARILLO", r["veredicto"] == "AMARILLO", r)
+    r = p12(g, [corre("python medir.py")], ["ninguno"])
+    caso("E: CONTROL: 'ninguno' sin repetidos -> P12 VERDE", r["veredicto"] == "VERDE", r)
+    # T19, pieza D (L2-AUD-09..12): P13 y la muestra del lazo de uso
+    lect = {"proyecto:ingenieria": [{"ruta": "perfil-global/pilares/nucleo-ise.md", "por": "base: el libro"},
+                                    {"ruta": "perfil-global/pilares/nasa-seh/readme.md", "por": "necesidad diseno"},
+                                    {"ruta": "perfil-global/pilares/rechtin-maier/readme.md", "por": "necesidad diseno"},
+                                    {"ruta": "proyectos/ingenieria/demo/docs/10-requisitos.md", "por": "base"}]}
+    r, u = p13(lect, [])
+    caso("D: sin declaracion de uso -> P13 ROJO con la forma de --uso y sin muestra",
+         r["veredicto"] == "ROJO" and "--uso" in str(r["evidencia"]) and u is None, r, ver=True)
+    r, u = p13(lect, ["nucleo-ise.md"])
+    caso("D: declaracion sin la decision -> P13 ROJO y sin muestra", r["veredicto"] == "ROJO" and u is None, r)
+    r, u = p13(lect, ["nucleo-isse.md | escribir el L2"])
+    caso("D: un archivo que no es exigido -> P13 AMARILLO, y no marca nada", r["veredicto"] == "AMARILLO"
+         and "nucleo-isse.md" in str(r["evidencia"]) and u == {"proyecto:ingenieria": set()}, (r, u), ver=True)
+    r, u = p13(lect, ["nucleo-ise.md, README.md | escribir el L2 de E"])
+    caso("D: CONTROL: lo usado se marca; un nombre ambiguo marca los dos README", r["veredicto"] == "VERDE"
+         and u["proyecto:ingenieria"] == {"perfil-global/pilares/nucleo-ise.md", "perfil-global/pilares/nasa-seh/readme.md",
+                                         "perfil-global/pilares/rechtin-maier/readme.md"}, (r, u))
+    r, u = p13(lect, ["ninguna"])
+    caso("D: CONTROL: 'ninguna' -> P13 VERDE con 0 usadas (es una muestra)", r["veredicto"] == "VERDE"
+         and u == {"proyecto:ingenieria": set()}, (r, u))
+    r, u = p13({}, [])
+    caso("D: CONTROL: sin lecturas exigidas -> P13 NO APLICA", r["veredicto"] == "NO APLICA" and u is None, r)
+    rz = tmp / "raiz-uso"
+    (rz / REG_USO).parent.mkdir(parents=True)
+    (rz / REG_USO).write_text('{"sesion": "otra", "fecha": "2026-10-18 09:00:00", "clase": "ingenieria", '
+                              '"exigidas": [], "usadas": []}\n{roto\n', encoding="utf-8")
+    a = {"sesion": "s1", "desde": "2026-10-19 10:00:00",
+         "uso": {"lecturas": lect, "usadas": {"proyecto:ingenieria": {"perfil-global/pilares/nucleo-ise.md"}}}}
+    escribir_muestras(a, rz)
+    escribir_muestras(a, rz)
+    lin = (rz / REG_USO).read_text(encoding="utf-8").splitlines()
+    caso("D: la muestra se escribe una vez aunque se audite dos veces; lo ajeno y lo ilegible quedan",
+         len(lin) == 3 and sum('"s1"' in l for l in lin) == 1 and "{roto" in lin and '"otra"' in lin[0], lin, ver=True)
+    m1 = json.loads([l for l in lin if '"s1"' in l][0])
+    caso("D: la muestra trae clase, exigidas con su motivo y usadas", m1["clase"] == "proyecto:ingenieria"
+         and len(m1["exigidas"]) == 4 and m1["usadas"] == ["perfil-global/pilares/nucleo-ise.md"], m1)
+    caso("D: CONTROL: sin declaracion valida no hay muestra", escribir_muestras({"uso": None}, tmp / "vacia") is None
+         and not (tmp / "vacia" / REG_USO).exists())
+    st = {"declaradas": {"arquitectura-se": {"metodo"}}, "excepciones": {}, "temas": {"arquitectura-se": {"t19"}},
+          "clases": {"ingenieria"}}
+    lc = lecturas_por_clase(g, cat, st, RAIZ)
+    rutas = {x["ruta"] for x in lc.get("proyecto:ingenieria", [])}
+    caso("D: sobre el catalogo real, la clase del proyecto trae el libro y el documento del tema; la de ingenieria, el "
+         "tronco", "perfil-global/pilares/nucleo-ise.md" in rutas and any("t19-arbol" in x for x in rutas)
+         and any("reglas.md" in x["ruta"] for x in lc.get("ingenieria", [])), sorted(lc), ver=True)
+    caso("D: la ruta de perfil-global es la misma en la nube (al lado del arbol) que en la PC (adentro)",
+         clave_ruta("/home/user/perfil-global/pilares/x.md", Path("/home/user/claude-acceso")) == "perfil-global/pilares/x.md"
+         and clave_ruta(RAIZ / "perfil-global" / "pilares" / "x.md", RAIZ) == "perfil-global/pilares/x.md")
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0
@@ -677,12 +959,16 @@ if __name__ == "__main__":
     ap.add_argument("--sesion")
     ap.add_argument("--de-fran", action="append", default=[])
     ap.add_argument("--nota", action="append", default=[], help="lo que los registros no muestran (declarado)")
+    ap.add_argument("--procedimiento", action="append", default=[],
+                    help="P12: 'que | que tiene que producir | produce / corregido: que / preguntado: que', o ninguno")
+    ap.add_argument("--uso", action="append", default=[],
+                    help="P13: 'archivo[, archivo] | para que decision', o ninguna")
     ap.add_argument("--escribir", action="store_true")
     ap.add_argument("--autotest", action="store_true")
     a = ap.parse_args()
     if a.autotest:
         sys.exit(autotest())
-    au = auditar(a.sesion, a.de_fran)
+    au = auditar(a.sesion, a.de_fran, procedimientos=a.procedimiento, usos=a.uso)
     au["notas"] = a.nota
     for n in a.nota:
         print("  NOTA (declarado): %s" % n)

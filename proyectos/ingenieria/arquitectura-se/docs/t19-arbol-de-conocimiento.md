@@ -1,7 +1,7 @@
 # T19 — el árbol de conocimiento: tronco fijo, ramas por proyecto
 
-**2026-10-19.** Estado: **v2 aprobada por Fran; construidas las piezas A y B (§6) y C (§7)**; faltan D (el lazo de
-uso) y E (el procedimiento), y la validación en sesiones reales de cada clase (P10).
+**2026-10-19.** Estado: **v2 aprobada por Fran; construidas las cinco piezas: A y B (§6), C (§7), E (§8) y D (§9)**;
+falta la validación en sesiones reales de cada clase (P10), y que el lazo D junte sus primeras cinco muestras por clase.
 
 ## 0. De dónde sale
 
@@ -275,3 +275,110 @@ copie el comienzo de una viñeta contaría como uso de la viñeta para T18; a me
 rama activa. (2) En la nube el repo privado de cátedras no está: la puerta niega en las materias hasta traerlo
 (`estado-nube.py --traer catedras`), como cualquier exigido ausente. (3) El tema lo elige la sesión: uno equivocado lee
 el documento equivocado, y nada lo ve todavía; el lazo D (las lecturas sin uso por clase de sesión) es el primer sensor.
+
+## 8. Construida: la pieza E, el procedimiento (2026-10-19, sesión `4a1da036`)
+
+Requisitos: L1-30 (nuevo: la mitad «antes de correr» de L1-29) y su L2 y el de L1-29 (L2-LDB-01..03, L2-AUD-04..08) en
+[`10-requisitos.md`](10-requisitos.md) §13; 0 VIOLA del GtWR (el mismo chequeo dio 4 antes de pasar «ninguno» y «el no»
+a términos definidos).
+
+**Dónde.** La quinta pregunta del libro de bolsillo (`perfil-global/pilares/nucleo-ise.md` §7) con su fila de grado
+`casa` en [`da013-libro-contra-fuente.md`](da013-libro-contra-fuente.md); la auditoría (`auditar-sesion.py`: P12 y la
+opción `--procedimiento`); el cierre del protocolo (`perfil-global/apertura-proyecto.md`) y el enrutador (`CLAUDE.md`),
+que ahora muestran las dos opciones nuevas.
+
+**Decisiones técnicas, y por qué.**
+
+- **La pregunta va en el libro, no en un hook nuevo**: el libro es tronco y llega entero a toda sesión de ingeniería
+  antes de su primera acción (L1-25). Al cerrar, la auditoría la pregunta.
+- **P12 sin respuesta es ROJO** (P9 es AMARILLO): es el único sensor de N-12, y un amarillo no exige. Contestarla cuesta
+  una opción: `--procedimiento "qué | qué tiene que producir | produce"`, o `ninguno`.
+- **Los tres resultados son la decisión de Fran** (§4): `produce`; `corregido: qué` (se corrigió y se avisó);
+  `preguntado: qué` (la corrección cambiaba lo que Fran ejecuta o lo que se busca).
+- **El control cruzado** (como las señales de la pieza A): la auditoría lista lo que la caja negra vio correr 3 veces o
+  más y da AMARILLO si no figura en lo declarado. Cuenta el script **invocado** al principio de un tramo del comando
+  (no el que nombra un `echo` o un mensaje de commit), con su subcomando, y sólo lo que la puerta dejó pasar. Lista y no
+  frena: la repetición incluye registros (`aprender.py agregar`), y un ROJO tendría falsos positivos.
+- **El umbral se midió antes de fijarlo** (spike sobre las 95 cajas negras de la máquina, 60 con scripts): con la clave
+  «script» sola, 46 sesiones tenían algo repetido 3 veces o más (mediana 2 por sesión); con «script + subcomando» por
+  tramo, 32 (mediana 1). TBR 3.
+
+**La V: cada requisito contra su resultado** (autotest de `auditar-sesion.py` y [`probar-t19de.py`](../probar-t19de.py),
+14 mutantes vistos en su caso, cada uno con su caso sano en verde en la misma corrida).
+
+| Requisito | Resultado | Evidencia |
+|---|---|---|
+| L2-LDB-01..03 | inspeccionado | §7, quinta pregunta; `verificar-libro.py`: LIBRO OK (18/18 citas en cursiva con destilado, ninguna cláusula de escape) |
+| L2-AUD-04, 08 | verificado | autotest «E: sin declaración de contraste»: ROJO con la forma de `--procedimiento`; mutante «sin declaración pasa» visto |
+| L2-AUD-05 | verificado | autotest: sin resultado, y con un resultado que no es de Fran («ok»), ROJO; mutante «cualquier resultado vale» visto |
+| L2-AUD-06 | verificado | autotest: el repetido sin contraste da AMARILLO con «x3»; el `echo` que nombra un script y lo negado no cuentan; mutantes «umbral inalcanzable» y «lo negado cuenta» vistos |
+| L2-AUD-07 | verificado | autotest: VERDE con el repetido declarado, y con `ninguno` sin repetidos |
+
+**Efecto real**, con la auditoría nueva sobre esta misma sesión (sin escribir): P12 dio ROJO por la forma y listó lo
+que de verdad repetí (`medir_proc.py x3`, el autotest de la copia de la auditoría `x3`); P4 pasó a VERDE con el tema
+declarado.
+
+**De paso, dos defectos encontrados y arreglados antes de instalar.** (1) **P4 daba AMARILLO falso** «TEMA SIN DECLARAR»
+a la sesión que sí lo había declarado: la auditoría calculaba lo exigido sin los temas (pieza C cambió la puerta y no la
+auditoría; medido en la auditoría de `125f02e6`); caso y mutante nuevos. (2) El control positivo encontró que un script
+invocado por una ruta **con espacios entre comillas** («01 - UNSAM») no se contaba: el patrón se arregló antes de que el
+caso pasara.
+
+## 9. Construida: la pieza D, el lazo de uso (2026-10-19, sesión `4a1da036`)
+
+Requisitos: L2-AUD-09..12 y L2-USO-01..07 en [`10-requisitos.md`](10-requisitos.md) §13; 0 VIOLA.
+
+**Dónde.** La auditoría (P13, `--uso`, y la muestra en `.claude/auditorias/uso-lecturas.jsonl`), la herramienta nueva
+`uso-lecturas.py` (raíz: `proponer`, `decidir`, `verificar`, `--autotest`), la cascada (`cascada.ps1` y
+`.claude/cascada.sh`, al declarar un proyecto o `-Ingenieria`) y `chequeo-completo` (el medidor en la capa rápida, el
+saboteador en la lenta).
+
+**Cómo anda el lazo.**
+
+1. Al cerrar, la sesión dice qué lecturas exigidas usó y para qué decisión: `--uso "nucleo-ise.md, reglas.md | escribir
+   el L2 de E"` (una opción por decisión), o `--uso ninguna`.
+2. La auditoría calcula las lecturas exigidas de la sesión por clase (`proyecto:<naturaleza>` o `ingenieria`) con la
+   misma `exigido()` de la puerta, marca las usadas y, con `--escribir`, guarda una muestra por clase al lado del
+   informe. Auditar dos veces la misma sesión reemplaza su muestra.
+3. `uso-lecturas.py` acumula: una lectura exigida y sin uso en **5 muestras** seguidas de su clase —contadas desde su
+   último uso y desde la última decisión de Fran sobre ella— es una **propuesta**. La cascada la imprime al declarar esa
+   clase, y la sesión la lleva al cuadro (Lo tuyo).
+4. Fran decide y la sesión lo registra con sus palabras: `python uso-lecturas.py decidir --clase <c> --ruta <r> --si|--no
+   --fran "<lo que dijo>"`. Un sí se aplica en `.claude/cascada.json` (sacarla o activarla distinto); si una muestra
+   posterior la sigue exigiendo, el medidor da ROJO. Un no reinicia la ventana.
+
+**Decisiones técnicas, y por qué.**
+
+- **La unidad es el archivo por clase**: los rangos de un archivo son una lectura, y si el catálogo cambia el rango la
+  cuenta sigue. La clase es la naturaleza porque la rama y el tronco se deciden por naturaleza (pieza C): ahí se ajustan.
+- **Los conceptos que dispara una acción** (freno, typst) no entran: ya se activan por el rol de la acción.
+- **Sin declaración no hay muestra**, y P13 da ROJO: un sensor ciego vería todo sin uso (como T18, L2-RET-06).
+- **Un nombre que no coincide** con ninguna exigida da AMARILLO (mal escrito, o señal de que falta en la rama); uno
+  ambiguo («readme.md») marca todos los que coinciden: la dirección segura es de más usado, nunca de más propuesto.
+- **La propuesta no es un rojo del arranque**: depende de Fran, y un rojo que la sesión no puede arreglar frena todo lo
+  demás. Sí son rojo el registro roto y el sí sin aplicar.
+- **Las rutas se guardan igual en la PC y en la nube**: perfil-global anclado por su nombre (vive adentro del árbol en
+  la PC y al lado en la nube), lo de la carpeta del usuario con `~/`.
+
+**La V: cada requisito contra su resultado.**
+
+| Requisito | Resultado | Evidencia |
+|---|---|---|
+| L2-AUD-09 | verificado | autotest «D: sin declaración de uso»: ROJO con la forma de `--uso`, sin muestra; mutante «sin declaración pasa» visto |
+| L2-AUD-10 | verificado | autotest: archivo sin la decisión, ROJO y sin muestra; mutante «nada es incompleto» visto |
+| L2-AUD-11 | verificado | autotest: un archivo que no es exigido da AMARILLO y no marca nada; un nombre ambiguo marca los dos README; mutante visto |
+| L2-AUD-12 | verificado | autotest: la muestra se escribe una vez aunque se audite dos veces, y lo ajeno y lo ilegible quedan; sin declaración no hay muestra; sobre el catálogo real, la clase del proyecto trae el libro y el documento del tema y la de ingeniería el tronco; mutante «se duplica» visto |
+| L2-USO-01 | verificado | autotest de `uso-lecturas.py`: 5 sin uso proponen, 4 no, un uso en el medio reinicia; mutante visto |
+| L2-USO-02 | demostrado | `cascada.ps1` y `cascada.sh`, por la frontera real, contra una raíz sembrada: imprimen la propuesta al declarar arquitectura-se y `-Ingenieria`, código 0; sin muestras, una línea con la cuenta |
+| L2-USO-03 | verificado | autotest: la decisión queda con fecha, clase, lectura, veredicto y las palabras de Fran |
+| L2-USO-04 | verificado | autotest: sin palabras, y con una lectura que ninguna muestra exigió, se rechaza sin escribir; mutante visto |
+| L2-USO-05 | verificado | autotest: un «no» calla la propuesta, y vuelve con otras 5 sin uso; mutante visto |
+| L2-USO-06 | verificado | autotest: el sí con una muestra posterior que la exige da ROJO; aplicado, verde; mutante visto |
+| L2-USO-07 | verificado | autotest: el renglón ilegible da ROJO con archivo y renglón, y bloquea `decidir`; la decisión sin palabras escrita a mano, también; mutante visto |
+
+**Límites declarados.** (1) El sensor es lo que la sesión dice de sí misma (DA-043): una sesión que declara haber usado
+todo calla el lazo; pedir la decisión por cada uso lo hace más caro de falsear, no imposible. (2) El ROJO de un sí sin
+aplicar compara por clase: si Fran decide «activarla distinto» dentro de la misma clase (p. ej. sólo al declarar
+`diseno`), daría un rojo falso; se resuelve cuando pase, con el alcance escrito en la decisión. (3) La primera propuesta
+llega después de cinco sesiones auditadas de una clase con `--uso`: esta sesión es la primera muestra. (4) La muestra va
+en el commit del informe de la auditoría (`.claude/auditorias/`).

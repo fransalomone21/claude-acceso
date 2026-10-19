@@ -1,5 +1,19 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-19 (sesión `4a1da036`, noche; plan: ventana 5 h al 31 %, semanal al 23 %) — SIGUE: DA-077** (arreglo de una
+> línea en `post()` de la puerta: buscar el texto nuevo en el archivo CON su salto final; copia al lado, caso del
+> autotest con un Edit que agrega al final, mutante, instalar de una vez) y **validar T19 en sesiones reales de cada
+> clase** (P10: una materia, un módulo de BLACK, el telescopio, una suelta). Hecho: **E y D** (§8-9 de
+> [`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md)). **Para el que siga:** (1) **la auditoría de
+> cierre pide dos opciones nuevas** y sin ellas da ROJO: `--procedimiento "qué | qué tiene que producir | produce /
+> corregido: qué / preguntado: qué"` (o `ninguno`) y `--uso "archivo[, archivo] | para qué decisión"` (o `ninguna`);
+> lo dicen `apertura-proyecto.md` y el enrutador; (2) la cascada imprime al declarar una línea «LAZO DE USO» con las
+> propuestas de retiro de esa clase: si hay alguna, va al cuadro como decisión de Fran, y se registra con `python
+> uso-lecturas.py decidir ... --fran "<sus palabras>"`; (3) DA-078 pide una sola función de «lo exigido a esta sesión»
+> para la puerta y la auditoría (hoy cada una arma su llamada); (4) rojos del arranque que NO son de esta sesión: las
+> lecciones **70, 230** (herramienta) y **346** (regla), que también ponen en rojo `install.ps1`; DA-076 sigue (el
+> extractor de enunciados sin acentos se escribió a mano por tercera vez: `scratchpad/extraer_de.py` de esta sesión).
+
 > **2026-10-19 (sesión `125f02e6`, noche; plan: semanal al 87 % con 3 días por delante) — SIGUE: la pieza D del árbol
 > (el lazo de uso, L1-27/28) y la E (la quinta pregunta del libro y la de la auditoría, L1-29), cada una con su L2
 > escrito antes** ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §5). Hecho: **C** (§7,

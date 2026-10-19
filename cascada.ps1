@@ -105,6 +105,8 @@ if ($Ingenieria) {
     if (Test-Path -LiteralPath $pyT) {
         $ErrorActionPreference = 'Continue'
         & python $pyT --tronco 2>&1 | ForEach-Object { Write-Host $_ }
+        $ul = Join-Path $Raiz 'uso-lecturas.py'   # T19, pieza D (L2-USO-02): las propuestas de la clase ingenieria
+        if (Test-Path -LiteralPath $ul) { & python $ul proponer --clase ingenieria 2>&1 | ForEach-Object { Write-Host $_ } }
         $ErrorActionPreference = 'Stop'
     }
     Write-Host "  PREGUNTA DE MARCO, antes de actuar: que tendria que ser verdad para que esto sea el problema equivocado?"
@@ -432,6 +434,10 @@ if ($Excepcion) {
     # un proyecto de ingenieria con documento de requisitos; un rojo de la cadena se imprime, no corta la cascada.
     $mv = Join-Path $Raiz 'matriz-verificacion.py'
     if (Test-Path -LiteralPath $mv) { & python $mv aviso $pr.Nombre 2>&1 | ForEach-Object { Write-Host $_ } }
+    # T19, pieza D (L2-USO-02): las propuestas del lazo de uso para la clase de este proyecto. Las decide Fran: la
+    # sesion las lleva al cuadro ('Lo tuyo'); no son un rojo del arranque, porque la sesion no puede arreglarlas sola.
+    $ul = Join-Path $Raiz 'uso-lecturas.py'
+    if (Test-Path -LiteralPath $ul) { & python $ul proponer --proyecto $pr.Nombre 2>&1 | ForEach-Object { Write-Host $_ } }
     $ErrorActionPreference = 'Stop'
 } else {
     # aviso y no faltante: en un repo sintetico (probar-cascada.ps1) no esta, y en el real lo mide --verificar

@@ -114,6 +114,10 @@ $medidores = @(
     # DA-065: cada seccion de un destilado del libro que trata el tema de un concepto (requisitos, alcance) cae en lo
     # que ese concepto hace leer, o esta declarada afuera con motivo. El App. C vivia en el glosario y no llegaba. ~1 s.
     @{ nombre = 'el mapa de lecturas';        cmd = 'python mapa-lecturas.py' }
+    # T19, pieza D (L2-USO-06/07): ROJO si un registro del lazo de uso trae un renglon roto o si un retiro aprobado por
+    # Fran sigue exigido en una sesion posterior. Las propuestas pendientes NO son rojo: las decide Fran y las imprime
+    # la cascada al declarar (L2-USO-02). ~0,2 s.
+    @{ nombre = 'el lazo de uso (T19)';       cmd = 'python uso-lecturas.py verificar' }
 )
 
 $saboteadores = @(
@@ -174,6 +178,9 @@ $saboteadores = @(
     # Leccion 293 (herramienta): la reescritura que cambia bytes fuera del cambio, medida contra HEAD despues de cada
     # comando. Tres sabotajes (acentos dobles, '?', BOM), cuatro controles y cuatro mutantes, en un repo sintetico.
     @{ nombre = 'reescritura con encoding (293)';  cmd = 'python .claude\hooks\medir-reescritura.py --autotest' }
+    # T19, piezas D y E: P12 (la quinta pregunta), P13 y la muestra de uso en la auditoria, y el lazo (uso-lecturas.py):
+    # los dos autotests sanos y 14 mutantes, cada uno visto en SU caso. ~40 s.
+    @{ nombre = 'el arbol: procedimiento y lazo (T19)'; cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t19de.py' }
 )
 
 function Correr($lista, $titulo) {

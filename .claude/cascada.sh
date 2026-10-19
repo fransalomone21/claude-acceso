@@ -44,6 +44,8 @@ fi
 if [ -n "$ing" ]; then
   echo "  CLASE DEL PEDIDO: ingenieria de sistemas -- '$ing'. Sin proyecto, CON el tronco (T19)."
   "$PY" "$RAIZ/.claude/hooks/cascada_puerta.py" --tronco
+  # T19, pieza D (L2-USO-02): las propuestas del lazo de uso de la clase ingenieria (las decide Fran)
+  [ -f "$RAIZ/uso-lecturas.py" ] && "$PY" "$RAIZ/uso-lecturas.py" proponer --clase ingenieria
   exit 0
 fi
 [ -n "$proy" ] || { echo "$USO"; exit 1; }
@@ -58,4 +60,8 @@ fi
 set -- --exige "$proy"
 [ -n "$nec" ] && set -- "$@" --necesidad "$nec"
 [ -n "$tem" ] && set -- "$@" --tema "$tem"
-exec "$PY" "$RAIZ/.claude/hooks/cascada_puerta.py" "$@"
+"$PY" "$RAIZ/.claude/hooks/cascada_puerta.py" "$@"
+rc=$?
+# T19, pieza D (L2-USO-02): las propuestas del lazo de uso de la clase del proyecto; el codigo sigue siendo el de la puerta
+[ -f "$RAIZ/uso-lecturas.py" ] && "$PY" "$RAIZ/uso-lecturas.py" proponer --proyecto "$proy"
+exit $rc

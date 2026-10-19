@@ -3,6 +3,21 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-19 (sesión `4a1da036`, noche) — T19, PIEZAS E Y D CONSTRUIDAS: las cinco piezas del árbol están.** L2
+escrito antes ([`docs/10-requisitos.md`](docs/10-requisitos.md) §13: L1-30, L2-LDB-01..03, L2-AUD-04..12, L2-USO-01..07;
+20 enunciados, 0 VIOLA). **E**: la quinta pregunta del libro de bolsillo (§7: ¿este procedimiento produce lo que la
+necesidad pide?; mal planteado, se corrige y se avisa) y la P12 de la auditoría (`--procedimiento`, ROJO sin respuesta,
+AMARILLO si un script que la caja negra vio correr 3 veces no está contrastado; umbral medido en 60 cajas negras).
+**D**: el lazo de uso — al cerrar, la sesión dice qué lecturas exigidas usó (`--uso`, P13); la auditoría guarda una
+muestra por clase en `.claude/auditorias/uso-lecturas.jsonl`; `uso-lecturas.py` propone a Fran lo que quedó sin uso en
+5 sesiones de su clase (la cascada lo imprime al declarar) y registra su sí o su no con sus palabras. Probado: autotests
+de la auditoría (59 casos) y de `uso-lecturas.py` (19), [`probar-t19de.py`](probar-t19de.py) con **14 mutantes vistos en
+su caso**, la cascada de la PC y la de la nube por la frontera real, y la auditoría nueva sobre esta sesión. De paso: P4
+daba AMARILLO falso con el tema declarado (arreglado) y dos defectos nuevos, **DA-077** (la puerta pide releer lo que la
+sesión acaba de agregar al final de un archivo) y **DA-078** (la auditoría recalcula lo exigido por su cuenta). Diseño y
+la V: [`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §8-9. Falta: validar en sesiones reales
+de cada clase (P10) y que el lazo junte sus primeras cinco muestras por clase.
+
 **2026-10-19 (sesión `125f02e6`, noche) — T19, PIEZA C CONSTRUIDA: la rama por naturaleza y el tema del pedido.**
 L2 de C escrito antes ([`docs/10-requisitos.md`](docs/10-requisitos.md) §13: L2-PTA-40..45, L2-APR-12, L2-VER-08..12,
 L2-CAS-08/09; 14 enunciados, 0 VIOLA). La sesión que declara un proyecto lee, antes de **cualquier** acción, lo que le

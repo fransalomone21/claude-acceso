@@ -87,9 +87,12 @@ el medidor del **momento lluvia de ideas** («N de M sesiones desde la última»
   corre). Igual conviene abrir acá.
 - **La puerta corre por su lanzador** (`.claude/hooks/puerta-lanzador.py`): si
   revienta, niega todo salvo repararla. Nunca encierra ni falla abierto.
-- **La auditoría cierra la sesión**: `python auditar-sesion.py --de-fran "que | evidencia" --escribir`
-  contesta once preguntas desde los registros (la caja negra de la puerta,
-  git, los requisitos, las lecciones) e informa en `.claude/auditorias/`.
+- **La auditoría cierra la sesión**: `python auditar-sesion.py --de-fran "que | evidencia" --procedimiento "que | que tiene que producir | produce" --uso "archivo | para que decision" --escribir`
+  contesta trece preguntas desde los registros (la caja negra de la puerta,
+  git, los requisitos, las lecciones) e informa en `.claude/auditorias/`. P12
+  es la quinta pregunta del libro (¿el procedimiento produce lo que la necesidad
+  pide?) y P13 el lazo de uso de T19 (`python uso-lecturas.py proponer`): lo
+  que no se usa se le propone a Fran y sale sólo con su sí.
 
 ---
 

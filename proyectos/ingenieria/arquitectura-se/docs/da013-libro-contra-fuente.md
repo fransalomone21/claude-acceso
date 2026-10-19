@@ -112,7 +112,8 @@ con su autotest de 10 casos en la capa de saboteadores).
 | 5.5 | Trade study: criterios antes, pesos del interesado, empate = criterios mal | SEH p. 167-170; Rechtin p. 402 | atribución | el empate es de Rechtin (cita); el SEH pide, con alternativas parejas, llevarlas todas al que decide |
 | 5.6 | Simplificar; mantener las opciones abiertas | Rechtin & Maier p. 32-33 | fiel | página agregada |
 | 6.1-6.6 | Las seis heurísticas | Rechtin & Maier p. 32, 398-401 | fiel | (verbatim en `heuristicas.md`) |
-| 7 | Las cuatro preguntas antes de cada acción | Fran, 2026-10-02 | casa | — |
+| 7 | Las cuatro primeras preguntas antes de cada acción | Fran, 2026-10-02 | casa | — |
+| 7.5 | La quinta: ¿el procedimiento produce lo que la necesidad pide? Mal planteado, se corrige y se avisa; se pregunta cuando cambia lo que el interesado ejecuta o lo que se busca | Fran, 2026-10-19 (`t19-arbol-de-conocimiento.md` §3-4; L1-30, L2-LDB-01..03) | casa | el interesado es Fran |
 
 ### `alcance-como-se-escribe.md`
 
