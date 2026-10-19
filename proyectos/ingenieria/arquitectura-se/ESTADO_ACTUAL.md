@@ -3,6 +3,19 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-19 (sesión `cfe21436`, cuenta nueva de Fran) — T19 EN DISEÑO: el árbol de conocimiento, medido y con
+propuesta.** Medido ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §1, instrumento
+[`medir-arbol.py`](medir-arbol.py)): el arranque pesa **93 273** por sesión y **L1-01 (≤ 90 000) FALLA**, sin medidor que
+lo diga; el **libro de bolsillo no está en el arranque** (llega sólo al entrar a un proyecto, por la puerta); al entrar
+pesa más el propio proyecto que el método (arquitectura-se 119 K, BLACK 90 K); 55 de las 193 viñetas del núcleo nacieron
+en BLACK. Fran decidió (§5): **a la sesión suelta se le pregunta, en cada una, si carga el tronco**, y se anota para
+automatizar la dosis; cómo hacerle lugar lo propone la sesión (§6: enrutador corto, índice de la memoria como vista
+generada, el núcleo a T18, el techo medido en el arranque; ~93 K → ~77 K, `hipótesis`) y lo decide él después de
+comentar. L1-07 (≤ 30 K sin proyecto) es inalcanzable hoy: pasa a TBR. Rojos del arranque arreglados de paso: el mail
+de prueba del autotest declarado, la memoria espejada, la pasada de T18 (10 retiradas). Nuevo **DA-074** (la lista de lo
+que exige la puerta, cortada en la salida de la cascada) y evidencia nueva de **DA-071** (el tramo 1-329 todavía no
+entra en una lectura).
+
 **2026-10-19 (sesión lateral `94d0be8b`) — EL LIBRO CONTRA SUS FUENTES: DA-013, 065, 066, 067 y 070 ARREGLADOS** (falta
 validarlos con 3 sesiones auditadas). Las 70 reglas de `nucleo-ise.md` y `alcance-como-se-escribe.md` graduadas contra
 el PDF: **7 cambiaban el sentido** y se corrigieron (los niveles L0-L6, la excepción de la solución con su quién, los
