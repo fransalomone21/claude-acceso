@@ -3,6 +3,19 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-19 (sesión `cfe21436`, tarde) — T19, PIEZAS A Y B CONSTRUIDAS: la sesión clasifica el pedido y sale con el
+tronco.** Con el OK de Fran a la v2: requisitos N-11, N-12, L0-11, L0-12, L1-24..29 y el L2 de A y B
+([`docs/10-requisitos.md`](docs/10-requisitos.md) §13, 23 enunciados, 0 VIOLA). **A**: hasta clasificar el pedido
+(`cascada.ps1 -Suelta`, `-Ingenieria` o la necesidad de un proyecto) la puerta niega Bash, PowerShell, Write y Edit en
+toda sesión, sin mirar ninguna palabra, y cada pedido sin clasificar trae la línea que lo dice. **B**: una sesión de
+ingeniería (la clase Ingeniería, o un proyecto de `ingenieria` o `documentos`) lee el **tronco** —el libro de bolsillo y
+las fuentes de requisitos y del alcance, 141 315 caracteres— antes de cualquier acción; la suelta y `seguimiento`, no.
+Probado: autotest de la puerta BIEN con los casos 24 y 25 y **7 mutantes vistos**; efecto real por el lanzador, como lo
+corre la app; `cascada.ps1` y `cascada.sh` con las dos clases, código 0. **De paso**: los mutantes del autotest corrían
+desde una carpeta temporal sin la raíz, y el de DA-070 «se veía» porque la puerta no veía ningún proyecto (medido);
+ahora corren con la raíz. Diseño y la V requisito por requisito: [`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md)
+§6. Falta: C (la rama), D (el lazo de uso), E (el procedimiento) y validar en sesiones reales de cada clase (P10).
+
 **2026-10-19 (sesión `cfe21436`, cuenta nueva de Fran) — T19 EN DISEÑO: el árbol de conocimiento, medido y con
 propuesta.** Medido ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §1, instrumento
 [`medir-arbol.py`](medir-arbol.py)): el arranque pesa **93 273** por sesión y **L1-01 (≤ 90 000) FALLA**, sin medidor que

@@ -57,7 +57,7 @@ LECTURA = re.compile(
     r"""^\s*(&\s*)?["']?(\.[\\/])?("""
     r"""Get-Content|gc|cat|type|head|tail|less|more|sed\s+-n|Select-String|sls|grep|rg|ls|dir|Get-ChildItem|gci|"""
     r"""Get-Item|Test-Path|wc|git\s+(log|status|diff|show|rev-parse|ls-files|blame|branch)\b|"""
-    r"""python\s+\S*cascada_puerta\.py\s+--(exige|estado|verificar)|"""
+    r"""python\s+\S*cascada_puerta\.py\s+--(exige|estado|verificar|tronco)|"""
     # la compuerta con una ruta solo IMPRIME la fase (sin marca ni estado); sin argumento lee stdin y con --autotest
     # escribe temporales: esos no. La auditoria de de44da9d la conto como accion sobre black (T14).
     r"""python\s+\S*fase_activa\.py\s+(?!-)\S|"""
@@ -261,6 +261,63 @@ def exige_requisitos(proy: Path, fase) -> bool:
     return bool(fase) and fase[1] in FASES_DESARROLLO and proy.parent.name in NATURALEZAS_NASA
 
 
+# T19 (2026-10-19; L1-24, L1-25 y sus L2 en proyectos/ingenieria/arquitectura-se/docs/10-requisitos.md §13): la sesion
+# CLASIFICA el pedido de Fran interpretandolo, no por una palabra, y una sesion con ingenieria de sistemas sale con el
+# TRONCO (el libro de bolsillo mas las fuentes de requisitos y del alcance) antes de actuar. Fran: «si no digo publicar,
+# no sabes nada del Drive»; el L0 del TP de IISE se escribio con los libros en el repo. Diseno:
+# proyectos/ingenieria/arquitectura-se/docs/t19-arbol-de-conocimiento.md (piezas A y B).
+CLASES_PEDIDO = ("suelta", "ingenieria")
+CLASE_INVOCADA = re.compile(r"-(Suelta|Ingenieria)\s+[\"']([^\"']+)[\"']", re.I)
+
+
+def exige_clasificacion(cat: dict) -> bool:
+    """L2-PTA-35: sin la clave, se exige (falla cerrado). Solo un 'exigida': false explicito la apaga, y eso lo ve
+    --verificar (L2-VER-05): lo que se instala solo se desinstala solo, a la vista."""
+    return (cat.get("clasificacion") or {}).get("exigida", True) is not False
+
+
+def clasificada(st: dict) -> bool:
+    """L2-PTA-33: declarar la necesidad de un proyecto tambien es clasificar el pedido (clase Proyecto)."""
+    return bool(st.get("clases")) or bool(st.get("declaradas"))
+
+
+def tronco_de(cat: dict):
+    """(naturalezas con tronco, conceptos del tronco). Vacio = sin tronco: lo ve --verificar (L2-VER-07)."""
+    t = cat.get("tronco") or {}
+    return list(t.get("naturalezas") or []), list(t.get("conceptos") or [])
+
+
+def con_tronco(cat: dict, st: dict) -> bool:
+    """L2-PTA-37/38: la clase Ingenieria, o la necesidad declarada de un proyecto de una naturaleza con tronco. La
+    suelta sola, no (L2-PTA-39)."""
+    nats, _ = tronco_de(cat)
+    disco = proyectos_del_disco()
+    return "ingenieria" in st.get("clases", set()) or any(
+        p in disco and disco[p].parent.name in nats for p in st.get("declaradas", {}))
+
+
+def cascada_absoluta() -> str:
+    """El comando que clasifica, con la ruta ENTERA (L2-PTA-31): la sesion puede estar abierta fuera del arbol."""
+    import shutil
+    if shutil.which("powershell"):
+        r = str(RAIZ / "cascada.ps1")
+        return ("& \"%s\"" % r) if " " in r else r
+    return "bash %s" % (RAIZ / ".claude" / "cascada.sh")
+
+
+def sin_clase_texto() -> str:
+    c = cascada_absoluta()
+    return ("PUERTA DE LA CASCADA (T19, pieza A): antes de actuar, CLASIFICA el pedido de Fran -- por lo que pide, "
+            "no por una palabra (Fran, 2026-10-19). Una sola de estas, SOLA, antes que nada en paralelo:\n"
+            "  - es de un proyecto o de una materia:   %s <proyecto> -Necesidad <a,b>   (la lista: %s)\n"
+            "  - es ingenieria de sistemas sin proyecto (decidir, disenar, requisitos, un trade):\n"
+            "                                          %s -Ingenieria \"que es\"\n"
+            "  - es una pregunta suelta y especifica, sin ingenieria de sistemas:\n"
+            "                                          %s -Suelta \"que es\"\n"
+            "En la duda, la mas pesada. Ingenieria y los proyectos de ingenieria o de materia cargan el TRONCO (el "
+            "libro de bolsillo y las fuentes de requisitos y del alcance) antes de la primera accion." % (c, c, c, c))
+
+
 def fase_de(proy: Path):
     """(id, tipo corto) de la fase abierta del PDP: tipo 'Fase C', 'Pre-Fase A'... o None si no se tipa. None si no
     hay PDP o ninguna fase abierta. Revienta si el PDP o la compuerta no se pueden leer: quien llama falla cerrado."""
@@ -279,8 +336,9 @@ def fase_de(proy: Path):
 
 
 # ------------------------------------------------------------------------------------------- lo que se exige
-def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
-    """Lista de items {ruta, a, b, por} y lista de comandos {sub, por}. Une rangos del mismo archivo."""
+def exigido(cat: dict, proyecto: str | None, declaradas, conceptos, tronco: bool = False):
+    """Lista de items {ruta, a, b, por} y lista de comandos {sub, por}. Une rangos del mismo archivo. tronco=True pide
+    el tronco sin proyecto (la clase Ingenieria, T19); con un proyecto de una naturaleza con tronco va solo."""
     items, comandos, notas = [], [], []
     proy = proyectos_del_disco().get(proyecto) if proyecto else None
     entrada = cat.get("proyectos", {}).get(proyecto, {}) if proyecto else {}
@@ -350,6 +408,17 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos):
                 continue
             for spec in nd.get("leer", []):
                 agregar(spec, "necesidad %s: %s" % (n, spec.get("por", "")))
+    # T19, pieza B (L2-PTA-37/38): el TRONCO. Con un proyecto de una naturaleza con tronco, o pedido aparte (la clase
+    # Ingenieria, sin proyecto): la base que no depende del proyecto (el libro de bolsillo) y los conceptos del tronco.
+    nats_t, conc_t = tronco_de(cat)
+    if tronco or (proy is not None and proy.parent.name in nats_t):
+        if proy is None:
+            for spec in cat.get("base", []):
+                if "{" not in spec["ruta"]:
+                    agregar(spec, "tronco: " + spec.get("por", ""))
+        for c in conc_t:
+            for spec in cat.get("conceptos", {}).get(c, {}).get("leer", []):
+                agregar(spec, "tronco, concepto %s: %s" % (c, spec.get("por", "")))
     for c in conceptos or []:
         cd = cat.get("conceptos", {}).get(c, {})
         for spec in cd.get("leer", []):
@@ -643,7 +712,7 @@ def anotar(sid: str, ev: dict):
 
 def estado(sid: str) -> dict:
     st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "menciones": {}, "comandos": [],
-          "inferidos": {}, "por_debil": set(), "conectores": []}
+          "inferidos": {}, "por_debil": set(), "conectores": [], "clases": set()}
     f = archivo_estado(sid)
     if not f.exists():
         return st
@@ -669,6 +738,8 @@ def estado(sid: str) -> dict:
             st["excepciones"][ev["proy"]] = ev.get("motivo", "")
         elif t == "mencion":
             st["menciones"][ev["proy"]] = ev.get("motivo", "")
+        elif t == "clase" and ev.get("clase") in CLASES_PEDIDO:   # T19: la clase del pedido, sin proyecto
+            st["clases"].add(ev["clase"])
         elif t == "cmd":
             st["comandos"].append(ev["cmd"])
         elif t == "infiere":
@@ -847,7 +918,13 @@ def pre(ev: dict) -> int:
         sin_decl = [p for p in pend_inf if p not in st["declaradas"]]
         if sin_decl or pend_inf:
             proyecto = (sin_decl or pend_inf)[0]
-    if not proyecto and not conceptos:
+    # T19, pieza A (L2-PTA-30, L2-PTA-35): sin clasificar el pedido, nada actua. Si la accion toca un proyecto todavia
+    # sin declarar, manda el deny de abajo, que pide su necesidad (declararla tambien clasifica: L2-PTA-33).
+    if exige_clasificacion(cat) and not clasificada(st) and not (
+            proyecto and proyecto not in st["declaradas"] and proyecto not in st["excepciones"]):
+        return deny(sin_clase_texto())
+    tronco_pend = con_tronco(cat, st)   # T19, pieza B: con ingenieria de sistemas, el tronco antes de cualquier accion
+    if not proyecto and not conceptos and not tronco_pend:
         return 0
     faltan, cmds_faltan, notas = [], [], []
     if proyecto and proyecto not in st["excepciones"]:
@@ -879,6 +956,11 @@ def pre(ev: dict) -> int:
         faltan += it
         cmds_faltan += cm
         notas += nt
+    if tronco_pend:   # L2-PTA-37/38: aunque la accion no toque el proyecto
+        it, cm, nt = exigido(cat, None, [], [], tronco=True)
+        faltan += it
+        notas += nt
+    faltan = list({(x["ruta"], x["a"], x["b"]): x for x in faltan}.values())   # el tronco ya puede venir con el proyecto
     pend = [x for x in faltan if not cubierto(st["lecturas"].get(x["ruta"], []), x["a"], x["b"])
             and not leido_por_contenido(st, x)]
     hechos = " || ".join(c.replace("\\", "/").lower() for c in st["comandos"])
@@ -906,8 +988,9 @@ def pre(ev: dict) -> int:
                   and not registro and not escribe_requisitos(n, destino)]
     if not pend and not cpend and not no_existe:
         return 0
-    lin = ["PUERTA DE LA CASCADA (T11): antes de esta accion (%s%s) falta LEER con la herramienta Read:" % (
-        "proyecto " + proyecto if proyecto else "", ("; conceptos " + ", ".join(conceptos)) if conceptos else "")]
+    lin = ["PUERTA DE LA CASCADA (T11): antes de esta accion (%s%s%s) falta LEER con la herramienta Read:" % (
+        "proyecto " + proyecto if proyecto else "", ("; conceptos " + ", ".join(conceptos)) if conceptos else "",
+        "; el TRONCO de ingenieria de sistemas (T19)" if tronco_pend else "")]
     for x in pend:
         lin.append("  - %s  offset=%d limit=%d   (%s)" % (rel(x["ver"]), x["a"], x["b"] - x["a"] + 1, x["por"][:90]))
     for c in cpend:
@@ -983,7 +1066,12 @@ def registrar_comando(sid: str, cmd: str):
 
 
 def registrar_invocacion(sid: str, cmd: str):
+    c = CLASE_INVOCADA.search(cmd)
+    if c:   # T19 (L2-PTA-32): la clase del pedido, sin proyecto; llega aca en PreToolUse, antes de que el comando corra
+        anotar(sid, {"t": "clase", "clase": c.group(1).lower(), "motivo": c.group(2)})
     m = DECL.search(cmd)
+    if m and m.group(1).lower() in CLASES_PEDIDO:   # '-Suelta' no es el nombre de un proyecto
+        m = None
     if m:
         proy = resolver_proyecto(m.group(1))
         resto = m.group(2)
@@ -1038,6 +1126,13 @@ def prompt(ev: dict) -> int:
                 and p not in st["inferidos"]:
             print("CASCADA (aviso, sin freno): '%s' es vocabulario de %s, pero la sesion ya es de %s. Si el pedido "
                   "TAMBIEN es de %s: %s %s -Necesidad <a,b> (leccion 372)." % (por, p, otro, p, entrada(), p))
+    # T19 (L2-PTA-36): sin clasificar, se dice ANTES del primer freno, en cada pedido y sin mirar ninguna palabra.
+    if exige_clasificacion(cat) and not clasificada(estado(sid)):
+        c = cascada_absoluta()
+        print("CLASIFICA EL PEDIDO antes de actuar (T19): por lo que pide, no por una palabra. Proyecto o materia: "
+              "%s <proyecto> -Necesidad <a,b>; ingenieria de sistemas sin proyecto: %s -Ingenieria \"que es\"; "
+              "pregunta suelta y especifica: %s -Suelta \"que es\". En la duda, la mas pesada. Es la PRIMERA llamada, "
+              "SOLA: hasta clasificar, la puerta niega Bash, PowerShell, Write y Edit." % (c, c, c))
     return 0
 
 
@@ -1138,8 +1233,11 @@ def cli_exige(proyecto: str, necs) -> int:
     # negados en paralelo, porque el concepto 'requisitos' (GtWR, catedra, NASA) no aparecia al declarar la necesidad
     # y recien lo nombraba la primera negacion. Se imprime con rangos, como la base, para leerlo ANTES de editar.
     req = (ent or {}).get("requisitos")
-    cs = conceptos_de(cat, "Edit", {"file_path": req}) if req else []
-    impresos = set(cs)
+    # T19 (L2-CAS-07): los conceptos del tronco ya salieron arriba, en lo EXIGIDO, si el proyecto lleva tronco
+    nats_t, conc_t = tronco_de(cat)
+    ya = set(conc_t) if (proyectos_del_disco().get(p) or Path(".")).parent.name in nats_t else set()
+    cs = [c for c in (conceptos_de(cat, "Edit", {"file_path": req}) if req else []) if c not in ya]
+    impresos = set(cs) | ya
     if cs:
         citems, _, _ = exigido(cat, None, [], cs)
         print("  AL EDITAR %s la puerta exige ADEMAS (concepto %s) -- leer antes de la primera edicion, y la primera "
@@ -1208,6 +1306,27 @@ def cli_exige(proyecto: str, necs) -> int:
     return 0
 
 
+def cli_tronco() -> int:
+    """T19 (L2-CAS-07): lo que la clase Ingenieria exige leer, con rangos. Lo imprime cascada.ps1 -Ingenieria."""
+    cat = cargar_catalogo()
+    items, _, notas = exigido(cat, None, [], [], tronco=True)
+    print("  TRONCO de ingenieria de sistemas (T19, pieza B) -- leer con Read, con estos rangos, ANTES de la primera "
+          "accion:")
+    total = 0
+    for x in items:
+        txt = Path(x["ruta"]).read_text(encoding="utf-8", errors="replace").splitlines()[x["a"] - 1:x["b"]]
+        ch = sum(len(l) + 1 for l in txt)
+        total += ch
+        print("    %-62s %5d-%-5d %6d ch  %s" % (rel(x["ver"])[-62:], x["a"], x["b"], ch, x["por"][:60]))
+    for n in notas:
+        print("  ! " + n)
+    if not tronco_de(cat)[1]:
+        print("  ! el tronco del catalogo no nombra conceptos (L2-VER-07): falta lo de requisitos y alcance")
+        return 1
+    print("  total: %d caracteres (~%d K tokens), una vez por sesion" % (total, total // 3500))
+    return 1 if notas else 0
+
+
 def cli_verificar() -> int:
     rojos = []
     try:
@@ -1227,6 +1346,19 @@ def cli_verificar() -> int:
         for c in nd.get("al_tocar", []):
             if c not in cat.get("conceptos", {}):
                 rojos.append("la necesidad %s declara al_tocar '%s', que no es un concepto" % (n, c))
+    # T19 (L2-VER-05..07): la clasificacion apagada se ve en cada arranque, y el tronco tiene que resolver
+    if not exige_clasificacion(cat):
+        rojos.append("la CLASIFICACION del pedido esta APAGADA ('clasificacion': {'exigida': false}): la puerta deja "
+                     "actuar sin que la sesion interprete el pedido (T19, L2-VER-05)")
+    nats_t, conc_t = tronco_de(cat)
+    if not conc_t:
+        rojos.append("el TRONCO del catalogo no nombra conceptos: una sesion de ingenieria saldria sin las fuentes de "
+                     "requisitos (T19, L2-VER-07)")
+    if not nats_t:
+        rojos.append("el TRONCO del catalogo no nombra naturalezas: ningun proyecto lo cargaria (T19)")
+    for c in conc_t:
+        if c not in cat.get("conceptos", {}):
+            rojos.append("el TRONCO nombra el concepto '%s', que no existe en el catalogo (T19, L2-VER-06)" % c)
     disco = proyectos_del_disco()
     ent = cat.get("proyectos", {})
     for n in sorted(disco):
@@ -1377,11 +1509,23 @@ def autotest() -> int:
                CASCADA_CATALOGO=str(f_base))
     sid = "autotest-%d" % os.getpid()
     mal = 0
+    clasificadas = set()
 
     def correr(ev, cat_env=None, script=__file__):
-        e = dict(env)
+        # CASCADA_RAIZ siempre: un mutante vive en tmp, y sin ella su RAIZ salia de SU carpeta (no habia proyectos en
+        # el disco) y el mutante 'se veia' por esa razon y no por la suya (2026-10-19, T19). cat_env la pisa si quiere.
+        e = dict(env, CASCADA_RAIZ=str(RAIZ))
         if cat_env:
             e.update(cat_env)
+        s = ev.get("session_id", "")
+        # T19: los casos de antes de la clasificacion miden OTRA cosa. Su sesion se clasifica 'suelta' una vez, como
+        # lo haria una sesion real; los casos de la clasificacion y del tronco (24, 25) usan sesiones 'sin-clase-*'.
+        if s and not s.startswith("sin-clase") and s not in clasificadas and \
+                ev.get("hook_event_name") in ("PreToolUse", "UserPromptSubmit"):
+            clasificadas.add(s)
+            subprocess.run([sys.executable, str(script)], capture_output=True, env=e, input=json.dumps(
+                {"hook_event_name": "PostToolUse", "session_id": s, "tool_name": "PowerShell", "tool_input": {
+                    "command": ".\\cascada.ps1 -Suelta \"autotest: un caso anterior a T19\""}}).encode("utf-8"))
         r = subprocess.run([sys.executable, str(script)], input=json.dumps(ev).encode("utf-8"), capture_output=True,
                            env=e)
         return r.stdout.decode("utf-8", "replace")
@@ -1411,9 +1555,13 @@ def autotest() -> int:
     # 3. leer todo lo exigido salvo un rango a medias
     cat = cat_base
     items, cmds, _ = exigido(cat, "black", ["diseno"], [])
-    for x in items[:-1]:
-        correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}))
-    ult = items[-1]
+    # el que se lee a medias no puede estar contenido en otro rango exigido (T19: el tronco trae requisitos.md entero y
+    # el alcance un tramo de ese mismo archivo; leer a medias el tramo no deja nada pendiente)
+    ult = next(x for x in reversed(items) if not any(y is not x and y["ruta"] == x["ruta"] and y["a"] <= x["a"]
+                                                    and y["b"] >= x["b"] for y in items))
+    for x in items:
+        if x is not ult:
+            correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}))
     correr(post_ev("Read", {"file_path": ult["ruta"], "offset": ult["a"], "limit": max(1, (ult["b"] - ult["a"]) // 2)}))
     caso("un rango leido a medias -> deny", correr(pre_ev(*edit_black)), True, "offset=")
     correr(post_ev("Read", {"file_path": ult["ruta"], "offset": ult["a"], "limit": ult["b"] - ult["a"] + 1}))
@@ -1553,6 +1701,9 @@ def autotest() -> int:
     req_f = tmp / ("requisitos-autotest-%d.md" % os.getpid())
     cat_r = json.loads((RAIZ / ".claude" / "cascada.json").read_text(encoding="utf-8"))
     cat_r["proyectos"].setdefault("black", {})["requisitos"] = str(req_f)
+    # T19: con el tronco, una sesion de black ya leyo el GtWR antes de actuar. Este caso mide el DISPARO del concepto
+    # 'requisitos' al escribir el documento, asi que ingenieria va sin tronco aca; el tronco se prueba en el caso 25.
+    cat_r["tronco"] = dict(cat_r.get("tronco") or {}, naturalezas=["documentos"])
     cr = tmp / "con-requisitos.json"
     cr.write_text(json.dumps(cat_r, ensure_ascii=False), encoding="utf-8")
     e_r = {"CASCADA_CATALOGO": str(cr)}
@@ -2239,6 +2390,11 @@ def autotest() -> int:
         correr(pre_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Excepcion \"autotest DA-070\"" % p_a}, s), None, script)
         if n == 2:   # el segundo, declarado y sin leer su base: tiene que pedir la lectura del SEGUNDO
             correr(pre_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % p_b}, s), None, script)
+            # T19: el tronco leido, para que lo unico pendiente sea la base del segundo (si no, el mutante que deja de
+            # exigirla seguiria negado por el tronco y no se veria)
+            for x in exigido(cat_base, None, [], [], tronco=True)[0]:
+                correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s),
+                       None, script)
         return correr(pre_ev(*(uno if n == 1 else dos), s=s), None, script)
 
     casos22 = (("DA-070 SABOTAJE: un comando con dos proyectos, uno liberado -> deny por el OTRO", True,
@@ -2286,6 +2442,155 @@ def autotest() -> int:
     mal += not ok
     print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "requisitos largos: entero, en secciones que entran en una lectura",
                                "%d rangos %s; el corto, %d" % (len(pz), pz, len(partes_de_lectura(req_base)))))
+
+    def mutar(nombre, cambios, sanos, n, correr_caso, niega_sano, etiqueta):
+        """Un mutante por mecanismo, juzgado solo si SU caso paso sano en esta corrida (si no, 'visto' seria falso)."""
+        nonlocal mal
+        fuente = Path(__file__).read_text(encoding="utf-8")
+        txt = fuente
+        for viejo, nuevo in cambios:
+            txt = txt.replace(viejo, nuevo, 1)
+        if not sanos.get(n):
+            ok, r = False, "NO JUZGABLE: su caso no paso sano en esta corrida"
+        elif any(viejo not in fuente for viejo, _ in cambios):
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        else:
+            m = tmp / ("mutante-%s-%d.py" % (etiqueta, n))
+            m.write_text(txt, encoding="utf-8")
+            r = correr_caso(n, m)
+            ok = ('"deny"' in r) != niega_sano
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r[:200]))
+
+    # 24. T19, pieza A (L1-24, L2-PTA-30..36, L2-VER-05): sin clasificar el pedido, nada actua; clasificar por la
+    # cascada pasa y queda registrado ANTES de que el comando corra (PreToolUse); declarar un proyecto tambien clasifica.
+    # Sesiones 'sin-clase-*': el ayudante correr() no las clasifica. Cada caso, su sesion (por script: un mutante no
+    # hereda el estado del caso sano).
+    mapa = ("Edit", {"file_path": str(RAIZ / "MAPA.md"), "old_string": "a", "new_string": "b"})
+    c24 = dict(cat_base)
+    c24.pop("clasificacion", None)
+    f24 = tmp / "cat24-sin-clave.json"
+    f24.write_text(json.dumps(c24, ensure_ascii=False), encoding="utf-8")
+    f24b = tmp / "cat24-apagada.json"
+    f24b.write_text(json.dumps(dict(cat_base, clasificacion={"exigida": False}), ensure_ascii=False), encoding="utf-8")
+    cascada_ps1 = str(RAIZ / "cascada.ps1")
+    clasif = lambda cl: ("PowerShell", {"command": ".\\cascada.ps1 -%s \"autotest T19\"" % cl})  # noqa: E731
+    casos24 = (
+        ("T19 SABOTAJE: sin clasificar, Edit fuera de proyectos -> deny con las tres clases",
+         [mapa], None, True, "-Ingenieria"),
+        ("T19 SABOTAJE: sin clasificar, un comando cualquiera -> deny", [("Bash", {"command": "python x-autotest.py"})],
+         None, True, "CLASIFICA"),
+        ("T19 CONTROL: sin clasificar, invocar la cascada -> pasa", [clasif("Suelta")], None, False, None),
+        ("T19 CONTROL: -Suelta registrado en PreToolUse, despues Edit -> pasa", [clasif("Suelta"), mapa], None, False,
+         None),
+        ("T19 CONTROL: declarar un proyecto (coaching) clasifica -> pasa",
+         [("PowerShell", {"command": ".\\cascada.ps1 coaching -Necesidad ninguna"}), mapa], None, False, None),
+        ("T19 CONTROL: sin clasificar, lectura pura -> pasa",
+         [("PowerShell", {"command": "Get-Content MAPA.md | Select-Object -First 3"})], None, False, None),
+        ("T19 SABOTAJE: el catalogo SIN la clave -> deny igual (falla cerrado)", [mapa], str(f24), True, "CLASIFICA"),
+        ("T19 CONTROL: el catalogo con 'exigida': false -> pasa (se apaga)", [mapa], str(f24b), False, None),
+        ("T19 CONTROL: sin clasificar, tocar un proyecto -> pide SU necesidad",
+         [("Edit", {"file_path": str(black / "docs" / "x.md"), "old_string": "a", "new_string": "b"})], None, True,
+         "-Necesidad"))
+
+    def caso24(n, script=__file__):
+        s = "sin-clase-24-%d-%s" % (n, Path(script).stem)
+        acciones, fcat = casos24[n][1], casos24[n][2]
+        r = ""
+        for tool, inp in acciones:
+            r = correr(pre_ev(tool, inp, s), {"CASCADA_CATALOGO": fcat} if fcat else None, script)
+        return r
+
+    sanos24 = {}
+    for n, (nombre, _, _, niega, motivo) in enumerate(casos24):
+        r = caso24(n)
+        sanos24[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+    r = caso24(0)
+    caso("T19: el deny da la ruta ABSOLUTA de la cascada (afuera del arbol)", r, True, cascada_ps1.replace("\\", "\\\\"))
+    s24p = "sin-clase-24-pedido"
+    r = correr({"hook_event_name": "UserPromptSubmit", "session_id": s24p, "prompt": "che, una pregunta"})
+    ok = "CLASIFICA EL PEDIDO" in r
+    correr(pre_ev(*clasif("Suelta"), s=s24p))
+    r2 = correr({"hook_event_name": "UserPromptSubmit", "session_id": s24p, "prompt": "y otra"})
+    ok = ok and "CLASIFICA EL PEDIDO" not in r2
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "T19: el pedido sin clasificar lo dice; clasificado, calla",
+                               "si" if ok else "NO: %r | %r" % (r[:120], r2[:120])))
+    rv = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                        env=dict(env, CASCADA_CATALOGO=str(f24b), CASCADA_RAIZ=str(RAIZ)))
+    ok = rv.returncode == 1 and "APAGADA" in rv.stdout.decode("utf-8", "replace")
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "T19: la clasificacion apagada -> --verificar en rojo",
+                               "rojo" if ok else "NO"))
+    for nombre, cambios, n in (
+            ("MUTANTE T19 (sin el freno de clasificacion) -> lo ve el caso 1",
+             [("if exige_clasificacion(cat) and not clasificada(st) and not (", "if False and not (")], 0),
+            ("MUTANTE T19 (la clave ausente apaga) -> lo ve el caso 7",
+             [('.get("exigida", True) is not False', '.get("exigida", False) is not False')], 6),
+            ("MUTANTE T19 (la clase no se registra) -> lo ve el caso 4",
+             [('anotar(sid, {"t": "clase", "clase": c.group(1).lower(), "motivo": c.group(2)})', "pass")], 3),
+            ("MUTANTE T19 (declarar no clasifica) -> lo ve el caso 5",
+             [('return bool(st.get("clases")) or bool(st.get("declaradas"))', 'return bool(st.get("clases"))')], 4)):
+        mutar(nombre, cambios, sanos24, n, caso24, casos24[n][3], "t19a")
+
+    # 25. T19, pieza B (L1-25, L2-PTA-37..39, L2-VER-06/07, L2-CAS-07): con ingenieria de sistemas, el TRONCO (el libro
+    # y las fuentes de requisitos y del alcance) antes de CUALQUIER accion, aunque no toque el proyecto; la suelta y una
+    # naturaleza sin tronco (seguimiento) pasan sin el. Edit sobre MAPA.md: fuera de todo proyecto, a proposito.
+    tronco25 = exigido(cat_base, None, [], [], tronco=True)[0]
+    declara = lambda p: ("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % p})  # noqa: E731
+    casos25 = (
+        ("T19 SABOTAJE: -Ingenieria sin leer el tronco -> deny (GtWR y libro)", [clasif("Ingenieria")], False, True,
+         "incose-gtwr"),
+        ("T19 CONTROL: -Ingenieria con el tronco leido -> pasa", [clasif("Ingenieria")], True, False, None),
+        ("T19 SABOTAJE: proyecto de ingenieria (telescopio), accion FUERA -> deny", [declara("telescopio")], False, True,
+         "nucleo-ise"),
+        ("T19 CONTROL: proyecto de seguimiento (coaching) -> pasa sin tronco", [declara("coaching")], False, False, None),
+        ("T19 CONTROL: -Suelta -> pasa sin tronco", [clasif("Suelta")], False, False, None))
+
+    def caso25(n, script=__file__):
+        s = "sin-clase-25-%d-%s" % (n, Path(script).stem)
+        for tool, inp in casos25[n][1]:
+            correr(pre_ev(tool, inp, s), None, script)
+        if casos25[n][2]:
+            for x in tronco25:
+                correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s),
+                       None, script)
+        return correr(pre_ev(*mapa, s=s), None, script)
+
+    sanos25 = {}
+    for n, (nombre, _, _, niega, motivo) in enumerate(casos25):
+        r = caso25(n)
+        sanos25[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+    for nombre, tr, marca in (("T19: el tronco con un concepto inexistente -> --verificar en rojo",
+                               {"naturalezas": ["ingenieria"], "conceptos": ["no-existe-t19"]}, "no existe en el catalogo"),
+                              ("T19: el tronco sin conceptos -> --verificar en rojo",
+                               {"naturalezas": ["ingenieria"], "conceptos": []}, "no nombra conceptos")):
+        f25 = tmp / "cat25.json"
+        f25.write_text(json.dumps(dict(cat_base, tronco=tr), ensure_ascii=False), encoding="utf-8")
+        rv = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                            env=dict(env, CASCADA_CATALOGO=str(f25), CASCADA_RAIZ=str(RAIZ)))
+        ok = rv.returncode == 1 and marca in rv.stdout.decode("utf-8", "replace")
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "rojo" if ok else "NO"))
+    rt = subprocess.run([sys.executable, __file__, "--tronco"], capture_output=True, env=dict(env, CASCADA_RAIZ=str(RAIZ)))
+    re_ = subprocess.run([sys.executable, __file__, "--exige", "telescopio", "--necesidad", "ninguna"], capture_output=True,
+                         env=dict(env, CASCADA_RAIZ=str(RAIZ)))
+    st_, se_ = rt.stdout.decode("utf-8", "replace"), re_.stdout.decode("utf-8", "replace")
+    ok = rt.returncode == 0 and "nucleo-ise" in st_ and "reglas.md" in st_ and "tronco, concepto requisitos" in se_
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "T19: --tronco y --exige imprimen el tronco con rangos",
+                               "si" if ok else "NO: rc=%s %r" % (rt.returncode, st_[-160:])))
+    for nombre, cambios, n in (
+            ("MUTANTE T19 (Ingenieria sin tronco) -> lo ve el caso 1",
+             [('return "ingenieria" in st.get("clases", set()) or any(', "return False or any(")], 0),
+            ("MUTANTE T19 (tronco para toda naturaleza) -> lo ve el caso 4",
+             [('p in disco and disco[p].parent.name in nats for p in st.get("declaradas", {}))',
+               'p in disco for p in st.get("declaradas", {}))')], 3),
+            ("MUTANTE T19 (el tronco solo al tocar el proyecto) -> lo ve el caso 3",
+             [("if tronco_pend:   # L2-PTA-37/38: aunque la accion no toque el proyecto", "if False:")], 2)):
+        mutar(nombre, cambios, sanos25, n, caso25, casos25[n][3], "t19b")
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0
@@ -2297,6 +2602,8 @@ if __name__ == "__main__":
         sys.exit(autotest())
     if a[:1] == ["--verificar"]:
         sys.exit(cli_verificar())
+    if a[:1] == ["--tronco"]:
+        sys.exit(cli_tronco())
     if a[:1] == ["--exige"] and len(a) >= 2:
         necs = []
         if "--necesidad" in a:

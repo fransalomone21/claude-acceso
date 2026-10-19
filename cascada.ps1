@@ -29,6 +29,11 @@
 #                                 declara la necesidad e imprime lo que la PUERTA exige leer (T11)
 #   .\cascada.ps1 black -Excepcion "motivo"   la salida explicita de la puerta, registrada
 #   .\cascada.ps1 black -Mencion "motivo"     el pedido NOMBRA el proyecto sin pedirlo (T14b): libera lo de afuera
+#   .\cascada.ps1 -Ingenieria "que es"        T19: ingenieria de sistemas sin proyecto; imprime el TRONCO que se exige
+#   .\cascada.ps1 -Suelta "que es"            T19: pregunta suelta y especifica, sin ingenieria de sistemas ni tronco
+#
+# Desde T19 (2026-10-19) toda sesion CLASIFICA el pedido antes de actuar, interpretandolo y no por una palabra: un
+# proyecto (-Necesidad), -Ingenieria o -Suelta. La puerta niega Bash, PowerShell, Write y Edit hasta entonces.
 #
 # Desde T11 (2026-10-02) la cascada no es un consejo: .claude/hooks/cascada_puerta.py NO DEJA ACTUAR sobre un
 # proyecto hasta que la sesion declaro la necesidad y LEYO con Read lo que el catalogo .claude/cascada.json exige.
@@ -41,6 +46,8 @@ param(
     [string[]]$Necesidad,       # T11: la necesidad de Fran que se va a resolver (la puerta la exige)
     [string]$Excepcion,         # T11: salida explicita de la puerta, con motivo; queda registrada
     [string]$Mencion,           # T14b: el pedido NOMBRA el proyecto sin pedirlo; libera lo de afuera, nunca su carpeta
+    [string]$Ingenieria,        # T19: la clase del pedido, ingenieria de sistemas sin proyecto (carga el tronco)
+    [string]$Suelta,            # T19: la clase del pedido, pregunta suelta y especifica (sin tronco)
     [string]$Raiz = $PSScriptRoot
 )
 
@@ -77,6 +84,29 @@ if (Test-Path $dirProyectos) {
             }
         }
     }
+}
+
+# T19, pieza A (L2-CAS-06, L2-CAS-07): la clase del pedido sin proyecto. La registra el HOOK leyendo esta linea de
+# comando antes de que corra; aca se confirma y, para Ingenieria, se imprime el tronco que la puerta va a exigir.
+if ($Suelta) {
+    Write-Host ""
+    Write-Host "  CLASE DEL PEDIDO: suelta -- '$Suelta'. Sin proyecto y sin tronco (T19)." -ForegroundColor Cyan
+    Write-Host "  Si resulta pedir ingenieria de sistemas o un proyecto, se reclasifica: -Ingenieria o <proyecto> -Necesidad."
+    Write-Host ""
+    exit 0
+}
+if ($Ingenieria) {
+    Write-Host ""
+    Write-Host "  CLASE DEL PEDIDO: ingenieria de sistemas -- '$Ingenieria'. Sin proyecto, CON el tronco (T19)." -ForegroundColor Cyan
+    $pyT = Join-Path $Raiz '.claude\hooks\cascada_puerta.py'
+    if (Test-Path -LiteralPath $pyT) {
+        $ErrorActionPreference = 'Continue'
+        & python $pyT --tronco 2>&1 | ForEach-Object { Write-Host $_ }
+        $ErrorActionPreference = 'Stop'
+    }
+    Write-Host "  PREGUNTA DE MARCO, antes de actuar: que tendria que ser verdad para que esto sea el problema equivocado?"
+    Write-Host ""
+    exit 0
 }
 
 if (-not $Proyecto) {

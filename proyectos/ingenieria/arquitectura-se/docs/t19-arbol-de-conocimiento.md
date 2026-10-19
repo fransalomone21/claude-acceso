@@ -131,7 +131,67 @@ llega al paso (`al-paso.py`).
 **Costo, dicho una vez:** una sesión de ingeniería va a leer bastante más que hoy (el tronco con sus fuentes es varias
 veces el libro solo). Es lo que Fran eligió: que sobre, y que el uso diga qué se saca.
 
+**OK de Fran a la v2, el 2026-10-19**: «escribí los requisitos del árbol y arrancá por las piezas A y B». Requisitos:
+[`10-requisitos.md`](10-requisitos.md) §13 (N-11, N-12, L0-11, L0-12, L1-24..29; L2 de A y B), 23 enunciados, 0 VIOLA
+del GtWR.
+
 **Orden y estimación** (`hipótesis`, por lo que costaron T15-T18): A y B, 1-2 sesiones; E, en la misma (es una regla
 del libro y una pregunta de la auditoría); C, 1-2 sesiones, más el mapa de temas de cada proyecto grande la primera
 vez que se entra; D, 1 sesión. Validación (P10): una sesión real de cada clase (una materia, un módulo de BLACK, el
 telescopio, una suelta) con la auditoría diciendo si la clasificación, el tronco y la rama fueron los correctos.
+
+## 6. Construidas: las piezas A y B (2026-10-19, sesión `cfe21436`)
+
+**Dónde.** La puerta (`.claude/hooks/cascada_puerta.py`), el catálogo (`.claude/cascada.json`: claves `clasificacion` y
+`tronco`, cada una con su `_porqué`), `cascada.ps1` y `.claude/cascada.sh` (las dos clases nuevas, con la misma sintaxis
+en la PC y en la nube). La puerta se editó en una copia y se instaló de una vez, con su autotest en verde antes del
+cambio: nunca quedó rota (lección 346).
+
+**Decisiones técnicas, y por qué.**
+
+- **Qué clasifica**: `-Suelta "qué es"`, `-Ingenieria "qué es"` o la necesidad declarada de un proyecto (L2-PTA-33).
+  La Mención y la Excepción no clasifican: dicen de qué *no* es la sesión. Si la acción toca un proyecto todavía sin
+  declarar, manda el freno de siempre (pide su necesidad, que también clasifica): así el mensaje es el más útil.
+- **Se registra en PreToolUse** (L2-PTA-32): un comando que sale con error no dispara el registro de después.
+- **La invocación de la cascada siempre pasa** (L2-PTA-34): es la única salida, y tiene que quedar abierta.
+- **El freno se apaga sólo a la vista** (L2-PTA-35, L2-VER-05): sin la clave, se exige; `"exigida": false` lo apaga
+  (lo que se instala solo se desinstala solo) y el arranque lo muestra en rojo.
+- **El tronco = la base que no depende del proyecto (el libro) + los conceptos `requisitos` y `alcance`**, exigido
+  antes de **cualquier** acción de una sesión de ingeniería, toque o no el proyecto (L2-PTA-37/38). Hoy pesa 141 315
+  caracteres (~40 K tokens) por sesión: es lo que Fran eligió («que sobre»).
+- **Qué naturalezas llevan tronco**: `ingenieria` y `documentos` (las materias son de la carrera de ingeniería en
+  sistemas espaciales: en la duda, se carga); `seguimiento` no. Es dato del catálogo, no código: el lazo D lo ajusta.
+- **El aviso antes del freno** (L2-PTA-36): mientras la sesión no clasificó, cada pedido de Fran trae una línea con los
+  tres comandos, sin mirar ninguna palabra.
+
+**La V: cada requisito contra su resultado.**
+
+| Requisito | Resultado | Evidencia |
+|---|---|---|
+| L2-PTA-30, 31 | verificado | autotest caso 24 (deny con las tres clases y la ruta absoluta), mutante «sin el freno» visto |
+| L2-PTA-32 | verificado | caso 24 (`-Suelta` en PreToolUse y después Edit pasa), mutante «la clase no se registra» visto |
+| L2-PTA-33 | verificado | caso 24 (declarar `coaching` clasifica), mutante «declarar no clasifica» visto |
+| L2-PTA-34 | verificado | caso 24 (invocar la cascada sin clasificar pasa) |
+| L2-PTA-35 | verificado | caso 24 (catálogo sin la clave: niega), mutante «la clave ausente apaga» visto |
+| L2-PTA-36 | verificado | caso 24 (el pedido sin clasificar lo dice; clasificado, calla) |
+| L2-VER-05 | verificado | caso 24 (`--verificar` en rojo con `"exigida": false`) |
+| L2-CAS-06 | demostrado | `cascada.ps1` y `cascada.sh` con `-Suelta` y `-Ingenieria`: código 0 en los dos |
+| L2-PTA-37 | verificado | caso 25 (telescopio declarado, acción fuera: niega por el libro), mutante «el tronco sólo al tocar el proyecto» visto |
+| L2-PTA-38 | verificado | caso 25 (`-Ingenieria` sin el tronco: niega por el GtWR; leído, pasa), mutante «Ingeniería sin tronco» visto |
+| L2-PTA-39 | verificado | caso 25 (`-Suelta` pasa sin tronco; `coaching`, de seguimiento, también), mutante «tronco para toda naturaleza» visto |
+| L2-VER-06, 07 | verificado | caso 25 (concepto inexistente y tronco vacío: `--verificar` en rojo) |
+| L2-CAS-07 | verificado y demostrado | caso 25 (`--tronco` y `--exige telescopio` imprimen el tronco con rangos); `cascada.ps1 -Ingenieria` lo imprime |
+
+**Efecto real**, por el lanzador (como lo corre la app), con el catálogo real y sesiones nuevas
+(`scratchpad/demo_t19.py` de la sesión): el pedido sin clasificar lo dice; un comando sin clasificar se niega;
+`-Ingenieria` pasa; el comando sin el tronco se niega con 14 lecturas pendientes; leído, pasa; otra sesión con
+`-Suelta` pasa sin tronco; clasificada, el pedido calla. **Falta**: la validación en sesiones reales de cada clase (P10).
+
+**De paso, en el autotest de la puerta.** El ayudante que corre el hook ahora le pasa `CASCADA_RAIZ`: los mutantes
+viven en una carpeta temporal, y sin ella su raíz salía de esa carpeta. Medido: la puerta vieja copiada a una carpeta
+temporal **no ve ningún proyecto** y deja pasar el comando de DA-070 que con la raíz niega, así que el mutante de ese
+caso «se veía» por esa razón y no por la suya. Con la raíz, los dos mutantes de DA-070 se siguen viendo, ahora por su
+mecanismo. Tres casos viejos se adaptaron porque el tronco cambió su premisa (el rango leído a medias no puede estar
+contenido en otro; el disparo del concepto `requisitos` se mide con ingeniería sin tronco; el segundo proyecto de DA-070
+lee el tronco antes, para que lo único pendiente sea su base). Los casos anteriores a T19 clasifican su sesión como
+`suelta`, como lo haría una sesión real.

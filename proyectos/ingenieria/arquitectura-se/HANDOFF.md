@@ -1,5 +1,18 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-19 (sesión `cfe21436`, tarde) — SIGUE: la pieza C del árbol (la rama: lo que compete al pedido en alto
+> nivel, por naturaleza y tema)**, después D (el lazo de uso) y E (la quinta pregunta del libro y la de la auditoría),
+> con el L2 de cada una escrito antes ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §5;
+> L1-26..29 en [`docs/10-requisitos.md`](docs/10-requisitos.md) §13). Hecho: **A y B** (§6). **Para el que siga:**
+> (1) **toda sesión clasifica el pedido antes de actuar** — `.\cascada.ps1 <proyecto> -Necesidad`, `-Ingenieria "qué
+> es"` o `-Suelta "qué es"` —; hasta entonces la puerta niega Bash, PowerShell, Write y Edit, y cada pedido trae la línea
+> que lo dice; (2) **una sesión de ingeniería o de materia lee el tronco** (`.\cascada.ps1 -Ingenieria` lo imprime con
+> rangos; ~40 K tokens) antes de cualquier acción, toque o no el proyecto; (3) el freno se apaga con
+> `"clasificacion": {"exigida": false}` en `.claude/cascada.json` y el arranque lo muestra en rojo; (4) **probar a mano
+> la cascada desde una sesión viva registra la clase en esa sesión**: para probarla sin ensuciar, `& $variable -Suelta`
+> (el hook no lo reconoce como invocación) o el autotest; (5) `verificar-requisito.py --glosario` no reconoce términos
+> con acentos (da R4 VIOLA falso): pasarle el glosario sin acentos, como en esta sesión (registrado como defecto).
+
 > **2026-10-19 (sesión `cfe21436`, abierta esperando a Fran) — SIGUE: el OK final de Fran sobre la propuesta v2 del
 > árbol** ([`docs/t19-arbol-de-conocimiento.md`](docs/t19-arbol-de-conocimiento.md) §5), y con eso los requisitos de T19
 > (una necesidad nueva, L1-01/L1-07 a TBR, L1-08 reescrito; con el concepto `requisitos` leído) y la construcción en el

@@ -13,6 +13,12 @@
     {"ruta": "{proy}/PDP.md", "desde": "^## 4\\b", "hasta": "^## ", "tope": 300, "por": "la fase en curso y que la cierra"}
   ],
 
+  "_clasificacion": "T19, pieza A (L1-24, L2-PTA-30..36, L2-VER-05; docs/t19-arbol-de-conocimiento.md de arquitectura-se): toda sesion CLASIFICA el pedido de Fran antes de actuar, interpretandolo y no por una palabra (Fran, 2026-10-19): cascada.ps1 <proyecto> -Necesidad, -Ingenieria \"que es\" o -Suelta \"que es\"; en la duda, la mas pesada. Sin la clave, la puerta la exige igual (falla cerrado); 'exigida': false la apaga y --verificar da ROJO.",
+  "clasificacion": {"exigida": true},
+
+  "_tronco": "T19, pieza B (L1-25, L2-PTA-37..39, L2-VER-06/07): el TRONCO va en toda sesion con ingenieria de sistemas -- clase Ingenieria, o la necesidad de un proyecto de estas naturalezas --, aunque no escriba requisitos (decision de Fran del 2026-10-19: el libro mas las fuentes de requisitos completas; en la duda, se carga). Es la base sin {proy} (el libro de bolsillo) mas las lecturas de estos conceptos, exigidas antes de cualquier accion. La pregunta suelta y 'seguimiento' van sin el.",
+  "tronco": {"naturalezas": ["ingenieria", "documentos"], "conceptos": ["requisitos", "alcance"]},
+
   "necesidades": {
     "materia": {
       "que": "producir algo para una materia o una clase: apunte, guia, TP, informe, hoja de formulas, modelo de parcial, clase particular",

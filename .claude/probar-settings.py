@@ -125,7 +125,14 @@ caso(rc == 0 and '"deny"' in out and "PUERTA DE LA CASCADA" in out,
      "2. puerta: Edit sobre un proyecto sin declarar -> deny", "rc=%d %s" % (rc, out))
 
 afuera = str(Path(tempfile.gettempdir()) / "probar-settings-afuera.txt")
-rc, out = correr(puerta, ev("PreToolUse", "Write", file_path=afuera, content="x"))
+# T19 (L1-24): desde el 2026-10-19 la puerta niega toda accion hasta que la sesion clasifica el pedido; el control mide
+# lo de siempre (fuera de proyectos, silencio) en una sesion clasificada 'suelta', como lo haria una sesion real.
+est3 = Path(tempfile.mkdtemp(prefix="probar-settings-est3-"))
+sid3 = "probar-settings-suelta-" + uuid.uuid4().hex[:8]
+correr(puerta, dict(ev("PreToolUse", "PowerShell", command='.\\cascada.ps1 -Suelta "probar-settings"'), session_id=sid3),
+       estado=est3)
+rc, out = correr(puerta, dict(ev("PreToolUse", "Write", file_path=afuera, content="x"), session_id=sid3), estado=est3)
+shutil.rmtree(est3, ignore_errors=True)
 caso(rc == 0 and not out.strip(), "3. CONTROL: puerta con un Write fuera de todo proyecto -> silencio",
      "rc=%d salida=%r" % (rc, out))
 
