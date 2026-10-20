@@ -536,4 +536,4 @@ siguió sin ellos (P4 AMARILLO falso «TEMA SIN DECLARAR» en `125f02e6`). Dos i
 | L2-PTA-49 | L1-08, L1-26 | Cuando la puerta calcula la Lectura_Exigida de cada proyecto declarado de la sesión, la puerta deberá usar la Función_De_Lo_Exigido. | Una sola regla de cálculo, como la regla de ubicación de la Caja_Negra (L2-AUD-03): lo que se agregue a lo exigido entra a la puerta y a la auditoría a la vez. | ensayo: autotest de la puerta; inspección: `pre()` |
 | L2-AUD-13 | L1-08, L1-27 | Cuando la auditoría calcula la Lectura_Exigida de la sesión auditada, la auditoría deberá usar la Función_De_Lo_Exigido. | DA-078. El parche de `4a1da036` pasó los temas en las dos llamadas de la auditoría; la clase seguía abierta, y el próximo cambio de la puerta la volvía a abrir. | ensayo: `probar-t19de.py`, con un mutante de la Función_De_Lo_Exigido visto en P4 y en P13 |
 
-La V de §14 y de esta sección vive en `docs/t11-cascada-obligatoria.md` §8 (un puntero, no una copia: T20).
+La V de §14 y de esta sección vive en `docs/t11-cascada-obligatoria.md` §8-9 (un puntero, no una copia: T20).

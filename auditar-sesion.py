@@ -56,8 +56,11 @@ NUCLEO = "perfil-global/pilares/nucleo-ise.md"
 
 
 def cargar_puerta(raiz: Path = RAIZ):
-    """La logica de la puerta es UNA (exigido, proyecto_de, cubierto): se importa, no se copia."""
-    spec = importlib.util.spec_from_file_location("cascada_puerta_aud", raiz / ".claude" / "hooks" / "cascada_puerta.py")
+    """La logica de la puerta es UNA (exigido_de_sesion, proyecto_de, cubierto): se importa, no se copia.
+    CASCADA_PUERTA la reemplaza por otra copia: es por donde el saboteador (probar-t19de.py) le da a la auditoria una
+    puerta mutada (DA-078, L2-AUD-13)."""
+    ruta = os.environ.get("CASCADA_PUERTA") or raiz / ".claude" / "hooks" / "cascada_puerta.py"
+    spec = importlib.util.spec_from_file_location("cascada_puerta_aud", ruta)
     g = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(g)
     return g
@@ -197,9 +200,9 @@ def preguntas_de_estado(g, cat, f: Path, evs: list) -> tuple:
         if p in exc:
             res.append(R("P4", q, "NO APLICA", "medido", "por excepcion: %s" % exc[p].get("motivo")))
             continue
-        # con los temas declarados (T19, pieza C): sin ellos, un proyecto con mapa daba AMARILLO «TEMA SIN DECLARAR»
-        # con el tema declarado (medido en la auditoria de 125f02e6, 2026-10-19)
-        items, _, notas = g.exigido(cat, p, sorted(st["declaradas"].get(p, [])), [], temas=st["temas"].get(p))
+        # lo exigido sale de la MISMA funcion que usa la puerta (DA-078, L2-AUD-13): la pieza C sumo los temas a la
+        # puerta, esta llamada propia siguio sin ellos y dio AMARILLO «TEMA SIN DECLARAR» con el tema declarado (125f02e6)
+        items, _, notas = g.exigido_de_sesion(cat, st, p)
         huecos = [x for x in items if not g.cubierto(st["lecturas"].get(x["ruta"], []), x["a"], x["b"])]
         ev4 = ["%d de %d tramos exigidos, cubiertos (medido con el catalogo de HOY: si cambio durante la sesion, lo "
                "exigido entonces pudo ser otro)" % (len(items) - len(huecos), len(items))]
@@ -452,9 +455,9 @@ def lecturas_por_clase(g, cat, st: dict, raiz: Path) -> dict:
         if pr is None or p in st["excepciones"]:
             continue
         sumar("proyecto:" + pr.parent.name,
-              g.exigido(cat, p, sorted(st["declaradas"][p]), [], temas=st["temas"].get(p))[0])
+              g.exigido_de_sesion(cat, st, p)[0])   # DA-078: la funcion de la puerta, no una llamada propia
     if "ingenieria" in st["clases"]:
-        sumar("ingenieria", g.exigido(cat, None, [], [], tronco=True)[0])
+        sumar("ingenieria", g.exigido_de_sesion(cat, st)[0])
     return {c: [{"ruta": r, "por": por} for r, por in sorted(ls.items())] for c, ls in out.items() if ls}
 
 

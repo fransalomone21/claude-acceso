@@ -8,6 +8,7 @@ Diseno: docs/t19-arbol-de-conocimiento.md sec. 8-9; requisitos: docs/10-requisit
 
     python proyectos/ingenieria/arquitectura-se/probar-t19de.py      sale 0 si cada mutante cae en su caso
 """
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -15,6 +16,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[3]
 AUD = RAIZ / "auditar-sesion.py"
 USO = RAIZ / "uso-lecturas.py"
+PUERTA = RAIZ / ".claude" / "hooks" / "cascada_puerta.py"
 # (script, requisito, caso del autotest, texto original, texto mutado)
 MUTANTES = (
     (AUD, "L2-AUD-04", "E: sin declaracion de contraste",
@@ -35,8 +37,12 @@ MUTANTES = (
      "            if not hits:\n                fuera.append", "            if False:\n                fuera.append"),
     (AUD, "L2-AUD-12", "D: la muestra se escribe una vez",
      'if json.loads(l).get("sesion") == a["sesion"]:', "if False:"),
-    (AUD, "P4 con el tema (pieza C)", "P4 con el tema declarado",
-     '[], temas=st["temas"].get(p))\n        huecos', "[])\n        huecos"),
+    # DA-078 (L2-AUD-13): la auditoria usa la funcion de la puerta. El mutante va en la PUERTA (sin los temas de la
+    # sesion) y lo tienen que ver los casos de la auditoria, en P4 y en P13: si la auditoria calculara por su cuenta, no.
+    (PUERTA, "L2-AUD-13 (P4)", "P4 con el tema declarado",
+     '    temas = st["temas"].get(proyecto)\n', "    temas = None\n"),
+    (PUERTA, "L2-AUD-13 (P13)", "D: sobre el catalogo real",
+     '    temas = st["temas"].get(proyecto)\n', "    temas = None\n"),
     (USO, "L2-USO-01", "USO-01: b.md exigida", "            if sin >= ventana:", "            if sin > 10 ** 6:"),
     (USO, "L2-USO-05", "USO-05: un 'no' de Fran calla", '                if m["fecha"] <= desde:', "                if False:"),
     (USO, "L2-USO-04", "USO-04: sin las palabras de Fran", "    if not fran.strip():", "    if False:"),
@@ -47,9 +53,11 @@ MUTANTES = (
 )
 
 
-def casos(script: Path) -> dict:
-    """{linea del caso: 'ok' | 'MAL'} del autotest; vacio si revento antes de imprimir."""
-    r = subprocess.run([sys.executable, str(script), "--autotest"], capture_output=True, cwd=str(RAIZ))
+def casos(script: Path, puerta: Path | None = None) -> dict:
+    """{linea del caso: 'ok' | 'MAL'} del autotest; vacio si revento antes de imprimir. Con puerta, la auditoria la
+    carga en lugar de la instalada (CASCADA_PUERTA; CASCADA_RAIZ porque el mutante no vive en .claude/hooks)."""
+    env = dict(os.environ, CASCADA_PUERTA=str(puerta), CASCADA_RAIZ=str(RAIZ)) if puerta else None
+    r = subprocess.run([sys.executable, str(script), "--autotest"], capture_output=True, cwd=str(RAIZ), env=env)
     out = {}
     for l in r.stdout.decode("utf-8", "replace").splitlines():
         if l[:3] in ("ok ", "MAL"):
@@ -69,8 +77,14 @@ def main() -> int:
         print("%s  original %s: %d casos, %d MAL" % ("ok " if r and "MAL" not in r.values() else "MAL", s.name, len(r),
                                                      sum(v == "MAL" for v in r.values())))
         mal += not r or "MAL" in r.values()
+    # DA-078: la clase, no el caso -- la auditoria no arma ninguna llamada propia a exigido() (inspeccion, L2-AUD-13)
+    propias = AUD.read_text(encoding="utf-8").count("g.exigido(")
+    print("%s  %-34s %s" % ("ok " if propias == 0 else "MAL", "L2-AUD-13 (inspeccion)",
+                            "la auditoria usa solo exigido_de_sesion()" if propias == 0
+                            else "%d llamada(s) propia(s) a g.exigido()" % propias))
+    mal += propias != 0
     for n, (script, req, caso, viejo, nuevo) in enumerate(MUTANTES):
-        sano = de(sanos[script], caso)
+        sano = de(sanos[AUD if script == PUERTA else script], caso)
         fuente = script.read_text(encoding="utf-8")
         if sano != "ok":
             print("MAL  %-34s NO JUZGABLE: su caso sano da %s" % (req, sano))
@@ -83,7 +97,7 @@ def main() -> int:
         m = RAIZ / ("_mutante_t19de_%d.py" % n)
         m.write_text(fuente.replace(viejo, nuevo, 1), encoding="utf-8")
         try:
-            v = de(casos(m), caso)
+            v = de(casos(AUD, m) if script == PUERTA else casos(m), caso)
         finally:
             m.unlink()
         print("%s  %-34s %s  (caso '%s')" % ("ok " if v == "MAL" else "MAL", req,

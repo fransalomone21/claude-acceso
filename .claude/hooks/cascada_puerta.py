@@ -513,6 +513,19 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos, tronco: bool
     return unicos, comandos, notas
 
 
+def exigido_de_sesion(cat: dict, st: dict, proyecto: str | None = None, solo_rama: bool = False):
+    """Lo exigido a ESTA sesion, desde su estado (DA-078; L2-PTA-49, L2-AUD-13): un proyecto con las necesidades y los
+    temas que la sesion declaro (solo_rama: nada mas que su rama), o (proyecto=None) el tronco de la clase Ingenieria.
+    La usan pre() y la auditoria (P4, P13): la pieza C sumo los temas a la puerta, la auditoria siguio sin ellos y dio
+    un AMARILLO falso (125f02e6)."""
+    if proyecto is None:
+        return exigido(cat, None, [], [], tronco=True)
+    temas = st["temas"].get(proyecto)
+    if solo_rama:
+        return exigido(cat, proyecto, [], [], temas=temas, solo_rama=True)
+    return exigido(cat, proyecto, sorted(st["declaradas"].get(proyecto, [])), [], temas=temas)
+
+
 # DA-064 (L2-PTA-20..23): un concepto dispara tambien por el ROL del texto que se escribe -- el titulo de la seccion --,
 # no por una palabra. 'secciones' es una lista de {titulo: regex sobre el texto del titulo sin la numeracion; archivo:
 # regex opcional de la ruta}. Write: los titulos del contenido. Edit: los del texto viejo y del nuevo, y el titulo que
@@ -1025,12 +1038,12 @@ def pre(ev: dict) -> int:
                     (" Si el pedido lo NOMBRA sin pedirlo (contexto, otra sesion, una palabra suelta): %s %s -Mencion "
                      "\"motivo\" -- libera lo de afuera, nunca su carpeta (T14b)." % (entrada(), proyecto))
                     if proyecto in st["inferidos"] and not directo else "", entrada(), proyecto))
-        it, cm, nt = exigido(cat, proyecto, st["declaradas"][proyecto], [], temas=st["temas"].get(proyecto))
+        it, cm, nt = exigido_de_sesion(cat, st, proyecto)
         faltan += it
         cmds_faltan += cm
         notas += nt
     for q in [x for x in tocados if x != proyecto and x in st["declaradas"] and x not in st["excepciones"]]:
-        it, cm, nt = exigido(cat, q, st["declaradas"][q], [], temas=st["temas"].get(q))   # DA-070: cada proyecto tocado
+        it, cm, nt = exigido_de_sesion(cat, st, q)   # DA-070: cada proyecto tocado
         faltan += it
         cmds_faltan += cm
         notas += nt
@@ -1040,11 +1053,11 @@ def pre(ev: dict) -> int:
         cmds_faltan += cm
         notas += nt
     if tronco_pend:   # L2-PTA-37/38: aunque la accion no toque el proyecto
-        it, cm, nt = exigido(cat, None, [], [], tronco=True)
+        it, cm, nt = exigido_de_sesion(cat, st)
         faltan += it
         notas += nt
     for q in rama_decl:   # L2-PTA-40..45: aunque la accion no toque el proyecto
-        it, cm, nt = exigido(cat, q, [], [], temas=st["temas"].get(q), solo_rama=True)
+        it, cm, nt = exigido_de_sesion(cat, st, q, solo_rama=True)
         faltan += it
         notas += nt
     notas = list(dict.fromkeys(notas))   # la rama ya puede venir con el proyecto tocado
@@ -2973,7 +2986,9 @@ def autotest() -> int:
              [('            notas.append("NO EXISTE: la rama de la naturaleza',
                '            notas.append("FALTA: la rama de la naturaleza')], 12),
             ("MUTANTE T19c (sin la clave catedras pasa) -> lo ve el caso 14",
-             [('            elif "catedras" not in entrada:', "            elif False:")], 13)):
+             [('            elif "catedras" not in entrada:', "            elif False:")], 13),
+            ("MUTANTE DA-078 (lo exigido a la sesion sin sus temas) -> lo ve el caso 8",
+             [('    temas = st["temas"].get(proyecto)\n', "    temas = None\n")], 7)):
         mutar(nombre, cambios, sanos26, n, caso26, casos26[n][4], "t19c")
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))

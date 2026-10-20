@@ -266,3 +266,20 @@ el medio del archivo.
   2000. El control que sí: el documento de requisitos estaba leído con rango exacto (1-537, como en `4a1da036`); se
   le agregaron dos renglones al final con salto final (538-539, el puntero de §15) y esta edición, que exige el
   documento entero, pasó. Con la puerta vieja la habría negado por 538-539 (`probable` en vivo; `confirmado` por el mutante del 10c3).
+
+## 9. DA-078: lo exigido a la sesión, una sola función (2026-10-19)
+
+Requisitos: L2-PTA-49 y L2-AUD-13 en [`10-requisitos.md`](10-requisitos.md) §15.
+
+- **El defecto**: la auditoría armaba su propia llamada a `exigido()` en P4 y en P13, y la puerta una en cada lugar de
+  `pre()`. La pieza C sumó los temas a la puerta y la auditoría siguió sin ellos (AMARILLO falso en `125f02e6`); el
+  parche de `4a1da036` pasó los temas, pero la clase seguía abierta.
+- **El arreglo**: `exigido_de_sesion(cat, st, proyecto, solo_rama)` en la puerta calcula lo exigido desde el estado de
+  la sesión (necesidades y temas declarados, la rama sola, o el tronco). La usan los cuatro lugares de `pre()` que
+  dependen de la sesión y la auditoría en P4 y P13; los conceptos que dispara una acción y la CLI `--exige` (que recibe
+  la necesidad por argumento) siguen con `exigido()`. La auditoría acepta `CASCADA_PUERTA` para cargar otra puerta:
+  es el punto por donde el saboteador le da una mutada.
+- **La V**: autotest de la puerta BIEN (212), con un mutante de la función (sin los temas) visto en el caso 8 de la
+  pieza C; autotest de la auditoría BIEN (59); [`probar-t19de.py`](../probar-t19de.py) BIEN con 15 mutantes: el mismo
+  mutante de la puerta lo ven P4 y P13 de la auditoría, y una inspección cuenta 0 llamadas propias a `exigido()` en
+  la auditoría (con la versión anterior daba 3).
