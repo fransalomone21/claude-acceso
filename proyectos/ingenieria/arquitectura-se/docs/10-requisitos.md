@@ -507,3 +507,33 @@ Diseño: `docs/t19-arbol-de-conocimiento.md` §9. Elementos: **AUD** la auditor�
 | L2-USO-05 | L1-27 | Cuando Fran decide sobre una Propuesta_De_Retiro, la herramienta del lazo deberá contar la Ventana_De_Uso de la lectura desde la decisión. | Un «no» calla la propuesta hasta juntar otra ventana sin uso: sin esto, el aviso saltaría en cada sesión y dejaría de discriminar. | ensayo: autotest |
 | L2-USO-06 | L1-28 | Cuando una Muestra_De_Uso posterior a una decisión de retiro aprobada trae la lectura retirada como Lectura_Exigida de la Clase_De_Uso, el medidor del lazo deberá dar ROJO. | El sí que no se aplicó en el catálogo es una divergencia (N-06), y se mide en las muestras, sin recalcular lo exigido. | ensayo: autotest |
 | L2-USO-07 | L1-27 | Cuando el Registro_De_Uso O el Registro_De_Decisiones trae un renglón ilegible, el medidor del lazo deberá dar ROJO con el archivo Y el renglón. | Falla cerrado: un renglón roto e ignorado haría ver una lectura sin uso o una decisión inexistente. Corre en la capa rápida de `chequeo-completo`. | ensayo: autotest |
+
+## 14. Nivel 2 — lo escrito cuenta como leído (la puerta, DA-077)
+
+Elemento: **PTA** la puerta (`cascada_puerta.py`, hook, en PostToolUse). El comportamiento existía sin requisito desde la
+primera sesión real de T11 (2026-10-02: agregar 20 líneas al ESTADO agrandaba su vista y la puerta pedía leer lo recién
+escrito), y su único caso del autotest editaba el medio del archivo. El defecto: DA-077 en
+`perfil-global/DEFECTOS-ARQUITECTURA.md`.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L2-PTA-46 | L1-03 | Cuando cada Write de la sesión termina, la puerta deberá registrar cada línea del archivo escrito como leída por la sesión. | Lo que la sesión escribe ya está en su contexto: pedirle que lo lea es un falso positivo, y un freno con falsos positivos empuja a sacarlo (Saltzer, aceptabilidad psicológica). | ensayo: autotest de la puerta |
+| L2-PTA-47 | L1-03 | Cuando cada Edit de la sesión reemplaza la única aparición del texto viejo, la puerta deberá registrar cada línea del texto nuevo como leída por la sesión. | DA-077: la puerta buscaba el texto nuevo en el archivo sin su salto final, y un Edit que agrega renglones al final del archivo con salto final no se registraba. Medido en la caja negra de `4a1da036`: seis Edit negados y una relectura de 50 000 caracteres. Vale en cualquier lugar del archivo, el final incluido. Límite declarado: el texto nuevo se ubica por su primera aparición en el archivo, así que un texto nuevo que ya aparecía antes registra las líneas de esa aparición. | ensayo: caso 10c3 del autotest de la puerta, con mutante |
+| L2-PTA-48 | L1-03 | Cuando cada Edit de la sesión cambia la cuenta de líneas del archivo, la puerta deberá desplazar cada lectura registrada debajo del texto editado en la diferencia de líneas. | Una edición corre las líneas de abajo: sin el desplazamiento, lo leído antes queda en números de línea que ya tienen otro texto. | ensayo: caso 10c del autotest de la puerta |
+
+## 15. Nivel 2 — lo exigido a la sesión, una sola vez (la puerta y la auditoría, DA-078)
+
+Elementos: **PTA** la puerta y **AUD** la auditoría (`auditar-sesion.py`). La auditoría armaba su propia llamada a
+`exigido()` en P4 y en P13, y la puerta en cada lugar de `pre()`: la pieza C agregó los temas a la puerta y la auditoría
+siguió sin ellos (P4 AMARILLO falso «TEMA SIN DECLARAR» en `125f02e6`). Dos implementaciones de la misma regla divergen
+(N-06). Término (R4):
+
+- **Función_De_Lo_Exigido**: la función `exigido_de_sesion()` de la puerta, que calcula la Lectura_Exigida de una sesión
+  desde el estado de la sesión: las necesidades y los temas declarados de un proyecto, o el tronco de la clase Ingeniería.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L2-PTA-49 | L1-08, L1-26 | Cuando la puerta calcula la Lectura_Exigida de cada proyecto declarado de la sesión, la puerta deberá usar la Función_De_Lo_Exigido. | Una sola regla de cálculo, como la regla de ubicación de la Caja_Negra (L2-AUD-03): lo que se agregue a lo exigido entra a la puerta y a la auditoría a la vez. | ensayo: autotest de la puerta; inspección: `pre()` |
+| L2-AUD-13 | L1-08, L1-27 | Cuando la auditoría calcula la Lectura_Exigida de la sesión auditada, la auditoría deberá usar la Función_De_Lo_Exigido. | DA-078. El parche de `4a1da036` pasó los temas en las dos llamadas de la auditoría; la clase seguía abierta, y el próximo cambio de la puerta la volvía a abrir. | ensayo: `probar-t19de.py`, con un mutante de la Función_De_Lo_Exigido visto en P4 y en P13 |
+
+La V de §14 y de esta sección vive en `docs/t11-cascada-obligatoria.md` §8 (un puntero, no una copia: T20).

@@ -243,3 +243,26 @@ exhaustividad, así que el costo se mide y se informa en vez de suponerse: la
 base de un proyecto chico ronda 15-25 K caracteres; con una necesidad, 30-70 K
 (≈ 10-20 K tokens, una vez por sesión y proyecto). Con un contexto de 1 M es
 el 1-2 %. **Lo que se paga es una vez por sesión, no por turno.**
+
+## 8. DA-077: lo escrito cuenta como leído, también al final del archivo (2026-10-19)
+
+Requisitos: L2-PTA-46..48 en [`10-requisitos.md`](10-requisitos.md) §14. El comportamiento («lo que la sesión escribe ya
+está en su contexto») existía desde la primera sesión real, el 2026-10-02, sin requisito y con un solo caso, que editaba
+el medio del archivo.
+
+- **El defecto**: `post()` buscaba el texto nuevo de un Edit en `"\n".join(splitlines())`, que pierde el salto final
+  del archivo. Un Edit que agregaba renglones al final, con salto final, no se encontraba y no dejaba ni `lee` ni
+  `corre`: la puerta pedía releer lo recién escrito. Medido en la caja negra de `4a1da036`: seis Edit negados y una
+  relectura de 50 K.
+- **El arreglo**: el texto nuevo se busca en el archivo tal como está en el disco, con su salto final. De paso, el salto
+  final ya no cuenta una línea de más: antes se registraba como leída la línea de abajo de lo escrito, que nadie leyó.
+- **La V**: caso 10c3 del autotest (agregar al final con salto: queda leído 1-42 y nada más) con dos mutantes vistos,
+  uno por cada cambio; autotest BIEN (211 casos). La puerta se editó en una copia al lado y se instaló de una vez.
+- **Límite declarado**: el texto nuevo se ubica por su primera aparición en el archivo; uno que ya aparecía antes
+  registra las líneas de esa aparición.
+- **Efecto real** (`confirmado`, sesión `1f168c8f`, con la puerta instalada): esta sección se agregó al final de este
+  documento con salto final y la caja negra registró `corre` desde la 245 (+17) y `lee` 245-262, que con la puerta
+  vieja no quedaban. Que la edición siguiente pasara acá no discrimina: el Read de este documento cubría hasta la línea
+  2000. El control que sí: el documento de requisitos estaba leído con rango exacto (1-537, como en `4a1da036`); se
+  le agregaron dos renglones al final con salto final (538-539, el puntero de §15) y esta edición, que exige el
+  documento entero, pasó. Con la puerta vieja la habría negado por 538-539 (`probable` en vivo; `confirmado` por el mutante del 10c3).

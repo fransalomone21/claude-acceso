@@ -1123,16 +1123,18 @@ def post(ev: dict) -> int:
             anotar(sid, {"t": "lee", "ruta": norm(fp), "a": 1, "b": max(1, len(lineas))})
             return 0
         nuevo, viejo = str(inp.get("new_string", "")), str(inp.get("old_string", ""))
-        texto = "\n".join(lineas)
+        # DA-077 (L2-PTA-47): el texto nuevo se busca en el archivo CON su salto final. "\n".join(splitlines()) lo
+        # perdia, y un Edit que agregaba renglones al final con salto final no se encontraba: seis Edit negados en 4a1da036.
+        texto = Path(fp).read_text(encoding="utf-8", errors="replace")
         i = texto.find(nuevo) if nuevo else -1
         if i < 0 or inp.get("replace_all"):
             return 0
         desde = texto.count("\n", 0, i) + 1
-        n_nuevo = nuevo.count("\n") + 1
-        delta = n_nuevo - (viejo.count("\n") + 1)
+        n_nuevo = nuevo.count("\n") + (0 if nuevo.endswith("\n") else 1)   # el salto final cierra la ultima linea
+        delta = nuevo.count("\n") - viejo.count("\n")
         if delta:
             anotar(sid, {"t": "corre", "ruta": norm(fp), "desde": desde, "delta": delta})
-        anotar(sid, {"t": "lee", "ruta": norm(fp), "a": desde, "b": desde + n_nuevo - 1})
+        anotar(sid, {"t": "lee", "ruta": norm(fp), "a": desde, "b": desde + max(1, n_nuevo) - 1})
         return 0
     if tool not in ("Bash", "PowerShell"):
         return 0
@@ -1736,6 +1738,46 @@ def autotest() -> int:
     ok = cubierto([tuple(x) for x in json.loads(est)["lecturas"].get(norm(fx), [])], 1, 43)
     mal += not ok
     print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "CONTROL: editar +3 lineas no deja huecos en lo leido", "si" if ok else "NO"))
+    # 10c3. DA-077 (L2-PTA-47): un Edit que AGREGA renglones al final del archivo, con salto final. El texto nuevo se
+    # buscaba sin el salto final del archivo y no se encontraba: nada quedaba leido (seis Edit negados en 4a1da036).
+    # Lo escrito (40-42) cuenta como leido y nada mas: la linea 43 no existe y no se registra.
+    fin = tmp / "fin.md"
+    viejo_fin = "\n".join("linea %d" % k for k in range(1, 41)) + "\n"
+    ed_fin = {"file_path": str(fin), "old_string": "linea 40\n", "new_string": "linea 40\nnueva X\nnueva Y\n"}
+
+    def caso_fin(s, script=__file__):
+        fin.write_text(viejo_fin, encoding="utf-8")
+        correr(post_ev("Read", {"file_path": str(fin), "offset": 1, "limit": 40}, s), script=script)
+        fin.write_text(viejo_fin.replace(ed_fin["old_string"], ed_fin["new_string"]), encoding="utf-8")
+        correr(post_ev("Edit", ed_fin, s), script=script)
+        e = subprocess.run([sys.executable, __file__, "--estado", s], capture_output=True, env=env).stdout.decode()
+        lec = [tuple(x) for x in json.loads(e)["lecturas"].get(norm(fin), [])]
+        return cubierto(lec, 1, 42), max([y for _, y in lec] or [0])
+
+    cub, tope = caso_fin(sid + "-fin")
+    ok_fin = cub and tope == 42
+    mal += not ok_fin
+    print("%s  %-62s -> %s" % ("ok " if ok_fin else "MAL", "CONTROL DA-077: agregar al final con salto queda leido (1-42)",
+                               "si" if ok_fin else "NO (cubierto=%s, hasta %d)" % (cub, tope)))
+    fuente = Path(__file__).read_text(encoding="utf-8")
+    for n, (nombre, viejo, nuevo) in enumerate((
+            ("MUTANTE DA-077 (busca sin el salto final) deja el final sin leer",
+             'texto = Path(fp).read_text(encoding="utf-8", errors="replace")\n', 'texto = "\\n".join(lineas)\n'),
+            ("MUTANTE DA-077 (el salto final cuenta una linea) registra la 43",
+             '(0 if nuevo.endswith("\\n") else 1)', "1"))):
+        m = tmp / ("mutante-fin-%d.py" % n)
+        txt = fuente.replace(viejo, nuevo, 1)
+        m.write_text(txt, encoding="utf-8")
+        if txt == fuente:
+            ok, r = False, "el mutante NO APLICA (el texto a reemplazar cambio)"
+        elif not ok_fin:
+            ok, r = False, "NO JUZGABLE: su caso sano no paso en esta corrida"
+        else:
+            cub, tope = caso_fin(sid + "-fin-m%d" % n, m)
+            ok = (not cub) if n == 0 else (tope != 42)
+            r = "cubierto=%s, hasta %d" % (cub, tope)
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "lo ve" if ok else "NO LO VE: %s" % r))
     # 10c2. lo leido se reconoce por CONTENIDO: otro proceso (install.ps1) corre las lineas del archivo exigido y el
     # mismo texto no se pide de nuevo; si el texto CAMBIA, si (medido dos sesiones seguidas, 2026-10-07)
     fc = tmp / "corrido.md"
