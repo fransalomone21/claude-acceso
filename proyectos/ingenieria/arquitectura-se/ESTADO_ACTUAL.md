@@ -3,6 +3,17 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-19 (sesión lateral `1f168c8f`, noche) — DA-077 Y DA-078 ARREGLADOS (falta validarlos con 3 sesiones
+auditadas).** L2 escrito antes ([`docs/10-requisitos.md`](docs/10-requisitos.md) §14-15: L2-PTA-46..49, L2-AUD-13; 0
+VIOLA). **DA-077**: la puerta registra como leído lo que un Edit agrega al final del archivo con salto final (antes lo
+buscaba sin el salto y pedía releer lo recién escrito); de paso, el salto final ya no cuenta una línea de más. Caso
+10c3 del autotest con dos mutantes, y efecto real con un control que discrimina (el documento de requisitos leído con
+rango exacto, dos renglones agregados al final, la edición siguiente pasó). **DA-078**: `exigido_de_sesion()` en la
+puerta es la única regla de «lo exigido a esta sesión»; la usan `pre()` y la auditoría (P4, P13), y
+[`probar-t19de.py`](probar-t19de.py) le da a la auditoría una puerta mutada que P4 y P13 tienen que ver (15 mutantes).
+Autotests: puerta 212 BIEN, auditoría 59 BIEN. V: [`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md)
+§8-9. Commits `09eda4d`, `aab7dd9`; perfil `61c7955`, `42ec9d2`. Falta: validar T19 en sesiones reales de cada clase.
+
 **2026-10-19 (sesión `4a1da036`, noche) — T19, PIEZAS E Y D CONSTRUIDAS: las cinco piezas del árbol están.** L2
 escrito antes ([`docs/10-requisitos.md`](docs/10-requisitos.md) §13: L1-30, L2-LDB-01..03, L2-AUD-04..12, L2-USO-01..07;
 20 enunciados, 0 VIOLA). **E**: la quinta pregunta del libro de bolsillo (§7: ¿este procedimiento produce lo que la

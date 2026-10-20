@@ -1,5 +1,17 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-19 (sesión lateral `1f168c8f`, noche; plan: ventana 5 h al ~65 %, semanal al ~27 %) — SIGUE: validar T19
+> en sesiones reales de cada clase** (P10: una materia, un módulo de BLACK, el telescopio, una suelta), que es lo que
+> cierra la fase 7. Hecho: **DA-077 y DA-078** (`09eda4d`, `aab7dd9`; V en
+> [`docs/t11-cascada-obligatoria.md`](docs/t11-cascada-obligatoria.md) §8-9). **Para el que siga:** (1) la puerta ya no
+> pide releer lo que una edición agrega al final de un archivo exigido; (2) **todo cálculo de «lo exigido a esta
+> sesión» va por `exigido_de_sesion()`** de la puerta: la auditoría no arma llamadas propias (`probar-t19de.py` lo
+> inspecciona y da MAL si aparece una), y `CASCADA_PUERTA` le da a la auditoría otra puerta para probarla; (3) **el
+> MOMENTO LLUVIA DE IDEAS de arquitectura-se llegó a su umbral** (10 de 10 sesiones auditadas): la cascada lo pide antes
+> de seguir ejecutando; (4) un «efecto a ver» de un retome tiene que ser uno que la versión vieja hubiera fallado (el de
+> esta tanda no lo era: lección nueva, foldeada); (5) rojos del arranque que NO son de esta sesión: lecciones **70, 230,
+> 346** (también dejan `install.ps1` en exit 1); DA-076 sigue.
+
 > **2026-10-19 (sesión `4a1da036`, noche; plan: ventana 5 h al 31 %, semanal al 23 %) — SIGUE: DA-077** (arreglo de una
 > línea en `post()` de la puerta: buscar el texto nuevo en el archivo CON su salto final; copia al lado, caso del
 > autotest con un Edit que agrega al final, mutante, instalar de una vez) y **validar T19 en sesiones reales de cada
