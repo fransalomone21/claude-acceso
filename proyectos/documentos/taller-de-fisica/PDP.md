@@ -67,9 +67,16 @@ entender de dónde sale una fórmula.
 |---|---|---|---|
 | 0 | Estructura y fuentes | Proyecto creado (este PDP), las tres fuentes localizadas en el disco con ruta exacta, y el recorte de temas de cada una confirmado por Fran | **CERRADA (2026-09-13)** |
 | 1 | Escribir (bloqueada) | Sin detallar todavía — el recorte ya está confirmado, falta sólo que Fran dé la luz verde para empezar | **bloqueada, sin arrancar a propósito** |
+| E1 | **Exposición de Compton y pares: el material para decidir** (tipo: **Fase Pre-A**, estudios de concepto) — un tramo aparte del apunte, no lo abre | la carpeta del grupo en Drive tiene la bibliografía recortada (Eisberg págs. 55-75), la guía y el esqueleto de la presentación, compartida con Agustín como editor; **y** Fran y Agustín eligieron el orden y el alcance, escritos en `ESTADO_ACTUAL.md` | **en curso** (2026-10-20: el material está; falta la elección) |
+| E2 | Exposición: la presentación armada (tipo: **Fase C**) | sin detallar: se escribe cuando cierre E1 | — |
 
-**Fase en curso:** ninguna — la 0 está cerrada y la 1 está bloqueada a
-propósito hasta que Fran lo pida.
+**Fase en curso:** E1 — la exposición de Compton y pares (Fase Pre-A). La 1
+(el apunte) sigue bloqueada a propósito hasta que Fran diga «arrancamos».
+
+> **Tipo Pre-A en E1:** se producen las opciones (órdenes, alcance,
+> ejercicios) y el material para elegir entre ellas; **no** se arman las
+> diapositivas finales antes de que Fran y Agustín elijan. El criterio de
+> cierre tiene una parte que sólo ellos pueden cumplir: la elección.
 **Qué cerró la fase 0:** las tres fuentes con ruta confirmada en
 `fuentes/RUTAS.md`; Ferraro con alcance fijo (caps. 1-3, el PDF que Fran
 pasó); Young-Freedman como referencia general sin capítulos fijos; y
@@ -92,6 +99,9 @@ continúa un tema ya confirmado, sumá el 5"** — 7 capítulos: **3, 4, 5, 6, 8
 | 2026-09-13 | Young & Freedman ("Física universitaria 2") entra como referencia general, sin capítulos fijos | Acotar a un rango de capítulos (física moderna, o electromagnetismo) | Fran: "tenelo de referencia para los temas que hay que desarrollar", no una fuente con recorte propio como las otras dos |
 | 2026-09-13 | "Correlativo" = continúa un tema ya confirmado (no "mismo dominio") | La lectura "mismo dominio", que daba 6 capítulos sin el 5 | Fran lo confirmó explícito: "correlativo = continúa un tema ya confirmado, sumá el 5" |
 | 2026-09-13 | Recorte de Pisacane CERRADO: 7 capítulos — **3, 4, 5, 6, 8, 9, 11** de 12 | Los 6 capítulos sin el 5 (propuesta original de la sesión) | El M6 de Física Espacial sólo cubre gravitación básica de Newton; Pisacane cap. 5 agrega potencial de orden superior, WGS84, mareas y precesión por J2, que sí continúan ese tema confirmado |
+| 2026-10-20 | La exposición se trabaja como tramo E1/E2, sin abrir la fase 1 | Abrir la fase 1 con la exposición adentro | El apunte de la materia y la clase de un grupo son productos distintos; Fran no dijo «arrancamos» para el apunte |
+| 2026-10-20 | Fuentes de la guía y del esqueleto en `catedras/taller-de-fisica/exposicion/` (privado) | Una carpeta `exposicion/` en este repo público | La guía cita los criterios de Aníbal, y los criterios son privados (decisión de Fran del 2026-09-28); el esqueleto lleva los nombres de los dos |
+| 2026-10-20 | Estética de la presentación: cuaderno de laboratorio de los años 20, con un sello del año en cada diapositiva | Un tema espacial (satélites) | Fran pidió algo que le guste a Aníbal; el sello del año sirve además al orden histórico que él pide |
 | 2026-09-13 | Fase 1 (escribir) queda bloqueada a propósito, sin fecha, aun con el recorte ya cerrado | Arrancar ya que el recorte está confirmado | Fran: "todo lo de taller de física es para un plazo más largo, yo te voy a decir cuándo empezarlo" — esa condición no cambió con la confirmación del recorte |
 
 ## 7. Verificación

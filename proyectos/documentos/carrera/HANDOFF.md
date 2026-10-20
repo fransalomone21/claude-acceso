@@ -1,6 +1,6 @@
 # Handoff — Carrera
 
-**Escrito el:** 2026-10-02 · **Tocado:** 2026-10-18 (fila de IISE: proyecto del TP final) y 2026-10-16 (fila de Programación: código del TP Cohete entregado; a la noche, versión de vuelo) · **Fase al cerrar:** 1, mantenimiento (abierta)
+**Escrito el:** 2026-10-02 · **Tocado:** 2026-10-20 (fila del Taller: la exposición), 2026-10-18 (fila de IISE: proyecto del TP final) y 2026-10-16 (fila de Programación: código del TP Cohete entregado; a la noche, versión de vuelo) · **Fase al cerrar:** 1, mantenimiento (abierta)
 
 ## Arrancá por acá
 

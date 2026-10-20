@@ -125,7 +125,7 @@ siempre y con cuánto rigor. Qué fase y qué falta: `.\cascada.ps1 <proyecto>`.
 | [`repaso-iise/`](proyectos/documentos/repaso-iise/) | Repaso oral de IISE: guion + audios | terminado |
 | `teoria-circuitos/` | Informes de laboratorio de Teoría de Circuitos (UNSAM, cátedra Sanca), en grupo. **Repo aparte**: la carátula lleva mails de compañeros | **ACTIVO** |
 | [`clases-aed/`](proyectos/documentos/clases-aed/CLAUDE.md) | Clases particulares de Electrónica Digital III (6.º, EEST N.º 1): guía, PlatformIO + SimulIDE. **Repo aparte** | **ACTIVO** |
-| [`taller-de-fisica/`](proyectos/documentos/taller-de-fisica/CLAUDE.md) | Apunte del Taller de Física (UNSAM, Aníbal); fase 1 bloqueada a propósito hasta que Fran diga «arrancamos» | en pausa |
+| [`taller-de-fisica/`](proyectos/documentos/taller-de-fisica/CLAUDE.md) | Taller de Física (UNSAM, Aníbal): la exposición de Compton y pares con Agustín (fuentes en `catedras`), y el apunte de la materia, bloqueado hasta que Fran diga «arrancamos» | **ACTIVO** |
 | [`software-de-vuelo/`](proyectos/documentos/software-de-vuelo/CLAUDE.md) | Guía de C y guía de IDEs (STM32CubeIDE, VS Code) para Software de Vuelo (Leandro), públicas en el Drive | **ACTIVO** |
 | [`cohete-de-agua/`](proyectos/documentos/cohete-de-agua/CLAUDE.md) | TP Cohete de Agua de Petrilli (Software de Vuelo), en grupo. **Repo aparte** | **ACTIVO** |
 | [`trabajo-final-iise/`](proyectos/documentos/trabajo-final-iise/CLAUDE.md) | TP final de IISE: el informe y la revisión de un **MCR** (misión satelital en LEO), en grupo; la carpeta y la guía en el Drive del grupo. **Repo aparte** | **ACTIVO** |

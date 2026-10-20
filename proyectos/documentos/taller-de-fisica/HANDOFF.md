@@ -3,6 +3,40 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-10-20 — la exposición, tramo E1 (lo más nuevo arriba)
+
+**Qué hay:** la carpeta del grupo en Drive (ver `ESTADO_ACTUAL.md`) con la
+bibliografía recortada, la guía y el esqueleto en Google Slides, compartida
+con Agustín. Las **fuentes** viven en el repo privado
+`catedras/taller-de-fisica/exposicion/`:
+
+- `guia.typ` — se compila desde `proyectos/documentos`:
+  `typst compile --root . --creation-timestamp=1767225600 catedras/taller-de-fisica/exposicion/guia.typ "<salida>.pdf"`.
+  Importa cajas y paleta de `fisica-espacial/apunte/plantilla.typ` (no usa
+  `apunte()`, que tiene la carátula de Física Espacial adentro).
+- `recortar-figuras.py` — el Eisberg es un **escaneo**: las figuras se recortan
+  por coordenadas. **Las coordenadas se miden con el OCR** (`get_text("blocks")`
+  da la caja de cada rótulo), no mirando un render: el primer intento, a ojo
+  sobre una imagen achicada por el visor, salió corrido.
+- `validar.py` — todas las cuentas de la guía contra el libro; sale en 1 si
+  una no coincide (probado rompiendo el borde Compton).
+- `esqueleto.js` — el PowerPoint con pptxgenjs (no está instalado global:
+  `npm install pptxgenjs@3.12.0` en una carpeta temporal y `NODE_PATH`). Se
+  sube a Drive con `rclone copy ... --drive-import-formats pptx`, que lo
+  convierte a Google Slides. **Si se regenera, se sube como archivo nuevo** y
+  pisa lo que Fran y Agustín hayan editado: una vez que lo tocan, el
+  esqueleto ya no se regenera, se edita en Slides.
+- El validador del skill de pptx no corre desde su carpeta (pasa los 260
+  caracteres): se copia con el prefijo `\\?\` a `%TEMP%\pv` y se corre ahí.
+
+**Lo que pidió Fran sobre la guía (2026-10-20):** que diga de dónde salió cada
+cosa **en el texto, como comentario**, y por qué de ese libro y no de otro; nada
+de ids ni cuadros de fuente. Y sobre conectar con los temas de antes y de
+después: era una sugerencia, y la guía la discute (parte 1).
+
+**Lo que sigue:** que Fran y Agustín elijan orden, alcance y ejercicios
+(cierra E1); después E2, armar la presentación. Aníbal espera ver avances.
+
 ## 2026-09-29 — lo nuevo va ARRIBA de lo de abajo
 
 **Si Fran pide algo de la exposición** (Compton y creación de pares /

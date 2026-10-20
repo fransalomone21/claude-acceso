@@ -1,6 +1,28 @@
 # Estado actual — Taller de Física
 
-**Última actualización:** 2026-09-29
+**Última actualización:** 2026-10-20
+
+## 2026-10-20 — la exposición de Compton y pares: tramo E1 (Fase Pre-A)
+
+- **Aníbal fijó el alcance** (respuesta a Fran, registrada textual en
+  `catedras`, TAL-R4): Eisberg-Resnick, *Física cuántica*, **págs. 55-75**
+  (Compton, creación de pares, secciones transversales) y **la Fig. 2.17 hay
+  que explicarla**. El libro está en `01 - UNSAM\Taller de Fisica\`;
+  página impresa = PDF + 6.
+- **Compañero: Agustín Gorbea.** La carpeta del grupo en Drive
+  (`GRUPOS - trabajos por materia/Taller de Fisica - Compton y Pares - Gorbea, Salomone`,
+  id `1jQc0UDi6vIcGTI3L3qx5mJ0ar64RY0NG`) está compartida con él como editor;
+  medido con los permisos del objeto, sin `anyone`.
+- **Adentro de la carpeta, medido con rclone:** `1 - Bibliografia` (Eisberg
+  55-75, Eisberg 47-54 del fotoeléctrico, Sears §38.2-38.3, Pisacane §9.4);
+  `2 - Guia de estudio` (la guía, 17 págs., render mirado página por
+  página); `3 - Presentacion` (el esqueleto, 28 diapositivas, **Google
+  Slides nativo**, exportado de vuelta a PDF y mirado).
+- **Las cuentas de la guía** las chequea `catedras/.../exposicion/validar.py`
+  (en verde; con un dato roto a propósito, en rojo).
+- **Falta para cerrar E1:** que Fran y Agustín elijan **el orden** (la guía
+  recomienda el histórico-causal: rayos X → Compton → pares → secciones) y
+  **el alcance**, y cuál de los seis ejercicios usan. Se escribe acá.
 
 ## 2026-09-29 — lo que pidió Fran, sin abrir fase todavía
 
@@ -27,6 +49,7 @@
 |---|---|
 | 0 — Estructura y fuentes | **CERRADA** |
 | 1 — Escribir | **bloqueada a propósito, sin fecha** |
+| E1 — Exposición: el material para decidir (Pre-A) | **en curso**: el material está, falta la elección de Fran y Agustín |
 
 **La fase 0 cerró con el recorte de Pisacane confirmado por Fran:**
 "correlativo = continúa un tema ya confirmado, sumá el 5" → 7 capítulos —
