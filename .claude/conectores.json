@@ -25,6 +25,23 @@
         "trash_file": "papelera"
       }
     },
+    "718a4a83-544c-424b-a720-824a1ffd3ec7": {
+      "nombre": "Google Drive",
+      "_medido": "2026-10-20: el mismo conector volvio con id nuevo al reconectar; las 11 herramientas y sus esquemas (ToolSearch) son las del 094616df, y se clasifican igual",
+      "herramientas": {
+        "read_file_content": "lectura",
+        "download_file_content": "lectura",
+        "get_file_metadata": "lectura",
+        "get_file_permissions": "lectura",
+        "list_recent_files": "lectura",
+        "search_files": "lectura",
+        "share_file": "comparte",
+        "create_file": "ubica",
+        "copy_file": "ubica",
+        "update_file": "ubica",
+        "trash_file": "papelera"
+      }
+    },
     "1a59c906-04da-521d-bda7-7f71b9f9e01c": {
       "nombre": "Claude Docs",
       "herramientas": {
