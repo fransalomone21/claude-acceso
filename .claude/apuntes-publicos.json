@@ -84,6 +84,13 @@
       "estado": "2026-09-30 -- conceptual, al estilo de los parcialitos: satelite que sale de la bodega, cohete en el vacio, subir o acelerar, areas iguales, alcanzar al de adelante, antenas que se despliegan; numeros validados por practica/validar.py"
     },
     {
+      "materia": "Fisica Espacial",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/resueltos-cr-1-a-4.pdf",
+      "nombre-en-drive": "Cuerpo rigido - Problemas 1 a 4 resueltos.pdf",
+      "regenerable": "proyectos/documentos/fisica-espacial/practica/compilar.ps1 (necesita la guia de la catedra en Downloads: lleva los enunciados recortados)",
+      "estado": "2026-10-22 -- 14 pag.: los Problemas 1 a 4 de cuerpo rigido de la guia, con origen, supuestos justificados (lo que pidio Anibal el 19/10), figuras y, en el 3, ejemplos; numeros validados por practica/validar.py. Publico por decision de Fran del 22/10. NO va al repo: copia los recortes de la guia"
+    },
+    {
       "materia": "Fisica Espacial/Guia completa con resultados y tips",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/guia-con-resultados.pdf",
       "nombre-en-drive": "Guia completa - con tips y resultados.pdf",

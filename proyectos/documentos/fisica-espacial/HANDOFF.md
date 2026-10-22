@@ -10,10 +10,10 @@ repite, porque un dato que vive en dos lados diverge.
 
 **Hecho:** `practica/resueltos-cr-1-a-4.typ` (en `compilar.ps1`, `validar.py`
 y `verificar-consignas.py`) y la pasada por los módulos 18 a 21 y por el
-origen de los 47 ejemplos. **Queda:** que Fran decida si el PDF de resueltos
-es público (habría que declararlo en `apuntes-publicos.json` con
-«regenerable», como la guía); y los rojos del arranque (triage de lecciones,
-sincronía, T18) sin tocar.
+origen de los 47 ejemplos. El PDF de resueltos es **público** (Fran lo pidió
+el 22/10), declarado `regenerable`: si se toca, `.\practica\compilar.ps1` y
+`publicar-apuntes.ps1`. **Queda:** los rojos del arranque (triage de
+lecciones, sincronía, T18) sin tocar.
 
 **Trampas pagadas:** (1) con el `show` de la coma decimal, un vector escrito
 `(0, 16, -16)` en matemática se lee «0,16»: los vectores van con punto y coma,

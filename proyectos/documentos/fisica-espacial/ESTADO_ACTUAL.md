@@ -7,9 +7,11 @@
   (guía, material de Aníbal, libro), una tabla de supuestos con su número
   (lo que pidió Aníbal), figuras de datos (`figuras-cr.py`, SVG) y, en el 3,
   ejemplos y el barrido en $omega_s$. 37 números en `validar.py`, consignas
-  medidas por `verificar-consignas.py`. Mirado entero en el render. **No es
-  público todavía** (es nuevo: lo decide Fran) y el PDF no va al repo (copia
-  los recortes de la guía).
+  medidas por `verificar-consignas.py`. Mirado entero en el render.
+  **Público** (Fran, 22/10) como «Cuerpo rigido - Problemas 1 a 4
+  resueltos.pdf» en `Fisica Espacial/`, declarado `regenerable` en
+  `apuntes-publicos.json`; `-Verificar` en verde por MD5. El PDF no va al repo
+  (copia los recortes de la guía).
 - **Apunte** (215 págs.): módulos 18 a 21 con lo de la clase —Curtis §1.6 y
   el «teorema del transporte», el Problema 1 con supuestos, desplazamiento y
   la pregunta de Aníbal, el Problema 2 en la terna del disco y las tres
