@@ -400,7 +400,8 @@ def c_parciales():
 
 
 PARCIALES_NUEVOS = ('modelo-parcial-1.typ', 'modelo-parcial-2.typ', 'modelo-parcial-3.typ',
-                    'modelo-parcial-4.typ', 'modelo-parcial-5.typ', 'parcialito-4-momento-angular.typ')
+                    'modelo-parcial-4.typ', 'modelo-parcial-5.typ', 'parcialito-4-momento-angular.typ',
+                    'resueltos-cr-1-a-4.typ')
 
 
 def c_modelos():
@@ -499,7 +500,36 @@ def c_modelos():
         ('5,83 times 10^33', LT), ('7,66 times 10^(-12)', OpT),
         ('1,78 times 10^22', OpT * LT * m.sin(rad(23.5))), ('52 thin 000', 2 * 26000),
     ]
+    # ------------------- resueltos de CR 1 a 4 (2026-10-22): cuentas de cero
+    Ic = 120 * 2 ** 2 / 6; tc = cruz((1, 1, 1), (4, 0, 0)); wc = norm(tc) * 4 / Ic
+    alc = norm(tc) / Ic; thc = 0.5 * alc * 16
+    # el empuje gira con el cubo (theta = alfa t^2 / 2): impulso lineal real
+    nn = 20000; dtc = 4 / nn
+    pxc = sum(m.cos(0.5 * alc * ((k + .5) * dtc) ** 2) for k in range(nn)) * dtc * 4 / 120
+    pyc = sum(m.sin(0.5 * alc * ((k + .5) * dtc) ** 2) for k in range(nn)) * dtc * 4 / 120
+    dvc = m.hypot(pxc, pyc)
+    It4, Ia4 = 0.54 ** 2, 0.72 ** 2
+    fi4 = 1.5 / ((It4 - Ia4) / Ia4 * m.cos(rad(2)))
+    fi4b = 1.5 / ((Ia4 - It4) / It4 * m.cos(rad(2)))           # radios al reves: alargado
+    fi4c = 1.5 * Ia4 / (It4 * m.cos(rad(2)))                    # "spin" = omega_z total
+    resueltos_cr = [
+        ('80 " kg·m²"', Ic), ('5,66 " N·m"', norm(tc)), ('0,283 " rad/s"', wc), ('16,2$ °/s', deg(wc)),
+        ('2,70$ vueltas', wc * 60 / (2 * m.pi)), ('22,2$ s', 2 * m.pi / wc), ('0,0707$ rad/s²', alc),
+        ('0,566$ rad', thc), ('32,4$ °) antes', deg(thc)), ('8,16 times 10^(-3)', 4 / (50 * G0)),
+        ('490,5$', 50 * G0), ('32,6$ g', 4 / (50 * G0) * 4 * 1000), ('0,027$ %', 4 / (50 * G0) * 4 / 120 * 100),
+        ('0,133 " m/s"', 16 / 120), ('0,267$ m', 0.5 * 4 / 120 * 16), ('0,131$ m/s, a', dvc),
+        ('10,8$ ° de $x$', deg(m.atan2(pyc, pxc))), ('1,4$ %, chica', (16 / 120 - dvc) / (16 / 120) * 100),
+        ('0,33$ %', ((0.25 * 0.1 ** 2 + 0.01 ** 2 / 12) / (0.25 * 0.1 ** 2) - 1) * 100),
+        ('2,00$ N·m', 0.5 * 2 * 0.1 ** 2 * 100 * 2), ('40$ N, el doble', 0.5 * 2 * 0.1 ** 2 * 100 * 2 / 0.05),
+        ('1000$ kg·m²/s', 10 * 100), ('20 " rad/s²"', (600 - 0.5 * 10 * 100) / 5), ('120$ rad/s². Es', 600 / 5),
+        ('600$ N·m, se lleva', 0.5 * 10 * 120), ('-80$ rad/s²', (600 - 0.5 * 10 * 200) / 5),
+        ('3,431 " rad/s"', abs(fi4)), ('1,832 " s"', 2 * m.pi / abs(fi4)), ('0,9994$', m.cos(rad(2))),
+        ('3,429 - 1,5', abs(fi4) * m.cos(rad(2))), ('1,929$ rad/s, positiva', abs(fi4) * m.cos(rad(2)) - 1.5),
+        ('3,55$°', deg(m.atan(Ia4 / It4 * m.tan(rad(2))))), ('1,930$ rad/s', fi4b), ('3,256$ s', 2 * m.pi / fi4b),
+        ('2,668$ rad/s', fi4c), ('2,355$ s', 2 * m.pi / fi4c),
+    ]
     return {
+        'resueltos-cr-1-a-4.typ': resueltos_cr,
         'parcialito-4-momento-angular.typ': parcialito4,
         'modelo-parcial-4.typ': modelo4,
         'modelo-parcial-5.typ': modelo5,

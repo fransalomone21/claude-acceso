@@ -41,7 +41,7 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 
 # Los que ya cumplen la regla. Todo modelo o parcialito NUEVO entra aca el dia
 # que nace; los viejos, cuando se vuelvan a tocar.
-OBLIGADOS = ('parcialito-4-momento-angular.typ',)
+OBLIGADOS = ('parcialito-4-momento-angular.typ', 'resueltos-cr-1-a-4.typ')
 
 
 def cobertura(texto):
@@ -95,6 +95,9 @@ def main():
             copia = os.path.join(tmp, os.path.basename(raiz))
             shutil.copytree(raiz, copia, ignore=shutil.ignore_patterns('salida', '*.pdf', '.git'))
             dirx = os.path.join(copia, 'practica')
+            # los recortes de la guia SON pdf y los resueltos los incluyen: sin
+            # ellos el control positivo revienta (medido el 2026-10-22)
+            shutil.copytree(os.path.join(AQUI, 'recortes'), os.path.join(dirx, 'recortes'), dirs_exist_ok=True)
             limpio, _ = verificar(dirx)
             est = os.path.join(dirx, 'estilo.typ')
             t = io.open(est, encoding='utf-8').read()

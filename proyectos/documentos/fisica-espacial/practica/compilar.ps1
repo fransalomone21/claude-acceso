@@ -20,6 +20,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'recortar.py en rojo' }
     python validar.py
     if ($LASTEXITCODE -ne 0) { throw 'validar.py en rojo' }
+    python figuras-cr.py
+    if ($LASTEXITCODE -ne 0) { throw 'figuras-cr.py fallo' }
     New-Item -ItemType Directory -Force salida | Out-Null
     $trabajos = @(
         @('guia.typ', 'salida\guia-con-resultados.pdf', 'resultados=si'),
@@ -33,6 +35,7 @@ try {
         @('modelo-parcial-5.typ', 'salida\modelo-parcial-5.pdf', $null),
         @('parcialito-4-momento-angular.typ', 'salida\parcialito-4-momento-angular.pdf', $null),
         @('resumen-momento-angular.typ', 'salida\resumen-momento-angular.pdf', $null),
+        @('resueltos-cr-1-a-4.typ', 'salida\resueltos-cr-1-a-4.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas-parcial.pdf', 'version=parcial')
     )

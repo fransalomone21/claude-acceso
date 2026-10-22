@@ -57,6 +57,8 @@ proyectos/documentos/clases-aed/
 # (declarados "regenerable" en .claude/apuntes-publicos.json).
 proyectos/documentos/fisica-espacial/practica/recortes/
 proyectos/documentos/fisica-espacial/practica/salida/guia-*.pdf
+# los resueltos de CR copian los enunciados recortados de la guia (2026-10-22)
+proyectos/documentos/fisica-espacial/practica/salida/resueltos-cr-*.pdf
 proyectos/documentos/catedras/
 
 # Manifiestos de mudanza del Escritorio: estado de ESTA maquina (rutas locales
