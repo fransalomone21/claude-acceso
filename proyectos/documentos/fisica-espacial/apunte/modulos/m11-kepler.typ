@@ -161,7 +161,7 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <kep-periodo>
 == Ejemplo: el satélite del módulo #M("orbita-conicas"), con período
 
 #ejemplo("El período del satélite, y la parte que faltaba del Problema 4")[
-  _(Problema 4 de la sección de energía, S&Z 13.67 — el mismo satélite de
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Problema 4; S&Z 13.67 — el mismo satélite de
   perigeo 400 km y apogeo 4000 km que el módulo #M("orbita-conicas") ya resolvió entero: ahí
   quedaron $e = 0,2098$, $a = 8578$ km, $p = 8200$ km y $h = 57 thin 172$
   km²/s. Acá se completan las cuatro partes del enunciado.)_
@@ -207,7 +207,7 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <kep-periodo>
 ]
 
 #ejemplo("La excentricidad de una órbita polar, a partir de su período")[
-  _(Ejercicio adicional 3 de la guía, sobre gravitación.)_ Un satélite en
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Ejercicio adicional 3.)_ Un satélite en
   órbita polar pasa a $200$ km del Polo Norte en su máximo acercamiento —o
   sea, su perigeo—, y cruza el polo una vez cada $100$ minutos. ¿Cuál es la
   excentricidad?
@@ -243,7 +243,7 @@ $ tau = (2 pi a^(3\/2))/sqrt(mu) $ <kep-periodo>
 ]
 
 #ejemplo("El LEM del Apollo: subir a encontrarse, y bajar a estrellarse", nivel: "a fondo")[
-  _(Problemas 8 y 9 de la sección de energía; Beer 13.101 y su continuación.)_
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Problemas 8 y 9; Beer 13.101 y su continuación.)_
   Después de la misión de exploración, el LEM tiene que reunirse con el módulo
   de mando, que orbita la Luna en círculo a $140$ km de altura. El radio de la
   Luna es $1740$ km y su masa $0,01230$ veces la terrestre —dato del módulo #M("dos-cuerpos"),

@@ -1,5 +1,25 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-10-22: cuerpo rígido, Problemas 1 a 4 (clase del 19/10)
+
+- **`practica/resueltos-cr-1-a-4.typ`** → `salida/resueltos-cr-1-a-4.pdf`
+  (14 págs.): los cuatro con el enunciado recortado de la guía, su origen
+  (guía, material de Aníbal, libro), una tabla de supuestos con su número
+  (lo que pidió Aníbal), figuras de datos (`figuras-cr.py`, SVG) y, en el 3,
+  ejemplos y el barrido en $omega_s$. 37 números en `validar.py`, consignas
+  medidas por `verificar-consignas.py`. Mirado entero en el render. **No es
+  público todavía** (es nuevo: lo decide Fran) y el PDF no va al repo (copia
+  los recortes de la guía).
+- **Apunte** (215 págs.): módulos 18 a 21 con lo de la clase —Curtis §1.6 y
+  el «teorema del transporte», el Problema 1 con supuestos, desplazamiento y
+  la pregunta de Aníbal, el Problema 2 en la terna del disco y las tres
+  miradas, variantes del 3 y el CMG, la regla del eje mayor de Sevilla, el
+  «spin» del 4— y **los 47 ejemplos con origen unificado** (guía, sección y
+  número, o el libro con «no está en la guía»). Verificadores en verde.
+- Hallazgo de la sesión: `figuras-cr.py` mostró que el sentido de
+  $dot(bold(H))_G$ en el plano $hat(j)$–$hat(k)$ es *entrante* (se había
+  dibujado saliente), corregido antes de entregar.
+
 ## 2026-10-14: resumen de momento angular para el parcialito
 
 - **`practica/resumen-momento-angular.typ`** → `salida/resumen-momento-angular.pdf`

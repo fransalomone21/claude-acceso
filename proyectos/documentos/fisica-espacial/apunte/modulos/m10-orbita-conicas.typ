@@ -508,8 +508,7 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
 ]
 
 #ejemplo("El satélite del Ej. 4, ahora con la ecuación de la órbita")[
-  _(Ejercicio 4 de «Conservación impulso angular» y Problema 4 de la sección de
-  energía: son el mismo satélite.)_ El módulo #M("momento-angular") resolvió este satélite —perigeo
+  _(Guía de la cátedra 2026: Ejercicio 4 de la sección «Conservación de impulso angular» y Problema 4 de la sección «Conservación de la energía – Gravitación»; son el mismo satélite.)_ El módulo #M("momento-angular") resolvió este satélite —perigeo
   a 400 km, apogeo a 4000 km— usando sólo la conservación de $h$, y para las dos
   posiciones intermedias tuvo que *anticipar* la @orb-orbita. Acá se cierra ese
   préstamo: se calcula la órbita entera desde cero.
@@ -579,7 +578,7 @@ segunda sale de $b^2 = a^2 - c^2$ con $c = a - r_p$.
 ]
 
 #ejemplo("Frenar en Júpiter: de la parábola a la elipse", nivel: "a fondo")[
-  _(Problema 7 de la sección de energía; Beer 13.100.)_ Una nave llega a Júpiter
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Problema 7; Beer 13.100.)_ Una nave llega a Júpiter
   por una trayectoria *parabólica* y alcanza el punto $A$, a $350 times 10^3$ km
   del centro, con $v_A = 26,9$ km/s perpendicular a la línea $A B$. Sus motores
   la frenan para dejarla en una elipse cuyo otro ábside, $B$, esté a

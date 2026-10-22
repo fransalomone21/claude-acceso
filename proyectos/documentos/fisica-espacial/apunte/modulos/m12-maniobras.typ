@@ -125,7 +125,7 @@ $ phi = 180° - n_2 t_v $ <man-fase>
 ]
 
 #ejemplo("Hohmann a Marte: cuándo lanzar y cuánto tarda", nivel: "a fondo")[
-  _(Problema 5 de la sección de energía; S&Z 13.79, "Navegación
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Problema 5; S&Z 13.79, "Navegación
   interplanetaria".)_ El enunciado manda a los datos del apéndice F, que en
   esta edición del Sears son los del G (pág. A-8) y vienen con tres cifras;
   con cuatro, de Curtis (Tablas A.1 y A.2, págs. 737–738):
@@ -239,7 +239,7 @@ $ a' = r (T'/T)^(2\/3) $ <man-fasaje-a>
 ]
 
 #ejemplo("Encontrarse con un satélite un cuarto de vuelta adelante", nivel: "a fondo")[
-  _(Problema 10: "investigar, formular una solución, y encontrar una solución
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Problema 10: "investigar, formular una solución, y encontrar una solución
   exacta para un caso determinado".)_ Dos satélites en la misma órbita
   circular geosíncrona —la del módulo #M("gravitacion"), $r = 42 thin 140$ km, $tau = 86 thin
   162$ s, $v_"circ" = 3,08$ km/s—, con el blanco $Delta phi = 90°$ adelante

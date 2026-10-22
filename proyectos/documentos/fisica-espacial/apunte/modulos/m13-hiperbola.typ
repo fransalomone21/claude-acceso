@@ -423,7 +423,7 @@ $ tan gamma = v_r/v_perp = (e sin nu)/(1 + e cos nu) $ <hip-gamma>
 ]
 
 #ejemplo("La órbita a partir de una sola medición de radar")[
-  _(Ejercicio adicional 5 de gravitación.)_ Un satélite terrestre tiene una
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Ejercicio adicional 5.)_ Un satélite terrestre tiene una
   velocidad de $7,5$ km/s y un ángulo de trayectoria de vuelo de $10°$ cuando
   su radio es de $8000$ km. Calcular la anomalía verdadera y la excentricidad
   de la órbita. Dato: $mu_T = 398 thin 600$ km³/s².
@@ -457,7 +457,7 @@ $ tan gamma = v_r/v_perp = (e sin nu)/(1 + e cos nu) $ <hip-gamma>
 ]
 
 #ejemplo("Una nave que se va: mostrar que es hipérbola y medirla entera", nivel: "a fondo")[
-  _(Curtis, ejemplo 2.10, pág. 100.)_ En cierto punto de su trayectoria
+  _(Curtis, ejemplo 2.10, pág. 100; no está en la guía de la cátedra.)_ En cierto punto de su trayectoria
   geocéntrica una nave tiene $r = 14 thin 600$ km, $v = 8,6$ km/s y
   $gamma = 50°$. Mostrar que la trayectoria es una hipérbola y calcular el
   momento angular, la excentricidad, la anomalía verdadera, el radio de
@@ -514,7 +514,7 @@ $ tan gamma = v_r/v_perp = (e sin nu)/(1 + e cos nu) $ <hip-gamma>
 ]
 
 #ejemplo("El radio promedio del satélite de la guía, y el ángulo de vuelo ahí")[
-  _(Curtis, ejemplo 2.7, pág. 86-88, partes (g) a (j). Es el satélite del Ej. 4
+  _(Curtis, ejemplo 2.7, pág. 86-88, partes (g) a (j); no está en la guía de la cátedra como enunciado. Es el satélite del Ej. 4
   de la guía: perigeo a $400$ km, apogeo a $4000$ km.)_ El módulo
   #M("orbita-conicas") ya midió esa órbita entera — $e = 0,2098$,
   $h = 57 thin 172$ km²/s, $a = 8578$ km — y nombró su *radio promedio*,

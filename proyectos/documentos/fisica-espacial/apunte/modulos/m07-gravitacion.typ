@@ -364,7 +364,7 @@ multiplicar la rapidez por $sqrt(2)$ para escapar.* Un 41% más de velocidad, y
 no depende de nada.
 
 #ejemplo("Estimar la masa del Sol")[
-  _(Problema 0 de la sección «Conservación de la Energía – Gravitación».)_
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Problema 0.)_
   Estime la masa del Sol.
 
   El enunciado no da ningún dato: los datos son los que uno se sabe. Es el
@@ -397,7 +397,7 @@ no depende de nada.
 ]
 
 #ejemplo("Cuánto cuesta subir un satélite a la órbita geosíncrona", nivel: "a fondo")[
-  _(Problema 6 de la guía; Beer 13.85.)_ Mientras describe una órbita circular
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Problema 6; Beer 13.85.)_ Mientras describe una órbita circular
   a $300$ km sobre la Tierra, un vehículo espacial lanza un satélite de
   comunicaciones de $3600$ kg. Determine *(a)* la energía adicional que se
   requiere para ponerlo en una órbita geosíncrona a $35 thin 770$ km de altura,

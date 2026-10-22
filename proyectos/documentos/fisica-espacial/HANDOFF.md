@@ -6,6 +6,22 @@ repite, porque un dato que vive en dos lados diverge.
 
 ---
 
+## Sesión del 2026-10-22 — CR 1 a 4 y el material del 19/10
+
+**Hecho:** `practica/resueltos-cr-1-a-4.typ` (en `compilar.ps1`, `validar.py`
+y `verificar-consignas.py`) y la pasada por los módulos 18 a 21 y por el
+origen de los 47 ejemplos. **Queda:** que Fran decida si el PDF de resueltos
+es público (habría que declararlo en `apuntes-publicos.json` con
+«regenerable», como la guía); y los rojos del arranque (triage de lecciones,
+sincronía, T18) sin tocar.
+
+**Trampas pagadas:** (1) con el `show` de la coma decimal, un vector escrito
+`(0, 16, -16)` en matemática se lee «0,16»: los vectores van con punto y coma,
+`(0; 16; -16)`. (2) El sabotaje de `verificar-consignas.py` copiaba la carpeta
+sin `*.pdf` y se llevaba los recortes: un documento que incluye recortes hacía
+reventar el control positivo (arreglado: copia `recortes/`). (3) `varphi` no
+existe en Typst: es `phi.alt`.
+
 ## Sesión del 2026-10-14 — resumen para el parcialito
 
 **Hecho:** `practica/resumen-momento-angular.typ` (5 págs., en `compilar.ps1`),

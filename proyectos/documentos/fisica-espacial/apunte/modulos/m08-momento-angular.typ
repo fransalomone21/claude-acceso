@@ -252,7 +252,7 @@ fig-velocidad-areolar)
 ]
 
 #ejemplo("Dos demostraciones de una línea")[
-  _(Problemas 2 y 3 de la sección «Conservación impulso angular».)_
+  _(Guía de la cátedra 2026, sección «Conservación de impulso angular», Problemas 2 y 3.)_
 
   *Problema 2: demostrar que $bold(L)$ respecto de un punto cualquiera es
   constante para una partícula libre que se mueve con velocidad constante.*
@@ -294,7 +294,7 @@ fig-velocidad-areolar)
 ]
 
 #ejemplo("El satélite de la figura: h en los cuatro puntos", nivel: "a fondo")[
-  _(Ejercicio 4 de la sección «Conservación impulso angular».)_ *(A)* Calcular
+  _(Guía de la cátedra 2026, sección «Conservación de impulso angular», Ejercicio 4.)_ *(A)* Calcular
   el momento angular específico $h$ (la guía dice «impulso angular») en el apogeo $A$ y el perigeo $P$ del satélite
   de la figura. *(B)* Con eso, calcular las distancias al centro terrestre en
   las otras dos posiciones marcadas.

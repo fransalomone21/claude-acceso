@@ -376,7 +376,7 @@ es *cuánto* es «mucho menor», y ése es el número que pone esta sección.
 ]
 
 #ejemplo("Qué masa se midió, en realidad, al estimar la del Sol")[
-  _(El Problema 0 de la guía, del módulo #M("gravitacion"), rehecho con la herramienta nueva.)_
+  _(El Problema 0 de la guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», del módulo #M("gravitacion"), rehecho con la herramienta nueva.)_
   En el módulo #M("gravitacion") se estimó la masa del Sol con la órbita de la Tierra y se
   obtuvo $1,99 times 10^30$ kg. ¿Qué es exactamente ese número?
 
@@ -410,7 +410,7 @@ es *cuánto* es «mucho menor», y ése es el número que pone esta sección.
 ]
 
 #ejemplo("El sistema Tierra–Luna: dónde está el centro y cuánto dura el mes", nivel: "a fondo")[
-  _(Construido sobre los datos del Problema 8 de la guía —el LEM del Apollo—,
+  _(Ejemplo propio, construido sobre los datos del Problema 8 de la guía, sección «Conservación de la energía – Gravitación» —el LEM del Apollo—,
   que da la masa de la Luna como $0,01230$ veces la de la Tierra y su radio como
   $1740$ km. La guía no trae un ejercicio propio de masa reducida.)_
 

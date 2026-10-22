@@ -211,7 +211,7 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
 ]
 
 #ejemplo("De dónde sale la energía del calamar")[
-  _(Ej. 3 de la guía, parte (b); S&Z 8.19.)_ Un calamar de $6,50$ kg —incluyendo
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Ej. 3, parte (b); S&Z 8.19.)_ Un calamar de $6,50$ kg —incluyendo
   $1,75$ kg de agua en su cavidad— está en reposo y expulsa el agua para
   escapar a $2,50$ m/s. *(a)* ¿Con qué rapidez debe expulsarla? *(b)* ¿Cuánta
   energía cinética genera con esa maniobra?
@@ -244,8 +244,7 @@ la partícula *se da vuelta*. La pendiente da la fuerza.], fig-diagrama-energia)
 ]
 
 #ejemplo("Leer un diagrama de energía de punta a punta", nivel: "a fondo")[
-  _(Problema 1 de la sección «Conservación de la Energía» de la guía; S&Z
-  7.76.)_ Una partícula se mueve sobre el eje $x$ bajo una única fuerza
+  _(Guía de la cátedra 2026, sección «Conservación de la energía – Gravitación», Problema 1; S&Z 7.76.)_ Una partícula se mueve sobre el eje $x$ bajo una única fuerza
   conservativa paralela a $x$, cuya energía potencial es la de la figura P7.76
   de la guía. *La partícula se suelta del reposo en $A$.*
 

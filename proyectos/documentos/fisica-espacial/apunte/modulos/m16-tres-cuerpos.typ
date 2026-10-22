@@ -749,6 +749,7 @@ la Tierra y la Luna.], fig-jacobi-perfil)
 ]
 
 #ejemplo("cuánta velocidad separa quedarse en casa de escaparse del sistema", nivel: "a fondo")[
+  _(Curtis, ejemplo 2.17, pág. 130; no está en la guía de la cátedra.)_
   Una nave se apaga a $200$ km de altura sobre la Tierra, en el punto del eje
   $y$ del marco rotante (o sea, a $90°$ de la línea Tierra–Luna), con la
   velocidad de apagado $v_"bo"$ relativa al marco. ¿Cuánto vale $v_"bo"$ para

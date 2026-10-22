@@ -150,7 +150,9 @@ caso: achatado y retrógrado, con el cono espacial adentro del corporal
 ]
 
 #ejemplo("El satélite achatado: el período de una precesión que nadie sostiene", nivel: "a fondo")[
-  _(Problema 4 de la sección de cuerpo rígido.)_ Un *spacecraft* simétrico
+  _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 4. No está en
+  el Beer del disco; como el Problema 5 de la misma guía es el «M 7.99», es
+  probable que salga del Meriam, sin confirmar.)_ Un *spacecraft* simétrico
   respecto de $z$ tiene radio de giro axial $k_z = 720$ mm y radios de giro
   transversales iguales, $k = 540$ mm. Sin cuplas externas, el eje $z$
   describe un cono de $theta = 2degree$ alrededor de $bold(H)_G$. La
@@ -192,10 +194,30 @@ caso: achatado y retrógrado, con el cono espacial adentro del corporal
     cifras de $1$—. El dato geométrico que de verdad importa es el cociente
     $I'\/I = 16\/9$, no el ángulo del cono.
   ]
+
+  #cuidado[
+    *Que $dot(psi)$ sea negativo no quiere decir que el satélite gire «para
+    atrás».* La componente de $bold(omega)$ sobre $z$ es $dot(phi) cos theta +
+    dot(psi) = 3,429 - 1,5 = 1,929$ rad/s, positiva: el cuerpo gira hacia
+    adelante sobre su eje, y lo negativo es su giro *respecto de la terna que
+    precesa*, que va más rápido que él. Por eso conviene decir qué se entiende
+    por «spin» antes de contestar. Si los $1,5$ rad/s fueran esa componente
+    total y no $dot(psi)$, saldría $dot(phi) = 2,668$ rad/s y un período de
+    $2,355$ s; se resuelve con la lectura del Beer porque la figura y la
+    pregunta por el sentido son las de su §18.11.
+  ]
+
+  Y un dato de diseño que el enunciado no pide: este satélite gira sobre su
+  eje *mayor* de inercia ($I' > I$), el del lado bueno de la regla del eje
+  mayor del módulo #M("euler-giroscopo"). Si tuviera algo que disipe energía,
+  el cono de $2degree$ se le cerraría en vez de abrirse. Con los radios de
+  giro al revés sería alargado, precesaría en forma directa —$dot(phi) =
+  1,930$ rad/s, un período de $3,256$ s— y sería un Explorer 1 esperando su
+  turno.
 ]
 
 #ejemplo("El cilindro de paredes delgadas: el umbral entre directa y retrógrada")[
-  _(Problema 6 de la sección de cuerpo rígido.)_ Un cilindro hueco de
+  _(Guía de la cátedra 2026, sección «Cuerpo rígido», Problema 6.)_ Un cilindro hueco de
   paredes delgadas, radio $r$, longitud $ell$ y masa $m$, rota respecto de su
   eje de simetría y precesa con un ángulo pequeño. ¿Para qué valores de
   $ell\/r$ la precesión es retrógrada, y para cuáles directa?

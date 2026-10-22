@@ -125,7 +125,7 @@ largo de esa sombra, multiplicado por $abs(bold(A))$.], fig-proyeccion)
 ]
 
 #ejemplo("Cosenos directores y proyección")[
-  *(a)* Cosenos directores de $bold(A) = (1, -1, 3)$ #h(4pt) _(Ej. 11 de la guía)_.
+  *(a)* Cosenos directores de $bold(A) = (1, -1, 3)$ #h(4pt) _(Guía de la cátedra 2026, sección «Vectores», Ej. 11)_.
 
   $abs(bold(A)) = sqrt(1 + 1 + 9) = sqrt(11) approx 3,317$, y entonces
   $ cos alpha = 1/sqrt(11) approx 0,302, quad cos beta = -1/sqrt(11) approx -0,302, quad cos gamma = 3/sqrt(11) approx 0,905 $
@@ -179,7 +179,7 @@ $abs(bold(A))$ por altura $abs(bold(B)) sin theta$.], fig-producto-vectorial)
 ]
 
 #ejemplo("Versor perpendicular a dos vectores dados")[
-  _(Ej. 13 de la guía)_ Hallar el versor perpendicular a $bold(A) = (0,1,5)$ y
+  _(Guía de la cátedra 2026, sección «Vectores», Ej. 13)_ Hallar el versor perpendicular a $bold(A) = (0,1,5)$ y
   $bold(B) = (-3,0,2)$.
 
   $ bold(A) times bold(B) = mat(delim: "|", hat(i), hat(j), hat(k); 0, 1, 5; -3, 0, 2) = (1 dot 2 - 5 dot 0) hat(i) - (0 dot 2 - 5 dot (-3)) hat(j) + (0 - (-3)) hat(k) = (2, -15, 3) $
@@ -360,7 +360,7 @@ dos que se olvidan en el parcial:
 ]
 
 #ejemplo("El cohete visto por el radar", nivel: "a fondo")[
-  _(Ej. 10 de la guía.)_ Un cohete se lanza verticalmente desde una plataforma
+  _(Guía de la cátedra 2026, sección «Vectores», Ej. 10.)_ Un cohete se lanza verticalmente desde una plataforma
   en $B$. Un radar en $A$, a distancia fija $b$, lo sigue. Determinar la
   velocidad del cohete en términos de $b$, $theta$ y $dot(theta)$.
 

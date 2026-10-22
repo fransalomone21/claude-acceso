@@ -270,7 +270,7 @@ caja vacía no se lleva hasta la casa nueva.
 ]
 
 #ejemplo("Aceleración al despegar y al apagarse")[
-  _(Ej. 6 de la guía; Beer 14.94.)_ Un cohete de $1200$ kg, de los cuales
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Ej. 6; Beer 14.94.)_ Un cohete de $1200$ kg, de los cuales
   $1000$ kg son combustible, lo consume a razón de $12,5$ kg/s y lo expulsa a
   $4000$ m/s relativos. Se lanza verticalmente desde el suelo. Determinar la
   aceleración *(a)* al ser lanzado y *(b)* al consumirse la última partícula de
@@ -297,7 +297,7 @@ caja vacía no se lleva hasta la casa nueva.
 ]
 
 #ejemplo("Una etapa contra dos, con los mismos kilos", nivel: "a fondo")[
-  _(Ejercicios 7 y 8 de la guía; Beer 14.97 y 14.98.)_ Una nave de $540$ kg se
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Ejercicios 7 y 8; Beer 14.97 y 14.98.)_ Una nave de $540$ kg se
   monta sobre un cohete. En los dos casos $mu = 225$ "kg/s" (el caudal
   másico) y $abs(v_r) = 3600$ "m/s" (la velocidad de escape), y el
   lanzamiento es vertical desde el suelo.
@@ -384,7 +384,7 @@ caja vacía no se lleva hasta la casa nueva.
 ]
 
 #ejemplo("El Saturno V y el transbordador: el empuje se reparte entre varios motores", nivel: "a fondo")[
-  _(Adicional 3 de la guía.)_ Dos casos que usan lo mismo del módulo con
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Adicional 3.)_ Dos casos que usan lo mismo del módulo con
   varios motores en juego a la vez.
 
   *(a) Un solo cohete.* Expulsa gases con caudal $mu = 220$ kg/s y velocidad

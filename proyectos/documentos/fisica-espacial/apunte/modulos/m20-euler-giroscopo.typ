@@ -26,7 +26,11 @@ resulta barata.
 
   Beer es la fuente de las ecuaciones y de la notación de este módulo —ya
   citada en el cuerpo—; Roederer sirve para una segunda lectura más corta,
-  sin el tensor completo, si alcanza con la idea física.
+  sin el tensor completo, si alcanza con la idea física. Para la aplicación a
+  satélites (volantes, CMG, regla del eje mayor), las diapositivas de control
+  de actitud de la Universidad de Sevilla que subió la cátedra el 19/10 (R.
+  Vázquez, *Introduction to Attitude Dynamics*, 2021): catorce, sin una
+  ecuación, y se leen en diez minutos.
 ]
 
 == La derivada de $bold(H)_G$: la @cin-derivada, por fin en uso
@@ -120,8 +124,10 @@ escondido en la manga.
 ]
 
 #ejemplo("El disco en la horquilla: la cupla que sostiene el movimiento")[
-  _(Problema 2, punto 2, de la sección de cuerpo rígido: $d bold(H)_G \/ d
-  t$, continuando el ejemplo del módulo #M("inercia").)_ Con $bold(H)_G = 1/4 m r^2
+  _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 2, punto 2: $d
+  bold(H)_G \/ d t$, continuando el ejemplo del módulo #M("inercia"). Resuelto
+  por la cátedra en «Ejercicio 2 CR 2026», con tres animaciones, una por
+  observador.)_ Con $bold(H)_G = 1/4 m r^2
   omega_2 hat(j) + 1/2 m r^2 omega_1 hat(k)$ (módulo #M("inercia")) y $bold(Omega) =
   omega_2 hat(j)$ —los ejes están clavados a la horquilla, no al disco, y
   $omega_1$, $omega_2$ son constantes—, la @euler-derivada-h se reduce a un solo
@@ -141,10 +147,37 @@ escondido en la manga.
     había señalado sin poder calcularla, porque todavía no existía el tensor
     de inercia.
   ]
+
+  *La misma cuenta con ejes clavados al disco* —la parte «opcional» de la
+  resolución de la cátedra, y la prueba de que la terna se elige por
+  comodidad y no por necesidad—. Con $phi.alt = omega_1 t$ el ángulo girado
+  por el disco, $hat(j) = sin phi.alt hat(i)'' + cos phi.alt hat(j)''$, y
+  $bold(H)_G = 1/4 m r^2 (omega_2 sin phi.alt hat(i)'' + omega_2 cos phi.alt
+  hat(j)'' + 2 omega_1 hat(k)'')$: ahora las componentes cambian, la derivada
+  relativa vale $1/4 m r^2 omega_1 omega_2 (cos phi.alt hat(i)'' - sin phi.alt
+  hat(j)'')$ y el transporte, con $bold(Omega) = bold(omega)$, da exactamente lo
+  mismo. Sumados, $1/2 m r^2 omega_1 omega_2 (cos phi.alt hat(i)'' - sin
+  phi.alt hat(j)'')$, que es el $hat(i)$ de la horquilla escrito con los
+  versores del disco. Mismo resultado, repartido distinto:
+
+  #align(center, table(
+    columns: 4, inset: (x: 6pt, y: 4pt), align: left,
+    [*Observador*], [*Qué hace $bold(H)_G$*], [*Derivada relativa*], [*Transporte*],
+    [horquilla], [queda quieto], [$0$], [todo: $omega_2 hat(j) times bold(H)_G$],
+    [disco], [cono alrededor del eje del disco, con $-omega_1$], [la mitad], [la otra mitad],
+    [inercial], [cono alrededor de la vertical, con $+omega_2$], [todo], [$0$],
+  ))
+
+  (La tabla es la de la resolución de la cátedra.) El que va montado en el
+  disco ve pasar la horquilla para el lado contrario al spin, y con ella a
+  $bold(H)_G$; el de afuera ve a $bold(H)_G$ barrer un cono alrededor de la
+  vertical, con semiángulo $arctan(2 omega_1\/omega_2)$, y a $dot(bold(H))_G$
+  tangente al cono. Tres películas distintas del mismo vector, y el teorema
+  del transporte de la @cin-derivada es el traductor entre las tres.
 ]
 
 #ejemplo("El volante en el gimbal: por qué 600 N·m dan sólo 20 rad/s²", nivel: "a fondo")[
-  _(Problema 3 completo. Retoma el ejemplo del módulo #M("cinematica-cr"): volante con
+  _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 3 completo. Retoma el ejemplo del módulo #M("cinematica-cr"): volante con
   $I_x=I_y=5$, $I_z=10$ kg$dot.op$m², girando a $omega_s = 100$ rad/s sobre
   $hat(k)$, montado en un gimbal sin peso sobre una plataforma que gira a
   $omega_p = 0,5$ rad/s sobre $hat(j)$. El gimbal arranca quieto respecto de
@@ -197,6 +230,26 @@ escondido en la manga.
     el eje: buena parte de la cupla aplicada se gasta en seguirle el ritmo a
     un $bold(H)$ grande, no en acelerar nada.
   ]
+
+  *Cambiando un número por vez*, la fórmula $dot(Omega)_x = (M_x - omega_p
+  I_z omega_s)\/I_x$ cuenta toda la historia. Sin plataforma, o con el volante
+  quieto, no hay nada que transportar y da los $120$ rad/s² de dividir. Con el
+  volante a $120$ rad/s el peaje se come los $600$ N·m enteros y el _gimbal_
+  *no se mueve*, aunque le estén aplicando la cupla. Y con el volante a $200$
+  rad/s da $-80$ rad/s²: el _gimbal_ acelera *para el otro lado* del torque
+  aplicado, porque lo que hace falta para acompañar a la plataforma es más de
+  lo que se le da. Ninguna de las tres cosas se adivina con la intuición de
+  Física 1, que es lo que la cátedra quería mostrar con este problema.
+
+  *Y leído al revés, es un CMG.* Las diapositivas de control de actitud de la
+  Universidad de Sevilla que subió la cátedra (R. Vázquez, 2021, diap. 10 y
+  14) lo cuentan desde el satélite: un volante de $bold(H)$ grande y velocidad
+  fija al que un motor le gira el eje —un _control moment gyroscope_— le hace
+  al satélite una cupla $bold(Omega) times bold(H)$. Con este volante, girar
+  el eje a $0,5$ rad/s da $500$ N·m con un motorcito que sólo tiene que
+  mover el _gimbal_. Así maniobran rápido los satélites «ágiles» de
+  observación (los Pléiades de la diapositiva 14), y por eso las diapositivas
+  lo llaman el caso más extremo de usar una rueda.
 ]
 
 #posta[
@@ -404,6 +457,22 @@ quiera sin moverse. La lección del Explorer 1 —el primer satélite de los
 Estados Unidos, y el primer ejemplo de cómo un detalle «no rígido» le gana a
 una cuenta bien hecha— es la que la cátedra dejaba anunciada al definir el
 cuerpo rígido como una idealización.
+
+Las diapositivas de Sevilla que subió la cátedra para la clase del 19/10
+(diap. 6 a 9) le ponen nombre a todo esto —la *regla del eje mayor*— y le
+agregan la otra mitad de la historia. El Sputnik (1957) giraba sobre su eje
+mayor y no tuvo problemas; el Explorer 1, un año después, sobre el menor; el
+Telstar 1 (1962), el primer satélite de comunicaciones, ya salió girando a
+200 rpm sobre su eje mayor. Y la regla tiene una excepción que se usa a
+propósito: la inestabilidad del eje menor es *lenta*, de horas, así que las
+últimas etapas de un lanzador se hacen girar sobre su eje largo justo antes
+de encenderse —el efecto giroscópico achica el error de un empuje
+desalineado—, y apenas se suelta la carga el giro se frena, con un
+mecanismo de yo-yo o esperando a que la dinámica lo pase al eje mayor (el
+ejemplo de las diapositivas es la Mars Odyssey). Un detalle de la diap. 7 que
+vale la cita: la regla del eje mayor *no se puede deducir de un modelo de
+cuerpo rígido*. La deducción de arriba necesitó la disipación, que es
+justamente lo que el cuerpo rígido no tiene.
 
 #posta[
   Un cuerpo libre gira tranquilo sobre su eje de más inercia o sobre el de

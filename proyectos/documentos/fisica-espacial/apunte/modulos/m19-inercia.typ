@@ -199,6 +199,7 @@ perpendicular al eje) la componente horizontal desaparece, $bold(H) parallel
 bold(omega)$ y no hace falta cupla: el eje es principal.
 
 #ejemplo("La cupla de los cojinetes de la mancuerna")[
+  _(Ejemplo propio: la mancuerna de la sección anterior, con números; no está en la guía.)_
   Dos masas de $0,50$ kg en los extremos de una barra de $0,40$ m ($a = 0,20$
   m), inclinada $alpha = 30°$ respecto del eje, que gira a $omega = 20$ rad/s;
   los cojinetes están separados $D = 0,30$ m.
@@ -350,7 +351,9 @@ módulo #M("rotacion"), sólo que ahora hay tres y cada una con su eje.
 ]
 
 #ejemplo("El satélite cúbico: velocidad angular tras un encendido", nivel: "a fondo")[
-  _(Problema 1 de la sección de cuerpo rígido.)_ Un satélite cúbico homogéneo,
+  _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 1. La cátedra
+  lo resolvió en «Ejercicio 1 CR 2026», de la clase del 19/10, y le agregó un
+  inciso: «¿qué pasa con el desplazamiento?», el (d) de acá.)_ Un satélite cúbico homogéneo,
   de arista $d = 2$ m y masa $m = 120$ kg, tiene un impulsor de gas frío
   ($F_E = 4$ N, $I_"sp" = 50$ s) montado en un vértice, con el empuje
   alineado con una de las aristas que salen de ese vértice. Se enciende
@@ -400,6 +403,52 @@ módulo #M("rotacion"), sólo que ahora hay tres y cada una con su eje.
   el satélite adopte, así que ni siquiera hace falta que $bold(omega)$ esté
   sobre un eje principal para que el movimiento sea ese giro simple y
   estable. El módulo #M("euler-giroscopo") va a mostrar que ésa es la excepción, no la regla.
+
+  Para frenarlo hace falta el torque contrario, y acá hay una trampa linda:
+  el impulsor del vértice *opuesto*, $(-1, -1, -1)$ m, empujando hacia $-x$,
+  da $(-1 hat(i) - hat(j) - hat(k)) times (-4 hat(i)) = 4 hat(j) - 4 hat(k)$:
+  *el mismo* torque, con la fuerza contraria. No lo frena, lo acelera, y los
+  dos juntos forman un *par puro*, que hace girar sin trasladar; por eso las
+  toberas de control de actitud se montan de a pares. El que frena es, por
+  ejemplo, el de la otra punta de la diagonal de esa cara, $(1, -1, -1)$ m,
+  empujando hacia $+x$: $-4 hat(j) + 4 hat(k)$.
+
+  *(d) El desplazamiento (el inciso que agregó la cátedra).* El centro de
+  masa acelera con $bold(F)\/m$ sin importar dónde se aplique la fuerza: el
+  empuje en el vértice equivale al mismo empuje en $G$ más el par
+  $bold(r) times bold(F)$. La resolución de la cátedra da $Delta v = F Delta t
+  \/ m = 16\/120 = 0,133$ m/s en la dirección $+x$. Esa cuenta supone que
+  $bold(F)$ apunta siempre a $+x$, y no es así: el impulsor está clavado al
+  cubo, y el cubo gira $frac(1, 2) alpha t^2 = 0,566$ rad ($32,4degree$) en
+  los $4$ s, con $alpha = abs(bold(tau))\/I = 0,0707$ rad/s². Sumando el empuje
+  que gira, el impulso lineal real da $0,131$ m/s, torcido $10,8degree$
+  respecto de $x$: un $1,4$ % menos. Chico, pero es un supuesto, y la
+  cátedra pidió para esta clase que los supuestos se digan.
+
+  #cuidado[
+    *Los supuestos de este problema, cada uno con su número.* Masa e inercia
+    constantes: en $4$ s se queman $8,16 times 4 = 32,6$ g de $120$ kg, el
+    $0,027$ %. Torque constante: el impulsor gira con el cubo, pero el eje de
+    giro es paralelo a $bold(tau)$ y $bold(tau)$ está clavado al cuerpo
+    *sobre* ese eje, así que no se mueve en el espacio y $Delta bold(H)_G =
+    bold(tau) t$ es exacto (lo que gira es $bold(F)$, y eso pega en el (d), no
+    acá). Sin torques después: el gradiente de gravedad, que en cualquier otro
+    satélite es el primero de la lista, en un cubo isótropo es cero, porque
+    depende de las *diferencias* entre momentos de inercia. Cuerpo rígido:
+    sin combustible que chapotee ni antenas que vibren, que es justo lo que
+    no tenía el Explorer 1 (módulo #M("euler-giroscopo")).
+  ]
+
+  La resolución de la cátedra cierra con una pregunta para la clase: *¿y si
+  el satélite ya tenía momento angular?* El impulso angular se suma como
+  vector, $bold(H)_"final" = I bold(omega)_0 + integral bold(tau) dif t$, con la
+  misma salvedad del (d): si $bold(omega)_0$ no es paralela a $bold(tau)$, el
+  impulsor se mueve en el espacio y la integral deja de ser $bold(tau) t$;
+  vale si el encendido es corto frente a una vuelta. Lo que no cambia es que
+  el cubo, isótropo, después gira con $bold(omega) = bold(H)_G\/I$ fija. Un
+  prisma con momentos distintos, con el mismo pulso, tendría $bold(H)_G$ en la
+  dirección del torque y $bold(omega)$ torcida respecto de él, y $bold(omega)$
+  se pondría a precesar alrededor de $bold(H)_G$: el módulo #M("peonza").
 ]
 
 #fig([El disco de la horquilla, ya visto en el módulo #M("cinematica-cr") (allá, para hallar
@@ -409,7 +458,8 @@ disco: $hat(k)$ es su eje de simetría y $hat(i)$, $hat(j)$ son diámetros.],
 fig-suma-omegas)
 
 #ejemplo("El disco en la horquilla: el momento angular que no acompaña a omega")[
-  _(Problema 2, punto 1, de la sección de cuerpo rígido. Mismo disco y misma
+  _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 2, punto 1;
+  la cátedra lo resuelve con la misma terna en «Ejercicio 2 CR 2026». Mismo disco y misma
   horquilla del ejemplo del módulo #M("cinematica-cr"): $omega_1$ constante sobre el eje del
   disco $hat(k)$, $omega_2$ constante sobre el eje vertical de la horquilla
   $hat(j)$, ejes $hat(i), hat(j), hat(k)$ solidarios a la horquilla.)_

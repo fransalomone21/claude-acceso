@@ -574,7 +574,7 @@ lo que sigue.
 ]
 
 #ejemplo("El giróscopo de juguete de la guía (S&Z 10.51)", nivel: "a fondo")[
-  *Enunciado (guía de la cátedra, Conservación de impulso angular).* El rotor
+  *Enunciado (Guía de la cátedra 2026, sección «Conservación de impulso angular», el problema sin número entre el 3 y el 4).* El rotor
   de un giróscopo de juguete tiene masa $0,140$ kg y momento de inercia $I =
   1,20 times 10^(-4)$ kg·m² alrededor de su eje. El marco pesa $0,0250$ kg. El
   giróscopo se apoya en un solo pivote, con su centro de masa a $4,00$ cm

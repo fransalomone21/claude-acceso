@@ -230,7 +230,7 @@ todo cuando da distinta: ahí está el dato.
 ]
 
 #ejemplo("La astronauta y la herramienta")[
-  _(Ej. 1 de la guía; S&Z 8.16.)_ Una astronauta de $68,5$ kg repara la
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Ej. 1; S&Z 8.16.)_ Una astronauta de $68,5$ kg repara la
   estación espacial. Arroja una herramienta de $2,25$ kg con una rapidez de
   $3,20$ m/s *respecto de la estación*. ¿Con qué rapidez y en qué dirección
   empieza a moverse la astronauta?
@@ -260,7 +260,7 @@ todo cuando da distinta: ahí está el dato.
 ]
 
 #ejemplo("Choque oblicuo de dos asteroides", nivel: "a fondo")[
-  _(Ej. 2 de la guía; S&Z 8.31.)_ Dos asteroides de igual masa chocan de forma
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Ej. 2; S&Z 8.31.)_ Dos asteroides de igual masa chocan de forma
   oblicua. $A$ viajaba a $40,0$ m/s; después del choque se desvía $30,0degree$
   respecto de su dirección original, y $B$ —que estaba en reposo— sale a
   $45,0degree$ del otro lado.
@@ -326,7 +326,7 @@ todo cuando da distinta: ahí está el dato.
 ]
 
 #ejemplo("Separación de dos etapas en inercia")[
-  _(Adicional 1 de la guía.)_ La tercera y la cuarta etapa de un cohete viajan
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Adicional 1.)_ La tercera y la cuarta etapa de un cohete viajan
   juntas por inercia a $18 thin 000$ km/h cuando una carga explosiva las
   separa. Justo después, la cuarta etapa —de $200$ kg— quedó a
   $18 thin 060$ km/h. La tercera pesa $400$ kg.
@@ -363,7 +363,7 @@ todo cuando da distinta: ahí está el dato.
 ]
 
 #ejemplo("El satélite que se suelta del transbordador, con la fuerza media", nivel: "a fondo")[
-  _(Adicional 2 de la guía.)_ El transbordador expulsa un satélite de
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Adicional 2.)_ El transbordador expulsa un satélite de
   $800$ kg desde la bodega de carga. El mecanismo empuja durante $4$ s y le
   da al satélite $0,3$ m/s en $z$ *respecto del transbordador*, que tiene una
   masa de $90$ Mg. Hallar la velocidad final del transbordador en $-z$ y la

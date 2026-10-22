@@ -523,11 +523,12 @@ Tierra*, y eso fija el punto de la órbita de estacionamiento donde tiene que
 ocurrir el encendido.
 
 #ejemplo("Partida a Marte desde una órbita de estacionamiento de 300 km", nivel: "a fondo")[
+  _(Curtis, ejemplo 8.4, págs. 399–401; no está en la guía de la cátedra.)_
   *Datos:* $mu_T = 398 thin 600 " km"^3"/s"^2$,
   $mu_"Sol" = 1,327 times 10^11 " km"^3"/s"^2$,
   $R_T = 149,6 times 10^6$ km, $R_M = 227,9 times 10^6$ km, órbita de
   estacionamiento de $300$ km de altura ($r_p = 6678$ km), impulso específico
-  del motor $I_"sp" = 300$ s. (Curtis, ejemplo 8.4, págs. 399–401.)
+  del motor $I_"sp" = 300$ s.
 
   *(a) El $v_oo$ que la misión pide.* Sale del pegado, y es la cuenta del
   módulo #M("maniobras") leída con el nombre correcto: la velocidad de la Tierra menos la

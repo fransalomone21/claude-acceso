@@ -188,7 +188,7 @@ término que se muere solo, que es el mejor tipo de cuenta que hay:
 ]
 
 #ejemplo("El mismo lanzamiento, visto desde el centro de masa")[
-  _(Ej. 1 de la guía, otra vez.)_ La misma astronauta del módulo #M("cantidad-movimiento"):
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Ej. 1, otra vez.)_ La misma astronauta del módulo #M("cantidad-movimiento"):
   masa $m_a = 68,5$ kg, que arroja una herramienta de masa $m_h = 2,25$ kg con
   rapidez $v_h = 3,20$ "m/s" respecto de la estación. *(a)* Rehacer el cálculo
   desde el centro de masa. *(b)* Diez segundos después, ¿a qué distancia está
@@ -223,7 +223,7 @@ término que se muere solo, que es el mejor tipo de cuenta que hay:
 ]
 
 #ejemplo("Los asteroides, ahora desde el centro de masa", nivel: "a fondo")[
-  _(Ej. 2 de la guía, revisitado.)_ El mismo choque del módulo #M("cantidad-movimiento"): dos
+  _(Guía de la cátedra 2026, sección «Conservación de cantidad de movimiento», Ej. 2, revisitado.)_ El mismo choque del módulo #M("cantidad-movimiento"): dos
   asteroides de igual masa $m$, uno a #box[$40,0$ m/s] y el otro en reposo, que salen
   a $30,0degree$ y $45,0degree$ con rapideces $29,28$ y $20,71$ m/s.
   Rehacerlo en el sistema centro de masa y separar la energía disipada de la

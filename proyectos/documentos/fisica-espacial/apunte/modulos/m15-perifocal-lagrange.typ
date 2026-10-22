@@ -709,6 +709,7 @@ $ r = h^2/mu 1/(1 + (h^2/(mu r_0) - 1) cos(Delta nu) - (h thin v_(r 0))/mu sin(D
 ]
 
 #ejemplo("propagar 120° de anomalía, y recién después preguntar en qué órbita estábamos", nivel: "a fondo")[
+  _(Curtis, ejemplos 2.13 y 2.14, págs. 111-113; no está en la guía de la cátedra.)_
   Un satélite terrestre está, en $t_0$, en
 
   $ bold(r)_0 = 8182,4 hat(i) - 6865,9 hat(j) quad ["km"], quad quad

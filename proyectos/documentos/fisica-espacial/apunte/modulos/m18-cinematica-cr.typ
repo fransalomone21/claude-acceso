@@ -71,7 +71,10 @@ norteamericano, y la historia está al final del módulo #M("euler-giroscopo").
   Beer trae la deducción de la derivada en un sistema rotante con más detalle
   algebraico y es la fuente de la fórmula que sostiene los módulos que siguen;
   Roederer conecta el mismo resultado con el marco no inercial del módulo
-  #M("marcos"), que es el hilo que este módulo retoma.
+  #M("marcos"), que es el hilo que este módulo retoma. Y para *ver* la
+  derivada antes de hacerla: *Curtis, §1.6* («Time derivatives of moving
+  vectors», págs. 21–26), con la Fig. 1.15, que la cátedra mandó a mirar
+  para la clase del 19/10.
 ]
 
 == Con un punto fijo, todo movimiento es una rotación
@@ -183,8 +186,10 @@ ese eje no está fijo ni al espacio ni al disco: barre un cono en cada uno.],
 fig-suma-omegas)
 
 #ejemplo("El disco en la horquilla: velocidad y aceleración angulares")[
-  _(Problema 2 de la sección de cuerpo rígido, en su mitad cinemática; el
-  momento angular queda para el módulo #M("inercia") y su derivada para el #M("euler-giroscopo").)_ Un disco
+  _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 2, en su mitad
+  cinemática; el momento angular queda para el módulo #M("inercia") y su
+  derivada para el #M("euler-giroscopo"). La resolución de la cátedra es
+  «Ejercicio 2 CR 2026», de la clase del 19/10.)_ Un disco
   homogéneo de radio $r$ gira con $omega_1$ constante alrededor de su eje de
   simetría, sostenido por una horquilla que a su vez gira con $omega_2$
   constante alrededor de la vertical.
@@ -287,6 +292,19 @@ caso particular: no son dos resultados, es uno y su recorte.
 
 $ (dot(bold(Q)))_(O X Y Z) = (dot(bold(Q)))_(O x y z) + bold(Omega) times bold(Q) $ <cin-derivada>
 
+El Curtis llega a lo mismo en dos escalones, y el primero vale la pena
+mirarlo solo. Su Fig. 1.15 es un vector $bold(A)$ de módulo fijo pintado
+sobre un cuerpo que gira: en un $dif t$ el cuerpo gira $dif theta = omega dif
+t$ alrededor del eje instantáneo, y la punta de $bold(A)$ recorre un arquito
+de radio $A sin phi$, con $phi$ el ángulo entre $bold(A)$ y el eje. Ese
+arquito, con su dirección, es un producto vectorial: $dif bold(A)\/dif t =
+bold(omega) times bold(A)$ si el módulo no cambia (Curtis ec. 1.52, pág. 23).
+El segundo escalón es aplicarle eso a los tres versores de una terna que gira,
+y sale la @cin-derivada (Curtis ec. 1.56, pág. 25). En las resoluciones de la
+cátedra la fórmula se llama *teorema del transporte*: el segundo término
+«transporta» el vector con la terna, y el nombre ayuda a no olvidarse de que
+la $bold(Omega)$ de ahí es la de la terna.
+
 #posta[
   Lo que ve el de afuera es lo que ve el que gira, más lo que el giro le
   agrega. El que va sentado en la calesita ve el vector quieto; el de afuera
@@ -341,7 +359,7 @@ como vectores.], fig-vector-rotante)
 ]
 
 #ejemplo("El volante en el gimbal: por qué hace falta una cupla", nivel: "a fondo")[
-  _(Problema 3 de la sección de cuerpo rígido, en su mitad cinemática. La
+  _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 3, en su mitad cinemática. La
   aceleración angular del gimbal, que es lo que el enunciado pide, sale en el
   módulo #M("euler-giroscopo") con las ecuaciones de Euler; acá se resuelve la parte de la que
   esa cuenta depende.)_ Un volante gira con $omega_s = 100$ rad/s constante
