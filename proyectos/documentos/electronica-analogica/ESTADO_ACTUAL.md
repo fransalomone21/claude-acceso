@@ -1,5 +1,10 @@
 # Estado actual — Apunte de Aplicaciones de Electrónica Analógica (4.º año)
 
+> **2026-10-23 (sesión de método, DA-079):** `compilar.bat` corre
+> `~/.claude/herramientas/lint-typst.py` antes de Typst y corta si da rojo.
+> Medido sobre `apunte.typ` y `apunte-tdc.typ`: limpios (la plantilla ya fija la
+> coma decimal). Contenido sin tocar.
+
 **Fecha:** 2026-09-22
 **Rama:** `main` — hay una sola rama; el proyecto es una carpeta, no una rama.
 **Estado: APUNTE COMPLETO EN DOS PARTES.** **157 páginas**, 15 módulos más anexos.

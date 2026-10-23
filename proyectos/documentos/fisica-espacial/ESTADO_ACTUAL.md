@@ -1,5 +1,11 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-10-23: el compilado corre el lint de Typst (DA-079, sesión de método)
+
+`compilar.bat` y `practica\compilar.ps1` corren `~/.claude/herramientas/lint-typst.py`
+antes de Typst y cortan si da rojo. Medido sobre el apunte y las 13 entradas de
+`practica/`: limpios (la plantilla ya fija la coma decimal). Contenido sin tocar.
+
 ## 2026-10-22: cuerpo rígido, Problemas 1 a 4 (clase del 19/10)
 
 - **`practica/resueltos-cr-1-a-4.typ`** → `salida/resueltos-cr-1-a-4.pdf`

@@ -1,5 +1,10 @@
 # Handoff — próxima sesión
 
+> **2026-10-23 (sesión de método, DA-079):** las trampas de Typst que compilan sin
+> error las mide el lint del perfil: `compilar.bat` lo corre y corta en rojo, y todo
+> `typst compile` de una sesión lo pasa el guardia `guardia-typst.py`. Un falso
+> positivo se exime en su renglón con `// lint-typst: ok Tn`. Contenido sin tocar.
+
 ## 2026-10-06 — sección nueva en el Módulo 4 (PIV)
 
 Entró la sección «Caídas y corrientes en el esquemático: de dónde sale cada PIV»

@@ -1,5 +1,11 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-10-23 (sesión de método, DA-079):** las trampas de Typst que compilan sin
+> error ya no se recuerdan: `compilar.bat` y `practica\compilar.ps1` corren el lint
+> del perfil y cortan en rojo, y todo `typst compile` de una sesión lo pasa el
+> guardia `guardia-typst.py`. Un falso positivo se exime en su renglón con
+> `// lint-typst: ok Tn`. Contenido sin tocar.
+
 Lo que quedó a medias y las trampas ya pagadas. **El plan de fases y el
 criterio de salida no están acá: están en `PDP.md` §4.** Este archivo no los
 repite, porque un dato que vive en dos lados diverge.
