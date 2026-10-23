@@ -43,6 +43,10 @@ try {
     # todos los PDF salen "modificados" con el texto identico y el hook los
     # vuelve a subir a Drive (pendiente del HANDOFF, cerrado el 2026-10-13).
     $fecha = '--creation-timestamp=1767225600'   # 2026-01-01 00:00 UTC
+    # La llave fija de Typst (DA-079): las trampas que compilan sin error, medidas en el fuente antes.
+    $entradas = @($trabajos | ForEach-Object { $_[0] } | Select-Object -Unique)
+    python (Join-Path $env:USERPROFILE '.claude\herramientas\lint-typst.py') @entradas --root ..
+    if ($LASTEXITCODE -ne 0) { throw 'lint-typst en rojo: una trampa de Typst en el fuente (lista arriba)' }
     foreach ($t in $trabajos) {
         if ($t[2]) { typst compile $fecha --root .. $t[0] $t[1] --input $t[2] }
         else { typst compile $fecha --root .. $t[0] $t[1] }

@@ -109,7 +109,9 @@ $copias = @(
     @{ De = 'PDP.md';             A = 'PDP.md' },
     @{ De = 'proyecto-CLAUDE.md'; A = 'CLAUDE.md' },
     @{ De = 'ESTADO_ACTUAL.md';   A = 'ESTADO_ACTUAL.md' },
-    @{ De = 'HANDOFF.md';         A = 'HANDOFF.md' }
+    @{ De = 'HANDOFF.md';         A = 'HANDOFF.md' },
+    # DA-080: el registro de problemas tecnicos, que la cascada lista al entrar (problemas.py aviso)
+    @{ De = 'PROBLEMAS.md';       A = 'PROBLEMAS.md' }
 )
 foreach ($c in $copias) {
     $origen = Join-Path $plantillas $c.De

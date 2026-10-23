@@ -111,6 +111,7 @@ $medidores = @(
     # tiene que estar en un destilado de pilares/, que a su vez se mide contra el PDF. El libro es lo que la puerta
     # hace leer SIEMPRE y era el unico texto del metodo sin medidor contra su fuente. ~0,5 s.
     @{ nombre = 'el libro contra sus fuentes'; cmd = 'python perfil-global\herramientas\verificar-libro.py' }
+    @{ nombre = 'registros de problemas (DA-080)'; cmd = 'python problemas.py verificar' }
     # DA-065: cada seccion de un destilado del libro que trata el tema de un concepto (requisitos, alcance) cae en lo
     # que ese concepto hace leer, o esta declarada afuera con motivo. El App. C vivia en el glosario y no llegaba. ~1 s.
     @{ nombre = 'el mapa de lecturas';        cmd = 'python mapa-lecturas.py' }
@@ -172,6 +173,10 @@ $saboteadores = @(
     # cursivas, un archivo que falta, el corpus vacio, una cita que vive solo en el libro y la clausula de escape del
     # 2026-10-19 puesta de vuelta (y la excepcion con su quien en verde); y el libro real en verde.
     @{ nombre = 'el libro contra sus fuentes (DA-013)'; cmd = 'python perfil-global\herramientas\verificar-libro.py --autotest' }
+    # DA-079: la llave fija de Typst -- cada regla ve su caso, lo bien escrito pasa, y el guardia niega el compile en rojo
+    @{ nombre = 'las trampas de Typst (DA-079)'; cmd = 'python perfil-global\herramientas\lint-typst.py --sabotaje' }
+    @{ nombre = 'el registro de problemas (DA-080)'; cmd = 'python problemas.py --autotest' }
+    @{ nombre = 'el guardia de Typst (DA-079)';  cmd = 'python perfil-global\hooks\guardia-typst.py --autotest' }
     # DA-065: el mapa sin el App. C (tiene que salir huerfana ESA seccion), una exclusion borrada, una muerta, un
     # lo_lee mentiroso, una regex ciega y ningun concepto con temas; y el catalogo real en verde.
     @{ nombre = 'el mapa de lecturas (DA-065)'; cmd = 'python mapa-lecturas.py --autotest' }

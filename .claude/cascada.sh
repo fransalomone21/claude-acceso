@@ -64,4 +64,6 @@ set -- --exige "$proy"
 rc=$?
 # T19, pieza D (L2-USO-02): las propuestas del lazo de uso de la clase del proyecto; el codigo sigue siendo el de la puerta
 [ -f "$RAIZ/uso-lecturas.py" ] && "$PY" "$RAIZ/uso-lecturas.py" proponer --proyecto "$proy"
+# DA-080: los problemas tecnicos abiertos del proyecto (su PROBLEMAS.md)
+[ -f "$RAIZ/problemas.py" ] && "$PY" "$RAIZ/problemas.py" aviso "$proy"
 exit $rc

@@ -32,6 +32,9 @@ if /i "%~1"=="galeria" goto :galeria
 echo.
 echo   Compilando el apunte completo (123 paginas, unos 20 segundos)...
 echo.
+REM La llave fija de Typst (DA-079): las trampas que compilan sin error, medidas antes.
+python "%USERPROFILE%\.claude\herramientas\lint-typst.py" apunte.typ
+if errorlevel 1 goto :fallo_lint
 typst compile apunte.typ apunte.pdf
 if errorlevel 1 goto :fallo
 
@@ -45,6 +48,8 @@ goto :fin
 echo.
 echo   Compilando solo la galeria de figuras...
 echo.
+python "%USERPROFILE%\.claude\herramientas\lint-typst.py" biblioteca\galeria.typ
+if errorlevel 1 goto :fallo_lint
 typst compile biblioteca\galeria.typ biblioteca\galeria.pdf
 if errorlevel 1 goto :fallo
 
@@ -53,6 +58,14 @@ echo   LISTO -^> apunte\biblioteca\galeria.pdf
 echo.
 start "" "biblioteca\galeria.pdf"
 goto :fin
+
+:fallo_lint
+echo.
+echo   [ERROR] El fuente tiene una trampa de Typst que compila sin error y
+echo   sale mal en el PDF (lista arriba, con archivo y renglon). No se compila.
+echo.
+pause
+exit /b 1
 
 :fallo
 echo.

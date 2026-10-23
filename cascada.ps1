@@ -438,6 +438,10 @@ if ($Excepcion) {
     # sesion las lleva al cuadro ('Lo tuyo'); no son un rojo del arranque, porque la sesion no puede arreglarlas sola.
     $ul = Join-Path $Raiz 'uso-lecturas.py'
     if (Test-Path -LiteralPath $ul) { & python $ul proponer --proyecto $pr.Nombre 2>&1 | ForEach-Object { Write-Host $_ } }
+    # DA-080: los problemas tecnicos ABIERTOS del proyecto (su PROBLEMAS.md), donde se decide: lo estructural que una
+    # sesion encontro y no arreglo ya no se pierde en un HANDOFF que se reescribe.
+    $pb = Join-Path $Raiz 'problemas.py'
+    if (Test-Path -LiteralPath $pb) { & python $pb aviso $pr.Nombre 2>&1 | ForEach-Object { Write-Host $_ } }
     $ErrorActionPreference = 'Stop'
 } else {
     # aviso y no faltante: en un repo sintetico (probar-cascada.ps1) no esta, y en el real lo mide --verificar
