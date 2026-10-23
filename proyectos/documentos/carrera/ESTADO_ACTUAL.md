@@ -1,6 +1,6 @@
 # Estado actual — Carrera
 
-**Última actualización:** 2026-10-22 (fila de Física Espacial: CR 1 a 4 y la clase del 19/10); 2026-10-20 (fila del Taller de Física: la exposición de Compton y pares, con su material en Drive); 2026-10-18 (fila de IISE: nace el proyecto del TP final); 2026-10-16, noche (fila de Programación: el TP Cohete pasó a la versión de vuelo); 2026-10-16 (el TP Cohete entregó el código); 2026-10-14 (fila de IISE: resumen para el parcialito del 14/10; antes, la de Física Espacial: 1er parcial resuelto público, C1 cerrado)
+**Última actualización:** 2026-10-23 (fila de Programación: código final del TP Cohete); 2026-10-22 (fila de Física Espacial: CR 1 a 4 y la clase del 19/10); 2026-10-20 (fila del Taller de Física: la exposición de Compton y pares, con su material en Drive); 2026-10-18 (fila de IISE: nace el proyecto del TP final); 2026-10-16, noche (fila de Programación: el TP Cohete pasó a la versión de vuelo); 2026-10-16 (el TP Cohete entregó el código); 2026-10-14 (fila de IISE: resumen para el parcialito del 14/10; antes, la de Física Espacial: 1er parcial resuelto público, C1 cerrado)
 
 ## Dónde estamos
 
