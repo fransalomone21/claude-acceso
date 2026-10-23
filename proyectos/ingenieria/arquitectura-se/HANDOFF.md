@@ -1,5 +1,16 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-23 (sesión lateral de correcciones técnicas; plan: ventana 5 h al ~90 % al cerrar) — SIGUE: validar T19
+> en sesiones reales** (lo de antes), y el **MOMENTO LLUVIA DE IDEAS** de arquitectura-se (11 de 10 sesiones: la
+> cascada lo pide antes de seguir ejecutando). Hecho: **DA-079 y DA-080** (ESTADO, arriba). **Para el que siga:** (1)
+> todo `typst compile` de una sesión pasa por `guardia-typst.py`: si niega, se arregla el fuente o se exime el renglón
+> con `// lint-typst: ok Tn`; una trampa nueva entra como regla del lint con su caso, no como viñeta; (2) al entrar a un
+> proyecto la cascada lista sus problemas abiertos (`PROBLEMAS.md`); (3) **posible recurrencia de la #147 sin
+> registrar**: el lint por carpeta salió verde sobre 8 comas reales (T1 apagado por toda la carpeta) y lo vio la prueba
+> que corría `defectos.py arreglar`, no un caso planeado; quedó arreglado con su caso, falta decidir si se cuenta
+> (`aprender.py repite 147`, que exige subirla a regla); (4) rojos del arranque que NO son de esta sesión: lecciones
+> **230** y **346**.
+
 > **2026-10-19 (sesión lateral `1f168c8f`, noche; plan: ventana 5 h al ~65 %, semanal al ~27 %) — SIGUE: validar T19
 > en sesiones reales de cada clase** (P10: una materia, un módulo de BLACK, el telescopio, una suelta), que es lo que
 > cierra la fase 7. Hecho: **DA-077 y DA-078** (`09eda4d`, `aab7dd9`; V en

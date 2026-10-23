@@ -3,6 +3,19 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-23 (sesión lateral de correcciones técnicas, pedida por Fran desde la guía del parcial de TDC) — DA-079 Y
+DA-080 ARREGLADOS (falta validarlos con 3 sesiones auditadas).** **DA-079**: `perfil-global/herramientas/lint-typst.py`
+(T1-T4, sigue los `#import`/`#include`, exención por renglón escrita en el fuente) y el guardia
+`perfil-global/hooks/guardia-typst.py`, que niega todo `typst compile|watch` en rojo; los compiladores envueltos
+(física, electrónica, práctica, guía de TDC) lo corren antes. **Medido construyendo:** cuatro proyectos ya fijaban la
+coma decimal en su plantilla (`show ","`), así que T1 se apaga por entrada donde eso está (por carpeta entera tapaba 8
+comas reales: corregido con su caso). Barrido: 0 hallazgos en los apuntes; 8 en la guía del Lab 3 de TDC y 1 en la guía
+del código del cohete (de esos proyectos, sin tocar). Efecto en vivo: un `typst compile` con `$0,5 V$` quedó negado en
+la sesión y el mismo archivo arreglado compiló. **DA-080**: `PROBLEMAS.md` por proyecto (`plantillas/`,
+`nuevo-proyecto.ps1`), `problemas.py aviso` en `cascada.ps1` y `cascada.sh`, `verificar` en la capa rápida. De paso,
+en TDC: S6 (`resolver.py` rojo por número publicado sin control; 99 de 179 como deuda con tope) y la lección 147
+subida a herramienta. Commits: perfil `69ef020`, `e01d766`; acá `b55938b`; TDC `3c9cb2f`.
+
 **2026-10-19 (sesión lateral `1f168c8f`, noche) — DA-077 Y DA-078 ARREGLADOS (falta validarlos con 3 sesiones
 auditadas).** L2 escrito antes ([`docs/10-requisitos.md`](docs/10-requisitos.md) §14-15: L2-PTA-46..49, L2-AUD-13; 0
 VIOLA). **DA-077**: la puerta registra como leído lo que un Edit agrega al final del archivo con salto final (antes lo
