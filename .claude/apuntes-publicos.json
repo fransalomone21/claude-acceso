@@ -118,6 +118,20 @@
       "estado": "2026-10-02 -- a pedido de Fran, separado del de Electronica Analogica: mismo fuente, compilado solo con lo de ISE03 (modulos 7 a 15 y anexos, sin la Parte I de la escuela ni sus TP). Reemplaza a la copia del apunte de EA que estaba en esta carpeta desde el 2026-09-29 (mandada a la papelera de Drive)."
     },
     {
+      "materia": "TDC/Guia para el parcial",
+      "local": "proyectos/documentos/teoria-circuitos/guia-parcial/salida/Guia del parcial - Teoria de Circuitos.pdf",
+      "nombre-en-drive": "Guia del parcial - Teoria de Circuitos.pdf",
+      "regenerable": "python proyectos/documentos/teoria-circuitos/guia-parcial/compilar.py (necesita el repo privado teoria-circuitos y la biblioteca del apunte de electronica-analogica)",
+      "estado": "2026-10-23 -- la guia central (28 pag.): los 12 problemas de la lista de Sanca y 5 adicionales, con teoria por tema, hint, resolucion paso a paso y 'para el oral'; numeros por dos caminos (resolver.py, 83 controles con sabotaje). Publica por decision de Fran del 23/10; el FUENTE vive en el repo privado teoria-circuitos"
+    },
+    {
+      "materia": "TDC/Guia para el parcial",
+      "local": "proyectos/documentos/teoria-circuitos/guia-parcial/salida/Guia del parcial - Teoria de Circuitos - solo ejercicios.pdf",
+      "nombre-en-drive": "Guia del parcial - Teoria de Circuitos - solo ejercicios.pdf",
+      "regenerable": "python proyectos/documentos/teoria-circuitos/guia-parcial/compilar.py",
+      "estado": "2026-10-23 -- la misma guia sin ayudas (12 pag.): consigna, tema y donde leer; los resultados finales e intermedios al final. Mismo fuente que la central (--input version=ejercicios)"
+    },
+    {
       "materia": "Software de Vuelo",
       "local": "proyectos/documentos/software-de-vuelo/guia-ides/guia-ides.pdf",
       "nombre-en-drive": "Guia de IDEs - STM32CubeIDE y VS Code.pdf",
