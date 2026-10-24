@@ -6,6 +6,12 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-24, Drive al día (cierre por límite del plan):** Doc 1 y Doc 2 regenerados con el MISMO ID
+> (`1wrzP…`, `1rpFT…`): el Doc 2 trae «lo que sigue de tu parte» y «lo que sigue de Claude»; nuevos en «Para
+> profundizar»: «5 - Lluvia de ideas y revision del concepto (24-10)» (`1D3TM5lBRh1VSF8pSTHxktdP9DMO0A1P8jkqKT5nxJJg`)
+> y «6 - Revision independiente del concepto (24-10)» (`1belFyqbmRNTa247Sj1y2Ax_3-zzbAUn2uede-XVWuz0`); el PDF de
+> la decisión resubido (mismo ID, MD5 igual al local). Medido con `rclone lsf --format pit` antes y después.
+>
 > **2026-10-24, la revisión independiente (sesión revisora, no la autora):** `docs/22-revision-independiente-2026-10-24.md`
 > + `docs/22-revision/revision.js` y `revision2.js` (`node` desde esa carpeta). **6 hallazgos de concepto abiertos**
 > (R-01 a R-06), 8 de diseño, 3 de redacción. No se tocó `10`, el modelo ni los `.js` del diseño. **Para la sesión

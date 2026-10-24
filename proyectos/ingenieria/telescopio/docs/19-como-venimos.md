@@ -1,122 +1,117 @@
 # Cómo venimos y cómo seguimos
 
-**En criollo, sin vueltas.** Qué ya está, qué falta sí o sí para cerrar la
-primera etapa, qué se puede ir comprando y en qué orden sigue. El proyecto
-entero explicado está en «1 - El proyecto, todo en un lugar».
+**En criollo, sin vueltas.** Qué ya está, qué te toca a vos, qué hace Claude y
+en qué orden sigue. El proyecto entero explicado está en «1 - El proyecto, todo
+en un lugar».
 
-Actualizado el 24 de octubre de 2026.
+Actualizado el 24 de octubre de 2026, a la noche.
 
 ## Cómo venimos
 
-> **Lejos de la foto, pero con la primera etapa casi cerrada.** De las seis
-> etapas del plan (elegir, fijar los números, reformar la montura, dibujar
-> para cortar, construir, sacar la foto) estamos terminando la primera. A
-> ojo, un 10-15 % del camino.
+> **Lejos de la foto, cerrando la primera etapa con cuidado.** De las seis
+> etapas del plan estamos terminando la primera, la de elegir el concepto. A
+> ojo, un 15-20 % del camino. Esta etapa no se da por cerrada hasta que no
+> quede **ningún error de concepto** (lo pediste vos): una revisión hecha por
+> una sesión que no escribió el concepto encontró seis, y se están
+> corrigiendo. **No se corta ni se compra nada de la plataforma** hasta
+> cerrarlos y hacer la prueba de foco.
 
-Lo que ya está y no se vuelve a discutir:
+Lo que ya está decidido y no se vuelve a discutir:
 
-- **Qué plataforma:** la VNS (pivote al norte, dos chapas al sur). La
-  eligió Fran con sus pesos, y no empató con nada.
-- **Que sirva para el 200 y para un 12":** mesa con rieles, cada telescopio
-  en su muesca, mismas chapas y mismo motor.
-- **La lista de requisitos**, escrita y chequeada: es el papel contra el que
+- **Qué plataforma:** la VNS (pivote al norte, dos chapas al sur), para el 200
+  y para un 12", cada uno en su muesca sobre los rieles.
+- **El centro de masa, medido** (17/10): 63,2 cm del piso del dobson.
+- **Fotos de 30 s sin guiar, con el guiado previsto desde el diseño** (24/10).
+  Nadie logró 60 s sin guiar con una plataforma, y en el patio no rinden.
+- **Viaja** (24/10): el 200 en un Clio, el 12" en camioneta, al centro del país
+  (30,5° a 38,5°: Córdoba, Mendoza, San Luis, El Leoncito, Mar del Plata), con
+  patas de 12 cm. Y como **tarjeta madre**: para ir al resto del país se
+  cambian módulos, no la plataforma.
+- **El trazador primero** (24/10): una plataforma cruda andando en el patio con
+  fotos de 10-15 s, y después se mejora por partes con lo que se mida. Lleva
+  los tres frenos de seguridad desde el primer día.
+- **La lista de requisitos**, versión 0.3, chequeada: es el papel contra el que
   se compara todo.
-- **El centro de masa, medido** (17/10): 63,2 cm del piso del dobson. El
-  vuelco salió de diez y coincidió con la cuenta por partes. La base fija
-  mide 43 × 43.
-- **El diseño preliminar en 3D, ya con esas medidas** (versión 10.6, 24/10):
-  la muesca del 200 queda a 2,5 cm al norte; todo armado, nada flotando y
-  nada que choque en toda la carrera. Vuelco y empujón, en verde con los dos
-  telescopios.
 
 ![Así está hoy el diseño (preliminar: no es para cortar)](img/modelo-conjunto.png)
 
-## Lo que falta sí o sí para cerrar la primera etapa
+## Los seis errores de concepto que encontró la revisión
 
-Son cuatro cosas. Las tres primeras son tuyas; sin ellas la revisión del
-concepto no se puede hacer bien.
+Están contados con sus cuentas en «6 - Revisión independiente» (carpeta «Para
+profundizar»). En criollo:
 
-### 1. La prueba de foco con la Sony — 10 minutos, de día
+1. **A 30 s ninguna transmisión entra sin la corrección periódica.** Pasa de
+   «recomendable» a obligatoria: el programa corrige el error que se repite
+   en cada vuelta de la polea, del rodillo o del tornillo.
+2. **El vuelco con la base inclinada.** La cuenta no levantaba el conjunto al
+   estirar las patas. Con el 12" en el borde del rango queda sin margen.
+3. **El empujón** se medía a 1,3 m y no en la boca del tubo, que está más
+   alta. Con el 12" no cumple.
+4. **El contacto de la chapa con el rodillo** es en una arista. Hay que
+   decidir el rodillo (basculante o abombado) antes de cortar las chapas del
+   trazador.
+5. **Al trazador le faltan compuertas:** la cuenta del canto para fotos de
+   10-15 s, la muestra del canto medida antes de cortar, el sensor de origen
+   y que la transmisión sea un módulo que se pueda cambiar.
+6. **El motor de declinación en el pivote** corrige bien cerca del meridiano,
+   no en todo el cielo.
 
-**Por qué:** es la falla clásica de los newtonianos: el portaocular no tiene
-recorrido para adentro y la cámara no llega a foco. Si no llega, cambia el
-plan antes de gastar un peso en chapa.
+Además hay ocho de diseño y tres de redacción. Nada de esto tira la
+arquitectura: son cuentas que se arrastraron de otro caso sin rehacerse.
 
-**Cómo:**
-1. La Sony **sin lente**, con su adaptador, en el portaocular.
-2. Apuntá a algo lejos, a más de 200 m (una antena, un edificio).
-3. Girá el portaocular de punta a punta mirando la pantalla.
-4. Anotá: **¿se ve nítido? sí o no.** Si no: ¿mejora yendo para adentro o
-   para afuera, y se acaba el recorrido antes? Sacale una foto a la pantalla
-   en el mejor punto.
+## Lo que sigue de tu parte
 
-**Qué pasa con cada respuesta:** sí → seguimos como está. No, y le falta
-para adentro → una Barlow o correr el espejo. Tampoco con el celular en el
-ocular → se replantea (muy improbable: el celular enfoca solo).
+| # | Qué | Cuánto | Por qué |
+|---|---|---|---|
+| 1 | **Prueba de foco** con la Sony, de día | 10 min | si no llega a foco, cambia el plan antes de gastar |
+| 2 | **Medir el portaocular** en la misma prueba: diámetro de la boca (¿1,25"?), cuánto entra y sale, si gira al enfocar | 5 min | define si hace falta un portaocular de 2" (foco, viñeteo y corrector de coma) |
+| 3 | **Una foto de 10 s** de noche: la Sony en el portaocular, ISO 1600, a un pedazo de cielo sin estrellas brillantes; mandame el archivo crudo | 5 min | mide el brillo del cielo del patio y si la cámara se «come» estrellas chicas |
+| 4 | **El inventario con calibre** (ver abajo) | 1 h | cierra la etapa y confirma las compras |
+| 5 | **El baúl del Clio**: largo, ancho y alto de la boca y del piso | 5 min | define en cuántas piezas se desarma la base |
+| 6 | **Dos decisiones** (abajo) | — | deciden el vuelco, el empujón y el guiado largo |
 
-### 2. El inventario, con calibre — 1 hora
+**Las dos decisiones tuyas:**
 
-**Por qué:** cerrar la primera etapa pide que no quede ninguna pieza con un
-«creo que es». Y es lo que dice qué hay que comprar.
+1. **Con el 12" arriba, ¿cuánto más fácil de volcar puede ser la plataforma
+   que el 12" solo en el piso?** (a) Nada: igual que el 12" solo (se agranda la
+   base o se agrega una traba que no deje levantar la mesa). (b) Alcanza con el
+   criterio del 200.
+2. **¿Aceptás que las fotos guiadas de 4 minutos sirvan sólo con el objeto a
+   menos de 3-4 horas del meridiano?** Es lo que da el motor en el pivote; para
+   todo el cielo hace falta un eje de declinación de verdad, más caro.
 
-**Qué:** una foto de cada cosa **donde se lea la etiqueta**, y la medida al
-lado.
-- **Hierros:** de cada tubo, ángulo y planchuela: la sección, el espesor de
-  pared (con el calibre) y cuántos metros hay.
-- **Lo rescatado de la impresora:** cuántos rulemanes de roller (¿dicen
-  608?), las varillas lisas (¿miden 8,00 mm?) y su largo, los microswitches.
-- **Lo que faltaba anotar:** la balanza (marca, hasta cuánto pesa, de cuánto
-  en cuánto), la placa «HW-130» por los dos lados, mariposas y bulones M8.
-- **Los NEMA de tu amigo:** la foto de la etiqueta de cada uno (ver la
-  compra, abajo: con eso se elige cuál).
-- **La casetera ya está vista** (5/10): sus dos motores son de continua y no
-  sirven para seguir el cielo. No hace falta volver a inventariarla.
+**El inventario, qué medir:** una foto de cada cosa donde se lea la etiqueta, y
+la medida al lado.
+- **Hierros:** sección, espesor de pared (con el calibre) y cuántos metros hay.
+- **Lo rescatado de la impresora:** los rulemanes del roller (¿dicen 608?), las
+  varillas lisas (¿miden 8,00 mm?) y su largo, los microswitches.
+- **Lo que faltaba anotar:** la balanza (marca, hasta cuánto pesa, de cuánto en
+  cuánto), la placa «HW-130» por los dos lados, mariposas y bulones M8.
+- **Los NEMA de tu amigo:** la foto de la etiqueta de cada uno.
 
-### 3. Una decisión tuya: ¿60 s sin guiar, o no?
+## Lo que sigue de Claude
 
-La investigación del 9/10 encontró que **nadie documenta fotos de 60 s sin
-guiar** con una plataforma a 1200 mm: pide una pista (el canto de la chapa y
-los rodillos) con errores de 1 a 2 milésimas de milímetro, que un corte láser
-no da. Hay tres caminos:
-
-| Camino | Qué cambia | Costo |
+| # | Qué | Cómo se sabe que está |
 |---|---|---|
-| **(a)** fotos de **30 s** | el papel pide la mitad de precisión; el resto del diseño queda igual | nada |
-| **(b)** **guiado en un eje** (la entrada ya está en el diseño) | suma una camarita guía; hoy un requisito dice «sin autoguiado» y habría que cambiarlo | una cámara guía y algo que la maneje de noche |
-| **(c)** **pista mecanizada** (canto por electroerosión, rodillos rectificados) | se mantienen los 60 s | lo más caro; hay que cotizar |
-
-**Lo que recomienda la sesión:** (a) como base, y (b) como la segunda etapa
-que ya estaba en el plan (subs largos con autoguiado). Es lo más barato, se
-puede deshacer (es cambiar un número en el papel) y no cierra ninguna puerta.
-La muestra del canto (más abajo) dice después si se puede volver a 60 s sin
-guiar. **Decidís vos**: es una elección de valor, no técnica.
-
-### 4. La revisión del concepto (la «MCR») — la sesión, con vos
-
-Con 1, 2 y 3, la sesión arma la revisión de cierre: frena, mira el proyecto
-desde arriba (y busca afuera lo que otros ya resolvieron), y te muestra el
-concepto terminado para que digas «sí, este». Ahí se cierra la primera etapa
-y se abre la segunda.
-
-**Lo que NO hace falta para cerrarla:** elegir la transmisión (tornillo o dos
-correas: se decide en la etapa siguiente, con la palanca óptica) ni la
-muestra del canto. Las dos preguntas del final se pueden contestar en la
-misma revisión.
+| 1 | **Corregir los seis errores de concepto**, cada uno con su prueba (la herramienta da rojo con el error y verde corregida) | la línea «hallazgos de concepto abiertos» de la revisión llega a cero, o lo que quede lo aceptás vos por escrito |
+| 2 | Los ocho de diseño y los tres de redacción | cada uno marcado como cerrado en la revisión |
+| 3 | **El ConOps nuevo**: cómo es una noche en el patio, una de viaje y una noche mala | escrito y coherente con los requisitos |
+| 4 | Con tus medidas: **la revisión de cierre (MCR)** con vos, y el pase a la etapa siguiente | tu «sí, este» al concepto |
+| 5 | El plan del trazador: qué se corta, qué se compra y qué se mide primero | la lista con su orden y sus compuertas |
 
 ## Lo que podés comprar ya
 
-Todo esto sirve **gane la transmisión que gane**, y casi todo te queda para la
-facu (el cohete de agua, Software de Vuelo, el Taller). Los precios no están
-cotizados: la columna de la derecha es cómo buscarlo.
+Sirve **gane la transmisión que gane**, y casi todo te queda para la facu. Los
+precios no están cotizados: la columna de la derecha es cómo buscarlo.
 
 ### Para el telescopio (y para el banco del motor)
 
 | Qué | Cuántos | Para qué | Cómo buscarlo |
 |---|---|---|---|
 | **Motor NEMA 17**, 1,8°, de unos 40 a 48 N·cm (4 a 5 kg·cm), 1,5 a 2 A, cuerpo de 40 a 48 mm, eje de 5 mm, 4 cables | 1 (2 si te los deja bien) | el motor de la plataforma, y el del banco de la palanca óptica | a tu amigo: que la etiqueta diga algo como **17HS4401, 17HS4401S o 17HS8401** y 40 N·cm o más. No sirven los chatos de 20-23 mm (17HS2408: 1,6 kg·cm) |
-| **Driver TMC2209** (v1.2 o v1.3) | 2 | uno para la plataforma y uno de repuesto o para la facu | «TMC2209 v1.3» |
-| **ESP32 DevKit** (ESP32-WROOM-32, 30 o 38 pines) | 2 | la placa de la plataforma (botón, entrada de guiado, el Bluetooth de Kevin) y la facu | «ESP32 devkit v1» |
-| Capacitor electrolítico **100 µF 35 V** | 4 | uno pegado a cada TMC2209: sin él, el pico de tensión al prender lo puede quemar | casa de electrónica |
+| **Driver TMC2209** (v1.2 o v1.3) | 2 | uno para la plataforma y uno de repuesto (o para la declinación) | «TMC2209 v1.3» |
+| **ESP32 DevKit** (ESP32-WROOM-32, 30 o 38 pines) | 2 | la placa de la plataforma (botón, guiado, Bluetooth) y la facu | «ESP32 devkit v1» |
+| Capacitor electrolítico **100 µF 35 V** | 4 | uno pegado a cada TMC2209: sin él, el pico al prender lo puede quemar | casa de electrónica |
 | **Microswitch con palanca de rodillo** (KW12 o V-156) | 3 | los dos fines de carrera y uno de repuesto | «microswitch rodillo KW12» |
 | Puntero láser chico y un espejito | 1 | la palanca óptica, que decide la transmisión | — |
 
@@ -124,71 +119,51 @@ cotizados: la columna de la derecha es cómo buscarlo.
 
 | Qué | Cuántos | Para qué |
 |---|---|---|
-| **ESP32-C3 SuperMini** | 2 | la placa del cohete de agua: chica y barata |
-| **BMP280** (módulo GY-BMP280, I2C) | 2 | presión y altura (el sensor del cohete) |
-| **BME280** | 1 | lo mismo, más humedad: en el telescopio avisa cuándo viene el rocío. Ojo: muchos «BME280» baratos son BMP280; se ve con el número de chip al leerlo |
-| **Pantalla OLED 0,96"** 128×64, I2C, SSD1306, 4 pines | 2 | la del cohete, y la pantalla que quería Kevin para la plataforma |
+| **ESP32-C3 SuperMini** | 2 | la placa del cohete de agua |
+| **BMP280** (GY-BMP280, I2C) | 2 | presión y altura (el sensor del cohete) |
+| **BME280** | 1 | lo mismo, más humedad: en el telescopio avisa cuándo viene el rocío |
+| **Pantalla OLED 0,96"** 128×64, I2C, SSD1306 | 2 | la del cohete y la de la plataforma |
 | **MPU6050** (GY-521) | 1 | aceleración y giro, para Software de Vuelo |
 | Módulo **microSD** | 1 | guardar los datos de un vuelo |
-| **Servo MG90S** (engranajes de metal) | 2 | los paracaídas del cohete |
-| Conversor de niveles 3,3 / 5 V (BSS138, 4 canales) | 2 | conectar módulos de 5 V a placas de 3,3 V |
-| Protoboard de 830 puntos | 2 | — |
-| Cables dupont macho-macho, macho-hembra y hembra-hembra | 40 de cada | — |
-| Placa perforada 5×7 y 7×9, tiras de pines macho y hembra, borneras de tornillo de 2 y 3 | un par de cada | pasar del protoboard a algo que no se desarma |
-| Kit de resistencias, kit de capacitores, LEDs, pulsadores | uno | — |
-| MOSFET **IRLZ44N** | 5 | prender cosas de 12 V desde la placa (los calefactores contra el rocío) |
-| Diodos 1N5819 y cable de silicona de 22 AWG | 10 y unos metros | — |
+| **Servo MG90S** | 2 | los paracaídas del cohete |
+| Conversor de niveles 3,3 / 5 V (BSS138) | 2 | conectar módulos de 5 V a placas de 3,3 V |
+| Protoboard de 830, cables dupont, placa perforada, pines, borneras | — | — |
+| Kits de resistencias, capacitores, LEDs, pulsadores | uno | — |
+| MOSFET **IRLZ44N**, diodos 1N5819, cable de silicona 22 AWG | 5, 10, unos metros | prender cosas de 12 V (los calefactores contra el rocío) |
 
 ### Para usar la fuente de PC
 
-La fuente sirve, y de sobra: da 12, 5 y 3,3 V. Le faltan tres cosas:
-
 | Qué | Por qué |
 |---|---|
-| **Adaptador de fuente ATX a bornes** («ATX breakout board 24 pines», con llave) | saca 12, 5 y 3,3 V a bornes y la prende sin puentear el cable verde |
-| **Step-down regulables**: 3 LM2596 (3 A) y 2 MP1584 chiquitos | bajan los 12 V a lo que pida cada placa |
-| **Portafusible y fusibles** de 2 y 5 A | la fuente da 15 a 40 A en los 12 V: un corto derrite cables antes de que ella se corte |
-
-**Si no tenés:** soldador de 60 W con temperatura regulable, estaño de 0,8 mm
-con flux y malla desoldadora.
-
-**En el patio no va la fuente de PC** sino una batería de 12 V; se elige
-después de medir en el banco cuánto consume el motor (ahí sale cuántos
-amperes-hora).
+| **Adaptador ATX a bornes** (24 pines, con llave) | saca 12, 5 y 3,3 V a bornes sin puentear el cable verde |
+| **Step-down regulables**: 3 LM2596 y 2 MP1584 | bajan los 12 V a lo que pida cada placa |
+| **Portafusible y fusibles** de 2 y 5 A | un corto derrite cables antes de que la fuente se corte |
 
 ### Lo que todavía NO se compra
 
-La chapa y su corte (después de la prueba de foco y de la muestra del
-canto); correas, poleas y tornillo de bolas (dependen de la transmisión);
-rulemanes (tenés los del roller); la batería de campo.
+La chapa y su corte, el rodillo, el pivote, correas, poleas y tornillo de bolas:
+**después** de la prueba de foco, de la muestra del canto y de cerrar la
+revisión. La cámara guía y la Raspberry Pi: cuando la plataforma ya siga sola.
+La batería de campo: sale del consumo medido en el banco.
 
 ## Cómo seguimos, en orden
 
-| # | Qué | Quién | Por qué va ahí |
-|---|---|---|---|
-| 1 | Prueba de foco | Fran | si falla, cambia todo lo demás |
-| 2 | Inventario (con las etiquetas de los NEMA) | Fran | cierra la etapa y confirma las compras |
-| 3 | Decidir 30 s, guiado o pista mecanizada | Fran | fija el número que manda toda la precisión |
-| 4 | Revisión del concepto | la sesión, con Fran | cierra la primera etapa |
-| 5 | El motor en el banco, y la **palanca óptica** (un láser en el eje del motor que dibuja en la pared cuánto se equivoca cada paso) | Fran y Kevin, una tarde, con lo comprado | decide la transmisión con datos y no con catálogo |
-| 6 | La muestra del canto: un pedacito de chapa de 5/16" cortado a láser, medido con un comparador milesimal | Fran, con el láser y una tornería | dice si se puede volver a 60 s sin guiar |
-| 7 | Fijar los números que faltan y cerrar las cuentas del error | la sesión | eso es la segunda etapa |
+| # | Qué | Quién |
+|---|---|---|
+| 1 | Prueba de foco + portaocular medido + foto de 10 s | Fran |
+| 2 | Corregir los errores de concepto de la revisión | Claude |
+| 3 | Inventario y baúl; las dos decisiones | Fran |
+| 4 | El ConOps nuevo | Claude |
+| 5 | Revisión de cierre (MCR) y pase a la etapa siguiente | Claude, con Fran |
+| 6 | El motor en el banco y la palanca óptica; la muestra del canto | Fran y Kevin |
+| 7 | El trazador: cortar, armar crudo y sacar las primeras fotos de 10-15 s | Fran y Kevin, con Claude |
 
 ![La palanca óptica: un láser en el eje del motor exagera el error de cada paso en la pared](img/mec-palanca.png)
 
-Las compras y los pasos 5 y 6 pueden ir en paralelo con el 1, el 2 y el 3.
-
-## Dos preguntas que siguen abiertas, y son tuyas
-
-1. **¿La plataforma se queda en el patio, o viaja en auto a un cielo
-   oscuro?** Si viaja: qué auto, o cuánto mide el baúl. Decide en cuántas
-   piezas se desarma. Dato: Punta Indio (150 km, cielo oscuro) sirve sin
-   cambiar nada.
-2. **¿Cuánto armado te parece bien,** del depósito a la primera foto? Hoy el
-   papel dice 20 minutos.
+Las compras de electrónica y el paso 6 pueden ir en paralelo con los
+primeros.
 
 ## Lo que NO se hace todavía
 
-No se corta, no se suelda y no se compra nada grande. Los planos que hay son
-de disposición, para entender el conjunto: **no son para cortar**. Se corta
-recién con los planos de la cuarta etapa, que salen de los números medidos.
+No se corta, no se suelda y no se compra nada de la plataforma. Los planos que
+hay son de disposición, para entender el conjunto: **no son para cortar**.
