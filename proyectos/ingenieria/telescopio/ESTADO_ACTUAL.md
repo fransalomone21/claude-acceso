@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-24 (decimonovena sesión: **modelo 10.6 con el centro de masa medido** —muesca del 200 a 2,5 cm, base fija 43 × 43— publicado en el artifact de esta cuenta (K4hfy…); rationales de L1-15, L2-PLT-05 y L1-21 al día; **Drive con dos Docs arriba y dos subcarpetas** («Para profundizar», «Historial»); el Doc 2 trae **qué falta sí o sí para la MCR** y **la lista de compras**). Antes: 2026-10-18 (la misma sesión, segunda parte: **el Drive queda con DOS Docs** — «1 - El proyecto, todo en un lugar» (`docs/18-guia-general.md`) y «2 - Como venimos y como seguimos» (`docs/19-como-venimos.md`), con imágenes del modelo; lo demás, a «Archivo»; lo urgente: **la prueba de foco y el inventario**). Antes: 2026-10-17 a la noche (decimoctava sesión: **el centro de masa, medido por el vuelco: 63,2 ± 0,5 cm**; la base fija es 43 × 43, no 43 × 40; el modelo no cambia). Antes: 2026-10-09 de madrugada (decimoséptima sesión: sin medidas nuevas; **revisión de punta a punta** —`docs/16`, Doc 4 del Drive—: **la pista** (canto y rodillos) pide micrones y pesa más que la transmisión; el canto se traza como envolvente del rodillo; fuera los cuatro 608; tolerancias de armado; **planos de disposición** en PDF A3)
+**Última actualización:** 2026-10-24 a la tarde (vigésima sesión: **la revisión de concepto y la primera lluvia de ideas** — `docs/21-lluvia-de-ideas-2026-10-24.md`, once fallas de concepto y los *what if*; **requisitos v0.3** en verde: viaja, centro del país, Clio, tarjeta madre; L1-14 a 19° con origen y medido en toda la banda de latitud; el paquete de los 30 s espera a Fran). Antes: 2026-10-24 (decimonovena sesión: **modelo 10.6 con el centro de masa medido** —muesca del 200 a 2,5 cm, base fija 43 × 43— publicado en el artifact de esta cuenta (K4hfy…); rationales de L1-15, L2-PLT-05 y L1-21 al día; **Drive con dos Docs arriba y dos subcarpetas** («Para profundizar», «Historial»); el Doc 2 trae **qué falta sí o sí para la MCR** y **la lista de compras**). Antes: 2026-10-18 (la misma sesión, segunda parte: **el Drive queda con DOS Docs** — «1 - El proyecto, todo en un lugar» (`docs/18-guia-general.md`) y «2 - Como venimos y como seguimos» (`docs/19-como-venimos.md`), con imágenes del modelo; lo demás, a «Archivo»; lo urgente: **la prueba de foco y el inventario**). Antes: 2026-10-17 a la noche (decimoctava sesión: **el centro de masa, medido por el vuelco: 63,2 ± 0,5 cm**; la base fija es 43 × 43, no 43 × 40; el modelo no cambia). Antes: 2026-10-09 de madrugada (decimoséptima sesión: sin medidas nuevas; **revisión de punta a punta** —`docs/16`, Doc 4 del Drive—: **la pista** (canto y rodillos) pide micrones y pesa más que la transmisión; el canto se traza como envolvente del rodillo; fuera los cuatro 608; tolerancias de armado; **planos de disposición** en PDF A3)
 
 ## Dónde estamos
 
@@ -112,6 +112,27 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 
 ## Lo próximo
 
+> **2026-10-24, quinta parte (vigésima sesión, la MCR sin las medidas de Fran) — manda sobre todo lo de abajo.**
+> Fran no trajo todavía el foco, el inventario, la foto de 10 s ni el baúl: la MCR **no cierra hoy**. Hecho:
+> **la lluvia de ideas** (`docs/21`, la primera del proyecto; el disparador vuelve a cero) con **once fallas de
+> concepto** —cuatro cambian una decisión: **F1** el guiado en AR no cura la mitad de la pista (el bamboleo
+> queda ∝ |cos δ|: casi entero en M42, un tercio en Carina) → se le deja lugar en el pivote a un **actuador de
+> declinación** (precedente: la TMS-Astro fotográfica guía en dos ejes); **F2/F3** con la base inclinada ±4° el
+> vuelco cae hasta 20,4° (12" liviano en 38,5°) y el umbral de 22° no tenía origen → **19°, el del dobson solo
+> (18,8°)**; **F4/F5** coma en las esquinas (6″ a 7 mm, 13″ en la esquina) y portaocular de 1,25" → la redondez
+> se pide en el **campo central** y P0 mide también el portaocular; **F8** desarmar para el baúl choca con las
+> tolerancias de armado → **uniones con espiga**. Más: el 12" no entra en un Clio; con filtro de dos bandas el
+> sub del patio sube a 1-3 min; la batería de la cámara no aguanta la noche; *walking noise* sin dither; el
+> alcance sin la forma de los ejemplares (12 «necesidades»). **Requisitos v0.3** (`10`, VERDE: 13 N, 16 L0,
+> 35 L1, 35 L2): necesidad única + meta + objetivos arriba; N-03, N-06, L0-02, L0-07, L0-10, L0-11, L0-14,
+> L0-15, L1-09 (30,5-38,5), L1-14 (19°), L2-PLT-04 (12 cm), L2-PLT-05 (50-65), L2-PLT-13 (Clio), L2-MON-02/03
+> (12°); nuevos N-13, L0-16, L1-31 a 35, L2-PLT-18 a 20, L2-OPE-05. `probar-requisitos.js` mide L1-14 en
+> 30,5°, 34,5° y 38,5° (peor 20,38°, con sabotaje nuevo de la banda). `docs/20` §1.3 corregido (F1), PDF
+> recompilado (**el del Drive no se resubió**). **Artifacts:** en esta sesión la cuenta es la de **Sn7F7**
+> (`Artifact list` la marca «mine»; quedó en 10.5) y K4hfy (v11) es de la otra: no se tocó ninguno, a pedido de
+> Fran. **Fran:** P0 + portaocular medido, la foto de 10 s, inventario, baúl; y tres decisiones (`docs/21` §7):
+> el paquete de los 30 s, el trazador primero, si el 12" viaja.
+>
 > **2026-10-24, cuarta parte — DECIDIDO por Fran: el centro del país (±4°, 30,5° a 38,5°: «para irnos a
 > Córdoba») con una arquitectura de «tarjeta madre»** que deje crecer a todo el país sin rehacerla. Fijo:
 > la mesa (patrón de agujeros de las chapas), el zócalo del brazo, los zócalos de las patas y del tramo

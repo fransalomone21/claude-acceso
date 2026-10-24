@@ -6,6 +6,22 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-24 a la tarde, vigésima sesión (la MCR y la lluvia de ideas):** Fran todavía no trajo las medidas,
+> así que **la MCR no cerró**. Hecho: `docs/21-lluvia-de-ideas-2026-10-24.md` (once fallas de concepto, los
+> *what if* malos y buenos, lo que resolvieron otros, diez palancas, tres preguntas para Fran) y los
+> **requisitos v0.3** en verde (lista en ESTADO, quinta parte); `probar-requisitos.js` mide L1-14 en toda la
+> banda de latitud; `docs/20` §1.3 corregido y recompilado. **Pendiente, en este orden:** (1) Fran: P0 con el
+> portaocular medido, el spike de 10 s, inventario, baúl del Clio; (2) Fran: las tres decisiones de `docs/21`
+> §7 — con el sí a los 30 s se aplica el paquete de `10` §11.1 pregunta 6 (L1-01 y sus hijos, L0-03, L0-08);
+> (3) la sesión: el **ConOps** nuevo (patio, viaje, noche mala; `docs/21` P6), que es producto de la fase 0 y
+> no está; (4) **resubir al Drive** el PDF de `docs/20` (cambió §1.3) y poner en el Doc 2 las tres preguntas;
+> (5) **el artifact**: esta sesión corrió en la cuenta dueña de **Sn7F7** (10.5), no de K4hfy (v11); Fran pidió
+> no tocarlo: en la próxima sesión, `Artifact list` primero y publicar el 10.6 en el que diga «mine». La
+> cuenta del vuelco inclinado ya está en `probar-requisitos.js`; falta la mesa en la punta de la carrera (1-2°
+> menos) en la fase A. **Rojos del arranque que quedan (método, no telescopio):** las lecciones 70, 230 y 346
+> piden subir de nivel (`aprender.py sin-triage`), el espejo de la memoria y la pasada de T18 (`retiro.py
+> pasar`).
+>
 > **2026-10-24, cierre de la sesión 4d3feb50:** Fran eligió **el centro del país** con arquitectura de
 > **tarjeta madre** (ESTADO, cuarta parte) y la plataforma **viaja** en un Clio. La próxima sesión es **la
 > MCR**: reescribir los requisitos con todo lo de hoy (30 s de piso, guiado desde el diseño, latitud 30,5°
