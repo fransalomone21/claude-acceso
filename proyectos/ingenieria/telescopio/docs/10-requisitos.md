@@ -17,8 +17,12 @@ con los TBR resueltos.
 > dobson solo vuelca a 18,8°: pasa a 19°); L2-MON-02 y 03 a 12° por la base
 > inclinada; la redondez en el **campo central** (coma); la cámara alimentada
 > toda la noche; las uniones que se desarman **repiten posición**.
-> **No cambia todavía:** el paquete «30 s sin guiar + guiado previsto»
-> (L1-01 y sus hijos, L0-03, L0-08): espera el sí de Fran en la MCR (§11.1).
+> **El mismo día, con el sí de Fran** («30 s sin guiar como piso, con el
+> guiado previsto desde el diseño»): L1-01, L1-27, L2-PLT-02 y L2-MON-01 pasan
+> a 30 s; L2-PLT-03 a 0,2 %; L2-OPE-01 a 7′; L2-OPE-04 a 1 mm; la PEC pasa de
+> obligatoria a recomendable; L0-03 queda para la misión mínima, L0-08 dice
+> «sin notebook» y L0-14 deja de ser «de una etapa posterior». Entra L1-36: el
+> sub guiado de 4 min, que pide alineación de ≤ 2′ o corrección en declinación.
 
 > **Qué cambió de la 0.1 a la 0.2 (duodécima sesión):** el dobson de 300 mm
 > pasó de meta a **necesidad** (N-12, Fran: «debe servir para ambos, aunque
@@ -171,18 +175,18 @@ verificables tal como están escritas: para eso están los niveles de abajo.
 |---|---|---|---|---|---|---|
 | L0-01 | La misión deberá obtener una imagen apilada propia de un objeto de cielo profundo con el telescopio newtoniano de 200 mm de apertura. | funcional | N-01 | inspección | definido | no |
 | L0-02 | La misión deberá obtener la imagen apilada con estrellas de redondez de no menos de 0,8 medida en el campo central de la imagen apilada. | desempeño | N-01 | análisis | TBR | no |
-| L0-03 | La misión deberá tomar los subs sin autoguiado. | restricción | N-11 | inspección | definido | no |
+| L0-03 | La misión deberá obtener la imagen de la misión mínima sin autoguiado. | restricción | N-11 | inspección | definido | no |
 | L0-04 | La misión deberá apuntar el telescopio a mano. | restricción | N-02 | inspección | definido | no |
 | L0-05 | La misión deberá usar la montura dobson existente. | restricción | N-05 | inspección | definido | sí |
 | L0-06 | La misión deberá fabricar cada pieza con las herramientas de la casa o con un servicio contratado de corte o de torneado. | restricción | N-04 | inspección | definido | no |
 | L0-07 | La misión deberá operarse por una persona sola en cada sitio de observación. | otros: factor humano | N-06 | demostración | definido | no |
-| L0-08 | La misión deberá operarse sin computadora durante la noche de fotos. | restricción | N-07 | demostración | definido | no |
+| L0-08 | La misión deberá operarse sin notebook durante la noche de fotos. | restricción | N-07 | demostración | definido | no |
 | L0-09 | La misión deberá conservar la integridad del telescopio durante el seguimiento sin supervisión. | otros: seguridad | N-09 | ensayo | definido | parcial |
 | L0-10 | La misión deberá poner el sistema en estación en cada sitio de observación sin recalibrar la plataforma. | desempeño | N-03 | demostración | definido | parcial |
 | L0-11 | La misión deberá obtener subs con estrellas puntuales en una noche de alineación polar degradada. | desempeño | N-08 | ensayo | TBR | no |
 | L0-12 | La misión deberá tomar los subs con la cámara Sony en foco primario. | interfaz | N-10 | demostración | TBR | no |
 | L0-13 | La misión deberá tomar subs con el celular en modo afocal. | interfaz | N-10 | demostración | definido | no |
-| L0-14 | La misión deberá aceptar el autoguiador de una etapa posterior sin rehacer el sistema de seguimiento. | interfaz | N-11 | inspección | definido | no |
+| L0-14 | La misión deberá aceptar un autoguiador sin rehacer el sistema de seguimiento. | interfaz | N-11 | inspección | definido | no |
 | L0-15 | La misión deberá seguir el cielo con el dobson de 300 mm con el sistema de seguimiento del dobson de 200 mm. | funcional | N-12 | demostración | TBR | sí |
 | L0-16 | La misión deberá extender la operación a latitudes entre 22 y 55 grados sur reemplazando sólo las partes del sistema que dependen de la latitud. | otros: evolución | N-13 | inspección | TBR | no |
 
@@ -192,7 +196,7 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 
 | ID | Enunciado | Tipo | Padre | Asignado a | Verificación | Estado | 3D |
 |---|---|---|---|---|---|---|---|
-| L1-01 | Mientras la plataforma sigue el cielo, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 60 s. | desempeño | L0-02 | PLT, MON, OPE | ensayo | TBR | no |
+| L1-01 | Mientras la plataforma sigue el cielo sin autoguiado, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 30 s. | desempeño | L0-02 | PLT, MON, OPE | ensayo | TBR | no |
 | L1-02 | El sistema deberá seguir el cielo durante no menos de 60 min por carrera sin intervención del operador. | desempeño | L0-01 | PLT | ensayo | definido | sí |
 | L1-03 | Cuando el operador pulsa el botón de rebobinado, el sistema deberá volver la mesa al comienzo de la carrera en no más de 5 minutos. | funcional | L0-01 | PLT | demostración | TBR | parcial |
 | L1-04 | Cuando la mesa llega al final de la carrera, el sistema deberá detener el giro de la mesa. | otros: seguridad | L0-09 | PLT | ensayo | definido | sí |
@@ -218,7 +222,7 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 | L1-24 | Cuando el operador cambia el ocular por el tren de imagen, el sistema deberá mantener el apuntado del tubo. | funcional | L0-02 | MON, CAM | demostración | definido | no |
 | L1-25 | El sistema deberá aceptar correcciones de seguimiento de un autoguiador externo. | interfaz | L0-14 | PLT | demostración | definido | parcial |
 | L1-26 | Con un error de alineación polar de no más de 30 minutos de arco, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 10 s. | desempeño | L0-11 | PLT, OPE | análisis | TBR | no |
-| L1-27 | Con el dobson de 300 mm sobre la mesa, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 60 s. | desempeño | L0-15 | PLT, OPE | análisis | TBR | no |
+| L1-27 | Con el dobson de 300 mm sobre la mesa, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 30 s. | desempeño | L0-15 | PLT, OPE | análisis | TBR | no |
 | L1-28 | El sistema deberá llevar el dobson de 300 mm con las chapas, los rodillos y el motor del dobson de 200 mm. | restricción | L0-15 | PLT | inspección | definido | sí |
 | L1-29 | Cuando el operador cambia de telescopio, el sistema deberá quedar listo para seguir el cielo con herramientas de mano. | otros: factor humano | L0-15 | PLT, OPE | demostración | definido | parcial |
 | L1-30 | El sistema deberá seguir el cielo con una carga giratoria de no más de 62 kg. | desempeño | L0-15 | PLT | análisis | TBR | sí |
@@ -227,6 +231,7 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 | L1-33 | Después de cada traslado, el sistema deberá seguir el cielo sin repetir la calibración de la velocidad de la plataforma. | desempeño | L0-10 | PLT | demostración | definido | no |
 | L1-34 | El sistema deberá pasar a una banda de latitud nueva reemplazando sólo los módulos de latitud. | otros: evolución | L0-16 | PLT | inspección | definido | no |
 | L1-35 | El sistema desarmado deberá caber en el baúl y el asiento trasero de un Renault Clio. | interfaz | L0-07 | PLT, MON | demostración | TBR | no |
+| L1-36 | Con el autoguiador conectado, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 240 s. | desempeño | L0-14 | PLT, OPE | ensayo | TBR | no |
 
 ## 6. Elementos (L2)
 
@@ -235,8 +240,8 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 | ID | Enunciado | Tipo | Padre | Verificación | Estado | 3D |
 |---|---|---|---|---|---|---|
 | L2-PLT-01 | La plataforma deberá girar la mesa sobre un eje paralelo al eje polar terrestre. | funcional | L1-01 | análisis | definido | sí |
-| L2-PLT-02 | La plataforma deberá mantener el corrimiento de la imagen causado por la plataforma en no más de 1,5 segundos de arco en cada intervalo de 60 s. | desempeño | L1-01 | ensayo | TBR | no |
-| L2-PLT-03 | La plataforma deberá girar la mesa a la velocidad sidérea con un error medio de no más de 0,1 % medido sobre 10 minutos. | desempeño | L1-01 | ensayo | TBR | parcial |
+| L2-PLT-02 | La plataforma deberá mantener el corrimiento de la imagen causado por la plataforma en no más de 1,5 segundos de arco en cada intervalo de 30 s. | desempeño | L1-01 | ensayo | TBR | no |
+| L2-PLT-03 | La plataforma deberá girar la mesa a la velocidad sidérea con un error medio de no más de 0,2 % medido sobre 10 minutos. | desempeño | L1-01 | ensayo | TBR | parcial |
 | L2-PLT-04 | La plataforma deberá apoyar en el piso en tres puntos regulables en altura con un recorrido de no menos de 12 cm. | restricción | L1-18 | inspección | definido | sí |
 | L2-PLT-05 | La plataforma deberá poner sobre el eje polar el centro de masa de un dobson ubicado entre 50 y 65 cm sobre el piso de la base del dobson, sin cortar piezas. | desempeño | L1-15 | demostración | TBR | sí |
 | L2-PLT-06 | Cuando la mesa alcanza 45 min de giro desde el centro de la carrera, el programa de la plataforma deberá detener el motor. | otros: seguridad | L1-04 | ensayo | definido | sí |
@@ -259,7 +264,7 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 
 | ID | Enunciado | Tipo | Padre | Verificación | Estado | 3D |
 |---|---|---|---|---|---|---|
-| L2-MON-01 | La montura deberá mantener el desplazamiento angular del tubo en no más de 0,5 segundos de arco durante cada sub de 60 s con la mesa en movimiento. | desempeño | L1-01 | análisis | TBR | no |
+| L2-MON-01 | La montura deberá mantener el desplazamiento angular del tubo en no más de 0,5 segundos de arco durante cada sub de 30 s con la mesa en movimiento. | desempeño | L1-01 | análisis | TBR | no |
 | L2-MON-02 | Con la mesa inclinada 12 grados, la montura deberá retener el tubo en altura con el freno de altura ajustado. | funcional | L1-01 | demostración | definido | no |
 | L2-MON-03 | Con la mesa inclinada 12 grados, la montura deberá retener el tubo en azimut con el freno de azimut ajustado. | funcional | L1-01 | demostración | definido | no |
 | L2-MON-04 | La montura deberá mantener la separación de las paredes en el eje de altura con una variación de no más de 0,5 mm al ajustar el freno de altura. | desempeño | L1-01 | ensayo | TBR | no |
@@ -279,10 +284,10 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 
 | ID | Enunciado | Tipo | Padre | Verificación | Estado | 3D |
 |---|---|---|---|---|---|---|
-| L2-OPE-01 | El procedimiento de puesta en estación deberá alinear el eje polar a no más de 3,5 minutos de arco del polo celeste sur. | desempeño | L1-01 | ensayo | TBR | no |
+| L2-OPE-01 | El procedimiento de puesta en estación deberá alinear el eje polar a no más de 7 minutos de arco del polo celeste sur. | desempeño | L1-01 | ensayo | TBR | no |
 | L2-OPE-02 | El procedimiento de puesta en estación deberá alinear el eje polar sin ver el polo celeste sur. | funcional | L1-01 | demostración | definido | no |
 | L2-OPE-03 | Con las marcas del piso, el procedimiento de puesta en estación deberá repetir la alineación polar en no más de 2 minutos. | desempeño | L1-17 | demostración | TBR | no |
-| L2-OPE-04 | Las marcas del piso deberán conservar la posición de cada apoyo con un error de no más de 0,5 mm después de la lluvia. | ambiental | L1-17 | inspección | TBR | parcial |
+| L2-OPE-04 | Las marcas del piso deberán conservar la posición de cada apoyo con un error de no más de 1 mm después de la lluvia. | ambiental | L1-17 | inspección | TBR | parcial |
 | L2-OPE-05 | En un sitio de observación sin marcas, el procedimiento de puesta en estación deberá completar la alineación polar en no más de 15 minutos. | desempeño | L1-33 | demostración | TBR | no |
 
 ## 7. Rationale
@@ -303,7 +308,9 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   [`probable`, `docs/21` F4]. El cuadro entero pide un corrector de coma.
 - **L0-03** — La meta se partió en dos (PDP §6, 2026-10-04): esta misión es la
   foto sin guiar; el autoguiado es un proyecto después. Por eso los subs son
-  cortos.
+  cortos. **v0.3 (Fran, 2026-10-24):** el guiado deja de ser un proyecto aparte
+  y va previsto desde el diseño (L0-14, L1-25, L1-36); lo que se pide sin
+  guiar es la misión mínima, la foto del patio.
 - **L0-04** — PDP §2: no es un GoTo. El apuntado manual es lo que Fran hace
   hoy y no se quiere perder.
 - **L0-05** — PDP §2 y §3: la dobson se reforma, no se reemplaza, y no hay
@@ -314,8 +321,10 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   precisión (`docs/13` §4); lo demás es herrería de la casa.
 - **L0-07**, **L0-08** — ConOps: Fran saca el equipo solo, y «nada de
   notebook obligatoria». v0.3: L0-07 vale en cada sitio de observación, porque
-  la plataforma viaja (Fran, 2026-10-24). L0-08 se reescribe con el paquete de
-  los 30 s (§11.1): una Raspberry Pi para guiar no es una notebook.
+  la plataforma viaja (Fran, 2026-10-24). L0-08 pasa de «sin computadora» a
+  «sin notebook», que es lo que dice N-07: una Raspberry Pi pegada a la
+  plataforma para guiar, manejada desde el celular, no es una notebook (Fran,
+  2026-10-24).
 - **L0-09** — Pedido de Fran (tres capas de tope) y de Kevin (topes para el
   motor). La plataforma va a quedar siguiendo una hora sin nadie al lado.
 - **L0-10** — Criterio 1 del trade study, el de más peso (0,4): «que yo pueda
@@ -331,8 +340,9 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   riesgo R1 (que el tubo no llegue a foco). L0-12 queda TBR porque depende de
   la prueba de foco (P0).
 - **L0-14** — PDP §2: «se deja la entrada prevista en el firmware». Cuesta
-  casi nada hoy y evita rehacer la electrónica para la segunda meta. v0.3:
-  L0-14 y L0-15 ya no dicen «plataforma». La plataforma es la salida del trade
+  casi nada hoy y evita rehacer la electrónica para la segunda meta. v0.3: el
+  guiado va previsto desde el diseño (Fran, 2026-10-24), así que L0-14 ya no
+  dice «de una etapa posterior». Y L0-14 y L0-15 ya no dicen «plataforma». La plataforma es la salida del trade
   de arquitectura, y en el tope no va el diseño (`nucleo-ise` §4, DA-066); lo
   que piden es el resultado: el mismo sistema de seguimiento.
 - **L0-15** — N-12 (Fran, 2026-10-07). El modelo de 300 mm no está elegido:
@@ -350,11 +360,16 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
 - **L1-01** (**KDR**) — El requisito que fija la precisión de todo lo demás
   (`docs/13` §2). Supuestos: escala de 0,67 segundos de arco por píxel (Sony
   ZV-E10 a 1200 mm, `hipótesis` hasta confirmar la cámara) y 2 segundos de
-  arco como lo que ya borronea el aire de una noche común [criterio]. **60 s:
-  Fran, 2026-10-08** (eran 30, de la decisión del 2026-10-04). Con 60 s cada
-  número de abajo es la mitad por segundo que con 30: alineación 3,5′,
-  velocidad media 0,1 %, y la corrección periódica (PEC) en el programa pasa a
-  ser obligatoria (`docs/14` §6b). Se reparte entre la plataforma (1,5),
+  arco como lo que ya borronea el aire de una noche común [criterio]. **30 s
+  sin guiar: Fran, 2026-10-24**, en la revisión de concepto (fueron 30 el
+  2026-10-04 y 60 el 2026-10-08). La evidencia está en `docs/20` §1: nadie
+  publica 60 s sin guiar con una plataforma; los foros reportan 4-10 s con
+  plataformas caseras [`probable`]; en el patio el sub útil es de 10-20 s y 60
+  s gana ≈ 1 % de señal sobre ruido [`hipótesis` hasta el spike de 10 s]; y
+  sostener 60 s pedía mecanizar la pista. Los subs largos de cielo oscuro (y
+  del patio con filtro de dos bandas) van guiados: L1-36. Con 30 s:
+  alineación 7′, velocidad media 0,2 %, y la corrección periódica (PEC) pasa
+  de obligatoria a recomendable (`docs/14` §6b). Se reparte entre la plataforma (1,5),
   la montura (0,5) y la alineación polar (1), sumados en cuadratura porque son
   independientes: 1,9 segundos de arco [cálculo].
 - **L1-02** (**KDR**) — Criterio de salida de la fase 4 del PDP («60 min de
@@ -441,7 +456,8 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
 - **L1-27** — Fran: «no perdamos precisión» con ninguno de los dos. Es L1-01
   repetido para el 300, a propósito: el criterio en el cielo es el mismo, pero
   a 1500 mm un píxel ve 0,54 segundos de arco en vez de 0,67, así que el mismo
-  error se nota un 25 % más en la foto. Los 60 s son los de L1-01 (Fran).
+  error se nota un 25 % más en la foto. Los 30 s son los de L1-01 (Fran,
+  2026-10-24).
 - **L1-28** — Fija una solución, con razón escrita (NASA, caja *Rationale*,
   ítem 4): Fran eligió «correr y apretar» (U1 de `docs/14` §5) contra cortar
   otras chapas o abulonar una placa por telescopio. La cinemática lo permite:
@@ -481,6 +497,14 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   como hoy. **El dobson de 300 mm no entra con la plataforma en un Clio**
   (`docs/21` F10): si viaja, es en camioneta (pregunta para Fran, §11.1). TBR
   hasta medir el baúl.
+- **L1-36** — N-11 (subs de 2 a 4 min con autoguiado) con el guiado previsto
+  desde el diseño (Fran, 2026-10-24); 240 s es el largo de N-11. Un guiado de
+  un solo eje no corrige la declinación: con 7′ de alineación la estrella
+  deriva ≈ 1,8″ por minuto en declinación, 7″ en 4 min, y el bamboleo de la
+  pista queda según la declinación del blanco (`docs/21` F1 y F7). Para
+  cumplirlo hacen falta una alineación de ≤ 2′ (la cámara guía la da) o
+  corregir en declinación (el actuador del pivote, P3). TBR: se reparte en la
+  fase A, con la pista medida.
 
 **Plataforma**
 
@@ -488,7 +512,8 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   es la única forma de seguir sin rotación de campo.
 - **L2-PLT-02** — Asignado de L1-01: 1,5 segundos de arco para la plataforma
   entera (velocidad, error periódico de polea y rodillo, micropasos, flexión
-  de la estructura). El presupuesto fino es el entregable de la fase 1.
+  de la estructura) en cada sub de 30 s desde el 2026-10-24 (eran 60). El
+  presupuesto fino es el entregable de la fase 1.
   **El micropaso (2026-10-08):** un paso a paso cae en cada paso entero con
   hasta ±5 % de error, que el micropaso no achica, y se repite cada pocos
   segundos: adentro de un sub es un borrón de ±5 % de lo que mueve un paso
@@ -497,9 +522,10 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   (8,4″), con la V de paso 8 (10,5″) o con un tornillo de bolas (5-7″) cumple
   [`probable`: dato de hoja de datos y cálculo, `docs/transmisiones.js`; el
   error del motor real se mide con la palanca óptica, `docs/15` §1.4].
-- **L2-PLT-03** — Derivado de L2-PLT-02: 0,1 % de error medio corre la estrella
-  0,9 segundos de arco en 60 s, y deja lugar al error periódico (era 0,2 % con
-  subs de 30 s). CAL-2 (`docs/11`) se ajusta a 0,1 %. La variación propia del VNS (±0,48 %) se
+- **L2-PLT-03** — Derivado de L2-PLT-02: 0,2 % de error medio corre la estrella
+  0,9 segundos de arco en 30 s, y deja lugar al error periódico (fue 0,1 %
+  mientras rigieron los 60 s, del 2026-10-08 al 2026-10-24). CAL-2 (`docs/11`)
+  se ajusta a 0,2 %. La variación propia del VNS (±0,48 %) se
   corrige en el programa con una tabla.
 - **L2-PLT-04** — Derivado de la arquitectura VNS (pivote y dos rodillos):
   tres puntos no renguean en ningún piso. v0.3: el recorrido pasa de 3 a 12 cm
@@ -609,16 +635,17 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
 
 **Operación**
 
-- **L2-OPE-01** — Asignado de L1-01: un error de 3,5 minutos de arco corre la
-  estrella 0,9 segundos de arco en 60 s [cálculo] (eran 7′ con subs de 30 s).
-  Más fino que CAL-4 (no más de 3 píxeles en 60 s), que se ajusta.
+- **L2-OPE-01** — Asignado de L1-01: un error de 7 minutos de arco corre la
+  estrella 0,9 segundos de arco en 30 s [cálculo] (fueron 3,5′ mientras
+  rigieron los 60 s). CAL-4 (no más de 3 píxeles en 60 s) se ajusta a 30 s.
+  Para los subs guiados de L1-36 la alineación tiene que ser más fina (≤ 2′).
 - **L2-OPE-02** — Derivado del hemisferio sur: σ Octantis es de magnitud 5,4
   y está a 1° 8' del polo (`docs/04`). Por eso el método de deriva.
 - **L2-OPE-03** — ConOps paso 2: la primera vez media hora, después dos
   minutos con las marcas. TBR.
 - **L2-OPE-04** — 1 mm de error en una pata a 1,2 m de distancia mueve el eje
-  unos 3 minutos de arco [cálculo]: con los 3,5′ de L2-OPE-01 (60 s) no
-  alcanza; 0,5 mm da 1,5′, menos de la mitad. TBR.
+  unos 3 minutos de arco [cálculo]: con los 7′ de L2-OPE-01 (30 s) es menos de
+  la mitad (con los 3,5′ de los 60 s pedía 0,5 mm). TBR.
 - **L2-OPE-05** — Las marcas sirven en el patio; en un sitio de viaje no hay. La
   brújula no sirve (el acero la corre, y la declinación magnética en el centro
   del país es de ≈ −8° a −10°, `hipótesis`), y la deriva tarda media hora. Lo
@@ -663,7 +690,7 @@ ninguno es un huérfano**: o falta el requisito, o sobra la decisión. Desde el
 | tres mordazas de borde con pestaña y tornillo de mano | L2-PLT-12, L2-PLT-17, L1-20 | **el v10 las tiene**; falta probar que aguantan la mesa inclinada 10,5° |
 | rodillo motriz torneado; rodillo loco de cuatro 608 | L2-PLT-02, L2-PLT-03 | la otra pieza de precisión |
 | transmisión F: fricción + correa GT2 20:80 (respaldo T2) | L2-PLT-02 | ningún error que se repita adentro de un sub (`docs/14` §6). **2026-10-08: con una sola correa no cumple** por el error de micropaso (borrón ≈ 3,4″); pasan F2 (dos correas), V con tornillo de bolas (T2) y el cable (C) (`docs/15` §1-2) |
-| corrección periódica (PEC) en el programa, calibrada con la cámara en una noche | L2-PLT-02, L2-PLT-03 | con 60 s es obligatoria: la polea de 20 y el rodillo meten 2,7″ y 1,1″ por sub sin ella (`docs/14` §6b) |
+| corrección periódica (PEC) en el programa, calibrada con la cámara en una noche | L2-PLT-02, L2-PLT-03 | con 30 s es **recomendable** (era obligatoria con 60 s): la polea de 20 y el rodillo meten ≈ la mitad de los 2,7″ y 1,1″ que metían por sub de 60 s (`docs/14` §6b); con el guiado la corrige el autoguiador |
 | la transmisión: va ganando T2 (la V de la foto con tornillo de bolas) | L2-PLT-02 | trade con el orden de Fran (precisión > no patina > facilidad > costo): el empate F 3,58 / T2 3,54 de `docs/14` §6d acusaba a los criterios (faltaba el micropaso). Con la F de una correa afuera por el piso, F2 contra T2 da T2 por 15 a 21 % con los tres métodos, y 10 % aunque F2 no patine (`docs/15` §2.3). Se decide en su nivel, con Fran |
 | electrónica y batería en los tubos de costado, fuera del barrido de las chapas | L1-05, L1-06, L0-09 | v10.3: en el v10.1-10.2 estaban en la viga sur y las chapas las atravesaban; el modelo mide «Choques» en toda la carrera |
 | motor en escuadra NEMA 17 sobre la misma planchuela del rodillo motriz (una pieza en L, cuatro M8 a la viga) | L2-PLT-02, L2-PLT-10 | v10.1: la distancia entre poleas no se mueve, así que la tensión de la correa tampoco; en el v10 el motor colgaba en el aire |
@@ -731,11 +758,11 @@ seguimiento, la presión de contacto, la operación.
 |---|---|---|
 | la altura del centro de masa, medida por dos métodos | L1-15, L2-PLT-05 y los derivados | **hecho** (2026-10-17): 63,2 ± 0,5 cm por el vuelco, y coincide con la composición por partes |
 | ¿llega a foco la Sony? | L1-22, L0-12, L2-CAM-01 | **Fran**: la prueba P0, diez minutos de día |
-| 30 o 60 s por sub | L1-01 y todo lo asignado | **hecho**: 60 s (Fran, 2026-10-08) |
+| 30 o 60 s por sub | L1-01 y todo lo asignado | **hecho**: 30 s sin guiar como piso, con el guiado previsto (Fran, 2026-10-24; eran 60 s desde el 2026-10-08) |
 | ¿viaja en auto? ¿qué baúl? | L2-PLT-13, L1-09, L1-35 | **hecho** (2026-10-24): viaja, centro del país, Clio. Falta **medir el baúl** (Fran, con cinta) |
 | el vuelco en el borde de la banda, con la mesa en la punta de la carrera | L1-14 | la sesión, en la fase A: hoy el peor caso (el 12" liviano en 38,5°) da 20,4° con la mesa en el medio; en la punta, 1 a 2° menos |
 | el radio del campo central y si el portaocular es de 1,25" | L1-31, L0-02, L2-CAM-01 | **Fran**: P0 con el portaocular medido; después, la primera foto |
-| el paquete «30 s sin guiar + guiado previsto» | L1-01 y sus hijos, L0-03, L0-08 | **Fran**, en la MCR (§11.1, pregunta 6) |
+| el sub guiado de 4 min: alineación de ≤ 2′ o corrección en declinación | L1-36 | la sesión, en la fase A, con la pista medida (`docs/21` F1, F7, P3) |
 | los números estimados por la sesión (rebobinado, autonomía, desnivel, tiempo de armado, marcas, frenos) | los TBR | la sesión, en la fase 1, con las mediciones del banco y del vuelco |
 | la altura de la mesa (22,6 cm; 24,6 sobre los rieles del v10) y su inclinación al final (10,5 grados) | L1-21, L2-MON-02, L2-MON-03 | **hecho**, del modelo, el 2026-10-07 |
 | la envolvente del 300 (masa, centro de masa, base) | L0-15, L1-30, L2-PLT-05, L2-PLT-14 | datos de catálogo hoy; se confirma con el modelo que se compre |
@@ -746,6 +773,7 @@ seguimiento, la presión de contacto, la operación.
 ### 11.1 Preguntas para Fran (de valor, no técnicas)
 
 1. ~~¿30 s o 60 s por foto?~~ **Contestada** (2026-10-08): **60 s** (L1-01).
+   **Recontestada el 2026-10-24** con la evidencia de `docs/20`: 30 s (pregunta 6).
 2. ~~¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?~~
    **Contestada (2026-10-24): viaja.** Fran: «la idea no es fabricarlo para
    Villa Adelina, es fabricarlo para Argentina»; «si me voy a Zárate, a
@@ -779,7 +807,9 @@ seguimiento, la presión de contacto, la operación.
    no importa el tiempo; L1-29 queda sin tope.
 5. ~~¿El 300 se puede agujerear?~~ **Contestada**: no se agujerea ninguno de
    los dos; algo adaptable (L2-PLT-17).
-6. **¿30 s sin guiar como piso, con el guiado previsto desde el diseño?**
+6. ~~¿30 s sin guiar como piso, con el guiado previsto desde el diseño?~~
+   **Contestada (2026-10-24): sí** («30 s sin guiar como piso, con el guiado
+   previsto desde el diseño»), y aplicada en la v0.3. La pregunta era:
    (`docs/20` §1 y `docs/21` §7). Si Fran dice que sí, cambian: L1-01 y L1-27 a
    30 s; L2-PLT-02 y L2-MON-01 a 30 s; L2-PLT-03 a 0,2 %; L2-OPE-01 a 7′;
    L2-OPE-04 a 1 mm; la PEC pasa de obligatoria a recomendable (§9); L0-03 pasa

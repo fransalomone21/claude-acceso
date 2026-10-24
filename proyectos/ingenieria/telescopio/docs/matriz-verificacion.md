@@ -8,7 +8,7 @@ inspeccion o una demostracion.
 | Nivel | Total | Verificados | Predichos | Sin resultado | Con FALLA |
 |---|---|---|---|---|---|
 | L0 | 16 | 0 | 0 | 16 | 0 |
-| L1 | 35 | 3 | 2 | 30 | 0 |
+| L1 | 36 | 3 | 2 | 31 | 0 |
 | L2 | 35 | 0 | 0 | 35 | 0 |
 
 | ID | Nivel | Metodo | Resultado | Grado | Detalle |
@@ -64,6 +64,7 @@ inspeccion o una demostracion.
 | L1-33 | L1 | demostracion | - | sin resultado |  |
 | L1-34 | L1 | inspeccion | - | sin resultado |  |
 | L1-35 | L1 | demostracion | - | sin resultado |  |
+| L1-36 | L1 | ensayo | - | sin resultado |  |
 | L2-PLT-01 | L2 | analisis | - | sin resultado |  |
 | L2-PLT-02 | L2 | ensayo | - | sin resultado |  |
 | L2-PLT-03 | L2 | ensayo | - | sin resultado |  |

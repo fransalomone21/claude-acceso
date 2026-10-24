@@ -112,6 +112,13 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 
 ## Lo próximo
 
+> **2026-10-24, sexta parte — Fran: «sí: 30 s sin guiar como piso, con el guiado previsto desde el
+> diseño».** Aplicado en `10` (VERDE, 36 L1): L1-01, L1-27, L2-PLT-02 y L2-MON-01 a 30 s; L2-PLT-03 a 0,2 %;
+> L2-OPE-01 a 7′; L2-OPE-04 a 1 mm; la PEC recomendable; L0-03 para la misión mínima; L0-08 «sin notebook»;
+> L0-14 sin «etapa posterior»; **L1-36 nuevo**: el sub guiado de 4 min (pide alineación ≤ 2′ o el actuador
+> de declinación del pivote; TBR). PDP §6 con la decisión. **Siguen abiertas:** el trazador primero y si el
+> 12" viaja (`docs/21` §7); y lo de Fran: P0 con el portaocular, el spike de 10 s, inventario, baúl.
+>
 > **2026-10-24, quinta parte (vigésima sesión, la MCR sin las medidas de Fran) — manda sobre todo lo de abajo.**
 > Fran no trajo todavía el foco, el inventario, la foto de 10 s ni el baúl: la MCR **no cierra hoy**. Hecho:
 > **la lluvia de ideas** (`docs/21`, la primera del proyecto; el disparador vuelve a cero) con **once fallas de
