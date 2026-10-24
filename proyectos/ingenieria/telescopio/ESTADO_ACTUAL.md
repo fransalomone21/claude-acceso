@@ -112,6 +112,15 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 
 ## Lo próximo
 
+> **2026-10-24, tercera parte — la plataforma VIAJA (Fran): «fabricarlo para Argentina, no para Villa
+> Adelina»; Zárate, Mercedes, Chascomús; «sin irnos al micrón, viable»; lo de precisión con metalúrgicos.**
+> La recomendación pasa a: **30 s sin guiar como piso + guiado en AR previsto desde el diseño** (no etapa
+> 2): en cielo oscuro es donde pagan los subs largos, y el guiado corrige lo lento, así la mecánica no pide
+> micrones. Patas de ≈ 5 cm cubren ±2° con las mismas chapas (todos los lugares nombrados entran). Reparto:
+> rodillo motriz, pivote y terminación del canto → metalúrgico; chapas → láser; el resto → Fran y Kevin
+> (PDF §1.4, resubido, MD5 igual, mismo ID). `10-requisitos.md` §11.1 pregunta 2 contestada, con la lista
+> de lo que cambia en la MCR. **Faltan:** el rango de latitudes y el baúl.
+>
 > **2026-10-24, segunda parte — la decisión de los 60 s, con evidencia.** Recomendación de la sesión
 > (pedida por Fran «según las investigaciones de otros proyectos»): **(a) 30 s como requisito, 15-30 s en
 > el patio; (b) guiado en un eje como segunda etapa para cielo oscuro; (c) pista mecanizada descartada.**

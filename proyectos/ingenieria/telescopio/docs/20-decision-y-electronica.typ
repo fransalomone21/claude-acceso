@@ -38,7 +38,7 @@
 
 #v(6pt)
 #caja([En una línea])[
-  *Fotos de 30 s como requisito, 15 a 30 s en el patio, y el guiado en un eje para cuando viajes a un cielo oscuro.* La pista mecanizada no: es pagar mucha plata para ganar un 1 % de señal en el patio. Y para comprar: lo de la prioridad 1 ya, que destraba el telescopio y el cohete a la vez.
+  *Fotos de 30 s sin guiar como piso, que andan en cualquier lado, y el guiado en un eje previsto desde el diseño para los cielos oscuros, que es donde está el potencial y lo que evita trabajar al micrón.* La pista mecanizada no: es pagar mucha plata para ganar un 1 % de señal en el patio. Y para comprar: lo de la prioridad 1 ya, que destraba el telescopio y el cohete a la vez.
 ]
 
 #outline(title: [Qué hay adentro], depth: 1, indent: auto)
@@ -63,9 +63,9 @@ donde $R$ es el ruido de lectura de la cámara (en electrones) y $L$ cuánta luz
 
 == La decisión, y por qué
 
-#caja([La mejor decisión: (a) ahora, (b) después, (c) nunca], fondo: suave, borde: verde)[
+#caja([La mejor decisión: (a) siempre, (b) previsto desde el diseño, (c) nunca], fondo: suave, borde: verde)[
   - *El requisito pasa a 30 s* (L1-01 y sus hijos). En la práctica, en el patio se saca de *15 a 30 s*: más largo no suma nada y arriesga estrellas estiradas.
-  - *El guiado en un eje (b) queda como la segunda etapa*, que ya estaba en el plan (subs de 2 a 4 min con autoguiado). Se activa cuando la plataforma viaje a un cielo oscuro, que es el único lugar donde los subs largos pagan. La entrada ST-4 ya está en el diseño, así que no hay que rehacer nada.
+  - *El guiado en un eje (b) va previsto desde el diseño*, no como etapa aparte (corregido el 24/10, cuando Fran dijo que la plataforma viaja: Zárate, Mercedes, Chascomús, «para Argentina»). En un cielo oscuro es donde los subs de 2 a 5 min pagan, y el guiado corrige los errores lentos —velocidad, alineación, ondas largas del canto—, así que *la mecánica deja de pedir micrones*: es la forma viable de no perder potencial. La entrada ST-4 ya está en el diseño.
   - *La pista mecanizada (c) se descarta:* es lo más caro y en el patio compra un 1 %.
 ]
 
@@ -73,7 +73,23 @@ donde $R$ es el ruido de lectura de la cámara (en electrones) y $L$ cuánta luz
 
 *Qué cambia con 30 s.* Vuelven los números de antes del 8/10: alineación polar de 7 minutos de arco en vez de 3,5, velocidad media con 0,2 % de error en vez de 0,1, y la corrección periódica del motor pasa de obligatoria a recomendable. Las ondas largas del canto pesan la mitad; las cortas siguen pidiendo micrones, y eso lo dice la muestra. *Lo que no cambia:* la transmisión de una sola correa sigue afuera, porque el error de cada paso del motor no depende de cuánto dure la foto (tiembla igual cada 2 s). Siguen en carrera la de dos correas y la de tornillo de bolas.
 
-*Lo que hay que revisar en la etapa 2.* Guiar pide una camarita y algo que la maneje de noche (una Raspberry Pi con PHD2, por ejemplo), y hoy un requisito dice «sin computadora durante la noche» (L0-08). Una Pi chiquita pegada a la plataforma probablemente cumpla el espíritu (nada de notebook), pero se decide ahí, no ahora.
+*Lo que cambia porque viaja.* Guiar pide una camarita, un buscador guía y algo que la maneje de noche (una Raspberry Pi con PHD2): hoy dos requisitos dicen «sin autoguiado» y «sin computadora» y se reescriben en la revisión del concepto (una Pi pegada a la plataforma no es una notebook). De yapa, la misma cámara guía hace la *alineación polar en cualquier campo* (PHD2 la trae), que es justo lo que falta lejos de las marcas del piso del patio. Además: la base se desarma para el baúl, va una batería de 12 V, y las patas regulables pasan de 3 a unos 5 cm de recorrido para cubrir ±2° de latitud con las mismas chapas (Zárate 34,1°, Mercedes 34,7°, Punta Indio 35,3°, Chascomús 35,6°: todos adentro). Inclinar la base entera no cambia la geometría de las chapas respecto del eje; las plataformas comerciales hacen lo mismo en bandas de 5°.
+
+== Quién hace qué: ustedes, el metalúrgico y los servicios
+
+Con el guiado, la precisión se concentra en *tres piezas*, y esas van a manos de alguien con máquina. Todo lo demás es taller de casa.
+
+#table(
+  columns: (2fr, 1.4fr, 3.6fr),
+  table.header([Pieza], [Quién], [Por qué ahí]),
+  [*Rodillo motriz*: camisa torneada y rectificada *ya montada* sobre sus dos 608], [metalúrgico con torno (y rectificadora si hay)], [Es la pieza que más mueve la estrella: el salto del rodillo pasa directo al cielo. Montada, porque lo que importa es cómo gira sobre sus rulemanes, no la pieza suelta.],
+  [*Pivote*: asiento cónico y bolilla templada], [metalúrgico (tornero, con temple)], [Tiene que no tener juego y no marcarse con 40-60 kg encima. En hierro blando se hunde.],
+  [*Canto de las chapas*], [servicio de láser + terminación del canto en el metalúrgico (fresadora o lima fina y comparador)], [El láser corta la forma; la terminación saca las rebabas y las ondas cortas. Con guiado no hace falta electroerosión. Lo decide la muestra del canto.],
+  [Las dos chapas de 5/16"], [servicio de corte láser], [Cortan 8 mm desde el archivo; en casa no se puede con esa forma.],
+  [Base, mesa, brazo y poste (tubo y planchuela)], [ustedes (o el metalúrgico si suelda MIG)], [Cortes rectos, agujeros y soldadura. Lo que hay que cuidar es la escuadra: armar sobre una mesa plana con escuadras, puntear y medir antes de soldar todo.],
+  [Soportes de rodillos con ranuras, soporte del motor, caja de la electrónica], [ustedes (impresión 3D y agujereadora)], [Las ranuras dejan ajustar después: la precisión la da la calibración, no el agujero.],
+  [Electrónica, programa, guiado y calibración], [ustedes y la sesión], [Es lo que más se aprende y lo que más se puede corregir sin tirar nada.],
+)
 
 #caja([Un spike para confirmarlo, de 5 minutos])[
   Una noche cualquiera, la Sony en el portaocular (con lo que se use para la prueba de foco), ISO 1600, una foto de 10 s a un pedazo de cielo sin estrellas brillantes. Me pasás el archivo crudo y leo cuánto fondo junta: con eso $L$ deja de ser hipótesis y el sub óptimo del patio queda medido, no estimado.
@@ -166,7 +182,7 @@ Cómo leer las tablas: la *prioridad* dice cuándo conviene tenerlo; el *porqué
   [Correas, poleas GT2, tornillo de bolas], [Dependen de la transmisión, que la elige la palanca óptica.],
   [Rulemanes 608], [Tenés los del roller; se cuentan en el inventario.],
   [La batería de campo], [Sale del consumo medido en el banco (con el INA219).],
-  [Cámara guía], [Etapa 2: primero la plataforma siguiendo sola.],
+  [Cámara guía, buscador guía y Raspberry Pi], [Están previstos desde el diseño, pero se compran cuando la plataforma ya siga sola en el banco: primero que gire bien, después que guíe.],
 )
 
 #v(4pt)

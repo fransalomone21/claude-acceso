@@ -608,9 +608,16 @@ seguimiento, la presión de contacto, la operación.
 ### 11.1 Preguntas para Fran (de valor, no técnicas)
 
 1. ~~¿30 s o 60 s por foto?~~ **Contestada** (2026-10-08): **60 s** (L1-01).
-2. **¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?**
-   Si viaja: ¿qué auto, o cuánto mide el baúl? Fija L2-PLT-13 y la tolerancia
-   de latitud (L1-09).
+2. ~~¿La plataforma se queda en el patio, o viaja en auto a un cielo oscuro?~~
+   **Contestada (2026-10-24): viaja.** Fran: «la idea no es fabricarlo para
+   Villa Adelina, es fabricarlo para Argentina»; «si me voy a Zárate, a
+   Mercedes o a Chascomús, necesito que no esté perdiendo potencial»; «que
+   sea funcional y aprovechar la mecánica sin irnos al micrón: tiene que ser
+   viable»; «lo de precisión, con metalúrgicos». Cambia en la MCR: N-03, N-06,
+   L0-03 (guiado previsto desde el diseño), L0-07, L0-08, L0-10, L1-09 (rango
+   de latitud), L2-PLT-04 (recorrido de patas), L2-PLT-13 (baúl) y L2-OPE-03
+   (puesta en estación sin marcas del piso). **Faltan dos datos:** el rango de
+   latitudes (¿Buenos Aires y alrededores, o todo el país?) y el baúl.
 3. **¿Cuánto tiempo de armado te parece bien, del depósito al primer sub?**
    Hoy dice 20 min (L1-17).
 4. ~~¿Cuánto tiempo para pasar del 200 al 300?~~ **Contestada** (2026-10-07):
