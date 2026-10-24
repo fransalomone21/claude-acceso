@@ -180,6 +180,10 @@ mismo momento que P0.
 
 ## 7. Las decisiones de Fran
 
+**Contestadas el mismo día:** la 1 («sí: 30 s sin guiar como piso, con el guiado previsto desde el diseño»,
+aplicada en `10` v0.3 con L1-36) y la 2 («sí: primero la plataforma cruda andando en el patio con fotos de
+10-15 s, y después se refina por módulos con lo que se mida», en el PDP §4 y §6). **Abierta:** la 3.
+
 1. **¿Confirmás el piso de 30 s sin guiar, con el guiado previsto desde el diseño?** Con el ajuste de hoy: el
    guiado en AR alivia la pista en los blancos australes, y para que alivie en todos hace falta, más adelante, la
    declinación en el pivote (P3), que hoy cuesta sólo dejarle el lugar. *Recomendación: sí.*

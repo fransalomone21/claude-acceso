@@ -11,9 +11,9 @@ foco y el inventario sin `?`.
 > *what if* malos y buenos, lo que resolvieron otros, diez palancas, tres preguntas para Fran) y los
 > **requisitos v0.3** en verde (lista en ESTADO, quinta parte); `probar-requisitos.js` mide L1-14 en toda la
 > banda de latitud; `docs/20` §1.3 corregido y recompilado. **Pendiente, en este orden:** (1) Fran: P0 con el
-> portaocular medido, el spike de 10 s, inventario, baúl del Clio; (2) Fran: dos decisiones de `docs/21`
-> §7 (el trazador primero, si el 12" viaja); **la de los 30 s ya está: «sí», aplicada en `10` el mismo día,
-> con L1-36 nuevo (el sub guiado de 4 min)**;
+> portaocular medido, el spike de 10 s, inventario, baúl del Clio; (2) Fran: si el 12" viaja (`docs/21` §7); **ya
+> están los 30 s («sí», aplicada en `10` con L1-36 nuevo) y el trazador primero («sí», en el PDP §4 y §6: la
+> fase 1 la cierra la plataforma cruda siguiendo en el patio con subs de 10-15 s)**;
 > (3) la sesión: el **ConOps** nuevo (patio, viaje, noche mala; `docs/21` P6), que es producto de la fase 0 y
 > no está; (4) **resubir al Drive** el PDF de `docs/20` (cambió §1.3) y poner en el Doc 2 las tres preguntas;
 > (5) **el artifact**: esta sesión corrió en la cuenta dueña de **Sn7F7** (10.5), no de K4hfy (v11); Fran pidió

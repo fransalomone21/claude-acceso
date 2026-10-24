@@ -112,6 +112,13 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 
 ## Lo próximo
 
+> **2026-10-24, séptima parte — Fran: el trazador primero** («primero la plataforma cruda andando en el patio
+> con fotos de 10-15 s, y después se refina por módulos con lo que se mida»). En el PDP: §4 (la fase 1 la
+> cierra el trazador siguiendo en el patio con subs de 10-15 s, el presupuesto de error con lo medido en él y
+> la SRR) y §6. Es trazador, no prototipo: se conserva y se le cambian los módulos. Compuertas que siguen:
+> **P0 antes de cortar las chapas** y los frenos de la montura puestos. **Queda abierta una sola pregunta:**
+> si el 12" viaja.
+>
 > **2026-10-24, sexta parte — Fran: «sí: 30 s sin guiar como piso, con el guiado previsto desde el
 > diseño».** Aplicado en `10` (VERDE, 36 L1): L1-01, L1-27, L2-PLT-02 y L2-MON-01 a 30 s; L2-PLT-03 a 0,2 %;
 > L2-OPE-01 a 7′; L2-OPE-04 a 1 mm; la PEC recomendable; L0-03 para la misión mínima; L0-08 «sin notebook»;

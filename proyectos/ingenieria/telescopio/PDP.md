@@ -63,7 +63,7 @@ Mapeo a CDIO: **Concebir** = fases 0 y 1. **Diseñar** = 2 y 3.
 | # | Fase | NASA | Criterio de salida (resultado verificable) | Cómo se certifica | Estado |
 |---|---|---|---|---|---|
 | 0 | Concebir | Pre-Fase A, *Concept Studies* | los tres números que mandan medidos, el inventario real con modelos, **una** arquitectura elegida con trade study pesado por Fran, y el **borrador de requisitos** (necesidades → L0 → L1 → L2, trazados, con TBD/TBR declarados) | ver abajo | **abierta** |
-| 1 | Requisitos y presupuesto de error | Fase A, *Concept & Technology Development* | el presupuesto de error cierra numéricamente para el tiempo de sub pedido, y los requisitos quedan en **línea base** (sin TBD, validados con Fran: SRR) | `verificar-requisito.py docs/10-requisitos.md --idioma es` sin VIOLA + la cuenta de arcsec cierra + SRR con fecha | sin empezar |
+| 1 | Requisitos y presupuesto de error | Fase A, *Concept & Technology Development* | **el trazador** (la plataforma cruda: chapas láser sin terminar, rodillo torneado común, ESP32 con el programa mínimo y **las tres capas de tope**) sigue en el patio y da una imagen apilada con subs de 10-15 s y estrellas puntuales en el campo central; el presupuesto de error cierra para los 30 s **con lo medido en el trazador**; y los requisitos quedan en **línea base** (sin TBD, validados con Fran: SRR) | la foto apilada de 10-15 s + la deriva medida en el trazador + `verificar-requisitos.py` sin VIOLA + SRR con fecha | sin empezar |
 | 2 | Reforma de la montura | Fase B | el CoM medido cae dentro de la tolerancia pedida respecto del eje, **con la montura ya reformada** | se re-mide el CoM con el mismo método de la fase 0 y se compara | sin empezar |
 | 3 | Diseño detallado de la plataforma | Fase C, CDR | plantillas 1:1 en DXF + lista de corte + BOM contrastado contra el inventario | el CAD se regenera desde los números medidos; un chequeo compara el DXF contra las fórmulas | sin empezar |
 | 4 | Construir, integrar y probar | Fase D | deriva medida en una estrella ≤ requisito, durante el tiempo de sub pedido, y 60 min de carrera sin intervenir | prueba de deriva fotografiada | sin empezar |
@@ -137,6 +137,19 @@ roscada y biela, la de la foto del 2026-10-08) se eligen **en su nivel**, con
 un trade study de pesos puestos por Fran, nunca antes por el modelo 3D: el
 modelo muestra opciones, no decide.
 
+**El trazador primero** (Fran, 2026-10-24: «primero la plataforma cruda andando
+en el patio con fotos de 10-15 s, y después se refina por módulos con lo que se
+mida»; `docs/21` P1). Es un **trazador, no un prototipo** (Hunt & Thomas): la
+plataforma entera, por el camino más delgado pero con todo el chequeo de
+seguridad puesto (las tres capas de tope, L1-04), y **se conserva**: después se
+le cambian los módulos (la terminación del canto, el guiado, la declinación en
+el pivote), no se tira. Lo que mide reemplaza al diseño en el aire: la pista
+real, el micropaso del motor real, la deriva, el armado. Sus compuertas, las
+mismas de antes: **la prueba de foco (P0) antes de cortar las chapas**, y los
+frenos de altura y azimut de la montura puestos (L2-MON-02/03: son agregados
+que se sacan, no la reforma de la fase 2). Con suerte, la foto de 10-15 s del
+trazador **ya es la misión mínima** (§1 de `10`).
+
 ## 5. Riesgos
 
 | # | Riesgo | Prob. | Consec. | Estrategia | Disparador observable |
@@ -177,8 +190,9 @@ modelo muestra opciones, no decide.
 | 2026-10-08 | **(técnico, de la sesión) la F de una correa sale de la transmisión** por el piso de precisión (error de micropaso, R11); quedan F2, T2 y C, y con el orden de Fran gana **T2** | seguir con F y su banco del rodillo como desempate | el empate F/T2 acusaba a los criterios: faltaba el micropaso. **No es la elección final**: se hace en su nivel con Fran (§4, la V de NASA). `docs/15` §1-2 |
 | 2026-10-08 | **planos de DISPOSICIÓN sí (preliminares, se regeneran solos); de fabricación, no** | planos de fabricación «no para cortar» | **fuente: Fran, 2026-10-08**: «creá planos o layouts que sirvan para cuando tengamos medidas definidas». Cinco hojas A3 en `docs/planos.html` (PDF con `planos.ps1`): planta, alzado, vista sur, chapa 1:1, tolerancias. Lo de 2026-10-07 sigue: el DXF de corte es de la fase 3 |
 | 2026-10-08 | **(técnico, de la sesión) el canto se traza como envolvente del rodillo elegido, y el rodillo se elige antes de cortar; rodillos de una pieza, no cuatro 608** | el punto de arriba del rodillo (`geometria-vns.js`); cuatro 608 lado a lado | el punto de arriba deja 1,2″ por foto; las costuras de los 608, 2,4-4,2″ (`docs/16` §2-3, `contacto-vns.js`). **El rodillo basculante queda para la fase B**, con la transmisión |
+| 2026-10-24 | **el trazador primero**: la plataforma cruda andando en el patio con subs de 10-15 s, y después se refina por módulos con lo que se mida (§4, fase 1) | el camino de antes: requisitos en línea base → diseño de detalle → construir; un prototipo que se tira | **fuente: Fran, 2026-10-24**: «sí: primero la plataforma cruda andando en el patio con fotos de 10-15 s, y después se refina por módulos con lo que se mida». Lo que no se sabe del sistema se descubre en el sistema real (NASA con ágil, `nucleo-ise` §2b); la tarjeta madre hace que cada mejora sea un módulo (`docs/21` P1) |
 | 2026-10-24 | **30 s sin guiar como piso, con el guiado previsto desde el diseño** (requisitos v0.3: L1-01 y sus hijos a 30 s, L0-03, L0-08 «sin notebook», L0-14; nuevo L1-36, el sub guiado de 4 min) | 60 s sin guiar (el 2026-10-08); mecanizar la pista para sostenerlos; el guiado como proyecto aparte | **fuente: Fran, 2026-10-24**: «sí: 30 s sin guiar como piso, con el guiado previsto desde el diseño». Evidencia en `docs/20` §1 (sin precedente de 60 s, el cielo del patio, el costo de la pista) y la corrección F1 de `docs/21` (el guiado de un eje no corrige la declinación: L1-36 lo pide con alineación ≤ 2′ o el actuador del pivote) |
-| 2026-10-24 | **(técnico, de la sesión; KDP de la lluvia de ideas, `docs/21`)**: el vuelco se juzga contra el dobson solo (L1-14 a 19°, en toda la banda de latitud); la redondez se pide en el campo central; las uniones que se desarman llevan espiga; el pivote se diseña con lugar para un actuador de declinación (no se construye); requisitos v0.3 | 22° sin origen; la redondez en todo el cuadro (la coma la hace imposible); uniones sólo abulonadas (cada viaje, una calibración); guiado sólo en AR como cura de la pista (deja el bamboleo en declinación) | cálculo sobre `geometria-vns.js` y la fórmula de la coma; precedente comercial de declinación (TMS-Astro). **Esperan a Fran:** el trazador primero y si el 12" viaja (`docs/21` §7); los 30 s, contestados (fila de arriba) |
+| 2026-10-24 | **(técnico, de la sesión; KDP de la lluvia de ideas, `docs/21`)**: el vuelco se juzga contra el dobson solo (L1-14 a 19°, en toda la banda de latitud); la redondez se pide en el campo central; las uniones que se desarman llevan espiga; el pivote se diseña con lugar para un actuador de declinación (no se construye); requisitos v0.3 | 22° sin origen; la redondez en todo el cuadro (la coma la hace imposible); uniones sólo abulonadas (cada viaje, una calibración); guiado sólo en AR como cura de la pista (deja el bamboleo en declinación) | cálculo sobre `geometria-vns.js` y la fórmula de la coma; precedente comercial de declinación (TMS-Astro). **Espera a Fran:** si el 12" viaja (`docs/21` §7); los 30 s y el trazador, contestados (filas de arriba) |
 | 2026-10-04 | **soporte de cámara intercambiable**: la Sony en foco primario y el celular afocal, con dos adaptadores sobre la misma base | elegir una sola cámara ahora | **fuente: Fran, 2026-10-04.** No se cierra ninguna puerta antes de medir si el tubo llega a foco (R1). Precio aceptado: dos configuraciones de centro de masa que balancear, y más diseño 3D |
 
 ## 7. Verificación
