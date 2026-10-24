@@ -91,6 +91,15 @@ Mapeo a CDIO: **Concebir** = fases 0 y 1. **Diseñar** = 2 y 3.
    lo que falta definir, marcado; lo que el modelo 3D ya representa, marcado.
    Se certifica con `verificar-requisito.py --idioma es` sin VIOLA y con cada
    hijo trazado a un padre que existe.
+5. **La evidencia externa de cada KDR** (agregado el 2026-10-24, DA-081; Fran:
+   «absolutamente toda la evidencia tiene que ser conocida al principio, en
+   pre fase A, no al cerrar el diseño»): por cada requisito que manda (L1-01,
+   L1-02, L1-15, L1-22) y por cada decisión de concepto, quién lo logró antes
+   y con qué (plataformas, monturas, proyectos parecidos) y qué límite pone el
+   entorno (el cielo del patio, el material, el proceso de corte). Lo que no
+   tenga precedente queda marcado `hipótesis` y no se diseña contra él. Vive en
+   `docs/20-decision-y-electronica.typ` §1 (los 60 s) y se completa en la MCR
+   para el resto.
 
 **Cómo se certifica:** `ESTADO_ACTUAL.md` § *Lo confirmado* tiene las tres
 mediciones con su método y su fecha, `docs/03-inventario.md` no tiene ninguna

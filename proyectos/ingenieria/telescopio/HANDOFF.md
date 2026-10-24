@@ -6,6 +6,13 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-24, segunda parte:** la recomendación de los 60 s (a ahora, b después, c no) con su evidencia y
+> la lista de electrónica por prioridad, en `docs/20-decision-y-electronica.typ` → PDF en la raíz de
+> `05 - PROYECTOS` del Drive. DA-081 (evidencia externa en Pre-Fase A) registrado y ubicado en el orden de
+> ataque (8b); punto 5 del criterio de salida de la fase 0. **En la MCR:** Fran confirma 30 s → se cambian
+> L1-01 y sus hijos (L2-PLT-03 0,2 %, L2-OPE-01 7′, L2-OPE-04 1 mm, PEC recomendable) y se completa la
+> evidencia externa de L1-02, L1-15 y L1-22.
+>
 > **2026-10-24 (decimonovena sesión, PC): diseño con el CdM medido, compras y Drive.** Fran: «terminame el
 > diseño con las medidas del centro de masa; decime qué falta sí o sí antes de la revisión de concepto; qué
 > comprar ya que me sirva también para la facu (tengo una fuente de PC); actualizá el Drive sin ruido, en

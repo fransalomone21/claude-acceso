@@ -112,6 +112,17 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 
 ## Lo próximo
 
+> **2026-10-24, segunda parte — la decisión de los 60 s, con evidencia.** Recomendación de la sesión
+> (pedida por Fran «según las investigaciones de otros proyectos»): **(a) 30 s como requisito, 15-30 s en
+> el patio; (b) guiado en un eje como segunda etapa para cielo oscuro; (c) pista mecanizada descartada.**
+> Tres líneas: ningún fabricante publica seguimiento sin guiar y los foros reportan 4-10 s con plataformas
+> caseras (`probable`); en Bortle 7-8 el sub útil es 10-20 s (criterio de Glover, `hipótesis` hasta el
+> spike de 10 s que mide el fondo); `docs/14` §6b: +1 % de señal con 60 s en el patio. **No entra a los
+> requisitos hasta que Fran lo confirme en la MCR.** PDF `docs/20-decision-y-electronica.typ` → Drive
+> `05 - PROYECTOS…/Electronica y la decision de los 60 s (24-10).pdf` (MD5 igual), con la lista de
+> electrónica en 4 prioridades. Fran: «toda la evidencia tiene que ser conocida al principio» → **DA-081**,
+> lección 420 y el punto 5 del criterio de salida de la fase 0 (PDP §4).
+>
 > **2026-10-24 (decimonovena sesión) — manda sobre todo lo de abajo.**
 > Hecho: modelo **10.6** (CdM 63,2 medido, muesca 2,5 cm al norte, base fija
 > 43 × 43; sueltas 0, choques 0, sabotajes motor 7/7, finales 6/6, choque 1,
