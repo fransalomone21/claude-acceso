@@ -56,6 +56,11 @@
         "que-va": "cuadernos de proyectos de taller y astronomia que Fran lee desde el celular, con el detalle tecnico en el repo. Nacio el 2026-10-04 con el cuaderno del telescopio 200/1200, que el mismo dia paso a la subcarpeta compartida con el primo. Nada con 'anyone': no es material de catedra."
       },
       {
+        "nombre": "06 - JUEGOS - solo Fran",
+        "sensibilidad": "solo Fran",
+        "que-va": "paquetes de juegos listos para instalar en otra PC de Fran (emulador portable + juego + config + saves). Nacio el 2026-10-24 con DBZ Niveles de Poder 8.1. Llevan BIOS y juegos: nunca se comparten ni van con 'anyone'."
+      },
+      {
         "nombre": "Coaching",
         "sensibilidad": "solo Fran",
         "que-va": "espejo que escribe proyectos/seguimiento/coaching/publicar-drive.ps1. NO SE TOCA A MANO: el script compara por checksum contra esta ruta exacta y un rename lo rompe en silencio."
