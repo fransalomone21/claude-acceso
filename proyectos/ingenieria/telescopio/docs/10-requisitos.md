@@ -328,8 +328,11 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   caso (12" liviano con el centro de masa a 50 cm); con 1,2 m daba 21,0.
 - **L1-15** (**KDR**) — Si el centro de masa no cae en el eje, el motor tiene
   que sostener el desbalance y la velocidad cambia con la posición de la mesa.
-  La altura del centro de masa es lo que fija la forma de las chapas, y hoy
-  vale 63 cm con un rango de 58 a 69 **sin medir** [`probable`]. 1 cm es una
+  La altura del centro de masa del 200 está **medida**: 63,2 ± 0,5 cm sobre
+  el piso del dobson, por el vuelco del 2026-10-17, y coincide con la
+  composición por partes (`docs/08` §3.3). Desde el v10.5 no fija la forma de
+  las chapas (lo absorbe la corredera): fija la muesca del 200, a 2,5 cm al
+  norte en el v10.6. 1 cm es una
   estimación de la sesión; se verifica con CAL-1 (la mesa queda quieta en cinco
   posiciones con la correa sacada). TBR.
 - **L1-16** — Lo que Fran ya carga hoy: el tubo pesa 19,2 kg y la montura 19,7
@@ -345,8 +348,8 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
 - **L1-21** — ConOps paso 1: el dobson se sube a la mesa sin levantarlo
   entero. La montura sin el tubo pesa unos 20 kg y se levanta poco; el tubo se
   pone después. El v9 dejaba la cara de arriba de la mesa a 22,6 cm del piso;
-  en el v10 el dobson apoya sobre rieles de 2 cm: 24,6 cm [cálculo]. Cumple con
-  margen. 30 cm es estimación de la sesión. TBR.
+  en el v10 el dobson apoya sobre rieles de 2 cm: 24,6 cm; con los rodillos a
+  58 cm (v10.5 y v10.6) da 26,5 cm [cálculo]. Cumple con margen. 30 cm es estimación de la sesión. TBR.
 - **L1-22** (**KDR**) — Riesgo R1: la falla clásica del newtoniano es que el
   portaocular no tiene recorrido hacia adentro y la cámara no llega a foco.
   **TBD** hasta la prueba P0 (diez minutos de día). Es compuerta antes de
@@ -400,8 +403,9 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
 - **L2-PLT-04** — Derivado de la arquitectura VNS (pivote y dos rodillos):
   tres puntos no renguean en ningún piso.
 - **L2-PLT-05** — Decisión de Fran del 2026-10-04 (diseño adaptable),
-  ampliada el 2026-10-07 por N-12: el rango junta el del 200 (58 a 69 cm, sin
-  medir) con el de la envolvente del 300 (50 a 62 cm, `hipótesis`). Con la
+  ampliada el 2026-10-07 por N-12: el rango junta el del 200 (58 a 69 cm
+  cuando se escribió; **medido el 2026-10-17: 63,2 ± 0,5**, adentro) con el de
+  la envolvente del 300 (50 a 62 cm, `hipótesis`). Con la
   plataforma v9 eso pide ≈ 28 cm de corredera norte-sur (`node
   docs/escenarios-300.js`), o menos con suplemento. Con la mesa del v10 (rieles
   arriba, ≈ 11 kg, más larga al norte) pide ≈ 25 cm, de 5,9 al sur a 18,8 al
@@ -548,7 +552,7 @@ ninguno es un huérfano**: o falta el requisito, o sobra la decisión. Desde el
 | rótula de amortiguador en el pivote | L2-PLT-02 | cero juego |
 | ~~suplementos bajo el dobson~~ → **salieron en el v10**: los reemplaza la corredera | L2-PLT-05 | |
 | ~~bulones con buje y mariposa~~ → mordazas (arriba) | L2-PLT-12, L2-PLT-17 | |
-| eje a 54 cm sobre la mesa | L1-15 | con la muesca del 200 a 2,8 cm al norte, sale de 63 cm sin medir |
+| eje a 54 cm sobre la mesa | L1-15 | con el centro de masa del 200 medido (63,2 cm, 2026-10-17), la muesca queda a 2,5 cm al norte (v10.6) |
 | soporte de cámara intercambiable | L2-CAM-01, L2-CAM-02 | no está en el modelo |
 
 **Lo que el v10 todavía no cumple de la 0.2:** el empujón del 12" liviano
@@ -590,7 +594,7 @@ seguimiento, la presión de contacto, la operación.
 
 | Qué | Requisitos | Lo cierra |
 |---|---|---|
-| la altura del centro de masa, medida por dos métodos | L1-15, L2-PLT-05 y los derivados | **Fran y Kevin**: el vuelco (hA, hB, A, B, W) y la altura del eje |
+| la altura del centro de masa, medida por dos métodos | L1-15, L2-PLT-05 y los derivados | **hecho** (2026-10-17): 63,2 ± 0,5 cm por el vuelco, y coincide con la composición por partes |
 | ¿llega a foco la Sony? | L1-22, L0-12, L2-CAM-01 | **Fran**: la prueba P0, diez minutos de día |
 | 30 o 60 s por sub | L1-01 y todo lo asignado | **hecho**: 60 s (Fran, 2026-10-08) |
 | ¿viaja en auto? ¿qué baúl? | L2-PLT-13, L1-09 | **Fran** (§11.1) |

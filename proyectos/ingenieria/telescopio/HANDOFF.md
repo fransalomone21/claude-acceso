@@ -6,6 +6,19 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-24 (decimonovena sesión, PC): diseño con el CdM medido, compras y Drive.** Fran: «terminame el
+> diseño con las medidas del centro de masa; decime qué falta sí o sí antes de la revisión de concepto; qué
+> comprar ya que me sirva también para la facu (tengo una fuente de PC); actualizá el Drive sin ruido, en
+> subcarpetas por si Kevin; cuidado que hay dos artifacts». Hecho: modelo **10.6** (`06-modelo-3d.html`:
+> Hreal 63,2, dN 2,5, base fija 0,43 × 0,43, nota de versión) verificado en el panel y publicado en
+> **K4hfy** (versión 9; Sn7F7 es de la otra cuenta y quedó en 10.5: no se puede escribir desde acá);
+> rationales L1-15, L2-PLT-05, L1-21 y §9/§11 de `10-requisitos.md` al día (VERDE); matriz regenerada;
+> `19-como-venimos.md` reescrito (qué falta para la MCR, las tres salidas de la pista, la lista de
+> compras) y `18` con el link nuevo y las carpetas; Drive: «Archivo» → «Para profundizar» + «Historial»
+> (fotos de la montura adentro), IDs medidos iguales. **Sigue:** lo de Fran (foco, inventario, decisión
+> 30/60 s) y después la MCR con la lluvia de ideas, en sesión nueva. **Quedan de antes:** los tres
+> arreglos de `contacto-vns.js` (muestreo dentro de la foto) y la causa del 1,2″ del trazado.
+>
 > **2026-10-18 (decimoctava sesión, segunda parte): dos Docs y nada más arriba.** Fran: «hay más de 3
 > documentos para leer, se vuelve engorroso; uno central que explique todo, como guía general, y otro súper
 > en criollo de cómo venimos y cómo seguimos; visuales; no gastes tanto». Hecho: `docs/18-guia-general.md`

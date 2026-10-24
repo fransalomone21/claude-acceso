@@ -1,6 +1,6 @@
 # Estado actual — Automatización del telescopio 200/1200
 
-**Última actualización:** 2026-10-18 (la misma sesión, segunda parte: **el Drive queda con DOS Docs** — «1 - El proyecto, todo en un lugar» (`docs/18-guia-general.md`) y «2 - Como venimos y como seguimos» (`docs/19-como-venimos.md`), con imágenes del modelo; lo demás, a «Archivo»; lo urgente: **la prueba de foco y el inventario**). Antes: 2026-10-17 a la noche (decimoctava sesión: **el centro de masa, medido por el vuelco: 63,2 ± 0,5 cm**; la base fija es 43 × 43, no 43 × 40; el modelo no cambia). Antes: 2026-10-09 de madrugada (decimoséptima sesión: sin medidas nuevas; **revisión de punta a punta** —`docs/16`, Doc 4 del Drive—: **la pista** (canto y rodillos) pide micrones y pesa más que la transmisión; el canto se traza como envolvente del rodillo; fuera los cuatro 608; tolerancias de armado; **planos de disposición** en PDF A3)
+**Última actualización:** 2026-10-24 (decimonovena sesión: **modelo 10.6 con el centro de masa medido** —muesca del 200 a 2,5 cm, base fija 43 × 43— publicado en el artifact de esta cuenta (K4hfy…); rationales de L1-15, L2-PLT-05 y L1-21 al día; **Drive con dos Docs arriba y dos subcarpetas** («Para profundizar», «Historial»); el Doc 2 trae **qué falta sí o sí para la MCR** y **la lista de compras**). Antes: 2026-10-18 (la misma sesión, segunda parte: **el Drive queda con DOS Docs** — «1 - El proyecto, todo en un lugar» (`docs/18-guia-general.md`) y «2 - Como venimos y como seguimos» (`docs/19-como-venimos.md`), con imágenes del modelo; lo demás, a «Archivo»; lo urgente: **la prueba de foco y el inventario**). Antes: 2026-10-17 a la noche (decimoctava sesión: **el centro de masa, medido por el vuelco: 63,2 ± 0,5 cm**; la base fija es 43 × 43, no 43 × 40; el modelo no cambia). Antes: 2026-10-09 de madrugada (decimoséptima sesión: sin medidas nuevas; **revisión de punta a punta** —`docs/16`, Doc 4 del Drive—: **la pista** (canto y rodillos) pide micrones y pesa más que la transmisión; el canto se traza como envolvente del rodillo; fuera los cuatro 608; tolerancias de armado; **planos de disposición** en PDF A3)
 
 ## Dónde estamos
 
@@ -112,6 +112,24 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 
 ## Lo próximo
 
+> **2026-10-24 (decimonovena sesión) — manda sobre todo lo de abajo.**
+> Hecho: modelo **10.6** (CdM 63,2 medido, muesca 2,5 cm al norte, base fija
+> 43 × 43; sueltas 0, choques 0, sabotajes motor 7/7, finales 6/6, choque 1,
+> restaurado 0, con el 200 y el 12"), publicado en K4hfy (versión 9, público);
+> requisitos VERDE con los rationales al día; matriz regenerada; Drive
+> reordenado (IDs medidos iguales); Docs 1 y 2 regenerados con el mismo ID.
+> **Lo que falta sí o sí para la MCR** (Doc 2): **(1)** la prueba de foco;
+> **(2)** el inventario sin `?`, con las etiquetas de los NEMA del amigo;
+> **(3)** la decisión de Fran sobre los 60 s sin guiar (a: 30 s, b: guiado en
+> AR, c: pista mecanizada; la sesión recomienda a, con b como segunda etapa);
+> **(4)** la MCR, que cae junto con el **momento lluvia de ideas** (11 de 10
+> sesiones): sesión nueva, Opus, esfuerzo alto. La transmisión y la muestra del
+> canto **no** bloquean la MCR. **Compras autorizadas por diseño** (sirven gane
+> la transmisión que gane): NEMA 17 de 40-48 N·cm, 2 TMC2209, 2 ESP32, 100 µF,
+> microswitches, láser para la palanca; más el kit de la facu y lo de la fuente
+> ATX (breakout, step-down, fusibles). No se compra: chapa, corte, correas,
+> poleas, tornillo de bolas, batería de campo.
+>
 > **2026-10-09 de madrugada (decimoséptima sesión) — manda sobre todo lo de abajo.**
 > Sin medidas nuevas. Hecho: la revisión de punta a punta (`docs/16`, Doc 4),
 > la cuenta del contacto y las tolerancias (`contacto-vns.js`), los planos de

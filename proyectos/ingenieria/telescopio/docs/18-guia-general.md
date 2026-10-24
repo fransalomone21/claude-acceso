@@ -2,10 +2,10 @@
 
 **La guía general del telescopio.** Explica qué estamos haciendo, cómo
 funciona, de qué está hecho, por qué se decidió cada cosa y qué falta. No baja
-al detalle fino: para eso están los documentos de la carpeta «Archivo» y el
-modelo 3D. Si alguien lee sólo un documento, que sea este.
+al detalle fino: para eso están los documentos de la carpeta «Para
+profundizar» y el modelo 3D. Si alguien lee sólo un documento, que sea este.
 
-Versión del 18 de octubre de 2026. Lo que dice cómo venimos y qué sigue está
+Versión del 24 de octubre de 2026. Lo que dice cómo venimos y qué sigue está
 en el otro documento, «2 - Cómo venimos y cómo seguimos».
 
 > **En una línea:** le vamos a poner abajo al dobson de 200 mm de Fran una
@@ -198,11 +198,15 @@ comparan contra esa lista, nunca al revés. Viven en el repositorio
 
 ## 11. Dónde está todo
 
-- **El modelo 3D**, para girarlo y ver cada pieza:
-  https://claude.ai/artifact/Sn7F7NGPrNdsJnwwnXTZfd (público con el link).
-- **Cómo venimos y qué sigue:** el documento 2 de esta carpeta.
-- **El detalle**, en la carpeta «Archivo»: mecanismos y proveedores, qué
-  puede salir mal, los planos preliminares, cómo se midió el centro de masa.
-  No hace falta leerlos para entender el proyecto.
+- **El modelo 3D**, para girarlo y ver cada pieza (versión 10.6, con el
+  centro de masa medido): https://claude.ai/artifact/K4hfyQRik4xsJYYXv5sFeM
+  (público con el link). El link viejo (Sn7F7…) quedó en la 10.5.
+- **Cómo venimos, qué falta y qué comprar:** el documento 2 de esta carpeta.
+- **Para profundizar** (la carpeta del mismo nombre): mecanismos y
+  proveedores, qué puede salir mal, los planos preliminares. No hace falta
+  leerlos para entender el proyecto.
+- **Historial** (la otra carpeta): lo que ya se usó o quedó reemplazado
+  (cómo se midió el centro de masa, el protocolo, el cuaderno viejo) y las
+  fotos de la montura.
 - **La fuente de todo** es el repositorio: estos documentos se regeneran
   desde ahí; no se editan a mano.
