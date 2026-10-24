@@ -15,6 +15,13 @@ foco y el inventario sin `?`.
 > (4) R-06 escrito en `21` y L1-36; (5) diseño y redacción. Las dos preguntas de valor para Fran están en `22` §8.
 > Candidata a lección (de la autora, no de la revisora): al cambiar un parámetro que manda (60 → 30 s) se
 > re-corren las herramientas en el valor nuevo antes de reescribir las conclusiones derivadas (R-01, R-16).
+> **La autora lo leyó y lo verificó (2026-10-24):** R-01 rehecho con `tabla()` de `transmisiones.js` a 30 s
+> (periódicos de 1,64 a 2,56″ contra 1,5″: ninguna entra sin PEC); los scripts de la revisión reproducen sus
+> números (`revision2.js` manda sobre el §B de `revision.js`, que suma el desnivel como inclinación). La lección
+> candidata quedó registrada (plegada en «Una verificación CADUCA»), y la 421 (R-06, la misma clase que F1) se
+> repitió y subió a nivel flujo: el arreglo es esta revisión independiente. **Las correcciones van en una sesión
+> nueva de la autora** (el retome está en el chat de cierre), en el orden de arriba; las preguntas 1 y 2 de `22`
+> §8 son de Fran y deciden R-02, R-03 y R-06.
 >
 > **2026-10-24, cierre de la vigésima sesión:** decididos por Fran los 30 s + guiado, el trazador primero y el
 > 12" que viaja (la base sigue en 1,3 m, medido). **La fase 0 cierra con siete puntos (PDP §4)**: lo de Fran
