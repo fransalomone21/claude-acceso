@@ -6,6 +6,12 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-24, cierre de la sesión 4d3feb50:** Fran eligió **el centro del país** con arquitectura de
+> **tarjeta madre** (ESTADO, cuarta parte) y la plataforma **viaja** en un Clio. La próxima sesión es **la
+> MCR**: reescribir los requisitos con todo lo de hoy (30 s de piso, guiado desde el diseño, latitud 30,5°
+> a 38,5°, interfaces fijas y módulos, baúl, sin computadora → con Pi), completar la evidencia externa de
+> cada KDR (PDP §4 punto 5) y hacer la lluvia de ideas. El retome está en el chat de cierre de esta sesión.
+>
 > **2026-10-24, segunda parte:** la recomendación de los 60 s (a ahora, b después, c no) con su evidencia y
 > la lista de electrónica por prioridad, en `docs/20-decision-y-electronica.typ` → PDF en la raíz de
 > `05 - PROYECTOS` del Drive. DA-081 (evidencia externa en Pre-Fase A) registrado y ubicado en el orden de
