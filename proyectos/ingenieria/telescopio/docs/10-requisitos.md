@@ -616,8 +616,17 @@ seguimiento, la presión de contacto, la operación.
    viable»; «lo de precisión, con metalúrgicos». Cambia en la MCR: N-03, N-06,
    L0-03 (guiado previsto desde el diseño), L0-07, L0-08, L0-10, L1-09 (rango
    de latitud), L2-PLT-04 (recorrido de patas), L2-PLT-13 (baúl) y L2-OPE-03
-   (puesta en estación sin marcas del piso). **Faltan dos datos:** el rango de
-   latitudes (¿Buenos Aires y alrededores, o todo el país?) y el baúl.
+   (puesta en estación sin marcas del piso). **El baúl** (Fran, mismo día): «que
+   pueda entrar en un Clio o en una camioneta, más o menos» → se diseña para el
+   Clio, el caso chico (medidas del baúl `hipótesis` hasta medirlo con cinta);
+   el tubo viaja en el asiento de atrás como hoy. **Falta:** el rango de
+   latitudes. La cuenta del 2026-10-24 (`geometria-vns.js`): de 24° a 54° S la
+   base va de 1,54 a 0,84 m, el pivote de 1,09 a 0,35 m del centro, y el
+   vuelco cae a 17,8° en 54° (pide más base); las chapas cambian de forma con
+   la latitud. Opciones: Buenos Aires (patas de 5 cm, ±2°), el centro del país
+   (cuña de ±4°, 30,5° a 38,5°: El Leoncito, Córdoba, Mendoza, San Luis, Mar
+   del Plata) o todo el país (un juego de chapas por banda y pivote y base
+   regulables).
 3. **¿Cuánto tiempo de armado te parece bien, del depósito al primer sub?**
    Hoy dice 20 min (L1-17).
 4. ~~¿Cuánto tiempo para pasar del 200 al 300?~~ **Contestada** (2026-10-07):
