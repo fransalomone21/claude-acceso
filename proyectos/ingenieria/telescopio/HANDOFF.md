@@ -6,6 +6,14 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-24, cierre de la vigésima sesión:** decididos por Fran los 30 s + guiado, el trazador primero y el
+> 12" que viaja (la base sigue en 1,3 m, medido). **La fase 0 cierra con siete puntos (PDP §4)**: lo de Fran
+> (P0, inventario), la evidencia de cada KDR (hecha), **la revisión independiente** sin hallazgos abiertos
+> (`docs/22-revision-independiente-*.md`, la hace una sesión que no escribió el concepto) y **el ConOps al
+> día**. Nada de la plataforma se corta ni se compra antes. El orden: (1) la revisión independiente, en frío;
+> (2) la sesión autora aplica sus hallazgos y escribe el ConOps; (3) con las medidas de Fran, la MCR y el pase a
+> la fase A.
+>
 > **2026-10-24 a la tarde, vigésima sesión (la MCR y la lluvia de ideas):** Fran todavía no trajo las medidas,
 > así que **la MCR no cerró**. Hecho: `docs/21-lluvia-de-ideas-2026-10-24.md` (once fallas de concepto, los
 > *what if* malos y buenos, lo que resolvieron otros, diez palancas, tres preguntas para Fran) y los

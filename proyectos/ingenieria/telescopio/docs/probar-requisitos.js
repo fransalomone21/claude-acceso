@@ -74,8 +74,8 @@ function banda() {
 // En coordenadas de la plataforma el 'arriba' verdadero se inclina hacia el sur; para cada borde del triangulo de
 // patas, el vuelco es cuanto mas hay que inclinar para que el CdM quede sobre el borde. Con alfa = 0 da lo mismo
 // que vuelcoSur y vuelcoLado de geometria-vns.js (con la mesa en el medio de la carrera).
-function vuelcoInclinado(g, alfa) {
-  const r = alfa * Math.PI / 180, u = [0, -Math.sin(r), Math.cos(r)], f = g.feet, C = g.Cg;
+function vuelcoInclinado(g, alfa, C = g.Cg) {
+  const r = alfa * Math.PI / 180, u = [0, -Math.sin(r), Math.cos(r)], f = g.feet;
   const cen = [(f[0][0] + f[1][0] + f[2][0]) / 3, (f[0][1] + f[1][1] + f[2][1]) / 3];
   const borde = (a, b) => {
     const le = Math.hypot(b[0] - a[0], b[1] - a[1]);
@@ -85,6 +85,15 @@ function vuelcoInclinado(g, alfa) {
     return (Math.atan2(C[2], rn) - Math.atan2(u[2], un)) * 180 / Math.PI;
   };
   return Math.min(borde(f[0], f[1]), borde(f[0], f[2]), borde(f[1], f[2]));
+}
+
+// El CdM de lo que gira, con la mesa girada th radianes alrededor del eje polar (Rodrigues). Si el CdM esta sobre
+// el eje no se mueve; si no lo esta, el vuelco en la punta de la carrera es otro.
+function cdmGirado(g, th) {
+  const c = g.C, k = g.d, v = [g.Cg[0] - c[0], g.Cg[1] - c[1], g.Cg[2] - c[2]], cs = Math.cos(th), sn = Math.sin(th);
+  const kxv = [k[1] * v[2] - k[2] * v[1], k[2] * v[0] - k[0] * v[2], k[0] * v[1] - k[1] * v[0]];
+  const kv = k[0] * v[0] + k[1] * v[1] + k[2] * v[2];
+  return [0, 1, 2].map((i) => c[i] + v[i] * cs + kxv[i] * sn + k[i] * kv * (1 - cs));
 }
 
 function casos(D) {
@@ -112,8 +121,8 @@ function evaluar(D) {
   const [latA, latB] = D.sinBanda ? [D.phi, D.phi] : banda(), c14 = criterio('L1-14', /no menos de ([\d,]+) grados/);
   for (const x of cs) {
     x.v14 = Infinity;
-    for (const lat of [latA, D.phi, latB]) {
-      const v = vuelcoInclinado(x.g, lat - D.phi);
+    for (const lat of [latA, D.phi, latB]) for (const th of [-x.g.thMax, 0, x.g.thMax]) {
+      const v = vuelcoInclinado(x.g, lat - D.phi, D.sinPunta ? x.g.Cg : cdmGirado(x.g, th));
       if (v < x.v14) { x.v14 = v; x.lat14 = lat; }
     }
   }
@@ -155,6 +164,13 @@ if (process.argv.includes('--sabotaje')) {
   const pesa = conBanda < sinBanda;
   console.log((pesa ? 'ok  ' : 'MAL ') + 'sabotaje L1-14 sin la banda de L1-09: ' + conBanda + ' con la banda, ' + sinBanda + ' sin ella');
   if (!pesa) process.exitCode = 1;
+  // La punta de la carrera tambien se mide: con el CdM corrido 5 cm fuera del eje (el dobson corrido de su muesca),
+  // girar la mesa tiene que cambiar el peor vuelco. Si no cambia, el giro no esta llegando a la cuenta.
+  const corrido = (d) => evaluar({ ...d, dE: 0.05 });
+  const conPunta = valor(linea(corrido(D), 'L1-14')), sinPunta = valor(linea(corrido({ ...D, sinPunta: true }), 'L1-14'));
+  const gira = conPunta < sinPunta;
+  console.log((gira ? 'ok  ' : 'MAL ') + 'sabotaje L1-14 con el CdM 5 cm fuera del eje: ' + conPunta + ' con la punta, ' + sinPunta + ' sin ella');
+  if (!gira) process.exitCode = 1;
   return;
 }
 for (const l of evaluar(D)) console.log(l);

@@ -99,7 +99,25 @@ Mapeo a CDIO: **Concebir** = fases 0 y 1. **Diseñar** = 2 y 3.
    entorno (el cielo del patio, el material, el proceso de corte). Lo que no
    tenga precedente queda marcado `hipótesis` y no se diseña contra él. Vive en
    `docs/20-decision-y-electronica.typ` §1 (los 60 s) y se completa en la MCR
-   para el resto.
+   para el resto (hecho en `docs/21` §3, 2026-10-24).
+6. **Una revisión independiente del concepto, sin hallazgos de concepto
+   abiertos** (agregado el 2026-10-24; Fran: «no puede haber ningún error de
+   concepto, absolutamente ninguno»; «no podemos fabricar algo que no ande»;
+   «quiero dedicar unas buenas sesiones a cerrar el concepto y pasar de fase
+   con la revisión o gates necesarios»). Una sesión que **no escribió** el
+   concepto (el *outsider* de NASA, SEH p. 68; la cátedra: lo validan quienes
+   no lo escribieron) rehace con su propia cuenta cada número que manda una
+   decisión, busca en todo el concepto la **clase** de cada error que ya se
+   cometió, y deja `docs/22-revision-independiente-AAAA-MM-DD.md`. Cada hallazgo
+   se cierra **corregido con su prueba** o **aceptado por Fran por escrito**.
+7. **El ConOps al día** (`docs/01-conops.md`): la noche en el patio, la noche
+   de viaje y la noche mala, coherente con la arquitectura y los requisitos
+   (NASA lo pide en Pre-Fase A; el de hoy es del 2026-10-04).
+
+**La compuerta de fabricación** (Fran, 2026-10-24): para el trazador **no se
+corta ni se compra nada de la plataforma** sin la prueba de foco (P0) y sin
+la revisión del punto 6 limpia. La electrónica del banco (motor, drivers,
+ESP32) queda autorizada como hasta ahora: sirve gane lo que gane.
 
 **Cómo se certifica:** `ESTADO_ACTUAL.md` § *Lo confirmado* tiene las tres
 mediciones con su método y su fecha, `docs/03-inventario.md` no tiene ninguna
@@ -107,7 +125,9 @@ fila en `?`, `docs/05-trade-study.md` tiene la columna de pesos con fuente
 «Fran» y una diferencia distinta de cero entre el primero y el segundo, y
 `docs/10-requisitos.md` existe, pasa el verificador sin VIOLA y
 `auditar-sesion.py` no encuentra un commit de diseño que no trace a uno de sus
-IDs.
+IDs; `docs/22-revision-independiente-*.md` existe, la escribió una sesión que
+no escribió el concepto, y no tiene ningún hallazgo de concepto abierto; y el
+ConOps tiene fecha posterior a la v0.3 de los requisitos.
 
 **En rojo se ve así:** una fila del inventario que diga «una placa que creo que
 es un driver», o un trade study cuyos pesos los puso la sesión. Las dos cosas
@@ -190,6 +210,8 @@ trazador **ya es la misión mínima** (§1 de `10`).
 | 2026-10-08 | **(técnico, de la sesión) la F de una correa sale de la transmisión** por el piso de precisión (error de micropaso, R11); quedan F2, T2 y C, y con el orden de Fran gana **T2** | seguir con F y su banco del rodillo como desempate | el empate F/T2 acusaba a los criterios: faltaba el micropaso. **No es la elección final**: se hace en su nivel con Fran (§4, la V de NASA). `docs/15` §1-2 |
 | 2026-10-08 | **planos de DISPOSICIÓN sí (preliminares, se regeneran solos); de fabricación, no** | planos de fabricación «no para cortar» | **fuente: Fran, 2026-10-08**: «creá planos o layouts que sirvan para cuando tengamos medidas definidas». Cinco hojas A3 en `docs/planos.html` (PDF con `planos.ps1`): planta, alzado, vista sur, chapa 1:1, tolerancias. Lo de 2026-10-07 sigue: el DXF de corte es de la fase 3 |
 | 2026-10-08 | **(técnico, de la sesión) el canto se traza como envolvente del rodillo elegido, y el rodillo se elige antes de cortar; rodillos de una pieza, no cuatro 608** | el punto de arriba del rodillo (`geometria-vns.js`); cuatro 608 lado a lado | el punto de arriba deja 1,2″ por foto; las costuras de los 608, 2,4-4,2″ (`docs/16` §2-3, `contacto-vns.js`). **El rodillo basculante queda para la fase B**, con la transmisión |
+| 2026-10-24 | **el 12" también viaja, en camioneta** (L1-37); **la base sigue en 1,3 m** | base de 1,35 m (la sesión lo había estimado; medido, no hace falta: la mesa en la punta no mueve el CdM, el peor vuelco da 20,4° contra 19°) | **fuente: Fran, 2026-10-24**: «el 12" también viaja, en camioneta». La base, cálculo en `probar-requisitos.js` con sabotaje |
+| 2026-10-24 | **la fase 0 cierra con una revisión independiente sin hallazgos abiertos y el ConOps al día; nada de la plataforma se corta ni se compra antes** (§4, puntos 6 y 7) | cerrar la MCR con la revisión de la misma sesión que escribió el concepto | **fuente: Fran, 2026-10-24**: «no puede haber ningún error de concepto, absolutamente ninguno»; «no podemos fabricar algo que no ande»; «quiero dedicar unas buenas sesiones a cerrar el concepto». Las sesiones recientes cometieron y corrigieron errores de concepto (el guiado que curaba todo, el vuelco en la punta, el umbral sin origen): el autor no se revisa solo |
 | 2026-10-24 | **el trazador primero**: la plataforma cruda andando en el patio con subs de 10-15 s, y después se refina por módulos con lo que se mida (§4, fase 1) | el camino de antes: requisitos en línea base → diseño de detalle → construir; un prototipo que se tira | **fuente: Fran, 2026-10-24**: «sí: primero la plataforma cruda andando en el patio con fotos de 10-15 s, y después se refina por módulos con lo que se mida». Lo que no se sabe del sistema se descubre en el sistema real (NASA con ágil, `nucleo-ise` §2b); la tarjeta madre hace que cada mejora sea un módulo (`docs/21` P1) |
 | 2026-10-24 | **30 s sin guiar como piso, con el guiado previsto desde el diseño** (requisitos v0.3: L1-01 y sus hijos a 30 s, L0-03, L0-08 «sin notebook», L0-14; nuevo L1-36, el sub guiado de 4 min) | 60 s sin guiar (el 2026-10-08); mecanizar la pista para sostenerlos; el guiado como proyecto aparte | **fuente: Fran, 2026-10-24**: «sí: 30 s sin guiar como piso, con el guiado previsto desde el diseño». Evidencia en `docs/20` §1 (sin precedente de 60 s, el cielo del patio, el costo de la pista) y la corrección F1 de `docs/21` (el guiado de un eje no corrige la declinación: L1-36 lo pide con alineación ≤ 2′ o el actuador del pivote) |
 | 2026-10-24 | **(técnico, de la sesión; KDP de la lluvia de ideas, `docs/21`)**: el vuelco se juzga contra el dobson solo (L1-14 a 19°, en toda la banda de latitud); la redondez se pide en el campo central; las uniones que se desarman llevan espiga; el pivote se diseña con lugar para un actuador de declinación (no se construye); requisitos v0.3 | 22° sin origen; la redondez en todo el cuadro (la coma la hace imposible); uniones sólo abulonadas (cada viaje, una calibración); guiado sólo en AR como cura de la pista (deja el bamboleo en declinación) | cálculo sobre `geometria-vns.js` y la fórmula de la coma; precedente comercial de declinación (TMS-Astro). **Espera a Fran:** si el 12" viaja (`docs/21` §7); los 30 s y el trazador, contestados (filas de arriba) |

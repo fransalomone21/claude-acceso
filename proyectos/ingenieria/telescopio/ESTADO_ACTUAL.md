@@ -13,12 +13,14 @@
 | 4 — Construir, integrar y probar | sin empezar |
 | 5 — Operar (la foto) | sin empezar |
 
-**Qué cierra la fase en curso:** los tres números que mandan medidos (masa
-total, centro de masa 3D, ¿llega a foco la cámara?), el inventario sin
-ninguna fila en `?`, **una** arquitectura de plataforma elegida en un trade
-study con los pesos puestos por Fran y un ganador que no empata, y **el
-borrador de requisitos** (`docs/10-requisitos.md`, agregado el 2026-10-07: ver
-`PDP.md` §4, punto 4).
+**Qué cierra la fase en curso:** los siete puntos de `PDP.md` §4 (desde el
+2026-10-24): los tres números que mandan medidos (masa total, centro de masa
+3D, ¿llega a foco la cámara?), el inventario sin ninguna fila en `?`, **una**
+arquitectura elegida en un trade study con los pesos de Fran, **el borrador de
+requisitos**, la evidencia externa de cada KDR, **una revisión independiente
+sin hallazgos de concepto abiertos** y **el ConOps al día**. Hechos: la
+arquitectura, los requisitos (v0.3), la masa y el CdM, la evidencia de los
+KDR. Faltan: el foco, el inventario, la revisión independiente y el ConOps.
 
 **De las cuatro, van dos:** la arquitectura está elegida — **VNS**, por Fran y
 por `docs/05-trade-study.md` (4,5 contra 2,7, sin empate en ningún orden) — y
@@ -112,6 +114,15 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 
 ## Lo próximo
 
+> **2026-10-24, octava parte — el 12" viaja (en camioneta, L1-37) y la base sigue en 1,3 m** (medido: la mesa
+> en la punta no mueve el CdM; `probar-requisitos.js` ahora mide la punta, con sabotaje). Y Fran: «no puede
+> haber ningún error de concepto»; «quiero dedicar unas buenas sesiones a cerrar el concepto y pasar de fase
+> con la revisión o gates necesarios». **La fase 0 cierra ahora con siete puntos** (PDP §4): a los cinco de
+> antes se suman **(6) una revisión independiente** de una sesión que no escribió el concepto, sin hallazgos
+> abiertos (`docs/22-revision-independiente-*.md`), y **(7) el ConOps al día**. **Compuerta de fabricación:**
+> nada de la plataforma se corta ni se compra sin P0 y sin la revisión limpia. La revisión arranca en una sesión
+> aparte, en frío.
+>
 > **2026-10-24, séptima parte — Fran: el trazador primero** («primero la plataforma cruda andando en el patio
 > con fotos de 10-15 s, y después se refina por módulos con lo que se mida»). En el PDP: §4 (la fase 1 la
 > cierra el trazador siguiendo en el patio con subs de 10-15 s, el presupuesto de error con lo medido en él y

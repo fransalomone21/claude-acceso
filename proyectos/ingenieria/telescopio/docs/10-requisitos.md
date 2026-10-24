@@ -231,6 +231,7 @@ La columna **Asignado a** es la traza hacia abajo: qué parte lo cumple.
 | L1-33 | Después de cada traslado, el sistema deberá seguir el cielo sin repetir la calibración de la velocidad de la plataforma. | desempeño | L0-10 | PLT | demostración | definido | no |
 | L1-34 | El sistema deberá pasar a una banda de latitud nueva reemplazando sólo los módulos de latitud. | otros: evolución | L0-16 | PLT | inspección | definido | no |
 | L1-35 | El sistema desarmado deberá caber en el baúl y el asiento trasero de un Renault Clio. | interfaz | L0-07 | PLT, MON | demostración | TBR | no |
+| L1-37 | Con el dobson de 300 mm, el sistema desarmado deberá caber en la caja de una camioneta. | interfaz | L0-15 | PLT, MON | demostración | TBR | no |
 | L1-36 | Con el autoguiador conectado, el sistema deberá mantener el corrimiento de cada estrella en no más de 2 segundos de arco durante cada sub de 240 s. | desempeño | L0-14 | PLT, OPE | ensayo | TBR | no |
 
 ## 6. Elementos (L2)
@@ -410,9 +411,14 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
   el piso, que con la base fija de 43 × 43 y el centro de masa medido a 63,2 cm
   vuelca a atan(21,5 / 63,2) = **18,8°** [cálculo sobre medidas]. Y vale en
   toda la banda de L1-09: inclinar la base 4° le saca margen al borde que baja
-  (`probar-requisitos.js` lo calcula en 30,5°, 34,5° y 38,5°). Con la mesa en
-  el medio de la carrera da 1 a 2° más optimista que en la punta: eso se cierra
-  en la fase A, con la cuenta fina. Lo de abajo es la historia del umbral viejo. El v9 daba 24,1
+  (`probar-requisitos.js` lo calcula en 30,5°, 34,5° y 38,5°, con la mesa en
+  el medio y en las dos puntas). **La mesa en la punta no cambia nada**: el
+  centro de masa de lo que gira está sobre el eje, y girar alrededor del eje no
+  lo mueve (medido el 2026-10-24: el «1 a 2° más optimista» del comentario de
+  `geometria-vns.js` era de cuando el CdM no estaba sobre el eje). El peor caso
+  da 20,4° con la base de 1,3 m (el 12" liviano en 38,5°): **la base no hace
+  falta agrandarla para que viaje el 12"**. Lo de abajo es la historia del
+  umbral viejo. El v9 daba 24,1
   grados; el v10, con la mesa universal, da 23,5 con el 200 y entre 22,0 y 23,7
   con los 12" de la envolvente: todos cumplen [cálculo, `geometria-vns.js`;
   `node docs/escenarios-300.js`, sección v10]. El v10.5 (rodillos a 58 cm)
@@ -495,8 +501,11 @@ Razón, supuestos, relación con el ConOps y, si fija una solución, por qué
 - **L1-35** — N-06 (Fran: «que pueda entrar en un Clio o en una camioneta, más o
   menos»): se diseña para el caso chico. El tubo viaja en el asiento de atrás,
   como hoy. **El dobson de 300 mm no entra con la plataforma en un Clio**
-  (`docs/21` F10): si viaja, es en camioneta (pregunta para Fran, §11.1). TBR
-  hasta medir el baúl.
+  (`docs/21` F10): viaja en camioneta (L1-37). TBR hasta medir el baúl.
+- **L1-37** — Fran, 2026-10-24: «el 12" también viaja, en camioneta». L1-09
+  (la banda de latitud) y L1-14 (el vuelco) ya valen para el 300. Cuál
+  camioneta y cómo va el tubo se cierra con el modelo de 12" que se compre
+  (TBR). No pide agrandar la base (rationale de L1-14).
 - **L1-36** — N-11 (subs de 2 a 4 min con autoguiado) con el guiado previsto
   desde el diseño (Fran, 2026-10-24); 240 s es el largo de N-11. Un guiado de
   un solo eje no corrige la declinación: con 7′ de alineación la estrella
@@ -760,7 +769,8 @@ seguimiento, la presión de contacto, la operación.
 | ¿llega a foco la Sony? | L1-22, L0-12, L2-CAM-01 | **Fran**: la prueba P0, diez minutos de día |
 | 30 o 60 s por sub | L1-01 y todo lo asignado | **hecho**: 30 s sin guiar como piso, con el guiado previsto (Fran, 2026-10-24; eran 60 s desde el 2026-10-08) |
 | ¿viaja en auto? ¿qué baúl? | L2-PLT-13, L1-09, L1-35 | **hecho** (2026-10-24): viaja, centro del país, Clio. Falta **medir el baúl** (Fran, con cinta) |
-| el vuelco en el borde de la banda, con la mesa en la punta de la carrera | L1-14 | la sesión, en la fase A: hoy el peor caso (el 12" liviano en 38,5°) da 20,4° con la mesa en el medio; en la punta, 1 a 2° menos |
+| el vuelco en el borde de la banda, con la mesa en la punta de la carrera | L1-14 | **hecho** (2026-10-24): la punta no mueve el CdM; el peor caso, 20,4° con la base de 1,3 m (`probar-requisitos.js`) |
+| qué camioneta lleva el 12" | L1-37 | **Fran**, cuando compre el 12" (el modelo define el tubo y la base) |
 | el radio del campo central y si el portaocular es de 1,25" | L1-31, L0-02, L2-CAM-01 | **Fran**: P0 con el portaocular medido; después, la primera foto |
 | el sub guiado de 4 min: alineación de ≤ 2′ o corrección en declinación | L1-36 | la sesión, en la fase A, con la pista medida (`docs/21` F1, F7, P3) |
 | los números estimados por la sesión (rebobinado, autonomía, desnivel, tiempo de armado, marcas, frenos) | los TBR | la sesión, en la fase 1, con las mediciones del banco y del vuelco |
@@ -817,9 +827,11 @@ seguimiento, la presión de contacto, la operación.
    computadora» a «sin notebook»; L1-25 y L2-PLT-11 dejan de ser de una etapa
    posterior. **Escrito en la v0.3 (§2 a §7):** la pregunta 2 (viaja, centro del
    país, Clio, tarjeta madre).
-7. **¿El 12" viaja?** Si viaja, es en camioneta (no entra con la plataforma en
-   un Clio) y la base pasa a ≈ 1,35 m por el vuelco en 38,5°; si se queda en el
-   patio, la base sigue en 1,3 m (`docs/21` §7).
+7. ~~¿El 12" viaja?~~ **Contestada (2026-10-24): sí, en camioneta** (Fran: «el
+   12" también viaja, en camioneta»): L1-37. La pregunta suponía que la base
+   tenía que pasar a 1,35 m; medido después, **no hace falta**: la mesa en la
+   punta de la carrera no mueve el CdM y el peor caso da 20,4° con 1,3 m
+   (rationale de L1-14).
 
 **Contestadas el 2026-10-07:** cambio de telescopio «correr y apretar»; el 300
 «cualquiera, GoTo incluido»; si chocan, «debe servir para ambos, aunque
