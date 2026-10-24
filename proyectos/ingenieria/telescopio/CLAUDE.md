@@ -41,6 +41,8 @@ perfil global, que se carga solo) ni dónde estamos (eso es `ESTADO_ACTUAL.md`).
 | **La crítica de la arquitectura** (materiales de chapa y rodillo, transmisión, tubos vs planchuela, bulones) y **el método de vuelco** para el CdM | [`docs/12-critica-y-medicion.md`](docs/12-critica-y-medicion.md) (2026-10-07, nube; corregido por `13`) |
 | ¿Qué base al piso aguanta más? | `node docs/estabilidad-base.js` (cuenta reproducible; el modelo trae el slider y el vuelco) |
 | Entender **cómo se usa** y qué requisitos salen de ahí | [`docs/01-conops.md`](docs/01-conops.md) |
+| **La lluvia de ideas y la revisión de concepto del 24/10** (once fallas, *what if*, palancas, evidencia de cada KDR) | [`docs/21-lluvia-de-ideas-2026-10-24.md`](docs/21-lluvia-de-ideas-2026-10-24.md) |
+| **La revisión independiente** (punto 6 del PDP §4): hallazgos R-01 a R-17 con su cuenta, el N², los verificadores saboteados | [`docs/22-revision-independiente-2026-10-24.md`](docs/22-revision-independiente-2026-10-24.md); cuentas: `node docs/22-revision/revision.js` y `revision2.js` |
 | Riesgos, rigor por aspecto, decisiones tomadas | `PDP.md` §3, §5, §6 |
 | El CAD previo y qué hacer con él | `cad/` + la tabla de abajo |
 | Cómo se llegó a algo, o qué ya se probó y falló | `docs/bitacora.md` — **no** se lee al abrir |

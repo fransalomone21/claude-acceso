@@ -114,6 +114,16 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 
 ## Lo próximo
 
+> **2026-10-24, novena parte — la revisión independiente (punto 6 del PDP §4):**
+> [`docs/22-revision-independiente-2026-10-24.md`](docs/22-revision-independiente-2026-10-24.md), con sus cuentas
+> en `docs/22-revision/`. **Hallazgos de concepto abiertos: 6** — R-01 (con 30 s ninguna transmisión entra sin
+> PEC: «PEC recomendable» es falso), R-02 (L1-14: con las patas extendidas y el desnivel, el peor vuelco es
+> 19,0°, no 20,4°; y el 19° sale del 200, no del 12"), R-03 (L1-13 se mide a 1,3 m y no en la boca: con el 12",
+> 37-41 N contra 59), R-04 (la chapa apoya en una arista y el rodaje deforma la pista), R-05 (el trazador sin la
+> cuenta de la pista a 10-15 s, sin la muestra del canto como compuerta y sin la transmisión como módulo), R-06
+> (el actuador del pivote corrige Dec ∝ cos H). Más 8 de diseño y 3 de redacción. **Sigue:** la sesión autora
+> cierra cada uno con su prueba o lo lleva a Fran (dos preguntas en `22` §8); la fase 0 no cierra antes.
+>
 > **2026-10-24, octava parte — el 12" viaja (en camioneta, L1-37) y la base sigue en 1,3 m** (medido: la mesa
 > en la punta no mueve el CdM; `probar-requisitos.js` ahora mide la punta, con sabotaje). Y Fran: «no puede
 > haber ningún error de concepto»; «quiero dedicar unas buenas sesiones a cerrar el concepto y pasar de fase

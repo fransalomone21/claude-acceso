@@ -6,6 +6,16 @@ cerrada (VNS) y **borrador de requisitos en verde** (`docs/10-requisitos.md`);
 falta el CdM por dos métodos (≈ 63 cm, 58 a 69, **sin medir**), la prueba de
 foco y el inventario sin `?`.
 
+> **2026-10-24, la revisión independiente (sesión revisora, no la autora):** `docs/22-revision-independiente-2026-10-24.md`
+> + `docs/22-revision/revision.js` y `revision2.js` (`node` desde esa carpeta). **6 hallazgos de concepto abiertos**
+> (R-01 a R-06), 8 de diseño, 3 de redacción. No se tocó `10`, el modelo ni los `.js` del diseño. **Para la sesión
+> autora, en este orden:** (1) R-01: PEC obligatoria o presupuesto por pieza, y `probar-transmisiones.js` a 30 y 15 s;
+> (2) R-02, R-03, R-09: `probar-requisitos.js` con las patas extendidas, el desnivel, la boca real y la banda (cada uno
+> con su sabotaje), y la matriz regenerada; (3) R-04 y R-05: el contacto y las compuertas del trazador antes de cortar;
+> (4) R-06 escrito en `21` y L1-36; (5) diseño y redacción. Las dos preguntas de valor para Fran están en `22` §8.
+> Candidata a lección (de la autora, no de la revisora): al cambiar un parámetro que manda (60 → 30 s) se
+> re-corren las herramientas en el valor nuevo antes de reescribir las conclusiones derivadas (R-01, R-16).
+>
 > **2026-10-24, cierre de la vigésima sesión:** decididos por Fran los 30 s + guiado, el trazador primero y el
 > 12" que viaja (la base sigue en 1,3 m, medido). **La fase 0 cierra con siete puntos (PDP §4)**: lo de Fran
 > (P0, inventario), la evidencia de cada KDR (hecha), **la revisión independiente** sin hallazgos abiertos
