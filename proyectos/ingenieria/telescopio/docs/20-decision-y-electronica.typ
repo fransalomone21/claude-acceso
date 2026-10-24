@@ -101,6 +101,8 @@ Con el guiado, la precisión se concentra en *tres piezas*, y esas van a manos d
 
 = La lista de electrónica, por prioridad
 
+*Por qué casi todo va de a dos:* el que anda queda armado y no se toca, y con el otro se prueba; y lo que se quema con un error (drivers, sensores, servos) tiene repuesto para que la noche o el ensayo no se terminen ahí. Cada fila dice su porqué.
+
 Cómo leer las tablas: la *prioridad* dice cuándo conviene tenerlo; el *porqué* es el rationale, qué destraba y por qué ese modelo y no otro. El costo va en clases porque no está cotizado: #costo(1) es lo de un par de cafés, #costo(2) lo de una salida, #costo(3) una compra que se piensa. Lo que ya tenés está marcado. Todo lo de las prioridades 1 a 3 sirve *gane la transmisión que gane*.
 
 == Prioridad 1 — ya: destraba el telescopio y el cohete
@@ -108,14 +110,14 @@ Cómo leer las tablas: la *prioridad* dice cuándo conviene tenerlo; el *porqué
 #table(
   columns: (2.2fr, 0.8fr, 3.5fr, 0.6fr),
   table.header([Qué], [Cuántos], [Por qué (rationale)], [Costo]),
-  [*NEMA 17* 1,8°, 40 a 48 N·cm, 1,5 a 2 A, cuerpo de 40-48 mm, eje de 5 mm], [1-2], [El motor de la plataforma y el del banco de la palanca óptica, que es la medición que elige la transmisión. 4 kg·cm deja 6,5 veces de margen contra una ráfaga de 40 km/h. A tu amigo: que la etiqueta diga 17HS4401, 17HS4401S, 17HS8401 o parecido. Los chatos de 20-23 mm (1,6 kg·cm) no.], [#costo(2)],
-  [*Driver TMC2209* v1.2 o v1.3], [2], [Mueve el motor en silencio y con micropasos suaves, que es justo lo que pide seguir el cielo lento y parejo. El A4988 hace ruido y pierde micropasos. Uno de repuesto: se queman.], [#costo(1)],
-  [*ESP32 DevKit* (WROOM-32)], [2], [El cerebro de la plataforma: botón de rebobinar, entrada de guiado, la tabla que corrige la velocidad, y el Bluetooth y la pantalla que quería Kevin. El segundo, para la facu.], [#costo(1)],
-  [*ESP32-C3 SuperMini*], [2], [La placa del cohete de agua. Chiquita, barata y con Wi-Fi: la que más vas a usar en la facu.], [#costo(1)],
-  [*BMP280* (GY-BMP280, I2C)], [2], [El sensor de presión del cohete: de ahí sale la altura y el apogeo. Dos, porque uno siempre termina soldado a algo.], [#costo(1)],
-  [*OLED 0,96"* 128×64 I2C SSD1306], [2], [La pantalla del cohete y la de la plataforma (cuánto le queda a la carrera). La de 1,3" usa otro chip (SH1106): si comprás esa, el código cambia una línea.], [#costo(1)],
-  [Capacitor electrolítico *100 µF 35 V*], [4], [Uno pegado a cada TMC2209. Sin él, el pico al enchufar el motor puede quemar el driver: es el seguro más barato de la lista.], [#costo(1)],
-  [*Microswitch con palanca de rodillo* (KW12)], [3], [Los dos fines de carrera de la plataforma, la segunda capa de seguridad, y uno de repuesto.], [#costo(1)],
+  [*NEMA 17* 1,8°, 40 a 48 N·cm, 1,5 a 2 A, cuerpo de 40-48 mm, eje de 5 mm], [1-2], [El motor de la plataforma y el del banco de la palanca óptica, que es la medición que elige la transmisión. 4 kg·cm deja 6,5 veces de margen contra una ráfaga de 40 km/h. A tu amigo: que la etiqueta diga 17HS4401, 17HS4401S, 17HS8401 o parecido. Los chatos de 20-23 mm (1,6 kg·cm) no. *Por qué 1 o 2:* uno es el de la plataforma; el segundo, sólo si tu amigo te los deja bien, queda en el banco para probar sin desarmar la plataforma, y es el motor del segundo eje si algún día se guía en dos ejes.], [#costo(2)],
+  [*Driver TMC2209* v1.2 o v1.3], [2], [Mueve el motor en silencio y con micropasos suaves, que es justo lo que pide seguir el cielo lento y parejo. El A4988 hace ruido y pierde micropasos. *Por qué 2:* uno va en la plataforma y el otro es repuesto, porque un driver se quema con un solo error (desenchufar el motor con la placa prendida, invertir la alimentación) y sin repuesto la noche se termina. Y si un día se guía en dos ejes, el segundo ya está.], [#costo(1)],
+  [*ESP32 DevKit* (WROOM-32)], [2], [El cerebro de la plataforma: botón de rebobinar, entrada de guiado, la tabla que corrige la velocidad, y el Bluetooth y la pantalla que quería Kevin. *Por qué 2:* el que anda queda en la plataforma y no se toca; con el otro probás código nuevo en el banco (o lo usás en la facu). Desarmar lo que funciona para probar algo es la forma más rápida de perder una noche.], [#costo(1)],
+  [*ESP32-C3 SuperMini*], [2], [La placa del cohete de agua. Chiquita, barata y con Wi-Fi: la que más vas a usar en la facu. *Por qué 2:* una queda armada en el cohete y la otra en el protoboard para probar; si el cohete aterriza mal, tenés con qué seguir.], [#costo(1)],
+  [*BMP280* (GY-BMP280, I2C)], [2], [El sensor de presión del cohete: de ahí sale la altura y el apogeo. *Por qué 2:* uno termina soldado al cohete y el otro queda para probar; además, comparando los dos en la mesa ves si alguno lee mal.], [#costo(1)],
+  [*OLED 0,96"* 128×64 I2C SSD1306], [2], [La pantalla del cohete y la de la plataforma (cuánto le queda a la carrera). La de 1,3" usa otro chip (SH1106): si comprás esa, el código cambia una línea. *Por qué 2:* una para el cohete y otra para la plataforma: son dos proyectos distintos andando al mismo tiempo.], [#costo(1)],
+  [Capacitor electrolítico *100 µF 35 V*], [4], [Uno pegado a cada TMC2209. Sin él, el pico al enchufar el motor puede quemar el driver: es el seguro más barato de la lista. *Por qué 4:* uno por cada driver (2) y dos de repuesto, porque valen monedas.], [#costo(1)],
+  [*Microswitch con palanca de rodillo* (KW12)], [3], [Los fines de carrera de la plataforma, la segunda capa de seguridad. *Por qué 3:* uno por punta de la carrera (2), y uno de repuesto porque la palanca se dobla fácil al armar.], [#costo(1)],
   [Puntero láser chico y un espejito], [1], [La palanca óptica: un paso del motor mueve el punto 126 mm en una pared a 2 m, y el error de cada paso se ve con una regla.], [#costo(1)],
 )
 
@@ -126,8 +128,8 @@ Cómo leer las tablas: la *prioridad* dice cuándo conviene tenerlo; el *porqué
   table.header([Qué], [Cuántos], [Por qué (rationale)], [Costo]),
   [Fuente de PC (ATX)], [—], [#tenes. Da 12, 5 y 3,3 V con amperes de sobra: es una muy buena fuente de banco.], [—],
   [*Adaptador ATX a bornes* (breakout de 24 pines, con llave)], [1], [Saca las tres tensiones a bornes y la prende con una llave, sin puentear el cable verde con un clip.], [#costo(1)],
-  [*Portafusibles y fusibles* de 2 y 5 A], [2 y 10], [La fuente entrega 15 a 40 A en los 12 V: un corto derrite un cable antes de que ella se dé cuenta. Un fusible entre la fuente y cada cosa que pruebes.], [#costo(1)],
-  [*Step-down regulable* LM2596 (3 A) y MP1584 (mini)], [3 y 3], [Bajan los 12 V a lo que pida cada placa. El LM2596 para cosas con consumo; el MP1584 para meter adentro de un proyecto.], [#costo(1)],
+  [*Portafusibles y fusibles* de 2 y 5 A], [2 y 10], [La fuente entrega 15 a 40 A en los 12 V: un corto derrite un cable antes de que ella se dé cuenta. Un fusible entre la fuente y cada cosa que pruebes. *Por qué 2 portafusibles y 10 fusibles:* uno para la línea de 12 V y otro para la de 5 V; los fusibles se gastan, ésa es su función.], [#costo(1)],
+  [*Step-down regulable* LM2596 (3 A) y MP1584 (mini)], [3 y 3], [Bajan los 12 V a lo que pida cada placa. El LM2596 para cosas con consumo; el MP1584 para meter adentro de un proyecto. *Por qué 3 y 3:* uno de cada queda fijo en el banco (por ejemplo 5 V y 3,3 V), uno va adentro de la plataforma y el resto se termina usando en el próximo proyecto.], [#costo(1)],
   [*Soldador regulable* de 60 W, estaño de 0,8 mm con flux, malla desoldadora], [1], [Si no tenés uno con temperatura, es la mejor compra de la lista: con uno malo las placas chinas se levantan y se pierde la tarde.], [#costo(2)],
   [*Analizador lógico* 8 canales, 24 MHz], [1], [Te deja ver qué pasa en el I2C o el UART cuando un sensor «no anda». Con PulseView gratis. Para Software de Vuelo es oro.], [#costo(1)],
   [Multímetro], [—], [#tenes (UT89X).], [—],
@@ -145,14 +147,14 @@ Cómo leer las tablas: la *prioridad* dice cuándo conviene tenerlo; el *porqué
   [*MPU6050* (GY-521)], [1], [Aceleración y giro: actitud de un cohete o de un satélite de juguete. Si después querés lo bueno, un BNO085 ya da la orientación calculada.], [#costo(1)],
   [*BME280*], [1], [Como el BMP280 más humedad. En el telescopio avisa cuándo viene el rocío. Ojo: muchos «BME280» baratos son BMP280; se ve leyendo el número de chip.], [#costo(1)],
   [Módulo *microSD*], [1], [Guardar un vuelo entero para analizarlo después.], [#costo(1)],
-  [*Servo MG90S* (engranajes de metal)], [2], [Los paracaídas del cohete; los de plástico (SG90) pelan los dientes.], [#costo(1)],
+  [*Servo MG90S* (engranajes de metal)], [2], [Los paracaídas del cohete; los de plástico (SG90) pelan los dientes. *Por qué 2:* la versión de diseño del código del cohete lleva dos paracaídas; con la de vuelo (uno), el otro es repuesto: un servo se rompe en el primer aterrizaje duro.], [#costo(1)],
   [*RTC DS3231*], [1], [Un reloj que no se atrasa: registros con la hora real.], [#costo(1)],
   [*INA219*], [1], [Mide corriente y tensión: cuánto consume el motor en el banco, que es lo que define la batería de la plataforma.], [#costo(1)],
   [*GPS* u-blox NEO-M8N], [1], [Posición y hora exacta; también para alinear la plataforma por latitud.], [#costo(2)],
-  [*LoRa* SX1276 (915 MHz) x2], [2], [Telemetría a kilómetros con muy poco consumo. En Argentina la banda libre es 915-928 MHz (`hipótesis`, verificarlo antes de transmitir).], [#costo(2)],
+  [*LoRa* SX1276 (915 MHz) x2], [2], [Telemetría a kilómetros con muy poco consumo. En Argentina la banda libre es 915-928 MHz (`hipótesis`, verificarlo antes de transmitir). *Por qué 2:* la radio siempre es de a pares: uno transmite (en el cohete) y el otro recibe (en tierra).], [#costo(2)],
   [*HX711 y celda de carga* de 5-10 kg], [1], [Ensayo estático: medir el empuje de un cohete o el par del motor de la plataforma.], [#costo(1)],
-  [Conversor de niveles 3,3/5 V (BSS138)], [2], [Para no freír una placa de 3,3 V con un módulo de 5 V.], [#costo(1)],
-  [MOSFET *IRLZ44N*, diodos 1N5819, relé de 5 V], [5, 10, 2], [Prender cosas de 12 V desde la placa: los calefactores contra el rocío, un ventilador, una bomba.], [#costo(1)],
+  [Conversor de niveles 3,3/5 V (BSS138)], [2], [Para no freír una placa de 3,3 V con un módulo de 5 V. *Por qué 2:* cada uno trae 4 canales; con dos alcanzan un bus I2C y un UART al mismo tiempo.], [#costo(1)],
+  [MOSFET *IRLZ44N*, diodos 1N5819, relé de 5 V], [5, 10, 2], [Prender cosas de 12 V desde la placa: los calefactores contra el rocío, un ventilador, una bomba. *Por qué esas cantidades:* en el telescopio van tres cargas (calefactor del secundario, del buscador y el ventilador del espejo), más repuestos; los diodos acompañan a cada carga con bobina y se pierden.], [#costo(1)],
   [Kits: resistencias, capacitores, LEDs, pulsadores; placa perforada 5×7 y 7×9, tiras de pines, borneras], [1 c/u], [El «tengo uno en el cajón» que salva un domingo.], [#costo(2)],
   [*Power bank USB-C PD y gatillo PD a 12 V* (ZY12PDN)], [1], [Posible batería del telescopio en el patio: una power bank grande entrega 12 V con el gatillo. Se confirma con el consumo medido (INA219).], [#costo(2)],
 )
@@ -167,10 +169,10 @@ Cómo leer las tablas: la *prioridad* dice cuándo conviene tenerlo; el *porqué
   [*Cámara guía* (SVBONY SV305 o ZWO ASI120MM Mini) y buscador guía de 30-50 mm], [1], [La etapa 2 del telescopio: los subs largos en cielo oscuro. No antes de tener la plataforma andando.], [#costo(3)],
   [Fuente de laboratorio regulable 30 V 5 A], [1], [Con límite de corriente: probás algo nuevo sin miedo a quemarlo. La ATX no limita.], [#costo(2)],
   [*DRV8833* o L298N], [1], [Para los motores de continua de la casetera: no sirven para el telescopio, pero sí para un autito o un robot.], [#costo(1)],
-  [28BYJ-48 con ULN2003], [2], [Paso a paso de juguete: aprender micropasos sin arriesgar el NEMA.], [#costo(1)],
+  [28BYJ-48 con ULN2003], [2], [Paso a paso de juguete: aprender micropasos sin arriesgar el NEMA. *Por qué 2:* vienen de a pares y con dos armás algo que se mueve en dos ejes, que es justo lo que se aprende.], [#costo(1)],
   [Raspberry Pi Pico (RP2040) y ESP32-S3 con cámara], [1 c/u], [Otra familia para aprender (el Pico tiene E/S programables), y visión con el S3.], [#costo(1)],
   [Tira de LEDs WS2812, pantalla TFT 2,4" ILI9341, encoder rotativo, buzzer, joystick], [1 c/u], [Interfaces lindas: un menú en la plataforma, un tablero, un regalo.], [#costo(1)],
-  [Celdas 18650, cargador TP4056 con protección, BMS], [2-4], [Proyectos a batería de verdad. Con cuidado: una 18650 en corto es un fuego chico.], [#costo(2)],
+  [Celdas 18650, cargador TP4056 con protección, BMS], [2-4], [Proyectos a batería de verdad. Con cuidado: una 18650 en corto es un fuego chico. *Por qué 2 a 4:* dos en serie dan unos 7,4 V, lo que piden casi todas las placas con motor; con cuatro (dos en serie, dos en paralelo) dura el doble.], [#costo(2)],
 )
 
 == Lo que todavía NO se compra, y por qué

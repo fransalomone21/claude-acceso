@@ -623,8 +623,15 @@ seguimiento, la presión de contacto, la operación.
    latitudes. La cuenta del 2026-10-24 (`geometria-vns.js`): de 24° a 54° S la
    base va de 1,54 a 0,84 m, el pivote de 1,09 a 0,35 m del centro, y el
    vuelco cae a 17,8° en 54° (pide más base); las chapas cambian de forma con
-   la latitud. Opciones (costo, tiempo y riesgo en el modelo 3D, sección «¿Hasta dónde la
-   llevamos?»): Buenos Aires (patas de ≈ 8 cm, ±2°), el centro del país
+   la latitud. **Decidido por Fran (2026-10-24): el centro del país** («para irnos a
+   Córdoba»), **con una arquitectura que pueda evolucionar**: «como una
+   computadora, que le cambiás el procesador o la GPU; lo que limita es la
+   tarjeta madre: quiero una tarjeta madre que me permita agrandarme al resto
+   del país cuando lo considere, si es viable». Se escribe en la MCR como
+   necesidad y sus hijos (latitud 30,5° a 38,5°; interfaces fijas para chapas,
+   brazo del pivote, patas y base norte, que se cambian por módulos). Las
+   opciones que se compararon (costo, tiempo y riesgo en el modelo 3D, sección
+   «¿Hasta dónde la llevamos?»): Buenos Aires (patas de ≈ 8 cm, ±2°), el centro del país
    (patas de ≈ 12 cm con caño guía, ±4°, 30,5° a 38,5°: El Leoncito, Córdoba, Mendoza, San Luis, Mar
    del Plata) o todo el país (un juego de chapas por banda y pivote y base
    regulables).

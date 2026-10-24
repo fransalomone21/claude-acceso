@@ -112,6 +112,15 @@ imprime al entrar) — 3 verificados por análisis, 2 predichos y 71 sin resulta
 
 ## Lo próximo
 
+> **2026-10-24, cuarta parte — DECIDIDO por Fran: el centro del país (±4°, 30,5° a 38,5°: «para irnos a
+> Córdoba») con una arquitectura de «tarjeta madre»** que deje crecer a todo el país sin rehacerla. Fijo:
+> la mesa (patrón de agujeros de las chapas), el zócalo del brazo, los zócalos de las patas y del tramo
+> norte, la viga sur ranurada, la electrónica. Módulos: chapas por zona, brazo (35-110 cm), patas (8 → 12
+> cm → cuña), tramo norte, latitud en el programa. A probar en el diseño: el brazo abulonado tan rígido como
+> soldado. Patas de ≈ 12 cm con caño guía. Modelo publicado (K4hfy v11, secciones «¿Hasta dónde la
+> llevamos?» y la tabla de la tarjeta madre); PDF con el porqué de cada cantidad (8 págs., mismo ID). Baúl:
+> Clio (medidas `hipótesis`). Todo esto se escribe como requisitos en la MCR.
+>
 > **2026-10-24, tercera parte — la plataforma VIAJA (Fran): «fabricarlo para Argentina, no para Villa
 > Adelina»; Zárate, Mercedes, Chascomús; «sin irnos al micrón, viable»; lo de precisión con metalúrgicos.**
 > La recomendación pasa a: **30 s sin guiar como piso + guiado en AR previsto desde el diseño** (no etapa
