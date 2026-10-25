@@ -2,6 +2,22 @@
 
 **Última actualización:** 2026-10-25
 
+## 2026-10-25 (tarde) — guía v3 con lo que dio Santi, y el Doc del orden
+
+- **Santi pasó sus dos presentaciones** (fotoeléctrico y rayos X), guardadas
+  en `Exposicion Compton y Pares\0 - Clases de otros grupos\`. Ya dio el tubo,
+  el frenado, λmin, la absorción con $Z^3$ y rayos X en el espacio; dejó
+  abierta a propósito «¿qué ocurre si el fotón tiene mucha, pero mucha
+  energía?». No dio el cristal ni Bragg.
+- **Guía v3 (24 págs.)**, sin sacar contenido: sección «Lo que ya dio Santi»,
+  notas «En el PowerPoint» en cada parte con el criterio de Aníbal que las
+  pide, tabla de ~25 diapositivas (§8.3) y tiempos nuevos (el tubo pasa a
+  repaso de 3', la apertura es la pregunta de Santi). Render mirado; Drive con
+  el mismo ID, MD5 en verde.
+- **Doc para Agustín** en la carpeta del grupo: «Temas y orden sugerido -
+  Compton y pares» (Google Doc, id `1N9rUB-m9fyIx7D08UzUUq7KBnee04fzS3Q3JXWs8WPY`),
+  diez temas en orden con su porqué. Leído de vuelta.
+
 ## 2026-10-25 — guía versión 2, con las observaciones de Aníbal
 
 - **Aníbal comentó el avance** (notas de Fran, registradas en `catedras`,

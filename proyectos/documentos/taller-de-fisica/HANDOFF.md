@@ -3,7 +3,18 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
-## 2026-10-25 — guía versión 2 (lo más nuevo arriba)
+## 2026-10-25 (tarde) — guía v3 y el Doc del orden
+
+- El Doc del grupo se creó con `rclone copy <html> --drive-import-formats html
+  --drive-export-formats html` (sin el segundo flag, rclone se niega). Si hay
+  que cambiarlo, se edita en Docs: un HTML nuevo crearía otro archivo al lado.
+- `#power[...]` en la guía es la marca «En el PowerPoint:»; la tabla de
+  diapositivas está en `<diapos>`.
+- Lo que viene (E2, armar la presentación) arranca de esa tabla y del
+  esqueleto de Slides, que ya puede tener ediciones de Fran o Agustín: se
+  edita en Slides, no se regenera.
+
+## 2026-10-25 — guía versión 2
 
 - Las cuentas nuevas (Bragg en NaCl, la energía del haz de 0,71 Å, lo que se
   lleva el electrón a 90°) están en `validar.py`. Las figuras nuevas del Sears
