@@ -1,6 +1,33 @@
 # Estado actual — Taller de Física
 
-**Última actualización:** 2026-10-20
+**Última actualización:** 2026-10-25
+
+## 2026-10-25 — guía versión 2, con las observaciones de Aníbal
+
+- **Aníbal comentó el avance** (notas de Fran, registradas en `catedras`,
+  TAL-R6; criterios TAL-13 a TAL-17): difracción de rayos X en sólidos con un
+  «modelo simple», conservación de «P y L», la dualidad no, introducción a la
+  antimateria, y «por qué difracción e interferencia». Fecha de las notas: sin
+  confirmar.
+- **«Modelo simple» es `probable`mente el del Sears**: §36.6 tiene una
+  subsección titulada así, textual (p. 1202). «L» queda con dos lecturas
+  (momento angular o número leptónico): la guía cubre las dos y propone
+  preguntarle.
+- **La guía pasó de 17 a 22 págs.**, en el orden B (rayos X con el cristal →
+  Compton → antimateria → pares → conservación → secciones): el cristal y
+  Bragg con el modelo simple, las suposiciones de Compton justificadas con
+  número en el modelo (no «después»), la dualidad como hecho del experimento
+  y no como principio, la antimateria con la foto de Anderson, la tabla de
+  conservación, el ejercicio N4 y las preguntas al estilo del parcialito 4.
+  Render mirado; `validar.py` en verde con las cuentas nuevas (y en rojo con
+  un ángulo roto a propósito).
+- **Drive al día**: la guía se actualizó en el mismo archivo (mismo ID) y la
+  bibliografía tiene cuatro recortes nuevos (Sears §36.6, Eisberg págs. 82-83,
+  Sears §44.1, Sears págs. 1493 y 1496); MD5 en verde. El esqueleto de Slides
+  **no se tocó**.
+- **Sigue faltando para cerrar E1** lo mismo: que Fran y Agustín elijan orden,
+  alcance y ejercicios. Fecha de la clase, sin confirmar (TAL-04 infiere el
+  28/10).
 
 ## 2026-10-20 — la exposición de Compton y pares: tramo E1 (Fase Pre-A)
 

@@ -3,7 +3,24 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
-## 2026-10-20 — la exposición, tramo E1 (lo más nuevo arriba)
+## 2026-10-25 — guía versión 2 (lo más nuevo arriba)
+
+- Las cuentas nuevas (Bragg en NaCl, la energía del haz de 0,71 Å, lo que se
+  lleva el electrón a 90°) están en `validar.py`. Las figuras nuevas del Sears
+  (36.22 y 44.1) las recorta `recortar-figuras.py`, que ahora abre también el
+  Sears con el prefijo `\\?\` y mide sus coordenadas con `get_text("blocks")`.
+- La guía tiene `#show figure.where(kind: table): set block(breakable: true)`:
+  las tablas largas se parten en vez de saltar enteras.
+- En esta máquina `python` es el 3.11 y **no tiene pymupdf**: los scripts de la
+  exposición se corren con `py -3.13`.
+- Los recortes nuevos de bibliografía los armó un script de la sesión; están
+  en `01 - UNSAM\Taller de Fisica\Exposicion Compton y Pares\1 - Bibliografia\`
+  (5 a 8) y en Drive. La guía se sube con `rclone copyto` al MISMO nombre, y
+  se verifica que el ID no cambie (`14i9eYDstJoCGb6ORCHbDW4o38mDlI9SM`).
+- **Abierto**: qué es la «L» de «P y L» (preguntarle a Aníbal) y la fecha de
+  las notas de TAL-R6. Si Aníbal comenta algo más, entra como TAL-R7.
+
+## 2026-10-20 — la exposición, tramo E1
 
 **Qué hay:** la carpeta del grupo en Drive (ver `ESTADO_ACTUAL.md`) con la
 bibliografía recortada, la guía y el esqueleto en Google Slides, compartida
