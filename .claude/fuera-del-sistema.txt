@@ -45,3 +45,17 @@ Juegos
 Apps
 Notas y setup
 _Revisar
+
+# --- 2026-10-25: la PC de Fran se paso al mismo esquema que la notebook
+# (MAPA.md seccion 1): areas numeradas + Juegos\ + Herramientas\. 'Apps' se
+# convirtio en 'Herramientas' (el nombre que la notebook ya usaba), 'juegos
+# folders' entro a 'Juegos\Juegos instalados', 'EA' resulto ser material de
+# DOCENCIA --adentro hay trabajos de alumnos del EEST N1-- y quedo en
+# '03 - Docencia\EEST N1\Electronica Analogica', y el pendrive de la facu en
+# '01 - UNSAM'. Las lineas de arriba no se borran: en la notebook esas
+# carpetas pueden seguir en la raiz, y una linea de mas no hace ruido mientras
+# que una de menos hace saltar el censo en la otra maquina.
+# 'Respaldos' no haria falta (solo tiene .zip, y el censo no ve marcas de
+# proyecto ahi), pero se declara igual porque es un area y no un descuido.
+Herramientas
+Respaldos

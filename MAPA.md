@@ -88,6 +88,28 @@ Cada movimiento, con su origen y su destino, quedó en
 `archivo/mudanza-escritorio-2026-09-28.csv` (sólo en esta máquina: es estado
 de la máquina y no se commitea). Con ese archivo la mudanza se deshace entera.
 
+**La PC (`C:\Users\Fran\`) se pasó al mismo esquema el 2026-10-25**: hasta ese
+día las áreas numeradas existían sólo en la notebook (`C:\Users\frans\`), y
+acá el Escritorio seguía con `EA`, `juegos folders`, `Apps` y el resto en la
+raíz. Quedó en `00 - Personal`, `01 - UNSAM`, `03 - Docencia`, `Juegos`,
+`Herramientas`, `Respaldos`, `Notas y setup`, `_Revisar` y los dos repos: 17
+items a 10. `02 - Archivo` y `04 - Terceros` no se crearon porque acá no hay
+nada de eso, y una carpeta vacía es ruido. Dos cosas medidas al hacerlo:
+- **`EA` era docencia, no facultad** — adentro hay trabajos de alumnos del
+  EEST N.º 1 con nombre y división. Está en `03 - Docencia\EEST N1\`, y es
+  material de terceros: no va a ningún repo público.
+- **El `Black.iso` de esta máquina es el mismo original protegido** (3 919 609 856 B
+  y el mismo mtime que la huella de `.claude/protegidos.json`), pero las tres
+  capas del freno apuntan a la ruta de la notebook: acá está **sin proteger**.
+  Al mudarlo quedó en `Juegos\Juegos de emulador\PS2\BLACK\ISOs\`, la misma
+  ruta relativa que la notebook, justamente para que una entrada del guardia
+  pueda cubrir las dos máquinas.
+
+La mudanza y su undo están en `Notas y setup\` del Escritorio
+(`clasificacion-escritorio-2026-10-25.csv` y su `deshacer-...ps1`), que además
+**reapunta los 13 accesos directos** cuyo destino cayó adentro de algo que se
+movió — seis de ellos viven en el menú Inicio, no en el Escritorio.
+
 **Tres cosas que viven fuera del Escritorio y se sabe dónde:**
 - El **workspace de STM32CubeIDE** se mudó a
   `01 - UNSAM\Software de Vuelo\STM32\workspace_1.18.1\` y CubeIDE apunta ahí
