@@ -1,6 +1,26 @@
 # Estado actual — Taller de Física
 
-**Última actualización:** 2026-10-25
+**Última actualización:** 2026-10-26
+
+## 2026-10-26 — el PowerPoint de referencia, con notas de orador
+
+- **Pedido de Fran:** un PowerPoint de referencia, sobre el Doc de temas y su
+  orden, con notas de lo que se podría decir en cada diapositiva.
+- **Hecho:** 31 diapositivas (los diez temas del Doc, en su orden, con la
+  tabla de ~25 de la guía v3 adentro y tres divisores), las 31 con notas:
+  minutos estimados, el texto para decir, la fuente con página y las
+  preguntas probables. Mismo estilo que el esqueleto (cuaderno de los años
+  20, sello del año, puntos = medido, línea = modelo).
+- **Dónde:** `3 - Presentacion\Power de referencia - Compton y pares (con
+  notas).pptx`, local y en la carpeta del grupo en Drive (id
+  `1Xq0ttRXA8x1SS1TKnk73lD7ZK6GQy__C`, MD5 igual al local). Se subió como
+  .pptx, sin convertir: es una referencia, **no** reemplaza al esqueleto de
+  Slides, que no se tocó (mismo id).
+- **Verificado:** `validate.py` del skill en verde; render mirado diapositiva
+  por diapositiva (dos pasadas: la primera tenía los títulos rotos, ver
+  HANDOFF); `python-pptx` cuenta 31 de 31 con notas.
+- **E1 sigue abierta:** la referencia sigue el orden B, pero que Fran y
+  Agustín lo adopten es la elección que cierra E1, y no está escrita.
 
 ## 2026-10-25 (tarde) — guía v3 con lo que dio Santi, y el Doc del orden
 

@@ -3,6 +3,24 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-10-26 — el PowerPoint de referencia
+
+- Fuente: `catedras/taller-de-fisica/exposicion/referencia.js` (privado, al
+  lado de `esqueleto.js`). Se genera igual que el esqueleto: pptxgenjs 3.12.0
+  en una carpeta temporal con `NODE_PATH`, y el `apply_theme.js` del skill
+  copiado en `%TEMP%\pv\scripts\`. El `validate.py` del skill pide
+  `defusedxml`: correrlo con `py -3.13`, no con `python`.
+- **Trampa pagada:** un objeto de opciones compartido entre layouts
+  (`defineSlideMaster`) sale bien en el primero y roto en los siguientes,
+  porque pptxgenjs lo muta al usarlo: los títulos salieron chicos en la
+  esquina. Por eso en `referencia.js` son funciones (`tituloContenido()`).
+- El render: `soffice.py` del skill no anda en Windows (pide `AF_UNIX`); se
+  llama a `C:\Program Files\LibreOffice\program\soffice.exe` directo y se
+  renderiza el PDF con pymupdf (no hay `pdftoppm`).
+- Si se regenera, sube a Drive con `rclone copy` al **mismo nombre** y se
+  verifica que el id siga siendo `1Xq0ttRXA8x1SS1TKnk73lD7ZK6GQy__C` y el
+  MD5 igual al local.
+
 ## 2026-10-25 (tarde) — guía v3 y el Doc del orden
 
 - El Doc del grupo se creó con `rclone copy <html> --drive-import-formats html
