@@ -1,6 +1,18 @@
 # HANDOFF — Apunte de IISE
 
-## 2026-10-25 (noche) — fase 11 ABIERTA y a medias (Fran tuvo que apagar)
+## 2026-10-26 — fase 11 CERRADA: unidades 11, 12 y 13 publicadas
+
+Nada a medias. Lo que quedó afuera, a propósito: el anexo A (el TP sección
+por sección) no nombra los módulos nuevos; si se toca, M40 (matriz y métodos
+de verificación) va con la sección 4, M43 (subsistemas y presupuestos) con
+la 2, y M45 (interfaces canónicas, para llenar el N²) con la 2. Trampas
+nuevas, pagadas: tres errores de lámina documentados en los módulos (la
+FRR con dos nombres en la 11 A-28; TRR y PLAR mal definidas en la 12-3;
+«celda solar → batería: flujo de masa» en la 13-7), y un caso de la lámina
+que la historia desmintió (el Opportunity no volvió: M46 lo dice). La
+entrada de abajo es la de la sesión anterior, ya ejecutada.
+
+## 2026-10-25 (noche) — fase 11 ABIERTA y a medias (Fran tuvo que apagar) — YA EJECUTADO
 
 **Hecho:** las cuatro presentaciones (11 A 46, 11 B 36, 12 24, 13 43
 láminas, ninguna oculta) exportadas y extraídas a `fuentes/clases/clase-11a.txt`,

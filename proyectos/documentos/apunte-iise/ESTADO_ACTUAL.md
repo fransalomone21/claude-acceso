@@ -1,11 +1,14 @@
 # ESTADO ACTUAL — Apunte de IISE
 
-**2026-10-25 — Fase 11 ABIERTA (clases 11 A, 11 B, 12 y 13: el cierre de
-contenidos).** Extraídas las cuatro clases, glosario de las unidades 11-13
-escrito, M40-M42 escritos sin compilar ni incluir. El PDF publicado sigue
-siendo el de 191 páginas. Lo que falta, en orden: `HANDOFF.md`, primera
-entrada. La revisión de la clase 11 para la clase invertida se entregó y
-vive en `catedras` (privado).
+**2026-10-26 — Fase 11 CERRADA: el apunte tiene los contenidos completos de
+la materia.** **13 unidades, 47 módulos (M00–M46) + anexo A, 227 páginas,
+122 términos de glosario**, publicado y verificado por MD5. Unidad 11
+(M40–M43: verificación del producto, filosofía de modelos y ensayos, el AIT
+del control de actitud de los SAC, subsistemas, _drivers_ y presupuestos),
+unidad 12 (M44: Fase D) y unidad 13 (M45: interfaces canónicas; M46: riesgo
+contra problema, FRR, Fase E). La revisión de la clase 11 y la guía para
+exponer la 11 A (1 a 21) viven en `catedras` (privado). Detalle: `PDP.md`,
+fase 11.
 
 **PENDIENTE, SUMAMENTE IMPORTANTE (Fran, 2026-10-19) — fase 9 propuesta, sin
 abrir: «cómo se escribe el alcance», con evidencia de la práctica.** Fran le

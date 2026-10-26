@@ -49,9 +49,11 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 **Fase 9 — PROPUESTA, sin abrir (Fran, 2026-10-19, SUMAMENTE IMPORTANTE):** «cómo se escribe el alcance», con evidencia de la práctica (NASA) marcada aparte de lo de la cátedra. Qué entra y las fuentes: `HANDOFF.md`, primera entrada. Criterio de salida a escribir al abrirla.
 
-**Fase en curso:** 11 (abierta el 2026-10-25). Antes, mantenimiento (tipo: **Fase E**): la 10 (el ejemplo del cohete de M17, DA-068) cerró el 2026-10-19; la 9 sigue propuesta, con su número reservado.
+**Fase en curso:** ninguna — la 11 cerró el 2026-10-26. Mantenimiento (tipo: **Fase E**): si llega un parcialito u otro pedido, se abre una fase con su criterio escrito antes de empezar (la 9 sigue propuesta, con su número reservado).
 
-### Fase 11 — Las clases 11 A, 11 B, 12 y 13: cierre de contenidos (tipo: **Fase E**, mantenimiento) — ABIERTA 2026-10-25
+### Fase 11 — Las clases 11 A, 11 B, 12 y 13: cierre de contenidos (tipo: **Fase E**, mantenimiento) ✅ CERRADA (2026-10-26)
+
+**Resultado:** las cuatro clases extraídas con sus láminas (46, 36, 24 y 43; ninguna oculta); la revisión de la clase 11 en el Drive privado de Fran el 25/10, antes de la clase; y las **unidades 11, 12 y 13 en el apunte**: M40 a M46 (V&V del producto, modelos y ensayos, el AIT de los SAC, subsistemas y presupuestos, Fase D, interfaces canónicas, el riesgo otra vez con la FRR y la Fase E), 23 términos nuevos de glosario, 8 figuras. 191 → **227 páginas**, las 35 nuevas miradas; léxico y cobertura en verde; publicado y verificado por MD5 (26,5 MB). **Desvío:** el anexo A no mapea todavía secciones del TP a los módulos nuevos (M40, M43 y M45 sirven a las secciones 2, 4 y 5); queda para cuando se toque el anexo.
 
 Pedido de Fran del 25/10: «terminar el apunte» con las cuatro presentaciones que Erika subió ese día («con eso terminaríamos los contenidos de la materia»), y antes, para la clase invertida del lunes 26/10, una revisión de la clase 11 lámina por lámina para elegir qué diapositivas expone (Santi toma la 36 a 46 de la 11 A).
 
