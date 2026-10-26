@@ -2,6 +2,16 @@
 
 **Última actualización:** 2026-10-26
 
+## 2026-10-26 (noche, después) — las bases en las notas del PowerPoint
+
+- A pedido de Fran, 12 notas del PowerPoint de referencia suman una línea
+  «Base, por si preguntan (guía, Anexo A.x)» con la base que usa esa
+  diapositiva y su página: tubo, Bragg, cuarto de grado, espectro, onda o
+  fotones, suposiciones, choque, Anderson, pares, cámara de burbujas,
+  aniquilación y la Fig. 2.17. Las diapositivas no cambiaron.
+- Verificado: `validate.py` en verde; 31 de 31 con notas, 12 con la línea.
+  Drive: mismo id (`1Xq0ttRXA8x1SS1TKnk73lD7ZK6GQy__C`), MD5 igual al local.
+
 ## 2026-10-26 (noche) — guía v4: el Anexo A, lo que se usa sin deducir
 
 - **Pedido de Fran:** la guía «sale de la nada» con $h nu$ y cosas así; quiere

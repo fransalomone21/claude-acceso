@@ -3,6 +3,12 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-10-26 (noche, después) — bases en las notas
+
+- Las líneas «Base, por si preguntan» de `referencia.js` citan secciones del
+  Anexo A por letra (A.1 a A.6): si el anexo se reordena, se corrigen a mano
+  (son texto plano, el compilador no las ve).
+
 ## 2026-10-26 (noche) — guía v4, el Anexo A
 
 - El anexo cambia el rótulo del título con el estado `rotulo` («PARTE» →
