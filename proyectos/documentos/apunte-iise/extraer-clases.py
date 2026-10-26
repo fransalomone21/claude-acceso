@@ -35,11 +35,25 @@ UMBRAL_FIGURA = 150
 
 
 def numero_de_clase(nombre):
-    """El numero de clase que trae el nombre del archivo."""
-    m = re.search(r"clase\s*(\d+)", nombre, re.IGNORECASE)
+    """El numero de clase que trae el nombre del archivo, con su parte si la
+    tiene: 'Clase 11 A' -> (11, 'a'). La clase 11 llego partida en A y B
+    (2026-10-25); sin la letra las dos se pisaban en clase-11.txt."""
+    m = re.search(r"clase\s*(\d+)(?:\s+([A-Za-z])\b)?", nombre, re.IGNORECASE)
     if not m:
         raise ValueError("no se puede sacar el numero de clase de " + repr(nombre))
-    return int(m.group(1))
+    return int(m.group(1)), (m.group(2) or "").lower()
+
+
+def id_de_clase(nombre):
+    """'11a', '11b', '8': lo que va en clase-N.txt, en el indice y en --pagina."""
+    n, parte = numero_de_clase(nombre)
+    return str(n) + parte
+
+
+def png_de(nombre, p):
+    """c08-p014.png, c11a-p012.png: el numero con dos cifras, como siempre."""
+    n, parte = numero_de_clase(nombre)
+    return "c%02d%s-p%03d.png" % (n, parte, p)
 
 
 def titulo_de_pagina(pagina):
@@ -75,20 +89,20 @@ def main():
         pedidas = {}
         for spec in args.pagina:
             c, p = spec.split(":")
-            pedidas.setdefault(int(c), []).append(int(p))
+            pedidas.setdefault(c.lower(), []).append(int(p))
         for pdf in sorted(PDFS.glob("*.pdf"), key=lambda p: numero_de_clase(p.name)):
-            n = numero_de_clase(pdf.name)
+            n = id_de_clase(pdf.name)
             if n not in pedidas:
                 continue
             doc = pymupdf.open(pdf)
             for p in pedidas[n]:
                 if p < 1 or p > doc.page_count:
-                    print("  [ROJO] clase %d no tiene diapositiva %d (son %d)"
+                    print("  [ROJO] clase %s no tiene diapositiva %d (son %d)"
                           % (n, p, doc.page_count))
                     continue
-                png = FIGURAS / ("c%02d-p%03d.png" % (n, p))
+                png = FIGURAS / png_de(pdf.name, p)
                 doc[p - 1].get_pixmap(dpi=110).save(png)
-                print("  [OK]   clase %d, diapositiva %d -> %s" % (n, p, png.name))
+                print("  [OK]   clase %s, diapositiva %d -> %s" % (n, p, png.name))
         return 0
 
     pdfs = sorted(PDFS.glob("*.pdf"), key=lambda p: numero_de_clase(p.name))
@@ -110,13 +124,13 @@ def main():
     tot_fig = 0
 
     for pdf in pdfs:
-        n = numero_de_clase(pdf.name)
+        n = id_de_clase(pdf.name)
         doc = pymupdf.open(pdf)
-        lineas = ["# IISE clase " + str(n) + " -- " + str(doc.page_count) + " diapositivas",
+        lineas = ["# IISE clase " + n + " -- " + str(doc.page_count) + " diapositivas",
                   "# fuente: " + pdf.name,
                   "# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.",
                   ""]
-        indice.append("## Clase " + str(n) + " (" + str(doc.page_count) + " diapositivas)")
+        indice.append("## Clase " + n + " (" + str(doc.page_count) + " diapositivas)")
         indice.append("")
 
         for i, pagina in enumerate(doc, start=1):
@@ -129,15 +143,15 @@ def main():
             indice.append("- [p" + str(i) + "] " + titulo + marca)
 
             if args.figuras and len(texto) < UMBRAL_FIGURA:
-                png = FIGURAS / ("c%02d-p%03d.png" % (n, i))
+                png = FIGURAS / png_de(pdf.name, i)
                 pagina.get_pixmap(dpi=110).save(png)
                 tot_fig += 1
 
         indice.append("")
-        destino = SALIDA / ("clase-" + str(n) + ".txt")
+        destino = SALIDA / ("clase-" + n + ".txt")
         destino.write_text("\n".join(lineas), encoding="utf-8")
         tot_pag += doc.page_count
-        print("  [OK]   clase %d: %3d diapositivas -> %s" % (n, doc.page_count, destino.name))
+        print("  [OK]   clase %s: %3d diapositivas -> %s" % (n, doc.page_count, destino.name))
 
     (SALIDA / "titulos.md").write_text("\n".join(indice), encoding="utf-8")
     print("  [OK]   titulos.md: " + str(tot_pag) + " diapositivas indexadas")

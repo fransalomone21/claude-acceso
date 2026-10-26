@@ -1,5 +1,44 @@
 # HANDOFF — Apunte de IISE
 
+## 2026-10-25 (noche) — fase 11 ABIERTA y a medias (Fran tuvo que apagar)
+
+**Hecho:** las cuatro presentaciones (11 A 46, 11 B 36, 12 24, 13 43
+láminas, ninguna oculta) exportadas y extraídas a `fuentes/clases/clase-11a.txt`,
+`-11b`, `-12`, `-13` (`extraer-clases.py` aprendió las partes A/B: ids `11a`,
+figuras `c11a-pNNN`, `--pagina 11a:8`; las clases 1-10 salieron idénticas).
+Glosario de las unidades 11, 12 y 13 escrito (23 términos, al final de
+`fuentes/glosario.md`). Figuras copiadas a `apunte/figuras/`: c11a-p008,
+c11a-p030, c11b-p007, c12-p008, c12-p024, c13-p010, c13-p015, c13-p040.
+Módulos **escritos y SIN compilar ni incluir**: `m40-vv-del-producto.typ`,
+`m41-modelos-y-ensayos.typ`, `m42-ait-de-un-subsistema.typ` (11 A entera y
+11 B 1-23).
+
+**Falta, en orden:**
+1. `m43` (11 B 24-36: requerimientos contra especificaciones, subsistemas,
+   _drivers_, la batalla de los subsistemas, el dilema riesgo = f(costo,
+   calendario, desempeño), fases ESA/NASA/DoD, presupuestos y Akin; las
+   láminas 26-36 son imagen: mirarlas con una hoja de contacto).
+2. `m44-fase-d-a-fondo` (clase 12; la clave `fase-d-a-fondo` ya la cita
+   M40): Fase D, GPM y el radar de JAXA, el tanque demisable de Cobham («¿qué
+   le falta a esta especificación?»), ORR, waivers (propulsores al 95 %),
+   FRR, JWST (PER, PSR, _test as you fly_).
+3. `m45-gestion-de-interfaces` (clase 13, 3-16: Ariane 501, los cuatro tipos
+   canónicos del MIT 16.842, DSM) y `m46` (13, 17-43: el riesgo es la clase
+   10 otra vez → remitir a M39 y agregar sólo riesgo ≠ problema, la tormenta
+   del Opportunity, Virgin Galactic; la FRR con criterios de entrada y de
+   éxito, Ingenuity, «A pensar», Fase E).
+4. `#parte(11, …)`, `#parte(12, …)`, `#parte(13, …)` + los `#include` en
+   `apunte.typ` (después de m39, antes del anexo); compilar; `verificar-lexico.py`
+   (ojo: `#t[interfaz]` en M42 puede no tener alias en el glosario: si da
+   rojo, cambiar por un término que exista o sacar la marca), `grep -n '#t\[[^]]*$'`,
+   `verificar-cobertura.py`; **mirar cada página nueva**; commit (publica solo)
+   y `publicar-apuntes.ps1 -Verificar`.
+
+**Trampa pagada hoy:** la tabla de documentos de la 11 A (diap. 43) se
+escribió primero desde el `.txt` y tenía dos filas mal (las cruces de las
+fases no se leen en el texto extraído); la arregló mirar el PNG. Toda tabla
+con cruces o columnas se lee de la lámina.
+
 ## 2026-10-19 — fase 10 cerrada (el cohete de M17), nada a medias
 
 El ejemplo «el cohete de agua: necesidades, L0 y L1» de M17 quedó con la

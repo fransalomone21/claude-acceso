@@ -1072,9 +1072,223 @@ técnicos, de costo y de planificación para cada nivel de impacto.
 riesgos del ROV de la misma clase (diapositiva 49), donde un número más alto
 es peor y el riesgo total es severidad × frecuencia.
 
+## Unidad 11 — verificación y validación del producto, modelos y ensayos
+
+La clase 11 llegó partida en dos presentaciones: se citan «clase 11 A» y
+«clase 11 B», con el número de lámina de cada una.
+
+### verificación del sistema
+**Definición.** *Construir el sistema correctamente* (_building the system
+right_): asegurar que el sistema cumple con sus **requerimientos de sistema**
+y está conforme a su diseño. Pregunta: ¿fue el producto final realizado
+correctamente? Se hace durante el desarrollo, típicamente sobre componentes y
+subsistemas.
+**Fuente:** clase 11 A, diapositivas 7 y 12. **Grado:** confirmado.
+**No confundir con:** la verificación **de requerimientos** (unidad 5), que
+es la misma pregunta hecha requerimiento por requerimiento; y con la
+validación del sistema.
+
+### validación del sistema
+**Definición.** *Construir el sistema correcto* (_building the right
+system_): asegurar que el sistema hace lo que se supone que tiene que hacer
+**en su ambiente**; determina la completitud y corrección del producto final
+y asegura que satisfará las **necesidades reales de los interesados**.
+Pregunta: ¿fue correcto el producto final alcanzado? Se hace durante o
+después de la integración, en ambientes de misión simulados o reales.
+**Fuente:** clase 11 A, diapositivas 7 y 12. **Grado:** confirmado.
+**No confundir con:** la validación **de requerimientos** (unidad 5), que
+confirma el conjunto de requerimientos y ocurre antes y durante el diseño
+(Fase B, idealmente completa antes del SRR; clase 11 A, diapositiva 11).
+
+### matriz de verificación
+**Definición.** El resumen que vincula **cada requerimiento** con su
+estrategia de verificación. Lleva: el requerimiento con su ID, los
+requerimientos de verificación asociados **con su criterio de éxito**, el
+método, el nivel en que se verifica (parte, componente, subensamble,
+ensamble, subsistema, sistema, vehículo), quién la realiza y dónde están los
+resultados. Una versión **preliminar** se crea al escribir los
+requerimientos; los requerimientos de verificación y sus planes se establecen
+en la **CDR**.
+**Fuente:** clase 11 A, diapositivas 13, 18 y 19. **Grado:** confirmado.
+
+### métodos de verificación
+**Definición.** Los cuatro modos fundamentales de verificar un
+requerimiento: **inspección** (examen visual de planos, datos o del ítem,
+sin equipos especiales: «tendrá el logo…», «será pintado de blanco»);
+**análisis** (técnicas analíticas, modelos, simulación o similitud, cuando un
+ensayo no es practicable: «tendrá una probabilidad de…»); **demostración**
+(operación, ajuste o reconfiguración observada, sin instrumentación
+elaborada: «será accesible…»); y **ensayo** (equipos e instrumentos en
+condiciones controladas para medir los parámetros: «proveerá 50 Hz…»). La
+cátedra suma la **revisión de diseño** como quinto método.
+**Fuente:** clase 11 A, diapositivas 17 y 21 a 28. **Grado:** confirmado.
+**Cuidado:** el análisis de los datos de un ensayo es parte del ensayo, no
+el método «análisis» (diapositiva 25).
+
+### calificación (verificación de calificación)
+**Definición.** El proceso formal que establece la **aptitud para el vuelo
+del diseño** del hardware, de los componentes elegidos y de los procesos de
+manufactura. Se hace sobre hardware construido con los mismos requerimientos
+que el de vuelo, aunque no vaya a volar (el QTM o prototipo), expuesto a
+niveles y duraciones de ensayo **más altos** que los del vuelo.
+**Fuente:** clase 11 A, diapositivas 16 y 32. **Grado:** confirmado.
+**No confundir con:** la aceptación.
+
+### aceptación (verificación de aceptación)
+**Definición.** La serie de ensayos que verifica que **cada unidad
+producida** es conforme a los datos de ingeniería con que se construyó la
+unidad calificada, y que está libre de defectos de construcción
+(_workmanship_). Se hace a niveles más bajos que la calificación, con los
+procedimientos de ensayo de aceptación (ATP).
+**Fuente:** clase 11 A, diapositivas 16, 30 y 32. **Grado:** confirmado.
+
+### filosofía de modelos (protoflight, prototipo, híbrido)
+**Definición.** La decisión de cuántos modelos se construyen y con qué
+características, para verificar el producto con un compromiso entre
+desempeño, costo, tiempo y riesgo. Dos paradigmas: **protoflight** (el mismo
+modelo se califica y vuela: menor costo, riesgo moderado) y **prototipo**
+(un modelo de calificación aparte: para diseños nuevos o complejos y riesgo
+muy bajo, permite actividades en paralelo); entre los dos, el **híbrido**.
+**Fuente:** clase 11 A, diapositiva 29. **Grado:** confirmado.
+
+### modelo de calificación (QTM)
+**Definición.** El prototipo sobre el que se hace la calificación: no tiene
+propósito de vuelo pero es totalmente representativo del modelo de vuelo, y
+se ensaya a niveles y duraciones que superan las condiciones de vuelo sin
+superar los márgenes de seguridad del diseño.
+**Fuente:** clase 11 A, diapositiva 30. **Grado:** confirmado.
+
+### modelos de ingeniería (EDM, EM)
+**Definición.** Modelos anteriores al protoflight o al prototipo. El **EDM**
+(_Engineering Development Model_) prueba principios de diseño y produce datos
+para el diseño de detalle, sin fidelidad a las especificaciones de vuelo. El
+**EM** o ETM (_Engineering Test Model_) además prueba procesos de
+manufactura y tiene la forma, el ajuste (_fit_) y la función del hardware de
+vuelo, sin ser fiel a sus especificaciones ni a sus procesos controlados.
+**Fuente:** clase 11 A, diapositiva 45. **Grado:** confirmado.
+
+### ensayos ambientales
+**Definición.** Los ensayos en tierra que simulan el lanzamiento y la
+estadía en el espacio, porque al espacio hay un único camino y no se vuelve a
+arreglar. Cubren tres entornos: **antes del lanzamiento** (transporte,
+manipulación, almacenamiento), **durante el lanzamiento** (despresurización,
+térmica, acústica, aceleraciones, vibraciones, choque pirotécnico) y **en
+órbita** (térmica, radiación, micrometeoritos). Los típicos: vibración y
+choque, vacío térmico, y EMI/EMC.
+**Fuente:** clase 11 A, diapositivas 36 a 39. **Grado:** confirmado.
+
+### ensayos funcionales de un subsistema (AT, FT, CPT)
+**Definición.** Tres profundidades de ensayo eléctrico de un subsistema. El
+**de vida** (_aliveness_, AT): verifica que el hardware y su redundante estén
+vivos, sin estímulo externo; es el chequeo rápido al encender o después de
+mover el satélite. El **funcional** (FT): con un estímulo externo, verifica la
+respuesta en el modo operacional mayor. El **de desempeño abarcativo** (CPT):
+el más profundo, en todos los modos operacionales y de contingencia, con todos
+los comandos, datos y caminos redundantes.
+**Fuente:** clase 11 B, diapositiva 2. **Grado:** confirmado.
+
+### especificación
+**Definición.** La descripción de **cómo está construido** el sistema y cómo
+trabaja: materiales, dimensiones, esquemáticos y planos, interfaz de usuario.
+**Fuente:** clase 11 B, diapositiva 24. **Grado:** confirmado.
+**No confundir con:** el requerimiento, que dice **qué** tiene que hacer el
+sistema (funciones, cuán bien, grado de automatización, compatibilidad).
+
+### presupuestos de recursos técnicos (budgets)
+**Definición.** Los resúmenes de los parámetros característicos de un
+_spacecraft_, agrupados por subsistema: masa (seca y húmeda), potencia
+(generada y necesaria por fase), errores de apuntamiento, cobertura, enlace y
+tasa de datos, costo. Son la herramienta para los _trade-offs_ y para seguir
+los recursos que restringen el diseño.
+**Fuente:** clase 11 B, diapositivas 35 y 36. **Grado:** confirmado (las
+láminas están en inglés; la traducción es del apunte).
+
+### drivers del sistema
+**Definición.** Los parámetros que más condicionan el diseño de un
+_spacecraft_ —tamaño, peso en órbita, potencia, tasa de datos,
+comunicaciones, apuntamiento, cantidad de satélites, altitud, cobertura,
+_scheduling_, operaciones—, cada uno con **lo que lo limita** y **lo que él
+limita**.
+**Fuente:** clase 11 B, diapositivas 28 y 29. **Grado:** confirmado (en
+inglés en la lámina).
+
+## Unidad 12 — Fase D
+
+### Fase D (ensamble, integración, ensayos y lanzamiento)
+**Definición.** La fase que ensambla el sistema, lo integra, lo ensaya y lo
+lanza. Los componentes ya verificados se juntan, se interconectan y se
+interfacean siguiendo el plan AIT/AIV; el sistema integrado se verifica, se
+valida y queda en operación al final de la fase. Propósito: construir los
+subsistemas —incluidos los de operación— e integrarlos, desarrollando
+confianza en que se cumplirán los requerimientos de sistema.
+**Fuente:** clase 12, diapositivas 4, 5 y 20. **Grado:** confirmado.
+
+### ORR — Revisión de Alistamiento Operativo
+**Definición.** _Operational Readiness Review_: evalúa cuán maduro está el
+sistema —incluidos los elementos que hacen posible operarlo— y si está listo
+para operar: lecciones aprendidas capturadas y pasadas a operaciones, waivers
+abordados, anomalías documentadas, equipo, hardware, software, personal y
+procedimientos en su lugar, y acciones de la SIR cerradas.
+**Fuente:** clase 12, diapositivas 17 y 18. **Grado:** confirmado.
+
+### FRR — Revisión de Alistamiento para el Vuelo
+**Definición.** _Flight Readiness Review_: la última revisión técnica, muy
+cerca del lanzamiento. Evalúa si el vehículo está listo para volar: todo el
+hardware y el software pasaron la V&V, las restricciones operacionales están
+identificadas, las interfaces externas verificadas, los ítems abiertos y los
+waivers aceptados, y los riesgos residuales conocidos. Da el **Go / No Go**
+para el lanzamiento.
+**Fuente:** clase 12, diapositiva 19; clase 13, diapositivas 37 y 38.
+**Grado:** confirmado.
+
+### waiver (licencia o dispensa)
+**Definición.** La aprobación formal para seguir adelante con un
+requerimiento que **no se cumplió** en la verificación, cuando el análisis
+confirma que la misión puede continuar; puede dejar restricciones
+documentadas para los operadores. Ejemplo de la cátedra: propulsores que dan
+el 95 % del desempeño requerido.
+**Fuente:** clase 12, diapositiva 18. **Grado:** confirmado.
+
+## Unidad 13 — gestión de interfaces, riesgo, FRR y Fase E
+
+### interfaces canónicas
+**Definición.** Los cuatro tipos de interfaz con que se describe cualquier
+conexión entre dos elementos: **conexión física** (siempre simétrica: si A
+conecta con B, B conecta con A; se tocan, se conectan de forma reversible o
+están unidos para siempre), **flujo de energía**, **flujo de masa** y **flujo
+de información** (los tres flujos, dirigidos).
+**Fuente:** clase 13, diapositivas 8 a 16 (del curso 16.842 del MIT).
+**Grado:** confirmado.
+
+### DSM (matriz de estructura de diseño)
+**Definición.** La matriz que captura la conectividad de los componentes,
+es decir la arquitectura, y da capacidad de análisis que no tienen los
+esquemas tradicionales de diseño. La cátedra la escribe como «DSM o N²»: una
+matriz **simétrica** para las conexiones físicas, **no simétrica** para los
+flujos, que van de un elemento a otro.
+**Fuente:** clase 13, diapositivas 9 y 12. **Grado:** confirmado.
+
+### problema (riesgo materializado)
+**Definición.** Un evento que **está ocurriendo ahora**, que no es incierto
+y que hay que tratar de inmediato. Un problema es un riesgo que ocurrió; un
+riesgo es un problema anticipado, con una chance de ocurrir mayor que 0 % y
+menor que 100 %. Los problemas pueden crear riesgos nuevos.
+**Fuente:** clase 13, diapositivas 21 y 22. **Grado:** confirmado.
+
+### Fase E (operaciones y sostenimiento)
+**Definición.** La fase de operaciones normales: el desempeño en
+operaciones nominales y de contingencia para preservar la salud del
+_spacecraft_ y asegurar la captura de los datos durante toda la vida
+operativa planificada y aprobada, con el presupuesto aprobado para
+sostenerla.
+**Fuente:** clase 13, diapositiva 42; clase 12, diapositiva 3 (el nombre).
+**Grado:** confirmado.
+**Cuidado:** la lámina de la clase 13 la titula «Operaciones y
+Mantenimiento»; la del ciclo de vida, «Operaciones & Sostenimiento».
+
 ---
 
 ## Pendiente
 
-Fase 7 del PDP (2026-10-13): las unidades 8, 9 y 10 están escritas
-(M28-M39) y sus términos, acá. Lo que sigue llega con la clase 11.
+Fase 11 del PDP (2026-10-25): las unidades 11, 12 y 13 —las últimas: con la
+13 «terminaríamos los contenidos de la materia»— tienen sus términos acá.

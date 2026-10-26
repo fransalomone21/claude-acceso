@@ -49,7 +49,18 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 **Fase 9 — PROPUESTA, sin abrir (Fran, 2026-10-19, SUMAMENTE IMPORTANTE):** «cómo se escribe el alcance», con evidencia de la práctica (NASA) marcada aparte de lo de la cátedra. Qué entra y las fuentes: `HANDOFF.md`, primera entrada. Criterio de salida a escribir al abrirla.
 
-**Fase en curso:** ninguna — la 10 (el ejemplo del cohete de M17, DA-068) cerró el 2026-10-19. Mantenimiento (tipo: **Fase E**): si llega la clase 11, un parcialito nuevo u otro pedido, se abre una fase con su criterio escrito antes de empezar (la 9 sigue propuesta, con su número reservado).
+**Fase en curso:** 11 (abierta el 2026-10-25). Antes, mantenimiento (tipo: **Fase E**): la 10 (el ejemplo del cohete de M17, DA-068) cerró el 2026-10-19; la 9 sigue propuesta, con su número reservado.
+
+### Fase 11 — Las clases 11 A, 11 B, 12 y 13: cierre de contenidos (tipo: **Fase E**, mantenimiento) — ABIERTA 2026-10-25
+
+Pedido de Fran del 25/10: «terminar el apunte» con las cuatro presentaciones que Erika subió ese día («con eso terminaríamos los contenidos de la materia»), y antes, para la clase invertida del lunes 26/10, una revisión de la clase 11 lámina por lámina para elegir qué diapositivas expone (Santi toma la 36 a 46 de la 11 A).
+
+**Criterio de salida (resultado verificable):**
+1. Las cuatro presentaciones exportadas **con sus láminas ocultas** y extraídas: `fuentes/clases/clase-11a.txt`, `-11b`, `-12`, `-13`, con tantas `[pN]` como láminas tiene el `.pptx` (lo imprime `exportar-pptx.ps1`).
+2. La revisión de la clase invertida en manos de Fran **antes de la clase**: cada lámina de 11 A y 11 B con su tema, agrupada en bloques que se pueden exponer, y lo de Santi marcado.
+3. Las unidades 11, 12 y 13 en el apunte: módulos nuevos, glosario primero, cada página nueva **mirada**, `verificar-lexico.py` y `verificar-cobertura.py` en verde, y el PDF republicado y verificado por MD5.
+
+**Cómo se certifica:** el conteo de `[pN]` contra el del script; el archivo de la revisión en el Drive privado de Fran (listado por `rclone lsf`); los dos verificadores con salida 0, y `publicar-apuntes.ps1 -Verificar` con IISE al día.
 
 ### Fase 0 — Material asegurado en el repo ✅ CERRADA (2026-09-20)
 

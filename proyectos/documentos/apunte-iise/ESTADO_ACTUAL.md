@@ -1,5 +1,12 @@
 # ESTADO ACTUAL — Apunte de IISE
 
+**2026-10-25 — Fase 11 ABIERTA (clases 11 A, 11 B, 12 y 13: el cierre de
+contenidos).** Extraídas las cuatro clases, glosario de las unidades 11-13
+escrito, M40-M42 escritos sin compilar ni incluir. El PDF publicado sigue
+siendo el de 191 páginas. Lo que falta, en orden: `HANDOFF.md`, primera
+entrada. La revisión de la clase 11 para la clase invertida se entregó y
+vive en `catedras` (privado).
+
 **PENDIENTE, SUMAMENTE IMPORTANTE (Fran, 2026-10-19) — fase 9 propuesta, sin
 abrir: «cómo se escribe el alcance», con evidencia de la práctica.** Fran le
 va a dedicar una sesión. Qué entra, por qué, y con qué fuentes está en

@@ -844,3 +844,164 @@ Sirve para ubicar UNA diapositiva sin abrir el .txt entero.
 - [p69] Visión teórica de la seguridad del
 - [p70] What
 - [p71] Actividades de riesgo durante  [FIGURA]
+
+## Clase 11a (46 diapositivas)
+
+- [p1] Espaciales  [FIGURA]
+- [p2] Me lo contaron y me olvidé.  [FIGURA]
+- [p3] Gente
+- [p4] Introducción a la Ing. de Sistemas
+- [p5] Temario 10ma Clase  [FIGURA]
+- [p6]   [FIGURA]
+- [p7] Diferencias entre Validación y Verificación
+- [p8] Verificación y Validación
+- [p9] Ingeniería de Sistemas
+- [p10] intención
+- [p11] ¿Qué es la Validación de los Requerimientos?
+- [p12] Más sobre Validación y Verificación del
+- [p13] Verificación de los Requerimientos
+- [p14] Componentes Subsistemas Sistema
+- [p15] Árbol de Documentos
+- [p16] Proceso de Verificación
+- [p17] Planificación de la Verificación
+- [p18] Contenido de la Matriz de Verificación
+- [p19] Matriz de Verificación
+- [p20] Otro Ejemplo de Matriz de Verificación  [FIGURA]
+- [p21] Métodos de Verificación
+- [p22] Inspección
+- [p23] Análisis
+- [p24] Demostración
+- [p25] Ensayos (1/2)
+- [p26] Ensayos (2/2)
+- [p27] Tipos de Ensayos  [FIGURA]
+- [p28] Otro Método de Verificación
+- [p29] Filosofía de Modelos
+- [p30] Niveles de Ensayo vs Etapas de Verificación
+- [p31] Requerimientos a ser Verificados
+- [p32] Verificación de Calificación y Aceptación
+- [p33] Documentación de Verificación
+- [p34] Flujo de Datos y Documentos de Verificación
+- [p35] Plan de Ensamble, Integración y Ensayos -
+- [p36] Ensayos Ambientales
+- [p37] Ejemplo de los Entornos Ambientales que
+- [p38] Ensayos Ambientales
+- [p39] Claves de los Ensayos Ambientales Espaciales
+- [p40] Equipo de Ensayo de Sistemas
+- [p41] Mirada Simplificada de los Ensayos de
+- [p42] Ambiente de los Spacecraft
+- [p43] Tabla de Docs del Proceso de Verificación
+- [p44] Método de Verificación de S/W
+- [p45] Modelos de Ingeniería
+- [p46] las operación y comandos al Perseverance
+
+## Clase 11b (36 diapositivas)
+
+- [p1] Espaciales  [FIGURA]
+- [p2] Descripción de Diferentes tipos de Ensayos
+- [p3] Descripción Diferentes tipos de Ensayos
+- [p4] Descripción de Diferentes tipos de Ensayos
+- [p5] Descripción Diferentes tipos de Ensayos
+- [p6] Descripción Diferentes tipos de Ensayo  (5/5)
+- [p7] Actitud & Órbita  [FIGURA]
+- [p8] Un Ejemplo de Subsistema de Potencia  [FIGURA]
+- [p9] Un ejemplo de SS Gestión de Datos &
+- [p10] Ejemplos  [FIGURA]
+- [p11] SAC B Spacecraft  [FIGURA]
+- [p12] Componentes de A&OCS SAC C
+- [p13] Diagrama del HW de SAC B ACS  [FIGURA]
+- [p14] A&OCS Integration and Test Plan Summary
+- [p15] Sensores y Actuadores del A&OCS
+- [p16] Esquemático del Subsistema de  [FIGURA]
+- [p17] Modos del A&OCS
+- [p18] Esquemático del A&OCS y su  [FIGURA]
+- [p19] Secuencia de Ensayos  [FIGURA]
+- [p20] Secuencia de Ensayos  [FIGURA]
+- [p21] Feed Through para Vacío  [FIGURA]
+- [p22]   [FIGURA]
+- [p23] https://www.marinetech.org/files/marine/files/ROV%20Competition/2016%20competition/2016%20TECH%20REPORTS/EXPLORER/UNH
+- [p24] Requerimientos  vs  Especificaciones
+- [p25] Spacecraft Subsystem Definitions
+- [p26]   [FIGURA]
+- [p27]   [FIGURA]
+- [p28]   [FIGURA]
+- [p29]   [FIGURA]
+- [p30]   [FIGURA]
+- [p31]   [FIGURA]
+- [p32]   [FIGURA]
+- [p33]   [FIGURA]
+- [p34]   [FIGURA]
+- [p35]   [FIGURA]
+- [p36]   [FIGURA]
+
+## Clase 12 (24 diapositivas)
+
+- [p1] Espaciales  [FIGURA]
+- [p2] Fase D  [FIGURA]
+- [p3] Fases del Ciclo de vida de NASA
+- [p4] Fase D
+- [p5] Fase D
+- [p6] Fase D  [FIGURA]
+- [p7] Fase D
+- [p8] Fase D  [FIGURA]
+- [p9] Fase D  [FIGURA]
+- [p10] Fase D
+- [p11] Demisable Composite Propellant Tank
+- [p12] Misión espacial maximizada a través de la capacidad de supervivencia
+- [p13] restricciones
+- [p14] Fase D  [FIGURA]
+- [p15] Fase D  [FIGURA]
+- [p16] Fase D  [FIGURA]
+- [p17] Fase D
+- [p18] Fase D
+- [p19] Fase D
+- [p20] Ciclo de Vida del Proyecto
+- [p21] JWST telescope assembled in the SSDIF  [FIGURA]
+- [p22] Secuencia AIT del instrumento  [FIGURA]
+- [p23] milestones reviews: Pre-Environmental Review (PER) and Pre-Ship  [FIGURA]
+- [p24] environment for thermal verification without the plataform spacecraft.
+
+## Clase 13 (43 diapositivas)
+
+- [p1] Espaciales  [FIGURA]
+- [p2] Temario 13 Clase  [FIGURA]
+- [p3] Interface-induced Failures
+- [p4] Trabajando con Proveedores
+- [p5] Importancia de la Gestión de las
+- [p6] Interfaces Externas e Internas  [FIGURA]
+- [p7] Ejemplos de Interfaces
+- [p8] Flujo de Energía
+- [p9] Conexión Física
+- [p10] Ejemplos de Conexión  Física  [FIGURA]
+- [p11] Flujo de Energía
+- [p12] El Flujo de Energía está dirigido
+- [p13] Flujo de Masa
+- [p14] Flujo de Información
+- [p15] Flujo de Información  [FIGURA]
+- [p16]   [FIGURA]
+- [p17] Gestión del Riesgo  [FIGURA]
+- [p18] Gestión del Riesgo Técnico  [FIGURA]
+- [p19] Importancia de la Gestión del Riesgo
+- [p20] ¿Que es el riesgo?
+- [p21] Los Riesgos No son Problemas (1)
+- [p22] Los Riesgos No son Problemas (2)
+- [p23] Capas del Modelo de Riesgo
+- [p24] Evolución de la luminosidad en Marte  [FIGURA]
+- [p25] Tormenta de arena en Marte
+- [p26] Tormenta de arena en Marte
+- [p27] Opportunity sigue vivo  [FIGURA]
+- [p28] Categorías del Riesgo
+- [p29] Marco de la Gestión de Riesgo  [FIGURA]
+- [p30] Marco de la Gestión de Riesgo
+- [p31] ID del Riesgo -
+- [p32] Diagrama de Riesgo (NASA)
+- [p33]   [FIGURA]
+- [p34] Mirada teórica del sistema de seguridad
+- [p35] Revisión de Alistamiento de Vuelo  [FIGURA]
+- [p36] Ingeniería de Sistemas
+- [p37] Vuelo
+- [p38] FRR  -
+- [p39] Ingenuity - Helicóptero en Marte
+- [p40]   [FIGURA]
+- [p41] A pensar  [FIGURA]
+- [p42] Fase E
+- [p43] Actividades del Ing. de Sistemas  [FIGURA]

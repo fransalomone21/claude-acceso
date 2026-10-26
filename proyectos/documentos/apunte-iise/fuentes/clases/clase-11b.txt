@@ -1,0 +1,598 @@
+# IISE clase 11b -- 36 diapositivas
+# fuente: IISE Clase 11 B - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Espaciales  [FIGURA]
+Introducción 
+a la Ingeniería de Sistemas 
+Espaciales
+Clase # 11
+Octubre 2026
+Virtual Campus UNSAM
+UNSAM - Ing. Sistemas Espaciales
+
+[p2] Descripción de Diferentes tipos de Ensayos
+Ensayo de Vida (Aliveness Test - AT)
+Es un subconjunto de los ensayos funcionales que verifica la vida del H/W en el
+subsistema como su redundado. Demuestra si funciona la potencia y el camino de
+las señales de los componentes mayores del SS. Verifica que la TMY responde en
+el Standby Mode. Ningún estímulo externo es usado como parte del ensayo y es
+usados en el chequeo rápido al encender el SS o en los ensayos ambientales que
+cuando el ambiente no permiten un ensayo más extensivo. Después de manipular
+o desplazar el S/C a nuevas facilidades.
+Ensayo Desempeño Abarcativo (CPT)
+El CPT es una verificación detallada (el más profundo) del subsistema en todos los
+modos operacionales y de contingencia para verificar todos los requerimientos.
+Todos los comandos y datos y sus caminos son verificados tanto como los
+redundados
+Ensayos Funcional (FT)
+El ensayo funcional es realizado con un estímulo externo aplicado al subsistema
+y verificando la respuesta correcta eléctrica o mecánica en el modo operacional
+mayor. Todos los comandos y datos entre componentes son ensayados y ambos
+H/W primario y secundario son ejercitados.
+Descripción de Diferentes tipos de Ensayos  
+(1/5)
+
+[p3] Descripción Diferentes tipos de Ensayos
+Ensayos de Fase del Sistema
+Por último se hace un ensayo de "End to End“ en el sistema integrado. El sensor
+es estimulado físicamente y la TMY es comparada con la predicción. En caso de
+que el sensor no esté presente, se puede utilizar el GSE para hacer la puesta a
+punto de los ensayos y la verificación del GSE
+Ensayos de Modo Orbital – Orbital Mode Test
+Este ensayo demuestra la compatibilidad de todos los elementos del SS como la
+habilidad de el SS integrados operando en modo orbital normal
+Descripción Diferentes tipos de Ensayos  
+(2/5)
+Ensayos de Fase del Subsistema y Sensores y actuadores
+El sensor es estimulado físicamente y se observa sus señales de salida y la
+entrada a la computadora que lo procesará y a la TMY, y es comparada con la
+predicción. En el caso que el sensor no esté presente se puede utilizar el GSE
+para hacer la puesta punto de los ensayos y verificación del GSE.
+
+[p4] Descripción de Diferentes tipos de Ensayos
+Ensayos Especiales
+Ensayos Especiales Requeridos por el Subsistema A&OC son:
+• A&OCS “End to End” ensayos de Fase
+• Modos de Transición
+• Fallas y lógica de detección
+• Ensayos de Comunicación
+El ensayo de fase End-to-End (phasing Test) verifica que el SS A&OC se comporta 
+de acuerdo a la coordenadas establecidas de referencia y signos convenidos.
+Las Transición de Modos verifica que el A&OCS transita correctamente entre los 
+diferentes modos de operación.
+Los ensayos de F&DL verifica la operación correcta de la lógica de detección de 
+fallas de abordo.
+Los Ensayos de Comunicación es un ensayos de End to End que verifica la 
+trayectoria entre los comandos y la TLMY.
+Descripción de Diferentes tipos de Ensayos   
+(3/5)
+
+[p5] Descripción Diferentes tipos de Ensayos
+Ensayos en el Sitio de Lanzamiento 
+Los ensayos mayores en el sitio de lanzamiento son:
+• Spacecraft Leak Check.
+• Spacecraft Comprehensive Performance Test.
+• Launch Pad Activity Dress Rehearsal.
+• Umbilical Electrical Verification.
+• Launch Pad Functional Test.
+• Omni RF Test.
+• Composite Electrical Readiness Test.
+• Mission Dress Rehearsal.
+Descripción Diferentes tipos de Ensayos  
+(4/5)
+
+[p6] Descripción Diferentes tipos de Ensayo  (5/5)
+Descripción Diferentes tipos de Ensayo  (5/5) 
+alrededor del PAD de lanzamiento
+Se cargan la baterías de vuelo después de la inspección de transporte.
+Al
+completar
+la
+carga
+se
+realiza
+un
+CPT
+para
+verificar
+el
+ensayo
+de
+supervivencia, es una repetición de los ensayos realizados durante la ultima
+etapa del AIT.
+La configuración del GSE es la misma que durante los ensayos ambientales. La
+revisión y análisis de la datos de los ensayos ocurren inmediatamente en el lugar
+de los ensayos mismos.
+Ensayos de Desempeño Abarcativo del Spacecraft (CPT)
+Spacecraft Comprehensive Performance Test
+El Ensayo Funcional en el Launch PAD verifica que el desempeño del S/C está
+de acuerdo a los ensayos y configuración que se hicieron previos al Launch Pad.
+El ensayo verfica después del transporte no hubo daño Consiste en ensayos
+funcionales del Bus y aliveness a través de todo el S/C ya realizados durante la
+AIT.
+Ensayos Funcionales en el Pad de lanzamiento
+Launch Pad Functional Test
+
+[p7] Actitud & Órbita  [FIGURA]
+Un ejemplo de Subsistema de Control de 
+Actitud & Órbita
+Funciones de AOCS
+Sensores + Actuadores + CPU = AOCS
+
+[p8] Un Ejemplo de Subsistema de Potencia  [FIGURA]
+Un Ejemplo de Subsistema de Potencia
+Funciones de Potencia
+Colectar Energía  + Almacenar + Distribuir = PS
+
+[p9] Un ejemplo de SS Gestión de Datos &
+Un ejemplo de SS Gestión de Datos & 
+Comandos y SS Comunicación
+Funciones Mantenimiento de la casa y comunicaciones
+Gestionar datos + distribuir comandos + CPU = C&DH 
+Comunicar Datos + Recibir Comandos = CS
+
+[p10] Ejemplos  [FIGURA]
+Ejemplos
+Proceso de AIT 
+(Assembly Integration and Test) 
+Y
+Ensayos de un Subsistema 
+A&OCS 
+(Actitude & Orbit Control Subsystem)
+
+[p11] SAC B Spacecraft  [FIGURA]
+SAC B Spacecraft
+
+[p12] Componentes de A&OCS SAC C
+Components 
+Level
+Heritage
+Qualification Test Acceptance 
+Test 
+System Level
+AOCE box 
+(See the qualification process 
+of the box as a component)
+SAC-B 
+(Some of the cards are identical, 
+some are slightly modified)
+Qualified Level -
+Acceptance time 
+(protoflight philosophy)
+None
+Qualified Level - Acceptance time 
+(protoflight philosophy)
+MTR DriversCard
+New Design
+Qualified Level -
+Acceptance time 
+(protoflight philosophy)
+None
+Qualified Level - Acceptance time 
+(protoflight philosophy)
+TCE signals Card
+New Design
+Qualified Level
+Acceptance time 
+(protoflight philosophy
+None
+Qualified Level - Acceptance time 
+(protoflight philosophy)
+Torque Rods
+New Design
+Qualified Level 
+(protoflight philosophy
+None
+Qualified Level - Acceptance time 
+(protoflight philosophy)
+Momentum Wheels 
+and Horizontal Sensors
+SAC-B
+TOMS
+None
+Acceptance
+Test
+Qualified Level - Acceptance time 
+(protoflight philosophy)
+TAM
+SAC-B  SAC-A   XTE 
+TRMM
+None
+Acceptance
+Test
+Qualified Level - Acceptance time   
+(protoflight philosophy)
+CSS
+SAC-B
+None
+Acceptance
+Test
+Qualified Level - Acceptance time   
+(protoflight philosophy)
+Star Tracker
+TUBSAT
+None
+Acceptance
+Test
+Qualified Level - Acceptance time   
+(protoflight philosophy)
+GPS (Laben)
+None
+Acceptance
+Test
+Qualified Level - Acceptance time   
+(protoflight philosophy)
+Hydraulic System - PS
+None
+Qualified Level - A.time 
+(protoflight philosophy
+None
+Qualified Level - Acceptance time   
+(protoflight philosophy)
+Componentes de A&OCS SAC C
+
+[p13] Diagrama del HW de SAC B ACS  [FIGURA]
+Diagrama del HW de SAC B ACS
+
+[p14] A&OCS Integration and Test Plan Summary
+First 
+Second
+Third
+Fourth
+Fase
+Engineering Model Test 
+Unit
+A&OCE Box FM 
+Verification 
+Testing
+Subsystem / Spacecraft 
+Integration & Test
+Spacecraft Testing Fase
+Type 
+of H/W
+Engineering Model
+Flight Model
+Level
+A&OCE box 
+EM
+S/C EMTU
+A&OCE box FM
+Subsystem - Spacecraft
+Spacecraft / Subsystem
+Object
+Verify Electrical Requirements
+Demostrate System Compability 
+before FM
+Develop
+Required Software Validation.
+Acceptance Testing Procedure of 
+A&OCS Software.
+ACS GSE
+Develop Procedures
+Develop GSE Test Software
+AOCE box Verification 
+Test
+Protoflight Criteria
+A&OCS Software AT
+A&OCS Integration on S/C
+A&OCS box
+Earth Sensor Assemblies
+CSSs, TAMs & MTRs
+Start Sensor & DGPS
+Thrust Control Electronic 
+box
+A&OCS Components Phasing 
+Verification
+Subsystem Verification Testing
+S/C
+Environmental
+Integrity
+Verification
+Performance 
+Verification &
+Interface 
+Verification
+Verify the S/C
+Subsytem
+Survived
+Transport
+Ready to Fly
+Test 
+Type
+Hardware 
+Performance 
+Test
+Software Verif. 
+Test
+Close Loop 
+Performance 
+Test
+Thermal Test
+Hardware 
+Performance 
+Test
+Software 
+Verification Test
+Close Loop 
+Perfromance 
+Test
+Harness Test
+Hardware Performance 
+Test
+Software Verification 
+Test
+Close Loop 
+Performance Test
+After During and Before  
+Environmental Test.
+Protofligh Qual. Test 
+Criteria
+= Qual. level at AT time
+Subsystem Components 
+Installation on S/C
+A&OCS Components Phasing Test
+Interface Verification Test
+Subsystem Testing After Interg.
+Subsystem Aliveness Test (1)
+Subsystem Functional Test (1)
+Subsystem CPT (1)
+Subsystem Orbital Mode Test (1)
+Special Test 
+End to End FunctionalTest
+Failure Detection an logic Recovery 
+S/C-Level 
+Testing
+CPT Pre Ship To 
+Brazil
+S/C 
+Environmental 
+Test with ACS 
+Ref. Test (1)
+After During and 
+Before
+CPT Pre Ship To 
+USA
+Launch Site
+Activities
+S/C CPT - Test (1)
+S/C Funct. Test
+S/C Aliveness Test
+A&OCS Integration and Test Plan Summary
+
+[p15] Sensores y Actuadores del A&OCS
+ACTUATORS (A)
+SENSORS (S)
+QUANTITY
+HERITAGE
+Reaction Wheel (A)
+ITHACO
+2
+TOMS
+Wake Shield
+Magnetic Torque Coil (A)
+in House
+3
+none
+Earth Sensor (S)
+ITHACO
+2
+TOMS
+Wake Shield
+Magnetometer(S)
+SAIC
+2
+SAC-B
+SAC-A
+Star Tracker (S)
+Kayser Threde
+1
+TUBSAT (Germany)
+DGPS (S)
+LABEN
+1
+SAC-A
+RADCAL
+CSS (S)
+FIAR
+8
+SAC-B
+DTM (A)
+4
+none
+Sensores y Actuadores del A&OCS
+
+[p16] Esquemático del Subsistema de  [FIGURA]
+Esquemático del Subsistema de 
+Control de Actitud y Orbita
+Elect
+SP
+
+[p17] Modos del A&OCS
+Control Mode
+Description
+SAFE HOLD
+POINTING TO EARTH
+Earth Pointing Mode without accuracy. The presence 
+of the boom help as a GC satellite.
+The pitch axis loop maintain the momentum bias 
+normal to the orbit. Stable conditions for power and 
+thermal.
+SUN POINTING MODE
+Point the solar arrays to sun without accuracy 
+requirement. The purpose is to maximize the power 
+generation or solve emergency for missing the Earth 
+signal.
+B-DOT MODE
+The simplest mode is to apply on each axis the 
+negative derivative of the Earth Magnetic Field. 
+Reduce the tip off rates.
+MISSION MODE
+Perform the LVLH frame according the requirements
+PROPULSION MODE
+Orbit Maintenance. It is the mission mode plus the 
+command to the thruster.
+Modos del A&OCS
+
+[p18] Esquemático del A&OCS y su  [FIGURA]
+Esquemático del A&OCS y su
+Configuración de Ensayos de Orbitas en Tierra
+
+[p19] Secuencia de Ensayos  [FIGURA]
+Secuencia de Ensayos 
+de Modelo de Ingeniería (EM) A&OCS
+
+[p20] Secuencia de Ensayos  [FIGURA]
+Secuencia de Ensayos 
+del Modelo de Vuelo de A&OCS
+
+[p21] Feed Through para Vacío  [FIGURA]
+Feed Through para Vacío
+
+[p22]   [FIGURA]
+(sin texto)
+
+[p23] https://www.marinetech.org/files/marine/files/ROV%20Competition/2016%20competition/2016%20TECH%20REPORTS/EXPLORER/UNH
+https://www.marinetech.org/files/marine/files/ROV%20Competition/2016%20competition/2016%20TECH%20REPORTS/EXPLORER/UNH
+_ROV_Technical_Documentation.pdf
+
+[p24] Requerimientos  vs  Especificaciones
+Requerimientos  vs  Especificaciones
+Requerimientos: especifican 
+qué debería hacer el producto o 
+el sistema
+•
+Funciones  que debe realizar.
+•
+Cuan bien debe realizarlas
+•
+Grado de automatizción del 
+sistema. (operaciones)  
+•
+Compatibilidad con otros 
+artefactos etc
+•
+….
+Especificaciones: describen 
+cómo el sistema está construido 
+y cómo trabaja
+•
+La Forma esta hecha de
+o Materiales usados en el 
+sistema
+o Dimensiones totales 
+•
+Esquemático, planos
+•
+Interface de usuario
+•
+……
+Descripción
+•
+Suficientemente grande como 
+para acomodar un plato grande   
+•
+1200W de potencia para calentar 
+rapidamente una comida
+•
+Diferentes modos de travbajo 
+para diferentes comidas ( arroz, 
+pizza, carne congelada etc)
+•
+ETC
+Especificaciones
+•
+Exterior de acero inoxidable   
+•
+Dimensiones 24¨X 14¨ X 19 ¨
+•
+Peso  30 kg
+•
+Garantía un año
+•
+ETC
+
+[p25] Spacecraft Subsystem Definitions
+Subsystem
+Principal Functions 
+Other Names 
+Propulsion
+Provides thrust to adjust orbit and 
+attitude, and to manage angular 
+momentum 
+Reaction Control System 
+(RCS) 
+Attitude 
+Determination 
+& Control 
+System (ADCS) 
+Provides determination and control of 
+attitude and orbit position, plus pointing 
+of spacecraft and appendages 
+Attitude Control System 
+(ACS), Guidance, Navigation, 
+and Control (GN&C) System, 
+Control System 
+Communication 
+(Com) 
+Communicates with ground and other 
+spacecraft; spacecraft tracking 
+Tracking, Telemetry, and 
+Command (TT&C) 
+Command & 
+Data Handling 
+(C&DH) 
+Processes and distributes commands; 
+processes, stores, and formats data 
+Command & Data 
+Subsystem (CDS), Spacecraft 
+Computer System, 
+Spacecraft Processor 
+Thermal
+Maintains equipment within allowed 
+temperature ranges 
+Environmental Control 
+System (ECS) 
+Power
+Generates, stores, regulates, and 
+distributes electric power 
+Electric Power System (EPS) 
+Structures and 
+Mechanisms 
+Provides support structure, booster 
+adaptor, and moving parts
+Structure Subsystem
+Spacecraft Subsystem Definitions
+
+[p26]   [FIGURA]
+(sin texto)
+
+[p27]   [FIGURA]
+(sin texto)
+
+[p28]   [FIGURA]
+(sin texto)
+
+[p29]   [FIGURA]
+(sin texto)
+
+[p30]   [FIGURA]
+(sin texto)
+
+[p31]   [FIGURA]
+(sin texto)
+
+[p32]   [FIGURA]
+(sin texto)
+
+[p33]   [FIGURA]
+(sin texto)
+
+[p34]   [FIGURA]
+(sin texto)
+
+[p35]   [FIGURA]
+(sin texto)
+
+[p36]   [FIGURA]
+(sin texto)

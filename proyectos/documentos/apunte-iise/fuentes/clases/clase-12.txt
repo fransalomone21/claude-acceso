@@ -1,0 +1,437 @@
+# IISE clase 12 -- 24 diapositivas
+# fuente: IISE Clase 12 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Espaciales  [FIGURA]
+Introducción 
+a la Ingeniería de Sistemas 
+Espaciales
+Clase # 12
+Virtual Campus UNSAM
+UNSAM - Ing. Sistemas Espaciales
+
+[p2] Fase D  [FIGURA]
+Fase D
+Ensamble Integración y Ensayos 
+(AIT)
+del Sistema y lanzamiento
+
+[p3] Fases del Ciclo de vida de NASA
+Formulación
+Implementación
+Aprobacion
+Pre 
+Fase A
+Estudio
+Concept.
+Fase A
+Desarrollo de 
+Concepto y 
+Tecnología
+Fase B
+Diseño 
+Preliminar y 
+Completar 
+Tecnología
+Fase C
+Diseño Final y 
+Fabricación
+Fase D
+AIT & 
+Lanzamiento
+Fase E
+Operaciones & 
+Sostenimiento
+Fase F
+Cierre
+Fases del 
+Ciclo de vida 
+de NASA
+Ciclo de vida 
+del Proyecto
+Puntos de 
+Decisión 
+Claves
+Revisiones
+Técnicas
+KDPA
+MCR
+Revisión de Pares, Revisión de SS, Revisión de Sistema
+SRR
+MDR
+PDR
+CDR - PRR
+SIR TRR
+ORR
+FRR
+PLAR
+CER2
+Revisiones 
+de Soporte
+LANZAMIENTO
+KDPC
+KDPB
+KDPD
+KDPE
+KDPF
+DR
+Fases del Ciclo de vida de NASA
+PDR Preliminary Design Review
+CDR Critical Design Review
+SRR Systems Requirements Review
+MCR Mission Concept Review
+SIR   Systems Integration Review
+TRR  Tech. Readiness Review
+ORR  Operational Readiness Review
+FRR   Flight Readiness Review
+MDR Mission Design Review
+DR  Decommissioning Review
+CER2 Critical Events Readiness Review
+PLAR  Operational Readiness Review
+ORR  Operational Readiness Review
+
+[p4] Fase D
+•
+Esta Fase concentra la actividad de ensamblar el Sistema, integrarlo,
+ensayarlo y posteriormente lanzarlo.
+•
+En esta fase todos los componentes verificados son puestos juntos,
+interfaceados, interconectados, siguiendo lo planificado (Documento
+Plan AIT - AIV ) para formar un sistema integrado.
+El resultado del
+sistema integrado es verificado, validado y colocado en operaciones en
+el fin de la fase.
+•
+Se encuentran los requerimentos de más alto nivel desde el comienzo y
+los objetivos de los interesados se sostienen en estos requerimientos.
+Todas las funciones y capacidades son verificadas y estamos listos
+para desplegar el sistema lanzándolo y operándolo.
+•
+Vamos hacia una verificación y validación en órbita. Lo hemos
+ensayado en Tierra y pensamos que el sistema operará de tal manera
+que cumplirá las necesidades de los objetivos de los interesados, en un
+ambiente espacial.
+Fase D
+
+[p5] Fase D
+Las actividades en detalle incluyen:
+•
+Integración de los componentes en bloques que completan finalmente
+al sistema integrado. Verificación de las conectividades.
+•
+V&V de las capacidades, desempeños e interfaces de sistema
+cumpliendo los requerimientos definidos en el proceso.
+•
+Ensayos ambientales que simulan ambos ambientes, el lanzamiento y
+el ambiente espacial. Vibraciones, acústica durante el lanzamiento y el
+ambiente propiamente espacial de los ensayos: vacío térmico (frío y
+calor extremos) donde se ensayarán las funcionalidades y ciertas
+performances del satélite verificando su comportamiento.
+•
+Se completan todos los planes y los procedimientos para la puesta en
+marcha y las operaciones del sistema.
+•
+Se entrena a todo el personal de operaciones para todas las
+posibilidades y eventos de la vida en el espacio.
+Fase D
+
+[p6] Fase D  [FIGURA]
+Fase D
+•
+Verificación de todas las interfaces externas (sitio de lanzamiento, 
+antenas de comunicación de Tierra. Ensayadas y listas para operar
+
+[p7] Fase D
+•
+Tenemos que integrar el Sistema al lanzador y luego lanzarlo y
+ponerlo en órbita.
+•
+La puesta en marcha y establecer una baseline operacional del
+sistema
+para
+verificar
+que
+el
+sistema
+cumple
+todos
+los
+requerimientos de alto nivel y que los interesados
+cumplen sus
+objetivos
+Veamos un ejemplo de la Misión de Precipitación Global (GPM)
+Tenemos un radar muy especial generado por JAXA, la agencia
+espacial japonesa.
+Este radar es integrado en esta fase D. Esta fase es uno de los
+momentos más excitantes de las actividades del proyecto, cuando los
+elementos convergen para ser integrados. Se trabaja durante años
+para llegar a este período de AIT. Se busca que se cumplan todas las
+conectividades de todos los órdenes: mecánicas, eléctricas, térmicas,
+harness, tierras etc. AIV AIT
+Fase D
+
+[p8] Fase D  [FIGURA]
+Fase D
+
+[p9] Fase D  [FIGURA]
+https://pmm.nasa.gov/GPM
+Fase D
+
+[p10] Fase D
+Fase D
+El diseño de CFRP (Carbon Fiber-Reinforced Plastic) y la flexibilidad de
+fabricación resultaron claves en el primer tanque de combustible de la nave
+espacial diseñado para desintegrarse al reingresar para mejorar la eficiencia
+de la misión y la mitigación de escombros.
+Una mirada rápida sobre el Primer Vuelo de un Tanque para el SS
+de Propulsión especialmente producido para el satélite GPM
+Proveedor
+
+[p11] Demisable Composite Propellant Tank
+Specification  
+Medium
+Hydrazine 
+Fill 
+Pressure
+400 psi
+(27.5 bar)
+Water 
+Volume
+47,111 ci
+(772 L)
+Diameter
+46.5" at 
+interface
+(1180 
+mm)
+Length
+46.3"
+(1176 
+mm)
+Weight
+99.5 lbs 
+max
+(45.1 kg)
+Operating 
+Temp
+36 to 122 
+deg F
+(2 to 50 
+deg C)
+https://www.cobhammissionsystems.com/space-propulsion-systems/demisable-composite-propellant-tank/
+Space Propulsion 
+Systems
+Demisable Composite Propellant Tank
+Key Features
+•
+Aluminum-Lined, Carbon Composite Pressure Vessel
+•
+Aluminum Surface Tension Propellant Management Device 
+•
+Integral Carbon Composite Skirt
+•
+Designed and Qualified to AIAA S-081A
+•
+Spacecraft Interface using Stainless Inserts/Nutplates
+•
+304L CRES Stub Tube for Gas Interface
+Que falta en estas  Especificaciones? 
+Las Cargas Mecánicas que soporta. 
+Además: Es un componente  calificado? 
+Verificar  los niveles de calificación
+
+[p12] Misión espacial maximizada a través de la capacidad de supervivencia
+Misión espacial maximizada a través de la capacidad de supervivencia 
+minimizada
+The winding was tailored to optimize stresses and achieve required burst strength without adding 
+unnecessary material. Here, winding begins with low-angle helical courses.
+
+[p13] restricciones
+Resultados de diseño de este tipo de tanques:
+•
+La envoltura compuesta permite el uso de un revestimiento de
+aluminio lo suficientemente delgado como para desintegrarse al
+volver a entrar, lo suficientemente liviano para cumplir con las
+restricciones de peso y lo suficientemente fuerte / rígido para
+sobrevivir al lanzamiento.
+•
+Para
+adaptarse
+a
+una
+modificación
+tardía
+del
+programa,
+la
+adaptabilidad de los compuestos permitió la reelaboración del diseño
+del devanado en lugar de la costosa remodelación de las herramientas
+necesarias para la construcción totalmente de aluminio o titanio.
+•
+La envoltura de fibra de carbono ayudó a Cobham a superar el
+cronograma del programa, alcanzar los objetivos de costos y
+prolongar la vida útil de la misión de la nave espacial, reduciendo la
+frecuencia de reemplazo de satélites.
+https://www.compositesworld.com/articles/space-mission-maximized-via-minimized-survivability
+
+[p14] Fase D  [FIGURA]
+Fase D
+
+[p15] Fase D  [FIGURA]
+Fase D
+
+[p16] Fase D  [FIGURA]
+Fase D
+
+[p17] Fase D
+•
+Esta integración no solo contempla el Spacecraft sino todo los demás
+componentes de Tierra: cómo se manejan los datos científicos, cómo se
+operará el sistema, tanto el instrumento como la plataforma, se
+implementan los procedimientos de los operadores. Todo esto debe ser
+ensayado en Tierra antes del lanzamiento.
+•
+La primer revisión técnica es la Revisión del grado de preparación
+operativa ORR (Operational Readiness Review) y también está la
+Revisión
+de
+Alistamiento
+para
+Vuelo
+FRR
+(Flight
+Readiness
+Review)
+•
+El equipo de revisión evaluará cuán maduro está el sistema, incluyendo
+todos los elementos del producto que ha sido desarrollados y hacen
+posible su operación y que esté listo para operar.
+•
+Han sido capturadas todas las lecciones aprendidas durante el
+desarrollo. Documentadas todos los aprendizajes sobre las posibles
+operaciones del sistema en el espacio y las posibles restricciones que
+han sido pasadas al equipo de operaciones.
+•
+Estas lecciones aprendidas son informadas a otros desarrolladores de
+satélites para aportar a sus propios desarrollos.
+Fase D
+
+[p18] Fase D
+•
+Todos los waiver o licencias/dispensas han sido abordadas y
+aprobadas y todas las anomalías
+han sido documentadas.
+Fueron detectadas durante los ensayos de integración y no han
+podido ser verificados los requerimientos.
+•
+Los
+thrusters
+no
+han
+cumplido
+con
+su
+performance.
+¿Qué
+hacemos?
+•
+Estos
+waivers
+en
+la
+mayoría
+de
+los
+casos
+pueden
+ser
+considerados, los planes de ensayo, procedimientos de los thruster
+no han cumplido pero podría vivir sin esta performance tenemos
+95% del requerido. Los análisis deberían confirmar y asegurar que
+la misión puede continuar y se puede firmar el waiver o licencia
+para continuar con el proceso. Esto podría significar algunas
+restricciones debidamente documentadas para que los operadores
+tengan en cuenta durante las operaciones.
+•
+Evaluar que el equipo, el H/W y S/W, personal y procedimientos
+están en su lugar para soportar las actividades de las operaciones.
+•
+Nuevamente se revisa si todas las acciones asignadas durante la
+última revisión, SIR - System Integration Review, se han cerrado,
+están resueltas.
+Fase D
+
+[p19] Fase D
+• La segunda revisión técnica, la FRR, la Revisión del
+estado de preparación para el vuelo se realiza muy
+cerca del lanzamiento, se evalúa si el S/C está listo para
+el
+vuelo,
+si
+todo
+el
+H/W
+y
+S/W
+ha
+pasado
+V&V
+exitosamente.
+• Las restricciones operacionales han sido identificadas y los
+desarrolladores han dado cuenta de éstas, sabemos de los
+problemas que tiene el S/C. Y damos cuenta de los
+procesos
+de
+seguridad
+que
+han
+sido
+alojados
+para
+continuar con la misión, debemos operar el sistema de
+cierta forma para ser exitosos. Restricciones.
+• Todas las interfaces externas han sido verificadas.
+• Esta revisión es la que da el OK al Go / No GO para el
+lanzamiento.
+Fase D
+
+[p20] Ciclo de Vida del Proyecto
+•
+Fase D (Ensamble integración y ensayos del Sistema y lanzamiento)
+– Propósito: Construir los subsistemas (incluyendo los sistemas de 
+operación) e integrarlos para crear el sistema, mientras 
+desarrollamos confianza en que se podrán cumplir los 
+requerimientos de sistema.
+• Realizar el ensamble, integración y ensayos del sistema.
+• Verificar que se encuentran los requerimientos de sistema.
+• Preparar el sistema para el despliegue
+• Lanzar el sistema.
+• Verificar el despliegue  y las operaciones. 
+Revisión del estado de preparación para el vuelo
+FRR (Flight Readiness Review): Establece que
+fue construido como el baseline
+Mars Global Surveyor 
+during integration 
+and test.
+Ciclo de Vida del Proyecto
+Fase de Implementación
+Puertas 
+de 
+control
+
+[p21] JWST telescope assembled in the SSDIF  [FIGURA]
+JWST telescope assembled in the SSDIF 
+at NASA/GSFC.
+
+[p22] Secuencia AIT del instrumento  [FIGURA]
+Secuencia AIT del instrumento
+
+[p23] milestones reviews: Pre-Environmental Review (PER) and Pre-Ship  [FIGURA]
+Cryogenic Payload Module I&T summary flow. It includes the 
+milestones reviews: Pre-Environmental Review (PER) and Pre-Ship 
+Review (PSR).
+
+[p24] environment for thermal verification without the plataform spacecraft.
+JSC chamber A supports Origins “test as you fly.” The JWST OTIS is shown rolling into 
+the JSC chamber A. Chamber A and its helium cooled shroud provides a perfect 
+environment for thermal verification without the plataform spacecraft.

@@ -1,0 +1,807 @@
+# IISE clase 13 -- 43 diapositivas
+# fuente: IISE Clase 13 - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Espaciales  [FIGURA]
+Introducción 
+a la Ingeniería de Sistemas 
+Espaciales
+Clase # 13
+Virtual Campus UNSAM
+UNSAM - Ing. Sistemas Espaciales
+
+[p2] Temario 13 Clase  [FIGURA]
+1)  Gestión de Interfaces
+2)  Gestión del Riesgo
+3)  Revisión de Alistamiento de Vuelo
+Flight Readiness Review (FRR) 
+Temario 13 Clase
+
+[p3] Interface-induced Failures
+Interface-induced Failures 
+• La mayoria de los esfuerzos se gastan en diseñar las partes 
+individuales de un sistema 
+– Funcionalidad,  tolerancias,  mean-time-between-failure (MTBF) 
+– Las interfaces son a menudo despreciadas y pueden sery son el 
+punto débil  del sistema
+• Bottlenecks, Fallas estructurales  - Structural failures, Erroneous function 
+calls
+Vuelo 501 (04/06/1996), primera prueba de 
+vuelo del sistema de lanzamiento del Ariane 5. 
+No fue un éxito ya que 37 segundos después 
+del lanzamiento, la lanzadera explotó debido a 
+un mal funcionamiento del software de 
+control.
+
+[p4] Trabajando con Proveedores
+Trabajando con Proveedores
+• Sistemas Ingenieriles complejos son diseñados y construidos  
+incrementalmente  por equipos distribuido geograficamente , 
+requieren definición de interfaces muy cuidadosas 
+https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-842-fundamentals-of-systems-engineering-fall-2015/lecture-notes/MIT16_842F15_Ses_8_Sys_Int.pdf
+
+[p5] Importancia de la Gestión de las
+Importancia de la Gestión de las 
+Interfaces
+•
+Sistemas Complejos tienen 
+muchas interfaces
+•
+Interfaces estándar reduce 
+complejidad
+•
+La arquitectura  maneja los 
+tipos de interfaces para ser 
+utilizadas en el proceso de 
+diseño
+•
+La identificación clara de 
+interfaces y su definición reduce 
+los riesgos
+•
+La mayoría de los problemas
+en los sistemas están en las 
+interfaces
+•
+La verificación de todas las 
+interfaces es crítica para 
+asegurar la compatibilidad y las 
+operaciones
+
+[p6] Interfaces Externas e Internas  [FIGURA]
+Interfaces Externas e Internas
+
+[p7] Ejemplos de Interfaces
+Ejemplos de Interfaces
+Válvula
+Tanque
+Flujo de masa
+Cohete
+Carga 
+Util
+Cant. de Mov.
+F Δt
+Web Site
+(URL)
+Browser
+Html file
+data
+Sensor 
+Movim.
+Alarma
+Trigger
+Comando
+Interca.
+Calor
+Aire
+Flujo de calor
+Radio
+Escucha
+Novedades
+Cognitivo
+Celda 
+Solar
+Batería
+Flujo de masa
+Paciente
+Sicólogo
+Sentimientos
+Afectos
+https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-842-fundamentals-of-systems-engineering-fall-2015/lecture-notes/MIT16_842F15_Ses_8_Sys_Int.pdf
+
+[p8] Flujo de Energía
+4 Tipos de Interfaces Canónicas
+• Conexión Física (siempre simétrica)
+– Si A conecta con B, B debe también conectar con A.
+• Flujo de Energía
+• Flujo de Masa
+• Flujo de Información
+https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-842-fundamentals-of-systems-engineering-fall-2015/lecture-notes/MIT16_842F15_Ses_8_Sys_Int.pdf
+
+[p9] Conexión Física
+Conexión Física
+Dos partes están fisicamente conectadas si ellas 
+• Se tocan una con otra
+– ejemplo: rollers, brake pad & disk, finger & touchscreen
+• Tienen una conexión  reversible entre ellos
+– ejemplo:  conector electrico, USB port/cable, mecanismo de cierre  -
+latch mechanism, tornillos & tuercas - bolts & nuts
+• Están permanentemente conectados unos a otros
+– Ejemplo : remaches - rivets, soldaduras de punto – spot welded, fundido 
+- fusing, compilado - compiling (?) 
+Fuerzar [N], Torque 
+[Nm]
+1
+2
+3
+Matriz de Estructura de Diseño  (DSM) 
+o N2
+La conexion fisica implica Simetria
+Acción Reacción
+DSM captura la conectividad de componentes 
+- la arquitectura 
+DSM nos sumnistra  capacidad de análisis no 
+presente en los equemas tradicionales de diseño
+
+[p10] Ejemplos de Conexión  Física  [FIGURA]
+Ejemplos de Conexión  Física
+Vínculo Irreversible Estructural
+Vínculo Estructural Reversible
+Soldadura
+Compilado
+Conectado
+
+[p11] Flujo de Energía
+Flujo de Energía
+•
+El flujo de Energía esta presente si  hay un intercambio neto de trabajo 
+entres dos componentes
+– Potencia  - Power = dL/dt [J/s = W] 
+•
+Puede tener diferentes formas 
+– Potencia Electrica - Electrical Power (most common in products)
+•
+DC Power (12V, 5V, 24V,…),  
+Potencia  -
+Power = Corriente * Voltage 
+•
+AC Power (120 V 60Hz, 220V 50Hz, …) 
+– Potencia Térmica - Thermal Power 
+•
+Flujo de Calor - Heat flux: dQ/dt 
+•
+Conducción, Convección, Radiación
+– RF Power 
+•
+Microwaves (2.4 GHz, 5.8 GHz,…) 
+•
+Potencia Mecánica - Mechanical Power
+– Lineal: 
+Power = Force * velocity 
+– Rotativa: 
+Power = Torque * angular rate
+•
+En general el Flujo de Energía implica una conexión física (¡Pero no siempre 
+es asi!)
+– Alambres, superficie conductoras etc
+
+[p12] El Flujo de Energía está dirigido
+El Flujo de Energía está dirigido
+Nota Importante: 
+Nosotros típicamente  mapeamos las 
+interacciones deseadas , y posteriormente 
+descubrimos más de las no deseadas  (e.g. 
+los flujos de calor residuales) 
+1
+2
+3
+Matriz de Estructura de Diseño  o N2
+La energia es transferida de un punto a otro 
+DSM captura la conectividad de 
+componentes  - la arquitectura 
+DSM nos sumnistra  capacidad de 
+análisis no presente en los equemas 
+tradicionales de diseño
+
+[p13] Flujo de Masa
+Flujo de Masa
+• El Flujo de Masa implica que la materia esta siendo 
+intercambiada entre dos elementos (o subsistemas) 
+– Flujo de Masa = dm/dt [kg/sec] 
+– Fluidos 
+• Refrigerante (cooling liquid), fuel, agua, … etc
+– Gases 
+• aire, exhaust gas, … 
+– Sólidos 
+• toner, papel (media en general),…
+– Típicamente implica una conexión física subyacente  
+• El Flujo de Masa es típicamente direccionado
+– Desde la fuente al sumidero 
+– Puede formar un lazo (loop) continuo
+
+[p14] Flujo de Información
+Flujo de Información
+Muchos sistemas electromecánicos modernos han reemplazado funciones de 
+elementos mecánicos con SW 
+Requeridos por interacción con el usuarios / operador 
+– GUI,  I/O 
+Requerido por interacción con otros dispositivos 
+– Analog  (ADC, DAC), Digital (DIO), Wireless (e.g. IEEE 802.11)
+Requiridos para el control de artefactos internos 
+– Sensores 
+– Actuadores 
+– Controladores
+– Filtros, Amplificadores, … 
+El flujo de Información  es siempre dirigido
+– Telemetría (data del sensor y otros ) ¿Cómo se está comportando mi sistema? 
+Bajar datos en un spacecraft
+– Dato  comandado - Command data … 
+Subir comandos a un spacecraft
+
+[p15] Flujo de Información  [FIGURA]
+La planta
+Actuador
+Sensor
+Controlador
+Comparador
+Operador
+Señal de Referencia
+Lazo de 
+Control
+Flujo de Información
+
+[p16]   [FIGURA]
+(sin texto)
+
+[p17] Gestión del Riesgo  [FIGURA]
+Gestión del Riesgo
+
+[p18] Gestión del Riesgo Técnico  [FIGURA]
+Gestión del Riesgo Técnico
+
+[p19] Importancia de la Gestión del Riesgo
+Importancia de la Gestión del Riesgo 
+Técnico
+• El Riesgo está definido como una combinación de:
+– La probabilidad que un programa o proyecto experimente un 
+evento no deseado y
+– Las consecuencias, impacto, o severidad del evento no 
+deseado y donde ocurrirá
+•
+EL evento no deseado podría venir de lo técnico o lo programático 
+(e.g. sobre costos, deslizamiento de la planificación, accidentes de 
+seguridad, problemas de salud, actividades maliciosas, impacto 
+ambiental, o fallas para alcancazar los objetivos técnicos o cientificos o 
+criterios de suceso)
+•
+La Gestión de Riesgo Técnico en es una disciplina organizada  
+sistemática  informada de riesgo de toma de decisiones que 
+proactivamente identifica, analiza, planifica, sigue, controla, 
+comunica, documenta, y gestiona el riesgo para incrementar la 
+probabilidad (likelihood) de alcanzar las metas del proyecto.
+
+[p20] ¿Que es el riesgo?
+¿Que es el riesgo?
+•
+El Riesgo es una medida de las incertidumbres futuras en lograr las metas 
+de performance técnicas del programa o proyecto dentro de las restricciones  
+del costo y planificación
+Los Riesgos pueden estar asociados con todos los aspectos de un 
+esfuerzo técnico,  e.g. amenazas, maduración Tecnologica / Interfces / 
+Sistema (TRL, IRL, SRL), capacidad de los provedores, maduración del 
+diseño, planificación con la performace  etc, como estos aspectos 
+relaccionan entre las estructura del sistema y los productos 
+interfaceando 
+•
+El riesgo tiene tres componentes 
+– Causa raiz futura
+– Probabilidad de que la causa raiz futura ocurra
+– Consecuencia (efecto) de esa ocurrencia futura
+NPR 7123.1A, Chapter 3. & Appendix C.3.4 SP-2007-6105, Section 6.4
+
+[p21] Los Riesgos No son Problemas (1)
+Los Riesgos No son Problemas (1)
+• Riesgo:
+– Un evento futuro
+– Problema potencial
+– Tiene un nivel de incertidumbre
+(>0% y <100% chance de ocurrencia)
+• Problema
+– Esta ocurriendo ahora
+– Debe ser tratado inmediatamente
+– No es incierto (Está ocurriento ahora)
+
+[p22] Los Riesgos No son Problemas (2)
+Los Riesgos No son Problemas (2)
+• Los Riesgos son problemas anticipados
+– Ejemplo:  Delivery de partes que tienen clase ¨S¨ Class 
+¨S¨ es cuestionable en la plalnificación
+• Un Problema es un Riesgo que  ha ocurrido 
+– Ejemplo:  Las partes Clase ¨S¨ no han sido entregadas
+• Los Problemas pueden crear nuevos Riesgos
+– Cambios en el diseño, incremento de ensayos
+– Desplazamiento de la Planificación, costos de screening
+
+[p23] Capas del Modelo de Riesgo
+Riesgos 
+Naturales
+• Rayos Cósmicos
+• Micro 
+Meteoritos
+• Incertidumbre 
+en la densidad  
+de la  Atmósfera 
+de Marte.
+• Tormenta de 
+Arena
+Riesgos de 
+Mercado
+• Nuevos 
+requerim 
+de Ciencia
+Riesgo 
+Pais
+• Estabilidad 
+Politica
+• Ciclo de  4 
+años
+• Prioridd de 
+Presupuest
+o Humano  -
+Robótica
+Industria 
+Competit
+• Desempeño 
+Contratista
+• Estabilida 
+Presupuesto
+Riesgo 
+Técnico y 
+de Proyecto 
+• Maduresz 
+del Airbag
+• Desempeño 
+del motor 
+Rover
+• Bugs de SW
+Capas del Modelo de Riesgo 
+(e.g. Misión a Marte)
+Baja Influencia                             Alta influencia
+
+[p24] Evolución de la luminosidad en Marte  [FIGURA]
+Evolución de la luminosidad en Marte
+http://www.lavanguardia.com/ciencia/20180613/4592630762/tormenta-arena-marte-todoterreno-opportunity-nasa.html
+
+[p25] Tormenta de arena en Marte
+Tormenta de arena en Marte
+•
+No obstante, la NASA destaca el lado positivo de la situación. “Es una oportunidad sin
+precedentes para aprender más sobre Marte”, ha afirmado Jim Watzin director del
+programa de exploración de Marte de la NASA. “Tenemos una cifra récord de naves
+observando Marte”. Los datos reunidos por los orbitadores de la NASA, así como por el
+todoterreno Curiosity –para el que la tormenta no supone ningún contratiempo, ya que
+lo propulsa energía nuclear–, podrían ayudar a comprender mejor las tormentas
+marcianas, que con los datos actuales no se pueden predecir.
+•
+“Necesitamos entender estas tormentas hasta el punto en que podamos predecirlas.
+No queremos tener una tripulación de astronautas operando de forma remota a los
+que pille por sorpresa una tormenta y tengan dificultades para regresar a la base”, ha
+recalcado
+Watzin.
+Opportunity lleva quince años explorando la superficie de Marte, cuando la NASA lo
+diseñó para una misión de solo 90 días. “El vehículo está en un estado de salud
+remarcablemente bueno”, ha destacado Callas. En estos momentos, se encuentra
+explorando el valle de la Perseverancia, un accidente geográfico que pudo haber sido
+generado en el pasado por un río de agua.
+•
+Por otra parte, la NASA espera que la tormenta de arena haya desaparecido para
+cuando deba aterrizar en Marte InSight, el nuevo lander que investigará el interior del
+planeta rojo, el próximo noviembre.
+http://www.lavanguardia.com/ciencia/20180613/4592630762/tormenta-arena-marte-todoterreno-opportunity-nasa.html
+
+[p26] Tormenta de arena en Marte
+•
+“Ahora mismo el cielo está completamente negro en Marte”, ha afirmado Callas. La 
+tormenta, con vientos de 100 kilómetros por hora, cubre ya un cuarto del planeta, un 
+área equivalente a toda la superficie continental de la Tierra. “No sabemos cuánto va a 
+durar. Las tormentas normales suelen durar semanas; las más grandes, meses”, ha 
+declarado Rich Zurek, director científico del departamento de exploración de Marte de la 
+del JPL.
+•
+Al percibir la falta de energía, Opportunity se ha sumido en un estado de hibernación, en 
+el que ha apagado todos sus sistemas excepto el reloj de la misión, que le ayudará a 
+despertar cuando vuelva a salir el sol. El 10 de junio fue el último día que la NASA tuvo 
+noticias suyas.
+•
+“Nuestra principal preocupación ahora es la temperatura”, ha informado Callas. Si baja 
+por debajo de los 40 grados centígrados bajo cero, los circuitos electrónicos de 
+Opportunity podrían sufrir daños. Con todos los sistemas apagados, incluido el 
+calefactor, el todoterreno depende casi en exclusiva de la temperatura ambiente. “La 
+parte positiva es que la tormenta ha aumentado la temperatura. Y nos acercamos al 
+verano marciano”, ha añadido John Callas. Los responsables de la misión prevén que la 
+temperatura de Opportunity no baje de los 36 grados, así que esperan que el 
+todoterreno sobreviva sin problemas al percance.
+http://www.lavanguardia.com/ciencia/20180613/4592630762/tormenta-arena-marte-todoterreno-opportunity-nasa.html
+Tormenta de arena en Marte
+
+[p27] Opportunity sigue vivo  [FIGURA]
+Opportunity sigue vivo
+
+[p28] Categorías del Riesgo
+Riesgo 
+Programático
+Riesgo 
+Técnico
+Riesgo 
+Palnificación
+Mercado  / Amenazas
+Cambios
+Riesgo 
+Costos
+Deslizamiento de la planificación
+Categorías del Riesgo 
+Triangulo de Hierro
+
+[p29] Marco de la Gestión de Riesgo  [FIGURA]
+Identificar
+Analizar
+Planificar
+Seguir
+Controlar
+Marco de la Gestión de Riesgo
+
+[p30] Marco de la Gestión de Riesgo
+Marco de la Gestión de Riesgo
+Comunicación
+& Documentos
+Anticipar que 
+puede andar 
+mal
+Decidir que es 
+importnte
+Correguir 
+desviaciones
+Seguir 
+acciones 
+Plan para 
+tomar acciones
+
+[p31] ID del Riesgo -
+ID del Riesgo - Evaluaciones
+•
+Brainstorm de Riesgos
+– Probabilidad de que un evento particular ocurrirá
+– Impacto o Consecuencia si el evento en verdad ocurre
+• Aggregate Into Categories 
+– Regla  del pulgar Limit @ N20 
+• Calificación - Score (Basado en opinión & Data)
+• Involucra a todos los stakeholders
+
+[p32] Diagrama de Riesgo (NASA)
+Diagrama de Riesgo (NASA)
+Atributo : Probablidad
+Nive
+l
+Valor 
+Criterio
+1
+Casi certeza
+Todo apunta a que esto se convierte en un problema
+2
+Muy probable
+Alta posibilidad de que esto se convierta en un problema
+3
+Probable 50/50
+Hay una posibilidad de que esto se convierta en un problema
+4
+Poco probable
+Riesgo como este puede convertirse en un problema de vez en 
+cuando
+5
+Improbable
+Not much chance this will become problem
+Atributo: Impacto
+Nivel
+Valor 
+Criterio Técnico
+Criterio Costo
+Criterio Planificación
+1
+Catastrófico
+No puede controlar el Vehículo  o No 
+puede realizar la misión
+> $10 Million 
+Desplazamiento en le eventos de 
+nivel I
+2
+Crítico
+Pérdida de la misión, pero activo 
+recuperable en el tiempo
+$ 10 M X < $ 5 Million
+Desplazamiento en le eventos de 
+nivel II
+3
+Moderado
+Misión degradada por debajo del valor 
+nominal especificado
+$ 5 M X < $ 1 Million 
+Desplazamiento en le eventos de 
+nivel III
+4
+Marginal
+Márgenes de desempeño de la misión 
+reducidos
+$ 1 M X < $ 100 K
+Pérdida de mas de un mes en la 
+planificación
+5
+Despreciable
+Mínimo o sin impacto
+Mínimo o sin impacto
+
+[p33]   [FIGURA]
+(sin texto)
+
+[p34] Mirada teórica del sistema de seguridad
+Mirada teórica del sistema de seguridad
+• La seguridad es una propiedad emergente del sistema
+– Los accidentes surgen de las interacciones entre los 
+componentes del sistema (humano, físico, social)
+– Eso viola las restricciones sobre el comportamiento 
+seguro de los componentes y las interacciones 
+• Las pérdidas son el resultado de procesos complejos, 
+no simplemente cadenas de eventos de falla
+• La mayoría de los accidentes graves surgen de una 
+migración lenta de todo el sistema hacia un estado de 
+alto riesgo 
+• Basado en teoría de sistemas en lugar de teoría de 
+confiabilidad
+
+[p35] Revisión de Alistamiento de Vuelo  [FIGURA]
+Revisión de Alistamiento de Vuelo
+Flight Readiness Review (FRR)
+
+[p36] Ingeniería de Sistemas
+Ingeniería de Sistemas
+Funciones Claves
+Estudio de 
+Conceptos 
+Pre Fase A
+Análisis 
+Prelim. 
+Fase A
+Definición 
+Fase B
+Diseño
+Fase C
+Desarrollo 
+Fase D
+Operacion
+es Fase E
+Entender los objetivos
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Desarrollo del ConOp
+Concepto
+Baseline
+Refinar
+Completo
+Plan de 
+Operaciones
+Seguimiento 
+de los cambios
+Desarrollo de 
+Arquitectura y Diseño
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Análisis, Identif. y 
+Gestión de los Requer.
+Concepto
+Baseline 
+de alto nivel
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+V&V
+Concepto
+Inicial
+Asignar 
+Métodos
+Desarrollo de 
+Planes Ensayos 
+Procedimiento
+Completo
+Ejecución 
+Procedimiento
+Interfaces & ICDs
+Concepto
+Inicial
+Baseline
+Completo
+Seguimiento 
+de los cambios
+Ambiente de Misión
+Inicial 
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+Presupuesto y 
+Recursos Técnicos
+Concepto
+Inicial
+Baseline
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Análisis, Reducción y 
+Gestión de Riesgo
+Estimado
+FTA , RBD
+FMEA, FTA, 
+RBD
+FTA, FMEA, 
+RBD, PRA
+Actualizar 
+Cambios
+Actualizar 
+Cambios
+Revisión Candidatos 
+Hitos Sistema
+MCR
+MDR
+SRR, SCR, 
+PDR, CR
+CDR
+MOR, PER, 
+FOR, PSR, 
+FRR, ORR
+DR
+Gestión y Doc. de 
+Configuración
+Informal Gestión 
+Configuración
+Control de 
+Requer Nivel 1
+Gestión de 
+Configurac.
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+Seguimiento 
+de cambios
+Plan de Gestión de la 
+Ing. de Sistemas
+Concepto
+Baseline
+Completo
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+Documento de GSFC NASA - GPG7120.5.pdf
+
+[p37] Vuelo
+Revisión de Alistamiento para 
+Vuelo
+El último evento antes del lanzamiento 
+¿Hemos pasado todas las actividades de V&V 
+exitosamente? 
+¿Hay alguna licencia (Weiver)  que no fue 
+otorgada? 
+¿Cuales son los riesgos residuales? 
+Comenzar la cuenta regresiva 
+Start Countdown (T- X days Y hours Z seconds)
+
+[p38] FRR  -
+FRR  - Revisión de Alistamiento para Vuelo
+Criterios de Entrada
+Criterios de Exito
+1
+Recibir la certificación que las operaciones de 
+vuelo pueden proceder con aceptable riesgo
+1
+El vehículo esta lista para volar
+2
+Los elementos del sistema y su soporte han 
+confirmado que están configurados 
+apropiadamente y listos para volar
+2
+El HW se lo considera aceptablemente 
+seguro para el vuelo. ( i.e  cumple con los 
+criterios de riesgo aceptables establecidos o 
+documentados como siendo aceptables por 
+Manager y DGA
+3
+Las interfaces son compatibles y funcionan como 
+lo esperado
+3
+Los elementos de SW de tierra y vuelo están 
+listos para soportar el vuelo y las operaciones 
+de vuelo
+4
+El estado del sistema soporta la decisión de 
+comenzar el lanzamiento basado en la decisión de   
+GO or No Go 
+4
+Las interfaces son comprobadas  y cumplen 
+con la funcionalidad
+5
+Las fallas de vuelo y anomalías de los vuelos 
+previamente completados has sido resueltos y los 
+resultados incorporados en todos los productos 
+operacionales habilitados.
+5
+Los ítems abiertos y las licencias has sido 
+examinadas y se los encontró aceptables  
+6
+EL sistema ha sido configurado para vuelo
+6
+Los factores ambientales de vuelo y 
+recuperación están dentro de las 
+restricciones
+7
+Todos los items de riesgo de misión y 
+seguridad han sido alojados
+
+[p39] Ingenuity - Helicóptero en Marte
+Ingenuity - Helicóptero en Marte
+• https://www.xataka.com/espacio/un-
+helicoptero-la-sorpresa-de-la-nasa-para-su-
+mision-a-marte
+• https://roverchallenge.eu/a-helicopter-on-
+mars-is-the-ingenuity-drone-on-mars-still-
+working/?gad_source=1&gclid=Cj0KCQjw0Oq
+2BhCCARIsAA5hubXwrdzTB_qvbDd2rlDLFbIvZ
+Xj9DLWooLFrpw-
+xJ26JcJ72aAFiMLAaAkwjEALw_wcB
+
+[p40]   [FIGURA]
+(sin texto)
+
+[p41] A pensar  [FIGURA]
+A pensar
+
+[p42] Fase E
+Fase E
+Operaciones y Mantenimiento
+• Comienza la fase de operaciones normales 
+• Incluye la performance o desempeño de ambas 
+situaciones, las de  operaciones nominales del 
+sistema  como las de contingencia para preservar 
+la salud  del spacecraft y asegurar la captura de lo 
+datos de ciencia u otros a través de toda su 
+misión de vida operativa. Sea cinco anos o dos de 
+acuerdo a lo planificado aprobado por el 
+proyecto. Y aprobado el presupuesto para 
+sostener las actividades.
+
+[p43] Actividades del Ing. de Sistemas  [FIGURA]
+Actividades del Ing. de Sistemas

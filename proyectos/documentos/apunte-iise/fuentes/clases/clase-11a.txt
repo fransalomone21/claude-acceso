@@ -1,0 +1,1353 @@
+# IISE clase 11a -- 46 diapositivas
+# fuente: IISE Clase 11 A - 2026.pdf
+# Lo genera extraer-clases.py. El numero [pNN] es la pagina REAL del PDF.
+
+[p1] Espaciales  [FIGURA]
+Introducción 
+a la Ingeniería de Sistemas 
+Espaciales
+Clase # 11
+Octubre 2026
+Virtual Campus UNSAM
+UNSAM - Ing. Sistemas Espaciales
+
+[p2] Me lo contaron y me olvidé.  [FIGURA]
+Me lo contaron y me olvidé.
+Lo vi y lo entendí. 
+Lo hice y lo aprendí.
+Confucio 551 - 479 AC
+
+[p3] Gente
+Desplegando el Sistema
+Un sistema es un compuesto, integrado de
+Gente
+Para satisfacer
+Necesidades y Objetivos
+Establecidos
+Productos
+Procesos
+Simply stated, a system is an integrated composite 
+of people, products, and processes that provide a 
+capability to satisfy a stated need or objectives.
+Cliente
+
+[p4] Introducción a la Ing. de Sistemas
+Introducción a la Ing. de Sistemas
+Sistema es un compuesto integrado por personas especializadas 
+en diferentes áreas o disciplinas de la ingeniería por ejemplo
+Sub Sistema (SS) Térmico  - SS Estructuras  - SS Potencia –
+SS de Control de Actitud etc. 
+Esta variedad de expertos piensan al sistema como un producto
+compuesto por HW y SW para ser desarrollado como partes  del 
+sistema.  Tenemos que desarrollar con estas personas usando 
+procesos un concepto de Ingeniería de Sistemas, entonces 
+tenemos 
+personas,  procesos y productos
+puestos juntos en un despliegue de ingeniería de sistemas para 
+satisfacer las necesidades, metas y objetivos, hasta operar el 
+producto.  dirigiendo las actividades de desarrollo. 
+El término de ingeniería de sistemas fue desarrollado 
+alrededor de 1940 en USA.
+
+[p5] Temario 10ma Clase  [FIGURA]
+1 
+Procesos de V&V 
+2
+Algunos Ejemplos de AIT
+Temario 10ma Clase
+
+[p6]   [FIGURA]
+V&V
+
+[p7] Diferencias entre Validación y Verificación
+Diferencias entre Validación y Verificación
+Verificación
+¿Fue el producto final realizado 
+correctamente?
+•
+Durante el desarrollo.
+•
+Comprobar si se cumplen los 
+requerimentos.
+•
+Típicamente centrado en los 
+Componentes / Subsistemas.
+Validación
+¿Fue correcto el producto final 
+alcanzado?
+•
+Durante o después de la 
+integración.
+•
+Típicamente en ambientes de 
+misión, simulados o reales.
+•
+Comprobar si los propósitos de los 
+interesados fueron cumplidos.
+
+[p8] Verificación y Validación
+Verificación y Validación
+Comienzo
+Start
+Análisis de los interesados
+Stakeholder Analysis
+Funciones 
+Entregadas
+Validación
+Lazo de 
+Validación
+Modelo
+Conjunto de Requerim.
+= Métrica + 
+Valor de Objetivo
+¿Tiene solución?
+¿Está completo?
+Fuciones 
+Deseadas
+Modelo Implementado
+Solución de Diseño
+Metas Entregadas 
+= Métrica + Valor de 
+Entregado
+Lazo de 
+Verificación
+Verificación
+¿Representa
+a las metas?
+• Ensayos
+• Análisis
+• Demostración
+• Inspección
+
+[p9] Ingeniería de Sistemas
+Ingeniería de Sistemas
+Funciones Claves
+Estudio de 
+Conceptos 
+Pre Fase A
+Análisis 
+Prelim. 
+Fase A
+Definición 
+Fase B
+Diseño
+Fase C
+Desarrollo 
+Fase D
+Operacion
+es Fase E
+Entender los objetivos
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Desarrollo del ConOp
+Concepto
+Baseline
+Refinar
+Completo
+Plan de 
+Operaciones
+Seguimiento 
+de los cambios
+Desarrollo de 
+Arquitectura y Diseño
+Concepto
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Análisis, Identif. y 
+Gestión de los Requer.
+Concepto
+Baseline 
+de alto nivel
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+V&V
+Concepto
+Inicial
+Asignar 
+Métodos
+Desarrollo de 
+Planes Ensayos 
+Procedimiento
+Completo
+Ejecución 
+Procedimiento
+Interfaces & ICDs
+Concepto
+Inicial
+Baseline
+Completo
+Seguimiento 
+de los cambios
+Ambiente de Misión
+Inicial 
+Baseline
+Completo
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Seguimiento de 
+Presupuesto y 
+Recursos Técnicos
+Concepto
+Inicial
+Baseline
+Seguimiento de 
+los cambios
+Seguimiento 
+de los cambios
+Seguimiento 
+de los cambios
+Análisis, Reducción y 
+Gestión de Riesgo
+Estimado
+FTA , RBD
+FMEA, FTA, 
+RBD
+FTA, FMEA, 
+RBD, PRA
+Actualizar 
+Cambios
+Actualizar 
+Cambios
+Revisión Candidatos 
+Hitos Sistema
+MCR
+MDR
+SRR, SCR, 
+PDR, CR
+CDR
+MOR, PER, 
+FOR, PSR, 
+FRR, ORR
+DR
+Gestión y Doc. de 
+Configuración
+Informal Gestión 
+Configuración
+Control de 
+Requer Nivel 1
+Gestión de 
+Configurac.
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+Seguimiento 
+de cambios
+Plan de Gestión de la 
+Ing. de Sistemas
+Concepto
+Baseline
+Completo
+Seguimiento de 
+cambios
+Seguimiento 
+de cambios
+Documento de GSFC NASA - GPG7120.5.pdf
+
+[p10] intención
+• Validación y Verificación para los requerimientos y el 
+sistema
+• Validación es el proceso de confirmar que un conjunto 
+de requerimientos, diseños o sistema cumple con la 
+intención del desarrollador o el cliente, la necesidad real 
+de los interesados.
+• Verificación es un proceso de confirmación que el 
+sistema y los requerimientos están en conformidad.
+¿El sistema cumple con sus requerimientos?
+¿Qué son la Validación y la Verificación ?
+
+[p11] ¿Qué es la Validación de los Requerimientos?
+¿Qué es la Validación de los Requerimientos?
+La Validación de los Requerimientos es el proceso de confirmar la 
+completitud y la corrección de los requerimientos.
+La Validación de los Requerimientos responde a la pregunta: “ ¿Están los 
+requerimentos de diseño del sistema correctamente definidos y es lo que 
+queríamos?”
+Validación de los Requerimientos tiende a ser orientado hacia el análisis.
+¿ Cuándo ocurre la validación de requerimientos?
+Antes del diseño y durante el diseño detallado, i.e., principalmente en Fase B y 
+disminuyendo en Fase C.
+Idealmente, completo antes de la Revisión de los Requerimientos de Sistema 
+(SRR) 
+¿Cuál es la importancia de obtener la validación temprana en el ciclo 
+de vida del proyecto?
+Cuando comienza el tiempo de la verificación del sistema, verificaremos los 
+requerimentos correctos. 
+Cambios de requerimientos tardíos en el juego de la verificación, antes del 
+lanzamiento, tiene un impacto altamente negativo en costos y planificación.
+
+[p12] Más sobre Validación y Verificación del
+•
+Validación de un sistema: 
+Construyendo el sistema correcto: 
+Building the right system
+Asegurar que el sistema hace aquello que se supone debe hacer en 
+su ambiente. La validación determina la completitud y corrección del 
+producto final, y asegura que el sistema satisfará la necesidades 
+reales de los interesados.
+Más sobre Validación y Verificación del 
+Sistema
+• Verificación de un sistema :   
+Construyendo el correcto (o 
+correctamente el) sistema: 
+Building the system right: 
+Asegurar que el sistema cumple con los 
+requerimientos de sistema y está 
+conforme a su diseño
+S/W
+
+[p13] Verificación de los Requerimientos
+•
+La verificación de los requerimientos se hace en la Fase D – como 
+una parte integral del proceso de  integración (AIT). Es el lado 
+derecho del diagrama en ¨V¨.
+•
+Pero la preparación para la verificación comienza tempranamente 
+en el desarrollo de los requerimentos.
+•
+Un plan preliminar para la verificación de los requerimientos es 
+creado cuando se generan los requerimentos. Es una matriz de 
+verificación preliminar.
+•
+Después que el diseño es completado, pero antes del comienzo de 
+la verificación, se crea y captura un conjunto de requerimientos de 
+verificación en la matriz de verificación
+•
+Los requerimentos de verificación y sus planes son establecidos en 
+la Revisión Crítica del Diseño (CDR).
+Verificación de los Requerimientos
+
+[p14] Componentes Subsistemas Sistema
+Mission 
+Requirements 
+& Priorities
+System 
+Demonstration 
+& Validation
+Develop System
+Requirements & 
+System Architecture
+Allocate Performance
+Specs & Build 
+Verification Plan
+Design 
+Components
+Integrate System &
+Verify
+Performance Specs
+Component 
+Integration &
+Verification
+Verify
+Component 
+Performance
+Fabricate, Assemble, 
+Code & 
+Procure Parts
+Diagrama en V
+Componentes Subsistemas Sistema
+
+[p15] Árbol de Documentos
+Requerimientos de 
+Sistema / Subsistema
+Especificación de Requer, 
+de Interfaces Generales
+Especificación Requer. 
+Subsistema SNI
+Control de 
+Interfaces
+Especificacion 
+Requer. del S/W del 
+Subsistema SNI
+Plan de Verificación 
+Subsistema SNI
+Correr los Proced.
+Plan de AIT del 
+Subsistema
+Ensayos SS 
+Procedimientos
+Ensayos de SS
+Especif. Requer. 
+Computadora de 
+Navegación
+Espec  
+Requer 
+Aceler.
+Espec de 
+los Requer 
+del IFOG
+Espec. 
+Requer 
+RGPS
+Árbol de Documentos 
+Ejemplo: Sistema Navegación Inercial
+Espec Requer. 
+UMI
+Análisis Datos 
+Proced.
+
+[p16] Proceso de Verificación
+El proceso de verificación es una serie de actividades con sus respectivos
+documentos que apuntan a determinar que el diseño, conjuntamente con la selección
+de materiales y componentes, y su manufactura cumplen con los requisitos
+funcionales y de performance de la misión:
+(calificación del diseño)
+Y que las unidades producidas a partir de estos datos de ingeniería, es decir H/W y
+S/W integrados en un producto de vuelo son idénticos al calificado, están libres de todo
+defecto de construcción y listos para ser usados:
+(ensayos de aceptación)
+El flujo normal del proceso de verificación esta básicamente sintetizado en los
+siguientes pasos:
+❖Identificación y clasificación de todos los requerimientos a ser verificados.
+❖Selección de los criterios de verificación (métodos, niveles y etapas) y modelos
+vinculado con cada requisito identificado.
+❖Establecer la planificación para las actividades de verificación.
+❖Acuerdo con el cliente
+❖Identificación de los documentos, tareas y control de la verificación.
+❖Cumplimiento del control de verificación y evidencia del cierre de las tareas de
+verificación.
+❖Revisión del cliente y aprobación final.
+Proceso de Verificación
+
+[p17] Planificación de la Verificación
+Planificación de la Verificación
+La planificación es un proceso que se establece sincronizando los hitos y
+restricciones del proyecto, con la lógica del proceso de verificación considerando:
+- la Filosofía de Modelos,
+- la Estrategia de Verificación elegida,
+- el Plan de Ensamble Integración y Ensayos (AIT - AIV),
+-
+el
+programa
+de
+análisis
+/
+revisiones
+de
+diseño
+/
+inspecciones
+- y la identificación de las herramientas de verificación.
+Esta planificación nos permite también confirmar la integridad y performance
+después de cada etapa particular del Ciclo de Vida del Proyecto, lo cual
+también facilitará la reconfiguración de este proceso en caso de problemas
+coyunturales y/o replanteo de los requerimientos básicos de la misión.
+Todas estas actividades de verificación que se realizan básicamente durante las
+subsecuentes etapas, desarrollo, calificación y aceptación usan los siguientes
+métodos:
+• Ensayos
+• Análisis
+• Demostración
+• Inspección
+• Revisiones de Diseño
+
+[p18] Contenido de la Matriz de Verificación
+Contenido de la Matriz de Verificación
+La Matriz de Verificación específica:
+•
+El Requerimiento con su ID
+– Ejemplo: R.302 - “la Frecuencia del modo natural del vehículo espacial será mayor 
+que 35 Hz.”
+•
+Requerimientos de verificación asociados, incluyendo los 
+criterios de éxito
+– Ejemplo: “La frecuencia del modo natural será verificada por ensayo. El ensayo será 
+realizado para sondear el modo natural usando una mesa de vibración (shaker). El 
+ensayo será considerado exitoso si la frecuencia medida del primer modo es mayor 
+que 35Hz.
+•
+Métodos de verificación: Inspección, Análisis, Demonstración, 
+Ensayos 
+– Ejemplo: Ensayo
+•
+Niveles de verificación que se debe realizar : Parte, Componente, 
+Subensamble, Ensamble, Subsistema, Sistema, Vehículo.
+– Ejemplo: Vehículo
+•
+Quién realiza la verficación.
+•
+Los resultados de la verificación donde están disponibles. Documentos
+
+[p19] Matriz de Verificación
+La matriz de verificación recopila la estrategia de verificación propuesta.
+Esta matriz es un resumen que vincula cada requisito con su respectiva
+evaluación, los métodos de verificación recién mencionados. En general, cada
+requisito tiene la posibilidad de ser verificado por uno o varios de estos métodos
+dependiendo del caso particular.
+La selección de los métodos, niveles, etapas y modelos asociados es un
+compromiso entre costos, tiempos programados, performance y riesgo
+asociado.
+Se concluye el proceso de verificación, es decir se lo considerará completo
+cuando el cliente y el contratista mutuamente acuerdan que sobre la base de la
+apropiada evidencia documentada, los requerimientos identificados han sido
+verificados y los objetivos de la verificación plenamente alcanzados.
+Matriz de Verificación
+Requerimiento
+Métodos de VERIFICACION
+N
+/A
+I
+n
+s
+p
+e
+c
+c
+i
+ó
+n
+An
+ali
+sis
+De
+m
+os
+tra
+En
+sa
+yo
+s
+Qualification
+Verif
+i
+H/W
+S/W
+Func
+.
+ID
+r
+
+[p20] Otro Ejemplo de Matriz de Verificación  [FIGURA]
+Otro Ejemplo de Matriz de Verificación
+
+[p21] Métodos de Verificación
+Hay 4 métodos fundamentales para verificar un
+requerimiento:
+1. Inspección
+2. Análisis
+3. Demostración
+4. Ensayos
+A menudo se bromea con que los tres métodos top de 
+verificación son “ensayos, ensayos, ensayos” para 
+enfatizar la importancia de los datos medidos en los ensayos en 
+la verificación de los requerimientos.
+Lema:
+¨Un ensayo vale la opinión de mil expertos¨
+Métodos de Verificación
+
+[p22] Inspección
+• Inspección
+determina
+la
+conformidad
+con
+los
+requerimientos por examinación visual de los planos, dibujos,
+datos o el ítem mismo usando métodos de control de calidad,
+sin el uso de procedimientos de laboratorio especial o
+equipos.
+• Inspección incluye un chequeo visual o revisión de la
+documentación
+del
+proyecto,
+tales
+como
+planos,
+especificaciones de proveedores, descripción de la versión,
+código de programa de computadora, etc.
+• Inspección incluye examinar un atributo físico directo,
+peso, características físicas, color o marca, etc.
+• La clase de expresión usada en los requerimientos de estos
+ítems;
+Ejemplo
+¨…..tendrá al menos 24 pulgadas de longitud….¨
+¨…. tendrá el logo de UNSAM de acuerdo con….¨
+¨…..será pintado de blanco…¨
+Inspección
+
+[p23] Análisis
+•
+Análisis es una evaluación de los datos por técnicas analíticas aceptadas
+generalmente para determinar que un ítem cumple los requerimientos
+especificados.
+•
+Técnicas de Análisis: el análisis de la ing de sistemas, estadísticas, análisis
+cualitativos, modelos analógicos, similaridad y simulación en computadoras
+y H/W.
+•
+EL análisis es seleccionado como la actividad de verificación cuando un
+ensayo no puede hacerse adecuadamente, el costo efectivo para alojar
+todas las condiciones bajo las cuales el sistema debe actuar, o el sistema no
+puede mostrar que da con los requerimientos sin un análisis.
+•
+La clase de expresión usualmente usada en el requerimiento del ítem que
+indica la verificación por análisis es del tipo:
+¨..será diseñado para...¨
+¨..será desarrollado para...¨
+¨..tendrá una probabilidad de...¨
+Análisis
+
+[p24] Demostración
+•
+Demostración determina la conformidad de los requerimientos de 
+sistema/ítems por medio de operación, ajuste o por re-configuración 
+del artículo de ensayo. 
+•
+Demostración generalmente verifica las características del sistema, 
+tal como son las características de la ing. de lo humano en el espacio, 
+servicios, accesos, transportabilidad, etc.
+•
+Demostración depende de la observación y recuerdo de la 
+operaciones funcionales. Demostración no requiere el uso de 
+instrumentación elaborada, equipo especial, o evaluación cuantitativa 
+del dato.
+•
+La clase de expresión que se utiliza habitualmente en los 
+requerimientos de los ítems que indican verificación por 
+demostración son:
+– “…será accesible…”
+– “…tendrá al menos una hora…”
+– “…proveerá el siguiente display en el modo XX de operación…”
+Demostración
+
+[p25] Ensayos (1/2)
+Ensayos (1/2)
+•
+Ensayar es un método de verificación en el cual los medios técnicos, tales
+como el uso de equipo especial, instrumentos, técnicas de simulación, o la
+aplicación de principios establecidos y procedimientos, son usados para la
+evaluación del sistema o componentes del sistema para determinar el
+cumplimiento de los requerimientos.
+•
+Los ensayos consiste en operaciones de todo o parte del sistema sobre un
+conjunto limitado de condiciones controladas para determinar que la cantidad
+diseñada o requerimientos de desempeño han sido cumplidos.
+•
+Los ensayos pueden derivar al uso de instrumentos elaborados y equipo de
+ensayo especial para medir los parámetros que caracterizan el requerimiento.
+•
+Los ensayos pueden ser realizados a cualquier nivel de ensamble dentro de
+la jerarquía de esamble del sistema.
+•
+El análisis de los datos derivados de los ensayos es una parte integral del
+programa de ensayos y no debe ser confundido con el método ¨análisis¨
+definido anteriormente.
+
+[p26] Ensayos (2/2)
+Ensayos (2/2)
+•
+Ensayar es el método preferido de la verificación de 
+requerimientos y es usado cuando:
+1. Las técnicas analíticas no producen adecuados resultados
+2. Existen modos de fallas que podrían comprometer la seguridad 
+del personal, adversamente afecta al sistema de vuelo o la 
+operación de la carga útil, o resulta en una pérdida de los 
+objetivos de la misión o
+3. Para algunos componentes directamente asociados con las 
+interfaces críticas del sistema.
+•
+La clase de lenguaje usado en el requerimento del ítem que 
+usualmente indica verificación por ensayos es:
+– “…proveerá 50 Hz…”
+– “…será seteable en un rango de 0 ⁰C a 30⁰C…”
+– “…no será mayor que 10 micrones, por frecuencia de…”
+
+[p27] Tipos de Ensayos  [FIGURA]
+Tipos de Ensayos
+Fuente NASA SE Handbook Sección 5.3 Verificación del Producto – Product Verification
+
+[p28] Otro Método de Verificación
+Otro Método de Verificación
+Verificación por Revisión de Diseño
+Se obtiene mediante la revisión de la documentación asociada al diseño (todos
+los datos de ingeniería: planos, descripciones técnicas, informes, etc). La
+documentación presentada a la revisión no debe presentar ambigüedad y
+debe cumplir con los requisitos particulares estipulados para esa determinada
+revisión técnica.
+.•Revisión del Concepto del Sistema 
+- System Concept Review (SCR)
+•Revisión de los Requerimientos Preliminar 
+- Preliminary Requirements Review (PRR)
+•Revisión del Diseño Conceptual 
+- Conceptual Design Review (CoDR)
+•Revisión Preliminar del Diseño 
+- Preliminary Design Review (PDR)
+•Revisión Critica del Diseño 
+- Critical Design Review (CDR)
+•Revisión de las operaciones de la misión 
+- Mission Operation Review
+•Revisión pre ensayos ambientales 
+- Pre Enviromental Review
+•Revisión antes de embarcar 
+- Pre Shipment Review
+•Revisión de las operaciones de vuelo
+- Flight Operation Review (FRR)
+•Revisión del alistamiento para el vuelo 
+- Flight Readiness Review (FRR)
+PDR
+Revisión del Diseño Preliminar
+CDR
+Revisión Critica del Diseño
+SAR
+Revisión final del Sistema
+
+[p29] Filosofía de Modelos
+Establecer la filosofía de modelos es dilucidar el número óptimo de modelos con sus
+respectivas características físicas requeridas con el objetivo de obtener una confiabilidad en
+el proceso de verificación del producto, acorde a una planificación y un peso entre
+desempeño, costo, tiempo y riesgo, determinados por el producto en cuestión.
+Clásicamente hay dos tipos paradigmáticos de filosofía de modelos:
+Protoflight Philosophy &
+Prototype Philosophy
+La primera permite un costo menor aceptando un moderado nivel de riesgo. Mientras que
+la segunda es para diseños nuevos o complejos donde además se deben correr muy
+bajos riesgos. Esta permite actividades paralelas sobre diferentes modelos.
+Entre estas dos posiciones se encuentra como compromiso entre las dos anteriores la
+filosofía del modelo híbrido. Esta combina las ventajas y desventajas de cada una de las
+filosofías mencionadas, Pero básicamente se usa en proyectos donde las actividades de
+calificación serán realizadas en áreas de nuevos diseños o en áreas de un impacto critico
+en el programa de verificación.
+En el caso de la "aviónica" de un vehículo lanzador todos los equipos deben ser elementos
+de muy bajo riesgo en su uso regular. Entonces es más adecuado hablar de una filosofía
+de modelos tipo prototipo principalmente por los acentuados bajos riesgos que habría que
+correr.
+Otro punto, obviamente, es que las actividades de calificación deben ser completadas
+antes de la aceptación del equipo construido a partir de los datos de ingeniería del
+anterior de calificación.
+Filosofía de Modelos
+
+[p30] Niveles de Ensayo vs Etapas de Verificación
+En el caso Modelo de Ensayo de Calificación (QTM o Prototipo). La calificación
+será hecha sobre este modelo. Este prototipo no tiene propósito de vuelo pero es
+totalmente representativo del modelo de vuelo. Los niveles de ensayos ambientales y
+su duración son tales que superan las condiciones operativas de vuelo llevando a sus
+elementos a la fatiga, pero sin superar los márgenes de seguridad empleados en el
+diseño y sin provocar modos de fallo no realistas.
+La relación entre ensayos de aceptación y de calificación están visualizados (no en
+escala) en la siguiente figura:
+Niveles de Ensayo vs Etapas de Verificación
+Tiempo de Duración 
+de los Ensayos
+Niveles de Calificación
+Tiempos de 
+Aceptación y 
+Protoflight
+Tiempos de 
+Calificación
+Prototipo o 
+QTM
+Protoflight
+ATP
+Los unidades construidas a partir de los datos de ing. de este prototipo o QTM 
+serán aceptadas si cumplen con los procedimientos de ensayo de aceptación 
+(ATP) que se establecerán en este proceso.
+Niveles de Aceptación
+Niveles
+
+[p31] Requerimientos a ser Verificados
+Los requerimientos del sistema serán generados y alojados de acuerdo a
+un orden jerárquico partiendo de los de alto nivel hacia diferentes niveles
+del proyecto, de arriba hacia abajo. Este árbol de requerimientos
+contendrá definiciones consistentes de performance, diseño, interfaces,
+ambiente, operación y soporte del sistema para luego poder verificar de
+abajo hacia arriba.
+Requerimientos a ser Verificados
+Revisión de las Características de los Requerimientos
+Para
+facilitar
+la
+implementación
+de
+la
+verificación
+en
+términos
+de
+planificación, ejecución, control y reporte, la actividad de la generación y
+ubicación de requerimientos exige que cada uno de estos sea:
+• Trazable
+• Único y asociado a una identificación (un ítem en un determinado
+documento)
+• Simple, no una combinación de requerimientos
+• Verificable, usando uno o mas métodos (característica no obvia)
+• No ambiguo
+• Referenciado como necesario a otro requerimiento.
+Revisión del concepto Requerimientos
+
+[p32] Verificación de Calificación y Aceptación
+Verificación de Calificación y Aceptación
+Verificación de calificación es el proceso formal que establece la aptitud
+para vuelo del diseño del H/W, los componentes seleccionados y los procesos
+de manufactura. Este proceso de calificación es realizado a través de análisis,
+ensayos (mediciones cuantitativas), demostraciones (mediciones cualitativas),
+e inspecciones.
+La Verificación de calificación es realizada sobre H/W el cual es
+construido con los mismos requerimientos del H/W de vuelo, aún si no es para
+ser volado, caso del QTM o Prototipo.
+El QTM H/W será expuesto a niveles y duraciones de ensayos ambientales
+más altos que la exposición de vuelo normal,
+Verificación de aceptación de un ítem de hardware, es una serie de
+ensayos para verificar la conformidad de esa unidad con los datos de ingeniería
+que fueron usados para construir la unidad calificada previamente.
+Workmanship
+
+[p33] Documentación de Verificación
+El proceso de verificación y la implementación de sus actividades estarán
+documentadas por medio de un conjunto especifico de documento de
+verificación.
+$$$$$$
+Costos & Tiempo
+Esta actividad es un compromiso entre minimizar el esfuerzo de
+documentar, debido a los costos restrictivos y el requerimiento de seguir
+apropiadamente los eventos de verificación, lo cual es fundamental para
+reducir los riesgos y facilitar las acciones de recuperación en caso de
+problemas.
+También el volumen de la documentación me debe permitir poder
+construir otro sistema igual al calificado.
+La documentación de Verificación está resumida en la figura siguiente.
+Las flechas reflejan las conexiones lógicas entre los documentos pero no
+necesariamente representan el flujo del proceso.
+Documentación de Verificación
+
+[p34] Flujo de Datos y Documentos de Verificación
+Requerimientos Aplicables
+Especificaciones, ICDs, etc
+Matriz de Verificación
+1-Identificación del Nivel
+2-Identificación de los Métodos
+Plan de AIV
+Rev. de Diseño
+Filosofía
+Flujo de Ensayos
+Facilidades
+Organización
+Documentación
+Documento de 
+Control de Verif.
+N/A
+Software
+&
+Hardware
+Predicción y
+Correlación de
+Ensayos
+Análisis
+Ensayos
+Ejecución de
+Ensayos
+Informe de los 
+Ensayos
+Desarrollo
+Calificación
+Aceptación
+Especificaciones de
+Ensayos
+Desarrollo de los
+Modelos
+Matemáticos
+Análisis por
+Similitud
+Validación de los
+Modelos
+Matemáticos
+Modelización
+Condiciones de contorno
+Hipótesis
+Rango de Validez
+Informe de Análisis
+Revisión de Diseño
+PDR
+CDR
+Etc
+Manufactura 
+Integración y 
+Ensamble
+Inspección
+RDD
+Documentos
+Planos
+Datos
+Informe de
+Revisiones
+Informe de
+Inspección
+ConfirmarVerificación
+por mas de un Método
+Informe de
+Verificación
+Verificacion
+Concluida
+S
+I
+NO
+Especificación de 
+Requerimientos de 
+Ensayos
+Devuelto al Proceso
+NO
+SI
+Niveles
+Métodos
+Sistema
+Subsistema
+Equipos
+Dispositivos
+Ensayos
+Análisis
+Inspecciones
+aplicable
+Procedimientos 
+De Ensayos
+Paso
+Por
+Paso 
+Trazabilidad
+Estatus
+Informes
+Requerimientos
+Configuracion
+Set-Up
+Intrumentos
+GSE
+Facilidades
+Organizacion
+Desviacion de 
+Requerimientos
+Modificciones de Diseño
+Repeticion de Verifcacion
+Etapa
+Estrategia
+Trazabilidad
+Tolerancia
+Márgenes
+Duración
+Politica de Screening
+Metodologias
+Estandares
+Expectativas -
+Requerimientos 
+del Cliente
+Figura Documentos de Verificación
+Flujo de Datos y Documentos de Verificación
+
+[p35] Plan de Ensamble, Integración y Ensayos -
+El AIV Plan es el plan maestro para el proceso de verificación del proyecto, Fase
+D, y demostrará como los requisitos serán verificados en una implementación
+coherente. Este plan incluye todas las actividades de ensamble, integración y
+planificación de ensayos e incluirá los siguiente puntos:
+• Definición de los Ensayos
+• Niveles de Ensamble /Integración de la unidad a ensayar
+• Configuración
+• Objetivos de los Ensayos
+• Facilidades de los Ensayos
+• Instrumentación
+• Medio Ambiente de los Ensayos
+• Consideraciones de Seguridad
+• Control de contaminación
+• Fases y Perfiles de Ensayos
+• Operaciones Funcionales
+• Responsabilidades del personal involucrado
+• Requerimientos para Procedimientos e Informes
+A partir del documento Plan AIV se desarrollarán las especificaciones de ensayos
+Plan de Ensamble, Integración y Ensayos - AIV
+
+[p36] Ensayos Ambientales
+Información general se puede ver en el manual de facilidades del GSFC
+https://environmentaltest.gsfc.nasa.gov/forms/ETIF_Handbook_FINAL_web.pdf
+• Verificación es establecer la
+confianza en que el sistema
+operará
+en
+el
+espacio
+correctamente.
+• Debido a que el ambiente
+espacial es único y que hay
+un único camino para llegar
+ahí, los sistemas espaciales
+deben
+atravesar
+rigurosos
+ensayos
+en
+Tierra
+que
+simulan el lanzamiento y su
+estadía
+en
+el
+ambiente
+espacial.
+Ensayos Ambientales
+
+[p37] Ejemplo de los Entornos Ambientales que
+Estos ensayos deben considerar tres diferentes entornos ambientales.
+1. Antes del lanzamiento
+•Transporte
+• Manipulación
+• Almacenamiento
+• Calibración
+2. Durante el lanzamiento: Fase Operativa de SNI
+Un primer ambiente previo al despegue
+• Inicialización del sistema
+Un segundo ambiente, el más riguroso 
+• Despresurización
+• Térmica
+• Acústica
+• Aceleraciones
+• Vibraciones
+• Choque pirotécnico
+3. En órbita Fase Operativa de la SNI
+• Térmica 
+• Radiación
+• Micrometeoritos
+Ejemplo de los Entornos Ambientales que
+debemos Simular
+
+[p38] Ensayos Ambientales
+Los ensayos ambientales son usualmente la porción más significativa de la campaña de
+ensayos de calificación y de aceptación en los sistemas y equipos espaciales.
+La optimización del proceso de verificación tiene un gran impacto sobre los ensayos
+ambientales desde varios puntos de vistas que no debemos perder:
+• El diseño de las actividades de ensayos ambientales respecto a los niveles y espec.
+del programa
+• Combinación entre ensayos ambientales y análisis para obtener validación de
+modelos
+• Filosofía de modelos y la verificación ambiental a través de calificación y/o
+aceptación
+• Definición de los documentos de verificación aplicables con su propia trazabilidad.
+Los
+resultados
+del
+proceso
+de
+verificación
+diseñado
+son
+contrastados
+con
+los
+requerimientos.
+Entonces se confirma o no el diseño, o los procesos de manufactura son corregidos para
+adaptarlos a los requisitos estipulados. También en el caso de que sea necesario hacer
+un rediseño o el proceso de manufactura haya sufrido un cambio, el ítem debe ser re-
+verificado parcialmente o no, dependiendo en qué parte del proceso se dio la no
+conformidad con los requerimientos.
+La verificación se realizará sobre los requerimientos alojados en los equipos, unidades,
+subsistema y sistema y en los niveles de ensamble de los subsistemas.
+La verificación del equipo de soporte de Tierra es realizado antes del primer uso con el
+H/W de vuelo. Y es realizado de la misma manera que el H/W de vuelo.
+Ensayos Ambientales
+
+[p39] Claves de los Ensayos Ambientales Espaciales
+Ensayos
+Propósito
+Equipo/Facilidades 
+Requeridas
+Procesos
+Ensayos de 
+Vibracion & 
+Shock 
+Asegurar que el producto 
+sobrevivirá al lanzamiento. 
+Cumplir con los 
+requerimientos de las 
+autoridades del LV.
+Modelo estructural 
+Validado
+Mesas de Vibración y 
+adaptadores (fixture) que 
+posibilita ensayos 3-ejes
+Cámara acústica
+Hacer un paneo (frecuencia) de bajo nivel de 
+vibraciones para determinar los modos de vibración 
+y establecer el baseline.
+Hacer alto nivel de vibraciones random siguiendo el 
+perfil suministrado por el LV para los niveles pre-
+escritos.
+Repetir el paneo de bajo nivel para mirar los 
+cambios. Firma.
+Comparar con los modelos.
+Ensayos de 
+Vacio 
+Térmico
+Inducir y medir el 
+outgassing para asegurar 
+la conformidad con los 
+requerimientos de misión.
+Asegurar el producto 
+opera en vacio bajo las 
+temperaturas extremas del 
+vuelo.
+Validar los modelos 
+térmicos
+Cámara de Vacio-Térmico
+Equipo para detectar 
+outgassing (p.ej.coldfinger o 
+analizador de gases) como se 
+necesite.
+Instrumentación para medir 
+temperaturas en los puntos 
+claves sobre el producto
+(p.ej.baterias).
+Operar y caracterización del desempeño a temp. 
+ambiente y presión.
+Operar en térmico y/o cámara de termo vacio
+Durante las condiciones caliente y frío.
+Oscilar entre condiciones y monitorear la 
+performance.
+Comparar los resultados con los modelos.
+Interferencia 
+Electromagn
+ética / 
+Compatibilida
+d 
+(EMI/EMC)
+Asegurar que el producto 
+no genera energía EM que 
+pueda interferir con otros 
+componentes del S/C o 
+con el LV o con las 
+señales del range safety. 
+Verificar que el producto 
+no sea suceptible al rango 
+y o el ambiente del LV.
+Ensayo Radiado: Sensibilidad 
+al receptor, cámara anecoica, 
+antena con ganancia conocida.
+Susceptibilidad a la conducción 
+comprobada en “cajas”.
+Señales emitidas Detectadas, especialmente en las 
+armónicas de las frecuencias de los relojes.
+Chequear la normal operación mientras se inyectan 
+señales (o pérdida de potencia)
+Claves de los Ensayos Ambientales Espaciales
+
+[p40] Equipo de Ensayo de Sistemas
+Equipo de Ensayo de Sistemas
+y su Evaluación
+Ingeniería 
+de Sistemas
+Ingeniería 
+de Ensayos
+Ingeniería 
+de Diseño
+Equipo 
+de Ensayos
+Conducción 
+& 
+Análisis de Ensayos
+Requerimientos de Ensayos 
+& Evaluación
+Planificación 
+del Ensayo
+Medición 
+de los 
+Ensayos
+Arquitectura 
+del Ensayo
+Requer. de 
+Equipo de 
+Ensayos
+
+[p41] Mirada Simplificada de los Ensayos de
+Mirada Simplificada de los Ensayos de 
+un Spacecraft
+Ground Testing - Ensayos en Tierra
+❖Weights and Balance 
+❖Antenna/Communications (in anechoic chamber)
+❖Vibration Testing (“shake” ) 
+❖Thermal and Vacuum chamber testing (“bake”) 
+❖Pre-launch testing (off pad, on pad)
+On-orbit Testing - Ensayos en Órbita
+❖Thruster testing (for station keeping)
+❖Deployment of all mechanisms 
+❖Communications, Instruments …
+
+[p42] Ambiente de los Spacecraft
+•
+Ambiente de Lanzamiento
+– ¿Está manfiestamente diseñado el spacecraft para ese LV?
+– Vibración, ruido, cargas - g, cargas aerodinámicas, transición al vacío, etc.
+•
+Ambiente Espacial
+– ¿Está el S/C preparado para LEO - GEO o ir mas allá del cinturón de Van Allen?
+– Alto vacío, radiación, temperaturas extremas, orbital debris.
+•
+Ambiente Planetario
+– ¿Esta diseñado el S/C para una atmósfera planetaria?
+– La entrada aerodinámica y las cargas y su calentamiento
+•
+Ambiente de la superficie Planetaria
+– ¿Está el S/C ¨aterrizando¨ sobre la superficie del planeta? Luna , Marte, 
+Asteroides?
+– Niveles de Gravedad, terreno, atmósfera, polvo, temperaturas.
+Ambiente de los Spacecraft
+Investigar y conocer los ambientes en el cual nuestro 
+spacecraft debe operar – sobrevivir, su ciclo de vida
+
+[p43] Tabla de Docs del Proceso de Verificación
+ID Doc.
+Titulo del Doc.
+Aplicable a la Fase:
+Entrega
+Consid
+eracion
+es
+A
+B
+C
+D
+E
+F
+MAVT 03
+Matriz de Verificación
+X
+X
+X
+PRR, SRR PDR, CDR
+PAIV -02
+Plan de Ensamble, 
+Integr. y Veriificacion
+X
+X
+X
+X
+X
+X
+PRR, SRR PDR, CDR, QR, 
+AR, EOL
+CV - 05
+Doc.. de Control de 
+Verificación
+X
+X
+X
+X
+X
+Periódica, como mínimo 
+PRR, SRR PDR, CDR, QR, 
+AR, EOL
+SPT - 07
+Especificaciones de 
+Ensayos
+X
+X
+Meses antes del Ensayo
+Procedimientos de 
+Ensayos
+X
+X
+X
+X
+Semanas antes del Ensayo
+Informe de Ensayos
+X
+X
+X
+Semanas después del 
+Ensayo
+Informe de Análisis
+X
+X
+Semanas después del 
+Análisis
+Informes de Inspección
+X
+X
+X
+X
+Informes de Revisión de 
+Diseño
+X
+X
+Semanas después de 
+Revisión de Diseño
+Informe de Verificación
+X
+X
+X
+X
+Tabla de Docs del Proceso de Verificación
+
+[p44] Método de Verificación de S/W
+Análisis de los datos (A): Este método consistirá en la verificación de la
+performance esperada por los resultados observados, comparando con los datos
+obtenidos analíticamente, preparados por técnicas establecidas y aceptadas
+incluyendo dummps de memorias de los datos crudos para establecer la
+conformidad con los requerimientos de la UMI.
+Inspección (I): Este método consistirá de observaciones visuales del listado del
+código del programa, datos de ensayos, documentos descriptivos, guía de
+usuario. Las revisiones / Inspecciones serán realizadas para confirmar la
+conformidad con el S/W de desarrollo y los estándares de código.
+Ensayos (E): Este método consiste en realizar el experimento del S/W por
+procedimientos específicos en ambientes controlados donde los datos de salida
+medidos son comparados con los datos predichos para verificar el cumplimiento.
+Demostración (D): Este método consistirá en la operación dinámica del
+programa. Los resultados de este ensayo pueden ser observados sobre la
+pantalla o la impresión. Los datos de salida y los resultados esperados de los
+ensayos para cada etapa son suministrados en una procedimiento de ensayo del
+tipo “pasa no pasa”.
+Método de Verificación de S/W
+
+[p45] Modelos de Ingeniería
+Modelos anteriores a lo protoflight o prototype
+Modelo de Desarrollo de Ingeniería - EDM
+Es un modelo de ensayo usado para probar principios de diseño y para producir
+datos de ingeniería para el diseño de detalle.
+Los EDM (Engineering Development Model) generalmente son un subconjunto de la
+forma de ajuste o función del H/W de vuelo con el objetivo de alcanzar los
+requerimientos de ingeniería propuestos. Estos modelos son construidos de acuerdo
+a planos controlados pero no requieren fidelidad ni a las especificaciones del H/W de
+vuelo ni a los procesos controlados.
+Modelos de Ingeniería - EM
+Es un modelo de ensayos para probar los principios de diseño y procesos de
+manufactura y además para producir datos de ingeniería para el diseño de detalle.
+Los ETM (Engineering Test Model) generalmente tienen todos la forma (form*) el
+ajuste (fit**) y la función del H/W de vuelo. Los ETMs son construidos de acuerdo a
+planos controlados pero no es necesario su fidelidad a las especificaciones del H/W
+de vuelo o procesos de control.
+*Form: La configuración definida de un ítem incluyendo la configuración medida geométricamente, densidad y peso u otro
+parámetro visual el cual caracteriza un ítem, componente o modulo. Para el S/W forma denota lenguaje, nivel de lenguaje y
+media
+**Fit: La habilidad de un ítem para interfacear físicamente o interconectarse con o transformarse en parte integral de otro ítem.
+Modelos de Ingeniería
+
+[p46] las operación y comandos al Perseverance
+Modelo de Ingeniería para ensayar todas 
+las operación y comandos al Perseverance
+Optimist -
+versión de 
+ingeniería a gran 
+escala del rover 
+Perseverance Mars 
+2020, equipado con 
+ruedas, cámaras y 
+potentes 
+computadoras para 
+ayudarlo a conducir 
+de forma 
+autónoma.
+https://actualidadaeroespacial.com/la-nasa-crea-optimism-un-gemelo-en-tierra-del-rover-perseverance-que-vuela-hacia-marte/
