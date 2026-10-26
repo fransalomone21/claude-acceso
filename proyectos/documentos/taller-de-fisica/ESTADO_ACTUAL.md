@@ -2,6 +2,24 @@
 
 **Última actualización:** 2026-10-26
 
+## 2026-10-26 (noche) — guía v4: el Anexo A, lo que se usa sin deducir
+
+- **Pedido de Fran:** la guía «sale de la nada» con $h nu$ y cosas así; quiere
+  un sustento mínimo de lo que se explica aunque no sea de Compton, en un
+  anexo, y que el texto lo mencione donde lo usa.
+- **Hecho:** Anexo A (3 págs., 29 en total) con seis secciones: el fotón
+  ($E = h nu$, $c = lambda nu$), el electronvolt y $K = e V$, el atajo
+  $h c = "12,4 keV Å"$, la energía relativista y $p = h \/ lambda$, la
+  interferencia, y $bold(F) = q bold(v) times bold(B)$ con el radio de la
+  traza. Cada una con su página del Eisberg y del Sears, medida sobre el PDF
+  (impresa = PDF + 6 en el Eisberg, + 654 en el Sears). En el texto, **11
+  notas al pie** «Repaso» con el resumen de una línea y un link a la sección
+  del anexo; y un párrafo en «Lo que pidió Aníbal» que lo presenta.
+- **Verificado:** `validar.py` con 9 cuentas nuevas, en verde, y en rojo con
+  una rota a propósito; render mirado (índice, anexo, notas). Drive: mismo id
+  (`14i9eYDstJoCGb6ORCHbDW4o38mDlI9SM`), MD5 igual al local. El PowerPoint de
+  referencia **no** se tocó.
+
 ## 2026-10-26 — el PowerPoint de referencia, con notas de orador
 
 - **Pedido de Fran:** un PowerPoint de referencia, sobre el Doc de temas y su

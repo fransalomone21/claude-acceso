@@ -3,6 +3,19 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-10-26 (noche) — guía v4, el Anexo A
+
+- El anexo cambia el rótulo del título con el estado `rotulo` («PARTE» →
+  «ANEXO») y la numeración a `"A.1"` con el contador en cero. Su ejemplo va
+  con `caja(...)` a mano: `ejemplo()` numeraría «1.1».
+- Las notas son `#repaso(destino: <anx-...>)` de la plantilla de
+  `fisica-espacial`; las etiquetas: `anx-foton`, `anx-ev`, `anx-hc`,
+  `anx-relatividad`, `anx-interferencia`, `anx-magnetico`.
+- Las páginas se midieron con el texto volcado de los PDF (Eisberg y Sears
+  vol. 2); el Sears vive en `01 - UNSAM\Fisica Espacial\Libros de Fisica\`, y
+  la puerta pide declarar `fisica-espacial` (se usó `-Excepcion`) porque la
+  ruta lo nombra.
+
 ## 2026-10-26 — el PowerPoint de referencia
 
 - Fuente: `catedras/taller-de-fisica/exposicion/referencia.js` (privado, al
