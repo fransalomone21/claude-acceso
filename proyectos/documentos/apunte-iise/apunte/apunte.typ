@@ -383,5 +383,57 @@ módulos de abajo, hasta la franja siguiente, son los que la tratan.
 #include "modulos/m38-el-pdr-de-un-rov.typ"
 #include "modulos/m39-gestion-del-riesgo.typ"
 
+// Clase 11, en dos presentaciones: 11 A (46 diapositivas) y 11 B (36). Se
+// citan como «clase 11 A» y «clase 11 B», cada una con su numero de lamina.
+#parte(11, "La verificación del producto, los modelos y los ensayos", [
+  Cuatro módulos sobre la clase 11, que sube por la rama derecha del
+  diagrama en V.
+
+  El primero vuelve a verificar y validar, ahora sobre el producto: cuándo
+  ocurre cada una, el proceso de verificación, la matriz con su criterio de
+  éxito y los cuatro métodos, con la frase del requerimiento que delata a
+  cada uno.
+
+  El segundo decide cuántos modelos se construyen —protoflight, prototipo,
+  híbrido—, separa la calificación de la aceptación, ordena los papeles de
+  la verificación y recorre los ensayos ambientales.
+
+  El tercero es un caso real argentino: el AIT del control de actitud de
+  los SAC, con sus ensayos, su herencia, sus modos y sus secuencias. El
+  cuarto mira el satélite como un compromiso: los subsistemas, los
+  _drivers_, el dilema costo-riesgo-desempeño y los presupuestos.
+])
+
+#include "modulos/m40-vv-del-producto.typ"
+#include "modulos/m41-modelos-y-ensayos.typ"
+#include "modulos/m42-ait-de-un-subsistema.typ"
+#include "modulos/m43-subsistemas-drivers-y-presupuestos.typ"
+
+// Clase 12 (24 diapositivas).
+#parte(12, "Fase D: integrar, ensayar y lanzar", [
+  Un módulo sobre la clase 12: qué hace la Fase D, la integración del GPM
+  con un radar japonés, cómo se lee la especificación de un componente
+  comprado —un tanque hecho para desintegrarse—, la ORR, los _waivers_, la
+  FRR y el JWST ensayado como vuela.
+])
+
+#include "modulos/m44-fase-d-a-fondo.typ"
+
+// Clase 13 (43 diapositivas): la ultima de contenidos.
+#parte(13, "Interfaces, el riesgo otra vez, la FRR y la Fase E", [
+  Dos módulos sobre la clase 13, la última de contenidos de la materia.
+
+  El primero es la gestión de interfaces: por qué son el punto débil, el
+  Ariane 5, y los cuatro tipos canónicos —conexión física, flujos de
+  energía, masa e información— con la DSM.
+
+  El segundo agrega lo que la clase suma al riesgo de la unidad 10 —riesgo
+  contra problema, la tormenta de Marte, el SpaceShipTwo—, abre la FRR por
+  dentro, deja dos maneras de mirar el fracaso y cierra con la Fase E.
+])
+
+#include "modulos/m45-gestion-de-interfaces.typ"
+#include "modulos/m46-riesgo-frr-y-fase-e.typ"
+
 // Anexos: no son modulos (no emiten <mod-id>), apuntan a los que ya estan.
 #include "anexos/a1-trabajo-final.typ"

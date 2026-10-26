@@ -61,7 +61,7 @@ Encima de esos tres hay ensayos que miran el subsistema *en movimiento*
   lazo —el actuador corrige *para el otro lado* y el satélite, en vez de
   estabilizarse, gira cada vez más—. Por eso el ensayo de fase estimula el
   sensor *de verdad* y sigue la señal hasta la telemetría: es el único que ve
-  la cadena entera. Es una falla de #t[interfaz], no de componente.
+  la cadena entera. Es una falla de interfaz, no de componente.
 ]
 
 En el *sitio de lanzamiento* hay ocho ensayos mayores
@@ -181,7 +181,7 @@ El plan de integración y ensayos tiene cuatro fases #diapo("11 B", 14):
     inset: 4.5pt,
     table.header([*Modo*], [*Qué hace*]),
     [_Safe hold_], [apunta a la Tierra sin precisión; el mástil (_boom_) ayuda como gradiente de gravedad y el lazo de cabeceo mantiene el momento angular normal a la órbita. Condiciones estables de potencia y térmicas],
-    [Apuntamiento al Sol], [apunta los paneles al Sol sin requisito de precisión: maximiza la potencia, o resuelve la emergencia de perder la señal de la Tierra],
+    [Apuntamiento al Sol], [apunta los paneles al Sol sin requerimiento de precisión: maximiza la potencia, o resuelve la emergencia de perder la señal de la Tierra],
     [_B-dot_], [el más simple: en cada eje, el negativo de la derivada del campo magnético terrestre. Reduce las velocidades de giro del desprendimiento (_tip-off_)],
     [Misión], [mantiene la terna LVLH según los requerimientos],
     [Propulsión], [mantenimiento de la órbita: el modo misión más el comando a los propulsores],
@@ -213,6 +213,6 @@ vacío: un _feed-through_ de vacío es un conector que atraviesa la pared con
 sus pines sellados #diapo("11 B", 21). El mismo problema tiene el ROV de
 las clases 8 y 10 al revés: los conectores _SubConn_ llevan potencia y
 datos a través de una tapa estanca bajo el agua #diapo("11 B", 22)
-#diapo("11 B", 23). Es la #t[interfaz] física más literal que da la
+#diapo("11 B", 23). Es la interfaz física más literal que da la
 materia: una pared que separa dos ambientes, y algo que tiene que pasar sin
 que pase el ambiente.
