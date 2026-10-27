@@ -12,8 +12,8 @@ CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
   Fig. 2-6 (cursor), A, B y C lo leen. El dibujo de A y B exagera ×3 y lo dice.
 - La cámara de ionización (C) es un esquema del principio: el Eisberg sólo la
   nombra (p. 55). Si Aníbal pregunta más, no hay fuente en la bibliografía.
-- La guía (§ del aparato, «La simulación») sigue siendo cierta pero no nombra
-  las vistas de detalle; se puede sumar una línea si se recompila la guía.
+- La guía v5.2 ya nombra los pasos y las vistas de detalle («La simulación»,
+  p. 11).
 
 ## 2026-10-27 (tarde) — dos clases, diagrama y simulación
 

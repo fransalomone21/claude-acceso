@@ -25,6 +25,9 @@
   Ej. 2-4 (0,294 keV y 371,5 keV a 90°; luz verde 0,00044 %); los cuatro
   presets, θ = 0 y 180, barrido completo. Drive: mismo id
   (`1sL9ZE3MSLgCfGEXHLaHPtaZ5quGtatOw`), MD5 igual al local.
+- **Guía v5.2** (43 págs.): «La simulación» suma los pasos y las tres vistas
+  de detalle (p. 11, render mirado). Drive: mismo id
+  (`14i9eYDstJoCGb6ORCHbDW4o38mDlI9SM`), MD5 igual al local.
 
 ## 2026-10-27 (tarde) — dos clases, diagrama nuevo y simulación
 
