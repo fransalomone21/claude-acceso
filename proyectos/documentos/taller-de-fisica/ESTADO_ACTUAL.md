@@ -2,6 +2,24 @@
 
 **Última actualización:** 2026-10-27
 
+## 2026-10-27 (noche, después) — simulación v3, formato PhET
+
+- **Pedido de Fran:** que la página no esté sobrecargada, que predominen los
+  elementos físicos, comparando con PhET y otras.
+- **Comparado:** el Laboratorio de Colisiones de PhET (abierto y mirado) y sus
+  pautas publicadas («PhET Look and Feel»: poco texto, texto sólo pegado a un
+  control, el área de juego distinta del panel). No hay simulación de Compton
+  de PhET; las otras que aparecieron son applets Java que ya no corren.
+- **Hecho:** una sola pantalla sin scroll: área de juego grande, panel al
+  costado con casillas de una a tres palabras (Valores, Ángulos, Cantidad de
+  movimiento, Explicación, Física clásica), los gráficos y los números en
+  cajas plegables, controles de tiempo abajo (play, paso, normal o lento,
+  reiniciar) y cuatro pantallas en una barra: Experimento, Cristal (con lupa
+  sobre los planos y el barrido), Cámara y Tubo. Las notas y las fuentes,
+  detrás del botón «i».
+- **Guía v5.3**: «La simulación» describe las cuatro pantallas (p. 11).
+- **Drive:** simulación y guía con el mismo id; MD5 iguales al local.
+
 ## 2026-10-27 (noche) — simulación v2: se explica con el dedo
 
 - **Pedido de Fran:** iterar `compton.html` buscando fallas y mejoras con los

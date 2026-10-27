@@ -3,6 +3,16 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-10-27 (noche, después) — simulación v3
+
+- Estado único `S` en `plantilla.html`; cada pantalla tiene su función de
+  dibujo (`expMovil`/`expAnim`, `criDibujar`, `camAnim`, `tuboDibujar`) y el
+  bucle sólo anima la pantalla visible.
+- Con el panel del navegador oculto `requestAnimationFrame` no corre: la
+  animación y el barrido se ven quietos aunque anden. Se mira con captura.
+- No usa el logo ni el nombre de PhET en la página: sólo su formato (lo
+  nombra la guía como referencia).
+
 ## 2026-10-27 (noche) — simulación v2
 
 - Se prueba con `preview_start compton-sim` (servidor estático en
