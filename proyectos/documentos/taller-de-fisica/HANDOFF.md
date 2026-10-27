@@ -3,6 +3,20 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-10-27 — guía v5 y power v5
+
+- Lo que corrija Aníbal en la 1.ª clase (28/10) entra a `catedras` como
+  TAL-R8 y se contrasta con TAL-18 y TAL-19; después, la guía y el power.
+- Figuras nuevas del Pisacane: `recortar-figuras.py` las saca por la caja de
+  la imagen incrustada (`get_image_rects`), del recorte de la bibliografía.
+- El power se genera con `NODE_PATH=%TEMP%\pptxgen-ref\node_modules` y el
+  `apply_theme.js` de `%TEMP%\pv\scripts\`; render con el `soffice.exe` de
+  LibreOffice. Quedan cuatro títulos largos en dos renglones, pegados a la
+  raya: si molestan, se acortan.
+- Las notas «Base, por si preguntan» citan el anexo por letra: ahora hay
+  A.7 (escala log), A.8 (glosario) y A.9 (símbolos).
+- El Sears se leyó con `-Excepcion` de `fisica-espacial` (la ruta lo nombra).
+
 ## 2026-10-26 (noche, después) — bases en las notas
 
 - Las líneas «Base, por si preguntan» de `referencia.js` citan secciones del

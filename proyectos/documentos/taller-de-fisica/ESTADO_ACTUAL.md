@@ -1,6 +1,35 @@
 # Estado actual — Taller de Física
 
-**Última actualización:** 2026-10-26
+**Última actualización:** 2026-10-27
+
+## 2026-10-27 — guía v5 y power v5: Compton en su contexto
+
+- **Lo que decidieron Fran y Agustín** (víspera de la 1.ª clase; en `catedras`,
+  TAL-R7): la meta es explicar Compton *situado*: comparado con el
+  fotoeléctrico y los pares, ubicado en el espectro (IR, visible, UV, por qué
+  el UV quema) y con su utilidad en un satélite, acotado a la bibliografía.
+  Elegido: espectro en la apertura, cuerpo cronológico (orden B) como estaba,
+  comparación y Fig. 9.4 al cierre, lo espacial en dos o tres diapositivas.
+  **Esto es el orden y el alcance: E1 queda cerrada** con esa elección.
+- **Aníbal pidió explicar la Fig. 9.4 del Pisacane** (p. 249, las tres zonas;
+  contado de memoria por Fran y confirmado: TAL-18). Medido: la Fig. 2.17 del
+  Eisberg es su fila del plomo (cruces en 0,5 y 5 MeV en las dos).
+- **Dos clases** (TAL-19): la 1.ª de teoría con correcciones de Aníbal; la
+  2.ª, lo corregido, lo que falte y 3-4 ejercicios conceptuales y alguno con
+  números.
+- **Guía v5 (41 págs.)**: apertura con el espectro (Pisacane Fig. 9.3, Sears
+  p. 1053 y Q38.7), parte «Las tres juntas» (tabla, Fig. 9.4 eje por eje,
+  satélite), tiempos para dos clases, 27 diapositivas de teoría, ejercicios
+  C4, C5 y N5 nuevos; anexo con relatividad desarrollada (c, $m_0$, $gamma$,
+  $p$, $K$; Sears cap. 37 con página), escala logarítmica, un glosario de lo
+  que se nombra al pasar (termoiónica, ionización, radiación…) y una tabla de
+  cada símbolo. `validar.py` en verde con 8 cuentas nuevas; render mirado.
+  Drive: mismo id (`14i9eYDstJoCGb6ORCHbDW4o38mDlI9SM`), MD5 igual.
+- **Power de referencia v5 (37 diapos, 37 con notas)**: estilo del apunte con
+  el del Sears (pedido de Agustín y Fran), diapositivas nuevas del espectro,
+  la tabla de los tres, la Fig. 9.4, el satélite y los ejercicios de la 2.ª
+  clase. `validate.py` en verde; render mirado. Drive: mismo id
+  (`1Xq0ttRXA8x1SS1TKnk73lD7ZK6GQy__C`), MD5 igual.
 
 ## 2026-10-26 (noche, después) — las bases en las notas del PowerPoint
 
@@ -140,7 +169,8 @@
 |---|---|
 | 0 — Estructura y fuentes | **CERRADA** |
 | 1 — Escribir | **bloqueada a propósito, sin fecha** |
-| E1 — Exposición: el material para decidir (Pre-A) | **en curso**: el material está, falta la elección de Fran y Agustín |
+| E1 — Exposición: el material para decidir (Pre-A) | **CERRADA (2026-10-27)**: orden B con el marco del espectro y la comparación; alcance acotado a la bibliografía |
+| E2 — Exposición: la presentación armada | **en curso**: power de referencia v5; 1.ª clase el 28/10 |
 
 **La fase 0 cerró con el recorte de Pisacane confirmado por Fran:**
 "correlativo = continúa un tema ya confirmado, sumá el 5" → 7 capítulos —

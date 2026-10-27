@@ -67,8 +67,8 @@ entender de dónde sale una fórmula.
 |---|---|---|---|
 | 0 | Estructura y fuentes | Proyecto creado (este PDP), las tres fuentes localizadas en el disco con ruta exacta, y el recorte de temas de cada una confirmado por Fran | **CERRADA (2026-09-13)** |
 | 1 | Escribir (bloqueada) | Sin detallar todavía — el recorte ya está confirmado, falta sólo que Fran dé la luz verde para empezar | **bloqueada, sin arrancar a propósito** |
-| E1 | **Exposición de Compton y pares: el material para decidir** (tipo: **Fase Pre-A**, estudios de concepto) — un tramo aparte del apunte, no lo abre | la carpeta del grupo en Drive tiene la bibliografía recortada (Eisberg págs. 55-75), la guía y el esqueleto de la presentación, compartida con Agustín como editor; **y** Fran y Agustín eligieron el orden y el alcance, escritos en `ESTADO_ACTUAL.md` | **en curso** (2026-10-20: el material está; falta la elección) |
-| E2 | Exposición: la presentación armada (tipo: **Fase C**) | sin detallar: se escribe cuando cierre E1 | — |
+| E1 | **Exposición de Compton y pares: el material para decidir** (tipo: **Fase Pre-A**, estudios de concepto) — un tramo aparte del apunte, no lo abre | la carpeta del grupo en Drive tiene la bibliografía recortada (Eisberg págs. 55-75), la guía y el esqueleto de la presentación, compartida con Agustín como editor; **y** Fran y Agustín eligieron el orden y el alcance, escritos en `ESTADO_ACTUAL.md` | **CERRADA (2026-10-27)**: orden B con el espectro de apertura y la comparación de cierre; alcance acotado a la bibliografía |
+| E2 | Exposición: la presentación armada (tipo: **Fase C**) | la presentación dada en las dos clases (28/10 y 4/11), con las correcciones de Aníbal de la primera registradas en `catedras` y aplicadas en la segunda | **en curso** (2026-10-27: power de referencia v5) |
 
 **Fase en curso:** E1 — la exposición de Compton y pares (Fase Pre-A). La 1
 (el apunte) sigue bloqueada a propósito hasta que Fran diga «arrancamos».
