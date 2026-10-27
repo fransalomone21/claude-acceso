@@ -1,5 +1,9 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-10-27 — TP4: Drive verificado al día, nada pendiente de subir
+
+- Para volver a medirlo: `rclone --config $env:USERPROFILE\.config\rclone\rclone.conf check "<TP4>\_drive" "drive-personal:01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/Software de Vuelo - TP4 Host y Payload - Favazza, Ojeda, Salomone + Scafati, Diaz Segui, Groppa"` (dio 0 diferencias, 40 archivos). El espejo `_drive\` se rearma desde `guia\` y `codigo\` si cambian.
+
 ## 2026-10-13 — TP4 (host y payload, SPI): trabajo de grupo, NO va en este repo
 
 - Es de grupo (regla 2 del contrato): vive en
