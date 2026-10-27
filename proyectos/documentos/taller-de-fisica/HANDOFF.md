@@ -3,6 +3,57 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-10-27 (tarde) — dos clases, diagrama y simulación
+
+- `referencia.js` toma un 4.º argumento: `1`, `2` o `todo`. La clase que no
+  va se arma sobre una presentación «nula» que no se escribe; `quien("…")`
+  pone el orador al principio de las notas. Los tres archivos se suben con
+  `rclone copyto` al mismo nombre.
+- `simulacion/plantilla.html` es la fuente; `armar.py <salida>` mete las
+  Figs. 2-6 y 2-10 en base64 (`compton.html`, ~900 KB). En la simulación la
+  altura de los picos y la forma del continuo son ilustrativas (lo dice la
+  página); la posición de los picos y λmin salen de las fórmulas.
+- El diagrama: `typst compile --root . catedras/.../diagrama-compton.typ
+  catedras/.../figuras/diagrama-compton.png --ppi 200` desde
+  `proyectos/documentos`. No dice qué ánodo ni qué cristal usó Compton: los
+  libros no lo dicen (la guía usa sal como ejemplo, aclarado).
+- El Doc del orden se actualizó con `rclone copyto <html> … --drive-import-formats
+  html --drive-export-formats html` al mismo nombre: mantuvo el id.
+
+### Mensaje de retome (para después de la clase del 28/10)
+
+```
+Retomo el Taller de Física: la exposición de Compton y pares
+(proyectos/documentos/taller-de-fisica; fuentes en el repo privado
+catedras/taller-de-fisica/exposicion/).
+
+0. En esta PC el perfil llega solo. En otra máquina o en la nube, primero
+   bash .claude/nube/traer-perfil.sh en claude-acceso y leer lo que lista.
+1. Primer comando: .\cascada.ps1 taller-de-fisica -Necesidad materia, y leer
+   lo que pida la puerta (es largo: se lee igual). Después
+   .\cascada.ps1 catedras -Necesidad materia. Para leer el Sears hace falta
+   .\cascada.ps1 fisica-espacial -Excepcion "leer el Sears".
+2. Fase: E2 (NASA Phase C, armar la presentación). La cierra: las dos
+   clases dadas (28/10 y 4/11) con lo que corrija Aníbal en la primera
+   aplicado en la segunda.
+3. Modelo: Opus, esfuerzo medio, sin fan-out (contenido en un hilo).
+4. Estado: todo en Drive, carpeta del grupo (id 1jQc0UDi6vIcGTI3L3qx5mJ0ar64RY0NG):
+   guía (14i9eYDstJoCGb6ORCHbDW4o38mDlI9SM), power clase 1 y clase 2,
+   referencia (1Xq0ttRXA8x1SS1TKnk73lD7ZK6GQy__C), compton.html, el diagrama
+   y el Doc del orden. pptxgenjs vive en %TEMP%\pptxgen-ref (se reinstala
+   con npm si falta) y apply_theme.js en %TEMP%\pv\scripts\.
+5. Resuelto, no rehacer: guía v5.1 (43 págs.), diagrama nuevo, simulación,
+   power partido en dos con quién habla, análisis de preguntas de Aníbal
+   (guía §12.4), Doc del orden.
+6. Lo primero: preguntarle a Fran qué corrigió o preguntó Aníbal el 28/10 y
+   registrarlo en catedras/taller-de-fisica/REGISTRO.md como TAL-R8 (textual
+   o «de memoria»), contrastar TAL-18 y TAL-19, y aplicarlo a la guía y al
+   power de la clase 2. Después: repartir entre Fran y Agustín las
+   diapositivas «a repartir» (resto de Compton y toda la clase 2) si lo piden.
+7. Para verificar: render del power (soffice + pymupdf) mirado, validate.py
+   en verde, y en Drive el mismo id y MD5 igual al local en cada archivo.
+```
+
 ## 2026-10-27 — guía v5 y power v5
 
 - Lo que corrija Aníbal en la 1.ª clase (28/10) entra a `catedras` como

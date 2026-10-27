@@ -2,6 +2,36 @@
 
 **Última actualización:** 2026-10-27
 
+## 2026-10-27 (tarde) — dos clases, diagrama nuevo y simulación
+
+- **El reparto** (Fran y Agustín): clase 1 (28/10) hasta Compton inclusive;
+  clase 2 (4/11) antimateria, pares, aniquilación, los tres juntos y los
+  ejercicios. Quién: Fran la pregunta de Santi, el tubo y el espectro;
+  Agustín el cristal; los dos el aparato y la simulación; el resto de
+  Compton y toda la clase 2, a repartir.
+- **Diagrama nuevo del aparato** (`diagrama-compton.typ` → PNG): el electrón
+  con φ (ángulo de retroceso), θ (ángulo de dispersión) medido desde el haz,
+  el dispersor visible, el cristal, la cámara y el triángulo de momentos;
+  notación del Eisberg. Va en la guía y en el power, con la Fig. 2-5 chica.
+- **Simulación** `compton.html` (anda sin internet): el aparato animado, la
+  tabla de números (λ0, λ1, Δλ, E0, E1, K, φ, p, el giro del cristal), la
+  Fig. 2-6 para el θ elegido y los cuatro de Compton, la Fig. 2-10 con la
+  tensión, y las figuras del libro al lado (medido contra modelo). Probada en
+  el navegador: sin errores; números contra el Ej. 2-4. Reemplaza a la de
+  educaplus, que no mostraba los gráficos ni usaba nuestra notación.
+- **Guía v5.1 (43 págs.)**: el diagrama y la simulación en Compton, tiempos de
+  las dos clases con quién, y «La primera clase, mirada con sus criterios»
+  (13 preguntas probables de Aníbal, criterio por criterio, con respuesta).
+- **Power**: dos archivos nuevos, «Clase 1 (28-10)» (19 diapos) y «Clase 2
+  (04-11)» (21), las notas con quién habla; la referencia completa (40).
+  `validate.py` en verde; render mirado.
+- **Drive** (carpeta del grupo): guía con el mismo id; referencia con el
+  mismo id; nuevos: clase 1 `1fQiMdnNST3rBMB-7Hqj3tZuNmrxqe4Yn`, clase 2
+  `1wZyZ8EVVqQuLMiZeNBUi0_ec_h4FBej6`, `compton.html`
+  `1sL9ZE3MSLgCfGEXHLaHPtaZ5quGtatOw`, el diagrama
+  `1zxvdIwbPpGCBqOvGH2Kac2-ruECVphB6`. MD5 de todo igual al local. El Doc del
+  orden, actualizado en el mismo archivo (id `1N9rUB-…`), leído de vuelta.
+
 ## 2026-10-27 — guía v5 y power v5: Compton en su contexto
 
 - **Lo que decidieron Fran y Agustín** (víspera de la 1.ª clase; en `catedras`,
