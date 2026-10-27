@@ -1,5 +1,17 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-10-27 — TP4 (host y payload): el Drive del grupo, al día (medido)
+
+- `rclone check` del espejo local (`TP4 - Host y Payload\_drive\`) contra la
+  carpeta compartida de GRUPOS: **0 diferencias, 40 archivos** en los dos
+  lados (nadie del grupo subió nada aparte). MD5 de la guía (PDF) en Drive =
+  el de `guia\` local (`f586e939…`).
+- Fuentes contra espejo: guía, `guia.typ`, `plantilla.typ` y todo `codigo\`
+  iguales por MD5. Nada del TP4 cambió después del 13/10, ni hay consigna o
+  `protocolo.h` nuevo de la cátedra (el de Descargas es el nuestro, mismo MD5).
+- El TP4 sigue **sin probar en placa**; el trabajo es de grupo y no vive en
+  este repo (ver `HANDOFF.md`).
+
 ## 2026-10-02 (cierre) — FASE 1 CERRADA: el apunte de C v1.0, publicado
 
 - **Publicado y verificado**: `publicar-apuntes` subió la v1.0 (1,3 MB) y
