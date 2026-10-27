@@ -1,6 +1,6 @@
 # Handoff — Carrera
 
-**Escrito el:** 2026-10-02 · **Tocado:** 2026-10-26 (fila del Taller: PowerPoint de referencia; fila de IISE: clases 11 a 13), 2026-10-25 (fila del Taller: guía v3), 2026-10-23 (fila de Teoría de Circuitos: guía del parcial; fila de Programación: código final del TP Cohete), 2026-10-22 (fila de Física Espacial: CR 1 a 4), 2026-10-20 (fila del Taller: la exposición), 2026-10-18 (fila de IISE: proyecto del TP final) y 2026-10-16 (fila de Programación: código del TP Cohete entregado; a la noche, versión de vuelo) · **Fase al cerrar:** 1, mantenimiento (abierta)
+**Escrito el:** 2026-10-02 · **Tocado:** 2026-10-27 (fila del Taller: guía y power v5), 2026-10-26 (fila del Taller: PowerPoint de referencia; fila de IISE: clases 11 a 13), 2026-10-25 (fila del Taller: guía v3), 2026-10-23 (fila de Teoría de Circuitos: guía del parcial; fila de Programación: código final del TP Cohete), 2026-10-22 (fila de Física Espacial: CR 1 a 4), 2026-10-20 (fila del Taller: la exposición), 2026-10-18 (fila de IISE: proyecto del TP final) y 2026-10-16 (fila de Programación: código del TP Cohete entregado; a la noche, versión de vuelo) · **Fase al cerrar:** 1, mantenimiento (abierta)
 
 ## Arrancá por acá
 
